@@ -52,6 +52,7 @@
 		return ..()
 	var/mob/new_mutt = new /mob/living/carbon/human/species/wildshape/volf/mutt(H.loc)
 	new_mutt.job = "Mutt"
+	H.mind.language_holder.languages = list(/datum/language/common = 1, /datum/language/beast = 1)
 	H.mind.transfer_to(new_mutt)
 	new_mutt.AddSpell(new /obj/effect/proc_holder/spell/self/wolfclaws)
 	var/obj/item/clothing/cloak/stabard/guard/mutt/mutt_cloak = new /obj/item/clothing/cloak/stabard/guard/mutt(H)

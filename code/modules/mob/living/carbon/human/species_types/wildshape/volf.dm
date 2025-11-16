@@ -217,3 +217,6 @@
 	if(!silent)
 		to_chat(src, span_warning("You lack the opposable thumbs required to manipulate locks."))
 	return FALSE
+s
+/mob/living/carbon/human/species/wildshape/volf/mutt/can_speak_in_language(datum/language/dt)
+	return ispath(dt, /datum/language/beast)
