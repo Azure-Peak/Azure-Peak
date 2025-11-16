@@ -701,13 +701,13 @@
 		SSdroning.play_area_sound(get_area(owner), owner.client)
 
 /datum/status_effect/debuff/joybringer_druqks/tick()
-	owner.hallucination += 2
+	owner.hallucination += 3
+	owner.Jitter(1)
 
-	if(!prob(15))
+	if(!prob(10))
 		return
 
 	owner.emote(pick("chuckle", "giggle"))
-	owner.Jitter(2 SECONDS)
 
 /datum/status_effect/debuff/hobbled
 	id = "hobbled"

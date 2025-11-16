@@ -1463,14 +1463,18 @@
 	effectedstats = list(STATKEY_STR = 1, STATKEY_WIL = 1)
 	status_type = STATUS_EFFECT_UNIQUE
 	duration = -1
+	tick_interval = -1
 
-/datum/status_effect/buff/ravox_vow/tick()
+/datum/status_effect/buff/ravox_vow/proc/on_life()
+	SIGNAL_HANDLER
+
 	owner.heal_wounds(1)
 
 /datum/status_effect/buff/ravox_vow/on_apply()
 	. = ..()
 	RegisterSignal(owner, COMSIG_HUMAN_MELEE_UNARMED_ATTACK, PROC_REF(on_unarmed_attack))
 	RegisterSignal(owner, COMSIG_MOB_ITEM_AFTERATTACK, PROC_REF(on_item_attack))
+	RegisterSignal(owner, COMSIG_LIVING_LIFE, PROC_REF(on_life))
 
 /datum/status_effect/buff/ravox_vow/proc/on_unarmed_attack(mob/living/user, mob/living/carbon/human/target)
 	SIGNAL_HANDLER
@@ -1511,7 +1515,7 @@
 
 /datum/status_effect/buff/ravox_vow/on_remove()
 	. = ..()
-	UnregisterSignal(owner, list(COMSIG_MOB_ITEM_AFTERATTACK, COMSIG_HUMAN_MELEE_UNARMED_ATTACK))
+	UnregisterSignal(owner, list(COMSIG_MOB_ITEM_AFTERATTACK, COMSIG_HUMAN_MELEE_UNARMED_ATTACK, COMSIG_LIVING_LIFE))
 	
 /atom/movable/screen/alert/status_effect/buff/ravox_vow
 	name = "Ravox vow"
@@ -1523,6 +1527,7 @@
 	id = "joybringer"
 	var/outline_colour = "#a529e8"
 	duration = -1
+	tick_interval = -1
 	examine_text = span_love("SUBJECTPRONOUN is bathed in Baotha's blessings!")
 	alert_type = null
 	var/image/effect
@@ -1540,14 +1545,20 @@
 	effect.color = "#a529e8"
 	owner.add_overlay(effect)
 
+	RegisterSignal(owner, COMSIG_LIVING_LIFE, PROC_REF(on_life))
+
 /datum/status_effect/joybringer/on_remove()
 	. = ..()
 
 	owner.remove_filter(JOYBRINGER_FILTER)
 	owner.remove_overlay(effect)
 	QDEL_NULL(effect)
+	
+	UnregisterSignal(owner, COMSIG_LIVING_LIFE)
 
-/datum/status_effect/joybringer/tick()
+/datum/status_effect/joybringer/proc/on_life()
+	SIGNAL_HANDLER
+
 	for(var/mob/living/mob in get_hearers_in_view(2, owner))
 		if(HAS_TRAIT(mob, TRAIT_CRACKHEAD) || HAS_TRAIT(mob, TRAIT_PSYDONITE))
 			continue
