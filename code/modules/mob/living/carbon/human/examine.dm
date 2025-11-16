@@ -387,7 +387,7 @@
 	//Hands
 	for(var/obj/item/I in held_items)
 		if(!(I.item_flags & ABSTRACT))
-			var/str = "[m1] holding [I.get_examine_string(user)] in [m2] [get_held_index_name(get_held_index_of_item(I))]. "
+			var/str = "[m1] holding [I.get_examine_string(user)] in [m2] [get_held_index_name(get_held_index_of_item(I), I)]. "
 			str += I.integrity_check(is_smart)
 			. += str
 
@@ -856,7 +856,7 @@
 		lines = build_cool_description_unknown(get_mob_descriptors_unknown(obscure_name, user), src)
 	else
 		lines = build_cool_description(get_mob_descriptors(obscure_name, user), src)
-	
+
 	var/app_str
 	if(!(user.client?.prefs?.full_examine))
 		app_str = "<details><summary>[span_info("Details")]</summary>"

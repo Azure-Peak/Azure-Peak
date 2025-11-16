@@ -1367,6 +1367,10 @@
 /obj/structure/fluff/railing/wood,
 /turf/open/floor/rogue/hay,
 /area/rogue/indoors)
+"VQ" = (
+/obj/effect/landmark/start/mutt,
+/turf/open/floor/rogue/cobblerock,
+/area/rogue/outdoors)
 "VZ" = (
 /obj/structure/closet/crate/chest/old_crate,
 /obj/item/reagent_containers/food/snacks/egg,
@@ -2963,7 +2967,7 @@ Ml
 xy
 xy
 CZ
-yK
+VQ
 yK
 rT
 vq

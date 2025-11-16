@@ -80,6 +80,7 @@ GLOBAL_LIST_INIT(courtier_positions, list(
 ))
 
 GLOBAL_LIST_INIT(garrison_positions, list(
+	"Mutt",
 	"Watchman",
 	"Warden",
 	"Sergeant",
@@ -179,9 +180,9 @@ GLOBAL_LIST_INIT(roguefight_positions, list(
 
 //This list is used to prevent the duke from stripping nobility from certain jobs that aren't intrinsically a part of the town.
 GLOBAL_LIST_INIT(foreign_positions, list(
-	"Adventurer", 
-	"Mercenary", 
-	"Bandit", 
+	"Adventurer",
+	"Mercenary",
+	"Bandit",
 	"Wretch",
 	"Inquisitor",
 	"Suitor",
