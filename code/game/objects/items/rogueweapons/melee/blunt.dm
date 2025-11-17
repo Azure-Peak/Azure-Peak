@@ -97,6 +97,7 @@
 	wdefense = 2
 	wbalance = WBALANCE_HEAVY
 	icon_angle_wielded = 50
+	special = /datum/special_intent/ground_smash
 
 /obj/item/rogueweapon/mace/getonmobprop(tag)
 	. = ..()
@@ -443,6 +444,7 @@
 	smeltresult = /obj/item/ingot/steel
 	smelt_bar_num = 2
 	wdefense_wbonus = 5
+	special = null
 
 /obj/item/rogueweapon/mace/goden/steel/paalloy
 	name = "ancient grand mace"

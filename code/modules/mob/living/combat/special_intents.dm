@@ -35,7 +35,11 @@ This allows the devs to draw whatever shape they want at the cost of it feeling 
 	var/turf/click_loc 
 
 	var/cooldown = 30 SECONDS
+
+	//Hacky doafter bools
 	var/cancelled = FALSE
+	var/succeeded = FALSE
+	var/is_doing = FALSE
 
 	///The delay for either the doafter or the timers on the turfs before calling post_delay() and apply_hit()
 	var/delay = 1 SECONDS
@@ -78,12 +82,20 @@ This allows the devs to draw whatever shape they want at the cost of it feeling 
 	_clear_grid()
 	_assign_grid_indexes()
 	_create_grid()
+	_reset()
 	on_create()
 	_manage_grid()
 
+///We reset everything to make sure it all works
+/datum/special_intent/proc/_reset()
+	respect_adjacency = initial(respect_adjacency)
+	cancelled = initial(cancelled)
+	succeeded = initial(succeeded)
+	is_doing = initial(is_doing)
+
 /datum/special_intent/proc/_clear_grid()
 	if(length(affected_turfs))
-		LAZYNULL(affected_turfs)
+		LAZYCLEARLIST(affected_turfs)
 
 ///We go through our list of coordinates and check for custom timings. If we find any, we make a list to be managed later in _create_grid().
 /datum/special_intent/proc/_assign_grid_indexes()
@@ -136,13 +148,13 @@ This allows the devs to draw whatever shape they want at the cost of it feeling 
 		if(newdelay == delay)
 			_process_grid(affected_turfs[delay])
 		else
-			addtimer(CALLBACK(src, PROC_REF(_process_grid), affected_turfs[newdelay]), newdelay)
+			addtimer(CALLBACK(src, PROC_REF(_process_grid), affected_turfs[newdelay], newdelay), newdelay)
 
 ///Called to process the grid of turfs. The main proc that draws, delays and applies the post-delay effects.
-/datum/special_intent/proc/_process_grid(list/turfs)
+/datum/special_intent/proc/_process_grid(list/turfs, newdelay)
 	_draw(turfs)
 	pre_delay(turfs)
-	_delay(turfs)
+	_delay(turfs, newdelay)
 
 /datum/special_intent/proc/_draw(list/turfs)
 	for(var/turf/T in turfs)
@@ -160,16 +172,21 @@ This allows the devs to draw whatever shape they want at the cost of it feeling 
 		playsound(howner, sfx_pre_delay, 100, TRUE)
 
 ///Delay proc. Preferably it won't be hooked into.
-/datum/special_intent/proc/_delay(list/turfs)
+/datum/special_intent/proc/_delay(list/turfs, newdelay)
 	if(!cancelled)
-		if(use_doafter)
-			if(_try_doafter())
+		if(use_doafter && !is_doing)
+			if(!succeeded)
+				if(_try_doafter())
+					post_delay(turfs)
+			else
 				post_delay(turfs)
 		else
-			addtimer(CALLBACK(src, PROC_REF(post_delay), turfs), delay)
+			addtimer(CALLBACK(src, PROC_REF(post_delay), turfs), is_doing ? (delay + newdelay) : delay)
 
 /datum/special_intent/proc/_try_doafter()
-	if(do_after(howner, delay, same_direction = TRUE))
+	is_doing = TRUE
+	if(do_after(howner, delay, same_direction = FALSE))
+		succeeded = TRUE	//We only want to succeed one do after, cus otherwise it'll try to repeat it per-tile / timer. Glitchy!
 		return TRUE
 	else
 		to_chat(howner, span_warning("I was interrupted!"))
@@ -182,14 +199,18 @@ This allows the devs to draw whatever shape they want at the cost of it feeling 
 /// It calls apply_hit() after where most of the logic for any on-hit effects should go.
 /datum/special_intent/proc/post_delay(list/turfs)
 	SHOULD_CALL_PARENT(TRUE)
+	if(cancelled)	//Just in case we're from a doafter that has failed.
+		return
+
 	if(respect_adjacency)
 		var/is_adjacent = FALSE
 		for(var/turf/T in turfs)
 			if(howner.Adjacent(T))
 				is_adjacent = TRUE
+				respect_adjacency = FALSE
 				break
 		if(!is_adjacent)
-			to_chat(howner, span_danger("I moved too far from my maneuvre!"))
+			to_chat(howner, span_danger("I moved too far from my manoeuvre!"))
 			apply_cooldown()
 			return
 	if(post_icon_state)
@@ -249,6 +270,38 @@ This allows the devs to draw whatever shape they want at the cost of it feeling 
 /datum/special_intent/side_sweep/apply_hit(turf/T)	//This is applied PER tile, so we don't need to do a big check.
 	for(var/mob/living/L in get_hearers_in_view(0, T))
 		L.Slowdown(eff_dur)	
+	..()
+
+/datum/special_intent/ground_smash
+	name = "Ground Smash"
+	desc = "Swings downward, leaving a traveling quake for a few tiles. Anyone struck by it will be slowed and offbalanced, or knocked down if they're already off-balanced."
+	tile_coordinates = list(list(0,0), list(0,1, 0.1 SECONDS), list(0,2, 0.2 SECONDS))
+	post_icon_state = "kick_fx"
+	pre_icon_state = "trap"
+	use_doafter = TRUE
+	respect_adjacency = FALSE
+	delay = 0.8 SECONDS
+	cooldown = 20 SECONDS
+	var/slow_dur = 5	//We do NOT want to use SECONDS macro here. Slowdown() takes in an int and turns it into seconds already.
+	var/KD_dur = 2 SECONDS
+	var/Offb_dur = 5 SECONDS
+	var/Offbself_dur = 2 SECONDS
+
+//We play the pre-sfx here because it otherwise it gets played per tile. Sounds funky.
+/datum/special_intent/ground_smash/on_create()
+	. = ..()
+	howner.OffBalance(Offbself_dur)
+	playsound(howner, 'sound/combat/ground_smash_start.ogg', 100, TRUE)
+
+/datum/special_intent/ground_smash/apply_hit(turf/T)
+	for(var/mob/living/L in get_hearers_in_view(0, T))
+		L.Slowdown(eff_dur)
+		if(L.IsOffBalanced())
+			L.Knockdown(KD_dur)
+		else
+			L.OffBalance(Offb_dur)
+	var/sfx = pick('sound/combat/ground_smash1.ogg','sound/combat/ground_smash2.ogg','sound/combat/ground_smash3.ogg')
+	playsound(T, sfx, 100, TRUE)
 	..()
 /*
 Example of a fun pattern that overlaps in three waves.
