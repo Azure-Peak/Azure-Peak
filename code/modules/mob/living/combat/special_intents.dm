@@ -242,22 +242,14 @@ This allows the devs to draw whatever shape they want at the cost of it feeling 
 	howner.apply_status_effect(/datum/status_effect/debuff/specialcd, cooldown)
 
 /datum/special_intent/side_sweep
-	name = "Side Sweep"
+	name = "Distracting Swipe"
 	desc = "Swings at your primary flank in a distracting fashion. Anyone caught in it will be exposed for a short while."
 	tile_coordinates = list(list(0,0), list(1,0), list(1,-1))	//L shape that hugs our flank.
 	post_icon_state = "emote"
 	sfx_post_delay = 'sound/combat/sidesweep_hit.ogg'
 	delay = 0.8 SECONDS
-	cooldown = 20 SECONDS
-	var/eff_dur = 7 SECONDS
-	
-
-/datum/special_intent/side_sweep/process_attack()
-	if(howner.used_hand == 1)	//Left hand. We mirror the pattern.
-		tile_coordinates = list(list(0,0), list(-1,0), list(-1,-1))
-	else
-		tile_coordinates = initial(tile_coordinates)
-	..()
+	cooldown = 18 SECONDS
+	var/eff_dur = 5 SECONDS
 
 /datum/special_intent/side_sweep/apply_hit(turf/T)
 	for(var/mob/living/L in get_hearers_in_view(0, T))
@@ -265,7 +257,7 @@ This allows the devs to draw whatever shape they want at the cost of it feeling 
 	..()
 
 /datum/special_intent/shin_swipe
-	name = "Shin Swipe"
+	name = "Shin Prod"
 	desc = "A hasty attack at the legs, extending ourselves. Slows down the opponent if hit."
 	tile_coordinates = list(list(0,0), list(0,1))
 	post_icon_state = "emote"
@@ -375,7 +367,31 @@ This allows the devs to draw whatever shape they want at the cost of it feeling 
 		playsound(howner, 'sound/combat/flail_sweep_hit_major.ogg', 100, TRUE)
 	victim.safe_throw_at(throwtarget, CLAMP(1, 5, victim_count), 1, howner, force = MOVE_FORCE_EXTREMELY_STRONG)
 
+/datum/special_intent/axe_swing
+	name = "Hefty Swing"
+	desc = "Swings from left to right. Anyone caught in the swing get immobilized and exposed."
+	tile_coordinates = list(list(-1,0), list(0,0, 0.2 SECONDS), list(1,0, 0.4 SECONDS))
+	post_icon_state = "sweep_fx"
+	pre_icon_state = "trap"
+	use_doafter = TRUE
+	respect_adjacency = FALSE
+	delay = 0.8 SECONDS
+	cooldown = 20 SECONDS
+	var/immob_dur = 3 SECONDS
+	var/exposed_dur = 5 SECONDS
 
+//We play the pre-sfx here because it otherwise it gets played per tile. Sounds funky.
+/datum/special_intent/axe_swing/on_create()
+	..()
+	playsound(howner, 'sound/combat/rend_start.ogg', 100, TRUE)
+
+/datum/special_intent/axe_swing/apply_hit(turf/T)
+	for(var/mob/living/L in get_hearers_in_view(0, T))
+		L.apply_status_effect(/datum/status_effect/debuff/exposed, exposed_dur)
+		L.Immobilize(immob_dur)
+	var/sfx = pick('sound/combat/sp_axe_swing1.ogg','sound/combat/sp_axe_swing1.ogg','sound/combat/sp_axe_swing1.ogg')
+	playsound(T, sfx, 100, TRUE)
+	..()
 
 /*
 Example of a fun pattern that overlaps in three waves.
