@@ -46,3 +46,7 @@
 	if(set_dur)
 		duration = set_dur
 	. = ..()
+
+/obj/effect/temp_visual/special_intent
+	layer = HUD_LAYER
+	plane = ABOVE_LIGHTING_PLANE

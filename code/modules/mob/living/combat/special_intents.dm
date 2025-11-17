@@ -13,7 +13,11 @@ This allows the devs to draw whatever shape they want at the cost of it feeling 
 
 	/// The main place where we can draw out the pattern. Every tile entry is a list with two numbers.
 	/// The origin (0,0) is one step forward from the dir the owner is facing.
-	/// This is abstract, and can be modified, though it's best be done before _draw_grid().
+	/// This is abstract, and can be modified, though it's best done before _assign_grid_indexes().
+	/// For best effect, draw the coordinates as if the character is facing NORTH. That way it'll rotate as intended if dir is respected.
+	/// Third entry can be used for custom timing. That turf will only start to be processed after the third index's delay.
+	/// eg. list(0,0), list(0,1) -> two vertical turfs from origin, appearing and applying their effects instantly.
+	/// list(0,0), list(0, 1, 0.1 SECONDS) -> one turf right in front of the origin, then the second 0.1 seconds later.
 	var/list/tile_coordinates
 
 	/// The list of turfs the grid will be drawn on and 
@@ -49,6 +53,7 @@ This allows the devs to draw whatever shape they want at the cost of it feeling 
 
 	///Whether we'll check if our howner is adjacent to any of the tiles post-delay. 
 	///This is to prevent drop-and-run effect as if it was a spell.
+	///If the datum is using multi-timed turfs, only the FIRST one's adjacency is checked ONCE.
 	var/respect_adjacency = TRUE
 
 	var/sfx_pre_delay
@@ -86,7 +91,8 @@ This allows the devs to draw whatever shape they want at the cost of it feeling 
 	on_create()
 	_manage_grid()
 
-///We reset everything to make sure it all works
+///We reset everything to make sure it all works. Make sure the cooldown -never- becomes shorter than the active effect.
+///Otherwise this proc will absolutely break everything, along with everything else breaking in general.
 /datum/special_intent/proc/_reset()
 	respect_adjacency = initial(respect_adjacency)
 	cancelled = initial(cancelled)
@@ -158,7 +164,7 @@ This allows the devs to draw whatever shape they want at the cost of it feeling 
 
 /datum/special_intent/proc/_draw(list/turfs)
 	for(var/turf/T in turfs)
-		var/obj/effect/temp_visual/fx = new (T, delay)
+		var/obj/effect/temp_visual/special_intent/fx = new (T, delay)
 		fx.icon = _icon
 		fx.icon_state = pre_icon_state
 	
@@ -199,7 +205,7 @@ This allows the devs to draw whatever shape they want at the cost of it feeling 
 /// It calls apply_hit() after where most of the logic for any on-hit effects should go.
 /datum/special_intent/proc/post_delay(list/turfs)
 	SHOULD_CALL_PARENT(TRUE)
-	if(cancelled)	//Just in case we're from a doafter that has failed.
+	if(cancelled)	//Just in case we're here after a doafter that has failed.
 		return
 
 	if(respect_adjacency)
@@ -207,7 +213,7 @@ This allows the devs to draw whatever shape they want at the cost of it feeling 
 		for(var/turf/T in turfs)
 			if(howner.Adjacent(T))
 				is_adjacent = TRUE
-				respect_adjacency = FALSE
+				respect_adjacency = FALSE //This ensures multi-timer patterns that call this proc won't get tripped up.
 				break
 		if(!is_adjacent)
 			to_chat(howner, span_danger("I moved too far from my manoeuvre!"))
@@ -215,7 +221,7 @@ This allows the devs to draw whatever shape they want at the cost of it feeling 
 			return
 	if(post_icon_state)
 		for(var/turf/T in turfs)
-			var/obj/effect/temp_visual/fx = new /obj/effect/temp_visual(T, fade_delay)
+			var/obj/effect/temp_visual/special_intent/fx = new (T, fade_delay)
 			fx.icon = _icon
 			fx.icon_state = post_icon_state
 			apply_hit(T)
@@ -272,6 +278,7 @@ This allows the devs to draw whatever shape they want at the cost of it feeling 
 		L.Slowdown(eff_dur)	
 	..()
 
+//Hard to hit, freezes you in place. Offbalances & slows the targets hit. If they're already offbalanced they get knocked down.
 /datum/special_intent/ground_smash
 	name = "Ground Smash"
 	desc = "Swings downward, leaving a traveling quake for a few tiles. Anyone struck by it will be slowed and offbalanced, or knocked down if they're already off-balanced."
@@ -285,7 +292,7 @@ This allows the devs to draw whatever shape they want at the cost of it feeling 
 	var/slow_dur = 5	//We do NOT want to use SECONDS macro here. Slowdown() takes in an int and turns it into seconds already.
 	var/KD_dur = 2 SECONDS
 	var/Offb_dur = 5 SECONDS
-	var/Offbself_dur = 2 SECONDS
+	var/Offbself_dur = 1.5 SECONDS
 
 //We play the pre-sfx here because it otherwise it gets played per tile. Sounds funky.
 /datum/special_intent/ground_smash/on_create()
@@ -295,7 +302,7 @@ This allows the devs to draw whatever shape they want at the cost of it feeling 
 
 /datum/special_intent/ground_smash/apply_hit(turf/T)
 	for(var/mob/living/L in get_hearers_in_view(0, T))
-		L.Slowdown(eff_dur)
+		L.Slowdown(slow_dur)
 		if(L.IsOffBalanced())
 			L.Knockdown(KD_dur)
 		else
@@ -303,6 +310,71 @@ This allows the devs to draw whatever shape they want at the cost of it feeling 
 	var/sfx = pick('sound/combat/ground_smash1.ogg','sound/combat/ground_smash2.ogg','sound/combat/ground_smash3.ogg')
 	playsound(T, sfx, 100, TRUE)
 	..()
+
+
+/datum/special_intent/flail_sweep
+	name = "Flail Sweep"
+	desc = "Swings in a perfect circle all around you, pushing people aside. The more are struck, the more powerful the effect."
+	tile_coordinates = list(list(0,0), list(1,0), list(1,-1),list(1,-2),list(0,-2),list(-1,-2),list(-1,-1),list(-1,0))
+	post_icon_state = "sweep_fx"
+	pre_icon_state = "trap"
+	sfx_pre_delay = 'sound/combat/flail_sweep.ogg'
+	use_doafter = TRUE
+	respect_adjacency = FALSE
+	delay = 0.8 SECONDS
+	cooldown = 20 SECONDS
+	var/victim_count = 0
+	var/slow_init = 2
+	var/exposed_init = 3 SECONDS
+	var/offbalanced_init = 1.5 SECONDS
+	var/knockdown = 2 SECONDS
+	var/immobilize_init = 1 SECONDS
+
+/datum/special_intent/flail_sweep/on_create()
+	. = ..()
+	victim_count = initial(victim_count)
+
+/datum/special_intent/flail_sweep/apply_hit(turf/T)
+	for(var/mob/living/L in get_hearers_in_view(0, T))
+		victim_count++
+		addtimer(CALLBACK(src, PROC_REF(apply_effect), L), 0.1 SECONDS)
+	..()
+
+///This will apply the actual effect, as we need some way to count all the mobs in the zone first.
+/datum/special_intent/flail_sweep/proc/apply_effect(mob/living/victim)
+	var/newslow = slow_init + victim_count
+	var/newexposed = exposed_init + (victim_count SECONDS)
+	var/newoffb = offbalanced_init + (victim_count SECONDS)
+	var/newimmob = immobilize_init + (victim_count SECONDS)
+
+	var/throwtarget = get_edge_target_turf(howner, get_dir(howner, get_step_away(victim, howner)))
+	switch(victim_count)
+		if(1)
+			victim.Slowdown(newslow)
+		if(2)
+			victim.Slowdown(newslow)
+			victim.Immobilize(newimmob)
+			victim.apply_status_effect(/datum/status_effect/debuff/exposed, newexposed)
+		if(3 to 5)
+			victim.Slowdown(newslow)
+			victim.Immobilize(newimmob)
+			victim.apply_status_effect(/datum/status_effect/debuff/exposed, newexposed)
+			victim.Knockdown(knockdown)
+		if(5 to 9)
+			victim.Slowdown(newslow)
+			victim.Immobilize(newimmob)
+			victim.apply_status_effect(/datum/status_effect/debuff/exposed, newexposed)
+			victim.Knockdown(knockdown)
+			victim.OffBalance(newoffb)
+			victim.Stun(5 SECONDS)
+	if(victim_count < 3)
+		playsound(howner, 'sound/combat/flail_sweep_hit_minor.ogg', 100, TRUE)
+	else
+		playsound(howner, 'sound/combat/flail_sweep_hit_major.ogg', 100, TRUE)
+	victim.safe_throw_at(throwtarget, CLAMP(1, 5, victim_count), 1, howner, force = MOVE_FORCE_EXTREMELY_STRONG)
+
+
+
 /*
 Example of a fun pattern that overlaps in three waves.
 #define WAVE_2_DELAY 0.75 SECONDS
