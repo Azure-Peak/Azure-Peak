@@ -46,7 +46,7 @@
 	var/repairable = FALSE
 	var/repair_state = 0
 	var/obj/item/repair_cost_first = null
-	var/obj/item/repair_cost_second = null	
+	var/obj/item/repair_cost_second = null
 	var/repair_skill = null
 	damage_deflection = 10
 	var/mob/last_bumper = null
@@ -60,7 +60,7 @@
 	var/resident_role
 	/// The requied advclass of the resident
 	var/list/resident_advclass
-	//a door name a skilled artisan can make 
+	//a door name a skilled artisan can make
 	var/doorname = null
 
 /obj/structure/mineral_door/onkick(mob/user)
@@ -344,7 +344,7 @@
 /obj/structure/mineral_door/update_icon()
 	icon_state = "[base_state][door_opened ? "open":""]"
 
-/obj/structure/mineral_door/examine(mob/user)	
+/obj/structure/mineral_door/examine(mob/user)
 	. = ..()
 	if(repairable)
 		var/obj/cast_repair_cost_first = repair_cost_first
@@ -419,9 +419,9 @@
 		new_track.handle_creation(user)
 
 /obj/structure/mineral_door/proc/repairdoor(obj/item/I, mob/user)
-	if(brokenstate)				
+	if(brokenstate)
 		switch(repair_state)
-			if(0)					
+			if(0)
 				if(istype(I, repair_cost_first))
 					user.visible_message(span_notice("[user] starts repairing [src]."), \
 					span_notice("I start repairing [src]."))
@@ -431,38 +431,38 @@
 						playsound(user, 'sound/misc/wood_saw.ogg', 100, TRUE)
 						repair_state = 1
 						var/obj/cast_repair_cost_second = repair_cost_second
-						to_chat(user, span_notice("An additional [initial(cast_repair_cost_second.name)] is needed to finish the job."))				
+						to_chat(user, span_notice("An additional [initial(cast_repair_cost_second.name)] is needed to finish the job."))
 			if(1)
 				if(istype(I, repair_cost_second))
 					user.visible_message(span_notice("[user] starts repairing [src]."), \
 					span_notice("I start repairing [src]."))
 					playsound(user, 'sound/misc/wood_saw.ogg', 100, TRUE)
-					if(do_after(user, (300 / user.get_skill_level(repair_skill)), target = src)) // 1 skill = 30 secs, 2 skill = 15 secs etc.	
-						qdel(I)	
-						playsound(user, 'sound/misc/wood_saw.ogg', 100, TRUE)	
+					if(do_after(user, (300 / user.get_skill_level(repair_skill)), target = src)) // 1 skill = 30 secs, 2 skill = 15 secs etc.
+						qdel(I)
+						playsound(user, 'sound/misc/wood_saw.ogg', 100, TRUE)
 						icon_state = "[base_state]"
 						density = TRUE
 						opacity = TRUE
 						brokenstate = FALSE
 						obj_broken = FALSE
 						obj_integrity = max_integrity
-						repair_state = 0								
+						repair_state = 0
 						user.visible_message(span_notice("[user] repaired [src]."), \
-						span_notice("I repaired [src]."))												
+						span_notice("I repaired [src]."))
 	else
 		if(obj_integrity < max_integrity && istype(I, repair_cost_first))
-			to_chat(user, span_warning("[obj_integrity]"))	
+			to_chat(user, span_warning("[obj_integrity]"))
 			user.visible_message(span_notice("[user] starts repairing [src]."), \
 			span_notice("I start repairing [src]."))
 			playsound(user, 'sound/misc/wood_saw.ogg', 100, TRUE)
 			if(do_after(user, (300 / user.get_skill_level(repair_skill)), target = src)) // 1 skill = 30 secs, 2 skill = 15 secs etc.
 				qdel(I)
 				playsound(user, 'sound/misc/wood_saw.ogg', 100, TRUE)
-				obj_integrity = obj_integrity + (max_integrity/2)					
+				obj_integrity = obj_integrity + (max_integrity/2)
 				if(obj_integrity > max_integrity)
 					obj_integrity = max_integrity
 				user.visible_message(span_notice("[user] repaired [src]."), \
-				span_notice("I repaired [src]."))		
+				span_notice("I repaired [src]."))
 
 /obj/structure/mineral_door/attack_right(mob/user)
 	user.changeNext_move(CLICK_CD_FAST)
@@ -483,6 +483,9 @@
 		return
 	if(lockbroken)
 		to_chat(user, span_warning("The lock to this door is broken."))
+		return
+	if(!user.can_attempt_door_lock())
+		return
 	user.changeNext_move(CLICK_CD_INTENTCAP)
 	if(istype(I,/obj/item/storage/keyring))
 		var/obj/item/storage/keyring/R = I
@@ -530,6 +533,8 @@
 		to_chat(user, "<span class='warning'>The lock to this door is broken.</span>")
 		user.changeNext_move(CLICK_CD_INTENTCAP)
 	else
+		if(!user.can_attempt_door_lock())
+			return
 		var/lockprogress = 0
 		var/locktreshold = lock_strength
 
@@ -552,7 +557,7 @@
 		pickchance += perbonus
 		pickchance *= P.picklvl
 		pickchance = clamp(pickchance, 1, 95)
-		
+
 		if (lockdifficulty > 1) //each time the difficulty goes up, the harder the lock
 			picktime = picktime+(10*lockdifficulty)//add a flat 10 per level
 			pickchance = pickchance/(lockdifficulty*0.75)//reduce the chance by .75 per level
@@ -703,7 +708,7 @@
 	var/over_state = "woodover"
 	repairable = TRUE
 	repair_cost_first = /obj/item/grown/log/tree/small
-	repair_cost_second = /obj/item/grown/log/tree/small	
+	repair_cost_second = /obj/item/grown/log/tree/small
 	repair_skill = /datum/skill/craft/carpentry
 	smashable = TRUE
 
@@ -770,7 +775,7 @@
 	attacked_sound = list('sound/combat/hits/onwood/woodimpact (1).ogg','sound/combat/hits/onwood/woodimpact (2).ogg')
 	repairable = TRUE
 	repair_cost_first = /obj/item/grown/log/tree/small
-	repair_cost_second = /obj/item/grown/log/tree/small	
+	repair_cost_second = /obj/item/grown/log/tree/small
 	repair_skill = /datum/skill/craft/carpentry
 	ridethrough = TRUE
 	smashable = TRUE
@@ -936,7 +941,7 @@
 	repair_cost_first = /obj/item/ingot/iron
 	repair_cost_second = /obj/item/ingot/iron
 	repair_skill = /datum/skill/craft/blacksmithing
-	
+
 /obj/structure/mineral_door/barsold
 	name = "iron door"
 	desc = ""

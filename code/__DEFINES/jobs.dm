@@ -117,6 +117,7 @@
 #define BOGGUARD	(1<<4)
 #define SERGEANT	(1<<5)
 #define SHERIFF		(1<<6)
+#define MUTT		(1<<7)
 
 #define CHURCHMEN		(1<<2)
 
@@ -248,13 +249,14 @@
 
 #define JDO_GUARD_CAPTAIN 8
 #define JDO_KNIGHT 8.1
-#define JDO_SQUIRE 8.2
-#define JDO_SERGEANT 8.3
-#define JDO_CASTLEGUARD 8.4
-#define JDO_GATEMASTER 8.5
-#define JDO_SHERIFF 8.6
-#define JDO_TOWNGUARD 8.7
-#define JDO_DUNGEONEER 8.8
+#define JDO_MUTT 8.2
+#define JDO_SQUIRE 8.3
+#define JDO_SERGEANT 8.4
+#define JDO_CASTLEGUARD 8.5
+#define JDO_GATEMASTER 8.6
+#define JDO_SHERIFF 8.7
+#define JDO_TOWNGUARD 8.8
+#define JDO_DUNGEONEER 8.9
 #define JDO_BOGGUARD 9.1
 
 #define JDO_PRIEST 10
@@ -321,7 +323,7 @@
 #define BITFLAG_CONSTRUCTOR (1<<2)
 #define BITFLAG_GARRISON (1<<3)
 
-// START OF THE ECONOMY SECTION 
+// START OF THE ECONOMY SECTION
 #define ECONOMIC_RICH rand(120, 140)
 #define ECONOMIC_UPPER_CLASS rand(100, 120)
 #define ECONOMIC_UPPER_MIDDLE_CLASS rand(80, 100)
@@ -408,7 +410,8 @@
 	/datum/job/roguetown/manorguard,\
 	/datum/job/roguetown/sheriff,\
 	/datum/job/roguetown/squire,\
-	/datum/job/roguetown/guardsman
+	/datum/job/roguetown/guardsman,\
+	/datum/job/roguetown/mutt
 
 #define INQUISITION_ROLES \
 	/datum/job/roguetown/puritan,\

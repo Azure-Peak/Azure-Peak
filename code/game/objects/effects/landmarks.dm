@@ -406,6 +406,10 @@ INITIALIZE_IMMEDIATE(/obj/effect/landmark)
 	name = "Squire"
 	icon_state = "arrow"
 
+/obj/effect/landmark/start/mutt
+	name = "Mutt"
+	icon_state = "arrow"
+
 /obj/effect/landmark/start/wapprentice
 	name = "Magicians Associate"
 	icon_state = "arrow"

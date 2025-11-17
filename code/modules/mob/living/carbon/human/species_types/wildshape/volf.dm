@@ -1,5 +1,5 @@
 /mob/living/carbon/human/species/wildshape/volf //The baseline and tracker of the wildshapes
-	name = "Volf"
+	name = "volf"
 	race = /datum/species/shapewolf
 	footstep_type = FOOTSTEP_MOB_CLAW
 	ambushable = FALSE
@@ -23,7 +23,7 @@
 		src.STASPD = 13
 
 		AddSpell(new /obj/effect/proc_holder/spell/self/wolfclaws)
-		real_name = "volf" //So we don't get a random name
+		real_name = name //So we don't get a random name
 		faction += "wolfs" // It IS a wolf
 
 // WOLF SPECIES DATUM //
@@ -121,7 +121,7 @@
 	item_state = null
 	lefthand_file = null
 	righthand_file = null
-	icon = 'icons/roguetown/weapons/misc32.dmi'
+	icon = 'icons/roguetown/weapons/unarmed32.dmi'
 	max_blade_int = 600
 	max_integrity = 600
 	force = 20
@@ -186,3 +186,37 @@
 		user.put_in_hands(r, TRUE, FALSE, TRUE)
 		//user.visible_message("Your claws extend.", "You feel your claws extending.", "You hear a sound of claws extending.")
 		extended = TRUE
+
+/datum/species/shapewolf/mutt
+	no_equip = list(SLOT_SHIRT, SLOT_HEAD, SLOT_WEAR_MASK, SLOT_ARMOR, SLOT_GLOVES, SLOT_SHOES, SLOT_PANTS, SLOT_BELT, SLOT_BACK_R, SLOT_BACK_L, SLOT_S_STORE)
+
+/mob/living/carbon/human/species/wildshape/volf/mutt
+	name = "Mutt"
+	faction = list("Station")
+	race = /datum/species/shapewolf/mutt
+
+/mob/living/carbon/human/species/wildshape/volf/mutt/Initialize()
+	. = ..()
+	src.STASTR = 7
+	src.STACON = 7
+	src.STAPER = 12
+	src.STASPD = 13
+	src.STAINT = 3
+
+/mob/living/carbon/human/species/wildshape/volf/mutt/get_held_index_name(i, obj/item/I)
+	if(!istype(I, /obj/item/rogueweapon/wolf_claw))
+		return "maw"
+	var/hand = ""
+	if(!(i % 2))
+		hand = "right hand"
+	else
+		hand = "left hand"
+	return hand
+
+/mob/living/carbon/human/species/wildshape/volf/mutt/can_attempt_door_lock(var/silent = FALSE)
+	if(!silent)
+		to_chat(src, span_warning("You lack the opposable thumbs required to manipulate locks."))
+	return FALSE
+s
+/mob/living/carbon/human/species/wildshape/volf/mutt/can_speak_in_language(datum/language/dt)
+	return ispath(dt, /datum/language/beast)

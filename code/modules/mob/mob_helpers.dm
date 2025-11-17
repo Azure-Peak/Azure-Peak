@@ -1041,6 +1041,9 @@
 			used_title = advjob
 	return used_title
 
+/mob/proc/can_attempt_door_lock(var/silent = FALSE)
+	return TRUE
+
 ///Is the passed in mob a ghost with admin powers, doesn't check for AI interact like isAdminGhost() used to
 /proc/isAdminObserver(mob/user)
 	if(!user) //Are they a mob? Auto interface updates call this with a null src

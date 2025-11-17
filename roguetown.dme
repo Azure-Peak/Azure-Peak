@@ -1736,6 +1736,7 @@
 #include "code\modules\jobs\job_types\roguetown\garrison\bogguard.dm"
 #include "code\modules\jobs\job_types\roguetown\garrison\dungeoneer.dm"
 #include "code\modules\jobs\job_types\roguetown\garrison\manorguard.dm"
+#include "code\modules\jobs\job_types\roguetown\garrison\mutt.dm"
 #include "code\modules\jobs\job_types\roguetown\garrison\sergeant.dm"
 #include "code\modules\jobs\job_types\roguetown\garrison\squire.dm"
 #include "code\modules\jobs\job_types\roguetown\garrison\townguard.dm"

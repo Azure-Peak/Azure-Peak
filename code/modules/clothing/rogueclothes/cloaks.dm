@@ -531,12 +531,13 @@
 	color = CLOTHING_AZURE
 	detail_tag = "_spl"
 	detail_color = CLOTHING_WHITE
+	var/list/tabard_variants = list("Split", "Quadrants", "Boxes", "Diamonds")
 
 /obj/item/clothing/cloak/stabard/guard/attack_right(mob/user)
 	if(picked)
 		return
 	var/the_time = world.time
-	var/chosen = input(user, "Select a design.","Tabard Design") as null|anything in list("Split", "Quadrants", "Boxes", "Diamonds")
+	var/chosen = input(user, "Select a design.","Tabard Design") as null|anything in tabard_variants
 	if(world.time > (the_time + 10 SECONDS))
 		return
 	if(!chosen)
@@ -589,6 +590,14 @@
 /obj/item/clothing/cloak/stabard/guard/Destroy()
 	GLOB.lordcolor -= src
 	return ..()
+
+/obj/item/clothing/cloak/stabard/guard/mutt
+	name = "\improper Mutt's garrison coat"
+	desc = "A coat tailored specifically for the Azure Peak garrison's favourite guard dog, Mutt."
+	icon_state = "tabard_mutt"
+	detail_tag = "_quad"
+	tabard_variants = list("Quadrants")
+	allowed_race = list(/datum/species/shapewolf/mutt)
 
 /obj/item/clothing/cloak/stabard/bog
 	name = "bogman tabard"
@@ -2052,7 +2061,7 @@
 /obj/item/clothing/cloak/kazengun/ComponentInitialize()
 	. = ..()
 	AddComponent(/datum/component/storage/concrete/roguetown/cloak)
-	
+
 /obj/item/clothing/cloak/kazengun/update_icon()
 	cut_overlays()
 	if(get_detail_tag())
