@@ -831,7 +831,7 @@
 	return ..()
 
 /atom/movable/screen/alert/status_effect/debuff/specialcd
-	name = "Precise Strike Cooldown"
+	name = "Special Manouevre Cooldown"
 	desc = "I used it. I must wait."
 	icon_state = "strikecd"
 
@@ -921,18 +921,3 @@
 	name = "Knockback Cooldown"
 	desc = "I have been knocked back recently by an attack and cannot be knocked back again"
 	icon_state = "debuff" // Placeholder
-
-/datum/status_effect/debuff/specialcd
-	id = "specialcd"
-	alert_type = /atom/movable/screen/alert/status_effect/debuff/specialcd
-	duration = 2 SECONDS
-
-/datum/status_effect/debuff/specialcd/on_creation(mob/living/new_owner, new_dur)
-	if(new_dur)
-		duration = new_dur
-	return ..()
-
-/atom/movable/screen/alert/status_effect/debuff/specialcd
-	name = "Special Maneuvre Cooldown"
-	desc = "I used it. I must wait."
-	icon_state = "strikecd"
