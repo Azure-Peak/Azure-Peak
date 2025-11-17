@@ -63,6 +63,8 @@ This allows the devs to draw whatever shape they want at the cost of it feeling 
 	var/pre_icon_state = "blip"
 	var/post_icon_state = "strike"
 
+	var/datum/skill/custom_skill
+
 ///Called by external sources -- likely an rclick. By default the 'target' will be stored as a turf.
 /datum/special_intent/proc/deploy(mob/living/user, obj/item/weapon, atom/target)
 	if(!ishuman(user))
@@ -337,7 +339,7 @@ This allows the devs to draw whatever shape they want at the cost of it feeling 
 /datum/special_intent/flail_sweep/apply_hit(turf/T)
 	for(var/mob/living/L in get_hearers_in_view(0, T))
 		victim_count++
-		addtimer(CALLBACK(src, PROC_REF(apply_effect), L), 0.1 SECONDS)
+		addtimer(CALLBACK(src, PROC_REF(apply_effect), L), 0.1 SECONDS)	//We need to count them all up first so this is an unfortunate (& janky) requirement.
 	..()
 
 ///This will apply the actual effect, as we need some way to count all the mobs in the zone first.
