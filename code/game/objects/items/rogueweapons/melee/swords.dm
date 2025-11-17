@@ -1081,6 +1081,7 @@
 	minstr = 5
 	wdefense = 7		//Same as rapier
 	wbalance = WBALANCE_SWIFT
+	special = /datum/special_intent/shin_swipe
 
 /datum/intent/sword/cut/sabre
 	clickcd = 8		//Faster than sword by 4

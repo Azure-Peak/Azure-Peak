@@ -245,7 +245,8 @@ This allows the devs to draw whatever shape they want at the cost of it feeling 
 	name = "Distracting Swipe"
 	desc = "Swings at your primary flank in a distracting fashion. Anyone caught in it will be exposed for a short while."
 	tile_coordinates = list(list(0,0), list(1,0), list(1,-1))	//L shape that hugs our flank.
-	post_icon_state = "emote"
+	post_icon_state = "sweep_fx"
+	pre_icon_state = "trap"
 	sfx_post_delay = 'sound/combat/sidesweep_hit.ogg'
 	delay = 0.8 SECONDS
 	cooldown = 18 SECONDS
@@ -260,8 +261,8 @@ This allows the devs to draw whatever shape they want at the cost of it feeling 
 	name = "Shin Prod"
 	desc = "A hasty attack at the legs, extending ourselves. Slows down the opponent if hit."
 	tile_coordinates = list(list(0,0), list(0,1))
-	post_icon_state = "emote"
-	pre_icon_state = "blip"
+	post_icon_state = "sweep_fx"
+	pre_icon_state = "trap"
 	sfx_post_delay = 'sound/combat/shin_swipe.ogg'
 	delay = 0.8 SECONDS
 	cooldown = 15 SECONDS
