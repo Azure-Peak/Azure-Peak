@@ -5,6 +5,8 @@ They're meant to be kept on the weapon and used via Strong stance's rclick.
 At the moment the pattern is manually designated using coordinates in tile_coordinates.
 This allows the devs to draw whatever shape they want at the cost of it feeling a little quirky.
 */
+#define CUSTOM_TIMER_INDEX 3
+
 /datum/special_intent
 	var/name = "special intent"
 	var/desc = "desc"
@@ -45,7 +47,8 @@ This allows the devs to draw whatever shape they want at the cost of it feeling 
 	var/succeeded = FALSE
 	var/is_doing = FALSE
 
-	///The delay for either the doafter or the timers on the turfs before calling post_delay() and apply_hit()
+	/// The delay for either the doafter or the timers on the turfs before calling post_delay() and apply_hit()
+	/// Or in other words. The pause before the hit of the special happens.
 	var/delay = 1 SECONDS
 
 	///The amount of time the post-delay effect is meant to linger.
@@ -109,9 +112,9 @@ This allows the devs to draw whatever shape they want at the cost of it feeling 
 /datum/special_intent/proc/_assign_grid_indexes()
 	affected_turfs[delay] = list()
 	for(var/list/l in tile_coordinates)
-		if(LAZYACCESS(l, 3))	//Third index is a custom timer.
-			if(!affected_turfs[l[3]])
-				affected_turfs[l[3]] = list()
+		if(LAZYACCESS(l, CUSTOM_TIMER_INDEX))	//Third index is a custom timer.
+			if(!affected_turfs[l[CUSTOM_TIMER_INDEX]])
+				affected_turfs[l[CUSTOM_TIMER_INDEX]] = list()
 			else
 				continue
 
@@ -122,8 +125,8 @@ This allows the devs to draw whatever shape they want at the cost of it feeling 
 		var/dx = l[1]
 		var/dy = l[2]
 		var/dtimer
-		if(LAZYACCESS(l, 3)) //Third index is a custom timer.
-			dtimer = l[3]
+		if(LAZYACCESS(l, CUSTOM_TIMER_INDEX)) //Third index is a custom timer.
+			dtimer = l[CUSTOM_TIMER_INDEX]
 		if(respect_dir)
 			switch(howner.dir)
 				//if(NORTH) Do nothing because the coords are meant to be written from north-facing perspective. All is well.
@@ -333,11 +336,11 @@ This allows the devs to draw whatever shape they want at the cost of it feeling 
 	for(var/mob/living/L in get_hearers_in_view(0, T))
 		victim_count++
 		addtimer(CALLBACK(src, PROC_REF(apply_effect), L), 0.1 SECONDS)	//We need to count them all up first so this is an unfortunate (& janky) requirement.
-	..()
+	..()																//An alternative could be a spatial grid count from howner called once.
 
 ///This will apply the actual effect, as we need some way to count all the mobs in the zone first.
 /datum/special_intent/flail_sweep/proc/apply_effect(mob/living/victim)
-	var/newslow = slow_init + victim_count
+	var/newslow = slow_init + victim_count	//Slows take an int and apply SECONDS in the Slowdown proc itself. Do NOT use SECONDS for slows.
 	var/newexposed = exposed_init + (victim_count SECONDS)
 	var/newoffb = offbalanced_init + (victim_count SECONDS)
 	var/newimmob = immobilize_init + (victim_count SECONDS)
@@ -371,7 +374,7 @@ This allows the devs to draw whatever shape they want at the cost of it feeling 
 /datum/special_intent/axe_swing
 	name = "Hefty Swing"
 	desc = "Swings from left to right. Anyone caught in the swing get immobilized and exposed."
-	tile_coordinates = list(list(-1,0), list(0,0, 0.2 SECONDS), list(1,0, 0.4 SECONDS))
+	tile_coordinates = list(list(-1,0), list(0,0, 0.2 SECONDS), list(1,0, 0.3 SECONDS))
 	post_icon_state = "sweep_fx"
 	pre_icon_state = "trap"
 	use_doafter = TRUE
@@ -395,9 +398,9 @@ This allows the devs to draw whatever shape they want at the cost of it feeling 
 	..()
 
 /*
-Example of a fun pattern that overlaps in three waves.
+Example of a fun pattern that overlaps in three waves. Use with default delay at 1 SECONDS
 #define WAVE_2_DELAY 0.75 SECONDS
-#define WAVE_3_DELAY 2 SECONDS
+#define WAVE_3_DELAY 1.2 SECONDS
 tile_coordinates = list(list(1,1), list(-1,1), list(-1,-1), list(1,-1),list(0,0),
 					list(-1,0,WAVE_2_DELAY), list(-2,0,WAVE_2_DELAY), list(0,0,WAVE_2_DELAY), list(1,0,WAVE_2_DELAY), list(2,0,WAVE_2_DELAY),
 					list(0,0,WAVE_3_DELAY),list(0,-1,WAVE_3_DELAY),list(0,-2,WAVE_3_DELAY),list(0,1,WAVE_3_DELAY),list(0,2,WAVE_3_DELAY))
