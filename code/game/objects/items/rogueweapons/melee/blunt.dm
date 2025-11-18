@@ -233,6 +233,7 @@
 	resistance_flags = FLAMMABLE
 	grid_width = 32
 	grid_height = 96
+	special = null //Should probably get something unique, but definitely not Mace ground slam
 
 // Non-lethal mace-striking (Made for cudgel specifically. Don't put this on everything. Yeah, I mean you.)
 /datum/intent/mace/strike/wallop
