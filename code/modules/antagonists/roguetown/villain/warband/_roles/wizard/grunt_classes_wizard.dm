@@ -189,7 +189,7 @@
 		),
 		/datum/patron/divine/noc = list(
 			"curse" = /datum/curse/noc,
-			"trait" = TRAIT_ANTIMAGIC
+			"traits" = list(TRAIT_ANTIMAGIC)
 		),
 		/datum/patron/divine/ravox = list(
 			"spells" = list(
@@ -212,7 +212,7 @@
 				/obj/effect/proc_holder/spell/invoked/invisibility
 			),
 			"curse" = /datum/curse/xylix,
-			"trait" = TRAIT_ZJUMP
+			"traits" = list(TRAIT_ZJUMP)
 		),
 		/datum/patron/divine/pestra = list(
 			"spells" = list(
@@ -240,10 +240,14 @@
 				/obj/effect/proc_holder/spell/invoked/mindlink
 			),
 			"curse" = /datum/curse/eora
+		),
+		/datum/patron/inhumen/zizo = list(
+			"curse" = /datum/curse/zizo,
+			"traits" = list(TRAIT_ANTIMAGIC)
 		)
 	)
-
-	if(!patron_effects[patron_type]) return
+	if(!patron_effects[patron_type]) 
+		return FALSE
 	var/patron_data = patron_effects[patron_type]
 	
 	if(patron_data["spells"])
@@ -253,8 +257,9 @@
 	if(patron_data["curse"])
 		H.add_curse(patron_data["curse"])
 	
-	if(patron_data["trait"])
-		ADD_TRAIT(H, patron_data["trait"], TRAIT_GENERIC)
+	if(patron_data["traits"])
+		for(var/trait in patron_data["traits"])
+			ADD_TRAIT(H, trait, TRAIT_GENERIC)
 
 
 /datum/outfit/job/roguetown/warband/wizard/grunt/warlock/pre_equip(mob/living/carbon/human/H)
@@ -286,10 +291,10 @@
 		H.mind.AddSpell(new /obj/effect/proc_holder/spell/targeted/touch/prestidigitation)
 		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/projectile/arcynebolt)
 		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/enchant_weapon)
-		// zizo, baotha, matthios & graggar are excluded because they don't have spell sets atm
+		// baotha, matthios & graggar are excluded because they don't have spell sets atm
 		// psydon & undivided are excluded because, Y'Know
-		if(H.patron.type == /datum/patron/divine/undivided || H.patron.type == /datum/patron/old_god || H.patron.type == /datum/patron/inhumen/matthios || H.patron.type == /datum/patron/inhumen/zizo || H.patron.type == /datum/patron/inhumen/graggar || H.patron.type == /datum/patron/inhumen/baotha)
-			var/curseclass = list("Astrata","Abyssor","Ravox","Necra","Xylix","Pestra","Malum","Eora","Noc")
+		if(H.patron.type == /datum/patron/divine/undivided || H.patron.type == /datum/patron/old_god || H.patron.type == /datum/patron/inhumen/matthios || H.patron.type == /datum/patron/inhumen/graggar || H.patron.type == /datum/patron/inhumen/baotha)
+			var/curseclass = list("Astrata","Abyssor","Ravox","Necra","Xylix","Pestra","Malum","Eora","Noc","Zizo")
 			var/curseclass_choice = input("I was cursed by...", "WOE") as anything in curseclass
 			var/patron_path = list(
 				"Astrata" = /datum/patron/divine/astrata,
@@ -300,7 +305,8 @@
 				"Xylix" = /datum/patron/divine/xylix,
 				"Pestra" = /datum/patron/divine/pestra,
 				"Malum" = /datum/patron/divine/malum,
-				"Eora" = /datum/patron/divine/eora
+				"Eora" = /datum/patron/divine/eora,
+				"Zizo" = /datum/patron/inhumen/zizo
 			)
 			var/selected_patron_type = patron_path[curseclass_choice]
 			if(selected_patron_type)

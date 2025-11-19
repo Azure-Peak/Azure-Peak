@@ -226,6 +226,10 @@
 	},
 /turf/open/floor/rogue/grassyel,
 /area/rogue/outdoors/warcamp)
+"kG" = (
+/obj/item/reagent_containers/glass/bottle/claybottle/beer,
+/turf/open/floor/rogue/grassyel,
+/area/rogue/outdoors/warcamp)
 "kP" = (
 /obj/structure/rack/rogue,
 /obj/item/rogueweapon/flail/sflail,
@@ -278,10 +282,11 @@
 /turf/open/floor/rogue/grassred,
 /area/rogue/outdoors/warcamp)
 "lJ" = (
-/obj/structure/flora/newtree,
-/turf/open/floor/rogue/grassred,
-/turf/open/floor/rogue/cobble/mossy,
-/area/rogue/outdoors/warcamp)
+/obj/effect/decal/cobble/mossy{
+	dir = 10
+	},
+/turf/closed/mineral/rogue/bedrock,
+/area/rogue/indoors/warcamp)
 "lP" = (
 /obj/structure/table/wood{
 	icon_state = "largetable";
@@ -930,6 +935,12 @@
 /obj/structure/chair/stool/rogue,
 /turf/open/floor/rogue/dirt/road,
 /area/rogue/outdoors/warcamp)
+"CS" = (
+/obj/effect/decal/cobble/mossy{
+	dir = 1
+	},
+/turf/closed/mineral/rogue/bedrock,
+/area/rogue/indoors/warcamp)
 "CX" = (
 /obj/effect/decal/cobbleedge{
 	dir = 2;
@@ -1480,6 +1491,10 @@
 	name = "rug"
 	},
 /area/rogue/indoors/warcamp)
+"Ox" = (
+/obj/item/rogue/instrument/lute,
+/turf/open/floor/rogue/grassred,
+/area/rogue/outdoors/warcamp)
 "OZ" = (
 /obj/structure/rack/rogue,
 /obj/item/rogueweapon/halberd/bardiche,
@@ -1888,15 +1903,15 @@ pR
 pR
 pR
 pR
-hT
-hT
-hT
-hT
-hT
-hT
-hT
-hT
-hT
+nQ
+nQ
+nQ
+nQ
+nQ
+nQ
+nQ
+nQ
+nQ
 eX
 dq
 Rt
@@ -1913,13 +1928,13 @@ nQ
 nQ
 nQ
 nQ
-nG
+CS
 lc
 lc
 lc
-PE
-Wq
-pR
+lJ
+nQ
+nQ
 "}
 (2,1,1) = {"
 nQ
@@ -1936,12 +1951,12 @@ sf
 ev
 DV
 DV
-hT
-hT
-hT
-hT
-hT
-hT
+nQ
+nQ
+nQ
+nQ
+nQ
+nQ
 rO
 wX
 DV
@@ -1965,8 +1980,8 @@ pI
 pI
 pI
 gs
-Wq
-pR
+nQ
+nQ
 "}
 (3,1,1) = {"
 nQ
@@ -1984,8 +1999,8 @@ DV
 DV
 SA
 Nx
-hT
-hT
+nQ
+nQ
 Vj
 wV
 jh
@@ -2013,7 +2028,7 @@ Nt
 pI
 ca
 Wq
-SA
+nQ
 "}
 (4,1,1) = {"
 nQ
@@ -2342,7 +2357,7 @@ Wq
 pI
 pI
 Wq
-DV
+il
 "}
 (11,1,1) = {"
 dq
@@ -2389,7 +2404,7 @@ IX
 pI
 pI
 Wq
-pR
+il
 "}
 (12,1,1) = {"
 dq
@@ -2436,7 +2451,7 @@ nQ
 pI
 pI
 Wq
-DV
+il
 "}
 (13,1,1) = {"
 eX
@@ -2530,7 +2545,7 @@ nQ
 pI
 pI
 Wq
-pR
+il
 "}
 (15,1,1) = {"
 pR
@@ -2577,7 +2592,7 @@ Nx
 pI
 pI
 Wq
-DV
+il
 "}
 (16,1,1) = {"
 UH
@@ -2911,7 +2926,7 @@ sf
 (23,1,1) = {"
 Hg
 pK
-Wq
+pK
 Wq
 Wq
 Wq
@@ -2989,7 +3004,7 @@ DV
 sa
 ev
 vC
-DV
+Ox
 HI
 DV
 Wq
@@ -3081,7 +3096,7 @@ XU
 bI
 xZ
 vi
-ev
+kG
 vC
 DV
 HI
@@ -3937,7 +3952,7 @@ tE
 dS
 gp
 Rt
-il
+nQ
 pI
 pI
 VN
@@ -3948,11 +3963,11 @@ pR
 sf
 RR
 RR
-Wq
-DV
-vE
-lJ
-lJ
+nQ
+nQ
+nQ
+nQ
+nQ
 nQ
 nQ
 nQ
@@ -3984,8 +3999,8 @@ dx
 dx
 dx
 te
-il
-il
+nQ
+nQ
 pI
 pI
 "}

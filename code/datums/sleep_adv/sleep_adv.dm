@@ -74,6 +74,8 @@
 	var/show_xp = TRUE
 	if(!(L.client?.prefs.floating_text_toggles & XP_TEXT))
 		show_xp = FALSE
+	if(HAS_TRAIT(mind.current, TRAIT_NO_XP))
+		return
 	if((L.get_skill_level(skill) < SKILL_LEVEL_APPRENTICE) && !is_considered_sleeping())
 		var/org_lvl = L.get_skill_level(skill)
 		L.adjust_experience(skill, amt)
@@ -272,6 +274,8 @@
 	record_round_statistic(STATS_SKILLS_DREAMED)
 
 /datum/sleep_adv/proc/grant_inspiration_xp(skill_amt)
+	if(HAS_TRAIT(mind.current, TRAIT_NO_XP))
+		return
 	var/list/viable_skills = list()
 	var/list/inspired_skill_names = list()
 	for(var/skill_type in SSskills.all_skills)

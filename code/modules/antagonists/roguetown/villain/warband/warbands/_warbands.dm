@@ -82,7 +82,6 @@
 /datum/warbands/standard
 	title = "FEUD"
 	name = "Rival Lord"
-	treaty_name = null
 	summary = "No feud can go unresolved. Between men of lower standing, settlements are simple - an apology here, or an exchange of cattle and mammon there. \
 	But Great Men cannot settle. Honor demands apologies to be signed in blood and thousands of cattle to fall before spear-point."
 	warning = "...a foreign Banner on the march towards the capital."

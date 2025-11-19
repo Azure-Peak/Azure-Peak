@@ -174,8 +174,6 @@
 			if("WHIP")
 				r_hand = /obj/item/rogueweapon/whip/psywhip_lesser
 		return TRUE
-	var/datum/devotion/C = new /datum/devotion(H, H.patron)
-	C.grant_miracles(H, cleric_tier = CLERIC_T3, passive_gain = CLERIC_REGEN_MAJOR, start_maxed = TRUE)
 	H.mind?.AddSpell(new /obj/effect/proc_holder/spell/invoked/sweep)
 
 ///////////////////////////////////////////////
@@ -185,6 +183,7 @@
 	T3 Bard
 	dodge expert w/low speed
 	reliant on Sentinel of Wits + high INT
+	additionally, the only class aside from the Cultist that's a Cleric without getting it via the prophet's enlightenment verb
 */
 /datum/advclass/warband/sect/lieutenant/versekeeper
 	title = "VERSEKEEPER"
@@ -433,6 +432,4 @@
 		armor = /obj/item/clothing/suit/roguetown/armor/plate/fluted/ornate
 		id = /obj/item/clothing/neck/roguetown/psicross
 		cloak = /obj/item/clothing/cloak/psydontabard
-	var/datum/devotion/C = new /datum/devotion(H, H.patron)
-	C.grant_miracles(H, cleric_tier = CLERIC_T3, passive_gain = CLERIC_REGEN_MAJOR, start_maxed = TRUE)
 	H.mind?.AddSpell(new /obj/effect/proc_holder/spell/invoked/sweep)

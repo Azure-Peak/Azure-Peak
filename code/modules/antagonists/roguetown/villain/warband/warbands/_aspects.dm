@@ -174,7 +174,7 @@
 /datum/warbands/subtypes/grudgebearer
 	title = "DWARVEN GRUDGEBEARERS"
 	desc = "REQUIRED SPECIES: DWARF"
-	racelock = list(/datum/species/dwarf, /datum/species/dwarf/mountain)
+	racelock = list(/datum/species/dwarf/mountain)
 	gruntclasses = list(/datum/advclass/mercenary/grudgebearer/soldier, /datum/advclass/mercenary/grudgebearer)
 	combatmusic = list('sound/music/combat_dwarf.ogg')
 
@@ -246,6 +246,8 @@
 	combatmusic = list('sound/music/combat_holy.ogg')
 
 /datum/warbands/subtypes/ascendant
+	rarity = 2	// an ascendant sect treads on narrative ground covered by a ton of other antagonists, so we'll make them uncommon
+	storytellerlimit = /datum/storyteller/graggar // by well-tread narrative ground i'm referring to a massacre
 	title = "ASCENDANT"
 	treaty_name = "The Holy Ecclesial"
 	quote = "''Shine thy fury upon me, oh Dark Star! I sing thy slaughter's psalm, and thy word is sweet!''"

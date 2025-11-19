@@ -2846,7 +2846,6 @@
 #include "modular_azurepeak\code\modules\mob\living\simple_animal\rogue\creacher\undead_wolf.dm"
 #include "modular_azurepeak\code\modules\reagents\reagent_containers\rotcure.dm"
 #include "modular_azurepeak\code\modules\reagents\reagent_containers\spider_venom.dm"
-#include "modular_azurepeak\code\modules\spells\grunt_order.dm"
 #include "modular_azurepeak\code\modules\spells\minion_order.dm"
 #include "modular_azurepeak\code\modules\spells\orison.dm"
 #include "modular_azurepeak\code\modules\spells\warscholar.dm"

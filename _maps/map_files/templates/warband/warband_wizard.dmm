@@ -3153,9 +3153,6 @@
 /turf/open/lava/mana,
 /area/rogue/indoors/warcamp/wizard)
 "Qk" = (
-/obj/structure/fluff/statue{
-	pixel_y = 23
-	},
 /obj/effect/decal/cobbleedge{
 	dir = 10;
 	icon_state = "cobbleedge-e"
@@ -3394,15 +3391,6 @@
 	},
 /turf/open/floor/rogue/tile/harem1,
 /area/rogue/indoors/warcamp/wizard)
-"SR" = (
-/obj/structure/fluff/statue{
-	pixel_y = 23
-	},
-/obj/effect/decal/cobbleedge{
-	icon_state = "cobbleedge-n"
-	},
-/turf/open/floor/rogue/ruinedwood/spiral,
-/area/rogue/indoors/warcamp/wizard)
 "SX" = (
 /obj/effect/decal/cobbleedge{
 	dir = 9
@@ -3585,13 +3573,6 @@
 	},
 /turf/open/floor/rogue/ruinedwood/spiral,
 /area/rogue/indoors/warcamp/wizard)
-"UN" = (
-/obj/structure/fluff/statue{
-	pixel_y = 23
-	},
-/obj/structure/fluff/railing/corner/north_east,
-/turf/open/floor/rogue/ruinedwood/spiral,
-/area/rogue/indoors/warcamp/wizard)
 "UP" = (
 /obj/structure/fluff/railing/border/east,
 /obj/structure/fluff/traveltile/warband/camp_to_outskirts,
@@ -3682,13 +3663,10 @@
 /turf/open/floor/rogue/ruinedwood/spiral,
 /area/rogue/indoors/warcamp/wizard)
 "Vs" = (
-/obj/effect/decal/cobbleedge{
-	icon_state = "cobbleedge-n"
-	},
 /obj/structure/fluff/statue{
-	pixel_y = 23
+	pixel_y = -9
 	},
-/turf/open/floor/rogue/ruinedwood/spiral,
+/turf/closed/wall/mineral/rogue/stonebrick,
 /area/rogue/indoors/warcamp/wizard)
 "VC" = (
 /obj/effect/decal/cleanable/roguerune/arcyne/enchantment/greater,
@@ -4846,8 +4824,8 @@ KJ
 JJ
 JJ
 JJ
-JJ
 Vs
+Am
 oI
 ux
 JJ
@@ -4987,7 +4965,7 @@ sD
 JJ
 JJ
 JJ
-JJ
+Vs
 Qk
 Ll
 ux
@@ -5363,8 +5341,8 @@ ci
 JJ
 JJ
 JJ
-JJ
-SR
+Vs
+Am
 GB
 Ll
 JJ
@@ -5551,8 +5529,8 @@ JJ
 JJ
 ts
 ts
-JJ
-UN
+Vs
+Ok
 oI
 Yv
 JJ

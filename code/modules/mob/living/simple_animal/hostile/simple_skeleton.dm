@@ -137,6 +137,8 @@
 		var/datum/antagonist/lich/lich_antag = user.mind.has_antag_datum(/datum/antagonist/lich)
 		if(lich_antag && user.real_name)
 			faction = list("undead", "[user.mind.current.real_name]_faction", "[user.real_name]_faction") //no changes. Undead faction + lich_name faction
+		if(user.mind.warband_ID != 0)
+			faction |= list("warband_[user.mind.warband_ID]")
 	damage_check = world.time
 	if(is_summoned) //check, if it NOT summoned skeleton, he lifetime - infinity. For mapping-spawned skeltons
 		addtimer(CALLBACK(src, PROC_REF(deathtime)), 1 MINUTES)

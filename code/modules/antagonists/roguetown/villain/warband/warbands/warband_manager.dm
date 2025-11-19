@@ -72,6 +72,7 @@
 	20 - ASPECT TWEAKS
 	21 - EXILE					// kicks a character from the warband
 	22 - CLEANUP				// combs through the member & ally list for null entries
+	23 - DETERMINE SQUAD SIZE	// decide the size of a character's NPC squad
 
 */
 
@@ -782,9 +783,10 @@
 				user.STASPD = 10
 			if(user.STACON < 10)
 				user.STACON = 10
-
 	user.faction |= list("[user.real_name]_faction")
 	ADD_TRAIT(user, TRAIT_BREADY, TRAIT_GENERIC)
+	ADD_TRAIT(user, TRAIT_NO_XP, TRAIT_GENERIC) // we want them doing Literally Anything Else besides farming for skills
+	determine_squad_size(user)
 
 // 11
 ///////////////////////////////////////////////////
@@ -1181,13 +1183,21 @@
 	if(user)
 		personal_faction_tag = "[user.real_name]_faction"
 
-	if(exiled_creecher == user)
+	if(exiled_creecher == user) 		// against yourself
 		to_chat(user, span_warning("I shouldn't exile myself."))
 		return FALSE
 
-	if(exiled_creecher.stat == DEAD)
+	if(exiled_creecher.stat == DEAD) 	// against a corpse
 		to_chat(user, span_warning("They're dead. That's exile enough."))
 		return
+		
+	if(exiled_creecher.mind && exiled_creecher.mind.special_role == "Warlord's Envoy")
+		to_chat(user, span_warning("No point in killing the messenger."))
+		return
+
+	if(exiled_creecher in user.friends) // against one of your own NPCs
+		to_chat(user, span_warning("[exiled_creecher.name] is one of my finest soldiers! I could never consider such a thing..."))
+		return FALSE
 
 	// for warlords exiling a re-associated exiled lieutenant or grunt
 	if(user.mind && user.mind.special_role == "Warlord" && exiled_creecher.mind && (user.mind.warband_ID in exiled_creecher.mind.warband_exile_IDs))
@@ -1280,10 +1290,10 @@
 		return
 	return
 
-// 21
+// 22
 ///////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////// CLEAN MEMBERS
-/* 21
+/* 22
 	cleans nulls out of the members & ally list 
 	(someone getting gibbed leaves behind a null, but only sometimes??)
 	(i don't know what the fuck's going on anymore bro)
@@ -1296,3 +1306,20 @@
 	for(var/ally in src.allies)
 		if(ally == null)
 			src.allies -= ally
+
+// 23
+//////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////// DETERMINE SQUAD SIZE
+/* 23
+	determine the size of the character's NPC squad
+	2 by default
+	5 for warlords, aspirant lieutenants and defecting lieutenants
+
+*/
+/atom/movable/screen/warband/manager/proc/determine_squad_size(mob/user)
+	if(user.mind.special_role == "Warlord" || user.mind.special_role == "Aspirant Lieutenant")
+		user.mind.squad_size = 5
+	if(user.job == "Rival Lord")
+		user.mind.squad_size = 8
+	if(src.selected_warband && src.selected_warband.name == "Peasant Rebellion")
+		user.mind.squad_size = 8

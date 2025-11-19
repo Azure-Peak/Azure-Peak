@@ -36,7 +36,12 @@
 				if("HELP")
 					return
 				if("Prepare Treaty")
-					new /obj/item/treaty(src) //FIXNOTE: add a cooldown to spawns
+					if(!COOLDOWN_FINISHED(user.mind, treaty_cooldown))
+						var/time_left = COOLDOWN_TIMELEFT(user.mind, treaty_cooldown)
+						to_chat(user, span_warning("I've recently prepared a treaty. I should wait another [round(time_left / 10, 1)] seconds."))
+						return
+					new /obj/item/treaty(src.loc)
+					COOLDOWN_START(user.mind, treaty_cooldown, 10 SECONDS)
 					return
 				if("View Troops")
 					to_chat(user, span_warning("[src.linked_warband.spawns] soldiers remain at our disposal. Our finest are..."))
@@ -130,7 +135,7 @@
 
 
 	else if(!src.disabled)
-		user.visible_message(span_info("[user] prepares to clear out the [src]."))
+		user.visible_message(span_info("[user] prepares to clear out [src]."))
 		if(do_after(user, 90, target = src))
 			src.disabled = TRUE
 			src.alpha = 50
@@ -277,7 +282,7 @@
 ///////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////// EQUIP VETERAN
 /*
-	equips a veteran
+	spawns & equips a veteran
 */
 /obj/structure/fluff/warband/warband_recruit/proc/summon_veteran(mob/user)
 	var/given_warband_ID = user.mind.warband_ID
@@ -335,20 +340,25 @@
 */
 /obj/structure/fluff/warband/warband_recruit/attack_hand(mob/living/carbon/human/user)
 	. = ..()
+	if(src.disabled && user.mind.warband_ID == src.warband_ID)
+		if(do_after(user, 90, target = src))
+			src.disabled = FALSE
+			src.alpha = 255
+			to_chat(user, span_nicegreen("I've restored the rally point!"))
+			return
 	if(user.mind.special_role == "Warlord" || user.mind.special_role == "Lieutenant" || user.mind.special_role == "Aspirant Lieutenant" || user.mind.special_role == "Grunt" || user.mind.special_role == "Warlord's Envoy")
 		if(user.mind.warband_ID == src.warband_ID)
 			var/list/summon_options = list()
 			if(user.mind.special_role == "Warlord")
 				summon_options += "Summon LIEUTENANT"
-			if(user.mind.special_role == "Warlord" || user.mind.special_role == "Lieutenant" || user.mind.special_role == "Aspirant Lieutenant")
-				summon_options += "Summon ENVOY"
 			if(user.mind.special_role == "Lieutenant" || user.mind.special_role == "Aspirant Lieutenant")
 				summon_options += "Summon VETERAN SOLDIER"
 			if(user.mind.special_role == "Warlord" || user.mind.special_role == "Lieutenant" || user.mind.special_role == "Aspirant Lieutenant" || user.mind.special_role == "Grunt")
 				summon_options += "Summon GRUNT SQUAD (NPCs)"
 			if(user.mind.special_role == "Warlord's Envoy")
 				summon_options += "Stow Envoy"
-
+			if(user.mind.special_role == "Warlord" || user.mind.special_role == "Lieutenant" || user.mind.special_role == "Aspirant Lieutenant")
+				summon_options += "Summon ENVOY"
 			var/summon_choice = input(user, "Who should be summoned?", "Warband Recruitment") as null|anything in summon_options
 
 			switch(summon_choice)
@@ -375,31 +385,45 @@
 					else
 						to_chat(user, span_userdanger("No reinforcements remain."))					
 				if("Summon GRUNT SQUAD (NPCs)")
-					if(user.friends.len > 1)
+					var/squad_deployed
+					for(var/mob/friend in user.friends) // if there's a grunt in our friends list, we're considered to have a squad deployed
+						if(istype(friend, /mob/living/carbon/human/species/human/northern/grunt))
+							squad_deployed = TRUE
+							break
+					if(!COOLDOWN_FINISHED(user.mind, squad_spawn_cooldown))
+						var/time_left = COOLDOWN_TIMELEFT(user.mind, squad_spawn_cooldown)
+						to_chat(user, span_warning("I've recently summoned a squad. I should wait another [round(time_left / 10, 1)] seconds."))
+						return							
+					if(squad_deployed)
 						var/list/choices = list("ABANDON OLD SQUAD","CANCEL")
 						var/abandon_choice = input(user, "You've already deployed a squad. Abandon them?", "Warband Recruitment") as anything in choices
 						switch(abandon_choice)
 							if("ABANDON OLD SQUAD")
 								for(var/mob/living/carbon/human/species/human/northern/grunt/abandoned_grunt in user.friends)
-									if(abandoned_grunt.stat != CONSCIOUS)
+									if(!abandoned_grunt)
+										user.friends -= abandoned_grunt
+										continue
+									if(abandoned_grunt.stat != CONSCIOUS) 	// dead grunts instarot
 										abandoned_grunt.abandonevent(living = FALSE)
-									else
+									else									// living grunts die (and rot after a minute)
 										abandoned_grunt.abandonevent(living = TRUE)
 									user.friends -= abandoned_grunt
 							if("CANCEL")
 								return
 						return
 					else if(src.linked_warband.spawns > 0)
-						for(var/grunts_spawned = 1, grunts_spawned <= 4 && src.linked_warband.spawns > 0, grunts_spawned++)
+						for(var/grunts_spawned = 1, grunts_spawned <= user.mind.squad_size && src.linked_warband.spawns > 0, grunts_spawned++)
 							var/mob/living/carbon/human/species/human/northern/grunt/new_grunt = new /mob/living/carbon/human/species/human/northern/grunt(src.loc, user)
-							new_grunt.warband = src.linked_warband.selected_warband.name
+							new_grunt.warband = src.linked_warband.selected_warband
 							if(src.linked_warband.selected_subtype)
-								new_grunt.subtype = src.linked_warband.selected_subtype.name
+								new_grunt.subtype = src.linked_warband.selected_subtype
+							new_grunt.patron = user.patron
 							new_grunt.faction |= list("warband_[src.warband_ID]", "[user.real_name]_faction")
 							new_grunt.warband_ID = user.mind.warband_ID
 							user.friends += new_grunt
 							src.linked_warband.spawns--
 						to_chat(user, span_userdanger("There are [src.linked_warband.spawns] soldiers remaining."))
+						COOLDOWN_START(user.mind, squad_spawn_cooldown, 2 MINUTES)
 					else
 						to_chat(user, span_userdanger("No reinforcements remain."))
 				if("Stow Envoy")
@@ -422,8 +446,10 @@
 				src.linked_warband = user.mind.warband_manager
 				to_chat(user, span_userdanger("You have claimed this recruitment point for your Warband."))
 				return
-
-//// when a rally point is disabled, we also attempt to pull out any characters stored inside w/return_envoy
+	else if(src.disabled)
+		return
+	// if we're not a part of the warband, we disable the rally point
+	// when a rally point is disabled we also attempt to pull out any characters stored inside w/return_envoy
 	user.visible_message(span_info("[user] [src.destruction_doafter]"))
 	if(do_after(user, 90, target = src))
 		if(src.contents.len)

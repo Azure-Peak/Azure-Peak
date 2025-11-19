@@ -24,6 +24,7 @@
 #define TRAIT_DODGEEXPERT "Expert Dodger"
 #define TRAIT_LAWEXPERT "Eye for Detail"
 #define TRAIT_FORMATIONFIGHTER "Formation Fighter"
+#define TRAIT_NO_XP "Old Dog"
 #define TRAIT_MAGEARMOR "Magic Barrier"
 #define TRAIT_DECEIVING_MEEKNESS "Deceiving Meekness"
 #define TRAIT_CRITICAL_RESISTANCE "Critical Resistance"
@@ -284,6 +285,7 @@ GLOBAL_LIST_INIT(roguetraits, list(
 	TRAIT_MEDIUMARMOR = span_info("I can move freely in medium armor."),
 	TRAIT_HEAVYARMOR = span_info("I can move freely in heavy armor."),
 	TRAIT_DODGEEXPERT = span_info("I am much better at dodging incoming strikes, when dressed in either light armor or nothing at all. Heavier armor, such as maille or plate, is too burdensome for me to quickly maneuver in."),
+	TRAIT_NO_XP = span_warning("I cannot learn new skills."),
 	TRAIT_FORMATIONFIGHTER = span_info("I am in perfect harmony with my comrades, and I can stride through our formations with ease."),
 	TRAIT_LAWEXPERT = span_notice("Enlightened by yils of studies and terrible experiences, I can discern the truth behind pretentiously dense diplomatic texts."),
 	TRAIT_MAGEARMOR = span_info("My magics can protect me from a blow every so often."),

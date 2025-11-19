@@ -112,8 +112,21 @@
 
 		// one-way swap: players can switch with grunts, but not vice versa
 		if(istype(src, /mob/living/carbon/human) && istype(M, /mob/living/carbon/human/species/human/northern/grunt))
-			var/mob/living/carbon/human/species/human/northern/grunt/L = M 
+			var/mob/living/carbon/human/species/human/northern/grunt/L = M
+			// can't be done if they're focused or winding up an attack
+			if(src.fixedeye || src.tempfixeye)
+				to_chat(src, span_warning("I'm too focused to slip by!"))
+				return FALSE
 			if(src.mind.warband_ID == L.warband_ID)	// check if they're in the same warband
+
+				// can't be done if they've been feinted or baited
+				if(has_status_effect(/datum/status_effect/debuff/riposted))
+					to_chat(src, span_warning("I'm too disoriented to slip by!"))
+					return FALSE	
+				if(has_status_effect(/datum/status_effect/debuff/exposed))
+					to_chat(src, span_warning("I'm too disoriented to slip by!"))
+					return FALSE
+
 				if(!L.buckled && !buckled)
 					var/oldloc = loc
 					var/oldMloc = L.loc
@@ -142,6 +155,7 @@
 					L.now_pushing = now_pushing_M
 
 					if(!move_failed)
+						src.stamina_add(18)
 						return TRUE
 
 	var/they_can_move = TRUE

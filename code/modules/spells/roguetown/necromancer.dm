@@ -167,7 +167,9 @@
 	new /obj/effect/temp_visual/gib_animation(T, "gibbed-h")
 	var/mob/living/skeleton_new = new /mob/living/carbon/human/species/skeleton/npc/bogguard(T, user)
 	spawn(11) //Ashamed of this but I hate how after_creation() uses spawn too and I'm not making a timer for this. Proc needs a look-over. - Ryan
-		skeleton_new.faction |= list("cabal", "[user.mind.current.real_name]_faction", "warband_[user.mind.warband_ID]")
+		skeleton_new.faction |= list("cabal", "[user.mind.current.real_name]_faction")
+		if(user.mind.warband_ID != 0)
+			skeleton_new.faction |= list("warband_[user.mind.warband_ID]")
 	return TRUE
 
 

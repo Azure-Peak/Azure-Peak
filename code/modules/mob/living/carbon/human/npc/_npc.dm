@@ -24,6 +24,7 @@
 	var/next_idle = 0
 	var/next_seek = 0
 	var/next_passive_detect = 0
+	var/next_follow_attempt = 0
 	var/flee_in_pain = FALSE
 	/// When is the next time we'll attempt to stand up?
 	var/next_stand_attempt = 0
@@ -123,6 +124,18 @@
 	if(length(myPath))
 		steps_moved_this_turn += move_along_path()
 		// We could return here if we wanted to make moving use your turn.
+	// if they're a grunt follower with an obstructed path, they'll try getting closer to the obstruction
+	// helps them flow through doorways
+	else if(mode == NPC_AI_FOLLOW && target)
+		var/turf/follower_turf = get_turf(src)
+		var/turf/target_turf = get_turf(target)
+		if(follower_turf && target_turf)
+			var/distance = follower_turf.Distance_cardinal_3d(target_turf, src)
+			if(distance > 3 && distance <= 10)
+				var/turf/next_step = get_step_towards(src, target)
+				if(next_step && next_step.can_traverse_safely(src)) // we don't want to drift into lava
+					if(step_towards(src, target, cached_multiplicative_slowdown))
+						steps_moved_this_turn++
 	if(mode == NPC_AI_FOLLOW)
 		npc_follow()
 
@@ -168,8 +181,6 @@
 		next_stand_attempt = world.time + rand(1 SECONDS, 3 SECONDS)
 
 /mob/living/carbon/human/proc/npc_follow()
-	// we'll want to get the distance between them and the target
-	// if they're further than 2 tiles away, get them closer
 	if(!target)
 		mode = NPC_AI_IDLE
 		return TRUE
@@ -177,12 +188,39 @@
 	validate_path()
 	var/turf/my_turf = get_turf(src)
 	var/turf/target_turf = get_turf(target)
-	// only path if we're more than one tile away
-	if(my_turf.Distance_cardinal_3d(target_turf, src) > 2)
-		if(!length(myPath)) // create a new path to the target
-			start_pathing_to(target)
+	var/distance = my_turf.Distance_cardinal_3d(target_turf, src)
+	if(distance > 40) 	// if the boss is WAY too far away, give up
+		back_to_idle() 	// persistent following across short ranges is fine, but at longer ranges it lags crazy style
+		return TRUE
 
+	if(distance <= 3)	// only path if we're more than 3 tiles away
+		if(length(myPath))
+			clear_path()
+		return TRUE // if we reached the target early, we stop
 
+	if(!length(myPath)) // create a new path to the target
+		if(world.time < next_follow_attempt)
+			return TRUE
+		// we want them to stop pathfinding when obstructed, but still hold the intent to follow their target
+		// follow cooldown cumulatively increases with frustration
+		// so temporary obstructions should be resolved and permanent obstructions should freeze them
+		var/follow_cooldown = 2 SECONDS + (pathing_frustration * 1.3 SECONDS)
+		next_follow_attempt = world.time + follow_cooldown
+		if(!start_pathing_to(target))
+			var/list/line_of_turfs = get_line(my_turf, target_turf)
+
+			// move via relays to take them beyond their usual range
+			var/relay_distance = 30
+			var/turf/relay_target = null
+			if(line_of_turfs.len >= relay_distance)
+				relay_target = line_of_turfs[relay_distance]
+			else if(line_of_turfs.len > 1)
+				relay_target = line_of_turfs[line_of_turfs.len]
+			if(relay_target)
+				if(!start_pathing_to(relay_target))
+					pathing_frustration++
+					NPC_THINK("Failed to find relay path. Frustration is [pathing_frustration]. Retrying in [follow_cooldown / 10].")
+				start_pathing_to(relay_target)
 	return TRUE
 
 /mob/living/carbon/human/proc/npc_idle()
@@ -1008,6 +1046,9 @@
 /mob/living/carbon/human/proc/consider_wakeup()
 	if(mode == NPC_AI_OFF)
 		return
+
+	if(mode == NPC_AI_FOLLOW)
+		return TRUE
 
 	for(var/datum/spatial_grid_cell/grid as anything in our_cells.member_cells)
 		if(length(grid.client_contents))

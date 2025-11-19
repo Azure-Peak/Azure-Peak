@@ -388,10 +388,27 @@
 
 
 /datum/outfit/job/roguetown/warband/sect/grunt/cultist/pre_equip(mob/living/carbon/human/H)
-	..() // FIXNOTE: give an outfit
+	..()
 
 	shirt = /obj/item/clothing/suit/roguetown/shirt/undershirt/priest
-	
+	r_hand = /obj/item/rogueweapon/huntingknife/idagger/steel/corroded
+	head = /obj/item/clothing/mask/rogue/sack
+	belt = /obj/item/storage/belt/rogue/leather
+	pants = /obj/item/clothing/under/roguetown/chainlegs/iron
+	wrists = /obj/item/clothing/wrists/roguetown/bracers/copper/cultist
+	gloves = /obj/item/clothing/gloves/roguetown/angle
+	neck = /obj/item/clothing/neck/roguetown/coif/heavypadding
+	armor = /obj/item/clothing/suit/roguetown/armor/leather/heavy/coat
+	shoes = /obj/item/clothing/shoes/roguetown/boots/leather/reinforced
+	backl = /obj/item/storage/backpack/rogue/satchel/black
+	backpack_contents = list(
+		/obj/item/rogueweapon/huntingknife/idagger/steel/special,
+		/obj/item/flashlight/flare/torch/lantern/prelit,
+		/obj/item/reagent_containers/glass/bottle/rogue/strongpoison,
+		/obj/item/reagent_containers/glass/bottle/rogue/healthpotnew,
+		/obj/item/reagent_containers/food/snacks/rogue/meat/coppiette,
+		/obj/item/reagent_containers/glass/bottle/waterskin
+		)
 	if(H.patron.type == /datum/patron/divine/undivided)
 		neck = /obj/item/clothing/neck/roguetown/psicross/undivided
 	if(H.patron.type == /datum/patron/divine/astrata)
@@ -427,12 +444,9 @@
 	if(H.patron.type == /datum/patron/inhumen/baotha)
 		neck = /obj/item/clothing/neck/roguetown/psicross
 	if(H.patron.type == /datum/patron/old_god)
+		mask = /obj/item/clothing/mask/rogue/sack/psy
 		neck = /obj/item/clothing/neck/roguetown/psicross
+		shirt = /obj/item/clothing/suit/roguetown/shirt/robe/monk/holy
 	var/datum/devotion/C = new /datum/devotion(H, H.patron)
 	C.grant_miracles(H, cleric_tier = CLERIC_T4, passive_gain = CLERIC_REGEN_MAJOR, start_maxed = TRUE)
 	return
-
-
-
-
-

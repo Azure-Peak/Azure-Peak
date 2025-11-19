@@ -120,6 +120,8 @@
 		to_chat(AM, "<b>It is a dead end.</b>")
 
 /obj/structure/fluff/traveltile/proc/try_living_travel(obj/structure/fluff/traveltile/T, mob/living/L)
+	if(istype(L, /mob/living/carbon/human/species/human/northern/grunt))
+		return FALSE
 	if(!can_go(L))
 		return FALSE
 	if(L.pulledby)

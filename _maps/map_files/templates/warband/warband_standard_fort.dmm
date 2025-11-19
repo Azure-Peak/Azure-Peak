@@ -756,9 +756,6 @@
 "mc" = (
 /turf/open/floor/rogue/metal/barograte,
 /area/rogue/indoors/warcamp/fort)
-"mf" = (
-/turf/closed/wall/mineral/rogue/stonebrick,
-/area/rogue/indoors/warcamp/fort)
 "mh" = (
 /obj/structure/fluff/statue/knight,
 /turf/open/floor/rogue/metal,
@@ -2057,12 +2054,6 @@
 "KJ" = (
 /turf/closed/wall/mineral/rogue/stone,
 /area/rogue/indoors/warcamp/fort)
-"Lp" = (
-/obj/effect/decal/cobbleedge{
-	icon_state = "cobbleedge-sread"
-	},
-/turf/open/floor/rogue/cobblerock,
-/area/rogue/indoors/warcamp/fort)
 "Lq" = (
 /obj/effect/decal/herringbone{
 	dir = 1
@@ -2118,32 +2109,12 @@
 "ME" = (
 /turf/open/floor/rogue/blocks/stonered/tiny,
 /area/rogue/indoors/warcamp/fort)
-"MP" = (
-/obj/machinery/light/rogue/wallfire/candle{
-	pixel_y = -32
-	},
-/obj/effect/decal/cobbleedge{
-	icon_state = "cobbleedge-sread"
-	},
-/turf/open/floor/rogue/cobblerock{
-	name = "cobbled rock"
-	},
-/area/rogue/indoors/warcamp/fort)
 "MU" = (
 /obj/effect/decal/cobbleedge{
 	dir = 6
 	},
 /turf/open/floor/rogue/dirt/road,
 /area/rogue/outdoors/warcamp)
-"MX" = (
-/obj/effect/decal/cobbleedge{
-	dir = 10;
-	icon_state = "cobbleedge-n"
-	},
-/turf/open/floor/rogue/cobblerock{
-	name = "cobbled rock"
-	},
-/area/rogue/indoors/warcamp/fort)
 "Nt" = (
 /obj/structure/bars,
 /turf/open/floor/rogue/herringbone,
@@ -3073,9 +3044,9 @@ gh
 jS
 Qc
 gW
-Kw
-Di
-Kw
+jQ
+jQ
+jQ
 PB
 jQ
 jQ
@@ -3121,7 +3092,7 @@ VC
 Qc
 iq
 Kw
-Kw
+jQ
 PB
 PB
 gh
@@ -3173,8 +3144,8 @@ PB
 PB
 qh
 PB
-PB
-hf
+jQ
+jQ
 hf
 Qc
 Qc
@@ -3220,7 +3191,7 @@ PB
 gh
 PB
 PB
-PB
+jQ
 hf
 VC
 Qc
@@ -3254,7 +3225,7 @@ rp
 Ea
 OP
 rp
-dy
+rp
 Dz
 Wt
 hf
@@ -3395,7 +3366,7 @@ uL
 aY
 qW
 uL
-MP
+aY
 gC
 Wt
 hf
@@ -3536,7 +3507,7 @@ uL
 rp
 rp
 rp
-Lp
+Ea
 Dz
 Wt
 hf
@@ -3767,9 +3738,9 @@ hf
 cC
 xw
 Dz
-MX
 rp
-dy
+rp
+rp
 gC
 PB
 DN
@@ -4513,7 +4484,7 @@ tT
 tT
 tT
 vK
-mf
+Ep
 TD
 hf
 hf
@@ -4701,7 +4672,7 @@ nF
 nF
 nF
 TB
-mf
+Ep
 TD
 PB
 va

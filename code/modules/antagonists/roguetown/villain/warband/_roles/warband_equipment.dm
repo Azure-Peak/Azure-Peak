@@ -200,3 +200,34 @@
 
 /obj/item/storage/belt/rogue/leather/battleskirt/ringleader
 	color = "#704542"
+
+/obj/item/clothing/wrists/roguetown/bracers/copper/cultist
+	color = "#8a8a8a"
+	
+/////////////// expressly for NPCs
+
+/obj/item/clothing/head/roguetown/helmet/kettle/jingasa/npc
+	detail_color = CLOTHING_RED
+
+/obj/item/clothing/suit/roguetown/armor/brigandine/haraate/npc
+	detail_color = CLOTHING_RED
+
+/obj/item/clothing/gloves/roguetown/plate/kote/npc
+	detail_color = CLOTHING_RED
+
+/obj/item/clothing/under/roguetown/heavy_leather_pants/kazengun/npc
+	color = CLOTHING_RED
+
+/obj/item/clothing/shoes/roguetown/boots/leather/reinforced/kazengun/npc
+	detail_color = CLOTHING_RED
+
+/obj/item/clothing/head/roguetown/roguehood/shalal/hijab/npc
+	color = CLOTHING_BLACK
+
+/obj/item/clothing/under/roguetown/trou/leather/pontifex/npc
+	color = CLOTHING_BLACK
+
+/obj/item/clothing/wrists/roguetown/allwrappings/npc
+	color = CLOTHING_BLACK
+
+

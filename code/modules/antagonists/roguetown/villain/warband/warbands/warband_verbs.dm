@@ -180,7 +180,7 @@
 	if(src.mind.special_role == "Aspirant Lieutenant")
 		stolen_troop_percentage = 30
 	else
-		stolen_troop_percentage = 5
+		stolen_troop_percentage = 3
 
 	// each point of disorder increases the number of stolen troops by 15%
 	stolen_troop_percentage += (disorder * 15)
@@ -257,6 +257,7 @@
 	src.mind.warband_ID = SSwarbands.warband_managers.len + 1
 	new_warband_manager.warband_ID = src.mind.warband_ID
 	src.mind.warband_exile_IDs += initial_ID
+	src.mind.warband_manager.disorder ++
 
 	src.faction.Remove(old_faction_string)
 	src.faction |= list("warband_[src.mind.warband_ID]")
@@ -331,7 +332,7 @@
 	teleports someone to their camp's Shortcut Tile
 	FAILS IF:
 		they aren't near an existing travel tile. any will do
-		the shortcut tile is disabled/captured FIXNOTE
+		the shortcut tile is disabled/captured
 		the camp hasn't been connected to the main z-level via an Envoy using a "SCOUT A PATH" verb
 */ 
 /mob/living/carbon/human/proc/shortcut()
@@ -363,7 +364,6 @@
 			if(warband_shortcut.warband_ID == src.mind.warband_ID)
 				if(warband_shortcut.disabled)
 					to_chat(src, span_userdanger("Something's wrong. I've been cut off, and I'll need to return through the frontline."))
-					return
 				else
 					src.visible_message(span_bold("[src] slips somewhere beyond sight!"))
 					src.loc = warband_shortcut.loc

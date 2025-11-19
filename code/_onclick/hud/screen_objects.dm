@@ -629,7 +629,11 @@
 		if(modifiers["right"])
 			L.submit()
 		else if(modifiers["middle"])
-			L.toggle_compliance()
+			if(L.ranged_ability && istype(L.ranged_ability, /obj/effect/proc_holder/spell/invoked/grunt_order))
+				L.ranged_ability.InterceptClickOn(L, params, src)
+				return 
+			else
+				L.toggle_compliance()
 		else
 			L.toggle_cmode()
 			update_icon()
@@ -661,6 +665,12 @@
 
 /atom/movable/screen/rogmove/Click(location, control, params)
 	var/mob/M = usr
+	var/list/modifiers = params2list(params)
+	if(isliving(M))
+		if(modifiers["middle"])
+			if(M.ranged_ability && istype(M.ranged_ability, /obj/effect/proc_holder/spell/invoked/grunt_order))
+				M.ranged_ability.InterceptClickOn(M, params, src)
+				return
 	toggle(M)
 
 /atom/movable/screen/rogmove/proc/toggle(mob/user)
@@ -1694,6 +1704,10 @@
 				to_chat(M, "<span class='info'>* --- *</span>")
 				to_chat(M, "<span class='info'>[name]: [desc]</span>")
 				to_chat(M, "<span class='info'>* --- *</span>")
+		if(modifiers["middle"])
+			if(M.ranged_ability && istype(M.ranged_ability, /obj/effect/proc_holder/spell/invoked/grunt_order))
+				M.ranged_ability.InterceptClickOn(M, params, src)
+				return
 
 /atom/movable/screen/rmbintent/proc/collapse_intents()
 	if(!showing)

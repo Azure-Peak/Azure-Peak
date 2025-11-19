@@ -203,7 +203,7 @@
 						water_overlay.plane = GAME_PLANE_HIGHEST
 		if(istype(L, /mob/living/carbon/human/species/human/northern/grunt))
 			var/mob/living/carbon/human/species/human/northern/grunt/grunt_npc = AM
-			if(istype(src, /turf/open/water/ocean))
+			if(istype(src, /turf/open/water/ocean) || istype(src, /turf/open/water/sewer))
 				grunt_npc.drownevent()
 				return	
 			return
@@ -605,3 +605,14 @@
 	swim_skill = TRUE
 	wash_in = TRUE
 	water_reagent = /datum/reagent/water/gross
+
+// grunts will drown in ocean & sewer tiles, so they should avoid them
+/turf/open/water/ocean/can_traverse_safely(atom/movable/traveler)
+	if(istype(traveler, /mob/living/carbon/human/species/human/northern/grunt))
+		return FALSE
+	return TRUE
+
+/turf/open/water/sewer/can_traverse_safely(atom/movable/traveler)
+	if(istype(traveler, /mob/living/carbon/human/species/human/northern/grunt))
+		return FALSE
+	return TRUE
