@@ -5,6 +5,7 @@ They're meant to be kept on the weapon and used via Strong stance's rclick.
 At the moment the pattern is manually designated using coordinates in tile_coordinates.
 This allows the devs to draw whatever shape they want at the cost of it feeling a little quirky.
 */
+#define SPECIAL_AOE_AROUND_ORIGIN list(list(0,0), list(1,0), list(1,-1),list(1,-2),list(0,-2),list(-1,-2),list(-1,-1),list(-1,0))
 #define CUSTOM_TIMER_INDEX 3
 
 /datum/special_intent
@@ -455,4 +456,3 @@ tile_coordinates = list(list(1,1), list(-1,1), list(-1,-1), list(1,-1),list(0,0)
 //tile_coordinates = list(list(0,0), list(1,0, 1.1 SECONDS), list(2,0, 1.2 SECONDS), list(3,0,1.3 SECONDS), list(4,0,1.4 SECONDS), list(5,0,1.5 SECONDS))
 
 //8 tiles around origin, excluding origin itself. No timers, so it all goes off at once.
-#define SPECIAL_AOE_AROUND_ORIGIN list(list(0,0), list(1,0), list(1,-1),list(1,-2),list(0,-2),list(-1,-2),list(-1,-1),list(-1,0))
