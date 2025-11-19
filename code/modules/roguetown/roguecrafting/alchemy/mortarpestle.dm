@@ -16,7 +16,7 @@
 	icon = 'icons/roguetown/misc/alchemy.dmi'
 	icon_state = "mortar"
 	dropshrink = 0.75
-	amount_per_transfer_from_this = 9
+	amount_per_transfer_from_this = 10
 	volume = 100
 	experimental_inhand = FALSE
 	reagent_flags = OPENCONTAINER|REFILLABLE|DRAINABLE

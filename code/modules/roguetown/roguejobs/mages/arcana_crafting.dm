@@ -28,7 +28,7 @@
 
 /datum/crafting_recipe/roguetown/arcana/obsidian
 	name = "Obsidian Shard"
-	result = /obj/item/magic/manacrystal
+	result = /obj/item/magic/obsidian
 	reqs = list(/obj/item/natural/stone = 2, 
 				/obj/item/alch/coaldust = 1)
 	craftdiff = 2
@@ -285,8 +285,9 @@
 
 //conversion material for some hard to find materials that don't have a use
 /datum/crafting_recipe/roguetown/arcana/arcynefission1 //gives some T1 and T2 arcane material
-	name = "arcyne fission"
-	result = list(/obj/item/magic/manacrystal, /obj/item/magic/manacrystal,
+	name = "arcyne fission (nature essense)"
+	result = list(/obj/item/magic/manacrystal, 
+				  /obj/item/magic/manacrystal,
 				  /obj/item/magic/manacrystal,
 				  /obj/item/magic/infernal/ash,
 				  /obj/item/magic/infernal/fang,
@@ -302,7 +303,7 @@
 	craftdiff = 3
 
 /datum/crafting_recipe/roguetown/arcana/arcynefission2 //gives T1, T2, and T3 arcane material, sorry Tudon
-	name = "arcyne fission"
+	name = "arcyne fission (lich phylactery)"
 	result = list(/obj/item/magic/manacrystal,
 				  /obj/item/magic/manacrystal,
 				  /obj/item/magic/manacrystal,

@@ -75,7 +75,7 @@ GLOBAL_LIST_INIT(dwarfskeleton_aggro, world.file2list("strings/rt/dskeletonaggro
 	if(prob(50))
 		cloak = /obj/item/clothing/cloak/raincloak/mortus
 	wrists = /obj/item/clothing/wrists/roguetown/bracers/copper
-	armor = /obj/item/clothing/suit/roguetown/armor/plate/half/copper
+	armor = /obj/item/clothing/suit/roguetown/armor/plate/cuirass/copper
 	shirt = /obj/item/clothing/suit/roguetown/armor/gambeson/heavy
 	if(prob(60))
 		shirt = /obj/item/clothing/suit/roguetown/armor/gambeson

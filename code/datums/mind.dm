@@ -94,8 +94,6 @@ GLOBAL_LIST_EMPTY(personal_objective_minds)
 
 	var/list/notes = list() //RTD add notes button
 
-	var/active_quest = 0 //if you dont take any quest its 0. Max 2 quests for one player
-
 	var/lastrecipe
 
 	var/datum/sleep_adv/sleep_adv = null
@@ -105,7 +103,7 @@ GLOBAL_LIST_EMPTY(personal_objective_minds)
 	var/heretic_nickname 	// Nickname used for heretic commune
 
 	var/picking = FALSE		// Variable that lets the event picker see if someones getting chosen or not
-	
+
 	var/job_bitflag = NONE	// the bitflag our job applied
 
 	var/list/personal_objectives = list() // List of personal objectives not tied to the antag roles
@@ -208,7 +206,7 @@ GLOBAL_LIST_EMPTY(personal_objective_minds)
 					var/heretic_text = C.get_heretic_symbol(H)
 					if (heretic_text)
 						M.known_people[H.real_name]["FHERESY"] = heretic_text
-				
+
 
 /datum/mind/proc/do_i_know(datum/mind/person, name)
 	if(!person && !name)

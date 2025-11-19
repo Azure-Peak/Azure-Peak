@@ -9,7 +9,7 @@
 	/// how long to fade away, if null, will disappear instantly.
 	var/fade_time
 
-/obj/effect/temp_visual/Initialize()
+/obj/effect/temp_visual/Initialize(mapload)
 	. = ..()
 	if(randomdir)
 		setDir(pick(GLOB.cardinals))
@@ -33,3 +33,22 @@
 	if(set_dir)
 		setDir(set_dir)
 	. = ..()
+
+/obj/effect/temp_visual/swingdelay
+	randomdir = FALSE
+	icon = 'icons/effects/effects.dmi'
+	icon_state = "blip"
+
+/obj/effect/temp_visual/swingdelay/Initialize(mapload, set_dur)
+	if(set_dur)
+		duration = set_dur
+	. = ..()
+
+/obj/effect/temp_visual/special_intent/Initialize(mapload, customdur)
+	if(customdur)
+		duration = customdur
+	. = ..()
+
+/obj/effect/temp_visual/special_intent
+	layer = HUD_LAYER
+	plane = ABOVE_LIGHTING_PLANE

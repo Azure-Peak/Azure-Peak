@@ -79,7 +79,7 @@
 		if(1)
 			armor = /obj/item/clothing/suit/roguetown/armor/brigandine/light
 		if(2)
-			armor = /obj/item/clothing/suit/roguetown/armor/plate/half/iron
+			armor = /obj/item/clothing/suit/roguetown/armor/plate/cuirass/iron
 		if(3)
 			armor = /obj/item/clothing/suit/roguetown/armor/plate/scale
 

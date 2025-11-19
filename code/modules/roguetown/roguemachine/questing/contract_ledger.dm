@@ -28,13 +28,13 @@
 	. = ..()
 	if(href_list["consultcontracts"])
 		consult_contracts(usr)
-		return attack_hand(usr) 
+		return attack_hand(usr)
 	if(href_list["turnincontract"])
 		turn_in_contract(usr)
-		return attack_hand(usr) 
+		return attack_hand(usr)
 	if(href_list["abandoncontract"])
 		abandon_contract(usr)
-		return attack_hand(usr) 
+		return attack_hand(usr)
 	if(href_list["printcontracts"])
 		print_contracts(usr)
 		return attack_hand(usr)
@@ -48,7 +48,8 @@
 	contents += "<a href='?src=[REF(src)];consultcontracts=1'>Consult Contracts</a><br>"
 	contents += "<a href='?src=[REF(src)];turnincontract=1'>Turn in Contract</a><br>"
 	contents += "<a href='?src=[REF(src)];abandoncontract=1'>Abandon Contract</a><br>"
-	if(user.job == "Steward" || user.job == "Merchant")
+	var/datum/job/mob_job = user.job ? SSjob.GetJob(user.job) : null
+	if(mob_job?.is_quest_giver)
 		contents += "<a href='?src=[REF(src)];printcontracts=1'>Print Issued Contracts</a><br>"
 	contents += "</center>"
 	var/datum/browser/popup = new(user, "Grand Contract Ledger", "", 500, 300)
@@ -87,13 +88,21 @@
 	var/type_choices = GLOB.global_quest_types
 
 	var/type_selection = tgui_input_list(user, "Select contract type", "CONTRACTS", type_choices[actual_difficulty])
-	
+
 	if(!type_selection)
 		return
 
-	if(user.mind.active_quest >= QUEST_MAX_ACTIVE_QUESTS)
-		say("You have reached the maximum number of active quests. You can take up to [QUEST_MAX_ACTIVE_QUESTS] active quests at a time.")
-		return
+	var/datum/job/mob_job = user.job ? SSjob.GetJob(user.job) : null
+	if(!mob_job?.is_quest_giver)
+		var/quest_number = 0
+		for(var/obj/item/paper/scroll/quest/quest_scroll in GLOB.quest_scrolls)
+			var/datum/weakref/weakref_datum = WEAKREF(user)
+			if(quest_scroll.assigned_quest && !quest_scroll.assigned_quest.complete && quest_scroll.assigned_quest.quest_receiver_reference == weakref_datum)
+				quest_number++
+		var/max_quests_for_job = mob_job?.max_active_quests || 3
+		if(quest_number >= max_quests_for_job)
+			say("You have reached the maximum number of active quests. You can take up to [max_quests_for_job] active quests at a time.")
+			return
 
 	// Instantiate appropriate quest subtype
 	var/datum/quest/attached_quest
@@ -120,12 +129,12 @@
 	attached_quest.deposit_amount = attached_quest.calculate_deposit()
 
 	// Set giver or receiver
-	if(user.job != "Merchant" && user.job != "Steward")
-		attached_quest.quest_receiver_reference = WEAKREF(user)
-		attached_quest.quest_receiver_name = user.real_name
-	else
+	if(mob_job?.is_quest_giver)
 		attached_quest.quest_giver_name = user.real_name
 		attached_quest.quest_giver_reference = WEAKREF(user)
+	else
+		attached_quest.quest_receiver_reference = WEAKREF(user)
+		attached_quest.quest_receiver_name = user.real_name
 
 	// Find appropriate landmark
 	var/obj/effect/landmark/quest_spawner/chosen_landmark = find_quest_landmark(actual_difficulty, type_selection)
@@ -143,8 +152,6 @@
 	// Create scroll
 	var/obj/item/paper/scroll/quest/spawned_scroll = new(get_turf(src))
 	user.put_in_hands(spawned_scroll)
-	user.mind.active_quest += 1
-	to_chat(user, span_notice("You have taken [user.mind.active_quest] active quests."))
 	log_quest(user.ckey, user.mind, user, "Take [attached_quest.quest_type]")
 	spawned_scroll.base_icon_state = attached_quest.get_scroll_icon()
 	spawned_scroll.assigned_quest = attached_quest
@@ -209,16 +216,18 @@
 	return null
 
 /obj/structure/roguemachine/contractledger/proc/turn_in_contract(mob/user, obj/item/paper/scroll/quest/scroll_in_hand)
-	var/obj/item/paper/scroll/quest/target_scroll = null
-
 	if(scroll_in_hand)
-		target_scroll = scroll_in_hand
-		turn_in_scroll(user, target_scroll)
+		var/list/mob/quest_assignees = scroll_in_hand.get_quest_assignees(user, TRUE)
+		if(!(user in quest_assignees))
+			to_chat(user, span_warning("You are not the assigned quest receiver for this contract!"))
+			return
+		turn_in_scroll(user, scroll_in_hand)
 	else
-		for(var/atom/movable/pawnable_loot in input_point)
-			if(istype(pawnable_loot, /obj/item/paper/scroll/quest))
-				target_scroll = pawnable_loot
-				turn_in_scroll(user, target_scroll)
+		for(var/obj/item/paper/scroll/quest/floor_scroll in input_point)
+			var/list/mob/quest_assignees = floor_scroll.get_quest_assignees(user, TRUE)
+			if(!(user in quest_assignees))
+				continue
+			turn_in_scroll(user, floor_scroll)
 
 
 /obj/structure/roguemachine/contractledger/proc/turn_in_scroll(mob/user, obj/item/paper/scroll/quest/scroll)
@@ -233,22 +242,18 @@
 		// Calculate deposit return
 		var/deposit_return = scroll.assigned_quest.calculate_deposit()
 		total_deposit_return += deposit_return
-		
+
 		// Apply Steward/Mechant bonus if applicable (only to the base reward)
-		if(user.job == "Steward" || user.job == "Merchant")
+		var/datum/job/mob_job = user.job ? SSjob.GetJob(user.job) : null
+		if(mob_job?.is_quest_giver)
 			reward += base_reward * QUEST_HANDLER_REWARD_MULTIPLIER
 		else
 			reward += base_reward
-		
+
 		// Add deposit return to both reward totals
 		reward += deposit_return
 		original_reward += deposit_return
 
-		if(user.mind.active_quest >= 1)
-			user.mind.active_quest -= 1
-			to_chat(span_notice("You now have [user.mind.active_quest] active quests."))
-			log_quest(user.ckey, user.mind, user, "Finish [scroll.assigned_quest.quest_type]")
-		
 		qdel(scroll.assigned_quest)
 		qdel(scroll)
 
@@ -323,9 +328,6 @@
 					qdel(Q)
 					qdel(I)
 
-
-	user.mind.active_quest -= 1
-	to_chat(user, span_notice("You now have [user.mind.active_quest] active quests."))
 	log_quest(user.ckey, user.mind, user, "Abandon [abandoned_scroll.assigned_quest.quest_type]")
 	abandoned_scroll.assigned_quest = null
 	qdel(quest)
@@ -333,7 +335,7 @@
 
 /obj/structure/roguemachine/contractledger/proc/print_contracts(mob/user)
 	var/list/active_quests = list()
-	for(var/obj/item/paper/scroll/quest/quest_scroll in world)
+	for(var/obj/item/paper/scroll/quest/quest_scroll in GLOB.quest_scrolls)
 		if(quest_scroll.assigned_quest && !quest_scroll.assigned_quest.complete)
 			active_quests += quest_scroll
 
@@ -352,6 +354,7 @@
 		var/datum/quest/quest = quest_scroll.assigned_quest
 		var/area/quest_area = get_area(quest_scroll)
 		report_text += "<b>Title:</b> [quest.title].<br>"
+		report_text += "<b>Issuer:</b> [quest.quest_giver_name ? quest.quest_giver_name : "Mercenary's Guild"].<br>"
 		report_text += "<b>Recipient:</b> [quest.quest_receiver_name ? quest.quest_receiver_name : "Unclaimed"].<br>"
 		report_text += "<b>Type:</b> [quest.quest_type].<br>"
 		report_text += "<b>Difficulty:</b> [quest.quest_difficulty].<br>"

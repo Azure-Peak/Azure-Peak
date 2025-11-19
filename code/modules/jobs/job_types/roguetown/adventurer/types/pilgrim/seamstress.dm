@@ -5,7 +5,7 @@
 	allowed_races = RACES_ALL_KINDS
 	outfit = /datum/outfit/job/roguetown/adventurer/seamstress
 	traits_applied = list(TRAIT_SEWING_EXPERT)
-	
+
 	category_tags = list(CTAG_PILGRIM, CTAG_TOWNER)
 	subclass_stats = list(
 		STATKEY_SPD = 2,
@@ -41,8 +41,10 @@
 						/obj/item/natural/bundle/fibers/full = 1,
 						/obj/item/flashlight/flare/torch = 1,
 						/obj/item/needle/thorn = 1,
-						/obj/item/recipe_book/sewing = 1, 
+						/obj/item/recipe_book/sewing = 1,
 						/obj/item/recipe_book/leatherworking = 1
 						)
 	if(H.mind)
 		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/fittedclothing)
+	if(H.mind)
+		SStreasury.give_money_account(ECONOMIC_LOWER_MIDDLE_CLASS, H, "Savings.")

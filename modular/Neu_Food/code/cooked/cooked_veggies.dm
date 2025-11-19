@@ -269,3 +269,4 @@
 /obj/item/reagent_containers/food/snacks/roastseeds/pumpkin
 	name = "roasted pumpkin seeds"
 	tastes = list("toasted pumpkin seeds" = 1)
+	mill_result = /obj/item/reagent_containers/powder/pumpkin

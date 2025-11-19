@@ -192,7 +192,7 @@ LICH SKELETONS
 
 	head = /obj/item/clothing/head/roguetown/helmet/heavy/guard/paalloy
 	shirt = /obj/item/clothing/suit/roguetown/armor/chainmail/hauberk/paalloy
-	armor = /obj/item/clothing/suit/roguetown/armor/plate/half/paalloy
+	armor = /obj/item/clothing/suit/roguetown/armor/plate/cuirass/paalloy
 	neck = /obj/item/clothing/neck/roguetown/gorget/paalloy
 	shoes = /obj/item/clothing/shoes/roguetown/boots/aalloy
 

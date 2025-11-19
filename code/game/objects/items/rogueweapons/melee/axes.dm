@@ -303,9 +303,8 @@
 
 /obj/item/rogueweapon/stoneaxe/woodcut/bronze
 	name = "bronze axe"
-	icon_state = "saxe"
+	icon_state = "bronzeaxe"
 	desc = "An antiquital handstaff, fitted with a bronze axhead. Such a tool once allowed humenity to carve civilization out of Psydonia's wildernesses; now, it's a rare sight beyond the Deadland's nomadic barbarian-tribes."
-	color = "#f9d690" //Stopgap until unique sprites can be provided. Should be ~98% on point with the current bronze palette.
 	force = 23 //Basic balance idea. Damage's between iron and steel, but with a sharper edge than steel. Probably not historically accurate, but we're here to have fun.
 	force_wielded = 27
 	max_blade_int = 550

@@ -368,6 +368,12 @@
 	user.visible_message(vague_message, "", ignored_mobs = detailed_mobs)
 	return TRUE
 
+/// General proc for notifying people of a tool embedding inside deliberately.
+/datum/surgery_step/proc/notify_embed(mob/user, obj/item/tool, mob/living/carbon/target, target_zone)
+	display_results(user, target, span_notice("I leave \the [tool] inside [target]'s [parse_zone(target_zone)] for the next step."),
+	span_notice("\The [tool] is left in place inside [target]'s [parse_zone(target_zone)]."),
+	span_notice("\The [tool] is left in place inside [target]'s [parse_zone(target_zone)]."))
+
 /datum/surgery_step/proc/get_speed_modifier(mob/user, mob/living/target, target_zone, obj/item/tool, datum/intent/intent)
 	var/speed_mod = 1
 	if(tool)

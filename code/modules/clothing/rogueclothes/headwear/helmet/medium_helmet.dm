@@ -501,6 +501,13 @@
 	mob_overlay_icon = 'icons/roguetown/clothing/special/onmob/warden.dmi'
 	icon_state = "skullmet_bear"
 
+/obj/item/clothing/head/roguetown/helmet/sallet/warden/rat
+	name = "warden's rouskull helm"
+	desc = "The large, intimidating skull of the rare giant rous, plated with steel on its inner side and given padding - paired together with a steel maille mask and worn with a linen shroud. Such trophies are associated with life-long sewer dwellers and their descendants."
+	icon = 'icons/roguetown/clothing/special/warden.dmi'
+	mob_overlay_icon = 'icons/roguetown/clothing/special/onmob/warden.dmi'
+	icon_state = "skullmet_rat"
+
 /obj/item/clothing/head/roguetown/roguehood/warden
 	name = "warden's hood"
 	desc = "A hunter's leather hood with two linen layers, sewn larger than usual to accommodate a helmet - or an animal's skull."

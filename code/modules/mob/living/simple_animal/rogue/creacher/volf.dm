@@ -93,7 +93,7 @@
 				playsound(C, 'sound/foley/zfall.ogg', 100, FALSE)
 			else
 				C.visible_message(span_danger("\The [src] fails to drag \the [C] down!"))
-		chomp_cd = world.time //this goes here i think? ...sure
+			chomp_cd = world.time //this goes here i think? ...sure
 
 
 /obj/effect/decal/remains/wolf

@@ -443,7 +443,7 @@
 		else
 			to_chat(user, "<span class='warning'>I can't write.</span>")
 			return
-	
+
 	if(istype(P, /obj/item/paper))
 		var/obj/item/paper/p = P
 		if(info && p.info)
@@ -488,7 +488,7 @@
 		add_fingerprint(user)
 		return ..()
 	else
-		return ..()	
+		return ..()
 
 /obj/item/paper/fire_act(added, maxstacks)
 	..()

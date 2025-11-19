@@ -31,22 +31,16 @@
 	req_bar = /obj/item/ingot/steel
 	created_item = /obj/item/roguestatue/steel
 
-/*
-/datum/anvil_recipe/valuables/eargol
-	name = "gold earrings"
-	req_bar = /obj/item/ingot/gold
-	created_item = list(/obj/item/rogueacc/eargold,
-						/obj/item/rogueacc/eargold,
-						/obj/item/rogueacc/eargold)
-	type = "Valuables"
+/datum/anvil_recipe/valuables/blacksteel
+	name = "Statue, Blacksteel"
+	req_bar = /obj/item/ingot/blacksteel
+	created_item = /obj/item/roguestatue/blacksteel
 
-/datum/anvil_recipe/valuables/earsil
-	name = "silver earrings"
-	req_bar = /obj/item/ingot/silver
-	created_item = list(/obj/item/rogueacc/earsilver,
-						/obj/item/rogueacc/earsilver,
-						/obj/item/rogueacc/earsilver)*/
-//	i_type = "Valuables"
+/datum/anvil_recipe/valuables/zcross_iron
+	name = "Inverted Psycross (1 iron)"
+	req_bar = /obj/item/ingot/iron
+	created_item = /obj/item/clothing/neck/roguetown/psicross/inhumen/iron
+	craftdiff = 1
 
 /datum/anvil_recipe/valuables/ringg
 	name = "Rings, Gold (x3)"
@@ -66,6 +60,12 @@
 	req_bar = /obj/item/ingot/silver
 	created_item = /obj/item/clothing/ring/silver
 	craftdiff = SKILL_LEVEL_EXPERT
+	createditem_num = 3
+
+/datum/anvil_recipe/valuables/ringbs
+	name = "Rings, Blacksteel (x3)"
+	req_bar = /obj/item/ingot/blacksteel
+	created_item = /obj/item/clothing/ring/blacksteel
 	createditem_num = 3
 
 /datum/anvil_recipe/valuables/ornateamulet

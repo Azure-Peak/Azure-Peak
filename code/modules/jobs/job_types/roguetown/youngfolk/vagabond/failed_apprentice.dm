@@ -35,5 +35,8 @@
 	if(prob(33))
 		cloak = /obj/item/clothing/cloak/half/brown
 		gloves = /obj/item/clothing/gloves/roguetown/fingerless
-	
+
 	r_hand = /obj/item/rogueweapon/woodstaff
+
+	if(H.mind)
+		SStreasury.give_money_account(ECONOMIC_DESTITUTE, H, "Savings.")

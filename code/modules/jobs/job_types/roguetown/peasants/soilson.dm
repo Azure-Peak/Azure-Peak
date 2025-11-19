@@ -17,7 +17,7 @@
 	f_title = "Soilbride"
 	outfit = /datum/outfit/job/roguetown/farmer
 	display_order = 24
-	give_bank_account = 17
+	give_bank_account = TRUE
 	min_pq = -10
 	max_pq = null
 	round_contrib_points = 3
@@ -59,7 +59,7 @@
 		/datum/skill/labor/butchering = SKILL_LEVEL_MASTER,
 		/datum/skill/misc/reading = SKILL_LEVEL_NOVICE,
 	)
-	
+
 /datum/outfit/job/roguetown/farmer/basic/pre_equip(mob/living/carbon/human/H)
 	..()
 	head = /obj/item/clothing/head/roguetown/armingcap
@@ -88,3 +88,5 @@
 		pants = /obj/item/clothing/under/roguetown/tights/random
 		armor = /obj/item/clothing/suit/roguetown/armor/leather/vest
 		shirt = /obj/item/clothing/suit/roguetown/shirt/undershirt/random
+	if(H.mind)
+		SStreasury.give_money_account(ECONOMIC_WORKING_CLASS, H, "Savings.")

@@ -171,7 +171,6 @@
 	obj_flags = CAN_BE_HIT
 	destroy_sound = 'sound/combat/hits/onwood/destroyfurniture.ogg'
 	attacked_sound = "woodimpact"
-	sleepy = 0.35
 
 /obj/item/chair/rogue/getonmobprop(tag)
 	. = ..()

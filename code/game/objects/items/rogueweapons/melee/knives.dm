@@ -176,9 +176,8 @@
 /obj/item/rogueweapon/huntingknife/bronze
 	name = "bronze dagger"
 	desc = "A wide blade of bronze, fitted to a wooden handle. Ancient laborers and priests coveted this tool above all else: both as a means to handle the dae's labors, and to indulge in the rituos of sacrifice."
-	icon_state = "chefsknife"
+	icon_state = "bronzedagger"
 	possible_item_intents = list(/datum/intent/dagger/cut, /datum/intent/dagger/chop/bronze, /datum/intent/dagger/sucker_punch, /datum/intent/dagger/thrust/bronze)
-	color = "#f9d690"
 	force = 18
 	throwforce = 18
 	max_blade_int = 225

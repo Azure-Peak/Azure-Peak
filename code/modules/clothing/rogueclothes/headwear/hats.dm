@@ -517,3 +517,12 @@
 	icon_state = "loudmouth"
 	item_state = "loudmouth"
 	color = CLOTHING_RED
+
+/obj/item/clothing/head/roguetown/maidhead
+	name = "maid headdress"
+	desc = "A decorative cloth headband clearly indicating the wearer as a maid."
+	icon_state = "maidhead"
+	item_state = "maidhead"
+	icon = 'icons/roguetown/clothing/special/maids.dmi'
+	mob_overlay_icon = 'icons/roguetown/clothing/special/onmob/maids.dmi'
+	sleeved = 'icons/roguetown/clothing/special/onmob/maids.dmi'

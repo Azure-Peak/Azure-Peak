@@ -331,15 +331,16 @@ GLOBAL_LIST_EMPTY(chosen_names)
 
 			// ROW 3
 			dat += "<tr style='padding-top: 0px;padding-bottom:0px'>"
-
 			dat += "<td style='width:33%;text-align:left'>"
 			dat += "<a href='?_src_=prefs;preference=tgui_theme'>Theme: [get_tgui_theme_display_name()]</a>"
 			dat += "</td>"
 
 			dat += "<td style='width:33%;text-align:center'>"
-			dat += "<a href='?_src_=prefs;preference=job;task=menu'>Class Selection</a>"
+			dat += "<a href='?_src_=prefs;preference=lore_primer'>* Lore Primer *</a>"
 			dat += "</td>"
-				
+
+			dat += "<td style='width:33%;text-align:right'>"
+			dat += "</td>"
 			dat += "</tr>"
 
 			// ANOTHER ROW HOLY SHIT WE FINALLY A GOD DAMN GRID NOW! WHOA!
@@ -835,7 +836,7 @@ GLOBAL_LIST_EMPTY(chosen_names)
 //	dat += "<a href='?_src_=prefs;preference=reset_all'>Reset Setup</a>"
 
 
-	if(user.client.is_new_player())
+	if(user.client?.is_new_player())
 		dat = list("<center>REGISTER!</center>")
 
 	winshow(user, "preferencess_window", TRUE)
@@ -1371,7 +1372,7 @@ Slots: [job.spawn_positions] [job.round_contrib_points ? "RCP: +[job.round_contr
 
 	else if(href_list["preference"] == "agevet")
 		if(!user.check_agevet())
-			to_chat(usr, span_info("- You are a whitelisted player with full access to the server's features. If you'd also like to show others that you've been <b>AGE-VERIFIED</b> with a censored ID, you can open a ticket in Azure Peak's <b>#vet-here</b> channel. Note that this is a purely optional process, and - besides awarding a special header for your flavortext - doesn't affect you in any other way."))
+			to_chat(usr, span_info("- You are a whitelisted player with full access to the server's features. If you'd also like to show others that you've been <b>AGE-VERIFIED</b> with a censored ID, you can open a ticket in Azure Peak's <b>#vet-here</b> channel. If you are already verified on Discord, but not in-game, ahelp. Note that this is a purely optional process, and - besides awarding a special header for your flavortext - doesn't affect you in any other way."))
 		else
 			to_chat(usr, span_love("- You have been successfully <b>AGE-VERIFIED!</b>"))
 
@@ -1383,6 +1384,10 @@ Slots: [job.spawn_positions] [job.round_contrib_points ? "RCP: +[job.round_contr
 		return
 	else if(href_list["preference"] == "descriptors")
 		show_descriptors_ui(user)
+		return
+	
+	else if(href_list["preference"] == "lore_primer")
+		LorePopup(user)
 		return
 
 	else if(href_list["preference"] == "customizers")
@@ -2577,6 +2582,8 @@ Slots: [job.spawn_positions] [job.round_contrib_points ? "RCP: +[job.round_contr
 				if("tab")
 					if (href_list["tab"])
 						current_tab = text2num(href_list["tab"])
+				if("lore_primer")
+					LorePopup(user)
 
 	ShowChoices(user)
 	return 1
@@ -2854,3 +2861,12 @@ Slots: [job.spawn_positions] [job.round_contrib_points ? "RCP: +[job.round_contr
 		dat += "[V.custom_text]"
 		dat += "</font>"
 	return dat
+
+/datum/preferences/proc/LorePopup(mob/user)
+	if(!user || !user.client)
+		return
+	var/list/dat = list()
+	var/datum/browser/noclose/popup  = new(user, "lore_primer", "<div align='center'>Lore Primer</div>", 650, 900)
+	dat += GLOB.roleplay_readme
+	popup.set_content(dat.Join())
+	popup.open(FALSE)

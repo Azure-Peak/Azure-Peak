@@ -268,10 +268,11 @@ SUBSYSTEM_DEF(migrants)
 			fakekey = get_fake_key(character.ckey)
 		GLOB.character_list[character.mobid] = "[fakekey] was [character.real_name] ([rank])<BR>"
 		GLOB.character_ckey_list[character.real_name] = character.ckey
-		if(!character.mind.special_role)
-			GLOB.actors_list[character.mobid] = "[character.real_name] as [rank]<BR>"
+		var/mob_name = character.real_name
+		var/mob_rank = rank
 		if(character.mind.special_role == "Court Agent")
-			GLOB.actors_list[character.mobid] = "[character.real_name] as Adventurer<BR>"
+			mob_rank = "Adventurer"
+		GLOB.actors_list[character.mobid] = list("name" = mob_name, "rank" = mob_rank)
 		log_character("[character.ckey] ([fakekey]) - [character.real_name] - [rank]")
 	if(GLOB.respawncounts[character.ckey])
 		var/AN = GLOB.respawncounts[character.ckey]
@@ -287,7 +288,7 @@ SUBSYSTEM_DEF(migrants)
 	to_chat(character, span_alertsyndie("I am a [role.name]!"))
 	to_chat(character, span_notice(wave.greet_text))
 	to_chat(character, span_notice(role.greet_text))
-	
+
 	if(role.outfit)
 		var/datum/outfit/outfit = new role.outfit()
 		outfit.equip(character)
@@ -621,9 +622,9 @@ SUBSYSTEM_DEF(migrants)
 	character.invisibility = INVISIBILITY_MAXIMUM
 	character.become_blind("advsetup")
 
-	if(GLOB.adventurer_hugbox_duration)
+	/*if(GLOB.adventurer_hugbox_duration)
 		///FOR SOME silly FUCKING REASON THIS REFUSED TO WORK WITHOUT A FUCKING TIMER IT JUST FUCKED SHIT UP
-		addtimer(CALLBACK(character, TYPE_PROC_REF(/mob/living/carbon/human, adv_hugboxing_start)), 1)
+		addtimer(CALLBACK(character, TYPE_PROC_REF(/mob/living/carbon/human, adv_hugboxing_start)), 1)*/
 
 /proc/grant_lit_torch(mob/living/carbon/human/character)
 	var/obj/item/flashlight/flare/torch/torch = new()

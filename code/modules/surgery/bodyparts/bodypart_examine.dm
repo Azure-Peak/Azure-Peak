@@ -158,7 +158,7 @@
 					status += span_danger("[medium_brute_msg]")
 				else
 					status += span_warning("[light_brute_msg]")
-		
+
 		if(burn >= DAMAGE_PRECISION)
 			switch(burn/max_damage)
 				if(0.75 to INFINITY)
@@ -169,14 +169,14 @@
 					status += span_danger("[medium_burn_msg]")
 				else
 					status += span_warning("[light_burn_msg]")
-	
+
 	var/bleed_rate = get_bleed_rate()
 	if(bleed_rate)
 		if(bleed_rate > 1) //Totally arbitrary value
 			status += span_bloody("<B>BLEEDING</B>")
 		else
 			status += span_bloody("BLEEDING")
-	
+
 	var/crazy_infection = FALSE
 	var/list/wound_strings = list()
 	for(var/datum/wound/wound as anything in wounds)
@@ -212,6 +212,12 @@
 
 	if(disabled)
 		status += span_deadsay("CRIPPLED")
+
+	// Is this bodypart being stemmed, and if so, by how many grabs? Only show this if we're bleeding on that limb.
+	if(bleed_rate)
+		var/stemmed_number = length(grabbedby)
+		if(stemmed_number) // If the wound is being stemmed by a grab, add that to status.
+			status += span_boldgreen("STEMMED*[stemmed_number]")
 
 	return status
 

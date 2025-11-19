@@ -1,8 +1,5 @@
 /datum/faith/old_god
-	name = "Old God"
-	desc = "The Holy See has been taken over by misguided fools who defile Psydon and worship false gods, but we survive.\n\
-		<b>PSYDON YET LIVES. PSYDON YET ENDURES.</b>\n\
-		PSYDON sent the COMET SYON to destroy the rampaging ARCHDEVIL VHESLYN and save all Humenity. Though he rests now, the fools believe him DEAD - but \
-		PSYDON YET LIVES, AND PSYDON YET ENDURES. Unanswered prayers and impotent miracles - they are TESTS."
-	worshippers = "Otavans, Naledians, Amazonians, Zealots and Pilgrims from all across Psydonia."
+	name = "Genesism"
+	desc = "   </br>''Before the TEN and the FOUR, there was ONE.'' </br>  </br>After the Comet Syon's impact, Psydon fell silent. Most had feared that He had undertaken the ultimate sacrifice to save this world from the Archdevil's rampage, and - in the midst of mourning - turned their prayers to lesser gods. Yet, throughout the centuries, there always remained those who kept faith in Psydon above all else: be it in one way, or another. </br>  </br>Amongst the countless denominations that're peppered across the world, the Orthodoxy is the most widely-practiced: a theocracy, formed within the ancient kingdom of Otava and made infamous through holy warfare. </br>  </br>The Orthodoxists believe that Psydon still lives, and is soon destined to return. Unanswered prayers and faltering miracles are merely tests of faith, nothing more. While the Pantheon's saints might be venerable, they are still His children: and as such, they remain wholly subservient to His divine authority. If those of the Ascendants refuse to convert, then they must be destroyed. </br>  </br>With the world's end upon the horizon, however, even Psydon's most faithful worshippers - no matter the denomination - are facing a crisis like no other. Such has driven many to take pilgrimage to the Comet Syon's final resting place, just off of Azuria's coast. </br>  </br>Time is running out. Lowly fool, sacrificial hero, blessed idiot, holy lamb: will you endure as He had, in order to save this world from damnation? Or will you shepherd its end, so that something greater might rise from the ashes?"
+	worshippers = "Traditionalists, Spiritualists, Accelerationists, and the Hopeful."
 	godhead = /datum/patron/old_god

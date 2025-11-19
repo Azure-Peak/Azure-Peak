@@ -367,6 +367,17 @@
 	max_integrity = 85
 	smeltresult = /obj/item/ingot/purifiedaalloy
 
+// unique, better buckler for knight captain
+/obj/item/rogueweapon/shield/buckler/knightcaptain
+	name = "'Aegis'"
+	desc = "A special buckler made out of blacksteel for the Knight Captain, adorned with a crest. An inscription along the top reads,\"RUAT CAELUM\""
+	icon_state = "capbuckler"
+	icon = 'icons/roguetown/weapons/special/captain.dmi'
+	max_integrity = 150
+	slot_flags = ITEM_SLOT_HIP | ITEM_SLOT_BACK
+	sellprice = 100 // lets not make it too profitable
+	smeltresult = /obj/item/ingot/blacksteel
+
 /obj/item/rogueweapon/shield/heater
 	name = "heater shield"
 	desc = "A sturdy wood and leather shield. Made to not be too encumbering while still providing good protection."

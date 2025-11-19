@@ -5,6 +5,9 @@
 	prefix = "a"
 	suffix = "voice"
 
+/datum/mob_descriptor/voice/proc/get_speaking_name(var/voice_gender)
+	return "[name] [voice_gender]"
+
 /datum/mob_descriptor/voice/ordinary
 	name = "Ordinary"
 	prefix = "an"
@@ -36,6 +39,9 @@
 /datum/mob_descriptor/voice/androgynous
 	name = "Androgynous"
 	prefix = "an"
+
+/datum/mob_descriptor/voice/androgynous/get_speaking_name(var/voice_gender)
+	return "Androgynous Person"
 
 /datum/mob_descriptor/voice/nasal
 	name = "Nasal"
@@ -87,6 +93,9 @@
 
 /datum/mob_descriptor/voice/smoker
 	name = "Smoker's"
+
+/datum/mob_descriptor/voice/smoker/get_speaking_name(var/voice_gender)
+	return "Gravelly [voice_gender]"
 
 /datum/mob_descriptor/voice/venomous
 	name = "Venomous"

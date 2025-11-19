@@ -12,6 +12,7 @@
 	blade_dulling = DULLING_CUT
 	pixel_x = -16
 	layer = 4.81
+	plane = GAME_PLANE_UPPER
 	attacked_sound = 'sound/misc/woodhit.ogg'
 	destroy_sound = 'sound/misc/woodhit.ogg'
 	debris = list(/obj/item/grown/log/tree/stick = 2)
@@ -137,6 +138,10 @@
 	. = ..()
 	SEND_SOUND(usr, sound(null))
 	playsound(user, 'sound/music/tree.ogg', 80)
+
+/obj/structure/flora/roguetree/wise/druids/take_damage(damage_amount, damage_type = BRUTE || BURN, damage_flag, sound_effect = TRUE)
+	. = ..()
+	SEND_GLOBAL_SIGNAL(COMSIG_SACRED_TREE_DAMAGED, src, damage_amount)
 
 /obj/structure/flora/roguetree/burnt
 	name = "burnt tree"

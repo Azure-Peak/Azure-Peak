@@ -946,7 +946,7 @@
 	if(rmb_intent?.adjacency && !Adjacent(A))
 		return FALSE
 
-	rmb_intent.special_attack(src, ismob(A) ? A : get_foe_from_turf(get_turf(A)))
+	rmb_intent.special_attack(src, ismob(A) ? A : rmb_intent.prioritize_turfs ? get_turf(A) : get_foe_from_turf(get_turf(A)))
 	return TRUE
 
 /// Used for "directional" style rmb attacks on a turf, prioritizing standing targets

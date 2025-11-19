@@ -67,7 +67,7 @@
 				backl = /obj/item/gun/ballistic/revolver/grenadelauncher/crossbow/slurbow
 			if("Arbalist - Crossbow, Psydonic Chestplate")
 				head = /obj/item/clothing/head/roguetown/headband/bloodied
-				armor = /obj/item/clothing/suit/roguetown/armor/plate/half/fencer/psydon
+				armor = /obj/item/clothing/suit/roguetown/armor/plate/cuirass/fencer/psydon
 				backl = /obj/item/gun/ballistic/revolver/grenadelauncher/crossbow
 				REMOVE_TRAIT(H, TRAIT_DODGEEXPERT, TRAIT_GENERIC)
 				H.adjust_skillrank_up_to(/datum/skill/combat/crossbows, 5, TRUE)

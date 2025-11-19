@@ -14,7 +14,7 @@
 
 /obj/structure/table
 	name = "table"
-	desc = ""
+	desc = "A constructed table for putting things on."
 	icon_state = "table"
 	density = TRUE
 	anchored = TRUE
@@ -247,7 +247,6 @@
 
 /obj/structure/table/wood
 	name = "wooden table"
-	desc = ""
 	icon = 'icons/roguetown/misc/tables.dmi'
 	icon_state = "tablewood"
 	resistance_flags = FLAMMABLE
@@ -339,7 +338,7 @@
 
 /obj/structure/table/church
 	name = "stone table"
-	desc = ""
+	desc = "A surface made of stone, for putting things on."
 	icon = 'icons/roguetown/misc/tables.dmi'
 	icon_state = "churchtable"
 	max_integrity = 300
@@ -379,7 +378,7 @@
 
 /obj/structure/table/finestone
 	name = "fine stone table"
-	desc = ""
+	desc = "A beautifully constructed stone table."
 	icon = 'icons/roguetown/misc/tables.dmi'
 	icon_state = "stonetable_small"
 	max_integrity = 400
@@ -389,7 +388,7 @@
 
 /obj/structure/table/vtable
 	name = "ancient wooden table"
-	desc = ""
+	desc = "A table seemingly made of ancient, decrepit wood. It creaks when anything's put on it."
 	icon = 'icons/roguetown/misc/tables.dmi'
 	icon_state = "vtable"
 	max_integrity = 300
@@ -524,7 +523,7 @@
  */
 /obj/structure/rack
 	name = "rack"
-	desc = ""
+	desc = "A rack, for putting things on."
 	icon = 'icons/obj/objects.dmi'
 	icon_state = "rack"
 	layer = TABLE_LAYER
@@ -636,7 +635,7 @@
 
 /obj/structure/table/optable
 	name = "operating table"
-	desc = ""
+	desc = "A table used for performing surgery on. Not the most comfortable."
 	icon = 'icons/obj/surgery.dmi'
 	icon_state = "optable"
 	smooth = SMOOTH_FALSE

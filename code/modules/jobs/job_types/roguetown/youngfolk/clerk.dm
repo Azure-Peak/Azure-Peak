@@ -68,3 +68,5 @@
 	beltl = /obj/item/storage/keyring/steward //serously doubt this is gonna be an issue, but if it is, i'll change it
 	backr = /obj/item/storage/backpack/rogue/satchel
 	id = /obj/item/scomstone/bad
+	if(H.mind)
+		SStreasury.give_money_account(ECONOMIC_UPPER_MIDDLE_CLASS, H, "Savings.")

@@ -93,7 +93,9 @@
 	added_stashed_items = list(
 		"Hammer" = /obj/item/rogueweapon/hammer/iron,
 		"Polishing Cream" = /obj/item/polishing_cream,
-		"Fine Brush" = /obj/item/armor_brush
+		"Fine Brush" = /obj/item/armor_brush,
+		"Armor Plates" = /obj/item/repair_kit/metal,
+		"Sewing Kit" = /obj/item/repair_kit,
 	)
 
 /datum/virtue/utility/failed_squire/apply_to_human(mob/living/carbon/human/recipient)
@@ -110,7 +112,8 @@
 		"Quill" = /obj/item/natural/feather,
 		"Scroll #1" = /obj/item/paper/scroll,
 		"Scroll #2" = /obj/item/paper/scroll,
-		"Book Crafting Kit" = /obj/item/book_crafting_kit
+		"Book Crafting Kit" = /obj/item/book_crafting_kit,
+		"Unfinished Skillbook" = /obj/item/skillbook/unfinished
 	)
 
 /datum/virtue/utility/linguist/apply_to_human(mob/living/carbon/human/recipient)

@@ -41,6 +41,10 @@
 		return TRUE
 	to_chat(follower, span_danger("I must either be in Dendor's wilds, the Grove, near a wise tree, or near a Panetheon Cross for the 'Tree Father' to hear my prays..."))
 	return FALSE
+	
+/datum/patron/divine/dendor/on_gain(mob/living/H)
+	. = ..()
+	H.AddComponent(/datum/component/wise_tree_alert)
 
 /datum/patron/divine/dendor/on_lesser_heal(
     mob/living/user,

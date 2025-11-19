@@ -16,7 +16,7 @@
 	whitelist_req = TRUE
 	advclass_cat_rolls = list(CTAG_COURTPHYS = 2)
 
-	give_bank_account = 30
+	give_bank_account = TRUE
 	min_pq = 3 //Please don't kill the duke by operating on strong intent. Play apothecary until you're deserving of the great white beak of doom
 	max_pq = null
 	round_contrib_points = 5
@@ -95,3 +95,5 @@
 		H.change_stat(STATKEY_SPD, -1)
 		H.change_stat(STATKEY_INT, 1)
 		H.change_stat(STATKEY_PER, 1)
+	if(H.mind)
+		SStreasury.give_money_account(ECONOMIC_RICH, H, "Savings.")

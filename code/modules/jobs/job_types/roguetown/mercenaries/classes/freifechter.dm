@@ -28,7 +28,7 @@
 	..()
 	to_chat(H, span_warning("You are a master in the arts of the longsword. Wielder of Psydonia's most versatile and noble weapon, you needn't anything else. You can choose a regional longsword."))
 	l_hand = /obj/item/rogueweapon/scabbard/sword
-	armor = /obj/item/clothing/suit/roguetown/armor/plate/half/fencer	//Experimental.
+	armor = /obj/item/clothing/suit/roguetown/armor/plate/cuirass/fencer	//Experimental.
 	var/weapons = list("Modified Training Sword !!!CHALLENGE!!!", "Etruscan Longsword", "Kriegsmesser", "Field Longsword")
 	if(H.mind)
 		var/weapon_choice = input(H, "Choose your weapon.", "TAKE UP ARMS") as anything in weapons

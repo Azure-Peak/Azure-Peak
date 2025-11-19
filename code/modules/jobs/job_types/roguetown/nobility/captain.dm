@@ -18,7 +18,7 @@
 	spells = list(/obj/effect/proc_holder/spell/self/convertrole/guard)
 	outfit = /datum/outfit/job/roguetown/captain
 
-	give_bank_account = 26
+	give_bank_account = TRUE
 	noble_income = 16
 	min_pq = 9
 	max_pq = null
@@ -116,13 +116,16 @@
 		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/order/focustarget)
 	H.dna.species.soundpack_m = new /datum/voicepack/male/knight()
 	H.verbs |= list(
-		/mob/living/carbon/human/proc/request_outlaw, 
-		/mob/proc/haltyell, 
+		/mob/living/carbon/human/proc/request_outlaw,
+		/mob/proc/haltyell,
 		/mob/living/carbon/human/mind/proc/setorders
 	)
+	if(H.mind)
+		SStreasury.give_money_account(ECONOMIC_RICH, H, "Savings.")
 	H.adjust_blindness(-3)
 	if(H.mind)
 		var/weapons = list(
+			"Edict & Aegis (Sabre & Buckler)",
 			"Claymore",
 			"Great Mace",
 			"Battle Axe",
@@ -136,6 +139,11 @@
 		var/weapon_choice = input(H, "Choose your weapon.", "TAKE UP ARMS") as anything in weapons
 		H.set_blindness(0)
 		switch(weapon_choice)
+			if("Edict & Aegis (Sabre & Buckler)")
+				H.adjust_skillrank_up_to(/datum/skill/combat/swords, 5, TRUE)
+				r_hand = /obj/item/rogueweapon/sword/sabre/knightcaptain
+				l_hand = /obj/item/rogueweapon/shield/buckler/knightcaptain
+				beltr = /obj/item/rogueweapon/scabbard/sword
 			if("Claymore")
 				H.adjust_skillrank_up_to(/datum/skill/combat/swords, 5, TRUE)
 				r_hand = /obj/item/rogueweapon/greatsword/zwei
@@ -204,7 +212,7 @@
 				pants = /obj/item/clothing/under/roguetown/chainlegs
 				cloak = /obj/item/clothing/cloak/tabard/retinue/captain
 			if("Fluted Cuirass")
-				armor = /obj/item/clothing/suit/roguetown/armor/plate/half/fluted
+				armor = /obj/item/clothing/suit/roguetown/armor/plate/cuirass/fluted
 				pants = /obj/item/clothing/under/roguetown/chainlegs
 				cloak = /obj/item/clothing/cloak/tabard/retinue/captain
 			if("Captain's armor")

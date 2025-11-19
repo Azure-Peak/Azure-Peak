@@ -126,3 +126,12 @@
 					/obj/item/seeds/tea,
 					/obj/item/seeds/tea,
 				)
+
+/datum/supply_pack/rogue/seeds/sugarcane
+	name = "Sugarcane"
+	cost = 15
+	contains = list(
+					/obj/item/seeds/sugarcane,
+					/obj/item/seeds/sugarcane,
+					/obj/item/seeds/sugarcane,
+				)

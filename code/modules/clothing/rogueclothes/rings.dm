@@ -34,6 +34,11 @@
 	icon_state = "ring_g"
 	sellprice = 45
 
+/obj/item/clothing/ring/blacksteel
+	name = "blacksteel ring"
+	icon_state = "ring_bs"
+	sellprice = 70
+
 /obj/item/clothing/ring/active
 	var/active = FALSE
 	desc = "Unfortunately, like most magic rings, it must be used sparingly. (Right-click me to activate)"
@@ -158,7 +163,7 @@
 		if(alert(user, "SCRAPE THE TALLOW OFF?", "SIGNET RING", "YES", "NO") != "NO")
 			tallowed = FALSE
 			update_icon()
-	
+
 /obj/item/clothing/ring/signet/update_icon()
 	. = ..()
 	if(tallowed)
@@ -249,7 +254,7 @@
 	. = ..()
 	if(!QDELETED(src))
 		dispel()
-	
+
 /obj/item/clothing/ring/fate_weaver/dropped()
 	. = ..()
 	if(!QDELETED(src))
@@ -288,6 +293,46 @@
 		return
 	if(world.time > (current_time + 30 SECONDS))
 		return
+
+/////////////////////////
+// Blacksteel Rings //
+/////////////////////////
+/obj/item/clothing/ring/emeraldbs
+	name = "gemerald ring"
+	icon_state = "bs_ring_emerald"
+	desc = "A beautiful golden ring with a polished Gemerald set into it."
+	sellprice = 295
+
+/obj/item/clothing/ring/rubybs
+	name = "rontz ring"
+	icon_state = "bs_ring_ruby"
+	desc = "A beautiful golden ring with a polished Rontz set into it."
+	sellprice = 355
+
+/obj/item/clothing/ring/topazbs
+	name = "toper ring"
+	icon_state = "bs_ring_topaz"
+	desc = "A beautiful golden ring with a polished Toper set into it."
+	sellprice = 380
+
+/obj/item/clothing/ring/quartzbs
+	name = "blortz ring"
+	icon_state = "bs_ring_quartz"
+	desc = "A beautiful golden ring with a polished Blortz set into it."
+	sellprice = 345
+
+/obj/item/clothing/ring/sapphirebs
+	name = "saffira ring"
+	icon_state = "bs_ring_sapphire"
+	desc = "A beautiful golden ring with a polished Saffira set into it."
+	sellprice = 300
+
+/obj/item/clothing/ring/diamondbs
+	name = "dorpel ring"
+	icon_state = "bs_ring_diamond"
+	desc = "A beautiful golden ring with a polished Dorpel set into it."
+	sellprice = 370
+
 
 /////////////////////////
 // Stat-Boosting Rings //

@@ -53,16 +53,23 @@
 
 	return 0
 
-/mob/living/carbon/human/get_alt_name()
-	if(name != GetVoice())
+/mob/living/carbon/human/get_alt_name(var/force = FALSE)
+	if(force || name != GetVoice())
+		var/datum/mob_descriptor/voice/voice_descriptor = get_descriptor_type(/datum/mob_descriptor/voice)
+		if(!voice_descriptor)
+			return "Unknown Person"
+
+		var/voice_gender = "Person"
 		switch(voice_type)
 			if(VOICE_TYPE_FEM)
-				return "Unknown Woman"
+				voice_gender = "Woman"
 			if(VOICE_TYPE_MASC)
-				return "Unknown Man"
+				voice_gender = "Man"
 			if(VOICE_TYPE_ANDR)
-				return "Unknown Person"
-	
+				voice_gender = "Person"
+
+		return voice_descriptor.get_speaking_name(voice_gender)
+
 /mob/living/carbon/human/proc/forcesay(list/append) //this proc is at the bottom of the file because quote fuckery makes notepad++ cri
 	if(stat == CONSCIOUS)
 		if(client)

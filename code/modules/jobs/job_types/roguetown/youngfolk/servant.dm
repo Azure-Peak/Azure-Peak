@@ -75,6 +75,8 @@
 		H.adjust_skillrank(/datum/skill/combat/knives, 1, TRUE)
 		H.adjust_skillrank(/datum/skill/labor/farming, 1, TRUE)
 		H.adjust_skillrank(/datum/skill/misc/medicine, 1, TRUE)
+	if(H.mind)
+		SStreasury.give_money_account(ECONOMIC_WORKING_CLASS, H, "Savings.")
 
 /datum/advclass/servant/maid
 	name = "Maid"
@@ -102,12 +104,12 @@
 
 /datum/outfit/job/roguetown/servant/maid/pre_equip(mob/living/carbon/human/H)
 	..()
-	head = /obj/item/clothing/head/roguetown/armingcap
-	armor = /obj/item/clothing/suit/roguetown/shirt/dress/gen/black
+	head = /obj/item/clothing/head/roguetown/maidhead
+	armor = /obj/item/clothing/suit/roguetown/shirt/dress/maid
+	cloak = /obj/item/clothing/cloak/apron/waist/maid
+	belt = /obj/item/storage/belt/rogue/leather/sash/maid
 	shoes = /obj/item/clothing/shoes/roguetown/simpleshoes
-	cloak = /obj/item/clothing/cloak/apron/waist
 	backl = /obj/item/storage/backpack/rogue/satchel
-	belt = /obj/item/storage/belt/rogue/leather
 	beltr = /obj/item/storage/keyring/servant
 	beltl = /obj/item/storage/belt/rogue/pouch/coins/poor
 	if(H.age == AGE_MIDDLEAGED)
@@ -119,6 +121,8 @@
 		H.adjust_skillrank(/datum/skill/combat/knives, 1, TRUE)
 		H.adjust_skillrank(/datum/skill/labor/farming, 1, TRUE)
 		H.adjust_skillrank(/datum/skill/misc/medicine, 1, TRUE)
+	if(H.mind)
+		SStreasury.give_money_account(ECONOMIC_WORKING_CLASS, H, "Savings.")
 
 /datum/advclass/servant/butler
 	name = "Butler"
@@ -163,3 +167,5 @@
 		H.adjust_skillrank(/datum/skill/combat/knives, 1, TRUE)
 		H.adjust_skillrank(/datum/skill/labor/farming, 1, TRUE)
 		H.adjust_skillrank(/datum/skill/misc/medicine, 1, TRUE)
+	if(H.mind)
+		SStreasury.give_money_account(ECONOMIC_WORKING_CLASS, H, "Savings.")

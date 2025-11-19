@@ -19,6 +19,10 @@
 	pixel_x = rand(-5, 5)
 	pixel_y = rand(-5, 5)
 
+/obj/item/reagent_containers/food/snacks/grown/examine(mob/user)
+	. = ..()
+	. += span_smallnotice("Smash this with a blunt object to extract seeds from it.")
+
 /obj/item/reagent_containers/food/snacks/grown/attackby(obj/item/weapon, mob/user, params)
 	if(weapon && isturf(loc))
 		var/turf/location = get_turf(src)

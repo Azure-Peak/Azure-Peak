@@ -96,16 +96,22 @@
 		I = r_grab
 	else
 		I = l_grab
+
+	var/bleed_message = ""
 	if(I)
 		used_limb = parse_zone(I.sublimb_grabbed)
+		if(I.limb_grabbed?.get_bleed_rate())
+			bleed_message = ", thereby stemming some bleeding"
 
 	if(used_limb)
-		target.visible_message(span_danger("[src] grabs [target]'s [span_userdanger(used_limb)]."), \
-						span_danger("[src] grabs my [span_userdanger(used_limb)]!"), span_hear("I hear shuffling."), null, src)
-		to_chat(src, span_danger("I grab [target]'s [span_userdanger(used_limb)]."))
+		target.visible_message(span_danger("[src] grabs [target]'s [span_userdanger(used_limb)][bleed_message]."),
+			span_danger("[src] grabs my [span_userdanger(used_limb)][bleed_message]!"),
+			span_hear("I hear shuffling."), null, src)
+		to_chat(src, span_danger("I grab [target]'s [span_userdanger(used_limb)][bleed_message]."))
 	else
-		target.visible_message(span_danger("[src] grabs [target]."), \
-						span_userdanger("[src] grabs me!"), span_hear("I hear shuffling."), null, src)
+		target.visible_message(span_danger("[src] grabs [target]."),
+			span_userdanger("[src] grabs me!"),
+			span_hear("I hear shuffling."), null, src)
 		to_chat(src, span_danger("I grab [target]."))
 
 	if(used_limb && target.client && target.hud_used && target.hud_used.zone_select)
@@ -119,19 +125,25 @@
 		I = user.r_grab
 	else
 		I = user.l_grab
+
+	var/bleed_message = ""
 	if(I)
 		used_limb = parse_zone(I.sublimb_grabbed)
+		if(I.limb_grabbed.get_bleed_rate())
+			bleed_message = ", thereby stemming more bleeding"
 
-	if(HAS_TRAIT(user, TRAIT_NOTIGHTGRABMESSAGE))	
+	if(HAS_TRAIT(user, TRAIT_NOTIGHTGRABMESSAGE))
 		return
 	if(HAS_TRAIT(user, TRAIT_PACIFISM))
-		visible_message("<span class='danger'>[user] firmly grips [src]'s [used_limb]!</span>",
-						"<span class='danger'>[user] firmly grips my [used_limb]!</span>", "<span class='hear'>I hear aggressive shuffling!</span>", null, user)
-		to_chat(user, "<span class='danger'>I firmly grip [src]'s [used_limb]!</span>")
+		visible_message(span_danger("[user] firmly grips [src]'s [used_limb][bleed_message]!"),
+			span_danger("[user] firmly grips my [used_limb][bleed_message]!"),
+			span_hear("I hear aggressive shuffling!"), null, user)
+		to_chat(user, span_danger("I firmly grip [src]'s [used_limb][bleed_message]!"))
 	else
-		visible_message("<span class='danger'>[user] tightens [user.p_their()] grip on [src]'s [used_limb]!</span>", \
-						"<span class='danger'>[user] tightens [user.p_their()] grip on my [used_limb]!</span>", "<span class='hear'>I hear aggressive shuffling!</span>", null, user)
-		to_chat(user, "<span class='danger'>I tighten my grip on [src]'s [used_limb]!</span>")
+		visible_message(span_danger("[user] tightens [user.p_their()] grip on [src]'s [used_limb][bleed_message]!"),
+			span_danger("[user] tightens [user.p_their()] grip on my [used_limb][bleed_message]!"),
+			span_hear(">I hear aggressive shuffling!"), null, user)
+		to_chat(user, span_danger("I tighten my grip on [src]'s [used_limb][bleed_message]!"))
 
 /mob/living/carbon/proc/precise_attack_check(zone, obj/item/bodypart/affecting) //for striking eyes, throat, etc
 	if(zone && affecting)

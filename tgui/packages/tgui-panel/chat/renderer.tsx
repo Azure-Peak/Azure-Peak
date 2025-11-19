@@ -4,7 +4,9 @@
  * @license MIT
  */
 
+import React from 'react';
 import { createRoot } from 'react-dom/client';
+import { TooltipHTML } from 'tgui/components/TooltipHTML';
 import { createLogger } from 'tgui/logging';
 import { Tooltip } from 'tgui-core/components';
 import { EventEmitter } from 'tgui-core/events';
@@ -33,16 +35,15 @@ const logger = createLogger('chatRenderer');
 const SCROLL_TRACKING_TOLERANCE = 24;
 
 // List of injectable component names to the actual type
-export const TGUI_CHAT_COMPONENTS = {
+export const TGUI_CHAT_COMPONENTS: any = {
   Tooltip,
+  TooltipHTML,
 };
 
-// List of injectable attibute names mapped to their proper prop
-// We need this because attibutes don't support lowercase names
-export const TGUI_CHAT_ATTRIBUTES_TO_PROPS = {
-  position: 'position',
-  content: 'content',
-};
+// List of injectable attibute names mapped to their proper prop.
+// We need this because attibutes don't support lowercase names.
+// Use this is the automatic "-a" -> "-A" replacer doesn't work for you.
+export const TGUI_CHAT_ATTRIBUTE_REMAPS: Record<string, string> = {};
 
 const findNearestScrollableParent = (startingNode) => {
   const body = document.body;
@@ -120,8 +121,20 @@ const updateMessageBadge = (message) => {
 };
 
 class ChatRenderer {
+  loaded: boolean;
+  rootNode: any;
+  queue: any;
+  messages: any;
+  visibleMessages: any;
+  page: any;
+  events: EventEmitter;
+  scrollNode: any;
+  scrollTracking: boolean;
+  lastScrollHeight: number;
+  handleScroll: any;
+  ensureScrollTracking: any;
+  highlightParsers: any;
   constructor() {
-    /** @type {HTMLElement} */
     this.loaded = false;
     /** @type {HTMLElement} */
     this.rootNode = null;
@@ -235,7 +248,7 @@ class ChatRenderer {
       if (lines.length === 0) {
         return;
       }
-      const regexExpressions = [];
+      let regexExpressions: any[] = [];
       // Organize each highlight entry into regex expressions and words
       for (let line of lines) {
         // Regex expression syntax is /[exp]/
@@ -342,7 +355,7 @@ class ChatRenderer {
     return null;
   }
 
-  processBatch(batch, options = {}) {
+  processBatch(batch, options: any = {}) {
     const { prepend, notifyListeners = true } = options;
     const now = Date.now();
     // Queue up messages until chat is ready
@@ -361,7 +374,8 @@ class ChatRenderer {
     // Insert messages
     const fragment = document.createDocumentFragment();
     const countByType = {};
-    let node;
+    let node: HTMLElement;
+    let insertedAnyNode = false;
     for (const payload of batch) {
       const message = createMessage(payload);
       // Combine messages
@@ -374,14 +388,17 @@ class ChatRenderer {
       // Reuse message node
       if (message.node) {
         node = message.node;
+        insertedAnyNode = true;
       }
       // Reconnected
       else if (message.type === 'internal/reconnected') {
         node = createReconnectedNode();
+        insertedAnyNode = true;
       }
       // Create message node
       else {
         node = createMessageNode();
+        insertedAnyNode = true;
         // Payload is plain text
         if (message.text) {
           node.textContent = message.text;
@@ -395,47 +412,73 @@ class ChatRenderer {
         // Get all nodes in this message that want to be rendered like jsx
         const nodes = node.querySelectorAll('[data-component]');
         for (let i = 0; i < nodes.length; i++) {
-          const childNode = nodes[i];
+          const childNode: Element = nodes[i];
           const targetName = childNode.getAttribute('data-component');
+          if (targetName === null) {
+            continue;
+          }
           // Let's pull out the attibute info we need
           const outputProps = {};
           for (let j = 0; j < childNode.attributes.length; j++) {
             const attribute = childNode.attributes[j];
-
+            if (!attribute.nodeName.startsWith("data-")) {
+              continue;
+            }
             let working_value = attribute.nodeValue;
+            if (!working_value) {
+              continue;
+            }
+            let parsed_value: any;
             // We can't do the "if it has no value it's truthy" trick
             // Because getAttribute returns "", not null. Hate IE
             if (working_value === '$true') {
-              working_value = true;
+              parsed_value = true;
             } else if (working_value === '$false') {
-              working_value = false;
-            } else if (!isNaN(working_value)) {
+              parsed_value = false;
+            } else {
               const parsed_float = parseFloat(working_value);
               if (!isNaN(parsed_float)) {
-                working_value = parsed_float;
+                parsed_value = parsed_float;
               }
             }
-
+            // treat as string if doesn't match specials
+            if (!parsed_value) {
+              parsed_value = working_value;
+            }
             let canon_name = attribute.nodeName.replace('data-', '');
             // html attributes don't support upper case chars, so we need to map
-            canon_name = TGUI_CHAT_ATTRIBUTES_TO_PROPS[canon_name];
+            let remapped = TGUI_CHAT_ATTRIBUTE_REMAPS[canon_name];
+            if (remapped) {
+              canon_name = remapped;
+            } else {
+              // pretend - is an upper case
+              canon_name = canon_name.replaceAll(/-([a-z])/g, (_, letter) => letter.toUpperCase());
+            }
             outputProps[canon_name] = working_value;
           }
           const oldHtml = { __html: childNode.innerHTML };
           while (childNode.firstChild) {
             childNode.removeChild(childNode.firstChild);
           }
-          const Element = TGUI_CHAT_COMPONENTS[targetName];
-
+          // TODO: please type this properly
+          let DataComponent: any = null;
           const reactRoot = createRoot(childNode);
-
-          /* eslint-disable react/no-danger */
-          reactRoot.render(
-            <Element {...outputProps}>
+          if (Object.keys(TGUI_CHAT_COMPONENTS).includes(targetName)) {
+            DataComponent = TGUI_CHAT_COMPONENTS[targetName];
+            const interior = (
+              // eslint-disable-next-line react/no-danger
               <span dangerouslySetInnerHTML={oldHtml} />
-            </Element>,
-            childNode,
-          );
+            );
+            const rendering = (
+              <DataComponent {...outputProps}>
+                {interior}
+              </DataComponent>
+            );
+            reactRoot.render(rendering);
+          } else {
+            reactRoot.render((
+              <div>-- invalid data component &apos;{targetName}&apos;; contact a coder.</div>
+            ));
         }
 
         // Highlight text
@@ -487,7 +530,7 @@ class ChatRenderer {
         this.visibleMessages.push(message);
       }
     }
-    if (node) {
+    if (insertedAnyNode) {
       const firstChild = this.rootNode.childNodes[0];
       if (prepend && firstChild) {
         this.rootNode.insertBefore(fragment, firstChild);
@@ -503,6 +546,7 @@ class ChatRenderer {
       this.events.emit('batchProcessed', countByType);
     }
   }
+}
 
   pruneMessages() {
     if (!this.isReady()) {

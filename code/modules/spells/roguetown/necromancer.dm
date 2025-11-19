@@ -256,11 +256,11 @@
 			to_chat(user, span_warning("It would be unwise to make an enemy of your own skeletons."))
 			return FALSE
 		if(target.mind && target.mind.current)
-			if (faction_tag in target.mind.current.faction)
-				target.mind.current.faction -= faction_tag
+			if (faction_tag in target.mind?.current.faction)
+				target.mind?.current.faction -= faction_tag
 				user.say("Hostis declaratus es.")
 			else
-				target.mind.current.faction += faction_tag
+				target.mind?.current.faction += faction_tag
 				user.say("Amicus declaratus es.")
 		else if(istype(target, /mob/living/simple_animal))
 			if (faction_tag in target.faction)

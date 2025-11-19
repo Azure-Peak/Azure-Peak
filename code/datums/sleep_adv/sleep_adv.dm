@@ -261,11 +261,11 @@
 	var/dream_text = skill.get_random_dream()
 	if(dream_text)
 		to_chat(mind.current, span_notice(dream_text))
-	
+
 	// Notify player if they're benefiting from Malum's blessing for craft skills or sewing
 	if(HAS_TRAIT(mind.current, TRAIT_FORGEBLESSED) && (istype(skill, /datum/skill/craft) || istype(skill, /datum/skill/craft/sewing)))
 		to_chat(mind.current, span_notice("Malum's blessing reduces the dream point cost of your crafting training."))
-	
+
 	sleep_adv_points -= get_skill_cost(skill_type)
 	adjust_sleep_xp(skill_type, -get_requried_sleep_xp_for_skill(skill_type, 1))
 	mind.current.adjust_skillrank(skill_type, 1, FALSE)
@@ -329,6 +329,9 @@
 		mind.RemoveSpell(mind.rituos_spell)
 		mind.rituos_spell = null
 	to_chat(mind.current, span_notice("...and that's all I dreamt of."))
+	if(HAS_TRAIT(mind.current, TRAIT_STUDENT))
+		REMOVE_TRAIT(mind.current, TRAIT_STUDENT, TRAIT_GENERIC)
+		to_chat(mind.current, span_smallnotice("I feel that I can be educated in a skill once more."))
 	close_ui()
 
 /datum/sleep_adv/Topic(href, list/href_list)

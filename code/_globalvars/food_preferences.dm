@@ -21,6 +21,7 @@ GLOBAL_LIST_EMPTY(cached_drink_flat_icons)
 		/datum/reagent/consumable/oil/tallow,
 		/datum/reagent/consumable/milk,
 		/datum/reagent/consumable/milk/salted,
+		/datum/reagent/consumable/pumpkinspice,
 	)
 
 	var/list/drink_types = subtypesof(/datum/reagent/consumable)\

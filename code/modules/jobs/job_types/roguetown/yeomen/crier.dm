@@ -14,7 +14,7 @@
 
 	outfit = /datum/outfit/job/roguetown/loudmouth
 	display_order = JDO_CRIER
-	give_bank_account = 15
+	give_bank_account = TRUE
 	min_pq = 3 // Has actual responsibility and is a key figure in town.
 	max_pq = null
 	round_contrib_points = 3
@@ -88,6 +88,8 @@
 	if(H.age == AGE_OLD)
 		H.change_stat(STATKEY_SPD, -1)
 		H.change_stat(STATKEY_INT, 1)
+	if(H.mind)
+		SStreasury.give_money_account(ECONOMIC_UPPER_CLASS, H, "Savings.")
 
 /mob/living/carbon/human/proc/crier_announcement()
 	set name = "Announcement"

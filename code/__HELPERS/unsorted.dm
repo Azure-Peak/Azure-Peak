@@ -1584,3 +1584,42 @@ GLOBAL_LIST_INIT(duplicate_forbidden_vars,list(
 		if(istype(A, i))
 			return TRUE
 	return FALSE
+
+/proc/get_actors_by_title(var/title)
+	var/list/actor_data = list()
+	for(var/mob_id in GLOB.actors_list)
+		if(GLOB.actors_list[mob_id]["rank"] != title)
+			continue
+		actor_data += list(list(
+			"data" = GLOB.actors_list[mob_id],
+			"mob_id" = mob_id,
+		))
+	return actor_data
+
+/proc/get_sorted_actors_list()
+	var/list/sorted_ckey_to_actor_data = list()
+	var/list/categories = list(
+		"Nobles" = GLOB.noble_positions,
+		"Courtiers" = GLOB.courtier_positions,
+		"Garrison" = GLOB.garrison_positions,
+		"Church" = GLOB.church_positions,
+		"Inquisition" = GLOB.inquisition_positions,
+		"Yeoman" = GLOB.yeoman_positions,
+		"Peasant" = GLOB.peasant_positions,
+		"Youngfolk" = GLOB.youngfolk_positions,
+		"Wanderer" = GLOB.wanderer_positions,
+	)
+
+	for(var/category in categories)
+		for(var/role in categories[category])
+			var/list/actor_data = get_actors_by_title(role)
+			for(var/actor in actor_data)
+				sorted_ckey_to_actor_data[actor["mob_id"]] = list("data" = actor["data"], "category" = category)
+
+	for(var/mob_id in GLOB.actors_list)
+		var/list/actor_data = GLOB.actors_list[mob_id]
+		if(!sorted_ckey_to_actor_data[mob_id])
+			sorted_ckey_to_actor_data[mob_id] = list("data" = actor_data, "category" = "Nobodies")
+
+	return sorted_ckey_to_actor_data
+

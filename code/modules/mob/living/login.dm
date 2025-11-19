@@ -3,6 +3,8 @@
 	..()
 	if(client)
 		client.update_ooc_verb_visibility()
+		if(stat == DEAD)
+			client.verbs.Add(GLOB.ghost_verbs)
 	//Mind updates
 	sync_mind()
 	mind.show_memory(src, 0)
@@ -27,7 +29,7 @@
 
 	if(ranged_ability)
 		ranged_ability.deactivate()
-	
+
 	set_ssd_indicator(FALSE)
 
 /mob/living/proc/login_fade()

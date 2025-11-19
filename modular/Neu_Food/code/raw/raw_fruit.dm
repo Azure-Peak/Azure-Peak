@@ -13,6 +13,8 @@
 	icon_state = "pumpkin_sliced"
 	desc = "A neatly sliced bit of pumpkin. Typically cooked first."
 	faretype = FARE_POOR
-	tastes = list("raw pumpkin" = 1)
+	tastes = list("pumpkin" = 1)
+	cooked_type = /obj/item/reagent_containers/food/snacks/rogue/preserved/pumpkin_mashed
+	fried_type = /obj/item/reagent_containers/food/snacks/rogue/preserved/pumpkin_mashed
 	list_reagents = list(/datum/reagent/consumable/nutriment = 1)
 	rotprocess = SHELFLIFE_LONG

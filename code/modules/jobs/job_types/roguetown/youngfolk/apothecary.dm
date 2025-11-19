@@ -15,7 +15,7 @@
 	cmode_music = 'sound/music/combat_physician.ogg'
 
 	display_order = JDO_APOTHECARY
-	give_bank_account = 30
+	give_bank_account = TRUE
 
 	min_pq = 0
 	max_pq = null
@@ -40,7 +40,7 @@
 	)
 	subclass_skills = list(
 		/datum/skill/combat/knives = SKILL_LEVEL_APPRENTICE,
-		/datum/skill/combat/polearms = SKILL_LEVEL_APPRENTICE, //enhances survival chances. 
+		/datum/skill/combat/polearms = SKILL_LEVEL_APPRENTICE, //enhances survival chances.
 		/datum/skill/combat/wrestling = SKILL_LEVEL_NOVICE,
 		/datum/skill/craft/crafting = SKILL_LEVEL_NOVICE,
 		/datum/skill/misc/athletics = SKILL_LEVEL_NOVICE,
@@ -74,3 +74,5 @@
 	)
 	if(H.mind)
 		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/diagnose/secular)
+	if(H.mind)
+		SStreasury.give_money_account(ECONOMIC_UPPER_MIDDLE_CLASS, H, "Savings.")

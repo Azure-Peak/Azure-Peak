@@ -10,7 +10,7 @@
 	allowed_sexes = list(MALE, FEMALE)
 	allowed_races = RACES_TOLERATED_UP
 	allowed_ages = list(AGE_ADULT, AGE_MIDDLEAGED)
-	
+
 
 	tutorial = "Dancing, music, or practicioners of the body. You've worked up a reputation as an entertainer, and sometime in life, the bathmaster has chosen to onboard you for one of these talents. In the bathhouse, your place on the hierarchy is determined by how long you've been in the game - and how much mammon you're worth."
 
@@ -85,6 +85,8 @@
 		pants = /obj/item/clothing/under/roguetown/heavy_leather_pants/shorts
 	if(H.mind)
 		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/massage)
+	if(H.mind)
+		SStreasury.give_money_account(ECONOMIC_LOWER_CLASS, H, "Savings.")
 
 /datum/advclass/nightmaiden/concubine
 	name = "Concubine"
@@ -160,6 +162,8 @@
 				backr = /obj/item/rogue/instrument/flute
 			if("Psyaltery")
 				backr = /obj/item/rogue/instrument/psyaltery
+	if(H.mind)
+		SStreasury.give_money_account(ECONOMIC_LOWER_MIDDLE_CLASS, H, "Savings.")
 
 /datum/advclass/nightmaiden/courtesan
 	name = "Courtesan"
@@ -248,6 +252,8 @@
 				backr = /obj/item/rogue/instrument/vocals
 			if("Flute")
 				backr = /obj/item/rogue/instrument/flute
+	if(H.mind)
+		SStreasury.give_money_account(ECONOMIC_UPPER_CLASS, H, "Savings.")
 
 /obj/item/soap/bath
 	name = "herbal soap"

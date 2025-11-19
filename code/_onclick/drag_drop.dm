@@ -187,6 +187,9 @@
 /mob
 	var/datum/intent/curplaying
 
+/atom/proc/should_click_on_mouse_up(var/atom/original_object)
+	return TRUE
+
 /client/MouseUp(object, location, control, params)
 	charging = 0
 //	mob.update_warning()
@@ -233,7 +236,7 @@
 
 	if(tcompare)
 		var/atom/target_atom = object
-		if(istype(target_atom) && tcompare != mob && (mob.atkswinging == "middle" || (mob.atkswinging && object != tcompare)))
+		if(istype(target_atom) && target_atom.should_click_on_mouse_up(tcompare) && tcompare != mob && (mob.atkswinging == "middle" || (mob.atkswinging && object != tcompare)))
 			target_atom.Click(location, control, params)
 		tcompare = null
 

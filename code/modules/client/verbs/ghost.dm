@@ -50,12 +50,14 @@ GLOBAL_LIST_INIT(ghost_verbs, list(
 	set name = "Leave Your Body"
 
 	if(mob.stat == DEAD && isliving(mob))
-		mob.make_me_an_observer(TRUE)
+		message_admins("[key_name_admin(usr)] is ghosting from their dead body.")
+		mob.ghostize(TRUE, ignore_zombie = TRUE)
 
 /client/proc/reenter_corpse()
 	set category = "Spirit"
 	set name = "Reenter Corpse"
 	if(isobserver(mob))
+		message_admins("[key_name_admin(usr)] has re-entered their dead body.")
 		var/mob/dead/observer/O = mob
 		O.reenter_corpse()
 

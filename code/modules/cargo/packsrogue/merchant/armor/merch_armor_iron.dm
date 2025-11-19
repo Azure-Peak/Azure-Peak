@@ -34,12 +34,12 @@
 /datum/supply_pack/rogue/armor_iron/breastplate_iron
 	name = "Breastplate"
 	cost = 35
-	contains = list(/obj/item/clothing/suit/roguetown/armor/plate/half/iron)
+	contains = list(/obj/item/clothing/suit/roguetown/armor/plate/cuirass/iron)
 
 /datum/supply_pack/rogue/armor_iron/halfplate
 	name = "Half-Plate Armor"
 	cost = 75 // Uhhh I don't think I should be selling them for 65 LOL
-	contains = list(/obj/item/clothing/suit/roguetown/armor/plate/half/iron)
+	contains = list(/obj/item/clothing/suit/roguetown/armor/plate/cuirass/iron)
 
 /datum/supply_pack/rogue/armor_iron/fullplate
 	name = "Full Plate"

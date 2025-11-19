@@ -18,7 +18,7 @@
 		/obj/item/rogueweapon/greataxe/dreamscape/active = 1,
 		/obj/item/clothing/neck/roguetown/leather = 150,
 		/obj/item/clothing/neck/roguetown/chaincoif = 100,
-		/obj/item/clothing/suit/roguetown/armor/plate/half = 50,
+		/obj/item/clothing/suit/roguetown/armor/plate/cuirass = 50,
 		/obj/item/clothing/head/roguetown/helmet/heavy/volfplate = 100,
 		/obj/item/rogueweapon/mace/warhammer/steel/silver = 100,
 		/obj/item/clothing/suit/roguetown/armor/chainmail/hauberk = 150,

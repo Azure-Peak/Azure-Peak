@@ -393,6 +393,18 @@
 		slapcraft_recipes = slapcraft_recipe_list,\
 		)
 
+/obj/item/grown/log/tree/stake/attack_obj(obj/O, mob/living/user)
+	if(!isitem(O))
+		return
+	var/obj/item/I = O
+	if(I.anvilrepair)
+		if(I.smeltresult == /obj/item/ingot/iron)
+			if(!do_after(user, 4 SECONDS, target = I))
+				return
+			to_chat(user, span_warning("The [user] breaks an [I] using stake into small parts!"))
+			new /obj/item/scrap(get_turf(I))
+			qdel(I)
+
 /////////////
 // Planks //
 ////////////

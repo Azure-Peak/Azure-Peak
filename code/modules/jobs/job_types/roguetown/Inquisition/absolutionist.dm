@@ -89,7 +89,7 @@
 	backr = /obj/item/storage/backpack/rogue/satchel/otavan
 	belt = /obj/item/storage/belt/rogue/leather
 	pants = /obj/item/clothing/under/roguetown/heavy_leather_pants/otavan
-	armor = /obj/item/clothing/suit/roguetown/armor/plate/half/fencer/psydon
+	armor = /obj/item/clothing/suit/roguetown/armor/plate/cuirass/fencer/psydon
 	shirt = /obj/item/clothing/suit/roguetown/armor/gambeson/heavy/inq
 	shoes = /obj/item/clothing/shoes/roguetown/boots/psydonboots
 	mask = /obj/item/clothing/head/roguetown/helmet/blacksteel/psythorns

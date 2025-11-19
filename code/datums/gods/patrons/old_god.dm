@@ -1,105 +1,26 @@
 /datum/patron/old_god
 	name = "Psydon"
-	domain = "Everything."
-	desc = "... </br>God. The manifestation of maximal good, and the father of all. </br>He, who created reality for His children to frollick within. </br>He, who breathed lyfe into the Pantheon to shepherd His virtues. </br>He, who sacrificed His strength to strike down the Archdevil with the Comet Syon. </br>He, who yet slumbers to this dae; and who may yet still return."
-	worshippers = "Traditionalists, Spiritualists, Extremists, Blessed Idiots, Sacrificial Heroes, and everyone in-between."
+	domain = "Otava, Naledi, Rockhill, and most of Psydonia's outermost fiefs."
+	desc = "  </br>''God. The manifestation of maximal good, and the father of all.'' </br>''He, who created reality for His children to frollick within.'' </br>''He, who breathed lyfe into the Pantheon to shepherd His virtues.'' </br>''He, who sacrificed His strength to strike down the Archdevil with the Comet Syon.'' </br>''He, who yet slumbers to this dae; and who may yet still return.''"
+	worshippers = "Commonfolk, Zealots, Heroes, and the Esoteric."
 	associated_faith = /datum/faith/old_god
-	mob_traits = list(TRAIT_PSYDONIAN_GRIT)
+	mob_traits = list(TRAIT_PSYDONIAN_GRIT) //Assigned to all mobs with Psydon as the chosen patron. Gives a Willpower-scaling chance to resist succumbing to pain.
 	miracles = list(/obj/effect/proc_holder/spell/targeted/touch/orison			= CLERIC_ORI,
-					/obj/effect/proc_holder/spell/self/check_boot				= CLERIC_T0,
-					/obj/effect/proc_holder/spell/invoked/psydonendure			= CLERIC_T1,
-					/obj/effect/proc_holder/spell/self/psydonrespite			= CLERIC_T2,
+					/obj/effect/proc_holder/spell/self/check_boot				= CLERIC_T0, //Personal spell - summons a completely random item upon use. Your mileage might vary.
+					/obj/effect/proc_holder/spell/invoked/psydonendure			= CLERIC_T1, //External spell - seals bleeding wounds and helps to save people who've been critically injured.
+					/obj/effect/proc_holder/spell/self/psydonprayer				= CLERIC_T1, //Internal spell - minor self-regeneration, repeatedly casted while still.
+					/obj/effect/proc_holder/spell/self/psydonrespite			= CLERIC_T2, //Ditto, but stronger. The original variant, intended for dedicated - non-Adventuring - combat classes.
+					/obj/effect/proc_holder/spell/self/psydonpersist			= CLERIC_T3, //Ditto-ditto. Intended for non-combative devotee classes, such as the Missionary and Absolver.
 	)
-	traits_tier = list(TRAIT_PSYDONITE = CLERIC_T1)
+	traits_tier = list(TRAIT_PSYDONITE = CLERIC_T0) //Requires a minimal holy skill or the 'Devotee' virtue to unlock. Offers passive wound regeneration, but prevents healing from most miracles.
 	confess_lines = list(
 		"THERE IS ONLY ONE TRUE GOD!",
 		"PSYDON YET LYVES! PSYDON YET ENDURES!",
 		"REBUKE THE HEATHEN, SUNDER THE MONSTER!",
-		"WITH EVERY BROKEN BONE, I SWORE I LYVED!",
-		"FORGIVE THEM, ALLFATHER, FOR THEY KNOW-NOT WHAT THEY DO!",
-		"BARE WITNESS, MY GOD; THE SACRIFICE MADE MANIFEST!",
+		"MY GOD - WITH EVERY BROKEN BONE, I SWORE I LYVED!",
+		"EVEN NOW, THERE IS STILL HOPE FOR MAN! AVE PSYDONIA!",
+		"WITNESS ME, PSYDON; THE SACRIFICE MADE MANIFEST!",
 	)
-
-
-/obj/effect/proc_holder/spell/self/check_boot
-	name = "BOOT-CHECK"
-	desc = "Checks your boot for variety of items."
-	releasedrain = 10
-	chargedrain = 0
-	chargetime = 0
-	chargedloop = null
-	sound = null
-	overlay_state = "BOOTCHECK"
-	associated_skill = /datum/skill/magic/holy
-	antimagic_allowed = TRUE
-	recharge_time = 10 MINUTES
-	miracle = TRUE
-	devotion_cost = 30
-	range = 1
-	var/static/list/lootpool = list(/obj/item/flowercrown/rosa,
-	/obj/item/bouquet/rosa,
-	/obj/item/jingle_bells,
-	/obj/item/bouquet/salvia,
-	/obj/item/bouquet/calendula,
-	/obj/item/roguecoin/gold,
-	/obj/item/roguecoin/silver,
-	/obj/item/roguecoin/copper,
-	/obj/item/alch/atropa,
-	/obj/item/alch/salvia,
-	/obj/item/alch/artemisia,
-	/obj/item/alch/rosa,
-	/obj/item/rogueweapon/huntingknife/idagger/navaja,
-	/obj/item/lockpick,
-	/obj/item/reagent_containers/glass/bottle/alchemical/strpot,
-	/obj/item/reagent_containers/glass/bottle/alchemical/endpot,
-	/obj/item/reagent_containers/glass/bottle/alchemical/conpot,
-	/obj/item/reagent_containers/glass/bottle/alchemical/lucpot,
-	/obj/item/reagent_containers/glass/bottle/rogue/poison,
-	/obj/item/reagent_containers/glass/bottle/rogue/healthpot,
-	/obj/item/needle,
-	/obj/item/natural/rock,
-	/obj/item/natural/bundle/cloth,
-	/obj/item/natural/bundle/fibers,
-	/obj/item/clothing/suit/roguetown/armor/leather/hide/bikini,
-	/obj/item/reagent_containers/glass/bottle/waterskin/milk,
-	/obj/item/reagent_containers/food/snacks/rogue/bread,
-	/obj/item/reagent_containers/food/snacks/grown/apple,
-	/obj/item/natural/worms,
-	/obj/item/natural/worms/leech,
-	/obj/item/reagent_containers/food/snacks/rogue/psycrossbun,
-	/obj/item/clothing/neck/roguetown/psicross,
-	/obj/item/clothing/neck/roguetown/psicross/wood,
-	/obj/item/rope/chain,
-	/obj/item/rope,
-	/obj/item/clothing/neck/roguetown/collar,
-	/obj/item/natural/dirtclod,
-	/obj/item/reagent_containers/glass/cup/wooden,
-	/obj/item/natural/glass,
-	/obj/item/clothing/shoes/roguetown/sandals,
-	/obj/item/alch/transisdust)
-	
-/obj/effect/proc_holder/spell/self/check_boot/cast(list/targets, mob/user = usr)
-	. = ..()
-	if(!ishuman(user))
-		revert_cast()
-		return FALSE
-	var/mob/living/carbon/human/H = user
-	var/obj/item/found_thing
-	if(H.get_stress_amount() < 0 && H.STALUC > 10)
-		found_thing = new /obj/item/roguecoin/gold
-	else if(H.STALUC == 10)
-		found_thing = new /obj/item/roguecoin/silver
-	else
-		found_thing = new /obj/item/roguecoin/copper
-	to_chat(H, span_info("A coin in my boot? Psydon smiles upon me!"))
-	H.put_in_hands(found_thing, FALSE)
-	if(prob(H.STALUC + H.get_skill_level(associated_skill)))
-		var/obj/item/extra_thing = pick(lootpool)
-		new extra_thing(get_turf(user))
-		to_chat(H, span_info("Ah, of course! I almost forgot I had this stashed away for a perfect occasion."))
-		H.put_in_hands(extra_thing, FALSE)
-	return TRUE
-
 
 
 /////////////////////////////////
@@ -126,108 +47,5 @@
 	// Allows prayer if holding silver psycross.
 	if(istype(follower.get_active_held_item(), /obj/item/clothing/neck/roguetown/psicross/silver))
 		return TRUE
-	to_chat(follower, span_danger("For Psydon to hear my prayer I must either must be near a Pantheon Cross, shed my own blood in penitence, hold one of his silver holy symbols, or bask in his rain; as Psydon weeps for his children.."))
-	return FALSE
-
-//////////////////////////////////
-// 	    ENDVRE. AS DOES HE.    //
-////////////////////////////////
-
-/obj/effect/proc_holder/spell/invoked/psydonendure
-	name = "ENDURE"
-	desc = "Mends the wounds of the target."
-	overlay_state = "ENDURE"
-	releasedrain = 20
-	chargedrain = 0
-	chargetime = 0
-	range = 2
-	warnie = "sydwarning"
-	movement_interrupt = FALSE
-	sound = 'sound/magic/ENDVRE.ogg'
-	invocations = list("LYVE, ENDURE!") // holy larp yelling for healing is silly
-	invocation_type = "none"
-	associated_skill = /datum/skill/magic/holy
-	antimagic_allowed = FALSE
-	recharge_time = 30 SECONDS
-	miracle = TRUE
-	devotion_cost = 40
-
-/obj/effect/proc_holder/spell/invoked/psydonendure/cast(list/targets, mob/living/user)
-	. = ..()
-	if(isliving(targets[1]))
-		var/mob/living/target = targets[1]
-		var/brute = target.getBruteLoss()
-		var/burn = target.getFireLoss()
-		var/list/wAmount = target.get_wounds()
-		var/conditional_buff = FALSE
-		var/situational_bonus = 0
-		var/psicross_bonus = 0
-		var/pp = 0
-		var/damtotal = brute + burn
-		var/zcross_trigger = FALSE
-		if(user.patron?.undead_hater && (target.mob_biotypes & MOB_UNDEAD)) // YOU ARE NO LONGER MORTAL. NO LONGER OF HIM. PSYDON WEEPS.
-			target.visible_message(span_danger("[target] shudders with a strange stirring feeling!"), span_userdanger("It hurts. You feel like weeping."))
-			target.adjustBruteLoss(40)			
-			return TRUE
-
-		// Bonuses! Flavour! SOVL!
-		for(var/obj/item/clothing/neck/current_item in target.get_equipped_items(TRUE))
-			if(current_item.type in list(/obj/item/clothing/neck/roguetown/psicross/inhumen/aalloy, /obj/item/clothing/neck/roguetown/psicross, /obj/item/clothing/neck/roguetown/psicross/wood, /obj/item/clothing/neck/roguetown/psicross/aalloy, /obj/item/clothing/neck/roguetown/psicross/silver,	/obj/item/clothing/neck/roguetown/psicross/g))
-				pp += 1
-				if(pp >= 12 & target == user) // A harmless easter-egg. Only applies on self-cast. You'd have to be pretty deliberate to wear 12 of them.
-					target.visible_message(span_danger("[target]'s many psycrosses reverberate with a strange, ephemeral sound..."), span_userdanger("HE must be waking up! I can hear it! I'm ENDURING so much!"))
-					playsound(user, 'sound/magic/PSYDONE.ogg', 100, FALSE)
-					sleep(60)
-					user.psydo_nyte()
-					user.playsound_local(user, 'sound/misc/psydong.ogg', 100, FALSE)
-					sleep(20)
-					user.psydo_nyte()
-					user.playsound_local(user, 'sound/misc/psydong.ogg', 100, FALSE)
-					sleep(15)
-					user.psydo_nyte()
-					user.playsound_local(user, 'sound/misc/psydong.ogg', 100, FALSE)
-					sleep(10)
-					user.gib()
-					return FALSE
-				
-				switch(current_item.type) // Target-based worn Psicross Piety bonus. For fun.
-					if(/obj/item/clothing/neck/roguetown/psicross/wood)
-						psicross_bonus = 0.1				
-					if(/obj/item/clothing/neck/roguetown/psicross/aalloy)
-						psicross_bonus = 0.2	
-					if(/obj/item/clothing/neck/roguetown/psicross)
-						psicross_bonus = 0.3
-					if(/obj/item/clothing/neck/roguetown/psicross/silver)
-						psicross_bonus = 0.4	
-					if(/obj/item/clothing/neck/roguetown/psicross/g) // PURITY AFLOAT.
-						psicross_bonus = 0.4
-					if(/obj/item/clothing/neck/roguetown/psicross/inhumen/aalloy)
-						zcross_trigger = TRUE	
-
-		if(damtotal >= 300) // ARE THEY ENDURING MUCH, IN ONE WAY OR ANOTHER?
-			situational_bonus += 0.3
-
-		if(wAmount.len > 5)	
-			situational_bonus += 0.3		
-	
-		if (situational_bonus > 0)
-			conditional_buff = TRUE
-
-		target.visible_message(span_info("A strange stirring feeling pours from [target]!"), span_info("Sentimental thoughts drive away my pain..."))
-		var/psyhealing = 3
-		psyhealing += psicross_bonus
-		if (conditional_buff & !zcross_trigger)
-			to_chat(user, "In <b>ENDURING</b> so much, become <b>EMBOLDENED</b>!")
-			psyhealing += situational_bonus
-	
-		if (zcross_trigger)
-			user.visible_message(span_warning("[user] shuddered. Something's very wrong."), span_userdanger("Cold shoots through my spine. Something laughs at me for trying."))
-			user.playsound_local(user, 'sound/misc/zizo.ogg', 25, FALSE)
-			user.adjustBruteLoss(25)		
-			return FALSE
-
-		target.apply_status_effect(/datum/status_effect/buff/psyhealing, psyhealing)
-		return TRUE
-
-	revert_cast()
+	to_chat(follower, span_danger("..yet, I feel incomplete. To complete my prayer, I must stand before a structured cross, be grasping a silvered psycross, be bleeding from a wound, or be standing in the rain. Just as He weeps, so must I."))
 	return FALSE

@@ -59,6 +59,7 @@
 	AdjustKnockdown(levels * 20)
 
 /mob/living/carbon/swap_hand(held_index)
+	SEND_SIGNAL(src, COMSIG_CARBON_SWAPHANDS)
 	if(!held_index)
 		held_index = (active_hand_index % held_items.len)+1
 

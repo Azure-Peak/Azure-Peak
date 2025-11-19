@@ -43,7 +43,7 @@
 /turf/open/floor/rogue/naturalstone,
 /area/rogue/under/tomb/cave)
 "l" = (
-/obj/item/clothing/suit/roguetown/armor/plate/half/iron,
+/obj/item/clothing/suit/roguetown/armor/plate/cuirass/iron,
 /turf/open/floor/rogue/naturalstone,
 /area/rogue/under/tomb/cave)
 "o" = (

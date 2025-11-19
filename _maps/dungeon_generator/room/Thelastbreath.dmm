@@ -1424,7 +1424,7 @@
 /obj/item/clothing/under/roguetown/platelegs/paalloy,
 /obj/item/clothing/neck/roguetown/chaincoif,
 /obj/item/clothing/ring/quartz,
-/obj/item/clothing/suit/roguetown/armor/plate/half/iron,
+/obj/item/clothing/suit/roguetown/armor/plate/cuirass/iron,
 /mob/living/carbon/human/species/skeleton/npc/no_equipment{
 	STASPD = 15;
 	STASTR = 15;
@@ -3153,7 +3153,7 @@
 /obj/item/clothing/under/roguetown/platelegs/paalloy,
 /obj/item/clothing/neck/roguetown/chaincoif,
 /obj/item/clothing/ring/quartz,
-/obj/item/clothing/suit/roguetown/armor/plate/half/iron,
+/obj/item/clothing/suit/roguetown/armor/plate/cuirass/iron,
 /obj/item/rogueweapon/sword/rapier,
 /obj/item/clothing/neck/roguetown/psicross/silver,
 /mob/living/carbon/human/species/skeleton/npc/hard/noequip,

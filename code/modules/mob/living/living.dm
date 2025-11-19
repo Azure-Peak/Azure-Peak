@@ -618,8 +618,6 @@
 	if(pulling)
 		if(ismob(pulling))
 			var/mob/living/M = pulling
-			if(pulledby && pulledby == pulling)
-				reset_offsets("pulledby")
 			M.reset_offsets("pulledby")
 			reset_pull_offsets(pulling)
 			if(HAS_TRAIT(M, TRAIT_GARROTED))
@@ -637,8 +635,6 @@
 				var/obj/item/grabbing/I = get_inactive_held_item()
 				if(I.grabbed == pulling)
 					dropItemToGround(I, silent = FALSE)
-	reset_offsets("pulledby")
-	reset_pull_offsets(src)
 
 	. = ..()
 
@@ -1775,7 +1771,7 @@
 
 	if(should_be_lying)
 		// Track when we transition from standing to prone for dismemberment grace period
-		if(mobility_flags & MOBILITY_STAND) 
+		if(mobility_flags & MOBILITY_STAND)
 			if(mob_timers)
 				mob_timers["last_standing"] = world.time
 		resting = TRUE
@@ -2316,7 +2312,7 @@
 
 	if(stealthy)
 		to_chat(src, span_notice("I secretly offer [offered_item] to [offered_to]."))
-		to_chat(offered_to, span_notice("[offered_to] secretly offers [offered_item] to me..."))
+		to_chat(offered_to, span_notice("[src] secretly offers [offered_item] to me..."))
 	else
 		visible_message(
 			span_notice("[src] offers [offered_item] to [offered_to] with an outstretched hand."), \
@@ -2324,7 +2320,7 @@
 			vision_distance = COMBAT_MESSAGE_RANGE, \
 			ignored_mobs = list(offered_to)
 		)
-		to_chat(offered_to, span_notice("[offered_to] offers [offered_item] to me..."))
+		to_chat(offered_to, span_notice("[src] offers [offered_item] to me..."))
 
 	new /obj/effect/temp_visual/offered_item_effect(get_turf(src), offered_item, src, offered_to, stealthy)
 

@@ -1,4 +1,4 @@
-// Withdraw Price used to be designed to match export price. 
+// Withdraw Price used to be designed to match export price.
 // However this meant that food were often too expensive to buy as raw materials
 // Now for food the withdraw price is set to be the same as the payout price
 // Theoretically this does create a perverse incentive to export food instead of selling it locally
@@ -119,10 +119,10 @@
 	desc = "Egg laid by a hen."
 	item_type = /obj/item/reagent_containers/food/snacks/egg
 	held_items = list(0, 0)
-	payout_price = 3
-	withdraw_price = 3
-	transport_fee = 2
-	export_price = 5
+	payout_price = 2
+	withdraw_price = 2
+	transport_fee = 1
+	export_price = 3
 	importexport_amt = 5
 	stockpile_limit = 25
 	passive_generation = 2
@@ -324,15 +324,15 @@
 	passive_generation = 2
 	category = "Foodstuffs"
 
-/datum/roguestock/stockpile/sugarcane
-	name = "Sugarcane"
-	desc = "A plant that can be milled into sugar."
-	item_type = /obj/item/reagent_containers/food/snacks/grown/sugarcane
+/datum/roguestock/stockpile/sugar
+	name = "Sugar"
+	desc = "A sweet powder milled from sugarcane"
+	item_type = /obj/item/reagent_containers/food/snacks/sugar
 	held_items = list(0, 0)
-	payout_price = 3
-	withdraw_price = 3
-	transport_fee = 1
-	export_price = 3
+	payout_price = 4
+	withdraw_price = 4
+	transport_fee = 2
+	export_price = 6
 	importexport_amt = 10
 	stockpile_limit = 50
 	passive_generation = 2

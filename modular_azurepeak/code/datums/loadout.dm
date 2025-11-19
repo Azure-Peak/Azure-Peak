@@ -143,6 +143,10 @@ GLOBAL_LIST_EMPTY(loadout_items)
 	name = "Jupon"
 	path = /obj/item/clothing/cloak/stabard/surcoat
 
+/datum/loadout_item/jupon_short
+	name = "Short Jupon"
+	path = /obj/item/clothing/cloak/stabard/surcoat/short
+
 /datum/loadout_item/cape
 	name = "Cape"
 	path = /obj/item/clothing/cloak/cape
@@ -566,6 +570,10 @@ GLOBAL_LIST_EMPTY(loadout_items)
 	name = "Decrepit Zcross"
 	path = /obj/item/clothing/neck/roguetown/psicross/inhumen/aalloy
 
+/datum/loadout_item/zcross_iron
+	name = "Iron Zcross"
+	path = /obj/item/clothing/neck/roguetown/psicross/inhumen/iron
+
 /datum/loadout_item/wedding_band
 	name = "silver wedding band"
 	path = /obj/item/clothing/ring/band
@@ -676,3 +684,8 @@ GLOBAL_LIST_EMPTY(loadout_items)
 	name = "Donator Kit - Shroud of the Undermaiden"
 	path = /obj/item/enchantingkit/zoe
 	ckeywhitelist = list("zoetheorc")
+
+/datum/loadout_item/donator_willmbrink
+	name = "Donator Item - Royal Gown"
+	path = /obj/item/clothing/suit/roguetown/shirt/dress/royal
+	ckeywhitelist = list("willmbrink")

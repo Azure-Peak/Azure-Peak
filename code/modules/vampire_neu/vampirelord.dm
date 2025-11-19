@@ -58,7 +58,7 @@
 	pants = /obj/item/clothing/under/roguetown/tights/black
 	shirt = /obj/item/clothing/suit/roguetown/shirt/vampire
 	belt = /obj/item/storage/belt/rogue/leather/plaquegold
-	beltr = /obj/item/storage/belt/pouch/coins/veryrich
+	beltr = /obj/item/storage/belt/rogue/pouch/coins/veryrich
 	head  = /obj/item/clothing/head/roguetown/vampire
 	beltl = /obj/item/roguekey/vampire
 	cloak = /obj/item/clothing/cloak/cape/puritan

@@ -166,6 +166,11 @@
 	///Whether this class can be clicked on for details.
 	var/class_setup_examine = TRUE
 
+	/// Whether this job is intended to give quests
+	var/is_quest_giver = FALSE
+
+	/// How many quests this job can take at once
+	var/max_active_quests = 3
 
 
 /datum/job/proc/special_job_check(mob/dead/new_player/player)
@@ -209,7 +214,7 @@
 	if(spells && H.mind)
 		for(var/S in spells)
 			H.mind.AddSpell(new S)
-			
+
 	if(length(job_stats))
 		for(var/stat in job_stats)
 			H.change_stat(stat, job_stats[stat])
@@ -233,6 +238,10 @@
 
 		if(H.mind)
 			H.mind?.special_items["Pouch of Coins"] = /obj/item/storage/belt/rogue/pouch/coins/readyuppouch
+			if (HAS_TRAIT(H, TRAIT_MEDIUMARMOR) || HAS_TRAIT(H, TRAIT_HEAVYARMOR))
+				H.mind?.special_items["Metal Scrap (Repair kit)"] = /obj/item/repair_kit/metal/bad
+			else
+				H.mind?.special_items["Fabric Patch (Repair kit)"] = /obj/item/repair_kit/bad
 
 		to_chat(M, span_notice("Rising early, you made sure to pack a pouch of coins in your stash and eat a hearty breakfast before starting your day. A true TRIUMPH!"))
 
@@ -258,10 +267,13 @@
 		H.cmode_music = cmode_music
 
 	if (!hidden_job)
+		var/mob_name = H.real_name
+		var/mob_rank
 		if (obsfuscated_job)
-			GLOB.actors_list[H.mobid] = "[H.real_name] as Adventurer<BR>"
+			mob_rank = "Adventurer"
 		else
-			GLOB.actors_list[H.mobid] = "[H.real_name] as [H.mind.assigned_role]<BR>"
+			mob_rank = H.mind.assigned_role
+		GLOB.actors_list[H.mobid] = list("name" = mob_name, "rank" = mob_rank)
 
 	if(islist(advclass_cat_rolls))
 		hugboxify_for_class_selection(H)
@@ -459,10 +471,10 @@
 
 // LETHALSTONE EDIT: Helper functions for pronoun-based clothing selection
 /proc/should_wear_masc_clothes(mob/living/carbon/human/H)
-	return (H.pronouns == HE_HIM || H.pronouns == THEY_THEM || H.pronouns == IT_ITS || H.pronouns == SHE_HER_M)
+	return (H.pronouns == HE_HIM || H.pronouns == THEY_THEM || H.pronouns == SHE_HER_M || (H.pronouns == IT_ITS && H.gender == MALE))
 
 /proc/should_wear_femme_clothes(mob/living/carbon/human/H)
-	return (H.pronouns == SHE_HER || H.pronouns == THEY_THEM_F || H.pronouns == HE_HIM_F)
+	return (H.pronouns == SHE_HER || H.pronouns == THEY_THEM_F || H.pronouns == HE_HIM_F || (H.pronouns == IT_ITS && H.gender == FEMALE))
 // LETHALSTONE EDIT END
 
 /datum/job/proc/get_informed_title(mob/mob)

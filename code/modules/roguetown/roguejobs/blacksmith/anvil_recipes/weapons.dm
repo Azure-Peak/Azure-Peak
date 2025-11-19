@@ -444,6 +444,13 @@
 	created_item = /obj/item/ammo_casing/caseless/rogue/javelin
 	createditem_num = 2
 
+/datum/anvil_recipe/weapons/iron/maul
+	name = "Maul (+1 Iron)"
+	req_bar = /obj/item/ingot/iron
+	additional_items = list(/obj/item/ingot/iron)
+	created_item = /obj/item/rogueweapon/mace/maul
+	craftdiff = 4
+
 /// STEEL WEAPONS
 /datum/anvil_recipe/weapons/steel/dagger
 	name = "Dagger, Steel"
@@ -714,6 +721,11 @@
 	req_blade = /obj/item/blade/steel_sword
 	created_item = /obj/item/rogueweapon/sword/falx
 
+/datum/anvil_recipe/weapons/steel/maul
+	name = "Grand Maul (+2 Steel)"
+	req_bar = /obj/item/ingot/steel
+	additional_items = list(/obj/item/ingot/steel, /obj/item/ingot/steel)
+	created_item = /obj/item/rogueweapon/mace/maul/grand
 
 // GOLD
 
@@ -773,7 +785,7 @@
 	additional_items = list(/obj/item/ingot/silver, /obj/item/ingot/silver)
 	created_item = /obj/item/rogueweapon/sword/silver
 
-/datum/anvil_recipe/weapons/silver/sword
+/datum/anvil_recipe/weapons/silver/rapier
 	name = "Rapier, Silver (+2 Silver)"
 	req_bar = /obj/item/ingot/silver
 	additional_items = list(/obj/item/ingot/silver, /obj/item/ingot/silver)
@@ -1016,12 +1028,26 @@
 
 // BLACKSTEEL
 
+
+/datum/anvil_recipe/weapons/blacksteel/arming
+	name = "Blacksteel Arming Sword"
+	req_bar = /obj/item/ingot/blacksteel
+	created_item = /obj/item/rogueweapon/sword/blacksteel
+
 /datum/anvil_recipe/weapons/blacksteel/flamberge
 	name = "Blacksteel Flamberge (+1 Blacksteel, +1 Rontz)"
 	req_bar = /obj/item/ingot/blacksteel
 	additional_items = list(/obj/item/ingot/blacksteel, /obj/item/roguegem/ruby)
 	created_item = /obj/item/rogueweapon/greatsword/grenz/flamberge/blacksteel
 
+/datum/anvil_recipe/weapons/blacksteel/decsword
+	name = "Blacksteel Sword, Decorated (+1 Steel Sword)"
+	req_bar = /obj/item/ingot/blacksteel
+	additional_items = list(/obj/item/rogueweapon/sword)
+	created_item = /obj/item/rogueweapon/sword/decorated/blacksteel
+	craftdiff = 5
+
+//Church Weapons forged from Holy Steel
 
 // HOLY STEEL
 

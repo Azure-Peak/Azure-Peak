@@ -22,3 +22,5 @@
 		armor = /obj/item/clothing/suit/roguetown/shirt/rags
 	else if(should_wear_masc_clothes(H))
 		pants = /obj/item/clothing/under/roguetown/loincloth
+	if(H.mind)
+		SStreasury.give_money_account(ECONOMIC_DESTITUTE, H, "Savings.")

@@ -18,6 +18,8 @@
 	max_pq = null
 	round_contrib_points = 2
 
+	give_bank_account = TRUE
+
 	cmode_music = 'sound/music/combat_bum.ogg'
 	job_subclasses = list(
 		/datum/advclass/vagabond_original,

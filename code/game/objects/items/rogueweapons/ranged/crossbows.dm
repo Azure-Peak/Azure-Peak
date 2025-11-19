@@ -161,9 +161,6 @@
 		BB.armor_penetration *= penfactor
 		BB.damage *= damfactor
 	cocked = FALSE
-	if(user.has_status_effect(/datum/status_effect/buff/clash) && ishuman(user))
-		var/mob/living/carbon/human/H = user
-		H.bad_guard(span_warning("I can't focus on my Guard and loose bolts! This drains me!"), cheesy = TRUE)
 	..()
 
 /obj/item/gun/ballistic/revolver/grenadelauncher/crossbow/update_icon()

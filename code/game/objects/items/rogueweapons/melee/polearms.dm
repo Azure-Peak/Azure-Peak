@@ -112,6 +112,7 @@
 	animname = "cut"
 	blade_class = BCLASS_CHOP
 	reach = 1
+	swingdelay = 15
 	penfactor = BLUNT_DEFAULT_PENFACTOR
 	damfactor = 2.5
 	clickcd = CLICK_CD_CHARGED
@@ -119,12 +120,13 @@
 	hitsound = list('sound/combat/hits/bladed/genslash (1).ogg', 'sound/combat/hits/bladed/genslash (2).ogg', 'sound/combat/hits/bladed/genslash (3).ogg')
 	item_d_type = "slash"
 	misscost = 10
-	intent_intdamage_factor = 0.25
+	intent_intdamage_factor = 0.05
 
 /datum/intent/rend/reach
 	name = "long rend"
 	penfactor = BLUNT_DEFAULT_PENFACTOR
 	misscost = 5
+	swingdelay = 15
 	clickcd = CLICK_CD_HEAVY
 	damfactor = 2
 	reach = 2
@@ -839,7 +841,16 @@
 			if("onback") 
 				return list("shrink" = 0.5,"sx" = -1,"sy" = 2,"nx" = 0,"ny" = 2,"wx" = 2,"wy" = 1,"ex" = 0,"ey" = 1,"nturn" = 0,"sturn" = 0,"wturn" = 70,"eturn" = 15,"nflip" = 1,"sflip" = 1,"wflip" = 1,"eflip" = 1,"northabove" = 1,"southabove" = 0,"eastabove" = 0,"westabove" = 0)
 
-
+/// Ported from Scarlet Reach's Glaive. We're avoiding force increase because I hate roguepen. It can have better blade integrity and defense instead.
+/obj/item/rogueweapon/halberd/glaive/knightcaptain
+	name = "'Deliverance'"
+	desc = "A masterwork glaive with a seasoned ashwood shaft reinforced by brass-sheathed steel bands. The blacksteel blade bears inscriptions on both side. One reads, \"QUIS CUSTODIET\" while the other reads, \"IPSOS CUSTODES\"."
+	icon = 'icons/roguetown/weapons/special/captainglaive.dmi'
+	icon_state = "capglaive"
+	smeltresult = /obj/item/ingot/blacksteel
+	max_integrity = 300 //blacksteel, so its gotta be more durable
+	max_blade_int = 200
+	sellprice = 250
 
 /obj/item/rogueweapon/eaglebeak
 	force = 15
@@ -897,7 +908,6 @@
 /datum/intent/spear/thrust/glaive
 	penfactor = 50
 	damfactor = 1.1
-	chargetime = 0
 
 /datum/intent/mace/smash/eaglebeak
 	reach = 2
@@ -959,6 +969,8 @@
 				return list("shrink" = 0.3,"sx" = -2,"sy" = -5,"nx" = 4,"ny" = -5,"wx" = 0,"wy" = -5,"ex" = 2,"ey" = -5,"nturn" = 0,"sturn" = 0,"wturn" = 0,"eturn" = 0,"nflip" = 0,"sflip" = 0,"wflip" = 0,"eflip" = 0,"northabove" = 0,"southabove" = 1,"eastabove" = 1,"westabove" = 0)
 			if("altgrip")
 				return list("shrink" = 0.6,"sx" = 4,"sy" = 0,"nx" = -7,"ny" = 1,"wx" = -8,"wy" = 0,"ex" = 8,"ey" = -1,"northabove" = 0,"southabove" = 1,"eastabove" = 1,"westabove" = 0,"nturn" = -135,"sturn" = -35,"wturn" = 45,"eturn" = 145,"nflip" = 8,"sflip" = 8,"wflip" = 1,"eflip" = 0)
+			if("onback")
+				return list("shrink" = 0.6,"sx" = -1,"sy" = 2,"nx" = 0,"ny" = 2,"wx" = 2,"wy" = 1,"ex" = 0,"ey" = 1,"nturn" = 0,"sturn" = 0,"wturn" = 70,"eturn" = 15,"nflip" = 1,"sflip" = 1,"wflip" = 1,"eflip" = 1,"northabove" = 1,"southabove" = 0,"eastabove" = 0,"westabove" = 0)
 
 /obj/item/rogueweapon/greatsword/iron
 	name = "iron greatsword"
@@ -1259,6 +1271,9 @@
 					"wflip" = 8,
 					"eflip" = 0,
 					)
+			if("onback")
+				return list("shrink" = 0.6,"sx" = -1,"sy" = 2,"nx" = 0,"ny" = 2,"wx" = 2,"wy" = 1,"ex" = 0,"ey" = 1,"nturn" = 0,"sturn" = 0,"wturn" = 70,"eturn" = 15,"nflip" = 1,"sflip" = 1,"wflip" = 1,"eflip" = 1,"northabove" = 1,"southabove" = 0,"eastabove" = 0,"westabove" = 0)
+
 
 /obj/item/rogueweapon/woodstaff/naledi
 	name = "naledian warstaff"

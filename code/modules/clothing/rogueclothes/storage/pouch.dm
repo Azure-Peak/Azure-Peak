@@ -118,6 +118,12 @@
 			if(!SEND_SIGNAL(src, COMSIG_TRY_STORAGE_INSERT, H, null, TRUE, TRUE))
 				qdel(H)
 
+/obj/item/storage/belt/rogue/pouch/cloth
+	name = "cloth pouch"
+	desc = "Usually used for holding small amount of coins."
+	icon_state = "clothpouch"
+	component_type = /datum/component/storage/concrete/roguetown/coin_pouch/cloth
+
 /obj/item/storage/belt/rogue/pouch/coins
 
 /obj/item/storage/belt/rogue/pouch/coins/mid/Initialize()
@@ -159,7 +165,7 @@
 			if(!SEND_SIGNAL(src, COMSIG_TRY_STORAGE_INSERT, H, null, TRUE, TRUE))
 				qdel(H)
 
-/obj/item/storage/belt/pouch/coins/veryrich/Initialize()
+/obj/item/storage/belt/rogue/pouch/coins/veryrich/Initialize()
 	. = ..()
 	var/obj/item/roguecoin/gold/pile/H = new(loc)
 	if(istype(H))

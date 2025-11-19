@@ -81,6 +81,6 @@
 
 /mob/living/CanPass(atom/movable/mover, turf/target)
 	// Make sure to not allow projectiles of any kind past where they normally wouldn't.
-	if(!istype(mover, /obj/projectile) && !mover.throwing && passthroughable & get_dir(src, mover))
+	if(!istype(mover, /obj/projectile) && !mover?.throwing && passthroughable & get_dir(src, mover))
 		return TRUE
 	return ..()

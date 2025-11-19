@@ -11,10 +11,10 @@
 	allowed_races = RACES_TOLERATED_UP
 	allowed_ages = ALL_AGES_LIST
 	cmode_music = 'sound/music/cmode/towner/combat_towner3.ogg'
-	
+
 	outfit = /datum/outfit/job/roguetown/archivist
 	display_order = JDO_ARCHIVIST
-	give_bank_account = 15
+	give_bank_account = TRUE
 	min_pq = 1 // Please do not read smut while brewing bottle bombs. It upsets the maids when they have to scrape archivists off the ceiling.
 	max_pq = null
 	round_contrib_points = 3
@@ -30,6 +30,7 @@
 		TRAIT_SEWING_EXPERT,
 		TRAIT_SURVIVAL_EXPERT,
 		TRAIT_HOMESTEAD_EXPERT, // Archivist teaches everyone everything.
+		TRAIT_GOODWRITER,
 		)
 	advclass_cat_rolls = list(CTAG_ARCHIVIST = 2)
 	job_subclasses = list(
@@ -93,13 +94,21 @@
 	mask = /obj/item/clothing/mask/rogue/spectacles
 	id = /obj/item/scomstone/bad
 	backpack_contents = list(
-		/obj/item/recipe_book/alchemy
+		/obj/item/recipe_book/alchemy,
+		/obj/item/skillbook/unfinished, //give the book man a starter book, enough paper for 3 pages, and a writing instrument to get him started
+		/obj/item/natural/feather,
+		/obj/item/paper,
+		/obj/item/paper,
+		/obj/item/paper
 	)
 
 	if(H.mind)
 		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/teach)
 		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/refocusstudies)
 		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/takeapprentice)
+		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/learn)
 	if(H.age == AGE_OLD)
 		H.change_stat(STATKEY_SPD, -1)
 		H.change_stat(STATKEY_INT, 1)
+	if(H.mind)
+		SStreasury.give_money_account(ECONOMIC_UPPER_CLASS, H, "Savings.")

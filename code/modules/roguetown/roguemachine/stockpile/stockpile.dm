@@ -1,6 +1,6 @@
 /obj/structure/roguemachine/stockpile
 	name = "stockpile"
-	desc = ""
+	desc = "A magitech device connected to the trade network. Users can buy basic goods, crafting materials, and food for a price from these units, or sell them here for money."
 	icon = 'icons/roguetown/misc/machines.dmi'
 	icon_state = "stockpile_vendor"
 	density = FALSE
@@ -108,16 +108,17 @@
 	if(istype(I, /obj/structure/handcart)) // Handle carts specially - sell their contents, leave the empty cart
 		var/obj/structure/handcart/cart = I
 		var/turf/cart_location = get_turf(cart)
-		var/list/cart_contents = cart.stuff_shit.Copy()
+		var/list/cart_contents = cart.contained_items.Copy()
 		for(var/atom/movable/cart_content in cart_contents) // Process all items inside the cart first
 			if(isitem(cart_content))
 				attemptsell(cart_content, H, message, FALSE)
 
 		for(var/atom/movable/remaining_item in cart_contents) // Any items that weren't sold (still exist) go to the ground
 			if(!QDELETED(remaining_item))
+				cart.remove_from(remaining_item)
 				remaining_item.forceMove(cart_location)
 		// Setting cart back to square 1
-		cart.stuff_shit = list()
+		cart.contained_items = list()
 		cart.current_capacity = 0
 		cart.update_icon()
 		if(sound == TRUE)
@@ -200,9 +201,9 @@
 		if(istype(P, /obj/item/roguecoin/aalloy))
 			return
 
-		if(istype(P, /obj/item/roguecoin/inqcoin))	
+		if(istype(P, /obj/item/roguecoin/inqcoin))
 			return
-	
+
 		if(istype(P, /obj/item/roguecoin))
 			withdraw_tab.insert_coins(P)
 			return attack_hand(user)

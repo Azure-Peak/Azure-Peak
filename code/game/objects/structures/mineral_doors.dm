@@ -66,6 +66,8 @@
 /obj/structure/mineral_door/onkick(mob/user)
 	if(isSwitchingStates)
 		return
+	if(brokenstate)
+		return
 	if(door_opened)
 		playsound(src, 'sound/combat/hits/onwood/woodimpact (1).ogg', 100)
 		user.visible_message(span_warning("[user] kicks [src] shut!"), \
@@ -223,6 +225,7 @@
 			if(istype(user.get_active_held_item(), /obj/item/roguekey) || istype(user.get_active_held_item(), /obj/item/storage/keyring))
 				src.attackby(user.get_active_held_item(), user, TRUE)
 				return
+			to_chat(user, span_notice("It's locked."))
 			door_rattle()
 			return
 		if(TryToSwitchState(user))

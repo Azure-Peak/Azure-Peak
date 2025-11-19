@@ -12,7 +12,7 @@
 	destroy_sound = 'sound/combat/hits/onwood/destroyfurniture.ogg'
 	attacked_sound = "woodimpact"
 	var/state = 0
-	var/list/allowed_books = list(/obj/item/book, /obj/item/storage/book, /obj/item/recipe_book) //Things allowed in the bookcase
+	var/list/allowed_books = list(/obj/item/book, /obj/item/storage/book, /obj/item/recipe_book, /obj/item/skillbook) //Things allowed in the bookcase
 
 /obj/structure/bookcase/examine(mob/user)
 	. = ..()
