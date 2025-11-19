@@ -248,16 +248,32 @@ This allows the devs to draw whatever shape they want at the cost of it feeling 
 /datum/special_intent/proc/apply_cooldown()
 	howner.apply_status_effect(/datum/status_effect/debuff/specialcd, cooldown)
 
+/*
+
+*******************
+SPECIALS START HERE
+*******************
+
+*/
+
 /datum/special_intent/side_sweep
 	name = "Distracting Swipe"
 	desc = "Swings at your primary flank in a distracting fashion. Anyone caught in it will be exposed for a short while."
-	tile_coordinates = list(list(0,0), list(1,0), list(1,-1))	//L shape that hugs our flank.
+	tile_coordinates = list(list(0,0), list(1,0), list(1,-1))	//L shape that hugs our -right- flank.
 	post_icon_state = "sweep_fx"
 	pre_icon_state = "trap"
 	sfx_post_delay = 'sound/combat/sidesweep_hit.ogg'
 	delay = 0.8 SECONDS
 	cooldown = 18 SECONDS
 	var/eff_dur = 5 SECONDS
+
+/datum/special_intent/side_sweep/process_attack()
+	tile_coordinates = list()
+	if(howner.used_hand == 1)	//We invert it if it's the left arm.
+		tile_coordinates += list(list(0,0), list(-1,0), list(-1,-1))
+	else
+		tile_coordinates += list(list(0,0), list(1,0), list(1,-1))	//Initial() doesn't work with lists so we copy paste the original
+	. = ..()
 
 /datum/special_intent/side_sweep/apply_hit(turf/T)
 	for(var/mob/living/L in get_hearers_in_view(0, T))
@@ -317,7 +333,7 @@ This allows the devs to draw whatever shape they want at the cost of it feeling 
 /datum/special_intent/flail_sweep
 	name = "Flail Sweep"
 	desc = "Swings in a perfect circle all around you, pushing people aside. The more are struck, the more powerful the effect."
-	tile_coordinates = list(list(0,0), list(1,0), list(1,-1),list(1,-2),list(0,-2),list(-1,-2),list(-1,-1),list(-1,0))
+	tile_coordinates = SPECIAL_AOE_AROUND_ORIGIN
 	post_icon_state = "sweep_fx"
 	pre_icon_state = "trap"
 	sfx_pre_delay = 'sound/combat/flail_sweep.ogg'
@@ -383,10 +399,18 @@ This allows the devs to draw whatever shape they want at the cost of it feeling 
 	pre_icon_state = "trap"
 	use_doafter = TRUE
 	respect_adjacency = FALSE
-	delay = 0.8 SECONDS
-	cooldown = 20 SECONDS
+	delay = 0.6 SECONDS
+	cooldown = 25 SECONDS
 	var/immob_dur = 3 SECONDS
 	var/exposed_dur = 5 SECONDS
+
+/datum/special_intent/axe_swing/process_attack()
+	tile_coordinates = list()
+	if(howner.used_hand == 1)	//We mirror it if it's the left arm.
+		tile_coordinates += list(list(-1,0, 0.3 SECONDS), list(0,0, 0.2 SECONDS), list(1,0))
+	else
+		tile_coordinates += list(list(-1,0), list(0,0, 0.2 SECONDS), list(1,0, 0.3 SECONDS)) //Initial() doesn't work with lists so we copy paste the original
+	. = ..()
 
 //We play the pre-sfx here because it otherwise it gets played per tile. Sounds funky.
 /datum/special_intent/axe_swing/on_create()
@@ -402,6 +426,21 @@ This allows the devs to draw whatever shape they want at the cost of it feeling 
 	..()
 
 /*
+/datum/special_intent/mage_cast
+	name = "Mage Cast"
+	desc = "A hasty attack at the legs, extending ourselves. Slows down the opponent if hit."
+	tile_coordinates = list(list(0,0),list(1,0, 0.3 SECONDS),list(-1,0, 0.3 SECONDS),list(1,1, 0.3 SECONDS),list(-1,1, 0.3 SECONDS),list(1,-1, 0.3 SECONDS),list(-1,-1, 0.3 SECONDS),list(0,1, 0.3 SECONDS),list(0,-1, 0.3 SECONDS),list(2,0, 0.6 SECONDS),list(2,1, 0.6 SECONDS),list(2,2, 0.6 SECONDS),list(2,-1, 0.6 SECONDS),list(2,-2, 0.6 SECONDS),list(1,-2, 0.6 SECONDS),list(1,2, 0.6 SECONDS),list(0,-2, 0.6 SECONDS),list(0,2, 0.6 SECONDS),list(-1,-2, 0.6 SECONDS),list(-1,2, 0.6 SECONDS),list(-2,0, 0.6 SECONDS),list(-2,1, 0.6 SECONDS),list(-2,2, 0.6 SECONDS),list(-2,-1, 0.6 SECONDS),list(-2,-2, 0.6 SECONDS),
+	)
+	use_clickloc = TRUE
+	respect_adjacency = FALSE
+	respect_dir = FALSE
+	pre_icon_state = "chronofield"
+	post_icon_state = "at_shield2"
+	sfx_post_delay = 'sound/magic/repulse.ogg'
+	delay = 1 SECONDS
+	cooldown = 2 SECONDS 
+*/
+/*
 Example of a fun pattern that overlaps in three waves. Use with default delay at 1 SECONDS
 #define WAVE_2_DELAY 0.75 SECONDS
 #define WAVE_3_DELAY 1.2 SECONDS
@@ -412,3 +451,6 @@ tile_coordinates = list(list(1,1), list(-1,1), list(-1,-1), list(1,-1),list(0,0)
 
 //Example of a sweeping line from left to right from the clicked turf. The second tile and the line will only appear after 1.1 seconds (the first delay).
 //tile_coordinates = list(list(0,0), list(1,0, 1.1 SECONDS), list(2,0, 1.2 SECONDS), list(3,0,1.3 SECONDS), list(4,0,1.4 SECONDS), list(5,0,1.5 SECONDS))
+
+//8 tiles around origin, excluding origin itself. No timers, so it all goes off at once.
+#define SPECIAL_AOE_AROUND_ORIGIN list(list(0,0), list(1,0), list(1,-1),list(1,-2),list(0,-2),list(-1,-2),list(-1,-1),list(-1,0))
