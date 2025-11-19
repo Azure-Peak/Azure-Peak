@@ -1530,7 +1530,6 @@
 	tick_interval = -1
 	examine_text = span_love("SUBJECTPRONOUN is bathed in Baotha's blessings!")
 	alert_type = null
-	var/image/effect
 
 /datum/status_effect/joybringer/on_apply()
 	. = ..()
@@ -1540,10 +1539,14 @@
 	var/filter = owner.get_filter(JOYBRINGER_FILTER)
 	if(!filter)
 		owner.add_filter(JOYBRINGER_FILTER, 2, list("type" = "outline", "color" = outline_colour, "alpha" = 60, "size" = 2))
-
-	effect = image('icons/effects/effects.dmi', icon_state = "mist", layer = TURF_LAYER)
+	
+	var/mutable_appearance/effect = mutable_appearance('icons/effects/effects.dmi', "mist", -JOYBRINGER_LAYER, alpha = 128)
+	effect.appearance_flags = RESET_COLOR
+	effect.blend_mode = BLEND_ADD
 	effect.color = "#a529e8"
-	owner.add_overlay(effect)
+	
+	owner.overlays_standing[JOYBRINGER_LAYER] = effect
+	owner.apply_overlay(JOYBRINGER_LAYER)
 
 	RegisterSignal(owner, COMSIG_LIVING_LIFE, PROC_REF(on_life))
 
@@ -1551,8 +1554,7 @@
 	. = ..()
 
 	owner.remove_filter(JOYBRINGER_FILTER)
-	owner.remove_overlay(effect)
-	QDEL_NULL(effect)
+	owner.remove_overlay(JOYBRINGER_LAYER)
 	
 	UnregisterSignal(owner, COMSIG_LIVING_LIFE)
 
