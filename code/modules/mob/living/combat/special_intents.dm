@@ -93,6 +93,8 @@ This allows the devs to draw whatever shape they want at the cost of it feeling 
 ///Main pipeline. Note that _delay() calls post_delay() after a timer.
 /datum/special_intent/proc/process_attack()
 	SHOULD_CALL_PARENT(TRUE)
+	if(howner && howner.ckey)
+		howner.log_message(span_danger("Used the Special [name]."), LOG_ATTACK)
 	_clear_grid()
 	_assign_grid_indexes()
 	_create_grid()
