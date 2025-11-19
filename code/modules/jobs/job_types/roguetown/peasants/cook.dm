@@ -69,6 +69,8 @@
 	backpack_contents = list(
 		/obj/item/recipe_book/survival,
 	)
+	if(H.mind)
+		SStreasury.give_money_account(ECONOMIC_LOWER_MIDDLE_CLASS, H, "Savings.")
 
 /datum/outfit/job/roguetown/cook/choose_loadout(mob/living/carbon/human/H)
 	. = ..()

@@ -99,7 +99,7 @@
 		/obj/item/clothing/suit/roguetown/armor/chainmail = 1,
 		/obj/item/clothing/suit/roguetown/armor/chainmail/iron = 2,
 		/obj/item/clothing/neck/roguetown/gorget = 1,
-		/obj/item/clothing/suit/roguetown/armor/plate/half/iron = 1,
+		/obj/item/clothing/suit/roguetown/armor/plate/cuirass/iron = 1,
 		/obj/item/clothing/head/roguetown/helmet/kettle = 1,
 		/obj/item/clothing/head/roguetown/helmet/leather = 2,
 		/obj/item/clothing/head/roguetown/helmet/horned = 1,

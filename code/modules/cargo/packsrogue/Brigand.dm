@@ -38,6 +38,11 @@
 	cost = 30
 	contains = list(/obj/item/clothing/head/roguetown/helmet/sallet/visored)
 
+/datum/supply_pack/rogue/Brigand/wolfhelm
+	name = "Volf Plate Helm"
+	cost = 30
+	contains = list(/obj/item/clothing/head/roguetown/helmet/heavy/volfplate)
+
 //////////
 // NECK //
 //////////
@@ -84,7 +89,7 @@
 /datum/supply_pack/rogue/Brigand/steelcuirass
 	name = "Steel Cuirass"
 	cost = 20
-	contains =  list(/obj/item/clothing/suit/roguetown/armor/plate/half)
+	contains =  list(/obj/item/clothing/suit/roguetown/armor/plate/cuirass)
 
 /datum/supply_pack/rogue/Brigand/scalemail
 	name = "Scalemail"
@@ -94,7 +99,7 @@
 /datum/supply_pack/rogue/Brigand/flutedcuirass
 	name = "Fluted Cuirass"
 	cost = 30
-	contains = list(/obj/item/clothing/suit/roguetown/armor/plate/half/fluted)
+	contains = list(/obj/item/clothing/suit/roguetown/armor/plate/cuirass/fluted)
 
 /datum/supply_pack/rogue/Brigand/brigandine
 	name = "Brigandine"
@@ -212,6 +217,16 @@
 	name = "Steel Double-Headed Greataxe"
 	cost = 30
 	contains = list(/obj/item/rogueweapon/greataxe/steel/doublehead)
+
+/datum/supply_pack/rogue/Brigand/maul
+	name = "Maul"
+	cost = 40
+	contains = list(/obj/item/rogueweapon/mace/maul)
+
+/datum/supply_pack/rogue/Brigand/grandmaul
+	name = "Grand Maul"
+	cost = 80
+	contains = list(/obj/item/rogueweapon/mace/maul/grand)
 
 /////////////
 // SHIELDS //

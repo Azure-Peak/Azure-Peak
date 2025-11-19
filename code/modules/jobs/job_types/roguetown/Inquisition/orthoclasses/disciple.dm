@@ -33,7 +33,7 @@
 	extra_context = "This subclass can choose from multiple disciplines. The further your chosen discipline strays from unarmed combat, however, the greater your skills in fistfighting and wrestling will atrophy. Taking a Quarterstaff provides a minor bonus to Perception and Intelligence, but removes the 'Critical Resistance' trait."
 
 /datum/outfit/job/roguetown/disciple
-	job_bitflag = BITFLAG_CHURCH
+	job_bitflag = BITFLAG_HOLY_WARRIOR
 
 /obj/item/storage/belt/rogue/leather/rope/dark
 	color = "#505050"

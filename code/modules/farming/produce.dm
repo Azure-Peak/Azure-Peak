@@ -19,6 +19,10 @@
 	pixel_x = rand(-5, 5)
 	pixel_y = rand(-5, 5)
 
+/obj/item/reagent_containers/food/snacks/grown/examine(mob/user)
+	. = ..()
+	. += span_smallnotice("Smash this with a blunt object to extract seeds from it.")
+
 /obj/item/reagent_containers/food/snacks/grown/attackby(obj/item/weapon, mob/user, params)
 	if(weapon && isturf(loc))
 		var/turf/location = get_turf(src)
@@ -149,7 +153,7 @@
 			bitten_names += H.real_name
 
 /obj/item/reagent_containers/food/snacks/grown/apple/blockproj(mob/living/carbon/human/H)
-	testing("APPLEHITBEGIN")
+
 	if(prob(98))
 		H.visible_message(span_notice("[H] is saved by the apple!"))
 		H.dropItemToGround(H.head)
@@ -163,7 +167,7 @@
 	if(ishuman(M))
 		var/mob/living/carbon/human/H = M
 		if(H.head == src)
-			testing("equipped applz")
+
 			equippedloc = H.loc
 			START_PROCESSING(SSobj, src)
 
@@ -270,6 +274,11 @@
 	var/color_index = "good"
 	rotprocess = SHELFLIFE_SHORT
 
+/obj/item/reagent_containers/food/snacks/grown/berries/rogue/examine(mob/user)
+	. = ..()
+	if(!user.get_client_color(/datum/client_colour/monochrome))
+		. += span_notice("These berries have a <b>[BERRYCOLORS[filling_color]]</b> hue.")
+
 /obj/item/reagent_containers/food/snacks/grown/berries/rogue/Initialize()
 	if(GLOB.berrycolors[color_index])
 		filling_color = GLOB.berrycolors[color_index]
@@ -363,7 +372,7 @@
 /*	..................   Sunflower   ................... */
 /obj/item/reagent_containers/food/snacks/grown/sunflower
 	name = "sunflower"
-	desc = "A large, bright yellow flower. Can be worn on the head. Can be roasted directly to make roasted sunflower seeds. Do not attempt to roast its actual seeds."
+	desc = "A large, bright yellow flower. Can be worn on the head."
 	icon_state = "sunflower"
 	mob_overlay_icon = 'icons/roguetown/clothing/onmob/head_items.dmi'
 	seed = /obj/item/seeds/sunflower
@@ -375,8 +384,6 @@
 	list_reagents = list(/datum/reagent/consumable/nutriment = 0)
 	dropshrink = 0.8
 	rotprocess = null
-	cooked_type = /obj/item/reagent_containers/food/snacks/roastseeds // Yeah..
-	fried_type = /obj/item/reagent_containers/food/snacks/roastseeds // Whatever I am not refactoring this yet
 
 //pyroclastic flowers - stonekeep port
 /obj/item/reagent_containers/food/snacks/grown/rogue/fyritius
@@ -436,9 +443,9 @@
 					success = TRUE
 					IND.fullreset(user)
 				else
-					return	
+					return
 				if(success)
-					changefood(/obj/item/reagent_containers/food/snacks/grown/rogue/fyritius/bloodied, user)		
+					changefood(/obj/item/reagent_containers/food/snacks/grown/rogue/fyritius/bloodied, user)
 
 
 /obj/item/reagent_containers/food/snacks/grown/rogue/fyritius/bloodied

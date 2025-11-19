@@ -83,7 +83,7 @@
 		return
 	var/obj/effect/decal/cleanable/roguerune/pickrune
 	var/runenameinput = input(user, "Runes", "Tier 1 and 2 Runes") as null|anything in GLOB.t2rune_types
-	testing("runenameinput [runenameinput]")
+
 	pickrune = GLOB.rune_types[runenameinput]
 	rune_to_scribe = pickrune
 	if(rune_to_scribe == null)
@@ -163,7 +163,7 @@
 		return
 	var/obj/effect/decal/cleanable/roguerune/pickrune
 	var/runenameinput = input(user, "Runes", "T4 Runes") as null|anything in GLOB.t4rune_types
-	testing("runenameinput [runenameinput]")
+
 	pickrune = GLOB.rune_types[runenameinput]
 	rune_to_scribe = pickrune
 	if(rune_to_scribe == null)
@@ -301,6 +301,7 @@
 	resistance_flags = FIRE_PROOF | ACID_PROOF
 	cdtime = 10 MINUTES
 	activetime = 30 SECONDS
+	salvage_result = null
 
 /obj/item/clothing/ring/active/shimmeringlens/attack_right(mob/user)
 	if(loc != user)
@@ -356,8 +357,7 @@
 	icon_state = "manabindingcollar"
 	color = null
 	slot_flags = ITEM_SLOT_NECK
-	salvage_amount = 1
-	salvage_result = /obj/item/natural/hide/cured
+	salvage_result = null
 	unequip_delay_self = 1200
 
 /obj/item/clothing/neck/roguetown/collar/leather/nomagic/Initialize(mapload)
@@ -375,6 +375,7 @@
 	equip_delay_self = 60
 	equip_delay_other = 60
 	strip_delay = 300
+	salvage_result = null
 
 /obj/item/clothing/gloves/roguetown/nomagic/Initialize(mapload)
 	. = ..()

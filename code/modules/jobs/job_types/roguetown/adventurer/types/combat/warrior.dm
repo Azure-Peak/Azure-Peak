@@ -72,7 +72,7 @@
 				neck = /obj/item/clothing/neck/roguetown/chaincoif/iron
 				gloves = /obj/item/clothing/gloves/roguetown/chain/iron
 			if("Iron Breastplate")
-				armor = /obj/item/clothing/suit/roguetown/armor/plate/half/iron
+				armor = /obj/item/clothing/suit/roguetown/armor/plate/cuirass/iron
 				neck = /obj/item/clothing/neck/roguetown/coif/heavypadding
 				shirt = /obj/item/clothing/suit/roguetown/shirt/tunic/random
 				pants = /obj/item/clothing/under/roguetown/splintlegs/iron
@@ -303,7 +303,7 @@
 		var/armorchoice = input(H, "Choose your armor.", "TAKE UP ARMOR") as anything in armors
 		switch(armorchoice)
 			if("Breastplate + Hauberk")
-				armor = /obj/item/clothing/suit/roguetown/armor/plate/half/iron
+				armor = /obj/item/clothing/suit/roguetown/armor/plate/cuirass/iron
 				shirt = /obj/item/clothing/suit/roguetown/armor/chainmail/hauberk/iron
 			if("Half-Plate + Light Gambeson")
 				armor = /obj/item/clothing/suit/roguetown/armor/plate/iron
@@ -325,6 +325,7 @@
 	backpack_contents = list(
 		/obj/item/storage/belt/rogue/pouch/coins/poor = 1,
 		/obj/item/recipe_book/survival = 1,
+		/obj/item/repair_kit/metal/bad = 1,
 		)
 	H.dna.species.soundpack_m = new /datum/voicepack/male/warrior()
 	H.set_blindness(0)
@@ -496,7 +497,7 @@
 				ADD_TRAIT(H, TRAIT_ZOMBIE_IMMUNE, TRAIT_GENERIC) //'Templar' archetype. Blessings protect from the Rot, while opening the opportunity for heavy armor usage. Well-protected and resilient, but slower and visibly identifiable as a prioritable threat.
 				H.change_stat(STATKEY_CON, 1)
 				H.change_stat(STATKEY_SPD, -1)
-				armor = /obj/item/clothing/suit/roguetown/armor/plate/half/fluted
+				armor = /obj/item/clothing/suit/roguetown/armor/plate/cuirass/fluted
 				shirt = /obj/item/clothing/suit/roguetown/shirt/undershirt/puritan
 				belt = /obj/item/storage/belt/rogue/leather/black
 				var/helmets = list("Puritan's Armored Hat", "Visored Sallet", "Volfskulle Bascinet", "Fluted Armet")

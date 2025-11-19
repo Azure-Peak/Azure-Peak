@@ -59,6 +59,7 @@
 	AdjustKnockdown(levels * 20)
 
 /mob/living/carbon/swap_hand(held_index)
+	SEND_SIGNAL(src, COMSIG_CARBON_SWAPHANDS)
 	if(!held_index)
 		held_index = (active_hand_index % held_items.len)+1
 
@@ -85,8 +86,6 @@
 		H = hud_used.action_intent
 	oactive = FALSE
 	update_a_intents()
-
-	givingto = null
 
 	if(ishuman(src))
 		var/mob/living/carbon/human/H = src
@@ -589,6 +588,7 @@
 /mob/living/carbon
 	var/nausea = 0
 	var/pain_threshold = 0
+	var/bleeding_tier = 0 
 
 /mob/living/carbon/proc/add_nausea(amt)
 	nausea = clamp(nausea + amt, 0, 300)
@@ -896,9 +896,6 @@
 	protection *= INVERSE(target_zones.len)
 	return protection
 
-/mob/living
-	var/succumb_timer = 0
-
 //this handles hud updates
 /mob/living/carbon/update_damage_hud()
 
@@ -950,14 +947,10 @@
 			overlay_fullscreen("critvision", /atom/movable/screen/fullscreen/crit/vision, visionseverity)
 		else
 			clear_fullscreen("critvision")
-		if(!succumb_timer)
-			succumb_timer = world.time
 		overlay_fullscreen("crit", /atom/movable/screen/fullscreen/crit, severity)
 		overlay_fullscreen("DD", /atom/movable/screen/fullscreen/crit/death)
 		overlay_fullscreen("DDZ", /atom/movable/screen/fullscreen/crit/zeth)
 	else
-		if(succumb_timer)
-			succumb_timer = 0
 		clear_fullscreen("crit")
 		clear_fullscreen("critvision")
 		clear_fullscreen("DD")
@@ -1153,7 +1146,7 @@
 /mob/living/carbon/can_be_revived()
 	. = ..()
 	if(!getorgan(/obj/item/organ/brain) && (!mind))
-		testing("norescarbon")
+
 		return 0
 
 /mob/living/carbon/harvest(mob/living/user)

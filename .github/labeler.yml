@@ -10,8 +10,8 @@ Code Maintenance:
 - changed-files:
   - any-glob-to-any-file:
     - controllers/**
-    - _DEFINES/**
-    - _HELPERS/**
+    - code/__DEFINES/**
+    - code/__HELPERS/**
 
 Sound:
 - changed-files: 
@@ -35,3 +35,6 @@ Balance:
 - changed-files:
   - any-glob-to-any-file:
     - code/modules/jobs/job_types/roguetown/**
+    - code/modules/spells/**
+    - code/modules/clothing/**
+    - code/game/objects/items/rogueweapon/**

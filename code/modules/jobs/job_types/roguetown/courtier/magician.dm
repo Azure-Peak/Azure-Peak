@@ -16,7 +16,7 @@
 		In return, you have proven time and time again as justicar and trusted advisor to their reign."
 	outfit = /datum/outfit/job/roguetown/magician
 	whitelist_req = TRUE
-	give_bank_account = 47
+	give_bank_account = TRUE
 	min_pq = 4 //High potential for abuse, lovepotion/killersice/greater fireball is not for the faint of heart
 	max_pq = null
 	round_contrib_points = 2
@@ -120,3 +120,5 @@
 		/obj/item/book/spellbook,
 		/obj/item/rogueweapon/huntingknife/idagger/silver/arcyne
 	)
+	if(H.mind)
+		SStreasury.give_money_account(ECONOMIC_RICH, H, "Savings.")

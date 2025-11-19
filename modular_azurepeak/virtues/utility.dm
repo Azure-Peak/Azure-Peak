@@ -46,10 +46,8 @@
 
 /datum/virtue/utility/resident/apply_to_human(mob/living/carbon/human/recipient)
 	var/mapswitch = 0
-	if(SSmapping.config.map_name == "Dun Manor")
+	if(SSmapping.config.map_name == "Dun World")
 		mapswitch = 1
-	else if(SSmapping.config.map_name == "Dun World")
-		mapswitch = 2
 
 	if(mapswitch == 0)
 		return
@@ -63,11 +61,8 @@
 
 		if(spawn_area)
 			var/target_z = 3 //ground floor of tavern for dun manor / world
-			var/target_y = 70 //dun manor
+			var/target_y = 234 //dun world huge
 			var/list/possible_chairs = list()
-
-			if(mapswitch == 2)
-				target_y = 234 //dun world huge
 
 			for(var/obj/structure/chair/C in spawn_area)
 				//z-level 3, wooden chair, and Y > north of tavern backrooms
@@ -98,7 +93,9 @@
 	added_stashed_items = list(
 		"Hammer" = /obj/item/rogueweapon/hammer/iron,
 		"Polishing Cream" = /obj/item/polishing_cream,
-		"Fine Brush" = /obj/item/armor_brush
+		"Fine Brush" = /obj/item/armor_brush,
+		"Armor Plates" = /obj/item/repair_kit/metal,
+		"Sewing Kit" = /obj/item/repair_kit,
 	)
 
 /datum/virtue/utility/failed_squire/apply_to_human(mob/living/carbon/human/recipient)
@@ -115,7 +112,8 @@
 		"Quill" = /obj/item/natural/feather,
 		"Scroll #1" = /obj/item/paper/scroll,
 		"Scroll #2" = /obj/item/paper/scroll,
-		"Book Crafting Kit" = /obj/item/book_crafting_kit
+		"Book Crafting Kit" = /obj/item/book_crafting_kit,
+		"Unfinished Skillbook" = /obj/item/skillbook/unfinished
 	)
 
 /datum/virtue/utility/linguist/apply_to_human(mob/living/carbon/human/recipient)
@@ -185,7 +183,7 @@
 	desc = "Music, artistry and the act of showmanship carried me through life. I've hidden a favorite instrument of mine, know how to please anyone I touch, and how to crack the eggs of hecklers."
 	custom_text = "Comes with a stashed instrument of your choice. You choose the instrument after spawning in."
 	added_traits = list(TRAIT_NUTCRACKER, TRAIT_GOODLOVER)
-	added_skills = list(list(/datum/skill/misc/music, 3, 6))
+	added_skills = list(list(/datum/skill/misc/music, 4, 4))
 
 /datum/virtue/utility/performer/apply_to_human(mob/living/carbon/human/recipient)
     addtimer(CALLBACK(src, .proc/performer_apply, recipient), 50)
@@ -228,6 +226,24 @@
 						list(/datum/skill/labor/farming, 2, 2),
 						list(/datum/skill/labor/fishing, 2, 2),
 						list(/datum/skill/labor/lumberjacking, 2, 2)
+	)
+
+/datum/virtue/utility/homesteader
+	name = "Pilgrim (-3 TRI)"
+	added_traits = list(TRAIT_HOMESTEAD_EXPERT)
+	desc= "As they say, 'hearth is where the heart is'. You are intimately familiar with the labors of lyfe, and have stowed away everything necessary to start anew: a hunting dagger, your trusty hoe, and a sack of assorted supplies."
+	triumph_cost = 3
+	added_stashed_items = list(
+		"Hoe" = /obj/item/rogueweapon/hoe,
+		"Bag of Food" = /obj/item/storage/roguebag/food,
+		"Hunting Knife" = /obj/item/rogueweapon/huntingknife
+	)
+	added_skills = list(list(/datum/skill/craft/cooking, 3, 3),
+						list(/datum/skill/misc/athletics, 2, 2),
+						list(/datum/skill/labor/farming, 3, 3),
+						list(/datum/skill/labor/fishing, 3, 3),
+						list(/datum/skill/labor/lumberjacking, 2, 2),
+						list(/datum/skill/combat/knives, 2, 2)
 	)
 
 /datum/virtue/utility/ugly
@@ -312,3 +328,8 @@
 	name = "Defiled Keyholder"
 	desc = "The 'Holy' See has their blood-stained grounds, and so do we. Underneath their noses, we pray to the true gods - I know the location of the local heretic conclave. Secrecy is paramount. If found out, I will surely be killed."
 	added_traits = list(TRAIT_ZURCH)
+
+/datum/virtue/utility/mountable
+	name = "Mountable"
+	desc = "You have trained and become fit enough to function as a suitable mount. People may ride you as they would a saiga."
+	added_traits = list(TRAIT_MOUNTABLE)

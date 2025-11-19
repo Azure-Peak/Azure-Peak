@@ -12,13 +12,14 @@
 	display_order = JDO_MERCHANT
 
 	outfit = /datum/outfit/job/roguetown/merchant
-	give_bank_account = 22
+	give_bank_account = TRUE
 	noble_income = 100 // Guild Support - The sole Money Role outside of the keep, should help them keep pace a bit + pick up if they get completely knocked out of coin.
 	min_pq = 1 //"Yeah...my guy says the best I can do is one PQ, final offer"
 	max_pq = null
 	required = TRUE
 	round_contrib_points = 3
 	cmode_music = 'sound/music/combat_noble.ogg'
+	is_quest_giver = TRUE
 
 	job_traits = list(TRAIT_SEEPRICES, TRAIT_CICERONE)
 
@@ -67,7 +68,7 @@
 	pants = /obj/item/clothing/under/roguetown/tights/sailor
 	belt = /obj/item/storage/belt/rogue/leather/rope
 	beltl = /obj/item/storage/keyring/merchant
-	beltr = /obj/item/storage/belt/rogue/pouch/coins/rich
+	beltr = /obj/item/storage/belt/rogue/pouch/merchant/coins
 	id = /obj/item/clothing/ring/gold
 	backr = /obj/item/storage/backpack/rogue/satchel
 	if(should_wear_masc_clothes(H))
@@ -78,3 +79,5 @@
 	if(H.mind)
 		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/appraise/secular)
 		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/takeapprentice)
+	if(H.mind)
+		SStreasury.give_money_account(ECONOMIC_RICH, H, "Savings.")

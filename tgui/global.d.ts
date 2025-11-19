@@ -199,4 +199,7 @@ interface Window {
   hubStorage: Storage;
   domainStorage: Storage;
   serverStorage: Storage;
+  
+    // TGUI stuff
+  __chatRenderer__: ChatRenderer;
 }

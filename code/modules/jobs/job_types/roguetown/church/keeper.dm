@@ -12,7 +12,7 @@
 
 	outfit = /datum/outfit/job/roguetown/keeper
 	display_order = JDO_KEEPER
-	give_bank_account = 1
+	give_bank_account = TRUE
 	min_pq = 1
 	max_pq = null
 	round_contrib_points = 3
@@ -88,3 +88,5 @@
 	H.put_in_hands(new /obj/item/storage/belt/rogue/surgery_bag/full/physician(H), TRUE)
 	var/datum/devotion/C = new /datum/devotion(H, H.patron)
 	C.grant_miracles(H, cleric_tier = CLERIC_T3, passive_gain = CLERIC_REGEN_MINOR, start_maxed = TRUE)
+	if(H.mind)
+		SStreasury.give_money_account(ECONOMIC_UPPER_MIDDLE_CLASS, H, "Church Funding.")

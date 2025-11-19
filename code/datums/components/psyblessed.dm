@@ -72,7 +72,10 @@
 	if(isitem(parent))
 		var/obj/item/I = parent
 		playsound(I, 'sound/magic/holyshield.ogg', 100)
-		I.visible_message(span_notice("[I] glistens with power as dust of COMET SYON lands upon it!"))
+		if(silver_type == SILVER_PSYDONIAN) //Courtesy of @UntoldTactics, from PR #1354 on Scarlet Reach.
+			I.visible_message(span_notice("[I] glistens with power as dust of COMET SYON lands upon it!"))
+		else
+			I.visible_message(span_notice("[I] glistens with power as a divine blessing is infused within!"))
 
 /datum/component/silverbless/proc/apply_bless(blessing_type)
 	var/blessing_divisor = 1

@@ -28,40 +28,41 @@
 		return
 	
 	blood_volume = min(blood_volume, BLOOD_VOLUME_MAXIMUM)
-	//Effects of bloodloss
-	if(!HAS_TRAIT(src, TRAIT_BLOODLOSS_IMMUNE))
-		switch(blood_volume)
-			if(BLOOD_VOLUME_OKAY to BLOOD_VOLUME_SAFE)
-				if(prob(3))
-					to_chat(src, span_warning("I feel dizzy."))
-				remove_status_effect(/datum/status_effect/debuff/bleedingworse)
-				remove_status_effect(/datum/status_effect/debuff/bleedingworst)
-				apply_status_effect(/datum/status_effect/debuff/bleeding)
-			if(BLOOD_VOLUME_BAD to BLOOD_VOLUME_OKAY)
-				if(prob(3))
-					blur_eyes(6)
-					to_chat(src, span_warning("I feel faint."))
-				remove_status_effect(/datum/status_effect/debuff/bleeding)
-				remove_status_effect(/datum/status_effect/debuff/bleedingworst)
-				apply_status_effect(/datum/status_effect/debuff/bleedingworse)
-			if(0 to BLOOD_VOLUME_BAD)
-				if(prob(3))
-					blur_eyes(6)
-					to_chat(src, span_warning("I feel faint."))
-				if(prob(3) && !IsUnconscious())
-					Unconscious(rand(5 SECONDS,10 SECONDS))
-					to_chat(src, span_warning("I feel drained."))
-				remove_status_effect(/datum/status_effect/debuff/bleedingworse)
-				remove_status_effect(/datum/status_effect/debuff/bleeding)
-				apply_status_effect(/datum/status_effect/debuff/bleedingworst)
-		if(blood_volume <= BLOOD_VOLUME_BAD)
-			adjustOxyLoss(1)
-			if(blood_volume <= BLOOD_VOLUME_SURVIVE)
-				adjustOxyLoss(2)
-	else
-		remove_status_effect(/datum/status_effect/debuff/bleeding)
-		remove_status_effect(/datum/status_effect/debuff/bleedingworse)
-		remove_status_effect(/datum/status_effect/debuff/bleedingworst)
+	//Effects of bloodloss - only run if we're not actually dead.
+	if (stat != DEAD)
+		if(!HAS_TRAIT(src, TRAIT_BLOODLOSS_IMMUNE))
+			switch(blood_volume)
+				if(BLOOD_VOLUME_OKAY to BLOOD_VOLUME_SAFE)
+					if(prob(3))
+						to_chat(src, span_warning("I feel dizzy."))
+					remove_status_effect(/datum/status_effect/debuff/bleedingworse)
+					remove_status_effect(/datum/status_effect/debuff/bleedingworst)
+					apply_status_effect(/datum/status_effect/debuff/bleeding)
+				if(BLOOD_VOLUME_BAD to BLOOD_VOLUME_OKAY)
+					if(prob(3))
+						blur_eyes(6)
+						to_chat(src, span_warning("I feel faint."))
+					remove_status_effect(/datum/status_effect/debuff/bleeding)
+					remove_status_effect(/datum/status_effect/debuff/bleedingworst)
+					apply_status_effect(/datum/status_effect/debuff/bleedingworse)
+				if(0 to BLOOD_VOLUME_BAD)
+					if(prob(3))
+						blur_eyes(6)
+						to_chat(src, span_warning("I feel faint."))
+					if(prob(3) && !IsUnconscious())
+						Unconscious(rand(5 SECONDS,10 SECONDS))
+						to_chat(src, span_warning("I feel drained."))
+					remove_status_effect(/datum/status_effect/debuff/bleedingworse)
+					remove_status_effect(/datum/status_effect/debuff/bleeding)
+					apply_status_effect(/datum/status_effect/debuff/bleedingworst)
+			if(blood_volume <= BLOOD_VOLUME_BAD)
+				adjustOxyLoss(1)
+				if(blood_volume <= BLOOD_VOLUME_SURVIVE)
+					adjustOxyLoss(2)
+		else
+			remove_status_effect(/datum/status_effect/debuff/bleeding)
+			remove_status_effect(/datum/status_effect/debuff/bleedingworse)
+			remove_status_effect(/datum/status_effect/debuff/bleedingworst)
 
 	bleed_rate = get_bleed_rate()
 	if(HAS_TRAIT(src, TRAIT_ADRENALINE_RUSH))
@@ -85,10 +86,17 @@
 	if(dna?.species)
 		if(NOBLOOD in dna.species.species_traits)
 			blood_volume = BLOOD_VOLUME_NORMAL
-			remove_stress(/datum/stressevent/bleeding)
-			remove_status_effect(/datum/status_effect/debuff/bleeding)
-			remove_status_effect(/datum/status_effect/debuff/bleedingworse)
-			remove_status_effect(/datum/status_effect/debuff/bleedingworst)
+			return
+
+	// if we're dead and have no blood left, then there's nothing to do here: we can't regen it ourselves (in this proc), so...
+	// we'll continue to bleed out for as long as we have blood, but that's it
+	if (!blood_volume)
+		if (stat == DEAD)
+			bleed_rate = 0 // just to be sure for anything else that cares about it, since we're ostensibly out of blood now
+			return
+		else
+			// handle just the oxyloss, and then abort. nothing else in here is relevant to us
+			adjustOxyLoss(blood_volume <= BLOOD_VOLUME_SURVIVE ? 3 : 1)
 			return
 
 	//Blood regeneration if there is some space
@@ -110,52 +118,67 @@
 //			adjust_hydration(-nutrition_ratio * HUNGER_FACTOR) //get thirsty twice as fast when regenning blood
 		blood_volume = min(BLOOD_VOLUME_NORMAL, blood_volume + 0.5 * nutrition_ratio)
 
-	//Effects of bloodloss
-	if(!HAS_TRAIT(src, TRAIT_BLOODLOSS_IMMUNE))
-		switch(blood_volume)
-			if(BLOOD_VOLUME_OKAY to BLOOD_VOLUME_SAFE)
-				if(prob(3))
-					to_chat(src, span_warning("I feel dizzy."))
-				remove_status_effect(/datum/status_effect/debuff/bleedingworse)
-				remove_status_effect(/datum/status_effect/debuff/bleedingworst)
-				apply_status_effect(/datum/status_effect/debuff/bleeding)
-			if(BLOOD_VOLUME_BAD to BLOOD_VOLUME_OKAY)
-				if(prob(3))
-					blur_eyes(6)
-					to_chat(src, span_warning("I feel faint."))
-				remove_status_effect(/datum/status_effect/debuff/bleeding)
-				remove_status_effect(/datum/status_effect/debuff/bleedingworst)
-				apply_status_effect(/datum/status_effect/debuff/bleedingworse)
-			if(0 to BLOOD_VOLUME_BAD)
-				if(prob(3))
-					blur_eyes(6)
-					to_chat(src, span_warning("I feel faint."))
-				if(prob(3) && !IsUnconscious())
-					Unconscious(rand(5 SECONDS,10 SECONDS))
-					to_chat(src, span_warning("I feel drained."))
-				remove_status_effect(/datum/status_effect/debuff/bleedingworse)
-				remove_status_effect(/datum/status_effect/debuff/bleeding)
-				apply_status_effect(/datum/status_effect/debuff/bleedingworst)
-		if(blood_volume <= BLOOD_VOLUME_BAD)
-			adjustOxyLoss(1)
-			if(blood_volume <= BLOOD_VOLUME_SURVIVE)
-				adjustOxyLoss(2)
-	else
-		remove_status_effect(/datum/status_effect/debuff/bleeding)
-		remove_status_effect(/datum/status_effect/debuff/bleedingworse)
-		remove_status_effect(/datum/status_effect/debuff/bleedingworst)
+	//Effects of bloodloss - only if we're actually alive, though
+	if (stat != DEAD)
+		if(!HAS_TRAIT(src, TRAIT_BLOODLOSS_IMMUNE))
+			var/current_bleeding_tier
+			switch(blood_volume)
+				if(BLOOD_VOLUME_SAFE to INFINITY)
+					current_bleeding_tier = 0
+				if(BLOOD_VOLUME_OKAY to BLOOD_VOLUME_SAFE)
+					current_bleeding_tier = 1
+					if(prob(3))
+						to_chat(src, span_warning("I feel dizzy."))
+				if(BLOOD_VOLUME_BAD to BLOOD_VOLUME_OKAY)
+					current_bleeding_tier = 2
+					if(prob(3))
+						blur_eyes(6)
+						to_chat(src, span_warning("I feel faint."))
+				if(0 to BLOOD_VOLUME_BAD)
+					current_bleeding_tier = 3
+					if(prob(3))
+						blur_eyes(6)
+						to_chat(src, span_warning("I feel faint."))
+					if(prob(3))
+						Unconscious(rand(5 SECONDS,10 SECONDS))
+						to_chat(src, span_warning("I feel drained."))
+				else
+					current_bleeding_tier = bleeding_tier
+
+			// only apply status effects if we've actually shifted a tier of bleeding instead of performing
+			// 3+ STATUS EFFECT CHECKS ON EVERY SINGLE LIFE TICK. HOLY SMOKES!!!
+			if (current_bleeding_tier != bleeding_tier)
+				bleeding_tier = current_bleeding_tier
+				switch (bleeding_tier)
+					if (0)
+						remove_status_effect(/datum/status_effect/debuff/bleeding)
+						remove_status_effect(/datum/status_effect/debuff/bleedingworse)
+						remove_status_effect(/datum/status_effect/debuff/bleedingworst)
+					if (1)
+						apply_status_effect(/datum/status_effect/debuff/bleeding)
+						remove_status_effect(/datum/status_effect/debuff/bleedingworse)
+						remove_status_effect(/datum/status_effect/debuff/bleedingworst)
+					if (2)
+						apply_status_effect(/datum/status_effect/debuff/bleedingworse)
+						remove_status_effect(/datum/status_effect/debuff/bleeding)
+						remove_status_effect(/datum/status_effect/debuff/bleedingworst)
+					if (3)
+						apply_status_effect(/datum/status_effect/debuff/bleedingworst)
+						remove_status_effect(/datum/status_effect/debuff/bleeding)
+						remove_status_effect(/datum/status_effect/debuff/bleedingworse)
+
+			if(blood_volume <= BLOOD_VOLUME_BAD)
+				adjustOxyLoss(blood_volume <= BLOOD_VOLUME_SURVIVE ? 3 : 1)
+			else if((blood_volume > BLOOD_VOLUME_SURVIVE) || HAS_TRAIT(src, TRAIT_BLOODLOSS_IMMUNE))
+				if(getOxyLoss())
+					adjustOxyLoss(-1.6)
 
 	//Bleeding out
-	bleed_rate = get_bleed_rate()
+	bleed_rate = get_bleed_rate() // expensive proc, but we zero it on bled-out mobs
 	if(HAS_TRAIT(src, TRAIT_ADRENALINE_RUSH))
 		bleed_rate = FALSE
 	if(bleed_rate)
-		for(var/obj/item/bodypart/bodypart as anything in bodyparts)
-			bodypart.try_bandage_expire()
-		bleed(bleed_rate)
-		add_stress(/datum/stressevent/bleeding)
-	else
-		remove_stress(/datum/stressevent/bleeding)
+		bleed(bleed_rate) // bandage handling moved to bodypart.get_bleed_rate()
 
 	// Non-vampiric bloodpool regen.
 	// We assume that in non-vampires bloodpool represents "usable" blood that is regenerated slower than blood_volume
@@ -163,24 +186,31 @@
 		adjust_bloodpool(BLOODPOL_REGEN, FALSE)
 
 /mob/living/proc/get_bleed_rate()
+	if (!blood_volume)
+		return FALSE //the blood bag is empty, brother.
 	var/bleed_rate = 0
-	for(var/datum/wound/wound as anything in get_wounds())
-		bleed_rate += wound.bleed_rate
+	/*for(var/datum/wound/wound as anything in get_wounds())
+		bleed_rate += wound.bleed_rate*/
+	bleed_rate += simple_bleeding
 	for(var/obj/item/embedded as anything in simple_embedded_objects)
 		bleed_rate += embedded.embedding?.embedded_bloodloss
 	return bleed_rate
 
 /mob/living/carbon/get_bleed_rate()
 	var/bleed_rate = 0
+	if (!blood_volume) // if we have no blood, we can't rightly bleed, can we?
+		return 0
+	if(NOBLOOD in dna?.species?.species_traits)
+		return 0
 	for(var/obj/item/bodypart/bodypart as anything in bodyparts)
 		bleed_rate += bodypart.get_bleed_rate()
 	return bleed_rate
 
 //Makes a blood drop, leaking amt units of blood from the mob
 /mob/living/proc/bleed(amt)
-	if(!iscarbon(src) && !HAS_TRAIT(src, TRAIT_SIMPLE_WOUNDS))
+	if(!blood_volume)
 		return FALSE
-	if(blood_volume <= 0)
+	if(!iscarbon(src) && !HAS_TRAIT(src, TRAIT_SIMPLE_WOUNDS))
 		return FALSE
 
 	//For each CON above 10, we bleed slower.
@@ -193,12 +223,15 @@
 	if(mind)
 		amt -= amt * (conbonus * CONSTITUTION_BLEEDRATE_MOD)
 		if(HAS_TRAIT(src, TRAIT_CRITICAL_RESISTANCE))
-			amt = amt / 2
+			amt = amt * CRIT_RESISTANCE_EFFECTIVE_BLEEDRATE
 		if(HAS_TRAIT(src, TRAIT_CRITICAL_WEAKNESS))
 			amt = amt * 2
 	if(surrendering)
 		amt = amt / 4 // Helps yield condition not be a bloodloss failure state. Approx to grabbing all of your bodyparts at once
+	var/old_volume = blood_volume
 	blood_volume = max(blood_volume - amt, 0)
+	if (old_volume > 0 && !blood_volume) // it looks like we've just bled out. bummer.
+		to_chat(src, span_userdanger("The last of your lyfeblood ebbs from your ravaged body and soaks the cold earth below..."))
 	record_round_statistic(STATS_BLOOD_SPILT, amt)
 	if(isturf(src.loc)) //Blood loss still happens in locker, floor stays clean
 		add_drip_floor(src.loc, amt)
@@ -214,7 +247,6 @@
 	if(vol2use)
 		playsound(get_turf(src), vol2use, 100, FALSE)
 
-	updatehealth()
 	return TRUE
 
 /mob/living/carbon/human/bleed(amt)

@@ -202,6 +202,9 @@
 /proc/log_character(text)
 	WRITE_LOG(GLOB.character_list_log, "\[[logtime]] [text]")
 
+/proc/log_hunted(text)
+	WRITE_LOG(GLOB.hunted_log, "\[[logtime]] [text]")
+
 /* ui logging */
 /**
  * Appends a tgui-related log entry. All arguments are optional.

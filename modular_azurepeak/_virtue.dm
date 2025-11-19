@@ -19,6 +19,8 @@ GLOBAL_LIST_EMPTY(virtues)
 	var/triumph_cost = 0
 	/// A custom addendum that explains what the virtue does outside of the traits / skill adjustments.
 	var/custom_text
+	//if a virtue hits the soft cap we give them a 1 skill point boost
+	var/softcap = FALSE
 
 /datum/virtue/New()
 	. = ..()
@@ -50,6 +52,12 @@ GLOBAL_LIST_EMPTY(virtues)
 				if ((our_skill + increase_by) > maximum_skill) // we'll be pushing it higher than our max with 1 addition, so lower increase_by
 					increase_by = (maximum_skill - our_skill)
 				recipient.adjust_skillrank(the_skill.type, increase_by, TRUE)
+			else if (softcap) //
+				increase_by = 1
+				if ((our_skill + increase_by) > 6) // we can't go above legendary
+					increase_by = (maximum_skill - our_skill)
+				recipient.adjust_skillrank(the_skill.type, increase_by, TRUE)
+				to_chat(recipient, span_notice("My Virtue can only minorly influence my skill with [lowertext(the_skill.name)]."))
 			else
 				to_chat(recipient, span_notice("My Virtue cannot influence my skill with [lowertext(the_skill.name)] any further."))
 				

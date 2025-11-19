@@ -189,8 +189,6 @@
 			return spec_return
 	var/obj/item/I
 	var/throwpower = 30
-	if(has_status_effect(/datum/status_effect/buff/clash))
-		bad_guard(span_warning("The thrown object ruins my focus!"))
 	if(istype(AM, /obj/item))
 		I = AM
 		throwpower = I.throwforce
@@ -203,7 +201,23 @@
 		hitpush = FALSE
 		skipcatch = TRUE
 		blocked = TRUE
-	else if(I)
+	
+	//Thrown item deflection -- this RETURNS if successful!
+	var/obj/item/W = get_active_held_item()
+	if(!blocked && I)
+		if(W && get_dir(src, AM) == turn(get_dir(AM, src), 180))	//We are directly facing the thrown item.
+			var/diceroll = (get_skill_level(W.associated_skill)) * 10
+			if(projectile_parry_timer > world.time)
+				diceroll *= 2
+			diceroll = min(diceroll, 90)
+			if(prob(diceroll))
+				var/turf/current_turf = get_turf(I)
+				I.get_deflected(src)
+				do_sparks(2, TRUE, current_turf)
+				visible_message(span_warning("[src] deflects \the [I]!"))
+				return
+
+	if(I && !blocked)
 		if(((throwingdatum ? throwingdatum.speed : I.throw_speed) >= EMBED_THROWSPEED_THRESHOLD) || I.embedding.embedded_ignore_throwspeed_threshold)
 			if(can_embed(I) && prob(I.embedding.embed_chance) && !HAS_TRAIT(src, TRAIT_PIERCEIMMUNE))
 				//throw_alert("embeddedobject", /atom/movable/screen/alert/embeddedobject)

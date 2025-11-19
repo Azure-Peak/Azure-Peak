@@ -207,14 +207,13 @@
 			break
 		playsound(loc, 'sound/foley/sewflesh.ogg', 100, TRUE, -2)
 		target_wound.sew_progress = min(target_wound.sew_progress + moveup, target_wound.sew_threshold)
-
 		var/bleedreduction = max((0.5 * medskill), 0.5)
 		if(medskill > SKILL_LEVEL_EXPERT)
 			if(medskill == SKILL_LEVEL_MASTER)
 				bleedreduction = 3
 			else if(medskill == SKILL_LEVEL_LEGENDARY)
 				bleedreduction = 4
-		target_wound.bleed_rate = max( (target_wound.bleed_rate - bleedreduction), 0)
+		target_wound.set_bleed_rate(max( (target_wound.bleed_rate - bleedreduction), 0))
 		if(target_wound.bleed_rate == 0 && !informed)
 			patient.visible_message(span_smallgreen("One last drop of blood trickles from the [(target_wound?.name)] on [patient]'s [affecting.name] before it closes."), span_smallgreen("The throbbing warmth coming out of [target_wound] soothes and stops. It no longer bleeds."))
 			informed = TRUE

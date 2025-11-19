@@ -52,7 +52,7 @@ GLOBAL_VAR_INIT(adventurer_hugbox_duration_still, 3 MINUTES)
 		/datum/advclass/mage/spellblade,
 		/datum/advclass/mage/spellsinger,
 		/datum/advclass/ranger,
-		/datum/advclass/ranger/assassin,
+		/datum/advclass/ranger/wayfarer,
 		/datum/advclass/ranger/bombadier,
 		/datum/advclass/ranger/bwanderer,
 		/datum/advclass/noble,

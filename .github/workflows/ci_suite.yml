@@ -9,9 +9,9 @@ on:
       - main
 
 env:
-  BYOND_MAJOR: 515
-  BYOND_MINOR: 1636
-  SPACEMAN_DMM_VERSION: suite-1.9
+  BYOND_MAJOR: 516
+  BYOND_MINOR: 1666
+  SPACEMAN_DMM_VERSION: suite-1.11
 
 jobs:
   run-linters:
@@ -73,6 +73,12 @@ jobs:
           sudo apt-get update -qq
           sudo apt-get install -y make gcc unzip
           bash tools/ci/install_byond.sh
+
+      - name: Install BYOND dependencies
+        run: |
+          sudo dpkg --add-architecture i386
+          sudo apt-get update
+          sudo apt-get install libcurl4-openssl-dev:i386
 
       - name: Compile BYOND project
         run: |

@@ -97,6 +97,9 @@
 
 	/// Whether the bodypart has unlimited bleeding.
 	var/unlimited_bleeding = FALSE
+	
+	/// Cached variable that reflects how much bleeding our wounds are applying to the limb. Handled inside each individual wound.
+	var/bleeding = 0
 
 	grid_width = 32
 	grid_height = 64

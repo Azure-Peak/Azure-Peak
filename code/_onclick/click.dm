@@ -183,7 +183,7 @@
 //		CtrlClickOn(A)
 //		return
 	if(modifiers["right"])
-		testing("right")
+
 		if(!oactive)
 			RightClickOn(A, params)
 			return
@@ -290,7 +290,7 @@
 					resolveAdjacentClick(A,W,params,used_hand)
 					return
 				if(T)
-					testing("beginautoaim")
+
 					var/list/mobs_here = list()
 					for(var/mob/M in T)
 						if(M.invisibility || M == src)
@@ -367,7 +367,7 @@
 				adf = max(round(adf * CLICK_CD_MOD_SWIFT), CLICK_CD_INTENTCAP)
 			changeNext_move(adf)
 		UnarmedAttack(A,1,params)
-	if(mob_timers[MT_INVISIBILITY] > world.time)			
+	if(mob_timers[MT_INVISIBILITY] > world.time)
 		mob_timers[MT_INVISIBILITY] = world.time
 		update_sneak_invis(reset = TRUE)
 
@@ -666,8 +666,7 @@
 		user.client.statpanel = T.name
 
 /mob/proc/CtrlRightClickOn(atom/A, params)
-	linepoint(A, params)
-	return
+	pointed(A)
 
 /*
 	Misc helpers
@@ -680,13 +679,13 @@
 // Simple helper to face another atom, much nicer than byond's dir = get_dir(src,A) which is biased in some ugly ways
 /atom/proc/face_atom(atom/A, location, control, params)
 	if(!A)
-		return
+		return FALSE
 	if(!A.xyoverride)
 		if((!A || !x || !y || !A.x || !A.y))
-			return
+			return FALSE
 	var/atom/holder = A.face_me(location, control, params)
 	if(!holder)
-		return
+		return FALSE
 	var/dx = holder.x - x
 	var/dy = holder.y - y
 	if(!dx && !dy) // Wall items are graphically shifted but on the floor
@@ -698,7 +697,7 @@
 			setDir(EAST)
 		else if(holder.pixel_x < -16)
 			setDir(WEST)
-		return
+		return TRUE
 
 	if(abs(dx) < abs(dy))
 		if(dy > 0)
@@ -710,18 +709,37 @@
 			setDir(EAST)
 		else
 			setDir(WEST)
+	return TRUE
 
 /mob/face_atom(atom/A)
 	if(!canface())
 		return FALSE
-	..()
+	return ..()
 
 /mob/living/face_atom(atom/A)
-	var/olddir = dir
-	..()
-	if(dir != olddir)
+	var/old_dir = dir
+	. = ..()
+	if(!.)
+		return
+	if(dir != old_dir)
 		last_dir_change = world.time
 		sprinted_tiles = 0
+		if(length(buckled_mobs))
+			face_atom_buckled_mobs(A)
+
+/mob/living/proc/face_atom_buckled_mobs(atom/A)
+	for(var/mob/mob in buckled_mobs)
+		mob.setDir(dir)
+	var/datum/component/riding/riding_datum = LoadComponent(/datum/component/riding)
+	riding_datum.handle_vehicle_layer()
+	riding_datum.handle_vehicle_offsets()
+
+/mob/living/carbon/human/face_atom_buckled_mobs(atom/A)
+	for(var/mob/mob in buckled_mobs)
+		mob.setDir(dir)
+	var/datum/component/riding/human/riding_datum = LoadComponent(/datum/component/riding/human)
+	riding_datum.handle_vehicle_layer()
+	riding_datum.handle_vehicle_offsets()
 
 //debug
 /atom/movable/screen/proc/scale_to(x1,y1)
@@ -831,7 +849,10 @@
 		used_intent.rmb_ranged(A, src) //get the message from the intent
 	changeNext_move(CLICK_CD_RAPID)
 	if(isturf(A.loc))
-		face_atom(A)
+		if(buckled)
+			buckled.face_atom(A)
+		else
+			face_atom(A)
 
 /mob/proc/TargetMob(mob/target)
 	if(ismob(target))
@@ -869,7 +890,7 @@
 		eyet.update_icon(src)
 
 /mob/proc/ShiftRightClickOn(atom/A, params)
-//	linepoint(A, params)
+//	pointed(A, params)
 //	A.ShiftRightClick(src)
 	return
 
@@ -879,7 +900,9 @@
 	if(stat)
 		return
 	if(get_dist(src, A) <= 2)
-		if(T == loc)
+		if(A.loc == src)
+			A.ShiftRightClick(src)
+		else if(T == loc)
 			look_up()
 		else
 			if(istransparentturf(T))
@@ -923,7 +946,7 @@
 	if(rmb_intent?.adjacency && !Adjacent(A))
 		return FALSE
 
-	rmb_intent.special_attack(src, ismob(A) ? A : get_foe_from_turf(get_turf(A)))
+	rmb_intent.special_attack(src, ismob(A) ? A : rmb_intent.prioritize_turfs ? get_turf(A) : get_foe_from_turf(get_turf(A)))
 	return TRUE
 
 /// Used for "directional" style rmb attacks on a turf, prioritizing standing targets

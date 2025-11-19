@@ -102,12 +102,14 @@
 
 /// Returns the total bleed rate on this bodypart
 /obj/item/bodypart/proc/get_bleed_rate()
-	var/bleed_rate = 0
+	var/bleed_rate = bleeding
 	if(bandage && !HAS_BLOOD_DNA(bandage))
+		try_bandage_expire()
 		return 0
+	/*
 	for(var/datum/wound/wound in wounds)
 		if(istype(wound, /datum/wound))
-			bleed_rate += wound.bleed_rate
+			bleed_rate += wound.bleed_rate*/
 	for(var/obj/item/embedded as anything in embedded_objects)
 		if(!embedded.embedding.embedded_bloodloss)
 			continue
@@ -117,9 +119,11 @@
 	for(var/obj/item/grabbing/grab in grabbedby)
 		bleed_rate *= grab.bleed_suppressing
 	bleed_rate = max(round(bleed_rate, 0.1), 0)
-	var/surgery_flags = get_surgery_flags()
+	
+	// temporarily disabling below because it is niche use and a LOT of performance drain
+	/*var/surgery_flags = get_surgery_flags()
 	if(surgery_flags & SURGERY_CLAMPED)
-		return min(bleed_rate, 0.5)
+		return min(bleed_rate, 0.5)*/
 	return bleed_rate
 
 /// Called after a bodypart is attacked so that wounds and critical effects can be applied
@@ -148,7 +152,6 @@
 			dam += 10
 		if(istype(user.rmb_intent, /datum/rmb_intent/weak) || bclass == BCLASS_PEEL)
 			do_crit = FALSE
-	testing("bodypart_attacked_by() dam [dam]")
 
 	var/datum/wound/dynwound = manage_dynamic_wound(bclass, dam, armor)
 
@@ -200,7 +203,7 @@
 	var/used
 	var/total_dam = get_damage()
 	var/damage_dividend = (total_dam / max_damage)
-	var/resistance = HAS_TRAIT(owner, TRAIT_CRITICAL_RESISTANCE)
+
 	if(user && dam)
 		if(user.goodluck(2))
 			dam += 10
@@ -208,7 +211,7 @@
 		if(user && HAS_TRAIT(user, TRAIT_CIVILIZEDBARBARIAN))
 			dam += 15
 	if(bclass in GLOB.dislocation_bclasses)
-		used = round(damage_dividend * 20 + (dam / 3 - 10 * resistance), 1)
+		used = round(damage_dividend * 20 + (dam / 3))
 		if(user && istype(user.rmb_intent, /datum/rmb_intent/strong))
 			used += 10
 		if(prob(used))
@@ -217,7 +220,7 @@
 			else
 				attempted_wounds += /datum/wound/dislocation
 	if(bclass in GLOB.fracture_bclasses)
-		used = round(damage_dividend * 20 + (dam / 3) - 10 * resistance, 1)
+		used = round(damage_dividend * 20 + (dam / 3))
 		if(user)
 			if(istype(user.rmb_intent, /datum/rmb_intent/strong))
 				used += 10
@@ -229,7 +232,7 @@
 			else
 				attempted_wounds += /datum/wound/dislocation	//Less sevre wound
 	if(bclass in GLOB.artery_bclasses)
-		used = round(damage_dividend * 20 + (dam / 3) - 10 * resistance, 1)
+		used = round(damage_dividend * 20 + (dam / 3))
 		if(user)
 			if((bclass in GLOB.artery_strong_bclasses) && istype(user.rmb_intent, /datum/rmb_intent/strong))
 				used += 10
@@ -238,7 +241,7 @@
 		if(prob(used))
 			attempted_wounds += /datum/wound/artery
 	if(bclass in GLOB.whipping_bclasses)
-		used = round(damage_dividend * 20 + (dam / 3) - 10 * resistance, 1)
+		used = round(damage_dividend * 20 + (dam / 3))
 		if(user && istype(user.rmb_intent, /datum/rmb_intent/strong))
 			dam += 10
 		if(HAS_TRAIT(src, TRAIT_CRITICAL_WEAKNESS))
@@ -247,9 +250,20 @@
 			attempted_wounds += /datum/wound/scarring
 	if((bclass in GLOB.sunder_bclasses))
 		if(HAS_TRAIT(owner, TRAIT_SILVER_WEAK) && !owner.has_status_effect(STATUS_EFFECT_ANTIMAGIC))
-			used = round(damage_dividend * 20 + (dam / 2) - 10 * resistance, 1)
+			used = round(damage_dividend * 20 + (dam / 2))
 			if(prob(used))
 				attempted_wounds += /datum/wound/sunder
+
+	// Check if critical resistance applies
+	var/has_crit_attempt = length(attempted_wounds)
+	if(!has_crit_attempt)
+		return FALSE
+
+	if(owner.try_resist_critical())
+		if(crit_message)
+			owner.next_attack_msg.Cut()
+			owner.next_attack_msg += span_crit(" Critical resistance! [owner] resists a wound!</span>")
+		return TRUE
 
 	for(var/wound_type in shuffle(attempted_wounds))
 		var/datum/wound/applied = add_wound(wound_type, silent, crit_message)
@@ -266,7 +280,6 @@
 	var/used
 	var/total_dam = get_damage()
 	var/damage_dividend = (total_dam / max_damage)
-	var/resistance = HAS_TRAIT(owner, TRAIT_CRITICAL_RESISTANCE)
 	if(user && dam)
 		if(user.goodluck(2))
 			dam += 10
@@ -274,13 +287,13 @@
 		var/cbt_multiplier = 1
 		if(user && HAS_TRAIT(user, TRAIT_NUTCRACKER))
 			cbt_multiplier = 2
-		if(!resistance && prob(round(dam/5) * cbt_multiplier))
+		if(prob(round(dam/5) * cbt_multiplier))
 			attempted_wounds += /datum/wound/cbt
 		if(prob(dam * cbt_multiplier))
 			owner.emote("groin", TRUE)
 			owner.Stun(10)
 	if((bclass in GLOB.fracture_bclasses) && (zone_precise != BODY_ZONE_PRECISE_STOMACH))
-		used = round(damage_dividend * 20 + (dam / 3) - 10 * resistance, 1)
+		used = round(damage_dividend * 20 + (dam / 3))
 		if(user && istype(user.rmb_intent, /datum/rmb_intent/strong))
 			used += 10
 		if(HAS_TRAIT(src, TRAIT_BRITTLE))
@@ -292,21 +305,21 @@
 		if(prob(used))
 			attempted_wounds += fracture_type
 	if(bclass in GLOB.artery_bclasses)
-		used = round(damage_dividend * 20 + (dam / 4) - 10 * resistance, 1)
+		used = round(damage_dividend * 20 + (dam / 4))		
 		if(user)
 			if((bclass in GLOB.artery_strong_bclasses) && istype(user.rmb_intent, /datum/rmb_intent/strong))
 				used += 10
 			else if(istype(user.rmb_intent, /datum/rmb_intent/aimed))
 				used += 10
 		if(prob(used))
-			if((zone_precise == BODY_ZONE_PRECISE_STOMACH) && !resistance)
+			if(zone_precise == BODY_ZONE_PRECISE_STOMACH)
 				attempted_wounds += /datum/wound/slash/disembowel
 			if(owner.has_wound(/datum/wound/fracture/chest) || (bclass in GLOB.artery_heart_bclasses) || HAS_TRAIT(owner, TRAIT_CRITICAL_WEAKNESS))
 				attempted_wounds += /datum/wound/artery/chest
 			else
 				attempted_wounds += /datum/wound/artery
 	if(bclass in GLOB.whipping_bclasses)
-		used = round(damage_dividend * 20 + (dam / 4) - 10 * resistance, 1)
+		used = round(damage_dividend * 20 + (dam / 4))		
 		if(user)
 			if(istype(user.rmb_intent, /datum/rmb_intent/strong))
 				dam += 10
@@ -317,9 +330,20 @@
 				attempted_wounds += /datum/wound/scarring
 	if(bclass in GLOB.sunder_bclasses)
 		if(HAS_TRAIT(owner, TRAIT_SILVER_WEAK) && !owner.has_status_effect(STATUS_EFFECT_ANTIMAGIC))
-			used = round(damage_dividend * 20 + (dam / 2) - 10 * resistance, 1)
+			used = round(damage_dividend * 20 + (dam / 2))
 			if(prob(used))
 				attempted_wounds += list(/datum/wound/sunder/chest)
+
+	// Check if critical resistance applies
+	var/has_crit_attempt = length(attempted_wounds)
+	if(!has_crit_attempt)
+		return FALSE
+
+	if(owner.try_resist_critical())
+		if(crit_message)
+			owner.next_attack_msg.Cut()
+			owner.next_attack_msg += span_crit(" Critical resistance! [owner] resists a wound!</span>")
+		return TRUE
 
 	for(var/wound_type in shuffle(attempted_wounds))
 		var/datum/wound/applied = add_wound(wound_type, silent, crit_message)
@@ -339,40 +363,33 @@
 	var/used
 	var/total_dam = get_damage()
 	var/damage_dividend = (total_dam / max_damage)
-	var/resistance = HAS_TRAIT(owner, TRAIT_CRITICAL_RESISTANCE)
 	var/from_behind = FALSE
+	var/try_knockout = FALSE
 	if(user && (owner.dir == turn(get_dir(owner,user), 180)))
 		from_behind = TRUE
 	if(user && dam)
 		if(user.goodluck(2))
 			dam += 10
 	if((bclass in GLOB.dislocation_bclasses) && (total_dam >= max_damage))
-		used = round(damage_dividend * 20 + (dam / 3) - 10 * resistance, 1)
+		used = round(damage_dividend * 20 + (dam / 3))
 		if(prob(used))
 			if(HAS_TRAIT(src, TRAIT_BRITTLE))
 				attempted_wounds += /datum/wound/fracture/neck
-			else if (!resistance)
+			else
 				attempted_wounds += /datum/wound/dislocation/neck
 	if(bclass in GLOB.fracture_bclasses)
-		used = round(damage_dividend * 20 + (dam / 3) - 10 * resistance, 1)
+		used = round(damage_dividend * 20 + (dam / 3))
 		if(HAS_TRAIT(src, TRAIT_BRITTLE))
 			used += 20
 		if(user)
 			if(istype(user.rmb_intent, /datum/rmb_intent/strong) || (user.m_intent == MOVE_INTENT_SNEAK))
 				used += 10
-		if(!owner.stat && !resistance && (zone_precise in knockout_zones) && (bclass != BCLASS_CHOP && bclass != BCLASS_PIERCE) && prob(used))
-			owner.next_attack_msg += " <span class='crit'><b>Critical hit!</b> [owner] is knocked out[from_behind ? " FROM BEHIND" : ""]!</span>"
-			owner.flash_fullscreen("whiteflash3")
-			owner.Unconscious(5 SECONDS + (from_behind * 10 SECONDS))
-			if(owner.client)
-				winset(owner.client, "outputwindow.output", "max-lines=1")
-				winset(owner.client, "outputwindow.output", "max-lines=100")
+		if(!owner.stat && (zone_precise in knockout_zones) && (bclass != BCLASS_CHOP && bclass != BCLASS_PIERCE) && prob(used))
+			try_knockout = TRUE
 		var/dislocation_type
 		var/fracture_type = /datum/wound/fracture/head
 		var/necessary_damage = 0.9
-		if(resistance)
-			fracture_type = /datum/wound/fracture
-		else if(zone_precise == BODY_ZONE_PRECISE_SKULL)
+		if(zone_precise == BODY_ZONE_PRECISE_SKULL)
 			fracture_type = /datum/wound/fracture/head/brain
 		else if(zone_precise== BODY_ZONE_PRECISE_EARS)
 			fracture_type = /datum/wound/fracture/head/ears
@@ -391,7 +408,7 @@
 				attempted_wounds += dislocation_type
 			attempted_wounds += fracture_type
 	if(bclass in GLOB.artery_bclasses)
-		used = round(damage_dividend * 20 + (dam / 3) - 10 * resistance, 1)
+		used = round(damage_dividend * 20 + (dam / 3))
 		if(user)
 			if(bclass == BCLASS_CHOP)
 				if(istype(user.rmb_intent, /datum/rmb_intent/strong))
@@ -404,7 +421,7 @@
 			artery_type = /datum/wound/artery/neck
 		if(prob(used))
 			attempted_wounds += artery_type
-			if((bclass in GLOB.stab_bclasses) && !resistance)
+			if(bclass in GLOB.stab_bclasses)
 				if(zone_precise in earstab_zones)
 					var/obj/item/organ/ears/my_ears = owner.getorganslot(ORGAN_SLOT_EARS)
 					if(!my_ears || has_wound(/datum/wound/facial/ears))
@@ -435,9 +452,36 @@
 					attempted_wounds += /datum/wound/fracture/head/brain
 	if(bclass in GLOB.sunder_bclasses)
 		if(HAS_TRAIT(owner, TRAIT_SILVER_WEAK) && !owner.has_status_effect(STATUS_EFFECT_ANTIMAGIC))
-			used = round(damage_dividend * 20 + (dam / 2) - 10 * resistance, 1)
+			used = round(damage_dividend * 20 + (dam / 2), 1)
 			if(prob(used))
 				attempted_wounds += /datum/wound/sunder/head
+
+	var/has_crit_attempt = length(attempted_wounds) || try_knockout
+	if(!has_crit_attempt)
+		return FALSE
+
+	var/resist_msg = " [owner] resists"
+	if(attempted_wounds && try_knockout)
+		resist_msg += " a wound and a knockout!</span>"
+	else if(attempted_wounds)
+		resist_msg += " a wound!</span>"
+	else if(try_knockout)
+		resist_msg += " a knockout!</span>"
+
+	if(owner.try_resist_critical())
+		if(crit_message)
+			owner.next_attack_msg.Cut()
+			owner.next_attack_msg += span_crit(" Critical resistance!" + resist_msg)
+		return TRUE
+
+	// We want to apply knockout AFTER resistance check so you don't need two rolls to resist.
+	if(try_knockout)
+		owner.next_attack_msg += " <span class='crit'><b>Critical hit!</b> [owner] is knocked out[from_behind ? " FROM BEHIND" : ""]!</span>"
+		owner.flash_fullscreen("whiteflash3")
+		owner.Unconscious(5 SECONDS + (from_behind * 10 SECONDS))
+		if(owner.client)
+			winset(owner.client, "outputwindow.output", "max-lines=1")
+			winset(owner.client, "outputwindow.output", "max-lines=100")
 
 	for(var/wound_type in shuffle(attempted_wounds))
 		var/datum/wound/applied = add_wound(wound_type, silent, crit_message)
@@ -529,7 +573,7 @@
 	return FALSE
 
 /obj/item/bodypart/proc/bandage_expire()
-	testing("expire bandage")
+
 	if(!owner)
 		return FALSE
 	if(!bandage)
@@ -572,6 +616,7 @@
 
 /// Returns surgery flags applicable to this bodypart
 /obj/item/bodypart/proc/get_surgery_flags()
+	// oh sweet mother of christ what the FUCK is this. this is called EVERY TIME BLEED RATE IS CHECKED.
 	var/returned_flags = NONE
 	if(can_bloody_wound())
 		returned_flags |= SURGERY_BLOODY
@@ -608,3 +653,21 @@
 	if(skeletonized)
 		returned_flags |= SURGERY_INCISED | SURGERY_RETRACTED | SURGERY_DRILLED //ehh... we have access to whatever organ is there
 	return returned_flags
+
+/* Check for critical resistance and trigger its effects.
+	Return TRUE if critical resistance was triggered, false if it don't work
+*/
+/mob/living/proc/try_resist_critical()
+	var/resistance = HAS_TRAIT(src, TRAIT_CRITICAL_RESISTANCE)
+	if(!resistance)
+		return FALSE
+
+	var/crit_resist_tracker = has_status_effect(/datum/status_effect/debuff/crit_resistance_cd)
+
+	if(!crit_resist_tracker)
+		apply_status_effect(/datum/status_effect/debuff/crit_resistance_cd)
+		return TRUE // One chance were used and it was added
+	else
+		var/datum/status_effect/debuff/crit_resistance_cd/crit_resist_tracker_actual = crit_resist_tracker
+		// Iterate stack by 1 and then see if we can crit this hit
+		return !crit_resist_tracker_actual.try_crit()

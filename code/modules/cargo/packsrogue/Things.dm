@@ -125,3 +125,12 @@
 	cost = 5
 	contains = list(/obj/item/storage/belt/rogue/leather)
 
+/datum/supply_pack/rogue/Things/clotchkit
+	name = "Sewing Kit"
+	cost = 30
+	contains = list(/obj/item/repair_kit)
+
+/datum/supply_pack/rogue/Things/metalkit
+	name = "Armor Plate"
+	cost = 50
+	contains = list(/obj/item/repair_kit/metal)

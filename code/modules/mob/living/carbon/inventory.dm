@@ -51,7 +51,12 @@
 	var/not_handled = FALSE
 	switch(slot)
 		if(SLOT_BACK)
-			back = I
+			if(!backl && (I.slot_flags & ITEM_SLOT_BACK_L))
+				backl = I
+			else if(!backr && (I.slot_flags & ITEM_SLOT_BACK_R))
+				backr = I
+			else
+				not_handled = TRUE
 			update_inv_back()
 		if(SLOT_WEAR_MASK)
 			wear_mask = I
@@ -74,11 +79,11 @@
 		if(SLOT_IN_BACKPACK)
 			not_handled = TRUE
 			if(backr)
-				testing("insert_backr")
+
 				if(SEND_SIGNAL(backr, COMSIG_TRY_STORAGE_INSERT, I, src, TRUE))
 					not_handled = FALSE
 			if(backl && not_handled)
-				testing("insert_backl")
+
 				if(SEND_SIGNAL(backl, COMSIG_TRY_STORAGE_INSERT, I, src, TRUE))
 					not_handled = FALSE
 

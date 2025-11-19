@@ -38,7 +38,7 @@
 	extra_context = "This subclass can choose between two specialities: the slurbow or crossbow. Taking the latter will provide Master skills for their ranged weapon and a minor increase to all physical stats, but imparts a heavy Speed malus and removes the 'Dodge Expert' trait."
 
 /datum/outfit/job/roguetown/confessor
-	job_bitflag = BITFLAG_CHURCH
+	job_bitflag = BITFLAG_HOLY_WARRIOR
 
 /datum/outfit/job/roguetown/confessor/pre_equip(mob/living/carbon/human/H, visualsOnly)
 	..()
@@ -57,7 +57,7 @@
 				l_hand = /obj/item/rogueweapon/sword/short/psy
 				r_hand = /obj/item/rogueweapon/scabbard/sword
 				H.adjust_skillrank_up_to(/datum/skill/combat/swords, 4, TRUE)
-		var/armors = list("Confessor - Slurbow, Leather Maillecoat", "Arbalist - Crossbow, Lightweight Brigandine")
+		var/armors = list("Confessor - Slurbow, Leather Maillecoat", "Arbalist - Crossbow, Psydonic Chestplate")
 		var/armor_choice = input(H, "Choose your ARCHETYPE.", "TAKE UP PSYDON'S DUTY.") as anything in armors
 		switch(armor_choice)
 			if("Confessor - Slurbow, Leather Maillecoat")
@@ -65,9 +65,9 @@
 				armor = /obj/item/clothing/suit/roguetown/armor/leather/heavy/coat/confessor
 				shirt = /obj/item/clothing/suit/roguetown/armor/gambeson/heavy/inq
 				backl = /obj/item/gun/ballistic/revolver/grenadelauncher/crossbow/slurbow
-			if("Arbalist - Crossbow, Lightweight Brigandine")
+			if("Arbalist - Crossbow, Psydonic Chestplate")
 				head = /obj/item/clothing/head/roguetown/headband/bloodied
-				armor = /obj/item/clothing/suit/roguetown/armor/brigandine/light
+				armor = /obj/item/clothing/suit/roguetown/armor/plate/cuirass/fencer/psydon
 				backl = /obj/item/gun/ballistic/revolver/grenadelauncher/crossbow
 				REMOVE_TRAIT(H, TRAIT_DODGEEXPERT, TRAIT_GENERIC)
 				H.adjust_skillrank_up_to(/datum/skill/combat/crossbows, 5, TRUE)

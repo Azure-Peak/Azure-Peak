@@ -6,7 +6,7 @@
 	var/mob/living/parent_mob
 	var/was_at_max = FALSE
 	var/last_rebirth_use = 0
-	var/next_rebirth_use = 20 MINUTES
+	var/next_rebirth_use = 5 MINUTES
 
 /datum/component/infestation_charges/Initialize(obj/effect/proc_holder/spell/invoked/infestation/spell)
 	. = ..()

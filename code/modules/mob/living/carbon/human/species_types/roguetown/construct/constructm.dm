@@ -15,7 +15,7 @@
 	default_color = "FFFFFF"
 	species_traits = list(EYECOLOR,HAIR,FACEHAIR,LIPS,STUBBLE,OLDGREY,NOBLOOD)
 	default_features = MANDATORY_FEATURE_LIST
-	use_skintones = 1
+	use_skintones = TRUE
 	possible_ages = ALL_AGES_LIST
 	skinned_type = /obj/item/ingot/steel
 	disliked_food = NONE
@@ -24,7 +24,6 @@
 		TRAIT_NOHUNGER,
 		TRAIT_BLOODLOSS_IMMUNE,
 		TRAIT_NOBREATH,
-		TRAIT_EASYDISMEMBER,
 		TRAIT_ZOMBIE_IMMUNE
 		)
 	changesource_flags = MIRROR_BADMIN | WABBAJACK | MIRROR_MAGIC | MIRROR_PRIDE | RACE_SWAP | SLIME_EXTRACT

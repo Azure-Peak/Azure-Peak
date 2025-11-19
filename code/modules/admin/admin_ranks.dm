@@ -198,7 +198,7 @@ GLOBAL_PROTECT(protected_ranks)
 		var/rights = rights2text(R.rights,"\n\t\t")
 		if(rights)
 			msg += "\t\t[rights]\n"
-	testing(msg)
+
 	#endif
 
 /proc/load_admins(no_update)
@@ -271,7 +271,7 @@ GLOBAL_PROTECT(protected_ranks)
 	for(var/ckey in GLOB.admin_datums)
 		var/datum/admins/D = GLOB.admin_datums[ckey]
 		msg += "\t[ckey] - [D.rank.name]\n"
-	testing(msg)
+
 	#endif
 	return dbfail
 

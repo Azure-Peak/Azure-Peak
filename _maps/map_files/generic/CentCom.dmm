@@ -127,10 +127,10 @@
 /obj/item/clothing/suit/roguetown/armor/plate,
 /obj/item/clothing/suit/roguetown/armor/plate,
 /obj/item/clothing/suit/roguetown/armor/plate,
-/obj/item/clothing/suit/roguetown/armor/plate/half/fluted,
-/obj/item/clothing/suit/roguetown/armor/plate/half/fluted,
-/obj/item/clothing/suit/roguetown/armor/plate/half/fluted,
-/obj/item/clothing/suit/roguetown/armor/plate/half/fluted,
+/obj/item/clothing/suit/roguetown/armor/plate/cuirass/fluted,
+/obj/item/clothing/suit/roguetown/armor/plate/cuirass/fluted,
+/obj/item/clothing/suit/roguetown/armor/plate/cuirass/fluted,
+/obj/item/clothing/suit/roguetown/armor/plate/cuirass/fluted,
 /obj/item/clothing/suit/roguetown/armor/plate/full/fluted,
 /obj/item/clothing/suit/roguetown/armor/plate/full/fluted,
 /obj/item/clothing/suit/roguetown/armor/plate/full/fluted,
@@ -1469,10 +1469,6 @@
 /obj/effect/solid_invisible_barrier,
 /turf/open/floor/rogue/underworld/space/quiet,
 /area/rogue/underworld/dream)
-"Bd" = (
-/obj/structure/roguemachine/scomm,
-/turf/open/floor/rogue/hexstone,
-/area/rogue/under/cave/inhumen)
 "Bi" = (
 /turf/open/floor/rogue/blocks,
 /area/rogue/under/cave/inhumen)
@@ -5129,7 +5125,7 @@ qA
 uf
 HV
 If
-Bd
+ws
 IZ
 XM
 yk

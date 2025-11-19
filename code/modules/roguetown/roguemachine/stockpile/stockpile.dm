@@ -1,6 +1,6 @@
 /obj/structure/roguemachine/stockpile
 	name = "stockpile"
-	desc = ""
+	desc = "A magitech device connected to the trade network. Users can buy basic goods, crafting materials, and food for a price from these units, or sell them here for money."
 	icon = 'icons/roguetown/misc/machines.dmi'
 	icon_state = "stockpile_vendor"
 	density = FALSE
@@ -105,6 +105,42 @@
 	popup.open()
 
 /obj/structure/roguemachine/stockpile/proc/attemptsell(obj/item/I, mob/H, message = TRUE, sound = TRUE)
+	if(istype(I, /obj/structure/handcart)) // Handle carts specially - sell their contents, leave the empty cart
+		var/obj/structure/handcart/cart = I
+		var/turf/cart_location = get_turf(cart)
+		var/list/cart_contents = cart.contained_items.Copy()
+		for(var/atom/movable/cart_content in cart_contents) // Process all items inside the cart first
+			if(isitem(cart_content))
+				attemptsell(cart_content, H, message, FALSE)
+
+		for(var/atom/movable/remaining_item in cart_contents) // Any items that weren't sold (still exist) go to the ground
+			if(!QDELETED(remaining_item))
+				cart.remove_from(remaining_item)
+				remaining_item.forceMove(cart_location)
+		// Setting cart back to square 1
+		cart.contained_items = list()
+		cart.current_capacity = 0
+		cart.update_icon()
+		if(sound == TRUE)
+			playsound(loc, 'sound/misc/hiss.ogg', 100, FALSE, -1)
+		return
+
+	if(istype(I, /obj/item/roguebin)) // Handle roguebins specially - sell their contents, leave the empty bin
+		var/obj/item/roguebin/bin = I
+		var/turf/bin_location = get_turf(bin)
+		var/datum/component/storage/STR = bin.GetComponent(/datum/component/storage)
+		if(STR)
+			var/list/bin_contents = STR.contents()
+			for(var/obj/item/bin_item in bin_contents) // Process all items inside the bin first
+				attemptsell(bin_item, H, message, FALSE)
+
+			for(var/obj/item/remaining_item in bin_contents) // Any items that weren't sold (still exist) go to the ground
+				if(!QDELETED(remaining_item))
+					STR.remove_from_storage(remaining_item, bin_location)
+		if(sound == TRUE)
+			playsound(loc, 'sound/misc/hiss.ogg', 100, FALSE, -1)
+		return
+
 	for(var/datum/roguestock/R in SStreasury.stockpile_datums)
 		if(istype(I, /obj/item/natural/bundle))
 			var/obj/item/natural/bundle/B = I
@@ -165,9 +201,9 @@
 		if(istype(P, /obj/item/roguecoin/aalloy))
 			return
 
-		if(istype(P, /obj/item/roguecoin/inqcoin))	
+		if(istype(P, /obj/item/roguecoin/inqcoin))
 			return
-	
+
 		if(istype(P, /obj/item/roguecoin))
 			withdraw_tab.insert_coins(P)
 			return attack_hand(user)

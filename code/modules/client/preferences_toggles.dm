@@ -104,6 +104,28 @@
 		else
 			to_chat(src, "You will no longer be notified in chat when toggling Compliance Mode.")
 
+/client/verb/toggle_examine_blocks()
+	set category = "Options"
+	set name = "Toggle Examine Blocks"
+	if(prefs)
+		prefs.no_examine_blocks = !prefs.no_examine_blocks
+		prefs.save_preferences()
+		if(prefs.no_examine_blocks)
+			to_chat(src, "You will no longer see examined items in boxes.")
+		else
+			to_chat(src, "You will now see examined items in boxes.")
+
+/client/verb/toggle_autopunctuation()
+	set category = "Options"
+	set name = "Toggle Autopunctuation"
+	if(prefs)
+		prefs.no_autopunctuate = !prefs.no_autopunctuate
+		prefs.save_preferences()
+		if(prefs.no_autopunctuate)
+			to_chat(src, "Your messages will no longer be automatically punctuated.")
+		else
+			to_chat(src, "Your messages will now be automatically punctuated.")
+
 /client/verb/toggle_lobby_music()
 	set name = "Toggle Lobby Music"
 	set category = "Options"
@@ -672,3 +694,14 @@ GLOBAL_LIST_INIT(ghost_orbits, list(GHOST_ORBIT_CIRCLE,GHOST_ORBIT_TRIANGLE,GHOS
 	prefs.admin_chat_toggles ^= CHAT_ADMINSPAWN
 	prefs.save_preferences()
 	to_chat(src, "You will [prefs.admin_chat_toggles & CHAT_ADMINSPAWN ? "see" : "not see any"] spawn logs.")
+
+/client/verb/full_examine()
+	set category = "Options"
+	set name = "Toggle Full Examine"
+	if(prefs)
+		prefs.full_examine = !prefs.full_examine
+		prefs.save_preferences()
+		if(prefs.full_examine)
+			to_chat(src, "Examines will be fully shown.")
+		else
+			to_chat(src, "Examines will have some information behind dropdowns.")

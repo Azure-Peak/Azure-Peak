@@ -24,8 +24,8 @@
 
 /datum/coven_power/fae_trickery/darkling_trickery/activate(mob/living/target)
 	. = ..()
-	target.visible_message(span_suicide("[target] is disarmed!"), 
-					span_boldwarning("I'm disarmed!"))
+	target.visible_message(span_suicide("[target] is disarmed!"),
+					span_boldwarning("I'm disarmed!"))	
 	playsound(get_turf(target), 'sound/magic/mockery.ogg', 40, FALSE)
 	var/turnangle = (prob(50) ? 270 : 90)
 	var/turndir = turn(target.dir, turnangle)
@@ -57,6 +57,9 @@
 	. = ..()
 	var/obj/item/clothing/mask/rogue/goblin_mask/goblin = new (get_turf(owner))
 	goblin.throw_at(target, 10, 14, owner)
+	owner.visible_message(
+		span_warning("[owner]'s hand glows green, only to launch a goblin at [target]!"))
+	playsound(get_turf(owner), 'sound/magic/clang.ogg', 40, TRUE)
 
 /obj/item/clothing/mask/rogue/goblin_mask
 	name = "goblin"

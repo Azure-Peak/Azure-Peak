@@ -54,7 +54,7 @@
 						if("r_hand", "l_hand")
 							if (target_human.get_item_by_slot(SLOT_RING))
 								stealpos.Add(target_human.get_item_by_slot(SLOT_RING))
-					if (length(stealpos) > 0)
+					if(length(stealpos) > 0)
 						var/obj/item/picked = pick(stealpos)
 						target_human.dropItemToGround(picked)
 						user.put_in_active_hand(picked)
@@ -66,6 +66,8 @@
 							record_featured_stat(FEATURED_STATS_THIEVES, user_human)
 							record_featured_stat(FEATURED_STATS_CRIMINALS, user_human)
 							GLOB.azure_round_stats[STATS_ITEMS_PICKPOCKETED]++
+						if(user.has_flaw(/datum/charflaw/addiction/kleptomaniac))
+							user.sate_addiction()
 					else
 						exp_to_gain /= 2 // these can be removed or changed on reviewer's discretion
 						to_chat(user, span_warning("I didn't find anything there. Perhaps I should look elsewhere."))

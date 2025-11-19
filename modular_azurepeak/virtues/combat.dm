@@ -72,6 +72,17 @@
 	recipient.adjust_skillrank_up_to(/datum/skill/combat/swords, SKILL_LEVEL_JOURNEYMAN, silent = TRUE)
 	recipient.adjust_skillrank_up_to(/datum/skill/combat/knives, SKILL_LEVEL_JOURNEYMAN, silent = TRUE)
 
+/datum/virtue/combat/shielder
+	name = "Traditionalist"
+	desc = "I have trained extensively in both sword and shield, the most illustrious combination of attack and defence. I have one of each hidden away."
+	custom_text = "Guaranteed Journeyman for Swords & Shields."
+	added_stashed_items = list("Shield" = /obj/item/rogueweapon/shield/wood,
+								"Arming Sword" = /obj/item/rogueweapon/sword/iron)
+
+/datum/virtue/combat/shielder/apply_to_human(mob/living/carbon/human/recipient)
+	recipient.adjust_skillrank_up_to(/datum/skill/combat/swords, SKILL_LEVEL_JOURNEYMAN, silent = TRUE)
+	recipient.adjust_skillrank_up_to(/datum/skill/combat/shields, SKILL_LEVEL_JOURNEYMAN, silent = TRUE)
+
 /datum/virtue/combat/executioner
 	name = "Dungeoneer's Apprentice"
 	desc = "I was set to be a dungeoneer some time ago, and I was taught by one. I have an axe and whip stashed away, should the need arise."
@@ -119,6 +130,22 @@
 		recipient.adjust_skillrank_up_to(/datum/skill/combat/bows, SKILL_LEVEL_APPRENTICE, silent = TRUE)
 	else
 		added_skills = list(list(/datum/skill/combat/bows, 1, 6))
+
+
+/datum/virtue/combat/crossbowman
+	name = "Marksman"
+	desc = "Warfare is changing, and the crossbow is the next pedestal. I have always been ahead of the curve, as compared to my peers."
+	custom_text = "+1 to Crossbows, Up to Legendary, Minimum Apprentice"
+	added_stashed_items = list(
+		"Quiver (Bolts)" = /obj/item/quiver/bolts
+	)
+
+/datum/virtue/combat/crossbowman/apply_to_human(mob/living/carbon/human/recipient)
+	if(recipient.get_skill_level(/datum/skill/combat/crossbows) < SKILL_LEVEL_APPRENTICE)
+		recipient.adjust_skillrank_up_to(/datum/skill/combat/crossbows, SKILL_LEVEL_APPRENTICE, silent = TRUE)
+	else
+		added_skills = list(list(/datum/skill/combat/crossbows, 1, 6))
+
 
 /datum/virtue/combat/shepherd
 	name = "Capable Shepherd"

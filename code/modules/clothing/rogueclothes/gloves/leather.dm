@@ -13,8 +13,8 @@
 	drop_sound = 'sound/foley/dropsound/cloth_drop.ogg'
 	anvilrepair = null
 	sewrepair = TRUE
-	salvage_result = /obj/item/natural/hide/cured
 	unarmed_bonus = 1.1
+	color = "#66584c"
 
 /obj/item/clothing/gloves/roguetown/leather/black
 	color = CLOTHING_BLACK

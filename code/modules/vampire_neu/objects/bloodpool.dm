@@ -421,6 +421,7 @@
 			SSjob.EquipRank(target, "Vampire Spawn", TRUE)
 			var/datum/antagonist/vampire/new_antag = new /datum/antagonist/vampire(incoming_clan = initiator_clan, forced_clan = TRUE, generation = GENERATION_ANCILLAE)
 			target.mind.add_antag_datum(new_antag)
+	ADD_TRAIT(target, TRAIT_BLOODPOOL_BORN, TRAIT_GENERIC)
 
 /datum/vampire_project/servant/servant_t1
 	display_name = "Summon Servant"

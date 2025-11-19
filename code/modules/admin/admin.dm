@@ -306,6 +306,7 @@
 	if(S)
 		M.remove_status_effect(S)
 		M.set_resting(FALSE, TRUE)
+		M.fallingas = FALSE
 	else
 		M.SetSleeping(999999)
 	message_admins(span_danger("Admin [key_name_admin(usr)] toggled [key_name_admin(M)]'s sleeping state!"))
@@ -891,6 +892,7 @@
 		if(S)
 			M.remove_status_effect(S)
 			M.set_resting(FALSE, TRUE)
+			M.fallingas = FALSE
 
 	message_admins("[key_name(usr)] used Toggle Wake In View.")
 

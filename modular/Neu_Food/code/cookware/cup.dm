@@ -26,7 +26,7 @@
 	throwforce = 10
 
 /obj/item/reagent_containers/glass/cup/update_icon(dont_fill=FALSE)
-	testing("cupupdate")
+
 
 	cut_overlays()
 

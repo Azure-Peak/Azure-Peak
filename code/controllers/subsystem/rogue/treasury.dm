@@ -55,6 +55,8 @@ SUBSYSTEM_DEF(treasury)
 	var/total_noble_income = 0
 	var/total_import = 0
 	var/total_export = 0
+	var/obj/structure/roguemachine/steward/steward_machine // Reference to the nerve master
+	var/initial_payment_done = FALSE // Flag to track if initial round-start payment has been distributed
 
 /datum/controller/subsystem/treasury/Initialize()
 	treasury_value = rand(1000, 2000)
@@ -75,6 +77,9 @@ SUBSYSTEM_DEF(treasury)
 	if(world.time > next_treasury_check)
 		next_treasury_check = world.time + TREASURY_TICK_AMOUNT
 		if(SSticker.current_state == GAME_STATE_PLAYING)
+			if(!initial_payment_done) // Distribute initial payments once at round start
+				initial_payment_done = TRUE
+				distribute_daily_payments()
 			for(var/datum/roguestock/X in stockpile_datums)
 				if(!X.stable_price && !X.mint_item)
 					if(X.demand < initial(X.demand))
@@ -228,6 +233,25 @@ SUBSYSTEM_DEF(treasury)
 			give_money_account(how_much, welfare_dependant, "The Guild")
 		else
 			give_money_account(how_much, welfare_dependant, "Noble Estate")
+
+/datum/controller/subsystem/treasury/proc/distribute_daily_payments()
+	if(!steward_machine || !steward_machine.daily_payments || !steward_machine.daily_payments.len)
+		return
+
+	var/total_paid = 0
+	for(var/job_name in steward_machine.daily_payments)
+		var/payment_amount = steward_machine.daily_payments[job_name]
+		for(var/mob/living/carbon/human/H in GLOB.human_list)
+			if(H.job == job_name)
+				// Skip payment if wages are suspended
+				if(HAS_TRAIT(H, TRAIT_WAGES_SUSPENDED))
+					continue
+				if(give_money_account(payment_amount, H, "Daily Wage"))
+					total_paid += payment_amount
+					record_round_statistic(STATS_WAGES_PAID)
+
+	if(total_paid > 0)
+		log_to_steward("Daily wages distributed: [total_paid]m total")
 
 /datum/controller/subsystem/treasury/proc/do_export(var/datum/roguestock/D, silent = FALSE)
 	if((D.held_items[1] < D.importexport_amt))

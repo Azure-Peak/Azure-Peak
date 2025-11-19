@@ -105,7 +105,7 @@
 	new /obj/item/clothing/gloves/roguetown/plate(src)
 	new /obj/item/clothing/neck/roguetown/gorget(src)
 	new /obj/item/clothing/suit/roguetown/armor/chainmail(src)
-	new /obj/item/clothing/suit/roguetown/armor/plate/half(src)
+	new /obj/item/clothing/suit/roguetown/armor/plate/cuirass(src)
 	new /obj/item/clothing/shoes/roguetown/boots/armor(src)
 	new /obj/item/storage/keyring/guardcastle(src)
 	new /obj/item/storage/belt/rogue/leather/steel(src)

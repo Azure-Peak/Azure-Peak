@@ -56,3 +56,6 @@
 #define RUNECHAT_BOLD(str) "+[str]+"
 /// Helper which creates a chat message which may have a tooltip in some contexts, but not others.
 #define conditional_tooltip(normal_text, tooltip_text, condition) ((condition) ? (span_tooltip(tooltip_text, normal_text)) : (normal_text))
+
+/// Adds a generic box around whatever message you're sending in chat. Really makes things stand out.
+#define examine_block(str) ("<div class='examine_block'>" + str + "</div>")

@@ -144,15 +144,14 @@
 	nomouseover = FALSE
 
 /atom/movable/screen/fullscreen/crit/zeth/Click()
-	if(isliving(usr))
-		var/mob/living/L = usr
-		if(L.stat != DEAD)
-			if(alert("Are you done living?", "", "Yes", "No") == "Yes")
-				if(!L.succumb_timer || (world.time < L.succumb_timer + 111 SECONDS) )
-					var/ttime =  round(((L.succumb_timer + 111 SECONDS) - world.time) / 10)
-					to_chat(L, span_redtext("I'm not dead enough yet. [ttime]"))
-				else
-					L.succumb(reaper = TRUE)
+	if(!isliving(usr))
+		return
+	var/mob/living/L = usr
+	if(L.stat == DEAD)
+		return
+	if(alert("Are you done living?", "", "Yes", "No") == "No")
+		return
+	L.succumb(reaper = TRUE)
 
 /atom/movable/screen/fullscreen/crit/death
 	icon_state = "DD"

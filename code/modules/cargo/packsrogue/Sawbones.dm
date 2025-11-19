@@ -215,6 +215,11 @@
 	cost = 100
 	contains = list(/obj/item/reagent_containers/glass/bottle/rogue/poison)
 
+/datum/supply_pack/rogue/Sawbones/heartblood
+	name = "Heartblood canister"
+	cost = 5
+	contains = list(/obj/item/heart_blood_canister/filled)
+
 /////////////////
 // PROSTHETICS //
 /////////////////

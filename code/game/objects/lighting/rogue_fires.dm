@@ -135,6 +135,20 @@
 	crossfire = FALSE
 	cookonme = TRUE
 
+/obj/machinery/light/rogue/wallfirecrafted
+	name = "fireplace"
+	desc = "A warm fire dances between a pile of half-burnt logs upon a bed of glowing embers."
+	icon_state = "wallfire1"
+	base_state = "wallfire"
+	light_outer_range = 4 //slightly weaker than a torch
+	bulb_colour = "#ffa35c"
+	density = FALSE
+	fueluse = 0
+	no_refuel = TRUE
+	crossfire = FALSE
+	pixel_y = 32
+	cookonme = TRUE
+
 /obj/machinery/light/rogue/wallfire/candle
 	name = "candles"
 	desc = "Tiny flames flicker to the slightest breeze and offer enough light to see."
@@ -410,7 +424,7 @@
 	cookonme = TRUE
 	soundloop = /datum/looping_sound/fireloop
 	var/obj/item/attachment = null
-	var/obj/item/reagent_containers/food/snacks/food = null
+	var/obj/item/food = null
 	var/mob/living/carbon/human/lastuser
 	var/datum/looping_sound/boilloop/boilloop
 
@@ -494,6 +508,14 @@
 						playsound(get_turf(user), 'modular/Neu_Food/sound/eggbreak.ogg', 100, TRUE, -1)
 						sleep(25) // to get egg crack before frying hiss
 						W.icon_state = "rawegg" // added
+				if(!food)
+					S.forceMove(src)
+					food = S
+					update_icon()
+					playsound(src.loc, 'sound/misc/frying.ogg', 80, FALSE, extrarange = 5)
+					return
+			if(W.type in subtypesof(/obj/item/seeds))
+				var/obj/item/seeds/S = W
 				if(!food)
 					S.forceMove(src)
 					food = S
@@ -762,6 +784,7 @@
 	cookonme = TRUE
 	max_integrity = 30
 	soundloop = /datum/looping_sound/fireloop
+	var/healing_range = 2
 
 /obj/machinery/light/rogue/campfire/process()
 	..()
@@ -770,34 +793,37 @@
 		if(IS_WET_OPEN_TURF(O))
 			extinguish()
 
+	if(on)
+		var/list/hearers_in_range = SSspatial_grid.orthogonal_range_search(src, SPATIAL_GRID_CONTENTS_TYPE_HEARING, healing_range)
+		for(var/mob/living/carbon/human/human in hearers_in_range)
+			var/distance = get_dist(src, human)
+			if(distance > healing_range)
+				continue
+			if(!human.has_status_effect(/datum/status_effect/buff/healing/campfire))
+				to_chat(human, "The warmth of the fire comforts me, affording me a short rest.")
+			// Astrata followers get enhanced fire healing
+			var/buff_strength = 1
+			if(human.patron?.type == /datum/patron/divine/astrata || human.patron?.type == /datum/patron/inhumen/matthios) //Fire and the fire-stealer
+				buff_strength = 2
+			human.apply_status_effect(/datum/status_effect/buff/healing/campfire, buff_strength)
+			human.add_stress(/datum/stressevent/campfire)
+
 /obj/machinery/light/rogue/campfire/onkick(mob/user)
 	if(isliving(user) && on)
 		var/mob/living/L = user
 		L.visible_message("<span class='info'>[L] snuffs [src].</span>")
 		burn_out()
 
-/obj/machinery/light/rogue/campfire/attack_hand(mob/user, first_call = TRUE)
+/obj/machinery/light/rogue/campfire/attack_hand(mob/user)
 	. = ..()
 	if(.)
 		return
 
 	if(on)
 		var/mob/living/carbon/human/H = user
+		if(ishuman(H))
+			H.visible_message("<span class='info'>[H] warms [user.p_their()] hand near the fire.</span>")
 
-		if(istype(H))
-			if(first_call)
-				H.visible_message("<span class='info'>[H] warms [user.p_their()] hand near the fire.</span>")
-
-			if(do_after(H, 105, target = src))
-				// Astrata followers get enhanced fire healing
-				var/buff_strength = 1
-				if(H.patron?.type == /datum/patron/divine/astrata || H.patron?.type == /datum/patron/inhumen/matthios) //Fire and the fire-stealer
-					buff_strength = 2
-				H.apply_status_effect(/datum/status_effect/buff/healing, buff_strength)
-				H.add_stress(/datum/stressevent/campfire)
-				to_chat(H, "<span class='info'>The warmth of the fire comforts me, affording me a short rest.</span>")
-				attack_hand(H, FALSE) // Recursion
-		return TRUE //fires that are on always have this interaction with lmb unless its a torch
 /obj/machinery/light/rogue/campfire/densefire
 	icon_state = "densefire1"
 	base_state = "densefire"
@@ -811,6 +837,7 @@
 	pass_flags = LETPASSTHROW
 	bulb_colour = "#eea96a"
 	max_integrity = 60
+	healing_range = 4
 
 /obj/machinery/light/rogue/campfire/densefire/CanPass(atom/movable/mover, turf/target)
 	if(istype(mover) && (mover.pass_flags & PASSTABLE))

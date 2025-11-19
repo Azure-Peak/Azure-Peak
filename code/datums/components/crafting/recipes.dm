@@ -34,6 +34,9 @@
 	//crafting diff, every diff removes 25% chance to craft
 	var/required_tech_node = null // String ID of required tech node, or null if no tech required
 	var/tech_unlocked = TRUE // Set to TRUE when the required tech is unlocked
+	var/ignoredensity = FALSE //used on objects that we want to build into walls or atop other structures
+ 	// If TRUE, this recipe will be skipped by the nodupe tests
+	var/bypass_dupe_test = FALSE
 /*
 /datum/crafting_recipe/example
 	name = ""
@@ -114,30 +117,8 @@
 		if(C.body_parts_covered)
 			html += "\n<b>COVERAGE: </b>"
 			html += " | "
-			if(C.body_parts_covered == C.body_parts_covered_dynamic)
-				for(var/zone in body_parts_covered2organ_names(C.body_parts_covered))
-					html += "<b>[capitalize(zone)]</b> | "
-			else
-				var/list/zones = list()
-				//We have some part peeled, so we turn the printout into precise mode and highlight the missing coverage.
-				for(var/zoneorg in body_parts_covered2organ_names(C.body_parts_covered, precise = TRUE))
-					zones += zoneorg
-				for(var/zonedyn in body_parts_covered2organ_names(C.body_parts_covered_dynamic, precise = TRUE))
-					html += "<b>[capitalize(zonedyn)]</b> | "
-					if(zonedyn in zones)
-						zones.Remove(zonedyn)
-				for(var/zone in zones)			
-					html += "<b><font color = '#470000'>[capitalize(zone)]</font></b> | "
-			html += "<br>"
-		if(C.body_parts_inherent)
-			html += "<b>CANNOT BE PEELED: </b>"
-			var/list/inherentList = body_parts_covered2organ_names(C.body_parts_inherent)
-			if(length(inherentList) == 1)
-				html += "<b><font color = '#000833'>[capitalize(inherentList[1])]</font></b><br>"
-			else
-				html += "| "
-				for(var/zone in inherentList)
-					html += "<b><font color = '#000833'>[capitalize(zone)]</b></font> | "
+			for(var/zone in body_parts_covered2organ_names(body_parts_covered2organ_names(C.body_parts_covered)))
+				html += "<b>[capitalize(zone)]</b> | "
 			html += "<br>"
 		if(C.prevent_crits)
 			if(length(C.prevent_crits))

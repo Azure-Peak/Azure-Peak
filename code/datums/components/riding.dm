@@ -254,11 +254,14 @@
 		AM.layer = MOB_LAYER
 
 /datum/component/riding/human/get_offsets(pass_index)
-	var/mob/living/carbon/human/H = parent
-	if(H.buckle_lying)
+	var/mob/living/carbon/human/human = parent
+	var/obj/item/bodypart/taur/taur = human.get_taur_tail()
+	if(human.buckle_lying)
 		return list(TEXT_NORTH = list(0, 6), TEXT_SOUTH = list(0, 6), TEXT_EAST = list(0, 6), TEXT_WEST = list(0, 6))
 	else if(istype(parent, /mob/living/carbon/human/species/wildshape)) //Snowflake druid travel
 		return list(TEXT_NORTH = list(8, 6), TEXT_SOUTH = list(8, 6), TEXT_EAST = list(8, 6), TEXT_WEST = list(8, 6))
+	else if(taur)
+		return list(TEXT_NORTH = list(0, 6), TEXT_SOUTH = list(0, 6), TEXT_EAST = list(-12, 4), TEXT_WEST = list(12, 4))
 	else
 		return list(TEXT_NORTH = list(0, 6), TEXT_SOUTH = list(0, 6), TEXT_EAST = list(-6, 4), TEXT_WEST = list(6, 4))
 

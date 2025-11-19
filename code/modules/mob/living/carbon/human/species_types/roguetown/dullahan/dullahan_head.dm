@@ -28,31 +28,7 @@
 		to_chat(target, "<span class='warning'>[user] failed to touch you. (Your ERP preference, in the options)</span>")
 		log_combat(user, target, "tried unwanted ERP menu against")
 		return
-	user.sexcon.start(target)
-
-/obj/item/bodypart/head/dullahan/proc/check_closest_zones(mob/living/carbon/human/target)
-	var/mob/living/carbon/human/user = original_owner
-	var/datum/species/dullahan/user_species = user.dna.species
-	var/list/acceptable = list()
-	if(!user_species.headless)
-		return FALSE
-
-	var/datum/sex_controller/target_con = target.sexcon
-	var/check_con = FALSE
-	if(target.is_holding(src))
-		var/obj/item/bodypart/holding_bodypart = target.get_holding_bodypart_of_item(src)
-		// Someone will have to maintain this if they add more than two hands.
-		// However at that point they have bigger problems.
-		acceptable += holding_bodypart.aux_zone
-		check_con = TRUE
-
-	if(get_turf(src) == get_turf(target))
-		check_con = TRUE
-
-	if(check_con && target_con.target == user)
-		acceptable += target_con.using_zones
-
-	return user.zone_selected in acceptable
+	user.start_sex_session(target)
 
 // Attach head.
 /obj/item/bodypart/head/dullahan/melee_attack_chain(mob/living/carbon/human/user, mob/living/carbon/human/target, params)
@@ -383,9 +359,9 @@
 		if(user.goodluck(2))
 			dam += 10
 	if((bclass in GLOB.dislocation_bclasses) && (total_dam >= max_damage))
-		used = round(damage_dividend * 20 + (dam / 3) - 10 * resistance, 1)
+		used = round(damage_dividend * 20 + (dam / 3))
 	if(bclass in GLOB.fracture_bclasses)
-		used = round(damage_dividend * 20 + (dam / 3) - 10 * resistance, 1)
+		used = round(damage_dividend * 20 + (dam / 3))
 		if(HAS_TRAIT(src, TRAIT_BRITTLE))
 			used += 20
 		if(user)
@@ -419,7 +395,7 @@
 				attempted_wounds += dislocation_type
 			attempted_wounds += fracture_type
 	if(bclass in GLOB.artery_bclasses)
-		used = round(damage_dividend * 20 + (dam / 3) - 10 * resistance, 1)
+		used = round(damage_dividend * 20 + (dam / 3))
 		if(user)
 			if(bclass == BCLASS_CHOP)
 				if(istype(user.rmb_intent, /datum/rmb_intent/strong))

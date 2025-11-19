@@ -206,7 +206,8 @@
 
 	if(repeat && istype(repeat, /datum/looping_sound))
 		var/datum/looping_sound/D = repeat
-		if(src in D.thingshearing) //we are already hearing this loop
+		var/datum/weakref/our_ref = WEAKREF(src)
+		if(our_ref in D.thingshearing) //we are already hearing this loop
 			if(client.played_loops[D])
 				var/sound/DS = client.played_loops[D]["SOUND"]
 				if(DS)
@@ -221,7 +222,7 @@
 						if(client.played_loops[D]["MUTESTATUS"]) //we have sound so turn this off
 							client.played_loops[D]["MUTESTATUS"] = null
 		else
-			D.thingshearing += src
+			D.thingshearing += our_ref
 			client.played_loops[D] = list()
 			client.played_loops[D]["SOUND"] = S
 			client.played_loops[D]["VOL"] = S.volume

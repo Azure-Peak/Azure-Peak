@@ -60,7 +60,7 @@ SUBSYSTEM_DEF(nightshift)
 		update_nightshift(night_time, announcing)*/
 	var/curtod = settod()
 	if(current_tod != curtod)
-		testing("curtod [curtod] current_tod [current_tod] globtod [GLOB.tod]")
+
 		current_tod = GLOB.tod
 		update_nightshift()
 
@@ -83,19 +83,33 @@ SUBSYSTEM_DEF(nightshift)
 		if(!cmode)
 			SSdroning.play_area_sound(areal, src.client)
 		SSdroning.play_loop(areal, src.client)
-	if(todd == "day")
-		if(HAS_TRAIT(src, TRAIT_VAMP_DREAMS))
-			apply_status_effect(/datum/status_effect/debuff/vamp_dreams)
-		if(HAS_TRAIT(src, TRAIT_NIGHT_OWL))
-			apply_status_effect(/datum/status_effect/debuff/sleepytime)
+	if(mode != NPC_AI_OFF)
+		return
+	switch(todd)
+		if("day")
+			if(HAS_TRAIT(src, TRAIT_VAMP_DREAMS))
+				apply_status_effect(/datum/status_effect/debuff/vamp_dreams)
+			if(HAS_TRAIT(src, TRAIT_NIGHT_OWL))
+				apply_status_effect(/datum/status_effect/debuff/sleepytime)
+			if(HAS_TRAIT(src, TRAIT_INFINITE_STAMINA) || HAS_TRAIT(src, TRAIT_NOSLEEP))
+				handle_sleep_triumphs()
+		if("night")
+			if(HAS_TRAIT(src, TRAIT_INFINITE_STAMINA) || HAS_TRAIT(src, TRAIT_NOSLEEP))
+				return ..()
+			if(HAS_TRAIT(src, TRAIT_NIGHT_OWL))
+				add_stress(/datum/stressevent/night_owl)
+			else
+				apply_status_effect(/datum/status_effect/debuff/sleepytime)
+				add_stress(/datum/stressevent/sleepytime)
 
-	if(todd == "night")
-		if(HAS_TRAIT(src, TRAIT_INFINITE_STAMINA))
-			return ..()
-		if(HAS_TRAIT(src, TRAIT_NOSLEEP))
-			return ..()
-		if(HAS_TRAIT(src, TRAIT_NIGHT_OWL))
-			add_stress(/datum/stressevent/night_owl)
-		else
-			apply_status_effect(/datum/status_effect/debuff/sleepytime)
-			add_stress(/datum/stressevent/sleepytime)
+/mob/living/carbon/human/proc/handle_sleep_triumphs()
+	if(!mind)
+		return
+	allmig_reward++
+	var/triumphs_to_add = 1
+	var/static/list/towner_jobs
+	towner_jobs = GLOB.peasant_positions | GLOB.yeoman_positions | GLOB.youngfolk_positions
+	if(mind.assigned_role != "Unassigned" && istype(mind.assigned_role, /datum/job) && (mind.assigned_role.title in towner_jobs)) //If you play a towner-related role, you get an additonal triumph
+		triumphs_to_add++
+	adjust_triumphs(triumphs_to_add)
+	to_chat(src, span_danger("Nights Survived: \Roman[allmig_reward]"))

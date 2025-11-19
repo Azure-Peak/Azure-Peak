@@ -25,6 +25,8 @@
 	var/datum/parent
 	// Whether this recipe will be hidden from recipe books
 	var/hides_from_books = FALSE
+	// Whether this recipe bypasses the no-dupe-smeltresult test
+	var/bypass_dupe_test = FALSE
 
 /datum/anvil_recipe/New(datum/P, using_blade = FALSE, ...)
 	. = ..()

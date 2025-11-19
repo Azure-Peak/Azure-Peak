@@ -10,7 +10,7 @@
 	on = FALSE
 	climbable = TRUE
 	climb_time = 0
-	var/heat_time = 100
+	var/heat_time = 20 SECONDS
 
 /obj/machinery/light/rogue/forge/attackby(obj/item/W, mob/living/user, params)
 	if(istype(W, /obj/item/rogueweapon/tongs) && on)

@@ -23,28 +23,6 @@
 	typepath = /datum/round_event/antagonist/solo/dreamwalker
 	antag_datum = /datum/antagonist/dreamwalker
 
-	restricted_roles = list(
-		"Grand Duke",
-		"Grand Duchess",
-		"Consort",
-		"Dungeoneer",
-		"Sergeant",
-		"Men-at-arms",
-		"Marshal",
-		"Bishop",
-		"Martyr",
-		"Keeper",
-		"Bandit",
-		"Prince",
-		"Princess",
-		"Hand",
-		"Knight Captain",
-		"Knight",
-		"Court Magician",
-		"Inquisitor",
-		"Orthodoxist",
-		"Absolver",
-		"Veteran",
-	)
+	restricted_roles = DEFAULT_ANTAG_BLACKLISTED_ROLES
 
 /datum/round_event/antagonist/solo/dreamwalker

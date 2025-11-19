@@ -42,11 +42,11 @@ CIGARETTE PACKETS ARE IN FANCY.DM
 
 /obj/item/match/proc/matchignite()
 	if(!lit && !burnt)
-		testing("ignis1")
+
 		playsound(src, "sound/items/match.ogg", 100, FALSE)
 		lit = TRUE
 		icon_state = "match_lit"
-		testing("ignis2")
+
 		damtype = "fire"
 		force = 3
 		set_light(3)
@@ -339,6 +339,7 @@ CIGARETTE PACKETS ARE IN FANCY.DM
 	chem_volume = 50
 	list_reagents = null
 	muteinmouth = FALSE
+	salvage_result = null
 
 /obj/item/clothing/mask/cigarette/rollie/Initialize()
 	. = ..()
@@ -462,6 +463,7 @@ CIGARETTE PACKETS ARE IN FANCY.DM
 	mob_overlay_icon = 'icons/roguetown/clothing/onmob/mouth_items.dmi'
 	icon = 'icons/roguetown/items/lighting.dmi'
 	muteinmouth = FALSE
+	salvage_result = null
 
 /obj/item/clothing/mask/cigarette/pipe/westman
 	name = "westman pipe"

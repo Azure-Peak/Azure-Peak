@@ -178,6 +178,7 @@ GLOBAL_LIST_INIT(spells, typesof(/obj/effect/proc_holder/spell)) //needed for th
 	var/gesture_required = FALSE // Can it be cast while cuffed? Rule of thumb: Offensive spells + Mobility cannot be cast
 	var/spell_tier = 1 // Tier of the spell, used to determine whether you can learn it based on your spell. Starts at 1.
 	var/refundable = FALSE // If true, the spell can be refunded. This is modified at the point it is added to the user's mind by learnspell.
+	var/zizo_spell = FALSE // If this spell is fucked up & evil and can only be learned by heretics.
 
 	var/overlay = 0
 	var/overlay_icon = 'icons/obj/wizard.dmi'
@@ -251,7 +252,7 @@ GLOBAL_LIST_INIT(spells, typesof(/obj/effect/proc_holder/spell)) //needed for th
 			return FALSE
 	else
 		if(!(src in user.mob_spell_list))
-			testing("cast1")
+
 			return FALSE
 
 	var/turf/T = get_turf(user)
@@ -261,7 +262,7 @@ GLOBAL_LIST_INIT(spells, typesof(/obj/effect/proc_holder/spell)) //needed for th
 
 	if(!skipcharge)
 		if(!charge_check(user))
-			testing("cast2")
+
 			return FALSE
 
 	if(user.stat && !stat_allowed)
@@ -295,7 +296,7 @@ GLOBAL_LIST_INIT(spells, typesof(/obj/effect/proc_holder/spell)) //needed for th
 			to_chat(user, span_warning("I can't get the words out!"))
 			return FALSE
 
-		if(HAS_TRAIT(H, TRAIT_PARALYSIS))
+		if(HAS_TRAIT(H, TRAIT_PARALYSIS) && !stat_allowed)
 			to_chat(user, span_warning("My body is paralyzed!"))
 			return FALSE
 
@@ -727,7 +728,7 @@ GLOBAL_LIST_INIT(spells, typesof(/obj/effect/proc_holder/spell)) //needed for th
 		if(ishuman(user) && !living_user.getorganslot(ORGAN_SLOT_TONGUE)) // Shapeshifter has no tongue yeah
 			return FALSE
 
-	if(HAS_TRAIT(user, TRAIT_PARALYSIS))
+	if(HAS_TRAIT(user, TRAIT_PARALYSIS) && !stat_allowed)
 		return FALSE
 
 	return TRUE

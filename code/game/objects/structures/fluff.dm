@@ -479,11 +479,11 @@
 /obj/structure/bars/grille/redstone_triggered()
 	if(obj_broken)
 		return
-	testing("togge")
+
 	togg = !togg
 	playsound(src, 'sound/foley/trap_arm.ogg', 100)
 	if(togg)
-		testing("togge1")
+
 		icon_state = "floorgrilleopen"
 		obj_flags = CAN_BE_HIT
 		var/turf/T = loc
@@ -491,7 +491,7 @@
 			for(var/mob/living/M in loc)
 				T.Entered(M)
 	else
-		testing("togge2")
+
 		icon_state = "floorgrille"
 		obj_flags = CAN_BE_HIT | BLOCK_Z_OUT_DOWN | BLOCK_Z_IN_UP
 
@@ -579,17 +579,8 @@
 	..()
 
 /obj/structure/fluff/clock/attack_right(mob/user)
-	if(user.mind && isliving(user))
-		if(user.mind.special_items && user.mind.special_items.len)
-			var/item = input(user, "What will I take?", "STASH") as null|anything in user.mind.special_items
-			if(item)
-				if(user.Adjacent(src))
-					if(user.mind.special_items[item])
-						var/path2item = user.mind.special_items[item]
-						user.mind.special_items -= item
-						var/obj/item/I = new path2item(user.loc)
-						user.put_in_hands(I)
-			return
+	handle_special_items_retrieval(user, src)
+	return
 
 /obj/structure/fluff/clock/examine(mob/user)
 	. = ..()
@@ -688,10 +679,6 @@
 		if(7)
 			day = "Sun's dae."
 	. += "Oh no, it's [station_time_timestamp("hh:mm")] on a [day]"
-//		testing("mode is [SSshuttle.emergency.mode] should be [SHUTTLE_DOCKED]")
-//		if(SSshuttle.emergency.mode == SHUTTLE_DOCKED)
-//			if(SSshuttle.emergency.timeLeft() < 30 MINUTES)
-//				. += span_warning("The last boat will leave in [round(SSshuttle.emergency.timeLeft()/600)] minutes.")
 
 /obj/structure/fluff/wallclock/Initialize()
 	soundloop = new(src, FALSE)
@@ -851,18 +838,7 @@
 	. = ..()
 
 /obj/structure/fluff/statue/attack_right(mob/user)
-	if(user.mind && isliving(user))
-		if(user.mind.special_items && user.mind.special_items.len)
-			var/item = input(user, "What will I take?", "STASH") as null|anything in user.mind.special_items
-			if(item)
-				if(user.Adjacent(src))
-					if(user.mind.special_items[item])
-						var/path2item = user.mind.special_items[item]
-						user.mind.special_items -= item
-						var/obj/item/I = new path2item(user.loc)
-						user.put_in_hands(I)
-			return
-
+	handle_special_items_retrieval(user, src)
 
 /obj/structure/fluff/statue/CanPass(atom/movable/mover, turf/target)
 	if(get_dir(loc, mover) == dir)
@@ -997,39 +973,47 @@
 	icon_state = "p_dummy"
 	icon = 'icons/roguetown/misc/structure.dmi'
 
-/obj/structure/fluff/statue/tdummy/attackby(obj/item/W, mob/user, params)
-	if(!user.cmode)
-		if(W.associated_skill)
-			if(user.mind)
-				if(isliving(user))
-					var/mob/living/L = user
-					var/probby = (L.STALUC / 10) * 100
-					probby = min(probby, 99)
-					user.changeNext_move(CLICK_CD_MELEE)
-					if(W.max_blade_int)
-						W.remove_bintegrity(5)
-					L.stamina_add(rand(4,6))
-					if(!(L.mobility_flags & MOBILITY_STAND))
-						probby = 0
-					if(L.STAINT < 3)
-						probby = 0
-					if(prob(probby) && !user.buckled)
-						user.visible_message(span_info("[user] trains on [src]!"))
-						var/amt2raise = L.STAINT * 0.35
-						if(!can_train_combat_skill(user, W.associated_skill, SKILL_LEVEL_APPRENTICE))
-							to_chat(user, span_warning("I've learned all I can from doing this, it's time for the real thing."))
-							amt2raise = 0
-						if(amt2raise > 0)
-							user.mind.add_sleep_experience(W.associated_skill, amt2raise, FALSE)
-						playsound(loc,pick('sound/combat/hits/onwood/education1.ogg','sound/combat/hits/onwood/education2.ogg','sound/combat/hits/onwood/education3.ogg'), rand(50,100), FALSE)
-					else
-						user.visible_message(span_danger("[user] trains on [src], but [src] ripostes!"))
-						L.AdjustKnockdown(1)
-						L.throw_at(get_step(L, get_dir(src,L)), 2, 2, L, spin = FALSE)
-						playsound(loc, 'sound/combat/hits/kick/stomp.ogg', 100, TRUE, -1)
-					flick(pick("p_dummy_smashed","p_dummy_smashedalt"),src)
-					return
-	..()
+/obj/structure/fluff/statue/tdummy/attack_hand(mob/user)
+	if(user.cmode || !user.mind || !isliving(user))
+		return ..()
+	practice(user, /datum/skill/combat/unarmed, ATTACK_EFFECT_PUNCH)
+
+/obj/structure/fluff/statue/tdummy/attackby(obj/item/attacking_weapon, mob/user, params)
+	if(user.cmode || !attacking_weapon.associated_skill || !user.mind || !isliving(user))
+		return ..()
+	if(attacking_weapon.max_blade_int)
+		attacking_weapon.remove_bintegrity(5)
+	if(!ispath(attacking_weapon.associated_skill, /datum/skill/combat))
+		to_chat(user, span_warning("I don't think this weapon's skill cannot be practiced on a dummy..."))
+		return
+	practice(user, attacking_weapon.associated_skill, user.used_intent.animname)
+
+/obj/structure/fluff/statue/tdummy/proc/practice(var/mob/living/living_mob, var/associated_skill, var/attack_animation)
+	living_mob.changeNext_move(CLICK_CD_MELEE)
+	living_mob.stamina_add(rand(4, 6))
+
+	var/probby = (living_mob.STALUC / 10) * 100
+	probby = min(probby, 99)
+	if(!(living_mob.mobility_flags & MOBILITY_STAND))
+		probby = 0
+	if(living_mob.STAINT < 3)
+		probby = 0
+	if(prob(probby) && !living_mob.buckled)
+		living_mob.do_attack_animation(src, attack_animation)
+		living_mob.visible_message(span_info("[living_mob] trains on [src]!"))
+		var/amt2raise = living_mob.STAINT * 0.35
+		if(!can_train_combat_skill(living_mob, associated_skill, SKILL_LEVEL_APPRENTICE))
+			to_chat(living_mob, span_warning("I've learned all I can from doing this, it's time for the real thing."))
+			amt2raise = 0
+		if(amt2raise > 0)
+			living_mob.mind.add_sleep_experience(associated_skill, amt2raise, FALSE)
+		playsound(loc, pick('sound/combat/hits/onwood/education1.ogg', 'sound/combat/hits/onwood/education2.ogg', 'sound/combat/hits/onwood/education3.ogg'), rand(50,100), FALSE)
+	else
+		living_mob.visible_message(span_danger("[living_mob] trains on [src], but [src] ripostes!"))
+		living_mob.AdjustKnockdown(1)
+		living_mob.throw_at(get_step(living_mob, get_dir(src,living_mob)), 2, 2, living_mob, spin = FALSE)
+		playsound(loc, 'sound/combat/hits/kick/stomp.ogg', 100, TRUE, -1)
+	flick(pick("p_dummy_smashed", "p_dummy_smashedalt"), src)
 
 /obj/structure/fluff/statue/spider
 	name = "mother"
@@ -1108,7 +1092,7 @@
 					if(player.mind)
 						if(player.mind.has_antag_datum(/datum/antagonist/bandit))
 							var/datum/antagonist/bandit/bandit_players = player.mind.has_antag_datum(/datum/antagonist/bandit)
-							record_round_statistic(STATS_SHRINE_VALUE, W.get_real_price()) 
+							record_round_statistic(STATS_SHRINE_VALUE, W.get_real_price())
 							bandit_players.favor += donatedamnt
 							bandit_players.totaldonated += donatedamnt
 							to_chat(player, ("<font color='yellow'>[user.name] donates [donatedamnt] to the shrine! You now have [bandit_players.favor] favor.</font>"))
@@ -1129,7 +1113,6 @@
 	blade_dulling = DULLING_BASHCHOP
 	layer = BELOW_MOB_LAYER
 	max_integrity = 100
-	sellprice = 40
 	var/chance2hear = 30
 	buckleverb = "crucifie"
 	can_buckle = 1
@@ -1236,7 +1219,7 @@
 						var/mob/living/carbon/human/thebride
 						//Did anyone get cold feet on the wedding?
 						for(var/mob/M in viewers(src, 7))
-							testing("check [M]")
+
 							if(thegroom && thebride)
 								break
 							if(!ishuman(M))
@@ -1270,12 +1253,12 @@
 											if(thebride)
 												continue
 											thebride = C
-									testing("foundbiter [C.real_name]")
+
 									name_placement++
 
 						//WE FOUND THEM LETS GET THIS SHOW ON THE ROAD!
 						if(!thegroom || !thebride)
-							testing("fail22")
+
 							return
 						//Alright now for the boring surname formatting.
 						var/surname2use

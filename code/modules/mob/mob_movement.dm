@@ -578,22 +578,39 @@
 	if(!reset && world.time < mob_timers[MT_INVISIBILITY]) // Check if the mob is affected by the invisibility spell
 		rogue_sneaking = TRUE
 		return
-	var/turf/T = get_turf(src)
 
+	if (stat == DEAD) // we're dead, so be visible if sneaking, and end it there. needed because DeadLife calls this constantly on every dead mob that exists
+		if (rogue_sneaking)
+			animate(src, alpha = initial(alpha), time = 25)
+			spawn(25) regenerate_icons()
+			rogue_sneaking = FALSE
+		return
+
+	var/turf/T = get_turf(src)
 	if(!T) //if the turf they're headed to is invalid
 		return
 
-	// This is hacky but it's the only runtime that fixing decap gives
-	// please forgive me...
-	var/light_amount = 0
-	if(T != null)
-		light_amount = T.get_lumcount()
+	var/light_amount = 0 // populated when needed below
+
 	var/used_time = 50
+	var/light_threshold = rogue_sneaking_light_threshhold
 	if(mind)
 		used_time = max(used_time - (get_skill_level(/datum/skill/misc/sneaking) * 8), 0)
+		light_threshold += (get_skill_level(/datum/skill/misc/sneaking) / 200)
 
 	if(rogue_sneaking || reset) //If sneaking, check if they should be revealed
-		if((stat > SOFT_CRIT) || IsSleeping() || (world.time < mob_timers[MT_FOUNDSNEAK] + 30 SECONDS) || !T || reset || (m_intent != MOVE_INTENT_SNEAK) || light_amount >= rogue_sneaking_light_threshhold + (get_skill_level(/datum/skill/misc/sneaking)/200) )
+		var/should_reveal = FALSE
+		// are we crit, sleeping, been recently discovered, have no turf, force-revealed or not in sneak intent? then we should be revealed, end of.
+		if((stat > SOFT_CRIT) || IsSleeping() || (world.time < mob_timers[MT_FOUNDSNEAK] + 30 SECONDS) || !T || reset || (m_intent != MOVE_INTENT_SNEAK))
+			should_reveal = TRUE
+
+		// are we in a area of light that should reveal us?
+		if (!should_reveal)
+			light_amount = T.get_lumcount() // this is moderately expensive, so only check it if we really need to
+			if (light_amount >= light_threshold)
+				should_reveal = TRUE
+			
+		if (should_reveal)
 			used_time = round(clamp((50 - (used_time*1.75)), 5, 50),1)
 			animate(src, alpha = initial(alpha), time =	used_time) //sneak skill makes you reveal slower but not as drastic as disappearing speed
 			spawn(used_time) regenerate_icons()
@@ -601,10 +618,12 @@
 			return
 
 	else //not currently sneaking, check if we can sneak
-		if(light_amount < rogue_sneaking_light_threshhold + (get_skill_level(/datum/skill/misc/sneaking)/200) && m_intent == MOVE_INTENT_SNEAK)
-			animate(src, alpha = 0, time = used_time)
-			spawn(used_time + 5) regenerate_icons()
-			rogue_sneaking = TRUE
+		if (m_intent == MOVE_INTENT_SNEAK) // we were not sneaking and are now trying to.
+			light_amount = T.get_lumcount()  // as above, this is moderately expensive, so only check it if we need to.
+			if(light_amount < light_threshold)
+				animate(src, alpha = 0, time = used_time)
+				spawn(used_time + 5) regenerate_icons()
+				rogue_sneaking = TRUE
 	return
 
 ///Checked whenever a mob tries to change their movement intent

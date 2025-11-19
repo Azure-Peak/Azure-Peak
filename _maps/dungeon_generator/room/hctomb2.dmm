@@ -195,7 +195,7 @@
 /area/rogue/under/tomb/cave)
 "rr" = (
 /obj/structure/closet/dirthole/closed,
-/obj/item/clothing/suit/roguetown/armor/plate/half/aalloy,
+/obj/item/clothing/suit/roguetown/armor/plate/cuirass/aalloy,
 /turf/open/floor/rogue/dirt,
 /area/rogue/under/tomb)
 "rU" = (
@@ -261,8 +261,8 @@
 /obj/structure/closet/dirthole/closed,
 /obj/effect/spawner/lootdrop/general_loot_low,
 /mob/living/carbon/human/species/skeleton/npc/dungeon,
-/turf/open/floor/rogue/dirt/road,skeleton/npc/hardspread
-/area/rogue/under/tomb)
+skeleton/npc/hardspread/area/rogue/under/tomb,
+/turf/open/floor/rogue/dirt/road)
 "xP" = (
 /obj/structure/gravemarker,
 /obj/structure/closet/dirthole/closed/loot,

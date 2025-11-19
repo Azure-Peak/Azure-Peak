@@ -22,41 +22,6 @@
 
 	weight = 1
 
-	restricted_roles = list(
-		"Grand Duke",
-		"Grand Duchess",
-		"Consort",
-		"Dungeoneer",
-		"Sergeant",
-		"Men-at-arms",
-		"Marshal",
-		"Merchant",
-		"Bishop",
-		"Acolyte",
-		"Martyr",
-		"Templar",
-		"Councillor",
-		"Bandit",
-		"Servant",
-		"Prince",
-		"Princess",
-		"Hand",
-		"Steward",
-		"Head Physician",
-		"Town Crier",
-		"Keeper",
-		"Captain",
-		"Archivist",
-		"Knight",
-		"Knight Captain",
-		"Court Magician",
-		"Inquisitor",
-		"Orthodoxist",
-		"Absolver",
-		"Warden",
-		"Squire",
-		"Veteran",
-		"Apothecary"
-	)
+	restricted_roles = DEFAULT_ANTAG_BLACKLISTED_ROLES
 
 /datum/round_event/antagonist/solo/rebel

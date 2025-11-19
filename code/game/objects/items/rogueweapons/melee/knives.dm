@@ -176,9 +176,8 @@
 /obj/item/rogueweapon/huntingknife/bronze
 	name = "bronze dagger"
 	desc = "A wide blade of bronze, fitted to a wooden handle. Ancient laborers and priests coveted this tool above all else: both as a means to handle the dae's labors, and to indulge in the rituos of sacrifice."
-	icon_state = "chefsknife"
+	icon_state = "bronzedagger"
 	possible_item_intents = list(/datum/intent/dagger/cut, /datum/intent/dagger/chop/bronze, /datum/intent/dagger/sucker_punch, /datum/intent/dagger/thrust/bronze)
-	color = "#f9d690"
 	force = 18
 	throwforce = 18
 	max_blade_int = 225
@@ -781,6 +780,20 @@
 		added_def = 3,\
 	)
 
+/obj/item/rogueweapon/huntingknife/throwingknife/bauernwehr
+	name = "bauernwehr"
+	desc = "The pilgrim's fondest friend — a short but sharp blade fitted to a wooden handle. Known to Grenzelhoft as the 'bauernwehr', these knives ensure that no labors are without an answer. This knife can be stowed in a boot."
+	icon_state = "throw_knifei"
+	wdefense = 1
+	max_blade_int = 250
+	max_integrity = 250
+	force = 10
+	throwforce = 10
+	throw_speed = 2
+	armor_penetration = 20
+	embedding = list("embedded_pain_multiplier" = 5, "embed_chance" = 75, "embedded_fall_chance" = 10)
+	possible_item_intents = list(/datum/intent/dagger/cut, /datum/intent/dagger/chop/cleaver, /datum/intent/snip, /datum/intent/dagger/sucker_punch)
+
 /obj/item/rogueweapon/huntingknife/scissors
 	possible_item_intents = list(/datum/intent/snip, /datum/intent/dagger/thrust, /datum/intent/dagger/cut)
 	max_integrity = 100
@@ -798,7 +811,7 @@
 	icon_state = "sscissors"
 	smeltresult = /obj/item/ingot/steel
 
-/datum/intent/snip // The salvaging intent! Used only for the scissors for now!
+/datum/intent/snip // The salvaging intent!
 	name = "snip"
 	icon_state = "insnip"
 	chargetime = 0
@@ -1000,7 +1013,7 @@
 			return
 	return ..()
 
-/obj/item/rogueweapon/huntingknife/scissors/attack_obj(obj/O, mob/living/user)
+/obj/item/rogueweapon/huntingknife/attack_obj(obj/O, mob/living/user)
 	if(user.used_intent.type == /datum/intent/snip && istype(O, /obj/item))
 		var/obj/item/item = O
 		if(item.sewrepair && item.salvage_result) // We can only salvage objects which can be sewn!

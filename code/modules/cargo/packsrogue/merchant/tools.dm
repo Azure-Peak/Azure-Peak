@@ -109,6 +109,21 @@
 	cost = 15
 	contains = list(/obj/item/bodypart/r_leg/prosthetic)
 
+/datum/supply_pack/rogue/tools/huntingknife
+	name = "Hunting Knife"
+	cost = 10
+	contains = list(/obj/item/rogueweapon/huntingknife)
+
+/datum/supply_pack/rogue/tools/ironscissors
+	name = "Iron Scissors"
+	cost = 10
+	contains = list(/obj/item/rogueweapon/huntingknife/scissors)
+
+/datum/supply_pack/rogue/tools/chisel
+	name = "Chisel"
+	cost = 10
+	contains = list(/obj/item/rogueweapon/chisel)
+
 /datum/supply_pack/rogue/tools/hoe
 	name = "Hoe"
 	cost = 10
@@ -172,6 +187,11 @@
 	cost = 35
 	contains = list(/obj/item/rogueweapon/hammer/iron)
 
+/datum/supply_pack/rogue/tools/tongs
+	name = "Tongs"
+	cost = 35
+	contains = list(/obj/item/rogueweapon/tongs)
+
 /datum/supply_pack/rogue/tools/fryingpan
 	name = "Frying Pan"
 	cost = 20
@@ -194,7 +214,7 @@
 	contains = list(/obj/item/reagent_containers/glass/bottle/alchemical,/obj/item/reagent_containers/glass/bottle/alchemical,/obj/item/reagent_containers/glass/bottle/alchemical,
 	/obj/item/reagent_containers/glass/bottle/alchemical,/obj/item/reagent_containers/glass/bottle/alchemical,/obj/item/reagent_containers/glass/bottle/alchemical,
 	/obj/item/reagent_containers/glass/bottle/alchemical,/obj/item/reagent_containers/glass/bottle/alchemical,/obj/item/reagent_containers/glass/bottle/alchemical)
-	
+
 /datum/supply_pack/rogue/tools/gwstrap
 	name = "Greatweapon Strap"
 	cost = 30

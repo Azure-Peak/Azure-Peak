@@ -18,7 +18,7 @@
 		STATKEY_STR = 1,
 		STATKEY_WIL = 1,
 		STATKEY_PER = 1,
-		STATKEY_LCK = 1,	
+		STATKEY_LCK = 1,
 	)
 	subclass_skills = list(
 		/datum/skill/labor/farming = SKILL_LEVEL_APPRENTICE,
@@ -104,7 +104,7 @@
 						/obj/item/hair_dye_cream = 3,
 						/obj/item/rogueweapon/chisel = 1,
 						/obj/item/natural/clay = 3,
-						/obj/item/natural/clay/glassbatch = 1, 
+						/obj/item/natural/clay/glassbatch = 1,
 						/obj/item/rogueore/coal = 1,
 						/obj/item/roguegear = 1,
 	)
@@ -122,3 +122,5 @@
 		H.mind.special_items["Pan for Frying"] = /obj/item/cooking/pan
 
 		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/diagnose/secular)
+	if(H.mind)
+		SStreasury.give_money_account(ECONOMIC_LOWER_CLASS, H, "Savings.")

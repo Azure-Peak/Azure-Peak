@@ -31,7 +31,7 @@
 	var/prayer = input("Whisper your prayer:", "Prayer") as text|null
 	if(!prayer)
 		return
-	
+
 	//If God can hear your prayer (long enough, no bad words, etc.)
 	if(patron.hear_prayer(follower, prayer))
 		if(follower.has_flaw(/datum/charflaw/addiction/godfearing))
@@ -50,9 +50,6 @@
 
 	if(SEND_SIGNAL(follower, COMSIG_CARBON_PRAY, prayer) & CARBON_PRAY_CANCEL)
 		return
-
-	for(var/mob/living/LICKMYBALLS in hearers(2,src))	// Lickmyballs = person in crit.
-		LICKMYBALLS.succumb_timer = world.time			//..succumb timer does nothing rn btw..
 
 /datum/emote/living/meditate
 	key = "meditate"
@@ -452,6 +449,7 @@
 	message = "blows a kiss."
 	message_param = "kisses %t."
 	emote_type = EMOTE_VISIBLE
+	use_params_for_runechat = TRUE
 
 /mob/living/carbon/human/verb/emote_kiss()
 	set name = "Kiss"
@@ -497,6 +495,7 @@
 	message = "licking."
 	message_param = "licks %t."
 	emote_type = EMOTE_VISIBLE
+	use_params_for_runechat = TRUE
 
 /mob/living/carbon/human/verb/emote_lick()
 	set name = "Lick"
@@ -532,8 +531,8 @@
 				message_param = "licks %t cheek"
 			else
 				message_param = "licks %t [parse_zone(J.zone_selected)]."
-	playsound(target.loc, pick("sound/vo/lick.ogg"), 100, FALSE, -1)	
-	
+	playsound(target.loc, pick("sound/vo/lick.ogg"), 100, FALSE, -1)
+
 /datum/emote/living/spit
 	key = "spit"
 	key_third_person = "spits"

@@ -102,13 +102,25 @@
 	phy.bleed_mod *= 1.5
 	phy.pain_mod *= 1.5
 
-	addtimer(VARSET_CALLBACK(phy, bleed_mod, phy.bleed_mod /= 1.5), 25 SECONDS)
-	addtimer(VARSET_CALLBACK(phy, pain_mod, phy.pain_mod /= 1.5), 15 SECONDS)
+	addtimer(CALLBACK(src, PROC_REF(restore_bleed_mod), phy), 25 SECONDS)
+	addtimer(CALLBACK(src, PROC_REF(restore_pain_mod), phy), 15 SECONDS)
 
 	human.visible_message(span_danger("[human]'s wounds become inflammed as their vitality is sapped away!"))
 	to_chat(human, span_warning("My skins feels like pins and needles, as if something were ripping and tearing at me!"))
 
 	return TRUE
+
+/obj/effect/proc_holder/spell/invoked/revel_in_slaughter/proc/restore_bleed_mod(datum/physiology/physiology)
+	if(!physiology)
+		return
+
+	physiology.bleed_mod /= 1.5
+
+/obj/effect/proc_holder/spell/invoked/revel_in_slaughter/proc/restore_pain_mod(datum/physiology/physiology)
+	if(!physiology)
+		return
+
+	physiology.pain_mod /= 1.5
 
 //Bloodrage T0 -- Uncapped STR buff.
 /obj/effect/proc_holder/spell/self/graggar_bloodrage

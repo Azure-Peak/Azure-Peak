@@ -233,7 +233,7 @@ GLOBAL_VAR_INIT(mobids, 1)
 		log_seen(src, null, hearers, (log_seen_msg ? log_seen_msg : message), log_seen)
 
 /**
- * Show a message to all mobs in a vertical plane around the source atom. 
+ * Show a message to all mobs in a vertical plane around the source atom.
  * Only use this for cases where the action being done is important enough to ignore z level / LOS.
  * vars:
  * * message is the message output. Keep in mind that its end will be appended with "Far Above / Above / Below / Far Below" & "North / East / West / South" etc
@@ -258,7 +258,7 @@ GLOBAL_VAR_INIT(mobids, 1)
 		if(!is_in_zweb(src.z,M.z))
 			continue
 		listening |= M
-	
+
 	for(var/mob/living/L in listening)
 		var/strz
 		var/strdir
@@ -326,9 +326,9 @@ GLOBAL_VAR_INIT(mobids, 1)
 	var/obj/item/W = get_active_held_item()
 
 	if(istype(W))
-		testing("clothes1")
+
 		if(equip_to_slot_if_possible(W, slot,0,0,0))
-			testing("clothes2")
+
 			return 1
 
 	if(!W)
@@ -503,65 +503,15 @@ GLOBAL_VAR_INIT(mobids, 1)
 
 	var/list/result = A.examine(src)
 	if(result)
-		to_chat(src, result.Join("\n"))
+		var/list/mechanics_result = A.get_mechanics_examine(src)
+		if(length(mechanics_result))
+			var/mechanics_result_str = "<details><summary>Mechanics</summary>"
+			for(var/line in mechanics_result)
+				mechanics_result_str += " - " + line + "\n"
+			mechanics_result_str += "</details>"
+			result += mechanics_result_str
+		to_chat(src, usr.client.prefs.no_examine_blocks ? result.Join("\n") : examine_block(result.Join("\n")))
 	SEND_SIGNAL(src, COMSIG_MOB_EXAMINATE, A)
-
-/**
- * Point at an atom
- *
- * mob verbs are faster than object verbs. See
- * [this byond forum post](https://secure.byond.com/forum/?post=1326139&page=2#comment8198716)
- * for why this isn't atom/verb/pointed()
- *
- * note: ghosts can point, this is intended
- *
- * visible_message will handle invisibility properly
- *
- * overridden here and in /mob/dead/observer for different point span classes and sanity checks
- */
-/mob/verb/pointed(atom/A as mob|obj|turf in view())
-	set name = "Point To"
-	set hidden = 1
-	if(!src || !isturf(src.loc) || !(A in view(client.view, src)))
-		return FALSE
-	if(istype(A, /obj/effect/temp_visual/point))
-		return FALSE
-
-	var/tile = get_turf(A)
-	if (!tile)
-		return FALSE
-
-	new /obj/effect/temp_visual/point(src,invisibility)
-
-	return TRUE
-
-/mob/proc/linepoint(atom/A as mob|obj|turf in view(), params)
-	if(world.time < lastpoint + 50)
-		return FALSE
-
-	if(stat)
-		return FALSE
-
-	if(client)
-		if(!src || !isturf(src.loc) || !(A in view(client.view, src)))
-			return FALSE
-
-	var/turf/tile = get_turf(A)
-	if (!tile)
-		return FALSE
-
-	var/turf/our_tile = get_turf(src)
-	var/obj/visual = new /obj/effect/temp_visual/point/still(our_tile, invisibility)
-	animate(visual, pixel_x = (tile.x - our_tile.x) * world.icon_size + A.pixel_x, pixel_y = (tile.y - our_tile.y) * world.icon_size + A.pixel_y, time = 2, easing = EASE_OUT)
-
-	lastpoint = world.time
-	var/obj/I = get_active_held_item()
-	if(I)
-		src.visible_message("<span class='info'>[src] points [I] at [A].</span>", "<span class='info'>I point [I] at [A].</span>")
-	else
-		src.visible_message("<span class='info'>[src] points at [A].</span>", "<span class='info'>I point at [A].</span>")
-
-	return TRUE
 
 ///Can this mob resist (default FALSE)
 /mob/proc/can_resist()

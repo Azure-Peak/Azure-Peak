@@ -32,7 +32,7 @@
 	if(HAS_TRAIT(user, TRAIT_PURITAN))
 		inquisitor = TRUE
 	if(HAS_TRAIT(user, TRAIT_PACIFISM) && HAS_TRAIT(user, TRAIT_INQUISITION) && HAS_TRAIT(user, TRAIT_SILVER_BLESSED))
-		inquisitor = TRUE	
+		inquisitor = TRUE
 
 	if(!M.mind) //Stopping null lookup runtimes
 		to_chat(user, span_warning("[M] does not have the mind to benefit from the holy anointment."))
@@ -55,7 +55,7 @@
 		return
 	
 	if(M.stat == DEAD)
-		to_chat(user, span_warning("With their heart stilled, the ritual will have no purchase upon them. It would be a waste."))
+		to_chat(user, span_warning("With their lux departed, the ritual will have no purchase upon them. It would be a waste."))
 		return
 
 	var/found = null
@@ -73,7 +73,7 @@
 	if(do_after(user, 10 SECONDS, target = M))
 		if(!Were && !Vamp)
 			user.visible_message(span_notice("[user] anoints [M]'s brow with [src]."))
-			ADD_TRAIT(M, TRAIT_SILVER_BLESSED, TRAIT_GENERIC)
+			ADD_TRAIT(M, TRAIT_SILVER_BLESSED, POULTICE_TRAIT)
 			success = 1
 		else
 			to_chat(M, span_userdanger("This silver concoction burns! It threatens to undo me!"))
@@ -101,18 +101,19 @@
 	//Werewolf deconversion
 	if(Were && !Wereless) //The roundstart elder/alpha werewolf, it cannot be saved
 		to_chat(M, span_userdanger("This wretched silver weighs heavy on my brow. Dendor's blessing shall not be quit of me so easily."))
-		user.visible_message(span_danger("The silver poultice boils away from [M]'s brow, viscerally rejecting the divine anointment."))
+		user.visible_message(span_danger("The quicksilver poultice boils away from [M]'s brow, viscerally rejecting the divine anointment."))
 		M.Stun(30)
 		M.Knockdown(30)
 		return
 
 	else if(Wereless) //A lesser werewolf can be deconverted
-		if(Were.transformed == TRUE)
+		if(Wereless.transformed == TRUE)
 			var/mob/living/carbon/human/I = M.stored_mob
 			to_chat(M, span_userdanger("THE FOUL SILVER! MY BODY RENDS ITSELF ASUNDER!"))
 			M.werewolf_untransform()
-			Were.on_removal()
-			ADD_TRAIT(I, TRAIT_SILVER_BLESSED, TRAIT_GENERIC)
+			Wereless.on_removal()
+			ADD_TRAIT(I, TRAIT_SILVER_BLESSED, POULTICE_TRAIT)
+			ADD_TRAIT(I, TRAIT_PACIFISM, POULTICE_TRAIT)
 			I.emote("agony", forced = TRUE)
 			I.Stun(30)
 			I.Knockdown(30)
@@ -123,20 +124,67 @@
 			M.emote("agony", forced = TRUE)
 			to_chat(M, span_userdanger("THE FOUL SILVER! IT BURNS ME TO MY CORE!"))
 			Were.on_removal()
-			ADD_TRAIT(M, TRAIT_SILVER_BLESSED, TRAIT_GENERIC)
+			ADD_TRAIT(M, TRAIT_SILVER_BLESSED, POULTICE_TRAIT)
+			M.poultice_pacify()
 			M.Stun(30)
 			M.Knockdown(30)
 			M.Jitter(30)
 			return
 
-	else if(Vamp) //We're the vampire, we can't be saved.
-		to_chat(M, span_userdanger("This wretched silver weighs heavy on my brow. An insult I shall never forget, for as long as I die."))
-		user.visible_message(span_danger("The silver poultice boils away from [M]'s brow, viscerally rejecting the divine anointment."))
-		M.Stun(30)
-		M.Knockdown(30)
-		return
+	else if(Vamp) 
+		if(Vamp.generation >= GENERATION_METHUSELAH || HAS_TRAIT(M, TRAIT_BLOODPOOL_BORN)) //Vampire Lords + their bloodpool summons cannot be deconverted.
+			to_chat(M, span_userdanger("This wretched silver weighs heavy on my brow. An insult I shall never forget, for as long as I die."))
+			user.visible_message(span_danger("The quicksilver poultice effortlessly boils away from [M]'s brow, viscerally rejecting the divine anointment."))
+			M.Stun(30)
+			M.Knockdown(30)
+			return
+
+		if(alert(M, "The poultice is burning my nature from my veins! Do I resist the anointment?", "Silver Poultice", "YIELD", "RESIST") == "RESIST") //Opt in convert, opt in deconvert
+			to_chat(M, span_userdanger("This wretched silver weighs heavy on my brow. But I am consigned to my reverie, and my heart remains still."))
+			user.visible_message(span_danger("The quicksilver poultice viciously boils away from [M]'s brow, viscerally rejecting the divine anointment."))
+			M.Stun(30)
+			M.Knockdown(30)
+			return
+		else
+			M.flash_fullscreen("redflash3")
+			M.emote("agony", forced = TRUE)
+			to_chat(M, span_userdanger("THE FOUL SILVER! MY STILL HEART QUICKENS ONCE MORE!"))
+			Vamp.on_removal()
+			ADD_TRAIT(M, TRAIT_SILVER_BLESSED, POULTICE_TRAIT)
+			M.poultice_pacify()
+			M.Stun(30)
+			M.Knockdown(30)
+			M.Jitter(30)
+			return
+		
+
 //A letter to give info on how to make this thing.
 /obj/item/paper/inquisition_poultice_info
 	name = "Inquisitorial Missive"
 	desc = "A letter from the Grand Cathedral in Otava. It reeks of zig smoke."
-	info = "<font face=\"Segoe Script\" color=#00000>Greetings to ye, distant missionaries in Azuria<br><br>This missive serves to inform of a breakthrough of alchemy. Enclosed is a substance, <b>Quicksilver</b>, that may be of keen use in the preservation of lyfe against those unholy creechers that are repelled by divine silver. We speak of the werevolf and the vampyre. Herein lies the method.<br><br>Gather an ore of silver, a vessel of blessed water- a bottle's worth shall suffice, and a simple strip of cloth to add structure to the poultice. Take the warm bud of a fyritius flower, and immerse it in the bleeding wound of an unholy creecher. The warmth of the bud will congeal this foul ichor- but make haste, as it doth soon burn itself to ash. Induce the bloodied flower to your materials- grind the silver ore into dust via the mortar and pestle. Any expert of the craft of alchemy may intuit the process.<br><br>The ritual anointment is complex, and must be performed by a learned holy cleric in proximity of a cross of the pantheon. Inquisitor, your training doth empower you, as well. When the work is finished, the recipient now is inundated with holy silver- and shall be fortified against the fell turning of these unholy creechers.<br><br>Take heed! This act may also salvage the lyfe of unfortunate souls who have recently been turned to beast. Their body's accursed resistance excites the Quicksilver to fire- but complete the rite, and they too are saved. All, except the eldest of Vampyre and Werevolf- we ascertain even this method cannot save them, and it will be a waste! (Albeit humbling.)<br><br>Share of this missive with any agents or employs that need direction in this rite.<br><br><b>PSYDON ENDURES,</b><br><i>Holy Fellowship of Research, the Grand Cathedral, the Sovereignty of Otava.</i></font>"
+	info = {"
+		<font face=\"Segoe Script\" color=#00000>Greetings to ye, distant missionaries in Azuria<br><br>This missive serves to inform of a breakthrough of alchemy. 
+		Enclosed is a substance, <b>Quicksilver</b>, that may be of keen use in the preservation of lyfe against those unholy creechers that are repelled by divine silver. 
+		We speak of the werevolf and the vampyre. Herein lies the method.<br><br>Gather an ore of silver, a vessel of blessed water- a bottle's worth shall suffice, and a 
+		simple strip of cloth to add structure to the poultice. Take the warm bud of a fyritius flower, and immerse it in the bleeding wound of an unholy creecher. The warmth 
+		of the bud will congeal this foul ichor- but make haste, as it doth soon burn itself to ash. Induce the bloodied flower to your materials- grind the silver ore into dust 
+		via the mortar and pestle. Any expert of the craft of alchemy may intuit the process.<br><br>The ritual anointment is complex, and must be performed by a learned holy 
+		cleric in proximity of a cross of the pantheon. Inquisitor, your training doth empower you, as well. When the work is finished, the recipient now is inundated with holy 
+		silver- and shall be fortified against the fell turning of these unholy creechers.<br><br>Take heed! This act may also salvage the lyfe of unfortunate souls who have 
+		recently been turned to beast. Their body's accursed resistance excites the Quicksilver to fire- but complete the rite, and they too are saved. All, except the eldest 
+		of Vampyre and Werevolf- we ascertain even this method cannot save them, and it will be a waste! (Albeit humbling.)<br><br>Share of this missive with any agents or 
+		employs that need direction in this rite.<br><br><b>PSYDON ENDURES,</b><br><i>Holy Fellowship of Research, the Grand Cathedral, the Sovereignty of Otava.</i></font>
+		"}
+
+//Pacifism callback, like adventurer spawn
+
+/mob/living/carbon/human/proc/poultice_pacify()
+	to_chat(src, span_warning("My mind is a silvered fog... I cannot muster the will to fight."))
+	ADD_TRAIT(src, TRAIT_PACIFISM, POULTICE_TRAIT)
+	addtimer(CALLBACK(src, TYPE_PROC_REF(/mob/living/carbon/human, poultice_unpacify)), 30 MINUTES)
+
+/mob/living/carbon/human/proc/poultice_unpacify()
+	if(QDELETED(src))
+		return
+	REMOVE_TRAIT(src, TRAIT_PACIFISM, POULTICE_TRAIT)
+	to_chat(src, span_warning("The silvered fog in my mind has cleared. My will to fight has returned."))

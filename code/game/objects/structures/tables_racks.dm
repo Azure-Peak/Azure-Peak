@@ -14,7 +14,7 @@
 
 /obj/structure/table
 	name = "table"
-	desc = ""
+	desc = "A constructed table for putting things on."
 	icon_state = "table"
 	density = TRUE
 	anchored = TRUE
@@ -247,7 +247,6 @@
 
 /obj/structure/table/wood
 	name = "wooden table"
-	desc = ""
 	icon = 'icons/roguetown/misc/tables.dmi'
 	icon_state = "tablewood"
 	resistance_flags = FLAMMABLE
@@ -339,7 +338,7 @@
 
 /obj/structure/table/church
 	name = "stone table"
-	desc = ""
+	desc = "A surface made of stone, for putting things on."
 	icon = 'icons/roguetown/misc/tables.dmi'
 	icon_state = "churchtable"
 	max_integrity = 300
@@ -379,7 +378,7 @@
 
 /obj/structure/table/finestone
 	name = "fine stone table"
-	desc = ""
+	desc = "A beautifully constructed stone table."
 	icon = 'icons/roguetown/misc/tables.dmi'
 	icon_state = "stonetable_small"
 	max_integrity = 400
@@ -389,7 +388,7 @@
 
 /obj/structure/table/vtable
 	name = "ancient wooden table"
-	desc = ""
+	desc = "A table seemingly made of ancient, decrepit wood. It creaks when anything's put on it."
 	icon = 'icons/roguetown/misc/tables.dmi'
 	icon_state = "vtable"
 	max_integrity = 300
@@ -524,7 +523,7 @@
  */
 /obj/structure/rack
 	name = "rack"
-	desc = ""
+	desc = "A rack, for putting things on."
 	icon = 'icons/obj/objects.dmi'
 	icon_state = "rack"
 	layer = TABLE_LAYER
@@ -578,8 +577,8 @@
 				if(!click_params || !click_params["icon-x"] || !click_params["icon-y"])
 					return
 				//Clamp it so that the icon never moves more than 16 pixels in either direction (thus leaving the table turf)
-				W.pixel_x = initial(W.pixel_x) + CLAMP(text2num(click_params["icon-x"]) - 16, -(world.icon_size/2), world.icon_size/2)
-				W.pixel_y = initial(W.pixel_y) + CLAMP(text2num(click_params["icon-y"]) - 16, -(world.icon_size/2), world.icon_size/2)
+				W.pixel_x = initial(W.pixel_x) + CLAMP(pixel_x + text2num(click_params["icon-x"]) - 16, pixel_x + -(world.icon_size/2), pixel_x + world.icon_size/2)
+				W.pixel_y = initial(W.pixel_y) + CLAMP(pixel_y + text2num(click_params["icon-y"]) - 16, pixel_y + -(world.icon_size/2), pixel_y + world.icon_size/2)
 				return 1
 
 /obj/structure/rack/attack_paw(mob/living/user)
@@ -627,8 +626,8 @@
 				var/list/click_params = params2list(params)
 				if(!click_params || !click_params["icon-x"] || !click_params["icon-y"])
 					return
-				W.pixel_x = initial(W.pixel_x) + CLAMP(text2num(click_params["icon-x"]) - 16, -(world.icon_size/2), world.icon_size/2)
-				W.pixel_y = initial(W.pixel_y) + CLAMP(text2num(click_params["icon-y"]) - 16, -(world.icon_size/2), world.icon_size/2)
+				W.pixel_x = initial(W.pixel_x) + CLAMP(pixel_x + text2num(click_params["icon-x"]) - 16, pixel_x + -(world.icon_size/2), pixel_x + world.icon_size/2)
+				W.pixel_y = initial(W.pixel_y) + CLAMP(pixel_y + text2num(click_params["icon-y"]) - 16, pixel_y + -(world.icon_size/2), pixel_y + world.icon_size/2)
 				return 1
 	else
 		. = ..()
@@ -636,7 +635,7 @@
 
 /obj/structure/table/optable
 	name = "operating table"
-	desc = ""
+	desc = "A table used for performing surgery on. Not the most comfortable."
 	icon = 'icons/obj/surgery.dmi'
 	icon_state = "optable"
 	smooth = SMOOTH_FALSE

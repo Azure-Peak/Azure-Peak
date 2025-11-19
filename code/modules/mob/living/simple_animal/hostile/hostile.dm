@@ -195,7 +195,7 @@
 			continue
 	var/Target = PickTarget(.)
 	if(Target)
-		testing("[src] givetarget [Target]")
+
 		GiveTarget(Target)
 	return Target //We now have a target
 

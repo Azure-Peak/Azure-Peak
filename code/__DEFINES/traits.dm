@@ -12,7 +12,7 @@
 #define TRAIT_NUTCRACKER "Nutcracker"
 #define TRAIT_SEEPRICES "Skilled Appraiser"
 #define TRAIT_SEEPRICES_SHITTY "Appraiser"
-#define TRAIT_VAMPBITE "Vampire bite"
+#define TRAIT_VAMPBITE "Vampire Bite"
 #define TRAIT_STRONGBITE "Strong Bite"
 #define TRAIT_STRONGKICK "Strong Kick"
 #define TRAIT_NOBLE "Noble Blooded"
@@ -45,7 +45,7 @@
 #define TRAIT_ANTISCRYING "Non-Detection"
 #define TRAIT_SHOCKIMMUNE "Shock Immunity"
 #define TRAIT_PACIFISM	"Pacifism"
-#define TRAIT_NOSLEEP "Fatal Insomnia"
+#define TRAIT_NOSLEEP "Sleepless"
 #define TRAIT_FASTSLEEP "Fast Sleeper"
 #define TRAIT_GOODLOVER "Fabled Lover"
 #define TRAIT_SEEDKNOW "Seed Knower"
@@ -57,6 +57,7 @@
 #define TRAIT_GUARDSMAN "Vigilant Guardsman"
 #define TRAIT_GUARDSMAN_DISGRACED "Disgraced Guardsman"
 #define TRAIT_TAVERN_FIGHTER "Tavern Fighter"
+#define TRAIT_FROZEN_STAMINA "Frozen Stamina"
 #define TRAIT_WOODSMAN "Talented Woodsman"
 #define TRAIT_DUNGEONMASTER "Ruthless Jailor"
 #define TRAIT_DEATHBARGAIN "Death Bargain" // Used by UNDERMAIDEN'S BARGAIN
@@ -80,7 +81,12 @@
 #define TRAIT_ZURCH 	"Hidden Domiciles" //allows entry to ascendant church
 #define TRAIT_DREAMWALKER "Dreamwalker"
 #define TRAIT_JACKOFALLTRADES "Jack of All Trades"	//Reduces skill up cost
+#define TRAIT_SIMPLESPEECH "Simple Speech" // Can only say the 1000 most common English-language words; other words get modified
+#define TRAIT_BLOODPOOL_BORN "Bloodpool Born"
 #define TRAIT_ROYALSERVANT "Household Insight" // Let's you see the royals liked/hated food/drink
+#define TRAIT_MOUNTABLE "Mount" //riding
+#define TRAIT_GOODWRITER "Great Writer"
+#define TRAIT_WAGES_SUSPENDED "Wages Suspended" //Stops nerve master daily pay for this guy
 
 //Hearthstone port (Tracking)
 #define TRAIT_PERFECT_TRACKER "Huntmaster" //Will always find any tracks and analyzes them perfectly.
@@ -115,6 +121,7 @@
 #define TRAIT_PSYDONIAN_GRIT "Psydonic Willpower" // Willpower-scaling boost to pain resistance. From X to XV, every point of WIL increases the chance of ignoring a paincrit check.
 #define TRAIT_PSYDONITE "Psydonic Devotion" // Passively heals wounds at a slow rate, but doesn't restore lost blood. Negates the effects of all non-Psydonian miracles, save for Anastasis and Cure Rot.
 #define TRAIT_BLACKBAGGER "Skilled Apprehender" // Allows the effective usage of garrotes and blackbags.
+#define TRAIT_LYCANRESILENCE "Werewolf Resilence"
 
 // PATRON GOD CURSES
 
@@ -210,7 +217,8 @@
 #define TRAIT_PESTRAS_BLESSING "Pestra's blessing"
 #define TRAIT_ADRENALINE_RUSH "Adrenaline Rush"
 #define TRAIT_COMBAT_AWARE	"Combat Aware"
-#define TRAIT_SILVER_WEAK "Silverbaned"
+#define TRAIT_SILVER_WEAK "Silver Weakness"
+#define TRAIT_ASSASSIN	"Assassin"
 #define TRAIT_EQUESTRIAN "Equestrian"
 // ARMOR / CLOTHING GIVEN TRAITS (GIVEN BY WEARING CLOTHES/ARMOR PIECES)
 #define TRAIT_MONK_ROBE	"Holy Vestatures"
@@ -268,7 +276,7 @@ GLOBAL_LIST_INIT(roguetraits, list(
 	TRAIT_SEEPRICES = "I can tell the prices of things down to the zenny.",
 	TRAIT_SEEPRICES_SHITTY = "I can tell the prices of things... <i>Kind of</i>.",
 	TRAIT_STRONGBITE = span_info("Stronger bites, critical bite attacks."),
-	TRAIT_VAMPBITE = span_info("Your bite's victims going to feel very, VERY good."),
+	TRAIT_VAMPBITE = span_info("Victims of your bite will feel immense pleasure."),
 	TRAIT_STRONGKICK = span_info("My kicks knock people down and back a step, consistently. There's no need for obstacles."),
 	TRAIT_IGNORESLOWDOWN = span_info("Nothing stops this carriage!"),
 	TRAIT_IGNOREDAMAGESLOWDOWN = span_info("Hits slow me down no longer."),
@@ -282,7 +290,7 @@ GLOBAL_LIST_INIT(roguetraits, list(
 	TRAIT_DODGEEXPERT = span_info("I am much better at dodging incoming strikes, when dressed in either light armor or nothing at all. Heavier armor, such as maille or plate, is too burdensome for me to quickly maneuver in."),
 	TRAIT_MAGEARMOR = span_info("My magics can protect me from a blow every so often."),
 	TRAIT_DECEIVING_MEEKNESS = span_info("People look at me and think I am a weakling. They are mistaken. I've learned how to hide my vices and true beliefs from others."),
-	TRAIT_CRITICAL_RESISTANCE = "I am resistant to wounds that would be life threatening to others.",
+	TRAIT_CRITICAL_RESISTANCE = span_info("My constitution is iron-clad. My lifeblood flows slowly, I can resist the first few critical wounds that would fell others, but repeated punishment will overwhelm my defenses."),
 	TRAIT_CRITICAL_WEAKNESS = span_danger("I am weak to wounds that others could survive."),
 	TRAIT_DNR = span_danger("My lux' vigor is weak. There is no hope for me. This lyfe is all I have."),
 	TRAIT_MANIAC_AWOKEN = span_danger("I am <b>WAKING UP</b> and the sheeple know this. They will resist."),
@@ -337,6 +345,7 @@ GLOBAL_LIST_INIT(roguetraits, list(
 	TRAIT_PSYDONITE = span_info("I can gradually recover from most injuries, so long as I am not bled dry. Divine spite towards my faith leaves me unable to receive most miracles."),
 	TRAIT_PSYDONIAN_GRIT = span_info("While I still stand, there is yet hope for mankind. The stronger my willpower is, the better I can struggle through crippling wounds."),
 	TRAIT_BLACKBAGGER = span_info("I've been trained to properly abduct individuals through the use of seizing garrotes and blackbags."),
+	TRAIT_LYCANRESILENCE = span_info("Dendor's fury flows through my veins, my wounds regenerate over time..."),
 	TRAIT_FORTITUDE = span_info("The typical drain I feel from day to day life is lessened, my athleticism greater."),
 	TRAIT_GUIDANCE = span_info("The arcyne aides me in battle."),
 	TRAIT_DEPRAVED = span_info("The languid scent of Her debauchery is known to me."),
@@ -425,11 +434,17 @@ GLOBAL_LIST_INIT(roguetraits, list(
 	TRAIT_COMBAT_AWARE = span_notice("My honed senses and intuition allow me to spot notable things in the midst of battle with ease."),
 	TRAIT_RACISMISBAD = span_warning("The Black Oaks can spot ANY Foreigners and Outsiders, no matter how long they've lived in Azuria. This is an easy skill to master, as it is simply identifying who isn't an elf."),
 	TRAIT_DREAMWALKER = span_warning("I walk the dream and reality at the same time. My mind frays, but my vision shall be reality."),
-	TRAIT_ENGINEERING_GOGGLES = span_warning("I can see structural details others can't"),
+	TRAIT_ENGINEERING_GOGGLES = span_warning("I can see structural details others can't."),
+	TRAIT_ASSASSIN = span_warning("My soul has been tainted by foul spirits, through them I honor my pact."),
 	TRAIT_MASTER_CARPENTER = span_warning("I've been trained to make the most of wood"),
 	TRAIT_MASTER_MASON = span_warning("I've been trained to make the most of stone"),
 	TRAIT_EQUESTRIAN = span_warning("I am a capable rider. My mount is an extension of me."),
+	TRAIT_SIMPLESPEECH = span_info("I can not say hard words."),
+	TRAIT_BLOODPOOL_BORN = span_bloody("I emerged from the bloodpool of a Vampire Lord. There is no possibility for redemption for me in this land."),
 	TRAIT_ROYALSERVANT = span_greentext("I've been serving the royal family for long enough to know their exotic tastes."),
+	TRAIT_MOUNTABLE = span_notice("I've been trained to carry other people's burdens."),
+	TRAIT_GOODWRITER = span_notice("I'm proficient at writing. Any skillbooks made by me will allow the reader to learn the subject more quickly."),
+	TRAIT_WAGES_SUSPENDED = span_warning("The Stewardry has halted my daily wages!"),
 ))
 
 // trait accessor defines
@@ -649,6 +664,7 @@ Remember to update _globalvars/traits.dm if you're adding/removing/renaming trai
 
 // common trait sources
 #define TRAIT_GENERIC "generic"
+#define TRAIT_STATUS_EFFECT	"status_effect"
 #define TRAIT_VIRTUE "virtue"
 #define TRAIT_MIRACLE "miracle"
 #define UNCONSCIOUS_BLIND "unconscious_blind"
@@ -675,6 +691,7 @@ Remember to update _globalvars/traits.dm if you're adding/removing/renaming trai
 #define GLASSES_TRAIT "glasses"
 #define VEHICLE_TRAIT "vehicle" // inherited from riding vehicles
 #define INNATE_TRAIT "innate"
+#define POULTICE_TRAIT "poultice"
 
 // unique trait sources, still defines
 #define TRAIT_GUIDANCE "Guidance"

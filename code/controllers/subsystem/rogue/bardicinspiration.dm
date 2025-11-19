@@ -62,10 +62,7 @@ GLOBAL_LIST_INIT(learnable_songst3, (list(/obj/effect/proc_holder/spell/invoked/
 	level = bard_tier
 	maxaudience = 2*bard_tier
 	maxsongs = bard_tier
-	H.verbs += list(/mob/living/carbon/human/proc/setaudience, /mob/living/carbon/human/proc/clearaudience, /mob/living/carbon/human/proc/checkaudience, /mob/living/carbon/human/proc/picksongs)
-
-
-
+	H.verbs += list(/mob/living/carbon/human/proc/setaudience, /mob/living/carbon/human/proc/clearaudience, /mob/living/carbon/human/proc/checkaudience, /mob/living/carbon/human/proc/picksongs, /mob/living/carbon/human/proc/explain_bard)
 
 /mob/living/carbon/human/proc/setaudience()
 	set name = "Audience Choice"
@@ -102,7 +99,6 @@ GLOBAL_LIST_INIT(learnable_songst3, (list(/obj/effect/proc_holder/spell/invoked/
 
 	return TRUE
 
-
 /mob/living/carbon/human/proc/checkaudience()
 	set name = "Check Audience"
 	set category = "Inspiration"
@@ -115,16 +111,27 @@ GLOBAL_LIST_INIT(learnable_songst3, (list(/obj/effect/proc_holder/spell/invoked/
 	if(!text)
 		return
 	to_chat(src, "My audience members are: [text]")
+	return TRUE
+
+/mob/living/carbon/human/proc/explain_bard()
+	set name = "Explain Bardic Inspiration"
+	set category = "Inspiration"
+	if(!inspiration)
+		return FALSE
+	to_chat(src, span_info("Bardic Inspiration allows you to inspire your allies with music. To start \
+	 your performance, you must first set your audience using the 'Audience Choice' verb. Then you can select songs from your Songbook using 'Fill Songbook'\
+	- picking one per level, once chosen, the choice sticks with you for the rest of the round. \
+	To use a bardic Song spell, you must first start playing music with an instrument (use the instrument in your hand), \
+	and then activate the song action from your action bar while continuing to play."))
+	to_chat(src, span_smallnotice("You're a Level [inspiration.level] Bard and can have up to [inspiration.maxaudience] audience members and know [inspiration.maxsongs] songs."))
 
 	return TRUE
-	
 
 /datum/inspiration/New(mob/living/carbon/human/holder)
 	. = ..()
 	src.holder = holder
 	holder?.inspiration = src
 	ADD_TRAIT(holder, INSPIRING_MUSICIAN, "inspiration")
-
 
 /mob/living/carbon/human/proc/picksongs()
 	set name = "Fill Songbook"

@@ -7,7 +7,7 @@
 	cmode_music = 'sound/music/combat_heretic.ogg'
 	category_tags = list(CTAG_WRETCH)
 	traits_applied = list(TRAIT_ZOMBIE_IMMUNE, TRAIT_MAGEARMOR, TRAIT_GRAVEROBBER, TRAIT_ARCYNE_T3, TRAIT_ALCHEMY_EXPERT, TRAIT_MEDICINE_EXPERT)
-	maximum_possible_slots = 1 //Maintainer okayed this. Bumped down to a single slot since this is the only wretch role capable of spawning other antags. It's functionally 3 antag slots.
+	maximum_possible_slots = 2 // Going from 1 to 2, because skeleton that are summoned count AGAINST antagonist cap and they don't always shows up
 	subclass_stats = list(
 		STATKEY_INT = 4,
 		STATKEY_PER = 2,
@@ -55,7 +55,7 @@
 		H.adjust_skillrank_up_to(/datum/skill/magic/arcane, SKILL_LEVEL_MASTER, TRUE)
 		H.mind?.adjust_spellpoints(6)
 	if(H.mind)
-		H.mind.current.faction += "[H.name]_faction"
+		H.mind?.current.faction += "[H.name]_faction"
 		H.set_patron(/datum/patron/inhumen/zizo)
 		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/eyebite)
 		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/bonechill)
@@ -65,4 +65,5 @@
 		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/raise_undead_guard)
 		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/convert_heretic)
 		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/tame_undead)
+		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/raise_deadite)
 		wretch_select_bounty(H)

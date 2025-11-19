@@ -153,6 +153,9 @@
 		to_chat(user, span_warning("The gemstone inside the ring radiates heat. It's still cooling down from its last use."))
 		playsound(loc, 'sound/misc/machineno.ogg', 100, FALSE, -1)
 		return
+	if(!get_location_accessible(user, BODY_ZONE_PRECISE_MOUTH, grabs = TRUE))
+		to_chat(user, span_warning("My mouth is covered!"))
+		return 
 	visible_message(span_notice ("[user] presses their ring against their mouth."))
 	var/input_text = input(user, "Enter your message:", "Message")
 	if(!input_text)
@@ -163,7 +166,7 @@
 	user.whisper(input_text)
 	if(length(input_text) > 100) //When these people talk too much, put that shit in slow motion, yeah
 		input_text = "<small>[input_text]</small>"
-
+	playsound(loc, 'sound/misc/garrisonscom.ogg', 100, FALSE, -1)
 	if(garrisonline)
 		input_text = "<big><span style='color: [GARRISON_SCOM_COLOR]'>[input_text]</span></big>" //Prettying up for Garrison line
 		for(var/obj/item/scomstone/bad/garrison/S in SSroguemachine.scomm_machines)

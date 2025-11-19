@@ -347,13 +347,6 @@ GLOBAL_VAR_INIT(normal_ooc_colour, "#002eb8")
 		mob.death()
 #endif
 
-/*
-/client/verb/jcoindate()
-	set name = "{CHECKJOINDATE}"
-	set category = "Options"
-	testing("[CheckJoinDate(ckey)]")
-*/
-
 /proc/CheckJoinDate(ckey)
 	var/list/http = world.Export("http://byond.com/members/[ckey]?format=text")
 	if(!http)
@@ -373,8 +366,6 @@ GLOBAL_VAR_INIT(normal_ooc_colour, "#002eb8")
 		return
 	var/list/vl = world.Export("http://ip-api.com/json/[ipaddress]")
 	if (!("CONTENT" in vl) || vl["STATUS"] != "200 OK")
-//		sleep(3000)
-//		return CheckIPCountry(ipaddress)
 		return
 	var/jd = html_encode(file2text(vl["CONTENT"]))
 	var/parsed = ""
@@ -386,14 +377,6 @@ GLOBAL_VAR_INIT(normal_ooc_colour, "#002eb8")
 		search = findtext(jd, ",", pos+1)
 		if(search)
 			return lowertext(copytext(jd, pos+9, search))
-
-//	var/regex/R = regex("\"country\":\"(.*)\"")
-//	if(jd)
-//		if(R.Find(jd))
-//			. = R.group[1]
-//		else
-//			testing("reges cant find")
-//			return "0"
 
 /client/verb/html_chat()
 	set name = "{Old Chat}"

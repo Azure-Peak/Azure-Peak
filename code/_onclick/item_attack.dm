@@ -93,10 +93,29 @@
 	var/construct = 0
 	var/burialrited = FALSE
 
+#define ATTACK_OVERRIDE_NODEFENSE 2
+
 /obj/item/proc/attack(mob/living/M, mob/living/user)
+	var/override_status
+	//Item signal for override
 	if(SEND_SIGNAL(src, COMSIG_ITEM_ATTACK, M, user) & COMPONENT_ITEM_NO_ATTACK)
 		return FALSE
-	SEND_SIGNAL(user, COMSIG_MOB_ITEM_ATTACK, M, user, src)
+
+	//Receiver signal for overrides
+	var/_receiver_signal = SEND_SIGNAL(M, COMSIG_MOB_ITEM_BEING_ATTACKED, M, user, src)
+	if(_receiver_signal & COMPONENT_ITEM_NO_ATTACK)
+		return FALSE
+	else if(_receiver_signal & COMPONENT_ITEM_NO_DEFENSE)
+		override_status = ATTACK_OVERRIDE_NODEFENSE
+
+	//Attacker signal generic + override for no defense
+	var/_attacker_signal = SEND_SIGNAL(user, COMSIG_MOB_ITEM_ATTACK, M, user, src)
+	if(_attacker_signal & COMPONENT_ITEM_NO_ATTACK)
+		return FALSE
+	else if(_attacker_signal & COMPONENT_ITEM_NO_DEFENSE)
+		override_status = ATTACK_OVERRIDE_NODEFENSE
+
+
 	if(item_flags & NOBLUDGEON)
 		return FALSE	
 
@@ -120,12 +139,18 @@
 
 //	if(force)
 //		user.emote("attackgrunt")
+
+	var/swingdelay = user.used_intent.swingdelay
+	var/_swingdelay_mod = SEND_SIGNAL(src, COMSIG_LIVING_SWINGDELAY_MOD)
+	if(_swingdelay_mod)
+		swingdelay += _swingdelay_mod
+
 	var/datum/intent/cached_intent = user.used_intent
-	if(user.used_intent.swingdelay)
+	if(swingdelay)
 		if(!user.used_intent.noaa && isnull(user.mind))
 			if(get_dist(get_turf(user), get_turf(M)) <= user.used_intent.reach)
 				user.do_attack_animation(M, user.used_intent.animname, user.used_intent.masteritem, used_intent = user.used_intent, simplified = TRUE)
-		sleep(user.used_intent.swingdelay)
+		sleep(swingdelay)
 	if(user.a_intent != cached_intent)
 		return
 	if(QDELETED(src) || QDELETED(M))
@@ -138,7 +163,7 @@
 		return
 	if((M.mobility_flags & MOBILITY_STAND))
 		if(M.checkmiss(user))
-			if(!user.used_intent.swingdelay)
+			if(!swingdelay)
 				if(get_dist(get_turf(user), get_turf(M)) <= user.used_intent.reach)
 					user.do_attack_animation(M, user.used_intent.animname, used_item = src, used_intent = user.used_intent, simplified = TRUE)
 			return
@@ -151,22 +176,6 @@
 	// Release drain on attacks besides unarmed attacks/grabs is 1, so it'll just be whatever the penalty is + 1.
 	// Unarmed attacks are the only ones right now that have differing releasedrain, see unarmed attacks for their calc.
 	user.stamina_add(user.used_intent.releasedrain + rmb_stam_penalty)
-	var/bad_guard = FALSE
-	//We have Guard / Clash active, and are hitting someone who doesn't. Cheesing a 'free' hit with a defensive buff is a no-no. You get punished.
-	if(user.has_status_effect(/datum/status_effect/buff/clash) && !M.has_status_effect(/datum/status_effect/buff/clash))
-		bad_guard = TRUE
-	if(M.has_status_effect(/datum/status_effect/buff/clash) && M.get_active_held_item() && ishuman(M) && !bad_guard)
-		var/mob/living/carbon/human/HM = M
-		var/obj/item/IM = M.get_active_held_item()
-		var/obj/item/IU 
-		if(user.used_intent.masteritem)
-			IU = user.used_intent.masteritem
-		HM.process_clash(user, IM, IU)
-		return
-	if(bad_guard)
-		if(ishuman(user))
-			var/mob/living/carbon/human/H = user
-			H.bad_guard(span_suicide("I switched stances too quickly! It drains me!"), cheesy = TRUE)
 	if(user.mob_biotypes & MOB_UNDEAD)
 		if(M.has_status_effect(/datum/status_effect/buff/necras_vow))
 			if(isnull(user.mind))
@@ -178,10 +187,21 @@
 			user.adjust_blurriness(3)
 			user.adjustBruteLoss(5)
 			user.apply_status_effect(/datum/status_effect/churned, M)
-	if(M.checkdefense(user.used_intent, user))
-		return
+	
+	//Niche signal for post-swingdelay attacks when we want to care about those.
+	_attacker_signal = null
+	_attacker_signal = SEND_SIGNAL(user, COMSIG_MOB_ITEM_ATTACK_POST_SWINGDELAY, M, user, src)
+	if(_attacker_signal & COMPONENT_ITEM_NO_ATTACK)
+		return FALSE
+	else if(_attacker_signal & COMPONENT_ITEM_NO_DEFENSE)
+		override_status = ATTACK_OVERRIDE_NODEFENSE
+
+	if(override_status != ATTACK_OVERRIDE_NODEFENSE)
+		if(M.checkdefense(user.used_intent, user))
+			return
 
 	SEND_SIGNAL(src, COMSIG_ITEM_ATTACK_SUCCESS, M, user)
+	SEND_SIGNAL(M, COMSIG_ITEM_ATTACKED_SUCCESS, src, user)
 	if(user.zone_selected == BODY_ZONE_PRECISE_R_INHAND)
 		var/offh = 0
 		var/obj/item/W = M.held_items[1]
@@ -243,7 +263,7 @@
 	if(!I?.force)
 		return 0
 	var/newforce = I.force_dynamic
-	testing("startforce [newforce]")
+
 	if(!istype(user))
 		return newforce
 	
@@ -467,17 +487,17 @@
 			if(prob(33))
 				to_chat(user, span_info("The blade is dull..."))
 			newforce *= (lerpratio * 2)
-	testing("endforce [newforce]")
+
 	return newforce
 
 /obj/attacked_by(obj/item/I, mob/living/user)
 	user.changeNext_move(CLICK_CD_INTENTCAP)
 	var/newforce = (get_complex_damage(I, user, blade_dulling) * I.demolition_mod)
 	if(!newforce)
-		testing("dam33")
+
 		return 0
 	if(newforce < damage_deflection)
-		testing("dam44")
+
 		return 0
 	if(user.used_intent.no_attack)
 		return 0
@@ -501,10 +521,10 @@
 /turf/proc/attacked_by(obj/item/I, mob/living/user, multiplier)
 	var/newforce = get_complex_damage(I, user, blade_dulling)
 	if(!newforce)
-		testing("attack6")
+
 		return 0
 	if(newforce < damage_deflection)
-		testing("attack7")
+
 		return 0
 	if(user.used_intent.no_attack)
 		return 0
@@ -601,7 +621,7 @@
 
 /mob/living/attacked_by(obj/item/I, mob/living/user)
 	var/hitlim = simple_limb_hit(user.zone_selected)
-	testing("[src] attacked_by")
+
 	I.funny_attack_effects(src, user)
 	if(I.force_dynamic)
 		var/newforce = get_complex_damage(I, user)

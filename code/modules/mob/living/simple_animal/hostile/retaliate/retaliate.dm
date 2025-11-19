@@ -26,7 +26,7 @@
 
 /mob/living/simple_animal/hostile/retaliate/proc/DismemberBody(mob/living/L)
 	//Lets keep track of this to see if we start getting wounded while eating.
-	testing("[src]_eating_[L]")
+
 	//I dont know why but the do_after for health needs this to be defined like this.
 	var/list/check_health = list("health" = src.health)
 

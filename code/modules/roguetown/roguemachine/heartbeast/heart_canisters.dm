@@ -145,7 +145,7 @@
 		var/mutable_appearance/fluid = mutable_appearance(icon, "canister_fluid")
 		fluid.color = current_color
 		add_overlay(fluid)
-	else
+	else if (!broken)
 		icon_state = "canister_empty"
 
 /obj/item/heart_canister/attackby(obj/item/I, mob/user)
@@ -272,7 +272,6 @@
 	broken = TRUE
 	calibrated = FALSE
 	filled = FALSE
-	name = "Broken canister"
 	desc = "It's irreversibly damaged."
 	icon_state = "canister_broken"
 	playsound(src, 'sound/foley/glassbreak.ogg', 75, TRUE)

@@ -35,6 +35,8 @@
 	flags_inv = HIDEBOOB|HIDECROTCH
 	icon_state = "strapless2"
 	icon = 'modular_hearthstone/icons/obj/items/clothes/dress.dmi'
+	salvage_result = /obj/item/natural/cloth
+	salvage_amount = 1
 
 
 //SUPPLY

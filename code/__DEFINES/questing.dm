@@ -23,8 +23,6 @@
 
 #define QUEST_HANDLER_REWARD_MULTIPLIER 2
 
-#define QUEST_MAX_ACTIVE_QUESTS 3
-
 // Delivery quest additional reward scaling
 #define QUEST_DELIVERY_DISTANCE_DIVISOR 8 // Divides the distance for reward calculation
 #define QUEST_DELIVERY_DISTANCE_BONUS 1 // Adds a bonus for longer distances

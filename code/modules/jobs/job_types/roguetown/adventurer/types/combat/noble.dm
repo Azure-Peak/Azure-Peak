@@ -102,7 +102,7 @@
 		var/armors = list(
 			"Brigandine"		= /obj/item/clothing/suit/roguetown/armor/brigandine,
 			"Coat of Plates"	= /obj/item/clothing/suit/roguetown/armor/brigandine/coatplates,
-			"Steel Cuirass"		= /obj/item/clothing/suit/roguetown/armor/plate/half,
+			"Steel Cuirass"		= /obj/item/clothing/suit/roguetown/armor/plate/cuirass,
 			)
 		var/armorchoice = input(H, "Choose your armor.", "TAKE UP ARMOR") as anything in armors
 		armor = armors[armorchoice]
@@ -195,7 +195,14 @@
 	belt = /obj/item/storage/belt/rogue/leather
 	backr = /obj/item/storage/backpack/rogue/satchel
 	beltl = /obj/item/flashlight/flare/torch/lantern
-	backpack_contents = list(/obj/item/storage/belt/rogue/pouch/coins/poor = 1, /obj/item/rogueweapon/hammer/iron = 1, /obj/item/rogueweapon/tongs = 1, /obj/item/recipe_book/survival = 1)
+	backpack_contents = list(
+		/obj/item/storage/belt/rogue/pouch/coins/poor = 1, 
+		/obj/item/rogueweapon/hammer/iron = 1, 
+		/obj/item/rogueweapon/tongs = 1, 
+		/obj/item/recipe_book/survival = 1,
+		/obj/item/repair_kit/metal = 1,
+		/obj/item/repair_kit = 1,
+	)
 	if(H.mind)
 		var/armors = list("Light Armor","Medium Armor")
 		var/armor_choice = input(H, "Choose your armor.", "TAKE UP ARMS") as anything in armors

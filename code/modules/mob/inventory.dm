@@ -175,7 +175,6 @@
 	if(hud_used)
 		hud_used.throw_icon?.update_icon()
 		hud_used.give_intent?.update_icon()
-	givingto = null
 	return hand_index
 
 //Puts the item into the first available left hand if possible and calls all necessary triggers/updates. returns 1 on success.
@@ -324,7 +323,6 @@
 	if(hud_used)
 		hud_used.throw_icon?.update_icon()
 		hud_used.give_intent?.update_icon()
-	givingto = null
 	update_a_intents()
 	return TRUE
 

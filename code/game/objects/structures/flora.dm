@@ -2,7 +2,6 @@
 	resistance_flags = FLAMMABLE
 	max_integrity = 150
 	anchored = TRUE
-	plane = GAME_PLANE_UPPER
 
 /obj/structure/flora/Initialize()
 	. = ..()

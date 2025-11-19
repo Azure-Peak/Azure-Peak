@@ -143,3 +143,25 @@ GLOBAL_LIST_EMPTY(active_alternate_appearances)
 	..(key, I, FALSE)
 	seer = M
 	add_hud_to(seer)
+
+
+/datum/atom_hud/alternate_appearance/basic/People
+	var/mob/seers // Can be a list or an atom
+
+/datum/atom_hud/alternate_appearance/basic/People/mobShouldSee(mob/M)
+	if(islist(seers))
+		if(M in seers)
+			return TRUE
+	else
+		if(M == seers)
+			return TRUE
+	return FALSE
+
+/datum/atom_hud/alternate_appearance/basic/People/New(key, image/I, mob/seers_to_add)
+	..(key, I, FALSE)
+	seers = seers_to_add
+	if(islist(seers))
+		for(var/mob/seer in seers)
+			add_hud_to(seer)
+	else if(isatom(seers))
+		add_hud_to(seers)

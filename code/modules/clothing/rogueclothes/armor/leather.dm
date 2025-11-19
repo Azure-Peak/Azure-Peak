@@ -205,7 +205,7 @@
 	body_parts_covered = CHEST|GROIN
 	icon_state = "studleatherkini"
 	item_state = "studleatherkini"
-	allowed_sex = list(FEMALE)
+	allowed_sex = list(MALE, FEMALE)
 	allowed_race = CLOTHED_RACES_TYPES
 
 /obj/item/clothing/suit/roguetown/armor/leather/hide/bikini
@@ -214,7 +214,7 @@
 	body_parts_covered = CHEST|GROIN
 	icon_state = "hidearmorkini"
 	item_state = "hidearmorkini"
-	allowed_sex = list(FEMALE)
+	allowed_sex = list(MALE, FEMALE)
 	allowed_race = CLOTHED_RACES_TYPES
 
 /obj/item/clothing/suit/roguetown/armor/leather/vest

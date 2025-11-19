@@ -68,7 +68,7 @@ SUBSYSTEM_DEF(ticker)
 	/// Realm name, the location name of the current map
 	var/realm_name = "Azure Peak"
 	/// Reports the current ruler's display name
-	var/rulertype = "Grand Duke" 
+	var/rulertype = "Grand Duke"
 	/// The current ruling mob
 	var/rulermob = null
 	/// Current regent mob
@@ -195,7 +195,7 @@ SUBSYSTEM_DEF(ticker)
 				var/mob/dead/new_player/player = i
 				if(player.ready == PLAYER_READY_TO_PLAY)
 					++totalPlayersReady
-			
+
 			if(!gamemode_voted)
 				SSvote.initiate_vote("storyteller", "Psydon", timeLeft/2)
 				gamemode_voted = TRUE
@@ -313,7 +313,7 @@ SUBSYSTEM_DEF(ticker)
 /datum/controller/subsystem/ticker/proc/setup()
 	message_admins(span_boldannounce("Starting game..."))
 	var/init_start = world.timeofday
-		
+
 	if(SSmapping.map_adjustment)
 		realm_name = SSmapping.map_adjustment.realm_name
 	CHECK_TICK

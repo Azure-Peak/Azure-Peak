@@ -35,7 +35,7 @@
 	extra_context = "This subclass can choose between two types of armor: a set of plated hauberk, and a tasseted cuirass. Selecting the latter provides less coverage and durability, but removes the innate malus to Speed."
 
 /datum/outfit/job/roguetown/psydoniantemplar
-	job_bitflag = BITFLAG_CHURCH
+	job_bitflag = BITFLAG_HOLY_WARRIOR
 
 /datum/outfit/job/roguetown/psydoniantemplar/pre_equip(mob/living/carbon/human/H)
 	..()
@@ -80,7 +80,7 @@
 		if("Hauberk")
 			H.equip_to_slot_or_del(new /obj/item/clothing/suit/roguetown/armor/chainmail/hauberk/ornate, SLOT_ARMOR, TRUE)
 		if("Cuirass")
-			H.equip_to_slot_or_del(new /obj/item/clothing/suit/roguetown/armor/plate/half/fluted/ornate, SLOT_ARMOR, TRUE)
+			H.equip_to_slot_or_del(new /obj/item/clothing/suit/roguetown/armor/plate/cuirass/fluted/ornate, SLOT_ARMOR, TRUE)
 			H.change_stat(STATKEY_SPD, 1) //Less durability and coverage, but still upgradable. Balances out the innate -1 SPD debuff.
 
 	var/weapons = list("Psydonic Longsword", "Psydonic War Axe", "Psydonic Whip", "Psydonic Flail", "Psydonic Mace", "Psydonic Spear + Handmace", "Psydonic Poleaxe + Shortsword")

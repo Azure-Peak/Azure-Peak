@@ -680,24 +680,6 @@
 		visible_message(span_warning("[src] dies of old age!"))
 		qdel(src)
 
-
-/*
-/obj/item/clothing/head/beekeeper_head
-	name = "beekeeper hat"
-	desc = "A hat with a mesh veil to protect from angry bees."
-	icon_state = "beekeeper"
-	clothing_flags = THICKMATERIAL
-	flags_cover = HEADCOVERSMOUTH
-
-/obj/item/clothing/armor/beekeeper_suit
-	name = "beekeeper suit"
-	desc = "A suit designed to protect from bee stings."
-	icon_state = "beekeeper"
-	clothing_flags = THICKMATERIAL
-	body_parts_covered = CHEST|GROIN|ARMS|LEGS
-	allowed = list(/obj/item/bee_smoker)
-*/
-
 /obj/item/bee_smoker
 	name = "bee smoker"
 	desc = "A device used to calm bees with smoke."

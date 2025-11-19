@@ -75,6 +75,15 @@
 	needsate_text = "Time for a drink."
 
 
+/// KLEPTOMANIAC
+
+/datum/charflaw/addiction/kleptomaniac
+	name = "Thief-borne"
+	desc = "As a child I had to rely on theft to survive. Whether that changed or not, I just can't get over it."
+	time = 30 MINUTES
+	needsate_text = "I need to STEAL something! I'll die if I don't!"
+
+
 /// JUNKIE
 
 /datum/charflaw/addiction/junkie

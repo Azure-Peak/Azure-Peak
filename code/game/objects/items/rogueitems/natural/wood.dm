@@ -154,7 +154,7 @@
 		return
 	user.changeNext_move(CLICK_CD_INTENTCAP)
 	var/skill_level = user.get_skill_level(/datum/skill/craft/carpentry)
-	var/planking_time = (45 - (skill_level * 5))
+	var/planking_time = (35 - (skill_level * 5))
 	var/woodtotal = 1
 	switch (skill_level) //how many planks you get is random, but higher with more carpentry skill
 		if (0)
@@ -392,6 +392,18 @@
 		/datum/element/slapcrafting,\
 		slapcraft_recipes = slapcraft_recipe_list,\
 		)
+
+/obj/item/grown/log/tree/stake/attack_obj(obj/O, mob/living/user)
+	if(!isitem(O))
+		return
+	var/obj/item/I = O
+	if(I.anvilrepair)
+		if(I.smeltresult == /obj/item/ingot/iron)
+			if(!do_after(user, 4 SECONDS, target = I))
+				return
+			to_chat(user, span_warning("The [user] breaks an [I] using stake into small parts!"))
+			new /obj/item/scrap(get_turf(I))
+			qdel(I)
 
 /////////////
 // Planks //

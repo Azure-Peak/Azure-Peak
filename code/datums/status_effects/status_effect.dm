@@ -31,11 +31,24 @@
 	/// Each entry defines a stat affected by the status effect during its duration.
 	var/list/effectedstats = list()
 
+
+	///Icon path for this effect's on-mob effect.
+	var/mob_effect_icon = 'icons/mob/mob_effects.dmi'
+	var/mob_effect_icon_state
+	///How long the effect is meant to last. Will default to the duration otherwise.
+	var/mob_effect_dur
+	///The layer for the mob effect, keeping this unique (even by a 0.01) will ensure it gets deleted properly.
+	var/mob_effect_layer = ABOVE_MOB_LAYER
+	var/mob_effect_offset_x
+	var/mob_effect_offset_y
+	///A direct reference to the generated mob effect post-creation. Used for manipulation (or deletion) of the effect. Normally expires.
+	var/mutable_appearance/mob_effect
+
 /datum/status_effect/New(list/arguments)
 	on_creation(arglist(arguments))
 
 /datum/status_effect/proc/on_creation(mob/living/new_owner, ...)
-	testing("oncreation")
+
 
 	if(new_owner)
 		owner = new_owner
@@ -46,6 +59,11 @@
 	if(!owner || !on_apply())
 		qdel(src)
 		return
+
+	if(mob_effect_icon_state)
+		if(!mob_effect_dur)
+			mob_effect_dur = (duration - 1)	//-1 tick juuust in case something goes wrong between status effect deletion and the callback of the appearance itself.
+		mob_effect = owner.play_overhead_indicator_flick(mob_effect_icon, mob_effect_icon_state, mob_effect_dur, mob_effect_layer, null, mob_effect_offset_y, mob_effect_offset_x)
 
 	if(duration != -1)
 		duration = world.time + duration
@@ -97,7 +115,7 @@
 						break
 		else
 			if((owner.get_stat(S) + effectedstats[S]) > 20)	//We check for overflow as well.
-				effectedstats[S] = max(((owner.get_stat(S) + effectedstats[S]) - 20), 0)
+				effectedstats[S] = 20 - owner.get_stat(S)
 		owner.change_stat(S, effectedstats[S])
 	return TRUE
 
@@ -106,6 +124,8 @@
 /datum/status_effect/proc/on_remove() //Called whenever the buff expires or is removed; do note that at the point this is called, it is out of the owner's status_effects but owner is not yet null
 	for(var/S in effectedstats)
 		owner.change_stat(S, -(effectedstats[S]))
+	if(mob_effect)
+		owner.clear_overhead_indicator(mob_effect, mob_effect_layer)
 
 /datum/status_effect/proc/be_replaced() //Called instead of on_remove when a status effect is replaced by itself or when a status effect with on_remove_on_mob_delete = FALSE has its mob deleted
 	for(var/S in effectedstats)

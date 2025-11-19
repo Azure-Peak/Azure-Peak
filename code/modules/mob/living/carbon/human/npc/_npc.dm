@@ -1,3 +1,5 @@
+#define ATTACKS_UNTIL_SWITCHING_UP 3 // How many attack a NPC will use on the same place before switching it up
+
 /mob/living/carbon/human
 	var/aggressive=0 //0= retaliate only
 	var/frustration=0
@@ -45,6 +47,9 @@
 	var/npc_jump_distance = 4
 	/// When above this amount of stamina (Stamina is stamina damage), the NPC will not attempt to jump.
 	var/npc_max_jump_stamina = 50
+
+	/// Attack Selection
+	var/attack_on_zone = 1
 
 	///What distance should we be checking for interesting things when considering idling/deidling? Defaults to AI_DEFAULT_INTERESTING_DIST
 	var/interesting_dist = AI_DEFAULT_INTERESTING_DIST
@@ -844,6 +849,11 @@
 		npc_choose_attack_zone(victim)
 
 /mob/living/carbon/human/proc/npc_choose_attack_zone(mob/living/victim)
+	if(attack_on_zone <= ATTACKS_UNTIL_SWITCHING_UP)
+		attack_on_zone++
+		return
+	else
+		attack_on_zone = 1
 	// My life for a better way to handle deadite AI.
 	if(mind?.has_antag_datum(/datum/antagonist/zombie))
 		aimheight_change(deadite_get_aimheight(victim))
@@ -980,7 +990,7 @@
 
 	for(var/datum/spatial_grid_cell/grid as anything in our_cells.member_cells)
 		if(length(grid.client_contents))
-			if(mode != NPC_AI_SLEEP || mode != NPC_AI_IDLE)
+			if(mode != NPC_AI_SLEEP && mode != NPC_AI_IDLE)
 				return TRUE
 			mode = NPC_AI_IDLE
 			return TRUE

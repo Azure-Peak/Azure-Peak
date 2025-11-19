@@ -35,7 +35,7 @@
 		wander = TRUE
 		if(!is_silent && target != newtarg)
 			say(pick(GLOB.highwayman_aggro))
-			linepoint(target)
+			pointed(target)
 
 /mob/living/carbon/human/species/lizardfolk/psy_vault_guard/should_target(mob/living/L)
 	if(L.stat != CONSCIOUS)
@@ -171,7 +171,7 @@
 		if(7)
 			r_hand = /obj/item/rogueweapon/mace/goden/steel
 		// 2 hand weapon to dilute the pool to keep ranged viable
- 
+
 /datum/outfit/job/roguetown/human/species/lizardfolk/psy_vault_guard/proc/add_random_psy_vault_guard_mask(mob/living/carbon/human/H)
 	var/add_random_psy_vault_guard_mask = rand(1,5)
 	switch(add_random_psy_vault_guard_mask)

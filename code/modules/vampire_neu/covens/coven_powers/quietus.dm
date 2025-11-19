@@ -177,7 +177,7 @@
 //BAAL'S CARESS
 /datum/coven_power/quietus/baals_caress
 	name = "Baal's Caress"
-	desc = "Transmute your vitae into a toxin that destroys all flesh it touches."
+	desc = "Transmute your vitae into a toxin that destroys all flesh it touches. Must be used on a SHARP weapon."
 
 	level = 3
 	research_cost = 2

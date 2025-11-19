@@ -103,8 +103,6 @@
 	var/total_transfered = 0
 	var/current_list_element = 1
 
-	//testing("removeany called")
-
 	current_list_element = rand(1, cached_reagents.len)
 
 	while(total_transfered != amount)
@@ -193,8 +191,6 @@
 			return
 		R = target.reagents
 		target_atom = target
-
-	//testing("trans to [target_atom]")
 
 	amount = min(min(amount, src.total_volume), R.maximum_volume-R.total_volume)
 	var/trans_data = null
@@ -285,8 +281,6 @@
 		return
 	if(amount < 0)
 		return
-
-	//testing("transidto")
 
 	var/datum/reagents/R = target.reagents
 	if(src.get_reagent_amount(reagent)<amount)
@@ -560,7 +554,6 @@
 		var/datum/reagent/R = reagent
 		del_reagent(R.type)
 	if(my_atom)
-		//testing("[src]  clear reagents [my_atom]")
 		my_atom.on_reagent_change(CLEAR_REAGENTS)
 	return 0
 
@@ -822,6 +815,53 @@
 /datum/reagents/proc/get_reagent(type)
 	var/list/cached_reagents = reagent_list
 	. = locate(type) in cached_reagents
+
+/datum/reagents/proc/generate_scent_message(minimum_percent=15)
+	// the lower the minimum percent, the more sensitive the message is.
+	var/list/out = list()
+	var/list/scents = list() //descriptor = strength
+	if(minimum_percent <= 100)
+		for(var/datum/reagent/R in reagent_list)
+			if(!R.taste_mult)
+				continue
+			if(istype(R, /datum/reagent/consumable/nutriment))
+				var/list/scent_data = R.data
+				for(var/scent in scent_data)
+					var/ratio = scent_data[scent]
+					var/amount = ratio * R.taste_mult * R.volume
+					if(scent in scents)
+						scents[scent] += amount
+					else
+						scents[scent] = amount
+			else
+				var/scent_desc
+				if (R.scent_description != "")
+					scent_desc = R.scent_description
+				else
+					scent_desc = R.taste_description
+				var/scent_amount = R.volume * R.taste_mult
+				if(scent_desc in scents)
+					scents[scent_desc] += scent_amount
+				else
+					scents[scent_desc] = scent_amount
+		//deal with percentages
+		// TODO it would be great if we could sort these from strong to weak
+		var/total_scent = counterlist_sum(scents)
+		if(total_scent > 0)
+			for(var/scent_desc in scents)
+				var/percent = scents[scent_desc]/total_scent * 100
+				if(percent < minimum_percent)
+					continue
+				var/intensity_desc = ""
+				if(percent > minimum_percent * 2 || percent == 100)
+					intensity_desc = ""
+				else if(percent > minimum_percent * 3)
+					intensity_desc = ""
+				if(intensity_desc != "")
+					out += "[intensity_desc] [scent_desc]"
+				else
+					out += "[scent_desc]"
+	return english_list(out, "something")
 
 /datum/reagents/proc/generate_taste_message(minimum_percent=15)
 	// the lower the minimum percent, the more sensitive the message is.

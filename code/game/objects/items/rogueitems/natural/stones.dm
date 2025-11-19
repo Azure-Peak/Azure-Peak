@@ -336,7 +336,7 @@ GLOBAL_LIST_INIT(stone_personality_descs, list(
 		..()
 //rock munching
 /obj/item/natural/stone/attack(mob/living/M, mob/user)
-	testing("attack")
+
 	if(!user.cmode)
 		if(M.construct)
 			var/healydoodle = magic_power+1

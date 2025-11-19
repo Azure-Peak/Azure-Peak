@@ -126,7 +126,7 @@
 /mob/living/simple_animal/hostile/retaliate/rogue/chicken/Life()
 	..()
 	if(!stat && (production > 29) && egg_type && isturf(loc) && !enemies.len)
-		testing("laying egg with [production] production")
+
 		if(locate(/obj/structure/fluff/nest) in loc)
 			visible_message(span_alertalien("[src] [pick(layMessage)]"))
 			production = max(production - 30, 0)

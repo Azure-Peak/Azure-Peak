@@ -40,7 +40,7 @@
 #define ITEM_SLOT_DENYPOCKET	(1<<22) // this is to deny items with a w_class of WEIGHT_CLASS_SMALL or WEIGHT_CLASS_TINY to fit in pockets.
 #define ITEM_SLOT_BACKPACK		(1<<23)
 
-#define ITEM_SLOT_BACK			ITEM_SLOT_BACK_L | ITEM_SLOT_BACK_R
+#define ITEM_SLOT_BACK			(ITEM_SLOT_BACK_L | ITEM_SLOT_BACK_R)
 
 //SLOTS
 

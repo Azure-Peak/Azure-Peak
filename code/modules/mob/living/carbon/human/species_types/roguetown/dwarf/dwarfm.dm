@@ -28,7 +28,7 @@
 	inherent_traits = list(TRAIT_DRUNK_HEALING)
 	possible_ages = ALL_AGES_LIST
 	default_features = MANDATORY_FEATURE_LIST
-	use_skintones = 1
+	use_skintones = TRUE
 	disliked_food = NONE
 	liked_food = NONE
 	changesource_flags = MIRROR_BADMIN | WABBAJACK | MIRROR_MAGIC | MIRROR_PRIDE | RACE_SWAP | SLIME_EXTRACT

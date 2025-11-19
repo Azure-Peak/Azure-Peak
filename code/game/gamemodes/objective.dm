@@ -348,9 +348,9 @@ GLOBAL_LIST(admin_objective_list) //Prefilled admin assignable objective list
 		if(the_duke)
 			var/duke_name = the_duke.real_name
 			if(duke_name && the_duke.real_name == marriagepartner)
-				testing("[duke_name] is duke, marriage partner is [marriagepartner]")
+
 				return TRUE
-	testing("duke is not marriagepartner")
+
 	return FALSE
 
 /datum/objective/dungeoneer

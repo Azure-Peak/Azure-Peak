@@ -31,7 +31,9 @@
 		if(VDrinker && istype(human_victim.wear_neck, /obj/item/clothing/neck/roguetown/psicross/silver))
 			to_chat(src, span_userdanger("SILVER! HISSS!!!"))
 			return
-
+		if(VDrinker && HAS_TRAIT(human_victim, TRAIT_SILVER_BLESSED))
+			to_chat(src, span_userdanger("SILVER IN THE BLOOD! HISSS!!!"))
+			return
 		human_victim.add_bite_animation()
 
 	last_drinkblood_use = world.time
@@ -49,7 +51,7 @@
 	log_combat(src, victim, "drank blood from ")
 
 	if(!VDrinker)
-		if(!HAS_TRAIT(src, TRAIT_HORDE))
+		if(!HAS_TRAIT(src, TRAIT_HORDE) && !HAS_TRAIT(src, TRAIT_NASTY_EATER))
 			to_chat(src, span_warning("I'm going to puke..."))
 			addtimer(CALLBACK(src, TYPE_PROC_REF(/mob/living/carbon, vomit), 0, TRUE), rand(8 SECONDS, 15 SECONDS))
 		return

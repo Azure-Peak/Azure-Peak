@@ -187,12 +187,11 @@ SUBSYSTEM_DEF(garbage)
 				var/datum/qdel_item/I = items[type]
 				#ifdef TESTING
 				log_world("## TESTING: GC: -- \ref[D] | [type] was unable to be GC'd --")
-				for(var/c in GLOB.admins) //Using testing() here would fill the logs with ADMIN_VV garbage
+				for(var/c in GLOB.admins) //Using here would fill the logs with ADMIN_VV garbage
 					var/client/admin = c
 					if(!check_rights_for(admin, R_ADMIN))
 						continue
 					to_chat(admin, "## TESTING: GC: -- [ADMIN_VV(D)] | [type] was unable to be GC'd --")
-				testing("GC: -- \ref[src] | [type] was unable to be GC'd --")
 				#endif
 				#ifdef REFERENCE_TRACKING
 				GLOB.deletion_failures += D //It should no longer be bothered by the GC, manual deletion only.
@@ -319,14 +318,6 @@ SUBSYSTEM_DEF(garbage)
 					return
 				// Returning LETMELIVE after being told to force destroy
 				// indicates the objects Destroy() does not respect force
-				#ifdef TESTING
-				if(!I.no_respect_force)
-					testing("WARNING: [D.type] has been force deleted, but is \
-						returning an immortal QDEL_HINT, indicating it does \
-						not respect the force flag for qdel(). It has been \
-						placed in the queue, further instances of this type \
-						will also be queued.")
-				#endif
 				I.no_respect_force++
 
 				SSgarbage.Queue(D)
@@ -345,7 +336,7 @@ SUBSYSTEM_DEF(garbage)
 			else
 				#ifdef TESTING
 				if(!I.no_hint)
-					testing("WARNING: [D.type] is not returning a qdel hint. It is being placed in the queue. Further instances of this type will also be queued.")
+
 				#endif
 				I.no_hint++
 				SSgarbage.Queue(D)

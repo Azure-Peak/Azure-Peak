@@ -21,6 +21,7 @@
 	class_categories = TRUE
 	job_subclasses = list(
 		/datum/advclass/mercenary/anthrax,
+		/datum/advclass/mercenary/anthrax/assasin,
 		/datum/advclass/mercenary/atgervi,
 		/datum/advclass/mercenary/atgervi/shaman,
 		/datum/advclass/mercenary/condottiero,

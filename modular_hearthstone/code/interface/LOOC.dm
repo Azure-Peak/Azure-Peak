@@ -91,7 +91,7 @@
 		if(!M.client)
 			continue
 		if((C in GLOB.admins) && (C.prefs.admin_chat_toggles & CHAT_ADMINLOOC))
-			added_text += " ([mob.ckey]) <A href='?_src_=holder;[HrefToken()];mute=[ckey];mute_type=[MUTE_LOOC]'><font color='[(muted & MUTE_LOOC)?"red":"blue"]'>\[MUTE\]</font></a>"
+			added_text += " ([mob.ckey]) [ADMIN_FLW(mob)] <A href='?_src_=holder;[HrefToken()];mute=[ckey];mute_type=[MUTE_LOOC]'><font color='[(muted & MUTE_LOOC)?"red":"blue"]'>\[MUTE\]</font></a>"
 			is_admin = 1
 		mobs += C
 		if(C.prefs.chat_toggles & CHAT_OOC)

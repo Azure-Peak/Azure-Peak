@@ -406,7 +406,7 @@ Turf and target are separate in case you want to teleport some distance from a t
 	var/turf/target_turf = get_turf(target)
 	if (get_dist(source, target) > length) //If further than the length/dist then we can assume false
 		return FALSE
-	if(current == target_turf)	
+	if(current == target_turf)
 		return TRUE
 
 	var/steps = 1
@@ -1437,49 +1437,6 @@ GLOBAL_DATUM_INIT(dview_mob, /mob/dview, new)
 
 	return pick(subtypesof(/obj/item/reagent_containers/food/snacks) - blocked)
 
-//For these two procs refs MUST be ref = TRUE format like typecaches!
-/proc/weakref_filter_list(list/things, list/refs)
-	if(!islist(things) || !islist(refs))
-		return
-	if(!refs.len)
-		return things
-	if(things.len > refs.len)
-		var/list/f = list()
-		for(var/i in refs)
-			var/datum/weakref/r = i
-			var/datum/d = r.resolve()
-			if(d)
-				f |= d
-		return things & f
-
-	else
-		. = list()
-		for(var/i in things)
-			if(!refs[WEAKREF(i)])
-				continue
-			. |= i
-
-/proc/weakref_filter_list_reverse(list/things, list/refs)
-	if(!islist(things) || !islist(refs))
-		return
-	if(!refs.len)
-		return things
-	if(things.len > refs.len)
-		var/list/f = list()
-		for(var/i in refs)
-			var/datum/weakref/r = i
-			var/datum/d = r.resolve()
-			if(d)
-				f |= d
-
-		return things - f
-	else
-		. = list()
-		for(var/i in things)
-			if(refs[WEAKREF(i)])
-				continue
-			. |= i
-
 /proc/special_list_filter(list/L, datum/callback/condition)
 	if(!islist(L) || !length(L) || !istype(condition))
 		return list()
@@ -1627,3 +1584,42 @@ GLOBAL_LIST_INIT(duplicate_forbidden_vars,list(
 		if(istype(A, i))
 			return TRUE
 	return FALSE
+
+/proc/get_actors_by_title(var/title)
+	var/list/actor_data = list()
+	for(var/mob_id in GLOB.actors_list)
+		if(GLOB.actors_list[mob_id]["rank"] != title)
+			continue
+		actor_data += list(list(
+			"data" = GLOB.actors_list[mob_id],
+			"mob_id" = mob_id,
+		))
+	return actor_data
+
+/proc/get_sorted_actors_list()
+	var/list/sorted_ckey_to_actor_data = list()
+	var/list/categories = list(
+		"Nobles" = GLOB.noble_positions,
+		"Courtiers" = GLOB.courtier_positions,
+		"Garrison" = GLOB.garrison_positions,
+		"Church" = GLOB.church_positions,
+		"Inquisition" = GLOB.inquisition_positions,
+		"Yeoman" = GLOB.yeoman_positions,
+		"Peasant" = GLOB.peasant_positions,
+		"Youngfolk" = GLOB.youngfolk_positions,
+		"Wanderer" = GLOB.wanderer_positions,
+	)
+
+	for(var/category in categories)
+		for(var/role in categories[category])
+			var/list/actor_data = get_actors_by_title(role)
+			for(var/actor in actor_data)
+				sorted_ckey_to_actor_data[actor["mob_id"]] = list("data" = actor["data"], "category" = category)
+
+	for(var/mob_id in GLOB.actors_list)
+		var/list/actor_data = GLOB.actors_list[mob_id]
+		if(!sorted_ckey_to_actor_data[mob_id])
+			sorted_ckey_to_actor_data[mob_id] = list("data" = actor_data, "category" = "Nobodies")
+
+	return sorted_ckey_to_actor_data
+

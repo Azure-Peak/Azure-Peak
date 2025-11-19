@@ -99,3 +99,18 @@
 	var/claw_index = extended_claw_record.Find(source)
 	if(claw_index)
 		extended_claw_record[claw_index] = FALSE
+
+
+/obj/effect/proc_holder/spell/invoked/repulse/werewolf
+	name = "Terrifying Howl"
+	desc = "Let loose a howl of dread, repelling anyone around you."
+	overlay_state = "howl"
+	recharge_time = 6 MINUTES
+	ignore_cockblock = TRUE
+	chargetime = 0
+	warnie = null
+	showsparkles = FALSE
+	chargedloop = null
+	invocations = null 
+	invocation_type = "none"
+	sound = list('sound/vo/mobs/wwolf/roar.ogg')

@@ -1,6 +1,6 @@
 /obj/structure/roguemachine/vendor
 	name = "PEDDLER"
-	desc = "The stomach of this thing can been stuffed with fun things for you to buy."
+	desc = "A half-alive magitech vending machine. The stomach of this thing can be stuffed with fun things to buy."
 	icon = 'icons/roguetown/misc/machines.dmi'
 	icon_state = "streetvendor1"
 	density = TRUE

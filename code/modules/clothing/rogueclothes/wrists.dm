@@ -36,6 +36,8 @@
 	blocksound = PLATEHIT
 	resistance_flags = FIRE_PROOF
 	max_integrity = ARMOR_INT_SIDE_STEEL
+	pickup_sound = 'sound/foley/equip/equip_armor_plate.ogg'
+	equip_sound = 'sound/foley/equip/equip_armor_plate.ogg'
 	anvilrepair = /datum/skill/craft/armorsmithing
 	sewrepair = FALSE
 	smeltresult = /obj/item/ingot/steel
@@ -109,6 +111,7 @@
 	smeltresult = null
 	salvage_amount = 0 // sry
 	salvage_result = /obj/item/natural/hide/cured
+	color = "#684338"
 
 /obj/item/clothing/wrists/roguetown/bracers/leather/heavy
 	name = "hardened leather bracers"
@@ -120,6 +123,7 @@
 	sellprice = 10
 	salvage_amount = 1
 	salvage_result = /obj/item/natural/hide/cured
+	color = "#4d4d4d"
 
 /obj/item/clothing/wrists/roguetown/bracers/copper
 	name = "copper bracers"
@@ -257,4 +261,7 @@
 	item_state = "jackchain"
 	armor = ARMOR_LEATHER_STUDDED // Please help me make this make sense this has the same stab protection vro.
 	max_integrity = ARMOR_INT_SIDE_LEATHER // Make it slightly worse
+	drop_sound = 'sound/foley/dropsound/chain_drop.ogg'
+	pickup_sound = 'sound/foley/equip/equip_armor_chain.ogg'
+	equip_sound = 'sound/foley/equip/equip_armor_chain.ogg'
 	smeltresult = null

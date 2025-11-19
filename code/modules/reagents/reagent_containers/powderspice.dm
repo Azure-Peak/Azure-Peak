@@ -240,6 +240,7 @@
 	. = 1
 
 /datum/reagent/ozium/on_mob_life(mob/living/carbon/M)
+	sleepless_drug_up(M)
 	if(M.has_flaw(/datum/charflaw/addiction/junkie))
 		M.sate_addiction()
 	M.apply_status_effect(/datum/status_effect/buff/ozium)

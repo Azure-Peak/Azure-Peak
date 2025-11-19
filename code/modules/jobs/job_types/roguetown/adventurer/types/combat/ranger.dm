@@ -66,9 +66,9 @@
 				backr = /obj/item/gun/ballistic/revolver/grenadelauncher/crossbow
 				beltl = /obj/item/quiver/bolts
 
-/datum/advclass/ranger/assassin
-	name = "Assassin"
-	tutorial = "You've lived the life of a hired killer and have spent your time training with blades and crossbows alike."
+/datum/advclass/ranger/wayfarer
+	name = "Wayfarer"
+	tutorial = "You've spent countless years homing many trades; man-hunting, picking locks, breaking into places you had no right being.. but you are no mere thief. You are trained to track men and recover stolen goods. And Azuria is a prime paycheck.."
 	outfit = /datum/outfit/job/roguetown/adventurer/assassin
 	cmode_music = 'sound/music/cmode/adventurer/combat_outlander.ogg'
 	subclass_languages = list(/datum/language/thievescant)
@@ -80,7 +80,7 @@
 	)
 	subclass_skills = list(
 		/datum/skill/combat/swords = SKILL_LEVEL_APPRENTICE,
-		/datum/skill/combat/crossbows = SKILL_LEVEL_JOURNEYMAN,
+		/datum/skill/combat/crossbows = SKILL_LEVEL_EXPERT,
 		/datum/skill/misc/athletics = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/combat/wrestling = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/combat/unarmed = SKILL_LEVEL_APPRENTICE,

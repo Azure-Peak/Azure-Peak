@@ -16,7 +16,7 @@
 	spells = list(/obj/effect/proc_holder/spell/self/convertrole/guard) // /obj/effect/proc_holder/spell/self/convertrole/bog
 	outfit = /datum/outfit/job/roguetown/marshal
 
-	give_bank_account = 40
+	give_bank_account = TRUE
 	noble_income = 20
 	min_pq = 8
 	max_pq = null
@@ -49,6 +49,8 @@
 		)
 	H.verbs |= /mob/proc/haltyell
 	H.verbs |= list(/mob/living/carbon/human/proc/request_outlaw, /mob/living/carbon/human/proc/request_law, /mob/living/carbon/human/proc/request_law_removal, /mob/living/carbon/human/proc/request_purge)
+	if(H.mind)
+		SStreasury.give_money_account(ECONOMIC_RICH, H, "Savings.")
 
 /datum/advclass/marshal/classic
 	name = "Marshal"

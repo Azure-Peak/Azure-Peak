@@ -56,6 +56,10 @@ GLOBAL_LIST_EMPTY(antagonists)
 		if(is_type_in_typecache(src, A.typecache_datum_blacklist))
 			return FALSE
 
+/// Proc to return the weight of this antagonist for purpose of antag cap calculations. Meant to be overriddeable  
+/datum/antagonist/proc/get_antag_cap_weight()
+	return 1
+
 //This will be called in add_antag_datum before owner assignment.
 //Should return antag datum without owner.
 /datum/antagonist/proc/specialization(datum/mind/new_owner)
@@ -143,7 +147,7 @@ GLOBAL_LIST_EMPTY(antagonists)
 
 //Individual roundend report
 /datum/antagonist/proc/roundend_report()
-	testing("doreport")
+
 	var/list/report = list()
 
 	if(!owner)
@@ -162,7 +166,7 @@ GLOBAL_LIST_EMPTY(antagonists)
 	if(objectives.len == 0 || objectives_complete)
 		report += span_greentextbig("The [name] was successful!")
 	else
-		testing("redtext")
+
 		report += span_redtextbig("The [name] has failed!")
 	report += "<br>"
 

@@ -13,6 +13,8 @@
 	max_integrity = ARMOR_INT_HELMET_CLOTH
 	color = "#463C2B"
 	sewrepair = TRUE
+	salvage_result = /obj/item/natural/fibers
+	salvage_amount = 2 // Major materials loss
 
 /obj/item/clothing/head/roguetown/helmet/leather
 	slot_flags = ITEM_SLOT_HEAD|ITEM_SLOT_HIP

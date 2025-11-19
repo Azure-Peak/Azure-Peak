@@ -9,7 +9,8 @@
 	cmode_music = 'sound/music/combat_physician.ogg'
 	subclass_stats = list(
 		STATKEY_INT = 3,
-		STATKEY_LCK = 1
+		STATKEY_LCK = 1,
+		STATKEY_PER = 1
 	)
 	subclass_skills = list(
 		/datum/skill/combat/knives = SKILL_LEVEL_JOURNEYMAN,
@@ -38,13 +39,15 @@
 	beltr = /obj/item/rogueweapon/huntingknife/cleaver /// proper self defense an tree aquiring
 	pants = /obj/item/clothing/under/roguetown/trou
 	shoes = /obj/item/clothing/shoes/roguetown/simpleshoes
-	backl = /obj/item/storage/backpack/rogue/satchel
+	backl = /obj/item/storage/backpack/rogue/backpack
 	backpack_contents = list(
 						/obj/item/natural/worms/leech/cheele = 1,
 						/obj/item/natural/cloth = 2,
 						/obj/item/flashlight/flare/torch = 1,
 						/obj/item/rogueweapon/huntingknife/scissors/steel = 1,
-						/obj/item/hair_dye_cream = 3
+						/obj/item/hair_dye_cream = 3,
+						/obj/item/heart_blood_canister/filled = 2,
+						/obj/item/bait/leech = 4
 						)
 	if(H.age == AGE_OLD)
 		H.change_stat(STATKEY_SPD, -1)
@@ -52,4 +55,6 @@
 		H.change_stat(STATKEY_PER, 1)
 	if(H.mind)
 		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/diagnose/secular)
+	if(H.mind)
+		SStreasury.give_money_account(ECONOMIC_UPPER_MIDDLE_CLASS, H, "Savings.")
 

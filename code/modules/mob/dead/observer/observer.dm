@@ -11,6 +11,7 @@ GLOBAL_VAR_INIT(observer_default_invisibility, INVISIBILITY_OBSERVER)
 	layer = GHOST_LAYER
 	stat = DEAD
 	density = FALSE
+	sight = SEE_TURFS | SEE_MOBS | SEE_OBJS
 	see_invisible = SEE_INVISIBLE_OBSERVER
 	see_in_dark = 100
 	lighting_alpha = LIGHTING_PLANE_ALPHA_MOSTLY_INVISIBLE
@@ -119,18 +120,18 @@ GLOBAL_VAR_INIT(observer_default_invisibility, INVISIBILITY_OBSERVER)
 
 	updateallghostimages()
 
-	testing("BEGIN LOC [loc]")
+
 
 	var/turf/T
 	var/mob/body = loc
 	if(ismob(body))
 		T = get_turf(body)				//Where is the body located?
-		testing("body [body] loc [body.loc]")
+
 		if(!T)
-			testing("no t yyy")
+
 			if(istype(body, /mob/living/brain))
 				var/obj/Y = body.loc
-				testing("Y [Y] loc [Y.loc]")
+
 				T = get_turf(Y)
 
 		gender = body.gender
@@ -180,7 +181,7 @@ GLOBAL_VAR_INIT(observer_default_invisibility, INVISIBILITY_OBSERVER)
 	update_icon()
 
 	if(!T)
-		testing("NO T")
+
 		T = SSmapping.get_station_center()
 
 	forceMove(T)
@@ -347,7 +348,7 @@ Transfer_mind is there to check if mob is being deleted/not going to have a body
 Works together with spawning an observer, noted above.
 */
 
-/mob/proc/ghostize(can_reenter_corpse = 1, force_respawn = FALSE, admin = FALSE, drawskip)
+/mob/proc/ghostize(can_reenter_corpse = 1, force_respawn = FALSE, admin = FALSE, drawskip, ignore_zombie = FALSE)
 	if(!key)
 		return
 	stop_sound_channel(CHANNEL_HEARTBEAT) //Stop heartbeat sounds because You Are A Ghost Now
@@ -373,8 +374,8 @@ Works together with spawning an observer, noted above.
 	ghost.key = key
 	return ghost
 
-/mob/living/carbon/human/ghostize(can_reenter_corpse = 1, force_respawn = FALSE, admin = FALSE, drawskip = FALSE)
-	if(mind)
+/mob/living/carbon/human/ghostize(can_reenter_corpse = 1, force_respawn = FALSE, admin = FALSE, drawskip = FALSE, ignore_zombie = FALSE)
+	if(mind && !ignore_zombie)
 		if(mind.has_antag_datum(/datum/antagonist/zombie))
 			if(force_respawn)
 				mind.remove_antag_datum(/datum/antagonist/zombie)
@@ -835,15 +836,6 @@ This is the proc mobs get to turn into a ghost. Forked from ghostize due to comp
 
 	target.key = key
 	target.faction = list("neutral")
-	return TRUE
-
-//this is a mob verb instead of atom for performance reasons
-//see /mob/verb/examinate() in mob.dm for more info
-//overridden here and in /mob/living for different point span classes and sanity checks
-/mob/dead/observer/pointed(atom/A as mob|obj|turf in view(client.view, src))
-	if(!..())
-		return FALSE
-	usr.visible_message(span_deadsay("<b>[src]</b> points to [A]."))
 	return TRUE
 
 /mob/dead/observer/verb/view_manifest()

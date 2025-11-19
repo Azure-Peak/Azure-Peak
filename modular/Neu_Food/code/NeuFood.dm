@@ -281,3 +281,19 @@
 				new /obj/item/reagent_containers/powder/coarse_salt(loc)
 				qdel(src)
 	else ..()
+
+/* -------------- PUMPKIN SPICE ----------------- */
+/obj/item/reagent_containers/powder/pumpkin
+	name = "pumpkin spice"
+	desc = "Rich flavors from a humble origin."
+	gender = PLURAL
+	icon_state = "pumpkinspice"
+	list_reagents = list(/datum/reagent/consumable/pumpkinspice = 1)
+	grind_results = list(/datum/reagent/consumable/pumpkinspice = 10)
+	volume = 1
+	sellprice = 0
+
+/datum/reagent/consumable/pumpkinspice
+	name = "pumpkin spice"
+	description = ""
+	color = "#ffffff"

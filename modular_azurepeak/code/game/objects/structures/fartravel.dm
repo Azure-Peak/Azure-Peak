@@ -35,7 +35,7 @@
 		return
 	in_use = FALSE
 	update_icon()
-	var/dat = "[key_name(user)] has despawned [departing_mob == user ? "themselves" : departing_mob], job [departing_mob.job], at [AREACOORD(src)]. Contents despawned along:"
+	var/dat = "[ADMIN_LOOKUPFLW(user)] has despawned [departing_mob == user ? "themselves" : departing_mob], job [departing_mob.job], at [AREACOORD(src)]. Contents despawned along:"
 	if(departing_mob.mind)
 		mob_job = SSjob.GetJob(departing_mob.mind.assigned_role)
 		if(mob_job)

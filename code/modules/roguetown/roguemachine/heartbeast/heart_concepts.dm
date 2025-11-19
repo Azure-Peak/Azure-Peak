@@ -1,11 +1,11 @@
 /datum/flesh_concept
 	var/name = "base concept"
-	var/list/tier_questions = list() // Questions for each tier (1-4)
+	var/list/tier_questions = alist() // Questions for each tier (1-4)
 	var/list/answer_keywords = list() // Keywords accepted in answers across all tiers
 
 /datum/flesh_concept/pain
 	name = "pain"
-	tier_questions = list(
+	tier_questions = alist(
 		1 = list("Hurt? Oww?", "Bad feel?", "Ouch?"),
 		2 = list("What is pain?", "Why we hurt?", "Pain good?"),
 		3 = list("Does suffering have purpose?", "Is pain a teacher?", "How does pain change us?"),
@@ -15,7 +15,7 @@
 
 /datum/flesh_concept/blood
 	name = "blood"
-	tier_questions = list(
+	tier_questions = alist(
 		1 = list("Red wet?", "Life juice?", "Bleed?"),
 		2 = list("What is blood?", "Why blood red?", "Blood life?"),
 		3 = list("Does blood carry memory?", "Is blood sacred?", "What flows in veins?"),
@@ -25,7 +25,7 @@
 
 /datum/flesh_concept/fear
 	name = "fear"
-	tier_questions = list(
+	tier_questions = alist(
 		1 = list("Scary?", "Run hide?", "Bad thing?"),
 		2 = list("What is fear?", "Fear good?", "Why afraid?"),
 		3 = list("Does fear protect or imprison?", "What lies beneath terror?", "Is fear a warning?"),
@@ -35,7 +35,7 @@
 
 /datum/flesh_concept/hunger
 	name = "hunger"
-	tier_questions = list(
+	tier_questions = alist(
 		1 = list("Want food?", "Empty tummy?", "Eat now?"),
 		2 = list("What is hunger?", "Why we need food?", "Hunger pain?"),
 		3 = list("Is hunger more than physical?", "What do we truly crave?", "Does hunger drive creation?"),
@@ -45,7 +45,7 @@
 
 /datum/flesh_concept/love
 	name = "love"
-	tier_questions = list(
+	tier_questions = alist(
 		1 = list("Good feel?", "Warm inside?", "Like person?"),
 		2 = list("What is love?", "Why love hurt?", "Love good?"),
 		3 = list("Is love a binding force?", "Does love transform?", "What sacrifices does love demand?"),
@@ -55,7 +55,7 @@
 
 /datum/flesh_concept/death
 	name = "death"
-	tier_questions = list(
+	tier_questions = alist(
 		1 = list("No more?", "Gone away?", "Sleep forever?"),
 		2 = list("What is death?", "After death?", "Why die?"),
 		3 = list("Is death an ending or transformation?", "What awaits beyond the veil?", "Does death give life meaning?"),
@@ -65,7 +65,7 @@
 
 /datum/flesh_concept/time
 	name = "time"
-	tier_questions = list(
+	tier_questions = alist(
 		1 = list("Now when?", "Before after?", "Day night?"),
 		2 = list("What is time?", "Time flow?", "Can stop time?"),
 		3 = list("Does time heal or erode?", "Is the past alive in us?", "What is the weight of moments?"),
@@ -75,7 +75,7 @@
 
 /datum/flesh_concept/dreams
 	name = "dreams"
-	tier_questions = list(
+	tier_questions = alist(
 		1 = list("Sleep pictures?", "Night stories?", "Not real?"),
 		2 = list("What are dreams?", "Dreams real?", "Why dream?"),
 		3 = list("Do dreams show hidden truths?", "What world exists behind closed eyes?", "Are we different in dreams?"),
@@ -85,7 +85,7 @@
 
 /datum/flesh_concept/memory
 	name = "memory"
-	tier_questions = list(
+	tier_questions = alist(
 		1 = list("Remember thing?", "Before now?", "Old picture?"),
 		2 = list("What is memory?", "Why forget?", "Memory true?"),
 		3 = list("Do memories shape reality?", "What is forgotten but still felt?", "Are we our memories?"),
@@ -95,7 +95,7 @@
 
 /datum/flesh_concept/truth
 	name = "truth"
-	tier_questions = list(
+	tier_questions = alist(
 		1 = list("Real thing?", "Not lie?", "True true?"),
 		2 = list("What is truth?", "Truth hurt?", "Always truth?"),
 		3 = list("Are there multiple truths?", "What lies hide behind facts?", "Does truth change?"),
@@ -105,7 +105,7 @@
 
 /datum/flesh_concept/lies
 	name = "lies"
-	tier_questions = list(
+	tier_questions = alist(
 		1 = list("Not true?", "Make believe?", "False story?"),
 		2 = list("What are lies?", "Why lie?", "Lies bad?"),
 		3 = list("Do lies protect or harm?", "What truth hides in deception?", "Are some lies necessary?"),
@@ -115,7 +115,7 @@
 
 /datum/flesh_concept/power
 	name = "power"
-	tier_questions = list(
+	tier_questions = alist(
 		1 = list("Strong?", "Make do?", "Boss?"),
 		2 = list("What is power?", "Get power how?", "Power good?"),
 		3 = list("Does power corrupt or reveal?", "What is true strength?", "Can power be shared?"),
@@ -125,7 +125,7 @@
 
 /datum/flesh_concept/weakness
 	name = "weakness"
-	tier_questions = list(
+	tier_questions = alist(
 		1 = list("Not strong?", "Can't do?", "Small?"),
 		2 = list("What is weakness?", "Weakness bad?", "Help weak?"),
 		3 = list("Is vulnerability strength?", "What grows from limitation?", "Does weakness teach compassion?"),
@@ -135,7 +135,7 @@
 
 /datum/flesh_concept/creation
 	name = "creation"
-	tier_questions = list(
+	tier_questions = alist(
 		1 = list("Make new?", "Build thing?", "From nothing?"),
 		2 = list("What is creation?", "Why create?", "Create how?"),
 		3 = list("Does creation require destruction?", "What spark begins making?", "Is all art born of pain?"),
@@ -145,7 +145,7 @@
 
 /datum/flesh_concept/destruction
 	name = "destruction"
-	tier_questions = list(
+	tier_questions = alist(
 		1 = list("Break thing?", "No more?", "Smash?"),
 		2 = list("What is destruction?", "Why destroy?", "Destroy good?"),
 		3 = list("Does destruction make space for creation?", "What beauty exists in ruin?", "Is ending necessary?"),
@@ -155,7 +155,7 @@
 
 /datum/flesh_concept/order
 	name = "order"
-	tier_questions = list(
+	tier_questions = alist(
 		1 = list("Things neat?", "Place for thing?", "Not messy?"),
 		2 = list("What is order?", "Why order good?", "Make order?"),
 		3 = list("Does order limit or protect?", "What patterns govern reality?", "Is chaos the enemy of order?"),
@@ -165,7 +165,7 @@
 
 /datum/flesh_concept/chaos
 	name = "chaos"
-	tier_questions = list(
+	tier_questions = alist(
 		1 = list("All messy?", "No pattern?", "Things random?"),
 		2 = list("What is chaos?", "Chaos bad?", "Why chaos?"),
 		3 = list("Does chaos create freedom?", "What order emerges from randomness?", "Is chaos the source of novelty?"),
@@ -175,7 +175,7 @@
 
 /datum/flesh_concept/beauty
 	name = "beauty"
-	tier_questions = list(
+	tier_questions = alist(
 		1 = list("Pretty thing?", "Nice see?", "Good look?"),
 		2 = list("What is beauty?", "Why beautiful?", "Beauty where?"),
 		3 = list("Is beauty subjective or universal?", "What makes something beautiful?", "Does beauty require imperfection?"),
@@ -185,7 +185,7 @@
 
 /datum/flesh_concept/ugliness
 	name = "ugliness"
-	tier_questions = list(
+	tier_questions = alist(
 		1 = list("Not pretty?", "Bad look?", "Wrong shape?"),
 		2 = list("What is ugly?", "Why ugly?", "Ugly bad?"),
 		3 = list("Does ugliness have its own beauty?", "What truths hide in unpleasant forms?", "Is ugliness necessary?"),
@@ -195,7 +195,7 @@
 
 /datum/flesh_concept/sacrifice
 	name = "sacrifice"
-	tier_questions = list(
+	tier_questions = alist(
 		1 = list("Give up?", "Lose for other?", "Hurt for good?"),
 		2 = list("What is sacrifice?", "Why sacrifice?", "Sacrifice worth?"),
 		3 = list("Does sacrifice create meaning?", "What transformations require offering?", "Is loss necessary for gain?"),
@@ -205,7 +205,7 @@
 
 /datum/flesh_concept/greed
 	name = "greed"
-	tier_questions = list(
+	tier_questions = alist(
 		1 = list("Want more?", "Not share?", "All mine?"),
 		2 = list("What is greed?", "Why greedy?", "Greed good?"),
 		3 = list("Does greed drive progress?", "What emptiness creates wanting?", "Is accumulation a form of poverty?"),
@@ -215,7 +215,7 @@
 
 /datum/flesh_concept/justice
 	name = "justice"
-	tier_questions = list(
+	tier_questions = alist(
 		1 = list("Fair thing?", "Good get good?", "Bad get bad?"),
 		2 = list("What is justice?", "Justice fair?", "Make justice?"),
 		3 = list("Is justice absolute or relative?", "Does vengeance serve justice?", "Can mercy be just?"),
@@ -225,7 +225,7 @@
 
 /datum/flesh_concept/mercy
 	name = "mercy"
-	tier_questions = list(
+	tier_questions = alist(
 		1 = list("Not punish?", "Forgive?", "Be kind?"),
 		2 = list("What is mercy?", "Why mercy?", "Mercy weak?"),
 		3 = list("Is mercy strength or weakness?", "What healing comes from forgiveness?", "Does mercy transform both given and receiver?"),
@@ -235,7 +235,7 @@
 
 /datum/flesh_concept/loneliness
 	name = "loneliness"
-	tier_questions = list(
+	tier_questions = alist(
 		1 = list("All alone?", "No friend?", "Empty inside?"),
 		2 = list("What is loneliness?", "Why lonely?", "Loneliness hurt?"),
 		3 = list("Is solitude different from loneliness?", "What connections alleviate isolation?", "Does loneliness reveal our need for others?"),
@@ -245,7 +245,7 @@
 
 /datum/flesh_concept/companionship
 	name = "companionship"
-	tier_questions = list(
+	tier_questions = alist(
 		1 = list("With other?", "Not alone?", "Friend?"),
 		2 = list("What is companionship?", "Why together?", "Alone bad?"),
 		3 = list("Does connection define identity?", "What bonds transform individuals?", "Is companionship necessary for growth?"),
@@ -255,7 +255,7 @@
 
 /datum/flesh_concept/hope
 	name = "hope"
-	tier_questions = list(
+	tier_questions = alist(
 		1 = list("Maybe good?", "Think better?", "Not give up?"),
 		2 = list("What is hope?", "Why hope?", "Hope help?"),
 		3 = list("Does hope create reality?", "What sustains hope in darkness?", "Is hope a choice or feeling?"),
@@ -265,7 +265,7 @@
 
 /datum/flesh_concept/despair
 	name = "despair"
-	tier_questions = list(
+	tier_questions = alist(
 		1 = list("No hope?", "All bad?", "Give up?"),
 		2 = list("What is despair?", "Why despair?", "Despair end?"),
 		3 = list("Does despair reveal truth?", "What growth comes from hopelessness?", "Is despair a necessary depth?"),
@@ -275,7 +275,7 @@
 
 /datum/flesh_concept/courage
 	name = "courage"
-	tier_questions = list(
+	tier_questions = alist(
 		1 = list("Not scared?", "Do anyway?", "Be brave?"),
 		2 = list("What is courage?", "Why brave?", "Courage good?"),
 		3 = list("Does courage require fear?", "What actions define bravery?", "Is courage a choice or quality?"),
@@ -285,7 +285,7 @@
 
 /datum/flesh_concept/cowardice
 	name = "cowardice"
-	tier_questions = list(
+	tier_questions = alist(
 		1 = list("Too scared?", "Run away?", "Not do?"),
 		2 = list("What is cowardice?", "Why coward?", "Coward bad?"),
 		3 = list("Does cowardice preserve life?", "What wisdom hides in caution?", "Is fear sometimes wise?"),
@@ -295,7 +295,7 @@
 
 /datum/flesh_concept/wisdom
 	name = "wisdom"
-	tier_questions = list(
+	tier_questions = alist(
 		1 = list("Know things?", "Smart?", "Understand?"),
 		2 = list("What is wisdom?", "Get wisdom?", "Wise good?"),
 		3 = list("Does wisdom come from experience?", "Can wisdom be taught?", "Is wisdom different from knowledge?"),
@@ -305,7 +305,7 @@
 
 /datum/flesh_concept/ignorance
 	name = "ignorance"
-	tier_questions = list(
+	tier_questions = alist(
 		1 = list("Not know?", "Dumb?", "No understand?"),
 		2 = list("What is ignorance?", "Why ignorant?", "Ignorance bad?"),
 		3 = list("Does ignorance protect or limit?", "What freedoms come from not knowing?", "Is some ignorance bliss?"),
@@ -315,7 +315,7 @@
 
 /datum/flesh_concept/freedom
 	name = "freedom"
-	tier_questions = list(
+	tier_questions = alist(
 		1 = list("Do anything?", "No rules?", "Free?"),
 		2 = list("What is freedom?", "Why free?", "Freedom good?"),
 		3 = list("Does freedom require responsibility?", "Can one be free alone?", "Is absolute freedom possible?"),
@@ -325,7 +325,7 @@
 
 /datum/flesh_concept/bondage
 	name = "bondage"
-	tier_questions = list(
+	tier_questions = alist(
 		1 = list("Not free?", "Trapped?", "Can't move?"),
 		2 = list("What is bondage?", "Why trapped?", "Bondage bad?"),
 		3 = list("Do limitations create meaning?", "What freedoms exist within constraints?", "Are all beings bound in some way?"),
@@ -335,7 +335,7 @@
 
 /datum/flesh_concept/growth
 	name = "growth"
-	tier_questions = list(
+	tier_questions = alist(
 		1 = list("Get bigger?", "Change good?", "Learn more?"),
 		2 = list("What is growth?", "Why grow?", "Grow how?"),
 		3 = list("Does growth require discomfort?", "What transformations are necessary?", "Can growth be forced?"),
@@ -345,7 +345,7 @@
 
 /datum/flesh_concept/decay
 	name = "decay"
-	tier_questions = list(
+	tier_questions = alist(
 		1 = list("Get old?", "Break down?", "Not work?"),
 		2 = list("What is Pestra?", "Why Pestra?", "Pestra bad?"),
 		3 = list("Does Pestra's decay make space for new life?", "What beauty exists in deterioration?", "Is ending part of cycles?"),
@@ -355,7 +355,7 @@
 
 /datum/flesh_concept/transformation
 	name = "transformation"
-	tier_questions = list(
+	tier_questions = alist(
 		1 = list("Change thing?", "Become different?", "Not same?"),
 		2 = list("What is transformation?", "Why change?", "Transform how?"),
 		3 = list("Does transformation require destruction?", "What remains constant through change?", "Are we the same after transformation?"),
@@ -365,7 +365,7 @@
 
 /datum/flesh_concept/identity
 	name = "identity"
-	tier_questions = list(
+	tier_questions = alist(
 		1 = list("Who me?", "I am?", "Self?"),
 		2 = list("What is identity?", "Why self?", "Identity change?"),
 		3 = list("Are we our memories or actions?", "What defines personhood?", "Does identity exist independently?"),
@@ -375,7 +375,7 @@
 
 /datum/flesh_concept/unity
 	name = "unity"
-	tier_questions = list(
+	tier_questions = alist(
 		1 = list("All one?", "Together same?", "Not separate?"),
 		2 = list("What is unity?", "Why together?", "Unity good?"),
 		3 = list("Does unity require diversity?", "What connects all things?", "Can individuality exist in unity?"),

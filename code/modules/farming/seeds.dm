@@ -8,6 +8,15 @@
 	var/plant_def_type
 	var/seed_identity = "some seed"
 
+	var/cooking = 0
+	var/cooktime = 20 SECONDS
+	var/burning = 0
+	var/burntime = 3 MINUTES
+
+	var/burned_color = "#302d2d"
+	var/cooked_smell = /datum/pollutant/food/roasted_seeds
+	var/cooked_type = /obj/item/reagent_containers/food/snacks/roastseeds
+
 /obj/item/seeds/Initialize()
 	. = ..()
 	if(plant_def_type)
@@ -57,6 +66,59 @@
 	to_chat(user, span_notice("I plant \the [src] in \the [soil]."))
 	soil.insert_plant(GLOB.plant_defs[plant_def_type])
 	qdel(src)
+
+// Cook a seed, burninput is separate so that burning doesn't scale up with skills. Based on 'snacks.dm'
+/obj/item/seeds/cooking(input as num, burninput, atom/A)
+	if(!input)
+		return
+	if(cooktime)
+		var/added_input = input
+		if(cooking < cooktime)
+			cooking = cooking + added_input
+			if(cooking >= cooktime)
+				return heating_act(A)
+			return
+	burning(burninput)
+
+/obj/item/seeds/heating_act(atom/A)
+	if(istype(A,/obj/machinery/light/rogue/oven))
+		var/obj/item/result
+		if(cooked_type)
+			result = new cooked_type(A)
+			if(cooked_smell)
+				result.AddComponent(/datum/component/temporary_pollution_emission, cooked_smell, 20, 5 MINUTES)
+		else
+			result = new /obj/item/reagent_containers/food/snacks/badrecipe(A)
+		initialize_cooked_seed(result, 1)
+		return result
+	if(istype(A,/obj/machinery/light/rogue/hearth) || istype(A,/obj/machinery/light/rogue/firebowl) || istype(A,/obj/machinery/light/rogue/campfire) || istype(A,/obj/machinery/light/rogue/hearth/mobilestove))
+		var/obj/item/result
+		if(cooked_type)
+			result = new cooked_type(A)
+			if(cooked_smell)
+				result.AddComponent(/datum/component/temporary_pollution_emission, cooked_smell, 20, 5 MINUTES)
+		else
+			result = new /obj/item/reagent_containers/food/snacks/badrecipe(A)
+		initialize_cooked_seed(result, 1)
+		return result
+	var/obj/item/result = new /obj/item/reagent_containers/food/snacks/badrecipe(A)
+	initialize_cooked_seed(result, 1)
+	return result
+
+/obj/item/seeds/burning(input as num)
+	if(!input)
+		return
+	if(burntime)
+		burning = burning + input
+		if(burning >= burntime)
+			name = "burned [name]"
+			color = burned_color
+		if(burning > (burntime * 2))
+			burn()
+
+/obj/item/seeds/proc/initialize_cooked_seed(obj/item/seeds/S, cooking_efficiency = 1)
+	if(reagents)
+		reagents.trans_to(S, reagents.total_volume)
 
 /obj/item/seeds/wheat
 	seed_identity = "wheat seeds"
@@ -141,6 +203,7 @@
 /obj/item/seeds/sunflower
 	seed_identity = "sunflower seeds"
 	plant_def_type = /datum/plant_def/sunflower
+	cooked_type = /obj/item/reagent_containers/food/snacks/roastseeds/sunflower
 
 /obj/item/seeds/onion
 	seed_identity = "onion seeds"
@@ -177,3 +240,4 @@
 /obj/item/seeds/pumpkin
 	seed_identity = "pumpkin seeds"
 	plant_def_type = /datum/plant_def/pumpkin
+	cooked_type = /obj/item/reagent_containers/food/snacks/roastseeds/pumpkin

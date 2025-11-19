@@ -3,7 +3,7 @@
 	id = "frost"
 	alert_type = /atom/movable/screen/alert/status_effect/buff/frost
 	duration = 25 SECONDS
-	effectedstats = list("speed" = -1)
+	effectedstats = list(STATKEY_SPD = -1)
 
 /atom/movable/screen/alert/status_effect/buff/frost
 	name = "Shivering"
@@ -56,7 +56,7 @@
 	id = "withered"
 	alert_type = /atom/movable/screen/alert/status_effect/buff/witherd
 	duration = 30 SECONDS
-	effectedstats = list("speed" = -2,"strength" = -2,"constitution"= -2,"endurance" = -2)
+	effectedstats = list(STATKEY_SPD = -2, STATKEY_STR = -2, STATKEY_CON = -2, STATKEY_WIL = -2)
 
 /atom/movable/screen/alert/status_effect/buff/witherd
 	name = "Withering"

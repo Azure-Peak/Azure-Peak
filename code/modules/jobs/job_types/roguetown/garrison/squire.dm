@@ -94,7 +94,11 @@
 		/obj/item/storage/belt/rogue/pouch,
 		/obj/item/clothing/neck/roguetown/chaincoif,
 		/obj/item/reagent_containers/glass/bottle/rogue/healthpot,
+		/obj/item/repair_kit/metal,
+		/obj/item/repair_kit,
 	)
+	if(H.mind)
+		SStreasury.give_money_account(ECONOMIC_WORKING_CLASS, H, "Savings.")
 
 /datum/advclass/squire/footman
 	name = "Footman Squire"
@@ -135,7 +139,9 @@
 	backpack_contents = list(
 		/obj/item/storage/belt/rogue/pouch,
 		/obj/item/clothing/neck/roguetown/chaincoif,
-		/obj/item/reagent_containers/glass/bottle/rogue/healthpot
+		/obj/item/reagent_containers/glass/bottle/rogue/healthpot,
+		/obj/item/repair_kit/metal,
+		/obj/item/repair_kit,
 	)
 	H.adjust_blindness(-3)
 	if(H.mind)
@@ -148,6 +154,8 @@
 				r_hand = /obj/item/rogueweapon/sword/iron
 			if("Cudgel")
 				beltr = /obj/item/rogueweapon/mace/cudgel
+	if(H.mind)
+		SStreasury.give_money_account(ECONOMIC_WORKING_CLASS, H, "Savings.")
 
 /datum/advclass/squire/skirmisher
 	name = "Irregular Squire"
@@ -193,5 +201,9 @@
 		/obj/item/storage/belt/rogue/pouch,
 		/obj/item/clothing/neck/roguetown/chaincoif,
 		/obj/item/rogueweapon/scabbard/sheath,
-		/obj/item/reagent_containers/glass/bottle/rogue/healthpot
+		/obj/item/reagent_containers/glass/bottle/rogue/healthpot,
+		/obj/item/repair_kit/metal,
+		/obj/item/repair_kit,
 		)
+	if(H.mind)
+		SStreasury.give_money_account(ECONOMIC_WORKING_CLASS, H, "Savings.")

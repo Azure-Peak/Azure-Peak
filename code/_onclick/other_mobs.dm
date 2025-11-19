@@ -55,7 +55,7 @@
 				adjust_blurriness(2)
 				adjustBruteLoss(rand(5, 10))
 				apply_status_effect(/datum/status_effect/churned, L)
-		
+
 		if(L.checkmiss(src))
 			return
 		if(!L.checkdefense(used_intent, src))
@@ -130,38 +130,31 @@
 		return
 	src.attack_hand(user, params)
 
-/mob
-	var/mob/givingto
-	var/lastgiveaction
-
-/mob/living/ongive(mob/user, params)
+/mob/living/ongive(mob/living/carbon/human/user, params)
 	if(!ishuman(user) || src == user)
 		return
-	var/mob/living/carbon/human/H = user
-	if(givingto == H && !H.get_active_held_item()) //take item being offered
-		if(world.time > lastgiveaction + 300) //time out give after a while
-			givingto = null
-			return
-		var/obj/item/I = get_active_held_item()
-		if(I)
-			transferItemToLoc(I, newloc = H, force = FALSE, silent = TRUE)
-			H.put_in_active_hand(I)
-			visible_message(span_notice("[src.name] gives [I] to [H.name]."))
-			return
+
+	var/obj/item/item_to_offer = user.get_active_held_item()
+	if(!item_to_offer)
+		return
+
+	if(src == user)
+		if(offered_item_ref)
+			cancel_offering_item()
+		return
+
+	if(user.offered_item_ref)
+		var/obj/offered_item = user.offered_item_ref.resolve()
+		if(offered_item == item_to_offer)
+			user.cancel_offering_item()
 		else
-			givingto = null
-	else if(!H.givingto && H.get_active_held_item()) //offer item
-		if(incapacitated(ignore_restraints = TRUE, ignore_grab = TRUE, check_immobilized = FALSE, ignore_stasis = FALSE))
-			to_chat(H, span_warning("[src.name] is incapacitated!"))
-			return
-		if(get_empty_held_indexes())
-			var/obj/item/I = H.get_active_held_item()
-			H.givingto = src
-			H.lastgiveaction = world.time
-			to_chat(src, span_notice("[H.name] offers [I] to me."))
-			to_chat(H, span_notice("I offer [I] to [src.name]."))
-		else
-			to_chat(H, span_warning("[src.name]'s hands are full."))
+			to_chat(user, span_notice("I'm already offering \the [item_to_offer]!"))
+		return
+
+	if(HAS_TRAIT(item_to_offer, TRAIT_NODROP))
+		to_chat(user, span_warning("I can't offer this."))
+		return
+	user.offer_item(src, item_to_offer)
 
 /mob/living/MiddleClickOn(atom/A, params)
 	..()

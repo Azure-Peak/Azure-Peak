@@ -75,5 +75,5 @@
 				beltr = /obj/item/rogueweapon/mace/cudgel
 			if ("My Bow Is Enough")
 				H.adjust_skillrank_up_to(/datum/skill/combat/bows, 5, TRUE)
-				head = /obj/item/clothing/head/roguetown/duelhat
+				head = /obj/item/clothing/head/roguetown/helmet/kettle
 		wretch_select_bounty(H)

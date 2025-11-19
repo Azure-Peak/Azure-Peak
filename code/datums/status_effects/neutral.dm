@@ -6,6 +6,22 @@
 /datum/status_effect/incapacitating/off_balanced
 	id = "off_balanced"
 	alert_type = /atom/movable/screen/alert/status_effect/off_balanced
+	mob_effect_icon_state = "eff_offbalanced"
+	mob_effect_offset_y = -4	//We want this shown UNDER the feet of the mob.
+	mob_effect_layer = MOB_EFFECT_LAYER_OFFBALANCED
+
+/datum/status_effect/incapacitating/off_balanced/on_creation(mob/living/new_owner, set_duration, updating_canmove)
+	var/cmode_involved = FALSE
+	if(new_owner.mind)	//We skip bothering with this at all if it's AI
+		for(var/mob/living/L in get_hearers_in_view(5, new_owner))
+			if(L.cmode)
+				cmode_involved = TRUE
+				break
+	else
+		cmode_involved = TRUE
+	//Request by a player to not have it appear if no combat is involved.
+	mob_effect_icon_state = cmode_involved ? initial(mob_effect_icon_state) : null
+	. = ..()
 
 /atom/movable/screen/alert/status_effect/off_balanced
 	name = "Off Balanced"

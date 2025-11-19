@@ -147,7 +147,7 @@
 		if(!GLOB.badomens.len)
 			return EVENT_CANCELLED
 		badomen(pick_n_take(GLOB.badomens))
-		testing("[name] has started")
+
 
 	triggering = FALSE
 
@@ -383,13 +383,13 @@ GLOBAL_LIST_INIT(badomens, list())
 
 /proc/addomen(input)
 	if(!(input in GLOB.badomens))
-		testing("Omen added: [input]")
+
 		GLOB.badomens += input
 
 /proc/removeomen(input)
 	if(!hasomen(input))
 		return
-	testing("Omen removed: [input]")
+
 	GLOB.badomens -= input
 
 /datum/round_event_control/proc/badomen(eventreason)

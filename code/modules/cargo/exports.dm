@@ -37,16 +37,21 @@ Credit dupes that require a lot of manual work shouldn't be removed, unless they
 	return sellprice
 
 /atom/movable/proc/get_real_price()
+	if(sellprice == initial(sellprice))
+		randomize_price()
+	return sellprice
+
+// For appraisal purposes only - calculates total value including contents
+// Used by SEEPRICES trait for examining containers
+/atom/movable/proc/appraise_price()
 	var/total_sellprice = 0
-	if(length(src.contents)) // this overrides the objects base price but 90% of usecases will not see someone trying to sell a full satchel.
-		for(var/obj/item/I in src.contents) // runs a loop on anytihng that's got contents under our current inv system
-			if(I) // runs the get_real_price recurisvely. please dont runtime.
-				total_sellprice += I.get_real_price()
-		return total_sellprice + sellprice
-	else // if its not a container, run the original code.
-		if(sellprice == initial(sellprice))
-			randomize_price()
-		return sellprice
+	if(length(src.contents))
+		for(var/obj/item/I in src.contents)
+			if(I)
+				total_sellprice += I.appraise_price()
+		return total_sellprice + get_real_price()
+	else
+		return get_real_price()
 
 /atom/movable/proc/pre_sell()
 	return

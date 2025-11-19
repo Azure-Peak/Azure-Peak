@@ -140,3 +140,9 @@
 		if(BODY_ZONE_L_ARM)
 			return "foreleg"
 	return ..()
+
+/mob/living/simple_animal/hostile/retaliate/rogue/fox/guildpet
+	name = "Mimi the Fox"
+	desc = "An adorable creechur adopted by the Guild of Craft as their mascot."
+	density = 0 // You can walk through them
+	aggressive = FALSE

@@ -154,3 +154,8 @@
 					/obj/item/hair_dye_cream,
 					/obj/item/hair_dye_cream,
 				)
+
+/datum/supply_pack/rogue/apparel/merchant_pouch
+	name = "Merchant Pouch"
+	cost = 100
+	contains = list(/obj/item/storage/belt/rogue/pouch/merchant)

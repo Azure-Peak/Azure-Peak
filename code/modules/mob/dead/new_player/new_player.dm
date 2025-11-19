@@ -20,8 +20,6 @@ GLOBAL_LIST_INIT(roleplay_readme, world.file2list("strings/rt/rp_prompt.txt"))
 	//Used to make sure someone doesn't get spammed with messages if they're ineligible for roles
 	var/ineligible_for_roles = FALSE
 
-	var/brohand
-
 /mob/dead/new_player/Initialize()
 //	if(client && SSticker.state == GAME_STATE_STARTUP)
 //		var/atom/movable/screen/splash/S = new(client, TRUE, TRUE)
@@ -142,15 +140,6 @@ GLOBAL_LIST_INIT(roleplay_readme, world.file2list("strings/rt/rp_prompt.txt"))
 
 	if(href_list["show_keybinds"])
 		client.prefs.ShowChoices(src, 3)
-		return 1
-
-	if(href_list["sethand"])
-		if(brohand == href_list["sethand"])
-			brohand = null
-			to_chat(src, span_boldwarning("Your Hand is REJECTED, sire."))
-			return 1
-		brohand = href_list["sethand"]
-		to_chat(src, span_boldnotice("Your Hand is selected, sire."))
 		return 1
 
 	if(href_list["ready"])
@@ -305,50 +294,6 @@ GLOBAL_LIST_INIT(roleplay_readme, world.file2list("strings/rt/rp_prompt.txt"))
 		popup.set_content(dat.Join())
 		popup.open()
 
-//When you cop out of the round (NB: this HAS A SLEEP FOR PLAYER INPUT IN IT)
-/mob/dead/new_player/proc/make_me_an_observer()
-	if(QDELETED(src) || !src.client)
-		ready = PLAYER_NOT_READY
-		return FALSE
-
-	var/this_is_like_playing_right = alert(src,"Are you sure you wish to observe? Playing is a lot more fun.","VOYEUR","Yes","No")
-
-	if(QDELETED(src) || !src.client || this_is_like_playing_right != "Yes")
-		ready = PLAYER_NOT_READY
-		src << browse(null, "window=playersetup") //closes the player setup window
-		new_player_panel()
-		return FALSE
-
-	var/mob/dead/observer/observer	// Transfer safety to observer spawning proc.
-	if(check_rights(R_WATCH, FALSE))
-		observer = new /mob/dead/observer/admin(src)
-	else
-		observer = new /mob/dead/observer/rogue/nodraw(src)
-	spawning = TRUE
-
-	observer.started_as_observer = TRUE
-	close_spawn_windows()
-	var/obj/effect/landmark/observer_start/O = locate(/obj/effect/landmark/observer_start) in GLOB.landmarks_list
-	to_chat(src, span_notice("Now teleporting."))
-	if (O)
-		observer.forceMove(O.loc)
-	else
-		to_chat(src, span_notice("Teleporting failed. Ahelp an admin please"))
-		stack_trace("There's no freaking observer landmark available on this map or you're making observers before the map is initialised")
-	observer.key = key
-	observer.client = client
-	observer.set_ghost_appearance()
-	if(observer.client)
-		observer.client.update_ooc_verb_visibility()
-	if(observer.client && observer.client.prefs)
-		observer.real_name = observer.client.prefs.real_name
-		observer.name = observer.real_name
-	observer.update_icon()
-	observer.stop_sound_channel(CHANNEL_LOBBYMUSIC)
-	QDEL_NULL(mind)
-	qdel(src)
-	return TRUE
-
 /proc/get_job_unavailable_error_message(retval, jobtitle)
 	switch(retval)
 		if(JOB_AVAILABLE)
@@ -379,6 +324,15 @@ GLOBAL_LIST_INIT(roleplay_readme, world.file2list("strings/rt/rp_prompt.txt"))
 				return "You must wait [remaining_time] seconds before playing as an [jobtitle] again."
 		if(JOB_UNAVAILABLE_VIRTUESVICE)
 			return "[jobtitle] is restricted by your Virtues or Vices."
+		if(JOB_UNAVAILABLE_PQ)
+			var/datum/job/job = SSjob.GetJob(jobtitle)
+			if(job && !isnull(job.min_pq))
+				var/player_pq = get_playerquality(usr?.ckey)
+				return "You do not meet the Player Quality requirement for [jobtitle]. (Required: [job.min_pq], Your PQ: [player_pq])"
+			else if(job && !isnull(job.max_pq))
+				var/player_pq = get_playerquality(usr?.ckey)
+				return "You exceed the Player Quality requirement for [jobtitle]. (Maximum: [job.max_pq], Your PQ: [player_pq])"
+			return "You do not meet the Player Quality requirement for [jobtitle]."
 	return "Error: Unknown job availability."
 
 //used for latejoining
@@ -419,14 +373,13 @@ GLOBAL_LIST_INIT(roleplay_readme, world.file2list("strings/rt/rp_prompt.txt"))
 	if(job.required_playtime_remaining(client))
 		return JOB_UNAVAILABLE_PLAYTIME
 	if(job.plevel_req > client.patreonlevel())
-		testing("PATREONLEVEL [client.patreonlevel()] req [job.plevel_req]")
 		return JOB_UNAVAILABLE_GENERIC
 	#ifdef USES_PQ
 	if(!job.required || latejoin)
 		if(!isnull(job.min_pq) && (get_playerquality(ckey) < job.min_pq))
-			return JOB_UNAVAILABLE_GENERIC
+			return JOB_UNAVAILABLE_PQ
 		if(!isnull(job.max_pq) && (get_playerquality(ckey) > job.max_pq))
-			return JOB_UNAVAILABLE_GENERIC
+			return JOB_UNAVAILABLE_PQ
 	#endif
 	var/datum/species/pref_species = client.prefs.pref_species
 	if(length(job.allowed_races) && !(pref_species.type in job.allowed_races))
@@ -499,26 +452,26 @@ GLOBAL_LIST_INIT(roleplay_readme, world.file2list("strings/rt/rp_prompt.txt"))
 	SSticker.queued_players -= src
 	SSticker.queue_delay = 4
 
-	testing("basedtest 1")
+
 
 	SSjob.AssignRole(src, rank, 1)
-	testing("basedtest 2")
+
 	var/mob/living/character = create_character(TRUE)	//creates the human and transfers vars and mind
-	testing("basedtest 3")
+
 	character.islatejoin = TRUE
 	var/equip = SSjob.EquipRank(character, rank, TRUE)
-	testing("basedtest 4")
+
 
 	if(isliving(equip))	//Borgs get borged in the equip, so we need to make sure we handle the new mob.
 		character = equip
 
 	var/datum/job/job = SSjob.GetJob(rank)
-	testing("basedtest 5")
+
 
 	if(job && !job.override_latejoin_spawn(character))
-		testing("basedtest 6")
+
 		SSjob.SendToLateJoin(character)
-		testing("basedtest 7")
+
 //		if(!arrivals_docked)
 		var/atom/movable/screen/splash/Spl = new(character.client, TRUE)
 		Spl.Fade(TRUE)
@@ -605,7 +558,7 @@ GLOBAL_LIST_INIT(roleplay_readme, world.file2list("strings/rt/rp_prompt.txt"))
 
 	for(var/list/category in omegalist)
 		if(!SSjob.name_occupations[category[1]])
-			testing("HELP NO THING FOUND FOR [category[1]]")
+
 			continue
 
 		var/list/available_jobs = list()

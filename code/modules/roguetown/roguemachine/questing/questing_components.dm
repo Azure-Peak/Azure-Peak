@@ -1,5 +1,3 @@
-GLOBAL_LIST_EMPTY(quest_components)
-
 /datum/component/quest_object
 	var/datum/weakref/quest_ref
 	var/is_mob = FALSE
@@ -8,10 +6,10 @@ GLOBAL_LIST_EMPTY(quest_components)
 /datum/component/quest_object/Initialize(datum/quest/target_quest)
 	if(!isitem(parent) && !ismob(parent))
 		return COMPONENT_INCOMPATIBLE
-	
+
 	quest_ref = WEAKREF(target_quest)
 	is_mob = ismob(parent)
-	
+
 	if(is_mob)
 		var/mob/M = parent
 		M.add_filter(outline_filter_id, 2, list("type" = "outline", "color" = "#ff0000", "size" = 0.5))
@@ -23,15 +21,13 @@ GLOBAL_LIST_EMPTY(quest_components)
 		RegisterSignal(parent, COMSIG_PARENT_EXAMINE, PROC_REF(on_examine))
 		RegisterSignal(parent, COMSIG_ITEM_DROPPED, PROC_REF(on_item_dropped))
 		RegisterSignal(parent, COMSIG_MOVABLE_MOVED, PROC_REF(on_item_dropped))
-	
+
 	RegisterSignal(target_quest, COMSIG_PARENT_QDELETING, PROC_REF(on_quest_deleted))
-	GLOB.quest_components += src
 
 /datum/component/quest_object/Destroy()
-	GLOB.quest_components -= src
 	if(QDELETED(parent))
 		return ..()
-		
+
 	var/datum/quest/Q = quest_ref?.resolve()
 	if(Q && !Q.complete && isitem(parent))
 		var/obj/item/I = parent
@@ -39,7 +35,7 @@ GLOBAL_LIST_EMPTY(quest_components)
 		if(Q.quest_type == QUEST_COURIER && (Q.target_delivery_item && istype(I, Q.target_delivery_item)) && !QDELETED(I))
 			Q.target_delivery_item = null
 			qdel(I)
-	
+
 	return ..()
 
 /datum/component/quest_object/proc/on_examine(datum/source, mob/user, list/examine_list)
@@ -48,7 +44,7 @@ GLOBAL_LIST_EMPTY(quest_components)
 	var/datum/quest/Q = quest_ref.resolve()
 	if(!Q || Q.complete)
 		return
-	
+
 	var/list/user_scrolls = find_quest_scrolls(user)
 	for(var/obj/item/paper/scroll/quest/scroll in user_scrolls)
 		var/datum/quest/user_quest = scroll.assigned_quest
@@ -103,9 +99,9 @@ GLOBAL_LIST_EMPTY(quest_components)
 
 	if(QDELETED(parent))
 		return
-	
+
 	var/datum/quest/Q = quest_ref?.resolve()
-	
+
 	if(ismob(parent))
 		var/mob/M = parent
 		M.remove_filter(outline_filter_id)
@@ -142,16 +138,16 @@ GLOBAL_LIST_EMPTY(quest_components)
 
 	var/turf/drop_turf = get_turf(dropped_item)
 
-	// Check if dropped on noticeboard input
-	for(var/obj/structure/roguemachine/noticeboard/quest_machine in SSroguemachine.noticeboards)
-		if(get_turf(quest_machine.input_point) == drop_turf)
-			if(Q.target_item_type && istype(dropped_item, Q.target_item_type))
-				// Notify quest of progress
-				Q.progress_current++
-				Q.on_progress_update()
-				do_sparks(3, TRUE, get_turf(dropped_item))
-				qdel(dropped_item)
-				return
+	var/obj/effect/decal/marker_export/marker = locate() in drop_turf
+
+	if(marker)
+		if(Q.target_item_type && istype(dropped_item, Q.target_item_type))
+			// Notify quest of progress
+			Q.progress_current++
+			Q.on_progress_update()
+			do_sparks(3, TRUE, get_turf(dropped_item))
+			qdel(dropped_item)
+			return
 
 /// Component for courier quests - handles delivery
 /datum/component/quest_object/courier

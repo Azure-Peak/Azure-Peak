@@ -79,7 +79,7 @@
 		if(1)
 			armor = /obj/item/clothing/suit/roguetown/armor/brigandine/light
 		if(2)
-			armor = /obj/item/clothing/suit/roguetown/armor/plate/half/iron
+			armor = /obj/item/clothing/suit/roguetown/armor/plate/cuirass/iron
 		if(3)
 			armor = /obj/item/clothing/suit/roguetown/armor/plate/scale
 
@@ -118,7 +118,7 @@
 		wander = TRUE
 		if(!is_silent && target != newtarg)
 			say(pick(GLOB.highwayman_aggro))
-			linepoint(target)
+			pointed(target)
 
 /mob/living/carbon/human/species/human/northern/bog_deserters/should_target(mob/living/L)
 	if(L.stat != CONSCIOUS)

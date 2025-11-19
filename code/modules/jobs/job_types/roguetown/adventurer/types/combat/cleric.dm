@@ -227,7 +227,7 @@
 					if("Hauberk")
 						armor = /obj/item/clothing/suit/roguetown/armor/chainmail/hauberk
 					if("Cuirass")
-						armor = /obj/item/clothing/suit/roguetown/armor/plate/half/fluted/ornate
+						armor = /obj/item/clothing/suit/roguetown/armor/plate/cuirass/fluted/ornate
 		if(/datum/patron/divine/astrata)
 			cloak = /obj/item/clothing/cloak/templar/astrata
 			head = /obj/item/clothing/head/roguetown/helmet/heavy/astratan
@@ -391,7 +391,7 @@
 
 /datum/outfit/job/roguetown/adventurer/cantor/pre_equip(mob/living/carbon/human/H)
 	to_chat(H, span_warning("You were a bard once - but you've found a new calling. Your eyes have been opened to the divine, now you wander from city to city singing songs and telling tales of your patron's greatness."))
-	H.mind.current.faction += "[H.name]_faction"
+	H.mind?.current.faction += "[H.name]_faction"
 	head = /obj/item/clothing/head/roguetown/bardhat
 	armor = /obj/item/clothing/suit/roguetown/armor/leather/vest
 	backl = /obj/item/storage/backpack/rogue/satchel
@@ -537,7 +537,7 @@
 
 /datum/outfit/job/roguetown/adventurer/missionary/pre_equip(mob/living/carbon/human/H)
 	to_chat(H, span_warning("You are a devout worshipper of the divine with a strong connection to your patron god. You've spent years studying scriptures and serving your deity - now you wander into foreign lands, spreading the word of your faith."))
-	H.mind.current.faction += "[H.name]_faction"
+	H.mind?.current.faction += "[H.name]_faction"
 	backl = /obj/item/storage/backpack/rogue/satchel
 	shirt = /obj/item/clothing/suit/roguetown/shirt/undershirt/priest
 	pants = /obj/item/clothing/under/roguetown/trou/leather
@@ -587,7 +587,7 @@
 			cloak = /obj/item/clothing/suit/roguetown/shirt/robe //placeholder, anyone who doesn't have cool patron drip sprites just gets generic robes
 			head = /obj/item/clothing/head/roguetown/roguehood
 	var/datum/devotion/C = new /datum/devotion(H, H.patron)
-	C.grant_miracles(H, cleric_tier = CLERIC_T1, passive_gain = CLERIC_REGEN_MINOR, devotion_limit = CLERIC_REQ_3)	//Minor regen, capped to T3.
+	C.grant_miracles(H, cleric_tier = CLERIC_T3, passive_gain = CLERIC_REGEN_MINOR, devotion_limit = CLERIC_REQ_3)	//Minor regen, capped to T3, parity with other Holy and/or Arcyne caster - no others spend 15 minutes idling only to unlock their entire potencial.
 	if(H.mind)
 		var/weapons = list("Woodstaff", "Quarterstaff")
 		var/weapon_choice = input(H, "Choose your weapon.", "TAKE UP ARMS") as anything in weapons

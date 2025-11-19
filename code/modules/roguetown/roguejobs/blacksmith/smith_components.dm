@@ -76,7 +76,7 @@
 
 	if(success)
 		if(needed_item)
-			to_chat(user, span_notice("The [parent] needs a [needed_item_text] to continue."))
+			to_chat(user, span_notice("\The [parent] needs a [needed_item_text] to continue."))
 
 		// Check if recipe is complete
 		if(progress >= current_recipe.max_progress && !needed_item)
@@ -91,7 +91,7 @@
 	needed_item_text = null
 	progress = 0 // Reset progress for next stage
 
-	to_chat(user, span_notice("You add [added_item] to [parent]."))
+	to_chat(user, span_notice("You add \the [added_item] to \the [parent]."))
 	qdel(added_item) // Consume the added item
 
 	return TRUE
@@ -193,7 +193,7 @@
 	else
 		// Make the item quenchable for final processing
 		parent.AddComponent(/datum/component/anvil_quenchable, current_recipe, parent)
-		to_chat(user, span_notice("The [parent] is ready to be quenched in a water bin."))
+		to_chat(user, span_notice("[parent] is ready to be quenched in a water bin."))
 
 	// Clean up anvil
 	if(if_created)
@@ -208,7 +208,7 @@
 	material_quality = floor(material_quality/current_recipe.num_of_materials)-4
 	skill_quality = floor((skill_quality/current_recipe.num_of_materials)/1500)+material_quality
 	skill_quality -= floor(numberofhits * 0.25)
-	
+
 	var/modifier
 	switch(skill_quality)
 		if(BLACKSMITH_LEVEL_MIN to BLACKSMITH_LEVEL_SPOIL)

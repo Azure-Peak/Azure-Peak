@@ -106,7 +106,7 @@
 	icon = 'modular_azurepeak/icons/obj/items/donor_weapons.dmi'
 	sheathe_icon = "eiren2"
 
-/obj/item/rogueweapon/sword/sabre/eiren2
+/obj/item/rogueweapon/sword/sabre/eiren/small
 	name = "Cinis"
 	desc = "Two blades, the other born of Astrata's ire, a raging flame of passion. Here, and here alone, were fates severed and torn."
 	icon_state = "eiren3"

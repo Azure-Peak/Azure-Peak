@@ -252,7 +252,7 @@
 
 /obj/item/reagent_containers/food/snacks/roastseeds
 	list_reagents = list(/datum/reagent/consumable/nutriment = 1)
-	tastes = list("toasted sunflower seeds" = 1)
+	tastes = list("toasted seeds" = 1)
 	name = "roasted seeds"
 	desc = "Food for birds, treats for humens."
 	icon = 'modular/Neu_Food/icons/cooked/cooked_veggies.dmi'
@@ -261,3 +261,12 @@
 	color = "#e5b175"
 	foodtype = VEGETABLES
 	rotprocess = null
+
+/obj/item/reagent_containers/food/snacks/roastseeds/sunflower
+	name = "roasted sunflower seeds"
+	tastes = list("toasted sunflower seeds" = 1)
+
+/obj/item/reagent_containers/food/snacks/roastseeds/pumpkin
+	name = "roasted pumpkin seeds"
+	tastes = list("toasted pumpkin seeds" = 1)
+	mill_result = /obj/item/reagent_containers/powder/pumpkin

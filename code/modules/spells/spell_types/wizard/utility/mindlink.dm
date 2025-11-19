@@ -41,6 +41,8 @@
 	if(user.client)
 		possible_targets = list(user.real_name) + possible_targets // Oohhhhhh this looks bad. But this is supposed to append ourselves at the start of the ordered list.
 
+	user.emote("me", 1, "'s eyes briefly glow with an otherworldly light.", TRUE, custom_me = TRUE)
+
 	var/first_target_name = input(user, "Choose the first person to link", "Mindlink") as null|anything in possible_targets
 
 	if(!first_target_name)

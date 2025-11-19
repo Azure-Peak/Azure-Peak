@@ -13,11 +13,12 @@
 	// Stat balancing. Per-server decision. Preferably keep neutral until analysis post testmerges.
 	//race_bonus = list(STAT_INTELLIGENCE = 1, STAT_CONSTITUTION = 1)
 	skin_tone_wording = "Catalyst"
+	max_age = "???"
 
-	species_traits = list(EYECOLOR,HAIR,FACEHAIR,LIPS,STUBBLE,OLDGREY,MUTCOLORS_PARTSONLY)
+	species_traits = list(EYECOLOR,HAIR,FACEHAIR,LIPS,STUBBLE,OLDGREY,MUTCOLORS)
 	default_features = MANDATORY_FEATURE_LIST
 	inherent_traits = list(TRAIT_EASYDECAPITATION, TRAIT_NOHUNGER, TRAIT_NOBREATH, TRAIT_ZOMBIE_IMMUNE) //Given the deathless traits inherently as part of their nature as pseudo-undead.
-	use_skintones = 1
+	use_skintones = TRUE
 	disliked_food = NONE
 	liked_food = NONE
 	possible_ages = ALL_AGES_LIST
@@ -163,6 +164,29 @@
 
 /datum/species/dullahan/get_skin_list()
 	return list(
+		"Timber-Gronn" = SKIN_COLOR_TIMBER_GRONN,
+		"Giza-Azure" = SKIN_COLOR_GIZA_AZURE,
+		"Walnut-Stine" = SKIN_COLOR_WALNUT_STINE,
+		"Etrustcan-Dandelion" = SKIN_COLOR_ETRUSTCAN_DANDELION,
+		"Naledi-Born" = SKIN_COLOR_NALEDI_BORN,
+		"Naledi-Southerner" = SKIN_COLOR_NALEDI_LIGHT,
+		"Kaze-Lotus" = SKIN_COLOR_KAZE_LOTUS,
+		"Grenzel-Azuria" = SKIN_COLOR_GRENZEL_WOODS,
+		"Etrusca-Lirvas" = SKIN_COLOR_ETRUSCA_LIRVAS,
+		"Free Roamers" = SKIN_COLOR_FREE_FOLK,
+		"Aavnic"	= SKIN_COLOR_AVAR_BORNE,
+		"Shalvine Roamer" = SKIN_COLOR_SHALVINE_AZURE,
+		"Lalve-Steppes" = SKIN_COLOR_LALVE_NALEDI,
+		"Naledi-Otava" = SKIN_COLOR_NALEDI_OTAVA,
+		"Grezel-Aavnic" = SKIN_COLOR_GRENZEL_AVAR,
+		"Hammer-Gronn" = SKIN_COLOR_HAMMER_GRONN,
+		"Commorah" = SKIN_COLOR_COMMORAH,
+		"Gloomhaven" = SKIN_COLOR_GLOOMHAVEN,
+		"Darkpila" = SKIN_COLOR_DARKPILA,
+		"Sshanntynlan" = SKIN_COLOR_SSHANNTYNLAN,
+		"Llurth Dreir" = SKIN_COLOR_LLURTH_DREIR,
+		"Tafravma" = SKIN_COLOR_TAFRAVMA,
+		"Yuethindrynn" = SKIN_COLOR_YUETHINDRYNN,
 		"Grenzelhoft" = SKIN_COLOR_PALE_GRENZELHOFT,
 		"Hammerhold" = SKIN_COLOR_PALE_HAMMERHOLD,
 		"Ebon" = SKIN_COLOR_PALE_EBON,
@@ -171,14 +195,7 @@
 		"Arlenneth" = SKIN_COLOR_ARLENNETH,
 		"Nessyss" = SKIN_COLOR_NESSYSS,
 		"Helixia" = SKIN_COLOR_HELIXIA,
-		"Nymsea" = SKIN_COLOR_NYMSEA,
-		"Commorah" = SKIN_COLOR_COMMORAH,
-		"Gloomhaven" = SKIN_COLOR_GLOOMHAVEN,
-		"Darkpila" = SKIN_COLOR_DARKPILA,
-		"Sshanntynlan" = SKIN_COLOR_SSHANNTYNLAN,
-		"Llurth Dreir" = SKIN_COLOR_LLURTH_DREIR,
-		"Tafravma" = SKIN_COLOR_TAFRAVMA,
-		"Yuethindrynn" = SKIN_COLOR_YUETHINDRYNN
+		"Nymsea" = SKIN_COLOR_NYMSEA
 	)
 
 /datum/species/dullahan/get_hairc_list()
@@ -214,7 +231,8 @@
 	..()
 	RegisterSignal(user, COMSIG_MOB_SAY, PROC_REF(handle_speech))
 	RegisterSignal(user, COMSIG_MOB_SAY_POSTPROCESS, PROC_REF(on_say_postprocess))
-	RegisterSignal(user, COMSIG_ERP_LOCATION_ACCESSIBLE, PROC_REF(on_erp_location_accessible))
+	// TODO SEXCON2: Re-enable Dullahan detached head ERP support
+	//RegisterSignal(user, COMSIG_ERP_LOCATION_ACCESSIBLE, PROC_REF(on_erp_location_accessible))
 	RegisterSignal(user, COMSIG_LIVING_REVIVE, PROC_REF(on_aheal))
 	my_head = user.get_bodypart(BODY_ZONE_HEAD)
 	RegisterSignal(my_head, COMSIG_QDELETING, PROC_REF(on_head_destroyed))
@@ -224,7 +242,7 @@
 
 	UnregisterSignal(user, COMSIG_MOB_SAY)
 	UnregisterSignal(user, COMSIG_MOB_SAY_POSTPROCESS)
-	UnregisterSignal(user, COMSIG_ERP_LOCATION_ACCESSIBLE)
+	//UnregisterSignal(user, COMSIG_ERP_LOCATION_ACCESSIBLE) // TODO SEXCON2
 	if(my_head.owner ~= user)
 		// Give their head back instead?
 		// In TG Dullahan heads are always off, thus they give back heads.
@@ -267,7 +285,7 @@
 		mob_light_obj = user.mob_light(soul_accessory.accessory_colors, 2, 2)
 
 /datum/species/dullahan/proc/soul_light_off()
-	qdel(mob_light_obj)
+	QDEL_NULL(mob_light_obj)
 
 /datum/species/dullahan/proc/on_say_postprocess(datum/source, list/speech_args)
 	var/mob/living/carbon/human/human = my_head.original_owner
@@ -288,6 +306,8 @@
 	my_head.say(speech_args[SPEECH_MESSAGE], spans = speech_args[SPEECH_SPANS], sanitize = FALSE, message_range = message_range, message_mode = speech_args[SPEECH_MODE])
 	speech_args[SPEECH_MESSAGE] = ""
 
+// TODO SEXCON2: Reimplement for sexcon2 system
+/*
 /datum/species/dullahan/proc/on_erp_location_accessible(datum/source, list/check_args)
 	// Allows Dullahan heads but not necro.
 	var/obj/item/bodypart/bodypart = check_args[ERP_BODYPART]
@@ -326,6 +346,7 @@
 		success_flags |= SKIP_GRAB_CHECK
 
 	return success_flags
+*/
 
 /datum/species/dullahan/proc/get_nodrop_head()
 	var/obj/item/bodypart/head/dullahan/head = my_head

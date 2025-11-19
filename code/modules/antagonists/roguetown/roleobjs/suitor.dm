@@ -2,6 +2,9 @@
 	name = "Suitor"
 	increase_votepwr = FALSE
 
+/datum/antagonist/suitor/get_antag_cap_weight()
+	return 0
+
 /datum/antagonist/suitor/on_gain()
 	if(!(locate(/datum/objective/marry) in objectives))
 		var/datum/objective/marry/marry_objective = new

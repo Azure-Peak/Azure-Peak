@@ -94,7 +94,7 @@
 /obj/item/enchantingkit/eirensabre2
 	name = "'Cinis' morphing elixir"
 	target_items = list(/obj/item/rogueweapon/sword/sabre)
-	result_item = /obj/item/rogueweapon/sword/sabre/eiren2
+	result_item = /obj/item/rogueweapon/sword/sabre/eiren/small
 
 //pretzel - custom steel greatsword. PSYDON LYVES. PSYDON ENDVRES.
 /obj/item/enchantingkit/waff

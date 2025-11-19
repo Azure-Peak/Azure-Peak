@@ -31,22 +31,16 @@
 	req_bar = /obj/item/ingot/steel
 	created_item = /obj/item/roguestatue/steel
 
-/*
-/datum/anvil_recipe/valuables/eargol
-	name = "gold earrings"
-	req_bar = /obj/item/ingot/gold
-	created_item = list(/obj/item/rogueacc/eargold,
-						/obj/item/rogueacc/eargold,
-						/obj/item/rogueacc/eargold)
-	type = "Valuables"
+/datum/anvil_recipe/valuables/blacksteel
+	name = "Statue, Blacksteel"
+	req_bar = /obj/item/ingot/blacksteel
+	created_item = /obj/item/roguestatue/blacksteel
 
-/datum/anvil_recipe/valuables/earsil
-	name = "silver earrings"
-	req_bar = /obj/item/ingot/silver
-	created_item = list(/obj/item/rogueacc/earsilver,
-						/obj/item/rogueacc/earsilver,
-						/obj/item/rogueacc/earsilver)*/
-//	i_type = "Valuables"
+/datum/anvil_recipe/valuables/zcross_iron
+	name = "Inverted Psycross (1 iron)"
+	req_bar = /obj/item/ingot/iron
+	created_item = /obj/item/clothing/neck/roguetown/psicross/inhumen/iron
+	craftdiff = 1
 
 /datum/anvil_recipe/valuables/ringg
 	name = "Rings, Gold (x3)"
@@ -66,6 +60,12 @@
 	req_bar = /obj/item/ingot/silver
 	created_item = /obj/item/clothing/ring/silver
 	craftdiff = SKILL_LEVEL_EXPERT
+	createditem_num = 3
+
+/datum/anvil_recipe/valuables/ringbs
+	name = "Rings, Blacksteel (x3)"
+	req_bar = /obj/item/ingot/blacksteel
+	created_item = /obj/item/clothing/ring/blacksteel
 	createditem_num = 3
 
 /datum/anvil_recipe/valuables/ornateamulet
@@ -198,24 +198,28 @@
 /datum/anvil_recipe/valuables/dragon
 	name = "Dragonstone Ring (Secret!)"
 	req_bar = /obj/item/ingot/blacksteel
-	hides_from_books = TRUE
+	hides_from_books = TRUE //New variable, which should make the full recipe unviewable through the Blacksmith's crafting books. Should only be placed on crafting recipes with 'Secret!' in the name.
 	additional_items = list(/obj/item/ingot/gold, /obj/item/roguegem/blue, /obj/item/roguegem/violet, /obj/item/clothing/neck/roguetown/psicross/silver)
 	created_item = /obj/item/clothing/ring/dragon_ring
 	craftdiff = SKILL_LEVEL_LEGENDARY
+	bypass_dupe_test = TRUE // Transmutation into draconic ingot is fine.
 
 /datum/anvil_recipe/valuables/hope
 	name = "Ring Of Omnipotence (Secret!)"
 	req_bar = /obj/item/ingot/silver
-	hides_from_books = TRUE
+	hides_from_books = TRUE //'Secret!' items should be stronger but harder to make. Likewise, it should be inherently difficult to figure out how to craft them, unless you've found special info-giving items.
 	additional_items = list(/obj/item/clothing/ring/statgemerald, /obj/item/clothing/ring/statonyx, /obj/item/clothing/ring/statamythortz, /obj/item/clothing/ring/statrontz)
 	created_item = /obj/item/clothing/ring/statdorpel
 	craftdiff = SKILL_LEVEL_LEGENDARY
+	bypass_dupe_test = TRUE // Transmutation into riddle of steel is fine if you smelt this.
 
 /datum/anvil_recipe/valuables/daemonslayer
 	name = "Daemonslayer (Secret!)"
 	req_bar = /obj/item/ingot/silver
-	hides_from_books = TRUE
-	additional_items = list(/obj/item/ingot/silver, /obj/item/ingot/silver, /obj/item/ingot/silver, /obj/item/ingot/silver/, /obj/item/ingot/draconic, /obj/item/ingot/weeping, /obj/item/riddleofsteel, /obj/item/grown/log/tree)
+	hides_from_books = TRUE //Note to self - adding more than five additional items to a crafting recipe might result in unintended consequences.
+	additional_items = list(/obj/item/rogueweapon/greatsword/silver, /obj/item/rogueweapon/greatsword/paalloy, /obj/item/ingot/draconic, /obj/item/ingot/weeping, /obj/item/riddleofsteel)
 	created_item = /obj/item/rogueweapon/greatsword/psygsword/dragonslayer
 	appro_skill = /datum/skill/craft/weaponsmithing
+	i_type = "Weapons"
 	craftdiff = SKILL_LEVEL_LEGENDARY
+	bypass_dupe_test = TRUE // Smelting into a greatsword is fine.

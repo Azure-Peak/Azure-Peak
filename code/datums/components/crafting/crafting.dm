@@ -35,8 +35,8 @@
 	get_surroundings - takes a list of things and makes a list of key-types to values-amounts of said type in the list
 	check_contents - takes a recipe and a key-type list and checks if said recipe can be done with available stuff
 	check_tools - takes recipe, a key-type list, and a user and checks if there are enough tools to do the stuff, checks bugs one level deep
-	construct_item - takes a recipe and a user, call all the checking procs, calls do_after, 
-	checks all the things again, calls del_reqs, creates result, 
+	construct_item - takes a recipe and a user, call all the checking procs, calls do_after,
+	checks all the things again, calls del_reqs, creates result,
 	calls CheckParts of said result with argument being list returned by del_reqs
 	del_reqs - takes recipe and a user, loops over the recipes reqs var and tries to find everything in the list make by get_environment and delete it/add to parts list, then returns the said list
 */
@@ -54,12 +54,12 @@
 					if(!R.subtype_reqs && (B in subtypesof(A)))
 						continue
 					if (R.blacklist.Find(B))
-						testing("foundinblacklist")
+
 						continue
 					if(contents[B] >= R.reqs[A])
 						continue main_loop
 					else
-						testing("removecontent")
+
 						needed_amount -= contents[B]
 						if(needed_amount <= 0)
 							continue main_loop
@@ -86,6 +86,10 @@
 				if(AM.flags_1 & HOLOGRAM_1)
 					continue
 				. += AM
+				var/list/crafting_items = AM.get_crafting_contents()
+				if(crafting_items)
+					for(var/atom/movable/crafting_item as anything in crafting_items)
+						. += crafting_item
 	for(var/slot in list(SLOT_R_STORE, SLOT_L_STORE))
 		. += user.get_item_by_slot(slot)
 
@@ -239,11 +243,11 @@
 				continue
 			if(R.structurecraft && istype(S, R.structurecraft))
 				continue
-			if(S.density)
+			if(S.density && !(R.ignoredensity))
 				to_chat(user, span_warning("Something is in the way."))
 				return
 		for(var/obj/machinery/M in T)
-			if(M.density)
+			if(M.density && !(R.ignoredensity))
 				to_chat(user, span_warning("Something is in the way."))
 				return
 	if(R.req_table)

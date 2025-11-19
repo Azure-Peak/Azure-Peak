@@ -263,7 +263,7 @@
 			flash_fullscreen("blackflash2")
 			return TRUE
 		else
-			testing("failparry")
+
 			return FALSE
 
 /mob/proc/do_parry(obj/item/W, parrydrain as num, mob/living/user)

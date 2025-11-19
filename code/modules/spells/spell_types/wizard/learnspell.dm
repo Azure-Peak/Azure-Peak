@@ -15,11 +15,16 @@
 
 	var/user_spell_tier = get_user_spell_tier(user)
 
+	// Checks if the learner is evil to determine if they can learn this spell or not. Used for unique zizo-related spells.
+	var/user_evil = get_user_evilness(user)
+
 	var/list/spell_choices = GLOB.learnable_spells
 
 	for(var/i = 1, i <= spell_choices.len, i++)
 		var/obj/effect/proc_holder/spell/spell_item = spell_choices[i]
 		if(spell_item.spell_tier > user_spell_tier)
+			continue
+		if(spell_item.zizo_spell > user_evil)
 			continue
 		choices["[spell_item.name]: [spell_item.cost]"] = spell_item
 

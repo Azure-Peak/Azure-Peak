@@ -26,6 +26,8 @@
 	item_d_type = "blunt"
 	intent_intdamage_factor = BLUNT_DEFAULT_INT_DAMAGEFACTOR
 	desc = "A powerful, charged up strike that deals normal damage but can throw a standing opponent back and slow them down, based on your strength. Ineffective below 10 strength. Slowdown & Knockback scales to your Strength up to 14 (1 - 4 tiles). Cannot be used consecutively more than every 5 seconds on the same target. Prone targets halve the knockback distance. Not fully charging the attack limits knockback to 1 tile."
+	var/maxrange = 4
+
 
 /datum/intent/mace/smash/spec_on_apply_effect(mob/living/H, mob/living/user, params)
 	var/chungus_khan_str = user.STASTR 
@@ -33,7 +35,7 @@
 		return // Recently knocked back, cannot be knocked back again yet
 	if(chungus_khan_str < 10)
 		return // Too weak to have any effect
-	var/scaling = CLAMP((chungus_khan_str - 10), 1, 4)
+	var/scaling = CLAMP((chungus_khan_str - 10), 1, maxrange)
 	H.apply_status_effect(/datum/status_effect/debuff/yeetcd)
 	H.Slowdown(scaling)
 	// Copypasta from knockback proc cuz I don't want the math there
@@ -111,7 +113,7 @@
 	force = 23
 	force_wielded = 29
 	name = "bronze mace"
-	color = "#f9d690"
+	icon_state = "bronzemace"
 	desc = "An antiquital staff, crested with a studded sphere of bronze. Bludgeons were the first implements made for the explicit purpose of killing another; fittingly, this was the second."
 	wbalance = WBALANCE_HEAVY
 	smeltresult = /obj/item/ingot/bronze
@@ -161,8 +163,8 @@
 /obj/item/rogueweapon/mace/steel/silver
 	force = 30
 	force_wielded = 35
-	name = "silver mace"
-	desc = "A heavy flanged mace, forged from pure silver. For a lord, it's the perfect symbol of authority; a decorative piece for the courts. For a paladin, however, there's no better implement for shattering avantyne-maille into a putrid pile of debris."
+	name = "silver-plated mace"
+	desc = "A long and heavy flanged mace, forged from pure silver covering a dense blacksteel core. For a lord, it's the perfect symbol of authority; a decorative piece for the courts. For a paladin, however, there's no better implement for shattering avantyne-maille into a putrid pile of debris."
 	icon_state = "silvermace"
 	wbalance = WBALANCE_HEAVY
 	smeltresult = /obj/item/ingot/silver
@@ -215,21 +217,30 @@
 
 /obj/item/rogueweapon/mace/cudgel
 	name = "cudgel"
-	desc = "A stubby little club for brigands or thieves. Attempting parries with this is a bad idea."
-	force = 25
+	desc = "A stubby little club for used by guards, brigands, and various criminals. Perfect to cripple someone on a budget."
+	force = 22
 	icon_state = "cudgel"
 	force_wielded = 25
-	possible_item_intents = list(/datum/intent/mace/strike)
-	gripped_intents = list(/datum/intent/mace/strike, /datum/intent/mace/smash)
+	possible_item_intents = list(/datum/intent/mace/strike, /datum/intent/mace/strike/wallop)
+	gripped_intents = list(/datum/intent/mace/strike, /datum/intent/mace/strike/wallop, /datum/intent/mace/smash, /datum/intent/effect/daze)
 	smeltresult = /obj/item/ash
 	wlength = WLENGTH_SHORT
 	w_class = WEIGHT_CLASS_NORMAL
-	wbalance = WBALANCE_NORMAL
+	wbalance = WBALANCE_HEAVY
 	minstr = 7
 	wdefense = 1
 	resistance_flags = FLAMMABLE
 	grid_width = 32
 	grid_height = 96
+
+// Non-lethal mace-striking (Made for cudgel specifically. Don't put this on everything. Yeah, I mean you.)
+/datum/intent/mace/strike/wallop
+	name = "wallop"
+	blade_class = BCLASS_TWIST	//I know, it's weird, but this lets you dislocate limbs and works fine w/ -100 pen factor of blunt weapons.
+	attack_verb = list("twamps", "thwacks", "wallops")
+	damfactor = 1.3		// High damage mod to give high chance of dislocation against unarmored targets.
+	intent_intdamage_factor = 0.5	// Purposefully bad at damaging armor.
+	icon_state = "inbash"	// Wallop is too long for a button; placeholder.
 
 /obj/item/rogueweapon/mace/cudgel/psy
 	name = "psydonic handmace"
@@ -608,4 +619,104 @@
 	clickcd = 15
 	penfactor = 80
 	damfactor = 0.9
+	item_d_type = "stab"
+
+//Mauls. Woe. Most characters will not be able to engage with this, beyond hobbling.
+//Why? The unique strength lockout. The minimum strength is not a suggestion.
+/obj/item/rogueweapon/mace/maul
+	force = 12 //Don't one-hand this.
+	force_wielded = 32 //-3 compared to grand mace(steel goden). Better intents.
+	possible_item_intents = list(/datum/intent/mace/strike)
+	gripped_intents = list(/datum/intent/mace/strike, /datum/intent/mace/smash, /datum/intent/effect/daze, /datum/intent/effect/hobble)
+	name = "maul"
+	desc = "Who would need something this large? It looks like it was made for tearing down walls, rather than men."
+	icon_state = "sledge"
+	icon = 'icons/roguetown/weapons/64.dmi'
+	wlength = WLENGTH_LONG
+	swingsound = BLUNTWOOSH_HUGE
+	slot_flags = null//No.
+	smelt_bar_num = 2
+	minstr = 14
+	wdefense = 2
+	wdefense_wbonus = 1 //3
+	demolition_mod = 1.25 //Oh, yes...
+	pixel_y = -16
+	pixel_x = -16
+	inhand_x_dimension = 64
+	inhand_y_dimension = 64
+	dropshrink = 0.6
+	bigboy = TRUE
+	gripsprite = TRUE
+	minstr_req = TRUE //You MUST have the required strength. No exceptions.
+	max_integrity = 300
+
+/obj/item/rogueweapon/mace/maul/getonmobprop(tag)
+	. = ..()
+	if(tag)
+		switch(tag)
+			if("gen")
+				return list("shrink" = 0.6,"sx" = -7,"sy" = 2,"nx" = 7,"ny" = 3,"wx" = -2,"wy" = 1,"ex" = 1,"ey" = 1,"northabove" = 0,"southabove" = 1,"eastabove" = 1,"westabove" = 0,"nturn" = -38,"sturn" = 37,"wturn" = 30,"eturn" = -30,"nflip" = 0,"sflip" = 8,"wflip" = 8,"eflip" = 0)
+			if("wielded")
+				return list("shrink" = 0.6,"sx" = 5,"sy" = -3,"nx" = -5,"ny" = -2,"wx" = -5,"wy" = -1,"ex" = 3,"ey" = -2,"northabove" = 0,"southabove" = 1,"eastabove" = 1,"westabove" = 0,"nturn" = 7,"sturn" = -7,"wturn" = 16,"eturn" = -22,"nflip" = 8,"sflip" = 0,"wflip" = 8,"eflip" = 0)
+
+/obj/item/rogueweapon/mace/maul/grand
+	name = "grand maul"
+	desc = "You could probably crack a man's spine just by tapping them with this. \
+	Only a lunatic would carry something so heavy, however."
+	icon_state = "cross"
+	force_wielded = 34 // -1 compared to grand mace.
+	smeltresult = /obj/item/ingot/steel
+	minstr = 15
+	wdefense_wbonus = 4 // from 6
+	smelt_bar_num = 3
+	max_integrity = 350
+
+//Dwarvish mauls. Unobtanium outside of Grudgebearer. Do not change that.
+/obj/item/rogueweapon/mace/maul/steel
+	name = "dwarvish maul"
+	desc = "An incredibly heavy, oversized hammer. The owner is not compensating, for this maul will do the speaking. \
+	This one has been well balanced, allowing for a weaker wielder to make use of it."
+	icon_state = "dwarfhammer"
+	smeltresult = /obj/item/ingot/steel
+	minstr = 11 // +2STR from Grudgebearer Soldier. Should cover this.
+	wdefense_wbonus = 3 // 5
+	smelt_bar_num = 3 // You'll break my heart.
+	max_integrity = 340
+
+/obj/item/rogueweapon/mace/maul/spiked
+	name = "spiked maul"
+	desc = "Covered in spikes, such is the weapon of a Dwarvish smith. \
+	This one has been well balanced, allowing for a weaker wielder to make use of it."
+	icon_state = "spiky"
+	gripped_intents = list(/datum/intent/maul/spiked, /datum/intent/mace/smash, /datum/intent/effect/daze, /datum/intent/effect/hobble)
+	wdefense_wbonus = 2 //4
+	minstr = 10 //+1 STR from Grudgebearer Smith. It should be fine.
+	smelt_bar_num = 3 //Please don't...
+	max_integrity = 320
+
+//Intents for the mauls.
+/datum/intent/effect/hobble
+	name = "hobbling strike"
+	desc = "A heavy strike aimed at the legs to cripple movement."
+	icon_state = "incrack"//Temp. Just so it's easy to differentiate.
+	attack_verb = list("hobbles")
+	animname = "strike"
+	hitsound = list('sound/combat/hits/blunt/shovel_hit3.ogg')
+	swingdelay = 6
+	damfactor = 0.8
+	penfactor = BLUNT_DEFAULT_PENFACTOR
+	clickcd = CLICK_CD_HEAVY
+	item_d_type = "blunt"
+	intent_effect = /datum/status_effect/debuff/hobbled
+	target_parts = list(BODY_ZONE_L_LEG, BODY_ZONE_R_LEG) //Intentionally leaving out feet. If you know, you know.
+
+
+/datum/intent/maul/spiked
+	name = "perforating strike"
+	blade_class = BCLASS_STAB
+	attack_verb = list("rends", "hammers", "wallops")
+	animname = "stab"
+	icon_state = "intear"
+	warnie = "mobwarning"
+	hitsound = list('sound/combat/hits/bladed/genstab (1).ogg', 'sound/combat/hits/bladed/genstab (2).ogg', 'sound/combat/hits/bladed/genstab (3).ogg')
 	item_d_type = "stab"

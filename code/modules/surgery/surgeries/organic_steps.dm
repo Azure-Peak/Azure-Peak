@@ -56,6 +56,7 @@
 		span_notice("[user] clamps the bleeders in [target]'s [parse_zone(target_zone)]."))
 	var/obj/item/bodypart/bodypart = target.get_bodypart(check_zone(target_zone))
 	bodypart?.add_embedded_object(tool, crit_message = FALSE)
+	notify_embed(user, tool, target, target_zone)
 	return TRUE
 
 /// Retracting
@@ -85,6 +86,7 @@
 		span_notice("[user] retract [target]'s [parse_zone(target_zone)]."))
 	var/obj/item/bodypart/bodypart = target.get_bodypart(check_zone(target_zone))
 	bodypart?.add_embedded_object(tool, crit_message = FALSE)
+	notify_embed(user, tool, target, target_zone)
 	return TRUE
 
 /// Cauterize
@@ -104,7 +106,7 @@
 
 /datum/surgery_step/cauterize/validate_bodypart(mob/user, mob/living/carbon/target, obj/item/bodypart/bodypart, target_zone)
 	// If you have medicine expert, you can caut thru armor. Also fails if they're in cmode.
-	if(islist(user.status_traits) && ("Medicine Expert" in user.status_traits) && (target.cmode == 0)) 
+	if(HAS_TRAIT(user, TRAIT_MEDICINE_EXPERT) && (target.cmode == 0))
 		ignore_clothes = TRUE
 	else // IDK if this is necessary but probably good 4 clarification.
 		ignore_clothes = FALSE

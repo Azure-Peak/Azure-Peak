@@ -38,3 +38,8 @@
 	antag_datum = /datum/antagonist/bandit
 	advclass_cat_rolls = list(CTAG_BANDIT = 20)
 	grant_lit_torch = TRUE
+
+/datum/migrant_role/assassin
+	name = "Assassin"
+	antag_datum = /datum/antagonist/assassin
+	advclass_cat_rolls = list(CTAG_ASSASSIN = 20)

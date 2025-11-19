@@ -1,8 +1,11 @@
 #define GARRISON_SCOM_COLOR "#FF4242"
+#define NORMAL_SCOM_TRANSMISSION_DELAY 15 SECONDS
+#define NORMAL_SCOM_PER_MESSAGE_DELAY 15 SECONDS 
+#define CHEESE_QUIET_TIME 2 MINUTES // How long stuffing a slice of cheese in quieten the SCOM
 
 /obj/structure/roguemachine/scomm
 	name = "SCOM"
-	desc = "The Supernatural Communication Optical Machine is a wonder of magic and technology, a device able to receive remote messages from the town crier's office. There's a button in the MIDDLE for making private jabberline connections."
+	desc = "The Supernatural Communication Optical Machine is a wonder of magic and technology, able to transmit and receive messages across long distance. There's a button in the MIDDLE for making private jabberline connections."
 	icon = 'icons/roguetown/misc/machines.dmi'
 	icon_state = "scomm1"
 	density = FALSE
@@ -20,8 +23,14 @@
 	var/scom_tag
 	var/obj/structure/roguemachine/scomm/calling = null
 	var/obj/structure/roguemachine/scomm/called_by = null
+	/// Last time the SCOM sent a message. Used to check delay  
+	var/last_message = 0
+	/// Whether this is a receive only SCOM, that cannot transmit any messages. Uses this for any kind of SCOM that is out of town and is not actionable
+	var/receive_only = FALSE
 	var/spawned_rat = FALSE
 	var/garrisonline = FALSE
+	/// Track whether it was cheesed recently
+	var/last_cheese = 0
 
 /obj/structure/roguemachine/scomm/OnCrafted(dirin, mob/user)
 	. = ..()
@@ -45,10 +54,25 @@
 	pixel_y = 0
 	pixel_x = -32
 
+/obj/structure/roguemachine/scomm/receive_only
+	name = "RCOM"
+	desc = "The Receiving Communication Optical Machine is a much cheaper, ubiquitous version of the SCOM, designed only to receive message over long distance. They are oft found outside of the town, especially in older ruins."
+	receive_only = TRUE
+
+/obj/structure/roguemachine/scomm/receive_only/r
+	pixel_y = 0
+	pixel_x = 32
+
+/obj/structure/roguemachine/scomm/receive_only/l
+	pixel_y = 0
+	pixel_x = -32
+
 /obj/structure/roguemachine/scomm/examine(mob/user)
 	. = ..()
+	. += span_small("The normal line has a delay of [NORMAL_SCOM_TRANSMISSION_DELAY / 10] seconds. The premium garrison line does not suffer from this limitation.")
+	. += span_smallnotice("You see some rats inside scurrying about! Maybe they'd like a slice of cheese?")
 	if(scom_number)
-		. += "Its designation is #[scom_number][scom_tag ? ", labeled as [scom_tag]" : ""]."
+		. += span_smallnotice("Its designation is #[scom_number][scom_tag ? ", labeled as [scom_tag]" : ""].")
 	. += "<a href='?src=[REF(src)];directory=1'>Directory</a>"
 	. += "<b>THE LAWS OF THE LAND:</b>"
 	if(!length(GLOB.laws_of_the_land))
@@ -72,8 +96,7 @@
 /obj/structure/roguemachine/scomm/proc/view_directory(mob/user)
 	var/dat
 	for(var/obj/structure/roguemachine/scomm/X in SSroguemachine.scomm_machines)
-		if(X.scom_tag)
-			dat += "#[X.scom_number] [X.scom_tag]<br>"
+		dat += "#[X.scom_number] [X.scom_tag]<br>"
 
 	var/datum/browser/popup = new(user, "scom_directory", "<center>RAT REGISTER</center>", 387, 420)
 	popup.set_content(dat)
@@ -116,6 +139,13 @@
 			loudmouth_listening = TRUE
 	update_icon()
 
+/obj/structure/roguemachine/scomm/attackby(obj/item/W, mob/user, params)
+	. = ..()
+	if(istype(W, /obj/item/reagent_containers/food/snacks/rogue/cheddarslice))
+		to_chat(user, span_smallnotice("You stuffs a piece of cheese into the SCOM discreetly, quietening the rats for a while..."))
+		last_cheese = world.time
+		qdel(W)
+
 /obj/structure/roguemachine/scomm/attack_right(mob/user)
 	if(.)
 		return
@@ -146,7 +176,7 @@
 /obj/structure/roguemachine/scomm/MiddleClick(mob/living/carbon/human/user)
 	if(.)
 		return
-	if((HAS_TRAIT(user, TRAIT_GUARDSMAN) || (user.job == "Watchman") || (user.job == "Warden") || (user.job == "Squire") || (user.job == "Marshal") || (user.job == "Grand Duke") || (user.job == "Knight Captain") || (user.job == "Grand Duchess")))
+	if((HAS_TRAIT(user, TRAIT_GUARDSMAN) || (user.job == "Watchman") || (user.job == "Warden") || (user.job == "Squire") || (user.job == "Marshal") || (user.job == "Grand Duke") || (user.job == "Knight Captain") || (user.job == "Grand Duchess") || (user.job == "Hand")))
 		if(alert("Would you like to swap lines or connect to a jabberline?",, "swap", "jabberline") != "jabberline")
 			garrisonline = !garrisonline
 			to_chat(user, span_info("I [garrisonline ? "connect to the garrison SCOMline" : "connect to the general SCOMLINE"]"))
@@ -182,6 +212,9 @@
 			say("There are no rats running this jabberline.", spans = list("info"))
 			return
 		var/obj/structure/roguemachine/scomm/S = SSroguemachine.scomm_machines[nightcall]
+		if(istype(S, /obj/structure/roguemachine/scomm/receive_only))
+			say("The RCOM has no rats to answer jabberlines.")
+			return
 		if(istype(S, /obj/item/scomstone))
 			say("The jabberline's rats cannot travel to SCOMstones.") //Check prevents a runtime and leaves room to potentially make scomstones callable by ID later.
 			playsound(src, 'sound/vo/mobs/rat/rat_life.ogg', 100, TRUE, -1)
@@ -214,6 +247,10 @@
 		calling = null
 		update_icon()
 
+/obj/structure/roguemachine/scomm/receive_only/MiddleClick(mob/living/carbon/human/user)
+	to_chat(user, span_warning("The RCOM has no rats to send - it can only receive messages."))
+	return
+
 /obj/structure/roguemachine/scomm/obj_break(damage_flag)
 	..()
 	calling?.say("Jabberline severed.", spans = list("info"))
@@ -229,7 +266,6 @@
 
 /obj/structure/roguemachine/scomm/Initialize()
 	. = ..()
-//	icon_state = "scomm[rand(1,2)]"
 	START_PROCESSING(SSroguemachine, src)
 	become_hearing_sensitive()
 	update_icon()
@@ -270,6 +306,9 @@
 /obj/structure/roguemachine/scomm/proc/repeat_message(message, atom/A, tcolor, message_language, list/tspans, broadcaster_tag)
 	if(A == src)
 		return
+	// The SCOM just do not work silently if cheesed 
+	if(last_cheese && (last_cheese + CHEESE_QUIET_TIME >= world.time))
+		return
 	if(tcolor)
 		voicecolor_override = tcolor
 	if(speaking && message)
@@ -284,16 +323,24 @@
 		return
 	if(!listening)
 		return
-	#ifdef USES_SCOM_RESTRICTION
-	if(!calling && !garrisonline)
-		say(span_danger("Either connect to another SCOM via jabberline or go visit the town crier to broadcast a message."))
-		playsound(src, 'sound/vo/mobs/rat/rat_life2.ogg', 100, TRUE, -1)
+	if(receive_only)
+		to_chat(speaker, span_warning("This RCOM is receive only!"))
 		return
-	#endif
+	if(last_cheese && (last_cheese + CHEESE_QUIET_TIME >= world.time))
+		to_chat(speaker, span_warning("The rats seems to be busy nibbling on something!"))
+		return
+	if(world.time < last_message + NORMAL_SCOM_PER_MESSAGE_DELAY)
+		var/time_remaining = round((last_message + NORMAL_SCOM_PER_MESSAGE_DELAY - world.time) / 10)
+		to_chat(speaker, span_warning("The SCOM's rats are still recovering. Wait [time_remaining] more second[time_remaining != 1 ? "s" : ""]."))
+		return
 	var/mob/living/carbon/human/H = speaker
 	var/usedcolor = H.voice_color
 	if(H.voicecolor_override)
 		usedcolor = H.voicecolor_override
+	// Update last message time
+	last_message = world.time
+	// Feedback to indicate successful sending
+	playsound(src, 'sound/vo/mobs/rat/rat_life.ogg', 100, TRUE, -1)
 	if(raw_message)
 		if(calling)
 			if(calling.calling == src)
@@ -301,6 +348,14 @@
 			return
 		if(length(raw_message) > 100) //When these people talk too much, put that shit in slow motion, yeah
 			raw_message = "<small>[raw_message]</small>"
+
+		// Build message prefix with SCOM location.
+		var/message_affix = ""
+		if(scom_number)
+			message_affix = "- [scom_tag ? "([scom_tag])" : ""]"
+		if(message_affix)
+			raw_message = "[raw_message][message_affix]"
+
 		if(garrisonline)
 			raw_message = "<span style='color: [GARRISON_SCOM_COLOR]'>[raw_message]</span>" //Prettying up for Garrison line
 			for(var/obj/item/scomstone/garrison/S in SSroguemachine.scomm_machines)
@@ -312,17 +367,19 @@
 					S.repeat_message(raw_message, src, usedcolor, message_language)
 			SSroguemachine.crown?.repeat_message(raw_message, src, usedcolor, message_language)
 			return
-		#ifndef USES_SCOM_RESTRICTION
-		else 
-			for(var/obj/structure/roguemachine/scomm/S in SSroguemachine.scomm_machines)
-				if(!S.calling)
-					S.repeat_message(raw_message, src, usedcolor, message_language)
-			for(var/obj/item/scomstone/S in SSroguemachine.scomm_machines)
-				S.repeat_message(raw_message, src, usedcolor, message_language)
-			for(var/obj/item/listenstone/S in SSroguemachine.scomm_machines)
-				S.repeat_message(raw_message, src, usedcolor, message_language)//make the listenstone hear scom
-			SSroguemachine.crown?.repeat_message(raw_message, src, usedcolor, message_language)
-		#endif
+		else
+			addtimer(CALLBACK(src, PROC_REF(repeat_message_scom), raw_message, usedcolor, message_language), NORMAL_SCOM_TRANSMISSION_DELAY)
+
+// Repeat message for normal SCOM. Meant to be used in a callback with delay 
+/obj/structure/roguemachine/scomm/proc/repeat_message_scom(raw_message, usedcolor, message_language)
+	for(var/obj/structure/roguemachine/scomm/S in SSroguemachine.scomm_machines)
+		if(!S.calling)
+			S.repeat_message(raw_message, src, usedcolor, message_language)
+	for(var/obj/item/scomstone/S in SSroguemachine.scomm_machines)
+		S.repeat_message(raw_message, src, usedcolor, message_language)
+	for(var/obj/item/listenstone/S in SSroguemachine.scomm_machines)
+		S.repeat_message(raw_message, src, usedcolor, message_language)//make the listenstone hear scom
+	SSroguemachine.crown?.repeat_message(raw_message, src, usedcolor, message_language)
 
 /obj/structure/roguemachine/scomm/proc/dictate_laws()
 	if(dictating)

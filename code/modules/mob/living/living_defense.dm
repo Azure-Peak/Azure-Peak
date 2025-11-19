@@ -47,6 +47,8 @@
 	return BULLET_ACT_HIT
 
 /mob/living/bullet_act(obj/projectile/P, def_zone = BODY_ZONE_CHEST)
+	if(SEND_SIGNAL(src, COMSIG_ATOM_BULLET_ACT, P, def_zone) & COMPONENT_ATOM_BLOCK_BULLET)
+		return
 	def_zone = bullet_hit_accuracy_check(P.accuracy + P.bonus_accuracy, def_zone)
 	var/ap = (P.flag == "blunt") ? BLUNT_DEFAULT_PENFACTOR : P.armor_penetration
 	var/armor = run_armor_check(def_zone, P.flag, "", "",armor_penetration = ap, damage = P.damage, used_weapon = P)
@@ -119,8 +121,10 @@
 		// Hit the selected zone, or else a random zone centered on the chest
 		var/zone = throwingdatum?.target_zone || ran_zone(BODY_ZONE_CHEST, 65)
 		SEND_SIGNAL(I, COMSIG_MOVABLE_IMPACT_ZONE, src, zone)
+		if(SEND_SIGNAL(src, COMSIG_LIVING_IMPACT_ZONE, I, zone) & COMPONENT_CANCEL_THROW)
+			return FALSE
 		if(!blocked)
-			var/ap = (damage_flag == "blunt") ? BLUNT_DEFAULT_PENFACTOR : I.armor_penetration 
+			var/ap = (damage_flag == "blunt") ? BLUNT_DEFAULT_PENFACTOR : I.armor_penetration
 			var/armor = run_armor_check(zone, damage_flag, "", "", armor_penetration = ap, damage = I.throwforce, used_weapon = I)
 			next_attack_msg.Cut()
 			var/nodmg = FALSE
@@ -147,6 +151,16 @@
 			next_attack_msg.Cut()
 			if(I.thrownby)
 				log_combat(I.thrownby, src, "threw and hit", I)
+			var/volume = I.get_volume_by_throwforce_and_or_w_class()
+			if (I.throwforce > 0)
+				if (I.mob_throw_hit_sound)
+					playsound(src, I.mob_throw_hit_sound, volume, TRUE, -1)
+				else if(I.hitsound)
+					playsound(src, pick(I.hitsound), volume, TRUE, -1)
+				else
+					playsound(src, 'sound/blank.ogg',volume, TRUE, -1)
+			else
+				playsound(src, 'sound/blank.ogg', volume, -1)
 		else
 			return 1
 
@@ -243,7 +257,7 @@
 		var/sound_to_play = 'sound/foley/grab.ogg'
 		playsound(src.loc, sound_to_play, 100, FALSE, -1)
 
-	testing("eheh1")
+
 	user.setGrabState(GRAB_AGGRESSIVE)
 	if(user.active_hand_index == 1)
 		if(user.r_grab)

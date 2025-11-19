@@ -13,8 +13,10 @@
 	if(!Adjacent(usr) || !over.Adjacent(usr))
 		return // should stop you from dragging through windows
 	var/list/L = params2list(params)
-	if (L["middle"])
-		over.MiddleMouseDrop_T(src,usr)
+	if (L["right"])
+		over.RightMouseDrop_T(src, usr)
+	else if (L["middle"])
+		over.MiddleMouseDrop_T(src, usr)
 	else
 		if(over == src)
 			return usr.client.Click(src, src_location, src_control, params)
@@ -28,19 +30,20 @@
 			var/list/click_params = params2list(params)
 			if(!click_params || !click_params["icon-x"] || !click_params["icon-y"])
 				return
-			I.pixel_x = round(CLAMP(text2num(click_params["icon-x"]) - 16, -(world.icon_size/2), world.icon_size/2)/modifier, 1)
-			I.pixel_y = round(CLAMP(text2num(click_params["icon-y"]) - 16, -(world.icon_size/2), world.icon_size/2)/modifier, 1)
+			I.pixel_x = round(CLAMP(pixel_x + text2num(click_params["icon-x"]) - 16, pixel_x + -(world.icon_size/2), pixel_x + world.icon_size/2)/modifier, 1)
+			I.pixel_y = round(CLAMP(pixel_y + text2num(click_params["icon-y"]) - 16, pixel_y + -(world.icon_size/2), pixel_y + world.icon_size/2)/modifier, 1)
 			return
 	return
 
 // receive a mousedrop
 /atom/proc/MouseDrop_T(atom/dropping, mob/user)
-	SEND_SIGNAL(src, COMSIG_MOUSEDROPPED_ONTO, dropping, user)
-	return
+	SEND_SIGNAL(src, COMSIG_MOUSEDROPPED_ONTO, dropping, user, "left")
+
+/atom/proc/RightMouseDrop_T(atom/dropping, mob/user)
+	SEND_SIGNAL(src, COMSIG_MOUSEDROPPED_ONTO, dropping, user, "right")
 
 /atom/proc/MiddleMouseDrop_T(atom/dropping, mob/user)
-	SEND_SIGNAL(src, COMSIG_MOUSEDROPPED_ONTO, dropping, user)
-	return
+	SEND_SIGNAL(src, COMSIG_MOUSEDROPPED_ONTO, dropping, user, "middle")
 
 /client
 	var/list/atom/selected_target[2]
@@ -117,7 +120,10 @@
 
 	var/list/L = params2list(params)
 	if (L["right"])
-		mob.face_atom(object, location, control, params)
+		if(mob.buckled)
+			mob.buckled.face_atom(object, location, control, params)
+		else
+			mob.face_atom(object, location, control, params)
 		if(L["left"])
 			return
 		mob.atkswinging = "right"
@@ -151,7 +157,10 @@
 			mouse_pointer_icon = 'icons/effects/mousemice/human_looking.dmi'
 		else
 			if(mob.mmb_intent.get_chargetime() && mob.mmb_intent.can_charge() && !AD.blockscharging)
-				mob.face_atom(object, location, control, params)
+				if(mob.buckled)
+					mob.buckled.face_atom(object, location, control, params)
+				else
+					mob.face_atom(object, location, control, params)
 				updateprogbar()
 			else
 				mouse_pointer_icon = mob.mmb_intent.pointer
@@ -177,6 +186,9 @@
 
 /mob
 	var/datum/intent/curplaying
+
+/atom/proc/should_click_on_mouse_up(var/atom/original_object)
+	return TRUE
 
 /client/MouseUp(object, location, control, params)
 	charging = 0
@@ -223,10 +235,9 @@
 //	var/list/L = params2list(params)
 
 	if(tcompare)
-		if(object)
-			if(isatom(object) && object != tcompare && mob.atkswinging && tcompare != mob)
-				var/atom/N = object
-				N.Click(location, control, params)
+		var/atom/target_atom = object
+		if(istype(target_atom) && target_atom.should_click_on_mouse_up(tcompare) && tcompare != mob && (mob.atkswinging == "middle" || (mob.atkswinging && object != tcompare)))
+			target_atom.Click(location, control, params)
 		tcompare = null
 
 //	mouse_pointer_icon = 'icons/effects/mousemice/human.dmi'
@@ -356,7 +367,11 @@
 		else
 			middragtime = 0
 			middragatom = null
-	mob.face_atom(over_object, over_location, over_control, params)
+
+	if(mob.buckled)
+		mob.buckled.face_atom(over_object, over_location, over_control, params)
+	else
+		mob.face_atom(over_object, over_location, over_control, params)
 
 	mouseParams = params
 	mouseLocation = over_location

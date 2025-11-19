@@ -1092,7 +1092,7 @@
 	candodge = 0
 	},
 /obj/effect/mapping_helpers/floor_clothing_equipper,
-/obj/item/clothing/suit/roguetown/armor/plate/half/paalloy,
+/obj/item/clothing/suit/roguetown/armor/plate/cuirass/paalloy,
 /obj/item/clothing/gloves/roguetown/plate/paalloy,
 /obj/item/clothing/under/roguetown/platelegs/paalloy,
 /obj/item/clothing/shoes/roguetown/boots/leather/reinforced,
@@ -1178,7 +1178,7 @@
 	candodge = 0
 	},
 /obj/effect/mapping_helpers/floor_clothing_equipper,
-/obj/item/clothing/suit/roguetown/armor/plate/half/paalloy,
+/obj/item/clothing/suit/roguetown/armor/plate/cuirass/paalloy,
 /obj/item/clothing/gloves/roguetown/plate/paalloy,
 /obj/item/clothing/head/roguetown/helmet/heavy/paalloy,
 /obj/item/clothing/under/roguetown/platelegs/paalloy,
@@ -1459,7 +1459,7 @@
 /area/rogue/under/tomb)
 "rA" = (
 /obj/structure/rack/rogue/shelf/biggest,
-/obj/item/clothing/suit/roguetown/armor/plate/half/copper,
+/obj/item/clothing/suit/roguetown/armor/plate/cuirass/copper,
 /turf/open/floor/rogue/twig,
 /area/rogue/under/tomb/indoors)
 "rC" = (
@@ -2864,7 +2864,7 @@
 	candodge = 0
 	},
 /obj/effect/mapping_helpers/floor_clothing_equipper,
-/obj/item/clothing/suit/roguetown/armor/plate/half/paalloy,
+/obj/item/clothing/suit/roguetown/armor/plate/cuirass/paalloy,
 /obj/item/clothing/gloves/roguetown/plate/paalloy,
 /obj/item/clothing/head/roguetown/helmet/heavy/paalloy,
 /obj/item/clothing/under/roguetown/platelegs/paalloy,

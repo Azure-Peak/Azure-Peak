@@ -838,7 +838,7 @@
 		return FALSE
 
 	// Eoran alignment check
-	if(!(user.patron.type == /datum/patron/divine/eora))
+	if(!(user.patron.type == /datum/patron/divine/eora) && !HAS_TRAIT(user, TRAIT_CHOSEN))
 		to_chat(user, span_warning("The fruit vanishes as you reach for it!"))
 		return FALSE
 

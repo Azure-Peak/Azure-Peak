@@ -1,6 +1,6 @@
 /datum/coven/presence
 	name = "Presence"
-	desc = "Makes targets in radius more vulnerable to damages."
+	desc = "Invade the mortal mynd, your words are far mightier than any sword. Subjugate them."
 	icon_state = "presence"
 	power_type = /datum/coven_power/presence
 
@@ -25,7 +25,8 @@
 
 /datum/coven_power/presence/awe/pre_activation_checks(mob/living/target)
 	var/mypower = owner.STAINT
-	var/theirpower = owner.STAINT - 5
+	var/mob/living/carbon/human/H = target
+	var/theirpower = H.STAINT - 5
 	if((theirpower >= mypower))
 		to_chat(owner, span_warning("[target]'s mind is too powerful to sway!"))
 		return FALSE
@@ -39,7 +40,8 @@
 	presence_overlay.pixel_z = 1
 	target.overlays_standing[MUTATIONS_LAYER] = presence_overlay
 	target.apply_overlay(MUTATIONS_LAYER)
-
+	to_chat(target, "<span class='userlove'><b>It wouldn't hurt to listen...</b></span>")
+	playsound(target,'sound/villain/wonder.ogg', 40)
 	target.create_walk_to(3 SECONDS, owner)
 
 	if(!owner.cmode)
@@ -52,7 +54,7 @@
 
 /datum/coven_power/presence/awe/deactivate(mob/living/carbon/human/target)
 	. = ..()
-	target.remove_overlay(MUTATIONS_LAYER)
+	target?.remove_overlay(MUTATIONS_LAYER)
 
 //DREAD GAZE
 /datum/coven_power/presence/dread_gaze
@@ -84,6 +86,8 @@
 		addtimer(cb, (i - 1) * target.total_multiplicative_slowdown())
 	target.emote("scream")
 	target.do_jitter_animation(3 SECONDS)
+	to_chat(target, "<span class='userlove'><b>OH GOD, PLEASE SAVE ME!.</b></span>")
+	playsound(target,'sound/villain/wonder.ogg', 40)
 
 /datum/coven_power/presence/dread_gaze/deactivate(mob/living/carbon/human/target)
 	. = ..()
@@ -119,6 +123,8 @@
 
 	target.Immobilize(3 SECONDS)
 	to_chat(target, "<span class='userlove'><b>KNEEL</b></span>")
+	to_chat(target, "<span class='userlove'><b>MY NEW GOD!</b></span>")
+	playsound(target,'sound/villain/wonder_secret_known.ogg', 40)
 	owner.say("KNEEL!!")
 	target.set_resting(TRUE, TRUE)
 

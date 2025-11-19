@@ -171,7 +171,6 @@
 	obj_flags = CAN_BE_HIT
 	destroy_sound = 'sound/combat/hits/onwood/destroyfurniture.ogg'
 	attacked_sound = "woodimpact"
-	sleepy = 0.35
 
 /obj/item/chair/rogue/getonmobprop(tag)
 	. = ..()
@@ -434,7 +433,7 @@
 	anchored = TRUE
 	can_buckle = TRUE
 	buckle_lying = 90
-	sleepy = 3
+	sleepy = 2
 	debris = list(/obj/item/grown/log/tree/small = 1)
 
 /obj/structure/bed/rogue/inn/wool
@@ -452,4 +451,4 @@
 	anchored = TRUE
 	can_buckle = TRUE
 	buckle_lying = 90
-	sleepy = 3
+	sleepy = 1

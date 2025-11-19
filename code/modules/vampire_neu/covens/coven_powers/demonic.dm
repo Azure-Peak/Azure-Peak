@@ -10,9 +10,9 @@
 	desc = "Demonic power description"
 
 //SENSE THE SIN
-/datum/coven_power/demonic/sense_the_sin
-	name = "Sense the Sin"
-	desc = "Become supernaturally resistant to fire."
+/datum/coven_power/demonic/deny_the_mother
+	name = "Deny the Mother"
+	desc = "Immunity to being set on fire for twenty seconds."
 
 	level = 1
 	research_cost = 0
@@ -20,17 +20,23 @@
 	duration_length = 20 SECONDS
 	cooldown_length = 10 SECONDS
 
-/datum/coven_power/demonic/sense_the_sin/activate()
+/datum/coven_power/demonic/deny_the_mother/activate()
 	. = ..()
-	owner.physiology.burn_mod /= 100
 	ADD_TRAIT(owner, TRAIT_NOFIRE, VAMPIRE_TRAIT)
 	owner.color = "#884200"
+	owner.add_stress(/datum/stressevent/vampiric_nostalgia)
+	playsound(get_turf(owner), 'sound/misc/carriage4.ogg', 40, TRUE)
+	owner.visible_message(span_suicide("Blood departs from [owner]'s body, only to form a armored carapace around them!"))
 
-/datum/coven_power/demonic/sense_the_sin/deactivate()
+
+/datum/coven_power/demonic/deny_the_mother/deactivate()
 	. = ..()
 	owner.color = initial(owner.color)
 	REMOVE_TRAIT(owner, TRAIT_NOFIRE, VAMPIRE_TRAIT)
-	owner.physiology.burn_mod *= 100
+	owner.add_stress(/datum/stressevent/vampiric_reality)
+	playsound(get_turf(owner), 'sound/misc/carriage2.ogg', 40, TRUE)
+
+
 
 /datum/coven_power/demonic/fear_of_the_void_below
 	name = "Fear of the Void"
@@ -39,22 +45,24 @@
 	level = 2
 	research_cost = 1
 	check_flags = COVEN_CHECK_CONSCIOUS | COVEN_CHECK_CAPABLE | COVEN_CHECK_LYING | COVEN_CHECK_IMMOBILE
-
-	violates_masquerade = TRUE
+	vitae_cost = 75
+	violates_masquerade = FALSE
 
 	cancelable = TRUE
-	duration_length = 15 SECONDS
+	duration_length = 30 SECONDS
 	cooldown_length = 1 MINUTES
 
 /datum/coven_power/demonic/fear_of_the_void_below/activate()
 	. = ..()
 	owner.add_movespeed_modifier(MOVESPEED_ID_FOTV, multiplicative_slowdown = -0.2)
 	owner.apply_status_effect(/datum/status_effect/buff/fotv)
+	playsound(owner,'sound/misc/portal_op.ogg', 40, TRUE)
 
 /datum/coven_power/demonic/fear_of_the_void_below/deactivate()
 	. = ..()
 	owner.remove_movespeed_modifier(MOVESPEED_ID_FOTV)
 	owner.remove_status_effect(/datum/status_effect/buff/fotv)
+	playsound(owner,'sound/misc/portalactivate.ogg', 40, TRUE)
 
 //CONFLAGRATION
 /datum/coven_power/demonic/conflagration
@@ -77,11 +85,18 @@
 	owner.drop_all_held_items()
 	owner.put_in_r_hand(new /obj/item/rogueweapon/gangrel(owner))
 	owner.put_in_l_hand(new /obj/item/rogueweapon/gangrel(owner))
+	owner.visible_message(
+		span_warning("[owner]'s hands contort, revealing vicious, supernatural claws!"))
+	playsound(get_turf(owner), 'sound/gore/flesh_eat_06.ogg', 40, TRUE)
+
 
 /datum/coven_power/demonic/conflagration/deactivate()
 	. = ..()
 	for(var/obj/item/rogueweapon/gangrel/claws in owner)
 		qdel(claws)
+	owner.visible_message(
+		span_warning("[owner]'s hands emit a vicious sound as they return to their normal form."))
+	playsound(get_turf(owner), 'sound/gore/flesh_eat_03.ogg', 40, TRUE)
 
 //PSYCHOMACHIA
 /datum/coven_power/demonic/psychomachia
@@ -158,11 +173,11 @@
 	icon_state = "claws"
 	max_blade_int = 900
 	max_integrity = 900
-	force = 6
+	force = 11
 	wdefense = 9
 	armor_penetration = 100
 	block_chance = 20
-	associated_skill = /datum/skill/combat/unarmed
+	associated_skill = /datum/skill/magic/blood
 	wlength = WLENGTH_NORMAL
 	wbalance = WBALANCE_NORMAL
 	w_class = WEIGHT_CLASS_BULKY
@@ -176,10 +191,3 @@
 	item_flags = DROPDEL
 	//masquerade_violating = TRUE
 
-/obj/item/rogueweapon/gangrel/afterattack(atom/target, mob/living/carbon/user, proximity)
-	if(!proximity)
-		return
-	if(isliving(target))
-		var/mob/living/L = target
-		L.apply_damage(30, BURN)
-	. = ..()

@@ -155,13 +155,13 @@
 	..()
 
 /obj/item/ingot/Destroy()
+	. = ..()
 	if(currecipe)
 		QDEL_NULL(currecipe)
 	if(istype(loc, /obj/machinery/anvil))
 		var/obj/machinery/anvil/A = loc
 		A.current_workpiece = null
 		A.update_icon()
-	..()
 
 /obj/item/ingot/gold
 	name = "gold bar"

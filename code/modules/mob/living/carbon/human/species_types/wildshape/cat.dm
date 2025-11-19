@@ -4,7 +4,8 @@
 	footstep_type = FOOTSTEP_MOB_CLAW
 	ambushable = FALSE
 	skin_armor = new /obj/item/clothing/suit/roguetown/armor/skin_armor/cat_skin
-	// Someone else balance this, I am here for code, not numbers
+	wildshape_icon = 'icons/mob/pets.dmi'
+	wildshape_icon_state = "cat2"
 
 /mob/living/carbon/human/species/wildshape/cat/gain_inherent_skills()
 	. = ..()
@@ -41,7 +42,8 @@
 		TRAIT_DODGEEXPERT,
 		TRAIT_BRITTLE,
 		TRAIT_LEAPER,
-		TRAIT_ZJUMP //its a CAT. Cats can jump so high!
+		TRAIT_ZJUMP, //its a CAT. Cats can jump so high!
+		TRAIT_WOODWALKER
 	)
 	inherent_biotypes = MOB_HUMANOID
 	no_equip = list(SLOT_SHIRT, SLOT_HEAD, SLOT_WEAR_MASK, SLOT_ARMOR, SLOT_GLOVES, SLOT_SHOES, SLOT_PANTS, SLOT_CLOAK, SLOT_BELT, SLOT_BACK_R, SLOT_BACK_L, SLOT_S_STORE)

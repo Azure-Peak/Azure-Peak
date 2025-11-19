@@ -6,6 +6,9 @@
 	icon_state = "iflail"
 	icon = 'icons/roguetown/weapons/blunt32.dmi'
 	sharpness = IS_BLUNT
+	drop_sound = 'sound/foley/dropsound/chain_drop.ogg'
+	pickup_sound = 'sound/foley/equip/equip_armor_chain.ogg'
+	equip_sound = 'sound/foley/equip/equip_armor_chain.ogg'
 	//dropshrink = 0.75
 	wlength = WLENGTH_NORMAL
 	w_class = WEIGHT_CLASS_NORMAL

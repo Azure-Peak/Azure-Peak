@@ -200,15 +200,15 @@
 		if(SLOT_IN_BACKPACK)
 			not_handled = TRUE
 			if(beltr)
-				testing("insert1")
+
 				if(SEND_SIGNAL(beltr, COMSIG_TRY_STORAGE_INSERT, I, src, TRUE))
 					not_handled = FALSE
 			if(beltl && not_handled)
-				testing("insert2")
+
 				if(SEND_SIGNAL(beltl, COMSIG_TRY_STORAGE_INSERT, I, src, TRUE))
 					not_handled = FALSE
 			if(belt && not_handled)
-				testing("insert3")
+
 				if(SEND_SIGNAL(belt, COMSIG_TRY_STORAGE_INSERT, I, src, TRUE))
 					not_handled = FALSE
 		else
@@ -237,6 +237,8 @@
 	. = ..() //See mob.dm for an explanation on this and some rage about people copypasting instead of calling ..() like they should.
 	if(!. || !I)
 		return
+	if(IS_WEAKREF_OF(I, offered_item_ref))
+		stop_offering_item()
 	if(index && !QDELETED(src) && dna.species.mutanthands) //hand freed, fill with claws, skip if we're getting deleted.
 		put_in_hand(new dna.species.mutanthands(), index)
 	if(I == wear_armor)

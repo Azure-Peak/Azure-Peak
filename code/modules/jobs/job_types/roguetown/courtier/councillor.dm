@@ -14,7 +14,7 @@
 	outfit = /datum/outfit/job/roguetown/councillor
 	advclass_cat_rolls = list(CTAG_COUNCILLOR = 2)
 
-	give_bank_account = 40
+	give_bank_account = TRUE
 	noble_income = 20
 	min_pq = 1 //Probably a bad idea to have a complete newbie advising the monarch
 	max_pq = null
@@ -63,3 +63,5 @@
 	beltl = /obj/item/storage/keyring/steward // If this turns out to be overbearing re:stewardry bump down to the clerk keyring instead.
 	beltr = /obj/item/rogueweapon/huntingknife/idagger/steel
 	cloak = /obj/item/clothing/cloak/stabard/surcoat/councillor
+	if(H.mind)
+		SStreasury.give_money_account(ECONOMIC_RICH, H, "Savings.")

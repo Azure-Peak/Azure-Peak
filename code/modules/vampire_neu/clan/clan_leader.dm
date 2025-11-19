@@ -56,9 +56,7 @@
 /datum/clan_leader/proc/remove_leader(mob/living/carbon/human/H)
 	REMOVE_TRAIT(H, TRAIT_CLAN_LEADER, "clan")
 	for(var/spell_type in lord_spells)
-		var/datum/action/spell_instance = locate(spell_type) in H.actions
-		if(spell_instance)
-			spell_instance.Remove(H)
+		H.mind?.RemoveSpell(spell_type)
 
 	for(var/verb_path in lord_verbs)
 		H.verbs -= verb_path

@@ -260,7 +260,9 @@
 		pintle.functional = TRUE
 		had_disfunctional_pintle = TRUE
 
-	owner?.sexcon?.adjust_charge(SEX_MAX_CHARGE)
+	var/datum/component/arousal/arousal_comp = owner?.GetComponent(/datum/component/arousal)
+	if(arousal_comp)
+		arousal_comp.set_charge(SEX_MAX_CHARGE)  // Fully restore charge
 
 /datum/status_effect/buff/fermented_crab/on_remove()
 	. = ..()
@@ -499,6 +501,17 @@
 		owner.adjustOrganLoss(ORGAN_SLOT_BRAIN, -healing_on_tick)
 		owner.adjustCloneLoss(-healing_on_tick, 0)
 // Lesser miracle effect end
+
+/atom/movable/screen/alert/status_effect/buff/healing/campfire
+	name = "Warming Respite"
+	desc = "The warmth of a fire soothes my ails."
+	icon_state = "buff"
+
+/datum/status_effect/buff/healing/campfire
+	id = "healing_campfire"
+	alert_type = /atom/movable/screen/alert/status_effect/buff/healing/campfire
+	examine_text = null
+	duration = 10 SECONDS
 
 #define BLOODHEAL_DUR_SCALE_PER_LEVEL 3 SECONDS
 #define BLOODHEAL_RESTORE_DEFAULT 5
@@ -1098,7 +1111,76 @@
 	id = "clash"
 	duration = 6 SECONDS
 	var/dur
+	var/sfx_on_apply = 'sound/combat/clash_initiate.ogg'
+	var/swingdelay_mod = 5
 	alert_type = /atom/movable/screen/alert/status_effect/buff/clash
+
+	mob_effect_icon = 'icons/mob/mob_effects.dmi'
+	mob_effect_icon_state = "eff_riposte"
+	mob_effect_layer = MOB_EFFECT_LAYER_GUARD
+
+//We have a lot of signals as the ability is meant to be interrupted by or interact with a lot of mechanics. 
+/datum/status_effect/buff/clash/on_creation(mob/living/new_owner, ...)
+	//!Danger! Zone!
+	//These signals use OVERRIDES and can OVERLAP with anything else using them.
+	//At the moment we have no way of prioritising one signal over the other, it's first-come first-serve. Keep this in mind.
+	RegisterSignal(new_owner, COMSIG_MOB_ITEM_ATTACK, PROC_REF(process_attack))
+	RegisterSignal(new_owner, COMSIG_MOB_ITEM_BEING_ATTACKED, PROC_REF(process_attack))
+
+
+	RegisterSignal(new_owner, COMSIG_MOB_ATTACKED_BY_HAND, PROC_REF(process_touch))
+	RegisterSignal(new_owner, COMSIG_MOB_ON_KICK, PROC_REF(guard_disrupted))
+	RegisterSignal(new_owner, COMSIG_MOB_KICKED, PROC_REF(guard_disrupted))
+	RegisterSignal(new_owner, COMSIG_LIVING_ONJUMP, PROC_REF(guard_disrupted))
+	RegisterSignal(new_owner, COMSIG_CARBON_SWAPHANDS, PROC_REF(guard_disrupted))
+	RegisterSignal(new_owner, COMSIG_ITEM_GUN_PROCESS_FIRE, PROC_REF(guard_disrupted_cheesy))
+	RegisterSignal(new_owner, COMSIG_ATOM_BULLET_ACT, PROC_REF(guard_struck_by_projectile))
+	RegisterSignal(new_owner, COMSIG_LIVING_IMPACT_ZONE, PROC_REF(guard_struck_by_projectile))
+	RegisterSignal(new_owner, COMSIG_LIVING_SWINGDELAY_MOD, PROC_REF(guard_swingdelay_mod))	//I dunno if a signal is better here rather than theoretically cycling through _all_ status effects to apply a var'd swingdelay mod.
+	. = ..()
+
+/datum/status_effect/buff/clash/proc/guard_swingdelay_mod()
+	return swingdelay_mod
+
+/datum/status_effect/buff/clash/proc/process_touch(mob/living/carbon/human/parent, mob/living/carbon/human/attacker, mob/living/carbon/human/defender)
+	var/obj/item/I = defender.get_active_held_item()
+	defender.process_clash(attacker, I, null)
+
+/datum/status_effect/buff/clash/proc/process_attack(mob/living/parent, mob/living/target, mob/user, obj/item/I)
+	var/bad_guard = FALSE
+	var/mob/living/U = user
+	//We have Guard / Clash active, and are hitting someone who doesn't. Cheesing a 'free' hit with a defensive buff is a no-no. You get punished.
+	if(U.has_status_effect(/datum/status_effect/buff/clash) && !target.has_status_effect(/datum/status_effect/buff/clash))
+		if(user == parent)
+			bad_guard = TRUE
+	if(ishuman(target) && target.get_active_held_item() && !bad_guard)
+		var/mob/living/carbon/human/HM = target
+		var/obj/item/IM = target.get_active_held_item()
+		var/obj/item/IU 
+		if(user.used_intent.masteritem)
+			IU = user.used_intent.masteritem
+		HM.process_clash(user, IM, IU)
+		return COMPONENT_NO_ATTACK
+	if(bad_guard)
+		if(ishuman(user))
+			var/mob/living/carbon/human/H = user
+			H.bad_guard(span_suicide("I tried to strike while focused on defense whole! It drains me!"), cheesy = TRUE)
+
+//Mostly here so the child (limbguard) can have special behaviour.
+/datum/status_effect/buff/clash/proc/guard_struck_by_projectile()
+	guard_disrupted()
+
+//Our guard was disrupted by normal means.
+/datum/status_effect/buff/clash/proc/guard_disrupted()
+	if(ishuman(owner))
+		var/mob/living/carbon/human/H = owner
+		H.bad_guard("My focus was disrupted!")
+
+//We tried to cheese it. Generally reserved for egregious things, like attacking / casting while its active.
+/datum/status_effect/buff/clash/proc/guard_disrupted_cheesy()
+	if(ishuman(owner))
+		var/mob/living/carbon/human/H = owner
+		H.bad_guard("My focus was <b>heavily</b> disrupted!")
 
 /datum/status_effect/buff/clash/on_apply()
 	. = ..()
@@ -1106,7 +1188,8 @@
 		return
 	dur = world.time
 	var/mob/living/carbon/human/H = owner
-	H.play_overhead_indicator('icons/mob/overhead_effects.dmi', prob(50) ? "clash" : "clashr", duration, OBJ_LAYER, soundin = 'sound/combat/clash_initiate.ogg', y_offset = 28)
+	if(sfx_on_apply)
+		playsound(H, sfx_on_apply, 100, TRUE)
 
 /datum/status_effect/buff/clash/tick()
 	if(!owner.get_active_held_item() || !(owner.mobility_flags & MOBILITY_STAND))
@@ -1118,11 +1201,19 @@
 	owner.apply_status_effect(/datum/status_effect/debuff/clashcd)
 	var/newdur = world.time - dur
 	var/mob/living/carbon/human/H = owner
-	if(newdur > (duration - 0.3 SECONDS))	//Not checking exact duration to account for lag and any other tick / timing inconsistencies.
+	if(newdur > (initial(duration) - 0.2 SECONDS))	//Not checking exact duration to account for lag and any other tick / timing inconsistencies.
 		H.bad_guard(span_warning("I held my focus for too long. It's left me drained."))
-	var/mutable_appearance/appearance = H.overlays_standing[OBJ_LAYER]
-	H.clear_overhead_indicator(appearance)
-
+	UnregisterSignal(owner, COMSIG_ATOM_BULLET_ACT)
+	UnregisterSignal(owner, COMSIG_MOB_ATTACKED_BY_HAND)
+	UnregisterSignal(owner, COMSIG_MOB_ITEM_ATTACK)
+	UnregisterSignal(owner, COMSIG_MOB_ITEM_BEING_ATTACKED)
+	UnregisterSignal(owner, COMSIG_MOB_ON_KICK)
+	UnregisterSignal(owner, COMSIG_MOB_KICKED)
+	UnregisterSignal(owner, COMSIG_ITEM_GUN_PROCESS_FIRE)
+	UnregisterSignal(owner, COMSIG_CARBON_SWAPHANDS)
+	UnregisterSignal(owner, COMSIG_LIVING_IMPACT_ZONE)
+	UnregisterSignal(owner, COMSIG_LIVING_ONJUMP)
+	UnregisterSignal(owner, COMSIG_LIVING_SWINGDELAY_MOD)
 
 /atom/movable/screen/alert/status_effect/buff/clash
 	name = "Ready to Clash"

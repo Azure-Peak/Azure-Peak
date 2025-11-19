@@ -5,6 +5,10 @@
 	screen_max_rows = 4
 	max_w_class = WEIGHT_CLASS_NORMAL
 
+/datum/component/storage/concrete/roguetown/satchel/cloth
+	screen_max_rows = 3
+	screen_max_columns = 2
+
 /datum/component/storage/concrete/roguetown/backpack
 	screen_max_rows = 7
 	screen_max_columns = 5
@@ -46,6 +50,18 @@
 	screen_max_columns = 1
 	max_w_class = WEIGHT_CLASS_NORMAL
 	not_while_equipped = FALSE
+
+/datum/component/storage/concrete/roguetown/coin_pouch/cloth
+	screen_max_rows = 2
+	screen_max_columns = 1
+
+/datum/component/storage/concrete/roguetown/coin_pouch/merchant
+	screen_max_rows = 4
+	screen_max_columns = 2
+
+/datum/component/storage/concrete/roguetown/coin_pouch/merchant/New(datum/P, ...)
+	. = ..()
+	can_hold = typecacheof(list(/obj/item/roguecoin))
 
 /datum/component/storage/concrete/roguetown/keyring
 	screen_max_rows = 4

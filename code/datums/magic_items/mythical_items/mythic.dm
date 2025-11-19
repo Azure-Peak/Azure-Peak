@@ -1,6 +1,7 @@
 #define INFERNAL_FLAME_COOLDOWN 20 SECONDS
 #define FREEZING_COOLDOWN 20 SECONDS
 #define REWIND_COOLDOWN 20 SECONDS
+#define CHAOS_COOLDOWN 10 SECONDS
 
 //T4 Enchantments
 /datum/magic_item/mythic/infernalflame
@@ -129,9 +130,9 @@
 	var/last_used
 
 /datum/magic_item/mythic/chaos_storm/on_hit(obj/item/source, atom/target, mob/user, proximity_flag, click_parameters)
-	if(world.time < (src.last_used[source] + (10 SECONDS)))
+	.=..()
+	if(world.time < (src.last_used + CHAOS_COOLDOWN))
 		return
-
 	if(isliving(target))
 		var/mob/living/L = target
 		switch(rand(1,5))
@@ -153,4 +154,4 @@
 			if(5)
 				L.confused += 2 SECONDS
 				to_chat(L, span_warning("Chaotic energy scrambles your thoughts!"))
-	last_used[source] = world.time
+		src.last_used = world.time

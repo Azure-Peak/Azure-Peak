@@ -173,8 +173,8 @@
 	/// The current client inhabiting this mob. Managed by login/logout
 	/// This exists so we can do cleanup in logout for occasions where a client was transfere rather then destroyed
 	/// We need to do this because the mob on logout never actually has a reference to client
-	/// We also need to clear this var/do other cleanup in client/Destroy, since that happens before logout 
-	var/client/canon_client 
+	/// We also need to clear this var/do other cleanup in client/Destroy, since that happens before logout
+	var/client/canon_client
 
 	/// Can this mob enter shuttles
 	var/move_on_shuttle = 1
@@ -311,3 +311,8 @@
 
 	// The last tick where we manually moved, or clicked on something in-world. Useful for preventing abuse of mobs with AFK players.
 	var/last_client_interact = 0
+
+	var/datum/weakref/offered_item_ref
+
+	/// cooldown for the next time this person can offer
+	COOLDOWN_DECLARE(offer_cooldown)

@@ -66,7 +66,7 @@
 
 /datum/wound/dynamic/bite/upgrade(dam, armor)
 	whp += (dam * BITE_UPG_WHPRATE)
-	bleed_rate += clamp((dam * BITE_UPG_BLEEDRATE), 0.1, ((armor > 0) ? BITE_UPG_CLAMP_ARMORED : BITE_UPG_CLAMP_RAW))
+	set_bleed_rate(bleed_rate + clamp((dam * BITE_UPG_BLEEDRATE), 0.1, ((armor > 0) ? BITE_UPG_CLAMP_ARMORED : BITE_UPG_CLAMP_RAW)))
 	sew_threshold += (dam * BITE_UPG_SEWRATE)
 	woundpain += (dam * BITE_UPG_PAINRATE)
 	armor_check(armor, BITE_ARMORED_BLEED_CLAMP)

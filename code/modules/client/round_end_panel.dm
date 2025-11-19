@@ -1,6 +1,6 @@
 /// Shows round end popup with all kind of statistics
 /client/proc/show_round_stats(featured_stat)
-	if(SSticker.current_state != GAME_STATE_FINISHED && !check_rights(R_ADMIN))
+	if(SSticker.current_state != GAME_STATE_FINISHED && !check_rights(R_ADMIN|R_DEBUG))
 		return
 
 	var/list/data = list()

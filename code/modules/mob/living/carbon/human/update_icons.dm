@@ -1929,7 +1929,7 @@ generate/load female uniform sprites matching all previously decided variables
 	if (!istype(HD))
 		return
 
-	testing("ehadonly [src]")
+
 	HD.update_limb()
 
 	add_overlay(HD.get_limb_icon())

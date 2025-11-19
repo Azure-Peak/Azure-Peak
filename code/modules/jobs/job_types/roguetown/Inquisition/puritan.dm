@@ -28,7 +28,7 @@
 /datum/outfit/job/roguetown/puritan
 	name = "Inquisitor"
 	jobtype = /datum/job/roguetown/puritan
-	job_bitflag = BITFLAG_CHURCH	//Counts as church.
+	job_bitflag = BITFLAG_HOLY_WARRIOR	//Counts as church.
 	allowed_patrons = list(/datum/patron/old_god)
 
 //// The Inquisitor. Jack of all trades, master of none. Respectable assortment of skills, stats, and equipment; good at both subterfuge and combat. Functions very well on their own, and even better with a full sect.

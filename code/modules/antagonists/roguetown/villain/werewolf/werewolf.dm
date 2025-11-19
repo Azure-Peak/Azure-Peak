@@ -29,7 +29,8 @@
 		TRAIT_ZJUMP,
 		TRAIT_NOSLEEP,
 		TRAIT_GRABIMMUNE,
-		TRAIT_STRONGBITE
+		TRAIT_STRONGBITE,
+		TRAIT_LYCANRESILENCE,
 	)
 	confess_lines = list(
 		"THE BEAST INSIDE ME!",
@@ -150,20 +151,23 @@
 	to_chat(src, span_warning("I feed on succulent flesh. I feel reinvigorated."))
 	return src.reagents.add_reagent(/datum/reagent/medicine/healthpot, healing_amount)
 
-/obj/item/clothing/suit/roguetown/armor/skin_armor/werewolf_skin
+/obj/item/clothing/suit/roguetown/armor/regenerating/skin/werewolf_skin
 	slot_flags = null
 	name = "verewolf's skin"
-	desc = ""
+	desc = "an impenetrable hide of dendor's fury"
 	icon_state = null
 	body_parts_covered = FULL_BODY
 	body_parts_inherent = FULL_BODY
 	armor = ARMOR_WWOLF
-	prevent_crits = list(BCLASS_CUT, BCLASS_CHOP, BCLASS_STAB, BCLASS_BLUNT, BCLASS_TWIST)
+	prevent_crits = list(BCLASS_CUT, BCLASS_CHOP, BCLASS_STAB, BCLASS_BLUNT, BCLASS_TWIST, BCLASS_PICK, BCLASS_SMASH)
 	blocksound = SOFTHIT
 	blade_dulling = DULLING_BASHCHOP
 	sewrepair = FALSE
 	max_integrity = 550
 	item_flags = DROPDEL
+	repair_time = 15 SECONDS
+	interrupt_damount = 35
+
 
 /datum/intent/simple/werewolf
 	name = "claw"
@@ -179,6 +183,16 @@
 	miss_sound = "bluntwooshlarge"
 	item_d_type = "slash"
 
+
+/datum/intent/mace/smash/werewolf
+	name = "thrash"
+	desc = "A powerful, smash of lycan muscle that deals normal damage but can throw a standing opponent back and slow them down, based on your strength. Ineffective below 10 strength. Slowdown & Knockback scales to your Strength up to 15 (1 - 5 tiles). Cannot be used consecutively more than every 5 seconds on the same target. Prone targets halve the knockback distance."
+	icon_state = "insmash"
+	maxrange = 5
+	chargetime = 1
+	penfactor = 50
+
+
 /obj/item/rogueweapon/werewolf_claw
 	name = "Verevolf Claw"
 	desc = ""
@@ -191,7 +205,6 @@
 	force = 25
 	block_chance = 0
 	wdefense = 2
-	armor_penetration = 15
 	associated_skill = /datum/skill/combat/unarmed
 	wlength = WLENGTH_NORMAL
 	wbalance = WBALANCE_HEAVY
@@ -200,7 +213,7 @@
 	sharpness = IS_SHARP
 	parrysound = "bladedmedium"
 	swingsound = BLADEWOOSH_MED
-	possible_item_intents = list(/datum/intent/simple/werewolf)
+	possible_item_intents = list(/datum/intent/simple/werewolf, /datum/intent/mace/smash/werewolf)
 	parrysound = list('sound/combat/parry/parrygen.ogg')
 	embedding = list("embedded_pain_multiplier" = 0, "embed_chance" = 0, "embedded_fall_chance" = 0)
 	item_flags = DROPDEL

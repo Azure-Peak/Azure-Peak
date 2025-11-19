@@ -10,9 +10,26 @@
 	chargedrain = 1
 	chargetime = 0
 	no_early_release = TRUE
-	recharge_time = 2 MINUTES
+	recharge_time = 1 MINUTES
 	movement_interrupt = FALSE
+	var/datum/status_effect/song_effect = null
 
+/obj/effect/proc_holder/spell/invoked/song/cast(mob/living/user = usr)
+	if(song_effect && user.has_status_effect(song_effect))
+		user.remove_status_effect(song_effect)
+		to_chat(user, span_warning("I stop my previous song."))
+		return TRUE
+	if(user.has_status_effect(/datum/status_effect/buff/playing_music))
+		for(var/datum/status_effect/buff/playing_melody/melodies in user.status_effects)
+			user.remove_status_effect(melodies)
+		for(var/datum/status_effect/buff/playing_dirge/dirges in user.status_effects)
+			user.remove_status_effect(dirges)
+		user.apply_status_effect(song_effect)
+		return TRUE
+	else
+		revert_cast()
+		to_chat(user, span_warning("I must be playing something to inspire my audience!"))
+		return
 
 /datum/status_effect/buff/playing_dirge
 	id = "play_dirge"

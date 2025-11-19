@@ -110,7 +110,7 @@
 /obj/machinery/light/rogue/attackby(obj/item/W, mob/living/user, params)
 	var/datum/skill/craft/cooking/cs = user?.get_skill_level(/datum/skill/craft/cooking)
 	var/cooktime_divisor = get_cooktime_divisor(cs)
-	if(cookonme)
+	if(cookonme && on)
 		if(istype(W, /obj/item/reagent_containers/food/snacks))
 			if(istype(W, /obj/item/reagent_containers/food/snacks/egg))
 				to_chat(user, "<span class='warning'>I wouldn't be able to cook this over the fire...</span>")

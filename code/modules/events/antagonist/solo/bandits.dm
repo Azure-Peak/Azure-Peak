@@ -9,40 +9,7 @@
 	antag_flag = ROLE_BANDIT
 	shared_occurence_type = SHARED_MINOR_THREAT
 
-	restricted_roles = list(
-		"Grand Duke",
-		"Grand Duchess",
-		"Consort",
-		"Dungeoneer",
-		"Sergeant",
-		"Men-at-arms",
-		"Marshal",
-		"Merchant",
-		"Bishop",
-		"Acolyte",
-		"Martyr",
-		"Templar",
-		"Councillor",
-		"Prince",
-		"Princess",
-		"Hand",
-		"Steward",
-		"Head Physician",
-		"Town Crier",
-		"Keeper",
-		"Captain",
-		"Archivist",
-		"Knight",
-		"Court Magician",
-		"Inquisitor",
-		"Orthodoxist",
-		"Absolver",
-		"Warden",
-		"Squire",
-		"Veteran",
-		"Apothecary"
-	)
-
+	restricted_roles = DEFAULT_ANTAG_BLACKLISTED_ROLES
 	base_antags = 5
 	maximum_antags = 10
 

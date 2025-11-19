@@ -21,7 +21,7 @@
 	cost = 13
 	contains = list(/obj/item/storage/backpack/rogue/satchel)
 
-/datum/supply_pack/rogue/adventure_supplies/satchel
+/datum/supply_pack/rogue/adventure_supplies/shortsatchel
 	name = "Satchel, Short"
 	cost = 13
 	contains = list(/obj/item/storage/backpack/rogue/satchel/short)

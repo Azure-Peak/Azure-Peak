@@ -326,6 +326,11 @@
 	desc = span_red("Their face is unbearable!")
 	timer = 3 MINUTES
 
+/datum/stressevent/leprosy
+	stressadd = 1
+	desc = span_red("A disgusting leper. Better keep my distance.")
+	timer = 3 MINUTES
+
 /datum/stressevent/uncanny
 	stressadd = 2
 	desc = span_red("Their face is.. wrong!")
@@ -397,7 +402,37 @@
 	desc = span_red("Where is their head? What is that flame?!")
 	timer = 5 MINUTES
 
+/datum/stressevent/hunted // When a hunted character sees someone in a mask
+	timer = 2 MINUTES
+	stressadd = 3
+	desc = span_boldred("I can't see their face! Have they found me!")
+
+/datum/stressevent/profane // When a non-assassin touches a profane dagger
+	timer = 3 MINUTES
+	stressadd = 4
+	desc = span_boldred("I hear the voices of the damned from this cursed blade!")
+
 /datum/stressevent/fermented_crab_bad
 	stressadd = 2
 	desc = span_red("That fermented crab was truly rancid, abhorrent and disgusting.")
 	timer = 3 MINUTES
+
+/datum/stressevent/vampiric_reality
+	stressadd = 3
+	desc = span_boldred("The holy sun returns, it's only a matter of time until I turn to ash. I wish to be Mortal again.")
+	timer = 30 SECONDS
+
+/datum/stressevent/dimwitted
+	timer = 10 MINUTES
+	stressadd = -4
+	desc = span_green("Everything is nice and simple...")
+
+/datum/stressevent/feebleminded
+	timer = 10 MINUTES
+	stressadd = -10
+	desc = span_green("Heeh...")
+
+/datum/stressevent/arcane_high
+	timer = 10 MINUTES
+	stressadd = -2
+	desc = span_green("Since my magical accident, everything just seems so funny!")

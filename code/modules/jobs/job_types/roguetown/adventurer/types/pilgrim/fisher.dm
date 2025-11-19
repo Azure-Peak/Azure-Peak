@@ -4,7 +4,7 @@
 	allowed_sexes = list(MALE, FEMALE)
 	allowed_races = RACES_ALL_KINDS
 	outfit = /datum/outfit/job/roguetown/adventurer/fisher
-	
+
 	category_tags = list(CTAG_PILGRIM, CTAG_TOWNER)
 	traits_applied = list(TRAIT_CAUTIOUS_FISHER, TRAIT_HOMESTEAD_EXPERT)
 	subclass_stats = list(
@@ -79,3 +79,5 @@
 							/obj/item/flashlight/flare/torch = 1,
 							/obj/item/rogueweapon/scabbard/sheath = 1
 							)
+	if(H.mind)
+		SStreasury.give_money_account(ECONOMIC_WORKING_CLASS, H, "Savings.")

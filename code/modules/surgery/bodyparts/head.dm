@@ -226,6 +226,10 @@
 			if(eyes.eye_color)
 				eyes_overlay.color = "#" + eyes.eye_color
 
+/obj/item/bodypart/head/MiddleClick(mob/living/user, params)
+	to_chat(user, span_notice("You contemplate carving what little scraps of meat you can from \the [src], but then think better of it. Probably worth something to someone, somewhere..."))
+	return
+
 /obj/item/bodypart/head/monkey
 	icon = 'icons/mob/animal_parts.dmi'
 	icon_state = "default_monkey_head"

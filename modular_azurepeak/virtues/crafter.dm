@@ -3,6 +3,7 @@
 	name = "Blacksmith's Apprentice"
 	desc = "In my youth, I worked under a skilled blacksmith, honing my skills with an anvil."
 	added_traits = list(TRAIT_SMITHING_EXPERT)
+	softcap = TRUE
 	added_skills = list(list(/datum/skill/craft/crafting, 2, 2),
 						list(/datum/skill/craft/weaponsmithing, 2, 2),
 						list(/datum/skill/craft/armorsmithing, 2, 2),
@@ -14,6 +15,7 @@
 	name = "Tailor's Apprentice"
 	desc = "In my youth, I worked under a skilled tailor, studying fabric and design."
 	added_traits = list(TRAIT_SEWING_EXPERT)
+	softcap = TRUE
 	added_skills = list(list(/datum/skill/craft/crafting, 2, 2),
 						list(/datum/skill/labor/butchering, 2, 2),
 						list(/datum/skill/craft/sewing, 2, 2),
@@ -29,6 +31,7 @@
 	desc = "In my youth, I worked under a skilled physician, studying medicine and alchemy."
 	added_traits = list(TRAIT_MEDICINE_EXPERT, TRAIT_ALCHEMY_EXPERT)
 	added_stashed_items = list("Medicine Pouch" = /obj/item/storage/belt/rogue/pouch/medicine)
+	softcap = TRUE
 	added_skills = list(list(/datum/skill/craft/crafting, 2, 2),
 						list(/datum/skill/craft/alchemy, 2, 2),
 						list(/datum/skill/misc/medicine, 2, 2)
@@ -43,6 +46,7 @@
 	name = "Hunter's Apprentice"
 	desc = "In my youth, I trained under a skilled hunter, learning how to butcher animals and work with leather/hide."
 	added_traits = list(TRAIT_SURVIVAL_EXPERT)
+	softcap = TRUE
 	added_skills = list(list(/datum/skill/craft/crafting, 2, 2),
 						list(/datum/skill/craft/traps, 2, 2),
 						list(/datum/skill/labor/butchering, 2, 2),
@@ -55,6 +59,7 @@
 	name = "Artificer's Apprentice"
 	desc = "In my youth, I worked under a skilled artificer, studying construction and engineering."
 	added_traits = list(TRAIT_SMITHING_EXPERT)
+	softcap = TRUE
 	added_skills = list(list(/datum/skill/craft/crafting, 2, 2),
 						list(/datum/skill/craft/carpentry, 2, 2),
 						list(/datum/skill/craft/masonry, 2, 2),

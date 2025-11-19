@@ -14,20 +14,12 @@
 	damage = max(damage-blocked,0)
 //	var/hit_percent = (100-blocked)/100
 	if(!damage || (!forced && hit_percent <= 0))
-		testing("faildam")
+
 		return 0
 	clear_typing_indicator()
 	var/damage_amount =  forced ? damage : damage * hit_percent
 	switch(damagetype)
 		if(BRUTE)
-//			if(HAS_TRAIT(src, TRAIT_SIMPLE_WOUNDS))
-//				if(stat != DEAD && def_zone)
-//					testing("def_zone check [def_zone] [src]")
-//					if((health - damage_amount) <= 0)
-//						var/list/acceptable_death_zones = list("body", "chest", "stomach", "belly", "head", "torso")
-//						if(!(def_zone in acceptable_death_zones))
-//							testing("[def_zone] is not an acceptable death zone for [src]")
-//							return 1
 			adjustBruteLoss(damage_amount, forced = forced)
 		if(BURN)
 			adjustFireLoss(damage_amount, forced = forced)
@@ -160,7 +152,14 @@
 /mob/living/proc/adjustBruteLoss(amount, updating_health = TRUE, forced = FALSE, required_status)
 	if(!forced && (status_flags & GODMODE))
 		return FALSE
+
+	. = bruteloss
 	bruteloss = CLAMP((bruteloss + (amount * CONFIG_GET(number/damage_multiplier))), 0, maxHealth * 2)
+	. -= bruteloss
+
+	if (!.)
+		return FALSE
+
 	if(updating_health)
 		updatehealth()
 	return amount
@@ -175,7 +174,14 @@
 		mob_timers["lastoxydam"] = world.time
 	if(has_status_effect(/datum/status_effect/buff/fortify) && amount < 0)
 		amount *= 1.5
+
+	. = oxyloss
 	oxyloss = CLAMP((oxyloss + (amount * CONFIG_GET(number/damage_multiplier))), 0, maxHealth * 2)
+	. -= oxyloss
+
+	if (!.)
+		return FALSE
+
 	if(updating_health)
 		updatehealth()
 	return amount
@@ -194,7 +200,14 @@
 /mob/living/proc/adjustToxLoss(amount, updating_health = TRUE, forced = FALSE)
 	if(!forced && (status_flags & GODMODE))
 		return FALSE
+
+	. = toxloss
 	toxloss = CLAMP((toxloss + (amount * CONFIG_GET(number/damage_multiplier))), 0, maxHealth * 2)
+	. -= toxloss
+
+	if (!.)
+		return FALSE
+
 	if(updating_health)
 		updatehealth()
 	return amount
@@ -213,7 +226,14 @@
 /mob/living/proc/adjustFireLoss(amount, updating_health = TRUE, forced = FALSE)
 	if(!forced && (status_flags & GODMODE))
 		return FALSE
+
+	. = fireloss
 	fireloss = CLAMP((fireloss + (amount * CONFIG_GET(number/damage_multiplier))), 0, maxHealth * 2)
+	. -= fireloss
+
+	if (!.)
+		return FALSE
+	
 	if(updating_health)
 		updatehealth()
 	return amount
@@ -224,7 +244,14 @@
 /mob/living/proc/adjustCloneLoss(amount, updating_health = TRUE, forced = FALSE)
 	if(!forced && (status_flags & GODMODE))
 		return FALSE
+
+	. = cloneloss
 	cloneloss = CLAMP((cloneloss + (amount * CONFIG_GET(number/damage_multiplier))), 0, maxHealth * 2)
+	. -= cloneloss
+
+	if (!.)
+		return FALSE
+
 	if(updating_health)
 		updatehealth()
 	return amount

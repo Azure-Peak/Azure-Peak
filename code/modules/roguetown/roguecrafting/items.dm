@@ -11,6 +11,42 @@
 	abstract_type = /datum/crafting_recipe/roguetown/survival/
 	skillcraft = /datum/skill/craft/crafting
 
+/datum/crafting_recipe/roguetown/survival/repairkitclothbad
+	name = "fabric patch" //9 fiber
+	result = /obj/item/repair_kit/bad
+	reqs = list(
+		/obj/item/natural/cloth = 2,
+		/obj/item/natural/fibers = 2,
+		/obj/item/rope = 1,
+		)
+	craftdiff = 3
+
+/datum/crafting_recipe/roguetown/survival/repairkitmetal
+	name = "empty metal kit (iron bar)"
+	result = /obj/item/armorkit_empty
+	reqs = list(
+		/obj/item/ingot/iron = 1,
+		)
+	craftdiff = 3
+
+/datum/crafting_recipe/roguetown/survival/repairkitmetal
+	name = "empty metal kit (scrap)"
+	result = /obj/item/armorkit_empty
+	reqs = list(
+		/obj/item/scrap = 3,
+		)
+	craftdiff = 3
+
+/datum/crafting_recipe/roguetown/survival/repairkitcloth
+	name = "sewing kit"
+	result = /obj/item/repair_kit
+	reqs = list(
+		/obj/item/natural/cloth = 4,
+		/obj/item/natural/hide/cured = 2,
+		)
+	skillcraft = /datum/skill/craft/sewing
+	craftdiff = 4 //Expert
+
 /datum/crafting_recipe/roguetown/survival/tneedle
 	name = "sewing needle"
 	result = /obj/item/needle/thorn
@@ -426,7 +462,8 @@
 /datum/crafting_recipe/roguetown/survival/purify_lux
 	name = "purifiy lux"
 	result = list(
-		/obj/item/reagent_containers/lux
+		/obj/item/heart_blood_canister,
+		/obj/item/reagent_containers/lux,
 		)
 	reqs = list(
 		/obj/item/reagent_containers/lux_impure = 1,
@@ -438,7 +475,10 @@
 /datum/crafting_recipe/roguetown/survival/purify_lux_vials
 	name = "purifiy lux (vials)"
 	result = list(
-		/obj/item/reagent_containers/lux
+		/obj/item/reagent_containers/lux,
+		/obj/item/heart_blood_vial,
+		/obj/item/heart_blood_vial,
+		/obj/item/heart_blood_vial,
 		)
 	reqs = list(
 		/obj/item/reagent_containers/lux_impure = 1,

@@ -9,6 +9,7 @@
 		"YOU CANNOT KILL ME!",
 	)
 	rogue_enabled = TRUE
+
 	var/list/phylacteries = list()
 	var/out_of_lives = FALSE
 
@@ -42,6 +43,9 @@
 	var/STAINT = 10
 	var/STAWIL = 10
 	var/STAPER = 10
+
+/datum/antagonist/lich/get_antag_cap_weight()
+	return 3
 
 /datum/antagonist/lich/on_gain()
 	SSmapping.retainer.liches |= owner
@@ -144,6 +148,7 @@
 		H.mind.AddSpell(new /obj/effect/proc_holder/spell/self/lich_announce)
 		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/convert_heretic)
 		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/tame_undead)
+		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/raise_deadite)
 	H.ambushable = FALSE
 
 	addtimer(CALLBACK(H, TYPE_PROC_REF(/mob/living/carbon/human, choose_name_popup), "LICH"), 5 SECONDS)
@@ -199,7 +204,7 @@
 		/obj/item/clothing/shoes/roguetown/boots,
 		/obj/item/clothing/neck/roguetown/chaincoif,
 		/obj/item/clothing/cloak/raincloak/mortus,
-		/obj/item/clothing/suit/roguetown/armor/plate/blacksteel_half_plate,
+		/obj/item/clothing/suit/roguetown/armor/plate/blacksteel,
 		/obj/item/clothing/suit/roguetown/shirt/tunic/ucolored,
 		/obj/item/clothing/wrists/roguetown/bracers,
 		/obj/item/clothing/gloves/roguetown/chain,

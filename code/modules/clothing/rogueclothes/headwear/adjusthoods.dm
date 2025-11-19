@@ -22,6 +22,8 @@
 	max_integrity = 100
 	sewrepair = TRUE
 	block2add = FOV_BEHIND
+	salvage_result = /obj/item/natural/cloth
+	salvage_amount = 1
 
 /obj/item/clothing/head/roguetown/roguehood/ComponentInitialize()
 	. = ..()
@@ -79,6 +81,8 @@
 	sewrepair = TRUE
 	mask_override = TRUE
 	overarmor = FALSE
+	salvage_result = /obj/item/natural/cloth
+	salvage_amount = 1
 
 /obj/item/clothing/head/roguetown/roguehood/shalal/black
 	color = CLOTHING_BLACK
@@ -135,6 +139,8 @@
 	toggle_icon_state = TRUE
 	max_integrity = 100
 	resistance_flags = FIRE_PROOF
+	salvage_result = /obj/item/natural/cloth
+	salvage_amount = 1
 
 /obj/item/clothing/head/roguetown/roguehood/abyssor
 	name = "depths hood"
@@ -150,6 +156,8 @@
 	adjustable = CAN_CADJUST
 	toggle_icon_state = TRUE
 	max_integrity = 100
+	salvage_result = /obj/item/natural/cloth
+	salvage_amount = 1
 
 /obj/item/clothing/head/roguetown/roguehood/ravoxgorget
 	name = "ravox's tabard gorget"
@@ -161,6 +169,8 @@
 	flags_inv = HIDENECK
 	dynamic_hair_suffix = ""
 	sewrepair = TRUE
+	salvage_result = /obj/item/natural/cloth
+	salvage_amount = 1
 
 //............... Feldshers Hood ............... //
 /obj/item/clothing/head/roguetown/roguehood/feld
@@ -170,6 +180,8 @@
 	item_state = "feldhood"
 	body_parts_covered = HEAD|EARS|NOSE
 	color = null
+	salvage_result = /obj/item/natural/cloth
+	salvage_amount = 1
 
 //............... Physicians Hood ............... //
 /obj/item/clothing/head/roguetown/roguehood/phys
@@ -179,6 +191,8 @@
 	item_state = "surghood"
 	body_parts_covered = HEAD|EARS|NOSE
 	color = null
+	salvage_result = /obj/item/natural/cloth
+	salvage_amount = 1
 
 //Agnostic variants for use in the loadout.
 
@@ -189,6 +203,8 @@
 	item_state = "feldhood"
 	body_parts_covered = HEAD|EARS|NOSE
 	color = null
+	salvage_result = /obj/item/natural/cloth
+	salvage_amount = 1
 
 /obj/item/clothing/head/roguetown/roguehood/shroudblack
 	name = "black shroud"
@@ -197,6 +213,8 @@
 	item_state = "surghood"
 	body_parts_covered = HEAD|EARS|NOSE
 	color = null
+	salvage_result = /obj/item/natural/cloth
+	salvage_amount = 1
 
 //
 
@@ -219,6 +237,8 @@
 	adjustable = CAN_CADJUST
 	toggle_icon_state = TRUE
 	max_integrity = 200
+	salvage_result = /obj/item/natural/cloth
+	salvage_amount = 1
 
 /obj/item/clothing/head/roguetown/roguehood/psydon/confessor
 	name = "confessional hood"
@@ -236,6 +256,8 @@
 	adjustable = CAN_CADJUST
 	toggle_icon_state = TRUE
 	max_integrity = 200
+	salvage_result = /obj/item/natural/cloth
+	salvage_amount = 1
 
 /obj/item/clothing/head/roguetown/roguehood/hierophant
 	name = "hierophant's pashmina"
@@ -246,6 +268,8 @@
 	icon_state = "deserthood"
 	item_state = "deserthood"
 	naledicolor = TRUE
+	salvage_result = /obj/item/natural/cloth
+	salvage_amount = 1
 
 /obj/item/clothing/head/roguetown/roguehood/pontifex
 	name = "pontifex's pashmina"
@@ -256,3 +280,5 @@
 	icon_state = "monkhood"
 	item_state = "monkhood"
 	naledicolor = TRUE
+	salvage_result = /obj/item/natural/cloth
+	salvage_amount = 1

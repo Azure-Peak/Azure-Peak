@@ -282,7 +282,7 @@
 
 /datum/outfit/job/roguetown/heartfelt/prior/pre_equip(mob/living/carbon/human/H)
 	..()
-	H.mind.current.faction += "[H.name]_faction"
+	H.mind?.current.faction += "[H.name]_faction"
 	neck = /obj/item/clothing/neck/roguetown/psicross/astrata
 	shirt = /obj/item/clothing/suit/roguetown/shirt/undershirt/priest
 	pants = /obj/item/clothing/under/roguetown/tights/black

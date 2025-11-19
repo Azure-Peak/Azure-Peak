@@ -27,7 +27,7 @@ GLOBAL_LIST_INIT(admin_verbs_debug_mapping, list(
 	/client/proc/set_server_fps,	//allows you to set the ticklag.
 	/client/proc/cmd_admin_areatest_all,
 	/client/proc/cmd_admin_areatest_station,
-	#ifdef TESTING
+	#ifdef LOCALTEST
 	/client/proc/see_dirty_varedits,
 	#endif
 	/client/proc/cmd_admin_rejuvenate,
@@ -57,7 +57,7 @@ GLOBAL_PROTECT(admin_verbs_debug_mapping)
 /obj/effect/debugging/marker/Move()
 	return 0
 
-#ifdef TESTING
+#ifdef LOCALTEST
 GLOBAL_LIST_EMPTY(dirty_vars)
 
 /client/proc/see_dirty_varedits()

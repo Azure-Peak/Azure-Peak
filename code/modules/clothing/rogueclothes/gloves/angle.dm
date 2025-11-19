@@ -14,6 +14,7 @@
 	anvilrepair = null
 	sewrepair = TRUE
 	salvage_result = /obj/item/natural/fur
+	color = "#4d4d4d"
 
 /obj/item/clothing/gloves/roguetown/angle/grenzelgloves
 	name = "grenzelhoft gloves"
@@ -21,12 +22,15 @@
 	icon_state = "grenzelgloves"
 	item_state = "grenzelgloves"
 	sleeved = 'icons/roguetown/clothing/onmob/helpers/stonekeep_merc.dmi'
+	color = "#ffffff"
 
 /obj/item/clothing/gloves/roguetown/angle/grenzelgloves/blacksmith
 	name = "forge gauntlets"
+	color = "#ffffff"
 
 /obj/item/clothing/gloves/roguetown/angle/pontifex
 	name = "rune-scrybed wrappings"
 	desc = "Paper and cloth bandages enscrybed with powerful naledian runes. They do an ample job of protecting their user's hands in combat."
 	icon_state = "clothwraps"
 	item_state = "clothwraps"
+	color = "#ffffff"

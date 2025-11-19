@@ -16,6 +16,7 @@ And it also helps for the character set panel
 	/// List of traits that are applied to members of this Clan
 	var/list/clane_traits = list(
 		TRAIT_STRONGBITE,
+		TRAIT_VAMPBITE,
 		TRAIT_NOHUNGER,
 		TRAIT_NOBREATH,
 		TRAIT_NOPAIN,
@@ -251,9 +252,13 @@ And it also helps for the character set panel
 	SHOULD_CALL_PARENT(TRUE)
 
 	UnregisterSignal(vampire, COMSIG_HUMAN_LIFE)
+	UnregisterSignal(vampire, COMSIG_MOB_ORGAN_REMOVED)
+
+	var/datum/action/clan_menu/clan_action = locate(/datum/action/clan_menu) in vampire.actions
+	QDEL_NULL(clan_action)
 
 	// Remove unique Clan feature traits
-	for (var/trait in clane_traits)
+	for(var/trait in clane_traits)
 		REMOVE_TRAIT(vampire, trait, "clan")
 
 	vampire.update_body()
@@ -267,6 +272,25 @@ And it also helps for the character set panel
 	if(disguise_comp)
 		qdel(disguise_comp)
 
+	vampire.verbs -= /mob/living/carbon/human/proc/disguise_verb
+
+
+	// Restore normal eyes
+	var/obj/item/organ/eyes/eyes = vampire.getorganslot(ORGAN_SLOT_EYES)
+	if(istype(eyes, /obj/item/organ/eyes/night_vision/vampire))
+		var/list/eyecache = vampire.cache_eye_color()
+		eyes.Remove(vampire, TRUE)
+		QDEL_NULL(eyes)
+		eyes = new /obj/item/organ/eyes()
+		eyes.Insert(vampire)
+		vampire.set_eye_color(eyecache["eye_color"], eyecache["second_color"], TRUE)
+
+	// Reset mob biotype to non-undead
+	vampire.mob_biotypes = initial(vampire.mob_biotypes)
+
+	// Deactivate all active coven powers before removal
+	disable_covens(vampire)
+
 	clan_members -= vampire
 
 	if(vampire.clan_position)
@@ -274,6 +298,11 @@ And it also helps for the character set panel
 
 	for(var/datum/coven/coven as anything in clane_covens)
 		vampire.remove_coven(coven)
+
+	// Bloodheal coven has snowflake behavior since it is added to all vampires. So - snowflake removal.
+	// Covens are stored in an associative list by name, so we access by name
+	if(vampire.covens && vampire.covens["Bloodheal"])
+		vampire.remove_coven("Bloodheal")
 
 	var/list/spells_to_remove = list(
 		/datum/action/clan_menu,

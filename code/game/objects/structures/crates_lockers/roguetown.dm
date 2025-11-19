@@ -214,7 +214,7 @@
 	new /obj/item/clothing/gloves/roguetown/blacksteel/modern/plategloves(get_turf(src))
 	new /obj/item/clothing/head/roguetown/helmet/blacksteel/modern/armet(get_turf(src))
 	new /obj/item/clothing/shoes/roguetown/boots/blacksteel/modern/plateboots(get_turf(src))
-	new /obj/item/clothing/suit/roguetown/armor/plate/modern/blacksteel_full_plate(get_turf(src))
+	new /obj/item/clothing/suit/roguetown/armor/plate/full/blacksteel/modern(get_turf(src))
 	new /obj/item/clothing/under/roguetown/platelegs/blacksteel/modern(get_turf(src))
 	has_spawned_gear = TRUE
 	close()

@@ -516,13 +516,14 @@
 
 	influence_sets = list(
 		"Set 1" = list(
-			STATS_BLOOD_SPILT = list("name" = "Blood spilt:", "points" = 0.029, "capacity" = 90),
+			STATS_BLOOD_SPILT = list("name" = "Blood spilt:", "points" = 0.03, "capacity" = 60),
 		),
 		"Set 2" = list(
 			STATS_ORGANS_EATEN = list("name" = "Organs eaten:", "points" = 5, "capacity" = 70),
 		),
 		"Set 3" = list(
 			STATS_DEATHS = list("name" = "Deaths:", "points" = 5, "capacity" = 115),
+			STATS_ASSASSINATIONS = list("name" = "Sucessful assassinations:", "points" = 20, "capacity" = 100),
 		),
 		"Set 4" = list(
 			STATS_PEOPLE_GIBBED = list("name" = "People gibbed:", "points" = 3.5, "capacity" = 55),
@@ -565,6 +566,7 @@
 		),
 		"Set 3" = list(
 			STATS_GREEDY_PEOPLE = list("name" = "Number of greedy people:", "points" = 6.5, "capacity" = 70),
+			STATS_KLEPTOMANIACS = list("name"= "Number of kleptomaniacs:", "points" = 5, "capacity" = 25)
 		),
 		"Set 4" = list(
 			STATS_LOCKS_PICKED = list("name" = "Locks picked:", "points" = 3.75, "capacity" = 80),

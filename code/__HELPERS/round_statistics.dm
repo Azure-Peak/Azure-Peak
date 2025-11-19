@@ -159,6 +159,7 @@
 #define STATS_ORGANS_EATEN "organs_eaten"
 #define STATS_DEATHS "deaths"
 #define STATS_PEOPLE_GIBBED "people_gibbed"
+#define STATS_ASSASSINATIONS "assassinations"
 
 //Baotha
 #define STATS_DRUGS_SNORTED "drugs_snorted"
@@ -172,6 +173,7 @@
 #define STATS_GREEDY_PEOPLE "tomb_deaths"
 #define STATS_LOCKS_PICKED "locks_picked"
 #define STATS_BANDITS "bandits"
+#define STATS_KLEPTOMANIACS "kleptomaniacs"
 
 GLOBAL_LIST_INIT(azure_round_stats, list(
 	STATS_DEATHS = 0,
@@ -181,6 +183,7 @@ GLOBAL_LIST_INIT(azure_round_stats, list(
 	STATS_PEOPLE_SMITTEN = 0,
 	STATS_BLOOD_SPILT = 0,
 	STATS_PEOPLE_GIBBED = 0,
+	STATS_ASSASSINATIONS = 0,
 	STATS_TRIUMPHS_AWARDED = 0,
 	STATS_TRIUMPHS_STOLEN = 0,
 	STATS_DRUGS_SNORTED = 0,
@@ -210,6 +213,7 @@ GLOBAL_LIST_INIT(azure_round_stats, list(
 	STATS_ROT_CURED = 0,
 	STATS_WEREVOLVES = 0,
 	STATS_BANDITS = 0,
+	STATS_KLEPTOMANIACS = 0,
 	STATS_FOREST_DEATHS = 0,
 	STATS_COMBAT_SKILLS = 0,
 	STATS_PARRIES = 0,

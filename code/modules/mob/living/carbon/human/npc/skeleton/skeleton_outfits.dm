@@ -158,13 +158,15 @@
 	name = "Skeleton Soldier"
 	cloak = /obj/item/clothing/cloak/stabard/surcoat/guard // Ooo Spooky Old Dead MAA
 	head = /obj/item/clothing/head/roguetown/helmet/heavy/aalloy
-	armor = /obj/item/clothing/suit/roguetown/armor/plate/half/aalloy
+	armor = /obj/item/clothing/suit/roguetown/armor/plate/cuirass/aalloy
 	shirt = /obj/item/clothing/suit/roguetown/armor/chainmail/aalloy
 	wrists = /obj/item/clothing/wrists/roguetown/bracers/aalloy
 	pants = /obj/item/clothing/under/roguetown/chainlegs/kilt/aalloy
 	shoes = /obj/item/clothing/shoes/roguetown/boots/aalloy
 	neck = /obj/item/clothing/neck/roguetown/chaincoif/iron/aalloy
 	gloves = /obj/item/clothing/gloves/roguetown/chain/aalloy
+	if(prob(15))
+		beltl = /obj/item/repair_kit/bad
 	if(prob(33)) // 33% chance of shield, so ranged don't get screwed over entirely
 		l_hand = /obj/item/rogueweapon/shield/tower/metal/alloy
 	if(prob(33))
@@ -197,7 +199,7 @@
 		H.STASPD = 12 // Hue
 		cloak = /obj/item/clothing/cloak/hierophant
 		mask = /obj/item/clothing/mask/rogue/facemask/aalloy
-		armor = /obj/item/clothing/suit/roguetown/armor/plate/half/aalloy
+		armor = /obj/item/clothing/suit/roguetown/armor/plate/cuirass/aalloy
 		shirt = /obj/item/clothing/suit/roguetown/armor/chainmail/aalloy
 		wrists = /obj/item/clothing/wrists/roguetown/bracers/aalloy
 		pants = /obj/item/clothing/under/roguetown/platelegs/aalloy
@@ -217,6 +219,8 @@
 		shoes = /obj/item/clothing/shoes/roguetown/boots/aalloy
 		neck = /obj/item/clothing/neck/roguetown/gorget/aalloy
 		gloves = /obj/item/clothing/gloves/roguetown/plate/aalloy
+		if(prob(15))
+			beltl = /obj/item/repair_kit/metal/bad
 		if(prob(50))
 			r_hand = /obj/item/rogueweapon/greatsword/aalloy
 		else

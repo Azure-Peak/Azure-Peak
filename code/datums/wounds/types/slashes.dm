@@ -73,7 +73,7 @@
 
 /datum/wound/dynamic/slash/upgrade(dam, armor)
 	whp += (dam * SLASH_UPG_WHPRATE)
-	bleed_rate += clamp((dam * SLASH_UPG_BLEEDRATE), 0.1, ((armor > 0) ? SLASH_UPG_CLAMP_ARMORED : SLASH_UPG_CLAMP_RAW))
+	set_bleed_rate(bleed_rate + clamp((dam * SLASH_UPG_BLEEDRATE), 0.1, ((armor > 0) ? SLASH_UPG_CLAMP_ARMORED : SLASH_UPG_CLAMP_RAW)))
 	sew_threshold += (dam * SLASH_UPG_SEWRATE)
 	woundpain += (dam * SLASH_UPG_PAINRATE)
 	armor_check(armor, SLASH_ARMORED_BLEED_CLAMP)
@@ -209,7 +209,7 @@
 
 /datum/wound/dynamic/lashing/upgrade(dam, armor)
 	whp += (dam * LASHING_UPG_WHPRATE)
-	bleed_rate += clamp((dam * LASHING_UPG_BLEEDRATE), 0.1, ((armor > 0) ? LASHING_UPG_CLAMP_ARMORED : LASHING_UPG_CLAMP_RAW))
+	set_bleed_rate(bleed_rate + clamp((dam * LASHING_UPG_BLEEDRATE), 0.1, ((armor > 0) ? LASHING_UPG_CLAMP_ARMORED : LASHING_UPG_CLAMP_RAW)))
 	sew_threshold += (dam * LASHING_UPG_SEWRATE)
 	woundpain += (dam * LASHING_UPG_PAINRATE)
 	armor_check(armor, LASHING_ARMORED_BLEED_CLAMP)
@@ -250,7 +250,7 @@
 
 /datum/wound/dynamic/punish/upgrade(dam, armor)
 	whp += (dam * PUNISH_UPG_WHPRATE)
-	bleed_rate += clamp((dam * PUNISH_UPG_BLEEDRATE), 0.1, ((armor > 0) ? PUNISH_UPG_CLAMP_ARMORED : PUNISH_UPG_CLAMP_RAW))
+	set_bleed_rate(bleed_rate + clamp((dam * PUNISH_UPG_BLEEDRATE), 0.1, ((armor > 0) ? PUNISH_UPG_CLAMP_ARMORED : PUNISH_UPG_CLAMP_RAW)))
 	sew_threshold += (dam * PUNISH_UPG_SEWRATE)
 	woundpain += (dam * PUNISH_UPG_PAINRATE)
 	passive_healing += PUNISH_UPG_SELFHEAL

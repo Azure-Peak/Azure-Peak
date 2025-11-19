@@ -61,7 +61,7 @@
 	if(reagents.maximum_volume < B.reagents.total_volume + reagents.total_volume)
 		to_chat(user, span_warning("Machine is filled to the lid."))
 		return
-	testing("startadd")
+
 	for(var/datum/reagent/to_add in B.reagents.reagent_list)
 		var/already_exists = FALSE
 		if(length(reagents.reagent_list))

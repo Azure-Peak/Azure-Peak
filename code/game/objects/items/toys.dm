@@ -338,7 +338,7 @@
 		if(cardUser.is_holding(src))
 			cardUser.visible_message("<span class='notice'>[cardUser] checks [cardUser.p_their()] card.</span>", "<span class='notice'>The card reads: [cardname].</span>")
 		else
-			. += "<span class='warning'>I need to have the card in your hand to check it!</span>"
+			. += "<span class='warning'>You need to have the card in your hand to check it!</span>"
 
 
 /obj/item/toy/cards/singlecard/verb/Flip()

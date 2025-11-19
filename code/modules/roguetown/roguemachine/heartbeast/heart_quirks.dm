@@ -86,7 +86,7 @@
 	color = "#daa520"
 	required_item = /obj/item/alch/rosa
 
-/datum/flesh_quirk/royal/apply_language_quirk(mob/speaker, message, datum/component/chimeric_heart_beast/beast, response_time)
+/datum/flesh_quirk/royal/apply_language_quirk(mob/speaker, message, response_time, datum/component/chimeric_heart_beast/beast)
 	var/list/effects = list()
 
 	// Royal quirk only manifests at tier 2 and above

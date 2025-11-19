@@ -322,12 +322,12 @@
 
 /// Can this atoms reagents be refilled
 /atom/proc/is_refillable()
-	testing("isrefill")
+
 	return reagents && (reagents.flags & REFILLABLE)
 
 /// Is this atom drainable of reagents
 /atom/proc/is_drainable()
-	testing("isdrain")
+
 	return reagents && (reagents.flags & DRAINABLE)
 
 /// Are you allowed to drop this atom
@@ -358,7 +358,8 @@
  * Default behaviour is to send the COMSIG_ATOM_BULLET_ACT and then call on_hit() on the projectile
  */
 /atom/proc/bullet_act(obj/projectile/P, def_zone)
-	SEND_SIGNAL(src, COMSIG_ATOM_BULLET_ACT, P, def_zone)
+	if(SEND_SIGNAL(src, COMSIG_ATOM_BULLET_ACT, P, def_zone) & COMPONENT_ATOM_BLOCK_BULLET)
+		return
 	. = P.on_hit(src, 0, def_zone)
 
 ///Return true if we're inside the passed in atom
@@ -431,7 +432,29 @@
 			else
 				. += span_danger("It's empty.")
 
+		//SNIFFING
+		if (user.zone_selected == BODY_ZONE_PRECISE_NOSE && get_dist(src, user) <= 1)
+			// if atom's path is item/reagent_containers/glass/carafe
+			var/is_closed = FALSE
+			if(istype(src, /obj/item/reagent_containers))
+				var/obj/item/reagent_containers/container = src
+				is_closed = !container.spillable
+			if(is_closed == FALSE && reagents.total_volume) // if the container is open, and there's liquids in there
+				user.visible_message(span_info("[user] takes a whiff of the [src]..."), span_info("I take a whiff of the [src]..."))
+				. += span_notice("I smell [src.reagents.generate_scent_message()].")
+				if (HAS_TRAIT(user, TRAIT_LEGENDARY_ALCHEMIST))
+					var/full_reagents = ""
+					for (var/datum/reagent/R in reagents.reagent_list)
+						if (R.volume > 0)
+							if (full_reagents)
+								full_reagents += ", "
+							full_reagents += "[lowertext(R.name)]"
+					. += span_notice("My expert nose lets me distinguish this liquid as [full_reagents].")
+
 	SEND_SIGNAL(src, COMSIG_PARENT_EXAMINE, user, .)
+
+/atom/proc/get_mechanics_examine(mob/user)
+	return list()
 
 //taking in the vanderline update on apperance, name and desc processes
 /atom/proc/vand_update_appearance(updates = ALL)
@@ -456,7 +479,7 @@
 /atom/proc/vand_update_desc(updates = ALL)
 	SHOULD_CALL_PARENT(TRUE)
 	return SEND_SIGNAL(src, COMSIG_ATOM_UPDATE_DESC, updates)
-	
+
 /// Updates the icon of the atom
 /atom/proc/update_icon()
 	var/signalOut = SEND_SIGNAL(src, COMSIG_ATOM_UPDATE_ICON)
@@ -1086,7 +1109,7 @@
 
 	if(log_seen)
 		log_seen_viewers(user, target, message, SEEN_LOG_ATTACK)
-	
+
 	if(user != target)
 		var/reverse_message = "has been [what_done] by [ssource][postfix]"
 		target?.log_message(reverse_message, LOG_ATTACK, color="orange", log_globally=FALSE)
@@ -1160,7 +1183,7 @@
 
 /atom/movable/proc/update_filters() //Determine which filter comes first
 	filters = null                  //note, the cmp_filter is a little flimsy.
-	sortTim(filter_data, /proc/cmp_filter_priority_desc, associative = TRUE) 
+	sortTim(filter_data, /proc/cmp_filter_priority_desc, associative = TRUE)
 	for(var/f in filter_data)
 		var/list/data = filter_data[f]
 		var/list/arguments = data.Copy()
@@ -1230,3 +1253,8 @@
 		location = location.loc
 	if(our_turf && include_turf) //At this point, only the turf is left, provided it exists.
 		. += our_turf
+
+/// Returns the indice in filters of the given filter name.
+/// If it is not found, returns null.
+/atom/proc/get_filter_index(name)
+	return filter_data?.Find(name)

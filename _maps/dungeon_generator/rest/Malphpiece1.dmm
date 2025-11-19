@@ -13,7 +13,7 @@
 /obj/item/clothing/neck/roguetown/gorget/copper,
 /obj/item/clothing/wrists/roguetown/bracers/copper,
 /obj/item/clothing/head/roguetown/helmet/coppercap,
-/obj/item/clothing/suit/roguetown/armor/plate/half/aalloy,
+/obj/item/clothing/suit/roguetown/armor/plate/cuirass/aalloy,
 /obj/structure/closet/crate/chest,
 /turf/open/floor/rogue/cobblerock,
 /area/rogue/under/tomb/indoors)

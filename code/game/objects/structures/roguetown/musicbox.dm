@@ -87,7 +87,7 @@
 	soundloop.cursound = null
 	soundloop.volume = curvol
 	soundloop.start()
-	testing("Music: V[soundloop.volume] C[soundloop.cursound] T[soundloop.thingshearing]")
+
 	update_icon()
 
 /obj/structure/roguemachine/musicbox/proc/stop_playing()

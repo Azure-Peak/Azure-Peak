@@ -11,6 +11,7 @@
 	//Minor antag types
 	var/list/wretches = list()
 	var/list/aspirants = list()
+	var/list/assassins = list()
 
 	var/head_rebel_decree = FALSE
 

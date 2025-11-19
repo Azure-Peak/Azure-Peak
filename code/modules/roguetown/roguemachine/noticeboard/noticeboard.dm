@@ -10,32 +10,11 @@
 	layer = ABOVE_MOB_LAYER
 	plane = GAME_PLANE_UPPER
 	var/current_category = "Postings"
-	var/list/categories = list("Postings", "Premium Postings", "Scout Report", "Contracts")
-	/// Place to deposit completed scrolls or items
-	var/input_point
-
-/obj/structure/roguemachine/boardbarrier //Blocks sprite locations
-	name = ""
-	desc = "A large wooden notice board, carrying postings from all across Azurea. A ZAD perch sits atop it."
-	icon = 'icons/roguetown/underworld/underworld.dmi'
-	icon_state = "spiritpart"
-	density = TRUE
-	anchored = TRUE
+	var/list/categories = list("Postings", "Premium Postings", "Scout Report")
 
 /obj/structure/roguemachine/noticeboard/Initialize()
 	. = ..()
 	SSroguemachine.noticeboards += src
-	input_point = locate(x, y - 1, z)
-	var/obj/effect/decal/marker_export/marker = new(get_turf(input_point))
-	marker.desc = "Place completed contracft scrolls here to turn them in."
-	marker.layer = ABOVE_OBJ_LAYER
-
-/obj/structure/roguemachine/noticeboard/attackby(obj/item/P, mob/living/carbon/human/user, params)
-	. = .. ()
-	if(istype(P, /obj/item/paper/scroll/quest))
-		turn_in_contract(user, P)
-		return
-	return
 
 /datum/noticeboardpost
 	var/title
@@ -86,18 +65,7 @@
 	if(href_list["authorityremovepost"])
 		authority_removepost(usr)
 		return attack_hand(usr) 
-	if(href_list["consultcontracts"])
-		consult_contracts(usr)
-		return attack_hand(usr) 
-	if(href_list["turnincontract"])
-		turn_in_contract(usr)
-		return attack_hand(usr) 
-	if(href_list["abandoncontract"])
-		abandon_contract(usr)
-		return attack_hand(usr) 
-	if(href_list["printcontracts"])
-		print_contracts(usr)
-		return attack_hand(usr) 
+ 
 	return attack_hand(usr)
 
 /obj/structure/roguemachine/noticeboard/attack_hand(mob/living/carbon/human/user)
@@ -105,7 +73,7 @@
 		return
 	var/can_remove = FALSE
 	var/can_premium = FALSE
-	if(user.job in list("Man at Arms","Inquisitor", "Knight", "Sergeant", "Knight Captain", "Orthodoxist", "Absolver", "Marshal")) //why was KC here but not marshal ?
+	if(user.job in list("Man at Arms","Inquisitor", "Knight", "Sergeant", "Knight Captain", "Orthodoxist", "Absolver", "Marshal", "Hand")) //why was KC here but not marshal ?
 		can_remove = TRUE
 	if(user.job in list("Bathmaster","Merchant", "Innkeeper", "Steward", "Court Magician", "Town Crier", "Keeper"))
 		can_premium = TRUE
@@ -143,12 +111,6 @@
 					board_empty = FALSE
 		if(board_empty)
 			contents += "<br><span class='notice'>No postings have been made yet!</span>"
-	else if(current_category == "Contracts")
-		contents += "<a href='?src=[REF(src)];consultcontracts=1'>Consult Contracts</a><br>"
-		contents += "<a href='?src=[REF(src)];turnincontract=1'>Turn in Contract</a><br>"
-		contents += "<a href='?src=[REF(src)];abandoncontract=1'>Abandon Contract</a><br>"
-		if(user.job == "Steward" || user.job == "Merchant")
-			contents += "<a href='?src=[REF(src)];printcontracts=1'>Print Issued Contracts</a><br>"
 	else if(current_category == "Scout Report")
 		var/list/regional_threats = SSregionthreat.get_threat_regions_for_display()
 		contents += "<h2>Scout Report</h2>"

@@ -411,7 +411,7 @@
 				sentfrom = "Anonymous"
 			if(findtext(send2place, "#"))
 				var/box2find = text2num(copytext(send2place, findtext(send2place, "#")+1))
-				testing("box2find [box2find]")
+
 				var/found = FALSE
 				for(var/obj/structure/roguemachine/mail/X in SSroguemachine.hermailers)
 					if(X.ournum == box2find)

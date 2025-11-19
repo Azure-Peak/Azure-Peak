@@ -419,7 +419,7 @@
 	toxpwr = 0
 
 /datum/reagent/toxin/cyanide/on_mob_life(mob/living/carbon/M)
-	testing("toxin OML")
+
 	M.add_nausea(20)
 	M.adjustToxLoss(3, 0)
 	return ..()

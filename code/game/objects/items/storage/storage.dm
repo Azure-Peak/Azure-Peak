@@ -46,7 +46,7 @@
 		if(!SEND_SIGNAL(src, COMSIG_TRY_STORAGE_INSERT, new_item, null, TRUE, TRUE))
 			new_item.inventory_flip(null, TRUE)
 			if(!SEND_SIGNAL(src, COMSIG_TRY_STORAGE_INSERT, new_item, null, TRUE, TRUE))
-				testing("Deleting:[new_item] from [src]")
+
 				qdel(new_item)
 
 /obj/item/storage/proc/emptyStorage()

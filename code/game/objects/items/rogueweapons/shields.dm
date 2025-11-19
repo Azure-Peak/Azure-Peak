@@ -2,8 +2,8 @@
 #define SHIELD_BLOCK		/datum/intent/shield/block
 #define SHIELD_BASH_METAL 	/datum/intent/shield/bash/metal
 #define SHIELD_BLOCK_METAL 	/datum/intent/shield/block/metal
-#define SHIELD_SMASH 		/datum/intent/shield/smash
-#define SHIELD_SMASH_METAL 	/datum/intent/shield/smash/metal
+#define SHIELD_SMASH 		/datum/intent/mace/smash/shield
+#define SHIELD_SMASH_METAL 	/datum/intent/mace/smash/shield/metal
 #define SHIELD_BANG_COOLDOWN (3 SECONDS)
 
 /obj/item/rogueweapon/shield
@@ -97,17 +97,10 @@
 /datum/intent/shield/block/metal
 	hitsound = list('sound/combat/parry/shield/metalshield (1).ogg')
 
-/datum/intent/shield/smash
-	name = "smash"
-	blade_class = BCLASS_SMASH
-	attack_verb = list("smashes")
-	icon_state = "insmash"
+/datum/intent/mace/smash/shield
 	hitsound = list('sound/combat/shieldbash_wood.ogg')
-	penfactor = BLUNT_DEFAULT_PENFACTOR
-	damfactor = 1.5
-	swingdelay = 10
 
-/datum/intent/shield/smash/metal
+/datum/intent/mace/smash/shield/metal
 	hitsound = list('sound/combat/parry/shield/metalshield (1).ogg')
 
 /obj/item/rogueweapon/shield/wood
@@ -373,6 +366,17 @@
 	icon_state = "ancient_buckler"
 	max_integrity = 85
 	smeltresult = /obj/item/ingot/purifiedaalloy
+
+// unique, better buckler for knight captain
+/obj/item/rogueweapon/shield/buckler/knightcaptain
+	name = "'Aegis'"
+	desc = "A special buckler made out of blacksteel for the Knight Captain, adorned with a crest. An inscription along the top reads,\"RUAT CAELUM\""
+	icon_state = "capbuckler"
+	icon = 'icons/roguetown/weapons/special/captain.dmi'
+	max_integrity = 150
+	slot_flags = ITEM_SLOT_HIP | ITEM_SLOT_BACK
+	sellprice = 100 // lets not make it too profitable
+	smeltresult = /obj/item/ingot/blacksteel
 
 /obj/item/rogueweapon/shield/heater
 	name = "heater shield"

@@ -8,6 +8,7 @@ GLOBAL_LIST_INIT(hallucination_list, list(
 	/datum/hallucination/chat = 100,
 	/datum/hallucination/message = 60,
 	/datum/hallucination/sounds = 50,
+	/datum/hallucination/voices = 40,
 	/datum/hallucination/battle = 20,
 	/datum/hallucination/dangerflash = 15,
 //	/datum/hallucination/hudscrew = 12,
@@ -1102,4 +1103,65 @@ GLOBAL_LIST_INIT(hallucination_list, list(
 			if(target.client)
 				target.client.images -= target.halbody
 			QDEL_NULL(target.halbody)
+	qdel(src)
+
+/datum/hallucination/voices
+	var/static/list/messages = list(
+		"YOUR FATE IS SEALED IN BLOOD AND ASHES!",
+		"SHE CALLS YOUR NAME, FOOL!",
+		"THE GODS SPIT ON YOUR WORTHLESS SOUL!",
+		"YOUR HEART BEATS FOR THEIR ASCENSION!",
+		"CLAWS TEAR AT YOUR MIND FROM WITHIN!",
+		"NO ONE WILL MOURN YOUR BROKEN CORPSE!",
+		"THEIR EYES WATCH FROM EVERY WOUND!",
+		"THE SWAMP WILL SWALLOW YOUR HOPE!",
+		"PAIN IS YOUR ONLY TRUE COMPANION!",
+		"THE CHAINS OF FATE BIND YOUR BONES!",
+		"THEY LAUGH AS YOUR MIND CRUMBLES!",
+		"THE STARS MOCK YOUR FUTILE STRUGGLE!",
+		"THE GROUND WEEPS BLOOD WHERE YOU TREAD!",
+		"THEIR WHISPERS CARVE YOUR FLESH TO DUST!",
+		"THE BEASTS SMELL YOUR FEAR AND HUNGER!",
+		"YOUR VEINS PULSE WITH THEIR MALICE!",
+		"DEATH IS TOO MERCIFUL FOR YOUR SINS!",
+		"THE BOG CLAIMS YOUR HOPELESS BONES!",
+		"THE GODS HAVE MARKED YOU FOR TORMENT!",
+		"YOUR CRIES ECHO IN AN EMPTY ABYSS!",
+		"THE SHADOWS BIND YOUR WRETCHED FATE!",
+		"YOUR MIND IS A PRISON OF THEIR DESIGN!",
+		"THE FLAMES OF YOUR GUILT CONSUME YOU!",
+		"YOUR HEART IS A TROPHY FOR HER GLORY!",
+		"THE STORM SINGS OF YOUR DOOMED PATH!",
+		"THEIR CLAWS SCRATCH YOUR NAME IN STONE!",
+		"YOUR BREATH FEEDS HIS ENDLESS HUNGER!",
+		"THE GODS LAUGH AT YOUR BROKEN DREAMS!",
+		"YOUR SHADOW BETRAYS YOU TO THE DARK!",
+		"THE SWAMP WHISPERS YOUR FINAL MOMENTS!",
+		"YOUR FLESH IS A CANVAS FOR HIS WRATH!",
+	)
+
+/datum/hallucination/voices/New(mob/living/carbon/carbon, forced = TRUE)
+	set waitfor = FALSE
+	..()
+
+	var/list/objs = list()
+
+	for(var/obj/obj in oview(3, carbon))
+		objs += obj
+	
+	var/obj/obj = safepick(objs)
+
+	if(!obj)
+		qdel(src)
+		return
+
+	var/lang = carbon.get_default_language()
+	var/picked_message = pick(messages)
+	var/composed = obj.compose_message(obj, carbon.get_default_language(), picked_message)
+
+	carbon.Hear(composed, obj, lang, picked_message)
+
+	if(prob(20))
+		carbon.emote("whimper")
+
 	qdel(src)
