@@ -42,6 +42,10 @@ This allows the devs to draw whatever shape they want at the cost of it feeling 
 
 	var/cooldown = 30 SECONDS
 
+	/// Stamina cost to apply. Values <1 will apply a %-age cost. Values >1 will apply the flat value.
+	/// 0 Is no cost.
+	var/stamcost = 0
+
 	//Hacky doafter bools
 	var/cancelled = FALSE
 	var/succeeded = FALSE
