@@ -551,7 +551,7 @@
 	var/_y = text2num(params2list(params)["icon-y"])
 
 	if(_y<=9)
-		usr.mmb_intent_change(QINTENT_STEAL)
+		usr.mmb_intent_change(QINTENT_SPECIAL)
 
 	else if(_y>=9 && _y<=16)
 		usr.mmb_intent_change(QINTENT_KICK)
