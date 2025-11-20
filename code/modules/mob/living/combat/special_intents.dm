@@ -47,10 +47,18 @@ This allows the devs to draw whatever shape they want at the cost of it feeling 
 	/// 0 Is no cost.
 	var/stamcost = 0
 
-	//Hacky doafter bools
+
+	// Hacky bools vv 
+
+	/// The datum has been cancelled. Either the doafter failed or adjacency was not respected after the delay. 
+	/// This means some or none of the effect will happen.
 	var/cancelled = FALSE
+	/// Datum has succeeded an adjacency / doafter check. This is to prevent re-checking / re-doing the doafter for every unique tile.
 	var/succeeded = FALSE
+	/// We are currently performing the doafter, preventing the code from trying to call new ones (thus failing them instantly).
 	var/is_doing = FALSE
+
+	// Hacky bool end ^^
 
 	/// The delay for either the doafter or the timers on the turfs before calling post_delay() and apply_hit()
 	/// Or in other words. The pause before the hit of the special happens.
@@ -96,12 +104,13 @@ This allows the devs to draw whatever shape they want at the cost of it feeling 
 	SHOULD_CALL_PARENT(TRUE)
 	if(howner && howner.ckey)
 		howner.log_message(span_danger("Used the Special [name]."), LOG_ATTACK)
+	_reset()
 	_clear_grid()
 	_assign_grid_indexes()
 	_create_grid()
-	_reset()
 	on_create()
 	_manage_grid()
+	apply_cooldown(cooldown)
 
 ///We reset everything to make sure it all works. Make sure the cooldown -never- becomes shorter than the active effect.
 ///Otherwise this proc will absolutely break everything, along with everything else breaking in general.
@@ -209,7 +218,6 @@ This allows the devs to draw whatever shape they want at the cost of it feeling 
 	else
 		to_chat(howner, span_warning("I was interrupted!"))
 		cancelled = TRUE
-		apply_cooldown()
 		return FALSE
 
 /// This is called immediately after the delay of the intent.
@@ -229,7 +237,6 @@ This allows the devs to draw whatever shape they want at the cost of it feeling 
 				break
 		if(!is_adjacent)
 			to_chat(howner, span_danger("I moved too far from my manoeuvre!"))
-			apply_cooldown()
 			return
 	if(post_icon_state)
 		for(var/turf/T in turfs)
@@ -239,7 +246,6 @@ This allows the devs to draw whatever shape they want at the cost of it feeling 
 			apply_hit(T)
 	if(sfx_post_delay)
 		playsound(howner, sfx_post_delay, 100, TRUE)
-	apply_cooldown()
 
 /// Main proc where stuff should happen. This is called immediately after the post_delay of the intent.
 /datum/special_intent/proc/apply_hit(turf/T)
@@ -248,8 +254,12 @@ This allows the devs to draw whatever shape they want at the cost of it feeling 
 /// This is called by post_delay() and _try_doafter() if the doafter fails.
 /// If you dynamically tweak the cooldown remember that it will /stay/ that way on this datum without
 /// refreshing it with Initial() somewhere.
-/datum/special_intent/proc/apply_cooldown()
-	howner.apply_status_effect(/datum/status_effect/debuff/specialcd, cooldown)
+/datum/special_intent/proc/apply_cooldown(cd, override = FALSE)
+	if(override)
+		howner.remove_status_effect(/datum/status_effect/debuff/specialcd)
+		howner.apply_status_effect(/datum/status_effect/debuff/specialcd, cd)
+		return
+	howner.apply_status_effect(/datum/status_effect/debuff/specialcd, cd)
 
 /*
 
