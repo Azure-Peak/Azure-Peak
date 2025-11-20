@@ -2008,6 +2008,7 @@
 #include "code\modules\mob\living\carbon\human\species.dm"
 #include "code\modules\mob\living\carbon\human\stats.dm"
 #include "code\modules\mob\living\carbon\human\status_procs.dm"
+#include "code\modules\mob\living\carbon\human\steal.dm"
 #include "code\modules\mob\living\carbon\human\update_icons.dm"
 #include "code\modules\mob\living\carbon\human\voicepack.dm"
 #include "code\modules\mob\living\carbon\human\npc\_npc.dm"
