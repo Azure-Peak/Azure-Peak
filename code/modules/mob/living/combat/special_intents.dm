@@ -304,9 +304,9 @@ SPECIALS START HERE
 	cooldown = 15 SECONDS
 	var/eff_dur = 5	//We do NOT want to use SECONDS macro here.
 
-/datum/special_intent/side_sweep/apply_hit(turf/T)	//This is applied PER tile, so we don't need to do a big check.
+/datum/special_intent/shin_swipe/apply_hit(turf/T)	//This is applied PER tile, so we don't need to do a big check.
 	for(var/mob/living/L in get_hearers_in_view(0, T))
-		L.Slowdown(eff_dur)	
+		L.Slowdown(eff_dur)
 	..()
 
 //Hard to hit, freezes you in place. Offbalances & slows the targets hit. If they're already offbalanced they get knocked down.
@@ -318,7 +318,7 @@ SPECIALS START HERE
 	pre_icon_state = "trap"
 	use_doafter = TRUE
 	respect_adjacency = FALSE
-	delay = 0.8 SECONDS
+	delay = 0.7 SECONDS
 	cooldown = 20 SECONDS
 	var/slow_dur = 5	//We do NOT want to use SECONDS macro here. Slowdown() takes in an int and turns it into seconds already.
 	var/KD_dur = 2 SECONDS
@@ -333,7 +333,16 @@ SPECIALS START HERE
 
 /datum/special_intent/ground_smash/apply_hit(turf/T)
 	for(var/mob/living/L in get_hearers_in_view(0, T))
+		//We fling the target sideways from the attacker
+		var/targetdir = get_dir(L, howner)
+		var/throwdir = turn(targetdir, prob(50) ? 90 : 270)
+		var/dist = rand(1, 3)
+		var/turf/current_turf = get_turf(L)
+		var/turf/target_turf = get_ranged_target_turf(current_turf, throwdir, dist)
+		L.safe_throw_at(target_turf, dist, 1, howner, force = MOVE_FORCE_EXTREMELY_STRONG)
+		//We slow them down
 		L.Slowdown(slow_dur)
+		//We offbalance them OR knock them down if they're already offbalanced
 		if(L.IsOffBalanced())
 			L.Knockdown(KD_dur)
 		else
