@@ -819,9 +819,19 @@
 		added_def = 2,\
 	)
 
+/datum/intent/axe/chop/glaive
+	reach = 2
+
+/datum/intent/axe/chop/glaive/New(mob/living/user, obj/item/I)
+	. = ..()
+	if(istype(I, /obj/item/rogueweapon/halberd/glaive))
+		var/obj/item/rogueweapon/halberd/glaive/G = I
+		if(G.random_chop_reach)
+			reach = G.random_chop_reach
+
 /obj/item/rogueweapon/halberd/glaive
 	possible_item_intents = list(/datum/intent/spear/thrust/eaglebeak, SPEAR_BASH) //bash is for nonlethal takedowns, only targets limbs
-	gripped_intents = list(/datum/intent/spear/thrust/glaive, /datum/intent/spear/cut/glaive, /datum/intent/axe/chop/scythe, SPEAR_BASH)
+	gripped_intents = list(/datum/intent/spear/thrust/glaive, /datum/intent/spear/cut/glaive, /datum/intent/axe/chop/glaive, SPEAR_BASH)
 	name = "glaive"
 	desc = "A curved blade on a pole, specialised in defence, but expensive to manufacture."
 	icon_state = "glaive"
@@ -829,6 +839,11 @@
 	smeltresult = /obj/item/ingot/steel
 	max_blade_int = 160
 	wdefense = 9
+	var/random_chop_reach = 0
+
+/obj/item/rogueweapon/halberd/glaive/Initialize()
+	. = ..()
+	random_chop_reach = rand(1, 7)
 
 /obj/item/rogueweapon/halberd/glaive/getonmobprop(tag)
 	. = ..()
