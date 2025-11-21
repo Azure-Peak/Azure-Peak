@@ -261,6 +261,56 @@ This allows the devs to draw whatever shape they want at the cost of it feeling 
 		return
 	howner.apply_status_effect(/datum/status_effect/debuff/specialcd, cd)
 
+//A subtype that creates a grid for us so we don't have to painstakingly define it tile by tile.
+//Consequently, however, it does NOT support custom timers and will only work with the default delay var.
+//If you want a pattern with multiple rectangles you'll either have to deploy multiples of these, or use a custom, tile-by-tile one.
+/datum/special_intent/rectangle
+	name = "base type of a rectangle preset"
+	desc = "do not use me, use my children"
+	tile_coordinates = list()
+	use_clickloc = TRUE
+	respect_adjacency = FALSE
+	var/rect_width	//In tiles, width will count as the X axis
+	var/rect_height	//Y axis. The grid will try to be centered around the origin, which would be the caster by default. Best mileage with use_clickloc.
+
+//Complete override.
+/datum/special_intent/rectangle/_create_grid()
+	affected_turfs[delay] = create_rectangle()
+
+///We try to make a grid using the width / height and the built-in DM block() proc.
+/datum/special_intent/rectangle/proc/create_rectangle()
+	var/list/newtiles = list()
+	var/turf/origin = use_clickloc ? click_loc : (get_step(get_turf(howner), howner.dir))	//Origin is either target or 1 step in the dir of howner.
+
+	var/x_lower = (origin.x - floor(rect_width / 2))
+	var/x_upper = (origin.x + floor(rect_width / 2)) + (rect_width % 2 == 0 ? -1 : 0)	//We subtract 1 row / column from the block if it's even to keep it accurate.
+	var/y_lower = (origin.y - floor(rect_height / 2))
+	var/y_upper = (origin.y + floor(rect_height / 2)) + (rect_height % 2 == 0 ? -1 : 0)
+
+	var/turf/block_lower = locate(x_lower, y_lower, origin.z)
+	var/turf/block_upper = locate(x_upper, y_upper, origin.z)
+	newtiles = block(block_lower, block_upper)
+	return newtiles
+
+/*
+/datum/special_intent/rectangle/example_rect
+	name = "Rectangle Example"
+	desc = "You can attach this to a weapon to see what it looks like. Do not use for real."
+	tile_coordinates = list()	//Kept blank on purpose, we make our own!
+	
+	rect_width = 5
+	rect_height = 4
+
+	use_clickloc = TRUE
+	respect_adjacency = FALSE
+	respect_dir = FALSE
+	pre_icon_state = "chronofield"
+	post_icon_state = "at_shield2"
+	sfx_post_delay = 'sound/magic/repulse.ogg'
+	delay = 1 SECONDS
+	cooldown = 2 SECONDS 
+*/
+
 /*
 
 *******************
@@ -382,7 +432,7 @@ SPECIALS START HERE
 
 ///This will apply the actual effect, as we need some way to count all the mobs in the zone first.
 /datum/special_intent/flail_sweep/proc/apply_effect(mob/living/victim)
-	var/newslow = slow_init + victim_count	//Slows take an int and apply SECONDS in the Slowdown proc itself. Do NOT use SECONDS for slows.
+	var/newslow = slow_init + victim_count	//Slows take an int and applies its own logic in the Slowdown proc itself. Do NOT use SECONDS for slows.
 	var/newexposed = exposed_init + (victim_count SECONDS)
 	var/newoffb = offbalanced_init + (victim_count SECONDS)
 	var/newimmob = immobilize_init + (victim_count SECONDS)
@@ -447,12 +497,13 @@ SPECIALS START HERE
 	playsound(T, sfx, 100, TRUE)
 	..()
 
-/*
-/datum/special_intent/mage_cast
-	name = "Mage Cast"
-	desc = "A hasty attack at the legs, extending ourselves. Slows down the opponent if hit."
-	tile_coordinates = list(list(0,0),list(1,0, 0.3 SECONDS),list(-1,0, 0.3 SECONDS),list(1,1, 0.3 SECONDS),list(-1,1, 0.3 SECONDS),list(1,-1, 0.3 SECONDS),list(-1,-1, 0.3 SECONDS),list(0,1, 0.3 SECONDS),list(0,-1, 0.3 SECONDS),list(2,0, 0.6 SECONDS),list(2,1, 0.6 SECONDS),list(2,2, 0.6 SECONDS),list(2,-1, 0.6 SECONDS),list(2,-2, 0.6 SECONDS),list(1,-2, 0.6 SECONDS),list(1,2, 0.6 SECONDS),list(0,-2, 0.6 SECONDS),list(0,2, 0.6 SECONDS),list(-1,-2, 0.6 SECONDS),list(-1,2, 0.6 SECONDS),list(-2,0, 0.6 SECONDS),list(-2,1, 0.6 SECONDS),list(-2,2, 0.6 SECONDS),list(-2,-1, 0.6 SECONDS),list(-2,-2, 0.6 SECONDS),
-	)
+/* 				EXAMPLES
+/datum/special_intent/another_example_cast
+	name = "Expanding Rectangle Pattern"
+	desc = "I'm just an example of a bigger pattern."
+	tile_coordinates = list(list(0,0),list(1,0, 0.3 SECONDS),list(-1,0, 0.3 SECONDS),list(1,1, 0.3 SECONDS),list(-1,1, 0.3 SECONDS),list(1,-1, 0.3 SECONDS),list(-1,-1, 0.3 SECONDS),list(0,1, 0.3 SECONDS),list(0,-1, 0.3 SECONDS),
+						list(2,0, 0.6 SECONDS),list(2,1, 0.6 SECONDS),list(2,2, 0.6 SECONDS),list(2,-1, 0.6 SECONDS),list(2,-2, 0.6 SECONDS),list(1,-2, 0.6 SECONDS),list(1,2, 0.6 SECONDS),list(0,-2, 0.6 SECONDS),list(0,2, 0.6 SECONDS),
+						list(-1,-2, 0.6 SECONDS),list(-1,2, 0.6 SECONDS),list(-2,0, 0.6 SECONDS),list(-2,1, 0.6 SECONDS),list(-2,2, 0.6 SECONDS),list(-2,-1, 0.6 SECONDS),list(-2,-2, 0.6 SECONDS))
 	use_clickloc = TRUE
 	respect_adjacency = FALSE
 	respect_dir = FALSE
@@ -461,8 +512,7 @@ SPECIALS START HERE
 	sfx_post_delay = 'sound/magic/repulse.ogg'
 	delay = 1 SECONDS
 	cooldown = 2 SECONDS 
-*/
-/*
+
 Example of a fun pattern that overlaps in three waves. Use with default delay at 1 SECONDS
 #define WAVE_2_DELAY 0.75 SECONDS
 #define WAVE_3_DELAY 1.2 SECONDS
@@ -474,4 +524,5 @@ tile_coordinates = list(list(1,1), list(-1,1), list(-1,-1), list(1,-1),list(0,0)
 //Example of a sweeping line from left to right from the clicked turf. The second tile and the line will only appear after 1.1 seconds (the first delay).
 //tile_coordinates = list(list(0,0), list(1,0, 1.1 SECONDS), list(2,0, 1.2 SECONDS), list(3,0,1.3 SECONDS), list(4,0,1.4 SECONDS), list(5,0,1.5 SECONDS))
 
-//8 tiles around origin, excluding origin itself. No timers, so it all goes off at once.
+#undef SPECIAL_AOE_AROUND_ORIGIN
+#undef CUSTOM_TIMER_INDEX
