@@ -30,14 +30,18 @@
 	var/obj/effect/landmark/quest_spawner/selected_landmark = pick(possible_landmarks)
 	var/list/possible_turfs = list()
 
-	for(var/turf/open/T in view(7, selected_landmark))
+	for(var/turf/open/floor/T in view(7, selected_landmark))
 		if(T.density || istransparentturf(T))
 			continue
+			
+		for(var/obj/O in get_turf(T))
+			if(O.density) //No more spawning in metal bars or trees...
+				continue
 
-		for(var/mob/M in view(9, T))
-			if(!M.ckey)
-				possible_turfs += T
-				break
+		if(get_area(T) != get_area(selected_landmark)) //No more spawning in guild room...
+			continue
+
+		possible_turfs += T
 
 	return length(possible_turfs) ? pick(possible_turfs) : get_turf(src)
 

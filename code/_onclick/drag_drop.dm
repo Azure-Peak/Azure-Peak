@@ -99,9 +99,9 @@
 	chargedprog = 0
 
 	if(!mob.fixedeye) //If fixedeye isn't already enabled, we need to set this var
-		mob.tempfixeye = TRUE //Change icon to 'target' red eye
 		mob.nodirchange = TRUE
-
+	mob.tempfixeye = TRUE //Change icon to 'target' red eye
+	
 	for(var/atom/movable/screen/eye_intent/eyet in mob.hud_used.static_inventory)
 		eyet.update_icon(mob) //Update eye icon
 
@@ -200,8 +200,8 @@
 		mob.curplaying.on_mouse_up()
 
 	if(!mob.fixedeye)
-		mob.tempfixeye = FALSE
 		mob.nodirchange = FALSE
+	mob.tempfixeye = FALSE
 
 	if(mob.hud_used)
 		for(var/atom/movable/screen/eye_intent/eyet in mob.hud_used.static_inventory)

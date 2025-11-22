@@ -93,7 +93,7 @@
 			trait_capped_level = skillref.trait_uncap[trait]
 	#endif
 	#ifndef USES_TRAIT_SKILL_GATING
-		trait_capped_level = SKILL_LEVEL_LEGENDARY
+	trait_capped_level = SKILL_LEVEL_LEGENDARY
 	#endif
 
 	// Using this prevent a bug where you can bank xp to go one beyond cap

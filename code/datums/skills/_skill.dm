@@ -58,7 +58,7 @@
 		var/msg = ""
 		msg += "[desc] <br>"
 		#ifndef USES_TRAIT_SKILL_GATING
-			msg += span_warning("Note: Trait based skill gating is disabled on this server. The traits exist, but the skill cap will not apply.")
+		msg += span_warning("Note: Trait based skill gating is disabled on this server. The traits exist, but the skill cap will not apply.")
 		#endif
 		#ifdef USES_TRAIT_SKILL_GATING
 		if(max_untraited_level < SKILL_LEVEL_LEGENDARY)
