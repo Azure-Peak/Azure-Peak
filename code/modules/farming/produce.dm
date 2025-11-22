@@ -319,6 +319,22 @@
 	grind_results = list(/datum/reagent/berrypoison = 5)
 	color_index = "bad"
 
+/obj/item/reagent_containers/food/snacks/grown/berries/rogue/dendor
+	name = "blessed berries"
+	desc = "Berries blessed by natural energies, said to be potent nourishment and have minor medicinal properties."
+	seed = /obj/item/seeds/berryrogue
+	icon_state = "berries"
+	tastes = list("sweet berry" = 1)
+	list_reagents = list(/datum/reagent/consumable/nutriment = 5, /datum/reagent/water/blessed = 7)
+	faretype = FARE_FINE
+	rotprocess = SHELFLIFE_LONG
+	eat_effect = /datum/status_effect/buff/foodbuff
+
+/obj/item/reagent_containers/food/snacks/grown/berries/rogue/dendor/Initialize()
+	. = ..()
+	filling_color = "#fc0303"
+	update_icon()
+
 /obj/item/reagent_containers/food/snacks/grown/nut
 	name = "rocknut"
 	desc = "a nut with mild stimulant properties. In powderized form, it can be used to make a zig."

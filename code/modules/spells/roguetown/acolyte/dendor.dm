@@ -118,7 +118,7 @@
 	if (!user.has_language(/datum/language/beast))
 		user.grant_language(/datum/language/beast)
 		to_chat(user, span_boldnotice("The vestige of the hidden moon high above reveals His truth: the knowledge of beast-tongue was in me all along."))
-	
+
 	if (!first_cast)
 		to_chat(user, span_boldwarning("So it is murmured in the Earth and Air: the Call of the Moon is sacred, and to share knowledge gleaned from it with those not of Him is a SIN."))
 		to_chat(user, span_boldwarning("Ware thee well, child of Dendor."))
@@ -153,3 +153,41 @@
 		return TRUE
 	revert_cast()
 	return FALSE
+
+/obj/effect/proc_holder/spell/invoked/goodberry
+	name = "Nature's Favor"
+	desc = "Conjures blessed food from wild bushes. Yield may increase with holy skill."
+	overlay_state = "blesscrop"
+	releasedrain = 15
+	chargedrain = 0
+	chargetime = 5 SECONDS
+	range = 1
+	sound = 'sound/magic/churn.ogg'
+	invocations = list("May the wilds grant me sustenance.")
+	invocation_type = "whisper"
+	miracle = TRUE
+	associated_skill = /datum/skill/magic/holy
+	devotion_cost = 30
+	recharge_time = 30 MINUTES
+
+/obj/effect/proc_holder/spell/invoked/goodberry/cast(list/targets, mob/user = usr)
+	. = ..()
+	if(!istype(targets[1], /obj/structure/flora/roguegrass/bush))
+		revert_cast()
+		return FALSE
+	var/obj/structure/flora/roguegrass/bush/B = targets[1]
+	var/rawboost = user.get_skill_level(/datum/skill/magic/holy)
+	var/yieldboost = round(min(rawboost / 2, 1))
+	var/produce = /obj/item/reagent_containers/food/snacks/grown/berries/rogue/dendor
+	if(B.blessed)
+		to_chat(user, span_warning("This bush already bears a blessing."))
+		revert_cast()
+		return FALSE
+	if(B.looty)
+		B.looty = list(/obj/item/reagent_containers/food/snacks/grown/berries/rogue/dendor)
+		for(var/i in 1 to yieldboost)
+			B.looty += produce
+		B.loot_replenish()
+	B.blessed = TRUE
+	B.desc += "Blessed by natural powers. This bush only produces blessed fruits."
+	return TRUE

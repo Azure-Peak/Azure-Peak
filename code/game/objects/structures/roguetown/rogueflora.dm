@@ -306,6 +306,7 @@
 	debris = list(/obj/item/natural/fibers = 1, /obj/item/grown/log/tree/stick = 1)
 	var/list/looty = list()
 	var/bushtype
+	var/blessed = FALSE
 
 /obj/structure/flora/roguegrass/bush/Initialize()
 	if(prob(88) && isnull(bushtype))
@@ -583,7 +584,7 @@
 
 /obj/structure/flora/roguegrass/pyroclasticflowers/update_icon()
 	icon_state = "pyroflower[rand(1,3)]"
-	
+
 /obj/structure/flora/roguegrass/pyroclasticflowers/Initialize()
 	. = ..()
 	if(prob(88))

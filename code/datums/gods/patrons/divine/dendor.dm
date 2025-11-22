@@ -9,6 +9,7 @@
 					/obj/effect/proc_holder/spell/targeted/blesscrop			= CLERIC_T0,
 					/obj/effect/proc_holder/spell/invoked/lesser_heal 			= CLERIC_T1,
 					/obj/effect/proc_holder/spell/invoked/blood_heal			= CLERIC_T1,
+					/obj/effect/proc_holder/spell/invoked/goodberry				= CLERIC_T2,
 					/obj/effect/proc_holder/spell/self/wildshape				= CLERIC_T2,
 					/obj/effect/proc_holder/spell/targeted/conjure_glowshroom	= CLERIC_T3,
 					/obj/effect/proc_holder/spell/self/howl/call_of_the_moon	= CLERIC_T4,
@@ -21,7 +22,7 @@
 	)
 	storyteller = /datum/storyteller/dendor
 
-// In grove, bog, cross, or ritual chalk 
+// In grove, bog, cross, or ritual chalk
 // Yes, he is NOT calling the master cus he's unique. Whole bog is his prayer zone. Druids exist for a reason instead of in the church.
 /datum/patron/divine/dendor/can_pray(mob/living/follower)
 	. = ..()
@@ -56,7 +57,7 @@
 )
 	*message_out = span_info("A rush of primal energy spirals about [target]!")
 	*message_self = span_notice("I'm infused with primal energies!")
-				
+
 	var/list/natural_stuff = list(/obj/structure/flora/roguegrass, /obj/structure/flora/roguetree, /obj/structure/flora/rogueshroom, /obj/structure/soil, /obj/structure/flora/newtree, /obj/structure/flora/tree, /obj/structure/glowshroom)
 	var/bonus = 0
 
