@@ -45,6 +45,7 @@
 	shirt = /obj/item/clothing/suit/roguetown/armor/gambeson
 	neck = /obj/item/clothing/neck/roguetown/chaincoif
 	shoes = /obj/item/clothing/shoes/roguetown/boots
+	saiga_shoes = /obj/item/clothing/shoes/roguetown/horseshoes
 	belt = /obj/item/storage/belt/rogue/leather/black
 	wrists = /obj/item/clothing/wrists/roguetown/bracers		//Would seperate to leather bracers for archer for dodge but - funnily, armor class doesn't exist on bracers.
 	backr = /obj/item/storage/backpack/rogue/satchel/black
@@ -83,7 +84,7 @@ Archer is basically a 'bounty-catcher' in function, less specialized at close-qu
 		/datum/skill/misc/reading = SKILL_LEVEL_NOVICE,
 		/datum/skill/misc/medicine = SKILL_LEVEL_NOVICE,
 		/datum/skill/misc/riding = SKILL_LEVEL_APPRENTICE,
-		/datum/skill/misc/tracking = SKILL_LEVEL_NOVICE, 
+		/datum/skill/misc/tracking = SKILL_LEVEL_NOVICE,
 	)
 
 /datum/outfit/job/roguetown/guardsman/footsman/pre_equip(mob/living/carbon/human/H)
@@ -133,7 +134,7 @@ Archer is basically a 'bounty-catcher' in function, less specialized at close-qu
 		/datum/skill/misc/medicine = SKILL_LEVEL_NOVICE,
 		/datum/skill/craft/crafting = SKILL_LEVEL_NOVICE,	//For basic crafting; you'll need it due to relegated support role.
 		/datum/skill/craft/tanning = SKILL_LEVEL_NOVICE,	//Likely hunter background; very crappy basic skill.
-		/datum/skill/misc/tracking = SKILL_LEVEL_NOVICE, 
+		/datum/skill/misc/tracking = SKILL_LEVEL_NOVICE,
 	)
 
 /datum/outfit/job/roguetown/guardsman/archer/pre_equip(mob/living/carbon/human/H)

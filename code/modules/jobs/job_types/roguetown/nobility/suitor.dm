@@ -65,6 +65,7 @@
 		backr = /obj/item/storage/backpack/rogue/satchel
 		id = /obj/item/clothing/ring/signet
 		shoes = /obj/item/clothing/shoes/roguetown/shortboots
+		saiga_shoes = /obj/item/clothing/shoes/roguetown/horseshoes/gold
 	else if(should_wear_masc_clothes(H))
 		head = /obj/item/clothing/head/roguetown/nyle/consortcrown
 		pants = /obj/item/clothing/under/roguetown/tights
@@ -72,6 +73,7 @@
 		shirt = /obj/item/clothing/suit/roguetown/shirt/undershirt/lowcut
 		backl = /obj/item/rogue/instrument/lute
 		shoes = /obj/item/clothing/shoes/roguetown/boots/nobleboot
+		saiga_shoes = /obj/item/clothing/shoes/roguetown/horseshoes/gold
 		belt = /obj/item/storage/belt/rogue/leather
 		neck = /obj/item/roguekey/manor
 		beltl = /obj/item/flashlight/flare/torch/lantern
@@ -118,6 +120,7 @@
 	wrists = /obj/item/clothing/wrists/roguetown/bracers/leather/heavy
 	shirt = /obj/item/clothing/suit/roguetown/armor/gambeson/lord
 	shoes = /obj/item/clothing/shoes/roguetown/boots/nobleboot
+	saiga_shoes = /obj/item/clothing/shoes/roguetown/horseshoes/gold
 	belt = /obj/item/storage/belt/rogue/leather/black
 	neck = /obj/item/roguekey/manor
 	beltl = /obj/item/rogueweapon/huntingknife/idagger/steel
@@ -174,6 +177,7 @@
 	armor = /obj/item/clothing/suit/roguetown/armor/gambeson/heavy/otavan
 	shirt = /obj/item/clothing/suit/roguetown/armor/chainmail
 	shoes = /obj/item/clothing/shoes/roguetown/boots/nobleboot
+	saiga_shoes = /obj/item/clothing/shoes/roguetown/horseshoes/gold
 	belt = /obj/item/storage/belt/rogue/leather
 	neck = /obj/item/roguekey/manor
 	beltl = /obj/item/flashlight/flare/torch/lantern
