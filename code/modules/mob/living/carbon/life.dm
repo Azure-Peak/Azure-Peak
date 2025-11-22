@@ -118,8 +118,14 @@
 				next_smell = world.time + 30 SECONDS
 				T.pollution.smell_act(src)
 
-/mob/living/proc/handle_inwater()
-	extinguish_mob()
+/mob/living/proc/handle_inwater(turf/open/water/W)
+	if((movement_type & FLYING) || throwing)
+		return
+	if(lying || W.water_level == 3)
+		SoakMob(FULL_BODY)
+	else
+		if(W.water_level == 2)
+			SoakMob(BELOW_CHEST)
 
 /mob/living/carbon/handle_inwater(turf/onturf, extinguish = TRUE, force_drown = FALSE)
 	..()
@@ -388,10 +394,10 @@ GLOBAL_LIST_INIT(ballmer_windows_me_msg, list("Yo man, what if, we like, uh, put
 /mob/living/carbon/proc/liver_failure()
 	reagents.end_metabolization(src, keep_liverless = TRUE) // Stops trait-based effects on reagents, to prevent permanent buffs
 	reagents.metabolize(src, can_overdose = FALSE, liverless = TRUE)
-	
+
 	if(HAS_TRAIT(src, TRAIT_STABLELIVER) || HAS_TRAIT(src, TRAIT_NOMETABOLISM))
 		return
-		
+
 	adjustToxLoss(4, TRUE,  TRUE)
 
 /////////////
@@ -613,9 +619,9 @@ GLOBAL_LIST_INIT(ballmer_windows_me_msg, list("Yo man, what if, we like, uh, put
 					if (sleepy_mod > 1)
 						sleep_threshold = 30
 					else
-						sleep_threshold = 45 
+						sleep_threshold = 45
 						message = "I'll fall asleep soon, although a proper bed would be more comfortable..."
-					if(sleepless_flaw) 
+					if(sleepless_flaw)
 						if(!sleepless_flaw.drugged_up)
 							message = "I am unable to sleep. I should just get up."
 							if(!fallingas)
@@ -638,10 +644,10 @@ GLOBAL_LIST_INIT(ballmer_windows_me_msg, list("Yo man, what if, we like, uh, put
 							sleepless_flaw.dream_prob += 500
 							sleepless_flaw.drugged_up = FALSE
 							Sleeping(250)
-						else 
+						else
 							teleport_to_dream(src, 10000, dream_prob)
 							Sleeping(300)
-						
+
 			else
 				is_asleep = FALSE
 				fallingas = FALSE
