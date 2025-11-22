@@ -57,7 +57,7 @@
 	/// Skill median used to apply success and speed bonuses
 	var/skill_median = SKILL_LEVEL_JOURNEYMAN
 	/// Modifiers to success chance when you're above the median
-	var/list/skill_bonuses = list(
+	var/list/skill_bonuses = alist(
 		1 = 0.5,
 		2 = 1,
 		3 = 1.5,
@@ -66,7 +66,7 @@
 		6 = 3,
 	)
 	/// Modifiers to success chance when you're below the median
-	var/list/skill_maluses = list(
+	var/list/skill_maluses = alist(
 		1 = -0.2,
 		2 = -0.4,
 		3 = -0.6,
