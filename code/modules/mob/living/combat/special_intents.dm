@@ -261,6 +261,10 @@ This allows the devs to draw whatever shape they want at the cost of it feeling 
 		return
 	howner.apply_status_effect(/datum/status_effect/debuff/specialcd, cd)
 
+///A proc that attempts to deal damage to the target, simple mob or carbon. 
+///Does /not/ crit. Respects armor, but CAN pen unless "no_pen" is set to TRUE. Each Special can have its own way of scaling damage.
+///Targets with no armor will always take damage, even if no_pen is set.
+///!This proc is inherently tied to !iparent! Do NOT use this for generic "magic" type of damage or if it's called from an obj like a trap!
 /datum/special_intent/proc/apply_generic_damage(mob/living/target, dam, d_type, zone, bclass, no_pen = FALSE)
 	var/msg = "<font color = '#c2663c'>[name] strikes [target]!"
 	if(ishuman(target))
