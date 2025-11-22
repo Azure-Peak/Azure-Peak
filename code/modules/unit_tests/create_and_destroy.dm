@@ -1,6 +1,6 @@
 ///Delete one of every type, sleep a while, then check to see if anything has gone fucky
 /datum/unit_test/create_and_destroy
-	//You absolutely must run last
+	//You absolutely must run after (almost) everything else
 	priority = TEST_CREATE_AND_DESTROY
 
 GLOBAL_VAR_INIT(running_create_and_destroy, FALSE)
@@ -59,7 +59,9 @@ GLOBAL_VAR_INIT(running_create_and_destroy, FALSE)
 
 	var/turf/spawn_at = run_loc_floor_bottom_left
 	var/list/cached_contents = spawn_at.contents.Copy()
-	var/baseturf_count = length(spawn_at.baseturfs)
+	var/original_turf_type = spawn_at.type
+	var/original_baseturfs = islist(spawn_at.baseturfs) ? spawn_at.baseturfs.Copy() : spawn_at.baseturfs
+	var/original_baseturf_count = length(original_baseturfs)
 
 	GLOB.running_create_and_destroy = TRUE
 	for(var/type_path in typesof(/atom/movable, /turf) - uncreatables) //No areas please
@@ -84,37 +86,32 @@ GLOBAL_VAR_INIT(running_create_and_destroy, FALSE)
 		var/list/to_del = spawn_at.contents - cached_contents
 		if(length(to_del))
 			for(var/atom/to_kill in to_del)
-				qdel(to_kill, force = TRUE)
+				qdel(to_kill)
 
 	GLOB.running_create_and_destroy = FALSE
-	//Hell code, we're bound to have ended the round somehow so let's stop if from ending while we work
-	SSticker.delay_end = TRUE
-	//Prevent the garbage subsystem from harddeling anything, if only to save time
-	SSgarbage.collection_timeout[GC_QUEUE_HARDDELETE] = 10000 HOURS
+
+	// Drastically lower the amount of time it takes to GC, since we don't have clients that can hold it up.
+	SSgarbage.collection_timeout[GC_QUEUE_CHECK] = 10 SECONDS
 	//Clear it, just in case
 	cached_contents.Cut()
 
 	var/list/queues_we_care_about = list()
-	// All up to harddel
-	for(var/i in 1 to GC_QUEUE_HARDDELETE - 1)
+	// All of em, I want hard deletes too, since we rely on the debug info from them
+	for(var/i in 1 to GC_QUEUE_HARDDELETE)
 		queues_we_care_about += i
 
 	//Now that we've qdel'd everything, let's sleep until the gc has processed all the shit we care about
+	// + 2 seconds to ensure that everything gets in the queue.
 	var/time_needed = 2 SECONDS
 	for(var/index in queues_we_care_about)
 		time_needed += SSgarbage.collection_timeout[index]
 
-
 	var/start_time = world.time
-	sleep(time_needed)
-	// spin until the first item in the check queue is older than start_time
+	var/real_start_time = REALTIMEOFDAY
 	var/garbage_queue_processed = FALSE
 
-	while(!garbage_queue_processed || !SSgarbage.can_fire)
-		if(!SSgarbage.can_fire) // probably running find references
-			CHECK_TICK
-			continue
-
+	sleep(time_needed)
+	while(!garbage_queue_processed)
 		var/oldest_packet_creation = INFINITY
 		for(var/index in queues_we_care_about)
 			var/list/queue_to_check = SSgarbage.queues[index]
@@ -127,7 +124,9 @@ GLOBAL_VAR_INIT(running_create_and_destroy, FALSE)
 
 			oldest_packet_creation = min(qdeld_at, oldest_packet_creation)
 
-		if(oldest_packet_creation > start_time)
+		//If we've found a packet that got del'd later then we finished, then all our shit has been processed
+		//That said, if there are any pending hard deletes you may NOT sleep, we gotta handle that shit
+		if(oldest_packet_creation > start_time && !length(SSgarbage.queues[GC_QUEUE_HARDDELETE]))
 			garbage_queue_processed = TRUE
 			break
 
@@ -161,6 +160,5 @@ GLOBAL_VAR_INIT(running_create_and_destroy, FALSE)
 		if(fails & BAD_INIT_SLEPT)
 			TEST_FAIL("[path] slept during Initialize()")
 
-	SSticker.delay_end = FALSE
 	//This shouldn't be needed, but let's be polite
-	SSgarbage.collection_timeout[GC_QUEUE_HARDDELETE] = 10 SECONDS
+	SSgarbage.collection_timeout[GC_QUEUE_CHECK] = GC_CHECK_QUEUE

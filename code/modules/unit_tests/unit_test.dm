@@ -131,6 +131,8 @@ GLOBAL_VAR_INIT(focused_test, focused_test())
 		// requires a pod passed
 		/obj/effect/DPfall,
 		/obj/effect/DPtarget,
+		// prompts loc for input
+		/obj/item/clothing/suit/roguetown/armor/gambeson/heavy/grenzelhoft,
 	)
 	//these are VERY situational and need info passed
 	ignore += typesof(/obj/effect/abstract)
@@ -156,6 +158,8 @@ GLOBAL_VAR_INIT(focused_test, focused_test())
 
 	ignore += typesof(/obj/effect/spawner)
 	ignore += typesof(/atom/movable/screen)
+
+	return ignore
 
 /proc/RunUnitTests()
 	CHECK_TICK
