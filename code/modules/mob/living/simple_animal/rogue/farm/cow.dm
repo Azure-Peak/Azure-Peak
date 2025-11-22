@@ -41,6 +41,11 @@
 	childtype = list(/mob/living/simple_animal/hostile/retaliate/rogue/cow/cowlet = 95, /mob/living/simple_animal/hostile/retaliate/rogue/cow/bullet = 5)
 	remains_type = /obj/effect/decal/remains/cow
 
+//new ai, old ai off
+	AIStatus = AI_OFF
+	can_have_ai = FALSE
+	ai_controller = /datum/ai_controller/generic
+
 /obj/effect/decal/remains/cow
 	name = "remains"
 	gender = PLURAL

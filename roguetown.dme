@@ -527,6 +527,7 @@
 #include "code\datums\ai\controllers\dragon.dm"
 #include "code\datums\ai\controllers\flame_primordial.dm"
 #include "code\datums\ai\controllers\fretensis.dm"
+#include "code\datums\ai\controllers\generic.dm"
 #include "code\datums\ai\controllers\haunt.dm"
 #include "code\datums\ai\controllers\headless.dm"
 #include "code\datums\ai\controllers\mimic.dm"

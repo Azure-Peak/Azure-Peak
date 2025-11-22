@@ -26,16 +26,16 @@
 						/obj/item/reagent_containers/food/snacks/fat = 1,
 						/obj/item/natural/hide = 2,
 						/obj/item/natural/bundle/bone/full = 1,
-						/obj/item/alch/sinew = 3, 
-						/obj/item/alch/bone = 1, 
+						/obj/item/alch/sinew = 3,
+						/obj/item/alch/bone = 1,
 						/obj/item/alch/viscera = 2
 						)
 	perfect_butcher_results = list(/obj/item/reagent_containers/food/snacks/rogue/meat/steak = 3,
 						/obj/item/reagent_containers/food/snacks/fat = 2,
 						/obj/item/natural/hide = 4,
 						/obj/item/natural/bundle/bone/full = 1,
-						/obj/item/alch/sinew = 3, 
-						/obj/item/alch/bone = 1, 
+						/obj/item/alch/sinew = 3,
+						/obj/item/alch/bone = 1,
 						/obj/item/alch/viscera = 2,
 						/obj/item/natural/head/saiga = 1)
 	base_intents = list(/datum/intent/simple/headbutt/saiga)
@@ -225,7 +225,7 @@
 	RegisterSignal(M, COMSIG_MOB_APPLY_DAMGE, PROC_REF(check_sprint_dismount))
 	if(!has_buckled_mobs())
 		RegisterSignal(src, COMSIG_MOB_APPLY_DAMGE, PROC_REF(check_sprint_dismount))
-	
+
 /mob/living/simple_animal/hostile/retaliate/rogue/saiga/post_unbuckle_mob(mob/living/M)
 	. = ..()
 	UnregisterSignal(M, COMSIG_MOB_APPLY_DAMGE, PROC_REF(check_sprint_dismount))
