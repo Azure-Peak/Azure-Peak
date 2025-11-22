@@ -11,7 +11,7 @@
 //AWE
 /datum/coven_power/presence/awe
 	name = "Awe"
-	desc = "Make those around you admire and want to be closer to you."
+	desc = "Make those around you admire you. Should they turn the other cheek, they will face consequences."
 	gif = "Awe.gif"
 
 	level = 1
@@ -24,13 +24,14 @@
 	cooldown_length = 60 SECONDS
 
 /datum/coven_power/presence/awe/pre_activation_checks(mob/living/target)
+	if(!can_affect_target(target))
+		return FALSE
 	var/mypower = owner.STAINT
 	var/mob/living/carbon/human/H = target
 	var/theirpower = H.STAINT - 5
 	if((theirpower >= mypower))
 		to_chat(owner, span_warning("[target]'s mind is too powerful to sway!"))
 		return FALSE
-
 	return TRUE
 
 /datum/coven_power/presence/awe/activate(mob/living/carbon/human/target)
@@ -40,21 +41,67 @@
 	presence_overlay.pixel_z = 1
 	target.overlays_standing[MUTATIONS_LAYER] = presence_overlay
 	target.apply_overlay(MUTATIONS_LAYER)
-	to_chat(target, "<span class='userlove'><b>It wouldn't hurt to listen...</b></span>")
 	playsound(target,'sound/villain/wonder.ogg', 40)
-	target.create_walk_to(3 SECONDS, owner)
-
+	target.apply_status_effect(/datum/status_effect/awestruck, owner)
 	if(!owner.cmode)
-		to_chat(target, "<span class='userlove'><b>Follow me~</b></span>")
-		owner.say("Follow me~")
+		to_chat(target, span_love("<b>Come close and look upon me.</b>"))
+		owner.say("Look upon me.")
 	else
-		to_chat(target, "<span class='userlove'><b>COME HERE</b></span>")
-		owner.say("COME HERE!!")
+		to_chat(target, span_love("<b>BEHOLD ME!!</b>"))
+		owner.say("BEHOLD ME!!")
 
 
 /datum/coven_power/presence/awe/deactivate(mob/living/carbon/human/target)
 	. = ..()
 	target?.remove_overlay(MUTATIONS_LAYER)
+
+/datum/coven_power/presence/awe/proc/can_affect_target(mob/living/target)
+	if(!istype(target))
+		return FALSE
+	if(target.stat == DEAD)
+		return FALSE
+	if(target.clan == owner.clan)
+		return FALSE
+	if(target.has_status_effect(/datum/status_effect/awestruck))
+		return FALSE
+	return TRUE
+
+/datum/status_effect/awestruck
+	id = "awestruck"
+	duration = 10 SECONDS
+	alert_type = /atom/movable/screen/alert/status_effect/awestruck
+	var/mob/living/carbon/human/awe_user
+	var/mob/living/carbon/human/awe_target
+
+/atom/movable/screen/alert/status_effect/awestruck
+	name = "Awestruck"
+	desc = "I can hardly take my eyes off them!"
+	icon_state = "debuff"
+
+/datum/status_effect/awestruck/on_remove()
+	. = ..()
+	var/dist = get_dist(awe_target, awe_user)
+	if(!awe_target.can_see_cone(awe_user))
+		awe_target.playsound_local(awe_target, 'sound/magic/heartbeat.ogg', 100)
+		awe_target.Immobilize(10 SECONDS)
+		awe_target.freakout_hud_skew()
+		awe_target.visible_message("<span class='warning'>[awe_target] goes still for a moment, their movements suddenly halted.</span>", "<span class='warning'>You were just beholding their presence.. Where are they? WHERE ARE THEY!?</span>")
+	if(awe_target.can_see_cone(awe_user) && dist > 4)
+		awe_target.playsound_local(awe_target, 'sound/magic/heartbeat.ogg', 100)
+		awe_target.Immobilize(10 SECONDS)
+		awe_target.freakout_hud_skew()
+		awe_target.visible_message("<span class='warning'>[awe_target] goes still for a moment, their movements suddenly halted.</span>", "<span class='warning'>Their presence.. you need to be closer, to admire it. YOU NEED TO BE CLOSER!!</span>")
+
+	else
+		awe_target.visible_message("[awe_target]'s gaze seemingly returns to normal.", "My gaze can focus again!")
+
+/datum/status_effect/awestruck/on_creation(mob/living/new_owner, mob/living/user)
+	awe_user = user
+	awe_target = new_owner
+	new_owner.visible_message("<span class='warning'>[new_owner] blinks, their gaze going strange for a moment.</span>", "<span class='notice'>You blink, and suddenly [user] is the only thing you feel capable of focusing on.</span>")
+
+	return ..()
+
 
 //DREAD GAZE
 /datum/coven_power/presence/dread_gaze
