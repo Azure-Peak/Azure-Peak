@@ -38,6 +38,7 @@
 	for(var/S in MOBSTATS)
 		H.change_stat(S, 2)
 	H.forceMove(pick(GLOB.vlord_starts))
+	ADD_TRAIT(H, TRAIT_DUSTABLE, TRAIT_GENERIC)//they are ancient and have a great risk. Maybe add a quest to reclaim their power?
 
 /datum/antagonist/vampire/lord/greet()
 	to_chat(owner.current, span_userdanger("I am ancient. I am the Land. And I am now awoken to trespassers upon my domain."))
@@ -66,7 +67,6 @@
 	backl = /obj/item/storage/backpack/rogue/satchel/black
 	l_hand = /obj/item/rogueweapon/sword/long/judgement/vlord
 	H.ambushable = FALSE
-
 /*------VERBS-----*/
 
 // NEW VERBS

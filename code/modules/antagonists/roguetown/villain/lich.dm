@@ -55,7 +55,6 @@
 	equip_lich()
 	greet()
 	save_stats()
-
 	return ..()
 
 /datum/antagonist/lich/greet()

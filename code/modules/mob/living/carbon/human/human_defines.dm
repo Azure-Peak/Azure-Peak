@@ -111,6 +111,7 @@
 	var/datum/inspiration/inspiration = null
 
 	var/headshot_link = null
+	var/standard_headshot_link = null //used to store headshots when swapping for antag ones
 	var/flavortext = null
 	var/ooc_notes = null
 	var/ooc_extra
@@ -136,6 +137,15 @@
 	var/datum/statpack/statpack = null // Lethalstone Port - statpacks for greater customization
 	var/second_voice	// Virtue-specific. Can be swapped to / from and changed.
 	var/original_voice
+	//setting up vars for vampire color values
+	var/vampire_skin = null
+	var/vampire_eyes = null
+	var/vampire_hair = null
+	//An alternative headshot link that can be used when users want to use it for a special role like while a vampire, werewolf, bandit, etc.
+	var/vampire_headshot_link
+	var/lich_headshot_link
+	//setting up the hooks for this, but not shown yet
+	var/werewolf_headshot_link
 
 	/// Whether our FOV cone is overridden to be hidden. Simple bool.
 	var/viewcone_override

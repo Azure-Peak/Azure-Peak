@@ -1478,7 +1478,7 @@
 
 /turf/open/floor/rogue/shroud/Entered(atom/movable/AM, atom/oldLoc)
 	..()
-	if(isliving(AM))
+	if((isliving(AM))&&(!AM.movement_type == FLYING)) //if we're flying over something we shouldn't be making noise.
 		if(istype(oldLoc, type))
 			playsound(AM, "plantcross", 100, TRUE)
 

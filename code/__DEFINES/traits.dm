@@ -222,6 +222,9 @@
 // ARMOR / CLOTHING GIVEN TRAITS (GIVEN BY WEARING CLOTHES/ARMOR PIECES)
 #define TRAIT_MONK_ROBE	"Holy Vestatures"
 #define TRAIT_RACISMISBAD "Heritage Vision"
+#define TRAIT_DUSTABLE "Dustable"
+#define TRAIT_SECONDLIFE "Second Life"
+#define TRAIT_QUICKSILVERRESISTANT "Quicksilver Resistance"
 
 // Economic Roles Traits
 // Most of these should NOT be given to any true combat roles (I.E. anything with Dexpert or Miracle / Good Magic) with very few exceptions
@@ -443,6 +446,9 @@ GLOBAL_LIST_INIT(roguetraits, list(
 	TRAIT_MOUNTABLE = span_notice("I've been trained to carry other people's burdens."),
 	TRAIT_GOODWRITER = span_notice("I'm proficient at writing. Any skillbooks made by me will allow the reader to learn the subject more quickly."),
 	TRAIT_WAGES_SUSPENDED = span_warning("The Stewardry has halted my daily wages!"),
+	TRAIT_DUSTABLE = span_warning("If I die that is for the end for me, I will turn to dust."),
+	TRAIT_SECONDLIFE = span_warning("I may be granted another chance upon death, but who knows where I'll end up..."),
+	TRAIT_QUICKSILVERRESISTANT = span_warning("Quick silver won't work to cure me..."),
 ))
 
 // trait accessor defines

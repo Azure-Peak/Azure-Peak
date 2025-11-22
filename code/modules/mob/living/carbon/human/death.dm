@@ -41,8 +41,16 @@
 
 	if(mind)
 		if(!gibbed)
-			var/datum/antagonist/vampire/VD = mind.has_antag_datum(/datum/antagonist/vampire)
-			if(VD)
+			//var/datum/antagonist/vampire/VD = mind.has_antag_datum(/datum/antagonist/vampire)
+			var/has_secondlife = HAS_TRAIT(mind.current, TRAIT_SECONDLIFE)
+			if(has_secondlife)
+				var/respawn_time = 5 SECONDS
+				var/datum/mind/playermind = mind
+				addtimer(CALLBACK(src, PROC_REF(secondliferespawn), playermind), respawn_time, TIMER_UNIQUE)
+				REMOVE_TRAIT(mind.current,TRAIT_SECONDLIFE,TRAIT_GENERIC)
+
+			var/has_dust_trait = HAS_TRAIT(mind.current, TRAIT_DUSTABLE)
+			if(has_dust_trait)
 				dust(just_ash=TRUE,drop_items=TRUE)
 				return
 
@@ -177,3 +185,34 @@
 				CA.adjust_triumphs(-1)
 			CA.add_stress(/datum/stressevent/viewgib)
 	return ..()
+
+/mob/living/carbon/human/proc/secondliferespawn(datum/mind/mind)
+	var/mob_type = /mob/living/carbon/human
+	var/turf/T = get_turf(src)
+	var/mob/living/body
+
+	//drop everything they had on the ground
+	if(T)
+		for(var/X in bodyparts)
+			var/obj/item/bodypart/BP = X
+			for(var/obj/item/I in BP.embedded_objects)
+				I.forceMove(T)
+
+	if(mind.current)
+		if(mind.current.stat != DEAD)
+			return
+		else
+			body = mind.current
+	if(!body)
+		body = new mob_type(T)
+		var/mob/ghostie = mind.get_ghost(TRUE)
+		if(ghostie.client && ghostie.client.prefs)
+			ghostie.client.prefs.copy_to(body)
+		mind.transfer_to(body)
+	else
+		body.forceMove(pick(GLOB.secondlife_respawns))
+		body.revive(full_heal = TRUE, admin_revive = TRUE)
+	mind.grab_ghost(TRUE)
+	body.flash_act()
+
+	playsound(T, 'sound/magic/antimagic.ogg', 50, TRUE)

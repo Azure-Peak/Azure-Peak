@@ -226,10 +226,12 @@
 
 	var/contribution = input(user, "How much vitae to contribute? (Max: [max_contribution])", "CONTRIBUTION") as num|null
 
-	if(!contribution || contribution <= 0)
+	//setting this to 1, since you don't want fractions below 1
+	if(!contribution || contribution < 1)
 		return
 
-	contribution = clamp(contribution, 1, max_contribution)
+	//setting this to 0, when it was at 1 it was just giving free vitae if it was less than 1 but a 
+	contribution = clamp(contribution, 0, max_contribution)
 
 	if(user.bloodpool < contribution)
 		to_chat(user, span_warning("I do not have enough vitae."))
@@ -388,7 +390,7 @@
 
 /datum/vampire_project/servant/proc/summon(type, atom/feedback_atom)
 	feedback_atom.visible_message("The crucible stirs, summoning a servant from the realms beyond...")
-	var/list/candidates = pollGhostCandidates("Do you want to play as a Vampire's [type]?", ROLE_VAMPIRE_SUMMON, null, null, 10 SECONDS, POLL_IGNORE_VL_SERVANT)
+	var/list/candidates = pollGhostCandidates("Do you want to play as a Vampire's [type]?", ROLE_VAMPIRE_SUMMON, null, null, 30 SECONDS, POLL_IGNORE_VL_SERVANT)
 	if(!LAZYLEN(candidates))
 		feedback_atom.visible_message("But alas, the depths are hollow...")
 		return FALSE

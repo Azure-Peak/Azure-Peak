@@ -58,6 +58,10 @@
 		to_chat(user, span_warning("With their lux departed, the ritual will have no purchase upon them. It would be a waste."))
 		return
 
+	if(HAS_TRAIT(M, TRAIT_QUICKSILVERRESISTANT))
+		to_chat(user, span_warning("The quicksilver bubbles and a rash forms on [M], they can not accept it's blessing."))
+		return
+
 	var/found = null
 	for(var/obj/structure/fluff/psycross/S in oview(5, user))
 		found = S

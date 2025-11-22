@@ -472,6 +472,9 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	S["hair_color"]			>> hair_color
 	S["facial_hair_color"]	>> facial_hair_color
 	S["eye_color"]			>> eye_color
+	S["vampire_skin"]		>> vampire_skin
+	S["vampire_hair"]		>> vampire_hair
+	S["vampire_eyes"]		>> vampire_eyes
 	S["extra_language"]		>> extra_language
 	S["voice_color"]		>> voice_color
 	S["voice_pitch"]		>> voice_pitch
@@ -593,6 +596,20 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	if(!valid_headshot_link(null, headshot_link, TRUE))
 		headshot_link = null
 
+	S["vampire_headshot_link"]			>> vampire_headshot_link
+	if(!valid_headshot_link(null, vampire_headshot_link, TRUE))
+		vampire_headshot_link = null
+
+	S["lich_headshot_link"]			>> lich_headshot_link
+	if(!valid_headshot_link(null, lich_headshot_link, TRUE))
+		lich_headshot_link = null
+
+//setting up the hooks for this, but not shown yet
+	S["werewolf_headshot_link"]			>> werewolf_headshot_link
+	if(!valid_headshot_link(null, werewolf_headshot_link, TRUE))
+		werewolf_headshot_link = null
+
+	S["qsr"] 			>> qsr_pref
 	S["flavortext"]			>> flavortext
 	S["ooc_notes"]			>> ooc_notes
 	S["ooc_extra"]			>> ooc_extra
@@ -711,6 +728,9 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	WRITE_FILE(S["hair_color"]			, hair_color)
 	WRITE_FILE(S["facial_hair_color"]	, facial_hair_color)
 	WRITE_FILE(S["eye_color"]			, eye_color)
+	WRITE_FILE(S["vampire_skin"]		, vampire_skin)
+	WRITE_FILE(S["vampire_hair"]		, vampire_hair)
+	WRITE_FILE(S["vampire_eyes"]		, vampire_eyes)
 	WRITE_FILE(S["extra_language"]		, extra_language)
 	WRITE_FILE(S["voice_color"]			, voice_color)
 	WRITE_FILE(S["voice_pitch"]			, voice_pitch)
@@ -765,6 +785,10 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	WRITE_FILE(S["dnr"] , dnr_pref)
 	WRITE_FILE(S["update_mutant_colors"] , update_mutant_colors)
 	WRITE_FILE(S["headshot_link"] , headshot_link)
+	WRITE_FILE(S["vampire_headshot_link"] , vampire_headshot_link)
+	WRITE_FILE(S["werewolf_headshot_link"] , werewolf_headshot_link)
+	WRITE_FILE(S["lich_headshot_link"] , lich_headshot_link)
+	WRITE_FILE(S["qsr"] , qsr_pref)
 	WRITE_FILE(S["flavortext"] , html_decode(flavortext))
 	WRITE_FILE(S["ooc_notes"] , html_decode(ooc_notes))
 	WRITE_FILE(S["ooc_extra"] ,	ooc_extra)

@@ -222,9 +222,6 @@
 /datum/sleep_adv/proc/is_considered_sleeping()
 	if(!mind.current)
 		return FALSE
-	var/has_vamp_trait = HAS_TRAIT(mind.current, TRAIT_VAMP_DREAMS)
-	if(has_vamp_trait)
-		return TRUE
 	if(mind.current.IsSleeping())
 		return TRUE
 	return FALSE
