@@ -205,7 +205,7 @@
 	if(slot_flags & slotdefine2slotbit(slot))
 		if(!length(allowed_sexes) || (M.gender in allowed_sex))
 			if(length(allowed_race) && H)
-				if(H.dna.species.type in allowed_race)
+				if(H.dna.species.id in allowed_race)
 					return TRUE
 				return FALSE
 			return TRUE

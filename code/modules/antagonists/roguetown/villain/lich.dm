@@ -161,7 +161,7 @@
 	eyes = new /obj/item/organ/eyes/night_vision/zombie
 	eyes.Insert(L)
 
-/datum/outfit/job/roguetown/lich/post_equip(mob/living/carbon/human/H)
+/datum/outfit/job/roguetown/lich/post_equip(mob/living/carbon/human/H, client/player_client)
 	..()
 	var/datum/antagonist/lich/lichman = H.mind.has_antag_datum(/datum/antagonist/lich)
 	// One phylactery instead of 3 so that they don't need to get chased down non-stop.

@@ -3,7 +3,7 @@
 
 /datum/species/lupian
 	name = "Lupian"
-	id = "lupian"
+	id = SPEC_ID_LUPIAN
 	desc = "<b>Lupian</b><br>\
 	As written by an Archivist from times before yours: Lupians, known by many as Volfmen, are a very prominent type of Beastkin that is easily found all across Psydonia. \
 	They are oft tall and slim, carrying with them a coat of discoloured short or medium length fur. \

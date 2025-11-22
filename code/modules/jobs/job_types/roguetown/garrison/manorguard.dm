@@ -7,7 +7,7 @@
 	spawn_positions = 8
 
 	allowed_sexes = list(MALE, FEMALE)
-	allowed_races = ACCEPTED_RACES
+	allowed_races = RACES_TOLERATED_UP
 	allowed_ages = list(AGE_ADULT, AGE_MIDDLEAGED)
 	job_traits = list(TRAIT_GUARDSMAN, TRAIT_STEELHEARTED)
 	tutorial = "Having proven yourself loyal and capable, you are entrusted to defend the town and enforce its laws. \
@@ -34,7 +34,7 @@
 /datum/outfit/job/roguetown/manorguard
 	job_bitflag = BITFLAG_GARRISON
 
-/datum/job/roguetown/manorguard/after_spawn(mob/living/L, mob/M, latejoin = TRUE)
+/datum/job/roguetown/manorguard/after_spawn(mob/living/L, mob/M, latejoin = TRUE, visuals_only, client/player_client)
 	. = ..()
 	if(ishuman(L))
 		var/mob/living/carbon/human/H = L

@@ -6,7 +6,7 @@
 	total_positions = 0
 	spawn_positions = 0
 
-	allowed_races = ACCEPTED_RACES
+	allowed_races = RACES_TOLERATED_UP
 	allowed_ages = ALL_AGES_LIST
 	outfit = /datum/outfit/job/roguetown/vagrant
 	job_traits = list(TRAIT_HOMESTEAD_EXPERT)

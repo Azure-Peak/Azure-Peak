@@ -9,17 +9,7 @@
 	max_pq = null
 
 	allowed_sexes = list(MALE, FEMALE)
-	allowed_races = list(
-		"Humen",
-		"Rakshari",
-		"Elf",
-		"Half-Elf",
-		"Dwarf",
-		"Tiefling",
-		"Dark Elf",
-		"Aasimar",
-		"Half-Orc"
-	)
+	allowed_races = list(SPEC_ID_GOBLINP)
 	tutorial = ""
 
 	outfit = /datum/outfit/job/roguetown/npc/goblin
@@ -29,7 +19,7 @@
 	. = ..()
 	return  H.change_mob_type(/mob/living/carbon/human/species/goblin/cave, delete_old_mob = TRUE)
 
-/datum/job/roguetown/goblin/after_spawn(mob/living/L, mob/M, latejoin = TRUE)
+/datum/job/roguetown/goblin/after_spawn(mob/living/L, mob/M, latejoin = TRUE, visuals_only, client/player_client)
 	..()
 	if(L)
 		var/mob/living/carbon/human/H = L

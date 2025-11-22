@@ -6,7 +6,7 @@
 	total_positions = 1
 	spawn_positions = 1
 	f_title = "Bathmatron"
-	allowed_races = ACCEPTED_RACES
+	allowed_races = RACES_TOLERATED_UP
 	tutorial = "You are renting out the bathhouse in a joint operation with the Innkeep. You provide security for the bathwenches and help them to find work--when you're not being a trouble-making rake that others suffer to tolerate."
 	allowed_sexes = list(MALE, FEMALE)
 	outfit = /datum/outfit/job/roguetown/niteman

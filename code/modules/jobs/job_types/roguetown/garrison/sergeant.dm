@@ -6,7 +6,7 @@
 	total_positions = 1
 	spawn_positions = 1
 	allowed_sexes = list(MALE, FEMALE)
-	allowed_races = ACCEPTED_RACES
+	allowed_races = RACES_TOLERATED_UP
 	allowed_ages = list(AGE_ADULT, AGE_MIDDLEAGED, AGE_OLD)
 	tutorial = "You are the most experienced of the Crown's Soldiery, leading the men-at-arms in maintaining order and attending to threats and crimes below the court's attention. \
 				See to those under your command and fill in the gaps knights leave in their wake. Obey the orders of your Marshal and the Crown."
@@ -30,7 +30,7 @@
 /datum/outfit/job/roguetown/sergeant
 	job_bitflag = BITFLAG_GARRISON
 
-/datum/job/roguetown/sergeant/after_spawn(mob/living/L, mob/M, latejoin = TRUE)
+/datum/job/roguetown/sergeant/after_spawn(mob/living/L, mob/M, latejoin = TRUE, visuals_only, client/player_client)
 	. = ..()
 	if(ishuman(L))
 		var/mob/living/carbon/human/H = L

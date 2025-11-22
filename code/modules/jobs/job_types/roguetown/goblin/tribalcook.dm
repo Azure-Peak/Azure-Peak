@@ -6,7 +6,7 @@
 	total_positions = 0
 	spawn_positions = 0
 	allowed_sexes = list(MALE, FEMALE)
-	allowed_races = list()
+	allowed_races = list(SPEC_ID_GOBLINP)
 	allowed_patrons = list(/datum/patron/inhumen/graggar)
 	job_traits = list(TRAIT_HOMESTEAD_EXPERT)
 	tutorial = "Cook, farm, butcher. Make king happy with apple pies! Don't forget about your brothers."

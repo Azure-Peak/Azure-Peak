@@ -16,7 +16,7 @@
 	class_setup_examine = FALSE
 
 //Hooking in here does not mess with their equipment procs
-/datum/job/roguetown/adventurer/courtagent/after_spawn(mob/living/L, mob/M, latejoin = TRUE)
+/datum/job/roguetown/adventurer/courtagent/after_spawn(mob/living/L, mob/M, latejoin = TRUE, visuals_only, client/player_client)
 	if(L)
 		if(ishuman(L))
 			var/mob/living/carbon/human/H = L

@@ -6,7 +6,7 @@
 	total_positions = 1
 	spawn_positions = 1
 
-	allowed_races = RACES_NO_CONSTRUCT	//No noble constructs.
+	allowed_races = RACES_NO_CONSTRUCT	//No noble constructs. Others are fine.
 	allowed_sexes = list(MALE, FEMALE)
 	outfit = /datum/outfit/job/roguetown/hand
 	advclass_cat_rolls = list(CTAG_HAND = 20)
@@ -37,7 +37,7 @@
 	H.mind.AddSpell(new /obj/effect/proc_holder/spell/self/convertrole/agent)
 	H.verbs |= /datum/job/roguetown/hand/proc/remember_agents
 
-/datum/job/roguetown/hand/after_spawn(mob/living/L, mob/M, latejoin = TRUE)
+/datum/job/roguetown/hand/after_spawn(mob/living/L, mob/M, latejoin = TRUE, visuals_only, client/player_client)
 	. = ..()
 	addtimer(CALLBACK(src, PROC_REF(know_agents), L), 5 SECONDS)
 

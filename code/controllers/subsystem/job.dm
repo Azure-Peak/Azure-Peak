@@ -132,9 +132,12 @@ SUBSYSTEM_DEF(job)
 		if(player.mind && (job.title in player.mind.restricted_roles))
 			JobDebug("FOC incompatible with antagonist role, Player: [player]")
 			continue
-		if(length(job.allowed_races) && !(player.client.prefs.pref_species.type in job.allowed_races))
-			JobDebug("FOC incompatible with species, Player: [player], Job: [job.title], Race: [player.client.prefs.pref_species.name]")
-			continue
+		if(length(job.allowed_races) && !(player.client.prefs.pref_species.id in job.allowed_races))
+			if(!player.client?.has_triumph_buy(TRIUMPH_BUY_RACE_ALL))
+				JobDebug("FOC incompatible with species, Player: [player], Job: [job.title], Race: [player.client.prefs.pref_species.name]")
+				continue
+			else
+				player.client?.activate_triumph_buy(TRIUMPH_BUY_RACE_ALL)
 		if(length(job.allowed_patrons) && !(player.client.prefs.selected_patron.type in job.allowed_patrons))
 			JobDebug("FOC incompatible with patron, Player: [player], Job: [job.title], Race: [player.client.prefs.pref_species.name]")
 			continue
@@ -212,7 +215,7 @@ SUBSYSTEM_DEF(job)
 			JobDebug("GRJ incompatible with antagonist role, Player: [player], Job: [job.title]")
 			continue
 
-		if(length(job.allowed_races) && !(player.client.prefs.pref_species.type in job.allowed_races))
+		if(length(job.allowed_races) && !(player.client.prefs.pref_species.id in job.allowed_races))
 			JobDebug("GRJ incompatible with species, Player: [player], Job: [job.title], Race: [player.client.prefs.pref_species.name]")
 			continue
 
@@ -456,7 +459,7 @@ SUBSYSTEM_DEF(job)
 					JobDebug("DO incompatible with antagonist role, Player: [player], Job:[job.title]")
 					continue
 
-				if(length(job.allowed_races) && !(player.client.prefs.pref_species.type in job.allowed_races))
+				if(length(job.allowed_races) && !(player.client.prefs.pref_species.id in job.allowed_races))
 					JobDebug("DO incompatible with species, Player: [player], Job: [job.title], Race: [player.client.prefs.pref_species.name]")
 					continue
 
@@ -563,7 +566,7 @@ SUBSYSTEM_DEF(job)
 				if(player.mind && (job.title in player.mind.restricted_roles))
 					continue
 
-				if(length(job.allowed_races) && !(player.client.prefs.pref_species.type in job.allowed_races))
+				if(length(job.allowed_races) && !(player.client.prefs.pref_species.id in job.allowed_races))
 					continue
 				
 				if(length(job.allowed_patrons) && !(player.client.prefs.selected_patron.type in job.allowed_patrons))
@@ -735,7 +738,7 @@ SUBSYSTEM_DEF(job)
 //		var/mob/living/carbon/human/wageslave = H
 //		H.add_memory("Your account ID is [wageslave.account_id].")
 	if(job && H)
-		job.after_spawn(H, M, joined_late) // note: this happens before the mob has a key! M will always have a client, H might not.
+		job.after_spawn(H, M, joined_late, player_client = M.client) // note: this happens before the mob has a key! M will always have a client, H might not.
 
 	return H
 
@@ -815,6 +818,12 @@ SUBSYSTEM_DEF(job)
 		JobDebug("Popcap overflow Check observer located, Player: [player]")
 	JobDebug("Player rejected :[player]")
 	to_chat(player, "<b>I couldn't find a job to be..</b>")
+
+	var/list/client_triumphs = SStriumphs.triumph_buy_owners[player.ckey]
+	if(islist(client_triumphs))
+		for(var/datum/triumph_buy/race_all_jobs/R in client_triumphs)
+			SStriumphs.attempt_to_unbuy_triumph_condition(player.client, R, reason = "FAILING TO GET A JOB", force = TRUE)
+
 	unassigned -= player
 	player.ready = PLAYER_NOT_READY
 

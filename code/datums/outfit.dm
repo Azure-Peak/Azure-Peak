@@ -161,7 +161,7 @@
   *
   * If visualsOnly is true, you can omit any work that doesn't visually appear on the character sprite
   */
-/datum/outfit/proc/post_equip(mob/living/carbon/human/H, visualsOnly = FALSE)
+/datum/outfit/proc/post_equip(mob/living/carbon/human/H, visualsOnly = FALSE, client/player_client = null)
 	//to be overridden for toggling internals, id binding, access etc
 	return
 
@@ -266,7 +266,7 @@
 							if(!item || !SEND_SIGNAL(item, COMSIG_TRY_STORAGE_INSERT, new_item, null, TRUE, TRUE))
 								addtimer(CALLBACK(PROC_REF(move_storage), new_item, H.loc), 3 SECONDS)
 
-	post_equip(H, visualsOnly)
+	post_equip(H, visualsOnly, player_client = H.client)
 
 	if(!visualsOnly)
 		apply_fingerprints(H)

@@ -6,7 +6,7 @@
 
 /datum/species/dullahan
 	name = "Revenant"
-	id = "revenant"
+	id = SPEC_ID_REVENANT
 	desc = "<b>Revenant</b><br>\
 	Revenants are those that have died, returning from death to continue 'living' in a manner to speak. Their origins are not entirely known, yet many strongly believe them to have originated from the rot and decay of Psydonia. \
 	Unable to truly rest, yet entirely sane of mind. Capable of detaching their heads through unknown arcyne means, they are oft wanderers due to their unknown origins and being ostracized by both the Church and many of the common masses around the lands."

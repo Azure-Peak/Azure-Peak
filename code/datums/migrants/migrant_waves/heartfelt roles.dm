@@ -2,7 +2,7 @@
 	name = "Lord of Heartfelt"
 	greet_text = "You are the Lord of Heartfelt, ruler of a once-prosperous barony now in ruin. Guided by your Magos, you journey to the Peak, seeking aid to restore your domain to its former glory, or perhaps claim a new throne."
 	outfit = /datum/outfit/job/roguetown/heartfelt/lord
-	allowed_races = RACES_NO_CONSTRUCT
+	allowed_races = RACES_RESPECTED
 	grant_lit_torch = TRUE
 	show_wanderer_examine = FALSE
 
@@ -96,7 +96,7 @@
 	name = "Hand of Heartfelt"
 	greet_text = "You are the Hand of Heartfelt, burdened by the perception of failure in protecting your Lord's domain. Despite doubts from others, your loyalty remains steadfast as you journey to the Peak, determined to fulfill your duties."
 	outfit = /datum/outfit/job/roguetown/heartfelt/hand
-	allowed_races = ACCEPTED_RACES
+	allowed_races = RACES_NO_CONSTRUCT
 	grant_lit_torch = TRUE
 	show_wanderer_examine = FALSE
 

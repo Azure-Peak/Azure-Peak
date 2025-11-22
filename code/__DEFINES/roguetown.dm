@@ -33,162 +33,6 @@ Balloon Alert / Floating Text defines
 */
 #define XP_SHOW_COOLDOWN (0.5 SECONDS)
 
-
-//used in various places
-#define ALL_RACES_TYPES list(\
-	/datum/species/human/northern,\
-	/datum/species/human/halfelf,\
-	/datum/species/elf/dark,\
-	/datum/species/elf/wood,\
-	/datum/species/dwarf/mountain,\
-	/datum/species/tieberian,\
-	/datum/species/aasimar,\
-	/datum/species/lizardfolk,\
-	/datum/species/lupian,\
-	/datum/species/tabaxi,\
-	/datum/species/vulpkanin,\
-	/datum/species/akula,\
-	/datum/species/moth,\
-	/datum/species/dracon,\
-	/datum/species/anthromorph,\
-	/datum/species/anthromorphsmall,\
-	/datum/species/demihuman,\
-	/datum/species/halforc,\
-	/datum/species/kobold,\
-	/datum/species/goblinp,\
-	/datum/species/dullahan,\
-  /datum/species/dwarf/gnome\
-)
-
-#define RACES_RESPECTED \
-	/datum/species/human/northern,\
-	/datum/species/elf/wood,\
-	/datum/species/human/halfelf,\
-	/datum/species/dwarf/mountain,\
-	/datum/species/aasimar,\
-	/datum/species/lupian,\
-	/datum/species/vulpkanin,\
-	/datum/species/moth,\
-	/datum/species/dracon,\
-	/datum/species/dwarf/gnome\
-
-#define RACES_TOLERATED \
-	/datum/species/elf/dark,\
-	/datum/species/tieberian,\
-	/datum/species/lizardfolk,\
-	/datum/species/tabaxi,\
-	/datum/species/akula,\
-	/datum/species/anthromorph,\
-	/datum/species/demihuman,\
-	/datum/species/halforc,\
-
-#define RACES_SHUNNED \
-	/datum/species/anthromorphsmall,\
-	/datum/species/kobold,\
-	/datum/species/goblinp,\
-
-#define RACES_DESPISED \
-	/datum/species/dullahan,\
-
-#define RACES_CONSTRUCT \
-	/datum/species/construct/metal,\
-
-#define RACES_ALL_KINDS list(RACES_DESPISED, RACES_SHUNNED, RACES_TOLERATED, RACES_RESPECTED, RACES_CONSTRUCT)	//Truely no restrictions
-
-#define ACCEPTED_RACES list(RACES_SHUNNED, RACES_TOLERATED, RACES_RESPECTED, RACES_CONSTRUCT)	//Allows all races except dallahun
-
-#define RACES_NO_CONSTRUCT list(RACES_SHUNNED, RACES_TOLERATED, RACES_RESPECTED)
-
-#define RACES_SHUNNED_UP list(RACES_SHUNNED, RACES_TOLERATED, RACES_RESPECTED)
-
-#define RACES_TOLERATED_UP list(RACES_TOLERATED, RACES_RESPECTED)
-
-#define NOBLE_RACES_TYPES list(\
-	/datum/species/human/northern,\
-	/datum/species/human/halfelf,\
-	/datum/species/elf/dark,\
-	/datum/species/elf/wood,\
-	/datum/species/dwarf/mountain,\
-	/datum/species/tieberian,\
-	/datum/species/aasimar,\
-	/datum/species/lizardfolk,\
-	/datum/species/lupian,\
-	/datum/species/tabaxi,\
-	/datum/species/vulpkanin,\
-	/datum/species/akula,\
-	/datum/species/moth,\
-	/datum/species/dracon,\
-	/datum/species/anthromorph,\
-	/datum/species/anthromorphsmall,\
-	/datum/species/demihuman,\
-	/datum/species/kobold,\
-	/datum/species/goblinp,\
-)
-
-#define CLOTHED_RACES_TYPES list(\
-	/datum/species/human/northern,\
-	/datum/species/human/halfelf,\
-	/datum/species/elf/dark,\
-	/datum/species/elf/wood,\
-	/datum/species/dwarf/mountain,\
-	/datum/species/tieberian,\
-	/datum/species/aasimar,\
-	/datum/species/lizardfolk,\
-	/datum/species/lupian,\
-	/datum/species/tabaxi,\
-	/datum/species/vulpkanin,\
-	/datum/species/akula,\
-	/datum/species/moth,\
-	/datum/species/dracon,\
-	/datum/species/anthromorph,\
-	/datum/species/anthromorphsmall,\
-	/datum/species/demihuman,\
-	/datum/species/halforc,\
-	/datum/species/orc,\
-	/datum/species/kobold,\
-	/datum/species/goblinp,\
-	/datum/species/construct/metal,\
-	/datum/species/dullahan,\
-	/datum/species/dwarf/gnome\
-)
-// Non-dwarf non-kobold non-goblin mostly
-#define NON_DWARVEN_RACE_TYPES list(\
-	/datum/species/human/northern,\
-	/datum/species/human/halfelf,\
-	/datum/species/elf/dark,\
-	/datum/species/elf/wood,\
-	/datum/species/tieberian,\
-	/datum/species/aasimar,\
-	/datum/species/lizardfolk,\
-	/datum/species/lupian,\
-	/datum/species/tabaxi,\
-	/datum/species/vulpkanin,\
-	/datum/species/akula,\
-	/datum/species/moth,\
-	/datum/species/dracon,\
-	/datum/species/anthromorph,\
-	/datum/species/demihuman,\
-	/datum/species/halforc,\
-	/datum/species/construct/metal,\
-	/datum/species/dullahan,\
-)
-// Non-elf non-dwarf non-kobold non-goblin mostly
-#define HUMANLIKE_RACE_TYPES list(\
-	/datum/species/human/northern,\
-	/datum/species/tieberian,\
-	/datum/species/aasimar,\
-	/datum/species/lizardfolk,\
-	/datum/species/lupian,\
-	/datum/species/tabaxi,\
-	/datum/species/vulpkanin,\
-	/datum/species/akula,\
-	/datum/species/moth,\
-	/datum/species/dracon,\
-	/datum/species/anthromorph,\
-	/datum/species/demihuman,\
-	/datum/species/construct/metal,\
-	/datum/species/dullahan,\
-)
 #define ALL_CLERIC_PATRONS list(/datum/patron/divine/astrata, /datum/patron/divine/noc, /datum/patron/divine/dendor, /datum/patron/divine/necra, /datum/patron/divine/pestra, /datum/patron/divine/ravox, /datum/patron/divine/malum, /datum/patron/divine/eora, /datum/patron/divine/undivided) // Currently unused.
 
 #define ALL_PALADIN_PATRONS list(/datum/patron/divine/undivided, /datum/patron/divine/astrata, /datum/patron/divine/noc, /datum/patron/divine/abyssor, /datum/patron/divine/dendor, /datum/patron/divine/necra, /datum/patron/divine/pestra, /datum/patron/divine/ravox, /datum/patron/divine/malum, /datum/patron/divine/eora, /datum/patron/divine/xylix, /datum/patron/old_god) // Currently unused.
@@ -339,13 +183,48 @@ GLOBAL_LIST_EMPTY(round_join_times)
 #define CTAG_BATHMOM		"CAT_BATHMOM"
 #define CTAG_TAPSTER		"CAT_TAPSTER"
 #define CTAG_LUNATIC		"CAT_LUNATIC"
-/*
-	Defines for the triumph buy datum categories
-*/
-#define TRIUMPH_CAT_ROUND_EFX "ROUND-EFX"
+
+// Character category and its buys
 #define TRIUMPH_CAT_CHARACTER "CHARACTER"
-#define TRIUMPH_CAT_MISC "MISC!"
-#define TRIUMPH_CAT_ACTIVE_DATUMS "ACTIVE"
+
+#define TRIUMPH_BUY_RACE_ALL "race_all"
+#define TRIUMPH_BUY_ANY_CLASS "pick_any"
+
+// Storyteller category and its buys
+#define TRIUMPH_CAT_STORYTELLER "STORYTELLER"
+
+#define TRIUMPH_BUY_ASTRATA_INFLUENCE "astrata_influence"
+#define TRIUMPH_BUY_NOC_INFLUENCE "noc_influence"
+#define TRIUMPH_BUY_RAVOX_INFLUENCE "ravox_influence"
+#define TRIUMPH_BUY_ABYSSOR_INFLUENCE "abyssor_influence"
+#define TRIUMPH_BUY_XYLIX_INFLUENCE "xylix_influence"
+#define TRIUMPH_BUY_NECRA_INFLUENCE "necra_influence"
+#define TRIUMPH_BUY_PESTRA_INFLUENCE "pestra_influence"
+#define TRIUMPH_BUY_MALUM_INFLUENCE "malum_influence"
+#define TRIUMPH_BUY_EORA_INFLUENCE "eora_influence"
+#define TRIUMPH_BUY_DENDOR_INFLUENCE "dendor_influence"
+#define TRIUMPH_BUY_ZIZO_INFLUENCE "zizo_influence"
+#define TRIUMPH_BUY_BAOTHA_INFLUENCE "baotha_influence"
+#define TRIUMPH_BUY_GRAGGAR_INFLUENCE "graggar_influence"
+#define TRIUMPH_BUY_MATTHIOS_INFLUENCE "matthios_influence"
+
+// Misc category and its buys
+#define TRIUMPH_CAT_MISC "MISC"
+
+#define TRIUMPH_BUY_PSYDON_FAVOURITE "psydon_favourite"
+#define TRIUMPH_BUY_WIPE_TRIUMPHS "wipe_triumphs"
+
+// Misc category and its buys
+#define TRIUMPH_CAT_COMMUNAL "COMMUNAL"
+
+#define TRIUMPH_BUY_PSYDON_RETIREMENT "psydon_retirement"
+
+// Bought triumph buys category
+#define TRIUMPH_CAT_ACTIVE_DATUMS "BOUGHT"
+
+/*
+	Defines for armor classes
+*/
 
 #define ARMOR_CLASS_NONE 0
 #define ARMOR_CLASS_LIGHT 1

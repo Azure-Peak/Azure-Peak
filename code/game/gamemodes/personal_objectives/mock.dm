@@ -1,6 +1,6 @@
 /datum/objective/mock
 	name = "Mock"
-	triumph_count = 0
+	triumph_count = 2
 
 /datum/objective/mock/on_creation()
 	. = ..()
@@ -20,15 +20,15 @@
 /// Monarch variant
 /datum/objective/mock/monarch
 	name = "Mock Monarch"
-	triumph_count = 0
+	triumph_count = 3
 
 /datum/objective/mock/monarch/on_mock_used(datum/source, mob/living/victim)
 	. = ..()
 	if((istype(victim.mind?.assigned_role, /datum/job/roguetown/lord) || victim.job == "Grand Duke") && (source == owner.current))
 		to_chat(owner.current, span_greentext("You have mocked the monarch and completed the objective!"))
-		owner.current.adjust_triumphs(1)
+		owner.current.adjust_triumphs(triumph_count)
 		completed = TRUE
-		adjust_storyteller_influence("Xylix", 15)
+		adjust_storyteller_influence(XYLIX, 15)
 		escalate_objective()
 		UnregisterSignal(owner.current, COMSIG_VICIOUSLY_MOCKED)
 
@@ -39,6 +39,7 @@
 /// Noble variant
 /datum/objective/mock/noble
 	name = "Mock Nobles"
+	triumph_count = 2
 	var/mocked_targets = 0
 	var/required_count = 2
 
@@ -56,9 +57,9 @@
 		mocked_targets++
 		if(mocked_targets >= required_count)
 			to_chat(owner.current, span_greentext("You have mocked enough nobles and completed the objective!"))
-			owner.current.adjust_triumphs(1)
+			owner.current.adjust_triumphs(triumph_count)
 			completed = TRUE
-			adjust_storyteller_influence("Xylix", 10)
+			adjust_storyteller_influence(XYLIX, 10)
 			escalate_objective()
 			UnregisterSignal(owner.current, COMSIG_VICIOUSLY_MOCKED)
 		else

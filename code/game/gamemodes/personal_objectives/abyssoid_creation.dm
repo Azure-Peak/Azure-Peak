@@ -1,6 +1,6 @@
 /datum/objective/create_abyssoids
 	name = "Create Abyssoids"
-	triumph_count = 0
+	triumph_count = 2
 	var/abyssoids_created = 0
 	var/abyssoids_required = 5
 
@@ -29,9 +29,9 @@
 
 /datum/objective/create_abyssoids/proc/complete_objective()
 	to_chat(owner.current, span_greentext("You have created enough abyssoids to satisfy Abyssor!"))
-	owner.current.adjust_triumphs(1)
+	owner.current.adjust_triumphs(triumph_count)
 	completed = TRUE
-	adjust_storyteller_influence("Abyssor", 15)
+	adjust_storyteller_influence(ABYSSOR, 15)
 	escalate_objective()
 	UnregisterSignal(owner.current, COMSIG_ABYSSOID_CREATED)
 

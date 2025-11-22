@@ -3,7 +3,7 @@
 
 /datum/species/demihuman
 	name = "Half-Kin"
-	id = "demihuman"
+	id = SPEC_ID_DEMIHUMAN
 	desc = "The inevitable union between wildkin and some form of humanity or another. While they also experience animalistic tendencies akin to their full-blooded ancestors, their intermingling with others has stemmed the severity of such primordial impulses. (Half-kin are not a template race to play your own custom race. If you play a half-kin, you are expected to roleplay to the setting and the race's lore.)<br>\
 	(+1 Willpower, +1 Perception)"
 	skin_tone_wording = "Ancestry"

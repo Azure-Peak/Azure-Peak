@@ -1,6 +1,6 @@
 /datum/objective/craft_shrine
 	name = "Build Shrines"
-	triumph_count = 0
+	triumph_count = 2
 	var/target_type = /obj/structure/fluff/psycross/crafted
 	var/target_count = 2
 	var/current_count = 0
@@ -34,9 +34,9 @@
 		return
 
 	to_chat(owner.current, span_greentext("You have built all the required sacred crosses, completing Malum's objective!"))
-	owner.current.adjust_triumphs(2)
+	owner.current.adjust_triumphs(triumph_count)
 	completed = TRUE
-	adjust_storyteller_influence("Malum", 10)
+	adjust_storyteller_influence(MALUM, 10)
 	escalate_objective()
 	UnregisterSignal(owner.current, COMSIG_ITEM_CRAFTED)
 

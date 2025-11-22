@@ -5,7 +5,7 @@
 	faction = "Station"
 	total_positions = 3
 	spawn_positions = 3
-	allowed_races = RACES_NO_CONSTRUCT
+	allowed_races = RACES_TOLERATED_UP
 	allowed_sexes = list(MALE, FEMALE)
 	allowed_ages = list(AGE_ADULT, AGE_MIDDLEAGED)
 	tutorial = "Having proven yourself both loyal and capable, you have been knighted to serve the realm as the royal family's sentry. \
@@ -33,7 +33,7 @@
 /datum/outfit/job/roguetown/knight
 	job_bitflag = BITFLAG_GARRISON
 
-/datum/job/roguetown/knight/after_spawn(mob/living/L, mob/M, latejoin = TRUE)
+/datum/job/roguetown/knight/after_spawn(mob/living/L, mob/M, latejoin = TRUE, visuals_only, client/player_client)
 	..()
 	if(ishuman(L))
 		var/mob/living/carbon/human/H = L

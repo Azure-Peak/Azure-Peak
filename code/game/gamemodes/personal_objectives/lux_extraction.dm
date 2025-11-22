@@ -1,6 +1,6 @@
 /datum/objective/lux_extraction
 	name = "Extract Lux"
-	triumph_count = 0
+	triumph_count = 2
 
 /datum/objective/lux_extraction/on_creation()
 	. = ..()
@@ -19,9 +19,9 @@
 		return
 
 	to_chat(owner.current, span_greentext("You have extracted lux and completed Pestra's objective!"))
-	owner.current.adjust_triumphs(1)
+	owner.current.adjust_triumphs(triumph_count)
 	completed = TRUE
-	adjust_storyteller_influence("Pestra", 15)
+	adjust_storyteller_influence(PESTRA, 15)
 	escalate_objective()
 	UnregisterSignal(owner.current, COMSIG_LUX_EXTRACTED)
 

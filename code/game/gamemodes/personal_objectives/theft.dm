@@ -1,6 +1,6 @@
 /datum/objective/steal_items
 	name = "Steal Items"
-	triumph_count = 0
+	triumph_count = 2
 	var/stolen_count = 0
 	var/required_count = 3
 
@@ -23,9 +23,9 @@
 	stolen_count++
 	if(stolen_count >= required_count)
 		to_chat(owner.current, span_greentext("You have stolen enough items to complete Matthios' objective!"))
-		owner.current.adjust_triumphs(1)
+		owner.current.adjust_triumphs(triumph_count)
 		completed = TRUE
-		adjust_storyteller_influence("Matthios", 10)
+		adjust_storyteller_influence(MATTHIOS, 10)
 		escalate_objective()
 		UnregisterSignal(owner.current, COMSIG_ITEM_STOLEN)
 	else

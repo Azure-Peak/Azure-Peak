@@ -394,6 +394,12 @@ SUBSYSTEM_DEF(ticker)
 		if(C.mob)
 			C.mob.playsound_local(C.mob, 'sound/misc/roundstart.ogg', 100, FALSE)
 
+	
+	for(var/datum_type in SStriumphs.communal_pools)
+		var/datum/triumph_buy/communal/preround/triumph_buy_preround = locate(datum_type) in SStriumphs.triumph_buy_datums
+		if(triumph_buy_preround && istype(triumph_buy_preround))
+			triumph_buy_preround.check_refund()
+
 //	SEND_SOUND(world, sound('sound/misc/roundstart.ogg'))
 	current_state = GAME_STATE_PLAYING
 

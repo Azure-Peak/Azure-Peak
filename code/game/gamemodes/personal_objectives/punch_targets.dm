@@ -1,6 +1,6 @@
 /datum/objective/punch_people
 	name = "Punch People"
-	triumph_count = 0
+	triumph_count = 2
 	var/punches_done = 0
 	var/punches_required = 3
 
@@ -30,9 +30,9 @@
 
 /datum/objective/punch_people/proc/complete_objective()
 	to_chat(owner.current, span_greentext("You have dealt enough face punches to satisfy Graggar!"))
-	owner.current.adjust_triumphs(1)
+	owner.current.adjust_triumphs(triumph_count)
 	completed = TRUE
-	adjust_storyteller_influence("Graggar", 15)
+	adjust_storyteller_influence(GRAGGAR, 15)
 	escalate_objective()
 	UnregisterSignal(owner.current, COMSIG_HEAD_PUNCHED)
 

@@ -3,7 +3,7 @@
 
 /datum/species/dwarf/mountain
 	name = "Dwarf"
-	id = "dwarfm"
+	id = SPEC_ID_MOUNTAINDWARF
 	clothes_id = "dwarf"
 	desc = "<b>Dwarf</b><br>\
 	A proud and robust race of short mountain folk, \

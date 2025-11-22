@@ -1,6 +1,6 @@
 /datum/objective/hug_beggar
 	name = "Hug a Towner"
-	triumph_count = 0
+	triumph_count = 2
 
 /datum/objective/hug_beggar/on_creation()
 	. = ..()
@@ -19,9 +19,9 @@
 
 	if(target.job == "Towner" || istype(target.mind?.assigned_role, /datum/job/roguetown/villager))
 		to_chat(owner.current, span_greentext("You've hugged a local, completing Eora's objective!"))
-		owner.current.adjust_triumphs(1)
+		owner.current.adjust_triumphs(triumph_count)
 		completed = TRUE
-		adjust_storyteller_influence("Eora", 10)
+		adjust_storyteller_influence(EORA, 10)
 		escalate_objective()
 		UnregisterSignal(owner.current, COMSIG_MOB_HUGGED)
 

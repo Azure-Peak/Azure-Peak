@@ -1,6 +1,6 @@
 /datum/objective/consume_organs
 	name = "Consume Organs"
-	triumph_count = 0
+	triumph_count = 2
 	var/organs_consumed = 0
 	var/hearts_consumed = 0
 	var/organs_required = 2
@@ -41,9 +41,9 @@
 
 /datum/objective/consume_organs/proc/complete_objective()
 	to_chat(owner.current, span_greentext("You have consumed enough organs and hearts to satisfy Graggar!"))
-	owner.current.adjust_triumphs(1)
+	owner.current.adjust_triumphs(triumph_count)
 	completed = TRUE
-	adjust_storyteller_influence("Graggar", 15)
+	adjust_storyteller_influence(GRAGGAR, 15)
 	escalate_objective()
 	UnregisterSignal(owner.current, COMSIG_ORGAN_CONSUMED)
 

@@ -63,7 +63,7 @@
 
 // REMEMBER FLAGELLANT? REMEMBER LASZLO? THIS IS HIM NOW. FEEL OLD YET?
 
-/datum/job/roguetown/absolver/after_spawn(mob/living/L, mob/M, latejoin = TRUE)
+/datum/job/roguetown/absolver/after_spawn(mob/living/L, mob/M, latejoin = TRUE, visuals_only, client/player_client)
 	. = ..()
 	if(ishuman(L))
 		var/mob/living/carbon/human/H = L

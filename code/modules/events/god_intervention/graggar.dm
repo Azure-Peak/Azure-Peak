@@ -48,6 +48,7 @@ GLOBAL_LIST_EMPTY(graggar_cullings)
 		loser.change_stat(STATKEY_WIL, -1)
 		loser.change_stat(STATKEY_SPD, -1)
 		loser.change_stat(STATKEY_LCK, 1)
+		loser.adjust_triumphs(-1)
 		//loser.gib()	- Removed to avoid RRing them fully. Instead, we punish his stats.
 
 	qdel(src)

@@ -1,13 +1,14 @@
 /datum/triumph_buy/pick_any_class
-	triumph_buy_id = "PickAny"
-	desc = "Get single run of a class that can pick any class BYPASSING CLASS RESTRICTIONS on any class selection! WARNING: MAY BE BUGGY"
+	name = "No Advanced Class Restrictions"
+	desc = "Get a single run of any advanced class from any job! You must join as any job that has advanced classes to begin with. WARNING: PREPARE FOR UNFORESEEN CONSEQUENCES."
+	triumph_buy_id = TRIUMPH_BUY_ANY_CLASS
 	triumph_cost = 5
 	category = TRIUMPH_CAT_CHARACTER
-	pre_round_only = FALSE
 	visible_on_active_menu = FALSE
+	manual_activation = TRUE
 
-// We fire this on activate, also DAMN is this nasty
-/datum/triumph_buy/pick_any_class/on_activate()
+/datum/triumph_buy/pick_any_class/on_buy()
+	. = ..()
 	if(!SSrole_class_handler.special_session_queue[ckey_of_buyer])
 		SSrole_class_handler.special_session_queue[ckey_of_buyer] = list()
 
@@ -20,13 +21,11 @@
 		turbo_slop = SSrole_class_handler.special_session_queue[ckey_of_buyer][triumph_buy_id]
 		turbo_slop.maximum_possible_slots += 1
 
-// It should be there you know? lol 
-// If not we are desyncing somehow
 /datum/triumph_buy/pick_any_class/on_removal()
-	SSrole_class_handler.special_session_queue[ckey_of_buyer].Remove(triumph_buy_id)
+	. = ..()
+	if(SSrole_class_handler.special_session_queue[ckey_of_buyer])
+		SSrole_class_handler.special_session_queue[ckey_of_buyer].Remove(triumph_buy_id)
 
-
-//For triumph buy pick-all
 /datum/advclass/pick_everything
 	name = "Pick-Classes"
 	tutorial = "This will open up another menu when you spawn allowing you to pick from any class as long as its not disabled."
@@ -45,4 +44,6 @@
 		possible_classes += CHECKS
 
 	var/datum/advclass/C = input(H.client, "What is my class?", "Adventure") as null|anything in possible_classes
+	if(!C)
+		C = pick(possible_classes)
 	C.equipme(H)

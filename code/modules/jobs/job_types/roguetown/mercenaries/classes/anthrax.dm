@@ -3,8 +3,8 @@
 	tutorial = "The Dark elves, who usually live underground, are an extremely violent race. They are known for their insidious ability to use spider poisons and razor-sharp blades.  The matriarch has set you a task: to get to the surface and find out what is going on, and during this time you will be able to earn money, because, unfortunately, the inhabitants of the upper world refuse to accept spider paws as payment for their services."
 	allowed_sexes = list(MALE, FEMALE)
 	allowed_races = list(
-		/datum/species/elf/dark,
-		/datum/species/human/halfelf, // Because half-drows are half-elves, guh.
+		SPEC_ID_DARKELF,
+		SPEC_ID_HALFELF
 	)
 	outfit = /datum/outfit/job/roguetown/mercenary/anthrax
 	class_select_category = CLASS_CAT_RACIAL

@@ -1,6 +1,6 @@
 /datum/objective/build_zizo_shrine
 	name = "Construct Profane Shrines"
-	triumph_count = 0
+	triumph_count = 2
 	var/target_type = /obj/structure/fluff/psycross/zizocross
 	var/target_count = 2
 	var/current_count = 0
@@ -28,9 +28,9 @@
 		return
 
 	to_chat(owner.current, span_greentext("You have built all the required profane shrines, completing Zizo's objective!"))
-	owner.current.adjust_triumphs(1)
+	owner.current.adjust_triumphs(triumph_count)
 	completed = TRUE
-	adjust_storyteller_influence("Zizo", 15)
+	adjust_storyteller_influence(ZIZO, 15)
 	escalate_objective()
 	UnregisterSignal(owner.current, COMSIG_ITEM_CRAFTED)
 

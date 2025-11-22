@@ -17,7 +17,7 @@
 	announce_latejoin = FALSE
 	cmode_music = 'sound/music/combat_weird.ogg'
 
-/datum/job/roguetown/vampire_guard/after_spawn(mob/living/L, mob/M, latejoin = TRUE)
+/datum/job/roguetown/vampire_guard/after_spawn(mob/living/L, mob/M, latejoin = TRUE, client/player_client)
 	SSmapping.retainer.death_knights |= L.mind
 	return ..()
 

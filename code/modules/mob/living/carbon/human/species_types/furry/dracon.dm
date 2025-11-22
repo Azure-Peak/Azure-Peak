@@ -3,7 +3,7 @@
 
 /datum/species/dracon
 	name = "Drakian"
-	id = "dracon"
+	id = SPEC_ID_DRACON
 	desc = "<b>Drakian</b><br>\
 	Mighty scaled individuals who claim to be descendants of the dragons of yore.<br>\
 	(+1 Strength)"

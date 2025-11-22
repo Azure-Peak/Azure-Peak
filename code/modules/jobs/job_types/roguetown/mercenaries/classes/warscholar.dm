@@ -261,7 +261,7 @@
 
 
 
-/datum/outfit/job/roguetown/mercenary/warscholar/post_equip(mob/living/carbon/human/H, visualsOnly = FALSE)
+/datum/outfit/job/roguetown/mercenary/warscholar/post_equip(mob/living/carbon/human/H, visualsOnly = FALSE, client/player_client)
 	. = ..()
 
 	for(var/obj/item/clothing/V in H.get_equipped_items(FALSE))

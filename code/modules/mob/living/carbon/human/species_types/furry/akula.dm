@@ -3,7 +3,7 @@
 
 /datum/species/akula
 	name = "Axian"
-	id = "akula"
+	id = SPEC_ID_AXIAN
 	desc = "<b>Axian</b><br>\
 	Axians are a proud, shark-like people that have a heritage founded in maritime trade, \
 	tax evasion, and piracy. They have a strong distaste for the nobility and taxation, \

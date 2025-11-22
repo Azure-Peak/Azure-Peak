@@ -3,7 +3,7 @@
 
 /datum/species/tabaxi
 	name = "Tabaxi"
-	id = "tabaxi"
+	id = SPEC_ID_TABAXI
 
 	changesource_flags = MIRROR_BADMIN | WABBAJACK | MIRROR_PRIDE | MIRROR_MAGIC | RACE_SWAP | SLIME_EXTRACT
 	desc = "<b>Tabaxi</b><br>\

@@ -112,7 +112,7 @@
 	GLOB.custom_outfits += O
 	to_chat(usr,"Outfit registered, use select equipment to equip it.")
 
-/datum/outfit/varedit/post_equip(mob/living/carbon/human/H, visualsOnly)
+/datum/outfit/varedit/post_equip(mob/living/carbon/human/H, visualsOnly, client/player_client)
 	. = ..()
 	//Apply VV
 	for(var/slot in vv_values)

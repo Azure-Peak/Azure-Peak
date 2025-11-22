@@ -40,7 +40,7 @@
 		/datum/advclass/sellsword
 	)
 
-/datum/job/roguetown/bandit/after_spawn(mob/living/L, mob/M, latejoin = TRUE)
+/datum/job/roguetown/bandit/after_spawn(mob/living/L, mob/M, latejoin = TRUE, visuals_only, client/player_client)
 	..()
 	if(L)
 		var/mob/living/carbon/human/H = L
@@ -52,7 +52,7 @@
 	. = ..()
 	H.verbs |= /mob/proc/haltyell_exhausting
 
-/datum/outfit/job/roguetown/bandit/post_equip(mob/living/carbon/human/H)
+/datum/outfit/job/roguetown/bandit/post_equip(mob/living/carbon/human/H, client/player_client)
 	..()
 	if(H.mind)
 		var/datum/antagonist/new_antag = new /datum/antagonist/bandit()

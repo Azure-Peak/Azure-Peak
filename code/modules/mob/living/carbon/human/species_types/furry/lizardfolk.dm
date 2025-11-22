@@ -3,7 +3,7 @@
 
 /datum/species/lizardfolk
 	name = "Zardman"
-	id = "lizardfolk"
+	id = SPEC_ID_LIZARDFOLK
 	desc = "<b>Zardman</b><br>\
 	Zardmen are semi-aquatic reptilian humanoids. \
 	Their flesh is covered in scales varying in color from dark green to shades of brown and gray. \

@@ -1,13 +1,13 @@
 
 
 /datum/triumph_buy_menu
-	//These are the menu datum vars
+	/// These are the menu datum vars
 	var/client/linked_client
-	var/triumph_quantity = 108 // The amount of triumphs we got
-
-	var/current_page = "1" // Current page of triumphs we are viewing and yes its a number in a string
-	var/current_category = TRIUMPH_CAT_ROUND_EFX //Current category we are viewing
-
+	/// Current page of triumphs we are viewing and yes its a number in a string
+	var/current_page = "1"
+	/// Current category we are viewing
+	var/current_category = TRIUMPH_CAT_CHARACTER
+	/// Number of pages we have
 	var/page_count = 0
 
 /datum/triumph_buy_menu/New()
@@ -41,6 +41,33 @@
 				@import url('https://fonts.googleapis.com/css2?family=VT323&display=swap');
 				@import url('https://fonts.googleapis.com/css2?family=Nosifer&display=swap');
 				@import url('https://fonts.googleapis.com/css2?family=Jersey+25&display=swap');
+			body {
+					background-color: rgb(31, 20, 24);
+					background:
+						url('[SSassets.transport.get_asset_url("try5_border.png")]'),
+						url('[SSassets.transport.get_asset_url("try5.png")]');
+					background-repeat: no-repeat;
+					background-attachment: fixed;
+					background-size: 100% 100%;
+				}
+				.triumph_name {
+					font-family: "Aclonica", sans-serif;
+					font-weight: 400;
+					font-style: normal;
+					font-size: 20px;
+					color: #91E0F3;
+					padding-bottom: 2px;
+				}
+				.nothing_bought {
+					font-family: "Aclonica", sans-serif;
+					font-weight: 400;
+					font-style: normal;
+					font-size: 24px;
+					color: #FDF7D2;
+					text-align: center;
+					width: 100%;
+					padding-top: 200px;
+				}
 			</style>
 			<link rel='stylesheet' type='text/css' href='slop_menustyle3.css'>
 		</head>
@@ -55,11 +82,6 @@
 			</div> 
 			<div style='width:100%;float:left'>
 		"}
-/*
-				<div id='triumph_close_div'>
-					<a id='triumph_close_button' href='?src=\ref[src];close_menu=1'>CLOSE MENU</a>
-				</div>
-*/
 
 	data += "<hr class='fadeout_line'>"
 	for(var/cat_key in SStriumphs.central_state_data)
@@ -71,63 +93,119 @@
 
 	data += {"
 			</div>
-			<table>
-				<thead>
-					<tr>
-						<th class='triumph_text_head'>Description</th>
-						<th class='triumph_text_head'>Cost</th>
-						<th class='triumph_text_head_redeem'>Redeem</th>
-					</tr>
-				</thead>
-				<tbody>
 	"}
 
 	
 	if(current_category == TRIUMPH_CAT_ACTIVE_DATUMS)
-		// Mostly so we can stop the filler message from not being displayed if someone has a non-visible triumph buy, and theres nothing else in.
-		var/found_one_blank_sloppy_toppy = FALSE 
-		if(SStriumphs.active_triumph_buy_queue.len)
-			for(var/datum/triumph_buy/auugh in SStriumphs.active_triumph_buy_queue)
-				if(!auugh.visible_on_active_menu) // If we aren't set to be able to be visible on the main menu
-					continue
+		var/found_one = FALSE 
+		var/list/active_items = list()
+
+		for(var/datum/triumph_buy/found_triumph_buy in SStriumphs.active_triumph_buy_queue)
+			if(!found_triumph_buy.visible_on_active_menu || usr.ckey != found_triumph_buy.ckey_of_buyer)
+				continue
+
+			active_items += found_triumph_buy
+			found_one = TRUE
+
+		if(found_one)
+			data += {"
+				<table>
+					<thead>
+						<tr>
+							<th class=\"triumph_text_head\">Description</th>
+							<th class=\"triumph_text_head_redeem\">Redeem</th>
+						</tr>
+					</thead>
+					<tbody>
+			"}
+
+			for(var/datum/triumph_buy/found_triumph_buy in active_items)
 				data += {"
 					<tr class='triumph_text_row'>
-						<td class='triumph_text_desc'>[auugh.desc] | Bought by: [auugh.key_of_buyer]</td>
-						<td class='triumph_cost_wrapper'>[auugh.triumph_cost]</td>
+						<td class='triumph_text_desc'>
+							<div class='triumph_name'>[found_triumph_buy.name]</div>
+							[found_triumph_buy.desc]
+						</td>
 				"}
-				if(SSticker.HasRoundStarted() && auugh.pre_round_only)
-					data += "<td class='triumph_buy_wrapper'><a class='triumph_text_buy' href='?src=\ref[src];handle_buy_button=\ref[auugh];'><span class='strikethru_back'>ROUND STARTED</span></a></td>"
+				if(SSticker.HasRoundStarted() && found_triumph_buy.pre_round_only)
+					data += "<td class='triumph_buy_wrapper'><a class='triumph_text_buy' href='?src=\ref[src];handle_buy_button=\ref[found_triumph_buy];'><span class='strikethru_back'>ROUND STARTED</span></a></td>"
 				else
-					data += "<td class='triumph_buy_wrapper'><a class='triumph_text_buy' href='?src=\ref[src];handle_buy_button=\ref[auugh];'>UNBUY</a></td>"
+					data += "<td class='triumph_buy_wrapper'><a class='triumph_text_buy' href='?src=\ref[src];handle_buy_button=\ref[found_triumph_buy];'>REFUND</a></td>"
 				
 				data += "</tr>"
 
-				found_one_blank_sloppy_toppy = TRUE // WE GOT ONE WOOHOO
 
-
-		if(!found_one_blank_sloppy_toppy) // We didn't find anything that could be visible, so cram in the mssage
 			data += {"
-				<tr class='triumph_text_row'>
-					<td class='triumph_text_desc'>CURRENTLY NOTHING</td>
-					<td class='triumph_cost_wrapper'>ACTIVELY</td>
-					<td class='triumph_buy_wrapper'><a class='triumph_text_buy' href='?src=\ref[src];'>HERE</a></td>
-				</tr>
+				</tbody>
+				</table>
+			"}
+		else
+			data += {"
+				<div class='nothing_bought'>YOU HAVE NOTHING</div>
 			"}
 
+	else if(current_category == TRIUMPH_CAT_COMMUNAL)
+		data += "<div class='communal_container'>"
+
+		for(var/datum/triumph_buy/communal/communal_buy in SStriumphs.central_state_data[current_category]["[current_page]"])
+			var/total = SStriumphs.communal_pools[communal_buy.type]
+			var/progress = communal_buy.maximum_pool ? (total / communal_buy.maximum_pool) * 100 : 0
+			var/is_preround = istype(communal_buy, /datum/triumph_buy/communal/preround)
+
+			data += "<div class='communal_item'>"
+			data += "<div class='communal_name'>[communal_buy.name]</div>"
+			data += "<div class='communal_desc'>[communal_buy.desc]</div>"
+
+			data += "<div class='progress_container'>"
+			data += "<div class='progress_bar' style='width:[progress]%'></div>"
+			data += "<div class='progress_text'>[total]/[communal_buy.maximum_pool]</div>"
+			data += "</div>"
+
+			data += "<div style='text-align:center; margin-top:5px;'>"
+			if(communal_buy.activated)
+				data += "<div class='communal_contribute'>ACTIVE</div>"
+			else if(is_preround && SSticker.HasRoundStarted())
+				data += "<div class='communal_contribute'>PREROUND ONLY</div>"
+			else
+				data += "<a class='communal_contribute' href='byond://?src=\ref[src];contribute=\ref[communal_buy]'>CONTRIBUTE</a>"
+			data += "</div>"
+			data += "</div>"
+
+		data += "</div>"
+
 	else
+		data += {"
+			<table>
+				<thead>
+					<tr>
+						<th class=\"triumph_text_head\">Description</th>
+						<th class=\"triumph_text_head\">Cost</th>
+						<th class=\"triumph_text_head\">Stock</th>
+						<th class=\"triumph_text_head_redeem\">Redeem</th>
+					</tr>
+				</thead>
+				<tbody>
+		"}
+
 		for(var/datum/triumph_buy/current_check in SStriumphs.central_state_data[current_category]["[current_page]"])
 			data += {"
 				<tr class='triumph_text_row'>
-					<td class='triumph_text_desc'>[current_check.desc]</td>
+					<td class='triumph_text_desc'>
+						<div class='triumph_name'>[current_check.name]</div>
+						[current_check.desc]
+					</td>
 					<td class='triumph_cost_wrapper'>[current_check.triumph_cost]</td>
+					<td class='triumph_stock_wrapper'>[current_check.limited ? SStriumphs.triumph_buy_stocks[current_check.type] : "∞"]</td>
 				"}
 
 			var/string = "<td class='triumph_buy_wrapper'><a class='triumph_text_buy' href='?src=\ref[src];handle_buy_button=\ref[current_check];'>BUY</a></td>"
-			if(SSticker.HasRoundStarted() && current_check.pre_round_only)
+			if(current_check.limited && SStriumphs.triumph_buy_stocks[current_check.type] <= 0)
+				string = "<td class='triumph_buy_wrapper'><a class='triumph_text_buy' href='byond://?src=\ref[src];handle_buy_button=\ref[current_check];'><span class='strikethru_back'>OUT OF STOCK</span></a></td>"
+			else if(SSticker.HasRoundStarted() && current_check.pre_round_only)
 				string = "<td class='triumph_buy_wrapper'><a class='triumph_text_buy' href='?src=\ref[src];handle_buy_button=\ref[current_check];'><span class='strikethru_back'>CONFLICT</span></a></td>"
 			else
 				for(var/datum/triumph_buy/conflict_check in SStriumphs.active_triumph_buy_queue)
-					if(current_check.type in conflict_check.conflicts_with) // We are in an active datum's conflicts with
+					if(current_check.type in conflict_check.conflicts_with)
 						string = "<td class='triumph_filler_cells'><a class='triumph_text_buy' href='?src=\ref[src];handle_buy_button=\ref[current_check];'><span class='strikethru_back'>CONFLICT</span></a></td>"
 
 			data += string
@@ -135,10 +213,10 @@
 
 
 
-	data += {"
+		data += {"
 				</tbody>
 			</table>
-			"}
+		"}
 	data += "<div class='triumph_footer'>"
 
 	for(var/i in 1 to SStriumphs.central_state_data[current_category].len)
@@ -154,9 +232,8 @@
 	</html>
 	"}
 
-	linked_client << browse(data, "window=triumph_buy_window;size=500x760;can_close=1;can_minimize=0;can_maximize=0;can_resize=0;titlebar=1")
+	linked_client << browse(data, "window=triumph_buy_window;size=674x715;can_close=1;can_minimize=0;can_maximize=0;can_resize=0;titlebar=1")
 
-	// We setup the href_list "close" call if they hit the x on the top right
 	for(var/i in 1 to 10)
 		if(!linked_client)
 			break
@@ -164,7 +241,6 @@
 			winset(linked_client, "triumph_buy_window", "on-close=\".windowclose [REF(src)]\"")
 			break
 
-// TRIUMPH BUY MENU SIDED PROC
 /datum/triumph_buy_menu/Topic(href, list/href_list)
 	. = ..()
 
@@ -173,6 +249,7 @@
 		if(SStriumphs.central_state_data[sent_category])
 			if(sent_category != current_category)
 				current_category = sent_category
+				current_page = "1"
 				show_menu()
 
 	if(href_list["select_a_page"])
@@ -182,8 +259,59 @@
 				current_page = sent_page
 				show_menu()
 
-	//This sends a reference to a datum, 
+	if(href_list["contribute"])
+		if(!linked_client?.ckey)
+			return
+		if(SSticker.current_state == GAME_STATE_FINISHED)
+			to_chat(linked_client, span_warning("You cannot contribute after the round has ended!"))
+			return
+
+		var/datum/triumph_buy/communal/communal_buy = locate(href_list["contribute"])
+		if(communal_buy && istype(communal_buy))
+			if(communal_buy.activated)
+				to_chat(linked_client, span_warning("The item is already active!"))
+				return
+			if(istype(communal_buy, /datum/triumph_buy/communal/preround) && SSticker.HasRoundStarted())
+				to_chat(linked_client, span_warning("This can only be contributed to before the round starts!"))
+				return
+			
+			var/available = SStriumphs.get_triumphs(linked_client.ckey)
+			var/max_possible = communal_buy.maximum_pool ? communal_buy.maximum_pool - SStriumphs.communal_pools[communal_buy.type] : INFINITY
+			var/amount = input(linked_client, "How much to contribute?", "Communal Contribution", 0) as num|null
+
+			if(!linked_client?.ckey)
+				return
+			if(!amount || amount <= 0)
+				return
+			if(SSticker.current_state == GAME_STATE_FINISHED)
+				to_chat(linked_client, span_warning("You cannot contribute after the round has ended!"))
+				return
+			if(communal_buy.activated)
+				to_chat(linked_client, span_warning("The item is already active!"))
+				return
+			if(istype(communal_buy, /datum/triumph_buy/communal/preround) && SSticker.HasRoundStarted())
+				to_chat(linked_client, span_warning("This can only be contributed to before the round starts!"))
+				return
+
+			amount = min(amount, available, max_possible)
+			if(amount > 0)
+				linked_client.adjust_triumphs(-amount, counted = FALSE)
+				SStriumphs.communal_pools[communal_buy.type] += amount
+				LAZYADD(SStriumphs.communal_contributions[communal_buy.type][linked_client.ckey], amount)
+				to_chat(linked_client, span_notice("You have contributed [amount] triumph\s to the [communal_buy.name]."))
+
+				if(communal_buy.maximum_pool && SStriumphs.communal_pools[communal_buy.type] >= communal_buy.maximum_pool)
+					communal_buy.on_activate()
+
+			show_menu()
+
 	if(href_list["handle_buy_button"])
+		if(!linked_client?.ckey)
+			return
+		if(SSticker.current_state == GAME_STATE_FINISHED)
+			to_chat(linked_client, span_warning("You cannot buy anything after the round has ended!"))
+			return
+
 		var/datum/triumph_buy/target_datum = locate(href_list["handle_buy_button"])
 		if(target_datum)
 			var/conflicting = FALSE

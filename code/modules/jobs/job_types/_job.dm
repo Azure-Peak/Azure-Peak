@@ -200,7 +200,7 @@
 
 //Only override this proc
 //H is usually a human unless an /equip override transformed it
-/datum/job/proc/after_spawn(mob/living/H, mob/M, latejoin = FALSE)
+/datum/job/proc/after_spawn(mob/living/H, mob/M, latejoin = FALSE, client/player_client)
 	SHOULD_CALL_PARENT(TRUE)
 	SEND_GLOBAL_SIGNAL(COMSIG_GLOB_JOB_AFTER_SPAWN, src)
 	//do actions on H but send messages to M as the key may not have been transferred_yet
@@ -278,6 +278,11 @@
 
 	if(islist(advclass_cat_rolls))
 		hugboxify_for_class_selection(H)
+	
+	var/list/owned_triumph_buys = SStriumphs.triumph_buy_owners[player_client.ckey]
+	if(length(owned_triumph_buys))
+		for(var/datum/triumph_buy/T in owned_triumph_buys)
+			T.on_after_spawn(H)
 
 	log_admin("[H.key]/([H.real_name]) has joined as [H.mind.assigned_role].")
 
@@ -437,7 +442,7 @@
 		holder = "[uniform]"
 	uniform = text2path(holder)*/
 
-/datum/outfit/job/post_equip(mob/living/carbon/human/H, visualsOnly = FALSE)
+/datum/outfit/job/post_equip(mob/living/carbon/human/H, visualsOnly = FALSE, client/player_client)
 	if(visualsOnly)
 		return
 

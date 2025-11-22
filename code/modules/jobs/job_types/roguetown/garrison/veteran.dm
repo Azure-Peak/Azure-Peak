@@ -32,7 +32,7 @@
 /datum/outfit/job/roguetown/captain
 	job_bitflag = BITFLAG_ROYALTY | BITFLAG_GARRISON	//Not a noble per-say but not really garrison either. So both, you are a courtier of sorts afterall + combat
 
-/datum/job/roguetown/veteran/after_spawn(mob/living/L, mob/M, latejoin = TRUE)
+/datum/job/roguetown/veteran/after_spawn(mob/living/L, mob/M, latejoin = TRUE, visuals_only, client/player_client)
 	. = ..()
 	if(ishuman(L))
 		var/mob/living/carbon/human/H = L

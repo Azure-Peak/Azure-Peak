@@ -3,7 +3,7 @@
 
 /datum/species/elf/wood
 	name = "Elf"
-	id = "elfw"
+	id = SPEC_ID_WOODELF
 	desc = "<b>Elf</b><br>\
 	\"Elf\" is a catch-all term used for tall, pointy-eared humanoids who can trace \
 	their heritage to the ancient and mysterious Snow Elves. This particular species \

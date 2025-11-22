@@ -3,7 +3,7 @@
 
 /datum/species/kobold
 	name = "Kobold"
-	id = "kobold"
+	id = SPEC_ID_KOBOLD
 	desc = "<b>Kobold</b><br>\
 	Short in stature and typically scrawny, these little lizards make up for it in their natural agility. People typically stereotype them as thieves, though...<br>\
 	(+1 Fortune)"

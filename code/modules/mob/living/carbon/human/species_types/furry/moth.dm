@@ -3,7 +3,7 @@
 
 /datum/species/moth
 	name = "Fluvian"
-	id = "moth"
+	id = SPEC_ID_MOTH
 	desc = "Many comparisons have been made to the common moths in an attempt to describe this unique species. From the appetite for clothing to the disconcertingly insectoid appearance, the name 'Moth' is forever stamped onto the common vocabulary. The comparison, however, falls short on the matter of flight.<br>\
 	(+1 Speed)"
 	species_traits = list(EYECOLOR,LIPS,STUBBLE,MUTCOLORS,HAIR)

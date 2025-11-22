@@ -117,7 +117,21 @@ a#triumph_close_button:hover{
 	padding: 0.1em 0.25em;
 	border-bottom: 1px solid rgb(128, 103, 81);
 	border-right: 1px solid rgb(106, 83, 65);
-	vertical-align: top;
+	vertical-align: middle;
+	white-space: nowrap;
+}
+
+.triumph_stock_wrapper {
+	font-family: "Pirata One", system-ui;
+	font-weight: 400;
+	font-style: normal;
+	font-size:24px;
+	color:#d4af37;
+	text-align: center;
+	padding: 0.1em 0.25em;
+	border-bottom: 1px solid rgb(128, 103, 81);
+	border-right: 1px solid rgb(106, 83, 65);
+	vertical-align: middle;
 	white-space: nowrap;
 }
 
@@ -125,10 +139,9 @@ a#triumph_close_button:hover{
 	text-align: center;
 	padding: 0.1em 0.25em;
 	border-bottom: 1px solid rgb(128, 103, 81);
-	vertical-align: top;
+	vertical-align: middle;
 	white-space: nowrap;
 }
-
 
 a.triumph_text_buy, a.triumph_text_buy:link, a.triumph_text_buy:visited, a.triumph_text_buy:active {
 	font-family: "Jersey 25", sans-serif;
@@ -266,4 +279,79 @@ a.triumph_numbers_selected, a.triumph_numbers_selected:link, a.triumph_numbers_s
     background: #91E0F3;
     /* position of strike through from top */
     top:90%;
+}
+
+.communal_header {
+	font-family: 'Aclonica', sans-serif;
+	font-size: 24px;
+	color: #91E0F3;
+	text-align: center;
+	margin: 20px 0;
+}
+
+.communal_container {
+	display: grid;
+	gap: 15px;
+	padding: 10px;
+}
+
+.communal_item {
+	background: rgba(40, 40, 60, 0.7);
+	border: 1px solid #4a4a6a;
+	padding: 15px;
+	border-radius: 5px;
+}
+
+.communal_name {
+	font-weight: bold;
+	color: #FDF7D2;
+	font-size: 18px;
+	margin-bottom: 5px;
+}
+.communal_desc {
+	color: #b0b0b0;
+	margin-bottom: 10px;
+}
+
+.progress_container {
+	background: #2a2a3a;
+	height: 20px;
+	border-radius: 10px;
+	position: relative;
+	margin: 10px 0;
+	overflow: hidden;
+}
+
+.progress_bar {
+	background: linear-gradient(90deg, #4CAF50, #8BC34A);
+	height: 100%;
+	border-radius: 10px;
+	transition: width 0.3s;
+}
+
+.progress_text {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	text-align: center;
+	color: white;
+	line-height: 20px;
+	font-size: 12px;
+}
+
+.communal_contribute {
+    display: inline-block;
+    background: #4a6ea9;
+    color: white;
+    text-align: center;
+    padding: 4px 30px;
+    border-radius: 3px;
+    font-size: 16px;
+    min-width: 80px;
+    text-decoration: none;
+}
+
+.communal_contribute:hover {
+    background: #5a7eb9;
 }

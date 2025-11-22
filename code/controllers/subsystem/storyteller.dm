@@ -1199,13 +1199,17 @@ SUBSYSTEM_DEF(gamemode)
 	for(var/stat_name in statistics_to_clear)
 		force_set_round_statistic(stat_name, 0)
 
-	var/total_wealth = 0
+	var/list/current_valid_humans = list()
 
+	var/mob/living/carbon/human/valid_psydon_favourite
+
+	var/highest_total_stats = -1
 	var/highest_strength = -1
 	var/highest_intelligence = -1
 	var/highest_wealth = -1
 	var/highest_luck = -1
 	var/highest_speed = -1
+	var/total_wealth = 0
 
 	var/lowest_intelligence
 	var/lowest_speed
@@ -1237,6 +1241,7 @@ SUBSYSTEM_DEF(gamemode)
 			record_round_statistic(STATS_DEADITES_ALIVE)
 		if(ishuman(living))
 			var/mob/living/carbon/human/human_mob = client.mob
+			current_valid_humans += human_mob
 			record_round_statistic(STATS_TOTAL_POPULATION)
 			for(var/obj/item/clothing/neck/current_item in human_mob.get_equipped_items(TRUE))
 				if(current_item.type in list(/obj/item/clothing/neck/roguetown/psicross, /obj/item/clothing/neck/roguetown/psicross/wood, /obj/item/clothing/neck/roguetown/psicross/aalloy, /obj/item/clothing/neck/roguetown/psicross/silver,	/obj/item/clothing/neck/roguetown/psicross/g))
@@ -1324,6 +1329,14 @@ SUBSYSTEM_DEF(gamemode)
 				record_round_statistic(STATS_ALIVE_MOTHS)
 
 			// Chronicle statistics
+
+			if(human_mob.client.has_triumph_buy(TRIUMPH_BUY_PSYDON_FAVOURITE))
+				valid_psydon_favourite = human_mob
+			
+			var/total_stats = human_mob.STASTR + human_mob.STAINT + human_mob.STAWIL + human_mob.STACON + human_mob.STAPER + human_mob.STASPD + human_mob.STALUC
+			if(total_stats > highest_total_stats)
+				highest_total_stats = total_stats
+				set_chronicle_stat(CHRONICLE_STATS_MOST_SKILLS_PERSON, human_mob, "PRODIGY", "#e9de43", "[total_stats] total stats")
 			if(human_mob.STASTR > highest_strength)
 				highest_strength = human_mob.STASTR
 				set_chronicle_stat(CHRONICLE_STATS_STRONGEST_PERSON, human_mob)
@@ -1346,6 +1359,7 @@ SUBSYSTEM_DEF(gamemode)
 			if(!lowest_intelligence)
 				lowest_intelligence = human_mob.STAINT
 				set_chronicle_stat(CHRONICLE_STATS_DUMBEST_PERSON, human_mob)
+			
 			else if(human_mob.STAINT < lowest_intelligence)
 				lowest_intelligence = human_mob.STAINT
 				set_chronicle_stat(CHRONICLE_STATS_DUMBEST_PERSON, human_mob)
@@ -1353,6 +1367,7 @@ SUBSYSTEM_DEF(gamemode)
 			if(!lowest_speed)
 				lowest_speed = human_mob.STASPD
 				set_chronicle_stat(CHRONICLE_STATS_SLOWEST_PERSON, human_mob)
+			
 			else if(human_mob.STASPD < lowest_speed)
 				lowest_speed = human_mob.STASPD
 				set_chronicle_stat(CHRONICLE_STATS_SLOWEST_PERSON, human_mob)
@@ -1360,11 +1375,22 @@ SUBSYSTEM_DEF(gamemode)
 			if(!lowest_luck)
 				lowest_luck = human_mob.STALUC
 				set_chronicle_stat(CHRONICLE_STATS_UNLUCKIEST_PERSON, human_mob)
+			
 			else if(human_mob.STALUC < lowest_luck)
 				lowest_luck = human_mob.STALUC
 				set_chronicle_stat(CHRONICLE_STATS_UNLUCKIEST_PERSON, human_mob)
 
 			force_set_round_statistic(STATS_MAMMONS_HELD, total_wealth)
+	
+	if(length(current_valid_humans) >= 2 && valid_psydon_favourite)
+		var/list/potential_passers = current_valid_humans.Copy()
+		potential_passers -= valid_psydon_favourite
+		var/mob/living/carbon/human/random_passerby = pick(potential_passers)
+
+		set_chronicle_stat(CHRONICLE_STATS_PSYDON_FAVOURITE, valid_psydon_favourite, "PSYDON'S FAVOURITE", "#e6e6e6", "buying his way in")
+
+		if(random_passerby)
+			set_chronicle_stat(CHRONICLE_STATS_RANDOM_PASSERBY, random_passerby, "RANDOM PASSERBY", "#888888", "just happening to be here")
 
 /// Returns total follower influence for the given storyteller
 /datum/controller/subsystem/gamemode/proc/get_follower_influence(datum/storyteller/chosen_storyteller)

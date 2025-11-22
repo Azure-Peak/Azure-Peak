@@ -125,7 +125,7 @@
 /datum/objective/aspirant/coup/two
 	name = "Moral"
 	explanation_text = "I am no kinslayer, I must make sure that the Grand Duke doesn't die."
-	triumph_count = 10
+	triumph_count = 5
 	var/initialruler
 
 /datum/objective/aspirant/coup/three

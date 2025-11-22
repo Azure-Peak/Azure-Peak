@@ -1,6 +1,6 @@
 /datum/objective/literacy
 	name = "Get Literate"
-	triumph_count = 0
+	triumph_count = 2
 
 /datum/objective/literacy/on_creation()
 	. = ..()
@@ -19,9 +19,9 @@
 
 	if(istype(skill_ref, /datum/skill/misc/reading) && old_level == SKILL_LEVEL_NONE && new_level > SKILL_LEVEL_NONE)
 		to_chat(owner.current, span_greentext("You've learned to read, completing Noc's objective!"))
-		owner.current.adjust_triumphs(1)
+		owner.current.adjust_triumphs(triumph_count)
 		completed = TRUE
-		adjust_storyteller_influence("Noc", 10)
+		adjust_storyteller_influence(NOC, 10)
 		escalate_objective()
 		UnregisterSignal(owner.current, COMSIG_SKILL_RANK_INCREASED)
 

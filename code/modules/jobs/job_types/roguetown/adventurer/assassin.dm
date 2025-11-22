@@ -44,7 +44,7 @@
 		/datum/advclass/assassin_hitman,
 	)
 
-/datum/job/roguetown/assassin/after_spawn(mob/living/L, mob/M, latejoin = TRUE)
+/datum/job/roguetown/assassin/after_spawn(mob/living/L, mob/M, latejoin = TRUE, client/player_client)
 	..()
 	if(L)
 		var/mob/living/carbon/human/H = L
@@ -52,7 +52,7 @@
 			return
 		H.ambushable = FALSE
 
-/datum/outfit/job/roguetown/assassin/post_equip(mob/living/carbon/human/H)
+/datum/outfit/job/roguetown/assassin/post_equip(mob/living/carbon/human/H,  visualsOnly = FALSE, client/player_client = null)
 	..()
 	if(H.mind)
 		var/datum/antagonist/new_antag = new /datum/antagonist/assassin()

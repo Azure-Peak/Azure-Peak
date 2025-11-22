@@ -3,7 +3,7 @@
 
 /datum/species/goblinp
 	name = "Goblin"
-	id = "goblinp"
+	id = SPEC_ID_GOBLINP
 	desc = "<b>Goblin</b><br>\
 	Goblins are a short race of humanoids with large ears and typically green skin. \
 	Supposedly formed from the blood spilled by the savage War God Graggar’s conquest, \

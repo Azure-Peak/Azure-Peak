@@ -157,3 +157,49 @@
 #define SHARED_HIGH_THREAT	"high threat event"
 #define SHARED_ANOMALIES	"anomalous event"
 #define SHARED_MINOR_THREAT "minor event"
+
+/// Divine pantheon storytellers
+#define DIVINE_STORYTELLERS list( \
+	/datum/storyteller/astrata, \
+	/datum/storyteller/noc, \
+	/datum/storyteller/ravox, \
+	/datum/storyteller/abyssor, \
+	/datum/storyteller/xylix, \
+	/datum/storyteller/necra, \
+	/datum/storyteller/pestra, \
+	/datum/storyteller/malum, \
+	/datum/storyteller/eora, \
+	/datum/storyteller/dendor, \
+	/datum/storyteller/psydon, \
+)
+
+//Yeah-yeah, he's not the same pantheon but suck it up, buttercup. We not makin' more defines.
+
+/// Inhumen pantheon storytellers
+#define INHUMEN_STORYTELLERS list( \
+	/datum/storyteller/zizo, \
+	/datum/storyteller/baotha, \
+	/datum/storyteller/graggar, \
+	/datum/storyteller/matthios, \
+)
+
+// Divine pantheon
+#define ASTRATA "Astrata"
+#define NOC "Noc"
+#define RAVOX "Ravox"
+#define ABYSSOR "Abyssor"
+#define XYLIX "Xylix"
+#define NECRA "Necra"
+#define PESTRA "Pestra"
+#define MALUM "Malum"
+#define EORA "Eora"
+#define DENDOR "Dendor"
+
+// Inhumen pantheon
+#define ZIZO "Zizo"
+#define BAOTHA "Baotha"
+#define GRAGGAR "Graggar"
+#define MATTHIOS "Matthios"
+
+/// All storytellers
+#define STORYTELLERS_ALL (DIVINE_STORYTELLERS + INHUMEN_STORYTELLERS)

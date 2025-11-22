@@ -161,7 +161,7 @@
 			unbuckle_all_mobs()
 			kill_count += 1
 
-//			H.adjust_triumphs(-1)
+			H.adjust_triumphs(-1)
 
 			var/blood_overlay = "bloody"
 

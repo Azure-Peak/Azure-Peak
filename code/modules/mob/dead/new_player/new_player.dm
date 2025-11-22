@@ -382,7 +382,7 @@ GLOBAL_LIST_INIT(roleplay_readme, world.file2list("strings/rt/rp_prompt.txt"))
 			return JOB_UNAVAILABLE_PQ
 	#endif
 	var/datum/species/pref_species = client.prefs.pref_species
-	if(length(job.allowed_races) && !(pref_species.type in job.allowed_races))
+	if(length(job.allowed_races) && !(pref_species.id in job.allowed_races))
 		return JOB_UNAVAILABLE_RACE
 	var/list/allowed_sexes = list()
 	if(length(job.allowed_sexes))
@@ -424,6 +424,9 @@ GLOBAL_LIST_INIT(roleplay_readme, world.file2list("strings/rt/rp_prompt.txt"))
 //				return JOB_UNAVAILABLE_GENERIC //we can't play adventurer if there isn't 1 of every other job that we can play
 	if(latejoin && !job.special_check_latejoin(client))
 		return JOB_UNAVAILABLE_GENERIC
+	if(length(job.allowed_races) && !(client.prefs.pref_species.id in job.allowed_races))
+		if(!client.has_triumph_buy(TRIUMPH_BUY_RACE_ALL))
+			return JOB_UNAVAILABLE_RACE
 	return JOB_AVAILABLE
 
 /mob/dead/new_player/proc/AttemptLateSpawn(rank)
@@ -655,6 +658,8 @@ GLOBAL_LIST_INIT(roleplay_readme, world.file2list("strings/rt/rp_prompt.txt"))
 		frn = is_banned_from(ckey, "Appearance")
 		if(QDELETED(src))
 			return
+	if(client.has_triumph_buy(TRIUMPH_BUY_RACE_ALL))
+		client.activate_triumph_buy(TRIUMPH_BUY_RACE_ALL)
 	if(frn)
 		client.prefs.random_character()
 

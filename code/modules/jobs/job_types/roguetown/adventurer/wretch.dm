@@ -47,7 +47,7 @@
 		/datum/advclass/wretch/blackoakwyrm
 	)
 
-/datum/job/roguetown/wretch/after_spawn(mob/living/L, mob/M, latejoin = TRUE)
+/datum/job/roguetown/wretch/after_spawn(mob/living/L, mob/M, latejoin = TRUE, client/player_client)
 	..()
 	if(L)
 		var/mob/living/carbon/human/H = L

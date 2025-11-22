@@ -3,7 +3,7 @@
 
 /datum/species/elf/dark
 	name = "Dark Elf"
-	id = "elfd"
+	id = SPEC_ID_DARKELF
 	desc = "<b>Dark Elf</b><br>\
 	\"Elf\" is a catch-all term used for tall, pointy-eared humanoids who can trace their \
 	heritage to the ancient and mysterious Snow Elves. This species of elf, less frequently \

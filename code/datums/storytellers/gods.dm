@@ -1,31 +1,3 @@
-/// Divine pantheon storytellers
-#define DIVINE_STORYTELLERS list( \
-	/datum/storyteller/astrata, \
-	/datum/storyteller/noc, \
-	/datum/storyteller/ravox, \
-	/datum/storyteller/abyssor, \
-	/datum/storyteller/xylix, \
-	/datum/storyteller/necra, \
-	/datum/storyteller/pestra, \
-	/datum/storyteller/malum, \
-	/datum/storyteller/eora, \
-	/datum/storyteller/dendor, \
-	/datum/storyteller/psydon, \
-)
-
-//Yeah-yeah, he's not the same pantheon but suck it up, buttercup. We not makin' more defines.
-
-/// Inhumen pantheon storytellers
-#define INHUMEN_STORYTELLERS list( \
-	/datum/storyteller/zizo, \
-	/datum/storyteller/baotha, \
-	/datum/storyteller/graggar, \
-	/datum/storyteller/matthios, \
-)
-
-/// All storytellers
-#define STORYTELLERS_ALL (DIVINE_STORYTELLERS + INHUMEN_STORYTELLERS)
-
 /datum/storyteller/psydon
 	name = "Psydon"
 	vote_desc = "Peace reigns. No villains will be present. His children can rest easy, for they have earned their respite"
@@ -45,7 +17,7 @@
 	)
 
 /datum/storyteller/astrata
-	name = "Astrata"
+	name = ASTRATA
 	vote_desc = "Order reigns. All occurrences are perfectly balanced out, without bias. Her favor shines upon nobility and their decrees."
 	desc = "Astrata will provide a balanced and varied experience. Consider this the default experience."
 	welcome_text = "The warmth of daelight rouses you from your slumber.."
@@ -74,7 +46,7 @@
 	))
 
 /datum/storyteller/noc
-	name = "Noc"
+	name = NOC
 	vote_desc = "Knowledge reigns. Occurrences are tame, but remain suspectable to arcyne intervention. His favor shines upon those who dream for greater ambitions."
 	desc = "Noc will try to send more magical events."
 	welcome_text = "The air crackles with arcyne energy.."
@@ -104,7 +76,7 @@
 	)
 
 /datum/storyteller/ravox
-	name = "Ravox"
+	name = RAVOX
 	vote_desc = "Glory reigns. Raids, villains, and omens are more likely to occur. His favor shines upon clashing steel and the cries of war."
 	desc = "Ravox will cause raids to happen naturally instead of only when people are dying a lot."
 	welcome_text = "\"The trumpets of Zericho are echoing in the distance..\""
@@ -142,7 +114,7 @@
 	)
 
 /datum/storyteller/abyssor
-	name = "Abyssor"
+	name = ABYSSOR
 	vote_desc = "Water reigns. Occurrences are tame, though their temperance oft-sways with the tide's flow. His favor shines upon the fished, leeched, and drowned."
 	desc = "Abyssor likes to send water and trade-related events."
 	welcome_text = "The horizon grows dark, as its clouds gather for a coming storm.."
@@ -176,7 +148,7 @@
 	)
 
 /datum/storyteller/xylix
-	name = "Xylix"
+	name = XYLIX
 	vote_desc = "Unpredictability reigns. Nothing is set in stone, yet everything is possible. His favor shines upon acts of chance and whimsy."
 	desc = "Xylix is a wildcard, spinning the wheels of fate."
 	welcome_text = "\"..well, that's what happens out of too much spice and wine!\""
@@ -213,7 +185,7 @@
 	)
 
 /datum/storyteller/necra
-	name = "Necra"
+	name = NECRA
 	vote_desc = "Death reigns. Occurrences happen less often, and villains are less likely. Her favor shines upon those who put the deathless back into their graves."
 	desc = "Necra takes things very slow, rarely bringing in newcomers."
 	welcome_text = "\"In the fief of Zenmarke, there was the odor of decay..\""
@@ -255,7 +227,7 @@
 	)
 
 /datum/storyteller/pestra
-	name = "Pestra"
+	name = PESTRA
 	vote_desc = "Health reigns. Occurrences are tame, yet swayable with practiced hands. Her favor shines upon stitches and alchemists"
 	desc = "Pestra keeps things simple, with a slight bias towards alchemy."
 	welcome_text = "The clattering of instruments, and the churning of alchemical wonders.."
@@ -287,7 +259,7 @@
 	)
 
 /datum/storyteller/malum
-	name = "Malum"
+	name = MALUM
 	vote_desc = "Effort reigns. Divine intervention occurs more often. His favor shines upon masterworks and mineshafts."
 	desc = "Malum believes in hard work, intervening more often than others."
 	welcome_text = "The pounding of red-hot steel, and the laboring of a hundred calloused hands.."
@@ -324,7 +296,7 @@
 	)
 
 /datum/storyteller/eora
-	name = "Eora"
+	name = EORA
 	vote_desc = " Love reigns. Positive affairs occur more often, and raids will rarely transpire. Her favor shines upon romance."
 	desc = "Eora hates death and promotes love. Raids will never naturally progress, only death will bring them."
 	welcome_text = "\"Love is in the air? Nay; tis the smell of freshly-baked pies upon the windowsills!\""
@@ -361,7 +333,7 @@
 	)
 
 /datum/storyteller/dendor
-	name = "Dendor"
+	name = DENDOR
 	vote_desc = " Nature reigns. Overgrowth and Verevolves are more likely to occur. His favor shines upon harvests and lycanthropes."
 	desc = "Dendor likes to send nature-themed events."
 	welcome_text = "The cackling of perched zads, and the glimmer of morning dew.."
@@ -402,7 +374,7 @@
 // INHUMEN
 
 /datum/storyteller/zizo
-	name = "Zizo"
+	name = ZIZO
 	vote_desc = "Chaos reigns. Villains are assured, and Deadites are far more vicious. Her favor shines upon corpses; be they holy, noble, or reanimated."
 	desc = "Zizo thrives on risk and reward, favoring the daring and unpredictable."
 	welcome_text = "A breeze of morbid air, ferrying the howls of the damned.."
@@ -448,7 +420,7 @@
 	)
 
 /datum/storyteller/baotha
-	name = "Baotha"
+	name = BAOTHA
 	vote_desc = "Spice reigns. Occurrences are more erratic and negative. Her favor shines upon drunkards and addicts."
 	desc = "Baotha revels in chaos, making events and reality unpredictable."
 	welcome_text = "The sickly sweet aromas of liqour and spice fills the air.."
@@ -490,7 +462,7 @@
 	)
 
 /datum/storyteller/graggar
-	name = "Graggar"
+	name = GRAGGAR
 	vote_desc = " Inhumenity reigns. Villains are assured, and raids occur far more often. His favor shines upon bloodshed and cannibalism."
 	desc = "Graggar encourages war and conquest, making combat the solution to all."
 	welcome_text = "Plumes of smoke are blown through the streets, reeking of ash and blood.."
@@ -533,7 +505,7 @@
 	cost_variance = 10  // Less randomness, more direct
 
 /datum/storyteller/matthios
-	name = "Matthios"
+	name = MATTHIOS
 	vote_desc = "Thievery reigns. Banditry runs rampant. His favor shines upon thefts and offerings to a certain shrine."
 	desc = "Matthios manipulates wealth and corruption, rewarding those who make deals."
 	welcome_text = "The jingling of mammons, and the dripping of ink from freshly-signed bounties.."
