@@ -76,6 +76,23 @@
 			H.mind.teach_crafting_recipe(/datum/crafting_recipe/roguetown/alchemy/qsabsolution)
 			H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/diagnose/secular)
 
+/datum/job/roguetown/absolver/after_spawn(mob/living/H, mob/M, latejoin = TRUE)
+	..()
+	if(ishuman(H))
+		var/prev_real_name = H.real_name
+		var/prev_name = H.name
+		var/inq = "Brother"
+		if(should_wear_femme_clothes(H))
+			inq = "Sister"
+		H.real_name = "[inq] [prev_real_name]"
+		H.name = "[inq] [prev_name]"
+
+		for(var/X in peopleknowme)
+			for(var/datum/mind/MF in get_minds(X))
+				if(MF.known_people)
+					MF.known_people -= prev_real_name
+					H.mind.person_knows_me(MF)
+
 /datum/outfit/job/roguetown/absolver/basic/pre_equip(mob/living/carbon/human/H)
 	..()
 	job_bitflag = BITFLAG_HOLY_WARRIOR

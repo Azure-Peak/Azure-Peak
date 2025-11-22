@@ -25,13 +25,29 @@
 		/datum/advclass/puritan/ordinator
 	)
 
+/datum/job/roguetown/puritan/after_spawn(mob/living/H, mob/M, latejoin = TRUE)
+	..()
+	if(ishuman(H))
+		var/prev_real_name = H.real_name
+		var/prev_name = H.name
+		var/inq = "Magister"
+		H.real_name = "[inq] [prev_real_name]"
+		H.name = "[inq] [prev_name]"
+
+		for(var/X in peopleknowme)
+			for(var/datum/mind/MF in get_minds(X))
+				if(MF.known_people)
+					MF.known_people -= prev_real_name
+					H.mind.person_knows_me(MF)
+
+
 /datum/outfit/job/roguetown/puritan
 	name = "Inquisitor"
 	jobtype = /datum/job/roguetown/puritan
 	job_bitflag = BITFLAG_HOLY_WARRIOR	//Counts as church.
 	allowed_patrons = list(/datum/patron/old_god)
 
-//// The Inquisitor. Jack of all trades, master of none. Respectable assortment of skills, stats, and equipment; good at both subterfuge and combat. Functions very well on their own, and even better with a full sect.
+/// The Inquisitor. Jack of all trades, master of none. Respectable assortment of skills, stats, and equipment; good at both subterfuge and combat. Functions very well on their own, and even better with a full sect.
 
 /datum/advclass/puritan/inspector
 	name = "Inquisitor"

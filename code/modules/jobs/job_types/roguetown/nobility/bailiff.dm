@@ -33,6 +33,23 @@
 /datum/outfit/job/roguetown/marshal
 	job_bitflag = BITFLAG_ROYALTY | BITFLAG_GARRISON	//Same as Captain, you get decent combat stats so might as well be garrison.
 
+/datum/job/roguetown/marshal/after_spawn(mob/living/H, mob/M, latejoin = TRUE)
+	..()
+	if(ishuman(H))
+		var/prev_real_name = H.real_name
+		var/prev_name = H.name
+		var/nobility = "Lord"
+		if(should_wear_femme_clothes(H))
+			nobility = "Lady"
+		H.real_name = "[nobility] [prev_real_name]"
+		H.name = "[nobility] [prev_name]"
+
+		for(var/X in peopleknowme)
+			for(var/datum/mind/MF in get_minds(X))
+				if(MF.known_people)
+					MF.known_people -= prev_real_name
+					H.mind.person_knows_me(MF)
+
 /datum/outfit/job/roguetown/marshal/pre_equip(mob/living/carbon/human/H)
 	..()
 	shirt = /obj/item/clothing/suit/roguetown/shirt/undershirt

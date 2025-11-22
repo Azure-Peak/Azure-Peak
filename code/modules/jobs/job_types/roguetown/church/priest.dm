@@ -78,6 +78,23 @@ GLOBAL_LIST_EMPTY(heretical_players)
 	has_loadout = TRUE
 	allowed_patrons = list(/datum/patron/divine/undivided)	//We lock this cus head of church, acktully
 
+/datum/job/roguetown/priest/after_spawn(mob/living/H, mob/M, latejoin = TRUE)
+	..()
+	if(ishuman(H))
+		var/prev_real_name = H.real_name
+		var/prev_name = H.name
+		var/churchiny = "Father"
+		if(should_wear_femme_clothes(H))
+			churchiny = "Mother"
+		H.real_name = "[churchiny] [prev_real_name]"
+		H.name = "[churchiny] [prev_name]"
+
+		for(var/X in peopleknowme)
+			for(var/datum/mind/MF in get_minds(X))
+				if(MF.known_people)
+					MF.known_people -= prev_real_name
+					H.mind.person_knows_me(MF)
+
 /datum/outfit/job/roguetown/priest/basic/pre_equip(mob/living/carbon/human/H)
 	..()
 	H.adjust_blindness(-3)

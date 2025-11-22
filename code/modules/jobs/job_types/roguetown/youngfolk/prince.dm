@@ -34,6 +34,23 @@
 	..()
 	H.verbs |= /mob/living/carbon/human/proc/declarechampion
 
+/datum/job/roguetown/prince/after_spawn(mob/living/H, mob/M, latejoin = TRUE)
+	..()
+	if(ishuman(H))
+		var/prev_real_name = H.real_name
+		var/prev_name = H.name
+		var/nobility = "Lord"
+		if(should_wear_femme_clothes(H))
+			nobility = "Lady"
+		H.real_name = "[nobility] [prev_real_name]"
+		H.name = "[nobility] [prev_name]"
+
+		for(var/X in peopleknowme)
+			for(var/datum/mind/MF in get_minds(X))
+				if(MF.known_people)
+					MF.known_people -= prev_real_name
+					H.mind.person_knows_me(MF)
+
 /datum/advclass/heir/daring
 	name = "Daring Twit"
 	tutorial = "You're a somebody, someone important. It only makes sense you want to make a name for yourself, to gain your own glory so people see how great you really are beyond your bloodline. Plus, if you're beloved by the people for your exploits you'll be chosen! Probably. Shame you're as useful and talented as a squire, despite your delusions to the contrary."
