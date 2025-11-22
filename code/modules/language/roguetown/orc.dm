@@ -5,10 +5,9 @@
 	ask_verb = "asks"
 	exclaim_verb = "shouts"
 	key = "o"
-	flags = LANGUAGE_HIDE_ICON_IF_UNDERSTOOD | LANGUAGE_HIDE_ICON_IF_NOT_UNDERSTOOD
 	space_chance = 66
 	default_priority = 80
-	icon_state = "asse"
+	icon_state = "orc"
 	spans = list(SPAN_ORC)
 	syllables = list(
 "AA",

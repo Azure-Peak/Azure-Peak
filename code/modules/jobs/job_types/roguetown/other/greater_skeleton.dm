@@ -33,6 +33,11 @@
 	var/datum/antagonist/new_antag = new /datum/antagonist/skeleton()
 	H.mind.add_antag_datum(new_antag)
 
+	H.grant_language(/datum/language/undead)
+
+	var/datum/language_holder/language_holder = H.get_language_holder()
+	language_holder.selected_default_language = /datum/language/undead
+
 /datum/job/roguetown/greater_skeleton/after_spawn(mob/living/L, mob/M, latejoin = FALSE)
 	..()
 

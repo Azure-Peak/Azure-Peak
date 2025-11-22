@@ -5,10 +5,9 @@
 	ask_verb = "inquires"
 	exclaim_verb = "asserts"
 	key = "n"
-	flags = LANGUAGE_HIDE_ICON_IF_UNDERSTOOD | LANGUAGE_HIDE_ICON_IF_NOT_UNDERSTOOD
 	space_chance = 45
 	default_priority = 90
-	icon_state = "asse"
+	icon_state = "zalad"
 	spans = list(SPAN_GRONNIC)
 	syllables = list(
 		"to", "ost", "no", "na", "ni", "ko", "ne", "en", "po", "ra", "li",

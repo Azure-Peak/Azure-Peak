@@ -21,6 +21,14 @@
 	)
 	storyteller = /datum/storyteller/zizo
 
+/datum/patron/inhumen/zizo/post_equip(mob/living/pious)
+	. = ..()
+	if(ishuman(pious))
+		var/mob/living/carbon/human/human = pious
+		var/datum/devotion/pious_devotion = human.devotion
+		if(pious_devotion?.level >= CLERIC_T2)
+			pious.grant_language(/datum/language/undead)
+
 // When the sun is blotted out, zchurch, bad-cross, or ritual chalk
 /datum/patron/inhumen/zizo/can_pray(mob/living/follower)
 	. = ..()
