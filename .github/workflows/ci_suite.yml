@@ -42,13 +42,10 @@ jobs:
           bash tools/ci/install_ripgrep.sh
           tools/bootstrap/python -c ''
       - name: Ticked File Enforcement
-        if: steps.linter-setup.conclusion == 'success' && !cancelled()
         run: |
           tools/bootstrap/python tools/ticked_file_enforcement/ticked_file_enforcement.py < tools/ticked_file_enforcement/schemas/roguetown_dme.json
           tools/bootstrap/python tools/ticked_file_enforcement/ticked_file_enforcement.py < tools/ticked_file_enforcement/schemas/unit_tests.json
       - name: Check Define Sanity
-      - name: Check Define Sanity
-        if: steps.linter-setup.conclusion == 'success' && !cancelled()
         run: tools/bootstrap/python -m define_sanity.check
       - name: Run Linters
         run: |
