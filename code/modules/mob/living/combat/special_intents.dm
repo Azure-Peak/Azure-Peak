@@ -395,7 +395,7 @@ SPECIALS START HERE
 	var/dam
 
 /datum/special_intent/shin_swipe/process_attack()
-	dam = iparent.force_dynamic * min((1 + (((howner.STASPD - 10) + (howner.STAPER - 10)) / 10)), 0.1)
+	dam = iparent.force_dynamic * max((1 + (((howner.STASPD - 10) + (howner.STAPER - 10)) / 10)), 0.1)
 	. = ..()
 
 
