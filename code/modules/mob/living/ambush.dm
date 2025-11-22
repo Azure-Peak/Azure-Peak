@@ -63,16 +63,15 @@ GLOBAL_VAR_INIT(ambush_mobconsider_cooldown, 2 MINUTES) // Cooldown for each ind
 		var/list/mobs_to_spawn = list()
 		var/mobs_to_spawn_single = FALSE
 		var/max_spawns = 3
-		var/mustype = 1
 		var/spawnedtype = pickweight(AR.ambush_mobs)
 
 		// This is the part where we scale ambush difficulty based on threat. Due to how we have a mix of
 		// Ambush Config and Single Mob Ambush, I use a weird scaling system:
 		// Single Mob
-		// Low - 1 Mob only 
+		// Low - 1 Mob only
 		// Moderate - 1 to 2 (This is REALLY moderate)
-		// Dangerous - 2 to 3 
-		// Dire - 3 to 4 
+		// Dangerous - 2 to 3
+		// Dire - 3 to 4
 		// Ambush Difficulty Scaling:
 		// Low = -1 Mob
 		// Dangerous = +1 Mob
@@ -139,13 +138,6 @@ GLOBAL_VAR_INIT(ambush_mobconsider_cooldown, 2 MINUTES) // Cooldown for each ind
 					H.last_aggro_loss = world.time
 					H.faction += "ambush"
 					H.retaliate(src)
-					mustype = 2
-		if(!silent)
-			if(mustype == 1)
-				playsound_local(src, pick('sound/misc/jumpscare (1).ogg','sound/misc/jumpscare (2).ogg','sound/misc/jumpscare (3).ogg','sound/misc/jumpscare (4).ogg'), 100)
-			else
-				playsound_local(src, pick('sound/misc/jumphumans (1).ogg','sound/misc/jumphumans (2).ogg','sound/misc/jumphumans (3).ogg'), 100)
-			shake_camera(src, 2, 2)
 		return TURF_WET_PERMAFROST
 
 // Return whether a mob is blocked from being ambushed
