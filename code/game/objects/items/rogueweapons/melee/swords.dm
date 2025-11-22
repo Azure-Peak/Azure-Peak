@@ -541,10 +541,6 @@
 				"westabove" = 0,
 				)
 
-
-/obj/item/rogueweapon/sword/long/death
-	color = CLOTHING_BLACK
-
 /obj/item/rogueweapon/sword/long/getonmobprop(tag)
 	. = ..()
 	if(tag)

@@ -228,6 +228,26 @@
 	cost = 80
 	contains = list(/obj/item/rogueweapon/mace/maul/grand)
 
+/datum/supply_pack/rogue/Brigand/whip
+	name  = "Nagaika whip"
+	cost = 20
+	contains = list(/obj/item/rogueweapon/whip)
+
+/datum/supply_pack/rogue/Brigand/placejapan
+	name = "Kazengunese Dagger"
+	cost = 35
+	contains = list(/obj/item/rogueweapon/huntingknife/idagger/steel/kazengun)
+
+/datum/supply_pack/rogue/Brigand/steelspear
+	name = "Steel Spear"
+	cost = 65
+	contains = list(/obj/item/rogueweapon/spear/boar)
+
+/datum/supply_pack/rogue/Brigand/lsword
+	name = "Knight's Longsword"
+	cost = 45
+	contains = list(/obj/item/rogueweapon/sword/long/death)
+
 /////////////
 // SHIELDS //
 /////////////

@@ -128,6 +128,11 @@
 	cost = 20
 	contains = list(/obj/item/rogueweapon/huntingknife/idagger/steel)
 
+/datum/supply_pack/rogue/Knave/placejapan
+	name = "Kazengunese Dagger"
+	cost = 25
+	contains = list(/obj/item/rogueweapon/huntingknife/idagger/steel/kazengun)
+
 /datum/supply_pack/rogue/Knave/parrydag
 	name = "Parry Dagger"
 	cost = 20

@@ -1100,6 +1100,7 @@
 #include "code\game\objects\items\rogueweapons\melee\polearms.dm"
 #include "code\game\objects\items\rogueweapons\melee\special.dm"
 #include "code\game\objects\items\rogueweapons\melee\swords.dm"
+#include "code\game\objects\items\rogueweapons\melee\bandit.dm"
 #include "code\game\objects\items\rogueweapons\melee\whip.dm"
 #include "code\game\objects\items\rogueweapons\mmb\bite.dm"
 #include "code\game\objects\items\rogueweapons\mmb\jump.dm"
