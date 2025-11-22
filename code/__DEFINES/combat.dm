@@ -133,7 +133,7 @@
 
 //mmb intents
 #define INTENT_KICK		/datum/intent/kick
-#define INTENT_STEAL	/datum/intent/steal
+#define INTENT_SPECIAL	/datum/intent/special
 #define INTENT_BITE		/datum/intent/bite
 #define INTENT_JUMP		/datum/intent/jump
 #define INTENT_GIVE		/datum/intent/give
@@ -143,7 +143,7 @@
 #define QINTENT_BITE		 1
 #define QINTENT_JUMP		 2
 #define QINTENT_KICK		 3
-#define QINTENT_STEAL		 4
+#define QINTENT_SPECIAL		 4
 #define QINTENT_GIVE		 5
 #define QINTENT_SPELL		 6
 

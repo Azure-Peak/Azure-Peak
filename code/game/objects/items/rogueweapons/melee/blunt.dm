@@ -97,6 +97,7 @@
 	wdefense = 2
 	wbalance = WBALANCE_HEAVY
 	icon_angle_wielded = 50
+	special = /datum/special_intent/ground_smash
 
 /obj/item/rogueweapon/mace/getonmobprop(tag)
 	. = ..()
@@ -232,6 +233,7 @@
 	resistance_flags = FLAMMABLE
 	grid_width = 32
 	grid_height = 96
+	special = null //Should probably get something unique, but definitely not Mace ground slam
 
 // Non-lethal mace-striking (Made for cudgel specifically. Don't put this on everything. Yeah, I mean you.)
 /datum/intent/mace/strike/wallop
@@ -443,6 +445,7 @@
 	smeltresult = /obj/item/ingot/steel
 	smelt_bar_num = 2
 	wdefense_wbonus = 5
+	special = null
 
 /obj/item/rogueweapon/mace/goden/steel/paalloy
 	name = "ancient grand mace"
