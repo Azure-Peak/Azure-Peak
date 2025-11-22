@@ -261,6 +261,24 @@ This allows the devs to draw whatever shape they want at the cost of it feeling 
 		return
 	howner.apply_status_effect(/datum/status_effect/debuff/specialcd, cd)
 
+/datum/special_intent/proc/apply_generic_damage(mob/living/target, dam, d_type, zone, bclass, no_pen = FALSE)
+	var/msg = "<font color = '#c2663c'>[name] strikes [target]!"
+	if(ishuman(target))
+		var/mob/living/carbon/human/HT = target
+		var/obj/item/bodypart/affecting = HT.get_bodypart(zone)
+		var/armor_block = HT.run_armor_check(zone, d_type, 0, damage = dam, used_weapon = iparent, armor_penetration = 0)
+		if(no_pen)
+			armor_block = 100
+		if(HT.apply_damage(dam, iparent.damtype, affecting, armor_block))
+			affecting.bodypart_attacked_by(bclass, dam, howner, armor = armor_block, crit_message = TRUE, weapon = iparent)
+			msg += "<b> It pierces through to their flesh!</b>"
+			playsound(HT, pick(iparent.hitsound), 80, TRUE)
+	else
+		target.attacked_by(iparent, howner)
+	msg += "</font>"
+	howner?.visible_message(msg)
+
+
 //A subtype that creates a grid for us so we don't have to painstakingly define it tile by tile.
 //Consequently, however, it does NOT support custom timers and will only work with the default delay var.
 //If you want a pattern with multiple rectangles you'll either have to deploy multiples of these, or use a custom, tile-by-tile one.
@@ -289,6 +307,8 @@ This allows the devs to draw whatever shape they want at the cost of it feeling 
 
 	var/turf/block_lower = locate(x_lower, y_lower, origin.z)
 	var/turf/block_upper = locate(x_upper, y_upper, origin.z)
+	if(isnull(block_lower) || isnull(block_upper))
+		CRASH("Rectangle Special was called with invalid corner turfs. Potentially used near the map's edge?")
 	newtiles = block(block_lower, block_upper)
 	return newtiles
 
@@ -326,21 +346,36 @@ SPECIALS START HERE
 	post_icon_state = "sweep_fx"
 	pre_icon_state = "trap"
 	sfx_post_delay = 'sound/combat/sidesweep_hit.ogg'
-	delay = 0.8 SECONDS
-	cooldown = 18 SECONDS
+	delay = 0.6 SECONDS
+	cooldown = 17 SECONDS 
 	var/eff_dur = 5 SECONDS
+	var/dam = 20
+	var/t_zone
 
 /datum/special_intent/side_sweep/process_attack()
 	tile_coordinates = list()
+	t_zone = null
 	if(howner.used_hand == 1)	//We invert it if it's the left arm.
 		tile_coordinates += list(list(0,0), list(-1,0), list(-1,-1))
 	else
 		tile_coordinates += list(list(0,0), list(1,0), list(1,-1))	//Initial() doesn't work with lists so we copy paste the original
+	var/statmod = max(howner.STASPD, howner.STASTR, howner.STASPD, howner.STAPER)
+	if(iparent)
+		dam = iparent.force * (statmod / 10)
+	if(howner.zone_selected != BODY_ZONE_CHEST)
+		if(check_zone(howner.zone_selected) != howner.zone_selected || howner.STAPER < 11)
+			if(prob(33))
+				t_zone = howner.zone_selected
+		else
+			t_zone = howner.zone_selected
+	if(!t_zone)
+		t_zone = BODY_ZONE_CHEST
 	. = ..()
 
 /datum/special_intent/side_sweep/apply_hit(turf/T)
 	for(var/mob/living/L in get_hearers_in_view(0, T))
 		L.apply_status_effect(/datum/status_effect/debuff/exposed, eff_dur)
+		apply_generic_damage(L, dam, iparent.d_type, t_zone, bclass = BCLASS_CUT)
 	..()
 
 /datum/special_intent/shin_swipe
@@ -350,13 +385,20 @@ SPECIALS START HERE
 	post_icon_state = "sweep_fx"
 	pre_icon_state = "trap"
 	sfx_post_delay = 'sound/combat/shin_swipe.ogg'
-	delay = 0.8 SECONDS
+	delay = 0.7 SECONDS
 	cooldown = 15 SECONDS
 	var/eff_dur = 5	//We do NOT want to use SECONDS macro here.
+	var/dam
+
+/datum/special_intent/shin_swipe/process_attack()
+	dam = iparent.force_dynamic * min((1 + (((howner.STASPD - 10) + (howner.STAPER - 10)) / 10)), 0.1)
+	. = ..()
+
 
 /datum/special_intent/shin_swipe/apply_hit(turf/T)	//This is applied PER tile, so we don't need to do a big check.
 	for(var/mob/living/L in get_hearers_in_view(0, T))
 		L.Slowdown(eff_dur)
+		apply_generic_damage(L, dam, "stab", pick(BODY_ZONE_L_LEG, BODY_ZONE_R_LEG), bclass = BCLASS_CUT)
 	..()
 
 //Hard to hit, freezes you in place. Offbalances & slows the targets hit. If they're already offbalanced they get knocked down.
@@ -374,6 +416,7 @@ SPECIALS START HERE
 	var/KD_dur = 2 SECONDS
 	var/Offb_dur = 5 SECONDS
 	var/Offbself_dur = 1.5 SECONDS
+	var/dam = 80
 
 //We play the pre-sfx here because it otherwise it gets played per tile. Sounds funky.
 /datum/special_intent/ground_smash/on_create()
@@ -397,6 +440,7 @@ SPECIALS START HERE
 			L.Knockdown(KD_dur)
 		else
 			L.OffBalance(Offb_dur)
+		apply_generic_damage(L, dam, "blunt", BODY_ZONE_CHEST, bclass = BCLASS_BLUNT, no_pen = TRUE)
 	var/sfx = pick('sound/combat/ground_smash1.ogg','sound/combat/ground_smash2.ogg','sound/combat/ground_smash3.ogg')
 	playsound(T, sfx, 100, TRUE)
 	..()
@@ -412,13 +456,14 @@ SPECIALS START HERE
 	use_doafter = TRUE
 	respect_adjacency = FALSE
 	delay = 0.8 SECONDS
-	cooldown = 20 SECONDS
+	cooldown = 25 SECONDS
 	var/victim_count = 0
 	var/slow_init = 2
 	var/exposed_init = 3 SECONDS
 	var/offbalanced_init = 1.5 SECONDS
 	var/knockdown = 2 SECONDS
 	var/immobilize_init = 1 SECONDS
+	var/dam = 20
 
 /datum/special_intent/flail_sweep/on_create()
 	. = ..()
@@ -461,6 +506,7 @@ SPECIALS START HERE
 		playsound(howner, 'sound/combat/flail_sweep_hit_minor.ogg', 100, TRUE)
 	else
 		playsound(howner, 'sound/combat/flail_sweep_hit_major.ogg', 100, TRUE)
+	apply_generic_damage(victim, dam * victim_count, "blunt", BODY_ZONE_CHEST, bclass = BCLASS_BLUNT, no_pen = TRUE)
 	victim.safe_throw_at(throwtarget, CLAMP(1, 5, victim_count), 1, howner, force = MOVE_FORCE_EXTREMELY_STRONG)
 
 /datum/special_intent/axe_swing
@@ -475,9 +521,11 @@ SPECIALS START HERE
 	cooldown = 25 SECONDS
 	var/immob_dur = 3 SECONDS
 	var/exposed_dur = 5 SECONDS
+	var/dam
 
 /datum/special_intent/axe_swing/process_attack()
 	tile_coordinates = list()
+	dam = iparent.force_dynamic * (howner.STASTR / 10)
 	if(howner.used_hand == 1)	//We mirror it if it's the left arm.
 		tile_coordinates += list(list(-1,0, 0.3 SECONDS), list(0,0, 0.2 SECONDS), list(1,0))
 	else
@@ -493,6 +541,7 @@ SPECIALS START HERE
 	for(var/mob/living/L in get_hearers_in_view(0, T))
 		L.apply_status_effect(/datum/status_effect/debuff/exposed, exposed_dur)
 		L.Immobilize(immob_dur)
+		apply_generic_damage(L, dam, "slash", pick(BODY_ZONE_L_LEG, BODY_ZONE_R_LEG), bclass = BCLASS_CHOP)
 	var/sfx = pick('sound/combat/sp_axe_swing1.ogg','sound/combat/sp_axe_swing1.ogg','sound/combat/sp_axe_swing1.ogg')
 	playsound(T, sfx, 100, TRUE)
 	..()
