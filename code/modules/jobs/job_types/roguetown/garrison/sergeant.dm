@@ -96,11 +96,11 @@
 /datum/outfit/job/roguetown/sergeant/sergeant/pre_equip(mob/living/carbon/human/H)
 	..()
 	if(H.mind)
-		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/order/movemovemove)
-		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/order/takeaim)
-		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/order/onfeet)
-		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/order/hold)
-		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/order/focustarget)
+		H.mind.AddSpell(new /obj/effect/proc_holder/spell/aoe_living/order/movemovemove)
+		H.mind.AddSpell(new /obj/effect/proc_holder/spell/aoe_living/order/takeaim)
+		H.mind.AddSpell(new /obj/effect/proc_holder/spell/aoe_living/order/onfeet)
+		H.mind.AddSpell(new /obj/effect/proc_holder/spell/aoe_living/order/hold)
+		H.mind.AddSpell(new /obj/effect/proc_holder/spell/aoe_living/order/focustarget)
 		H.mind.AddSpell(new /obj/effect/proc_holder/spell/self/convertrole/guard) // We'll just use Watchmen as sorta conscripts yeag?
 	H.verbs |= list(/mob/living/carbon/human/proc/request_outlaw, /mob/proc/haltyell, /mob/living/carbon/human/mind/proc/setorders)
 	backpack_contents = list(
@@ -143,7 +143,7 @@
 	if(H.mind)
 		SStreasury.give_money_account(ECONOMIC_UPPER_MIDDLE_CLASS, H, "Savings.")
 
-/obj/effect/proc_holder/spell/invoked/order
+/obj/effect/proc_holder/spell/aoe_living/order
 	name = ""
 	range = 1
 	associated_skill = /datum/skill/misc/athletics
@@ -156,38 +156,30 @@
 	sound = 'sound/magic/inspire_02.ogg'
 
 
-/obj/effect/proc_holder/spell/invoked/order/movemovemove
+/obj/effect/proc_holder/spell/aoe_living/order/movemovemove
 	name = "Move! Move! Move!"
 	desc = "Orders your underlings to move faster. +5 Speed."
 	overlay_state = "movemovemove"
+	include_self = FALSE
 
-/obj/effect/proc_holder/spell/invoked/order/movemovemove/cast(list/targets, mob/living/user)
+/obj/effect/proc_holder/spell/aoe_living/order/movemovemove/can_target(mob/living/target, mob/living/user)
+	if(user.job == "Sergeant")
+		if(!(target.job in list("Man at Arms", "Watchman")))
+			return FALSE
+	if(user.job == "Knight Captain")
+		if(!(target.job in list("Knight", "Squire")))
+			return FALSE
+	return TRUE
+
+/obj/effect/proc_holder/spell/aoe_living/order/movemovemove/cast(list/targets, mob/living/user)
 	. = ..()
-	if(isliving(targets[1]))
-		var/mob/living/target = targets[1]
+	for(var/mob/living/target as anything in targets)
 		var/msg = user.mind.movemovemovetext
 		if(!msg)
 			to_chat(user, span_alert("I must say something to give an order!"))
 			return
-		if(user.job == "Sergeant")
-			if(!(target.job in list("Man at Arms", "Watchman")))
-				to_chat(user, span_alert("I cannot order one not of my ranks!"))
-				revert_cast()
-				return
-		if(user.job == "Knight Captain")
-			if(!(target.job in list("Knight", "Squire")))
-				to_chat(user, span_alert("I cannot order one not of my ranks!"))
-				revert_cast()
-				return
-		if(target == user)
-			to_chat(user, span_alert("I cannot order myself!"))
-			revert_cast()
-			return
 		user.say("[msg]")
 		target.apply_status_effect(/datum/status_effect/buff/order/movemovemove)
-		return TRUE
-	revert_cast()
-	return FALSE
 
 /datum/status_effect/buff/order/movemovemove/nextmove_modifier()
 	return 0.85
@@ -207,10 +199,11 @@
 	. = ..()
 	to_chat(owner, span_blue("My officer orders me to move!"))
 
-/obj/effect/proc_holder/spell/invoked/order/takeaim
+/obj/effect/proc_holder/spell/aoe_living/order/takeaim
 	name = "Take aim!"
 	desc = "Orders your underlings to be more precise. +5 Perception."
 	overlay_state = "takeaim"
+	include_self = FALSE
 
 /datum/status_effect/buff/order/takeaim
 	id = "takeaim"
@@ -227,64 +220,48 @@
 	. = ..()
 	to_chat(owner, span_blue("My officer orders me to take aim!"))
 
-/obj/effect/proc_holder/spell/invoked/order/takeaim/cast(list/targets, mob/living/user)
+/obj/effect/proc_holder/spell/aoe_living/order/takeaim/can_target(mob/living/target, mob/living/user)
+	if(user.job == "Sergeant")
+		if(!(target.job in list("Man at Arms", "Watchman")))
+			return FALSE
+	if(user.job == "Knight Captain")
+		if(!(target.job in list("Knight", "Squire")))
+			return FALSE
+	return TRUE
+
+/obj/effect/proc_holder/spell/aoe_living/order/takeaim/cast(list/targets, mob/living/user)
 	. = ..()
-	if(isliving(targets[1]))
-		var/mob/living/target = targets[1]
-		var/msg = user.mind.takeaimtext
-		if(!msg)
-			to_chat(user, span_alert("I must say something to give an order!"))
-			return
-		if(user.job == "Sergeant")
-			if(!(target.job in list("Man at Arms", "Watchman")))
-				to_chat(user, span_alert("I cannot order one not of my ranks!"))
-				revert_cast()
-				return
-		if(user.job == "Knight Captain")
-			if(!(target.job in list("Knight", "Squire")))
-				to_chat(user, span_alert("I cannot order one not of my ranks!"))
-				revert_cast()
-				return
-		if(target == user)
-			to_chat(user, span_alert("I cannot order myself!"))
-			revert_cast()
-			return
-		user.say("[msg]")
+	var/msg = user.mind.takeaimtext
+	if(!msg)
+		to_chat(user, span_alert("I must say something to give an order!"))
+		return
+	user.say("[msg]")
+	for(var/mob/living/target as anything in targets)
 		target.apply_status_effect(/datum/status_effect/buff/order/takeaim)
-		return TRUE
-	revert_cast()
-	return FALSE
 
-
-
-/obj/effect/proc_holder/spell/invoked/order/onfeet
+/obj/effect/proc_holder/spell/aoe_living/order/onfeet
 	name = "On your feet!"
 	desc = "Orders your underlings to stand up."
 	overlay_state = "onfeet"
+	include_self = FALSE
 
-/obj/effect/proc_holder/spell/invoked/order/onfeet/cast(list/targets, mob/living/user)
+/obj/effect/proc_holder/spell/aoe_living/order/onfeet/can_target(mob/living/target, mob/living/user)
+	if(user.job == "Sergeant")
+		if(!(target.job in list("Man at Arms", "Watchman")))
+			return FALSE
+	if(user.job == "Knight Captain")
+		if(!(target.job in list("Knight", "Squire")))
+			return FALSE
+	return TRUE
+
+/obj/effect/proc_holder/spell/aoe_living/order/onfeet/cast(list/targets, mob/living/user)
 	. = ..()
-	if(isliving(targets[1]))
-		var/mob/living/target = targets[1]
-		var/msg = user.mind.onfeettext
-		if(!msg)
-			to_chat(user, span_alert("I must say something to give an order!"))
-			return
-		if(user.job == "Sergeant")
-			if(!(target.job in list("Man at Arms", "Watchman")))
-				to_chat(user, span_alert("I cannot order one not of my ranks!"))
-				revert_cast()
-				return
-		if(user.job == "Knight Captain")
-			if(!(target.job in list("Knight", "Squire")))
-				to_chat(user, span_alert("I cannot order one not of my ranks!"))
-				revert_cast()
-				return
-		if(target == user)
-			to_chat(user, span_alert("I cannot order myself!"))
-			revert_cast()
-			return
-		user.say("[msg]")
+	var/msg = user.mind.onfeettext
+	if(!msg)
+		to_chat(user, span_alert("I must say something to give an order!"))
+		return
+	user.say("[msg]")
+	for(var/mob/living/target as anything in targets)
 		target.apply_status_effect(/datum/status_effect/buff/order/onfeet)
 		if(!(target.mobility_flags & MOBILITY_STAND))
 			target.SetUnconscious(0)
@@ -294,9 +271,6 @@
 			target.SetStun(0)
 			target.SetKnockdown(0)
 			target.set_resting(FALSE)
-		return TRUE
-	revert_cast()
-	return FALSE
 
 /datum/status_effect/buff/order/onfeet
 	id = "onfeet"
@@ -318,40 +292,30 @@
 	. = ..()
 
 
-/obj/effect/proc_holder/spell/invoked/order/hold
+/obj/effect/proc_holder/spell/aoe_living/order/hold
 	name = "Hold!"
 	desc = "Orders your underlings to Endure. +2 Willpower and Constitution."
 	overlay_state = "hold"
+	include_self = FALSE
 
+/obj/effect/proc_holder/spell/aoe_living/order/hold/can_target(mob/living/target, mob/living/user)
+	if(user.job == "Sergeant")
+		if(!(target.job in list("Man at Arms", "Watchman")))
+			return FALSE
+	if(user.job == "Knight Captain")
+		if(!(target.job in list("Knight", "Squire")))
+			return FALSE
+	return TRUE
 
-/obj/effect/proc_holder/spell/invoked/order/hold/cast(list/targets, mob/living/user)
+/obj/effect/proc_holder/spell/aoe_living/order/hold/cast(list/targets, mob/living/user)
 	. = ..()
-	if(isliving(targets[1]))
-		var/mob/living/target = targets[1]
-		var/msg = user.mind.holdtext
-		if(!msg)
-			to_chat(user, span_alert("I must say something to give an order!"))
-			return
-		if(user.job == "Sergeant")
-			if(!(target.job in list("Man at Arms", "Watchman")))
-				to_chat(user, span_alert("I cannot order one not of my ranks!"))
-				revert_cast()
-				return
-		if(user.job == "Knight Captain")
-			if(!(target.job in list("Knight", "Squire")))
-				to_chat(user, span_alert("I cannot order one not of my ranks!"))
-				revert_cast()
-				return
-		if(target == user)
-			to_chat(user, span_alert("I cannot order myself!"))
-			revert_cast()
-			return
-		user.say("[msg]")
+	var/msg = user.mind.holdtext
+	if(!msg)
+		to_chat(user, span_alert("I must say something to give an order!"))
+		return
+	user.say("[msg]")
+	for(var/mob/living/target as anything in targets)
 		target.apply_status_effect(/datum/status_effect/buff/order/hold)
-		return TRUE
-	revert_cast()
-	return FALSE
-
 
 /datum/status_effect/buff/order/hold
 	id = "hold"
@@ -370,13 +334,21 @@
 
 #define TARGET_FILTER "target_marked"
 
-/obj/effect/proc_holder/spell/invoked/order/focustarget
+/obj/effect/proc_holder/spell/invoked/focustarget
 	name = "Focus target!"
 	desc = "Tells your underlings to target a vulnerable spot on the enemy. Applies Crit vulnerability on enemy and gives them -2 Fortune."
 	overlay_state = "focustarget"
+	range = 5
+	associated_skill = /datum/skill/misc/athletics
+	devotion_cost = 0
+	chargedrain = 0
+	chargetime = 0
+	releasedrain = 80
+	recharge_time = 2 MINUTES
+	miracle = FALSE
+	sound = 'sound/magic/inspire_02.ogg'
 
-
-/obj/effect/proc_holder/spell/invoked/order/focustarget/cast(list/targets, mob/living/user)
+/obj/effect/proc_holder/spell/invoked/focustarget/cast(list/targets, mob/living/user)
 	. = ..()
 	if(isliving(targets[1]))
 		var/mob/living/target = targets[1]
@@ -423,7 +395,7 @@
 	owner.remove_filter(TARGET_FILTER)
 
 
-/obj/effect/proc_holder/spell/invoked/order/focustarget
+/obj/effect/proc_holder/spell/aoe_living/order/focustarget
 	name = "Focus target!"
 	overlay_state = "focustarget"
 

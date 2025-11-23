@@ -109,11 +109,11 @@
 		/obj/item/reagent_containers/glass/bottle/rogue/healthpot = 1,
 		)
 	if(H.mind)
-		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/order/movemovemove)
-		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/order/takeaim)
-		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/order/onfeet)
-		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/order/hold)
-		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/order/focustarget)
+		H.mind.AddSpell(new /obj/effect/proc_holder/spell/aoe_living/order/movemovemove)
+		H.mind.AddSpell(new /obj/effect/proc_holder/spell/aoe_living/order/takeaim)
+		H.mind.AddSpell(new /obj/effect/proc_holder/spell/aoe_living/order/onfeet)
+		H.mind.AddSpell(new /obj/effect/proc_holder/spell/aoe_living/order/hold)
+		H.mind.AddSpell(new /obj/effect/proc_holder/spell/aoe_living/order/focustarget)
 	H.dna.species.soundpack_m = new /datum/voicepack/male/knight()
 	H.verbs |= list(
 		/mob/living/carbon/human/proc/request_outlaw,
