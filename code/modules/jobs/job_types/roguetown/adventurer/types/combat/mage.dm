@@ -115,7 +115,7 @@
 	if(H.mind)
 		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/projectile/airblade)
 		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/enchant_weapon)
-		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/conjure_weapon)
+		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/mending)
 	H.cmode_music = 'sound/music/cmode/adventurer/combat_outlander3.ogg'
 	if(H.mind)
 		var/weapons = list("Longsword", "Falchion & Wooden Shield", "Messer & Wooden Shield", "Hwando") // Much smaller selection with only three swords. You will probably want to upgrade.
@@ -189,7 +189,7 @@
 	if(H.mind)
 		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/mockery)
 		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/enchant_weapon)
-		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/conjure_weapon)
+		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/mending)
 	H.cmode_music = 'sound/music/cmode/adventurer/combat_outlander3.ogg'
 	switch(H.patron?.type)
 		if(/datum/patron/inhumen/zizo)
