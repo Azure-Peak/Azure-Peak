@@ -599,6 +599,9 @@
 					"westabove" = 0
 				)
 
+/obj/item/rogueweapon/scabbard/gwstrap/sheathed_spear/Initialize()
+	. = ..()
+	sheathed = new /obj/item/rogueweapon/spear(src)
 
 /*
 	GENERIC SCABBARDS
@@ -772,7 +775,7 @@
 /obj/item/rogueweapon/scabbard/sword/kazengun/noparry
 	name = "ceremonial kazengun scabbard"
 	desc = "A simple wooden scabbard, trimmed with bronze. Unlike its steel cousins, this one cannot parry."
-	
+
 	valid_blade = /obj/item/rogueweapon/sword/long/kriegmesser/ssangsudo
 	can_parry = FALSE
 

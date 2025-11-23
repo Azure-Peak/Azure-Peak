@@ -161,28 +161,9 @@
 	tutorial = "You are a squire who has traveled far in search of a master to train you and a lord to knight you."
 	outfit = /datum/outfit/job/roguetown/adventurer/squire
 	traits_applied = list(TRAIT_SQUIRE_REPAIR)
-	subclass_stats = list(
-		STATKEY_INT = 2,
-		STATKEY_STR = 1,
-		STATKEY_PER = 1,
-		STATKEY_SPD = 1,
-	)
-	subclass_skills = list(
-		/datum/skill/combat/polearms = SKILL_LEVEL_JOURNEYMAN,
-		/datum/skill/combat/maces = SKILL_LEVEL_APPRENTICE,
-		/datum/skill/combat/swords = SKILL_LEVEL_JOURNEYMAN,
-		/datum/skill/combat/knives = SKILL_LEVEL_APPRENTICE,
-		/datum/skill/combat/shields = SKILL_LEVEL_APPRENTICE,
-		/datum/skill/combat/whipsflails = SKILL_LEVEL_APPRENTICE,
-		/datum/skill/combat/wrestling = SKILL_LEVEL_APPRENTICE,
-		/datum/skill/misc/swimming = SKILL_LEVEL_APPRENTICE,
-		/datum/skill/combat/unarmed = SKILL_LEVEL_APPRENTICE,
-		/datum/skill/misc/athletics = SKILL_LEVEL_JOURNEYMAN,
-		/datum/skill/misc/climbing = SKILL_LEVEL_JOURNEYMAN,
-		/datum/skill/misc/reading = SKILL_LEVEL_APPRENTICE,
-		/datum/skill/misc/riding = SKILL_LEVEL_APPRENTICE,
-	)
-	extra_context = "Chooses between Light Armor (Dodge Expert) and Medium Armor."
+	subclass_stats = list()
+	subclass_skills = list()
+	extra_context = "Chooses between Footman, Lancer, Irregular for its stats, skills, and equipment."
 
 /datum/outfit/job/roguetown/adventurer/squire/pre_equip(mob/living/carbon/human/H)
 	..()
@@ -196,27 +177,119 @@
 	backr = /obj/item/storage/backpack/rogue/satchel
 	beltl = /obj/item/flashlight/flare/torch/lantern
 	backpack_contents = list(
-		/obj/item/storage/belt/rogue/pouch/coins/poor = 1, 
-		/obj/item/rogueweapon/hammer/iron = 1, 
-		/obj/item/rogueweapon/tongs = 1, 
+		/obj/item/storage/belt/rogue/pouch/coins/poor = 1,
+		/obj/item/rogueweapon/hammer/iron = 1,
+		/obj/item/rogueweapon/tongs = 1,
 		/obj/item/recipe_book/survival = 1,
 		/obj/item/repair_kit/metal = 1,
 		/obj/item/repair_kit = 1,
 	)
 	if(H.mind)
-		var/armors = list("Light Armor","Medium Armor")
-		var/armor_choice = input(H, "Choose your armor.", "TAKE UP ARMS") as anything in armors
-		switch(armor_choice)
-			if("Light Armor")
-				shirt = /obj/item/clothing/suit/roguetown/armor/gambeson
-				pants = /obj/item/clothing/under/roguetown/trou/leather
-				gloves = /obj/item/clothing/gloves/roguetown/fingerless_leather
-				beltr = /obj/item/rogueweapon/huntingknife/idagger
-				ADD_TRAIT(H, TRAIT_DODGEEXPERT, TRAIT_GENERIC)
-			if("Medium Armor")
+		var/static/list/variants = list("Footman Squire", "Lancer Squire", "Irregular Squire")
+		var/chosen_variant = tgui_input_list(H, "Choose your squirely training.", "SQUIRE TRAINING", variants)
+		if(!chosen_variant)
+			chosen_variant = "Footman Squire"
+		switch(chosen_variant)
+			if("Footman Squire")
 				shirt = /obj/item/clothing/suit/roguetown/armor/chainmail/iron
 				pants = /obj/item/clothing/under/roguetown/chainlegs/iron
 				gloves = /obj/item/clothing/gloves/roguetown/chain/iron
 				beltr = /obj/item/rogueweapon/sword/iron
 				ADD_TRAIT(H, TRAIT_MEDIUMARMOR, TRAIT_GENERIC)
+
+				var/static/list/footman_stats = list(
+					STATKEY_STR = 1,
+					STATKEY_SPD = 1,
+					STATKEY_PER = 1,
+					STATKEY_CON = 1,
+					STATKEY_INT = 1,
+				)
+				var/static/list/footman_skills = list(
+					/datum/skill/combat/maces = SKILL_LEVEL_JOURNEYMAN,
+					/datum/skill/combat/crossbows = SKILL_LEVEL_APPRENTICE,
+					/datum/skill/combat/wrestling = SKILL_LEVEL_APPRENTICE,
+					/datum/skill/combat/unarmed = SKILL_LEVEL_APPRENTICE,
+					/datum/skill/combat/swords = SKILL_LEVEL_JOURNEYMAN,
+					/datum/skill/combat/knives = SKILL_LEVEL_NOVICE,
+					/datum/skill/misc/swimming = SKILL_LEVEL_APPRENTICE,
+					/datum/skill/misc/climbing = SKILL_LEVEL_JOURNEYMAN,
+					/datum/skill/misc/athletics = SKILL_LEVEL_JOURNEYMAN,
+					/datum/skill/misc/reading = SKILL_LEVEL_NOVICE,
+				)
+
+				for(var/statkey in footman_stats)
+					H.change_stat(statkey, footman_stats[statkey])
+
+				for(var/skill in footman_skills)
+					H.adjust_skillrank(skill, footman_skills[skill], TRUE)
+			if("Lancer Squire")
+				shirt = /obj/item/clothing/suit/roguetown/armor/chainmail/iron
+				pants = /obj/item/clothing/under/roguetown/chainlegs/iron
+				gloves = /obj/item/clothing/gloves/roguetown/chain/iron
+				backl = /obj/item/rogueweapon/scabbard/gwstrap/sheathed_spear
+				beltr = /obj/item/rogueweapon/huntingknife/idagger
+				ADD_TRAIT(H, TRAIT_MEDIUMARMOR, TRAIT_GENERIC)
+
+				var/static/list/lancer_stats = list(
+					STATKEY_STR = 1,
+					STATKEY_SPD = 1,
+					STATKEY_PER = 1,
+					STATKEY_CON = 1,
+					STATKEY_INT = 1,
+				)
+				var/static/list/lancer_skills = list(
+					/datum/skill/combat/maces = SKILL_LEVEL_NOVICE,
+					/datum/skill/combat/crossbows = SKILL_LEVEL_NOVICE,
+					/datum/skill/combat/wrestling = SKILL_LEVEL_APPRENTICE,
+					/datum/skill/combat/unarmed = SKILL_LEVEL_APPRENTICE,
+					/datum/skill/combat/polearms = SKILL_LEVEL_JOURNEYMAN,
+					/datum/skill/combat/swords = SKILL_LEVEL_APPRENTICE,
+					/datum/skill/combat/knives = SKILL_LEVEL_APPRENTICE,
+					/datum/skill/misc/swimming = SKILL_LEVEL_APPRENTICE,
+					/datum/skill/misc/climbing = SKILL_LEVEL_JOURNEYMAN,
+					/datum/skill/misc/athletics = SKILL_LEVEL_JOURNEYMAN,
+					/datum/skill/misc/reading = SKILL_LEVEL_NOVICE,
+					/datum/skill/misc/riding = SKILL_LEVEL_JOURNEYMAN,
+				)
+
+				for(var/statkey in lancer_stats)
+					H.change_stat(statkey, lancer_stats[statkey])
+
+				for(var/skill in lancer_skills)
+					H.adjust_skillrank(skill, lancer_skills[skill], TRUE)
+			if("Irregular Squire")
+				shirt = /obj/item/clothing/suit/roguetown/armor/gambeson
+				pants = /obj/item/clothing/under/roguetown/trou/leather
+				gloves = /obj/item/clothing/gloves/roguetown/fingerless_leather
+				backl = /obj/item/gun/ballistic/revolver/grenadelauncher/bow/recurve
+				beltr = /obj/item/rogueweapon/huntingknife/idagger
+				beltl = /obj/item/quiver/arrows
+				backpack_contents += list(/obj/item/flashlight/flare/torch/lantern = 1)
+				ADD_TRAIT(H, TRAIT_DODGEEXPERT, TRAIT_GENERIC)
+
+				var/static/list/irregular_stats = list(
+					STATKEY_SPD = 2,
+					STATKEY_PER = 1,
+					STATKEY_CON = 1,
+					STATKEY_INT = 1,
+				)
+				var/static/list/irregular_skills = list(
+					/datum/skill/combat/bows = SKILL_LEVEL_JOURNEYMAN,
+					/datum/skill/combat/crossbows = SKILL_LEVEL_NOVICE,
+					/datum/skill/combat/wrestling = SKILL_LEVEL_NOVICE,
+					/datum/skill/combat/unarmed = SKILL_LEVEL_NOVICE,
+					/datum/skill/combat/swords = SKILL_LEVEL_APPRENTICE,
+					/datum/skill/combat/knives = SKILL_LEVEL_JOURNEYMAN,
+					/datum/skill/misc/swimming = SKILL_LEVEL_APPRENTICE,
+					/datum/skill/misc/climbing = SKILL_LEVEL_EXPERT,
+					/datum/skill/misc/athletics = SKILL_LEVEL_JOURNEYMAN,
+					/datum/skill/misc/reading = SKILL_LEVEL_NOVICE,
+					/datum/skill/misc/riding = SKILL_LEVEL_NOVICE,
+				)
+
+				for(var/statkey in irregular_stats)
+					H.change_stat(statkey, irregular_stats[statkey])
+
+				for(var/skill in irregular_skills)
+					H.adjust_skillrank(skill, irregular_skills[skill], TRUE)
 	H.set_blindness(0)
