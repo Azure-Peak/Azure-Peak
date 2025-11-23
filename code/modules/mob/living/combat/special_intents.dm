@@ -379,7 +379,8 @@ SPECIALS START HERE
 /datum/special_intent/side_sweep/apply_hit(turf/T)
 	for(var/mob/living/L in get_hearers_in_view(0, T))
 		L.apply_status_effect(/datum/status_effect/debuff/exposed, eff_dur)
-		apply_generic_damage(L, dam, iparent.d_type, t_zone, bclass = BCLASS_CUT)
+		if(L.mobility_flags & MOBILITY_STAND)
+			apply_generic_damage(L, dam, iparent.d_type, t_zone, bclass = BCLASS_CUT)
 	..()
 
 /datum/special_intent/shin_swipe
@@ -402,7 +403,8 @@ SPECIALS START HERE
 /datum/special_intent/shin_swipe/apply_hit(turf/T)	//This is applied PER tile, so we don't need to do a big check.
 	for(var/mob/living/L in get_hearers_in_view(0, T))
 		L.Slowdown(eff_dur)
-		apply_generic_damage(L, dam, "stab", pick(BODY_ZONE_L_LEG, BODY_ZONE_R_LEG), bclass = BCLASS_CUT)
+		if(L.mobility_flags & MOBILITY_STAND)
+			apply_generic_damage(L, dam, "stab", pick(BODY_ZONE_L_LEG, BODY_ZONE_R_LEG), bclass = BCLASS_CUT)
 	..()
 
 //Hard to hit, freezes you in place. Offbalances & slows the targets hit. If they're already offbalanced they get knocked down.
@@ -475,8 +477,9 @@ SPECIALS START HERE
 
 /datum/special_intent/flail_sweep/apply_hit(turf/T)
 	for(var/mob/living/L in get_hearers_in_view(0, T))
-		victim_count++
-		addtimer(CALLBACK(src, PROC_REF(apply_effect), L), 0.1 SECONDS)	//We need to count them all up first so this is an unfortunate (& janky) requirement.
+		if(L.mobility_flags & MOBILITY_STAND)
+			victim_count++
+			addtimer(CALLBACK(src, PROC_REF(apply_effect), L), 0.1 SECONDS)	//We need to count them all up first so this is an unfortunate (& janky) requirement.
 	..()																//An alternative could be a spatial grid count from howner called once.
 
 ///This will apply the actual effect, as we need some way to count all the mobs in the zone first.
@@ -545,7 +548,8 @@ SPECIALS START HERE
 	for(var/mob/living/L in get_hearers_in_view(0, T))
 		L.apply_status_effect(/datum/status_effect/debuff/exposed, exposed_dur)
 		L.Immobilize(immob_dur)
-		apply_generic_damage(L, dam, "slash", pick(BODY_ZONE_L_LEG, BODY_ZONE_R_LEG), bclass = BCLASS_CHOP)
+		if(L.mobility_flags & MOBILITY_STAND)
+			apply_generic_damage(L, dam, "slash", pick(BODY_ZONE_L_LEG, BODY_ZONE_R_LEG), bclass = BCLASS_CHOP)
 	var/sfx = pick('sound/combat/sp_axe_swing1.ogg','sound/combat/sp_axe_swing1.ogg','sound/combat/sp_axe_swing1.ogg')
 	playsound(T, sfx, 100, TRUE)
 	..()
