@@ -127,7 +127,7 @@
 			to_chat(user,span_cultsmall("I begin inscribing the rune of Addiction."))
 			if(do_after(user, 30, src))
 				playsound(src, 'sound/foley/scribble.ogg', 40, TRUE)
-				new /obj/effect/decal/cleanable/roguerune/god/baotha(step_turf)
+				new /obj/structure/ritualcircle/baotha(step_turf)
 		if("Rune of Enduring")
 			to_chat(user,span_cultsmall("I begin inscribing His holy symbol."))
 			if(do_after(user, 30, src))

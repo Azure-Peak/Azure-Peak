@@ -785,6 +785,12 @@ GLOBAL_LIST_EMPTY(personal_objective_minds)
 	for(var/obj/effect/proc_holder/S in spell_list)
 		RemoveSpell(S)
 
+//removes spells that have miracle = true on them
+/datum/mind/proc/RemoveAllMiracles()
+	for(var/obj/effect/proc_holder/spell/spell in spell_list)
+		if(spell.miracle)
+			RemoveSpell(spell)
+
 /datum/mind/proc/transfer_martial_arts(mob/living/new_character)
 	if(!ishuman(new_character))
 		return

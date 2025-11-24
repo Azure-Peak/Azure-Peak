@@ -53,10 +53,33 @@
 	if(!testes)
 		return
 	var/obj/item/organ/vagina/vag = wife.getorganslot(ORGAN_SLOT_VAGINA)
-	if(!vag)
+	if(!vag && !HAS_TRAIT(wife, TRAIT_BAOTHA_FERTILITY_BOON))
 		return
-	if(prob(25) && wife.is_fertile() && is_virile())
-		vag.be_impregnated(src)
+	if(!is_virile())
+		return
+	if(vag)
+		if(!wife.is_fertile())
+			return
+		var/prob_for_impreg = vag.impregnation_probability
+		if(wife.has_status_effect(/datum/status_effect/knotted))
+			prob_for_impreg = min(prob_for_impreg & 2, IMPREG_PROB_MAX)
+		if(prob(prob_for_impreg))
+			vag.be_impregnated(src)
+			vag.impregnation_probability = IMPREG_PROB_DEFAULT
+		else
+			vag.impregnation_probability = min(prob_for_impreg + IMPREG_PROB_INCREMENT, IMPREG_PROB_MAX)
+	else
+		var/prob_for_impreg = wife.mpreg_chance
+		if(wife.has_status_effect(/datum/status_effect/knotted))
+			prob_for_impreg = min(prob_for_impreg * 2, IMPREG_PROB_MAX)
+		if(prob(prob_for_impreg))
+			if(wife.mpreg)
+				to_chat(wife, span_love("I feel a surge of warmth inside me again..."))
+				return
+			to_chat(wife, span_love("I feel a strange surge of warmth inside me... Am I pregnant?.."))
+			wife.mpreg = TRUE
+		else
+			wife.mpreg_chance = min(prob_for_impreg + IMPREG_PROB_INCREMENT, IMPREG_PROB_MAX)
 
 /mob/living/proc/can_do_sex()
 	return TRUE

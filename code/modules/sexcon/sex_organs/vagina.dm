@@ -7,6 +7,7 @@
 	accessory_type = /datum/sprite_accessory/vagina/human
 	var/pregnant = FALSE
 	var/fertility = TRUE
+	var/impregnation_probability = IMPREG_PROB_DEFAULT
 
 /obj/item/organ/vagina/proc/be_impregnated(mob/living/carbon/human/father)
 	if(pregnant)
