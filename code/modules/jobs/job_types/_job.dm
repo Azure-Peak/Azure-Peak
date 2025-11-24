@@ -471,6 +471,13 @@
 
 /proc/should_wear_femme_clothes(mob/living/carbon/human/H)
 	return (H.pronouns == SHE_HER || H.pronouns == THEY_THEM_F || H.pronouns == HE_HIM_F || (H.pronouns == IT_ITS && H.gender == FEMALE))
+
+/proc/should_have_masc_title(mob/living/carbon/human/H)
+	return (H.pronouns == HE_HIM || H.pronouns == HE_HIM_F || H.pronouns == THEY_THEM || (H.pronouns == IT_ITS && H.gender == MALE))
+
+/proc/should_have_femme_title(mob/living/carbon/human/H)
+	return (H.pronouns == SHE_HER || H.pronouns == SHE_HER_M || H.pronouns == THEY_THEM_F || (H.pronouns == IT_ITS && H.gender == FEMALE))
+
 // LETHALSTONE EDIT END
 
 /datum/job/proc/get_informed_title(mob/mob)
