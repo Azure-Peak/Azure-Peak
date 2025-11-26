@@ -105,8 +105,9 @@
 // T3: tames bio_type = undead mobs
 
 /obj/effect/proc_holder/spell/invoked/tame_undead/miracle
+	recharge_time = 40 SECONDS //cmon, you pay your devotion
 	miracle = TRUE
-	devotion_cost = 100
+	devotion_cost = 70
 
 // T3: Rituos (usable once per sleep cycle, allows you to choose any 1 arcane spell to use for the duration w/ an associated devotion cost. each time you change it, 1 of your limbs is skeletonized, if all of your limbs are skeletonized, you gain access to arcane magic. continuing to use rituos after being fully skeletonized gives you additional spellpoints). Gives you the MOB_UNDEAD flag (needed for skeletonize to work) on first use.
 
@@ -260,4 +261,29 @@
 	for(var/mob/M in range(checkrange, user))
 		for(var/obj/O in M.contents)
 			O.extinguish()
+	return TRUE
+
+/obj/effect/proc_holder/spell/self/zizoeye
+	name = "Zizo Sight"
+	desc = "Cast, for detect hidden souls"
+	overlay_state = "animate"
+	releasedrain = 10
+	chargedrain = 0
+	chargetime = 0
+	chargedloop = /datum/looping_sound/invokeholy
+	sound = null
+	sound = 'sound/magic/zizo_snuff.ogg'
+	associated_skill = /datum/skill/magic/holy
+	antimagic_allowed = FALSE
+	recharge_time = 12 SECONDS
+	devotion_cost = 30
+	miracle = TRUE
+
+/obj/effect/proc_holder/spell/self/zizoeye/cast(list/targets, mob/user = usr)
+	. = ..()
+	var/range_dist = user.get_skill_level(src.associated_skill) * 2
+	for(var/obj/effect/soul/soul in orange(range_dist, user)) //Can't use view because they're invisible by default.
+		if(!can_see(user, soul, 10))
+			continue
+		soul.soul_mark()
 	return TRUE

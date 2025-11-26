@@ -134,6 +134,7 @@ GLOBAL_LIST_EMPTY(last_words)
 			client.screen += H
 			H.Fade()
 			addtimer(CALLBACK(H, TYPE_PROC_REF(/atom/movable/screen/gameover, Fade), TRUE), 100)
+			new /obj/effect/soul(get_turf(src))
 //		flick("gameover",H)
 //		addtimer(CALLBACK(H, TYPE_PROC_REF(/atom/movable/screen/gameover, Fade)), 29)
 		mob_timers["lastdied"] = world.time

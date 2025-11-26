@@ -2508,6 +2508,7 @@
 #include "code\modules\spells\spell_types\skills\invoked_single_target\teach.dm"
 #include "code\modules\spells\spell_types\undead\self\calcic_outburst.dm"
 #include "code\modules\spells\spell_types\undead\summon\raise_undead.dm"
+#include "code\modules\spells\spell_types\undead\zskull\invocation.dm"
 #include "code\modules\spells\spell_types\wizard\learnspell.dm"
 #include "code\modules\spells\spell_types\wizard\spell_list.dm"
 #include "code\modules\spells\spell_types\wizard\spells_status_effects.dm"

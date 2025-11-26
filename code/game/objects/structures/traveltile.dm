@@ -28,6 +28,43 @@
 		to_chat(user, "<b>There is no portal connected to this. Report it as a bugs.</b>")
 	. = ..()
 
+/obj/structure/fluff/zizoprotal
+	name = "Strange Portal"
+	icon_state = "shitportal"
+	icon = 'icons/roguetown/misc/structure.dmi'
+	density = FALSE
+	anchored = TRUE
+	layer = BELOW_MOB_LAYER
+	max_integrity = 100
+	color = "#e837379b"
+	var/key
+	var/dur = 1 MINUTES
+
+/obj/structure/fluff/zizoprotal/Initialize()
+	GLOB.testportals += src
+	addtimer(CALLBACK(src, PROC_REF(delete_portal), src), wait = dur)
+	..()
+
+/obj/structure/fluff/zizoprotal/attack_hand(mob/user)
+	var/fou
+	for(var/obj/structure/fluff/zizoprotal/T in shuffle(GLOB.testportals))
+		if(!do_after(user,3 SECONDS, user))
+			return
+		if(T.key == key)
+			if(T == src)
+				continue
+			to_chat(user, "<b>I teleport to [T].</b>")
+			playsound(src, 'sound/misc/portal_enter.ogg', 100, TRUE)
+			user.forceMove(T.loc)
+			fou = TRUE
+			break
+	if(!fou)
+		to_chat(user, "<b>There is no portal connected to this.</b>")
+	. = ..()
+
+/obj/structure/fluff/zizoprotal/proc/delete_portal()
+	GLOB.testportals -= src
+	qdel(src)
 
 /obj/structure/fluff/traveltile
 	name = "travel"

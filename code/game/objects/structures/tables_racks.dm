@@ -272,6 +272,10 @@
 /obj/structure/table/wood/poor/alt_alt
 	icon_state = "tablewood3"
 
+/obj/structure/table/wood/bone
+	name = "bone table"
+	icon_state = "tablebone"
+
 /obj/structure/table/wood/large_table
 	icon_state = "largetable"
 

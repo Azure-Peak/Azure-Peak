@@ -322,6 +322,14 @@
 		return 0
 	return 1
 
+/obj/structure/fluff/railing/fence/bone
+	name = "bone palisade"
+	desc = "A rudimentary barrier that might keep the monsters at bay."
+	icon_state = "bonefence"
+	icon = 'icons/roguetown/misc/structure.dmi'
+	attacked_sound = 'sound/vo/mobs/ghost/skullpile_hit.ogg'
+	destroy_sound = 'sound/combat/hits/onwood/destroyfurniture.ogg'
+
 /obj/structure/bars
 	name = "bars"
 	desc = ""

@@ -89,8 +89,17 @@
 	var/to_spawn = 4
 	hide_charge_effect = TRUE
 
-/obj/effect/proc_holder/spell/invoked/raise_undead_formation/cast(list/targets, mob/living/user)
+/obj/effect/proc_holder/spell/invoked/raise_undead_formation/cast(list/targets, mob/living/carbon/user)
 	..()
+
+	if(!("[user.mind.current.real_name]_faction" in user.faction))  //FUCK VVV
+		user.faction |= "[user.mind.current.real_name]_faction"
+
+	if(!(/obj/effect/proc_holder/spell/invoked/gravemark in user.mind?.spell_list)) //OFF VVV
+		user.mind?.AddSpell(new /obj/effect/proc_holder/spell/invoked/gravemark)
+
+	if(!(/obj/effect/proc_holder/spell/invoked/minion_order in user.mind?.spell_list))  //SPELLGRANT IN CLASS FILE
+		user.mind?.AddSpell(new /obj/effect/proc_holder/spell/invoked/minion_order)
 
 	var/turf/T = get_turf(targets[1])
 	if(!isopenturf(T))
@@ -137,6 +146,16 @@
 	recharge_time = 35 SECONDS
 	to_spawn = 3
 
+/obj/effect/proc_holder/spell/invoked/raise_undead_formation/lesser //lesser spell for bad mages, raice 1 simple skeleton
+	name = "Raise Skeleton"
+	desc = "Raises a undead skeleton. Inferior shamblers. Husks in everything but zeal."
+	cost = 3
+	spell_tier = 3
+	cabal_affine = TRUE
+	is_summoned = TRUE
+	recharge_time = 35 SECONDS
+	to_spawn = 1
+	zizo_spell = TRUE
 
 /obj/effect/proc_holder/spell/invoked/raise_undead_guard
 	name = "Conjure Undead"
@@ -185,9 +204,18 @@
 	gesture_required = TRUE
 	chargedloop = /datum/looping_sound/invokegen
 	no_early_release = TRUE
+	cost = 3
+	spell_tier = 3
+	zizo_spell = TRUE
 
 /obj/effect/proc_holder/spell/invoked/tame_undead/cast(list/targets, mob/living/user)
 	..()
+
+	/*
+	if(/obj/effect/proc_holder/spell/invoked/tame_undead/miracle in user.mind.spell_list) //If you bind it, you loose miracle version.
+		user.mind?.RemoveSpell(/obj/effect/proc_holder/spell/invoked/tame_undead/miracle)
+		user.mind?.AddSpell(new /obj/effect/proc_holder/spell/invoked/tame_undead)
+	*/
 
 	if(!isliving(targets[1]))
 		revert_cast()
@@ -215,7 +243,6 @@
 			simple_target.tamed()
 
 	return TRUE
-
 
 /obj/effect/proc_holder/spell/invoked/projectile/sickness
 	name = "Ray of Sickness"
@@ -270,4 +297,47 @@
 				target.faction |= faction_tag
 				user.say("Amicus declaratus es.")
 		return TRUE
+	return FALSE
+
+/obj/effect/proc_holder/spell/invoked/reform
+	name = "Reform"
+	desc = "Adds or removes a target from the list of allies exempt from your undead's aggression."
+	overlay_state = "raiseskele"
+	range = 7
+	cost = 3
+	spell_tier = 3
+	zizo_spell = TRUE
+	warnie = "sydwarning"
+	movement_interrupt = FALSE
+	chargedloop = null
+	antimagic_allowed = TRUE
+	recharge_time = 15 SECONDS
+	hide_charge_effect = TRUE
+
+/obj/effect/proc_holder/spell/invoked/reform/cast(list/targets, mob/living/user)
+	. = ..()
+	var/mob/living/target = targets[1]
+	var/faction_tag = "[user.mind.current.real_name]_faction"
+	if(istype(target, /turf/open/transparent/openspace) || istype(target, /turf/open))
+		for(var/mob/living/simple_animal/hostile/rogue/skeleton/S in range(1, get_turf(target)))
+			if(!faction_tag in S.faction) //Only YOUR skelets
+				return
+			user.say("Hostis declaratus es.")
+			var/reforms = list("Table", "Chair", "Wall", "Bonefire", "Platform")
+			var/reform_choice = input(user, "Choose reform", "TRANSFORMATION") as anything in reforms
+			switch(reform_choice)
+				if("Table")
+					new /obj/structure/table/wood/bone(get_turf(target))
+				if("Chair")
+					new /obj/structure/chair/wood/rogue/bchair(get_turf(target))
+				if("Wall")
+					new /obj/structure/fluff/railing/fence/bone(get_turf(target))
+				if("Bonefire")
+					new /obj/machinery/light/rogue/campfire/bonefire(get_turf(target))
+				if("Platform")
+					new /turf/open/floor/rogue/twig/platform/bone(get_turf(target))
+			playsound(get_turf(target), 'sound/vo/mobs/ghost/skullpile_hit.ogg', 100, TRUE, soundping = TRUE)
+			playsound(get_turf(S), pick('sound/vo/mobs/skel/skeleton_pain (1).ogg','sound/vo/mobs/skel/skeleton_pain (2).ogg','sound/vo/mobs/skel/skeleton_pain (3).ogg', 'sound/vo/mobs/skel/skeleton_pain (4).ogg', 'sound/vo/mobs/skel/skeleton_pain (5).ogg'), 80, TRUE, soundping = TRUE)
+			qdel(S) //Bye bye skelly
+			return TRUE
 	return FALSE

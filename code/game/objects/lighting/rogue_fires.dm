@@ -785,6 +785,7 @@
 	max_integrity = 30
 	soundloop = /datum/looping_sound/fireloop
 	var/healing_range = 2
+	var/zizo = FALSE
 
 /obj/machinery/light/rogue/campfire/process()
 	..()
@@ -803,8 +804,13 @@
 				to_chat(human, "The warmth of the fire comforts me, affording me a short rest.")
 			// Astrata followers get enhanced fire healing
 			var/buff_strength = 0.5
+			if(zizo == TRUE)
+				buff_strength = 0
+				if(human.patron?.type == /datum/patron/inhumen/zizo)
+					buff_strength = 1
 			if(human.patron?.type == /datum/patron/divine/astrata || human.patron?.type == /datum/patron/inhumen/matthios) //Fire and the fire-stealer
-				buff_strength = 1
+				if(zizo == FALSE)
+					buff_strength = 1
 			human.apply_status_effect(/datum/status_effect/buff/healing/campfire, buff_strength)
 			human.add_stress(/datum/stressevent/campfire)
 
@@ -878,6 +884,14 @@
 
 /obj/machinery/light/rogue/campfire/longlived
 	fueluse = 180 MINUTES
+
+/obj/machinery/light/rogue/campfire/bonefire
+	name = "bonefire"
+	icon_state = "bonefire1"
+	base_state = "bonefire"
+	healing_range = 4
+	bulb_colour = "#7b60f3"
+	zizo = TRUE
 
 #undef MIN_STEW_TEMPERATURE
 #undef VOLUME_PER_STEW_COOK

@@ -518,6 +518,18 @@
 	duration = 10 SECONDS
 	block_combat_mode = TRUE
 
+/atom/movable/screen/alert/status_effect/buff/healing/zizoblood
+	name = "Heretical Regeneration"
+	desc = "Sacrificial blood restores my body!"
+	icon_state = "debuff"
+
+/datum/status_effect/buff/healing/zizoblood
+	id = "zizoblood"
+	alert_type = /atom/movable/screen/alert/status_effect/buff/healing/zizoblood
+	examine_text = null
+	duration = 10 SECONDS
+	outline_colour = "#220000ff"
+
 #define BLOODHEAL_DUR_SCALE_PER_LEVEL 3 SECONDS
 #define BLOODHEAL_RESTORE_DEFAULT 5
 #define BLOODHEAL_RESTORE_SCALE_PER_LEVEL 2

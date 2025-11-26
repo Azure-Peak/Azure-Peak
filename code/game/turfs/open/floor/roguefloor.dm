@@ -98,6 +98,13 @@
 	. = ..()
 	ScrapeAway(flags = CHANGETURF_INHERIT_AIR)
 
+/turf/open/floor/rogue/twig/platform/bone
+	name = "bone platform"
+	desc = "A destructible platform."
+	icon_state = "boneplatform"
+	attacked_sound = 'sound/vo/mobs/ghost/skullpile_hit.ogg'
+	break_sound = 'sound/combat/hits/onwood/destroyfurniture.ogg'
+
 /turf/open/floor/rogue/wood
 	smooth_icon = 'icons/turf/floors/wood.dmi'
 	icon_state = "wooden_floor2"
