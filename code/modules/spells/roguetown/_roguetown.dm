@@ -145,7 +145,7 @@
 	if(U.mind?.entropy == 20) //Undead biotype, silverweakness, 3 aryne spellpoint and damage+ slash on all body.
 		to_chat(U, span_bloody("Greetings, [U.mind.current.real_name], it's been a long time... You deserve a little gift..."))
 		U.adjust_skillrank(/datum/skill/magic/arcane, 1, TRUE)
-		if(!locate(/obj/effect/proc_holder/spell/targeted/touch/prestidigitation) in U.mind?.spell_list)
+		if(!(locate(/obj/effect/proc_holder/spell/targeted/touch/prestidigitation) in U.mind?.spell_list))
 			U.mind?.AddSpell(new /obj/effect/proc_holder/spell/targeted/touch/prestidigitation)
 		U.mind?.adjust_spellpoints(3)
 		if (!HAS_TRAIT(U, TRAIT_ARCYNE_T1) && !HAS_TRAIT(U, TRAIT_ARCYNE_T2) && !HAS_TRAIT(U, TRAIT_ARCYNE_T3) && !HAS_TRAIT(U, TRAIT_ARCYNE_T4))
@@ -195,7 +195,7 @@
 
 	if(U.mind?.entropy == 40) //Rituos ability, nopain, Critical weakness.
 		to_chat(U, span_bloody("You've achieved so much, [U.mind.current.real_name]. My blessing is worthy of your soul. But you do know that you have to pay for all this, right?"))
-		if(!locate(/obj/effect/proc_holder/spell/invoked/rituos) in U.mind?.spell_list)
+		if(!(locate(/obj/effect/proc_holder/spell/invoked/rituos) in U.mind?.spell_list))
 			U.mind?.AddSpell(new /obj/effect/proc_holder/spell/invoked/rituos)
 		if (!HAS_TRAIT(U, TRAIT_CRITICAL_RESISTANCE))
 			REMOVE_TRAIT(user, TRAIT_CRITICAL_RESISTANCE, TRAIT_GENERIC)
