@@ -331,7 +331,7 @@
 	var/faction_tag = "[user.mind.current.real_name]_faction"
 	if(istype(target, /turf/open/transparent/openspace) || istype(target, /turf/open))
 		for(var/mob/living/simple_animal/hostile/rogue/skeleton/S in range(1, get_turf(target)))
-			if(!faction_tag in S.faction) //Only YOUR skelets
+			if(!(faction_tag in S.faction)) //Only YOUR skelets
 				return
 			user.say("Hostis declaratus es.")
 			var/reforms = list("Table", "Chair", "Wall", "Bonefire", "Platform")
