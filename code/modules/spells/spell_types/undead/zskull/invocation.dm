@@ -2,15 +2,22 @@
 	name = "Amethyst Invocation"
 	desc = "Use it on yourself to summon a wave of lesser undead.\n\
 	Otherwise, mark the area 3x3, which will be cursed in a couple of moments."
+	base_icon_state = "spellzizo"
+	overlay_state = "amethyst"
 	clothes_req = FALSE
 	range = 10
-	recharge_time = 1 MINUTES
+	recharge_time = 0
 	chargedloop = /datum/looping_sound/invokegen
 	action_icon_state = "summons"
-	invocations = list("Evoca Telum")
+	invocations = list("Invocatio")
 	invocation_type = "whisper"
 
 /obj/effect/proc_holder/spell/invoked/invocation/cast(list/targets, mob/living/carbon/human/user = usr)
+	if(user.has_status_effect(/datum/status_effect/buff/zskull_cooldown))
+		return
+	if(!("[user.mind.current.real_name]_faction" in user.faction))
+		user.faction |= "[user.mind.current.real_name]_faction"
+	user.apply_status_effect(/datum/status_effect/buff/zskull_cooldown)
 	var/turf/T = get_turf(targets[1])
 	var/turf/source_turf = get_turf(user)
 	
@@ -87,15 +94,19 @@
 	name = "Toper Invocation"
 	desc = "Use it on yourself to mark the nearest living targets and hit them with a cursed lightning bolt in a couple of moments.\n\
 	Otherwise, concentrate all the power of the toper, and hit the area with a powerful blow from the sky."
+	overlay_state = "topaz"
 	clothes_req = FALSE
 	range = 10
-	recharge_time = 1 MINUTES
+	recharge_time = 0
 	chargedloop = /datum/looping_sound/invokegen
 	action_icon_state = "summons"
-	invocations = list("Evoca Telum")
+	invocations = list("Invocatio")
 	invocation_type = "whisper"
 
 /obj/effect/proc_holder/spell/invoked/invocation/toper/cast(list/targets, mob/living/carbon/human/user = usr)
+	if(user.has_status_effect(/datum/status_effect/buff/zskull_cooldown))
+		return
+	user.apply_status_effect(/datum/status_effect/buff/zskull_cooldown)
 	var/turf/T = get_turf(targets[1])
 	var/turf/source_turf = get_turf(user)
 	
@@ -181,15 +192,19 @@
 	name = "Gemerald Invocation"
 	desc = "Use it on yourself to trigger a chaotic acid attack.\n\
 	Otherwise, direct the steadily moving acid wave in one of the 8 fixed directions."
+	overlay_state = "emerald"
 	clothes_req = FALSE
 	range = 10
-	recharge_time = 1 MINUTES
+	recharge_time = 0
 	chargedloop = /datum/looping_sound/invokegen
 	action_icon_state = "summons"
-	invocations = list("Evoca Telum")
+	invocations = list("Invocatio")
 	invocation_type = "whisper"
 
 /obj/effect/proc_holder/spell/invoked/invocation/gemerald/cast(list/targets, mob/living/carbon/human/user = usr)
+	if(user.has_status_effect(/datum/status_effect/buff/zskull_cooldown))
+		return
+	user.apply_status_effect(/datum/status_effect/buff/zskull_cooldown)
 	var/turf/T = get_turf(targets[1])
 	var/turf/source_turf = get_turf(user)
 	
@@ -299,15 +314,19 @@
 	desc = "Apply to yourself or another live target to mark the point where it is located, to which the target will be moved as time passes.\n\
 	Otherwise, create a two-way portal.\n\
 	When you can create a second one, they will connect automatically."
+	overlay_state = "sapphire"
 	clothes_req = FALSE
 	range = 10
-	recharge_time = 1 MINUTES
+	recharge_time = 0
 	chargedloop = /datum/looping_sound/invokegen
 	action_icon_state = "summons"
-	invocations = list("Evoca Telum")
+	invocations = list("Invocatio")
 	invocation_type = "whisper"
 
 /obj/effect/proc_holder/spell/invoked/invocation/saffira/cast(list/targets, mob/living/carbon/human/user = usr)
+	if(user.has_status_effect(/datum/status_effect/buff/zskull_cooldown))
+		return
+	user.apply_status_effect(/datum/status_effect/buff/zskull_cooldown)
 	var/turf/T = get_turf(targets[1])
 	var/turf/source_turf = get_turf(user)
 	
@@ -370,15 +389,19 @@
 	name = "Blortz Invocation"
 	desc = "Apply it on yourself to surround your body with a draining and damaging frosty aura.\n\
 	Otherwise, start a small ritual of casting a frost storm."
+	overlay_state = "quartz"
 	clothes_req = FALSE
 	range = 10
-	recharge_time = 1 MINUTES
+	recharge_time = 0
 	chargedloop = /datum/looping_sound/invokegen
 	action_icon_state = "summons"
-	invocations = list("Evoca Telum")
+	invocations = list("Invocatio")
 	invocation_type = "whisper"
 
 /obj/effect/proc_holder/spell/invoked/invocation/blortz/cast(list/targets, mob/living/carbon/human/user = usr)
+	if(user.has_status_effect(/datum/status_effect/buff/zskull_cooldown))
+		return
+	user.apply_status_effect(/datum/status_effect/buff/zskull_cooldown)
 	var/turf/T = get_turf(targets[1])
 	var/turf/source_turf = get_turf(user)
 	
@@ -509,15 +532,19 @@
 	name = "Rontz Invocation"
 	desc = "Use it on yourself to steal the life from the creatures around you, the power of healing depends on the number of sources.\n\
 	Otherwise, mark the 3x3 area, and all creatures trapped in it will become a target for your life-draining ability."
+	overlay_state = "ruby"
 	clothes_req = FALSE
 	range = 10
-	recharge_time = 1 MINUTES
+	recharge_time = 0
 	chargedloop = /datum/looping_sound/invokegen
 	action_icon_state = "summons"
-	invocations = list("Evoca Telum")
+	invocations = list("Invocatio")
 	invocation_type = "whisper"
 
 /obj/effect/proc_holder/spell/invoked/invocation/rontz/cast(list/targets, mob/living/carbon/human/user = usr)
+	if(user.has_status_effect(/datum/status_effect/buff/zskull_cooldown))
+		return
+	user.apply_status_effect(/datum/status_effect/buff/zskull_cooldown)
 	var/turf/T = get_turf(targets[1])
 	var/turf/source_turf = get_turf(user)
 	var/buff_strength = 0

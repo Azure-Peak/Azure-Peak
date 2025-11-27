@@ -61,5 +61,6 @@ GLOBAL_LIST_INIT(learnable_spells, (list(/obj/effect/proc_holder/spell/invoked/p
 		/obj/effect/proc_holder/spell/invoked/raise_undead_formation/lesser,
 		/obj/effect/proc_holder/spell/invoked/tame_undead,
 		/obj/effect/proc_holder/spell/invoked/reform,
+		/obj/effect/proc_holder/spell/invoked/projectile/sickness,
 		)
 ))

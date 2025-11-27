@@ -530,6 +530,17 @@
 	duration = 10 SECONDS
 	outline_colour = "#220000ff"
 
+/atom/movable/screen/alert/status_effect/buff/zskull_cooldown
+	name = "Weaky Magic"
+	desc = "I use runnic skull power! I need wait a moment for repeat this."
+	icon_state = "debuff"
+
+/datum/status_effect/buff/zskull_cooldown
+	id = "zizocooldown"
+	alert_type = /atom/movable/screen/alert/status_effect/buff/zskull_cooldown
+	examine_text = null
+	duration = 40 SECONDS
+
 #define BLOODHEAL_DUR_SCALE_PER_LEVEL 3 SECONDS
 #define BLOODHEAL_RESTORE_DEFAULT 5
 #define BLOODHEAL_RESTORE_SCALE_PER_LEVEL 2

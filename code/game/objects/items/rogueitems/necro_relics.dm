@@ -135,8 +135,8 @@
 	icon_state = "skull"
 	hitsound = 'sound/blank.ogg'
 	dropshrink = 0.6
+	grid_width = 64
 	grid_height = 32
-	grid_width = 32
 	var/active = FALSE
 	var/active_item = FALSE
 
@@ -162,6 +162,13 @@
 	active_item = FALSE
 	var/component = /datum/magic_item/greater/invocation
 	var/inv_type = null
+	var/list/unlocked_spells = list()
+	var/amethyst = FALSE
+	var/toper = FALSE
+	var/gemerald = FALSE
+	var/saffira = FALSE
+	var/blortz = FALSE
+	var/rontz = FALSE
 
 /obj/item/necro_relics/zskull/active/Initialize()
 	. = ..()
@@ -171,9 +178,91 @@
 /datum/magic_item/greater/invocation
 	var/active_item = FALSE
 	description = ""
+	var/power = 0
+	var/inv_type = null
+	var/skill = 0
+	var/holy = 0
+	var/arcane = 0
+
+/obj/item/necro_relics/zskull/active/attackby(var/obj/item/roguegem/I, var/mob/living/user, params)
+	if(istype(I, /obj/item/roguegem/amethyst) && !amethyst)
+		unlocked_spells |= /obj/effect/proc_holder/spell/invoked/invocation
+		amethyst = TRUE
+		qdel(I)
+	if(istype(I, /obj/item/roguegem/yellow) && !toper)
+		unlocked_spells |= /obj/effect/proc_holder/spell/invoked/invocation/toper
+		toper = TRUE
+		qdel(I)
+	if(istype(I, /obj/item/roguegem/green) && !gemerald)
+		unlocked_spells |= /obj/effect/proc_holder/spell/invoked/invocation/gemerald
+		gemerald = TRUE
+		qdel(I)
+	if(istype(I, /obj/item/roguegem/violet) && !saffira)
+		unlocked_spells |= /obj/effect/proc_holder/spell/invoked/invocation/saffira
+		saffira = TRUE
+		qdel(I)
+	if(istype(I, /obj/item/roguegem/blue) && !blortz)
+		unlocked_spells |= /obj/effect/proc_holder/spell/invoked/invocation/blortz
+		blortz = TRUE
+		qdel(I)
+	if(istype(I, /obj/item/roguegem/ruby) && !rontz)
+		unlocked_spells |= /obj/effect/proc_holder/spell/invoked/invocation/rontz
+		rontz = TRUE
+		qdel(I)
+	..()
+
+/datum/magic_item/greater/invocation/on_use(var/obj/item/necro_relics/zskull/active/i, var/mob/living/user)
+	if(/obj/effect/proc_holder/spell/invoked/invocation in i.unlocked_spells)
+		if(power == 0)
+			if(i.amethyst == TRUE)
+				i.icon_state = "zskulla"
+				inv_type = /obj/effect/proc_holder/spell/invoked/invocation
+			else
+				power++
+		if(power == 1)
+			if(i.toper == TRUE)
+				i.icon_state = "zskullt"
+				inv_type = /obj/effect/proc_holder/spell/invoked/invocation/toper
+			else
+				power++
+		if(power == 2)
+			if(i.gemerald == TRUE)
+				i.icon_state = "zskulle"
+				inv_type = /obj/effect/proc_holder/spell/invoked/invocation/gemerald
+			else
+				power++
+		if(power == 3)
+			if(i.saffira == TRUE)
+				i.icon_state = "zskulls"
+				inv_type = /obj/effect/proc_holder/spell/invoked/invocation/saffira
+			else
+				power++
+		if(power == 4)
+			if(i.blortz == TRUE)
+				i.icon_state = "zskullg"
+				inv_type = /obj/effect/proc_holder/spell/invoked/invocation/blortz
+			else
+				power++
+		if(power == 5)
+			if(i.rontz == TRUE)
+				i.icon_state = "zskullr"
+				inv_type = /obj/effect/proc_holder/spell/invoked/invocation/rontz
+			else
+				power++
+		power++
+		if(power > 5)
+			power = 0
+		if(inv_type in i.unlocked_spells)
+			var/last_inv_type = i.inv_type
+			i.inv_type = inv_type
+			user.mind.AddSpell(new i.inv_type)
+			user.mind.RemoveSpell(last_inv_type)
+	. = ..()
 
 /datum/magic_item/greater/invocation/on_equip(var/obj/item/necro_relics/zskull/active/i, var/mob/living/carbon/human/user, slot)
-	var/skill = (user.get_skill_level(/datum/skill/magic/holy) + user.get_skill_level(/datum/skill/magic/arcane))
+	holy = user.get_skill_level(/datum/skill/magic/holy)
+	arcane = user.get_skill_level(/datum/skill/magic/arcane)
+	skill = holy + arcane
 	if(!slot == ITEM_SLOT_HANDS)
 		return
 	if(!i.inv_type)
@@ -195,98 +284,6 @@
 		return
 	if(active_item)
 		active_item = FALSE
-		user.mind.RemoveSpell(i.inv_type)
+		for(var/obj/effect/proc_holder/spell/invoked/invocation/spell in user.mind?.spell_list)
+			user.mind.RemoveSpell(spell)
 		to_chat(user, span_notice("the warmth of [i] fades away."))
-
-/obj/item/necro_relics/zskull/active/amethyst //...V Wither and Necromancy
-	name = "amethyst runic skull"
-	icon_state = "zskulla"
-	inv_type = /obj/effect/proc_holder/spell/invoked/invocation
-
-/obj/item/necro_relics/zskull/active/toper //...V Lightbolts
-	name = "toper runic skull"
-	icon_state = "zskullt"
-	inv_type = /obj/effect/proc_holder/spell/invoked/invocation/toper
-
-/obj/item/necro_relics/zskull/active/gemerald //...V Acid
-	name = "gemerald runic skull"
-	icon_state = "zskulle"
-	inv_type = /obj/effect/proc_holder/spell/invoked/invocation/gemerald
-
-/obj/item/necro_relics/zskull/active/saffira //...V Portals and Timeshift
-	name = "saffira runic skull"
-	icon_state = "zskulls"
-	inv_type = /obj/effect/proc_holder/spell/invoked/invocation/saffira
-
-/obj/item/necro_relics/zskull/active/blortz //...V Ice and Cold
-	name = "blortz runic skull"
-	icon_state = "zskullg"
-	inv_type = /obj/effect/proc_holder/spell/invoked/invocation/blortz
-
-/obj/item/necro_relics/zskull/active/rontz //...V Blood and lifestill
-	name = "rontz runic skull"
-	icon_state = "zskullr"
-	inv_type = /obj/effect/proc_holder/spell/invoked/invocation/rontz
-
-//crafting datums
-
-/obj/item/necro_relics/zskull/active/Initialize()
-	. = ..()
-	var/static/list/slapcraft_recipe_list = list(
-		/datum/crafting_recipe/zskull/toper,
-		/datum/crafting_recipe/zskull/amethyst,
-		/datum/crafting_recipe/zskull/gemerald,
-		/datum/crafting_recipe/zskull/saffira,
-		/datum/crafting_recipe/zskull/blortz,
-		/datum/crafting_recipe/zskull/rontz,
-		)
-
-	AddElement(
-		/datum/element/slapcrafting,\
-		slapcraft_recipes = slapcraft_recipe_list,\
-	)
-
-/datum/crafting_recipe/zskull
-	abstract_type = /datum/crafting_recipe/zskull
-
-/datum/crafting_recipe/zskull/toper
-	name = "toper-focused staff"
-	result = /obj/item/necro_relics/zskull/active/toper
-	reqs = list(/obj/item/necro_relics/zskull/active = 1,
-				/obj/item/roguegem/yellow = 1)
-	craftdiff = 0
-
-/datum/crafting_recipe/zskull/amethyst
-	name = "amethyst-focused staff"
-	result = /obj/item/necro_relics/zskull/active/amethyst
-	reqs = list(/obj/item/necro_relics/zskull/active = 1,
-				/obj/item/roguegem/amethyst = 1)
-	craftdiff = 0
-
-/datum/crafting_recipe/zskull/gemerald
-	name = "gemerald-focused staff"
-	result = /obj/item/necro_relics/zskull/active/gemerald
-	reqs = list(/obj/item/necro_relics/zskull/active = 1,
-				/obj/item/roguegem/green = 1)
-	craftdiff = 0
-
-/datum/crafting_recipe/zskull/saffira
-	name = "saffira-focused staff"
-	result = /obj/item/necro_relics/zskull/active/saffira
-	reqs = list(/obj/item/necro_relics/zskull/active = 1,
-				/obj/item/roguegem/violet = 1)
-	craftdiff = 0
-
-/datum/crafting_recipe/zskull/blortz
-	name = "blortz-focused staff"
-	result = /obj/item/necro_relics/zskull/active/blortz
-	reqs = list(/obj/item/necro_relics/zskull/active = 1,
-				/obj/item/roguegem/blue = 1)
-	craftdiff = 0
-
-/datum/crafting_recipe/zskull/rontz
-	name = "rontz-focused staff"
-	result = /obj/item/necro_relics/zskull/active/rontz
-	reqs = list(/obj/item/necro_relics/zskull/active = 1,
-				/obj/item/roguegem/ruby = 1)
-	craftdiff = 0

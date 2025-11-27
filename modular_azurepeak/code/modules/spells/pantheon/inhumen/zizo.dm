@@ -266,7 +266,7 @@
 /obj/effect/proc_holder/spell/self/zizoeye
 	name = "Zizo Sight"
 	desc = "Cast, for detect hidden souls"
-	overlay_state = "animate"
+	overlay_state = "zizosight"
 	releasedrain = 10
 	chargedrain = 0
 	chargetime = 0

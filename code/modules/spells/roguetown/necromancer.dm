@@ -186,9 +186,8 @@
 	new /obj/effect/temp_visual/gib_animation(T, "gibbed-h")
 	var/mob/living/skeleton_new = new /mob/living/carbon/human/species/skeleton/npc/bogguard(T, user)
 	spawn(11) //Ashamed of this but I hate how after_creation() uses spawn too and I'm not making a timer for this. Proc needs a look-over. - Ryan
-		skeleton_new.faction |= list("cabal", "[user.mind.current.real_name]_faction")
+		skeleton_new.faction |= list("[user.mind.current.real_name]_faction")
 	return TRUE
-
 
 /obj/effect/proc_holder/spell/invoked/tame_undead
 	name = "Tame Undead"
@@ -249,6 +248,9 @@
 	desc = ""
 	clothes_req = FALSE
 	range = 15
+	cost = 4 // Toxine
+	spell_tier = 3
+	zizo_spell = TRUE
 	projectile_type = /obj/projectile/magic/sickness
 	overlay_state = "raiseskele"
 	sound = list('sound/misc/portal_enter.ogg')
@@ -301,7 +303,7 @@
 
 /obj/effect/proc_holder/spell/invoked/reform
 	name = "Reform"
-	desc = "Adds or removes a target from the list of allies exempt from your undead's aggression."
+	desc = "Convert your skeletons in varios stuff"
 	overlay_state = "raiseskele"
 	range = 7
 	cost = 3
@@ -331,7 +333,8 @@
 				if("Chair")
 					new /obj/structure/chair/wood/rogue/bchair(get_turf(target))
 				if("Wall")
-					new /obj/structure/fluff/railing/fence/bone(get_turf(target))
+					var/obj/structure/fluff/railing/fence/bone/B = new /obj/structure/fluff/railing/fence/bone(get_turf(target))
+					B.dir = user.dir
 				if("Bonefire")
 					new /obj/machinery/light/rogue/campfire/bonefire(get_turf(target))
 				if("Platform")
