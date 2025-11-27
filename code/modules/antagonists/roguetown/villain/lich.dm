@@ -169,6 +169,7 @@
 	lichman.phylacteries += new_phylactery
 	new_phylactery.possessor = lichman
 	H.equip_to_slot_or_del(new_phylactery,SLOT_IN_BACKPACK, TRUE)
+	H.equip_to_slot_or_del(/obj/item/necro_relics/zskull/active,SLOT_IN_BACKPACK, TRUE)
 
 /datum/antagonist/lich/proc/consume_phylactery(timer = 10 SECONDS)
 	if(phylacteries.len)

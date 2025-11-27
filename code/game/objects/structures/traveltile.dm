@@ -36,12 +36,13 @@
 	anchored = TRUE
 	layer = BELOW_MOB_LAYER
 	max_integrity = 100
-	color = "#e837379b"
+	color = "#ff00009b"
 	var/key
 	var/dur = 1 MINUTES
 
 /obj/structure/fluff/zizoprotal/Initialize()
 	GLOB.testportals += src
+	sleep(10)
 	addtimer(CALLBACK(src, PROC_REF(delete_portal), src), wait = dur)
 	..()
 

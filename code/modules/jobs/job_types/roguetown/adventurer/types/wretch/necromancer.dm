@@ -49,6 +49,7 @@
 		/obj/item/necro_relics/necro_crystal = 1,
 		/obj/item/rogueweapon/scabbard/sheath = 1,
 		/obj/item/reagent_containers/glass/bottle/alchemical/healthpot = 1,	//Small health vial
+		/obj/item/necro_relics/zskull/active = 1,
 		)
 	H.dna.species.soundpack_m = new /datum/voicepack/male/wizard()
 	if(H.age == AGE_OLD)
@@ -66,4 +67,19 @@
 		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/convert_heretic)
 		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/tame_undead)
 		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/raise_deadite)
+		var/gems = list("Amethioz", "Toper", "Gemerald", "Saffira", "Blortz", "Rontz")
+		var/gem_choice = input(H, "Choose your gem.", "TAKE UP") as anything in gems
+		switch(gem_choice)
+			if("Amethioz")
+				r_hand = /obj/item/roguegem/amethyst
+			if("Toper")
+				r_hand = /obj/item/roguegem/yellow
+			if("Gemerald")
+				r_hand = /obj/item/roguegem/green
+			if("Saffira")
+				r_hand = /obj/item/roguegem/violet
+			if("Blortz")
+				r_hand = /obj/item/roguegem/blue
+			if("Rontz")
+				r_hand = /obj/item/roguegem/ruby
 		wretch_select_bounty(H)
