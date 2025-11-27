@@ -271,7 +271,7 @@
 	if(active_item)
 		return
 	if(user.patron?.type != /datum/patron/inhumen/zizo) //only zizoplayer.
-		if(skill <= 1) //Only devout-magos, necromancers or clerics.
+		if(skill <= 1 && holy <= 1) //Only devout-magos, necromancers or clerics. You need minimum 1 level for miracles to use them.
 			user.electrocute_act(75)
 			if(user.is_holding(i))
 				user.dropItemToGround(i)

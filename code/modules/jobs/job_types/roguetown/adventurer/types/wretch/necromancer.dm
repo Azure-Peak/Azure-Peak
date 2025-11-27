@@ -22,7 +22,7 @@
 		/datum/skill/combat/wrestling = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/combat/unarmed = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/misc/reading = SKILL_LEVEL_MASTER,
-		/datum/skill/misc/medicine = SKILL_LEVEL_APPRENTICE, // Have to grind a bit, but can use the ZRONK chair right away
+		/datum/skill/magic/holy = SKILL_LEVEL_NOVICE, //Novice miracle but no miracle spells. Only for use zskull.
 		/datum/skill/craft/alchemy = SKILL_LEVEL_EXPERT,
 		/datum/skill/magic/arcane = SKILL_LEVEL_EXPERT,
 		/datum/skill/misc/medicine = SKILL_LEVEL_JOURNEYMAN, //For lux extractions.
