@@ -211,7 +211,10 @@
 		U.adjustOxyLoss(50)
 		U.adjustToxLoss(20)
 
-	if(U.mind?.entropy >= 50) //little heal. Soft reduce entropy damage. You a very bad ma'an.
+	if(U.mind?.entropy == 50) //minor regeneration on 10 second. Notice you 50 entropy point.
+		U.apply_status_effect(/datum/status_effect/buff/healing/zizoblood, 10)
+
+	if(U.mind?.entropy >= 50) //Soft reduce entropy damage. You a very bad ma'an.
 		U.apply_status_effect(/datum/status_effect/buff/healing/zizoblood)
 		U.adjustBruteLoss(-5)
 		U.adjustFireLoss(-5)
