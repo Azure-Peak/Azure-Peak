@@ -57,7 +57,7 @@
 	var/cabal_affine = TRUE
 
 /obj/effect/temp_visual/trap/necromancy/Initialize(mapload, list/flame_hit)
-	..()
+	. = ..()
 	INVOKE_ASYNC(src, PROC_REF(bam), flame_hit)
 
 /obj/effect/temp_visual/trap/necromancy/proc/bam(list/flame_hit)
@@ -78,7 +78,7 @@
 	var/explode_sound = list('sound/misc/explode/incendiary (1).ogg','sound/misc/explode/incendiary (2).ogg')
 
 /obj/effect/temp_visual/trap/withernecro/Initialize(mapload, list/flame_hit)
-	..()
+	. = ..()
 	INVOKE_ASYNC(src, PROC_REF(bam), flame_hit)
 
 /obj/effect/temp_visual/trap/withernecro/proc/bam(list/flame_hit)
@@ -159,7 +159,7 @@
 	color = "#FF0000"
 
 /obj/effect/temp_visual/trap/zizolightning/Initialize(mapload, list/flame_hit)
-	..()
+	. = ..()
 	INVOKE_ASYNC(src, PROC_REF(storm), flame_hit)
 
 /obj/effect/temp_visual/trap/zizolightning/proc/storm(list/flame_hit)
@@ -274,7 +274,7 @@
 	duration = 6.3 SECONDS
 
 /obj/effect/temp_visual/trap/acid/Initialize(mapload, list/flame_hit)
-	..()
+	. = ..()
 	INVOKE_ASYNC(src, PROC_REF(bam), flame_hit)
 
 /obj/effect/temp_visual/trap/acid/proc/bam(list/flame_hit)
@@ -302,12 +302,15 @@
 	layer = ABOVE_ALL_MOB_LAYER
 
 /obj/effect/temp_visual/acidblob/Initialize()
-	..()
+	. = ..()
 	alpha = 0
 	animate(src, alpha = 255, time = 3 SECONDS, easing = EASE_IN)
 	icon_state = "acidglob"
-	sleep(4 SECONDS)
+	INVOKE_ASYNC(src, PROC_REF(icon change), 4 SECONDS)
 	icon_state = "[icon_state]_pop"
+
+/obj/effect/temp_visual/acidblob/proc/icon_change()
+	animate(src, transform = matrix(), alpha = 255, time = 0, flags = ANIMATION_END_NOW)
 
 /obj/effect/proc_holder/spell/invoked/invocation/saffira
 	name = "Saffira Invocation"
@@ -380,10 +383,12 @@
 	light_outer_range = 5
 
 /obj/effect/temp_visual/gravity/Initialize()
+	. = ..()
 	animate(src, transform = matrix()*3, alpha = 0, time = 5, flags = ANIMATION_END_NOW) //fade out	
-	sleep(3 SECONDS)
-	animate(src, transform = matrix(), alpha = 255, time = 0, flags = ANIMATION_END_NOW)
+	INVOKE_ASYNC(src, PROC_REF(icon change), 3 SECONDS)
 
+/obj/effect/temp_visual/gravity/proc/icon_change()
+	animate(src, transform = matrix(), alpha = 255, time = 0, flags = ANIMATION_END_NOW)
 
 /obj/effect/proc_holder/spell/invoked/invocation/blortz
 	name = "Blortz Invocation"
