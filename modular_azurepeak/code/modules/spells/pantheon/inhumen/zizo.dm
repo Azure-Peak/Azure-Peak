@@ -95,12 +95,14 @@
 	devotion_cost = 75
 	cabal_affine = TRUE
 	to_spawn = 2
+	entropy = TRUE
 
 // T2: carbon spawn
 
 /obj/effect/proc_holder/spell/invoked/raise_undead_guard/miracle
 	miracle = TRUE
 	devotion_cost = 75
+	entropy = FALSE
 
 // T3: tames bio_type = undead mobs
 
@@ -108,6 +110,7 @@
 	recharge_time = 40 SECONDS //cmon, you pay your devotion
 	miracle = TRUE
 	devotion_cost = 70
+	entropy = FALSE
 
 // T3: Rituos (usable once per sleep cycle, allows you to choose any 1 arcane spell to use for the duration w/ an associated devotion cost. each time you change it, 1 of your limbs is skeletonized, if all of your limbs are skeletonized, you gain access to arcane magic. continuing to use rituos after being fully skeletonized gives you additional spellpoints). Gives you the MOB_UNDEAD flag (needed for skeletonize to work) on first use.
 
@@ -126,11 +129,16 @@
 	recharge_time = 2 MINUTES
 	var/list/excluded_bodyparts = list(/obj/item/bodypart/head)
 	hide_charge_effect = TRUE
+	entropy = TRUE
 
 /obj/effect/proc_holder/spell/invoked/rituos/miracle
 	miracle = TRUE
 	devotion_cost = 120
 	associated_skill = /datum/skill/magic/holy
+	entropy = FALSE
+
+/obj/effect/proc_holder/spell/invoked/rituos/entropy
+	excluded_bodyparts = list()
 
 /obj/effect/proc_holder/spell/invoked/rituos/proc/check_ritual_progress(mob/living/carbon/user)
 	var/rituos_complete = TRUE
@@ -211,7 +219,9 @@
 		user.mind.rituos_spell = null
 
 	user.mind.has_rituos = TRUE
-	
+	if(entropy)
+		entropyadd(user)
+
 	var/post_rituos = check_ritual_progress(user)
 	if (post_rituos)
 		//everything but our head is skeletonized now, so grant them journeyman rank and 3 extra spellpoints to grief people with

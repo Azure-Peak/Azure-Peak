@@ -231,6 +231,15 @@
 	name = "Tainted Lux"
 	desc = "My Lux has been tainted in a vile heretic ritual."
 
+/datum/status_effect/debuff/lux_entropy //permanent
+	id = "lux entropy"
+	alert_type = /atom/movable/screen/alert/status_effect/debuff/lux_entropy
+	effectedstats = list(STATKEY_CON = -1, STATKEY_LCK = -1)
+
+/atom/movable/screen/alert/status_effect/debuff/lux_entropy
+	name = "Entropy (I)"
+	desc = "Something is rotting inside me..."
+
 /// SURRENDERING DEBUFFS
 
 /datum/status_effect/debuff/breedable

@@ -18,6 +18,7 @@
 	recharge_time = 15 SECONDS
 	miracle = FALSE
 	zizo_spell = TRUE
+	entropy = TRUE
 
 /obj/effect/proc_holder/spell/invoked/bonechill/cast(list/targets, mob/living/user)
 	..()
@@ -56,6 +57,7 @@
 	recharge_time = 15 SECONDS
 	miracle = FALSE
 	hide_charge_effect = TRUE
+	entropy = TRUE
 
 /obj/effect/proc_holder/spell/invoked/eyebite/cast(list/targets, mob/living/user)
 	..()
@@ -88,17 +90,18 @@
 	var/is_summoned = FALSE
 	var/to_spawn = 4
 	hide_charge_effect = TRUE
+	entropy = FALSE
 
-/obj/effect/proc_holder/spell/invoked/raise_undead_formation/cast(list/targets, mob/living/carbon/user)
+/obj/effect/proc_holder/spell/invoked/raise_undead_formation/cast(list/targets, mob/living/carbon/user = usr)
 	..()
 
 	if(!("[user.mind.current.real_name]_faction" in user.faction))  //FUCK VVV
 		user.faction |= "[user.mind.current.real_name]_faction"
 
-	if(!(/obj/effect/proc_holder/spell/invoked/gravemark in user.mind?.spell_list)) //OFF VVV
+	if(!locate(/obj/effect/proc_holder/spell/invoked/gravemark) in user.mind?.spell_list) //OFF VVV
 		user.mind?.AddSpell(new /obj/effect/proc_holder/spell/invoked/gravemark)
 
-	if(!(/obj/effect/proc_holder/spell/invoked/minion_order in user.mind?.spell_list))  //SPELLGRANT IN CLASS FILE
+	if(!locate(/obj/effect/proc_holder/spell/invoked/minion_order) in user.mind?.spell_list)  //SPELLGRANT IN CLASS FILE
 		user.mind?.AddSpell(new /obj/effect/proc_holder/spell/invoked/minion_order)
 
 	var/turf/T = get_turf(targets[1])
@@ -145,6 +148,7 @@
 	is_summoned = TRUE
 	recharge_time = 35 SECONDS
 	to_spawn = 3
+	entropy = FALSE
 
 /obj/effect/proc_holder/spell/invoked/raise_undead_formation/lesser //lesser spell for bad mages, raice 1 simple skeleton
 	name = "Raise Skeleton"
@@ -156,6 +160,7 @@
 	recharge_time = 35 SECONDS
 	to_spawn = 1
 	zizo_spell = TRUE
+	entropy = TRUE
 
 /obj/effect/proc_holder/spell/invoked/raise_undead_guard
 	name = "Conjure Undead"
@@ -174,6 +179,7 @@
 	associated_skill = /datum/skill/magic/arcane
 	recharge_time = 30 SECONDS
 	hide_charge_effect = TRUE
+	entropy = TRUE
 
 /obj/effect/proc_holder/spell/invoked/raise_undead_guard/cast(list/targets, mob/living/user)
 	..()
@@ -206,6 +212,7 @@
 	cost = 3
 	spell_tier = 3
 	zizo_spell = TRUE
+	entropy = TRUE
 
 /obj/effect/proc_holder/spell/invoked/tame_undead/cast(list/targets, mob/living/user)
 	..()
@@ -263,6 +270,7 @@
 	chargedloop = /datum/looping_sound/invokegen
 	associated_skill = /datum/skill/magic/arcane
 	recharge_time = 15 SECONDS
+	entropy = TRUE
 
 /obj/effect/proc_holder/spell/invoked/gravemark
 	name = "Gravemark"
@@ -315,6 +323,7 @@
 	antimagic_allowed = TRUE
 	recharge_time = 15 SECONDS
 	hide_charge_effect = TRUE
+	entropy = TRUE
 
 /obj/effect/proc_holder/spell/invoked/reform/cast(list/targets, mob/living/user)
 	. = ..()

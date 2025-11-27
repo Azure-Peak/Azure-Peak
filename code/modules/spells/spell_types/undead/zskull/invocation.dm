@@ -11,6 +11,7 @@
 	action_icon_state = "summons"
 	invocations = list("Invocatio")
 	invocation_type = "whisper"
+	entropy = TRUE
 
 /obj/effect/proc_holder/spell/invoked/invocation/cast(list/targets, mob/living/carbon/human/user = usr)
 	if(user.has_status_effect(/datum/status_effect/buff/zskull_cooldown))
@@ -38,6 +39,7 @@
 					N.user = user
 					round++
 					sleep(3)
+			
 			return TRUE
 	if(istype(T, /turf/open/transparent/openspace) || istype(T, /turf/open))
 		for(var/turf/affect in range(1, T))
@@ -303,14 +305,14 @@
 
 /obj/effect/temp_visual/acidblob/Initialize()
 	. = ..()
+	INVOKE_ASYNC(src, PROC_REF(icon_change), 4 SECONDS)
+
+/obj/effect/temp_visual/acidblob/proc/icon_change()
 	alpha = 0
 	animate(src, alpha = 255, time = 3 SECONDS, easing = EASE_IN)
 	icon_state = "acidglob"
-	INVOKE_ASYNC(src, PROC_REF(icon change), 4 SECONDS)
-	icon_state = "[icon_state]_pop"
-
-/obj/effect/temp_visual/acidblob/proc/icon_change()
 	animate(src, transform = matrix(), alpha = 255, time = 0, flags = ANIMATION_END_NOW)
+	icon_state = "[icon_state]_pop"
 
 /obj/effect/proc_holder/spell/invoked/invocation/saffira
 	name = "Saffira Invocation"
@@ -385,7 +387,7 @@
 /obj/effect/temp_visual/gravity/Initialize()
 	. = ..()
 	animate(src, transform = matrix()*3, alpha = 0, time = 5, flags = ANIMATION_END_NOW) //fade out	
-	INVOKE_ASYNC(src, PROC_REF(icon change), 3 SECONDS)
+	INVOKE_ASYNC(src, PROC_REF(icon_change), 3 SECONDS)
 
 /obj/effect/temp_visual/gravity/proc/icon_change()
 	animate(src, transform = matrix(), alpha = 255, time = 0, flags = ANIMATION_END_NOW)

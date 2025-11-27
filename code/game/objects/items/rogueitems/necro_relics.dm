@@ -163,6 +163,7 @@
 	var/component = /datum/magic_item/greater/invocation
 	var/inv_type = null
 	var/list/unlocked_spells = list()
+	var/entropy = 0
 	var/amethyst = FALSE
 	var/toper = FALSE
 	var/gemerald = FALSE

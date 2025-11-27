@@ -49,6 +49,7 @@ GLOBAL_LIST_EMPTY(personal_objective_minds)
 
 	var/spell_points
 	var/used_spell_points
+	var/entropy = 0 //Dark magic give you entropy if you use them.
 	var/movemovemovetext = "Move!!"
 	var/takeaimtext = "Take aim!!"
 	var/holdtext = "Hold!!"

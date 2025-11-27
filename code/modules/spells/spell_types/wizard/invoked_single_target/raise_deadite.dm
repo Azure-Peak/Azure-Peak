@@ -19,6 +19,7 @@
 	chargedloop = /datum/looping_sound/invokegen
 	associated_skill = /datum/skill/magic/arcane
 	zizo_spell = TRUE
+	entropy = TRUE
 
 /obj/effect/proc_holder/spell/invoked/raise_deadite/cast(list/targets, mob/user)
 	. = ..()
