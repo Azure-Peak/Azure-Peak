@@ -41,10 +41,9 @@
 	var/dur = 1 MINUTES
 
 /obj/structure/fluff/zizoprotal/Initialize()
-	GLOB.testportals += src
-	sleep(10)
-	addtimer(CALLBACK(src, PROC_REF(delete_portal), src), wait = dur)
 	..()
+	GLOB.testportals += src
+	addtimer(CALLBACK(src, PROC_REF(delete_proc), src), wait = 5 SECONDS)
 
 /obj/structure/fluff/zizoprotal/attack_hand(mob/user)
 	var/fou
@@ -66,6 +65,9 @@
 /obj/structure/fluff/zizoprotal/proc/delete_portal()
 	GLOB.testportals -= src
 	qdel(src)
+
+/obj/structure/fluff/zizoprotal/proc/delete_proc()
+	addtimer(CALLBACK(src, PROC_REF(delete_portal), src), wait = dur)
 
 /obj/structure/fluff/traveltile
 	name = "travel"
