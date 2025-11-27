@@ -268,3 +268,5 @@
 		curcomm = 0
 	return curcomm
 
+#undef RCP_CONTRIBUTION_CAP
+

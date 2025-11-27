@@ -359,3 +359,7 @@ Reel teleports the attached atom to the grabbed turf.
 		icon_state = "grappler_used"
 	else if(!is_loaded && in_use)
 		icon_state = "grappler_inuse"
+
+#undef GRAPPLER_ZUP
+#undef GRAPPLER_ZDOWN
+#undef GRAPPLER_NOZ

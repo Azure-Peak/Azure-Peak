@@ -2,6 +2,8 @@
 	resistance_flags = FLAMMABLE
 	max_integrity = 150
 	anchored = TRUE
+	layer = LYING_MOB_LAYER
+	plane = GAME_PLANE
 
 /obj/structure/flora/Initialize()
 	. = ..()

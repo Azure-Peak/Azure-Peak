@@ -102,3 +102,6 @@
 
 //How many things you can spawn at once with spawn verb/create panel
 #define ADMIN_SPAWN_CAP 100
+
+// List of curses
+#define CURSE_MASTER_LIST list("brokedick")

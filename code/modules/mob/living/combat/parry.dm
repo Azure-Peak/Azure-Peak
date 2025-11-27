@@ -310,3 +310,5 @@
 			record_round_statistic(STATS_PARRIES)
 		playsound(get_turf(src), pick(parry_sound), 100, FALSE)
 		return TRUE
+
+#undef STAM_DRAIN_PER_STR_DIFF_HEAVY_BAL

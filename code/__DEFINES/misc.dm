@@ -492,3 +492,16 @@ GLOBAL_LIST_INIT(pda_styles, sortList(list(MONO, VT, ORBITRON, SHARE)))
 #define FALL_INTERCEPTED		(1<<0) //Stops the movable from falling further and crashing on the ground
 #define FALL_NO_MESSAGE			(1<<1) //Used to suppress the "[A] falls through [old_turf]" messages where it'd make little sense at all, like going downstairs.
 #define FALL_STOP_INTERCEPTING	(1<<2) //Used in situations where halting the whole "intercept" loop would be better, like supermatter dusting (and thus deleting) the atom.
+
+// A verb that does nothing for clearing keybinds
+#define NONSENSICAL_VERB "NONSENSICAL_VERB_THAT_DOES_NOTHING"
+
+// Emote visibility / audibility flag
+#define EMOTE_VISIBLE 1
+#define EMOTE_AUDIBLE 2
+
+#define GARRISON_SCOM_COLOR "#FF4242"
+
+// Zombie infection defines
+#define ZOMBIE_INFECTION_PROBABILITY 20 	/// Zombie infection probability for bites on a wound
+#define ZOMBIE_INFECTION_TIME 2 MINUTES	/// Time taken until zombie infection kicks in (unit wakes up as a zombie)

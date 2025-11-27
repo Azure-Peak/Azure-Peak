@@ -708,7 +708,7 @@
 	grid_height = 32
 	var/goodluckactivated = FALSE
 	salvage_result = /obj/item/natural/fibers
-	salvage_result = 1
+	salvage_amount = 1
 
 /obj/item/clothing/neck/roguetown/luckcharm/equipped(mob/living/carbon/human/user, slot)
 	. = ..()

@@ -154,6 +154,7 @@ GLOBAL_LIST_EMPTY(personal_objective_minds)
 		if(!used_title)
 			used_title = "unknown"
 		known_people[H.real_name]["FJOB"] = used_title
+		known_people[H.real_name]["FSPECIES"] = H.dna.species.name
 		var/referred_gender
 		switch(H.pronouns)
 			if(HE_HIM)
@@ -202,8 +203,6 @@ GLOBAL_LIST_EMPTY(personal_objective_minds)
 						referred_gender = "Androgynous"
 				M.known_people[H.real_name]["FGENDER"] = referred_gender
 				M.known_people[H.real_name]["FAGE"] = H.age
-				if(H.dna && H.dna.species)
-					known_people[H.real_name]["FSPECIES"] = H.dna.species.name
 				if(ishuman(M.current))
 					var/mob/living/carbon/human/C = M.current
 					var/heretic_text = C.get_heretic_symbol(H)

@@ -191,6 +191,9 @@
 	smeltresult = /obj/item/ingot/steel
 	color = COLOR_FLOORTILE_GRAY
 
+/obj/item/rogueweapon/flail/sflail/psyflail/old/ComponentInitialize()
+	return
+
 /obj/item/rogueweapon/flail/sflail/psyflail/relic
 	name = "Consecratia"
 	desc = "The weight of His anguish, His pain, His hope and His love for humenkind - all hanging on the ornamental silver-steel head chained to this arm. <br><br>A declaration of love for all that Psydon lives for, and a crushing reminder to the arch-nemesis that they will not triumph as long as He endures."

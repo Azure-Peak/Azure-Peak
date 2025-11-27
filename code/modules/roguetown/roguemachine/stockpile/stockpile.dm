@@ -8,7 +8,7 @@
 	pixel_y = 32
 	var/stockpile_index = 1
 	var/current_category = "Raw Materials"
-	var/list/categories = list("Raw Materials", "Foodstuffs", "Fruits")
+	var/list/categories = list("Raw Materials", "Fruit", "Vegetable", "Animal")
 	var/datum/withdraw_tab/withdraw_tab = null
 
 /obj/structure/roguemachine/stockpile/Initialize()

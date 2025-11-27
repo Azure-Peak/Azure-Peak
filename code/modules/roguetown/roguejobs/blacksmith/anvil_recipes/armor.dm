@@ -458,16 +458,6 @@
 	created_item = /obj/item/clothing/shoes/roguetown/horseshoes
 
 // --------- STEEL RECIPES -----------
-
-/datum/anvil_recipe/armor/steel/lbrigandine
-	name = "Light Brigandine (+1 Cured Leather)"
-	req_bar = /obj/item/ingot/steel
-	req_blade = /obj/item/blade/steel_plate
-	additional_items = list(/obj/item/natural/hide/cured)
-	created_item = /obj/item/clothing/suit/roguetown/armor/brigandine/light
-	i_type = "Armor"
-	craftdiff = 2 //not any random can make it
-
 /datum/anvil_recipe/armor/steel/haubergeon
 	name = "Haubergeon, Steel"
 	req_bar = /obj/item/ingot/steel

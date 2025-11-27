@@ -83,3 +83,4 @@
 			if("Rontz")
 				r_hand = /obj/item/roguegem/ruby
 		wretch_select_bounty(H)
+	H.grant_language(/datum/language/undead)

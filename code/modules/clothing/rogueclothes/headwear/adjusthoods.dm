@@ -22,7 +22,7 @@
 	max_integrity = 100
 	sewrepair = TRUE
 	block2add = FOV_BEHIND
-	salvage_result = /obj/item/natural/cloth
+	salvage_result = /obj/item/natural/hide/cured
 	salvage_amount = 1
 
 /obj/item/clothing/head/roguetown/roguehood/ComponentInitialize()
@@ -137,8 +137,25 @@
 	edelay_type = 1
 	adjustable = CAN_CADJUST
 	toggle_icon_state = TRUE
-	max_integrity = 100
+	max_integrity = 180
 	resistance_flags = FIRE_PROOF
+	salvage_result = /obj/item/natural/cloth
+	salvage_amount = 1
+
+/obj/item/clothing/head/roguetown/roguehood/nochood
+	name = "moon hood"
+	desc = "A hood worn by those who favor Noc with a mask in the shape of a crescent."
+	color = null
+	icon_state = "nochood"
+	item_state = "nochood"
+	icon = 'icons/roguetown/clothing/head.dmi'
+	body_parts_covered = NECK
+	dynamic_hair_suffix = ""
+	sewrepair = TRUE
+	edelay_type = 1
+	adjustable = CAN_CADJUST
+	toggle_icon_state = TRUE
+	max_integrity = 180
 	salvage_result = /obj/item/natural/cloth
 	salvage_amount = 1
 
@@ -155,7 +172,27 @@
 	edelay_type = 1
 	adjustable = CAN_CADJUST
 	toggle_icon_state = TRUE
-	max_integrity = 100
+	max_integrity = 180
+	salvage_result = /obj/item/natural/cloth
+	salvage_amount = 1
+
+/obj/item/clothing/head/roguetown/roguehood/eorahood
+	name = "opera hood"
+	desc = "An opera mask worn by the faithful of Eora, usually during their rituals. Comes with a hood that can be pulled up for warmth."
+	color = null
+	icon = 'icons/roguetown/clothing/head.dmi'
+	mob_overlay_icon = 'icons/roguetown/clothing/onmob/64x64/head.dmi'
+	icon_state = "eorahood"
+	bloody_icon = 'icons/effects/blood64.dmi'
+	bloody_icon_state = "helmetblood"
+	worn_x_dimension = 64
+	worn_y_dimension = 64
+	resistance_flags = FIRE_PROOF
+	dynamic_hair_suffix = ""
+	edelay_type = 1
+	adjustable = CAN_CADJUST
+	toggle_icon_state = TRUE
+	max_integrity = 180
 	salvage_result = /obj/item/natural/cloth
 	salvage_amount = 1
 

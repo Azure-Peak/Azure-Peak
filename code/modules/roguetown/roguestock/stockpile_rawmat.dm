@@ -37,6 +37,18 @@
 	stockpile_limit = 50 // Allow a small amount of stones to be sold for chiselling
 	passive_generation = 10 // Free rocks!!
 
+/datum/roguestock/stockpile/salt//Comes from rocks not a farm
+	name = "Salt"
+	desc = "Rock salt useful for curing and cooking."
+	item_type = /obj/item/reagent_containers/powder/salt
+	held_items = list(2,4)
+	payout_price = 4
+	withdraw_price = 4
+	export_price = 8
+	importexport_amt = 5
+	passive_generation = 3
+	stockpile_limit = 25
+
 /datum/roguestock/stockpile/glass
 	name = "Glass Batch"	//'Raw' glass
 	desc = "A mixture of finely ground materials that is used to make glass."

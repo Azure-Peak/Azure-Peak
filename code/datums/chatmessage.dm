@@ -5,14 +5,7 @@
 #define CHAT_MESSAGE_HEIGHT_DECAY	0.9 // Increase message decay based on the height of the message
 #define CHAT_MESSAGE_APPROX_LHEIGHT	11 // Approximate height in pixels of an 'average' line, used for height decay
 #define CHAT_MESSAGE_WIDTH			96 // pixels
-//#define WXH_TO_HEIGHT(x)			text2num(copytext((x), findtextEx((x), "x") + 1)) // thanks lummox
-#define WXH_TO_HEIGHT(measurement, return_var) \
-	do { \
-		var/_measurement = measurement; \
-		return_var = text2num(copytext(_measurement, findtextEx(_measurement, "x") + 1)); \
-	} while(FALSE);
-#define LAZYREMOVEASSOC(L, K, V) if(L) { if(L[K]) { L[K] -= V; if(!length(L[K])) L -= K; } if(!length(L)) L = null; }
-#define LAZYADDASSOC(L, K, V) if(!L) { L = list(); } L[K] += list(V);
+
 /**
   * # Chat Message Overlay
   *
@@ -289,3 +282,15 @@
 			return "#[num2hex(x, 2)][num2hex(m, 2)][num2hex(c, 2)]"
 		if(5)
 			return "#[num2hex(c, 2)][num2hex(m, 2)][num2hex(x, 2)]"
+
+#undef CHAT_MESSAGE_SPAWN_TIME
+#undef CHAT_MESSAGE_LIFESPAN
+#undef CHAT_MESSAGE_EOL_FADE
+#undef CHAT_MESSAGE_EXP_DECAY
+#undef CHAT_MESSAGE_HEIGHT_DECAY
+#undef CHAT_MESSAGE_APPROX_LHEIGHT
+#undef CHAT_MESSAGE_WIDTH
+#undef CM_COLOR_SAT_MIN
+#undef CM_COLOR_SAT_MAX
+#undef CM_COLOR_LUM_MIN
+#undef CM_COLOR_LUM_MAX

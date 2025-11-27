@@ -60,22 +60,21 @@
 #define TEST_LONGER 10
 /// This must be the one of last tests to run due to the inherent nature of the test iterating every single tangible atom in the game and qdeleting all of them (while taking long sleeps to make sure the garbage collector fires properly) taking a large amount of time.
 #define TEST_CREATE_AND_DESTROY 9001
-//Keep this sorted alphabetically
+// BEGIN_INCLUDE
 #include "anchored_mobs.dm"
 #include "component_tests.dm"
-// #include "create_and_destroy.dm"
+#include "create_and_destroy.dm"
 #include "focus_only_tests.dm"
 #include "nodupe_salvageresult.dm"
 #include "nodupe_smeltresult.dm"
 #include "reagent_id_typos.dm"
-#include "reagent_names.dm"
 #include "reagent_recipe_collisions.dm"
 #include "spawn_humans.dm"
 #include "species_whitelists.dm"
-#include "subsystem_init.dm"
 #include "timer_sanity.dm"
 #include "unit_test.dm"
 // END_INCLUDE
+
 #ifdef REFERENCE_TRACKING_DEBUG //Don't try and parse this file if ref tracking isn't turned on. IE: don't parse ref tracking please mr linter
 #include "find_reference_sanity.dm"
 #endif

@@ -1567,6 +1567,27 @@
 	effectedstats = list(STATKEY_SPD = 3, STATKEY_WIL = 1, STATKEY_CON = 1)
 	status_type = STATUS_EFFECT_REPLACE
 
+/atom/movable/screen/alert/status_effect/buff/vampire_float
+	name = "Float"
+	desc = "My body is floating off the ground."
+	icon_state = "vampire_float"
+
+/datum/status_effect/buff/vampire_float
+	id = "vampire_float"
+	alert_type = /atom/movable/screen/alert/status_effect/buff/vampire_float
+	duration = 2 MINUTES
+
+/datum/status_effect/buff/vampire_float/on_apply()
+	. = ..()
+	to_chat(owner, span_warning("I am hovering off the ground."))
+	owner.movement_type = FLYING
+
+
+
+/datum/status_effect/buff/vampire_float/on_remove()
+	. = ..()
+	to_chat(owner, span_warning("I fall back to the ground."))
+	owner.movement_type = GROUND
 /datum/status_effect/buff/ravox_vow
 	id = "ravox_vow"
 	alert_type = /atom/movable/screen/alert/status_effect/buff/ravox_vow
@@ -1678,3 +1699,7 @@
 		mob.apply_status_effect(/datum/status_effect/debuff/joybringer_druqks)
 
 #undef JOYBRINGER_FILTER
+
+#undef MIRACLE_BLOODHEAL_FILTER
+#undef PSYDON_HEALING_FILTER
+#undef PSYDON_REVIVED_FILTER

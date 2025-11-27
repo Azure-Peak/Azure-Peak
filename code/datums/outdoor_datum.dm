@@ -255,3 +255,5 @@ Sunlight System
 	if((!above_turf && !turf_area.outdoors))
 		.["SKYVISIBLE"]   =  FALSE
 		.["WEATHERPROOF"] =  TRUE
+
+#undef SUN_FALLOFF

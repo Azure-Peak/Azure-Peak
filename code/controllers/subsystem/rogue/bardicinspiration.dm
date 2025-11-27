@@ -1,9 +1,4 @@
 // Bardic Inspo time - Datum/definition setup
-
-#define BARD_T1 1
-#define BARD_T2 2
-#define BARD_T3 3
-
 GLOBAL_LIST_INIT(learnable_songst1, (list(/obj/effect/proc_holder/spell/invoked/song/dirge_fortune,
 		/obj/effect/proc_holder/spell/invoked/song/furtive_fortissimo,
 		/obj/effect/proc_holder/spell/invoked/song/intellectual_interval,

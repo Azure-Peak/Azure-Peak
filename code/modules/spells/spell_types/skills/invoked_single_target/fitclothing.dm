@@ -41,5 +41,6 @@
 		to_chat(user, span_warning("You can only fit light armor pieces"))
 		revert_cast()
 		return FALSE
-		
+
 #undef ENCHANT_DURATION
+#undef ENCHANT_DURATION_WILDERNESS

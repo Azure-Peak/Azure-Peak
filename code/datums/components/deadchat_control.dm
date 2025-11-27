@@ -1,6 +1,3 @@
-#define DEMOCRACY_MODE "democracy"
-#define ANARCHY_MODE "anarchy"
-
 /datum/component/deadchat_control
 	dupe_mode = COMPONENT_DUPE_UNIQUE
 	var/timerid

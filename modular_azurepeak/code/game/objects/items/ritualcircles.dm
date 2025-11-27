@@ -1596,6 +1596,7 @@
         added_int = 50,\
         added_def = 2,\
     )
+	weapon.is_silver = TRUE
 
 	user.apply_status_effect(/datum/status_effect/debuff/ritesexpended)
 	user.apply_status_effect(/datum/status_effect/debuff/devitalised/lesser)

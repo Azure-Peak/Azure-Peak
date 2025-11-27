@@ -256,14 +256,6 @@
 				/obj/item/natural/fibers = 1)
 	craftdiff = 1
 
-/datum/crafting_recipe/roguetown/sewing/basichood
-	name = "hood"
-	category = "Hoods"
-	result = list(/obj/item/clothing/head/roguetown/roguehood)
-	reqs = list(/obj/item/natural/cloth = 2,
-				/obj/item/natural/fibers = 1)
-	craftdiff = 1
-
 /datum/crafting_recipe/roguetown/sewing/lgambeson
 	name = "light gambeson"
 	category = "Gambesons"

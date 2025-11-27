@@ -1,9 +1,4 @@
-#define DULLFACTOR_COUNTERED_BY 1.2 // If a shaft is COUNTERED by a weapon type, this is the damage to go for
-#define DULLFACTOR_NEUTRAL 1 // If a shaft is NEUTRAL to a weapon type, this is the damage to go for
-#define DULLFACTOR_COUNTERS 0.8 // If a shaft COUNTERS a damage type, this is the damage to go for
-#define DULLFACTOR_ANTAG 0.5 // For Grand Shaft. Also for dull blade
-// Previously value were closer to 0.4 - 0.5 and 1.5 - 1.7x, but it felt like it make weapons
-// counter certain shaft type too hard, so now the value is between 0.8 to 1.2x for regular type
+#define ATTACK_OVERRIDE_NODEFENSE 2
 
 /**
   *This is the proc that handles the order of an item_attack.
@@ -92,8 +87,6 @@
 	var/pegleg = 0			//Handles check & slowdown for peglegs. Fuckin' bootleg, literally, but hey it at least works.
 	var/construct = 0
 	var/burialrited = FALSE
-
-#define ATTACK_OVERRIDE_NODEFENSE 2
 
 /obj/item/proc/attack(mob/living/M, mob/living/user)
 	var/override_status
@@ -741,3 +734,5 @@
 		span_danger("[attack_message_local][next_attack_msg.Join()]"), null, COMBAT_MESSAGE_RANGE)
 	next_attack_msg.Cut()
 	return 1
+
+#undef ATTACK_OVERRIDE_NODEFENSE

@@ -68,3 +68,5 @@
 	owner.remove_filter(FORTITUDE_FILTER)
 	to_chat(owner, span_warning("The weight of the world rests upon my shoulders once more."))
 	REMOVE_TRAIT(owner, TRAIT_FORTITUDE, MAGIC_TRAIT)
+
+#undef FORTITUDE_FILTER

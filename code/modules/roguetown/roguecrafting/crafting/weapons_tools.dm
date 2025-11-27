@@ -371,11 +371,26 @@
 	craftdiff = 3
 
 /datum/crafting_recipe/roguetown/survival/woodsword
-	name = "wood sword"
+	name = "wooden sword (x2)"
 	category = "Tools"
 	result = list(
 		/obj/item/rogueweapon/mace/wsword,
 		/obj/item/rogueweapon/mace/wsword,
+		)
+	reqs = list(
+		/obj/item/grown/log/tree/small = 1,
+		/obj/item/natural/fibers = 1,
+		)
+	skillcraft = /datum/skill/craft/carpentry
+	craftdiff = 0
+
+/datum/crafting_recipe/roguetown/survival/wood_dagger
+	name = "wooden dagger (x3)"
+	category = "Tools"
+	result = list(
+		/obj/item/rogueweapon/huntingknife/wood,
+		/obj/item/rogueweapon/huntingknife/wood,
+		/obj/item/rogueweapon/huntingknife/wood,
 		)
 	reqs = list(
 		/obj/item/grown/log/tree/small = 1,

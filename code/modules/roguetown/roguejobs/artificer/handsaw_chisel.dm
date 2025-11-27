@@ -199,3 +199,5 @@
 	blade_class = BCLASS_CHISEL
 	chargetime = 0
 	swingdelay = 3
+
+#undef BCLASS_CHISEL

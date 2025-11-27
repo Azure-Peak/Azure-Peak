@@ -1165,3 +1165,5 @@ GLOBAL_LIST_INIT(hallucination_list, list(
 		carbon.emote("whimper")
 
 	qdel(src)
+
+#undef HAL_LINES_FILE

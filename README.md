@@ -3,8 +3,7 @@
 | Website                   | Link                                           |
 |---------------------------|------------------------------------------------|
 | Discord | [https://discord.gg/NCFXUAgCPT](https://discord.gg/NCFXUAgCPT)
-|
-| Code    | [https://github.com/GeneralPantsuIsBadAtCoding/Azure-Peak](https://github.com/GeneralPantsuIsBadAtCoding/Azure-Peak)    |
+| Code    | [https://github.com/Azure-Peak/Azure-Peak](https://github.com/GeneralPantsuIsBadAtCoding/Azure-Peak)    |
 | Wiki    | [https://azurepeak.miraheze.org/wiki/Main_Page](https://azurepeak.miraheze.org/wiki/Main_Page) |
 
 ## LICENSE

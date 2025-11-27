@@ -249,6 +249,9 @@ GLOBAL_VAR_INIT(rpg_loot_items, FALSE)
 
 	var/no_use_cd = FALSE //if true, no cooldown when interacting with it
 
+	/// Makes this item impossible to enchant, for temporary item
+	var/unenchantable = FALSE
+
 /obj/item/Initialize()
 	. = ..()
 	if(!pixel_x && !pixel_y && !bigboy)

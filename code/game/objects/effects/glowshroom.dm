@@ -9,6 +9,7 @@
 	icon = 'icons/roguetown/misc/foliage.dmi'
 	icon_state = "glowshroom1" //replaced in New
 	layer = ABOVE_NORMAL_TURF_LAYER
+	plane = GAME_PLANE
 	max_integrity = 30
 	blade_dulling = DULLING_CUT
 	resistance_flags = FLAMMABLE

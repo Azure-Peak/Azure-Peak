@@ -218,7 +218,7 @@
 			var/named_size = input(user, "Choose your ball size:", "Character Preference", find_key_by_value(TESTICLE_SIZES_BY_NAME, testicles_entry.ball_size)) as anything in TESTICLE_SIZES_BY_NAME
 			if(isnull(named_size))
 				return
-			var/new_size = TESTICLE_SIZES_BY_NAME
+			var/new_size = TESTICLE_SIZES_BY_NAME[named_size]
 			testicles_entry.ball_size = sanitize_integer(new_size, MIN_TESTICLES_SIZE, MAX_TESTICLES_SIZE, DEFAULT_TESTICLES_SIZE)
 		if("virile")
 			testicles_entry.virility = !testicles_entry.virility

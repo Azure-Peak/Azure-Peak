@@ -11,8 +11,8 @@
 	metabolization_rate = 0.1
 
 /datum/reagent/rotcure/overdose_process(mob/living/M)
-	M.adjustOrganLoss(ORGAN_SLOT_HEART, 0.25*REM)
-	M.adjustOrganLoss(ORGAN_SLOT_BRAIN, 0.5*REM)
+	M.adjustOrganLoss(ORGAN_SLOT_HEART, 0.25  * REAGENTS_EFFECT_MULTIPLIER)
+	M.adjustOrganLoss(ORGAN_SLOT_BRAIN, 0.5  * REAGENTS_EFFECT_MULTIPLIER)
 	..()
 	. = 1
 

@@ -275,6 +275,9 @@
 
 	post_equip(H, visualsOnly)
 
+	if(istype(H.patron))
+		H.patron.post_equip(H)
+
 	if(!visualsOnly)
 		apply_fingerprints(H)
 

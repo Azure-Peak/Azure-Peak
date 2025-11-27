@@ -483,3 +483,5 @@
 	if(eyes.owner)
 		eyes.owner.update_body_parts(TRUE)
 
+#undef RGB2EYECOLORSTRING
+

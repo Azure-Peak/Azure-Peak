@@ -199,6 +199,7 @@ GLOBAL_LIST_EMPTY(vampire_objects)
 /obj/effect/landmark/start/vampirespawn/Initialize()
 	. = ..()
 	GLOB.vspawn_starts += loc
+	GLOB.secondlife_respawns += loc
 
 /obj/effect/landmark/start/vampireknight
 	name = "Death Knight"
@@ -249,3 +250,5 @@ GLOBAL_LIST_EMPTY(vampire_objects)
 
 
 
+
+#undef INITIAL_BLOODPOOL_PERCENTAGE

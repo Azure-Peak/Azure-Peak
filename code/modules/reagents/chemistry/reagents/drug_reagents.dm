@@ -59,8 +59,8 @@
 	to_chat(M, "<span class='danger'>I start tripping hard!</span>")
 
 /datum/reagent/drug/space_drugs/overdose_process(mob/living/M)
-	M.adjustToxLoss(0.1*REM, 0)
-	M.adjustOxyLoss(1.1*REM, 0)
+	M.adjustToxLoss(0.1  * REAGENTS_EFFECT_MULTIPLIER, 0)
+	M.adjustOxyLoss(1.1  * REAGENTS_EFFECT_MULTIPLIER, 0)
 	..()
 
 /datum/reagent/drug/nicotine
@@ -99,8 +99,8 @@
 	. = 1
 
 /datum/reagent/drug/nicotine/overdose_process(mob/living/M)
-	M.adjustToxLoss(0.1*REM, 0)
-	M.adjustOxyLoss(1.1*REM, 0)
+	M.adjustToxLoss(0.1  * REAGENTS_EFFECT_MULTIPLIER, 0)
+	M.adjustOxyLoss(1.1  * REAGENTS_EFFECT_MULTIPLIER, 0)
 	..()
 	. = 1
 
@@ -125,30 +125,30 @@
 	. = 1
 
 /datum/reagent/drug/crank/overdose_process(mob/living/M)
-	M.adjustOrganLoss(ORGAN_SLOT_BRAIN, 2*REM)
-	M.adjustToxLoss(2*REM, 0)
-	M.adjustBruteLoss(2*REM, FALSE, FALSE, BODYPART_ORGANIC)
+	M.adjustOrganLoss(ORGAN_SLOT_BRAIN, 2  * REAGENTS_EFFECT_MULTIPLIER)
+	M.adjustToxLoss(2  * REAGENTS_EFFECT_MULTIPLIER, 0)
+	M.adjustBruteLoss(2  * REAGENTS_EFFECT_MULTIPLIER, FALSE, FALSE, BODYPART_ORGANIC)
 	..()
 	. = 1
 
 /datum/reagent/drug/crank/addiction_act_stage1(mob/living/M)
-	M.adjustOrganLoss(ORGAN_SLOT_BRAIN, 5*REM)
+	M.adjustOrganLoss(ORGAN_SLOT_BRAIN, 5  * REAGENTS_EFFECT_MULTIPLIER)
 	..()
 
 /datum/reagent/drug/crank/addiction_act_stage2(mob/living/M)
-	M.adjustToxLoss(5*REM, 0)
+	M.adjustToxLoss(5  * REAGENTS_EFFECT_MULTIPLIER, 0)
 	..()
 	. = 1
 
 /datum/reagent/drug/crank/addiction_act_stage3(mob/living/M)
-	M.adjustBruteLoss(5*REM, 0)
+	M.adjustBruteLoss(5  * REAGENTS_EFFECT_MULTIPLIER, 0)
 	..()
 	. = 1
 
 /datum/reagent/drug/crank/addiction_act_stage4(mob/living/M)
-	M.adjustOrganLoss(ORGAN_SLOT_BRAIN, 3*REM)
-	M.adjustToxLoss(5*REM, 0)
-	M.adjustBruteLoss(5*REM, 0)
+	M.adjustOrganLoss(ORGAN_SLOT_BRAIN, 3  * REAGENTS_EFFECT_MULTIPLIER)
+	M.adjustToxLoss(5  * REAGENTS_EFFECT_MULTIPLIER, 0)
+	M.adjustBruteLoss(5  * REAGENTS_EFFECT_MULTIPLIER, 0)
 	..()
 	. = 1
 

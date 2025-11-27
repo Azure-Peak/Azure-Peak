@@ -188,3 +188,5 @@
 //Happens before the actual projectile creation
 /obj/item/gun/proc/before_firing(atom/target,mob/user)
 	return
+
+#undef DUALWIELD_PENALTY_EXTRA_MULTIPLIER

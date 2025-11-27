@@ -281,10 +281,14 @@
 
 /obj/item/rogueweapon/mace/cudgel/psy/old
 	name = "enduring handmace"
-	desc = "A shorthanded mace and convenient sleeping aid, its grown harder to swing with age, though it hasn't lost reliability."
+	desc = "A flanged mace, well-balanced for usage in one hand. It radiates with a strange energy: familiar, yet ever-so-distant."
 	force = 20
+	force_wielded = 25
 	wbalance = WBALANCE_NORMAL
 	icon_state = "opsyflangedmace"
+
+/obj/item/rogueweapon/mace/cudgel/psy/old/ComponentInitialize()
+	return
 
 /obj/item/rogueweapon/mace/cudgel/copper
 	name = "copper bludgeon"

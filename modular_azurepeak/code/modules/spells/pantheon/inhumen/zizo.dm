@@ -147,7 +147,7 @@
 			continue
 		if (!our_limb.skeletonized)
 			rituos_complete = FALSE
-		
+
 	return rituos_complete
 
 /obj/effect/proc_holder/spell/invoked/rituos/proc/get_skeletonized_bodyparts(mob/living/carbon/user)
@@ -157,7 +157,7 @@
 			continue
 		if (our_limb.skeletonized)
 			skeletonized_parts += our_limb.type
-	
+
 	return skeletonized_parts
 
 /obj/effect/proc_holder/spell/invoked/rituos/cast(list/targets, mob/living/carbon/user)
@@ -208,7 +208,7 @@
 		user.visible_message(span_warning("The pallor of the grave descends across [user]'s skin in a wave of arcyne energy..."), span_boldwarning("A deathly chill overtakes my body at my first culmination of the Lesser Work! I feel my heart slow down in my chest..."))
 		user.mob_biotypes |= MOB_UNDEAD
 		to_chat(user, span_smallred("I have forsaken the living. I am now closer to a deadite than a mortal... but I still yet draw breath and bleed."))
-	
+
 	part_to_bonify.skeletonize(FALSE)
 	user.update_body_parts()
 	user.visible_message(span_warning("Faint runes flare beneath [user]'s skin before [user.p_their()] flesh suddenly slides away from [user.p_their()] [part_to_bonify.name]!"), span_notice("I feel arcyne power surge throughout my frail mortal form, as the Rituos takes its terrible price from my [part_to_bonify.name]."))
@@ -219,13 +219,12 @@
 		user.mind.rituos_spell = null
 
 	user.mind.has_rituos = TRUE
-	if(entropy)
-		entropyadd(user)
 
 	var/post_rituos = check_ritual_progress(user)
 	if (post_rituos)
 		//everything but our head is skeletonized now, so grant them journeyman rank and 3 extra spellpoints to grief people with
 		user.adjust_skillrank(/datum/skill/magic/arcane, 3, TRUE)
+		user.grant_language(/datum/language/undead)
 		user.mind?.AddSpell(new /obj/effect/proc_holder/spell/targeted/touch/prestidigitation)
 		user.mind?.adjust_spellpoints(18)
 		user.visible_message(span_boldwarning("[user]'s form swells with terrible power as they cast away almost all of the remnants of their mortal flesh, arcyne runes glowing upon their exposed bones..."), span_notice("I HAVE DONE IT! I HAVE COMPLETED HER LESSER WORK! I stand at the cusp of unspeakable power, but something is yet missing..."))
@@ -266,7 +265,7 @@
 		revert_cast()
 		return FALSE
 	var/checkrange = (range + user.get_skill_level(/datum/skill/magic/holy)) //+1 range per holy skill up to a potential of 8.
-	for(var/obj/O in range(checkrange, user))	
+	for(var/obj/O in range(checkrange, user))
 		O.extinguish()
 	for(var/mob/M in range(checkrange, user))
 		for(var/obj/O in M.contents)

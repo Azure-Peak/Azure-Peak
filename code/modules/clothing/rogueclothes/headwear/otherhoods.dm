@@ -38,16 +38,6 @@
 	max_integrity = 100
 	sewrepair = TRUE
 
-/obj/item/clothing/head/roguetown/nochood
-	name = "moon hood"
-	desc = "A hood worn by those who favor Noc with a mask in the shape of a crescent."
-	color = null
-	icon_state = "nochood"
-	item_state = "nochood"
-	flags_inv = HIDEEARS|HIDEFACE|HIDEHAIR|HIDEFACIALHAIR|HIDESNOUT
-	dynamic_hair_suffix = ""
-	sewrepair = TRUE
-
 /obj/item/clothing/head/roguetown/necrahood
 	name = "death shroud"
 	desc = "Wisps of dark fabric that cover your entire head and flutter gently in the breeze. Often worn by those who usher the dead to the afterlife."
@@ -57,6 +47,7 @@
 	flags_inv = HIDEEARS|HIDEFACE|HIDEHAIR|HIDEFACIALHAIR|HIDESNOUT
 	dynamic_hair_suffix = ""
 	sewrepair = TRUE
+
 /obj/item/clothing/head/roguetown/necramask
 	name = "death mask"
 	desc = "A hood with a decorated jaw bone at the chin, normally worn by some followers of Necra as a form of devotion"

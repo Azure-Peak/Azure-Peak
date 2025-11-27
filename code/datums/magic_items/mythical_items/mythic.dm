@@ -155,3 +155,8 @@
 				L.confused += 2 SECONDS
 				to_chat(L, span_warning("Chaotic energy scrambles your thoughts!"))
 		src.last_used = world.time
+
+#undef INFERNAL_FLAME_COOLDOWN
+#undef FREEZING_COOLDOWN
+#undef REWIND_COOLDOWN
+#undef CHAOS_COOLDOWN

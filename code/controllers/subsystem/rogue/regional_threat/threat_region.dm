@@ -2,7 +2,7 @@
 	var/region_name = "Generic Region Scream At Coder"
 	var/latent_ambush = DANGER_SAFE_FLOOR
 	var/min_ambush = DANGER_SAFE_FLOOR
-	var/max_ambush = DANGER_DIRE_LIMIT
+	var/max_ambush = DANGER_BLEAK_LIMIT
 	var/fixed_ambush = FALSE // Some region like Underdark cannot be reduced in danger
 	var/lowpop_tick = 1 // How much ambush to tick up every iteration <= 30 pop
 	var/highpop_tick = 2 // How much ambush to tick up every iteration > 30 pop
@@ -44,7 +44,7 @@
 		return DANGER_LEVEL_MODERATE
 	else if(latent_ambush <= DANGER_DANGEROUS_LIMIT)
 		return DANGER_LEVEL_DANGEROUS
-	else if(latent_ambush <= DANGER_DIRE_LIMIT)
+	else if(latent_ambush <= DANGER_BLEAK_LIMIT)
 		return DANGER_LEVEL_BLEAK
 	else
 		return DANGER_LEVEL_SAFE

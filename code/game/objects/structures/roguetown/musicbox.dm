@@ -175,3 +175,7 @@
 	soundloop.extra_range = 12
 	soundloop.falloff = 6
 */
+
+#undef MUSIC_TAVCAT_OTHERWORLDLY
+#undef MUSIC_TAVCAT_GENERIC
+#undef MUSIC_TAVCAT_OLDSCHOOL

@@ -1,7 +1,5 @@
-/*
-	Click code cleanup
-	~Sayu
-*/
+#define MAX_SAFE_BYOND_ICON_SCALE_TILES (MAX_SAFE_BYOND_ICON_SCALE_PX / world.icon_size)
+#define MAX_SAFE_BYOND_ICON_SCALE_PX (33 * 32)			//Not using world.icon_size on purpose.
 
 // 1 decisecond click delay (above and beyond mob/next_move)
 //This is mainly modified by click code, to modify click delays elsewhere, use next_move and changeNext_move()
@@ -761,9 +759,6 @@
 	xyoverride = TRUE
 	blockscharging = FALSE
 
-#define MAX_SAFE_BYOND_ICON_SCALE_TILES (MAX_SAFE_BYOND_ICON_SCALE_PX / world.icon_size)
-#define MAX_SAFE_BYOND_ICON_SCALE_PX (33 * 32)			//Not using world.icon_size on purpose.
-
 /atom/movable/screen/click_catcher/proc/UpdateGreed(view_size_x = 15, view_size_y = 15)
 	var/icon/newicon = icon('icons/mob/screen_gen.dmi', "catcher")
 	var/ox = min(MAX_SAFE_BYOND_ICON_SCALE_TILES, view_size_x)
@@ -975,3 +970,6 @@
 	if(foes.len > 1)
 		sortTim(foes, cmp = /proc/cmp_numeric_dsc, associative = TRUE)
 	return foes[1]
+
+#undef MAX_SAFE_BYOND_ICON_SCALE_TILES
+#undef MAX_SAFE_BYOND_ICON_SCALE_PX

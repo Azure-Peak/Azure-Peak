@@ -19,7 +19,7 @@
 						/obj/item/reagent_containers/food/snacks/fat = 2, /obj/item/natural/bundle/bone/full = 1, /obj/item/alch/sinew = 3, /obj/item/alch/bone = 1, /obj/item/alch/viscera = 2)
 	perfect_butcher_results = list(/obj/item/reagent_containers/food/snacks/rogue/meat/fatty = 6,
 						/obj/item/reagent_containers/food/snacks/fat = 4, /obj/item/natural/bundle/bone/full = 1, /obj/item/alch/sinew = 4, /obj/item/alch/bone = 1, /obj/item/alch/viscera = 2)//We get fat instead of hide - pig hide is terrible for much of anything.
-	
+
 	health = 140
 	maxHealth = 140
 	food_type = list(/obj/item/reagent_containers/food/snacks/grown/oat,/obj/item/reagent_containers/food/snacks/grown/potato/rogue,/obj/item/reagent_containers/food/snacks/rogue/meat)//Omnivores / Give me your öats bröther for I am starving.
@@ -41,6 +41,11 @@
 	milkies = FALSE //Do not the hog
 	childtype = list(/mob/living/simple_animal/hostile/retaliate/rogue/swine/piglet = 60, /mob/living/simple_animal/hostile/retaliate/rogue/swine/hog/piglet = 40)
 	remains_type = /obj/effect/decal/remains/pig
+
+	//new ai, old ai off
+	AIStatus = AI_OFF
+	can_have_ai = FALSE
+	ai_controller = /datum/ai_controller/generic
 
 /mob/living/simple_animal/hostile/retaliate/rogue/swine/get_sound(input)
 	switch(input)
@@ -225,7 +230,7 @@
 	STASPD = 2
 	adult_growth = /mob/living/simple_animal/hostile/retaliate/rogue/swine/hog
 
-/mob/living/simple_animal/hostile/retaliate/rogue/swine/test/Initialize()
+/mob/living/simple_animal/hostile/retaliate/rogue/swine/Initialize()
 	. = ..()
 	AddElement(/datum/element/ai_retaliate)
 	ai_controller.set_blackboard_key(BB_BASIC_FOODS, food_type)

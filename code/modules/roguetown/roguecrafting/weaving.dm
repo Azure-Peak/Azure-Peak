@@ -90,7 +90,15 @@
 
 /datum/crafting_recipe/roguetown/weaving/nochood
 	name = "moon hood"
-	result = list(/obj/item/clothing/head/roguetown/nochood)
+	result = list(/obj/item/clothing/head/roguetown/roguehood/nochood)
+	reqs = list(/obj/item/natural/cloth = 2,
+				/obj/item/natural/silk = 1)
+	craftdiff = 3
+	sellprice = 25
+
+/datum/crafting_recipe/roguetown/weaving/eorahood
+	name = "eoran hood"
+	result = list(/obj/item/clothing/head/roguetown/roguehood/eorahood)
 	reqs = list(/obj/item/natural/cloth = 2,
 				/obj/item/natural/silk = 1)
 	craftdiff = 3

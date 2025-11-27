@@ -733,3 +733,7 @@
 		alternate_worn_layer = UNDER_ARMOR_LAYER
 	user.update_inv_cloak()
 	user.update_inv_armor()
+
+#undef STATE_SAFE
+#undef STATE_MARTYR
+#undef STATE_MARTYRULT

@@ -1,3 +1,9 @@
+#define PARALYZE_L_ARM 0x1
+#define PARALYZE_R_ARM 0x2
+#define PARALYZE_L_LEG 0x4
+#define PARALYZE_R_LEG 0x8
+#define PARALYZE_SUM (PARALYZE_L_ARM | PARALYZE_R_ARM | PARALYZE_L_LEG | PARALYZE_R_LEG)
+
 //Largely negative status effects go here, even if they have small benificial effects
 //STUN EFFECTS
 /datum/status_effect/incapacitating
@@ -651,12 +657,6 @@
 	var/list/traits_added = list()
 	var/list/bodyparts_disabled = list()
 
-#define PARALYZE_L_ARM 0x1
-#define PARALYZE_R_ARM 0x2
-#define PARALYZE_L_LEG 0x4
-#define PARALYZE_R_LEG 0x8
-#define PARALYZE_SUM (PARALYZE_L_ARM | PARALYZE_R_ARM | PARALYZE_L_LEG | PARALYZE_R_LEG)
-
 /datum/status_effect/debuff/mishap_arcane_paralysis/on_apply()
 	. = ..()
 	var/limbs = rand(1, PARALYZE_SUM) // To be used as bits, NOT a meaningful integer value
@@ -856,7 +856,7 @@
 /datum/status_effect/debuff/feintcd
 	id = "feintcd"
 	alert_type = /atom/movable/screen/alert/status_effect/debuff/feintcd
-	duration = 15 SECONDS
+	duration = 30 SECONDS
 
 /datum/status_effect/debuff/feintcd/on_creation(mob/living/new_owner, new_dur)
 	if(new_dur)
@@ -921,3 +921,24 @@
 	name = "Knockback Cooldown"
 	desc = "I have been knocked back recently by an attack and cannot be knocked back again"
 	icon_state = "debuff" // Placeholder
+
+/datum/status_effect/debuff/specialcd
+	id = "specialcd"
+	alert_type = /atom/movable/screen/alert/status_effect/debuff/specialcd
+	duration = 2 SECONDS
+
+/datum/status_effect/debuff/specialcd/on_creation(mob/living/new_owner, new_dur)
+	if(new_dur)
+		duration = new_dur
+	return ..()
+
+/atom/movable/screen/alert/status_effect/debuff/specialcd
+	name = "Special Maneuvre Cooldown"
+	desc = "I used it. I must wait."
+	icon_state = "strikecd"
+
+#undef PARALYZE_L_ARM
+#undef PARALYZE_R_ARM
+#undef PARALYZE_L_LEG
+#undef PARALYZE_R_LEG
+#undef PARALYZE_SUM

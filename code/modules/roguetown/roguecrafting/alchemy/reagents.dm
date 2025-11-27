@@ -24,11 +24,11 @@
 	if(wCount.len > 0)
 		M.heal_wounds(3) //at a motabalism of .5 U a tick this translates to 120WHP healing with 20 U Most wounds are unsewn 15-100. This is powerful on single wounds but rapidly weakens at multi wounds.
 	if(volume > 0.99)
-		M.adjustBruteLoss(-1.75*REM, 0)
-		M.adjustFireLoss(-1.75*REM, 0)
+		M.adjustBruteLoss(-1.75  * REAGENTS_EFFECT_MULTIPLIER, 0)
+		M.adjustFireLoss(-1.75  * REAGENTS_EFFECT_MULTIPLIER, 0)
 		M.adjustOxyLoss(-1.25, 0)
-		M.adjustOrganLoss(ORGAN_SLOT_BRAIN, -5*REM)
-		M.adjustCloneLoss(-1.75*REM, 0)
+		M.adjustOrganLoss(ORGAN_SLOT_BRAIN, -5  * REAGENTS_EFFECT_MULTIPLIER)
+		M.adjustCloneLoss(-1.75  * REAGENTS_EFFECT_MULTIPLIER, 0)
 	..()
 
 /datum/reagent/medicine/stronghealth
@@ -48,11 +48,11 @@
 	if(wCount.len > 0)
 		M.heal_wounds(6) //at a motabalism of .5 U a tick this translates to 240WHP healing with 20 U Most wounds are unsewn 15-100.
 	if(volume > 0.99)
-		M.adjustBruteLoss(-7*REM, 0)
-		M.adjustFireLoss(-7*REM, 0)
+		M.adjustBruteLoss(-7  * REAGENTS_EFFECT_MULTIPLIER, 0)
+		M.adjustFireLoss(-7  * REAGENTS_EFFECT_MULTIPLIER, 0)
 		M.adjustOxyLoss(-5, 0)
-		M.adjustOrganLoss(ORGAN_SLOT_BRAIN, -5*REM)
-		M.adjustCloneLoss(-7*REM, 0)
+		M.adjustOrganLoss(ORGAN_SLOT_BRAIN, -5  * REAGENTS_EFFECT_MULTIPLIER)
+		M.adjustCloneLoss(-7  * REAGENTS_EFFECT_MULTIPLIER, 0)
 	..()
 	. = 1
 

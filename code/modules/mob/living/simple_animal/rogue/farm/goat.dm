@@ -3,6 +3,8 @@
 	GLOB.farm_animals++
 	if(tame)
 		tamed()
+	AddElement(/datum/element/ai_retaliate)
+	ai_controller.set_blackboard_key(BB_BASIC_FOODS, food_type)
 
 /mob/living/simple_animal/hostile/retaliate/rogue/goat/Destroy()
 	GLOB.farm_animals = max(GLOB.farm_animals - 1, 0)
@@ -109,6 +111,11 @@
 	buckle_lying = 0
 	can_saddle = TRUE
 	remains_type = /obj/effect/decal/remains/cow
+
+	//new ai, old ai off
+	AIStatus = AI_OFF
+	can_have_ai = FALSE
+	ai_controller = /datum/ai_controller/generic/goat //slightly more agressive retaliation
 
 /mob/living/simple_animal/hostile/retaliate/rogue/goat/get_sound(input)
 	switch(input)
@@ -248,6 +255,11 @@
 	bonus_tame_chance = 15
 	remains_type = /obj/effect/decal/remains/cow
 
+	//new ai, old ai off
+	AIStatus = AI_OFF
+	can_have_ai = FALSE
+	ai_controller = /datum/ai_controller/generic
+
 /mob/living/simple_animal/hostile/retaliate/rogue/goatmale/tame
 	tame = TRUE
 
@@ -280,6 +292,8 @@
 	GLOB.farm_animals++
 	if(tame)
 		tamed()
+	AddElement(/datum/element/ai_retaliate)
+	ai_controller.set_blackboard_key(BB_BASIC_FOODS, food_type)
 
 /mob/living/simple_animal/hostile/retaliate/rogue/goatmale/Destroy()
 	..()

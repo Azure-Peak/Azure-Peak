@@ -774,7 +774,7 @@
 /obj/machinery/light/rogue/wallfire/candle/weak/l,
 /turf/open/floor/rogue/carpet/lord/left{
 	dir = 1
-	},skeleton/npc/hardspread
+	},
 /area/rogue/under/tomb/indoors/royal)
 "He" = (
 /obj/structure/closet/crate/chest/crate,
@@ -1175,7 +1175,7 @@
 "XK" = (
 /turf/open/floor/rogue/grass,
 /area/rogue/under/tomb/wilds)
-"XL" = (skeleton/npc/hardspread
+"XL" = (
 /obj/item/roguebin/water,
 /turf/open/floor/rogue/tile,
 /area/rogue/under/tomb/indoors/royal)

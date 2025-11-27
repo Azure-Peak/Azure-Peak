@@ -766,3 +766,4 @@ GLOBAL_LIST_INIT(spells, typesof(/obj/effect/proc_holder/spell)) //needed for th
 #undef FATIGUE_REDUCTION_PER_INT
 #undef COOLDOWN_REDUCTION_PER_INT
 #undef CHARGE_REDUCTION_PER_SKILL
+#undef FATIGUE_REDUCTION_PER_SKILL

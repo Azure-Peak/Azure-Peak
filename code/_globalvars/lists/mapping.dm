@@ -79,6 +79,7 @@ GLOBAL_LIST_EMPTY(secequipment) //sec equipment lockers that scale with the numb
 GLOBAL_LIST_EMPTY(deathsquadspawn)
 GLOBAL_LIST_EMPTY(emergencyresponseteamspawn)
 GLOBAL_LIST_EMPTY(ruin_landmarks)
+GLOBAL_LIST_EMPTY(secondlife_respawns)
 
 	//away missions
 GLOBAL_LIST_EMPTY(awaydestinations)	//a list of landmarks that the warpgate can take you to

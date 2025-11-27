@@ -64,5 +64,6 @@
 		to_chat(user, span_warning("That is not a valid target for enchantment! You need to enchant a weapon."))
 		revert_cast()
 		return FALSE
-		
+
 #undef ENCHANT_DURATION
+#undef ENCHANT_DURATION_GOLD

@@ -1355,3 +1355,6 @@
 	name = "Eora's Calm"
 	desc = "A refreshing calm. All your troubles have washed away. Why can't it always be like this?"
 	icon_state = "eora_bless"
+
+#undef HEARTWEAVE_FILTER
+#undef BLESSED_FOOD_FILTER

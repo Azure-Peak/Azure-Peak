@@ -74,7 +74,7 @@
 	var/show_xp = TRUE
 	if(!(L.client?.prefs.floating_text_toggles & XP_TEXT))
 		show_xp = FALSE
-	if((L.get_skill_level(skill) < SKILL_LEVEL_APPRENTICE) && !is_considered_sleeping())
+	if((L.get_skill_level(skill) < SKILL_LEVEL_APPRENTICE) && (!is_considered_sleeping()|| HAS_TRAIT(mind.current, TRAIT_VAMP_DREAMS)))
 		var/org_lvl = L.get_skill_level(skill)
 		L.adjust_experience(skill, amt)
 		var/new_lvl = L.get_skill_level(skill)
@@ -222,8 +222,7 @@
 /datum/sleep_adv/proc/is_considered_sleeping()
 	if(!mind.current)
 		return FALSE
-	var/has_vamp_trait = HAS_TRAIT(mind.current, TRAIT_VAMP_DREAMS)
-	if(has_vamp_trait)
+	if(HAS_TRAIT(mind?.current, TRAIT_VAMP_DREAMS))
 		return TRUE
 	if(mind.current.IsSleeping())
 		return TRUE

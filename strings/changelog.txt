@@ -1,4 +1,0 @@
-Roleplay ads can be set in the OOC tabs. Toggle Roleplay Ads on to be notified of new postings.
-Critical hits have minimum damage thresholds.
-Loadout items can be selected in the character creation menu.
-Round Contribution Points (RCP) added to all roles apart from Adventurer. You will gain a tenth of that amount as PQ up to a maximum of 10 in total, as long as you gain at least one triumph from sleeping and have joined at least 45 minutes before the end of the round.

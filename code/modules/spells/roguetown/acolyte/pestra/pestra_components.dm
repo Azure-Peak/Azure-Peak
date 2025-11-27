@@ -258,3 +258,8 @@
 		return
 	parent_mob.remove_filter(BLACK_ROT_FILTER)
 	parent_mob.remove_overlay(BLACK_ROT_LAYER)
+
+#undef BLACK_ROT_FIRE_ICON
+#undef BLACK_ROT_FIRE_STATE
+#undef BLACK_ROT_FILTER
+#undef DARK_OUTLINE_COLOUR

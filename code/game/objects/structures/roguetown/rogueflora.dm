@@ -280,6 +280,8 @@
 
 	if(isliving(AM))
 		var/mob/living/L = AM
+		if(L.is_flying()) //you won't rustle things if you're flying above them
+			return
 		if(L.m_intent == MOVE_INTENT_SNEAK)
 			return
 		else
@@ -790,3 +792,5 @@
 /obj/structure/flora/roguetree/pine/dead/Initialize()
 	. = ..()
 	icon_state = "dead[rand(1, 3)]"
+
+#undef SEARCHTIME

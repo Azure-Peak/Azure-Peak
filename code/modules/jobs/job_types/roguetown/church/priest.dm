@@ -601,3 +601,10 @@ code\modules\admin\verbs\divinewrath.dm has a variant with all the gods so keep 
 	to_chat(target, span_danger("You feel the weight of heresy lift from your soul as you embrace [user.patron.name]!"))
 
 	return TRUE
+
+#undef PRIEST_ANNOUNCEMENT_COOLDOWN
+#undef PRIEST_SERMON_COOLDOWN
+#undef PRIEST_APOSTASY_COOLDOWN
+#undef PRIEST_EXCOMMUNICATION_COOLDOWN
+#undef PRIEST_CURSE_COOLDOWN
+#undef PRIEST_SWAP_COOLDOWN

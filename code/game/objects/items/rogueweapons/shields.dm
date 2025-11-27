@@ -1,11 +1,3 @@
-#define SHIELD_BASH		/datum/intent/shield/bash
-#define SHIELD_BLOCK		/datum/intent/shield/block
-#define SHIELD_BASH_METAL 	/datum/intent/shield/bash/metal
-#define SHIELD_BLOCK_METAL 	/datum/intent/shield/block/metal
-#define SHIELD_SMASH 		/datum/intent/mace/smash/shield
-#define SHIELD_SMASH_METAL 	/datum/intent/mace/smash/shield/metal
-#define SHIELD_BANG_COOLDOWN (3 SECONDS)
-
 /obj/item/rogueweapon/shield
 	name = ""
 	desc = ""

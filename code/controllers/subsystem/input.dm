@@ -95,7 +95,6 @@ SUBSYSTEM_DEF(input)
 		var/client/C = clients[i]
 		C.keyLoop()
 
-#define NONSENSICAL_VERB "NONSENSICAL_VERB_THAT_DOES_NOTHING"
 /// A verb that does nothing, used for clearing keybinds faster.
 /client/verb/NONSENSICAL_VERB_THAT_DOES_NOTHING()
 	set name = "NONSENSICAL_VERB_THAT_DOES_NOTHING"

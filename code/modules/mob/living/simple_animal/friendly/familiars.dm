@@ -936,3 +936,7 @@
     speak_emote = "chimes"
     emote_hear = list("chimes.", "clicks.", "makes a faint ticking sound.")
     emote_see = list("glints in the light.", "shifts its crystalline spires.", "spins in a small circle.")
+
+#undef FAMILIAR_SEE_IN_DARK
+#undef FAMILIAR_MIN_BODYTEMP
+#undef FAMILIAR_MAX_BODYTEMP

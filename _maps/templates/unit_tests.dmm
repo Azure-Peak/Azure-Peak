@@ -1,6 +1,6 @@
 //MAP CONVERTED BY dmm2tgm.py THIS HEADER COMMENT PREVENTS RECONVERSION, DO NOT REMOVE
 "a" = (
-/turf/closed/indestructible/wooddark,
+/turf/closed/indestructible,
 /area/misc/testroom)
 "b" = (
 /obj/effect/landmark/unit_test_top_right,

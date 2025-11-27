@@ -2,6 +2,10 @@
 //This file contains their code, plus code for applying and removing them.
 //When making a new status effect, add a define to status_effects.dm in __DEFINES for ease of use!
 
+/mob/living
+	/// ass list [id] = /datum/status_effect. ATTENTION THE CODER IS A RETARD THIS IS NOT SUPPOSED TO BE HERE I REPEART!!!!!!
+	var/list/status_effects_by_id
+
 /datum/status_effect
 	/// The ID of the effect. ID is used in adding and removing effects to check for duplicates, among other things.
 	var/id = "effect"
@@ -48,13 +52,15 @@
 	on_creation(arglist(arguments))
 
 /datum/status_effect/proc/on_creation(mob/living/new_owner, ...)
-
-
+	testing("oncreation")
 	if(new_owner)
 		owner = new_owner
-
 	if(owner)
+		// ass list
+		LAZYINITLIST(owner.status_effects)
+		LAZYINITLIST(owner.status_effects_by_id)
 		LAZYADD(owner.status_effects, src)
+		owner.status_effects_by_id[id] = src
 
 	if(!owner || !on_apply())
 		qdel(src)
@@ -64,29 +70,29 @@
 		if(!mob_effect_dur)
 			mob_effect_dur = (duration - 1)	//-1 tick juuust in case something goes wrong between status effect deletion and the callback of the appearance itself.
 		mob_effect = owner.play_overhead_indicator_flick(mob_effect_icon, mob_effect_icon_state, mob_effect_dur, mob_effect_layer, null, mob_effect_offset_y, mob_effect_offset_x)
-
+	
 	if(duration != -1)
 		duration = world.time + duration
-
 	tick_interval = world.time + tick_interval
-
 	if(alert_type)
 		var/atom/movable/screen/alert/status_effect/A = owner.throw_alert(id, alert_type)
 		A?.attached_effect = src //so the alert can reference us, if it needs to
 		linked_alert = A //so we can reference the alert, if we need to
 
-	if(duration > world.time || tick_interval > world.time) // don't process if we don't care
-		START_PROCESSING(SSfastprocess, src)
-
+	START_PROCESSING(SSfastprocess, src)
 	return TRUE
 
 /datum/status_effect/Destroy()
 	STOP_PROCESSING(SSfastprocess, src)
-
 	if(owner)
 		linked_alert = null
 		owner.clear_alert(id)
+
+		// Remove+remove probably twice
 		LAZYREMOVE(owner.status_effects, src)
+		if(owner.status_effects_by_id && owner.status_effects_by_id[id] == src)
+			owner.status_effects_by_id -= id
+
 		on_remove()
 		owner = null
 
@@ -97,11 +103,9 @@
 	if(QDELETED(owner))
 		qdel(src)
 		return
-
 	if(tick_interval < world.time)
 		tick(wait)
 		tick_interval = world.time + initial(tick_interval)
-		
 	if(duration != -1 && duration < world.time)
 		qdel(src)
 
@@ -131,8 +135,13 @@
 	for(var/S in effectedstats)
 		owner.change_stat(S, -(effectedstats[S]))
 	owner.clear_alert(id)
-	LAZYREMOVE(owner.status_effects, src)
-	owner = null
+
+	if(owner)
+		LAZYREMOVE(owner.status_effects, src)
+		if(owner.status_effects_by_id && owner.status_effects_by_id[id] == src)
+			owner.status_effects_by_id -= id
+		owner = null
+
 	qdel(src)
 
 /datum/status_effect/proc/refresh()
@@ -181,49 +190,71 @@
 // HELPER PROCS //
 //////////////////
 
-/mob/living/proc/apply_status_effect(effect, ...) //applies a given status effect to this mob, returning the effect if it was successful
+// applies a given status effect to this mob, returning the effect if it was successful
+/mob/living/proc/apply_status_effect(effect, ...)
 	. = FALSE
+	LAZYINITLIST(status_effects)
+	LAZYINITLIST(status_effects_by_id)
+
+	var/datum/status_effect/template = effect
+	var/effect_id = initial(template.id)
+
 	var/list/arguments = args.Copy()
 	arguments[1] = src
-	var/datum/status_effect/S1 = effect
-	LAZYINITLIST(status_effects)
-	for(var/datum/status_effect/S in status_effects)
-		if(S.id == initial(S1.id) && S.status_type)
-			if(S.status_type == STATUS_EFFECT_REPLACE)
-				S.be_replaced(arglist(arguments))
-			else if(S.status_type == STATUS_EFFECT_REFRESH)
-				S.refresh(arglist(arguments))
-				return
-			else
-				return
-	S1 = new effect(arguments)
-	. = S1
 
-/mob/living/proc/remove_status_effect(effect) //removes all of a given status effect from this mob, returning TRUE if at least one was removed
+	// ID CHECK
+	var/datum/status_effect/current = status_effects_by_id[effect_id]
+
+	if(current && current.status_type)
+		if(current.status_type == STATUS_EFFECT_REPLACE)
+			// Remove old create one
+			current.be_replaced(arglist(arguments))
+		else if(current.status_type == STATUS_EFFECT_REFRESH)
+			// Refresh update current's timer if we already have the effect
+			current.refresh(arglist(arguments))
+			return
+		else
+			// STATUS_EFFECT_UNIQUE we need only 1 per time
+			return
+
+	// No old effect or its been removed (apply brand new)
+	var/datum/status_effect/new_effect = new effect(arguments)
+	. = new_effect
+
+// removes all of a given status effect from this mob, returning TRUE if at least one was removed
+/mob/living/proc/remove_status_effect(effect)
 	. = FALSE
-	if(status_effects)
-		var/datum/status_effect/S1 = effect
-		for(var/datum/status_effect/S in status_effects)
-			if(initial(S1.id) == S.id)
-				qdel(S)
-				. = TRUE
+	if(!status_effects_by_id)
+		return
+
+	var/datum/status_effect/template = effect
+	var/effect_id = initial(template.id)
+
+	var/datum/status_effect/S = status_effects_by_id[effect_id]
+	if(S)
+		qdel(S)
+		. = TRUE
 
 /mob/living/proc/has_status_effect(datum/status_effect/checked_effect)
 	RETURN_TYPE(/datum/status_effect)
 
-	for(var/datum/status_effect/present_effect as anything in status_effects)
-		if(present_effect.id == initial(checked_effect.id))
-			return present_effect
+	if(!status_effects_by_id)
+		return null
 
-	return null
+	var/effect_id = initial(checked_effect.id)
+	return status_effects_by_id[effect_id]
 
 /mob/living/proc/has_status_effect_list(datum/status_effect/checked_effect)
 	RETURN_TYPE(/list)
 
 	var/list/effects_found = list()
-	for(var/datum/status_effect/present_effect as anything in status_effects)
-		if(present_effect.id == initial(checked_effect.id))
-			effects_found += present_effect
+	if(!status_effects_by_id)
+		return effects_found
+
+	var/effect_id = initial(checked_effect.id)
+	var/datum/status_effect/S = status_effects_by_id[effect_id]
+	if(S)
+		effects_found += S
 
 	return effects_found
 

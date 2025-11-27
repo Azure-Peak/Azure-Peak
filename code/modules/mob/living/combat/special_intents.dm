@@ -1,3 +1,7 @@
+#define WAVE_2_DELAY 0.75 SECONDS
+#define WAVE_3_DELAY 2 SECONDS
+#define SPECIAL_AOE_AROUND_ORIGIN list(list(0,0), list(1,0), list(1,-1),list(1,-2),list(0,-2),list(-1,-2),list(-1,-1),list(-1,0))
+#define CUSTOM_TIMER_INDEX 3
 /*
 
 -- AOE INTENTS --
@@ -5,9 +9,6 @@ They're meant to be kept on the weapon and used via Strong stance's rclick.
 At the moment the pattern is manually designated using coordinates in tile_coordinates.
 This allows the devs to draw whatever shape they want at the cost of it feeling a little quirky.
 */
-#define SPECIAL_AOE_AROUND_ORIGIN list(list(0,0), list(1,0), list(1,-1),list(1,-2),list(0,-2),list(-1,-2),list(-1,-1),list(-1,0))
-#define CUSTOM_TIMER_INDEX 3
-
 /datum/special_intent
 	var/name = "special intent"
 	var/desc = "desc"
@@ -571,8 +572,6 @@ SPECIALS START HERE
 	cooldown = 2 SECONDS 
 
 Example of a fun pattern that overlaps in three waves. Use with default delay at 1 SECONDS
-#define WAVE_2_DELAY 0.75 SECONDS
-#define WAVE_3_DELAY 1.2 SECONDS
 tile_coordinates = list(list(1,1), list(-1,1), list(-1,-1), list(1,-1),list(0,0),
 					list(-1,0,WAVE_2_DELAY), list(-2,0,WAVE_2_DELAY), list(0,0,WAVE_2_DELAY), list(1,0,WAVE_2_DELAY), list(2,0,WAVE_2_DELAY),
 					list(0,0,WAVE_3_DELAY),list(0,-1,WAVE_3_DELAY),list(0,-2,WAVE_3_DELAY),list(0,1,WAVE_3_DELAY),list(0,2,WAVE_3_DELAY))
@@ -581,5 +580,7 @@ tile_coordinates = list(list(1,1), list(-1,1), list(-1,-1), list(1,-1),list(0,0)
 //Example of a sweeping line from left to right from the clicked turf. The second tile and the line will only appear after 1.1 seconds (the first delay).
 //tile_coordinates = list(list(0,0), list(1,0, 1.1 SECONDS), list(2,0, 1.2 SECONDS), list(3,0,1.3 SECONDS), list(4,0,1.4 SECONDS), list(5,0,1.5 SECONDS))
 
+#undef WAVE_2_DELAY
+#undef WAVE_3_DELAY
 #undef SPECIAL_AOE_AROUND_ORIGIN
 #undef CUSTOM_TIMER_INDEX

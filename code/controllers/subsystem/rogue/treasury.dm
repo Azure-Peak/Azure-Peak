@@ -348,3 +348,11 @@ SUBSYSTEM_DEF(treasury)
 	treasury_value -= amt
 	log_to_steward("-[amt] withdrawn from treasury by [target]")
 	return TRUE
+
+#undef RURAL_TAX
+#undef TREASURY_TICK_AMOUNT
+#undef EXPORT_ANNOUNCE_THRESHOLD
+#undef TAX_CAT_NOBLE
+#undef TAX_CAT_CHURCH
+#undef TAX_CAT_YEOMEN
+#undef TAX_CAT_PEASANTS

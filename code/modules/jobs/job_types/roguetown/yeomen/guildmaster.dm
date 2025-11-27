@@ -133,3 +133,5 @@
 		else
 			to_chat(src, span_warning("Your announcement was interrupted!"))
 			return FALSE
+
+#undef GUILDMASTER_ANNOUNCEMENT_COOLDOWN

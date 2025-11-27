@@ -470,6 +470,10 @@ GLOBAL_LIST_EMPTY(loadout_items)
 	name = "Briar Mask"
 	path = /obj/item/clothing/head/roguetown/dendormask
 
+/datum/loadout_item/eorahood
+	name = "Opera Mask - Eoran Hood"
+	path = /obj/item/clothing/head/roguetown/roguehood/eorahood
+
 /datum/loadout_item/exoticsilkmask
 	name = "Exotic Silk Mask"
 	path = /obj/item/clothing/mask/rogue/exoticsilkmask

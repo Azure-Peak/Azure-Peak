@@ -185,13 +185,6 @@
 #define WRETCH          (1<<7)
 #define TRADER			(1<<8)
 
-#define TRIBAL		(1<<8)
-
-#define CHIEFTAIN	(1<<0)
-#define TRIBALCOOK	(1<<1)
-#define TRIBALGUARD	(1<<2)
-#define TRIBALSMITH	(1<<3)
-
 #define SLOP		(1<<9)
 
 #define TESTER		(1<<0)

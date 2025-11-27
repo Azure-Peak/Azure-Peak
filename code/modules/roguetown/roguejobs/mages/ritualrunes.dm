@@ -874,3 +874,5 @@ GLOBAL_LIST(teleport_runes)
 		to_chat(user, span_warning("You aren't able to understand the words of [src]."))
 		return
 	. = ..()
+
+#undef QDEL_LIST_CONTENTS

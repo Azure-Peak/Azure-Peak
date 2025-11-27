@@ -4,10 +4,6 @@
 		Note: The component assumes the item's default state (sprite & flags wise) is "ON". IE visor closed, hood on, coif on, mask on etc.
 		Make sure to adjust your inv flags & body coverage accordingly.
 */
-#define UPD_HEAD (1 << 0)
-#define UPD_MASK (1 << 1)
-#define UPD_NECK (1 << 2)
-
 /datum/component/adjustable_clothing
 	///Body coverage zones (For armor) it should have when open. body_coverage_dynamic will take these.
 	var/flags_open
@@ -126,5 +122,3 @@
 	if(update_flags & UPD_MASK)
 		H.update_inv_wear_mask()
 		return
-
-

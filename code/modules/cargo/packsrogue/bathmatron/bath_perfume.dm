@@ -97,3 +97,6 @@
 	name = "Black Lipstick"
 	cost = 33
 	contains = list(/obj/item/azure_lipstick/black)
+
+#undef CHEAP_PERFUME_PRICE
+#undef EXPENSIVE_PERFUME_PRICE

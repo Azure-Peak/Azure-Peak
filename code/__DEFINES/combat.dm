@@ -125,20 +125,6 @@
 #define ATTACK_EFFECT_MECHTOXIN	"mech_toxin"
 #define ATTACK_EFFECT_BOOP		"boop" //Honk
 
-//intent defines
-#define INTENT_HELP			 /datum/intent/unarmed/help
-#define INTENT_GRAB			 /datum/intent/unarmed/grab
-#define INTENT_DISARM		 /datum/intent/unarmed/shove
-#define INTENT_HARM			 /datum/intent/unarmed/punch
-
-//mmb intents
-#define INTENT_KICK		/datum/intent/kick
-#define INTENT_SPECIAL	/datum/intent/special
-#define INTENT_BITE		/datum/intent/bite
-#define INTENT_JUMP		/datum/intent/jump
-#define INTENT_GIVE		/datum/intent/give
-#define INTENT_SPELL	/datum/intent/spell
-
 //hurrrddurrrr
 #define QINTENT_BITE		 1
 #define QINTENT_JUMP		 2
@@ -146,62 +132,6 @@
 #define QINTENT_SPECIAL		 4
 #define QINTENT_GIVE		 5
 #define QINTENT_SPELL		 6
-
-//used for all items that aren't weapons but have a blunt force
-#define INTENT_GENERIC	 /datum/intent/hit
-#define RANGED_FIRE		/datum/intent/shoot
-
-//Weapon intents
-#define SWORD_CUT		 /datum/intent/sword/cut
-#define SWORD_THRUST	 /datum/intent/sword/thrust
-#define SWORD_CHOP		 /datum/intent/sword/chop //2h swords only
-#define SWORD_STRIKE	 /datum/intent/sword/strike //mordhau grip
-#define SWORD_PEEL		/datum/intent/sword/peel
-
-#define ELFSWORD_CUT		/datum/intent/sword/cut/elf
-#define ELFSWORD_THRUST		/datum/intent/sword/thrust/elf
-
-#define AXE_CUT				/datum/intent/axe/cut
-#define AXE_CHOP			/datum/intent/axe/chop
-
-#define SPEAR_THRUST		/datum/intent/spear/thrust
-#define SPEAR_BASH			/datum/intent/spear/bash
-#define SPEAR_CUT			/datum/intent/spear/cut
-#define SPEAR_CAST          /datum/intent/spear/cast
-#define PARTIZAN_REND		/datum/intent/rend/reach/partizan
-#define PARTIZAN_PEEL		/datum/intent/partizan/peel
-
-#define MESSER_CHOP			/datum/intent/sword/chop/messer
-
-#define OHAXE_STRIKE		/datum/intent/axe/cut/dwarf
-#define OHAXE_THRUST		/datum/intent/axe/thrust/dwarf
-#define OHAXE_SMASH			/datum/intent/axe/smash/dwarf
-#define OHAXE_CHOP			/datum/intent/axe/chop/dwarf
-
-#define BIGSWORD_CHOP		/datum/intent/sword/chop/bigsword
-#define BIGSWORD_CUT		/datum/intent/sword/cut/bigsword
-
-#define MACE_SMASH			/datum/intent/mace/smash
-#define MACE_STRIKE			/datum/intent/mace/strike
-#define AXE_SMASH			/datum/intent/mace/smash/flataxe
-
-#define DAGGER_CUT			/datum/intent/dagger/cut
-#define DAGGER_THRUST		/datum/intent/dagger/thrust
-#define ICEPICK_STAB		/datum/intent/dagger/icepick
-
-#define MAUL_SMASH			/datum/intent/maul/smash
-#define MAUL_STRIKE			/datum/intent/maul/strike
-
-#define INTENT_FEED			/datum/intent/food
-
-#define DUMP_INTENT			/datum/intent/pforkdump
-#define TILL_INTENT			/datum/intent/till
-
-#define ROD_CAST			/datum/intent/cast
-#define ROD_REEL			/datum/intent/reel
-
-#define INTENT_SPLASH		/datum/intent/splash
-#define INTENT_POUR			/datum/intent/pour
 
 //Intent blade class for dismember class
 #define BCLASS_BLUNT		"blunt"
@@ -382,3 +312,44 @@ GLOBAL_LIST_INIT(shove_disarming_types, typecacheof(list(
 #define SILVER_SIMPLEMOB_DAM_MULT 3
 
 #define PROJ_PARRY_TIMER	0.65 SECONDS	//The time after an attack (swinging in the air counts) when a thrown item would be deflected at a higher chance.
+
+/* COMBAT DEFINES for NON ARMOR VALUES */
+
+#define BASE_PARRY_STAMINA_DRAIN 5 // Unmodified stamina drain for parry, now a var instead of setting on simplemobs
+#define BAD_GUARD_FATIGUE_DRAIN 20 //Percentage of your green bar lost on letting a guard expire.
+#define GUARD_PEEL_REDUCTION 2	//How many Peel stacks to lose if a Guard is hit.
+#define BAIT_PEEL_REDUCTION 1	//How many Peel stacks to lose if we perfectly bait.
+
+/*
+Medical defines
+*/
+#define ARTERY_LIMB_BLEEDRATE 20	//This is used as a reference point for dynamic wounds, so it's better off as a define.
+#define CONSTITUTION_BLEEDRATE_MOD 0.1	//How much slower we'll be bleeding for every CON point. 0.1 = 10% slower.
+#define CONSTITUTION_BLEEDRATE_CAP 15	//The CON value up to which we get a bleedrate reduction.
+
+/*
+ Misc. Category. Spin it out if needed
+*/
+#define CRIT_DISMEMBER_DAMAGE_THRESHOLD 0.75 // 75% damage threshold for dismemberment / crit
+#define STANDING_DECAP_GRACE_PERIOD 2 SECONDS // Time after falling prone where you still count as standing for decap purpose
+
+/*
+	Critical Resistance Defines 
+*/
+// Normal classes are guaranteed 4 resists, NPC 1, noblood / revenant 1
+#define CRIT_RESISTANCE_STACKS_PLAYER 4
+#define CRIT_RESISTANCE_STACKS_NPC 1
+#define CRIT_RESISTANCE_STACKS_OP 1 // Noblood / Revenant etc.
+#define CRIT_RESISTANCE_EFFECTIVE_BLEEDRATE 0.5 // How much CR reduce bleedrate by
+#define CRIT_RESISTANCE_TIMER_CD 30 SECONDS // Cooldown between guaranteed CR procs. DOES NOT APPLY TO DISMEMBERMENT.
+
+/*
+	Dullfactor Defines. These should be removed at some point.
+*/
+
+#define DULLFACTOR_COUNTERED_BY 1.2 // If a shaft is COUNTERED by a weapon type, this is the damage to go for
+#define DULLFACTOR_NEUTRAL 1 // If a shaft is NEUTRAL to a weapon type, this is the damage to go for
+#define DULLFACTOR_COUNTERS 0.8 // If a shaft COUNTERS a damage type, this is the damage to go for
+#define DULLFACTOR_ANTAG 0.5 // For Grand Shaft. Also for dull blade
+// Previously value were closer to 0.4 - 0.5 and 1.5 - 1.7x, but it felt like it make weapons
+// counter certain shaft type too hard, so now the value is between 0.8 to 1.2x for regular type

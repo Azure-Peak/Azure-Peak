@@ -99,14 +99,6 @@
 		prefs.save_preferences()
 		winset(src, "infowindow.changelog", "font-style=;")
 
-/client/verb/recent_changelog()
-	set name = "Recent Changes"
-	set category = "OOC"
-	if(GLOB.changelog.len)
-		to_chat(src, "Recent Changes:")
-		for(var/change in GLOB.changelog)
-			to_chat(src, span_info("- [change]"))
-
 /client/verb/hotkeys_help()
 	set name = "_Help-Controls"
 	set category = "OOC"
