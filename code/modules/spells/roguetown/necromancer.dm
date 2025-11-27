@@ -98,10 +98,10 @@
 	if(!("[user.mind.current.real_name]_faction" in user.faction))  //FUCK VVV
 		user.faction |= "[user.mind.current.real_name]_faction"
 
-	if(!(locate(/obj/effect/proc_holder/spell/invoked/gravemark) in user.mind?.spell_list)) //OFF VVV
+	if(!locate(/obj/effect/proc_holder/spell/invoked/gravemark) in user.mind?.spell_list) //OFF VVV
 		user.mind?.AddSpell(new /obj/effect/proc_holder/spell/invoked/gravemark)
 
-	if(!(locate(/obj/effect/proc_holder/spell/invoked/minion_order) in user.mind?.spell_list))  //SPELLGRANT IN CLASS FILE
+	if(!locate(/obj/effect/proc_holder/spell/invoked/minion_order) in user.mind?.spell_list)  //SPELLGRANT IN CLASS FILE
 		user.mind?.AddSpell(new /obj/effect/proc_holder/spell/invoked/minion_order)
 
 	var/turf/T = get_turf(targets[1])
