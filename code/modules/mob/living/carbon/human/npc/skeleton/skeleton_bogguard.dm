@@ -1,6 +1,9 @@
 /mob/living/carbon/human/species/skeleton/npc/bogguard
 	skel_outfit = /datum/outfit/job/roguetown/npc/skeleton/npc/bogguard
 
+/mob/living/carbon/human/species/skeleton/npc/bogguard/necromancer
+	faction = list() //no undead faction. Can attack another undead.
+
 /datum/outfit/job/roguetown/npc/skeleton/npc/bogguard/pre_equip(mob/living/carbon/human/H)
 	..()
 	if(prob(50))//WRIST

@@ -16,11 +16,13 @@
 	chargetime = 15
 	recharge_time = 10 SECONDS
 	hide_charge_effect = TRUE // Left handed magick babe
+	entropy = TRUE
 
 /obj/effect/proc_holder/spell/invoked/projectile/profane/miracle
 	miracle = TRUE
 	devotion_cost = 15
 	associated_skill = /datum/skill/magic/holy
+	entropy = FALSE
 
 /obj/effect/proc_holder/spell/invoked/projectile/profane/fire_projectile(mob/living/user, atom/target)
 	current_amount--
@@ -95,7 +97,7 @@
 	devotion_cost = 75
 	cabal_affine = TRUE
 	to_spawn = 2
-	entropy = TRUE
+	entropy = FALSE
 
 // T2: carbon spawn
 
@@ -129,16 +131,15 @@
 	recharge_time = 2 MINUTES
 	var/list/excluded_bodyparts = list(/obj/item/bodypart/head)
 	hide_charge_effect = TRUE
-	entropy = TRUE
+	var/head_can_skeletonized = FALSE
 
 /obj/effect/proc_holder/spell/invoked/rituos/miracle
 	miracle = TRUE
 	devotion_cost = 120
 	associated_skill = /datum/skill/magic/holy
-	entropy = FALSE
 
-/obj/effect/proc_holder/spell/invoked/rituos/entropy
-	excluded_bodyparts = list()
+/obj/effect/proc_holder/spell/invoked/rituos/entropy //You can skeletonize your head by last cast.
+	entropy = TRUE
 
 /obj/effect/proc_holder/spell/invoked/rituos/proc/check_ritual_progress(mob/living/carbon/user)
 	var/rituos_complete = TRUE
@@ -163,13 +164,17 @@
 /obj/effect/proc_holder/spell/invoked/rituos/cast(list/targets, mob/living/carbon/user)
 	//check to see if we're all skeletonized first
 	var/pre_rituos = check_ritual_progress(user)
-	if (pre_rituos)
+	if (pre_rituos && !entropy)
 		to_chat(user, span_notice("I have completed Her Lesser Work. Only lichdom awaits me now, but just out of reach..."))
 		return FALSE
 
 	if (user.mind?.has_rituos)
 		to_chat(user, span_warning("I have not the mental fortitude to enact the Lesser Work again. I must rest first..."))
 		return FALSE
+
+	if (pre_rituos && entropy)
+		excluded_bodyparts = list()
+		head_can_skeletonized = TRUE
 
 	//hoo boy. here we go.
 	var/list/possible_parts = user.bodyparts.Copy()
@@ -223,6 +228,8 @@
 	var/post_rituos = check_ritual_progress(user)
 	if (post_rituos)
 		//everything but our head is skeletonized now, so grant them journeyman rank and 3 extra spellpoints to grief people with
+		if(head_can_skeletonized) //dont double your bonus, if you skeletonize your head.
+			return TRUE
 		user.adjust_skillrank(/datum/skill/magic/arcane, 3, TRUE)
 		user.grant_language(/datum/language/undead)
 		user.mind?.AddSpell(new /obj/effect/proc_holder/spell/targeted/touch/prestidigitation)

@@ -38,9 +38,12 @@
 		add_ranged_ability(user, null, TRUE)
 		on_activation(user)
 	update_icon()
+	start_recharge()
+
+/obj/effect/proc_holder/spell/invoked/cast(list/targets, mob/living/user)
+	. = ..()
 	if(entropy)
 		entropyadd(user)
-	start_recharge()
 
 /obj/effect/proc_holder/spell/invoked/deactivate(mob/living/user) //Deactivates the currently active spell (icon click)
 	..()
@@ -93,8 +96,6 @@
 	fire_projectile(user, target)
 	update_icon()
 	start_recharge()
-	if(entropy)
-		entropyadd(user)
 	return TRUE
 
 /obj/effect/proc_holder/spell/invoked/projectile/proc/fire_projectile(mob/living/user, atom/target)
@@ -195,7 +196,7 @@
 
 	if(U.mind?.entropy == 40) //Rituos ability, nopain, Critical weakness.
 		to_chat(U, span_bloody("You've achieved so much, [U.mind.current.real_name]. My blessing is worthy of your soul. But you do know that you have to pay for all this, right?"))
-		if(!locate(/obj/effect/proc_holder/spell/invoked/rituos) in U.mind?.spell_list)
+		if(!locate(/obj/effect/proc_holder/spell/invoked/rituos) in U.mind?.spell_list && !locate(/obj/effect/proc_holder/spell/invoked/rituos/miracle in U.mind?.spell_list))
 			U.mind?.AddSpell(new /obj/effect/proc_holder/spell/invoked/rituos)
 		if (!HAS_TRAIT(U, TRAIT_CRITICAL_RESISTANCE))
 			REMOVE_TRAIT(user, TRAIT_CRITICAL_RESISTANCE, TRAIT_GENERIC)
@@ -206,7 +207,10 @@
 
 	if(U.mind?.entropy == 45) //remove head in rituos blacklist. Allows you full skeletonized your body.
 		to_chat(U, span_notice("It seems to me that now I can continue my rise!"))
-		U.mind?.RemoveSpell(new /obj/effect/proc_holder/spell/invoked/rituos)
+		if(!locate(/obj/effect/proc_holder/spell/invoked/rituos in U.mind?.spell_list))
+			U.mind?.RemoveSpell(new /obj/effect/proc_holder/spell/invoked/rituos)
+		if(!locate(/obj/effect/proc_holder/spell/invoked/rituos/miracle in U.mind?.spell_list))
+			U.mind?.RemoveSpell(new /obj/effect/proc_holder/spell/invoked/rituos/miracle)
 		U.mind?.AddSpell(new /obj/effect/proc_holder/spell/invoked/rituos/entropy)
 		U.adjustOxyLoss(50)
 		U.adjustToxLoss(20)

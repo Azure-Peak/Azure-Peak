@@ -90,7 +90,6 @@
 	var/is_summoned = FALSE
 	var/to_spawn = 4
 	hide_charge_effect = TRUE
-	entropy = FALSE
 
 /obj/effect/proc_holder/spell/invoked/raise_undead_formation/cast(list/targets, mob/living/carbon/user = usr)
 	..()
@@ -190,7 +189,7 @@
 		return FALSE
 
 	new /obj/effect/temp_visual/gib_animation(T, "gibbed-h")
-	var/mob/living/skeleton_new = new /mob/living/carbon/human/species/skeleton/npc/bogguard(T, user)
+	var/mob/living/skeleton_new = new /mob/living/carbon/human/species/skeleton/npc/bogguard/necromancer(T, user)
 	spawn(11) //Ashamed of this but I hate how after_creation() uses spawn too and I'm not making a timer for this. Proc needs a look-over. - Ryan
 		skeleton_new.faction |= list("[user.mind.current.real_name]_faction")
 	return TRUE
