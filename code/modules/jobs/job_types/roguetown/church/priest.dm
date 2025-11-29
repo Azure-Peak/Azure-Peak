@@ -19,7 +19,7 @@ GLOBAL_LIST_EMPTY(heretical_players)
 	selection_color = JCOLOR_CHURCH
 	f_title = "Bishop"
 	allowed_races = RACES_NO_CONSTRUCT		//Too recent arrivals to ascend to priesthood.
-	allowed_patrons = list(/datum/patron/divine/undivided)
+	allowed_patrons = list(/datum/patron/divine/undivided, /datum/patron/divine/astrata)
 	allowed_sexes = list(MALE, FEMALE)
 	tutorial = "The Divine is all that matters in a world of the immoral. The Weeping God abandoned us, and in his stead the TEN rule over us mortals--and you will preach their wisdom to any who still heed their will. The faithless are growing in number. It is up to you to shepherd them toward a Gods-fearing future; for you are a Bishop of the Holy See."
 	whitelist_req = FALSE
@@ -76,12 +76,16 @@ GLOBAL_LIST_EMPTY(heretical_players)
 /datum/outfit/job/roguetown/priest
 	job_bitflag = BITFLAG_HOLY_WARRIOR
 	has_loadout = TRUE
-	allowed_patrons = list(/datum/patron/divine/undivided)	//We lock this cus head of church, acktully
+	allowed_patrons = list(/datum/patron/divine/undivided, /datum/patron/divine/astrata)	//We lock this cus head of church, acktully
 
 /datum/outfit/job/roguetown/priest/basic/pre_equip(mob/living/carbon/human/H)
 	..()
 	H.adjust_blindness(-3)
-	neck = /obj/item/clothing/neck/roguetown/psicross/undivided
+	switch(H.patron?.type)
+		if(/datum/patron/divine/undivided)
+			neck = /obj/item/clothing/neck/roguetown/psicross/undivided
+		if(/datum/patron/divine/astrata)
+			neck = /obj/item/clothing/neck/roguetown/psicross/astrata
 	head = /obj/item/clothing/head/roguetown/priestmask
 	shirt = /obj/item/clothing/suit/roguetown/shirt/undershirt/priest
 	pants = /obj/item/clothing/under/roguetown/tights/black
