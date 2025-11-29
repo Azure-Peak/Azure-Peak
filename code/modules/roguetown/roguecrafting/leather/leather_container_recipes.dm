@@ -79,7 +79,7 @@
 				/obj/item/rope = 1)
 
 /datum/crafting_recipe/roguetown/leather/container/grenstrap
-	name = "grenadeer bandolier"
+	name = "grenadier bandolier"
 	result = /obj/item/twstrap/bombstrap
 	reqs = list(/obj/item/natural/hide/cured = 3,
 				/obj/item/rope = 1)

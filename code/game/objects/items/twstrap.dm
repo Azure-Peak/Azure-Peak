@@ -140,7 +140,7 @@
 	. = ..()
 
 /obj/item/twstrap/bombstrap
-	name = "grenadeer bandolier"
+	name = "grenadier bandolier"
 	desc = ""
 	icon_state = "bombstrap0"
 	item_state = "bombstrap"
