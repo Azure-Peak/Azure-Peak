@@ -2856,7 +2856,7 @@
 #include "modular_azurepeak\code\modules\spells\pantheon\inhumen\baotha.dm"
 #include "modular_azurepeak\code\modules\spells\pantheon\inhumen\graggar.dm"
 #include "modular_azurepeak\code\modules\spells\pantheon\inhumen\matthios.dm"
-#include "code\modules\spells\pantheon\inhumen\zizo.dm"
+#include "modular_azurepeak\code\modules\spells\pantheon\inhumen\zizo.dm"
 #include "modular_azurepeak\statpacks\agile.dm"
 #include "modular_azurepeak\statpacks\mental.dm"
 #include "modular_azurepeak\statpacks\physical.dm"
