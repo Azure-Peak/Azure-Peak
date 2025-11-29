@@ -43,7 +43,7 @@
 	var/alist/targets = alist()
 	for(var/atom/movable/AM as anything in tweps)
 		targets[AM.name] = AM
-	var/selected_name = tgui_input_list(user, "WHAT GET OUT?", name, targets)
+	var/selected_name = tgui_input_list(user, "WHAT DO YOU GET OUT?", name, targets)
 	if(!selected_name)
 		return
 	var/atom/movable/AM = targets[selected_name]
