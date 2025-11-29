@@ -19,6 +19,7 @@
 #define TRAIT_DEFILED_NOBLE "Drained Noble Blood"
 #define TRAIT_EMPATH "Empath"
 #define TRAIT_EXPLOSIVE_SUPPLY "Explosive Supply"
+#define TRAIT_BOMBER_EXPERT "Explosive Specialist"
 #define TRAIT_BREADY "Battleready"
 #define TRAIT_MEDIUMARMOR "Maille Training"
 #define TRAIT_HEAVYARMOR "Plate Training"

@@ -80,6 +80,11 @@
 			bomb_type = pick(bomb_type_list)
 		var/obj/item/S = new bomb_type(get_turf(H))
 		H.put_in_hands(S)
+		if(HAS_TRAIT(H, TRAIT_BOMBER_EXPERT))	//additional random second bomb.
+			bomb_type_list |= /obj/item/bomb
+			bomb_type = pick(bomb_type_list)
+			var/obj/item/B = new bomb_type(get_turf(H))
+			H.put_in_hands(B)
 	if(HAS_TRAIT(user, TRAIT_INQUISITION))	
 		if(!coin_loaded && !inqcoins)
 			to_chat(user, span_notice("It needs a Marque."))

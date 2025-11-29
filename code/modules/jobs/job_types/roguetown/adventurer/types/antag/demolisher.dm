@@ -9,10 +9,10 @@
 	category_tags = list(CTAG_BANDIT)
 	maximum_possible_slots = 2
 	cmode_music = 'sound/music/cmode/antag/combat_thewall.ogg'
-	traits_applied = list(TRAIT_MEDIUMARMOR, TRAIT_STEELHEARTED, TRAIT_ALCHEMY_EXPERT, TRAIT_EXPLOSIVE_SUPPLY)
+	traits_applied = list(TRAIT_MEDIUMARMOR, TRAIT_STEELHEARTED, TRAIT_ALCHEMY_EXPERT, TRAIT_EXPLOSIVE_SUPPLY, TRAIT_BOMBER_EXPERT)
 	subclass_stats = list(
 		STATKEY_STR = 1,
-		STATKEY_WIL = 3, //extrim
+		STATKEY_WIL = 3, //extreme VVV
 		STATKEY_CON = 4, //hardy
 		STATKEY_SPD = -1, //slow
 		STATKEY_LCK = 1,
@@ -41,8 +41,9 @@
 	shirt = /obj/item/clothing/suit/roguetown/shirt/shortshirt/random
 	shoes = /obj/item/clothing/shoes/roguetown/boots
 	wrists = /obj/item/clothing/wrists/roguetown/bracers/copper
+	head = /obj/item/clothing/head/roguetown/roguehood/black
+	backl = /obj/item/twstrap/bombstrap
 	backr = /obj/item/storage/backpack/rogue/satchel
-	backl = /obj/item/rogueweapon/mace/cudgel
 	backpack_contents = list(
 					/obj/item/needle/thorn = 1,
 					/obj/item/natural/cloth = 1,
@@ -52,10 +53,9 @@
 					)
 	mask = /obj/item/clothing/mask/rogue/facemask/copper
 	neck = /obj/item/clothing/neck/roguetown/gorget/copper
-	head = /obj/item/clothing/head/roguetown/helmet/heavy/sheriff
 	armor = /obj/item/clothing/suit/roguetown/armor/brigandine/light
-	beltl = /obj/item/bomb
-	beltr = /obj/item/bomb
+	beltl = /obj/item/satchel_bomb
+	beltr = /obj/item/rogueweapon/mace/cudgel
 	id = /obj/item/mattcoin
 	H.set_blindness(0)
 
