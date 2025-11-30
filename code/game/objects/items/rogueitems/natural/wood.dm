@@ -125,7 +125,6 @@
 		/datum/crafting_recipe/roguetown/survival/woodtray,
 		/datum/crafting_recipe/roguetown/survival/woodbowl,
 		/datum/crafting_recipe/roguetown/survival/pipe,
-		/datum/crafting_recipe/roguetown/survival/mantrap,
 		/datum/crafting_recipe/roguetown/survival/paperscroll,
 		/datum/crafting_recipe/roguetown/survival/boneaxe,
 		/datum/crafting_recipe/roguetown/survival/prosthetic/woodleftarm,

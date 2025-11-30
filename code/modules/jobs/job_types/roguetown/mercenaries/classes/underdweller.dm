@@ -14,7 +14,7 @@
 	outfit = /datum/outfit/job/roguetown/mercenary/underdweller
 	class_select_category = CLASS_CAT_RACIAL
 	category_tags = list(CTAG_MERCENARY)
-	traits_applied = list(TRAIT_MEDIUMARMOR, TRAIT_WEBWALK)
+	traits_applied = list(TRAIT_MEDIUMARMOR, TRAIT_WEBWALK, TRAIT_EXPLOSIVE_SUPPLY) //No bomb expert, only supply. Axes/mining expert.
 	subclass_stats = list(
 		STATKEY_CON = 2,
 		STATKEY_WIL = 2,
