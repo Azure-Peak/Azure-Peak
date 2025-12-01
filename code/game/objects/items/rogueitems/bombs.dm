@@ -571,7 +571,7 @@
 		new /obj/item/natural/fibers(user.loc)
 		if(prob(10))
 			to_chat(user, span_warningbig("Uh oh."))
-			light()
+			explodes()
 		return
 	
 	var/obj/item/bomb/tripbomb/trip = new /obj/item/bomb/tripbomb(get_turf(src))
@@ -579,7 +579,7 @@
 	trip.icon_state = icon_state
 	trip.add_overlay("tripbomb")
 	trip.update_icon()
-	trip.prob2fail = prob2fail
+	trip.prob2fail = 1
 
 	var/obj/item/tripwire/wire = new /obj/item/tripwire(get_turf(user))
 	wire.dir = get_dir(loc, user)
