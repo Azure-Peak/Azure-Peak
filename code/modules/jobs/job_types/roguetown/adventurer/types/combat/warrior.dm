@@ -344,12 +344,15 @@
 			if("Sword")
 				H.adjust_skillrank_up_to(/datum/skill/combat/swords, SKILL_LEVEL_JOURNEYMAN, TRUE)
 				beltr = /obj/item/rogueweapon/sword/short
+				gloves = /obj/item/clothing/gloves/roguetown/chain
 			if("Cudgel")
 				H.adjust_skillrank_up_to(/datum/skill/combat/maces, SKILL_LEVEL_JOURNEYMAN, TRUE)
 				beltr = /obj/item/rogueweapon/mace/cudgel
+				gloves = /obj/item/clothing/gloves/roguetown/chain
 			if("Double Shield")
 				H.adjust_skillrank_up_to(/datum/skill/combat/shields, SKILL_LEVEL_EXPERT, TRUE)
 				r_hand = /obj/item/rogueweapon/shield/tower/metal
+				gloves = /obj/item/clothing/gloves/roguetown/chain
 			if("Plate Gloves")
 				H.adjust_skillrank_up_to(/datum/skill/combat/unarmed, SKILL_LEVEL_JOURNEYMAN, TRUE)
 				gloves = /obj/item/clothing/gloves/roguetown/plate
