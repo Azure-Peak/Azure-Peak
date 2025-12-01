@@ -186,7 +186,6 @@
 		/datum/crafting_recipe/roguetown/survival/peasantry/hoe,
 		/datum/crafting_recipe/roguetown/survival/peasantry/pitchfork,
 		/datum/crafting_recipe/roguetown/survival/quarterstaff_iron,
-		/datum/crafting_recipe/roguetown/survival/mantrap,
 		)
 
 	AddElement(
