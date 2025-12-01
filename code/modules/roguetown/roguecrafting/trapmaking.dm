@@ -50,7 +50,6 @@
 				/obj/item/alch/irondust = 1,
 				/obj/item/bomb = 1,
 	)
-	skillcraft = /datum/skill/craft/engineering
 	craftdiff = 4
 
 /datum/crafting_recipe/roguetown/trapmaking/bombtrap
@@ -61,7 +60,6 @@
 				/obj/item/alch/irondust = 1,
 				/obj/item/impact_grenade/explosion = 1,
 	)
-	skillcraft = /datum/skill/craft/engineering
 	craftdiff = 4
 
 /datum/crafting_recipe/roguetown/trapmaking/shocktrap
@@ -73,16 +71,14 @@
 				/obj/item/alch/irondust = 1,
 				/obj/item/natural/whetstone = 1,
 	)
-	skillcraft = /datum/skill/craft/engineering
 	craftdiff = 4
 
-/datum/crafting_recipe/roguetown/trapmaking/shocktrap
-	name = "shock trap"
+/datum/crafting_recipe/roguetown/trapmaking/rocktrap
+	name = "rock trap"
 	result = /obj/structure/trap/rock_fall
 	reqs =  list(/obj/item/restraints/legcuffs/beartrap/crafted = 1,
 				/obj/item/scrap = 2, 
 				/obj/item/natural/rock = 1,
 				/obj/item/alch/irondust = 2,
 	)
-	skillcraft = /datum/skill/craft/engineering
 	craftdiff = 4
