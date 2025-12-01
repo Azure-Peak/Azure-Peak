@@ -1,4 +1,3 @@
-#define LOWMEMORYMODE
 #include "map_files\generic\CentCom.dmm"
 
 #ifndef LOWMEMORYMODE

@@ -231,10 +231,6 @@
 			H.mind.i_know_person(MF)
 
 	// Ready up bonus
-	if(H.mind)
-		if (HAS_TRAIT(H, TRAIT_EXPLOSIVE_SUPPLY))
-			H.mind.has_bomb = TRUE
-
 	if(!H.islatejoin)
 		H.adjust_triumphs(1)
 		H.apply_status_effect(/datum/status_effect/buff/foodbuff)
