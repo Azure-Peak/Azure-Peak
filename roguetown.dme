@@ -2309,6 +2309,7 @@
 #include "code\modules\roguetown\roguecrafting\sewing.dm"
 #include "code\modules\roguetown\roguecrafting\structure.dm"
 #include "code\modules\roguetown\roguecrafting\tallow.dm"
+#include "code\modules\roguetown\roguecrafting\trapmaking.dm"
 #include "code\modules\roguetown\roguecrafting\turfs.dm"
 #include "code\modules\roguetown\roguecrafting\weaving.dm"
 #include "code\modules\roguetown\roguecrafting\alchemy\alch_cauldron_recipe_base.dm"
