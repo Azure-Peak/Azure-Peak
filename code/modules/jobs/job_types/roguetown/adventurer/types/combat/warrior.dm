@@ -280,13 +280,11 @@
 		/datum/skill/combat/maces = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/combat/axes = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/combat/swords = SKILL_LEVEL_APPRENTICE,
-		/datum/skill/combat/shields = SKILL_LEVEL_APPRENTICE,
+		/datum/skill/combat/shields = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/combat/whipsflails = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/combat/wrestling = SKILL_LEVEL_JOURNEYMAN,
-		/datum/skill/misc/swimming = SKILL_LEVEL_NOVICE,
 		/datum/skill/combat/unarmed = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/misc/athletics = SKILL_LEVEL_JOURNEYMAN,
-		/datum/skill/misc/climbing = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/misc/reading = SKILL_LEVEL_NOVICE,
 	)
 
@@ -295,11 +293,11 @@
 	if(H.mind)
 		to_chat(H, span_warning("You put your trust into your durable armor. The best offense is a good defense."))
 		var/helmets = list(
-			"Sallet"			= /obj/item/clothing/head/roguetown/helmet/sallet/iron,
-			"Visored Sallet"	= /obj/item/clothing/head/roguetown/helmet/sallet/visored/iron,
-			"Kettle Helmet"		= /obj/item/clothing/head/roguetown/helmet/kettle/iron,
-			"Bucket Helmet"		= /obj/item/clothing/head/roguetown/helmet/heavy/bucket/iron,
-			"Knight Helmet"		= /obj/item/clothing/head/roguetown/helmet/heavy/knight/iron,
+			"Frogmouth"			= /obj/item/clothing/head/roguetown/helmet/heavy/frogmouth,
+			"Visored Sallet"	= /obj/item/clothing/head/roguetown/helmet/sallet/visored,
+			"Savoyard"		= /obj/item/clothing/head/roguetown/helmet/heavy/guard,
+			"Barbute"		= /obj/item/clothing/head/roguetown/helmet/heavy
+			"Bucket"		= /obj/item/clothing/head/roguetown/helmet/heavy/bucket,
 			"None"
 			)
 		var/helmchoice = input(H, "Choose your Helm.", "TAKE UP HELMS") as anything in helmets
@@ -307,31 +305,31 @@
 			head = helmets[helmchoice]
 
 		var/armors = list(
-			"Breastplate + Hauberk",
-			"Half-Plate + Light Gambeson"
+			"Half Plate + Hauberk",
+			"Full Plate + Gambeson"
 			)
 		var/armorchoice = input(H, "Choose your armor.", "TAKE UP ARMOR") as anything in armors
 		switch(armorchoice)
-			if("Breastplate + Hauberk")
-				armor = /obj/item/clothing/suit/roguetown/armor/plate/cuirass/iron
-				shirt = /obj/item/clothing/suit/roguetown/armor/chainmail/hauberk/iron
-			if("Half-Plate + Light Gambeson")
-				armor = /obj/item/clothing/suit/roguetown/armor/plate/iron
-				shirt = /obj/item/clothing/suit/roguetown/armor/gambeson/light
+			if("Half Plate + Hauberk")
+				armor = /obj/item/clothing/suit/roguetown/armor/plate
+				shirt = /obj/item/clothing/suit/roguetown/armor/chainmail/hauberk
+			if("Full Plate + Gambeson")
+				armor = /obj/item/clothing/suit/roguetown/armor/plate/full
+				shirt = /obj/item/clothing/suit/roguetown/armor/gambeson
 
 		var/legs = list(
-			"Chain Chausses"	= /obj/item/clothing/under/roguetown/chainlegs/iron,
-			"Chain Kilt"		= /obj/item/clothing/under/roguetown/chainlegs/iron/kilt
+			"Chain Chausses"	= /obj/item/clothing/under/roguetown/chainlegs,
+			"Chain Kilt"		= /obj/item/clothing/under/roguetown/chainlegs/kilt
 			)
 		var/legschoice = input(H, "Choose your Pants.", "TAKE UP PANTS") as anything in legs
 		pants = legs[legschoice]
-	gloves = /obj/item/clothing/gloves/roguetown/chain/iron
-	neck = /obj/item/clothing/neck/roguetown/bevor/iron
-	wrists = /obj/item/clothing/wrists/roguetown/bracers/iron
-	shoes = /obj/item/clothing/shoes/roguetown/boots/armor/iron
+	neck = /obj/item/clothing/neck/roguetown/bevor
+	wrists = /obj/item/clothing/wrists/roguetown/bracers
+	shoes = /obj/item/clothing/shoes/roguetown/boots/armor/plate
 	belt = /obj/item/storage/belt/rogue/leather/battleskirt/black
 	backl = /obj/item/storage/backpack/rogue/satchel
 	beltl = /obj/item/flashlight/flare/torch/lantern
+	backr = /obj/item/rogueweapon/shield/tower/metal
 	backpack_contents = list(
 		/obj/item/storage/belt/rogue/pouch/coins/poor = 1,
 		/obj/item/recipe_book/survival = 1,
@@ -343,27 +341,18 @@
 		var/weapons = list("Executioner's Sword","Warhammer + Shield","Flail + Shield","Lucerne","Greataxe")
 		var/weapon_choice = input(H, "Choose your weapon.", "TAKE UP ARMS") as anything in weapons
 		switch(weapon_choice)
-			if("Executioner's Sword")
+			if("Sword")
 				H.adjust_skillrank_up_to(/datum/skill/combat/swords, SKILL_LEVEL_JOURNEYMAN, TRUE)
-				backr = /obj/item/rogueweapon/sword/long/exe
-			if("Warhammer + Shield")
+				beltr = /obj/item/rogueweapon/sword/short
+			if("Cudgel")
 				H.adjust_skillrank_up_to(/datum/skill/combat/maces, SKILL_LEVEL_JOURNEYMAN, TRUE)
-				H.adjust_skillrank_up_to(/datum/skill/combat/shields, SKILL_LEVEL_JOURNEYMAN, TRUE)
-				beltr = /obj/item/rogueweapon/mace/warhammer
-				backr = /obj/item/rogueweapon/shield/iron
-			if("Flail + Shield")
-				H.adjust_skillrank_up_to(/datum/skill/combat/whipsflails, SKILL_LEVEL_JOURNEYMAN, TRUE)
-				H.adjust_skillrank_up_to(/datum/skill/combat/shields, SKILL_LEVEL_JOURNEYMAN, TRUE)
-				beltr = /obj/item/rogueweapon/flail
-				backr = /obj/item/rogueweapon/shield/iron
-			if("Lucerne")
-				H.adjust_skillrank_up_to(/datum/skill/combat/polearms, SKILL_LEVEL_JOURNEYMAN, TRUE)
-				r_hand = /obj/item/rogueweapon/eaglebeak/lucerne
-				backr = /obj/item/rogueweapon/scabbard/gwstrap
-			if("Greataxe")
-				H.adjust_skillrank_up_to(/datum/skill/combat/axes, SKILL_LEVEL_JOURNEYMAN, TRUE)
-				r_hand = /obj/item/rogueweapon/greataxe
-				backr = /obj/item/rogueweapon/scabbard/gwstrap
+				beltr = /obj/item/rogueweapon/mace/cudgel
+			if("Double Shield")
+				H.adjust_skillrank_up_to(/datum/skill/combat/shields, SKILL_LEVEL_EXPERT, TRUE)
+				r_hand = /obj/item/rogueweapon/shield/tower/metal
+			if("Plate Gloves")
+				H.adjust_skillrank_up_to(/datum/skill/combat/unarmed, SKILL_LEVEL_JOURNEYMAN, TRUE)
+				gloves = /obj/item/clothing/gloves/roguetown/plate
 
 /datum/advclass/sfighter/mhunter
 	name = "Exorcist"
