@@ -11,7 +11,6 @@
 	var/fuze = null
 	var/lit = FALSE
 	var/prob2fail = 5
-	var/PVE_damage = 160
 	grid_width = 32
 	grid_height = 64
 
@@ -67,7 +66,7 @@
 	playsound(T, 'sound/items/firesnuff.ogg', 100)
 	for(var/mob/living/target in range(1, T))
 		if(!target.mind || istype(target, /mob/living/simple_animal))
-			target.adjustFireLoss(PVE_damage) //fireball damage + 40. That
+			target.adjustFireLoss(160) //fireball damage + 40. That
 	new /obj/item/natural/glass_shard(T)
 	explosion(T, light_impact_range = 1, flame_range = 2, smoke = TRUE, soundin = pick('sound/misc/explode/bottlebomb (1).ogg','sound/misc/explode/bottlebomb (2).ogg'))
 	return TRUE
@@ -277,7 +276,6 @@
 	var/fuze = 50
 	var/lit = FALSE
 	var/prob2fail = 1 
-	var/PVE_damage = 160
 	grid_width = 32
 	grid_height = 64
 
@@ -325,7 +323,7 @@
 			else
 				for(var/mob/living/target in range(4, T))
 					if(!target.mind || istype(target, /mob/living/simple_animal))
-						target.adjustFireLoss(PVE_damage) //fireball damage + 40. That
+						target.adjustFireLoss(160) //fireball damage + 40. That
 				explosion(T, devastation_range = 0, heavy_impact_range = 0, light_impact_range = 4, smoke = TRUE, soundin = pick('sound/misc/explode/bottlebomb (1).ogg','sound/misc/explode/bottlebomb (2).ogg'))
 				qdel(src) //IMPORTANT!! go into walls /turf/closed/wall/ and see /turf/closed/wall/ex_act. Its bounded with /proc/explosion. Same for /obj/structure and /obj/structure/ex_act because if you going to fuck intergity or whatever this shit called players will skin you alive for breaking their equipment and keys
 		else //also /turf/open/floor/ex_act for comment above
@@ -351,7 +349,6 @@
 	var/fuze = 50
 	var/lit = FALSE
 	var/prob2fail = 1 
-	var/PVE_damage = 300
 	grid_width = 256
 	grid_height = 256
 
@@ -399,10 +396,10 @@
 			else
 				for(var/mob/living/target in range(3, T))
 					if(!target.mind || istype(target, /mob/living/simple_animal))
-						target.adjustFireLoss(PVE_damage) //summary 500
+						target.adjustFireLoss(300) //summary 500
 				for(var/mob/living/target in range(8, T))
 					if(!target.mind || istype(target, /mob/living/simple_animal))
-						target.adjustFireLoss(PVE_damage - 100)
+						target.adjustFireLoss(200)
 				explosion(T, devastation_range = 2, heavy_impact_range = 3, light_impact_range = 8, flame_range = 2, smoke = TRUE, soundin = pick('sound/misc/explode/bottlebomb (1).ogg','sound/misc/explode/bottlebomb (2).ogg'))
 				qdel(src)
 
@@ -424,7 +421,6 @@
 	w_class = WEIGHT_CLASS_SMALL
 	throwforce = 0
 	throw_speed = 1
-	var/PVE_damage = 160
 	grid_width = 32
 	grid_height = 32
 
@@ -454,7 +450,7 @@
 	if(T)
 		for(var/mob/living/target in range(2, T))
 			if(!target.mind || istype(target, /mob/living/simple_animal))
-				target.adjustFireLoss(PVE_damage) //fireball damage + 40. That
+				target.adjustFireLoss(160) //fireball damage + 40. That
 		explosion(T, heavy_impact_range = 1, light_impact_range = 2, flame_range = 2, smoke = TRUE, soundin = pick('sound/misc/explode/bottlebomb (1).ogg','sound/misc/explode/bottlebomb (2).ogg'))
 		qdel(src)
 

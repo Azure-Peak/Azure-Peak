@@ -22,10 +22,6 @@
 	desc = "A crude and rusty spring trap, used to snare interlopers, or prey on a hunt. Looks almost like falling apart."
 	var/rusty = TRUE // Is it an old trap? Will most likely be destroyed if not handled right
 	var/armed = FALSE // Is it armed?
-	var/inv = FALSE //Lowers alpha for armed traps
-	var/can_payload = FALSE //can use bombs
-	var/bomb_in = FALSE
-	var/list/bombs = list()
 	var/trap_damage = 90 // How much brute damage the trap will do to its victim
 	var/used_time = 12 SECONDS // How many seconds it takes to disarm the trap
 	max_integrity = 100
@@ -48,16 +44,6 @@
 			C.visible_message(span_boldwarning("[C] triggers \the [src]."), \
 					span_userdanger("I trigger \the [src]!"))
 			C.emote("agony")
-			if(bomb_in)
-				var/obj/item/bomb/bomb = bombs[bombs.len]
-				trap_damage = bomb.PVE_damage/2
-				C.Stun(20)
-				C.adjustFireLoss(trap_damage)
-				bomb.fuze = 1 SECONDS
-				bomb.light()
-				bomb.forceMove(src)
-				qdel(src)
-				return FALSE
 			C.Stun(80)
 			BP.add_wound(/datum/wound/fracture)
 			BP.update_disabled()
@@ -81,17 +67,6 @@
 				C.visible_message(span_boldwarning("[C] triggers \the [src]."), \
 						span_userdanger("I trigger \the [src]!"))
 				C.emote("agony")
-				if(bomb_in)
-					var/obj/item/bomb/bomb = bombs[bombs.len]
-					trap_damage = bomb.PVE_damage/2
-					C.Stun(20)
-					C.adjustFireLoss(trap_damage)
-					bomb.fuze = 1 SECONDS
-					bomb.light()
-					bomb.forceMove(src)
-					qdel(src)
-					return FALSE
-				C.Stun(80)
 				BP.add_wound(/datum/wound/fracture)
 				BP.update_disabled()
 				C.apply_damage(trap_damage, BRUTE, def_zone)
@@ -100,19 +75,6 @@
 	..()
 
 /obj/item/restraints/legcuffs/beartrap/attackby(obj/item/W, mob/user)
-	if(istype(W, /obj/item/natural/dirtclod) && !armed)
-		if(user.get_skill_level(/datum/skill/craft/traps) >= 4 || HAS_TRAIT(user, TRAIT_EXPLOSIVE_SUPPLY)) //Expert or TRAIT_BOMBER_EXPERT (Bomb main classes). 
-			inv = TRUE
-			qdel(W)
-	if(can_payload && !armed && !bomb_in)
-		if(!do_after(user, 15, target = src))
-			return
-		if(istype(W, /obj/item/bomb) || istype(W, /obj/item/tntstick) || istype(W, /obj/item/impact_grenade) || istype(W, /obj/item/satchel_bomb))
-			user.transferItemToLoc(W, bombs)
-			bombs += W
-			bomb_in = TRUE
-			name = "trap with [W.name]"
-			update_icon()
 	if(W.force && armed)
 		user.visible_message("<span class='warning'>[user] triggers \the [src] with [W].</span>", \
 				"<span class='danger'>I trigger \the [src] with [W]!</span>")
@@ -123,34 +85,6 @@
 			L.update_sneak_invis(TRUE)
 		return
 	..()
-
-/obj/item/restraints/legcuffs/beartrap/attack_right(mob/user)
-	if(bombs.len)
-		var/mob/living/carbon/C = user
-		if(HAS_TRAIT(user, TRAIT_EXPLOSIVE_SUPPLY)) //virtue and bomber roles
-			var/obj/O = bombs[bombs.len]
-			bombs -= O
-			user.put_in_hands(O)
-			bomb_in = FALSE
-			update_icon()
-		else
-			if(do_after(user, 20, target = user))
-				to_chat(user, span_notice("You fumble to draw a bomb..."))
-				var/obj/O = bombs[bombs.len]
-				bombs -= O
-				user.put_in_hands(O)
-				bomb_in = FALSE
-				update_icon()
-			else
-				var/obj/item/bomb/bomb = bombs[bombs.len]
-				trap_damage = bomb.PVE_damage/2
-				C.Stun(20)
-				C.adjustFireLoss(trap_damage)
-				bomb.fuze = 1 SECONDS
-				bomb.light()
-				bomb.forceMove(src)
-				qdel(src)
-		return TRUE
 
 /obj/item/restraints/legcuffs/beartrap/armed
 	w_class = WEIGHT_CLASS_BULKY
@@ -172,12 +106,7 @@
 
 /obj/item/restraints/legcuffs/beartrap/update_icon()
 	. = ..()
-	icon_state = "[initial(icon_state)][armed][bomb_in]"
-
-/obj/item/restraints/legcuffs/beartrap/examine(mob/user)
-	. = ..()
-	if(Adjacent(user) && bomb_in)
-		. += "It contains: [counting_english_list(bombs)]"
+	icon_state = "[initial(icon_state)][armed]"
 
 /obj/item/restraints/legcuffs/beartrap/suicide_act(mob/user)
 	user.visible_message("<span class='suicide'>[user] is sticking [user.p_their()] head in the [src.name]! It looks like [user.p_theyre()] trying to commit suicide!</span>")
@@ -187,19 +116,14 @@
 /obj/item/restraints/legcuffs/beartrap/attack_self(mob/user)
 	..()
 	if(ishuman(user) && !user.stat && !user.restrained())
-		var/mob/living/carbon/C = user
-		if(do_after(user, 50 - (C.STASTR*2), target = user))
+		var/mob/living/L = user
+		if(do_after(user, 50 - (L.STASTR*2), target = user))
 			if(prob(50))
 				armed = !armed
 				if(armed)
 					w_class = WEIGHT_CLASS_BULKY
 					grid_width = 256
 					grid_height = 256
-					if(inv)
-						alpha = (170 - (C.get_skill_level(/datum/skill/craft/traps)*20)) //40 alpha if user has LEGENDARY trapmaker
-						if(HAS_TRAIT(C, TRAIT_BOMBER_EXPERT)) //+ one level
-							if(alpha >= 60)
-								alpha -= 20
 				else
 					w_class = WEIGHT_CLASS_NORMAL
 					grid_width = 64
@@ -238,19 +162,11 @@
 				return ..()
 
 			var/def_zone = BODY_ZONE_CHEST
-			if(bomb_in)
-				var/obj/item/bomb/bomb = bombs[bombs.len]
-				if(!L.mind)
-					trap_damage = bomb.PVE_damage
-				else
-					trap_damage = bomb.PVE_damage/2
 			if(snap && iscarbon(L))
 				var/mob/living/carbon/C = L
 				if(C.mobility_flags & MOBILITY_STAND)
 					def_zone = pick(BODY_ZONE_PRECISE_L_FOOT, BODY_ZONE_PRECISE_R_FOOT)
 					var/obj/item/bodypart/BP = C.get_bodypart(def_zone)
-					if(bomb_in)
-						C.Stun(20)
 					if(BP)
 						add_mob_blood(C)
 						if(!BP.is_object_embedded(src))
@@ -266,13 +182,6 @@
 				close_trap()
 				L.visible_message("<span class='danger'>[L] triggers \the [src].</span>", \
 						"<span class='danger'>I trigger \the [src]!</span>")
-				if(bomb_in)
-					var/obj/item/bomb/bomb = bombs[bombs.len]
-					L.adjustFireLoss(trap_damage)
-					bomb.fuze = 1 SECONDS
-					bomb.light()
-					bomb.forceMove(src)
-					qdel(src)
 				if(L.apply_damage(trap_damage, BRUTE, def_zone, L.run_armor_check(def_zone, "stab", damage = trap_damage)))
 					L.Stun(80)
 	..()
@@ -299,11 +208,4 @@
 /obj/item/restraints/legcuffs/beartrap/crafted
 	rusty = FALSE
 	desc = "Curious is the trapmaker's art. Their efficacy unwitnessed by their own eyes."
-	smeltresult = /obj/item/ingot/iron
-
-/obj/item/restraints/legcuffs/beartrap/crafted/landmine
-	name = "payload trap"
-	icon_state = "bombtrap"
-	can_payload = TRUE
-	desc = "Curious is the trapmaker's art. Their can filled by any bomb."
 	smeltresult = /obj/item/ingot/iron

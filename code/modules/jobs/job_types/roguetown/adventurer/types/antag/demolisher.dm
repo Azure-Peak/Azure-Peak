@@ -12,9 +12,9 @@
 	traits_applied = list(TRAIT_MEDIUMARMOR, TRAIT_STEELHEARTED, TRAIT_ALCHEMY_EXPERT, TRAIT_EXPLOSIVE_SUPPLY, TRAIT_BOMBER_EXPERT)
 	subclass_stats = list(
 		STATKEY_STR = 1,
-		STATKEY_WIL = 4, //extreme VVV
+		STATKEY_WIL = 3, //extreme VVV
 		STATKEY_CON = 4, //hardy
-		STATKEY_SPD = -2, //slow
+		STATKEY_SPD = -1, //slow
 		STATKEY_LCK = 1,
 		STATKEY_INT = 2
 	)
@@ -24,7 +24,6 @@
 		/datum/skill/combat/unarmed = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/combat/knives = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/craft/crafting = SKILL_LEVEL_APPRENTICE,
-		/datum/skill/craft/traps = SKILL_LEVEL_MASTER,
 		/datum/skill/craft/carpentry = SKILL_LEVEL_NOVICE,
 		/datum/skill/craft/alchemy = SKILL_LEVEL_JOURNEYMAN, //bombs
 		/datum/skill/craft/engineering = SKILL_LEVEL_JOURNEYMAN, //bombs
