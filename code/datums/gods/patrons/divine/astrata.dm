@@ -7,6 +7,8 @@
 	miracles = list(/obj/effect/proc_holder/spell/targeted/touch/orison			= CLERIC_ORI,
 					/obj/effect/proc_holder/spell/invoked/ignition				= CLERIC_T0,
 					/obj/effect/proc_holder/spell/self/astrata_gaze				= CLERIC_T0,
+					/obj/effect/proc_holder/spell/targeted/touch/astratagrasp   = CLERIC_T0,
+					/obj/effect/proc_holder/spell/self/astrata_fireresist       = CLERIC_T0,
 					/obj/effect/proc_holder/spell/invoked/lesser_heal 			= CLERIC_T1,
 					/obj/effect/proc_holder/spell/invoked/blood_heal			= CLERIC_T1,
 					/obj/effect/proc_holder/spell/invoked/projectile/lightningbolt/sacred_flame_rogue	= CLERIC_T1,

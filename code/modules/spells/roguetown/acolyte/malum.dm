@@ -385,50 +385,6 @@ var/global/list/anvil_recipe_prices[][]
 		aoemining.lastminer = usr
 		aoemining.take_damage(damage,BRUTE,"blunt",1)
 
-/obj/effect/proc_holder/spell/invoked/malum_flame_rogue
-	name = "Malum's Fire"
-	desc = "Ignites target."
-	overlay_state = "sacredflame"
-	releasedrain = 15
-	chargedrain = 0
-	chargetime = 0
-	range = 15
-	warnie = "sydwarning"
-	movement_interrupt = FALSE
-	chargedloop = null
-	req_items = list(/obj/item/clothing/neck/roguetown/psicross)
-	sound = 'sound/magic/heal.ogg'
-	invocations = list("Flame.")
-	invocation_type = "whisper"
-	associated_skill = /datum/skill/magic/holy
-	antimagic_allowed = TRUE
-	recharge_time = 15 SECONDS
-	miracle = TRUE
-	devotion_cost = 15
-
-/obj/effect/proc_holder/spell/invoked/malum_flame_rogue/cast(list/targets, mob/user = usr)
-	. = ..()
-	if(isliving(targets[1]))
-		var/mob/living/L = targets[1]
-		user.visible_message("<font color='yellow'>[user] points at [L]!</font>")
-		if(L.anti_magic_check(TRUE, TRUE))
-			return FALSE
-		L.adjust_fire_stacks(1, /datum/status_effect/fire_handler/fire_stacks/divine)
-		L.ignite_mob()
-		return TRUE
-
-	// Spell interaction with ignitable objects (burn wooden things, light torches up)
-	else if(isobj(targets[1]))
-		var/obj/O = targets[1]
-		if(O.fire_act())
-			user.visible_message("<font color='yellow'>[user] points at [O], igniting it with sacred flames!</font>")
-			return TRUE
-		else
-			to_chat(user, span_warning("You point at [O], but it fails to catch fire."))
-			return FALSE
-	return FALSE
-
-
 /obj/effect/temp_visual/lavastaff
 	icon_state = "lavastaff_warn"
 	duration = 50
