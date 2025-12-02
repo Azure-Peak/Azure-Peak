@@ -170,7 +170,8 @@
 		QDEL_NULL(src)
 		return ..()
 	if(istype(I, /obj/item/natural/dirtclod))
-		alpha = 80
+		skill = user.get_skill_level(/datum/skill/craft/traps)
+		alpha = (90 - skill * 5)
 		qdel(I)
 	..()
 
@@ -200,7 +201,9 @@
 		QDEL_NULL(payload)
 		return ..()
 	if(istype(I, /obj/item/natural/dirtclod))
-		alpha = 80
+		skill = user.get_skill_level(/datum/skill/craft/traps)
+		alpha = (90 - skill * 5)
+		qdel(I)
 	/*if(istype(I, /obj/item/natural/fibers))
 		if(payload.wire_trigger.len == 2)
 			to_chat(span_warning("I can not extend [src] anymore."))
