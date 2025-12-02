@@ -30,16 +30,16 @@
 		playsound(get_turf(target), 'sound/magic/magic_nulled.ogg', 100)
 		qdel(src)
 		return BULLET_ACT_BLOCK
-	var/firebust = 1
+	var/firebust = 0
 	var/damagebust = 0
-	if(!(M.patron?.type) == /datum/patron/divine/astrata) //If your target not astratan, you deal addition firestaks and damage, if your target already set in fire
+	if(!((M.patron?.type) == /datum/patron/divine/astrata) || !M.mind || istype(M, /mob/living/simple_animal)) //If your target not astratan, you deal addition firestaks and damage, if your target already set in fire
 		firebust = 1*user.get_skill_level(/datum/skill/magic/holy)
-		damagebust = M.fire_stacks * 5
+		damage += M.fire_stacks * 5
 		M.adjustFireLoss(damagebust)
 		new /obj/effect/temp_visual/explosion/fast(get_turf(M))
 	if(M.mob_biotypes & biotype_we_look_for || istype(M, /mob/living/simple_animal/hostile/rogue/skeleton))
 		damage *= fuck_that_guy_multiplier
-	M.adjust_fire_stacks(4*firebust)
+	M.adjust_fire_stacks(4+firebust)
 	M.ignite_mob()
 	visible_message(span_warning("[src] ignites [target] in holy flame!"))
 	return TRUE
@@ -185,6 +185,73 @@
 		return FALSE
 	return TRUE
 
+/obj/effect/proc_holder/spell/invoked/astrataspark
+	name = "Flame Order"
+	desc = "A spell can make any flame source burst into a bright, searing flash. \n\
+	Cast it on any light emit structure witch flame inside, for create 3x3 flame explosion. \n\
+	You can cast it on burning mobs, for doubles their firestacks."
+	clothes_req = FALSE
+	overlay_state = "astraflame"
+	sound = 'sound/magic/whiteflame.ogg'
+	range = 8
+	releasedrain = 30
+	chargedrain = 1
+	chargetime = 15
+	recharge_time = 15 SECONDS
+	warnie = "spellwarning"
+	no_early_release = TRUE
+	movement_interrupt = FALSE
+	charging_slowdown = 3
+	chargedloop = /datum/looping_sound/invokeholy
+	glow_color = GLOW_COLOR_FIRE
+	glow_intensity = GLOW_INTENSITY_MEDIUM
+	invocations = list("Fulmen!")
+	invocation_type = "shout"
+	var/firemodificator = 2
+	var/delay = 1.3
+	var/strike_delay = 1 // delay between each individual strike. 3 delays seems to make someone stupid able to walk into every single strikes.
+	var/strikerange = 14 // how many tiles the strike can reach
+	devotion_cost = 50
+	miracle = TRUE
+
+/obj/effect/proc_holder/spell/invoked/astrataspark/cast(list/targets, mob/user = usr)
+	var/turf/T = get_turf(targets[1])
+	if(T.z != user.z)
+		to_chat(span_warning("You can't cast this spell on a different z-level!"))
+		return FALSE
+	for(var/obj/effect/hotspot/H in T.contents)
+		new /obj/effect/temp_visual/firewave/spark(T)
+		sleep(1 SECONDS)
+		explosion(T, -1, 0, 0, 0, 0, flame_range = 2, soundin = 'sound/misc/explode/incendiary (1).ogg')
+	for(var/obj/machinery/light/rogue/O in T.contents)
+		O.fire_act()
+		new /obj/effect/temp_visual/firewave/spark(T)
+		sleep(2 SECONDS)
+		explosion(T, -1, 0, 0, 0, 0, flame_range = 2, soundin = 'sound/misc/explode/incendiary (1).ogg')
+		sleep(10 SECONDS)
+		O.extinguish()
+	for(var/mob/living/L in T.contents) //doubles firestacks
+		if(L.anti_magic_check())
+			visible_message(span_warning("The magic fades away around you [L] "))  //antimagic needs some testing
+			playsound(L, 'sound/magic/magic_nulled.ogg', 100)
+			return
+		if(L.fire_stacks != 0)
+			if(L.fire_stacks >= 10)
+				firemodificator = 0 //any*0 = 0
+			var/firest = L.fire_stacks*firemodificator
+			new /obj/effect/temp_visual/firewave/spark(T)
+			sleep(1 SECONDS)
+			L.adjust_fire_stacks(round(firest))
+	if(istype(T, /turf/open/lava))
+		new /obj/effect/temp_visual/firewave/spark(T)
+		sleep(2 SECONDS)
+		explosion(T, -1, 0, 0, 0, 0, flame_range = 3, soundin = 'sound/misc/explode/incendiary (1).ogg')
+	return TRUE
+
+/obj/effect/temp_visual/firewave/spark
+	icon_state = "flame"
+	duration = 20
+
 //T0. Removes cone vision for a dynamic duration.
 /obj/effect/proc_holder/spell/self/astrata_gaze
 	name = "Astratan Gaze"
@@ -329,7 +396,7 @@
 	. = ..()
 	owner.weather_immunities -= "lava"
 
-/obj/effect/proc_holder/spell/targeted/touch/astratagrasp
+/obj/effect/proc_holder/spell/targeted/touch/summonrogueweapon/astratagrasp
 	name = "Astrata Grasp"
 	desc = "Summon the sacred flame from your soul and let it envelop your hands."
 	clothes_req = FALSE
@@ -341,9 +408,11 @@
 	releasedrain = 5 // this influences -every- cost involved in the spell's functionality, if you want to edit specific features, do so in handle_cost
 	chargedloop = /datum/looping_sound/invokegen
 	associated_skill = /datum/skill/magic/holy
-	hand_path = /obj/item/rogueweapon/astrata
+	hand_path = /obj/item/melee/touch_attack/rogueweapon/astratagrasp
+	devotion_cost = 30
+	miracle = TRUE
 
-/obj/item/rogueweapon/astrata
+/obj/item/melee/touch_attack/rogueweapon/astratagrasp
 	name = "Burning Hand"
 	desc = "The Sacred Flame of Astrata"
 	icon = 'icons/roguetown/misc/miraclestuff.dmi'
@@ -357,12 +426,13 @@
 	tool_behaviour = TOOL_CAUTERY
 	parrysound = list('sound/magic/magic_nulled.ogg')
 	swingsound = list('sound/items/firelight.ogg')
-	var/attached_spell = /obj/effect/proc_holder/spell/targeted/touch/astratagrasp
+	attached_spell = /obj/effect/proc_holder/spell/targeted/touch/summonrogueweapon/astratagrasp
 	wbalance = WBALANCE_HEAVY
 	force = 20
 	damtype = BURN
 	wdefense = 0
 	associated_skill = /datum/skill/magic/holy //EHEHEHEHEHEH
+	can_parry = TRUE
 	var/takespeed = 5
 	var/fprob = 0
 
@@ -372,13 +442,13 @@
 /datum/intent/mace/smash/astrata
 	hitsound = list('sound/items/firelight.ogg', 'sound/misc/frying.ogg', 'sound/misc/explode/incendiary (1).ogg', 'sound/misc/explode/incendiary (2).ogg')
 
-/obj/item/rogueweapon/astrata/Initialize()
+/obj/item/melee/touch_attack/rogueweapon/astratagrasp/Initialize()
 	. = ..()
 	addtimer(CALLBACK(src, PROC_REF(skillcheck), src), wait = 1)
 	ADD_TRAIT(src, TRAIT_NODROP, ABSTRACT_ITEM_TRAIT)
 	item_flags |= SURGICAL_TOOL
 
-/obj/item/rogueweapon/astrata/attack(mob/target, mob/living/carbon/user)
+/obj/item/melee/touch_attack/rogueweapon/astratagrasp/attack(mob/target, mob/living/carbon/user)
 	if(!iscarbon(user)) //Look ma, no hands
 		return
 	if(!(user.mobility_flags & MOBILITY_USE))
@@ -386,15 +456,16 @@
 		return
 	..()
 
-/obj/item/rogueweapon/astrata/proc/skillcheck()
+/obj/item/melee/touch_attack/rogueweapon/astratagrasp/proc/skillcheck()
 	var/skill = usr.get_skill_level(/datum/skill/magic/holy)
 	wdefense += skill
 	fprob = 10 * skill
 
-/obj/item/rogueweapon/astrata/attack_self()
+/obj/item/melee/touch_attack/rogueweapon/astratagrasp/attack_self()
+	attached_spell.remove_hand()
 	qdel(src)
 
-/obj/item/rogueweapon/astrata/afterattack(atom/target, mob/living/carbon/user, params, proximity)
+/obj/item/melee/touch_attack/rogueweapon/astratagrasp/afterattack(atom/target, mob/living/carbon/user, params, proximity)
 	if(istype(user.a_intent, /datum/intent/use))
 		return
 	if(isliving(target))
@@ -404,7 +475,7 @@
 			M.ignite_mob()
 	return
 
-/obj/item/rogueweapon/astrata/pre_attack(atom/target, mob/living/user, params)
+/obj/item/melee/touch_attack/rogueweapon/astratagrasp/pre_attack(atom/target, mob/living/user, params)
 	if(!istype(user.a_intent, /datum/intent/use))
 		return ..()
 	if(isliving(target))
