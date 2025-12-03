@@ -32,10 +32,9 @@
 		return BULLET_ACT_BLOCK
 	var/firebust = 0
 	var/damagebust = 0
-	if(!((M.patron?.type) == /datum/patron/divine/astrata) || !M.mind || istype(M, /mob/living/simple_animal)) //If your target not astratan, you deal addition firestaks and damage, if your target already set in fire
-		firebust = 1*user.get_skill_level(/datum/skill/magic/holy)
-		damage += M.fire_stacks * 5
-		M.adjustFireLoss(damagebust)
+	if(!((M.patron?.type) == /datum/patron/divine/astrata) || !M.mind || istype(M, /mob/living/simple_animal)) //If your target not astratan, you deal addition firestaks and damage, if your target already set in fire fire
+		firebust = M.fire_stacks/2
+		damage += M.fire_stacks * 10
 		new /obj/effect/temp_visual/explosion/fast(get_turf(M))
 	if(M.mob_biotypes & biotype_we_look_for || istype(M, /mob/living/simple_animal/hostile/rogue/skeleton))
 		damage *= fuck_that_guy_multiplier
@@ -189,7 +188,8 @@
 	name = "Flame Order"
 	desc = "A spell can make any flame source burst into a bright, searing flash. \n\
 	Cast it on any light emit structure witch flame inside, for create 3x3 flame explosion. \n\
-	You can cast it on burning mobs, for doubles their firestacks."
+	You can cast it on burning mobs, for doubles their firestacks. \n\
+	Cast on self, for burning all lighting object in radius."
 	clothes_req = FALSE
 	overlay_state = "astraflame"
 	sound = 'sound/magic/whiteflame.ogg'
@@ -231,6 +231,11 @@
 		sleep(10 SECONDS)
 		O.extinguish()
 	for(var/mob/living/L in T.contents) //doubles firestacks
+		if(L == user)
+			var/checkrange = 3 + user.get_skill_level(/datum/skill/magic/holy)
+			for(var/obj/machinery/light/rogue/O in range(checkrange, user))
+				O.fire_act()
+			return TRUE
 		if(L.anti_magic_check())
 			visible_message(span_warning("The magic fades away around you [L] "))  //antimagic needs some testing
 			playsound(L, 'sound/magic/magic_nulled.ogg', 100)
@@ -435,6 +440,7 @@
 	can_parry = TRUE
 	var/takespeed = 5
 	var/fprob = 0
+	var/cooldown = FALSE
 
 /datum/intent/mace/strike/astrata
 	hitsound = list('sound/items/firelight.ogg', 'sound/misc/frying.ogg', 'sound/misc/explode/incendiary (1).ogg', 'sound/misc/explode/incendiary (2).ogg')
@@ -465,11 +471,41 @@
 	attached_spell.remove_hand()
 	qdel(src)
 
+/obj/item/melee/touch_attack/rogueweapon/astratagrasp/proc/cooldown()
+	cooldown = FALSE
+
 /obj/item/melee/touch_attack/rogueweapon/astratagrasp/afterattack(atom/target, mob/living/carbon/user, params, proximity)
 	if(istype(user.a_intent, /datum/intent/use))
+		if(isliving(target))
+			var/mob/living/M = target
+			if(M.fire_stacks <= 0)
+				return
+			if(cooldown)
+				return
+			user.visible_message("<font color='yellow'>[user] points at [M], flame rends out!</font>")
+			M.extinguish_mob()
+			cooldown = TRUE
+			addtimer(CALLBACK(src, PROC_REF(cooldown), src), wait = 5 SECONDS)
+		if(isobj(target))
+			var/obj/item/O = target
+			var/mob/living/carbon/human/H = usr
+			var/cost = 0
+			if(istype(O, /obj/item/ash))
+				cost = 20
+			if(istype(O, /obj/item/reagent_containers/food/snacks/grown/rogue/fyritius))
+				cost = 50
+			if(istype(O, /obj/item/alch/firedust))
+				cost = 100
+			if(cost > 0)
+				H.devotion?.update_devotion(cost)
+				to_chat(user, "<font color='purple'>I gain [cost] devotion!</font>")
+				qdel(O)
 		return
 	if(isliving(target))
 		var/mob/living/M = target
+		var/dist = get_dist(M, user)
+		if(dist > 1)
+			return
 		if(prob(fprob))
 			M.adjust_fire_stacks(1)
 			M.ignite_mob()
