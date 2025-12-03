@@ -409,7 +409,7 @@
 	overlay_state = "moon_light"
 	associated_skill = /datum/skill/magic/holy
 	antimagic_allowed = FALSE
-	recharge_time = 20 SECONDS
+	recharge_time = 1 MINUTES
 	miracle = TRUE
 	devotion_cost = 30
 	range = 3
@@ -431,7 +431,7 @@
 /datum/status_effect/light_buff/moon
 	id = "orison_light_buff"
 	alert_type = /atom/movable/screen/alert/status_effect/light_buff
-	duration = 20 SECONDS
+	duration = 15 SECONDS
 	color_mob_light = "#3936eacf"
 
 /obj/effect/temp_visual/moon
