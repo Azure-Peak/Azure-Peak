@@ -210,3 +210,221 @@
 		return TRUE
 	revert_cast()
 	return FALSE
+
+//T0.
+/obj/effect/proc_holder/spell/self/wise_moon
+	name = "Enlightenment"
+	desc = "Ask the Wise Moon for help."
+	overlay_state = "noc_gaze"
+	releasedrain = 10
+	chargedrain = 0
+	chargetime = 0
+	chargedloop = /datum/looping_sound/invokeholy
+	sound = 'sound/magic/churn.ogg'
+	associated_skill = /datum/skill/magic/holy
+	antimagic_allowed = FALSE
+	invocations = list("Noc show me true.")
+	invocation_type = "shout"
+	recharge_time = 90 SECONDS
+	devotion_cost = 30
+	miracle = TRUE
+
+/obj/effect/proc_holder/spell/self/wise_moon/cast(list/targets, mob/user)
+	if(!ishuman(user))
+		revert_cast()
+		return FALSE
+	var/mob/living/carbon/human/H = user
+	H.apply_status_effect(/datum/status_effect/buff/wise_moon, user.get_skill_level(associated_skill))
+	return TRUE
+
+/atom/movable/screen/alert/status_effect/buff/wise_moon
+	name = "Wise Moon"
+	desc = "Moonlight makes my thinking easier."
+	icon = 'icons/mob/actions/roguespells.dmi'
+	icon_state = "wise_moon"
+
+/datum/status_effect/buff/wise_moon
+	id = "wise_moon"
+	alert_type = /atom/movable/screen/alert/status_effect/buff/wise_moon
+	duration = 2 MINUTES
+
+/datum/status_effect/buff/wise_moon/on_creation(mob/living/new_owner, assocskill)
+	var/int_bonus = 0
+	if(assocskill)
+		int_bonus = 2
+		duration *= assocskill
+	if(GLOB.tod == "night" || GLOB.tod == "dusk")
+		int_bonus = 5
+		duration *= 2
+	if(GLOB.tod == "day")
+		int_bonus--
+	if(int_bonus > 0)
+		effectedstats = list(STATKEY_INT = int_bonus)
+	. = ..()
+
+//T0
+
+/obj/effect/proc_holder/spell/invoked/moondream
+	name = "Moonlight Dream"
+	desc = "The next dream of the target will bring more dreampoints."
+	overlay_state = "moondream"
+	releasedrain = 15
+	chargedrain = 0
+	chargetime = 1 SECONDS
+	range = 2
+	warnie = "sydwarning"
+	movement_interrupt = FALSE
+	sound = 'sound/magic/churn.ogg'
+	invocations = list("Moon will give you a bright dream.")
+	invocation_type = "shout"
+	associated_skill = /datum/skill/magic/holy
+	recharge_time = 4 SECONDS
+	miracle = TRUE
+	devotion_cost = 30
+
+/obj/effect/proc_holder/spell/invoked/moondream/cast(list/targets, mob/living/user)
+	. = ..()
+	if(isliving(targets[1]))
+		var/mob/living/carbon/human/target = targets[1]
+		var/mob/living/carbon/human/H = user
+		if(target == user)
+			H.apply_status_effect(/datum/status_effect/buff/wise_moon, H.get_skill_level(associated_skill))
+			return FALSE
+		if(user.mind?.has_rituos == TRUE) //One cast on one night.
+			return FALSE
+		if(GLOB.tod != "night" || GLOB.tod != "dusk")
+			return FALSE
+		user.visible_message("<font color='blue'>[user] points on [target]!</font>")
+		target.visible_message("<font color='blue'>You feel your mind is filled with curious ideas, and your understanding of what you know is growing..</font>")
+		if(target.mind?.sleep_adv)
+			target.mind.sleep_adv.sleep_adv_points += 1*H.get_skill_level(associated_skill)
+			user.mind?.has_rituos = TRUE //i use zizo mechanic
+		return TRUE
+	revert_cast()
+	return FALSE
+
+//T0
+
+/obj/effect/proc_holder/spell/targeted/touch/summonrogueweapon/nocgrasp
+	name = "Noc Grasp"
+	desc = "Summon the sacred flame from your soul and let it envelop your hands."
+	clothes_req = FALSE
+	drawmessage = "I prepare to perform a miracle incantation."
+	dropmessage = "I release my miracle focus."
+	overlay_state = "nocgrasp"
+	chargedrain = 0
+	chargetime = 0
+	releasedrain = 5 // this influences -every- cost involved in the spell's functionality, if you want to edit specific features, do so in handle_cost
+	chargedloop = /datum/looping_sound/invokegen
+	associated_skill = /datum/skill/magic/holy
+	hand_path = /obj/item/melee/touch_attack/rogueweapon/nocgrasp
+	devotion_cost = 30
+	miracle = TRUE
+
+/obj/item/melee/touch_attack/rogueweapon/nocgrasp
+	name = "Shimmer Hand"
+	desc = "The Sacred Light of Noc. \n\
+	click on self to remove it."
+	icon = 'icons/roguetown/misc/miraclestuff.dmi'
+	mob_overlay_icon = 'icons/roguetown/misc/miraclestuff.dmi'
+	lefthand_file = 'icons/roguetown/misc/miraclestuff.dmi'
+	righthand_file = 'icons/roguetown/misc/miraclestuff.dmi'
+	icon_state = "mooni"
+	item_state = "mooni"
+	possible_item_intents = list(/datum/intent/use)
+	parrysound = list('sound/magic/magic_nulled.ogg')
+	swingsound = list('sound/magic/churn.ogg')
+	attached_spell = /obj/effect/proc_holder/spell/targeted/touch/summonrogueweapon/astratagrasp
+	wbalance = WBALANCE_HEAVY
+	force = 0
+	damtype = BURN
+	wdefense = 0
+	associated_skill = /datum/skill/magic/holy //EHEHEHEHEHEH
+	can_parry = TRUE
+
+/obj/item/melee/touch_attack/rogueweapon/nocgrasp/Initialize()
+	. = ..()
+	addtimer(CALLBACK(src, PROC_REF(skillcheck), src), wait = 1)
+	ADD_TRAIT(src, TRAIT_NODROP, ABSTRACT_ITEM_TRAIT)
+
+/obj/item/melee/touch_attack/rogueweapon/nocgrasp/attack(mob/target, mob/living/carbon/user)
+	if(!iscarbon(user)) //Look ma, no hands
+		return
+	if(!(user.mobility_flags & MOBILITY_USE))
+		to_chat(user, "<span class='warning'>I can't reach out!</span>")
+		return
+	..()
+
+/obj/item/melee/touch_attack/rogueweapon/nocgrasp/proc/skillcheck()
+	var/skill = usr.get_skill_level(/datum/skill/magic/holy)
+	wdefense += skill
+
+/obj/item/melee/touch_attack/rogueweapon/nocgrasp/afterattack(atom/target, mob/living/carbon/user, params, proximity)
+	if(isobj(target))
+		var/obj/item/O = target
+		var/mob/living/carbon/human/H = usr
+		var/cost = 0
+		if(istype(O, /obj/item/paper))
+			cost = 20
+		if(istype(O, /obj/item/paper/scroll))
+			cost = 50
+		if(istype(O, /obj/item/skillbook) || istype(O, /obj/item/recipe_book) || istype(O, /obj/item/book))
+			cost = 100
+		if(cost >= 20)
+			H.devotion?.update_devotion(cost)
+			to_chat(user, "<font color='purple'>I gain [cost] devotion!</font>")
+			qdel(O)
+		return
+	if(isliving(target))
+		var/mob/living/M = target
+		if(M == user)
+			attached_spell.remove_hand()
+			qdel(src)
+	return
+
+/obj/item/melee/touch_attack/rogueweapon/nocgrasp/pre_attack(atom/target, mob/living/user, params)
+	if(isliving(target))
+		var/mob/living/L = target
+		L.extinguish_mob()
+	if(isobj(target))
+		var/obj/O = target
+		O.extinguish()
+	return ..()
+
+//T1
+
+/obj/effect/proc_holder/spell/self/moon_light
+	name = "Moon Lights"
+	desc = "The moon will illuminate the living beings around you, highlighting them from the shadows with its light."
+	releasedrain = 10
+	chargedrain = 0
+	chargetime = 0
+	chargedloop = /datum/looping_sound/invokeholy
+	invocations = list("Darkness away!")
+	invocation_type = "shout"
+	sound = 'sound/magic/churn.ogg'
+	overlay_state = "moon_light"
+	associated_skill = /datum/skill/magic/holy
+	antimagic_allowed = FALSE
+	recharge_time = 20 SECONDS
+	miracle = TRUE
+	devotion_cost = 30
+	range = 3
+
+/obj/effect/proc_holder/spell/self/moon_light/cast(list/targets, mob/user = usr)
+	. = ..()
+	if(GLOB.tod == "day" || GLOB.tod == "dawn")
+		return FALSE
+	var/checkrange = (range + user.get_skill_level(/datum/skill/magic/holy)) //+1 range per holy skill up to a potential of 8.
+	for(var/mob/living/M in range(checkrange, user))
+		var/target_turf = get_turf(M)
+		new /obj/effect/temp_visual/moon(target_turf)
+		M.apply_status_effect(/datum/status_effect/light_buff, 1)
+	return TRUE
+
+/obj/effect/temp_visual/moon
+	icon_state = "moon"
+	duration = 4 SECONDS
+	layer = MASSIVE_OBJ_LAYER
+	light_outer_range = 3
+	light_color = "#1640d7ff"

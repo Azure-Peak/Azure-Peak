@@ -207,9 +207,6 @@
 	invocations = list("Fulmen!")
 	invocation_type = "shout"
 	var/firemodificator = 2
-	var/delay = 1.3
-	var/strike_delay = 1 // delay between each individual strike. 3 delays seems to make someone stupid able to walk into every single strikes.
-	var/strikerange = 14 // how many tiles the strike can reach
 	devotion_cost = 50
 	miracle = TRUE
 
@@ -404,8 +401,8 @@
 	name = "Astrata Grasp"
 	desc = "Summon the sacred flame from your soul and let it envelop your hands."
 	clothes_req = FALSE
-	drawmessage = "I prepare to perform a minor arcyne incantation."
-	dropmessage = "I release my minor arcyne focus."
+	drawmessage = "I prepare to perform a miracle incantation."
+	dropmessage = "I release my miracle focus."
 	overlay_state = "astratagrasp"
 	chargedrain = 0
 	chargetime = 0
