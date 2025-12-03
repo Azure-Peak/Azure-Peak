@@ -257,6 +257,7 @@
 		int_bonus = 5
 		duration *= 2
 	if(GLOB.tod == "day")
+		to_chat(owner, "Sun covers a moon with its rays!")
 		int_bonus--
 	if(int_bonus > 0)
 		effectedstats = list(STATKEY_INT = int_bonus)
@@ -291,8 +292,10 @@
 			H.apply_status_effect(/datum/status_effect/buff/wise_moon, H.get_skill_level(associated_skill))
 			return FALSE
 		if(user.mind?.has_rituos == TRUE) //One cast on one night.
+			to_chat(user, "I need wait to next night!")
 			return FALSE
 		if(GLOB.tod != "night" || GLOB.tod != "dusk")
+			to_chat(user, "Sun covers a moon with it's rays!")
 			return FALSE
 		user.visible_message("<font color='blue'>[user] points on [target]!</font>")
 		target.visible_message("<font color='blue'>You feel your mind is filled with curious ideas, and your understanding of what you know is growing..</font>")
@@ -414,6 +417,7 @@
 /obj/effect/proc_holder/spell/self/moon_light/cast(list/targets, mob/user = usr)
 	. = ..()
 	if(GLOB.tod == "day" || GLOB.tod == "dawn")
+		to_chat(user, "Sun covers a moon with it's rays!")
 		return FALSE
 	var/checkrange = (range + user.get_skill_level(/datum/skill/magic/holy)) //+1 range per holy skill up to a potential of 8.
 	for(var/mob/living/M in range(checkrange, user))
