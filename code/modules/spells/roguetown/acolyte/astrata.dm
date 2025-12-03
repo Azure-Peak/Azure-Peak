@@ -31,7 +31,6 @@
 		qdel(src)
 		return BULLET_ACT_BLOCK
 	var/firebust = 0
-	var/damagebust = 0
 	if(!((M.patron?.type) == /datum/patron/divine/astrata) || !M.mind || istype(M, /mob/living/simple_animal)) //If your target not astratan, you deal addition firestaks and damage, if your target already set in fire fire
 		firebust = M.fire_stacks/2
 		damage += M.fire_stacks * 10
@@ -496,7 +495,7 @@
 				cost = 50
 			if(istype(O, /obj/item/alch/firedust))
 				cost = 100
-			if(cost > 0)
+			if(cost >= 20)
 				H.devotion?.update_devotion(cost)
 				to_chat(user, "<font color='purple'>I gain [cost] devotion!</font>")
 				qdel(O)
