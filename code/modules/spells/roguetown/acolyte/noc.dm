@@ -225,7 +225,7 @@
 	antimagic_allowed = FALSE
 	invocations = list("Noc show me true.")
 	invocation_type = "shout"
-	recharge_time = 90 SECONDS
+	recharge_time = 3 MINUTES
 	devotion_cost = 30
 	miracle = TRUE
 
