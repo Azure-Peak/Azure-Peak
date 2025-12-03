@@ -294,7 +294,7 @@
 		if(user.mind?.has_rituos == TRUE) //One cast on one night.
 			to_chat(user, "I need wait to next night!")
 			return FALSE
-		if(GLOB.tod != "night" || GLOB.tod != "dusk")
+		if(GLOB.tod == "day" || GLOB.tod == "dawn")
 			to_chat(user, "Sun covers a moon with it's rays!")
 			return FALSE
 		user.visible_message("<font color='blue'>[user] points on [target]!</font>")
@@ -310,7 +310,7 @@
 
 /obj/effect/proc_holder/spell/targeted/touch/summonrogueweapon/nocgrasp
 	name = "Noc Grasp"
-	desc = "Summon the sacred flame from your soul and let it envelop your hands."
+	desc = "Summon the sacred light from your soul and let it envelop your hands."
 	clothes_req = FALSE
 	drawmessage = "I prepare to perform a miracle incantation."
 	dropmessage = "I release my miracle focus."
@@ -421,10 +421,18 @@
 		return FALSE
 	var/checkrange = (range + user.get_skill_level(/datum/skill/magic/holy)) //+1 range per holy skill up to a potential of 8.
 	for(var/mob/living/M in range(checkrange, user))
+		if(M == user)
+			continue
 		var/target_turf = get_turf(M)
 		new /obj/effect/temp_visual/moon(target_turf)
-		M.apply_status_effect(/datum/status_effect/light_buff, 1)
+		M.apply_status_effect(/datum/status_effect/light_buff/moon, 1)
 	return TRUE
+
+/datum/status_effect/light_buff/moon
+	id = "orison_light_buff"
+	alert_type = /atom/movable/screen/alert/status_effect/light_buff
+	duration = 20 SECONDS
+	color_mob_light = "#3936eacf"
 
 /obj/effect/temp_visual/moon
 	icon_state = "moon"
