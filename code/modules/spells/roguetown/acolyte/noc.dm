@@ -367,6 +367,9 @@
 		var/obj/item/O = target
 		var/mob/living/carbon/human/H = usr
 		var/cost = 0
+		var/dist = get_dist(O, user)
+		if(dist > 1)
+			return
 		if(istype(O, /obj/item/paper))
 			cost = 20
 		if(istype(O, /obj/item/paper/scroll))
@@ -440,3 +443,15 @@
 	layer = MASSIVE_OBJ_LAYER
 	light_outer_range = 3
 	light_color = "#1640d7ff"
+
+/datum/status_effect/light_buff/moon/on_apply()
+	..()
+	if(!owner.mind)
+		if(HAS_TRAIT(owner, TRAIT_CRITICAL_WEAKNESS)) //skeletons...
+			return
+		ADD_TRAIT(owner, TRAIT_CRITICAL_WEAKNESS, TRAIT_GENERIC)
+
+/datum/status_effect/light_buff/moon/tick()
+	if(!owner.mind || istype(owner, /mob/living/simple_animal)) //AI mobs take 3 burn damage per tick. 45 burn witchout 15 seconds.
+		var/mob/living/target = owner
+		target.adjustFireLoss(3)

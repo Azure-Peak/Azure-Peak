@@ -34,8 +34,10 @@
 	if(!((M.patron?.type) == /datum/patron/divine/astrata) || !M.mind || istype(M, /mob/living/simple_animal)) //If your target not astratan, you deal addition firestaks and damage, if your target already set in fire fire
 		firebust = M.fire_stacks/2
 		damage += M.fire_stacks * 10
+		if(GLOB.tod == "day" || GLOB.tod == "dawn" || GLOB.tod == "dusk")
+			damage += 10
 		new /obj/effect/temp_visual/explosion/fast(get_turf(M))
-	if(M.mob_biotypes & biotype_we_look_for || istype(M, /mob/living/simple_animal/hostile/rogue/skeleton))
+	if(M.mob_biotypes & biotype_we_look_for || istype(M, /mob/living/simple_animal/hostile/rogue/skeleton) || !M.mind || istype(M, /mob/living/simple_animal)) //PVE
 		damage *= fuck_that_guy_multiplier
 	M.adjust_fire_stacks(4+firebust)
 	M.ignite_mob()
@@ -71,13 +73,18 @@
 		user.visible_message("<font color='yellow'>[user] points at [L]!</font>")
 		if(L.anti_magic_check(TRUE, TRUE))
 			return FALSE
-		var/firebust = ((1*user.get_skill_level(associated_skill)) - 1) //Your miracle skill increase them, 2 JOURNMAN, 3 EXPERT, 4 MASTER, 5 LEGENDARY.
+		var/firebust = (user.get_skill_level(associated_skill) - 1) //Your miracle skill increase them, 2 JOURNMAN, 3 EXPERT, 4 MASTER, 5 LEGENDARY.
 		if(firebust < 1)
 			firebust = 1
-		if(firebust >= 5) //LEGENDARY ASTRATAN
+		if(GLOB.tod == "day" || GLOB.tod == "dawn" || GLOB.tod == "dusk")
+			firebust += 1
+		if(firebust >= 5) //LEGENDARY ASTRATAN, or MASTER casts it on day.
 			new /obj/effect/hotspot(get_turf(L))
 		L.adjust_fire_stacks(firebust, /datum/status_effect/fire_handler/fire_stacks/divine)
 		L.ignite_mob()
+		if(!L.mind || istype(L, /mob/living/simple_animal)) //Firestacks not effective VS carbon-AL enemy. Simple mobs don't take fire damage.
+			L.adjustFireLoss(10*firebust) //10 * skill-1. Legendary cast take 50 burn damage for non-minded creatures. 
+
 		return TRUE
 
 	// Spell interaction with ignitable objects (burn wooden things, light torches up)
@@ -86,6 +93,7 @@
 		if(O.fire_act())
 			user.visible_message("<font color='yellow'>[user] points at [O], igniting it with sacred flames!</font>")
 			O.fire_act()
+
 			return TRUE
 		else
 			to_chat(user, span_warning("You point at [O], but it fails to catch fire."))
@@ -237,8 +245,10 @@
 			playsound(L, 'sound/magic/magic_nulled.ogg', 100)
 			return
 		if(L.fire_stacks != 0)
-			if(L.fire_stacks >= 10)
+			if(L.fire_stacks >= 20) //cap
 				firemodificator = 0 //any*0 = 0
+			if(!L.mind || istype(L, /mob/living/simple_animal)) //PVE stuff. Fire not effective weapon.
+				L.adjustFireLoss(10*L.fire_stacks) //Simple or carbon-AI creatures take 10 damage * 1 firestack.
 			var/firest = L.fire_stacks*firemodificator
 			new /obj/effect/temp_visual/firewave/spark(T)
 			sleep(1 SECONDS)
@@ -295,7 +305,7 @@
 		if(assocskill > SKILL_LEVEL_NOVICE)
 			per_bonus++
 		duration *= assocskill
-	if(GLOB.tod == "day" || GLOB.tod == "dawn")
+	if(GLOB.tod == "day" || GLOB.tod == "dawn" || GLOB.tod == "dusk") //dusk added, so long nights.
 		per_bonus++
 		duration *= 2
 	if(per_bonus > 0)
@@ -429,7 +439,7 @@
 	swingsound = list('sound/items/firelight.ogg')
 	attached_spell = /obj/effect/proc_holder/spell/targeted/touch/summonrogueweapon/astratagrasp
 	wbalance = WBALANCE_HEAVY
-	force = 20
+	force = 0
 	damtype = BURN
 	wdefense = 0
 	associated_skill = /datum/skill/magic/holy //EHEHEHEHEHEH
@@ -462,6 +472,10 @@
 	var/skill = usr.get_skill_level(/datum/skill/magic/holy)
 	wdefense += skill
 	fprob = 10 * skill
+	if(skill <= 4)
+		force = 5 * skill
+	else
+		force = 20
 
 /obj/item/melee/touch_attack/rogueweapon/astratagrasp/attack_self()
 	attached_spell.remove_hand()
@@ -474,9 +488,12 @@
 	if(istype(user.a_intent, /datum/intent/use))
 		if(isliving(target))
 			var/mob/living/M = target
+			var/skill = usr.get_skill_level(/datum/skill/magic/holy)
 			if(M.fire_stacks <= 0)
 				return
 			if(cooldown)
+				return
+			if(skill == 1) //Nope, devoute user.
 				return
 			user.visible_message("<font color='yellow'>[user] points at [M], flame rends out!</font>")
 			M.extinguish_mob()
@@ -486,6 +503,9 @@
 			var/obj/item/O = target
 			var/mob/living/carbon/human/H = usr
 			var/cost = 0
+			var/dist = get_dist(O, user)
+			if(dist > 1)
+				return
 			if(istype(O, /obj/item/ash))
 				cost = 20
 			if(istype(O, /obj/item/reagent_containers/food/snacks/grown/rogue/fyritius))
