@@ -2,6 +2,7 @@
 	name = "Sacred Flame"
 	desc = "Deals damage and ignites target, Deals extra damage to undead."
 	overlay_state = "sacredflame"
+	base_icon_state = "regalyscroll"
 	req_items = list(/obj/item/clothing/neck/roguetown/psicross)
 	associated_skill = /datum/skill/magic/holy
 	antimagic_allowed = TRUE
@@ -48,6 +49,7 @@
 	name = "Ignition"
 	desc = "Ignites target."
 	overlay_state = "sacredflame"
+	base_icon_state = "regalyscroll"
 	releasedrain = 15
 	chargedrain = 0
 	chargetime = 0
@@ -104,6 +106,7 @@
 	name = "Anastasis"
 	desc = "Focus Astratas energy though a stationary psycross, reviving the target from death."
 	overlay_state = "revive"
+	base_icon_state = "regalyscroll"
 	releasedrain = 90
 	chargedrain = 0
 	chargetime = 50
@@ -199,6 +202,7 @@
 	Cast on self, for burning all lighting object in radius."
 	clothes_req = FALSE
 	overlay_state = "astraflame"
+	base_icon_state = "regalyscroll"
 	sound = 'sound/magic/whiteflame.ogg'
 	range = 8
 	releasedrain = 30
@@ -271,6 +275,7 @@
 	name = "Astratan Gaze"
 	desc = "Removes the limit on your vision, letting you see behind you for a time, lasts longer during the dae and gives a perception bonus to those skilled and holy arts."
 	overlay_state = "astrata_gaze"
+	base_icon_state = "regalyscroll"
 	releasedrain = 10
 	chargedrain = 0
 	chargetime = 0
@@ -336,6 +341,7 @@
 	name = "Flame Body"
 	desc = "Hide from the fire under the gaze of Astrata"
 	overlay_state = "createlight"
+	base_icon_state = "regalyscroll"
 	releasedrain = 10
 	chargedrain = 0
 	chargetime = 0
@@ -429,6 +435,7 @@
 	drawmessage = "I prepare to perform a miracle incantation."
 	dropmessage = "I release my miracle focus."
 	overlay_state = "astratagrasp"
+	base_icon_state = "regalyscroll"
 	chargedrain = 0
 	chargetime = 0
 	releasedrain = 5 // this influences -every- cost involved in the spell's functionality, if you want to edit specific features, do so in handle_cost
@@ -724,6 +731,7 @@
 	name = "Immolation"
 	desc = "Ignite a target in holy flames, burning those that surround them. Fire burns brighter within devout Astratans."
 	overlay_state = "immolation"
+	base_icon_state = "regalyscroll"
 	range = 2
 	chargetime = 0.5 SECONDS
 	invocations = list("By sacred fire, be cleansed!")

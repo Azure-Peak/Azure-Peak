@@ -13,7 +13,7 @@
 					/obj/effect/proc_holder/spell/invoked/blood_heal			= CLERIC_T1,
 					/obj/effect/proc_holder/spell/invoked/projectile/lightningbolt/sacred_flame_rogue	= CLERIC_T1,
 					/obj/effect/proc_holder/spell/invoked/astrataspark          = CLERIC_T2,
-					/obj/effect/proc_holder/spell/invoked/heal					= CLERIC_T2,
+					/obj/effect/proc_holder/spell/invoked/heal/astrata			= CLERIC_T2,
 					/obj/effect/proc_holder/spell/invoked/revive				= CLERIC_T3,
 					/obj/effect/proc_holder/spell/invoked/immolation			= CLERIC_T4,
 	)
