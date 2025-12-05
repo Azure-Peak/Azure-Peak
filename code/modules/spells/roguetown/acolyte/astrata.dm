@@ -236,7 +236,7 @@
 		new /obj/effect/temp_visual/firewave/spark(T)
 		sleep(2 SECONDS)
 		explosion(T, -1, 0, 0, 0, 0, flame_range = 2, soundin = 'sound/misc/explode/incendiary (1).ogg')
-		sleep(10 SECONDS)
+		sleep(12 SECONDS)
 		O.extinguish()
 	for(var/mob/living/L in T.contents) //doubles firestacks
 		if(L == user)
