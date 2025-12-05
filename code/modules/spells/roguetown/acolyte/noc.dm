@@ -299,19 +299,16 @@
 		var/mob/living/carbon/human/target = targets[1]
 		var/mob/living/carbon/human/H = user
 		if(target == user)
-			H.apply_status_effect(/datum/status_effect/buff/wise_moon, H.get_skill_level(associated_skill))
-			return FALSE
-		if(user.mind?.has_rituos == TRUE) //One cast on one night.
-			to_chat(user, "I need wait to next night!")
+			revert_cast()
 			return FALSE
 		if(GLOB.tod == "day" || GLOB.tod == "dawn")
 			to_chat(user, "Sun covers a moon with it's rays!")
+			revert_cast()
 			return FALSE
 		user.visible_message("<font color='blue'>[user] points on [target]!</font>")
 		target.visible_message("<font color='blue'>You feel your mind is filled with curious ideas, and your understanding of what you know is growing..</font>")
 		if(target.mind?.sleep_adv)
 			target.mind.sleep_adv.sleep_adv_points += 1*H.get_skill_level(associated_skill)
-			user.mind?.has_rituos = TRUE //i use zizo mechanic
 		return TRUE
 	revert_cast()
 	return FALSE
@@ -434,6 +431,7 @@
 	. = ..()
 	if(GLOB.tod == "day" || GLOB.tod == "dawn")
 		to_chat(user, "Sun covers a moon with it's rays!")
+		revert_cast()
 		return FALSE
 	var/checkrange = (range + user.get_skill_level(/datum/skill/magic/holy)) //+1 range per holy skill up to a potential of 8.
 	for(var/mob/living/M in range(checkrange, user))
@@ -495,10 +493,10 @@
 
 /obj/effect/proc_holder/spell/self/wisescroll/cast(mob/living/carbon/human/user)
 	. = ..()
-	/*if(GLOB.tod == "day" || GLOB.tod == "dawn")
+	if(GLOB.tod == "day" || GLOB.tod == "dawn")
 		to_chat(user, "Sun covers a moon with it's rays!")
 		revert_cast()
-		return FALSE*/
+		return FALSE
 	for(var/obj/item/I in range(1, user))
 		if(istype(I, /obj/item/natural/feather))
 			feather_check = TRUE

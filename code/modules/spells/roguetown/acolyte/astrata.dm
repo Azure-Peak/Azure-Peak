@@ -95,11 +95,11 @@
 		if(O.fire_act())
 			user.visible_message("<font color='yellow'>[user] points at [O], igniting it with sacred flames!</font>")
 			O.fire_act()
-
 			return TRUE
 		else
 			to_chat(user, span_warning("You point at [O], but it fails to catch fire."))
 			return FALSE
+	revert_cast()
 	return FALSE
 
 /obj/effect/proc_holder/spell/invoked/revive
@@ -226,6 +226,7 @@
 	var/turf/T = get_turf(targets[1])
 	if(T.z != user.z)
 		to_chat(span_warning("You can't cast this spell on a different z-level!"))
+		revert_cast()
 		return FALSE
 	for(var/obj/effect/hotspot/H in T.contents)
 		new /obj/effect/temp_visual/firewave/spark(T)
