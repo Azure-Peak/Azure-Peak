@@ -249,6 +249,9 @@
 				firemodificator = 0 //any*0 = 0
 			if(!L.mind || istype(L, /mob/living/simple_animal)) //PVE stuff. Fire not effective weapon.
 				L.adjustFireLoss(10*L.fire_stacks) //Simple or carbon-AI creatures take 10 damage * 1 firestack.
+				if(iscarbon(L)) //Carbon AI momentaly removes their firestaks.
+					var/mob/living/carbon/C = L
+					C.adjustFireLoss(C.getFireLoss()) //Double burn damage.
 			var/firest = L.fire_stacks*firemodificator
 			new /obj/effect/temp_visual/firewave/spark(T)
 			sleep(1 SECONDS)
@@ -382,12 +385,24 @@
 /datum/status_effect/buff/dragonhide/fireresist/proc/continue_proc()
 	var/mob/living/carbon/human/user = owner
 	var/skill = user.get_skill_level(/datum/skill/magic/holy)
+	var/cost = 30 //Novice
+	switch(skill)
+		if(2)
+			cost = 25
+		if(3)
+			cost = 20
+		if(4)
+			cost = 10
+		if(5)
+			cost = 5
+		if(6)
+			cost = 0
 	if(user.has_status_effect(/datum/status_effect/buff/dragonhide/fireresist) || user.has_status_effect(/datum/status_effect/buff/dragonhide/fireresist/buff))
-		if((user.devotion?.devotion - 10) < 0)
+		if((user.devotion?.devotion - cost) < 0)
 			to_chat(user, span_warning("I don't have enough devotion!"))
 			return
-		user.devotion?.update_devotion(-10)
-		to_chat(user, "<font color='purple'>I lose 10 devotion!</font>")
+		user.devotion?.update_devotion(-cost)
+		to_chat(user, "<font color='purple'>I lose [cost] devotion!</font>")
 		if(skill >= 4) //Expert++
 			user.apply_status_effect(/datum/status_effect/buff/dragonhide/fireresist/buff)
 		else
@@ -430,6 +445,7 @@
 	mob_overlay_icon = 'icons/roguetown/misc/miraclestuff.dmi'
 	lefthand_file = 'icons/roguetown/misc/miraclestuff.dmi'
 	righthand_file = 'icons/roguetown/misc/miraclestuff.dmi'
+	sleeved = 'icons/roguetown/misc/miraclestuff.dmi'
 	icon_state = "flamei"
 	item_state = "flameh"
 	color = "#ffbb00ff"
@@ -471,6 +487,7 @@
 /obj/item/melee/touch_attack/rogueweapon/astratagrasp/proc/skillcheck()
 	var/skill = usr.get_skill_level(/datum/skill/magic/holy)
 	wdefense += skill
+	wdefense_dynamic += skill
 	fprob = 10 * skill
 	if(skill <= 4)
 		force = 5 * skill
