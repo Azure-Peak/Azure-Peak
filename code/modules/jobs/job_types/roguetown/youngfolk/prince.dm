@@ -82,7 +82,7 @@
 	name = "Introverted Bookworm"
 	tutorial = "Despite your standing, sociability is not your strong suit, and you have kept mostly to yourself and your books. This hardly makes you a favourite among the lords and ladies of the court, and an exit from your room is often met with amusement from nobility and servants alike. But maybe... just maybe, some of your reading interests may be bearing fruit."
 	outfit = /datum/outfit/job/roguetown/heir/bookworm
-	traits_applied = list(TRAIT_ARCYNE_T1, TRAIT_MAGEARMOR)
+	traits_applied = list(TRAIT_ARCYNE_T2, TRAIT_MAGEARMOR)
 	category_tags = list(CTAG_HEIR)
 	subclass_stats = list(
 		STATKEY_STR = -1,
