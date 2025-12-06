@@ -454,3 +454,38 @@
 /obj/item/book/granter/spell_points/voiddragon
 	name = "Arcyne Void Insight"
 	spellpoints = 6
+
+/obj/item/book/granter/arcynetyr
+	name = "Arcyne Manuscript"
+	icon_state = "scrollpurple"
+	icon = 'icons/roguetown/items/misc.dmi'
+	desc = "This scroll giving the reader new arcyne Tyr."
+	oneuse = TRUE
+	drop_sound = 'sound/foley/dropsound/paper_drop.ogg'
+	pickup_sound =  'sound/blank.ogg'
+	var/spellpoints = 3
+	dreamcost = 15
+
+/obj/item/book/granter/arcynetyr/on_reading_finished(mob/user)
+	var/arcaneskill = user.get_skill_level(/datum/skill/magic/arcane)
+	if(arcaneskill >= SKILL_LEVEL_NOVICE) //Required arcane skill of NOVICE or higher to use the granter
+		to_chat(user, span_notice("I absorb the insights on the scroll, and feel more adept at spellcraft!"))
+		if(HAS_TRAIT(user, TRAIT_ARCYNE_T3) || HAS_TRAIT(user, TRAIT_ARCYNE_T4))
+			user.mind.adjust_spellpoints(5)
+		if(HAS_TRAIT(user, TRAIT_ARCYNE_T2))
+			ADD_TRAIT(user, TRAIT_ARCYNE_T3, TRAIT_GENERIC)
+			user.mind.adjust_spellpoints(1)
+			REMOVE_TRAIT(user, TRAIT_ARCYNE_T2, TRAIT_GENERIC)
+		if(HAS_TRAIT(user, TRAIT_ARCYNE_T1))
+			ADD_TRAIT(user, TRAIT_ARCYNE_T2, TRAIT_GENERIC)
+			user.mind.adjust_spellpoints(1)
+			REMOVE_TRAIT(user, TRAIT_ARCYNE_T1, TRAIT_GENERIC)
+		onlearned(user)
+
+/obj/item/book/granter/arcynetyr/onlearned(mob/living/carbon/user)
+	..()
+	if(oneuse == TRUE)
+		name = "siphoned scroll"
+		desc = "A scroll once inscribed with magical scripture. The surface is now barren of knowledge, siphoned by someone else. It's utterly useless."
+		icon_state = "scroll"
+		user.visible_message(span_warning("[src] has had its magic ink ripped from the scroll!"))

@@ -289,7 +289,7 @@
 	invocations = list("Moon will give you a bright dream.")
 	invocation_type = "shout"
 	associated_skill = /datum/skill/magic/holy
-	recharge_time = 4 SECONDS
+	recharge_time = 30 MINUTES
 	miracle = TRUE
 	devotion_cost = 30
 
@@ -308,7 +308,8 @@
 		user.visible_message("<font color='blue'>[user] points on [target]!</font>")
 		target.visible_message("<font color='blue'>You feel your mind is filled with curious ideas, and your understanding of what you know is growing..</font>")
 		if(target.mind?.sleep_adv)
-			target.mind.sleep_adv.sleep_adv_points += 1*H.get_skill_level(associated_skill)
+			target.mind.sleep_adv.sleep_adv_points += H.get_skill_level(associated_skill)
+			H.mind.sleep_adv.sleep_adv_points += floor(H.get_skill_level(associated_skill)/2) //good boy, take a bun.
 		return TRUE
 	revert_cast()
 	return FALSE
@@ -484,12 +485,10 @@
 	base_icon_state = "wisescroll"
 	associated_skill = /datum/skill/magic/holy
 	antimagic_allowed = FALSE
-	recharge_time = 1 SECONDS
+	recharge_time = 30 MINUTES
 	miracle = TRUE
 	devotion_cost = 200
 	var/points_need = 10
-	var/pointlock = TRUE
-	var/feather_check = FALSE
 
 /obj/effect/proc_holder/spell/self/wisescroll/cast(mob/living/carbon/human/user)
 	. = ..()
@@ -497,6 +496,9 @@
 		to_chat(user, "Sun covers a moon with it's rays!")
 		revert_cast()
 		return FALSE
+
+	var/feather_check = FALSE
+
 	for(var/obj/item/I in range(1, user))
 		if(istype(I, /obj/item/natural/feather))
 			feather_check = TRUE
@@ -507,6 +509,7 @@
 		return FALSE
 
 	var/points = 0
+	var/pointlock = TRUE
 	for(var/obj/item/I in range(1, user))
 		if(points < points_need)
 			if(istype(I, /obj/item/paper))
@@ -535,9 +538,16 @@
 
 	for(var/i = 1, i <= scroll_choices.len, i++)
 		var/obj/item/book/granter/scroll_item = scroll_choices [i]
+		if(scroll_item.dreamcost > user.mind.sleep_adv.sleep_adv_points)
+			continue
 		choices["☾ [scroll_item.dreamcost] |☾| [scroll_item.name] ☾"] = scroll_item
 
 	choices = sortList(choices)
+
+	if(user.mind.sleep_adv.sleep_adv_points == 0)
+		to_chat(user, "Not enough dreampoints!")	
+		revert_cast()
+		return FALSE
 
 	var/choice = input("☾Choose a scroll☾, points left: [user.mind.sleep_adv.sleep_adv_points]") as null|anything in choices
 	var/obj/item/book/granter/item = choices[choice]
@@ -554,8 +564,8 @@
 		return FALSE		// not enough spell points
 	else
 		user.mind.sleep_adv.sleep_adv_points -= item.dreamcost
-		new item (get_turf(user))
-		user.put_in_hands(item)
+		var/obj/item/I = new item (get_turf(user))
+		user.put_in_hands(I)
 		return TRUE
 
 /obj/effect/temp_visual/moon/spell
@@ -585,6 +595,7 @@ GLOBAL_LIST_INIT(noc_scrolls, (list(/obj/item/book/granter/spell/blackstone/fire
 		/obj/item/book/granter/spell/blackstone/enlarge,
 		/obj/item/book/granter/spell/blackstone/leap,
 		/obj/item/book/granter/spell_points,
+		/obj/item/book/granter/arcynetyr,
 		/obj/item/book/granter/spell/blackstone/repulse,
 		/obj/item/book/granter/spell/blackstone/blade_burst,
 		/obj/item/book/granter/spell/blackstone/haste,
