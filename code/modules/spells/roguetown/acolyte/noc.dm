@@ -9,7 +9,7 @@
 	clothes_req = FALSE
 	releasedrain = 30
 	chargedrain = 0
-	chargetime = 0
+	chargetime = 1
 	range = 7
 	warnie = "sydwarning"
 	movement_interrupt = FALSE
@@ -19,7 +19,7 @@
 	invocation_type = "none" //can be none, whisper, emote and shout
 	associated_skill = /datum/skill/magic/holy
 	devotion_cost = 15
-	recharge_time = 15 SECONDS
+	recharge_time = 20 SECONDS
 	req_items = list(/obj/item/clothing/neck/roguetown/psicross)
 	miracle = TRUE
 	cost = 3
