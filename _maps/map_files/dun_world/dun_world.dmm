@@ -23913,6 +23913,10 @@
 "gen" = (
 /turf/open/floor/rogue/wood/nosmooth,
 /area/rogue/indoors/town/church/chapel)
+"get" = (
+/mob/living/simple_animal/hostile/retaliate/rogue/fox,
+/turf/open/floor/rogue/snow,
+/area/rogue/outdoors/woods/southeast)
 "gev" = (
 /obj/structure/fluff/railing/border{
 	dir = 8;
@@ -79622,7 +79626,7 @@
 /turf/open/floor/rogue/herringbone,
 /area/rogue/under/cave/dukecourt)
 "ulf" = (
-/mob/living/simple_animal/hostile/retaliate/rogue/mudcrab,
+/mob/living/simple_animal/hostile/retaliate/rogue/fox,
 /turf/open/floor/rogue/cobblerock,
 /area/rogue/outdoors/woods/southeast)
 "ulm" = (
@@ -308063,7 +308067,7 @@ xgc
 mHd
 mHd
 rhP
-sCD
+get
 hJk
 hJk
 xRY
@@ -312543,7 +312547,7 @@ jYX
 jYX
 xRY
 xRY
-sCD
+get
 xRY
 xRY
 rhP
@@ -313427,7 +313431,7 @@ xRY
 xRY
 xRY
 xRY
-sCD
+get
 xRY
 xRY
 xRY
@@ -314355,7 +314359,7 @@ nTP
 jYX
 jYX
 xRY
-sCD
+get
 xRY
 xRY
 xRY
@@ -315690,7 +315694,7 @@ xRY
 xRY
 jYX
 jYX
-sCD
+get
 rhP
 rhP
 xRY
