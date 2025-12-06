@@ -16,7 +16,7 @@
 	sound = 'sound/magic/churn.ogg'
 	spell_tier = 2 // Combat spell
 	invocations = list("Noc blinds thee of thy sins!")
-	invocation_type = "shout" //can be none, whisper, emote and shout
+	invocation_type = "none" //can be none, whisper, emote and shout
 	associated_skill = /datum/skill/magic/holy
 	devotion_cost = 15
 	recharge_time = 15 SECONDS
@@ -30,7 +30,7 @@
 		if(target.anti_magic_check(TRUE, TRUE))
 			return FALSE
 		target.visible_message(span_warning("[user] points at [target]'s eyes!"),span_warning("My eyes are covered in darkness!"))
-		var/strength = min(user.get_skill_level(associated_skill) * 4, 4)
+		var/strength = min(user.get_skill_level(associated_skill) * 3, 3)
 		target.blind_eyes(strength)
 		return TRUE
 	revert_cast()
