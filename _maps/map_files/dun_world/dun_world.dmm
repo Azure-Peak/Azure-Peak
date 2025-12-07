@@ -2621,9 +2621,6 @@
 /turf/open/floor/rogue/ruinedwood/herringbone,
 /area/rogue/indoors/town)
 "aIo" = (
-/obj/effect/decal/cobbleedge{
-	dir = 9
-	},
 /obj/structure/fluff/walldeco/barbersign,
 /turf/open/floor/rogue/snow,
 /area/rogue/outdoors/town)
@@ -5512,9 +5509,6 @@
 /turf/open/floor/rogue/carpet/lord/center,
 /area/rogue/under/cave/licharena/bossroom)
 "bue" = (
-/obj/effect/decal/cobbleedge{
-	dir = 8
-	},
 /obj/structure/fluff/railing/wood/north{
 	layer = 2.7;
 	pixel_y = 7
@@ -20972,13 +20966,6 @@
 	},
 /turf/open/floor/rogue/cobble,
 /area/rogue/under/cave/his_vault/two)
-"flt" = (
-/obj/effect/decal/edge{
-	color = "#3f3f3f";
-	dir = 1
-	},
-/turf/open/floor/rogue/snow,
-/area/rogue/outdoors/town)
 "fly" = (
 /obj/structure/flora/ausbushes/brflowers,
 /obj/effect/decal/mossy{
@@ -32591,13 +32578,6 @@
 /obj/machinery/light/rogue/wallfire/candle,
 /turf/open/floor/rogue/greenstone,
 /area/rogue/under/town/basement/keep)
-"ijk" = (
-/obj/effect/decal/cobbleedge{
-	dir = 10;
-	icon_state = "cobbleedge-w"
-	},
-/turf/open/floor/rogue/snow,
-/area/rogue/outdoors/town)
 "ijn" = (
 /obj/structure/bearpelt{
 	pixel_x = 16;
@@ -44582,12 +44562,6 @@
 /obj/effect/decal/remains/human,
 /turf/open/floor/rogue/hexstone,
 /area/rogue/under/cave/skeletoncrypt)
-"lgD" = (
-/obj/effect/decal/edge{
-	color = "#3f3f3f"
-	},
-/turf/open/floor/rogue/snow,
-/area/rogue/outdoors/town)
 "lgI" = (
 /obj/structure/vine,
 /turf/open/floor/rogue/dirt,
@@ -47070,15 +47044,6 @@
 /obj/structure/rack/rogue,
 /turf/open/floor/rogue/dirt,
 /area/rogue/indoors/cave)
-"lLq" = (
-/obj/effect/decal/edge{
-	color = "#3f3f3f"
-	},
-/obj/structure/fluff/littlebanners/bluewhite{
-	pixel_y = -6
-	},
-/turf/open/floor/rogue/snow,
-/area/rogue/outdoors/town)
 "lLu" = (
 /obj/structure/chair/stool/rogue,
 /turf/open/floor/carpet/stellar,
@@ -74191,9 +74156,6 @@
 /turf/open/floor/rogue/grass,
 /area/rogue/indoors/town/manor)
 "sEl" = (
-/obj/effect/decal/cobbleedge{
-	dir = 8
-	},
 /obj/structure/fluff/railing/wood,
 /turf/open/floor/rogue/snowpatchy,
 /area/rogue/outdoors/rtfield)
@@ -81345,14 +81307,6 @@
 /obj/effect/spawner/lootdrop/roguetown/dungeon/weapons,
 /turf/open/floor/rogue/dirt,
 /area/rogue/outdoors/beach)
-"uxF" = (
-/obj/structure/flora/roguegrass,
-/obj/effect/decal/cobbleedge{
-	dir = 10;
-	icon_state = "cobbleedge-e"
-	},
-/turf/open/floor/rogue/snow,
-/area/rogue/outdoors/town)
 "uxJ" = (
 /obj/structure/closet/crate/chest/wicker,
 /obj/item/reagent_containers/glass/bucket,
@@ -82552,6 +82506,13 @@
 "uMx" = (
 /turf/open/water/swamp/deep,
 /area/rogue/outdoors/mountains)
+"uMy" = (
+/obj/structure/fluff/railing/wood/north{
+	layer = 2.7;
+	pixel_y = 7
+	},
+/turf/open/floor/rogue/snow,
+/area/rogue/outdoors/town)
 "uMB" = (
 /obj/structure/fluff/railing/border/east,
 /turf/closed/mineral/random/rogue,
@@ -82758,13 +82719,6 @@
 /obj/structure/flora/hotspring_rocks/small/three,
 /turf/open/floor/rogue/naturalstone,
 /area/rogue/under/cave/his_vault)
-"uPj" = (
-/obj/effect/decal/cobbleedge{
-	dir = 10;
-	icon_state = "cobbleedge-e"
-	},
-/turf/open/floor/rogue/snow,
-/area/rogue/outdoors/rtfield)
 "uPk" = (
 /turf/open/floor/rogue/hexstone,
 /area/rogue/under/cave/goblinfort)
@@ -86982,10 +86936,6 @@
 /turf/open/floor/rogue/cobblerock,
 /area/rogue/indoors/inq)
 "vSm" = (
-/obj/effect/decal/edge{
-	color = "#3f3f3f";
-	dir = 1
-	},
 /obj/structure/chair/bench/church/smallbench{
 	pixel_y = 12
 	},
@@ -249761,10 +249711,10 @@ sns
 sns
 sns
 sns
-lLq
+wTy
 fUS
 qZS
-flt
+fUS
 sns
 sns
 sns
@@ -250213,7 +250163,7 @@ fUS
 sns
 sns
 fUS
-lgD
+fUS
 bfZ
 fGg
 vSm
@@ -250665,10 +250615,10 @@ sns
 sns
 sns
 fUS
-lLq
+wTy
 fUS
 qZS
-flt
+fUS
 sns
 sns
 sns
@@ -252051,7 +252001,7 @@ oHU
 oHU
 oHU
 dpK
-uxF
+ukU
 fUS
 exD
 exD
@@ -252502,9 +252452,9 @@ oHU
 cne
 oHU
 oHU
-ggG
+uMy
 sns
-jLx
+qBn
 exD
 exD
 exD
@@ -254310,9 +254260,9 @@ oHU
 oHU
 oHU
 fUS
-irZ
+uMy
 sns
-jlk
+qBn
 fUS
 exD
 exD
@@ -254763,7 +254713,7 @@ oHU
 fUS
 fUS
 fUS
-ijk
+fUS
 fUS
 fUS
 exD
@@ -276282,7 +276232,7 @@ rDz
 oGS
 ivo
 ivo
-uPj
+ivo
 fqs
 bif
 caD
