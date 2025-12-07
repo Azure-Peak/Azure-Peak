@@ -7409,7 +7409,7 @@
 /turf/open/floor/rogue/ruinedwood/herringbone,
 /area/rogue/indoors/town)
 "bTh" = (
-/mob/living/simple_animal/pet/cat,
+/mob/living/simple_animal/pet/cat/rogue/black/academy,
 /turf/open/floor/rogue/ruinedwood/herringbone_clear,
 /area/rogue/indoors/town/magician)
 "bTk" = (
