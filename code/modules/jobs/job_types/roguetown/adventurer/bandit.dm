@@ -3,8 +3,8 @@
 	flag = BANDIT
 	department_flag = PEASANTS
 	faction = "Station"
-	total_positions = 0
-	spawn_positions = 0
+	total_positions = 4
+	spawn_positions = 4
 	antag_job = TRUE
 	allowed_races = RACES_ALL_KINDS
 	tutorial = "Long ago you did a crime worthy of your bounty being hung on the wall outside of the local inn. You now live with your fellow freemen in the bog, and generally get up to no good."
