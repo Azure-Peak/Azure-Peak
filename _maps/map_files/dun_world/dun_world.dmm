@@ -37379,7 +37379,7 @@
 /obj/structure/fluff/walldeco/church/line{
 	dir = 8
 	},
-/turf/open/floor/rogue/dark_ice,
+/turf/open/water/cleanshallow,
 /area/rogue/indoors/town/magician)
 "juE" = (
 /turf/open/floor/rogue/cobble,
