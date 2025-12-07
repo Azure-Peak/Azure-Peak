@@ -509,6 +509,10 @@ SUBSYSTEM_DEF(job)
 					JobDebug("DO player did not pass special check, Player: [player], Job:[job.title]")
 					continue
 
+				if(job.pop_control > unassigned.len)
+					JobDebug("DO player job did not have enough pop, Player: [player], Job:[job.title]")
+					continue
+
 				// If the player wants that job on this level, then try give it to him.
 				if(player.client.prefs.job_preferences[job.title] == level)
 					// If the job isn't filled
@@ -600,9 +604,6 @@ SUBSYSTEM_DEF(job)
 					continue
 
 				if(!job.special_job_check(player))
-					continue
-
-				if(job.pop_control > unassigned.len)
 					continue
 
 				// We only need 1 person for the required job, the rest can use the normal system
