@@ -33,6 +33,9 @@
 	//How many players have this job
 	var/current_positions = 0
 
+	/// How much pop minimum is required to be able to join. Counts roundstart readied people, too.
+	var/pop_control = 0
+
 	//Whether this job clears a slot when you get a rename prompt.
 	var/antag_job = FALSE
 

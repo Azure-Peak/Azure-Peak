@@ -602,6 +602,9 @@ SUBSYSTEM_DEF(job)
 				if(!job.special_job_check(player))
 					continue
 
+				if(job.pop_control > unassigned.len)
+					continue
+
 				// We only need 1 person for the required job, the rest can use the normal system
 				if((job.current_positions < 1))
 					AssignRole(player, job.title)
