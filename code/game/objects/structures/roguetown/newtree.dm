@@ -2,7 +2,7 @@
 	name = "tree"
 	desc = "The thick core of a tree."
 	icon = 'icons/roguetown/misc/tree.dmi'
-	icon_state = "tree1"
+	icon_state = "burnt"
 	var/tree_type = 1
 	var/base_state
 	blade_dulling = DULLING_CUT
@@ -148,7 +148,7 @@
 	var/turf/target = get_step_multiz(src, UP)
 	if(istype(target, /turf/open/transparent/openspace))
 		var/obj/structure/flora/newtree/T = new(target)
-		T.base_state = "center-leaf[rand(1,2)]"
+		T.base_state = "center-leaf-cold[rand(1,2)]"
 		T.update_icon()
 
 /obj/structure/flora/newtree/proc/build_branches()
@@ -198,7 +198,7 @@
 	name = "branch"
 	desc = "A stable branch, should be safe to walk on."
 	icon = 'icons/roguetown/misc/tree.dmi'
-	icon_state = "branch-end1"
+	icon_state = "branchburnt-end1"
 	attacked_sound = 'sound/misc/woodhit.ogg'
 //	var/tree_type = 1
 	var/base_state = TRUE
@@ -257,18 +257,18 @@
 
 /obj/structure/flora/newleaf/corner
 	icon = 'icons/roguetown/misc/tree.dmi'
-	icon_state = "corner-leaf1"
+	icon_state = "corner-leaf-cold1"
 
 
 /obj/structure/flora/newleaf/corner/Initialize()
 	. = ..()
-	icon_state = "corner-leaf[rand(1,2)]"
+	icon_state = "corner-leaf-cold[rand(1,2)]"
 	update_icon()
 
 /obj/structure/flora/newleaf
 	name = "leaves"
 	icon = 'icons/roguetown/misc/tree.dmi'
-	icon_state = "center-leaf1"
+	icon_state = "center-leaf-cold1"
 	density = FALSE
 	max_integrity = 10
 
