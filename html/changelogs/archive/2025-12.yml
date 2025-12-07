@@ -87,3 +87,9 @@
   - balance: briars curse also increases the wielded force of a weapon
   - bugfix: you no longer fall asleep while doing both kinds of moondust similtaneously
       if you're a baothan
+2025-12-07:
+  WeNeedMorePhoron:
+  - rscadd: Added blood splatter on wall from Caustic Cove made by Posshum.
+  hazelrat:
+  - rscadd: Implemented a significant expansion to the manor kitchen, also including
+      mapping changes to the council office and wine cellar.

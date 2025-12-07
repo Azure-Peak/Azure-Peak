@@ -222,6 +222,7 @@
 				user.update_inv_hands()
 				var/turf/location = get_turf(src)
 				add_splatter_floor(location)
+				add_splatter_wall(location, force = statforce)
 				if(get_dist(user, src) <= 1)	//people with TK won't get smeared with blood
 					user.add_mob_blood(src)
 				var/splatter_dir = get_dir(user, src)

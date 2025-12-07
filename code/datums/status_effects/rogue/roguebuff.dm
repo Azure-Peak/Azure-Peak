@@ -507,16 +507,73 @@
 // Lesser miracle effect end
 
 /atom/movable/screen/alert/status_effect/buff/healing/campfire
-	name = "Warming Respite"
-	desc = "The warmth of a fire soothes my ails."
+	name = "Camp Rest"
+	desc = "The warmth of a fire and a bed soothes my ails."
 	icon_state = "buff"
 
-/datum/status_effect/buff/healing/campfire
+/atom/movable/screen/alert/status_effect/buff/campfire_stamina
+	name = "Warming Respite"
+	desc = "A break by the fire restores some of my energy."
+	icon_state = "buff"
+
+
+#define CAMPFIRE_BASE_FILTER "campfire_stamina"
+
+/datum/status_effect/buff/campfire_stamina
+	id = "stamina_campfire"
+	alert_type = /atom/movable/screen/alert/status_effect/buff/campfire_stamina
+	duration = 5 SECONDS
+	examine_text = "SUBJECTPRONOUN is enjoying a brief respite."
+	var/healing_on_tick = 5
+	var/outline_colour = "#7e6a3e"
+	var/tech_healing_modifier = 1
+
+/datum/status_effect/buff/campfire_stamina/on_apply()
+	var/filter = owner.get_filter(CAMPFIRE_BASE_FILTER)
+	if (!filter)
+		owner.add_filter(CAMPFIRE_BASE_FILTER, 2, list("type" = "outline", "color" = outline_colour, "alpha" = 60, "size" = 1))
+	return TRUE
+
+/datum/status_effect/buff/campfire_stamina/tick()
+	if(owner.construct)
+		return
+	var/stamheal = healing_on_tick
+	if(!owner.cmode)
+		stamheal *= 2
+	owner.energy_add(stamheal)
+
+/datum/status_effect/buff/campfire_stamina/on_remove()
+	owner.remove_filter(CAMPFIRE_BASE_FILTER)
+
+/datum/status_effect/buff/campfire
 	id = "healing_campfire"
 	alert_type = /atom/movable/screen/alert/status_effect/buff/healing/campfire
 	examine_text = null
-	duration = 10 SECONDS
-	block_combat_mode = TRUE
+	var/healing_on_tick = 2
+	duration = 6 SECONDS
+
+/datum/status_effect/buff/campfire/tick()
+	if(owner.cmode)
+		return
+	if(owner.construct)
+		return
+	var/obj/effect/temp_visual/heal/H = new /obj/effect/temp_visual/heal_rogue/campfire(get_turf(owner))
+	H.color = "#c7aa5c"
+	if(owner.blood_volume < BLOOD_VOLUME_OKAY)
+		owner.blood_volume = min(owner.blood_volume+healing_on_tick, BLOOD_VOLUME_OKAY)
+	var/list/wCount = owner.get_wounds()
+	if(length(wCount))
+		owner.heal_wounds(healing_on_tick, list(/datum/wound/slash, /datum/wound/puncture, /datum/wound/bite, /datum/wound/bruise, /datum/wound/dynamic, /datum/wound/dislocation))
+		owner.update_damage_overlays()
+	owner.adjustBruteLoss(-healing_on_tick, 0)
+	owner.adjustFireLoss(-healing_on_tick, 0)
+	owner.adjustOxyLoss(-healing_on_tick, 0)
+	owner.adjustToxLoss(-healing_on_tick, 0)
+	owner.adjustOrganLoss(ORGAN_SLOT_BRAIN, -healing_on_tick)
+	owner.adjustCloneLoss(-healing_on_tick, 0)
+
+#undef CAMPFIRE_BASE_FILTER
+
 
 #define BLOODHEAL_DUR_SCALE_PER_LEVEL 3 SECONDS
 #define BLOODHEAL_RESTORE_DEFAULT 5
@@ -591,7 +648,7 @@
 		if(owner.blood_volume < BLOOD_VOLUME_NORMAL)
 			owner.blood_volume = min(owner.blood_volume + (healing_on_tick + 10), BLOOD_VOLUME_NORMAL)
 		if(wCount.len > 0)
-			owner.heal_wounds(healing_on_tick, list(/datum/wound/slash, /datum/wound/puncture, /datum/wound/bite, /datum/wound/bruise))
+			owner.heal_wounds(healing_on_tick, list(/datum/wound/slash, /datum/wound/puncture, /datum/wound/bite, /datum/wound/bruise, /datum/wound/dynamic))
 			owner.update_damage_overlays()
 		owner.adjustBruteLoss(-healing_on_tick, 0)
 		owner.adjustFireLoss(-healing_on_tick, 0)

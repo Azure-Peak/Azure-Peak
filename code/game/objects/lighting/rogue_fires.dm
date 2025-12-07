@@ -789,6 +789,7 @@
 	max_integrity = 30
 	soundloop = /datum/looping_sound/fireloop
 	var/healing_range = 1
+	var/static/list/acceptable_beds = list(/obj/structure/bed, /obj/structure/flora/roguetree/stump, /obj/item/bedsheet)
 
 /obj/machinery/light/rogue/campfire/process()
 	..()
@@ -798,19 +799,30 @@
 			extinguish()
 
 	if(on)
-		var/list/hearers_in_range = SSspatial_grid.orthogonal_range_search(src, SPATIAL_GRID_CONTENTS_TYPE_HEARING, healing_range)
+		var/list/hearers_in_range = get_hearers_in_LOS(healing_range, src, RECURSIVE_CONTENTS_CLIENT_MOBS)
 		for(var/mob/living/carbon/human/human in hearers_in_range)
 			var/distance = get_dist(src, human)
-			if(distance > healing_range)
+			if(distance > healing_range || human.construct)
 				continue
-			if(!human.has_status_effect(/datum/status_effect/buff/healing/campfire))
-				to_chat(human, "The warmth of the fire comforts me, affording me a short rest.")
-			// Astrata followers get enhanced fire healing
-			var/buff_strength = 1
-			if(human.patron?.type == /datum/patron/divine/astrata || human.patron?.type == /datum/patron/inhumen/matthios) //Fire and the fire-stealer
-				buff_strength = 1.5
-			human.apply_status_effect(/datum/status_effect/buff/healing/campfire, buff_strength)
+			if(!human.has_status_effect(/datum/status_effect/buff/campfire_stamina))
+				to_chat(human, span_info("The warmth of the fire comforts me, affording me a short rest. I would need to lie down on a bed to get a better rest."))
+			human.apply_status_effect(/datum/status_effect/buff/campfire_stamina)
 			human.add_stress(/datum/stressevent/campfire)
+			if(human.resting && !human.cmode)
+				var/valid_bed = FALSE
+				var/turf/T = get_turf(human)
+				for(var/obj/O in T.contents)
+					for(var/path in acceptable_beds)
+						if(ispath(O.type, path))
+							valid_bed = TRUE
+							break
+					if(valid_bed)
+						break
+				if(valid_bed)
+					if(!human.has_status_effect(/datum/status_effect/buff/campfire))
+						to_chat(human, span_info("Settling in by the flames lifts the burdens of the week."))
+					human.apply_status_effect(/datum/status_effect/buff/campfire)
+
 
 /obj/machinery/light/rogue/campfire/onkick(mob/user)
 	if(isliving(user) && on)

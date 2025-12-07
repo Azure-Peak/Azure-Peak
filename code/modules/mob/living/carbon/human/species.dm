@@ -1799,6 +1799,7 @@ GLOBAL_LIST_EMPTY(roundstart_races)
 				new /obj/effect/temp_visual/dir_setting/bloodsplatter(H.loc, splatter_dir)
 				if(istype(location))
 					H.add_splatter_floor(location)
+					H.add_splatter_wall(location, force = I.force)
 				if(get_dist(user, H) <= 1)	//people with TK won't get smeared with blood
 					user.add_mob_blood(H)
 

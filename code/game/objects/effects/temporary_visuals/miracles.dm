@@ -45,3 +45,7 @@
 	alpha = 180
 	pixel_x = rand(-12, 12)
 	pixel_y = rand(-9, 0)
+
+/obj/effect/temp_visual/heal_rogue/campfire
+	name = "campfire heal"
+	icon_state = "heal_campfire"

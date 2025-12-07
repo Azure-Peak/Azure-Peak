@@ -197,6 +197,7 @@
 			new /obj/effect/temp_visual/dir_setting/bloodsplatter(target_loca, splatter_dir)
 			if(prob(33))
 				L.add_splatter_floor(target_loca)
+				L.add_splatter_wall(target_loca, force = damage, spill_amount = 2) //Projectiles hurt and spray blood everywhere behind and around of course.
 
 	if(impact_effect_type && !hitscan)
 		new impact_effect_type(target_loca, hitx, hity)
