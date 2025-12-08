@@ -346,7 +346,7 @@
 	possible_item_intents = list(/datum/intent/use)
 	parrysound = list('sound/magic/magic_nulled.ogg')
 	swingsound = list('sound/magic/churn.ogg')
-	attached_spell = /obj/effect/proc_holder/spell/targeted/touch/summonrogueweapon/astratagrasp
+	attached_spell = /obj/effect/proc_holder/spell/targeted/touch/summonrogueweapon/nocgrasp
 	wbalance = WBALANCE_HEAVY
 	force = 0
 	damtype = BURN

@@ -570,11 +570,97 @@ GLOBAL_LIST_EMPTY(arenafolks) // we're just going to use a list and add to it. S
 			new /mob/living/simple_animal/hostile/rogue/skeleton/ravox_ghost/sword(get_step(user, SOUTH),user)
 		for(var/mob/living/simple_animal/hostile/rogue/skeleton/ravox_ghost/swarm in view(3, user))
 			swarm.ai_controller.set_blackboard_key(BB_BASIC_MOB_CURRENT_TARGET, target) 
-			if(swarm.buffed == FALSE)
+			if(swarm.buffed_r == FALSE)
 				swarm.maxHealth *= skill
 				swarm.health *= skill
 				addtimer(CALLBACK(swarm, TYPE_PROC_REF(/mob/living/simple_animal/hostile/rogue/skeleton, deathtime), TRUE), time)
-				swarm.buffed = TRUE
+				swarm.buffed_r = TRUE
 		return TRUE
 	revert_cast()
 	return FALSE
+
+/obj/effect/proc_holder/spell/targeted/touch/summonrogueweapon/ravoxgrasp
+	name = "Ravox Grasp"
+	desc = "Summon the sacred light from your soul and let it envelop your hands."
+	clothes_req = FALSE
+	drawmessage = "I prepare to perform a miracle incantation."
+	dropmessage = "I release my miracle focus."
+	overlay_state = "justice_hand"
+	action_icon = 'icons/mob/actions/ravoxmiracles.dmi'
+	overlay_icon = 'icons/mob/actions/ravoxmiracles.dmi'
+	chargedrain = 0
+	chargetime = 0
+	releasedrain = 5 // this influences -every- cost involved in the spell's functionality, if you want to edit specific features, do so in handle_cost
+	chargedloop = /datum/looping_sound/invokegen
+	associated_skill = /datum/skill/magic/holy
+	hand_path = /obj/item/melee/touch_attack/rogueweapon/ravoxgrasp
+	devotion_cost = 30
+	miracle = TRUE
+
+/obj/item/melee/touch_attack/rogueweapon/ravoxgrasp
+	name = "Justice Hand"
+	desc = "The Sacred Light of Ravox. \n\
+	click on self to remove it."
+	icon = 'icons/roguetown/misc/miraclestuff.dmi'
+	mob_overlay_icon = 'icons/roguetown/misc/miraclestuff.dmi'
+	lefthand_file = 'icons/roguetown/misc/miraclestuff.dmi'
+	righthand_file = 'icons/roguetown/misc/miraclestuff.dmi'
+	icon_state = "justicei"
+	item_state = "justicei"
+	possible_item_intents = list(/datum/intent/use)
+	parrysound = list('sound/magic/magic_nulled.ogg')
+	swingsound = list('sound/magic/churn.ogg')
+	attached_spell = /obj/effect/proc_holder/spell/targeted/touch/summonrogueweapon/ravoxgrasp
+	wbalance = WBALANCE_HEAVY
+	force = 0
+	damtype = BURN
+	wdefense = 0
+	associated_skill = /datum/skill/magic/holy //EHEHEHEHEHEH
+	can_parry = TRUE
+
+/obj/item/melee/touch_attack/rogueweapon/ravoxgrasp/Initialize()
+	. = ..()
+	addtimer(CALLBACK(src, PROC_REF(skillcheck), src), wait = 1)
+	ADD_TRAIT(src, TRAIT_NODROP, ABSTRACT_ITEM_TRAIT)
+
+/obj/item/melee/touch_attack/rogueweapon/ravoxgrasp/attack(mob/target, mob/living/carbon/user)
+	if(!iscarbon(user)) //Look ma, no hands
+		return
+	if(!(user.mobility_flags & MOBILITY_USE))
+		to_chat(user, "<span class='warning'>I can't reach out!</span>")
+		return
+	..()
+
+/obj/item/melee/touch_attack/rogueweapon/ravoxgrasp/proc/skillcheck()
+	var/skill = usr.get_skill_level(/datum/skill/magic/holy)
+	wdefense_dynamic += skill
+	wdefense += skill
+
+/obj/item/melee/touch_attack/rogueweapon/ravoxgrasp/afterattack(atom/target, mob/living/carbon/user, params, proximity)
+	if(isobj(target))
+		var/obj/item/O = target
+		var/mob/living/carbon/human/H = usr
+		var/cost = 0
+		var/dist = get_dist(O, user)
+		if(dist > 1)
+			return
+		if(istype(O, /obj/item/natural/head) || istype(O, /obj/item/bodypart/head))
+			if(O.sellprice > 0)
+				cost = 100
+		if(cost >= 100)
+			H.devotion?.update_devotion(cost)
+			to_chat(user, "<font color='purple'>I gain [cost] devotion!</font>")
+			qdel(O)
+		return
+	if(isliving(target))
+		var/mob/living/M = target
+	return
+
+/obj/item/melee/touch_attack/rogueweapon/ravoxgrasp/pre_attack(atom/target, mob/living/user, params)
+	if(isliving(target))
+		var/mob/living/L = target
+		if (do_after(user, 1 SECONDS, target = L))
+			wash_atom(target, 1)
+			to_chat(user, span_notice("I render \the [target.name] clean."))
+			return TRUE
+	return ..()
