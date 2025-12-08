@@ -11,6 +11,15 @@
 	abstract_type = /datum/crafting_recipe/roguetown/survival/
 	skillcraft = /datum/skill/craft/crafting
 
+/datum/crafting_recipe/roguetown/survival/flint //custar recipe for flint. 
+	name = "flint"
+	result = /obj/item/flint
+	reqs =  list(/obj/item/scrap = 2,
+				/obj/item/natural/whetstone = 2,
+				/obj/item/natural/fibers = 1,
+	)
+	craftdiff = 3
+
 /datum/crafting_recipe/roguetown/survival/repairkitclothbad
 	name = "fabric patch" //9 fiber
 	result = /obj/item/repair_kit/bad
