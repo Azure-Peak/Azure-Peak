@@ -652,8 +652,6 @@ GLOBAL_LIST_EMPTY(arenafolks) // we're just going to use a list and add to it. S
 			to_chat(user, "<font color='purple'>I gain [cost] devotion!</font>")
 			qdel(O)
 		return
-	if(isliving(target))
-		var/mob/living/M = target
 	return
 
 /obj/item/melee/touch_attack/rogueweapon/ravoxgrasp/pre_attack(atom/target, mob/living/user, params)
