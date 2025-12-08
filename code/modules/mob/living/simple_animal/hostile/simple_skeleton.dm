@@ -248,6 +248,8 @@
 	STASPD = 8
 	maxHealth = 25
 	health = 25
+	pixel_x = -16
+	pixel_y = -16
 	harm_intent_damage = 10
 	melee_damage_lower = 25
 	melee_damage_upper = 30
