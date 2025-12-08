@@ -257,6 +257,7 @@
 	loot = list(/obj/item/ash,	/obj/item/ash)
 	can_have_ai = FALSE //disable native ai
 	AIStatus = AI_OFF
+	var/buffed = FALSE
 
 /mob/living/simple_animal/hostile/rogue/skeleton/ravox_ghost/spear
 	icon_state = "rghost_s"

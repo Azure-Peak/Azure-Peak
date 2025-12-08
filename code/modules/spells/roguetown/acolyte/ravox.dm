@@ -570,9 +570,11 @@ GLOBAL_LIST_EMPTY(arenafolks) // we're just going to use a list and add to it. S
 			new /mob/living/simple_animal/hostile/rogue/skeleton/ravox_ghost/sword(get_step(user, SOUTH),user)
 		for(var/mob/living/simple_animal/hostile/rogue/skeleton/ravox_ghost/swarm in view(3, user))
 			swarm.ai_controller.set_blackboard_key(BB_BASIC_MOB_CURRENT_TARGET, target) 
-			swarm.maxHealth *= skill
-			swarm.health *= skill
-			addtimer(CALLBACK(swarm, TYPE_PROC_REF(/mob/living/simple_animal/hostile/rogue/skeleton, deathtime), TRUE), time)
+			if(swarm.buffed == FALSE)
+				swarm.maxHealth *= skill
+				swarm.health *= skill
+				addtimer(CALLBACK(swarm, TYPE_PROC_REF(/mob/living/simple_animal/hostile/rogue/skeleton, deathtime), TRUE), time)
+				swarm.buffed = TRUE
 		return TRUE
 	revert_cast()
 	return FALSE
