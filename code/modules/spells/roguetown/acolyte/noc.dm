@@ -444,7 +444,7 @@
 	return TRUE
 
 /datum/status_effect/light_buff/moon
-	id = "orison_light_buff"
+	id = "moon_light_buff"
 	alert_type = /atom/movable/screen/alert/status_effect/light_buff
 	duration = 15 SECONDS
 	color_mob_light = "#3936eacf"

@@ -4,7 +4,9 @@
 /obj/effect/proc_holder/spell/self/divine_strike
 	name = "Divine Strike"
 	desc = "Bless your next strike to do extra damage and slow the target."
-	overlay = "createlight"
+	action_icon = 'icons/mob/actions/ravoxmiracles.dmi'
+	overlay_icon = 'icons/mob/actions/ravoxmiracles.dmi'
+	overlay_state = "divine_strike"
 	recharge_time = 1 MINUTES
 	movement_interrupt = FALSE
 	chargedrain = 0
@@ -80,6 +82,8 @@
 /obj/effect/proc_holder/spell/self/call_to_arms
 	name = "Call to Arms"
 	desc = "Grants you and all allies nearby a buff to their strength, willpower, and constitution."
+	action_icon = 'icons/mob/actions/ravoxmiracles.dmi'
+	overlay_icon = 'icons/mob/actions/ravoxmiracles.dmi'
 	overlay_state = "call_to_arms"
 	recharge_time = 5 MINUTES
 	req_items = list(/obj/item/clothing/neck/roguetown/psicross)
@@ -109,7 +113,9 @@
 /obj/effect/proc_holder/spell/invoked/persistence
 	name = "Persistence"
 	desc = "Harms Undead and encourages the livings wounds to close faster."
-	overlay_state = "astrata"
+	action_icon = 'icons/mob/actions/ravoxmiracles.dmi'
+	overlay_icon = 'icons/mob/actions/ravoxmiracles.dmi'
+	overlay_state = "persistence"
 	releasedrain = 30
 	chargedrain = 0
 	chargetime = 0
@@ -179,12 +185,14 @@
 /obj/effect/proc_holder/spell/invoked/tug_of_war
 	name = "Tug of War"
 	desc = "Casts out a chain that tries to pull the target closer."
+	action_icon = 'icons/mob/actions/ravoxmiracles.dmi'
+	overlay_icon = 'icons/mob/actions/ravoxmiracles.dmi'
 	overlay_state = "ravox_tug"
 	recharge_time = 1 MINUTES
-	movement_interrupt = TRUE
+	movement_interrupt = FALSE //WTF, targeted fetch and one minute recharge
 	chargedrain = 0
-	chargetime = 1 SECONDS
-	charging_slowdown = 2
+	chargetime = 5
+	charging_slowdown = 0
 	chargedloop = null
 	associated_skill = /datum/skill/magic/holy
 	req_items = list(/obj/item/clothing/neck/roguetown/psicross)
@@ -244,10 +252,10 @@
 /obj/effect/proc_holder/spell/invoked/challenge
 	name = "Challenge"
 	desc = "Bring an opponent with you to Ravoxian Trial. Engage in 3 minute combat."
+	action_icon = 'icons/mob/actions/ravoxmiracles.dmi'
 	overlay_icon = 'icons/mob/actions/ravoxmiracles.dmi'
 	overlay_state = "ravoxchallenge"
 	action_icon_state = "ravoxchallenge"
-	action_icon = 'icons/mob/actions/ravoxmiracles.dmi'
 	recharge_time = 10 MINUTES
 	movement_interrupt = FALSE
 	chargedrain = 0
@@ -396,3 +404,157 @@ GLOBAL_LIST_EMPTY(arenafolks) // we're just going to use a list and add to it. S
 	. = ..()
 	addtimer(CALLBACK(src, GLOBAL_PROC_REF(qdel), src), 3 MINUTES)
 	addtimer(CALLBACK(src,TYPE_PROC_REF(/obj/structure/fluff/ravox, spawnprotection)), 179 SECONDS)
+
+//T0
+
+/obj/effect/proc_holder/spell/self/balance_immune
+	name = "Strong Stand"
+	desc = "Remove and prevent unbalance effect for next Ten seconds."
+	action_icon = 'icons/mob/actions/ravoxmiracles.dmi'
+	overlay_icon = 'icons/mob/actions/ravoxmiracles.dmi'
+	overlay_state = "balance_immune"
+	recharge_time = 1 MINUTES
+	movement_interrupt = FALSE
+	chargedrain = 0
+	chargetime = 1 SECONDS
+	charging_slowdown = 2
+	chargedloop = null
+	associated_skill = /datum/skill/magic/holy
+	req_items = list(/obj/item/clothing/neck/roguetown/psicross)
+	sound = 'sound/magic/timestop.ogg'
+	invocations = list("By Ravox!")
+	invocation_type = "shout"
+	antimagic_allowed = TRUE
+	miracle = TRUE
+	devotion_cost = 30
+
+/obj/effect/proc_holder/spell/self/balance_immune/cast(mob/living/user)
+	if(!isliving(user))
+		return FALSE
+	user.apply_status_effect(/datum/status_effect/balance_immune)
+	if(user.has_status_effect(/datum/status_effect/incapacitating/off_balanced))
+		user.remove_status_effect(/datum/status_effect/incapacitating/off_balanced)
+	return TRUE
+
+/datum/status_effect/balance_immune
+	id = "balance_immune"
+	status_type = STATUS_EFFECT_UNIQUE
+	duration = 10 SECONDS
+	alert_type = /atom/movable/screen/alert/status_effect/buff/divine_strike
+	on_remove_on_mob_delete = TRUE
+	var/datum/weakref/buffed_item
+
+//T0
+
+/obj/effect/proc_holder/spell/self/provocation
+	name = "Provocation"
+	desc = "make all the hostile creatures around, reset their current targets and attacking you."
+	action_icon = 'icons/mob/actions/ravoxmiracles.dmi'
+	overlay_icon = 'icons/mob/actions/ravoxmiracles.dmi'
+	overlay_state = "provocation"
+	recharge_time = 1 MINUTES
+	movement_interrupt = FALSE
+	chargedrain = 0
+	chargetime = 1 SECONDS
+	charging_slowdown = 2
+	chargedloop = null
+	associated_skill = /datum/skill/magic/holy
+	req_items = list(/obj/item/clothing/neck/roguetown/psicross)
+	sound = 'sound/magic/timestop.ogg'
+	invocations = list("By Ravox!")
+	invocation_type = "shout"
+	antimagic_allowed = TRUE
+	miracle = TRUE
+	devotion_cost = 30
+
+/obj/effect/proc_holder/spell/self/provocation/cast(mob/living/user)
+	if(!isliving(user))
+		return FALSE
+	var/checkgate = FALSE
+	var/skill = user.get_skill_level(/datum/skill/magic/holy)
+	var/dist = (3 + skill)
+	for(var/mob/living/mob in view(dist, get_turf(user)))
+		if(!mob.mind)
+			mob.ai_controller.set_blackboard_key(BB_BASIC_MOB_CURRENT_TARGET, user)
+			checkgate = TRUE
+	if(checkgate == TRUE)
+		user.apply_status_effect(/datum/status_effect/buff/ravox_provocation, skill)
+	return TRUE
+
+/atom/movable/screen/alert/status_effect/buff/ravox_provocation
+	name = "Provocation"
+	desc = "All hostile mob attack me! For Ravox!"
+	icon_state = "astrata_gaze"
+
+/datum/status_effect/buff/ravox_provocation
+	id = "ravox_provocation"
+	alert_type = /atom/movable/screen/alert/status_effect/buff/ravox_provocation
+	duration = 10 SECONDS
+
+/datum/status_effect/buff/ravox_provocation/on_creation(mob/living/new_owner, assocskill)
+	var/con_bonus = 0
+	if(assocskill)
+		if(assocskill == 1)
+			duration = duration
+		else
+			duration *= assocskill-1
+		con_bonus = assocskill-1
+	if(con_bonus > 0)
+		effectedstats = list(STATKEY_CON = con_bonus, STATKEY_WIL = con_bonus)
+	. = ..()
+
+/datum/status_effect/buff/ravox_prv/on_apply(assocskill)
+	to_chat(owner, span_info("For Ravox!"))
+	. = ..()
+
+/obj/effect/proc_holder/spell/invoked/raise_warrior_spirits
+	name = "Warrior Spirits"
+	desc = "Summon spirits to tear at an opponent!"
+	range = 7
+	sound = list('sound/magic/magnet.ogg')
+	action_icon = 'icons/mob/actions/ravoxmiracles.dmi'
+	overlay_icon = 'icons/mob/actions/ravoxmiracles.dmi'
+	overlay_state = "warriors"
+	req_items = list(/obj/item/clothing/neck/roguetown/psicross)
+	releasedrain = 40
+	chargetime = 30
+	warnie = "spellwarning"
+	no_early_release = TRUE
+	charging_slowdown = 1
+	chargedloop = /datum/looping_sound/invokeholy
+	gesture_required = TRUE 
+	associated_skill = /datum/skill/magic/holy
+	recharge_time = 90 SECONDS
+	hide_charge_effect = TRUE
+	miracle = TRUE
+	devotion_cost = 50
+	invocations = list("Awaken, rancor!!")
+	invocation_type = "shout"
+
+/obj/effect/proc_holder/spell/invoked/raise_warrior_spirits/cast(list/targets, mob/living/user)
+	. = ..()
+	if(!("[user.mind.current.real_name]_faction" in user.faction))  //FUCK VVV
+		user.faction |= "[user.mind.current.real_name]_faction"
+
+	if(!locate(/obj/effect/proc_holder/spell/invoked/gravemark) in user.mind?.spell_list) //OFF VVV
+		user.mind?.AddSpell(new /obj/effect/proc_holder/spell/invoked/gravemark/no_sprite)
+
+	if(!locate(/obj/effect/proc_holder/spell/invoked/minion_order) in user.mind?.spell_list)  //SPELLGRANT IN CLASS FILE
+		user.mind?.AddSpell(new /obj/effect/proc_holder/spell/invoked/minion_order)
+
+	if(isliving(targets[1]))
+		var/mob/living/target = targets[1]
+		if(user.dir == SOUTH || user.dir == NORTH)
+			new /mob/living/simple_animal/hostile/rogue/skeleton/ravox_ghost/spear(get_turf(user),user)
+			new /mob/living/simple_animal/hostile/rogue/skeleton/ravox_ghost/axe(get_step(user, EAST),user)
+			new /mob/living/simple_animal/hostile/rogue/skeleton/ravox_ghost/sword(get_step(user, WEST),user)
+		else
+			new /mob/living/simple_animal/hostile/rogue/skeleton/ravox_ghost/spear(get_turf(user),user)
+			new /mob/living/simple_animal/hostile/rogue/skeleton/ravox_ghost/axe(get_step(user, NORTH),user)
+			new /mob/living/simple_animal/hostile/rogue/skeleton/ravox_ghost/sword(get_step(user, SOUTH),user)
+		for(var/mob/living/simple_animal/hostile/rogue/skeleton/ravox_ghost/swarm in view(3, user))
+			swarm.ai_controller.set_blackboard_key(BB_BASIC_MOB_CURRENT_TARGET, target) 
+			addtimer(CALLBACK(swarm, TYPE_PROC_REF(/mob/living/simple_animal/hostile/rogue/skeleton, deathtime), TRUE), 1 MINUTES)
+		return TRUE
+	revert_cast()
+	return FALSE
