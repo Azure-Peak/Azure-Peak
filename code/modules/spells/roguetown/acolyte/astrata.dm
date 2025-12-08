@@ -409,7 +409,8 @@
 			to_chat(user, span_warning("I don't have enough devotion!"))
 			return
 		user.devotion?.update_devotion(-cost)
-		to_chat(user, "<font color='purple'>I lose [cost] devotion!</font>")
+		if(cost != 0)
+			to_chat(user, "<font color='purple'>I lose [cost] devotion!</font>")
 		if(skill >= 4) //Expert++
 			user.apply_status_effect(/datum/status_effect/buff/dragonhide/fireresist/buff)
 		else

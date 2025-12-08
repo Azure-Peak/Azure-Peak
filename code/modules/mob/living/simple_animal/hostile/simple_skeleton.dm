@@ -246,8 +246,8 @@
 	STACON = 14
 	STASTR = 13
 	STASPD = 8
-	maxHealth = 25
-	health = 25
+	maxHealth = 50
+	health = 50
 	pixel_x = -16
 	pixel_y = -16
 	harm_intent_damage = 10

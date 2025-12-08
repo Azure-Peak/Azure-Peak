@@ -422,7 +422,7 @@ GLOBAL_LIST_EMPTY(arenafolks) // we're just going to use a list and add to it. S
 	associated_skill = /datum/skill/magic/holy
 	req_items = list(/obj/item/clothing/neck/roguetown/psicross)
 	sound = 'sound/magic/timestop.ogg'
-	invocations = list("By Ravox!")
+	invocations = list("I stand, by Ravox!")
 	invocation_type = "shout"
 	antimagic_allowed = TRUE
 	miracle = TRUE
@@ -431,9 +431,21 @@ GLOBAL_LIST_EMPTY(arenafolks) // we're just going to use a list and add to it. S
 /obj/effect/proc_holder/spell/self/balance_immune/cast(mob/living/user)
 	if(!isliving(user))
 		return FALSE
+	var/skill = user.get_skill_level(/datum/skill/magic/holy)
 	user.apply_status_effect(/datum/status_effect/balance_immune)
 	if(user.has_status_effect(/datum/status_effect/incapacitating/off_balanced))
 		user.remove_status_effect(/datum/status_effect/incapacitating/off_balanced)
+	if(skill >= 2)
+		if(!(user.mobility_flags & MOBILITY_STAND))
+			user.SetUnconscious(0)
+			user.SetSleeping(0)
+			user.SetParalyzed(0)
+			user.SetImmobilized(0)
+			user.SetStun(0)
+			user.SetKnockdown(0)
+			user.set_resting(FALSE)
+	if(skill >= 3)
+		user.apply_status_effect(/datum/status_effect/buff/order/onfeet)
 	return TRUE
 
 /datum/status_effect/balance_immune
@@ -461,7 +473,7 @@ GLOBAL_LIST_EMPTY(arenafolks) // we're just going to use a list and add to it. S
 	associated_skill = /datum/skill/magic/holy
 	req_items = list(/obj/item/clothing/neck/roguetown/psicross)
 	sound = 'sound/magic/timestop.ogg'
-	invocations = list("By Ravox!")
+	invocations = list("By Ravox, come to me!")
 	invocation_type = "shout"
 	antimagic_allowed = TRUE
 	miracle = TRUE
@@ -528,7 +540,7 @@ GLOBAL_LIST_EMPTY(arenafolks) // we're just going to use a list and add to it. S
 	hide_charge_effect = TRUE
 	miracle = TRUE
 	devotion_cost = 50
-	invocations = list("Awaken, rancor!!")
+	invocations = list("Soldiers, come to me!!")
 	invocation_type = "shout"
 
 /obj/effect/proc_holder/spell/invoked/raise_warrior_spirits/cast(list/targets, mob/living/user)
@@ -542,6 +554,10 @@ GLOBAL_LIST_EMPTY(arenafolks) // we're just going to use a list and add to it. S
 	if(!locate(/obj/effect/proc_holder/spell/invoked/minion_order) in user.mind?.spell_list)  //SPELLGRANT IN CLASS FILE
 		user.mind?.AddSpell(new /obj/effect/proc_holder/spell/invoked/minion_order)
 
+	var/skill = user.get_skill_level(/datum/skill/magic/holy)
+	var/time = 1 MINUTES
+	time *= skill
+
 	if(isliving(targets[1]))
 		var/mob/living/target = targets[1]
 		if(user.dir == SOUTH || user.dir == NORTH)
@@ -554,7 +570,9 @@ GLOBAL_LIST_EMPTY(arenafolks) // we're just going to use a list and add to it. S
 			new /mob/living/simple_animal/hostile/rogue/skeleton/ravox_ghost/sword(get_step(user, SOUTH),user)
 		for(var/mob/living/simple_animal/hostile/rogue/skeleton/ravox_ghost/swarm in view(3, user))
 			swarm.ai_controller.set_blackboard_key(BB_BASIC_MOB_CURRENT_TARGET, target) 
-			addtimer(CALLBACK(swarm, TYPE_PROC_REF(/mob/living/simple_animal/hostile/rogue/skeleton, deathtime), TRUE), 1 MINUTES)
+			swarm.maxHealth *= skill
+			swarm.health *= skill
+			addtimer(CALLBACK(swarm, TYPE_PROC_REF(/mob/living/simple_animal/hostile/rogue/skeleton, deathtime), TRUE), time)
 		return TRUE
 	revert_cast()
 	return FALSE

@@ -564,6 +564,12 @@
 		return FALSE		// not enough spell points
 	else
 		user.mind.sleep_adv.sleep_adv_points -= item.dreamcost
+		if(item.dreamcost == 3)
+			recharge_time = 5 MINUTES
+		if(item.dreamcost == 6)
+			recharge_time = 15 MINUTES
+		if(item.dreamcost >= 9)
+			recharge_time = 30 MINUTES
 		var/obj/item/I = new item (get_turf(user))
 		user.put_in_hands(I)
 		return TRUE
