@@ -86,6 +86,7 @@
 	icon_state = "studleather"
 	item_state = "studleather"
 	blocksound = SOFTHIT
+	prevent_crits = TRUE
 	armor = ARMOR_LEATHER_STUDDED
 	nodismemsleeves = TRUE
 	body_parts_covered = COVERAGE_TORSO
@@ -107,6 +108,7 @@
 	icon_state = "roguearmor_belt"
 	item_state = "roguearmor_belt"
 	armor = ARMOR_LEATHER_GOOD
+	prevent_crits = TRUE
 	max_integrity = ARMOR_INT_CHEST_LIGHT_MASTER
 	sellprice = 20
 

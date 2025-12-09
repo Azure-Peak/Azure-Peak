@@ -611,7 +611,7 @@ GLOBAL_VAR_INIT(rpg_loot_items, FALSE)
 				var/count = 0
 				for(var/zone in zonelist)
 					var/add_divider = TRUE
-					if(count == (length(zonelist)))
+					if(count == (length(zonelist) - 1))
 						add_divider = FALSE
 					inspec += "<b>[capitalize(zone)]</b> [add_divider ? "| " : ""]"
 					count++
@@ -624,7 +624,7 @@ GLOBAL_VAR_INIT(rpg_loot_items, FALSE)
 				var/list/dynlist = body_parts_covered2organ_names(C.body_parts_covered_dynamic, precise = TRUE)
 				for(var/zonedyn in dynlist)
 					var/add_divider = TRUE
-					if(count == (length(dynlist)))
+					if(count == (length(dynlist) - 1))
 						add_divider = FALSE
 
 					inspec += "<b>[capitalize(zonedyn)]</b> [add_divider ? "| " : ""]"
@@ -633,7 +633,7 @@ GLOBAL_VAR_INIT(rpg_loot_items, FALSE)
 					count++
 				for(var/zone in zones)
 					var/add_divider = TRUE
-					if(count == (length(dynlist)))
+					if(count == (length(dynlist) - 1))
 						add_divider = FALSE
 					inspec += "<b><font color = '#7e0000'>[capitalize(zone)]</font></b> [add_divider ? "| " : ""]"
 					count++

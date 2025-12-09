@@ -85,7 +85,7 @@
 
 #define ARMOR_LEATHER list("blunt" = 60, "slash" = 50, "stab" = 40, "piercing" = 30, "fire" = 0, "acid" = 0)
 #define ARMOR_SPELLSINGER list("blunt" = 20, "slash" = 100, "stab" = 80, "piercing" = 80, "fire" = 0, "acid" = 0)
-#define ARMOR_LEATHER_GOOD list("blunt" = 20, "slash" = 100, "stab" = 80, "piercing" = 60, "fire" = 0, "acid" = 0)
+#define ARMOR_LEATHER_GOOD list("blunt" = 20, "slash" = 80, "stab" = 100, "piercing" = 60, "fire" = 0, "acid" = 0)
 #define ARMOR_LEATHER_STUDDED list("blunt" = 20, "slash" = 100, "stab" = 80, "piercing" = 50, "fire" = 0, "acid" = 0) // Pseudo metallic armor therefore worse vs blunt and piercing
 
 // Medium AC

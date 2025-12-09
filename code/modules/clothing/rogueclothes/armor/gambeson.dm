@@ -48,6 +48,7 @@
 	desc = "A gambeson with additional padding layers, hardened to make it more durable. It still does not compare to leather or metal, but it will probably stop a crossbow bolt, so it's typically worn to complement proper armor."
 	icon_state = "gambesonp"
 	armor = ARMOR_PADDED_GOOD
+	prevent_crits = TRUE
 	max_integrity = ARMOR_INT_CHEST_LIGHT_MASTER
 	sellprice = 25
 	color = "#976E6B"

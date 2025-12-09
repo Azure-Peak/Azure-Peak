@@ -34,7 +34,7 @@
 	armor = ARMOR_PLATE
 	blocksound = PLATEHIT
 	resistance_flags = FIRE_PROOF
-	max_integrity = ARMOR_INT_SIDE_STEEL
+	max_integrity = ARMOR_INT_SIDE_CLOTH
 	pickup_sound = 'sound/foley/equip/equip_armor_plate.ogg'
 	equip_sound = 'sound/foley/equip/equip_armor_plate.ogg'
 	anvilrepair = /datum/skill/craft/armorsmithing
