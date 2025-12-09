@@ -465,8 +465,8 @@ var/global/list/anvil_recipe_prices[][]
 				return TRUE
 			if(istype(O, /obj/item/clothing))
 				if(O.smeltresult == /obj/item/ash)
-					return FALSE
 					revert_cast()
+					return FALSE
 				var/obj/item/clothing/A = O
 				quality = (A.max_integrity / A.obj_integrity) * 100
 				order_type = "armor"
