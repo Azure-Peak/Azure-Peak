@@ -30,11 +30,11 @@
 	penfactor = 5
 
 /datum/intent/axe/chop/battle
-	damfactor = 1.2 //36 on battleaxe
-	penfactor = 40
+	penfactor = 50
 
 /datum/intent/axe/cut/battle
 	penfactor = 25
+	damfactor = 1.2
 
 /datum/intent/axe/bash
 	name = "bash"
@@ -134,13 +134,13 @@
 // Battle Axe
 /obj/item/rogueweapon/stoneaxe/battle
 	force = 25
-	force_wielded = 30
+	force_wielded = 32
 	possible_item_intents = list(/datum/intent/axe/cut/battle, /datum/intent/axe/chop/battle, /datum/intent/axe/bash, /datum/intent/sword/peel)
 	wlength = WLENGTH_LONG		//It's a big battle-axe.
 	name = "battle axe"
 	desc = "A steel battleaxe of war. Has a wicked edge."
 	icon_state = "battleaxe"
-	max_blade_int = 300
+	max_blade_int = 220
 	smeltresult = /obj/item/ingot/steel
 	smelt_bar_num = 2
 	gripped_intents = list(/datum/intent/axe/cut/battle ,/datum/intent/axe/chop/battle, /datum/intent/axe/bash, /datum/intent/sword/peel)
@@ -410,7 +410,7 @@
 	max_blade_int = 400
 	smeltresult = /obj/item/ingot/silver
 	gripped_intents = null
-	wdefense = 5
+	wdefense = 6
 	is_silver = TRUE
 	blade_dulling = DULLING_SHAFT_METAL
 
@@ -474,9 +474,13 @@
 	walking_stick = TRUE
 
 /datum/intent/axe/cut/battle/greataxe
+	penfactor = 10
+	damfactor = 1
 	reach = 2
 
 /datum/intent/axe/chop/battle/greataxe
+	penfactor = 20
+	damfactor = 1.2
 	reach = 2
 
 /obj/item/rogueweapon/greataxe

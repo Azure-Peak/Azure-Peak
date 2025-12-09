@@ -7,7 +7,6 @@
 	icon_state = "haubergeon"
 	armor = ARMOR_MAILLE
 	max_integrity = ARMOR_INT_CHEST_MEDIUM_STEEL
-	prevent_crits = list(BCLASS_CUT, BCLASS_STAB, BCLASS_CHOP, BCLASS_BLUNT)
 	blocksound = CHAINHIT
 	drop_sound = 'sound/foley/dropsound/chain_drop.ogg'
 	pickup_sound = 'sound/foley/equip/equip_armor_chain.ogg'
@@ -32,6 +31,7 @@
 	desc = "Frayed bronze rings and rotting leather, woven together to form a short maille-atekon. There's a breach along the rings, where the leather is wet with blackness: the aftermath of a mortal wound, delivered centuries ago."
 	icon_state = "ancientchain"
 	max_integrity = ARMOR_INT_CHEST_MEDIUM_DECREPIT
+	prevent_crits = FALSE
 	color = "#bb9696"
 	smeltresult = /obj/item/ingot/aaslag
 	anvilrepair = null
@@ -69,6 +69,7 @@
 	desc = "Frayed bronze rings and rotting leather, woven together to form a sleeved maille-atekon. Once, the armored vestments of a paladin: now, the withered veil of Zizo's undying legionnaires."
 	icon_state = "ancienthauberk"
 	max_integrity = ARMOR_INT_CHEST_MEDIUM_DECREPIT
+	prevent_crits = FALSE
 	color = "#bb9696"
 	smeltresult = /obj/item/ingot/aaslag
 	anvilrepair = null

@@ -78,21 +78,15 @@
 #define ARMOR_BLACKBAG list("blunt" = 100, "slash" = 100, "stab" = 100, "piercing" = 100, "fire" = 75, "acid" = 100)	
 
 // Light AC
-// In general, light armor should always be vulnerable to stab, somewhat weak vs high pen slash (for now).
-// Also good protection vs arrows.
-// Minimal blunt rating should be 50, because normal blunt multiplier is 1.4, thus making sure it trade poorly
-// Capped to 90 blunt rating. This means light armor will take approx. 75% damage from blunt-weapon blunt attacks.
-// So blunt weapon can still be used against light armor but just not as effective.  
 #define ARMOR_CLOTHING list("blunt" = 0, "slash" = 10, "stab" = 20, "piercing" = 0, "fire" = 0, "acid" = 0)
 #define ARMOR_PADDED_BAD list("blunt" = 50, "slash" = 30, "stab" = 20, "piercing" = 40, "fire" = 0, "acid" = 0)
-#define ARMOR_PADDED list("blunt" = 70, "slash" = 40, "stab" = 30, "piercing" = 50, "fire" = 0, "acid" = 0)
-#define ARMOR_PADDED_GOOD list("blunt" = 90, "slash" = 50, "stab" = 50, "piercing" = 80, "fire" = 0, "acid" = 0)
+#define ARMOR_PADDED list("blunt" = 70, "slash" = 80, "stab" = 100, "piercing" = 50, "fire" = 0, "acid" = 0)
+#define ARMOR_PADDED_GOOD list("blunt" = 90, "slash" = 80, "stab" = 100, "piercing" = 40, "fire" = 0, "acid" = 0)
 
-// Leather should always be 10 less than their padded counterparts for piercing but is good vs arrows still.
 #define ARMOR_LEATHER list("blunt" = 60, "slash" = 50, "stab" = 40, "piercing" = 30, "fire" = 0, "acid" = 0)
-#define ARMOR_SPELLSINGER list("blunt" = 70, "slash" = 70, "stab" = 50, "piercing" = 40, "fire" = 0, "acid" = 0)
-#define ARMOR_LEATHER_GOOD list("blunt" = 90, "slash" = 70, "stab" = 50, "piercing" = 50, "fire" = 0, "acid" = 0)
-#define ARMOR_LEATHER_STUDDED list("blunt" = 80, "slash" = 80, "stab" = 60, "piercing" = 40, "fire" = 0, "acid" = 0) // Pseudo metallic armor therefore worse vs blunt and piercing
+#define ARMOR_SPELLSINGER list("blunt" = 20, "slash" = 100, "stab" = 80, "piercing" = 80, "fire" = 0, "acid" = 0)
+#define ARMOR_LEATHER_GOOD list("blunt" = 20, "slash" = 100, "stab" = 80, "piercing" = 60, "fire" = 0, "acid" = 0)
+#define ARMOR_LEATHER_STUDDED list("blunt" = 20, "slash" = 100, "stab" = 80, "piercing" = 50, "fire" = 0, "acid" = 0) // Pseudo metallic armor therefore worse vs blunt and piercing
 
 // Medium AC
 #define ARMOR_CUIRASS list("blunt" = 40, "slash" = 100, "stab" = 80, "piercing" = 40, "fire" = 0, "acid" = 0)	
@@ -100,18 +94,22 @@
 
 // Heavy AC
 // Also applicable to fully metallic armor (i.e. helmet)
-#define ARMOR_PLATE_BAD list("blunt" = 10, "slash" = 50, "stab" = 50, "piercing" = 20, "fire" = 0, "acid" = 0) // For really bad / copper plate
-#define ARMOR_PLATE list("blunt" = 10, "slash" = 100, "stab" = 80, "piercing" = 40, "fire" = 0, "acid" = 0)
-#define ARMOR_PLATE_BSTEEL list("blunt" = 80, "slash" = 100, "stab" = 90, "piercing" = 80, "fire" = 0, "acid" = 0) // It's EVIL. OH GOD.
+#define ARMOR_PLATE_BAD list("blunt" = 5, "slash" = 50, "stab" = 50, "piercing" = 20, "fire" = 0, "acid" = 0) // For really bad / copper plate
+#define ARMOR_PLATE list("blunt" = 5, "slash" = 100, "stab" = 100, "piercing" = 40, "fire" = 0, "acid" = 0)
+#define ARMOR_PLATE_BSTEEL list("blunt" = 5, "slash" = 100, "stab" = 100, "piercing" = 80, "fire" = 0, "acid" = 0) // It's EVIL. OH GOD.
 
 //Antag / Special / Unique armor defines
 #define ARMOR_VAMP list("blunt" = 100, "slash" = 100, "stab" = 90, "piercing" = 80, "fire" = 0, "acid" = 0)
-#define ARMOR_WWOLF list("blunt" = 70, "slash" = 90, "stab" = 80, "piercing" = 70, "fire" = 40, "acid" = 0)
+#define ARMOR_WWOLF list("blunt" = 70, "slash" = 100, "stab" = 80, "piercing" = 70, "fire" = 40, "acid" = 0)
 #define ARMOR_DRAGONSCALE list("blunt" = 100, "slash" = 100, "stab" = 100, "fire" = 50, "acid" = 0)
-#define ARMOR_ASCENDANT list("blunt" = 50, "slash" = 100, "stab" = 80, "piercing" = 80, "fire" = 0, "acid" = 0)
+#define ARMOR_ASCENDANT list("blunt" = 50, "slash" = 100, "stab" = 100, "piercing" = 80, "fire" = 0, "acid" = 0)
 #define ARMOR_GRUDGEBEARER list("blunt" = 40, "slash" = 200, "stab" = 200, "piercing" = 100, "fire" = 0, "acid" = 0)
 #define ARMOR_ZIZOCONCSTRUCT list("blunt" = 60, "slash" = 70, "stab" = 70, "piercing" = 60, "fire" = 40, "acid" = 10)
 #define ARMOR_DRAGONHIDE list("blunt" = 30, "slash" = 30, "stab" = 30, "piercing" = 30, "fire" = 40, "acid" = 0) // snowflake armor for dragonhide, fire resist but lower other values from the ring since more integ
 #define ARMOR_FATEWEAVER list("blunt" = 10, "slash" = 100, "stab" = 100, "piercing" = 100, "fire" = 0, "acid" = 0)
 // Blocks every hit, at least once
-#define ARMOR_GRONN_LIGHT list("blunt" = 80, "slash" = 80, "stab" = 30, "piercing" = 30, "fire" = 0, "acid" = 0)
+#define ARMOR_GRONN_LIGHT list("blunt" = 80, "slash" = 100, "stab" = 80, "piercing" = 40, "fire" = 0, "acid" = 0)
+
+//Heavy armor slowdown applied per heavy AC clothing item worn. CAN stack!
+#define ARMOR_HEAVY_SLOWDOWN 0.2
+#define ARMOR_HEAVY_FULL_SLOWDOWN 0.3

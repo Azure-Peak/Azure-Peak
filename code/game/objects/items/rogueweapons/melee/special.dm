@@ -510,7 +510,7 @@
 	force = 15
 	force_wielded = 25
 	minstr = 10
-	max_blade_int = 130
+	max_blade_int = 150
 	anvilrepair = /datum/skill/craft/carpentry
 	smeltresult = /obj/item/rogueore/coal
 	wdefense = 4

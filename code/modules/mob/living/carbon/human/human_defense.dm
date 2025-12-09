@@ -55,8 +55,8 @@
 		protection += physiology.armor.getRating(d_type)
 	return protection
 
-/mob/living/carbon/human/proc/checkcritarmor(def_zone, d_type)
-	if(!d_type)
+/mob/living/carbon/human/proc/checkcritarmor(def_zone, bclass)
+	if(!bclass || bclass == BCLASS_PICK || bclass == BCLASS_TWIST)
 		return FALSE
 	if(isbodypart(def_zone))
 		var/obj/item/bodypart/CBP = def_zone
@@ -69,7 +69,7 @@
 			var/obj/item/clothing/C = bp
 			if(zone2covered(def_zone, C.body_parts_covered_dynamic))
 				if(C.obj_integrity > 1)
-					if(d_type in C.prevent_crits)
+					if(C.prevent_crits)
 						return TRUE
 
 /*

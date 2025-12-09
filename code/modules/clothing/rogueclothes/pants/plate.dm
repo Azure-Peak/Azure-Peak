@@ -7,7 +7,6 @@
 //	adjustable = CAN_CADJUST
 	sewrepair = FALSE
 	armor = ARMOR_PLATE
-	prevent_crits = list(BCLASS_CUT, BCLASS_STAB, BCLASS_CHOP, BCLASS_BLUNT)
 	blocksound = PLATEHIT
 	max_integrity = ARMOR_INT_LEG_STEEL_PLATE
 	drop_sound = 'sound/foley/dropsound/armor_drop.ogg'
@@ -20,6 +19,8 @@
 	smelt_bar_num = 2
 	resistance_flags = FIRE_PROOF
 	armor_class = ARMOR_CLASS_HEAVY
+	slowdown_id = MOVESPEED_ID_ARMOR_LEGS
+	equip_slowdown = ARMOR_HEAVY_SLOWDOWN
 
 /obj/item/clothing/under/roguetown/platelegs/Initialize(mapload)
 	. = ..()
@@ -38,6 +39,7 @@
 	desc = "Frayed bronze plates, shingled over chausses of rotting leather-and-maille. Voided bowels are all that remains of its former legionnaire."
 	icon_state = "ancientplate_legs"
 	max_integrity = ARMOR_INT_LEG_DECREPIT_PLATE
+	prevent_crits = FALSE
 	color = "#bb9696"
 	smeltresult = /obj/item/ingot/aaslag
 	anvilrepair = null
@@ -65,7 +67,6 @@
 	name = "gilded leggings"
 	desc = "But my outside to behold:"
 	icon_state = "matthioslegs"
-	prevent_crits = list(BCLASS_CUT, BCLASS_STAB, BCLASS_CHOP, BCLASS_BLUNT, BCLASS_SMASH, BCLASS_PICK)
 	armor = ARMOR_ASCENDANT
 
 /obj/item/clothing/under/roguetown/platelegs/matthios/Initialize()
@@ -86,7 +87,6 @@
 	desc = "Leg garments worn by true anointed of the Dame of Progress. In Her name."
 	icon_state = "zizocloth"
 	armor = ARMOR_ASCENDANT
-	prevent_crits = list(BCLASS_CUT, BCLASS_STAB, BCLASS_CHOP, BCLASS_BLUNT, BCLASS_SMASH, BCLASS_PICK)
 
 /obj/item/clothing/under/roguetown/platelegs/zizo/Initialize()
 	. = ..()

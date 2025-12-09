@@ -26,7 +26,7 @@
 	var/cooldown = 0
 
 	var/emote_environment = -1
-	var/list/prevent_crits
+	var/prevent_crits = TRUE
 
 	var/clothing_flags = NONE
 
@@ -56,6 +56,9 @@
 
 	sellprice = 1
 	var/naledicolor = FALSE
+	var/equip_slowdown = 0
+	var/slowdown_id = null
+
 
 /obj/item
 	var/blocking_behavior
@@ -278,6 +281,10 @@
 				if(user.vars[variable] == user_vars_to_edit[variable]) //Is it still what we set it to? (if not we best not change it)
 					user.vars[variable] = user_vars_remembered[variable]
 		user_vars_remembered = initial(user_vars_remembered) // Effectively this sets it to null.
+	
+	if(isliving(user) && slowdown_id && equip_slowdown)
+		var/mob/living/L = user
+		L.remove_movespeed_modifier(slowdown_id)
 
 /obj/item/clothing/equipped(mob/user, slot)
 	..()
@@ -289,6 +296,10 @@
 				if(variable in user.vars)
 					LAZYSET(user_vars_remembered, variable, user.vars[variable])
 					user.vv_edit_var(variable, user_vars_to_edit[variable])
+	if(isliving(user) && equip_slowdown && slowdown_id)
+		var/mob/living/L = user
+		L.add_movespeed_modifier(slowdown_id, multiplicative_slowdown=equip_slowdown)
+				
 
 /obj/item/clothing/examine(mob/user)
 	. = ..()
@@ -540,23 +551,10 @@ BLIND     // can't see anything
 	str += "[colorgrade_rating("🗡️ STAB ", armor.stab, elaborate = TRUE)] | "
 	str += "[colorgrade_rating("🏹 PIERCE ", armor.piercing, elaborate = TRUE)] "
 
-	if(showcrits && prevent_crits)
+	if(showcrits && !prevent_crits)
 		str += "<br>———————————————<br>"
-		str += "<font color = '#afaeae'><text-align: center>STOPS CRITS: <br>"
-		var/linebreak_count = 0
-		var/index = 0
-		for(var/flag in prevent_crits)
-			index++
-			if(flag == BCLASS_PICK)	//BCLASS_PICK is named "stab", and "stabbing" is its own damage class. Prevents confusion.
-				flag = "pick"
-			str += ("[capitalize(flag)] ")
-			linebreak_count++
-			if(linebreak_count >= 3)
-				str += "<br>"
-				linebreak_count = 0
-			else if(index != length(prevent_crits))
-				str += " | "
-		str += "</font>"
+		str += "<text-align: center>"
+		str += "<b><font color = '#aa2121'>CRIT SUSCEPTIBLE!</font></b>"
 
 	//This makes it appear darker than the rest of examine text. Draws the cursor to it like to a Wetsquires.rt link.
 	examine_text = "<font color = '#808080'>[examine_text]</font>"

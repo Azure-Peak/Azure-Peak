@@ -4,7 +4,7 @@
 	icon_state = "roguearmor"
 	body_parts_covered = COVERAGE_TORSO
 	armor = ARMOR_LEATHER
-	prevent_crits = list(BCLASS_CUT,BCLASS_BLUNT)
+	prevent_crits = FALSE
 	blocksound = SOFTHIT
 	blade_dulling = DULLING_BASHCHOP
 	break_sound = 'sound/foley/cloth_rip.ogg'
@@ -87,7 +87,6 @@
 	item_state = "studleather"
 	blocksound = SOFTHIT
 	armor = ARMOR_LEATHER_STUDDED
-	prevent_crits = list(BCLASS_CUT, BCLASS_STAB, BCLASS_BLUNT, BCLASS_CHOP, BCLASS_SMASH)
 	nodismemsleeves = TRUE
 	body_parts_covered = COVERAGE_TORSO
 	max_integrity = ARMOR_INT_CHEST_LIGHT_MASTER
@@ -108,7 +107,6 @@
 	icon_state = "roguearmor_belt"
 	item_state = "roguearmor_belt"
 	armor = ARMOR_LEATHER_GOOD
-	prevent_crits = list(BCLASS_CUT, BCLASS_STAB, BCLASS_BLUNT, BCLASS_CHOP, BCLASS_SMASH)
 	max_integrity = ARMOR_INT_CHEST_LIGHT_MASTER
 	sellprice = 20
 
@@ -119,7 +117,6 @@
 	item_state = "roguearmor_coat"
 	body_parts_covered = COVERAGE_ALL_BUT_ARMS
 	armor = ARMOR_LEATHER_GOOD
-	prevent_crits = list(BCLASS_CUT, BCLASS_STAB, BCLASS_BLUNT, BCLASS_CHOP, BCLASS_SMASH)
 	max_integrity = ARMOR_INT_CHEST_LIGHT_MASTER
 	sellprice = 25
 
@@ -131,7 +128,6 @@
 	body_parts_covered = COVERAGE_FULL
 	sleeved = 'icons/roguetown/clothing/onmob/helpers/sleeves_armor.dmi'
 	armor = ARMOR_LEATHER_STUDDED
-	prevent_crits = list(BCLASS_CUT, BCLASS_STAB, BCLASS_BLUNT, BCLASS_CHOP, BCLASS_SMASH)
 	max_integrity = ARMOR_INT_CHEST_LIGHT_BASE	
 
 /obj/item/clothing/suit/roguetown/armor/leather/heavy/coat/raneshen
@@ -153,7 +149,6 @@
 	item_state = "leatherjacketo"
 	body_parts_covered = COVERAGE_ALL_BUT_LEGS
 	armor = ARMOR_LEATHER_GOOD
-	prevent_crits = list(BCLASS_CUT, BCLASS_STAB, BCLASS_BLUNT, BCLASS_CHOP, BCLASS_SMASH)
 	max_integrity = ARMOR_INT_CHEST_LIGHT_MASTER
 	sellprice = 25
 
@@ -185,8 +180,7 @@
 	desc = "A heavy set of hardened robes, lined with fur. The leather is composed of several creatures that were notably difficult to fell by arrow. A proof or rangership among many."
 	icon_state = "hatanga"
 	item_state = "hatanga"
-	armor = list("blunt" = 90, "slash" = 30, "stab" = 40, "piercing" = 60, "fire" = 0, "acid" = 0)
-	prevent_crits = list(BCLASS_STAB, BCLASS_BLUNT, BCLASS_SMASH, BCLASS_PICK, BCLASS_TWIST)
+	armor = list("blunt" = 10, "slash" = 80, "stab" = 80, "piercing" = 100, "fire" = 0, "acid" = 0)
 	max_integrity = ARMOR_INT_CHEST_LIGHT_MASTER
 	sellprice = 100
 

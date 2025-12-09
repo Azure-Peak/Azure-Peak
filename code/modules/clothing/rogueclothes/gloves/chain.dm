@@ -3,7 +3,6 @@
 	desc = "Gauntlets made of interlinked steel rings. They offer decent protection against common weaponries, except for arrows."
 	icon_state = "cgloves"
 	armor = ARMOR_MAILLE
-	prevent_crits = list(BCLASS_CUT, BCLASS_STAB, BCLASS_BLUNT)
 	resistance_flags = FIRE_PROOF
 	blocksound = CHAINHIT
 	max_integrity = ARMOR_INT_SIDE_STEEL
@@ -21,6 +20,7 @@
 	desc = "Frayed bronze rings, interlinked together to form sagging mittens. Fingers, talons, claws; they're all the same, when smothered beneath maille and left to rot away."
 	icon_state = "acgloves"
 	max_integrity = ARMOR_INT_SIDE_DECREPIT
+	prevent_crits = FALSE
 	color = "#bb9696"
 	smeltresult = /obj/item/ingot/aaslag
 	anvilrepair = null

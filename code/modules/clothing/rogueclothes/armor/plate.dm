@@ -7,7 +7,6 @@
 	icon_state = "halfplate"
 	item_state = "halfplate"
 	armor = ARMOR_PLATE
-	prevent_crits = list(BCLASS_CUT, BCLASS_STAB, BCLASS_CHOP, BCLASS_BLUNT, BCLASS_TWIST)
 	nodismemsleeves = TRUE
 	max_integrity = ARMOR_INT_CHEST_PLATE_STEEL
 	allowed_sex = list(MALE, FEMALE)
@@ -18,7 +17,7 @@
 	smeltresult = /obj/item/ingot/steel
 	equip_delay_self = 4 SECONDS
 	unequip_delay_self = 4 SECONDS
-	armor_class = ARMOR_CLASS_HEAVY
+	armor_class = ARMOR_CLASS_MEDIUM
 	smelt_bar_num = 3
 
 /obj/item/clothing/suit/roguetown/armor/plate/ComponentInitialize()
@@ -41,6 +40,7 @@
 	icon_state = "ancientplate"
 	item_state = "ancientplate"
 	max_integrity = ARMOR_INT_CHEST_PLATE_DECREPIT
+	prevent_crits = FALSE
 	color = "#bb9696"
 	smeltresult = /obj/item/ingot/aaslag
 	anvilrepair = null
@@ -181,6 +181,9 @@
 
 	max_integrity = ARMOR_INT_CHEST_PLATE_STEEL
 	body_parts_covered = COVERAGE_FULL // Less durability than proper plate, more expensive to manufacture, and accurate to the sprite.
+	armor_class = ARMOR_CLASS_HEAVY
+	slowdown_id = MOVESPEED_ID_ARMOR_TORSO
+	equip_slowdown = ARMOR_HEAVY_SLOWDOWN
 
 /obj/item/clothing/suit/roguetown/armor/plate/fluted/graggar
 	name = "vicious half-plate"
@@ -225,6 +228,9 @@
 	equip_delay_other = 3 SECONDS
 	strip_delay = 6 SECONDS
 	smelt_bar_num = 4
+	armor_class = ARMOR_CLASS_HEAVY
+	slowdown_id = MOVESPEED_ID_ARMOR_TORSO
+	equip_slowdown = ARMOR_HEAVY_FULL_SLOWDOWN
 
 /obj/item/clothing/suit/roguetown/armor/plate/full/iron
 	name = "iron plate armor"
@@ -370,7 +376,6 @@
 	icon_state = "heartfelt"
 	item_state = "heartfelt"
 	armor = ARMOR_PLATE
-	prevent_crits = list(BCLASS_CUT, BCLASS_STAB, BCLASS_CHOP, BCLASS_BLUNT, BCLASS_TWIST)
 	allowed_sex = list(MALE, FEMALE)
 	nodismemsleeves = TRUE
 	blocking_behavior = null
@@ -388,7 +393,6 @@
 	icon_state = "heartfelt_hand"
 	item_state = "heartfelt_hand"
 	armor = ARMOR_PLATE
-	prevent_crits = list(BCLASS_CUT, BCLASS_STAB, BCLASS_CHOP, BCLASS_BLUNT, BCLASS_TWIST)
 	allowed_sex = list(MALE, FEMALE)
 	nodismemsleeves = TRUE
 	blocking_behavior = null
@@ -455,7 +459,7 @@
 	body_parts_covered = CHEST|GROIN
 	icon_state = "halfplatekini"
 	item_state = "halfplatekini"
-	armor = ARMOR_CUIRASS // Identical to steel cuirass, but covering the groin instead of the vitals.
+	armor = ARMOR_PLATE // Identical to steel cuirass, but covering the groin instead of the vitals.
 	max_integrity = ARMOR_INT_CHEST_MEDIUM_STEEL	// Identical to steel cuirasss. Same steel price.
 	allowed_sex = list(MALE, FEMALE)
 	armor_class = ARMOR_CLASS_MEDIUM
@@ -501,6 +505,7 @@
 	desc = "Frayed bronze, pounded into a breastplate. It feels more like a corset than a cuirass; there's barely enough width to let those aching lungs breathe."
 	icon_state = "ancientcuirass"
 	max_integrity = ARMOR_INT_CHEST_MEDIUM_DECREPIT
+	prevent_crits = FALSE
 	color = "#bb9696"
 	smeltresult = /obj/item/ingot/aaslag
 	anvilrepair = null
@@ -518,6 +523,7 @@
 
 	body_parts_covered = CHEST | VITALS | LEGS 
 	max_integrity = ARMOR_INT_CHEST_MEDIUM_STEEL
+	armor_class = ARMOR_CLASS_HEAVY
 
 /obj/item/clothing/suit/roguetown/armor/plate/cuirass/fluted/ornate
 	name = "psydonic cuirass"
@@ -556,6 +562,7 @@
 	name = "scalemail"
 	desc = "Metal scales interwoven intricately to form flexible protection!"
 	body_parts_covered = COVERAGE_ALL_BUT_ARMS
+	armor = ARMOR_MAILLE
 	allowed_sex = list(MALE, FEMALE)
 	icon_state = "lamellar"
 	max_integrity = ARMOR_INT_CHEST_MEDIUM_STEEL
