@@ -659,6 +659,8 @@
 	sellprice = 1000
 	smeltresult = /obj/item/ingot/silver
 	smelt_bar_num = 4
+	slowdown = 0
+	slowdown_id = null
 
 /obj/item/clothing/under/roguetown/platelegs/holysee
 	name = "holy silver chausses"
@@ -673,6 +675,8 @@
 	sellprice = 1000
 	smeltresult = /obj/item/ingot/silver
 	smelt_bar_num = 3
+	slowdown = 0
+	slowdown_id = null
 
 /obj/item/clothing/head/roguetown/helmet/heavy/holysee
 	name = "holy silver bascinet"
