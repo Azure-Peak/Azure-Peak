@@ -420,7 +420,7 @@ var/global/list/anvil_recipe_prices[][]
 	antimagic_allowed = TRUE
 	recharge_time = 5 SECONDS
 	miracle = TRUE
-	devotion_cost = 15
+	devotion_cost = 100
 	var/order_type = null
 	var/current_bonus = null
 	var/current_duration = null
@@ -460,6 +460,7 @@ var/global/list/anvil_recipe_prices[][]
 				current_duration = (quality / 2) MINUTES
 				var/view_time = floor((current_duration/10)/60)
 				to_chat(user, "<font color='purple'>Current Blessing: [order_type], additional [current_bonus] force for [view_time] minutes.</font>")
+				devotion_cost = 10
 				qdel(W)
 				revert_cast()
 				return TRUE
@@ -475,6 +476,7 @@ var/global/list/anvil_recipe_prices[][]
 				current_duration = (quality / 10) MINUTES
 				var/view_time = floor((current_duration/10)/60)
 				to_chat(user, "<font color='purple'>Current Blessing: [order_type], additional max integrity [current_bonus] for [view_time] minutes.</font>")
+				devotion_cost = 10
 				qdel(A)
 				revert_cast()
 				return TRUE
@@ -485,6 +487,7 @@ var/global/list/anvil_recipe_prices[][]
 				current_bonus = (quality + (bonus * 100)) - (skill_debuff * 20)
 				current_duration = null
 				to_chat(user, "<font color='purple'>Current Blessing: [order_type], fixes [current_bonus] item integrity.</font>")
+				devotion_cost = 10
 				qdel(O)
 				revert_cast()
 				return TRUE
@@ -529,6 +532,7 @@ var/global/list/anvil_recipe_prices[][]
 				to_chat(user, "<font color='purple'>A [current_bonus] integrity for [O.name] has been fixed!</font>")
 
 		overlay_state = "rework"
+		devotion_cost = 100
 		order_type = null
 		current_bonus = null
 		current_duration = null
@@ -544,6 +548,7 @@ var/global/list/anvil_recipe_prices[][]
 
 /obj/item/clothing/proc/unbuff()
 	max_integrity = initial(max_integrity)
+	obj_integrity = max_integrity/2
 	malumblessed_c = FALSE
 	visible_message("<font color='purple'>A holy blessing now not affect on [name]!</font>")
 
@@ -629,7 +634,7 @@ var/global/list/anvil_recipe_prices[][]
 	antimagic_allowed = TRUE
 	recharge_time = 20 SECONDS
 	miracle = TRUE
-	devotion_cost = 30
+	devotion_cost = 50
 
 /obj/effect/proc_holder/spell/invoked/restoration/cast(obj/target, mob/living/user)
 	var/skill = user.get_skill_level(/datum/skill/magic/holy)
