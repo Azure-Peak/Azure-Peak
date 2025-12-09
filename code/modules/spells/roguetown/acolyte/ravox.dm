@@ -488,6 +488,8 @@ GLOBAL_LIST_EMPTY(arenafolks) // we're just going to use a list and add to it. S
 	for(var/mob/living/mob in view(dist, get_turf(user)))
 		if(!mob.mind)
 			mob.ai_controller.set_blackboard_key(BB_BASIC_MOB_CURRENT_TARGET, user)
+			mob.should_target(user)
+			mob.validate_path(user)
 			checkgate = TRUE
 	if(checkgate == TRUE)
 		user.apply_status_effect(/datum/status_effect/buff/ravox_provocation, skill)
