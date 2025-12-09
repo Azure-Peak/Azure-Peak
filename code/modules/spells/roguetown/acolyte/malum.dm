@@ -440,7 +440,6 @@ var/global/list/anvil_recipe_prices[][]
 		var/quality = 0
 		var/skill = usr.get_skill_level(/datum/skill/magic/holy)
 		var/skill_debuff = 6 - skill
-		var/datum/action/spell_action/B
 		if(!order_type)
 			switch(O.smeltresult)
 				if(/obj/item/ingot/iron)
