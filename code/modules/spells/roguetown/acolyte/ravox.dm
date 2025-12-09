@@ -521,7 +521,7 @@ GLOBAL_LIST_EMPTY(arenafolks) // we're just going to use a list and add to it. S
 
 /obj/effect/proc_holder/spell/invoked/raise_warrior_spirits
 	name = "Warrior Spirits"
-	desc = "Summon spirits to tear at an opponent!"
+	desc = "Summon Elder Warrior spirits to tear at an opponent!"
 	range = 7
 	sound = list('sound/magic/magnet.ogg')
 	action_icon = 'icons/mob/actions/ravoxmiracles.dmi'
@@ -536,11 +536,11 @@ GLOBAL_LIST_EMPTY(arenafolks) // we're just going to use a list and add to it. S
 	chargedloop = /datum/looping_sound/invokeholy
 	gesture_required = TRUE 
 	associated_skill = /datum/skill/magic/holy
-	recharge_time = 90 SECONDS
+	recharge_time = 60 SECONDS //scales on user skill
 	hide_charge_effect = TRUE
 	miracle = TRUE
 	devotion_cost = 50
-	invocations = list("Soldiers, come to me!!")
+	invocations = list("Soldiers of Ravox, come to me!!")
 	invocation_type = "shout"
 
 /obj/effect/proc_holder/spell/invoked/raise_warrior_spirits/cast(list/targets, mob/living/user)
@@ -557,6 +557,7 @@ GLOBAL_LIST_EMPTY(arenafolks) // we're just going to use a list and add to it. S
 	var/skill = user.get_skill_level(/datum/skill/magic/holy)
 	var/time = 1 MINUTES
 	time *= skill
+	recharge_time *= skill //more stronger warriors = large cooldown
 
 	if(isliving(targets[1]))
 		var/mob/living/target = targets[1]
