@@ -23,7 +23,7 @@
 
 /obj/item/clothing/suit/roguetown/armor/plate/ComponentInitialize()
 	. = ..()
-	AddComponent(/datum/component/item_equipped_movement_rustle, SFX_PLATE_STEP)
+	AddComponent(/datum/component/item_equipped_movement_rustle, SFX_PLATE_STEP, 5)
 
 /obj/item/clothing/suit/roguetown/armor/plate/iron
 	name = "iron half-plate"
@@ -627,5 +627,5 @@
 	blocksound = PLATEHIT	
 
 /obj/item/clothing/suit/roguetown/armor/plate/scale/inqcoat/armored/ComponentInitialize()
-	AddComponent(/datum/component/item_equipped_movement_rustle, SFX_PLATE_STEP)
+	AddComponent(/datum/component/item_equipped_movement_rustle, SFX_PLATE_STEP, 5)
 	return

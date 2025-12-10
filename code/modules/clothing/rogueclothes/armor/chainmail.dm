@@ -25,7 +25,7 @@
 
 /obj/item/clothing/suit/roguetown/armor/chainmail/Initialize(mapload)
 	. = ..()
-	AddComponent(/datum/component/item_equipped_movement_rustle)
+	AddComponent(/datum/component/item_equipped_movement_rustle, SFX_CHAIN_STEP)
 
 /obj/item/clothing/suit/roguetown/armor/chainmail/aalloy
 	name = "decrepit haubergeon"
@@ -99,3 +99,37 @@
 	allowed_race = CLOTHED_RACES_TYPES
 	body_parts_covered = CHEST|GROIN
 	armor_class = ARMOR_CLASS_LIGHT //placed in the medium category to keep it with its parent obj
+
+
+//
+
+/obj/item/clothing/suit/roguetown/armor/chainmail/hauberk/matthios
+	name = "gilded hauberk"
+	desc = "All that glimmers is gold; yet only shining stars shalt break the mold.."
+	color = "#ffc960"
+
+/obj/item/clothing/suit/roguetown/armor/chainmail/hauberk/matthios/Initialize()
+	. = ..()
+	AddComponent(/datum/component/cursed_item, TRAIT_COMMIE, "ARMOR")
+
+//
+
+/obj/item/clothing/suit/roguetown/armor/chainmail/hauberk/zizo
+	name = "avantyne hauberk"
+	desc = "The rings crackle with unkempt magicka, yearning to enamor the enlightened with avantynic might."
+	color = "#c1b18d"
+
+/obj/item/clothing/suit/roguetown/armor/chainmail/hauberk/zizo/Initialize()
+	. = ..()
+	AddComponent(/datum/component/cursed_item, TRAIT_CABAL, "ARMOR")
+
+//
+
+/obj/item/clothing/suit/roguetown/armor/chainmail/hauberk/graggar
+	name = "vicious hauberk"
+	desc = "The blessing of a Martyr is nothing, when put before the Sinistar's rage."
+	color = "#ddc0a7"
+
+/obj/item/clothing/suit/roguetown/armor/chainmail/hauberk/graggar/Initialize()
+	. = ..()
+	AddComponent(/datum/component/cursed_item, TRAIT_HORDE, "ARMOR", "RENDERED ASUNDER")

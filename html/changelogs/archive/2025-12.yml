@@ -93,3 +93,78 @@
   hazelrat:
   - rscadd: Implemented a significant expansion to the manor kitchen, also including
       mapping changes to the council office and wine cellar.
+2025-12-08:
+  FreeStylaLT:
+  - balance: Campfires now require a tree stump, bedsheet or a bed (bedroll is fine
+      too) to heal.
+  - balance: Campfires now restore blue bar.
+  HeroWithYay:
+  - bugfix: Carrot steak and Carrot steal meal no longer make nobles throw up
+  Lamasmaster:
+  - rscadd: Swimming skill to Retinue and bandit
+  - rscadd: Athletics to Hunter
+  - balance: Swimming/Athletics for Knave
+  SillyMoff:
+  - bugfix: fixed t2 and t3 obfuscate tier
+  bearrrrrrrr:
+  - bugfix: attacks targeting feet on taurs will no longer ignore their armor
+2025-12-09:
+  Lamasmaster:
+  - bugfix: Bascinet (nonvisor) FOV
+  - rscadd: Old Knight Helmet
+  - bugfix: Desert (the other one) hood
+  Matheo351:
+  - rscadd: Added sickle's instant crop harvest ability to scythe, as well as special
+      variants of those tools (Summer Scythe and Plaguebringer Sickle)
+  SillyMoff:
+  - bugfix: fixed switching inhumen patron to matthios
+2025-12-10:
+  Antoonij:
+  - qol: toggleable identity concealment on masks
+  CometBlaze:
+  - rscadd: 'Added a new T2 miracle for Necrans: Locate Corpse'
+  Lamasmaster:
+  - rscadd: Riding XP source
+  Ollanius:
+  - rscadd: Adds unique neckguards, bracers, and hauberks to Zizonic-, Graggarite-,
+      and Matthisoian-exclusive armorsets.
+  - rscadd: Adds a unique gorget, pair of bracers, and hauberk to the Vampire Lord's
+      armorcrafting ritual.
+  - rscadd: Adds completely new descriptions to the Vampire Lord's unique crown, armor,
+      and clothes.
+  - rscadd: Candlesticks can now be used as improvised weapons.
+  - balance: Readds Master-level combat skills - alongside Athletics and Knives -
+      to the Vampire Lord.
+  - balance: Adds a Steel Coif, Steel Cuirass, and a set of Noble Boots to the Vampire
+      Lord's on-spawn loadout.
+  - balance: Performing the Rite of Armament now gives you a special neckguard, set
+      of bracers, and hauberk.
+  - qol: The default coloration of heavy leather gloves should now closely match other
+      heavy leather items.
+  - qol: Examining a scabbard or sheath now tells you how to turn them into straps,
+      for classic-style weapon holstering.
+  - bugfix: Vampire Lords should now receive most traits that were previously missing,
+      including their ability to use heavy armor.
+  - bugfix: Silver spoons, forks, bowls, platters, candlesticks, and ingots should
+      now properly have their silver-related traits.
+  - bugfix: Fixed a missing icon that made Ancient Ceremonial Gauntlets invisible.
+  - bugfix: Fixed an oversight that allowed a certain Enduring weapon to be smelted
+      down into blessed silver ingots.
+  - bugfix: Fixed an oversight that did not properly add a 'cursed trait' to the Matthiosite
+      helmet.
+  - bugfix: Repairs the timeline.
+  PPooch:
+  - bugfix: Fill Songbook no longer spammable for all songs.
+  Ryan180602:
+  - bugfix: Fix DNR examine.
+  - balance: Mending requires 4s to stand still and repair.
+  - balance: All runes except knowledge runes are locked to Novice Arcyne Training
+      individuals.
+  - balance: Empowerment array imbues a maximum of two buffs.
+  - balance: Witch and Artificer get T2 Arcyne Training (Apprentice)
+  SirSwagmeyer:
+  - rscadd: Added a separate mercenary for Condottierro.
+  - rscdel: Removed dodge expert from Ambrushtahchthkt (Grenzel Crossbowman)
+  hazelrat:
+  - rscadd: Wall-mounted shelves no longer offset your character. Large shelves now
+      have density.

@@ -152,7 +152,7 @@
 /datum/intent/proc/rmb_ranged(atom/target, mob/user)
 	return
 
-/datum/intent/proc/can_charge()
+/datum/intent/proc/can_charge(atom/clicked_object)
 	return TRUE
 
 /datum/intent/proc/afterchange()

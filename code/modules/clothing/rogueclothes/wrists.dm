@@ -265,3 +265,36 @@
 	pickup_sound = 'sound/foley/equip/equip_armor_chain.ogg'
 	equip_sound = 'sound/foley/equip/equip_armor_chain.ogg'
 	smeltresult = null
+
+//
+
+/obj/item/clothing/wrists/roguetown/bracers/matthios
+	name = "gilded bracers"
+	desc = "Away with you, vile beggar!"
+	color = "#ffc960"
+
+/obj/item/clothing/wrists/roguetown/bracers/matthios/Initialize()
+	. = ..()
+	AddComponent(/datum/component/cursed_item, TRAIT_COMMIE, "ARMOR")
+
+//
+
+/obj/item/clothing/wrists/roguetown/bracers/zizo
+	name = "avantyne bracers"
+	desc = "Clasped, yet unburdening. The pursuit of knowledge has led you to this very moment; there is no going back."
+	color = "#c1b18d"
+
+/obj/item/clothing/wrists/roguetown/bracers/zizo/Initialize()
+	. = ..()
+	AddComponent(/datum/component/cursed_item, TRAIT_CABAL, "ARMOR")
+//
+
+/obj/item/clothing/wrists/roguetown/bracers/graggar
+	name = "vicious bracers"
+	desc = "Oh, to plunge hands into cold water; to play a melody upon an ivory-keyed piano; to watch steam rise from boiling, twisting entrails.."
+	color = "#ddc0a7"
+
+/obj/item/clothing/wrists/roguetown/bracers/graggar/Initialize()
+	. = ..()
+	AddComponent(/datum/component/cursed_item, TRAIT_HORDE, "ARMOR", "RENDERED ASUNDER")
+

@@ -126,7 +126,12 @@
 	cost = 40
 	contains = list(/obj/item/clothing/head/roguetown/helmet/sallet/visored/iron)
 
+/datum/supply_pack/rogue/armor_iron/knightarmet
+	name = "Helmet, Armet, Knight's"
+	cost = 40
+	contains = list(/obj/item/clothing/head/roguetown/helmet/heavy/knight/iron)
+
 /datum/supply_pack/rogue/armor_iron/knight
 	name = "Helmet, Knight"
 	cost = 40
-	contains = list(/obj/item/clothing/head/roguetown/helmet/heavy/knight/iron)
+	contains = list(/obj/item/clothing/head/roguetown/helmet/heavy/knight/old/iron)

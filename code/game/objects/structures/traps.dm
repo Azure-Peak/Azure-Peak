@@ -22,6 +22,7 @@
 
 	var/sparks = TRUE
 	var/datum/effect_system/spark_spread/spark_system
+	var/scraptype = /obj/item/scrap
 
 /obj/structure/trap/Initialize(mapload)
 	. = ..()
@@ -63,6 +64,8 @@
 			return FALSE
 		if(C.get_skill_level(/datum/skill/craft/traps) < 1)
 			C.visible_message(span_notice("I don't know how to disarm \the [src]."))
+			if(prob(50))
+				trap_effect(C)
 			return FALSE
 		else
 			used_time = 14 SECONDS
@@ -77,11 +80,14 @@
 				C.visible_message(span_notice("[C] disarms \the [src]."), \
 						span_notice("I disarm \the [src]."))
 				return FALSE
+			trap_effect(C)
 	if(iscarbon(user) && !armed && isturf(loc))
 		if(!BP)
 			return FALSE
 		if(C.get_skill_level(/datum/skill/craft/traps) < 1)
 			C.visible_message(span_notice("I don't know how to arm \the [src]."))
+			if(prob(50))
+				trap_effect(C)
 			return FALSE
 		else
 			used_time = 8 SECONDS
@@ -94,7 +100,34 @@
 				C.visible_message(span_notice("[C] arms \the [src]."), \
 						span_notice("I arm \the [src]."))
 				return FALSE
+			trap_effect(C)
 	..()
+
+/obj/structure/trap/attack_right(mob/user)
+	var/mob/living/carbon/C = user
+	var/def_zone = "[(C.active_hand_index == 2) ? "r" : "l" ]_arm"
+	var/obj/item/bodypart/BP = C.get_bodypart(def_zone)
+	if(iscarbon(user) && armed && isturf(loc))
+		if(!BP)
+			return FALSE
+		if(C.get_skill_level(/datum/skill/craft/traps) >= 4 || HAS_TRAIT(C, TRAIT_EXPLOSIVE_SUPPLY)) //Expert or TRAIT_BOMBER_EXPERT (Bomb main classes). 
+			used_time = 14 SECONDS
+			if(C.mind)
+				used_time -= max((C.get_skill_level(/datum/skill/craft/traps) * 2 SECONDS), 2 SECONDS)
+				C.visible_message(span_notice("[C] begins \the [src] reclamation."), \
+						span_notice("I start disarming \the [src]."))
+			if(do_after(user, used_time, target = src))
+				var/obj/I = new scraptype(C)
+				C.put_in_hands(I)
+				C.visible_message(span_notice("[C] disassembles \the [src]."), \
+						span_notice("I reclaim \the [src]."))
+				qdel(src)
+				return FALSE
+			else
+				trap_effect(C)
+				return FALSE
+		else
+			trap_effect(C)
 
 /obj/structure/trap/proc/flare()
 	// Makes the trap visible, and starts the cooldown until it's
@@ -211,6 +244,7 @@
 	name = "flame trap"
 	desc = ""
 	icon_state = "trap-fire"
+	scraptype = /obj/item/alch/firedust
 
 /obj/structure/trap/fire/trap_effect(mob/living/L)
 	to_chat(L, span_danger("<B>Spontaneous combustion!</B>"))
@@ -221,6 +255,7 @@
 	name = "frost trap"
 	desc = ""
 	icon_state = "trap-frost"
+	scraptype = /obj/item/magic/manacrystal
 
 /obj/structure/trap/chill/trap_effect(mob/living/L)
 	to_chat(L, span_danger("<B>You're frozen solid!</B>"))
@@ -232,6 +267,7 @@
 	name = "earth trap"
 	desc = ""
 	icon_state = "trap-earth"
+	scraptype = /obj/item/alch/earthdust
 
 /obj/structure/trap/damage/trap_effect(mob/living/L)
 	to_chat(L, span_danger("<B>The ground quakes beneath your feet!</B>"))
@@ -281,6 +317,7 @@
 	icon_state = "bomb_trap_plate"
 	time_between_triggers = 100
 	max_integrity = 500
+	scraptype = /obj/item/impact_grenade/explosion
 
 /obj/structure/trap/bomb/trap_effect(mob/living/L)
 	..()
@@ -292,6 +329,7 @@
 	icon_state = "trap_plate"
 	time_between_triggers = 100
 	max_integrity = 500
+	scraptype = /obj/item/bomb
 
 /obj/structure/trap/flame/trap_effect(mob/living/L)
 	..()
@@ -352,6 +390,7 @@
 /obj/structure/trap/wall_projectile/frostbolt
 	name = "frost plate trap"
 	fired = /obj/projectile/magic/frostbolt/wall_projectile
+	scraptype = /obj/item/magic/manacrystal
 
 /obj/projectile/magic/frostbolt/wall_projectile
 	speed = 6
@@ -371,6 +410,7 @@
 	icon_state = "rockfall_trap_plate"
 	time_between_triggers = 100
 	max_integrity = 500
+	scraptype = /obj/item/alch/earthdust
 
 /obj/structure/trap/rock_fall/trap_effect(mob/living/L)
 	to_chat(L, span_danger("<B>The ground above you shakes violently!</B>"))
@@ -387,6 +427,7 @@
 	icon_state = "water_trap_plate"
 	time_between_triggers = 100
 	max_integrity = 500
+	scraptype = /obj/item/alch/waterdust
 
 /obj/structure/trap/water/trap_effect(mob/living/L)
 	to_chat(L, span_danger("<B>You are doused and knocked off your feet by a torrent of water!</B>"))

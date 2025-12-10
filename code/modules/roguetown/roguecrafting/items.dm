@@ -11,6 +11,15 @@
 	abstract_type = /datum/crafting_recipe/roguetown/survival/
 	skillcraft = /datum/skill/craft/crafting
 
+/datum/crafting_recipe/roguetown/survival/flint //custar recipe for flint. 
+	name = "flint"
+	result = /obj/item/flint
+	reqs =  list(/obj/item/scrap = 2,
+				/obj/item/natural/whetstone = 2,
+				/obj/item/natural/fibers = 1,
+	)
+	craftdiff = 3
+
 /datum/crafting_recipe/roguetown/survival/repairkitclothbad
 	name = "fabric patch" //9 fiber
 	result = /obj/item/repair_kit/bad
@@ -196,23 +205,6 @@
 		)
 	tools = list(/obj/item/needle = 1)
 	req_table = TRUE
-
-/datum/crafting_recipe/roguetown/survival/mantrap
-	name = "mantrap"
-	result = list(
-		/obj/item/restraints/legcuffs/beartrap,
-		/obj/item/restraints/legcuffs/beartrap,
-		)
-	reqs = list(
-		/obj/item/grown/log/tree/small = 1,
-		/obj/item/natural/fibers = 2,
-		/obj/item/ingot/iron = 1,
-		)
-	req_table = TRUE
-	skillcraft = /datum/skill/craft/traps
-	craftdiff = 1
-	verbage_simple = "put together"
-	verbage = "puts together"
 
 /datum/crafting_recipe/roguetown/survival/paperscroll
 	name = "scroll of parchment (x3)"

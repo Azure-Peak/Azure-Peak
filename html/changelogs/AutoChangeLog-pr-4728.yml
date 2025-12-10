@@ -1,4 +1,0 @@
-author: "bearrrrrrrr"
-delete-after: True
-changes:
-  - bugfix: "attacks targeting feet on taurs will no longer ignore their armor"

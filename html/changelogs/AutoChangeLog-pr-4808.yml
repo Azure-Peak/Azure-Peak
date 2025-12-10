@@ -1,0 +1,4 @@
+author: "hollyhocc"
+delete-after: True
+changes:
+  - bugfix: "fixed Eoran robes on short species"

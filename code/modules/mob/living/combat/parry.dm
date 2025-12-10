@@ -277,7 +277,7 @@
 
 			var/def_verb = "parries"
 			if(istype(rmb_intent, /datum/rmb_intent/riposte))
-				def_verb = "ripostes"
+				def_verb = "[pick("expertly", "deftly")] parries"
 			var/def_msg = "<b>[src]</b> [def_verb] [user] with [W]!"
 
 			visible_message(span_combatsecondary(def_msg), span_boldwarning(def_msg), COMBAT_MESSAGE_RANGE, list(user))

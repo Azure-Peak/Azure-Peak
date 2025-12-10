@@ -1,0 +1,4 @@
+author: "hollyhock"
+delete-after: True
+changes:
+  - rscadd: "Added an oink emote for creatures with wild tongues."

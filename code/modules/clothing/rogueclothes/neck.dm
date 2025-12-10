@@ -738,6 +738,39 @@
 
 //
 
+/obj/item/clothing/neck/roguetown/chaincoif/chainmantle/matthios
+	name = "gilded chain mantle"
+	desc = "The world is yours, as they say - yet, why doth the Gods still led us astray?"
+	color = "#ffc960"
+
+/obj/item/clothing/neck/roguetown/chaincoif/chainmantle/matthios/Initialize()
+	. = ..()
+	AddComponent(/datum/component/cursed_item, TRAIT_COMMIE, "ARMOR")
+
+//
+
+/obj/item/clothing/neck/roguetown/bevor/zizo
+	name = "avantyne bevor"
+	desc = "The edge of reality, though unknown to many, favors Her acolytes above all else. This avantyne neckguard wards off the unenlightened's flailing."
+	color = "#c1b18d"
+
+/obj/item/clothing/neck/roguetown/bevor/zizo/Initialize()
+	. = ..()
+	AddComponent(/datum/component/cursed_item, TRAIT_CABAL, "ARMOR")
+
+//
+
+/obj/item/clothing/neck/roguetown/gorget/steel/graggar
+	name = "vicious gorget"
+	desc = "Curled plate, cradling the neck. Once, they were chains - now, they've allowed you to break free."
+	color = "#ddc0a7"
+
+/obj/item/clothing/neck/roguetown/gorget/graggar/Initialize()
+	. = ..()
+	AddComponent(/datum/component/cursed_item, TRAIT_HORDE, "ARMOR", "RENDERED ASUNDER")
+
+//
+
 /obj/item/clothing/neck/roguetown/psicross/malum/secret
 	name = "beriddled amulet"
 	desc = "A familiar necklace, blisteringly hot to the touch. Yet, as warm as it gets, the metal does not sear my flesh. </br>It whispers with divine inspiration; should I dare don it?"

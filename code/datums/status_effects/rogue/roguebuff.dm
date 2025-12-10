@@ -1406,125 +1406,124 @@
 	if(istype(human))
 		human.pain_threshold -= 50
 
-/datum/status_effect/buff/magicknowledge
+/datum/status_effect/buff/magic/knowledge
 	id = "intelligence"
-	alert_type = /atom/movable/screen/alert/status_effect/buff/knowledge
+	alert_type = /atom/movable/screen/alert/status_effect/buff/magic/knowledge
 	effectedstats = list("intelligence" = 2)
 	duration = 10 MINUTES
 
-/atom/movable/screen/alert/status_effect/buff/knowledge
+/atom/movable/screen/alert/status_effect/buff/magic/knowledge
 	name = "runic cunning"
 	desc = "I am magically astute."
 	icon_state = "buff"
 
-/datum/status_effect/buff/magicstrength
+/datum/status_effect/buff/magic/strength
 	id = "strength"
-	alert_type = /atom/movable/screen/alert/status_effect/buff/strength
+	alert_type = /atom/movable/screen/alert/status_effect/buff/magic/strength
 	effectedstats = list("strength" = 3)
 	duration = 20 MINUTES
 
-/atom/movable/screen/alert/status_effect/buff/strength
+/atom/movable/screen/alert/status_effect/buff/magic/strength
 	name = "arcane reinforced strength"
 	desc = "I am magically strengthened."
 	icon_state = "buff"
 
-/datum/status_effect/buff/magicstrength/lesser
+/datum/status_effect/buff/magic/strength/lesser
 	id = "lesser strength"
-	alert_type = /atom/movable/screen/alert/status_effect/buff/strength/lesser
+	alert_type = /atom/movable/screen/alert/status_effect/buff/magic/strength/lesser
 	effectedstats = list("strength" = 1)
 	duration = 20 MINUTES
 
-/atom/movable/screen/alert/status_effect/buff/strength/lesser
+/atom/movable/screen/alert/status_effect/buff/magic/strength/lesser
 	name = "lesser arcane strength"
 	desc = "I am magically strengthened."
 	icon_state = "buff"
 
 
-/datum/status_effect/buff/magicspeed
+/datum/status_effect/buff/magic/speed
 	id = "speed"
-	alert_type = /atom/movable/screen/alert/status_effect/buff/speed
+	alert_type = /atom/movable/screen/alert/status_effect/buff/magic/speed
 	effectedstats = list("speed" = 3)
 	duration = 20 MINUTES
 
-/atom/movable/screen/alert/status_effect/buff/speed
+/atom/movable/screen/alert/status_effect/buff/magic/speed
 	name = "arcane swiftness"
 	desc = "I am magically swift."
 	icon_state = "buff"
 
-/datum/status_effect/buff/magicspeed/lesser
+/datum/status_effect/buff/magic/speed/lesser
 	id = "lesser speed"
-	alert_type = /atom/movable/screen/alert/status_effect/buff/speed/lesser
+	alert_type = /atom/movable/screen/alert/status_effect/buff/magic/speed/lesser
 	effectedstats = list("speed" = 1)
 	duration = 20 MINUTES
 
-/atom/movable/screen/alert/status_effect/buff/speed/lesser
+/atom/movable/screen/alert/status_effect/buff/magic/speed/lesser
 	name = "arcane swiftness"
 	desc = "I am magically swift."
 	icon_state = "buff"
 
-/datum/status_effect/buff/magicwillpower
+/datum/status_effect/buff/magic/willpower
 	id = "willpower"
-	alert_type = /atom/movable/screen/alert/status_effect/buff/willpower
+	alert_type = /atom/movable/screen/alert/status_effect/buff/magic/willpower
 	effectedstats = list("willpower" = 3)
 	duration = 20 MINUTES
 
-/atom/movable/screen/alert/status_effect/buff/willpower
+/atom/movable/screen/alert/status_effect/buff/magic/willpower
 	name = "arcane willpower"
 	desc = "I am magically resilient."
 	icon_state = "buff"
 
-/datum/status_effect/buff/magicwillpower/lesser
+/datum/status_effect/buff/magic/willpower/lesser
 	id = "lesser willpower"
-	alert_type = /atom/movable/screen/alert/status_effect/buff/willpower/lesser
+	alert_type = /atom/movable/screen/alert/status_effect/buff/magic/willpower/lesser
 	effectedstats = list("willpower" = 1)
 	duration = 20 MINUTES
 
-/atom/movable/screen/alert/status_effect/buff/willpower/lesser
+/atom/movable/screen/alert/status_effect/buff/magic/willpower/lesser
 	name = "lesser arcane willpower"
 	desc = "I am magically resilient."
 	icon_state = "buff"
 
-
-/datum/status_effect/buff/magicconstitution
+/datum/status_effect/buff/magic/constitution
 	id = "constitution"
-	alert_type = /atom/movable/screen/alert/status_effect/buff/constitution
+	alert_type = /atom/movable/screen/alert/status_effect/buff/magic/constitution
 	effectedstats = list("constitution" = 3)
 	duration = 20 MINUTES
 
-/atom/movable/screen/alert/status_effect/buff/constitution
+/atom/movable/screen/alert/status_effect/buff/magic/constitution
 	name = "arcane constitution"
 	desc = "I feel reinforced by magick."
 	icon_state = "buff"
 
-/datum/status_effect/buff/magicconstitution/lesser
+/datum/status_effect/buff/magic/constitution/lesser
 	id = "lesser constitution"
-	alert_type = /atom/movable/screen/alert/status_effect/buff/constitution/lesser
+	alert_type = /atom/movable/screen/alert/status_effect/buff/magic/constitution/lesser
 	effectedstats = list("constitution" = 1)
 	duration = 20 MINUTES
 
-/atom/movable/screen/alert/status_effect/buff/constitution/lesser
+/atom/movable/screen/alert/status_effect/buff/magic/constitution/lesser
 	name = "lesser arcane constitution"
 	desc = "I feel reinforced by magick."
 	icon_state = "buff"
 
-/datum/status_effect/buff/magicperception
+/datum/status_effect/buff/magic/perception
 	id = "perception"
-	alert_type = /atom/movable/screen/alert/status_effect/buff/perception
+	alert_type = /atom/movable/screen/alert/status_effect/buff/magic/perception
 	effectedstats = list("perception" = 3)
 	duration = 20 MINUTES
 
-/atom/movable/screen/alert/status_effect/buff/perception
+/atom/movable/screen/alert/status_effect/buff/magic/perception
 	name = "arcane perception"
 	desc = "I can see everything."
 	icon_state = "buff"
 
-/datum/status_effect/buff/magicperception/lesser
+/datum/status_effect/buff/magic/perception/lesser
 	id = "lesser perception"
-	alert_type = /atom/movable/screen/alert/status_effect/buff/perception/lesser
+	alert_type = /atom/movable/screen/alert/status_effect/buff/magic/perception/lesser
 	effectedstats = list("perception" = 1)
 	duration = 20 MINUTES
 
-/atom/movable/screen/alert/status_effect/buff/perception/lesser
+/atom/movable/screen/alert/status_effect/buff/magic/perception/lesser
 	name = "lesser arcane perception"
 	desc = "I can see somethings."
 	icon_state = "buff"

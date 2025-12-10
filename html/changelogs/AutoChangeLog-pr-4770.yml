@@ -1,6 +1,0 @@
-author: "Lamasmaster"
-delete-after: True
-changes:
-  - rscadd: "Swimming skill to Retinue and bandit"
-  - rscadd: "Athletics to Hunter"
-  - balance: "Swimming/Athletics for Knave"

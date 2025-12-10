@@ -89,9 +89,9 @@
 						user.mind.add_sleep_experience(/datum/skill/craft/sewing, user.STAINT * XP_ON_SUCCESS)
 				I.obj_integrity = min(I.obj_integrity + (max_integrity/10), I.max_integrity) //10%
 				src.obj_integrity = min(src.obj_integrity - 10, src.max_integrity) //can restore 700% for good cloth kits, and 300% for bad cloth, 400% for bad metal,  1000% for good metal kit.
-				if(I.obj_broken && istype(I, /obj/item/clothing) && I.obj_integrity >= I.max_integrity)
-					var/obj/item/clothing/cloth = I
-					cloth.obj_fix()
+				if(I.obj_broken && I.obj_integrity >= I.max_integrity)
+					var/obj/item/T = I
+					T.obj_fix()
 					return
 				if(do_after(user, AUTO_SEW_DELAY, target = I))
 					attack_obj(I, user)
@@ -136,7 +136,7 @@
 	if(!isitem(O))
 		return
 	var/obj/item/I = O
-	if(I.anvilrepair)
+	if(I.anvilrepair || I == /obj/item/scrap)
 		if(I.smeltresult == /obj/item/ingot/iron || I == /obj/item/scrap) //all iron stuff and iron scrap
 			if(!do_after(user, 2 SECONDS, target = I))
 				return

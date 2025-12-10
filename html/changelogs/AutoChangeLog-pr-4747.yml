@@ -1,5 +1,0 @@
-author: "FreeStylaLT"
-delete-after: True
-changes:
-  - balance: "Campfires now require a tree stump, bedsheet or a bed (bedroll is fine too) to heal."
-  - balance: "Campfires now restore blue bar."

@@ -28,6 +28,7 @@
 /obj/item/kitchen/spoon/silver
 	name = "silver spoon"
 	icon_state = "spoon_silver"
+	is_silver = TRUE
 	sellprice = 20
 
 // NUKE THIS FUCKING TYPEPATH WHEN WE HAVE TIME

@@ -1220,7 +1220,7 @@ GLOBAL_LIST_EMPTY(roundstart_races)
 		if(!target.lying_attack_check(user))
 			return 0
 
-		var/armor_block = target.run_armor_check(selzone, "blunt", armor_penetration = BLUNT_DEFAULT_PENFACTOR, blade_dulling = user.used_intent.blade_class, damage = damage)
+		var/armor_block = target.run_armor_check(selzone, "blunt", armor_penetration = BLUNT_DEFAULT_PENFACTOR, blade_dulling = user.used_intent.blade_class, damage = damage, intdamfactor = user.used_intent?.intent_intdamage_factor)
 
 		target.lastattacker = user.real_name
 		if(target.mind)

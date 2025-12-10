@@ -258,7 +258,7 @@
 
 /obj/item/rogueweapon/scabbard/sheath
 	name = "dagger sheath"
-	desc = "A slingable sheath made of leather, meant to host surprises in smaller sizes."
+	desc = "A slingable sheath made of leather, meant to host surprises in smaller sizes. </br>By middle-clicking the sheath while it's unoccupied, I can strip off the coverings and turn it into a light weapon strap."
 	sewrepair = TRUE
 
 	icon_state = "sheath"
@@ -607,7 +607,7 @@
 
 /obj/item/rogueweapon/scabbard/sword
 	name = "simple scabbard"
-	desc = "The natural evolution to the advent of longblades."
+	desc = "The natural evolution to the advent of longblades. </br>By middle-clicking the scabbard while it's unoccupied, I can strip off the coverings and turn it into a weapon strap."
 
 	icon_state = "scabbard"
 	item_state = "scabbard"

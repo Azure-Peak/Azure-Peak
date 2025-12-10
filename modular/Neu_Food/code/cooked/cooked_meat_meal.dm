@@ -59,6 +59,7 @@
 	foodtype = MEAT
 	warming = 5 MINUTES
 	rotprocess = SHELFLIFE_DECENT
+	faretype = FARE_FINE
 	eat_effect = /datum/status_effect/buff/foodbuff
 	drop_sound = 'sound/foley/dropsound/gen_drop.ogg'
 
@@ -90,6 +91,7 @@
 	warming = 3 MINUTES
 	rotprocess = SHELFLIFE_DECENT
 	eat_effect = /datum/status_effect/buff/foodbuff
+	faretype = FARE_LAVISH
 
 /*	.................   Wiener Cabbage   ................... */
 /obj/item/reagent_containers/food/snacks/rogue/wienercabbage

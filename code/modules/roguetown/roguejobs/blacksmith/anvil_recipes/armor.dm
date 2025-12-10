@@ -402,12 +402,19 @@
 	additional_items = list(/obj/item/ingot/iron)
 	created_item = /obj/item/clothing/head/roguetown/helmet/sallet/visored/iron
 
+/datum/anvil_recipe/armor/iron/knightarmet
+	name = "Knight's Armet, Iron (+1 Iron)"
+	req_bar = /obj/item/ingot/iron
+	req_blade = /obj/item/blade/iron_plate
+	additional_items = list(/obj/item/ingot/iron)
+	created_item = /obj/item/clothing/head/roguetown/helmet/heavy/knight/iron
+
 /datum/anvil_recipe/armor/iron/knighthelmet
 	name = "Knight's Helmet, Iron (+1 Iron)"
 	req_bar = /obj/item/ingot/iron
 	req_blade = /obj/item/blade/iron_plate
 	additional_items = list(/obj/item/ingot/iron)
-	created_item = /obj/item/clothing/head/roguetown/helmet/heavy/knight/iron
+	created_item = /obj/item/clothing/head/roguetown/helmet/heavy/knight/old/iron
 
 /datum/anvil_recipe/armor/iron/bucket
 	name = "Iron Bucket Helmet (+1 Iron)"
@@ -729,12 +736,19 @@
 	additional_items = list(/obj/item/ingot/steel)
 	created_item = /obj/item/clothing/head/roguetown/helmet/bascinet/etruscan
 
+/datum/anvil_recipe/armor/steel/helmetknightarmet//This won't confuse anyone I promise
+	name = "Knight's Armet, Steel (+1 Steel)"
+	req_bar = /obj/item/ingot/steel
+	req_blade = /obj/item/blade/steel_plate
+	additional_items = list(/obj/item/ingot/steel)
+	created_item = /obj/item/clothing/head/roguetown/helmet/heavy/knight
+
 /datum/anvil_recipe/armor/steel/helmetknight
 	name = "Knight's Helmet, Steel (+1 Steel)"
 	req_bar = /obj/item/ingot/steel
 	req_blade = /obj/item/blade/steel_plate
 	additional_items = list(/obj/item/ingot/steel)
-	created_item = /obj/item/clothing/head/roguetown/helmet/heavy/knight
+	created_item = /obj/item/clothing/head/roguetown/helmet/heavy/knight/old
 
 /datum/anvil_recipe/armor/steel/helmetarmet
 	name = "Armet, Steel (+1 Steel)"

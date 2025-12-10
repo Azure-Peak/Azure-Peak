@@ -5,7 +5,10 @@
 	chargedrain = 2
 	charging_slowdown = 3
 
-/datum/intent/swing/sling/can_charge() //checks for arms and spare empty hand removed since it can fire with one hand
+/datum/intent/swing/sling/can_charge(atom/clicked_object) //checks for arms and spare empty hand removed since it can fire with one hand
+	if(mastermob)
+		if(istype(clicked_object, /obj/item/quiver) && istype(mastermob.get_active_held_item(), /obj/item/gun/ballistic))
+			return FALSE
 	return TRUE
 
 /datum/intent/swing/sling/prewarning()
@@ -32,7 +35,10 @@
 	chargedrain = 2
 	charging_slowdown = 3
 
-/datum/intent/arc/sling/can_charge() //checks for arms and spare empty hand removed since it can fire with one hand
+/datum/intent/arc/sling/can_charge(atom/clicked_object) //checks for arms and spare empty hand removed since it can fire with one hand
+	if(mastermob)
+		if(istype(clicked_object, /obj/item/quiver) && istype(mastermob.get_active_held_item(), /obj/item/gun/ballistic))
+			return FALSE
 	return TRUE
 
 /datum/intent/arc/sling/prewarning()

@@ -1,0 +1,4 @@
+author: "kittysmooch"
+delete-after: True
+changes:
+  - rscadd: "'Churchlings' are now 'Sextons', a title for people who keep the grounds of a church. There's a slightly new loadout, and they can now be any age.\n:cl:"

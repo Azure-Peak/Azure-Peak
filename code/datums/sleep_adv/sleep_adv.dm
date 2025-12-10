@@ -331,6 +331,9 @@
 	if(HAS_TRAIT(mind.current, TRAIT_STUDENT))
 		REMOVE_TRAIT(mind.current, TRAIT_STUDENT, TRAIT_GENERIC)
 		to_chat(mind.current, span_smallnotice("I feel that I can be educated in a skill once more."))
+	if(HAS_TRAIT(mind.current, TRAIT_EXPLOSIVE_SUPPLY))
+		mind.has_bomb = TRUE
+		to_chat(mind.current, span_smallnotice("I need to check on HERMES. I think a new package has arrived."))
 	close_ui()
 
 /datum/sleep_adv/Topic(href, list/href_list)

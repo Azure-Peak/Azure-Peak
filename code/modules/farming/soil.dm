@@ -46,6 +46,13 @@ GLOBAL_LIST_EMPTY(soil_list)
 	var/fertilized_time = 0
 	///Cached var to determine whether we need to call an icon update or not.
 	var/needs_icon_update = FALSE
+	//List of tools/weapons that can instantly harvest the produce
+	var/list/instant_harvest_tools = list(
+		/obj/item/rogueweapon/sickle,
+		/obj/item/rogueweapon/huntingknife/idagger/steel/pestrasickle,
+		/obj/item/rogueweapon/scythe,
+		/obj/item/rogueweapon/halberd/bardiche/scythe
+	)
 
 /obj/structure/soil/Initialize()
 	. = ..()
@@ -96,7 +103,7 @@ GLOBAL_LIST_EMPTY(soil_list)
 	yield_produce(modifier, is_legendary)
 
 /obj/structure/soil/proc/try_handle_harvest(obj/item/attacking_item, mob/user, params)
-	if(istype(attacking_item, /obj/item/rogueweapon/sickle))
+	if(is_type_in_list(attacking_item, instant_harvest_tools))
 		if(!plant || !produce_ready)
 			to_chat(user, span_warning("There is nothing to harvest!"))
 			return TRUE

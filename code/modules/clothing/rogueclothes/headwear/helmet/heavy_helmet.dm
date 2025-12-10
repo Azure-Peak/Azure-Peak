@@ -116,7 +116,7 @@
 	smelt_bar_num = 2
 
 /obj/item/clothing/head/roguetown/helmet/heavy/knight
-	name = "knight's helmet"
+	name = "knight's armet"
 	desc = "A noble knight's helm in the current style popular with nobility. Add a feather to show the colors of your family or allegiance."
 	icon_state = "knight"
 	item_state = "knight"
@@ -161,9 +161,19 @@
 	desc = "An ornate steel greathelm with a visor, which protects the entire head. While bulky, the fluted design excels at prolonging chivalrous bouts with fellow knights. Add a feather to show the colors of your family or allegiance."
 
 /obj/item/clothing/head/roguetown/helmet/heavy/knight/iron
-	name = "iron knight's helmet"
+	name = "iron knight's armet"
 	icon_state = "iknight"
 	desc = "A noble knight's helm made of iron."
+	smeltresult = /obj/item/ingot/iron
+	max_integrity = ARMOR_INT_HELMET_HEAVY_IRON
+
+/obj/item/clothing/head/roguetown/helmet/heavy/knight/old
+	name = "knight's helmet"
+	icon_state = "knightclassic"
+
+/obj/item/clothing/head/roguetown/helmet/heavy/knight/old/iron
+	name = "iron knight's helmet"
+	icon_state = "iknightclassic"
 	smeltresult = /obj/item/ingot/iron
 	max_integrity = ARMOR_INT_HELMET_HEAVY_IRON
 
@@ -657,6 +667,10 @@
 	bloody_icon = 'icons/effects/blood64.dmi'
 	experimental_inhand = FALSE
 	experimental_onhip = FALSE
+
+/obj/item/clothing/head/roguetown/helmet/heavy/matthios/Initialize()
+	. = ..()
+	AddComponent(/datum/component/cursed_item, TRAIT_COMMIE, "ARMOR")
 
 /obj/item/clothing/head/roguetown/helmet/heavy/graggar
 	name = "vicious helmet"

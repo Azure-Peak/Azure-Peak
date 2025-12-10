@@ -269,7 +269,6 @@
 	name = "elven barbute"
 	desc = "It fits snugly on one's elven head, with special slots for their pointier ears."
 	body_parts_covered = FULL_HEAD
-	body_parts_covered = HEAD|HAIR|NOSE
 	flags_inv = HIDEEARS|HIDEFACE|HIDESNOUT
 	flags_cover = HEADCOVERSEYES | HEADCOVERSMOUTH
 	icon_state = "elven_barbute_full"
@@ -293,8 +292,7 @@
 	emote_environment = 3
 	body_parts_covered = HEAD|HAIR|EARS
 	flags_inv = HIDEEARS|HIDEHAIR
-	block2add = FOV_BEHIND
-	smeltresult = /obj/item/ingot/steel
+	smeltresult = /obj/item/ingot/steel //STOP TOUCHING THE FOV IT IS NOT MEANT TO HAVE A FULL HELMET BLOCK ON IT THIS IS THE 3RD TIME SOMEONE DONE THIS.
 
 /obj/item/clothing/head/roguetown/helmet/bascinet/pigface
 	name = "pigface bascinet"

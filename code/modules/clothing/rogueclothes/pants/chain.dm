@@ -21,7 +21,7 @@
 
 /obj/item/clothing/under/roguetown/chainlegs/Initialize(mapload)
 	. = ..()
-	AddComponent(/datum/component/item_equipped_movement_rustle)
+	AddComponent(/datum/component/item_equipped_movement_rustle, SFX_CHAIN_STEP, 7)
 
 /obj/item/clothing/under/roguetown/splintlegs
 	name = "brigandine chausses"
@@ -39,6 +39,7 @@
 	smeltresult = /obj/item/ingot/iron
 	r_sleeve_status = SLEEVE_NOMOD
 	l_sleeve_status = SLEEVE_NOMOD
+	resistance_flags = FIRE_PROOF
 	armor_class = ARMOR_CLASS_LIGHT//Steel version of splint leggings
 	w_class = WEIGHT_CLASS_NORMAL
 	//resistance_flags = FIRE_PROOF // these ones should be burning since is cloth + metal
@@ -47,7 +48,7 @@
 
 /obj/item/clothing/under/roguetown/splintlegs/Initialize(mapload)
 	. = ..()
-	AddComponent(/datum/component/item_equipped_movement_rustle, SFX_PLATE_COAT_STEP)
+	AddComponent(/datum/component/item_equipped_movement_rustle, SFX_PLATE_COAT_STEP, 3)
 
 /obj/item/clothing/under/roguetown/splintlegs/iron
 	name = "splinted leggings"

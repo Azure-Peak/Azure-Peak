@@ -29,7 +29,7 @@
 /datum/antagonist/bandit/proc/finalize_bandit()
 	owner.current.playsound_local(get_turf(owner.current), 'sound/music/traitor.ogg', 60, FALSE, pressure_affected = FALSE)
 	var/mob/living/carbon/human/H = owner.current
-	if(!istype(H.patron, (/datum/patron/inhumen/matthios || /datum/patron/inhumen/graggar || /datum/patron/inhumen/zizo || /datum/patron/inhumen/baotha)))
+	if(!istype(H.patron, /datum/patron/inhumen))
 		H.set_patron(/datum/patron/inhumen/matthios)	//If you aren't a heretical worshiper, forces you to Matthios worship. (All bandits follow Matthios.)
 	H.verbs |= /mob/proc/haltyell_exhausting
 	ADD_TRAIT(H, TRAIT_BANDITCAMP, TRAIT_GENERIC)

@@ -1,4 +1,0 @@
-author: "SillyMoff"
-delete-after: True
-changes:
-  - bugfix: "fixed t2 and t3 obfuscate tier"

@@ -118,6 +118,12 @@
 	valid_outputs = list(/obj/item/alch/solardust = 1)
 	bonus_chance_outputs = list(/obj/item/alch/firedust = 25)
 
+/datum/alch_grind_recipe/scrap
+	name = "Scrap"
+	valid_input = /obj/item/scrap
+	valid_outputs = list(/obj/item/alch/irondust = 1)
+	bonus_chance_outputs = list(/obj/item/alch/runedust = 10)
+
 //Ores -> dust
 /datum/alch_grind_recipe/gold_ore
 	name = "Gold Ore"
