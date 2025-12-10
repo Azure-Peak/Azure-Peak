@@ -34652,7 +34652,7 @@
 /obj/effect/decal/mossy{
 	dir = 4
 	},
-/turf/open/floor/rogue/snow,
+/turf/open/floor/rogue/dirt,
 /area/rogue/indoors/town/manor)
 "iKw" = (
 /obj/structure/fluff/psycross,
@@ -50450,7 +50450,7 @@
 /obj/item/reagent_containers/food/snacks/crow{
 	dir = 4
 	},
-/turf/open/floor/rogue/snow,
+/turf/open/floor/rogue/dirt,
 /area/rogue/indoors/town/manor)
 "mCW" = (
 /obj/machinery/light/rogue/hearth,
@@ -54117,7 +54117,7 @@
 /obj/item/natural/worms/leech{
 	pixel_x = 5
 	},
-/turf/open/floor/rogue/dark_ice,
+/turf/open/water/cleanshallow,
 /area/rogue/under/town/basement)
 "nCc" = (
 /obj/structure/mineral_door/bars,
@@ -55818,7 +55818,7 @@
 /area/rogue/outdoors/mountains)
 "nWT" = (
 /obj/effect/landmark/events/haunts,
-/turf/open/floor/rogue/snow,
+/turf/open/floor/rogue/dirt,
 /area/rogue/indoors/town/manor)
 "nWV" = (
 /obj/item/natural/rock,
@@ -57321,7 +57321,7 @@
 	pixel_x = 5
 	},
 /obj/item/natural/worms/leech,
-/turf/open/floor/rogue/dark_ice,
+/turf/open/water/cleanshallow,
 /area/rogue/under/town/basement)
 "orK" = (
 /mob/living/carbon/human/species/skeleton/npc/easy,
@@ -62743,7 +62743,7 @@
 /turf/open/floor/rogue/ruinedwood/spiral,
 /area/rogue/under/underdark/north)
 "pNb" = (
-/turf/open/floor/rogue/snow,
+/turf/open/floor/rogue/dirt,
 /area/rogue/indoors/town/manor)
 "pNg" = (
 /mob/living/carbon/human/species/dwarfskeleton/ambush,
@@ -80780,7 +80780,7 @@
 /obj/item/natural/worms/leech{
 	pixel_x = 5
 	},
-/turf/open/floor/rogue/dark_ice,
+/turf/open/water/cleanshallow,
 /area/rogue/under/town/basement)
 "urc" = (
 /obj/structure/bed/rogue/bedroll{
@@ -81559,7 +81559,7 @@
 /obj/effect/decal/mossy{
 	dir = 8
 	},
-/turf/open/floor/rogue/snow,
+/turf/open/floor/rogue/dirt,
 /area/rogue/indoors/town/manor)
 "uAF" = (
 /obj/structure/fluff/pillow/black{
