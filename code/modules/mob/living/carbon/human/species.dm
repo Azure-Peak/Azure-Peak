@@ -1733,7 +1733,7 @@ GLOBAL_LIST_EMPTY(roundstart_races)
 		else
 			user.filtered_balloon_alert(TRAIT_COMBAT_AWARE, text)
 
-	var/armor_block = H.run_armor_check(selzone, I.d_type, "", "",pen, damage = Iforce, blade_dulling=bladec, peeldivisor = user.used_intent.peel_divisor, intdamfactor = used_intfactor, used_weapon = I)
+	var/armor_block = H.run_armor_check(selzone, I.d_type, "", "",pen, damage = Iforce, blade_dulling=bladec, peeldivisor = user.used_intent.peel_divisor, intdamfactor = used_intfactor, used_weapon = I, mind_mod = (user.mind ? 0 : INTEGDMG_NPC_MOD))
 
 	var/nodmg = FALSE
 

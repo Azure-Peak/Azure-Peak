@@ -1,9 +1,9 @@
-/mob/living/carbon/human/getarmor(def_zone, type, damage, armor_penetration, blade_dulling, peeldivisor, intdamfactor, used_weapon)
+/mob/living/carbon/human/getarmor(def_zone, type, damage, armor_penetration, blade_dulling, peeldivisor, intdamfactor, used_weapon, mind_mod)
 	var/armorval = 0
 	var/organnum = 0
 
 	if(def_zone)
-		return checkarmor(def_zone, type, damage, armor_penetration, blade_dulling, peeldivisor, intdamfactor, used_weapon)
+		return checkarmor(def_zone, type, damage, armor_penetration, blade_dulling, peeldivisor, intdamfactor, used_weapon, mind_mod)
 		//If a specific bodypart is targetted, check how that bodypart is protected and return the value.
 
 	//If you don't specify a bodypart, it checks ALL my bodyparts for protection, and averages out the values
@@ -14,7 +14,7 @@
 	return (armorval/max(organnum, 1))
 
 
-/mob/living/carbon/human/proc/checkarmor(def_zone, d_type, damage, armor_penetration, blade_dulling, peeldivisor, intdamfactor = 1, obj/item/used_weapon)
+/mob/living/carbon/human/proc/checkarmor(def_zone, d_type, damage, armor_penetration, blade_dulling, peeldivisor, intdamfactor = 1, obj/item/used_weapon, mind_mod)
 	if(!d_type)
 		return 0
 	if(isbodypart(def_zone))
@@ -50,6 +50,8 @@
 			if(bless.is_blessed)
 				// Apply multiplier if the blessing is active.
 				intdamage = round(intdamage * bless.cursed_item_intdamage)
+		if(mind_mod)
+			intdamage *= mind_mod
 		used.take_damage(intdamage, damage_flag = d_type, sound_effect = FALSE, armor_penetration = 100)
 	if(physiology)
 		protection += physiology.armor.getRating(d_type)

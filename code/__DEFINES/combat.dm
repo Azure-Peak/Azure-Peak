@@ -307,6 +307,7 @@ GLOBAL_LIST_INIT(shove_disarming_types, typecacheof(list(
 #define SHARPNESS_TIER2_THRESHOLD	0.2 //%-age threshold when damage *really* falls off. Base damage value included.
 
 #define UNARMED_DAMAGE_DEFAULT		12
+#define INTEGDMG_NPC_MOD			0.5
 
 /// Damage multiplier of silver weapons against mobs with TRAIT_SIMPLE_WOUNDS
 #define SILVER_SIMPLEMOB_DAM_MULT 3
