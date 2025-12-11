@@ -1303,6 +1303,7 @@
 	sfx_on_apply = 'sound/combat/limbguard.ogg'
 
 	var/protected_zone
+	var/obj/shield_origin
 
 	mob_effect_dur = 9999 SECONDS	//It's a toggle, so we'll try to delete this manually when we can.
 	mob_effect_icon = 'icons/mob/mob_effects.dmi'
@@ -1320,6 +1321,10 @@
 /datum/status_effect/buff/clash/limbguard/guard_swaphands()
 	return
 
+/datum/status_effect/buff/clash/limbguard/on_creation()
+	. = ..()
+	shield_origin = owner.get_active_held_item()
+
 /datum/status_effect/buff/clash/limbguard/on_apply()
 	. = ..()
 	dur = 999999
@@ -1329,6 +1334,8 @@
 	QDEL_NULL(mob_effect)
 
 /datum/status_effect/buff/clash/limbguard/process()
+	if((owner.get_inactive_held_item() != shield_origin) && (owner.get_active_held_item() != shield_origin))	//We lost the shield we used this with from our hands.
+		remove_self()
 	if(!owner.stamina_add(0.01))	//It essentially halts green regen.
 		remove_self()
 
