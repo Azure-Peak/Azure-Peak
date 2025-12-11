@@ -162,6 +162,7 @@
 		to_chat(src, msg)
 		emote("strain", forced = TRUE)
 	remove_status_effect(/datum/status_effect/buff/clash)
+	remove_status_effect(/datum/status_effect/buff/clash/limbguard)
 
 ///Reduces Peel by some amount. Usually called after waiting out of combat for a while or by other effects (riposte / bait)
 /mob/living/carbon/human/proc/purge_peel(amt)

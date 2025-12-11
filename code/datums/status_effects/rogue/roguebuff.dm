@@ -1194,7 +1194,7 @@
 	RegisterSignal(new_owner, COMSIG_MOB_ON_KICK, PROC_REF(guard_disrupted))
 	RegisterSignal(new_owner, COMSIG_MOB_KICKED, PROC_REF(guard_disrupted))
 	RegisterSignal(new_owner, COMSIG_LIVING_ONJUMP, PROC_REF(guard_disrupted))
-	RegisterSignal(new_owner, COMSIG_CARBON_SWAPHANDS, PROC_REF(guard_disrupted))
+	RegisterSignal(new_owner, COMSIG_CARBON_SWAPHANDS, PROC_REF(guard_swaphands))
 	RegisterSignal(new_owner, COMSIG_ITEM_GUN_PROCESS_FIRE, PROC_REF(guard_disrupted_cheesy))
 	RegisterSignal(new_owner, COMSIG_ATOM_BULLET_ACT, PROC_REF(guard_struck_by_projectile))
 	RegisterSignal(new_owner, COMSIG_LIVING_IMPACT_ZONE, PROC_REF(guard_struck_by_projectile))
@@ -1232,6 +1232,13 @@
 /datum/status_effect/buff/clash/proc/guard_struck_by_projectile()
 	guard_disrupted()
 
+//Ditto.
+/datum/status_effect/buff/clash/proc/guard_swaphands()
+	guard_disrupted()
+
+/datum/status_effect/buff/clash/proc/apply_cooldown()
+	owner.apply_status_effect(/datum/status_effect/debuff/clashcd)
+
 //Our guard was disrupted by normal means.
 /datum/status_effect/buff/clash/proc/guard_disrupted()
 	if(ishuman(owner))
@@ -1260,7 +1267,7 @@
 
 /datum/status_effect/buff/clash/on_remove()
 	. = ..()
-	owner.apply_status_effect(/datum/status_effect/debuff/clashcd)
+	apply_cooldown()
 	// Optional balance lever -- stamina drain if we let Riposte expire without anything happening.
 	/*var/newdur = world.time - dur
 	var/mob/living/carbon/human/H = owner
@@ -1282,6 +1289,108 @@
 	name = "Ready to Clash"
 	desc = span_notice("I am on guard, and ready to clash. If I am hit, I will successfully defend. Attacking will make me lose my focus.")
 	icon_state = "clash"
+
+
+/atom/movable/screen/alert/status_effect/buff/clash/limbguard
+	name = "Limb Guard"
+	desc = span_notice("I have focused my attention to guarding one limb. I shall deflect projectiles and blows to that limb with ease.")
+	icon_state = "limbguard"
+
+/datum/status_effect/buff/clash/limbguard
+	id = "limbguard"
+	duration = -1
+	alert_type = /atom/movable/screen/alert/status_effect/buff/clash/limbguard
+	sfx_on_apply = 'sound/combat/limbguard.ogg'
+
+	var/protected_zone
+
+	mob_effect_dur = 9999 SECONDS	//It's a toggle, so we'll try to delete this manually when we can.
+	mob_effect_icon = 'icons/mob/mob_effects.dmi'
+	mob_effect_icon_state = "eff_guard"
+	mob_effect_layer = MOB_EFFECT_LAYER_LIMBGUARD
+
+/datum/status_effect/buff/clash/limbguard/on_creation(mob/living/new_owner, zone)
+	if(!zone)
+		CRASH("Guard (Defend rclick) was called with no valid zone!")
+	protected_zone = zone
+	mob_effect_icon_state = initial(mob_effect_icon_state)+"_[zone]"
+	set_offsets()
+	. = ..()
+
+/datum/status_effect/buff/clash/limbguard/guard_swaphands()
+	return
+
+/datum/status_effect/buff/clash/limbguard/on_apply()
+	. = ..()
+	dur = 999999
+
+/datum/status_effect/buff/clash/limbguard/on_remove()
+	. = ..()
+	QDEL_NULL(mob_effect)
+
+/datum/status_effect/buff/clash/limbguard/process()
+	if(!owner.stamina_add(0.01))	//It essentially halts green regen.
+		remove_self()
+
+/datum/status_effect/buff/clash/limbguard/proc/set_offsets()
+	switch(protected_zone)
+		if(BODY_ZONE_L_ARM)
+			mob_effect_offset_x = 9
+			mob_effect_offset_y = 0
+		if(BODY_ZONE_R_ARM)
+			mob_effect_offset_x = -9
+			mob_effect_offset_y = 0
+		if(BODY_ZONE_HEAD)
+			mob_effect_offset_x = 0
+			mob_effect_offset_y = 17
+		if(BODY_ZONE_L_LEG)
+			mob_effect_offset_x = 6
+			mob_effect_offset_y = -9
+		if(BODY_ZONE_R_LEG)
+			mob_effect_offset_x = -6
+			mob_effect_offset_y = -9
+
+/datum/status_effect/buff/clash/limbguard/process_attack(mob/living/parent, mob/living/target, mob/user, obj/item/I)
+	if(ishuman(user) && target == owner)
+		var/mob/living/carbon/human/HM = user
+		if(check_zone(HM.zone_selected) == protected_zone)	//User has struck the exact limb that was being protected. Bad!
+			HM.Immobilize(3 SECONDS)
+			HM.OffBalance(3 SECONDS)
+			HM.apply_status_effect(/datum/status_effect/debuff/exposed, 10 SECONDS)
+			HM.remove_status_effect(/datum/status_effect/buff/clash/limbguard)
+			HM.emote("gasp")
+			HM.stamina_add((HM.max_stamina / 3))
+			HM.energy_add((-HM.max_energy / 5))
+			var/mob/living/carbon/human/H = owner
+			H?.purge_peel(99)
+			playsound(owner, 'sound/combat/limbguard_struck.ogg', 100, TRUE)
+			if(HM.mind)
+				owner.stamina_add(-(owner.max_stamina / 3))
+				owner.energy_add((owner.max_energy / 5))
+				remove_self()
+			return COMPONENT_NO_ATTACK	//We cancel the attack that triggered this.
+
+/datum/status_effect/buff/clash/limbguard/proc/remove_self()
+	owner.remove_status_effect(/datum/status_effect/buff/clash/limbguard)
+	if(mob_effect)
+		owner.clear_overhead_indicator(mob_effect, mob_effect_layer)
+
+//Projectile struck our protected limb. Unlike regular Riposte, this will deflect the projectile at no cost.
+/datum/status_effect/buff/clash/limbguard/guard_struck_by_projectile(mob/living/target, obj/P, hit_zone)
+	var/obj/IP = P
+	if(istype(P, /obj/projectile/bullet/reusable))
+		var/obj/projectile/bullet/reusable/RP = P	//This will ensure it gets dropped as an item first. Otherwise a non-reusable projectile will get poofed in a cloud of sparks.
+		IP = RP.handle_drop()
+	if(check_zone(hit_zone) == protected_zone)
+		do_sparks(2, TRUE, get_turf(IP))
+		target.visible_message(span_warning("[target] deflects \the [IP]!"))
+		if(istype(IP, /obj/item))
+			var/obj/item/I = IP
+			I.get_deflected(target)
+		return COMPONENT_CANCEL_THROW //Also returns COMPONENT_ATOM_BLOCK_BULLET
+
+/datum/status_effect/buff/clash/limbguard/apply_cooldown()
+	owner.apply_status_effect(/datum/status_effect/debuff/specialcd, 30 SECONDS)
 
 #define BLOODRAGE_FILTER "bloodrage"
 
