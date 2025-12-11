@@ -551,9 +551,9 @@ var/global/list/anvil_recipe_prices[][]
 	malumblessed_c = FALSE
 	visible_message("<font color='purple'>A holy blessing now not affect on [name]!</font>")
 
-/obj/effect/proc_holder/spell/invoked/repair
+/obj/effect/proc_holder/spell/self/repair
 	name = "Order: Repair"
-	desc = ""
+	desc = "Stand and fix all your metallic equipment"
 	action_icon = 'icons/mob/actions/malummiracles.dmi'
 	overlay_icon = 'icons/mob/actions/malummiracles.dmi'
 	overlay_state = "repair"
@@ -571,46 +571,48 @@ var/global/list/anvil_recipe_prices[][]
 	recharge_time = 20 SECONDS
 	miracle = TRUE
 	devotion_cost = 30
+	var/rrange = 0
 
-/obj/effect/proc_holder/spell/invoked/repair/cast(list/targets, mob/living/carbon/human/user)
-	if(isliving(targets[1]))
-		var/mob/living/target = targets[1]
-		var/skill = user.get_skill_level(/datum/skill/magic/holy)
-		var/repair_points = 200 * skill
-		var/one_fix_points = 50 + (skill * 10)
-		var/cost = 35 - (skill * 5)
-		for(var/obj/item/I in range(0, target)) //items on usertill and user
-			var/dist = get_dist(I, target)
-			if(repair_points <= 0 || (repair_points - one_fix_points) <= 0)
-				repair_points = 0
-				return FALSE
-			if(!do_after(user, 50, target = target))
-				repair_points = 0
-				return FALSE
-			if(dist > 1)
+/obj/effect/proc_holder/spell/self/repair/cast(mob/living/carbon/human/user)
+	var/skill = user.get_skill_level(/datum/skill/magic/holy)
+	var/repair_points = 200 * skill
+	var/one_fix_points = 50 + (skill * 10)
+	var/cost = 40 - (skill * 5)
+	for(var/obj/item/I in range(rrange, user)) //items on usertill and user
+		var/dist = get_dist(I, user)
+		if(repair_points <= 0 || (repair_points - one_fix_points) <= 0)
+			repair_points = 0
+			return FALSE
+		if(dist > 1)
+			continue
+		if(!I.smeltresult) //only metal items.
+			continue
+		if(I.smeltresult == /obj/item/ash && I.smeltresult == /obj/item/rogueore/coal) //not clotch and wood.
+			continue
+		if(I.max_integrity <= I.obj_integrity)
+			continue
+		if(!do_after(user, 50))
+			repair_points = 0
+			return FALSE
+		I.obj_integrity += one_fix_points
+		I.visible_message(span_info("[I] glows in a faint mending light."))
+		user.devotion?.update_devotion(-cost)
+		if(cost != 0)
+			to_chat(user, "<font color='purple'>I lose [cost] devotion!</font>")
+		if(I.max_integrity <= I.obj_integrity)
+			I.obj_fix()
+			if(I.peel_count)
+				I.peel_count--
+				I.visible_message(span_info("[I]'s shorn layers mend together. ([I.peel_count])."))
 				continue
-			if(!I.smeltresult) //only metal items.
+			else
+				I.repair_coverage()
+				I.visible_message(span_info("[I]'s mend together, completely."))
 				continue
-			if(I.smeltresult == /obj/item/ash && I.smeltresult == /obj/item/rogueore/coal) //not clotch and wood.
-				continue
-			if(I.max_integrity <= I.obj_integrity)
-				continue
-			I.obj_integrity += one_fix_points
-			target.visible_message(span_info("[I] glows in a faint mending light."))
-			if(I.max_integrity <= I.obj_integrity)
-				I.obj_fix()
-				if(I.peel_count)
-					I.peel_count--
-					target.visible_message(span_info("[I]'s shorn layers mend together. ([I.peel_count])."))
-				else
-					I.repair_coverage()
-					target.visible_message(span_info("[I]'s mend together, completely."))
-			if((user.devotion?.devotion - cost) < 0)
-				to_chat(user, span_warning("I don't have enough devotion!"))
-				return FALSE
-			user.devotion?.update_devotion(-cost)
-			if(cost != 0)
-				to_chat(user, "<font color='purple'>I lose [cost] devotion!</font>")
+		if((user.devotion?.devotion - cost) < 0)
+			to_chat(user, span_warning("I don't have enough devotion!"))
+			return FALSE
+		cast(user)
 	revert_cast()
 	return FALSE
 
