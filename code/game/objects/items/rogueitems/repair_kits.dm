@@ -10,7 +10,7 @@
 	throwforce = 0
 	resistance_flags = FLAMMABLE
 	slot_flags = ITEM_SLOT_HIP
-	max_integrity = 700
+	max_integrity = 70
 	experimental_inhand = FALSE
 	var/can_repair = TRUE
 	var/table_need = FALSE
@@ -102,7 +102,7 @@
 	name = "fabric patch"
 	icon_state = "custarsewingkit"
 	desc = "A meager set of pieces of cloth, a bundle of threads and a loose rope. It can be used for field repairs."
-	max_integrity = 300
+	max_integrity = 30
 	grid_width = 32
 	grid_height = 32
 
@@ -111,14 +111,14 @@
 	icon_state = "armorkit"
 	desc = "A wonderful set of metal patches, individual armor plates and straps for fastening them.  Everything you need to fix a leaky metal armor."
 	repair_type = 1
-	max_integrity = 1000
+	max_integrity = 100
 	table_need = TRUE
 
 /obj/item/repair_kit/metal/bad
 	name = "metal scrap kit"
 	icon_state = "custararmorkit"
 	desc = "A meager set of various pieces of old iron armor, some parts can be used for field repairs, but do not expect a miracle from this pile of metal."
-	max_integrity = 400
+	max_integrity = 40
 
 /obj/item/armorkit_empty
 	name = "empty metal kit"
