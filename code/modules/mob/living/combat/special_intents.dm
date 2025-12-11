@@ -716,7 +716,7 @@ SPECIALS START HERE
 	cooldown = 1 SECONDS
 
 /datum/special_intent/limbguard/apply_cost(mob/living/L)
-	if(L.has_status_effect(/datum/status_effect/buff/clash))
+	if(L.has_status_effect(/datum/status_effect/buff/clash) || L.has_status_effect(/datum/status_effect/buff/clash/limbguard))
 		return FALSE
 	if(check_zone(L.zone_selected) == BODY_ZONE_CHEST)
 		return FALSE
