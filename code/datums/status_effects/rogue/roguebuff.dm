@@ -1372,8 +1372,6 @@
 
 /datum/status_effect/buff/clash/limbguard/proc/remove_self()
 	owner.remove_status_effect(/datum/status_effect/buff/clash/limbguard)
-	if(mob_effect)
-		owner.clear_overhead_indicator(mob_effect, mob_effect_layer)
 
 //Projectile struck our protected limb. Unlike regular Riposte, this will deflect the projectile at no cost.
 /datum/status_effect/buff/clash/limbguard/guard_struck_by_projectile(mob/living/target, obj/P, hit_zone)
