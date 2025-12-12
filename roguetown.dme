@@ -377,6 +377,7 @@
 #include "code\controllers\subsystem\ping.dm"
 #include "code\controllers\subsystem\pollution.dm"
 #include "code\controllers\subsystem\radio.dm"
+#include "code\controllers\subsystem\rivers.dm"
 #include "code\controllers\subsystem\rogueroundsplayed.dm"
 #include "code\controllers\subsystem\runechat.dm"
 #include "code\controllers\subsystem\server_maint.dm"

@@ -110,10 +110,18 @@
 			return
 
 	if(!victim.clan && victim.mind && ishuman(victim) && VDrinker.generation > GENERATION_THINBLOOD && victim.blood_volume <= BLOOD_VOLUME_BAD)
-		if(alert(src, "Would you like to sire a new spawn?", "THE CURSE OF KAIN", "MAKE IT SO", "I RESCIND") != "MAKE IT SO")
-			to_chat(src, span_warning("I decide [victim] is unworthy."))
+		var/datum/antagonist/vampire/vdrinker = mind?.has_antag_datum(/datum/antagonist/vampire)
+		if(vdrinker.thrall_count < vdrinker.max_thralls || !vdrinker.max_thralls)
+			if(alert(src, "Would you like to sire a new spawn?", "THE CURSE OF KAIN", "MAKE IT SO", "I RESCIND") != "MAKE IT SO")
+				to_chat(src, span_warning("I decide [victim] is unworthy."))
+			else
+				visible_message(span_danger("[src] begins channeling their energies to [victim]!"))
+				if(!do_mob(src, victim, 7 SECONDS, double_progress = TRUE, can_move = FALSE))
+					to_chat(src, span_warning("I was interrupted during my siring!"))
+					return
+				INVOKE_ASYNC(victim, TYPE_PROC_REF(/mob/living/carbon/human, vampire_conversion_prompt), src)
 		else
-			INVOKE_ASYNC(victim, TYPE_PROC_REF(/mob/living/carbon/human, vampire_conversion_prompt), src)
+			to_chat(src, span_warning("I cannot sire anymore thralls.."))
 
 /mob/living/carbon/human/proc/vampire_conversion_prompt(mob/living/carbon/sire)
 	if(!mind)
@@ -141,4 +149,5 @@
 	original_mind?.transfer_to(src, TRUE)
 	var/datum/antagonist/vampire/new_antag = new /datum/antagonist/vampire(incoming_clan = sire.clan, forced_clan = TRUE, generation = VDrinker.generation-1)
 	mind?.add_antag_datum(new_antag)
+	VDrinker.thrall_count++
 	adjust_bloodpool(500)

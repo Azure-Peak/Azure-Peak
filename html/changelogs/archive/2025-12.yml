@@ -168,3 +168,27 @@
   hazelrat:
   - rscadd: Wall-mounted shelves no longer offset your character. Large shelves now
       have density.
+2025-12-11:
+  BurpleBineapple:
+  - balance: Mordhau-capable swords count as wielded when using their alt-grips.
+  HeroWithYay:
+  - bugfix: Stuffed Aubergine now uses an apple instead of Tomato
+  - balance: Stuffed Aubergine only requires a cheese slice instead of a wedge
+  - balance: Stuffed Aubergine provides more nutrition when eaten.
+  hazelrat:
+  - rscadd: Slings and bows are no longer drawn when clicked on a quiver to nock an
+      arrow.
+  - rscadd: You can now put compost back into composting bins.
+  hollyhocc:
+  - bugfix: fixed Eoran robes on short species
+  hollyhock:
+  - rscadd: Added an oink emote for creatures with wild tongues.
+  kittysmooch:
+  - rscadd: '''Churchlings'' are now ''Sextons'', a title for people who keep the
+      grounds of a church. There''s a slightly new loadout, and they can now be any
+      age.
+
+      :cl:'
+2025-12-12:
+  Matheo351:
+  - balance: Straw beds are now considered beds when it comes to falling asleep time

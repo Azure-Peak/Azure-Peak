@@ -24,6 +24,8 @@ GLOBAL_LIST_EMPTY(vampire_objects)
 	var/datum/clan/forcing_clan
 	var/generation
 	var/research_points = 10
+	var/max_thralls = 0
+	var/thrall_count = 0
 
 /datum/antagonist/vampire/New(incoming_clan = /datum/clan/nosferatu, forced_clan = FALSE, generation)
 	. = ..()
@@ -85,9 +87,15 @@ GLOBAL_LIST_EMPTY(vampire_objects)
 			else
 				// Apply the selected clan
 				vampdude.set_clan(default_clan)
+			max_thralls = 1
 		else
 			vampdude.set_clan_direct(forcing_clan)
 			forcing_clan = null
+
+		if(vampdude.job == "Wretch")
+			max_thralls = 1
+		if(vampdude.mind.special_role == "Vampire Lord")
+			max_thralls = 0
 
 	// The clan system now handles most of the setup, but we can still do antagonist-specific things
 	after_gain()

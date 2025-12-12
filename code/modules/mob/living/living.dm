@@ -200,6 +200,17 @@
 			if(L.dir == get_dir(src, L))
 				self_points += 2
 
+			// Shields matter
+			var/list/obj/item/user_inhand = get_held_items()
+			var/list/obj/item/target_inhand = L.get_held_items()
+
+			for(var/obj/I in user_inhand)
+				if(istype(I, /obj/item/rogueweapon/shield))
+					self_points += 2
+			for(var/obj/I in target_inhand)
+				if(istype(I, /obj/item/rogueweapon/shield))
+					target_points += 2
+
 			// Randomize con roll from -1 to +1 to make it less consistent
 			self_points += rand(-1, 1)
 
@@ -225,7 +236,7 @@
 			if(self_points == target_points)
 				L.Knockdown(1)
 				Knockdown(30)
-			Immobilize(10)
+			Immobilize(5)
 			var/playsound = FALSE
 			if(L.apply_damage(15, BRUTE, "chest", L.run_armor_check("chest", "blunt", damage = 10)))
 				playsound = TRUE

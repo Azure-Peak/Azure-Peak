@@ -122,32 +122,25 @@
 			user.visible_message("<span class='warning'>[user] kicks [src]!</span>", \
 				"<span class='warning'>I kick [src]!</span>")
 
-/obj/machinery/light/rogue/wallfire
+/obj/machinery/light/rogue/campfire/wallfirecrafted
 	name = "fireplace"
 	desc = "A warm fire dances between a pile of half-burnt logs upon a bed of glowing embers."
 	icon_state = "wallfire1"
 	base_state = "wallfire"
 	light_outer_range = 4 //slightly weaker than a torch
 	bulb_colour = "#ffa35c"
-	density = FALSE
-	fueluse = 0
-	no_refuel = TRUE
-	crossfire = FALSE
-	cookonme = TRUE
-
-/obj/machinery/light/rogue/wallfirecrafted
-	name = "fireplace"
-	desc = "A warm fire dances between a pile of half-burnt logs upon a bed of glowing embers."
-	icon_state = "wallfire1"
-	base_state = "wallfire"
-	light_outer_range = 4 //slightly weaker than a torch
-	bulb_colour = "#ffa35c"
-	density = FALSE
 	fueluse = 0
 	no_refuel = TRUE
 	crossfire = FALSE
 	pixel_y = 32
-	cookonme = TRUE
+	healing_range = 2
+
+/obj/machinery/light/rogue/campfire/wallfirecrafted/attack_hand(mob/user)
+	if(isliving(user) && on)
+		user.visible_message(span_warning("[user] snuffs [src]."))
+		burn_out()
+		return TRUE
+	return ..()
 
 /obj/machinery/light/rogue/wallfire/candle
 	name = "candles"

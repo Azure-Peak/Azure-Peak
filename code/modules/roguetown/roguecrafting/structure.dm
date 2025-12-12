@@ -53,7 +53,7 @@
 	category = "Misc"
 	result = /obj/structure/fluff/psycross/psycrucifix
 	reqs = list(/obj/item/grown/log/tree/small = 1,
-				/obj/item/grown/log/tree/stake = 3) 
+				/obj/item/grown/log/tree/stake = 3)
 	verbage_simple = "construct"
 	verbage = "constructs"
 
@@ -70,9 +70,9 @@
 	category = "Misc"
 	result = /obj/structure/fluff/psycross/psycrucifix/silver
 	reqs = list(/obj/item/ingot/silverblessed = 1,
-				/obj/item/ingot/steel = 2)	
+				/obj/item/ingot/steel = 2)
 	verbage_simple = "construct"
-	verbage = "constructs"	
+	verbage = "constructs"
 	skillcraft = /datum/skill/craft/masonry
 	craftdiff = 3
 
@@ -913,7 +913,7 @@
 /datum/crafting_recipe/roguetown/structure/fireplace
 	name = "Fireplace (North)"
 	category = "Misc"
-	result = /obj/machinery/light/rogue/wallfirecrafted
+	result = /obj/machinery/light/rogue/campfire/wallfirecrafted
 	reqs = list(/obj/item/grown/log/tree/small = 1,
 				/obj/item/natural/stoneblock = 3)
 	verbage_simple = "build"
@@ -1263,7 +1263,7 @@
 	skillcraft = /datum/skill/craft/masonry
 	craftdiff = 3
 
-// SCOM is not constructable, only the receive only version is constructable to prevent unactionable sneeding. 
+// SCOM is not constructable, only the receive only version is constructable to prevent unactionable sneeding.
 /datum/crafting_recipe/roguetown/structure/rcom
 	name = "RCOM"
 	category = "Misc"
@@ -1380,7 +1380,7 @@
 	reqs = list(/obj/item/natural/cloth = 2, /obj/item/natural/silk= 1 )
 	craftdiff = 3
 	ignoredensity = TRUE
-	
+
 /datum/crafting_recipe/roguetown/structure/apiary
 	name = "apiary"
 	category = "Misc"

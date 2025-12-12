@@ -97,6 +97,7 @@ GLOBAL_LIST_INIT(church_positions, list(
 	"Templar",
 	"Druid",
 	"Martyr",
+	"Sexton",
 ))
 
 GLOBAL_LIST_INIT(inquisition_positions, list(
@@ -146,7 +147,6 @@ GLOBAL_LIST_INIT(youngfolk_positions, list(
 	"Apothecary",
 	"Smithy Apprentice",
 	"Magicians Associate",
-	"Churchling",
 	"Servant",
 	"Shophand",
 	"Vagabond",

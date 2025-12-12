@@ -798,6 +798,11 @@
 	desc = "I used it. I must wait, or risk a lower chance of success."
 	icon_state = "feintcd"
 
+/atom/movable/screen/alert/status_effect/debuff/feinted
+	name = "Feinted"
+	desc = "I've been feinted. It won't happen again so soon."
+	icon_state = "feinted"
+
 
 /atom/movable/screen/alert/status_effect/debuff/clashcd
 	name = "Riposte / Guard Cooldown"
@@ -859,6 +864,20 @@
 	duration = 30 SECONDS
 
 /datum/status_effect/debuff/feintcd/on_creation(mob/living/new_owner, new_dur)
+	if(new_dur)
+		duration = new_dur
+	return ..()
+
+/datum/status_effect/debuff/feinted
+	id = "feinted"
+	alert_type = /atom/movable/screen/alert/status_effect/debuff/feinted
+	mob_effect_icon = 'icons/mob/mob_effects.dmi'
+	mob_effect_icon_state = "eff_feinted"
+	mob_effect_offset_y = 10
+	mob_effect_layer = MOB_EFFECT_LAYER_FEINTED
+	duration = 30 SECONDS
+
+/datum/status_effect/debuff/feinted/on_creation(mob/living/new_owner, new_dur)
 	if(new_dur)
 		duration = new_dur
 	return ..()

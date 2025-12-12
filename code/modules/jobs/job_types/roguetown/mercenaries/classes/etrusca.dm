@@ -47,8 +47,8 @@
 	wrists = /obj/item/clothing/wrists/roguetown/splintarms
 	backpack_contents = list(
 		/obj/item/roguekey/mercenary = 1,
-		/obj/item/flashlight/flare/torch/lantern,
-		/obj/item/storage/belt/rogue/pouch/coins/rich,
+		/obj/item/flashlight/flare/torch/lantern = 1,
+		/obj/item/storage/belt/rogue/pouch/coins/poor = 1,
 		/obj/item/rogueweapon/huntingknife/idagger/navaja = 1,
 		)
 	if(H.mind)

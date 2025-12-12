@@ -323,7 +323,7 @@
 	name = "straw bed"
 	desc = "A rough bed of straw. It's scratchy, and probably hides lots of bugs, but at least it's dry and warm."
 	icon_state = "shitbed"
-	sleepy = 1
+	sleepy = 1.5
 
 /obj/structure/bed/rogue/post_buckle_mob(mob/living/M)
 	..()
