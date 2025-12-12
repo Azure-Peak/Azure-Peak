@@ -715,6 +715,8 @@ SPECIALS START HERE
 		You cannot regain stamina while this is active. It can be cancelled by jumping, kicking or by using MMB again with the same shield out."
 	respect_adjacency = FALSE
 	cooldown = 30 SECONDS
+	stamcost = 30	//Not free!
+
 
 //apply_cost is called before anything else, so it works here for the toggle checks, but it's kind of a bad example -- don't do this.
 /datum/special_intent/limbguard/apply_cost(mob/living/L)
@@ -726,6 +728,7 @@ SPECIALS START HERE
 		return FALSE
 	return TRUE
 
+//Complete override because the majority of the code is handled on the status effect.
 /datum/special_intent/limbguard/process_attack()
 	SHOULD_CALL_PARENT(FALSE)
 	howner.apply_status_effect(/datum/status_effect/buff/clash/limbguard, check_zone(howner.zone_selected))
