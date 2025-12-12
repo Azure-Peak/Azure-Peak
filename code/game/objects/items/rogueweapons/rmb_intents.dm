@@ -146,8 +146,9 @@
 
 /datum/rmb_intent/feint
 	name = "feint"
-	desc = "(RMB WHILE DEFENSE IS ACTIVE) A deceptive half-attack with no follow-through, meant to force your opponent to open their guard. Useless against someone who is dodging."
+	desc = "(RMB WHILE IN COMBAT MODE) A deceptive half-attack with no follow-through, meant to force your opponent to open their guard. Will fail on targets that are relaxed and less alert."
 	icon_state = "rmbfeint"
+	var/feintdur = 7.5 SECONDS
 
 /datum/rmb_intent/feint/special_attack(mob/living/user, atom/target)
 	if(!isliving(target))
@@ -178,26 +179,40 @@
 	perc += (user.STAINT - L.STAINT)*10	//but it's also mostly a mindgame
 	skill_factor = (ourskill - theirskill)/2
 
+	var/special_msg
+
 	if(L.has_status_effect(/datum/status_effect/debuff/exposed))
 		perc = 0
 
-	user.apply_status_effect(/datum/status_effect/debuff/feintcd)
+	if(L.has_status_effect(/datum/status_effect/debuff/feinted))
+		perc = 0
+		special_msg = span_warning("Too soon! They were expecting it!")
+
+	if(!L.can_see_cone(user) && L.mind)
+		perc = 0
+		special_msg = span_warning("They need to see me for me to feint them!")
+
 	perc = CLAMP(perc, 0, 90)
 
 	if(!prob(perc)) //feint intent increases the immobilize duration significantly
 		playsound(user, 'sound/combat/feint.ogg', 100, TRUE)
 		if(user.client?.prefs.showrolls)
 			to_chat(user, span_warning("[L.p_they(TRUE)] did not fall for my feint... [perc]%"))
+		user.apply_status_effect(/datum/status_effect/debuff/feintcd)
+		if(special_msg)
+			to_chat(user, special_msg)
 		return
 
 	if(L.has_status_effect(/datum/status_effect/buff/clash))
 		L.remove_status_effect(/datum/status_effect/buff/clash)
 		to_chat(user, span_notice("[L.p_their(TRUE)] Guard disrupted!"))
-	L.apply_status_effect(/datum/status_effect/debuff/exposed, 7.5 SECONDS)
+	L.apply_status_effect(/datum/status_effect/debuff/exposed, feintdur)
 	L.apply_status_effect(/datum/status_effect/debuff/clickcd, max(1.5 SECONDS + skill_factor, 2.5 SECONDS))
+	L.apply_status_effect(/datum/status_effect/debuff/feinted, 30 SECONDS + feintdur)
 	L.Immobilize(0.5 SECONDS)
 	L.stamina_add(L.stamina * 0.1)
 	L.Slowdown(2)
+	user.apply_status_effect(/datum/status_effect/debuff/feintcd, 30 SECONDS + feintdur)
 	to_chat(user, span_notice("[L.p_they(TRUE)] fell for my feint attack!"))
 	to_chat(L, span_danger("I fall for [user.p_their()] feint attack!"))
 	playsound(user, 'sound/combat/riposte.ogg', 100, TRUE)
