@@ -33,6 +33,7 @@
 	icon_state = "ancientchain"
 	max_integrity = ARMOR_INT_CHEST_MEDIUM_DECREPIT
 	color = "#bb9696"
+	chunkcolor = "#532e25"
 	smeltresult = /obj/item/ingot/aaslag
 	anvilrepair = null
 
@@ -70,6 +71,7 @@
 	icon_state = "ancienthauberk"
 	max_integrity = ARMOR_INT_CHEST_MEDIUM_DECREPIT
 	color = "#bb9696"
+	chunkcolor = "#532e25"
 	smeltresult = /obj/item/ingot/aaslag
 	anvilrepair = null
 
@@ -118,6 +120,7 @@
 	name = "avantyne hauberk"
 	desc = "The rings crackle with unkempt magicka, yearning to enamor the enlightened with avantynic might."
 	color = "#c1b18d"
+	chunkcolor = "#363030"
 
 /obj/item/clothing/suit/roguetown/armor/chainmail/hauberk/zizo/Initialize()
 	. = ..()

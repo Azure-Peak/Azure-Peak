@@ -290,6 +290,7 @@
 	name = "avantyne boots"
 	desc = "Plate boots. Called forth from the edge of what should be known. In Her name."
 	icon_state = "zizoboots"
+	chunkcolor = "#363030"
 	armor = ARMOR_ASCENDANT
 
 /obj/item/clothing/shoes/roguetown/boots/armor/zizo/Initialize()
@@ -447,6 +448,7 @@
 	anvilrepair = /datum/skill/craft/armorsmithing
 	smeltresult = /obj/item/ingot/blacksteel
 	resistance_flags = FIRE_PROOF
+	chunkcolor = "#303036"
 
 /obj/item/clothing/shoes/roguetown/boots/blacksteel/plateboots
 	name = "ancient blacksteel plate boots"
@@ -464,6 +466,7 @@
 	anvilrepair = /datum/skill/craft/armorsmithing
 	smeltresult = /obj/item/ingot/blacksteel
 	resistance_flags = FIRE_PROOF
+	chunkcolor = "#303036"
 
 // ----------------- BLACKSTEEL END -----------------------
 

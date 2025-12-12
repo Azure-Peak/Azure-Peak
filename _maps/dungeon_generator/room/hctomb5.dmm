@@ -13,7 +13,7 @@
 /turf/open/floor/rogue/wood,
 /area/rogue/under/tomb/indoors/rest)
 "aS" = (
-/obj/machinery/light/rogue/wallfire/candle/weak/l,
+/obj/machinery/light/rogue/candle/weak/l,
 /obj/structure/mannequin/male/female,
 /turf/open/floor/rogue/herringbone,
 /area/rogue/under/tomb/indoors)
@@ -75,7 +75,7 @@
 /area/rogue/under/tomb)
 "hz" = (
 /obj/effect/decal/cleanable/dirt/dust,
-/obj/machinery/light/rogue/wallfire/candle/r,
+/obj/machinery/light/rogue/candle/r,
 /turf/open/floor/rogue/wood,
 /area/rogue/under/tomb/indoors/rest)
 "ic" = (
@@ -441,7 +441,7 @@
 /turf/open/floor/rogue/blocks,
 /area/rogue/under/tomb/indoors/rest)
 "SB" = (
-/obj/machinery/light/rogue/wallfire/candle/weak/l,
+/obj/machinery/light/rogue/candle/weak/l,
 /turf/open/floor/rogue/herringbone,
 /area/rogue/under/tomb/indoors)
 "Ul" = (
@@ -461,7 +461,7 @@
 /area/rogue/under/tomb/indoors/rest)
 "WJ" = (
 /obj/structure/stairs/stone,
-/obj/machinery/light/rogue/wallfire/candle/r,
+/obj/machinery/light/rogue/candle/r,
 /turf/open/floor/rogue/cobble,
 /area/rogue/under/tomb/indoors/rest)
 "WK" = (
@@ -501,7 +501,7 @@
 /turf/open/transparent/openspace,
 /area/rogue/under/tomb)
 "Zz" = (
-/obj/machinery/light/rogue/wallfire/candle/r,
+/obj/machinery/light/rogue/candle/r,
 /obj/structure/bed/rogue/inn,
 /obj/item/bedsheet/rogue/wool,
 /turf/open/floor/carpet/royalblack,

@@ -99,12 +99,12 @@
 /area/rogue/under/tomb/indoors/royal)
 "bm" = (
 /obj/structure/mineral_door/wood/violet,
-/obj/machinery/light/rogue/wallfire/candle,
+/obj/machinery/light/rogue/candle,
 /turf/open/floor/rogue/ruinedwood/spiral,
 /area/rogue/under/tomb/indoors)
 "bn" = (
 /obj/structure/closet/crate/roguecloset/crafted,
-/obj/machinery/light/rogue/wallfire/candle,
+/obj/machinery/light/rogue/candle,
 /turf/open/floor/rogue/tile/masonic/inverted,
 /area/rogue/under/tomb/indoors)
 "bv" = (
@@ -215,7 +215,7 @@
 /turf/open/floor/carpet/red,
 /area/rogue/under/tomb/indoors)
 "cS" = (
-/obj/machinery/light/rogue/wallfire/candle,
+/obj/machinery/light/rogue/candle,
 /turf/closed/wall/mineral/rogue/decostone,
 /area/rogue/under/tomb/indoors)
 "cU" = (
@@ -249,7 +249,7 @@
 /area/rogue/under/tomb/indoors/royal)
 "dq" = (
 /obj/structure/fermentation_keg/random/water,
-/obj/machinery/light/rogue/wallfire/candle,
+/obj/machinery/light/rogue/candle,
 /turf/open/floor/rogue/hexstone,
 /area/rogue/under/tomb/indoors)
 "du" = (
@@ -286,7 +286,7 @@
 /area/rogue/under/tomb)
 "dU" = (
 /obj/structure/bookcase,
-/obj/machinery/light/rogue/wallfire/candle/blue,
+/obj/machinery/light/rogue/candle/blue,
 /turf/open/floor/rogue/ruinedwood/spiral,
 /area/rogue/under/tomb/indoors)
 "ea" = (
@@ -383,7 +383,7 @@
 /turf/closed/wall/mineral/rogue/decostone,
 /area/rogue/under/tomb/indoors)
 "fc" = (
-/obj/machinery/light/rogue/wallfire/candle/blue,
+/obj/machinery/light/rogue/candle/blue,
 /obj/structure/chair/bench/couchablack,
 /turf/open/floor/rogue/churchmarble,
 /area/rogue/under/tomb/indoors/royal)
@@ -496,7 +496,7 @@
 /area/rogue/under/tomb/indoors)
 "gG" = (
 /obj/structure/roguewindow/stained/silver,
-/obj/machinery/light/rogue/wallfire/candle/blue,
+/obj/machinery/light/rogue/candle/blue,
 /turf/open/floor/rogue/blocks,
 /area/rogue/under/tomb/indoors)
 "gH" = (
@@ -585,7 +585,7 @@
 /turf/closed/mineral,
 /area/rogue/under/tomb)
 "hK" = (
-/obj/machinery/light/rogue/wallfire/candle,
+/obj/machinery/light/rogue/candle,
 /turf/open/floor/rogue/cobble,
 /area/rogue/under/tomb/indoors)
 "hM" = (
@@ -611,7 +611,7 @@
 /turf/open/floor/rogue/cobble,
 /area/rogue/under/tomb/wilds)
 "hV" = (
-/obj/machinery/light/rogue/wallfire/candle/blue,
+/obj/machinery/light/rogue/candle/blue,
 /turf/open/floor/rogue/churchbrick,
 /area/rogue/under/tomb/indoors/royal)
 "hW" = (
@@ -740,7 +740,7 @@
 /area/rogue/under/tomb/indoors)
 "jm" = (
 /obj/structure/bookcase/random,
-/obj/machinery/light/rogue/wallfire/candle,
+/obj/machinery/light/rogue/candle,
 /obj/structure/spider/stickyweb,
 /turf/open/floor/rogue/ruinedwood/chevron,
 /area/rogue/under/tomb/indoors)
@@ -894,11 +894,11 @@
 /turf/open/floor/rogue/hexstone,
 /area/rogue/under/tomb/indoors)
 "ll" = (
-/obj/machinery/light/rogue/wallfire/candle/blue,
+/obj/machinery/light/rogue/candle/blue,
 /turf/closed/wall/mineral/rogue/pipe,
 /area/rogue/under/tomb/indoors)
 "lm" = (
-/obj/machinery/light/rogue/wallfire/candle/blue,
+/obj/machinery/light/rogue/candle/blue,
 /turf/open/floor/rogue/churchmarble,
 /area/rogue/under/tomb/indoors/royal)
 "ln" = (
@@ -983,14 +983,14 @@
 /obj/structure/fluff/railing/border{
 	dir = 8
 	},
-/obj/machinery/light/rogue/wallfire/candle/blue,
+/obj/machinery/light/rogue/candle/blue,
 /turf/open/floor/rogue/cobble,
 /area/rogue/under/tomb/wilds)
 "mi" = (
 /obj/structure/bars/pipe{
 	dir = 4
 	},
-/obj/machinery/light/rogue/wallfire/candle/blue,
+/obj/machinery/light/rogue/candle/blue,
 /turf/open/transparent/openspace,
 /area/rogue/under/tomb)
 "mj" = (
@@ -1165,7 +1165,7 @@
 /obj/structure/fluff/railing/border{
 	dir = 10
 	},
-/obj/machinery/light/rogue/wallfire/candle,
+/obj/machinery/light/rogue/candle,
 /turf/open/floor/rogue/ruinedwood/spiral,
 /area/rogue/under/tomb/indoors)
 "nL" = (
@@ -1363,7 +1363,7 @@
 "qg" = (
 /obj/structure/bed/rogue/inn/double,
 /obj/item/bedsheet/rogue/fabric_double,
-/obj/machinery/light/rogue/wallfire/candle/blue,
+/obj/machinery/light/rogue/candle/blue,
 /turf/open/floor/rogue/tile/masonic/single,
 /area/rogue/under/tomb/indoors/magic)
 "qp" = (
@@ -1423,7 +1423,7 @@
 /area/rogue/under/tomb)
 "rh" = (
 /obj/structure/flora/roguegrass/bush,
-/obj/machinery/light/rogue/wallfire/candle,
+/obj/machinery/light/rogue/candle,
 /turf/open/floor/rogue/dirt,
 /area/rogue/under/tomb/wilds)
 "ri" = (
@@ -1599,7 +1599,7 @@
 /turf/open/floor/rogue/cobblerock,
 /area/rogue/under/tomb/wilds)
 "tZ" = (
-/obj/machinery/light/rogue/wallfire/candle,
+/obj/machinery/light/rogue/candle,
 /obj/structure/trap/curse/hidden,
 /turf/open/floor/rogue/hexstone,
 /area/rogue/under/tomb/indoors)
@@ -1733,7 +1733,7 @@
 /area/rogue/under/tomb/wilds)
 "vL" = (
 /obj/structure/fermentation_keg,
-/obj/machinery/light/rogue/wallfire/candle,
+/obj/machinery/light/rogue/candle,
 /turf/open/floor/rogue/cobble,
 /area/rogue/under/tomb/indoors)
 "vR" = (
@@ -1856,7 +1856,7 @@
 /area/rogue/under/tomb/indoors)
 "xf" = (
 /obj/structure/bars,
-/obj/machinery/light/rogue/wallfire/candle,
+/obj/machinery/light/rogue/candle,
 /turf/open/floor/rogue/blocks,
 /area/rogue/under/tomb/indoors)
 "xh" = (
@@ -1943,7 +1943,7 @@
 /turf/open/transparent/openspace,
 /area/rogue/under/tomb/indoors)
 "xZ" = (
-/obj/machinery/light/rogue/wallfire/candle/blue,
+/obj/machinery/light/rogue/candle/blue,
 /turf/closed/wall/mineral/rogue/decostone,
 /area/rogue/under/tomb/indoors)
 "ya" = (
@@ -1952,7 +1952,7 @@
 /turf/open/floor/rogue/cobblerock,
 /area/rogue/under/tomb)
 "yb" = (
-/obj/machinery/light/rogue/wallfire,
+/obj/machinery/light/rogue,
 /turf/closed/wall/mineral/rogue/decostone,
 /area/rogue/under/tomb/indoors)
 "yh" = (
@@ -1964,7 +1964,7 @@
 /turf/open/floor/rogue/ruinedwood/spiral,
 /area/rogue/under/tomb/indoors)
 "yj" = (
-/obj/machinery/light/rogue/wallfire/candle/blue,
+/obj/machinery/light/rogue/candle/blue,
 /turf/open/floor/rogue/cobblerock,
 /area/rogue/under/tomb/wilds)
 "yk" = (
@@ -2151,7 +2151,7 @@
 /turf/open/floor/rogue/cobble,
 /area/rogue/under/tomb)
 "An" = (
-/obj/machinery/light/rogue/wallfire/candle,
+/obj/machinery/light/rogue/candle,
 /turf/open/floor/rogue/herringbone,
 /area/rogue/under/tomb/indoors)
 "Ap" = (
@@ -2168,13 +2168,13 @@
 /turf/open/transparent/openspace,
 /area/rogue/under/tomb)
 "Aq" = (
-/obj/machinery/light/rogue/wallfire/candle,
+/obj/machinery/light/rogue/candle,
 /obj/structure/trap/saw_blades,
 /turf/open/floor/rogue/hexstone,
 /area/rogue/under/tomb/indoors)
 "Ar" = (
 /obj/structure/fluff/railing/border,
-/obj/machinery/light/rogue/wallfire/candle/blue,
+/obj/machinery/light/rogue/candle/blue,
 /turf/open/floor/rogue/blocks,
 /area/rogue/under/tomb/indoors)
 "As" = (
@@ -2211,7 +2211,7 @@
 /turf/open/floor/rogue/twig,
 /area/rogue/under/tomb/indoors)
 "AM" = (
-/obj/machinery/light/rogue/wallfire{
+/obj/machinery/light/rogue{
 	pixel_x = -32;
 	pixel_y = 3
 	},
@@ -2459,12 +2459,12 @@
 /turf/open/floor/carpet/royalblack,
 /area/rogue/under/tomb/indoors)
 "Di" = (
-/obj/machinery/light/rogue/wallfire/candle,
+/obj/machinery/light/rogue/candle,
 /turf/closed/wall/mineral/rogue/craftstone,
 /area/rogue/under/tomb/indoors)
 "Dp" = (
 /obj/structure/bars,
-/obj/machinery/light/rogue/wallfire/candle,
+/obj/machinery/light/rogue/candle,
 /turf/open/floor/rogue/cobblerock,
 /area/rogue/under/tomb/wilds)
 "Dq" = (
@@ -2484,7 +2484,7 @@
 /area/rogue/under/tomb/wilds)
 "DM" = (
 /obj/structure/roguewindow/stained/silver,
-/obj/machinery/light/rogue/wallfire/candle,
+/obj/machinery/light/rogue/candle,
 /turf/open/floor/rogue/blocks,
 /area/rogue/under/tomb/indoors)
 "DY" = (
@@ -2566,7 +2566,7 @@
 /turf/open/water/bath,
 /area/rogue/under/tomb/indoors)
 "EY" = (
-/obj/machinery/light/rogue/wallfire/candle,
+/obj/machinery/light/rogue/candle,
 /turf/open/transparent/openspace,
 /area/rogue/under/tomb)
 "EZ" = (
@@ -2592,7 +2592,7 @@
 /area/rogue/under/tomb)
 "Fk" = (
 /obj/structure/table/wood/fancy/purple,
-/obj/machinery/light/rogue/wallfire/candle,
+/obj/machinery/light/rogue/candle,
 /obj/item/reagent_containers/glass/cup/golden,
 /turf/open/floor/carpet/purple,
 /area/rogue/under/tomb/indoors)
@@ -2636,7 +2636,7 @@
 	pixel_x = 5;
 	pixel_y = 1
 	},
-/obj/machinery/light/rogue/wallfire/candle/blue,
+/obj/machinery/light/rogue/candle/blue,
 /turf/open/transparent/openspace,
 /area/rogue/under/tomb)
 "Ga" = (
@@ -2851,7 +2851,7 @@
 /area/rogue/under/tomb/indoors)
 "HY" = (
 /obj/structure/flora/roguegrass/bush/wall/tall,
-/obj/machinery/light/rogue/wallfire/candle,
+/obj/machinery/light/rogue/candle,
 /turf/open/floor/rogue/dirt,
 /area/rogue/under/tomb/wilds)
 "HZ" = (
@@ -2908,7 +2908,7 @@
 /turf/open/floor/rogue/blocks,
 /area/rogue/under/tomb/indoors)
 "Iv" = (
-/obj/machinery/light/rogue/wallfire/candle,
+/obj/machinery/light/rogue/candle,
 /turf/open/floor/carpet/royalblack,
 /area/rogue/under/tomb/indoors)
 "Iy" = (
@@ -2933,7 +2933,7 @@
 	pixel_x = 4;
 	pixel_y = 3
 	},
-/obj/machinery/light/rogue/wallfire/candle/blue,
+/obj/machinery/light/rogue/candle/blue,
 /obj/item/roguestatue/gold/loot,
 /turf/open/floor/rogue/ruinedwood/chevron,
 /area/rogue/under/tomb/indoors)
@@ -2955,7 +2955,7 @@
 /turf/open/floor/rogue/blocks,
 /area/rogue/under/tomb/indoors)
 "IX" = (
-/obj/machinery/light/rogue/wallfire/candle,
+/obj/machinery/light/rogue/candle,
 /obj/structure/trap/shock,
 /turf/open/water/bath,
 /area/rogue/under/tomb/indoors)
@@ -2992,7 +2992,7 @@
 /area/rogue/under/tomb/indoors)
 "JJ" = (
 /obj/structure/flora/roguegrass/bush,
-/obj/machinery/light/rogue/wallfire/candle,
+/obj/machinery/light/rogue/candle,
 /turf/open/floor/rogue/grassred,
 /area/rogue/under/tomb/wilds)
 "JP" = (
@@ -3000,7 +3000,7 @@
 /turf/open/floor/rogue/naturalstone,
 /area/rogue/under/tomb)
 "JS" = (
-/obj/machinery/light/rogue/wallfire/candle,
+/obj/machinery/light/rogue/candle,
 /turf/open/transparent/openspace,
 /area/rogue/under/tomb/indoors)
 "JW" = (
@@ -3059,7 +3059,7 @@
 /area/rogue/under/tomb/indoors)
 "KT" = (
 /obj/structure/rack/rogue/shelf/big,
-/obj/machinery/light/rogue/wallfire/candle,
+/obj/machinery/light/rogue/candle,
 /turf/open/floor/rogue/cobble,
 /area/rogue/under/tomb/indoors)
 "La" = (
@@ -3230,7 +3230,7 @@
 /turf/open/floor/rogue/carpet/lord/left,
 /area/rogue/under/tomb/indoors/royal)
 "Nk" = (
-/obj/machinery/light/rogue/wallfire/candle,
+/obj/machinery/light/rogue/candle,
 /turf/closed/wall/mineral/rogue/craftstone,
 /area/rogue/under/tomb/indoors/royal)
 "Nm" = (
@@ -3298,7 +3298,7 @@
 /turf/open/floor/rogue/hexstone,
 /area/rogue/under/tomb/indoors)
 "NY" = (
-/obj/machinery/light/rogue/wallfire/candle/r,
+/obj/machinery/light/rogue/candle/r,
 /turf/open/floor/rogue/ruinedwood/spiral,
 /area/rogue/under/tomb/indoors)
 "Ok" = (
@@ -3327,7 +3327,7 @@
 /turf/open/floor/rogue/twig,
 /area/rogue/under/tomb/indoors)
 "OB" = (
-/obj/machinery/light/rogue/wallfire/candle/blue,
+/obj/machinery/light/rogue/candle/blue,
 /obj/structure/chair/bench/coucha/r,
 /turf/open/floor/rogue/churchmarble,
 /area/rogue/under/tomb/indoors/royal)
@@ -3344,7 +3344,7 @@
 /turf/open/floor/rogue/tile,
 /area/rogue/under/tomb/indoors/royal)
 "OM" = (
-/obj/machinery/light/rogue/wallfire/candle/blue,
+/obj/machinery/light/rogue/candle/blue,
 /turf/closed/mineral/rogue/bedrock,
 /area/rogue/under/tomb)
 "OO" = (
@@ -3518,7 +3518,7 @@
 "QA" = (
 /obj/structure/roguewindow/stained/silver,
 /obj/structure/bars,
-/obj/machinery/light/rogue/wallfire/candle,
+/obj/machinery/light/rogue/candle,
 /turf/open/floor/rogue/tile/masonic/inverted,
 /area/rogue/under/tomb/indoors)
 "QD" = (
@@ -3722,7 +3722,7 @@
 /turf/open/floor/rogue/ruinedwood/spiral,
 /area/rogue/under/tomb/indoors)
 "Ts" = (
-/obj/machinery/light/rogue/wallfire{
+/obj/machinery/light/rogue{
 	pixel_x = -32;
 	pixel_y = 1
 	},
@@ -3758,7 +3758,7 @@
 /turf/open/floor/rogue/tile/masonic/inverted,
 /area/rogue/under/tomb/indoors)
 "TM" = (
-/obj/machinery/light/rogue/wallfire{
+/obj/machinery/light/rogue{
 	pixel_x = 0;
 	pixel_y = 31
 	},
@@ -4081,7 +4081,7 @@
 /turf/open/floor/rogue/carpet/lord/center,
 /area/rogue/under/tomb/indoors/royal)
 "Xa" = (
-/obj/machinery/light/rogue/wallfire/candle/blue,
+/obj/machinery/light/rogue/candle/blue,
 /obj/effect/decal/cleanable/blood,
 /turf/open/floor/rogue/tile/masonic/spiral,
 /area/rogue/under/tomb/indoors)
@@ -4143,7 +4143,7 @@
 /turf/open/floor/rogue/cobblerock,
 /area/rogue/under/tomb/wilds)
 "XQ" = (
-/obj/machinery/light/rogue/wallfire/candle,
+/obj/machinery/light/rogue/candle,
 /obj/structure/trap/chill,
 /turf/open/floor/rogue/hexstone,
 /area/rogue/under/tomb/indoors)
@@ -4160,7 +4160,7 @@
 /area/rogue/under/tomb/wilds)
 "Yp" = (
 /obj/structure/closet/crate/chest/crate,
-/obj/machinery/light/rogue/wallfire/candle,
+/obj/machinery/light/rogue/candle,
 /obj/effect/spawner/lootdrop/general_loot_low,
 /turf/open/floor/rogue/herringbone,
 /area/rogue/under/tomb/indoors)
@@ -4218,7 +4218,7 @@
 /turf/open/floor/rogue/tile/masonic/single,
 /area/rogue/under/tomb/indoors/magic)
 "YZ" = (
-/obj/machinery/light/rogue/wallfire/candle,
+/obj/machinery/light/rogue/candle,
 /turf/open/floor/rogue/cobblerock,
 /area/rogue/under/tomb/wilds)
 "Za" = (

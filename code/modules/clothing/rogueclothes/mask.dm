@@ -344,6 +344,7 @@
 	icon_state = "ancientmask"
 	max_integrity = 75
 	color = "#bb9696"
+	chunkcolor = "#532e25"
 	smeltresult = /obj/item/ingot/aaslag
 	anvilrepair = null
 

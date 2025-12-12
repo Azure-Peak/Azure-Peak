@@ -3,22 +3,22 @@
 /turf/open/floor/rogue/cobblerock,
 /area/rogue/under/tomb)
 "d" = (
-/obj/machinery/light/rogue/wallfire/candle/l,
+/obj/machinery/light/rogue/candle/l,
 /turf/open/floor/rogue/cobblerock,
 /area/rogue/under/tomb)
 "m" = (
-/obj/machinery/light/rogue/wallfire/candle/blue/l,
+/obj/machinery/light/rogue/candle/blue/l,
 /turf/open/floor/rogue/cobblerock,
 /area/rogue/under/tomb)
 "n" = (
 /turf/closed/wall/mineral/rogue/stone/moss,
 /area/rogue/under/tomb)
 "v" = (
-/obj/machinery/light/rogue/wallfire/candle/r,
+/obj/machinery/light/rogue/candle/r,
 /turf/open/floor/rogue/cobblerock,
 /area/rogue/under/tomb)
 "w" = (
-/obj/machinery/light/rogue/wallfire/candle/blue/r,
+/obj/machinery/light/rogue/candle/blue/r,
 /turf/open/floor/rogue/cobblerock,
 /area/rogue/under/tomb)
 "M" = (

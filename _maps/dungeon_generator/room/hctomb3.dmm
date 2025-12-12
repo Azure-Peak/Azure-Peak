@@ -118,7 +118,7 @@
 /area/rogue/under/tomb/cave/spider)
 "dn" = (
 /obj/machinery/anvil,
-/obj/machinery/light/rogue/wallfire/candle/l,
+/obj/machinery/light/rogue/candle/l,
 /turf/open/floor/rogue/churchrough,
 /area/rogue/under/tomb/cave/spider)
 "do" = (
@@ -139,7 +139,7 @@
 /area/rogue/under/tomb/indoors)
 "dK" = (
 /obj/structure/closet/crate/chest,
-/obj/machinery/light/rogue/wallfire/candle/blue{
+/obj/machinery/light/rogue/candle/blue{
 	pixel_y = -32
 	},
 /obj/effect/decal/cleanable/dirt/dust,
@@ -392,7 +392,7 @@
 	pixel_y = -3
 	},
 /obj/structure/closet/crate/chest,
-/obj/machinery/light/rogue/wallfire/candle/blue/r,
+/obj/machinery/light/rogue/candle/blue/r,
 /obj/effect/decal/cleanable/dirt/dust,
 /obj/effect/decal/cleanable/dirt/dust,
 /obj/effect/decal/cleanable/dirt/cobweb/cobweb2,
@@ -466,7 +466,7 @@
 /turf/open/floor/rogue/churchrough,
 /area/rogue/under/tomb/indoors)
 "rS" = (
-/obj/machinery/light/rogue/wallfire/candle/r,
+/obj/machinery/light/rogue/candle/r,
 /obj/effect/decal/cleanable/dirt/dust,
 /turf/open/floor/rogue/churchrough,
 /area/rogue/under/tomb/cave/spider)
@@ -795,7 +795,7 @@
 /turf/open/floor/rogue/church,
 /area/rogue/under/tomb/cave/spider)
 "CS" = (
-/obj/machinery/light/rogue/wallfire/candle/r,
+/obj/machinery/light/rogue/candle/r,
 /obj/structure/spider/stickyweb,
 /turf/open/floor/rogue/churchrough,
 /area/rogue/under/tomb/cave/spider)
@@ -1249,7 +1249,7 @@
 /area/rogue/under/tomb/indoors)
 "PA" = (
 /mob/living/simple_animal/hostile/retaliate/rogue/mimic,
-/obj/machinery/light/rogue/wallfire/candle/blue,
+/obj/machinery/light/rogue/candle/blue,
 /obj/effect/decal/cleanable/dirt/dust,
 /obj/item/natural/rock/random_ore,
 /turf/open/floor/rogue/church,
@@ -1387,7 +1387,7 @@
 /obj/effect/decal/cleanable/dirt/dust,
 /obj/effect/decal/cleanable/dirt/dust,
 /obj/structure/spider/stickyweb,
-/obj/machinery/light/rogue/wallfire/candle/blue/l,
+/obj/machinery/light/rogue/candle/blue/l,
 /obj/structure/closet/crate/chest/lootbox,
 /obj/item/clothing/gloves/roguetown/plate/dwarven,
 /turf/open/floor/rogue/blocks/stonered/tiny,
@@ -1395,7 +1395,7 @@
 "Vz" = (
 /obj/machinery/anvil,
 /obj/item/rogueweapon/mace/warhammer/steel,
-/obj/machinery/light/rogue/wallfire/candle/r,
+/obj/machinery/light/rogue/candle/r,
 /turf/open/floor/rogue/churchrough,
 /area/rogue/under/tomb/cave/spider)
 "VL" = (

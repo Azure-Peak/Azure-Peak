@@ -9,7 +9,7 @@
 /area/rogue/under/tomb/indoors/royal)
 "aj" = (
 /obj/structure/closet/crate/drawer/random,
-/obj/machinery/light/rogue/wallfire/candle/weak,
+/obj/machinery/light/rogue/candle/weak,
 /obj/effect/spawner/lootdrop/roguetown/dungeon/food,
 /obj/effect/decal/cleanable/blood,
 /turf/open/floor/rogue/carpet,
@@ -24,12 +24,12 @@
 /turf/open/floor/rogue/metal/barograte,
 /area/rogue/under/tomb/indoors/magic)
 "ay" = (
-/obj/machinery/light/rogue/wallfire/candle/weak,
+/obj/machinery/light/rogue/candle/weak,
 /turf/open/floor/rogue/tile/masonic/inverted,
 /area/rogue/under/tomb/indoors/royal)
 "az" = (
 /obj/structure/fluff/walldeco/vinez,
-/obj/machinery/light/rogue/wallfire/candle/weak,
+/obj/machinery/light/rogue/candle/weak,
 /turf/closed/wall/mineral/rogue/decostone,
 /area/rogue/under/tomb)
 "aH" = (
@@ -57,7 +57,7 @@
 /turf/open/floor/rogue/churchmarble,
 /area/rogue/under/tomb/indoors)
 "bj" = (
-/obj/machinery/light/rogue/wallfire/candle/weak,
+/obj/machinery/light/rogue/candle/weak,
 /turf/closed/wall/mineral/rogue/decostone,
 /area/rogue/under/tomb)
 "bn" = (
@@ -154,7 +154,7 @@
 /turf/closed/wall/mineral/rogue/decostone/cand,
 /area/rogue/under/tomb)
 "do" = (
-/obj/machinery/light/rogue/wallfire/candle/weak,
+/obj/machinery/light/rogue/candle/weak,
 /turf/closed/wall/mineral/rogue/decostone,
 /area/rogue/under/tomb/sewer)
 "dw" = (
@@ -218,7 +218,7 @@
 /turf/open/floor/rogue/carpet,
 /area/rogue/under/tomb/indoors/royal)
 "eJ" = (
-/obj/machinery/light/rogue/wallfire/candle/weak,
+/obj/machinery/light/rogue/candle/weak,
 /turf/open/floor/rogue/hexstone,
 /area/rogue/under/tomb/indoors)
 "eM" = (
@@ -227,7 +227,7 @@
 /turf/open/floor/rogue/churchmarble,
 /area/rogue/under/tomb/indoors)
 "eN" = (
-/obj/machinery/light/rogue/wallfire/candle/weak,
+/obj/machinery/light/rogue/candle/weak,
 /turf/open/floor/rogue/hexstone,
 /area/rogue/under/tomb/sewer)
 "eR" = (
@@ -251,7 +251,7 @@
 /turf/open/floor/rogue/carpet,
 /area/rogue/under/tomb/indoors/royal)
 "fe" = (
-/obj/machinery/light/rogue/wallfire/candle/weak,
+/obj/machinery/light/rogue/candle/weak,
 /obj/structure/bed/rogue/inn/hay,
 /turf/open/floor/rogue/church,
 /area/rogue/under/tomb/indoors)
@@ -333,7 +333,7 @@
 /area/rogue/under/tomb/wilds)
 "hv" = (
 /obj/structure/fluff/walldeco/rpainting/crown,
-/obj/machinery/light/rogue/wallfire/candle/weak,
+/obj/machinery/light/rogue/candle/weak,
 /turf/closed/wall/mineral/rogue/decostone,
 /area/rogue/under/tomb/indoors/royal)
 "hy" = (
@@ -402,7 +402,7 @@
 /turf/closed/wall/mineral/rogue/stone/moss,
 /area/rogue/under/tomb/sewer)
 "is" = (
-/obj/machinery/light/rogue/wallfire/candle/weak,
+/obj/machinery/light/rogue/candle/weak,
 /obj/effect/decal/cleanable/blood,
 /turf/open/floor/rogue/hexstone,
 /area/rogue/under/tomb/indoors)
@@ -414,7 +414,7 @@
 /area/rogue/under/tomb/indoors)
 "iv" = (
 /obj/structure/flora/ausbushes/lavendergrass,
-/obj/machinery/light/rogue/wallfire/candle/weak,
+/obj/machinery/light/rogue/candle/weak,
 /obj/item/restraints/legcuffs/beartrap/armed/camouflage,
 /turf/open/floor/rogue/grass,
 /area/rogue/under/tomb/wilds)
@@ -475,7 +475,7 @@
 /turf/closed/wall/mineral/rogue/decostone/cand,
 /area/rogue/under/tomb/indoors/royal)
 "jQ" = (
-/obj/machinery/light/rogue/wallfire/candle/weak,
+/obj/machinery/light/rogue/candle/weak,
 /turf/closed/wall/mineral/rogue/decostone,
 /area/rogue/under/tomb/indoors)
 "jR" = (
@@ -542,7 +542,7 @@
 /turf/open/floor/rogue/tile/masonic/inverted,
 /area/rogue/under/tomb/indoors/royal)
 "le" = (
-/obj/machinery/light/rogue/wallfire/candle/weak,
+/obj/machinery/light/rogue/candle/weak,
 /turf/open/floor/rogue/metal,
 /area/rogue/under/tomb/indoors)
 "lh" = (
@@ -563,7 +563,7 @@
 /turf/open/floor/rogue/hexstone,
 /area/rogue/under/tomb/indoors)
 "lN" = (
-/obj/machinery/light/rogue/wallfire/candle/weak,
+/obj/machinery/light/rogue/candle/weak,
 /turf/closed/wall/mineral/rogue/stone,
 /area/rogue/under/tomb/indoors/magic)
 "lS" = (
@@ -577,11 +577,11 @@
 /turf/open/water,
 /area/rogue/under/tomb/sewer)
 "mq" = (
-/obj/machinery/light/rogue/wallfire/candle/weak,
+/obj/machinery/light/rogue/candle/weak,
 /turf/open/floor/rogue/blocks,
 /area/rogue/under/tomb/indoors/royal)
 "ms" = (
-/obj/machinery/light/rogue/wallfire/candle/weak,
+/obj/machinery/light/rogue/candle/weak,
 /turf/open/floor/rogue/herringbone,
 /area/rogue/under/tomb/indoors)
 "mu" = (
@@ -623,7 +623,7 @@
 /turf/open/floor/rogue/carpet,
 /area/rogue/under/tomb/indoors/royal)
 "ob" = (
-/obj/machinery/light/rogue/wallfire/candle/weak,
+/obj/machinery/light/rogue/candle/weak,
 /turf/open/floor/rogue/tile/bath,
 /area/rogue/under/tomb)
 "od" = (
@@ -642,7 +642,7 @@
 /area/rogue/under/tomb)
 "oy" = (
 /obj/structure/fluff/walldeco/vinez,
-/obj/machinery/light/rogue/wallfire/candle/weak,
+/obj/machinery/light/rogue/candle/weak,
 /turf/closed/wall/mineral/rogue/stone,
 /area/rogue/under/tomb/indoors/magic)
 "oC" = (
@@ -661,7 +661,7 @@
 /turf/open/floor/rogue/grass,
 /area/rogue/under/tomb/wilds)
 "oY" = (
-/obj/machinery/light/rogue/wallfire/candle/weak,
+/obj/machinery/light/rogue/candle/weak,
 /turf/closed/wall/mineral/rogue/decostone,
 /area/rogue/under/tomb/indoors/royal)
 "oZ" = (
@@ -871,7 +871,7 @@
 /area/rogue/under/tomb/indoors/royal)
 "sT" = (
 /obj/structure/flora/roguegrass/water,
-/obj/machinery/light/rogue/wallfire/candle/weak,
+/obj/machinery/light/rogue/candle/weak,
 /turf/open/water/bath,
 /area/rogue/under/tomb)
 "sW" = (
@@ -882,7 +882,7 @@
 /turf/open/floor/rogue/grass,
 /area/rogue/under/tomb/wilds)
 "sZ" = (
-/obj/machinery/light/rogue/wallfire/candle/weak,
+/obj/machinery/light/rogue/candle/weak,
 /turf/open/floor/rogue/blocks/green,
 /area/rogue/under/tomb)
 "te" = (
@@ -966,7 +966,7 @@
 /turf/open/floor/rogue/grass,
 /area/rogue/under/tomb/wilds)
 "uo" = (
-/obj/machinery/light/rogue/wallfire/candle/weak,
+/obj/machinery/light/rogue/candle/weak,
 /obj/structure/closet/crate/chest/lootbox,
 /obj/effect/spawner/lootdrop/general_loot_hi,
 /turf/open/floor/rogue/blocks,
@@ -1043,7 +1043,7 @@
 /area/rogue/under/tomb/indoors/royal)
 "vB" = (
 /obj/structure/fluff/walldeco/stone,
-/obj/machinery/light/rogue/wallfire/candle/weak,
+/obj/machinery/light/rogue/candle/weak,
 /turf/closed/wall/mineral/rogue/decostone,
 /area/rogue/under/tomb/sewer)
 "vF" = (
@@ -1090,13 +1090,13 @@
 /turf/open/floor/rogue/hexstone,
 /area/rogue/under/tomb/sewer)
 "wl" = (
-/obj/machinery/light/rogue/wallfire/candle/weak,
+/obj/machinery/light/rogue/candle/weak,
 /turf/closed/mineral/rogue/bedrock,
 /area/rogue/under/tomb)
 "wu" = (
 /obj/structure/flora/ausbushes/fullgrass,
 /obj/structure/flora/ausbushes/lavendergrass,
-/obj/machinery/light/rogue/wallfire/candle/weak,
+/obj/machinery/light/rogue/candle/weak,
 /turf/open/floor/rogue/grass,
 /area/rogue/under/tomb/wilds)
 "wA" = (
@@ -1127,7 +1127,7 @@
 /area/rogue/under/tomb/sewer)
 "xe" = (
 /obj/structure/fluff/walldeco/vinez,
-/obj/machinery/light/rogue/wallfire/candle/weak,
+/obj/machinery/light/rogue/candle/weak,
 /turf/closed/wall/mineral/rogue/stone,
 /area/rogue/under/tomb/indoors)
 "xD" = (
@@ -1154,7 +1154,7 @@
 /area/rogue/under/tomb/sewer)
 "yh" = (
 /obj/item/millstone,
-/obj/machinery/light/rogue/wallfire/candle/weak,
+/obj/machinery/light/rogue/candle/weak,
 /obj/structure/table/wood{
 	icon_state = "longtable"
 	},
@@ -1166,7 +1166,7 @@
 "yu" = (
 /obj/structure/flora/ausbushes/fullgrass,
 /obj/structure/flora/roguegrass/pyroclasticflowers,
-/obj/machinery/light/rogue/wallfire/candle/weak,
+/obj/machinery/light/rogue/candle/weak,
 /turf/open/floor/rogue/grass,
 /area/rogue/under/tomb/wilds)
 "yH" = (
@@ -1176,7 +1176,7 @@
 /turf/open/floor/rogue/blocks,
 /area/rogue/under/tomb/indoors/royal)
 "yM" = (
-/obj/machinery/light/rogue/wallfire/candle/weak,
+/obj/machinery/light/rogue/candle/weak,
 /obj/effect/decal/cleanable/blood/splatter,
 /turf/closed/wall/mineral/rogue/decostone/cand,
 /area/rogue/under/tomb/indoors/royal)
@@ -1197,11 +1197,11 @@
 /turf/open/floor/rogue/church,
 /area/rogue/under/tomb/indoors)
 "yX" = (
-/obj/machinery/light/rogue/wallfire/candle/weak,
+/obj/machinery/light/rogue/candle/weak,
 /turf/open/floor/rogue/churchmarble,
 /area/rogue/under/tomb/indoors)
 "zb" = (
-/obj/machinery/light/rogue/wallfire/candle/weak,
+/obj/machinery/light/rogue/candle/weak,
 /turf/closed/wall/mineral/rogue/decostone/cand,
 /area/rogue/under/tomb)
 "zi" = (
@@ -1263,7 +1263,7 @@
 /area/rogue/under/tomb/indoors)
 "Au" = (
 /obj/structure/mineral_door/bars,
-/obj/machinery/light/rogue/wallfire/candle/weak,
+/obj/machinery/light/rogue/candle/weak,
 /obj/structure/trap/saw_blades,
 /turf/open/floor/rogue/hexstone,
 /area/rogue/under/tomb/indoors)
@@ -1484,7 +1484,7 @@
 /turf/closed/wall/mineral/rogue/decostone,
 /area/rogue/under/tomb)
 "Ey" = (
-/obj/machinery/light/rogue/wallfire,
+/obj/machinery/light/rogue,
 /turf/closed/wall/mineral/rogue/decostone,
 /area/rogue/under/tomb)
 "EB" = (
@@ -1529,7 +1529,7 @@
 "FM" = (
 /obj/structure/fluff/statue/small,
 /obj/structure/flora/roguegrass/water,
-/obj/machinery/light/rogue/wallfire/candle/weak,
+/obj/machinery/light/rogue/candle/weak,
 /turf/open/water/bath,
 /area/rogue/under/tomb)
 "FR" = (
@@ -1552,7 +1552,7 @@
 /turf/open/floor/rogue/grass,
 /area/rogue/under/tomb/wilds)
 "Gk" = (
-/obj/machinery/light/rogue/wallfire/candle/weak,
+/obj/machinery/light/rogue/candle/weak,
 /turf/closed/wall/mineral/rogue/stone,
 /area/rogue/under/tomb/indoors)
 "Gm" = (
@@ -1724,7 +1724,7 @@
 /turf/open/floor/rogue/hexstone,
 /area/rogue/under/tomb/indoors)
 "JD" = (
-/obj/machinery/light/rogue/wallfire/candle/weak,
+/obj/machinery/light/rogue/candle/weak,
 /turf/open/water/bath,
 /area/rogue/under/tomb)
 "JQ" = (
@@ -1750,7 +1750,7 @@
 /turf/open/floor/rogue/blocks,
 /area/rogue/under/tomb/indoors/royal)
 "Kg" = (
-/obj/machinery/light/rogue/wallfire/candle/weak,
+/obj/machinery/light/rogue/candle/weak,
 /turf/closed/wall/mineral/rogue/stone/moss,
 /area/rogue/under/tomb/indoors)
 "Ku" = (
@@ -1857,12 +1857,12 @@
 /obj/structure/stairs{
 	dir = 4
 	},
-/obj/machinery/light/rogue/wallfire/candle/weak,
+/obj/machinery/light/rogue/candle/weak,
 /turf/open/floor/rogue/tile/masonic/inverted,
 /area/rogue/under/tomb/indoors/royal)
 "Ms" = (
 /obj/item/reagent_containers/glass/cup/wooden,
-/obj/machinery/light/rogue/wallfire/candle/weak,
+/obj/machinery/light/rogue/candle/weak,
 /obj/structure/table/wood{
 	icon_state = "longtable_mid"
 	},
@@ -1891,7 +1891,7 @@
 /area/rogue/under/tomb/wilds)
 "Np" = (
 /obj/structure/fluff/walldeco/vinez,
-/obj/machinery/light/rogue/wallfire/candle/weak,
+/obj/machinery/light/rogue/candle/weak,
 /turf/closed/wall/mineral/rogue/stone/moss,
 /area/rogue/under/tomb/indoors/magic)
 "Nu" = (
@@ -1957,7 +1957,7 @@
 /turf/closed/wall/mineral/rogue/decostone,
 /area/rogue/under/tomb/sewer)
 "PP" = (
-/obj/machinery/light/rogue/wallfire/candle/weak,
+/obj/machinery/light/rogue/candle/weak,
 /turf/closed/wall/mineral/rogue/stone,
 /area/rogue/under/tomb/indoors/royal)
 "PS" = (
@@ -1969,7 +1969,7 @@
 /turf/open/water/bath,
 /area/rogue/under/tomb)
 "Qg" = (
-/obj/machinery/light/rogue/wallfire/candle/weak,
+/obj/machinery/light/rogue/candle/weak,
 /turf/open/floor/rogue/churchmarble,
 /area/rogue/under/tomb)
 "Qj" = (
@@ -1981,7 +1981,7 @@
 /area/rogue/under/tomb/indoors)
 "Qt" = (
 /obj/structure/roguewindow/stained/silver,
-/obj/machinery/light/rogue/wallfire/candle/weak,
+/obj/machinery/light/rogue/candle/weak,
 /turf/open/floor/rogue/hexstone,
 /area/rogue/under/tomb/wilds)
 "Qu" = (
@@ -2077,11 +2077,11 @@
 /turf/open/water/bath,
 /area/rogue/under/tomb)
 "Ti" = (
-/obj/machinery/light/rogue/wallfire/candle/weak,
+/obj/machinery/light/rogue/candle/weak,
 /turf/open/floor/rogue/blocks/green,
 /area/rogue/under/tomb/indoors)
 "TC" = (
-/obj/machinery/light/rogue/wallfire/candle/weak,
+/obj/machinery/light/rogue/candle/weak,
 /turf/open/water/bath,
 /area/rogue/under/tomb/indoors)
 "TJ" = (
@@ -2116,7 +2116,7 @@
 /turf/open/floor/rogue/blocks,
 /area/rogue/under/tomb/indoors/royal)
 "UF" = (
-/obj/machinery/light/rogue/wallfire/candle/weak,
+/obj/machinery/light/rogue/candle/weak,
 /mob/living/simple_animal/hostile/retaliate/rogue/bigrat,
 /turf/open/floor/rogue/blocks/green,
 /area/rogue/under/tomb/indoors)
@@ -2210,7 +2210,7 @@
 "Wh" = (
 /obj/structure/flora/ausbushes/lavendergrass,
 /obj/effect/spawner/lootdrop/roguetown/dungeon/misc,
-/obj/machinery/light/rogue/wallfire/candle/weak,
+/obj/machinery/light/rogue/candle/weak,
 /turf/open/floor/rogue/grass,
 /area/rogue/under/tomb/wilds)
 "Wy" = (
@@ -2343,7 +2343,7 @@
 "Zo" = (
 /obj/structure/flora/roguegrass/water/reeds,
 /obj/structure/flora/roguegrass/water,
-/obj/machinery/light/rogue/wallfire/candle/weak,
+/obj/machinery/light/rogue/candle/weak,
 /turf/open/water/bath,
 /area/rogue/under/tomb)
 "Zu" = (
@@ -2367,7 +2367,7 @@
 /area/rogue/under/tomb/indoors)
 "ZZ" = (
 /obj/effect/spawner/lootdrop/potion_ingredient/herb,
-/obj/machinery/light/rogue/wallfire/candle/weak,
+/obj/machinery/light/rogue/candle/weak,
 /turf/open/floor/rogue/metal/barograte,
 /area/rogue/under/tomb/indoors/magic)
 

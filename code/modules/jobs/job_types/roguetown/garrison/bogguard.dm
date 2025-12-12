@@ -113,7 +113,7 @@
 			"None"
 		)
 		var/hoodchoice = input(H, "Choose your Shroud.", "HOOD SELECTION") as anything in hoods
-		if(helmchoice != "None")
+		if(hoodchoice != "None")
 			mask = hoods[hoodchoice]
 	if(H.mind)
 		SStreasury.give_money_account(ECONOMIC_LOWER_MIDDLE_CLASS, H, "Savings.")

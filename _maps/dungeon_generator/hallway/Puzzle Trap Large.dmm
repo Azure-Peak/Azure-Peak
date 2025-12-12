@@ -67,7 +67,7 @@
 /area/rogue/under/tomb)
 "jC" = (
 /obj/structure/spider/stickyweb,
-/obj/machinery/light/rogue/wallfire/candle,
+/obj/machinery/light/rogue/candle,
 /turf/open/floor/rogue/cobblerock,
 /area/rogue/under/tomb)
 "jP" = (
@@ -117,7 +117,7 @@
 /turf/open/floor/rogue/cobblerock,
 /area/rogue/under/tomb)
 "oa" = (
-/obj/machinery/light/rogue/wallfire/candle,
+/obj/machinery/light/rogue/candle,
 /obj/structure/fluff/walldeco/vinez,
 /turf/closed/wall/mineral/rogue/stone/moss,
 /area/rogue/under/tomb)
@@ -162,7 +162,7 @@
 /turf/closed/wall/mineral/rogue/stone/moss,
 /area/rogue/under/tomb)
 "rD" = (
-/obj/machinery/light/rogue/wallfire/candle,
+/obj/machinery/light/rogue/candle,
 /turf/open/floor/rogue/cobblerock,
 /area/rogue/under/tomb)
 "rQ" = (
@@ -279,7 +279,7 @@
 /area/rogue/under/tomb)
 "zQ" = (
 /obj/structure/mineral_door/bars,
-/obj/machinery/light/rogue/wallfire/candle,
+/obj/machinery/light/rogue/candle,
 /obj/structure/fluff/walldeco/vinez,
 /turf/open/floor/rogue/cobble,
 /area/rogue/under/tomb)
@@ -299,11 +299,11 @@
 /turf/open/floor/rogue/cobble,
 /area/rogue/under/tomb)
 "Db" = (
-/obj/machinery/light/rogue/wallfire/candle,
+/obj/machinery/light/rogue/candle,
 /turf/open/transparent/openspace,
 /area/rogue/under/tomb)
 "Ee" = (
-/obj/machinery/light/rogue/wallfire/candle,
+/obj/machinery/light/rogue/candle,
 /turf/open/floor/rogue/cobble,
 /area/rogue/under/tomb)
 "EL" = (
@@ -331,7 +331,7 @@
 /area/rogue/under/tomb)
 "Is" = (
 /obj/structure/mineral_door/bars,
-/obj/machinery/light/rogue/wallfire/candle,
+/obj/machinery/light/rogue/candle,
 /turf/open/floor/rogue/cobblerock,
 /area/rogue/under/tomb)
 "Iu" = (
@@ -386,7 +386,7 @@
 "LG" = (
 /obj/structure/spider/stickyweb,
 /obj/structure/spider/stickyweb,
-/obj/machinery/light/rogue/wallfire/candle,
+/obj/machinery/light/rogue/candle,
 /turf/open/floor/rogue/cobble,
 /area/rogue/under/tomb)
 "MC" = (
@@ -522,7 +522,7 @@
 /area/rogue/under/tomb)
 "Yg" = (
 /obj/structure/mineral_door/bars,
-/obj/machinery/light/rogue/wallfire/candle,
+/obj/machinery/light/rogue/candle,
 /turf/open/floor/rogue/cobble,
 /area/rogue/under/tomb)
 "YT" = (

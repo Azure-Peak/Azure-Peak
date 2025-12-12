@@ -122,7 +122,7 @@
 			user.visible_message("<span class='warning'>[user] kicks [src]!</span>", \
 				"<span class='warning'>I kick [src]!</span>")
 
-/obj/machinery/light/rogue/campfire/wallfirecrafted
+/obj/machinery/light/rogue/campfire/fireplace
 	name = "fireplace"
 	desc = "A warm fire dances between a pile of half-burnt logs upon a bed of glowing embers."
 	icon_state = "wallfire1"
@@ -135,43 +135,43 @@
 	pixel_y = 32
 	healing_range = 2
 
-/obj/machinery/light/rogue/campfire/wallfirecrafted/attack_hand(mob/user)
+/obj/machinery/light/rogue/campfire/fireplace/fireplace/attack_hand(mob/user)
 	if(isliving(user) && on)
 		user.visible_message(span_warning("[user] snuffs [src]."))
 		burn_out()
 		return TRUE
 	return ..()
 
-/obj/machinery/light/rogue/wallfire/candle
+/obj/machinery/light/rogue/candle
 	name = "candles"
 	desc = "Tiny flames flicker to the slightest breeze and offer enough light to see."
 	icon_state = "wallcandle1"
 	base_state = "wallcandle"
+	fueluse = 0
 	crossfire = FALSE
 	cookonme = FALSE
 	pixel_y = 32
 	soundloop = null
 
-/obj/machinery/light/rogue/wallfire/candle/off
+/obj/machinery/light/rogue/candle/off
 	name = "candles"
 	desc = "Cold wax sticks in sad half-melted repose. All they need is a spark."
 	icon_state = "wallcandle0"
 	base_state = "wallcandle"
-	crossfire = FALSE
 	cookonme = FALSE
 	light_outer_range = 0
 	pixel_y = 32
 	soundloop = null
 	status = LIGHT_BURNED
 
-/obj/machinery/light/rogue/wallfire/candle/off/r
+/obj/machinery/light/rogue/candle/off/r
 	pixel_y = 0
 	pixel_x = 32
-/obj/machinery/light/rogue/wallfire/candle/off/l
+/obj/machinery/light/rogue/candle/off/l
 	pixel_y = 0
 	pixel_x = -32
 
-/obj/machinery/light/rogue/wallfire/candle/OnCrafted(dirin)
+/obj/machinery/light/rogue/candle/OnCrafted(dirin)
 	pixel_x = 0
 	pixel_y = 0
 	switch(dirin)
@@ -185,44 +185,44 @@
 			pixel_x = -32
 	. = ..()
 
-/obj/machinery/light/rogue/wallfire/candle/attack_hand(mob/user)
+/obj/machinery/light/rogue/candle/attack_hand(mob/user)
 	if(isliving(user) && on)
 		user.visible_message(span_warning("[user] snuffs [src]."))
 		burn_out()
 		return TRUE //fires that are on always have this interaction with lmb unless its a torch
 	. = ..()
 
-/obj/machinery/light/rogue/wallfire/candle/r
+/obj/machinery/light/rogue/candle/r
 	pixel_y = 0
 	pixel_x = 32
-/obj/machinery/light/rogue/wallfire/candle/l
+/obj/machinery/light/rogue/candle/l
 	pixel_y = 0
 	pixel_x = -32
 
-/obj/machinery/light/rogue/wallfire/candle/blue
+/obj/machinery/light/rogue/candle/blue
 	bulb_colour = "#7b60f3"
 	icon_state = "wallcandleb1"
 	base_state = "wallcandleb"
 	desc = "Tiny bluish flames flicker gently like the stars themselves."
 
-/obj/machinery/light/rogue/wallfire/candle/blue/r
+/obj/machinery/light/rogue/candle/blue/r
 	pixel_y = 0
 	pixel_x = 32
-/obj/machinery/light/rogue/wallfire/candle/blue/l
+/obj/machinery/light/rogue/candle/blue/l
 	pixel_y = 0
 	pixel_x = -32
 
-/obj/machinery/light/rogue/wallfire/candle/weak
+/obj/machinery/light/rogue/candle/weak
 	light_power = 0.9
 	light_outer_range =  4
-/obj/machinery/light/rogue/wallfire/candle/weak/l
+/obj/machinery/light/rogue/candle/weak/l
 	pixel_x = -32
 	pixel_y = 0
-/obj/machinery/light/rogue/wallfire/candle/weak/r
+/obj/machinery/light/rogue/candle/weak/r
 	pixel_x = 32
 	pixel_y = 0
 
-/obj/machinery/light/rogue/wallfire/candle/floorcandle
+/obj/machinery/light/rogue/candle/floorcandle
 	name = "candles"
 	icon = 'icons/roguetown/items/lighting.dmi'
 	icon_state = "floorcandle1"
@@ -231,15 +231,15 @@
 	layer = TABLE_LAYER
 	cookonme = FALSE
 
-/obj/machinery/light/rogue/wallfire/candle/floorcandle/alt
+/obj/machinery/light/rogue/candle/floorcandle/alt
 	icon_state = "floorcandlee1"
 	base_state = "floorcandlee"
 
-/obj/machinery/light/rogue/wallfire/candle/floorcandle/pink
+/obj/machinery/light/rogue/candle/floorcandle/pink
 	color = "#f858b5ff"
 	bulb_colour = "#ff13d8ff"
 
-/obj/machinery/light/rogue/wallfire/candle/floorcandle/alt/pink
+/obj/machinery/light/rogue/candle/floorcandle/alt/pink
 	color = "#f858b5ff"
 	bulb_colour = "#ff13d8ff"
 

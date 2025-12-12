@@ -16,7 +16,7 @@
 /area/rogue/under/tomb/cave)
 "aj" = (
 /obj/structure/fluff/walldeco/vinez/l,
-/obj/machinery/light/rogue/wallfire/candle/blue/l,
+/obj/machinery/light/rogue/candle/blue/l,
 /turf/open/floor/rogue/cobblerock,
 /area/rogue/under/tomb/cave)
 "ak" = (
@@ -28,7 +28,7 @@
 /area/rogue/under/tomb/cave)
 "au" = (
 /obj/structure/fluff/walldeco/vinez/l,
-/obj/machinery/light/rogue/wallfire/candle/blue/l,
+/obj/machinery/light/rogue/candle/blue/l,
 /obj/item/reagent_containers/glass/bottle/rogue/whitewine,
 /turf/open/floor/rogue/cobblerock,
 /area/rogue/under/tomb/cave)
@@ -67,12 +67,12 @@
 /turf/open/floor/rogue/churchmarble,
 /area/rogue/under/tomb/cave)
 "aM" = (
-/obj/machinery/light/rogue/wallfire/candle/blue/l,
+/obj/machinery/light/rogue/candle/blue/l,
 /turf/open/floor/rogue/cobblerock,
 /area/rogue/under/tomb/cave)
 "aN" = (
 /obj/structure/fluff/walldeco/vinez/r,
-/obj/machinery/light/rogue/wallfire/candle/blue/r,
+/obj/machinery/light/rogue/candle/blue/r,
 /turf/open/floor/rogue/cobblerock,
 /area/rogue/under/tomb/cave)
 "aP" = (
@@ -89,7 +89,7 @@
 /area/rogue/under/tomb/cave)
 "aT" = (
 /obj/structure/fluff/walldeco/vinez/r,
-/obj/machinery/light/rogue/wallfire/candle/blue/r,
+/obj/machinery/light/rogue/candle/blue/r,
 /obj/item/rogue/instrument/flute,
 /turf/open/floor/rogue/cobblerock,
 /area/rogue/under/tomb/cave)
@@ -103,7 +103,7 @@
 /turf/closed/wall/mineral/rogue/stonebrick,
 /area/rogue/under/tomb/cave)
 "aX" = (
-/obj/machinery/light/rogue/wallfire/candle/blue/r,
+/obj/machinery/light/rogue/candle/blue/r,
 /obj/effect/dungeon_directional_helper/north,
 /turf/open/floor/rogue/cobblerock,
 /area/rogue/under/tomb/cave)
@@ -130,7 +130,7 @@
 /area/rogue/under/tomb/cave)
 "ij" = (
 /obj/structure/spider/stickyweb,
-/obj/machinery/light/rogue/wallfire/candle/blue/l,
+/obj/machinery/light/rogue/candle/blue/l,
 /turf/open/floor/rogue/churchmarble,
 /area/rogue/under/tomb/cave)
 "pm" = (
@@ -146,7 +146,7 @@
 /area/rogue/under/tomb/cave)
 "ue" = (
 /obj/structure/spider/stickyweb,
-/obj/machinery/light/rogue/wallfire/candle/blue/r,
+/obj/machinery/light/rogue/candle/blue/r,
 /turf/open/floor/rogue/churchmarble,
 /area/rogue/under/tomb/cave)
 "Fr" = (

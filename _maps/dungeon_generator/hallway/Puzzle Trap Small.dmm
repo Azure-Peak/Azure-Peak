@@ -17,7 +17,7 @@
 /turf/open/floor/rogue/cobble,
 /area/rogue/under/tomb)
 "f" = (
-/obj/machinery/light/rogue/wallfire/candle/weak,
+/obj/machinery/light/rogue/candle/weak,
 /turf/open/floor/rogue/cobblerock,
 /area/rogue/under/tomb)
 "g" = (
@@ -31,7 +31,7 @@
 /area/rogue/under/tomb)
 "i" = (
 /obj/structure/fluff/walldeco/vinez,
-/obj/machinery/light/rogue/wallfire/candle/weak,
+/obj/machinery/light/rogue/candle/weak,
 /turf/closed/mineral/rogue,
 /area/rogue/under/tomb)
 "j" = (
@@ -68,16 +68,16 @@
 /turf/open/floor/rogue/cobble,
 /area/rogue/under/tomb)
 "s" = (
-/obj/machinery/light/rogue/wallfire/candle/weak,
+/obj/machinery/light/rogue/candle/weak,
 /turf/closed/mineral/rogue,
 /area/rogue/under/tomb)
 "w" = (
-/obj/machinery/light/rogue/wallfire/candle/weak,
+/obj/machinery/light/rogue/candle/weak,
 /turf/open/floor/rogue/cobble,
 /area/rogue/under/tomb)
 "y" = (
 /obj/structure/fluff/walldeco/vinez,
-/obj/machinery/light/rogue/wallfire/candle/weak,
+/obj/machinery/light/rogue/candle/weak,
 /turf/closed/wall/mineral/rogue/stone/moss,
 /area/rogue/under/tomb)
 "B" = (
