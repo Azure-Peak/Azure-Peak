@@ -1393,7 +1393,7 @@
 
 /datum/status_effect/buff/clash/limbguard/proc/perform_disarm(mob/living/carbon/human/target)
 	var/obj/item/I = target.get_active_held_item()
-	owner.visible_message(span_boldwarning("[owner] violently ripostes, disarming [target]!"))
+	owner.visible_message(span_boldwarning("[owner] anticipated the strike, disarming [target] in a decisive guard!"))
 	owner.flash_fullscreen("whiteflash")
 	target.flash_fullscreen("whiteflash")
 	var/datum/effect_system/spark_spread/S = new()
@@ -1432,7 +1432,7 @@
 		defender.process_clash(attacker, I, null)	//This will strike at their hand, but not clear away the effect. They tried to grab the protected limb.
 
 /datum/status_effect/buff/clash/limbguard/apply_cooldown()
-	owner.apply_status_effect(/datum/status_effect/debuff/specialcd, 30 SECONDS)
+	owner.apply_status_effect(/datum/status_effect/debuff/specialcd, 60 SECONDS)
 
 /datum/status_effect/buff/clash/limbguard/guard_kicked()
 	return
