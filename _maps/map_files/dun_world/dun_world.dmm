@@ -85318,9 +85318,7 @@
 /turf/open/floor/rogue/ruinedwood/spiral,
 /area/rogue/indoors/town/shop)
 "vvs" = (
-/obj/machinery/light/rogue{
-	pixel_y = 32
-	},
+/obj/machinery/light/rogue/campfire/fireplace,
 /obj/effect/decal/carpet/kover_darkred{
 	pixel_y = -10
 	},
@@ -91254,9 +91252,7 @@
 /turf/open/floor/rogue/naturalstone,
 /area/rogue/under/cave/his_vault)
 "wTd" = (
-/obj/machinery/light/rogue{
-	pixel_y = 33
-	},
+/obj/machinery/light/rogue/campfire/fireplace,
 /turf/open/floor/carpet/red,
 /area/rogue/indoors/town/tavern)
 "wTf" = (
