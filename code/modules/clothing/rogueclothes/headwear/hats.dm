@@ -103,8 +103,8 @@
 /obj/item/clothing/head/roguetown/deserthood
 	name = "desert hood"
 	desc = "If only it was this warm."
-	icon_state = "deserthood"
-	item_state = "deserthood"
+	icon_state = "desert_hood"
+	item_state = "desert_hood"
 	sewrepair = TRUE
 
 /obj/item/clothing/head/roguetown/chaperon

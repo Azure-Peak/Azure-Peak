@@ -238,7 +238,7 @@
 	var/armor_block = target.run_armor_check(BODY_ZONE_CHEST, "blunt", blade_dulling = BCLASS_BLUNT)
 	var/damage = 50
 	if(!target.apply_damage(damage, UNARMED_ATTACK, affecting, armor_block))
-		target.next_attack_msg += " <span class='warning'>Armor stops the damage.</span>"
+		target.next_attack_msg += VISMSG_ARMOR_BLOCKED
 	else
 		affecting.bodypart_attacked_by(BCLASS_BLUNT, damage, user, BODY_ZONE_CHEST)
 	playsound(target, 'sound/combat/hits/kick/kick.ogg', 100, TRUE, -1)

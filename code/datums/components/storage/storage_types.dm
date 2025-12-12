@@ -186,6 +186,10 @@
 	dump_time = 40
 	collection_mode = COLLECT_SAME
 
+/datum/component/storage/concrete/tray/spill_contents(obj/A)
+	if (A.throwing)
+		. = ..()
+
 /datum/component/storage/concrete/tray/New(datum/P, ...)
 	. = ..()
 	can_hold = typecacheof(list(/obj/item/cooking, /obj/item/reagent_containers/glass/bowl, /obj/item/reagent_containers/glass/cup, /obj/item/kitchen, /obj/item/reagent_containers/food, /obj/item/reagent_containers/glass/bottle))

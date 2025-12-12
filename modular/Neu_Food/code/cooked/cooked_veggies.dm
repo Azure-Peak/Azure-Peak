@@ -185,7 +185,7 @@
 
 /obj/item/reagent_containers/food/snacks/rogue/eggplantmeat
 	name = "unfinished stuffed aubergine"
-	desc = "An eggplant stuffed with raw meat, ready to be topped with...apple!?"
+	desc = "An eggplant stuffed with raw meat, ready to be topped with a tomato."
 	icon = 'modular/Neu_Food/icons/cooked/cooked_veggies.dmi'
 	icon_state = "eggplantraw"
 	rotprocess = SHELFLIFE_LONG
@@ -193,7 +193,7 @@
 /obj/item/reagent_containers/food/snacks/rogue/eggplantmeat/attackby(obj/item/I, mob/living/user, params)
 	var/found_table = locate(/obj/structure/table) in (loc)
 	update_cooktime(user)
-	if(istype(I, /obj/item/reagent_containers/food/snacks/grown/apple))
+	if(istype(I, /obj/item/reagent_containers/food/snacks/grown/fruit/tomato))
 		if(isturf(loc)&& (found_table))
 			playsound(get_turf(user), 'sound/foley/dropsound/gen_drop.ogg', 30, TRUE, -1)
 			to_chat(user, "Topping tomatos onto the aubergine...")
@@ -207,19 +207,19 @@
 
 /obj/item/reagent_containers/food/snacks/rogue/eggplantstuffedraw
 	name = "raw stuffed aubergine"
-	desc = "A stuffed aubergine with raw meat and tomato (apple), ready to be cooked."
+	desc = "A stuffed aubergine with raw meat and tomato (Real tomato!), ready to be cooked."
 	icon = 'modular/Neu_Food/icons/cooked/cooked_veggies.dmi'
 	icon_state = "eggplantrawtom"
 	rotprocess = SHELFLIFE_LONG
 	cooked_type = /obj/item/reagent_containers/food/snacks/rogue/preserved/eggplantstuffed
 
 /obj/item/reagent_containers/food/snacks/rogue/preserved/eggplantstuffed
-	list_reagents = list(/datum/reagent/consumable/nutriment = SNACK_DECENT)
+	list_reagents = list(/datum/reagent/consumable/nutriment = MEAL_MEAGRE)
 	name = "stuffed aubergine"
-	desc = "Eggplant stuffed with raw meat and apple. Delicious!"
+	desc = "Eggplant stuffed with raw meat and tomato. Delicious!"
 	icon = 'modular/Neu_Food/icons/cooked/cooked_veggies.dmi'
 	icon_state = "stuffedeggplant"
-	tastes = list("meat" = 1, "apple" = 1, "aubergine" = 1)
+	tastes = list("meat" = 1, "tomato" = 1, "aubergine" = 1)
 	faretype = FARE_FINE
 	rotprocess = SHELFLIFE_LONG
 	eat_effect = /datum/status_effect/buff/foodbuff
@@ -227,7 +227,7 @@
 /obj/item/reagent_containers/food/snacks/rogue/preserved/eggplantstuffed/attackby(obj/item/I, mob/living/user, params)
 	var/found_table = locate(/obj/structure/table) in (loc)
 	update_cooktime(user)
-	if(istype(I, /obj/item/reagent_containers/food/snacks/rogue/cheddarwedge))
+	if(istype(I, /obj/item/reagent_containers/food/snacks/rogue/cheddarslice))
 		if(isturf(loc)&& (found_table))
 			playsound(get_turf(user), 'sound/foley/dropsound/gen_drop.ogg', 30, TRUE, -1)
 			to_chat(user, "Laying down a blanket of cheese...")
@@ -240,7 +240,7 @@
 		return ..()
 
 /obj/item/reagent_containers/food/snacks/rogue/preserved/eggplantstuffedcheese
-	list_reagents = list(/datum/reagent/consumable/nutriment = SNACK_NUTRITIOUS)
+	list_reagents = list(/datum/reagent/consumable/nutriment = MEAL_AVERAGE)
 	name = "stuffed aubergine with cheese"
 	desc = "Stuffed aubergine with cheese on top. Fit for a king!"
 	icon = 'modular/Neu_Food/icons/cooked/cooked_veggies.dmi'

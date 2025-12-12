@@ -1,4 +1,0 @@
-author: "WeNeedMorePhoron"
-delete-after: True
-changes:
-  - bugfix: "Fixed bronze bullet sprite and removed an unneeded the from swinging warning"

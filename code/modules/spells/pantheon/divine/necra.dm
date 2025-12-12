@@ -182,6 +182,87 @@
 
 #undef CHURN_FILTER
 
+/obj/effect/proc_holder/spell/targeted/locate_dead
+	name = "Locate Corpse"
+	desc = "Call upon the Undermaiden to guide you to a lost soul."
+	overlay_state = "necraeye"
+	sound = 'sound/magic/whiteflame.ogg'
+	releasedrain = 30
+	chargedrain = 0.5
+	max_targets = 0
+	cast_without_targets = TRUE
+	miracle = TRUE
+	associated_skill = /datum/skill/magic/holy
+	req_items = list(/obj/item/clothing/neck/roguetown/psicross)
+	invocations = list("Undermaiden, guide my hand to those who have lost their way.")
+	invocation_type = "whisper"
+	recharge_time = 60 SECONDS
+	devotion_cost = 50
+
+/obj/effect/proc_holder/spell/targeted/locate_dead/cast(list/targets, mob/living/user = usr)
+	. = ..()
+	var/list/mob/corpses = list()
+	for(var/mob/living/C in GLOB.dead_mob_list)
+		if(!C.mind || !is_in_zweb(C.z, user.z))
+			continue
+
+		var/time_dead = 0
+		if(C.timeofdeath)
+			time_dead = world.time - C.timeofdeath
+		var/corpse_name
+
+		if(time_dead < 5 MINUTES)
+			corpse_name = "Fresh corpse "
+		else if(time_dead < 10 MINUTES)
+			corpse_name = "Recently deceased "
+		else if(time_dead < 30 MINUTES)
+			corpse_name = "Long dead "
+		else
+			corpse_name = "Forgotten remains of "
+		var/list/d_list = C.get_mob_descriptors()
+		var/trait_desc = "[capitalize(build_coalesce_description_nofluff(d_list, C, list(MOB_DESCRIPTOR_SLOT_TRAIT), "%DESC1%"))]"
+		var/stature_desc = "[capitalize(build_coalesce_description_nofluff(d_list, C, list(MOB_DESCRIPTOR_SLOT_STATURE), "%DESC1%"))]"
+		var/descriptor_name = "[trait_desc] [stature_desc]"
+		if(descriptor_name == " ")
+			descriptor_name = "Unknown"
+
+		corpse_name += " of \a [descriptor_name]..."
+		corpses[corpse_name] = C
+
+	if(!length(corpses))
+		to_chat(user, span_warning("The Undermaiden's grasp lets slip."))
+		return .
+
+	var/mob/selected = tgui_input_list(user, "Which body shall I seek?", "Available Bodies", corpses)
+
+	if(QDELETED(src) || QDELETED(user) || QDELETED(corpses[selected]))
+		to_chat(user, span_warning("The Undermaiden's grasp lets slip."))
+		return .
+
+	var/corpse = corpses[selected]
+
+	var/direction = get_dir(user, corpse)
+	var/direction_name = "unknown"
+	switch(direction)
+		if(NORTH)
+			direction_name = "north"
+		if(SOUTH)
+			direction_name = "south"
+		if(EAST)
+			direction_name = "east"
+		if(WEST)
+			direction_name = "west"
+		if(NORTHEAST)
+			direction_name = "northeast"
+		if(NORTHWEST)
+			direction_name = "northwest"
+		if(SOUTHEAST)
+			direction_name = "southeast"
+		if(SOUTHWEST)
+			direction_name = "southwest"
+
+	to_chat(user, span_notice("The Undermaiden pulls on your hand, guiding you [direction_name]."))
+
 
 /obj/effect/proc_holder/spell/invoked/necra_vow
 	name = "Vow to Necra"

@@ -601,18 +601,22 @@
 	density = FALSE
 	climbable = FALSE
 	dir = SOUTH
+	// These aren't dense, so they shouldn't have an offset!
+	climb_offset = 0
 	pixel_y = 32
 
 /obj/structure/rack/rogue/shelf/big
 	icon = 'icons/roguetown/misc/structure.dmi'
 	icon_state = "shelf_big"
-	climbable = FALSE
 	dir = SOUTH
 	pixel_y = 16
 
 /obj/structure/rack/rogue/shelf/biggest
 	icon_state = "shelf_biggest"
 	pixel_y = 0
+	// This isn't pixel-shifted, and therefore should be dense.
+	density = TRUE
+	climb_offset = 10
 
 /obj/structure/rack/rogue/shelf/notdense // makes the wall mounted one less weird in a way, got downside of offset when loaded again tho
 	density = FALSE

@@ -213,7 +213,6 @@ GLOBAL_LIST(teleport_runes)
 				if(isblood(invoker))
 					invokers += invoker
 
-
 	return invokers
 
 /obj/effect/decal/cleanable/roguerune/proc/invoke(list/invokers, datum/runeritual/ritual)		//Generic invoke proc. This will be defined on every rune, along with effects.If you want to make an object, or provide a buff, do so through this proc., have both here.
@@ -335,13 +334,13 @@ GLOBAL_LIST(teleport_runes)
 	can_be_scribed = TRUE
 	rituals = list(/datum/runeritual/knowledge::name = /datum/runeritual/knowledge)
 	var/buffed = FALSE
- 
+
 /obj/effect/decal/cleanable/roguerune/arcyne/knowledge/invoke(list/invokers, datum/runeritual/runeritual)
 	if(!..())	//VERY important. Calls parent and checks if it fails. parent/invoke has all the checks for ingredients
 		return
 //	if(!buffed)
 	var/mob/living/user = usr
-	user.apply_status_effect(/datum/status_effect/buff/magicknowledge)
+	user.apply_status_effect(/datum/status_effect/buff/magic/knowledge)
 	buffed = TRUE
 	if(ritual_result)
 		pickritual.cleanup_atoms(selected_atoms)
@@ -375,6 +374,25 @@ GLOBAL_LIST(teleport_runes)
 	. = ..()
 	rituals += GLOB.t2buffrunerituallist
 
+/obj/effect/decal/cleanable/roguerune/arcyne/empowerment/collect_invokers(mob/living/user)
+	var/list/invoker_list = ..()
+
+	for(var/mob/living/invoker in invoker_list)
+		if(!isliving(invoker))
+			continue
+
+		var/mob/living/living_invoker = invoker
+		var/empower_count
+		for(var/datum/status_effect/effect in living_invoker.status_effects)
+			if(istype(effect, /datum/status_effect/buff/magic))
+				empower_count++
+
+		if(empower_count > 1)
+			to_chat(living_invoker, span_warning("I'm already imbued by too many arcyne energies, this ritual does nothing for me!"))
+			invoker_list.Remove(living_invoker)
+
+	return invoker_list
+
 /obj/effect/decal/cleanable/roguerune/arcyne/empowerment/invoke(list/invokers, datum/runeritual/buff/runeritual)
 	if(!..())	//VERY important. Calls parent and checks if it fails. parent/invoke has all the checks for ingredients
 		return
@@ -389,11 +407,13 @@ GLOBAL_LIST(teleport_runes)
 		if(!isliving(invoker))
 			continue
 		var/mob/living/living_invoker = invoker
+
 		if(invocation)
 			living_invoker.say(invocation, language = /datum/language/common, ignore_spam = TRUE, forced = "cult invocation")
 		if(invoke_damage)
 			living_invoker.apply_damage(invoke_damage, BRUTE)
 			to_chat(living_invoker,  span_italics("[src] saps your strength!"))
+
 	do_invoke_glow()
 
 /obj/effect/decal/cleanable/roguerune/arcyne/enchantment

@@ -1,4 +1,0 @@
-author: "WeNeedMorePhoron"
-delete-after: True
-changes:
-  - rscadd: "Item will remember the last intent you have selected when it is dropped, and your hands will remember the last intent you had selected with that hand when it was empty."

@@ -24,6 +24,8 @@ GLOBAL_LIST_EMPTY(vampire_objects)
 	var/datum/clan/forcing_clan
 	var/generation
 	var/research_points = 10
+	var/max_thralls = 0
+	var/thrall_count = 0
 
 /datum/antagonist/vampire/New(incoming_clan = /datum/clan/nosferatu, forced_clan = FALSE, generation)
 	. = ..()
@@ -85,14 +87,23 @@ GLOBAL_LIST_EMPTY(vampire_objects)
 			else
 				// Apply the selected clan
 				vampdude.set_clan(default_clan)
+			max_thralls = 1
 		else
 			vampdude.set_clan_direct(forcing_clan)
 			forcing_clan = null
+
+		if(vampdude.job == "Wretch")
+			max_thralls = 1
+		if(vampdude.mind.special_role == "Vampire Lord")
+			max_thralls = 0
 
 	// The clan system now handles most of the setup, but we can still do antagonist-specific things
 	after_gain()
 	. = ..()
 	equip()
+
+	if(HAS_TRAIT(owner, TRAIT_CRITICAL_RESISTANCE))
+		REMOVE_TRAIT(owner, TRAIT_CRITICAL_RESISTANCE, null)
 
 /datum/antagonist/vampire/proc/show_clan_selection(mob/living/carbon/human/vampdude)
 	var/list/clan_options = list()
@@ -148,9 +159,6 @@ GLOBAL_LIST_EMPTY(vampire_objects)
 /datum/antagonist/vampire/proc/after_gain()
 	owner.current.set_bloodpool(owner.current.maxbloodpool / 100 * INITIAL_BLOODPOOL_PERCENTAGE)
 	add_antag_hud(antag_hud_type, antag_hud_name, owner.current)
-
-	if(HAS_TRAIT(owner, TRAIT_CRITICAL_RESISTANCE))
-		REMOVE_TRAIT(owner, TRAIT_CRITICAL_RESISTANCE, TRAIT_GENERIC)
 
 /datum/antagonist/vampire/on_removal()
 	remove_antag_hud(antag_hud_type, owner.current)

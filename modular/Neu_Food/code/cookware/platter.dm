@@ -130,6 +130,7 @@ What it does:
 	desc = "A fancy silver plate often used by the nobility as a symbol of class."
 	icon_state = "platter_silver"
 	sellprice = 30
+	is_silver = TRUE
 	smeltresult = /obj/item/ingot/silver
 
 /obj/item/cooking/platter/gold

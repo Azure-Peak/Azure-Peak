@@ -121,6 +121,7 @@
 	var/turf/location = C.loc
 	if(istype(location))
 		C.add_splatter_floor(location)
+		C.add_splatter_wall(user, location, force = 2, spill_amount = 3) //Garunteed at least 2 tile distance of blood spattering on the walls, and up to 3 walls to splat.
 	var/direction = pick(GLOB.cardinals)
 	var/t_range = rand(2,max(throw_range/2, 2))
 	var/turf/target_turf = get_turf(src)

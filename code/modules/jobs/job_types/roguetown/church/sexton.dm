@@ -1,16 +1,15 @@
 /datum/job/roguetown/churchling
-	title = "Churchling"
+	title = "Sexton"
 	flag = CHURCHLING
-	department_flag = YOUNGFOLK
+	department_flag = CHURCHMEN
 	faction = "Station"
 	total_positions = 2
 	spawn_positions = 2
 
 	allowed_races = ACCEPTED_RACES
-	allowed_sexes = list(MALE, FEMALE)
-	allowed_ages = list(AGE_ADULT)
 
-	tutorial = "Your family were zealots. They scolded you with a studded belt and prayed like sinners every waking hour of the day they weren't toiling in the fields. You escaped them by becoming a churchling--and a guaranteed education isn't so bad."
+	tutorial = "You are the groundskeeper for the local church, and are responsible for all the little jobs that keep it running. \
+	Your duties range from digging graves and cleaning pews to managing the stores and conducting church business."
 
 	outfit = /datum/outfit/job/roguetown/churchling
 	display_order = JDO_CHURCHLING
@@ -25,8 +24,9 @@
 	job_traits = list(TRAIT_HOMESTEAD_EXPERT)
 
 /datum/advclass/churchling
-	name = "Churchling"
-	tutorial = "Your family were zealots. They scolded you with a studded belt and prayed like sinners every waking hour of the day they weren't toiling in the fields. You escaped them by becoming a churchling--and a guaranteed education isn't so bad."
+	name = "Sexton"
+	tutorial = "You are the groundskeeper for the local church, and are responsible for all the little jobs that keep it running. \
+	Your duties range from digging graves and cleaning pews to managing the stores and conducting church business."
 	outfit = /datum/outfit/job/roguetown/churchling/basic
 	cmode_music = 'sound/music/combat_holy.ogg'
 	category_tags = list(CTAG_CHURCHLING)
@@ -49,17 +49,20 @@
 	..()
 	H.adjust_blindness(-3)
 	neck = /obj/item/clothing/neck/roguetown/psicross
-	if(should_wear_femme_clothes(H))
-		head = /obj/item/clothing/head/roguetown/armingcap
-		armor = /obj/item/clothing/suit/roguetown/shirt/dress/gen/random
-		shirt = /obj/item/clothing/suit/roguetown/shirt/undershirt
-	else if(should_wear_masc_clothes(H))
-		armor = /obj/item/clothing/suit/roguetown/shirt/robe
-		shirt = /obj/item/clothing/suit/roguetown/shirt/undershirt
-	pants = /obj/item/clothing/under/roguetown/tights
-	belt = /obj/item/storage/belt/rogue/leather/rope
+	armor = /obj/item/clothing/suit/roguetown/armor/workervest
+	shirt = /obj/item/clothing/suit/roguetown/shirt/undershirt
+	gloves = /obj/item/clothing/gloves/roguetown/leather
+	pants = /obj/item/clothing/under/roguetown/trou
+	belt = /obj/item/storage/belt/rogue/leather/sash
 	shoes = /obj/item/clothing/shoes/roguetown/simpleshoes
-	beltl = /obj/item/storage/keyring/churchie
+	beltl = /obj/item/rogueweapon/shovel/small
+	beltr = /obj/item/flashlight/flare/torch/lantern
+	backl = /obj/item/storage/backpack/rogue/satchel
+	backpack_contents = list(
+		/obj/item/needle = 1,
+		/obj/item/storage/keyring/churchie = 1,
+		/obj/item/natural/cloth = 1,
+	)
 
 	var/datum/devotion/C = new /datum/devotion(H, H.patron)
 	C.grant_miracles(H, cleric_tier = CLERIC_T1, passive_gain = CLERIC_REGEN_DEVOTEE, devotion_limit = CLERIC_REQ_1)	//Capped to T1 miracles.

@@ -113,3 +113,9 @@
 	name = "'Shroud of the Undermaiden' morphing elixir"
 	target_items = list(/obj/item/clothing/cloak/darkcloak/bear)
 	result_item = /obj/item/clothing/cloak/raincloak/feather_cloak
+
+//Zoe - Shovel
+/obj/item/enchantingkit/zoe_shovel
+	name = "'Silence' morphing elixir"
+	target_items = list(/obj/item/rogueweapon/shovel)
+	result_item = /obj/item/rogueweapon/shovel/zoe_silence

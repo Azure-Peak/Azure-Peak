@@ -172,6 +172,9 @@
 	for(var/mob/living/L in can_see_contents())
 		if(!L.CanReach(A))
 			hide_from(L)
+	spill_contents(A)
+
+/datum/component/storage/proc/spill_contents(atom/A)
 	for(var/obj/item/reagent_containers/I in A.contents)
 		if(I.reagents && I.spillable)
 			I.reagents.remove_all(3)

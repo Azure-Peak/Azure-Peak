@@ -41,6 +41,50 @@
 		var/totalvalue = mammonsinbank + mammonsonperson
 		to_chat(user, ("<font color='yellow'>[target] has [mammonsonperson] mammons on them, [mammonsinbank] in their meister, for a total of [totalvalue] mammons.</font>"))
 
+//T0, Matthiosite thievery boon
+/obj/effect/proc_holder/spell/invoked/muffle
+	name = "Muffle"
+	desc = "A fake amulet of Astrata that muffles ones footsteps while worn over ones neck."
+	clothes_req = FALSE
+	range = 7
+	overlay_state = "equalize"
+	sound = list('sound/magic/magnet.ogg')
+	releasedrain = 40
+	chargetime = 10
+	warnie = "spellwarning"
+	no_early_release = TRUE
+	charging_slowdown = 1
+	chargedloop = /datum/looping_sound/invokegen
+	associated_skill = /datum/skill/magic/holy
+	recharge_time = 30 MINUTES //To avoid spamming this.
+
+/obj/effect/proc_holder/spell/invoked/muffle/cast(mob/living/user)
+	var/turf/T = get_turf(user)
+	if(!isclosedturf(T))
+		new /obj/item/clothing/neck/roguetown/muffle(T)
+		return TRUE
+
+	to_chat(user, span_warning("The targeted location is blocked. His gift cannot be invoked."))
+	revert_cast()
+	return FALSE
+
+/obj/item/clothing/neck/roguetown/muffle
+	name = "amulet of Astrata"
+	desc = "As sure as the sun rises, tomorrow will come."
+	icon_state = "astrata"
+
+/obj/item/clothing/neck/roguetown/muffle/equipped(mob/living/carbon/human/user, slot)
+	. = ..()
+	if(slot == SLOT_NECK)
+		to_chat(user, span_info("My footsteps now fall on deaf ears."))
+		ADD_TRAIT(user, TRAIT_SILENT_FOOTSTEPS, "matthiosboon")
+
+/obj/item/clothing/neck/roguetown/muffle/dropped(mob/living/carbon/human/user)
+	. = ..()
+	if(istype(user) && user?.wear_neck == src)
+		to_chat(user, span_info("I walk without His help once more."))
+		REMOVE_TRAIT(user, TRAIT_SILENT_FOOTSTEPS, "matthiosboon")
+
 // T1 - Take value of item in hand, apply that as healing. Destroys item.
 
 /obj/effect/proc_holder/spell/invoked/transact
@@ -105,7 +149,6 @@
 	desc = "Create equality, with a thumb on the scales, with your target. Siphon strength, speed, and constitution from them."
 	overlay_state = "equalize"
 	clothes_req = FALSE
-	overlay_state = "equalize"
 	associated_skill = /datum/skill/magic/holy
 	chargedloop = /datum/looping_sound/invokeascendant
 	sound = 'sound/magic/swap.ogg'

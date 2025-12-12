@@ -146,6 +146,7 @@ GLOBAL_VAR_INIT(rpg_loot_items, FALSE)
 	var/bigboy = FALSE //used to center screen_loc when in hand
 	var/wielded = FALSE
 	var/altgripped = FALSE
+	var/mordhau = FALSE //This weapon can mordhau, therefore we treat it as wielded in alt-grip.
 	var/list/alt_intents //these replace main intents
 	var/list/gripped_intents //intents while gripped, replacing main intents
 	var/force_wielded = 0
@@ -1467,6 +1468,13 @@ GLOBAL_VAR_INIT(rpg_loot_items, FALSE)
 	if(user.get_active_held_item() == src)
 		if(alt_intents)
 			user.update_a_intents()
+			if(mordhau)
+				if(user.get_inactive_held_item())
+					to_chat(user, span_warning("I need a free hand first."))
+					return
+				src.wielded = TRUE
+				update_force_dynamic()
+				wdefense_dynamic = (wdefense + wdefense_wbonus)
 
 /obj/item/proc/wield(mob/living/carbon/user, show_message = TRUE)
 	if(wielded)

@@ -11,6 +11,7 @@
 	var/fuze = null
 	var/lit = FALSE
 	var/prob2fail = 5
+	var/PVE_damage = 160
 	grid_width = 32
 	grid_height = 64
 
@@ -64,12 +65,16 @@
 		return FALSE
 	qdel(src)
 	playsound(T, 'sound/items/firesnuff.ogg', 100)
+	for(var/mob/living/target in range(1, T))
+		if(!target.mind || istype(target, /mob/living/simple_animal))
+			target.adjustFireLoss(PVE_damage) //fireball damage + 40. That
 	new /obj/item/natural/glass_shard(T)
 	explosion(T, light_impact_range = 1, flame_range = 2, smoke = TRUE, soundin = pick('sound/misc/explode/bottlebomb (1).ogg','sound/misc/explode/bottlebomb (2).ogg'))
 	return TRUE
 
 /obj/item/bomb/throw_impact(atom/hit_atom, datum/thrownthing/throwingdatum)
 	..()
+	sleep(1)
 	explode()
 
 /obj/item/bomb/process()
@@ -129,14 +134,16 @@
 	slot_flags = ITEM_SLOT_HIP
 	throw_speed = 0.5
 	fuze = 2 SECONDS
+	dropshrink = 0.5
 	grid_width = 32
 	grid_height = 64
-	var/obj/item/bomb/b_type
+	var/obj/item/bomb/b_type = /obj/item/bomb
 	var/list/obj/item/tripwire/wire_trigger = list()
 
 /obj/item/bomb/tripbomb/Initialize()
 	..()
-	
+	icon_state = b_type.icon_state
+
 /obj/item/bomb/tripbomb/Destroy()
 	..()
 
@@ -149,6 +156,24 @@
 	bomb.fuze = 1 SECONDS
 	QDEL_NULL(src)
 	bomb.light()
+
+/obj/item/bomb/tripbomb/attackby(obj/item/I, mob/user, params)
+	if(user.used_intent.blade_class == BCLASS_CUT && I.wlength == WLENGTH_SHORT)
+		if(!do_after(user, 7 SECONDS - user.get_skill_level(/datum/skill/craft/traps), TRUE, src))
+			to_chat(user, span_warning("I stop slicing [src]."))
+			if(!prob(user.get_skill_level(/datum/skill/craft/traps) * 10))
+				to_chat(user, span_warningbig("Oh no."))
+				light()
+		for(var/list/obj/item/tripwire/t_wire in wire_trigger)
+			QDEL_NULL(t_wire)
+		new b_type(loc)
+		QDEL_NULL(src)
+		return ..()
+	if(istype(I, /obj/item/natural/dirtclod))
+		var/skill = user.get_skill_level(/datum/skill/craft/traps)
+		alpha = (90 - skill * 5)
+		qdel(I)
+	..()
 
 /obj/item/tripwire
 	name = "fibre tripwire"
@@ -175,8 +200,11 @@
 		new payload.b_type(payload.loc)
 		QDEL_NULL(payload)
 		return ..()
-	
-	if(istype(I, /obj/item/natural/fibers))
+	if(istype(I, /obj/item/natural/dirtclod))
+		var/skill = user.get_skill_level(/datum/skill/craft/traps)
+		alpha = (90 - skill * 5)
+		qdel(I)
+	/*if(istype(I, /obj/item/natural/fibers))
 		if(payload.wire_trigger.len == 2)
 			to_chat(span_warning("I can not extend [src] anymore."))
 			return ..()
@@ -189,7 +217,7 @@
 		wire.payload = payload
 
 		payload.wire_trigger.Add(wire)
-		qdel(I)
+		qdel(I)*/
 
 	..()
 
@@ -238,6 +266,7 @@
 
 /obj/item/bomb/smoke/throw_impact(atom/hit_atom, datum/thrownthing/throwingdatum)
 	..()
+	sleep(1)
 	light()
 
 /obj/item/bomb/smoke/spark_act()
@@ -273,6 +302,7 @@
 	var/fuze = 50
 	var/lit = FALSE
 	var/prob2fail = 1 
+	var/PVE_damage = 160
 	grid_width = 32
 	grid_height = 64
 
@@ -318,6 +348,9 @@
 			if(!skipprob && prob(prob2fail))
 				snuff()
 			else
+				for(var/mob/living/target in range(4, T))
+					if(!target.mind || istype(target, /mob/living/simple_animal))
+						target.adjustFireLoss(PVE_damage) //fireball damage + 40. That
 				explosion(T, devastation_range = 0, heavy_impact_range = 0, light_impact_range = 4, smoke = TRUE, soundin = pick('sound/misc/explode/bottlebomb (1).ogg','sound/misc/explode/bottlebomb (2).ogg'))
 				qdel(src) //IMPORTANT!! go into walls /turf/closed/wall/ and see /turf/closed/wall/ex_act. Its bounded with /proc/explosion. Same for /obj/structure and /obj/structure/ex_act because if you going to fuck intergity or whatever this shit called players will skin you alive for breaking their equipment and keys
 		else //also /turf/open/floor/ex_act for comment above
@@ -328,6 +361,49 @@
 	fuze--
 	if(fuze <= 0)
 		explode(TRUE)
+
+/obj/item/tntstick/attackby(obj/item/I, mob/user, params)
+	..()
+
+	if(!istype(I, /obj/item/natural/fibers))
+		return
+	
+	I.visible_message(
+		span_warning("[user] begins to prepare [src].."),
+		span_notice("I begin to set-up [src] with [I].")
+	)
+
+	qdel(I)
+
+	if(!do_after(user, 7 SECONDS - user.get_skill_level(/datum/skill/craft/traps), TRUE, src))
+		to_chat(user, span_warning("I stop preparing [src]."))
+		new /obj/item/natural/fibers(user.loc)
+		if(prob(10))
+			to_chat(user, span_warningbig("Uh oh."))
+			light()
+		return
+	
+	var/obj/item/bomb/tripbomb/trip = new /obj/item/bomb/tripbomb(get_turf(src))
+	trip.b_type = type
+	trip.icon_state = icon_state
+	trip.add_overlay("tripbomb")
+	trip.update_icon()
+	trip.prob2fail = prob2fail
+
+	var/obj/item/tripwire/wire = new /obj/item/tripwire(get_turf(user))
+	wire.dir = get_dir(loc, user)
+	to_chat(user, get_dir(loc, user))
+	wire.payload = trip
+
+	trip.wire_trigger.Add(wire)
+
+	qdel(src)
+
+	I.visible_message(
+		span_warning("[user] finishes setting up [trip]."),
+		span_notice("I finish setting up [trip]. I can extend it by one step longer.")
+	)
+	return
 
 /obj/item/satchel_bomb
 	name = "blastsand satchel"
@@ -343,6 +419,7 @@
 	var/fuze = 50
 	var/lit = FALSE
 	var/prob2fail = 1 
+	var/PVE_damage = 300
 	grid_width = 256
 	grid_height = 256
 
@@ -388,6 +465,12 @@
 			if(!skipprob && prob(prob2fail))
 				snuff()
 			else
+				for(var/mob/living/target in range(3, T))
+					if(!target.mind || istype(target, /mob/living/simple_animal))
+						target.adjustFireLoss(PVE_damage) //summary 500
+				for(var/mob/living/target in range(8, T))
+					if(!target.mind || istype(target, /mob/living/simple_animal))
+						target.adjustFireLoss(PVE_damage - 100)
 				explosion(T, devastation_range = 2, heavy_impact_range = 3, light_impact_range = 8, flame_range = 2, smoke = TRUE, soundin = pick('sound/misc/explode/bottlebomb (1).ogg','sound/misc/explode/bottlebomb (2).ogg'))
 				qdel(src)
 
@@ -400,6 +483,49 @@
 	if(fuze <= 0)
 		explode(TRUE)
 
+/obj/item/satchel_bomb/attackby(obj/item/I, mob/user, params)
+	..()
+
+	if(!istype(I, /obj/item/natural/fibers))
+		return
+	
+	I.visible_message(
+		span_warning("[user] begins to prepare [src].."),
+		span_notice("I begin to set-up [src] with [I].")
+	)
+
+	qdel(I)
+
+	if(!do_after(user, 7 SECONDS - user.get_skill_level(/datum/skill/craft/traps), TRUE, src))
+		to_chat(user, span_warning("I stop preparing [src]."))
+		new /obj/item/natural/fibers(user.loc)
+		if(prob(10))
+			to_chat(user, span_warningbig("Uh oh."))
+			light()
+		return
+	
+	var/obj/item/bomb/tripbomb/trip = new /obj/item/bomb/tripbomb(get_turf(src))
+	trip.b_type = type
+	trip.icon_state = icon_state
+	trip.add_overlay("tripbomb")
+	trip.update_icon()
+	trip.prob2fail = prob2fail
+
+	var/obj/item/tripwire/wire = new /obj/item/tripwire(get_turf(user))
+	wire.dir = get_dir(loc, user)
+	to_chat(user, get_dir(loc, user))
+	wire.payload = trip
+
+	trip.wire_trigger.Add(wire)
+
+	qdel(src)
+
+	I.visible_message(
+		span_warning("[user] finishes setting up [trip]."),
+		span_notice("I finish setting up [trip]. I can extend it by one step longer.")
+	)
+	return
+
 /obj/item/impact_grenade
 	name = "impact grenade"
 	desc = "Some substance, hidden under paper"
@@ -409,6 +535,7 @@
 	w_class = WEIGHT_CLASS_SMALL
 	throwforce = 0
 	throw_speed = 1
+	var/PVE_damage = 160
 	grid_width = 32
 	grid_height = 32
 
@@ -422,11 +549,55 @@
 
 /obj/item/impact_grenade/throw_impact(atom/hit_atom, datum/thrownthing/throwingdatum)
 	..()
+	sleep(1)
 	explodes()
 
 /obj/item/impact_grenade/attack_self(mob/user)
 	..()
 	explodes() 
+
+/obj/item/impact_grenade/attackby(obj/item/I, mob/user, params)
+	..()
+
+	if(!istype(I, /obj/item/natural/fibers))
+		return
+	
+	I.visible_message(
+		span_warning("[user] begins to prepare [src].."),
+		span_notice("I begin to set-up [src] with [I].")
+	)
+
+	qdel(I)
+
+	if(!do_after(user, 7 SECONDS - user.get_skill_level(/datum/skill/craft/traps), TRUE, src))
+		to_chat(user, span_warning("I stop preparing [src]."))
+		new /obj/item/natural/fibers(user.loc)
+		if(prob(10))
+			to_chat(user, span_warningbig("Uh oh."))
+			explodes()
+		return
+	
+	var/obj/item/bomb/tripbomb/trip = new /obj/item/bomb/tripbomb(get_turf(src))
+	trip.b_type = type
+	trip.icon_state = icon_state
+	trip.add_overlay("tripbomb")
+	trip.update_icon()
+	trip.prob2fail = 1
+
+	var/obj/item/tripwire/wire = new /obj/item/tripwire(get_turf(user))
+	wire.dir = get_dir(loc, user)
+	to_chat(user, get_dir(loc, user))
+	wire.payload = trip
+
+	trip.wire_trigger.Add(wire)
+
+	qdel(src)
+
+	I.visible_message(
+		span_warning("[user] finishes setting up [trip]."),
+		span_notice("I finish setting up [trip]. I can extend it by one step longer.")
+	)
+	return
 
 /obj/item/impact_grenade/explosion
 	name = "Impact grenade"
@@ -436,6 +607,9 @@
 	STOP_PROCESSING(SSfastprocess, src)
 	var/turf/T = get_turf(src)
 	if(T)
+		for(var/mob/living/target in range(2, T))
+			if(!target.mind || istype(target, /mob/living/simple_animal))
+				target.adjustFireLoss(PVE_damage) //fireball damage + 40. That
 		explosion(T, heavy_impact_range = 1, light_impact_range = 2, flame_range = 2, smoke = TRUE, soundin = pick('sound/misc/explode/bottlebomb (1).ogg','sound/misc/explode/bottlebomb (2).ogg'))
 		qdel(src)
 

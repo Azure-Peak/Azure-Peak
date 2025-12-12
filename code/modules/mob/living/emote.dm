@@ -1612,6 +1612,25 @@
 		to_chat(usr, span_warning("Your tongue doesn't do that"))
 		return
 
+/datum/emote/living/oink
+	key = "oink"
+	key_third_person = "oinks."
+	message = "oinks."
+	emote_type = EMOTE_AUDIBLE
+	message_muffled = "makes a muffled sound!"
+	vary = TRUE
+	show_runechat = FALSE
+	is_animal = TRUE
+
+/mob/living/carbon/human/verb/emote_oink()
+	if(istype(usr.getorganslot(ORGAN_SLOT_TONGUE), /obj/item/organ/tongue/wild_tongue))
+		set name = "Oink"
+		set category = "Noises"
+		emote("oink", intentional = TRUE, animal = TRUE)
+	else
+		to_chat(usr, span_warning("Your tongue doesn't do that"))
+		return
+
 /datum/emote/living/trill
 	key = "trill"
 	key_third_person = "trills!"

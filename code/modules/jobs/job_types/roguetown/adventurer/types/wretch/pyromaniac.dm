@@ -6,7 +6,7 @@
 	outfit = /datum/outfit/job/roguetown/wretch/pyromaniac
 	cmode_music = 'sound/music/Iconoclast.ogg'
 	category_tags = list(CTAG_WRETCH)
-	traits_applied = list(TRAIT_MEDIUMARMOR, TRAIT_ALCHEMY_EXPERT)
+	traits_applied = list(TRAIT_MEDIUMARMOR, TRAIT_ALCHEMY_EXPERT, TRAIT_EXPLOSIVE_SUPPLY)
 	subclass_stats = list(
 		STATKEY_WIL = 3,
 		STATKEY_CON = 3,
@@ -52,7 +52,7 @@
 		/obj/item/reagent_containers/glass/bottle/alchemical/healthpot = 1,	//Small health vial
 		)
 	if(H.mind)
-		var/weapons = list("Archery", "Crossbows", "LET THERE BE FLAME!!!")
+		var/weapons = list("Archery", "Crossbows", "BOMBS", "LET THERE BE FLAME!!!")
 		var/weapon_choice = input(H, "Choose your weapon.", "TAKE UP ARMS") as anything in weapons
 		H.set_blindness(0)
 		switch(weapon_choice)
@@ -64,6 +64,12 @@
 				H.adjust_skillrank_up_to(/datum/skill/combat/crossbows, 4, TRUE)
 				backr = /obj/item/gun/ballistic/revolver/grenadelauncher/crossbow
 				beltl = /obj/item/quiver/pyrobolts
+			if("BOMBS") //30 bombs. 18 fire, 4 tnt, 4 impacts, 4 firegas.
+				ADD_TRAIT(H, TRAIT_BOMBER_EXPERT, TRAIT_GENERIC)
+				H.adjust_skillrank_up_to(/datum/skill/craft/engineering, 4, TRUE)
+				backr = /obj/item/twstrap/bombstrap/firebomb
+				r_hand = /obj/item/twstrap/bombstrap/bomb_and_fire
+				l_hand = /obj/item/twstrap/bombstrap/bomb_and_fire
 			if("LET THERE BE FLAME!!!")
 				H.adjust_skillrank_up_to(/datum/skill/magic/arcane, 2, TRUE)
 				backr = /obj/item/rogueweapon/woodstaff/toper

@@ -94,8 +94,8 @@
 	sellprice = 150
 
 /obj/item/natural/head/dragon/broodmother
-	name = "broodmother head"
-	desc = "The head of a dragon broodmother."
+	name = "aspirant head"
+	desc = "The head of a drakkyn aspirant."
 	icon_state = "dragonhead"
 	sellprice = 225
 

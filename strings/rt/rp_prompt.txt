@@ -20,7 +20,7 @@ Don't be afraid to check out Azure Peak's Wiki - https://azurepeak.miraheze.org/
 	<br><br>
 	..the mortal races Ascended.
 	<br><br> 
-	In 923 AP, the Age of Enlightment ended in fire. Zizo, the greatest archmage of the Holy Celestial Empire, had discovered the secrets to apotheosis: that which 	allowed Man to transmute itself into God. She created the Greatest Wonder, and - with it - Ascended with Her chosen acolytes into divinity. Psydonia's leylines 
+	Not long ago, the Age of Enlightment ended in fire. Zizo, the greatest archmage of the Holy Celestial Empire, had discovered the secrets to apotheosis: that which 	allowed Man to transmute itself into God. She created the Greatest Wonder, and - with it - Ascended with Her chosen acolytes into divinity. Psydonia's leylines 
 	ruptured with uncontrollable magicks, the entire snow-elven people were evaporated into lux-mist, and the Holy Celestial Empire collapsed into a raging inferno.
 	<br><br> 
 	And on that night - amidst the ashes - His children learned that they, too, could play the part of Gods.
@@ -152,7 +152,7 @@ More recently, unsettling rumors have arose of an ancient cult, nestled deep wit
 	</details>
 
 	<details>
-		<summary><strong> Enlightenment - 352 AP to 922 AP </strong></summary>
+		<summary><strong> Enlightenment - 352 AP to ??? AP </strong></summary>
 		<br>
 		Kingdoms arise, with the Holy Celestial Empire - a communion of both Man and God - reigning above them all. The snow-elves, though cursed with infertility, were nevertheless blessed the most with Noc's wisdom. By their hands, many mechanical marvels are developed: some still exist today, such as the SCOM and MEISTERS.
 		<br><br>
@@ -163,7 +163,7 @@ More recently, unsettling rumors have arose of an ancient cult, nestled deep wit
 	</details>
 
 	<details>
-		<summary><strong> Sundering - 923 AP </strong></summary>
+		<summary><strong> Sundering - ???, between 923 and 1313 AP </strong></summary>
 		<br>
 		At the height of Psydonia's prosperity, a snow-elven archmage discovers a way to dispel the curse that has led to their race's endangerment. A great machine is constructed, yet its activation results in a cataclysm beyond compare. Explosions ripple throughout Psydonia's leylines, and every single snow-elve simultaneously evaporates into piles of gore and ash.
 		<br><br>
@@ -174,9 +174,9 @@ More recently, unsettling rumors have arose of an ancient cult, nestled deep wit
 	</details>
 
 	<details>
-		<summary><strong> Decay - 924-1512 AP </strong></summary>
+		<summary><strong> Decay - ??? to 1512 AP </strong></summary>
 		<br>
-		In the ashes of Celestia, a new deity arose - Zizo. She is followed by Baotha, Graggar, and Matthios, who have now resurfaced. Their presence gave way to the birth of Ascendanism, for they gifted His children with a revelation: they were all but mortals, once, who had discovered how to obtain divinity for themselves. A schism forms in the churches, and the Ecclesial is born.
+		In the ashes of Celestia, a new deity arose - Zizo. She is followed by Baotha, Graggar, and Matthios, who have now fully resurfaced. Their presence gave way to the birth of Ascendanism, for they gifted His children with a revelation: they were all but mortals, once, who had discovered how to obtain divinity for themselves. A schism forms in the churches, and the Ecclesial is born.
 		<br><br>
 		With the Holy Celestial Empire in ruins, His children are forever marred. The Pantheon's church resettles in the central kingdom of Grenzelhoft, and becomes known as the Holy See - likewise, the Psydonic crusaders mournfully return to the Orthodoxy. Both leaders of these opposing churches now blame one-another for inadvertently destroying the Holy Celestial Empire.
 		<br><br>

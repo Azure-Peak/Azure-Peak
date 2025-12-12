@@ -284,8 +284,6 @@
 
 /datum/reagent/moondust/on_mob_life(mob/living/carbon/M)
 	narcolepsy_drug_up(M)
-	if(M.reagents.has_reagent(/datum/reagent/moondust_purest))
-		M.Sleeping(40, 0)
 	if(M.has_flaw(/datum/charflaw/addiction/junkie))
 		M.sate_addiction()
 	M.apply_status_effect(/datum/status_effect/buff/moondust)

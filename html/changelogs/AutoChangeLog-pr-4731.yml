@@ -1,4 +1,0 @@
-author: "WeNeedMorePhoron"
-delete-after: True
-changes:
-  - rscdel: "Removed forcing client music to load on aghost / ghost, which was definitely causing aghost lag and may have contributed to ghost lag"

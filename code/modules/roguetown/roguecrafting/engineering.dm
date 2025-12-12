@@ -518,29 +518,3 @@
 
 // ------------ Craftable Traps ----------
 //trying out adding in traps, we'll start with 3 of them. 
-
-
-
-/datum/crafting_recipe/roguetown/engineering/sawbladetrap
-	name = "saw blades trap"
-	category = "Traps"
-	result = /obj/structure/trap/saw_blades
-	reqs =  list(/obj/item/roguegear = 2, /obj/item/natural/clay = 2, /obj/item/roguegem/amethyst = 1, /obj/item/alch/irondust =1, /obj/item/natural/whetstone = 1)
-	skillcraft = /datum/skill/craft/engineering
-	craftdiff = 5
-
-/datum/crafting_recipe/roguetown/engineering/flametrap
-	name = "flame trap"
-	category = "Traps"
-	result = /obj/structure/trap/flame
-	reqs =  list(/obj/item/roguegear = 1, /obj/item/natural/clay = 2, /obj/item/roguegem/amethyst = 1, /obj/item/alch/irondust =1, /obj/item/alch/firedust =1)
-	skillcraft = /datum/skill/craft/engineering
-	craftdiff = 5
-
-/datum/crafting_recipe/roguetown/engineering/shocktrap
-	name = "shock trap"
-	category = "Traps"
-	result = /obj/structure/trap/shock
-	reqs =  list(/obj/item/roguegear = 1, /obj/item/natural/clay = 2, /obj/item/roguegem/amethyst = 1, /obj/item/alch/irondust =1, /obj/item/alch/magicdust =1)
-	skillcraft = /datum/skill/craft/engineering
-	craftdiff = 6

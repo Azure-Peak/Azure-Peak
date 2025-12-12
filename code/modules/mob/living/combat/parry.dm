@@ -274,10 +274,15 @@
 				playsound(get_turf(src), pick(W.parrysound), 100, FALSE)
 			if(src.client)
 				record_round_statistic(STATS_PARRIES)
+
+			var/def_verb = "parries"
 			if(istype(rmb_intent, /datum/rmb_intent/riposte))
-				src.visible_message(span_boldwarning("<b>[src]</b> ripostes [user] with [W]!"))
-			else
-				src.visible_message(span_boldwarning("<b>[src]</b> parries [user] with [W]!"))
+				def_verb = "[pick("expertly", "deftly")] parries"
+			var/def_msg = "<b>[src]</b> [def_verb] [user] with [W]!"
+
+			visible_message(span_combatsecondary(def_msg), span_boldwarning(def_msg), COMBAT_MESSAGE_RANGE, list(user))
+			to_chat(user, span_boldwarning(def_msg))
+
 			if(!iscarbon(user))	//Non-carbon mobs never make it to the proper parry proc where the other calculations are done.
 				if(W.max_blade_int)
 					W.remove_bintegrity(SHARPNESS_ONHIT_DECAY, user)

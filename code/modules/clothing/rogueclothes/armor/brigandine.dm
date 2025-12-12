@@ -17,10 +17,11 @@
 	armor_class = ARMOR_CLASS_MEDIUM //good idea suggested by lamaster
 	sleeved_detail = FALSE
 	boobed_detail = FALSE
+	chunkcolor = "#7d9097"
 
 /obj/item/clothing/suit/roguetown/armor/brigandine/Initialize()
 	. = ..()
-	AddComponent(/datum/component/item_equipped_movement_rustle, SFX_PLATE_COAT_STEP)
+	AddComponent(/datum/component/item_equipped_movement_rustle, SFX_PLATE_COAT_STEP, 6)
 
 /obj/item/clothing/suit/roguetown/armor/brigandine/attack_right(mob/user)
 	if(detail_tag)
@@ -37,6 +38,7 @@
 	if(ismob(loc))
 		var/mob/L = loc
 		L.update_inv_armor()
+	chunkcolor = pickedcolor
 
 /obj/item/clothing/suit/roguetown/armor/brigandine/update_icon()
 	cut_overlays()

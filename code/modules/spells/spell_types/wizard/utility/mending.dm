@@ -40,6 +40,15 @@
 		revert_cast()
 		return
 
+	user.visible_message(
+		span_warning("[user] begins to concentrate on [I]!"),
+		span_notice("I begin to concentrate on [I]..")
+	)
+	if(!do_after(user, 4 SECONDS, TRUE, I, TRUE))
+		to_chat(user, span_warning("My concentration breaks! I could not repair [I]."))
+		revert_cast()
+		return
+
 	repair_percent = initial(repair_percent)
 	int_bonus = CLAMP((user.STAINT * 0.01), 0.01, 0.9)
 	repair_percent += int_bonus

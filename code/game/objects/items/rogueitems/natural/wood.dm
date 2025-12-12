@@ -125,7 +125,6 @@
 		/datum/crafting_recipe/roguetown/survival/woodtray,
 		/datum/crafting_recipe/roguetown/survival/woodbowl,
 		/datum/crafting_recipe/roguetown/survival/pipe,
-		/datum/crafting_recipe/roguetown/survival/mantrap,
 		/datum/crafting_recipe/roguetown/survival/paperscroll,
 		/datum/crafting_recipe/roguetown/survival/boneaxe,
 		/datum/crafting_recipe/roguetown/survival/prosthetic/woodleftarm,
@@ -399,6 +398,14 @@
 	. = ..()
 	if(isitem(O))
 		var/obj/item/I = O
+		if(istype(I, /obj/item/ingot/iron))
+			if(!do_after(user, 4 SECONDS, target = I))
+				return
+			to_chat(user, span_warning("The [user] breaks an [I] using stake into small parts!"))
+			new /obj/item/scrap(get_turf(I))
+			new /obj/item/scrap(get_turf(I))
+			new /obj/item/scrap(get_turf(I))
+			qdel(I)
 		if(I.anvilrepair)
 			if(I.smeltresult == /obj/item/ingot/iron)
 				if(!do_after(user, 4 SECONDS, target = I))

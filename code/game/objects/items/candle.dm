@@ -131,6 +131,8 @@
 	icon_state = "gcandelabra"
 	infinite = TRUE
 	sellprice = 40
+	possible_item_intents = list(/datum/intent/use, /datum/intent/hit)
+	force = 12 //Bludgeons!
 
 /obj/item/candle/candlestick/gold/update_icon()
 	icon_state = "gcandelabra[lit ? "_lit" : ""]"
@@ -145,6 +147,9 @@
 	icon_state = "scandelabra"
 	infinite = TRUE
 	sellprice = 60
+	is_silver = TRUE
+	possible_item_intents = list(/datum/intent/use, /datum/intent/hit)
+	force = 12 //Bludgeons!
 
 /obj/item/candle/candlestick/silver/update_icon()
 	icon_state = "scandelabra[lit ? "_lit" : ""]"
@@ -159,6 +164,8 @@
 	icon_state = "singlegcandelabra"
 	infinite = TRUE
 	sellprice = 30
+	possible_item_intents = list(/datum/intent/use, /datum/intent/hit)
+	force = 12 //Bludgeons!
 
 /obj/item/candle/candlestick/gold/single/update_icon()
 	icon_state = "singlegcandelabra[lit ? "_lit" : ""]"
@@ -173,6 +180,9 @@
 	icon_state = "singlescandelabra"
 	infinite = TRUE
 	sellprice = 50
+	possible_item_intents = list(/datum/intent/use, /datum/intent/hit)
+	force = 12 //Bludgeons!
+	is_silver = TRUE
 
 /obj/item/candle/candlestick/silver/single/update_icon()
 	icon_state = "singlescandelabra[lit ? "_lit" : ""]"
@@ -201,6 +211,7 @@
 	icon_state = "scandle"
 	infinite = TRUE
 	sellprice = 50
+	is_silver = TRUE
 
 /obj/item/candle/silver/update_icon()
 	icon_state = "scandle[lit ? "_lit" : ""]"

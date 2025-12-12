@@ -1206,12 +1206,14 @@
 		H.dropItemToGround(I, TRUE)
 	H.drop_all_held_items()
 	armor = /obj/item/clothing/suit/roguetown/armor/plate/full/zizo
+	shirt = /obj/item/clothing/suit/roguetown/armor/chainmail/hauberk/zizo
 	pants = /obj/item/clothing/under/roguetown/platelegs/zizo
 	shoes = /obj/item/clothing/shoes/roguetown/boots/armor/zizo
+	wrists = /obj/item/clothing/wrists/roguetown/bracers/zizo
 	gloves = /obj/item/clothing/gloves/roguetown/plate/zizo
 	head = /obj/item/clothing/head/roguetown/helmet/heavy/zizo
+	neck = /obj/item/clothing/neck/roguetown/bevor/zizo
 	backr = /obj/item/rogueweapon/sword/long/zizo
-	neck = /obj/item/clothing/neck/roguetown/bevor
 
 	H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/mending/lesser)
 
@@ -1366,15 +1368,16 @@
 		H.dropItemToGround(I, TRUE)
 	H.drop_all_held_items()
 	armor = /obj/item/clothing/suit/roguetown/armor/plate/full/matthios
+	shirt = /obj/item/clothing/suit/roguetown/armor/chainmail/hauberk/matthios
 	pants = /obj/item/clothing/under/roguetown/platelegs/matthios
 	shoes = /obj/item/clothing/shoes/roguetown/boots/armor/matthios
+	wrists = /obj/item/clothing/wrists/roguetown/bracers/matthios
 	gloves = /obj/item/clothing/gloves/roguetown/plate/matthios
 	head = /obj/item/clothing/head/roguetown/helmet/heavy/matthios
-	neck = /obj/item/clothing/neck/roguetown/chaincoif/chainmantle
+	neck = /obj/item/clothing/neck/roguetown/chaincoif/chainmantle/matthios
 	backr = /obj/item/rogueweapon/flail/peasantwarflail/matthios
 
 	H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/mending/lesser)
-
 
 /obj/structure/ritualcircle/graggar
 	name = "Rune of Violence"
@@ -1504,11 +1507,13 @@
 		H.dropItemToGround(I, TRUE)
 	H.drop_all_held_items()
 	armor = /obj/item/clothing/suit/roguetown/armor/plate/fluted/graggar
+	shirt = /obj/item/clothing/suit/roguetown/armor/chainmail/hauberk/graggar
 	pants = /obj/item/clothing/under/roguetown/platelegs/graggar
 	shoes = /obj/item/clothing/shoes/roguetown/boots/armor/graggar
+	wrists = /obj/item/clothing/wrists/roguetown/bracers/graggar
 	gloves = /obj/item/clothing/gloves/roguetown/plate/graggar
 	head = /obj/item/clothing/head/roguetown/helmet/heavy/graggar
-	neck = /obj/item/clothing/neck/roguetown/gorget/steel
+	neck = /obj/item/clothing/neck/roguetown/gorget/steel/graggar
 	cloak = /obj/item/clothing/cloak/graggar
 	r_hand = /obj/item/rogueweapon/greataxe/steel/doublehead/graggar
 

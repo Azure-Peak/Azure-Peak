@@ -89,6 +89,7 @@
 #define MOB_EFFECT_LAYER_EXPOSED 5.02	//For some INEXPLICABLE reason 4.0x gets wiped on MMB intent updates and 3.0x go under the mob (bad).
 #define MOB_EFFECT_LAYER_OFFBALANCED 5.03
 #define MOB_EFFECT_LAYER_GUARD 5.04
+#define MOB_EFFECT_LAYER_FEINTED 5.05
 #define GASFIRE_LAYER 5.05
 #define RIPPLE_LAYER 5.1
 

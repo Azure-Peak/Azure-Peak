@@ -211,6 +211,63 @@
 		added_def = 2,\
 	)
 
+/obj/item/rogueweapon/shovel/zoe_silence
+	name = "Silence"
+	desc = "This relic, bestowed on the Order of the Veiled Lady, is cold to the touch. Faint whispers of the lost and the damned can be heard in its presence, and an inscription on the handle reads the Order's motto: \"Rest to the Restless, Death to the Deathless\""
+	icon_state = "zoe_silence"
+	icon = 'icons/obj/items/donor_weapons_48.dmi'
+	
+/obj/item/rogueweapon/shovel/zoe_silence/getonmobprop(tag)
+	if(tag)
+		switch(tag)
+			if("gen")
+				return list("shrink" = 0.4,
+"sx" = 0,
+"sy" = -10,
+"nx" = -6,
+"ny" = -8,
+"wx" = -9,
+"wy" = -8,
+"ex" = 5,
+"ey" = -11,
+"northabove" = 0,
+"southabove" = 1,
+"eastabove" = 1,
+"westabove" = 0,
+"nturn" = 195,
+"sturn" = -180,
+"wturn" = -90,
+"eturn" = 0,
+"nflip" = 0,
+"sflip" = 8,
+"wflip" = 8,
+"eflip" = 1)
+			if("wielded")
+				return list("shrink" = 0.5,
+"sx" = 6,
+"sy" = -7,
+"nx" = -8,
+"ny" = -5,
+"wx" = -6,
+"wy" = -3,
+"ex" = 6,
+"ey" = -5,
+"northabove" = 0,
+"southabove" = 1,
+"eastabove" = 1,
+"westabove" = 1,
+"nturn" = 225,
+"sturn" = -225,
+"wturn" = -45,
+"eturn" = -45,
+"nflip" = 0,
+"sflip" = 8,
+"wflip" = 8,
+"eflip" = 1)
+			if("onbelt")
+				return list("shrink" = 0.3,"sx" = -2,"sy" = -5,"nx" = 4,"ny" = -5,"wx" = 0,"wy" = -5,"ex" = 2,"ey" = -5,"nturn" = 0,"sturn" = 0,"wturn" = 0,"eturn" = 0,"nflip" = 0,"sflip" = 0,"wflip" = 0,"eflip" = 0,"northabove" = 0,"southabove" = 1,"eastabove" = 1,"westabove" = 0)
+
+
 /obj/item/burial_shroud
 	name = "winding sheet"
 	desc = "A burial veil for the deceased. It makes transporting bodies slightly more tolerable."

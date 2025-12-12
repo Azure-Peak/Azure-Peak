@@ -42,7 +42,6 @@
 		/datum/crafting_recipe/roguetown/survival/abyssoramulet,
 		/datum/crafting_recipe/roguetown/survival/broom,
 		/datum/crafting_recipe/roguetown/survival/woodcross,
-		/datum/crafting_recipe/roguetown/survival/mantrap,
 		/datum/crafting_recipe/roguetown/survival/tribalrags,
 		/datum/crafting_recipe/roguetown/survival/skullmask,
 		/datum/crafting_recipe/roguetown/survival/bonespear,
