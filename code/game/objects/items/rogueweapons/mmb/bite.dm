@@ -29,9 +29,8 @@
 	if(user.incapacitated())
 		return
 	if(!get_location_accessible(user, BODY_ZONE_PRECISE_MOUTH, grabs="other"))
-		if(!HAS_TRAIT(user, TRAIT_BITERHELM))
-			to_chat(user, span_warning("My mouth is blocked."))
-			return
+		to_chat(user, span_warning("My mouth is blocked."))
+		return
 	if(HAS_TRAIT(user, TRAIT_NO_BITE))
 		to_chat(user, span_warning("I can't bite."))
 		return
