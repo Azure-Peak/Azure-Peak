@@ -1433,6 +1433,7 @@
 
 /datum/status_effect/buff/clash/limbguard/apply_cooldown()
 	owner.apply_status_effect(/datum/status_effect/debuff/specialcd, 60 SECONDS)
+	owner.apply_status_effect(/datum/status_effect/debuff/clashcd)
 
 /datum/status_effect/buff/clash/limbguard/guard_kicked()
 	return
