@@ -1339,10 +1339,11 @@
 	QDEL_NULL(mob_effect)
 
 /datum/status_effect/buff/clash/limbguard/process()
-	if((owner.get_inactive_held_item() != shield_origin) && (owner.get_active_held_item() != shield_origin))	//We lost the shield we used this with from our hands.
-		remove_self()
-	if(!owner.stamina_add(0.01))	//It essentially halts green regen.
-		remove_self()
+	if(owner)	//Avoids a runtime where this is called, apparently, before it has time to assign an owner via initialization (???)
+		if((owner.get_inactive_held_item() != shield_origin) && (owner.get_active_held_item() != shield_origin))	//We lost the shield we used this with from our hands.
+			remove_self()
+		if(!owner.stamina_add(0.01))	//It essentially halts green regen.
+			remove_self()
 
 /datum/status_effect/buff/clash/limbguard/proc/set_offsets()
 	switch(protected_zone)
@@ -1375,7 +1376,7 @@
 			if(HM.mind)
 				owner.stamina_add(-(owner.max_stamina / 3))
 				owner.energy_add((owner.max_energy / 5))
-				remove_self()
+			remove_self()
 			return COMPONENT_NO_ATTACK	//We cancel the attack that triggered this.
 
 /datum/status_effect/buff/clash/limbguard/proc/apply_debuffs(mob/living/carbon/human/target)
