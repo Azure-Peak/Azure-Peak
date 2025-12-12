@@ -1191,8 +1191,8 @@
 
 
 	RegisterSignal(new_owner, COMSIG_MOB_ATTACKED_BY_HAND, PROC_REF(process_touch))
-	RegisterSignal(new_owner, COMSIG_MOB_ON_KICK, PROC_REF(guard_disrupted))
-	RegisterSignal(new_owner, COMSIG_MOB_KICKED, PROC_REF(guard_disrupted))
+	RegisterSignal(new_owner, COMSIG_MOB_ON_KICK, PROC_REF(guard_on_kick))
+	RegisterSignal(new_owner, COMSIG_MOB_KICKED, PROC_REF(guard_kicked))
 	RegisterSignal(new_owner, COMSIG_LIVING_ONJUMP, PROC_REF(guard_disrupted))
 	RegisterSignal(new_owner, COMSIG_CARBON_SWAPHANDS, PROC_REF(guard_swaphands))
 	RegisterSignal(new_owner, COMSIG_ITEM_GUN_PROCESS_FIRE, PROC_REF(guard_disrupted_cheesy))
@@ -1232,7 +1232,12 @@
 /datum/status_effect/buff/clash/proc/guard_struck_by_projectile()
 	guard_disrupted()
 
-//Ditto.
+/datum/status_effect/buff/clash/proc/guard_on_kick()
+	guard_disrupted()
+
+/datum/status_effect/buff/clash/proc/guard_kicked()
+	guard_disrupted()
+
 /datum/status_effect/buff/clash/proc/guard_swaphands()
 	guard_disrupted()
 
@@ -1361,21 +1366,47 @@
 	if(ishuman(user) && target == owner)
 		var/mob/living/carbon/human/HM = user
 		if(check_zone(HM.zone_selected) == protected_zone)	//User has struck the exact limb that was being protected. Bad!
-			HM.Immobilize(3 SECONDS)
-			HM.OffBalance(3 SECONDS)
-			HM.apply_status_effect(/datum/status_effect/debuff/exposed, 10 SECONDS)
-			HM.remove_status_effect(/datum/status_effect/buff/clash/limbguard)
-			HM.emote("gasp")
-			HM.stamina_add((HM.max_stamina / 3))
-			HM.energy_add((-HM.max_energy / 5))
 			var/mob/living/carbon/human/H = owner
 			H?.purge_peel(99)
+			if(ishuman(user))
+				apply_debuffs(HM)
+				perform_disarm(HM)
 			playsound(owner, 'sound/combat/limbguard_struck.ogg', 100, TRUE)
 			if(HM.mind)
 				owner.stamina_add(-(owner.max_stamina / 3))
 				owner.energy_add((owner.max_energy / 5))
 				remove_self()
 			return COMPONENT_NO_ATTACK	//We cancel the attack that triggered this.
+
+/datum/status_effect/buff/clash/limbguard/proc/apply_debuffs(mob/living/carbon/human/target)
+	target.Immobilize(3 SECONDS)
+	target.apply_status_effect(/datum/status_effect/debuff/clickcd, 5 SECONDS)
+	target.apply_status_effect(/datum/status_effect/debuff/exposed, 10 SECONDS)
+	target.remove_status_effect(/datum/status_effect/buff/clash/limbguard)
+	target.stamina_add((target.max_stamina / 3))
+	target.energy_add((-target.max_energy / 5))
+
+#define LGUARD_SHARPNESS_LOSS     200
+#define LGUARD_SHARPNESS_LOSS_NPC 80
+#define LGUARD_INTEG_LOSS		  100
+
+/datum/status_effect/buff/clash/limbguard/proc/perform_disarm(mob/living/carbon/human/target)
+	var/obj/item/I = target.get_active_held_item()
+	owner.visible_message(span_boldwarning("[owner] violently ripostes, disarming [target]!"))
+	owner.flash_fullscreen("whiteflash")
+	target.flash_fullscreen("whiteflash")
+	var/datum/effect_system/spark_spread/S = new()
+	var/turf/front = get_step(owner,owner.dir)
+	S.set_up(1, 1, front)
+	S.start()
+	if(I)
+		target.disarmed(I)
+		I.remove_bintegrity(target.mind ? LGUARD_SHARPNESS_LOSS : LGUARD_SHARPNESS_LOSS_NPC)
+		I.take_damage(LGUARD_INTEG_LOSS, BRUTE, "blunt")
+
+#undef LGUARD_SHARPNESS_LOSS
+#undef LGUARD_SHARPNESS_LOSS_NPC
+#undef LGUARD_INTEG_LOSS
 
 /datum/status_effect/buff/clash/limbguard/proc/remove_self()
 	owner.remove_status_effect(/datum/status_effect/buff/clash/limbguard)
@@ -1394,8 +1425,16 @@
 			I.get_deflected(target)
 		return COMPONENT_CANCEL_THROW //Also returns COMPONENT_ATOM_BLOCK_BULLET
 
+/datum/status_effect/buff/clash/limbguard/process_touch(mob/living/carbon/human/parent, mob/living/carbon/human/attacker, mob/living/carbon/human/defender)
+	if(attacker && check_zone(attacker.zone_selected) == protected_zone)
+		var/obj/item/I = defender.get_active_held_item()
+		defender.process_clash(attacker, I, null)	//This will strike at their hand, but not clear away the effect. They tried to grab the protected limb.
+
 /datum/status_effect/buff/clash/limbguard/apply_cooldown()
 	owner.apply_status_effect(/datum/status_effect/debuff/specialcd, 30 SECONDS)
+
+/datum/status_effect/buff/clash/limbguard/guard_kicked()
+	return
 
 #define BLOODRAGE_FILTER "bloodrage"
 

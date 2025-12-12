@@ -715,10 +715,9 @@ SPECIALS START HERE
 	respect_adjacency = FALSE
 	cooldown = 1 SECONDS
 
+//apply_cost is called before anything else, so it works here for the toggle checks, but it's kind of a bad example -- don't do this.
 /datum/special_intent/limbguard/apply_cost(mob/living/L)
-	if(L.has_status_effect(/datum/status_effect/buff/clash) || L.has_status_effect(/datum/status_effect/buff/clash/limbguard))
-		return FALSE
-	if(check_zone(L.zone_selected) == BODY_ZONE_CHEST)
+	if(L.has_status_effect(/datum/status_effect/buff/clash) || L.toggle_timer > world.time)
 		return FALSE
 	var/datum/status_effect/buff/clash/limbguard/lg = L.has_status_effect(/datum/status_effect/buff/clash/limbguard)
 	if(lg)
@@ -728,7 +727,8 @@ SPECIALS START HERE
 
 /datum/special_intent/limbguard/process_attack()
 	SHOULD_CALL_PARENT(FALSE)
-	howner.apply_status_effect(/datum/status_effect/buff/clash/limbguard, howner.zone_selected)
+	howner.apply_status_effect(/datum/status_effect/buff/clash/limbguard, check_zone(howner.zone_selected))
+	howner.toggle_timer = world.time + howner.toggle_delay
 
 //datum/status_effect/buff/clash/limbguard
 
