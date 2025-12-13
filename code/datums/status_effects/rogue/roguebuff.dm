@@ -1388,7 +1388,6 @@
 	target.energy_add((-target.max_energy / 5))
 
 #define LGUARD_SHARPNESS_LOSS     200
-#define LGUARD_SHARPNESS_LOSS_NPC 80
 #define LGUARD_INTEG_LOSS		  100
 
 /datum/status_effect/buff/clash/limbguard/proc/perform_disarm(mob/living/carbon/human/target)
@@ -1402,11 +1401,12 @@
 	S.start()
 	if(I)
 		target.disarmed(I)
-		I.remove_bintegrity(target.mind ? LGUARD_SHARPNESS_LOSS : LGUARD_SHARPNESS_LOSS_NPC)
-		I.take_damage(LGUARD_INTEG_LOSS, BRUTE, "blunt")
+		if(I.remove_bintegrity(LGUARD_SHARPNESS_LOSS))
+			I.take_damage((LGUARD_INTEG_LOSS * 0.5), BRUTE, "blunt")
+		else
+			I.take_damage((LGUARD_INTEG_LOSS), BRUTE, "blunt")
 
 #undef LGUARD_SHARPNESS_LOSS
-#undef LGUARD_SHARPNESS_LOSS_NPC
 #undef LGUARD_INTEG_LOSS
 
 /datum/status_effect/buff/clash/limbguard/proc/remove_self()
