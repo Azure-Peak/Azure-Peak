@@ -75,6 +75,47 @@
 	chargedloop = /datum/looping_sound/invokegen
 	devotion_cost = 80
 
+/obj/effect/proc_holder/spell/invoked/hammerfall/cast(list/targets, mob/user = usr)
+	var/turf/fallzone = null
+	var/skill = user.get_skill_level(/datum/skill/magic/holy)
+	var/damage = 150 + (skill * 100) //So weak damage for this cooldown. Upped
+	var/const/radius = 1 //Radius of the spell
+	var/const/shakeradius = 7 //Radius of the quake
+	var/diceroll = 0
+	var/const/dc = 42 //Code will roll 2d20 and add target's perception and Speed then compare to this to see if they fall down or not. 42 Means they need to roll 2x 20 with Speed and Perception at I
+	var/const/delay = 2 SECONDS // Delay between the ground marking appearing and the effect playing.
+	fallzone = get_turf(targets[1])
+	if(!fallzone)
+		return
+	else
+		show_visible_message(usr, "[usr] raises their arm, conjuring a hammer wreathed in molten fire. As they hurl it toward the ground, the earth trembles under its impact, shaking its very foundations!", "You raise your arm, conjuring a hammer wreathed in molten fire. As you hurl it toward the ground, the earth trembles under its impact, shaking its very foundations!")
+	for (var/turf/open/visual in view(radius, fallzone))
+		var/obj/effect/temp_visual/lavastaff/Lava = new /obj/effect/temp_visual/lavastaff(visual)
+		animate(Lava, alpha = 255, time = 5)
+	sleep(delay)
+	for (var/mob/living/carbon/screenshaken in view(shakeradius, fallzone))
+		shake_camera(screenshaken, 5, 5)
+	for (var/mob/living/carbon/shaken in view(radius, fallzone))
+		diceroll = roll(2,20) + shaken.STAPER + shaken.STASPD
+		if (diceroll > dc)
+			shaken.apply_effect(1 SECONDS, EFFECT_IMMOBILIZE, 0)
+			show_visible_message(shaken, null, "The ground quakes but I manage to keep my footing.")
+		else
+			shaken.apply_effect(1 SECONDS, EFFECT_KNOCKDOWN, 0)		
+			show_visible_message(shaken, null, "The ground quakes, making me fall over.")
+	for (var/obj/structure/damaged in view(radius, fallzone))
+		if(!istype(damaged, /obj/structure/flora/newbranch))
+			damaged.take_damage(damage,BRUTE,"blunt",1)
+	for (var/turf/closed/wall/damagedwalls in view(radius, fallzone))
+		damagedwalls.take_damage(damage,BRUTE,"blunt",1)
+	for (var/turf/closed/mineral/aoemining in view(radius, fallzone))
+		aoemining.lastminer = usr
+		aoemining.take_damage(damage,BRUTE,"blunt",1)
+
+/obj/effect/temp_visual/lavastaff
+	icon_state = "lavastaff_warn"
+	duration = 50
+
 /obj/effect/proc_holder/spell/invoked/craftercovenant
 	name = "The Crafter’s Covenant"
 	desc = "Melt a pile of valuables and convert them into a single item. Sacrifice is accepted even if its not valuable enough to make anything."
@@ -357,46 +398,6 @@ var/global/list/anvil_recipe_prices[][]
 	..()
 	initialize_anvil_recipe_prices() // Precompute recipe prices on startup
 
-/obj/effect/proc_holder/spell/invoked/hammerfall/cast(list/targets, mob/user = usr)
-	var/turf/fallzone = null
-	var/const/damage = 250 //Structural damage the spell does. At 250, it would take 4 casts (8 minutes and 320 devotion) to destroy a normal door.
-	var/const/radius = 1 //Radius of the spell
-	var/const/shakeradius = 7 //Radius of the quake
-	var/diceroll = 0
-	var/const/dc = 42 //Code will roll 2d20 and add target's perception and Speed then compare to this to see if they fall down or not. 42 Means they need to roll 2x 20 with Speed and Perception at I
-	var/const/delay = 2 SECONDS // Delay between the ground marking appearing and the effect playing.
-	fallzone = get_turf(targets[1])
-	if(!fallzone)
-		return
-	else
-		show_visible_message(usr, "[usr] raises their arm, conjuring a hammer wreathed in molten fire. As they hurl it toward the ground, the earth trembles under its impact, shaking its very foundations!", "You raise your arm, conjuring a hammer wreathed in molten fire. As you hurl it toward the ground, the earth trembles under its impact, shaking its very foundations!")
-	for (var/turf/open/visual in view(radius, fallzone))
-		var/obj/effect/temp_visual/lavastaff/Lava = new /obj/effect/temp_visual/lavastaff(visual)
-		animate(Lava, alpha = 255, time = 5)
-	sleep(delay)
-	for (var/mob/living/carbon/screenshaken in view(shakeradius, fallzone))
-		shake_camera(screenshaken, 5, 5)
-	for (var/mob/living/carbon/shaken in view(radius, fallzone))
-		diceroll = roll(2,20) + shaken.STAPER + shaken.STASPD
-		if (diceroll > dc)
-			shaken.apply_effect(1 SECONDS, EFFECT_IMMOBILIZE, 0)
-			show_visible_message(shaken, null, "The ground quakes but I manage to keep my footing.")
-		else
-			shaken.apply_effect(1 SECONDS, EFFECT_KNOCKDOWN, 0)		
-			show_visible_message(shaken, null, "The ground quakes, making me fall over.")
-	for (var/obj/structure/damaged in view(radius, fallzone))
-		if(!istype(damaged, /obj/structure/flora/newbranch))
-			damaged.take_damage(damage,BRUTE,"blunt",1)
-	for (var/turf/closed/wall/damagedwalls in view(radius, fallzone))
-		damagedwalls.take_damage(damage,BRUTE,"blunt",1)
-	for (var/turf/closed/mineral/aoemining in view(radius, fallzone))
-		aoemining.lastminer = usr
-		aoemining.take_damage(damage,BRUTE,"blunt",1)
-
-/obj/effect/temp_visual/lavastaff
-	icon_state = "lavastaff_warn"
-	duration = 50
-
 //T0
 
 /obj/effect/proc_holder/spell/invoked/rework
@@ -424,6 +425,15 @@ var/global/list/anvil_recipe_prices[][]
 	var/order_type = null
 	var/current_bonus = null
 	var/current_duration = null
+	var/list/itemblacklist = list(/obj/item/rogueweapon/hoe,
+		/obj/item/rogueweapon/thresher,
+		/obj/item/rogueweapon/sickle,
+		/obj/item/rogueweapon/pitchfork,
+		/obj/item/rogueweapon/tongs,
+		/obj/item/rogueweapon/hammer/iron,
+		/obj/item/rogueweapon/shovel,
+		/obj/item/fishingrod,
+	)
 
 /obj/effect/proc_holder/spell/invoked/rework/cast(list/targets, mob/user = usr)
 	. = ..()
@@ -451,12 +461,15 @@ var/global/list/anvil_recipe_prices[][]
 				if(/obj/item/ingot/blacksteel)
 					bonus = 3
 			if(istype(O, /obj/item/rogueweapon))
+				if(O in itemblacklist)
+					revert_cast()
+					return FALSE
 				var/obj/item/rogueweapon/W = O
 				order_type = "weapon"
 				overlay_state = order_type
 				quality = ((W.max_integrity / W.obj_integrity) * W.force) / 2 //full health (150) item with 25 foce = 150/150(1) * 25(25) / 2(12.5)
 				current_bonus = floor((quality + bonus - skill_debuff) / 2)
-				current_duration = (quality / 2) MINUTES
+				current_duration = ((quality / 2) + bonus) MINUTES
 				var/view_time = floor((current_duration/10)/60)
 				to_chat(user, "<font color='purple'>Current Blessing: [order_type], additional [current_bonus] force for [view_time] minutes.</font>")
 				devotion_cost = 10
@@ -472,8 +485,10 @@ var/global/list/anvil_recipe_prices[][]
 				order_type = "armor"
 				overlay_state = order_type
 				current_bonus = (bonus*100) - (skill_debuff * 10)
-				current_duration = (quality / 10) MINUTES
+				current_duration = ((quality / 10) + bonus) MINUTES
 				var/view_time = floor((current_duration/10)/60)
+				if(current_bonus < 0)
+					current_bonus *= -1
 				to_chat(user, "<font color='purple'>Current Blessing: [order_type], additional max integrity [current_bonus] for [view_time] minutes.</font>")
 				devotion_cost = 10
 				qdel(A)
@@ -637,11 +652,15 @@ var/global/list/anvil_recipe_prices[][]
 	miracle = TRUE
 	devotion_cost = 50
 
-/obj/effect/proc_holder/spell/invoked/restoration/cast(obj/target, mob/living/user)
+/obj/effect/proc_holder/spell/invoked/restoration/cast(list/targets, mob/living/user)
 	var/skill = user.get_skill_level(/datum/skill/magic/holy)
 	var/repair_points = 50 * skill
-	if(istype(target, /obj/structure))
-		var/obj/structure/S = target
+	var/starget = targets[1]
+	if(isobj(starget))
+		if(istype(starget, /obj/item))
+			revert_cast()
+			return FALSE
+		var/obj/structure/S = starget
 		if(S.obj_integrity >= S.max_integrity)
 			revert_cast()
 			return FALSE
@@ -697,8 +716,8 @@ var/global/list/anvil_recipe_prices[][]
 				S.obj_integrity += need_points
 			else
 				S.obj_integrity += repair_points
-	if(istype(target, /turf/closed/wall/mineral))
-		var/turf/closed/wall/mineral/W = target
+	if(get_turf(starget))
+		var/turf/closed/wall/mineral/W = targets[1]
 		if(W.turf_integrity >= W.max_integrity)
 			revert_cast()
 			return FALSE
