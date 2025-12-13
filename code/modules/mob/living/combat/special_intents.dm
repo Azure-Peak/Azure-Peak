@@ -715,7 +715,7 @@ SPECIALS START HERE
 		You cannot regain stamina while this is active. It can be cancelled by jumping, kicking or by using MMB again with the same shield out."
 	respect_adjacency = FALSE
 	cooldown = 30 SECONDS
-	stamcost = 30	//Not free!
+	stamcost = 0.3	//Not free! 30% green bar.
 
 
 //apply_cost is called before anything else, so it works here for the toggle checks, but it's kind of a bad example -- don't do this.
@@ -726,7 +726,7 @@ SPECIALS START HERE
 	if(lg)
 		lg.remove_self()
 		return FALSE
-	return TRUE
+	return ..()
 
 //Complete override because the majority of the code is handled on the status effect.
 /datum/special_intent/limbguard/process_attack()

@@ -1326,7 +1326,7 @@
 /datum/status_effect/buff/clash/limbguard/guard_swaphands()
 	return
 
-/datum/status_effect/buff/clash/limbguard/on_creation()
+/datum/status_effect/buff/clash/limbguard/on_creation(mob/living/new_owner, ...)
 	. = ..()
 	shield_origin = owner.get_active_held_item()
 
@@ -1340,9 +1340,22 @@
 
 /datum/status_effect/buff/clash/limbguard/process()
 	if(owner)	//Avoids a runtime where this is called, apparently, before it has time to assign an owner via initialization (???)
-		if((owner.get_inactive_held_item() != shield_origin) && (owner.get_active_held_item() != shield_origin))	//We lost the shield we used this with from our hands.
+
+		//Anti Sci main measures
+		var/datum/reagents/reag = owner.reagents
+		var/datum/reagent/medicine/stampot/stpot = reag.has_reagent(/datum/reagent/medicine/stampot)
+		var/datum/reagent/medicine/strongstam/stpotstrong = reag.has_reagent(/datum/reagent/medicine/strongstam)
+		if(stpot)
+			stpot.metabolization_rate = 20 * REAGENTS_METABOLISM
+		if(stpotstrong)
+			stpotstrong.metabolization_rate = 20 * REAGENTS_METABOLISM
+
+		if(!owner.cmode)
 			remove_self()
-		if(!owner.stamina_add(0.01))	//It essentially halts green regen.
+		//We lost the shield we used this with from our hands.
+		if((owner.get_inactive_held_item() != shield_origin) && (owner.get_active_held_item() != shield_origin))
+			remove_self()
+		if(!owner.stamina_add(0.5))	//It essentially halts green regen. Token price so it can't be maintained forever.
 			remove_self()
 
 /datum/status_effect/buff/clash/limbguard/proc/set_offsets()

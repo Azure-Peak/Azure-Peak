@@ -45,6 +45,7 @@
 			return FALSE
 		if(M.checkmiss(src))
 			return FALSE
+		SEND_SIGNAL(M, COMSIG_MOB_KICKED)
 		if(M.checkdefense(mmb_intent, src))
 			return FALSE
 		if(ishuman(M))
