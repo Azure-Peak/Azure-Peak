@@ -333,3 +333,14 @@
 	name = "Mountable"
 	desc = "You have trained and become fit enough to function as a suitable mount. People may ride you as they would a saiga."
 	added_traits = list(TRAIT_MOUNTABLE)
+
+/datum/virtue/heretic/bandit_camp
+    name = "The land between"
+    desc = "My brothers in Matthios told me about free territory in these lands. I'm just a guest here."
+    custom_text = "Gives you access to bandit camp. Dont use it for validhunt. Only for Matthios worshipers"
+
+/datum/virtue/heretic/bandit_camp/handle_traits(mob/living/carbon/human/recipient)
+    if(istype(recipient.patron, /datum/patron/inhumen/matthios))
+        ADD_TRAIT(recipient, TRAIT_BANDITCAMP, TRAIT_GENERIC)
+    else
+        to_chat(recipient, "I forgot all about! What were these bastards talkin' about?")
