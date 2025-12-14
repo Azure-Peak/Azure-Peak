@@ -1309,6 +1309,8 @@
 
 	var/protected_zone
 	var/obj/shield_origin
+	var/start_delay = 0.5 SECONDS
+	var/is_active = FALSE
 
 	mob_effect_dur = 9999 SECONDS	//It's a toggle, so we'll try to delete this manually when we can.
 	mob_effect_icon = 'icons/mob/mob_effects.dmi'
@@ -1322,6 +1324,20 @@
 	mob_effect_icon_state = initial(mob_effect_icon_state)+"_[zone]"
 	set_offsets()
 	. = ..()
+
+/datum/status_effect/buff/clash/limbguard/on_apply()
+	. = ..()
+	if(mob_effect)
+		to_chat(world, "doing the alpha thing etc")
+		mob_effect.alpha = 0
+		dur = world.time
+		animate(mob_effect, alpha = 100, time = start_delay)
+		addtimer(CALLBACK(src, PROC_REF(update_status)), start_delay)
+
+/datum/status_effect/buff/clash/limbguard/proc/update_status()
+	if(mob_effect && !is_active)
+		mob_effect.alpha = 255
+		is_active = TRUE
 
 /datum/status_effect/buff/clash/limbguard/guard_swaphands()
 	return
@@ -1377,20 +1393,23 @@
 			mob_effect_offset_y = -9
 
 /datum/status_effect/buff/clash/limbguard/process_attack(mob/living/parent, mob/living/target, mob/user, obj/item/I)
-	if(ishuman(user) && target == owner)
-		var/mob/living/carbon/human/HM = user
-		if(check_zone(HM.zone_selected) == protected_zone)	//User has struck the exact limb that was being protected. Bad!
-			var/mob/living/carbon/human/H = owner
-			H?.purge_peel(99)
-			if(ishuman(user))
-				apply_debuffs(HM)
-				perform_disarm(HM)
-			playsound(owner, 'sound/combat/limbguard_struck.ogg', 100, TRUE)
-			if(HM.mind)
-				owner.stamina_add(-(owner.max_stamina / 3))
-				owner.energy_add((owner.max_energy / 5))
-			remove_self()
-			return COMPONENT_NO_ATTACK	//We cancel the attack that triggered this.
+	if(is_active)
+		if(ishuman(user) && target == owner)
+			var/mob/living/carbon/human/HM = user
+			if(check_zone(HM.zone_selected) == protected_zone)	//User has struck the exact limb that was being protected. Bad!
+				var/mob/living/carbon/human/H = owner
+				H?.purge_peel(99)
+				if(ishuman(user))
+					apply_debuffs(HM)
+					perform_disarm(HM)
+				playsound(owner, 'sound/combat/limbguard_struck.ogg', 100, TRUE)
+				if(HM.mind)
+					owner.stamina_add(-(owner.max_stamina / 3))
+					owner.energy_add((owner.max_energy / 5))
+				remove_self()
+				return COMPONENT_NO_ATTACK	//We cancel the attack that triggered this.
+	if(user == owner && owner.get_active_held_item() == shield_origin)
+		remove_self()
 
 /datum/status_effect/buff/clash/limbguard/proc/apply_debuffs(mob/living/carbon/human/target)
 	target.Immobilize(3 SECONDS)
@@ -1400,7 +1419,7 @@
 	target.stamina_add((target.max_stamina / 3))
 	target.energy_add((-target.max_energy / 5))
 
-#define LGUARD_SHARPNESS_LOSS     200
+#define LGUARD_SHARPNESS_LOSS     150
 #define LGUARD_INTEG_LOSS		  100
 
 /datum/status_effect/buff/clash/limbguard/proc/perform_disarm(mob/living/carbon/human/target)
@@ -1415,9 +1434,15 @@
 	if(I)
 		target.disarmed(I)
 		if(I.remove_bintegrity(LGUARD_SHARPNESS_LOSS))
-			I.take_damage((LGUARD_INTEG_LOSS * 0.5), BRUTE, "blunt")
+			if(I.obj_integrity > (LGUARD_INTEG_LOSS * 0.5))
+				I.take_damage((LGUARD_INTEG_LOSS * 0.5), BRUTE, "blunt")
+			else
+				I.take_damage((I.obj_integrity - 10), BRUTE, "blunt")
 		else
-			I.take_damage((LGUARD_INTEG_LOSS), BRUTE, "blunt")
+			if(I.obj_integrity > LGUARD_INTEG_LOSS)
+				I.take_damage((LGUARD_INTEG_LOSS), BRUTE, "blunt")
+			else
+				I.take_damage((I.obj_integrity - 10), BRUTE, "blunt")	//We try not to annihilate the weapon out of existence.
 
 #undef LGUARD_SHARPNESS_LOSS
 #undef LGUARD_INTEG_LOSS
