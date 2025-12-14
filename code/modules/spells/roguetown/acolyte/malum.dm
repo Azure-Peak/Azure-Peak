@@ -461,10 +461,10 @@ var/global/list/anvil_recipe_prices[][]
 				if(/obj/item/ingot/blacksteel)
 					bonus = 3
 			if(istype(O, /obj/item/rogueweapon))
-				if(O in itemblacklist)
+				var/obj/item/rogueweapon/W = O
+				for(W in itemblacklist)
 					revert_cast()
 					return FALSE
-				var/obj/item/rogueweapon/W = O
 				order_type = "weapon"
 				overlay_state = order_type
 				quality = ((W.max_integrity / W.obj_integrity) * W.force) / 2 //full health (150) item with 25 foce = 150/150(1) * 25(25) / 2(12.5)
@@ -686,6 +686,7 @@ var/global/list/anvil_recipe_prices[][]
 				S.obj_integrity += repair_points
 			user.visible_message(span_notice("[user] point on [door.name] and repair this."), \
 			span_notice("I point on [door.name]. Malum blessing!"))	
+			return TRUE
 
 		if(istype(S, /obj/structure/roguewindow/))
 			var/obj/structure/roguewindow/window = S
@@ -708,6 +709,7 @@ var/global/list/anvil_recipe_prices[][]
 					S.obj_integrity += repair_points					
 				user.visible_message(span_notice("[user] point on [window.name] and repair this."), \
 				span_notice("I point on [window.name]. Malum blessing!"))	
+				return TRUE
 		else
 			if(!do_after(user, (150 / skill), target = S))
 				return
@@ -716,6 +718,7 @@ var/global/list/anvil_recipe_prices[][]
 				S.obj_integrity += need_points
 			else
 				S.obj_integrity += repair_points
+			return TRUE
 	if(get_turf(starget))
 		var/turf/closed/wall/mineral/W = targets[1]
 		if(W.turf_integrity >= W.max_integrity)
@@ -728,6 +731,7 @@ var/global/list/anvil_recipe_prices[][]
 			W.turf_integrity += need_points
 		else
 			W.turf_integrity += repair_points
+		return TRUE
 	revert_cast()
 	return FALSE
 
