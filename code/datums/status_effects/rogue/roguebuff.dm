@@ -1329,7 +1329,6 @@
 	. = ..()
 	if(mob_effect)
 		mob_effect.alpha = 0
-		dur = world.time
 		animate(mob_effect, alpha = 100, time = start_delay)
 		addtimer(CALLBACK(src, PROC_REF(update_status)), start_delay)
 
