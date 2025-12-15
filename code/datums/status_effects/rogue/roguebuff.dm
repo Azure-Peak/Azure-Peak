@@ -1328,7 +1328,6 @@
 /datum/status_effect/buff/clash/limbguard/on_apply()
 	. = ..()
 	if(mob_effect)
-		to_chat(world, "doing the alpha thing etc")
 		mob_effect.alpha = 0
 		dur = world.time
 		animate(mob_effect, alpha = 100, time = start_delay)
