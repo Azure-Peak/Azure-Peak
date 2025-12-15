@@ -1321,7 +1321,6 @@
 	if(!zone)
 		CRASH("Guard (Defend rclick) was called with no valid zone!")
 	protected_zone = zone
-	mob_effect_icon_state = initial(mob_effect_icon_state)+"_[zone]"
 	set_offsets()
 	. = ..()
 
@@ -1334,6 +1333,7 @@
 
 /datum/status_effect/buff/clash/limbguard/proc/update_status()
 	if(mob_effect && !is_active)
+		mob_effect.icon_state = initial(mob_effect_icon_state)+"_[protected_zone]"
 		mob_effect.alpha = 255
 		is_active = TRUE
 
@@ -1369,7 +1369,7 @@
 		//We lost the shield we used this with from our hands.
 		if((owner.get_inactive_held_item() != shield_origin) && (owner.get_active_held_item() != shield_origin))
 			remove_self()
-		if(!owner.stamina_add(0.5))	//It essentially halts green regen. Token price so it can't be maintained forever.
+		if(!owner.stamina_add(0.2))	//It essentially halts green regen. Token price so it can't be maintained forever.
 			remove_self()
 
 /datum/status_effect/buff/clash/limbguard/proc/set_offsets()
