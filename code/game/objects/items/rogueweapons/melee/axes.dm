@@ -448,21 +448,6 @@
 		added_def = 1,\
 	)
 
-/obj/item/rogueweapon/stoneaxe/battle/psyaxe/old
-	name = "enduring war axe"
-	desc = "An ornate battle axe, its silver tarnished by neglect. Even a dim light can pierce the dark."
-	icon_state = "psyaxe"
-	force = 25
-	force_wielded = 30
-	minstr = 9
-	wdefense = 4
-	is_silver = FALSE
-	smeltresult = /obj/item/ingot/steel
-	color = COLOR_FLOORTILE_GRAY
-
-/obj/item/rogueweapon/stoneaxe/battle/psyaxe/old/ComponentInitialize()
-	return
-
 /obj/item/rogueweapon/stoneaxe/battle/steppesman
 	name = "aavnic valaška"
 	desc = "A steel axe of Aavnic make that combines a deadly weapon with a walking stick - hence its pointed end. It has a flat head that fits the hand comfortably, and it's usable for chopping and smashing. You could probably stab someone if you tried really hard."

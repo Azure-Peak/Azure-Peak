@@ -175,7 +175,6 @@
 	body_parts_covered = COVERAGE_TORSO
 	body_parts_inherent = FULL_BODY
 	armor_class = ARMOR_CLASS_HEAVY
-	prevent_crits = list(BCLASS_CUT, BCLASS_BLUNT, BCLASS_TWIST, BCLASS_PEEL, BCLASS_PIERCE, BCLASS_CHOP, BCLASS_LASHING, BCLASS_STAB)
 	armor = ARMOR_VAMP
 	max_integrity = ARMOR_INT_CHEST_PLATE_ANTAG
 	resistance_flags = FIRE_PROOF | ACID_PROOF
@@ -191,7 +190,6 @@
 	icon_state = "vplate"
 	item_state = "vplate"
 	armor = ARMOR_VAMP
-	prevent_crits = list(BCLASS_CUT, BCLASS_BLUNT, BCLASS_TWIST, BCLASS_PEEL, BCLASS_PIERCE, BCLASS_CHOP, BCLASS_LASHING, BCLASS_STAB)
 	nodismemsleeves = TRUE
 	max_integrity = ARMOR_INT_CHEST_PLATE_ANTAG
 	allowed_sex = list(MALE, FEMALE)
@@ -205,7 +203,6 @@
 	name = "ancient ceremonial vestments"
 	desc = "An ornate aketon, woven from crimson silk and worn beneath a layer of enchanted gilbranze maille. Vheslyn, Zizo, Kaine had all failed in their pursuits - yet, the ancient truths they left behind were more valuable than lyfe itself. It's time to show them all how a Lord truly gets it done."
 	armor_class = ARMOR_CLASS_HEAVY
-	prevent_crits = list(BCLASS_CUT, BCLASS_BLUNT, BCLASS_TWIST, BCLASS_PEEL, BCLASS_PIERCE, BCLASS_CHOP, BCLASS_LASHING, BCLASS_STAB)
 	armor = ARMOR_VAMP
 	max_integrity = ARMOR_INT_CHEST_PLATE_ANTAG
 	resistance_flags = FIRE_PROOF | ACID_PROOF
@@ -220,7 +217,6 @@
 	sewrepair = FALSE
 	armor = ARMOR_VAMP
 	max_integrity = ARMOR_INT_LEG_ANTAG
-	prevent_crits = list(BCLASS_CUT, BCLASS_STAB, BCLASS_CHOP, BCLASS_BLUNT, BCLASS_TWIST)
 	blocksound = PLATEHIT
 	drop_sound = 'sound/foley/dropsound/armor_drop.ogg'
 	anvilrepair = /datum/skill/craft/armorsmithing
@@ -234,7 +230,6 @@
 	body_parts_inherent = FULL_BODY
 	icon_state = "vboots"
 	item_state = "vboots"
-	prevent_crits = list(BCLASS_CUT, BCLASS_BLUNT, BCLASS_TWIST, BCLASS_PEEL, BCLASS_PIERCE, BCLASS_CHOP, BCLASS_LASHING, BCLASS_STAB)
 	max_integrity = ARMOR_INT_LEG_ANTAG
 	color = null
 	blocksound = PLATEHIT
@@ -252,7 +247,6 @@
 	smeltresult = /obj/item/ingot/purifiedaalloy
 	body_parts_inherent = FULL_BODY
 	max_integrity = ARMOR_INT_SIDE_ANTAG
-	prevent_crits = list(BCLASS_CUT, BCLASS_BLUNT, BCLASS_TWIST, BCLASS_PEEL, BCLASS_PIERCE, BCLASS_CHOP, BCLASS_LASHING, BCLASS_STAB)
 
 /obj/item/clothing/wrists/roguetown/bracers/paalloy/vampire
 	name = "ancient ceremonial bracers"
@@ -261,7 +255,6 @@
 	smeltresult = /obj/item/ingot/purifiedaalloy
 	armor = ARMOR_VAMP
 	max_integrity = ARMOR_INT_SIDE_ANTAG
-	prevent_crits = list(BCLASS_CUT, BCLASS_BLUNT, BCLASS_TWIST, BCLASS_PEEL, BCLASS_PIERCE, BCLASS_CHOP, BCLASS_LASHING, BCLASS_STAB)
 
 /obj/item/clothing/neck/roguetown/gorget/paalloy/vampire
 	name = "ancient ceremonial gorget"
@@ -270,7 +263,6 @@
 	smeltresult = /obj/item/ingot/purifiedaalloy
 	armor = ARMOR_VAMP
 	max_integrity = ARMOR_INT_SIDE_ANTAG
-	prevent_crits = list(BCLASS_CUT, BCLASS_BLUNT, BCLASS_TWIST, BCLASS_PEEL, BCLASS_PIERCE, BCLASS_CHOP, BCLASS_LASHING, BCLASS_STAB)
 
 /obj/item/clothing/head/roguetown/helmet/heavy/vampire
 	name = "ancient ceremonial sayovard"
@@ -278,7 +270,6 @@
 	icon_state = "vhelmet"
 	max_integrity = ARMOR_INT_HELMET_ANTAG
 	body_parts_inherent = FULL_BODY
-	prevent_crits = list(BCLASS_CUT, BCLASS_BLUNT, BCLASS_TWIST, BCLASS_PEEL, BCLASS_PIERCE, BCLASS_CHOP, BCLASS_LASHING, BCLASS_STAB)
 	block2add = FOV_BEHIND
 	resistance_flags = FIRE_PROOF | ACID_PROOF
 	smeltresult = /obj/item/ingot/purifiedaalloy

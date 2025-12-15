@@ -7,7 +7,6 @@
 	blocksound = SOFTHIT
 	body_parts_covered = COVERAGE_ALL_BUT_LEGS
 	armor = ARMOR_PLATE
-	prevent_crits = list(BCLASS_CUT, BCLASS_STAB, BCLASS_CHOP, BCLASS_BLUNT, BCLASS_TWIST)
 	allowed_sex = list(MALE, FEMALE)
 	nodismemsleeves = TRUE
 	max_integrity = ARMOR_INT_CHEST_PLATE_BRIGANDINE

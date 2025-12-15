@@ -3,7 +3,6 @@
 	desc = "Plate gauntlets made out of steel. Good all-around protection for the hands."
 	icon_state = "gauntlets"
 	armor = ARMOR_PLATE
-	prevent_crits = list(BCLASS_CHOP, BCLASS_CUT, BCLASS_BLUNT, BCLASS_TWIST)
 	resistance_flags = FIRE_PROOF
 	blocksound = PLATEHIT
 	max_integrity = ARMOR_INT_SIDE_STEEL
@@ -35,6 +34,7 @@
 	chunkcolor = "#532e25"
 	smeltresult = /obj/item/ingot/aaslag
 	anvilrepair = null
+	prevent_crits = PREVENT_CRITS_NONE
 
 /obj/item/clothing/gloves/roguetown/plate/paalloy
 	name = "ancient plate gauntlets"

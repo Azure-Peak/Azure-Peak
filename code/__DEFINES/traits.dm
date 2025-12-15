@@ -112,6 +112,7 @@
 #define TRAIT_FORGEBLESSED "Blessing of Malum" //Reduces the fatigue cost of smithing a bit.
 #define TRAIT_APRICITY	"Apricity" //Decreased stamina regen time during "day" and less so during night
 #define TRAIT_SHARPER_BLADES "Sharper Blades" //Weapons lose less blade integrity
+#define TRAIT_BATTLEMASTER "Battlemaster" //You can use weapon specials no matter what
 #define TRAIT_JUSTICARSIGHT "Blessing of Ravox" //Allows seeing bounties and crimes when examining outlaws.
 #define TRAIT_EXTEROCEPTION	"Exteroception" //See others' hunger and thirst; pairs well with empath.
 #define TRAIT_BLACKLEG	"Blackleg" //Rig coin, dice, cards in your favor - UNUSED FOR NOW
@@ -344,6 +345,7 @@ GLOBAL_LIST_INIT(roguetraits, list(
 	TRAIT_XYLIX = span_info("I know how to speak in code that only fellow tricksters can understand."),
 	TRAIT_APRICITY = span_info("Astrata's light blesses and rejuvenates me, allowing me to regain my stamina quicker."),
 	TRAIT_SHARPER_BLADES = span_info("My blades go dull slower, ensuring they stay sharp longer."),
+	TRAIT_BATTLEMASTER = span_info("I can use special attacks of any weapon without needing to be trained in it."),
 	TRAIT_CABAL = span_info("In secret, I have studied the ways of Her ascension."),
 	TRAIT_HORDE = span_info("BY BLOOD AND BONE, I AM OF GRAGGAR'S ANOINTED!"),
 	TRAIT_PSYDONITE = span_info("I can gradually recover from most injuries, so long as I am not bled dry. Divine spite towards my faith leaves me unable to receive most miracles."),

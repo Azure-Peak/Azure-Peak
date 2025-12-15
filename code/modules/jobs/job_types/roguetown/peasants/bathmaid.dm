@@ -66,7 +66,7 @@
 
 /datum/outfit/job/roguetown/nightmaiden/attendant/pre_equip(mob/living/carbon/human/H)
 	..()
-	head = /obj/item/clothing/head/roguetown/armingcap
+	head = /obj/item/clothing/head/roguetown/cap
 	neck = /obj/item/clothing/neck/roguetown/collar
 	beltl = /obj/item/roguekey/nightmaiden
 	beltr = /obj/item/storage/belt/rogue/pouch/coins/poor

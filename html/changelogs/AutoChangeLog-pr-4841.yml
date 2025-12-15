@@ -1,4 +1,0 @@
-author: "hazelrat"
-delete-after: True
-changes:
-  - bugfix: "Pillories can now be locked by any member of the garrison, church, or inquisition."

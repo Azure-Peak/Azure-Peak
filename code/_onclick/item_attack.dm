@@ -738,7 +738,7 @@
 		var/attack_message_self = span_combatprimary("[user] [message_verb] [src] in the [span_combatsecondarybp(message_hit_area)] with [I]!")
 		to_chat(user, "[attack_message_self][next_attack_msg.Join()]")
 	visible_message("[attack_message][span_combatsecondarysmall(next_attack_msg.Join())]",\
-		"[attack_message_local][next_attack_msg.Join()]", null, COMBAT_MESSAGE_RANGE, list(user))	//We try not to show this to the user (attacker)
+		"[attack_message_local][next_attack_msg.Join()]", null, vision_distance = COMBAT_MESSAGE_RANGE, ignored_mobs = list(user))	//We try not to show this to the user (attacker)
 	next_attack_msg.Cut()
 	return 1
 

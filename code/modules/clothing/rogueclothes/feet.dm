@@ -53,6 +53,7 @@
 	name = "decrepit boots"
 	desc = "Frayed bronze greaves, shingled atop boots of rotted leather. The toebones of its former legionnaire remain within, rattling about with every step taken."
 	max_integrity = 40
+	prevent_crits = PREVENT_CRITS_NONE
 	icon_state = "ancientboots"
 	color = "#bb9696"
 
@@ -63,7 +64,6 @@
 	item_state = "psydonboots"
 	sewrepair = TRUE
 	armor = ARMOR_LEATHER_GOOD
-	prevent_crits = list(BCLASS_CUT, BCLASS_STAB, BCLASS_BLUNT, BCLASS_TWIST)	//On par with Heavy Leather Boots.
 	salvage_amount = 1
 	salvage_result = /obj/item/natural/hide/cured
 
@@ -84,7 +84,6 @@
 	name = "aavnic riding boots"
 	desc = "A pair of sturdy riding boots with an iron heel and brass spurs."
 	armor = ARMOR_LEATHER_GOOD
-	prevent_crits = list(BCLASS_CUT, BCLASS_STAB, BCLASS_BLUNT, BCLASS_TWIST)
 	max_integrity = ARMOR_INT_SIDE_HARDLEATHER
 
 /obj/item/clothing/shoes/roguetown/shortboots
@@ -164,6 +163,7 @@
 	desc = "Frayed bronze platforms, curled about to cradle the feet. The beaches that these sandals once treaded are no more; pearly sands, long since turnt to glass from the Comet Syon's impact."
 	icon_state = "ancientsandals"
 	color = "#bb9696"
+	prevent_crits = PREVENT_CRITS_NONE
 
 /obj/item/clothing/shoes/roguetown/shalal
 	name = "babouche"
@@ -190,7 +190,6 @@
 	desc = "Sturdy boots stitched together from cured leather. Stylish, firm, and sport a satisfying 'squeek' with each step."
 	icon_state = "alboots"
 	item_state = "alboots"
-	prevent_crits = list(BCLASS_CUT, BCLASS_STAB, BCLASS_BLUNT, BCLASS_TWIST)	//Same as gloves
 	max_integrity = 100			//Half that of iron boots
 	armor = ARMOR_LEATHER_GOOD			//Better than regular leather.
 	color = null
@@ -207,7 +206,6 @@
 	body_parts_covered = FEET
 	icon_state = "fencerboots"
 	item_state = "fencerboots"
-	prevent_crits = list(BCLASS_CUT, BCLASS_STAB, BCLASS_CHOP, BCLASS_BLUNT, BCLASS_TWIST)
 	blocksound = SOFTHIT
 	max_integrity = ARMOR_INT_SIDE_HARDLEATHER
 	armor = ARMOR_LEATHER_GOOD
@@ -221,7 +219,6 @@
 	icon_state = "grenzelboots"
 	item_state = "grenzelboots"
 	sleeved = 'icons/roguetown/clothing/onmob/helpers/stonekeep_merc.dmi'
-	prevent_crits = list(BCLASS_CUT, BCLASS_STAB, BCLASS_CHOP, BCLASS_BLUNT, BCLASS_TWIST)
 	armor = ARMOR_LEATHER_GOOD
 	allowed_race = NON_DWARVEN_RACE_TYPES
 	salvage_amount = 1
@@ -232,7 +229,7 @@
 	name = "woad elven boots"
 	desc = "The living trunks still blossom in the spring. They let water through, but it is never cold."
 	armor = list("blunt" = 100, "slash" = 10, "stab" = 100, "piercing" = 20, "fire" = 0, "acid" = 0) //Resistant to blunt and stab, but very weak to slash.
-	prevent_crits = list(BCLASS_BLUNT, BCLASS_SMASH, BCLASS_TWIST, BCLASS_PICK)
+	prevent_crits = PREVENT_CRITS_ALL
 	icon = 'icons/roguetown/clothing/special/race_armor.dmi'
 	mob_overlay_icon = 'icons/roguetown/clothing/special/onmob/race_armor.dmi'
 	icon_state = "welfshoes"
@@ -245,7 +242,6 @@
 	body_parts_covered = FEET
 	icon_state = "armorboots"
 	item_state = "armorboots"
-	prevent_crits = list(BCLASS_CUT, BCLASS_STAB, BCLASS_CHOP, BCLASS_BLUNT, BCLASS_TWIST)
 	color = null
 	blocksound = PLATEHIT
 	resistance_flags = FIRE_PROOF
@@ -309,7 +305,6 @@
 	body_parts_covered = FEET
 	icon_state = "soldierboots"
 	item_state = "soldierboots"
-	prevent_crits = list(BCLASS_CUT, BCLASS_STAB, BCLASS_CHOP, BCLASS_BLUNT, BCLASS_TWIST)
 	color = null
 	blocksound = PLATEHIT
 	max_integrity = ARMOR_INT_SIDE_IRON
@@ -440,7 +435,6 @@
 	sleeved = 'icons/roguetown/clothing/special/onmob/blkknight.dmi'
 	icon_state = "bplateboots"
 	item_state = "bplateboots"
-	prevent_crits = list(BCLASS_CUT, BCLASS_STAB, BCLASS_CHOP, BCLASS_BLUNT, BCLASS_TWIST)
 	color = null
 	blocksound = PLATEHIT
 	max_integrity = ARMOR_INT_SIDE_BLACKSTEEL
@@ -458,7 +452,6 @@
 	mob_overlay_icon = 'icons/roguetown/clothing/special/onmob/blkknight.dmi'
 	icon_state = "bkboots"
 	item_state = "bkboots"
-	prevent_crits = list(BCLASS_CUT, BCLASS_STAB, BCLASS_CHOP, BCLASS_BLUNT, BCLASS_TWIST)
 	color = null
 	blocksound = PLATEHIT
 	max_integrity = ARMOR_INT_SIDE_BLACKSTEEL

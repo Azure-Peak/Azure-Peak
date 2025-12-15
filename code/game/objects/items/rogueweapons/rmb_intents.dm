@@ -127,9 +127,10 @@
 		var/skillreq = W.associated_skill
 		if(W.special.custom_skill)
 			skillreq = W.special.custom_skill
-		if(user.get_skill_level(skillreq) < SKILL_LEVEL_JOURNEYMAN)
-			to_chat(user, span_info("I'm not knowledgeable enough in the arts of this weapon to use this."))
-			return
+		if(!HAS_TRAIT(user, TRAIT_BATTLEMASTER))
+			if(user.get_skill_level(skillreq) < SKILL_LEVEL_JOURNEYMAN)
+				to_chat(user, span_info("I'm not knowledgeable enough in the arts of this weapon to use this."))
+				return
 		if(W.special.check_range(user, target))
 			if(W.special.apply_cost(user))
 				W.special.deploy(user, W, target)

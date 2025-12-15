@@ -7,7 +7,6 @@
 	flags_inv = HIDEEARS|HIDEFACE|HIDESNOUT
 	flags_cover = HEADCOVERSEYES | HEADCOVERSMOUTH
 	armor = ARMOR_PLATE
-	prevent_crits = list(BCLASS_CUT, BCLASS_STAB, BCLASS_CHOP, BCLASS_BLUNT, BCLASS_SMASH, BCLASS_TWIST, BCLASS_PICK)
 	block2add = FOV_BEHIND
 	smeltresult = /obj/item/ingot/steel
 	max_integrity = ARMOR_INT_HELMET_HEAVY_STEEL
@@ -19,12 +18,12 @@
 	desc = "Frayed bronze plates, pounded into a visored helmet. Scrapes and dents line the curved plating, weathered from centuries of neglect. The remains of a plume's stub hang atop its rim."
 	body_parts_covered = COVERAGE_HEAD
 	max_integrity = ARMOR_INT_HELMET_HEAVY_DECREPIT
-	prevent_crits = list(BCLASS_CUT, BCLASS_STAB, BCLASS_CHOP, BCLASS_BLUNT, BCLASS_TWIST)
 	icon_state = "ancientbarbute"
 	color = "#bb9696"
 	chunkcolor = "#532e25"
 	smeltresult = /obj/item/ingot/aaslag
 	anvilrepair = null
+	prevent_crits = PREVENT_CRITS_NONE
 
 /obj/item/clothing/head/roguetown/helmet/heavy/aalloy/attackby(obj/item/W, mob/living/user, params)
 	..()
@@ -94,12 +93,12 @@
 	name = "decrepit savoyard"
 	desc = "Frayed bronze plates, molded into a ventilated casket. It reeks of fetid shit, and each breath - labored and strained - is laced with flaked metal."
 	max_integrity = ARMOR_INT_HELMET_HEAVY_DECREPIT
-	prevent_crits = list(BCLASS_CUT, BCLASS_STAB, BCLASS_CHOP, BCLASS_BLUNT, BCLASS_TWIST)
 	icon_state = "ancientsavoyard"
 	color = "#bb9696"
 	chunkcolor = "#532e25"
 	smeltresult = /obj/item/ingot/aaslag
 	anvilrepair = null
+	prevent_crits = PREVENT_CRITS_NONE
 
 /obj/item/clothing/head/roguetown/helmet/heavy/guard/paalloy
 	name = "ancient savoyard"
@@ -603,7 +602,7 @@
 	desc = "An assembly of woven trunk, kept alive by ancient song, now twisted and warped for battle and scorn."
 	body_parts_covered = FULL_HEAD | NECK
 	armor = list("blunt" = 100, "slash" = 20, "stab" = 110, "piercing" = 40, "fire" = 0, "acid" = 0)//Resistant to blunt & stab, but very weak to slash.
-	prevent_crits = list(BCLASS_BLUNT, BCLASS_SMASH, BCLASS_TWIST, BCLASS_PICK)
+	prevent_crits = PREVENT_CRITS_ALL
 	icon = 'icons/roguetown/clothing/special/race_armor.dmi'
 	mob_overlay_icon = 'icons/roguetown/clothing/special/onmob/race_armor.dmi'
 	icon_state = "welfhead"
@@ -624,6 +623,7 @@
 	icon_state = "frogmouth"
 	item_state = "frogmouth"
 	emote_environment = 3
+	prevent_crits = PREVENT_CRITS_ALL
 	body_parts_covered = FULL_HEAD|NECK
 	flags_inv = HIDEEARS|HIDEFACE|HIDEHAIR
 	block2add = FOV_RIGHT|FOV_LEFT
@@ -664,6 +664,7 @@
 	flags_inv = HIDEEARS|HIDEFACE|HIDESNOUT|HIDEHAIR|HIDEFACIALHAIR
 	icon_state = "matthioshelm"
 	max_integrity = ARMOR_INT_HELMET_ANTAG
+	prevent_crits = PREVENT_CRITS_ALL
 	worn_x_dimension = 64
 	worn_y_dimension = 64
 	bloody_icon = 'icons/effects/blood64.dmi'
@@ -680,6 +681,7 @@
 	icon_state = "graggarplatehelm"
 	max_integrity = ARMOR_INT_HELMET_ANTAG
 	flags_inv = HIDEEARS|HIDEFACE|HIDESNOUT|HIDEHAIR|HIDEFACIALHAIR
+	prevent_crits = PREVENT_CRITS_ALL
 	var/active_item = FALSE
 
 /obj/item/clothing/head/roguetown/helmet/heavy/graggar/Initialize()
@@ -711,6 +713,7 @@
 	adjustable = CAN_CADJUST
 	icon_state = "zizobarbute"
 	max_integrity = ARMOR_INT_HELMET_ANTAG
+	prevent_crits = PREVENT_CRITS_ALL
 	peel_threshold = 4
 	chunkcolor = "#363030"
 	var/frogstyle = FALSE

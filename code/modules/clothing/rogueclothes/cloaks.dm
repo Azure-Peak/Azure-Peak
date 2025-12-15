@@ -1294,7 +1294,7 @@
 	icon_state = "bktrinket"
 	max_integrity = 666 //Exceptionally strong, can be purchased multiple times, and provides a flat +2 to the entire statblock. If it gets destroyed in a fight, that's fair game. Reduced from the original value of 100,000.
 	armor = ARMOR_DRAGONSCALE
-	prevent_crits = list(BCLASS_CUT,BCLASS_BLUNT)
+	prevent_crits = PREVENT_CRITS_NONE
 	blocksound = PLATEHIT
 	icon = 'icons/roguetown/clothing/special/blkknight.dmi'
 	mob_overlay_icon = 'icons/roguetown/clothing/special/onmob/blkknight.dmi'

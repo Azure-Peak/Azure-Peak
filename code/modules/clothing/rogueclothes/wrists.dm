@@ -32,7 +32,6 @@
 	icon_state = "bracers"
 	item_state = "bracers"
 	armor = ARMOR_PLATE
-	prevent_crits = list(BCLASS_CUT, BCLASS_STAB, BCLASS_CHOP, BCLASS_BLUNT, BCLASS_TWIST)
 	blocksound = PLATEHIT
 	resistance_flags = FIRE_PROOF
 	max_integrity = ARMOR_INT_SIDE_STEEL
@@ -49,7 +48,6 @@
 	icon_state = "psybarbs"
 	item_state = "psybarbs"
 	armor = ARMOR_PLATE_BSTEEL
-	prevent_crits = list(BCLASS_CUT, BCLASS_STAB, BCLASS_CHOP, BCLASS_BLUNT, BCLASS_SMASH, BCLASS_TWIST, BCLASS_PICK)
 	blocksound = PLATEHIT
 	resistance_flags = FIRE_PROOF
 	max_integrity = ARMOR_INT_SIDE_BLACKSTEEL
@@ -88,6 +86,7 @@
 	chunkcolor = "#532e25"
 	smeltresult = /obj/item/ingot/aaslag
 	anvilrepair = null
+	prevent_crits = PREVENT_CRITS_NONE
 
 /obj/item/clothing/wrists/roguetown/bracers/paalloy
 	name = "ancient bracers"
@@ -101,7 +100,6 @@
 	icon_state = "lbracers"
 	item_state = "lbracers"
 	armor = ARMOR_PADDED_GOOD
-	prevent_crits = list(BCLASS_CUT, BCLASS_STAB, BCLASS_BLUNT, BCLASS_TWIST)
 	blocksound = SOFTHIT
 	blade_dulling = DULLING_BASHCHOP
 	break_sound = 'sound/foley/cloth_rip.ogg'
@@ -119,7 +117,6 @@
 	desc = "Hardened leather braces that will keep your wrists safe from bludgeoning."
 	icon_state = "albracers"
 	armor = ARMOR_LEATHER_GOOD
-	prevent_crits = list(BCLASS_CUT, BCLASS_BLUNT, BCLASS_TWIST, BCLASS_CHOP, BCLASS_SMASH)
 	max_integrity = ARMOR_INT_SIDE_HARDLEATHER
 	sellprice = 10
 	salvage_amount = 1
@@ -165,7 +162,6 @@
 	icon_state = "nocwrappings"
 	item_state = "nocwrappings"
 	max_integrity = ARMOR_INT_SIDE_STEEL //Heavy leather-tier protection and critical resistances, steel-tier integrity. Integrity boost encourages hand-to-hand parrying. Weaker than the Psydonic Thorns. Uncraftable.
-	prevent_crits = list(BCLASS_CUT, BCLASS_CHOP, BCLASS_STAB, BCLASS_BLUNT, BCLASS_TWIST)
 	blocksound = SOFTHIT
 	anvilrepair = null
 	sewrepair = TRUE
@@ -221,7 +217,6 @@
 	icon_state = "splintarms"
 	item_state = "splintarms"
 	armor = ARMOR_PLATE
-	prevent_crits = list(BCLASS_CUT, BCLASS_STAB, BCLASS_CHOP, BCLASS_BLUNT)
 	blocksound = SOFTHIT
 	max_integrity = ARMOR_INT_SIDE_IRON
 	anvilrepair = /datum/skill/craft/armorsmithing
@@ -237,7 +232,6 @@
 	icon_state = "ironsplintarms"
 	item_state = "ironsplintarms"
 	armor = ARMOR_LEATHER_STUDDED //not plate armor, is leather + iron bits
-	prevent_crits = list(BCLASS_CUT, BCLASS_STAB, BCLASS_CHOP, BCLASS_BLUNT)
 	blocksound = SOFTHIT
 	max_integrity = ARMOR_INT_SIDE_LEATHER
 	anvilrepair = /datum/skill/craft/armorsmithing

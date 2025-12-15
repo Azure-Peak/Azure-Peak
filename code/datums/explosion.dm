@@ -161,7 +161,7 @@ GLOBAL_LIST_EMPTY(explosions)
 	if(!isnull(devastation_range))
 		for(var/mob/living/L in viewers(devastation_range, epicenter))
 			dist_epi = get_dist(L, epicenter)
-			if(L.mind) //min 150, max 400
+			if(!L.mind)
 				burn = rand(100,250)
 				brute = rand(50,150)
 				L.adjustBruteLoss(brute)
@@ -171,9 +171,9 @@ GLOBAL_LIST_EMPTY(explosions)
 			dist_epi = get_dist(L, epicenter)
 			if(dist_epi <= devastation_range)
 				continue
-			if(L.mind) //min 100, max 300
+			if(!L.mind)
 				burn = rand(50,180)
-				brute = rand(50,120)
+				brute = rand(30,120)
 				L.adjustFireLoss(burn)
 				L.adjustBruteLoss(brute)
 	if(!isnull(light_impact_range))
@@ -181,9 +181,9 @@ GLOBAL_LIST_EMPTY(explosions)
 			dist_epi = get_dist(L, epicenter)
 			if(dist_epi <= heavy_impact_range)
 				continue
-			if(L.mind) //min 60, max 150
-				burn = rand(40,90)
-				brute = rand(20,60)
+			if(!L.mind)
+				burn = rand(25,90)
+				brute = rand(15,60)
 				L.adjustFireLoss(burn)
 				L.adjustBruteLoss(brute)
 	EX_PREPROCESS_CHECK_TICK

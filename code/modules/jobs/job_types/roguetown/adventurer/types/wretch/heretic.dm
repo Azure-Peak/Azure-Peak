@@ -21,6 +21,7 @@
 		/datum/skill/combat/shields = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/combat/whipsflails = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/combat/polearms = SKILL_LEVEL_JOURNEYMAN,
+		/datum/skill/combat/staves = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/combat/wrestling = SKILL_LEVEL_EXPERT,
 		/datum/skill/misc/swimming = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/combat/unarmed = SKILL_LEVEL_JOURNEYMAN,
@@ -46,32 +47,32 @@
 				H.adjust_skillrank_up_to(/datum/skill/combat/swords, SKILL_LEVEL_EXPERT, TRUE)
 				beltr = /obj/item/rogueweapon/scabbard/sword
 				if(HAS_TRAIT(H, TRAIT_PSYDONIAN_GRIT))
-					r_hand = /obj/item/rogueweapon/sword/long/oldpsysword
+					r_hand = /obj/item/rogueweapon/sword/long/psysword
 				else
 					r_hand = /obj/item/rogueweapon/sword/long
 			if("Mace")
 				H.adjust_skillrank_up_to(/datum/skill/combat/maces, SKILL_LEVEL_EXPERT, TRUE)
 				if(HAS_TRAIT(H, TRAIT_PSYDONIAN_GRIT))
-					beltr = /obj/item/rogueweapon/mace/goden/psymace/old
+					beltr = /obj/item/rogueweapon/mace/goden/psymace
 				else
 					beltr = /obj/item/rogueweapon/mace/steel
 			if("Flail")
 				H.adjust_skillrank_up_to(/datum/skill/combat/whipsflails, SKILL_LEVEL_EXPERT, TRUE)
 				if(HAS_TRAIT(H, TRAIT_PSYDONIAN_GRIT))
-					beltr = /obj/item/rogueweapon/flail/sflail/psyflail/old
+					beltr = /obj/item/rogueweapon/flail/sflail/psyflail
 				else
 					beltr = /obj/item/rogueweapon/flail/sflail
 			if("Axe")
 				H.adjust_skillrank_up_to(/datum/skill/combat/axes, SKILL_LEVEL_EXPERT, TRUE)
 				if(HAS_TRAIT(H, TRAIT_PSYDONIAN_GRIT))
-					beltr = /obj/item/rogueweapon/stoneaxe/battle/psyaxe/old
+					beltr = /obj/item/rogueweapon/stoneaxe/battle/psyaxe
 				else
 					beltr = /obj/item/rogueweapon/stoneaxe/woodcut/steel
 			if("Billhook")
 				l_hand = /obj/item/rogueweapon/scabbard/gwstrap
 				H.adjust_skillrank_up_to(/datum/skill/combat/polearms, SKILL_LEVEL_EXPERT, TRUE)
 				if(HAS_TRAIT(H, TRAIT_PSYDONIAN_GRIT))
-					r_hand = /obj/item/rogueweapon/spear/psyspear/old
+					r_hand = /obj/item/rogueweapon/spear/psyspear
 				else
 					r_hand = /obj/item/rogueweapon/spear/billhook
 		var/datum/devotion/C = new /datum/devotion(H, H.patron)
@@ -259,12 +260,19 @@
 		switch(weapon_choice)
 			if("Rapier")
 				H.adjust_skillrank_up_to(/datum/skill/combat/swords, SKILL_LEVEL_EXPERT, TRUE)
+				if(HAS_TRAIT(H, TRAIT_PSYDONIAN_GRIT))
+					l_hand = /obj/item/rogueweapon/sword/short/psy
+				else
+					l_hand = /obj/item/rogueweapon/sword/rapier
 				beltl = /obj/item/rogueweapon/scabbard/sword
-				l_hand = /obj/item/rogueweapon/sword/rapier
+				
 			if("Dagger")
 				H.adjust_skillrank_up_to(/datum/skill/combat/knives, SKILL_LEVEL_EXPERT, TRUE)
 				beltl = /obj/item/rogueweapon/scabbard/sheath
-				l_hand = /obj/item/rogueweapon/huntingknife/idagger/steel/special
+				if(HAS_TRAIT(H, TRAIT_PSYDONIAN_GRIT))
+					l_hand = /obj/item/rogueweapon/huntingknife/idagger/silver/psydagger
+				else
+					l_hand = /obj/item/rogueweapon/huntingknife/idagger/steel/special
 			if("Bow")
 				H.adjust_skillrank_up_to(/datum/skill/combat/bows, SKILL_LEVEL_JOURNEYMAN, TRUE)
 				beltl = /obj/item/quiver/arrows

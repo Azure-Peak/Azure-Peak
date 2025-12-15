@@ -608,15 +608,13 @@ GLOBAL_VAR_INIT(rpg_loot_items, FALSE)
 			if(!C.body_parts_covered)
 				inspec += "<b>NONE!</b>"
 			if(C.body_parts_covered == C.body_parts_covered_dynamic)
-				var/count = 1
 				var/list/zonelist = body_parts_covered2organ_names(C.body_parts_covered)
+				var/count = 0
 				for(var/zone in zonelist)
 					var/add_divider = TRUE
-					if(count % 2 == 0 || count == (length(zonelist)))
+					if(count == (length(zonelist) - 1))
 						add_divider = FALSE
 					inspec += "<b>[capitalize(zone)]</b> [add_divider ? "| " : ""]"
-					if(count % 2 == 0)
-						inspec += "<br>"
 					count++
 			else
 				var/list/zones = list()
@@ -627,41 +625,25 @@ GLOBAL_VAR_INIT(rpg_loot_items, FALSE)
 				var/list/dynlist = body_parts_covered2organ_names(C.body_parts_covered_dynamic, precise = TRUE)
 				for(var/zonedyn in dynlist)
 					var/add_divider = TRUE
-					if(count % 2 == 0 || count == (length(dynlist)))
+					if(count == (length(dynlist) - 1))
 						add_divider = FALSE
 
 					inspec += "<b>[capitalize(zonedyn)]</b> [add_divider ? "| " : ""]"
 					if(zonedyn in zones)
 						zones.Remove(zonedyn)
-
-					if(count % 2 == 0)
-						inspec += "<br>"
 					count++
 				for(var/zone in zones)
 					var/add_divider = TRUE
-					if(count % 2 == 0 || count == (length(dynlist)))
+					if(count == (length(dynlist) - 1))
 						add_divider = FALSE
 					inspec += "<b><font color = '#7e0000'>[capitalize(zone)]</font></b> [add_divider ? "| " : ""]"
-					if(count % 2 == 0)
-						inspec += "<br>"
 					count++
-			inspec += "<br>"
 			inspec += "</td>"
-			inspec += "<td width = 60%><b>PREVENTS CRITS:</b><br>"
-			if(!length(C.prevent_crits))
-				inspec += "\n<b>NONE!</b>"
-			var/count = 1
-			for(var/X in C.prevent_crits)
-				if(X == BCLASS_PICK)	//BCLASS_PICK is named "stab", and "stabbing" is its own damage class. Prevents confusion.
-					X = "pick"
-				var/add_divider = TRUE
-				if(count % 2 == 0 || count == (length(C.prevent_crits)))
-					add_divider = FALSE
-				inspec += ("<b>[capitalize(X)]</b> [add_divider ? "| " : ""]")
-				if(count % 2 == 0)
-					inspec += "<br>"
-				count++
-			inspec += "<br></td>"
+			inspec += "<br>"
+			if(!C.prevent_crits)
+				inspec += "\n<b><font color = '#aa2121'>CRIT SUSCEPTIBLE!</font></b>"
+			if(C.prevent_crits == PREVENT_CRITS_ALL)
+				inspec += "\n<b><font color = '#6890a7'>PICK RESISTANT!</font></b>"
 			inspec += "</tr></table>"
 			if(C.body_parts_inherent)
 				inspec += "<b>CANNOT BE PEELED: </b>"

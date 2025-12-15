@@ -1563,13 +1563,15 @@
 	rituals = list(/datum/runeritual/silver_blessing::name = /datum/runeritual/silver_blessing)
 
 /datum/runeritual/silver_blessing
-	name = "Bless weapon"
+	name = "Rite of Silver-Blessing"
 	required_atoms = list(/obj/item/rogueweapon = 1)
 
 /datum/runeritual/silver_blessing/on_finished_recipe(mob/living/user, list/selected_atoms, turf/loc)
 	var/obj/item/rogueweapon/weapon = selected_atoms[1]
+	var/datum/component/silverbless/CP = weapon.GetComponent(/datum/component/silverbless)
 
-	if(weapon.GetComponent(/datum/component/silverbless))
+	if(!CP || CP.is_blessed)
+		loc.visible_message(span_warning("HIS rune pulses with a small flash of light, then falls dark. This weapon is not pure enough to be anointed."))
 		return FALSE
 
 	if(!do_after(user, 3 SECONDS))
@@ -1590,18 +1592,11 @@
 	loc.visible_message(span_cultsmall("[weapon] flares with a cold glimmer, having absorbed the sacrifice! [user] appears visibly drained and cold."))
 	playsound(loc, 'sound/magic/churn.ogg', 100, FALSE, -1)
 
-	weapon.AddComponent(\
-        /datum/component/silverbless,\
-        pre_blessed = BLESSING_PSYDONIAN,\
-        silver_type = SILVER_PSYDONIAN,\
-        added_force = 5,\
-        added_blade_int = 0,\
-        added_int = 50,\
-        added_def = 2,\
-    )
-	weapon.is_silver = TRUE
+	CP.try_bless(BLESSING_PSYDONIAN)
+	new /obj/effect/temp_visual/censer_dust(get_turf(loc))
 
 	user.apply_status_effect(/datum/status_effect/debuff/ritesexpended)
 	user.apply_status_effect(/datum/status_effect/debuff/devitalised/lesser)
 
 	return TRUE
+

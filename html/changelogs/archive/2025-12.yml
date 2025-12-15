@@ -192,3 +192,56 @@
 2025-12-12:
   Matheo351:
   - balance: Straw beds are now considered beds when it comes to falling asleep time
+2025-12-13:
+  Lamasmaster:
+  - balance: Condo ringleader starting wealth
+  - qol: More unified sword intent buttons
+  - balance: Priest Apostasy/Excommunication stacking
+  - bugfix: Priest Curse working on antagonists
+  PPooch:
+  - bugfix: fix for anastasis cooldown bug
+  PatapoIIIa:
+  - rscadd: Added the **Wall Fireplace** as a permanent, wall-mounted light with a
+      2-tile comfort buff.
+  - qol: Mobs with the $TRAIT\_BITERHELM$ trait can now bite while wearing a helmet
+      that covers the mouth.
+  - balance: Wall Fireplace provides a 2-tile comfort buff
+  - bugfix: Fixed the stone lantern sprite disappearing when an unlit torch was inserted.
+  - code_imp: Updated bite check logic for the $TRAIT_BITERHELM$ trait.
+  Ryan180602:
+  - qol: Clothes with heat/cold protection will say so on examine.
+  - bugfix: Fireplaces/Candles need no fuel anymore.
+  - bugfix: fixes candles lighting people on fire.
+  - balance: Lickers get 1 thrall, Vamps get 2, VLs get infinite.
+  - balance: Siring takes 7s.
+  - balance: Shields help charges. Whether for the charger or the opponent.
+  - balance: Charge immobilisation is now halved.
+  hazelrat:
+  - rscadd: Remapped the Warden's Outpost north of the town.
+  - bugfix: Pillories can now be locked by any member of the garrison, church, or
+      inquisition.
+2025-12-14:
+  Hollyhock:
+  - rscadd: Gave sextons cool amulets
+  SayonaraEcho:
+  - bugfix: Church bell is now working across Z-level as intented.
+  - sound: Sound church bell is now global and everyone hear it.
+  - balance: Increases martyr sword's durability as like Ichor Fang or Ascendant weapon
+      and cannot be smelted.
+  - code_imp: Deleted duplicated Ichor Fang's code.
+  hubertjones:
+  - balance: shovels can be worn on the belt
+  - balance: necran acolytes spawn with silver shovels
+  - bugfix: skeletons that spawn with hip items have belts
+2025-12-15:
+  BurpleBineapple:
+  - rscdel: Removed unused "Enduring" weapons from code.
+  - balance: Psydon Heretics spawn with Psydonic silver weapons.
+  - balance: Rite of Silver-Blessing now only blesses silver weapons.
+  FreeStylaLT:
+  - balance: Wrestling ClickCDs were made static and longer across the board
+  Lamasmaster:
+  - rscdel: Duped See longswords
+  SpadesNeil:
+  - image: Modified sling bullet sprite to be centered correctly.
+  - image: Added sprite for "silver bullet" that is currently unused.

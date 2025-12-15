@@ -10,7 +10,7 @@
 	flags_inv = HIDEEARS|HIDEFACE|HIDESNOUT
 	flags_cover = HEADCOVERSEYES | HEADCOVERSMOUTH
 	armor = ARMOR_PLATE_BSTEEL
-	prevent_crits = list(BCLASS_CUT, BCLASS_STAB, BCLASS_CHOP, BCLASS_BLUNT, BCLASS_SMASH, BCLASS_TWIST, BCLASS_PICK)
+	prevent_crits = PREVENT_CRITS_ALL
 	block2add = FOV_BEHIND
 	max_integrity = ARMOR_INT_HELMET_BLACKSTEEL
 	smeltresult = /obj/item/ingot/blacksteel
@@ -28,7 +28,7 @@
 	flags_inv = HIDEEARS|HIDEFACE|HIDESNOUT
 	flags_cover = HEADCOVERSEYES | HEADCOVERSMOUTH
 	armor = ARMOR_PLATE_BSTEEL
-	prevent_crits = list(BCLASS_CUT, BCLASS_STAB, BCLASS_CHOP, BCLASS_BLUNT, BCLASS_SMASH, BCLASS_TWIST, BCLASS_PICK)
+	prevent_crits = PREVENT_CRITS_ALL
 	block2add = FOV_BEHIND
 	max_integrity = ARMOR_INT_HELMET_BLACKSTEEL
 	smeltresult = /obj/item/ingot/blacksteel
@@ -42,7 +42,7 @@
 	icon_state = "psybarbs"
 	item_state = "psybarbs"
 	armor = ARMOR_PLATE_BSTEEL
-	prevent_crits = list(BCLASS_CUT, BCLASS_STAB, BCLASS_CHOP, BCLASS_BLUNT, BCLASS_SMASH, BCLASS_TWIST, BCLASS_PICK)
+	prevent_crits = PREVENT_CRITS_ALL
 	blocksound = PLATEHIT
 	resistance_flags = FIRE_PROOF
 	max_integrity = ARMOR_INT_SIDE_BLACKSTEEL

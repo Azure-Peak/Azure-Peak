@@ -7,7 +7,6 @@
 	icon_state = "bplategloves"
 	item_state = "bplategloves"
 	armor = ARMOR_PLATE_BSTEEL
-	prevent_crits = list(BCLASS_CHOP, BCLASS_CUT, BCLASS_BLUNT, BCLASS_TWIST)
 	resistance_flags = FIRE_PROOF
 	blocksound = PLATEHIT
 	max_integrity = ARMOR_INT_SIDE_BLACKSTEEL
@@ -24,7 +23,6 @@
 	icon_state = "bkgloves"
 	item_state = "bkgloves"
 	armor = ARMOR_PLATE_BSTEEL
-	prevent_crits = list(BCLASS_CHOP, BCLASS_CUT, BCLASS_BLUNT, BCLASS_TWIST)
 	resistance_flags = FIRE_PROOF
 	blocksound = PLATEHIT
 	max_integrity = ARMOR_INT_SIDE_BLACKSTEEL

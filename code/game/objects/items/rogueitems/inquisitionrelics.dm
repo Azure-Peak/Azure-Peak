@@ -954,7 +954,6 @@ Inquisitorial armory down here
 	break_sound = 'sound/foley/cloth_rip.ogg'
 	drop_sound = 'sound/foley/dropsound/cloth_drop.ogg'
 	armor = ARMOR_BLACKBAG
-	prevent_crits = list(BCLASS_CUT, BCLASS_BLUNT, BCLASS_TWIST, BCLASS_PEEL, BCLASS_PIERCE, BCLASS_CHOP, BCLASS_LASHING, BCLASS_STAB)
 	unequip_delay_self = 45
 	equip_delay_other = 360 SECONDS // No getting around it. Cheater. LEFT CLICK THEM!!!
 	equip_delay_self = 360 SECONDS

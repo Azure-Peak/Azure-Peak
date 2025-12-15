@@ -7,7 +7,6 @@
 	icon_state = "haubergeon"
 	armor = ARMOR_MAILLE
 	max_integrity = ARMOR_INT_CHEST_MEDIUM_STEEL
-	prevent_crits = list(BCLASS_CUT, BCLASS_STAB, BCLASS_CHOP, BCLASS_BLUNT)
 	blocksound = CHAINHIT
 	drop_sound = 'sound/foley/dropsound/chain_drop.ogg'
 	pickup_sound = 'sound/foley/equip/equip_armor_chain.ogg'
@@ -36,6 +35,7 @@
 	chunkcolor = "#532e25"
 	smeltresult = /obj/item/ingot/aaslag
 	anvilrepair = null
+	prevent_crits = PREVENT_CRITS_NONE
 
 /obj/item/clothing/suit/roguetown/armor/chainmail/paalloy
 	name = "ancient haubergeon"
@@ -74,6 +74,7 @@
 	chunkcolor = "#532e25"
 	smeltresult = /obj/item/ingot/aaslag
 	anvilrepair = null
+	prevent_crits = PREVENT_CRITS_NONE
 
 /obj/item/clothing/suit/roguetown/armor/chainmail/hauberk/paalloy
 	name = "ancient hauberk"

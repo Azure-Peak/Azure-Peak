@@ -62,7 +62,7 @@
 
 /datum/outfit/job/roguetown/farmer/basic/pre_equip(mob/living/carbon/human/H)
 	..()
-	head = /obj/item/clothing/head/roguetown/armingcap
+	head = /obj/item/clothing/head/roguetown/cap
 	mask = /obj/item/clothing/head/roguetown/roguehood
 	neck = /obj/item/storage/belt/rogue/pouch/coins/poor
 	wrists = /obj/item/clothing/wrists/roguetown/bracers/leather
