@@ -36,10 +36,12 @@
 		firebust = M.fire_stacks/2
 		damage += M.fire_stacks * 10
 		if(GLOB.tod == "day" || GLOB.tod == "dawn" || GLOB.tod == "dusk")
-			damage += 10
+			damage += 20
 		new /obj/effect/temp_visual/explosion/fast(get_turf(M))
 	if(M.mob_biotypes & biotype_we_look_for || istype(M, /mob/living/simple_animal/hostile/rogue/skeleton) || !M.mind || istype(M, /mob/living/simple_animal)) //PVE
 		damage *= fuck_that_guy_multiplier
+	if(damage > 100) //cap
+		damage = 100
 	M.adjust_fire_stacks(4+firebust)
 	M.ignite_mob()
 	visible_message(span_warning("[src] ignites [target] in holy flame!"))
@@ -63,7 +65,7 @@
 	invocation_type = "whisper"
 	associated_skill = /datum/skill/magic/holy
 	antimagic_allowed = TRUE
-	recharge_time = 5 SECONDS
+	recharge_time = 10 SECONDS
 	miracle = TRUE
 	devotion_cost = 15
 
@@ -80,10 +82,13 @@
 			firebust = 1
 		if(GLOB.tod == "day" || GLOB.tod == "dawn" || GLOB.tod == "dusk")
 			firebust += 1
+		if(firebust >= 4) //Master, Legend, or Expert on day.
+			recharge_time = 5 SECONDS
 		if(firebust >= 5) //LEGENDARY ASTRATAN, or MASTER casts it on day.
 			new /obj/effect/hotspot(get_turf(L))
-		L.adjust_fire_stacks(firebust, /datum/status_effect/fire_handler/fire_stacks/divine)
-		L.ignite_mob()
+		if(firebust > 0)
+			L.adjust_fire_stacks(firebust, /datum/status_effect/fire_handler/fire_stacks/divine)
+			L.ignite_mob()
 		if(!L.mind || istype(L, /mob/living/simple_animal)) //Firestacks not effective VS carbon-AL enemy. Simple mobs don't take fire damage.
 			L.adjustFireLoss(10*firebust) //10 * skill-1. Legendary cast take 50 burn damage for non-minded creatures. 
 
@@ -833,3 +838,177 @@
 			owner.remove_overlay(FIRE_LAYER)
 
 #undef IMMOLATION_FILTER
+
+//T4 spell. Very slow turf-target ability to cast on day or in churh/nearby Bishop. Take devostating damage, gibs all not-panteon carbons and kill all panteon users.
+
+/obj/effect/proc_holder/spell/invoked/sunstrike
+	name = "Sun Strike"
+	desc = "Focus Astratas energy though a stationary Psycross or Bishop hands. Call Devostating Solar Mercy on enemy head."
+	overlay_state = "sunstrike"
+	base_icon_state = "regalyscroll"
+	releasedrain = 200
+	chargedrain = 0
+	chargetime = 50
+	range = 1
+	warnie = "sydwarning"
+	no_early_release = TRUE
+	movement_interrupt = TRUE
+	chargedloop = /datum/looping_sound/invokeholy
+	req_items = list(/obj/item/clothing/neck/roguetown/psicross)
+	sound = 'sound/magic/revive.ogg'
+	associated_skill = /datum/skill/magic/holy
+	antimagic_allowed = FALSE
+	recharge_time = 20 MINUTES //One per day
+	miracle = TRUE
+	devotion_cost = 200
+
+/obj/effect/proc_holder/spell/invoked/sunstrike/start_recharge()
+	var/old_recharge = recharge_time
+	var/tech_resurrection_modifier = SSchimeric_tech.get_resurrection_multiplier()
+	if(tech_resurrection_modifier > 1)
+		recharge_time = initial(recharge_time) * (tech_resurrection_modifier * 1.25)
+	else
+		recharge_time = initial(recharge_time)
+	if(charge_counter >= old_recharge && old_recharge > 0)
+		charge_counter = recharge_time
+	. = ..()
+
+/obj/effect/proc_holder/spell/invoked/sunstrike/cast(list/targets, mob/living/user)
+	..()
+
+	if(!isliving(user))
+		revert_cast()
+		return FALSE
+	var/check = null
+	var/turf/target = get_turf(targets[1])
+	for(var/turf/T in view(5, user))
+		var/area/rogue/mercyarea = get_area(T)
+		if(mercyarea.holy_area)
+			check = 1
+	if(GLOB.tod != "night")
+		check = 1
+	else
+		to_chat(user, span_warning("Let there be light."))
+	if(!check)
+		revert_cast()
+		return FALSE
+	var/obj/effect/temp_visual/mark = new /obj/effect/temp_visual/firewave/sun_mark/pre_sunstrike(target)
+
+	animate(mark, alpha = 255, time = 20, flags = ANIMATION_PARALLEL)
+
+	var/obj/effect/temp_visual/mark_on_user = new /obj/effect/temp_visual/firewave/sun_mark(get_turf(user))
+	animate(mark_on_user, alpha = 255, time = 20, flags = ANIMATION_PARALLEL)
+	if(!do_after(user, 20 SECONDS, target = target))
+		mark_on_user.alpha = 255
+		to_chat(user, span_warning("Astratan might requires unwavering focus to channel!"))
+		qdel(mark)
+		qdel(mark_on_user)
+		revert_cast()
+		return FALSE
+	qdel(mark_on_user)
+	for(var/obj/structure/fluff/psycross/S in oview(5, user))
+		S.AOE_flash(user, range = 8)
+	new /obj/effect/temp_visual/firewave/sunstrike/primary(target)
+
+/obj/effect/proc_holder/spell/invoked/sunstrike/cast_check(skipcharge = 0,mob/user = usr)
+	if(!..())
+		return FALSE
+	var/found = null
+	for(var/obj/structure/fluff/psycross/S in oview(5, user))
+		found = S
+	for(var/turf/T in view(5, user))
+		var/area/rogue/mercyarea = get_area(T)
+		if(mercyarea.holy_area)
+			found = T
+	for(var/mob/living/carbon/human/H in view(7, user))
+		if(H.mind?.assigned_role == "Bishop")
+			found = H
+	if(!found)
+		to_chat(user, span_warning("I need a holy cross, Bishop or cast it in more holy-area."))
+		revert_cast()
+		return FALSE
+	return TRUE
+
+/obj/effect/temp_visual/firewave/sun_mark
+	icon = 'icons/effects/160x160.dmi'
+	icon_state = "sun"
+	alpha = 5
+	duration = 1 MINUTES
+	pixel_x = -64
+	pixel_y = -64
+	light_outer_range = 5
+	light_color = "#ffb300ff"
+
+/obj/effect/temp_visual/firewave/sun_mark/pre_sunstrike
+	duration = 30 SECONDS
+
+/obj/effect/temp_visual/firewave/sunstrike/primary
+	alpha = 0
+	duration = 11 SECONDS
+
+/obj/effect/temp_visual/firewave/sunbeam
+	icon = 'icons/effects/32x96.dmi'
+	icon_state = "sunstrike"
+	alpha = 5
+	duration = 15.5
+
+/obj/effect/temp_visual/firewave/sunstrike/primary/Initialize(mapload)
+	. = ..()
+	addtimer(CALLBACK(src, TYPE_PROC_REF(/obj/effect/temp_visual/firewave/sunstrike/primary, pre_strike), TRUE), 1 SECONDS)
+	addtimer(CALLBACK(src, TYPE_PROC_REF(/obj/effect/temp_visual/firewave/sunstrike/primary, strike), TRUE), 10 SECONDS)
+
+/obj/effect/temp_visual/firewave/sunstrike/primary/proc/pre_strike()
+	var/turf/T = get_turf(src)
+	playsound(T,'sound/magic/revive.ogg', 80, TRUE)
+	loud_message("<font size = 9>[span_purple("THE SKY IS FLOODED WITH WHITE FIRE!!")]</font><br>", hearing_distance = 14)
+
+	for(var/turf/Target_turf in range(1, get_turf(src)))
+		for(var/mob/living/L in Target_turf.contents)
+			to_chat(L, span_userdanger("Unatural heavy gaze bring on you"))
+
+/obj/effect/temp_visual/firewave/sunstrike/primary/proc/strike()
+	var/turf/T = get_turf(src)
+	playsound(T,'sound/magic/astrata_choir.ogg', 100, TRUE)
+	explosion(T, -1, 0, 0, 0, 0, flame_range = 0, soundin = 'sound/misc/explode/incendiary (1).ogg')
+	var/obj/effect/temp_visual/mark = new /obj/effect/temp_visual/firewave/sunbeam(T)
+
+	animate(mark, alpha = 255, time = 10, flags = ANIMATION_PARALLEL)
+	for(var/turf/turf as anything in RANGE_TURFS(6, T))
+		if(prob(20))
+			new /obj/effect/hotspot(get_turf(turf))
+	for(var/turf/Target_turf in range(5, T))
+		for(var/mob/living/L in Target_turf.contents)
+			to_chat(L, span_userdanger("Sun falls on your head!!"))
+			var/dist_to_epicenter = get_dist(T, L)
+			var/firedamage = 200 - (dist_to_epicenter*15)
+			var/firestack = 10 - dist_to_epicenter
+			L.adjustFireLoss(firedamage)
+			L.adjust_fire_stacks(firestack)
+			L.ignite_mob()
+			if(!L.mind || istype(L, /mob/living/simple_animal))
+				L.adjustFireLoss(500)
+				if(dist_to_epicenter <= 3)
+					L.gib()
+			if(dist_to_epicenter == 1) //pre-center
+				L.adjustFireLoss(100) //185 firedamage
+				new /obj/effect/hotspot(get_turf(L))
+			if(dist_to_epicenter == 0) //center
+				explosion(T, -1, 1, 1, 0, 0, flame_range = 1, soundin = 'sound/misc/explode/incendiary (1).ogg')
+				new /obj/effect/hotspot(get_turf(L))
+				if(!((L.patron?.type) == /datum/patron/divine))
+					L.gib()
+				else
+					L.adjustFireLoss(500)
+					L.stat = DEAD
+	for(var/obj/item/I in range(1, T))
+		qdel(I)
+	for (var/obj/structure/damaged in view(2, T))
+		if(!istype(damaged, /obj/structure/flora/newbranch))
+			damaged.take_damage(500,BRUTE,"blunt",1)
+	for (var/turf/closed/wall/damagedwalls in view(1, T))
+		damagedwalls.take_damage(1100,BRUTE,"blunt",1)
+	for (var/turf/closed/mineral/aoemining in view(2, T))
+		aoemining.lastminer = usr
+		aoemining.take_damage(1100,BRUTE,"blunt",1)
+	sleep(10)
+	animate(mark, alpha = 5, time = 10, flags = ANIMATION_PARALLEL)
