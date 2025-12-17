@@ -60,7 +60,14 @@
 	return "into"
 
 /datum/sex_action/sex/vaginal/get_finish_message(mob/living/carbon/human/user, mob/living/carbon/human/target)
-	return span_warning("[user] pulls [user.p_their()] cock out of [target]'s pussy.")
+	user.visible_message(span_warning("[user] pulls [user.p_their()] cock out of [target]'s pussy."))
+	var/obj/item/organ/penis/penis = user.getorganslot(ORGAN_SLOT_PENIS)
+	switch(penis.penis_type)
+		if(PENIS_TYPE_BARBED, PENIS_TYPE_BARBED_KNOTTED)
+			user.visible_message(span_notice("[user] rakes their barbs inside of [target]'s pussy!"),
+			span_notice("I rake my barbs inside of [target]'s pussy."))
+			target.apply_status_effect(/datum/status_effect/barb_fucked)
+	return FALSE
 
 /datum/sex_action/sex/vaginal/get_knot_count()
 	return 1

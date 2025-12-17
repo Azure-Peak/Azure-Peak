@@ -38,7 +38,14 @@
 
 /datum/sex_action/blowjob/on_finish(mob/living/carbon/human/user, mob/living/carbon/human/target)
 	. = ..()
-	user.visible_message(span_warning("[user] stops sucking [target]'s cock ..."))
+	user.visible_message(span_warning("[user] stops sucking [target]'s cock ... TEST"))
+	var/obj/item/organ/penis/penis = target.getorganslot(ORGAN_SLOT_PENIS)
+	switch(penis.penis_type)
+		if(PENIS_TYPE_BARBED, PENIS_TYPE_BARBED_KNOTTED)
+			target.visible_message(span_notice("[target] rakes their barbs inside of [user]'s throat!"),
+			span_notice("I rake my barbs inside of [user]'s throat."))
+			user.apply_status_effect(/datum/status_effect/barbed_fellatio)
+	return FALSE
 
 /datum/sex_action/blowjob/lock_sex_object(mob/living/carbon/human/user, mob/living/carbon/human/target)
 	sex_locks |= new /datum/sex_session_lock(target, ORGAN_SLOT_PENIS)

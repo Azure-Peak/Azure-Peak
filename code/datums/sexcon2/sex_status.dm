@@ -71,3 +71,36 @@
 		var/do_forceful_removal = arousal_data["arousal"] > MAX_AROUSAL / 2
 		SEND_SIGNAL(user, COMSIG_SEX_REMOVE_KNOT, do_forceful_removal)
 	return FALSE
+
+/datum/status_effect/barbed_fellatio
+	id = "barbed_fellatio"
+	status_type = STATUS_EFFECT_UNIQUE
+	alert_type = /atom/movable/screen/alert/status_effect/sore_throat
+	duration = 2 MINUTES
+
+/atom/movable/screen/alert/status_effect/sore_throat
+	name = "Sore Throat"
+	desc = "You can't bring yourself to speak for a bit after the rough treatment your throat got."
+	icon_state = "debuff"
+
+/datum/status_effect/barbed_fellatio/on_apply()
+	. = ..()
+	ADD_TRAIT(owner, TRAIT_MUTE, TRAIT_GENERIC)
+	to_chat(owner, span_warning("My throat feels very sore! I can't speak for a bit..."))
+
+/datum/status_effect/barbed_fellatio/on_remove()
+	. = ..()
+	REMOVE_TRAIT(owner, TRAIT_MUTE, TRAIT_GENERIC)
+	to_chat(owner, span_warning("My throat feels much better. I could probably try speaking now."))
+
+/datum/status_effect/barb_fucked
+	id = "barb_fucked"
+	status_type = STATUS_EFFECT_UNIQUE
+	alert_type = /atom/movable/screen/alert/status_effect/hobbled
+	duration = 2 MINUTES
+	effectedstats = list(STATKEY_STR = -1, STATKEY_WIL = -2, STATKEY_SPD = -4)
+
+/atom/movable/screen/alert/status_effect/hobbled
+	name = "Hobbled"
+	desc = "Barbs were raking my inside making my knees weak- it hurts, but it's still strangely pleasurable..."
+	icon_state = "debuff"
