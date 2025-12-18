@@ -54,3 +54,21 @@
 		/datum/advclass/mercenary/grudgebearer/soldier,
 		/datum/advclass/mercenary/trollslayer
 	)
+
+/datum/job/roguetown/mercenary/after_spawn(mob/living/L, mob/M, latejoin = FALSE)
+	..()
+	if(L && ishuman(L))
+		var/mob/living/carbon/human/H = L
+		if(!H.mind)
+			return
+
+		// Get the mercenary statue from SSroguemachine
+		var/obj/structure/roguemachine/talkstatue/mercenary/statue = SSroguemachine.mercenary_statue
+		if(statue)
+			// Send a message with a clickable link to register remotely
+			to_chat(M, span_boldnotice("I sense a mercenary statue calling out to me..."))
+			to_chat(M, span_notice("<a href='?src=[REF(statue)];register=[REF(H)]'>Touch the statue from afar</a> to register myself as available for contract. (This link expires in 2 minutes)"))
+
+			// Store the registration request with a timer
+			statue.pending_registrations[H.key] = H
+			addtimer(CALLBACK(statue, TYPE_PROC_REF(/obj/structure/roguemachine/talkstatue/mercenary, expire_registration), H.key), 2 MINUTES)

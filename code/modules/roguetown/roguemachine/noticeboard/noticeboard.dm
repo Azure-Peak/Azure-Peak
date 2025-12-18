@@ -10,7 +10,7 @@
 	layer = ABOVE_MOB_LAYER
 	plane = GAME_PLANE_UPPER
 	var/current_category = "Postings"
-	var/list/categories = list("Postings", "Premium Postings", "Scout Report")
+	var/list/categories = list("Postings", "Premium Postings", "Scout Report", "Mercenary Roster")
 
 /obj/structure/roguemachine/noticeboard/Initialize()
 	. = ..()
@@ -125,6 +125,12 @@
 		contents += "Only Azure Basin, Azure Grove and the Terrorbog can be rendered safe entirely. <br>" 
 		contents += "Regions not listed are beyond the charge of the wardens. Danger will be constant in these regions.<br>"
 		contents += "Danger is reduced by luring villains and creechurs and killing them when they ambush you. The signal horns wardens have been issued can help with this. Take care with using it."
+	else if(current_category == "Mercenary Roster")
+		// Display the mercenary roster from the statue
+		if(SSroguemachine.mercenary_statue)
+			contents += SSroguemachine.mercenary_statue.get_readonly_roster_html()
+		else
+			contents += "<br><span class='notice'>The mercenary statue network is not available.</span>"
 	var/datum/browser/popup = new(user, "NOTICEBOARD", "", 800, 650)
 	popup.set_content(contents)
 	popup.open()

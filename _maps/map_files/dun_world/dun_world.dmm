@@ -17554,6 +17554,9 @@
 	layer = 3;
 	pixel_x = -4
 	},
+/obj/structure/roguemachine/talkstatue/mercenary{
+	pixel_y = 32
+	},
 /turf/open/floor/rogue/wood,
 /area/rogue/indoors/town/tavern)
 "erY" = (

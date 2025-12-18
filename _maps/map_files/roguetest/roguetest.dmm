@@ -68,6 +68,10 @@
 	},
 /turf/open/floor/rogue/grass,
 /area/rogue/outdoors)
+"cz" = (
+/obj/structure/roguemachine/talkstatue/mercenary,
+/turf/open/floor/rogue/dirt/road,
+/area/rogue/outdoors)
 "cK" = (
 /obj/structure/far_travel,
 /turf/open/floor/rogue/grass,
@@ -3018,7 +3022,7 @@ xy
 yK
 yK
 yK
-rT
+cz
 rT
 rT
 rT
