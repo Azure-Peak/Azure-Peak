@@ -56,12 +56,14 @@
 	var/jadded
 	var/jrange
 	var/jextra = FALSE
+	var/jroot = FALSE
 
 	if(m_intent == MOVE_INTENT_RUN)
 		emote("leap", forced = TRUE)
 		OffBalance(30)
 		jadded = 45
 		jrange = 3
+		jroot = TRUE
 
 		if(!HAS_TRAIT(src, TRAIT_LEAPER))// The Jester lands where the Jester wants.
 			jextra = TRUE
@@ -78,13 +80,13 @@
 			jadded += 50
 			jrange = 1
 
-	jump_action_resolve(A, jadded, jrange, jextra)
+	jump_action_resolve(A, jadded, jrange, jextra, jroot)
 	return TRUE
 
 #define FLIP_DIRECTION_CLOCKWISE 1
 #define FLIP_DIRECTION_ANTICLOCKWISE 0
 
-/mob/living/proc/jump_action_resolve(atom/A, jadded, jrange, jextra)
+/mob/living/proc/jump_action_resolve(atom/A, jadded, jrange, jextra, jroot)
 	var/do_a_flip
 	var/flip_direction = FLIP_DIRECTION_CLOCKWISE
 	var/prev_pixel_z = pixel_z
@@ -115,7 +117,7 @@
 			throw_at(A, jrange, 1, src, spin = FALSE)
 			while(src.throwing)
 				sleep(1)
-		if(!HAS_TRAIT(src, TRAIT_ZJUMP) && (m_intent == MOVE_INTENT_RUN))	//Jesters and werewolves don't get immobilized at all
+		if(jroot && !HAS_TRAIT(src, TRAIT_ZJUMP))	//Jesters and werewolves don't get immobilized at all
 			Immobilize((HAS_TRAIT(src, TRAIT_LEAPER) ? 5 : 10))	//Acrobatics get half the time
 		if(isopenturf(src.loc))
 			var/turf/open/T = src.loc

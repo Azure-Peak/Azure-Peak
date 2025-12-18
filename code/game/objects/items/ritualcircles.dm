@@ -460,7 +460,7 @@
 		var/current_athletics = user.get_skill_level(/datum/skill/misc/athletics)
 		if(current_skill < 4)
 			user.adjust_skillrank_up_to(skill_to_teach, 4)
-			to_chat(user, span_notice("Knowledge of [skill_to_teach] floods your mind!"))
+			to_chat(user, span_notice("Knowledge of [skill_to_teach.name] floods your mind!"))
 		if(current_athletics < 6)
 			user.adjust_skillrank_up_to(/datum/skill/misc/athletics, 6)
 			to_chat(user, span_notice("Your endurance swells!"))

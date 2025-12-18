@@ -94,7 +94,7 @@
 	name = "hijab"
 	desc = "Flowing like blood from a wound, this tithe of cloth-and-silk spills out to the shoulders. It carries the telltale mark of Naledian stitcheries."
 	item_state = "hijab"
-	icon_state = "deserthood"
+	icon_state = "hijab"
 	hidesnoutADJ = FALSE
 	flags_inv = HIDEEARS|HIDEHAIR|HIDEFACIALHAIR	//Does not hide face.
 	block2add = null
@@ -105,7 +105,7 @@
 	max_integrity = 100
 	armor = ARMOR_SPELLSINGER //basically the same as a warscholar hood
 	item_state = "hijab"
-	icon_state = "deserthood"
+	icon_state = "hijab"
 	naledicolor = TRUE
 
 /obj/item/clothing/head/roguetown/roguehood/shalal/heavyhood
@@ -207,6 +207,7 @@
 	sewrepair = TRUE
 	salvage_result = /obj/item/natural/cloth
 	salvage_amount = 1
+	block2add = null
 
 //............... Feldshers Hood ............... //
 /obj/item/clothing/head/roguetown/roguehood/feld
@@ -301,8 +302,8 @@
 	max_integrity = 100
 	prevent_crits = PREVENT_CRITS_NONE
 	armor = ARMOR_SPELLSINGER
-	icon_state = "deserthood"
-	item_state = "deserthood"
+	icon_state = "hijab"
+	item_state = "hijab"
 	naledicolor = TRUE
 	salvage_result = /obj/item/natural/cloth
 	salvage_amount = 1

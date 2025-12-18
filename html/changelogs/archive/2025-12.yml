@@ -245,3 +245,65 @@
   SpadesNeil:
   - image: Modified sling bullet sprite to be centered correctly.
   - image: Added sprite for "silver bullet" that is currently unused.
+2025-12-16:
+  JustSomeGal:
+  - bugfix: You can now actually make the Inquisition's armors with the Inquisition's
+      silver, rather than needing a Malum acolyte to bless silver ingots
+  Ketrai:
+  - balance: Crimson arils heal more on average, and are less deadly now
+  Lamasmaster:
+  - balance: Bonus explosion damage on bombs/fireball against players
+  - rscadd: Dried fish filet recipe
+  - bugfix: Drying recipes not being under COOKING
+  - rscadd: Padded Arming Cap
+  - balance: Arming Cap
+  - rscadd: Battlemaster trait (not for the class but Ravoxian cleric classes)
+  SirSwagmeyer:
+  - rscadd: Three new classes for Gronnites to use!
+  - rscadd: New Shortsword
+  - bugfix: fixed grammar mistakes and clarity issues with gronnite item descriptions
+  SpadesNeil:
+  - bugfix: Meathooks can no longer be constructed out of sticks. Now require small
+      logs.
+  - bugfix: Meat hook in crafting recipes is now one word to match the actual object
+      name.
+  - bugfix: Bag recipe is now appropriately called "sack" in crafting.
+  dopamiin0:
+  - bugfix: most staves now correctly use the staff skill instead of the polearms
+      skill
+  - balance: many staff wielders now have actual staff skill
+  - rscadd: the shillelagh, craftable wooden staff that still uses polearms. mostly
+      for training with
+2025-12-17:
+  BurpleBineapple:
+  - bugfix: Sergeant-at-Arms now gets the weapon skill for the flail loadout they
+      have.
+  Gigigger:
+  - balance: decrease required strength of maul from 14 to 13
+  - bugfix: now heavy gronn mercenary can wield his maul without additional statpacks
+      or race bonuses, as intended
+  Ketrai:
+  - rscadd: Racelocked dwarf class - trollslayer!
+  - rscadd: Deprived adventurer class
+  Lamasmaster:
+  - balance: WW being able to use weapons
+  - bugfix: Hijab icon
+  SayonaraEcho:
+  - bugfix: Ravoxian's gorget FOV removed
+  - bugfix: Heartfelt magos old age bonus spellpoints
+  - bugfix: Looking down no longer creates a chat message if you are sneaking
+  - bugfix: Marque bug powergaming exploit
+  - bugfix: Being unconscious, dead, or paralyzed prevents you from learning of hidden
+      travel tile locations
+  SpadesNeil:
+  - bugfix: All cloaks now have inventory by default.
+  - refactor: Moved a fake blacksteel helmet to not be in the file for cloaks.
+  bearrrrrrrr:
+  - rscadd: Arcane Mark system; certain spells are now combo spells that apply a stack
+      of 'arcane mark' that can be detonated by 'combo finishers'. Certain spells
+      CD's reduced to be less spammable. You glow violently purplepink when you have
+      max stacks, as well as making a big noise and **'MARKED'** appearing in your
+      chat.
+  dopamiin0:
+  - bugfix: wither now goes where it's aimed instead of stopping a tile short
+  - bugfix: many spells no longer inexplicably stop working when the lights are out

@@ -1,0 +1,4 @@
+author: "Randall"
+delete-after: True
+changes:
+  - bugfix: "Fixed the dreamwalker summon weapon rite showing the wrong skill name"

@@ -1,6 +1,0 @@
-author: "dopamiin0"
-delete-after: True
-changes:
-  - bugfix: "most staves now correctly use the staff skill instead of the polearms skill"
-  - balance: "many staff wielders now have actual staff skill"
-  - rscadd: "the shillelagh, craftable wooden staff that still uses polearms. mostly for training with"

@@ -1,6 +1,0 @@
-author: "SpadesNeil"
-delete-after: True
-changes:
-  - bugfix: "Meathooks can no longer be constructed out of sticks. Now require small logs."
-  - bugfix: "Meat hook in crafting recipes is now one word to match the actual object name."
-  - bugfix: "Bag recipe is now appropriately called \"sack\" in crafting."

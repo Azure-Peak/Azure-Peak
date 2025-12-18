@@ -1,5 +1,0 @@
-author: "Lamasmaster"
-delete-after: True
-changes:
-  - rscadd: "Dried fish filet recipe"
-  - bugfix: "Drying recipes not being under COOKING"

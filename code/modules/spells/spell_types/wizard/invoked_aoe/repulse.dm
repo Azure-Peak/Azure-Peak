@@ -32,7 +32,7 @@
 	var/atom/throwtarget
 	var/distfromcaster
 	playsound(user, 'sound/magic/repulse.ogg', 80, TRUE)
-	for(var/turf/T in view(push_range, user))
+	for(var/turf/T in get_hear(push_range, user))
 		new /obj/effect/temp_visual/kinetic_blast(T)
 		for(var/atom/movable/AM in T)
 			thrownatoms += AM

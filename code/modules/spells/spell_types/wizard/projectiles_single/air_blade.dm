@@ -2,12 +2,12 @@
  Do not make this learnable by wizards in general. It is part of spellblade's identity.
  Design is that this is an Arcyne Bolt sidegrade that don't works well as a DPS spell
  And is meant to be weaved in between attacks in melee to keep pressure
- It can access all damage types and can crit, like Arcyne Bolt.  
+ It can access all damage types and can crit, like Arcyne Bolt.
 */
 
 /obj/effect/proc_holder/spell/invoked/projectile/airblade
 	name = "Air Blade"
-	desc = "Slash the air with your weapon, forming an arcyne blade in the air that can strike enemies at range. \n\
+	desc = "Slash the air with your weapon, forming an arcyne blade in the air that can strike enemies at range. Adds a stack of <b>Arcane Mark</b> to the target. \n\
 	Damage type depends on your current intent. It defaults to cut, but change to blunt if it is Blunt / Smash, and stabbing if it is stab / pick\n\
 	Damage is increased by 50% versus simple-minded creechurs."
 	clothes_req = FALSE
@@ -19,7 +19,7 @@
 	releasedrain = 20 // Same stamina cost as Arcyne bolt
 	chargedrain = 0
 	chargetime = 0
-	recharge_time = 8 SECONDS // 2x the recharge of Arcyne Bolt so not spammable
+	recharge_time = 8 SECONDS //2x longer recharge than Arcyne Bolt so not spammable
 	warnie = "spellwarning"
 	no_early_release = TRUE
 	movement_interrupt = FALSE
@@ -89,5 +89,7 @@
 			qdel(src)
 			return BULLET_ACT_BLOCK
 		playsound(get_turf(target), hitsound, 100) // Play the hit sound
+		if(istype(M, /mob/living/carbon))
+			apply_arcane_mark(M)
 	else
 		return

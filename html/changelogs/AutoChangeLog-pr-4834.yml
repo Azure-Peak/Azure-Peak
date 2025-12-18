@@ -1,6 +1,0 @@
-author: "SirSwagmeyer"
-delete-after: True
-changes:
-  - rscadd: "Three new classes for Gronnites to use!"
-  - rscadd: "New Shortsword"
-  - bugfix: "fixed grammar mistakes and clarity issues with gronnite item descriptions"

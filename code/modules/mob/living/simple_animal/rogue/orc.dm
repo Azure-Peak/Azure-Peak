@@ -212,7 +212,6 @@
 	icon_dead = "orcbow"
 	projectiletype = /obj/projectile/bullet/reusable/arrow/orc
 	projectilesound = 'sound/combat/Ranged/flatbow-shot-01.ogg'
-	casingtype = /obj/item/ammo_casing/caseless/rogue/arrow
 	ranged = TRUE
 	retreat_distance = 2
 	minimum_distance = 5

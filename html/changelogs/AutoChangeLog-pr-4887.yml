@@ -1,0 +1,5 @@
+author: "dopamiin0"
+delete-after: True
+changes:
+  - bugfix: "snap freeze and bladeburst now correctly function at range again. sorry"
+  - bugfix: "wither no longer misses anyone sharing a tile with a target"

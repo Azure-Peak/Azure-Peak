@@ -377,6 +377,9 @@
 /obj/item/paper/inqslip/attacked_by(obj/item/I, mob/living/user)
 	if(istype(I, /obj/item/clothing/ring/signet))
 		var/obj/item/clothing/ring/signet/S = I
+		if(waxed)
+			to_chat(user,  span_warning("It's already wax-sealed."))
+			return
 		if(S.tallowed && sealed)
 			waxed = TRUE
 			update_icon()

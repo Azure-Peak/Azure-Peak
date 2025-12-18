@@ -545,3 +545,37 @@
 		H.adjust_skillrank(/datum/skill/combat/polearms, 1, TRUE)
 		H.adjust_skillrank(/datum/skill/combat/staves, 1, TRUE)
 	//Old people get the option to become glass cannons. Expert Knives + Expert in their chosen weapon, but a permenant -I STR, -I PER, -2 SPD and -2 CON debuff.
+
+/datum/advclass/sfighter/deprived
+	name = "Deprived"
+	tutorial = "You are a vagrant. Your skin itches at the thought of wearing proper armor. Not after everything was taken from you. Armed with a piece of wood, it's only through your body that you endure."
+	outfit = /datum/outfit/job/roguetown/adventurer/deprived
+	cmode_music = 'sound/music/cmode/antag/combat_darkstar.ogg'
+	traits_applied = list(TRAIT_STEELHEARTED, TRAIT_CRITICAL_RESISTANCE, TRAIT_NOPAINSTUN, TRAIT_SHIRTLESS)
+	subclass_stats = list(
+		STATKEY_STR = 3,
+		STATKEY_CON = 2,
+		STATKEY_WIL = 1,
+		STATKEY_LCK = 1, // A single point of fortune over barbarian.
+		STATKEY_INT = -2,
+	)
+	subclass_skills = list(
+		/datum/skill/combat/maces = SKILL_LEVEL_JOURNEYMAN,
+		/datum/skill/combat/wrestling = SKILL_LEVEL_EXPERT,
+		/datum/skill/combat/unarmed = SKILL_LEVEL_JOURNEYMAN,
+		/datum/skill/misc/swimming = SKILL_LEVEL_JOURNEYMAN,
+		/datum/skill/misc/athletics = SKILL_LEVEL_JOURNEYMAN,
+		/datum/skill/misc/climbing = SKILL_LEVEL_JOURNEYMAN,
+		/datum/skill/combat/shields = SKILL_LEVEL_JOURNEYMAN
+	)
+	extra_context = "Challenge class. You don't get natural armor nor possessions save for a club and a wooden shield."
+
+/datum/outfit/job/roguetown/adventurer/deprived/pre_equip(mob/living/carbon/human/H, visualsOnly)
+	..()
+	to_chat(H, span_warning("The haze clears from your mind as some clarity floods back. Everything was taken from you. Mortal possessions have shown only betrayal. Your skin itches at the thought of ever trusting armor to protect your chest again."))
+	H.dna.species.soundpack_m = new /datum/voicepack/male/warrior()
+	H.set_blindness(0)
+	if(H.mind)
+		r_hand = /obj/item/rogueweapon/mace/woodclub/deprived
+		l_hand = /obj/item/rogueweapon/shield/wood/deprived
+		pants = /obj/item/clothing/under/roguetown/loincloth/deprived
