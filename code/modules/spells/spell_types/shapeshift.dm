@@ -63,12 +63,18 @@
 					Restore(M)
 			Shapeshift(M)
 			return TRUE
-	return 
+	return
 
 /obj/effect/proc_holder/spell/targeted/shapeshift/proc/Shapeshift(mob/living/caster)
 	var/obj/shapeshift_holder/H = locate() in caster
 	if(H)
 		to_chat(caster, span_warning("You're already shapeshifted!"))
+		return
+
+	// check if we have no less than 2 removed limbs
+	var/list/missing_bodyparts_zones = caster.get_missing_limbs()
+	if(length(missing_bodyparts_zones) >= 2)
+		to_chat(caster, span_warning("You do not have enough limbs to morph your body into this form!"))
 		return
 
 	var/mob/living/shape = new shapeshift_type(caster.loc)
