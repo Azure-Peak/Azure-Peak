@@ -66,7 +66,7 @@
 /area/rogue/indoors/cave)
 "aG" = (
 /obj/structure/toilet,
-/obj/machinery/light/rogue/wallfire/candle/r,
+/obj/machinery/light/rogue/candle/r,
 /turf/open/floor/rogue/ruinedwood,
 /area/rogue/indoors/banditcamp)
 "aI" = (
@@ -1031,7 +1031,7 @@
 /area/rogue/outdoors/mountains)
 "xM" = (
 /obj/structure/closet/crate/chest,
-/obj/machinery/light/rogue/wallfire/candle/r,
+/obj/machinery/light/rogue/candle/r,
 /turf/open/floor/rogue/blocks,
 /area/rogue/indoors/banditcamp)
 "xU" = (
@@ -1302,7 +1302,7 @@
 /area/rogue/indoors/banditcamp)
 "EC" = (
 /obj/structure/closet/crate/chest,
-/obj/machinery/light/rogue/wallfire/candle/l,
+/obj/machinery/light/rogue/candle/l,
 /turf/open/floor/rogue/blocks,
 /area/rogue/indoors/banditcamp)
 "EF" = (
@@ -1467,7 +1467,7 @@
 /area/rogue/indoors/banditcamp)
 "KA" = (
 /obj/structure/closet/crate/chest/gold,
-/obj/machinery/light/rogue/wallfire/candle,
+/obj/machinery/light/rogue/candle,
 /turf/open/floor/rogue/blocks,
 /area/rogue/indoors/banditcamp)
 "KL" = (

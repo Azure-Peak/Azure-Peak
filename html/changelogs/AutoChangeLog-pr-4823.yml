@@ -1,4 +1,0 @@
-author: "PPooch"
-delete-after: True
-changes:
-  - bugfix: "fix for anastasis cooldown bug"

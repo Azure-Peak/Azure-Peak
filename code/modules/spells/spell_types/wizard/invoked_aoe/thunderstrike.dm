@@ -33,14 +33,14 @@
 		source_turf = get_step_multiz(source_turf, UP)
 	if(centerpoint.z < user.z)
 		source_turf = get_step_multiz(source_turf, DOWN)
-	if(!(centerpoint in view(source_turf)))
+	if(!(centerpoint in get_hear(range, source_turf)))
 		to_chat(user, span_warning("I can't cast where I can't see!"))
 		return
 	new /obj/effect/temp_visual/trap/thunderstrike(centerpoint) // Setup warning icon
 	addtimer(CALLBACK(src, PROC_REF(thunderstrike_damage), centerpoint, 1), wait = delay1) // Prepare damage proc on a timer, baseline damage
 
 	for(var/turf/effect_layer_one in range(1, centerpoint)) // Borrowed from Arcyne Prison for grabbing a hollow square of tiles around a centerpoint
-		if(!(effect_layer_one in view(centerpoint)))
+		if(!(effect_layer_one in get_hear(1, centerpoint)))
 			continue
 		if(get_dist(centerpoint, effect_layer_one) != 1)
 			continue
@@ -48,7 +48,7 @@
 		addtimer(CALLBACK(src, PROC_REF(thunderstrike_damage), effect_layer_one, 0.5), wait = delay2) // Second layer, damage mod for the damage proc is halved
 
 	for(var/turf/effect_layer_two in range(2, centerpoint))
-		if(!(effect_layer_two in view(centerpoint)))
+		if(!(effect_layer_two in get_hear(2, centerpoint)))
 			continue
 		if(get_dist(centerpoint, effect_layer_two) != 2)
 			continue

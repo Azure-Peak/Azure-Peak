@@ -1,8 +1,0 @@
-author: "PatapoIIIa"
-delete-after: True
-changes:
-  - rscadd: "Added the **Wall Fireplace** as a permanent, wall-mounted light with a 2-tile comfort buff."
-  - qol: "Mobs with the $TRAIT\\_BITERHELM$ trait can now bite while wearing a helmet that covers the mouth."
-  - balance: "Wall Fireplace provides a 2-tile comfort buff"
-  - bugfix: "Fixed the stone lantern sprite disappearing when an unlit torch was inserted."
-  - code_imp: "Updated bite check logic for the $TRAIT_BITERHELM$ trait."

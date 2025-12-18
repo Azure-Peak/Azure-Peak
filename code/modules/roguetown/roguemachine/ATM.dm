@@ -81,7 +81,8 @@
 		to_chat(user, span_warning("The machine bites my finger."))
 		if(!drilled)
 			icon_state = "atm-b"
-		H.flash_fullscreen("redflash3")
+		if(H.show_redflash())
+			H.flash_fullscreen("redflash3")
 		playsound(H, 'sound/combat/hits/bladed/genstab (1).ogg', 100, FALSE, -1)
 		SStreasury.create_bank_account(H)
 		if(H.mind)

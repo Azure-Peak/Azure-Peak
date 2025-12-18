@@ -28,7 +28,7 @@
 /obj/effect/proc_holder/spell/invoked/ensnare/cast(list/targets, mob/user = usr)
 	var/turf/T = get_turf(targets[1])
 
-	for(var/turf/affected_turf in view(area_of_effect, T))
+	for(var/turf/affected_turf in get_hear(area_of_effect, T))
 		if(affected_turf.density)
 			continue
 		new /obj/effect/temp_visual/ensnare(affected_turf)

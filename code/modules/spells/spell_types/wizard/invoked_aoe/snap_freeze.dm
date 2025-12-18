@@ -53,8 +53,8 @@
 	if(T.z < user.z)
 		source_turf = get_step_multiz(source_turf, DOWN)
 
-	for(var/turf/affected_turf in view(area_of_effect, T))
-		if(!(affected_turf in view(source_turf)))
+	for(var/turf/affected_turf in get_hear(area_of_effect, T))
+		if(!(affected_turf in get_hear(range, source_turf)))
 			continue
 		new /obj/effect/temp_visual/trapice(affected_turf)
 	playsound(T, 'sound/combat/wooshes/blunt/wooshhuge (2).ogg', 80, TRUE, soundping = TRUE) // it kinda sounds like cold wind idk
@@ -62,9 +62,9 @@
 	sleep(delay)
 	var/play_cleave = FALSE
 
-	for(var/turf/affected_turf in view(area_of_effect, T))
+	for(var/turf/affected_turf in get_hear(area_of_effect, T))
 		new /obj/effect/temp_visual/snap_freeze(affected_turf)
-		if(!(affected_turf in view(source_turf)))
+		if(!(affected_turf in get_hear(range, source_turf)))
 			continue
 		for(var/mob/living/L in affected_turf.contents)
 			if(L.anti_magic_check())
@@ -75,7 +75,7 @@
 			if(ishuman(L))
 				L.adjustFireLoss(damage)
 			else
-				L.adjustFireLoss(damage + 30)
+				L.adjustFireLoss(damage + 20)
 			if(L.has_status_effect(/datum/status_effect/buff/frostbite))
 				return
 			else

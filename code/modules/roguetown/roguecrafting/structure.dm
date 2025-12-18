@@ -185,10 +185,10 @@
 	sellprice = 6
 
 /datum/crafting_recipe/roguetown/structure/meathook
-	name = "meat hook"
+	name = "meathook"
 	category = "Misc"
 	result = /obj/structure/meathook
-	reqs = list(/obj/item/grown/log/tree = 2,
+	reqs = list(/obj/item/grown/log/tree/small = 2,
 				/obj/item/rope = 1)
 	verbage_simple = "construct"
 	verbage = "constructs"
@@ -913,7 +913,7 @@
 /datum/crafting_recipe/roguetown/structure/fireplace
 	name = "Fireplace (North)"
 	category = "Misc"
-	result = /obj/machinery/light/rogue/campfire/wallfire/fireplace
+	result = /obj/machinery/light/rogue/campfire/fireplace/fireplace
 	reqs = list(/obj/item/grown/log/tree/small = 1,
 				/obj/item/natural/stoneblock = 3)
 	verbage_simple = "build"
@@ -1223,7 +1223,7 @@
 /datum/crafting_recipe/roguetown/structure/wallcandle
 	name = "wall candles"
 	category = "Lighting"
-	result = /obj/machinery/light/rogue/wallfire/candle
+	result = /obj/machinery/light/rogue/candle
 	reqs = list(/obj/item/natural/stone = 1, /obj/item/candle/yellow = 1)
 	verbage_simple = "build"
 	verbage = "builds"
@@ -1234,7 +1234,7 @@
 /datum/crafting_recipe/roguetown/structure/wallcandleblue
 	name = "wall candles (blue)"
 	category = "Lighting"
-	result = /obj/machinery/light/rogue/wallfire/candle/blue
+	result = /obj/machinery/light/rogue/candle/blue
 	reqs = list(/obj/item/natural/stone = 1, /obj/item/candle/yellow = 1, /obj/item/ash = 1)
 	verbage_simple = "build"
 	verbage = "builds"

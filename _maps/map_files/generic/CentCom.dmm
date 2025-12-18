@@ -710,7 +710,7 @@
 /turf/open/floor/rogue/concrete,
 /area/rogue/under/cave/inhumen)
 "eJ" = (
-/obj/machinery/light/rogue/wallfire/candle/blue/l,
+/obj/machinery/light/rogue/candle/blue/l,
 /turf/open/floor/rogue/naturalstone,
 /area/rogue/under/cave/inhumen)
 "fd" = (
@@ -882,14 +882,14 @@
 /turf/open/floor/rogue/blocks/paving/vert,
 /area/rogue/indoors/eventarea)
 "km" = (
-/obj/machinery/light/rogue/wallfire/candle,
+/obj/machinery/light/rogue/candle,
 /turf/open/floor/rogue/blocks,
 /area/rogue/under/cave/inhumen)
 "kp" = (
 /turf/open/floor/rogue/tile/harem,
 /area/rogue/indoors/eventarea)
 "kv" = (
-/obj/machinery/light/rogue/wallfire/candle/blue{
+/obj/machinery/light/rogue/candle/blue{
 	pixel_x = 32;
 	pixel_y = 0
 	},
@@ -912,7 +912,7 @@
 /turf/open/floor/rogue/cobble,
 /area/rogue)
 "kN" = (
-/obj/machinery/light/rogue/wallfire/candle/blue,
+/obj/machinery/light/rogue/candle/blue,
 /turf/open/floor/rogue/cobble,
 /area/rogue/under/cave/inhumen)
 "kX" = (
@@ -939,11 +939,11 @@
 /turf/open/floor/rogue/volcanic,
 /area/rogue/indoors/eventarea)
 "lQ" = (
-/obj/machinery/light/rogue/wallfire/candle/blue,
+/obj/machinery/light/rogue/candle/blue,
 /turf/open/floor/rogue/hexstone,
 /area/rogue/under/cave/inhumen)
 "mc" = (
-/obj/machinery/light/rogue/wallfire/candle/r,
+/obj/machinery/light/rogue/candle/r,
 /obj/structure/fluff/walldeco/stone{
 	pixel_y = 32
 	},
@@ -1015,7 +1015,7 @@
 /area/rogue/indoors/eventarea)
 "oc" = (
 /obj/effect/decal/cleanable/dirt/cobweb,
-/obj/machinery/light/rogue/wallfire/candle/l,
+/obj/machinery/light/rogue/candle/l,
 /obj/structure/fluff/walldeco/stone{
 	pixel_y = 32
 	},
@@ -1040,7 +1040,7 @@
 /turf/open/floor/rogue/rooftop/green/corner1/direight,
 /area/rogue/indoors/eventarea)
 "ow" = (
-/obj/machinery/light/rogue/wallfire/candle/blue{
+/obj/machinery/light/rogue/candle/blue{
 	pixel_x = 32;
 	pixel_y = 0
 	},
@@ -1121,7 +1121,7 @@
 "qA" = (
 /obj/structure/rack/rogue,
 /obj/item/rogueweapon/thresher,
-/obj/machinery/light/rogue/wallfire/candle,
+/obj/machinery/light/rogue/candle,
 /turf/open/floor/rogue/hexstone,
 /area/rogue/under/cave/inhumen)
 "qC" = (
@@ -1593,7 +1593,7 @@
 /turf/open/floor/rogue/cobble,
 /area/rogue)
 "Es" = (
-/obj/machinery/light/rogue/wallfire/candle/l,
+/obj/machinery/light/rogue/candle/l,
 /turf/open/floor/rogue/blocks,
 /area/rogue/under/cave/inhumen)
 "Ez" = (
@@ -1621,7 +1621,7 @@
 /turf/open/floor/rogue/concrete,
 /area/rogue/under/cave/inhumen)
 "Fs" = (
-/obj/machinery/light/rogue/wallfire/candle,
+/obj/machinery/light/rogue/candle,
 /turf/closed/wall/mineral/rogue/decostone,
 /area/rogue/indoors/ravoxarena)
 "FG" = (
@@ -1806,7 +1806,7 @@
 /turf/open/floor/rogue/concrete,
 /area/rogue/under/cave/inhumen)
 "KZ" = (
-/obj/machinery/light/rogue/wallfire/candle,
+/obj/machinery/light/rogue/candle,
 /turf/open/floor/rogue/hexstone,
 /area/rogue/under/cave/inhumen)
 "Ld" = (
@@ -1850,7 +1850,7 @@
 /turf/open/floor/rogue/cobble,
 /area/rogue)
 "LP" = (
-/obj/machinery/light/rogue/wallfire/candle/l,
+/obj/machinery/light/rogue/candle/l,
 /obj/structure/table/optable,
 /turf/open/floor/rogue/hexstone,
 /area/rogue/under/cave/inhumen)
@@ -1911,7 +1911,7 @@
 /turf/open/floor/rogue/dirt,
 /area/rogue/under/cave/inhumen)
 "Op" = (
-/obj/machinery/light/rogue/wallfire/candle{
+/obj/machinery/light/rogue/candle{
 	pixel_y = -32
 	},
 /turf/open/floor/rogue/hexstone,
@@ -1946,7 +1946,7 @@
 /turf/open/floor/rogue/concrete,
 /area/rogue/under/cave/inhumen)
 "Qq" = (
-/obj/machinery/light/rogue/wallfire/candle/blue/l,
+/obj/machinery/light/rogue/candle/blue/l,
 /obj/structure/closet/crate/chest/neu,
 /obj/item/grown/log/tree/small,
 /obj/item/grown/log/tree/small,
@@ -1975,7 +1975,7 @@
 "QW" = (
 /obj/structure/rack/rogue,
 /obj/item/rogueweapon/whip,
-/obj/machinery/light/rogue/wallfire/candle,
+/obj/machinery/light/rogue/candle,
 /turf/open/floor/rogue/hexstone,
 /area/rogue/under/cave/inhumen)
 "Rb" = (
@@ -2001,7 +2001,7 @@
 /turf/open/floor/rogue/concrete,
 /area/rogue/under/cave/inhumen)
 "Sj" = (
-/obj/machinery/light/rogue/wallfire/candle/r,
+/obj/machinery/light/rogue/candle/r,
 /turf/open/floor/rogue/blocks,
 /area/rogue/under/cave/inhumen)
 "Sn" = (
@@ -2042,7 +2042,7 @@
 	},
 /area/rogue/under/cave/inhumen)
 "TT" = (
-/obj/machinery/light/rogue/wallfire/candle,
+/obj/machinery/light/rogue/candle,
 /turf/closed,
 /area/rogue)
 "TU" = (
@@ -2122,7 +2122,7 @@
 /turf/open/floor/rogue/cobble,
 /area/rogue)
 "Vp" = (
-/obj/machinery/light/rogue/wallfire/candle/r,
+/obj/machinery/light/rogue/candle/r,
 /obj/structure/table/wood{
 	icon_state = "tablewood1"
 	},
@@ -2235,7 +2235,7 @@
 /turf/open/water/pond,
 /area/rogue/indoors/ravoxarena)
 "Yc" = (
-/obj/machinery/light/rogue/wallfire/candle,
+/obj/machinery/light/rogue/candle,
 /turf/open/floor/rogue/blocks,
 /area/rogue/indoors/ravoxarena)
 "Yn" = (
@@ -2250,7 +2250,7 @@
 /turf/open/floor/rogue/naturalstone,
 /area/rogue/under/cave/inhumen)
 "YM" = (
-/obj/machinery/light/rogue/wallfire/candle/l,
+/obj/machinery/light/rogue/candle/l,
 /obj/effect/decal/cleanable/dirt/cobweb,
 /turf/open/floor/rogue/blocks,
 /area/rogue/under/cave/inhumen)

@@ -1,7 +1,7 @@
 
 /obj/effect/proc_holder/spell/invoked/projectile/spitfire
 	name = "Spitfire"
-	desc = "Shoot out a low-powered ball of fire that ignites a target with a small amount of fire on impact. \n\
+	desc = "Shoot out a low-powered ball of fire that ignites a target with a small amount of fire on impact. Builds a stack of <b>Arcane Mark</b> on the target. \n\
 	Damage is increased by 100% versus simple-minded creechurs.\n\
 	Can be fired in an arc over an ally's head with a mage's staff or spellbook on arc intent. It will deals 25% less damage that way."
 	clothes_req = FALSE
@@ -75,3 +75,5 @@
 			return BULLET_ACT_BLOCK
 		M.adjust_fire_stacks(1)
 		M.ignite_mob()
+		if(istype(M, /mob/living/carbon))
+			apply_arcane_mark(M)

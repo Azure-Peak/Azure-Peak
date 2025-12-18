@@ -56,7 +56,6 @@ GLOBAL_LIST_EMPTY(personal_objective_minds)
 	var/takeaimtext = "Take aim!!"
 	var/holdtext = "Hold!!"
 	var/onfeettext = "On your feet!!"
-	var/focustargettext = "Focus target!!"
 	var/retreattext = "Fall back!!"
 	var/bolstertext = "Hold the line!!"
 	var/brotherhoodtext = "Stand proud, for the Brotherhood!!"

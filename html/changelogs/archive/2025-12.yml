@@ -192,3 +192,135 @@
 2025-12-12:
   Matheo351:
   - balance: Straw beds are now considered beds when it comes to falling asleep time
+2025-12-13:
+  Lamasmaster:
+  - balance: Condo ringleader starting wealth
+  - qol: More unified sword intent buttons
+  - balance: Priest Apostasy/Excommunication stacking
+  - bugfix: Priest Curse working on antagonists
+  PPooch:
+  - bugfix: fix for anastasis cooldown bug
+  PatapoIIIa:
+  - rscadd: Added the **Wall Fireplace** as a permanent, wall-mounted light with a
+      2-tile comfort buff.
+  - qol: Mobs with the $TRAIT\_BITERHELM$ trait can now bite while wearing a helmet
+      that covers the mouth.
+  - balance: Wall Fireplace provides a 2-tile comfort buff
+  - bugfix: Fixed the stone lantern sprite disappearing when an unlit torch was inserted.
+  - code_imp: Updated bite check logic for the $TRAIT_BITERHELM$ trait.
+  Ryan180602:
+  - qol: Clothes with heat/cold protection will say so on examine.
+  - bugfix: Fireplaces/Candles need no fuel anymore.
+  - bugfix: fixes candles lighting people on fire.
+  - balance: Lickers get 1 thrall, Vamps get 2, VLs get infinite.
+  - balance: Siring takes 7s.
+  - balance: Shields help charges. Whether for the charger or the opponent.
+  - balance: Charge immobilisation is now halved.
+  hazelrat:
+  - rscadd: Remapped the Warden's Outpost north of the town.
+  - bugfix: Pillories can now be locked by any member of the garrison, church, or
+      inquisition.
+2025-12-14:
+  Hollyhock:
+  - rscadd: Gave sextons cool amulets
+  SayonaraEcho:
+  - bugfix: Church bell is now working across Z-level as intented.
+  - sound: Sound church bell is now global and everyone hear it.
+  - balance: Increases martyr sword's durability as like Ichor Fang or Ascendant weapon
+      and cannot be smelted.
+  - code_imp: Deleted duplicated Ichor Fang's code.
+  hubertjones:
+  - balance: shovels can be worn on the belt
+  - balance: necran acolytes spawn with silver shovels
+  - bugfix: skeletons that spawn with hip items have belts
+2025-12-15:
+  BurpleBineapple:
+  - rscdel: Removed unused "Enduring" weapons from code.
+  - balance: Psydon Heretics spawn with Psydonic silver weapons.
+  - balance: Rite of Silver-Blessing now only blesses silver weapons.
+  FreeStylaLT:
+  - balance: Wrestling ClickCDs were made static and longer across the board
+  Lamasmaster:
+  - rscdel: Duped See longswords
+  SpadesNeil:
+  - image: Modified sling bullet sprite to be centered correctly.
+  - image: Added sprite for "silver bullet" that is currently unused.
+2025-12-16:
+  JustSomeGal:
+  - bugfix: You can now actually make the Inquisition's armors with the Inquisition's
+      silver, rather than needing a Malum acolyte to bless silver ingots
+  Ketrai:
+  - balance: Crimson arils heal more on average, and are less deadly now
+  Lamasmaster:
+  - balance: Bonus explosion damage on bombs/fireball against players
+  - rscadd: Dried fish filet recipe
+  - bugfix: Drying recipes not being under COOKING
+  - rscadd: Padded Arming Cap
+  - balance: Arming Cap
+  - rscadd: Battlemaster trait (not for the class but Ravoxian cleric classes)
+  SirSwagmeyer:
+  - rscadd: Three new classes for Gronnites to use!
+  - rscadd: New Shortsword
+  - bugfix: fixed grammar mistakes and clarity issues with gronnite item descriptions
+  SpadesNeil:
+  - bugfix: Meathooks can no longer be constructed out of sticks. Now require small
+      logs.
+  - bugfix: Meat hook in crafting recipes is now one word to match the actual object
+      name.
+  - bugfix: Bag recipe is now appropriately called "sack" in crafting.
+  dopamiin0:
+  - bugfix: most staves now correctly use the staff skill instead of the polearms
+      skill
+  - balance: many staff wielders now have actual staff skill
+  - rscadd: the shillelagh, craftable wooden staff that still uses polearms. mostly
+      for training with
+2025-12-17:
+  BurpleBineapple:
+  - bugfix: Sergeant-at-Arms now gets the weapon skill for the flail loadout they
+      have.
+  Gigigger:
+  - balance: decrease required strength of maul from 14 to 13
+  - bugfix: now heavy gronn mercenary can wield his maul without additional statpacks
+      or race bonuses, as intended
+  Ketrai:
+  - rscadd: Racelocked dwarf class - trollslayer!
+  - rscadd: Deprived adventurer class
+  Lamasmaster:
+  - balance: WW being able to use weapons
+  - bugfix: Hijab icon
+  SayonaraEcho:
+  - bugfix: Ravoxian's gorget FOV removed
+  - bugfix: Heartfelt magos old age bonus spellpoints
+  - bugfix: Looking down no longer creates a chat message if you are sneaking
+  - bugfix: Marque bug powergaming exploit
+  - bugfix: Being unconscious, dead, or paralyzed prevents you from learning of hidden
+      travel tile locations
+  SpadesNeil:
+  - bugfix: All cloaks now have inventory by default.
+  - refactor: Moved a fake blacksteel helmet to not be in the file for cloaks.
+  bearrrrrrrr:
+  - rscadd: Arcane Mark system; certain spells are now combo spells that apply a stack
+      of 'arcane mark' that can be detonated by 'combo finishers'. Certain spells
+      CD's reduced to be less spammable. You glow violently purplepink when you have
+      max stacks, as well as making a big noise and **'MARKED'** appearing in your
+      chat.
+  dopamiin0:
+  - bugfix: wither now goes where it's aimed instead of stopping a tile short
+  - bugfix: many spells no longer inexplicably stop working when the lights are out
+2025-12-18:
+  FreeStylaLT:
+  - bugfix: Goblins now have a physical descriptor.
+  - bugfix: Fixed Immobilize not being applied correctly on some jumps.
+  Lamasmaster:
+  - balance: Merchantry mercenary weapon shop.
+  Randall:
+  - bugfix: Fixed the dreamwalker summon weapon rite showing the wrong skill name
+  Ryan180602:
+  - bugfix: allowed_patrons is usable for adv_class now.
+  - sound: adds prbt emote.
+  - balance: Removes focus target from Sgts/KCs.
+  SirSwagmeyer:
+  - balance: rebalanced maul wdef
+  dopamiin0:
+  - bugfix: snap freeze and bladeburst now correctly function at range again. sorry
+  - bugfix: wither no longer misses anyone sharing a tile with a target

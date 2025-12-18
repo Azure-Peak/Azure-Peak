@@ -146,6 +146,10 @@
 			text += " Twice! Disadvantage! ([(prob2defend / 100) * (prob2defend / 100) * 100]%)"
 		to_chat(src, span_info("[text]"))
 
+
+	if(HAS_TRAIT(src, TRAIT_NODEF))
+		prob2defend = 0
+
 	var/parry_status = FALSE
 	if(defender_dualw)
 		if(prob(prob2defend) && extradefroll)

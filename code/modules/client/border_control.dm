@@ -63,6 +63,8 @@ GLOBAL_VAR_INIT(whitelistLoaded, 0)
 			message_admins("[key_name(usr)] added [key] to the border whitelist.")
 			log_admin("[key_name(usr)] added [key] to the border whitelist.")
 			BC_WhitelistKey(key)
+			if(CONFIG_GET(string/chat_announce_whitelist))
+				send2chat(new /datum/tgs_message_content("[key_name(usr)] added [key] to the border whitelist."), CONFIG_GET(string/chat_announce_whitelist))
 
 
 //////////////////////////////////////////////////////////////////////////////////
@@ -103,6 +105,8 @@ GLOBAL_VAR_INIT(whitelistLoaded, 0)
 			message_admins("[key_name(usr)] removed [keyToRemove] from the border whitelist.")
 			log_admin("[key_name(usr)] removed [keyToRemove] from the border whitelist.")
 			BC_RemoveKey(keyToRemove)
+			if(CONFIG_GET(string/chat_announce_whitelist))
+				send2chat(new /datum/tgs_message_content("[key_name(usr)] removed [keyToRemove] from the border whitelist."), CONFIG_GET(string/chat_announce_whitelist))
 
 	return
 

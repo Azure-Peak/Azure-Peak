@@ -19,7 +19,7 @@
 		/obj/item/natural/bundle/fibers = 2,
 		/obj/item/reagent_containers/food/snacks/tallow = 1,
 		//clothing
-		/obj/item/clothing/head/roguetown/armingcap = 4,
+		/obj/item/clothing/head/roguetown/cap = 4,
 		/obj/item/clothing/head/roguetown/knitcap = 4,
 		/obj/item/clothing/head/roguetown/roguehood = 1,
 		/obj/item/clothing/cloak/tabard/stabard = 3,
@@ -158,7 +158,7 @@
 		/obj/item/ingot/iron = 2,
 		/obj/item/reagent_containers/food/snacks/tallow = 1,
 		//clothing
-		/obj/item/clothing/head/roguetown/armingcap = 4,
+		/obj/item/clothing/head/roguetown/cap = 4,
 		/obj/item/clothing/head/roguetown/knitcap = 4,
 		/obj/item/clothing/head/roguetown/wizhat = 1,
 		/obj/item/clothing/head/roguetown/wizhat/black = 1,

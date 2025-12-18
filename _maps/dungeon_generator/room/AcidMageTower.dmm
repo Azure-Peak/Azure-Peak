@@ -16,11 +16,11 @@
 /turf/open/floor/rogue/tile/masonic/spiral,
 /area/rogue/under/tomb/indoors/magic)
 "aK" = (
-/obj/machinery/light/rogue/wallfire,
+/obj/machinery/light/rogue,
 /turf/closed/wall/mineral/rogue/stonebrick,
 /area/rogue/under/tomb/indoors/magic)
 "aN" = (
-/obj/machinery/light/rogue/wallfire/candle/blue,
+/obj/machinery/light/rogue/candle/blue,
 /obj/structure/fluff/walldeco/painting/skull,
 /turf/closed/wall/mineral/rogue/stonebrick,
 /area/rogue/under/tomb/indoors/magic)
@@ -99,7 +99,7 @@
 /turf/open/floor/rogue/carpet/lord/right,
 /area/rogue/under/tomb/indoors/magic)
 "eT" = (
-/obj/machinery/light/rogue/wallfire/candle/blue,
+/obj/machinery/light/rogue/candle/blue,
 /turf/open/floor/rogue/ruinedwood/spiral,
 /area/rogue/under/tomb/indoors/magic)
 "eX" = (
@@ -276,7 +276,7 @@
 /obj/structure/spider/stickyweb{
 	dir = 8
 	},
-/obj/machinery/light/rogue/wallfire/candle/blue,
+/obj/machinery/light/rogue/candle/blue,
 /turf/open/floor/rogue/churchmarble,
 /area/rogue/under/tomb/indoors/magic)
 "mb" = (
@@ -367,7 +367,7 @@
 /turf/open/floor/carpet/royalblack,
 /area/rogue/under/tomb/indoors/magic)
 "qc" = (
-/obj/machinery/light/rogue/wallfire/candle/blue,
+/obj/machinery/light/rogue/candle/blue,
 /turf/closed/wall/mineral/rogue/stonebrick,
 /area/rogue/under/tomb/indoors/magic)
 "qd" = (
@@ -474,7 +474,7 @@
 /turf/open/floor/carpet/red,
 /area/rogue/under/tomb/indoors/magic)
 "tl" = (
-/obj/machinery/light/rogue/wallfire/candle/blue,
+/obj/machinery/light/rogue/candle/blue,
 /obj/structure/trap/wall_projectile/acidsplash{
 	dir = 4
 	},
@@ -610,14 +610,14 @@
 /area/rogue/under/tomb/indoors/magic)
 "xc" = (
 /obj/structure/forcefield_weak,
-/obj/machinery/light/rogue/wallfire/candle/blue,
+/obj/machinery/light/rogue/candle/blue,
 /turf/open/lava/acid,
 /area/rogue/under/tomb/cave/wet)
 "xo" = (
 /obj/structure/bed/rogue/inn/wooldouble,
 /obj/item/bedsheet/rogue/fabric_double,
 /obj/item/clothing/ring/gold,
-/obj/machinery/light/rogue/wallfire/candle/blue,
+/obj/machinery/light/rogue/candle/blue,
 /turf/open/floor/rogue/carpet,
 /area/rogue/under/tomb/indoors/magic)
 "xG" = (
@@ -706,7 +706,7 @@
 "Bk" = (
 /obj/structure/table/wood,
 /obj/item/millstone,
-/obj/machinery/light/rogue/wallfire/candle/blue,
+/obj/machinery/light/rogue/candle/blue,
 /turf/open/floor/rogue/tile/checker,
 /area/rogue/under/tomb/indoors/magic)
 "BC" = (
@@ -756,14 +756,14 @@
 "CH" = (
 /obj/effect/decal/cleanable/dirt/cobweb,
 /obj/structure/spider/cocoon,
-/obj/machinery/light/rogue/wallfire/candle/blue,
+/obj/machinery/light/rogue/candle/blue,
 /turf/open/floor/rogue/churchmarble,
 /area/rogue/under/tomb/indoors/magic)
 "CI" = (
 /obj/structure/toilet,
 /obj/item/natural/poo,
 /obj/item/natural/poo/horse,
-/obj/machinery/light/rogue/wallfire/candle/blue,
+/obj/machinery/light/rogue/candle/blue,
 /turf/open/floor/rogue/churchrough,
 /area/rogue/under/tomb/indoors/magic)
 "CL" = (
@@ -786,7 +786,7 @@
 /area/rogue/under/tomb/indoors/magic)
 "Dl" = (
 /obj/structure/closet/crate/drawer/inn,
-/obj/machinery/light/rogue/wallfire/candle/blue,
+/obj/machinery/light/rogue/candle/blue,
 /turf/open/floor/rogue/churchbrick,
 /area/rogue/under/tomb/indoors/magic)
 "DH" = (
@@ -826,7 +826,7 @@
 /area/rogue/under/tomb/indoors/magic)
 "Fc" = (
 /obj/structure/toilet,
-/obj/machinery/light/rogue/wallfire/candle/blue,
+/obj/machinery/light/rogue/candle/blue,
 /turf/open/floor/rogue/churchrough,
 /area/rogue/under/tomb/indoors/magic)
 "Fr" = (
@@ -984,7 +984,7 @@
 /turf/open/floor/rogue/churchmarble,
 /area/rogue/under/tomb/indoors/magic)
 "MY" = (
-/obj/machinery/light/rogue/wallfire/candle/blue,
+/obj/machinery/light/rogue/candle/blue,
 /obj/item/rope/chain,
 /turf/open/floor/rogue/blocks,
 /area/rogue/under/tomb/indoors/magic)
@@ -1002,7 +1002,7 @@
 /obj/structure/rack/rogue/shelf/biggest,
 /obj/item/natural/cloth,
 /obj/item/natural/cloth,
-/obj/machinery/light/rogue/wallfire/candle/blue,
+/obj/machinery/light/rogue/candle/blue,
 /turf/open/floor/rogue/churchbrick,
 /area/rogue/under/tomb/indoors/magic)
 "NW" = (
@@ -1029,7 +1029,7 @@
 "Ow" = (
 /obj/structure/roguewindow/stained/silver,
 /obj/structure/curtain,
-/obj/machinery/light/rogue/wallfire/candle/blue,
+/obj/machinery/light/rogue/candle/blue,
 /turf/open/floor/rogue/churchrough,
 /area/rogue/under/tomb/indoors/magic)
 "Ox" = (
@@ -1101,7 +1101,7 @@
 "PU" = (
 /obj/structure/bookcase,
 /obj/item/natural/wood/plank,
-/obj/machinery/light/rogue/wallfire/candle/blue,
+/obj/machinery/light/rogue/candle/blue,
 /turf/open/floor/rogue/ruinedwood/chevron,
 /area/rogue/under/tomb/indoors/magic)
 "Qf" = (
@@ -1252,7 +1252,7 @@
 /turf/open/floor/rogue/ruinedwood/spiral,
 /area/rogue/under/tomb/indoors/magic)
 "TP" = (
-/obj/machinery/light/rogue/wallfire/candle/blue,
+/obj/machinery/light/rogue/candle/blue,
 /turf/open/floor/rogue/blocks,
 /area/rogue/under/tomb/indoors/magic)
 "TW" = (
@@ -1278,7 +1278,7 @@
 /area/rogue/under/tomb/indoors/magic)
 "Vf" = (
 /obj/structure/table/wood,
-/obj/machinery/light/rogue/wallfire/candle/blue,
+/obj/machinery/light/rogue/candle/blue,
 /turf/open/floor/rogue/tile,
 /area/rogue/under/tomb/indoors/magic)
 "Vo" = (
@@ -1294,11 +1294,11 @@
 /area/rogue/under/tomb/indoors/magic)
 "Wi" = (
 /obj/structure/forcefield_weak,
-/obj/machinery/light/rogue/wallfire/candle/blue,
+/obj/machinery/light/rogue/candle/blue,
 /turf/open/transparent/openspace,
 /area/rogue/under/tomb/cave/wet)
 "Wj" = (
-/obj/machinery/light/rogue/wallfire/candle/blue,
+/obj/machinery/light/rogue/candle/blue,
 /turf/open/floor/rogue/tile/masonic/spiral,
 /area/rogue/under/tomb/indoors/magic)
 "WD" = (
@@ -1321,7 +1321,7 @@
 /turf/open/floor/rogue/tile/checker,
 /area/rogue/under/tomb/indoors/magic)
 "XV" = (
-/obj/machinery/light/rogue/wallfire/candle/blue,
+/obj/machinery/light/rogue/candle/blue,
 /turf/open/floor/rogue/carpet/lord/left,
 /area/rogue/under/tomb/indoors/magic)
 "Ya" = (
@@ -1363,7 +1363,7 @@
 /turf/open/floor/rogue/churchmarble,
 /area/rogue/under/tomb/indoors/magic)
 "Zg" = (
-/obj/machinery/light/rogue/wallfire/candle/blue,
+/obj/machinery/light/rogue/candle/blue,
 /turf/open/water/swamp,
 /area/rogue/under/tomb/indoors/magic)
 "Zk" = (

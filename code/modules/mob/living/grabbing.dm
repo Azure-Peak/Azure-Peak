@@ -161,7 +161,7 @@
 		var/signal_result = SEND_SIGNAL(user, COMSIG_LIVING_GRAB_SELF_ATTEMPT, user, M, sublimb_grabbed, null)
 		if(signal_result & COMPONENT_CANCEL_GRAB_ATTACK)
 			return FALSE
-	user.changeNext_move(CLICK_CD_MELEE * 2 - user.STASPD) // 24 - the user's speed
+	user.changeNext_move(CLICK_CD_TRACKING)
 
 	var/skill_diff = 0
 	var/combat_modifier = 1
@@ -212,27 +212,32 @@
 				user.stop_pulling()
 				return FALSE
 			if(limb_grabbed && grab_state > 0) //this implies a carbon victim
-				if(iscarbon(M) && M != user)
-					user.stamina_add(rand(1,3))
+				if(iscarbon(M))
+					playsound(src.loc, 'sound/foley/struggle.ogg', 100, FALSE, -1)
+					user.stamina_add(7)
 					var/mob/living/carbon/C = M
-					if(get_location_accessible(C, BODY_ZONE_PRECISE_NECK))
+					var/choke_damage
+					if(user.STASTR > STRENGTH_SOFTCAP)
+						choke_damage = STRENGTH_SOFTCAP
+					else
+						choke_damage = user.STASTR * 0.75
+					if(chokehold)
+						choke_damage *= 1.2		//Slight bonus
+					if(C.pulling == user && C.grab_state >= GRAB_AGGRESSIVE)
+						choke_damage *= 0.95	//Slight malice
+					var/neck_armor = C.run_armor_check(BODY_ZONE_PRECISE_NECK, "slash")
+					var/reduction = (neck_armor / 100) * 0.66
+					reduction = min(max(reduction, 0), 1)
+					choke_damage *= (1 - reduction)
+					if(!HAS_TRAIT(C, TRAIT_NOBREATH))
+						if(C.stamina < C.max_stamina)
+							C.stamina_add(choke_damage*1.5)
 						if(prob(25))
 							C.emote("choke")
-						var/choke_damage
-						if(user.STASTR > STRENGTH_SOFTCAP)
-							choke_damage = STRENGTH_SOFTCAP
-						else
-							choke_damage = user.STASTR * 0.75
-						if(chokehold)
-							choke_damage *= 1.2		//Slight bonus
-						if(C.pulling == user && C.grab_state >= GRAB_AGGRESSIVE)
-							choke_damage *= 0.95	//Slight malice
-						C.adjustOxyLoss(choke_damage)
-						C.visible_message(span_danger("[user] [pick("chokes", "strangles")] [C][chokehold ? " with a chokehold" : ""]!"), \
-								span_userdanger("[user] [pick("chokes", "strangles")] me[chokehold ? " with a chokehold" : ""]!"), span_hear("I hear a sickening sound of pugilism!"), COMBAT_MESSAGE_RANGE, user)
-						to_chat(user, span_danger("I [pick("choke", "strangle")] [C][chokehold ? " with a chokehold" : ""]!"))
-					else
-						to_chat(user, span_warning("I can't reach [C]'s throat!"))
+					C.adjustOxyLoss(choke_damage)
+					C.visible_message(span_danger("[user] [pick("chokes", "strangles")] [C][chokehold ? " with a chokehold" : ""]!"), \
+							span_userdanger("[user] [pick("chokes", "strangles")] me[chokehold ? " with a chokehold" : ""]!"), span_hear("I hear a sickening sound of pugilism!"), COMBAT_MESSAGE_RANGE, user)
+					to_chat(user, span_danger("I [pick("choke", "strangle")] [C][chokehold ? " with a chokehold" : ""]!"))
 					user.changeNext_move(CLICK_CD_GRABBING)	//Stops spam for choking.
 		if(/datum/intent/grab/hostage)
 			if(user.buckled)

@@ -157,6 +157,14 @@ GLOBAL_LIST_INIT(freqtospan, list(
 		return FALSE
 	return TRUE
 
+/atom/movable/proc/show_redflash()
+	return TRUE
+
+/mob/show_redflash()
+	if(client?.prefs?.no_redflash)
+		return FALSE
+	return TRUE
+
 /atom/movable/proc/compose_track_href(atom/movable/speaker, message_langs, raw_message, radio_freq)
 	return ""
 

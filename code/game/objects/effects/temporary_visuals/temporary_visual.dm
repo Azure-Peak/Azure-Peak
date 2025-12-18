@@ -66,5 +66,5 @@
 	if(customstate)
 		icon_state = customstate
 	if(customcolor)
-		add_atom_colour(customcolor, TEMPORARY_COLOUR_PRIORITY)
+		add_atom_colour(customcolor, FIXED_COLOUR_PRIORITY)
 	. = ..()

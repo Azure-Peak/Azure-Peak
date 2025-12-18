@@ -259,7 +259,7 @@
 /obj/structure/closet/crate/chest/wicker,
 /obj/item/flashlight/flare/torch/lantern/bronzelamptern,
 /obj/item/flashlight/flare/torch/lantern/bronzelamptern,
-/obj/machinery/light/rogue/wallfire/candle,
+/obj/machinery/light/rogue/candle,
 /turf/open/floor/rogue/dirt,
 /area/rogue/under/tomb/indoors)
 "CQ" = (
@@ -417,7 +417,7 @@
 /area/rogue/under/tomb/cave)
 "Yd" = (
 /obj/structure/closet/crate/chest/wicker,
-/obj/machinery/light/rogue/wallfire/candle,
+/obj/machinery/light/rogue/candle,
 /obj/item/roguegem/random,
 /turf/open/floor/rogue/dirt,
 /area/rogue/under/tomb/indoors)

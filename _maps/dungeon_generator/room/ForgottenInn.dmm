@@ -355,7 +355,7 @@
 /turf/closed/wall/mineral/rogue/stone/moss,
 /area/rogue/under/tomb/indoors)
 "MK" = (
-/obj/machinery/light/rogue/wallfire{
+/obj/machinery/light/rogue{
 	pixel_x = 16
 	},
 /turf/closed/wall/mineral/rogue/decowood/vert,

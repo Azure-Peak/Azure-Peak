@@ -312,9 +312,9 @@ This allows the devs to draw whatever shape they want at the cost of it feeling 
 	if(ishuman(target))
 		var/mob/living/carbon/human/HT = target
 		var/obj/item/bodypart/affecting = HT.get_bodypart(zone)
-		var/armor_block = HT.run_armor_check(zone, d_type, 0, damage = dam, used_weapon = W, armor_penetration = 0)
-		if(no_pen)
-			armor_block = 100
+		var/armor_block = HT.run_armor_check(zone, d_type, 0, damage = dam, used_weapon = W, armor_penetration = (no_pen ? -999 : 0))
+		if(no_pen && armor_block)
+			armor_block = 999
 		if(HT.apply_damage(dam, W.damtype, affecting, armor_block))
 			affecting.bodypart_attacked_by(bclass, dam, howner, armor = armor_block, crit_message = TRUE, weapon = W)
 			msg += "<b> It pierces through to their flesh!</b>"
@@ -464,21 +464,20 @@ SPECIALS START HERE
 	tile_coordinates = list(list(0,0), list(0,1, 0.1 SECONDS), list(0,2, 0.2 SECONDS))
 	post_icon_state = "kick_fx"
 	pre_icon_state = "trap"
-	use_doafter = TRUE
-	respect_adjacency = FALSE
-	delay = 0.6 SECONDS
+	respect_adjacency = TRUE
+	delay = 0.7 SECONDS
 	cooldown = 25 SECONDS
 	stamcost = 25
 	var/slow_dur = 5	//We do NOT want to use SECONDS macro here. Slowdown() takes in an int and turns it into seconds already.
 	var/KD_dur = 2 SECONDS
 	var/Offb_dur = 5 SECONDS
-	var/Offbself_dur = 1.5 SECONDS
+	var/self_immob_dur = 1.1 SECONDS
 	var/dam = 200
 
 //We play the pre-sfx here because it otherwise it gets played per tile. Sounds funky.
 /datum/special_intent/ground_smash/on_create()
 	. = ..()
-	howner.OffBalance(Offbself_dur)
+	howner.Immobilize(self_immob_dur)
 	playsound(howner, 'sound/combat/ground_smash_start.ogg', 100, TRUE)
 
 /datum/special_intent/ground_smash/apply_hit(turf/T)
@@ -493,6 +492,7 @@ SPECIALS START HERE
 			L.safe_throw_at(target_turf, dist, 1, howner, force = MOVE_FORCE_EXTREMELY_STRONG)
 			//We slow them down
 			L.Slowdown(slow_dur)
+			L.apply_status_effect(/datum/status_effect/debuff/exposed, 2.5 SECONDS)
 			//We offbalance them OR knock them down if they're already offbalanced
 			if(L.IsOffBalanced())
 				L.Knockdown(KD_dur)
@@ -513,7 +513,7 @@ SPECIALS START HERE
 	sfx_pre_delay = 'sound/combat/flail_sweep.ogg'
 	use_doafter = TRUE
 	respect_adjacency = FALSE
-	delay = 0.8 SECONDS
+	delay = 0.7 SECONDS
 	cooldown = 25 SECONDS
 	var/victim_count = 0
 	var/slow_init = 2
@@ -648,7 +648,7 @@ SPECIALS START HERE
 		playsound(T, 'sound/combat/sp_whip_whiff.ogg', 100, TRUE)
 	..()
 
-#define GAREN_WAVE1 1 SECONDS
+#define GAREN_WAVE1 0.7 SECONDS
 #define GAREN_WAVE2 1.4 SECONDS
 
 /datum/special_intent/greatsword_swing
@@ -656,13 +656,14 @@ SPECIALS START HERE
 	desc = "Swing your greatsword all around you in a ring of Judgement."
 	tile_coordinates = list(
 		list(0,0), list(1,0), list(1,-1),list(1,-2),list(0,-2),list(-1,-2),list(-1,-1),list(-1,0),\
-		list(0,0, GAREN_WAVE1), list(1,0, GAREN_WAVE1), list(1,-1, GAREN_WAVE1),list(1,-2, GAREN_WAVE1),list(0,-2, GAREN_WAVE1),list(-1,-2, GAREN_WAVE1),list(-1,-1, GAREN_WAVE1),list(-1,0, GAREN_WAVE1),\
+		list(0,1, GAREN_WAVE1), list(1,1, GAREN_WAVE1), list(-1,1, GAREN_WAVE1),list(1,-3, GAREN_WAVE1),list(0,-3, GAREN_WAVE1),list(-1,-3, GAREN_WAVE1),list(-2,0, GAREN_WAVE1),list(-2,-1, GAREN_WAVE1),list(-2,-2, GAREN_WAVE1),list(2,0, GAREN_WAVE1),list(2,-1, GAREN_WAVE1),list(2,-2, GAREN_WAVE1),\
 		list(0,0, GAREN_WAVE2), list(1,0, GAREN_WAVE2), list(1,-1, GAREN_WAVE2),list(1,-2, GAREN_WAVE2),list(0,-2, GAREN_WAVE2),list(-1,-2, GAREN_WAVE2),list(-1,-1, GAREN_WAVE2),list(-1,0, GAREN_WAVE2)
 		)
 	post_icon_state = "sweep_fx"
 	pre_icon_state = "fx_trap_long"
 	sfx_pre_delay = 'sound/combat/rend_hit.ogg'
 	respect_adjacency = FALSE
+	respect_dir = TRUE
 	delay = 0.7 SECONDS
 	cooldown = 30 SECONDS
 	stamcost = 25	//Stamina cost
@@ -670,9 +671,9 @@ SPECIALS START HERE
 	var/slow_dur = 2
 	var/hitcount = 0
 	var/self_debuffed = FALSE
-	var/self_immob = 3.5 SECONDS
-	var/self_clickcd = 3.5 SECONDS
-	var/self_expose = 5 SECONDS
+	var/self_immob = 2.2 SECONDS
+	var/self_clickcd = 2.1 SECONDS
+	var/self_expose = 2.3 SECONDS
 
 /datum/special_intent/greatsword_swing/_reset()
 	hitcount = initial(hitcount)
@@ -699,7 +700,15 @@ SPECIALS START HERE
 		if(L != howner)
 			L.Slowdown(slow_dur)
 			if(L.mobility_flags & MOBILITY_STAND)
-				apply_generic_weapon_damage(L, ((hitcount > 1) ? (dam * 1.5) : dam), "slash", BODY_ZONE_CHEST, bclass = BCLASS_CUT)
+				var/hitdmg = dam
+				switch(hitcount)
+					if(2)
+						hitdmg *= 1.5
+					if(3)
+						hitdmg *= 2
+				apply_generic_weapon_damage(L, hitdmg, "slash", BODY_ZONE_CHEST, bclass = BCLASS_CUT)
+				if(hitcount == 3)	//Last hit deals a bit of extra damage to integrity only. Facetanking it is highly discouraged!
+					apply_generic_weapon_damage(L, (dam * 0.8), "slash", BODY_ZONE_CHEST, bclass = BCLASS_CUT, no_pen = TRUE)
 			var/sfx = 'sound/combat/sp_gsword_hit.ogg'
 			playsound(T, sfx, 100, TRUE)
 	..()

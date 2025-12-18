@@ -23,7 +23,7 @@
 /datum/crafting_recipe/roguetown/sewing/peasantcap
 	name = "cap"
 	category = "Hats"
-	result = list(/obj/item/clothing/head/roguetown/armingcap)
+	result = list(/obj/item/clothing/head/roguetown/cap)
 	reqs = list(/obj/item/natural/cloth = 1)
 	craftdiff = 0
 
@@ -672,11 +672,19 @@
 	tools = list(/obj/item/needle)
 	craftdiff = 3
 
-/datum/crafting_recipe/roguetown/sewing/paddedcap
-	name = "padded cap"
+/datum/crafting_recipe/roguetown/sewing/armingcap
+	name = "arming cap"
 	category = "Hats"
-	result = /obj/item/clothing/head/roguetown/paddedcap
-	reqs = list(/obj/item/natural/fibers = 5)
+	result = /obj/item/clothing/head/roguetown/armingcap
+	reqs = list(/obj/item/natural/cloth = 1, /obj/item/natural/fibers = 3)
+	tools = list(/obj/item/needle)
+	craftdiff = 2
+
+/datum/crafting_recipe/roguetown/sewing/paddedcap
+	name = "padded arming cap"
+	category = "Hats"
+	result = /obj/item/clothing/head/roguetown/armingcap/padded
+	reqs = list(/obj/item/natural/cloth = 2, /obj/item/natural/fibers = 5)
 	tools = list(/obj/item/needle)
 	craftdiff = 3
 
