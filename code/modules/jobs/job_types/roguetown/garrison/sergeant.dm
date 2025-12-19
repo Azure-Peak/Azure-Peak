@@ -101,6 +101,7 @@
 		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/order/takeaim)
 		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/order/onfeet)
 		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/order/hold)
+		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/order/focustarget)
 		H.mind.AddSpell(new /obj/effect/proc_holder/spell/self/convertrole/guard) // We'll just use Watchmen as sorta conscripts yeag?
 	H.verbs |= list(/mob/living/carbon/human/proc/request_outlaw, /mob/proc/haltyell, /mob/living/carbon/human/mind/proc/setorders)
 	backpack_contents = list(
@@ -369,6 +370,51 @@
 	. = ..()
 	to_chat(owner, span_blue("My officer orders me to hold!"))
 
+#define TARGET_FILTER "target_marked"
+
+/obj/effect/proc_holder/spell/invoked/order/focustarget
+	name = "Focus target!"
+	desc = "Tells your underlings to target an enemy, demoralizing them. Gives the targeted enemy -2 Fortune."
+	overlay_state = "focustarget"
+
+
+/obj/effect/proc_holder/spell/invoked/order/focustarget/cast(list/targets, mob/living/user)
+	. = ..()
+	if(isliving(targets[1]))
+		var/mob/living/target = targets[1]
+		var/msg = user.mind.focustargettext
+		if(!msg)
+			to_chat(user, span_alert("I must say something to give an order!"))
+			return
+		if(target == user)
+			to_chat(user, span_alert("I cannot order myself to be killed!"))
+			return
+		user.say("[msg]")
+		target.apply_status_effect(/datum/status_effect/debuff/order/focustarget)
+		return TRUE
+	revert_cast()
+	return FALSE
+
+/datum/status_effect/debuff/order/focustarget
+	id = "focustarget"
+	alert_type = /atom/movable/screen/alert/status_effect/debuff/order/focustarget
+	effectedstats = list(STATKEY_LCK = -2)
+	duration = 1 MINUTES
+	var/outline_colour = "#69050a"
+
+/atom/movable/screen/alert/status_effect/debuff/order/focustarget
+	name = "Targeted"
+	desc = "A officer has marked me for death!"
+	icon_state = "targetted"
+
+
+/obj/effect/proc_holder/spell/invoked/order/focustarget
+	name = "Focus target!"
+	overlay_state = "focustarget"
+
+
+#undef TARGET_FILTER
+
 
 /mob/living/carbon/human/mind/proc/setorders()
 	set name = "Rehearse Orders"
@@ -387,5 +433,9 @@
 		return
 	mind.onfeettext = input("Send a message.", "On your feet!") as text|null
 	if(!mind.onfeettext)
+		to_chat(src, "I must rehearse something for this order...")
+		return
+	mind.focustargettext = input("Send a message.", "Focus Target!") as text|null
+	if(!mind.focustargettext)
 		to_chat(src, "I must rehearse something for this order...")
 		return
