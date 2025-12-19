@@ -4,6 +4,10 @@
 /datum/species/vulpkanin		//These should technically not exist, but completely exploding people's savefiles is too high a price to pay for some minor race bloat.
 	name = "Venardine"
 	id = "vulpkanin"
+	is_subrace = TRUE
+	origin_default = /datum/virtue/origin/grenzelhoft
+	origin = "Grenzelhoft"
+	base_name = "Beastvolk"
 	desc = "<b>Venardine</b><br>\
 	Based on the writings of the living Fietje von Zenitstadt: A subspecies of the more common \"Lupian\", found almost exclusively in thick forests.\
 	They are usually shorter and meeker, but in turn more perceptive than their Volf-like brethren. \

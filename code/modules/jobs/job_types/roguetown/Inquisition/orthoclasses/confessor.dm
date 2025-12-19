@@ -103,3 +103,5 @@
 		/obj/item/grapplinghook = 1,
 		/obj/item/paper/inqslip/arrival/ortho = 1
 		)
+	
+	change_origin(H, /datum/virtue/origin/otava, "Holy order")

@@ -5,6 +5,8 @@ GLOBAL_LIST_EMPTY(virtues)
 	var/name
 	/// A brief, in-character description of what the virtue does.
 	var/desc
+	/// Description for origins, allowed to be a bit wordy.
+	var/origin_desc
 	/// A list containing any traits we need to add to the mob.
 	var/list/added_traits = list()
 	/// An associative list containing any skills we want to adjust. You can also pass list objects into this in the following format: list(SKILL_TYPE, SKILL_INCREASE, SKILL_MAXIMUM) as needed.
@@ -15,6 +17,16 @@ GLOBAL_LIST_EMPTY(virtues)
 	var/list/added_languages = list()
 	/// An associative list containing any extra stats we need to add to the mob. NOTE: virtues should GENERALLY NOT add stats unless they impose serious downsides.
 	var/list/added_stats = list()
+	/// Whether the virtue uses racial restrictions
+	var/restricted = FALSE
+	/// Whether the origin lets you choose a language freely.
+	var/extra_language = FALSE
+	/// For use in outfits applying origins.
+	var/job_origin
+	/// For use in outfits applying origins.
+	var/last_origin
+	/// A list of races restricted.
+	var/list/races = list()
 	/// The cost of the virtue to apply in TRIUMPH points, if any.
 	var/triumph_cost = 0
 	/// A custom addendum that explains what the virtue does outside of the traits / skill adjustments.

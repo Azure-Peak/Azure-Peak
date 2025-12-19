@@ -73,5 +73,7 @@
 			if("Flute")
 				backr = /obj/item/rogue/instrument/flute
 
+	change_origin(H, /datum/virtue/origin/otava, "Holy order")
+
 /datum/outfit/job/roguetown/psyaltrist
 	job_bitflag = BITFLAG_HOLY_WARRIOR

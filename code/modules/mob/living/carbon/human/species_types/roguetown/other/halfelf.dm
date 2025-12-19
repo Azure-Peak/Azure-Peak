@@ -4,6 +4,9 @@
 /datum/species/human/halfelf
 	name = "Half-Elf"
 	id = "helf"
+	psydonic = TRUE
+	is_subrace = TRUE
+	base_name = "Humen"
 	desc = "<b>Half Elf</b><br>\
 	The child of an Elf and Humen, Half-Elves are generally frowned \
 	upon by the more conservatively minded. However, as racial tensions lower, \

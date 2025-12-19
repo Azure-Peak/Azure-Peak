@@ -2887,6 +2887,7 @@
 #include "virtues\crafter.dm"
 #include "virtues\items.dm"
 #include "virtues\movement.dm"
+#include "virtues\origin.dm"
 #include "virtues\size.dm"
 #include "virtues\thief.dm"
 #include "virtues\utility.dm"
