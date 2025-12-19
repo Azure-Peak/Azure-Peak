@@ -435,3 +435,4 @@
 		H.dna.species.skin_tone_wording = wording
 		player.prefs.virtue_origin.job_origin = TRUE
 		player.prefs.virtue_origin.last_origin = origin_memory
+		H.grant_language(player.prefs.extra_language)
