@@ -1904,7 +1904,7 @@ Slots: [job.spawn_positions] [job.round_contrib_points ? "RCP: +[job.round_contr
 					dat += "A <font color='#1cb308'>ᛉ</font> symbol indicates a <b>PSYDONIC</b> race, created by <b>Him</b> before his demise.<br>"
 					dat += "These races are eligible for royal nobility.<br>"
 					dat += "A <font color='#aa0202'>ᛣ</font> symbol indicates an <b>INHUMEN</b> race, beings of origins other than <b>PSYDON</b>.<br>"
-					dat += "These races are not eligible for royal nobility."
+					//dat += "These races are not eligible for royal nobility."
 					var/datum/browser/popup = new(user, "Race Help", nwidth = 400, nheight = 350)
 					popup.set_content(dat.Join())
 					popup.open(FALSE)
