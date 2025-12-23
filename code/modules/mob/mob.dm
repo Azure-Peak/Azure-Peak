@@ -186,6 +186,8 @@ GLOBAL_VAR_INIT(mobids, 1)
 		return
 	if(!islist(ignored_mobs))
 		ignored_mobs = list(ignored_mobs)
+	if(!isnum(vision_distance))
+		vision_distance = DEFAULT_MESSAGE_RANGE
 	var/list/hearers = get_hearers_in_view(vision_distance, src) //caches the hearers and then removes ignored mobs.
 	hearers -= ignored_mobs
 	if(self_message)

@@ -537,8 +537,7 @@
 
 /turf/open/water/river/Entered(atom/movable/AM, atom/oldLoc)
 	. = ..()
-	if(isliving(AM))
-		START_PROCESSING(SSrivers, src)
+	START_PROCESSING(SSrivers, src)
 
 /turf/open/water/river/get_heuristic_slowdown(mob/traverser, travel_dir)
 	var/const/UPSTREAM_PENALTY = 4
@@ -554,16 +553,30 @@
 		. += DOWNSTREAM_BONUS // faster!
 	else if(travel_dir == GLOB.reverse_dir[dir]) // upriver
 		. += UPSTREAM_PENALTY // slower
-	else 
+	else
 		. += SIDESTREAM_PENALTY // sidestream walking isn't free, bro
 
 /turf/open/water/river/proc/process_river()
+	var/found_movable = FALSE
 	for(var/atom/movable/A in contents)
+		found_movable = TRUE
 		for(var/obj/structure/S in src)
 			if(S.obj_flags & BLOCK_Z_OUT_DOWN)
 				return
 		if((A.loc == src))
 			A.ConveyorMove(dir)
+
+	if(found_movable)
+		STOP_PROCESSING(SSrivers, src)
+		return
+
+/turf/open/water/river/CanPass(atom/movable/mover, turf/target)
+	if(isliving(mover))
+		var/mob/mover_mob = mover
+		// prevent NPCs from constantly trying to go against the flow
+		if(!mover_mob.mind && get_dir(src, mover) == dir)
+			return FALSE
+	return ..()
 
 /turf/open/water/ocean
 	name = "salt water"

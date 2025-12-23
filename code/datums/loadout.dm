@@ -622,6 +622,24 @@ GLOBAL_LIST_EMPTY(loadout_items)
 	name = "Fitted Coat"
 	path = /obj/item/clothing/cloak/cotehardie
 
+// caparisons
+
+/datum/loadout_item/caparison
+	name = "Caparison"
+	path = /obj/item/caparison
+
+/datum/loadout_item/caparison/psy
+	name = "Psydonite Caparison"
+	path = /obj/item/caparison/psy
+
+/datum/loadout_item/caparison/astrata
+	name = "Astratan Caparison"
+	path = /obj/item/caparison/astrata
+
+/datum/loadout_item/caparison/eora
+	name = "Eoran Caparison"
+	path = /obj/item/caparison/eora
+
 //Donator Section
 //All these items are stored in the donator_fluff.dm in the azure modular folder for simplicity.
 //All should be subtypes of existing weapons/clothes/armor/gear, whatever, to avoid balance issues I guess. Idk, I'm not your boss.

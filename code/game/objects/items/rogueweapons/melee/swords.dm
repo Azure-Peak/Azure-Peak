@@ -250,7 +250,7 @@
 			if("gen")
 				return list("shrink" = 0.6,"sx" = -10,"sy" = -8,"nx" = 13,"ny" = -8,"wx" = -8,"wy" = -7,"ex" = 7,"ey" = -8,"northabove" = 0,"southabove" = 1,"eastabove" = 1,"westabove" = 0,"nturn" = 90,"sturn" = -90,"wturn" = -80,"eturn" = 81,"nflip" = 0,"sflip" = 8,"wflip" = 8,"eflip" = 0)
 			if("wielded")
-				return list("shrink" = 0.7,"sx" = 5,"sy" = -4,"nx" = -6,"ny" = 2,"wx" = -8,"wy" = 1,"ex" = 7,"ey" = 0,"northabove" = 0,"southabove" = 1,"eastabove" = 1,"westabove" = 0,"nturn" = -30,"sturn" = 45,"wturn" = -30,"eturn" = 30,"nflip" = 8,"sflip" = 0,"wflip" = 8,"eflip" = 0)
+				return list("shrink" = 0.7,"sx" = 5,"sy" = -2,"nx" = -6,"ny" = -2,"wx" = -6,"wy" = -2,"ex" = 7,"ey" = -2,"northabove" = 0,"southabove" = 1,"eastabove" = 1,"westabove" = 0,"nturn" = -28,"sturn" = 29,"wturn" = -35,"eturn" = 32,"nflip" = 8,"sflip" = 0,"wflip" = 8,"eflip" = 0)
 			if("onbelt")
 				return list("shrink" = 0.5,"sx" = -4,"sy" = -6,"nx" = 5,"ny" = -6,"wx" = 0,"wy" = -6,"ex" = -1,"ey" = -6,"nturn" = 100,"sturn" = 156,"wturn" = 90,"eturn" = 180,"nflip" = 0,"sflip" = 0,"wflip" = 0,"eflip" = 0,"northabove" = 0,"southabove" = 1,"eastabove" = 1,"westabove" = 0)
 
@@ -463,6 +463,8 @@
 	sheathe_icon = "zizosword"
 	force = 30
 	force_wielded = 35
+	max_blade_int = 400
+	max_integrity = 500
 	equip_delay_self = 0
 	unequip_delay_self = 0
 
@@ -593,6 +595,7 @@
 	slot_flags = ITEM_SLOT_BACK //Too big for hip
 	smeltresult = /obj/item/ingot/iron
 	smelt_bar_num = 2 // 1 bar loss
+	vorpal = TRUE // snicker snack this shit cuts heads off effortlessly (DO NOT PUT THIS ON ANYTHING ELSE UNLESS IT'S SUPER FUCKING RARE!!!)
 
 /datum/intent/sword/thrust/exe
 	swingdelay = 4	//Slight delay to stab; big and heavy.
@@ -606,17 +609,20 @@
 	max_integrity = 200
 	possible_item_intents = list(/datum/intent/sword/cut, /datum/intent/sword/thrust, /datum/intent/sword/strike)
 	gripped_intents = list(/datum/intent/sword/cut, /datum/intent/sword/thrust, /datum/intent/sword/peel, /datum/intent/axe/chop)
+	vorpal = TRUE // snicker snack this shit cuts heads off effortlessly (DO NOT PUT THIS ON ANYTHING ELSE UNLESS IT'S SUPER FUCKING RARE!!!)
 
 /obj/item/rogueweapon/sword/long/exe/getonmobprop(tag)
 	. = ..()
 	if(tag)
 		switch(tag)
 			if("gen")
-				return list("shrink" = 0.6,"sx" = -6,"sy" = 6,"nx" = 6,"ny" = 7,"wx" = 0,"wy" = 5,"ex" = -1,"ey" = 7,"northabove" = 0,"southabove" = 1,"eastabove" = 1,"westabove" = 0,"nturn" = -50,"sturn" = 40,"wturn" = 50,"eturn" = -50,"nflip" = 0,"sflip" = 8,"wflip" = 8,"eflip" = 0)
+				return list("shrink" = 0.47,"sx" = -10,"sy" = -6,"nx" = 8,"ny" = -4,"wx" = -8,"wy" = -6,"ex" = 7,"ey" = -7,"northabove" = 0,"southabove" = 1,"eastabove" = 1,"westabove" = 0,"nturn" = -70,"sturn" = -83,"wturn" = -69,"eturn" = 60,"nflip" = 0,"sflip" = 8,"wflip" = 8,"eflip" = 0)
 			if("wielded")
-				return list("shrink" = 0.6,"sx" = 9,"sy" = -4,"nx" = -7,"ny" = 1,"wx" = -9,"wy" = 2,"ex" = 10,"ey" = 2,"northabove" = 0,"southabove" = 1,"eastabove" = 1,"westabove" = 0,"nturn" = 5,"sturn" = -190,"wturn" = -170,"eturn" = -10,"nflip" = 8,"sflip" = 8,"wflip" = 1,"eflip" = 0)
+				return list("shrink" = 0.45,"sx" = 9,"sy" = -4,"nx" = -7,"ny" = 1,"wx" = -9,"wy" = 2,"ex" = 10,"ey" = 2,"northabove" = 0,"southabove" = 1,"eastabove" = 1,"westabove" = 0,"nturn" = 5,"sturn" = -190,"wturn" = -170,"eturn" = -10,"nflip" = 8,"sflip" = 8,"wflip" = 1,"eflip" = 0)
 			if("onback")
-				return list("shrink" = 0.6,"sx" = -1,"sy" = 3,"nx" = -1,"ny" = 2,"wx" = 3,"wy" = 4,"ex" = -1,"ey" = 5,"nturn" = 0,"sturn" = 0,"wturn" = 70,"eturn" = 20,"nflip" = 1,"sflip" = 1,"wflip" = 1,"eflip" = 1,"northabove" = 1,"southabove" = 0,"eastabove" = 0,"westabove" = 0)
+				return list("shrink" = 0.47,"sx" = -1,"sy" = 3,"nx" = -1,"ny" = 2,"wx" = 3,"wy" = 4,"ex" = -1,"ey" = 5,"nturn" = 0,"sturn" = 0,"wturn" = 70,"eturn" = 20,"nflip" = 5,"sflip" = 1,"wflip" = 1,"eflip" = 1,"northabove" = 1,"southabove" = 0,"eastabove" = 0,"westabove" = 0)
+			if("altgrip") 
+				return list("shrink" = 0.45,"sx" = 2,"sy" = 3,"nx" = -7,"ny" = 1,"wx" = -8,"wy" = 0,"ex" = 8,"ey" = -1,"northabove" = 0,"southabove" = 1,"eastabove" = 1,"westabove" = 0,"nturn" = -135,"sturn" = -35,"wturn" = 45,"eturn" = 145,"nflip" = 8,"sflip" = 8,"wflip" = 1,"eflip" = 0)
 
 /obj/item/rogueweapon/sword/long/exe/cloth
 	icon_state = "terminusest"
@@ -924,6 +930,11 @@
 	minstr = 5
 	wdefense = 4
 
+/obj/item/rogueweapon/sword/short/messer/duelist
+	name = "dueling messer"
+	swingsound = BLADEWOOSH_SMALL
+	wbalance = WBALANCE_SWIFT
+
 /obj/item/rogueweapon/sword/short/messer/iron
 	name = "hunting sword"
 	desc = "A basic single-edge sword that is usually used to finish off hunted game. It excels at slicing and chopping, and it's made of iron. \
@@ -939,7 +950,7 @@
 	sheathe_icon = "isword"
 
 /obj/item/rogueweapon/sword/short/messer/iron/virtue
-	name = "dueling messer"
+	name = "iron dueling messer"
 	desc = "A basic single-edge iron hunting sword that has been modified for the express purpose of dueling, with an added guard and a leaner grip for comfort and speed."
 	icon_state = "dmesser"
 	swingsound = BLADEWOOSH_SMALL
@@ -1342,103 +1353,6 @@
 		added_def = 2,\
 	)
 
-/obj/item/rogueweapon/greatsword/grenz/flamberge/blacksteel/getonmobprop(tag)
-	. = ..()
-	if(tag)
-		switch(tag)
-			if("gen") return list(
-				"shrink" = 0.5,
-				"sx" = -14,
-				"sy" = -8,
-				"nx" = 15,
-				"ny" = -7,
-				"wx" = -10,
-				"wy" = -5,
-				"ex" = 7,
-				"ey" = -6,
-				"northabove" = 0,
-				"southabove" = 1,
-				"eastabove" = 1,
-				"westabove" = 0,
-				"nturn" = -13,
-				"sturn" = 110,
-				"wturn" = -60,
-				"eturn" = -30,
-				"nflip" = 1,
-				"sflip" = 1,
-				"wflip" = 8,
-				"eflip" = 1,
-				)
-			if("onback") return list(
-				"shrink" = 0.5,
-				"sx" = -1,
-				"sy" = 2,
-				"nx" = 0,
-				"ny" = 2,
-				"wx" = 2,
-				"wy" = 1,
-				"ex" = 0,
-				"ey" = 1,
-				"nturn" = 0,
-				"sturn" = 0,
-				"wturn" = 70,
-				"eturn" = 15,
-				"nflip" = 1,
-				"sflip" = 1,
-				"wflip" = 1,
-				"eflip" = 1,
-				"northabove" = 1,
-				"southabove" = 0,
-				"eastabove" = 0,
-				"westabove" = 0,
-				)
-			if("wielded") return list(
-				"shrink" = 0.6,
-				"sx" = 3,
-				"sy" = 5,
-				"nx" = -3,
-				"ny" = 5,
-				"wx" = -9,
-				"wy" = 4,
-				"ex" = 9,
-				"ey" = 1,
-				"northabove" = 0,
-				"southabove" = 1,
-				"eastabove" = 1,
-				"westabove" = 0,
-				"nturn" = 0,
-				"sturn" = 0,
-				"wturn" = 0,
-				"eturn" = 15,
-				"nflip" = 8,
-				"sflip" = 0,
-				"wflip" = 8,
-				"eflip" = 0,
-				)
-			if("onbelt") return list(
-				"shrink" = 0.4,
-				"sx" = -4,
-				"sy" = -6,
-				"nx" = 5,
-				"ny" = -6,
-				"wx" = 0,
-				"wy" = -6,
-				"ex" = -1,
-				"ey" = -6,
-				"nturn" = 100,
-				"sturn" = 156,
-				"wturn" = 90,
-				"eturn" = 180,
-				"nflip" = 0,
-				"sflip" = 0,
-				"wflip" = 0,
-				"eflip" = 0,
-				"northabove" = 0,
-				"southabove" = 1,
-				"eastabove" = 1,
-				"westabove" = 0,
-				)
-
 /obj/item/rogueweapon/sword/long/rhomphaia
 	name = "rhomphaia"
 	desc = "An ancient sword similar to the falx, with the key difference of its curve being less pronounced - feared for its ability to strike and thrust with precision."
@@ -1502,22 +1416,22 @@
 				)
 			if("wielded") return list(
 				"shrink" = 0.6,
-				"sx" = 3,
-				"sy" = 5,
-				"nx" = -3,
-				"ny" = 5,
+				"sx" = 6,
+				"sy" = -1,
+				"nx" = -6,
+				"ny" = 2,
 				"wx" = -9,
-				"wy" = 4,
-				"ex" = 9,
-				"ey" = 1,
+				"wy" = -1,
+				"ex" = 7,
+				"ey" = -2,
 				"northabove" = 0,
 				"southabove" = 1,
 				"eastabove" = 1,
 				"westabove" = 0,
-				"nturn" = 0,
-				"sturn" = 0,
-				"wturn" = 0,
-				"eturn" = 15,
+				"nturn" = -15,
+				"sturn" = 32,
+				"wturn" = -30,
+				"eturn" = 35,
 				"nflip" = 8,
 				"sflip" = 0,
 				"wflip" = 8,

@@ -552,7 +552,7 @@
 /obj/item/bodypart/proc/try_bandage_expire()
 	if(!bandage)
 		return FALSE
-	var/bandage_effectiveness = 0.5
+	var/bandage_effectiveness = 10
 	if(istype(bandage, /obj/item/natural/cloth))
 		var/obj/item/natural/cloth/cloth = bandage
 		bandage_effectiveness = cloth.bandage_effectiveness

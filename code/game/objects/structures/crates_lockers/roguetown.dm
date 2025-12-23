@@ -210,6 +210,7 @@
 
 	new /obj/item/rogueweapon/sword/long/judgement(get_turf(src))
 	new /obj/item/clothing/wrists/roguetown/bracers(get_turf(src))
+	new /obj/item/clothing/neck/roguetown/gorget/steel(get_turf(src))
 	new /obj/item/storage/belt/rogue/leather/steel/tasset(get_turf(src))
 	new /obj/item/clothing/gloves/roguetown/blacksteel/modern/plategloves(get_turf(src))
 	new /obj/item/clothing/head/roguetown/helmet/blacksteel/modern/armet(get_turf(src))

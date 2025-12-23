@@ -379,3 +379,48 @@
 	to_chat(affected, span_userdanger(pick(goodbye)))
 	if(HAS_TRAIT(owner, TRAIT_SILVER_WEAK) && !owner.has_status_effect(STATUS_EFFECT_ANTIMAGIC))
 		affected.death()
+
+/// grievous wounds exist to provide a solution for "two-stage death" - aka where you want someone to DIE IMMEDIATELY upon dismemberment of a crucial bodypart, but not actually lose it.
+/// the spiritual intent here is to provide a little bit of protection from accidental decaps
+/datum/wound/grievous
+	name = "grievous wound"
+	check_name = span_danger("<B>grievous</B>")
+	severity = WOUND_SEVERITY_FATAL
+	whp = 150
+	woundpain = 100
+	sewn_whp = 25
+	bleed_rate = 25 // equivalent to carotid artery tear
+	sewn_bleed_rate = 0.5
+	can_sew = TRUE
+	can_cauterize = FALSE
+	var/immunity_time = 12 SECONDS // how long the wound actively prevents further dismemberment attempts for
+
+/datum/wound/grievous/on_bodypart_gain(obj/item/bodypart/affected)
+	. = ..()
+	// ostensibly, the entire point of grievous wounds is that you DIE when you get one, critical weakness or not.
+	// this skips the mortal check and just kills you outright. we also give a short window of dismemberment immunity to increase the chances that the zerg pulls back
+	if (affected && affected.two_stage_death && !affected.grievously_wounded)
+		affected.grievously_wounded = TRUE
+		affected.owner?.death()
+		bodypart_owner?.dismemberable = FALSE
+		addtimer(CALLBACK(src, PROC_REF(reset_dismemberment_immunity)), immunity_time)
+		playsound(affected?.owner, 'sound/combat/dismemberment/grievous-behead.ogg', 250, FALSE, -1)
+		
+/datum/wound/grievous/proc/reset_dismemberment_immunity()
+	if (!bodypart_owner || QDELETED(src))
+		return
+	bodypart_owner?.dismemberable = initial(bodypart_owner?.dismemberable)
+	if (bodypart_owner?.skeletonized)
+		owner?.visible_message(span_smallred("Delicate craze lines creep up along <b>[owner]</b>'s sundered skull..."))
+	else
+		owner?.visible_message(span_smallred("The musculature around <b>[owner]</b>'s [bodypart_owner.name] relaxes its agonal seizing..."))
+
+/datum/wound/grievous/remove_from_bodypart()
+	bodypart_owner?.grievously_wounded = FALSE
+	. = ..()
+
+/datum/wound/grievous/pre_decapitation
+	name = "massacred spinal column"
+
+/datum/wound/grievous/pre_skullshatter
+	name = "shattered skull"

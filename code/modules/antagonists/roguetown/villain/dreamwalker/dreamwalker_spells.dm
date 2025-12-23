@@ -20,7 +20,6 @@
 		"Orthodoxist",
 		"Absolver",
 		"Templar",
-		"Dungeoneer",
 		"Sergeant",
 		"Men-at-arms",
 		"Knight",

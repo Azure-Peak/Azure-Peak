@@ -13,6 +13,7 @@
 	var/icon_y_offset = 0
 	var/always_destroy = FALSE
 	var/is_important = FALSE // If TRUE, this item is not allowed to be minted. May be useful for other things later.
+	var/vorpal = FALSE // does this item/weapon circumvent two-stage death during dismemberment? (do not add this to anything but ultra rare shit)
 //#else
 //	var/force_reupdate_inhand = FALSE
 //#endif

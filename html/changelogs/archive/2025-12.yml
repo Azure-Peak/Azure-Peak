@@ -307,3 +307,125 @@
   dopamiin0:
   - bugfix: wither now goes where it's aimed instead of stopping a tile short
   - bugfix: many spells no longer inexplicably stop working when the lights are out
+2025-12-18:
+  FreeStylaLT:
+  - bugfix: Goblins now have a physical descriptor.
+  - bugfix: Fixed Immobilize not being applied correctly on some jumps.
+  Lamasmaster:
+  - balance: Merchantry mercenary weapon shop.
+  Randall:
+  - bugfix: Fixed the dreamwalker summon weapon rite showing the wrong skill name
+  Ryan180602:
+  - bugfix: allowed_patrons is usable for adv_class now.
+  - sound: adds prbt emote.
+  - balance: Removes focus target from Sgts/KCs.
+  SirSwagmeyer:
+  - balance: rebalanced maul wdef
+  dopamiin0:
+  - bugfix: snap freeze and bladeburst now correctly function at range again. sorry
+  - bugfix: wither no longer misses anyone sharing a tile with a target
+2025-12-19:
+  Geevies:
+  - bugfix: You can now shoot arrows up and down stairs.
+  - rscadd: Throwing anything into a river will now cause it to process and shift
+      downstream.
+  - bugfix: Rivers now stop processing when there's nothing in them.
+  - bugfix: NPCs no longer try to swim upstream.
+  - qol: Honorary titles are now checked before joining, avoiding duplicates.
+  - bugfix: Bundles now spawn at the correct 2x1 grid size.
+  - qol: Left clicking a scabbard on the ground or in storage will now pick the entire
+      thing up.
+  - qol: Right clicking a scabbard will now always draw from it, as it works now.
+  - bugfix: Nets now drop to the floor after their timer runs out.
+  Lamasmaster:
+  - rscadd: Tunic in cloak slot
+  SayonaraEcho:
+  - rscadd: Handcart moving animation
+  TheNeoGamer42:
+  - qol: Footman squires now start with apprentice shield skill. In-line with Errant
+      Squire, and no more bonking a dummy for a few minutes.
+  kano-dot:
+  - bugfix: fixed half-elves not being able to pick wood elf ears.
+2025-12-20:
+  FreeStylaLT:
+  - rscadd: New ears for Aaasimar / Elves / Dark Elves / Tieflings
+  - refactor: XP drops now round to the nearest 0.1 decimal.
+  - image: Targeting Gargoyle shows Left and Right now.
+  HeroWithYay:
+  - bugfix: Psydonian Barbarians no longer get mini-pain crits.
+  PatapoIIIa:
+  - bugfix: Legendary (Rank 6) skills are no longer incorrectly reduced to lower ranks
+      when applying a Virtue with the softcap flag.
+  - code_imp: Refactored the entire skill application logic in `handle_skills` to
+      use sequential hardcap/softcap checks, ensuring no negative skill adjustments.
+  Stutternov:
+  - bugfix: fixed badly named helmet state.
+  ToasterStrudes:
+  - rscadd: Added new Venard sounds!
+  - rscadd: Added friendly Venard sounds to Mimi the Guild Pet.
+2025-12-21:
+  FreeStylaLT:
+  - bugfix: Fixed Limbguard Special straining the user when they try to kick with
+      it active.
+  Hollyhock:
+  - rscadd: Added a variant of the bug snouts without fluffy moth antennae.
+  - rscadd: Gave revenants the antennae ears that wild-kin have.
+  JustSomeGalSS13:
+  - bugfix: Summoning a primordial while your face is concealed will no longer make
+      your the primordial hostile to you
+  hubertjones:
+  - bugfix: marshal appropriately gets scabbard and sheath
+2025-12-22:
+  BurpleBineapple:
+  - bugfix: Fixes the wielded offsets for executioner's swords, rhomphaia, blacksteel
+      flamberge, and arming swords
+  FreeStylaLT:
+  - bugfix: Strong Stance not having a correct description.
+  - bugfix: Bandages not working as intended with Omniwounds. They are now effective
+      on a lot more wounds.
+  - balance: Strong Stance will now always give +10% damage instead of +1 STR (ignores
+      softcaps)
+  - balance: Strong Stance will now incur bonus sharpness / integrity loss to defenders.
+  Geevies:
+  - balance: The Empowerment Array ritual's lesser and greater buffs no longer stack.
+      If you have a greater one, the lesser will do nothing. If you have a lesser,
+      the greater will replace it.
+  - balance: You can now have three of these buffs active at a time, instead of two.
+  - bugfix: You can now use RMB to pull from scabbards/sheathes while in combat mode.
+  - bugfix: You can now shift grips with longswords while in combat mode.
+  - rscadd: You can now properly healing simple mobs like saigas using needles and
+      bandages.
+  - rscadd: Animals that retaliate to being attacked will no longer attack their friends.
+  - rscadd: Taming an animal will make it your friend. Petting a tamed animal when
+      it isn't fighting will make it your friend.
+  - rscadd: You can only pet a crazed animal to calm it down if you're friends with
+      it.
+  - rscadd: You can always attack/grab an animal you're friends with, it will not
+      dodge you.
+  - rscadd: If your class spawns with an animal, it will automatically be your friend.
+  - rscadd: Added caparisons that can be put on both male and female Saiga. You can
+      get them via the loadout or via tailoring them (2 fiber, 4 cloth).
+  Ketrai:
+  - balance: Locate corpse miracle is now cheaper and provides more information
+  Lamasmaster:
+  - balance: Duelist adventurer
+  - balance: Merchantry
+  - balance: Armor kits
+  nauticall:
+  - bugfix: Blacksteel armet can now flip up its visor and apply a plume.
+  - rscadd: A steel gorget has been added to the Duke's armor closet.
+2025-12-23:
+  FreeStylaLT:
+  - balance: Most half-plates are now Medium AC.
+  - rscadd: A new preference for showing floating text for where the user was last
+      struck.
+  - balance: Combat Aware no longer shows targeting zones on parries / dodges. It
+      only shows on successful hits.
+  - balance: Combat Aware no longer shows where the user of the virtue were targeting
+      themselves.
+  Lamasmaster:
+  - rscadd: Bailiff subclass
+  - rscdel: Dungeoneer role
+  hubertjones:
+  - bugfix: iron haubergeon sleeves function as intended
+  - image: greyscales more leather armor

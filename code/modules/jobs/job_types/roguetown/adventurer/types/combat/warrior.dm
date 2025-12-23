@@ -142,35 +142,64 @@
 	to_chat(H, span_warning("You are an esteemed swordsman who foregoes armor in exchange for a more nimble fighting style."))
 	H.set_blindness(0)
 	if(H.mind)
-		var/weapons = list("Rapier","Dagger")
+		var/weapons = list("Rapier & Parrying Dagger","Sabre & Buckler","Messer & Buckler","Dagger & Parrying Dagger","Dual Wield Shortswords")
 		var/weapon_choice = input(H, "Choose your weapon.", "TAKE UP ARMS") as anything in weapons
 		switch(weapon_choice)
-			if("Rapier")
+			if("Rapier & Parrying Dagger")
 				H.adjust_skillrank_up_to(/datum/skill/combat/swords, SKILL_LEVEL_EXPERT, TRUE)
+				H.adjust_skillrank_up_to(/datum/skill/combat/knives, SKILL_LEVEL_JOURNEYMAN, TRUE)//So it actually parries with said dagger.
 				l_hand = /obj/item/rogueweapon/sword/rapier
-				r_hand = /obj/item/rogueweapon/scabbard/sword
-			if("Dagger")
+				r_hand = /obj/item/rogueweapon/huntingknife/idagger/steel/parrying
+				backr = /obj/item/rogueweapon/scabbard/sword
+			if("Sabre & Buckler")
+				H.adjust_skillrank_up_to(/datum/skill/combat/swords, SKILL_LEVEL_EXPERT, TRUE)
+				l_hand = /obj/item/rogueweapon/sword/sabre
+				r_hand = /obj/item/rogueweapon/shield/buckler
+				beltr = /obj/item/rogueweapon/scabbard/sword
+			if("Messer & Buckler")
+				H.adjust_skillrank_up_to(/datum/skill/combat/swords, SKILL_LEVEL_EXPERT, TRUE)
+				l_hand = /obj/item/rogueweapon/sword/short/messer/duelist
+				r_hand = /obj/item/rogueweapon/shield/buckler
+				beltr = /obj/item/rogueweapon/scabbard/sword
+			if("Dagger & Parrying Dagger")
 				H.adjust_skillrank_up_to(/datum/skill/combat/knives, SKILL_LEVEL_EXPERT, TRUE)
-				r_hand = /obj/item/rogueweapon/huntingknife/idagger/steel
+				l_hand = /obj/item/rogueweapon/huntingknife/idagger/steel
+				r_hand = /obj/item/rogueweapon/huntingknife/idagger/steel/parrying
 				beltr = /obj/item/rogueweapon/scabbard/sheath
-	armor = /obj/item/clothing/suit/roguetown/armor/leather
+			if("Dual Wield Shortswords")
+				H.adjust_skillrank_up_to(/datum/skill/combat/swords, SKILL_LEVEL_EXPERT, TRUE)
+				ADD_TRAIT(H, TRAIT_DUALWIELDER, TRAIT_GENERIC)
+				l_hand = /obj/item/rogueweapon/sword/short
+				r_hand = /obj/item/rogueweapon/sword/short
+				beltr = /obj/item/rogueweapon/scabbard/sword
+				beltl = /obj/item/rogueweapon/scabbard/sword
+
+		var/armors = list("Classical Set","Cuirass Set")
+		var/armor_choice = input(H, "Choose your armor.", "TAKE UP ARMOR") as anything in armors
+		switch(armor_choice)
+			if("Classical Set")
+				mask = /obj/item/clothing/mask/rogue/duelmask
+				cloak = /obj/item/clothing/cloak/half
+				armor = /obj/item/clothing/suit/roguetown/armor/leather
+				shirt = /obj/item/clothing/suit/roguetown/shirt/undershirt/black
+				gloves = /obj/item/clothing/gloves/roguetown/fingerless_leather
+			if("Cuirass Set")
+				cloak = /obj/item/clothing/suit/roguetown/armor/longcoat
+				armor = /obj/item/clothing/suit/roguetown/armor/leather/cuirass
+				shirt = /obj/item/clothing/suit/roguetown/shirt/tunic/white
+				gloves = /obj/item/clothing/gloves/roguetown/leather
+
 	head = /obj/item/clothing/head/roguetown/duelhat
-	mask = /obj/item/clothing/mask/rogue/duelmask
-	cloak = /obj/item/clothing/cloak/half
-	wrists = /obj/item/clothing/wrists/roguetown/bracers/leather
-	shirt = /obj/item/clothing/suit/roguetown/shirt/undershirt/black
-	pants = /obj/item/clothing/under/roguetown/trou/leather
-	beltl = /obj/item/storage/belt/rogue/pouch/coins/poor
-	shoes = /obj/item/clothing/shoes/roguetown/boots
 	neck = /obj/item/clothing/neck/roguetown/gorget
-	gloves = /obj/item/clothing/gloves/roguetown/fingerless_leather
+	wrists = /obj/item/clothing/wrists/roguetown/bracers/leather
+	pants = /obj/item/clothing/under/roguetown/trou/leather
+	shoes = /obj/item/clothing/shoes/roguetown/boots
 	backl = /obj/item/storage/backpack/rogue/satchel
-	backr = /obj/item/rogueweapon/shield/buckler
 	belt = /obj/item/storage/belt/rogue/leather
 	backpack_contents = list(
 		/obj/item/flashlight/flare/torch = 1,
-		/obj/item/rogueweapon/huntingknife/idagger/steel/parrying = 1,
 		/obj/item/recipe_book/survival = 1,
+		/obj/item/storage/belt/rogue/pouch/coins/poor = 1,
 		/obj/item/rogueweapon/scabbard/sheath = 1
 		)
 

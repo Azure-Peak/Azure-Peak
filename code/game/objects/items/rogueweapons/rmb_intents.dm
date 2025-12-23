@@ -76,6 +76,10 @@
 	HT.apply_status_effect(/datum/status_effect/debuff/exposed)
 	HT.apply_status_effect(/datum/status_effect/debuff/clickcd, 5 SECONDS)
 	HT.bait_stacks++
+
+	if(HT.has_status_effect(/datum/status_effect/buff/clash/limbguard))
+		HT.bad_guard()
+
 	if(HT.bait_stacks <= 1)
 		HT.Immobilize(0.5 SECONDS)
 		HT.stamina_add(HT.max_stamina / fatiguemod)
@@ -107,7 +111,7 @@
 
 /datum/rmb_intent/strong
 	name = "strong"
-	desc = "Your attacks have +1 strength but use more stamina. Higher critrate with brutal attacks. Intentionally fails surgery steps."
+	desc = "Your attacks have +1 STR extra damage that ignores limits. Your attacks will cost the enemy more sharpness and integrity to defend against. Higher critrate with brutal attacks. Intentionally fails surgery steps.\nCosts more stamina per hit."
 	icon_state = "rmbstrong"
 	adjacency = FALSE
 	prioritize_turfs = TRUE
@@ -229,7 +233,7 @@
 	bypasses_click_cd = TRUE
 
 /datum/rmb_intent/riposte/special_attack(mob/living/user, atom/target)	//Wish we could breakline these somehow.
-	if(!user.has_status_effect(/datum/status_effect/buff/clash) && !user.has_status_effect(/datum/status_effect/debuff/clashcd))
+	if(!user.has_status_effect(/datum/status_effect/buff/clash) && !user.has_status_effect(/datum/status_effect/debuff/clashcd) && !user.has_status_effect(/datum/status_effect/buff/clash/limbguard))
 		if(!user.get_active_held_item()) //Nothing in our hand to Guard with.
 			return 
 		if(user.r_grab || user.l_grab || length(user.grabbedby)) //Not usable while grabs are in play.

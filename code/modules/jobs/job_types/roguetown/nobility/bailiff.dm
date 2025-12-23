@@ -44,6 +44,7 @@
 	id = /obj/item/scomstone/garrison
 	backpack_contents = list(
 		/obj/item/rogueweapon/huntingknife/idagger/steel/special = 1,
+		/obj/item/rogueweapon/scabbard/sheath = 1,
 		/obj/item/signal_horn = 1,
 		/obj/item/reagent_containers/glass/bottle/rogue/healthpot = 1,
 		)
@@ -125,6 +126,7 @@
 	belt = /obj/item/storage/belt/rogue/leather
 	beltr = /obj/item/storage/belt/rogue/pouch/coins/rich
 	beltl = /obj/item/storage/keyring/sheriff
+	l_hand = /obj/item/rogueweapon/scabbard/sword
 
 /mob/living/carbon/human/proc/request_law()
 	set name = "Request Law"

@@ -46,7 +46,7 @@
 	var/mob_effect_offset_x
 	var/mob_effect_offset_y
 	///A direct reference to the generated mob effect post-creation. Used for manipulation (or deletion) of the effect. Normally expires.
-	var/mutable_appearance/mob_effect
+	var/atom/mob_effect
 
 /datum/status_effect/New(list/arguments)
 	on_creation(arglist(arguments))
@@ -62,7 +62,7 @@
 		LAZYADD(owner.status_effects, src)
 		owner.status_effects_by_id[id] = src
 
-	if(!owner || !on_apply())
+	if(!owner)
 		qdel(src)
 		return
 
@@ -70,7 +70,13 @@
 		if(!mob_effect_dur)
 			mob_effect_dur = (duration - 1)	//-1 tick juuust in case something goes wrong between status effect deletion and the callback of the appearance itself.
 		mob_effect = owner.play_overhead_indicator_flick(mob_effect_icon, mob_effect_icon_state, mob_effect_dur, mob_effect_layer, null, mob_effect_offset_y, mob_effect_offset_x)
-	
+		mob_effect.plane = ABOVE_LIGHTING_PLANE
+
+	if(!on_apply())
+		on_remove()
+		qdel(src)
+		return
+
 	if(duration != -1)
 		duration = world.time + duration
 	tick_interval = world.time + tick_interval

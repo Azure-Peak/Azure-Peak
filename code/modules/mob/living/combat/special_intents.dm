@@ -88,6 +88,8 @@ This allows the devs to draw whatever shape they want at the cost of it feeling 
 
 ///To be called by EXTERNAL SOURCES, preferably. We don't want to bog this datum down with built-in costs, but I won't stop you.
 /datum/special_intent/proc/apply_cost(mob/living/L)
+	if(L.has_status_effect(/datum/status_effect/buff/clash/limbguard))	//TODO: A more standardised way of checking for toggle Specials that should prevent others from being used.
+		return FALSE
 	if(L && stamcost)
 		//If <1 it's %-age based, if >=1 it's just a flat amount.
 		var/cost = (stamcost < 1) ? (L.max_stamina * stamcost) : stamcost
@@ -103,7 +105,7 @@ This allows the devs to draw whatever shape they want at the cost of it feeling 
 	str +="\n<i><font size = 1>This ability can be used by right clicking while in STRONG stance or by using the Special MMB.</font></i></details>"
 	return str
 
-///Called by external sources -- likely an rclick. By default the 'target' will be stored as a turf.
+///Called by external sources -- likely an rclick or mmb. By default the 'target' will be stored as a turf.
 /datum/special_intent/proc/deploy(mob/living/user, atom/parent, atom/target)
 	if(!isliving(user) && !ismovableatom(parent))
 		CRASH("Special intent called with non-living parent AND non-movable atom source.")
@@ -715,6 +717,33 @@ SPECIALS START HERE
 
 #undef GAREN_WAVE1
 #undef GAREN_WAVE2
+
+/datum/special_intent/limbguard
+	name = "Limb Guard"
+	desc = "Raise your shield to protect a limb. You will deflect projectiles and anyone striking that limb will be severely penalized. \n\
+		You cannot regain stamina while this is active. It can be cancelled by jumping, kicking or by using MMB again with the same shield out."
+	respect_adjacency = FALSE
+	cooldown = 60 SECONDS
+	stamcost = 25
+
+//apply_cost is called before anything else, so it works here for the toggle checks, but it's kind of a bad example -- don't do this.
+/datum/special_intent/limbguard/apply_cost(mob/living/L)
+	if(L.has_status_effect(/datum/status_effect/buff/clash) || L.toggle_timer > world.time)
+		return FALSE
+	var/datum/status_effect/buff/clash/limbguard/lg = L.has_status_effect(/datum/status_effect/buff/clash/limbguard)
+	if(lg)
+		lg.remove_self()
+		return FALSE
+	return ..()
+
+//Complete override because the majority of the code is handled on the status effect.
+/datum/special_intent/limbguard/process_attack()
+	SHOULD_CALL_PARENT(FALSE)
+	howner.apply_status_effect(/datum/status_effect/buff/clash/limbguard, check_zone(howner.zone_selected))
+	howner.toggle_timer = world.time + howner.toggle_delay
+
+//datum/status_effect/buff/clash/limbguard
+
 /* 				EXAMPLES
 /datum/special_intent/another_example_cast
 	name = "Expanding Rectangle Pattern"

@@ -932,7 +932,7 @@
 	return FALSE
 
 /mob/living/try_special_attack(atom/A, list/modifiers)
-	if(!rmb_intent || !cmode || istype(A, /obj/item/clothing) || istype(A, /obj/item/quiver) || istype(A, /obj/item/storage))
+	if(!rmb_intent || !cmode || A.loc == src || istype(A, /obj/item/clothing) || istype(A, /obj/item/quiver) || istype(A, /obj/item/storage) || istype(A, /obj/item/rogueweapon/scabbard))
 		return FALSE
 
 	if(next_move > world.time && !rmb_intent?.bypasses_click_cd)

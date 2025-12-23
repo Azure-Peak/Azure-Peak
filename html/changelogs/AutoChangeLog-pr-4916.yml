@@ -1,0 +1,6 @@
+author: "Geevies"
+delete-after: True
+changes:
+  - balance: "Athletics XP is now gained every time you use stamina, no matter whether you're in run intent or not."
+  - balance: "Athletics XP is gained at one unit per tenth of stamina used. The gain is modified based on your constitution."
+  - rscadd: "Added mechanical pushups, which can be found under the 'Emotes' tab."

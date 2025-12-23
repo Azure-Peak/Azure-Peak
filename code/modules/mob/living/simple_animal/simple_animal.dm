@@ -186,6 +186,8 @@ GLOBAL_VAR_INIT(farm_animals, FALSE)
 	///our current cell grid
 	var/datum/cell_tracker/our_cells
 
+	var/obj/item/caparison/ccaparison
+
 /mob/living/simple_animal/Initialize()
 	. = ..()
 	GLOB.simple_animals[AIStatus] += src
@@ -217,11 +219,24 @@ GLOBAL_VAR_INIT(farm_animals, FALSE)
 		QDEL_NULL(ssaddle)
 		ssaddle = null
 
+	if(ccaparison)
+		QDEL_NULL(ccaparison)
+		ccaparison = null
+
 	var/turf/T = get_turf(src)
 	if (T && AIStatus == AI_Z_OFF)
 		SSidlenpcpool.idle_mobs_by_zlevel[T.z] -= src
 
 	return ..()
+
+/mob/living/simple_animal/examine(mob/user)
+	. = ..()
+	if(tame)
+		. += span_notice("This animal appears to be tamed.")
+	if(ssaddle)
+		. += span_notice("This animal is saddled: ([ssaddle.name]).")
+	if(ccaparison)
+		. += span_notice("This animal is wearing a caparison: ([ccaparison.name]).")
 
 /mob/living/simple_animal/attackby(obj/item/O, mob/user, params)
 	if(!is_type_in_list(O, food_type))
@@ -243,6 +258,41 @@ GLOBAL_VAR_INIT(farm_animals, FALSE)
 				else
 					tame_chance += bonus_tame_chance
 
+/mob/living/simple_animal/attack_right(mob/user, params)
+	if(ccaparison)
+		user.visible_message(span_notice("[user] is removing the caparison from [src]..."), span_notice("I start removing the caparison from [src]..."))
+		if(!do_after(user, 10 SECONDS, TRUE, src))
+			return
+		playsound(loc, 'sound/foley/saddledismount.ogg', 100, FALSE)
+		user.visible_message(span_notice("[user] removes the caparison from [src]."), span_notice("I remove the caparison from [src]."))
+		var/obj/item/caparison/C = ccaparison
+		ccaparison = null
+		C.forceMove(get_turf(src))
+		user.put_in_hands(C)
+		update_icon()
+		return
+	else if(ssaddle)
+		user.visible_message(span_notice("[user] is removing the saddle from [src]..."), span_notice("I start removing the saddle from [src]..."))
+		if(!do_after(user, 5 SECONDS, TRUE, src))
+			return
+		playsound(loc, 'sound/foley/saddledismount.ogg', 100, FALSE)
+		user.visible_message(span_notice("[user] removes the saddle from [src]."), span_notice("I remove the saddle from [src]."))
+		var/obj/item/natural/saddle/S = ssaddle
+		ssaddle = null
+		S.forceMove(get_turf(src))
+		user.put_in_hands(S)
+		update_icon()
+		return
+	return ..()
+
+/mob/living/simple_animal/update_icon()
+	cut_overlays()
+	. = ..()
+	if(ccaparison && stat == CONSCIOUS && !resting)
+		var/caparison_overlay = ccaparison.female_caparison_state && gender == FEMALE ? ccaparison.female_caparison_state : ccaparison.caparison_state
+		var/mutable_appearance/caparison_above_overlay = mutable_appearance(icon, caparison_overlay + "-above", 4.31)
+		add_overlay(caparison_overlay)
+		add_overlay(caparison_above_overlay)
 
 ///Extra effects to add when the mob is tamed, such as adding a riding component
 /mob/living/simple_animal/proc/tamed(mob/user)
@@ -252,7 +302,6 @@ GLOBAL_VAR_INIT(farm_animals, FALSE)
 	if(user)
 		owner = user
 		SEND_SIGNAL(user, COMSIG_ANIMAL_TAMED, src)
-	return
 
 //mob/living/simple_animal/examine(mob/user)
 //	. = ..()
@@ -580,6 +629,7 @@ GLOBAL_VAR_INIT(farm_animals, FALSE)
 			transform = transform.Turn(180)
 		density = FALSE
 		..()
+	update_icon()
 
 /mob/living/simple_animal/proc/CanAttack(atom/the_target)
 	if(binded)

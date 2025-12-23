@@ -460,6 +460,8 @@
 			negate_slowdown = TRUE
 			break
 
+	if((isliving(user))&&(user?.movement_type == FLYING))
+		negate_slowdown = TRUE
 	if(HAS_TRAIT(user, TRAIT_LONGSTRIDER))
 		negate_slowdown = TRUE
 

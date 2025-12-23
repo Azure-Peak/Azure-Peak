@@ -49,8 +49,8 @@
 		user.mind.AddSpell(primordial_order )
 		user.mind.AddSpell(primordialmark)
 		spellsgranted = TRUE
-	if(!("[user.name]_faction" in user.mind?.current.faction))
-		user.mind?.current.faction |= "[user.name]_faction"
+	if(!("[user.real_name]_faction" in user.mind?.current.faction))
+		user.mind?.current.faction |= "[user.real_name]_faction"
 
 	var/mob/living/simple_animal/hostile/retaliate/rogue/primordial/conjured
 	switch(sacrifice.type)

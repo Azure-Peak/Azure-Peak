@@ -50,7 +50,7 @@
 		//passively heal wounds, when you're in trouble..
 		if(blood_volume > BLOOD_VOLUME_SURVIVE)
 			for(var/datum/wound/wound as anything in get_wounds())
-				if(wound.severity <= WOUND_SEVERITY_MODERATE)
+				if(wound?.severity <= WOUND_SEVERITY_MODERATE)
 					wound.heal_wound(0.4)
 
 	if(!stat && HAS_TRAIT(src, TRAIT_LYCANRESILENCE) && !HAS_TRAIT(src, TRAIT_PARALYSIS))

@@ -59,6 +59,7 @@
 	desc = "A cuirass made of leather."
 	icon_state = "leather"
 	max_integrity = ARMOR_INT_CHEST_LIGHT_MASTER
+	color = "#7D6653"
 
 /obj/item/clothing/suit/roguetown/armor/leather/hide
 	name = "hide armor"
@@ -112,6 +113,7 @@
 	max_integrity = ARMOR_INT_CHEST_LIGHT_MASTER
 	prevent_crits = PREVENT_CRITS_MOST
 	sellprice = 20
+	color = "#7D6653"
 
 /obj/item/clothing/suit/roguetown/armor/leather/heavy/coat
 	name = "hardened leather coat"
@@ -122,6 +124,7 @@
 	armor = ARMOR_LEATHER_GOOD
 	max_integrity = ARMOR_INT_CHEST_LIGHT_MASTER
 	sellprice = 25
+	color = "#7D6653"
 
 /obj/item/clothing/suit/roguetown/armor/leather/heavy/coat/confessor
 	name = "confessional coat"
@@ -195,6 +198,7 @@
 	item_state = "leatherkini"
 	allowed_sex = list(FEMALE, MALE)
 	allowed_race = CLOTHED_RACES_TYPES
+	color = "#7D6653"
 
 /obj/item/clothing/suit/roguetown/armor/leather/studded/bikini
 	name = "studded leather corslet"

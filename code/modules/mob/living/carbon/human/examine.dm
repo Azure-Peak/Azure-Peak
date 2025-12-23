@@ -530,6 +530,9 @@
 
 	var/temp = getBruteLoss() + getFireLoss() //no need to calculate each of these twice
 
+	if (get_bodypart(BODY_ZONE_HEAD)?.grievously_wounded)
+		msg += span_bloody("<b>[p_their(TRUE)] neck is a ghastly ruin of blood and bone, barely hanging on!</b>")
+
 	if(!(user == src && src.hal_screwyhud == SCREWYHUD_HEALTHY)) //fake healthy
 		// Damage
 		switch(temp)
