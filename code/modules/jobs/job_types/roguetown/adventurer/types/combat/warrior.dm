@@ -169,7 +169,7 @@
 				r_hand = /obj/item/rogueweapon/huntingknife/idagger/steel/parrying
 				beltr = /obj/item/rogueweapon/scabbard/sheath
 			if("Dual Wield Shortswords")
-				H.adjust_skillrank_up_to(/datum/skill/combat/shortwords, SKILL_LEVEL_EXPERT, TRUE)
+				H.adjust_skillrank_up_to(/datum/skill/combat/shortswords, SKILL_LEVEL_EXPERT, TRUE)
 				ADD_TRAIT(H, TRAIT_DUALWIELDER, TRAIT_GENERIC)
 				l_hand = /obj/item/rogueweapon/sword/short
 				r_hand = /obj/item/rogueweapon/sword/short
