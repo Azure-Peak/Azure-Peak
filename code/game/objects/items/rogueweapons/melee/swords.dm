@@ -146,7 +146,7 @@
 
 /obj/item/rogueweapon/sword
 	name = "arming sword"
-	desc = "A long steel blade attached to a hilt, separated by a crossguard. The arming sword has been Psydonia's implement of war by excellence for generations."
+	desc = "A steel blade attached to a hilt, separated by a crossguard. The arming sword has been Psydonia's implement of war by excellence for generations."
 	slot_flags = ITEM_SLOT_HIP | ITEM_SLOT_BACK
 	force = 22
 	force_wielded = 25
@@ -164,7 +164,7 @@
 		'sound/combat/parry/bladed/bladedmedium (3).ogg',
 		)
 	swingsound = BLADEWOOSH_MED
-	associated_skill = /datum/skill/combat/swords
+	associated_skill = /datum/skill/combat/shortswords
 	max_blade_int = 200
 	max_integrity = 150
 	wlength = WLENGTH_NORMAL
@@ -773,6 +773,7 @@
 	w_class = WEIGHT_CLASS_NORMAL
 	grid_width = 32
 	grid_height = 96
+	associated_skill = /datum/skill/combat/shortswords
 
 /obj/item/rogueweapon/sword/short/kazengun
 	name = "steel kodachi"
@@ -1116,6 +1117,7 @@
 	minstr = 6
 	wdefense = 7
 	wbalance = WBALANCE_SWIFT
+	associated_skill = /datum/skill/combat/shortswords
 
 /obj/item/rogueweapon/sword/rapier/vaquero
 	name = "cup-hilt rapier"

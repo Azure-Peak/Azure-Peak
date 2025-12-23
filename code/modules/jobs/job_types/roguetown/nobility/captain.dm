@@ -85,6 +85,8 @@
 	)
 	subclass_skills = list(
 		/datum/skill/combat/swords = SKILL_LEVEL_EXPERT,
+		/datum/skill/combat/shortswords = SKILL_LEVEL_EXPERT,
+		/datum/skill/combat/greatswords = SKILL_LEVEL_EXPERT,
 		/datum/skill/combat/polearms = SKILL_LEVEL_EXPERT,
 		/datum/skill/combat/wrestling = SKILL_LEVEL_EXPERT,
 		/datum/skill/combat/maces = SKILL_LEVEL_EXPERT,
@@ -141,12 +143,12 @@
 		H.set_blindness(0)
 		switch(weapon_choice)
 			if("Edict & Aegis (Sabre & Buckler)")
-				H.adjust_skillrank_up_to(/datum/skill/combat/swords, 5, TRUE)
+				H.adjust_skillrank_up_to(/datum/skill/combat/shortswords, 5, TRUE)
 				r_hand = /obj/item/rogueweapon/sword/sabre/knightcaptain
 				l_hand = /obj/item/rogueweapon/shield/buckler/knightcaptain
 				beltr = /obj/item/rogueweapon/scabbard/sword
 			if("Claymore")
-				H.adjust_skillrank_up_to(/datum/skill/combat/swords, 5, TRUE)
+				H.adjust_skillrank_up_to(/datum/skill/combat/greatswords, 5, TRUE)
 				r_hand = /obj/item/rogueweapon/greatsword/zwei
 				backl = /obj/item/rogueweapon/scabbard/gwstrap
 			if("Greataxe")
@@ -171,7 +173,7 @@
 				H.adjust_skillrank_up_to(/datum/skill/combat/whipsflails, 5, TRUE)
 				beltr = /obj/item/rogueweapon/flail/sflail
 			if("Sabre")
-				H.adjust_skillrank_up_to(/datum/skill/combat/swords, 5, TRUE)
+				H.adjust_skillrank_up_to(/datum/skill/combat/shortswords, 5, TRUE)
 				beltr = /obj/item/rogueweapon/scabbard/sword
 				r_hand = /obj/item/rogueweapon/sword/sabre
 			if("Lance")

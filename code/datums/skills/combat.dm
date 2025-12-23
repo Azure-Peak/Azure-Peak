@@ -19,14 +19,34 @@
 
 
 /datum/skill/combat/swords
-	name = "Sword-fighting"
+	name = "Longsword-fighting"
 	desc = "Increases your chance to successfully parry and bypass your opponent's parry by 20% with swords, and your chance to bypass dodge by 10%."
 	dreams = list(
-		"...your heavy blade swings in a wide arc, cleaving through the air with a roar. Each landed strike hits with bone shattering force. Your opponent's shield crumples under the weight, and your blade finds its mark - crushing through armor, flesh, and will alike...",
 		"...a shining length of ivory steel. A token. A symbol. More than just a weapon. Blood runs thick in the wash-bin. Sparks fly from the grindstone. You maintain the blade and it maintains your honour...",
-		"...the rapier dances in your hand, a whisper of steel cutting through the air. Every thrust is precise, every parry and riposte flowing in perfect rhythm, simply awaiting the moment to seal your their fate with a single, fatal strike..."
+		"...a knavish rogue, outlasted and left gasping. A brutish savage, his cheap axeblade broke before yours was even chipped. A spearman, the tip of it lodged in your armorgaps, lying motionless. The blade was ready for them all...",
+		"...\"A step, now another. Most will tell you...\" the tutor smiled at me... \"Not too long. Not too short. Just enough heft. Versatile, and always ready...\" he fended off three, but fell to an arrow to the knee..."
 	)
 	expert_name = "Swordsman"
+
+/datum/skill/combat/greatswords
+	name = "Greatsword-fighting"
+	desc = "Increases your chance to successfully parry and bypass your opponent's parry by 20% with greatswords, and your chance to bypass dodge by 10%."
+	dreams = list(
+		"...your heavy blade swings in a wide arc, cleaving through the air with a roar. Each landed strike hits with bone shattering force. Your opponent's shield crumples under the weight, and your blade finds its mark - crushing through armor, flesh, and will alike...",
+		"...\"All I need is me armor...\" the jovial knight grinned, tankard in his hand, \"A wench for the night...\" he unhoists his strap, to coil an arm around a curvy tapster, \"AND A BIG FECKIN' SWORD!\" he hollers, as the crossbow bolts are loosened from above...",
+		"...the metal glistened under the sun. The heft did little to its elegance. Your oiled rag left it spotless. \"This is the perfect weapon.\" you think to yourself, as the knight that once owned it let out his last, raspy breath on his bed..."
+	)
+	expert_name = "Cleaver"
+
+/datum/skill/combat/shortswords
+	name = "Shortsword-fighting"
+	desc = "Increases your chance to successfully parry and bypass your opponent's parry by 20% with sidearms & shortswords, and your chance to bypass dodge by 10%."
+	dreams = list(
+		"...the rapier dances in your hand, a whisper of steel cutting through the air. Every thrust is precise, every parry and riposte flowing in perfect rhythm, simply awaiting the moment to seal your their fate with a single, fatal strike...",
+		"...your senses tingled as you whipped your body away from an outstretched hand trying to grab at you. A swish, a flick, and their arm-plates were gone, falling uselessly to the floor. A splash of blood and they were done. You smile triumphantly, on the brink of exhaustion...",
+		"...\"Aim hither.\" the Master-at-Arms spoke, pointing a stick at the hinge-gap of a bevor with a whipping snap, \"And tither if they wear such plates.\" he pointed at the gap of the armpit. After the coin was exchanged, those were all the same places that drew rivers of red as he fell to his knees, fire around him..."
+	)
+	expert_name = "Poker"
 
 /datum/skill/combat/polearms
 	name = "Polearms"
