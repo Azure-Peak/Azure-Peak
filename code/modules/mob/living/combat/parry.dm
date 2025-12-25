@@ -6,7 +6,7 @@
 	var/mob/living/U = user
 	if(H && U)
 		prob2defend = 0
-	
+
 	if(!can_see_cone(user))
 		if(d_intent == INTENT_PARRY)
 			return FALSE
@@ -58,7 +58,10 @@
 			offhand_defense += (H.get_skill_level(offhand.associated_skill) * 20)
 			offhand_defense += (offhand.wdefense_dynamic * 10)
 
-	if(mainhand_defense >= offhand_defense)
+	if(istype(offhand, /obj/item/rogueweapon/shield))
+		used_weapon = offhand
+		highest_defense += offhand_defense + 10 // offhand shields get a flat bonus to parry
+	else if(mainhand_defense >= offhand_defense)
 		highest_defense += mainhand_defense
 	else
 		used_weapon = offhand
@@ -110,7 +113,7 @@
 
 	if(HAS_TRAIT(user, TRAIT_GUIDANCE))
 		prob2defend -= 20
-	
+
 	if(HAS_TRAIT(user, TRAIT_CURSE_RAVOX))
 		prob2defend -= 40
 
@@ -124,7 +127,16 @@
 			var/sentinel = SH.calculate_sentinel_bonus()
 			prob2defend += sentinel
 
-	prob2defend = clamp(prob2defend, 5, 90)
+	var/default_clamp_amount = 90
+	if(istype(mainhand, /obj/item/rogueweapon/shield))
+		var/obj/item/rogueweapon/shield/shield = mainhand
+		if(shield.coverage >= 30) // excludes bucklers
+			default_clamp_amount = 100
+	else if(istype(offhand, /obj/item/rogueweapon/shield))
+		var/obj/item/rogueweapon/shield/shield = offhand
+		if(shield.coverage >= 30) // excludes bucklers
+			default_clamp_amount = 100
+	prob2defend = clamp(prob2defend, 5, default_clamp_amount)
 	if(HAS_TRAIT(user, TRAIT_HARDSHELL) && H.client)	//Dwarf-merc specific limitation w/ their armor on in pvp
 		prob2defend = clamp(prob2defend, 5, 70)
 	if(!H?.check_armor_skill())
