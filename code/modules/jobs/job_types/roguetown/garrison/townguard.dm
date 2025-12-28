@@ -40,10 +40,7 @@
 			S.name = "watchman tabard ([index])"
 
 /datum/outfit/job/roguetown/guardsman
-	if(H.pronouns == THEY_THEM_F || H.pronouns == HE_HIM_F || H.pronouns == SHE_HER)
-		pants = /obj/item/clothing/under/roguetown/chainlegs/kilt
-	else
-		pants = /obj/item/clothing/under/roguetown/chainlegs
+	pants = /obj/item/clothing/under/roguetown/chainlegs
 	cloak = /obj/item/clothing/cloak/tabard/stabard/guard
 	shirt = /obj/item/clothing/suit/roguetown/armor/gambeson
 	neck = /obj/item/clothing/neck/roguetown/chaincoif

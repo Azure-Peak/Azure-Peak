@@ -220,7 +220,10 @@
 				ADD_TRAIT(H, TRAIT_DODGEEXPERT, TRAIT_GENERIC)
 			if("Medium Armor")
 				shirt = /obj/item/clothing/suit/roguetown/armor/chainmail/iron
-				pants = /obj/item/clothing/under/roguetown/chainlegs/iron
+				if(H.pronouns == THEY_THEM_F || H.pronouns == HE_HIM_F || H.pronouns == SHE_HER)
+					pants = /obj/item/clothing/under/roguetown/chainlegs/iron/kilt
+				else
+					pants = /obj/item/clothing/under/roguetown/chainlegs/iron
 				gloves = /obj/item/clothing/gloves/roguetown/chain/iron
 				beltr = /obj/item/rogueweapon/sword/iron
 				ADD_TRAIT(H, TRAIT_MEDIUMARMOR, TRAIT_GENERIC)
