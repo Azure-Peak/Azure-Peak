@@ -203,9 +203,13 @@
 	backr = /obj/item/rogueweapon/shield/iron
 	shirt = /obj/item/clothing/suit/roguetown/shirt/tunic
 	neck = /obj/item/clothing/neck/roguetown/chaincoif
-	pants = /obj/item/clothing/under/roguetown/chainlegs
 	shoes = /obj/item/clothing/shoes/roguetown/boots/leather/reinforced
 	gloves = /obj/item/clothing/gloves/roguetown/chain
+	if(H.pronouns == THEY_THEM_F || H.pronouns == HE_HIM_F || H.pronouns == SHE_HER)
+		pants = /obj/item/clothing/under/roguetown/chainlegs/kilt
+	else
+		pants = /obj/item/clothing/under/roguetown/chainlegs
+
 	backpack_contents = list(
 		/obj/item/flashlight/flare/torch/metal = 1, 
 		/obj/item/recipe_book/survival = 1,

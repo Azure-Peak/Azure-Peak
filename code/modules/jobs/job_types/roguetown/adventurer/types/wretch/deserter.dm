@@ -122,7 +122,10 @@
 		armor = armors[armorchoice]
 		wretch_select_bounty(H)
 	gloves = /obj/item/clothing/gloves/roguetown/plate 
-	pants = /obj/item/clothing/under/roguetown/chainlegs
+	if(H.pronouns == THEY_THEM_F || H.pronouns == HE_HIM_F || H.pronouns == SHE_HER)
+		pants = /obj/item/clothing/under/roguetown/chainlegs/kilt
+	else
+		pants = /obj/item/clothing/under/roguetown/chainlegs
 	neck = /obj/item/clothing/neck/roguetown/bevor
 	shirt = /obj/item/clothing/suit/roguetown/armor/chainmail
 	wrists = /obj/item/clothing/wrists/roguetown/bracers
@@ -231,7 +234,10 @@
 
 	shirt = /obj/item/clothing/suit/roguetown/armor/gambeson
 	armor = /obj/item/clothing/suit/roguetown/armor/chainmail/hauberk	
-	pants = /obj/item/clothing/under/roguetown/chainlegs
+	if(H.pronouns == THEY_THEM_F || H.pronouns == HE_HIM_F || H.pronouns == SHE_HER)
+		pants = /obj/item/clothing/under/roguetown/chainlegs/kilt
+	else
+		pants = /obj/item/clothing/under/roguetown/chainlegs
 	neck = /obj/item/clothing/neck/roguetown/chaincoif
 	cloak = /obj/item/clothing/cloak/tabard/stabard/surcoat 
 	wrists = /obj/item/clothing/wrists/roguetown/bracers

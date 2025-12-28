@@ -137,7 +137,10 @@
 				backl = /obj/item/rogueweapon/scabbard/gwstrap
 
 	shirt = /obj/item/clothing/suit/roguetown/armor/chainmail
-	pants = /obj/item/clothing/under/roguetown/chainlegs
+	if(H.pronouns == THEY_THEM_F || H.pronouns == HE_HIM_F || H.pronouns == SHE_HER)
+		pants = /obj/item/clothing/under/roguetown/chainlegs/kilt
+	else
+		pants = /obj/item/clothing/under/roguetown/chainlegs
 
 	if(H.mind)
 		var/helmets = list(
@@ -226,7 +229,10 @@
 				l_hand = /obj/item/rogueweapon/sword/sabre
 
 	shirt = /obj/item/clothing/suit/roguetown/armor/chainmail
-	pants = /obj/item/clothing/under/roguetown/chainlegs
+	if(H.pronouns == THEY_THEM_F || H.pronouns == HE_HIM_F || H.pronouns == SHE_HER)
+		pants = /obj/item/clothing/under/roguetown/chainlegs/kilt
+	else
+		pants = /obj/item/clothing/under/roguetown/chainlegs
 	backl = /obj/item/rogueweapon/shield/tower/metal
 	if(H.mind)
 		var/helmets = list(
@@ -339,7 +345,10 @@
 				H.adjust_skillrank_up_to(/datum/skill/combat/shields, 2, TRUE) // Let them skip dummy hitting
 
 	shirt = /obj/item/clothing/suit/roguetown/armor/chainmail
-	pants = /obj/item/clothing/under/roguetown/chainlegs
+	if(H.pronouns == THEY_THEM_F || H.pronouns == HE_HIM_F || H.pronouns == SHE_HER)
+		pants = /obj/item/clothing/under/roguetown/chainlegs/kilt
+	else
+		pants = /obj/item/clothing/under/roguetown/chainlegs
 
 	if(H.mind)
 		var/helmets = list(
@@ -459,11 +468,17 @@
 				armor = /obj/item/clothing/suit/roguetown/armor/leather/heavy/coat
 			if("Medium Armor")
 				shirt = /obj/item/clothing/suit/roguetown/armor/chainmail
-				pants = /obj/item/clothing/under/roguetown/chainlegs
+				if(H.pronouns == THEY_THEM_F || H.pronouns == HE_HIM_F || H.pronouns == SHE_HER)
+					pants = /obj/item/clothing/under/roguetown/chainlegs/kilt
+				else
+					pants = /obj/item/clothing/under/roguetown/chainlegs
 				armor = /obj/item/clothing/suit/roguetown/armor/brigandine/light/retinue
 			if("Medium Cuirass")
 				shirt = /obj/item/clothing/suit/roguetown/armor/chainmail
-				pants = /obj/item/clothing/under/roguetown/chainlegs
+				if(H.pronouns == THEY_THEM_F || H.pronouns == HE_HIM_F || H.pronouns == SHE_HER)
+					pants = /obj/item/clothing/under/roguetown/chainlegs/kilt
+				else
+					pants = /obj/item/clothing/under/roguetown/chainlegs
 				armor = /obj/item/clothing/suit/roguetown/armor/plate/cuirass/fluted
 
 		var/helmets = list(

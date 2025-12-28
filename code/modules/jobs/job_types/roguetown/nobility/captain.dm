@@ -202,19 +202,20 @@
 			"Steel Cuirass",
 			"Captain's armor"
 		)
+		if(H.pronouns == THEY_THEM_F || H.pronouns == HE_HIM_F || H.pronouns == SHE_HER)
+			pants = /obj/item/clothing/under/roguetown/chainlegs/kilt
+		else
+			pants = /obj/item/clothing/under/roguetown/chainlegs
 		var/armorchoice = input(H, "Choose your armor.", "TAKE UP ARMOR") as anything in armors
 		switch(armorchoice)
 			if("Brigandine")
 				armor = /obj/item/clothing/suit/roguetown/armor/brigandine/retinue
-				pants = /obj/item/clothing/under/roguetown/chainlegs
 				cloak = /obj/item/clothing/cloak/tabard/retinue/captain
 			if("Coat of Plates")
 				armor = /obj/item/clothing/suit/roguetown/armor/brigandine/coatplates
-				pants = /obj/item/clothing/under/roguetown/chainlegs
 				cloak = /obj/item/clothing/cloak/tabard/retinue/captain
 			if("Fluted Cuirass")
 				armor = /obj/item/clothing/suit/roguetown/armor/plate/cuirass/fluted
-				pants = /obj/item/clothing/under/roguetown/chainlegs
 				cloak = /obj/item/clothing/cloak/tabard/retinue/captain
 			if("Captain's armor")
 				armor = /obj/item/clothing/suit/roguetown/armor/brigandine/captain

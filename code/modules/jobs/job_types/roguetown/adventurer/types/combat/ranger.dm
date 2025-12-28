@@ -147,7 +147,10 @@
 	head = /obj/item/clothing/head/roguetown/roguehood
 	wrists = /obj/item/clothing/wrists/roguetown/bracers/leather
 	gloves = /obj/item/clothing/gloves/roguetown/fingerless_leather
-	pants = /obj/item/clothing/under/roguetown/chainlegs/iron
+	if(H.pronouns == THEY_THEM_F || H.pronouns == HE_HIM_F || H.pronouns == SHE_HER)
+		pants = /obj/item/clothing/under/roguetown/chainlegs/iron/kilt
+	else
+		pants = /obj/item/clothing/under/roguetown/chainlegs/iron
 	armor = /obj/item/clothing/suit/roguetown/shirt/robe/mageorange
 	shirt = /obj/item/clothing/suit/roguetown/armor/chainmail/iron
 	belt = /obj/item/storage/belt/rogue/leather
@@ -241,7 +244,10 @@
 				H.change_stat(STATKEY_SPD, 1)
 			if("Medium Armor")
 				armor = /obj/item/clothing/suit/roguetown/armor/chainmail/iron
-				pants = /obj/item/clothing/under/roguetown/chainlegs/iron
+				if(H.pronouns == THEY_THEM_F || H.pronouns == HE_HIM_F || H.pronouns == SHE_HER)
+					pants = /obj/item/clothing/under/roguetown/chainlegs/iron/kilt
+				else
+					pants = /obj/item/clothing/under/roguetown/chainlegs/iron
 				gloves = /obj/item/clothing/gloves/roguetown/chain/iron
 				ADD_TRAIT(H, TRAIT_MEDIUMARMOR, TRAIT_GENERIC)
 				H.change_stat(STATKEY_STR, 1)

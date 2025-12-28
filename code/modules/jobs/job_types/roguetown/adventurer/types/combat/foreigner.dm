@@ -250,7 +250,12 @@
 	wrists = /obj/item/clothing/wrists/roguetown/bracers/leather/heavy
 	neck = /obj/item/clothing/neck/roguetown/chaincoif
 	shoes = /obj/item/clothing/shoes/roguetown/shalal
-	pants = /obj/item/clothing/under/roguetown/chainlegs
+
+	if(H.pronouns == THEY_THEM_F || H.pronouns == HE_HIM_F || H.pronouns == SHE_HER)
+		pants = /obj/item/clothing/under/roguetown/chainlegs/kilt
+	else
+		pants = /obj/item/clothing/under/roguetown/chainlegs
+		
 	gloves = /obj/item/clothing/gloves/roguetown/angle
 	shirt = /obj/item/clothing/suit/roguetown/shirt/undershirt/purple
 	belt = /obj/item/storage/belt/rogue/leather/shalal/purple

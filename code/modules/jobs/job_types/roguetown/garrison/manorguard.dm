@@ -148,7 +148,10 @@
 				armor = /obj/item/clothing/suit/roguetown/armor/plate/scale
 				shirt = /obj/item/clothing/suit/roguetown/armor/chainmail/iron
 				wrists = /obj/item/clothing/wrists/roguetown/bracers
-				pants = /obj/item/clothing/under/roguetown/chainlegs
+				if(H.pronouns == THEY_THEM_F || H.pronouns == HE_HIM_F || H.pronouns == SHE_HER)
+					pants = /obj/item/clothing/under/roguetown/chainlegs/kilt
+				else
+					pants = /obj/item/clothing/under/roguetown/chainlegs
 
 		var/helmets = list(
 		"Simple Helmet" 	= /obj/item/clothing/head/roguetown/helmet,
@@ -334,7 +337,10 @@
 				armor = /obj/item/clothing/suit/roguetown/armor/plate/scale
 				shirt = /obj/item/clothing/suit/roguetown/armor/chainmail/iron
 				wrists = /obj/item/clothing/wrists/roguetown/bracers
-				pants = /obj/item/clothing/under/roguetown/chainlegs
+				if(H.pronouns == THEY_THEM_F || H.pronouns == HE_HIM_F || H.pronouns == SHE_HER)
+					pants = /obj/item/clothing/under/roguetown/chainlegs/kilt
+				else
+					pants = /obj/item/clothing/under/roguetown/chainlegs
 
 		var/helmets = list(
 		"Simple Helmet" 	= /obj/item/clothing/head/roguetown/helmet,

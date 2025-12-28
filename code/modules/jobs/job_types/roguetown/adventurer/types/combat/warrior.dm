@@ -78,7 +78,10 @@
 			if("Chainmaille Set")
 				armor = /obj/item/clothing/suit/roguetown/armor/chainmail/iron
 				shirt = /obj/item/clothing/suit/roguetown/shirt/tunic/random//giving them something to wear under their armors
-				pants = /obj/item/clothing/under/roguetown/chainlegs/iron
+				if(H.pronouns == THEY_THEM_F || H.pronouns == HE_HIM_F || H.pronouns == SHE_HER)
+					pants = /obj/item/clothing/under/roguetown/chainlegs/iron/kilt
+				else
+					pants = /obj/item/clothing/under/roguetown/chainlegs/iron
 				neck = /obj/item/clothing/neck/roguetown/chaincoif/iron
 				gloves = /obj/item/clothing/gloves/roguetown/chain/iron
 			if("Iron Breastplate")
