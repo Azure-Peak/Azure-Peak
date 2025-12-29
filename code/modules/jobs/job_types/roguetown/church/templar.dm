@@ -48,7 +48,7 @@
 	)
 	subclass_skills = list(
 		/datum/skill/misc/athletics = SKILL_LEVEL_EXPERT,
-		/datum/skill/combat/wrestling = SKILL_LEVEL_EXPERT,
+		/datum/skill/combat/wrestling = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/combat/unarmed = SKILL_LEVEL_EXPERT,
 		/datum/skill/misc/swimming = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/misc/climbing = SKILL_LEVEL_EXPERT,
@@ -144,7 +144,7 @@
 	var/weapon_choice = input(H,"Choose your weapon.", "TAKE UP ARMS") as anything in weapons
 	switch(weapon_choice)
 		if("Discipline - Unarmed")
-			H.adjust_skillrank_up_to(/datum/skill/combat/unarmed, 5, TRUE)
+			H.adjust_skillrank_up_to(/datum/skill/combat/unarmed, 4, TRUE)
 			gloves = /obj/item/clothing/gloves/roguetown/bandages/pugilist
 			ADD_TRAIT(H, TRAIT_DODGEEXPERT, TRAIT_GENERIC)
 		if("Katar")
