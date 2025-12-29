@@ -208,7 +208,7 @@
 	tutorial = "You are a brutal warrior, who has foregone armor in favor of pure strength. Crush your enemies, see them driven before you, and hear the lamentations of their women! Oh, and you can specialize in unarmed combat and wrestling."
 	outfit = /datum/outfit/job/roguetown/adventurer/barbarian
 	cmode_music = 'sound/music/cmode/antag/combat_darkstar.ogg'
-	traits_applied = list(TRAIT_STEELHEARTED, TRAIT_CRITICAL_RESISTANCE, TRAIT_NOPAINSTUN)
+	traits_applied = list(TRAIT_STEELHEARTED)
 	subclass_stats = list(
 		STATKEY_STR = 3,
 		STATKEY_CON = 2,
