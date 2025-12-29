@@ -67,7 +67,7 @@
 		/datum/skill/combat/maces = SKILL_LEVEL_MASTER,
 		/datum/skill/combat/axes = SKILL_LEVEL_EXPERT,
 		/datum/skill/combat/shields = SKILL_LEVEL_EXPERT,
-		/datum/skill/combat/wrestling = SKILL_LEVEL_EXPERT,
+		/datum/skill/combat/wrestling = SKILL_LEVEL_SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/combat/unarmed = SKILL_LEVEL_EXPERT,
 		/datum/skill/combat/polearms = SKILL_LEVEL_EXPERT,
 		/datum/skill/combat/bows = SKILL_LEVEL_EXPERT,
@@ -110,7 +110,7 @@
 	if(H.age == AGE_OLD)
 		H.adjust_skillrank_up_to(/datum/skill/combat/swords, 6, TRUE)
 		H.adjust_skillrank_up_to(/datum/skill/combat/maces, 6, TRUE)
-		H.adjust_skillrank_up_to(/datum/skill/combat/wrestling, 5, TRUE)
+		H.adjust_skillrank_up_to(/datum/skill/combat/wrestling, 4, TRUE)
 		H.change_stat(STATKEY_WIL, 1)
 
 	H.adjust_blindness(-3)
@@ -184,7 +184,7 @@
 		/datum/skill/combat/maces = SKILL_LEVEL_EXPERT,
 		/datum/skill/combat/axes = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/combat/shields = SKILL_LEVEL_EXPERT, // this is a kinda scary skill to give them, surely it won't go wrong though.
-		/datum/skill/combat/wrestling = SKILL_LEVEL_EXPERT,
+		/datum/skill/combat/wrestling = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/combat/unarmed = SKILL_LEVEL_EXPERT,
 		/datum/skill/combat/polearms = SKILL_LEVEL_MASTER,
 		/datum/skill/combat/bows = SKILL_LEVEL_EXPERT,
@@ -229,7 +229,7 @@
 		H.adjust_skillrank_up_to(/datum/skill/combat/swords, 5, TRUE)
 		H.adjust_skillrank_up_to(/datum/skill/combat/maces, 5, TRUE)
 		H.adjust_skillrank_up_to(/datum/skill/combat/axes, 5, TRUE)
-		H.adjust_skillrank_up_to(/datum/skill/combat/wrestling, 5, TRUE)
+		H.adjust_skillrank_up_to(/datum/skill/combat/wrestling, 4, TRUE)
 	H.verbs |= /mob/proc/haltyell
 	if(H.mind)
 		SStreasury.give_money_account(ECONOMIC_RICH, H, "Retirement.")
@@ -422,7 +422,7 @@
 		/datum/skill/combat/swords = SKILL_LEVEL_EXPERT,
 		/datum/skill/combat/maces = SKILL_LEVEL_EXPERT,
 		/datum/skill/combat/axes = SKILL_LEVEL_EXPERT,
-		/datum/skill/combat/wrestling = SKILL_LEVEL_EXPERT,
+		/datum/skill/combat/wrestling = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/combat/unarmed = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/combat/polearms = SKILL_LEVEL_EXPERT,
 		/datum/skill/combat/bows = SKILL_LEVEL_JOURNEYMAN,
@@ -652,7 +652,7 @@
 		/datum/skill/combat/maces = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/combat/axes = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/combat/shields = SKILL_LEVEL_JOURNEYMAN,
-		/datum/skill/combat/wrestling = SKILL_LEVEL_EXPERT,
+		/datum/skill/combat/wrestling = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/combat/unarmed = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/combat/polearms = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/combat/bows = SKILL_LEVEL_JOURNEYMAN,
