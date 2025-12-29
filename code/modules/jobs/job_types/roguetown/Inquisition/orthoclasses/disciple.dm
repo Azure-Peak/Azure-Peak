@@ -6,9 +6,6 @@
 	outfit = /datum/outfit/job/roguetown/disciple
 	subclass_languages = list(/datum/language/otavan)
 	category_tags = list(CTAG_INQUISITION)
-	traits_applied = list(
-		TRAIT_CIVILIZEDBARBARIAN,
-	)
 	subclass_stats = list(
 		STATKEY_STR = 3,
 		STATKEY_WIL = 3,
@@ -48,16 +45,13 @@
 				H.adjust_skillrank_up_to(/datum/skill/combat/unarmed, 5, TRUE)
 				H.adjust_skillrank_up_to(/datum/skill/misc/athletics, 5, TRUE)
 				gloves = /obj/item/clothing/gloves/roguetown/bandages/pugilist
-				ADD_TRAIT(H, TRAIT_CRITICAL_RESISTANCE, TRAIT_GENERIC)
-				ADD_TRAIT(H, TRAIT_IGNOREDAMAGESLOWDOWN, TRAIT_GENERIC) //Removes pain-inflicted slowdowns. Does not immunize against pain, nor other means of slowdown - frostspells, unpaved terrain, etc.
+				ADD_TRAIT(H, TRAIT_CIVILIZEDBARBARIAN, TRAIT_GENERIC)
 			if("Katar")
 				r_hand = /obj/item/rogueweapon/katar/psydon
 				gloves = /obj/item/clothing/gloves/roguetown/bandages/weighted
-				ADD_TRAIT(H, TRAIT_CRITICAL_RESISTANCE, TRAIT_GENERIC)
 			if("Knuckledusters")
 				r_hand = /obj/item/rogueweapon/knuckles/psydon
 				gloves = /obj/item/clothing/gloves/roguetown/bandages/weighted
-				ADD_TRAIT(H, TRAIT_CRITICAL_RESISTANCE, TRAIT_GENERIC)
 			if("Quarterstaff")
 				H.adjust_skillrank_up_to(/datum/skill/combat/staves, 4, TRUE)
 				H.adjust_skillrank_up_to(/datum/skill/combat/polearms, 3, TRUE)
@@ -87,7 +81,6 @@
 				l_hand = /obj/item/spellbook_unfinished/pre_arcyne
 				ADD_TRAIT(H, TRAIT_ARCYNE_T2, TRAIT_GENERIC) //Sojourners are magyck-inclined lightweights, relying on evasive maneuvers and unorthodox techniques - compared to the Disciple, who simply Kills People With Rocks.
 				ADD_TRAIT(H, TRAIT_DODGEEXPERT, TRAIT_GENERIC)
-				REMOVE_TRAIT(H, TRAIT_CRITICAL_RESISTANCE, TRAIT_GENERIC)
 				H.adjust_skillrank_up_to(/datum/skill/magic/arcane, 3, TRUE)
 				H.grant_language(/datum/language/celestial) //They're from Naledi, they should speak Sama'glos
 				H.mind.adjust_spellpoints(6)
