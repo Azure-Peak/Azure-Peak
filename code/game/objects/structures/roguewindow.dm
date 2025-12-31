@@ -31,7 +31,7 @@
 /obj/structure/roguewindow/attacked_by(obj/item/I, mob/living/user)
 	..()
 	if(obj_broken || obj_destroyed)
-		var/obj/effect/track/structure/new_track = new(get_turf(src))
+		var/obj/effect/track/structure/new_track = SStracks.get_track(/obj/effect/track/structure, get_turf(src))
 		message_admins("Window [obj_destroyed ? "destroyed" : "broken"] by [user?.real_name] using [I] [ADMIN_JMP(src)]")
 		log_admin("Window [obj_destroyed ? "destroyed" : "broken"] by [user?.real_name] at X:[src.x] Y:[src.y] Z:[src.z] in area: [get_area(src)]")
 		new_track.handle_creation(user)
@@ -48,6 +48,7 @@
 	. = ..(dirin)
 
 /obj/structure/roguewindow/stained
+	desc = "A stained glass window bearing religious imagery."
 	icon_state = null
 	base_state = null
 	opacity = TRUE
@@ -63,6 +64,7 @@
 	base_state = "stained-yellow"
 	
 /obj/structure/roguewindow/stained/zizo
+	desc = "A stained glass window bearing an inverted cross of Psydon, widely considered a heretical symbol."
 	icon_state = "stained-zizo"
 	base_state = "stained-zizo"
 
@@ -72,6 +74,10 @@
 	opacity = TRUE
 	max_integrity = 200
 	integrity_failure = 0.5
+
+/obj/structure/roguewindow/openclose/get_mechanics_examine(mob/user)
+	. = ..()
+	. += span_info("Right clicking on the window will open or close it.")
 
 /obj/structure/roguewindow/openclose/OnCrafted(dirin)
 	dir = turn(dirin, 180)

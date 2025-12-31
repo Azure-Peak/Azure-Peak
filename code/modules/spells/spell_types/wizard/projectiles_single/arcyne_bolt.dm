@@ -58,6 +58,7 @@
 	if(ismob(target))
 		var/datum/status_effect/debuff/arcanemark/mark = M.has_status_effect(/datum/status_effect/debuff/arcanemark)
 		if(mark && mark.stacks == mark.max_stacks)
+			damage = 60
 			armor_penetration = 50
 			woundclass = BCLASS_STAB
 			apply_mark = FALSE

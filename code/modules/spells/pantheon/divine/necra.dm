@@ -196,14 +196,14 @@
 	req_items = list(/obj/item/clothing/neck/roguetown/psicross)
 	invocations = list("Undermaiden, guide my hand to those who have lost their way.")
 	invocation_type = "whisper"
-	recharge_time = 60 SECONDS
-	devotion_cost = 50
+	recharge_time = 15 SECONDS
+	devotion_cost = 35
 
 /obj/effect/proc_holder/spell/targeted/locate_dead/cast(list/targets, mob/living/user = usr)
 	. = ..()
 	var/list/mob/corpses = list()
 	for(var/mob/living/C in GLOB.dead_mob_list)
-		if(!C.mind || !is_in_zweb(C.z, user.z))
+		if(!C.mind)
 			continue
 
 		var/time_dead = 0
@@ -241,28 +241,35 @@
 
 	var/corpse = corpses[selected]
 
-	var/direction = get_dir(user, corpse)
+	var/turf/turf_user = get_turf(user)
+	var/turf/turf_corpse = get_turf(corpse)
 	var/direction_name = "unknown"
-	switch(direction)
-		if(NORTH)
-			direction_name = "north"
-		if(SOUTH)
-			direction_name = "south"
-		if(EAST)
-			direction_name = "east"
-		if(WEST)
-			direction_name = "west"
-		if(NORTHEAST)
-			direction_name = "northeast"
-		if(NORTHWEST)
-			direction_name = "northwest"
-		if(SOUTHEAST)
-			direction_name = "southeast"
-		if(SOUTHWEST)
-			direction_name = "southwest"
+	if(turf_user.z != turf_corpse.z)
+		if(turf_corpse.z > turf_user.z)
+			direction_name = "above"
+		else
+			direction_name = "below"
+	else
+		var/direction = get_dir(user, corpse)
+		switch(direction)
+			if(NORTH)
+				direction_name = "north"
+			if(SOUTH)
+				direction_name = "south"
+			if(EAST)
+				direction_name = "east"
+			if(WEST)
+				direction_name = "west"
+			if(NORTHEAST)
+				direction_name = "northeast"
+			if(NORTHWEST)
+				direction_name = "northwest"
+			if(SOUTHEAST)
+				direction_name = "southeast"
+			if(SOUTHWEST)
+				direction_name = "southwest"
 
 	to_chat(user, span_notice("The Undermaiden pulls on your hand, guiding you [direction_name]."))
-
 
 /obj/effect/proc_holder/spell/invoked/necra_vow
 	name = "Vow to Necra"

@@ -134,7 +134,7 @@
 
 /datum/skill_holder/proc/adjust_skillrank_down_to(skill, amt, silent = FALSE)
 	var/proper_amt = get_skill_level(skill) - amt
-	if(proper_amt >= 0)
+	if(proper_amt <= 0)
 		return
 	adjust_skillrank(skill, -proper_amt, silent)
 

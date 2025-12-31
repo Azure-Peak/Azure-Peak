@@ -22,8 +22,8 @@
 	glow_color = GLOW_COLOR_ICE
 	glow_intensity = GLOW_INTENSITY_HIGH
 	ignore_los = FALSE
-	var/delay = 10
-	var/damage = 30
+	var/delay = 14
+	var/damage = 60
 	var/area_of_effect = 2
 
 /obj/effect/temp_visual/trapice

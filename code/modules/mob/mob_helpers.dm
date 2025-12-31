@@ -45,6 +45,29 @@
 
 	return zone
 
+///Returns a TRUE / FALSE if the zone is a FACE coverage subzone. Used mainly by accuracy_check & bait.
+/proc/check_face_subzone(zone)
+	if(!zone)
+		return FALSE
+	switch(zone)
+		if(BODY_ZONE_PRECISE_R_EYE)
+			return TRUE
+		if(BODY_ZONE_PRECISE_L_EYE)
+			return TRUE
+		if(BODY_ZONE_PRECISE_NOSE)
+			return TRUE
+		if(BODY_ZONE_PRECISE_MOUTH)
+			return TRUE
+		if(BODY_ZONE_PRECISE_EARS)
+			return TRUE
+		//--Optional Neck & Skull Additions--
+		//if(BODY_ZONE_PRECISE_NECK)
+		//	return TRUE
+		//if(BODY_ZONE_PRECISE_SKULL)
+		//	return TRUE
+
+	return FALSE
+
 /// Returns the targeting zone equivalent of a given bodypart. Kudos to you if you find a use for this.
 /proc/bodypart_to_zone(part)
 	var/obj/item/bodypart/B = part

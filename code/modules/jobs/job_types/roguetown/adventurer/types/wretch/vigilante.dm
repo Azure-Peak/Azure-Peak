@@ -52,18 +52,29 @@
 				bullshit_equip(H)
 
 /datum/outfit/job/roguetown/wretch/vigilante/proc/watchman_equip(mob/living/carbon/human/H)
-	H.adjust_skillrank_up_to(/datum/skill/combat/unarmed, 5, TRUE) //No civilized barbarian. Sorry chud. Go play Berserker if you want that. 
+	H.adjust_skillrank_up_to(/datum/skill/combat/wrestling, 5, TRUE) //If a MAA is allowed to have master wrestling, this guy can too. Blow me. 
 	H.adjust_skillrank_up_to(/datum/skill/misc/athletics, 5, TRUE) //I can do this all day. 
 	backl = /obj/item/storage/backpack/rogue/backpack/bagpack
-	beltl = /obj/item/rogueweapon/knuckles
 	beltr = /obj/item/rogueweapon/stoneaxe/hurlbat
 	head = /obj/item/clothing/head/roguetown/roguehood/shalal/heavyhood
 	cloak = /obj/item/clothing/cloak/thief_cloak
-	armor = /obj/item/clothing/suit/roguetown/armor/leather/heavy/jacket
+	armor = /obj/item/clothing/suit/roguetown/armor/leather/heavy/coat
 	H.change_stat(STATKEY_STR, 2)
 	H.change_stat(STATKEY_CON, 3)
 	H.change_stat(STATKEY_WIL, 3)
 	ADD_TRAIT(H, TRAIT_NOPAINSTUN, TRAIT_GENERIC) //No crit resist - you can still get folded pretty easily if overwhelmed
+	if(H.mind)
+		var/weapons = list("THE FISTS OF JUSTICE ARE UNISEX!","JUSTICE DISPENSED THROUGH KNUCKLE AND BLADE!")
+		var/weapon_choice = input(H, "Choose your WEAPON.", "THY FISTS ARE THY IMPLEMENT, WATCHMAN!") as anything in weapons
+		H.set_blindness(0)
+		switch(weapon_choice)
+			if("THE FISTS OF JUSTICE ARE UNISEX!")
+				H.adjust_skillrank_up_to(/datum/skill/combat/unarmed, SKILL_LEVEL_MASTER, TRUE) //It's sovl. 
+				ADD_TRAIT(H, TRAIT_CIVILIZEDBARBARIAN, TRAIT_GENERIC)
+			if("JUSTICE DISPENSED THROUGH KNUCKLE AND BLADE!")
+				H.adjust_skillrank_up_to(/datum/skill/combat/unarmed, SKILL_LEVEL_EXPERT, TRUE) //No Civbarb. 
+				l_hand = /obj/item/rogueweapon/katar
+				r_hand = /obj/item/rogueweapon/knuckles
 	wretch_select_bounty(H)
 
 /datum/outfit/job/roguetown/wretch/vigilante/proc/owl_equip(mob/living/carbon/human/H)
@@ -85,7 +96,7 @@
 	H.adjust_skillrank_up_to(/datum/skill/misc/lockpicking, 4, TRUE) //Investigations
 	H.adjust_skillrank_up_to(/datum/skill/combat/slings, 4, TRUE) // Funny as shit to use. 
 	H.adjust_skillrank_up_to(/datum/skill/combat/polearms, 3, TRUE) //Last resort CQC. Enough def on a quarterstaff to fight defensively, not enough to be truly offensive.
-	H.adjust_skillrank_up_to(/datum/skill/combat/staves, 3, TRUE) //Nearly missed this while finishing up the staff-skill port.
+	H.adjust_skillrank_up_to(/datum/skill/combat/staves, 4, TRUE) //Realized NOBODY was running this class because it was abysmal at combat with jman. Woe.
 	H.adjust_skillrank_up_to(/datum/skill/misc/sneaking, 4, TRUE) //I lurk in the shadows...
 	H.adjust_skillrank_up_to(/datum/skill/craft/crafting, 4, TRUE) //Crafty
 	H.adjust_skillrank_up_to(/datum/skill/misc/climbing, 5, TRUE) // Escape routes

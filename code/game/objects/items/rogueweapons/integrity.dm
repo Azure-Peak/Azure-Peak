@@ -13,6 +13,8 @@
 	var/sharpness_mod = 1
 
 /obj/item/proc/remove_bintegrity(amt as num, mob/user)
+	if(sharpness == IS_BLUNT)
+		return FALSE
 	if(sharpness_mod != 1)
 		amt *= sharpness_mod
 	if(user && HAS_TRAIT(user, TRAIT_SHARPER_BLADES))

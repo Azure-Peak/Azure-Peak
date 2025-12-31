@@ -387,7 +387,7 @@ GLOBAL_LIST(teleport_runes)
 			if(istype(effect, /datum/status_effect/buff/magic))
 				empower_count++
 
-		if(empower_count > 1)
+		if(empower_count >= 3)
 			to_chat(living_invoker, span_warning("I'm already imbued by too many arcyne energies, this ritual does nothing for me!"))
 			invoker_list.Remove(living_invoker)
 

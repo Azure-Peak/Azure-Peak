@@ -18,6 +18,11 @@
 	var/base_icon = "pillory_single"
 	var/list/lockid = list()
 
+/obj/structure/pillory/get_mechanics_examine(mob/user)
+	. = ..()
+	. += span_info("Right clicking the pillory will latch it onto the head and hands of anyone on the same turf.")
+	. += span_info("Left clicking the pillory with a compatible key or keychain, provided somebody is already latched to it, will lock the pillory!")
+
 /obj/structure/pillory/double
 	icon_state = "pillory_double"
 	base_icon = "pillory_double"

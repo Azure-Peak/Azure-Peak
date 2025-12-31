@@ -1,7 +1,7 @@
 
 /obj/item/quiver
 	name = "quiver"
-	desc = ""
+	desc = "A quiver used to hold arrows. An archer's best friend."
 	icon_state = "quiver0"
 	item_state = "quiver"
 	icon = 'icons/roguetown/weapons/ammo.dmi'
@@ -204,7 +204,7 @@
 
 /obj/item/quiver/javelin
 	name = "javelinbag"
-	desc = ""
+	desc = "A large, durable quiver used to hold javelins."
 	icon_state = "javelinbag0"
 	item_state = "javelinbag"
 	max_storage = 4

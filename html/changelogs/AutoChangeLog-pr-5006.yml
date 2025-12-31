@@ -1,0 +1,4 @@
+author: "dopamiin0"
+delete-after: True
+changes:
+  - balance: "aerosolize has 1.2 second telegraphed delay before casting"

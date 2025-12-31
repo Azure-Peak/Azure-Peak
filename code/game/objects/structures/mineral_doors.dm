@@ -3,6 +3,7 @@
 
 /obj/structure/mineral_door
 	name = "metal door"
+	desc = "It opens and closes."
 	density = TRUE
 	anchored = TRUE
 	opacity = TRUE
@@ -62,6 +63,12 @@
 	var/list/resident_advclass
 	//a door name a skilled artisan can make 
 	var/doorname = null
+
+/obj/structure/mineral_door/get_mechanics_examine(mob/user)
+	. = ..()
+	. += span_info("Right clicking the door with a key will attempt to lock it.")
+	. += span_info("Left clicking the door with a key will attempt to unlock it.")
+	. += span_info("Kicking an unlocked door will open or close it. Kicking a locked door, if sufficiently strong, can force it open!")
 
 /obj/structure/mineral_door/onkick(mob/user)
 	if(isSwitchingStates)
@@ -416,7 +423,7 @@
 /obj/structure/mineral_door/attacked_by(obj/item/I, mob/living/user)
 	..()
 	if(obj_broken || obj_destroyed)
-		var/obj/effect/track/structure/new_track = new(get_turf(src))
+		var/obj/effect/track/structure/new_track = SStracks.get_track(/obj/effect/track/structure, get_turf(src))
 		new_track.handle_creation(user)
 
 /obj/structure/mineral_door/proc/repairdoor(obj/item/I, mob/user)
@@ -587,7 +594,7 @@
 						log_admin("[H.real_name]([key_name(user)]) successfully lockpicked [src.name].")
 						record_featured_stat(FEATURED_STATS_CRIMINALS, user)
 						record_round_statistic(STATS_LOCKS_PICKED)
-						var/obj/effect/track/structure/new_track = new(get_turf(src))
+						var/obj/effect/track/structure/new_track = SStracks.get_track(/obj/effect/track/structure, get_turf(src))
 						new_track.handle_creation(user)
 					lock_toggle(user)
 					break
@@ -688,7 +695,6 @@
 
 /obj/structure/mineral_door/wood
 	name = "door"
-	desc = ""
 	icon_state = "woodhandle"
 	openSound = 'sound/foley/doors/creak.ogg'
 	closeSound = 'sound/foley/doors/shut.ogg'
@@ -780,13 +786,12 @@
 	opacity = FALSE
 	icon_state = "woodwindow"
 	windowed = TRUE
-	desc = ""
+	desc = "This is a door with a window integrated into it."
 	over_state = "woodwindowopen"
 	smashable = TRUE
 
 /obj/structure/mineral_door/wood/fancywood
 	icon_state = "fancy_wood"
-	desc = ""
 	over_state = "fancy_woodopen"
 	smashable = TRUE
 
@@ -802,6 +807,10 @@
 	openSound = 'sound/foley/doors/shittyopen.ogg'
 	closeSound = 'sound/foley/doors/shittyclose.ogg'
 	smashable = TRUE
+
+/obj/structure/mineral_door/wood/deadbolt/get_mechanics_examine(mob/user)
+	. = ..()
+	. += span_info("You can lock this without a key with <b>right click</b>, but only from one side.")
 
 /obj/structure/mineral_door/wood/deadbolt/OnCrafted(dirin)
 	dir = turn(dirin, 180)
@@ -913,7 +922,6 @@
 
 /obj/structure/mineral_door/bars
 	name = "iron door"
-	desc = ""
 	icon_state = "bars"
 	openSound = 'sound/foley/doors/ironopen.ogg'
 	closeSound = 'sound/foley/doors/ironclose.ogg'
@@ -937,10 +945,9 @@
 	repair_cost_first = /obj/item/ingot/iron
 	repair_cost_second = /obj/item/ingot/iron
 	repair_skill = /datum/skill/craft/blacksmithing
-	
+
 /obj/structure/mineral_door/barsold
 	name = "iron door"
-	desc = ""
 	icon_state = "barsold"
 
 /obj/structure/mineral_door/bars/Initialize()

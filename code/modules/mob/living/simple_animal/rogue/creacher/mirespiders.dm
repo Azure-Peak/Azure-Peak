@@ -1,5 +1,6 @@
 /mob/living/simple_animal/hostile/retaliate/rogue/mirespider
 	icon = 'icons/mob/mirespider_small.dmi'
+	desc = "Said to have originated from the decapitated heads of fallen legionnaires from eons past, grown legs and a voracious appetite, mire crawlers are common pests in many a wetland. Occasionally hunted for their silk."
 	name = "mire crawler"
 	icon_state = "crawler"
 	icon_living = "crawler"
@@ -146,6 +147,7 @@
 
 /mob/living/simple_animal/hostile/rogue/mirespider_lurker
 	icon = 'icons/mob/mirespider_big.dmi'
+	desc = "An unusually large and dangerous mire crawler, these lumbering creatures tend to find smaller specimens gravitating to them for safety - or perhaps simply to hunt more efficiently."
 	name = "mire lurker"
 	icon_state = "lurker"
 	icon_living = "lurker"

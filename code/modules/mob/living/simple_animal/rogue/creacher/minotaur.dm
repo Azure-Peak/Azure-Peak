@@ -1,6 +1,7 @@
 /mob/living/simple_animal/hostile/retaliate/rogue/minotaur
 	icon = 'icons/mob/newminotaur.dmi'
 	name = "Minotaur"
+	desc = "An unusually giant relative of the more familiar manners of Wild-Kin. This one looks aggressive."
 	icon_state = "MinotaurMale"
 	icon_living = "MinotaurMale"
 	icon_dead = "MinotaurMale_dead"

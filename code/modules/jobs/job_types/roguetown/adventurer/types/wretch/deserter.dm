@@ -53,6 +53,8 @@
 			"Battle Axe",
 			"Lance + Kite Shield",
 			"Samshir",
+			"Ssangsudo",
+			"Shashka + Shield",
 		)
 		var/weapon_choice = input(H, "Choose your weapon.", "TAKE UP ARMS") as anything in weapons
 		H.set_blindness(0)
@@ -80,6 +82,14 @@
 				backr = /obj/item/rogueweapon/shield/tower/metal
 			if("Samshir")
 				r_hand = /obj/item/rogueweapon/sword/sabre/shamshir
+				beltr = /obj/item/rogueweapon/scabbard/sword
+			if("Ssangsudo")
+				r_hand = /obj/item/rogueweapon/sword/long/kriegmesser/ssangsudo
+				beltr = /obj/item/rogueweapon/scabbard/sword/kazengun/noparry
+			if("Shashka + Shield")
+				r_hand = /obj/item/rogueweapon/sword/sabre/steppesman
+				beltr = /obj/item/rogueweapon/scabbard/sword
+				backr = /obj/item/rogueweapon/shield/iron/steppesman
 		var/helmets = list(
 			"Pigface Bascinet" 	= /obj/item/clothing/head/roguetown/helmet/bascinet/pigface,
 			"Guard Helmet"		= /obj/item/clothing/head/roguetown/helmet/heavy/guard,
@@ -92,6 +102,8 @@
 			"Etruscan Bascinet" 		= /obj/item/clothing/head/roguetown/helmet/bascinet/etruscan,
 			"Slitted Kettle"		= /obj/item/clothing/head/roguetown/helmet/heavy/knight/skettle,
 			"Kulah Khud"	= /obj/item/clothing/head/roguetown/helmet/sallet/raneshen,
+			"Kabuto"	= /obj/item/clothing/head/roguetown/helmet/heavy/kabuto, //No mask, fuck you
+			"Shishak"	= /obj/item/clothing/head/roguetown/helmet/sallet/shishak,
 			"None"
 		)
 		var/helmchoice = input(H, "Choose your Helm.", "TAKE UP HELMS") as anything in helmets
@@ -103,7 +115,8 @@
 			"Coat of Plates"	= /obj/item/clothing/suit/roguetown/armor/brigandine/coatplates,
 			"Steel Cuirass"		= /obj/item/clothing/suit/roguetown/armor/plate/cuirass,				
 			"Fluted Cuirass"	= /obj/item/clothing/suit/roguetown/armor/plate/cuirass/fluted,
-			"Scalemail"		= /obj/item/clothing/suit/roguetown/armor/plate/scale,
+			"Lamellar Scalemail"		= /obj/item/clothing/suit/roguetown/armor/plate/scale/steppe,
+			"Haraate Brigandine"		= /obj/item/clothing/suit/roguetown/armor/brigandine/haraate,
 		)
 		var/armorchoice = input(H, "Choose your armor.", "TAKE UP ARMOR") as anything in armors
 		armor = armors[armorchoice]

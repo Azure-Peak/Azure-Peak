@@ -2,7 +2,7 @@
 /mob/living/simple_animal/hostile/retaliate/rogue/chicken
 	icon = 'icons/roguetown/mob/monster/chicken.dmi'
 	name = "\improper chicken"
-	desc = ""
+	desc = "A domestic chicken, among the most common livestock in the known world. Reputed to lay eggs if fed."
 	icon_state = "chicken_brown"
 	icon_living = "chicken_brown"
 	icon_dead = "chicken_brown_dead"

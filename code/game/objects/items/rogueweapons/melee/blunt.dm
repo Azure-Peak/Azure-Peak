@@ -655,7 +655,6 @@
 	bigboy = TRUE
 	gripsprite = TRUE
 	minstr_req = TRUE //You MUST have the required strength. No exceptions.
-	max_integrity = 300
 
 /obj/item/rogueweapon/mace/maul/getonmobprop(tag)
 	. = ..()
@@ -676,7 +675,6 @@
 	minstr = 15
 	wdefense_wbonus = 4 // from 6
 	smelt_bar_num = 3
-	max_integrity = 350
 
 //Dwarvish mauls. Unobtanium outside of Grudgebearer. Do not change that.
 /obj/item/rogueweapon/mace/maul/steel
@@ -688,7 +686,7 @@
 	minstr = 11 // +2STR from Grudgebearer Soldier. Should cover this.
 	wdefense_wbonus = 3 // 5
 	smelt_bar_num = 3 // You'll break my heart.
-	max_integrity = 340
+	max_integrity = 390
 
 /obj/item/rogueweapon/mace/maul/spiked
 	name = "spiked maul"
@@ -699,7 +697,7 @@
 	wdefense_wbonus = 2 //4
 	minstr = 10 //+1 STR from Grudgebearer Smith. It should be fine.
 	smelt_bar_num = 3 //Please don't...
-	max_integrity = 320
+	max_integrity = 370
 
 //Intents for the mauls.
 /datum/intent/effect/hobble

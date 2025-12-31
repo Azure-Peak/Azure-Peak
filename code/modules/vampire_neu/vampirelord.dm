@@ -271,6 +271,7 @@
 	max_integrity = ARMOR_INT_HELMET_ANTAG
 	body_parts_inherent = FULL_BODY
 	block2add = FOV_BEHIND
+	stack_fovs = FALSE
 	resistance_flags = FIRE_PROOF | ACID_PROOF
 	smeltresult = /obj/item/ingot/purifiedaalloy
 	var/active_item = FALSE

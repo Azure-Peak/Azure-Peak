@@ -20,10 +20,10 @@
 	invocation_type = "shout"
 	glow_color = GLOW_COLOR_LIGHTNING
 	glow_intensity = GLOW_INTENSITY_HIGH
-	var/damage = 80 // reduced with each successive step outwards
+	var/damage = 100 // reduced with each successive step outwards
 	var/delay1 = 4 // Fast initial strike
-	var/delay2 = 8 // Slower follow-ups
-	var/delay3 = 12
+	var/delay2 = 7 // Slower follow-ups
+	var/delay3 = 10
 
 /obj/effect/proc_holder/spell/invoked/thunderstrike/cast(list/targets, mob/user = usr)
 	var/turf/centerpoint = get_turf(targets[1])

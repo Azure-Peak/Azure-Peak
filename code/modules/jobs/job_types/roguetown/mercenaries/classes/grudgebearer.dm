@@ -166,6 +166,7 @@
 	icon_state = "dwarfhead"
 	item_state = "dwarfhead"
 	block2add = FOV_BEHIND
+	stack_fovs = TRUE
 	bloody_icon = 'icons/effects/blood64.dmi'
 	smeltresult = /obj/item/ingot/steel
 	max_integrity = 1000

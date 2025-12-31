@@ -140,6 +140,8 @@
 			acheck_dflag = "slash"
 		if(BCLASS_PICK, BCLASS_STAB)
 			acheck_dflag = "stab"
+		if(BCLASS_PIERCE)
+			acheck_dflag = "piercing"
 	armor = owner.run_armor_check(zone_precise, acheck_dflag, damage = 0)
 	if(ishuman(owner))
 		var/mob/living/carbon/human/human_owner = owner
@@ -492,7 +494,7 @@
 	return FALSE
 
 /// Embeds an object in this bodypart
-/obj/item/bodypart/proc/add_embedded_object(obj/item/embedder, silent = FALSE, crit_message = FALSE)
+/obj/item/bodypart/proc/add_embedded_object(obj/item/embedder, silent = FALSE, crit_message = FALSE, ranged = FALSE)
 	if(!embedder || !can_embed(embedder))
 		return FALSE
 	if(owner && ((owner.status_flags & GODMODE) || HAS_TRAIT(owner, TRAIT_PIERCEIMMUNE)))
@@ -505,7 +507,8 @@
 	if(owner)
 		embedder.add_mob_blood(owner)
 		if (!silent)
-			playsound(owner, 'sound/combat/newstuck.ogg', 100, vary = TRUE)
+			if(!ranged)
+				playsound(owner, 'sound/combat/newstuck.ogg', 100, vary = TRUE)
 			if (owner.has_status_effect(/datum/status_effect/buff/ozium))
 				owner.emote ("exhales")
 			if (owner.has_status_effect(/datum/status_effect/buff/drunk) && !owner.has_status_effect(/datum/status_effect/buff/ozium))
@@ -514,6 +517,8 @@
 				owner.emote("embed")
 		if(crit_message)
 			owner.next_attack_msg += " <span class='userdanger'>[embedder] runs through [owner]'s [src]!</span>"
+			if(ranged)
+				playsound(owner, 'sound/combat/brutal_impalement.ogg', 100, vary = TRUE)
 		update_disabled()
 		if(embedder.is_silver && HAS_TRAIT(owner, TRAIT_SILVER_WEAK) && !owner.has_status_effect(STATUS_EFFECT_ANTIMAGIC))
 			var/datum/component/silverbless/psyblessed = embedder.GetComponent(/datum/component/silverbless)
@@ -552,7 +557,7 @@
 /obj/item/bodypart/proc/try_bandage_expire()
 	if(!bandage)
 		return FALSE
-	var/bandage_effectiveness = 0.5
+	var/bandage_effectiveness = 10
 	if(istype(bandage, /obj/item/natural/cloth))
 		var/obj/item/natural/cloth/cloth = bandage
 		bandage_effectiveness = cloth.bandage_effectiveness

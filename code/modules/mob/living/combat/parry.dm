@@ -124,6 +124,10 @@
 			var/sentinel = SH.calculate_sentinel_bonus()
 			prob2defend += sentinel
 
+	if(HAS_TRAIT(U, TRAIT_ARMOUR_LIKED))
+		if(HAS_TRAIT(U, TRAIT_FENCERDEXTERITY))
+			prob2defend -= 5
+
 	prob2defend = clamp(prob2defend, 5, 90)
 	if(HAS_TRAIT(user, TRAIT_HARDSHELL) && H.client)	//Dwarf-merc specific limitation w/ their armor on in pvp
 		prob2defend = clamp(prob2defend, 5, 70)
@@ -232,19 +236,14 @@
 			var/dam2take = round((get_complex_damage(AB,user,used_weapon.blade_dulling)/2),1)
 			if(dam2take)
 				var/intdam = used_weapon.max_blade_int ? INTEG_PARRY_DECAY : INTEG_PARRY_DECAY_NOSHARP
+				var/sharp_loss = SHARPNESS_ONHIT_DECAY
 				if(used_weapon == offhand)
 					intdam = INTEG_PARRY_DECAY_NOSHARP
+				if(istype(user.rmb_intent, /datum/rmb_intent/strong))
+					sharp_loss += STRONG_SHP_BONUS
+					intdam += STRONG_INTG_BONUS
 				used_weapon.take_damage(intdam, BRUTE, used_weapon.d_type)
-				used_weapon.remove_bintegrity(SHARPNESS_ONHIT_DECAY, user)
-
-			if(mind && user.mind && HAS_TRAIT(src, TRAIT_COMBAT_AWARE))
-				var/text = "[bodyzone2readablezone(user.zone_selected)]..."
-				if(HAS_TRAIT(user, TRAIT_DECEIVING_MEEKNESS))
-					if(prob(10))
-						text = "<i>Somewhere...</i>"
-						user.balloon_alert(src, text)
-				else
-					user.balloon_alert(src, text)
+				used_weapon.remove_bintegrity(sharp_loss, user)
 			return TRUE
 		else
 			return FALSE
@@ -280,9 +279,12 @@
 				record_round_statistic(STATS_PARRIES)
 
 			var/def_verb = "parries"
+			var/att_verb = ""
 			if(istype(rmb_intent, /datum/rmb_intent/riposte))
 				def_verb = "[pick("expertly", "deftly")] parries"
-			var/def_msg = "<b>[src]</b> [def_verb] [user] with [W]!"
+			if(istype(user.rmb_intent, /datum/rmb_intent/strong))
+				att_verb = "'s [pick("hefty", "strong")] attack"
+			var/def_msg = "<b>[src]</b> [def_verb] [user][att_verb] with [W]!"
 
 			visible_message(span_combatsecondary(def_msg), span_boldwarning(def_msg), COMBAT_MESSAGE_RANGE, list(user))
 			to_chat(user, span_boldwarning(def_msg))

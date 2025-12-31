@@ -33,6 +33,7 @@
 
 /obj/effect/decal/remains/cabbit
 	name = "remains"
+	desc = "This pile of indistinct bones was once an adorable cabbit. The realm's endearment earned it no respite from the grave."
 	gender = PLURAL
 	icon = 'icons/roguetown/mob/cabbit.dmi'
 	icon_state = "cabbit_remains"

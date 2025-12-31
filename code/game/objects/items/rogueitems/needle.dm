@@ -105,7 +105,7 @@
 			var/const/SEW_REPAIR_PER_LEVEL = 10
 			/// How many seconds does unskilled sewing take?
 			var/const/BASE_SEW_TIME = 6 SECONDS
-			/// At what (combined) level do we 
+			/// At what (combined) level do we
 			var/const/SKILL_FASTEST_SEW = SKILL_LEVEL_LEGENDARY
 			/// The reduction in sewing time for each (combined) level in sewing/tanning.
 			var/const/SEW_TIME_REDUCTION_PER_LEVEL = 1 SECONDS
@@ -245,6 +245,9 @@
 				doctor.visible_message(span_notice("[doctor] sews \a [target_wound.name] on [patient]'s [affecting]."), span_notice("I stitch \a [target_wound.name] on [patient]'s [affecting]."))
 			else
 				doctor.visible_message(span_notice("[doctor] sews \a [target_wound.name] on [patient]."), span_notice("I stitch \a [target_wound.name] on [patient]."))
+		if(is_simple_animal)
+			var/mob/living/simple_animal/animal_patient = patient
+			animal_patient.adjustHealth(-((animal_patient.maxHealth / 20) * (medskill + 1)), TRUE)
 		log_combat(doctor, patient, "sew", "needle")
 		return TRUE
 	return FALSE

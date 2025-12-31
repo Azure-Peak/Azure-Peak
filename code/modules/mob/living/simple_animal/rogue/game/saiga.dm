@@ -2,7 +2,7 @@
 
 /mob/living/simple_animal/hostile/retaliate/rogue/saiga
 	name = "saiga doe"
-	desc = ""
+	desc = "Chiefly reputed friends of man, the saiga is the most ubiqutous beast of burden in the known world. They are driven to haul caravans and ploughs, ridden by mounted warriors on the field, and are much beloved by all."
 	icon = 'icons/roguetown/mob/monster/saiga.dmi'
 	icon_state = "saiga"
 	icon_living = "saiga"
@@ -75,7 +75,6 @@
 
 /mob/living/simple_animal/hostile/retaliate/rogue/saiga/saigakid
 	name = "saiga calf"
-	desc = ""
 	icon_state = "saigakid"
 	icon_living = "saigakid"
 	icon_dead = "saigakid_dead"
@@ -104,7 +103,6 @@
 
 /mob/living/simple_animal/hostile/retaliate/rogue/saiga/saigabuck
 	name = "saiga buck"
-	desc = ""
 	icon_state = "buck"
 	icon_living = "buck"
 	icon_dead = "buck_dead"
@@ -240,6 +238,7 @@
 
 /obj/effect/decal/remains/saiga
 	name = "remains"
+	desc = "The remains of a once-proud saiga. Perhaps it was killed for food, or slain in battle with a valiant knight atop?"
 	gender = PLURAL
 	icon_state = "skele"
 	icon = 'icons/roguetown/mob/monster/saiga.dmi'
@@ -276,7 +275,6 @@
 /mob/living/simple_animal/hostile/retaliate/rogue/saiga/saigaboy
 	icon = 'icons/roguetown/mob/monster/saiga.dmi'
 	name = "saiga"
-	desc = ""
 	gender = MALE
 	icon_state = "saigaboy"
 	icon_living = "saigaboy"

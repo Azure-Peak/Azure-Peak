@@ -130,6 +130,8 @@
 	if(copytext_char(message, 1, 2) == "+")
 		var/text = copytext(message, 2)
 		var/boldcheck = findtext_char(text, "+")	//Check for a *second* + in the text, implying the message is meant to have something formatted as bold (+text+)
+		if (boldcheck != 0)
+			return 0
 		whisper(copytext_char(message, boldcheck ? 1 : 2),sanitize = FALSE)//already sani'd
 		return 1
 

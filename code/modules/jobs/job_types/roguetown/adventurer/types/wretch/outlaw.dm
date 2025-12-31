@@ -41,7 +41,7 @@
 	armor = /obj/item/clothing/suit/roguetown/armor/leather/heavy/coat
 	cloak = /obj/item/clothing/cloak/raincloak/mortus
 	shirt = /obj/item/clothing/suit/roguetown/armor/gambeson
-	backr = /obj/item/gun/ballistic/revolver/grenadelauncher/crossbow
+	backr = /obj/item/gun/ballistic/revolver/grenadelauncher/crossbow/slurbow
 	backl = /obj/item/storage/backpack/rogue/satchel
 	belt = /obj/item/storage/belt/rogue/leather
 	gloves = /obj/item/clothing/gloves/roguetown/fingerless_leather
@@ -144,11 +144,11 @@
 				H.adjust_skillrank_up_to(/datum/skill/combat/knives, SKILL_LEVEL_EXPERT, TRUE)
 				beltl = /obj/item/rogueweapon/scabbard/sheath
 				l_hand = /obj/item/rogueweapon/huntingknife/idagger/steel
-				backr = /obj/item/gun/ballistic/revolver/grenadelauncher/crossbow
+				backr = /obj/item/gun/ballistic/revolver/grenadelauncher/crossbow/slurbow //"POPULAR AMONGST HIGHWAYMEN" BLOW ME.
 				beltr = /obj/item/quiver/bolts
 			if ("Militia Warpick + Heater Shield")
 				H.adjust_skillrank_up_to(/datum/skill/combat/axes, SKILL_LEVEL_EXPERT, TRUE)
-				beltl = /obj/item/rogueweapon/pick/militia
+				beltl = /obj/item/rogueweapon/pick/militia/steel //The iron warpick doesnt even fucking scale with axes dumbass
 				backr = /obj/item/rogueweapon/shield/iron
 			if ("Militia Spear + Heater Shield")
 				H.adjust_skillrank_up_to(/datum/skill/combat/polearms, SKILL_LEVEL_EXPERT, TRUE)

@@ -71,6 +71,8 @@
 			if("Otavan - Heavyweight, Blacksteel Thorns")
 				head = /obj/item/clothing/head/roguetown/roguehood/psydon
 				mask = /obj/item/clothing/head/roguetown/helmet/blacksteel/psythorns
+				backl = /obj/item/storage/backpack/rogue/satchel/otavan
+				pants = /obj/item/clothing/under/roguetown/heavy_leather_pants/otavan
 				wrists = /obj/item/clothing/wrists/roguetown/bracers/psythorns
 				neck = /obj/item/clothing/neck/roguetown/psicross/silver
 				id = /obj/item/clothing/ring/signet/silver
@@ -78,6 +80,8 @@
 				head = /obj/item/clothing/head/roguetown/headband/naledi
 				mask = /obj/item/clothing/mask/rogue/lordmask/naledi/sojourner
 				wrists = /obj/item/clothing/wrists/roguetown/bracers/cloth/naledi
+				backl = /obj/item/storage/backpack/rogue/satchel/black
+				pants = /obj/item/clothing/under/roguetown/heavy_leather_pants
 				neck = /obj/item/clothing/neck/roguetown/psicross/g //Naledians covet gold far more than the Orthodoxists cover silver. Emphasizes their nature as 'visitors', more-so than anything else.
 				id = /obj/item/clothing/ring/signet
 				l_hand = /obj/item/spellbook_unfinished/pre_arcyne
@@ -85,7 +89,8 @@
 				ADD_TRAIT(H, TRAIT_DODGEEXPERT, TRAIT_GENERIC)
 				REMOVE_TRAIT(H, TRAIT_CRITICAL_RESISTANCE, TRAIT_GENERIC)
 				H.adjust_skillrank_up_to(/datum/skill/magic/arcane, 3, TRUE)
-				H.mind.adjust_spellpoints(6) //Messed this up. Should add spellpoints for use, now.
+				H.grant_language(/datum/language/celestial) //They're from Naledi, they should speak Sama'glos
+				H.mind.adjust_spellpoints(6)
 				H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/projectile/fetch) //Pre-set spell list. Same as before. 
 				H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/forcewall) //Weak, destroyable forcewall.
 				H.mind.AddSpell(new /obj/effect/proc_holder/spell/self/message)
@@ -97,12 +102,11 @@
 
 	shoes = /obj/item/clothing/shoes/roguetown/boots/psydonboots
 	armor = /obj/item/clothing/suit/roguetown/armor/regenerating/skin/disciple
-	backl = /obj/item/storage/backpack/rogue/satchel/otavan
+	
 	backpack_contents = list(/obj/item/roguekey/inquisition = 1,
 	/obj/item/paper/inqslip/arrival/ortho = 1,
 	/obj/item/roguegem/amethyst/naledi = 1) //Kept here for now, until we figure out how to make it better fit in overfilled hands.
 	belt = /obj/item/storage/belt/rogue/leather/rope/dark
-	pants = /obj/item/clothing/under/roguetown/heavy_leather_pants/otavan
 	beltl = /obj/item/storage/belt/rogue/pouch/coins/mid
 	cloak = /obj/item/clothing/cloak/tabard/psydontabard/alt
 

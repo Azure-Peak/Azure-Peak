@@ -324,3 +324,234 @@
   dopamiin0:
   - bugfix: snap freeze and bladeburst now correctly function at range again. sorry
   - bugfix: wither no longer misses anyone sharing a tile with a target
+2025-12-19:
+  Geevies:
+  - bugfix: You can now shoot arrows up and down stairs.
+  - rscadd: Throwing anything into a river will now cause it to process and shift
+      downstream.
+  - bugfix: Rivers now stop processing when there's nothing in them.
+  - bugfix: NPCs no longer try to swim upstream.
+  - qol: Honorary titles are now checked before joining, avoiding duplicates.
+  - bugfix: Bundles now spawn at the correct 2x1 grid size.
+  - qol: Left clicking a scabbard on the ground or in storage will now pick the entire
+      thing up.
+  - qol: Right clicking a scabbard will now always draw from it, as it works now.
+  - bugfix: Nets now drop to the floor after their timer runs out.
+  Lamasmaster:
+  - rscadd: Tunic in cloak slot
+  SayonaraEcho:
+  - rscadd: Handcart moving animation
+  TheNeoGamer42:
+  - qol: Footman squires now start with apprentice shield skill. In-line with Errant
+      Squire, and no more bonking a dummy for a few minutes.
+  kano-dot:
+  - bugfix: fixed half-elves not being able to pick wood elf ears.
+2025-12-20:
+  FreeStylaLT:
+  - rscadd: New ears for Aaasimar / Elves / Dark Elves / Tieflings
+  - refactor: XP drops now round to the nearest 0.1 decimal.
+  - image: Targeting Gargoyle shows Left and Right now.
+  HeroWithYay:
+  - bugfix: Psydonian Barbarians no longer get mini-pain crits.
+  PatapoIIIa:
+  - bugfix: Legendary (Rank 6) skills are no longer incorrectly reduced to lower ranks
+      when applying a Virtue with the softcap flag.
+  - code_imp: Refactored the entire skill application logic in `handle_skills` to
+      use sequential hardcap/softcap checks, ensuring no negative skill adjustments.
+  Stutternov:
+  - bugfix: fixed badly named helmet state.
+  ToasterStrudes:
+  - rscadd: Added new Venard sounds!
+  - rscadd: Added friendly Venard sounds to Mimi the Guild Pet.
+2025-12-21:
+  FreeStylaLT:
+  - bugfix: Fixed Limbguard Special straining the user when they try to kick with
+      it active.
+  Hollyhock:
+  - rscadd: Added a variant of the bug snouts without fluffy moth antennae.
+  - rscadd: Gave revenants the antennae ears that wild-kin have.
+  JustSomeGalSS13:
+  - bugfix: Summoning a primordial while your face is concealed will no longer make
+      your the primordial hostile to you
+  hubertjones:
+  - bugfix: marshal appropriately gets scabbard and sheath
+2025-12-22:
+  BurpleBineapple:
+  - bugfix: Fixes the wielded offsets for executioner's swords, rhomphaia, blacksteel
+      flamberge, and arming swords
+  FreeStylaLT:
+  - bugfix: Strong Stance not having a correct description.
+  - bugfix: Bandages not working as intended with Omniwounds. They are now effective
+      on a lot more wounds.
+  - balance: Strong Stance will now always give +10% damage instead of +1 STR (ignores
+      softcaps)
+  - balance: Strong Stance will now incur bonus sharpness / integrity loss to defenders.
+  Geevies:
+  - balance: The Empowerment Array ritual's lesser and greater buffs no longer stack.
+      If you have a greater one, the lesser will do nothing. If you have a lesser,
+      the greater will replace it.
+  - balance: You can now have three of these buffs active at a time, instead of two.
+  - bugfix: You can now use RMB to pull from scabbards/sheathes while in combat mode.
+  - bugfix: You can now shift grips with longswords while in combat mode.
+  - rscadd: You can now properly healing simple mobs like saigas using needles and
+      bandages.
+  - rscadd: Animals that retaliate to being attacked will no longer attack their friends.
+  - rscadd: Taming an animal will make it your friend. Petting a tamed animal when
+      it isn't fighting will make it your friend.
+  - rscadd: You can only pet a crazed animal to calm it down if you're friends with
+      it.
+  - rscadd: You can always attack/grab an animal you're friends with, it will not
+      dodge you.
+  - rscadd: If your class spawns with an animal, it will automatically be your friend.
+  - rscadd: Added caparisons that can be put on both male and female Saiga. You can
+      get them via the loadout or via tailoring them (2 fiber, 4 cloth).
+  Ketrai:
+  - balance: Locate corpse miracle is now cheaper and provides more information
+  Lamasmaster:
+  - balance: Duelist adventurer
+  - balance: Merchantry
+  - balance: Armor kits
+  nauticall:
+  - bugfix: Blacksteel armet can now flip up its visor and apply a plume.
+  - rscadd: A steel gorget has been added to the Duke's armor closet.
+2025-12-23:
+  FreeStylaLT:
+  - balance: Most half-plates are now Medium AC.
+  - rscadd: A new preference for showing floating text for where the user was last
+      struck.
+  - balance: Combat Aware no longer shows targeting zones on parries / dodges. It
+      only shows on successful hits.
+  - balance: Combat Aware no longer shows where the user of the virtue were targeting
+      themselves.
+  Lamasmaster:
+  - rscadd: Bailiff subclass
+  - rscdel: Dungeoneer role
+  hubertjones:
+  - bugfix: iron haubergeon sleeves function as intended
+  - image: greyscales more leather armor
+2025-12-24:
+  FreeStylaLT:
+  - balance: Blunt weapons now deal more damage to NPC armor.
+  - bugfix: Floating hit text appearing when it shouldn't.
+  Geevies:
+  - balance: Athletics XP is now gained every time you use stamina, no matter whether
+      you're in run intent or not.
+  - balance: Athletics XP is gained at one unit per tenth of stamina used. The gain
+      is modified based on your constitution.
+  - rscadd: Added mechanical pushups, which can be found under the 'Emotes' tab.
+  Ollanius:
+  - rscadd: Like their predecessors, the Silver (and Psydonic) Quarterstaves now have
+      Carpentry-specific recipes.
+  Ryan180602:
+  - sound: adds mrrp emote.
+  - code_imp: Adds skill_blessed component.
+  - code_imp: Adds Master Longswordsman.
+  - code_imp: Adds Renowned Sabrist.
+  - code_imp: Adds accuracy_modifier to weapon intents. Additive. No intents have
+      any accuracy_mod as of now.
+  - bugfix: adjust_skilldown now actually works.
+  SirSwagmeyer:
+  - rscadd: Added retirement hobbies and debilitating injuries for Veterans to choose
+      from.
+  - balance: Rectified the primary complaints regarding Veterans and what they spawned
+      with.
+  dopamiin0:
+  - balance: fireball (and derivatives) no longer one shot most NPCs. fireball (base
+      only) has had its anti NPC damage multiplier increased to keep its NPC damage
+      equal to its pre-arcynemark levels
+  - balance: thunderstrike does slightly more damage, and the follow up strikes are
+      faster
+  - balance: snapfreeze is slower, but does more damage to players
+  - balance: acid splash ticks twice as fast
+  - balance: wither is faster and does more damage
+  hazelrat:
+  - rscadd: Added several new fluff descriptions and mechanical hint drop-downs for
+      mobs and objects.
+  - bugfix: Fixed a few typos in existing descriptions.
+  nauticall:
+  - balance: Crown can no longer be summoned if the Duke/Regent has the crown on their
+      person (i.e. in a bag/clothing), not just worn.
+  - qol: Crown & master key destruction text is now more conspicuous.
+2025-12-25:
+  Lamasmaster:
+  - balance: Riding XP source
+  nauticall:
+  - bugfix: Taking loadout items from wall clocks now correctly applies their loadout
+      color.
+2025-12-26:
+  BurpleBineapple:
+  - bugfix: Fixes hardened leather bracers having the lower durability than its regular
+      counterpart.
+  - bugfix: Fixes a broken side-state icon for hardened bracers on female sprites.
+  Ryan180602:
+  - code_imp: Adds armour filtering.
+  - code_imp: Adds Fencer's Dexterity trait.
+  - refactor: Moves psydonic plate buffs to the new armour_filtering system.
+  - balance: Slurbows can be shot 1-handed with aim penalty.
+  - balance: Dual Wielder now affects slurbows.
+  ToasterStrudes:
+  - bugfix: You can now tear pants again
+  - refactor: Tearing clothes now uses Shift Right Click (instead of MMB)
+  bearrrrrrrr:
+  - rscadd: arcane mark detonation soiudn
+  dopamiin0:
+  - bugfix: fixes random ore spawns
+  nauticall:
+  - bugfix: Fixed crown not being summonable if the crown was absent, i.e. no Duke,
+      or crown is physically destroyed.
+  - code_imp: Cleaned up the summon crown logic behind the scenes.
+  - refactor: Refactored color code and streamlined defines, removing duplicates.
+      Some colors have also been added/renamed.
+  - bugfix: Fixed duplicate definitions of colors, i.e. fixed 'RED', 'Red' and 'Red'
+      (2) all existing as separate color definitions.
+  - rscadd: Color presets across the game can now avail of the dye bin's extended
+      color palette.
+  - rscadd: Extended color palette has been added to loadout items, clothing accessories
+      (i.e. plumes/orles), royal standards, and more.
+  - rscadd: Dye brush can now use color presets.
+  - bugfix: Royal gown and sleeves for latejoin duchesses should now properly take
+      after the royal colors.
+2025-12-27:
+  FreeStylaLT:
+  - bugfix: Fixed piercing damage not being able to crit through all armors.
+  - bugfix: Fixed blunt damage mitigation not being ignored by NPC armor properly.
+  - bugfix: Fixed penetrative intents dealing unintended extra damage to NPC armor.
+  - bugfix: Fixed some runtimes in Dodge code that resulted in dodging not working.
+  - bugfix: Unarmored stab wounds not bleeding correctly.
+  - bugfix: Donator enchanting kits not working.
+  HeroWithYay:
+  - bugfix: Rotcure potions don't kill you now
+  SirSwagmeyer:
+  - bugfix: militia sword intents, hinterblade thrust fixed to what it was meant to
+      have
+  SpadesNeil:
+  - bugfix: Rock pile density is now false.
+  Stutternov:
+  - rscadd: Added new Rapier special attack
+  - balance: Redid the 2x1 Shin Strike special into a 1x3
+  - balance: Gave WW claws the axe swinging special (tee-hee)
+  - balance: Jaked mauls giving them equal integrity to mace counterparts (except
+      dwarf ones, still better)
+2025-12-28:
+  Baneuus:
+  - rscadd: Now it's possible to determine your bounty as Wretch or Bandit at Villain
+      Selection tab.
+  - bugfix: New druidic forms are now lowercase.
+  Ryan180602:
+  - qol: Revenants get leg wear and some markings.
+  SirSwagmeyer:
+  - rscadd: Deserter Cultural Sovl injection
+  - balance: Readjustment of Outlaw and Masked Lunatic wretch items and skills.
+  dopamiin0:
+  - rscadd: anything that can pick or pierce can be used to cook meat
+  - bugfix: pewter cups no longer burn the undead
+  - bugfix: crafting aragn essence properly consumes all ingredients
+  - bugfix: loadout items no longer delete themselves if your hands are full
+2025-12-29:
+  Ryan180602:
+  - balance: Tidebreaker gets pick on one-handed.
+  SpadesNeil:
+  - balance: Necromancers now have TRAIT_NOSTINK
+  dopamiin0:
+  - bugfix: starting sentences with bold words no longer makes it a whisper
+  - bugfix: ending sentences with bold words no longer adds an extra period

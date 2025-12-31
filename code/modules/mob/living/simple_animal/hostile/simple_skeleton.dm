@@ -1,6 +1,6 @@
 /mob/living/simple_animal/hostile/rogue/skeleton
 	name = "Skeleton"
-	desc = ""
+	desc = "A shambling anatomy of bleached bones kept together only by necromantic forces."
 	icon = 'icons/mob/skeletons.dmi'
 	icon_state = "skeleton"
 	icon_living = "skeleton"
@@ -51,7 +51,6 @@
 
 /mob/living/simple_animal/hostile/rogue/skeleton/axe
 	name = "Skeleton"
-	desc = ""
 	icon = 'icons/mob/skeletons.dmi'
 	base_intents = list(/datum/intent/simple/axe/skeleton)
 	icon_state = "skeleton_axe"
@@ -61,7 +60,6 @@
 
 /mob/living/simple_animal/hostile/rogue/skeleton/spear
 	name = "Skeleton"
-	desc = ""
 	icon = 'icons/mob/skeletons.dmi'
 	base_intents = list(/datum/intent/simple/spear/skeleton)
 	icon_state = "skeleton_spear"
@@ -73,7 +71,6 @@
 
 /mob/living/simple_animal/hostile/rogue/skeleton/guard
 	name = "Skeleton"
-	desc = ""
 	icon = 'icons/mob/skeletons.dmi'
 	base_intents = list(/datum/intent/simple/axe/skeleton)
 	icon_state = "skeleton_guard"
@@ -85,7 +82,6 @@
 
 /mob/living/simple_animal/hostile/rogue/skeleton/bow
 	name = "Skeleton"
-	desc = ""
 	icon = 'icons/mob/skeletons.dmi'
 	icon_state = "skeleton_bow"
 	icon_living = "skeleton_bow"

@@ -324,7 +324,7 @@
 
 /obj/structure/bars
 	name = "bars"
-	desc = ""
+	desc = "Rigid metal bars, intended to impair access to somewhere."
 	icon = 'icons/roguetown/misc/structure.dmi'
 	icon_state = "bars"
 	density = TRUE
@@ -389,6 +389,7 @@
 
 /obj/structure/bars/passage
 	icon_state = "passage0"
+	desc = "This looks like it can open and close!"
 	density = TRUE
 	max_integrity = 1500
 	redstone_structure = TRUE
@@ -542,7 +543,7 @@
 
 /obj/structure/fluff/clock
 	name = "clock"
-	desc = ""
+	desc = "A large grandfather clock; the cutting edge of modern technology."
 	icon = 'icons/roguetown/misc/tallstructure.dmi'
 	icon_state = "clock"
 	density = FALSE
@@ -625,7 +626,7 @@
 
 /obj/structure/fluff/wallclock
 	name = "clock"
-	desc = ""
+	desc = "Second greatest of all tyrants."
 	icon = 'icons/roguetown/misc/structure.dmi'
 	icon_state = "wallclock"
 	density = FALSE
@@ -641,17 +642,8 @@
 	pixel_y = 32
 
 /obj/structure/fluff/wallclock/attack_right(mob/user)
-	if(user.mind && isliving(user))
-		if(user.mind.special_items && user.mind.special_items.len)
-			var/item = input(user, "What will I take?", "STASH") as null|anything in user.mind.special_items
-			if(item)
-				if(user.Adjacent(src))
-					if(user.mind.special_items[item])
-						var/path2item = user.mind.special_items[item]
-						user.mind.special_items -= item
-						var/obj/item/I = new path2item(user.loc)
-						user.put_in_hands(I)
-			return
+	handle_special_items_retrieval(user, src)
+	return
 
 /obj/structure/fluff/wallclock/Destroy()
 	if(soundloop)
@@ -892,6 +884,8 @@
 	icon_state = "mgargoyle_candles"
 
 /obj/structure/fluff/statue/knight
+	name = "knightly statue"
+	desc = "No eyes are visible behind its visor."
 	icon_state = "knightstatue_l"
 
 /obj/structure/fluff/statue/astrata
@@ -931,6 +925,8 @@
 	color = "#ff9c1a"
 
 /obj/structure/fluff/statue/knightalt
+	name = "knightly statue"
+	desc = "Ever-watchful, faceless, and without independent will. An ideal of chivalry."
 	icon_state = "knightstatue2_l"
 
 /obj/structure/fluff/statue/knightalt/r
@@ -1124,6 +1120,7 @@
 
 /obj/structure/fluff/psycross
 	name = "pantheon cross"
+	desc = "Symbol of the Divine Pantheon, the religion of ten - formerly eleven - deities which reigns throughout most of the known world. Their divine order must be maintained."
 	icon_state = "psycross"
 	icon = 'icons/roguetown/misc/tallstructure.dmi'
 	break_sound = 'sound/combat/hits/onwood/destroyfurniture.ogg'

@@ -100,6 +100,8 @@
 				used = 'sound/vo/psst.ogg'
 			if("meow")
 				used = list('sound/vo/mobs/cat/cat_meow1.ogg', 'sound/vo/mobs/cat/cat_meow2.ogg', 'sound/vo/mobs/cat/cat_meow3.ogg', 'sound/vo/mobs/cat/cat_meow4.ogg')
+			if("mrrp")
+				used = list('sound/vo/mobs/cat/mrrp.ogg')
 			if("caw")
 				used = list('sound/vo/mobs/bird/CROW_01.ogg', 'sound/vo/mobs/bird/CROW_03.ogg',)
 			if("peep")
@@ -126,6 +128,8 @@
 				used = list('sound/vo/mobs/hyena/cackle.ogg')
 			if("whine")
 				used = list('sound/vo/mobs/vw/whine.ogg')
+			if("fwhine")
+				used = list('sound/vo/mobs/venard/fox1.ogg','sound/vo/mobs/venard/fox2.ogg','sound/vo/mobs/venard/fox3.ogg','sound/vo/mobs/venard/fox4.ogg','sound/vo/mobs/venard/fox5.ogg','sound/vo/mobs/venard/fox6.ogg','sound/vo/mobs/venard/fox7.ogg','sound/vo/mobs/venard/fox8.ogg','sound/vo/mobs/venard/fox9.ogg','sound/vo/mobs/venard/fox10.ogg','sound/vo/mobs/venard/fox11.ogg','sound/vo/mobs/venard/fox12.ogg','sound/vo/mobs/venard/fox13.ogg')
 			if("psnort")
 				used = list('sound/vo/mobs/dog/pugsnort.ogg')
 			if("roar")

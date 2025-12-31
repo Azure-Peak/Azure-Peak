@@ -15,6 +15,9 @@
 	smeltresult = /obj/item/ingot/steel
 	unarmed_bonus = 1.15
 
+/obj/item/clothing/gloves/roguetown/chain/ComponentInitialize()
+	AddComponent(/datum/component/armour_filtering/negative, TRAIT_FENCERDEXTERITY)
+
 /obj/item/clothing/gloves/roguetown/chain/aalloy
 	name = "decrepit chain gauntlets"
 	desc = "Frayed bronze rings, interlinked together to form sagging mittens. Fingers, talons, claws; they're all the same, when smothered beneath maille and left to rot away."

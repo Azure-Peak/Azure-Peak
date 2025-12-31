@@ -119,4 +119,4 @@
 
 GLOBAL_LIST_INIT(correct_punctuation, list("!" = TRUE, "." = TRUE, "?" = TRUE, "-" = TRUE, "~" = TRUE, \
 											"*" = TRUE, "/" = TRUE, ">" = TRUE, "'" = TRUE, "|" = TRUE, \
-											"," = TRUE, ":" = TRUE, ";" = TRUE, "\"" = TRUE))
+											"," = TRUE, ":" = TRUE, ";" = TRUE, "\"" = TRUE, "+" = TRUE))

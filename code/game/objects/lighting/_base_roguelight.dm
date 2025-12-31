@@ -120,7 +120,7 @@
 				var/foundstab = FALSE
 				for(var/X in A.possible_item_intents)
 					var/datum/intent/D = new X
-					if(D.blade_class == BCLASS_STAB)
+					if(D.blade_class in GLOB.stab_bclasses)
 						foundstab = TRUE
 						break
 				if(foundstab)

@@ -24,7 +24,7 @@
 
 /datum/runeritual/buff/lesserstrength
 	name = "lesser arcane augmentation of strength"
-	buff = /datum/status_effect/buff/magic/strength/lesser
+	buff = /datum/status_effect/buff/magic/strength_lesser
 	blacklisted = FALSE
 	required_atoms = list(/obj/item/magic/elemental/mote = 2,/obj/item/magic/manacrystal = 1)
 
@@ -37,7 +37,7 @@
 
 /datum/runeritual/buff/lesserconstitution
 	name = "lesser fortify constitution"
-	buff = /datum/status_effect/buff/magic/constitution/lesser
+	buff = /datum/status_effect/buff/magic/constitution_lesser
 	blacklisted = FALSE
 	required_atoms = list(/obj/item/magic/manacrystal = 1, /obj/item/magic/obsidian = 2)
 
@@ -50,7 +50,7 @@
 
 /datum/runeritual/buff/lesserspeed
 	name = "lesser haste"
-	buff = /datum/status_effect/buff/magic/speed/lesser
+	buff = /datum/status_effect/buff/magic/speed_lesser
 	blacklisted = FALSE
 	required_atoms = list(/obj/item/magic/artifact = 1, /obj/item/magic/leyline = 1)
 
@@ -63,7 +63,7 @@
 
 /datum/runeritual/buff/lesserperception
 	name = "lesser arcane eyes"
-	buff = /datum/status_effect/buff/magic/perception/lesser
+	buff = /datum/status_effect/buff/magic/perception_lesser
 	blacklisted = FALSE
 	required_atoms = list(/obj/item/reagent_containers/food/snacks/grown/manabloom = 1, /obj/item/magic/infernal/ash = 2)
 
@@ -76,7 +76,7 @@
 
 /datum/runeritual/buff/lesserwillpower
 	name = "lesser vitalized willpower"
-	buff = /datum/status_effect/buff/magic/willpower/lesser
+	buff = /datum/status_effect/buff/magic/willpower_lesser
 	blacklisted = FALSE
 	required_atoms = list(/obj/item/magic/obsidian = 2, /obj/item/magic/fairydust = 2)
 

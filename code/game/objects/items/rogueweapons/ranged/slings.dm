@@ -92,6 +92,10 @@
 	var/atom/movable/temp_stone = null //stones are not ammo so they aren't acceptable by ballistics. this var will keep the stone temporarily stored
 	var/bonus_stone_force = 0 //above comment is relevant. a magical stone's bonus force is kept on the sling itself and changed accordingly
 
+/obj/item/gun/ballistic/revolver/grenadelauncher/sling/get_mechanics_examine(mob/user)
+	. += span_info("Slings increase in damage and accuracy the higher your <b>PERCEPTION</b> and <b>STRENGTH</b>.")
+	. += span_info("Slings can be loaded directly from a pouch while your offhand is occupied by another item.")
+
 /obj/item/gun/ballistic/revolver/grenadelauncher/sling/getonmobprop(tag)
 	. = ..()
 	if(tag)

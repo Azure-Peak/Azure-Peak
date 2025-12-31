@@ -497,7 +497,7 @@ GLOBAL_LIST_INIT(stone_personality_descs, list(
 	desc = "Wait, this shouldn't be here?"
 	icon_state = "stonerandom"
 
-/obj/item/natural/rock/random/Initialize()
+/obj/item/natural/rock/random_ore/Initialize()
 	. = ..()
 	var/obj/item/natural/rock/theboi = pick(list(
 		/obj/item/natural/rock/gold,

@@ -70,7 +70,7 @@
 	else
 		blood_handle |= BLOOD_PREFERENCE_LIVING
 
-	if(victim.job in list("Priest", "Priestess", "Cleric", "Acolyte", "Templar", "Churchling", "Crusader", "Inquisitor"))
+	if(HAS_TRAIT(victim, TRAIT_CLERGY) || HAS_TRAIT(victim, TRAIT_INQUISITION))
 		blood_handle |= BLOOD_PREFERENCE_HOLY
 	if(VVictim)
 		blood_handle |= BLOOD_PREFERENCE_KIN

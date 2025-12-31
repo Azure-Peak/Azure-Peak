@@ -225,8 +225,3 @@
 	name = "Belt, Tasseted"
 	cost = 50 // 1 Steel
 	contains = list(/obj/item/storage/belt/rogue/leather/steel/tasset)
-
-/datum/supply_pack/rogue/armor_steel/steel/metalkit
-	name = "Armor Plates"
-	cost = 60 // 1 Steel 0.5 iron 1 leather
-	contains = list(/obj/item/repair_kit/metal)

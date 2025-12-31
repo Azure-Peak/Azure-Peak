@@ -267,6 +267,7 @@
 
 /obj/structure/flora/newleaf
 	name = "leaves"
+	desc = "You can see straight through this thicket of leaves to the ground. You'd have to possess a particular talent to walk over this without falling through."
 	icon = 'icons/roguetown/misc/tree.dmi'
 	icon_state = "center-leaf1"
 	density = FALSE

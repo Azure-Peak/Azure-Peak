@@ -38,8 +38,8 @@
 
 /obj/projectile/magic/aoe/fireball/spitfire
 	name = "Spitfire"
-	exp_heavy = 0
-	exp_light = 0
+	exp_heavy = -1
+	exp_light = -1
 	exp_flash = 0
 	exp_fire = 0
 	damage = 20

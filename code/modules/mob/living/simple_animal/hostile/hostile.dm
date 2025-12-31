@@ -62,9 +62,6 @@
 	setparrytime = 30
 	dodgetime = 30
 
-
-
-
 /mob/living/simple_animal/hostile/Initialize()
 	. = ..()
 	last_aggro_loss = world.time //so we delete even if we never found a target
@@ -72,10 +69,14 @@
 		targets_from = src
 	wanted_objects = typecacheof(wanted_objects)
 
-
 /mob/living/simple_animal/hostile/Destroy()
 	targets_from = null
 	return ..()
+
+/mob/living/simple_animal/hostile/examine(mob/user)
+	. = ..()
+	if(user in friends)
+		. += span_notice("[src] seems friendly towards you.")
 
 /mob/living/simple_animal/hostile/Life()
 	. = ..()
@@ -619,3 +620,8 @@
 		if (get_dist(M, src) < vision_range)
 			if (isturf(M.loc))
 				. += M
+
+/mob/living/simple_animal/hostile/checkdefense(datum/intent/intenty, mob/living/user)
+	if(user in friends)
+		return FALSE
+	return ..()

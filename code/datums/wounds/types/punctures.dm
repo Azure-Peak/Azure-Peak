@@ -71,7 +71,7 @@
 /datum/wound/dynamic/puncture/upgrade(dam, armor)
 	whp += (dam * PUNC_UPG_WHPRATE)
 	if(!armor)
-		set_bleed_rate(PUNC_UPG_CLAMP_RAW)
+		set_bleed_rate(bleed_rate + PUNC_UPG_CLAMP_RAW)
 	else
 		switch(dam)
 			if(1 to 4)

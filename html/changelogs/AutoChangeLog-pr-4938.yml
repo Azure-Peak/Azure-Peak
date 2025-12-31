@@ -1,0 +1,6 @@
+author: "FreeStylaLT"
+delete-after: True
+changes:
+  - balance: "Face / Helmet FOV limits now stack."
+  - balance: "Targeting face carries a heavier accuracy malus on fully-able player targets. Does not apply to NPCs."
+  - balance: "Face targeting zones (Eyes, Ears, Mouth, Nose) now all count as each other for the purposes of bait."

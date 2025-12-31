@@ -184,7 +184,7 @@
 
 /obj/item/compost
 	name = "compost"
-	desc = "Decomposed produce ready to give life to plants."
+	desc = "Decomposed produce ready to give life to plants. It is warm to the touch."
 	icon = 'icons/obj/objects.dmi'
 	icon_state = "ash"
 	color = "#ffac38"

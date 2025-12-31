@@ -110,10 +110,10 @@
 	var/tracking_modifier = 0
 	///Tracks how many tracks have been chain-overwritten before this track. Could indicate a commonly passed area.
 	var/overwrites = 0
-	///The timer handling deletion. Saved to potentially adjust it.
-	var/deletion_timer
+	///The world.time when this track should expire (used by subsystem)
+	var/expiry_time
 	///For determining if it's been highlighted for marked person purposes
-	var/highlighted = list()
+	var/list/highlighted = list()
 	///A preserved dir for the highlights
 	var/original_dir
 	///Whether this track allows its owner to be Marked
@@ -132,10 +132,38 @@
 	if(creator)
 		clear_creator_reference(creator)
 	known_by = null
-	if(deletion_timer)
-		deltimer(deletion_timer)
-		deletion_timer = null
+	SStracks.remove_track(src)
 	return ..()
+
+/// Resets track state for reuse from pool - called before recycling
+/obj/effect/track/proc/soft_reset()
+	// Clear all knowers
+	for(var/knowing_one as anything in known_by)
+		remove_knower(knowing_one)
+	known_by = list()
+
+	// Clear creator reference
+	if(creator)
+		clear_creator_reference(creator)
+	creator = null
+
+	// Reset variables to defaults
+	creation_time = 0
+	expiry_time = 0
+	track_type = "codersock tracks"
+	ambiguous_track_type = "footwear tracks"
+	facing = "nowhere"
+	depth = null
+	special_movement = null
+	tracking_modifier = 0
+	overwrites = 0
+	LAZYCLEARLIST(highlighted)
+	original_dir = null
+	markable = TRUE
+
+	// Reset image
+	real_image = null
+	real_icon_state = initial(real_icon_state)
 
 /obj/effect/track/attack_hand(mob/living/user)
 	. = ..()
@@ -229,7 +257,8 @@
 			facing = "southeast"
 	real_image = image(icon, src, real_icon_state, ABOVE_OPEN_TURF_LAYER, track_source.dir) //Recreate image with correct dir.
 	original_dir = track_source.dir
-	deletion_timer = addtimer(CALLBACK(src, PROC_REF(track_expire)), 15 MINUTES, TIMER_STOPPABLE) //Tracks naturally expire after 15 minutes (although at that point their DC is pretty high anyways.)
+	expiry_time = world.time + 15 MINUTES //Tracks naturally expire after 15 minutes
+	SStracks.add_track(src)
 
 ///Adds a new person to the list of people who can see this track.
 /obj/effect/track/proc/add_knower(mob/living/tracker, competence = 1)
@@ -380,20 +409,20 @@
 /mob/living/proc/check_track_creation(turf/new_turf)
 	if(!new_turf)
 		return //Guh?
-	if(isnull(mind))
+	if(!mind)
 		return
 	if(!(movement_type & GROUND) || (movement_type & (FLOATING|FLYING))) //For some reason some mobs have both ground and flying at once.
 		return
-	var/probability = round(track_creation_prob(new_turf), 0.1) 
+	var/probability = round(track_creation_prob(new_turf), 0.1)
 	if(!probability)
 		return
 	if(!prob(probability))
 		return
 	var/obj/effect/track/old_track = locate() in new_turf
-	var/obj/effect/track/new_track = new(new_turf)
+	var/obj/effect/track/new_track = SStracks.get_track(/obj/effect/track, new_turf)
 	if(old_track)
 		new_track.overwrites = 1 + old_track.overwrites
-		qdel(old_track)
+		SStracks.recycle_track(old_track) // Recycle instead of qdel
 	new_track.handle_creation(src)
 
 //Gets the probability of this mob to create a track on the passed turf.
@@ -439,13 +468,21 @@
 	var/tool_used_ambiguous
 	var/is_silver
 
+/obj/effect/track/structure/soft_reset()
+	..()
+	skill_level = null
+	tool_used = null
+	tool_used_ambiguous = null
+	is_silver = null
+
 /obj/effect/track/structure/handle_creation(mob/living/track_source)
 	creator = track_source
 	RegisterSignal(track_source, COMSIG_PARENT_QDELETING, PROC_REF(clear_creator_reference))
 	creation_time = world.time
 	track_source.get_track_info(src)
-	real_image = image(icon, src, real_icon_state, ABOVE_OPEN_TURF_LAYER, track_source.dir) 
-	deletion_timer = addtimer(CALLBACK(src, PROC_REF(track_expire)), 15 MINUTES, TIMER_STOPPABLE)
+	real_image = image(icon, src, real_icon_state, ABOVE_OPEN_TURF_LAYER, track_source.dir)
+	expiry_time = world.time + 15 MINUTES
+	SStracks.add_track(src)
 
 /obj/effect/track/structure/knowledge_readout(mob/user, knowledge)
 	if(tool_used_ambiguous)
@@ -497,6 +534,11 @@
 	base_diff = 5 //Easier to notice
 	var/message
 
+/obj/effect/track/thievescant/soft_reset()
+	..()
+	message = null
+	alpha = initial(alpha)
+
 /obj/effect/track/thievescant/handle_creation(mob/living/track_source, thiefmessage)
 	creator = track_source
 	RegisterSignal(track_source, COMSIG_PARENT_QDELETING, PROC_REF(clear_creator_reference))
@@ -505,6 +547,9 @@
 	real_image = image(icon, src, real_icon_state, BULLET_HOLE_LAYER, track_source.dir)
 	alpha = 128
 	message = thiefmessage
+	// Thieves cant engravings persist much longer - 2 hours
+	expiry_time = world.time + 2 HOURS
+	SStracks.add_track(src)
 
 /obj/effect/track/thievescant/knowledge_readout(mob/user, knowledge)
 	if(!user.has_language(/datum/language/thievescant))

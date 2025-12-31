@@ -218,6 +218,7 @@
 	parrysound = list('sound/combat/parry/parrygen.ogg')
 	embedding = list("embedded_pain_multiplier" = 0, "embed_chance" = 0, "embedded_fall_chance" = 0)
 	item_flags = DROPDEL
+	special = /datum/special_intent/axe_swing	//Good pairing for area denial for WW's.
 
 /obj/item/rogueweapon/werewolf_claw/right
 	icon_state = "claw_r"

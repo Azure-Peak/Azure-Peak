@@ -17,6 +17,9 @@
 	color = "#66584c"
 	salvage_result = null // Recipe makes 2 so we cannot make this salvageable
 
+/obj/item/clothing/gloves/roguetown/leather/ComponentInitialize()
+	AddComponent(/datum/component/armour_filtering/positive, TRAIT_FENCERDEXTERITY)
+
 /obj/item/clothing/gloves/roguetown/leather/black
 	color = CLOTHING_BLACK
 

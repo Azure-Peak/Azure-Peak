@@ -1,6 +1,7 @@
 /mob/living/simple_animal/hostile/retaliate/rogue/mole
 	icon = 'icons/roguetown/mob/monster/mole.dmi'
 	name = "mole"
+	desc = "A mighty giant mole, said by many dwarves to have been created at Malum's command to dig the first and oldest caverns of the world for his faithful to live in."
 	icon_state = "mole"
 	icon_living = "mole"
 	icon_dead = "mole_dead"
@@ -69,6 +70,7 @@
 
 /obj/effect/decal/remains/mole
 	name = "remains"
+	desc = "This was once a great burrowing mole! Now it is bone and dessicated flesh."
 	gender = PLURAL
 	icon_state = "mole_bones"
 	icon = 'icons/roguetown/mob/monster/mole.dmi'

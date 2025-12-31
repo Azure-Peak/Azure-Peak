@@ -60,7 +60,7 @@
 
 /mob/living/simple_animal/hostile/retaliate/rogue/swine/piglet
 	name = "piglet"
-	desc = ""
+	desc = "An infant swine."
 	icon_state = "piggie_piglin"
 	icon_living = "piggie_piglin"
 	icon_dead = "piggie_piglin_dead"
@@ -209,7 +209,7 @@
 
 /mob/living/simple_animal/hostile/retaliate/rogue/swine/hog/piglet
 	name = "piglet"
-	desc = ""
+	desc = "An infant swine."
 	gender = MALE
 	icon_state = "piggie_piglin"
 	icon_living = "piggie_piglin"

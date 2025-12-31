@@ -23,7 +23,6 @@
 	user.visible_message(sex_session.spanify_force("[user] [sex_session.get_generic_force_adjective()] grinds against [target]."))
 	playsound(target, 'sound/misc/mat/segso.ogg', 50, TRUE, -2, ignore_walls = FALSE)
 	do_thrust_animate(user, target)
-	add_sleep_experience(user, /datum/skill/misc/riding, user.STAINT)
 
 	sex_session.perform_sex_action(user, 1, 0.5, TRUE)
 	sex_session.handle_passive_ejaculation()

@@ -11,7 +11,12 @@
 
 /obj/item/enchantingkit/pre_attack(obj/item/I, mob/user)
 	if(is_type_in_list(I, target_items))
-		var/obj/item/R = new result_item(get_turf(user))
+		var/obj/item/R
+		if(target_items[I.type] && !result_item)
+			R = target_items[I.type]
+		else
+			R = result_item
+		R = new R(get_turf(user))
 		to_chat(user, span_notice("You apply the [src] to [I], using the enchanting dust and tools to turn it into [R]."))
 		R.name += " <font size = 1>([I.name])</font>"
 		remove_item_from_storage(I)
@@ -83,8 +88,12 @@
 //Eiren - Zweihander and sabres
 /obj/item/enchantingkit/eiren
 	name = "'Regret' morphing elixir"
-	target_items = list(/obj/item/rogueweapon/greatsword/zwei)		//now only takes the zwei and nothing else
-	result_item = /obj/item/rogueweapon/greatsword/zwei/eiren
+	target_items = list(
+		/obj/item/rogueweapon/greatsword/zwei 				= /obj/item/rogueweapon/greatsword/zwei/eiren,
+		/obj/item/rogueweapon/greatsword	  				= /obj/item/rogueweapon/greatsword/eiren,
+		/obj/item/rogueweapon/greatsword/grenz/flamberge 	= /obj/item/rogueweapon/greatsword/grenz/flamberge/eiren
+		)
+	result_item = null
 
 /obj/item/enchantingkit/eirensabre
 	name = "'Lunae' morphing elixir"

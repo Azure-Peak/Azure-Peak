@@ -24,6 +24,7 @@
 	max_integrity = 100
 	anvilrepair = /datum/skill/craft/carpentry
 	COOLDOWN_DECLARE(shield_bang)
+	special = /datum/special_intent/limbguard
 
 
 /obj/item/rogueweapon/shield/attackby(obj/item/attackby_item, mob/user, params)

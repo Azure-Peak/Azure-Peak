@@ -28,6 +28,7 @@
 	var/emote_environment = -1
 	var/prevent_crits = PREVENT_CRITS_MOST
 	var/clothing_flags = NONE
+	var/stack_fovs = FALSE
 
 	salvage_result = /obj/item/natural/cloth
 	salvage_amount = 1
@@ -98,7 +99,7 @@
 /obj/item/proc/get_altdetail_color() //this is for extra layers on clothes
 	return altdetail_color
 
-/obj/item/clothing/MiddleClick(mob/user, params)
+/obj/item/clothing/ShiftRightClick(mob/user, params)
 	..()
 	var/mob/living/L = user
 	var/altheld //Is the user pressing alt?

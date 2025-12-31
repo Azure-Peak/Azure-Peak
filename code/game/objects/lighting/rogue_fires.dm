@@ -421,6 +421,11 @@
 	var/mob/living/carbon/human/lastuser
 	var/datum/looping_sound/boilloop/boilloop
 
+/obj/machinery/light/rogue/hearth/get_mechanics_examine(mob/user)
+	. = ..()
+	. += span_info("Hearths must be fuelled occasionally to continue burning. They can be dowsed with a container of liquid \
+	on <b>SPLASH</b> intent to save fuel.")
+
 /obj/machinery/light/rogue/hearth/Initialize()
 	boilloop = new(src, FALSE)
 	. = ..()

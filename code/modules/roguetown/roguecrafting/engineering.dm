@@ -175,7 +175,7 @@
 /datum/crafting_recipe/roguetown/engineering/twentybolts
 	name = "Crossbow Bolts 20x"
 	category = "Ammo"
-	reqs = list(/obj/item/natural/wood/plank = 3, /obj/item/ingot/iron)
+	reqs = list(/obj/item/natural/wood/plank = 3, /obj/item/ingot/iron = 1)
 	result = list(/obj/item/ammo_casing/caseless/rogue/bolt,
 						/obj/item/ammo_casing/caseless/rogue/bolt,
 						/obj/item/ammo_casing/caseless/rogue/bolt,
@@ -430,7 +430,6 @@
 	skillcraft = /datum/skill/craft/engineering
 	craftdiff = 4
 
-
 /datum/crafting_recipe/roguetown/engineering/satchelbomb
 	name = "blastsand satchel"
 	category = "Explosives"
@@ -440,11 +439,13 @@
 	skillcraft = /datum/skill/craft/engineering
 	craftdiff = 4
 
-
+//increasing the number to reflect the effort it takes to get fyritius and firedust
 /datum/crafting_recipe/roguetown/engineering/impactexplosive
 	name = "explosive grenade"
 	category = "Explosives"
-	result = /obj/item/impact_grenade/explosion
+	result = list(/obj/item/impact_grenade/explosion,
+				  /obj/item/impact_grenade/explosion,
+				  /obj/item/impact_grenade/explosion)
 	reqs = list(/obj/item/natural/clay = 1, /obj/item/paper = 1, /obj/item/alch/coaldust = 1, /obj/item/alch/firedust = 1, /obj/item/reagent_containers/food/snacks/grown/rogue/fyritius = 1)
 	structurecraft = /obj/machinery/artificer_table
 	skillcraft = /datum/skill/craft/engineering
@@ -517,4 +518,44 @@
 	craftdiff = 4
 
 // ------------ Craftable Traps ----------
-//trying out adding in traps, we'll start with 3 of them. 
+//setting these up as a more "arcane" alternative to trap making done with engineering. 
+
+/datum/crafting_recipe/roguetown/engineering/rocktrap
+	name = "rock trap (engineered)"
+	category = "Traps"
+	result = /obj/structure/trap/rock_fall
+	reqs =  list(/obj/item/roguegear = 1, /obj/item/natural/clay = 2, /obj/item/roguegem/amethyst = 1, /obj/item/alch/irondust =1, /obj/item/natural/rock = 1)
+	skillcraft = /datum/skill/craft/engineering
+	craftdiff = 4
+
+/datum/crafting_recipe/roguetown/engineering/sawbladetrap
+	name = "saw blades trap (engineered)"
+	category = "Traps"
+	result = /obj/structure/trap/saw_blades
+	reqs =  list(/obj/item/roguegear = 2, /obj/item/natural/clay = 2, /obj/item/roguegem/amethyst = 1, /obj/item/alch/irondust =1, /obj/item/natural/whetstone = 1)
+	skillcraft = /datum/skill/craft/engineering
+	craftdiff = 5
+
+/datum/crafting_recipe/roguetown/engineering/flametrap
+	name = "flame trap (engineered)"
+	category = "Traps"
+	result = /obj/structure/trap/flame
+	reqs =  list(/obj/item/roguegear = 1, /obj/item/natural/clay = 2, /obj/item/roguegem/amethyst = 1, /obj/item/alch/irondust =1, /obj/item/alch/firedust =1)
+	skillcraft = /datum/skill/craft/engineering
+	craftdiff = 5
+
+/datum/crafting_recipe/roguetown/engineering/shocktrap
+	name = "shock trap (engineered)"
+	category = "Traps"
+	result = /obj/structure/trap/shock
+	reqs =  list(/obj/item/roguegear = 1, /obj/item/natural/clay = 2, /obj/item/roguegem/amethyst = 1, /obj/item/alch/irondust =1, /obj/item/alch/magicdust =1)
+	skillcraft = /datum/skill/craft/engineering
+	craftdiff = 6
+
+/datum/crafting_recipe/roguetown/engineering/bombtrap
+	name = "bomb trap (engineered)"
+	category = "Traps"
+	result = /obj/structure/trap/bomb
+	reqs =  list(/obj/item/roguegear = 1, /obj/item/natural/clay = 2, /obj/item/roguegem/amethyst = 1, /obj/item/alch/irondust =1, /obj/item/impact_grenade/explosion = 1)
+	skillcraft = /datum/skill/craft/engineering
+	craftdiff = 6

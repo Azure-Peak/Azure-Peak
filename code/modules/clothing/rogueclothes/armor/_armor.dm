@@ -27,3 +27,6 @@
 	flags_inv = HIDEBOOB|HIDECROTCH
 	grid_width = 64
 	grid_height = 96
+
+/obj/item/clothing/suit/roguetown/armor/ComponentInitialize()
+	AddComponent(/datum/component/armour_filtering/positive, TRAIT_FENCERDEXTERITY)

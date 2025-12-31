@@ -69,9 +69,9 @@
 		needed_xp += needed_xp_for_level(next_skill_level)
 	return needed_xp
 
-/datum/sleep_adv/proc/add_sleep_experience(skill, amt, silent = FALSE)
+/datum/sleep_adv/proc/add_sleep_experience(skill, amt, silent = FALSE, _show_xp = TRUE)
 	var/mob/living/L = mind.current
-	var/show_xp = TRUE
+	var/show_xp = _show_xp
 	if(!(L.client?.prefs.floating_text_toggles & XP_TEXT))
 		show_xp = FALSE
 	if((L.get_skill_level(skill) < SKILL_LEVEL_APPRENTICE) && (!is_considered_sleeping()|| HAS_TRAIT(mind.current, TRAIT_VAMP_DREAMS)))
@@ -81,7 +81,7 @@
 		var/capped_post_check = enough_sleep_xp_to_advance(skill, 2)
 		if(COOLDOWN_FINISHED(src, xp_show))
 			if(org_lvl == new_lvl && !capped_post_check && show_xp)
-				L.balloon_alert(L, "[amt] XP")
+				L.balloon_alert(L, "[round(amt, 0.1)] XP")
 				COOLDOWN_START(src, xp_show, XP_SHOW_COOLDOWN)
 		return
 	var/datum/skill/skillref = GetSkillRef(skill)
@@ -133,7 +133,7 @@
 		show_xp = FALSE
 	if(COOLDOWN_FINISHED(src, xp_show))
 		if(amt && show_xp && (L.client?.prefs.floating_text_toggles & XP_TEXT))
-			L.balloon_alert(L, "[amt] XP")
+			L.balloon_alert(L, "[round(amt, 0.1)] XP")
 			COOLDOWN_START(src, xp_show, XP_SHOW_COOLDOWN)
 
 /datum/sleep_adv/proc/advance_cycle()

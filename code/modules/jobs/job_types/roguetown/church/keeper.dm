@@ -85,7 +85,7 @@
 							 /obj/item/roguekey/keeper = 1,
 							 /obj/item/roguekey/keeper_inner = 1,
 							 /obj/item/storage/keyring = 1)
-	H.put_in_hands(new /obj/item/storage/belt/rogue/surgery_bag/full/physician(H), TRUE)
+	H.put_in_hands(new /obj/item/storage/belt/rogue/surgery_bag/full/physician(H))
 	var/datum/devotion/C = new /datum/devotion(H, H.patron)
 	C.grant_miracles(H, cleric_tier = CLERIC_T3, passive_gain = CLERIC_REGEN_MINOR, start_maxed = TRUE)
 	if(H.mind)

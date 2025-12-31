@@ -99,6 +99,19 @@
 	icon_state = "eiren"
 	icon = 'icons/obj/items/donor_weapons_64.dmi'
 
+/obj/item/rogueweapon/greatsword/eiren
+	name = "Regret"
+	desc = "People bring the small flames of their wishes together... to keep them from burning out, we cast our own flames into the biggest fire we can find. But you know... I didn't bring a flame with me. As for me, maybe I just wandered up to the campfire to warm myself a little..."
+	icon_state = "eiren"
+	icon = 'icons/obj/items/donor_weapons_64.dmi'
+
+/obj/item/rogueweapon/greatsword/grenz/flamberge/eiren
+	name = "Regret"
+	desc = "People bring the small flames of their wishes together... to keep them from burning out, we cast our own flames into the biggest fire we can find. But you know... I didn't bring a flame with me. As for me, maybe I just wandered up to the campfire to warm myself a little..."
+	icon_state = "eiren"
+	icon = 'icons/obj/items/donor_weapons_64.dmi'
+
+
 /obj/item/rogueweapon/sword/sabre/eiren
 	name = "Lunae"
 	desc = "Two blades, one forged in Noc's light, a soothing breath of clarity. Here, and here alone, were moon and fire ever together."

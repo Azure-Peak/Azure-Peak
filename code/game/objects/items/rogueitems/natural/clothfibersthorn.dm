@@ -265,10 +265,37 @@
 	wet = 10
 
 /obj/item/natural/cloth/proc/bandage(mob/living/M, mob/user)
+	var/used_time = 70
+	var/medskill = 0
+
+	if(ishuman(user))
+		var/mob/living/carbon/human/human_user = user
+		medskill = human_user.get_skill_level(/datum/skill/misc/medicine)
+		used_time -= ((medskill * 10) + (human_user.STASPD / 2)) //With 20 SPD you can insta bandage at max medicine.
+
+	if(istype(M, /mob/living/simple_animal))
+		var/mob/living/simple_animal/animal_patient = M
+		if(!animal_patient.bruteloss)
+			to_chat(user, span_warning("[animal_patient] doesn't need bandaging right now."))
+			return
+		playsound(loc, 'sound/foley/bandage.ogg', 100, FALSE)
+		if(!move_after(user, used_time, target = animal_patient))
+			return
+		playsound(loc, 'sound/foley/bandage.ogg', 100, FALSE)
+		animal_patient.adjustHealth(-((animal_patient.maxHealth / 5) * (medskill + 1)), TRUE)
+		user.visible_message(span_notice("[user] bandages [M]'s wounds."), span_notice("I bandage [M]'s wounds."))
+		// clear all the wounds
+		for(var/datum/wound/wound as anything in animal_patient.get_wounds())
+			qdel(wound)
+		qdel(src)
+		return
+
 	if(!M.can_inject(user, TRUE))
 		return
+
 	if(!ishuman(M))
 		return
+
 	var/mob/living/carbon/human/H = M
 	var/obj/item/bodypart/affecting = H.get_bodypart(check_zone(user.zone_selected))
 	if(!affecting)
@@ -276,8 +303,7 @@
 	if(affecting.bandage)
 		to_chat(user, span_warning("There is already a bandage."))
 		return
-	var/used_time = 70
-	used_time -= ((H.get_skill_level(/datum/skill/misc/medicine) * 10) + (H.STASPD / 2)) //With 20 SPD you can insta bandage at max medicine.
+
 	playsound(loc, 'sound/foley/bandage.ogg', 100, FALSE)
 	if(!move_after(user, used_time, target = M))
 		return

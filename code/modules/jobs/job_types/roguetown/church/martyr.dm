@@ -443,14 +443,7 @@
 	give_bank_account = TRUE
 
 	cmode_music = 'sound/music/combat_martyrsafe.ogg'
-	job_traits = list(
-		TRAIT_HEAVYARMOR,
-		TRAIT_STEELHEARTED,
-		TRAIT_SILVER_BLESSED,
-		TRAIT_EMPATH,
-		TRAIT_MEDICINE_EXPERT,
-		TRAIT_DUALWIELDER
-	)
+	job_traits = list(TRAIT_HEAVYARMOR, TRAIT_STEELHEARTED, TRAIT_SILVER_BLESSED, TRAIT_EMPATH, TRAIT_MEDICINE_EXPERT, TRAIT_DUALWIELDER, TRAIT_CLERGY)
 
 	//No undeath-adjacent virtues for a role that can sacrifice itself. The Ten like their sacrifices 'pure'. (I actually didn't want to code returning those virtue traits post-sword use)
 	//They get those traits during sword activation, anyway.

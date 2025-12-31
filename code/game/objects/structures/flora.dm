@@ -350,6 +350,7 @@
 /obj/structure/flora/rock/pile
 	icon_state = "lavarocks"
 	desc = ""
+	density = FALSE
 
 //Jungle grass
 
