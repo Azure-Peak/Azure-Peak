@@ -88,6 +88,12 @@
 #define ATTACK_ANIMATION_SWIPE "swipe"
 #define ATTACK_ANIMATION_THRUST "thrust"
 
+// Intent Effective Range presets
+#define EFF_RANGE_NONE 0
+#define EFF_RANGE_EXACT 1
+#define EFF_RANGE_ABOVE 2
+#define EFF_RANGE_BELOW 3
+
 //Grab levels
 #define GRAB_PASSIVE				0
 #define GRAB_AGGRESSIVE				1

@@ -197,7 +197,7 @@
 	alternate_worn_layer = TABARD_LAYER
 	boobed = FALSE
 	name = "astratan tabard"
-	desc = "The washed out golds of an asratan crusader adorn these fine robes."
+	desc = "The washed out golds of an Astratan crusader adorn these fine robes."
 	icon_state = "astratatabard"
 	resistance_flags = FIRE_PROOF
 
@@ -1066,6 +1066,18 @@
 	inhand_mod = TRUE
 	salvage_result = /obj/item/natural/fibers
 	salvage_amount = 2
+
+/obj/item/clothing/cloak/wickercloak/ComponentInitialize()
+	. = ..()
+	AddComponent(/datum/component/storage/concrete/roguetown/cloak)
+
+/obj/item/clothing/cloak/wickercloak/dropped(mob/living/carbon/human/user)
+	..()
+	var/datum/component/storage/STR = GetComponent(/datum/component/storage)
+	if(STR)
+		var/list/things = STR.contents()
+		for(var/obj/item/I in things)
+			STR.remove_from_storage(I, get_turf(src))
 
 /obj/item/clothing/cloak/tribal
 	name = "tribal pelt"

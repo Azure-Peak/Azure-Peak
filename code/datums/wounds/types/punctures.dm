@@ -74,13 +74,13 @@
 		set_bleed_rate(bleed_rate + PUNC_UPG_CLAMP_RAW)
 	else
 		switch(dam)
-			if(1 to 4)
+			if(1 to 9)
 				set_bleed_rate(bleed_rate + 0.3)
-			if(5 to 9)
+			if(10 to 14)
 				set_bleed_rate(bleed_rate + 0.4)
-			if(10 to 13)
+			if(15 to 18)
 				set_bleed_rate(bleed_rate + 0.5)
-			if(14 to 99)	//At 80 armor and 30 base damage this would require ~16 STR
+			if(19 to 99)	//At 80 armor and 30 base damage this would require ~16 STR
 				set_bleed_rate(bleed_rate + 0.75)
 	sew_threshold += (dam * PUNC_UPG_SEWRATE)
 	woundpain += (dam * PUNC_UPG_PAINRATE)

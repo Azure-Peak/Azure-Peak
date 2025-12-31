@@ -321,7 +321,7 @@
 
 /obj/item/reagent_containers/food/snacks/grown/nut
 	name = "rocknut"
-	desc = "a nut with mild stimulant properties. In powderized form, it can be used to make a zig."
+	desc = "A nut with mild stimulant properties. In powderized form, it can be used to make a zig."
 	seed = /obj/item/seeds/nut
 	icon_state = "rocknut"
 	tastes = list("nutty" = 1)

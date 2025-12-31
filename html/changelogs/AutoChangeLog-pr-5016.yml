@@ -1,4 +1,0 @@
-author: "FreeStylaLT"
-delete-after: True
-changes:
-  - bugfix: "Fixes projectile crits for real (for real)"

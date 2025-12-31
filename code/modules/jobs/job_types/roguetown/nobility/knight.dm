@@ -86,8 +86,7 @@
 		STATKEY_STR = 3,//Heavy hitters. Less con/end, high strength.
 		STATKEY_INT = 3,
 		STATKEY_CON = 1,
-		STATKEY_WIL = 1,
-		STATKEY_SPD = -1
+		STATKEY_WIL = 1
 	)
 	subclass_skills = list(
 		/datum/skill/combat/polearms = SKILL_LEVEL_EXPERT, //Polearms are pretty much explicitly a two-handed weapon, so I gave them a polearm option.
@@ -184,8 +183,9 @@
 	subclass_stats = list(
 		STATKEY_STR = 1,//Tanky, less strength, but high con/end.
 		STATKEY_INT = 1,
-		STATKEY_CON = 3,
+		STATKEY_CON = 4,//If mercenaries can have this...
 		STATKEY_WIL = 3,
+		STATKEY_PER = 1
 	)
 	subclass_skills = list(
 		/datum/skill/combat/swords = SKILL_LEVEL_EXPERT,
@@ -275,9 +275,9 @@
 	//Decent all-around stats. Nothing spectacular. Ranged/melee hybrid class on horseback.
 	subclass_stats = list(
 		STATKEY_STR = 2,
-		STATKEY_INT = 1,
+		STATKEY_INT = 2,
 		STATKEY_CON = 1,
-		STATKEY_WIL = 1,
+		STATKEY_WIL = 2,
 		STATKEY_PER = 2
 	)
 	subclass_skills = list(
@@ -388,7 +388,9 @@
 		STATKEY_STR = 1,
 		STATKEY_INT = 1,
 		STATKEY_WIL = 2,
-		STATKEY_SPD = 2
+		STATKEY_SPD = 2,
+		STATKEY_PER = 1,
+		STATKEY_FOR = 1
 	)
 	subclass_skills = list(
 		/datum/skill/combat/swords = SKILL_LEVEL_EXPERT, //Swords and knives class.

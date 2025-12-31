@@ -3,8 +3,8 @@
 	flag = MANATARMS
 	department_flag = GARRISON
 	faction = "Station"
-	total_positions = 8
-	spawn_positions = 8
+	total_positions = 5
+	spawn_positions = 5 //Not getting filled either way
 
 	allowed_sexes = list(MALE, FEMALE)
 	allowed_races = ACCEPTED_RACES
@@ -68,7 +68,7 @@
 	subclass_stats = list(
 		STATKEY_STR = 2,// seems kinda lame but remember guardsman bonus!!
 		STATKEY_INT = 1,
-		STATKEY_CON = 1,
+		STATKEY_CON = 3, //Like other footman classes their main thing is constitution more so than anything else
 		STATKEY_WIL = 1
 	)
 	subclass_skills = list(
@@ -134,11 +134,11 @@
 	H.verbs |= /mob/proc/haltyell
 
 	if(H.mind)
-		var/armor_options = list("Brigandine Set", "Maille Set")
+		var/armor_options = list("Light Brigandine Set", "Maille Set")
 		var/armor_choice = input(H, "Choose your armor.", "TAKE UP ARMS") as anything in armor_options
 
 		switch(armor_choice)
-			if("Brigandine Set")
+			if("Light Brigandine Set")
 				armor = /obj/item/clothing/suit/roguetown/armor/brigandine/light/retinue
 				shirt = /obj/item/clothing/suit/roguetown/armor/gambeson
 				wrists = /obj/item/clothing/wrists/roguetown/splintarms
@@ -174,12 +174,12 @@
 	category_tags = list(CTAG_MENATARMS)
 	//Garrison ranged/speed class. Time to go wild
 	subclass_stats = list(
+		STATKEY_STR = 1, //Xbow
 		STATKEY_SPD = 2,// seems kinda lame but remember guardsman bonus!!
 		STATKEY_PER = 2,
 		STATKEY_WIL = 1
 	)
 	subclass_skills = list(
-		/datum/skill/combat/swords = SKILL_LEVEL_EXPERT,
 		/datum/skill/combat/knives = SKILL_LEVEL_EXPERT,
 		/datum/skill/combat/maces = SKILL_LEVEL_APPRENTICE, 		// Still have a cugel.
 		/datum/skill/combat/crossbows = SKILL_LEVEL_MASTER,		//Only effects draw and reload time.
@@ -270,6 +270,7 @@
 		STATKEY_WIL = 2,// Your name is speed, and speed is running.
 		STATKEY_STR = 1,
 		STATKEY_INT = 1, // No strength to account for the nominally better weapons. We'll see.
+		STATKEY_PER = 2 //Trackers
 	)
 	subclass_skills = list(
 		/datum/skill/combat/polearms = SKILL_LEVEL_EXPERT,
@@ -363,7 +364,8 @@
 	subclass_stats = list(
 		STATKEY_STR = 2,
 		STATKEY_CON = 2,
-		STATKEY_WIL = 1
+		STATKEY_WIL = 1,
+		STATKEY_LCK = 1 //Master skill and barbarian doesn't need that much more.
 	)
 	subclass_skills = list(
 		/datum/skill/combat/whipsflails = SKILL_LEVEL_EXPERT,

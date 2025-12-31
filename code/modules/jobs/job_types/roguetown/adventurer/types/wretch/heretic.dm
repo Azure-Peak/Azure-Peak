@@ -428,6 +428,10 @@
 	if(!ishuman(target))
 		revert_cast()
 		return FALSE
+	
+	if(target.cmode)
+		revert_cast()
+		return FALSE
 
 	//This SHOULD stop most heretics from being convertible and self-curing should they somehow get cursed in the future.
 	if(HAS_TRAIT(target, TRAIT_HERESIARCH))

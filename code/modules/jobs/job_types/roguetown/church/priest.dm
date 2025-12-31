@@ -681,6 +681,10 @@ code\modules\admin\verbs\divinewrath.dm has a variant with all the gods so keep 
 		revert_cast()
 		return FALSE
 
+	if(target.cmode)
+		revert_cast()
+		return FALSE
+
 	if(!HAS_TRAIT(target, TRAIT_HERESIARCH))
 		to_chat(user, span_warning("[target] wasn't marked by the enemy as a heretic!"))
 		revert_cast()

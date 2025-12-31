@@ -1,0 +1,4 @@
+author: "SillyMoff"
+delete-after: True
+changes:
+  - bugfix: "fixed mrro emote"

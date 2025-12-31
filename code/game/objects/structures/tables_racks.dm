@@ -436,7 +436,7 @@
 
 /obj/structure/table/wood/fancy
 	name = "fancy table"
-	desc = ""
+	desc = "A table draped with beautiful silks! Try not to stain it."
 	icon = 'icons/obj/structures.dmi'
 	icon_state = "fancy_table"
 	smooth = 1

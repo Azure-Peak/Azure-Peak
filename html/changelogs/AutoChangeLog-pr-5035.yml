@@ -1,0 +1,5 @@
+author: "nauticall"
+delete-after: True
+changes:
+  - rscadd: "Added Eggplant, Madder, Wisteria, Wine Red, Gulf Blue, Burlap, Violet, and Tan colors. Adjusted Gold Metallic to be more desaturated."
+  - code_imp: "Cleaned up colors.dm to remove redundant variables and defines, as well as some leftover brigandine color code still using the old system."

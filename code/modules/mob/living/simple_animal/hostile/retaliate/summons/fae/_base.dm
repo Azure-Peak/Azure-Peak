@@ -3,6 +3,7 @@
 
 /mob/living/simple_animal/hostile/retaliate/rogue/fae/Initialize()
 	. = ..()
+	desc += span_bold(" It does not belong to this plane.") // To hint that they may be summoned.
 	ADD_TRAIT(src, TRAIT_KNEESTINGER_IMMUNITY, TRAIT_GENERIC)
 	ADD_TRAIT(src, TRAIT_NOBREATH, TRAIT_GENERIC)
 	ADD_TRAIT(src, TRAIT_TOXIMMUNE, TRAIT_GENERIC)

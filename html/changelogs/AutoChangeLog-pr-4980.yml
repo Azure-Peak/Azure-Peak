@@ -1,0 +1,11 @@
+author: "FreeStylaLT"
+delete-after: True
+changes:
+  - rscadd: "New Polearm Special -- the Backstep."
+  - rscadd: "New weapon feature -- effective range. Attacking a non-prone target outside of it will do half damage and have no penetration."
+  - balance: "Spear Stab now has an effective range of 2 tiles."
+  - balance: "Spear Stab's penfactor has been increased (50 -> 55)."
+  - balance: "Spear Cut no longer has reduced damage."
+  - balance: "Bardiche lost its thrust, replaced with a one-tile chop."
+  - balance: "Bardiche is now heavy-balanced."
+  - balance: "Halberd gained a one-tile chop."

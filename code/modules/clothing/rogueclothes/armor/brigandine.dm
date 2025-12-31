@@ -26,13 +26,13 @@
 	if(detail_tag)
 		return
 	var/the_time = world.time
-	var/pickedcolor = input(user, "Select a color.","Brigandine Color") as null|anything in CLOTHING_COLOR_NAMES
+	var/pickedcolor = input(user, "Select a color.","Brigandine Color") as null|anything in COLOR_MAP
 	if(!pickedcolor)
 		return
 	if(world.time > (the_time + 30 SECONDS))
 		return
 	detail_tag = "_det"
-	detail_color = clothing_color2hex(pickedcolor)
+	detail_color = COLOR_MAP[pickedcolor]
 	update_icon()
 	if(ismob(loc))
 		var/mob/L = loc
@@ -102,13 +102,13 @@
 	if(detail_tag)
 		return
 	var/the_time = world.time
-	var/pickedcolor = input(user, "Select a color.","Brigandine Color") as null|anything in CLOTHING_COLOR_NAMES
+	var/pickedcolor = input(user, "Select a color.","Brigandine Color") as null|anything in COLOR_MAP
 	if(!pickedcolor)
 		return
 	if(world.time > (the_time + 30 SECONDS))
 		return
 	detail_tag = "_detail"
-	detail_color = clothing_color2hex(pickedcolor)
+	detail_color = COLOR_MAP[pickedcolor]
 	update_icon()
 	if(ismob(loc))
 		var/mob/L = loc

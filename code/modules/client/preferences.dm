@@ -467,7 +467,7 @@ GLOBAL_LIST_EMPTY(chosen_names)
 				if(virtuetwo.type in pref_species.restricted_virtues)
 					virtuetwo = GLOB.virtues[/datum/virtue/none]
 			dat += "<b>Virtue:</b> <a href='?_src_=prefs;preference=virtue;task=input'>[virtue]</a><BR>"
-			if(statpack.name == "Virtuous")
+			if(statpack.virtuous)
 				dat += "<b>Second Virtue:</b> <a href='?_src_=prefs;preference=virtuetwo;task=input'>[virtuetwo]</a><BR>"
 			else
 				virtuetwo = GLOB.virtues[/datum/virtue/none]

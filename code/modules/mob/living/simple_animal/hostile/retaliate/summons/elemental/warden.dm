@@ -2,6 +2,9 @@
 /mob/living/simple_animal/hostile/retaliate/rogue/elemental/warden
 	icon = 'icons/mob/summonable/32x32.dmi'
 	name = "earthen Warden"
+	desc = "An ever-watchful warden, a manner of earthen elemental dutiful in its protection \
+	of its native plane. As a consequence of their competence, they are often summoned to Psydonia \
+	by ambitious conjurers to serve their bidding instead."
 	icon_state = "warden"
 	icon_living = "warden"
 	icon_dead = "vvd"

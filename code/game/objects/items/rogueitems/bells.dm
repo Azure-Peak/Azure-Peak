@@ -11,7 +11,7 @@
 	damtype = BRUTE
 	force = 5
 	hitsound = 'sound/items/bsmith1.ogg'
-	var/cooldown = 3 SECONDS
+	var/cooldown = 5 SECONDS
 	var/ringing = FALSE
 	resistance_flags = FIRE_PROOF
 	grid_width = 32
@@ -63,7 +63,7 @@
 	density = TRUE
 	layer = ABOVE_MOB_LAYER
 	plane = GAME_PLANE_UPPER
-	var/cooldown = 3 SECONDS
+	var/cooldown = 20 SECONDS
 	var/ringing = FALSE
 
 /*

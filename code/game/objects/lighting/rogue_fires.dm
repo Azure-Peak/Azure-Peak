@@ -745,7 +745,8 @@
 
 /obj/item/mobilestove
 	name = "packed stove"
-	desc = "A portable bronze stovetop. The underside is covered in an esoteric pattern of small tubes. Whatever heats the hob is hidden inside the body of the device"
+	desc = "A portable bronze stovetop. The underside is covered in an esoteric pattern of small tubes. Whatever heats \
+	the hob is hidden inside the body of the device."
 	icon = 'icons/roguetown/misc/lighting.dmi'
 	icon_state = "hobostovep"
 	w_class = WEIGHT_CLASS_NORMAL

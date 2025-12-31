@@ -4,6 +4,7 @@
 	icon = 'icons/obj/items/clothes/stockings.dmi'
 	icon_state = "stockings"
 	resistance_flags = FLAMMABLE
+	w_class = WEIGHT_CLASS_TINY
 	obj_flags = CAN_BE_HIT
 	break_sound = 'sound/foley/cloth_rip.ogg'
 	blade_dulling = DULLING_CUT

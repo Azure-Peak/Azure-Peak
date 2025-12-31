@@ -382,6 +382,7 @@
 	name = "heater shield"
 	desc = "A sturdy wood and leather shield. Made to not be too encumbering while still providing good protection."
 	icon_state = "heatersh"
+	slot_flags = ITEM_SLOT_HIP | ITEM_SLOT_BACK
 	force = 15
 	throwforce = 10
 	dropshrink = 0.8

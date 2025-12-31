@@ -83,9 +83,12 @@
 #define CLOTHING_DARK_GREY			"#505050"
 #define CLOTHING_DIRT				"#7c6d5c"
 #define CLOTHING_DUNKED_WATER		"#bbbbbb"
+#define CLOTHING_EGGPLANT			"#5d4356"
 #define CLOTHING_GOLD				"#f9a602"
-#define CLOTHING_GOLD_METALLIC		"#b8954e"
+#define CLOTHING_GOLD_METALLIC		"#b0955d"
+#define CLOTHING_INDIGO				"#4b0082"
 #define CLOTHING_LIGHT_GREY			"#999999"
+#define CLOTHING_MADDER				"#d74c34"
 #define CLOTHING_MAGE_BLUE			"#4756d8"
 #define CLOTHING_MAGE_GREEN			"#759259"
 #define CLOTHING_MAGE_GREY			"#6c6c6c"
@@ -93,109 +96,69 @@
 #define CLOTHING_MUDDY_YELLOW		"#b5b004"
 #define CLOTHING_MAROON				"#550000"
 #define CLOTHING_OLIVE				"#98bf64"
-#define CLOTHING_ORCHIL				"#66023C"
+#define CLOTHING_ORCHIL				"#66023c"
 #define CLOTHING_PEASANT_BROWN		"#685542"
 #define CLOTHING_PERIWINKLE_BLUE	"#8f99fb"
 #define CLOTHING_RED_OCHRE			"#913831"
 #define CLOTHING_RUSSET				"#7f461b"
 #define CLOTHING_SCARLET			"#b8252c"
+#define CLOTHING_VIOLET				"#6925ac"
 #define CLOTHING_WOAD_BLUE			"#597fb9"
+#define CLOTHING_WINE_RED			"#995264"
 #define CLOTHING_YELLOW_OCHRE		"#cb9d06"
 #define CLOTHING_YELLOW_WELD		"#f4c430"
 #define CLOTHING_YARROW				"#f0cb76"
 
 #define CLOTHING_WET CLOTHING_DUNKED_WATER
 
-#define CLOTHING_COLOR_NAMES list(\
-	"Red",\
-	"Purple",\
-	"Black",\
-	"Brown",\
-	"Green",\
-	"Blue",\
-	"Yellow",\
-	"Teal",\
-	"Azure",\
-	"White",\
-	"Orange",\
-	"Magenta"\
-)
-
-#define EXTENDED_COLOR_NAMES list(\
-	"Chalk White",\
-	"Chestnut",\
-	"Cream",\
-	"Dark Grey",\
-	"Dirt",\
-	"Dunked in Water",\
-	"Gold",\
-	"Gold Metallic",\
-	"Light Grey",\
-	"Mage Blue",\
-	"Mage Green",\
-	"Mage Grey",\
-	"Mage Yellow",\
-	"Muddy Yellow",\
-	"Maroon",\
-	"Olive",\
-	"Orchil",\
-	"Peasant Brown",\
-	"Periwinkle Blue",\
-	"Red Ochre",\
-	"Russet",\
-	"Scarlet",\
-	"Woad Blue",\
-	"Yellow Ochre",\
-	"Yellow Weld",\
-	"Yarrow"\
-)
-
 /* Core */
-#define CLOTHING_COLOR_MAP list(\
-	"Red" = CLOTHING_RED,\
-	"Purple" = CLOTHING_PURPLE,\
-	"Black" = CLOTHING_BLACK,\
-	"Brown" = CLOTHING_BROWN,\
-	"Green" = CLOTHING_GREEN,\
-	"Blue" = CLOTHING_BLUE,\
-	"Yellow" = CLOTHING_YELLOW,\
-	"Teal" = CLOTHING_TEAL,\
-	"Azure" = CLOTHING_AZURE,\
-	"White" = CLOTHING_WHITE,\
-	"Orange" = CLOTHING_ORANGE,\
-	"Magenta" = CLOTHING_MAGENTA\
+#define CLOTHING_COLOR_MAP list(	\
+	"Red" = CLOTHING_RED,			\
+	"Purple" = CLOTHING_PURPLE,		\
+	"Black" = CLOTHING_BLACK,		\
+	"Brown" = CLOTHING_BROWN,		\
+	"Green" = CLOTHING_GREEN,		\
+	"Blue" = CLOTHING_BLUE,			\
+	"Yellow" = CLOTHING_YELLOW,		\
+	"Teal" = CLOTHING_TEAL,			\
+	"Azure" = CLOTHING_AZURE,		\
+	"White" = CLOTHING_WHITE,		\
+	"Orange" = CLOTHING_ORANGE,		\
+	"Magenta" = CLOTHING_MAGENTA	\
 )	
 /* Extended */
-#define EXTENDED_COLOR_MAP list(\
-	"Chalk White" = CLOTHING_CHALK_WHITE,\
-	"Chestnut" = CLOTHING_CHESTNUT,\
-	"Cream" = CLOTHING_CREAM,\
-	"Dark Grey" = CLOTHING_DARK_GREY,\
-	"Dirt" = CLOTHING_DIRT,\
-	"Dunked in Water" = CLOTHING_DUNKED_WATER,\
-	"Gold" = CLOTHING_GOLD,\
-	"Gold Metallic" = CLOTHING_GOLD_METALLIC,\
-	"Light Grey" = CLOTHING_LIGHT_GREY,\
-	"Mage Blue" = CLOTHING_MAGE_BLUE,\
-	"Mage Green" = CLOTHING_MAGE_GREEN,\
-	"Mage Grey" = CLOTHING_MAGE_GREY,\
-	"Mage Yellow" = CLOTHING_MAGE_YELLOW,\
-	"Muddy Yellow" = CLOTHING_MUDDY_YELLOW,\
-	"Maroon" = CLOTHING_MAROON,\
-	"Olive" = CLOTHING_OLIVE,\
-	"Orchil" = CLOTHING_ORCHIL,\
-	"Peasant Brown" = CLOTHING_PEASANT_BROWN,\
-	"Periwinkle Blue" = CLOTHING_PERIWINKLE_BLUE,\
-	"Red Ochre" = CLOTHING_RED_OCHRE,\
-	"Russet" = CLOTHING_RUSSET,\
-	"Scarlet" = CLOTHING_SCARLET,\
-	"Woad Blue" = CLOTHING_WOAD_BLUE,\
-	"Yellow Ochre" = CLOTHING_YELLOW_OCHRE,\
-	"Yellow Weld" = CLOTHING_YELLOW_WELD,\
-	"Yarrow" = CLOTHING_YARROW\
+#define EXTENDED_COLOR_MAP list(					\
+	"Chalk White" = CLOTHING_CHALK_WHITE,			\
+	"Chestnut" = CLOTHING_CHESTNUT,					\
+	"Cream" = CLOTHING_CREAM,						\
+	"Dark Grey" = CLOTHING_DARK_GREY,				\
+	"Dirt" = CLOTHING_DIRT,							\
+	"Dunked in Water" = CLOTHING_DUNKED_WATER,		\
+	"Eggplant" = CLOTHING_EGGPLANT,					\
+	"Gold" = CLOTHING_GOLD,							\
+	"Gold Metallic" = CLOTHING_GOLD_METALLIC,		\
+	"Indigo" = CLOTHING_INDIGO,						\
+	"Light Grey" = CLOTHING_LIGHT_GREY,				\
+	"Madder" = CLOTHING_MADDER,						\
+	"Mage Blue" = CLOTHING_MAGE_BLUE,				\
+	"Mage Green" = CLOTHING_MAGE_GREEN,				\
+	"Mage Grey" = CLOTHING_MAGE_GREY,				\
+	"Mage Yellow" = CLOTHING_MAGE_YELLOW,			\
+	"Muddy Yellow" = CLOTHING_MUDDY_YELLOW,			\
+	"Maroon" = CLOTHING_MAROON,						\
+	"Olive" = CLOTHING_OLIVE,						\
+	"Orchil" = CLOTHING_ORCHIL,						\
+	"Peasant Brown" = CLOTHING_PEASANT_BROWN,		\
+	"Periwinkle Blue" = CLOTHING_PERIWINKLE_BLUE,	\
+	"Red Ochre" = CLOTHING_RED_OCHRE,				\
+	"Russet" = CLOTHING_RUSSET,						\
+	"Scarlet" = CLOTHING_SCARLET,					\
+	"Violet" = CLOTHING_VIOLET,						\
+	"Woad Blue" = CLOTHING_WOAD_BLUE,				\
+	"Wine Red" = CLOTHING_WINE_RED,					\
+	"Yellow Ochre" = CLOTHING_YELLOW_OCHRE,			\
+	"Yellow Weld" = CLOTHING_YELLOW_WELD,			\
+	"Yarrow" = CLOTHING_YARROW						\
 )
 
 #define COLOR_MAP (CLOTHING_COLOR_MAP + EXTENDED_COLOR_MAP)
-
-/proc/clothing_color2hex(input)
-	return COLOR_MAP[input] || CLOTHING_GREY

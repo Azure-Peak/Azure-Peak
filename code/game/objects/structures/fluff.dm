@@ -521,7 +521,7 @@
 
 /obj/structure/bars/pipe
 	name = "bronze pipe"
-	desc = ""
+	desc = "Bronze pipework. Plumbing was once a more ubiquitous technology than it is now."
 	icon_state = "pipe"
 	density = FALSE
 	layer = TABLE_LAYER
@@ -534,7 +534,6 @@
 
 /obj/structure/bars/pipe/left
 	name = "bronze pipe"
-	desc = ""
 	icon_state = "pipe2"
 	dir = WEST
 	pixel_x = 19
@@ -795,7 +794,8 @@
 
 /obj/structure/fluff/alch
 	name = "alchemical lab"
-	desc = ""
+	desc = "A stout workstation arrayed with alchemical parahenalia and equipment. Some say the truest heights of the \
+	Art were reached in times immemorial, and shall never be again."
 	icon = 'icons/roguetown/misc/structure.dmi'
 	icon_state = "alch"
 	density = TRUE
@@ -829,7 +829,7 @@
 
 /obj/structure/fluff/statue
 	name = "statue"
-	desc = ""
+	desc = "Dead stone designed to compel living minds."
 	icon = 'icons/roguetown/misc/tallstructure.dmi'
 	icon_state = "bstatue"
 	density = FALSE
@@ -869,9 +869,14 @@
 		return COMPONENT_ATOM_BLOCK_EXIT
 
 /obj/structure/fluff/statue/gargoyle
+	name = "gargoyle"
+	desc = "Designed to make the common-folk feel watched, even when they are not."
 	icon_state = "gargoyle"
 
 /obj/structure/fluff/statue/aasimar
+	name = "aasimar statue"
+	desc = "Stone wrought to resemble an Aasimar, the living artifice of the Gods. No life inhabits its eyes, nor \
+	strength in its limbs; mortal hands may only imitate divine crafts."
 	icon_state = "aasimar"
 
 /obj/structure/fluff/statue/gargoyle/candles
@@ -902,14 +907,14 @@
 //Why are all of these in one giant file.
 /obj/structure/fluff/statue/abyssor
 	name = "abyssor statue"
-	desc = "A slate statue of the ancient god abyssor. One of many depictions drawn from a dream no doubt. This particular one is horrifying to look at."
+	desc = "A slate statue of the ancient god Abyssor. One of many depictions drawn from a dream no doubt. This particular one is horrifying to look at."
 	icon_state = "abyssor"
 	icon = 'icons/roguetown/misc/tallandwide.dmi'
 	pixel_x = -16
 
 /obj/structure/fluff/statue/abyssor/dolomite
 	name = "abyssor statue"
-	desc = "A rare dolomite statue of the ancient god abyssor. Hewn from bleached rock as if the shimmer makes his faceless gaze any less terrifying."
+	desc = "A rare dolomite statue of the ancient god Abyssor. Hewn from bleached rock as if the shimmer makes his faceless gaze any less terrifying."
 	icon_state = "abyssor_dolomite"
 
 /obj/structure/fluff/statue/knight/r
@@ -935,10 +940,13 @@
 
 /obj/structure/fluff/statue/myth
 	icon_state = "myth"
+	desc = "A statue with wildly exaggerated proportions."
 	density = TRUE
 
 /obj/structure/fluff/statue/psy
 	icon_state = "psy"
+	desc = "A statue styled in the manner of an ancient Legionnaire of times long past. One assumes, anyway - \
+	such things are no longer seen in the flesh."
 	icon = 'icons/roguetown/misc/96x96.dmi'
 	pixel_x = -32
 
@@ -949,6 +957,7 @@
 
 
 /obj/structure/fluff/statue/small
+	desc = "A small statue depicting an elven woman bearing a harp."
 	icon = 'icons/roguetown/misc/structure.dmi'
 	icon_state = "elfs"
 
@@ -958,34 +967,41 @@
 
 /obj/structure/fluff/statue/femalestatue
 	icon = 'icons/roguetown/misc/ay.dmi'
+	desc = "Beauty fades in all but stone."
 	icon_state = "1"
 	pixel_x = -32
 	pixel_y = -16
 
 /obj/structure/fluff/statue/femalestatue1
 	icon = 'icons/roguetown/misc/ay.dmi'
+	desc = "Beauty fades in all but stone."
 	icon_state = "2"
 	pixel_x = -32
 	pixel_y = -16
 
 /obj/structure/fluff/statue/femalestatue2
 	icon = 'icons/roguetown/misc/ay.dmi'
+	desc = "Beauty fades in all but stone."
 	icon_state = "5"
 	pixel_x = -32
 	pixel_y = -16
 
 /obj/structure/fluff/statue/femalestatue/zizo
 	icon = 'icons/roguetown/misc/ay.dmi'
+	desc = "An ancient statue depicting an elven woman."
 	icon_state = "4"
 	pixel_x = -32
 	pixel_y = -16
 
 /obj/structure/fluff/statue/scare
+	desc = "An imitation of life to avert famine."
 	name = "scarecrow"
 	icon_state = "td"
 
 /obj/structure/fluff/statue/tdummy
 	name = "practice dummy"
+	desc = "Rough fabric wrapped around an interior of plant fibre. Used for practice, or for when one just has some \
+	feelings to vent out."
 	icon_state = "p_dummy"
 	icon = 'icons/roguetown/misc/structure.dmi'
 

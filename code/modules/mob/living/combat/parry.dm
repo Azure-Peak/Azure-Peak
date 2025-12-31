@@ -87,6 +87,10 @@
 
 	if(intenty.masteritem)
 		attacker_skill = U.get_skill_level(intenty.masteritem.associated_skill)
+
+		if(intenty.sharpness_penalty)
+			intenty.masteritem.remove_bintegrity(intenty.sharpness_penalty)
+
 		prob2defend -= (attacker_skill * 20)
 		if((intenty.masteritem.wbalance == WBALANCE_SWIFT) && (user.STASPD > src.STASPD)) //enemy weapon is quick, so get a bonus based on spddiff
 			var/spdmod = ((user.STASPD - src.STASPD) * 10)

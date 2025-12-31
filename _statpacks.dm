@@ -7,6 +7,7 @@ GLOBAL_LIST_EMPTY(statpacks)
 	var/desc
 	/// An associative list of only the stats we're altering. The value can also be a list to signify a range of values - maximum length of 2 for these.
 	var/stat_array = list()
+	var/virtuous = FALSE
 
 /datum/statpack/proc/apply_to_human(mob/living/carbon/human/recipient)
 	if (recipient && recipient.mind)

@@ -1,6 +1,6 @@
 /obj/item/clothing/head/roguetown/helmet/heavy/astratan
 	name = "astratan helmet"
-	desc = "Gilded gold and silvered metal, the bright, vibrant colors of an Asratan crusader radiate from this blessed helmet."
+	desc = "Gilded gold and silvered metal, the bright, vibrant colors of an Astratan crusader radiate from this blessed helmet."
 	icon_state = "astratanhelm"
 	item_state = "astratahnelm"
 	emote_environment = 3

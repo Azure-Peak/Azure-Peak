@@ -555,3 +555,55 @@
   dopamiin0:
   - bugfix: starting sentences with bold words no longer makes it a whisper
   - bugfix: ending sentences with bold words no longer adds an extra period
+2025-12-30:
+  FreeStylaLT:
+  - balance: Face / Helmet FOV limits now stack.
+  - balance: Targeting face carries a heavier accuracy malus on fully-able player
+      targets. Does not apply to NPCs.
+  - balance: Face targeting zones (Eyes, Ears, Mouth, Nose) now all count as each
+      other for the purposes of bait.
+  - bugfix: Fixes projectile crits for real (for real)
+  - bugfix: Fixed faith salute icons behaving erratically.
+  - rscadd: Rumors & Gossip
+  JustSomeGalSS13:
+  - bugfix: Followers of the Inhumen can actually pray within the Z-church now
+  Ryan180602:
+  - sound: New embed noise for projectiles.
+  SirSwagmeyer:
+  - bugfix: old valiant warrior duke has master swords as intended
+  dopamiin0:
+  - balance: aerosolize has 1.2 second telegraphed delay before casting
+  hollyhock:
+  - bugfix: Fixed the psyalter's stole's masculine sprites.
+  kano-dot:
+  - rscadd: Tweaked roll stat dice emotes to be affected by relevant traits.
+  - rscadd: Added a roll charisma emote.
+2025-12-31:
+  FreeStylaLT:
+  - rscadd: Fated statpack now allows for a selection of a second Virtue.
+  - balance: Wretches have no more antag weight.
+  - balance: NPCs can no longer deflect thrown items, such as tossblades.
+  Lamasmaster:
+  - balance: Guardsman buff / retinue stats
+  PatapoIIIa:
+  - bugfix: Vampire Lords no longer initialize with an incorrect thrall limit
+  - code_imp: Restored subtype-defined thrall limits during vampire initialization
+  - refactor: Removed hardcoded thrall limit overrides
+  SayonaraEcho:
+  - bugfix: Stationary church bell has now 20 seconds CD. Smaller bell has 5 seconds
+      CD.
+  Stutternov:
+  - balance: Heater shield is now capable of fitting to a hip slot. If anyone wants
+      to know why, see Lynx's discord photo of him having a heater shield on his hip
+      irl. I will not elaborate.
+  - balance: Makes sergeant loadouts cool and stand out and brings some base MAA loadouts
+      over to them
+  - bugfix: no longer gaslit by the MAA brigadine armor selection
+  Vladmar11:
+  - balance: infernalflame and freeze enchantments cannot be combined on the same
+      item. They only work on impact.
+  dopamiin0:
+  - bugfix: all onhit enchantments have lost their bluetooth compatability. you have
+      to actually hit people with your sword now </3
+  - balance: freezing and flame are compatible again
+  - rscdel: removes repair kit from valuable jewelry spawner

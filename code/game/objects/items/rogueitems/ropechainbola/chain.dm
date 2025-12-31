@@ -8,7 +8,7 @@
 
 /obj/item/rope/chain
 	name = "chain"
-	desc = "A heavy iron chain."
+	desc = "A heavy iron chain. May be used to shackle someone's arms or legs."
 	icon = 'icons/roguetown/items/misc.dmi'
 	icon_state = "chain"
 	slot_flags = ITEM_SLOT_HIP|ITEM_SLOT_WRISTS

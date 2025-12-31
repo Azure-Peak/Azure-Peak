@@ -1,6 +1,8 @@
 /mob/living/simple_animal/hostile/retaliate/rogue/fae/dryad	//Make this cause giant vine tangled messes
 	icon = 'icons/mob/summonable/32x64.dmi'
 	name = "dryad"
+	desc = "A human-like figure formed of the flesh and bark of a tree, easier taller than a man. Guardians \
+	of fae groves, and well-reputed for their vicioussness in the prosectuion of their duty."
 	icon_state = "dryad"
 	icon_living = "dryad"
 	icon_dead = "vvd"

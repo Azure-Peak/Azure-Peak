@@ -43,7 +43,7 @@
 				minsleft = "less than a minute"
 			else
 				minsleft = "[round(minsleft)] minutes"
-			. += span_info("The fire will last for [minsleft].")
+			. += span_info("The fire will last for <b>[minsleft]</b>.")
 		else
 			if(initial(fueluse) > 0)
 				. += span_warning("The fire is burned out and hungry...")

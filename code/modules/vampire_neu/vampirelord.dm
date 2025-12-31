@@ -15,6 +15,7 @@
 	)
 	show_in_roundend = TRUE
 	var/ascended = FALSE
+	max_thralls = 0
 
 /datum/antagonist/vampire/lord/get_antag_cap_weight()
 	return 3
@@ -40,7 +41,7 @@
 		H.change_stat(S, 2)
 	H.forceMove(pick(GLOB.vlord_starts))
 	ADD_TRAIT(H, TRAIT_DUSTABLE, TRAIT_GENERIC) //They are ancient and have a great risk. Maybe add a quest to reclaim their power?
-	ADD_TRAIT(H, TRAIT_HEAVYARMOR, TRAIT_GENERIC) //Brute-forced method to ensure that Vampire Lords, no matter what, receive their most important traits. 
+	ADD_TRAIT(H, TRAIT_HEAVYARMOR, TRAIT_GENERIC) //Brute-forced method to ensure that Vampire Lords, no matter what, receive their most important traits.
 	ADD_TRAIT(H, TRAIT_INFINITE_ENERGY, TRAIT_GENERIC) //Playing it safe, with the assumption that Vampire Lords already inherit any traits given to regular Vampires.
 	ADD_TRAIT(H, TRAIT_STRENGTH_UNCAPPED, TRAIT_GENERIC)
 	ADD_TRAIT(H, TRAIT_BITERHELM, TRAIT_GENERIC)
@@ -54,9 +55,9 @@
 
 /datum/outfit/job/vamplord/pre_equip(mob/living/carbon/human/H)
 	..()
-	H.adjust_skillrank_up_to(/datum/skill/magic/blood, 6, TRUE) 
+	H.adjust_skillrank_up_to(/datum/skill/magic/blood, 6, TRUE)
 	H.adjust_skillrank(/datum/skill/combat/swords, 5, TRUE) //Reduced from Legendary-tier, as Halford's new Blood Magic system compensates a lot for this.
-	H.adjust_skillrank(/datum/skill/combat/wrestling, 5, TRUE) //Equalized all combat skills to be Master-tier, otherwise, 
+	H.adjust_skillrank(/datum/skill/combat/wrestling, 5, TRUE) //Equalized all combat skills to be Master-tier, otherwise,
 	H.adjust_skillrank(/datum/skill/combat/unarmed, 5, TRUE)
 	H.adjust_skillrank(/datum/skill/combat/knives, 5, TRUE)
 	H.adjust_skillrank(/datum/skill/combat/axes, 5, TRUE)

@@ -634,6 +634,16 @@
 
 	INVOKE_ASYNC(carbon, TYPE_PROC_REF(/mob/living/carbon, liver_failure))
 
+/datum/status_effect/debuff/disgracedguardsman
+	id = "disgracedguardsman"
+	alert_type = /atom/movable/screen/alert/status_effect/debuff/disgracedguardsman
+	// No effected stats. Because outlaw already remove Guardsman buff
+
+/atom/movable/screen/alert/status_effect/debuff/disgracedguardsman
+	name = "Disgraced Guardsman"
+	desc = "I betrayed my liege."
+	icon_state = "debuff"
+
 /datum/status_effect/debuff/vampbite
 	id = "Vampire Bite"
 	alert_type = /atom/movable/screen/alert/status_effect/debuff/vampbite

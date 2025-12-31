@@ -1,6 +1,8 @@
 /mob/living/simple_animal/hostile/retaliate/rogue/elemental/colossus
 	icon = 'icons/mob/summonable/64x64.dmi'
 	name = "earthen colossus"
+	desc = "This looks like a truly gigantic - and thereby truly ancient - elemental \
+	creature. It stands upon two legs, each as tall as a man; each footstep rings as thunder."
 	icon_state = "colossus"
 	icon_living = "colossus"
 	icon_dead = "vvd"

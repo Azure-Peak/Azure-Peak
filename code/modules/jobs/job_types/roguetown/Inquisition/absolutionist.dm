@@ -75,6 +75,7 @@
 			H.mind.RemoveSpell(/obj/effect/proc_holder/spell/self/psydonrespite)
 			H.mind.teach_crafting_recipe(/datum/crafting_recipe/roguetown/alchemy/qsabsolution)
 			H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/diagnose/secular)
+			H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/convert_psydon)
 
 /datum/outfit/job/roguetown/absolver/basic/pre_equip(mob/living/carbon/human/H)
 	..()
@@ -106,3 +107,56 @@
 		)
 	var/datum/devotion/C = new /datum/devotion(H, H.patron)
 	C.grant_miracles(H, cleric_tier = CLERIC_T4, passive_gain = CLERIC_REGEN_ABSOLVER, start_maxed = TRUE) // PSYDONIAN MIRACLE-WORKER. LUX-MERGING FREEK.
+
+/obj/effect/proc_holder/spell/invoked/convert_psydon
+	name = "Return to Orthodoxy"
+	desc = "Convert a heretic back to the worship of PSYDON. Requires the heretic to be willing, and takes a long time to cast."
+	invocations = list("Allfather, accept your wayward child once more.")
+	invocation_type = "whisper"
+	sound = 'sound/magic/bless.ogg'
+	devotion_cost = 100
+	recharge_time = 20 MINUTES
+	chargetime = 10 SECONDS
+	associated_skill = /datum/skill/magic/holy
+	overlay_state = "convert_heretic"
+
+/obj/effect/proc_holder/spell/invoked/convert_psydon/cast(list/targets, mob/living/carbon/human/user)
+	var/mob/living/carbon/human/target = targets[1]
+
+	if(!ishuman(target))
+		revert_cast()
+		return FALSE
+	
+	if(target.cmode)
+		revert_cast()
+		return FALSE
+
+	if(istype(target.patron, /datum/patron/old_god))
+		to_chat(user, span_warning("[target] is already a faithful of Psydon!"))
+		revert_cast()
+		return FALSE
+
+	if(alert(target, "[user.real_name] is trying to convert you to the worship of PSYDON. Do you accept?", "Conversion Request", "Yes", "No") != "Yes")
+		to_chat(user, span_warning("[target] refused your offer of conversion."))
+		revert_cast()
+		return FALSE
+
+
+	if(target.devotion) //Remove all granted miracles and does NOT replace them, since Psydonic "miracles" don't work the same way and your old skills don't help with it
+		
+		for(var/obj/effect/proc_holder/spell/S in target.devotion.granted_spells)
+			target.mind.RemoveSpell(S)
+
+		target.devotion.Destroy()
+		target.mind.RemoveSpell(/obj/effect/proc_holder/spell/invoked/projectile/divineblast)
+		target.mind.RemoveSpell(/obj/effect/proc_holder/spell/invoked/projectile/divineblast/unholyblast)
+
+	// Convert to PSYDON
+	target.patron = new user.patron.type()
+
+	message_admins("PSYDONIC CONVERSION: [user.real_name] ([user.ckey]) has converted [target.real_name] ([target.ckey]) to [user.patron.name]")
+	log_game("PSYDONIC CONVERSION: [user.real_name] ([user.ckey]) converted [target.real_name] ([target.ckey]) to [user.patron.name]")
+	to_chat(user, span_danger("You've converted [target.name] to follow [user.patron.name]!"))
+	to_chat(target, span_danger("You feel the weight of heresy lift from your soul as you embrace [user.patron.name]!"))
+
+	return TRUE

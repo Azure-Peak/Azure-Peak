@@ -68,8 +68,8 @@
 	category_tags = list(CTAG_SERGEANT)
 	subclass_stats = list(
 		STATKEY_STR = 2,
-		STATKEY_INT = 1,
-		STATKEY_CON = 1,
+		STATKEY_INT = 2,
+		STATKEY_CON = 2,//Glorified footman
 		STATKEY_PER = 1, //Gets bow-skills, so give a SMALL tad of perception to aid in bow draw.
 		STATKEY_WIL = 1,
 	)
@@ -112,27 +112,36 @@
 		)
 	H.adjust_blindness(-3)
 	if(H.mind)
-		var/weapons = list("Rhomphaia","Flail & Shield","Halberd","Sabre & Crossbow")	//Bit more unique than footsman, you are a jack-of-all-trades + slightly more 'elite'.
+		var/weapons = list("Flail & Shield","Axe & Iron Shield","Halberd & Heater","Longsword & Crossbow","Sabre & Iron Shield")	//Bit more unique than footsman, you are a jack-of-all-trades + slightly more 'elite'.
 		var/weapon_choice = input(H, "Choose your weapon.", "TAKE UP ARMS") as anything in weapons
 		H.set_blindness(0)
 		switch(weapon_choice)
-			if("Rhomphaia")			//Rare-ish anti-armor two hander sword. Kinda alternative of a bastard sword type. Could be cool.
-				backl = /obj/item/rogueweapon/scabbard/sword
-				l_hand = /obj/item/rogueweapon/sword/long/rhomphaia
-				beltr = /obj/item/rogueweapon/mace/cudgel
 			if("Flail & Shield")	//Tower-shield, higher durability wood shield w/ more coverage. Plus a steel flail; maybe.. less broken that a steel mace?
-				beltr = /obj/item/rogueweapon/flail/sflail
+				beltr = /obj/item/rogueweapon/mace/cudgel
+				beltl = /obj/item/rogueweapon/flail/sflail
 				backl = /obj/item/rogueweapon/shield/tower
 				H.adjust_skillrank_up_to(/datum/skill/combat/whipsflails, 4, TRUE)
-			if("Halberd")			//Halberd - basically exact same as MAA. It's a really valid build. Spear thrust + sword chop + bash.
-				r_hand = /obj/item/rogueweapon/halberd
-				backl = /obj/item/rogueweapon/scabbard/gwstrap
+			if("Axe & Iron Shield")	//Steel Axe - basically exact same as MAA. Has it's niche due to axe's integrity vs swords.
 				beltr = /obj/item/rogueweapon/mace/cudgel
-			if("Sabre & Crossbow")	//Versetile skirmisher class. Considered other swords but sabre felt best without being too strong. (This one gets no cudgel, no space.)
-				beltr = /obj/item/quiver/bolts
+				beltl = /obj/item/rogueweapon/stoneaxe/woodcut/steel
+				backl = /obj/item/rogueweapon/shield/iron
+				H.adjust_skillrank_up_to(/datum/skill/combat/axes, 4, TRUE)
+			if("Halberd & Heater")	//Halberd - basically exact same as MAA. It's a really valid build. Spear thrust + sword chop + bash. (Gets a Heater for secondary)
+				r_hand = /obj/item/rogueweapon/halberd
+				l_hand = /obj/item/rogueweapon/sword
+				backl = /obj/item/rogueweapon/scabbard/gwstrap
+				beltr = /obj/item/rogueweapon/shield/heater
+				beltl = /obj/item/rogueweapon/scabbard/sword
+			if("Longsword & Crossbow")	//Longsword + Crossbow - Kind of hybrid fighter build; big sword and a crossbow.
+				beltl = /obj/item/quiver/bolts
 				backl = /obj/item/gun/ballistic/revolver/grenadelauncher/crossbow
+				r_hand = /obj/item/rogueweapon/sword/long
+				l_hand = /obj/item/rogueweapon/scabbard/sword
+			if("Sabre & Iron Shield")	//Sabre + Shield - Standard sword-fighter with a shield, good combo for quick DPS weapon and a shield for defense.
+				backl = /obj/item/rogueweapon/shield/iron
 				r_hand = /obj/item/rogueweapon/sword/sabre
 				l_hand = /obj/item/rogueweapon/scabbard/sword
+				beltr = /obj/item/rogueweapon/mace/cudgel
 
 		var/armors = list(
 			"Brigandine"		= /obj/item/clothing/suit/roguetown/armor/brigandine/retinue,

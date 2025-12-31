@@ -386,18 +386,26 @@ GLOBAL_VAR_INIT(last_crown_announcement_time, -1000)
 	return null
 
 /proc/make_outlaw(raw_message)
-	if(raw_message in GLOB.outlawed_players)
-		GLOB.outlawed_players -= raw_message
-		priority_announce("[raw_message] is no longer an outlaw in the Azure Peak.", "The [SSticker.rulertype] Decrees", 'sound/misc/royal_decree.ogg', "Captain")
-		return FALSE
-	var/found = FALSE
+	var/mob/living/carbon/human/found_human
 	for(var/mob/living/carbon/human/H in GLOB.player_list)
 		if(H.real_name == raw_message)
-			found = TRUE
-	if(!found)
+			found_human = H
+	if(raw_message in GLOB.outlawed_players)
+		GLOB.outlawed_players -= raw_message
+		priority_announce("[raw_message] is no longer an outlaw in [SSticker.realm_name].", "The [SSticker.rulertype] Decrees", 'sound/misc/royal_decree.ogg', "Captain")
+		if(istype(found_human) && HAS_TRAIT(found_human, TRAIT_GUARDSMAN_DISGRACED))
+			REMOVE_TRAIT(found_human, TRAIT_GUARDSMAN_DISGRACED, TRAIT_GENERIC)
+			ADD_TRAIT(found_human, TRAIT_GUARDSMAN, JOB_TRAIT)
+			found_human.remove_status_effect(/datum/status_effect/debuff/disgracedguardsman)
+		return FALSE
+	if(!found_human)
 		return FALSE
 	GLOB.outlawed_players += raw_message
 	priority_announce("[raw_message] has been declared an outlaw and must be captured or slain.", "The [SSticker.rulertype] Decrees", 'sound/misc/royal_decree2.ogg', "Captain")
+	if(HAS_TRAIT(found_human, TRAIT_GUARDSMAN))
+		REMOVE_TRAIT(found_human, TRAIT_GUARDSMAN, JOB_TRAIT)
+		ADD_TRAIT(found_human, TRAIT_GUARDSMAN_DISGRACED, TRAIT_GENERIC)
+		found_human.apply_status_effect(/datum/status_effect/debuff/disgracedguardsman)
 	return TRUE
 
 /proc/make_law(raw_message)

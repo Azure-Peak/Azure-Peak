@@ -1,6 +1,7 @@
 /obj/structure/fluff/canopy
 	name = "Canopy"
-	desc = ""
+	desc = "A canopy of striped fabric over a modest stall! A common sight in market towns, \
+	under which all manners of goods may be sold."
 	icon = 'icons/obj/decor.dmi'
 	icon_state = "canopy"
 	density = FALSE

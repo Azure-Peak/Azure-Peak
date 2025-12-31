@@ -296,7 +296,7 @@
 
 /obj/structure/closet/burial_shroud
 	name = "winding sheet"
-	desc = ""
+	desc = "A length of thin fabric used to encase the deceased."
 	icon = 'icons/obj/bodybag.dmi'
 	icon_state = "shroud"
 	density = FALSE

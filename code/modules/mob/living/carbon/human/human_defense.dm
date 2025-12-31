@@ -211,7 +211,7 @@
 
 	//Thrown item deflection -- this RETURNS if successful!
 	var/obj/item/W = get_active_held_item()
-	if(!blocked && I && cmode)
+	if(!blocked && I && cmode && mind)
 		if(W && get_dir(src, AM) == turn(get_dir(AM, src), 180))	//We are directly facing the thrown item.
 			var/diceroll = (get_skill_level(W.associated_skill)) * 10
 			if(projectile_parry_timer > world.time)

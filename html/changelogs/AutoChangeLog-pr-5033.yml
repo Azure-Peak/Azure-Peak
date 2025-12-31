@@ -1,0 +1,5 @@
+author: "hazelrat"
+delete-after: True
+changes:
+  - rscadd: "Added several more descriptions to objects, structures, and mobs in the game world."
+  - bugfix: "Fixed a few typos in existing descriptions."

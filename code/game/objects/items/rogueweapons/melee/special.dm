@@ -557,7 +557,7 @@
 /obj/item/rogueweapon/spear/militia
 	force = 18
 	force_wielded = 30
-	possible_item_intents = list(SPEAR_THRUST, SPEAR_BASH)
+	possible_item_intents = list(SPEAR_THRUST_1H, SPEAR_CUT_1H) 
 	gripped_intents = list(SPEAR_THRUST, SPEAR_CUT, SPEAR_BASH)
 	name = "militia spear"
 	desc = "Pitchforks and hoes traditionally till the soil. In tymes of peril, however, it isn't uncommon for a militiaman to pound them into polearms."

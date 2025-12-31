@@ -165,7 +165,7 @@
 
 /obj/structure/flora/hotspring_rocks
 	name = "large rock"
-
+	desc = "Swept smooth by the slow erosion of water."
 	icon = 'icons/obj/structures/hotspring.dmi'
 	icon_state = "bigrock"
 	obj_flags = CAN_BE_HIT | IGNORE_SINK

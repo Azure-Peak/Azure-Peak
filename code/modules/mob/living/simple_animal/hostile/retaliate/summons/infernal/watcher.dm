@@ -3,6 +3,8 @@
 	name = "infernal watcher"
 	icon_state = "watcher"
 	icon_living = "watcher"
+	desc = "A vast floating orb of what looks like coalesced magma, or perhaps molten metal. Its sole eye does not blink, \
+	nor break its gaze from its targets."
 	summon_primer = "You are an infernal watcher, a creature of lava and rock. You have watched over the chaos of the infernal plane long enough that it was been pointless to keep count."
 	summon_tier = 3
 	icon_dead = "vvd"

@@ -32,7 +32,8 @@
 /obj/item/clothing/suit/roguetown/shirt/robe/abyssor //thanks to cre for abyssor clothing sprites
 	slot_flags = ITEM_SLOT_ARMOR|ITEM_SLOT_SHIRT|ITEM_SLOT_CLOAK
 	name = "depths robe"
-	desc = ""
+	desc = "A long robe formed of many layers of thin, light fabric; designed not to become over-heavy \
+	while waterlogged."
 	body_parts_covered = CHEST|GROIN|ARMS|LEGS|VITALS
 	icon_state = "abyssorrobe"
 	icon = 'icons/roguetown/clothing/armor.dmi'

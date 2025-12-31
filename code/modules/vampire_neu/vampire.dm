@@ -24,7 +24,7 @@ GLOBAL_LIST_EMPTY(vampire_objects)
 	var/datum/clan/forcing_clan
 	var/generation
 	var/research_points = 10
-	var/max_thralls = 0
+	var/max_thralls = 1
 	var/thrall_count = 0
 
 /datum/antagonist/vampire/New(incoming_clan = /datum/clan/nosferatu, forced_clan = FALSE, generation)
@@ -74,13 +74,14 @@ GLOBAL_LIST_EMPTY(vampire_objects)
 	//move_to_spawnpoint()
 	owner.special_role = name
 	owner.current.adjust_bloodpool()
+	max_thralls = initial(max_thralls)
 	if(ishuman(owner.current))
 		var/mob/living/carbon/human/vampdude = owner.current
 		vampdude.hud_used?.shutdown_bloodpool()
 		vampdude.hud_used?.initialize_bloodpool()
 		vampdude.hud_used?.bloodpool.set_fill_color("#510000")
 
-		switch(generation) 
+		switch(generation)
 			if(GENERATION_METHUSELAH)
 				vampdude?.adjust_skillrank_up_to(/datum/skill/magic/blood, 6, TRUE)
 			if(GENERATION_ANCILLAE)
@@ -102,15 +103,10 @@ GLOBAL_LIST_EMPTY(vampire_objects)
 			else
 				// Apply the selected clan
 				vampdude.set_clan(default_clan)
-			max_thralls = 1
 		else
 			vampdude.set_clan_direct(forcing_clan)
 			forcing_clan = null
 
-		if(vampdude.job == "Wretch")
-			max_thralls = 1
-		if(vampdude.mind.special_role == "Vampire Lord")
-			max_thralls = 0
 
 	// The clan system now handles most of the setup, but we can still do antagonist-specific things
 	after_gain()

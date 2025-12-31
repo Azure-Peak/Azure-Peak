@@ -1,6 +1,9 @@
 /mob/living/simple_animal/hostile/retaliate/rogue/fae/sylph
 	icon = 'icons/mob/summonable/32x32.dmi'
 	name = "sylph"
+	desc = "This creature shifts in the breeze as if it were constructed of fabric and \
+	nothing more. Its face, owl-like, is flanked by near-draconic wings. If this is one of the \
+	fae-folk, it must be one of their rulers."
 	icon_state = "sylph"
 	icon_living = "sylph"
 	icon_dead = "vvd"

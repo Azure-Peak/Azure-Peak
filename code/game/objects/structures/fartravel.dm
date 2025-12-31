@@ -34,6 +34,7 @@
 		in_use = FALSE
 		return
 	in_use = FALSE
+	var/fated_leave = FALSE
 	update_icon()
 	var/dat = "[ADMIN_LOOKUPFLW(user)] has despawned [departing_mob == user ? "themselves" : departing_mob], job [departing_mob.job], at [AREACOORD(src)]. Contents despawned along:"
 	if(departing_mob.mind)
@@ -43,6 +44,9 @@
 			var/target_job = SSrole_class_handler.get_advclass_by_name(user.advjob)
 			if(target_job)
 				SSrole_class_handler.adjust_class_amount(target_job, -1)
+		if(departing_mob.statpack)
+			if(istype(departing_mob.statpack, /datum/statpack/wildcard/fated))
+				fated_leave = TRUE
 	if(!length(departing_mob.contents))
 		dat += " none."
 	else
@@ -60,6 +64,8 @@
 			if(removing_bounty.target == departing_mob.real_name)
 				GLOB.head_bounties -= removing_bounty
 	GLOB.chosen_names -= departing_mob.real_name
+	if(fated_leave)
+		dat += "<br><font color = '#bb2424'>Departing with Fated</font>"
 	LAZYREMOVE(GLOB.actors_list, departing_mob.mobid)
 	LAZYREMOVE(GLOB.roleplay_ads, departing_mob.mobid)
 	message_admins(dat)
