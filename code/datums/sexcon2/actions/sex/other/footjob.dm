@@ -1,6 +1,7 @@
 /datum/sex_action/sex/other/footjob
 	name = "Jerk them off with feet"
 	check_same_tile = FALSE
+	associated_skill = /datum/skill/misc/athletics
 
 /datum/sex_action/sex/other/footjob/shows_on_menu(mob/living/carbon/human/user, mob/living/carbon/human/target)
 	if(user == target)

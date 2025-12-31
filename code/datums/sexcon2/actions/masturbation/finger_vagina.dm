@@ -1,5 +1,6 @@
 /datum/sex_action/masturbate/vagina_finger
 	name = "Finger pussy"
+	associated_skill = /datum/skill/combat/unarmed
 
 /datum/sex_action/masturbate/vagina_finger/shows_on_menu(mob/living/carbon/human/user, mob/living/carbon/human/target)
 	if(user != target)

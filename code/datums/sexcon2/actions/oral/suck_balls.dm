@@ -1,5 +1,6 @@
 /datum/sex_action/suck_balls
 	name = "Suck their balls"
+	associated_skill = /datum/skill/misc/athletics
 
 /datum/sex_action/suck_balls/shows_on_menu(mob/living/carbon/human/user, mob/living/carbon/human/target)
 	if(user == target)

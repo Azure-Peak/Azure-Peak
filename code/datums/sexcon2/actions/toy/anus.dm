@@ -1,6 +1,7 @@
 /datum/sex_action/toy/anus
 	name = "Ride toy using butt"
 	stamina_cost = 1.0
+	associated_skill = /datum/skill/misc/riding
 
 /datum/sex_action/toy/anus/can_perform(mob/living/carbon/human/user, mob/living/carbon/human/target)
 	. = ..()

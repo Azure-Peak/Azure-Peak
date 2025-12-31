@@ -1,6 +1,7 @@
 /datum/sex_action/sex/tailpegging_vaginal
 	name = "Fuck their pussy with tail"
 	stamina_cost = 1.0
+	associated_skill = /datum/skill/misc/athletics
 
 /datum/sex_action/sex/tailpegging_vaginal/shows_on_menu(mob/living/carbon/human/user, mob/living/carbon/human/target)
 	if(user == target)

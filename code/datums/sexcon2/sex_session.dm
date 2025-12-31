@@ -138,6 +138,17 @@
 
 		action.on_perform(user, target)
 
+		var/associated_skill = action.get_associated_skill(user)
+		if(associated_skill)
+			var/can_increase_experience = TRUE
+			if(action.associated_skill_baseline_increase)
+				var/user_skill = user.get_skill_level(associated_skill)
+				var/user_base_skill = user.get_base_skill_level(associated_skill)
+				if(user_skill >= user_base_skill + action.associated_skill_baseline_increase)
+					can_increase_experience = FALSE
+			if(can_increase_experience && !enough_sleep_xp_to_advance(user, associated_skill, 1)) // checks that our skill is below max, prevent banking up sleep XP to blow past the threshold
+				add_sleep_experience(user, associated_skill, user.STAINT / 2, FALSE, FALSE)
+
 		action.show_sex_effects(user)
 
 		if(action.is_finished(user, target))

@@ -925,6 +925,9 @@ GLOBAL_LIST_EMPTY(personal_objective_minds)
 /datum/mind/proc/add_sleep_experience(skill, amt, silent = FALSE, show_xp = TRUE)
 	sleep_adv.add_sleep_experience(skill, amt, silent, show_xp)
 
+/datum/mind/proc/enough_sleep_xp_to_advance(skill, level_amount)
+	return sleep_adv.enough_sleep_xp_to_advance(skill, level_amount)
+
 /datum/mind/proc/add_personal_objective(datum/objective/O)
 	if(!istype(O))
 		return FALSE

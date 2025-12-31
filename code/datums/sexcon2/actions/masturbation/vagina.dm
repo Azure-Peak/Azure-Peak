@@ -1,5 +1,6 @@
 /datum/sex_action/masturbate/vagina
 	name = "Stroke clit"
+	associated_skill = /datum/skill/combat/wrestling
 
 /datum/sex_action/masturbate/vagina/shows_on_menu(mob/living/carbon/human/user, mob/living/carbon/human/target)
 	if(user != target)

@@ -1,6 +1,7 @@
 /datum/sex_action/toy/oral
 	name = "Suck off toy"
 	stamina_cost = 1.0
+	associated_skill = /datum/skill/misc/athletics
 
 /datum/sex_action/toy/oral/can_perform(mob/living/carbon/human/user, mob/living/carbon/human/target)
 	. = ..()

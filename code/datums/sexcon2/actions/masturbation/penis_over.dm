@@ -2,6 +2,7 @@
 	name = "Jerk over them"
 	check_same_tile = FALSE
 	user_priority = 20
+	associated_skill = /datum/skill/combat/wrestling
 
 /datum/sex_action/masturbate/penis_over/shows_on_menu(mob/living/carbon/human/user, mob/living/carbon/human/target)
 	if(user == target)

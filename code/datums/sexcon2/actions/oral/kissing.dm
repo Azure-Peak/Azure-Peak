@@ -1,6 +1,7 @@
 /datum/sex_action/kissing
 	name = "Make out with them"
 	check_same_tile = FALSE
+	associated_skill = /datum/skill/misc/athletics
 
 /datum/sex_action/kissing/shows_on_menu(mob/living/carbon/human/user, mob/living/carbon/human/target)
 	if(user == target)

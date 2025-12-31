@@ -1,6 +1,7 @@
 /datum/sex_action/foot_lick
 	name = "Lick their feet"
 	check_same_tile = FALSE
+	associated_skill = /datum/skill/misc/athletics
 
 /datum/sex_action/foot_lick/shows_on_menu(mob/living/carbon/human/user, mob/living/carbon/human/target)
 	if(user == target)

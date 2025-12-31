@@ -1,5 +1,6 @@
 /datum/sex_action/masturbate/anus
 	name = "Finger butt"
+	associated_skill = /datum/skill/combat/unarmed
 
 /datum/sex_action/masturbate/anus/shows_on_menu(mob/living/carbon/human/user, mob/living/carbon/human/target)
 	if(user != target)

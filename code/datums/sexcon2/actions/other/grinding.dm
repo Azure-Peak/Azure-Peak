@@ -1,6 +1,7 @@
 /datum/sex_action/grind_body
 	name = "Grind against them"
 	check_same_tile = FALSE
+	associated_skill = /datum/skill/misc/riding
 
 /datum/sex_action/grind_body/shows_on_menu(mob/living/carbon/human/user, mob/living/carbon/human/target)
 	if(user == target)

@@ -11,8 +11,11 @@
 /mob/proc/get_skill_level(skill)
 	return ensure_skills().get_skill_level(skill)
 
-/mob/proc/adjust_experience(skill, amt, silent=FALSE, check_apprentice=TRUE)
-	return ensure_skills().adjust_experience(skill, amt, silent, check_apprentice)
+/mob/proc/get_base_skill_level(skill)
+	return ensure_skills().get_base_skill_level(skill)
+
+/mob/proc/adjust_experience(skill, amt, silent=FALSE)
+	return ensure_skills().adjust_experience(skill, amt, silent)
 
 /mob/proc/get_skill_speed_modifier(skill)
 	return ensure_skills().get_skill_speed_modifier(skill)
@@ -25,7 +28,11 @@
 
 /mob/proc/adjust_skillrank_down_to(skill, amt, silent = FALSE)
 	return ensure_skills().adjust_skillrank_down_to(skill, amt, silent)
-	
+
+// locks the base skills in place, this is called once we finish equipping a character so their base skills are known
+/mob/proc/set_base_skills()
+	return ensure_skills().set_base_skills()
+
 /mob/proc/print_levels()
 	return ensure_skills().print_levels(src)
 
@@ -46,6 +53,8 @@
 	var/mob/living/current
 	///Assoc list of skills - level
 	var/list/known_skills = list()
+	/// Base level of skills for this mob, based on what they spawn with (job, species, virtues, etc)
+	var/list/base_skill_levels = list()
 	///Assoc list of skills - exp
 	var/list/skill_experience = list()
 	///Cooldown for level up effects. Duplicate from sleep_adv
@@ -243,6 +252,9 @@
 							str += "-[jobnames[i]]"
 					current.advjob = str
 
+/datum/skill_holder/proc/set_base_skills()
+	base_skill_levels = known_skills.Copy()
+
 /datum/skill_holder/proc/get_skill_speed_modifier(skill)
 	var/datum/skill/S = GetSkillRef(skill)
 	return S.get_skill_speed_modifier(known_skills[S] || SKILL_LEVEL_NONE)
@@ -255,6 +267,12 @@
 	if(!(S in known_skills))
 		return SKILL_LEVEL_NONE
 	return known_skills[S] + modifier || SKILL_LEVEL_NONE
+
+/datum/skill_holder/proc/get_base_skill_level(skill)
+	var/datum/skill/S = GetSkillRef(skill)
+	if(!(S in base_skill_levels))
+		return SKILL_LEVEL_NONE
+	return base_skill_levels[S] || SKILL_LEVEL_NONE
 
 /datum/skill_holder/proc/print_levels(user)
 	var/list/shown_skills = list()

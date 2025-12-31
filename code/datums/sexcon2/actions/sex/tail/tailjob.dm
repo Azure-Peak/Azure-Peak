@@ -1,6 +1,7 @@
 /datum/sex_action/tailjob
 	name = "Use tail on their cock"
 	check_same_tile = FALSE
+	associated_skill = /datum/skill/misc/athletics
 
 /datum/sex_action/tailjob/shows_on_menu(mob/living/carbon/human/user, mob/living/carbon/human/target)
 	if(user == target)

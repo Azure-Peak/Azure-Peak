@@ -53,12 +53,21 @@
 	///basically for actions being done by the user where the target is the inserter set this to true
 	var/flipped = FALSE
 
+	/// the skill this act is associated with
+	var/associated_skill
+
+	/// how many levels above your baseline you can increase (no, you cant literally grind to legendary anymore)
+	var/associated_skill_baseline_increase = 1
+
 /datum/sex_action/Destroy()
 	for(var/datum/sex_session_lock/lock in sex_locks)
 		qdel(lock)
 	sex_locks.Cut()
 
 	return ..()
+
+/datum/sex_action/proc/get_associated_skill(mob/living/carbon/human/user)
+	return associated_skill
 
 /datum/sex_action/proc/shows_on_menu(mob/living/carbon/human/user, mob/living/carbon/human/target)
 	return TRUE

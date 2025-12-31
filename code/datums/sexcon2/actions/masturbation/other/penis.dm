@@ -1,6 +1,7 @@
 /datum/sex_action/masturbate/other/penis
 	name = "Jerk them off"
 	check_same_tile = FALSE
+	associated_skill = /datum/skill/combat/wrestling
 
 /datum/sex_action/masturbate/other/penis/shows_on_menu(mob/living/carbon/human/user, mob/living/carbon/human/target)
 	if(user == target)

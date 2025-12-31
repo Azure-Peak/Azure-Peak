@@ -1,5 +1,6 @@
 /datum/sex_action/rimming
 	name = "Rim them"
+	associated_skill = /datum/skill/misc/athletics
 
 /datum/sex_action/rimming/shows_on_menu(mob/living/carbon/human/user, mob/living/carbon/human/target)
 	if(user == target)
