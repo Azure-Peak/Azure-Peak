@@ -3,7 +3,7 @@
 	stamina_cost = 1.0
 	associated_skill = /datum/skill/combat/swords
 
-/datum/sex_action/sex/thighjob/get_associated_skill(mob/living/carbon/human/user)
+/datum/sex_action/sex/double_penetration/get_associated_skill(mob/living/carbon/human/user)
 	var/obj/item/organ/penis/penis = user.getorganslot(ORGAN_SLOT_PENIS)
 	if(penis)
 		switch(penis.penis_size)
