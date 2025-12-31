@@ -4,6 +4,7 @@
 	check_same_tile = FALSE
 	do_time = 2.5 SECONDS // Slightly faster than average for repeated action
 	stamina_cost = 0
+	associated_skill = /datum/skill/combat/unarmed
 
 /datum/sex_action/spanking/shows_on_menu(mob/living/carbon/human/user, mob/living/carbon/human/target)
 	if(user == target)
