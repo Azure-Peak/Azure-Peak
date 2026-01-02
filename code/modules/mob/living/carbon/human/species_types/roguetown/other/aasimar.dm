@@ -75,8 +75,7 @@
 		/datum/body_marking/tonage,
 	)
 	languages = list(
-		/datum/language/common,
-		/datum/language/celestial
+		/datum/language/common
 	)
 
 	custom_selection = list(
