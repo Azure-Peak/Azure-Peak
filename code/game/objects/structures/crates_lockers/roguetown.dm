@@ -19,6 +19,9 @@
 	icon_state = "chest3"
 	base_icon_state = "chest3"
 
+/obj/structure/closet/crate/chest/gold/estate
+	storage_capacity = 120
+
 /obj/structure/closet/crate/chest/inqreliquary
 	name = "otavan reliquary"
 	desc = "A foreboding red chest with a intricate lock design. It seems to only fit a very specific key. Choose wisely."

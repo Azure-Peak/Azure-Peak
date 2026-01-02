@@ -477,7 +477,88 @@
 			playsound(src, 'sound/misc/coininsert.ogg', 100, FALSE, -1)
 			return display_marquette(usr)
 		else
-			return	
+			return
+
+	if(istype(P, /obj/item/import_writ))
+		var/obj/item/import_writ/writ = P
+		if(!writ.sealed)
+			to_chat(user, span_warning("This writ has not been sealed yet."))
+			return
+		if(!writ.issuing_faction)
+			to_chat(user, span_warning("This writ has no authority."))
+			return
+		var/datum/territory/target_estate
+		for(var/datum/territory/estate in SSwarbands.territory)
+			if(estate.name == writ.territory_name)
+				target_estate = estate
+				break
+		if(!target_estate)
+			to_chat(user, span_warning("The territory on this writ has dissolved."))
+			return
+		var/expected_value = validate_territory_import(target_estate, writ.import_location, writ.import_amount)
+		if(expected_value <= 25)
+			visible_message(span_warning("The machine rejects the writ. The import's value would yield no goods."))
+			playsound(loc, 'sound/misc/machineno.ogg', 100, FALSE, -1)
+			return
+
+		var/using_grant = FALSE
+		if(writ.attached_grant) // if there's an attached grant, we prefer to use the coins from that
+			if(writ.attached_grant.grant_amount < writ.import_amount)
+				visible_message(span_warning("The machine rejects the writ! The attached grant contains insufficient funds."))
+				playsound(loc, 'sound/misc/machineno.ogg', 100, FALSE, -1)
+				return
+			using_grant = TRUE
+		else // otherwise, draw from the faction's vault
+			var/is_duchy = (writ.issuing_faction.name == "The Crown")
+			var/available_funds = is_duchy ? SStreasury.treasury_value : writ.issuing_faction.vault
+			
+			if(available_funds < writ.import_amount)
+				visible_message(span_warning("The machine rejects the writ! [writ.issuing_faction.name]'s vaults cannot provide the coin for the import."))
+				playsound(loc, 'sound/misc/machineno.ogg', 100, FALSE, -1)
+				return
+			if(is_duchy)
+				if(!SStreasury.withdraw_money_treasury(writ.import_amount, "Estate Import: [target_estate.name]"))
+					visible_message(span_warning("The machine rejects the writ. Withdrawal failed."))
+					playsound(loc, 'sound/misc/machineno.ogg', 100, FALSE, -1)
+					return
+			else
+				writ.issuing_faction.vault -= writ.import_amount
+
+		if(execute_territory_import(target_estate, writ.import_location, writ.import_amount, user))
+			visible_message(span_warning("[user] submits an import writ."))
+			playsound(loc, 'sound/misc/disposalflush.ogg', 100, FALSE, -1)
+			if(using_grant)
+				var/excess = writ.attached_grant.grant_amount - writ.import_amount
+				if(excess > 0)
+					to_chat(user, span_notice("The grant contained [excess] excess mammon, which tumble out of the machine."))
+					playsound(loc, 'sound/foley/coins1.ogg', 100, TRUE, -2)
+				finalize_import_writ_payment(writ, get_turf(src))
+			
+			if(findtext(writ.import_location, "City Docks"))
+				say("Import affirmed. It will arrive on our docks in around twelve minutes.")
+				to_chat(usr, span_warning("The Basin's waters are not to be traversed lightly. I should expect a heavy toll upon my import."))
+			else if(findtext(writ.import_location, "Groveside"))
+				say("Import affirmed. It shall arrive on the Groveside dock in around twelve minutes. Seek the northern coastline.")
+			qdel(writ)
+			return
+	
+	if(istype(P, /obj/item/grant))
+		var/obj/item/grant/grant = P
+		if(!grant.sealed)
+			to_chat(user, span_warning("This grant must be sealed first."))
+			return
+		if(!grant.target_faction)
+			to_chat(user, span_warning("This grant has no recipient faction."))
+			return
+		if(grant.target_faction.name == "The Crown")
+			SStreasury.give_money_treasury(grant.grant_amount, "Grant Deposit")
+		else
+			grant.target_faction.vault += grant.grant_amount
+		visible_message(span_notice("[user] feeds a pouch of coins into [src]."))
+		playsound(loc, 'sound/misc/disposalflush.ogg', 100, FALSE, -1)
+		to_chat(user, span_notice("[grant.grant_amount] mammon delivered to [grant.target_faction.name]."))
+		qdel(grant)
+		return
 
 	if(istype(P, /obj/item/roguecoin))
 		var/obj/item/roguecoin/C = P

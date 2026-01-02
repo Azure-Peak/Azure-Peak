@@ -87,25 +87,10 @@
 */
 /datum/antagonist/warlord/proc/replace_mob(mob/living/new_warlord)
 	var/mob/living/carbon/human/species/human/northern/replacement_mob = new /mob/living/carbon/human/species/human/northern(new_warlord.loc)
-	replacement_mob.key = new_warlord.key	
+	replacement_mob.key = new_warlord.key
+	GLOB.chosen_names -= new_warlord.real_name
 	qdel(new_warlord)
 	return replacement_mob
-
-
-////////////////////////////////////////////////////////////
-/////////////////////////////////// CREATE TERRITORY FACTION
-/*
-	FIXNOTE
-	creates a faction for the warband
-	used for treaties
-*/
-/datum/antagonist/warlord/proc/create_territory_faction(mob/living/carbon/human/user)
-	// var/datum/territory_faction/new_faction
-	// new_faction.generate_faction(user)
-
-	// user.mind.associated_factions += new_faction
-	// SSwarbands.territory_factions += new_faction
-
 
 //////////////////////////////////////////////////////////
 /////////////////////////////////// CREATE WARBAND MANAGER
@@ -120,6 +105,7 @@
 		new_warlord.loc = warlord_spawn.loc
 		pregame_manager = new /atom/movable/screen/warband/manager()
 		pregame_manager.warband_ID = owner.warband_ID
+		pregame_manager.lobby_members += owner.current
 		SSwarbands.warband_managers += pregame_manager
 		owner.warband_manager = pregame_manager
 		pregame_manager.create_HUD_instance(new_warlord)
@@ -134,14 +120,15 @@
 
 // clears out traces of the initial character from the city's banking system & memories
 /datum/antagonist/warlord/proc/initialstage()
+	var/stun_timer = 3 HOURS
 	bankwipe(owner.current)
 	mindwipe(owner)
 	owner.current.unequip_everything()
 
 	var/mob/living/newmob = replace_mob(owner.current)
 	newmob.invisibility = INVISIBILITY_MAXIMUM
-	newmob.set_blindness(5400)
-	newmob.Stun(5400)
+	newmob.set_blindness(stun_timer)
+	newmob.Stun(stun_timer)
 	newmob.mind = owner
 	owner.current = newmob
 	SSmapping.retainer.warlords |= newmob.mind
@@ -151,19 +138,18 @@
 	newmob.mind.warbandsetup = TRUE
 	greet(newmob)
 	addtimer(CALLBACK(src, PROC_REF(create_warband_manager), newmob, newmob.mind), 1 SECONDS)
-	create_territory_faction()	
 
 /datum/antagonist/warlord/greet(mob/living/new_warlord)
 	to_chat(new_warlord, span_danger("I bear great, terrible dreams. My legions shall make them a reality."))
 	var/list/intro_sounds = list(
-		'sound/misc/warband/selection_introc.ogg',
-		'sound/misc/warband/selection_introb.ogg'
+		'sound/misc/warband/selection_introc.ogg'
 	)
 	var/chosen_song = pick(intro_sounds)
-	new_warlord.playsound_local(new_warlord, chosen_song, 140, FALSE, pressure_affected = FALSE)
+	new_warlord.playsound_local(new_warlord, chosen_song, 100, FALSE, pressure_affected = FALSE)
 	var/atom/movable/screen/introtext/intro_text = new /atom/movable/screen/introtext
 	new_warlord.client.screen += intro_text
 	animate(intro_text, alpha = 255, time = 50)
+	forge_objectives()
 	..()
 
 
@@ -171,12 +157,19 @@
 	to_chat(owner.current, span_userdanger("I have nothing planned for the AZURE PEAK. It's over."))
 	return ..()
 
+//////// Objectives
+/datum/antagonist/warlord/proc/forge_objectives()
+	var/datum/objective/warband/warlord/base_objective = new
+	var/datum/objective/survive/warband/survive_objective = new
+	objectives += base_objective
+	objectives += survive_objective
+	owner.announce_objectives()
 
 /datum/objective/warband/warlord
 	name = "Find Common Ground"
 	explanation_text = "Sign a Treaty that benefits the Warband."
 
 
-/datum/objective/warband/warlord/survive
+/datum/objective/survive/warband
 	name = "Survive"
 	explanation_text = "Live to reap the rewards."

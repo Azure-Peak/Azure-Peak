@@ -53,6 +53,12 @@
 	/// Set to FALSE to skip apply_character_post_equipment() which applies virtue, flaw, loadout
 	var/applies_post_equipment = TRUE
 
+	// Warband Class Variables
+	var/title							// name that exclusively appears in class selection
+	var/datum/storytellerlimit			// required storyteller influence for the class to be available
+	var/rarity							// the required number of storyteller influences before a storyteller-limited class is unlocked
+
+
 /datum/advclass/proc/equipme(mob/living/carbon/human/H, dummy = FALSE)
 	// input sleeps....
 	set waitfor = FALSE

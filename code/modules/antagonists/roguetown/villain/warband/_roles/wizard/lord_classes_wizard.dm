@@ -2,7 +2,6 @@
 /datum/advclass/warband/wizard/warlord/sorcerer
 	title = "SORCERER-KING"
 	name = "Sorcerer-King"
-	f_name = "Witch-Queen"
 	tutorial = ""
 	traits_applied = list(TRAIT_FORMATIONFIGHTER, TRAIT_LAWEXPERT, TRAIT_ARCYNE_T4, TRAIT_MEDIUMARMOR)
 	subclass_stats = list(

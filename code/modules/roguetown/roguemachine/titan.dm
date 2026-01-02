@@ -2,6 +2,9 @@ GLOBAL_LIST_EMPTY(outlawed_players)
 GLOBAL_LIST_EMPTY(lord_decrees)
 GLOBAL_LIST_EMPTY(court_agents)
 GLOBAL_LIST_INIT(laws_of_the_land, initialize_laws_of_the_land())
+GLOBAL_LIST_EMPTY(locked_tax_categories) // tax categories that can't be changed
+GLOBAL_LIST_EMPTY(codified_laws) // list of laws that cannot be removed
+GLOBAL_VAR_INIT(laws_frozen, FALSE) // if this is true, laws can't be removed or added
 GLOBAL_VAR_INIT(last_crown_announcement_time, -1000)
 
 /proc/initialize_laws_of_the_land()
@@ -188,6 +191,10 @@ GLOBAL_VAR_INIT(last_crown_announcement_time, -1000)
 				purge_decrees()
 				return
 			if(findtext(message, "make law"))
+				if(GLOB.laws_frozen)
+					say("The realm's laws are enshrined by a treaty! I shall not!")
+					playsound(src, 'sound/misc/machineno.ogg', 100, FALSE, -1)
+					return				
 				if(!SScommunications.can_announce(H))
 					say("I must gather my strength!")
 					playsound(src, 'sound/misc/machineno.ogg', 100, FALSE, -1)
@@ -201,6 +208,10 @@ GLOBAL_VAR_INIT(last_crown_announcement_time, -1000)
 				mode = 4
 				return
 			if(findtext(message, "remove law"))
+				if(GLOB.laws_frozen)
+					say("The realm's laws are enshrined by a treaty! I shall not!")
+					playsound(src, 'sound/misc/machineno.ogg', 100, FALSE, -1)
+					return		
 				if(!SScommunications.can_announce(H))
 					say("I must gather my strength!")
 					playsound(src, 'sound/misc/machineno.ogg', 100, FALSE, -1)
@@ -211,14 +222,23 @@ GLOBAL_VAR_INIT(last_crown_announcement_time, -1000)
 					return
 				var/message_clean = replacetext(message, "remove law", "")
 				var/law_index = text2num(message_clean) || 0
-				if(!law_index || !GLOB.laws_of_the_land[law_index])
+				if(!law_index || law_index < 1 || law_index > length(GLOB.laws_of_the_land))
 					say("That law doesn't exist!")
+					playsound(src, 'sound/misc/machineno.ogg', 100, FALSE, -1)
 					return
+				if(law_index in GLOB.codified_laws)
+					say("That law is enshrined by a treaty! I shall not!")
+					playsound(src, 'sound/misc/machineno.ogg', 100, FALSE, -1)
+					return				
 				say("That law shall be gone!")
 				playsound(src, 'sound/misc/machineyes.ogg', 100, FALSE, -1)
 				remove_law(law_index)
 				return
 			if(findtext(message, "purge laws"))
+				if(GLOB.laws_frozen)
+					say("The realm's laws are enshrined by a treaty! I shall not!")
+					playsound(src, 'sound/misc/machineno.ogg', 100, FALSE, -1)
+					return		
 				if(!SScommunications.can_announce(H))
 					say("I must gather my strength!")
 					playsound(src, 'sound/misc/machineno.ogg', 100, FALSE, -1)
@@ -365,22 +385,67 @@ GLOBAL_VAR_INIT(last_crown_announcement_time, -1000)
 	priority_announce("[raw_message] has been declared an outlaw and must be captured or slain.", "The [SSticker.rulertype] Decrees", 'sound/misc/royal_decree2.ogg', "Captain")
 	return TRUE
 
-/proc/make_law(raw_message)
+/proc/make_law(raw_message, silent = FALSE)
+	if(GLOB.laws_frozen)
+		return FALSE
 	GLOB.laws_of_the_land += raw_message
-	priority_announce("[length(GLOB.laws_of_the_land)]. [raw_message]", "A LAW IS DECLARED", pick('sound/misc/new_law.ogg', 'sound/misc/new_law2.ogg'), "Captain")
+	if(!silent)
+		priority_announce("[length(GLOB.laws_of_the_land)]. [raw_message]", "A LAW IS DECLARED", pick('sound/misc/new_law.ogg', 'sound/misc/new_law2.ogg'), "Captain")
 	record_round_statistic(STATS_LAWS_AND_DECREES_MADE)
 
-/proc/remove_law(law_index)
+/proc/remove_law(law_index, silent = FALSE)
+	if(GLOB.laws_frozen)
+		return FALSE // if all laws are frozen, we return
+	if(law_index in GLOB.codified_laws)
+		return FALSE // if the law's codified, we return
 	if(!GLOB.laws_of_the_land[law_index])
 		return
 	var/law_text = GLOB.laws_of_the_land[law_index]
 	GLOB.laws_of_the_land -= law_text
-	priority_announce("[law_index]. [law_text]", "A LAW IS ABOLISHED", pick('sound/misc/new_law.ogg', 'sound/misc/new_law2.ogg'), "Captain")
+
+	// adjust the index of any codified laws
+	var/list/new_codified = list()
+	for(var/old_index in GLOB.codified_laws)
+		if(old_index > law_index)
+			new_codified += (old_index - 1)
+		else if(old_index < law_index)
+			new_codified += old_index
+	GLOB.codified_laws = new_codified
+
+	// adjust any "Remove Law" terms in existing treaties
+	for(var/obj/item/treaty/treaty in SSwarbands.treaties)
+		if(!treaty || QDELETED(treaty))
+			continue
+		for(var/datum/treaty/terms/term in treaty.active_terms)
+			if(istype(term, /datum/treaty/terms/remove_law))
+				// if the term targets a law after the one we just removed, adjust the increment
+				if(term.number > law_index)
+					term.number--
+	if(!silent)
+		priority_announce("[law_index]. [law_text]", "A LAW IS ABOLISHED", pick('sound/misc/new_law.ogg', 'sound/misc/new_law2.ogg'), "Captain")
 	record_round_statistic(STATS_LAWS_AND_DECREES_MADE, -1)
+	return law_text
 
 /proc/purge_laws()
-	GLOB.laws_of_the_land = list()
-	priority_announce("All laws of the land have been purged!", "LAWS PURGED", 'sound/misc/lawspurged.ogg', "Captain")
+	if(GLOB.laws_frozen)
+		return FALSE
+	var/list/preserved_laws = list() // we'll be keeping any codified laws
+	for(var/i in 1 to length(GLOB.laws_of_the_land))
+		if(i in GLOB.codified_laws)
+			preserved_laws += GLOB.laws_of_the_land[i]
+	
+	if(preserved_laws.len < GLOB.laws_of_the_land.len)
+		var/list/new_codified = list() // re index codified laws, since the codices shift around during a purge
+		for(var/i in 1 to length(preserved_laws))
+			new_codified += i
+		GLOB.codified_laws = new_codified
+	
+	GLOB.laws_of_the_land = preserved_laws
+	
+	if(preserved_laws.len)
+		priority_announce("All non-codified laws of the land have been purged!", "LAWS PURGED", 'sound/misc/lawspurged.ogg', "Captain")	
+	else
+		priority_announce("All laws of the land have been purged!", "LAWS PURGED", 'sound/misc/lawspurged.ogg', "Captain")
 
 /proc/purge_decrees()
 	GLOB.lord_decrees = list()

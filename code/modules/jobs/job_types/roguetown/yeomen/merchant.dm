@@ -20,7 +20,7 @@
 	round_contrib_points = 3
 	cmode_music = 'sound/music/combat_noble.ogg'
 
-	job_traits = list(TRAIT_SEEPRICES, TRAIT_CICERONE)
+	job_traits = list(TRAIT_SEEPRICES, TRAIT_CICERONE, TRAIT_LAWEXPERT)
 
 	advclass_cat_rolls = list(CTAG_MERCH = 2)
 	job_subclasses = list(
@@ -78,3 +78,9 @@
 	if(H.mind)
 		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/appraise/secular)
 		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/takeapprentice)
+
+
+/datum/outfit/job/roguetown/merchant/basic/post_equip(mob/living/carbon/human/H, visualsOnly = FALSE)
+	. = ..()
+	if(!visualsOnly)
+		link_treaty_faction(H)

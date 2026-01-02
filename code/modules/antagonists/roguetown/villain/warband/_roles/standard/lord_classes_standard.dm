@@ -1,8 +1,9 @@
 /datum/advclass/warband/standard/warlord/lord
 	title = "RIVAL LORD"
 	name = "Rival Lord"
-	tutorial = ""
-	traits_applied = list(TRAIT_HEAVYARMOR, TRAIT_NOBLE, TRAIT_FORMATIONFIGHTER, TRAIT_LAWEXPERT)
+	tutorial = "Psydonia shan't last long enough for new history books. \
+	A terrible shame; for the RIVAL LORD would've cut a worthy figure into its fables."
+	traits_applied = list(TRAIT_HEAVYARMOR, TRAIT_NOBLE, TRAIT_FORMATIONFIGHTER, TRAIT_LAWEXPERT, TRAIT_COMBAT_AWARE)
 	subclass_stats = list(
 		STATKEY_LCK = 5,
 		STATKEY_CON = 3,
@@ -28,7 +29,6 @@
 	)
 	outfit = /datum/outfit/job/roguetown/warband/standard/warlord/lord
 	horse = /mob/living/simple_animal/hostile/retaliate/rogue/saiga/tame/saddled 
-
 
 /datum/outfit/job/roguetown/warband/standard/warlord/lord/pre_equip(mob/living/carbon/human/H)
 	..()

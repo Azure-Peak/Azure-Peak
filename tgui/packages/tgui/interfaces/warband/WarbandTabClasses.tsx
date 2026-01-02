@@ -11,8 +11,8 @@ type ClassesTabProps = {
   handleClassSelect: (classe: ClassType) => void;
   handleSubclassSelect: (subclass: ClassType) => void;
   act: (action: string) => void;
+  canModify?: boolean;
 };
-
 
 export const ClassesTab = ({
   selectedWarband,
@@ -23,87 +23,132 @@ export const ClassesTab = ({
   handleClassSelect,
   handleSubclassSelect,
   act,
+  canModify = true,
 }: ClassesTabProps) => {
   return (
-      <Stack vertical fill>
-        <Stack row-Reverse style={{ flex: 1 }}>
-          <Section title={<span style={{ color: '#7a2525ff' }}>AVAILABLE CLASSES</span>} scrollable fill style={{ flex: 1, minWidth: '5px' }}>
-            {selectedWarband && availableClasses.length > 0 ? (
-              <Stack vertical>
-                {availableClasses.map((classe) => {
-                  const isSelected = selectedClass?.name === classe.name;
+    <Stack vertical fill>
+      <Stack row-Reverse style={{ flex: 1 }}>
+        <Section 
+          title={<span style={{ color: '#7a2525ff' }}>AVAILABLE CLASSES</span>} 
+          scrollable 
+          fill 
+          style={{ flex: 1, minWidth: '5px' }}
+        >
+          {selectedWarband && availableClasses.length > 0 ? (
+            <Stack vertical>
+              {availableClasses.map((classe) => {
+                const isSelected = selectedClass?.name === classe.name;
+                return (
+                  <Button
+                    key={classe.name}
+                    onClick={() => {
+                      if (!canModify) return;
+                      handleClassSelect(classe);
+                      act('interaction_sound');
+                    }}
+                    disabled={!canModify}
+                    style={{ 
+                      backgroundColor: isSelected ? '#7a2525ff' : undefined, 
+                      whiteSpace: 'normal', 
+                      textAlign: 'left',
+                    }}>
+                    <Stack vertical>
+                      <span style={{ fontSize: '14px' }}>{classe.name || classe.alt_name}</span>
+                      <span style={{ fontSize: '12px', color: '#ccc' }}>{classe.desc}</span>
+                    </Stack>
+                  </Button>
+                );
+              })}
+            </Stack>
+          ) : (
+            <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100%' }}>
+              <p style={{ color: '#7a2525ff' }}>NO CLASSES AVAILABLE</p>
+            </div>
+          )}
+        </Section>
+        
+        <Section 
+          title={<span style={{ color: '#7a2525ff' }}>AVAILABLE SUBCLASSES</span>} 
+          scrollable 
+          fill 
+          style={{ flex: 1 }}
+        >
+          {selectedWarband?.title === "MERCENARY COMPANY" && filteredGruntClasses.length > 0 ? (
+            <Stack vertical>
+              {filteredGruntClasses
+                .filter((subclass) => subclass.alt_name !== "Mercenary")
+                .map((subclass) => {
+                  const isSelected = selectedSubclass?.alt_name === subclass.alt_name;
                   return (
                     <Button
-                      key={classe.name}
+                      key={subclass.alt_name}
                       onClick={() => {
-                        handleClassSelect(classe);
+                        if (!canModify) return;
+                        handleSubclassSelect(subclass);
                         act('interaction_sound');
                       }}
-                      style={{ backgroundColor: isSelected ? '#7a2525ff' : undefined, whiteSpace: 'normal', textAlign: 'left' }} >
-                      <Stack vertical>
-                        <span style={{ fontSize: '14px' }}>{classe.name || classe.alt_name}</span>
-                        <span style={{ fontSize: '12px', color: '#ccc' }}>{classe.desc}</span>
-                      </Stack>
-                    </Button>
-                  );
-                })}
-              </Stack>
-            ) : (
-              <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100%' }}>
-                <p style={{ color: '#7a2525ff' }}>NO CLASSES AVAILABLE</p>
-              </div>
-            )}
-          </Section>
-          <Section title={<span style={{ color: '#7a2525ff' }}>AVAILABLE SUBCLASSES</span>} scrollable fill style={{ flex: 1 }}>
-            {selectedWarband?.title === "MERCENARY COMPANY" && filteredGruntClasses.length > 0 ? (
-              <Stack vertical>
-                {filteredGruntClasses
-                  .filter((subclass) => subclass.alt_name !== "Mercenary") // when grunts multiclass, we don't want them double-selecting Mercenary
-                  .map((subclass) => {
-                    const isSelected = selectedSubclass?.alt_name === subclass.alt_name;
-                    return (
-                      <Button
-                        key={subclass.alt_name}
-                        onClick={() => {
-                          handleSubclassSelect(subclass);
-                          act('interaction_sound');
-                        }}
-                        style={{ backgroundColor: isSelected ? '#7a2525ff' : undefined, whiteSpace: 'normal', textAlign: 'left' }} >
+                      disabled={!canModify}
+                      style={{ 
+                        backgroundColor: isSelected ? '#7a2525ff' : undefined, 
+                        whiteSpace: 'normal', 
+                        textAlign: 'left',
+                      }}>
                       <Stack vertical>
                         <span style={{ fontSize: '14px' }}>{subclass.alt_name}</span>
                         <span style={{ fontSize: '12px', color: '#ccc' }}>{subclass.desc}</span>
                       </Stack>
-                      </Button>
-                    );
-                  })}
-              </Stack>
-            ) : (
-              <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100%' }}>
-                <p style={{ color: '#7a2525ff' }}>UNAVAILABLE</p>
-              </div>
-            )}
-          </Section>
-        </Stack>
-        <Section style={{ flex: 0.3 }}>
-          <Stack direction="row" justify="center">
-            <Button
-              onClick={() => {
-                act('swap_character_slot');
-                act('interaction_sound');
-              }}
-              style={{ fontSize: '25px', padding: '25px', flex: 1, display: 'flex', justifyContent: 'center', alignItems: 'center' }} >
-              CHANGE CHARACTER SLOT
-            </Button>
-            <Button
-              onClick={() => {
-                act('edit_character');
-                act('interaction_sound');
-              }}
-              style={{ fontSize: '25px', padding: '25px', flex: 1, display: 'flex', justifyContent: 'center', alignItems: 'center' }} >
-              EDIT APPEARANCE
-            </Button>
-          </Stack>
+                    </Button>
+                  );
+                })}
+            </Stack>
+          ) : (
+            <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100%' }}>
+              <p style={{ color: '#7a2525ff' }}>UNAVAILABLE</p>
+            </div>
+          )}
         </Section>
       </Stack>
+      
+      <Section style={{ flex: 0.3 }}>
+        <Stack direction="row" justify="center">
+          <Button
+            onClick={() => {
+              if (!canModify) return;
+              act('swap_character_slot');
+              act('interaction_sound');
+            }}
+            disabled={!canModify}
+            style={{ 
+              fontSize: '25px', 
+              padding: '25px',
+              flex: 1, 
+              display: 'flex', 
+              marginBottom: '90px',              
+              justifyContent: 'center', 
+              alignItems: 'center',
+            }}>
+            CHANGE CHARACTER SLOT
+          </Button>
+          <Button
+            onClick={() => {
+              if (!canModify) return;
+              act('edit_character');
+              act('interaction_sound');
+            }}
+            disabled={!canModify}
+            style={{ 
+              fontSize: '25px', 
+              padding: '25px', 
+              flex: 1, 
+              display: 'flex',
+              marginBottom: '90px',
+              justifyContent: 'center', 
+              alignItems: 'center',
+            }}>
+            EDIT APPEARANCE
+          </Button>
+        </Stack>
+      </Section>
+    </Stack>
   );
 };

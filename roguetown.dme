@@ -182,6 +182,7 @@
 #include "code\__DEFINES\roguetown\armor_defines.dm"
 #include "code\__DEFINES\roguetown\combat.dm"
 #include "code\__DEFINES\roguetown\rebel.dm"
+#include "code\__DEFINES\roguetown\territory_defines.dm"
 #include "code\__DEFINES\roguetown\werewolf.dm"
 #include "code\__HELPERS\_auxtools_api.dm"
 #include "code\__HELPERS\_lists.dm"

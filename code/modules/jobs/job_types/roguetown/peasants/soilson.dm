@@ -88,3 +88,9 @@
 		pants = /obj/item/clothing/under/roguetown/tights/random
 		armor = /obj/item/clothing/suit/roguetown/armor/leather/vest
 		shirt = /obj/item/clothing/suit/roguetown/shirt/undershirt/random
+
+/datum/outfit/job/roguetown/farmer/basic/post_equip(mob/living/carbon/human/H, visualsOnly = FALSE)
+	. = ..()
+	if(!visualsOnly)
+		link_treaty_faction(H)
+

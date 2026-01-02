@@ -3,7 +3,6 @@ import { Button, Section, Stack } from 'tgui-core/components';
 import { AspectType, ClassType, SubType, WarbandType } from './WarbandTypes';
 
 type FinalizeTabProps = {
-  user_role: string | undefined;
   selectedWarband: WarbandType | null;
   selectedSubtype: SubType | null;
   selectedAspects: AspectType[];
@@ -12,10 +11,12 @@ type FinalizeTabProps = {
   finalize_disabled: boolean;
   pointCounter: number;
   act: (action: string, payload?: object) => void;
+  canFinalize?: boolean;
+  canInteract?: boolean;
+  isWarlord?: boolean;
 };
 
 export const FinalizeTab = ({
-  user_role,
   selectedWarband,
   selectedSubtype,
   selectedAspects,
@@ -24,8 +25,22 @@ export const FinalizeTab = ({
   finalize_disabled,
   pointCounter,
   act,
+  canFinalize = true,
+  canInteract = true,
+  isWarlord = false,
 }: FinalizeTabProps) => {
+  
   const disableReason = () => {
+    if (!canInteract) {
+      return isWarlord 
+        ? "RETURN TO CLASSES TAB" 
+        : "RETURN TO CLASSES TAB";
+    }
+    
+    if (!canFinalize && !isWarlord) {
+      return "AWAITING WARLORD TO FINALIZE WARBAND";
+    }
+    
     if (!finalize_disabled) return null;
 
     if (pointCounter < 0) {
@@ -45,6 +60,16 @@ export const FinalizeTab = ({
     }
     return null;
   };
+
+  const getButtonText = () => {
+    if (isWarlord) {
+      return "FINALIZE WARBAND & SPAWN";
+    }
+    return "JOIN GAME";
+  };
+
+  const actuallyDisabled = !canInteract || finalize_disabled || !canFinalize;
+
   return (
     <Stack style={{ flex: 1, flexDirection: 'column', height: '100%' }}> 
       <Section title={<span style={{ color: '#7a2525ff' }}>FINAL SUMMARY</span>} scrollable fill style={{ flex: 1, height: '100%' }}>
@@ -81,43 +106,36 @@ export const FinalizeTab = ({
             </div>
           </div>
         )}
-      {selectedClass && (
-        <div>
-          <h3 style={{ color: '#ae3636' }}>SELECTED CLASS</h3>
-          <div style={{ paddingLeft: '20px' }}>
-            <p style={{ color: '#ae3636', margin: 0 }}>{selectedClass.name}</p>
-            <p style={{ margin: 0 }}>{selectedClass.desc}</p>
+        {selectedClass && (
+          <div>
+            <h3 style={{ color: '#ae3636' }}>SELECTED CLASS</h3>
+            <div style={{ paddingLeft: '20px' }}>
+              <p style={{ color: '#ae3636', margin: 0 }}>{selectedClass.name}</p>
+              <p style={{ margin: 0 }}>{selectedClass.desc}</p>
+            </div>
           </div>
-        </div>
-      )}
+        )}
       </Section>
 
       <Section style={{ flex: 0.3 }}>
         <Stack direction="row" justify="center">
-          {finalize_disabled ? (
+          {actuallyDisabled ? (
             <span
-              style={{ flex: 1, color: '#ae3636', fontSize: '15px', padding: '25px', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+              style={{ 
+                flex: 1, 
+                color: '#ae3636', 
+                fontSize: '15px', 
+                padding: '25px', 
+                display: 'flex',
+                marginBottom: '90px',
+                justifyContent: 'center', 
+                alignItems: 'center',
+              }}>
               {disableReason()}
             </span>
           ) : null}
-          {['Lieutenant', 'Aspirant Lieutenant', 'Grunt'].includes(user_role || '') ? (
-            <Button
-              onClick={() => {
-                const all_selections = {
-                  warband: selectedWarband?.type,
-                  subtype: selectedSubtype?.type,
-                  aspects: selectedAspects?.map((aspect) => aspect.type),
-                  class: selectedClass?.type,
-                  subclass: selectedSubclass?.type,
-                };
-                act('create_character', all_selections);
-                act('interaction_sound');
-              }}
-              disabled={finalize_disabled}
-              style={{ flex: 1, fontSize: '25px', padding: '25px', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-              JOIN GAME
-            </Button>
-          ) : (
+          
+          {isWarlord ? (
             <Button
               onClick={() => {
                 const all_selections = {
@@ -130,9 +148,42 @@ export const FinalizeTab = ({
                 act('create_warband', all_selections);
                 act('interaction_sound');
               }}
-              disabled={finalize_disabled}
-              style={{ flex: 1, fontSize: '25px', padding: '25px', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-              FINALIZE WARBAND
+              disabled={actuallyDisabled}
+              style={{ 
+                flex: 1, 
+                fontSize: '25px', 
+                padding: '25px', 
+                display: 'flex',
+                marginBottom: '90px',
+                justifyContent: 'center', 
+                alignItems: 'center',
+              }}>
+              {getButtonText()}
+            </Button>
+          ) : (
+            <Button
+              onClick={() => {
+                const all_selections = {
+                  warband: selectedWarband?.type,
+                  subtype: selectedSubtype?.type,
+                  aspects: selectedAspects?.map((aspect) => aspect.type),
+                  class: selectedClass?.type,
+                  subclass: selectedSubclass?.type,
+                };
+                act('create_character', all_selections);
+                act('interaction_sound');
+              }}
+              disabled={actuallyDisabled}
+              style={{ 
+                flex: 1, 
+                fontSize: '25px', 
+                padding: '25px', 
+                display: 'flex',
+                marginBottom: '90px',
+                justifyContent: 'center', 
+                alignItems: 'center',
+              }}>
+              {getButtonText()}
             </Button>
           )}
         </Stack>

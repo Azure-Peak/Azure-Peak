@@ -518,7 +518,9 @@ INITIALIZE_IMMEDIATE(/obj/effect/landmark)
 	delete_after_roundstart = FALSE
 	jobspawn_override = list("Grunt")
 
-/obj/effect/landmark/territory_import
+/obj/effect/landmark/territory_import/grove
+
+/obj/effect/landmark/territory_import/city
 
 /obj/effect/landmark/start/nukeop_leader
 	name = "nukeop leader"

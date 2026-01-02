@@ -393,6 +393,12 @@
 		slapcraft_recipes = slapcraft_recipe_list,\
 		)
 
+// a stake w/higher integrity for Warband Envoys, as there's a tiny chance their default exit is sealed by rock
+/obj/item/grown/log/tree/stake/scout
+	name = "scout's stake"
+	desc = "A sharpened piece of wood, well-suited for digging oneself out of sticky situations."
+	max_integrity = 150
+
 /////////////
 // Planks //
 ////////////

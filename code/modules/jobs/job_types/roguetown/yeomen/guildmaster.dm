@@ -24,7 +24,7 @@
 	round_contrib_points = 3
 	cmode_music = 'sound/music/cmode/towner/combat_retired.ogg'
 
-	job_traits = list(TRAIT_TRAINED_SMITH, TRAIT_SEEPRICES, TRAIT_SMITHING_EXPERT, TRAIT_SEWING_EXPERT, TRAIT_HOMESTEAD_EXPERT)
+	job_traits = list(TRAIT_TRAINED_SMITH, TRAIT_SEEPRICES, TRAIT_SMITHING_EXPERT, TRAIT_SEWING_EXPERT, TRAIT_HOMESTEAD_EXPERT, TRAIT_LAWEXPERT)
 	// Guildmaster get way less gate due to their role
 
 	advclass_cat_rolls = list(CTAG_GUILDSMASTER = 2)
@@ -131,3 +131,8 @@
 		else
 			to_chat(src, span_warning("Your announcement was interrupted!"))
 			return FALSE
+
+/datum/outfit/job/roguetown/guildmaster/post_equip(mob/living/carbon/human/H, visualsOnly = FALSE)
+	. = ..()
+	if(!visualsOnly)
+		link_treaty_faction(H)

@@ -24,24 +24,32 @@ export const useWarbandSelection = () => {
   const [lockedWarband, setLockedWarband] = useState<WarbandType | null>(null);
   const [lockedSubtype, setLockedSubtype] = useState<SubType | null>(null);
   const [lockedAspects, setLockedAspects] = useState<AspectType[]>([]);
-
-  // if a warband is finalized, we automatically select its choices if someone opens its creation menu
+ 
   useEffect(() => {
-    if (finalized_status) {
+    const creation_stage = data?.creation_stage || 1;
+    const shouldLoadBackend = finalized_status || creation_stage >= 2;
+    
+    if (shouldLoadBackend) {
       if (backend_warband) {
         setSelectedWarband(backend_warband);
-        setLockedWarband(backend_warband);
+        if (finalized_status) {
+          setLockedWarband(backend_warband);
+        }
       }
       if (backend_subtype) {
         setSelectedSubtype(backend_subtype);
-        setLockedSubtype(backend_subtype);
+        if (finalized_status) {
+          setLockedSubtype(backend_subtype);
+        }
       }
       if (backend_aspects.length > 0) {
         setSelectedAspects(backend_aspects);
-        setLockedAspects(backend_aspects);
+        if (finalized_status) {
+          setLockedAspects(backend_aspects);
+        }
       }
     }
-  }, [finalized_status, backend_warband, backend_subtype, backend_aspects]);
+  }, [finalized_status, backend_warband, backend_subtype, backend_aspects, data?.creation_stage]);
 
   // aspect points
   useEffect(() => {

@@ -5,6 +5,7 @@
 	allowed_races = RACES_ALL_KINDS
 	outfit = /datum/outfit/job/roguetown/vagabond/courier
 	category_tags = list(CTAG_VAGABOND)
+	traits_applied = list(TRAIT_LAWEXPERT)
 	subclass_stats = list(
 		STATKEY_PER = 2,
 		STATKEY_SPD = 2,

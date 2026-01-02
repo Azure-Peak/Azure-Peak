@@ -24,18 +24,6 @@
 "m" = (
 /turf/open/floor/rogue/cobblerock,
 /area/rogue/outdoors/warcamp/outskirts/terrorbog)
-"o" = (
-/obj/structure/fluff/traveltile/warband/intermission_to_azure,
-/turf/open/floor/rogue/cobblerock,
-/area/rogue/outdoors/warcamp/outskirts/terrorbog)
-"w" = (
-/obj/item/reagent_containers/food/snacks/crow{
-	dir = 8;
-	pixel_x = -13;
-	pixel_y = -17
-	},
-/turf/closed/mineral/rogue/bedrock,
-/area/rogue/outdoors/warcamp/outskirts/terrorbog)
 "y" = (
 /obj/structure/flora/roguegrass/water/reeds,
 /turf/open/floor/rogue/dirt/road,
@@ -49,6 +37,11 @@
 "G" = (
 /obj/item/reagent_containers/food/snacks/crow{
 	dir = 8
+	},
+/obj/item/reagent_containers/food/snacks/crow{
+	dir = 8;
+	pixel_x = -14;
+	pixel_y = 13
 	},
 /turf/open/floor/rogue/dirt/road,
 /area/rogue/outdoors/warcamp/outskirts/terrorbog)
@@ -87,9 +80,9 @@ y
 y
 y
 J
-a
-m
-o
+B
+B
+B
 "}
 (2,1,1) = {"
 i
@@ -103,8 +96,8 @@ y
 a
 a
 m
-a
-S
+B
+B
 "}
 (3,1,1) = {"
 f
@@ -182,7 +175,7 @@ B
 B
 "}
 (8,1,1) = {"
-w
+B
 G
 a
 a

@@ -1,21 +1,6 @@
-/datum/advclass
-	var/title							// name that exclusively appears in class selection
-	var/datum/storytellerlimit			// required storyteller influence for the class to be available
-	var/desc
-	var/rarity							// storytellers can be chosen as influences multiple times | rarity is the required number of influences before a storyteller-limited class is unlocked
-	var/f_name
-
 /datum/mind
 	COOLDOWN_DECLARE(squad_spawn_cooldown)
 	COOLDOWN_DECLARE(treaty_cooldown)
-	var/warband_ID = 0							// character's warband_ID
-	var/list/warband_exile_IDs = list()			// when a character is exiled from a warband, we keep the ID of the warband they were exiled from
-	var/warbandsetup = FALSE					// failsafe for someone crashing mid-creation | if this is TRUE, they'll get the menu returned on login
-	var/list/subordinates = list() 				// a list of a lieutenant's veterans	
-	var/list/unresolved_exile_names = list()	// when a lieutenant's subordinate is exiled, they get a choice to resist the decree | if they haven't made the choice, the exile's name will be here
-	var/recruiter_name							// the name of someone who recruited the mind as an ally | recruiters will bring along the allies they recruited during a desertion
-	var/order_exhaustion = FALSE				// given to a grunt's commander after they send a special order (E.G: fight harder, survive)
-	var/squad_size = 2 							// maximum NPC squad size
 
 ////////////////////////////////////
 /datum/job/roguetown/warband_lieutenant
@@ -32,6 +17,7 @@
 	show_in_credits = TRUE
 	give_bank_account = FALSE
 	hidden_job = TRUE
+	wanderer_examine = TRUE
 
 //////////////////
 //////////////////
@@ -52,6 +38,7 @@
 	show_in_credits = TRUE
 	give_bank_account = FALSE
 	hidden_job = TRUE
+	wanderer_examine = TRUE
 
 //////////////////
 //////////////////
@@ -69,6 +56,7 @@
 	show_in_credits = FALSE
 	give_bank_account = FALSE
 	hidden_job = TRUE
+	wanderer_examine = TRUE
 
 /datum/advclass/warband/envoy
 	name = "Warlord's Envoy"
@@ -85,6 +73,7 @@
 /datum/outfit/job/roguetown/warband/warband_envoy/pre_equip(mob/living/carbon/human/H, used_slot)
 	..()
 	to_chat(H, span_warning("As an Envoy, you may return to your Warlord by interacting with a Recruitment Point. In the event of an emergency, use the ABANDON ENVOY verb in your Warband tab. Failing that, re-enter your corpse."))
+	to_chat(H, span_warning("If you embark for diplomacy, you should consider fetching a Treaty from the Campaign Planner."))
 	H.verbs += /mob/living/carbon/human/proc/abandon_envoy
 	H.verbs += /mob/living/carbon/human/proc/shortcut
 	H.verbs += /mob/living/carbon/human/proc/connect_warcamp
@@ -96,10 +85,12 @@
 		/obj/item/rogueweapon/huntingknife/idagger/steel/special = 1, 
 		/obj/item/rogueweapon/scabbard/sheath = 1,
 		/obj/item/flashlight/flare/torch/lantern/prelit = 1,
-		/obj/item/grown/log/tree/stake	
+		/obj/item/grown/log/tree/stake/scout,
+		/obj/item/natural/feather
 	)
 	if(!used_slot)
 		H.set_patron(/datum/patron/divine/undivided)
+	H.mind.warband_manager.linked_faction.member_names += H.real_name
 	var/should_tweak = input(H, "Would you like to tweak your Envoy's name and gender?") in list("Yes", "No")
 	if(should_tweak == "Yes")
 		H.choose_pronouns_and_body()
@@ -158,7 +149,7 @@
 /* 
 	the following variables track association & exile status
 		warband_exile_IDs 	// given when someone is exiled | it's the ID of their former warband
-		recruiter_name		// given when a veteran is spawned, an outsider is associated, or an exiled veteran is associated by a new lieutenant
+		warband_recruiter_name		// given when a veteran is spawned, an outsider is associated, or an exiled veteran is associated by a new lieutenant
 		allies				// a list in the warband manager that includes each ally
 
 	ASSOCIATE attempts to give the target as many of your faction tags as it can, and add them as an ally
@@ -224,8 +215,8 @@
 					if(user.mind.special_role == "Lieutenant" || user.mind.special_role == "Aspirant Lieutenant") 
 						for(var/mob/living/carbon/human/member in user.mind.warband_manager.members) 
 							to_chat(member, span_warning("The [user.job], [user.real_name], acts in defiance of [target.real_name]'s decree of exile and has ordered their men to treat [target.real_name] as an associate."))
-						if(!target.mind.recruiter_name)
-							target.mind.recruiter_name = user.real_name 
+						if(!target.mind.warband_recruiter_name)
+							target.mind.warband_recruiter_name = user.real_name 
 						if(!(target in user.mind.subordinates)) // if they weren't our subordinate we adopt them
 							user.mind.subordinates += target
 						if(!(personal_faction_tag in target.faction))
@@ -258,7 +249,7 @@
 			user.say("Leave that one unharmed.")
 			user.linepoint(target)
 			to_chat(target, span_green("The soldiers of the [user.mind.warband_manager.selected_warband.name] were ordered to leave me unharmed, by decree of their [user.job]."))
-			target.mind.recruiter_name = user.real_name // allies are given the recruiter's name as a variable
+			target.mind.warband_recruiter_name = user.real_name // allies are given the recruiter's name as a variable
 			for(var/mob/living/warlord in user.mind.warband_manager.members) // warlord should be made aware (unless they're the warlord, in which case they're already aware)
 				if(warlord.mind.special_role == "Warlord" && warlord != user)
 					to_chat(warlord, span_warning("Word spreads that [user.real_name], my [user.job], ordered their men to give someone safety within our ranks."))
@@ -385,7 +376,6 @@
 				continue
 			if(grunt.stat == UNCONSCIOUS)		// skip them if they got folded
 				continue
-
 
 			count += 1
 			switch(order_type)

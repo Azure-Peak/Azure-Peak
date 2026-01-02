@@ -419,3 +419,21 @@
 			implants += imptype
 	accessory = text2path(outfit_data["accessory"])
 	return TRUE
+
+// links a mob to an existing Default Faction found in SSwarbands.territory_factions
+/datum/outfit/proc/link_treaty_faction(mob/living/carbon/human/H)
+	if(!H || !H.mind)
+		return
+	
+	if(!H.mind.associated_factions)
+		H.mind.associated_factions = list()
+	
+	if(H.job && (H.job in SSwarbands.job_to_faction_cache))
+		var/datum/territory_faction/faction = SSwarbands.job_to_faction_cache[H.job]
+		if(!(faction in H.mind.associated_factions))
+			H.mind.associated_factions += faction
+	
+	if(H.real_name && (H.real_name in SSwarbands.name_to_faction_cache))
+		var/datum/territory_faction/faction = SSwarbands.name_to_faction_cache[H.real_name]
+		if(!(faction in H.mind.associated_factions))
+			H.mind.associated_factions += faction

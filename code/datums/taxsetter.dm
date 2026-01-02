@@ -36,11 +36,17 @@
 
 	switch(action)
 		if("set_taxes")
-			SStreasury.set_taxes(
-				params["taxationCats"],
-				good_announcement_text,
-				bad_announcement_text
-			)
+			var/list/taxationCats = params["taxationCats"]
+			for(var/category in taxationCats)
+				if(category in GLOB.locked_tax_categories)
+					to_chat(usr, span_warning("[category] taxes are locked by treaty and cannot be changed!"))
+					taxationCats -= category
+			if(length(taxationCats))
+				SStreasury.set_taxes(
+					taxationCats,
+					good_announcement_text,
+					bad_announcement_text
+				)
 
 /datum/taxsetter/ui_state(mob/user)
 	return GLOB.conscious_state

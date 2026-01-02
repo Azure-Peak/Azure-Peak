@@ -17,6 +17,7 @@
 	var/list/datum/warbands/aspects/selected_aspects = list()
 
 	var/list/members = list()				// players in the warband
+	var/list/lobby_members = list()			// players viewing the warband's lobby
 	var/list/allies = list()				// players marked as allies
 	var/list/importantfigures = list()		// important figures in town | used in the 'know thy enemy' list in the creation menu | helps in plotting an initial gimmick
 
@@ -27,17 +28,34 @@
 	var/aspirant_chance = 50				// chance that a lieutenant spawns as an aspirant
 	var/list/combatmusic = list()			// combat track given to members + people who enter the warcamp/outskirts
 	var/finalized = FALSE					// whether or not a warband is finalized
+	var/creation_stage = 1  				// 1 = warband selection, 2 = class selection
+	var/warlord_spawned = FALSE	
 	var/outskirts_established = FALSE		// whether or not the warband has spawned an outskirts map
 	var/warcamp_established = FALSE
+	var/turf/warband_spawn_turf				// main spawn turf for the warband's characters
 
 	var/spawns = WARBAND_BASE_RESPAWNS		// 400 | lost when an NPC is spawned | combined with spawn contributions from the warband/subtypes/aspects
 											// might seem very generous, but this can be reduced in massive chunks by aspirants going rogue & outskirts fights
 
 	var/schism_level = 0					// warbands can split/schism | this number = how many schisms away the warband is from its progenitor warband
 
+	var/datum/territory_faction/linked_faction		// the treaty faction connected to the warband
+
+	var/list/incoming_mobs = list()					// this tracks who is attempting to attack the warcamp
+	var/datum/outskirts_encounter/active_encounter
+	var/outskirts_prep_timer
+	var/outskirts_locked = TRUE
+
 	var/list/racelocks = list()
 	var/list/faithlocks = list()
 	var/static_data_set = FALSE
+
+	// time limit for the warband creation phase
+	var/creation_time_limit = 15 MINUTES			// total time allowed for creation
+	var/creation_warning_threshold = 7.5 MINUTES	// send a warning at this time
+	var/warned = FALSE								// if said warning has been sent
+	var/creation_start_time = 0
+	var/creation_timer_active = FALSE
 
 
 
@@ -52,13 +70,14 @@
 	5 - CHOOSE MAP				// choose & spawn the warcamp
 	5b - CHOOSE MUSIC			// choose the combat music
 
-	6 - SEND WARNINGS 	(F)		// sends warning letters to townsfolk when the warband spawns
+	6 - SEND WARNINGS 			// sends warning letters to townsfolk when the warband spawns
 	7 - LOCK CHECK 		(F)		// checks for race & faithlocks and a character's compliance w/them
-	8 - CREATE FACTION 	(F)		// creates the faction required to interface w/treaties
+	8 - CREATE FACTION 			// creates the faction required to interface w/treaties
 	9 - SPAWN WARBAND			// spawns the warband after some final tweaks
 
-	10 - EQUIP CHARACTER		// equips a spawned character
+	10 - EQUIP CHARACTER		// final step of spawning a character | equips them, sets their traits + adds them to the faction
 	11 - SPAWN CHARACTER		// spawn a character w/the options selected from the warband hud
+	11b - ASSIGN GRUNT			// binds lieutenants to grunts and vice versa
 	12 - RETURN ENVOY			// sends an envoy's client back to their stored character
 	13 - SET IDS				// sets the ID of every unregistered warband object
 	14 - LINK PORTALS			// called when a warband creates an outskirts map | links together all the portals that got spawned
@@ -74,9 +93,10 @@
 	22 - CLEANUP				// combs through the member & ally list for null entries
 	23 - DETERMINE SQUAD SIZE	// decide the size of a character's NPC squad
 
+	// lobby timer procs
+	24 - LOBBY TIMER			// 
+
 */
-
-
 
 
 ////////////////////////
@@ -134,10 +154,9 @@
 
 
 		src.classes = sort_list(src.classes)
-
-
 		storyteller_refresh()
 		figure_refresh()
+		start_creation_timer()
 
 /atom/movable/screen/warband/manager/proc/figure_refresh()
 	var/list/important_jobs = list(
@@ -228,10 +247,19 @@
 	var/list/noble_list = list()
 	var/list/allies_list = list()
 
-
+	data["creation_stage"] = src.creation_stage
+	data["warlord_spawned"] = src.warlord_spawned
+	data["is_warlord"] = (user_role == "Warlord")
 	data["user_role"] = user_role
 	data["finalized_status"] = finalized_status
 
+	var/remaining_time = get_remaining_time()
+	if(remaining_time >= 0)
+		data["time_remaining"] = remaining_time
+		data["timer_active"] = TRUE
+	else
+		data["time_remaining"] = 0
+		data["timer_active"] = FALSE
 
 	for(var/mob/living/carbon/human/quote_importantperson_unquote in src.importantfigures)
 		UNTYPED_LIST_ADD(noble_list, list(
@@ -240,13 +268,26 @@
 		))
 	data["nobles"] = noble_list
 
-	for(var/mob/living/carbon/human/buddy in src.members)
+	for(var/mob/living/carbon/human/buddy in src.members)	
+		var/member_role = buddy.mind?.special_role || "Unknown"
 		UNTYPED_LIST_ADD(allies_list, list(
 			"name" = buddy.real_name,
-			"job" = buddy.job
+			"job" = buddy.job,
+			"special_role" = member_role,
+			"in_lobby" = FALSE
+		))
+
+	for(var/mob/living/lobby_member in src.lobby_members)
+		if(!lobby_member.client || !lobby_member.client.prefs)
+			continue
+		var/char_name = lobby_member.client.prefs.real_name
+		var/member_role = lobby_member.mind?.special_role || "Unknown"
+		UNTYPED_LIST_ADD(allies_list, list(
+			"name" = char_name,
+			"job" = member_role,
+			"in_lobby" = TRUE
 		))
 	data["allies"] = allies_list	
-
 	return data
 
 /atom/movable/screen/warband/manager/ui_static_data(mob/user)
@@ -257,7 +298,6 @@
 	var/list/warbands_list = list()
 	var/list/subtypes_list = list()
 	var/list/aspects_list = list()
-
 
 	var/list/class_list = list()
 
@@ -400,22 +440,32 @@
 			user.client.prefs.current_tab = 1
 			user.client.prefs.ShowChoices(usr, 4)
 		if("create_character")
+			if(user.mind.special_role == "Warlord")
+				to_chat(user, span_warning("Use the finalize button to complete your warband."))
+				return
+			if(!src.warlord_spawned)
+				to_chat(user, span_warning("Wait for the Warlord to finalize first."))
+				user.playsound_local(user, 'sound/misc/warband/menusound_fail.ogg', 100, FALSE)
+				return
 			SStgui.close_user_uis(user)
-			user.mind.warband_manager = src				
+			user.mind.warband_manager = src
 			var/class_path = text2path(params["class"])
-			var/subclass_path = text2path(params["subclass"])	
+			var/subclass_path = text2path(params["subclass"])
+			if(user in src.lobby_members)
+				lobby_members -= user
 			create_character(user, user)
 			lock_check(user)
 			spawn_character(class_path, user, subclass_path, is_leader = 0)
 			end_intro(user)
-
-
-		if("create_warband")
-			if(SSwarbands.warband_managers_busy == TRUE)
-				to_chat(src, span_bold("Warband Generation is occupied. Please wait."))
+			return
+		if("advance_stage")
+			if(user.mind.special_role != "Warlord")
+				to_chat(user, span_warning("Only the Warlord can advance stages."))
+				user.playsound_local(user, 'sound/misc/warband/menusound_fail.ogg', 100, FALSE)
 				return
-			SSwarbands.warband_managers_busy = TRUE				
-			SStgui.close_user_uis(user)		
+			if(src.creation_stage != 1)
+				return
+			
 			var/warband_path = text2path(params["warband"])
 			if(ispath(warband_path, /datum/warbands))
 				src.selected_warband = new warband_path
@@ -423,27 +473,59 @@
 			var/subtype_path = text2path(params["subtype"])
 			if(ispath(subtype_path, /datum/warbands/subtypes))
 				src.selected_subtype = new subtype_path
-
+			
 			var/list/aspect_paths = params["aspects"]
 			for(var/aspect_path in aspect_paths)
 				var/aspect_datum = text2path(aspect_path)
 				if(ispath(aspect_datum, /datum/warbands/aspects))
 					src.selected_aspects += new aspect_datum
+			src.creation_stage = 2
+			envy_check() // check for Throne of Envy once a warband is locked in, so we can update any lieutenants
+			send_warnings() // send a warning to a non-warband player
+			for(var/mob/living/carbon/human/member in src.lobby_members)
+				to_chat(member, span_greenteamradio("The Warlord has advanced to class selection. You may now choose your class."))
+				SStgui.update_uis(member)
+				update_static_data(member)
+			return
+
+		if("create_warband")
+			if(user.mind.special_role != "Warlord")
+				to_chat(user, span_warning("Only the Warlord may finalize the warband."))
+				user.playsound_local(user, 'sound/misc/warband/menusound_fail.ogg', 100, FALSE)
+				return
+			if(src.creation_stage != 2)
+				to_chat(user, span_warning("Select a Warband first."))
+				user.playsound_local(user, 'sound/misc/warband/menusound_fail.ogg', 100, FALSE)
+				return
+			if(SSwarbands.warband_managers_busy == TRUE)
+				to_chat(src, span_bold("Warband Generation is occupied. Please wait."))
+				user.playsound_local(user, 'sound/misc/warband/menusound_fail.ogg', 100, FALSE)
+				return
+			SSwarbands.warband_managers_busy = TRUE
+			SStgui.close_user_uis(user)
 			var/class_path = text2path(params["class"])
 			var/subclass_path = text2path(params["subclass"])
+			if(user in src.lobby_members)
+				lobby_members -= user
 			create_character(user, user)
 			lock_check()
 			spawn_warband(user)
-			spawn_character(class_path, user, subclass_path, is_leader = 1,)
 			set_IDs()
+			spawn_character(class_path, user, subclass_path, is_leader = 1)			
 			set_default_exit()
+			
+			src.warlord_spawned = TRUE
 			SSwarbands.warband_managers_busy = FALSE
 			src.finalized = TRUE
-			user.mind.warband_manager = src		
+			user.mind.warband_manager = src
 			end_intro(user)
+			for(var/mob/living/carbon/human/member in src.lobby_members) 
+				if(member.mind.special_role == "Lieutenant" || member.mind.special_role == "Aspirant Lieutenant" || member.mind.special_role == "Grunt")
+					to_chat(member, span_greenteamradio("The Warlord has established the warband. You may now finalize your character."))
+					member.playsound_local(member, 'sound/misc/warband/menusound3.ogg', 100, FALSE)
 			return
 		if("interaction_sound")
-			user.playsound_local(user, 'sound/misc/warband/menusound1.ogg', 150, FALSE)
+			user.playsound_local(user, 'sound/misc/warband/menusound1.ogg', 100, FALSE)
 			return
 
 ////////////////////////////////////////////////////////////
@@ -532,7 +614,7 @@
 	user.invisibility = INVISIBILITY_NONE
 	user.fully_heal()
 	SEND_SOUND(user, sound(null)) // cuts the selection music
-	user.playsound_local(user, 'sound/misc/warband/warband_warhorn3.ogg', 150, FALSE, pressure_affected = FALSE)
+	user.playsound_local(user, 'sound/misc/warband/warband_warhorn3.ogg', 100, FALSE, pressure_affected = FALSE)
 	for(var/atom/movable/screen/introtext/text in user.client.screen)
 		animate(text, alpha = 0, time = 50)
 		addtimer(CALLBACK(GLOBAL_PROC, GLOBAL_PROC_REF(qdel), text), 50)
@@ -625,8 +707,6 @@
 /////////////////////////////////////////////////
 /////////////////////////////////// SEND WARNINGS
 /* 6
-	FIXNOTE
-
 	creates a list of people from GLOB.player_list
 		a warning letter is created and sent out
 		the chance of reception varies depending on each person's job
@@ -639,53 +719,72 @@
 	cancels immediately if the spawning Warband has taken the "Surprise" aspect
 
 */
-/obj/item/paper/warband_warning
-	name = "hastily-written parchment"
-
 /atom/movable/screen/warband/manager/proc/send_warnings()
 	var/atom/movable/screen/warband/manager/incoming_warband = src
-	if(/datum/warbands/aspects/surprise in incoming_warband.selected_aspects)
+	for(var/datum/warbands/aspects/chosen_aspect in incoming_warband.selected_aspects)
+		if(istype(chosen_aspect, /datum/warbands/aspects/surprise))
+			return // if the incoming warband has the Surprise aspect, no one's getting warned
+
+	// most likely roles to be chosen to receive the warning
+	var/list/most_likely = list(
+		"Hand",
+		"Councillor",
+		"Inquisitor",
+		"Marshal",
+		"Towner",
+		"Soilson",
+	) 
+
+	var/mob/living/carbon/human/recipient
+	var/list/priority_candidates = list()
+	var/list/general_candidates = list()
+
+	// roles in this list are blacklisted from being warned
+	var/list/warband_roles = list("Warlord", "Aspirant Lieutenant", "Lieutenant", "Grunt")
+	for(var/mob/living/carbon/human/candidate in GLOB.player_list)
+		if(candidate.stat == DEAD || !candidate.client)
+			continue
+		if(candidate.mind && (candidate.mind.special_role in warband_roles))
+			continue
+		var/turf/T = get_turf(candidate)
+		if(!T || !istype(T.loc, /area/rogue/outdoors))
+			continue // skip candidates who aren't outside
+		if(candidate.job in most_likely)
+			priority_candidates += candidate
+		else
+			general_candidates += candidate
+
+	if(!priority_candidates.len && !general_candidates.len)
+		return // if no one's outside, no warning is getting sent
+	
+	// 75% chance to choose a likely candidate, 25% chance for anyone
+	if(prob(75) && priority_candidates.len)
+		recipient = pick(priority_candidates)
+	else if(general_candidates.len)
+		recipient = pick(general_candidates)
+	else if(priority_candidates.len)
+		recipient = pick(priority_candidates)
+
+	if(!recipient)
 		return
 
-	// draw from the most_likely pool on a 75% chance
-	// send it to someone random on a 25% chance	
+	var/final_readout = "Terrible news has been hastily scrawled upon old, torn parchment. It warns of...<BR>\n"
+	if(incoming_warband.selected_warband && incoming_warband.selected_warband.warning)
+		final_readout += "<BR>\n[incoming_warband.selected_warband.warning]"
+	if(incoming_warband.selected_subtype && incoming_warband.selected_subtype.warning)
+		final_readout += "<BR>\n[incoming_warband.selected_subtype.warning]"
+	for(var/datum/warbands/aspects/chosenaspect in incoming_warband.selected_aspects)
+		if(chosenaspect && chosenaspect.warning)
+			final_readout += "<BR>\n[chosenaspect.warning]"
 
-	// if no one's playing one of the jobs in the most_likely pool, it'll just be sent to someone random
+	var/obj/item/paper/warband_warning/newparchment = new /obj/item/paper/warband_warning(recipient.loc)
+	newparchment.info = final_readout
+	to_chat(recipient, span_warning("Something crunches underfoot. I've stepped on a crumpled, blood-stained cut of parchment.")) 
 
-	// check their special role: if it lands on someone with "Warlord", "Aspirant Lieutenant", "Lieutenant", or "Grunt", reroll
-	// stop after 2 rerolls, so there's a very tiny chance no one receives a warning, even w/o Surprise in effect
+	recipient.playsound_local(recipient, 'sound/villain/littlescary.ogg', 100, FALSE)
 
-	// var/list/most_likely = list(
-	// 	"Hand",
-	// 	"Councillor",
-	// 	"Inquisitor",
-	// 	"Marshal",
-	// 	"Towner",
-	// 	"Soilson",
-	// )
-
-	// for(var/mob/living/carbon/human/character in GLOB.player_list)
-	// 	if(most_likely.Find(character.job))
-
-	// var/final_readout = ""
-
-	// final_readout += "Terrible news has been hastily scrawled upon old, torn parchment. It warns of...\n\n"
-
-	// if(incoming_warband.selected_warband && incoming_warband.selected_warband.warning)
-	// 	final_readout += "[incoming_warband.selected_warband.warning]\n"
-
-	// if(incoming_warband.selected_subtype && incoming_warband.selected_subtype.warning)
-	// 	final_readout += "[incoming_warband.selected_subtype.warning]\n"
-
-	// for(var/datum/warbands/aspects/chosenaspect in incoming_warband.selected_aspects)
-	// 	if(chosenaspect && chosenaspect.warning)
-	// 		final_readout += "[chosenaspect.warning]\n"
-
-	// var/obj/item/paper/newparchment = new /obj/item/paper/warband_warning
-
-	// newparchment.info = final_readout
-
-
+/obj/item/paper/warband_warning
+	name = "hastily-written parchment"
 
 //////////////////////
 //////////////////////
@@ -715,23 +814,40 @@
 //////////////////////////////////////////////////////////
 /////////////////////////////////// CHOOSE WARBAND FACTION
 /* 8
-	FIXNOTE
-	generate a faction for treaties
+	generate a faction for dealing w/treaties
+	receives the faction & initial territory's name from the selected warband & subtype datums
 */
 /atom/movable/screen/warband/manager/proc/choose_warband_faction(owner)
-	// var/datum/territory_faction/newfaction
-	// var/chosen_name
-	// var/chosen_desc
+	var/chosen_name
+	var/chosen_desc
+	var/land_name
+	var/land_desc
+	var/datum/territory_faction/new_faction = new /datum/territory_faction/custom
 
-	// if(selected_subtype && selected_subtype.treaty_name)
-	// 	chosen_name = selected_subtype.treaty_name
+	if(selected_subtype) // look for a subtype first
+		if(selected_subtype.treaty_name != "Warband")
+			chosen_name = selected_subtype.treaty_name
+		if(selected_subtype.treaty_desc != "Azuria bears no shortage of enemies.")
+			chosen_desc = selected_subtype.treaty_desc
 
-	// if(!chosen_name)
-	// 	chosen_name = selected_warband.treaty_name
+		if(selected_subtype.territory_name != "Unknown Territory")
+			land_name = selected_subtype.territory_name
+		if(selected_subtype.territory_desc != "")
+			land_desc = selected_subtype.territory_desc
 
 
-	// newfaction.generate_faction(owner, chosen_name) FIXNOTE
+	if(!chosen_name) // if there's no subtype, fall back on the warband's descriptions
+		chosen_name = selected_warband.treaty_name
+	if(!chosen_desc)
+		chosen_desc = selected_warband.treaty_desc
 
+	if(!land_name)
+		land_name = selected_warband.territory_name
+	if(!land_desc)
+		land_desc = selected_warband.territory_desc
+
+	var/returned_faction = new_faction.generate_faction(owner, chosen_name, chosen_desc, land_name, land_desc, TRUE)
+	return returned_faction
 
 // 9
 /////////////////////////////////////////////////
@@ -740,24 +856,25 @@
 	chooses variables with priority & spawns the final result
 	for example, a map provided from an aspect is prioritized over one from a subtype, and a subtype map's prioritized over the base warband's map
 */
-
-/atom/movable/screen/warband/manager/proc/spawn_warband(user, rebellion = FALSE)
+/atom/movable/screen/warband/manager/proc/spawn_warband(mob/user, rebellion = FALSE)
 	if(rebellion == FALSE)
 		choose_map()
+	stop_creation_timer()
 	choose_combat_music()
-	aspect_tweaks()
-	choose_warband_faction(user)
+	aspect_tweaks(user)
+	src.linked_faction = choose_warband_faction(user)
+	src.linked_faction.member_names += user.real_name
 	src.finalized = TRUE
-	send_warnings()
 
 // 10
 ///////////////////////////////////////////////////
 /////////////////////////////////// EQUIP CHARACTER
 /* 10
-	equip them w/the provided advclasses
+	equips them w/the provided advclasses
+	gives them the baseline Warband traits (at the moment Battle Ready & No XP)
+	makes any aspect tweaks to their stats
 
 */
-
 /atom/movable/screen/warband/manager/proc/equip_character(datum/advclass/class_path, datum/advclass/subclass_path, isleader, mob/living/carbon/human/user)
 	user.cmode_music_override = src.combatmusic
 	user.advjob = class_path.name
@@ -766,27 +883,116 @@
 	if(subclass_path)
 		subclass_path.equipme(user)
 		user.job = subclass_path.name
-	if(should_wear_femme_clothes(user))
-		user.job = class_path.f_name
-		return
 	if(isleader)
-		if(ASPECT_FIGUREHEAD in src.selected_aspects) // fixnote: This Shit Don't Work
-			for(var/atom/movable/screen/movable/action_button/hud_button in user.client.screen)
-				if(hud_button.name == "Sweep")
-					qdel(hud_button)
-			for(var/datum/action/spell_action/spell/action in user.client.screen)
-				if(action.name == "Sweep")
-					qdel(action)
-			if(user.STASTR < 7)
-				user.STASTR = 7
-			if(user.STASPD < 10)
+		var/is_figurehead = FALSE
+		for(var/datum/warbands/aspects/found_aspect in src.selected_aspects)
+			if(istype(found_aspect, ASPECT_FIGUREHEAD))
+				is_figurehead = TRUE
+				break
+		if(is_figurehead)
+			if(user.mind)
+				for(var/obj/effect/proc_holder/spell/sweep_spell in user.mind.spell_list)
+					if(sweep_spell.name == "Sweep")
+						user.mind.RemoveSpell(sweep_spell)
+				if(user.actions)
+					for(var/datum/action/spell_action/sweepaction in user.actions)
+						if(sweepaction.name == "Sweep")
+							qdel(sweepaction)
+			// STR: 8 | SPD: 10 | CON: 10
+			if(user.STASTR > 8)
+				user.STASTR = 8
+			if(user.STASPD > 10)
 				user.STASPD = 10
-			if(user.STACON < 10)
+			if(user.STACON > 10)
 				user.STACON = 10
+	else
+		if(src.linked_faction) // if they aren't the warlord we'll need to add them as a member of the linked faction
+			src.linked_faction.member_names += user.real_name
+			if(!(src.linked_faction in user.mind.associated_factions))
+				user.mind.associated_factions += src.linked_faction
+			if(user.mind.special_role == "Lieutenant" || user.mind.special_role == "Aspirant Lieutenant")// and if they're a lieutenant we also give them one of their own
+				var/datum/territory_faction/lieu_faction = new /datum/territory_faction()
+				lieu_faction.generate_faction(user, stewardhidden = TRUE)
 	user.faction |= list("[user.real_name]_faction")
 	ADD_TRAIT(user, TRAIT_BREADY, TRAIT_GENERIC)
 	ADD_TRAIT(user, TRAIT_NO_XP, TRAIT_GENERIC) // we want them doing Literally Anything Else besides farming for skills
 	determine_squad_size(user)
+
+// 11c
+//////////////////////////////////////////////////////////////
+///////////////////////////////////////////////// ASSIGN GRUNT
+/* 11c
+	binds lieutenants to grunts and vice versa, depending on the provided arguments
+	
+	MODES:
+	1. lieutenant provided: when a lieutenant spawns, collect all unassigned grunts. add them to the mind.subordinates list
+	2. grunt provided: when a grunt spawns, find them a lieutenant. add their name to the grunt's mind.warband_recruiter_name entry, and adds themselves to the lieutenant's mind
+	
+*///
+/atom/movable/screen/warband/manager/proc/assign_grunt(mob/living/carbon/human/lieutenant = null, mob/living/carbon/human/grunt = null)
+	// 1: lieutenant spawns
+	if(lieutenant && !grunt)
+		if(!lieutenant.mind)
+			return
+		
+		if(lieutenant.mind.special_role != "Lieutenant" && lieutenant.mind.special_role != "Aspirant Lieutenant")
+			return
+
+		var/list/unassigned_grunts = list()
+		for(var/mob/living/carbon/human/member in src.members)
+			if(!member.mind)
+				continue
+			if(member.mind.special_role == "Grunt" && !member.mind.warband_recruiter_name)
+				unassigned_grunts += member
+		if(!unassigned_grunts.len)
+			to_chat(lieutenant, span_greenteamradio("My subordinates are yet to arrive."))
+			return
+		
+		var/assigned_count = 0
+		for(var/mob/living/carbon/human/waiting_grunt in unassigned_grunts)
+			if(assigned_count >= 2)  // Maximum 2 grunts per lieutenant
+				break
+			
+			lieutenant.mind.subordinates += waiting_grunt
+			waiting_grunt.mind.warband_recruiter_name = lieutenant.real_name
+			to_chat(waiting_grunt, span_greenteamradio("My Lieutenant, [lieutenant.real_name], has arrived."))
+			to_chat(lieutenant, span_greenteamradio("[waiting_grunt.real_name] is my subordinate."))
+			assigned_count++
+		return
+	
+	// MODE 2: grunt spawns
+	if(grunt && !lieutenant)
+		if(!grunt.mind || grunt.mind.special_role != "Grunt")
+			return
+		var/list/available_lieutenants = list()
+		for(var/mob/living/carbon/human/member in src.members)
+			if(!member.mind)
+				continue
+			if(member.mind.special_role == "Lieutenant" || member.mind.special_role == "Aspirant Lieutenant")
+				if(member.mind.subordinates.len < 2)
+					available_lieutenants += member
+		
+		if(!available_lieutenants.len)
+			to_chat(grunt, span_greenteamradio("My Lieutenant is yet to arrive."))
+			return
+
+		var/mob/living/carbon/human/chosen_lieutenant
+		var/lowest_count = 999
+
+		for(var/mob/living/carbon/human/lieu in available_lieutenants)
+			var/current_count = lieu.mind.subordinates.len
+			if(current_count < lowest_count)
+				lowest_count = current_count
+				chosen_lieutenant = lieu
+		
+		if(chosen_lieutenant)
+			chosen_lieutenant.mind.subordinates += grunt
+			grunt.mind.warband_recruiter_name = chosen_lieutenant.real_name
+			to_chat(grunt, span_greenteamradio("[chosen_lieutenant.real_name] is my Lieutenant."))
+			to_chat(chosen_lieutenant, span_greenteamradio("[grunt.real_name], my subordinate, has arrived."))
+		return
+
+	return
 
 // 11
 ///////////////////////////////////////////////////
@@ -794,7 +1000,7 @@
 /* 11
 	if they're the warlord, move them to their warcamp's warlord spawn landmark, then delete said landmark
 		adds them to the warband manager's members list
-		give them:
+		gives them:
 			knowledge of other members in the warband
 			knowledge of important figures in the duchy
 			the baseline warband verbs (shortcut & communicate)
@@ -807,10 +1013,32 @@
 		subclass_path = new subclasspath()
 
 	if(is_leader)
+		var/turf/warlord_landmark_turf
 		for(var/obj/effect/landmark/start/warlordlate/warlord_spawn in GLOB.landmarks_list)
+			warlord_landmark_turf = get_turf(warlord_spawn)
 			user.loc = warlord_spawn.loc
 			qdel(warlord_spawn)
 			break
+		
+		// we mark the nearest rally point to the warlord's spawn as the spawn for
+		var/obj/structure/fluff/warband/warband_recruit/nearest_rally
+		var/shortest_distance = 99
+		
+		for(var/obj/structure/fluff/warband/warband_recruit/rally in SSwarbands.warband_machines)
+			if(rally.warband_ID == src.warband_ID)
+				var/distance = get_dist(user, rally)
+				if(distance < shortest_distance)
+					shortest_distance = distance
+					nearest_rally = rally
+
+		if(nearest_rally)
+			src.warband_spawn_turf = get_turf(nearest_rally)
+		else if(warlord_landmark_turf)
+			src.warband_spawn_turf = warlord_landmark_turf // if we couldn't find one for some reason, we'll fall back to where the warlord's landmark was
+	else
+		user.loc = src.warband_spawn_turf
+
+
 
 	for(var/mob/living/carbon/human/important_figure in src.importantfigures)
 		user.mind.i_know_person(important_figure.mind)
@@ -822,7 +1050,6 @@
 	equip_character(class_path, subclass_path, is_leader, user)
 
 	user.faction |= list("warband_[src.warband_ID]")
-
 	if(user.mind.special_role == "Lieutenant" || user.mind.special_role == "Aspirant Lieutenant" || is_leader)
 		user.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/exile)
 		user.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/associate)
@@ -835,13 +1062,15 @@
 	user.verbs += /mob/living/carbon/human/proc/communicate
 
 	src.members += user
-	return
+	if(user.mind.special_role == "Grunt")
+		assign_grunt(grunt = user)
+	else if(user.mind.special_role == "Lieutenant" || user.mind.special_role == "Aspirant Lieutenant")
+		assign_grunt(lieutenant = user)
+
 
 //////////////////////
 ////////////////////////////////////////////// SPAWNING
 //////////////////////
-
-
 
 
 // 12
@@ -855,7 +1084,7 @@
 		we'll do this if:
 		a recruitment point holding a stored character is captured
 
-	2. USING A CLIENT
+	2. USING A LINKED MOB
 		we'll do this if:
 		an Envoy uses their ABANDON ENVOY verb
 		an Envoy interacts with a recruitment point
@@ -863,12 +1092,10 @@
 
 	search all rally points for the envoy's stored character
 	puts the envoy back in their stored character, and then delete the envoy
-
-
-
 */
 /atom/movable/screen/warband/manager/proc/return_envoy(mob/living/carbon/human/envoy, mob/returning_character, obj/return_recruitmentpoint, abandoned = FALSE)
 	// USING A STORED CHARACTER
+	// aka: home <- envoy
 	// requires the recruitment point & the stored/returning character
 	if(returning_character && return_recruitmentpoint)
 		for(var/mob/living/stored_character in return_recruitmentpoint.contents)
@@ -884,20 +1111,18 @@
 					returning_character.key = ghost.key
 					returning_character.loc = return_recruitmentpoint.loc
 
-	// USING A CLIENT
+	// USING A LINKED MOB
+	// aka: envoy -> home
 	else
-		for(var/obj/structure/fluff/warband/warband_recruit/recruitment_point in SSwarbands.warband_machines)
-			if(recruitment_point.contents.len)
-				for(var/mob/living/stored_character in recruitment_point.contents)
-					if(stored_character.canon_client.key == envoy.canon_client.key)
-						stored_character.loc = recruitment_point.loc
-						stored_character.key = envoy.key
-						envoy.mind.warband_manager.members -= envoy
-						if(abandoned)
-							break
-						envoy.unequip_everything()
-						qdel(envoy)
-						break
+		var/mob/living/target_character = envoy?.mind.original_char
+		target_character.key = envoy.key
+		target_character.loc = target_character.loc.loc // the location of their recruitment point
+		src.members -= envoy
+		if(abandoned)
+			return
+		src.spawns++ // if they made it back alive refund the spawn spent on them
+		envoy.unequip_everything()
+		qdel(envoy)
 	return
 
 // 13
@@ -909,7 +1134,7 @@
 	called when a warband is created
 	called again when the warband spawns an outskirts & intermission map
 
-*/
+*///
 /atom/movable/screen/warband/manager/proc/set_IDs()
 	for(var/obj/structure/fluff/warband/warband_object in SSwarbands.warband_machines)
 		if(warband_object.warband_ID == 0)
@@ -1027,8 +1252,6 @@
 		return
 
 	prefs.load_character(choices[choice_slot])
-
-
 	return
 
 // 17
@@ -1075,15 +1298,10 @@
 
 // spellwipe
 	user.actions = list()
-	user.mind.spell_list = list()
-	for(var/atom/movable/screen/movable/action_button/hud_button in user.client.screen)
-		qdel(hud_button)
+	user.mind.RemoveAllSpells()
 	if(/mob/living/carbon/human/proc/devotionreport in user.verbs)
 		user.verbs -= /mob/living/carbon/human/proc/devotionreport
 		user.verbs -= /mob/living/carbon/human/proc/clericpray
-
-
-
 
 // 19
 ////////////////////////////////////////////////////////////////
@@ -1127,7 +1345,6 @@
 		
 		qdel(warband)
 
-
 	// roll 3 classes
 	// 90% chance for a lieutenant class, 10% for a warlord class
 	for(var/i in 1 to 3)
@@ -1149,7 +1366,6 @@
 		classchoice.equipme(H)
 
 
-
 // 20
 ///////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////// ASPECT TWEAKS
@@ -1162,6 +1378,54 @@
 
 	if(ASPECT_CULT in src.selected_aspects)
 		src.faithlocks = list(warlord.patron)
+
+/atom/movable/screen/warband/manager/proc/envy_check()
+	var/has_throne_of_envy = FALSE
+	for(var/datum/warbands/aspects/aspect in src.selected_aspects)
+		if(istype(aspect, /datum/warbands/aspects/envy))
+			has_throne_of_envy = TRUE
+			break
+
+	if(!has_throne_of_envy)
+		return
+
+	for(var/mob/living/carbon/human/member in src.lobby_members)
+		if(member.mind.special_role != "Lieutenant" && member.mind.special_role != "Aspirant Lieutenant")
+			continue
+		
+		var/was_already_aspirant = (member.mind.special_role == "Aspirant Lieutenant")
+		member.mind.special_role = "Aspirant Lieutenant"
+		
+		var/datum/antagonist/warlord_lieutenant/lieu_antag
+		for(var/datum/antagonist/antag in member.mind.antag_datums)
+			if(istype(antag, /datum/antagonist/warlord_lieutenant))
+				lieu_antag = antag
+				break
+
+		lieu_antag.aspirant = TRUE
+		var/list/aspirant_objectives = list(
+			/datum/objective/warband/aspirant/wormtongue,
+			/datum/objective/warband/aspirant/disorder,
+			/datum/objective/warband/aspirant/order,
+			/datum/objective/warband/aspirant/standard,
+			/datum/objective/warband/aspirant/coin
+		)
+		if(was_already_aspirant)
+			for(var/datum/objective/existing_obj in lieu_antag.objectives)
+				for(var/obj_type in aspirant_objectives)
+					if(istype(existing_obj, obj_type))
+						aspirant_objectives -= obj_type
+						break
+		var/chosen_type = pick(aspirant_objectives)
+		var/datum/objective/warband/aspirant/new_objective = new chosen_type
+		new_objective.owner = member.mind
+		lieu_antag.objectives += new_objective
+		member.mind.announce_objectives()
+
+		if(was_already_aspirant)
+			to_chat(member, span_userdanger("Throne of Envy has been selected. I have been given an additional objective."))
+		else
+			to_chat(member, span_userdanger("Throne of Envy has been selected. I am now an Aspirant Lieutenant with my own ambitions."))
 
 // 21
 ///////////////////////////////////////////////////////
@@ -1242,7 +1506,7 @@
 					target.mind.current.faction -= personal_faction_tag
 
 				src.allies -= target
-				target.mind.recruiter_name = null
+				target.mind.warband_recruiter_name = null
 
 				// if they were an antagonist (and not a warband member), reduce disorder
 				if(target.mind.special_role && target.mind.warband_ID != user.mind.warband_ID)
@@ -1267,7 +1531,7 @@
 							return
 						else
 							target.abandon_warband(grunt_kick = TRUE)
-							to_chat(user, span_warning("I've branded [target.real_name] as an exile but unless their Lieutenant, [target.mind.recruiter_name], approves of this, [target.real_name] will remain associated with them."))
+							to_chat(user, span_warning("I've branded [target.real_name] as an exile but unless their Lieutenant, [target.mind.warband_recruiter_name], approves of this, [target.real_name] will remain associated with them."))
 							return
 					else
 						target.abandon_warband(kicked = TRUE)
@@ -1278,8 +1542,8 @@
 
 		if((personal_faction_tag in target.faction)) // you should always be able to remove your personal faction tag from someone
 			target.faction -= personal_faction_tag
-			if(target.mind.recruiter_name == user.real_name)
-				target.mind.recruiter_name = null
+			if(target.mind.warband_recruiter_name == user.real_name)
+				target.mind.warband_recruiter_name = null
 			if(personal)
 				user.say("Hostis declaratus es.")
 				user.linepoint(exiled_creecher)
@@ -1313,13 +1577,234 @@
 /* 23
 	determine the size of the character's NPC squad
 	2 by default
-	5 for warlords, aspirant lieutenants and defecting lieutenants
+	4 for warlords, aspirant lieutenants and defecting lieutenants
 
 */
 /atom/movable/screen/warband/manager/proc/determine_squad_size(mob/user)
 	if(user.mind.special_role == "Warlord" || user.mind.special_role == "Aspirant Lieutenant")
-		user.mind.squad_size = 5
+		user.mind.squad_size = 4
 	if(user.job == "Rival Lord")
 		user.mind.squad_size = 8
 	if(src.selected_warband && src.selected_warband.name == "Peasant Rebellion")
 		user.mind.squad_size = 8
+
+// 24
+/////////////////////////////////////////////////////////////
+///////////////////////////////////////////////// LOBBY TIMER
+/* 24
+	
+*/
+/atom/movable/screen/warband/manager/proc/start_creation_timer()
+	if(creation_timer_active)
+		return
+	
+	creation_start_time = world.time
+	creation_timer_active = TRUE
+
+	var/time_until_warning = creation_time_limit - creation_warning_threshold
+	// schedule the warning timer
+	addtimer(CALLBACK(src, PROC_REF(send_warning)), time_until_warning)
+
+/atom/movable/screen/warband/manager/proc/send_warning()
+	if(!creation_timer_active || src.finalized)
+		return // bail if timer was stopped or warband finalized
+	
+	warned = TRUE
+	var/minutes_left = round(creation_warning_threshold / 600)
+	
+	for(var/mob/living/member in src.lobby_members)
+		to_chat(member, span_boldwarning("WARBAND CREATION TIME WARNING: [minutes_left] minute(s) remain."))
+		member.playsound_local(member, 'sound/misc/notice (2).ogg', 100, FALSE)
+	
+	// Schedule timeout timer (fires once when time runs out)
+	addtimer(CALLBACK(src, PROC_REF(trigger_timeout)), creation_warning_threshold)
+
+/atom/movable/screen/warband/manager/proc/stop_creation_timer()
+	if(!creation_timer_active)
+		return
+	creation_timer_active = FALSE
+
+/atom/movable/screen/warband/manager/proc/trigger_timeout()
+	if(!creation_timer_active || src.finalized)
+		return
+	stop_creation_timer()
+	force_warband_spawn()
+
+/atom/movable/screen/warband/manager/proc/force_warband_spawn()
+	var/mob/living/warlord
+
+	for(var/mob/living/member in src.lobby_members)
+		if(member.mind && member.mind.special_role == "Warlord")
+			warlord = member
+			break
+	
+	if(!warlord) // this absolutely shouldn't happen
+		for(var/mob/living/member in src.lobby_members)
+			if(member.mind && member.mind.special_role == "Grunt") // but if it does, we'll prefer grunts over lieutenants for warlord replacements
+				warlord = member
+				member.mind.special_role = "Warlord"
+				to_chat(member, span_userdanger("The Warlord has abandoned the lobby. You have been elected to serve as the warlord."))
+				log_admin("Warband [src.warband_ID] elected grunt [member.real_name] as new warlord during timeout.")
+				break
+		if(!warlord)
+			for(var/mob/living/member in src.lobby_members)
+				if(member.mind && (member.mind.special_role == "Lieutenant" || member.mind.special_role == "Aspirant Lieutenant"))
+					warlord = member
+					member.mind.special_role = "Warlord"
+					to_chat(member, span_userdanger("The Warlord has abandoned the lobby. You have been elected to serve as the warlord."))
+					log_admin("Warband [src.warband_ID] elected lieutenant [member.real_name] as new warlord during timeout.")
+					break
+		if(!warlord)
+			for(var/mob/living/member in src.lobby_members)
+				cancel_lobby(member)
+		if(lobby_members.len == 0)
+			qdel(src)
+			return
+	
+	to_chat(warlord, span_userdanger("TIME'S UP! THE WARBAND IS BEING FORCED TO SPAWN!"))
+	if(src.creation_stage == 1)
+		to_chat(warlord, span_warning("Selecting random warband configuration..."))
+		
+		if(!src.warbands.len)
+			for(var/mob/living/member in src.lobby_members)
+				cancel_lobby(member)
+			return
+		
+		var/datum/warbands/random_warband = pick(src.warbands)
+		src.selected_warband = random_warband
+		to_chat(warlord, span_notice("Warband: [random_warband.title]"))
+
+		if(random_warband.subtypes && random_warband.subtypes.len > 0)
+			var/list/available_subtypes = list()
+			var/list/compatible_types = random_warband.subtypes[1]
+			for(var/datum/warbands/subtypes/potential_subtype in src.subtypes)
+				if(potential_subtype.type in compatible_types)
+					available_subtypes += potential_subtype
+
+			if(available_subtypes.len > 0)
+				if(random_warband.subtyperequired || prob(50)) // if a subtype's required, always pick one. Otherwise it's a 50% chance
+					var/datum/warbands/subtypes/random_subtype = pick(available_subtypes)
+					src.selected_subtype = random_subtype
+					to_chat(warlord, span_notice("Subtype: [random_subtype.title]"))
+		
+		// we'll build a list of available aspects and randomize selections that keep us above a defecit
+		var/list/available_aspects = list()
+		var/list/negative_aspects = list()
+		var/list/positive_aspects = list()
+		
+		for(var/datum/warbands/aspects/potential_aspect in src.aspects)
+			var/is_compatible = random_warband.aspects.Find(potential_aspect.type)
+			if(src.selected_subtype && src.selected_subtype.aspects)
+				if(src.selected_subtype.aspects.Find(potential_aspect.type))
+					is_compatible = TRUE
+			if(is_compatible)
+				available_aspects += potential_aspect
+				if(potential_aspect.points > 0)
+					negative_aspects += potential_aspect
+				else if(potential_aspect.points < 0)
+					positive_aspects += potential_aspect
+		
+		// we want 1 negative and 1 positive aspect
+		src.selected_aspects = list()	
+		if(negative_aspects.len > 0)
+			var/datum/warbands/aspects/picked_negative = pick(negative_aspects)
+			src.selected_aspects += picked_negative
+			to_chat(warlord, span_notice("Negative Aspect: [picked_negative.title]"))
+		
+		if(positive_aspects.len > 0)
+			var/datum/warbands/aspects/picked_positive = pick(positive_aspects)
+			var/class_conflict = FALSE
+			for(var/datum/warbands/aspects/existing in src.selected_aspects)
+				if(existing.asclass && picked_positive.asclass && existing.asclass == picked_positive.asclass)
+					class_conflict = TRUE
+					break
+			
+			if(!class_conflict)
+				src.selected_aspects += picked_positive
+				to_chat(warlord, span_notice("Positive Aspect: [picked_positive.title]"))
+			else
+				for(var/datum/warbands/aspects/alternate in positive_aspects)
+					if(alternate == picked_positive)
+						continue
+					var/alt_conflict = FALSE
+					for(var/datum/warbands/aspects/existing in src.selected_aspects)
+						if(existing.asclass && alternate.asclass && existing.asclass == alternate.asclass)
+							alt_conflict = TRUE
+							break
+					if(!alt_conflict)
+						src.selected_aspects += alternate
+						to_chat(warlord, span_notice("Positive Aspect: [alternate.title]"))
+						break
+
+		src.creation_stage = 2
+		envy_check()
+		send_warnings()
+		for(var/mob/living/carbon/human/member in src.lobby_members)
+			to_chat(member, span_boldwarning("TIME EXPIRED! The warband has been randomly configured and auto-advanced to class selection."))
+			SStgui.update_uis(member)
+			update_static_data(member)
+	
+	if(src.creation_stage >= 2)
+		if(!src.selected_warband)
+			if(src.warbands.len > 0)
+				src.selected_warband = pick(src.warbands)
+			else
+				for(var/mob/living/carbon/human/member in src.lobby_members)
+					cancel_lobby(member)
+				return
+
+		to_chat(warlord, span_warning("Spawning with current selections..."))
+		var/class_path = /datum/advclass/warband/standard/warlord/lord
+		var/subclass_path = null
+		
+		if(src.selected_warband.warlordclasses && src.selected_warband.warlordclasses.len > 0)
+			class_path = pick(src.selected_warband.warlordclasses)
+		else if(src.selected_subtype && src.selected_subtype.warlordclasses && src.selected_subtype.warlordclasses.len > 0)
+			class_path = pick(src.selected_subtype.warlordclasses)
+	
+		if(src.selected_warband.title == "MERCENARY COMPANY" && src.selected_subtype)
+			var/list/available_subclasses = list()
+			for(var/grunt_class in src.selected_subtype.gruntclasses)
+				if(grunt_class != /datum/advclass/warband/mercenary/grunt/merc)
+					available_subclasses += grunt_class
+			
+			if(available_subclasses.len > 0)
+				subclass_path = pick(available_subclasses)
+				to_chat(warlord, span_notice("Mercenary subclass selected for warlord."))
+		
+		SSwarbands.warband_managers_busy = TRUE
+		SStgui.close_user_uis(warlord)
+		if(warlord in src.lobby_members)
+			lobby_members -= warlord
+		create_character(warlord, warlord)
+		lock_check()
+		spawn_warband(warlord)
+		set_IDs()
+		spawn_character(class_path, warlord, subclass_path, is_leader = 1)
+		set_default_exit()
+		src.warlord_spawned = TRUE
+		SSwarbands.warband_managers_busy = FALSE
+		src.finalized = TRUE
+		warlord.mind.warband_manager = src
+		end_intro(warlord)
+		for(var/mob/living/carbon/human/member in src.lobby_members)
+			if(member.mind.special_role == "Lieutenant" || member.mind.special_role == "Aspirant Lieutenant" || member.mind.special_role == "Grunt")
+				to_chat(member, span_boldwarning("TIME EXPIRED! The warband has been auto-finalized. You may now create your character."))
+				member.playsound_local(member, 'sound/misc/warband/menusound3.ogg', 100, FALSE)
+
+// get remaining time in deciseconds
+/atom/movable/screen/warband/manager/proc/get_remaining_time()
+	if(!creation_timer_active)
+		return -1
+	var/elapsed = world.time - creation_start_time
+	var/remaining = creation_time_limit - elapsed
+	return max(0, remaining)
+
+// if the lobby is absolutely Deep Fried, we'll send everyone back as a ghost
+/atom/movable/screen/warband/manager/proc/cancel_lobby(mob/lobby_member)
+	to_chat(lobby_member, span_userdanger("The lobby system failed catastrophically. Go home."))
+	if(lobby_member.real_name in GLOB.chosen_names)
+		GLOB.chosen_names -= lobby_member.real_name
+	if(lobby_member in src.lobby_members)
+		src.lobby_members -= lobby_member
+	qdel(lobby_member) // send them back as ghosts

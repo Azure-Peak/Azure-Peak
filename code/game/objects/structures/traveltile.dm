@@ -204,6 +204,7 @@
 /obj/structure/fluff/traveltile/warband
 	name = "travel"
 	var/warband_ID = 0
+	var/locked = FALSE	
 	var/atom/movable/screen/warband/manager/linked_warband
 
 /obj/structure/fluff/traveltile/warband/Initialize()
@@ -211,13 +212,43 @@
 	SSwarbands.warband_machines += src
 	src.color = null	// different colors in the editor for visual clarity, but they should appear normal in game
 
+
 /obj/structure/fluff/traveltile/warband/azure_to_intermission
+
 
 /obj/structure/fluff/traveltile/warband/intermission_to_azure
 	color = "#a32121"
 
+
+/obj/structure/fluff/traveltile/warband/azure_to_intermission/perform_travel(obj/structure/fluff/traveltile/T, mob/living/carbon/human/L)
+	if(linked_warband && L.mind)
+		var/is_member = FALSE
+		if((L in linked_warband.members) || (L in linked_warband.allies))
+			is_member = TRUE
+		if(!is_member)
+			if(!(L in linked_warband.incoming_mobs))
+				linked_warband.incoming_mobs += L
+			
+			for(var/mob/living/carbon/human/defender in linked_warband.members)
+				if(defender.mind.special_role == "Lieutenant" || defender.mind.special_role == "Aspirant Lieutenant" || defender.mind.special_role == "Warlord")
+					if(!defender)
+						continue
+					to_chat(defender, span_warning("Our scouts report [linked_warband.incoming_mobs.len] foes approaching the warcamp's outskirts."))
+	
+	return ..()
+
+/obj/structure/fluff/traveltile/warband/intermission_to_azure/perform_travel(obj/structure/fluff/traveltile/T, mob/living/carbon/human/L)
+	if(linked_warband && L.mind)
+		if(L in linked_warband.incoming_mobs)
+			linked_warband.incoming_mobs -= L
+	return ..()
+
+
+
+
 /obj/structure/fluff/traveltile/warband/intermission_to_outskirts
 	color = "#ff8b2c"
+	locked = TRUE // locked until the encounter starts
 
 
 /obj/structure/fluff/traveltile/warband/outskirts_to_intermission
@@ -225,10 +256,11 @@
 
 /obj/structure/fluff/traveltile/warband/outskirts_to_camp
 	color = "#6135ff"
+	locked = TRUE // unlocked by clearing the Outskirts encounter
 
 /obj/structure/fluff/traveltile/warband/camp_to_outskirts
 	color = "#ff35f5"
-	var/locked = TRUE
+	locked = TRUE
 	var/obj/effect/landmark/chosen_landmark
 
 
@@ -244,7 +276,7 @@
 			if(readycheck == "I am ready")
 				if(chosen_landmark)
 					to_chat(user, span_warning("The Rot prevented a simple walk down Azuria's main road. This is the safest route from my Warcamp."))
-					to_chat(user, span_warning("Before I decide to return, I should SCOUT A PATH."))
+					to_chat(user, span_warning("Before I return, I should SCOUT A PATH."))
 					user.loc = src.chosen_landmark.loc
 					user.visible_message(span_bold("[user] emerges from a hidden path!"))
 					return

@@ -26,7 +26,7 @@
 	// Can't get very far as a magician if you can't chant spells now can you?
 	vice_restrictions = list(/datum/charflaw/mute)
 
-	job_traits = list(TRAIT_MAGEARMOR, TRAIT_ARCYNE_T4, TRAIT_SEEPRICES, TRAIT_INTELLECTUAL, TRAIT_ALCHEMY_EXPERT)
+	job_traits = list(TRAIT_MAGEARMOR, TRAIT_ARCYNE_T4, TRAIT_SEEPRICES, TRAIT_INTELLECTUAL, TRAIT_ALCHEMY_EXPERT, TRAIT_LAWEXPERT)
 	job_subclasses = list(
 		/datum/advclass/courtmage
 	)

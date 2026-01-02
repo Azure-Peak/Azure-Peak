@@ -155,6 +155,7 @@
 	shoes = /obj/item/clothing/shoes/roguetown/boots/leather
 	belt = /obj/item/storage/belt/rogue/leather
 	beltr = /obj/item/rogueweapon/pick/militia/steel
+	backr = /obj/item/gun/ballistic/revolver/grenadelauncher/crossbow/slurbow
 	backl = /obj/item/storage/backpack/rogue/backpack
 	backpack_contents = list(/obj/item/reagent_containers/glass/bottle/rogue/healthpotnew = 1,
 		/obj/item/rogueweapon/hammer/steel = 1,	

@@ -57,3 +57,42 @@
 	// Freak out if on fire
 	if(H.on_fire)
 		H.freak_out()
+
+
+// a variant of Sunlight Vulnerability that applies to people exiled via a treaty
+/datum/component/sunlight_vulnerability/exile
+	var/town_only = TRUE // only triggers if they're both within city limits & outside
+
+/datum/component/sunlight_vulnerability/exile/check_sunlight(mob/living/source)
+	var/mob/living/carbon/human/H = source
+	if(!H || H.stat == DEAD || H.advsetup)
+		return
+	if(GLOB.tod != "day")
+		in_sunlight = FALSE
+		return
+	if(isturf(H.loc))
+		var/turf/T = H.loc
+		if(town_only) // check if they're in town
+			var/area/A = get_area(T)
+			if(!istype(A, /area/rogue/outdoors/town))
+				if(in_sunlight)
+					to_chat(H, span_notice("I am beyond the city limits. The divine punishment ceases."))
+				in_sunlight = FALSE
+				return
+		if(T.can_see_sky())
+			if(!in_sunlight)
+				in_sunlight = TRUE
+				to_chat(H, span_userdanger("The Sun's wrath descends upon me! Her flames seek to enforce my exile!"))
+
+			simple_sunlight_damage(H)
+		else
+			if(in_sunlight)
+				to_chat(H, span_notice("The scorching gaze of the Sun-Tyrant burns me no more."))
+			in_sunlight = FALSE
+	else
+		in_sunlight = FALSE
+
+// simple sunlight damage proc for exiles
+/datum/component/sunlight_vulnerability/exile/proc/simple_sunlight_damage(mob/living/carbon/human/H)
+	H.fire_act(1, burn_damage)
+

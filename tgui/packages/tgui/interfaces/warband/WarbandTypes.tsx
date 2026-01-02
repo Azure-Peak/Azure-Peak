@@ -1,4 +1,3 @@
-
 export type ClassType = {
   name: string;
   alt_name: string;
@@ -13,6 +12,8 @@ export type ClassType = {
 export type NobleType = {
   name: string;
   job: string;
+  special_role?: string;
+  in_lobby?: boolean;
 }
 
 export type StorytellerType = {
@@ -77,4 +78,9 @@ export type Data = {
   nobles?: NobleType[];
   allies?: NobleType[];
   classes?: ClassType[];
+  creation_stage?: number;
+  warlord_spawned?: boolean;
+  is_warlord?: boolean;
+  time_remaining?: number;
+  timer_active?: boolean;
 };

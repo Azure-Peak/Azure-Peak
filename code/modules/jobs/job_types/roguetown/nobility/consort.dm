@@ -39,6 +39,7 @@
 	ADD_TRAIT(H, TRAIT_SEEPRICES, TRAIT_GENERIC)
 	ADD_TRAIT(H, TRAIT_NOBLE, TRAIT_GENERIC)
 	ADD_TRAIT(H, TRAIT_NUTCRACKER, TRAIT_GENERIC)
+	ADD_TRAIT(H, TRAIT_LAWEXPERT, TRAIT_GENERIC)
 //		SSticker.rulermob = H
 	if(should_wear_femme_clothes(H))
 		beltl = /obj/item/storage/keyring/royal

@@ -35,7 +35,7 @@ GLOBAL_LIST_EMPTY(heretical_players)
 
 	//No nobility for you, being a member of the clergy means you gave UP your nobility. It says this in many of the church tutorial texts.
 	virtue_restrictions = list(/datum/virtue/utility/noble)
-	job_traits = list(TRAIT_CHOSEN, TRAIT_RITUALIST, TRAIT_GRAVEROBBER, TRAIT_HOMESTEAD_EXPERT)
+	job_traits = list(TRAIT_CHOSEN, TRAIT_RITUALIST, TRAIT_GRAVEROBBER, TRAIT_HOMESTEAD_EXPERT, TRAIT_LAWEXPERT)
 	advclass_cat_rolls = list(CTAG_BISHOP = 2)
 	job_subclasses = list(
 		/datum/advclass/bishop
@@ -146,6 +146,12 @@ GLOBAL_LIST_EMPTY(heretical_players)
 			H.mind?.AddSpell(new chosen_miracle)
 			t3.Remove(t3_choice)
 			t3_count--
+
+/datum/outfit/job/roguetown/priest/post_equip(mob/living/carbon/human/H, visualsOnly = FALSE)
+	. = ..()
+	if(!visualsOnly)
+		link_treaty_faction(H)
+
 
 /datum/job/priest/vice //just used to change the priest title
 	title = "Vice Priest"

@@ -60,6 +60,21 @@
 	// Spell interaction with ignitable objects (burn wooden things, light torches up)
 	if(isobj(targets[1]))
 		var/obj/O = targets[1]
+		// when cast on a treaty, we attempt to submit it
+		if(istype(O, /obj/item/treaty)) 
+			var/obj/item/treaty/invoked_treaty = O
+			var/all_signed = TRUE // the spell fails if any terms are unsigned
+			for(var/datum/treaty/terms/term in invoked_treaty.active_terms)
+				if(!term.signed && term.name != "Freeform")
+					all_signed = FALSE
+					break
+			if(all_signed && invoked_treaty.active_terms.len > 0) // if the treaty's ready, finalize it
+				user.visible_message("<font color='yellow'>[user] points at [O], igniting it with sacred flames!</font>")
+				invoked_treaty.treaty_submission()
+				return TRUE
+			else
+				to_chat(user, span_notice("The treaty isn't ready."))
+				return FALSE
 		if(O.fire_act())
 			user.visible_message("<font color='yellow'>[user] points at [O], igniting it with sacred flames!</font>")
 			return TRUE

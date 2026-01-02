@@ -141,7 +141,7 @@
 	tutorial = "The BANNERET answered the call to arms clad in his finest steel. One can only hope it'll be enough."
 	outfit = /datum/outfit/job/roguetown/warband/standard/lieutenant/knight
 	horse = /mob/living/simple_animal/hostile/retaliate/rogue/saiga/tame/saddled
-	traits_applied = list(TRAIT_HEAVYARMOR, TRAIT_NOBLE, TRAIT_STEELHEARTED, TRAIT_FORMATIONFIGHTER, TRAIT_LAWEXPERT)
+	traits_applied = list(TRAIT_HEAVYARMOR, TRAIT_NOBLE, TRAIT_STEELHEARTED, TRAIT_FORMATIONFIGHTER, TRAIT_LAWEXPERT, TRAIT_COMBAT_AWARE)
 	subclass_stats = list(
 		STATKEY_STR = 5,
 		STATKEY_SPD = -3,

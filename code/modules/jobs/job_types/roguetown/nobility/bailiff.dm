@@ -55,6 +55,7 @@
 	tutorial = "You've spent your daes in the courts and garrisons of the city. You've studied the law tome from back to front and enforce your word with the iron hand of justice, and the iron mace in your hands. More men have spent days rotting in the dungeon than that Knight Commander could ever have claimed, and every person in the realm respects your authority in matters of law and order."
 	outfit = /datum/outfit/job/roguetown/marshal/classic
 
+	traits_applied = list(TRAIT_LAWEXPERT)
 	category_tags = list(CTAG_MARSHAL)
 	subclass_stats = list(
 		STATKEY_INT = 3,
@@ -121,6 +122,8 @@
 	belt = /obj/item/storage/belt/rogue/leather
 	beltr = /obj/item/storage/belt/rogue/pouch/coins/rich
 	beltl = /obj/item/storage/keyring/sheriff
+	if(H.age == AGE_OLD) // younger knight-commanders are assumed to be too new to their position to have the same expertise as a long-standing marshal or one of their councillors
+		ADD_TRAIT(H, TRAIT_LAWEXPERT, TRAIT_GENERIC)
 
 /mob/living/carbon/human/proc/request_law()
 	set name = "Request Law"

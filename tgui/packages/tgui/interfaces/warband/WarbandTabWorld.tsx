@@ -39,17 +39,42 @@ export const WorldTab = ({ nobleList, alliesList, act }: WorldTabProps) => {
         <Section title={<span style={{ color: '#7a2525ff' }}>KNOW THY FRIENDS</span>} scrollable fill style={{ flex: 1, minWidth: '300px' }}>
           {alliesList.length > 0 ? (
             <Stack vertical>
-              {alliesList.map((ally) => (
+              {alliesList.map((ally, index) => (
                 <Button
-                  key={ally.name}
+                  key={`${ally.name}-${index}`}
                   tooltip={ally.name}
                   onClick={() => {
                     act('interaction_sound');
-                    act('view_vip', { ally: ally.name });
+                    if (!ally.in_lobby) {
+                      act('view_vip', { ally: ally.name });
+                    }
                   }}
-                  style={{ textAlign: 'center' }}
+                  disabled={ally.in_lobby}
+                  style={{ 
+                    textAlign: 'left',
+                    opacity: ally.in_lobby ? 0.7 : 1,
+                  }}
                 >
-                  The {ally.job}
+                  <Stack vertical>
+                    {ally.in_lobby ? (
+                      <>
+                        <span style={{ fontWeight: 'bold' }}>
+                          {ally.job === 'Aspirant Lieutenant' ? 'Lieutenant' : ally.job}
+                          <span style={{ fontSize: '11px', marginLeft: '8px' }}>(In Lobby)</span>
+                        </span>
+                        <span style={{ fontSize: '12px', opacity: 0.9 }}>{ally.name}</span>
+                      </>
+                    ) : (
+                      <>
+                        <span style={{ fontWeight: 'bold' }}>{ally.name}</span>
+                        <span style={{ fontSize: '12px', opacity: 0.9 }}>
+                          {ally.special_role && ally.special_role !== ally.job 
+                            ? `${ally.special_role} - ${ally.job}`
+                            : ally.job || 'Unknown'}
+                        </span>
+                      </>
+                    )}
+                  </Stack>
                 </Button>
               ))}
             </Stack>
@@ -70,6 +95,7 @@ export const WorldTab = ({ nobleList, alliesList, act }: WorldTabProps) => {
               fontSize: '25px',
               padding: '25px',
               display: 'flex',
+              marginBottom: '90px',
               justifyContent: 'center',
               alignItems: 'center',
             }}
@@ -83,6 +109,7 @@ export const WorldTab = ({ nobleList, alliesList, act }: WorldTabProps) => {
               fontSize: '25px',
               padding: '25px',
               display: 'flex',
+              marginBottom: '90px',
               justifyContent: 'center',
               alignItems: 'center',
             }}

@@ -3,8 +3,9 @@
 	var/asclass					// aspects of the same class can't be selected simultaneously (i.e: two map aspects)
 
 /datum/warbands/subtypes
-	var/quote					// small flavortext for the creation menu
-	var/quote_followup			// as above
+	var/quote							// small flavortext for the creation menu
+	var/quote_followup					// as above
+	var/subtype_class_override = FALSE 	// if this is true, the main warband's class options will be ignored during character creation
 
 #define ASPECT_BLOCKADE 		/datum/warbands/aspects/blockade
 #define ASPECT_SURPRISE			/datum/warbands/aspects/surprise
@@ -17,7 +18,6 @@
 
 #define ASPECTS					list(ASPECT_FORT, ASPECT_BLOCKADE, ASPECT_SURPRISE, ASPECT_CULT, ASPECT_HOST, ASPECT_FIGUREHEAD, ASPECT_ENVY, ASPECT_BADSPAWN)
 
-// FIXNOTE
 /datum/warbands/aspects/blockade
 	title = "BLOCKADE"
 	points = -1
@@ -50,33 +50,13 @@
 
 /datum/warbands/aspects/extraspawns
 	title = "GRAND HOST"
-	summary = "Many have flocked to the Warlord's banner. \
-	His Lieutenants will be able to recruit additional veterans, and more chaff fill his rank-and-file."
+	summary = "Many have flocked to the Warlord's banner."
 	warning = "...of a notably large size."
 	points = -1
 
 
-/datum/warbands/aspects/badexit
-	title = "BAD TRIP"
-	summary = "Fate denied an easy path into the Duchy. The Warcamp's initial exit will be someplace awful."
-	warning = "...taking an obscure route into the Duchy."
-	points = 1
-
-//////////////////////////////////////////////
-/////////////////////////////////// FIGUREHEAD
-/*
-	removes the warlord's Sweep ability
-	physical scores get tanked to a preset number, unless they're already lower
-	10 SPD
-	10 CON
-	8 STR
-*/
-/datum/warbands/aspects/figurehead
-	title = "FIGUREHEAD"
-	summary = "The Warlord's selfless devotion to his Warband has shaped it into a force to be reckoned with. \
-	In comparison - and as a single combatant - the Warlord himself is rather weak."
-	warning = "...of a driven, beloved leader."
-	points = 1
+////////////////////////////////////////////////////
+/////////////////////////////////// Negative Aspects
 
 /datum/warbands/aspects/envy
 	title = "THRONE OF ENVY"
@@ -84,6 +64,18 @@
 	warning = "...of an inner retinue of backstabbing scum."
 	points = 1
 
+/datum/warbands/aspects/badexit
+	title = "BAD TRIP"
+	summary = "Fate denied an easy path into the Duchy. The Warcamp's initial exit will be someplace awful."
+	warning = "...taking an obscure route into the Duchy."
+	points = 1
+
+/datum/warbands/aspects/figurehead
+	title = "FIGUREHEAD"
+	summary = "The Warlord's selfless devotion to his Warband has shaped it into a force to be reckoned with. \
+	In comparison - and as a single combatant - the Warlord himself is rather weak."
+	warning = "...of a driven, beloved leader."
+	points = 1	
 
 ////////////////////////
 //////////////////////////////////////////////// SUBTYPES
@@ -110,14 +102,11 @@
                             WARBAND_MERC_ROUTIER, WARBAND_MERC_RUMA, WARBAND_MERC_STEPPE, WARBAND_MERC_WARSCHOLAR, \
                             WARBAND_MERC_VAQUERO, WARBAND_MERC_UNDERDWELLER, WARBAND_MERC_DROW, WARBAND_MERC_HANGYAKU)
 
-
 #define WARBAND_SECT_TEN 		/datum/warbands/subtypes/ten 
 #define WARBAND_SECT_FOUR		/datum/warbands/subtypes/ascendant
 #define WARBAND_SECT_PSYDON		/datum/warbands/subtypes/psydon
 
-
 #define WARBAND_SECTS	list(WARBAND_SECT_TEN, WARBAND_SECT_FOUR, WARBAND_SECT_PSYDON)
-
 
 #define WARBAND_UNTAGGED_SUBTYPES	list()
 

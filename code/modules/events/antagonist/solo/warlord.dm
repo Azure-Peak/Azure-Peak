@@ -11,8 +11,8 @@
 	earliest_start = 0 SECONDS
 
 	denominator = 80
-	base_antags = 1
-	maximum_antags = 1
+	base_antags = 5
+	maximum_antags = 9
 	max_occurrences = 1
 	weight = 2
 
@@ -39,15 +39,46 @@
 
 
 /datum/round_event/antagonist/solo/warlord
-
-
+	var/datum/mind/warlord_mind
+	var/list/lieutenant_minds = list()
+	var/list/grunt_minds = list()
 
 /datum/round_event/antagonist/solo/warlord/start()
-	for(var/datum/mind/antag_mind as anything in setup_minds)
-		var/datum/job/J = SSjob.GetJob(antag_mind.current?.job)
-		J?.current_positions = max(J?.current_positions-1, 0)
-		SSjob.AssignRole(antag_mind.current, "Warlord")
-		antag_mind.add_antag_datum(/datum/antagonist/warlord)
+	if(!setup_minds.len)
+		return
+
+	setup_minds = shuffle(setup_minds)
+	var/turf/spawn_loc
+	for(var/obj/effect/landmark/start/warlord/the_box in GLOB.landmarks_list)
+		spawn_loc = get_turf(the_box)
+		break
+
+	warlord_mind = setup_minds[1]
+	if(setup_minds.len >= 2)
+		lieutenant_minds += setup_minds[2]
+	if(setup_minds.len >= 3)
+		grunt_minds += setup_minds[3]
+	if(setup_minds.len >= 4)
+		for(var/i in 4 to min(setup_minds.len, 9))
+			if(i % 2 == 0)
+				lieutenant_minds += setup_minds[i]
+			else
+				grunt_minds += setup_minds[i]
+
+	// Spawn everyone
+	if(warlord_mind?.current)
+		process_candidate(warlord_mind, "Warlord", /datum/antagonist/warlord, spawn_loc)
+	for(var/datum/mind/lt_mind in lieutenant_minds)
+		if(lt_mind.current)
+			process_candidate(lt_mind, "Lieutenant", /datum/antagonist/warlord_lieutenant, spawn_loc)
+	for(var/datum/mind/grunt_mind in grunt_minds)
+		if(grunt_mind.current)
+			process_candidate(grunt_mind, "Grunt", /datum/antagonist/warlord_grunt, spawn_loc)
 
 
-
+/datum/round_event/antagonist/solo/warlord/proc/process_candidate(datum/mind/target_mind, role_name, datum_path, turf/loc)
+	target_mind.current.loc = loc // send them to The Box
+	var/datum/job/J = SSjob.GetJob(target_mind.current.job)
+	J?.current_positions = max(J?.current_positions-1, 0)
+	SSjob.AssignRole(target_mind.current, role_name)
+	target_mind.add_antag_datum(datum_path)

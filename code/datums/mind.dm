@@ -110,6 +110,22 @@ GLOBAL_LIST_EMPTY(personal_objective_minds)
 
 	var/list/personal_objectives = list() // List of personal objectives not tied to the antag roles
 
+	// warband variables
+	var/atom/movable/screen/warband/manager/warband_manager	// someone's warband
+	var/warband_ID = 0							// someone's warband_ID
+	var/list/warband_exile_IDs = list()			// when someone is exiled from a warband, we keep the ID of the warband they were exiled from
+	var/warbandsetup = FALSE					// failsafe for someone crashing mid-creation | if this is TRUE, they'll get the menu returned on login
+	var/list/subordinates = list() 				// a list of a lieutenant's veterans	
+	var/list/unresolved_exile_names = list()	// when a lieutenant's subordinate is exiled, they get a choice to resist the decree | if they haven't made the choice, the exile's name will be here
+	var/warband_recruiter_name							// the name of someone who recruited the mind as an ally | recruiters will bring along the allies they recruited during a desertion
+	var/order_exhaustion = FALSE				// given to a grunt's commander after they send a special order (E.G: fight harder, survive)
+	var/squad_size = 2 							// maximum NPC squad size
+
+	var/list/personal_territories = list()	// contains someone's distant territories (interfaced with via treaties)
+	var/list/associated_factions = list()	// contains someone's associated TREATY factions
+	
+	var/mob/living/original_char // given to envoys to track their original character | drawn on for returning + treaty authority
+
 /datum/mind/New(key)
 	src.key = key
 	soulOwner = src

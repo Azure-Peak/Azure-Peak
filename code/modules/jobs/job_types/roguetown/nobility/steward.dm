@@ -20,7 +20,7 @@
 
 	advclass_cat_rolls = list(CTAG_STEWARD = 2)
 
-	job_traits = list(TRAIT_NOBLE, TRAIT_SEEPRICES)
+	job_traits = list(TRAIT_NOBLE, TRAIT_SEEPRICES, TRAIT_LAWEXPERT)
 	job_subclasses = list(
 		/datum/advclass/steward
 	)

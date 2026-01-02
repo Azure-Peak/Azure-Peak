@@ -55,3 +55,8 @@
 						/obj/item/flashlight/flare/torch = 1,
 						)
 	id = /obj/item/scomstone
+
+/datum/outfit/job/roguetown/adventurer/heartfeltlord/post_equip(mob/living/carbon/human/H, visualsOnly = FALSE)
+	. = ..()
+	if(!visualsOnly)
+		link_treaty_faction(H)

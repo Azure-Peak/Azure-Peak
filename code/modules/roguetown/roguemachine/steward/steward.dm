@@ -5,6 +5,7 @@
 #define TAB_BOUNTIES 5
 #define TAB_LOG 6
 #define TAB_STATISTICS 7
+#define TAB_ESTATE 8
 
 /obj/structure/roguemachine/steward
 	name = "nerve master"
@@ -219,6 +220,53 @@
 		compact = !compact
 	if(href_list["changecat"])
 		current_category = href_list["changecat"]
+	if(href_list["import_estate"])
+		if(!usr.canUseTopic(src, BE_CLOSE) || locked)
+			return
+		var/territory_name = href_list["import_estate"]
+		var/datum/territory/target_territory
+		for(var/datum/territory/found_territory in SSwarbands.territory)
+			if(found_territory.name == territory_name)
+				target_territory = found_territory
+				break
+		if(!target_territory)
+			to_chat(usr, span_warning("That territory cannot yield its goods."))
+			return
+		
+		var/amount = input(usr, "How much coin should be spent on the import?", "Estate Import") as null|num
+		if(!amount || amount <= 0)
+			return
+		if(!usr.canUseTopic(src, BE_CLOSE) || locked)
+			return
+		amount = round(amount)
+		
+		var/location = alert(usr, "Delivery Location", "Estate Import", "City Docks (High Toll)", "Groveside (No Toll)", "Cancel")
+		if(!location || location == "Cancel")
+			return
+		if(!usr.canUseTopic(src, BE_CLOSE) || locked)
+			return
+		
+		var/location_name = (location == "City Docks (High Toll)") ? "City Docks (High Toll)" : "Groveside (No Toll)"
+		var/expected_value = validate_territory_import(target_territory, location_name, amount)
+		if(expected_value <= 25)
+			to_chat(usr, span_warning("This import's final value would be too low to yield goods after accounting for the total costs from taxes and distance. Try a larger amount."))
+			return
+		
+		if(SStreasury.treasury_value < amount)
+			to_chat(usr, span_warning("Insufficient funds in the treasury."))
+			return
+		
+		if(!SStreasury.withdraw_money_treasury(amount, "Estate Import: [target_territory.name]"))
+			to_chat(usr, span_warning("Failed to withdraw funds from treasury."))
+			return
+
+		if(execute_territory_import(target_territory, location_name, amount, usr))
+			if(location == "City Docks (High Toll)")
+				say("Import affirmed. It will arrive on our docks in around twelve minutes.")			
+				to_chat(usr, span_warning("The Basin's waters are not to be traversed lightly. I should expect a heavy toll upon my import."))
+			else
+				say("Import affirmed. It shall arrive on the Groveside dock in around twelve minutes. Seek thy treasure beyond the northern walls, upon our eastern coastline.")
+
 	if(href_list["changeautoexport"])
 		if(!usr.canUseTopic(src, BE_CLOSE) || locked)
 			return
@@ -276,6 +324,7 @@
 			contents += "<a href='?src=\ref[src];switchtab=[TAB_BANK]'>\[Bank\]</a><BR>"
 			contents += "<a href='?src=\ref[src];switchtab=[TAB_STOCK]'>\[Stockpile\]</a><BR>"
 			contents += "<a href='?src=\ref[src];switchtab=[TAB_IMPORT]'>\[Import\]</a><BR>"
+			contents += "<a href='?src=\ref[src];switchtab=[TAB_ESTATE]'>\[Estate Import\]</a><BR>"
 			contents += "<a href='?src=\ref[src];switchtab=[TAB_BOUNTIES]'>\[Bounties\]</a><BR>"
 			contents += "<a href='?src=\ref[src];switchtab=[TAB_LOG]'>\[Log\]</a><BR>"
 			contents += "<a href='?src=\ref[src];switchtab=[TAB_STATISTICS]'>\[Statistics\]</a><BR>"
@@ -393,6 +442,54 @@
 					if(!A.stable_price)
 						contents += "Demand: [A.demand2word()]<BR>"
 					contents += "<a href='?src=\ref[src];import=\ref[A]'>\[Import [A.importexport_amt] ([A.get_import_price()])\]</a><BR><BR>"
+		if(TAB_ESTATE)
+			contents += "<a href='?src=\ref[src];switchtab=[TAB_MAIN]'>\[Return\]</a><BR>"
+			contents += "<center>Treasury: [SStreasury.treasury_value]m<BR>"
+			contents += "<center>Within Direct Control<BR>"
+			contents += "--------------<BR>"
+			var/datum/territory_faction/duchy
+			for(var/datum/territory_faction/found_faction in SSwarbands.territory_factions)
+				if(found_faction.name == "The Crown")
+					duchy = found_faction
+					break
+			if(duchy)
+				for(var/datum/territory/duchy_territory in duchy.territories)
+					var/datum/goods/estate_good = duchy_territory.prized_good
+					var/good_name = initial(estate_good.name)
+					
+					contents += "<b>[duchy_territory.name]</b><br>"
+					contents += "<span class='smaller'>[duchy_territory.desc]</span><br>"
+					contents += "Prized Good: [good_name]<br>"
+					contents += "<a href=\"?src=\ref[src];import_estate=[duchy_territory.name]\">\[Import Goods\]</a><br><br>"
+			else
+				contents += "There's nothing to see.<br>"
+
+			contents += "<BR>--------------<BR>"
+			contents += "All Under the Sun<BR>"
+			contents += "--------------<BR>"
+			contents += "<BR><BR>"
+			var/list/duchy_territory_names = list() // territories we're excluding from this list
+			if(duchy)
+				for(var/datum/territory/duchy_territory in duchy.territories)
+					duchy_territory_names += duchy_territory.name
+			for(var/datum/territory/other_territory in SSwarbands.territory)
+				if(other_territory.name in duchy_territory_names)
+					continue // skip them if they're in the duchy
+				if(other_territory.steward_hidden)
+					continue // skip them if they're hidden
+				var/datum/goods/estate_good = other_territory.prized_good
+				var/good_name = initial(estate_good.name)
+				contents += "<b>[other_territory.name]</b><br>"
+				contents += "<span class='smaller'>[other_territory.desc]</span><br>"
+				contents += "Prized Good: [good_name]<br>"
+				if(other_territory.associated_faction)
+					var/datum/territory_faction/faction = other_territory.associated_faction
+					if(faction.job_owner)
+						contents += "Owner: [faction.job_owner]<br>"
+					if(faction.owner)
+						contents += "Owner: [faction.owner]<br>"
+				contents += "<BR>"
+			contents += "</center>"
 		if(TAB_BOUNTIES)
 			contents += "<a href='?src=\ref[src];switchtab=[TAB_MAIN]'>\[Return\]</a>"
 			contents += "<center>Bounties<BR>"
@@ -452,3 +549,4 @@
 #undef TAB_IMPORT
 #undef TAB_BOUNTIES
 #undef TAB_LOG
+#undef TAB_ESTATE

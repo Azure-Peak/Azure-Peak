@@ -9,6 +9,7 @@
 	allowed_sexes = list(MALE, FEMALE)
 	allowed_races = RACES_NO_CONSTRUCT
 	advclass_cat_rolls = list(CTAG_CONSORT = 20)
+	job_traits = list(TRAIT_LAWEXPERT)
 	tutorial = "You are a noble from a foreign court who has travelled to Azure Peak in order to win the hand of Azuria's most eligible bachelor and secure a political ally for your house. Competition is fierce, and it seems you're not the only one vying for the duke's favor..."
 
 	outfit = /datum/outfit/job/roguetown/suitor

@@ -371,6 +371,10 @@
 	desc = span_red("I have failed my ward! My ribbon fades in color!")
 	timer = 25 MINUTES
 
+/datum/stressevent/wizardterm // given to court mages who willingly sign the "acknowledge superior wizard" term
+	stressadd = 5
+	desc = span_boldred("I can't believe I signed that! My peers shall find me a laughingstock... Gods damn mine wretched, wizard lyfe...")
+	timer = 999 MINUTES
 
 /datum/stressevent/necrarevive
 	stressadd = 15

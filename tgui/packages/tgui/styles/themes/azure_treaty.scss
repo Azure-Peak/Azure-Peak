@@ -5,19 +5,38 @@
 
 
 .theme-azure_treaty:root {
-  --color-base: #ae9470;
-  --color-base-start: transparent;
-  --color-base-end: transparent;
+  --color-base: #64533a;
+  --color-label: #b1a390;
 
   --font-size: 12px;
   --font-family: 'Pterra';
 
+  &::before,
+  &::after {
+    content: '';
+    position: fixed;
+    top: 31px;
+    bottom: 31px;
+    width: 64px;
+    background-color: #290d09;
+    z-index: 499;
+  }
+  &::before {
+    left: 0;
+  }
+  &::after {
+    right: 0;
+  }
 
+  // ideally we'd also have a nice background for the treaty rather than a flat color
+  // but we've got places to be
+  // this is fine atm
   .TopDecorLeft {
     background-image: url('../assets/azure_treaty/leftknob.svg');
     background-repeat: no-repeat;
     pointer-events: none;
     background-size: 64px;
+    background-color: #290d09;
     width: 64px;
     height: 128px;
     position: absolute;
@@ -31,6 +50,7 @@
     background-repeat: no-repeat;
     pointer-events: none;
     background-size: 64px;
+    background-color: #290d09;
     width: 64px;
     height: 128px;
     position: absolute;
@@ -62,6 +82,7 @@
     background-repeat: repeat-x;
     height: 31px;
     background-size: 178px;
+    background-color: #290d09;
     position: fixed;
     border: none;
     box-shadow: none;
@@ -77,6 +98,7 @@
     background-repeat: no-repeat;
     pointer-events: none;
     background-size: 64px;
+    background-color: #290d09;
     width: 64px;
     height: 31px;
     position: fixed;
@@ -90,6 +112,7 @@
     background-image: url('../assets/azure_treaty/leftknob.svg');
     background-repeat: no-repeat;
     background-size: 64px;
+    background-color: #290d09;
     width: 64px;
     height: 31px;
     position: fixed;
@@ -104,37 +127,28 @@
     background-image: none;
     padding-left: 64px;
     padding-right: 64px;
+    padding-bottom: 32px;
     font-size: 14px;
   }
 
-  // .TitleBar {
-  //   background-image: url('../assets/azure_default/topbar_red.svg');
-  //   opacity: 0;
-  //   background-repeat: repeat-x;
-  //   background-size: 64px;
-  //   pointer-events: auto;
-  //   border: none;
-  //   box-shadow: none;
-  //   z-index: 200;
-  //   top: 0px;
-  //   &__title {
-  //     font-size: 1.6rem;
-  //   }
-  // }
+  .TitleBar {
+    opacity: 0;
+  }
 
-  // Component overrides
 
   // Section
-  --section-separator-color: #ae9470;
+  --section-separator-color: #221c13;
+  --section-title-color: #e9ca9e;
 
   // Button
-  --button-background-default: #29332b;
-  --button-background-selected: #404744;
+  --button-background-default: #41372b;
+  --button-background-selected: #41372b;
   .Button {
     margin-bottom: 2px;
     transition: all 0.5s;
   }
 
   // Input
-  --input-border-color: #56853e;
+  --input-border-color: #fcc37d;
+
 }

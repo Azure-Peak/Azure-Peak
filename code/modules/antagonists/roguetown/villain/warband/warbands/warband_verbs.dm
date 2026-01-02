@@ -7,6 +7,7 @@
 	4 - Take Shortcut			// allows for a quick teleport over to the warcamp
 	5 - Connect Warcamp			// connects the Warcamp Z-Level to the main map
 	6 - Accept Kick				// when a lieutenant's subordinate is kicked by their warlord, they can choose to remain associated with them
+	7 - Enlighten				//
 
 */
 
@@ -128,7 +129,7 @@
 					for(var/mob/warband_member in src.mind.warband_manager.members)
 						if(!warband_member)	// if there's a null in here, we remove them from the member list, call a cleanup, and skip them
 							src.mind.warband_manager.members -= warband_member
-							src.mind.warband_manager.clean_members()
+							src.mind.warband_manager.clean_members() // Who Up Cleaning They Members
 							continue
 						if(!warband_member.loc)
 							continue
@@ -192,7 +193,7 @@
 			if(isliving(bossman))
 				to_chat(bossman, span_boldred("Word spreads that [src.real_name], our [src.job], has been exiled."))
 				bossman.playsound_local(bossman, 'sound/misc/warband/exile_warhorn_altb.ogg', 80, FALSE, pressure_affected = FALSE)
-			if(bossman.real_name == src.mind.recruiter_name)
+			if(bossman.real_name == src.mind.warband_recruiter_name)
 				if(!autoresolve) // if we're autoresolving, their direct boss is the one who exiled them, so we can skip past this as they don't need to be alerted
 					bossman.mind.unresolved_exile_names += src.real_name
 					to_chat(bossman, span_warning("My [src.job] and subordinate, [src.real_name], has been branded an exile by my Warband. I can resolve this (RESOLVE EXILES in the Warband Tab)"))
@@ -283,10 +284,13 @@
 
 		if("Magician") // a magician in schism (potentially) creates a sorcerer-king 
 			if(src.mind.warband_manager.disorder >= 5)
-				for(var/obj/item/potential_rod in src.contents) // fixnote: This Shit Don't Work. UUghh h
-					if(istype(potential_rod, /obj/item/rogueweapon/woodstaff/riddle_of_steel))
-						extra_item = TRUE
-						break
+				if(istype(src.get_active_held_item(), /obj/item/rogueweapon/woodstaff/riddle_of_steel) || istype(src.get_inactive_held_item(), /obj/item/rogueweapon/woodstaff/riddle_of_steel))
+					extra_item = TRUE
+				else
+					for(var/obj/item/potential_rod in src.contents)
+						if(istype(potential_rod, /obj/item/rogueweapon/woodstaff/riddle_of_steel))
+							extra_item = TRUE
+							break
 			if(extra_item == TRUE)
 				new_warband_manager.selected_warband = new /datum/warbands/storyteller/wizard
 				to_chat(src, span_boldred("I feel a shift in destiny's tides with my declaration. <span style='color:#801d1d'>The Wandering Tower calls to me.</span>"))
@@ -308,7 +312,7 @@
 		new_warband_manager.members += subordinate
 
 	for(var/mob/living/ally in src.mind.warband_manager.allies)	// bring along associated allies
-		if(ally.mind.recruiter_name == src.real_name)
+		if(ally.mind.warband_recruiter_name == src.real_name)
 			if(ally.mind.special_role) // if they were an antagonist, bring their disorder over to the new warband. They're your problem now, Bro.
 				src.mind.warband_manager.disorder --
 				new_warband_manager.disorder ++
@@ -319,11 +323,12 @@
 			src.mind.warband_manager.allies -= ally
 			new_warband_manager.allies += ally
 	new_warband_manager.spawns -= WARBAND_BASE_RESPAWNS	// we want their respawns to ONLY!! be drawn from the number of stolen troops
+	new_warband_manager.spawns += stolen_troops
 	new_warband_manager.finalized = TRUE
 	src.verbs -= /mob/living/carbon/human/proc/abandon_warband
 	src.verbs += /mob/living/carbon/human/proc/connect_warcamp
 	src.mind.warband_manager = new_warband_manager
-
+	src.mind.warband_manager.determine_squad_size(src)
 
 // 4
 ///////////////////////////////////////////////////////////////
@@ -450,8 +455,9 @@
 				if(src.mind.special_role == "Warlord") // if they're a warlord, assume they're a deserter and let them place a Recruitment Point
 					to_chat(src, span_userdanger("I can, however, declare a Recruitment Point to rally my troops..."))
 					if(do_after(src, 90, target = src))
-						new /obj/structure/fluff/warband/warband_recruit(src)
+						new /obj/structure/fluff/warband/warband_recruit(src.loc)
 						src.mind.warband_manager.warcamp_established = TRUE
+						src.verbs -= /mob/living/carbon/human/proc/connect_warcamp
 				return
 
 		SSwarbands.warband_managers_busy = TRUE
@@ -623,8 +629,8 @@
 		return
 
 	if(readycheck == "Defy Exile (Keep as Personal Associate)")
-		if(target && target.mind.recruiter_name != src.real_name) // if they have a new recruiter, set the recruiter back to us
-			target.mind.recruiter_name = src.real_name
+		if(target && target.mind.warband_recruiter_name != src.real_name) // if they have a new recruiter, set the recruiter back to us
+			target.mind.warband_recruiter_name = src.real_name
 		for(var/mob/warband_member in src.mind.warband_manager.members)
 			if(isliving(warband_member))
 				to_chat(warband_member, span_warning("A zad arrives with the [src.job]'s seal. They reject the decree of [target.real_name]'s exile, and have ordered their own men to treat [target.real_name] as an associate."))
@@ -637,14 +643,25 @@
 		for(var/mob/warband_member in src.mind.warband_manager.members)
 			if(isliving(warband_member))
 				to_chat(warband_member, span_warning("A zad arrives with the [src.job]'s seal. They have embraced the decree of [target.real_name]'s exile."))
-		if(target && target.mind.recruiter_name != src.real_name) // if they have a new recruiter, another lieutenant stole them, so we stop here
+		if(target && target.mind.warband_recruiter_name != src.real_name) // if they have a new recruiter, another lieutenant stole them, so we stop here
 			src.mind.subordinates -= target
 			src.mind.unresolved_exile_names -= target.real_name			
 			return
 		
 		src.mind.unresolved_exile_names -= target.real_name
 
-		target.mind.recruiter_name = null
+		target.mind.warband_recruiter_name = null
 
 	else
 		return
+
+// 7
+///////////////////////////////////////////////////////////
+///////////////////////////////////////////////// ENLIGHTEN
+/* 7
+	
+*/ 
+/mob/living/carbon/human/proc/enlighten()
+	set name = "ENLIGHTEN"
+	set desc = "Grant someone enlightenment. They will pay a terrible price."
+	set category = "Warband"

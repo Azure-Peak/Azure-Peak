@@ -427,24 +427,20 @@
 	if(is_blind(user))
 		return ..()
 	
-	// // FIXNOTE
-	// if(istype(P, /obj/item/clothing/ring/signet) && !istype(src, /obj/item/paper/inqslip))
+	if(!istype(src, /obj/item/paper/inqslip))
+		if(istype(P, /obj/item/clothing/ring/signet))
+			var/obj/item/clothing/ring/signet/ring = P
+			if(ring.tallowed)
+				return create_import_writ(user)
+		if(istype(P, /obj/item/scomstone/garrison))
+			return create_import_writ(user)
 
-	// 	if(P.tallowed)
-
-	// 		var/list/territory_options = list()
-	// 		for(var/territory in user.mind.personal_territories)
-	// 			territory += territory_options
-
-	// 		if(!user.mind.personal_territories.len)
-	// 			to_chat(user, span_warning("There's no point. I'd have nowhere to send this."))
-
-	// 		var/territory_choice = input(user, "Which territory should this be addressed to?", "IMPORT ORDER") as null|anything in territory_options
-	// 		// get the chosen territory's vault and set an import amount
-	// 		// create an import writ with the chosen value
-	// 		var/obj/item/import_writ
-	// 		// and we let them select a spawn location when they're feeding it into a HERMES
-
+	if(istype(P, /obj/item/grant))
+		var/obj/item/grant/grant = P
+		if(!grant.sealed)
+			to_chat(user, span_warning("This grant must be sealed first."))
+			return
+		return create_import_writ(user, grant)
 
 	if(istype(P, /obj/item/natural/feather/infernal))
 		if(trapped)
@@ -481,6 +477,32 @@
 			return qdel(src)
 	if(!P.can_be_package_wrapped())
 		return ..()
+
+	if(istype(P, /obj/item/roguecoin))
+		if(mailer || trapped)
+			return ..()
+		
+		var/obj/item/roguecoin/C = P
+		var/grant_amount = C.get_real_price()
+		
+		if(grant_amount <= 0)
+			to_chat(user, span_warning("These coins have no value."))
+			return
+		
+		to_chat(user, span_info("I start preparing a grant with [grant_amount] mammon..."))
+		if(do_after(user, 90, target = src))
+			var/obj/item/grant/new_grant = new /obj/item/grant(src.loc)
+			new_grant.grant_amount = grant_amount
+			if(!user.transferItemToLoc(C, new_grant)) // this shouldn't fail
+				to_chat(user, span_warning("I couldn't get the coins inside the grant!"))
+				qdel(new_grant)
+				return
+			new_grant.update_name()
+			qdel(src)
+			user.put_in_hands(new_grant)
+			to_chat(user, span_notice("I've prepared a grant of [grant_amount] mammon."))
+		return
+
 
 	if(!istype(src, /obj/item/paper/inqslip))
 		to_chat(user, span_info("I start to wrap [P] in [src]..."))
@@ -522,6 +544,93 @@
 	..()
 	cut_overlay("paper_onfire_overlay")
 
+// turns a sheet of paper into an import writ for a faction's vault
+/obj/item/paper/proc/create_import_writ(mob/user, obj/item/grant/grant = null)
+	if(!user.mind)
+		return
+
+	var/list/available_territories = list()
+	var/list/territory_to_faction = list()
+	var/import_amount = 0
+
+	if(grant)
+		if(!grant.target_faction)
+			to_chat(user, span_warning("This grant has no designated authority."))
+			return
+		// var/datum/territory_faction/source_faction
+		// source_faction = grant.target_faction
+		import_amount = grant.grant_amount
+		
+		for(var/datum/territory/estate in grant.target_faction.territories)
+			available_territories[estate.name] = estate
+			territory_to_faction[estate.name] = grant.target_faction
+	else
+		for(var/datum/territory_faction/faction in user.mind.associated_factions)
+			if(faction.owner == user.real_name || faction.job_owner == user.job)
+				for(var/datum/territory/estate in faction.territories)
+					if(!(estate.name in available_territories))
+						available_territories[estate.name] = estate
+						territory_to_faction[estate.name] = faction
+
+	if(!available_territories.len)
+		var/error_msg = grant ? "[grant.target_faction.name] has no territories to import from." : "I have no territories to import from."
+		to_chat(user, span_warning(error_msg))
+		return
+
+	var/chosen_territory = input(user, "Select a territory to import from:", "Import Writ") as null|anything in available_territories
+	if(!chosen_territory)
+		return
+	
+	var/datum/territory/selected_estate = available_territories[chosen_territory]
+	var/datum/territory_faction/controlling_faction = territory_to_faction[chosen_territory]
+	if(!selected_estate)
+		return
+
+	if(!grant) // if there's no grant, we'll be dealing with the faction's vault
+		// vault balance (treasury for Grand Duchy, faction vault for others)
+		var/available_funds = 0
+		if(controlling_faction)
+			if(controlling_faction.name == "The Grand Duchy of Azuria")
+				available_funds = SStreasury.treasury_value
+				to_chat(user, span_notice("The treasury has [available_funds] mammon."))
+			else
+				available_funds = controlling_faction.vault
+				to_chat(user, span_notice("[controlling_faction.name] has [available_funds] mammon in its vault."))
+		
+		import_amount = input(user, "How much mammon should be spent? (Available: [available_funds])", "Import Writ") as null|num
+		if(!import_amount || import_amount <= 0)
+			return
+		import_amount = round(import_amount)
+		if(import_amount > available_funds)
+			to_chat(user, span_warning("Insufficient funds."))
+			return
+	else
+		to_chat(user, span_notice("Using grant value of [import_amount] mammon."))
+
+	var/delivery_location = alert(user, "Select delivery location:", "Import Writ", "City Docks (High Toll)", "Groveside (No Toll)", "Cancel")
+	if(!delivery_location || delivery_location == "Cancel")
+		return
+	
+	var/obj/item/import_writ/writ = new /obj/item/import_writ(grant ? get_turf(src) : src)
+	writ.territory_name = chosen_territory
+	writ.import_amount = import_amount
+	writ.import_location = delivery_location
+	writ.issuing_faction = controlling_faction
+	writ.sealed = TRUE
+
+	if(grant)
+		if(!user.transferItemToLoc(grant, writ))
+			to_chat(user, span_warning("I couldn't attach the grant!"))
+			qdel(writ)
+			return
+		writ.attached_grant = grant
+		writ.update_icon_state()
+		to_chat(user, span_notice("I have drafted an import writ for [import_amount] mammon from [chosen_territory], with the grant attached."))
+	else
+		to_chat(user, span_notice("I have drafted an import writ for [import_amount] mammon worth of goods from [chosen_territory]."))
+	
+	user.put_in_hands(writ)
+	qdel(src)
 /*
  * Construction paper
  */

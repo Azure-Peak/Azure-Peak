@@ -350,8 +350,8 @@
 ///////////////////////////////////////////
 /////////////////////////////////// CULTIST
 /*
-	an acolyte w/crafting & dagger skills
-	strong faith regen
+	crafter rogue hybrid
+	ritualist
 */
 /datum/advclass/warband/sect/grunt/cultist
 	title = "CULTIST"
@@ -389,7 +389,6 @@
 
 /datum/outfit/job/roguetown/warband/sect/grunt/cultist/pre_equip(mob/living/carbon/human/H)
 	..()
-
 	shirt = /obj/item/clothing/suit/roguetown/shirt/undershirt/priest
 	r_hand = /obj/item/rogueweapon/huntingknife/idagger/steel/corroded
 	head = /obj/item/clothing/mask/rogue/sack
@@ -447,6 +446,4 @@
 		mask = /obj/item/clothing/mask/rogue/sack/psy
 		neck = /obj/item/clothing/neck/roguetown/psicross
 		shirt = /obj/item/clothing/suit/roguetown/shirt/robe/monk/holy
-	var/datum/devotion/C = new /datum/devotion(H, H.patron)
-	C.grant_miracles(H, cleric_tier = CLERIC_T4, passive_gain = CLERIC_REGEN_MAJOR, start_maxed = TRUE)
 	return

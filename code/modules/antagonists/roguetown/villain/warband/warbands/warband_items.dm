@@ -24,7 +24,7 @@
 			campaign_options += "View Troops"
 			campaign_options += "View Allies"
 			campaign_options += "View Morale"		
-			if(user.mind.special_role == "Warlord" || user.mind.special_role == "Lieutenant" || user.mind.special_role == "Aspirant Lieutenant")
+			if(user.mind.special_role == "Warlord" || user.mind.special_role == "Lieutenant" || user.mind.special_role == "Aspirant Lieutenant" || user.mind.special_role == "Warlord's Envoy")
 				campaign_options += "Prepare Treaty"
 				campaign_options += "View War Chest"
 			if(user.mind.special_role == "Warlord")
@@ -40,23 +40,32 @@
 						var/time_left = COOLDOWN_TIMELEFT(user.mind, treaty_cooldown)
 						to_chat(user, span_warning("I've recently prepared a treaty. I should wait another [round(time_left / 10, 1)] seconds."))
 						return
-					new /obj/item/treaty(src.loc)
-					COOLDOWN_START(user.mind, treaty_cooldown, 10 SECONDS)
+					var/obj/item/treaty/spawned_treaty = new /obj/item/treaty(src.loc)
+					new /obj/item/natural/feather(src.loc)
+					if(src.linked_warband) // gives the treaty any unique terms the associated warband might have
+						if(src.linked_warband.selected_warband)
+							spawned_treaty.warband_sources += linked_warband.selected_warband.name
+						if(src.linked_warband.selected_subtype)
+							spawned_treaty.warband_sources += linked_warband.selected_subtype.name
+						if(src.linked_warband.selected_aspects)
+							for(var/datum/warbands/aspects/aspect in src.linked_warband.selected_aspects)
+								spawned_treaty.warband_sources += aspect.name
+					spawned_treaty.add_unique_terms()
+					COOLDOWN_START(user.mind, treaty_cooldown, 60 SECONDS)
 					return
 				if("View Troops")
 					to_chat(user, span_warning("[src.linked_warband.spawns] soldiers remain at our disposal. Our finest are..."))
 					for(var/mob/living/member in src.linked_warband.members)
 						to_chat(user, span_warning("- [member.real_name], the [member.job]."))
 					return
-				if("View War Chest & Territories")
-					to_chat(user, span_warning("There is [src.warchest] mammon in the warchest, and you control [user.mind.personal_territories.len] territories."))
+				if("View War Chest")
+					to_chat(user, span_warning("There is [src.warchest] mammon in the warchest."))
 					return
 				if("Exile Member")
 					var/list/viable_member_list = list()
 					for(var/mob/living/member in src.linked_warband.members)
 						if(member.real_name != user.real_name)
 							viable_member_list += member.real_name
-					
 					if(!viable_member_list.len)
 						to_chat(user, span_warning("There are no other members to exile."))
 						return
@@ -91,13 +100,11 @@
 						to_chat(user, span_warning("We are without allies."))
 						return
 					for(var/mob/living/ally in src.linked_warband.allies)
-						to_chat(user, span_warning("There is [ally.real_name], the [ally.job]. They were joined with us by decree of [ally.mind.recruiter_name]"))
+						to_chat(user, span_warning("There is [ally.real_name], the [ally.job]. They were joined with us by decree of [ally.mind.warband_recruiter_name]"))
 
 					return
 			return
 	return
-
-
 
 
 //////SPAWNER
@@ -229,7 +236,9 @@
 	envoy.faction |= list("warband_[src.warband_ID]", "[user.real_name]_faction")			
 	envoy.key = user.key
 	envoy.mind.warband_ID = src.warband_ID
-	envoy.mind.warband_manager = src.linked_warband	
+	envoy.mind.warband_manager = src.linked_warband
+	envoy.mind.original_char = user
+	envoy.mind.warband_manager.spawns--
 	equip_envoy(envoy)
 	SSjob.AssignRole(envoy, "Warlord's Envoy")
 	envoy.mind.special_role = "Warlord's Envoy"
@@ -324,7 +333,7 @@
 	target.mind.add_antag_datum(/datum/antagonist/warlord_grunt)
 	if(user && user.mind)
 		user.mind.subordinates += target
-		target.mind.recruiter_name = user.real_name
+		target.mind.warband_recruiter_name = user.real_name
 		target.faction |= "[user.real_name]_faction" // included in their lieutenant's personal faction
 	src.linked_warband.spawns--
 	src.linked_warband.busy_summoning = FALSE

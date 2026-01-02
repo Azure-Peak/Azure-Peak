@@ -12,8 +12,6 @@
 /obj/effect/landmark/warcamp_intermission
 	name = "Warcamp Intermission"
 
-/obj/effect/landmark/warlordspawn
-	name = "Warlord Spawn"
 
 ///////////////////////////
 /////////////////////////// WARCAMPS

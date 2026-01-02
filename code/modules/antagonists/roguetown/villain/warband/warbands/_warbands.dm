@@ -22,13 +22,13 @@
 			EACH!
 			AREA!!
 
-	in each OUTSKIRTS map (OPTIONAL)
+	in each OUTSKIRTS map
 		'/obj/structure/fluff/traveltile/warband/outskirts_to_intermission' | an entrance
 		'/obj/structure/fluff/traveltile/warband/outskirts_to_camp' | an exit
 		in strongdmm they'll appear teal & purple
 
 
-	in each INTERMISSION map (OPTIONAL)
+	in each INTERMISSION map
 		'/obj/structure/fluff/traveltile/warband/intermission_to_azure' | an entrance
 		'/obj/structure/fluff/traveltile/warband/intermission_to_outskirts' | an exit
 		in strongdmm they'll appear red & orange
@@ -53,7 +53,15 @@
 /datum/warbands
 	var/title						// name used in the creation menu
 	var/name = "Warband"			// name used outside the creation menu and during desertions
-	var/treaty_name = "Warband"		// name that specifically appears in treaties
+
+	// appears in treaties
+	var/treaty_name = "Warband"		
+	var/treaty_desc = "Azuria bears no shortage of enemies."
+	var/icon = 'icons/roguetown/weapons/shields32.dmi'
+	var/icon_state = "ironsh"
+	var/territory_name = "Unknown Territory"	// for the warband faction's initial territory
+	var/territory_desc 
+
 	var/desc						// used for extra details
 	var/summary						// first description in a warband's info tab | followed up by var/desc
 	var/warning						// when a warband spawns, someone in the city is sent a warning letter w/details (its warband, aspects, etc)
@@ -82,7 +90,7 @@
 /datum/warbands/standard
 	title = "FEUD"
 	name = "Rival Lord"
-	summary = "No feud can go unresolved. Between men of lower standing, settlements are simple - an apology here, or an exchange of cattle and mammon there. \
+	summary = "No feud can go unresolved. Settlements between men of low standing are simple - an apology here, or an exchange of cattle and mammon there. \
 	But Great Men cannot settle. Honor demands apologies to be signed in blood and thousands of cattle to fall before spear-point."
 	warning = "...a foreign Banner on the march towards the capital."
 	combatmusic = list('sound/music/cmode/antag/combat_thewall.ogg')
@@ -97,7 +105,7 @@
 	title = "MERCENARY COMPANY"
 	name = "Mercenary Company"
 	treaty_name = "The Company"
-	summary = "So numerous are the potential motives for a band of mercenaries, the idea \
+	summary = "So numerous are the potential motives for a band of mercenaries, that the idea \
 	they might be getting paid in mammon becomes a mere afterthought."
 	subtyperequired = TRUE
 	subtypes = list(WARBAND_MERCENARIES)
@@ -113,9 +121,6 @@
 	title = "SECT"
 	name = "Sect"
 	summary = "A band of fanatics driven to arms; if not by delusion, by a divine obligation."
-	desc = "The advent of the Sect coincided with the advent of the PROPHET's purpose. Among his followers, his word is divine. \
-	And yet, discontent brews in his inner circle: for closeness means exposure to his humanity, and the conclusions of such follow shortly thereafter. \
-	They come to view him just as those outside his cult would. They come to view him as a mortal."
 	warning = "...of single-minded fanaticism and ritual."
 	warlordclasses = list(/datum/advclass/warband/sect/warlord/prophet)
 	lieutenantclasses = list(/datum/advclass/warband/sect/lieutenant/justiciar, /datum/advclass/warband/sect/lieutenant/versekeeper, /datum/advclass/warband/sect/lieutenant/sentinel)
@@ -148,16 +153,13 @@
 	title = "SORCERER-KING"
 	name = "Sorcerer-King"
 	treaty_name = "The Court of the Sorcerer-King"
-	summary = "Atop a great tower of stone is a perversion of the Divine Right. Within is a man without history, without blood, yet as wrathful as any true king."
-	desc = "It is the year 1513, and just rulers draw their influence from natural means: magnetic personalities, birthrights, obligations. But within his \
-	Wandering Tower, the SORCERER-KING rules not unlike the savages before the daes of iron and steel. All he has to offer is power, and it has drawn together a \
-	coven of mana-addicted sycophants."
+	summary = "Atop a great tower of stone is a perversion of the Divine Right. Within lies a man without history, without blood, yet as wrathful as any true king."
 	warning = "...of a terrible, twisted citadel carried upon stormclouds. They say it fell as lightning, and stuck itself within the earth."
 	warcamp = /datum/map_template/warcamp_wizard
 	warlordclasses = list(/datum/advclass/warband/wizard/warlord/sorcerer)
 	lieutenantclasses =  list(/datum/advclass/warband/wizard/lieutenant/pyromancer, /datum/advclass/warband/wizard/lieutenant/stormcaller, /datum/advclass/warband/wizard/lieutenant/conjurer)
 	gruntclasses = list(/datum/advclass/warband/wizard/grunt/stalker, /datum/advclass/warband/wizard/grunt/layman, /datum/advclass/warband/wizard/grunt/warlock)
-	aspects = list(ASPECT_SURPRISE, ASPECT_HOST, ASPECT_ENVY, ASPECT_FIGUREHEAD)
+	aspects = list(ASPECT_SURPRISE, ASPECT_HOST, ASPECT_ENVY, ASPECT_FIGUREHEAD, ASPECT_BADSPAWN)
 	spawns = RESPAWNS_LOW
 	combatmusic = list('sound/music/cmode/nobility/combat_courtmage.ogg')
 
@@ -169,9 +171,58 @@
 	var/list/wave_alert_phrase = list() // flavortext popup when a wave spawns
 	var/list/npc_pool = list()			// npc pool that the outskirts wave draws from
 
-// scale wave intensity with the amount of people we detected in the intermission
-// /datum/outskirts_wave/proc/spawn_wave()
-// 	return
+/datum/outskirts_encounter
+	var/atom/movable/screen/warband/manager/linked_warband
+	var/list/current_wave = list()
+	var/wave_number = 0
+	var/obj/structure/outskirts_objective/objective
+	var/prep_time = 3 MINUTES
+	var/prep_started = FALSE
+	var/encounter_active = FALSE
+	var/min_wave_size = 10
+	var/obj/structure/fluff/traveltile/warband/outskirts_to_intermission/attacker_entry
+	var/obj/structure/fluff/traveltile/warband/outskirts_to_camp/defender_entry
+
+/obj/structure/outskirts_objective
+	var/attacker_goal
+	var/defender_goal
+	var/linked_encounter
+
+/obj/structure/outskirts_objective/threshold
+	name = "threshold"
+	icon_state = "travel"
+	icon = 'icons/turf/roguefloor.dmi'
+	density = FALSE
+	anchored = TRUE
+	layer = ABOVE_OPEN_TURF_LAYER
+	max_integrity = 0
+
+
+// finds the middle point between both of the outskirts entry points and spawn the objective
+// this probably won't work very well if the map's entry points are in unique positions
+// but atm every encounter map is just a basic Straight Shot across from one another, so this should be fine
+/datum/outskirts_encounter/proc/spawn_objective()
+	if(!attacker_entry || !defender_entry)
+		return
+
+	var/turf/attacker_turf = get_turf(attacker_entry)
+	var/turf/defender_turf = get_turf(defender_entry)
+	
+	if(!attacker_turf || !defender_turf)
+		return
+	
+	var/mid_x = round((attacker_turf.x + defender_turf.x) / 2)
+	var/mid_y = round((attacker_turf.y + defender_turf.y) / 2)
+	var/turf/spawn_turf = locate(mid_x, mid_y, attacker_turf.z)
+
+	for(var/turf/open/candidate in range(3, spawn_turf))
+		if(!candidate.density)
+			objective = new /obj/structure/outskirts_objective/threshold(candidate)
+			objective.linked_encounter = src
+			objective.attacker_goal = attacker_turf
+			objective.defender_goal = defender_turf
+			return
+
 
 /atom/movable/screen/introtext
 	name = "intro text"

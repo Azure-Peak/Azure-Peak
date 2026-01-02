@@ -12,9 +12,13 @@ type CreationTabProps = {
   handleWarbandSelect: (warband: WarbandType) => void;
   handleSubtypeSelect: (subtype: SubType) => void;
   handleAspectSelect: (aspect: AspectType) => void;
-  act: (action: string) => void;
+  act: (action: string, payload?: object) => void;
+  locked?: boolean;
+  stage1Complete?: boolean;
+  isStage1?: boolean;
+  isWarlord?: boolean;
+  pointCounter?: number;
 };
-
 
 export const CreationTab = ({
   filteredWarbands,
@@ -27,6 +31,11 @@ export const CreationTab = ({
   handleSubtypeSelect,
   handleAspectSelect,
   act,
+  locked = false,
+  stage1Complete = false,
+  isStage1 = true,
+  isWarlord = false,
+  pointCounter = 0,
 }: CreationTabProps) => {
 
   const getAspectColor = (points: number) => {
@@ -38,10 +47,24 @@ export const CreationTab = ({
     return undefined; 
   };
 
+  const disableReason = () => {
+    if (stage1Complete) return null;
+    
+    if (pointCounter < 0) {
+      return "MUST HAVE 0 OR MORE ASPECT POINTS";
+    }
+    if (!selectedWarband) {
+      return "SELECT A WARBAND";
+    }
+    if (selectedWarband?.subtyperequired && !selectedSubtype) {
+      return "THIS WARBAND REQUIRES A SUBTYPE";
+    }
+    return null;
+  };
 
   return (
-    <Stack vertical fill>
-      <Stack row-Reverse style={{ flex: 1 }}>
+    <Stack style={{ flex: 1, flexDirection: 'column', height: '100%' }}>
+      <Stack row-Reverse style={{ flex: 1, minHeight: 0 }}>
         <Section title={<span style={{ color: '#7a2525ff' }}>AVAILABLE WARBANDS</span>} scrollable fill style={{ flex: 1, minWidth: '100px' }}>
           {filteredWarbands.length > 0 ? (
             <Stack vertical>
@@ -49,10 +72,11 @@ export const CreationTab = ({
                 <Button
                   key={warband.title}
                   onClick={() => {
+                    if (locked) return;
                     act('interaction_sound');
                     handleWarbandSelect(warband);
                   }}
-                  disabled={selectedWarband?.title === warband.title}
+                  disabled={locked || selectedWarband?.title === warband.title}
                   style={{ backgroundColor: selectedWarband?.title === warband.title ? '#7a2525ff' : undefined }}
                 >
                   {warband.title}
@@ -72,9 +96,11 @@ export const CreationTab = ({
                 <Button
                   key={subtype.title}
                   onClick={() => {
+                    if (locked) return;
                     handleSubtypeSelect(subtype);                    
                     act('interaction_sound');
                   }}
+                  disabled={locked}
                   tooltip={subtype.summary}
                   style={{ backgroundColor: selectedSubtype?.type === subtype.type ? '#7a2525ff' : undefined }}
                 >
@@ -97,10 +123,18 @@ export const CreationTab = ({
                   <Button
                     key={aspect.title}
                     onClick={() => {
+                      if (locked) return;
                       handleAspectSelect(aspect);                      
                       act('interaction_sound');
                     }}
-                    style={{ backgroundColor: isSelected ? '#7a2525ff' : getAspectColor(aspect.points), height: 'auto', padding: '12px 16px', whiteSpace: 'normal', textAlign: 'left' }}>
+                    disabled={locked}
+                    style={{ 
+                      backgroundColor: isSelected ? '#7a2525ff' : getAspectColor(aspect.points), 
+                      height: 'auto', 
+                      padding: '12px 16px', 
+                      whiteSpace: 'normal', 
+                      textAlign: 'left',
+                    }}>
                     <div style={{ fontWeight: 'bold' }}>{aspect.title}</div>
                     <p style={{ margin: 0, fontSize: '15px' }}>{aspect.summary}</p>
                   </Button>
@@ -114,7 +148,11 @@ export const CreationTab = ({
           )}
         </Section>
       </Stack>
-      <Section title={<span style={{ color: '#7a2525ff' }}>{selectedWarband?.title || 'No Warband Selected'}</span>} style={{ flex: 1 }}>
+      <Section 
+        title={<span style={{ color: '#7a2525ff' }}>{selectedWarband?.title || 'No Warband Selected'}</span>} 
+        scrollable 
+        style={{ flex: 0, flexBasis: 'auto', maxHeight: '165px', minHeight: 0 }}
+      >
         {selectedWarband ? (
           <Stack vertical style={{ display: 'flex', flexDirection: 'column', textAlign: 'center' }}>
             <p>{selectedWarband.summary}</p>
@@ -127,6 +165,50 @@ export const CreationTab = ({
           </div>
         )}
       </Section>
+
+      {isStage1 && isWarlord ? (
+        <Section style={{ flex: 0, flexBasis: 'auto' }}>
+          <Stack direction="row" justify="center">
+            <span
+              style={{ 
+                flex: 1, 
+                color: '#ae3636', 
+                fontSize: '15px', 
+                padding: '25px', 
+                display: 'flex',
+                marginBottom: '90px',
+                justifyContent: 'center', 
+                alignItems: 'center',
+              }}>
+              {disableReason()}
+            </span>
+            <Button
+              onClick={() => {
+                const stage1_selections = {
+                  warband: selectedWarband?.type,
+                  subtype: selectedSubtype?.type,
+                  aspects: selectedAspects?.map((aspect) => aspect.type),
+                };
+                act('advance_stage', stage1_selections);
+                act('interaction_sound');
+              }}
+              disabled={!stage1Complete}
+              style={{ 
+                flex: 1, 
+                fontSize: '25px', 
+                padding: '25px',
+                marginBottom: '90px',
+                display: 'flex', 
+                justifyContent: 'center', 
+                alignItems: 'center',
+              }}>
+              CONFIRM WARBAND
+            </Button>
+          </Stack>
+        </Section>
+      ) : (
+        <div style={{ height: '90px' }} />
+      )}
     </Stack>
   );
 };

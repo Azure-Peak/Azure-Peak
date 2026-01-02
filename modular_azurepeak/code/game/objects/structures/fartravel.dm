@@ -60,7 +60,7 @@
 			if(removing_bounty.target == departing_mob.real_name)
 				GLOB.head_bounties -= removing_bounty
 		// if the departing mob was associated with a Warband
-		if(departing_mob.mind.warband_manager || departing_mob.mind.recruiter_name) 
+		if(departing_mob.mind.warband_manager || departing_mob.mind.warband_recruiter_name) 
 			var/atom/movable/screen/warband/manager/warband
 			for(var/mob/living/warband_member in warband.members)
 				if(departing_mob in warband_member.mind.subordinates)

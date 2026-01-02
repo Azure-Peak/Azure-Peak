@@ -104,6 +104,11 @@ GLOBAL_LIST_EMPTY(lord_titles)
 			mask = /obj/item/clothing/mask/rogue/lordmask/l
 	ADD_TRAIT(H, TRAIT_NOBLE, TRAIT_GENERIC)
 
+/datum/outfit/job/roguetown/lord/post_equip(mob/living/carbon/human/H, visualsOnly = FALSE)
+	. = ..()
+	if(!visualsOnly)
+		link_treaty_faction(H)
+
 //	SSticker.rulermob = H
 /** 
 	Warrior Lord subclass. An evolution from the Daring Twit. This is the original Lord Class.
@@ -113,7 +118,7 @@ GLOBAL_LIST_EMPTY(lord_titles)
 	tutorial = "You're a noble warrior. You rose to your rank through your own strength and skill, whether by leading your men or by fighting alongside them. Or perhaps you are none of that, but simply a well-trained heir elevated to the position of Lord. You're trained in the usage of heavy armor, and knows swordsmanship well."
 	outfit = /datum/outfit/job/roguetown/lord/warrior
 	category_tags = list(CTAG_LORD)
-	traits_applied = list(TRAIT_NOBLE, TRAIT_HEAVYARMOR)
+	traits_applied = list(TRAIT_NOBLE, TRAIT_HEAVYARMOR, TRAIT_LAWEXPERT)
 	subclass_stats = list(
 		STATKEY_LCK = 5,
 		STATKEY_INT = 3,
@@ -157,7 +162,7 @@ GLOBAL_LIST_EMPTY(lord_titles)
 	outfit = /datum/outfit/job/roguetown/lord/merchant
 	category_tags = list(CTAG_LORD)
 	noble_income = 400 // Let's go crazy. This is +400 per day for a total of 2400 per round at the end of a day. This is probably equal to doubling passive incomes of the keep.
-	traits_applied = list(TRAIT_NOBLE, TRAIT_SEEPRICES, TRAIT_CICERONE, TRAIT_KEENEARS, TRAIT_MEDIUMARMOR)
+	traits_applied = list(TRAIT_NOBLE, TRAIT_SEEPRICES, TRAIT_CICERONE, TRAIT_KEENEARS, TRAIT_MEDIUMARMOR, TRAIT_LAWEXPERT)
 	subclass_stats = list(
 		STATKEY_LCK = 5,
 		STATKEY_INT = 5,
@@ -200,7 +205,7 @@ GLOBAL_LIST_EMPTY(lord_titles)
 	tutorial = "Despite spending your younger years focused on reading and the wonders of the arcyne, it came the time for you to take the throne. Now you rule not only by crown and steel, but by spell and wit, show those who doubted your time buried in books was well spent how wrong they were."
 	outfit = /datum/outfit/job/roguetown/lord/mage
 	category_tags = list(CTAG_LORD)
-	traits_applied = list(TRAIT_NOBLE, TRAIT_MAGEARMOR, TRAIT_ARCYNE_T3)
+	traits_applied = list(TRAIT_NOBLE, TRAIT_MAGEARMOR, TRAIT_ARCYNE_T3, TRAIT_LAWEXPERT)
 	subclass_stats = list(
 		STATKEY_LCK = 5,
 		STATKEY_INT = 4,
