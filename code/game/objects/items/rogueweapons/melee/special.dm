@@ -1114,21 +1114,18 @@
 	desc = "The local lord's banner, fashioned to a blacksteel pike and turned into a deadly instrument of war. \
 	The man who wields this is said to bring great fortune to his house, and those who keep him safe. \
 	<small>Runes glow near the head of the pike. A sure sign of the arcyne.</small>"
-	force = 12 // Use this in TWO HANDS.
-	force_wielded = 34 // +4. +1 from boar spear.
-	throwforce = 32 // It'll be funny. Trust.
+	force = 15
+	force_wielded = 30
+	throwforce = 40 // It'll be funny. Trust.
 	possible_item_intents = list(SPEAR_BASH)
-	gripped_intents = list(SPEAR_THRUST, /datum/intent/spear/bash/ranged, /datum/intent/mace/smash/eaglebeak) // GET THEM OFF OF ME!!! OOOUGH!!!
+	gripped_intents = list(/datum/intent/spear/thrust/ducal_standard, /datum/intent/spear/bash/ranged, /datum/intent/mace/smash/eaglebeak) // GET THEM OFF OF ME!!! OOOUGH!!!
 	icon = 'icons/roguetown/weapons/polearms64.dmi'
 	icon_state = "standard"
-	max_blade_int = 260
-	max_integrity = 300 // +50 from base. Because blacksteel or something.
+	max_blade_int = 200
+	max_integrity = 250
 	smeltresult = /obj/item/ingot/blacksteel
 	resistance_flags = FIRE_PROOF
 	var/active_item = FALSE
-	var/repair_amount = 20
-	var/repair_time = 3 MINUTES // Quite some time for a full repair.
-	var/last_repair
 
 /obj/item/rogueweapon/spear/keep_standard/equipped(mob/living/user)
 	. = ..()
@@ -1138,9 +1135,9 @@
 	if(user.job == "Man at Arms")
 		to_chat(user, span_suppradio("The standard's runes pulse, accepting me as its <b>master</b>."))
 		user.change_stat(STATKEY_LCK, 3)
+		user.change_stat(STATKEY_PER, 2)
 		user.add_stress(/datum/stressevent/keep_standard)
-		ADD_TRAIT(user, TRAIT_HARDDISMEMBER, TRAIT_GENERIC)//KEEP AT IT!!
-		ADD_TRAIT(user, TRAIT_IGNOREDAMAGESLOWDOWN, TRAIT_GENERIC)//AND KEEP UP!!!
+		ADD_TRAIT(user, TRAIT_IGNOREDAMAGESLOWDOWN, TRAIT_GENERIC)
 		if(HAS_TRAIT(user, TRAIT_STANDARD_BEARER))
 			to_chat(user, span_suppradio("<small>It remains ready for your word. You need only ask.</small>"))
 			user.verbs |= /mob/proc/standard_position
@@ -1156,6 +1153,7 @@
 	if(user.job == "Man at Arms")
 		to_chat(user, span_monkeyhive("The standard's runes pulse, rhythmically, as if sad to see you release your control."))
 		user.change_stat(STATKEY_LCK, -3)
+		user.change_stat(STATKEY_PER, -2)
 		user.remove_stress(/datum/stressevent/keep_standard)
 		REMOVE_TRAIT(user, TRAIT_HARDDISMEMBER, TRAIT_GENERIC)
 		REMOVE_TRAIT(user, TRAIT_IGNOREDAMAGESLOWDOWN, TRAIT_GENERIC)
@@ -1165,22 +1163,6 @@
 			user.verbs -= /mob/proc/standard_rally
 	else
 		to_chat(user, span_suicide("The standard's runes pulse, as if sighing in relief once I let go."))
-
-/obj/item/rogueweapon/spear/keep_standard/take_damage(damage_amount, damage_type, damage_flag, sound_effect, attack_dir, armor_penetration)
-	. = ..()
-	if(obj_integrity < max_integrity)
-		START_PROCESSING(SSobj, src)
-		return
-
-/obj/item/rogueweapon/spear/keep_standard/process()
-	if(obj_integrity >= max_integrity)
-		STOP_PROCESSING(SSobj, src)
-		src.visible_message(span_notice("[src] warps and bends, mending as the implement's runes pulse..."), vision_distance = 1)
-		return
-	else if(world.time > src.last_repair + src.repair_time)
-		src.last_repair = world.time
-		obj_integrity = min(obj_integrity + src.repair_amount, src.max_integrity)
-	..()
 
 //Shameless copy of how clothes handle it.
 /obj/item/rogueweapon/spear/keep_standard/update_icon()

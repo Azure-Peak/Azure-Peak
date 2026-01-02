@@ -438,10 +438,11 @@
 	Your fellow soldiers know to rally around you, should you keep it safe."
 	outfit = /datum/outfit/job/roguetown/manorguard/standard_bearer
 	category_tags = list(CTAG_MENATARMS)
-	traits_applied = list(TRAIT_CRITICAL_RESISTANCE, TRAIT_STANDARD_BEARER)
+	traits_applied = list(TRAIT_STANDARD_BEARER)
 	subclass_stats = list(
+		STATKEY_STR = -2,
 		STATKEY_CON = 1,
-		STATKEY_WIL = 1,
+		STATKEY_WIL = 3,
 		STATKEY_PER = 2, // You're on a budget here, buddy! Stab sure, stab often!
 	)
 	subclass_skills = list(
