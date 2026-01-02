@@ -149,5 +149,16 @@
 	name = "Amber"
 	prefix = "is very"
 
+// this one might be pushing it but i think its cool
+/datum/mob_descriptor/trait/disfigured
+	name = "Disfigured"
+	prefix = "is horifically"
 
+/datum/mob_descriptor/trait/loutish
+	name = "Loutish"
+	prefix = "is dawdingly"
+
+/datum/mob_descriptor/trait/limping
+	name = "Limping"
+	prefix = "is constantly"
 

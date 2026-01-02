@@ -308,7 +308,9 @@
 		/datum/mob_descriptor/trait/cerulean,
 		/datum/mob_descriptor/trait/emerald,
 		/datum/mob_descriptor/trait/amber,
-
+		/datum/mob_descriptor/trait/disfigured,
+		/datum/mob_descriptor/trait/loutish,
+		/datum/mob_descriptor/trait/limping,
 	)
 
 /datum/descriptor_choice/skin_all
