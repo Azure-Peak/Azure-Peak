@@ -346,3 +346,12 @@
 	desc = span_green("Astrata and her gaze may burn you now, but you distantly remember when it was pleasant to your skin.")
 	timer = 20 SECONDS
 
+/datum/stressevent/keep_standard
+	stressadd = -4
+	desc = span_aiprivradio("The standard speaks of certainty.")
+	timer = INFINITY
+
+/datum/stressevent/keep_standard_lesser
+	stressadd = -3
+	desc = span_aiprivradio("The standard calls out to me! It knows we're to see victory!")
+	timer = 3 MINUTES
