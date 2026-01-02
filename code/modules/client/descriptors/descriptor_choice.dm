@@ -147,6 +147,13 @@
 		/datum/mob_descriptor/stature/hustler,
 		/datum/mob_descriptor/stature/wanderer,
 		/datum/mob_descriptor/stature/savant,
+		/datum/mob_descriptor/stature/shitheel,
+		/datum/mob_descriptor/stature/critter,
+		/datum/mob_descriptor/stature/creacher,
+		/datum/mob_descriptor/stature/cur,
+		/datum/mob_descriptor/stature/wretch,
+		/datum/mob_descriptor/stature/dullard,
+		/datum/mob_descriptor/stature/basterd,
 	)
 
 /datum/descriptor_choice/voice
