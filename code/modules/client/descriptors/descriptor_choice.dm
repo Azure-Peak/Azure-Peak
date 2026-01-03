@@ -311,6 +311,7 @@
 		/datum/mob_descriptor/trait/disfigured,
 		/datum/mob_descriptor/trait/loutish,
 		/datum/mob_descriptor/trait/limping,
+		/datum/mob_descriptor/trait/foreign,
 	)
 
 /datum/descriptor_choice/skin_all
