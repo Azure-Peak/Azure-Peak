@@ -515,9 +515,9 @@ BECAUSE this is a dungeon reward, and you're SUPPOSED to get SOMETHING, they've 
 	// All in all: you have a 16% chance of a "good" (read: at least like, 30 mammon) drop. 50% of coal or iron, 
 	var/obj/item/natural/rock/theboi = pickweight(list(
 		/obj/item/natural/rock/copper = 20,
-		/obj/item/natural/rock/tin = 25,
+		/obj/item/natural/rock/tin = 14,
 		/obj/item/natural/rock/coal = 25,
-		/obj/item/natural/rock/iron = 14,
+		/obj/item/natural/rock/iron = 25,
 		/obj/item/natural/rock/gold = 5,
 		/obj/item/natural/rock/silver = 3,
 		/obj/item/natural/rock/gem = 8
