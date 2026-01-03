@@ -152,11 +152,11 @@
 // this one might be pushing it but i think its cool
 /datum/mob_descriptor/trait/disfigured
 	name = "Disfigured"
-	prefix = "is horifically"
+	prefix = "is horrifically"
 
 /datum/mob_descriptor/trait/loutish
 	name = "Loutish"
-	prefix = "is dawdingly"
+	prefix = "is dawdlingly"
 
 /datum/mob_descriptor/trait/limping
 	name = "Limping"
