@@ -164,5 +164,5 @@
 
 /datum/mob_descriptor/trait/foreign
 	name = "Foreign"
-	prefix = "is clearly"
+	prefix = "is very"
 
