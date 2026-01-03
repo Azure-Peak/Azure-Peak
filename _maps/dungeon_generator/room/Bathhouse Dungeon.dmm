@@ -778,6 +778,14 @@
 /obj/item/clothing/cloak/raincloak/furcloak,
 /turf/open/floor/rogue/hexstone,
 /area/rogue/under/tomb/indoors)
+"re" = (
+/obj/structure/chair/stool/rogue,
+/obj/effect/decal/cleanable/blood,
+/obj/machinery/light/rogue/campfire/fireplace{
+	pixel_y = -32
+	},
+/turf/open/floor/rogue/herringbone,
+/area/rogue/under/tomb/indoors)
 "ri" = (
 /turf/closed/wall/mineral/rogue/stone,
 /area/rogue/under/tomb/indoors/royal)
@@ -1481,10 +1489,6 @@
 /area/rogue/under/tomb/indoors)
 "Eu" = (
 /obj/machinery/light/rogue/hearth,
-/turf/closed/wall/mineral/rogue/decostone,
-/area/rogue/under/tomb)
-"Ey" = (
-/obj/machinery/light/rogue,
 /turf/closed/wall/mineral/rogue/decostone,
 /area/rogue/under/tomb)
 "EB" = (
@@ -2687,8 +2691,8 @@ HU
 OL
 od
 iH
-EB
-Ey
+re
+Zl
 vW
 "}
 (11,1,1) = {"

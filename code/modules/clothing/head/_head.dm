@@ -144,6 +144,7 @@
 		if(our_component && length(our_component.item_to_grid_coordinates))
 			for(var/obj/item/thing as anything in our_component.item_to_grid_coordinates)
 				var/mutable_appearance/thing_appearance = thing.build_worn_icon(default_layer, default_icon_file, isinhands, femaleuniform, override_state, female, customi, sleeveindex, boobed_overlay, clip_mask)
+				thing_appearance.appearance_flags = RESET_COLOR
 				standing.add_overlay(thing_appearance)
 	return standing
 

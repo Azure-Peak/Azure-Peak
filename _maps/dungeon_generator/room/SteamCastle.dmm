@@ -1951,10 +1951,6 @@
 /mob/living/carbon/human/species/skeleton/npc/mediumspread,
 /turf/open/floor/rogue/cobblerock,
 /area/rogue/under/tomb)
-"yb" = (
-/obj/machinery/light/rogue,
-/turf/closed/wall/mineral/rogue/decostone,
-/area/rogue/under/tomb/indoors)
 "yh" = (
 /mob/living/carbon/human/species/skeleton/npc/hardspread,
 /turf/open/floor/rogue/cobble,
@@ -2211,9 +2207,9 @@
 /turf/open/floor/rogue/twig,
 /area/rogue/under/tomb/indoors)
 "AM" = (
-/obj/machinery/light/rogue{
-	pixel_x = -32;
-	pixel_y = 3
+/obj/machinery/light/rogue/campfire/fireplace{
+	pixel_y = 0;
+	pixel_x = -32
 	},
 /turf/open/floor/rogue/tile/masonic/spiral,
 /area/rogue/under/tomb/indoors)
@@ -3164,6 +3160,14 @@
 /obj/structure/mineral_door/bars,
 /turf/open/floor/rogue/blocks,
 /area/rogue/under/tomb/indoors)
+"Mc" = (
+/obj/structure/trap/wall_projectile,
+/obj/machinery/light/rogue/campfire/fireplace{
+	pixel_y = 0;
+	pixel_x = -32
+	},
+/turf/open/floor/carpet/purple,
+/area/rogue/under/tomb/indoors)
 "Me" = (
 /obj/structure/fluff/railing/fence{
 	dir = 8
@@ -3722,9 +3726,9 @@
 /turf/open/floor/rogue/ruinedwood/spiral,
 /area/rogue/under/tomb/indoors)
 "Ts" = (
-/obj/machinery/light/rogue{
-	pixel_x = -32;
-	pixel_y = 1
+/obj/machinery/light/rogue/campfire/fireplace{
+	pixel_y = 0;
+	pixel_x = -32
 	},
 /turf/open/floor/rogue/ruinedwood/chevron,
 /area/rogue/under/tomb/indoors)
@@ -3758,10 +3762,7 @@
 /turf/open/floor/rogue/tile/masonic/inverted,
 /area/rogue/under/tomb/indoors)
 "TM" = (
-/obj/machinery/light/rogue{
-	pixel_x = 0;
-	pixel_y = 31
-	},
+/obj/machinery/light/rogue/campfire/fireplace,
 /turf/open/floor/rogue/ruinedwood/spiral,
 /area/rogue/under/tomb/indoors)
 "TN" = (
@@ -4319,7 +4320,7 @@ LX
 LX
 rk
 rk
-yb
+rk
 rk
 wn
 wn
@@ -4391,7 +4392,7 @@ UM
 CZ
 rk
 wb
-cz
+Mc
 pL
 eu
 rk

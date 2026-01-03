@@ -60,6 +60,7 @@
 
 /* .............   Roast Pork   ................ */
 /obj/item/reagent_containers/food/snacks/rogue/meat/fatty/roast
+	eat_effect = null
 	name = "roast pork"
 	desc = "A hunk of pigflesh, roasted to a perfect crispy texture"
 	icon = 'modular/Neu_Food/icons/cooked/cooked_meat.dmi'

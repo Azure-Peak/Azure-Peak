@@ -177,7 +177,7 @@
 	attack_verb = list("claws", "mauls", "eviscerates")
 	animname = "chop"
 	hitsound = "genslash"
-	penfactor = 50
+	penfactor = 60
 	candodge = TRUE
 	canparry = TRUE
 	miss_text = "slashes the air!"
@@ -191,7 +191,7 @@
 	icon_state = "insmash"
 	maxrange = 5
 	chargetime = 1
-	penfactor = 50
+	penfactor = 60
 
 
 /obj/item/rogueweapon/werewolf_claw

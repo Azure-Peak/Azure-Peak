@@ -25,7 +25,7 @@
 	mob_overlay_icon = 'icons/clothing/onmob/donor_clothes.dmi'
 	sleeved = 'icons/clothing/onmob/donor_sleeves_armor.dmi'
 
-//Strudles donator item - mage vest (same as robes)
+//Strudles donator item - mage vest (same as robes) and xylix tabard
 /obj/item/clothing/suit/roguetown/shirt/robe/sofiavest
 	name = "grenzelhoftian mages vest"
 	desc = "A vest often worn by those of the Grenzelhoftian mages college."
@@ -38,6 +38,23 @@
 	flags_inv = HIDEBOOB
 	color = null
 	nodismemsleeves = TRUE // prevents sleeves from being torn
+
+/obj/item/clothing/cloak/templar/xylixian/faux
+	name = "xylixian fasching leotard"
+	desc = "Look at you! Swing and Jingle your hips, maybe even crack some whips. Today is going to be a fun day!"
+	icon_state = "fauxoutfit"
+	item_state = "fauxoutfit"
+	alternate_worn_layer = TABARD_LAYER
+	boobed = FALSE
+	flags_inv = HIDECROTCH|HIDEBOOB
+	slot_flags = ITEM_SLOT_SHIRT|ITEM_SLOT_CLOAK|ITEM_SLOT_ARMOR
+	icon = 'icons/clothing/donor_clothes.dmi'
+	mob_overlay_icon = 'icons/clothing/onmob/donor_clothes.dmi'
+	sleeved = null
+	nodismemsleeves = TRUE
+	color = CLOTHING_DARK_GREY
+	detail_tag = "_detail"
+	detail_color = CLOTHING_WHITE
 
 //Bat's donator item - custom harp sprite
 /obj/item/rogue/instrument/harp/handcarved
@@ -129,7 +146,7 @@
 //pretzel's special sword
 /obj/item/rogueweapon/greatsword/weeperslathe
 	name = "Weeper's Lathe"
-	desc = "A recreation of a gilbronze greatsword, wrought in steel. Inscribed on the blade is a declaration: \"I HAVE ONLY A SHORT TYME TO LYVE, BUT I AM NOT AFRAID TO DIE.\"" 
+	desc = "A recreation of a gilbronze greatsword, wrought in steel. Inscribed on the blade is a declaration: \"I HAVE ONLY A SHORT TYME TO LYVE, BUT I AM NOT AFRAID TO DIE.\""
 	icon_state = "weeperslathe"
 	icon = 'icons/obj/items/donor_weapons_64.dmi'
 

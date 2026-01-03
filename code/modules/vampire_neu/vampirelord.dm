@@ -15,7 +15,7 @@
 	)
 	show_in_roundend = TRUE
 	var/ascended = FALSE
-	max_thralls = 0
+	max_thralls = 69
 
 /datum/antagonist/vampire/lord/get_antag_cap_weight()
 	return 3

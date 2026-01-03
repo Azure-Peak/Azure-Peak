@@ -627,3 +627,18 @@
 /obj/item/clothing/suit/roguetown/armor/plate/scale/inqcoat/armored/ComponentInitialize()
 	AddComponent(/datum/component/item_equipped_movement_rustle, SFX_PLATE_STEP, 5)
 	return
+
+/obj/item/clothing/suit/roguetown/armor/plate/silver
+	slot_flags = ITEM_SLOT_ARMOR
+	name = "templar's half-plate"
+	desc = "Noc's holy silver, one fifth. Steel, three fifths. Chosen Material, one fifth. The armor of the Templar, protector and warrior of the Ten's Faithful."
+	body_parts_covered = COVERAGE_TORSO
+	icon_state = "silverhalfplate"
+	item_state = "silverhalfplate"
+	armor = ARMOR_PLATE
+	max_integrity = ARMOR_INT_CHEST_PLATE_STEEL
+	allowed_sex = list(MALE, FEMALE)
+	anvilrepair = /datum/skill/craft/armorsmithing
+	smeltresult = /obj/item/ingot/steel
+	armor_class = ARMOR_CLASS_MEDIUM
+	smelt_bar_num = 3

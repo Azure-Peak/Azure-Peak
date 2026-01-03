@@ -296,6 +296,9 @@
 	max_integrity = 100 // Half of the norm
 	icon_state = "chatchet"
 	smeltresult = /obj/item/ingot/copper
+	throwforce = 20 //You ever had an axe thrown at you? 
+	throw_speed = 3 
+	armor_penetration = 20
 
 /obj/item/rogueweapon/stoneaxe/handaxe
 	force = 19
@@ -308,6 +311,10 @@
 	smeltresult = /obj/item/ingot/iron
 	gripped_intents = null
 	wdefense = 2
+	throwforce = 25 //You ever had an axe thrown at you? 
+	throw_speed = 3 
+	armor_penetration = 25
+	
 
 /obj/item/rogueweapon/stoneaxe/woodcut/bronze
 	name = "bronze axe"

@@ -15,10 +15,6 @@
 /obj/structure/table/wood,
 /turf/open/floor/rogue/tile/masonic/spiral,
 /area/rogue/under/tomb/indoors/magic)
-"aK" = (
-/obj/machinery/light/rogue,
-/turf/closed/wall/mineral/rogue/stonebrick,
-/area/rogue/under/tomb/indoors/magic)
 "aN" = (
 /obj/machinery/light/rogue/candle/blue,
 /obj/structure/fluff/walldeco/painting/skull,
@@ -130,6 +126,10 @@
 "fL" = (
 /mob/living/simple_animal/hostile/rogue/haunt,
 /turf/open/floor/carpet/royalblack,
+/area/rogue/under/tomb/indoors/magic)
+"fN" = (
+/obj/machinery/light/rogue/campfire/fireplace,
+/turf/open/floor/rogue/ruinedwood/spiral,
 /area/rogue/under/tomb/indoors/magic)
 "ga" = (
 /obj/item/reagent_containers/glass/bucket,
@@ -364,6 +364,7 @@
 /area/rogue/under/tomb/indoors/magic)
 "qb" = (
 /obj/structure/bonepile,
+/obj/machinery/light/rogue/campfire/fireplace,
 /turf/open/floor/carpet/royalblack,
 /area/rogue/under/tomb/indoors/magic)
 "qc" = (
@@ -876,6 +877,10 @@
 	},
 /turf/open/floor/rogue/tile,
 /area/rogue/under/tomb/indoors/magic)
+"Id" = (
+/obj/machinery/light/rogue/campfire/fireplace,
+/turf/open/floor/rogue/carpet,
+/area/rogue/under/tomb/indoors/magic)
 "Ie" = (
 /obj/machinery/light/rogue/firebowl/standing/blue,
 /turf/open/floor/rogue/naturalstone,
@@ -1292,6 +1297,11 @@
 /obj/structure/curtain/black,
 /turf/open/floor/rogue/ruinedwood/chevron,
 /area/rogue/under/tomb/indoors/magic)
+"VY" = (
+/obj/item/rope/chain,
+/obj/machinery/light/rogue/campfire/fireplace,
+/turf/open/floor/rogue/tile/masonic/spiral,
+/area/rogue/under/tomb/indoors/magic)
 "Wi" = (
 /obj/structure/forcefield_weak,
 /obj/machinery/light/rogue/candle/blue,
@@ -1664,7 +1674,7 @@ TF
 TF
 TF
 TF
-aK
+TF
 qb
 Zk
 TF
@@ -2644,8 +2654,8 @@ gx
 FM
 jQ
 Cq
-aK
-wY
+TF
+Id
 qd
 TF
 TM
@@ -2813,8 +2823,8 @@ TF
 TF
 yz
 yz
-aK
-vK
+TF
+fN
 lx
 Pw
 lx
@@ -2964,8 +2974,8 @@ gl
 gl
 FM
 Cq
-aK
-vs
+TF
+VY
 oU
 bg
 Fr

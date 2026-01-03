@@ -528,7 +528,7 @@
 
 /obj/item/impact_grenade
 	name = "impact grenade"
-	desc = "Some substance, hidden under paper"
+	desc = "Some substance, hidden under paper."
 	dropshrink = 0.6
 	icon_state = "impact_grenade"
 	icon = 'icons/roguetown/items/misc.dmi'
@@ -615,7 +615,7 @@
 
 /obj/item/smokeshell
 	name = "gas belcher shell"
-	desc = "a metal shell for spraying gas out"
+	desc = "An inert metal shell. Often filled with materials to create phlogiston-based gases."
 	dropshrink = 0.6
 	icon_state = "smokeshell_blank"
 	icon = 'icons/roguetown/items/misc.dmi'
