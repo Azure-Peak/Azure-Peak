@@ -63,10 +63,16 @@ var/list/used_colors
 		var/c = sanitize_hexcolor(color_pick_sanitized(user, "Choose your dye:", "Dyes", current_color), 6, TRUE)
 		return (c == "#000000") ? "#FFFFFF" : c
 
-	var/picked = input(user, "Choose your dye:", "Dyes", null) as null|anything in used_colors
+	var/list/colors_to_pick = list()
+	if(GLOB.lordprimary)
+		colors_to_pick["Primary Keep Color"] = GLOB.lordprimary
+	if(GLOB.lordsecondary)
+		colors_to_pick["Secondary Keep Color"] = GLOB.lordsecondary
+	colors_to_pick += used_colors.Copy()
+	var/picked = input(user, "Choose your dye:", "Dyes", null) as null|anything in colors_to_pick
 	if(!picked)
 		return null
-	return used_colors[picked]
+	return colors_to_pick[picked]
 
 /obj/machinery/gear_painter/interact(mob/user)
 	if(!is_operational())
@@ -93,7 +99,7 @@ var/list/used_colors
 		dat += "Detail Color: <font color='[activecolor_detail]'>&#10070;</font>"
 		dat += "<A href='?src=\ref[src];paint_detail=1'>Apply new color</A> | "
 		dat += "<A href='?src=\ref[src];clear_detail=1'>Remove paintjob</A><BR><BR>"
-			
+
 	if(inserted_item.altdetail_color)
 		dat += "<A href='?src=\ref[src];select_altdetail=1'>Select new tertiary color.</A><BR>"
 		dat += "Alt. Detail Color: <font color='[activecolor_altdetail]'>&#10070;</font>"
@@ -103,6 +109,9 @@ var/list/used_colors
 	dat += "<A href='?src=\ref[src];eject=1'>Eject item.</A><BR><BR>"
 	menu.set_content("<html>[dat.Join("")]</html>")
 	menu.open()
+
+/obj/machinery/gear_painter/ui_interact(mob/user, datum/tgui/ui)
+	interact(user)
 
 /obj/machinery/gear_painter/Topic(href, href_list)
 	. = ..()

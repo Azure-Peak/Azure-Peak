@@ -135,7 +135,7 @@
 	pixel_y = 32
 	healing_range = 2
 
-/obj/machinery/light/rogue/campfire/fireplace/fireplace/attack_hand(mob/user)
+/obj/machinery/light/rogue/campfire/fireplace/attack_hand(mob/user)
 	if(isliving(user) && on)
 		user.visible_message(span_warning("[user] snuffs [src]."))
 		burn_out()

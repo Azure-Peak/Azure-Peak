@@ -26,6 +26,7 @@
 	species_traits = list(EYECOLOR,LIPS,STUBBLE)
 	possible_ages = ALL_AGES_LIST
 	use_skintones = TRUE
+	default_features = MANDATORY_FEATURE_LIST
 	skin_tone_wording = "Skin Color"
 	limbs_icon_m = 'icons/mob/species/anthro_small_male.dmi'
 	limbs_icon_f = 'icons/roguetown/mob/bodies/f/fd.dmi'
@@ -123,7 +124,8 @@
 		"Frost" = SKIN_COLOR_FROST,
 		"Abyss" = SKIN_COLOR_ABYSS,
 		"Teal" = SKIN_COLOR_TEAL,
-		"Hadal" = SKIN_COLOR_HADAL
+		"Hadal" = SKIN_COLOR_HADAL,
+		"Pea" = SKIN_COLOR_PEA,
 	)
 
 /datum/species/goblinp/on_species_gain(mob/living/carbon/C, datum/species/old_species)

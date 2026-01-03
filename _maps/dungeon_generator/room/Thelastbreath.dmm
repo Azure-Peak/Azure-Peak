@@ -34,10 +34,6 @@
 /obj/effect/decal/cleanable/blood/tracks,
 /turf/open/floor/rogue/church,
 /area/rogue/under/tomb/indoors)
-"aE" = (
-/obj/machinery/light/rogue,
-/turf/closed/wall/mineral/rogue/decostone/cand,
-/area/rogue/under/tomb/indoors/royal)
 "aF" = (
 /obj/structure/roguewindow/stained/silver,
 /turf/open/floor/rogue/hexstone,
@@ -1021,6 +1017,10 @@
 	},
 /turf/open/floor/rogue/dirt,
 /area/rogue/under/tomb/indoors)
+"nT" = (
+/obj/machinery/light/rogue/campfire/fireplace,
+/turf/open/floor/rogue/tile/masonic/spiral,
+/area/rogue/under/tomb/indoors/royal)
 "nY" = (
 /obj/structure/rack/rogue/shelf/biggest,
 /obj/effect/spawner/lootdrop/potion_ingredient,
@@ -2207,10 +2207,6 @@
 /obj/structure/flora/roguegrass/pyroclasticflowers,
 /turf/open/floor/rogue/grass,
 /area/rogue/under/tomb/wilds)
-"FF" = (
-/obj/machinery/light/rogue,
-/turf/closed/wall/mineral/rogue/decostone,
-/area/rogue/under/tomb/indoors/royal)
 "FI" = (
 /obj/structure/fluff/nest,
 /turf/open/floor/rogue/tile,
@@ -2522,6 +2518,13 @@
 /obj/structure/trap/wall_projectile,
 /turf/open/floor/rogue/cobble,
 /area/rogue/under/tomb/indoors)
+"Jl" = (
+/obj/machinery/light/rogue/campfire/fireplace{
+	pixel_y = 0;
+	pixel_x = -32
+	},
+/turf/open/floor/rogue/church,
+/area/rogue/under/tomb/indoors/royal)
 "Jq" = (
 /turf/open/floor/rogue/ruinedwood,
 /area/rogue/under/tomb/cave/lava)
@@ -4464,7 +4467,7 @@ CD
 Hi
 EF
 FW
-aE
+Hi
 EF
 Gv
 hr
@@ -4511,7 +4514,7 @@ CD
 Gx
 GX
 am
-am
+Jl
 ix
 am
 hr
@@ -4728,8 +4731,8 @@ hr
 hr
 WU
 GY
-FF
-fe
+EF
+nT
 fe
 fe
 fe

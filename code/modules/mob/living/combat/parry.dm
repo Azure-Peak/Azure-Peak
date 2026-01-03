@@ -8,6 +8,8 @@
 		prob2defend = 0
 	
 	if(!can_see_cone(user))
+		if(!H.get_tempo_bonus(TEMPO_TAG_NOLOS_PARRY))
+			return FALSE
 		if(d_intent == INTENT_PARRY)
 			return FALSE
 		else
@@ -23,7 +25,10 @@
 		return FALSE
 	if(pulledby || pulling)
 		return FALSE
-	if(world.time < last_parry + setparrytime)
+
+	var/parrydelay = setparrytime
+	parrydelay -= get_tempo_bonus(TEMPO_TAG_PARRYCD_BONUS)
+	if(world.time < last_parry + parrydelay)
 		if(!istype(rmb_intent, /datum/rmb_intent/riposte))
 			return FALSE
 	if(has_status_effect(/datum/status_effect/debuff/exposed))
@@ -243,9 +248,15 @@
 				var/sharp_loss = SHARPNESS_ONHIT_DECAY
 				if(used_weapon == offhand)
 					intdam = INTEG_PARRY_DECAY_NOSHARP
+
 				if(istype(user.rmb_intent, /datum/rmb_intent/strong))
 					sharp_loss += STRONG_SHP_BONUS
 					intdam += STRONG_INTG_BONUS
+          
+				var/tempobonus = H.get_tempo_bonus(TEMPO_TAG_DEF_INTEGFACTOR)
+				if(tempobonus)	//It is either null or 0.1 to 1, multiplication by null results in 0, so we check.
+					intdam *= tempobonus
+         
 				used_weapon.take_damage(intdam, BRUTE, used_weapon.d_type)
 				used_weapon.remove_bintegrity(sharp_loss, user)
 			return TRUE
@@ -276,6 +287,8 @@
 /mob/proc/do_parry(obj/item/W, parrydrain as num, mob/living/user)
 	if(ishuman(src))
 		var/mob/living/carbon/human/H = src
+		//Tempo bonus
+		parrydrain -= H.get_tempo_bonus(TEMPO_TAG_STAMLOSS_PARRY)
 		if(H.stamina_add(parrydrain))
 			if(W)
 				playsound(get_turf(src), pick(W.parrysound), 100, FALSE)
@@ -311,6 +324,9 @@
 /mob/proc/do_unarmed_parry(parrydrain as num, mob/living/user)
 	if(ishuman(src))
 		var/mob/living/carbon/human/H = src
+		//Tempo bonus
+		parrydrain -= H.get_tempo_bonus(TEMPO_TAG_STAMLOSS_PARRY)
+
 		if(H.stamina_add(parrydrain))
 			playsound(get_turf(src), pick(parry_sound), 100, FALSE)
 			src.visible_message(span_warning("<b>[src]</b> parries [user]!"))

@@ -654,9 +654,14 @@ GLOBAL_LIST_EMPTY(loadout_items)
 	path = /obj/item/enchantingkit/srusu
 	ckeywhitelist = list("cheekycrenando")
 
-/datum/loadout_item/donator_strudel
+/datum/loadout_item/donator_strudel1
 	name = "Donator Kit - Grenzelhoftian Mage Vest"
-	path = /obj/item/enchantingkit/strudle
+	path = /obj/item/enchantingkit/strudel1
+	ckeywhitelist = list("toasterstrudes")
+
+/datum/loadout_item/donator_strudel2
+	name = "Donator Kit - Xylixian Fasching Leotard"
+	path = /obj/item/enchantingkit/strudel2
 	ckeywhitelist = list("toasterstrudes")
 
 /datum/loadout_item/donator_bat

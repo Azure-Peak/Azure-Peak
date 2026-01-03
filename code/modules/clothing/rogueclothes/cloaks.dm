@@ -81,12 +81,19 @@
 			return
 		design = "_[design]"
 		symbol_chosen = TRUE
-	var/colorone = input(user, "Select a primary color.","Tabard Design") as null|anything in COLOR_MAP
+	var/list/colors_to_pick = list()
+	if(GLOB.lordprimary)
+		colors_to_pick["Primary Keep Color"] = GLOB.lordprimary
+	if(GLOB.lordsecondary)
+		colors_to_pick["Secondary Keep Color"] = GLOB.lordsecondary
+	var/list/color_map_list = COLOR_MAP
+	colors_to_pick += color_map_list.Copy()
+	var/colorone = input(user, "Select a primary color.","Tabard Design") as null|anything in colors_to_pick
 	if(!colorone)
 		return
 	var/colortwo
 	if(design != "None")
-		colortwo = input(user, "Select a secondary color.","Tabard Design") as null|anything in COLOR_MAP
+		colortwo = input(user, "Select a secondary color.","Tabard Design") as null|anything in colors_to_pick
 		if(!colortwo)
 			return
 	if(world.time > (the_time + 30 SECONDS))
@@ -103,9 +110,9 @@
 		if("Diamonds")
 			detail_tag = "_dim"
 	boobed_detail = !symbol_chosen
-	color = COLOR_MAP[colorone]
+	color = colors_to_pick[colorone]
 	if(colortwo)
-		detail_color = COLOR_MAP[colortwo]
+		detail_color = colors_to_pick[colortwo]
 	update_icon()
 	if(ismob(loc))
 		var/mob/L = loc

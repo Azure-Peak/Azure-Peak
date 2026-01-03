@@ -109,6 +109,12 @@
 		override_status = ATTACK_OVERRIDE_NODEFENSE
 
 
+	if(HAS_TRAIT(M, TRAIT_TEMPO))
+		if(ishuman(M) && ishuman(user) && user.mind)
+			var/mob/living/carbon/human/H = M
+			H.process_tempo_attack(user)
+
+
 	if(item_flags & NOBLUDGEON)
 		return FALSE	
 

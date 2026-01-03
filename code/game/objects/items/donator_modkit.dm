@@ -49,11 +49,16 @@
 	target_items = list(/obj/item/clothing/suit/roguetown/shirt/dress)	//Literally any type of dress
 	result_item = /obj/item/clothing/suit/roguetown/shirt/dress/emerald
 
-//Strudle - Custom leather vest type
-/obj/item/enchantingkit/strudle
+//Strudel - Custom leather vest type and xylix tabard
+/obj/item/enchantingkit/strudel1
 	name = "'Grenzelhoft Mage Vest' morphing elixir"
 	target_items = list(/obj/item/clothing/suit/roguetown/shirt/robe)
 	result_item = /obj/item/clothing/suit/roguetown/shirt/robe/sofiavest
+
+/obj/item/enchantingkit/strudel2
+	name = "'Xylixian Fasching Leotard' morphing elixir"
+	target_items = list(/obj/item/clothing/cloak/templar/xylixian/)
+	result_item = /obj/item/clothing/cloak/templar/xylixian/faux
 
 //Bat - Custom harp type
 /obj/item/enchantingkit/bat

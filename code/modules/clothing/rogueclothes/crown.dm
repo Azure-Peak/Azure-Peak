@@ -28,6 +28,15 @@
 		SSroguemachine.scomm_machines += src
 	become_hearing_sensitive()
 
+/obj/item/clothing/head/roguetown/crown/serpcrown/equipped(mob/living/user, slot)
+	. = ..()
+	if(slot == SLOT_HEAD)
+		ADD_TRAIT(user, TRAIT_GARRISON_ITEM, "[ref(src)]")
+
+/obj/item/clothing/head/roguetown/crown/serpcrown/dropped(mob/living/user)
+	..()
+	REMOVE_TRAIT(user, TRAIT_GARRISON_ITEM, "[ref(src)]")
+
 /obj/item/clothing/head/roguetown/crown/serpcrown/proc/anti_stall()
 	src.visible_message(span_danger("The Crown of Azuria crumbles to dust, the ashes spiriting away in the direction of the Keep."))
 	SSroguemachine.scomm_machines -= src
@@ -52,6 +61,7 @@
 				S.repeat_message(input_text, src, usedcolor)
 			for(var/obj/item/listenstone/S in SSroguemachine.scomm_machines)
 				S.repeat_message(input_text, src, usedcolor)
+			SSroguemachine.crown?.repeat_message(input_text, src, usedcolor)
 
 			GLOB.broadcast_list += list(list(
 			"message"   = input_text,
@@ -68,6 +78,7 @@
 			for(var/obj/structure/roguemachine/scomm/S in SSroguemachine.scomm_machines)
 				if(S.garrisonline)
 					S.repeat_message(input_text, src, usedcolor)
+			SSroguemachine.crown?.repeat_message(input_text, src, usedcolor)
 
 /obj/item/clothing/head/roguetown/crown/serpcrown/attack_self(mob/living/user)
 	if(.)
@@ -94,8 +105,6 @@
 	update_icon()
 
 /obj/item/clothing/head/roguetown/crown/serpcrown/proc/repeat_message(message, atom/A, tcolor, message_language)
-	if(A == src)
-		return
 	if(!ismob(loc))
 		return
 	if(tcolor)

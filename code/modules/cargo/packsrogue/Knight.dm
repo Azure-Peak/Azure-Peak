@@ -8,11 +8,6 @@
 // HEAD //
 //////////
 
-/datum/supply_pack/rogue/Knight/wolfhelm
-	name = "Volf Plate Helm"
-	cost = 30
-	contains = list(/obj/item/clothing/head/roguetown/helmet/heavy/volfplate)
-
 /datum/supply_pack/rogue/Knight/pigface
 	name = "Pigface Bascinet"
 	cost = 40

@@ -84,14 +84,19 @@ GLOBAL_LIST_EMPTY(vampire_objects)
 		switch(generation)
 			if(GENERATION_METHUSELAH)
 				vampdude?.adjust_skillrank_up_to(/datum/skill/magic/blood, 6, TRUE)
+				max_thralls = 69
 			if(GENERATION_ANCILLAE)
 				vampdude?.adjust_skillrank_up_to(/datum/skill/magic/blood, 5, TRUE)
+				max_thralls = 3
 			if(GENERATION_NEONATE)
 				vampdude?.adjust_skillrank_up_to(/datum/skill/magic/blood, 4, TRUE) // Licker Wretch
+				max_thralls = 1
 			if(GENERATION_THINBLOOD)
 				vampdude?.adjust_skillrank_up_to(/datum/skill/magic/blood, 3, TRUE) // You are not even an antagonist
+				max_thralls = 0
 			else
 				vampdude?.adjust_skillrank_up_to(/datum/skill/magic/blood, 2, TRUE) // Default weight if generation not set
+				max_thralls = 0
 
 		if(HAS_TRAIT(vampdude, TRAIT_DNR)) //if you have DNR, we add dustable
 			ADD_TRAIT(vampdude, TRAIT_DUSTABLE, TRAIT_GENERIC)

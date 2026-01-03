@@ -41,11 +41,11 @@
 		return
 	var/crafttime = (31 - ((user.get_skill_level(/datum/skill/craft/carpentry))*5))
 
-	user.visible_message(span_notice("\The [user] begins to roll out [user.p_their()] [name] over \the [Turf]."), span_notice("I start to roill out[name] over \the [Turf]."))
+	user.visible_message(span_notice("\The [user] begins to roll out [user.p_their()] [name] over \the [Turf]."), span_notice("I start to roll out the [name] over \the [Turf]."))
 	playsound(loc, 'sound/foley/bandage.ogg', 100, TRUE)
 	if(do_after(user, crafttime, target = src))
-		user.visible_message(span_warning("[user] rolls out [user.p_their()] onto [Turf]!"), \
-		span_notice("I finish rolling out [user.p_their()] onto [Turf]"))
+		user.visible_message(span_warning("[user] rolls out [user.p_their()] [name] onto [Turf]!"), \
+		span_notice("I finish rolling out the [name] onto [Turf]!"))
 		src.amount --
 		new rug_to_layout(Turf)
 	if(amount == 0)
@@ -85,11 +85,11 @@
 		return
 	var/crafttime = (31 - ((user.get_skill_level(/datum/skill/craft/carpentry))*5))
 
-	user.visible_message(span_notice("\The [user] begins to roll out [user.p_their()] [name] over \the [Turf]."), span_notice("I start to roill out[name] over \the [Turf]."))
+	user.visible_message(span_notice("\The [user] begins to roll out [user.p_their()] [name] over \the [Turf]."), span_notice("I start to roll out the [name] over \the [Turf]."))
 	playsound(loc, 'sound/foley/bandage.ogg', 100, TRUE)
 	if(do_after(user, crafttime, target = src))
-		user.visible_message(span_warning("[user] rolls out [user.p_their()] onto [Turf]!"), \
-		span_notice("I finish rolling out [user.p_their()] onto [Turf]"))
+		user.visible_message(span_warning("[user] rolls out [user.p_their()] [name] onto [Turf]!"), \
+		span_notice("I finish rolling out the [name] onto [Turf]!"))
 		src.amount --
 		new rug_to_layout(Turf)
 	if(amount == 0)

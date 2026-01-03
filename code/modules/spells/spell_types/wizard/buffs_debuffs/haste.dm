@@ -72,7 +72,7 @@
 /datum/status_effect/buff/haste/on_remove()
 	. = ..()
 	owner.remove_filter(HASTE_FILTER)
-	to_chat(owner, span_warning("My body move slowly again..."))
+	to_chat(owner, span_warning("My body moves slowly again..."))
 
 #undef HASTE_FILTER
 
