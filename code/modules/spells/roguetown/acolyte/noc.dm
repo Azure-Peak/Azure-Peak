@@ -2,6 +2,59 @@
 // Blindness is a cancerous spells and should not be available to everyone.
 // But I am not nuking it from Acolyte yet so it will be unavailable to mage.
 // I repathed it to avoid it becoming available to mages again.
+
+/obj/effect/proc_holder/spell/invoked/blindness
+	name = "Blindness"
+	desc = "Direct a mote of living darkness to temporarily blind another."
+	overlay_state = "blindness"
+	clothes_req = FALSE
+	releasedrain = 30
+	chargedrain = 0
+	chargetime = 0
+	range = 7
+	warnie = "sydwarning"
+	movement_interrupt = FALSE
+	sound = 'sound/magic/churn.ogg'
+	spell_tier = 2 // Combat spell
+	invocations = list("Blackest nite, blind!")
+	invocation_type = "shout" //can be none, whisper, emote and shout
+	associated_skill = /datum/skill/magic/holy
+	devotion_cost = 50
+	recharge_time = 1 MINUTES
+	req_items = list(/obj/item/clothing/neck/roguetown/psicross)
+	miracle = TRUE
+	cost = 3
+
+/obj/effect/proc_holder/spell/invoked/blindness/cast(list/targets, mob/user = usr)
+	if(isliving(targets[1]))
+		var/mob/living/target = targets[1]
+		if(target.anti_magic_check(TRUE, TRUE))
+			return FALSE
+		target.visible_message(span_warning("[user] points at [target]'s eyes!"))
+		target.apply_status_effect(/datum/status_effect/blindness)
+		return TRUE
+	revert_cast()
+	return FALSE
+
+/atom/movable/screen/alert/status_effect/blindness
+	name = "Blindness"
+	desc = "My vision blurs-- I see naught but darkness! (-3 PER, vision cone reduced)"
+
+/datum/status_effect/blindness
+	id = "blindness"
+	alert_type = /atom/movable/screen/alert/status_effect/blindness
+	effectedstats = list(STATKEY_PER = -3)
+	duration = 30 SECONDS
+
+/datum/status_effect/blindness/on_apply()
+	. = ..()
+	to_chat(owner, span_warning("My vision blurs-- I see naught but darkness!"))
+
+/datum/status_effect/blindness/on_remove()
+	. = ..()
+	to_chat(owner, span_warning("My vision returns...!"))
+
+/*
 /obj/effect/proc_holder/spell/invoked/blindness
 	name = "Blindness"
 	desc = "Direct a mote of living darkness to temporarily blind another."
@@ -35,6 +88,7 @@
 		return TRUE
 	revert_cast()
 	return FALSE
+	*/
 
 /obj/effect/proc_holder/spell/invoked/invisibility
 	name = "Invisibility"
