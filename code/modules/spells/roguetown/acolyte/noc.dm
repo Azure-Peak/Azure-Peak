@@ -90,23 +90,27 @@ Somewhat fitting, considering the broadness of their domains. I also just think 
 	// this probably isnt necessary as these are no longer lists, but, uh, it's fine. i think.
 	var/silence = /obj/effect/proc_holder/spell/invoked/silence/miracle
 	var/blindness = /obj/effect/proc_holder/spell/invoked/blindness
+	var/choosingspell = FALSE
 
 /obj/effect/proc_holder/spell/self/blindnessorsilence/cast(list/targets, mob/user)
 	. = ..()
-	var/choice = chosen_spell
-	if(!chosen_spell)
-		choice = alert(user, "BIRD or WORM, Crescent?", "ORDER OR ANARCHY", "Blindness", "Silence")
-		chosen_spell = choice
-	switch(choice)
-		if("Blindness")
-			user.mind?.AddSpell(new blindness, user)
-			user.mind?.RemoveSpell(src.type)
-		if("Silence")
-			user.mind?.AddSpell(new silence, user)
-			user.mind?.RemoveSpell(src.type)
-		else
-			revert_cast()
-
+	if(choosingspell == TRUE)
+		to_chat(user, span_warning("I'm already choosing a spell!"))
+	else
+		var/choice = chosen_spell
+		choosingspell = TRUE
+		if(!chosen_spell)
+			choice = alert(user, "BIRD or WORM, Crescent?", "ORDER OR ANARCHY", "Blindness", "Silence")
+			chosen_spell = choice
+		switch(choice)
+			if("Blindness")
+				user.mind?.AddSpell(new blindness, user)
+				user.mind?.RemoveSpell(src.type)
+			if("Silence")
+				user.mind?.AddSpell(new silence, user)
+				user.mind?.RemoveSpell(src.type)
+			else
+				revert_cast()
 
 
 
@@ -210,7 +214,7 @@ Somewhat fitting, considering the broadness of their domains. I also just think 
 
 /obj/effect/proc_holder/spell/self/noc_spell_bundle
 	name = "Arcyne Affinity"
-	desc = "Allows you to learn a spell or two of a certain type once every cycle."
+	desc = "Allows you to learn a spell or two of a certain type once every week."
 	miracle = TRUE
 	devotion_cost = 200
 	recharge_time = 25 MINUTES
