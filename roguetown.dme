@@ -2419,6 +2419,7 @@
 #include "code\modules\roguetown\roguemachine\heartbeast\heart_personalities.dm"
 #include "code\modules\roguetown\roguemachine\heartbeast\heart_quirks.dm"
 #include "code\modules\roguetown\roguemachine\heartbeast\heart_rack.dm"
+#include "code\modules\roguetown\roguemachine\heartbeast\heart_slab.dm"
 #include "code\modules\roguetown\roguemachine\heartbeast\heart_status_effects.dm"
 #include "code\modules\roguetown\roguemachine\heartbeast\heart_traits.dm"
 #include "code\modules\roguetown\roguemachine\heartbeast\fleshcrafting\flesh_decoy.dm"

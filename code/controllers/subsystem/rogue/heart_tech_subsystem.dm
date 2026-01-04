@@ -6,13 +6,24 @@ SUBSYSTEM_DEF(chimeric_tech)
 	// The master list of all instantiated nodes, keyed by type path.
 	var/list/all_tech_nodes = list()
 	var/list/cached_choices = list() // Stores the currently offered choices
+	var/list/cached_choices_echoes = list()
 	var/list/cached_choices_paths = list()
+	var/list/cached_choices_paths_echoes = list()
 	var/list/tech_recipe_index = list() // Store references to recipes in the global recipe list to be able to iterate more efficiently later
+	var/echo_points = 0
 
-/datum/controller/subsystem/chimeric_tech/proc/clear_cached_choices()
+#define CHIMERIC_CACHE_TECH 1
+#define CHIMERIC_CACHE_ECHOES 2
+
+/datum/controller/subsystem/chimeric_tech/proc/clear_cached_choices(var/cache_to_clear = CHIMERIC_CACHE_TECH)
 	// Clears the cache when a tech is unlocked.
-	cached_choices = list()
-	cached_choices_paths = list()
+	switch(cache_to_clear)
+		if(CHIMERIC_CACHE_TECH)
+			cached_choices = list()
+			cached_choices_paths = list()
+		if(CHIMERIC_CACHE_ECHOES)
+			cached_choices_echoes = list()
+			cached_choices_paths_echoes = list()
 
 /datum/controller/subsystem/chimeric_tech/Initialize()
 	. = ..()
@@ -31,8 +42,10 @@ SUBSYSTEM_DEF(chimeric_tech)
 		return node.unlocked
 	return FALSE
 
-/datum/controller/subsystem/chimeric_tech/proc/get_available_choices(var/current_tier, var/current_points, var/max_choices = 3)
-	if(cached_choices.len)
+/datum/controller/subsystem/chimeric_tech/proc/get_available_choices(var/current_tier, var/current_points, var/max_choices = 3, var/cache_to_select = CHIMERIC_CACHE_TECH)
+	if(cache_to_select == CHIMERIC_CACHE_ECHOES && cached_choices_echoes.len)
+		return cached_choices_echoes
+	if(cache_to_select == CHIMERIC_CACHE_TECH && cached_choices.len)
 		return cached_choices
 
 	var/list/eligible_nodes = list()
@@ -45,7 +58,10 @@ SUBSYSTEM_DEF(chimeric_tech)
 		if(N.unlocked)
 			continue
 
-		if(current_tier < N.required_tier)
+		if(cache_to_select == CHIMERIC_CACHE_ECHOES && N.required_tier != 1)
+			continue
+
+		if(cache_to_select == CHIMERIC_CACHE_TECH && current_tier < N.required_tier)
 			continue
 
 		var/prereqs_met = TRUE
@@ -72,9 +88,14 @@ SUBSYSTEM_DEF(chimeric_tech)
 
 		selection_pool -= chosen_node // Remove all instances of this node
 
-	cached_choices = final_choices
-	for(var/datum/chimeric_tech_node/N in final_choices)
-		cached_choices_paths += N.type
+	if(cache_to_select == CHIMERIC_CACHE_ECHOES)
+		cached_choices_echoes = final_choices
+		for(var/datum/chimeric_tech_node/N in final_choices)
+			cached_choices_paths_echoes += N.type
+	if(cache_to_select == CHIMERIC_CACHE_TECH)
+		cached_choices = final_choices
+		for(var/datum/chimeric_tech_node/N in final_choices)
+			cached_choices_paths += N.type
 
 	return final_choices
 
@@ -126,7 +147,7 @@ SUBSYSTEM_DEF(chimeric_tech)
 			tech_recipe_index[R.required_tech_node] += R
 
 /datum/controller/subsystem/chimeric_tech/proc/get_healing_multiplier()
-	var/multiplier = 0.75
+	var/multiplier = 0.85
 
 	var/advanced_healing_path = "HEAL_TIER1"
 	var/enhanced_healing_path = "HEAL_TIER2"
@@ -134,7 +155,7 @@ SUBSYSTEM_DEF(chimeric_tech)
 	if(get_node_status(advanced_healing_path))
 		multiplier = 1.0
 	if(get_node_status(enhanced_healing_path))
-		multiplier = 1.1
+		multiplier = 1.25
 	
 	return multiplier
 
