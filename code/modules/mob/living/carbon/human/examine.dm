@@ -29,6 +29,7 @@
 /mob/living/carbon/human/examine(mob/user)
 	var/observer_privilege = isobserver(user)
 	var/t_He = p_they(TRUE)
+	var/t_His = p_their(TRUE)
 	var/t_his = p_their()
 //	var/t_him = p_them()
 	var/t_has = p_have()
@@ -794,6 +795,14 @@
 				. += span_revennotice("[t_He] look[p_s()] dumber than I.")
 			if(-INFINITY to -5)
 				. += span_revennotice("[t_He] look[p_s()] as blunt-minded as a rock.")
+
+	var/obj/item/bodypart/head/head_body = get_bodypart(BODY_ZONE_HEAD)
+	if(head_body)
+		if(head_body.teeth < initial(head_body.teeth))
+			var/missing_teeth = initial(head_body.teeth) - head_body.teeth
+			. += span_warning("[t_He] is missing [numberToWords(missing_teeth)] of [t_his] teeth!")
+		if(head_body.gold_teeth)
+			. += span_greentext("[t_His] smile brings a lustrous shine to [t_his] surroundings!")
 
 	if(maniac)
 		var/obj/item/organ/heart/heart = getorganslot(ORGAN_SLOT_HEART)

@@ -1114,6 +1114,7 @@
 #include "code\game\objects\items\rogueitems\natural\feather.dm"
 #include "code\game\objects\items\rogueitems\natural\glass.dm"
 #include "code\game\objects\items\rogueitems\natural\heads.dm"
+#include "code\game\objects\items\rogueitems\natural\human_teeth.dm"
 #include "code\game\objects\items\rogueitems\natural\poo.dm"
 #include "code\game\objects\items\rogueitems\natural\stones.dm"
 #include "code\game\objects\items\rogueitems\natural\wood.dm"

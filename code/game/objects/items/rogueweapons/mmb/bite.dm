@@ -154,7 +154,9 @@
 	for(var/obj/item/grabbing/grab in grabbedby) // Grabbed by the mouth
 		if(grab.sublimb_grabbed == BODY_ZONE_PRECISE_MOUTH)
 			return FALSE
-
+	var/obj/item/bodypart/head/head = get_bodypart(BODY_ZONE_HEAD)
+	if(head && (head.teeth < initial(head.teeth) / 2))
+		return FALSE
 	return TRUE
 
 /obj/item/grabbing/bite

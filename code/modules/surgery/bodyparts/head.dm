@@ -45,7 +45,7 @@
 	//grabtargets for grabs
 	grabtargets = list(BODY_ZONE_HEAD, BODY_ZONE_PRECISE_R_EYE, BODY_ZONE_PRECISE_L_EYE, BODY_ZONE_PRECISE_NOSE, BODY_ZONE_PRECISE_MOUTH, BODY_ZONE_PRECISE_SKULL, BODY_ZONE_PRECISE_EARS, BODY_ZONE_PRECISE_NECK)
 	resistance_flags = FLAMMABLE
-	
+
 	grid_width = 64
 	grid_height = 64
 
@@ -53,6 +53,18 @@
 	var/brainkill = FALSE
 
 	two_stage_death = TRUE // players won't be decapitated instantly (they'll still die immediately, though)
+
+	var/teeth = 32 /// Teeth held in this head's mouth
+	var/gold_teeth = 0 /// If you have any gold teeth in your mouth or not
+
+	var/static/list/teeth_bclass = list(
+		BCLASS_BLUNT,
+		BCLASS_SMASH,
+		BCLASS_CHOP,
+		BCLASS_PICK,
+		BCLASS_PUNCH,
+		BCLASS_SUNDER
+	)
 
 /obj/item/bodypart/head/examine()
 	. = ..()
@@ -86,6 +98,21 @@
 	QDEL_NULL(ears)
 	QDEL_NULL(tongue)
 	return ..()
+
+/obj/item/bodypart/head/bodypart_attacked_by(bclass = BCLASS_BLUNT, dam, mob/living/user, zone_precise = src.body_zone, silent = FALSE, crit_message = FALSE, armor, obj/item/weapon)
+	. = ..()
+	if(teeth && (bclass in teeth_bclass) && prob(dam))
+		var/tooth_type = /obj/item/natural/human_tooth
+		if(gold_teeth && prob((gold_teeth / teeth) * 100))
+			tooth_type = /obj/item/gold_tooth
+			gold_teeth--
+		teeth--
+		var/turf/our_turf = get_turf(owner)
+		var/obj/item/tooth = new tooth_type(our_turf)
+		var/thrown_dir = pick(GLOB.alldirs)
+		var/turf/landing_point = get_step(our_turf, thrown_dir)
+		tooth.throw_at(landing_point, rand(1, 3), 3, spin = TRUE)
+		playsound(our_turf, pick('sound/combat/fracture/fracturewet (1).ogg', 'sound/combat/fracture/fracturewet (2).ogg', 'sound/combat/fracture/fracturewet (3).ogg'), 100)
 
 /obj/item/bodypart/head/handle_atom_del(atom/A)
 	if(A == brain)

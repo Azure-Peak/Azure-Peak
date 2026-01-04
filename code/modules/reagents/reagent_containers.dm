@@ -85,6 +85,17 @@
 		return FALSE
 	return TRUE
 
+/obj/item/reagent_containers/food/canconsume(mob/eater, mob/user, silent = FALSE)
+	. = ..()
+	if(.)
+		if(ishuman(eater))
+			var/mob/living/carbon/human/human_eater = eater
+			var/obj/item/bodypart/head/head = human_eater.get_bodypart(BODY_ZONE_HEAD)
+			if(head && head.teeth < initial(head.teeth) / 2)
+				if(!silent)
+					to_chat(human_eater, span_warning("I don't have enough teeth to chew this..."))
+				return FALSE
+
 /obj/item/reagent_containers/ex_act()
 	if(reagents)
 		for(var/datum/reagent/R in reagents.reagent_list)
