@@ -2313,6 +2313,10 @@ Slots: [job.spawn_positions] [job.round_contrib_points ? "RCP: +[job.round_contr
 
 				if("dnr")
 					dnr_pref = !dnr_pref
+					if(dnr_pref)
+						to_chat(usr, span_notice("Your character's death will be permanent for the round. If not undead or an Adventurer, your character is Tempo Capable."))
+					else
+						to_chat(usr, span_notice("Your character can be revived."))
 				if("qsr")
 					qsr_pref = !qsr_pref
 				if("virtue")
