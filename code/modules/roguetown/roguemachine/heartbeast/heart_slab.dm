@@ -76,3 +76,61 @@
 
 			to_chat(user, "Successfully harmonized with [node.name].")
 			return TRUE
+
+/obj/effect/landmark/chimeric_calyx_spawner
+	name = "Chimeric Calyx Spawner"
+
+/obj/effect/landmark/chimeric_calyx_spawner/Initialize()
+	. = ..()
+	if(prob(60))
+		new /obj/structure/roguemachine/chimeric_calyx(loc)
+	qdel(src)
+
+/obj/structure/roguemachine/chimeric_calyx
+	name = "Heartbeast Calyx"
+	desc = "A pulsating bowl held aloft by twitching, vein-filled tendrils. The tendrils seem to have burst out of the ground long ago. It seems to hunger for interaction."
+	icon = 'icons/obj/structures/heart_items.dmi'
+	icon_state = "calyx"
+	density = TRUE
+	anchored = TRUE
+	var/list/contributing_names = list()
+
+/obj/structure/roguemachine/chimeric_calyx/attack_hand(mob/user)
+	if(!ishuman(user))
+		return
+	var/mob/living/carbon/human/H = user
+
+	if(H.real_name in contributing_names)
+		to_chat(H, span_warning("The calyx has already tasted your essence. It finds no more interest in you."))
+		return
+
+	to_chat(H, span_notice("You begin to offer your arms to the twitching tendrils..."))
+	if(!do_after(H, 4 SECONDS, target = src))
+		return
+
+	var/medical_skill = H.get_skill_level(/datum/skill/misc/medicine)
+	var/is_pestra = istype(H.patron, /datum/patron/divine/pestra)
+
+	// Base is medicine (0-6). If Pestra, they get a +2 bonus.
+	var/effectiveness = medical_skill
+	if(is_pestra)
+		effectiveness += 2
+
+	// Grant Vials: 1 by default, 2 if they are highly skilled/Pestra (4+ combined)
+	var/vial_count = (effectiveness >= 4) ? 2 : 1
+	for(var/i in 1 to vial_count)
+		new /obj/item/heart_blood_vial/filled(H.loc)
+
+	// Grant Echo Points: Clamp between 1 and 6 based on effectiveness
+	var/points_granted = clamp(effectiveness, 1, 6)
+	SSchimeric_tech.echo_points += points_granted
+	// One sippy per person
+	contributing_names += H.real_name
+	H.apply_status_effect(/datum/status_effect/buff/divine_rebirth_healing)
+
+	to_chat(H, span_boldnotice("The calyx shudders as tendrils extend to feel up your arms, affectionately carressing your head. You have contributed [points_granted] Echoes."))
+	if(vial_count > 1)
+		to_chat(H, span_notice("Your affinity allows you to coax the creature into giving you an extra vial of blood."))
+	else
+		to_chat(H, span_notice("The calyx cautiously places a vial of blood on the ground with one tendril."))
+	playsound(src, 'sound/misc/machineyes.ogg', 50, 1)
