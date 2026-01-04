@@ -55,6 +55,43 @@ to still keep this unavailable to mages... for the moment, at least.
 	. = ..()
 	to_chat(owner, span_warning("My vision returns...!"))
 
+/*
+NOCCITE SILENCE.
+This is going to be designed to work as an alternative to blindness that the cleric in question can pick.
+Might require a bit of modification, but we'll see if it works well. 
+
+Conceptually the miracle version of this chokes a mf out with their own shadow but I cant figure out how 2 only change the to_chat
+about the wind-pipe or whatever. So itj ust. Its in my mind. Ok? Redoing the ENTIRE cast to just change ONE line is not worth the sovl.
+*/
+
+/obj/effect/proc_holder/spell/invoked/silence/miracle
+	miracle = TRUE
+	devotion_cost = 25
+	chargetime = 0
+	chargedrain = 0
+	req_items = list(/obj/item/clothing/neck/roguetown/psicross)
+	associated_skill = /datum/skill/magic/holy
+	invocations = list("Blackest nite, bind!")
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 // This is the OLD version of blindness that I am keeping just in case the admins need to use it, or whatever. IDK.
 // Get free to yell at me if you want it out.
 
