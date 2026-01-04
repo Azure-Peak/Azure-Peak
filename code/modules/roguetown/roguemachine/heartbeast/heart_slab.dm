@@ -1,6 +1,6 @@
 /obj/structure/roguemachine/chimeric_slab
 	name = "Chimeric Echo Slab"
-	desc = "A specialized interface for accessing fundamental Tier 1 chimeric knowledge."
+	desc = "A specialized device for accessing fundamental chimeric knowledge."
 	icon = 'icons/mob/screen_alert.dmi'
 	icon_state = "blackrot1"
 	density = FALSE
