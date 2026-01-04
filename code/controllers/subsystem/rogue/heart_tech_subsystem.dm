@@ -195,3 +195,6 @@ SUBSYSTEM_DEF(chimeric_tech)
 	else if(SSchimeric_tech.get_node_status("INFESTATION_ROT_MULTIPLE_1"))
 		amount = 2
 	return amount
+
+#undef CHIMERIC_CACHE_TECH
+#undef CHIMERIC_CACHE_ECHOES

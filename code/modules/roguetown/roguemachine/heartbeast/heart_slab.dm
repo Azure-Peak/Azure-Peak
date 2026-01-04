@@ -62,7 +62,7 @@
 	switch(action)
 		if("unlock_node")
 			var/string_id = params["path"]
-			var/result = SSchimeric_tech.unlock_node(string_id, null, CHIMERIC_CACHE_ECHOES)
+			var/result = SSchimeric_tech.unlock_node(string_id, null, 2)
 			to_chat(user, result)
 			return TRUE
 
