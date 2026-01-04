@@ -73,9 +73,39 @@ about the wind-pipe or whatever. So itj ust. Its in my mind. Ok? Redoing the ENT
 	associated_skill = /datum/skill/magic/holy
 	invocations = list("Blackest nite, bind!")
 
+/*
+BLINDNESS OR SILENCE CHOICE SPELL
+I'm not a great coder, so this is basically repurposed arcyne affinity. This makes Noccite clerics have the most variety in the game.
+Somewhat fitting, considering the broadness of their domains. I also just think Blindness AND Silence are too strong to give at the same time.
+*/
+/obj/effect/proc_holder/spell/self/blindnessorsilence
+	name = "Blindness/Silence"
+	desc = "Choose to blind the enemy's eyes (-3 PER, REDUCED VISION CONE) or bind their throat (MUTES, DOES NOT WORK ON FULL-FLEDGED MAGES)."
+	miracle = TRUE
+	chargetime = 0
+	chargedrain = 0
+	req_items = list(/obj/item/clothing/neck/roguetown/psicross)
+	associated_skill = /datum/skill/magic/holy
+	var/chosen_spell
+	// this probably isnt necessary as these are no longer lists, but, uh, it's fine. i think.
+	var/silence = /obj/effect/proc_holder/spell/invoked/silence/miracle
+	var/blindness = /obj/effect/proc_holder/spell/invoked/blindness
 
-
-
+/obj/effect/proc_holder/spell/self/blindnessorsilence/cast(list/targets, mob/user)
+	. = ..()
+	var/choice = chosen_spell
+	if(!chosen_spell)
+		choice = alert(user, "BIRD or WORM, Crescent?", "ORDER OR ANARCHY", "Blindness", "Silence")
+		chosen_spell = choice
+	switch(choice)
+		if("Blindness")
+			user.mind?.AddSpell(new blindness, user)
+			user.mind?.RemoveSpell(src.type)
+		if("Silence")
+			user.mind?.AddSpell(new silence, user)
+			user.mind?.RemoveSpell(src.type)
+		else
+			revert_cast()
 
 
 
