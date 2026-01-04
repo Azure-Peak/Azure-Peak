@@ -99,26 +99,33 @@ SUBSYSTEM_DEF(chimeric_tech)
 
 	return final_choices
 
-/datum/controller/subsystem/chimeric_tech/proc/unlock_node(var/string_id, var/datum/component/chimeric_heart_beast/beast_component)
+/datum/controller/subsystem/chimeric_tech/proc/unlock_node(var/string_id, var/datum/component/chimeric_heart_beast/beast_component, var/cache_to_clear = CHIMERIC_CACHE_TECH)
 	var/datum/chimeric_tech_node/node = all_tech_nodes[string_id]
 
 	if(!node)
 		return "Error: Node not found."
 	if(node.unlocked)
+		clear_cached_choices(CHIMERIC_CACHE_ECHOES)
+		clear_cached_choices(CHIMERIC_CACHE_TECH)
 		return "Already unlocked."
 
 	// Sanity check
-	if(beast_component.language_tier < node.required_tier || beast_component.tech_points < node.cost)
-		return "Requirements not met."
+	if(cache_to_clear == CHIMERIC_CACHE_TECH)
+		if(beast_component.language_tier < node.required_tier || beast_component.tech_points < node.cost)
+			return "Requirements not met."
 
 	// Sanity check
 	for(var/required_node_path in node.prerequisites)
 		if(!get_node_status(required_node_path))
 			return "Missing prerequisite: [required_node_path]"
 
-	beast_component.tech_points -= node.cost
+	if(cache_to_clear == CHIMERIC_CACHE_TECH)
+		beast_component.tech_points -= node.cost
+		clear_cached_choices()
+	if(cache_to_clear == CHIMERIC_CACHE_ECHOES)
+		echo_points -= node.cost
+		clear_cached_choices(CHIMERIC_CACHE_ECHOES)
 	node.unlocked = TRUE
-	clear_cached_choices()
 
 	if(node.is_recipe_node)
 		update_recipes_for_tech(string_id)

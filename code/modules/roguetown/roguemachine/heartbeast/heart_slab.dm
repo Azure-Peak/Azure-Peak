@@ -53,7 +53,8 @@
 	return .
 
 /obj/structure/roguemachine/chimeric_slab/ui_act(action, list/params, datum/tgui/ui)
-	if(..())
+	. = ..()
+	if(.)
 		return
 
 	var/mob/user = ui.user
@@ -61,20 +62,8 @@
 	switch(action)
 		if("unlock_node")
 			var/string_id = params["path"]
-			var/datum/chimeric_tech_node/node = SSchimeric_tech.all_tech_nodes[string_id]
-			if(!node) return
-
-			// Check subsystem echo points instead of heartbeast
-			if(SSchimeric_tech.echo_points < node.cost)
-				to_chat(user, "Insufficient Echo Points.")
-				return TRUE
-
-			SSchimeric_tech.echo_points -= node.cost
-			node.unlocked = TRUE
-
-			SSchimeric_tech.clear_cached_choices(2)
-
-			to_chat(user, "Successfully harmonized with [node.name].")
+			var/result = SSchimeric_tech.unlock_node(string_id, null, CHIMERIC_CACHE_ECHOES)
+			to_chat(user, result)
 			return TRUE
 
 /obj/effect/landmark/chimeric_calyx_spawner
@@ -134,7 +123,7 @@
 	// One sippy per person
 	contributing_names += H.real_name
 	var/healing = 5
-	H.visible_message(span_info("Skittering ghostly bugs envelop [target]!"), span_notice("Ethereal bugs knit my flesh back together with their mandibles!"))
+	H.visible_message(span_info("Skittering ghostly bugs envelop [H]!"), span_notice("Ethereal bugs knit my flesh back together with their mandibles!"))
 	H.apply_status_effect(/datum/status_effect/buff/healing, healing)
 	// 225 healing but slowly released across 10 minutes, can't be refreshed.
 	H.apply_status_effect(/datum/status_effect/buff/pestra_care)
