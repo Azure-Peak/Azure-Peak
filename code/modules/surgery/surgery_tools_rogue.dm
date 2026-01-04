@@ -244,3 +244,58 @@
 	wdefense = 3
 	wbalance = 1
 	tool_behaviour = TOOL_IMPROVISED_RETRACTOR
+
+/*
+YA ALLAH DO NOT PUT THIS ANYWHERE IN GAME. THE PEOPLE DO NOT WANT ANY MORE TORTURE. THIS IS FOR
+A MINOR PLAYER DRIVEN EVENT!!!!! DONT PUT IT ANYWHERE!!!!! I'LL LIVE YOU!!!!!
+*/
+/obj/item/rogueweapon/surgery/cautery/branding_iron
+	name = "branding iron"
+	desc = "A wrought iron stick. At the top, a grip for ease of use... at the bottom, a brand in the shape of the Pantheon cross. Often used for punishing heretical behavior."
+
+/obj/item/rogueweapon/surgery/cautery/branding_iron/examine(mob/user)
+	. = ..()
+	if(heated)
+		. += span_warning("Target the HEAD while the target is RESTRAINED to brand them.")
+
+
+// this is complete and utter dogshit but i did it without ai so im proud of it
+/obj/item/rogueweapon/surgery/cautery/branding_iron/attack(mob/living/M, mob/living/user)
+	. = ..()
+	if(M.real_name in GLOB.excommunicated_players)
+		to_chat(user,span_userdanger("THEY'VE ALREADY BEEN BRANDED!!!"))
+		return
+	else if(heated && user.zone_selected == BODY_ZONE_HEAD)
+		brand(M, user)
+
+/obj/item/rogueweapon/surgery/cautery/branding_iron/proc/brand(mob/living/M, mob/living/user)
+	var/preop_sound = 'sound/surgery/cautery1.ogg'
+	var/success_sound = 'sound/surgery/cautery2.ogg'
+
+	// this is so dogshit but its fine because its a temporary item
+	if(M.restrained() || !(M.mobility_flags & MOBILITY_STAND))
+		visible_message(span_warning("[user] places the hot branding iron upon [M]\'s forehead..."))
+		playsound(M, preop_sound, 50, FALSE)
+		if(do_after(user, 10 SECONDS))
+			playsound(M, success_sound, 50, FALSE)
+			M.emote("painscream")
+			user.visible_message(span_warning("[user] adjusts the branding iron's pressure..."))
+			playsound(M, preop_sound, 50, FALSE)
+			if(do_after(user, 10 SECONDS))
+				playsound(M, success_sound, 50, FALSE)
+				M.emote("painscream")
+				playsound(M, preop_sound, 50, FALSE)
+				user.visible_message(span_warning("[user] presses the iron in one with one final thrust of force..."))
+				if(do_after(user, 10 SECONDS))
+					user.visible_message(span_warning("[user] finalizes branding [M] with the mark of a HERETIC! SHAME!"))
+					playsound(M, success_sound, 50, FALSE)
+					to_chat(M, span_userdanger("UNIMAGINABLE PAIN!"))
+					M.emote("painscream")
+					// this probably does bad stuff if someone else getsa hold of the iron. too bad!
+					GLOB.excommunicated_players += M.real_name
+					
+					message_admins("[user] has branded [M] as a heretic via BRANDING IRON. This SHOULD NOT BE USED by anyone EXCEPT Marcel.")
+					// this is REALLY fucking stupid but it works.
+					if(do_after(M, 5 SECONDS, FALSE, progress = FALSE, no_interrupt = TRUE))
+						playsound(M, 'sound/misc/adrenaline_rush.ogg', 50)
+
