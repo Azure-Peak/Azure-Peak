@@ -72,6 +72,7 @@ about the wind-pipe or whatever. So itj ust. Its in my mind. Ok? Redoing the ENT
 	req_items = list(/obj/item/clothing/neck/roguetown/psicross)
 	associated_skill = /datum/skill/magic/holy
 	invocations = list("Blackest nite, bind!")
+	zizo_spell = FALSE // the Noc Intelligence Agency is here to kill you quietly
 
 /*
 BLINDNESS OR SILENCE CHOICE SPELL
