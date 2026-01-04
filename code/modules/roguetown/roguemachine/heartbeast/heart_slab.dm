@@ -61,6 +61,8 @@
 
 	switch(action)
 		if("unlock_node")
+			if(!isliving(user))
+				return FALSE
 			var/string_id = params["path"]
 			var/result = SSchimeric_tech.unlock_node(string_id, null, 2)
 			to_chat(user, result)
