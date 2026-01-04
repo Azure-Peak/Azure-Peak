@@ -251,12 +251,12 @@ A MINOR PLAYER DRIVEN EVENT!!!!! DONT PUT IT ANYWHERE!!!!! I'LL LIVE YOU!!!!!
 */
 /obj/item/rogueweapon/surgery/cautery/branding_iron
 	name = "branding iron"
-	desc = "A wrought iron stick. At the top, a grip for ease of use... at the bottom, a brand in the shape of the Pantheon cross. Often used for punishing heretical behavior."
+	desc = "A wrought iron stick. Bears an end in the shape of the pantheon cross. Often used to grant physical marks warning of heresy."
 
 /obj/item/rogueweapon/surgery/cautery/branding_iron/examine(mob/user)
 	. = ..()
 	if(heated)
-		. += span_warning("Target the HEAD while the target is RESTRAINED to brand them.")
+		. += span_warning("Target the HEAD while COMBATIVE and while the target is RESTRAINED or PRONE to brand them.")
 
 
 // this is complete and utter dogshit but i did it without ai so im proud of it
@@ -274,18 +274,18 @@ A MINOR PLAYER DRIVEN EVENT!!!!! DONT PUT IT ANYWHERE!!!!! I'LL LIVE YOU!!!!!
 
 	// this is so dogshit but its fine because its a temporary item
 	if(M.restrained() || !(M.mobility_flags & MOBILITY_STAND))
-		visible_message(span_warning("[user] places the hot branding iron upon [M]\'s forehead..."))
+		visible_message(span_warning("[user] places the red-hot end of the pantheon cross upon [M]\'s forehead..."))
 		playsound(M, preop_sound, 50, FALSE)
 		if(do_after(user, 10 SECONDS))
 			playsound(M, success_sound, 50, FALSE)
 			M.emote("painscream")
-			user.visible_message(span_warning("[user] adjusts the branding iron's pressure..."))
+			user.visible_message(span_warning("[user] begins applying a building pressure..."))
 			playsound(M, preop_sound, 50, FALSE)
 			if(do_after(user, 10 SECONDS))
 				playsound(M, success_sound, 50, FALSE)
 				M.emote("painscream")
 				playsound(M, preop_sound, 50, FALSE)
-				user.visible_message(span_warning("[user] presses the iron in one with one final thrust of force..."))
+				user.visible_message(span_warning("[user] applies one last gust of force, the flesh sears as the brand completely sets..."))
 				if(do_after(user, 10 SECONDS))
 					user.visible_message(span_warning("[user] finalizes branding [M] with the mark of a HERETIC! SHAME!"))
 					playsound(M, success_sound, 50, FALSE)
