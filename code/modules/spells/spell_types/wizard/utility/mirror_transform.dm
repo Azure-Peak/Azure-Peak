@@ -45,14 +45,14 @@
 	if (!H)
 		return
 	var/should_update = FALSE
-	var/list/choices = list("Accessory", "Breast Quantity", "Breast Size", "Ears", "Ear Color One", "Ear Color Two", "Eye Color", "Facial Hairstyle", "Facial Hair Color", "Face Detail", "Hairstyle", "Hair Primary Color", "Hair Secondary Gradient", "Hair Secondary Natural Color", "Hair Third Gradient", "Hair Third Dye Color", "Horns", "Horn Color", "Penis", "Penis Size", "Tail", "Tail Color One", "Tail Color Two", "Testicles", "Testicle Size", "Vagina", "Wings", "Wing Color")
+	var/list/choices = list("hairstyle", "facial hairstyle", "accessory", "face detail", "horns", "ears", "ear color one", "ear color two", "tail", "tail color one", "tail color two", "hair color", "facial hair color", "eye color", "natural gradient", "natural gradient color", "dye gradient", "dye gradient color", "penis", "testicles", "breasts", "vagina", "breast size", "penis size", "testicle size")
 	var/chosen = input(H, "Change what?", "Appearance") as null|anything in choices
 
 	if(!chosen)
 		return
 
 	switch(chosen)
-		if("Hairstyle")
+		if("hairstyle")
 			var/datum/customizer_choice/bodypart_feature/hair/head/humanoid/hair_choice = CUSTOMIZER_CHOICE(/datum/customizer_choice/bodypart_feature/hair/head/humanoid)
 			var/list/valid_hairstyles = list()
 			for(var/hair_type in hair_choice.sprite_accessories)
@@ -90,8 +90,8 @@
 						H.update_hair()
 						should_update = TRUE
 
-		if("Hair Primary Color")
-			var/new_hair_color = color_pick_sanitized(H, "Choose your hair color", "Primary Hair Color", H.hair_color)
+		if("hair color")
+			var/new_hair_color = color_pick_sanitized(H, "Choose your hair color", "Hair Color", H.hair_color)
 			if(new_hair_color)
 				var/obj/item/bodypart/head/head = H.get_bodypart(BODY_ZONE_HEAD)
 				if(head && head.bodypart_features)
@@ -124,7 +124,7 @@
 						H.update_body_parts()
 						should_update = TRUE
 
-		if("Facial Hair Color")
+		if("facial hair color")
 			var/new_facial_hair_color = color_pick_sanitized(H, "Choose your facial hair color", "Facial Hair Color", H.facial_hair_color)
 			if(new_facial_hair_color)
 				var/obj/item/bodypart/head/head = H.get_bodypart(BODY_ZONE_HEAD)
@@ -152,7 +152,7 @@
 						head.add_bodypart_feature(new_facial)
 						should_update = TRUE
 
-		if("Eye Color")
+		if("eye color")
 			var/new_eye_color = color_pick_sanitized(H, "Choose your eye color", "Eye Color", H.eye_color)
 			if(new_eye_color)
 				new_eye_color = sanitize_hexcolor(new_eye_color, 6, TRUE)
@@ -167,13 +167,13 @@
 				H.update_body_parts()
 				should_update = TRUE
 
-		if("Hair Secondary Gradient")
+		if("natural gradient")
 			var/datum/customizer_choice/bodypart_feature/hair/head/humanoid/hair_choice = CUSTOMIZER_CHOICE(/datum/customizer_choice/bodypart_feature/hair/head/humanoid)
 			var/list/valid_gradients = list()
 			for(var/gradient_type in GLOB.hair_gradients)
 				valid_gradients[gradient_type] = gradient_type
 
-			var/new_style = input(H, "Choose your natural gradient", "Secondary Natural Hair Gradient") as null|anything in valid_gradients
+			var/new_style = input(H, "Choose your natural gradient", "Hair Gradient") as null|anything in valid_gradients
 			if(new_style)
 				var/obj/item/bodypart/head/head = H.get_bodypart(BODY_ZONE_HEAD)
 				if(head && head.bodypart_features)
@@ -199,8 +199,8 @@
 						head.add_bodypart_feature(new_hair)
 						should_update = TRUE
 
-		if("Hair Secondary Natural Color")
-			var/new_gradient_color = color_pick_sanitized(H, "Choose your natural gradient color", "Secondary Natural Hair Gradient Color", H.hair_color)
+		if("natural gradient color")
+			var/new_gradient_color = color_pick_sanitized(H, "Choose your natural gradient color", "Natural Gradient Color", H.hair_color)
 			if(new_gradient_color)
 				var/obj/item/bodypart/head/head = H.get_bodypart(BODY_ZONE_HEAD)
 				if(head && head.bodypart_features)
@@ -229,13 +229,13 @@
 						head.add_bodypart_feature(new_hair)
 						should_update = TRUE
 
-		if("Hair Third Gradient")
+		if("dye gradient")
 			var/datum/customizer_choice/bodypart_feature/hair/head/humanoid/hair_choice = CUSTOMIZER_CHOICE(/datum/customizer_choice/bodypart_feature/hair/head/humanoid)
 			var/list/valid_gradients = list()
 			for(var/gradient_type in GLOB.hair_gradients)
 				valid_gradients[gradient_type] = gradient_type
 
-			var/new_style = input(H, "Choose your dye gradient", "Hair Third Dye Gradient") as null|anything in valid_gradients
+			var/new_style = input(H, "Choose your dye gradient", "Hair Gradient") as null|anything in valid_gradients
 			if(new_style)
 				var/obj/item/bodypart/head/head = H.get_bodypart(BODY_ZONE_HEAD)
 				if(head && head.bodypart_features)
@@ -261,8 +261,8 @@
 						head.add_bodypart_feature(new_hair)
 						should_update = TRUE
 
-		if("Hair Third Dye Color")
-			var/new_gradient_color = color_pick_sanitized(H, "Choose your third gradient hair color", "Third Hair Gradient Color", H.hair_color)
+		if("dye gradient color")
+			var/new_gradient_color = color_pick_sanitized(H, "Choose your dye gradient color", "Dye Gradient Color", H.hair_color)
 			if(new_gradient_color)
 				var/obj/item/bodypart/head/head = H.get_bodypart(BODY_ZONE_HEAD)
 				if(head && head.bodypart_features)
@@ -291,7 +291,7 @@
 						head.add_bodypart_feature(new_hair)
 						should_update = TRUE
 
-		if("Facial Hairstyle")
+		if("facial hairstyle")
 			var/datum/customizer_choice/bodypart_feature/hair/facial/humanoid/facial_choice = CUSTOMIZER_CHOICE(/datum/customizer_choice/bodypart_feature/hair/facial/humanoid)
 			var/list/valid_facial_hairstyles = list()
 			for(var/facial_type in facial_choice.sprite_accessories)
@@ -324,7 +324,7 @@
 						H.update_hair()
 						should_update = TRUE
 
-		if("Accessory")
+		if("accessory")
 			var/datum/customizer_choice/bodypart_feature/accessory/accessory_choice = CUSTOMIZER_CHOICE(/datum/customizer_choice/bodypart_feature/accessory)
 			var/list/valid_accessories = list("none")
 			for(var/accessory_type in accessory_choice.sprite_accessories)
@@ -347,7 +347,7 @@
 						head.add_bodypart_feature(accessory_feature)
 					should_update = TRUE
 
-		if("Face Detail")
+		if("face detail")
 			var/datum/customizer_choice/bodypart_feature/face_detail/face_choice = CUSTOMIZER_CHOICE(/datum/customizer_choice/bodypart_feature/face_detail)
 			var/list/valid_details = list("none")
 			for(var/detail_type in face_choice.sprite_accessories)
@@ -370,7 +370,7 @@
 						head.add_bodypart_feature(detail_feature)
 					should_update = TRUE
 
-		if("Penis")
+		if("penis")
 			var/list/valid_penis_types = list("none")
 			for(var/penis_path in subtypesof(/datum/sprite_accessory/penis))
 				var/datum/sprite_accessory/penis/penis = new penis_path()
@@ -391,12 +391,11 @@
 						penis = new()
 						penis.Insert(H, TRUE, FALSE)
 					penis.accessory_type = valid_penis_types[new_style]
-					var/datum/sprite_accessory/penis/penis_type = SPRITE_ACCESSORY(penis.accessory_type)
-					penis.accessory_colors = penis_type.get_default_colors(color_key_source_list_from_carbon(H))
+					penis.color = H.dna.features["mcolor"]
 					H.update_body()
 					should_update = TRUE
 
-		if("Testicles")
+		if("testicles")
 			var/list/valid_testicle_types = list("none")
 			for(var/testicle_path in subtypesof(/datum/sprite_accessory/testicles))
 				var/datum/sprite_accessory/testicles/testicles = new testicle_path()
@@ -417,12 +416,11 @@
 						testicles = new()
 						testicles.Insert(H, TRUE, FALSE)
 					testicles.accessory_type = valid_testicle_types[new_style]
-					var/datum/sprite_accessory/testicles/testicles_type = SPRITE_ACCESSORY(testicles.accessory_type)
-					testicles_type.get_default_colors(color_key_source_list_from_carbon(H))
+					testicles.color = H.dna.features["mcolor"]
 					H.update_body()
 					should_update = TRUE
 
-		if("Breast Quantity")
+		if("breasts")
 			var/list/valid_breast_types = list("none")
 			for(var/breast_path in subtypesof(/datum/sprite_accessory/breasts))
 				var/datum/sprite_accessory/breasts/breasts = new breast_path()
@@ -445,12 +443,11 @@
 						breasts.Insert(H, TRUE, FALSE)
 
 					breasts.accessory_type = valid_breast_types[new_style]
-					var/datum/sprite_accessory/breasts/breasts_type = SPRITE_ACCESSORY(breasts.accessory_type)
-					breasts.accessory_colors = breasts_type.get_default_colors(color_key_source_list_from_carbon(H))
+					breasts.color = H.dna.features["mcolor"]
 					H.update_body()
 					should_update = TRUE
 
-		if("Vagina")
+		if("vagina")
 			var/list/valid_vagina_types = list("none", "human", "hairy", "spade", "furred", "gaping", "cloaca")
 			var/new_style = input(H, "Choose your vagina type", "Vagina Customization") as null|anything in valid_vagina_types
 
@@ -473,13 +470,12 @@
 					if(new_color)
 						vagina.color = sanitize_hexcolor(new_color, 6, TRUE)
 					else
-						var/datum/sprite_accessory/vagina/vag_type = SPRITE_ACCESSORY(vagina.accessory_type)
-						vagina.color = vag_type.get_default_colors(color_key_source_list_from_carbon(H))
+						vagina.color = H.dna.features["mcolor"]
 
 					H.update_body()
 					should_update = TRUE
 
-		if("Breast Size")
+		if("breast size")
 			var/list/breast_sizes = list("Flat", "Slight", "Small", "Moderate", "Large", "Generous", "Heavy", "Massive", "Heaping", "Obscene")
 			var/new_size = input(H, "Choose your breast size", "Breast Size") as null|anything in breast_sizes
 			if(new_size)
@@ -512,7 +508,7 @@
 					H.update_body()
 					should_update = TRUE
 
-		if("Penis Size")
+		if("penis size")
 			var/list/penis_sizes = list("small", "average", "large")
 			var/new_size = input(H, "Choose your penis size", "Penis Size") as null|anything in penis_sizes
 			if(new_size)
@@ -531,7 +527,7 @@
 					H.update_body()
 					should_update = TRUE
 
-		if("Testicle Size")
+		if("testicle size")
 			var/list/testicle_sizes = list("small", "average", "large")
 			var/new_size = input(H, "Choose your testicle size", "Testicle Size") as null|anything in testicle_sizes
 			if(new_size)
@@ -550,7 +546,7 @@
 					H.update_body()
 					should_update = TRUE
 
-		if("Tail")
+		if("tail")
 			var/list/valid_tails = list("none")
 			for(var/tail_path in subtypesof(/datum/sprite_accessory/tail))
 				var/datum/sprite_accessory/tail/tail = new tail_path()
@@ -572,11 +568,11 @@
 						tail.Insert(H, TRUE, FALSE)
 					tail.accessory_type = valid_tails[new_style]
 					var/datum/sprite_accessory/tail/tail_type = SPRITE_ACCESSORY(tail.accessory_type)
-					tail.accessory_colors = tail_type.get_default_colors(color_key_source_list_from_carbon(H))
+					tail.accessory_colors = tail_type.get_default_colors(list())
 					H.update_body()
 					should_update = TRUE
 
-		if("Tail Color One")
+		if("tail color one")
 			var/obj/item/organ/tail/tail = H.getorganslot(ORGAN_SLOT_TAIL)
 			if(tail)
 				var/new_color = color_pick_sanitized(H, "Choose your primary tail color", "Tail Color One", "#FFFFFF")
@@ -596,7 +592,7 @@
 			else
 				to_chat(H, span_warning("You don't have a tail!"))
 
-		if("Tail Color Two")
+		if("tail color two")
 			var/obj/item/organ/tail/tail = H.getorganslot(ORGAN_SLOT_TAIL)
 			if(tail)
 				var/new_color = color_pick_sanitized(H, "Choose your secondary tail color", "Tail Color Two", "#FFFFFF")
@@ -615,7 +611,7 @@
 					should_update = TRUE
 			else
 				to_chat(H, span_warning("You don't have a tail!"))
-		if("Ears")
+		if("ears")
 			var/list/valid_ears = list("none")
 			for(var/ears_path in subtypesof(/datum/sprite_accessory/ears))
 				var/datum/sprite_accessory/ears/ears = new ears_path()
@@ -637,11 +633,11 @@
 						ears.Insert(H, TRUE, FALSE)
 					ears.accessory_type = valid_ears[new_style]
 					var/datum/sprite_accessory/ears/ears_type = SPRITE_ACCESSORY(ears.accessory_type)
-					ears.accessory_colors = ears_type.get_default_colors(color_key_source_list_from_carbon(H))
+					ears.accessory_colors = ears_type.get_default_colors(list())
 					H.update_body()
 					should_update = TRUE
 
-		if("Ear Color One")
+		if("ear color one")
 			var/obj/item/organ/ears/ears = H.getorganslot(ORGAN_SLOT_EARS)
 			if(ears)
 				var/new_color = color_pick_sanitized(H, "Choose your primary ear color", "Ear Color One", "#FFFFFF")
@@ -661,7 +657,7 @@
 			else
 				to_chat(H, span_warning("You don't have ears!"))
 
-		if("Ear Color Two")
+		if("ear color two")
 			var/obj/item/organ/ears/ears = H.getorganslot(ORGAN_SLOT_EARS)
 			if(ears)
 				var/new_color = color_pick_sanitized(H, "Choose your secondary ear color", "Ear Color Two", "#FFFFFF")
@@ -681,7 +677,7 @@
 			else
 				to_chat(H, span_warning("You don't have a ears!"))
 				
-		if("Horns")
+		if("horns")
 			var/list/valid_horns = list("none")
 			for(var/horns_path in subtypesof(/datum/sprite_accessory/horns))
 				var/datum/sprite_accessory/horns/horns = new horns_path()
@@ -703,75 +699,10 @@
 						horns.Insert(H, TRUE, FALSE)
 					horns.accessory_type = valid_horns[new_style]
 					var/datum/sprite_accessory/horns/horns_type = SPRITE_ACCESSORY(horns.accessory_type)
-					horns.accessory_colors = horns_type.get_default_colors(color_key_source_list_from_carbon(H))
+					horns.accessory_colors = horns_type.get_default_colors(list())
 					H.update_body()
 					should_update = TRUE
 
-		if("Horn Color")
-			var/obj/item/organ/horns/horns = H.getorganslot(ORGAN_SLOT_HORNS)
-			if(horns)
-				var/new_color = color_pick_sanitized(H, "Choose your primary ear color", "Ear Color One", "#FFFFFF")
-				if(new_color)
-					horns.Remove(H)
-					var/list/colors = list()
-					if(horns.accessory_colors)
-						colors = color_string_to_list(horns.accessory_colors)
-					if(!length(colors))
-						colors = list("#FFFFFF", "#FFFFFF") // Default colors if none set
-					colors[1] = sanitize_hexcolor(new_color, 6, TRUE)
-					horns.accessory_colors = color_list_to_string(colors)
-					horns.Insert(H, TRUE, FALSE)
-					H.dna.features["horns_color"] = colors[1]  // Update DNA features
-					H.update_body()
-					should_update = TRUE
-			else
-				to_chat(H, span_warning("You don't have horns!"))
-
-		if("Wings")
-			var/list/valid_wings = list("none")
-			for(var/wings_path in subtypesof(/datum/sprite_accessory/wings))
-				var/datum/sprite_accessory/wings/wings = new wings_path()
-				valid_wings[wings.name] = wings_path
-
-			var/new_style = input(H, "Choose your wings", "Wings Customization") as null|anything in valid_wings
-			if(new_style)
-				if(new_style == "none")
-					var/obj/item/organ/wings/wings = H.getorganslot(ORGAN_SLOT_WINGS)
-					if(wings)
-						wings.Remove(H)
-						qdel(wings)
-						H.update_body()
-						should_update = TRUE
-				else
-					var/obj/item/organ/wings/wings = H.getorganslot(ORGAN_SLOT_WINGS)
-					if(!wings)
-						wings = new /obj/item/organ/wings()
-						wings.Insert(H, TRUE, FALSE)
-					wings.accessory_type = valid_wings[new_style]
-					var/datum/sprite_accessory/wings/wings_type = SPRITE_ACCESSORY(wings.accessory_type)
-					wings.accessory_colors = wings_type.get_default_colors(color_key_source_list_from_carbon(H))
-					H.update_body()
-					should_update = TRUE
-
-		if("Wing Color")
-			var/obj/item/organ/wings/wings = H.getorganslot(ORGAN_SLOT_WINGS)
-			if(wings)
-				var/new_color = color_pick_sanitized(H, "Choose your primary wing color", "Wing Color One", "#FFFFFF")
-				if(new_color)
-					wings.Remove(H)
-					var/list/colors = list()
-					if(wings.accessory_colors)
-						colors = color_string_to_list(wings.accessory_colors)
-					if(!length(colors))
-						colors = list("#FFFFFF", "#FFFFFF") // Default colors if none set
-					colors[1] = sanitize_hexcolor(new_color, 6, TRUE)
-					wings.accessory_colors = color_list_to_string(colors)
-					wings.Insert(H, TRUE, FALSE)
-					H.dna.features["wings_color"] = colors[1]  // Update DNA features
-					H.update_body()
-					should_update = TRUE
-			else
-				to_chat(H, span_warning("You don't have wings!"))
 
 	if(should_update)
 		H.update_hair()
