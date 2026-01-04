@@ -11,6 +11,7 @@
 	tutorial = "Servitude unto death; that is your motto. You are the manor's major-domo, commanding over the house servants and seeing to the administrative affairs, day to day of the estate. This role has style options for chief butlers and head maids."
 	outfit = /datum/outfit/job/roguetown/seneschal
 	advclass_cat_rolls = list(CTAG_SENESCHAL = 20)
+	job_traits = list(TRAIT_FOOD_STIPEND)
 	display_order = JDO_BUTLER
 	give_bank_account = TRUE
 	min_pq = 3
