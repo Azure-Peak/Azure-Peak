@@ -79,10 +79,17 @@
 
 /obj/effect/landmark/chimeric_calyx_spawner
 	name = "Chimeric Calyx Spawner"
+	var/calyx_spawn_chance = 60
+
+/obj/effect/landmark/chimeric_calyx_spawner/thirty
+	calyx_spawn_chance = 30
+
+/obj/effect/landmark/chimeric_calyx_spawner/fifteen
+	calyx_spawn_chance = 15
 
 /obj/effect/landmark/chimeric_calyx_spawner/Initialize()
 	. = ..()
-	if(prob(60))
+	if(prob(calyx_spawn_chance))
 		new /obj/structure/roguemachine/chimeric_calyx(loc)
 	qdel(src)
 
@@ -126,7 +133,11 @@
 	SSchimeric_tech.echo_points += points_granted
 	// One sippy per person
 	contributing_names += H.real_name
-	H.apply_status_effect(/datum/status_effect/buff/divine_rebirth_healing)
+	var/healing = 5
+	H.visible_message(span_info("Skittering ghostly bugs envelop [target]!"), span_notice("Ethereal bugs knit my flesh back together with their mandibles!"))
+	H.apply_status_effect(/datum/status_effect/buff/healing, healing)
+	// 225 healing but slowly released across 10 minutes, can't be refreshed.
+	H.apply_status_effect(/datum/status_effect/buff/pestra_care)
 
 	to_chat(H, span_boldnotice("The calyx shudders as tendrils extend to feel up your arms, affectionately carressing your head. You have contributed [points_granted] Echoes."))
 	if(vial_count > 1)
