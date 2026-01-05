@@ -45129,6 +45129,10 @@
 /obj/effect/decal/cleanable/dirt/cobweb/cobweb2,
 /turf/open/floor/rogue/cobble,
 /area/rogue/under/town/sewer)
+"lfl" = (
+/obj/effect/landmark/chimeric_calyx_spawner/fifteen,
+/turf/open/floor/rogue/hexstone,
+/area/rogue/indoors/town/dwarfin)
 "lfr" = (
 /turf/open/floor/rogue/church,
 /area/rogue/indoors/town/church/basement)
@@ -58084,6 +58088,10 @@
 	},
 /turf/open/floor/rogue/cobble,
 /area/rogue/indoors/town/manor)
+"oox" = (
+/obj/effect/landmark/chimeric_calyx_spawner/fifteen,
+/turf/open/floor/rogue/dirt/road,
+/area/rogue/indoors/town/dwarfin)
 "ooH" = (
 /obj/structure/bars/passage/shutter{
 	max_integrity = 15000;
@@ -58675,6 +58683,10 @@
 /obj/structure/flora/roguegrass/bush/wall,
 /turf/closed/wall/mineral/rogue/wooddark,
 /area/rogue/druidsgrove)
+"owE" = (
+/obj/effect/landmark/chimeric_calyx_spawner/fifteen,
+/turf/open/floor/rogue/churchmarble,
+/area/rogue/under/underdark/south)
 "owI" = (
 /obj/effect/decal/cobbleedge{
 	dir = 4;
@@ -84468,8 +84480,8 @@
 /area/rogue/indoors/town/manor)
 "uQV" = (
 /obj/effect/landmark/chimeric_calyx_spawner/fifteen,
-/turf/open/floor/rogue/hexstone,
-/area/rogue/indoors/town/dwarfin)
+/turf/open/floor/rogue/blocks/stonered,
+/area/rogue/under/underdark/north)
 "uQW" = (
 /obj/structure/closet/crate/coffin,
 /obj/item/roguegem/random,
@@ -90589,6 +90601,10 @@
 /obj/effect/decal/cleanable/blood/old,
 /turf/open/floor/rogue/wood,
 /area/rogue/under/underdark/south)
+"wpL" = (
+/obj/effect/landmark/chimeric_calyx_spawner/fifteen,
+/turf/open/floor/rogue/naturalstone,
+/area/rogue/under/underdark/north)
 "wpV" = (
 /obj/structure/chair/wood/rogue/fancy,
 /obj/effect/landmark/start/wapprentice,
@@ -94790,6 +94806,13 @@
 	},
 /turf/open/floor/rogue/ruinedwood/spiral,
 /area/rogue/indoors/town/steward)
+"xud" = (
+/obj/structure/flora/newbranch/leafless{
+	dir = 1
+	},
+/obj/effect/landmark/chimeric_calyx_spawner/fifteen,
+/turf/open/floor/rogue/grassred,
+/area/rogue/outdoors/rtfield/eora)
 "xuf" = (
 /obj/effect/decal/cobbleedge{
 	dir = 6
@@ -103695,7 +103718,7 @@ piD
 piD
 piD
 piD
-piD
+owE
 qdZ
 kbp
 kbp
@@ -126997,9 +127020,9 @@ pVe
 pVe
 pVe
 paz
+wpL
 paz
-paz
-paz
+wpL
 paz
 paz
 paz
@@ -130080,7 +130103,7 @@ yjO
 oKd
 oKd
 oKd
-xYB
+qNR
 jzb
 xYB
 pwS
@@ -139470,7 +139493,7 @@ eMU
 orc
 vpg
 bhJ
-toJ
+kWe
 bhJ
 cqm
 vGa
@@ -139943,7 +139966,7 @@ vGa
 vGa
 vGa
 vGa
-vGa
+lfl
 smL
 gau
 iZp
@@ -140938,7 +140961,7 @@ oKd
 oKd
 oKd
 xLM
-cWo
+uQV
 cWo
 cWo
 cWo
@@ -145351,7 +145374,7 @@ bhJ
 bhJ
 bhJ
 cqm
-rQj
+oox
 mHr
 lhY
 lhY
@@ -147606,7 +147629,7 @@ eMU
 eMU
 orc
 orc
-uvk
+qSu
 bhJ
 bhJ
 bhJ
@@ -524980,7 +525003,7 @@ aBB
 kGU
 mWg
 swt
-qJU
+xud
 kGU
 aBB
 aBB
