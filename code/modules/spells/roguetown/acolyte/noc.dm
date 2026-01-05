@@ -66,7 +66,7 @@ about the wind-pipe or whatever. So itj ust. Its in my mind. Ok? Redoing the ENT
 
 /obj/effect/proc_holder/spell/invoked/silence/miracle
 	miracle = TRUE
-	devotion_cost = 25
+	devotion_cost = 40 // "worse" than blindness in most practical cases so its a little less. we'll see.
 	chargetime = 0
 	chargedrain = 0
 	req_items = list(/obj/item/clothing/neck/roguetown/psicross)
