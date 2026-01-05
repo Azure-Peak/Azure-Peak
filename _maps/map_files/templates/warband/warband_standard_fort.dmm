@@ -597,11 +597,6 @@
 /obj/structure/table/wood{
 	icon_state = "longtable"
 	},
-/obj/structure/table/wood{
-	icon_state = "longtable";
-	dir = 1;
-	pixel_x = 9
-	},
 /obj/item/millstone{
 	pixel_y = 11
 	},
@@ -1323,21 +1318,12 @@
 /turf/open/floor/rogue/grassyel,
 /area/rogue/outdoors/warcamp)
 "xN" = (
-/obj/structure/chair/bench/couch{
-	icon_state = "redcouch2";
-	color = "#4f4d63"
-	},
-/obj/structure/chair/bench/couch{
-	icon_state = "redcouch2";
-	pixel_x = 21;
-	color = "#4f4d63"
-	},
 /obj/structure/fluff/walldeco/bigpainting/lake,
 /obj/effect/decal/cobbleedge{
 	dir = 1;
 	icon_state = "borderfall"
 	},
-/turf/open/floor/carpet/royalblack,
+/turf/open/floor/rogue/metal/barograte,
 /area/rogue/indoors/warcamp/fort)
 "xT" = (
 /obj/structure/fluff/warband/warband_recruit,
@@ -1687,16 +1673,6 @@
 	},
 /turf/open/floor/rogue/grass,
 /area/rogue/outdoors/warcamp)
-"EW" = (
-/obj/structure/chair/bench/couch{
-	color = "#4f4d63"
-	},
-/obj/effect/decal/cobbleedge{
-	dir = 1;
-	icon_state = "borderfall"
-	},
-/turf/open/floor/carpet/royalblack,
-/area/rogue/indoors/warcamp/fort)
 "Fk" = (
 /obj/machinery/light/rogue/torchholder{
 	pixel_y = 26
@@ -2553,9 +2529,6 @@
 /obj/structure/table/wood{
 	icon_state = "tablewood1"
 	},
-/obj/structure/table/wood{
-	icon_state = "tablewood1"
-	},
 /obj/item/quiver/sling/iron,
 /obj/item/quiver/sling/iron,
 /obj/item/quiver/sling/iron,
@@ -2710,9 +2683,6 @@
 /turf/open/floor/rogue/grass,
 /area/rogue/outdoors/warcamp)
 "VG" = (
-/obj/structure/table/wood{
-	icon_state = "tablewood1"
-	},
 /obj/structure/table/wood{
 	icon_state = "tablewood1"
 	},
@@ -2903,18 +2873,6 @@
 	pixel_y = -32
 	},
 /turf/open/floor/rogue/blocks/stonered/tiny,
-/area/rogue/indoors/warcamp/fort)
-"Zl" = (
-/obj/structure/chair/bench/couch{
-	icon_state = "redcouch2";
-	pixel_x = -1;
-	color = "#4f4d63"
-	},
-/obj/effect/decal/cobbleedge{
-	dir = 1;
-	icon_state = "borderfall"
-	},
-/turf/open/floor/carpet/royalblack,
 /area/rogue/indoors/warcamp/fort)
 "Zv" = (
 /turf/open/floor/carpet/royalblack,
@@ -4605,7 +4563,7 @@ TD
 PB
 va
 hl
-EW
+WI
 Kq
 Zv
 Rb
@@ -4699,7 +4657,7 @@ Et
 va
 xV
 hl
-Zl
+WI
 Kq
 Zv
 fh

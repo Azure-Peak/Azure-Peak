@@ -44,9 +44,6 @@
 /obj/structure/table/wood{
 	icon_state = "tablewood1"
 	},
-/obj/structure/table/wood{
-	icon_state = "tablewood1"
-	},
 /obj/item/quiver/sling/iron,
 /obj/item/quiver/sling/iron,
 /obj/item/quiver/sling/iron,
@@ -291,11 +288,6 @@
 /obj/machinery/gear_painter,
 /turf/open/floor/rogue/grass,
 /area/rogue/outdoors/warcamp)
-"gq" = (
-/obj/structure/flora/roguegrass/herb/symphitum,
-/turf/open/floor/rogue/grass,
-/turf/open/floor/rogue/cobble/mossy,
-/area/rogue/outdoors/warcamp)
 "gA" = (
 /obj/item/rogueweapon/flail/peasantwarflail,
 /obj/item/rogueweapon/flail/peasantwarflail,
@@ -399,9 +391,6 @@
 /obj/structure/table/wood{
 	icon_state = "tablewood1"
 	},
-/obj/structure/table/wood{
-	icon_state = "tablewood1"
-	},
 /obj/item/quiver/sling/iron,
 /obj/item/quiver/sling/iron,
 /obj/item/quiver/sling/iron,
@@ -477,7 +466,6 @@
 	dir = 6
 	},
 /turf/open/floor/rogue/grass,
-/turf/open/floor/rogue/cobble/mossy,
 /area/rogue/outdoors/warcamp)
 "jo" = (
 /obj/structure/flora/newtree,
@@ -944,11 +932,6 @@
 /obj/machinery/light/rogue/candle/r,
 /turf/open/floor/carpet/red,
 /area/rogue/indoors/warcamp)
-"tt" = (
-/obj/structure/flora/roguegrass,
-/turf/open/floor/rogue/grass,
-/turf/open/floor/rogue/cobble/mossy,
-/area/rogue/outdoors/warcamp)
 "tv" = (
 /obj/machinery/light/rogue/lanternpost{
 	dir = 1;
@@ -1375,11 +1358,6 @@
 "Dv" = (
 /obj/structure/fluff/railing/border/east,
 /turf/open/floor/rogue/tile,
-/area/rogue/indoors/warcamp)
-"DA" = (
-/obj/structure/roguewindow,
-/turf/closed,
-/turf/open/transparent/openspace,
 /area/rogue/indoors/warcamp)
 "DG" = (
 /obj/structure/flora/roguetree/stump/burnt,
@@ -2062,7 +2040,6 @@
 /area/rogue/indoors/warcamp)
 "Ry" = (
 /turf/closed/wall/mineral/rogue/wooddark,
-/turf/open/floor/rogue/wood/nosmooth,
 /area/rogue/indoors)
 "Rz" = (
 /obj/machinery/light/rogue/oven/west,
@@ -3011,14 +2988,14 @@ wG
 jC
 jC
 wG
-DA
+jC
 LF
 LF
 jC
 wG
 wG
 kJ
-gq
+RL
 MN
 An
 oT
@@ -3256,7 +3233,7 @@ oT
 oT
 oT
 ji
-tt
+Qs
 oT
 oT
 ex
@@ -3301,7 +3278,7 @@ oT
 oT
 oT
 ex
-IM
+CG
 IM
 yw
 yw

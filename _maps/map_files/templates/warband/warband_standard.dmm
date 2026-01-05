@@ -393,9 +393,6 @@
 /obj/structure/table/wood{
 	icon_state = "tablewood1"
 	},
-/obj/structure/table/wood{
-	icon_state = "tablewood1"
-	},
 /obj/item/quiver/bolts,
 /obj/item/quiver/bolts,
 /obj/item/quiver/bolts,
@@ -670,9 +667,6 @@
 /obj/structure/table/wood{
 	icon_state = "tablewood1"
 	},
-/obj/structure/table/wood{
-	icon_state = "tablewood1"
-	},
 /obj/item/quiver/sling/iron,
 /obj/item/quiver/sling/iron,
 /obj/item/quiver/sling/iron,
@@ -717,12 +711,6 @@
 "vC" = (
 /obj/structure/chair/stool/rogue,
 /turf/open/floor/rogue/grassred,
-/area/rogue/outdoors/warcamp)
-"vE" = (
-/obj/structure/flora/newleaf,
-/obj/structure/flora/newtree,
-/turf/open/floor/rogue/grassred,
-/turf/open/floor/rogue/cobble/mossy,
 /area/rogue/outdoors/warcamp)
 "vI" = (
 /obj/machinery/light/rogue/lanternpost{
@@ -1442,12 +1430,6 @@
 	pixel_x = -2;
 	pixel_y = -2
 	},
-/obj/structure/table/wood{
-	icon_state = "largetable";
-	dir = 6;
-	pixel_x = 5;
-	pixel_y = -2
-	},
 /obj/structure/fermentation_keg/water{
 	pixel_y = 1
 	},
@@ -1875,7 +1857,6 @@
 	},
 /area/rogue/indoors/warcamp)
 "YT" = (
-/turf/open/floor/rogue/cobblerock,
 /turf/open/floor/rogue/cobble/mossy,
 /turf/open/floor/rogue/cobble/mossy,
 /area/rogue/outdoors/warcamp)
@@ -2191,7 +2172,7 @@ FN
 Wq
 DV
 ev
-QA
+DV
 QA
 xy
 pI
@@ -3929,7 +3910,7 @@ pI
 Wq
 Wq
 jO
-vE
+bP
 nQ
 nQ
 nQ

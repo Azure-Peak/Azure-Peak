@@ -17,8 +17,10 @@
 /turf/open/floor/rogue/dirt/road,
 /area/rogue/indoors/warcamp/wizard)
 "aU" = (
-/obj/structure/chair/wood/rogue/fancy,
 /obj/structure/fluff/wallclock,
+/obj/effect/decal/carpet/kover_darkred{
+	pixel_x = 1
+	},
 /turf/open/floor/rogue/tile/harem1,
 /area/rogue/indoors/warcamp/wizard)
 "ba" = (
@@ -278,6 +280,17 @@
 	icon_state = "longtable_mid"
 	},
 /obj/structure/fluff/railing/border,
+/obj/structure/fluff/warband/campaign_planner{
+	pixel_y = 6
+	},
+/obj/item/scrying{
+	pixel_y = 10;
+	pixel_x = 22
+	},
+/obj/item/reagent_containers/glass/bottle/rogue/beer/hagwoodbitter{
+	pixel_y = 5;
+	pixel_x = 23
+	},
 /turf/open/floor/rogue/tile/harem,
 /area/rogue/indoors/warcamp/wizard)
 "dZ" = (
@@ -1059,16 +1072,6 @@
 	},
 /turf/open/lava/mana,
 /area/rogue/indoors/warcamp/wizard)
-"pp" = (
-/obj/structure/stairs/fancy/c{
-	dir = 8
-	},
-/obj/structure/stairs/d{
-	pixel_y = 0;
-	dir = 8
-	},
-/turf/open/floor/rogue/tile/harem1,
-/area/rogue/indoors/warcamp/wizard)
 "px" = (
 /obj/effect/decal/cobbleedge{
 	dir = 10;
@@ -1099,19 +1102,6 @@
 /obj/structure/table/wood,
 /obj/item/paper/scroll,
 /obj/item/paper/scroll,
-/turf/open/floor/carpet/stellar{
-	color = "#A2A2A2"
-	},
-/area/rogue/indoors/warcamp/wizard)
-"pO" = (
-/obj/structure/chair/wood/rogue{
-	icon_state = "chair2";
-	dir = 8
-	},
-/obj/structure/chair/wood/rogue{
-	icon_state = "chair2";
-	dir = 8
-	},
 /turf/open/floor/carpet/stellar{
 	color = "#A2A2A2"
 	},
@@ -2164,13 +2154,13 @@
 /turf/open/floor/rogue/ruinedwood/spiral,
 /area/rogue/indoors/warcamp/wizard)
 "Cc" = (
-/obj/structure/chair/wood/rogue/throne,
 /obj/effect/landmark/start/warlordlate,
 /obj/effect/decal/cobbleedge{
 	dir = 10;
 	icon_state = "cobbleedge-e"
 	},
 /obj/effect/decal/cleanable/debris/stony,
+/obj/structure/chair/wood/rogue/fancy,
 /turf/open/floor/rogue/ruinedwood/spiral,
 /area/rogue/indoors/warcamp/wizard)
 "Ck" = (
@@ -2571,21 +2561,12 @@
 /turf/open/floor/rogue/cobble,
 /area/rogue/indoors/warcamp/wizard)
 "HS" = (
+/obj/item/reagent_containers/glass/mortar,
+/obj/item/pestle,
 /obj/structure/table/wood{
 	dir = 1;
 	icon_state = "longtable_mid"
 	},
-/obj/structure/table/wood{
-	icon_state = "longtable";
-	dir = 1;
-	pixel_x = 2
-	},
-/obj/structure/table/wood{
-	icon_state = "longtable";
-	pixel_x = -2
-	},
-/obj/item/reagent_containers/glass/mortar,
-/obj/item/pestle,
 /turf/open/floor/rogue/blocks,
 /area/rogue/indoors/warcamp/wizard)
 "HT" = (
@@ -3397,32 +3378,6 @@
 	},
 /obj/structure/fluff/railing/border/east,
 /turf/open/floor/rogue/ruinedwood/spiral,
-/area/rogue/indoors/warcamp/wizard)
-"Tc" = (
-/obj/structure/table/wood{
-	icon_state = "longtable";
-	pixel_x = -5
-	},
-/obj/effect/decal/carpet/kover_darkred{
-	pixel_x = 1
-	},
-/obj/item/scrying{
-	pixel_y = 10;
-	pixel_x = 22
-	},
-/obj/structure/table/wood{
-	dir = 1;
-	icon_state = "longtable";
-	pixel_x = 8
-	},
-/obj/item/reagent_containers/glass/bottle/rogue/beer/hagwoodbitter{
-	pixel_y = 5;
-	pixel_x = 23
-	},
-/obj/structure/fluff/warband/campaign_planner{
-	pixel_y = 6
-	},
-/turf/open/floor/rogue/tile/harem1,
 /area/rogue/indoors/warcamp/wizard)
 "Ti" = (
 /obj/structure/table/wood,
@@ -4909,7 +4864,7 @@ Jq
 Wd
 Wd
 HX
-pp
+Li
 wM
 Wd
 Wd
@@ -5048,7 +5003,7 @@ qi
 sl
 Je
 yW
-pO
+yW
 Um
 xn
 Um
@@ -5191,7 +5146,7 @@ vv
 Wd
 Wd
 HX
-pp
+Li
 wM
 Wd
 Wd
@@ -5257,7 +5212,7 @@ zT
 (28,1,1) = {"
 JJ
 aU
-Tc
+Qo
 Qo
 sl
 fs
