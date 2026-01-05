@@ -20,7 +20,7 @@
 	max_pq = null
 	round_contrib_points = 2
 	cmode_music = 'sound/music/combat_noble.ogg'
-	job_traits = list(TRAIT_NOBLE)
+	job_traits = list(TRAIT_NOBLE, TRAIT_LAWEXPERT)
 	job_subclasses = list(
 		/datum/advclass/councillor/herald,
 		/datum/advclass/councillor/advisor,

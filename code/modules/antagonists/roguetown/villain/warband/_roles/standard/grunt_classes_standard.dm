@@ -53,7 +53,7 @@
 	beltr = /obj/item/rogueweapon/shield/buckler
 	belt = /obj/item/storage/belt/rogue/leather/black
 	backr = /obj/item/storage/backpack/rogue/satchel/black
-	cloak = /obj/item/clothing/cloak/stabard/warband
+	cloak = /obj/item/clothing/cloak/tabard/stabard/warband
 	r_hand = /obj/item/rogueweapon/halberd
 
 
@@ -106,7 +106,7 @@
 	shoes = /obj/item/clothing/shoes/roguetown/boots/leather
 	belt = /obj/item/storage/belt/rogue/leather/black
 	backr = /obj/item/storage/backpack/rogue/satchel/black
-	cloak = /obj/item/clothing/cloak/stabard/warband
+	cloak = /obj/item/clothing/cloak/tabard/stabard/warband
 	pants = /obj/item/clothing/under/roguetown/heavy_leather_pants
 	armor = /obj/item/clothing/suit/roguetown/armor/leather/studded
 	wrists = /obj/item/clothing/wrists/roguetown/splintarms
@@ -163,7 +163,7 @@
 
 /datum/outfit/job/roguetown/warband/standard/grunt/rider/pre_equip(mob/living/carbon/human/H)
 	head = /obj/item/clothing/head/roguetown/helmet/winged
-	cloak = /obj/item/clothing/cloak/stabard/warband
+	cloak = /obj/item/clothing/cloak/tabard/stabard/warband
 	shirt = /obj/item/clothing/suit/roguetown/armor/gambeson	
 	armor = /obj/item/clothing/suit/roguetown/armor/plate/scale	
 	pants = /obj/item/clothing/under/roguetown/chainlegs/iron
@@ -261,7 +261,7 @@
 	neck = /obj/item/clothing/neck/roguetown/gorget
 	gloves = /obj/item/clothing/gloves/roguetown/plate/iron
 	shoes = /obj/item/clothing/shoes/roguetown/boots
-	cloak = /obj/item/clothing/cloak/stabard/warband
+	cloak = /obj/item/clothing/cloak/tabard/stabard/warband
 	backpack_contents = list(
 		/obj/item/rogueweapon/huntingknife/idagger/steel/special,
 		/obj/item/flashlight/flare/torch/lantern/prelit,

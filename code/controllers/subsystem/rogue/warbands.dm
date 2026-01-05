@@ -6,6 +6,8 @@ SUBSYSTEM_DEF(warbands)
 	var/list/warband_managers = list()
 	var/list/warband_machines = list()
 	var/warband_managers_busy = FALSE	// prevents multiple warbands from being loaded in at once | necessary, as warband_ID assignments for objects will expect this to be the case
+	var/atom/movable/screen/warband/manager/roundstart_manager
+	var/roundstart_manager_claimed = FALSE
 
 	var/list/treaties = list()
 	var/list/submitted_treaties = list()
@@ -23,6 +25,10 @@ SUBSYSTEM_DEF(warbands)
 	for(var/territory_faction_path in DEFAULT_TERRITORY_FACTIONS)
 		territory_factions += new territory_faction_path
 	create_name_cache()
+
+	roundstart_manager = new /atom/movable/screen/warband/manager(FALSE)
+	roundstart_manager.warband_ID = 1
+	warband_managers += roundstart_manager
 
 /datum/controller/subsystem/warbands/proc/create_name_cache()
 	for(var/datum/territory_faction/faction in territory_factions)

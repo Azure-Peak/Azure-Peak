@@ -95,7 +95,7 @@ export const WorldTab = ({ nobleList, alliesList, act }: WorldTabProps) => {
               fontSize: '25px',
               padding: '25px',
               display: 'flex',
-              marginBottom: '90px',
+              marginBottom: '110px',
               justifyContent: 'center',
               alignItems: 'center',
             }}
@@ -109,7 +109,7 @@ export const WorldTab = ({ nobleList, alliesList, act }: WorldTabProps) => {
               fontSize: '25px',
               padding: '25px',
               display: 'flex',
-              marginBottom: '90px',
+              marginBottom: '110px',
               justifyContent: 'center',
               alignItems: 'center',
             }}

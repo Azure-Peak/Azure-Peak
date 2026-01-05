@@ -920,3 +920,5 @@
                 proposed_name = "[base_name] ([counter])"
     
     return proposed_name
+
+#undef WARBAND_TERMS

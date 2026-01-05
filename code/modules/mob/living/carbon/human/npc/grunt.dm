@@ -236,7 +236,7 @@
 	pants = /obj/item/clothing/under/roguetown/chainlegs/iron
 	shoes = /obj/item/clothing/shoes/roguetown/boots/leather/reinforced
 	belt = /obj/item/storage/belt/rogue/leather/black
-	cloak = /obj/item/clothing/cloak/stabard/warband
+	cloak = /obj/item/clothing/cloak/tabard/stabard/warband
 	r_hand = /obj/item/rogueweapon/shield/heater
 	neck = /obj/item/clothing/neck/roguetown/chaincoif/iron
 	l_hand = /obj/item/rogueweapon/sword/iron
@@ -406,7 +406,7 @@
 				H.skin_tone = SKIN_COLOR_AVAR
 				H.update_body()
 				r_hand = /obj/item/rogueweapon/sword/long/etruscan
-				armor = /obj/item/clothing/suit/roguetown/armor/plate/half/fencer
+				armor = /datum/anvil_recipe/armor/steel/lightcuirass
 				belt = /obj/item/storage/belt/rogue/leather/sash
 				shirt = /obj/item/clothing/suit/roguetown/armor/gambeson/heavy/freifechter
 				pants = /obj/item/clothing/under/roguetown/heavy_leather_pants/otavan/generic
@@ -440,7 +440,7 @@
 				wrists = /obj/item/clothing/wrists/roguetown/bracers/iron
 				gloves = /obj/item/clothing/gloves/roguetown/angle
 				pants = /obj/item/clothing/under/roguetown/trou/leather
-				armor = /obj/item/clothing/suit/roguetown/armor/plate/half/iron
+				armor = /obj/item/clothing/suit/roguetown/armor/plate/cuirass/iron
 				head = /obj/item/clothing/head/roguetown/helmet/heavy/bucket/iron
 				mask = /obj/item/clothing/mask/rogue/facemask
 			if(WARBAND_MERC_HANGYAKU)
@@ -477,7 +477,7 @@
 				r_hand = /obj/item/rogueweapon/sword/sabre/mulyeog/rumahench
 				l_hand = /obj/item/rogueweapon/scabbard/sword/kazengun/steel
 				belt = /obj/item/storage/belt/rogue/leather
-				shirt = /obj/item/clothing/suit/roguetown/shirt/undershirt/easttats
+				shirt = /obj/item/clothing/suit/roguetown/armor/regenerating/easttats
 				cloak = /obj/item/clothing/cloak/eastcloak1
 				armor = /obj/item/clothing/suit/roguetown/shirt/undershirt/eastshirt2
 				pants = /obj/item/clothing/under/roguetown/heavy_leather_pants/eastpants2
@@ -543,3 +543,11 @@
 				shoes = /obj/item/clothing/shoes/roguetown/boots
 	else // if there isn't an available subtype loadout for whatever reason, we just use the grunts from Feud
 		H.equipOutfit(new /datum/outfit/job/roguetown/human/species/human/northern/grunt)
+
+#undef GRUNTSTR
+#undef GRUNTSPD
+#undef GRUNTCON
+#undef GRUNTWIL
+#undef GRUNTLCK
+#undef GRUNTINT
+#undef GRUNTPER

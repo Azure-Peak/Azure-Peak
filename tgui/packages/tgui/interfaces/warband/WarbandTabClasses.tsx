@@ -123,7 +123,7 @@ export const ClassesTab = ({
               padding: '25px',
               flex: 1, 
               display: 'flex', 
-              marginBottom: '90px',              
+              marginBottom: '110px',
               justifyContent: 'center', 
               alignItems: 'center',
             }}>
@@ -141,7 +141,7 @@ export const ClassesTab = ({
               padding: '25px', 
               flex: 1, 
               display: 'flex',
-              marginBottom: '90px',
+              marginBottom: '110px',
               justifyContent: 'center', 
               alignItems: 'center',
             }}>

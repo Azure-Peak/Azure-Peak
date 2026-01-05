@@ -128,21 +128,25 @@ export const WarbandCreation = () => {
   };
 
   return (
-    <Window theme="azure_default" width={1000} height={700}>
+    <Window theme="azure_default" width={1113} height={748}>
       <Window.Content style={{
         background: 'linear-gradient(to left, #000000 0%, #1d0505ff 100%)',
       }}>
         <style>{sectionHeaderStyle}</style>
-        <Stack>
-          <div style={{ position: 'relative', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+        <Stack style={{ gap: 0, marginBottom: '8px' }}>
+          <div style={{ position: 'relative' }}>
             {activeTab === 'creation' && (
               <div style={{
+                position: 'absolute',
+                top: '2px',
+                left: '50%',
+                transform: 'translateX(-50%)',
                 width: 0,
                 height: 0,
                 borderLeft: '6px solid transparent',
                 borderRight: '6px solid transparent',
-                borderTop: '6px solid #682222ff',
-                marginBottom: '2px',
+                borderTop: '6px solid white',
+                zIndex: 10,
               }} />
             )}
             <Button 
@@ -151,20 +155,31 @@ export const WarbandCreation = () => {
                 opacity: isTabStageFocus('creation') ? 0.95 : 0.45,
                 backgroundColor: activeTab === 'creation' ? '#682222ff' : undefined,
                 cursor: activeTab === 'creation' ? 'default' : 'pointer',
+                height: '60px',
+                width: '140px',
+                display: 'flex',
+                alignItems: 'flex-start',
+                justifyContent: 'center',
+                paddingTop: '8px',
+                margin: 0,
               }}
             >
               {'SELECT WARBAND'}
             </Button>
           </div>
-          <div style={{ position: 'relative', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+          <div style={{ position: 'relative' }}>
             {activeTab === 'world' && (
               <div style={{
+                position: 'absolute',
+                top: '2px',
+                left: '50%',
+                transform: 'translateX(-50%)',
                 width: 0,
                 height: 0,
                 borderLeft: '6px solid transparent',
                 borderRight: '6px solid transparent',
-                borderTop: '6px solid #682222ff',
-                marginBottom: '2px',
+                borderTop: '6px solid white',
+                zIndex: 10,
               }} />
             )}
             <Button 
@@ -173,20 +188,31 @@ export const WarbandCreation = () => {
                 opacity: isTabStageFocus('world') ? 0.95 : 0.45,
                 backgroundColor: activeTab === 'world' ? '#682222ff' : undefined,
                 cursor: activeTab === 'world' ? 'default' : 'pointer',
+                height: '60px',
+                width: '140px',
+                display: 'flex',
+                alignItems: 'flex-start',
+                justifyContent: 'center',
+                paddingTop: '8px',
+                margin: 0,
               }}
             >
               BEHOLD AZURIA
             </Button>
           </div>
-          <div style={{ position: 'relative', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+          <div style={{ position: 'relative' }}>
             {activeTab === 'classes' && (
               <div style={{
+                position: 'absolute',
+                top: '2px',
+                left: '50%',
+                transform: 'translateX(-50%)',
                 width: 0,
                 height: 0,
                 borderLeft: '6px solid transparent',
                 borderRight: '6px solid transparent',
-                borderTop: '6px solid #682222ff',
-                marginBottom: '2px',
+                borderTop: '6px solid white',
+                zIndex: 10,
               }} />
             )}
             <Button 
@@ -195,20 +221,31 @@ export const WarbandCreation = () => {
                 opacity: isTabStageFocus('classes') ? 0.95 : 0.45,
                 backgroundColor: activeTab === 'classes' ? '#682222ff' : undefined,
                 cursor: activeTab === 'classes' ? 'default' : 'pointer',
+                height: '60px',
+                width: '140px',
+                display: 'flex',
+                alignItems: 'flex-start',
+                justifyContent: 'center',
+                paddingTop: '8px',
+                margin: 0,
               }}
             >
               {'CLASS'}
             </Button>
           </div>
-          <div style={{ position: 'relative', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+          <div style={{ position: 'relative' }}>
             {activeTab === 'goforth' && (
               <div style={{
+                position: 'absolute',
+                top: '2px',
+                left: '50%',
+                transform: 'translateX(-50%)',
                 width: 0,
                 height: 0,
                 borderLeft: '6px solid transparent',
                 borderRight: '6px solid transparent',
-                borderTop: '6px solid #682222ff',
-                marginBottom: '2px',
+                borderTop: '6px solid white',
+                zIndex: 10,
               }} />
             )}
             <Button 
@@ -217,6 +254,13 @@ export const WarbandCreation = () => {
                 opacity: isTabStageFocus('goforth') ? 0.95 : 0.45,
                 backgroundColor: activeTab === 'goforth' ? '#682222ff' : undefined,
                 cursor: activeTab === 'goforth' ? 'default' : 'pointer',
+                height: '60px',
+                width: '140px',
+                display: 'flex',
+                alignItems: 'flex-start',
+                justifyContent: 'center',
+                paddingTop: '8px',
+                margin: 0,
               }}
             >
               FINALIZE
@@ -227,6 +271,7 @@ export const WarbandCreation = () => {
             flexDirection: 'column',
             alignItems: 'flex-start',
             gap: '4px',
+            marginLeft: '12px',
           }}>
             <span style={{
               height: '20px',
@@ -239,6 +284,7 @@ export const WarbandCreation = () => {
               height: '20px',
               alignItems: 'flex-start',
               paddingTop: '2px',
+              paddingBottom: '8px',
               visibility: timer_active ? 'visible' : 'hidden',
             }}>
               TIME REMAINING: <span style={{ color: getTimerColor() }}>{formatTime(time_remaining)}</span>
@@ -249,6 +295,7 @@ export const WarbandCreation = () => {
         <div style={{ 
           background: 'linear-gradient(to left, #000000 0%, #3c0d0d 100%)',
           borderBottom: '2px solid #160303',
+          marginBottom: '4px',
         }}>
           <div style={{ 
             padding: '15px', 
@@ -276,6 +323,7 @@ export const WarbandCreation = () => {
             stage1Complete={stage1_complete}
             isStage1={creation_stage === 1}
             isWarlord={is_warlord}
+            pointCounter={pointCounter}
           />
         )}
         {activeTab === 'classes' && (

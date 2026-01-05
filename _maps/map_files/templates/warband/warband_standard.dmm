@@ -1303,12 +1303,12 @@
 /obj/structure/table/wood{
 	icon_state = "tablewood1"
 	},
-/obj/item/clothing/suit/roguetown/armor/plate/half/iron,
-/obj/item/clothing/suit/roguetown/armor/plate/half/iron,
-/obj/item/clothing/suit/roguetown/armor/plate/half/iron,
-/obj/item/clothing/suit/roguetown/armor/plate/half/iron,
-/obj/item/clothing/suit/roguetown/armor/plate/half/iron,
-/obj/item/clothing/suit/roguetown/armor/plate/half/iron,
+/obj/item/clothing/suit/roguetown/armor/plate/cuirass/iron,
+/obj/item/clothing/suit/roguetown/armor/plate/cuirass/iron,
+/obj/item/clothing/suit/roguetown/armor/plate/cuirass/iron,
+/obj/item/clothing/suit/roguetown/armor/plate/cuirass/iron,
+/obj/item/clothing/suit/roguetown/armor/plate/cuirass/iron,
+/obj/item/clothing/suit/roguetown/armor/plate/cuirass/iron,
 /obj/item/clothing/neck/roguetown/gorget,
 /obj/item/clothing/neck/roguetown/gorget,
 /obj/item/clothing/neck/roguetown/gorget,
@@ -1758,6 +1758,16 @@
 	},
 /turf/open/floor/rogue/grassred,
 /area/rogue/outdoors/warcamp)
+"UE" = (
+/obj/effect/decal/cobbleedge{
+	dir = 2;
+	icon_state = "borderfall"
+	},
+/obj/machinery/light/rogue/candle/weak{
+	pixel_y = -32
+	},
+/turf/open/floor/rogue/dirt/road,
+/area/rogue/indoors/warcamp)
 "UH" = (
 /turf/closed/wall/mineral/rogue/wooddark/slitted,
 /area/rogue/indoors/warcamp)
@@ -3805,7 +3815,7 @@ wK
 Yd
 JQ
 dS
-CX
+UE
 RY
 sj
 sj

@@ -44,7 +44,6 @@
 /datum/warbands/aspects/monofaith
 	title = "MONOFAITH"
 	summary = "Everyone in the Warband prays to a single, shared patron determined by the Warlord's faith."
-	desc = ""
 	warning = "...of single-minded fanaticism and ritual."
 	points = -1
 
@@ -120,7 +119,6 @@
 
 /datum/warbands/subtypes/atgervi
 	title = "ATGERVI"
-	desc = "REQUIRED FAITH: THE FOUR"
 	gruntclasses = list(/datum/advclass/mercenary/atgervi, /datum/advclass/mercenary/atgervi/shaman)
 	combatmusic = list('sound/music/combat_shaman2.ogg')
 
@@ -135,14 +133,13 @@
 /datum/warbands/subtypes/blackoak
 	title = "BLACK OAK"
 	treaty_name = "Azuria-in-Exile"
-	desc = "REQUIRED SPECIES: ELF"
 	racelock = list(/datum/species/human/halfelf, /datum/species/elf/wood, /datum/species/elf/dark)
 	gruntclasses = list(/datum/advclass/mercenary/blackoak, /datum/advclass/mercenary/blackoak/ranger, /datum/advclass/wretch/blackoakwyrm)
 	combatmusic = list('sound/music/combat_blackoak.ogg')
 
 /datum/warbands/subtypes/condottiero
 	title = "CONDOTTIERO"
-	gruntclasses = list(/datum/advclass/mercenary/condottiero)
+	gruntclasses = list(/datum/advclass/mercenary/etrusca/balestrieri)
 	combatmusic = list('sound/music/combat_condottiero.ogg')
 
 /datum/warbands/subtypes/raneshen
@@ -162,7 +159,6 @@
 
 /datum/warbands/subtypes/grudgebearer
 	title = "DWARVEN GRUDGEBEARERS"
-	desc = "REQUIRED SPECIES: DWARF"
 	racelock = list(/datum/species/dwarf/mountain)
 	gruntclasses = list(/datum/advclass/mercenary/grudgebearer/soldier, /datum/advclass/mercenary/grudgebearer)
 	combatmusic = list('sound/music/combat_dwarf.ogg')
@@ -183,21 +179,18 @@
 	title = "WARSCHOLARS"
 	quote = "''For if Endurance - if lyfe itself - is prayer, so must we prepare for death. We should hope to unravel His mysteries with what little time we're spared, 'fore we join Him.''"
 	quote_followup = "- A dramatic Warscholar, upon chipping his mask."
-	desc = "REQUIRED FAITH: PSYDON"
 	gruntclasses = list(/datum/advclass/mercenary/warscholar, /datum/advclass/mercenary/warscholar/pontifex, /datum/advclass/mercenary/warscholar/vizier)
 	faithlock = list(/datum/patron/old_god)
 	combatmusic = list('sound/music/warscholar.ogg')
 
 /datum/warbands/subtypes/underdweller
 	title = "UNDERDWELLERS"
-	desc = "REQUIRED SPECIES: DWARF, DARK ELF, GOBLIN, KOBOLD or CREECHER"
 	racelock =	list(/datum/species/dwarf/mountain, /datum/species/elf/dark, /datum/species/kobold, /datum/species/goblinp,	/datum/species/anthromorphsmall)
 	gruntclasses = list(/datum/advclass/mercenary/underdweller)
 	combatmusic = list('sound/music/combat_delf.ogg')
 
 /datum/warbands/subtypes/anthrax
 	title = "VENOM"
-	desc = "REQUIRED SPECIES: DARK ELF"
 	racelock =	list(/datum/species/elf/dark)
 	gruntclasses = list(/datum/advclass/mercenary/anthrax, /datum/advclass/mercenary/anthrax/assasin)
 	combatmusic = list('sound/music/combat_delf.ogg')
@@ -227,7 +220,6 @@
 	title = "TEN"
 	quote = "''TEN ANGELS descended from on-high, slaughtering heretic and undeath alike. For us, TEN ANGELS sacrificed their holiest of creations.''"
 	quote_followup = "DAWN: UNDIVIDED - 2:4"
-	desc = "REQUIRED FAITH: THE TEN"
 	warcamp = /datum/map_template/warcamp_standard
 	warning = "...of devotion to the Ten."
 	aspects = list(ASPECT_CULT)
@@ -242,7 +234,6 @@
 	quote = "''Shine thy fury upon me, oh Dark Star! I sing thy slaughter's psalm, and thy word is sweet!''"
 	quote_followup = "- A posthumous translation of a serial butcher's words - which were otherwise unintelligible."
 	warning = "...of devotion to the Four."
-	desc = "REQUIRED FAITH: THE FOUR"
 	warcamp = /datum/map_template/warcamp_standard
 	aspects = list(ASPECT_CULT)
 	faithlock = list(ALL_INHUMEN_PATRONS)
@@ -255,7 +246,6 @@
 	We who sin in our pursuit of virtue. We who reject you with every breath and step. We who have created edifice and altar to devils in thy stead.''"
 	quote_followup = "- Excerpt from The Apostate, Unknown Author"
 	warning = "...of devotion to the Old God."
-	desc = "REQUIRED FAITH: PSYDON"
 	warcamp = /datum/map_template/warcamp_standard
 	aspects = list(ASPECT_SURPRISE)
 	faithlock = list(/datum/patron/old_god)

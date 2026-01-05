@@ -60,12 +60,12 @@
 		mask = /obj/item/clothing/mask/rogue/facemask
 		id = /obj/item/clothing/neck/roguetown/psicross/noc
 		r_hand = /obj/item/rogueweapon/sword/sabre/nockhopesh
-		cloak = /obj/item/clothing/cloak/templar/noc
+		cloak = /obj/item/clothing/cloak/tabard/devotee/noc
 
 	if(H.patron.type == /datum/patron/divine/dendor)
 		head = /obj/item/clothing/head/roguetown/helmet/heavy/dendorhelm
 		id = /obj/item/clothing/neck/roguetown/psicross/dendor
-		cloak = /obj/item/clothing/cloak/templar/dendor
+		cloak = /obj/item/clothing/cloak/tabard/devotee/dendor
 		r_hand = /obj/item/rogueweapon/halberd/bardiche/scythe
 
 	if(H.patron.type == /datum/patron/divine/abyssor)
@@ -78,7 +78,7 @@
 				r_hand = /obj/item/rogueweapon/katar/abyssor
 		head = /obj/item/clothing/head/roguetown/helmet/heavy/abyssorgreathelm
 		id = /obj/item/clothing/neck/roguetown/psicross/abyssor
-		cloak = /obj/item/clothing/cloak/abyssortabard
+		cloak = /obj/item/clothing/cloak/tabard/abyssortabard
 
 	if(H.patron.type == /datum/patron/divine/ravox)
 		head = /obj/item/clothing/head/roguetown/helmet/heavy/ravoxhelm
@@ -145,7 +145,7 @@
 
 	if(H.patron.type == /datum/patron/inhumen/matthios)
 		head = /obj/item/clothing/head/roguetown/helmet/heavy/matthios
-		armor = /obj/item/clothing/suit/roguetown/armor/plate/half/fluted
+		armor = /datum/anvil_recipe/armor/steel/cuirass/fluted
 		cloak = /obj/item/clothing/cloak/half/purple
 		belt = /obj/item/storage/belt/rogue/leather/knifebelt/black/steel
 		r_hand = /obj/item/rogueweapon/whip
@@ -156,7 +156,7 @@
 		armor = /obj/item/clothing/suit/roguetown/armor/plate/fluted/ornate
 		belt = /obj/item/storage/belt/rogue/leather
 		id = /obj/item/clothing/neck/roguetown/psicross
-		cloak = /obj/item/clothing/cloak/psydontabard
+		cloak = /obj/item/clothing/cloak/tabard/psydontabard
 		shoes = /obj/item/clothing/shoes/roguetown/boots/psydonboots
 		var/weapons = list("LONGSWORD","SPEAR","FLAIL","MACE","HANDAXE","WHIP")
 		var/weapon_choice = input("Choose your weapon.", "TAKE UP ARMS") as anything in weapons
@@ -312,7 +312,7 @@
 	if(H.patron.type == /datum/patron/old_god)
 		armor = /obj/item/clothing/suit/roguetown/armor/plate/fluted/ornate
 		id = /obj/item/clothing/neck/roguetown/psicross
-		cloak = /obj/item/clothing/cloak/psydontabard
+		cloak = /obj/item/clothing/cloak/tabard/psydontabard
 
 	var/datum/inspiration/I = new /datum/inspiration(H)
 	I.grant_inspiration(H, bard_tier = BARD_T3)
@@ -386,15 +386,15 @@
 
 	if(H.patron.type == /datum/patron/divine/noc)
 		id = /obj/item/clothing/neck/roguetown/psicross/noc
-		cloak = /obj/item/clothing/cloak/templar/noc
+		cloak = /obj/item/clothing/cloak/tabard/devotee/noc
 
 	if(H.patron.type == /datum/patron/divine/dendor)
 		id = /obj/item/clothing/neck/roguetown/psicross/dendor
-		cloak = /obj/item/clothing/cloak/templar/dendor
+		cloak = /obj/item/clothing/cloak/tabard/devotee/dendor
 
 	if(H.patron.type == /datum/patron/divine/abyssor)
 		id = /obj/item/clothing/neck/roguetown/psicross/abyssor
-		cloak = /obj/item/clothing/cloak/abyssortabard
+		cloak = /obj/item/clothing/cloak/tabard/abyssortabard
 
 	if(H.patron.type == /datum/patron/divine/ravox)
 		id = /obj/item/clothing/neck/roguetown/psicross/ravox
@@ -431,5 +431,5 @@
 	if(H.patron.type == /datum/patron/old_god)
 		armor = /obj/item/clothing/suit/roguetown/armor/plate/fluted/ornate
 		id = /obj/item/clothing/neck/roguetown/psicross
-		cloak = /obj/item/clothing/cloak/psydontabard
+		cloak = /obj/item/clothing/cloak/tabard/psydontabard
 	H.mind?.AddSpell(new /obj/effect/proc_holder/spell/invoked/sweep)

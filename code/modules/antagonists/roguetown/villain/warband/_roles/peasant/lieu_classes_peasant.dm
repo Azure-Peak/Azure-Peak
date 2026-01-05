@@ -214,7 +214,7 @@
 	head = /obj/item/clothing/head/roguetown/helmet/heavy/bucket/iron
 	backl = /obj/item/storage/backpack/rogue/satchel
 	mask = /obj/item/clothing/mask/rogue/facemask/steel
-	cloak = /obj/item/clothing/cloak/stabard/guardhood
+	cloak = /obj/item/clothing/cloak/tabard/stabard/guardhood
 	backr = /obj/item/rogueweapon/shield/iron
 	armor = /obj/item/clothing/suit/roguetown/armor/plate/full/iron
 	neck = /obj/item/clothing/neck/roguetown/chaincoif/chainmantle

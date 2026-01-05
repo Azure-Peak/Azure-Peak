@@ -238,14 +238,14 @@
 /turf/open/floor/rogue/dirt/road,
 /area/rogue/indoors/warcamp)
 "fj" = (
-/obj/machinery/light/rogue/wallfire/candle/l,
+/obj/machinery/light/rogue/candle/l,
 /obj/structure/table/wood{
 	icon_state = "tablewood1"
 	},
 /turf/open/floor/carpet/inn,
 /area/rogue/indoors/warcamp)
 "fk" = (
-/obj/machinery/light/rogue/wallfire/candle/l,
+/obj/machinery/light/rogue/candle/l,
 /turf/open/floor/rogue/wood/nosmooth,
 /area/rogue/indoors/warcamp)
 "fB" = (
@@ -331,7 +331,7 @@
 /turf/open/floor/rogue/grass,
 /area/rogue/indoors/warcamp)
 "gN" = (
-/obj/machinery/light/rogue/wallfire/candle/weak/l,
+/obj/machinery/light/rogue/candle/weak/l,
 /obj/structure/roguewindow,
 /turf/open/floor/rogue/wood/nosmooth,
 /area/rogue/indoors/warcamp)
@@ -418,7 +418,7 @@
 /obj/item/gun/ballistic/revolver/grenadelauncher/sling,
 /obj/item/gun/ballistic/revolver/grenadelauncher/sling,
 /obj/item/gun/ballistic/revolver/grenadelauncher/sling,
-/obj/machinery/light/rogue/wallfire/candle{
+/obj/machinery/light/rogue/candle{
 	pixel_y = -32
 	},
 /obj/structure/fluff/railing/corner/north_east,
@@ -814,7 +814,7 @@
 /obj/structure/table/wood{
 	icon_state = "tablewood1"
 	},
-/obj/machinery/light/rogue/wallfire/candle/r,
+/obj/machinery/light/rogue/candle/r,
 /turf/open/floor/rogue/ruinedwood/spiral,
 /area/rogue/indoors/warcamp)
 "re" = (
@@ -923,7 +923,7 @@
 /turf/open/floor/rogue/wood/nosmooth,
 /area/rogue/indoors/warcamp)
 "sM" = (
-/obj/machinery/light/rogue/wallfire/candle/l,
+/obj/machinery/light/rogue/candle/l,
 /turf/open/floor/rogue/wood/herringbone,
 /area/rogue/indoors/warcamp)
 "sW" = (
@@ -941,7 +941,7 @@
 /turf/open/floor/rogue/metal/barograte,
 /area/rogue/outdoors/warcamp)
 "tp" = (
-/obj/machinery/light/rogue/wallfire/candle/r,
+/obj/machinery/light/rogue/candle/r,
 /turf/open/floor/carpet/red,
 /area/rogue/indoors/warcamp)
 "tt" = (
@@ -1002,7 +1002,7 @@
 /obj/structure/table/wood{
 	icon_state = "tablewood1"
 	},
-/obj/machinery/light/rogue/wallfire/candle{
+/obj/machinery/light/rogue/candle{
 	pixel_y = -32
 	},
 /turf/open/floor/rogue/ruinedwood/spiral,
@@ -1138,7 +1138,7 @@
 /turf/open/floor/rogue/grassyel,
 /area/rogue/outdoors/warcamp)
 "yE" = (
-/obj/machinery/light/rogue/wallfire/candle,
+/obj/machinery/light/rogue/candle,
 /turf/open/floor/rogue/dirt/road,
 /area/rogue/indoors/warcamp)
 "yJ" = (
@@ -1159,7 +1159,7 @@
 /turf/open/floor/rogue/grass,
 /area/rogue/outdoors/warcamp)
 "yS" = (
-/obj/machinery/light/rogue/wallfire/candle{
+/obj/machinery/light/rogue/candle{
 	pixel_y = -32
 	},
 /turf/open/floor/rogue/tile,
@@ -1175,7 +1175,7 @@
 /turf/open/floor/rogue/grass,
 /area/rogue/outdoors/warcamp)
 "zy" = (
-/obj/machinery/light/rogue/wallfire/candle/weak{
+/obj/machinery/light/rogue/candle/weak{
 	pixel_y = -32
 	},
 /turf/open/floor/rogue/ruinedwood/spiral,
@@ -1411,7 +1411,7 @@
 /obj/structure/fluff/walldeco/rpainting/crown{
 	pixel_y = 32
 	},
-/obj/machinery/light/rogue/wallfire/candle/r,
+/obj/machinery/light/rogue/candle/r,
 /turf/open/floor/carpet/red,
 /area/rogue/indoors/warcamp)
 "EQ" = (
@@ -1453,7 +1453,7 @@
 /turf/open/floor/rogue/cobble/mossy,
 /area/rogue/outdoors/warcamp)
 "FT" = (
-/obj/machinery/light/rogue/wallfire{
+/obj/machinery/light/rogue/candle{
 	pixel_y = 32
 	},
 /turf/open/floor/carpet/red,
@@ -1583,7 +1583,7 @@
 /area/rogue/outdoors/warcamp)
 "HS" = (
 /obj/structure/table/wood,
-/obj/machinery/light/rogue/wallfire/candle{
+/obj/machinery/light/rogue/candle{
 	pixel_y = -32
 	},
 /turf/open/floor/rogue/wood/herringbone,
@@ -1599,7 +1599,7 @@
 /obj/item/rope/chain,
 /obj/item/rope/chain,
 /obj/item/rope,
-/obj/machinery/light/rogue/wallfire/candle,
+/obj/machinery/light/rogue/candle,
 /turf/open/floor/rogue/dirt/road,
 /area/rogue/indoors/warcamp)
 "HV" = (
@@ -1727,7 +1727,7 @@
 /obj/item/reagent_containers/glass/cup/wooden{
 	pixel_y = 4
 	},
-/obj/machinery/light/rogue/wallfire/candle,
+/obj/machinery/light/rogue/candle,
 /turf/open/floor/rogue/ruinedwood/spiral,
 /area/rogue/indoors/warcamp)
 "JS" = (
@@ -1792,7 +1792,7 @@
 /obj/structure/table/wood{
 	icon_state = "tablewood1"
 	},
-/obj/machinery/light/rogue/wallfire/candle,
+/obj/machinery/light/rogue/candle,
 /turf/open/floor/rogue/ruinedwood/spiral,
 /area/rogue/indoors/warcamp)
 "LB" = (
@@ -1820,7 +1820,7 @@
 /turf/open/floor/rogue/blocks,
 /area/rogue/indoors/warcamp)
 "Md" = (
-/obj/machinery/light/rogue/wallfire/candle,
+/obj/machinery/light/rogue/candle,
 /turf/open/floor/rogue/tile,
 /area/rogue/indoors/warcamp)
 "Mg" = (
@@ -1986,7 +1986,7 @@
 	},
 /area/rogue/outdoors/warcamp)
 "PN" = (
-/obj/machinery/light/rogue/wallfire/candle{
+/obj/machinery/light/rogue/candle{
 	pixel_y = -32
 	},
 /obj/structure/bed/rogue/inn,
@@ -2166,7 +2166,7 @@
 /turf/open/floor/rogue/cobble/mossy,
 /area/rogue/outdoors/warcamp)
 "TG" = (
-/obj/machinery/light/rogue/wallfire/candle/l,
+/obj/machinery/light/rogue/candle/l,
 /turf/open/floor/rogue/tile,
 /area/rogue/indoors/warcamp)
 "TI" = (
@@ -2179,7 +2179,7 @@
 /turf/open/floor/rogue/blocks,
 /area/rogue/indoors/warcamp)
 "Uj" = (
-/obj/machinery/light/rogue/wallfire/candle/r,
+/obj/machinery/light/rogue/candle/r,
 /turf/open/floor/rogue/wood/nosmooth,
 /area/rogue/indoors/warcamp)
 "Us" = (
@@ -2195,7 +2195,7 @@
 	},
 /obj/structure/fermentation_keg/water,
 /obj/structure/fluff/railing/border,
-/obj/machinery/light/rogue/wallfire/candle/weak,
+/obj/machinery/light/rogue/candle/weak,
 /turf/open/floor/rogue/wood,
 /area/rogue/indoors/warcamp)
 "Uw" = (
@@ -2217,7 +2217,7 @@
 /turf/open/floor/rogue/tile,
 /area/rogue/indoors/warcamp)
 "UO" = (
-/obj/machinery/light/rogue/wallfire/candle{
+/obj/machinery/light/rogue/candle{
 	pixel_y = -32
 	},
 /turf/open/floor/rogue/dirt/road,
@@ -2237,7 +2237,7 @@
 /turf/open/floor/rogue/hay,
 /area/rogue/indoors/warcamp)
 "Vw" = (
-/obj/machinery/light/rogue/wallfire/candle/l,
+/obj/machinery/light/rogue/candle/l,
 /obj/structure/fluff/railing/border/east,
 /turf/open/floor/rogue/tile,
 /area/rogue/indoors/warcamp)
@@ -2300,7 +2300,7 @@
 /obj/item/reagent_containers/glass/cup/wooden{
 	pixel_y = 4
 	},
-/obj/machinery/light/rogue/wallfire/candle,
+/obj/machinery/light/rogue/candle,
 /turf/open/floor/rogue/ruinedwood/spiral,
 /area/rogue/indoors/warcamp)
 "Wt" = (
@@ -2385,7 +2385,7 @@
 /turf/open/floor/rogue/ruinedwood/spiral,
 /area/rogue/indoors/warcamp)
 "Yi" = (
-/obj/machinery/light/rogue/wallfire/candle/r,
+/obj/machinery/light/rogue/candle/r,
 /turf/open/floor/rogue/dirt/road,
 /area/rogue/indoors/warcamp)
 "Yn" = (
@@ -2417,7 +2417,7 @@
 /turf/open/floor/rogue/grass,
 /area/rogue/outdoors/warcamp)
 "YE" = (
-/obj/machinery/light/rogue/wallfire/candle,
+/obj/machinery/light/rogue/candle,
 /obj/structure/table/wood{
 	icon_state = "tablewood1"
 	},

@@ -6,14 +6,6 @@
 "aQ" = (
 /turf/closed/wall/mineral/rogue/decostone/mossy/cand,
 /area/rogue/indoors/warcamp/fort)
-"aY" = (
-/obj/machinery/light/rogue/wallfire/candle{
-	pixel_y = -32
-	},
-/turf/open/floor/rogue/cobblerock{
-	name = "cobbled rock"
-	},
-/area/rogue/indoors/warcamp/fort)
 "bk" = (
 /obj/structure/lever{
 	pixel_y = -20;
@@ -181,11 +173,10 @@
 	},
 /area/rogue/indoors/warcamp/fort)
 "dB" = (
-/obj/machinery/light/rogue/wallfire/candle/r,
-/obj/structure/fermentation_keg/water,
 /obj/effect/decal/herringbone{
 	dir = 4
 	},
+/obj/machinery/light/rogue/candle/weak/r,
 /turf/open/floor/rogue/blocks/stonered/tiny,
 /area/rogue/indoors/warcamp/fort)
 "dH" = (
@@ -221,8 +212,11 @@
 /turf/open/floor/carpet/royalblack,
 /area/rogue/indoors/warcamp/fort)
 "dR" = (
-/obj/machinery/light/rogue/wallfire/candle/l,
-/obj/structure/fluff/railing/corner/north_east,
+/obj/effect/decal/cobbleedge{
+	dir = 1;
+	icon_state = "borderfall"
+	},
+/obj/machinery/light/rogue/candle/weak,
 /turf/open/floor/rogue/metal/barograte,
 /area/rogue/indoors/warcamp/fort)
 "eI" = (
@@ -569,9 +563,8 @@
 	},
 /area/rogue/indoors/warcamp/fort)
 "je" = (
-/obj/machinery/light/rogue/wallfire/candle/r,
-/obj/structure/fluff/railing/corner,
-/turf/open/floor/rogue/metal/barograte,
+/obj/machinery/light/rogue/candle/weak/r,
+/turf/open/floor/rogue/metal,
 /area/rogue/indoors/warcamp/fort)
 "jj" = (
 /obj/machinery/light/rogue/torchholder{
@@ -630,12 +623,12 @@
 /obj/structure/table/wood{
 	icon_state = "tablewood1"
 	},
-/obj/item/clothing/suit/roguetown/armor/plate/half/iron,
-/obj/item/clothing/suit/roguetown/armor/plate/half/iron,
-/obj/item/clothing/suit/roguetown/armor/plate/half/iron,
-/obj/item/clothing/suit/roguetown/armor/plate/half/iron,
-/obj/item/clothing/suit/roguetown/armor/plate/half/iron,
-/obj/item/clothing/suit/roguetown/armor/plate/half/iron,
+/obj/item/clothing/suit/roguetown/armor/plate/cuirass/iron,
+/obj/item/clothing/suit/roguetown/armor/plate/cuirass/iron,
+/obj/item/clothing/suit/roguetown/armor/plate/cuirass/iron,
+/obj/item/clothing/suit/roguetown/armor/plate/cuirass/iron,
+/obj/item/clothing/suit/roguetown/armor/plate/cuirass/iron,
+/obj/item/clothing/suit/roguetown/armor/plate/cuirass/iron,
 /obj/item/clothing/neck/roguetown/gorget,
 /obj/item/clothing/neck/roguetown/gorget,
 /obj/item/clothing/neck/roguetown/gorget,
@@ -647,8 +640,6 @@
 /obj/item/clothing/head/roguetown/helmet/kettle/iron,
 /obj/item/clothing/head/roguetown/helmet/kettle/iron,
 /obj/item/clothing/head/roguetown/helmet/kettle/iron,
-/obj/machinery/light/rogue/wallfire/candle/l,
-/obj/effect/decal/herringbone,
 /obj/effect/decal/herringbone{
 	dir = 8
 	},
@@ -656,9 +647,7 @@
 /area/rogue/indoors/warcamp/fort)
 "jN" = (
 /obj/structure/fluff/grindwheel,
-/obj/effect/decal/herringbone,
-/obj/machinery/light/rogue/wallfire/candle,
-/turf/open/floor/rogue/blocks/stonered/tiny,
+/turf/open/floor/rogue/herringbone,
 /area/rogue/indoors/warcamp/fort)
 "jQ" = (
 /turf/closed/mineral/rogue/bedrock,
@@ -719,10 +708,8 @@
 /turf/open/floor/rogue/metal/barograte,
 /area/rogue/indoors/warcamp/fort)
 "kP" = (
-/obj/machinery/light/rogue/wallfire/candle/r,
-/turf/open/floor/rogue/concrete{
-	dir = 4
-	},
+/obj/machinery/light/rogue/candle/weak/l,
+/turf/open/floor/rogue/metal,
 /area/rogue/indoors/warcamp/fort)
 "kQ" = (
 /obj/machinery/light/rogue/torchholder{
@@ -779,10 +766,6 @@
 	dir = 1
 	},
 /area/rogue/indoors/warcamp/fort)
-"mC" = (
-/obj/machinery/light/rogue/wallfire/candle/r,
-/turf/open/floor/rogue/herringbone,
-/area/rogue/indoors/warcamp/fort)
 "mH" = (
 /obj/structure/chair/wood/rogue/fancy,
 /obj/effect/landmark/start/warlordlate,
@@ -819,9 +802,6 @@
 /area/rogue/indoors/warcamp/fort)
 "ng" = (
 /obj/structure/bars,
-/obj/machinery/light/rogue/wallfire/candle{
-	pixel_y = -32
-	},
 /turf/open/floor/rogue/concrete{
 	dir = 8
 	},
@@ -984,9 +964,6 @@
 /obj/item/reagent_containers/glass/cup/silver/small,
 /obj/item/reagent_containers/glass/cup/silver/small,
 /obj/item/reagent_containers/glass/cup/silver/small,
-/obj/machinery/light/rogue/wallfire/candle{
-	pixel_y = -32
-	},
 /turf/open/floor/rogue/blocks/stonered/tiny,
 /area/rogue/indoors/warcamp/fort)
 "qI" = (
@@ -1054,12 +1031,6 @@
 	dir = 4
 	},
 /turf/open/floor/rogue/ruinedwood/herringbone,
-/area/rogue/indoors/warcamp/fort)
-"sb" = (
-/obj/machinery/light/rogue/wallfire/candle,
-/turf/open/floor/rogue/cobblerock{
-	name = "cobbled rock"
-	},
 /area/rogue/indoors/warcamp/fort)
 "sh" = (
 /turf/closed/wall/mineral/rogue/wooddark/end{
@@ -1133,12 +1104,6 @@
 /obj/machinery/light/rogue/torchholder{
 	pixel_y = 26
 	},
-/turf/open/floor/rogue/cobblerock{
-	name = "cobbled rock"
-	},
-/area/rogue/indoors/warcamp/fort)
-"uW" = (
-/obj/machinery/light/rogue/wallfire/candle/r,
 /turf/open/floor/rogue/cobblerock{
 	name = "cobbled rock"
 	},
@@ -1290,10 +1255,6 @@
 	},
 /turf/open/floor/rogue/blocks/stonered/tiny,
 /area/rogue/indoors/warcamp/fort)
-"xb" = (
-/obj/machinery/light/rogue/wallfire/candle/r,
-/turf/open/floor/rogue/metal,
-/area/rogue/indoors/warcamp/fort)
 "xd" = (
 /obj/effect/decal/cobbleedge{
 	dir = 1;
@@ -1405,10 +1366,7 @@
 /area/rogue/outdoors/warcamp)
 "yJ" = (
 /obj/structure/fluff/warband/warband_recruit,
-/obj/machinery/light/rogue/wallfire/candle/l,
-/obj/effect/decal/herringbone{
-	dir = 8
-	},
+/obj/machinery/light/rogue/candle/weak/l,
 /turf/open/floor/rogue/blocks/stonered/tiny,
 /area/rogue/indoors/warcamp/fort)
 "yR" = (
@@ -1441,6 +1399,7 @@
 /obj/item/rogueweapon/halberd,
 /obj/item/rogueweapon/spear/partizan,
 /obj/item/rogueweapon/spear/partizan,
+/obj/machinery/light/rogue/candle/weak,
 /turf/open/floor/rogue/concrete{
 	dir = 8
 	},
@@ -1476,8 +1435,10 @@
 /turf/open/floor/rogue/blocks/stonered/tiny,
 /area/rogue/indoors/warcamp/fort)
 "zX" = (
-/obj/machinery/light/rogue/wallfire/candle/l,
-/turf/open/floor/rogue/metal,
+/obj/machinery/light/rogue/candle/weak/l,
+/turf/open/floor/rogue/cobblerock{
+	name = "cobbled rock"
+	},
 /area/rogue/indoors/warcamp/fort)
 "Ac" = (
 /obj/machinery/light/rogue/torchholder{
@@ -1645,10 +1606,9 @@
 /turf/open/floor/rogue/grassyel,
 /area/rogue/outdoors/warcamp)
 "DU" = (
-/obj/structure/bars,
-/obj/machinery/light/rogue/wallfire/candle,
+/obj/machinery/light/rogue/candle/weak/r,
 /turf/open/floor/rogue/concrete{
-	dir = 8
+	dir = 1
 	},
 /area/rogue/indoors/warcamp/fort)
 "DW" = (
@@ -1730,9 +1690,6 @@
 "EW" = (
 /obj/structure/chair/bench/couch{
 	color = "#4f4d63"
-	},
-/obj/machinery/light/rogue/wallfire/candle{
-	pixel_x = -6
 	},
 /obj/effect/decal/cobbleedge{
 	dir = 1;
@@ -1903,9 +1860,6 @@
 /obj/structure/toilet{
 	pixel_y = 18;
 	pixel_x = 2
-	},
-/obj/machinery/light/rogue/wallfire/candle/weak{
-	pixel_y = 40
 	},
 /obj/effect/decal/herringbone{
 	dir = 4
@@ -2092,11 +2046,8 @@
 /turf/open/floor/rogue/dirt/ambush,
 /area/rogue/outdoors/warcamp)
 "Mr" = (
-/obj/machinery/light/rogue/wallfire/candle/r,
-/obj/effect/decal/herringbone{
-	dir = 4
-	},
 /obj/structure/fluff/railing/border,
+/obj/machinery/light/rogue/candle/weak/r,
 /turf/open/floor/rogue/blocks/stonered,
 /area/rogue/indoors/warcamp/fort)
 "MB" = (
@@ -2132,12 +2083,6 @@
 	},
 /turf/open/floor/carpet/royalblack,
 /area/rogue/indoors/warcamp/fort)
-"Ob" = (
-/obj/machinery/light/rogue/wallfire/candle/r,
-/turf/open/floor/rogue/concrete{
-	dir = 8
-	},
-/area/rogue/indoors/warcamp/fort)
 "Oc" = (
 /obj/structure/stairs/stone{
 	dir = 4
@@ -2149,10 +2094,6 @@
 /turf/open/floor/rogue/blocks/stonered/tiny,
 /area/rogue/indoors/warcamp/fort)
 "OA" = (
-/obj/machinery/light/rogue/wallfire/candle/l,
-/obj/structure/table/wood{
-	icon_state = "tablewood1"
-	},
 /obj/item/paper,
 /obj/item/natural/feather,
 /turf/open/floor/rogue/cobble,
@@ -2514,12 +2455,6 @@
 	},
 /turf/open/floor/rogue/blocks/stonered/tiny,
 /area/rogue/indoors/warcamp/fort)
-"SL" = (
-/obj/machinery/light/rogue/wallfire/candle/weak{
-	pixel_y = 40
-	},
-/turf/open/floor/rogue/cobble,
-/area/rogue/indoors/warcamp/fort)
 "Tb" = (
 /obj/structure/flora/ausbushes/ywflowers,
 /obj/structure/flora/ausbushes/fullgrass,
@@ -2565,7 +2500,7 @@
 /turf/open/floor/rogue/grass,
 /area/rogue/outdoors/warcamp)
 "TE" = (
-/obj/machinery/light/rogue/wallfire/candle/l,
+/obj/machinery/light/rogue/candle/weak/l,
 /turf/open/floor/rogue/metal/barograte,
 /area/rogue/indoors/warcamp/fort)
 "Uc" = (
@@ -2975,9 +2910,6 @@
 	pixel_x = -1;
 	color = "#4f4d63"
 	},
-/obj/machinery/light/rogue/wallfire/candle{
-	pixel_x = 6
-	},
 /obj/effect/decal/cobbleedge{
 	dir = 1;
 	icon_state = "borderfall"
@@ -2999,7 +2931,6 @@
 /obj/effect/decal/herringbone{
 	dir = 4
 	},
-/obj/machinery/light/rogue/wallfire/candle/r,
 /turf/open/floor/rogue/blocks/stonered/tiny,
 /area/rogue/indoors/warcamp/fort)
 "ZW" = (
@@ -3007,11 +2938,8 @@
 /turf/open/floor/rogue/grassred,
 /area/rogue/outdoors/warcamp)
 "ZX" = (
-/obj/machinery/light/rogue/wallfire/candle/l,
-/obj/effect/decal/herringbone{
-	dir = 8
-	},
 /obj/structure/fluff/railing/border,
+/obj/machinery/light/rogue/candle/weak/l,
 /turf/open/floor/rogue/blocks/stonered,
 /area/rogue/indoors/warcamp/fort)
 
@@ -3111,7 +3039,7 @@ jQ
 "}
 (3,1,1) = {"
 KJ
-SL
+qT
 ls
 Jz
 wj
@@ -3363,10 +3291,10 @@ gC
 gC
 gC
 uL
-aY
+rp
 qW
 uL
-aY
+rp
 gC
 Wt
 hf
@@ -3457,7 +3385,7 @@ hf
 hf
 ah
 my
-aY
+rp
 hv
 uL
 my
@@ -3488,7 +3416,7 @@ gh
 (11,1,1) = {"
 KJ
 FZ
-mC
+to
 Nt
 tj
 Va
@@ -4208,9 +4136,9 @@ hf
 Jb
 pV
 Dz
-sb
+mc
 rp
-aY
+rp
 Dz
 DN
 PB
@@ -4406,8 +4334,8 @@ CF
 gC
 my
 my
-rp
-rp
+zX
+zX
 my
 my
 Dz
@@ -4494,15 +4422,15 @@ rp
 rp
 Uc
 rR
-Ob
-my
-kP
+mc
+DU
+mc
 rR
 Uc
-uW
 rp
 rp
-uW
+rp
+rp
 gC
 Dz
 gC
@@ -4587,7 +4515,7 @@ WI
 mc
 mc
 Bj
-dR
+mc
 WB
 WB
 WB
@@ -4630,7 +4558,7 @@ Rz
 hf
 hf
 hl
-WI
+dR
 mc
 mc
 dH
@@ -4804,7 +4732,7 @@ Hw
 (39,1,1) = {"
 Ep
 Ep
-DU
+ng
 ng
 Ep
 Ep
@@ -4818,7 +4746,7 @@ Ep
 Ep
 Ep
 hl
-WI
+dR
 mc
 mc
 dH
@@ -4861,17 +4789,17 @@ Pt
 mc
 kK
 mc
-zX
 YP
+kP
 YP
 hl
 WI
 mc
 JQ
 Ik
-je
+mc
 Uu
-Uu
+dB
 Uu
 Uu
 Zz
@@ -4958,11 +4886,11 @@ XQ
 UZ
 mc
 mc
-TE
-mc
-mc
 mc
 TE
+mc
+TE
+mc
 hl
 WB
 WB
@@ -5049,14 +4977,14 @@ Da
 mc
 kK
 mc
-xb
+YP
+je
 YP
 YP
 YP
 YP
 YP
-YP
-xb
+mc
 hl
 hl
 hl

@@ -1,7 +1,7 @@
 #define LOWMEMORYMODE //uncomment this to load centcom and runtime station and thats it.
 
 #include "map_files\generic\CentCom.dmm"
-#include "map_files\generic\warbands.dmm"
+#include "map_files\dun_world\warbands.dmm"
 
 #ifndef LOWMEMORYMODE
 	#ifdef ALL_MAPS

@@ -410,7 +410,7 @@
 	name = "Arms"
 	items = list(/obj/item/rogueweapon/sword/saber/iron, /obj/item/rogueweapon/sword/iron, /obj/item/rogueweapon/sword/short/iron/chipped, /obj/item/rogueweapon/sword/short/messer/iron, /obj/item/rogueweapon/spear, /obj/item/rogueweapon/shield/heater, \
 	/obj/item/rogueweapon/sword/decorated, /obj/item/rogueweapon/halberd, /obj/item/rogueweapon/huntingknife/idagger/silver, /obj/item/rogueweapon/huntingknife/idagger, /obj/item/rogueweapon/greatsword/zwei, /obj/item/gun/ballistic/revolver/grenadelauncher/crossbow, \
-	/obj/item/rogueweapon/eaglebeak/lucerne, /obj/item/quiver/bolts, /obj/item/rogueweapon/mace, /obj/item/clothing/suit/roguetown/armor/plate/half/iron, /obj/item/clothing/neck/roguetown/gorget/steel, /obj/item/rogueweapon/sword/short/messer/iron, \
+	/obj/item/rogueweapon/eaglebeak/lucerne, /obj/item/quiver/bolts, /obj/item/rogueweapon/mace, /obj/item/clothing/suit/roguetown/armor/plate/cuirass/iron, /obj/item/clothing/neck/roguetown/gorget/steel, /obj/item/rogueweapon/sword/short/messer/iron, \
 	/obj/item/rogueweapon/flail, /obj/item/rogueweapon/halberd/bardiche, /obj/item/clothing/head/roguetown/helmet/kettle/iron, /obj/item/clothing/neck/roguetown/chaincoif/iron, /obj/item/clothing/suit/roguetown/armor/gambeson/heavy, /obj/item/reagent_containers/food/snacks/squiresdelight)
 
 /////////////////////////////////////////////////////////////////////
@@ -777,3 +777,6 @@
 	sealed = TRUE
 	update_name()
 	to_chat(user, span_notice("I seal the grant for delivery to [target_faction.name]."))
+
+#undef MATERIAL_GOODS
+#undef ALL_GOODS

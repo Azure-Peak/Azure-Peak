@@ -76,7 +76,7 @@
 		ADD_TRAIT(H, TRAIT_NOSTINK, TRAIT_GENERIC)
 		ADD_TRAIT(H, TRAIT_SOUL_EXAMINE, TRAIT_GENERIC)
 	if(H.patron.type == /datum/patron/divine/abyssor)
-		cloak = /obj/item/clothing/cloak/abyssortabard
+		cloak = /obj/item/clothing/cloak/tabard/abyssortabard
 		wrists = /obj/item/clothing/neck/roguetown/psicross/abyssor
 		ADD_TRAIT(H, TRAIT_WATERBREATHING, TRAIT_GENERIC)
 	if(H.patron.type == /datum/patron/divine/dendor)
@@ -124,7 +124,7 @@
 		wrists = /obj/item/clothing/neck/roguetown/psicross
 	if(H.patron.type == /datum/patron/old_god)
 		wrists = /obj/item/clothing/neck/roguetown/psicross/silver
-		cloak = /obj/item/clothing/cloak/psydontabard
+		cloak = /obj/item/clothing/cloak/tabard/psydontabard
 	var/datum/devotion/C = new /datum/devotion(H, H.patron)
 	C.grant_miracles(H, cleric_tier = CLERIC_T4, passive_gain = CLERIC_REGEN_MAJOR, start_maxed = TRUE)
 
@@ -177,7 +177,7 @@
 	wrists = /obj/item/clothing/wrists/roguetown/bracers
 	shoes = /obj/item/clothing/shoes/roguetown/boots/armor
 	belt = /obj/item/storage/belt/rogue/leather/plaquesilver
-	cloak = /obj/item/clothing/cloak/stabard/warband
+	cloak = /obj/item/clothing/cloak/tabard/stabard/warband
 	backr = /obj/item/storage/backpack/rogue/satchel/black
 
 	backpack_contents = list(
@@ -275,7 +275,7 @@
 /datum/outfit/job/roguetown/warband/standard/lieutenant/spymaster/pre_equip(mob/living/carbon/human/H)
 	..()
 	H.mind?.AddSpell(new /obj/effect/proc_holder/spell/invoked/sweep)
-	cloak = /obj/item/clothing/cloak/stabard/warband
+	cloak = /obj/item/clothing/cloak/tabard/stabard/warband
 	armor = /obj/item/clothing/suit/roguetown/armor/leather/heavy/coat
 	shirt = /obj/item/clothing/suit/roguetown/armor/chainmail
 	backr = /obj/item/storage/backpack/rogue/satchel/black

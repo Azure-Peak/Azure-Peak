@@ -103,7 +103,7 @@
 //////////////////////////////////////////////// INITIALIZING & REFRESHING
 ////////////////////////
 
-/atom/movable/screen/warband/manager/Initialize()
+/atom/movable/screen/warband/manager/Initialize(start_timer = TRUE)
 	..()
 	if(!src.finalized)
 		for(var/warband_type in WARBANDS)
@@ -152,11 +152,11 @@
 				for(var/class_type in aspect.gruntclasses)
 					src.classes += new class_type()
 
-
 		src.classes = sort_list(src.classes)
-		storyteller_refresh()
-		figure_refresh()
-		start_creation_timer()
+		if(start_timer)
+			storyteller_refresh()
+			figure_refresh()		
+			start_creation_timer()
 
 /atom/movable/screen/warband/manager/proc/figure_refresh()
 	var/list/important_jobs = list(
@@ -481,6 +481,7 @@
 					src.selected_aspects += new aspect_datum
 			src.creation_stage = 2
 			envy_check() // check for Throne of Envy once a warband is locked in, so we can update any lieutenants
+			set_race_and_faith_locks()
 			send_warnings() // send a warning to a non-warband player
 			for(var/mob/living/carbon/human/member in src.lobby_members)
 				to_chat(member, span_greenteamradio("The Warlord has advanced to class selection. You may now choose your class."))
@@ -508,7 +509,7 @@
 			if(user in src.lobby_members)
 				lobby_members -= user
 			create_character(user, user)
-			lock_check()
+			lock_check(user)
 			spawn_warband(user)
 			set_IDs()
 			spawn_character(class_path, user, subclass_path, is_leader = 1)			
@@ -792,22 +793,117 @@
 
 
 // 7
-//////////////////////////////////////////////
-/////////////////////////////////// LOCK CHECK
+/////////////////////////////////////////////
+/////////////////////////////////// SET LOCKS
 /* 7 
-	FIXNOTE
-	checks the loaded warband for any patron & or faith locks
-	if the loaded character doesn't match them, fixes the discrepancy
+	checks for any patron & or faith locks
+	if the given mob doesn't match them, fixes the discrepancy
 */
 /atom/movable/screen/warband/manager/proc/lock_check(mob/living/carbon/human/user)
+	if(src.racelocks && src.racelocks.len)
+		var/user_species_type = user.dna?.species?.type
+		var/species_allowed = FALSE
+		
+		for(var/allowed_species in src.racelocks)
+			if(ispath(user_species_type, allowed_species))
+				species_allowed = TRUE
+				break
+		
+		if(!species_allowed)
+			var/new_species = pick(src.racelocks)
+			user.set_species(new_species)
+			to_chat(user, span_warning("Your character's species has been adjusted to match the warband's requirements."))
 
-	// user.set_patron(pick(src.faithlocks))
+	if(src.faithlocks && src.faithlocks.len)
+		var/patron_allowed = FALSE
+		if(user.patron)
+			for(var/allowed_patron in src.faithlocks)
+				if(ispath(user.patron.type, allowed_patron))
+					patron_allowed = TRUE
+					break
 
-	// user.set_species(pick(src.racelocks))
-	// if we had to race swap, assume the flavortext & headshot would be unfitting and just clear them
-	// assign a random name too
+		if(!patron_allowed)
+			var/new_patron = pick(src.faithlocks)
+			user.set_patron(new_patron)
+			to_chat(user, span_warning("Your character's patron has been adjusted to match the warband's requirements."))
+	
+	return
 
+// 7b
+/////////////////////////////////////////////////
+/////////////////////////////////// COLLECT LOCKS
+/* 7b
+	collects all race and faith locks from the selected warband, subtype, and aspects
+	stores them in the manager's racelocks and faithlocks lists
+	called during warband creation before characters are spawned
+*/
+/atom/movable/screen/warband/manager/proc/set_race_and_faith_locks()
+	src.racelocks = list()
+	src.faithlocks = list()
+	
+	if(src.selected_warband)
+		if(src.selected_warband.racelock && src.selected_warband.racelock.len)
+			for(var/race in src.selected_warband.racelock)
+				if(!(race in src.racelocks))
+					src.racelocks += race
+		
+		if(src.selected_warband.faithlock && src.selected_warband.faithlock.len)
+			for(var/faith in src.selected_warband.faithlock)
+				if(!(faith in src.faithlocks))
+					src.faithlocks += faith
+	
+	if(src.selected_subtype)
+		if(src.selected_subtype.racelock && src.selected_subtype.racelock.len)
+			for(var/race in src.selected_subtype.racelock)
+				if(!(race in src.racelocks))
+					src.racelocks += race
+		
+		if(src.selected_subtype.faithlock && src.selected_subtype.faithlock.len)
+			for(var/faith in src.selected_subtype.faithlock)
+				if(!(faith in src.faithlocks))
+					src.faithlocks += faith
+	
 
+	if(src.selected_aspects.len)
+		for(var/datum/warbands/aspects/aspect in src.selected_aspects)
+			if(aspect.racelock && aspect.racelock.len)
+				for(var/race in aspect.racelock)
+					if(!(race in src.racelocks))
+						src.racelocks += race
+			
+			if(aspect.faithlock && aspect.faithlock.len)
+				for(var/faith in aspect.faithlock)
+					if(!(faith in src.faithlocks))
+						src.faithlocks += faith
+	
+	// notify lobby members of any restrictions
+	if(src.racelocks.len || src.faithlocks.len)
+		var/lock_message = span_bold("WARBAND RESTRICTIONS: ")
+		
+		if(src.racelocks.len)
+			var/list/race_names = list()
+			for(var/race_type in src.racelocks)
+				var/datum/species/temp_species = new race_type()
+				race_names += temp_species.name
+				qdel(temp_species)
+			
+			lock_message += "Species limited to: [race_names.Join(", ")]"
+		
+		if(src.faithlocks.len)
+			if(src.racelocks.len)
+				lock_message += " | "
+			
+			var/list/faith_names = list()
+			for(var/faith_type in src.faithlocks)
+				var/datum/patron/temp_patron = new faith_type()
+				faith_names += temp_patron.name
+				qdel(temp_patron)
+			lock_message += "Faith limited to: [faith_names.Join(", ")]"
+		lock_message += ". Your character will be adjusted if needed."
+		for(var/mob/living/member in src.lobby_members)
+			to_chat(member, lock_message)
+			member.playsound_local(member, 'sound/misc/notice (2).ogg', 100, FALSE)
+	
 	return
 
 // 8
@@ -1065,6 +1161,7 @@
 	if(user.mind.special_role == "Grunt")
 		assign_grunt(grunt = user)
 	else if(user.mind.special_role == "Lieutenant" || user.mind.special_role == "Aspirant Lieutenant")
+		src.spawned_lieutenants++
 		assign_grunt(lieutenant = user)
 
 
@@ -1737,6 +1834,7 @@
 						break
 
 		src.creation_stage = 2
+		set_race_and_faith_locks()
 		envy_check()
 		send_warnings()
 		for(var/mob/living/carbon/human/member in src.lobby_members)
@@ -1753,7 +1851,7 @@
 					cancel_lobby(member)
 				return
 
-		to_chat(warlord, span_warning("Spawning with current selections..."))
+		to_chat(warlord, span_boldwarning("Spawning with current selections..."))
 		var/class_path = /datum/advclass/warband/standard/warlord/lord
 		var/subclass_path = null
 		
@@ -1777,7 +1875,7 @@
 		if(warlord in src.lobby_members)
 			lobby_members -= warlord
 		create_character(warlord, warlord)
-		lock_check()
+		lock_check(warlord)
 		spawn_warband(warlord)
 		set_IDs()
 		spawn_character(class_path, warlord, subclass_path, is_leader = 1)

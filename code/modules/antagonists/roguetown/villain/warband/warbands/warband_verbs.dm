@@ -325,7 +325,10 @@
 	new_warband_manager.spawns -= WARBAND_BASE_RESPAWNS	// we want their respawns to ONLY!! be drawn from the number of stolen troops
 	new_warband_manager.spawns += stolen_troops
 	new_warband_manager.finalized = TRUE
-	src.verbs -= /mob/living/carbon/human/proc/abandon_warband
+	new_warband_manager.creation_stage = 2
+	new_warband_manager.warlord_spawned = TRUE
+	new_warband_manager.stop_creation_timer()
+	src.verbs -= /mob/living/carbon/human/proc/desert
 	src.verbs += /mob/living/carbon/human/proc/connect_warcamp
 	src.mind.warband_manager = new_warband_manager
 	src.mind.warband_manager.determine_squad_size(src)
@@ -462,7 +465,7 @@
 
 		SSwarbands.warband_managers_busy = TRUE
 		src.visible_message(span_notice("[src] begins scouting for a new path..."))
-
+		var/turf/initial_turf = src.loc
 		if(do_after(src, 30, target = src))
 			var/chosen_outskirts_map
 			var/chosen_intermission_map
@@ -519,15 +522,13 @@
 			if(outskirts_landmark_found && intermission_landmark_found)
 				src.visible_message(span_info("[src] reveals a path to the Warcamp!"))
 				src.mind.warband_manager.outskirts_established = TRUE
-				var/obj/structure/fluff/traveltile/warband/new_path = new /obj/structure/fluff/traveltile/warband/azure_to_intermission(src.loc)
+				var/obj/structure/fluff/traveltile/warband/new_path = new /obj/structure/fluff/traveltile/warband/azure_to_intermission(initial_turf)
 				new_path.warband_ID = src.mind.warband_ID
 
 				var/list/spawn_locations = list()
 				var/list/preferred_spawn_locations = list()
-				var/turf/user_turf = src.loc
-
-				for(var/turf/T in range(1, user_turf))
-					if(istype(T, /turf/open/floor) && T != user_turf) // not the turf we're on
+				for(var/turf/T in range(1, initial_turf))
+					if(istype(T, /turf/open/floor) && T != initial_turf) // not the turf we're on
 						spawn_locations += T
 						for(var/turf/neighbor_turf in range(1, T))
 							if(istype(neighbor_turf, /turf/closed/mineral))

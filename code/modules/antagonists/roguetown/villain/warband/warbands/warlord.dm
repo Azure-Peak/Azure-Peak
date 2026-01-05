@@ -55,7 +55,6 @@
 			owner.client << browse(null, "window=class_select_yea")
 			owner.client << browse(null, "window=input")	
 
-
 	for(var/atom/movable/screen/advsetup/subclass_hud in owner.hud_used.static_inventory)
 		qdel(subclass_hud)
 
@@ -103,13 +102,21 @@
 	var/atom/movable/screen/warband/manager/pregame_manager
 	for(var/obj/effect/landmark/start/warlord/warlord_spawn in GLOB.landmarks_list)
 		new_warlord.loc = warlord_spawn.loc
-		pregame_manager = new /atom/movable/screen/warband/manager()
-		pregame_manager.warband_ID = owner.warband_ID
-		pregame_manager.lobby_members += owner.current
-		SSwarbands.warband_managers += pregame_manager
-		owner.warband_manager = pregame_manager
-		pregame_manager.create_HUD_instance(new_warlord)
 		break
+
+	if(!SSwarbands.roundstart_manager_claimed && SSwarbands.roundstart_manager)
+		pregame_manager = SSwarbands.roundstart_manager
+		SSwarbands.roundstart_manager_claimed = TRUE
+		owner.warband_ID = pregame_manager.warband_ID
+	else
+		pregame_manager = new /atom/movable/screen/warband/manager()
+		pregame_manager.warband_ID = SSwarbands.warband_managers.len + 1
+		SSwarbands.warband_managers += pregame_manager
+		owner.warband_ID = pregame_manager.warband_ID
+
+	pregame_manager.lobby_members += owner.current
+	owner.warband_manager = pregame_manager
+	pregame_manager.create_HUD_instance(new_warlord)
 
 // staggers the process, otherwise we crash pretty often if we're doing this at roundstart on dun_world (it's probably just my pc)
 /datum/antagonist/warlord/on_gain()
@@ -136,7 +143,7 @@
 	newmob.mind.warband_ID = SSwarbands.warband_managers.len + 1
 	newmob.faction |= list("warband_[newmob.mind.warband_ID]")
 	newmob.mind.warbandsetup = TRUE
-	greet(newmob)
+	addtimer(CALLBACK(src, PROC_REF(greet), newmob), 1 SECONDS)
 	addtimer(CALLBACK(src, PROC_REF(create_warband_manager), newmob, newmob.mind), 1 SECONDS)
 
 /datum/antagonist/warlord/greet(mob/living/new_warlord)

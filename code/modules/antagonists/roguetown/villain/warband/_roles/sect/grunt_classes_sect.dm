@@ -64,19 +64,19 @@
 		head = /obj/item/clothing/head/roguetown/helmet/heavy/nochelm
 		mask = /obj/item/clothing/mask/rogue/facemask
 		id = /obj/item/clothing/neck/roguetown/psicross/noc
-		cloak = /obj/item/clothing/cloak/templar/noc
+		cloak = /obj/item/clothing/cloak/tabard/devotee/noc
 
 	if(H.patron.type == /datum/patron/divine/dendor)
 		head = /obj/item/clothing/head/roguetown/helmet/heavy/dendorhelm
 		mask = /obj/item/clothing/mask/rogue/facemask
 		id = /obj/item/clothing/neck/roguetown/psicross/dendor
-		cloak = /obj/item/clothing/cloak/templar/dendor
+		cloak = /obj/item/clothing/cloak/tabard/devotee/dendor
 		backr = /obj/item/clothing/cloak/cape/crusader
 	
 	if(H.patron.type == /datum/patron/divine/abyssor)
 		head = /obj/item/clothing/head/roguetown/helmet/heavy/abyssorgreathelm
 		id = /obj/item/clothing/neck/roguetown/psicross/abyssor
-		cloak = /obj/item/clothing/cloak/abyssortabard
+		cloak = /obj/item/clothing/cloak/tabard/abyssortabard
 		armor = /obj/item/clothing/suit/roguetown/armor/chainmail/hauberk/iron
 		shoes = /obj/item/clothing/shoes/roguetown/boots/leather/reinforced
 
@@ -132,7 +132,7 @@
 
 	if(H.patron.type == /datum/patron/inhumen/matthios)
 		head = /obj/item/clothing/head/roguetown/helmet/heavy/matthios
-		armor = /obj/item/clothing/suit/roguetown/armor/plate/half/fluted
+		armor = /datum/anvil_recipe/armor/steel/cuirass/fluted
 		cloak = /obj/item/clothing/cloak/half/purple
 		belt = /obj/item/storage/belt/rogue/leather/knifebelt/black/steel
 		r_hand = /obj/item/rogueweapon/whip
@@ -142,7 +142,7 @@
 		head = /obj/item/clothing/head/roguetown/helmet/heavy/psydonhelm
 		armor = /obj/item/clothing/suit/roguetown/armor/plate/fluted/ornate
 		id = /obj/item/clothing/neck/roguetown/psicross
-		cloak = /obj/item/clothing/cloak/psydontabard
+		cloak = /obj/item/clothing/cloak/tabard/psydontabard
 		shoes = /obj/item/clothing/shoes/roguetown/boots/psydonboots
 		var/weapons = list("LONGSWORD","SPEAR","FLAIL","MACE","WAR AXE")
 		var/weapon_choice = input("Choose your weapon.", "TAKE UP ARMS") as anything in weapons
@@ -152,11 +152,11 @@
 			if("SPEAR")
 				r_hand = /obj/item/rogueweapon/spear/psyspear/old
 			if("FLAIL")
-				r_hand = /obj/item/rogueweapon/flail/sflail/psyflail/old
+				r_hand = /obj/item/rogueweapon/flail/sflail/psyflail
 			if("MACE")
-				r_hand = /obj/item/rogueweapon/mace/goden/psymace/old
+				r_hand = /obj/item/rogueweapon/mace/goden/psymace
 			if("WAR AXE")
-				r_hand = /obj/item/rogueweapon/stoneaxe/battle/psyaxe/old
+				r_hand = /obj/item/rogueweapon/stoneaxe/battle/psyaxe
 	else
 		var/weapontype = list("SWORD","HAMMER","AXE","HALBERD")
 		var/category_choice = input("Choose your weapon.", "TAKE UP ARMS") as anything in weapontype
@@ -236,7 +236,7 @@
 		head = /obj/item/clothing/head/roguetown/helmet/heavy/nochelm
 		mask = /obj/item/clothing/mask/rogue/facemask
 		id = /obj/item/clothing/neck/roguetown/psicross/noc
-		cloak = /obj/item/clothing/cloak/templar/noc
+		cloak = /obj/item/clothing/cloak/tabard/devotee/noc
 		armor = /obj/item/clothing/suit/roguetown/armor/brigandine/light
 		shoes = /obj/item/clothing/shoes/roguetown/boots/leather/reinforced
 		shirt = null
@@ -246,7 +246,7 @@
 		head = /obj/item/clothing/head/roguetown/helmet/heavy/dendorhelm
 		mask = /obj/item/clothing/mask/rogue/facemask
 		id = /obj/item/clothing/neck/roguetown/psicross/dendor
-		cloak = /obj/item/clothing/cloak/templar/dendor
+		cloak = /obj/item/clothing/cloak/tabard/devotee/dendor
 		backr = /obj/item/clothing/cloak/cape/crusader
 		armor = /obj/item/clothing/suit/roguetown/armor/brigandine/light
 		shoes = /obj/item/clothing/shoes/roguetown/boots/leather/reinforced
@@ -255,7 +255,7 @@
 	if(H.patron.type == /datum/patron/divine/abyssor)
 		head = /obj/item/clothing/head/roguetown/helmet/heavy/abyssorgreathelm
 		id = /obj/item/clothing/neck/roguetown/psicross/abyssor
-		cloak = /obj/item/clothing/cloak/abyssortabard
+		cloak = /obj/item/clothing/cloak/tabard/abyssortabard
 		armor = /obj/item/clothing/suit/roguetown/armor/brigandine/light
 		shoes = /obj/item/clothing/shoes/roguetown/boots/leather/reinforced
 		belt = /obj/item/storage/belt/rogue/leather
@@ -342,7 +342,7 @@
 		mask = /obj/item/clothing/mask/rogue/sack/psy
 		armor = /obj/item/clothing/suit/roguetown/armor/plate/fluted/ornate
 		id = /obj/item/clothing/neck/roguetown/psicross
-		cloak = /obj/item/clothing/cloak/psydontabard
+		cloak = /obj/item/clothing/cloak/tabard/psydontabard
 		shoes = /obj/item/clothing/shoes/roguetown/boots/psydonboots
 		belt = /obj/item/storage/belt/rogue/leather
 

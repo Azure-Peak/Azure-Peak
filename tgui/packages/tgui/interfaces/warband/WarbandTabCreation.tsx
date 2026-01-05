@@ -150,8 +150,7 @@ export const CreationTab = ({
       </Stack>
       <Section 
         title={<span style={{ color: '#7a2525ff' }}>{selectedWarband?.title || 'No Warband Selected'}</span>} 
-        scrollable 
-        style={{ flex: 0, flexBasis: 'auto', maxHeight: '165px', minHeight: 0 }}
+        style={{ flex: 0, flexBasis: 'auto', maxHeight: '200px', minHeight: '200px', overflowY: 'scroll' }}
       >
         {selectedWarband ? (
           <Stack vertical style={{ display: 'flex', flexDirection: 'column', textAlign: 'center' }}>
@@ -176,7 +175,7 @@ export const CreationTab = ({
                 fontSize: '15px', 
                 padding: '25px', 
                 display: 'flex',
-                marginBottom: '90px',
+                marginBottom: '110px',
                 justifyContent: 'center', 
                 alignItems: 'center',
               }}>
@@ -197,7 +196,7 @@ export const CreationTab = ({
                 flex: 1, 
                 fontSize: '25px', 
                 padding: '25px',
-                marginBottom: '90px',
+                marginBottom: '110px',
                 display: 'flex', 
                 justifyContent: 'center', 
                 alignItems: 'center',
@@ -207,7 +206,7 @@ export const CreationTab = ({
           </Stack>
         </Section>
       ) : (
-        <div style={{ height: '90px' }} />
+        <div style={{ height: '110px' }} />
       )}
     </Stack>
   );

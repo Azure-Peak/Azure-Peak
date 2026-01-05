@@ -1,4 +1,4 @@
-/obj/item/clothing/cloak/stabard/warband
+/obj/item/clothing/cloak/tabard/stabard/warband
 	name = "foreign surcote"
 	desc = "A tabard bearing a foreign Lord's heraldic colors."
 	color = CLOTHING_BLACK

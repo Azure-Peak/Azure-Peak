@@ -127,7 +127,7 @@ export const FinalizeTab = ({
                 fontSize: '15px', 
                 padding: '25px', 
                 display: 'flex',
-                marginBottom: '90px',
+                marginBottom: '110px',
                 justifyContent: 'center', 
                 alignItems: 'center',
               }}>
@@ -154,7 +154,7 @@ export const FinalizeTab = ({
                 fontSize: '25px', 
                 padding: '25px', 
                 display: 'flex',
-                marginBottom: '90px',
+                marginBottom: '110px',
                 justifyContent: 'center', 
                 alignItems: 'center',
               }}>
@@ -179,7 +179,7 @@ export const FinalizeTab = ({
                 fontSize: '25px', 
                 padding: '25px', 
                 display: 'flex',
-                marginBottom: '90px',
+                marginBottom: '110px',
                 justifyContent: 'center', 
                 alignItems: 'center',
               }}>

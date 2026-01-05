@@ -78,15 +78,15 @@
 	var/turf/TU = get_turf(H)
 	if(TU)
 		if(horse)
-			var/mob/horse_mob = var/mob/new_horse = new horse(TU)
+			var/mob/horse_mob = new horse(TU)
 			if(istype(horse_mob, /mob/living/simple_animal/hostile/retaliate/rogue))
 				var/mob/living/simple_animal/hostile/retaliate/rogue/rogue_animal = horse_mob
 				rogue_animal.owner = H
 				rogue_animal.friends |= H
-			if(H.mind)	// we don't want our own NPCs stabbing our poor horse
-				new_horse.faction |= list("[H.real_name]_faction")
-			if(H.mind.warband_ID != 0)
-				new_horse.faction |= list("warband_[H.mind.warband_ID]")
+				if(H.mind)
+					rogue_animal.faction |= list("[H.real_name]_faction")
+				if(H.mind.warband_ID != 0)
+					rogue_animal.faction |= list("warband_[H.mind.warband_ID]")
 
 	for(var/trait in traits_applied)
 		ADD_TRAIT(H, trait, ADVENTURER_TRAIT)

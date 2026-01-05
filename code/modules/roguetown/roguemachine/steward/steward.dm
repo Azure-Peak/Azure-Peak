@@ -6,7 +6,7 @@
 #define TAB_LOG 6
 #define TAB_STATISTICS 7
 #define TAB_PAYDAY 8
-#define TAB_ESTATE 8
+#define TAB_ESTATE 9
 
 /obj/structure/roguemachine/steward
 	name = "nerve master"

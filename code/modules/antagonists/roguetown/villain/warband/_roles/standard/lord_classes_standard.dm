@@ -42,7 +42,7 @@
 	pants = /obj/item/clothing/under/roguetown/platelegs/blacksteel/modern
 	shoes = /obj/item/clothing/shoes/roguetown/boots/blacksteel/modern/plateboots
 	shirt = /obj/item/clothing/suit/roguetown/armor/gambeson/heavy/rival
-	armor = /obj/item/clothing/suit/roguetown/armor/plate/modern/blacksteel_full_plate
+	armor = /obj/item/clothing/suit/roguetown/armor/plate/full/blacksteel/modern
 	gloves = /obj/item/clothing/gloves/roguetown/blacksteel/modern/plategloves
 	backr = /obj/item/clothing/cloak/volfmantle
 	backl = /obj/item/storage/backpack/rogue/satchel
