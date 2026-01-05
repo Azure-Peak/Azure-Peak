@@ -154,3 +154,52 @@
   - bugfix: carpet's to_chat makes sense
   - bugfix: removed redundant information from some recipes
   - bugfix: you no longer fall on your the left leg
+2026-01-05:
+  BurpleBineapple:
+  - image: Blacksteel arming sword sprites by Dongwaiver
+  CometBlaze:
+  - rscadd: 'Added a new weapon: the Stalker Falx, a Drow variant of the falx'
+  - rscadd: 'Added a new armour: the Drowcraft Vest. Currently only available to Drow
+      NPCs'
+  - balance: Drow raider NPCs now dodge instead of parrying
+  - balance: Black Venom and Anthrax Assassin now get a stat buff while in the Underdark
+  FreeStylaLT:
+  - balance: Martyr now gets the Tempo trait.
+  - balance: Martyr gets all the benefits of the 2-minute duration from the start.
+  - balance: Martyr 2-minute duration option no longer has a heal.
+  - balance: Blunt Damage now damages all layers covering the targeted bodypart.
+  - balance: Blunt Armor now mitigates up to 60% blunt damage.
+  Geevies:
+  - bugfix: Fixes tights sleeves layering over boots.
+  - bugfix: Fixes sleeves not re-rendering when ripped off.
+  - rscadd: Different types of foods now give you different types of buffs, ranging
+      from good snacks, to great meals, and sweet treats.
+  Ketrai:
+  - rscdel: Removed all unique fish from the seafood tab.
+  - balance: You have to catch fish again for your fishy purposes.
+  - balance: Raised fish fillet price as it has more uses compared to mince.
+  Ryan180602:
+  - bugfix: donor item fixes.
+  SayonaraEcho:
+  - bugfix: no see through walls for witch in zad form, only vampires can do that
+  - bugfix: size of stockings in inventory as like underwear now
+  - bugfix: briar thorns were deleted by someone, I returned it
+  - bugfix: knight green tabard for templar was replaced with crusader dendor tabard
+      because there's no unique tabard for templar dendorites
+  - code_imp: was deleted unused file .dmi
+  - rscadd: mirror transformation was improved and fixed
+  - image: were ported from Vanderlin "cleric-paladin" tabards for small races onmob
+      (except alt. tabards)
+  THE-DUKE-OF-AZURE:
+  - balance: Lovesick vice requires a partner to be fulfilled.
+  Vladmar11:
+  - bugfix: Fixing a dupe of bottles through a vending machine
+  - bugfix: Fixed display of jewelry on helmets with offset coordinates.
+  dopamiin0:
+  - rscadd: familiars grant their owner a minor stat buff and malus
+  - rscadd: player familiars have special, low impact spells
+  - rscadd: player familiars get a modern examine panel, yay!
+  - rscdel: find familiar scrolls are no longer craftable
+  - balance: anyone with arcyne t1 or higher and at least 1 spellpoint can take find
+      familiar for free
+  - bugfix: players can actually control familiars now

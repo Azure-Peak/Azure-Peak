@@ -277,7 +277,7 @@
 		return TRUE
 
 
-//BLOODY FOOTPRINTS
+//BLOODY/MUDDY/SNOWY FOOTPRINTS
 /obj/effect/decal/cleanable/blood/footprints
 	name = "footprints"
 	desc = ""
@@ -290,6 +290,10 @@
 	alpha = 140
 	bloodiness = 0
 	var/list/shoe_types = list()
+
+/obj/effect/decal/cleanable/blood/footprints/mud
+	icon_state = "mud1"
+	blood_state = BLOOD_STATE_MUD
 
 /obj/effect/decal/cleanable/blood/footprints/Initialize(mapload)
 	. = ..()

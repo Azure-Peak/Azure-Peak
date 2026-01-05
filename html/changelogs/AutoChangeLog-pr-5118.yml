@@ -1,0 +1,5 @@
+author: "FreeStylaLT"
+delete-after: True
+changes:
+  - bugfix: "Failed feints due to lack of LOS will now have a correctly shortened cooldown."
+  - bugfix: "Fixed Tempo rclick CDR not applying correctly."

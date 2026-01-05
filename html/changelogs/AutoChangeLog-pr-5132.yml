@@ -1,0 +1,7 @@
+author: "Ryan180602"
+delete-after: True
+changes:
+  - rscadd: "Lets bloodrain/bloodfog happen on Zizo/Graggar at night on a chance."
+  - rscadd: "Lets falling leaves potentially happen."
+  - bugfix: "Fixes indoor weather noise."
+  - rscadd: "Adds snow/ice/hail."

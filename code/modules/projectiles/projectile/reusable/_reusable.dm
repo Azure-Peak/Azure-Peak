@@ -1,6 +1,7 @@
 /obj/projectile/bullet/reusable
 	name = "reusable bullet"
 	desc = ""
+	icon = 'icons/roguetown/weapons/ammo.dmi'
 	ammo_type = /obj/item/ammo_casing/caseless
 	impact_effect_type = null
 	var/has_dropped = FALSE  //Flag to track if we've already dropped the ammo

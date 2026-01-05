@@ -494,6 +494,13 @@
 	if(!(our_area.town_area))
 		owner.remove_status_effect(/datum/status_effect/buff/guardbuffone)
 
+/datum/status_effect/buff/anthraxbuff/process()
+
+	.=..()
+	var/area/rogue/our_area = get_area(owner)
+	if(!(our_area.drow_area))
+		owner.remove_status_effect(/datum/status_effect/buff/anthraxbuff)
+
 /datum/status_effect/buff/wardenbuff/process()
 
 	.=..()
@@ -599,6 +606,7 @@
 	if(!owner.cmode)
 		stamheal *= 2
 	owner.energy_add(stamheal)
+	owner.adjust_bodytemperature(8)
 
 /datum/status_effect/buff/campfire_stamina/on_remove()
 	owner.remove_filter(CAMPFIRE_BASE_FILTER)

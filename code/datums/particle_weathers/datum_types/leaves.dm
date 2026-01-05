@@ -38,7 +38,7 @@
 	maxSeverityChange = 2
 	severitySteps = 5
 	immunity_type = TRAIT_RAINSTORM_IMMUNE
-	probability = 1
+	probability = 40
 	target_trait = PARTICLEWEATHER_LEAVES
 
 /datum/particle_weather/leaves_storm
@@ -53,7 +53,7 @@
 	maxSeverityChange = 50
 	severitySteps = 50
 	immunity_type = TRAIT_RAINSTORM_IMMUNE
-	probability = 1
+	probability = 20
 	target_trait = PARTICLEWEATHER_LEAVES
 
 /datum/particle_weather/sakura_gentle
@@ -68,7 +68,7 @@
 	maxSeverityChange = 2
 	severitySteps = 5
 	immunity_type = TRAIT_RAINSTORM_IMMUNE
-	probability = 1
+	probability = 0
 	target_trait = PARTICLEWEATHER_SAKURA
 
 /datum/particle_weather/sakura_storm
@@ -83,5 +83,5 @@
 	maxSeverityChange = 50
 	severitySteps = 50
 	immunity_type = TRAIT_RAINSTORM_IMMUNE
-	probability = 1
+	probability = 0
 	target_trait = PARTICLEWEATHER_SAKURA

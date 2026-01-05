@@ -1,0 +1,14 @@
+author: "SpadesNeil"
+delete-after: True
+changes:
+  - refactor: "Refactored ammo.dm to remove bad and redundant copypasted code."
+  - refactor: "Damage defines in ammo.dm are now actually used."
+  - bugfix: "Fixed sling icons not appearing correctly in some situations."
+  - balance: "Decrepit bodkin arrows now have worse embed chance than steel."
+  - balance: "STAB projectiles now do PIERCE damage because that makes more sense."
+  - balance: "Unused firearms bullets now have simple mob damage multiplier making it still worse DPS than the crossbow but good burst damage for alpha strikes."
+  - bugfix: "Rocks thrown by deep ones now do BLUNT damage, not STAB."
+  - bugfix: "Water bolts now break and turn into normal arrows after use."
+  - bugfix: "Ancient arrows fired by mobs no longer turn into stone arrows."
+  - balance: "All bolt and arrow projectiles now travel at the same speed except for simple mob fired projectiles."
+  - image: "Added a missing texture catch for ammo.dmi"
