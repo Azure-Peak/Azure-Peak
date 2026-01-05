@@ -1856,10 +1856,6 @@
 	name = "rug"
 	},
 /area/rogue/indoors/warcamp)
-"YT" = (
-/turf/open/floor/rogue/cobble/mossy,
-/turf/open/floor/rogue/cobble/mossy,
-/area/rogue/outdoors/warcamp)
 "Zm" = (
 /obj/machinery/light/rogue/lanternpost{
 	dir = 1;
@@ -2173,7 +2169,7 @@ Wq
 DV
 ev
 DV
-QA
+DV
 xy
 pI
 Pm
@@ -2755,7 +2751,7 @@ Wq
 Wq
 xy
 bW
-YT
+pI
 wC
 wC
 wC

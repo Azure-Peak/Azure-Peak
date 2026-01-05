@@ -1629,10 +1629,6 @@
 	icon_state = "rockwd"
 	},
 /area/rogue/outdoors/warcamp)
-"IM" = (
-/turf/open/floor/rogue/grass,
-/turf/open/floor/rogue/cobble/mossy,
-/area/rogue/outdoors/warcamp)
 "Jh" = (
 /obj/effect/decal/cobble/mossy{
 	dir = 1
@@ -3279,7 +3275,7 @@ oT
 oT
 ex
 CG
-IM
+CG
 yw
 yw
 iq
