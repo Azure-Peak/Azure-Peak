@@ -1,5 +1,5 @@
 #define IRCREPLYCOUNT 2
-
+#define IRC_AHELP_USAGE "Usage: ticket <close|resolve|icissue|reject|reopen \[ticket #\]|list>"
 
 //allows right clicking mobs to send an admin PM to their client, forwards the selected mob's client to cmd_admin_pm
 /client/proc/cmd_admin_pm_context(mob/M in GLOB.mob_list)
@@ -216,7 +216,6 @@
 		else
 			adminhelp(reply)													//sender has left, adminhelp instead
 
-#define IRC_AHELP_USAGE "Usage: ticket <close|resolve|icissue|reject|reopen \[ticket #\]|list>"
 /proc/IrcPm(target,msg,sender)
 	target = ckey(target)
 	var/client/C = GLOB.directory[target]
@@ -322,3 +321,4 @@
 	return	stealth
 
 #undef IRCREPLYCOUNT
+#undef IRC_AHELP_USAGE

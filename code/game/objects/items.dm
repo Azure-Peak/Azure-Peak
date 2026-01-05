@@ -141,10 +141,12 @@ GLOBAL_VAR_INIT(rpg_loot_items, FALSE)
 	var/datum/skill/associated_skill
 
 	var/list/possible_item_intents = list(/datum/intent/use)
+	var/saved_intent_index = 1 // Stores the last selected intent index when item is dropped
 
 	var/bigboy = FALSE //used to center screen_loc when in hand
 	var/wielded = FALSE
 	var/altgripped = FALSE
+	var/mordhau = FALSE //This weapon can mordhau, therefore we treat it as wielded in alt-grip.
 	var/list/alt_intents //these replace main intents
 	var/list/gripped_intents //intents while gripped, replacing main intents
 	var/force_wielded = 0
@@ -166,6 +168,8 @@ GLOBAL_VAR_INIT(rpg_loot_items, FALSE)
 	var/wdefense_dynamic = 0
 	/// Minimum STR required to use the weapon. Will reduce damage by 70% if not met. Wielding halves the requirement.
 	var/minstr = 0
+	///Wielding normally halves the requirement. If true, it does not.
+	var/minstr_req = FALSE
 	/// %-age of our raw damage that is dealt to armor or weapon on hit / parry / clip.
 	var/intdamage_factor = 1
 
@@ -246,6 +250,9 @@ GLOBAL_VAR_INIT(rpg_loot_items, FALSE)
 	var/icon_angle_wielded = 0
 
 	var/no_use_cd = FALSE //if true, no cooldown when interacting with it
+
+	/// Makes this item impossible to enchant, for temporary item
+	var/unenchantable = FALSE
 
 /obj/item/Initialize()
 	. = ..()
@@ -489,7 +496,8 @@ GLOBAL_VAR_INIT(rpg_loot_items, FALSE)
 	if(href_list["explainsharpness"])
 		var/output = span_info("Bladed weapons have sharpness. At [SHARPNESS_TIER1_THRESHOLD * 100]%, damage factor and strength damage starts to fall off gradually. \n\
 		At [SHARPNESS_TIER1_FLOOR * 100]%, strength and damage factor no longer applies. Below [SHARPNESS_TIER2_THRESHOLD * 100]%, the base damage value also starts to decline\n\
-		Sharpness declines by [SHARPNESS_ONHIT_DECAY] on parry for bladed weapon.")
+		Sharpness declines by [SHARPNESS_ONHIT_DECAY] on parry for bladed weapon.\n\
+		A grindstone can restore max sharpness, whereas other sources will degrade 0.5 max integrity per sharpening.")
 		if(!usr.client.prefs.no_examine_blocks)
 			output = examine_block(output)
 		to_chat(usr, output)
@@ -527,6 +535,8 @@ GLOBAL_VAR_INIT(rpg_loot_items, FALSE)
 		var/list/inspec = list(span_notice("Properties of [src.name]"))
 		if(minstr)
 			inspec += "\n<b>MIN.STR:</b> [minstr]"
+		if(minstr_req)
+			inspec += "\n<b>NO HALVING ON WIELD</b>"
 
 		if(force)
 			inspec += "\n<b>FORCE:</b> [get_force_string(force)] <span class='info'><a href='?src=[REF(src)];showforce=1'>{?}</a></span>"
@@ -577,6 +587,11 @@ GLOBAL_VAR_INIT(rpg_loot_items, FALSE)
 		if(associated_skill && associated_skill.name)
 			inspec += "\n<b>SKILL:</b> [associated_skill.name] <span class='info'><a href='?src=[REF(src)];explainskill=1'>{?}</a></span>"
 
+		if(istype(src, /obj/item/rogueweapon))
+			var/obj/item/rogueweapon/W = src
+			if(W.special)
+				inspec += "[W.special.get_examine()]"
+
 		if(intdamage_factor != 1 && force >= 5)
 			inspec += "\n<b>INTEGRITY DAMAGE:</b> [intdamage_factor * 100]% <span class='info'><a href='?src=[REF(src)];explainintdamage=1'>{?}</a></span>"
 
@@ -589,41 +604,58 @@ GLOBAL_VAR_INIT(rpg_loot_items, FALSE)
 			var/obj/item/clothing/C = src
 			inspec += "<br>"
 			inspec += C.defense_examine()
-			if(C.body_parts_covered)
-				inspec += "\n<b>COVERAGE: <br></b>"
-				inspec += " | "
-				if(C.body_parts_covered == C.body_parts_covered_dynamic)
-					for(var/zone in body_parts_covered2organ_names(C.body_parts_covered))
-						inspec += "<b>[capitalize(zone)]</b> | "
-				else
-					var/list/zones = list()
-					//We have some part peeled, so we turn the printout into precise mode and highlight the missing coverage.
-					for(var/zoneorg in body_parts_covered2organ_names(C.body_parts_covered, precise = TRUE))
-						zones += zoneorg
-					for(var/zonedyn in body_parts_covered2organ_names(C.body_parts_covered_dynamic, precise = TRUE))
-						inspec += "<b>[capitalize(zonedyn)]</b> | "
-						if(zonedyn in zones)
-							zones.Remove(zonedyn)
-					for(var/zone in zones)
-						inspec += "<b><font color = '#7e0000'>[capitalize(zone)]</font></b> | "
-				inspec += "<br>"
+			inspec += "<table align='center'; width='100%'; height='100%';border: 1px solid white;border-collapse: collapse><tr style='vertical-align:top'><td width = 35%>"
+			inspec += "<b>COVERAGE: <br></b>"
+			if(!C.body_parts_covered)
+				inspec += "<b>NONE!</b>"
+			if(C.body_parts_covered == C.body_parts_covered_dynamic)
+				var/list/zonelist = body_parts_covered2organ_names(C.body_parts_covered)
+				var/count = 0
+				for(var/zone in zonelist)
+					var/add_divider = TRUE
+					if(count == (length(zonelist) - 1))
+						add_divider = FALSE
+					inspec += "<b>[capitalize(zone)]</b> [add_divider ? "| " : ""]"
+					count++
+			else
+				var/list/zones = list()
+				//We have some part peeled, so we turn the printout into precise mode and highlight the missing coverage.
+				var/count = 1
+				for(var/zoneorg in body_parts_covered2organ_names(C.body_parts_covered, precise = TRUE))
+					zones += zoneorg
+				var/list/dynlist = body_parts_covered2organ_names(C.body_parts_covered_dynamic, precise = TRUE)
+				for(var/zonedyn in dynlist)
+					var/add_divider = TRUE
+					if(count == (length(dynlist) - 1))
+						add_divider = FALSE
+
+					inspec += "<b>[capitalize(zonedyn)]</b> [add_divider ? "| " : ""]"
+					if(zonedyn in zones)
+						zones.Remove(zonedyn)
+					count++
+				for(var/zone in zones)
+					var/add_divider = TRUE
+					if(count == (length(dynlist) - 1))
+						add_divider = FALSE
+					inspec += "<b><font color = '#7e0000'>[capitalize(zone)]</font></b> [add_divider ? "| " : ""]"
+					count++
+			inspec += "</td>"
+			inspec += "<br>"
+			if(!C.prevent_crits)
+				inspec += "\n<b><font color = '#aa2121'>CRIT SUSCEPTIBLE!</font></b>"
+			if(C.prevent_crits == PREVENT_CRITS_ALL)
+				inspec += "\n<b><font color = '#6890a7'>PICK RESISTANT!</font></b>"
+			inspec += "</tr></table>"
 			if(C.body_parts_inherent)
 				inspec += "<b>CANNOT BE PEELED: </b>"
+				var/peelcolor = "#77cde2"
 				var/list/inherentList = body_parts_covered2organ_names(C.body_parts_inherent)
 				if(length(inherentList) == 1)
-					inspec += "<b><font color = '#77cde2'>[capitalize(inherentList[1])]</font></b>"
+					inspec += "<b><font color = [peelcolor]>[capitalize(inherentList[1])]</font></b>"
 				else
 					inspec += "| "
 					for(var/zone in inherentList)
-						inspec += "<b><font color = '#77cde2'>[capitalize(zone)]</b></font> | "
-			if(C.prevent_crits)
-				if(length(C.prevent_crits))
-					inspec += "\n<b>PREVENTS CRITS:</b>"
-					for(var/X in C.prevent_crits)
-						if(X == BCLASS_PICK)	//BCLASS_PICK is named "stab", and "stabbing" is its own damage class. Prevents confusion.
-							X = "pick"
-						inspec += ("\n<b>[capitalize(X)]</b>")
-				inspec += "<br>"
+						inspec += "<b><font color = [peelcolor]>[capitalize(zone)]</b></font> | "
 
 //**** General durability
 
@@ -636,6 +668,19 @@ GLOBAL_VAR_INIT(rpg_loot_items, FALSE)
 			inspec += "[percent]% ([floor(eff_currint)])"
 			if(force >= 5) // Durability is rather obvious for non-weapons
 				inspec += " <span class='info'><a href='?src=[REF(src)];explaindurability=1'>{?}</a></span>"
+		if(istype(src, /obj/item/clothing))	//awful
+			var/obj/item/clothing/C = src
+			var/str
+			switch(C.armor_class)
+				if(ARMOR_CLASS_NONE)
+					str = "None"
+				if(ARMOR_CLASS_LIGHT)
+					str = "Light"
+				if(ARMOR_CLASS_MEDIUM)
+					str = "Medium"
+				if(ARMOR_CLASS_HEAVY)
+					str = "Heavy"
+			inspec += "\n<b>ARMOR CLASS:</b> [str]"
 
 		var/output = inspec.Join()
 		if(!usr.client.prefs.no_examine_blocks)
@@ -886,7 +931,7 @@ GLOBAL_VAR_INIT(rpg_loot_items, FALSE)
 /obj/item/proc/mob_can_equip(mob/living/M, mob/living/equipper, slot, disable_warning = FALSE, bypass_equip_delay_self = FALSE)
 	if((is_silver || smeltresult == /obj/item/ingot/silver) && (HAS_TRAIT(M, TRAIT_SILVER_WEAK) &&  !M.has_status_effect(STATUS_EFFECT_ANTIMAGIC)))
 		var/datum/antagonist/vampire/V_lord = M.mind?.has_antag_datum(/datum/antagonist/vampire/)
-		if(V_lord.generation >= GENERATION_METHUSELAH)
+		if(V_lord?.generation >= GENERATION_METHUSELAH)
 			return
 
 		to_chat(M, span_userdanger("I can't pick up the silver, it is my BANE!"))
@@ -1008,20 +1053,6 @@ GLOBAL_VAR_INIT(rpg_loot_items, FALSE)
 		var/itempush = 0
 		if(w_class < 4)
 			itempush = 0 //too light to push anything
-		if(istype(hit_atom, /mob/living)) //Living mobs handle hit sounds differently.
-			var/volume = get_volume_by_throwforce_and_or_w_class()
-			if (throwforce > 0)
-				if (mob_throw_hit_sound)
-					playsound(hit_atom, mob_throw_hit_sound, volume, TRUE, -1)
-				else if(hitsound)
-					playsound(hit_atom, pick(hitsound), volume, TRUE, -1)
-				else
-					playsound(hit_atom, 'sound/blank.ogg',volume, TRUE, -1)
-			else
-				playsound(hit_atom, 'sound/blank.ogg', 1, volume, -1)
-
-		else
-			playsound(src, drop_sound, YEET_SOUND_VOLUME, TRUE, ignore_walls = FALSE)
 		return hit_atom.hitby(src, 0, itempush, throwingdatum=throwingdatum, damage_flag = thrown_damage_flag)
 
 /obj/item/throw_at(atom/target, range, speed, mob/thrower, spin=1, diagonals_first = 0, datum/callback/callback, force)
@@ -1420,6 +1451,13 @@ GLOBAL_VAR_INIT(rpg_loot_items, FALSE)
 	if(user.get_active_held_item() == src)
 		if(alt_intents)
 			user.update_a_intents()
+			if(mordhau)
+				if(user.get_inactive_held_item())
+					to_chat(user, span_warning("I need a free hand first."))
+					return
+				src.wielded = TRUE
+				update_force_dynamic()
+				wdefense_dynamic = (wdefense + wdefense_wbonus)
 
 /obj/item/proc/wield(mob/living/carbon/user, show_message = TRUE)
 	if(wielded)
@@ -1516,6 +1554,11 @@ GLOBAL_VAR_INIT(rpg_loot_items, FALSE)
 		return FALSE
 
 	obj_destroyed = TRUE
+	if(src.anvilrepair)
+		if(src.smeltresult == /obj/item/ingot/iron)
+			new /obj/item/scrap(get_turf(src))
+			if(prob(20))
+				new /obj/item/scrap(get_turf(src))
 	if(destroy_sound)
 		playsound(src, destroy_sound, 100, TRUE)
 	if(destroy_message)

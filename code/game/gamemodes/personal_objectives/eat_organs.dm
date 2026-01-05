@@ -23,12 +23,18 @@
 		return
 
 	organs_consumed++
+	var/organs_view = organs_required - organs_consumed
+	if(organs_view <= 0)//stop take negative numbers
+		organs_view = 0
 
-	if(ispath(organ_type, /obj/item/reagent_containers/food/snacks/organ/heart))
-		hearts_consumed++
-		to_chat(owner.current, span_cult("You feel Graggar's pleasure as you consume a heart!"))
-	else
-		to_chat(owner.current, span_notice("Organ consumed! [organs_required - organs_consumed] more organ\s needed."))
+	if(hearts_consumed <= hearts_required)
+		if(ispath(organ_type, /obj/item/reagent_containers/food/snacks/organ/heart))
+			hearts_consumed++
+			to_chat(owner.current, span_cult("You feel Graggar's pleasure as you consume a heart!"))
+	if(organs_consumed < organs_required) 
+		to_chat(owner.current, span_notice("Organ consumed! [organs_view] more organ\s needed."))
+	if(organs_consumed >= organs_required %% hearts_consumed < hearts_required)
+		to_chat(owner.current, span_cult("That will be enough! I NEED A HEART!"))
 
 	if(organs_consumed >= organs_required && hearts_consumed >= hearts_required)
 		complete_objective()

@@ -6,6 +6,9 @@
 	icon_state = "iflail"
 	icon = 'icons/roguetown/weapons/blunt32.dmi'
 	sharpness = IS_BLUNT
+	drop_sound = 'sound/foley/dropsound/chain_drop.ogg'
+	pickup_sound = 'sound/foley/equip/equip_armor_chain.ogg'
+	equip_sound = 'sound/foley/equip/equip_armor_chain.ogg'
 	//dropshrink = 0.75
 	wlength = WLENGTH_NORMAL
 	w_class = WEIGHT_CLASS_NORMAL
@@ -20,6 +23,7 @@
 	minstr = 4
 	grid_width = 32
 	grid_height = 96
+	special = /datum/special_intent/flail_sweep
 
 /datum/intent/flail/strike
 	name = "strike"
@@ -175,17 +179,6 @@
 		added_int = 50,\
 		added_def = 0,\
 	)
-	
-/obj/item/rogueweapon/flail/sflail/psyflail/old
-	name = "enduring flail"
-	desc = "An ornate flail, its silver tarnished by neglect. Bring down the COMET on the unholy."
-	icon_state = "psyflail"
-	force = 30
-	minstr = 5
-	wdefense = 0
-	is_silver = FALSE
-	smeltresult = /obj/item/ingot/steel
-	color = COLOR_FLOORTILE_GRAY
 
 /obj/item/rogueweapon/flail/sflail/psyflail/relic
 	name = "Consecratia"

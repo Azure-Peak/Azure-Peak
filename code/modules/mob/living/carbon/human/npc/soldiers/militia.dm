@@ -72,9 +72,9 @@
 
 /datum/outfit/job/roguetown/human/species/human/northern/militia/pre_equip(mob/living/carbon/human/H)
 	if(H.faction && ("viking" in H.faction))
-		cloak = /obj/item/clothing/cloak/stabard/dungeon
+		cloak = /obj/item/clothing/cloak/tabard/stabard/dungeon
 	else
-		cloak = /obj/item/clothing/cloak/stabard/guard
+		cloak = /obj/item/clothing/cloak/tabard/stabard/guard
 	wrists = /obj/item/clothing/wrists/roguetown/bracers/leather
 	shirt = /obj/item/clothing/suit/roguetown/armor/gambeson/light
 	if(prob(50))

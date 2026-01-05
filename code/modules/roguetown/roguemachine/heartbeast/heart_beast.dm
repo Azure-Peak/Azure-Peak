@@ -1,4 +1,6 @@
 /obj/structure/roguemachine/chimeric_heart_beast
+	desc = "Half-flesh, half-stone; a cancerous tumour given mind and will and appetite, hauled by chains and made to \
+	be useful. An inheritance of divinity, and a truly horrible thing to look at."
 	var/datum/flesh_archetype/archetype
 	var/list/datum/flesh_trait/traits = list()
 	var/list/datum/flesh_quirk/quirks = list()
@@ -25,7 +27,7 @@
 			. += span_info("The divine beast of Pestra. For untold ages, these beasts remained behind locked doors, allowing the sect of Pestra to lengthen their lifespan.")
 			. += span_infection("Yet the others grew restless, desiring pure lux for their own...")
 			. += span_info("Now, they are employed in most regions of the world where the light of the ten shines. Decreasing suffering.")
-			. += span_infection("For the great beast of pestra, made through the ingenuity of humenkind influences all divine magic within a region.")
+			. += span_infection("For the great beast of Pestra, made through the ingenuity of humenkind influences all divine magic within a region.")
 
 /obj/structure/roguemachine/chimeric_heart_beast/proc/initialize_personality()
 	// Pick random archetype

@@ -14,6 +14,7 @@
 	else  //Otherwise create it
 		var/turf/T = get_turf(src)
 		dropped = new ammo_type(T)
+	return dropped
 
 /obj/projectile/bullet/reusable/on_hit()
 	dropped = new ammo_type(src)

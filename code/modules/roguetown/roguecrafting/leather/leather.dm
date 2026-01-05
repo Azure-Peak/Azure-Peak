@@ -77,12 +77,6 @@
 	reqs = list(/obj/item/natural/hide/cured = 1)
 	sellprice = 27
 
-/datum/crafting_recipe/roguetown/leather/hood
-	name = "leather hood"
-	result = /obj/item/clothing/head/roguetown/roguehood
-	reqs = list(/obj/item/natural/hide/cured = 1)
-	sellprice = 26
-
 /datum/crafting_recipe/roguetown/leather/vest
 	name = "leather vest"
 	result = /obj/item/clothing/suit/roguetown/armor/leather/vest
@@ -186,3 +180,13 @@
 	result = /obj/item/clothing/mask/rogue/physician
 	reqs = list(/obj/item/natural/hide/cured = 1, /obj/item/natural/bone = 1)
 	craftdiff = 1
+
+/datum/crafting_recipe/roguetown/leather/skillbook
+	name = "unfinished skillbook (1 leather, 1 paper)"
+	result = /obj/item/skillbook/unfinished
+	reqs = list(/obj/item/natural/hide/cured = 1, /obj/item/paper = 1)
+	tools = list(/obj/item/needle)
+	time = 10 SECONDS
+	structurecraft = null//surely it's possible to stitch a book and paper together without a drying rack...
+	craftdiff = 1
+	always_availible = TRUE

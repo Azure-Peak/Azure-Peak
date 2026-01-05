@@ -14,7 +14,7 @@ GLOBAL_LIST_INIT(zizoconstruct_aggro, world.file2list("strings/rt/zconstructaggr
 	setparrytime = 30
 	a_intent = INTENT_HELP
 	d_intent = INTENT_PARRY //knocks your weapon away with with their big scary metal arms
-	possible_mmb_intents = list(INTENT_BITE, INTENT_JUMP, INTENT_KICK, INTENT_STEAL) //intents given incase of player controlled
+	possible_mmb_intents = list(INTENT_BITE, INTENT_JUMP, INTENT_KICK, INTENT_SPECIAL) //intents given incase of player controlled
 	possible_rmb_intents = list(/datum/rmb_intent/feint, /datum/rmb_intent/aimed, /datum/rmb_intent/strong, /datum/rmb_intent/weak)
 	resize = 1.2
 
@@ -103,7 +103,6 @@ GLOBAL_LIST_INIT(zizoconstruct_aggro, world.file2list("strings/rt/zconstructaggr
 	icon_state = null
 	body_parts_covered = FULL_BODY
 	armor = ARMOR_ZIZOCONCSTRUCT
-	prevent_crits = list(BCLASS_CUT, BCLASS_CHOP, BCLASS_STAB, BCLASS_BLUNT, BCLASS_TWIST)
 	blocksound = PLATEHIT
 	blade_dulling = DULLING_BASHCHOP
 	sewrepair = FALSE

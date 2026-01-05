@@ -8,7 +8,8 @@
 	miracles = list(/obj/effect/proc_holder/spell/targeted/touch/orison					= CLERIC_ORI,
 					/obj/effect/proc_holder/spell/invoked/appraise						= CLERIC_ORI,
 					/obj/effect/proc_holder/spell/targeted/touch/lesserknock/miracle	= CLERIC_T0,
-					/obj/effect/proc_holder/spell/invoked/transact						= CLERIC_T0,
+					/obj/effect/proc_holder/spell/invoked/muffle						= CLERIC_T0,
+					/obj/effect/proc_holder/spell/invoked/transact						= CLERIC_T1, //It says it should be T1
 					/obj/effect/proc_holder/spell/invoked/lesser_heal 					= CLERIC_T1,
 					/obj/effect/proc_holder/spell/invoked/blood_heal					= CLERIC_T1,
 					/obj/effect/proc_holder/spell/invoked/equalize						= CLERIC_T2,
@@ -25,7 +26,7 @@
 /datum/patron/inhumen/matthios/can_pray(mob/living/follower)
 	. = ..()
 	// Allows prayer in the Zzzzzzzurch(!)
-	if(istype(get_area(follower), /area/rogue/indoors/shelter/mountains))
+	if(istype(get_area(follower), /area/rogue/under/cave/inhumen))
 		return TRUE
 	// Allows prayer near EEEVIL psycross
 	for(var/obj/structure/fluff/psycross/zizocross/cross in view(4, get_turf(follower)))
@@ -65,3 +66,4 @@
 	if(HAS_TRAIT(target, TRAIT_COMMIE))
 		*conditional_buff = TRUE
 		*situational_bonus = 2.5
+

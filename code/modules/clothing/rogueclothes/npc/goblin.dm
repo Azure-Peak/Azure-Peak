@@ -1,4 +1,4 @@
-/obj/item/clothing/suit/roguetown/armor/plate/half/iron/goblin
+/obj/item/clothing/suit/roguetown/armor/plate/cuirass/iron/goblin
 	name = "goblin mail"
 	icon_state = "plate_armor_item"
 	item_state = "plate_armor"

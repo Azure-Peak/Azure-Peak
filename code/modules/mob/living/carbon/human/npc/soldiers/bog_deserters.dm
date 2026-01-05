@@ -5,9 +5,9 @@
 	var/random_deserter_cloak = rand(1,4)
 	switch(random_deserter_cloak)
 		if(1)
-			cloak = /obj/item/clothing/cloak/stabard/bog
+			cloak = /obj/item/clothing/cloak/tabard/stabard/bog
 		if(2)
-			cloak = /obj/item/clothing/cloak/stabard/dungeon
+			cloak = /obj/item/clothing/cloak/tabard/stabard/dungeon
 		if(3)
 			cloak = /obj/item/clothing/suit/roguetown/armor/longcoat/brown
 
@@ -79,7 +79,7 @@
 		if(1)
 			armor = /obj/item/clothing/suit/roguetown/armor/brigandine/light
 		if(2)
-			armor = /obj/item/clothing/suit/roguetown/armor/plate/half/iron
+			armor = /obj/item/clothing/suit/roguetown/armor/plate/cuirass/iron
 		if(3)
 			armor = /obj/item/clothing/suit/roguetown/armor/plate/scale
 
@@ -94,7 +94,7 @@
 	flee_in_pain = TRUE
 	a_intent = INTENT_HELP
 	d_intent = INTENT_PARRY
-	possible_mmb_intents = list(INTENT_BITE, INTENT_JUMP, INTENT_KICK, INTENT_STEAL)
+	possible_mmb_intents = list(INTENT_BITE, INTENT_JUMP, INTENT_KICK, INTENT_SPECIAL)
 	possible_rmb_intents = list(
 		/datum/rmb_intent/feint,\
 		/datum/rmb_intent/aimed,\
@@ -231,7 +231,7 @@
 	flee_in_pain = TRUE
 	a_intent = INTENT_HELP
 	d_intent = INTENT_PARRY
-	possible_mmb_intents = list(INTENT_BITE, INTENT_JUMP, INTENT_KICK, INTENT_STEAL)
+	possible_mmb_intents = list(INTENT_BITE, INTENT_JUMP, INTENT_KICK, INTENT_SPECIAL)
 	possible_rmb_intents = list(
 		/datum/rmb_intent/feint,\
 		/datum/rmb_intent/aimed,\

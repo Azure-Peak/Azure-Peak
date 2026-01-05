@@ -9,7 +9,7 @@
 	tutorial = "Whether acquired by merit, shrewd negotiation or fulfilled bounties, you have found yourself under the underhanded employ of the Hand. Fulfill desires and whims of the court that they would rather not be publicly known. Your position is anything but secure, and any mistake can leave you disowned and charged like the petty criminal are. Garrison and Court members know who you are."
 	min_pq = 5
 	job_reopens_slots_on_death = FALSE
-	always_show_on_latechoices = FALSE
+	always_show_on_latechoices = TRUE
 	show_in_credits = TRUE
 	advclass_cat_rolls = list(CTAG_COURTAGENT = 20)
 	obsfuscated_job = TRUE

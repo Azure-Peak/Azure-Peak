@@ -252,6 +252,7 @@ And it also helps for the character set panel
 	SHOULD_CALL_PARENT(TRUE)
 
 	UnregisterSignal(vampire, COMSIG_HUMAN_LIFE)
+	UnregisterSignal(vampire, COMSIG_MOB_ORGAN_REMOVED)
 
 	var/datum/action/clan_menu/clan_action = locate(/datum/action/clan_menu) in vampire.actions
 	QDEL_NULL(clan_action)
@@ -273,6 +274,23 @@ And it also helps for the character set panel
 
 	vampire.verbs -= /mob/living/carbon/human/proc/disguise_verb
 
+
+	// Restore normal eyes
+	var/obj/item/organ/eyes/eyes = vampire.getorganslot(ORGAN_SLOT_EYES)
+	if(istype(eyes, /obj/item/organ/eyes/night_vision/vampire))
+		var/list/eyecache = vampire.cache_eye_color()
+		eyes.Remove(vampire, TRUE)
+		QDEL_NULL(eyes)
+		eyes = new /obj/item/organ/eyes()
+		eyes.Insert(vampire)
+		vampire.set_eye_color(eyecache["eye_color"], eyecache["second_color"], TRUE)
+
+	// Reset mob biotype to non-undead
+	vampire.mob_biotypes = initial(vampire.mob_biotypes)
+
+	// Deactivate all active coven powers before removal
+	disable_covens(vampire)
+
 	clan_members -= vampire
 
 	if(vampire.clan_position)
@@ -282,8 +300,9 @@ And it also helps for the character set panel
 		vampire.remove_coven(coven)
 
 	// Bloodheal coven has snowflake behavior since it is added to all vampires. So - snowflake removal.
-	var/datum/coven/bloodheal/bloodheal = locate(/datum/coven/bloodheal) in vampire.covens
-	vampire.remove_coven(bloodheal)
+	// Covens are stored in an associative list by name, so we access by name
+	if(vampire.covens && vampire.covens["Bloodheal"])
+		vampire.remove_coven("Bloodheal")
 
 	var/list/spells_to_remove = list(
 		/datum/action/clan_menu,
@@ -354,14 +373,29 @@ And it also helps for the character set panel
 /// Applies clan-specific vampire look.
 /datum/clan/proc/apply_vampire_look(mob/living/carbon/human/H)
 	SHOULD_CALL_PARENT(FALSE)
-	H.skin_tone = "c9d3de"
-	H.set_hair_color("#181a1d", null, null, null, null, FALSE)
-	H.set_facial_hair_color("#181a1d", null, null, null, null, FALSE)
-	H.set_eye_color("#FF0000", "#FF0000", TRUE)
 	var/obj/item/organ/ears/ears = H.getorganslot(ORGAN_SLOT_EARS)
-	ears?.accessory_colors = "#c9d3de"
 	var/obj/item/organ/breasts/breasts = H.getorganslot(ORGAN_SLOT_BREASTS)
-	breasts?.accessory_colors = "#c9d3de"
+	//if the character has their vampire skin color set, use that
+	if(!isnull(H.vampire_skin))
+		H.skin_tone = sanitize_hexcolor(H.vampire_skin, 6, FALSE)
+		ears?.accessory_colors = H.vampire_skin
+		breasts?.accessory_colors = H.vampire_skin
+	else
+		H.skin_tone = "c9d3de"
+		ears?.accessory_colors = "#c9d3de"
+		breasts?.accessory_colors = "#c9d3de"
+	//if the character has their vampire hair color set, use that
+	if(!isnull(H.vampire_hair))
+		H.set_hair_color(H.vampire_hair, null, null, null, null, FALSE)
+		H.set_facial_hair_color(H.vampire_hair, null, null, null, null, FALSE)
+	else
+		H.set_hair_color("#181a1d", null, null, null, null, FALSE)
+		H.set_facial_hair_color("#181a1d", null, null, null, null, FALSE)
+	//if the character has their vampire eye color set, use that
+	if(!isnull(H.vampire_eyes))
+		H.set_eye_color(H.vampire_eyes, H.vampire_eyes, TRUE)
+	else
+		H.set_eye_color("#FF0000", "#FF0000", TRUE)
 	H.update_body()
 	H.update_body_parts(redraw = TRUE)
 
@@ -487,7 +521,8 @@ And it also helps for the character set panel
 /datum/clan/proc/on_organ_loss(mob/living/carbon/lost_organ, obj/item/organ/removed, special, drop_if_replaced)
 	if(!lost_organ || !removed)
 		return
-
+	if(removed.slot == ORGAN_SLOT_BRAIN)
+		UnregisterSignal(lost_organ, COMSIG_MOB_ORGAN_REMOVED, PROC_REF(on_organ_loss))//Removing the signal check, as they've lost their head
 	if(removed.slot == ORGAN_SLOT_EYES)
 		implant_vampire_eyes(lost_organ)
 	else if(removed.slot == ORGAN_SLOT_TONGUE)

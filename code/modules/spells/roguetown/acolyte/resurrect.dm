@@ -27,7 +27,11 @@
 	priest_excluded = TRUE
 
 /obj/effect/proc_holder/spell/invoked/resurrect/start_recharge()
+	var/old_recharge = recharge_time
 	recharge_time = initial(recharge_time) * SSchimeric_tech.get_resurrection_multiplier()
+	// If the spell was fully charged, keep it fully charged after adjusting recharge_time
+	if(charge_counter >= old_recharge && old_recharge > 0)
+		charge_counter = recharge_time
 	. = ..()
 
 /obj/effect/proc_holder/spell/invoked/resurrect/proc/get_current_required_items()
@@ -124,7 +128,7 @@
 
 	// Scan for items in radius
 	for(var/obj/item/I in range(item_radius, center))
-		if(I.type in required_items)
+		if(I.type in current_required_items)
 			available_items[I.type] += 1
 
 	// Check quantities and compile missing list
@@ -146,8 +150,9 @@
 	return ""
 
 /obj/effect/proc_holder/spell/invoked/resurrect/proc/consume_items(atom/center)
-	for(var/item_type in required_items)
-		var/needed = required_items[item_type]
+	var/list/current_required_items = get_current_required_items()
+	for(var/item_type in current_required_items)
+		var/needed = current_required_items[item_type]
 
 		for(var/obj/item/I in range(item_radius, center))
 			if(needed <= 0)
@@ -233,7 +238,7 @@
 	chargetime = 0
 	invocations = list(span_danger("begins to smell of saltwater. You can hear waves crashing nearby..."))
 	invocation_type = "emote"
-	sound = 'modular_azurepeak/sound/mobs/abyssal/abyssal_teleport.ogg'
+	sound = 'sound/mobs/abyssal/abyssal_teleport.ogg'
 	/// Type of dreamfiend to summon
 	var/dreamfiend_type
 	recharge_time = 600 SECONDS

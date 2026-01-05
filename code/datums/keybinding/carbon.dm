@@ -143,18 +143,18 @@
 	C.mmb_intent_change(QINTENT_KICK)
 	return TRUE
 
-/datum/keybinding/carbon/steal_intent
+/datum/keybinding/carbon/special_intent
 	hotkey_keys = list("L")
-	name = "intent_steal"
-	full_name = "Select Steal Intent"
+	name = "intent_special"
+	full_name = "Select Special Intent"
 	description = ""
 	category = CATEGORY_CARBON
 
-/datum/keybinding/carbon/steal_intent/down(client/user)
+/datum/keybinding/carbon/special_intent/down(client/user)
 	if (!iscarbon(user.mob))
 		return FALSE
 	var/mob/living/carbon/C = user.mob
-	C.mmb_intent_change(QINTENT_STEAL)
+	C.mmb_intent_change(QINTENT_SPECIAL)
 	return TRUE
 
 /*
@@ -216,8 +216,8 @@
 /datum/keybinding/carbon/rmb_intent_1
     hotkey_keys = list("Shift1")
     name = "rmb_intent_1"
-    full_name = "Select Feint Intent"
-    description = "Selects the Feint RMB intent."
+    full_name = "Select Feint Stance"
+    description = "Selects the Feint RMB stance."
     category = CATEGORY_CARBON
 
 /datum/keybinding/carbon/rmb_intent_1/down(client/user)
@@ -230,8 +230,8 @@
 /datum/keybinding/carbon/rmb_intent_2
     hotkey_keys = list("Shift2")
     name = "rmb_intent_2"
-    full_name = "Select Aimed Intent"
-    description = "Selects the Aimed RMB intent."
+    full_name = "Select Aimed Stance"
+    description = "Selects the Aimed RMB stance."
     category = CATEGORY_CARBON
 
 /datum/keybinding/carbon/rmb_intent_2/down(client/user)
@@ -244,8 +244,8 @@
 /datum/keybinding/carbon/rmb_intent_3
     hotkey_keys = list("Shift3")
     name = "rmb_intent_3"
-    full_name = "Select Strong Intent"
-    description = "Selects the Strong RMB intent."
+    full_name = "Select Strong Stance"
+    description = "Selects the Strong RMB stance."
     category = CATEGORY_CARBON
 
 /datum/keybinding/carbon/rmb_intent_3/down(client/user)
@@ -258,8 +258,8 @@
 /datum/keybinding/carbon/rmb_intent_4
     hotkey_keys = list("Shift4")
     name = "rmb_intent_4"
-    full_name = "Select Swift Intent"
-    description = "Selects the Swift RMB intent."
+    full_name = "Select Swift Stance"
+    description = "Selects the Swift RMB stance."
     category = CATEGORY_CARBON
 
 /datum/keybinding/carbon/rmb_intent_4/down(client/user)
@@ -272,8 +272,8 @@
 /datum/keybinding/carbon/rmb_intent_5
     hotkey_keys = list("Shift5")
     name = "rmb_intent_5"
-    full_name = "Select Defend Intent"
-    description = "Selects the Defend RMB intent."
+    full_name = "Select Defend Stance"
+    description = "Selects the Defend RMB stance."
     category = CATEGORY_CARBON
 
 /datum/keybinding/carbon/rmb_intent_5/down(client/user)
@@ -286,8 +286,8 @@
 /datum/keybinding/carbon/rmb_intent_6
     hotkey_keys = list("Shift6")
     name = "rmb_intent_6"
-    full_name = "Select Weak Intent"
-    description = "Selects the Weak RMB intent."
+    full_name = "Select Weak Stance"
+    description = "Selects the Weak RMB stance."
     category = CATEGORY_CARBON
 
 /datum/keybinding/carbon/rmb_intent_6/down(client/user)
@@ -300,8 +300,8 @@
 /datum/keybinding/carbon/cycle_rmb_intent
 	hotkey_keys = list("N")
 	name = "cycle_rmb_intent"
-	full_name = "Cycle RMB Intent"
-	description = "Cycle through available Right Mouse Button (RMB) intents."
+	full_name = "Cycle RMB Stance"
+	description = "Cycle through available Right Mouse Button (RMB) Stances."
 	category = CATEGORY_CARBON
 
 /datum/keybinding/carbon/cycle_rmb_intent/down(client/user)

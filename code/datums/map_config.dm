@@ -5,7 +5,7 @@
 
 /datum/map_config
 	// Metadata
-	var/config_filename = "_maps/dun_manor.json"
+	var/config_filename = "_maps/dun_world.json"
 	var/defaulted = TRUE  // set to FALSE by LoadConfig() succeeding
 	// Config from maps.txt
 	var/config_max_users = 0
@@ -13,26 +13,29 @@
 	var/voteweight = 1
 	var/votable = FALSE
 
-	// Config actually from the JSON - should default to Dun Manor
-	var/map_name = "Dun Manor"
-	var/map_path = "map_files/dun_manor"
-	var/map_file = "dun_manor.dmm"
+	// Config actually from the JSON - should default to Dun World
+	var/map_name = "Dun World"
+	var/map_path = "map_files/dun_world"
+	var/map_file = "dun_world.dmm"
 
 	var/traits = null
 	var/space_ruin_levels = 7
 	var/space_empty_levels = 1
 
-	var/minetype = "lavaland"
+	/// List of unit tests that are skipped when running this map
+	var/list/skipped_tests
+
+	var/custom_area_sound = null
+	var/list/other_z
 
 	var/allow_custom_shuttles = TRUE
 	var/shuttles = list(
 		"cargo" = "cargo_rogue",
-		"ferry" = "ferry_fancy",
 		"whiteship" = "whiteship_box",
 		"emergency" = "emergency_rogue")
 
 /proc/load_map_config(filename = "data/next_map.json", default_to_box, delete_after, error_if_missing = TRUE)
-	testing("loading map config [filename]")
+
 	var/datum/map_config/config = new
 	if (default_to_box)
 		return config
@@ -75,13 +78,11 @@
 	map_path = json["map_path"]
 
 	map_file = json["map_file"]
-	// "map_file": "dun_manor.dmm"
 	if (istext(map_file))
 		if (!fexists("_maps/[map_path]/[map_file]"))
 			log_world("Map file ([map_path]/[map_file]) does not exist!")
 			return
 
-	// "map_file": ["Lower.dmm", "Upper.dmm"]
 	else if (islist(map_file))
 		for (var/file in map_file)
 			if (!fexists("_maps/[map_path]/[file]"))
@@ -127,11 +128,34 @@
 		log_world("map_config space_empty_levels is not a number!")
 		return
 
-	if ("minetype" in json)
-		minetype = json["minetype"]
-
 	allow_custom_shuttles = json["allow_custom_shuttles"] != FALSE
 
+#ifdef UNIT_TESTS
+	// Check for unit tests to skip, no reason to check these if we're not running tests
+	for(var/path_as_text in json["ignored_unit_tests"])
+		var/path_real = text2path(path_as_text)
+		if(!ispath(path_real, /datum/unit_test))
+			stack_trace("Invalid path in mapping config for ignored unit tests: \[[path_as_text]\]")
+			continue
+		LAZYADD(skipped_tests, path_real)
+#endif
+	var/list/other_z = json["other_z"]
+	if(!islist(other_z) || !other_z.len)
+		defaulted = FALSE
+		return TRUE
+
+	var/list/final_z
+	for(var/map_path in other_z)
+		var/map_file = file(map_path)
+		if(!map_file)
+			stack_trace("tried to load another z-level that didn't exist")
+			continue
+		if(map_path in final_z)
+			stack_trace("tried to add two of the same z-level")
+			continue
+		LAZYOR(final_z, map_path)
+
+	src.other_z = final_z
 	defaulted = FALSE
 	return TRUE
 #undef CHECK_EXISTS

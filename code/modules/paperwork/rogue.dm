@@ -7,7 +7,7 @@
 	firefuel = 30 SECONDS
 	sellprice = 2
 	textper = 108
-	maxlen = 5000
+	maxlen = 2000
 	throw_range = 3
 
 
@@ -67,13 +67,11 @@
 	if(in_range(user, src) || isobserver(user))
 		user.hud_used.reads.icon_state = "scroll"
 		user.hud_used.reads.show()
-		var/dat = {"<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\" \"http://www.w3.org/TR/html4/loose.dtd\">
-			<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"><style type=\"text/css\">
-					body { background-image:url('book.png');background-repeat: repeat; }</style></head><body scroll=yes>"}
-		dat += "[info]<br>"
-		dat += "<a href='?src=[REF(src)];close=1' style='position:absolute;right:50px'>Close</a>"
-		dat += "</body></html>"
-		user << browse(dat, "window=reading;size=460x300;can_close=0;can_minimize=0;can_maximize=0;can_resize=0;titlebar=0")
+		user.hud_used.reads.maptext = MAPTEXT_LEGIBLE(info)
+		user.hud_used.reads.maptext_width = 230
+		user.hud_used.reads.maptext_height = 200
+		user.hud_used.reads.maptext_y = 150
+		user.hud_used.reads.maptext_x = 120
 		onclose(user, "reading", src)
 	else
 		return span_warning("I'm too far away to read it.")
@@ -225,7 +223,7 @@
 /obj/item/paper/inqslip
 	name = "inquisition slip"
 	var/base_icon_state = "slip"
-	dropshrink = 0.75		
+	dropshrink = 0.75
 	icon_state = "slip"
 	obj_flags = CAN_BE_HIT
 	var/signed
@@ -252,7 +250,7 @@
 			to_chat(user, span_notice("This writ is intended to be signed by [signee.real_name]."))
 		else
 			to_chat(user, span_notice("This writ has not yet been signed."))
-		
+
 /obj/item/paper/inqslip/accusation
 	name = "accusation"
 	desc = "A writ of religious suspicion, printed on Otavan parchment: one signed not in ink, but blood. Press the accusation against your own bleeding wound in order to obtain a signature. Then pair it with an INDEXER full of the accused's blood. Once done, it is ready to be mailed back to Otava. Fold and seal it, it's only proper."
@@ -267,7 +265,7 @@
 	sliptype = 2
 
 /obj/item/paper/inqslip/arrival
-	name = "arrival slip"	
+	name = "arrival slip"
 	desc = "A writ of arrival, printed on Otavan parchment: one signed not in ink, but blood. Intended for one person and one person only. Press the slip against one's own weeping wounds in order to obtain a fitting signature. Once done, it is ready to be mailed back to Otava."
 
 /obj/item/paper/inqslip/arrival/ortho
@@ -302,13 +300,13 @@
 	else
 		return
 
-/obj/item/paper/inqslip/attack(mob/living/carbon/human/M, mob/user)	
+/obj/item/paper/inqslip/attack(mob/living/carbon/human/M, mob/user)
 	if(sealed)
 		return
 	if(signed)
 		to_chat(user, span_warning("It's already been signed."))
 		return
-	if(paired && !paired.full)	
+	if(paired && !paired.full)
 		to_chat(user, span_warning("I should seperate [paired] from [src] before signing it."))
 		return
 	if(sliptype != 2)
@@ -321,13 +319,13 @@
 	if(sliptype == 1)
 		if(signee == M)
 			attemptsign(user)
-		else	
+		else
 			to_chat(user, span_warning("This slip isn't meant for me."))
 	else if(!sliptype)
 		attemptsign(user)
 	else
 		attemptsign(M, user)
-	
+
 /obj/item/paper/inqslip/attack_self(mob/user)
 	if(!signed)
 		to_chat(user, span_warning("It hasn't been signed yet. Why would I seal it?"))
@@ -336,18 +334,18 @@
 		to_chat(user, span_notice("It's been sealed. It's ready to send back to Otava."))
 		return
 	else if(!sealed)
-		sealed = TRUE	
+		sealed = TRUE
 		update_icon()
-	else		
+	else
 		sealed = FALSE
 		update_icon()
-		
+
 /obj/item/paper/inqslip/attack_right(mob/user)
 	. = ..()
-	if(paired)	
+	if(paired)
 		if(!user.get_active_held_item())
 			user.put_in_active_hand(paired, user.active_hand_index)
-			paired = null	
+			paired = null
 			update_icon()
 		return TRUE
 
@@ -368,17 +366,20 @@
 		if(!waxed)
 			icon_state = "[base_icon_state]_unsealed"
 		else
-			icon_state = "[base_icon_state]_sealed"	
-	return		
+			icon_state = "[base_icon_state]_sealed"
+	return
 
 /obj/item/paper/inqslip/arrival/equipped(mob/user, slot, initial)
 	. = ..()
 	if(!signee)
 		signee = user
 
-/obj/item/paper/inqslip/attacked_by(obj/item/I, mob/living/user)	
+/obj/item/paper/inqslip/attacked_by(obj/item/I, mob/living/user)
 	if(istype(I, /obj/item/clothing/ring/signet))
 		var/obj/item/clothing/ring/signet/S = I
+		if(waxed)
+			to_chat(user,  span_warning("It's already wax-sealed."))
+			return
 		if(S.tallowed && sealed)
 			waxed = TRUE
 			update_icon()
@@ -421,7 +422,7 @@
 					user.transferItemToLoc(Q, src, TRUE)
 					update_icon()
 			else
-				to_chat(user,  span_warning("[Q] isn't completely full."))		
+				to_chat(user,  span_warning("[Q] isn't completely full."))
 
 /obj/item/paper/inqslip/attack_right(mob/user)
 	. = ..()

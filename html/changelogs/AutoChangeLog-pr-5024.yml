@@ -1,0 +1,7 @@
+author: "CometBlaze"
+delete-after: True
+changes:
+  - rscadd: "Added a new weapon: the Stalker Falx, a Drow variant of the falx"
+  - rscadd: "Added a new armour: the Drowcraft Vest. Currently only available to Drow NPCs"
+  - balance: "Drow raider NPCs now dodge instead of parrying"
+  - balance: "Black Venom and Anthrax Assassin now get a stat buff while in the Underdark"

@@ -132,6 +132,8 @@
 				. += span_notice("It contains:")
 				has_canisters = TRUE
 			. += span_notice("- [canister.name] in the [slot_types[i]] slot")
+		else
+			. += span_notice("- an empty void in the [slot_types[i]] slot")
 
 	if(!has_canisters)
 		. += span_notice("All slots are empty.")

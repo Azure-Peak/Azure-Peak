@@ -112,11 +112,10 @@
 
 #define GUARDSMAN	(1<<0)
 #define MANATARMS	(1<<1)
-#define DUNGEONEER	(1<<2)
-#define SQUIRE		(1<<3)
-#define BOGGUARD	(1<<4)
-#define SERGEANT	(1<<5)
-#define SHERIFF		(1<<6)
+#define SQUIRE		(1<<2)
+#define BOGGUARD	(1<<3)
+#define SERGEANT	(1<<4)
+#define SHERIFF		(1<<5)
 
 #define CHURCHMEN		(1<<2)
 
@@ -162,7 +161,6 @@
 #define PRISONERB	(1<<16)
 #define LUNATIC		(1<<17)
 #define MIGRANT		(1<<18)
-#define ASSASSIN	(1<<19)
 #define YOUNGFOLK	(1<<6)
 
 #define APPRENTICE	(1<<0)
@@ -181,16 +179,10 @@
 #define WANDERER		(1<<2)
 #define ADVENTURER      (1<<3)
 #define BANDIT		    (1<<4)
-#define COURTAGENT	    (1<<5)
-#define WRETCH          (1<<6)
-#define TRADER			(1<<7)
-
-#define TRIBAL		(1<<8)
-
-#define CHIEFTAIN	(1<<0)
-#define TRIBALCOOK	(1<<1)
-#define TRIBALGUARD	(1<<2)
-#define TRIBALSMITH	(1<<3)
+#define ASSASSIN		(1<<5)
+#define COURTAGENT	    (1<<6)
+#define WRETCH          (1<<7)
+#define TRADER			(1<<8)
 
 #define SLOP		(1<<9)
 
@@ -254,7 +246,6 @@
 #define JDO_GATEMASTER 8.5
 #define JDO_SHERIFF 8.6
 #define JDO_TOWNGUARD 8.7
-#define JDO_DUNGEONEER 8.8
 #define JDO_BOGGUARD 9.1
 
 #define JDO_PRIEST 10
@@ -293,7 +284,7 @@
 #define JDO_COURTAGENT 30.3
 #define JDO_WRETCH 30.4
 #define JDO_ASSASSIN 30.5
-#define JDO_TRADER 30.5
+#define JDO_TRADER 30.6
 
 #define JDO_MERCENARY 31
 #define JDO_GRENZELHOFT 31.1
@@ -320,6 +311,17 @@
 #define BITFLAG_ROYALTY (1<<1)
 #define BITFLAG_CONSTRUCTOR (1<<2)
 #define BITFLAG_GARRISON (1<<3)
+
+// START OF THE ECONOMY SECTION 
+#define ECONOMIC_RICH rand(120, 140)
+#define ECONOMIC_UPPER_CLASS rand(100, 120)
+#define ECONOMIC_UPPER_MIDDLE_CLASS rand(80, 100)
+#define ECONOMIC_LOWER_MIDDLE_CLASS rand(40, 80)
+#define ECONOMIC_WORKING_CLASS rand(40, 60)
+#define ECONOMIC_LOWER_CLASS rand(20, 40)
+#define ECONOMIC_DESTITUTE rand(0, 6)
+#define ECONOMIC_LETSGOGAMBLING pick(ECONOMIC_DESTITUTE, ECONOMIC_DESTITUTE, ECONOMIC_DESTITUTE, ECONOMIC_WORKING_CLASS, ECONOMIC_WORKING_CLASS, ECONOMIC_WORKING_CLASS, ECONOMIC_WORKING_CLASS, ECONOMIC_RICH)
+// END OF THE ECONOMY SECTION
 
 #define MANOR_ROLES \
 	/datum/job/roguetown/jester,\
@@ -392,7 +394,6 @@
 #define GARRISON_ROLES \
 	/datum/job/roguetown/bogguardsman,\
 	/datum/job/roguetown/sergeant,\
-	/datum/job/roguetown/dungeoneer,\
 	/datum/job/roguetown/gatemaster,\
 	/datum/job/roguetown/manorguard,\
 	/datum/job/roguetown/sheriff,\

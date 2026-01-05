@@ -303,7 +303,7 @@
 /turf/open/transparent/openspace,
 /area/rogue/outdoors/town/sargoth)
 "Zc" = (
-/obj/item/clothing/cloak/stabard/surcoat,
+/obj/item/clothing/cloak/tabard/stabard/surcoat,
 /turf/open/floor/rogue/dirt/road,
 /area/rogue/under/cave)
 

@@ -5,6 +5,7 @@
 	relevant_layers = list(BODY_BEHIND_LAYER, BODY_FRONT_LAYER)
 	/// Whether the sprite accessory has states for open wings (With an "_open" suffix).
 	var/can_open = FALSE
+	var/can_hide = FALSE
 
 /datum/sprite_accessory/wings/adjust_appearance_list(list/appearance_list, obj/item/organ/organ, obj/item/bodypart/bodypart, mob/living/carbon/owner)
 	generic_gender_feature_adjust(appearance_list, organ, bodypart, owner, OFFSET_BACK, OFFSET_BACK_F)
@@ -16,6 +17,12 @@
 	if(!wings_organ || !wings_organ.is_open)
 		return ..()
 	return "[icon_state]_open"
+
+/datum/sprite_accessory/wings/is_visible(obj/item/organ/organ, obj/item/bodypart/bodypart, mob/living/carbon/owner)
+	if(can_hide)
+		return is_human_part_visible(owner, HIDEWINGS)
+	else
+		return TRUE
 
 #ifdef UNIT_TESTS
 
@@ -45,6 +52,10 @@
 /datum/sprite_accessory/wings/featheryv2
 	name = "Feathery v2"
 	icon_state = "featheryv2"
+
+/datum/sprite_accessory/wings/dragon/clipped
+	name = "Clipped Dragon"
+	icon_state = "clipped"
 
 /datum/sprite_accessory/wings/moth
 	abstract_type = /datum/sprite_accessory/wings/moth
@@ -168,29 +179,35 @@
 /datum/sprite_accessory/wings/wide/harpywings
 	name = "Harpy"
 	icon_state = "harpy"
+	can_hide = TRUE
 
 /datum/sprite_accessory/wings/wide/harpywingsalt1
 	name = "Harpy (alt 1)"
 	icon_state = "harpyalt"
+	can_hide = TRUE
 
 /datum/sprite_accessory/wings/wide/harpywingsalt2
 	name = "Harpy (Bat)"
 	icon_state = "harpybat"
+	can_hide = TRUE
 
 /datum/sprite_accessory/wings/wide/harpywings_top
 	name = "Harpy (Top)"
 	icon_state = "harpy_top"
 	relevant_layers = list(BODY_FRONT_LAYER)
+	can_hide = TRUE
 
 /datum/sprite_accessory/wings/wide/harpywingsalt1_top
 	name = "Harpy (alt 1) (Top)"
 	icon_state = "harpyalt_top"
 	relevant_layers = list(BODY_FRONT_LAYER)
+	can_hide = TRUE
 
 /datum/sprite_accessory/wings/wide/harpywingsalt2_top
 	name = "Harpy (Bat) (Top)"
 	icon_state = "harpybat_top"
 	relevant_layers = list(BODY_FRONT_LAYER)
+	can_hide = TRUE
 
 /datum/sprite_accessory/wings/wide/low_wings
 	name = "Low wings"
@@ -248,26 +265,32 @@
 /datum/sprite_accessory/wings/large/harpyswept
 	name = "Harpy (Swept)"
 	icon_state = "harpys"
+	can_hide = TRUE
 
 /datum/sprite_accessory/wings/large/harpyswept_alt
 	name = "Harpy (Swept Alt)"
 	icon_state = "harpys_alt"
+	can_hide = TRUE
 
 /datum/sprite_accessory/wings/large/harpyfluff
 	name = "Harpy Fluff"
 	icon_state = "harpyfluff"
+	can_hide = TRUE
 
 /datum/sprite_accessory/wings/large/harpyfolded
 	name = "Harpy Folded"
 	icon_state = "harpyfolded"
+	can_hide = TRUE
 
 /datum/sprite_accessory/wings/large/harpyowl
 	name = "Harpy Owl"
 	icon_state = "harpyowl"
+	can_hide = TRUE
 
 /datum/sprite_accessory/wings/large/harpybat_alt
 	name = "Harpy Bat Alt"
 	icon_state = "harpybat_alt"
+	can_hide = TRUE
 
 /datum/sprite_accessory/wings/large/gargoyle
 	name = "Gargoyle"

@@ -12,6 +12,7 @@
 /// Standard maptext
 /// Prepares a text to be used for maptext. Use this so it doesn't look hideous.
 #define MAPTEXT(text) {"<span class='maptext'>[##text]</span>"}
+#define MAPTEXT_LEGIBLE(text) {"<span class='maptext-legible'>[##text]</span>"}
 
 
 /**
@@ -108,11 +109,11 @@
 	return copytext((html_encode(strip_html_simple(t))),1,limit)
 
 /proc/remove_color_tags(html_text)
-    var/output = html_text
-    output = replacetext(output, regex("<font\[^>\]*color=\[^>\]*>", "g"), "")
-    output = replacetext(output, "</font>", "")
-    output = replacetext(output, regex("color=\[^ >\]*", "g"), "")
-    return output
+	var/output = html_text
+	output = replacetext(output, regex("<font\[^>\]*color=\[^>\]*>", "g"), "")
+	output = replacetext(output, "</font>", "")
+	output = replacetext(output, regex("color=\[^ >\]*", "g"), "")
+	return output
 
 //Returns null if there is any bad text in the string
 /proc/reject_bad_text(text, max_length=512)
@@ -600,7 +601,7 @@ GLOBAL_LIST_INIT(binary, list("0","1"))
 	t = replacetext(t, "$-", "$")
 
 	if(hyperlink)
-		testing("t is [t]")
+
 		t = replacetext(t, regex(@"https?:\/\/[^\s$.?#].[^\s]*", "gi"), "<a href=\"$0\">$0</a>")
 
 	return t
@@ -922,3 +923,49 @@ GLOBAL_LIST_INIT(binary, list("0","1"))
 /proc/endswith(input_text, ending)
 	var/input_length = LAZYLEN(ending)
 	return !!findtext(input_text, ending, -input_length)
+
+/proc/_NumberToWords_Helper(n, list/below20, list/tens)
+	if(n <= 0)
+		return ""
+
+	if(n < 20)
+		return below20[n] + " "
+
+	if(n < 100)
+		return tens[n / 10 - 1] + " " + _NumberToWords_Helper(n % 10, below20, tens)
+
+	return below20[n / 100] + " hundred " + _NumberToWords_Helper(n % 100, below20, tens)
+
+/proc/numberToWords(num)
+	if(num == 0)
+		return "zero"
+
+	var/list/below20 = list(
+		"one","two","three","four","five","six","seven","eight","nine",
+		"ten","eleven","twelve","thirteen","fourteen","fifteen",
+		"sixteen","seventeen","eighteen","nineteen"
+	)
+
+	var/list/tens = list(
+		"twenty","thirty","forty","fifty","sixty","seventy","eighty","ninety"
+	)
+
+	var/list/thousands = list(
+		"", "thousand", "million", "billion", "trillion"
+	)
+
+	var/result = ""
+	var/i = 1
+	var/n = abs(num)
+
+	while(n > 0)
+		var/chunk = n % 1000
+		if(chunk)
+			result = _NumberToWords_Helper(chunk, below20, tens) + thousands[i] + " " + result
+		n /= 1000
+		i++
+
+	if(num < 0)
+		return "minus [trim(result)]"
+
+	return trim(result)

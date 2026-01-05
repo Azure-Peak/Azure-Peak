@@ -1,6 +1,7 @@
 /mob/living/simple_animal/hostile/retaliate/rogue/direbear	//This way don't need new unqiue AI controller. Wolves are modular anyway.
 	icon = 'icons/roguetown/mob/monster/direbear.dmi'
 	name = "direbear"
+	desc = "Renowned as a symbol of strength and rebirth by followers of Dendor, these mighty beasts are said to sleep for months on end without ever starving. While highly sought for their furs and hides, these claim as many hunters as they are claimed by."
 	icon_state = "direbear"
 	icon_living = "direbear"
 	icon_dead = "direbear_dead"
@@ -74,6 +75,7 @@
 
 /obj/effect/decal/remains/bear
 	name = "remains"
+	desc = "This appears to be the remains of a mighty direbear. Never have the greatest not fallen as assuredly as the meekest."
 	gender = PLURAL
 	icon_state = "bones"
 	icon = 'icons/roguetown/mob/monster/direbear.dmi'

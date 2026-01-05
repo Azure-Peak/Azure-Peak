@@ -57,7 +57,6 @@
 	droning_sound = 'sound/music/area/dungeon.ogg'
 	droning_sound_dusk = null
 	droning_sound_night = null
-	converted_type = /area/rogue/outdoors/dungeon1
 	ceiling_protected = TRUE
 	deathsight_message = "root-bound caverns"
 	detail_text = DETAIL_TEXT_GOBLIN_CAMP
@@ -71,7 +70,6 @@
 	droning_sound_night = null
 	ambientsounds = AMB_BASEMENT
 	ambientnight = AMB_BASEMENT
-	converted_type = /area/rogue/outdoors/dungeon1
 	ceiling_protected = TRUE
 	deathsight_message = "root-bound caverns"
 	detail_text = DETAIL_TEXT_SKELETON_CRYPT

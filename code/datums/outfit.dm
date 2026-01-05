@@ -35,6 +35,9 @@
 	/// Type path of item to go in shoes slot
 	var/shoes = null
 
+	/// Type path of item that goes in the shoes slot if the mob is a saiga taur
+	var/saiga_shoes = null
+
 	/// Type path of item to go in head slot
 	var/head = null
 
@@ -187,6 +190,10 @@
 		H.equip_to_slot_or_del(new belt(H),SLOT_BELT, TRUE)
 	if(gloves)
 		H.equip_to_slot_or_del(new gloves(H),SLOT_GLOVES, TRUE)
+	if(saiga_shoes)
+		var/obj/item/bodypart/taur/taur = H.get_taur_tail()
+		if(istype(taur, /obj/item/bodypart/taur/horse))
+			H.equip_to_slot_or_del(new saiga_shoes(H), SLOT_SHOES, TRUE)
 	if(shoes)
 		H.equip_to_slot_or_del(new shoes(H),SLOT_SHOES, TRUE)
 	if(head)
@@ -231,11 +238,17 @@
 			WARNING("Unable to equip accessory [accessory] in outfit [name]. No uniform present!")
 
 	if(!visualsOnly)
-		if(l_hand)
-			H.put_in_hands(new l_hand(get_turf(H)), FALSE, forced = TRUE)
-		if(r_hand)
-			testing("PIH")
-			H.put_in_hands(new r_hand(get_turf(H)), FALSE, forced = TRUE)
+		// gives a 50/50 chance for hands to be swapped
+		if(prob(50))
+			if(l_hand)
+				H.put_in_l_hand(new l_hand(get_turf(H)), TRUE)
+			if(r_hand)
+				H.put_in_r_hand(new r_hand(get_turf(H)), TRUE)
+		else
+			if(l_hand)
+				H.put_in_r_hand(new l_hand(get_turf(H)), TRUE)
+			if(r_hand)
+				H.put_in_l_hand(new r_hand(get_turf(H)), TRUE)
 
 	if(!visualsOnly) // Items in pockets or backpack don't show up on mob's icon.
 		if(l_pocket)
@@ -270,6 +283,9 @@
 								addtimer(CALLBACK(PROC_REF(move_storage), new_item, H.loc), 3 SECONDS)
 
 	post_equip(H, visualsOnly)
+
+	if(istype(H.patron))
+		H.patron.post_equip(H)
 
 	if(!visualsOnly)
 		apply_fingerprints(H)

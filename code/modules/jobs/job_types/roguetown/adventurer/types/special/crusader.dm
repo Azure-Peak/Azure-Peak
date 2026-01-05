@@ -43,12 +43,12 @@
 
 /datum/outfit/job/roguetown/adventurer/crusader/pre_equip(mob/living/carbon/human/H)
 	..()
-	H.mind.current.faction += "[H.name]_faction"
+	H.mind?.current.faction += "[H.name]_faction"
 	belt = /obj/item/storage/belt/rogue/leather/plaquegold
 	pants = /obj/item/clothing/under/roguetown/chainlegs
 	shoes = /obj/item/clothing/shoes/roguetown/boots/armor
 	shirt = /obj/item/clothing/suit/roguetown/armor/chainmail/hauberk
-	armor = /obj/item/clothing/cloak/stabard/crusader
+	armor = /obj/item/clothing/cloak/tabard/stabard/crusader
 	cloak = /obj/item/clothing/cloak/cape/crusader
 	gloves = /obj/item/clothing/gloves/roguetown/chain
 	backr = /obj/item/rogueweapon/shield/tower/metal
@@ -66,7 +66,7 @@
 		var/datum/advclass/A = I
 		if(A.name == name)
 			if(A.total_slots_occupied > 1)
-				armor = /obj/item/clothing/cloak/stabard/crusader/t
+				armor = /obj/item/clothing/cloak/tabard/stabard/crusader/t
 				cloak = /obj/item/clothing/cloak/raincloak/furcloak
 				beltl = /obj/item/clothing/head/roguetown/helmet/heavy/crusader/t
 				neck = /obj/item/clothing/neck/roguetown/psicross
@@ -90,14 +90,14 @@
 	var/datum/devotion/C = new /datum/devotion(H, H.patron)
 	C.grant_miracles(H, cleric_tier = CLERIC_T1, passive_gain = CLERIC_REGEN_MINOR)	//Minor regen, can level up to T4.
 
-/obj/item/clothing/cloak/stabard/crusader
+/obj/item/clothing/cloak/tabard/stabard/crusader
 	name = "surcoat of the golden order"
 	icon_state = "crusader_surcoat"
 	icon = 'icons/roguetown/clothing/special/crusader.dmi'
 	mob_overlay_icon = 'icons/roguetown/clothing/special/onmob/crusader.dmi'
 	sleeved = 'icons/roguetown/clothing/special/onmob/crusader.dmi'
 
-/obj/item/clothing/cloak/stabard/crusader/t
+/obj/item/clothing/cloak/tabard/stabard/crusader/t
 	name = "surcoat of the silver order"
 	icon_state = "crusader_surcoatt2"
 

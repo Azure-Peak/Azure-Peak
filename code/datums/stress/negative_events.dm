@@ -326,6 +326,11 @@
 	desc = span_red("Their face is unbearable!")
 	timer = 3 MINUTES
 
+/datum/stressevent/leprosy
+	stressadd = 1
+	desc = span_red("A disgusting leper. Better keep my distance.")
+	timer = 3 MINUTES
+
 /datum/stressevent/uncanny
 	stressadd = 2
 	desc = span_red("Their face is.. wrong!")
@@ -416,6 +421,11 @@
 	desc = span_red("That fermented crab was truly rancid, abhorrent and disgusting.")
 	timer = 3 MINUTES
 
+/datum/stressevent/vampiric_reality
+	stressadd = 3
+	desc = span_boldred("The holy sun returns, it's only a matter of time until I turn to ash. I wish to be Mortal again.")
+	timer = 30 SECONDS
+
 /datum/stressevent/dimwitted
 	timer = 10 MINUTES
 	stressadd = -4
@@ -430,3 +440,8 @@
 	timer = 10 MINUTES
 	stressadd = -2
 	desc = span_green("Since my magical accident, everything just seems so funny!")
+
+/datum/stressevent/archivist_shushed
+	timer = 1 MINUTES
+	stressadd = 4
+	desc = span_red("I was shushed by the archivist!")

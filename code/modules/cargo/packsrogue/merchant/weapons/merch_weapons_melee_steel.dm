@@ -41,6 +41,13 @@
 					/obj/item/rogueweapon/sword/cutlass,
 				)
 
+/datum/supply_pack/rogue/steel_weapons/sword
+	name = "Arming Sword"
+	cost = 40 // 1 Steel Ingot
+	contains = list(
+					/obj/item/rogueweapon/sword,
+				)
+
 /datum/supply_pack/rogue/steel_weapons/shortsword
 	name = "Shortsword"
 	cost = 40 // 1 Steel Ingot
@@ -61,8 +68,6 @@
 	contains = list(
 					/obj/item/rogueweapon/sword/short/messer,
 				)
-
-// No one order generic sword I CBA
 
 /datum/supply_pack/rogue/steel_weapons/sabre
 	name = "Sabre"

@@ -212,7 +212,7 @@
 // SPACE VINES (Note that this code is very similar to Biomass code)
 /obj/structure/vine
 	name = "weepvine"
-	desc = ""
+	desc = "Bane of gardeners across Psydonia, these invasive weeds are famously irritating to kill."
 	icon = 'icons/effects/spacevines.dmi'
 	icon_state = "Light1"
 	anchored = TRUE
@@ -305,6 +305,48 @@
 		M.adjustBruteLoss(5)
 		to_chat(M, "<span class='warning'>I nick myself on the thorny vines.</span>")
 
+/datum/vine_mutation/earthy
+	name = "earthy"
+	hue = "#213311"
+	quality = NEGATIVE
+	severity = 10
+
+/datum/vine_mutation/earthy/on_grow(obj/structure/vine/holder)
+	. = ..()
+	holder.max_integrity = 100
+	holder.obj_integrity = holder.max_integrity
+
+/datum/vine_mutation/earthy/on_cross(obj/structure/vine/holder, mob/living/crosser)
+	if(prob(50) && !isvineimmune(crosser))
+		holder.entangle(crosser)
+	if(!isvineimmune(crosser))
+		if(HAS_TRAIT(crosser, TRAIT_CURSE_DENDOR))
+			if(crosser.apply_damage(50, BRUTE))
+				to_chat(crosser, span_alert("The thorny vines are whipping me!"))
+				crosser.emote("scream")
+				return
+		else
+			if(crosser.apply_damage(10, BRUTE))
+				to_chat(crosser, span_alert("I cut myself on the thorny vines."))
+				return
+/datum/vine_mutation/proc/can_cross(obj/structure/vine/holder, mob/living/crosser)
+	return TRUE
+
+/datum/vine_mutation/earthy/can_cross(obj/structure/vine/holder, mob/living/crosser)
+	if(HAS_TRAIT(crosser, TRAIT_CURSE_DENDOR))
+		if(prob(60) && !isvineimmune(crosser))
+			to_chat(crosser, span_warning("The thorny vines are grabbing me!"))
+			crosser.emote("scream")
+			return FALSE
+	else
+		if(prob(30) && !isvineimmune(crosser))
+			to_chat(crosser, span_warning("I feel stuck on the vines."))
+			return FALSE
+		return TRUE
+
+/obj/structure/vine/dendor
+	mutations = newlist(/datum/vine_mutation/earthy)
+	opacity = 1
 //ATTACK HAND IGNORING PARENT RETURN VALUE
 /obj/structure/vine/attack_hand(mob/user)
 	for(var/datum/vine_mutation/SM in mutations)
@@ -512,4 +554,6 @@
 	if(isliving(A))
 		var/mob/living/M = A
 		if(("vines" in M.faction) || ("plants" in M.faction))
+			. = TRUE
+		else if (HAS_TRAIT(M, TRAIT_KNEESTINGER_IMMUNITY))
 			. = TRUE

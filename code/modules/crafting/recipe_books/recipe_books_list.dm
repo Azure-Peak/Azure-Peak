@@ -122,8 +122,6 @@
 	types = list(
 		/datum/crafting_recipe/roguetown/structure/alch,
 		/datum/crafting_recipe/roguetown/structure/cauldronalchemy,
-		/datum/crafting_recipe/roguetown/survival/mortar,
-		/datum/crafting_recipe/roguetown/survival/pestle,
 		/datum/crafting_recipe/roguetown/alchemy,
 		/datum/alch_grind_recipe,
 		/datum/alch_cauldron_recipe

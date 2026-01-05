@@ -1196,7 +1196,7 @@
 		if(!check_rights(R_BAN,0))
 			amt2change = CLAMP(amt2change, -20, 20)
 		var/raisin = stripped_input("State a short reason for this change", "Game Master", "", null)
-		if(!amt2change && !raisin)
+		if((!isnull(amt2change) && amt2change != 0) && !raisin)
 			return
 		adjust_playerquality(amt2change, mob_client.ckey, usr.ckey, raisin)
 		for(var/client/C in GLOB.clients) // I hate this, but I'm not refactoring the cancer above this point.
@@ -1220,10 +1220,9 @@
 
 		var/amt2change = input(usr, "How much to modify the Triumphs by? (100 to -100)") as null|num
 		amt2change = clamp(amt2change, -100, 100)
-		if(!amt2change)
-			return
-
 		var/raisin = stripped_input(usr, "State a short reason for this change", "Game Master", null, null)
+		if(!amt2change || !raisin)
+			return
 		M.adjust_triumphs(amt2change, FALSE, raisin)
 		message_admins("[usr.key] adjusted [M.key]'s triumphs by [amt2change] with [!raisin ? "no reason given" : "reason: [raisin]"].")
 		log_admin("[usr.key] adjusted [M.key]'s triumphs by [amt2change] with [!raisin ? "no reason given" : "reason: [raisin]"].")

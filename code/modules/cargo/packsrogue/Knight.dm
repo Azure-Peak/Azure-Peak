@@ -8,11 +8,6 @@
 // HEAD //
 //////////
 
-/datum/supply_pack/rogue/Knight/wolfhelm
-	name = "Volf Plate Helm"
-	cost = 30
-	contains = list(/obj/item/clothing/head/roguetown/helmet/heavy/volfplate)
-
 /datum/supply_pack/rogue/Knight/pigface
 	name = "Pigface Bascinet"
 	cost = 40
@@ -104,12 +99,12 @@
 /datum/supply_pack/rogue/Knight/mblacksteelfullplate
 	name = "Blacksteel Full plate"
 	cost = 150
-	contains = list(/obj/item/clothing/suit/roguetown/armor/plate/modern/blacksteel_full_plate)
+	contains = list(/obj/item/clothing/suit/roguetown/armor/plate/full/blacksteel/modern)
 
 /datum/supply_pack/rogue/Knight/blacksteelfullplate
 	name = "Ancient Blacksteel Full plate"
 	cost = 150
-	contains = list(/obj/item/clothing/suit/roguetown/armor/plate/blacksteel_full_plate)
+	contains = list(/obj/item/clothing/suit/roguetown/armor/plate/full/blacksteel)
 
 ///////////////////
 // WRISTS/GLOVES //

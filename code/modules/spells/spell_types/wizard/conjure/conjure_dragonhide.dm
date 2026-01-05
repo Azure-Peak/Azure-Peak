@@ -54,6 +54,7 @@
 	blocksound = PLATEHIT
 	armor = ARMOR_DRAGONHIDE
 	body_parts_covered = COVERAGE_FULL | COVERAGE_HEAD_NOSE | NECK | HANDS | FEET
+	unenchantable = TRUE
 
 /obj/item/clothing/suit/roguetown/dragonhide/equipped(mob/living/user)
 	. = ..()
@@ -90,7 +91,7 @@
 	id = "dragonscaled"
 	alert_type = /atom/movable/screen/alert/status_effect/buff/dragonhide
 	duration = -1
-	examine_text = "<font color='red'>SUBJECTPRONOUN is covered in ashy scales!"
+	examine_text = "<font color='red'>SUBJECTPRONOUN is covered in ashy scales!</font>"
 	var/outline_colour = "#c23d09"
 
 /atom/movable/screen/alert/status_effect/buff/dragonhide
@@ -108,6 +109,8 @@
 	. = ..()
 	REMOVE_TRAIT(owner, TRAIT_NOFIRE, TRAIT_GENERIC)
 	owner.remove_filter(DRAGONHIDE_FILTER)
+
+#undef DRAGONHIDE_FILTER
 
 
 

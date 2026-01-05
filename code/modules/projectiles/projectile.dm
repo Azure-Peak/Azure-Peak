@@ -197,6 +197,7 @@
 			new /obj/effect/temp_visual/dir_setting/bloodsplatter(target_loca, splatter_dir)
 			if(prob(33))
 				L.add_splatter_floor(target_loca)
+				L.add_splatter_wall(target_loca, force = damage, spill_amount = 2) //Projectiles hurt and spray blood everywhere behind and around of course.
 
 	if(impact_effect_type && !hitscan)
 		new impact_effect_type(target_loca, hitx, hity)
@@ -552,7 +553,7 @@
 		return FALSE
 	if(!isliving(target))
 		if(direct_target)
-			testing("DIRECT TARGET")
+
 			if(isturf(target))
 				if(arcshot)
 					return TRUE
@@ -708,3 +709,6 @@
 		QDEL_IN(thing, duration)
 	if(cleanup)
 		cleanup_beam_segments()
+
+#undef MOVES_HITSCAN
+#undef MUZZLE_EFFECT_PIXEL_INCREMENT

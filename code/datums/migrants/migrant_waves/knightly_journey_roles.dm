@@ -59,14 +59,14 @@
 	var/armors = list(
 		"Brigandine"		= /obj/item/clothing/suit/roguetown/armor/brigandine,
 		"Coat of Plates"	= /obj/item/clothing/suit/roguetown/armor/brigandine/coatplates,
-		"Steel Cuirass"		= /obj/item/clothing/suit/roguetown/armor/plate/half,
+		"Steel Cuirass"		= /obj/item/clothing/suit/roguetown/armor/plate/cuirass,
 		)
 	var/armorchoice = input(H, "Choose your armor.", "TAKE UP ARMOR") as anything in armors
 	armor = armors[armorchoice]
 
 	gloves = /obj/item/clothing/gloves/roguetown/chain
 	pants = /obj/item/clothing/under/roguetown/chainlegs
-	cloak = /obj/item/clothing/cloak/stabard
+	cloak = /obj/item/clothing/cloak/tabard/stabard
 	neck = /obj/item/clothing/neck/roguetown/bevor
 	shirt = /obj/item/clothing/suit/roguetown/armor/chainmail
 	wrists = /obj/item/clothing/wrists/roguetown/bracers

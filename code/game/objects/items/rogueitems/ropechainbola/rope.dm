@@ -1,6 +1,6 @@
 /obj/item/rope
 	name = "rope"
-	desc = "A woven hemp rope."
+	desc = "A woven hemp rope. Useful for countless crafts, or to tie someone up in a pinch."
 	gender = PLURAL
 	icon = 'icons/roguetown/items/misc.dmi'
 	icon_state = "rope"
@@ -105,7 +105,7 @@
 						span_userdanger("[user] is trying to tie my arms with [src.name]!"))
 	playsound(loc, cuffsound, 100, TRUE, -2)
 
-	if(!(do_mob(user, C, 60 * surrender_mod, double_progress = TRUE) && C.get_num_arms(FALSE)))
+	if(!(do_mob(user, C, 60 * surrender_mod, double_progress = TRUE, can_move = FALSE) && C.get_num_arms(FALSE)))
 		to_chat(user, span_warning("I fail to tie up [C]!"))
 		return
 

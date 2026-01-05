@@ -41,6 +41,8 @@ SUBSYSTEM_DEF(mapping)
 	var/datum/space_level/transit
 	var/datum/space_level/empty_space
 	var/num_of_res_levels = 1
+	/// True when in the process of adding a new Z-level, global locking
+	var/adding_new_zlevel = FALSE
 
 	///this is a list of all the world_traits we have from things like god interventions
 	var/list/active_world_traits = list()
@@ -84,21 +86,6 @@ SUBSYSTEM_DEF(mapping)
 	repopulate_sorted_areas()
 	process_teleport_locs()			//Sets up the wizard teleport locations
 	preloadTemplates()
-#ifndef LOWMEMORYMODE
-	// Create space ruin levels
-	while (space_levels_so_far < config.space_ruin_levels)
-		++space_levels_so_far
-		add_new_zlevel("Empty Area [space_levels_so_far]", ZTRAITS_SPACE)
-	// and one level with no ruins
-	for (var/i in 1 to config.space_empty_levels)
-		++space_levels_so_far
-		empty_space = add_new_zlevel("Empty Area [space_levels_so_far]", list(ZTRAIT_LINKAGE = CROSSLINKED))
-
-	// Pick a random away mission.
-	if(CONFIG_GET(flag/roundstart_away))
-		createRandomZlevel()
-
-#endif
 	// Add the transit level
 	transit = add_new_zlevel("Transit/Reserved", list(ZTRAIT_RESERVED = TRUE))
 	repopulate_sorted_areas()
@@ -208,13 +195,12 @@ SUBSYSTEM_DEF(mapping)
 
 	var/list/otherZ = list()
 
-	#ifdef ROGUEWORLD
-	otherZ += load_map_config("_maps/map_files/otherz/rogueworld.json")
-	#endif
-
 	#ifndef NO_DUNGEON
 	otherZ += load_map_config("_maps/map_files/otherz/dungeon.json")
 	#endif
+
+	for(var/map_json in config.other_z)
+		otherZ += load_map_config(map_json)
 
 	if(otherZ.len)
 		for(var/datum/map_config/OtherZ in otherZ)
@@ -233,11 +219,6 @@ SUBSYSTEM_DEF(mapping)
 		++space_levels_so_far
 		add_new_zlevel("Empty Area [space_levels_so_far]", ZTRAITS_SPACE)
 
-	// load mining
-	if(config.minetype == "lavaland")
-		LoadGroup(FailedZs, "Lavaland", "map_files/Mining", "Lavaland.dmm", default_traits = ZTRAITS_LAVALAND)
-	else if (!isnull(config.minetype))
-		INIT_ANNOUNCE("WARNING: An unknown minetype '[config.minetype]' was set! This is being ignored! Update the maploader code!")
 	#endif
 
 	if(LAZYLEN(FailedZs))	//but seriously, unless the server's filesystem is messed up this will never happen

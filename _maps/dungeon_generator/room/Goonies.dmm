@@ -242,7 +242,7 @@
 "fU" = (
 /obj/structure/table/wood/crafted,
 /obj/item/rogueweapon/surgery/retractor,
-/obj/machinery/light/rogue/wallfire/candle,
+/obj/machinery/light/rogue/candle,
 /turf/open/floor/rogue/ruinedwood/spiral,
 /area/rogue/under/tomb/indoors)
 "fW" = (
@@ -527,7 +527,7 @@
 /area/rogue/under/tomb/indoors)
 "ob" = (
 /obj/item/roguebin/water/gross,
-/obj/machinery/light/rogue/wallfire/candle,
+/obj/machinery/light/rogue/candle,
 /turf/open/floor/rogue/ruinedwood/spiral,
 /area/rogue/under/tomb/indoors)
 "og" = (
@@ -677,7 +677,7 @@
 /turf/open/floor/rogue/ruinedwood/spiral,
 /area/rogue/under/tomb/indoors)
 "sS" = (
-/obj/machinery/light/rogue/wallfire/candle,
+/obj/machinery/light/rogue/candle,
 /turf/closed/wall/mineral/rogue/wooddark,
 /area/rogue/under/tomb/indoors)
 "tj" = (
@@ -1006,7 +1006,7 @@
 /turf/open/floor/rogue/ruinedwood,
 /area/rogue/under/tomb/cave)
 "Cu" = (
-/obj/machinery/light/rogue/wallfire/candle/blue,
+/obj/machinery/light/rogue/candle/blue,
 /turf/closed/wall/mineral/rogue/wooddark,
 /area/rogue/under/tomb/indoors)
 "Cx" = (
@@ -1072,7 +1072,7 @@
 /area/rogue/under/tomb/lake)
 "Fa" = (
 /obj/structure/mineral_door/wood,
-/obj/machinery/light/rogue/wallfire/candle,
+/obj/machinery/light/rogue/candle,
 /turf/open/floor/rogue/ruinedwood,
 /area/rogue/under/tomb/indoors)
 "Fk" = (
@@ -1210,10 +1210,6 @@
 	},
 /turf/open/floor/rogue/ruinedwood/spiral,
 /area/rogue/under/tomb/indoors)
-"IM" = (
-/mob/living/carbon/human/species/skeleton/npc/hardspread/lich,
-/turf/open/floor/rogue/carpet/lord/center,
-/area/rogue/under/tomb/indoors)
 "IS" = (
 /turf/closed/wall/mineral/rogue/wooddark,
 /area/rogue/under/tomb/cave/wet)
@@ -1233,7 +1229,7 @@
 /turf/open/floor/rogue/ruinedwood/spiral,
 /area/rogue/under/tomb/indoors)
 "Jh" = (
-/obj/machinery/light/rogue/wallfire/candle,
+/obj/machinery/light/rogue/candle,
 /turf/open/floor/rogue/ruinedwood/spiral,
 /area/rogue/under/tomb/indoors)
 "Jr" = (
@@ -1336,7 +1332,7 @@
 /obj/structure/stairs{
 	dir = 8
 	},
-/obj/machinery/light/rogue/wallfire/candle,
+/obj/machinery/light/rogue/candle,
 /turf/open/floor/rogue/ruinedwood/spiral,
 /area/rogue/under/tomb/indoors)
 "MK" = (
@@ -1508,7 +1504,7 @@
 /obj/effect/spawner/lootdrop/roguetown/dungeon/weapons,
 /obj/effect/spawner/lootdrop/roguetown/dungeon/armor,
 /obj/effect/spawner/lootdrop/roguetown/dungeon/armor,
-/obj/machinery/light/rogue/wallfire/candle/blue,
+/obj/machinery/light/rogue/candle/blue,
 /turf/open/floor/rogue/ruinedwood/chevron,
 /area/rogue/under/tomb/indoors)
 "PS" = (
@@ -1522,7 +1518,7 @@
 /obj/structure/roguewindow/openclose{
 	dir = 8
 	},
-/obj/machinery/light/rogue/wallfire/candle/blue,
+/obj/machinery/light/rogue/candle/blue,
 /turf/open/floor/rogue/ruinedwood/chevron,
 /area/rogue/under/tomb/indoors)
 "Ql" = (
@@ -1548,7 +1544,6 @@
 "Qt" = (
 /obj/item/clothing/cloak/cape/blkknight,
 /obj/effect/mapping_helpers/floor_clothing_equipper,
-/mob/living/carbon/human/species/skeleton/npc/hardspread/lich,
 /turf/open/floor/rogue/ruinedwood/spiral,
 /area/rogue/under/tomb/indoors)
 "Qv" = (
@@ -1592,12 +1587,6 @@
 	dir = 8
 	},
 /area/rogue/under/tomb/lake)
-"SP" = (
-/obj/structure/lever{
-	redstone_id = "Ship2"
-	},
-/turf/open/floor/rogue/ruinedwood/spiral,
-/area/rogue/under/tomb/indoors)
 "Th" = (
 /obj/structure/closet/crate/coffin/vampire,
 /obj/structure/spider/stickyweb,
@@ -1862,7 +1851,7 @@
 "Zp" = (
 /obj/structure/closet/crate/roguecloset/crafted,
 /obj/effect/spawner/lootdrop/general_loot_mid,
-/obj/machinery/light/rogue/wallfire/candle,
+/obj/machinery/light/rogue/candle,
 /turf/open/floor/rogue/ruinedwood/spiral,
 /area/rogue/under/tomb/indoors)
 "Zx" = (
@@ -3803,7 +3792,7 @@ js
 Mf
 jn
 Qt
-SP
+oT
 jn
 Vb
 Ew
@@ -6363,7 +6352,7 @@ bM
 Yf
 Uu
 Xa
-IM
+Xa
 cO
 Uu
 ar

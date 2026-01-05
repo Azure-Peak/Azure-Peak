@@ -30,7 +30,7 @@
 			peopleknowme += X
 		for(var/X in GLOB.inquisition_positions)
 			peopleiknow += X
-			peopleknowme += X	
+			peopleknowme += X
 
 /datum/outfit/job/roguetown
 	uniform = null
@@ -39,6 +39,7 @@
 	belt = null
 	back = null
 	shoes = null
+	saiga_shoes = /obj/item/clothing/shoes/roguetown/horseshoes
 	box = null
 	/// List of patrons we are allowed to use
 	var/list/allowed_patrons

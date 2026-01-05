@@ -12,7 +12,7 @@
 
 	outfit = /datum/outfit/job/roguetown/barkeep
 	display_order = JDO_BARKEEP
-	give_bank_account = 43
+	give_bank_account = TRUE
 	min_pq = -4
 	max_pq = null
 	round_contrib_points = 3
@@ -54,7 +54,7 @@
 		/datum/skill/craft/carpentry = SKILL_LEVEL_APPRENTICE, //apprentice to do some basic repairs around the inn if need be
 		/datum/skill/misc/music = SKILL_LEVEL_APPRENTICE,
 	)
-	
+
 /datum/outfit/job/roguetown/barkeep/basic/pre_equip(mob/living/carbon/human/H)
 	..()
 	H.adjust_blindness(-3)
@@ -80,3 +80,5 @@
 		/obj/item/recipe_book/survival,
 		/obj/item/bottle_kit
 	)
+	if(H.mind)
+		SStreasury.give_money_account(ECONOMIC_UPPER_CLASS, H, "Savings.")

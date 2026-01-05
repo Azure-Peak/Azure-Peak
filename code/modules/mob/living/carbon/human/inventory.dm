@@ -200,15 +200,15 @@
 		if(SLOT_IN_BACKPACK)
 			not_handled = TRUE
 			if(beltr)
-				testing("insert1")
+
 				if(SEND_SIGNAL(beltr, COMSIG_TRY_STORAGE_INSERT, I, src, TRUE))
 					not_handled = FALSE
 			if(beltl && not_handled)
-				testing("insert2")
+
 				if(SEND_SIGNAL(beltl, COMSIG_TRY_STORAGE_INSERT, I, src, TRUE))
 					not_handled = FALSE
 			if(belt && not_handled)
-				testing("insert3")
+
 				if(SEND_SIGNAL(belt, COMSIG_TRY_STORAGE_INSERT, I, src, TRUE))
 					not_handled = FALSE
 		else
@@ -429,8 +429,12 @@
 	var/obj/item/stored = equipped_back.contents[equipped_back.contents.len]
 	if(!stored || stored.on_found(src))
 		return
+	if(istype(stored, /obj/item/rogueweapon/scabbard))
+		var/obj/item/rogueweapon/scabbard/scab = stored
+		if(scab.sheathed)
+			stored.attack_right(src)
+			return
 	stored.attack_hand(src) // take out thing from backpack
-	return
 
 /mob/living/carbon/human/proc/smart_equipbelt() // put held thing in belt or take most recent item out of belt
 	if(incapacitated())
@@ -465,8 +469,12 @@
 	var/obj/item/stored = equipped_belt.contents[equipped_belt.contents.len]
 	if(!stored || stored.on_found(src))
 		return
+	if(istype(stored, /obj/item/rogueweapon/scabbard))
+		var/obj/item/rogueweapon/scabbard/scab = stored
+		if(scab.sheathed)
+			stored.attack_right(src)
+			return
 	stored.attack_hand(src) // take out thing from belt
-	return
 
 /mob/living/carbon/human/proc/equip_scabbard(var/obj/item/thing, var/obj/item/equipped, slot_id)
 	var/obj/item/use_thing = null
@@ -490,7 +498,7 @@
 	if(!thing)
 		if(!scab.sheathed)
 			return FALSE
-		return scab.attack_hand(src)
+		return scab.attack_right(src)
 	if(!istype(thing, scab.valid_blade))
 		return FALSE
 	return scab.attackby(thing, src)

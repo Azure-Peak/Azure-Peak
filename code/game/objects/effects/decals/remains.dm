@@ -1,5 +1,6 @@
 /obj/effect/decal/remains
 	name = "remains"
+	desc = "Look on my works, ye mighty, and despair!"
 	gender = PLURAL
 	icon = 'icons/effects/blood.dmi'
 
@@ -10,9 +11,10 @@
 	qdel(src)
 
 /obj/effect/decal/remains/human
-	desc = ""
+	desc = "Thoughts once coursed through this vacant vessel. You will never know them."
 	icon_state = "remains"
 	var/harvestable_bones = list(/obj/item/natural/bone = 3, /obj/item/skull = 1)
+
 /obj/effect/decal/remains/human/attack_hand(mob/living/user)
 	. = ..()
 	user.visible_message(span_warning("[user] begins sorting through [src]."), span_warning("You begin sorting through [src]."))

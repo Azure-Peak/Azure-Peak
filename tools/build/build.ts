@@ -78,6 +78,20 @@ export const DmMapsIncludeTarget = new Juke.Target({
   },
 });
 
+export const DungeonGeneratorIncludeTarget = new Juke.Target({
+  executes: async () => {
+    const folders = [
+      ...Juke.glob("_maps/dungeon_generator/**/*.dmm"),
+    ];
+    const content =
+      folders
+        .map((file) => file.replace("_maps/", ""))
+        .map((file) => `#include "${file}"`)
+        .join("\n") + "\n";
+    fs.writeFileSync("_maps/dungeons.dm", content);
+  }
+})
+
 export const DmTarget = new Juke.Target({
   parameters: [
     DefineParameter,
@@ -87,6 +101,7 @@ export const DmTarget = new Juke.Target({
   ],
   dependsOn: ({ get }) => [
     get(DefineParameter).includes("ALL_TEMPLATES") && DmMapsIncludeTarget,
+    get(DefineParameter).includes("ALL_DUNGEONS") && DungeonGeneratorIncludeTarget,
   ],
   inputs: [
     "_maps/**",
@@ -97,8 +112,6 @@ export const DmTarget = new Juke.Target({
     "sound/**",
     "tgui/public/tgui.html",
     "modular/**",
-    "modular_azurepeak/**",
-    "modular_hearthstone/**",
     `${DME_NAME}.dme`,
     NamedVersionFile,
   ],

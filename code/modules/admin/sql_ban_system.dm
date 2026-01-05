@@ -872,3 +872,6 @@
 		else
 			. += "NULL"
 	. = jointext(., "/")
+
+#undef MAX_ADMINBANS_PER_ADMIN
+#undef MAX_ADMINBANS_PER_HEADMIN

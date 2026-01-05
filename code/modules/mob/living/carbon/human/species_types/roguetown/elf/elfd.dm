@@ -38,15 +38,17 @@
 	They typically trace their beginnings to how their progenator died before being raised."
 */
 	skin_tone_wording = "Origin City-State"
+	max_age = 850
 
 	species_traits = list(EYECOLOR,HAIR,FACEHAIR,LIPS,OLDGREY)
 	allowed_taur_types = list(
 		/obj/item/bodypart/taur/spider,
 	)
 	default_features = MANDATORY_FEATURE_LIST
-	use_skintones = 1
+	use_skintones = TRUE
 	disliked_food = NONE
 	liked_food = NONE
+	inherent_traits = list(TRAIT_CAVEDWELLER)
 	possible_ages = ALL_AGES_LIST
 	changesource_flags = MIRROR_BADMIN | WABBAJACK | MIRROR_MAGIC | MIRROR_PRIDE | RACE_SWAP | SLIME_EXTRACT
 	limbs_icon_m = 'icons/roguetown/mob/bodies/m/mem.dmi'

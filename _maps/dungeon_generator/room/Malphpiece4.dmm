@@ -4,7 +4,7 @@
 /turf/open/floor/rogue/dirt/road,
 /area/rogue/under/tomb/wilds/bog)
 "bh" = (
-/obj/machinery/light/rogue/wallfire/candle/l,
+/obj/machinery/light/rogue/candle/l,
 /turf/open/floor/rogue/tile/checkeralt,
 /area/rogue/under/tomb/indoors/royal)
 "bE" = (
@@ -38,7 +38,7 @@
 /turf/open/water/swamp/deep,
 /area/rogue/under/tomb/wilds/bog)
 "dV" = (
-/obj/machinery/light/rogue/wallfire/candle/l,
+/obj/machinery/light/rogue/candle/l,
 /obj/structure/fluff/statue/knight/interior,
 /turf/open/floor/rogue/tile/checkeralt,
 /area/rogue/under/tomb/indoors/royal)
@@ -91,7 +91,7 @@
 /turf/open/floor/rogue/tile/checkeralt,
 /area/rogue/under/tomb/indoors/royal)
 "pC" = (
-/obj/machinery/light/rogue/wallfire/candle/r,
+/obj/machinery/light/rogue/candle/r,
 /turf/open/floor/rogue/tile/checkeralt,
 /area/rogue/under/tomb/indoors/royal)
 "pK" = (
@@ -132,7 +132,7 @@
 /turf/open/floor/rogue/dirt/road,
 /area/rogue/under/tomb/wilds/bog)
 "wo" = (
-/obj/machinery/light/rogue/wallfire/candle/r,
+/obj/machinery/light/rogue/candle/r,
 /obj/structure/fluff/statue/knight/interior/r,
 /turf/open/floor/rogue/tile/checkeralt,
 /area/rogue/under/tomb/indoors/royal)
@@ -162,7 +162,7 @@
 /turf/open/floor/rogue/carpet,
 /area/rogue/under/tomb/indoors/royal)
 "Eu" = (
-/obj/machinery/light/rogue/wallfire/candle/r,
+/obj/machinery/light/rogue/candle/r,
 /turf/open/floor/rogue/carpet,
 /area/rogue/under/tomb/indoors/royal)
 "Hc" = (
@@ -188,7 +188,7 @@
 /turf/open/floor/rogue/dirt/ambush,
 /area/rogue/under/tomb/wilds/bog)
 "Lx" = (
-/obj/machinery/light/rogue/wallfire/candle/l,
+/obj/machinery/light/rogue/candle/l,
 /turf/open/floor/rogue/carpet,
 /area/rogue/under/tomb/indoors/royal)
 "Ly" = (

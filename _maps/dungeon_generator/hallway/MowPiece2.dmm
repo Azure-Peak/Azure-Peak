@@ -28,7 +28,7 @@
 "bT" = (
 /obj/structure/closet/crate/chest/old_crate,
 /obj/item/rogueweapon/sword/rapier/dec,
-/obj/item/clothing/suit/roguetown/armor/plate/half,
+/obj/item/clothing/suit/roguetown/armor/plate/cuirass,
 /obj/item/clothing/mask/rogue/facemask,
 /obj/item/organ/heart,
 /obj/effect/decal/cleanable/blood,

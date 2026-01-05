@@ -8,6 +8,14 @@
 /// If an object needs to have an empty spot available in target direction
 #define ROTATION_NEEDS_ROOM (1<<4)
 
+// We're still using bitflags for now I am not refactoring it to uses Vanderlin's defines while fixing CI.
+#define ROTATION_ALTCLICK			(1<<0)
+#define ROTATION_WRENCH				(1<<1)
+#define ROTATION_VERBS				(1<<2)
+#define ROTATION_COUNTERCLOCKWISE	(1<<3)
+#define ROTATION_CLOCKWISE			(1<<4)
+#define ROTATION_FLIP				(1<<5)
+
 /* Dup Commented out
 /// Rotate an object clockwise
 #define ROTATION_CLOCKWISE -90

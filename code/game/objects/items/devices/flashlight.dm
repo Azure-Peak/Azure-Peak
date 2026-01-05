@@ -414,11 +414,23 @@
 /obj/item/flashlight/flare/torch/lantern/pumpkin
 	name = "pumpkin lamptern"
 	desc = "A decorated pumpkin shell. Usually seasonal, a frightful beacon in the night."
+	mob_overlay_icon = 'icons/roguetown/clothing/onmob/head_items.dmi'
 	icon_state = "pumpkinlamp"
+	item_state = "pumpkinlamp"
+	grid_width = 64
+	grid_height = 32
 	w_class = WEIGHT_CLASS_SMALL
 	light_color = "#ffb272ff"
 	on = FALSE
-	slot_flags = null
+
+	slot_flags = ITEM_SLOT_HEAD
+	flags_inv = HIDEFACE|HIDEEARS|HIDEHAIR|HIDEFACIALHAIR|HIDESNOUT
+	body_parts_covered = FULL_HEAD|NECK
+	flags_cover = HEADCOVERSEYES|HEADCOVERSMOUTH
+	block2add = FOV_BEHIND
+	equip_delay_self = 3 SECONDS
+	unequip_delay_self = 3 SECONDS
+
 	force = 1
 	on_damage = 3
 	wdefense = 1 //The pumpkin has a chance of getting in the way of strikes.
@@ -431,6 +443,14 @@
 	if(fuel <= 0)
 		. += span_smallnotice("It looks like it could use a new candle.")
 
+/obj/item/flashlight/flare/torch/lantern/pumpkin/update_brightness(mob/user)
+	. = ..()
+	item_state = icon_state
+	if(iscarbon(user))
+		var/mob/living/carbon/C = user
+		if(src == C.head)
+			user.update_inv_head()
+
 /obj/item/flashlight/flare/torch/lantern/pumpkin/attackby(obj/item/I, mob/living/user, params)
 	if((istype(I, /obj/item/candle/yellow)) && (fuel <= 0))
 		user.visible_message(span_notice("[user] inserts a candle into [src]."), \
@@ -438,9 +458,10 @@
 		if(do_after(user, 2 SECONDS))
 			playsound(get_turf(user), 'sound/foley/dropsound/food_drop.ogg', 60, TRUE, -1)
 			fuel += 120 MINUTES
-			if(istype(I, /obj/item/candle/yellow/lit))
+			var/obj/item/candle/yellow/C = I
+			if(C.lit == TRUE)
 				on = TRUE
-				update_brightness()
+				update_brightness(user)
 			qdel(I)
 	return ..()
 
@@ -448,34 +469,41 @@
 	name = "psy-do-lamptern"
 	desc = "A large and decorated pumpkin shell. Usually seasonal, yet it ENDURES."
 	icon_state = "pumpkinlamppsy"
+	item_state = "pumpkinlamppsy"
 
 /obj/item/flashlight/flare/torch/lantern/pumpkin/ten
 	name = "tennite pumpkin lamptern"
 	desc = "A large and decorated pumpkin shell. It looks like a lot of work to make it stay in one piece."
 	icon_state = "pumpkinlampten"
+	item_state = "pumpkinlampten"
 
 /obj/item/flashlight/flare/torch/lantern/pumpkin/zizo
 	name = "zumpkin lamptern"
 	desc = "A large and decorated pumpkin shell. Its strangely gloomy."
 	icon_state = "pumpkinlampz"
+	item_state = "pumpkinlampz"
 	light_color = "#ceff72ff"
 
 /obj/item/flashlight/flare/torch/lantern/pumpkin/grin
 	name = "smiling pumpkin lamptern"
 	desc = "A large and decorated pumpkin shell. Its smile is not reassuring."
 	icon_state = "pumpkinlamp0"
+	item_state = "pumpkinlamp0"
 
 /obj/item/flashlight/flare/torch/lantern/pumpkin/frown
 	name = "angry pumpkin lamptern"
 	desc = "A large and decorated pumpkin shell. It seems quite angry at something, hopefully not you."
 	icon_state = "pumpkinlamp1"
+	item_state = "pumpkinlamp1"
 
 /obj/item/flashlight/flare/torch/lantern/pumpkin/surprise
 	name = "surprised pumpkin lamptern"
 	desc = "A large and decorated pumpkin shell. It is quite surprised to see you."
 	icon_state = "pumpkinlamp2"
+	item_state = "pumpkinlamp2"
 
 /obj/item/flashlight/flare/torch/lantern/pumpkin/woozy
 	name = "woozy pumpking lamptern"
 	desc = "A large and decorated pumpkin shell... It seems drunk?!"
 	icon_state = "pumpkinlamp3"
+	item_state = "pumpkinlamp3"

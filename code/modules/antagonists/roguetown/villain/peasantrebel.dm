@@ -208,3 +208,5 @@
 			to_chat(world, span_redtext("The Peasant Rebellion has FAILED!"))
 		for(var/X in offers2join)
 			to_chat(world,"[X]")
+
+#undef INGAME_ROLE_HEAD_UPDATE_PERIOD

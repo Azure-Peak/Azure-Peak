@@ -5,6 +5,5 @@
 	droning_sound = 'sound/music/area/dungeon.ogg'
 	droning_sound_dusk = null
 	droning_sound_night = null
-	converted_type = /area/rogue/outdoors/dungeon1
 	ceiling_protected = TRUE
 	detail_text = DETAIL_TEXT_FISHMAN_DUNGEON

@@ -67,8 +67,10 @@ GLOBAL_LIST_INIT(freqtospan, list(
 	//End name span.
 	var/endspanpart = "</span></span>"
 
+	var/list/processed_spans = handle_language_spans(length(spans) ? spans.Copy() : null)
+
 	//Message
-	var/messagepart = " <span class='message'>[lang_treat(speaker, message_language, raw_message, spans, message_mode)]</span></span>"
+	var/messagepart = " <span class='message'>[lang_treat(speaker, message_language, raw_message, processed_spans, message_mode)]</span></span>"
 
 	var/arrowpart = ""
 
@@ -104,7 +106,7 @@ GLOBAL_LIST_INIT(freqtospan, list(
 				arrowpart += " ⇈"
 			if(speakturf.z < sourceturf.z)
 				arrowpart += " ⇊"
-			
+
 			var/hidden = TRUE
 			if(HAS_TRAIT(src, TRAIT_KEENEARS))
 				if(ishuman(speaker) && ishuman(src))
@@ -120,7 +122,10 @@ GLOBAL_LIST_INIT(freqtospan, list(
 			else
 				hidden = TRUE
 			if(hidden)
-				if(istype(speaker, /mob/living))
+				if(ishuman(speaker))
+					var/mob/living/carbon/human/human = speaker
+					namepart = human.get_alt_name(TRUE)
+				else if(isliving(speaker))
 					var/mob/living/L = speaker
 					namepart = "Unknown [(L.gender == FEMALE) ? "Woman" : "Man"]"
 				else
@@ -128,11 +133,37 @@ GLOBAL_LIST_INIT(freqtospan, list(
 			spanpart1 = "<span class='smallyell'>"
 
 	var/languageicon = ""
-	// var/datum/language/D = GLOB.language_datum_instances[message_language]
-	// if(istype(D) && D.display_icon(src))
-	// 	languageicon = "[D.get_icon()] "
+	if(message_language && show_language_icon())
+		var/datum/language/D = GLOB.language_datum_instances[message_language]
+		if(istype(D) && D.display_icon(src))
+			languageicon = SPAN_TOOLTIP_DANGEROUS_HTML("<b>[D.name]</b>[D.desc ? "<br>" + D.desc : ""]", "<span style=\"position: relative; bottom: 4px;\">[D.get_icon()] </span>")
 
 	return "[spanpart1][spanpart2][colorpart][freqpart][languageicon][compose_track_href(speaker, namepart)][namepart][compose_job(speaker, message_language, raw_message, radio_freq)][arrowpart][endspanpart][messagepart]"
+
+/atom/movable/proc/handle_language_spans(list/spans)
+	return spans
+
+/mob/handle_language_spans(list/spans)
+	if(client?.prefs?.no_language_fonts)
+		for(var/language_span in LANGUAGE_SPANS)
+			spans -= language_span
+	return spans
+
+/atom/movable/proc/show_language_icon()
+	return TRUE
+
+/mob/show_language_icon(list/spans)
+	if(client?.prefs?.no_language_icon)
+		return FALSE
+	return TRUE
+
+/atom/movable/proc/show_redflash()
+	return TRUE
+
+/mob/show_redflash()
+	if(client?.prefs?.no_redflash)
+		return FALSE
+	return TRUE
 
 /atom/movable/proc/compose_track_href(atom/movable/speaker, message_langs, raw_message, radio_freq)
 	return ""

@@ -11,6 +11,51 @@
 	abstract_type = /datum/crafting_recipe/roguetown/survival/
 	skillcraft = /datum/skill/craft/crafting
 
+/datum/crafting_recipe/roguetown/survival/flint //custar recipe for flint. 
+	name = "flint"
+	result = /obj/item/flint
+	reqs =  list(/obj/item/scrap = 2,
+				/obj/item/natural/whetstone = 2,
+				/obj/item/natural/fibers = 1,
+	)
+	craftdiff = 3
+
+/datum/crafting_recipe/roguetown/survival/repairkitclothbad
+	name = "fabric patch" //9 fiber
+	result = /obj/item/repair_kit/bad
+	reqs = list(
+		/obj/item/natural/cloth = 2,
+		/obj/item/natural/fibers = 2,
+		/obj/item/rope = 1,
+		)
+	craftdiff = 3
+
+/datum/crafting_recipe/roguetown/survival/repairkitmetalingot
+	name = "empty metal kit (iron bar)"
+	result = /obj/item/armorkit_empty
+	reqs = list(
+		/obj/item/ingot/iron = 1,
+		)
+	craftdiff = 3
+
+/datum/crafting_recipe/roguetown/survival/repairkitmetalscrap
+	name = "empty metal kit (scrap)"
+	result = /obj/item/armorkit_empty
+	reqs = list(
+		/obj/item/scrap = 3,
+		)
+	craftdiff = 3
+
+/datum/crafting_recipe/roguetown/survival/repairkitcloth
+	name = "sewing kit"
+	result = /obj/item/repair_kit
+	reqs = list(
+		/obj/item/natural/cloth = 4,
+		/obj/item/natural/hide/cured = 2,
+		)
+	skillcraft = /datum/skill/craft/sewing
+	craftdiff = 4 //Expert
+
 /datum/crafting_recipe/roguetown/survival/tneedle
 	name = "sewing needle"
 	result = /obj/item/needle/thorn
@@ -85,21 +130,8 @@
 		)
 	craftdiff = 0
 
-
-/datum/crafting_recipe/roguetown/survival/mortar
-	name = "alchemical mortar"
-	result = /obj/item/reagent_containers/glass/mortar
-	reqs = list(/obj/item/natural/stone = 1)
-	craftdiff = 1
-
-/datum/crafting_recipe/roguetown/survival/pestle
-	name = "stone pestle"
-	result = /obj/item/pestle
-	reqs = list(/obj/item/natural/stone = 1)
-	craftdiff = 1
-
 /datum/crafting_recipe/roguetown/survival/bag
-	name = "bag"
+	name = "sack"
 	result = /obj/item/storage/roguebag/crafted
 	reqs = list(
 		/obj/item/natural/fibers = 1,
@@ -173,23 +205,6 @@
 		)
 	tools = list(/obj/item/needle = 1)
 	req_table = TRUE
-
-/datum/crafting_recipe/roguetown/survival/mantrap
-	name = "mantrap"
-	result = list(
-		/obj/item/restraints/legcuffs/beartrap,
-		/obj/item/restraints/legcuffs/beartrap,
-		)
-	reqs = list(
-		/obj/item/grown/log/tree/small = 1,
-		/obj/item/natural/fibers = 2,
-		/obj/item/ingot/iron = 1,
-		)
-	req_table = TRUE
-	skillcraft = /datum/skill/craft/traps
-	craftdiff = 1
-	verbage_simple = "put together"
-	verbage = "puts together"
 
 /datum/crafting_recipe/roguetown/survival/paperscroll
 	name = "scroll of parchment (x3)"
@@ -375,7 +390,7 @@
 	craftdiff = 1
 
 /datum/crafting_recipe/roguetown/survival/improvisedclamp
-	name = "improvised retractor ()"
+	name = "improvised retractor"
 	result = /obj/item/rogueweapon/surgery/retractor/improv
 	reqs = list(
 		/obj/item/natural/fibers = 1,
@@ -426,7 +441,8 @@
 /datum/crafting_recipe/roguetown/survival/purify_lux
 	name = "purifiy lux"
 	result = list(
-		/obj/item/reagent_containers/lux
+		/obj/item/heart_blood_canister,
+		/obj/item/reagent_containers/lux,
 		)
 	reqs = list(
 		/obj/item/reagent_containers/lux_impure = 1,
@@ -438,7 +454,10 @@
 /datum/crafting_recipe/roguetown/survival/purify_lux_vials
 	name = "purifiy lux (vials)"
 	result = list(
-		/obj/item/reagent_containers/lux
+		/obj/item/reagent_containers/lux,
+		/obj/item/heart_blood_vial,
+		/obj/item/heart_blood_vial,
+		/obj/item/heart_blood_vial,
 		)
 	reqs = list(
 		/obj/item/reagent_containers/lux_impure = 1,

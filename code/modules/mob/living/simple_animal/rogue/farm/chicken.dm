@@ -2,7 +2,7 @@
 /mob/living/simple_animal/hostile/retaliate/rogue/chicken
 	icon = 'icons/roguetown/mob/monster/chicken.dmi'
 	name = "\improper chicken"
-	desc = ""
+	desc = "A domestic chicken, among the most common livestock in the known world. Reputed to lay eggs if fed."
 	icon_state = "chicken_brown"
 	icon_living = "chicken_brown"
 	icon_dead = "chicken_brown_dead"
@@ -16,19 +16,19 @@
 	turns_per_move = 5
 	faction = list("chickens")
 	botched_butcher_results = list(/obj/item/reagent_containers/food/snacks/rogue/meat/poultry = 1)
-	butcher_results = list(/obj/item/reagent_containers/food/snacks/fat = 1, 
+	butcher_results = list(/obj/item/reagent_containers/food/snacks/fat = 1,
 		/obj/item/reagent_containers/food/snacks/rogue/meat/poultry = 1,
-		/obj/item/natural/feather = 1, 
+		/obj/item/natural/feather = 1,
 		/obj/item/natural/bone = 2,
-		/obj/item/alch/sinew = 1, 
+		/obj/item/alch/sinew = 1,
 		/obj/item/alch/bone = 1,
 		/obj/item/alch/viscera = 1)
 	perfect_butcher_results = list(
-		/obj/item/reagent_containers/food/snacks/fat = 2, 
+		/obj/item/reagent_containers/food/snacks/fat = 2,
 		/obj/item/reagent_containers/food/snacks/rogue/meat/poultry = 2,
-		/obj/item/natural/feather = 2, 
-		/obj/item/natural/bone = 2, 
-		/obj/item/alch/sinew = 1, 
+		/obj/item/natural/feather = 2,
+		/obj/item/natural/bone = 2,
+		/obj/item/alch/sinew = 1,
 		/obj/item/alch/bone = 1,
 		/obj/item/alch/viscera = 1
 		)
@@ -59,6 +59,11 @@
 	STASTR = 6
 	STASPD = 1
 	tame = TRUE
+
+//new ai, old ai off
+	AIStatus = AI_OFF
+	can_have_ai = FALSE
+	ai_controller = /datum/ai_controller/generic
 
 /mob/living/simple_animal/hostile/retaliate/rogue/chicken/get_sound(input)
 	switch(input)
@@ -110,6 +115,8 @@
 
 /mob/living/simple_animal/hostile/retaliate/rogue/chicken/Initialize()
 	. = ..()
+	AddElement(/datum/element/ai_retaliate)
+	ai_controller.set_blackboard_key(BB_BASIC_FOODS, food_type)
 	if(!body_color)
 		body_color = pick(validColors)
 	icon_state = "[icon_prefix]_[body_color]"
@@ -126,7 +133,7 @@
 /mob/living/simple_animal/hostile/retaliate/rogue/chicken/Life()
 	..()
 	if(!stat && (production > 29) && egg_type && isturf(loc) && !enemies.len)
-		testing("laying egg with [production] production")
+
 		if(locate(/obj/structure/fluff/nest) in loc)
 			visible_message(span_alertalien("[src] [pick(layMessage)]"))
 			production = max(production - 30, 0)

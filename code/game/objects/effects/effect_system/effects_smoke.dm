@@ -63,6 +63,8 @@
 		return 0
 	if(istype(C.wear_mask, /obj/item/clothing/mask/rogue/facemask/steel/confessor))
 		return 0
+	if(HAS_TRAIT(C, TRAIT_NOBREATH) || HAS_TRAIT(C, TRAIT_NOMETABOLISM))
+		return 0
 	C.smoke_delay++
 	addtimer(CALLBACK(src, PROC_REF(remove_smoke_delay), C), 10)
 	return 1

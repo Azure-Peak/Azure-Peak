@@ -150,7 +150,8 @@
 
 	var/eyesclosed = 0
 	var/fallingas = 0
-
+	var/is_asleep = FALSE
+	
 	var/bleed_rate = 0 //how much are we bleeding
 	var/bleedsuppress = 0 //for stopping bloodloss, eventually this will be limb-based like bleeding
 
@@ -168,6 +169,8 @@
 	var/datum/sex_controller/sexcon
 
 	var/slowdown
+
+	var/last_integ_sound
 
 	var/last_dir_change = 0
 
@@ -195,3 +198,11 @@
 
 	/// If the character has prominent mob descriptors, they'll make extra noise
 	var/loud_sneaking = FALSE
+
+	/// Parry timer for projectiles post-attack. Hooks into the attack animation, so is fairly clunky.
+	var/projectile_parry_timer
+
+	/// Toggle delay for Specials, or really anything else that you don't want input spam to instantly cycle through.
+	var/toggle_delay = 1 SECONDS
+	/// Toggle timer for Specials, or really anything else that you don't want input spam to instantly cycle through.
+	var/toggle_timer

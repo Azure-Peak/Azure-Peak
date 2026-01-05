@@ -5,11 +5,13 @@
 	chargedrain = 2
 	charging_slowdown = 3
 
-/datum/intent/shoot/bow/can_charge()
+/datum/intent/shoot/bow/can_charge(atom/clicked_object)
 	if(mastermob)
 		if(mastermob.get_num_arms(FALSE) < 2)
 			return FALSE
 		if(mastermob.get_inactive_held_item())
+			return FALSE
+		if(istype(clicked_object, /obj/item/quiver) && istype(mastermob.get_active_held_item(), /obj/item/gun/ballistic))
 			return FALSE
 	return TRUE
 
@@ -42,11 +44,13 @@
 	chargedrain = 2
 	charging_slowdown = 3
 
-/datum/intent/arc/bow/can_charge()
+/datum/intent/arc/bow/can_charge(atom/clicked_object)
 	if(mastermob)
 		if(mastermob.get_num_arms(FALSE) < 2)
 			return FALSE
 		if(mastermob.get_inactive_held_item())
+			return FALSE
+		if(istype(clicked_object, /obj/item/quiver) && istype(mastermob.get_active_held_item(), /obj/item/gun/ballistic))
 			return FALSE
 	return TRUE
 
@@ -103,6 +107,10 @@
 	load_sound = 'sound/foley/nockarrow.ogg'
 	obj_flags = UNIQUE_RENAME
 	var/heavy_bow = FALSE //used for adding a STR check to the charge time of a bow
+
+/obj/item/gun/ballistic/revolver/grenadelauncher/bow/get_mechanics_examine(mob/user)
+	. += span_info("Bows increase in damage and accuracy the higher your <b>PERCEPTION</b>.")
+	. += span_info("Bows with a heavy draw, such as longbows, have an increased draw time for characters with low <b>STRENGTH</b>.")
 
 /obj/item/gun/ballistic/revolver/grenadelauncher/bow/Initialize()
 	. = ..()
@@ -234,9 +242,6 @@
 		else
 			BB.damage = BB.damage
 		BB.damage *= damfactor * (user.STAPER > 10 ? user.STAPER / 10 : 1)
-	if(user.has_status_effect(/datum/status_effect/buff/clash) && ishuman(user))
-		var/mob/living/carbon/human/H = user
-		H.bad_guard(span_warning("I can't focus on my Guard and loose arrows! This drains me!"), cheesy = TRUE)
 	. = ..()
 
 /obj/item/gun/ballistic/revolver/grenadelauncher/bow/update_icon()

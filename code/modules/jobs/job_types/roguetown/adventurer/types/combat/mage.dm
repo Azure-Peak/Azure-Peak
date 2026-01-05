@@ -12,8 +12,9 @@
 		STATKEY_PER = 2,
 		STATKEY_SPD = 1,
 	)
-	subclass_spellpoints = 18
+	subclass_spellpoints = 14
 	subclass_skills = list(
+		/datum/skill/combat/staves = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/combat/polearms = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/misc/climbing = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/misc/athletics = SKILL_LEVEL_NOVICE,
@@ -39,16 +40,33 @@
 	beltl = /obj/item/rogueweapon/huntingknife
 	backl = /obj/item/storage/backpack/rogue/satchel
 	backr = /obj/item/rogueweapon/woodstaff
-	backpack_contents = list(
+	H.dna.species.soundpack_m = new /datum/voicepack/male/wizard()
+	if(H.mind)
+		var/spec = list("Sorcerer", "Alchemist") // Much smaller selection with only three swords. You will probably want to upgrade.
+		var/spec_choice = input(H, "Choose your specialization.", "WHO AM I?") as anything in spec
+		switch(spec_choice)
+			if("Sorcerer") //standart adventure mage
+				H.mind?.adjust_spellpoints(4) //18, standart
+				backpack_contents = list(
+					/obj/item/spellbook_unfinished/pre_arcyne = 1,
+					/obj/item/roguegem/amethyst = 1,
+					/obj/item/chalk = 1
+					)
+			if("Alchemist") //less points, no book and chalk, but good alchemistry skill with roundstart and folding cauldron it backpack.
+				H.adjust_skillrank_up_to(/datum/skill/craft/alchemy, SKILL_LEVEL_JOURNEYMAN, TRUE)
+				backl = /obj/item/storage/backpack/rogue/backpack
+				backpack_contents = list(
+					/obj/item/folding_alchcauldron_stored = 1,
+					/obj/item/reagent_containers/glass/bottle = 3,
+					/obj/item/reagent_containers/glass/bottle/alchemical = 3,
+					/obj/item/recipe_book/alchemy = 1,
+					)
+	backpack_contents |= list(
 		/obj/item/flashlight/flare/torch = 1,
-		/obj/item/spellbook_unfinished/pre_arcyne = 1,
-		/obj/item/roguegem/amethyst = 1,
 		/obj/item/recipe_book/survival = 1,
 		/obj/item/rogueweapon/scabbard/sheath = 1,
 		/obj/item/recipe_book/magic = 1,
-		/obj/item/chalk = 1
 		)
-	H.dna.species.soundpack_m = new /datum/voicepack/male/wizard()
 	if(H.age == AGE_OLD)
 		H.adjust_skillrank_up_to(/datum/skill/magic/arcane, SKILL_LEVEL_EXPERT, TRUE)
 		H.mind?.adjust_spellpoints(6)
@@ -156,7 +174,7 @@
 	head = /obj/item/clothing/head/roguetown/spellcasterhat
 	shoes = /obj/item/clothing/shoes/roguetown/boots
 	pants = /obj/item/clothing/under/roguetown/trou/leather
-	shirt = /obj/item/clothing/suit/roguetown/armor/gambeson/councillor
+	shirt = /obj/item/clothing/suit/roguetown/armor/gambeson/dark
 	gloves = /obj/item/clothing/gloves/roguetown/angle
 	belt = /obj/item/storage/belt/rogue/leather
 	neck = /obj/item/clothing/neck/roguetown/gorget/steel

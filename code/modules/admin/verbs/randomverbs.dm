@@ -941,6 +941,8 @@ Traitors and the like can also be revived with the previous role mostly intact.
 	switch(add_or_remove)
 		if("Add") //Not doing source choosing here intentionally to make this bit faster to use, you can always vv it.
 			ADD_TRAIT(D,chosen_trait,source)
+			message_admins("Admin [key_name_admin(usr)] add trait [chosen_trait] to [D]!")
+			log_admin("Admin [key_name_admin(usr)] add trait [chosen_trait] to [D]!")
 		if("Remove")
 			var/specific = input("All or specific source ?", "Trait Remove/Add") as null|anything in list("All","Specific")
 			if(!specific)
@@ -953,3 +955,5 @@ Traitors and the like can also be revived with the previous role mostly intact.
 					if(!source)
 						return
 			REMOVE_TRAIT(D,chosen_trait,source)
+			message_admins("Admin [key_name_admin(usr)] remove trait [chosen_trait] from [D]!")
+			log_admin("Admin [key_name_admin(usr)] remove trait [chosen_trait] from [D]!")

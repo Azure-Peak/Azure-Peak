@@ -303,6 +303,12 @@
 	icon_state = "elfw"
 	color_key_defaults = list(KEY_SKIN_COLOR)
 
+/datum/sprite_accessory/ears/elf_short
+	name = "Elf (Short)"
+	icon = 'icons/mob/sprite_accessory/elf.dmi'
+	icon_state = "elfshort"
+	color_key_defaults = list(KEY_SKIN_COLOR)
+
 /datum/sprite_accessory/ears/halforc
 	name = "Half Orc"
 	icon = 'icons/mob/sprite_accessory/halforc.dmi'

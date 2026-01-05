@@ -8,7 +8,8 @@
 	If the enchanter is holding a piece of gold ore in their hand, it will be consumed to enchant the weapon permanently (200 minutes).\n\
 	An enchantment cannot be applied to an already enchanted weapon.\n\
 	Force Blade: Increases the force of the weapon by 5.\n\
-	Durability: Increases the integrity and max integrity of the weapon by 100."
+	Durability: Increases the integrity and max integrity of the weapon by 100.\n\
+	Arcane Mark: Applies <b>Arcane Mark</b> to struck targets. 12 second cooldown."
 	overlay_state = "enchant_weapon"
 	sound = list('sound/magic/whiteflame.ogg')
 
@@ -16,7 +17,7 @@
 	chargedrain = 2
 	chargetime = 3 SECONDS // Can be used mid combat if needed.
 	no_early_release = TRUE
-	recharge_time = 1 MINUTES 
+	recharge_time = 1 MINUTES
 
 	warnie = "spellwarning"
 	no_early_release = TRUE
@@ -38,7 +39,8 @@
 
 	var/list/enchant_types = list(
 		"Force Blade" = FORCE_BLADE_ENCHANT,
-		"Durability" = DURABILITY_ENCHANT
+		"Durability" = DURABILITY_ENCHANT,
+		"Arcane Mark" = ARCANE_MARK_ENCHANT
 	)
 
 	for(var/obj/item/I in user.held_items)
@@ -64,5 +66,6 @@
 		to_chat(user, span_warning("That is not a valid target for enchantment! You need to enchant a weapon."))
 		revert_cast()
 		return FALSE
-		
+
 #undef ENCHANT_DURATION
+#undef ENCHANT_DURATION_GOLD

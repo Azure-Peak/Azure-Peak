@@ -11,10 +11,10 @@
 /datum/reagent/water/rosewater/on_mob_life(mob/living/carbon/M)
 	. = ..()
 	if (M.mob_biotypes & MOB_BEAST)
-		M.adjustFireLoss(0.5*REM)
+		M.adjustFireLoss(0.5  * REAGENTS_EFFECT_MULTIPLIER)
 	else
-		M.adjustBruteLoss(-0.1*REM)
-		M.adjustFireLoss(-0.1*REM)
+		M.adjustBruteLoss(-0.1  * REAGENTS_EFFECT_MULTIPLIER)
+		M.adjustFireLoss(-0.1  * REAGENTS_EFFECT_MULTIPLIER)
 		M.adjustOxyLoss(-0.1, 0)
 		var/list/our_wounds = M.get_wounds()
 		if (LAZYLEN(our_wounds))
@@ -96,11 +96,11 @@
 	if(wCount.len > 0)
 		M.heal_wounds(1) //at a metabolism of .5 U a tick this translates to 120WHP healing with 20 U Most wounds are unsewn 15-100. This is powerful on single wounds but rapidly weakens at multi wounds.
 	if(volume > 0.99)
-		M.adjustBruteLoss(-0.75*REM, 0)
-		M.adjustFireLoss(-0.75*REM, 0)
+		M.adjustBruteLoss(-0.75  * REAGENTS_EFFECT_MULTIPLIER, 0)
+		M.adjustFireLoss(-0.75  * REAGENTS_EFFECT_MULTIPLIER, 0)
 		M.adjustOxyLoss(-0.25, 0)
-		M.adjustOrganLoss(ORGAN_SLOT_BRAIN, -1*REM)
-		M.adjustCloneLoss(-0.75*REM, 0)
+		M.adjustOrganLoss(ORGAN_SLOT_BRAIN, -1  * REAGENTS_EFFECT_MULTIPLIER)
+		M.adjustCloneLoss(-0.75  * REAGENTS_EFFECT_MULTIPLIER, 0)
 	..()
 
 /datum/reagent/consumable/soothing_valerian_tea

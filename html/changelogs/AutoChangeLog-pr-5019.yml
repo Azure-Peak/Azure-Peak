@@ -1,0 +1,5 @@
+author: "FreeStylaLT"
+delete-after: True
+changes:
+  - balance: "Blunt Damage now damages all layers covering the targeted bodypart."
+  - balance: "Blunt Armor now mitigates up to 60% blunt damage."

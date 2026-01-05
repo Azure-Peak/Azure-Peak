@@ -46,8 +46,12 @@
 	owner.adjustToxLoss(-HEAL_MULTIPLIER * level, 0)
 	owner.adjustOrganLoss(ORGAN_SLOT_BRAIN, -HEAL_MULTIPLIER * level)
 	owner.adjustCloneLoss(-HEAL_MULTIPLIER * level, 0)
-
 	owner.heal_wounds(level * 5)
+	if(level >= 3) // only affects masquearade breaching bloodheals
+		if(prob(15)) // 15% chance to proc
+			owner.visible_message(
+			span_warning("[owner]'s wounds disappear as if they were never there!")
+			)
 
 //BLOODHEAL 1
 /datum/coven_power/bloodheal/one
@@ -75,7 +79,7 @@
 //BLOODHEAL 3
 /datum/coven_power/bloodheal/three
 	name = "Quick Bloodheal"
-	desc = "Regenerate wounds with visible speed."
+	desc = "Regenerate wounds with visible speed, this violates the masquerade!"
 
 	level = 3
 	research_cost = 2
@@ -86,7 +90,7 @@
 //BLOODHEAL 4
 /datum/coven_power/bloodheal/four
 	name = "Major Bloodheal"
-	desc = "Rapidly regenerate even serious injuries."
+	desc = "Rapidly regenerate even serious injuries. This violates the masquerade!"
 
 	level = 4
 	research_cost = 3
@@ -97,7 +101,7 @@
 //BLOODHEAL 5
 /datum/coven_power/bloodheal/five
 	name = "Greater Bloodheal"
-	desc = "Regenerate injuries and restore damaged organs."
+	desc = "Regenerate injuries and restore damaged organs. This violates the masquerade!"
 
 	level = 5
 	research_cost = 4

@@ -21,12 +21,16 @@
 	owner.add_movespeed_modifier(MOVESPEED_ID_CELERITY, multiplicative_slowdown = src.multiplicative_slowdown)
 	owner.apply_status_effect(/datum/status_effect/buff/celerity, level)
 	owner.AddComponent(/datum/component/after_image)
+	playsound(owner,'sound/magic/timeforward.ogg', 40, TRUE)
+	owner.visible_message(
+		span_warning("[owner] starts moving at inhumen speeds, their every action a blur!"))
 
 /datum/coven_power/celerity/deactivate(atom/target, direct)
 	. = ..()
 	qdel(owner.GetComponent(/datum/component/after_image))
 	owner.remove_status_effect(/datum/status_effect/buff/celerity)
 	owner.remove_movespeed_modifier(MOVESPEED_ID_CELERITY)
+	playsound(owner,'sound/magic/timestop.ogg', 40, TRUE)
 
 //CELERITY 1
 /datum/coven_power/celerity/one

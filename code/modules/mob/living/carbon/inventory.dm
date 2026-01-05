@@ -79,11 +79,11 @@
 		if(SLOT_IN_BACKPACK)
 			not_handled = TRUE
 			if(backr)
-				testing("insert_backr")
+
 				if(SEND_SIGNAL(backr, COMSIG_TRY_STORAGE_INSERT, I, src, TRUE))
 					not_handled = FALSE
 			if(backl && not_handled)
-				testing("insert_backl")
+
 				if(SEND_SIGNAL(backl, COMSIG_TRY_STORAGE_INSERT, I, src, TRUE))
 					not_handled = FALSE
 

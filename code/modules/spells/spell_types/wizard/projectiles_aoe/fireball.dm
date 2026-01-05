@@ -1,6 +1,6 @@
 /obj/effect/proc_holder/spell/invoked/projectile/fireball
 	name = "Fireball"
-	desc = "Shoot out a ball of fire that emits a light explosion on impact, setting the target alight."
+	desc = "Shoot out a ball of fire that emits a light explosion on impact, setting the target alight. Consumes <b>Arcane Marks</b> for extra damage."
 	clothes_req = FALSE
 	range = 8
 	projectile_type = /obj/projectile/magic/aoe/fireball/rogue
@@ -26,13 +26,13 @@
 
 /obj/projectile/magic/aoe/fireball/rogue
 	name = "fireball"
-	exp_heavy = 0
-	exp_light = 0
+	exp_heavy = -1
+	exp_light = -1
 	exp_flash = 0
 	exp_fire = 1
-	damage = 60
+	damage = 50
 	damage_type = BURN
-	npc_simple_damage_mult = 2 // HAHAHA
+	npc_simple_damage_mult = 2.4 // 1 shotting crawlers is cool. intentionally different from other fireballs due to arcyne mark disparity
 	accuracy = 40 // Base accuracy is lower for burn projectiles because they bypass armor
 	nodamage = FALSE
 	flag = "magic"
@@ -49,4 +49,9 @@
 			playsound(get_turf(target), 'sound/magic/magic_nulled.ogg', 100)
 			qdel(src)
 			return BULLET_ACT_BLOCK
+		var/mark_stacks = consume_arcane_mark_stacks(M)
+		if(mark_stacks)
+			M.apply_damage((mark_stacks*15), BURN) //hey fuck you dude
+		if(mark_stacks == 3)
+			to_chat(M, "<span class='userdanger'>SCALDING HELLFIRE; TRYPTICH-MARKE DETONATION!</span>")
 		M.adjust_fire_stacks(2)

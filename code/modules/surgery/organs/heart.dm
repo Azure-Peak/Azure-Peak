@@ -95,10 +95,10 @@
 		if(C)
 			var/datum/objective/hearteating/H = locate(/datum/objective/hearteating) in C.objectives
 			if(H)
-				testing("heartseaten++")
+
 				H.hearts_eaten++
 				nothing = TRUE
-				S.eat_effect = /datum/status_effect/buff/foodbuff*/
+				S.eat_effect = /datum/status_effect/buff/snackbuff*/
 	if(!nothing)
 		S.eat_effect = /datum/status_effect/debuff/uncookedfood
 	return S

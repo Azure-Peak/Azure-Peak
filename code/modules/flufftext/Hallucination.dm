@@ -13,10 +13,13 @@ GLOBAL_LIST_INIT(hallucination_list, list(
 	/datum/hallucination/dangerflash = 15,
 //	/datum/hallucination/hudscrew = 12,
 	/datum/hallucination/fake_alert = 12,
+	/datum/hallucination/floor_shift = 10,
 	/datum/hallucination/weird_sounds = 8,
 	/datum/hallucination/townannouncement = 7,
 //	/datum/hallucination/items_other = 7,
 	/datum/hallucination/husks = 7,
+	/datum/hallucination/fake_heartattack = 5,
+	/datum/hallucination/chasing_mob = 4,
 	/datum/hallucination/items = 4,
 	/datum/hallucination/fire = 3,
 	/datum/hallucination/self_delusion = 3,
@@ -27,7 +30,7 @@ GLOBAL_LIST_INIT(hallucination_list, list(
 
 
 /mob/living/carbon/proc/handle_hallucinations()
-	if(!hallucination)
+	if(!hallucination || !client || stat)
 		return
 
 	hallucination--
@@ -1165,3 +1168,124 @@ GLOBAL_LIST_INIT(hallucination_list, list(
 		carbon.emote("whimper")
 
 	qdel(src)
+
+/datum/hallucination/chasing_mob
+	var/image/hallucinated_image
+
+/datum/hallucination/chasing_mob/New(mob/living/carbon/victim, forced = TRUE)
+	set waitfor = FALSE
+	..()
+
+	var/message = pick("It's mom!", "I have to HURRY UP!", "They are CLOSE!", "They are NEAR!")
+	var/icon_state = pick("M3", "deepone", "mom")
+
+	var/turf/start_turf = pick(RANGE_TURFS(7, victim) - RANGE_TURFS(3, victim))
+	if(!start_turf)
+		qdel(src)
+		return
+
+	hallucinated_image = image('icons/roguetown/maniac/dreamer_mobs.dmi', start_turf, icon_state, FLOAT_LAYER, get_dir(start_turf, victim))
+	hallucinated_image.plane = GAME_PLANE_UPPER
+	victim.client.images += hallucinated_image
+
+	to_chat(victim, span_userdanger("<span class='big'>[message]</span>"))
+	addtimer(CALLBACK(src, PROC_REF(begin_chase), victim), 5)
+
+/datum/hallucination/chasing_mob/proc/begin_chase(mob/living/carbon/victim)
+	if(!victim.client || QDELETED(hallucinated_image))
+		qdel(src)
+		return
+
+	var/static/list/attack_sounds = list(
+		'sound/villain/hall_attack1.ogg',
+		'sound/villain/hall_attack2.ogg',
+		'sound/villain/hall_attack3.ogg',
+		'sound/villain/hall_attack4.ogg'
+	)
+	victim.playsound_local(victim, pick(attack_sounds), 100)
+
+	chase_step(victim, get_turf(hallucinated_image), 7, rand(4, 6))
+
+/datum/hallucination/chasing_mob/proc/chase_step(mob/living/carbon/victim, turf/current_turf, tiles_remaining, delay_time)
+	if(!victim.client || QDELETED(src) || QDELETED(hallucinated_image))
+		qdel(src)
+		return
+
+	if(tiles_remaining <= 0)
+		qdel(src)
+		return
+
+	var/direction = get_dir(current_turf, victim)
+	var/turf/next_turf = get_step(current_turf, direction)
+	if(!next_turf)
+		qdel(src)
+		return
+
+	hallucinated_image.dir = direction
+	hallucinated_image.loc = next_turf
+
+	if(next_turf == get_turf(victim))
+		victim.Stun(rand(2 SECONDS, 4 SECONDS))
+		to_chat(victim, span_userdanger(pick("NO!", "THEY GOT ME!", "AGH!")))
+		qdel(src)
+		return
+
+	addtimer(CALLBACK(src, PROC_REF(chase_step), victim, next_turf, tiles_remaining - 1, delay_time), delay_time)
+
+/datum/hallucination/chasing_mob/Destroy()
+	if(target.client && hallucinated_image)
+		target.client.images -= hallucinated_image
+	
+	QDEL_NULL(hallucinated_image)
+
+	return ..()
+
+/datum/hallucination/floor_shift
+
+/datum/hallucination/floor_shift/New(mob/living/carbon/dreamer, forced = TRUE)
+	set waitfor = FALSE
+	..()
+	for(var/turf/open/floor/floor in view(dreamer))
+		if(prob(40)) 
+			continue
+
+		var/mutable_appearance/appearance = image(floor.icon, floor, floor.icon_state, floor.layer + 0.01)
+		dreamer.client.images += appearance
+		var/offset = pick(-3, -2, -1, 1, 2, 3)
+		var/raise_duration = rand(1 SECONDS, 3 SECONDS) * abs(offset)
+		var/lower_duration = rand(1 SECONDS, 3 SECONDS) * abs(offset)
+		animate(appearance, pixel_y = offset, time = raise_duration, flags = ANIMATION_RELATIVE)
+		addtimer(CALLBACK(src, PROC_REF(floor_back), dreamer, appearance, offset, lower_duration), raise_duration)
+
+	to_chat(dreamer, span_userdanger(pick("WOAH!", "WHERE IS THE FLOOR?", "MOVE!", "HOW!?")))
+	dreamer.adjustStaminaLoss(10)
+
+	qdel(src)
+
+/datum/hallucination/floor_shift/proc/floor_back(mob/living/carbon/dreamer, mutable_appearance/appearance, offset, lower_duration)	
+	animate(appearance, pixel_y = -offset, time = lower_duration, flags = ANIMATION_RELATIVE)
+	addtimer(CALLBACK(src, PROC_REF(floor_remove), dreamer, appearance), lower_duration)
+
+/datum/hallucination/floor_shift/proc/floor_remove(mob/living/carbon/dreamer, mutable_appearance/appearance)
+	if(dreamer?.client)
+		dreamer.client.images -= appearance
+
+	qdel(appearance)
+
+/datum/hallucination/fake_heartattack
+
+/datum/hallucination/fake_heartattack/New(mob/living/carbon/victim, forced = TRUE)
+	set waitfor = FALSE
+	..()
+
+	to_chat(victim, span_userdanger(pick("MY HEART STOPS BEATING!", "I CAN'T FEEL MY HEART!", "WHERE IS MY HEART?")))
+
+	victim.freakout_hud_skew()
+	victim.emote("scream")
+	victim.flash_fullscreen("stressflash")
+	victim.Jitter(10)
+	victim.energy_add(-2)
+
+	qdel(src)
+ 
+#undef HAL_LINES_FILE

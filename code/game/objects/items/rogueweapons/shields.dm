@@ -1,11 +1,3 @@
-#define SHIELD_BASH		/datum/intent/shield/bash
-#define SHIELD_BLOCK		/datum/intent/shield/block
-#define SHIELD_BASH_METAL 	/datum/intent/shield/bash/metal
-#define SHIELD_BLOCK_METAL 	/datum/intent/shield/block/metal
-#define SHIELD_SMASH 		/datum/intent/mace/smash/shield
-#define SHIELD_SMASH_METAL 	/datum/intent/mace/smash/shield/metal
-#define SHIELD_BANG_COOLDOWN (3 SECONDS)
-
 /obj/item/rogueweapon/shield
 	name = ""
 	desc = ""
@@ -32,6 +24,7 @@
 	max_integrity = 100
 	anvilrepair = /datum/skill/craft/carpentry
 	COOLDOWN_DECLARE(shield_bang)
+	special = /datum/special_intent/limbguard
 
 
 /obj/item/rogueweapon/shield/attackby(obj/item/attackby_item, mob/user, params)
@@ -110,6 +103,13 @@
 	dropshrink = 0.8
 	anvilrepair = /datum/skill/craft/carpentry
 	coverage = 30
+
+/obj/item/rogueweapon/shield/wood/deprived
+	name = "ghastly shield"
+	desc = "A frail looking amalgamation of planks. Yet somehow, the very wood itself seem to be filling you with resolve."
+	icon_state = "deprived"
+	coverage = 40
+	max_integrity = 200
 
 /obj/item/rogueweapon/shield/attack_right(mob/user)
 	if(overlays.len)
@@ -367,10 +367,22 @@
 	max_integrity = 85
 	smeltresult = /obj/item/ingot/purifiedaalloy
 
+// unique, better buckler for knight captain
+/obj/item/rogueweapon/shield/buckler/knightcaptain
+	name = "'Aegis'"
+	desc = "A special buckler made out of blacksteel for the Knight Captain, adorned with a crest. An inscription along the top reads,\"RUAT CAELUM\""
+	icon_state = "capbuckler"
+	icon = 'icons/roguetown/weapons/special/captain.dmi'
+	max_integrity = 150
+	slot_flags = ITEM_SLOT_HIP | ITEM_SLOT_BACK
+	sellprice = 100 // lets not make it too profitable
+	smeltresult = /obj/item/ingot/blacksteel
+
 /obj/item/rogueweapon/shield/heater
 	name = "heater shield"
 	desc = "A sturdy wood and leather shield. Made to not be too encumbering while still providing good protection."
 	icon_state = "heatersh"
+	slot_flags = ITEM_SLOT_HIP | ITEM_SLOT_BACK
 	force = 15
 	throwforce = 10
 	dropshrink = 0.8

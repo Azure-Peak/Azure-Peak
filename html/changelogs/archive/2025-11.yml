@@ -1,0 +1,32 @@
+2025-11-28:
+  Antoonij:
+  - bugfix: fixed bless weapon rite
+  Geevies:
+  - rscadd: Kill contracts, such as Kill, Outlaw, Raid, and so forth, now use proximity
+      monitors to spawn the mobs in. This means, upon taking a contract, the mob won't
+      be on the playing field until the contract itself is brought close to it.
+  - rscadd: Added craftable wooden daggers. Mapped them into garrison's training stockpile.
+  - bugfix: Flora like reeds and kneestingers now properly render over water.
+  Lamasmaster:
+  - rscadd: Pork to stockpile
+  - rscadd: More categories to stockpile
+  Ollanius:
+  - bugfix: Enduring Handmaces and Spears no longer inflict the 'Sunder' debuff.
+  - bugfix: Enduring Handmaces, when wielded, now properly deal more damage.
+  PPooch:
+  - qol: Archivists get novice leatherworking (for making skillbooks) and some skillbook
+      stuff in their room closet.
+  WeNeedMorePhoron:
+  - balance: Clearing out dangerous / bleak ambushes now count as clearing 2 ambush,
+      each, making threat regions easier to tame.
+  - rscdel: Removed recent changes (which has not been recent for a long time)
+  - balance: Fate Weaver / Dragonhide can no longer be enchanted
+  - bugfix: Conjure Dragonhide text should terminate properly
+2025-11-30:
+  PPooch:
+  - bugfix: Simple bleeds now clear beneath negligible levels.
+  Ryan180602:
+  - rscadd: Tabards/surcoats can have symbols now
+  - bugfix: Knight tabards are editable
+  WeNeedMorePhoron:
+  - rscadd: Working changelog in TGUI has been ported from TGstation. Joy.

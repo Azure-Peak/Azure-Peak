@@ -1,6 +1,6 @@
 /obj/effect/proc_holder/spell/invoked/gravity // to do: get scroll icon
 	name = "Gravity"
-	desc = "Weighten space around someone, crushing them and knocking them to the floor. Stronger opponents will resist and be off-balanced."
+	desc = "Weighten space around someone, crushing them and knocking them to the floor. Stronger opponents will resist and be off-balanced. Consumes <b>Arcane Marks</b> to slightly increase knockdown time and damage."
 	cost = 3
 	overlay_state = "hierophant"
 	xp_gain = TRUE
@@ -22,44 +22,49 @@
 	gesture_required = TRUE
 	range = 7
 	var/delay = 5
-	var/damage = 0 // damage based off your str 
+	var/damage = 0 // damage based off your str
 	var/area_of_effect = 0
+	var/extra_time = 0
 
 
 
 /obj/effect/proc_holder/spell/invoked/gravity/cast(list/targets, mob/user)
 	var/turf/T = get_turf(targets[1])
 
-	for(var/turf/affected_turf in view(area_of_effect, T))
+	for(var/turf/affected_turf in get_hear(area_of_effect, T)) 
 		if(affected_turf.density)
 			continue
-			
 
-	for(var/turf/affected_turf in view(area_of_effect, T))
+
+	for(var/turf/affected_turf in get_hear(area_of_effect, T))
 	
 		new /obj/effect/temp_visual/gravity_trap(affected_turf)
-	
+
 		playsound(T, 'sound/magic/gravity.ogg', 80, TRUE, soundping = FALSE)
 
 		sleep(delay)
 		new /obj/effect/temp_visual/gravity(affected_turf)
-		for(var/mob/living/L in affected_turf.contents) 
+		for(var/mob/living/L in affected_turf.contents)
 			if(L.anti_magic_check())
 				visible_message(span_warning("The gravity fades away around you [L] "))  //antimagic needs some testing
 				playsound(get_turf(L), 'sound/magic/magic_nulled.ogg', 100)
 				return TRUE
 
+			var/mark_stacks = consume_arcane_mark_stacks(L)
+			extra_time = (mark_stacks*4)
 			if(L.STASTR <= 15)
-				L.adjustBruteLoss(60)
-				L.Knockdown(5)
-				to_chat(L, "<span class='userdanger'>You're magically weighed down, losing your footing!</span>")
+				L.adjustBruteLoss(60+(extra_time))
+				L.Knockdown(5+(extra_time))
+				if(mark_stacks == 3)
+					to_chat(L, "<span class='userdanger'>GRAVITAS COLLAPSE; TRYPTICH-MARKE DETONATION!</span>")
+				else
+					to_chat(L, "<span class='userdanger'>I'm magically weighed down, losing my footing!</span>")
 			else
-				L.OffBalance(10)
+				L.OffBalance(10+(extra_time))
 				L.adjustBruteLoss(15)
-				to_chat(L, "<span class='userdanger'>You're magically weighed down, and your strength resist!</span>")
-			
-			
+				to_chat(L, "<span class='userdanger'>I'm magically weighed down, but my strength resist!</span>")
 	return TRUE
+
 /obj/effect/temp_visual/gravity
 	icon = 'icons/effects/effects.dmi'
 	icon_state = "hierophant_squares"

@@ -1,6 +1,8 @@
 /mob/living/simple_animal/hostile/retaliate/rogue/fae/glimmerwing
 	icon = 'icons/mob/summonable/32x32.dmi'
 	name = "glimmerwing"
+	desc = "A middlingly-sized fae-creature, held aloft upon fluttering wings and glimmering with unearthly \
+	light. Both wonderous and capricious, and the subjects of many cautionary tales."
 	icon_state = "glimmerwing"
 	icon_living = "glimmerwing"
 	icon_dead = "vvd"

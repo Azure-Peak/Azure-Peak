@@ -31,9 +31,10 @@
 /datum/outfit/job/roguetown/squire
 	shirt = /obj/item/clothing/suit/roguetown/shirt/undershirt/guard
 	shoes = /obj/item/clothing/shoes/roguetown/boots/leather/reinforced
+	saiga_shoes = /obj/item/clothing/shoes/roguetown/horseshoes
 	belt = /obj/item/storage/belt/rogue/leather
 	beltl = /obj/item/storage/keyring/squire
-	cloak = /obj/item/clothing/cloak/stabard/surcoat/guard
+	cloak = /obj/item/clothing/cloak/tabard/stabard/surcoat/guard
 	id = /obj/item/scomstone/bad/garrison
 	job_bitflag = BITFLAG_GARRISON		//Move this role to garrison section later. Shouldn't be under youngroles for transparancy they are garrison.
 
@@ -41,7 +42,7 @@
 	. = ..()
 	if(ishuman(L))
 		var/mob/living/carbon/human/H = L
-		if(istype(H.cloak, /obj/item/clothing/cloak/stabard/surcoat/guard))
+		if(istype(H.cloak, /obj/item/clothing/cloak/tabard/stabard/surcoat/guard))
 			var/obj/item/clothing/S = H.cloak
 			var/index = findtext(H.real_name, " ")
 			if(index)
@@ -94,7 +95,11 @@
 		/obj/item/storage/belt/rogue/pouch,
 		/obj/item/clothing/neck/roguetown/chaincoif,
 		/obj/item/reagent_containers/glass/bottle/rogue/healthpot,
+		/obj/item/repair_kit/metal,
+		/obj/item/repair_kit,
 	)
+	if(H.mind)
+		SStreasury.give_money_account(ECONOMIC_WORKING_CLASS, H, "Savings.")
 
 /datum/advclass/squire/footman
 	name = "Footman Squire"
@@ -114,6 +119,7 @@
 	subclass_skills = list(
 		/datum/skill/combat/maces = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/combat/crossbows = SKILL_LEVEL_APPRENTICE,
+		/datum/skill/combat/shields = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/combat/wrestling = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/combat/unarmed = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/combat/swords = SKILL_LEVEL_JOURNEYMAN,
@@ -135,7 +141,9 @@
 	backpack_contents = list(
 		/obj/item/storage/belt/rogue/pouch,
 		/obj/item/clothing/neck/roguetown/chaincoif,
-		/obj/item/reagent_containers/glass/bottle/rogue/healthpot
+		/obj/item/reagent_containers/glass/bottle/rogue/healthpot,
+		/obj/item/repair_kit/metal,
+		/obj/item/repair_kit,
 	)
 	H.adjust_blindness(-3)
 	if(H.mind)
@@ -148,6 +156,8 @@
 				r_hand = /obj/item/rogueweapon/sword/iron
 			if("Cudgel")
 				beltr = /obj/item/rogueweapon/mace/cudgel
+	if(H.mind)
+		SStreasury.give_money_account(ECONOMIC_WORKING_CLASS, H, "Savings.")
 
 /datum/advclass/squire/skirmisher
 	name = "Irregular Squire"
@@ -193,5 +203,9 @@
 		/obj/item/storage/belt/rogue/pouch,
 		/obj/item/clothing/neck/roguetown/chaincoif,
 		/obj/item/rogueweapon/scabbard/sheath,
-		/obj/item/reagent_containers/glass/bottle/rogue/healthpot
+		/obj/item/reagent_containers/glass/bottle/rogue/healthpot,
+		/obj/item/repair_kit/metal,
+		/obj/item/repair_kit,
 		)
+	if(H.mind)
+		SStreasury.give_money_account(ECONOMIC_WORKING_CLASS, H, "Savings.")

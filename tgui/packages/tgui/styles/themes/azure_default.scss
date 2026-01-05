@@ -61,7 +61,14 @@
   .Button--color--transparent {
     --button-background-hover: #7b5353;
     --button-background-active: #7b5353;
+    --button-background-disabled: transparent;
   }
+
+  .Button--color--transparent.Button--disabled {
+    --button-color: #5e5959;
+  }
+
+  --color-border: #7b5353;
 
   .input-button {
     &__submit, &__cancel {

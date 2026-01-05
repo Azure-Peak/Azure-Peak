@@ -58,7 +58,7 @@
 	*message_out = span_info("A tempering heat is discharged out of [target]!")
 	*message_self = span_info("I feel the heat of a forge soothing my pains!")
 
-	var/list/firey_stuff = list(/obj/machinery/light/rogue/torchholder, /obj/machinery/light/rogue/campfire, /obj/machinery/light/rogue/hearth, /obj/machinery/light/rogue/wallfire, /obj/machinery/light/rogue/wallfire/candle, /obj/machinery/light/rogue/forge)
+	var/list/firey_stuff = list(/obj/machinery/light/rogue/torchholder, /obj/machinery/light/rogue/campfire, /obj/machinery/light/rogue/hearth, /obj/machinery/light/rogue/candle, /obj/machinery/light/rogue/forge)
 	var/bonus = 0
 
 	// extra healing for every source of fire/light near us

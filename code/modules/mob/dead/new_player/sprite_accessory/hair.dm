@@ -41,6 +41,10 @@
 	name = "Ahoge"
 	icon_state = "antenna"
 
+/datum/sprite_accessory/hair/head/astolfo
+	name = "Astolfo"
+	icon_state = "astolfo"
+
 /datum/sprite_accessory/hair/head/balding
 	name = "Balding Hair"
 	icon_state = "balding"
@@ -873,6 +877,10 @@
 /datum/sprite_accessory/hair/head/singlebraid
 	name = "Single Braid"
 	icon_state = "singlebraid"
+
+/datum/sprite_accessory/hair/head/ghast
+	name = "Ghastly"
+	icon_state = "ghastly"
 
 /datum/sprite_accessory/hair/head/gloomy
 	name = "Gloomy"

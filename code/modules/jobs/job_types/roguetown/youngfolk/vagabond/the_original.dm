@@ -31,10 +31,13 @@
 	if(prob(33))
 		cloak = /obj/item/clothing/cloak/half/brown
 		gloves = /obj/item/clothing/gloves/roguetown/fingerless
-	
+
 	if(prob(10))
 		r_hand = /obj/item/rogue/instrument/flute
 
 	if (H.mind)
 		H.STALUC = rand(5, 15)
 		H.change_stat(STATKEY_INT, round(rand(-4,4)))
+
+	if(H.mind)
+		SStreasury.give_money_account(ECONOMIC_DESTITUTE, H, "Savings.")

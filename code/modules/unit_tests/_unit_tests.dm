@@ -18,23 +18,25 @@
 
 /// Asserts that the two parameters passed are equal, fails otherwise
 /// Optionally allows an additional message in the case of a failure
-#define TEST_ASSERT_EQUAL(a, b, message) do { \
-	var/lhs = ##a; \
-	var/rhs = ##b; \
-	if (lhs != rhs) { \
-		return Fail("Expected [isnull(lhs) ? "null" : lhs] to be equal to [isnull(rhs) ? "null" : rhs].[message ? " [message]" : ""]", __FILE__, __LINE__); \
-	} \
-} while (FALSE)
+#define TEST_ASSERT_EQUAL(a, b, message) \
+	do { \
+		var/lhs = ##a; \
+		var/rhs = ##b; \
+		if (lhs != rhs) { \
+			return Fail("Expected [isnull(lhs) ? "null" : lhs] to be equal to [isnull(rhs) ? "null" : rhs].[message ? " [message]" : ""]", __FILE__, __LINE__); \
+		} \
+	} while (FALSE)
 
 /// Asserts that the two parameters passed are not equal, fails otherwise
 /// Optionally allows an additional message in the case of a failure
-#define TEST_ASSERT_NOTEQUAL(a, b, message) do { \
-	var/lhs = ##a; \
-	var/rhs = ##b; \
-	if (lhs == rhs) { \
-		return Fail("Expected [isnull(lhs) ? "null" : lhs] to not be equal to [isnull(rhs) ? "null" : rhs].[message ? " [message]" : ""]", __FILE__, __LINE__); \
-	} \
-} while (FALSE)
+#define TEST_ASSERT_NOTEQUAL(a, b, message) \
+	do { \
+		var/lhs = ##a; \
+		var/rhs = ##b; \
+		if (lhs == rhs) { \
+			return Fail("Expected [isnull(lhs) ? "null" : lhs] to not be equal to [isnull(rhs) ? "null" : rhs].[message ? " [message]" : ""]", __FILE__, __LINE__); \
+		} \
+	} while (FALSE)
 
 /// *Only* run the test provided within the parentheses
 /// This is useful for debugging when you want to reduce noise, but should never be pushed
@@ -51,52 +53,28 @@
 #define UNIT_TEST_FAILED 1
 #define UNIT_TEST_SKIPPED 2
 
+/// Priority defines
 #define TEST_PRE 0
 #define TEST_DEFAULT 1
 /// After most test steps, used for tests that run long so shorter issues can be noticed faster
 #define TEST_LONGER 10
 /// This must be the one of last tests to run due to the inherent nature of the test iterating every single tangible atom in the game and qdeleting all of them (while taking long sleeps to make sure the garbage collector fires properly) taking a large amount of time.
 #define TEST_CREATE_AND_DESTROY 9001
-/**
- * For tests that rely on create and destroy having iterated through every (tangible) atom so they don't have to do something similar.
- * Keep in mind tho that create and destroy will absolutely break the test platform, anything that relies on its shape cannot come after it.
- */
-#define TEST_AFTER_CREATE_AND_DESTROY INFINITY
-
-/// Change color to red on ANSI terminal output, if enabled with -DANSICOLORS.
-#ifdef ANSICOLORS
-#define TEST_OUTPUT_RED(text) "\x1B\x5B1;31m[text]\x1B\x5B0m"
-#else
-#define TEST_OUTPUT_RED(text) (text)
-#endif
-/// Change color to green on ANSI terminal output, if enabled with -DANSICOLORS.
-#ifdef ANSICOLORS
-#define TEST_OUTPUT_GREEN(text) "\x1B\x5B1;32m[text]\x1B\x5B0m"
-#else
-#define TEST_OUTPUT_GREEN(text) (text)
-#endif
-/// Change color to yellow on ANSI terminal output, if enabled with -DANSICOLORS.
-#ifdef ANSICOLORS
-#define TEST_OUTPUT_YELLOW(text) "\x1B\x5B1;33m[text]\x1B\x5B0m"
-#else
-#define TEST_OUTPUT_YELLOW(text) (text)
-#endif
-/// A trait source when adding traits through unit tests
-#define TRAIT_SOURCE_UNIT_TESTS "unit_tests"
-
 // BEGIN_INCLUDE
 #include "anchored_mobs.dm"
 #include "component_tests.dm"
 #include "create_and_destroy.dm"
 #include "focus_only_tests.dm"
+#include "nodupe_salvageresult.dm"
+#include "nodupe_smeltresult.dm"
 #include "reagent_id_typos.dm"
 #include "reagent_recipe_collisions.dm"
 #include "spawn_humans.dm"
 #include "species_whitelists.dm"
-#include "subsystem_init.dm"
 #include "timer_sanity.dm"
 #include "unit_test.dm"
 // END_INCLUDE
+
 #ifdef REFERENCE_TRACKING_DEBUG //Don't try and parse this file if ref tracking isn't turned on. IE: don't parse ref tracking please mr linter
 #include "find_reference_sanity.dm"
 #endif

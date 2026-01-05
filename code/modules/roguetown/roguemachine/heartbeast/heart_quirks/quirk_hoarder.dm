@@ -34,7 +34,7 @@
 
 	if(success)
 		convert_mammon_to_coins(withdrawal_amount, beast)
-		next_theft = world.time + theft_cooldown
+		next_theft = world.time + (theft_cooldown * beast.language_tier)
 		// Might satisfy itself when stealing
 		if(prob(5 * beast.language_tier))
 			beast.satisfied = TRUE
@@ -108,7 +108,7 @@
 	playsound(T, 'sound/misc/coindispense.ogg', 100, FALSE, -1)
 
 /datum/flesh_quirk/hoarder/apply_item_interaction_quirk(obj/item/I, mob/user, datum/component/chimeric_heart_beast/beast)
-	var/datum/component/eora_bond/existing = user.GetComponent(/datum/component/hoarded_item)
+	var/datum/component/hoarded_item/existing = I.GetComponent(/datum/component/hoarded_item)
 	if(existing)
 		beast.heart_beast.visible_message(span_warning("[beast.heart_beast] refuses the item!"))
 		return FALSE

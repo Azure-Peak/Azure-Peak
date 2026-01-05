@@ -160,15 +160,13 @@ GLOBAL_LIST_EMPTY(species_list)
 		else
 			return "unknown"
 
-/proc/do_mob(mob/user , mob/target, time = 30, uninterruptible = 0, progress = 1, datum/callback/extra_checks = null, double_progress = 0)
+/proc/do_mob(mob/user , mob/target, time = 30, uninterruptible = 0, progress = 1, datum/callback/extra_checks = null, double_progress = 0, can_move = TRUE)
 	if(!user || !target)
 		return 0
 
 	if(user.doing)
 		return 0
 	user.doing = 1
-
-	var/target_loc = target.loc
 
 	var/holding = user.get_active_held_item()
 	var/datum/progressbar/progbar
@@ -198,7 +196,11 @@ GLOBAL_LIST_EMPTY(species_list)
 		if(uninterruptible)
 			continue
 
-		if((double_progress && target.loc != target_loc) || user.get_active_held_item() != holding || user.incapacitated() || (extra_checks && !extra_checks.Invoke()))
+		if(!can_move && (!user.Adjacent(target)))
+			. = 0
+			break
+			
+		if(user.get_active_held_item() != holding || user.incapacitated() || (extra_checks && !extra_checks.Invoke()))
 			. = 0
 			break
 	user.doing = 0
@@ -606,3 +608,57 @@ GLOBAL_LIST_EMPTY(species_list)
 		sleep(1)
 	if(set_original_dir)
 		AM.setDir(originaldir)
+
+//When you cop out of the round
+/mob/proc/make_me_an_observer(var/existing = FALSE)
+	var/mob/dead/new_player/lobbyer
+
+	if(!existing)
+		lobbyer = src
+		var/choice = alert(src,"Are you sure you wish to observe? Playing is a lot more fun.","VOYEUR","Yes","No")
+
+		if(QDELETED(src) || !client || choice != "Yes")
+			lobbyer.ready = PLAYER_NOT_READY
+			src << browse(null, "window=playersetup") //closes the player setup window
+			lobbyer.new_player_panel()
+			return FALSE
+	else
+		var/choice = alert(src, "Are you sure you wish to let go and observe?", "LET GO", "Yes", "No")
+
+		if(stat != DEAD || choice != "Yes")
+			return FALSE
+
+	var/mob/dead/observer/observer	// Transfer safety to observer spawning proc.
+	if(check_rights(R_WATCH, FALSE))
+		observer = new /mob/dead/observer/admin(src)
+	else
+		observer = new /mob/dead/observer/rogue/nodraw(src)
+	if(!existing)
+		lobbyer.spawning = TRUE
+
+	observer.started_as_observer = TRUE
+	if(!existing)
+		lobbyer.close_spawn_windows()
+		var/obj/effect/landmark/observer_start/O = locate(/obj/effect/landmark/observer_start) in GLOB.landmarks_list
+		to_chat(src, span_notice("Now teleporting."))
+		if (O)
+			observer.forceMove(O.loc)
+		else
+			to_chat(src, span_notice("Teleporting failed. Ahelp an admin please"))
+			stack_trace("There's no freaking observer landmark available on this map or you're making observers before the map is initialised")
+
+	observer.key = key
+	observer.client = client
+	observer.set_ghost_appearance()
+	if(observer.client)
+		observer.client.update_ooc_verb_visibility()
+	if(observer.client && observer.client.prefs)
+		observer.real_name = observer.client.prefs.real_name
+		observer.name = observer.real_name
+	observer.update_icon()
+	observer.stop_sound_channel(CHANNEL_LOBBYMUSIC)
+	if(!existing)
+		qdel(mind)
+		mind = null
+		qdel(src)
+	return TRUE

@@ -242,7 +242,7 @@ SUBSYSTEM_DEF(vote)
 			if("restart")
 				choices.Add("Restart Round","Continue Playing")
 			if("gamemode")
-				choices.Add(config.votable_modes)
+				choices.Add(config.votable_modes)	
 			if("map")
 				for(var/map in global.config.maplist)
 					var/datum/map_config/VM = config.maplist[map]
@@ -272,6 +272,8 @@ SUBSYSTEM_DEF(vote)
 				vote_height = 800 // Give more room for storyteller
 			else
 				return 0
+		message_admins(span_danger("Admin [key_name_admin(usr)] start a vote of [vote_type]!"))
+		log_admin("Admin [key_name_admin(usr)] start a vote of [vote_type]!")
 		mode = vote_type
 		initiator = initiator_key
 		started_time = world.time

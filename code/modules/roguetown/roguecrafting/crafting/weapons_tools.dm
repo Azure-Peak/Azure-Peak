@@ -329,7 +329,7 @@
 	sellprice = 8
 
 /datum/crafting_recipe/roguetown/survival/woodstaff
-	name = "wood staff"
+	name = "wood staff (x3)"
 	category = "Tools"
 	result = list(
 		/obj/item/rogueweapon/woodstaff,
@@ -347,6 +347,18 @@
 	reqs = list(/obj/item/grown/log/tree = 1)
 	skillcraft = /datum/skill/craft/carpentry
 	craftdiff = 1
+
+/datum/crafting_recipe/roguetown/survival/shillelagh
+	name = "shillelagh (x3)"
+	category = "Tools"
+	result = list(
+		/obj/item/rogueweapon/woodstaff/polearm,
+		/obj/item/rogueweapon/woodstaff/polearm,
+		/obj/item/rogueweapon/woodstaff/polearm,
+		)
+	reqs = list(/obj/item/grown/log/tree = 1)
+	skillcraft = /datum/skill/craft/carpentry
+	craftdiff = 0
 
 /datum/crafting_recipe/roguetown/survival/quarterstaff_iron
 	name = "iron-reinforced quarterstaff"
@@ -370,12 +382,60 @@
 	skillcraft = /datum/skill/craft/carpentry
 	craftdiff = 3
 
+/datum/crafting_recipe/roguetown/survival/quarterstaff_silver
+	name = "silver-reinforced quarterstaff"
+	category = "Tools"
+	result = list(/obj/item/rogueweapon/woodstaff/quarterstaff/silver)
+	reqs = list(
+		/obj/item/rogueweapon/woodstaff/quarterstaff = 1,
+		/obj/item/ingot/silver = 1,
+		)
+	skillcraft = /datum/skill/craft/carpentry
+	craftdiff = 4
+
+/datum/crafting_recipe/roguetown/survival/quarterstaff_psydonic
+	name = "psydonic silver-reinforced quarterstaff"
+	category = "Tools"
+	result = list(/obj/item/rogueweapon/woodstaff/quarterstaff/psy)
+	reqs = list(
+		/obj/item/rogueweapon/woodstaff/quarterstaff = 1,
+		/obj/item/ingot/silverblessed = 1,
+		)
+	skillcraft = /datum/skill/craft/carpentry
+	craftdiff = 5
+
+/datum/crafting_recipe/roguetown/survival/quarterstaff_psydonic/bullion
+	name = "psydonic silver-reinforced quarterstaff"
+	category = "Tools"
+	result = list(/obj/item/rogueweapon/woodstaff/quarterstaff/psy)
+	reqs = list(
+		/obj/item/rogueweapon/woodstaff/quarterstaff = 1,
+		/obj/item/ingot/silverblessed/bullion = 1,
+		)
+	skillcraft = /datum/skill/craft/carpentry
+	craftdiff = 5
+
 /datum/crafting_recipe/roguetown/survival/woodsword
-	name = "wood sword"
+	name = "wooden sword (x2)"
 	category = "Tools"
 	result = list(
 		/obj/item/rogueweapon/mace/wsword,
 		/obj/item/rogueweapon/mace/wsword,
+		)
+	reqs = list(
+		/obj/item/grown/log/tree/small = 1,
+		/obj/item/natural/fibers = 1,
+		)
+	skillcraft = /datum/skill/craft/carpentry
+	craftdiff = 0
+
+/datum/crafting_recipe/roguetown/survival/wood_dagger
+	name = "wooden dagger (x3)"
+	category = "Tools"
+	result = list(
+		/obj/item/rogueweapon/huntingknife/wood,
+		/obj/item/rogueweapon/huntingknife/wood,
+		/obj/item/rogueweapon/huntingknife/wood,
 		)
 	reqs = list(
 		/obj/item/grown/log/tree/small = 1,

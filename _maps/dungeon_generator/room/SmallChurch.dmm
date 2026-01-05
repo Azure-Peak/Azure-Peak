@@ -719,7 +719,7 @@
 /area/rogue/under/tomb/indoors/church)
 "Cl" = (
 /obj/structure/closet/crate/roguecloset/crafted,
-/obj/item/clothing/cloak/templar/astrata,
+/obj/item/clothing/cloak/tabard/devotee/astrata,
 /turf/open/floor/rogue/churchmarble,
 /area/rogue/under/tomb/indoors/church)
 "Cp" = (
@@ -840,8 +840,8 @@
 /obj/structure/closet/crate/roguecloset/crafted,
 /obj/item/clothing/cloak/templar/astratan,
 /obj/item/clothing/cloak/templar/astratan,
-/obj/item/clothing/cloak/templar/astrata,
-/obj/item/clothing/cloak/templar/astrata,
+/obj/item/clothing/cloak/tabard/devotee/astrata,
+/obj/item/clothing/cloak/tabard/devotee/astrata,
 /obj/item/clothing/neck/roguetown/psicross/astrata,
 /obj/item/clothing/neck/roguetown/psicross/astrata,
 /obj/item/clothing/suit/roguetown/shirt/robe/astrata,

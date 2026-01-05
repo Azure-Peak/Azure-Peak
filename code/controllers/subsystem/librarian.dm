@@ -16,16 +16,16 @@ SUBSYSTEM_DEF(librarian)
 	if(!filename)
 		return list()
 	var/json_file = file("strings/books/[filename]")
-	testing("filebegin")
+
 	if(fexists(json_file))
-		testing("file1")
+
 		var/list/configuration = json_decode(file2text(json_file))
 		var/list/contents = configuration["Contents"]
 		if(isnull(contents))
-			testing("file2")
+
 			return list()
 		return contents
-	testing("file4")
+
 	return list()
 
 /datum/controller/subsystem/librarian/proc/playerbook2file(input, book_title = "Unknown", author = "Unknown", author_ckey = "Unknown", icon = "basic_book")
@@ -36,14 +36,14 @@ SUBSYSTEM_DEF(librarian)
 	if(!(istext(input) && istext(book_title) && istext(author) && istext(author_ckey) && istext(icon)))
 		return "This book is incorrectly formatted!"
 
-	testing("playerbook2file1")
+
 	var/list/contents = list("book_title" = "[book_title]", "author" = "[author]", "author_ckey" = "[author_ckey]", "icon" = "[icon]",  "text" = "[input]")
 	//url_encode should escape all the characters that do not belong in a file name. If not, god help us
 	var/file_name = "data/player_generated_books/[url_encode(book_title)].json"
 	text2file(json_encode(contents), file_name)
 
 	if(fexists("data/player_generated_books/_book_titles.json"))
-		testing("playerbook2file2")
+
 		var/list/_book_titles_contents = json_decode(file2text("data/player_generated_books/_book_titles.json"))
 		_book_titles_contents += "[url_encode(book_title)]"
 		fdel("data/player_generated_books/_book_titles.json")
@@ -59,19 +59,19 @@ SUBSYSTEM_DEF(librarian)
 	if(!filename)
 		return list()
 	var/json_file = file("data/player_generated_books/[filename].json")
-	testing("playerfilebegin")
+
 	if(fexists(json_file))
-		testing("playerfile1")
+
 		var/list/contents = json_decode(file2text(json_file))
 		if(isnull(contents))
-			testing("playerfile2")
+
 			return list()
 		return contents
-	testing("playerfile4")
+
 	return list()
 
 /datum/controller/subsystem/librarian/proc/del_player_book(book_title)
-	testing("delplayerbook")
+
 	if(!book_title)
 		return FALSE
 	var/json_file = file("data/player_generated_books/[book_title].json")
@@ -90,7 +90,7 @@ SUBSYSTEM_DEF(librarian)
 
 
 /datum/controller/subsystem/librarian/proc/pull_player_book_titles()
-	testing("pullplayerbook")
+
 	if(fexists(file("data/player_generated_books/_book_titles.json")))
 		var/json_file = file("data/player_generated_books/_book_titles.json")
 		var/json_list = json_decode(file2text(json_file))
@@ -99,7 +99,7 @@ SUBSYSTEM_DEF(librarian)
 		message_admins("!!! _book_titles.json no longer exists, previous book title list has been lost. !!!")
 
 /datum/controller/subsystem/librarian/proc/amend_player_book(book_title, amend_type, amend_text)
-	testing("amendplayerbook")
+
 	if(!book_title || !amend_type || !amend_text)
 		return FALSE
 	if(fexists("data/player_generated_books/_book_titles.json"))

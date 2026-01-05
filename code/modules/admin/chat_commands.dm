@@ -117,3 +117,46 @@ GLOBAL_LIST(round_end_notifiees)
 /datum/tgs_chat_command/reload_admins/proc/ReloadAsync()
 	set waitfor = FALSE
 	load_admins()
+
+// Whitelist Commands
+/datum/tgs_chat_command/whitelist_add
+	name = "whitelist_add"
+	help_text = "adds a ckey to the whitelist"
+
+/datum/tgs_chat_command/whitelist_add/Run(datum/tgs_chat_user/sender, params)
+	params = trim(params)
+	if(!params)
+		return "Insufficient parameters"
+	
+	if(sender.channel.custom_tag != CONFIG_GET(string/chat_command_whitelist))
+		return "This command is not allowed in this channel."
+
+	BC_WhitelistKey(params)
+	message_admins("[sender.friendly_name] added [params] to the border whitelist.")
+	log_admin("[sender.friendly_name] added [params] to the border whitelist.")
+	if(CONFIG_GET(string/chat_announce_whitelist))
+		send2chat(new /datum/tgs_message_content("[sender.friendly_name] added [params] to the border whitelist via Discord."), CONFIG_GET(string/chat_announce_whitelist))
+
+	return "added [params] to the border whitelist."
+
+/datum/tgs_chat_command/whitelist_remove
+	name = "whitelist_remove"
+	help_text = "removes a ckey from the whitelist"
+
+/datum/tgs_chat_command/whitelist_remove/Run(datum/tgs_chat_user/sender, params)
+	params = trim(params)
+	if(!params)
+		return "Insufficient parameters"
+
+	if(sender.channel.custom_tag != CONFIG_GET(string/chat_command_whitelist))
+		return "This command is not allowed in this channel."
+
+	BC_RemoveKey(params)
+	message_admins("[sender.friendly_name] removed [params] from the border whitelist.")
+	log_admin("[sender.friendly_name] removed [params] from the border whitelist.")
+	if(CONFIG_GET(string/chat_announce_whitelist))
+		send2chat(new /datum/tgs_message_content("[sender.friendly_name] removed [params] from the border whitelist via Discord."), CONFIG_GET(string/chat_announce_whitelist))
+
+	return "removed [params] from the border whitelist."
+
+#undef IRC_STATUS_THROTTLE

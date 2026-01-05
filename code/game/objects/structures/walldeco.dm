@@ -54,47 +54,47 @@
 			. += span_bold("There doesn't seem to be any reports of bandit activity.")
 
 /obj/structure/fluff/walldeco/innsign
-	name = "sign"
-	desc = ""
+	name = "skull sign"
+	desc = "A placard sign with a skull and crossbones."
 	icon_state = "bar"
 	layer = ABOVE_MOB_LAYER
 
 /obj/structure/fluff/walldeco/steward
-	name = "sign"
-	desc = ""
+	name = "steward's sign"
+	desc = "A sign depicting the office of the local steward."
 	icon_state = "steward"
 	layer = ABOVE_MOB_LAYER
 
 /obj/structure/fluff/walldeco/bsmith
-	name = "sign"
-	desc = ""
+	name = "smith's sign"
+	desc = "A sign depicting the workplace of the local smith."
 	icon = 'icons/roguetown/misc/tallstructure.dmi'
 	icon_state = "bsmith"
 	layer = ABOVE_MOB_LAYER
 
 /obj/structure/fluff/walldeco/goblet
-	name = "sign"
-	desc = ""
+	name = "goblet sign"
+	desc = "An inviting sign; this one indicates to the weary and sober that booze is within."
 	icon = 'icons/roguetown/misc/tallstructure.dmi'
 	icon_state = "goblet"
 	layer = ABOVE_MOB_LAYER
 
 /obj/structure/fluff/walldeco/flower
-	name = "sign"
-	desc = ""
+	name = "flowery sign"
+	desc = "A seductive sign with a purple flower."
 	icon = 'icons/roguetown/misc/tallstructure.dmi'
 	icon_state = "flower"
 	layer = ABOVE_MOB_LAYER
 
 /obj/structure/fluff/walldeco/barbersign
-	name = "sign"
+	name = "barberpole"
 	desc = "The iconic swirl of the barber surgeon."
 	icon = 'icons/roguetown/misc/tallstructure.dmi'
 	icon_state = "barbersign"
 	layer = ABOVE_MOB_LAYER
 
 /obj/structure/fluff/walldeco/barbersignreverse
-	name = "sign"
+	name = "barberpole"
 	desc = "The iconic swirl of the barber surgeon."
 	icon = 'icons/roguetown/misc/tallstructure.dmi'
 	icon_state = "barbersignflip"
@@ -102,7 +102,8 @@
 
 /obj/structure/fluff/walldeco/sparrowflag
 	name = "sparrow flag"
-	desc = ""
+	desc = "A flag of coarse fabric bearing the symbol of a blood-red sparrow, its wings unfurled. A symbol of mercenaries \
+	cut-throats, and all those willing to spill blood for gold. "
 	icon_state = "sparrow"
 
 /obj/structure/fluff/walldeco/xavo
@@ -117,7 +118,8 @@
 
 /obj/structure/fluff/walldeco/artificerflag
 	name = "Artificer's Guild"
-	desc = ""
+	desc = "Fine fabric bears the symbol of a square and compass, heraldry of the Guild of Craft. Artisans of beautiful \
+	works, and jealous protectors of the monopoly of their business."
 	icon_state = "artificer"
 
 /obj/structure/fluff/walldeco/maidendrape
@@ -128,8 +130,9 @@
 	pixel_y = 32
 
 /obj/structure/fluff/walldeco/wallshield
-	name = ""
-	desc = ""
+	name = "decorative shield"
+	desc = "This is a large, broad shield attached to a wall as decoration. Often used to denote structures operated by \
+	a city's garrison."
 	icon_state = "wallshield"
 
 /obj/structure/fluff/walldeco/sign/merchantsign
@@ -182,16 +185,19 @@
 
 /obj/structure/fluff/walldeco/bigpainting
 	name = "painting"
+	desc = "A large painting depicting a dim, forested bog."
 	icon = 'icons/roguetown/misc/64x64.dmi'
 	icon_state = "sherwoods"
 	pixel_y = 32
 	pixel_x = -16
 
 /obj/structure/fluff/walldeco/bigpainting/lake
+	desc = "A large painting depicting a lake under moonlight."
 	icon_state = "lake"
 
 /obj/structure/fluff/walldeco/mona
 	name = "painting"
+	desc = "A painting of an enigmatic woman smiling at the viewer. Looking closer, it looks half-finished."
 	icon = 'icons/roguetown/misc/tallstructure.dmi'
 	icon_state = "mona"
 	pixel_y = 32
@@ -243,36 +249,45 @@
 /obj/structure/fluff/walldeco/rpainting
 	name = "painting"
 	icon_state = "painting_1"
+	desc = "A thought-evoking painting of a skull dimly illuminated by a candelabra."
 
 /obj/structure/fluff/walldeco/rpainting/forest
 	icon_state = "painting_2"
+	desc = "An unsettling painting of a blue-green, soupy forest, enshrouded in fog. The trees blend into each other."
 
 /obj/structure/fluff/walldeco/rpainting/crown
 	icon_state = "painting_3"
+	desc = "An introspective painting of a golden, spiked crown resting on top of some sort of book in dim light, accompanied by a red fruit."
 
 /obj/structure/fluff/walldeco/med
 	name = "diagram"
 	icon_state = "medposter"
+	desc = "A medical diagram depicting the interior structure of a humanoid hand."
 
 /obj/structure/fluff/walldeco/med2
 	name = "diagram"
 	icon_state = "medposter2"
+	desc = "A medical diagram depicting an interior section of a humanoid body."
 
 /obj/structure/fluff/walldeco/med3
 	name = "diagram"
 	icon_state = "medposter3"
+	desc = "A medical diagram depicting an interior section of a humanoid body."
 
 /obj/structure/fluff/walldeco/med4
 	name = "diagram"
 	icon_state = "medposter4"
+	desc = "A medical diagram depicting a humanoid heart."
 
 /obj/structure/fluff/walldeco/med5
 	name = "diagram"
 	icon_state = "medposter5"
+	desc = "A medical diagram depicting a humanoid heart."
 
 /obj/structure/fluff/walldeco/med6
 	name = "diagram"
 	icon_state = "medposter6"
+	desc = "A medical diagram depicting a humanoid head."
 
 /obj/structure/fluff/walldeco/alarm
 	name = "le réveil murmure"

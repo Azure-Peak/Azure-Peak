@@ -6,6 +6,7 @@ SUBSYSTEM_DEF(crediticons)
 	priority = 1
 	var/list/processing = list()
 	var/list/currentrun = list()
+	can_fire = FALSE
 
 /datum/controller/subsystem/crediticons/fire(resumed = 0)
 	if (!resumed)

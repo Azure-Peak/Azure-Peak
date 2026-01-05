@@ -26,18 +26,21 @@
 	desc = "A prosthetic made of iron. Use it in your hand to determine what limb it will function as."
 	icon = 'icons/roguetown/items/misc.dmi'
 	icon_state = "pri_blank"
+	smeltresult = /obj/item/ingot/iron
 
 /obj/item/contraption/steelprosthetic
 	name = "steel prosthetic"
 	desc = "A prosthetic made of steel. Use it in your hand to determine what limb it will function as."
 	icon = 'icons/roguetown/items/misc.dmi'
 	icon_state = "prs_blank"
+	smeltresult = /obj/item/ingot/steel
 
 /obj/item/contraption/goldprosthetic
 	name = "golden prosthetic"
 	desc = "A prosthetic made of gold. Use it in your hand to determine what limb it will function as."
 	icon = 'icons/roguetown/items/misc.dmi'
 	icon_state = "prc_blank"
+	smeltresult = /obj/item/ingot/gold
 
 /obj/item/contraption/bronzeprosthetic/attack_self(mob/user)
 	. = ..()

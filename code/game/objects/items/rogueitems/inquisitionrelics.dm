@@ -553,7 +553,8 @@ Inquisitorial armory down here
 	playsound(src, 'sound/items/indexer_working.ogg', 75, FALSE, 3)
 	if(active && working && !full)
 		if(do_after(user, 20, FALSE, M))
-			M.flash_fullscreen("redflash3")
+			if(M.show_redflash())
+				M.flash_fullscreen("redflash3")
 			subject = M
 			if(!HAS_TRAIT(M, TRAIT_NOPAIN) || !HAS_TRAIT(M, TRAIT_NOPAINSTUN))
 				if(prob(15))
@@ -954,7 +955,6 @@ Inquisitorial armory down here
 	break_sound = 'sound/foley/cloth_rip.ogg'
 	drop_sound = 'sound/foley/dropsound/cloth_drop.ogg'
 	armor = ARMOR_BLACKBAG
-	prevent_crits = list(BCLASS_CUT, BCLASS_BLUNT, BCLASS_TWIST, BCLASS_PEEL, BCLASS_PIERCE, BCLASS_CHOP, BCLASS_LASHING, BCLASS_STAB)
 	unequip_delay_self = 45
 	equip_delay_other = 360 SECONDS // No getting around it. Cheater. LEFT CLICK THEM!!!
 	equip_delay_self = 360 SECONDS
@@ -1230,7 +1230,8 @@ Inquisitorial armory down here
 			user.visible_message(span_notice("[user] presses upon [src]'s needle."))
 			if(do_after(user, 30))
 				playsound(src, 'sound/items/blackmirror_needle.ogg', 95, FALSE, 3)
-				user.flash_fullscreen("redflash3")
+				if(M.show_redflash())
+					user.flash_fullscreen("redflash3")
 				user.adjustBruteLoss(40)
 				user.blood_volume = max(user.blood_volume-240, 0)
 				user.handle_blood()
@@ -1243,7 +1244,8 @@ Inquisitorial armory down here
 			user.visible_message(span_notice("[user] goes to press [M] with [src]'s needle."))
 			if(do_after(user, 60, target = M))	
 				playsound(M, 'sound/items/blackmirror_needle.ogg', 95, FALSE, 3)
-				M.flash_fullscreen("redflash3")
+				if(M.show_redflash())
+					M.flash_fullscreen("redflash3")
 				M.blood_volume = max(user.blood_volume-240, 0)
 				M.adjustBruteLoss(40)
 				M.handle_blood()

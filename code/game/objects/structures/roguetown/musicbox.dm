@@ -87,7 +87,7 @@
 	soundloop.cursound = null
 	soundloop.volume = curvol
 	soundloop.start()
-	testing("Music: V[soundloop.volume] C[soundloop.cursound] T[soundloop.thingshearing]")
+
 	update_icon()
 
 /obj/structure/roguemachine/musicbox/proc/stop_playing()
@@ -175,3 +175,7 @@
 	soundloop.extra_range = 12
 	soundloop.falloff = 6
 */
+
+#undef MUSIC_TAVCAT_OTHERWORLDLY
+#undef MUSIC_TAVCAT_GENERIC
+#undef MUSIC_TAVCAT_OLDSCHOOL

@@ -3,7 +3,7 @@
 /turf/closed/mineral/rogue/bedrock,
 /area/rogue/under/tomb)
 "c" = (
-/obj/item/clothing/suit/roguetown/armor/plate/half/iron,
+/obj/item/clothing/suit/roguetown/armor/plate/cuirass/iron,
 /turf/open/floor/rogue/naturalstone,
 /area/rogue/under/tomb)
 "e" = (
@@ -141,7 +141,7 @@
 /turf/open/floor/rogue/naturalstone,
 /area/rogue/under/tomb)
 "Z" = (
-/obj/item/clothing/suit/roguetown/armor/plate/half/fencer,
+/obj/item/clothing/suit/roguetown/armor/plate/cuirass/fencer,
 /turf/open/floor/rogue/naturalstone,
 /area/rogue/under/tomb)
 

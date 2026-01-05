@@ -51,3 +51,4 @@
 	else
 		flags_inv |= HIDETAIL
 	H.update_inv_pants()
+

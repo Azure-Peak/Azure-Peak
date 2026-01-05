@@ -8,24 +8,7 @@
 	invocations = list("A festering performance!") 
 	invocation_type = "shout"
 	sound = list('sound/magic/debuffroll.ogg')
-
-
-/obj/effect/proc_holder/spell/invoked/song/pestilent_piedpiper/cast(mob/living/user = usr)
-	if(user.has_status_effect(/datum/status_effect/buff/playing_music))
-		for(var/datum/status_effect/buff/playing_melody/melodies in user.status_effects)
-			user.remove_status_effect(melodies)
-		for(var/datum/status_effect/buff/playing_dirge/dirges in user.status_effects)
-			user.remove_status_effect(dirges)
-		user.apply_status_effect(/datum/status_effect/buff/playing_dirge/pestilent_piedpiper)
-		return TRUE
-	else
-		revert_cast()
-		to_chat(user, span_warning("I must be playing something to inspire my audience!"))
-		return
-
-
-
-
+	song_effect = /datum/status_effect/buff/playing_dirge/pestilent_piedpiper
 
 /datum/status_effect/buff/playing_dirge/pestilent_piedpiper
 	effect = /obj/effect/temp_visual/songs/inspiration_dirget2

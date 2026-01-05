@@ -5,6 +5,7 @@
 	icon_state = "priesthead"
 	item_state = "priesthead"
 	flags_inv = HIDEEARS|HIDEFACE|HIDEHAIR|HIDEFACIALHAIR|HIDESNOUT
+	resistance_flags = FIRE_PROOF // astratan
 	dynamic_hair_suffix = ""
 	sewrepair = TRUE
 
@@ -24,23 +25,33 @@
 	bloody_icon = 'icons/effects/blood64.dmi'
 	worn_x_dimension = 64
 	worn_y_dimension = 64
-	flags_inv = HIDEFACE|HIDEFACIALHAIR|HIDEHAIR
+	flags_inv = HIDEFACE
+	slot_flags = ITEM_SLOT_HEAD|ITEM_SLOT_MASK
 	dynamic_hair_suffix = ""
 	resistance_flags = FIRE_PROOF // Made of metal
+	salvage_result = /obj/item/natural/silk
+	salvage_amount = 2
 
 /obj/item/clothing/head/roguetown/eoramask/equipped(mob/living/carbon/human/user, slot) //Copying Eora bud pacifism
 	. = ..()
-	if(slot == SLOT_HEAD)
+	if(slot == SLOT_HEAD || slot == SLOT_WEAR_MASK)
 		ADD_TRAIT(user, TRAIT_PACIFISM, "eoramask_[REF(src)]")
 
 /obj/item/clothing/head/roguetown/eoramask/dropped(mob/living/carbon/human/user)
 	..()
 	REMOVE_TRAIT(user, TRAIT_PACIFISM, "eoramask_[REF(src)]")
 
+/obj/item/clothing/head/roguetown/eoramask/MouseDrop(atom/over_object)
+	if(iscarbon(usr))
+		var/mob/living/carbon/C = usr
+		if(src == C.head || src == C.wear_mask)
+			return
+	return ..()
+
 /obj/item/clothing/head/roguetown/eoramask/attack_hand(mob/user)
 	if(iscarbon(user))
 		var/mob/living/carbon/C = user
-		if(src == C.head)
+		if(src == C.head || src == C.wear_mask)
 			to_chat(user, "<span class='warning'>I need some time to remove the mask peacefully.</span>")
 			if(do_after(user, 50))
 				return ..()

@@ -26,9 +26,9 @@
 	var/cooldown = 0
 
 	var/emote_environment = -1
-	var/list/prevent_crits
-
+	var/prevent_crits = PREVENT_CRITS_MOST
 	var/clothing_flags = NONE
+	var/stack_fovs = FALSE
 
 	salvage_result = /obj/item/natural/cloth
 	salvage_amount = 1
@@ -56,6 +56,7 @@
 
 	sellprice = 1
 	var/naledicolor = FALSE
+	var/chunkcolor = "#5e5e5e"
 
 /obj/item
 	var/blocking_behavior
@@ -72,18 +73,6 @@
 /obj/item/clothing/New()
 	..()
 
-/obj/item/clothing/Topic(href, href_list)
-	. = ..()
-	if(href_list["inspect"])
-		if(!usr.canUseTopic(src, be_close=TRUE))
-			return
-		if(armor_class == ARMOR_CLASS_HEAVY)
-			to_chat(usr, "AC: <b>HEAVY</b>")
-		if(armor_class == ARMOR_CLASS_MEDIUM)
-			to_chat(usr, "AC: <b>MEDIUM</b>")
-		if(armor_class == ARMOR_CLASS_LIGHT)
-			to_chat(usr, "AC: <b>LIGHT</b>")
-
 /obj/item/clothing/examine(mob/user)
 	. = ..()
 	if(torn_sleeve_number)
@@ -91,6 +80,11 @@
 			. += span_notice("It has one torn sleeve.")
 		else
 			. += span_notice("Both its sleeves have been torn!")
+
+	if(cold_protection)
+		. += span_info("It looks like it will protect me from the <b>cold</b>.")
+	if(heat_protection)
+		. += span_info("It looks like it will protect me from the <b>heat</b>.")
 
 /obj/item/proc/get_detail_tag() //this is for extra layers on clothes
 	return detail_tag
@@ -104,7 +98,7 @@
 /obj/item/proc/get_altdetail_color() //this is for extra layers on clothes
 	return altdetail_color
 
-/obj/item/clothing/MiddleClick(mob/user, params)
+/obj/item/clothing/ShiftRightClick(mob/user, params)
 	..()
 	var/mob/living/L = user
 	var/altheld //Is the user pressing alt?
@@ -129,7 +123,6 @@
 				if(l_sleeve_zone == BODY_ZONE_L_LEG)
 					body_parts_covered &= ~LEG_LEFT
 				l_sleeve_status = SLEEVE_ROLLED
-			return
 		else if(user.zone_selected == r_sleeve_zone)
 			if(r_sleeve_status == SLEEVE_ROLLED)
 				if(r_sleeve_zone == BODY_ZONE_R_ARM)
@@ -143,7 +136,6 @@
 				if(r_sleeve_zone == BODY_ZONE_R_LEG)
 					body_parts_covered &= ~LEG_RIGHT
 				r_sleeve_status = SLEEVE_ROLLED
-			return
 	else
 		if(user.zone_selected == r_sleeve_zone)
 			if(r_sleeve_status == SLEEVE_NOMOD)
@@ -165,9 +157,8 @@
 				var/obj/item/Sr = new salvage_result(get_turf(src))
 				Sr.color = color
 				user.put_in_hands(Sr)
-				return
 			else
-				user.visible_message(span_warning("[user] tries to tear [src]."))
+				user.visible_message(span_warning("[user] tries and fails to tear [src]."), span_warning("You try and fail to tear [src]."))
 				return
 		if(user.zone_selected == l_sleeve_zone)
 			if(l_sleeve_status == SLEEVE_NOMOD)
@@ -189,9 +180,8 @@
 				var/obj/item/Sr = new salvage_result(get_turf(src))
 				Sr.color = color
 				user.put_in_hands(Sr)
-				return
 			else
-				user.visible_message(span_warning("[user] tries to tear [src]."))
+				user.visible_message(span_warning("[user] tries and fails to tear [src]."), span_warning("You try and fail to tear [src]."))
 				return
 	if(loc == L)
 		L.regenerate_clothes()
@@ -362,7 +352,7 @@ BLIND     // can't see anything
 	GLOB.female_clothing_icons[index] = female_clothing_icon
 
 /proc/generate_dismembered_clothing(index, t_color, icon, sleeveindex, sleevetype)
-	testing("GDC [index]")
+
 	if(sleevetype)
 		var/icon/dismembered		= icon("icon"=icon, "icon_state"=t_color)
 		var/icon/r_mask				= icon("icon"='icons/roguetown/clothing/onmob/helpers/dismemberment.dmi', "icon_state"="r_[sleevetype]")
@@ -376,7 +366,7 @@ BLIND     // can't see anything
 			if(3)
 				dismembered.Blend(r_mask, ICON_MULTIPLY)
 		dismembered 			= fcopy_rsc(dismembered)
-		testing("GDC added [index]")
+
 		GLOB.dismembered_clothing_icons[index] = dismembered
 
 /obj/item/clothing/under/verb/toggle()
@@ -520,15 +510,74 @@ BLIND     // can't see anything
 	var/ratio_newinteg = (eff_currint - newdam) / eff_maxint
 	var/text
 	var/y_offset
+	var/chunkicon
+	var/sfx
 	if(ratio > 0.75 && ratio_newinteg < 0.75)
 		text = "Armor <br><font color = '#8aaa4d'>marred</font>"
+		sfx = 'sound/combat/armor_degrade1.ogg'
+		chunkicon = "chunkfall1"
 		y_offset = -5
 	if(ratio > 0.5 && ratio_newinteg < 0.5)
 		text = "Armor <br><font color = '#d4d36c'>damaged</font>"
+		sfx = 'sound/combat/armor_degrade2.ogg'
+		chunkicon = "chunkfall2"
 		y_offset = 15
 	if(ratio > 0.25 && ratio_newinteg < 0.25)
 		text = "Armor <br><font color = '#a8705a'>sundered</font>"
+		sfx = 'sound/combat/armor_degrade3.ogg'
+		chunkicon = "chunkfall3"
 		y_offset = 30
 	if(text)
+		if(isliving(loc))
+			var/mob/living/L = loc
+			if(L.last_integ_sound < world.time)
+				playsound(src, sfx, 100, TRUE)
+				L.last_integ_sound = world.time + INT_NOISE_DELAY
+			new /obj/effect/temp_visual/armor_chunk(get_turf(src), 0.7 SECONDS, chunkcolor, chunkicon)
 		filtered_balloon_alert(TRAIT_COMBAT_AWARE, text, -20, y_offset)
 	. = ..()
+
+
+/obj/proc/generate_tooltip(examine_text, showcrits)
+	return examine_text
+
+/obj/item/clothing/generate_tooltip(examine_text, showcrits)
+	if(!armor)	// No armor
+		return examine_text
+
+	// Fake armor
+	if(armor.getRating("slash") == 0 && armor.getRating("stab") == 0 && armor.getRating("blunt") == 0 && armor.getRating("piercing") == 0)
+		return examine_text
+
+	var/str
+	str += "[colorgrade_rating("🔨 BLUNT ", armor.blunt, elaborate = TRUE)] | "
+	str += "[colorgrade_rating("🪓 SLASH ", armor.slash, elaborate = TRUE)]"
+	str += "<br>"
+	str += "[colorgrade_rating("🗡️ STAB ", armor.stab, elaborate = TRUE)] | "
+	str += "[colorgrade_rating("🏹 PIERCE ", armor.piercing, elaborate = TRUE)] "
+
+	if(showcrits)
+		if(!prevent_crits)
+			str += "<text-align: center>"
+			str += "<b><font color = '#aa2121'>CRIT SUSCEPTIBLE!</font></b>"
+		else if(prevent_crits == PREVENT_CRITS_ALL)
+			str += "<text-align: center>"
+			str += "<b><font color = '#6890a7'>PICK RESISTANT</font></b>"
+
+	//This makes it appear darker than the rest of examine text. Draws the cursor to it like to a Wetsquires.rt link.
+	examine_text = "<font color = '#808080'>[examine_text]</font>"
+	return SPAN_TOOLTIP_DANGEROUS_HTML(str, examine_text)
+
+/obj/item/clothing/proc/get_armor_integ()
+	var/eff_maxint = max_integrity - (max_integrity * integrity_failure)
+	var/eff_currint = max(obj_integrity - (max_integrity * integrity_failure), 0)
+	var/ratio =	(eff_currint / eff_maxint)
+	switch(ratio)
+		if(0.75 to 1)
+			return null
+		if(0.5 to 0.74)
+			return VISMSG_ARMOR_INT_STAGEONE
+		if(0.25 to 0.49)
+			return VISMSG_ARMOR_INT_STAGETWO
+		if(0 to 0.24)
+			return VISMSG_ARMOR_INT_STAGETHREE

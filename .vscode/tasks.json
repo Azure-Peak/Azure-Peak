@@ -64,10 +64,10 @@
 		},
 		{
 			"type": "dreammaker",
-			"dme": "tgstation.dme",
+			"dme": "roguetown.dme",
 			"problemMatcher": ["$dreammaker"],
 			"group": "build",
-			"label": "dm: build - tgstation.dme"
+			"label": "dm: build - roguetown.dme"
 		},
 		{
 			"command": "${command:dreammaker.reparse}",
@@ -127,10 +127,10 @@
 		{
             "type": "process",
             "command": "tools/build/build",
-            "args": ["-DUNIT_TESTS -DLOCALTEST"],
+            "args": ["-DUNIT_TESTS", "-DLOCALTEST", "-DNO_DUNGEON"],
             "windows": {
                 "command": ".\\tools\\build\\build.bat",
-                "args": ["-DUNIT_TESTS -DLOCALTEST"]
+                "args": ["-DUNIT_TESTS", "-DLOCALTEST", "-DNO_DUNGEON"]
             },
             "options": {
                 "env": {

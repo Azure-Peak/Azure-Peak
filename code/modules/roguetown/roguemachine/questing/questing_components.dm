@@ -1,37 +1,36 @@
-GLOBAL_LIST_EMPTY(quest_components)
-
 /datum/component/quest_object
 	var/datum/weakref/quest_ref
 	var/is_mob = FALSE
+	var/no_outline = FALSE
+	var/override_compatibility = FALSE
 	var/outline_filter_id = "quest_item_outline"
 
 /datum/component/quest_object/Initialize(datum/quest/target_quest)
-	if(!isitem(parent) && !ismob(parent))
+	if(!override_compatibility && !isitem(parent) && !ismob(parent))
 		return COMPONENT_INCOMPATIBLE
-	
+
 	quest_ref = WEAKREF(target_quest)
 	is_mob = ismob(parent)
-	
-	if(is_mob)
-		var/mob/M = parent
-		M.add_filter(outline_filter_id, 2, list("type" = "outline", "color" = "#ff0000", "size" = 0.5))
-		RegisterSignal(parent, COMSIG_MOB_DEATH, PROC_REF(on_target_death))
-		RegisterSignal(parent, COMSIG_PARENT_EXAMINE, PROC_REF(on_mob_examine))
-	else
-		var/obj/item/I = parent
-		I.add_filter(outline_filter_id, 2, list("type" = "outline", "color" = "#008cff", "size" = 0.5))
-		RegisterSignal(parent, COMSIG_PARENT_EXAMINE, PROC_REF(on_examine))
-		RegisterSignal(parent, COMSIG_ITEM_DROPPED, PROC_REF(on_item_dropped))
-		RegisterSignal(parent, COMSIG_MOVABLE_MOVED, PROC_REF(on_item_dropped))
-	
+
+	if(!no_outline)
+		if(is_mob)
+			var/mob/M = parent
+			M.add_filter(outline_filter_id, 2, list("type" = "outline", "color" = "#ff0000", "size" = 0.5))
+			RegisterSignal(parent, COMSIG_MOB_DEATH, PROC_REF(on_target_death))
+			RegisterSignal(parent, COMSIG_PARENT_EXAMINE, PROC_REF(on_mob_examine))
+		else
+			var/obj/item/I = parent
+			I.add_filter(outline_filter_id, 2, list("type" = "outline", "color" = "#008cff", "size" = 0.5))
+			RegisterSignal(parent, COMSIG_PARENT_EXAMINE, PROC_REF(on_examine))
+			RegisterSignal(parent, COMSIG_ITEM_DROPPED, PROC_REF(on_item_dropped))
+			RegisterSignal(parent, COMSIG_MOVABLE_MOVED, PROC_REF(on_item_dropped))
+
 	RegisterSignal(target_quest, COMSIG_PARENT_QDELETING, PROC_REF(on_quest_deleted))
-	GLOB.quest_components += src
 
 /datum/component/quest_object/Destroy()
-	GLOB.quest_components -= src
 	if(QDELETED(parent))
 		return ..()
-		
+
 	var/datum/quest/Q = quest_ref?.resolve()
 	if(Q && !Q.complete && isitem(parent))
 		var/obj/item/I = parent
@@ -39,7 +38,7 @@ GLOBAL_LIST_EMPTY(quest_components)
 		if(Q.quest_type == QUEST_COURIER && (Q.target_delivery_item && istype(I, Q.target_delivery_item)) && !QDELETED(I))
 			Q.target_delivery_item = null
 			qdel(I)
-	
+
 	return ..()
 
 /datum/component/quest_object/proc/on_examine(datum/source, mob/user, list/examine_list)
@@ -48,7 +47,7 @@ GLOBAL_LIST_EMPTY(quest_components)
 	var/datum/quest/Q = quest_ref.resolve()
 	if(!Q || Q.complete)
 		return
-	
+
 	var/list/user_scrolls = find_quest_scrolls(user)
 	for(var/obj/item/paper/scroll/quest/scroll in user_scrolls)
 		var/datum/quest/user_quest = scroll.assigned_quest
@@ -103,9 +102,9 @@ GLOBAL_LIST_EMPTY(quest_components)
 
 	if(QDELETED(parent))
 		return
-	
+
 	var/datum/quest/Q = quest_ref?.resolve()
-	
+
 	if(ismob(parent))
 		var/mob/M = parent
 		M.remove_filter(outline_filter_id)
@@ -193,3 +192,20 @@ GLOBAL_LIST_EMPTY(quest_components)
 		Q.progress_current++
 		Q.on_progress_update()
 		return
+
+/// Component for kill quest spawners
+/datum/component/quest_object/mob_spawner
+	override_compatibility = TRUE
+	no_outline = TRUE
+
+/datum/component/quest_object/mob_spawner/Initialize(datum/quest/target_quest)
+	. = ..()
+	if(. == COMPONENT_INCOMPATIBLE)
+		return
+
+/datum/component/quest_object/mob_spawner/on_quest_deleted(datum/source)
+	if(QDELETED(parent))
+		return
+
+	qdel(parent)
+	qdel(src)

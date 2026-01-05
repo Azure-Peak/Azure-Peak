@@ -154,3 +154,59 @@
 					/obj/item/hair_dye_cream,
 					/obj/item/hair_dye_cream,
 				)
+
+/datum/supply_pack/rogue/apparel/merchant_pouch
+	name = "Merchant Pouch"
+	cost = 100
+	contains = list(/obj/item/storage/belt/rogue/pouch/merchant)
+
+/datum/supply_pack/rogue/apparel/satchel
+	name = "Satchel"
+	cost = 13
+	contains = list(/obj/item/storage/backpack/rogue/satchel)
+
+/datum/supply_pack/rogue/apparel/shortsatchel
+	name = "Satchel, Short"
+	cost = 13
+	contains = list(/obj/item/storage/backpack/rogue/satchel/short)
+
+/datum/supply_pack/rogue/apparel/backpack
+	name = "Backpack"
+	cost = 18
+	contains = list(/obj/item/storage/backpack/rogue/backpack)
+
+/datum/supply_pack/rogue/apparel/pouches
+	name = "Pouch"
+	cost = 8
+	contains = list(
+					/obj/item/storage/belt/rogue/pouch,
+					/obj/item/storage/belt/rogue/pouch,
+					/obj/item/storage/belt/rogue/pouch)
+
+/datum/supply_pack/rogue/apparel/belts
+	name = "Belt"
+	cost = 14
+	contains = list(
+					/obj/item/storage/belt/rogue/leather,
+					/obj/item/storage/belt/rogue/leather,
+					/obj/item/storage/belt/rogue/leather,
+				)
+
+/datum/supply_pack/rogue/apparel/sheath
+	name = "Sheath"
+	cost = 12
+	contains = list(
+					/obj/item/rogueweapon/scabbard/sheath
+				)
+
+/datum/supply_pack/rogue/apparel/scabbard
+	name = "Scabbard"
+	cost = 15
+	contains = list(
+					/obj/item/rogueweapon/scabbard/sword
+				)
+
+/datum/supply_pack/rogue/apparel/gwstrap
+	name = "Greatweapon Strap"
+	cost = 30
+	contains = list(/obj/item/rogueweapon/scabbard/gwstrap)

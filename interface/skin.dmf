@@ -73,7 +73,7 @@ window "mapwindow"
 		font-size = 7
 		is-default = true
 		saved-params = "icon-size;zoom-mode"
-		style = ".center { text-align: center; }\n.maptext { font-family: 'Small Fonts'; font-size: 6px; -dm-text-outline: 1px black; color: white; line-height: 1.1; }\n.command_headset { font-weight: bold;\tfont-size: 8px; } .small { font-size: 6px; }\n.big { font-size: 8px; }\n.reallybig { font-size: 8px; }\n.extremelybig { font-size: 8px; }\n.greentext { color: #00ff00; font-size: 7px; }\n.redtext { color: #ff0000; font-size: 7px; }\n.clown { color: #ff69bf; font-size: 7px;  font-weight: bold; }\n.his_grace { color: #15d512; }\n.hypnophrase { color: #0d0d0d; font-weight: bold; }\n.yell { font-weight: bold; }\n.italics { font-size: 6px; }"
+		style = ".center { text-align: center; }\n.maptext { font-family: 'Small Fonts'; font-size: 6px; -dm-text-outline: 1px black; color: white; line-height: 1.1; }\n.maptext-legible { font-family: 'Small Fonts'; font-size: 7px; -dm-text-outline: 1 #0000001a; color: black; }\n.command_headset { font-weight: bold;\tfont-size: 8px; } .small { font-size: 6px; }\n.big { font-size: 8px; }\n.reallybig { font-size: 8px; }\n.extremelybig { font-size: 8px; }\n.greentext { color: #00ff00; font-size: 7px; }\n.redtext { color: #ff0000; font-size: 7px; }\n.clown { color: #ff69bf; font-size: 7px;  font-weight: bold; }\n.his_grace { color: #15d512; }\n.hypnophrase { color: #0d0d0d; font-weight: bold; }\n.yell { font-weight: bold; }\n.italics { font-size: 6px; }"
 
 
 window "infowindow"

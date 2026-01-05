@@ -45,6 +45,8 @@
 		/obj/item/rogueweapon/hammer/iron = 1, 
 		/obj/item/rogueweapon/tongs = 1, 
 		/obj/item/storage/belt/rogue/pouch/coins/poor = 1, 
+		/obj/item/repair_kit/metal = 1,
+		/obj/item/repair_kit = 1,
 	)
 	if(H.mind)
 		H.adjust_skillrank(/datum/skill/combat/bows, 3, TRUE)
@@ -106,7 +108,7 @@
 	gloves = /obj/item/clothing/gloves/roguetown/blacksteel/modern/plategloves
 	pants = /obj/item/clothing/under/roguetown/platelegs/blacksteel/modern
 	shirt = /obj/item/clothing/suit/roguetown/armor/gambeson/heavy
-	armor = /obj/item/clothing/suit/roguetown/armor/plate/modern/blacksteel_full_plate
+	armor = /obj/item/clothing/suit/roguetown/armor/plate/full/blacksteel/modern
 	shoes = /obj/item/clothing/shoes/roguetown/boots/blacksteel/modern/plateboots
 	beltl = /obj/item/flashlight/flare/torch/lantern
 	belt = /obj/item/storage/belt/rogue/leather/steel/tasset

@@ -193,7 +193,7 @@
 	else
 		// Make the item quenchable for final processing
 		parent.AddComponent(/datum/component/anvil_quenchable, current_recipe, parent)
-		to_chat(user, span_notice("The [parent] is ready to be quenched in a water bin."))
+		to_chat(user, span_notice("[parent] is ready to be quenched in a water bin."))
 
 	// Clean up anvil
 	if(if_created)

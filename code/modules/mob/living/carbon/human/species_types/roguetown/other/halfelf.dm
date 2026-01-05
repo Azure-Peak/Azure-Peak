@@ -18,11 +18,13 @@
 	(+1 Constitution, +1 Perception)" 
 
 	skin_tone_wording = "Identity"
+	max_age = 250
+
 	default_color = "FFFFFF"
 	species_traits = list(EYECOLOR,HAIR,FACEHAIR,LIPS,STUBBLE,OLDGREY)
 	inherent_traits = list(TRAIT_NOMOBSWAP)
 	default_features = MANDATORY_FEATURE_LIST
-	use_skintones = 1
+	use_skintones = TRUE
 	possible_ages = ALL_AGES_LIST
 	disliked_food = NONE
 	liked_food = NONE
@@ -60,6 +62,7 @@
 		)
 	customizers = list(
 		/datum/customizer/organ/eyes/humanoid,
+		/datum/customizer/organ/ears/elf,
 		/datum/customizer/bodypart_feature/hair/head/humanoid,
 		/datum/customizer/bodypart_feature/hair/facial/humanoid,
 		/datum/customizer/bodypart_feature/accessory,

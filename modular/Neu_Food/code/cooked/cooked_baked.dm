@@ -53,7 +53,7 @@
 	tastes = list("bread" = 1)
 	slice_batch = FALSE
 	slice_sound = TRUE
-	rotprocess = SHELFLIFE_EXTREME	
+	rotprocess = SHELFLIFE_EXTREME
 
 /obj/item/reagent_containers/food/snacks/rogue/bread/update_icon()
 	if(slices_num)
@@ -136,6 +136,7 @@
 	rotprocess = null
 
 /obj/item/reagent_containers/food/snacks/rogue/breadslice/toast/attackby(obj/item/I, mob/user, params)
+	var/found_table = locate(/obj/structure/table) in (loc)
 	update_cooktime(user)
 	if(istype(I, /obj/item/reagent_containers/food/snacks/butterslice))
 		playsound(get_turf(user), 'sound/foley/dropsound/food_drop.ogg', 50, TRUE, -1)
@@ -151,6 +152,13 @@
 			user.put_in_hands(sammich)
 			qdel(I)
 			qdel(src)
+	if(istype(I, /obj/item/reagent_containers/food/snacks/rogue/friedegg/sausagebacon))
+		if(isturf(loc)&& (found_table))
+			playsound(get_turf(user), 'sound/foley/dropsound/gen_drop.ogg', 30, TRUE, -1)
+			if(do_after(user,short_cooktime, target = src))
+				new /obj/item/reagent_containers/food/snacks/rogue/friedegg/hammerhold(loc)
+				qdel(I)
+				qdel(src)
 	else
 		return ..()
 
@@ -184,7 +192,7 @@
 	bitesize = 4
 	faretype = FARE_NEUTRAL
 	rotprocess = SHELFLIFE_DECENT
-	eat_effect = /datum/status_effect/buff/foodbuff
+	eat_effect = /datum/status_effect/buff/snackbuff
 
 /obj/item/reagent_containers/food/snacks/rogue/sandwich/salami
 	tastes = list("salumoi" = 1,"bread" = 1)
@@ -232,7 +240,7 @@
 	desc = "Portable, quaint, and entirely consumable."
 	icon = 'modular/Neu_Food/icons/cooked/cooked_baked.dmi'
 	icon_state = "bun"
-	list_reagents = list(/datum/reagent/consumable/nutriment = SNACK_DECENT)
+	list_reagents = list(/datum/reagent/consumable/nutriment = SMALLDOUGH_NUTRITION)
 	faretype = FARE_POOR
 	w_class = WEIGHT_CLASS_NORMAL
 	tastes = list("bread" = 1)
@@ -267,6 +275,7 @@
 	desc = "A piece of raw dough with the shape of Astrata's cross pressed onto it. In Her Light."
 	icon = 'modular/Neu_Food/icons/cooked/cooked_baked.dmi'
 	icon_state = "crossbun_raw"
+	list_reagents = list(/datum/reagent/consumable/nutriment = SMALLDOUGH_NUTRITION)
 	cooked_type = /obj/item/reagent_containers/food/snacks/rogue/crossbun
 
 // Psydon variant
@@ -296,7 +305,7 @@
 	desc = "How long will you endure the temptation to eat it?"
 	icon = 'modular/Neu_Food/icons/cooked/cooked_baked.dmi'
 	icon_state = "psycrossbun"
-	list_reagents = list(/datum/reagent/consumable/nutriment = SNACK_DECENT)
+	list_reagents = list(/datum/reagent/consumable/nutriment = SMALLDOUGH_NUTRITION)
 	faretype = FARE_NEUTRAL // Having nobles vomit from eating holy buns is not a good idea
 	w_class = WEIGHT_CLASS_NORMAL
 	tastes = list("bread" = 1)
@@ -327,6 +336,7 @@
 	foodtype = GRAIN | DAIRY
 	bitesize = 3
 	rotprocess = SHELFLIFE_DECENT
+	eat_effect = /datum/status_effect/buff/greatsnackbuff
 
 /obj/item/reagent_containers/food/snacks/rogue/frybread
 	name = "frybread"
@@ -334,11 +344,11 @@
 	icon = 'modular/Neu_Food/icons/cooked/cooked_baked.dmi'
 	icon_state = "frybread"
 	faretype = FARE_FINE
-	list_reagents = list(/datum/reagent/consumable/nutriment = SNACK_DECENT)
+	list_reagents = list(/datum/reagent/consumable/nutriment = BUTTERDOUGHSLICE_NUTRITION)
 	tastes = list("crispy bread with a soft inside" = 1)
 	w_class = WEIGHT_CLASS_NORMAL
 	bitesize = 4
-	eat_effect = /datum/status_effect/buff/foodbuff
+	eat_effect = /datum/status_effect/buff/snackbuff
 
 /*	.................   Raisin bread   ................... */
 /obj/item/reagent_containers/food/snacks/rogue/rbread_half
@@ -393,7 +403,6 @@
 	slice_batch = FALSE
 	slice_sound = TRUE
 	rotprocess = SHELFLIFE_EXTREME
-	eat_effect = /datum/status_effect/buff/foodbuff
 
 /obj/item/reagent_containers/food/snacks/rogue/raisinbread/update_icon()
 	if(slices_num)
@@ -427,7 +436,6 @@
 	tastes = list("spelt" = 1,"dried fruit" = 1)
 	bitesize = 3
 	rotprocess = SHELFLIFE_LONG
-	eat_effect = /datum/status_effect/buff/foodbuff
 	dropshrink = 0.8
 
 /obj/item/reagent_containers/food/snacks/rogue/bun_grenz
@@ -441,7 +449,7 @@
 	faretype = FARE_NEUTRAL
 	warming = 5 MINUTES
 	rotprocess = SHELFLIFE_LONG
-	eat_effect = /datum/status_effect/buff/foodbuff
+	eat_effect = /datum/status_effect/buff/greatsnackbuff
 
 /*	.............   Raston   ................ */
 /obj/item/reagent_containers/food/snacks/rogue/bun_raston
@@ -450,6 +458,7 @@
 	icon = 'modular/Neu_Food/icons/cooked/cooked_baked.dmi'
 	icon_state = "raston"
 	name = "raston"
+	faretype = FARE_NEUTRAL
 	desc = "A slice of cheese melted between two lightly-toasted buns."
 	rotprocess = SHELFLIFE_EXTREME
-	eat_effect = /datum/status_effect/buff/foodbuff
+	eat_effect = /datum/status_effect/buff/greatsnackbuff

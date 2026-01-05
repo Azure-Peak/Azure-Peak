@@ -13,7 +13,7 @@
 		if(move_after(user,40, target = src)) //ROGTODO make this based on farming skill and speed
 			user.visible_message(span_notice("[user] shucks [src]."), \
 								span_notice("I shuck [src]."))
-			testing("1")
+
 			var/obj/item/G = new foodextracted(get_turf(src))
 			user.put_in_active_hand(G)
 			new /obj/item/natural/fibers(get_turf(src))
@@ -26,7 +26,7 @@
 		qdel(src)
 
 /obj/item/natural/chaff/attackby(obj/item/I, mob/living/user, params)
-	testing("attackb")
+
 	if(istype(I, /obj/item/rogueweapon/pitchfork))
 		if(user.used_intent.type == DUMP_INTENT)
 			var/obj/item/rogueweapon/pitchfork/W = I

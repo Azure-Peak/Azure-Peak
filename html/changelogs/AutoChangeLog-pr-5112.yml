@@ -1,0 +1,5 @@
+author: "Geevies"
+delete-after: True
+changes:
+  - bugfix: "Fixes tights sleeves layering over boots."
+  - bugfix: "Fixes sleeves not re-rendering when ripped off."

@@ -103,10 +103,10 @@
 
 /obj/item/natural/saddle/attack(mob/living/target, mob/living/carbon/human/user)
 	if(istype(target, /mob/living/simple_animal))
-		testing("yea1")
+
 		var/mob/living/simple_animal/S = target
 		if(S.can_saddle && !S.ssaddle)
-			testing("yea2")
+
 			if(!target.has_buckled_mobs())
 				user.visible_message(span_warning("[user] tries to saddle [target]..."))
 				if(do_after(user, 40, target = target))

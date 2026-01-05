@@ -20,7 +20,7 @@
 
 /datum/outfit/job/roguetown/vagabond/excommunicated/pre_equip(mob/living/carbon/human/H)
 	..()
-	H.mind.current.faction += "[H.name]_faction"
+	H.mind?.current.faction += "[H.name]_faction"
 	if(should_wear_femme_clothes(H))
 		armor = /obj/item/clothing/suit/roguetown/shirt/rags
 	else if(should_wear_masc_clothes(H))

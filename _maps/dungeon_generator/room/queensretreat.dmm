@@ -22,7 +22,7 @@
 	},
 /area/rogue/under/tomb/indoors/royal)
 "ax" = (
-/obj/machinery/light/rogue/wallfire/candle/blue/r,
+/obj/machinery/light/rogue/candle/blue/r,
 /turf/open/water/bath,
 /area/rogue/under/tomb/indoors/royal)
 "bh" = (
@@ -73,7 +73,7 @@
 /turf/open/floor/rogue/tile/checker,
 /area/rogue/under/tomb/indoors/royal)
 "bO" = (
-/obj/machinery/light/rogue/wallfire/candle/weak/l,
+/obj/machinery/light/rogue/candle/weak/l,
 /obj/structure/fluff/railing/border{
 	dir = 6
 	},
@@ -106,7 +106,7 @@
 /turf/open/floor/carpet/red,
 /area/rogue/under/tomb/indoors/royal)
 "dh" = (
-/obj/machinery/light/rogue/wallfire/candle/weak{
+/obj/machinery/light/rogue/candle/weak{
 	pixel_y = -32
 	},
 /obj/item/clothing/head/peaceflower,
@@ -125,7 +125,7 @@
 /area/rogue/under/tomb)
 "dI" = (
 /obj/effect/decal/cleanable/food/mess,
-/obj/machinery/light/rogue/wallfire/candle/weak/r,
+/obj/machinery/light/rogue/candle/weak/r,
 /turf/open/floor/rogue/tile,
 /area/rogue/under/tomb/indoors/royal)
 "dQ" = (
@@ -133,13 +133,13 @@
 /turf/open/floor/rogue/dirt/road,
 /area/rogue/under/tomb/wilds)
 "dW" = (
-/obj/machinery/light/rogue/wallfire/candle/weak/r,
+/obj/machinery/light/rogue/candle/weak/r,
 /turf/open/floor/rogue/carpet/lord/right{
 	dir = 1
 	},
 /area/rogue/under/tomb/indoors/royal)
 "ed" = (
-/obj/machinery/light/rogue/wallfire/candle/weak/l,
+/obj/machinery/light/rogue/candle/weak/l,
 /turf/open/floor/rogue/ruinedwood/spiral,
 /area/rogue/under/tomb/indoors/royal)
 "es" = (
@@ -198,7 +198,7 @@
 /turf/open/floor/rogue/dirt,
 /area/rogue/under/tomb)
 "hw" = (
-/obj/machinery/light/rogue/wallfire/candle/weak/l,
+/obj/machinery/light/rogue/candle/weak/l,
 /turf/open/floor/rogue/cobble/mossy,
 /area/rogue/under/tomb/wilds)
 "hx" = (
@@ -248,7 +248,7 @@
 /turf/open/floor/rogue/tile/bath,
 /area/rogue/under/tomb/indoors/royal)
 "iX" = (
-/obj/machinery/light/rogue/wallfire/candle/weak/l,
+/obj/machinery/light/rogue/candle/weak/l,
 /obj/structure/fluff/railing/border{
 	dir = 5
 	},
@@ -316,12 +316,12 @@
 /turf/open/floor/rogue/tile/bath,
 /area/rogue/under/tomb/indoors/royal)
 "mb" = (
-/obj/machinery/light/rogue/wallfire/candle/blue/l,
+/obj/machinery/light/rogue/candle/blue/l,
 /turf/open/floor/rogue/tile/bath,
 /area/rogue/under/tomb/indoors/royal)
 "mc" = (
 /obj/structure/table/wood,
-/obj/machinery/light/rogue/wallfire/candle/weak/r,
+/obj/machinery/light/rogue/candle/weak/r,
 /obj/effect/spawner/lootdrop/general_loot_mid,
 /turf/open/floor/rogue/ruinedwood/spiral,
 /area/rogue/under/tomb/indoors/royal)
@@ -359,7 +359,7 @@
 /turf/open/floor/rogue/grass,
 /area/rogue/under/tomb/wilds)
 "nW" = (
-/obj/machinery/light/rogue/wallfire/candle/weak/l,
+/obj/machinery/light/rogue/candle/weak/l,
 /turf/open/floor/rogue/tile/checker,
 /area/rogue/under/tomb/indoors/royal)
 "ok" = (
@@ -416,7 +416,7 @@
 /turf/open/floor/rogue/grass,
 /area/rogue/under/tomb/wilds)
 "qr" = (
-/obj/machinery/light/rogue/wallfire{
+/obj/machinery/light/rogue{
 	pixel_x = -32
 	},
 /obj/structure/table/wood{
@@ -454,14 +454,14 @@
 /turf/open/floor/carpet/red,
 /area/rogue/under/tomb/indoors/royal)
 "qX" = (
-/obj/machinery/light/rogue/wallfire/candle/weak{
+/obj/machinery/light/rogue/candle/weak{
 	pixel_y = -32
 	},
 /obj/structure/fluff/clock,
 /turf/open/floor/rogue/ruinedwood/spiral,
 /area/rogue/under/tomb/indoors/royal)
 "rE" = (
-/obj/machinery/light/rogue/wallfire/candle/weak/l,
+/obj/machinery/light/rogue/candle/weak/l,
 /turf/open/floor/rogue/tile,
 /area/rogue/under/tomb/indoors/royal)
 "so" = (
@@ -470,7 +470,7 @@
 /turf/open/floor/rogue/grass,
 /area/rogue/under/tomb/wilds)
 "sL" = (
-/obj/machinery/light/rogue/wallfire/candle/weak{
+/obj/machinery/light/rogue/candle/weak{
 	pixel_y = -32
 	},
 /obj/item/rogue/instrument/harp,
@@ -547,7 +547,7 @@
 /turf/open/floor/rogue/dirt,
 /area/rogue/under/tomb/wilds)
 "uP" = (
-/obj/machinery/light/rogue/wallfire/candle/weak{
+/obj/machinery/light/rogue/candle/weak{
 	pixel_y = -32
 	},
 /obj/structure/table/wood,
@@ -557,7 +557,7 @@
 /area/rogue/under/tomb/indoors/royal)
 "vK" = (
 /obj/structure/bookcase/random,
-/obj/machinery/light/rogue/wallfire/candle/weak,
+/obj/machinery/light/rogue/candle/weak,
 /turf/open/floor/rogue/ruinedwood/spiral,
 /area/rogue/under/tomb/indoors/royal)
 "wt" = (
@@ -640,7 +640,7 @@
 /turf/open/floor/rogue/cobblerock,
 /area/rogue/under/tomb/wilds)
 "BG" = (
-/obj/machinery/light/rogue/wallfire/candle/weak,
+/obj/machinery/light/rogue/candle/weak,
 /turf/open/floor/rogue/hexstone,
 /area/rogue/under/tomb/indoors/royal)
 "BM" = (
@@ -701,7 +701,7 @@
 /turf/open/floor/rogue/grass,
 /area/rogue/under/tomb/wilds)
 "DU" = (
-/obj/machinery/light/rogue/wallfire/candle/weak{
+/obj/machinery/light/rogue/candle/weak{
 	pixel_y = -32
 	},
 /turf/open/floor/rogue/ruinedwood/spiral,
@@ -771,10 +771,10 @@
 /turf/open/floor/rogue/carpet/lord/center,
 /area/rogue/under/tomb/indoors/royal)
 "GY" = (
-/obj/machinery/light/rogue/wallfire/candle/weak/l,
+/obj/machinery/light/rogue/candle/weak/l,
 /turf/open/floor/rogue/carpet/lord/left{
 	dir = 1
-	},skeleton/npc/hardspread
+	},
 /area/rogue/under/tomb/indoors/royal)
 "He" = (
 /obj/structure/closet/crate/chest/crate,
@@ -799,7 +799,7 @@
 /area/rogue/under/tomb/indoors/royal)
 "HT" = (
 /obj/structure/closet/crate/chest/crate,
-/obj/machinery/light/rogue/wallfire/candle/weak/r,
+/obj/machinery/light/rogue/candle/weak/r,
 /turf/open/floor/rogue/hexstone,
 /area/rogue/under/tomb/indoors/royal)
 "HU" = (
@@ -840,13 +840,13 @@
 /turf/open/floor/rogue/ruinedwood/spiral,
 /area/rogue/under/tomb/indoors/royal)
 "Ja" = (
-/obj/machinery/light/rogue/wallfire/candle/weak,
+/obj/machinery/light/rogue/candle/weak,
 /turf/open/floor/rogue/carpet/lord/right{
 	dir = 1
 	},
 /area/rogue/under/tomb/indoors/royal)
 "Jv" = (
-/obj/machinery/light/rogue/wallfire/candle/weak/r,
+/obj/machinery/light/rogue/candle/weak/r,
 /turf/open/floor/rogue/carpet/lord/left{
 	dir = 1
 	},
@@ -957,7 +957,7 @@
 /turf/open/floor/rogue/grass,
 /area/rogue/under/tomb/wilds)
 "Pd" = (
-/obj/machinery/light/rogue/wallfire/candle/weak/r,
+/obj/machinery/light/rogue/candle/weak/r,
 /obj/structure/closet/crate/roguecloset/crafted,
 /obj/item/clothing/neck/roguetown/psicross/noc,
 /obj/item/book/rogue/noc,
@@ -1007,7 +1007,7 @@
 /turf/open/floor/rogue/dirt,
 /area/rogue/under/tomb/wilds)
 "Qt" = (
-/obj/machinery/light/rogue/wallfire/candle/weak,
+/obj/machinery/light/rogue/candle/weak,
 /turf/open/floor/carpet/red,
 /area/rogue/under/tomb/indoors/royal)
 "QB" = (
@@ -1111,7 +1111,7 @@
 /obj/item/millstone{
 	pixel_y = 7
 	},
-/obj/machinery/light/rogue/wallfire/candle/weak,
+/obj/machinery/light/rogue/candle/weak,
 /obj/structure/table/wood{
 	icon_state = "longtable"
 	},
@@ -1175,7 +1175,7 @@
 "XK" = (
 /turf/open/floor/rogue/grass,
 /area/rogue/under/tomb/wilds)
-"XL" = (skeleton/npc/hardspread
+"XL" = (
 /obj/item/roguebin/water,
 /turf/open/floor/rogue/tile,
 /area/rogue/under/tomb/indoors/royal)
@@ -1203,7 +1203,7 @@
 /obj/structure/rack/rogue/shelf/biggest,
 /obj/item/rogueweapon/huntingknife/cleaver,
 /obj/item/kitchen/rollingpin,
-/obj/machinery/light/rogue/wallfire/candle/weak,
+/obj/machinery/light/rogue/candle/weak,
 /turf/open/floor/rogue/tile,
 /area/rogue/under/tomb/indoors/royal)
 "ZN" = (

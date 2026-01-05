@@ -226,10 +226,12 @@
 
 	var/contribution = input(user, "How much vitae to contribute? (Max: [max_contribution])", "CONTRIBUTION") as num|null
 
-	if(!contribution || contribution <= 0)
+	//setting this to 1, since you don't want fractions below 1
+	if(!contribution || contribution < 1)
 		return
 
-	contribution = clamp(contribution, 1, max_contribution)
+	//setting this to 0, when it was at 1 it was just giving free vitae if it was less than 1 but a 
+	contribution = clamp(contribution, 0, max_contribution)
 
 	if(user.bloodpool < contribution)
 		to_chat(user, span_warning("I do not have enough vitae."))
@@ -242,7 +244,6 @@
 		contributors += user
 
 	to_chat(user, span_greentext("Contributed [contribution] vitae to [display_name]. ([paid_amount]/[total_cost])"))
-	make_tracker_effects(user.loc, bloodpool, 1, "soul", 3, /obj/effect/tracker/drain, 1)
 
 	if(paid_amount >= total_cost)
 		bloodpool.complete_project(type)
@@ -359,22 +360,24 @@
 
 /datum/vampire_project/armor_crafting
 	display_name = "Wicked Plate"
-	description = "Craft a complete set of vampiric armor from crystallized blood."
+	description = "Summon a complete set of vampiric plate armor from crystallized blood. Let not steel, silver, nor salvation inhibit the Lord's plan."
 	total_cost = 5000
 	completion_sound = 'sound/misc/vcraft.ogg'
 
 /datum/vampire_project/armor_crafting/on_complete(atom/movable/creation_point)
 	new /obj/item/clothing/under/roguetown/platelegs/vampire (bloodpool.loc)
-	new /obj/item/clothing/suit/roguetown/armor/chainmail/iron/vampire (bloodpool.loc)
+	new /obj/item/clothing/suit/roguetown/armor/chainmail/hauberk/paalloy/vampire (bloodpool.loc)
 	new /obj/item/clothing/suit/roguetown/armor/plate/vampire (bloodpool.loc)
 	new /obj/item/clothing/shoes/roguetown/boots/armor/vampire (bloodpool.loc)
 	new /obj/item/clothing/head/roguetown/helmet/heavy/vampire (bloodpool.loc)
 	new /obj/item/clothing/gloves/roguetown/chain/vampire (bloodpool.loc)
-	creation_point.visible_message(span_notice("A complete set of armor materializes from the crimson crucible."))
+	new /obj/item/clothing/wrists/roguetown/bracers/paalloy/vampire (bloodpool.loc)
+	new /obj/item/clothing/neck/roguetown/gorget/paalloy/vampire (bloodpool.loc)
+	creation_point.visible_message(span_notice("A complete set of plate armor materializes from the crimson crucible."))
 
 /datum/vampire_project/sunsteal
 	display_name = "Steal the Sun"
-	description = "The scorching gaze of the Sun-Tyrant shall hamper our plans no more. This project can only be initiated by your lorde."
+	description = "The scorching gaze of the Sun-Tyrant shall hamper our plans no more. This project can only be initiated by your Lorde."
 	total_cost = SUN_STEAL_COST
 	completion_sound = 'sound/misc/vcraft.ogg'
 	can_be_initiated_by = INITIATE_LORDE
@@ -388,7 +391,7 @@
 
 /datum/vampire_project/servant/proc/summon(type, atom/feedback_atom)
 	feedback_atom.visible_message("The crucible stirs, summoning a servant from the realms beyond...")
-	var/list/candidates = pollGhostCandidates("Do you want to play as a Vampire's [type]?", ROLE_VAMPIRE_SUMMON, null, null, 10 SECONDS, POLL_IGNORE_VL_SERVANT)
+	var/list/candidates = pollGhostCandidates("Do you want to play as a Vampire's [type]?", ROLE_VAMPIRE_SUMMON, null, null, 30 SECONDS, POLL_IGNORE_VL_SERVANT)
 	if(!LAZYLEN(candidates))
 		feedback_atom.visible_message("But alas, the depths are hollow...")
 		return FALSE
@@ -462,3 +465,6 @@
 #undef SERVANT_COST
 #undef SERVANT_T2_COST
 #undef SERVANT_T3_COST
+
+#undef INITIATE_LORDE
+#undef INITIATE_ANYONE

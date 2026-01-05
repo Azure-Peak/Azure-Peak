@@ -254,7 +254,7 @@
 	bitesize = 3
 	list_reagents = list(/datum/reagent/consumable/nutriment = SNACK_DECENT)
 	w_class = WEIGHT_CLASS_TINY
-	faretype = FARE_FINE
+	faretype = FARE_POOR
 	tastes = list("cheese" = 1)
 	eat_effect = null
 	rotprocess = SHELFLIFE_LONG
@@ -281,11 +281,22 @@
 	w_class = WEIGHT_CLASS_TINY
 	tastes = list("cheese" = 1)
 	eat_effect = null
-	faretype = FARE_FINE
+	faretype = FARE_POOR
 	rotprocess = SHELFLIFE_SHORT
 	slices_num = null
 	slice_path = null
 	become_rot_type = null
+	baitpenalty = 10
+	isbait = TRUE
+	fishingMods=list(
+		"commonFishingMod" = 0.8,
+		"rareFishingMod" = 0,
+		"treasureFishingMod" = 0,
+		"trashFishingMod" = 1,
+		"dangerFishingMod" = 0.5,
+		"ceruleanFishingMod" = 0, // 1 on cerulean aril, 0 on everything else
+		"cheeseFishingMod" = 1 // Just for the funny gimmick of a higher chance for rats and rouses.
+	)
 
 /obj/item/reagent_containers/food/snacks/rogue/cheddarslice/aged
 	name = "slice of aged cheese"
@@ -294,7 +305,15 @@
 	faretype = FARE_FINE
 	become_rot_type = null
 	rotprocess = null
-
+	fishingMods=list(
+		"commonFishingMod" = 1,
+		"rareFishingMod" = 0.5,
+		"treasureFishingMod" = 0,
+		"trashFishingMod" = 1,
+		"dangerFishingMod" = 0.5,
+		"ceruleanFishingMod" = 0, // 1 on cerulean aril, 0 on everything else
+		"cheeseFishingMod" = 1.5 // Just for the funny gimmick of a higher chance for rats and rouses.
+	)
 
 // -------------- FROSTING -----------------
 /obj/item/reagent_containers/food/snacks/rogue/frosting
@@ -308,3 +327,4 @@
 	tastes = list("sugary frosting"=1)
 	faretype = FARE_NEUTRAL
 	foodtype = DAIRY | SUGAR
+	eat_effect = /datum/status_effect/buff/sweet

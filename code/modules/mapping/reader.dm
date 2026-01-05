@@ -363,7 +363,7 @@
 
 	#ifdef TESTING
 	if(turfsSkipped)
-		testing("Skipped loading [turfsSkipped] default turfs")
+
 	#endif
 
 	return sucessful
@@ -890,7 +890,7 @@ GLOBAL_LIST_EMPTY(map_model_default)
 		.[model_key] = list(members, members_attributes)
 	return .
 
-/datum/parsed_map/proc/build_coordinate(list/model, turf/crds, no_changeturf as num, placeOnTop as num, new_z)
+/datum/parsed_map/proc/build_coordinate(list/model, turf/crds, no_changeturf as num, place_on_top as num, new_z)
 	// If we don't have a turf, nothing we will do next will actually acomplish anything, so just go back
 	// Note, this would actually drop area vvs in the tile, but like, why tho
 	if(!crds)
@@ -948,7 +948,7 @@ GLOBAL_LIST_EMPTY(map_model_default)
 			world.preloader_setup(members_attributes[index], members[index])
 
 		// Note: we make the assertion that the last path WILL be a turf. if it isn't, this will fail.
-		if(placeOnTop)
+		if(place_on_top)
 			instance = crds.PlaceOnTop(null, members[index], CHANGETURF_DEFER_CHANGE | (no_changeturf ? CHANGETURF_SKIP : NONE))
 		else if(no_changeturf)
 			instance = create_atom(members[index], crds)//first preloader pass

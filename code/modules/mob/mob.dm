@@ -186,6 +186,8 @@ GLOBAL_VAR_INIT(mobids, 1)
 		return
 	if(!islist(ignored_mobs))
 		ignored_mobs = list(ignored_mobs)
+	if(!isnum(vision_distance))
+		vision_distance = DEFAULT_MESSAGE_RANGE
 	var/list/hearers = get_hearers_in_view(vision_distance, src) //caches the hearers and then removes ignored mobs.
 	hearers -= ignored_mobs
 	if(self_message)
@@ -326,9 +328,9 @@ GLOBAL_VAR_INIT(mobids, 1)
 	var/obj/item/W = get_active_held_item()
 
 	if(istype(W))
-		testing("clothes1")
+
 		if(equip_to_slot_if_possible(W, slot,0,0,0))
-			testing("clothes2")
+
 			return 1
 
 	if(!W)
@@ -503,6 +505,13 @@ GLOBAL_VAR_INIT(mobids, 1)
 
 	var/list/result = A.examine(src)
 	if(result)
+		var/list/mechanics_result = A.get_mechanics_examine(src)
+		if(length(mechanics_result))
+			var/mechanics_result_str = "<details><summary>Mechanics</summary>"
+			for(var/line in mechanics_result)
+				mechanics_result_str += " - " + line + "\n"
+			mechanics_result_str += "</details>"
+			result += mechanics_result_str
 		to_chat(src, usr.client.prefs.no_examine_blocks ? result.Join("\n") : examine_block(result.Join("\n")))
 	SEND_SIGNAL(src, COMSIG_MOB_EXAMINATE, A)
 
@@ -822,8 +831,6 @@ GLOBAL_VAR_INIT(mobids, 1)
 				if(A.invisibility > see_invisible)
 					continue
 				if(overrides.len && (A in overrides))
-					continue
-				if(A.IsObscured())
 					continue
 				statpanel(listed_turf.name, null, A)
 
@@ -1273,7 +1280,7 @@ GLOBAL_VAR_INIT(mobids, 1)
 /mob/verb/open_language_menu()
 	set name = "Open Language Menu"
 	set category = "IC"
-	set hidden = 1
+	set hidden = 0
 
 	var/datum/language_holder/H = get_language_holder()
 	H.open_language_menu(usr)
@@ -1371,3 +1378,5 @@ GLOBAL_VAR_INIT(mobids, 1)
 
 	clear_important_client_contents()
 	canon_client = null
+
+#undef MOB_FACE_DIRECTION_DELAY

@@ -1,21 +1,8 @@
-var/global/list/colorlist = list(
-	"PURPLE"="#8747b1", 	//RED AND BLACK
-	"RED"="#8b2323", 		//	 I DRESS
-	"BLACK"="#2b292e", 	//	  EAGLE
-	"BROWN"="#61462c", 	// ON MY CHEST
-	"GREEN"="#264d26", 	//IT'S GOOD TO BE
-	"BLUE"="#173266", 		// AN ALBANIAN
-	"YELLOW"="#ffcd43", 	// KEEP MY HEAD
-	"TEAL"="#249589", 		//	 UP HIGH
-	"AZURE"="#007fff", 	// FOR THE FLAG
-	"WHITE"="#ffffff",		//	  I DIE
-	"ORANGE"="#df8405",	//I'M PROUD TO BE
-	"MAGENTA"="#962e5c"	// AN ALBANIAN
-	)
-
 var/global/list/pridelist = list(
-	"RAINBOW" = "#fcfcfc"
+	"Rainbow" = "#fcfcfc"
 )
+
+var/list/used_colors
 
 // DYE BIN
 
@@ -38,42 +25,11 @@ var/global/list/pridelist = list(
 			/obj/item/legwears,
 			/obj/item/undies
 			)
-	var/list/used_colors
-	var/list/extra_colors = list(
-		"Baby Puke" = "#b5b004",
-        "Black" = "#414143",
-        "Chalk White" = "#f4ecde",
-        "Chestnut" = "#613613",
-        "Cream" = "#fffdd0",
-        "Dark Grey" = "#505050",
-        "Dirt" = "#7c6d5c",
-        "Dunked in Water" = "#bbbbbb",
-        "Gold" = "#f9a602",
-        "Green" = "#428138",
-        "Light Grey" = "#999999",
-        "Mage Blue" = "#4756d8",
-        "Mage Green" = "#759259",
-        "Mage Grey" = "#6c6c6c",
-        "Mage Red" = "#b8252c",
-        "Mage Yellow" = "#c1b144",
-        "Maroon" = "#550000",
-        "Olive" = "#98bf64",
-        "Orange" = "#bd6606",
-        "Orchil" = "#66023C",
-        "Peasant Brown" = "#685542",
-        "Periwinkle Blue" = "#8f99fb",
-		"Red" = "#a32121",
-		"Red Ochre" = "#913831",
-        "Russet" = "#7f461b",
-        "Woad Blue" = "#597fb9",
-        "Yellow Ochre" = "#cb9d06",
-        "Yellow Weld" = "#f4c430",
-        "Yarrow" = "#f0cb76"
-		)
 
 /obj/machinery/gear_painter/Initialize()
 	..()
-	used_colors = colorlist + extra_colors
+	used_colors += COLOR_MAP
+	used_colors += pridelist
 
 /obj/machinery/gear_painter/Destroy()
 	if(inserted)
@@ -102,6 +58,22 @@ var/global/list/pridelist = list(
 /obj/machinery/gear_painter/attack_hand(mob/living/user)
 	interact(user)
 
+/obj/machinery/gear_painter/proc/pick_dye(mob/user, current_color, prompt_title)
+	if(alert(user, "Input Choice", prompt_title, "Color Wheel", "Color Preset") == "Color Wheel")
+		var/c = sanitize_hexcolor(color_pick_sanitized(user, "Choose your dye:", "Dyes", current_color), 6, TRUE)
+		return (c == "#000000") ? "#FFFFFF" : c
+
+	var/list/colors_to_pick = list()
+	if(GLOB.lordprimary)
+		colors_to_pick["Primary Keep Color"] = GLOB.lordprimary
+	if(GLOB.lordsecondary)
+		colors_to_pick["Secondary Keep Color"] = GLOB.lordsecondary
+	colors_to_pick += used_colors.Copy()
+	var/picked = input(user, "Choose your dye:", "Dyes", null) as null|anything in colors_to_pick
+	if(!picked)
+		return null
+	return colors_to_pick[picked]
+
 /obj/machinery/gear_painter/interact(mob/user)
 	if(!is_operational())
 		return ..()
@@ -127,7 +99,7 @@ var/global/list/pridelist = list(
 		dat += "Detail Color: <font color='[activecolor_detail]'>&#10070;</font>"
 		dat += "<A href='?src=\ref[src];paint_detail=1'>Apply new color</A> | "
 		dat += "<A href='?src=\ref[src];clear_detail=1'>Remove paintjob</A><BR><BR>"
-			
+
 	if(inserted_item.altdetail_color)
 		dat += "<A href='?src=\ref[src];select_altdetail=1'>Select new tertiary color.</A><BR>"
 		dat += "Alt. Detail Color: <font color='[activecolor_altdetail]'>&#10070;</font>"
@@ -137,6 +109,9 @@ var/global/list/pridelist = list(
 	dat += "<A href='?src=\ref[src];eject=1'>Eject item.</A><BR><BR>"
 	menu.set_content("<html>[dat.Join("")]</html>")
 	menu.open()
+
+/obj/machinery/gear_painter/ui_interact(mob/user, datum/tgui/ui)
+	interact(user)
 
 /obj/machinery/gear_painter/Topic(href, href_list)
 	. = ..()
@@ -150,42 +125,21 @@ var/global/list/pridelist = list(
 		return
 
 	if(href_list["select"])
-		var/choice
-		if(alert(usr, "Input Choice", "Primary Dye", "Color Wheel", "Color Preset") != "Color Wheel")
-			choice = input(usr, "Choose your dye:", "Dyes", null) as null|anything in used_colors
-			if(!choice)
-				return
-			activecolor = used_colors[choice]
-		else
-			activecolor = sanitize_hexcolor(color_pick_sanitized(usr, "Choose your dye:", "Dyes", choice ? choice : activecolor_detail), 6, TRUE)
-			if(activecolor == "#000000")
-				activecolor = "#FFFFFF"
+		var/c = pick_dye(usr, activecolor, "Primary Dye")
+		if(!c) return
+		activecolor = c
 		updateUsrDialog()
 
 	if(href_list["select_detail"])
-		var/choice
-		if(alert(usr, "Input Choice", "Secondary Dye", "Color Wheel", "Color Preset") != "Color Wheel")
-			choice = input(usr, "Choose your dye:", "Dyes", null) as anything in used_colors|null
-			if(!choice)
-				return
-			activecolor_detail = used_colors[choice]
-		else
-			activecolor_detail = sanitize_hexcolor(color_pick_sanitized(usr, "Choose your dye:", "Dyes", choice ? choice : activecolor_detail), 6, TRUE)
-			if(activecolor == "#000000")
-				activecolor = "#FFFFFF"
+		var/c = pick_dye(usr, activecolor_detail, "Secondary Dye")
+		if(!c) return
+		activecolor_detail = c
 		updateUsrDialog()
 
 	if(href_list["select_altdetail"])
-		var/choice
-		if(alert(usr, "Input Choice", "Tertiary Dye", "Color Wheel", "Color Preset") != "Color Wheel")
-			choice = input(usr, "Choose your dye:", "Dyes", null) as anything in used_colors|null
-			if(!choice)
-				return
-			activecolor_altdetail = used_colors[choice]
-		else
-			activecolor_altdetail = sanitize_hexcolor(color_pick_sanitized(usr, "Choose your dye:", "Dyes", choice ? choice : activecolor_detail), 6, TRUE)
-			if(activecolor == "#000000")
-				activecolor = "#FFFFFF"
+		var/c = pick_dye(usr, activecolor_altdetail, "Tertiary Dye")
+		if(!c) return
+		activecolor_altdetail = c
 		updateUsrDialog()
 
 	if(href_list["paint"])
@@ -201,8 +155,6 @@ var/global/list/pridelist = list(
 		var/obj/item/inserted_item = inserted
 		inserted_item.detail_color = activecolor_detail
 		inserted_item.update_icon()
-		if(inserted_item in GLOB.lordcolor) //Prevent a latejoining duke from changing this color
-			GLOB.lordcolor -= inserted_item
 		playsound(src, "bubbles", 50, 1)
 		updateUsrDialog()
 
@@ -284,15 +236,26 @@ var/global/list/pridelist = list(
 /obj/item/dye_brush/attack_self(mob/user)
 	..()
 
-	var/hexdye
 	if(dye)
 		to_chat(user, span_warning("[src] is already carrying <font color=[dye]>dye</font>. I need to wash it."))
 		return
 
-	hexdye = sanitize_hexcolor(color_pick_sanitized(usr, "Choose your dye:", "Dyes", null), 6, TRUE)
-	if (hexdye == "#000000")
-		return
-	dye = hexdye
+	var/choice_mode = alert(user, "Input Choice", "Brush Dye", "Color Wheel", "Color Preset")
+	if(choice_mode == "Color Preset")
+		var/list/presets = COLOR_MAP
+		presets += pridelist
+
+		var/picked = input(user, "Choose your dye:", "Dyes", null) as null|anything in presets
+		if(!picked)
+			return
+
+		dye = presets[picked]
+	else
+		var/hexdye = sanitize_hexcolor(color_pick_sanitized(user, "Choose your dye:", "Dyes", dye), 6, TRUE)
+		if(hexdye == "#000000")
+			return
+		dye = hexdye
+
 	update_icon()
 
 /obj/item/dye_brush/attack_turf(turf/T, mob/living/user)

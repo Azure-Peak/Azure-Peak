@@ -7,12 +7,14 @@
 
 /obj/structure/stairs
 	name = "stairs"
+	desc = "You use these to go up or down! One of the more defining inventions of our time."
 	icon = 'icons/obj/stairs.dmi'
 	icon_state = "stairs"
 	anchored = TRUE
 	layer = 5
 	nomouseover = TRUE
 	plane = FLOOR_PLANE
+	pass_flags = LETPASSTHROW
 
 /obj/structure/stairs/Initialize(mapload)
 	. = ..()
@@ -27,7 +29,6 @@
 		return
 
 	if(user_walk_into_target_loc(leaving, get_dir(src, new_location)))
-		leaving.Bump(src)
 		return COMPONENT_ATOM_BLOCK_EXIT
 
 /// From a cardinal direction, returns the resulting turf we'll end up at if we're uncrossing the stairs. Used for pathfinding, mostly.
@@ -142,3 +143,7 @@
 		L.start_pulling(pulling, supress_message = TRUE)
 		if(was_pulled_buckled) // Assume this was a fireman carry since piggybacking is not a thing
 			L.buckle_mob(pulling, TRUE, TRUE, 90, 0, 0)
+
+#undef STAIR_TERMINATOR_AUTOMATIC
+#undef STAIR_TERMINATOR_NO
+#undef STAIR_TERMINATOR_YES

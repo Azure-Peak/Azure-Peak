@@ -25,6 +25,8 @@
 	var/datum/parent
 	// Whether this recipe will be hidden from recipe books
 	var/hides_from_books = FALSE
+	// Whether this recipe bypasses the no-dupe-smeltresult test
+	var/bypass_dupe_test = FALSE
 
 /datum/anvil_recipe/New(datum/P, using_blade = FALSE, ...)
 	. = ..()
@@ -82,13 +84,6 @@
 				for(var/zone in inherentList)
 					html += "<b><font color = '#000833'>[capitalize(zone)]</b></font> | "
 			html += "<br>"
-		if(C.prevent_crits)
-			if(length(C.prevent_crits))
-				html += "\n<b>PREVENTS CRITS:</b>"
-				for(var/X in C.prevent_crits)
-					if(X == BCLASS_PICK)	//BCLASS_PICK is named "stab", and "stabbing" is its own damage class. Prevents confusion.
-						X = "pick"
-					html += ("\n<b>[capitalize(X)]</b><br>")
 		html += "INTEGRITY: [bookarmor.max_integrity]<br>"
 		if(bookarmor.armor_class == ARMOR_CLASS_HEAVY)
 			html += "<b>AC: </b>HEAVY<br>"

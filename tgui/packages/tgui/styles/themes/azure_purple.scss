@@ -47,6 +47,17 @@
     --button-background-default: #552d70;
     --button-background-selected: #8b5cb8;
   }
+  .Button--color--transparent {
+    --button-background-hover: #552d70;
+    --button-background-active: #552d70;
+    --button-background-disabled: transparent;
+  }
+
+  .Button--color--transparent.Button--disabled {
+    --button-color: #655670;
+  }
+
+  --color-border: #552d70;
 
   .input-button {
     &__submit, &__cancel {

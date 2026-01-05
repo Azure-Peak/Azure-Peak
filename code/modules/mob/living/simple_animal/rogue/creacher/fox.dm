@@ -18,17 +18,17 @@
 	botched_butcher_results = list(/obj/item/reagent_containers/food/snacks/rogue/meat/steak = 1, /obj/item/alch/viscera = 1, /obj/item/natural/bone = 3)
 	butcher_results = list(/obj/item/reagent_containers/food/snacks/rogue/meat/steak = 2,
 						/obj/item/natural/hide = 1,
-						/obj/item/alch/sinew = 2, 
-						/obj/item/alch/bone = 1, 
+						/obj/item/alch/sinew = 2,
+						/obj/item/alch/bone = 1,
 						/obj/item/alch/viscera = 1,
-						/obj/item/natural/fur/fox = 1, 
+						/obj/item/natural/fur/fox = 1,
 						/obj/item/natural/bone = 4)
 	perfect_butcher_results = list(/obj/item/reagent_containers/food/snacks/rogue/meat/steak = 3,
 						/obj/item/natural/hide = 2,
-						/obj/item/alch/sinew = 2, 
-						/obj/item/alch/bone = 1, 
+						/obj/item/alch/sinew = 2,
+						/obj/item/alch/bone = 1,
 						/obj/item/alch/viscera = 1,
-						/obj/item/natural/fur/fox = 2, 
+						/obj/item/natural/fur/fox = 2,
 						/obj/item/natural/bone = 4,
 						/obj/item/natural/head/fox = 1)
 	faction = list("wolfs", "zombie")
@@ -44,10 +44,10 @@
 	retreat_distance = 0
 	minimum_distance = 0
 	milkies = FALSE
-	food_type = list(/obj/item/reagent_containers/food/snacks, 
-					//obj/item/bodypart, 
-					//obj/item/organ, 
-					/obj/item/natural/bone, 
+	food_type = list(/obj/item/reagent_containers/food/snacks,
+					//obj/item/bodypart,
+					//obj/item/organ,
+					/obj/item/natural/bone,
 					/obj/item/natural/hide)
 	footstep_type = FOOTSTEP_MOB_BAREFOOT
 	pooptype = null
@@ -65,10 +65,16 @@
 	dodgetime = 30
 	aggressive = 1
 	eat_forever = TRUE
-	
+
+//new ai, old ai off
+	AIStatus = AI_OFF
+	can_have_ai = FALSE
+	ai_controller = /datum/ai_controller/volf
+	melee_cooldown = WOLF_ATTACK_SPEED
 
 /obj/effect/decal/remains/fox
 	name = "remains"
+	desc = "A wily fox perished here. Never is a beast spry or clever enough, in the end."
 	gender = PLURAL
 	icon_state = "bones"
 	icon = 'icons/roguetown/mob/monster/fox.dmi'
@@ -87,16 +93,22 @@
 			return pick('sound/vo/mobs/vw/bark (1).ogg','sound/vo/mobs/vw/bark (2).ogg','sound/vo/mobs/vw/bark (3).ogg','sound/vo/mobs/vw/bark (4).ogg','sound/vo/mobs/vw/bark (5).ogg','sound/vo/mobs/vw/bark (6).ogg','sound/vo/mobs/vw/bark (7).ogg')
 
 /mob/living/simple_animal/hostile/retaliate/rogue/fox/taunted(mob/user)
-	emote("aggro")
-	Retaliate()
-	GiveTarget(user)
-	return
+	if(aggressive == FALSE)
+		return
+	else
+		emote("aggro")
+		Retaliate()
+		GiveTarget(user)
+		return
 
 /mob/living/simple_animal/hostile/retaliate/rogue/fox/Life()
 	..()
-	if(pulledby)
-		Retaliate()
-		GiveTarget(pulledby)
+	if(aggressive == FALSE)
+		return
+	else
+		if(pulledby)
+			Retaliate()
+			GiveTarget(pulledby)
 
 
 /mob/living/simple_animal/hostile/retaliate/rogue/fox/simple_limb_hit(zone)
@@ -140,3 +152,23 @@
 		if(BODY_ZONE_L_ARM)
 			return "foreleg"
 	return ..()
+
+/mob/living/simple_animal/hostile/retaliate/rogue/fox/guildpet
+	name = "Mimi the Fox"
+	desc = "An adorable creechur adopted by the Guild of Craft as their mascot."
+	density = 0 // You can walk through them
+	aggressive = FALSE
+	ai_controller = /datum/ai_controller/generic
+
+/mob/living/simple_animal/hostile/retaliate/rogue/fox/guildpet/get_sound(input)
+	switch(input)
+		if("aggro")
+			return pick('sound/vo/mobs/vw/aggro (1).ogg','sound/vo/mobs/vw/aggro (2).ogg')
+		if("pain")
+			return pick('sound/vo/mobs/vw/pain (1).ogg','sound/vo/mobs/vw/pain (2).ogg','sound/vo/mobs/vw/pain (3).ogg')
+		if("death")
+			return pick('sound/vo/mobs/vw/death (1).ogg','sound/vo/mobs/vw/death (2).ogg','sound/vo/mobs/vw/death (3).ogg','sound/vo/mobs/vw/death (4).ogg','sound/vo/mobs/vw/death (5).ogg')
+		if("idle")
+			return pick('sound/vo/mobs/venard/fox1.ogg','sound/vo/mobs/venard/fox2.ogg','sound/vo/mobs/venard/fox3.ogg','sound/vo/mobs/venard/fox4.ogg','sound/vo/mobs/venard/fox5.ogg','sound/vo/mobs/venard/fox6.ogg','sound/vo/mobs/venard/fox7.ogg','sound/vo/mobs/venard/fox8.ogg','sound/vo/mobs/venard/fox9.ogg','sound/vo/mobs/venard/fox10.ogg','sound/vo/mobs/venard/fox11.ogg','sound/vo/mobs/venard/fox12.ogg','sound/vo/mobs/venard/fox13.ogg')
+		if("cidle")
+			return pick('sound/vo/mobs/vw/bark (1).ogg','sound/vo/mobs/vw/bark (2).ogg','sound/vo/mobs/vw/bark (3).ogg','sound/vo/mobs/vw/bark (4).ogg','sound/vo/mobs/vw/bark (5).ogg','sound/vo/mobs/vw/bark (6).ogg','sound/vo/mobs/vw/bark (7).ogg')

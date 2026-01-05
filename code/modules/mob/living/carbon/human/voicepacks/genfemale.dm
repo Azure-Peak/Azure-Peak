@@ -97,6 +97,8 @@
 				used = list('sound/vo/female/gen/se/sex (1).ogg','sound/vo/female/gen/se/sex (2).ogg','sound/vo/female/gen/se/sex (3).ogg','sound/vo/female/gen/se/sex (4).ogg','sound/vo/female/gen/se/sex (5).ogg','sound/vo/female/gen/se/sex (6).ogg','sound/vo/female/gen/se/sex (7).ogg','sound/vo/female/gen/se/sex (8).ogg')
 			if("meow")
 				used = list('sound/vo/mobs/cat/cat_meow1.ogg', 'sound/vo/mobs/cat/cat_meow2.ogg', 'sound/vo/mobs/cat/cat_meow3.ogg', 'sound/vo/mobs/cat/cat_meow4.ogg')
+			if("mrrp")
+				used = list('sound/vo/mobs/cat/mrrp.ogg')
 			if("caw")
 				used = list('sound/vo/mobs/bird/CROW_01.ogg', 'sound/vo/mobs/bird/CROW_03.ogg',)
 			if("peep")
@@ -123,10 +125,16 @@
 				used = list('sound/vo/mobs/hyena/cackle.ogg')
 			if("whine")
 				used = list('sound/vo/mobs/vw/whine.ogg')
+			if("fwhine")
+				used = list('sound/vo/mobs/venard/fox1.ogg','sound/vo/mobs/venard/fox2.ogg','sound/vo/mobs/venard/fox3.ogg','sound/vo/mobs/venard/fox4.ogg','sound/vo/mobs/venard/fox5.ogg','sound/vo/mobs/venard/fox6.ogg','sound/vo/mobs/venard/fox7.ogg','sound/vo/mobs/venard/fox8.ogg','sound/vo/mobs/venard/fox9.ogg','sound/vo/mobs/venard/fox10.ogg','sound/vo/mobs/venard/fox11.ogg','sound/vo/mobs/venard/fox12.ogg','sound/vo/mobs/venard/fox13.ogg')
+			if("psnort")
+				used = list('sound/vo/mobs/dog/pugsnort.ogg')
 			if("roar")
 				used = list('sound/vo/mobs/cat/roar1.ogg', 'sound/vo/mobs/cat/roar2.ogg', 'sound/vo/mobs/cat/roar3.ogg', 'sound/vo/mobs/cat/roar4.ogg')
 			if("howl")
 				used = list('sound/vo/mobs/wwolf/ehowl1.ogg', 'sound/vo/mobs/wwolf/ehowl2.ogg', 'sound/vo/mobs/wwolf/ehowl3.ogg', 'sound/vo/mobs/wwolf/ehowl4.ogg', 'sound/vo/mobs/wwolf/ehowl5.ogg')
+			if("prbt")
+				used = list('sound/vo/mobs/shark/prbt.ogg')
 			if("trill")
 				used = list('sound/vo/mobs/cat/trill.ogg')
 			if("purr")
@@ -147,5 +155,7 @@
 				used = 'sound/vo/female/gen/strain.ogg'
 			if("yip")
 				used = list('sound/vo/yip.ogg', 'sound/vo/yip2.ogg', 'sound/vo/yip3.ogg')
+			if("oink")
+				used = list('modular/Creechers/sound/pig1.ogg', 'modular/Creechers/sound/pig2.ogg')
 
 	return used

@@ -52,12 +52,15 @@ GLOBAL_LIST_EMPTY(prayers)
 	for(var/trait in mob_traits)
 		REMOVE_TRAIT(pious, trait, "[type]")
 
+/datum/patron/proc/post_equip(mob/living/pious)
+	return
+
 /datum/patron/proc/on_lesser_heal(
-	mob/living/user, 
-	mob/living/target, 
-	message_out, 
-	message_self, 
-	conditional_buff, 
+	mob/living/user,
+	mob/living/target,
+	message_out,
+	message_self,
+	conditional_buff,
 	situational_bonus,
 	is_inhumen
 	)

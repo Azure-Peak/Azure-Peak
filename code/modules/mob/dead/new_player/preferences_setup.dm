@@ -57,7 +57,7 @@
 		previewJob.equip(mannequin, TRUE, preference_source = parent)
 
 	if(preview_subclass && !jobOnly)
-		testing("previewjob")
+
 		mannequin.job = previewJob.title
 		mannequin.patron = selected_patron
 		preview_subclass.equipme(mannequin, dummy = TRUE)

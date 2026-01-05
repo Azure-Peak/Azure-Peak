@@ -35,12 +35,22 @@
 		to_chat(user, span_warning("Not even magic can mend this item!"))
 		revert_cast()
 		return
-	if(I.obj_integrity >= I.max_integrity && I.body_parts_covered_dynamic == I.body_parts_covered)
+	if(I.obj_integrity >= I.max_integrity && I.body_parts_covered_dynamic == I.body_parts_covered && !I.peel_count)
 		to_chat(user, span_info("[I] appears to be in perfect condition."))
 		revert_cast()
 		return
 
-	int_bonus = (user.STAINT * 0.01)
+	user.visible_message(
+		span_warning("[user] begins to concentrate on [I]!"),
+		span_notice("I begin to concentrate on [I]..")
+	)
+	if(!do_after(user, 4 SECONDS, TRUE, I, TRUE))
+		to_chat(user, span_warning("My concentration breaks! I could not repair [I]."))
+		revert_cast()
+		return
+
+	repair_percent = initial(repair_percent)
+	int_bonus = CLAMP((user.STAINT * 0.01), 0.01, 0.9)
 	repair_percent += int_bonus
 	repair_percent *= I.max_integrity
 
@@ -51,9 +61,13 @@
 	if(I.obj_integrity >= I.max_integrity)
 		if(I.obj_broken)
 			I.obj_fix()
-		if(I.body_parts_covered_dynamic != I.body_parts_covered)
-			I.repair_coverage()
-			to_chat(user, span_info("[I]'s shorn layers mend together."))
+		if(I.peel_count)
+			I.peel_count--
+			to_chat(user, span_info("[I]'s shorn layers mend together. ([I.peel_count])."))
+		else
+			if(I.body_parts_covered_dynamic != I.body_parts_covered)
+				I.repair_coverage()
+				to_chat(user, span_info("[I]'s shorn layers mend together, completely."))
 
 
 /obj/effect/proc_holder/spell/invoked/mending/lesser

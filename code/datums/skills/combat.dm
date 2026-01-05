@@ -4,6 +4,7 @@
 	desc = ""
 	dream_cost_base = 2
 	dream_cost_per_level = 1
+	max_skillbook_level = 3
 	color = "#ec994b"
 
 /datum/skill/combat/knives

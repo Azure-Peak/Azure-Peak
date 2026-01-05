@@ -52,6 +52,8 @@
 	/// Brainkill means that this head is considered dead and revival is impossible
 	var/brainkill = FALSE
 
+	two_stage_death = TRUE // players won't be decapitated instantly (they'll still die immediately, though)
+
 /obj/item/bodypart/head/examine()
 	. = ..()
 	if(sellprice)
@@ -225,6 +227,10 @@
 
 			if(eyes.eye_color)
 				eyes_overlay.color = "#" + eyes.eye_color
+
+/obj/item/bodypart/head/MiddleClick(mob/living/user, params)
+	to_chat(user, span_notice("You contemplate carving what little scraps of meat you can from \the [src], but then think better of it. Probably worth something to someone, somewhere..."))
+	return
 
 /obj/item/bodypart/head/monkey
 	icon = 'icons/mob/animal_parts.dmi'

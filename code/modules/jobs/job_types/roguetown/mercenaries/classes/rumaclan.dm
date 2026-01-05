@@ -36,7 +36,7 @@
 	belt = /obj/item/storage/belt/rogue/leather
 	beltr = /obj/item/rogueweapon/scabbard/sword/kazengun/steel
 	beltl = /obj/item/rogueweapon/sword/sabre/mulyeog/rumahench
-	shirt = /obj/item/clothing/suit/roguetown/shirt/undershirt/easttats
+	shirt = /obj/item/clothing/suit/roguetown/armor/regenerating/easttats
 	cloak = /obj/item/clothing/cloak/eastcloak1
 	armor = /obj/item/clothing/suit/roguetown/shirt/undershirt/eastshirt2
 	pants = /obj/item/clothing/under/roguetown/heavy_leather_pants/eastpants2
@@ -82,7 +82,7 @@
 	belt = /obj/item/storage/belt/rogue/leather
 	beltr = /obj/item/quiver/arrows
 	beltl = /obj/item/flashlight/flare/torch/lantern
-	shirt = /obj/item/clothing/suit/roguetown/shirt/undershirt/easttats
+	shirt = /obj/item/clothing/suit/roguetown/armor/regenerating/easttats
 	cloak = /obj/item/clothing/cloak/eastcloak1
 	armor = /obj/item/clothing/suit/roguetown/shirt/undershirt/eastshirt2
 	pants = /obj/item/clothing/under/roguetown/heavy_leather_pants/eastpants2

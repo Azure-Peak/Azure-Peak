@@ -492,14 +492,6 @@
 /turf/open/water/swamp,
 /area/rogue/under/tomb)
 "kg" = (
-/obj/item/natural/glass/shard{
-	pixel_x = -13;
-	pixel_y = -13
-	},
-/obj/item/natural/glass/shard{
-	pixel_x = 7;
-	pixel_y = 7
-	},
 /obj/item/natural/wood/plank{
 	pixel_y = 7;
 	pixel_x = -11
@@ -730,6 +722,7 @@
 "oN" = (
 /obj/effect/decal/cleanable/dirt/dust,
 /obj/structure/chair/wood,
+/obj/machinery/light/rogue/campfire/fireplace,
 /turf/open/floor/rogue/ruinedwood,
 /area/rogue/under/tomb/indoors)
 "oP" = (
@@ -1309,10 +1302,6 @@
 	},
 /turf/open/floor/rogue/ruinedwood,
 /area/rogue/under/tomb)
-"AC" = (
-/obj/machinery/light/rogue/wallfire,
-/turf/closed/wall/mineral/rogue/wooddark/end,
-/area/rogue/under/tomb/indoors)
 "AF" = (
 /obj/item/natural/stone{
 	pixel_x = -7;
@@ -1696,7 +1685,7 @@
 	pixel_y = 5;
 	pixel_x = -9
 	},
-/obj/machinery/light/rogue/wallfire/candle/blue/l,
+/obj/machinery/light/rogue/candle/blue/l,
 /turf/open/floor/rogue/wood/nosmooth,
 /area/rogue/under/tomb/indoors)
 "HW" = (
@@ -2628,7 +2617,7 @@ iO
 rV
 Xj
 Xj
-AC
+gC
 oN
 ti
 rV

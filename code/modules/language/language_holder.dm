@@ -1,5 +1,5 @@
 /datum/language_holder
-	var/list/languages = list(/datum/language/common)
+	var/list/languages = list()
 	var/list/shadow_languages = list()
 	var/only_speaks_language = null
 	var/selected_default_language = null
@@ -100,6 +100,9 @@
 		var/datum/mind/M = owner
 		if(M.current)
 			. = M.current
+
+/datum/language_holder/basic
+	languages = list(/datum/language/common)
 
 /datum/language_holder/alien
 	languages = list(/datum/language/xenocommon)

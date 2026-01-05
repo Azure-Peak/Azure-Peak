@@ -36,6 +36,7 @@
 	name = "silver bowl"
 	icon_state = "bowl_silver"
 	sellprice = 60
+	is_silver = TRUE
 
 /obj/item/reagent_containers/glass/bowl/update_icon()
 	cut_overlays()

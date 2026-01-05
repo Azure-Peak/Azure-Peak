@@ -1,20 +1,16 @@
 {
     "map_name": "Dun World",
     "map_path": "map_files/dun_world",
-    "map_file": [
-	"dun_world.dmm",
-	"vl_manor.dmm",
-	"bandit_fortress.dmm"
+    "map_file": ["dun_world.dmm"],
+	"traits": [{"Name": "Dun World", "Up": true}, {"Up": true, "Down": true}, {"Up": true, "Down": true}, {"Down": true}],
+	"other_z": [
+		"_maps/map_files/otherz/vl_manor.json",
+		"_maps/map_files/otherz/bandit_fortress.json"
 	],
-	"traits": [{"Name": "Dun World", "Up": true}, {"Up": true, "Down": true}, {"Up": true, "Down": true}, {"Down": true},
-	{"Name": "vl_manor", "Up": true}, {"Up": true, "Down": true}, {"Down": true},
-	{"Name": "bandit_fortress", "Up": true}, {"Up": true, "Down": true}, {"Down": true}],	
-	"minetype": null,
 	"space_empty_levels": 0,
 	"space_ruin_levels": 0,
 	"shuttles": {
 	    "cargo": "cargo_rogue",
-	    "ferry": "ferry_base",
 	    "whiteship": "whiteship_box",
 	    "emergency": "emergency_rogue"
     }

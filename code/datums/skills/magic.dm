@@ -4,6 +4,7 @@
 	desc = ""
 	randomable_dream_xp = FALSE
 	color = "#9f74d6"
+	max_skillbook_level = 3
 
 /datum/skill/magic/holy
 	name = "Miracles"
@@ -12,7 +13,7 @@
 
 /datum/skill/magic/blood
 	name = "Blood Sorcery"
-	desc = "Currently does not affect anything."
+	desc = "Affects Vampiric weapons, and Vampiric Disciplines."
 	expert_name = "Sorcerer"
 
 /datum/skill/magic/arcane
@@ -24,3 +25,4 @@
 	name = "Druidic Trickery"
 	desc = "Currently only increases the tier of animals you are allowed to transform into - capping out at Tier 3."
 	expert_name = "Druid"
+	max_skillbook_level = 0

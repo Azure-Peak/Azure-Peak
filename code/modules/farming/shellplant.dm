@@ -3,6 +3,8 @@
 	desc = "You shouldn't be seeing this."
 	icon = 'icons/roguetown/items/produce.dmi'
 	icon_state = ""
+	grid_height = 32
+	grid_width = 32
 	var/foodamt = 1 //how much food can be extracted
 	var/foodextracted = null //the food item to extract from the plant
 	var/seed = null
@@ -13,6 +15,8 @@
 	name = "pumpkin"
 	desc = "The thick pumpkin rind shields a surprisingly dense fleshy interior."
 	icon_state = "pumpkin"
+	grid_width = 64
+	grid_height = 32
 	w_class = WEIGHT_CLASS_NORMAL
 	foodamt = 6
 	foodextracted = /obj/item/reagent_containers/food/snacks/rogue/fruit/pumpkin_sliced
@@ -24,7 +28,7 @@
 	. = ..()
 	
 	if(open)
-		. += span_smallnotice("It is open and I could use a spoon to extract its flesh.\n")
+		. += span_smallnotice("It is open and I could use a spoon to extract its flesh.")
 		. += span_smallnotice("It has [foodamt] chunks remaining.")
 	else
 		. += span_smallnotice("I could cut it open to reach inside, chop it into slices or squash it for seeds.")
@@ -42,7 +46,7 @@
 		if(do_after(user, 0.5 SECONDS))
 			playsound(get_turf(user), 'modular/Neu_Food/sound/chopping_block.ogg', 60, TRUE, -1)
 			while(foodamt-- > 0)
-				new foodextracted(loc)
+				new foodextracted(get_turf(loc))
 			qdel(src)
 			return
 	if((user.used_intent.blade_class == BCLASS_BLUNT) && (!user.used_intent.noaa))
@@ -51,37 +55,37 @@
 			if(prob(5))
 				user.visible_message(span_warning("[user] fails to extract the seeds."))
 			else
-				new seed(loc)
+				new seed(get_turf(loc))
 				if(prob(90))
-					new seed(loc)
+					new seed(get_turf(loc))
 				if(prob(23))
-					new seed(loc)
+					new seed(get_turf(loc))
 				if(prob(6))
-					new seed(loc)
+					new seed(get_turf(loc))
 		qdel(src)
 		return
 	if(istype(I, /obj/item/kitchen/spoon) && open)
 		if(do_after(user, 0.5 SECONDS))
 			if(foodextracted)
-				new foodextracted(loc)
+				new foodextracted(get_turf(loc))
 				foodamt--
 				user.visible_message(span_notice("[user] carves out the [src]'s plant flesh."), \
 							span_notice("I carve out the [src]'s flesh."))
 			if(foodamt <= 0)
 				if(shell)
-					new shell(loc)
+					new shell(get_turf(loc))
 				if(seed)
 					playsound(src,'sound/items/seedextract.ogg', 100, FALSE)
 					if(prob(5))
 						user.visible_message(span_warning("[user] fails to extract the seeds."))
 					else
-						new seed(loc)
+						new seed(get_turf(loc))
 						if(prob(90))
-							new seed(loc)
+							new seed(get_turf(loc))
 						if(prob(23))
-							new seed(loc)
+							new seed(get_turf(loc))
 						if(prob(6))
-							new seed(loc)
+							new seed(get_turf(loc))
 				qdel(src)
 		return
 	return
@@ -91,6 +95,8 @@
 	desc = "The emptied shell of a pumpkin, without its flesh and seeds."
 	icon = 'icons/roguetown/items/produce.dmi'
 	icon_state = "pumpkinshell"
+	grid_width = 64
+	grid_height = 32
 	w_class = WEIGHT_CLASS_SMALL
 
 /obj/item/pumpkinshell/examine(mob/user)
@@ -145,7 +151,7 @@
 							span_notice("I begin carving a [P.name]."))
 			if(do_after(user, 2 SECONDS))
 				playsound(get_turf(user), 'modular/Neu_Food/sound/slicing.ogg', 60, TRUE, -1)
-				new P(loc)
+				new P(get_turf(loc))
 
 			ui.close()
 			qdel(src)

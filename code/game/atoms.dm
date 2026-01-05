@@ -322,12 +322,12 @@
 
 /// Can this atoms reagents be refilled
 /atom/proc/is_refillable()
-	testing("isrefill")
+
 	return reagents && (reagents.flags & REFILLABLE)
 
 /// Is this atom drainable of reagents
 /atom/proc/is_drainable()
-	testing("isdrain")
+
 	return reagents && (reagents.flags & DRAINABLE)
 
 /// Are you allowed to drop this atom
@@ -358,7 +358,8 @@
  * Default behaviour is to send the COMSIG_ATOM_BULLET_ACT and then call on_hit() on the projectile
  */
 /atom/proc/bullet_act(obj/projectile/P, def_zone)
-	SEND_SIGNAL(src, COMSIG_ATOM_BULLET_ACT, P, def_zone)
+	if(SEND_SIGNAL(src, COMSIG_ATOM_BULLET_ACT, P, def_zone) & COMPONENT_ATOM_BLOCK_BULLET)
+		return
 	. = P.on_hit(src, 0, def_zone)
 
 ///Return true if we're inside the passed in atom
@@ -431,7 +432,29 @@
 			else
 				. += span_danger("It's empty.")
 
+		//SNIFFING
+		if (user.zone_selected == BODY_ZONE_PRECISE_NOSE && get_dist(src, user) <= 1)
+			// if atom's path is item/reagent_containers/glass/carafe
+			var/is_closed = FALSE
+			if(istype(src, /obj/item/reagent_containers))
+				var/obj/item/reagent_containers/container = src
+				is_closed = !container.spillable
+			if(is_closed == FALSE && reagents.total_volume) // if the container is open, and there's liquids in there
+				user.visible_message(span_info("[user] takes a whiff of the [src]..."), span_info("I take a whiff of the [src]..."))
+				. += span_notice("I smell [src.reagents.generate_scent_message()].")
+				if (HAS_TRAIT(user, TRAIT_LEGENDARY_ALCHEMIST))
+					var/full_reagents = ""
+					for (var/datum/reagent/R in reagents.reagent_list)
+						if (R.volume > 0)
+							if (full_reagents)
+								full_reagents += ", "
+							full_reagents += "[lowertext(R.name)]"
+					. += span_notice("My expert nose lets me distinguish this liquid as [full_reagents].")
+
 	SEND_SIGNAL(src, COMSIG_PARENT_EXAMINE, user, .)
+
+/atom/proc/get_mechanics_examine(mob/user)
+	return list()
 
 //taking in the vanderline update on apperance, name and desc processes
 /atom/proc/vand_update_appearance(updates = ALL)
@@ -1235,3 +1258,28 @@
 /// If it is not found, returns null.
 /atom/proc/get_filter_index(name)
 	return filter_data?.Find(name)
+
+//Automatically turns based on nearby walls, destroys if not valid. 
+/atom/proc/auto_turn_destructive()
+	var/turf/closed/T = null
+	var/gotdir = 0
+	var/list/dir_list = list()
+	for(var/i = 1, i <= 8, i += i)
+		T = get_ranged_target_turf(src, i, 1)
+
+		if(istype(T))
+			//If someone knows a better way to do this, let me know. -Giacom
+			switch(i)
+				if(NORTH)
+					dir_list += NORTH
+				if(SOUTH)
+					dir_list += SOUTH
+				if(WEST)
+					dir_list += WEST
+				if(EAST)
+					dir_list += EAST
+			gotdir = dir
+	if(!gotdir || dir_list.len == 0)
+		qdel(src)
+	else
+		src.dir = pick(dir_list) //Random directions are fun :)

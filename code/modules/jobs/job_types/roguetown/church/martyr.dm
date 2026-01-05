@@ -24,13 +24,37 @@
 	var/death_time
 	var/last_time
 
-/datum/component/martyrweapon/Initialize()
+	var/list/active_intents = list()
+	var/list/active_intents_wielded = list()
+	var/list/inactive_intents = list()
+	var/list/inactive_intents_wielded = list()
+
+	var/active_safe_damage
+	var/active_safe_damage_wielded
+
+/datum/component/martyrweapon/Initialize(list/intents, list/intents_w, active_damage, active_damage_wielded)
 	if(!isitem(parent))
 		return COMPONENT_INCOMPATIBLE
+
+	if(length(intents))
+		active_intents = intents.Copy()
+	if(length(intents_w))
+		active_intents_wielded = intents_w.Copy()
+
+	if(active_damage)
+		active_safe_damage = active_damage
+	if(active_damage_wielded)
+		active_safe_damage_wielded = active_damage_wielded
+
 	RegisterSignal(parent, COMSIG_ITEM_EQUIPPED, PROC_REF(on_equip))
 	RegisterSignal(parent, COMSIG_ITEM_DROPPED, PROC_REF(on_drop))
 	RegisterSignal(parent, COMSIG_ITEM_AFTERATTACK, PROC_REF(item_afterattack))
 	RegisterSignal(parent, COMSIG_PARENT_EXAMINE, PROC_REF(on_examine))
+
+	var/obj/item/I = parent
+	inactive_intents = I.possible_item_intents.Copy()
+	inactive_intents_wielded = I.gripped_intents.Copy()
+
 	START_PROCESSING(SSdcs, src)
 
 /datum/component/martyrweapon/process()
@@ -71,11 +95,8 @@
 					deathprocess()
 				else
 					to_chat(current_holder, span_notice("You manage to endure it, this time."))
-		if(STATE_MARTYR)
-			C.freak_out()
-			deathprocess()
 
-		if(STATE_MARTYRULT)
+		if(STATE_MARTYR, STATE_MARTYRULT)
 			C.freak_out()
 			deathprocess()
 
@@ -150,10 +171,7 @@
 			switch(current_state)
 				if(STATE_SAFE)
 					return
-				if(STATE_MARTYR)
-					if(prob(ignite_chance))
-						mob_ignite(M)
-				if(STATE_MARTYRULT)
+				if(STATE_MARTYR, STATE_MARTYRULT)
 					if(prob(ignite_chance))
 						mob_ignite(M)
 		else
@@ -261,9 +279,11 @@
 		switch(state)
 			if(STATE_SAFE) //Lowered damage due to BURN damage type and SAFE activation
 				var/obj/item/I = parent
-				I.force = 20
-				I.force_wielded = 25
-				return		
+				if(active_safe_damage)
+					I.force = active_safe_damage
+				if(active_safe_damage_wielded)
+					I.force_wielded = active_safe_damage_wielded
+				return
 			if(STATE_MARTYR)
 				current_holder.STASTR += stat_bonus_martyr
 				//current_holder.STASPD += stat_bonus_martyr
@@ -273,23 +293,6 @@
 				current_holder.STAPER += stat_bonus_martyr
 				current_holder.STALUC += stat_bonus_martyr
 				H.energy_add(9999)
-			if(STATE_MARTYRULT)	//This is ONLY accessed during the last 30 seconds of the shorter variant.
-				current_holder.STASTR = 20
-				current_holder.STASPD = 20
-				current_holder.STACON = 20
-				current_holder.STAWIL = 20
-				current_holder.STAINT = 20
-				current_holder.STAPER = 20
-				current_holder.STALUC = 20
-				H.energy_add(9999)//Go get 'em, Martyrissimo, it's your last 30 seconds, it's a frag or be fragged world
-				H.adjust_skillrank(/datum/skill/combat/wrestling, 6, FALSE)
-				H.adjust_skillrank(/datum/skill/combat/swords, 6, FALSE)
-				H.adjust_skillrank(/datum/skill/combat/unarmed, 6, FALSE)
-				H.adjust_skillrank(/datum/skill/misc/athletics, 6, FALSE)
-				ADD_TRAIT(current_holder, TRAIT_INFINITE_STAMINA, TRAIT_GENERIC)
-				current_holder.visible_message(span_warning("[current_holder] rises up, empowered once more!"), span_warningbig("I rise again! I can feel my god flow through me!"))
-				flash_lightning(current_holder)
-				current_holder.revive(full_heal = TRUE, admin_revive = TRUE)
 
 //This is called regardless of the activated state (safe or not)
 /datum/component/martyrweapon/proc/deactivate()
@@ -298,8 +301,8 @@
 		REMOVE_TRAIT(parent, TRAIT_NODROP, TRAIT_GENERIC)	//The weapon can be moved by the Priest again (or used, I suppose)
 	is_active = FALSE
 	I.damtype = BRUTE
-	I.possible_item_intents = list(/datum/intent/sword/cut, /datum/intent/sword/thrust, /datum/intent/sword/strike)
-	I.gripped_intents = list(/datum/intent/sword/cut, /datum/intent/sword/thrust, /datum/intent/sword/strike, /datum/intent/sword/chop)
+	I.possible_item_intents = inactive_intents
+	I.gripped_intents = inactive_intents_wielded
 	current_holder.update_a_intents()
 	I.force = initial(I.force)
 	I.force_wielded = initial(I.force_wielded)
@@ -348,7 +351,7 @@
 		I.icon_state = initial(I.icon_state)
 		I.item_state = initial(I.item_state)
 		I.toggle_state = null
-	
+
 	current_holder.regenerate_icons()
 
 //This is called once all the checks are passed and the options are made by the player to commit.
@@ -363,8 +366,8 @@
 		flash_lightning(user)
 		var/obj/item/I = parent
 		I.damtype = BURN	//Changes weapon damage type to fire
-		I.possible_item_intents = list(/datum/intent/sword/cut/martyr, /datum/intent/sword/thrust/martyr, /datum/intent/sword/strike/martyr)
-		I.gripped_intents = list(/datum/intent/sword/cut/martyr, /datum/intent/sword/thrust/martyr, /datum/intent/sword/strike/martyr, /datum/intent/sword/chop/martyr)
+		I.possible_item_intents = active_intents
+		I.gripped_intents = active_intents_wielded
 		user.update_a_intents()
 		I.slot_flags = null	//Can't sheathe a burning sword
 
@@ -377,22 +380,48 @@
 			if(STATE_SAFE)
 				end_activation = world.time + safe_duration	//Only a duration and nothing else.
 				adjust_stats(current_state)	//Lowers the damage of the sword due to safe activation.
+				current_holder.energy = current_holder.max_energy
+				current_holder.stamina = 0
+				I.sharpness = I.max_blade_int
 			if(STATE_MARTYR)
 				end_activation = world.time + martyr_duration
 				I.max_integrity = 2000				//If you're committing, we repair the weapon and give it a boost so it lasts the whole fight
 				I.obj_integrity = I.max_integrity
+
+				I.max_blade_int = 9999
+				I.sharpness = I.max_blade_int
 				adjust_stats(current_state)	//Gives them extra stats.
+
+				current_holder.stamina = 0
+				current_holder.energy = current_holder.max_energy
+
+				current_holder.adjust_skillrank_down_to(/datum/skill/combat/wrestling, SKILL_LEVEL_NONE, TRUE)
 			if(STATE_MARTYRULT)
 				end_activation = world.time + ultimate_duration
 				I.max_integrity = 9999				//why not, they got 2 mins anyway
 				I.obj_integrity = I.max_integrity
-				current_holder.STASTR += stat_bonus_martyr
-				current_holder.STASPD += stat_bonus_martyr
-				current_holder.STACON += stat_bonus_martyr
-				current_holder.STAWIL += stat_bonus_martyr
-				current_holder.STAINT += stat_bonus_martyr
-				current_holder.STAPER += stat_bonus_martyr
-				current_holder.STALUC += stat_bonus_martyr
+
+				I.max_blade_int = 9999
+				I.sharpness = I.max_blade_int
+				
+				current_holder.adjust_skillrank(/datum/skill/misc/athletics, 6, FALSE)
+
+				current_holder.STASTR = 20
+				current_holder.STASPD = 20
+				current_holder.STACON = 20
+				current_holder.STAWIL = 20
+				current_holder.STAINT = 20
+				current_holder.STAPER = 20
+				current_holder.STALUC = 20
+
+				current_holder.energy = current_holder.max_energy
+				current_holder.stamina = 0
+
+				current_holder.adjust_skillrank_down_to(/datum/skill/combat/wrestling, SKILL_LEVEL_NONE, TRUE)
+				current_holder.adjust_skillrank(/datum/skill/combat/swords, 6, FALSE)
+				current_holder.adjust_skillrank(/datum/skill/combat/unarmed, 6, FALSE)
+
+				ADD_TRAIT(current_holder, TRAIT_INFINITE_STAMINA, TRAIT_GENERIC)
 			else
 				end_activation = world.time + safe_duration
 
@@ -439,21 +468,14 @@
 	total_positions = 1
 	spawn_positions = 1
 	display_order = JDO_MARTYR
-	
+
 	give_bank_account = TRUE
 
 	cmode_music = 'sound/music/combat_martyrsafe.ogg'
-	job_traits = list(
-		TRAIT_HEAVYARMOR,
-		TRAIT_STEELHEARTED,
-		TRAIT_SILVER_BLESSED,
-		TRAIT_EMPATH,
-		TRAIT_MEDICINE_EXPERT,
-		TRAIT_DUALWIELDER
-	)
+	job_traits = list(TRAIT_HEAVYARMOR, TRAIT_STEELHEARTED, TRAIT_SILVER_BLESSED, TRAIT_EMPATH, TRAIT_MEDICINE_EXPERT, TRAIT_DUALWIELDER, TRAIT_CLERGY, TRAIT_TEMPO)
 
 	//No undeath-adjacent virtues for a role that can sacrifice itself. The Ten like their sacrifices 'pure'. (I actually didn't want to code returning those virtue traits post-sword use)
-	//They get those traits during sword activation, anyway. 
+	//They get those traits during sword activation, anyway.
 	//Dual wielder is there to stand-in for ambidextrous in case they activate their sword in their off-hand.
 	virtue_restrictions = list(/datum/virtue/utility/noble, /datum/virtue/combat/rotcured, /datum/virtue/utility/deadened, /datum/virtue/utility/deathless, /datum/virtue/combat/dualwielder, /datum/virtue/heretic/zchurch_keyholder)
 
@@ -521,6 +543,9 @@
 		/obj/item/rogueweapon/scabbard/sheath = 1
 		)
 	H.dna.species.soundpack_m = new /datum/voicepack/male/knight()
+	H.AddComponent(/datum/component/wise_tree_alert)
+	if(H.mind)
+		SStreasury.give_money_account(ECONOMIC_UPPER_CLASS, H, "Church Funding.")
 
 
 /obj/item/rogueweapon/sword/long/martyr
@@ -536,7 +561,7 @@
 	name = "martyr sword"
 	desc = "A relic from the Holy See's own vaults. It simmers with godly energies, and will only yield to the hands of those who have taken the Oath."
 	max_blade_int = 200
-	max_integrity = 300
+	max_integrity = 9999
 	parrysound = "bladedmedium"
 	swingsound = BLADEWOOSH_LARGE
 	pickup_sound = 'sound/foley/equip/swordlarge2.ogg'
@@ -551,7 +576,7 @@
 	throwforce = 15
 	thrown_bclass = BCLASS_CUT
 	dropshrink = 1
-	smeltresult = /obj/item/ingot/gold
+	smeltresult = null
 	is_silver = TRUE
 	toggle_state = null
 	is_important = TRUE
@@ -582,7 +607,11 @@
 
 
 /obj/item/rogueweapon/sword/long/martyr/Initialize()
-	AddComponent(/datum/component/martyrweapon)
+	var/list/active_intents = list(/datum/intent/sword/cut/martyr, /datum/intent/sword/thrust/martyr, /datum/intent/sword/strike/martyr)
+	var/list/active_intents_wielded = list(/datum/intent/sword/cut/martyr, /datum/intent/sword/thrust/martyr, /datum/intent/sword/strike/martyr, /datum/intent/sword/chop/martyr)
+	var/safe_damage = 20
+	var/safe_damage_wielded = 25
+	AddComponent(/datum/component/martyrweapon, active_intents, active_intents_wielded, safe_damage, safe_damage_wielded)
 	..()
 
 /obj/item/rogueweapon/sword/long/martyr/attack_hand(mob/user)
@@ -594,7 +623,7 @@
 		else if (H.job in GLOB.church_positions)
 			to_chat(user, span_warning("You feel a jolt of holy energies just for a split second, and then the sword slips from your grasp! You are not devout enough."))
 			return FALSE
-		else if(istype(H.patron, /datum/patron/inhumen)) 
+		else if(istype(H.patron, /datum/patron/inhumen))
 			var/datum/component/martyrweapon/marty = GetComponent(/datum/component/martyrweapon)
 			to_chat(user, span_warning("YOU FOOL! IT IS ANATHEMA TO YOU! GET AWAY!"))
 			H.Stun(40)
@@ -624,10 +653,11 @@
 	. = ..()
 	if(tag)
 		switch(tag)
-			if("gen") return list("shrink" = 0.6,"sx" = -14,"sy" = -8,"nx" = 15,"ny" = -7,"wx" = -10,"wy" = -5,"ex" = 7,"ey" = -6,"northabove" = 0,"southabove" = 1,"eastabove" = 1,"westabove" = 0,"nturn" = -13,"sturn" = 110,"wturn" = -60,"eturn" = -30,"nflip" = 1,"sflip" = 1,"wflip" = 8,"eflip" = 1)
-			if("onback") return list("shrink" = 0.6,"sx" = -2,"sy" = 3,"nx" = 0,"ny" = 2,"wx" = 2,"wy" = 1,"ex" = 0,"ey" = 1,"nturn" = 0,"sturn" = 90,"wturn" = 70,"eturn" = 15,"nflip" = 1,"sflip" = 1,"wflip" = 1,"eflip" = 1,"northabove" = 1,"southabove" = 0,"eastabove" = 0,"westabove" = 0)
-			if("wielded") return list("shrink" = 0.7,"sx" = 6,"sy" = -2,"nx" = -4,"ny" = 2,"wx" = -8,"wy" = -1,"ex" = 7,"ey" = 0,"northabove" = 0,"southabove" = 1,"eastabove" = 1,"westabove" = 0,"nturn" = 15,"sturn" = -200,"wturn" = -160,"eturn" = -25,"nflip" = 8,"sflip" = 8,"wflip" = 0,"eflip" = 0)
-			if("onbelt") return list("shrink" = 0.6,"sx" = -2,"sy" = -5,"nx" = 0,"ny" = -5,"wx" = 0,"wy" = -5,"ex" = -3,"ey" = -5,"nturn" = 180,"sturn" = 180,"wturn" = 0,"eturn" = 90,"nflip" = 0,"sflip" = 0,"wflip" = 1,"eflip" = 1,"northabove" = 1,"southabove" = 1,"eastabove" = 1,"westabove" = 0)
+			if("gen") return list("shrink" = 0.5, "sx" = -14, "sy" = -8, "nx" = 15, "ny" = -7, "wx" = -10, "wy" = -5, "ex" = 7, "ey" = -6, "northabove" = 0, "southabove" = 1, "eastabove" = 1, "westabove" = 0, "nturn" = -13, "sturn" = 110, "wturn" = -60, "eturn" = -30, "nflip" = 1, "sflip" = 1, "wflip" = 8, "eflip" = 1)
+			if("wielded") return list("shrink" = 0.5,"sx" = 9,"sy" = -2,"nx" = -7,"ny" = 0,"wx" = -9,"wy" = -0.2,"ex" = 9,"ey" = -0.2,"northabove" = 0,"southabove" = 1,"eastabove" = 1,"westabove" = 0,"nturn" = 5,"sturn" = -190,"wturn" = -170,"eturn" = -10,"nflip" = 8,"sflip" = 8,"wflip" = 1,"eflip" = 0)
+			if("onback") return list("shrink" = 0.5, "sx" = -1, "sy" = 2, "nx" = 0, "ny" = 2, "wx" = 2, "wy" = 1, "ex" = 0, "ey" = 1, "nturn" = 0, "sturn" = 0, "wturn" = 70, "eturn" = 15, "nflip" = 1, "sflip" = 1, "wflip" = 1, "eflip" = 1, "northabove" = 1, "southabove" = 0, "eastabove" = 0, "westabove" = 0)
+			if("onbelt") return list("shrink" = 0.4, "sx" = -4, "sy" = -6, "nx" = 5, "ny" = -6, "wx" = 0, "wy" = -6, "ex" = -1, "ey" = -6, "nturn" = 100, "sturn" = 156, "wturn" = 90, "eturn" = 180, "nflip" = 0, "sflip" = 0, "wflip" = 0, "eflip" = 0, "northabove" = 0, "southabove" = 1, "eastabove" = 1, "westabove" = 0)
+			if("altgrip") return list("shrink" = 0.5,"sx" = 4,"sy" = 0,"nx" = -7,"ny" = 1,"wx" = -8,"wy" = 0,"ex" = 8,"ey" = -1,"northabove" = 0,"southabove" = 1,"eastabove" = 1,"westabove" = 0,"nturn" = -135,"sturn" = -35,"wturn" = 45,"eturn" = 145,"nflip" = 8,"sflip" = 8,"wflip" = 1,"eflip" = 0)
 
 /obj/item/clothing/cloak/martyr
 	name = "martyr cloak"
@@ -705,28 +735,9 @@
 	boobed = TRUE
 	slot_flags = ITEM_SLOT_ARMOR|ITEM_SLOT_CLOAK
 	flags_inv = HIDECROTCH|HIDEBOOB
-	var/overarmor = TRUE
+	storage = TRUE
 	sellprice = 300
 
-
-/obj/item/clothing/cloak/holysee/ComponentInitialize()
-	. = ..()
-	AddComponent(/datum/component/storage/concrete/roguetown/cloak)
-
-/obj/item/clothing/cloak/holysee/dropped(mob/living/carbon/human/user)
-	..()
-	var/datum/component/storage/STR = GetComponent(/datum/component/storage)
-	if(STR)
-		var/list/things = STR.contents()
-		for(var/obj/item/I in things)
-			STR.remove_from_storage(I, get_turf(src))
-
-/obj/item/clothing/cloak/holysee/MiddleClick(mob/user)
-	overarmor = !overarmor
-	to_chat(user, span_info("I [overarmor ? "wear the tabard over my armor" : "wear the tabard under my armor"]."))
-	if(overarmor)
-		alternate_worn_layer = TABARD_LAYER
-	else
-		alternate_worn_layer = UNDER_ARMOR_LAYER
-	user.update_inv_cloak()
-	user.update_inv_armor()
+#undef STATE_SAFE
+#undef STATE_MARTYR
+#undef STATE_MARTYRULT

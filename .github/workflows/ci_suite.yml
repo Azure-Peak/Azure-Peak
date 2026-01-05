@@ -9,83 +9,62 @@ on:
       - main
 
 env:
-  BYOND_MAJOR: 515
-  BYOND_MINOR: 1636
-  SPACEMAN_DMM_VERSION: suite-1.9
+  BYOND_MAJOR: 516
+  BYOND_MINOR: 1666
+  SPACEMAN_DMM_VERSION: suite-1.11
+
+concurrency: 
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
 
 jobs:
-  run-linters:
+  start_gate:
     if: ( !contains(github.event.head_commit.message, '[ci skip]') )
     name: Run Linters
     runs-on: ubuntu-22.04
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-      - name: Setup cache
-        uses: actions/cache@v4
-        with:
-          path: ~/SpacemanDMM
-          key: ${{ runner.os }}-spacemandmm-${{ hashFiles('dependencies.sh') }}
-          restore-keys: |
-            ${{ runner.os }}-spacemandmm-
-      - name: Restore Rust cache
-        uses: actions/cache@v4
-        with:
-          path: ~/.cargo
-          key: ${{ runner.os }}-rust-${{ hashFiles('tools/ci/ci_dependencies.sh')}}
-          restore-keys: |
-            ${{ runner.os }}-rust-
-      - name: Install Tools
-        run: |
-          pip3 install setuptools
-          bash tools/ci/install_spaceman_dmm.sh dreamchecker
-          bash tools/ci/install_ripgrep.sh
-          tools/bootstrap/python -c ''
-      - name: Run Linters
-        run: |
-          bash tools/ci/check_filedirs.sh roguetown.dme
-          bash tools/ci/check_changelogs.sh
-          find . -name "*.php" -print0 | xargs -0 -n1 php -l
-          # bash tools/ci/check_grep.sh # TODO: fix indentation etc
-          # tools/bootstrap/python tools/ci/validate_dme.py < roguetown.dme # TODO: fix unincluded files
-          tools/bootstrap/python -m dmi.test
-          tools/bootstrap/python -m mapmerge2.dmm_test
-          ~/dreamchecker > ${GITHUB_WORKSPACE}/output-annotations.txt 2>&1
-      - name: Annotate Lints
-        uses: yogstation13/DreamAnnotate@v2
-        if: always()
-        with:
-          outputFile: output-annotations.txt
-  build:
+      - name: Mandatory Empty Step
+        run: exit 0
+    
+  run_linters:
+    name: Run Linters
+    needs: start_gate
+    uses: ./.github/workflows/run_linters.yml
+
+  collect_data:
+    name: Collect data and setup caches for other tasks
+    needs: start_gate
+    uses: ./.github/workflows/collect_data.yml
+
+  compile_all_maps:
+    name: Compile Maps
+    needs: collect_data
+    uses: ./.github/workflows/compile_all_maps.yml
+    with:
+      max_required_byond_client: ${{ needs.collect_data.outputs.max_required_byond_client }}
+
+  setup_build_artifacts:
+    name: Setup build artifacts
+    needs: collect_data
+    uses: ./.github/workflows/setup_build_artifacts.yml
+    with:
+      build_versions: ${{ needs.collect_data.outputs.required_build_versions }}
+
+  run_all_tests:
+    name: Integration Tests
+    needs: [collect_data, setup_build_artifacts]
+    uses: ./.github/workflows/perform_regular_version_tests.yml
+    with:
+      maps: ${{ needs.collect_data.outputs.maps }}
+      max_required_byond_client: ${{ needs.collect_data.outputs.max_required_byond_client }}
+
+  completion_gate: # Serves as a non-moving target for branch rulesets
+    if: always() && !cancelled()
+    name: Completion Gate
+    needs: [compile_all_maps, run_all_tests, run_linters]
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
-      
-      - name: Restore BYOND cache
-        uses: actions/cache@v4
+      - name: Decide whether the needed jobs succeeded or failed
+        uses: re-actors/alls-green@release/v1
         with:
-          path: ~/BYOND
-          key: ${{ runner.os }}-BYOND-${{ env.BYOND_MAJOR }}-${{ env.BYOND_MINOR }}
-      
-      - name: Install BYOND
-        run: |
-          sudo apt-get update -qq
-          sudo apt-get install -y make gcc unzip
-          bash tools/ci/install_byond.sh
-
-      - name: Compile BYOND project
-        run: |
-          ls -h $HOME/
-          source $HOME/BYOND/byond/bin/byondsetup
-          tools/build/build.sh
-
-      - name: Check for errors
-        id: check-errors
-        run: |
-          if grep -q "error" *.log; then
-            echo "::error ::Compilation failed with errors."
-            exit 1
-          else
-            echo "Compilation succeeded without critical errors."
-          fi
+          jobs: ${{ toJSON(needs) }}

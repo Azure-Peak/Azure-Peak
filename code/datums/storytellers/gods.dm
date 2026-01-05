@@ -575,3 +575,7 @@
 	)
 
 	cost_variance = 15  // Keeps a balance between predictability and randomness
+
+#undef DIVINE_STORYTELLERS
+#undef INHUMEN_STORYTELLERS
+#undef STORYTELLERS_ALL

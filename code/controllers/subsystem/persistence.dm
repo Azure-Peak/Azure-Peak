@@ -194,3 +194,5 @@ SUBSYSTEM_DEF(persistence)
 
 	fdel(json_file)
 	WRITE_FILE(json_file, json_encode(file_data))
+
+#undef FILE_ANTAG_REP

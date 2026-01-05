@@ -255,10 +255,10 @@
 	held_items[/obj/item/clothing/mask/cigarette/rollie/cannabis] = list("PRICE" = rand(12,18),"NAME" = "swampweed zig")
 	held_items[/obj/item/clothing/mask/cigarette/rollie/nicotine] = list("PRICE" = rand(5,10),"NAME" = "zig")
 	// azure peak addition start - lipstick
-	held_items[/obj/item/azure_lipstick] = list("PRICE" = rand(33,50),"NAME" = "red lipstick")
-	held_items[/obj/item/azure_lipstick/jade] = list("PRICE" = rand(33,50),"NAME" = "jade lipstick")
-	held_items[/obj/item/azure_lipstick/purple] = list("PRICE" = rand(33,50),"NAME" = "purple lipstick")
-	held_items[/obj/item/azure_lipstick/black] = list("PRICE" = rand(33,50),"NAME" = "black lipstick")
+	held_items[/obj/item/lipstick] = list("PRICE" = rand(33,50),"NAME" = "red lipstick")
+	held_items[/obj/item/lipstick/jade] = list("PRICE" = rand(33,50),"NAME" = "jade lipstick")
+	held_items[/obj/item/lipstick/purple] = list("PRICE" = rand(33,50),"NAME" = "purple lipstick")
+	held_items[/obj/item/lipstick/black] = list("PRICE" = rand(33,50),"NAME" = "black lipstick")
 	//azure peak addition - zigbox
 	held_items[/obj/item/quiver/zigs] = list("PRICE" = rand(5,10), "NAME" = "zigbox, empty")
 	held_items[/obj/item/reagent_containers/glass/bottle/alchemical/fermented_crab] = list("PRICE" = rand(50,70), "NAME" = "fermented crab")

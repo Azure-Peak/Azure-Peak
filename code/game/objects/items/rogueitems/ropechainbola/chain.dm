@@ -8,7 +8,7 @@
 
 /obj/item/rope/chain
 	name = "chain"
-	desc = "A heavy iron chain."
+	desc = "A heavy iron chain. May be used to shackle someone's arms or legs."
 	icon = 'icons/roguetown/items/misc.dmi'
 	icon_state = "chain"
 	slot_flags = ITEM_SLOT_HIP|ITEM_SLOT_WRISTS
@@ -23,6 +23,8 @@
 	firefuel = null
 	smeltresult = /obj/item/ingot/iron
 	drop_sound = 'sound/foley/dropsound/chain_drop.ogg'
+	pickup_sound = 'sound/foley/equip/equip_armor_chain.ogg'
+	equip_sound = 'sound/foley/equip/equip_armor_chain.ogg'
 	sewrepair = FALSE
 	anvilrepair = /datum/skill/craft/blacksmithing
 	resistance_flags = FIRE_PROOF

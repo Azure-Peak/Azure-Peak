@@ -1,7 +1,7 @@
 /datum/component/riding
 	var/last_vehicle_move = 0 //used for move delays
 	var/last_move_diagonal = FALSE
-	var/vehicle_move_delay = 2 //tick delay between movements, lower = faster, higher = slower
+	var/vehicle_move_delay = 4 //tick delay between movements, lower = faster, higher = slower
 	var/keytype
 
 	var/slowed = FALSE
@@ -19,6 +19,10 @@
 	var/ride_check_ridden_incapacitated = FALSE
 
 	var/del_on_unbuckle_all = FALSE
+
+/datum/component/riding/no_ocean/Initialize()//no copy paste
+	. = ..()
+	forbid_turf_typecache = typecacheof(/turf/open/water/ocean/deep)
 
 /datum/component/riding/Initialize()
 	if(!ismovableatom(parent))

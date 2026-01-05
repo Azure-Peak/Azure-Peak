@@ -1,15 +1,3 @@
-#define BLESSING_NONE 0
-#define BLESSING_PSYDONIAN 1
-#define BLESSING_TENNITE 2
-/// Tennite blessings are 30% worse. Cope.
-#define TENNITE_BLESSING_DIVISOR 0.7
-
-#define SILVER_PSYDONIAN (1<<0)
-#define SILVER_TENNITE (1<<1)
-
-#define CURSEITEM_INT_DAMAGE_PSY_MULTIPLIER 1.3
-#define CURSEITEM_INT_DAMAGE_TEN_MULTIPLIER 1.1
-
 /datum/component/silverbless
 	var/is_blessed
 	var/pre_blessed
@@ -72,7 +60,10 @@
 	if(isitem(parent))
 		var/obj/item/I = parent
 		playsound(I, 'sound/magic/holyshield.ogg', 100)
-		I.visible_message(span_notice("[I] glistens with power as dust of COMET SYON lands upon it!"))
+		if(silver_type == SILVER_PSYDONIAN) //Courtesy of @UntoldTactics, from PR #1354 on Scarlet Reach.
+			I.visible_message(span_notice("[I] glistens with power as dust of COMET SYON lands upon it!"))
+		else
+			I.visible_message(span_notice("[I] glistens with power as a divine blessing is infused within!"))
 
 /datum/component/silverbless/proc/apply_bless(blessing_type)
 	var/blessing_divisor = 1
@@ -105,6 +96,3 @@
 	if(I.force_wielded)
 		I.force_wielded += added_force
 	I.wdefense += round(added_def * (is_blessed == BLESSING_TENNITE ? TENNITE_BLESSING_DIVISOR : 1))
-
-#undef CURSEITEM_INT_DAMAGE_PSY_MULTIPLIER
-#undef CURSEITEM_INT_DAMAGE_TEN_MULTIPLIER

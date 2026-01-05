@@ -51,7 +51,7 @@
 	log_combat(src, victim, "drank blood from ")
 
 	if(!VDrinker)
-		if(!HAS_TRAIT(src, TRAIT_HORDE))
+		if(!HAS_TRAIT(src, TRAIT_HORDE) && !HAS_TRAIT(src, TRAIT_NASTY_EATER))
 			to_chat(src, span_warning("I'm going to puke..."))
 			addtimer(CALLBACK(src, TYPE_PROC_REF(/mob/living/carbon, vomit), 0, TRUE), rand(8 SECONDS, 15 SECONDS))
 		return
@@ -70,7 +70,7 @@
 	else
 		blood_handle |= BLOOD_PREFERENCE_LIVING
 
-	if(victim.job in list("Priest", "Priestess", "Cleric", "Acolyte", "Templar", "Churchling", "Crusader", "Inquisitor"))
+	if(HAS_TRAIT(victim, TRAIT_CLERGY) || HAS_TRAIT(victim, TRAIT_INQUISITION))
 		blood_handle |= BLOOD_PREFERENCE_HOLY
 	if(VVictim)
 		blood_handle |= BLOOD_PREFERENCE_KIN
@@ -110,10 +110,21 @@
 			return
 
 	if(!victim.clan && victim.mind && ishuman(victim) && VDrinker.generation > GENERATION_THINBLOOD && victim.blood_volume <= BLOOD_VOLUME_BAD)
-		if(alert(src, "Would you like to sire a new spawn?", "THE CURSE OF KAIN", "MAKE IT SO", "I RESCIND") != "MAKE IT SO")
-			to_chat(src, span_warning("I decide [victim] is unworthy."))
+		var/datum/antagonist/vampire/vdrinker = mind?.has_antag_datum(/datum/antagonist/vampire)
+		if((vdrinker.max_thralls <= 0) || (isnull(vdrinker.max_thralls))) //thin bloods or low level vampires can't make thralls, incase they get past the last check by leveling up off others
+			to_chat(src, span_warning("I cannot sire thralls, my blood is too weak!"))
 		else
-			INVOKE_ASYNC(victim, TYPE_PROC_REF(/mob/living/carbon/human, vampire_conversion_prompt), src)
+			if(vdrinker.thrall_count >= vdrinker.max_thralls) //you've hit your max
+				to_chat(src, span_warning("I cannot sire anymore thralls.."))
+			else
+				if(alert(src, "Would you like to sire a new spawn?", "THE CURSE OF KAIN", "MAKE IT SO", "I RESCIND") != "MAKE IT SO")
+					to_chat(src, span_warning("I decide [victim] is unworthy."))
+				else
+					visible_message(span_danger("[src] begins channeling their energies to [victim]!"))
+					if(!do_mob(src, victim, 7 SECONDS, double_progress = TRUE, can_move = FALSE))
+						to_chat(src, span_warning("I was interrupted during my siring!"))
+						return
+					INVOKE_ASYNC(victim, TYPE_PROC_REF(/mob/living/carbon/human, vampire_conversion_prompt), src)
 
 /mob/living/carbon/human/proc/vampire_conversion_prompt(mob/living/carbon/sire)
 	if(!mind)
@@ -135,10 +146,11 @@
 		ADD_TRAIT(src, TRAIT_REFUSED_VAMP_CONVERT, REF(sire))
 		return
 
-	fully_heal(TRUE)
+	fully_heal(TRUE, FALSE)
 	visible_message(span_danger("Some dark energy begins to flow from [sire] into [src]..."))
 	visible_message(span_red("[src] rises as a new spawn!"))
 	original_mind?.transfer_to(src, TRUE)
 	var/datum/antagonist/vampire/new_antag = new /datum/antagonist/vampire(incoming_clan = sire.clan, forced_clan = TRUE, generation = VDrinker.generation-1)
 	mind?.add_antag_datum(new_antag)
+	VDrinker.thrall_count++
 	adjust_bloodpool(500)

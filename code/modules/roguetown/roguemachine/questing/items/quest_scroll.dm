@@ -1,3 +1,5 @@
+GLOBAL_LIST_EMPTY(quest_scrolls)
+
 #define WHISPER_COOLDOWN 10 SECONDS
 /obj/item/paper/scroll/quest
 	name = "enchanted contract scroll"
@@ -17,11 +19,13 @@
 /obj/item/paper/scroll/quest/Initialize()
 	. = ..()
 	if(assigned_quest)
-		assigned_quest.quest_scroll = src 
+		assigned_quest.quest_scroll = src
 	update_quest_text()
 	START_PROCESSING(SSprocessing, src)
+	GLOB.quest_scrolls += src
 
 /obj/item/paper/scroll/quest/Destroy()
+	GLOB.quest_scrolls -= src
 	if(assigned_quest)
 		// Return deposit if scroll is destroyed before completion
 		if(!assigned_quest.complete)
@@ -52,7 +56,7 @@
 		icon_state = info ? "[base_icon_state]_info" : "[base_icon_state]"
 	else
 		icon_state = "[base_icon_state]_closed"
-	
+
 
 /obj/item/paper/scroll/quest/process()
 	if(world.time > last_whisper + WHISPER_COOLDOWN)
@@ -110,6 +114,20 @@
 			return
 	..()
 
+/obj/item/paper/scroll/quest/proc/get_quest_assignees(var/mob/user, var/include_giver = FALSE)
+	var/list/assignees = list()
+
+	var/mob/quest_receiver = assigned_quest?.quest_receiver_reference?.resolve()
+	if(quest_receiver)
+		assignees += quest_receiver
+
+	if(include_giver)
+		var/mob/quest_giver = assigned_quest?.quest_giver_reference?.resolve()
+		if(quest_giver)
+			assignees += quest_giver
+
+	return assignees
+
 /obj/item/paper/scroll/quest/fire_act(exposed_temperature, exposed_volume)
 	return // Immune to fire
 
@@ -144,7 +162,7 @@
 		return
 
 	var/scroll_text = "<center>HELP NEEDED</center><br>"
-	scroll_text += "<center><b>[assigned_quest.get_title()]</b></center><br><br>"
+	scroll_text += "<center><b>[assigned_quest.get_title()]</b></center><br>"
 	scroll_text += "<b>Issued by:</b> [assigned_quest.quest_giver_name ? "[assigned_quest.quest_giver_name]" : "The Mercenary's Guild"].<br>"
 	scroll_text += "<b>Issued to:</b> [assigned_quest.quest_receiver_name ? assigned_quest.quest_receiver_name : "whoever it may concern"].<br>"
 	scroll_text += "<b>Type:</b> [assigned_quest.quest_type] contract.<br>"
@@ -169,8 +187,16 @@
 		scroll_text += "<br><center><b>CONTRACT COMPLETE</b></center>"
 		scroll_text += "<br><b>Return this scroll to the Notice Board to claim your reward!</b>"
 		scroll_text += "<br><i>Place it on the marked area next to the book.</i>"
+		if(assigned_quest.quest_giver_reference)
+			scroll_text += "<br><br><i>Return this to [assigned_quest.quest_giver_name] for increased pay!</i>"
+		else
+			scroll_text += "<br><br><i>Consider getting in touch with a Merchant or a Steward for your next quest for increased pay!</i>"
 	else
 		scroll_text += "<br><i>The magic in this scroll will update as you progress.</i>"
+		if(assigned_quest.quest_giver_reference)
+			scroll_text += "<br><br><i>Returning this to [assigned_quest.quest_giver_name] upon completion will yield increased pay!</i>"
+		else
+			scroll_text += "<br><br><i>Consider getting in touch with a Merchant or a Steward for your next quest for increased pay!</i>"
 
 	info = scroll_text
 	update_icon()
@@ -178,15 +204,15 @@
 /obj/item/paper/scroll/quest/proc/refresh_compass(mob/user)
 	if(!assigned_quest || assigned_quest.complete)
 		return FALSE
-	
+
 	// Update compass with precise directions
 	update_compass(user)
-	
+
 	// Only update text if we have a valid direction
 	if(last_compass_direction)
 		update_quest_text()
 		return TRUE
-	
+
 	return FALSE
 
 /obj/item/paper/scroll/quest/proc/update_compass(mob/user)

@@ -60,3 +60,8 @@
 	name = "Heavy Padded Coif"
 	cost = 35 // Equivalent to a padded gambeson on the head, so pricier
 	contains = list(/obj/item/clothing/neck/roguetown/coif/heavypadding)
+
+/datum/supply_pack/rogue/light_armor/sewingkit
+	name = "Sewing Kit"
+	cost = 40
+	contains = list(/obj/item/repair_kit)

@@ -23,10 +23,14 @@
 
 	xp_gain = TRUE
 	miracle = FALSE
+
+	var/delay = 12
 	
 /obj/effect/proc_holder/spell/invoked/aerosolize/cast(list/targets, mob/living/user)
 	var/turf/T = get_turf(targets[1]) //check for turf
 	if(T)
+		new /obj/effect/temp_visual/trap(T)
+		sleep(delay)
 		var/obj/item/held_item = user.get_active_held_item() //get held item
 		var/obj/item/reagent_containers/con = held_item //get held item
 		if(con)
@@ -34,6 +38,7 @@
 				if(con.reagents.total_volume > 0)
 					var/datum/reagents/R = con.reagents
 					var/datum/effect_system/smoke_spread/chem/smoke = new
+
 					smoke.set_up(R, 1, T, FALSE)
 					smoke.start()
 

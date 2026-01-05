@@ -16,6 +16,12 @@
 			if(world.time < next_emote)
 				return
 
+	// autopunctuation
+	if((act == "me" || act == "subtle") && !client?.prefs?.no_autopunctuate)
+		var/ending = copytext(param, length(param), (length(param) + 1))
+		if(ending && !GLOB.correct_punctuation[ending])
+			param += "."
+
 	var/list/key_emotes = GLOB.emote_list[act]
 	var/mute_time = 0
 	if(!length(key_emotes) || custom_param)

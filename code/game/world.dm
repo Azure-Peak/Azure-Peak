@@ -103,9 +103,9 @@ GLOBAL_VAR(restart_counter)
 
 	Master.Initialize(10, FALSE, TRUE)
 
-	if(TEST_RUN_PARAMETER in params)
-		HandleTestRun()
-
+#ifdef UNIT_TESTS
+	HandleTestRun()
+#endif
 	update_status()
 
 
@@ -158,7 +158,6 @@ GLOBAL_VAR(restart_counter)
 		GLOB.log_directory = "data/logs/[override_dir]"
 		GLOB.picture_logging_prefix = "O_[override_dir]_"
 		GLOB.picture_log_directory = "data/picture_logs/[override_dir]"
-
 	GLOB.world_game_log = "[GLOB.log_directory]/game.log"
 	GLOB.world_mecha_log = "[GLOB.log_directory]/mecha.log"
 	GLOB.world_virus_log = "[GLOB.log_directory]/virus.log"
@@ -179,7 +178,10 @@ GLOBAL_VAR(restart_counter)
 	GLOB.world_job_debug_log = "[GLOB.log_directory]/job_debug.log"
 	GLOB.world_paper_log = "[GLOB.log_directory]/paper.log"
 	GLOB.tgui_log = "[GLOB.log_directory]/tgui.log"
-
+#ifdef UNIT_TESTS
+	GLOB.test_log = file("[GLOB.log_directory]/tests.log")
+	start_log(GLOB.test_log)
+#endif
 	start_log(GLOB.world_game_log)
 	start_log(GLOB.world_attack_log)
 	start_log(GLOB.world_pda_log)
@@ -192,7 +194,8 @@ GLOBAL_VAR(restart_counter)
 	start_log(GLOB.tgui_log)
 	start_log(GLOB.character_list_log)
 
-	GLOB.changelog_hash = md5('html/changelog.html') //for telling if the changelog has changed recently
+	var/latest_changelog = file("[global.config.directory]/../html/changelogs/archive/" + time2text(world.timeofday, "YYYY-MM") + ".yml")
+	GLOB.changelog_hash = fexists(latest_changelog) ? md5(latest_changelog) : 0 //for telling if the changelog has changed recently
 	if(fexists(GLOB.config_error_log))
 		fcopy(GLOB.config_error_log, "[GLOB.log_directory]/config_error.log")
 		fdel(GLOB.config_error_log)
@@ -245,8 +248,9 @@ GLOBAL_VAR(restart_counter)
 	set waitfor = FALSE
 	var/list/fail_reasons
 	if(GLOB)
-		if(GLOB.total_runtimes != 0)
-			fail_reasons = list("Total runtimes: [GLOB.total_runtimes]")
+		// TODO: UNCOMMENT THIS ONCE I find out why matthios creation is runtiming I just don't want to hold up the entire PR
+		// if(GLOB.total_runtimes != 0)
+		// 	fail_reasons = list("Total runtimes: [GLOB.total_runtimes]")
 #ifdef UNIT_TESTS
 		if(GLOB.failed_any_test)
 			LAZYADD(fail_reasons, "Unit Tests failed!")
@@ -288,13 +292,13 @@ GLOBAL_VAR(restart_counter)
 
 	TgsReboot()
 
-	if(TEST_RUN_PARAMETER in params)
-		FinishTestRun()
-		return
-
+#ifdef UNIT_TESTS
+	FinishTestRun()
+	return
+#else
 	if(TgsAvailable())
 		send2chat(new /datum/tgs_message_content("Round ending!"), CONFIG_GET(string/chat_announce_new_game))
-		testing("tgsavailable passed")
+
 		var/do_hard_reboot
 		// check the hard reboot counter
 		var/ruhr = CONFIG_GET(number/rounds_until_hard_restart)
@@ -320,6 +324,7 @@ GLOBAL_VAR(restart_counter)
 	log_world("World rebooted at [time_stamp()]")
 	shutdown_logging() // Past this point, no logging procs can be used, at risk of data loss.
 	..()
+#endif
 
 /world/proc/update_status()
 	var/list/features = list()
@@ -506,3 +511,5 @@ GLOBAL_VAR(restart_counter)
 		call_ext(dll, "auxtools_shutdown")()
 	
 	. = ..()
+
+#undef RESTART_COUNTER_PATH

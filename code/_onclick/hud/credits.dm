@@ -43,7 +43,7 @@
 /atom/movable/screen/credit/Click()
 	if(upvoted)
 		return
-	testing("clicdebugk")
+
 	upvoted = TRUE
 	var/image/I = new('icons/effects/effects.dmi', "hearty")
 	I.pixel_x = rand(-32,32)
@@ -61,7 +61,7 @@
 
 /atom/movable/screen/credit/Initialize(mapload, credited, client/P, icon/I)
 	. = ..()
-	testing("spawned credit [credited]")
+
 	icon = I
 	parent = P
 	var/voicecolor = "dc0174"
@@ -101,3 +101,9 @@
 
 /atom/movable/screen/credit/proc/FadeOut()
 	animate(src, alpha = 0, time = 10,  flags = ANIMATION_PARALLEL)
+
+#undef CREDIT_ROLL_SPEED
+#undef CREDIT_SPAWN_SPEED
+#undef CREDIT_ANIMATE_HEIGHT
+#undef CREDIT_EASE_DURATION
+#undef CREDITS_PATH

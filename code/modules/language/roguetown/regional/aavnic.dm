@@ -5,10 +5,9 @@
 	whisper_verb = "whispers"
 	exclaim_verb = "remarks"
 	key = "a"
-	flags = LANGUAGE_HIDE_ICON_IF_UNDERSTOOD | LANGUAGE_HIDE_ICON_IF_NOT_UNDERSTOOD
 	space_chance = 20
 	default_priority = 90
-	icon_state = "asse"
+	icon_state = "zalad"
 	spans = list(SPAN_AAVNIC)
 	syllables = list(
 	"ál", "by", "č", "ch", "če", "do", "en", "ho", "je", "ko", "la", "le", "na", "ne", "ní", "od", "ou", "ov", "po", "pr", "ra", "ro", "se", "st", "te", "to", "je", "by", "ko", "ho", "do",

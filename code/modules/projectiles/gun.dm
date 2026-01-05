@@ -81,9 +81,9 @@
 
 /obj/item/gun/afterattack(atom/target, mob/living/user, flag, params)
 	. = ..()
-	testing("gun afterattack")
+
 	if(!target)
-		testing("no target")
+
 		return
 	if(!user?.used_intent.tranged) //melee attack
 		return
@@ -91,7 +91,7 @@
 		if(target in user.contents) //can't shoot stuff inside us.
 			return
 		if(!ismob(target)) //melee attack
-			testing("gun with melee attack selected")
+
 			return
 		if(target == user && user.zone_selected != BODY_ZONE_PRECISE_MOUTH) //so we can't shoot ourselves (unless mouth selected)
 			return
@@ -122,7 +122,7 @@
 
 /obj/item/gun/proc/process_fire(atom/target, mob/living/user, message = TRUE, params = null, zone_override = "", bonus_spread = 0)
 	add_fingerprint(user)
-
+	SEND_SIGNAL(src, COMSIG_ITEM_GUN_PROCESS_FIRE, user, target)
 	var/sprd = 0
 	var/randomized_gun_spread = 0
 	if(spread)
@@ -188,3 +188,5 @@
 //Happens before the actual projectile creation
 /obj/item/gun/proc/before_firing(atom/target,mob/user)
 	return
+
+#undef DUALWIELD_PENALTY_EXTRA_MULTIPLIER

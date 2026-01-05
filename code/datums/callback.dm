@@ -107,11 +107,11 @@
 				return world.PushUsr(M, src)
 
 	if(!object)
-		testing("callback with no object [src] - [delegate]")
+
 		return
 	if(!istext(object))
 		if(QDELETED(object))
-			testing("callback qdelled [src] - [delegate]")
+
 			return
 
 	var/list/calling_arguments = arguments

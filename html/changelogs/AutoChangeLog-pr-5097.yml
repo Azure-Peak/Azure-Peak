@@ -1,0 +1,6 @@
+author: "Ketrai"
+delete-after: True
+changes:
+  - rscdel: "Removed all unique fish from the seafood tab."
+  - balance: "You have to catch fish again for your fishy purposes."
+  - balance: "Raised fish fillet price as it has more uses compared to mince."

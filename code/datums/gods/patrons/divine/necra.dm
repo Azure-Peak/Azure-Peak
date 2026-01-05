@@ -9,9 +9,10 @@
 					/obj/effect/proc_holder/spell/invoked/lesser_heal 			= CLERIC_T1,
 					/obj/effect/proc_holder/spell/invoked/blood_heal			= CLERIC_T1,
 					/obj/effect/proc_holder/spell/invoked/avert					= CLERIC_T1,
+					/obj/effect/proc_holder/spell/targeted/locate_dead 			= CLERIC_T1,
 					// /obj/effect/proc_holder/spell/invoked/deaths_door			= CLERIC_T1, // DO NOT RE-ENABLE UNTIL THIS IS FIXED. IT CRASHES CLIENTS.
 					/obj/effect/proc_holder/spell/targeted/abrogation			= CLERIC_T2,
-					/obj/effect/proc_holder/spell/invoked/raise_spirits_vengeance = CLERIC_T2,
+					/obj/effect/proc_holder/spell/invoked/raise_spirits_vengeance = CLERIC_T2
 	)
 	confess_lines = list(
 		"ALL SOULS FIND THEIR WAY TO NECRA!",

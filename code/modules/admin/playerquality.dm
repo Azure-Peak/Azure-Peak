@@ -191,7 +191,7 @@
 	if(!check_rights(R_ADMIN,0))
 		amt2change = CLAMP(amt2change, -20, 20)
 	var/raisin = stripped_input("State a short reason for this change", "Game Master", "", null)
-	if(!amt2change && !raisin)
+	if((!isnull(amt2change) && amt2change != 0) && !raisin)
 		return
 	adjust_playerquality(amt2change, theykey, src.ckey, raisin)
 	for(var/client/C in GLOB.clients) // I hate this, but I'm not refactoring the cancer above this point.
@@ -267,4 +267,6 @@
 	if(!curcomm)
 		curcomm = 0
 	return curcomm
+
+#undef RCP_CONTRIBUTION_CAP
 

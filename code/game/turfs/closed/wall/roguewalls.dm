@@ -469,7 +469,7 @@
 
 /turf/closed/wall/mineral/rogue/pipe
 	name = "metal wall"
-	desc = "Solid steel made into an impenetrable obstacle."
+	desc = "Solid steel made into an impenetrable obstacle. Dense piping runs along its face."
 	icon = 'icons/turf/pipewall.dmi'
 	icon_state = "iron_box"
 	smooth = SMOOTH_MORE

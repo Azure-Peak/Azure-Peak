@@ -15,6 +15,7 @@
 
 	allowed_ages = ALL_AGES_LIST
 	outfit = /datum/outfit/job/roguetown/jester
+	job_traits = list(TRAIT_ZJUMP, TRAIT_LEAPER, TRAIT_NUTCRACKER, TRAIT_TEMPO)
 	display_order = JDO_JESTER
 	give_bank_account = TRUE
 	min_pq = -4 //silly jesters are funny so low PQ requirement
@@ -24,6 +25,7 @@
 /datum/outfit/job/roguetown/jester/pre_equip(mob/living/carbon/human/H)
 	..()
 	shoes = /obj/item/clothing/shoes/roguetown/jester
+	saiga_shoes = /obj/item/clothing/shoes/roguetown/horseshoes/gold
 	pants = /obj/item/clothing/under/roguetown/tights
 	armor = /obj/item/clothing/suit/roguetown/shirt/jester
 	belt = /obj/item/storage/belt/rogue/leather
@@ -49,7 +51,7 @@
 	H.STALUC = rand(1, 21)
 	H.cmode_music = 'sound/music/combat_jester.ogg'
 	if(H.mind)
-		// Mime vs Jester. 
+		// Mime vs Jester.
 		// As a mute jester you cannot cast Tell Joke/Tragedy, so why even have them?
 		if(HAS_TRAIT(H, TRAIT_PERMAMUTE)) // I considered adding a check for Xylix patron but in the off chance there's a mute non-xylix jester I don't want to fuck them over.
 			H.mind.AddSpell(new /obj/effect/proc_holder/spell/aoe_turf/conjure/mime_wall)
@@ -61,11 +63,10 @@
 	H.verbs |= /mob/living/carbon/human/proc/ear_trick
 	if(!istype(H.getorganslot(ORGAN_SLOT_TONGUE), /obj/item/organ/tongue/wild_tongue))
 		H.internal_organs_slot[ORGAN_SLOT_TONGUE] = new /obj/item/organ/tongue/wild_tongue
-	ADD_TRAIT(H, TRAIT_ZJUMP, TRAIT_GENERIC)
-	ADD_TRAIT(H, TRAIT_LEAPER, TRAIT_GENERIC)
-	ADD_TRAIT(H, TRAIT_NUTCRACKER, TRAIT_GENERIC)
 	if(prob(50))
 		ADD_TRAIT(H, TRAIT_EMPATH, TRAIT_GENERIC) // Jester :3
 	else
 		ADD_TRAIT(H, TRAIT_STEELHEARTED, TRAIT_GENERIC) // Joker >:(
+	if(H.mind)
+		SStreasury.give_money_account(ECONOMIC_LETSGOGAMBLING, H, "Savings.")
 

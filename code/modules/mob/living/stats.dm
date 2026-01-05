@@ -1,12 +1,19 @@
 	
 
 /mob/living
+	/// Strength.
 	var/STASTR = 10
+	/// Perception.
 	var/STAPER = 10
+	/// Intelligence.
 	var/STAINT = 10
+	/// Constitution.
 	var/STACON = 10
+	/// Willpower.
 	var/STAWIL = 10
+	/// Speed.
 	var/STASPD = 10
+	/// Luck.
 	var/STALUC = 10
 	//buffers, the 'true' amount of each stat
 	var/BUFSTR = 0
@@ -40,7 +47,7 @@
 	// Associative list of stat (STAT_STRENGTH, etc) bonuses used to differentiate each race. They should ALWAYS be positive.
 	var/list/race_bonus = list()
 	var/construct = 0
-
+	var/gibs_on_shapeshift = FALSE
 /mob/living/proc/roll_stats()
 	STASTR = 10
 	STAPER = 10
@@ -81,7 +88,7 @@
 				change_stat(STATKEY_INT, -20)
 				change_stat(STATKEY_LCK, -20)
 			if(check_psychokiller(ckey(key)))
-				testing("foundpsych")
+
 				H.eye_color = "ff0000"
 				H.voice_color = "ff0000"
 
@@ -225,6 +232,8 @@
 			while(newamt > 20)
 				newamt--
 				BUFEND++
+
+			pain_threshold += amt * 10
 			STAWIL = newamt
 
 		if(STATKEY_SPD)

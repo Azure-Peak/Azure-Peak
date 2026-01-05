@@ -78,7 +78,11 @@
 	var/turf/TU = get_turf(H)
 	if(TU)
 		if(horse)
-			var/mob/new_horse = new horse(TU)
+			var/mob/horse_mob = var/mob/new_horse = new horse(TU)
+			if(istype(horse_mob, /mob/living/simple_animal/hostile/retaliate/rogue))
+				var/mob/living/simple_animal/hostile/retaliate/rogue/rogue_animal = horse_mob
+				rogue_animal.owner = H
+				rogue_animal.friends |= H
 			if(H.mind)	// we don't want our own NPCs stabbing our poor horse
 				new_horse.faction |= list("[H.real_name]_faction")
 			if(H.mind.warband_ID != 0)
@@ -149,7 +153,7 @@
 	if(length(allowed_ages) && !(H.age in allowed_ages))
 		return FALSE
 
-	if(length(allowed_patrons) && !(H.patron in allowed_patrons))
+	if(length(allowed_patrons) && !(H.patron.type in allowed_patrons))
 		return FALSE
 
 	if(maximum_possible_slots > -1)

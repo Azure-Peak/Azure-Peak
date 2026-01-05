@@ -9,7 +9,7 @@
 	/// how long to fade away, if null, will disappear instantly.
 	var/fade_time
 
-/obj/effect/temp_visual/Initialize()
+/obj/effect/temp_visual/Initialize(mapload)
 	. = ..()
 	if(randomdir)
 		setDir(pick(GLOB.cardinals))
@@ -32,4 +32,39 @@
 /obj/effect/temp_visual/dir_setting/Initialize(mapload, set_dir)
 	if(set_dir)
 		setDir(set_dir)
+	. = ..()
+
+/obj/effect/temp_visual/swingdelay
+	randomdir = FALSE
+	icon = 'icons/effects/effects.dmi'
+	icon_state = "blip"
+
+/obj/effect/temp_visual/swingdelay/Initialize(mapload, set_dur)
+	if(set_dur)
+		duration = set_dur
+	. = ..()
+
+/obj/effect/temp_visual/special_intent/Initialize(mapload, customdur)
+	if(customdur)
+		duration = customdur
+	. = ..()
+
+/obj/effect/temp_visual/special_intent
+	layer = HUD_LAYER
+	plane = ABOVE_LIGHTING_PLANE
+
+/obj/effect/temp_visual/armor_chunk
+	randomdir = FALSE
+	icon = 'icons/effects/effects.dmi'
+	icon_state = "chunkfall"
+	layer = HUD_LAYER
+	plane = ABOVE_LIGHTING_PLANE
+
+/obj/effect/temp_visual/armor_chunk/Initialize(mapload, customdur, customcolor, customstate)
+	if(customdur)
+		duration = customdur
+	if(customstate)
+		icon_state = customstate
+	if(customcolor)
+		add_atom_colour(customcolor, FIXED_COLOUR_PRIORITY)
 	. = ..()

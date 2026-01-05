@@ -9,7 +9,6 @@
 	item_state = "bplatelegs"
 	sewrepair = FALSE
 	armor = ARMOR_PLATE_BSTEEL
-	prevent_crits = list(BCLASS_CUT, BCLASS_STAB, BCLASS_CHOP, BCLASS_BLUNT)
 	blocksound = PLATEHIT
 	max_integrity = ARMOR_INT_LEG_BLACKSTEEL
 	drop_sound = 'sound/foley/dropsound/armor_drop.ogg'
@@ -27,7 +26,6 @@
 	item_state = "bklegs"
 	sewrepair = FALSE
 	armor = ARMOR_PLATE_BSTEEL
-	prevent_crits = list(BCLASS_CUT, BCLASS_STAB, BCLASS_CHOP, BCLASS_BLUNT)
 	blocksound = PLATEHIT
 	max_integrity = ARMOR_INT_LEG_BLACKSTEEL
 	drop_sound = 'sound/foley/dropsound/armor_drop.ogg'

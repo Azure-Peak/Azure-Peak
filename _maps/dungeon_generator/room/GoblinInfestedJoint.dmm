@@ -393,7 +393,7 @@
 /turf/open/floor/rogue/hexstone,
 /area/rogue/under/tomb)
 "mt" = (
-/obj/machinery/light/rogue/wallfire/candle,
+/obj/machinery/light/rogue/candle,
 /obj/effect/decal/remains/human,
 /turf/open/floor/rogue/ruinedwood/turned,
 /area/rogue/under/tomb/indoors)
@@ -481,10 +481,6 @@
 	},
 /turf/open/floor/rogue/hexstone,
 /area/rogue/under/tomb)
-"qe" = (
-/obj/machinery/light/rogue/wallfire,
-/turf/closed/wall/mineral/rogue/wooddark/vertical,
-/area/rogue/under/tomb/indoors)
 "qf" = (
 /obj/structure/flora/roguegrass,
 /turf/closed/mineral/rogue/bedrock,
@@ -1045,6 +1041,7 @@
 /area/rogue/under/tomb)
 "Oe" = (
 /obj/effect/decal/cleanable/dirt/cobweb,
+/obj/machinery/light/rogue/campfire/fireplace,
 /turf/open/floor/rogue/ruinedwood/turned,
 /area/rogue/under/tomb/indoors)
 "ON" = (
@@ -1954,7 +1951,7 @@ qv
 gV
 hs
 ju
-qe
+yQ
 Oe
 gi
 uM

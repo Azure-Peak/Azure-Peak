@@ -24,6 +24,7 @@
 	var/maxthrow = 3
 	var/sparkle_path = /obj/effect/temp_visual/gravpush
 	var/repulse_force = MOVE_FORCE_EXTREMELY_STRONG
+	var/showsparkles = TRUE
 	var/push_range = 1
 
 /obj/effect/proc_holder/spell/invoked/repulse/cast(list/targets, mob/user, stun_amt = 5)
@@ -31,7 +32,7 @@
 	var/atom/throwtarget
 	var/distfromcaster
 	playsound(user, 'sound/magic/repulse.ogg', 80, TRUE)
-	for(var/turf/T in view(push_range, user))
+	for(var/turf/T in get_hear(push_range, user))
 		new /obj/effect/temp_visual/kinetic_blast(T)
 		for(var/atom/movable/AM in T)
 			thrownatoms += AM
@@ -55,7 +56,8 @@
 				M.adjustBruteLoss(20)
 				to_chat(M, "<span class='danger'>You're slammed into the floor by [user]!</span>")
 		else
-			new sparkle_path(get_turf(AM), get_dir(user, AM)) //created sparkles will disappear on their own
+			if(showsparkles)
+				new sparkle_path(get_turf(AM), get_dir(user, AM)) //created sparkles will disappear on their own
 			if(isliving(AM))
 				var/mob/living/M = AM
 				M.set_resting(TRUE, TRUE)

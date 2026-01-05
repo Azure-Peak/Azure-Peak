@@ -100,6 +100,7 @@
 	sewrepair = FALSE
 	anvilrepair = /datum/skill/craft/armorsmithing
 
+
 /obj/item/storage/belt/rogue/leather/rope
 	name = "rope belt"
 	desc = "A length of strong rope repurposed into a belt. Better than nothing."
@@ -143,6 +144,14 @@
 	alternate_worn_layer = UNDER_CLOAK_LAYER
 	sewrepair = TRUE
 	component_type = /datum/component/storage/concrete/roguetown/satchel
+
+
+/obj/item/storage/backpack/rogue/satchel/cloth
+	name = "cloth knapsack"
+	desc = "A rudimentary cloth sack strapped to the back for storing small amounts of items."
+	icon_state = "clothbackpack"
+	item_state = "clothbackpack"
+	component_type = /datum/component/storage/concrete/roguetown/satchel/cloth
 
 /obj/item/storage/backpack/rogue/satchel/heartfelt
 	populate_contents = list(
@@ -197,6 +206,14 @@
 	max_integrity = 300
 	component_type = /datum/component/storage/concrete/roguetown/satchel
 
+/obj/item/storage/belt/rogue/leather/sash/maid
+	name = "cloth sash"
+	desc = "A pliable sash made of wool meant to wrap tightly around the waist."
+	item_state = "maidsash"
+	icon_state = "maidsash"
+	icon = 'icons/roguetown/clothing/special/maids.dmi'
+	mob_overlay_icon = 'icons/roguetown/clothing/special/onmob/maids.dmi'
+
 /obj/item/storage/backpack/rogue/backpack
 	name = "backpack"
 	desc = "One of the best ways to carry many things while keeping your hands free."
@@ -217,7 +234,7 @@
 	name = "Cooling backpack"
 	desc = "A leather backpack with complex pipework coursing through it. It hums and vibrates constantly."
 	icon_state = "artibackpack"
-	item_state = "artibackpack" 
+	item_state = "artibackpack"
 	icon = 'icons/roguetown/clothing/storage.dmi'
 	w_class = WEIGHT_CLASS_BULKY
 	slot_flags = ITEM_SLOT_BACK_L

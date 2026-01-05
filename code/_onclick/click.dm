@@ -1,7 +1,5 @@
-/*
-	Click code cleanup
-	~Sayu
-*/
+#define MAX_SAFE_BYOND_ICON_SCALE_TILES (MAX_SAFE_BYOND_ICON_SCALE_PX / world.icon_size)
+#define MAX_SAFE_BYOND_ICON_SCALE_PX (33 * 32)			//Not using world.icon_size on purpose.
 
 // 1 decisecond click delay (above and beyond mob/next_move)
 //This is mainly modified by click code, to modify click delays elsewhere, use next_move and changeNext_move()
@@ -183,7 +181,7 @@
 //		CtrlClickOn(A)
 //		return
 	if(modifiers["right"])
-		testing("right")
+
 		if(!oactive)
 			RightClickOn(A, params)
 			return
@@ -290,7 +288,7 @@
 					resolveAdjacentClick(A,W,params,used_hand)
 					return
 				if(T)
-					testing("beginautoaim")
+
 					var/list/mobs_here = list()
 					for(var/mob/M in T)
 						if(M.invisibility || M == src)
@@ -299,7 +297,7 @@
 					if(mobs_here.len)
 						var/mob/target = pick(mobs_here)
 						if(target)
-							if(target.Adjacent(src))
+							if(target.Adjacent(src) || (CanReach(target, W) && used_intent.effective_range_type))
 								do_attack_animation(T, used_intent.animname, used_intent.masteritem, used_intent = src.used_intent)
 								resolveAdjacentClick(target,W,params,used_hand)
 								atkswinging = null
@@ -761,9 +759,6 @@
 	xyoverride = TRUE
 	blockscharging = FALSE
 
-#define MAX_SAFE_BYOND_ICON_SCALE_TILES (MAX_SAFE_BYOND_ICON_SCALE_PX / world.icon_size)
-#define MAX_SAFE_BYOND_ICON_SCALE_PX (33 * 32)			//Not using world.icon_size on purpose.
-
 /atom/movable/screen/click_catcher/proc/UpdateGreed(view_size_x = 15, view_size_y = 15)
 	var/icon/newicon = icon('icons/mob/screen_gen.dmi', "catcher")
 	var/ox = min(MAX_SAFE_BYOND_ICON_SCALE_TILES, view_size_x)
@@ -900,7 +895,9 @@
 	if(stat)
 		return
 	if(get_dist(src, A) <= 2)
-		if(T == loc)
+		if(A.loc == src)
+			A.ShiftRightClick(src)
+		else if(T == loc)
 			look_up()
 		else
 			if(istransparentturf(T))
@@ -935,7 +932,7 @@
 	return FALSE
 
 /mob/living/try_special_attack(atom/A, list/modifiers)
-	if(!rmb_intent || !cmode || istype(A, /obj/item/clothing) || istype(A, /obj/item/quiver) || istype(A, /obj/item/storage))
+	if(!rmb_intent || !cmode || A.loc == src || istype(A, /obj/item/clothing) || istype(A, /obj/item/quiver) || istype(A, /obj/item/storage) || istype(A, /obj/item/rogueweapon/scabbard))
 		return FALSE
 
 	if(next_move > world.time && !rmb_intent?.bypasses_click_cd)
@@ -944,7 +941,7 @@
 	if(rmb_intent?.adjacency && !Adjacent(A))
 		return FALSE
 
-	rmb_intent.special_attack(src, ismob(A) ? A : get_foe_from_turf(get_turf(A)))
+	rmb_intent.special_attack(src, ismob(A) ? A : rmb_intent.prioritize_turfs ? get_turf(A) : get_foe_from_turf(get_turf(A)))
 	return TRUE
 
 /// Used for "directional" style rmb attacks on a turf, prioritizing standing targets
@@ -973,3 +970,6 @@
 	if(foes.len > 1)
 		sortTim(foes, cmp = /proc/cmp_numeric_dsc, associative = TRUE)
 	return foes[1]
+
+#undef MAX_SAFE_BYOND_ICON_SCALE_TILES
+#undef MAX_SAFE_BYOND_ICON_SCALE_PX

@@ -251,7 +251,7 @@
 	if(!check_rights())
 		return
 
-	M.fully_heal(admin_revive = TRUE)
+	M.fully_heal(admin_revive = TRUE, break_restraints = TRUE)
 	message_admins(span_danger("Admin [key_name_admin(usr)] healed [key_name_admin(M)]!"))
 	log_admin("[key_name(usr)] healed [key_name(M)].")
 
@@ -306,6 +306,7 @@
 	if(S)
 		M.remove_status_effect(S)
 		M.set_resting(FALSE, TRUE)
+		M.fallingas = FALSE
 	else
 		M.SetSleeping(999999)
 	message_admins(span_danger("Admin [key_name_admin(usr)] toggled [key_name_admin(M)]'s sleeping state!"))
@@ -361,7 +362,7 @@
 	if(!check_rights(R_ADMIN,0))
 		amt2change = CLAMP(amt2change, -20, 20)
 	var/raisin = stripped_input("State a short reason for this change", "Game Master", "", null)
-	if(!amt2change && !raisin)
+	if((!isnull(amt2change) && amt2change != 0) && !raisin)
 		return
 	adjust_playerquality(amt2change, ckey, admin, raisin)
 	to_chat(M.client, "<span class=\"admin\"><span class=\"prefix\">ADMIN LOG:</span> <span class=\"message linkify\">Your PQ has been adjusted by [amt2change] by [admin] for reason: [raisin]</span></span>")
@@ -891,6 +892,7 @@
 		if(S)
 			M.remove_status_effect(S)
 			M.set_resting(FALSE, TRUE)
+			M.fallingas = FALSE
 
 	message_admins("[key_name(usr)] used Toggle Wake In View.")
 

@@ -23,17 +23,9 @@ SUBSYSTEM_DEF(sounds)
 	/// higher reserve position - decremented and incremented to reserve sound channels, anything above this is reserved. The channel at this index is the highest unreserved channel.
 	var/channel_reserve_high
 
-	/// all sound files
-	var/list/all_sounds = list()
-	/// all music files
-	var/list/all_music_sounds = list()
-
 /datum/controller/subsystem/sounds/Initialize()
 	setup_available_channels()
-	find_all_available_sounds()
-	. = ..()
-
-	preload_music_for_clients()
+	return ..()
 
 /datum/controller/subsystem/sounds/proc/setup_available_channels()
 	channel_list = list()
@@ -44,33 +36,6 @@ SUBSYSTEM_DEF(sounds)
 		channel_list += i
 	channel_random_low = 1
 	channel_reserve_high = length(channel_list)
-
-/datum/controller/subsystem/sounds/proc/find_all_available_sounds()
-	all_sounds = list()
-	// Put more common extensions first to speed this up a bit
-	var/static/list/valid_file_extensions = list(
-		".ogg",
-		".wav",
-		".mid",
-		".midi",
-		".mod",
-		".it",
-		".s3m",
-		".xm",
-		".oxm",
-		".raw",
-		".wma",
-		".aiff",
-	)
-
-	all_sounds = pathwalk("sound/", valid_file_extensions)
-
-	all_music_sounds = pathwalk("sound/ambience/", valid_file_extensions)
-	all_music_sounds += pathwalk("sounds/music/", valid_file_extensions)
-
-/datum/controller/subsystem/sounds/proc/preload_music_for_clients()
-	for(var/client/player as anything in GLOB.clients)
-		player.preload_music()
 
 /// Removes a channel from using list.
 /datum/controller/subsystem/sounds/proc/free_sound_channel(channel)

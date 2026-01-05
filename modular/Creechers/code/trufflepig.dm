@@ -53,7 +53,7 @@
 	sellprice = 5
 
 /obj/item/reagent_containers/food/snacks/rogue/truffles/cooked
-	eat_effect = /datum/status_effect/buff/foodbuff
+	eat_effect = /datum/status_effect/buff/snackbuff
 	bonus_reagents = list(/datum/reagent/consumable/nutriment = 2)
 	color = "#835b4f"
 	tastes = list("succulent truffles" = 1)
@@ -127,6 +127,11 @@
 	response_help_simple = "give the signal to the"
 	var/hangry_meter = 0
 
+	//new ai, old ai off
+	AIStatus = AI_OFF
+	can_have_ai = FALSE
+	ai_controller = /datum/ai_controller/generic
+
 
 /obj/effect/decal/remains/pig
 	name = "remains"
@@ -147,6 +152,11 @@
 				playsound(src,'sound/misc/eat.ogg', rand(30,60), TRUE)
 				qdel(M)
 				break
+
+/mob/living/simple_animal/hostile/retaliate/rogue/trufflepig/Initialize()
+	. = ..()
+	AddElement(/datum/element/ai_retaliate)
+	ai_controller.set_blackboard_key(BB_BASIC_FOODS, food_type)
 
 /mob/living/simple_animal/hostile/retaliate/rogue/trufflepig/attack_hand(mob/living/carbon/human/M)
 	. = ..()

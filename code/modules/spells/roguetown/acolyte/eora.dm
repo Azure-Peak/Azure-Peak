@@ -19,20 +19,29 @@
 
 /obj/item/clothing/head/peaceflower/equipped(mob/living/carbon/human/user, slot)
 	. = ..()
-	if(slot == SLOT_HEAD)
+	if(slot == SLOT_HEAD || slot == SLOT_WEAR_MASK)
 		ADD_TRAIT(user, TRAIT_PACIFISM, "peaceflower_[REF(src)]")
 
 /obj/item/clothing/head/peaceflower/dropped(mob/living/carbon/human/user)
 	..()
 	REMOVE_TRAIT(user, TRAIT_PACIFISM, "peaceflower_[REF(src)]")
 
-/obj/item/clothing/head/peaceflower/attack_hand(mob/user)
+/obj/item/clothing/head/peaceflower/proc/peace_check(mob/living/user)
+	// return true if we should be unequippable, return false if not
 	if(iscarbon(user))
 		var/mob/living/carbon/C = user
-		if(src == C.head)
-			to_chat(user, "<span class='warning'>I feel at peace. <b style='color:pink'>Why would you want anything else?</b></span>")
-			return
-	return ..()
+		if(src == C.head || src == C.wear_mask)
+			to_chat(user, "<span class='warning'>I feel at peace. <b style='color:pink'>Why would I want anything else?</b></span>")
+			return TRUE
+	return FALSE
+
+/obj/item/clothing/head/peaceflower/MouseDrop(atom/over_object)
+	if (!peace_check(usr))
+		return ..()
+
+/obj/item/clothing/head/peaceflower/attack_hand(mob/user)
+	if (!peace_check(user))
+		return ..()
 
 /obj/effect/proc_holder/spell/invoked/bud
 	name = "Eoran Bloom"
@@ -58,10 +67,15 @@
 		if(!C.get_item_by_slot(SLOT_HEAD))
 			var/obj/item/clothing/head/peaceflower/F = new(get_turf(C))
 			C.equip_to_slot_if_possible(F, SLOT_HEAD, TRUE, TRUE)
-			to_chat(C, "<span class='info'>A flower of Eora blooms on my head. I feel at peace.</span>")
+			to_chat(C, "<span class='info'>A flower of Eora blooms on my head. <b style='color:pink'> I feel at peace. </b></span>")
+			return TRUE
+		else if(!C.get_item_by_slot(SLOT_WEAR_MASK))
+			var/obj/item/clothing/head/peaceflower/F = new(get_turf(C))
+			C.equip_to_slot_if_possible(F, SLOT_WEAR_MASK, TRUE, TRUE)
+			to_chat(C, "<span class='info'>A flower of Eora blooms on my head. <b style='color:pink'> I feel at peace. </b></span>")
 			return TRUE
 		else
-			to_chat(user, "<span class='warning'>The target's head is covered. The flowers of Eora need an open space to bloom.</span>")
+			to_chat(user, "<span class='warning'>The target's head and face are covered. The flowers of Eora need an open space to bloom.</span>")
 			revert_cast()
 			return FALSE
 	var/turf/T = get_turf(targets[1])
@@ -422,7 +436,7 @@
 /obj/structure/eoran_pomegranate_tree
 	name = "pomegranate tree"
 	desc = "A mystical tree blessed by Eora."
-	icon = 'modular_azurepeak/icons/obj/items/eora_tree.dmi'
+	icon = 'icons/obj/items/eora_tree.dmi'
 	icon_state = "sprout"
 	anchored = TRUE
 	density = TRUE
@@ -838,7 +852,7 @@
 		return FALSE
 
 	// Eoran alignment check
-	if(!(user.patron.type == /datum/patron/divine/eora))
+	if(!(user.patron.type == /datum/patron/divine/eora) && !HAS_TRAIT(user, TRAIT_CHOSEN))
 		to_chat(user, span_warning("The fruit vanishes as you reach for it!"))
 		return FALSE
 
@@ -847,7 +861,7 @@
 /obj/item/fruit_of_eora
 	name = "pomegranate"
 	desc = "A mystical pomegranate glowing with inner light. It feels warm to the touch."
-	icon = 'modular_azurepeak/icons/obj/items/eora_pom.dmi'
+	icon = 'icons/obj/items/eora_pom.dmi'
 	icon_state = "pom"
 	var/fruit_tier = 1
 	var/list/aril_types = list()
@@ -956,7 +970,7 @@
 /obj/item/reagent_containers/food/snacks/eoran_aril
 	name = "eoran aril"
 	desc = "A glowing seed from the fruit of Eora. It pulses with divine energy."
-	icon = 'modular_azurepeak/icons/obj/items/eora_pom.dmi'
+	icon = 'icons/obj/items/eora_pom.dmi'
 	dropshrink = 0.7
 	icon_state = "auric"
 	bitesize = 1
@@ -995,22 +1009,30 @@
 	icon_state = "crimson"
 	effect_desc = "This fruit heals for a blood price."
 
-	var/heal_amount = 45
+	var/heal_amount = 35
 	var/blood_loss = 225
 
+/obj/item/reagent_containers/food/snacks/eoran_aril/crimson/Initialize()
+	. = ..()
+	blood_loss = BLOOD_VOLUME_NORMAL * 0.04
+
 /obj/item/reagent_containers/food/snacks/eoran_aril/crimson/apply_effects(mob/living/carbon/eater)
-	//Instant heal, but you can only eat 2 before the next will make you pass out.
+	//Instant heal, but you can only eat a couple before the next will make you pass out.
 	var/list/wCount = eater.get_wounds()
 	//No undead because they kinda don't have blood to give for this.
 	if(!eater.construct && !(eater.mob_biotypes & MOB_UNDEAD))
+		var/current_brute_loss = eater.getBruteLoss()
+		blood_loss += (eater.blood_volume * 0.1)
 		if(wCount.len > 0)
-			eater.heal_wounds(heal_amount)
+			eater.heal_wounds(heal_amount + (current_brute_loss * 0.12))
 			eater.update_damage_overlays()
+		// blood loss is equal to 4% max blood volume + 10% of current blood volume
+		// Regular healing is equal to 35 damage + 12% of current damage
 		eater.blood_volume = max(0, eater.blood_volume - blood_loss)
-		eater.adjustBruteLoss(-heal_amount, 0)
-		eater.adjustFireLoss(-heal_amount, 0)
-		eater.adjustOxyLoss(-heal_amount, 0)
-		eater.adjustToxLoss(-heal_amount, 0)
+		eater.adjustBruteLoss(-(heal_amount + (current_brute_loss * 0.12)), 0)
+		eater.adjustFireLoss(-(heal_amount + (eater.getFireLoss() * 0.12)), 0)
+		eater.adjustToxLoss(-(heal_amount + (eater.getToxLoss() * 0.12)), 0)
+		eater.adjustOxyLoss(-(heal_amount + (eater.getOxyLoss() * 0.12)), 0)
 		eater.adjustOrganLoss(ORGAN_SLOT_BRAIN, -heal_amount)
 		eater.adjustCloneLoss(-heal_amount, 0)
 
@@ -1078,8 +1100,8 @@
 		"trashFishingMod" = 0,
 		"dangerFishingMod" = 0,
 		"ceruleanFishingMod" = 1, // 1 on cerulean aril, 0 on everything else
+		"cheeseFishingMod" = 0 // Just for the funny gimmick of a chance for rats and rouses.
 	)
-
 /obj/item/reagent_containers/food/snacks/eoran_aril/fractal
 	name = "fractal aril"
 	desc = "A geometrically perfect seed that hurts to look at."
@@ -1218,7 +1240,7 @@
 /obj/item/reagent_containers/lux/eoran_aril
 	name = "incandescent aril"
 	desc = "A blindingly bright seed that radiates pure life energy. It imitates lux, the essence of life."
-	icon = 'modular_azurepeak/icons/obj/items/eora_pom.dmi'
+	icon = 'icons/obj/items/eora_pom.dmi'
 	icon_state = "incandescent"
 	dropshrink = 0.7
 
@@ -1236,7 +1258,7 @@
 /obj/item/reagent_containers/eoran_seed
 	name = "Satin aril"
 	desc = "A silky soft seed from Eora's sacred tree. It can be used to propagate her gift in fertile soil."
-	icon = 'modular_azurepeak/icons/obj/items/eora_pom.dmi'
+	icon = 'icons/obj/items/eora_pom.dmi'
 	icon_state = "roseate"
 
 /obj/item/reagent_containers/eoran_seed/afterattack(atom/target, mob/user, proximity_flag, click_parameters)
@@ -1341,3 +1363,6 @@
 	name = "Eora's Calm"
 	desc = "A refreshing calm. All your troubles have washed away. Why can't it always be like this?"
 	icon_state = "eora_bless"
+
+#undef HEARTWEAVE_FILTER
+#undef BLESSED_FOOD_FILTER

@@ -61,11 +61,10 @@
 	backpack_contents = list(
 				/obj/item/storage/belt/rogue/pouch/coins/poor = 1,
 				/obj/item/rogueweapon/scabbard/sheath = 1,
-				/obj/item/book/rogue/blackoak = 1
 				)
 
 	if(H.mind)
 		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/mockery)
 		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/enchant_weapon)
 		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/conjure_weapon)
-
+	wretch_select_bounty(H)

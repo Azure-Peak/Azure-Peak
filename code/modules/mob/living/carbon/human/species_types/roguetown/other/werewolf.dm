@@ -49,7 +49,9 @@
 		TRAIT_ZJUMP,
 		TRAIT_NOSLEEP,
 		TRAIT_GRABIMMUNE,
-		TRAIT_STRONGBITE
+		TRAIT_STRONGBITE,
+		TRAIT_LYCANRESILENCE,
+		TRAIT_CHUNKYFINGERS,
 	)
 	inherent_biotypes = MOB_HUMANOID
 	armor = 30
@@ -119,7 +121,7 @@
 	if(brutech > usedloss)
 		usedloss = brutech
 	inhand_overlay.alpha = 255 * usedloss
-	testing("damalpha [inhand_overlay.alpha]")
+
 	hands += inhand_overlay
 	H.overlays_standing[DAMAGE_LAYER] = hands
 	H.apply_overlay(DAMAGE_LAYER)

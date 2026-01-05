@@ -5,10 +5,9 @@
 	ask_verb = "asks"
 	exclaim_verb = "yells"
 	key = "h"
-	flags = LANGUAGE_HIDE_ICON_IF_UNDERSTOOD | LANGUAGE_HIDE_ICON_IF_NOT_UNDERSTOOD
 	space_chance = 66
 	default_priority = 80
-	icon_state = "asse"
+	icon_state = "infernal"
 	spans = list(SPAN_HELL)
 	syllables = list(
 		"ad", "al", "an", "ar", "as", "ci", "co", "de", "do", "el", "en", "er", "es", "ie",

@@ -97,6 +97,14 @@
 
 	/// Whether the bodypart has unlimited bleeding.
 	var/unlimited_bleeding = FALSE
+	
+	/// Cached variable that reflects how much bleeding our wounds are applying to the limb. Handled inside each individual wound.
+	var/bleeding = 0
+
+	/// Is the limb flagged for two-stage death handling? (aka, decaps will instantly kill first, THEN remove the head on second apply)
+	var/two_stage_death = FALSE
+	/// Has the limb been marked as having suffered a two-stage death flag?
+	var/grievously_wounded = FALSE
 
 	grid_width = 32
 	grid_height = 64
@@ -355,12 +363,13 @@
 	stamina_dam += round(CLAMP(stamina, 0, max_stamina_damage - stamina_dam), DAMAGE_PRECISION)
 
 	if(owner)
-		if((brute + burn) < 10)
-			owner.flash_fullscreen("redflash1")
-		else if((brute + burn) < 20)
-			owner.flash_fullscreen("redflash2")
-		else if((brute + burn) >= 20)
-			owner.flash_fullscreen("redflash3")
+		if(owner.show_redflash())
+			if((brute + burn) < 10)
+				owner.flash_fullscreen("redflash1")
+			else if((brute + burn) < 20)
+				owner.flash_fullscreen("redflash2")
+			else if((brute + burn) >= 20)
+				owner.flash_fullscreen("redflash3")
 
 	if(owner && updating_health)
 		owner.updatehealth()

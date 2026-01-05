@@ -125,7 +125,7 @@
 	id = "bleedingt1"
 	alert_type = /atom/movable/screen/alert/status_effect/debuff/bleedingt1
 	effectedstats = list(STATKEY_SPD = -1)
-	duration = 100
+	duration = -1
 
 /atom/movable/screen/alert/status_effect/debuff/bleedingt1
 	name = "Dizzy"
@@ -136,7 +136,7 @@
 	id = "bleedingt2"
 	alert_type = /atom/movable/screen/alert/status_effect/debuff/bleedingt2
 	effectedstats = list(STATKEY_STR = -1, STATKEY_SPD = -2)
-	duration = 100
+	duration = -1
 
 /atom/movable/screen/alert/status_effect/debuff/bleedingt2
 	name = "Faint"
@@ -147,7 +147,7 @@
 	id = "bleedingt3"
 	alert_type = /atom/movable/screen/alert/status_effect/debuff/bleedingt3
 	effectedstats = list(STATKEY_STR = -3, STATKEY_SPD = -4)
-	duration = 100
+	duration = -1
 
 /atom/movable/screen/alert/status_effect/debuff/bleedingt3
 	name = "Drained"
@@ -202,6 +202,10 @@
 	alert_type = /atom/movable/screen/alert/status_effect/debuff/devitalised
 	effectedstats = list(STATKEY_STR = -1, STATKEY_WIL = -1, STATKEY_CON = -1, STATKEY_SPD = -1, STATKEY_LCK = -1)	//Slightly punishing.
 	duration = 15 MINUTES	//Punishing, same time as revival, but mildly less punishing than revival itself.
+
+/datum/status_effect/debuff/devitalised/lesser
+	effectedstats = list(STATKEY_STR = -1, STATKEY_WIL = -1, STATKEY_CON = -1, STATKEY_SPD = -1, STATKEY_LCK = -1)
+	duration = 5 MINUTES
 
 /atom/movable/screen/alert/status_effect/debuff/devitalised
 	name = "Devitalised"
@@ -630,6 +634,16 @@
 
 	INVOKE_ASYNC(carbon, TYPE_PROC_REF(/mob/living/carbon, liver_failure))
 
+/datum/status_effect/debuff/disgracedguardsman
+	id = "disgracedguardsman"
+	alert_type = /atom/movable/screen/alert/status_effect/debuff/disgracedguardsman
+	// No effected stats. Because outlaw already remove Guardsman buff
+
+/atom/movable/screen/alert/status_effect/debuff/disgracedguardsman
+	name = "Disgraced Guardsman"
+	desc = "I betrayed my liege."
+	icon_state = "debuff"
+
 /datum/status_effect/debuff/vampbite
 	id = "Vampire Bite"
 	alert_type = /atom/movable/screen/alert/status_effect/debuff/vampbite
@@ -669,3 +683,60 @@
 	name = "Vampire biten"
 	desc = "You are feeling something... Interesting.."
 	icon_state = "acid"
+
+/datum/status_effect/debuff/joybringer_druqks
+	id = "joybringer_druqks"
+	effectedstats = list(STATKEY_LCK = -2)
+	duration = 3 SECONDS
+	alert_type = null
+
+/datum/status_effect/debuff/joybringer_druqks/on_apply()
+	. = ..()
+	owner.overlay_fullscreen("joybringer_weeds", /atom/movable/screen/fullscreen/weedsm)
+	owner.overlay_fullscreen("joybringer_druqks", /atom/movable/screen/fullscreen/druqks)
+
+	ADD_TRAIT(owner, TRAIT_DRUQK, src)
+
+	if(owner.client)
+		SSdroning.play_area_sound(get_area(owner), owner.client)
+
+/datum/status_effect/debuff/joybringer_druqks/on_remove()
+	. = ..()
+	owner.clear_fullscreen("joybringer_druqks")
+	owner.clear_fullscreen("joybringer_weeds")
+
+	REMOVE_TRAIT(owner, TRAIT_DRUQK, src)
+
+	if(owner.client)
+		SSdroning.play_area_sound(get_area(owner), owner.client)
+
+/datum/status_effect/debuff/joybringer_druqks/tick()
+	owner.hallucination += 3
+	owner.Jitter(1)
+
+	if(!prob(10))
+		return
+
+	owner.emote(pick("chuckle", "giggle"))
+
+/datum/status_effect/debuff/hobbled
+	id = "hobbled"
+	alert_type = /atom/movable/screen/alert/status_effect/debuff/hobbled
+	effectedstats = list(STATKEY_SPD = -2)
+	duration = 8 SECONDS
+
+/atom/movable/screen/alert/status_effect/debuff/hobbled
+	name = "Hobbled"
+	desc = "You've been struck in the leg! The force has left you staggered!"
+	icon_state = "dazed"
+
+/datum/status_effect/debuff/hobbled/on_apply()
+		. = ..()
+		var/mob/living/carbon/C = owner
+		C.add_movespeed_modifier(MOVESPEED_ID_DAMAGE_SLOWDOWN, multiplicative_slowdown = 1.5)
+
+/datum/status_effect/debuff/hobbled/on_remove()
+	. = ..()
+	if(iscarbon(owner))
+		var/mob/living/carbon/C = owner
+		C.remove_movespeed_modifier(MOVESPEED_ID_DAMAGE_SLOWDOWN)

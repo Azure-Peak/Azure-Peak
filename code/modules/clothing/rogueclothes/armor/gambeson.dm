@@ -7,7 +7,7 @@
 	icon_state = "gambeson"
 	body_parts_covered = COVERAGE_FULL
 	armor = ARMOR_PADDED
-	prevent_crits = list(BCLASS_CUT,BCLASS_BLUNT)
+	prevent_crits = PREVENT_CRITS_NONE
 	blocksound = SOFTUNDERHIT
 	blade_dulling = DULLING_BASHCHOP
 	max_integrity = ARMOR_INT_CHEST_LIGHT_MEDIUM
@@ -18,20 +18,26 @@
 	r_sleeve_status = SLEEVE_NORMAL
 	l_sleeve_status = SLEEVE_NORMAL
 	armor_class = ARMOR_CLASS_LIGHT
+	chunkcolor = "#978151"
 
-/obj/item/clothing/suit/roguetown/armor/gambeson/councillor
+/obj/item/clothing/suit/roguetown/armor/gambeson/ComponentInitialize()
+	AddComponent(/datum/component/armour_filtering/positive, TRAIT_FENCERDEXTERITY)
+
+/obj/item/clothing/suit/roguetown/armor/gambeson/dark
 	color = "#646464"
 
 /obj/item/clothing/suit/roguetown/armor/gambeson/lord
 	name = "arming jacket"
 	icon_state = "dgamb"
 	body_parts_covered = COVERAGE_ALL_BUT_LEGS
+	prevent_crits = PREVENT_CRITS_MOST
 	allowed_sex = list(MALE, FEMALE)
 
 /obj/item/clothing/suit/roguetown/armor/gambeson/shadowrobe
 	name = "stalker robe"
 	desc = "A thick robe in royal purple, befitting the hand, while remaining easy for them to slip about in.."
 	allowed_race = NON_DWARVEN_RACE_TYPES
+	prevent_crits = PREVENT_CRITS_MOST
 	icon_state = "shadowrobe"
 
 
@@ -40,16 +46,16 @@
 	desc = "A thin barely-padded gambeson, typically worn by the peasantry as cheap yet fashionable armor for the whole body. May stop an arrow."
 	armor = ARMOR_PADDED_BAD
 	max_integrity = ARMOR_INT_CHEST_LIGHT_BASE
-	prevent_crits = null // It won't help, like, at all.
+	prevent_crits = PREVENT_CRITS_NONE
 	sellprice = 10
 
 /obj/item/clothing/suit/roguetown/armor/gambeson/heavy
 	name = "padded gambeson"
 	desc = "A gambeson with additional padding layers, hardened to make it more durable. It still does not compare to leather or metal, but it will probably stop a crossbow bolt, so it's typically worn to complement proper armor."
 	icon_state = "gambesonp"
-	prevent_crits = list(BCLASS_CUT, BCLASS_BLUNT, BCLASS_CHOP)
 	armor = ARMOR_PADDED_GOOD
 	max_integrity = ARMOR_INT_CHEST_LIGHT_MASTER
+	prevent_crits = PREVENT_CRITS_MOST
 	sellprice = 25
 	color = "#976E6B"
 	var/shiftable = TRUE
@@ -99,8 +105,8 @@
 /obj/item/clothing/suit/roguetown/armor/gambeson/heavy/otavan/attack_right(mob/user)
 	..()
 	if(!picked)
-		var/choice = input(user, "Choose a color.", "Otavan colors") as anything in colorlist
-		var/playerchoice = colorlist[choice]
+		var/choice = input(user, "Choose a color.", "Otavan colors") as anything in COLOR_MAP
+		var/playerchoice = COLOR_MAP[choice]
 		picked = TRUE
 		detail_color = playerchoice
 		detail_tag = "_detail"
@@ -111,7 +117,7 @@
 			H.update_icon()
 
 /obj/item/clothing/suit/roguetown/armor/gambeson/heavy/otavan/Initialize()
-	. = ..()		
+	. = ..()
 	update_icon()
 
 /obj/item/clothing/suit/roguetown/armor/gambeson/heavy/otavan/update_icon()
@@ -161,8 +167,8 @@
 /obj/item/clothing/suit/roguetown/armor/gambeson/heavy/grenzelhoft/attack_right(mob/user)
 	..()
 	if(!picked)
-		var/choice = input(user, "Choose a color.", "Grenzelhoft colors") as anything in colorlist
-		var/playerchoice = colorlist[choice]
+		var/choice = input(user, "Choose a color.", "Grenzelhoft colors") as anything in COLOR_MAP
+		var/playerchoice = COLOR_MAP[choice]
 		picked = TRUE
 		detail_color = playerchoice
 		detail_tag = "_detail"
@@ -207,7 +213,6 @@
 	desc = "The finest leather tunic. Made to ENDURE, Made to Inquire, come heretic or hellfire."
 	icon_state = "leathertunic"
 	color = null
-	prevent_crits = list(BCLASS_CUT, BCLASS_BLUNT, BCLASS_CHOP)
 	armor = ARMOR_PADDED
 	shiftable = FALSE
 	body_parts_covered = COVERAGE_ALL_BUT_LEGS
@@ -219,3 +224,4 @@
 	icon_state = "shadowrobe"
 	armor = ARMOR_PADDED_GOOD
 	max_integrity = ARMOR_INT_CHEST_LIGHT_MEDIUM + 30 //280
+

@@ -114,6 +114,20 @@
 	created_item = /obj/item/folding_table_stored
 	craftdiff = 1
 
+/datum/anvil_recipe/engineering/folding_alchcauldron
+	name = "Folding Cauldron (+1 Small Log, +Stone Pot, +Tin)"
+	req_bar = /obj/item/ingot/bronze
+	additional_items = list(/obj/item/grown/log/tree/small, /obj/item/reagent_containers/glass/bucket/pot/stone, /obj/item/ingot/tin)
+	created_item = /obj/item/folding_alchcauldron_stored
+	craftdiff = 3
+
+/datum/anvil_recipe/engineering/folding_alchstation_stored
+	name = "Alchemical Station Kit (+2 Small Log, +Bottle, +Cog)"
+	req_bar = /obj/item/ingot/bronze
+	additional_items = list(/obj/item/grown/log/tree/small, /obj/item/grown/log/tree/small, /obj/item/reagent_containers/glass/bottle, /obj/item/roguegear)
+	created_item = /obj/item/folding_alchstation_stored
+	craftdiff = 3
+
 /datum/anvil_recipe/engineering/bronze/lamptern
 	name = "Lamptern, Bronze (x3)"
 	req_bar = /obj/item/ingot/bronze

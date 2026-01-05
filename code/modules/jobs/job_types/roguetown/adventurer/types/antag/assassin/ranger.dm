@@ -49,11 +49,10 @@
 	backr = /obj/item/storage/backpack/rogue/satchel
 	backpack_contents = list(
 					/obj/item/flashlight/flare/torch/lantern/prelit = 1,
-					/obj/item/rogueweapon/scabbard/sheath = 1, 
-					/obj/item/rogueweapon/huntingknife/idagger/steel = 1,
+					/obj/item/rogueweapon/scabbard/sheath = 1,
+					/obj/item/rogueweapon/huntingknife/idagger/warden_machete = 1,
 					/obj/item/needle/thorn = 1,
 					/obj/item/natural/cloth = 1,
-					/obj/item/restraints/legcuffs/beartrap = 2,
 					)
 	mask = /obj/item/clothing/mask/rogue/wildguard
 	neck = /obj/item/clothing/neck/roguetown/coif
@@ -68,11 +67,11 @@
 		switch(weapon_choice)
 			if("Yew Longbow")
 				H.adjust_skillrank_up_to(/datum/skill/combat/bows, SKILL_LEVEL_MASTER, TRUE)
-				backr = /obj/item/gun/ballistic/revolver/grenadelauncher/bow/longbow
+				backl = /obj/item/gun/ballistic/revolver/grenadelauncher/bow/longbow
 				beltl = /obj/item/quiver/arrows
 			if("Crossbow")
 				H.adjust_skillrank_up_to(/datum/skill/combat/crossbows, SKILL_LEVEL_MASTER, TRUE)
-				backr = /obj/item/gun/ballistic/revolver/grenadelauncher/crossbow
+				backl = /obj/item/gun/ballistic/revolver/grenadelauncher/crossbow
 				beltl = /obj/item/quiver/bolts
 
 	if(!istype(H.patron, /datum/patron/inhumen/graggar))

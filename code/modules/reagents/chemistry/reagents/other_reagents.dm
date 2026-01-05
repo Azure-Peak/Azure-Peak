@@ -668,7 +668,7 @@
 	taste_description = "chlorine"
 
 /datum/reagent/chlorine/on_mob_life(mob/living/carbon/M)
-	M.take_bodypart_damage(1*REM, 0, 0, 0)
+	M.take_bodypart_damage(1  * REAGENTS_EFFECT_MULTIPLIER, 0, 0, 0)
 	. = 1
 	..()
 
@@ -680,7 +680,7 @@
 	taste_description = "acid"
 
 /datum/reagent/fluorine/on_mob_life(mob/living/carbon/M)
-	M.adjustToxLoss(1*REM, 0)
+	M.adjustToxLoss(1  * REAGENTS_EFFECT_MULTIPLIER, 0)
 	. = 1
 	..()
 
@@ -923,7 +923,7 @@
 /datum/reagent/impedrezene/on_mob_life(mob/living/carbon/M)
 	M.jitteriness = max(M.jitteriness-5,0)
 	if(prob(80))
-		M.adjustOrganLoss(ORGAN_SLOT_BRAIN, 2*REM)
+		M.adjustOrganLoss(ORGAN_SLOT_BRAIN, 2  * REAGENTS_EFFECT_MULTIPLIER)
 	if(prob(50))
 		M.drowsyness = max(M.drowsyness, 3)
 	if(prob(10))
@@ -1011,8 +1011,8 @@
 	..()
 
 /datum/reagent/stimulum/on_mob_life(mob/living/carbon/M)
-	M.adjustStaminaLoss(-2*REM, 0)
-	M.adjustToxLoss(current_cycle*0.1*REM, 0) // 1 toxin damage per cycle at cycle 10
+	M.adjustStaminaLoss(-2  * REAGENTS_EFFECT_MULTIPLIER, 0)
+	M.adjustToxLoss(current_cycle*0.1  * REAGENTS_EFFECT_MULTIPLIER, 0) // 1 toxin damage per cycle at cycle 10
 	..()
 
 /datum/reagent/nitryl
@@ -1151,7 +1151,7 @@
 
 /datum/reagent/plantnutriment/on_mob_life(mob/living/carbon/M)
 	if(prob(tox_prob))
-		M.adjustToxLoss(1*REM, 0)
+		M.adjustToxLoss(1  * REAGENTS_EFFECT_MULTIPLIER, 0)
 		. = 1
 	..()
 

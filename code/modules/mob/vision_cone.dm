@@ -304,6 +304,8 @@
 		if(H.wear_mask)
 			if(H.wear_mask.block2add)
 				fovangle |= H.wear_mask.block2add
+		if(H.head?.block2add == FOV_BEHIND && H.wear_mask?.block2add == FOV_BEHIND && H.wear_mask?.stack_fovs && H.head?.stack_fovs)
+			fovangle |= FOV_LEFT|FOV_RIGHT
 		if(cyclops_left)
 			fovangle |= FOV_LEFT
 		if(cyclops_right)

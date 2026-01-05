@@ -2,7 +2,7 @@
 /mob/living/simple_animal/hostile/retaliate/rogue/cow
 	icon = 'icons/roguetown/mob/monster/cow.dmi'
 	name = "cow"
-	desc = ""
+	desc = "Cattle are a staple of animal husbandry across the world, both for their milk and for their meat."
 	icon_state = "cow"
 	icon_living = "cow"
 	icon_dead = "cow_dead"
@@ -41,6 +41,11 @@
 	childtype = list(/mob/living/simple_animal/hostile/retaliate/rogue/cow/cowlet = 95, /mob/living/simple_animal/hostile/retaliate/rogue/cow/bullet = 5)
 	remains_type = /obj/effect/decal/remains/cow
 
+//new ai, old ai off
+	AIStatus = AI_OFF
+	can_have_ai = FALSE
+	ai_controller = /datum/ai_controller/generic
+
 /obj/effect/decal/remains/cow
 	name = "remains"
 	gender = PLURAL
@@ -61,7 +66,6 @@
 
 /mob/living/simple_animal/hostile/retaliate/rogue/cow/cowlet
 	name = "calf"
-	desc = ""
 	icon_state = "cowlet"
 	icon_living = "cowlet"
 	icon_dead = "cowlet_dead"
@@ -137,7 +141,8 @@
 
 /mob/living/simple_animal/hostile/retaliate/rogue/bull
 	icon = 'icons/roguetown/mob/monster/cow.dmi'
-	name = "cow"
+	name = "bull"
+	desc = "Cattle are a staple of animal husbandry across the world, both for their milk and for their meat."
 	icon_state = "bull"
 	icon_living = "bull"
 	icon_dead = "bull_dead"
@@ -175,6 +180,11 @@
 	STASTR = 12
 	STASPD = 2
 	remains_type = /obj/effect/decal/remains/cow
+
+	//new ai, old ai off
+	AIStatus = AI_OFF
+	can_have_ai = FALSE
+	ai_controller = /datum/ai_controller/generic
 
 /mob/living/simple_animal/hostile/retaliate/rogue/bull/get_sound(input)
 	switch(input)
@@ -238,9 +248,13 @@
 	GiveTarget(user)
 	return
 
+/mob/living/simple_animal/hostile/retaliate/rogue/bull/Initialize()
+	. = ..()
+	AddElement(/datum/element/ai_retaliate)
+	ai_controller.set_blackboard_key(BB_BASIC_FOODS, food_type)
+
 /mob/living/simple_animal/hostile/retaliate/rogue/cow/bullet
 	name = "calf"
-	desc = ""
 	gender = MALE
 	icon_state = "bullet"
 	icon_living = "bullet"
@@ -260,7 +274,7 @@
 	STASPD = 5
 	adult_growth = /mob/living/simple_animal/hostile/retaliate/rogue/bull
 
-/mob/living/simple_animal/hostile/retaliate/rogue/cow/test/Initialize()
+/mob/living/simple_animal/hostile/retaliate/rogue/cow/Initialize()
 	. = ..()
 	AddElement(/datum/element/ai_retaliate)
 	ai_controller.set_blackboard_key(BB_BASIC_FOODS, food_type)

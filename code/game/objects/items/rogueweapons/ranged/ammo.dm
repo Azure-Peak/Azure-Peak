@@ -671,8 +671,7 @@
 	desc = "A small bronze sphere. It feels deceptively heavy in the palm of your hand."
 	projectile_type = /obj/projectile/bullet/reusable/sling_bullet/bronze
 	icon = 'icons/roguetown/weapons/ammo.dmi'
-	icon_state = "stone_sling_bullet"
-	color = "#f9d690"
+	icon_state = "bronze_sling_bullet"
 
 /obj/item/ammo_casing/caseless/rogue/sling_bullet/aalloy
 	name = "decrepit sling bullet"

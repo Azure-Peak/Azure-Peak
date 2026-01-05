@@ -113,7 +113,7 @@
 /datum/coven_power/obfuscate/unseen_presence/proc/handle_move(datum/source, atom/moving_thing, dir)
 	SIGNAL_HANDLER
 
-	if (owner.m_intent != MOVE_INTENT_WALK)
+	if (owner.m_intent == MOVE_INTENT_RUN)
 		to_chat(owner, span_danger("Your [src] falls away as you move too quickly!"))
 		try_deactivate(direct = TRUE)
 
@@ -155,7 +155,7 @@
 /datum/coven_power/obfuscate/vanish_from_the_minds_eye/proc/handle_move(datum/source, atom/moving_thing, dir)
 	SIGNAL_HANDLER
 
-	if (owner.m_intent != MOVE_INTENT_WALK)
+	if (owner.m_intent == MOVE_INTENT_RUN)
 		to_chat(owner, span_danger("Your [src] falls away as you move too quickly!"))
 		try_deactivate(direct = TRUE)
 

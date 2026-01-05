@@ -115,6 +115,47 @@
 		else
 			to_chat(src, "You will now see examined items in boxes.")
 
+/client/verb/toggle_autopunctuation()
+	set category = "Options"
+	set name = "Toggle Autopunctuation"
+	if(prefs)
+		prefs.no_autopunctuate = !prefs.no_autopunctuate
+		prefs.save_preferences()
+		if(prefs.no_autopunctuate)
+			to_chat(src, "Your messages will no longer be automatically punctuated.")
+		else
+			to_chat(src, "Your messages will now be automatically punctuated.")
+
+/client/verb/toggle_language_fonts()
+	set category = "Options"
+	set name = "Toggle Language Fonts"
+	if(prefs)
+		prefs.no_language_fonts = !prefs.no_language_fonts
+		prefs.save_preferences()
+		if(prefs.no_language_fonts)
+			to_chat(src, "You will no longer see languages in their stylized fonts.")
+		else
+			to_chat(src, "You will now see languages in their stylized fonts.")
+
+/client/verb/toggle_language_icon()
+	set category = "Options"
+	set name = "Toggle Language Icon"
+	if(prefs)
+		prefs.no_language_icon = !prefs.no_language_icon
+		prefs.save_preferences()
+		if(prefs.no_language_icon)
+			to_chat(src, "You will no longer see the language icon in front of a language.")
+		else
+			to_chat(src, "You will now see the language icon in front of a language.")
+
+/client/verb/toggle_redflash()
+	set category = "Options"
+	set name = "Toggle Red Screen Flash"
+	if(prefs)
+		prefs.no_redflash = !prefs.no_redflash
+		prefs.save_preferences()
+		to_chat(src, "You will see the red flashing effect [prefs.no_redflash ? "less" : "more"] frequently.")
+
 /client/verb/toggle_lobby_music()
 	set name = "Toggle Lobby Music"
 	set category = "Options"
@@ -165,6 +206,14 @@
 		prefs.floating_text_toggles ^= XP_TEXT
 		prefs.save_preferences()
 	to_chat(src, "You will[prefs.floating_text_toggles & XP_TEXT ? "" : " not"] see XP pop ups.")
+
+/client/verb/toggle_hitzonetext() // Whether the user can see a text popup for where they got hit.
+	set category = "Options"
+	set name = "Toggle Hitzone Text"
+	if(prefs)
+		prefs.floating_text_toggles ^= HITZONE_TEXT
+		prefs.save_preferences()
+	to_chat(src, "You will[prefs.floating_text_toggles & HITZONE_TEXT ? "" : " not"] see floating text for where you were hit.")
 
 /client/verb/toggle_floatingtext() // Whether the user can see the balloon pop ups at all.
 	set category = "Options"
@@ -683,3 +732,16 @@ GLOBAL_LIST_INIT(ghost_orbits, list(GHOST_ORBIT_CIRCLE,GHOST_ORBIT_TRIANGLE,GHOS
 	prefs.admin_chat_toggles ^= CHAT_ADMINSPAWN
 	prefs.save_preferences()
 	to_chat(src, "You will [prefs.admin_chat_toggles & CHAT_ADMINSPAWN ? "see" : "not see any"] spawn logs.")
+
+/client/verb/full_examine()
+	set category = "Options"
+	set name = "Toggle Full Examine"
+	if(prefs)
+		prefs.full_examine = !prefs.full_examine
+		prefs.save_preferences()
+		if(prefs.full_examine)
+			to_chat(src, "Examines will be fully shown.")
+		else
+			to_chat(src, "Examines will have some information behind dropdowns.")
+
+#undef TOGGLE_CHECKBOX

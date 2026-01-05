@@ -2,7 +2,8 @@
 	resistance_flags = FLAMMABLE
 	max_integrity = 150
 	anchored = TRUE
-	plane = GAME_PLANE_UPPER
+	layer = LYING_MOB_LAYER
+	plane = GAME_PLANE
 
 /obj/structure/flora/Initialize()
 	. = ..()
@@ -164,7 +165,7 @@
 
 /obj/structure/flora/ausbushes
 	name = "bush"
-	desc = ""
+	desc = "A lively patch of greenery sits here."
 	icon = 'icons/obj/flora/ausflora.dmi'
 	icon_state = "firstbush_1"
 
@@ -337,7 +338,7 @@
 
 /obj/structure/flora/rock
 	icon_state = "basalt"
-	desc = ""
+	desc = "A lump of volcanic rock."
 	icon = 'icons/obj/flora/rocks.dmi'
 	resistance_flags = FIRE_PROOF
 	density = TRUE
@@ -348,7 +349,8 @@
 
 /obj/structure/flora/rock/pile
 	icon_state = "lavarocks"
-	desc = ""
+	desc = "Many lumps of volcanic rock, intermixed finely with skeletal remains."
+	density = FALSE
 
 //Jungle grass
 
@@ -370,7 +372,7 @@
 
 /obj/structure/flora/rock/jungle
 	icon_state = "rock"
-	desc = ""
+	desc = "Several volcanic rocks overgrown with flora."
 	icon = 'icons/obj/flora/jungleflora.dmi'
 	density = FALSE
 

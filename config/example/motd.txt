@@ -1,4 +1,3 @@
 <!-- Most valid html will work in here, excluding images. -->
-Roguetown Discord Server: <a href="https://discord.gg/9uYTPsRMKa">discord.gg/RogueTown</a>
-Roguetown Patreon: <a href="https://www.patreon.com/user?u=58204426">patreon.com/ROGUETOWN</a>
-<center>* Unstable Playtest - Expect Restarts *</center>
+Azure Peak Discord Server: <a href="https://discord.gg/NCFXUAgCPT">https://discord.gg/NCFXUAgCPT</a>
+Azure Peak Patreon: <a href="https:ko-fi.com/azurepeak">https:ko-fi.com/azurepeak</a>

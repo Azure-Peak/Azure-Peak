@@ -1,0 +1,4 @@
+author: "Geevies"
+delete-after: True
+changes:
+  - rscadd: "Different types of foods now give you different types of buffs, ranging from good snacks, to great meals, and sweet treats."

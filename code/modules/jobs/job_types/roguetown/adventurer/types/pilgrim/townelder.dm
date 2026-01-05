@@ -42,7 +42,7 @@
 
 /datum/outfit/job/roguetown/elder/pre_equip(mob/living/carbon/human/H)
 	..()
-	cloak = /obj/item/clothing/cloak/stabard/guardhood/elder
+	cloak = /obj/item/clothing/cloak/tabard/stabard/guardhood/elder
 	armor = /obj/item/clothing/suit/roguetown/armor/leather/vest/white
 	pants = /obj/item/clothing/under/roguetown/tights
 	shoes = /obj/item/clothing/shoes/roguetown/shortboots

@@ -202,6 +202,7 @@
 /*	.............   Minced meat & stuffing sausages   ................ */
 /obj/item/reagent_containers/food/snacks/rogue/meat/mince
 	name = "mince"
+	desc = "Meat sliced many times both with and against the grain, producing a fine mince."
 	icon_state = "meatmince"
 	ingredient_size = 2
 	slice_path = null
@@ -311,6 +312,7 @@
 /* ............. Volf Meat ................*/
 /obj/item/reagent_containers/food/snacks/rogue/meat/steak/wolf
 	name = "raw volf meat"
+	desc = "Meat taken from a volf. Stringy, tough, and gamey - but edible."
 	icon_state = "volfstrip"
 	slice_path = /obj/item/reagent_containers/food/snacks/rogue/meat/mince/beef		//Honestly, we don't need our own minced type on this one.
 	fried_type = /obj/item/reagent_containers/food/snacks/rogue/meat/steak/wolf/fried

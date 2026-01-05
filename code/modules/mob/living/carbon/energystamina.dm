@@ -2,10 +2,10 @@
 	max_stamina = max_energy / 10
 
 	var/delay = 20
-	if(HAS_TRAIT(src, TRAIT_APRICITY)) 
-		switch(GLOB.tod) 
-			if("day", "dawn") 
-				delay = 13 
+	if(HAS_TRAIT(src, TRAIT_APRICITY))
+		switch(GLOB.tod)
+			if("day", "dawn")
+				delay = 13
 			if("night", "dusk")
 				delay = 16
 	if(world.time > last_fatigued + delay) //regen fatigue
@@ -45,8 +45,6 @@
 		return TRUE
 	if(HAS_TRAIT(src, TRAIT_INFINITE_ENERGY))
 		return TRUE
-	if(m_intent == MOVE_INTENT_RUN && isnull(buckled) && (mobility_flags & MOBILITY_STAND))
-		mind && mind.add_sleep_experience(/datum/skill/misc/athletics, (STAINT*0.02))
 	energy += added
 	if(energy > max_energy)
 		energy = max_energy
@@ -93,7 +91,7 @@
 	if (athletics_skill)
 		var/athletics_bonus = athletics_skill * 0.05 //each rank of athletics gives us 5% less nutrition loss
 		nutrition_amount *= (1 - athletics_bonus)
-	
+
 	if (nutrition >= NUTRITION_LEVEL_WELL_FED) // we've only just eaten recently so just flat out reduce the total loss by half
 		nutrition_amount *= 0.5
 
@@ -105,8 +103,19 @@
 /mob/living/stamina_add(added as num, emote_override, force_emote = TRUE) //call update_stamina here and set last_fatigued, return false when not enough fatigue left
 	if(HAS_TRAIT(src, TRAIT_INFINITE_STAMINA))
 		return TRUE
+
+	var/true_added = added
 	if(HAS_TRAIT(src, TRAIT_FORTITUDE))
 		added = added * 0.5
+
+	if(added < 0 && HAS_TRAIT(src, TRAIT_FROZEN_STAMINA))
+		added = 0
+
+	if(mind && true_added > 0)
+		// the amount of athletics skill gained is proportional to how much stamina is used
+		// using a tenth of the bar gives 1 XP point of athletics skill, multiplied by your constitution divided by 10
+		mind.add_sleep_experience(/datum/skill/misc/athletics, (STACON / 10) * ((true_added / max_stamina) * 10), show_xp = m_intent == MOVE_INTENT_RUN)
+
 	stamina = CLAMP(stamina+added, 0, max_stamina)
 	if(added > 0)
 		energy_add(added * -1)

@@ -15,7 +15,7 @@
 #define ISDIAGONALDIR(d) (d&(d-1))
 
 //Human Overlays Indexes/////////
-
+#define JOYBRINGER_LAYER		55
 #define BLACK_ROT_LAYER			54
 #define POTENCE_LAYER			53
 #define MUTATIONS_LAYER			52		//mutations. Tk headglows, cold resistance glow, etc
@@ -33,9 +33,9 @@
 #define LEG_PART_LAYER			40
 #define LEGWEAR_LAYER			39
 #define PANTS_LAYER				38
-#define SHOES_LAYER				37
-#define LEG_DAMAGE_LAYER		36
-#define LEGSLEEVE_LAYER			35
+#define LEG_DAMAGE_LAYER		37
+#define LEGSLEEVE_LAYER			36
+#define SHOES_LAYER				35
 #define SHOESLEEVE_LAYER		34
 #define SHIRT_LAYER				33
 #define WRISTS_LAYER			32
@@ -70,7 +70,7 @@
 #define SUNDER_LAYER			3
 #define FIRE_LAYER				2		//If you're on fire
 #define TURF_LAYER				1		//If you're on fire
-#define TOTAL_LAYERS			54		//KEEP THIS UP-TO-DATE OR SHIT WILL BREAK ;_;
+#define TOTAL_LAYERS			55		//KEEP THIS UP-TO-DATE OR SHIT WILL BREAK ;_;
 
 #define BACK_CLOAK_SOUTH_LAYER		(BODY_BEHIND_LAYER+1)
 
@@ -437,11 +437,9 @@ GLOBAL_LIST_INIT(pda_styles, sortList(list(MONO, VT, ORBITRON, SHARE)))
 #define TELEPORT_CHANNEL_CULT "cult"			//Cult teleportation, does whatever it wants (unless there's holiness)
 #define TELEPORT_CHANNEL_FREE "free"			//Anything else
 
-//Run the world with this parameter to enable a single run though of the game setup and tear down process with unit tests in between
-#define TEST_RUN_PARAMETER "test-run"
 //Force the log directory to be something specific in the data/logs folder
 #define OVERRIDE_LOG_DIRECTORY_PARAMETER "log-directory"
-//Prevent the master controller from starting automatically, overrides TEST_RUN_PARAMETER
+//Prevent the master controller from starting automatically
 #define NO_INIT_PARAMETER "no-init"
 //Force the config directory to be something other than "config"
 #define OVERRIDE_CONFIG_DIRECTORY_PARAMETER "config-directory"
@@ -494,3 +492,16 @@ GLOBAL_LIST_INIT(pda_styles, sortList(list(MONO, VT, ORBITRON, SHARE)))
 #define FALL_INTERCEPTED		(1<<0) //Stops the movable from falling further and crashing on the ground
 #define FALL_NO_MESSAGE			(1<<1) //Used to suppress the "[A] falls through [old_turf]" messages where it'd make little sense at all, like going downstairs.
 #define FALL_STOP_INTERCEPTING	(1<<2) //Used in situations where halting the whole "intercept" loop would be better, like supermatter dusting (and thus deleting) the atom.
+
+// A verb that does nothing for clearing keybinds
+#define NONSENSICAL_VERB "NONSENSICAL_VERB_THAT_DOES_NOTHING"
+
+// Emote visibility / audibility flag
+#define EMOTE_VISIBLE 1
+#define EMOTE_AUDIBLE 2
+
+#define GARRISON_SCOM_COLOR "#FF4242"
+
+// Zombie infection defines
+#define ZOMBIE_INFECTION_PROBABILITY 20 	/// Zombie infection probability for bites on a wound
+#define ZOMBIE_INFECTION_TIME 2 MINUTES	/// Time taken until zombie infection kicks in (unit wakes up as a zombie)

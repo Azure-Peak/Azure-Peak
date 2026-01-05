@@ -1,3 +1,9 @@
+#define PARALYZE_L_ARM 0x1
+#define PARALYZE_R_ARM 0x2
+#define PARALYZE_L_LEG 0x4
+#define PARALYZE_R_LEG 0x8
+#define PARALYZE_SUM (PARALYZE_L_ARM | PARALYZE_R_ARM | PARALYZE_L_LEG | PARALYZE_R_LEG)
+
 //Largely negative status effects go here, even if they have small benificial effects
 //STUN EFFECTS
 /datum/status_effect/incapacitating
@@ -46,6 +52,9 @@
 /datum/status_effect/incapacitating/immobilized
 	id = "immobilized"
 	alert_type = /atom/movable/screen/alert/status_effect/immobilized
+	mob_effect_icon = 'icons/mob/mob_effects.dmi'
+	mob_effect_icon_state = "eff_immobilized"
+	mob_effect_offset_x = 3
 
 /atom/movable/screen/alert/status_effect/immobilized
 	name = "Immobilized"
@@ -94,9 +103,9 @@
 			human_owner = owner
 
 /datum/status_effect/incapacitating/sleeping/on_remove()
-	if(human_owner && human_owner.client)
-		SSdroning.play_area_sound(get_area(src), human_owner.client)
-		SSdroning.play_loop(get_area(src), human_owner.client)
+	if(ishuman(owner))
+		SSdroning.play_area_sound(get_area(src), owner.client)
+		SSdroning.play_loop(get_area(src), owner.client)
 	. = ..()
 
 /datum/status_effect/incapacitating/sleeping/Destroy()
@@ -648,12 +657,6 @@
 	var/list/traits_added = list()
 	var/list/bodyparts_disabled = list()
 
-#define PARALYZE_L_ARM 0x1
-#define PARALYZE_R_ARM 0x2
-#define PARALYZE_L_LEG 0x4
-#define PARALYZE_R_LEG 0x8
-#define PARALYZE_SUM (PARALYZE_L_ARM | PARALYZE_R_ARM | PARALYZE_L_LEG | PARALYZE_R_LEG)
-
 /datum/status_effect/debuff/mishap_arcane_paralysis/on_apply()
 	. = ..()
 	var/limbs = rand(1, PARALYZE_SUM) // To be used as bits, NOT a meaningful integer value
@@ -790,21 +793,63 @@
 	alert_type = /atom/movable/screen/alert/status_effect/debuff/baitedcd
 	duration = 30 SECONDS
 
+/datum/status_effect/debuff/baitcd/on_creation(mob/living/new_owner, new_dur)
+	if(new_dur)
+		duration = new_dur
+	return ..()
+	
+
 /atom/movable/screen/alert/status_effect/debuff/feintcd
-	name = "Feint Cooldown"
+	name = "Feint Cool down"
 	desc = "I used it. I must wait, or risk a lower chance of success."
 	icon_state = "feintcd"
 
+/atom/movable/screen/alert/status_effect/debuff/feinted
+	name = "Feinted"
+	desc = "I've been feinted. It won't happen again so soon."
+	icon_state = "feinted"
+
 
 /atom/movable/screen/alert/status_effect/debuff/clashcd
-	name = "Guard Cooldown"
+	name = "Riposte / Guard Cooldown"
 	desc = "I used it. I must wait."
 	icon_state = "guardcd"
+
+/datum/status_effect/debuff/strikecd
+	id = "strikecd"
+	alert_type = /atom/movable/screen/alert/status_effect/debuff/precisestrikecd
+	duration = 30 SECONDS
+
+/atom/movable/screen/alert/status_effect/debuff/precisestrikecd
+	name = "Precise Strike Cooldown"
+	desc = "I used it. I must wait."
+	icon_state = "strikecd"
 
 /datum/status_effect/debuff/clashcd
 	id = "clashcd"
 	alert_type = /atom/movable/screen/alert/status_effect/debuff/clashcd
 	duration = 30 SECONDS
+
+/datum/status_effect/debuff/clashcd/on_creation(mob/living/new_owner, new_dur)
+	if(new_dur)
+		duration = new_dur
+	return ..()
+
+/datum/status_effect/debuff/specialcd
+	id = "specialcd"
+	alert_type = /atom/movable/screen/alert/status_effect/debuff/specialcd
+	duration = 30 SECONDS
+	status_type = STATUS_EFFECT_UNIQUE
+
+/datum/status_effect/debuff/specialcd/on_creation(mob/living/new_owner, new_dur)
+	if(new_dur)
+		duration = new_dur
+	return ..()
+
+/atom/movable/screen/alert/status_effect/debuff/specialcd
+	name = "Special Manouevre Cooldown"
+	desc = "I used it. I must wait."
+	icon_state = "strikecd"
 
 /atom/movable/screen/alert/status_effect/debuff/exposed
 	name = "Exposed"
@@ -815,6 +860,9 @@
 	id = "nofeint"
 	alert_type = /atom/movable/screen/alert/status_effect/debuff/exposed
 	duration = 10 SECONDS
+	mob_effect_icon = 'icons/mob/mob_effects.dmi'
+	mob_effect_icon_state = "eff_exposed"
+	mob_effect_layer = MOB_EFFECT_LAYER_EXPOSED
 
 /datum/status_effect/debuff/exposed/on_creation(mob/living/new_owner, new_dur)
 	if(new_dur)
@@ -825,6 +873,25 @@
 	id = "feintcd"
 	alert_type = /atom/movable/screen/alert/status_effect/debuff/feintcd
 	duration = 30 SECONDS
+
+/datum/status_effect/debuff/feintcd/on_creation(mob/living/new_owner, new_dur)
+	if(new_dur)
+		duration = new_dur
+	return ..()
+
+/datum/status_effect/debuff/feinted
+	id = "feinted"
+	alert_type = /atom/movable/screen/alert/status_effect/debuff/feinted
+	mob_effect_icon = 'icons/mob/mob_effects.dmi'
+	mob_effect_icon_state = "eff_feinted"
+	mob_effect_offset_y = 10
+	mob_effect_layer = MOB_EFFECT_LAYER_FEINTED
+	duration = 30 SECONDS
+
+/datum/status_effect/debuff/feinted/on_creation(mob/living/new_owner, new_dur)
+	if(new_dur)
+		duration = new_dur
+	return ..()
 
 //Unused
 /datum/status_effect/debuff/riposted
@@ -884,3 +951,24 @@
 	name = "Knockback Cooldown"
 	desc = "I have been knocked back recently by an attack and cannot be knocked back again"
 	icon_state = "debuff" // Placeholder
+
+/datum/status_effect/debuff/specialcd
+	id = "specialcd"
+	alert_type = /atom/movable/screen/alert/status_effect/debuff/specialcd
+	duration = 2 SECONDS
+
+/datum/status_effect/debuff/specialcd/on_creation(mob/living/new_owner, new_dur)
+	if(new_dur)
+		duration = new_dur
+	return ..()
+
+/atom/movable/screen/alert/status_effect/debuff/specialcd
+	name = "Special Maneuvre Cooldown"
+	desc = "I used it. I must wait."
+	icon_state = "strikecd"
+
+#undef PARALYZE_L_ARM
+#undef PARALYZE_R_ARM
+#undef PARALYZE_L_LEG
+#undef PARALYZE_R_LEG
+#undef PARALYZE_SUM

@@ -12,7 +12,7 @@
 
 /obj/item/reagent_containers/powder/spice
 	name = "spice"
-	desc = ""
+	desc = "A ubiquitous narcotic, usually taken in a powdered form."
 	icon = 'icons/roguetown/items/produce.dmi'
 	icon_state = "spice"
 	item_state = "spice"
@@ -158,7 +158,7 @@
 
 /obj/item/reagent_containers/powder/rocknut
 	name = "rocknut powder"
-	desc = ""
+	desc = "Coarsely powdered rocknuts, ready to be rolled into a zig!"
 	gender = PLURAL
 	icon_state = "rocknut"
 	volume = 1
@@ -203,7 +203,7 @@
 
 /obj/item/reagent_containers/powder/salt
 	name = "salt"
-	desc = ""
+	desc = "A small mound of finely powdered salt; a commodity as valuable as it is essential."
 	gender = PLURAL
 	icon_state = "salt"
 	list_reagents = list(/datum/reagent/consumable/sodiumchloride = 15)
@@ -217,7 +217,8 @@
 
 /obj/item/reagent_containers/powder/ozium
 	name = "ozium"
-	desc = ""
+	desc = "A fine powder known to numb the mind and senses. With enough of this, there is \
+	no woe great enough to be wholly unbearable."
 	icon = 'icons/roguetown/items/produce.dmi'
 	icon_state = "ozium"
 	possible_transfer_amounts = list()
@@ -240,6 +241,7 @@
 	. = 1
 
 /datum/reagent/ozium/on_mob_life(mob/living/carbon/M)
+	sleepless_drug_up(M)
 	if(M.has_flaw(/datum/charflaw/addiction/junkie))
 		M.sate_addiction()
 	M.apply_status_effect(/datum/status_effect/buff/ozium)
@@ -251,7 +253,7 @@
 
 /obj/item/reagent_containers/powder/moondust
 	name = "moondust"
-	desc = "a mound of iridescent white powder with an acrid, potent scent that numbs your nostrils"
+	desc = "A mound of iridescent white powder with an acrid, potent scent that numbs your nostrils."
 	icon = 'icons/roguetown/items/produce.dmi'
 	icon_state = "moondust"
 	possible_transfer_amounts = list()
@@ -283,8 +285,6 @@
 
 /datum/reagent/moondust/on_mob_life(mob/living/carbon/M)
 	narcolepsy_drug_up(M)
-	if(M.reagents.has_reagent(/datum/reagent/moondust_purest))
-		M.Sleeping(40, 0)
 	if(M.has_flaw(/datum/charflaw/addiction/junkie))
 		M.sate_addiction()
 	M.apply_status_effect(/datum/status_effect/buff/moondust)
@@ -298,7 +298,8 @@
 
 /obj/item/reagent_containers/powder/moondust_purest
 	name = "moondust"
-	desc = "a spectacularly glittering pile of flaky, iridescent powder"
+	desc = "A spectacularly glittering pile of flaky, iridescent powder! This is a remarkably pure sample - \
+	more valuable than gold to any addict, and highly sought after!"
 	icon = 'icons/roguetown/items/produce.dmi'
 	icon_state = "moondust_purest"
 	possible_transfer_amounts = list()

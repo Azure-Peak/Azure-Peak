@@ -13,12 +13,12 @@
 	display_order = JDO_SERGEANT
 	whitelist_req = TRUE
 	round_contrib_points = 3
-	
+
 
 	outfit = /datum/outfit/job/roguetown/sergeant
 	advclass_cat_rolls = list(CTAG_SERGEANT = 20)
 
-	give_bank_account = 50
+	give_bank_account = TRUE
 	min_pq = 6
 	max_pq = null
 	cmode_music = 'sound/music/combat_ManAtArms.ogg'
@@ -35,7 +35,7 @@
 	if(ishuman(L))
 		var/mob/living/carbon/human/H = L
 		if(ishuman(L))
-			if(istype(H.cloak, /obj/item/clothing/cloak/stabard/surcoat/guard))
+			if(istype(H.cloak, /obj/item/clothing/cloak/tabard/stabard/surcoat/guard))
 				var/obj/item/clothing/S = H.cloak
 				var/index = findtext(H.real_name, " ")
 				if(index)
@@ -47,9 +47,10 @@
 //All skills/traits are on the loadouts. All are identical. Welcome to the stupid way we have to make sub-classes...
 /datum/outfit/job/roguetown/sergeant
 	pants = /obj/item/clothing/under/roguetown/chainlegs
-	cloak = /obj/item/clothing/cloak/stabard/surcoat/guard
+	cloak = /obj/item/clothing/cloak/tabard/stabard/surcoat/guard
 	neck = /obj/item/clothing/neck/roguetown/gorget
 	shoes = /obj/item/clothing/shoes/roguetown/boots/leather/reinforced
+	saiga_shoes = /obj/item/clothing/shoes/roguetown/horseshoes
 	belt = /obj/item/storage/belt/rogue/leather
 	wrists = /obj/item/clothing/wrists/roguetown/bracers
 	gloves = /obj/item/clothing/gloves/roguetown/plate/iron
@@ -67,8 +68,8 @@
 	category_tags = list(CTAG_SERGEANT)
 	subclass_stats = list(
 		STATKEY_STR = 2,
-		STATKEY_INT = 1,
-		STATKEY_CON = 1,
+		STATKEY_INT = 2,
+		STATKEY_CON = 2,//Glorified footman
 		STATKEY_PER = 1, //Gets bow-skills, so give a SMALL tad of perception to aid in bow draw.
 		STATKEY_WIL = 1,
 	)
@@ -81,13 +82,14 @@
 		/datum/skill/combat/maces = SKILL_LEVEL_EXPERT,
 		/datum/skill/combat/shields = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/combat/crossbows = SKILL_LEVEL_JOURNEYMAN,
-		/datum/skill/combat/bows = SKILL_LEVEL_JOURNEYMAN,	
+		/datum/skill/combat/bows = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/combat/wrestling = SKILL_LEVEL_EXPERT,
 		/datum/skill/combat/unarmed = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/misc/climbing = SKILL_LEVEL_EXPERT,
 		/datum/skill/misc/sneaking = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/misc/reading = SKILL_LEVEL_NOVICE,
 		/datum/skill/misc/athletics = SKILL_LEVEL_MASTER,	// We are basically identical to a regular MAA, except having better athletics to help us manage our order usage better
+		/datum/skill/misc/swimming = SKILL_LEVEL_EXPERT, //John Athlete apparently
 		/datum/skill/misc/riding = SKILL_LEVEL_NOVICE,
 		/datum/skill/misc/tracking = SKILL_LEVEL_APPRENTICE,	//Decent tracking akin to Skirmisher.
 	)
@@ -99,7 +101,6 @@
 		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/order/takeaim)
 		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/order/onfeet)
 		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/order/hold)
-		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/order/focustarget)
 		H.mind.AddSpell(new /obj/effect/proc_holder/spell/self/convertrole/guard) // We'll just use Watchmen as sorta conscripts yeag?
 	H.verbs |= list(/mob/living/carbon/human/proc/request_outlaw, /mob/proc/haltyell, /mob/living/carbon/human/mind/proc/setorders)
 	backpack_contents = list(
@@ -111,34 +112,46 @@
 		)
 	H.adjust_blindness(-3)
 	if(H.mind)
-		var/weapons = list("Rhomphaia","Flail & Shield","Halberd","Sabre & Crossbow")	//Bit more unique than footsman, you are a jack-of-all-trades + slightly more 'elite'.
+		var/weapons = list("Flail & Shield","Axe & Iron Shield","Halberd & Heater","Longsword & Crossbow","Sabre & Iron Shield")	//Bit more unique than footsman, you are a jack-of-all-trades + slightly more 'elite'.
 		var/weapon_choice = input(H, "Choose your weapon.", "TAKE UP ARMS") as anything in weapons
 		H.set_blindness(0)
 		switch(weapon_choice)
-			if("Rhomphaia")			//Rare-ish anti-armor two hander sword. Kinda alternative of a bastard sword type. Could be cool.
-				backl = /obj/item/rogueweapon/scabbard/sword
-				l_hand = /obj/item/rogueweapon/sword/long/rhomphaia
-				beltr = /obj/item/rogueweapon/mace/cudgel
 			if("Flail & Shield")	//Tower-shield, higher durability wood shield w/ more coverage. Plus a steel flail; maybe.. less broken that a steel mace?
-				beltr = /obj/item/rogueweapon/flail/sflail
-				backl = /obj/item/rogueweapon/shield/tower
-			if("Halberd")			//Halberd - basically exact same as MAA. It's a really valid build. Spear thrust + sword chop + bash.
-				r_hand = /obj/item/rogueweapon/halberd
-				backl = /obj/item/rogueweapon/scabbard/gwstrap
 				beltr = /obj/item/rogueweapon/mace/cudgel
-			if("Sabre & Crossbow")	//Versetile skirmisher class. Considered other swords but sabre felt best without being too strong. (This one gets no cudgel, no space.)
-				beltr = /obj/item/quiver/bolts
+				beltl = /obj/item/rogueweapon/flail/sflail
+				backl = /obj/item/rogueweapon/shield/tower
+				H.adjust_skillrank_up_to(/datum/skill/combat/whipsflails, 4, TRUE)
+			if("Axe & Iron Shield")	//Steel Axe - basically exact same as MAA. Has it's niche due to axe's integrity vs swords.
+				beltr = /obj/item/rogueweapon/mace/cudgel
+				beltl = /obj/item/rogueweapon/stoneaxe/woodcut/steel
+				backl = /obj/item/rogueweapon/shield/iron
+				H.adjust_skillrank_up_to(/datum/skill/combat/axes, 4, TRUE)
+			if("Halberd & Heater")	//Halberd - basically exact same as MAA. It's a really valid build. Spear thrust + sword chop + bash. (Gets a Heater for secondary)
+				r_hand = /obj/item/rogueweapon/halberd
+				l_hand = /obj/item/rogueweapon/sword
+				backl = /obj/item/rogueweapon/scabbard/gwstrap
+				beltr = /obj/item/rogueweapon/shield/heater
+				beltl = /obj/item/rogueweapon/scabbard/sword
+			if("Longsword & Crossbow")	//Longsword + Crossbow - Kind of hybrid fighter build; big sword and a crossbow.
+				beltl = /obj/item/quiver/bolts
 				backl = /obj/item/gun/ballistic/revolver/grenadelauncher/crossbow
+				r_hand = /obj/item/rogueweapon/sword/long
+				l_hand = /obj/item/rogueweapon/scabbard/sword
+			if("Sabre & Iron Shield")	//Sabre + Shield - Standard sword-fighter with a shield, good combo for quick DPS weapon and a shield for defense.
+				backl = /obj/item/rogueweapon/shield/iron
 				r_hand = /obj/item/rogueweapon/sword/sabre
 				l_hand = /obj/item/rogueweapon/scabbard/sword
+				beltr = /obj/item/rogueweapon/mace/cudgel
 
 		var/armors = list(
 			"Brigandine"		= /obj/item/clothing/suit/roguetown/armor/brigandine/retinue,
-			"Steel Cuirass"		= /obj/item/clothing/suit/roguetown/armor/plate/half,
+			"Steel Cuirass"		= /obj/item/clothing/suit/roguetown/armor/plate/cuirass,
 			"Scalemail"	= /obj/item/clothing/suit/roguetown/armor/plate/scale,
 		)
 		var/armorchoice = input(H, "Choose your armor.", "TAKE UP ARMOR") as anything in armors
 		armor = armors[armorchoice]
+	if(H.mind)
+		SStreasury.give_money_account(ECONOMIC_UPPER_MIDDLE_CLASS, H, "Savings.")
 
 /obj/effect/proc_holder/spell/invoked/order
 	name = ""
@@ -175,7 +188,7 @@
 			if(!(target.job in list("Knight", "Squire")))
 				to_chat(user, span_alert("I cannot order one not of my ranks!"))
 				revert_cast()
-				return		
+				return
 		if(target == user)
 			to_chat(user, span_alert("I cannot order myself!"))
 			revert_cast()
@@ -241,7 +254,7 @@
 			if(!(target.job in list("Knight", "Squire")))
 				to_chat(user, span_alert("I cannot order one not of my ranks!"))
 				revert_cast()
-				return		
+				return
 		if(target == user)
 			to_chat(user, span_alert("I cannot order myself!"))
 			revert_cast()
@@ -276,7 +289,7 @@
 			if(!(target.job in list("Knight", "Squire")))
 				to_chat(user, span_alert("I cannot order one not of my ranks!"))
 				revert_cast()
-				return		
+				return
 		if(target == user)
 			to_chat(user, span_alert("I cannot order myself!"))
 			revert_cast()
@@ -338,7 +351,7 @@
 			if(!(target.job in list("Knight", "Squire")))
 				to_chat(user, span_alert("I cannot order one not of my ranks!"))
 				revert_cast()
-				return		
+				return
 		if(target == user)
 			to_chat(user, span_alert("I cannot order myself!"))
 			revert_cast()
@@ -365,68 +378,6 @@
 	. = ..()
 	to_chat(owner, span_blue("My officer orders me to hold!"))
 
-#define TARGET_FILTER "target_marked"
-
-/obj/effect/proc_holder/spell/invoked/order/focustarget
-	name = "Focus target!"
-	desc = "Tells your underlings to target a vulnerable spot on the enemy. Applies Crit vulnerability on enemy and gives them -2 Fortune."
-	overlay_state = "focustarget"
-
-
-/obj/effect/proc_holder/spell/invoked/order/focustarget/cast(list/targets, mob/living/user)
-	. = ..()
-	if(isliving(targets[1]))
-		var/mob/living/target = targets[1]
-		var/msg = user.mind.focustargettext
-		if(!msg)
-			to_chat(user, span_alert("I must say something to give an order!"))
-			return
-		if(target == user)
-			to_chat(user, span_alert("I cannot order myself to be killed!"))
-			return
-		if(HAS_TRAIT(target, TRAIT_CRITICAL_WEAKNESS))
-			to_chat(user, span_alert("They are already vulnerable!"))
-			return	
-		user.say("[msg]")
-		target.apply_status_effect(/datum/status_effect/debuff/order/focustarget)
-		return TRUE
-	revert_cast()
-	return FALSE
-
-/datum/status_effect/debuff/order/focustarget
-	id = "focustarget"
-	alert_type = /atom/movable/screen/alert/status_effect/debuff/order/focustarget
-	effectedstats = list(STATKEY_LCK = -2)
-	duration = 1 MINUTES
-	var/outline_colour = "#69050a"
-
-/atom/movable/screen/alert/status_effect/debuff/order/focustarget
-	name = "Targetted"
-	desc = "A officer has marked me for death!"
-	icon_state = "targetted"
-
-/datum/status_effect/debuff/order/focustarget/on_apply()
-	. = ..()
-	var/filter = owner.get_filter(TARGET_FILTER)
-	to_chat(owner, span_alert("I have been marked for death by a officer!"))
-	ADD_TRAIT(owner, TRAIT_CRITICAL_WEAKNESS, TRAIT_GENERIC)
-	if (!filter)
-		owner.add_filter(TARGET_FILTER, 2, list("type" = "outline", "color" = outline_colour, "alpha" = 200, "size" = 1))
-	return TRUE
-
-/datum/status_effect/debuff/order/focustarget/on_remove()
-	. = ..()
-	REMOVE_TRAIT(owner, TRAIT_CRITICAL_WEAKNESS, TRAIT_GENERIC)
-	owner.remove_filter(TARGET_FILTER)
-
-
-/obj/effect/proc_holder/spell/invoked/order/focustarget
-	name = "Focus target!"
-	overlay_state = "focustarget"
-
-
-#undef TARGET_FILTER
-
 
 /mob/living/carbon/human/mind/proc/setorders()
 	set name = "Rehearse Orders"
@@ -445,9 +396,5 @@
 		return
 	mind.onfeettext = input("Send a message.", "On your feet!") as text|null
 	if(!mind.onfeettext)
-		to_chat(src, "I must rehearse something for this order...")
-		return
-	mind.focustargettext = input("Send a message.", "Focus Target!") as text|null
-	if(!mind.focustargettext)
 		to_chat(src, "I must rehearse something for this order...")
 		return

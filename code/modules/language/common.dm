@@ -7,10 +7,12 @@
 	exclaim_verb = "yells"
 	ask_verb = "asks"
 	key = "i"
-	flags = LANGUAGE_HIDE_ICON_IF_UNDERSTOOD | LANGUAGE_HIDE_ICON_IF_NOT_UNDERSTOOD
 	default_priority = 100
 //	spans = list(SPAN_HUMAN)
 	icon_state = "galcom"
+
+/datum/language/common/display_icon(atom/movable/hearer)
+	return FALSE
 
 //Syllable Lists
 /*

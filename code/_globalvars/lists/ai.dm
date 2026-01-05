@@ -2,7 +2,7 @@
 GLOBAL_LIST_EMPTY(ai_subtrees)
 
 ///basic ai controllers based on status
-GLOBAL_LIST_INIT(ai_controllers_by_status, list(
+GLOBAL_LIST_INIT(ai_controllers_by_status, alist(
 	AI_STATUS_ON = list(),
 	AI_STATUS_OFF = list(),
 	AI_STATUS_IDLE = list(),

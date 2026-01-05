@@ -48,7 +48,9 @@
 			adjective = "an average"
 		if(3)
 			adjective = "a large"
-	switch(H.sexcon.arousal)
+	var/list/arousal_data = list()
+	SEND_SIGNAL(H, COMSIG_SEX_GET_AROUSAL, arousal_data)
+	switch(arousal_data["arousal"])
 		if(80 to INFINITY)
 			arousal_modifier = ", throbbing violently"
 		if(50 to 80)
@@ -143,7 +145,9 @@
 			vagina_type = "gaping vagina"
 		if(/datum/sprite_accessory/vagina/cloaca)
 			vagina_type = "cloaca"
-	switch(H.sexcon.arousal)
+	var/list/arousal_data = list()
+	SEND_SIGNAL(H, COMSIG_SEX_GET_AROUSAL, arousal_data)
+	switch(arousal_data["arousal"])
 		if(80 to INFINITY)
 			arousal_modifier = ", gushing with arousal"
 		if(50 to 80)

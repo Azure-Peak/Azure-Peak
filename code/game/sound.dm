@@ -37,6 +37,7 @@
 	var/maxdistance = (world.view + extrarange)
 	var/source_z = turf_source.z
 	var/list/listeners = SSmobs.clients_by_zlevel[source_z].Copy()
+	var/list/muffled_listeners = list()
 
 	var/turf/above_turf = GET_TURF_ABOVE(turf_source)
 	var/turf/below_turf = GET_TURF_BELOW(turf_source)
@@ -44,19 +45,19 @@
 	if(soundping)
 		ping_sound(source)
 
-	//var/list/muffled_listeners = list() //this is very rudimentary list of muffled listeners above and below to mimic sound muffling (this is done through modifying the playsounds for them) <-- no it ain't you forgot to use this var
 	if(!ignore_walls) //these sounds don't carry through walls or vertically
 		listeners = listeners & get_hearers_in_view(maxdistance,turf_source)
 	else
 		if(above_turf)
-			listeners += SSmobs.clients_by_zlevel[above_turf.z]
-			listeners += SSmobs.dead_players_by_zlevel[above_turf.z]
+			muffled_listeners += SSmobs.clients_by_zlevel[above_turf.z]
+			muffled_listeners += SSmobs.dead_players_by_zlevel[above_turf.z]
 
 		if(below_turf)
-			listeners += SSmobs.clients_by_zlevel[below_turf.z]
-			listeners += SSmobs.dead_players_by_zlevel[below_turf.z]
+			muffled_listeners += SSmobs.clients_by_zlevel[below_turf.z]
+			muffled_listeners += SSmobs.dead_players_by_zlevel[below_turf.z]
 
 	listeners += SSmobs.dead_players_by_zlevel[source_z]
+	listeners += muffled_listeners
 	. = list()
 
 	for(var/mob/M as anything in listeners)
@@ -72,16 +73,9 @@
 			if(animal_pref)
 				if(M.client?.prefs?.mute_animal_emotes)
 					continue
-			if(M.playsound_local(turf_source, soundin, vol, vary, frequency, falloff, channel, pressure_affected, S, repeat))
+			var/is_muffled = (M in muffled_listeners)
+			if(M.playsound_local(turf_source, soundin, vol, vary, frequency, falloff, channel, pressure_affected, S, repeat, is_muffled))
 				. += M
-	//This never runs because muffled listeners will always be empty and instead muffling runs on playsound_local
-	/*for(var/mob/M as anything in muffled_listeners)
-		if(get_dist(M, turf_source) <= maxdistance)
-			if(animal_pref)
-				if(M.client?.prefs?.mute_animal_emotes)
-					continue
-			if(M.playsound_local(turf_source, soundin, vol, vary, frequency, falloff, channel, pressure_affected, S, repeat, muffled = TRUE))
-				. += M*/ 
 
 
 /proc/ping_sound(atom/A)
@@ -206,7 +200,8 @@
 
 	if(repeat && istype(repeat, /datum/looping_sound))
 		var/datum/looping_sound/D = repeat
-		if(src in D.thingshearing) //we are already hearing this loop
+		var/datum/weakref/our_ref = WEAKREF(src)
+		if(our_ref in D.thingshearing) //we are already hearing this loop
 			if(client.played_loops[D])
 				var/sound/DS = client.played_loops[D]["SOUND"]
 				if(DS)
@@ -221,7 +216,7 @@
 						if(client.played_loops[D]["MUTESTATUS"]) //we have sound so turn this off
 							client.played_loops[D]["MUTESTATUS"] = null
 		else
-			D.thingshearing += src
+			D.thingshearing += our_ref
 			client.played_loops[D] = list()
 			client.played_loops[D]["SOUND"] = S
 			client.played_loops[D]["VOL"] = S.volume

@@ -51,7 +51,11 @@ SUBSYSTEM_DEF(soundloopers)
 		if(PS in played_loops) //Make sure it's not already on the list
 			continue
 
-		var/turf/parent_turf = get_turf(PS.parent)
+		var/atom/PS_parent = PS.parent.resolve()
+		if(!PS_parent)
+			continue
+
+		var/turf/parent_turf = get_turf(PS_parent)
 		var/turf/mob_turf = get_turf(mob)
 		if(get_dist(get_turf(mob),parent_turf) > world.view + PS.extra_range) //Too far away. get_dist shouldn't be too awful for repeated calcs
 			continue
@@ -70,15 +74,23 @@ SUBSYSTEM_DEF(soundloopers)
 
 	//Now we check how far away etc we are
 	for(var/datum/looping_sound/loop in played_loops)
-		if(mob && loop.parent == mob) //the sound's coming from inside the house!
+		if (!loop)
+			played_loops -= loop
+			continue
+		
+		var/atom/loop_parent = loop.parent?.resolve()
+		if(!loop_parent)
+			continue
+
+		if(mob && loop_parent == mob) //the sound's coming from inside the house!
 			continue
 
 		var/max_distance = world.view + loop.extra_range
-		var/turf/source_turf = get_turf(loop.parent)
-		var/distance_between = get_dist(mob,loop.parent)
+		var/turf/source_turf = get_turf(loop_parent)
+		var/distance_between = get_dist(mob, loop_parent)
 
-		if(isturf(loop.parent))
-			source_turf = loop.parent
+		if(isturf(loop_parent))
+			source_turf = loop_parent
 		if(!source_turf) //somehow
 			continue
 
@@ -97,7 +109,7 @@ SUBSYSTEM_DEF(soundloopers)
 				mob.mute_sound(found_sound)
 			else
 				played_loops -= loop
-				loop.thingshearing -= mob
+				loop.thingshearing -= WEAKREF(mob)
 				mob.stop_sound_channel(found_sound.channel)
 
 		else if(distance_between <= max_distance)
@@ -118,7 +130,7 @@ SUBSYSTEM_DEF(soundloopers)
 					mob.mute_sound(found_sound)
 				else
 					played_loops -= loop
-					loop.thingshearing -= mob
+					loop.thingshearing -= WEAKREF(mob)
 					mob.stop_sound_channel(found_sound.channel)
 				continue
 

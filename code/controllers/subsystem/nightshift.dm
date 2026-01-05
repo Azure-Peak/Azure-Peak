@@ -60,7 +60,7 @@ SUBSYSTEM_DEF(nightshift)
 		update_nightshift(night_time, announcing)*/
 	var/curtod = settod()
 	if(current_tod != curtod)
-		testing("curtod [curtod] current_tod [current_tod] globtod [GLOB.tod]")
+
 		current_tod = GLOB.tod
 		update_nightshift()
 
@@ -83,7 +83,8 @@ SUBSYSTEM_DEF(nightshift)
 		if(!cmode)
 			SSdroning.play_area_sound(areal, src.client)
 		SSdroning.play_loop(areal, src.client)
-
+	if(mode != NPC_AI_OFF)
+		return
 	switch(todd)
 		if("day")
 			if(HAS_TRAIT(src, TRAIT_VAMP_DREAMS))

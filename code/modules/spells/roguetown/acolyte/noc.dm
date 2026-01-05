@@ -77,7 +77,7 @@
 		animate(target, alpha = 0, time = 1 SECONDS, easing = EASE_IN)
 		target.mob_timers[MT_INVISIBILITY] = world.time + dur SECONDS
 		addtimer(CALLBACK(target, TYPE_PROC_REF(/mob/living, update_sneak_invis), TRUE), dur SECONDS)
-		addtimer(CALLBACK(target, TYPE_PROC_REF(/atom/movable, visible_message), span_warning("[target] fades back into view."), span_notice("You become visible again.")), 15 SECONDS)
+		addtimer(CALLBACK(target, TYPE_PROC_REF(/atom/movable, visible_message), span_warning("[target] fades back into view."), span_notice("You become visible again.")), dur SECONDS)
 		return TRUE
 	revert_cast()
 	return FALSE

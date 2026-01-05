@@ -1,6 +1,7 @@
 /mob/living/simple_animal/hostile/retaliate/rogue/spider
 	icon = 'icons/roguetown/mob/monster/spider.dmi'
 	name = "beespider"
+	desc = "An invasive species of oversized spider known both for its dangerous venom and its production of bee-like honey. While occasionally domesticated in some parts of the world, feral specimens are reputedly dangerous and best avoided."
 	icon_state = "honeys"
 	icon_living = "honeys"
 	icon_dead = "honeys-dead"
@@ -47,7 +48,6 @@
 	retreat_health = 0.3
 	attack_sound = list('sound/vo/mobs/spider/attack (1).ogg','sound/vo/mobs/spider/attack (2).ogg','sound/vo/mobs/spider/attack (3).ogg','sound/vo/mobs/spider/attack (4).ogg')
 	aggressive = 1
-	
 
 	//new ai, old ai off
 	AIStatus = AI_OFF
@@ -59,6 +59,7 @@
 /mob/living/simple_animal/hostile/retaliate/rogue/spider/mutated
 	icon = 'icons/roguetown/mob/monster/spider.dmi'
 	name = "skallax spider"
+	desc = "This appears to be a beespider mutated by some unnatural force into a writhing, asymmetrical horror! You should probably put this thing out of its misery."
 	icon_state = "skallax"
 	icon_living = "skallax"
 	icon_dead = "skallax-dead"

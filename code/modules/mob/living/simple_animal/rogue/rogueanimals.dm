@@ -42,7 +42,7 @@
 
 	var/deaggroprob = 10
 	var/eat_forever
-	
+
 	candodge = TRUE
 
 	var/summon_tier = 0 // Tier of summoning
@@ -65,22 +65,24 @@
 		if(damage > 10)
 			Immobilize(clamp(damage/2, 1, 30))
 			shake_camera(src, 1, 1)
-		if(damage < 10)
-			flash_fullscreen("redflash1")
-		else if(damage < 20)
-			flash_fullscreen("redflash2")
-		else if(damage >= 20)
-			flash_fullscreen("redflash3")
+		if(show_redflash())
+			if(damage < 10)
+				flash_fullscreen("redflash1")
+			else if(damage < 20)
+				flash_fullscreen("redflash2")
+			else if(damage >= 20)
+				flash_fullscreen("redflash3")
 	if(damagetype == BURN)
 		if(damage > 10 && prob(damage))
 			emote("pain")
 			shake_camera(src, 1, 1)
-		if(damage < 10)
-			flash_fullscreen("redflash1")
-		else if(damage < 20)
-			flash_fullscreen("redflash2")
-		else if(damage >= 20)
-			flash_fullscreen("redflash3")
+		if(show_redflash())
+			if(damage < 10)
+				flash_fullscreen("redflash1")
+			else if(damage < 20)
+				flash_fullscreen("redflash2")
+			else if(damage >= 20)
+				flash_fullscreen("redflash3")
 
 /mob/living/simple_animal/hostile/retaliate/rogue/death(gibbed)
 	emote("death")
@@ -186,7 +188,7 @@
 	retreat_distance = initial(retreat_distance)
 	minimum_distance = initial(minimum_distance)
 
-/mob/living/simple_animal/hostile/retaliate/rogue/tamed()
+/mob/living/simple_animal/hostile/retaliate/rogue/tamed(mob/user)
 	del_on_deaggro = 0
 	aggressive = 0
 	if(enemies.len)
@@ -196,6 +198,8 @@
 			LoseTarget()
 		else
 			return
+	if(user)
+		friends |= user
 	..()
 
 /mob/living/simple_animal/hostile/retaliate/rogue/Destroy()
@@ -274,9 +278,9 @@
 		addtimer(CALLBACK(src, PROC_REF(return_action)), 3 SECONDS)
 
 /mob/living/simple_animal/hostile/retaliate/rogue/food_tempted(obj/item/O, mob/user)
-	testing("tempted")
+
 	if(is_type_in_list(O, food_type) && !stop_automated_movement)
-		testing("infoodtype")
+
 		stop_automated_movement = TRUE
 		Goto(user,move_to_delay)
 		addtimer(CALLBACK(src, PROC_REF(return_action)), 3 SECONDS)

@@ -61,6 +61,30 @@
 			H.remove_status_effect(/datum/status_effect/ugotmail)
 	if(!ishuman(user))
 		return	
+	if (user.mind?.has_bomb) //for TRAIT_EXPLOSIVE_SUPPLY. One bomb per one day.
+		var/mob/living/carbon/human/H = user
+		H.mind?.has_bomb = FALSE
+		var/bomb_type
+		var/static/list/bomb_type_list = list(/obj/item/tntstick,
+		/obj/item/impact_grenade/explosion,
+		/obj/item/impact_grenade/smoke/poison_gas,
+		/obj/item/impact_grenade/smoke/fire_gas,
+		/obj/item/impact_grenade/smoke/healing_gas,
+		)
+		var/bonus = 0
+		if(H.STALUC > 10)
+			bonus = 10 * (H.STALUC - 10)
+		if(prob(90 - bonus))
+			bomb_type = /obj/item/bomb
+		else
+			bomb_type = pick(bomb_type_list)
+		var/obj/item/S = new bomb_type(get_turf(H))
+		H.put_in_hands(S)
+		if(HAS_TRAIT(H, TRAIT_BOMBER_EXPERT))	//additional random second bomb.
+			bomb_type_list |= /obj/item/bomb
+			bomb_type = pick(bomb_type_list)
+			var/obj/item/B = new bomb_type(get_turf(H))
+			H.put_in_hands(B)
 	if(HAS_TRAIT(user, TRAIT_INQUISITION))	
 		if(!coin_loaded && !inqcoins)
 			to_chat(user, span_notice("It needs a Marque."))
@@ -411,7 +435,7 @@
 				sentfrom = "Anonymous"
 			if(findtext(send2place, "#"))
 				var/box2find = text2num(copytext(send2place, findtext(send2place, "#")+1))
-				testing("box2find [box2find]")
+
 				var/found = FALSE
 				for(var/obj/structure/roguemachine/mail/X in SSroguemachine.hermailers)
 					if(X.ournum == box2find)

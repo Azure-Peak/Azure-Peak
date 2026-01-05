@@ -3,7 +3,7 @@
 	var/budget = 0
 	var/compact = TRUE
 	var/current_category = "Raw Materials"
-	var/list/categories = list("Raw Materials", "Foodstuffs", "Fruits")
+	var/list/categories = list("Raw Materials", "Fruit", "Vegetable", "Animal","Seafood")
 	var/obj/structure/roguemachine/parent_structure = null
 
 /datum/withdraw_tab/New(stockpile_param, obj/structure/roguemachine/structure_param)

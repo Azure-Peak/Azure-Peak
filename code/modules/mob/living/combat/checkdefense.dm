@@ -1,5 +1,5 @@
 /mob/living/proc/checkdefense(datum/intent/intenty, mob/living/user)
-	testing("begin defense")
+
 	if(!cmode)
 		return FALSE
 	if(stat)

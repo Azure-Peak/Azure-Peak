@@ -12,6 +12,7 @@
 	blade_dulling = DULLING_CUT
 	pixel_x = -16
 	layer = 4.81
+	plane = GAME_PLANE_UPPER
 	attacked_sound = 'sound/misc/woodhit.ogg'
 	destroy_sound = 'sound/misc/woodhit.ogg'
 	debris = list(/obj/item/grown/log/tree/stick = 2)
@@ -20,17 +21,7 @@
 	var/stump_type = /obj/structure/flora/roguetree/stump
 
 /obj/structure/flora/roguetree/attack_right(mob/user)
-	if(user.mind && isliving(user))
-		if(user.mind.special_items && user.mind.special_items.len)
-			var/item = input(user, "What will I take?", "STASH") as null|anything in user.mind.special_items
-			if(item)
-				if(user.Adjacent(src))
-					if(user.mind.special_items[item])
-						var/path2item = user.mind.special_items[item]
-						user.mind.special_items -= item
-						var/obj/item/I = new path2item(user.loc)
-						user.put_in_hands(I)
-			return
+	handle_special_items_retrieval(user, src)
 
 /obj/structure/flora/roguetree/attacked_by(obj/item/I, mob/living/user)
 	var/was_destroyed = obj_destroyed
@@ -148,6 +139,10 @@
 	SEND_SOUND(usr, sound(null))
 	playsound(user, 'sound/music/tree.ogg', 80)
 
+/obj/structure/flora/roguetree/wise/druids/take_damage(damage_amount, damage_type = BRUTE || BURN, damage_flag, sound_effect = TRUE)
+	. = ..()
+	SEND_GLOBAL_SIGNAL(COMSIG_SACRED_TREE_DAMAGED, src, damage_amount)
+
 /obj/structure/flora/roguetree/burnt
 	name = "burnt tree"
 	desc = "Maybe lightning, maybe war, took the life of this once lively tree."
@@ -201,6 +196,7 @@
 	desc = "Someone cut this tree down."
 	icon_state = "t1stump"
 	opacity = 0
+	pass_flags = LETPASSTHROW
 	max_integrity = 100
 	climbable = TRUE
 	climb_time = 0
@@ -285,6 +281,8 @@
 
 	if(isliving(AM))
 		var/mob/living/L = AM
+		if(L.is_flying()) //you won't rustle things if you're flying above them
+			return
 		if(L.m_intent == MOVE_INTENT_SNEAK)
 			return
 		else
@@ -461,18 +459,7 @@
 	dir = SOUTH
 
 /obj/structure/flora/rogueshroom/attack_right(mob/user)
-	if(user.mind && isliving(user))
-		if(user.mind.special_items && user.mind.special_items.len)
-			var/item = input(user, "What will I take?", "STASH") as null|anything in user.mind.special_items
-			if(item)
-				if(user.Adjacent(src))
-					if(user.mind.special_items[item])
-						var/path2item = user.mind.special_items[item]
-						user.mind.special_items -= item
-						var/obj/item/I = new path2item(user.loc)
-						user.put_in_hands(I)
-			return
-
+	handle_special_items_retrieval(user, src)
 
 /obj/structure/flora/rogueshroom/Initialize()
 	. = ..()
@@ -599,7 +586,7 @@
 
 /obj/structure/flora/roguegrass/pyroclasticflowers/update_icon()
 	icon_state = "pyroflower[rand(1,3)]"
-	
+
 /obj/structure/flora/roguegrass/pyroclasticflowers/Initialize()
 	. = ..()
 	if(prob(88))
@@ -638,7 +625,8 @@
 // swarmpweed bush -- STONEKEEP PORT
 /obj/structure/flora/roguegrass/swampweed
 	name = "bunch of swampweed"
-	desc = "a green root good for smoking."
+	desc = "A green root known to, when smoked, elicit a strong euphoric response. A common alternative to alcohol \
+	for those who wish to escape their woes, or to simply have an enjoyable evening."
 	icon_state = "swampweed1"
 	layer = ABOVE_ALL_MOB_LAYER
 	max_integrity = 1
@@ -779,7 +767,8 @@
 /obj/structure/flora/roguetree/pine
 	name = "pine tree"
 	icon_state = "pine1"
-	desc = ""
+	desc = "A mighty conifer tree, standing proud. A familiar sight in cold and mountainous climates, \
+	and highly sought after for their resin."
 	icon = 'icons/obj/flora/pines.dmi'
 	pixel_w = -24
 	density = 0
@@ -797,6 +786,7 @@
 
 /obj/structure/flora/roguetree/pine/dead
 	name = "burnt pine tree"
+	desc = "Charred bark and ashen needles."
 	icon_state = "dead1"
 	max_integrity = 50
 	static_debris = list(/obj/item/rogueore/coal/charcoal = 1)
@@ -806,3 +796,5 @@
 /obj/structure/flora/roguetree/pine/dead/Initialize()
 	. = ..()
 	icon_state = "dead[rand(1, 3)]"
+
+#undef SEARCHTIME

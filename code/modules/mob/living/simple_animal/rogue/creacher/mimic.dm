@@ -2,6 +2,7 @@
 
 /mob/living/simple_animal/hostile/retaliate/rogue/mimic
 	name = "chest"
+	desc = "A wooden chest with a lid held on metal hinges."
 	icon = 'icons/roguetown/mob/monster/mimic.dmi'
 	icon_state = "mimicopen"
 	icon_living = "mimicopen"

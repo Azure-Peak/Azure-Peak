@@ -1,7 +1,7 @@
 //Look Sir, free crabs!
 /mob/living/simple_animal/hostile/retaliate/rogue/mudcrab
 	name = "mudcrab"
-	desc = "A mudcrab."
+	desc = "A large species of crab populous in both marine and freshwater habitats across the world. It is said that untold millions lurk in the depths, where no crabber could ever reach them! None but Abyssor himself may do more than guess at the contents of the abyss - but they are quite tasty once fried."
 	icon_state = "mudcrab"
 	icon_living = "mudcrab"
 	icon_dead = "mudcrab_dead"
@@ -58,6 +58,7 @@
 
 /obj/structure/crabnest
 	name = "Mudcrab Burrow"
+	desc = "A small furrow in the earth. It looks damp."
 	icon = 'icons/roguetown/misc/structure.dmi'
 	icon_state = "crabnest"
 	max_integrity = 200

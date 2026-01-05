@@ -471,6 +471,18 @@ MINUTE_CLICK_LIMIT 400
 
 #CHANNEL_ANNOUNCE_NEW_GAME_MESSAGE A new round is beggining!!
 
+## Send a message to chat when a ckey is removed or added to the whitelist
+#CHAT_ANNOUNCE_WHITELIST whitelist
+
+## Send a message to the chat when a ckey  is removed or added to verified
+#CHAT_ANNOUNCE_VERIFY verify
+
+## Send a message to the chat when a ckey  is removed or added to donator
+#CHAT_ANNOUNCE_DONATOR donator
+
+## Chat which you are allowed to add / remove ckeys to the whitelist
+#CHAT_COMMAND_WHITELIST whitelist
+
 ## Allow admin hrefs that don't use the new token system, will eventually be removed
 DEBUG_ADMIN_HREFS
 

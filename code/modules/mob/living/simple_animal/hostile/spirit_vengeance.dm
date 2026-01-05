@@ -1,7 +1,7 @@
 /mob/living/simple_animal/hostile/rogue/spirit_vengeance
 	name = "Rancor Spirit"
 	desc = ""
-	icon = 'modular_hearthstone/icons/mob/spirit_vengeance.dmi'
+	icon = 'icons/mob/spirit_vengeance.dmi'
 	icon_state = "spirit_vengeance"
 	icon_living = "spirit_vengeance"
 	gender = MALE

@@ -6,6 +6,7 @@ GLOBAL_VAR_INIT(round_timer, INITIAL_ROUND_TIMER)
 SUBSYSTEM_DEF(ticker)
 	name = "Ticker"
 	init_order = INIT_ORDER_TICKER
+	lazy_load = FALSE
 
 	priority = FIRE_PRIORITY_TICKER
 	flags = SS_KEEP_TIMING
@@ -839,3 +840,5 @@ SUBSYSTEM_DEF(ticker)
 	sunstolen = FALSE
 	settod()
 	SSParticleWeather.run_weather(/datum/particle_weather/rain_gentle, TRUE)
+
+#undef ROUND_START_MUSIC_LIST

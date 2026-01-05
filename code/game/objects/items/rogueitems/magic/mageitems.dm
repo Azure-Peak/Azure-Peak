@@ -78,12 +78,18 @@
 
 
 /obj/item/chalk/attack_self(mob/living/carbon/human/user)
-	if(!isarcyne(user))//We'll set up other items for other types of rune rituals
+	if(!isarcyne(user))
 		to_chat(user, span_cult("Nothing comes in mind to draw with the chalk."))
 		return
+
 	var/obj/effect/decal/cleanable/roguerune/pickrune
-	var/runenameinput = input(user, "Runes", "Tier 1 and 2 Runes") as null|anything in GLOB.t2rune_types
-	testing("runenameinput [runenameinput]")
+	var/runenameinput
+
+	if(HAS_TRAIT(user, TRAIT_ARCYNE_T1))
+		runenameinput = input(user, "Runes", "Tier 1 Runes") as null|anything in GLOB.t1rune_types
+	else
+		runenameinput = input(user, "Runes", "Tier 1 & 2 Runes") as null|anything in GLOB.t2rune_types
+
 	pickrune = GLOB.rune_types[runenameinput]
 	rune_to_scribe = pickrune
 	if(rune_to_scribe == null)
@@ -149,8 +155,7 @@
 		return ..()
 
 /obj/item/rogueweapon/huntingknife/idagger/silver/arcyne/attack_self(mob/living/carbon/human/user)
-
-	if(!isarcyne(user))
+	if(!isarcyne(user) || HAS_TRAIT(user, TRAIT_ARCYNE_T1))
 		return
 	if(!is_bled)
 		playsound(loc, get_sfx("genslash"), 100, TRUE)
@@ -163,7 +168,7 @@
 		return
 	var/obj/effect/decal/cleanable/roguerune/pickrune
 	var/runenameinput = input(user, "Runes", "T4 Runes") as null|anything in GLOB.t4rune_types
-	testing("runenameinput [runenameinput]")
+
 	pickrune = GLOB.rune_types[runenameinput]
 	rune_to_scribe = pickrune
 	if(rune_to_scribe == null)
@@ -301,6 +306,7 @@
 	resistance_flags = FIRE_PROOF | ACID_PROOF
 	cdtime = 10 MINUTES
 	activetime = 30 SECONDS
+	salvage_result = null
 
 /obj/item/clothing/ring/active/shimmeringlens/attack_right(mob/user)
 	if(loc != user)
@@ -356,8 +362,7 @@
 	icon_state = "manabindingcollar"
 	color = null
 	slot_flags = ITEM_SLOT_NECK
-	salvage_amount = 1
-	salvage_result = /obj/item/natural/hide/cured
+	salvage_result = null
 	unequip_delay_self = 1200
 
 /obj/item/clothing/neck/roguetown/collar/leather/nomagic/Initialize(mapload)
@@ -375,6 +380,7 @@
 	equip_delay_self = 60
 	equip_delay_other = 60
 	strip_delay = 300
+	salvage_result = null
 
 /obj/item/clothing/gloves/roguetown/nomagic/Initialize(mapload)
 	. = ..()

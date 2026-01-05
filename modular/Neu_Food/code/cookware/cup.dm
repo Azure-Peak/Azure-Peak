@@ -26,7 +26,7 @@
 	throwforce = 10
 
 /obj/item/reagent_containers/glass/cup/update_icon(dont_fill=FALSE)
-	testing("cupupdate")
+
 
 	cut_overlays()
 
@@ -190,6 +190,11 @@
 	is_silver = TRUE
 	force = 10
 	throwforce = 15
+
+/obj/item/reagent_containers/glass/cup/silver/pewter //ugly but better than the alternatives
+	name = "pewter goblet"
+	desc = "A pewter goblet, cheaper than silver, but with a similar shine!"
+	is_silver = FALSE
 
 /obj/item/reagent_containers/glass/cup/silver/small
 	name = "silver cup"

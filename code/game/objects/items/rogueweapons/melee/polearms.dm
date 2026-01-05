@@ -10,8 +10,21 @@
 	clickcd = CLICK_CD_CHARGED
 	warnie = "mobwarning"
 	hitsound = list('sound/combat/hits/bladed/genstab (1).ogg', 'sound/combat/hits/bladed/genstab (2).ogg', 'sound/combat/hits/bladed/genstab (3).ogg')
-	penfactor = 50
+	penfactor = 55
 	item_d_type = "stab"
+	effective_range = 2
+	effective_range_type = EFF_RANGE_EXACT
+
+/datum/intent/spear/thrust/oneh
+	name = "one-handed thrust"
+	reach = 1
+	swingdelay = 14
+	damfactor = 1.6
+	penfactor = 50
+	clickcd = CLICK_CD_RESIST
+	effective_range = null
+	effective_range_type = EFF_RANGE_NONE
+	sharpness_penalty = 3
 
 /datum/intent/spear/thrust/militia
 	penfactor = 40
@@ -40,13 +53,16 @@
 	blade_class = BCLASS_CUT
 	attack_verb = list("cuts", "slashes")
 	icon_state = "incut"
-	damfactor = 0.8
+	damfactor = 1
 	hitsound = list('sound/combat/hits/bladed/genslash (1).ogg', 'sound/combat/hits/bladed/genslash (2).ogg', 'sound/combat/hits/bladed/genslash (3).ogg')
 	reach = 2
 	item_d_type = "slash"
 
-/datum/intent/spear/cut/halberd
-	damfactor = 0.9
+/datum/intent/spear/cut/oneh
+	name = "one-handed cut"
+	reach = 1
+	swingdelay = 6
+	sharpness_penalty = 2
 
 /datum/intent/spear/cut/scythe
 	reach = 3
@@ -112,6 +128,7 @@
 	animname = "cut"
 	blade_class = BCLASS_CHOP
 	reach = 1
+	swingdelay = 15
 	penfactor = BLUNT_DEFAULT_PENFACTOR
 	damfactor = 2.5
 	clickcd = CLICK_CD_CHARGED
@@ -119,12 +136,13 @@
 	hitsound = list('sound/combat/hits/bladed/genslash (1).ogg', 'sound/combat/hits/bladed/genslash (2).ogg', 'sound/combat/hits/bladed/genslash (3).ogg')
 	item_d_type = "slash"
 	misscost = 10
-	intent_intdamage_factor = 0.25
+	intent_intdamage_factor = 0.05
 
 /datum/intent/rend/reach
 	name = "long rend"
 	penfactor = BLUNT_DEFAULT_PENFACTOR
 	misscost = 5
+	swingdelay = 15
 	clickcd = CLICK_CD_HEAVY
 	damfactor = 2
 	reach = 2
@@ -209,7 +227,7 @@
 	wdefense_wbonus = 8	//13 when wielded.
 	bigboy = TRUE
 	gripsprite = TRUE
-	associated_skill = /datum/skill/combat/polearms
+	associated_skill = /datum/skill/combat/staves
 	anvilrepair = /datum/skill/craft/carpentry
 	resistance_flags = FLAMMABLE
 
@@ -243,6 +261,11 @@
 	gripsprite = FALSE
 	gripped_intents = null
 
+/obj/item/rogueweapon/woodstaff/polearm
+	name = "shillelagh"
+	desc = "A particularly long and sturdy walking stick with a variety of uses. It's heavier at one end, making it a little unbalanced."
+	associated_skill = /datum/skill/combat/polearms
+
 /obj/item/rogueweapon/woodstaff/aries/getonmobprop(tag)
 	. = ..()
 	if(tag)
@@ -254,10 +277,10 @@
 
 
 /obj/item/rogueweapon/spear
-	force = 20
+	force = 22
 	force_wielded = 30
-	possible_item_intents = list(SPEAR_THRUST, SPEAR_BASH) //bash is for nonlethal takedowns, only targets limbs
-	gripped_intents = list(SPEAR_THRUST, SPEAR_CUT, SPEAR_BASH)
+	possible_item_intents = list(SPEAR_THRUST_1H, SPEAR_CUT_1H) 
+	gripped_intents = list(SPEAR_THRUST, SPEAR_CUT, SPEAR_BASH) //bash is for nonlethal takedowns, only targets limbs
 	name = "spear"
 	desc = "One of the oldest weapons still in use today, second only to the club. The lack of reinforcements along the shaft leaves it vulnerable to being split in two."
 	icon_state = "spear"
@@ -280,6 +303,7 @@
 	thrown_bclass = BCLASS_STAB
 	throwforce = 25
 	resistance_flags = FLAMMABLE
+	special = /datum/special_intent/polearm_backstep
 
 /obj/item/rogueweapon/spear/trident
 	// Better one handed & throwing weapon, flimsier.
@@ -300,6 +324,7 @@
 		"trashFishingMod" = 0,
 		"dangerFishingMod" = 0.9,
 		"ceruleanFishingMod" = 0, // 1 on cerulean aril, 0 on everything else
+		"cheeseFishingMod" = 0 // Just for the funny gimmick of a chance for rats and rouses.
 	)
 
 /obj/item/rogueweapon/spear/trident/afterattack(obj/target, mob/user, proximity)
@@ -476,13 +501,14 @@
 	wdefense = 4
 	max_integrity = 60
 	throwforce = 20
+	special = null
 
 /obj/item/rogueweapon/spear/billhook
 	name = "billhook"
 	desc = "A neat hook. Used to pull riders from horses, as well as defend against said horses when used in a proper formation. The reinforcements along it's shaft grant it higher durability against attacks."
 	icon_state = "billhook"
 	smeltresult = /obj/item/ingot/steel
-	max_blade_int = 200
+	max_blade_int = 230
 	minstr = 8
 	wdefense = 6
 	throwforce = 15
@@ -519,6 +545,7 @@
 	wdefense = 4
 	max_integrity = 50
 	throwforce = 20
+	special = null
 
 // Copper spear, no point to adjust force just slightly better integrity
 /obj/item/rogueweapon/spear/stone/copper
@@ -564,6 +591,7 @@
 		"trashFishingMod" = 0,
 		"dangerFishingMod" = 1,
 		"ceruleanFishingMod" = 0, // 1 on cerulean aril, 0 on everything else
+		"cheeseFishingMod" = 0 // Just for the funny gimmick of a chance for rats and rouses.
 	)
 
 /obj/item/rogueweapon/fishspear/depthseek //DO NOT ADD RECIPE. MEANT TO BE AN ABYSSORITE RELIC. IDEA COURTESY OF LORDINQPLAS
@@ -620,12 +648,11 @@
 							to_chat(user, "<span class='notice'>You see something!</span>")
 							playsound(src.loc, 'sound/items/fishing_plouf.ogg', 100, TRUE)
 							if(!do_after(user,ow, target = target))
-								if(ismob(A)) // TODO: Baits with mobs on their fishloot lists OR water tiles with their own fish loot pools
+								if(A in subtypesof(/mob/living))
 									var/mob/M = A
-									if(M.type in subtypesof(/mob/living/simple_animal/hostile))
-										new M(target)
-									else
-										new M(user.loc)
+									new M(target)
+									if (!(M.type == /mob/living/simple_animal/hostile/retaliate/rogue/mudcrab))
+										user.playsound_local(src, pick('sound/misc/jumpscare (1).ogg','sound/misc/jumpscare (2).ogg','sound/misc/jumpscare (3).ogg','sound/misc/jumpscare (4).ogg'), 100)
 									user.mind.add_sleep_experience(/datum/skill/labor/fishing, fisherman.STAINT*2) // High risk high reward
 								else
 									new A(user.loc)
@@ -700,8 +727,8 @@
 /obj/item/rogueweapon/halberd
 	force = 15
 	force_wielded = 30
-	possible_item_intents = list(SPEAR_THRUST, SPEAR_BASH) //bash is for nonlethal takedowns, only targets limbs
-	gripped_intents = list(SPEAR_THRUST, /datum/intent/spear/cut/halberd, /datum/intent/sword/chop, SPEAR_BASH)
+	possible_item_intents = list(SPEAR_THRUST_1H, SPEAR_BASH) //bash is for nonlethal takedowns, only targets limbs
+	gripped_intents = list(SPEAR_THRUST, SPEAR_CUT, /datum/intent/axe/chop/battle/halberd, SPEAR_BASH)
 	name = "halberd"
 	desc = "A steel halberd, the pinnacle of all cumulative melee weapon knowledge. The only downside is the cost, so it's rarely seen outside of the guardsmans' hands. The reinforcements along the shaft provide greater durability."
 	icon_state = "halberd"
@@ -721,6 +748,7 @@
 	associated_skill = /datum/skill/combat/polearms
 	walking_stick = TRUE
 	wdefense = 6
+	special = /datum/special_intent/polearm_backstep
 
 /obj/item/rogueweapon/halberd/getonmobprop(tag)
 	. = ..()
@@ -743,13 +771,15 @@
 
 /obj/item/rogueweapon/halberd/bardiche
 	possible_item_intents = list(/datum/intent/spear/thrust/eaglebeak, SPEAR_BASH) //bash is for nonlethal takedowns, only targets limbs
-	gripped_intents = list(/datum/intent/spear/thrust/eaglebeak, /datum/intent/spear/cut/bardiche, /datum/intent/axe/chop, SPEAR_BASH)
+	gripped_intents = list(/datum/intent/spear/cut/bardiche, /datum/intent/axe/chop/battle, SPEAR_BASH)
 	name = "bardiche"
 	desc = "A beautiful variant of the halberd. Its reinforced shaft provides it with greater durability against attacks."
 	icon_state = "bardiche"
 	anvilrepair = /datum/skill/craft/weaponsmithing
 	smeltresult = /obj/item/ingot/iron
-	max_blade_int = 200
+	max_blade_int = 300
+	wdefense = 5
+	wbalance = WBALANCE_HEAVY
 
 /obj/item/rogueweapon/halberd/bardiche/aalloy
 	name = "decrepit bardiche"
@@ -839,13 +869,22 @@
 			if("onback") 
 				return list("shrink" = 0.5,"sx" = -1,"sy" = 2,"nx" = 0,"ny" = 2,"wx" = 2,"wy" = 1,"ex" = 0,"ey" = 1,"nturn" = 0,"sturn" = 0,"wturn" = 70,"eturn" = 15,"nflip" = 1,"sflip" = 1,"wflip" = 1,"eflip" = 1,"northabove" = 1,"southabove" = 0,"eastabove" = 0,"westabove" = 0)
 
-
+/// Ported from Scarlet Reach's Glaive. We're avoiding force increase because I hate roguepen. It can have better blade integrity and defense instead.
+/obj/item/rogueweapon/halberd/glaive/knightcaptain
+	name = "'Deliverance'"
+	desc = "A masterwork glaive with a seasoned ashwood shaft reinforced by brass-sheathed steel bands. The blacksteel blade bears inscriptions on both side. One reads, \"QUIS CUSTODIET\" while the other reads, \"IPSOS CUSTODES\"."
+	icon = 'icons/roguetown/weapons/special/captainglaive.dmi'
+	icon_state = "capglaive"
+	smeltresult = /obj/item/ingot/blacksteel
+	max_integrity = 300 //blacksteel, so its gotta be more durable
+	max_blade_int = 200
+	sellprice = 250
 
 /obj/item/rogueweapon/eaglebeak
 	force = 15
 	force_wielded = 30
-	possible_item_intents = list(/datum/intent/spear/thrust/eaglebeak, /datum/intent/spear/bash/eaglebeak)
-	gripped_intents = list(/datum/intent/spear/thrust/eaglebeak, /datum/intent/spear/bash/eaglebeak, /datum/intent/mace/smash/eaglebeak)
+	possible_item_intents = list(/datum/intent/spear/bash/eaglebeak, /datum/intent/mace/smash/eaglebeak)
+	gripped_intents = list(/datum/intent/spear/bash/eaglebeak, /datum/intent/mace/smash/eaglebeak, /datum/intent/spear/thrust/eaglebeak)
 	name = "eagle's beak"
 	desc = "A reinforced pole affixed with an ornate steel eagle's head, of which its beak is intended to pierce with great harm."
 	icon_state = "eaglebeak"
@@ -861,7 +900,7 @@
 	minstr = 11
 	smeltresult = /obj/item/ingot/steel
 	associated_skill = /datum/skill/combat/polearms
-	max_blade_int = 180
+	sharpness = IS_BLUNT
 	walking_stick = TRUE
 	wdefense = 5
 	wbalance = WBALANCE_HEAVY
@@ -886,7 +925,6 @@
 	force_wielded = 25
 	icon_state = "polehammer"
 	smeltresult = /obj/item/ingot/iron
-	max_blade_int = 150
 	sellprice = 40
 
 // A worse thrust for weapons specialized in other damage type like cut or blunt
@@ -897,7 +935,6 @@
 /datum/intent/spear/thrust/glaive
 	penfactor = 50
 	damfactor = 1.1
-	chargetime = 0
 
 /datum/intent/mace/smash/eaglebeak
 	reach = 2
@@ -921,8 +958,9 @@
 	force_wielded = 30
 	possible_item_intents = list(/datum/intent/sword/chop,/datum/intent/sword/strike) //bash is for nonlethal takedowns, only targets limbs
 	// Design Intent: I have a big fucking sword and I want to rend people in half.
-	gripped_intents = list(/datum/intent/sword/cut/zwei, /datum/intent/rend, /datum/intent/sword/thrust/zwei, /datum/intent/sword/strike/bad)
-	alt_intents = list(/datum/intent/effect/daze, /datum/intent/sword/strike, /datum/intent/sword/bash)
+	gripped_intents = list(/datum/intent/sword/cut/zwei, /datum/intent/sword/thrust/zwei, /datum/intent/sword/strike/bad, /datum/intent/rend)
+	alt_intents = list(/datum/intent/sword/strike, /datum/intent/sword/bash, /datum/intent/effect/daze)
+	mordhau = TRUE
 	name = "greatsword"
 	desc = "Might be able to chop anything in half!"
 	icon_state = "gsw"
@@ -946,6 +984,7 @@
 	max_blade_int = 300
 	wdefense = 5
 	smelt_bar_num = 3
+	special = /datum/special_intent/greatsword_swing
 
 /obj/item/rogueweapon/greatsword/getonmobprop(tag)
 	. = ..()
@@ -959,6 +998,8 @@
 				return list("shrink" = 0.3,"sx" = -2,"sy" = -5,"nx" = 4,"ny" = -5,"wx" = 0,"wy" = -5,"ex" = 2,"ey" = -5,"nturn" = 0,"sturn" = 0,"wturn" = 0,"eturn" = 0,"nflip" = 0,"sflip" = 0,"wflip" = 0,"eflip" = 0,"northabove" = 0,"southabove" = 1,"eastabove" = 1,"westabove" = 0)
 			if("altgrip")
 				return list("shrink" = 0.6,"sx" = 4,"sy" = 0,"nx" = -7,"ny" = 1,"wx" = -8,"wy" = 0,"ex" = 8,"ey" = -1,"northabove" = 0,"southabove" = 1,"eastabove" = 1,"westabove" = 0,"nturn" = -135,"sturn" = -35,"wturn" = 45,"eturn" = 145,"nflip" = 8,"sflip" = 8,"wflip" = 1,"eflip" = 0)
+			if("onback")
+				return list("shrink" = 0.6,"sx" = -1,"sy" = 2,"nx" = 0,"ny" = 2,"wx" = 2,"wy" = 1,"ex" = 0,"ey" = 1,"nturn" = 0,"sturn" = 0,"wturn" = 70,"eturn" = 15,"nflip" = 1,"sflip" = 1,"wflip" = 1,"eflip" = 1,"northabove" = 1,"southabove" = 0,"eastabove" = 0,"westabove" = 0)
 
 /obj/item/rogueweapon/greatsword/iron
 	name = "iron greatsword"
@@ -1018,6 +1059,16 @@
 	max_blade_int = 180
 	max_integrity = 130
 	wdefense = 6
+/obj/item/rogueweapon/greatsword/grenz/flamberge/getonmobprop(tag)
+	. = ..()
+	if(tag)
+		switch(tag)
+			if("gen")
+				return list("shrink" = 0.6,"sx" = -7,"sy" = 5,"nx" = 7,"ny" = 3,"wx" = -2,"wy" = 4,"ex" = 4,"ey" = 5,"northabove" = 0,"southabove" = 1,"eastabove" = 1,"westabove" = 0,"nturn" = -38,"sturn" = 37,"wturn" = 30,"eturn" = -30,"nflip" = 0,"sflip" = 8,"wflip" = 8,"eflip" = 0)
+			if("wielded")
+				return list("shrink" = 0.6,"sx" = 7,"sy" = 1,"nx" = -5,"ny" = 2,"wx" = -5,"wy" = -10,"ex" = 10,"ey" = -1,"northabove" = 0,"southabove" = 1,"eastabove" = 1,"westabove" = 0,"nturn" = 7,"sturn" = -7,"wturn" = 16,"eturn" = -22,"nflip" = 8,"sflip" = 0,"wflip" = 8,"eflip" = 0)
+			if("onbelt")
+				return list("shrink" = 0.3,"sx" = -2,"sy" = -5,"nx" = 4,"ny" = -5,"wx" = 0,"wy" = -5,"ex" = 2,"ey" = -5,"nturn" = 0,"sturn" = 0,"wturn" = 0,"eturn" = 0,"nflip" = 0,"sflip" = 0,"wflip" = 0,"eflip" = 0,"northabove" = 0,"southabove" = 1,"eastabove" = 1,"westabove" = 0)
 
 /obj/item/rogueweapon/greatsword/grenz/flamberge/malum
 	name = "forgefiend flamberge"
@@ -1036,6 +1087,29 @@
 	force_wielded = 40
 	max_blade_int = 200
 	smeltresult = /obj/item/ingot/blacksteel
+	smelt_bar_num = 2 // Okay you CAN get a refund on the blacksteel
+
+/obj/item/rogueweapon/greatsword/silver
+	name = "silver greatsword"
+	desc = "A greatsword with a massive blade of pure silver. Such is favored amongst the Order of Syonica's paladins: a faith-militance that seeks to safeguard those who've taken pilgrimage towards Azuria. </br>'There is no fate, but what we make for ourselves. It is not the will of gods that will determine Psydonia's fate.. but instead, the hope of its children.'"
+	icon_state = "silverexealt"
+	force = 8
+	force_wielded = 25
+	minstr = 11
+	wdefense = 6
+	is_silver = TRUE
+	smeltresult = /obj/item/ingot/silver
+
+/obj/item/rogueweapon/greatsword/silver/ComponentInitialize()
+	AddComponent(\
+		/datum/component/silverbless,\
+		pre_blessed = BLESSING_NONE,\
+		silver_type = SILVER_TENNITE,\
+		added_force = 0,\
+		added_blade_int = 0,\
+		added_int = 50,\
+		added_def = 2,\
+	)
 
 /obj/item/rogueweapon/greatsword/psygsword
 	name = "psydonic greatsword"
@@ -1066,7 +1140,7 @@
 	force_wielded = 30
 	icon_state = "psygsword"
 	possible_item_intents = list(/datum/intent/sword/cut, /datum/intent/sword/thrust, /datum/intent/sword/strike)
-	gripped_intents = list(/datum/intent/sword/cut, /datum/intent/sword/thrust/exe, /datum/intent/rend, /datum/intent/axe/chop)
+	gripped_intents = list(/datum/intent/sword/cut, /datum/intent/sword/thrust/exe, /datum/intent/axe/chop, /datum/intent/rend)
 
 /obj/item/rogueweapon/greatsword/psygsword/relic/ComponentInitialize()
 	AddComponent(\
@@ -1236,6 +1310,9 @@
 					"wflip" = 8,
 					"eflip" = 0,
 					)
+			if("onback")
+				return list("shrink" = 0.6,"sx" = -1,"sy" = 2,"nx" = 0,"ny" = 2,"wx" = 2,"wy" = 1,"ex" = 0,"ey" = 1,"nturn" = 0,"sturn" = 0,"wturn" = 70,"eturn" = 15,"nflip" = 1,"sflip" = 1,"wflip" = 1,"eflip" = 1,"northabove" = 1,"southabove" = 0,"eastabove" = 0,"westabove" = 0)
+
 
 /obj/item/rogueweapon/woodstaff/naledi
 	name = "naledian warstaff"
@@ -1345,6 +1422,7 @@
 	wdefense = 6
 	throwforce = 12	//Not a throwing weapon. Too heavy!
 	icon_angle_wielded = 50
+	smeltresult = /obj/item/ingot/steel
 
 /obj/item/rogueweapon/spear/partizan/getonmobprop(tag)
 	. = ..()
@@ -1364,6 +1442,7 @@
 	force_wielded = 33 // 10% base damage increase
 	wdefense = 6 // A little bit extra
 	max_blade_int = 200 
+	smeltresult = /obj/item/ingot/steel
 
 /obj/item/rogueweapon/spear/boar/frei
 	name = "Aavnic lándzsa"
@@ -1384,6 +1463,7 @@
 	possible_item_intents = list(SPEAR_THRUST, /datum/intent/lance/onehand, SPEAR_BASH) //bash is for nonlethal takedowns, only targets limbs
 	gripped_intents = list(/datum/intent/spear/thrust/lance, /datum/intent/lance, SPEAR_BASH)
 	resistance_flags = null
+	smeltresult = /obj/item/ingot/steel
 
 /obj/item/rogueweapon/spear/naginata
 	name = "naginata"
@@ -1391,7 +1471,7 @@
 	force = 16
 	force_wielded = 30
 	possible_item_intents = list(/datum/intent/spear/cut/naginata, SPEAR_BASH) // no stab for you little chuddy, it's a slashing weapon
-	gripped_intents = list(/datum/intent/rend/reach, /datum/intent/spear/cut/naginata, PARTIZAN_PEEL, SPEAR_BASH)
+	gripped_intents = list(/datum/intent/spear/cut/naginata,SPEAR_BASH, /datum/intent/rend/reach, PARTIZAN_PEEL)
 	icon_state = "naginata"
 	icon = 'icons/roguetown/weapons/64.dmi'
 	minstr = 7
@@ -1399,6 +1479,7 @@
 	wdefense = 5
 	throwforce = 12	//Not a throwing weapon. 
 	icon_angle_wielded = 50
+	smeltresult = /obj/item/ingot/steel
 
 /obj/item/rogueweapon/spear/naginata/getonmobprop(tag)
 	. = ..()
@@ -1427,7 +1508,7 @@
 	max_blade_int = 200
 	icon_state = "assegai_steel"
 	gripsprite = FALSE
-
+	smeltresult = /obj/item/ingot/steel
 
 /////////////////////
 // Special Weapon! //
@@ -1520,7 +1601,7 @@
 	max_blade_int = 555
 	alt_intents = null 
 	is_silver = TRUE
-	smeltresult = /obj/item/rogueweapon/sword/long/kriegmesser/silver //Too thick to completely melt.
+	smeltresult = /obj/item/rogueweapon/greatsword/silver //Too thick to completely melt.
 
 /obj/item/rogueweapon/greatsword/psygsword/dragonslayer/ComponentInitialize()
 	AddComponent(\

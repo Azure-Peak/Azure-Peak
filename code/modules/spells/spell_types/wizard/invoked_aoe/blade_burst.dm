@@ -54,8 +54,8 @@
 	if(T.z < user.z)
 		source_turf = get_step_multiz(source_turf, DOWN)
 
-	for(var/turf/affected_turf in view(area_of_effect, T))
-		if(!(affected_turf in view(source_turf)))
+	for(var/turf/affected_turf in get_hear(area_of_effect, T))
+		if(!(affected_turf in get_hear(range, source_turf)))
 			continue
 		new /obj/effect/temp_visual/trap(affected_turf)
 	playsound(T, 'sound/magic/blade_burst.ogg', 80, TRUE, soundping = TRUE)
@@ -63,18 +63,22 @@
 	sleep(delay)
 	var/play_cleave = FALSE
 
-	for(var/turf/affected_turf in view(area_of_effect, T))
-		new /obj/effect/temp_visual/blade_burst(affected_turf)
-		if(!(affected_turf in view(source_turf)))
+	for(var/turf/affected_turf in get_hear(area_of_effect, T))
+		if(!(affected_turf in get_hear(range, source_turf)))
 			continue
+		new /obj/effect/temp_visual/blade_burst(affected_turf)
 		for(var/mob/living/L in affected_turf.contents)
 			if(L.anti_magic_check())
 				visible_message(span_warning("The blades dispel when they near [L]!"))
 				playsound(get_turf(L), 'sound/magic/magic_nulled.ogg', 100)
-				qdel(src)
 				continue
 			play_cleave = TRUE
 			L.adjustBruteLoss(damage)
+			var/mark_stacks = consume_arcane_mark_stacks(L)
+			if(mark_stacks)
+				L.adjustBruteLoss(20 * (mark_stacks))
+			if(mark_stacks == 3)
+				to_chat(L, "<span class='userdanger'>THOUSAND-NEEDLE MADRIPOLE; TRYPTICH-MARKE DETONATION!</span>")
 			playsound(affected_turf, "genslash", 80, TRUE)
 			to_chat(L, "<span class='userdanger'>You're cut by arcyne force!</span>")
 

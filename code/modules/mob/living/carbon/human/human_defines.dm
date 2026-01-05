@@ -7,7 +7,7 @@
 	hud_possible = list(ANTAG_HUD)
 	hud_type = /datum/hud/human
 	base_intents = list(INTENT_HELP, INTENT_DISARM, INTENT_GRAB, INTENT_HARM)
-	possible_mmb_intents = list(INTENT_STEAL, INTENT_JUMP, INTENT_KICK, INTENT_BITE, INTENT_GIVE)
+	possible_mmb_intents = list(INTENT_SPECIAL, INTENT_JUMP, INTENT_KICK, INTENT_BITE, INTENT_GIVE)
 	can_buckle = TRUE
 	buckle_lying = FALSE
 	mob_biotypes = MOB_ORGANIC|MOB_HUMANOID
@@ -60,8 +60,8 @@
 	var/obj/item/belt = null
 	var/obj/item/beltl = null
 	var/obj/item/beltr = null
-	var/obj/item/wear_ring = null
-	var/obj/item/wear_wrists = null
+	var/obj/item/clothing/wear_ring = null
+	var/obj/item/clothing/wear_wrists = null
 	var/obj/item/r_store = null
 	var/obj/item/l_store = null
 	var/obj/item/s_store = null
@@ -111,9 +111,12 @@
 	var/datum/inspiration/inspiration = null
 
 	var/headshot_link = null
+	var/standard_headshot_link = null //used to store headshots when swapping for antag ones
 	var/flavortext = null
 	var/ooc_notes = null
 	var/ooc_extra
+	var/rumour = null
+	var/noble_gossip = null
 	var/song_title
 	var/song_artist
 	var/received_resident_key = FALSE
@@ -136,6 +139,15 @@
 	var/datum/statpack/statpack = null // Lethalstone Port - statpacks for greater customization
 	var/second_voice	// Virtue-specific. Can be swapped to / from and changed.
 	var/original_voice
+	//setting up vars for vampire color values
+	var/vampire_skin = null
+	var/vampire_eyes = null
+	var/vampire_hair = null
+	//An alternative headshot link that can be used when users want to use it for a special role like while a vampire, werewolf, bandit, etc.
+	var/vampire_headshot_link
+	var/lich_headshot_link
+	//setting up the hooks for this, but not shown yet
+	var/werewolf_headshot_link
 
 	/// Whether our FOV cone is overridden to be hidden. Simple bool.
 	var/viewcone_override
@@ -148,6 +160,12 @@
 
 	/// Assoc list of culinary preferences of the mob
 	var/list/culinary_preferences = list()
+
+	/// List of mobs that have attacked us. Only relevant to someone with TRAIT_TEMPO.
+	var/list/tempo_attackers = list()
+
+	var/next_tempo_cull
+
 
 	var/datum/charflaw/charflaw
 
@@ -170,5 +188,10 @@
 
 	var/mob/living/carbon/human/hostagetaker //Stores the person that took us hostage in a var, allows us to force them to attack the mob and such
 	var/mob/living/carbon/human/hostage //What hostage we have
+
+	// Boolean. Usually set only to TRUE for non-Eoran church roles.
+	var/virginity = FALSE
+	// Used to prevent certain antag from having sex
+	var/can_do_sex = TRUE
 
 	fovangle = FOV_DEFAULT

@@ -1,6 +1,7 @@
 #define INFERNAL_FLAME_COOLDOWN 20 SECONDS
 #define FREEZING_COOLDOWN 20 SECONDS
 #define REWIND_COOLDOWN 20 SECONDS
+#define CHAOS_COOLDOWN 10 SECONDS
 
 //T4 Enchantments
 /datum/magic_item/mythic/infernalflame
@@ -10,6 +11,8 @@
 	var/warned
 
 /datum/magic_item/mythic/infernalflame/on_hit(obj/item/source, atom/target, mob/user, proximity_flag, click_parameters)
+	if(!proximity_flag)
+		return
 	if(world.time < src.last_used + INFERNAL_FLAME_COOLDOWN)
 		return
 	if(isliving(target))
@@ -67,6 +70,8 @@
 			src.last_used = world.time
 
 /datum/magic_item/mythic/freezing/on_hit(obj/item/source, atom/target, mob/user, proximity_flag, click_parameters)
+	if(!proximity_flag)
+		return
 	if(world.time < src.last_used + FREEZING_COOLDOWN)
 		return
 	if(isliving(target))
@@ -76,20 +81,24 @@
 		src.last_used = world.time
 
 /datum/magic_item/mythic/briarcurse
-	name = "Briar's curse"
+	name = "Briar's Curse"
 	description = "Its grip seems thorny. Must hurt to use."
 	var/last_used
 
 /datum/magic_item/mythic/briarcurse/on_apply(var/obj/item/i)
 	.=..()
 	i.force = i.force + 10
+	if (i.force_wielded)
+		i.force_wielded = i.force_wielded + 10
 
 /datum/magic_item/mythic/briarcurse/on_hit(obj/item/source, atom/target, mob/user, proximity_flag, click_parameters)
 	.=..()
+	if(!proximity_flag)
+		return
 	if(isliving(target))
 		var/mob/living/carbon/targeted = target
 		targeted.adjustBruteLoss(10)
-		to_chat(user, span_notice("[source] gouges you with it's sharp edges!"))
+		to_chat(target, span_notice("[source] gouges you with its sharp edges!"))
 
 /datum/magic_item/mythic/rewind
 	name = "Temporal Rewind"
@@ -100,6 +109,8 @@
 
 /datum/magic_item/mythic/rewind/on_hit(obj/item/source, atom/target, mob/user, proximity_flag, click_parameters)
 	.=..()
+	if(!proximity_flag)
+		return
 	if(world.time < src.last_used + REWIND_COOLDOWN)
 		return
 	else
@@ -129,9 +140,11 @@
 	var/last_used
 
 /datum/magic_item/mythic/chaos_storm/on_hit(obj/item/source, atom/target, mob/user, proximity_flag, click_parameters)
-	if(world.time < (src.last_used[source] + (10 SECONDS)))
+	.=..()
+	if(!proximity_flag)
 		return
-
+	if(world.time < (src.last_used + CHAOS_COOLDOWN))
+		return
 	if(isliving(target))
 		var/mob/living/L = target
 		switch(rand(1,5))
@@ -153,4 +166,9 @@
 			if(5)
 				L.confused += 2 SECONDS
 				to_chat(L, span_warning("Chaotic energy scrambles your thoughts!"))
-	last_used[source] = world.time
+		src.last_used = world.time
+
+#undef INFERNAL_FLAME_COOLDOWN
+#undef FREEZING_COOLDOWN
+#undef REWIND_COOLDOWN
+#undef CHAOS_COOLDOWN

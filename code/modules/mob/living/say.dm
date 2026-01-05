@@ -178,7 +178,7 @@ GLOBAL_LIST_INIT(department_radio_keys, list(
 	if(saymode && !saymode.handle_message(src, message, language))
 		return
 
-	message = treat_message(message) // unfortunately we still need this
+	message = treat_message(message, language) // unfortunately we still need this
 	var/sigreturn = SEND_SIGNAL(src, COMSIG_MOB_SAY, args)
 	if (sigreturn & COMPONENT_UPPERCASE_SPEECH)
 		message = uppertext(message)
@@ -244,6 +244,13 @@ GLOBAL_LIST_INIT(department_radio_keys, list(
 		message = uppertext(message)
 	if(!message)
 		return
+
+	// autopunctuation
+	if(!client?.prefs?.no_autopunctuate)
+		var/ending = copytext(message, length(message), (length(message) + 1))
+		if(ending && !GLOB.correct_punctuation[ending])
+			message += "."
+
 	if(D.flags & SIGNLANG)
 		send_speech_sign(message, message_range, src, bubble_type, spans, language, message_mode, original_message)
 	else
@@ -314,8 +321,8 @@ GLOBAL_LIST_INIT(department_radio_keys, list(
 			AM.Hear(rendered, src, message_language, highlighted_message, , spans, message_mode, original_message)
 		else
 			AM.Hear(rendered, src, message_language, message, , spans, message_mode, original_message)
-		
-		
+
+
 	SEND_GLOBAL_SIGNAL(COMSIG_GLOB_LIVING_SAY_SPECIAL, src, message)
 
 	//time for emoting!!
@@ -470,7 +477,7 @@ GLOBAL_LIST_INIT(department_radio_keys, list(
 			listener_has_ceiling = TRUE
 			if(istransparentturf(listener_ceiling))
 				listener_has_ceiling = FALSE
-		if(!hearall)		
+		if(!hearall)
 			if((!Zs_too && !isobserver(AM)) || message_mode == MODE_WHISPER)
 				if(AM.z != src.z)
 					continue
@@ -493,7 +500,7 @@ GLOBAL_LIST_INIT(department_radio_keys, list(
 					for(var/mob/living/MH in viewers(world.view, speaker_ceiling))
 						if(M == MH && MH.z == speaker_ceiling?.z)
 							speaker_obstructed = FALSE
-					
+
 				if(!listener_has_ceiling)
 					for(var/mob/living/ML in viewers(world.view, listener_ceiling))
 						if(ML == src && ML.z == listener_ceiling?.z)
@@ -551,7 +558,7 @@ GLOBAL_LIST_INIT(department_radio_keys, list(
 
 /mob/living/proc/can_speak_vocal(message) //Check AFTER handling of xeno and ling channels
 	if(HAS_TRAIT(src, TRAIT_MUTE)|| HAS_TRAIT(src, TRAIT_PERMAMUTE) || HAS_TRAIT(src, TRAIT_BAGGED))
-		return FALSE	
+		return FALSE
 
 	if(is_muzzled())
 		return FALSE
@@ -575,8 +582,8 @@ GLOBAL_LIST_INIT(department_radio_keys, list(
 				return LD
 	return null
 
-/mob/living/proc/treat_message(message)
-	if(HAS_TRAIT(src, TRAIT_ZOMBIE_SPEECH))
+/mob/living/proc/treat_message(message, language)
+	if(HAS_TRAIT(src, TRAIT_ZOMBIE_SPEECH) && !ispath(language, /datum/language/undead))
 		message = "[repeat_string(rand(1, 3), "U")][repeat_string(rand(1, 6), "H")]..."
 	else if(HAS_TRAIT(src, TRAIT_GARGLE_SPEECH))
 		message = vocal_cord_torn(message)

@@ -1,0 +1,9 @@
+author: "dopamiin0"
+delete-after: True
+changes:
+  - rscadd: "familiars grant their owner a minor stat buff and malus"
+  - rscadd: "player familiars have special, low impact spells"
+  - rscadd: "player familiars get a modern examine panel, yay!"
+  - rscdel: "find familiar scrolls are no longer craftable"
+  - balance: "anyone with arcyne t1 or higher and at least 1 spellpoint can take find familiar for free"
+  - bugfix: "players can actually control familiars now"

@@ -31,7 +31,7 @@
 /datum/customizer_choice/organ/penis/generate_pref_choices(list/dat, datum/preferences/prefs, datum/customizer_entry/entry, customizer_type)
 	..()
 	var/datum/customizer_entry/organ/penis/penis_entry = entry
-	dat += "<br>Penis size: <a href='?_src_=prefs;task=change_customizer;customizer=[customizer_type];customizer_task=penis_size''>[find_key_by_value(GLOB.named_penis_sizes, penis_entry.penis_size)]</a>"
+	dat += "<br>Penis size: <a href='?_src_=prefs;task=change_customizer;customizer=[customizer_type];customizer_task=penis_size''>[find_key_by_value(PENIS_SIZES_BY_NAME, penis_entry.penis_size)]</a>"
 	dat += "<br>Functional: <a href='?_src_=prefs;task=change_customizer;customizer=[customizer_type];customizer_task=functional''>[penis_entry.functional ? "YES" : "NO"]</a>"
 
 /datum/customizer_choice/organ/penis/handle_topic(mob/user, list/href_list, datum/preferences/prefs, datum/customizer_entry/entry, customizer_type)
@@ -39,10 +39,10 @@
 	var/datum/customizer_entry/organ/penis/penis_entry = entry
 	switch(href_list["customizer_task"])
 		if("penis_size")
-			var/named_size = input(user, "Choose your penis size:", "Character Preference", find_key_by_value(GLOB.named_penis_sizes, penis_entry.penis_size)) as anything in GLOB.named_penis_sizes
+			var/named_size = input(user, "Choose your penis size:", "Character Preference", find_key_by_value(PENIS_SIZES_BY_NAME, penis_entry.penis_size)) as anything in PENIS_SIZES_BY_NAME
 			if(isnull(named_size))
 				return
-			var/new_size = GLOB.named_penis_sizes[named_size]
+			var/new_size = PENIS_SIZES_BY_NAME[named_size]
 			penis_entry.penis_size = sanitize_integer(new_size, MIN_PENIS_SIZE, MAX_PENIS_SIZE, DEFAULT_PENIS_SIZE)
 		if("functional")
 			penis_entry.functional = !penis_entry.functional
@@ -138,14 +138,14 @@
 
 /datum/customizer_choice/organ/penis/tapered_double
 	name = "Hemi Tapered Penis"
-	organ_type = /obj/item/organ/penis/tapered
+	organ_type = /obj/item/organ/penis/tapered_double
 	sprite_accessories = list(
 		/datum/sprite_accessory/penis/hemi,
 		)
 
 /datum/customizer_choice/organ/penis/tapered_double_knot
 	name = "Knotted Hemi Tapered Penis"
-	organ_type = /obj/item/organ/penis/tapered
+	organ_type = /obj/item/organ/penis/tapered_double_knotted
 	sprite_accessories = list(
 		/datum/sprite_accessory/penis/hemiknot,
 		)
@@ -207,7 +207,7 @@
 	..()
 	var/datum/customizer_entry/organ/testicles/testicles_entry = entry
 	if(can_customize_size)
-		dat += "<br>Ball size: <a href='?_src_=prefs;task=change_customizer;customizer=[customizer_type];customizer_task=ball_size''>[find_key_by_value(GLOB.named_ball_sizes, testicles_entry.ball_size)]</a>"
+		dat += "<br>Ball size: <a href='?_src_=prefs;task=change_customizer;customizer=[customizer_type];customizer_task=ball_size''>[find_key_by_value(TESTICLE_SIZES_BY_NAME, testicles_entry.ball_size)]</a>"
 	dat += "<br>Virile: <a href='?_src_=prefs;task=change_customizer;customizer=[customizer_type];customizer_task=virile''>[testicles_entry.virility ? "Virile" : "Sterile"]</a>"
 
 /datum/customizer_choice/organ/testicles/handle_topic(mob/user, list/href_list, datum/preferences/prefs, datum/customizer_entry/entry, customizer_type)
@@ -215,10 +215,10 @@
 	var/datum/customizer_entry/organ/testicles/testicles_entry = entry
 	switch(href_list["customizer_task"])
 		if("ball_size")
-			var/named_size = input(user, "Choose your ball size:", "Character Preference", find_key_by_value(GLOB.named_ball_sizes, testicles_entry.ball_size)) as anything in GLOB.named_ball_sizes
+			var/named_size = input(user, "Choose your ball size:", "Character Preference", find_key_by_value(TESTICLE_SIZES_BY_NAME, testicles_entry.ball_size)) as anything in TESTICLE_SIZES_BY_NAME
 			if(isnull(named_size))
 				return
-			var/new_size = GLOB.named_ball_sizes[named_size]
+			var/new_size = TESTICLE_SIZES_BY_NAME[named_size]
 			testicles_entry.ball_size = sanitize_integer(new_size, MIN_TESTICLES_SIZE, MAX_TESTICLES_SIZE, DEFAULT_TESTICLES_SIZE)
 		if("virile")
 			testicles_entry.virility = !testicles_entry.virility
@@ -290,7 +290,7 @@
 /datum/customizer_choice/organ/breasts/generate_pref_choices(list/dat, datum/preferences/prefs, datum/customizer_entry/entry, customizer_type)
 	..()
 	var/datum/customizer_entry/organ/breasts/breasts_entry = entry
-	dat += "<br>Breast size: <a href='?_src_=prefs;task=change_customizer;customizer=[customizer_type];customizer_task=breast_size''>[find_key_by_value(GLOB.named_breast_sizes, breasts_entry.breast_size)]</a>"
+	dat += "<br>Breast size: <a href='?_src_=prefs;task=change_customizer;customizer=[customizer_type];customizer_task=breast_size''>[find_key_by_value(BREAST_SIZES_BY_NAME, breasts_entry.breast_size)]</a>"
 	dat += "<br>Lactation: <a href='?_src_=prefs;task=change_customizer;customizer=[customizer_type];customizer_task=lactating''>[breasts_entry.lactating ? "Enabled" : "Disabled"]</a>"
 
 /datum/customizer_choice/organ/breasts/handle_topic(mob/user, list/href_list, datum/preferences/prefs, datum/customizer_entry/entry, customizer_type)
@@ -298,10 +298,10 @@
 	var/datum/customizer_entry/organ/breasts/breasts_entry = entry
 	switch(href_list["customizer_task"])
 		if("breast_size")
-			var/named_size = input(user, "Choose your breast size:", "Character Preference", find_key_by_value(GLOB.named_breast_sizes, breasts_entry.breast_size)) as anything in GLOB.named_breast_sizes
+			var/named_size = input(user, "Choose your breast size:", "Character Preference", find_key_by_value(BREAST_SIZES_BY_NAME, breasts_entry.breast_size)) as anything in BREAST_SIZES_BY_NAME
 			if(isnull(named_size))
 				return
-			var/new_size = GLOB.named_breast_sizes[named_size]
+			var/new_size = BREAST_SIZES_BY_NAME[named_size]
 			breasts_entry.breast_size = sanitize_integer(new_size, MIN_BREASTS_SIZE, MAX_BREASTS_SIZE, DEFAULT_BREASTS_SIZE)
 		if("lactating")
 			breasts_entry.lactating = !breasts_entry.lactating

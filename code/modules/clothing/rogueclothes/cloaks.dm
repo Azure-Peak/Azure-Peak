@@ -9,10 +9,33 @@
 	bloody_icon_state = "bodyblood"
 	sewrepair = TRUE //Vrell - AFAIK, all cloaks are cloth ATM. Technically semi-less future-proof, but it removes a line of code from every subtype, which is worth it IMO.
 	experimental_inhand = FALSE
+	var/overarmor = TRUE
+	var/storage = TRUE
 
 	grid_width = 64
 	grid_height = 64
 
+/obj/item/clothing/cloak/ComponentInitialize()
+	. = ..()
+	if(storage)
+		AddComponent(/datum/component/storage/concrete/roguetown/cloak)
+
+/obj/item/clothing/cloak/dropped(mob/living/carbon/human/user)
+	..()
+	var/datum/component/storage/STR = GetComponent(/datum/component/storage)
+	if(STR)
+		var/list/things = STR.contents()
+		for(var/obj/item/I in things)
+			STR.remove_from_storage(I, get_turf(src))
+
+/obj/item/clothing/cloak/MiddleClick(mob/user)
+	overarmor = !overarmor
+	to_chat(user, span_info("I [overarmor ? "wear [src] over my armor" : "wear [src] under my armor"]."))
+
+	alternate_worn_layer = overarmor ? TABARD_LAYER : UNDER_ARMOR_LAYER
+
+	user.update_inv_cloak()
+	user.update_inv_armor()
 
 //////////////////////////
 /// TABARD
@@ -30,86 +53,113 @@
 	boobed = TRUE
 	slot_flags = ITEM_SLOT_ARMOR|ITEM_SLOT_CLOAK
 	flags_inv = HIDECROTCH|HIDEBOOB
-	var/picked
-	var/overarmor = TRUE
+	var/custom_design = FALSE
 
-/obj/item/clothing/cloak/tabard/ComponentInitialize()
-	. = ..()
-	AddComponent(/datum/component/storage/concrete/roguetown/cloak)
+/obj/item/clothing/cloak/tabard/update_icon()
+	cut_overlays()
+	if(get_detail_tag())
+		var/mutable_appearance/pic = mutable_appearance(icon(icon, "[icon_state][detail_tag]"))
+		pic.appearance_flags = RESET_COLOR
+		if(get_detail_color())
+			pic.color = get_detail_color()
+		add_overlay(pic)
 
-/obj/item/clothing/cloak/tabard/dropped(mob/living/carbon/human/user)
-	..()
-	var/datum/component/storage/STR = GetComponent(/datum/component/storage)
-	if(STR)
-		var/list/things = STR.contents()
-		for(var/obj/item/I in things)
-			STR.remove_from_storage(I, get_turf(src))
+/obj/item/clothing/cloak/tabard/attack_right(mob/user)
+	if(custom_design)
+		return
+	var/the_time = world.time
+	var/design = input(user, "Select a design.","Tabard Design") as null|anything in list("None", "Symbol", "Split", "Quadrants", "Boxes", "Diamonds")
+	if(!design)
+		return
+	if(world.time > (the_time + 30 SECONDS))
+		return
+	var/symbol_chosen = FALSE
+	if(design == "Symbol")
+		design = null
+		design = input(user, "Select a symbol.","Tabard Design") as null|anything in list("chalice","psy","peace","z","imp","skull","widow","arrow")
+		if(!design)
+			return
+		design = "_[design]"
+		symbol_chosen = TRUE
+	var/list/colors_to_pick = list()
+	if(GLOB.lordprimary)
+		colors_to_pick["Primary Keep Color"] = GLOB.lordprimary
+	if(GLOB.lordsecondary)
+		colors_to_pick["Secondary Keep Color"] = GLOB.lordsecondary
+	var/list/color_map_list = COLOR_MAP
+	colors_to_pick += color_map_list.Copy()
+	var/colorone = input(user, "Select a primary color.","Tabard Design") as null|anything in colors_to_pick
+	if(!colorone)
+		return
+	var/colortwo
+	if(design != "None")
+		colortwo = input(user, "Select a secondary color.","Tabard Design") as null|anything in colors_to_pick
+		if(!colortwo)
+			return
+	if(world.time > (the_time + 30 SECONDS))
+		return
+	if(design != "None")
+		detail_tag = design
+	switch(design)
+		if("Split")
+			detail_tag = "_spl"
+		if("Quadrants")
+			detail_tag = "_quad"
+		if("Boxes")
+			detail_tag = "_box"
+		if("Diamonds")
+			detail_tag = "_dim"
+	boobed_detail = !symbol_chosen
+	color = colors_to_pick[colorone]
+	if(colortwo)
+		detail_color = colors_to_pick[colortwo]
+	update_icon()
+	if(ismob(loc))
+		var/mob/L = loc
+		L.update_inv_cloak()
+	if(alert("Are you pleased with your heraldry?", "Heraldry", "Yes", "No") != "Yes")
+		detail_color = initial(detail_color)
+		color = initial(color)
+		boobed_detail = initial(boobed_detail)
+		detail_tag = initial(detail_tag)
+		update_icon()
+		if(ismob(loc))
+			var/mob/L = loc
+			L.update_inv_cloak()
+		return
+	custom_design = TRUE
 
-/obj/item/clothing/cloak/abyssortabard
+/obj/item/clothing/cloak/tabard/update_icon()
+	cut_overlays()
+	if(get_detail_tag())
+		var/mutable_appearance/pic = mutable_appearance(icon(icon, "[icon_state][detail_tag]"))
+		pic.appearance_flags = RESET_COLOR
+		if(get_detail_color())
+			pic.color = get_detail_color()
+		add_overlay(pic)
+
+
+/obj/item/clothing/cloak/tabard/abyssortabard
 	name = "abyssorite tabard"
 	desc = "A tabard worn by Abyssorite devouts."
 	color = null
 	icon_state = "abyssortabard"
 	item_state = "abyssortabard"
 	mob_overlay_icon = 'icons/roguetown/clothing/onmob/cloaks.dmi'
-	alternate_worn_layer = TABARD_LAYER
-	body_parts_covered = CHEST|GROIN
-	boobed = TRUE
-	slot_flags = ITEM_SLOT_ARMOR|ITEM_SLOT_CLOAK
-	flags_inv = HIDECROTCH|HIDEBOOB
-	var/overarmor = TRUE
+	custom_design = TRUE
 
-/obj/item/clothing/cloak/abyssortabard/ComponentInitialize()
-	. = ..()
-	AddComponent(/datum/component/storage/concrete/roguetown/cloak)
-
-/obj/item/clothing/cloak/abyssortabard/dropped(mob/living/carbon/human/user)
-	..()
-	var/datum/component/storage/STR = GetComponent(/datum/component/storage)
-	if(STR)
-		var/list/things = STR.contents()
-		for(var/obj/item/I in things)
-			STR.remove_from_storage(I, get_turf(src))
-
-/obj/item/clothing/cloak/abyssortabard/MiddleClick(mob/user)
-	overarmor = !overarmor
-	to_chat(user, span_info("I [overarmor ? "wear the tabard over my armor" : "wear the tabard under my armor"]."))
-	if(overarmor)
-		alternate_worn_layer = TABARD_LAYER
-	else
-		alternate_worn_layer = UNDER_ARMOR_LAYER
-	user.update_inv_cloak()
-	user.update_inv_armor()
-
-/obj/item/clothing/cloak/psydontabard
+/obj/item/clothing/cloak/tabard/psydontabard
 	name = "psydonian tabard"
 	desc = "A tabard worn by Psydon's disciples. Delicate stitchwork professes the psycross with pride."
 	color = null
 	icon_state = "psydontabard"
 	item_state = "psydontabard"
 	mob_overlay_icon = 'icons/roguetown/clothing/onmob/cloaks.dmi'
-	alternate_worn_layer = TABARD_LAYER
-	body_parts_covered = CHEST|GROIN
-	boobed = TRUE
 	slot_flags = ITEM_SLOT_SHIRT|ITEM_SLOT_ARMOR|ITEM_SLOT_CLOAK
-	flags_inv = HIDECROTCH|HIDEBOOB
+	custom_design = TRUE
 	var/open_wear = FALSE
-	var/overarmor = TRUE
 
-/obj/item/clothing/cloak/psydontabard/ComponentInitialize()
-	. = ..()
-	AddComponent(/datum/component/storage/concrete/roguetown/cloak)
-
-/obj/item/clothing/cloak/psydontabard/dropped(mob/living/carbon/human/user)
-	..()
-	var/datum/component/storage/STR = GetComponent(/datum/component/storage)
-	if(STR)
-		var/list/things = STR.contents()
-		for(var/obj/item/I in things)
-			STR.remove_from_storage(I, get_turf(src))
-
-
-/obj/item/clothing/cloak/psydontabard/alt
+/obj/item/clothing/cloak/tabard/psydontabard/alt
 	name = "opened psydonian tabard"
 	desc = "A tabard worn by Psydon's disciples, peeled back to reveal its enduring innards."
 	body_parts_covered = GROIN
@@ -118,19 +168,11 @@
 	flags_inv = HIDECROTCH
 	open_wear = TRUE
 
-
-/obj/item/clothing/cloak/psydontabard/MiddleClick(mob/user)
-	overarmor = !overarmor
-	to_chat(user, span_info("I [overarmor ? "wear the tabard over my armor" : "wear the tabard under my armor"]."))
-	if(overarmor)
-		alternate_worn_layer = TABARD_LAYER
-	else
-		alternate_worn_layer = UNDER_ARMOR_LAYER
-	user.update_inv_cloak()
-	user.update_inv_armor()
+/obj/item/clothing/cloak/tabard/psydontabard/MiddleClick(mob/user)
+	..()
 	user.update_inv_shirt()
 
-/obj/item/clothing/cloak/psydontabard/attack_right(mob/user)
+/obj/item/clothing/cloak/tabard/psydontabard/attack_right(mob/user)
 	switch(open_wear)
 		if(FALSE)
 			name = "opened psydonian tabard"
@@ -157,90 +199,131 @@
 			H.update_inv_cloak()
 			H.update_inv_armor()
 
-/obj/item/clothing/cloak/tabard/update_icon()
-	cut_overlays()
-	if(get_detail_tag())
-		var/mutable_appearance/pic = mutable_appearance(icon(icon, "[icon_state][detail_tag]"))
-		pic.appearance_flags = RESET_COLOR
-		if(get_detail_color())
-			pic.color = get_detail_color()
-		add_overlay(pic)
+/obj/item/clothing/cloak/templar/astratan
+	mob_overlay_icon = 'icons/roguetown/clothing/onmob/cloaks.dmi'
+	alternate_worn_layer = TABARD_LAYER
+	boobed = FALSE
+	name = "astratan tabard"
+	desc = "The washed out golds of an Astratan crusader adorn these fine robes."
+	icon_state = "astratatabard"
+	resistance_flags = FIRE_PROOF
 
-/obj/item/clothing/cloak/tabard/MiddleClick(mob/user)
-	overarmor = !overarmor
-	to_chat(user, span_info("I [overarmor ? "wear the tabard over my armor" : "wear the tabard under my armor"]."))
-	if(overarmor)
-		alternate_worn_layer = TABARD_LAYER
-	else
-		alternate_worn_layer = UNDER_ARMOR_LAYER
-	user.update_inv_cloak()
-	user.update_inv_armor()
+/obj/item/clothing/cloak/templar/malumite
+	mob_overlay_icon = 'icons/roguetown/clothing/onmob/cloaks.dmi'
+	alternate_worn_layer = TABARD_LAYER
+	boobed = FALSE
+	name = "tabard of malum"
+	desc = "Light blacks and greys, with a tinge of red, the everlasting fire of Malum's iron hammer as it strikes."
+	icon_state = "malumtabard"
 
+/obj/item/clothing/cloak/templar/necran
+	mob_overlay_icon = 'icons/roguetown/clothing/onmob/cloaks.dmi'
+	alternate_worn_layer = TABARD_LAYER
+	boobed = FALSE
+	name = "necran tabard"
+	desc = "Deep dark blacks, swallowing all light as if the night itself."
+	icon_state = "necratabard"
 
+/obj/item/clothing/cloak/templar/pestran
+	mob_overlay_icon = 'icons/roguetown/clothing/onmob/cloaks.dmi'
+	alternate_worn_layer = TABARD_LAYER
+	boobed = TRUE
+	name = "pestran tabard"
+	desc = "A simple covering of green cloth, meant to keep rot and blood alike off it's wearer."
+	icon_state = "pestratabard"
 
-/obj/item/clothing/cloak/tabard/attack_right(mob/user)
-	if(picked)
-		return
-	var/the_time = world.time
-	var/design = input(user, "Select a design.","Tabard Design") as null|anything in list("None", "Symbol", "Split", "Quadrants", "Boxes", "Diamonds")
-	if(!design)
-		return
-	if(world.time > (the_time + 30 SECONDS))
-		return
-	var/symbol_chosen = FALSE
-	if(design == "Symbol")
-		design = null
-		design = input(user, "Select a symbol.","Tabard Design") as null|anything in list("chalice","psy","peace","z","imp","skull","widow","arrow")
-		if(!design)
-			return
-		design = "_[design]"
-		symbol_chosen = TRUE
-	var/colorone = input(user, "Select a primary color.","Tabard Design") as null|anything in CLOTHING_COLOR_NAMES
-	if(!colorone)
-		return
-	var/colortwo
-	if(design != "None")
-		colortwo = input(user, "Select a primary color.","Tabard Design") as null|anything in CLOTHING_COLOR_NAMES
-		if(!colortwo)
-			return
-	if(world.time > (the_time + 30 SECONDS))
-		return
-	if(design != "None")
-		detail_tag = design
-	switch(design)
-		if("Split")
-			detail_tag = "_spl"
-		if("Quadrants")
-			detail_tag = "_quad"
-		if("Boxes")
-			detail_tag = "_box"
-		if("Diamonds")
-			detail_tag = "_dim"
-	boobed_detail = !symbol_chosen
-	color = clothing_color2hex(colorone)
-	if(colortwo)
-		detail_color = clothing_color2hex(colortwo)
-	update_icon()
-	if(ismob(loc))
-		var/mob/L = loc
-		L.update_inv_cloak()
-	if(alert("Are you pleased with your heraldry?", "Heraldry", "Yes", "No") != "Yes")
-		detail_color = initial(detail_color)
-		color = initial(color)
-		boobed_detail = initial(boobed_detail)
-		detail_tag = initial(detail_tag)
-		update_icon()
-		if(ismob(loc))
-			var/mob/L = loc
-			L.update_inv_cloak()
-		return
-	picked = TRUE
+/obj/item/clothing/cloak/templar/eoran
+	mob_overlay_icon = 'icons/roguetown/clothing/onmob/cloaks.dmi'
+	alternate_worn_layer = TABARD_LAYER
+	boobed = TRUE
+	name = "eoran tabard"
+	desc = "A complex covering of translucent pink and beige clothes. They carry the scent of flowers in them."
+	icon_state = "eoratabard"
+
+/obj/item/clothing/cloak/templar/xylixian
+	mob_overlay_icon = 'icons/roguetown/clothing/onmob/cloaks.dmi'
+	alternate_worn_layer = TABARD_LAYER
+	boobed = TRUE
+	name = "xylixian cloak"
+	desc = "Swirling cloth, jingling bells! Oh, how I love the path to hell!"
+	icon_state = "xylixcloak"
+	sleeved = 'icons/roguetown/clothing/onmob/helpers/sleeves_cloaks.dmi'
+	sleevetype = "shirt"
+
+/obj/item/clothing/cloak/templar/undivided
+	mob_overlay_icon = 'icons/roguetown/clothing/onmob/cloaks.dmi'
+	alternate_worn_layer = TABARD_LAYER
+	boobed = TRUE
+	name = "undivided tabard"
+	desc = "The refuge of the TEN upon my back. A Undivided House, standing eternal against the encroaching darkness."
+	icon_state = "seetabard"
+
+/obj/item/clothing/cloak/tabard/devotee
+	nodismemsleeves = TRUE
+	slot_flags = ITEM_SLOT_ARMOR|ITEM_SLOT_CLOAK
+	flags_inv = HIDECROTCH|HIDEBOOB
+	custom_design = TRUE
+
+/obj/item/clothing/cloak/tabard/devotee/psydon
+	name = "psydon tabard"
+	desc = "An outer garment commonly worn by soldiers. This one has the symbol of Psydon on it."
+	icon_state = "tabard_weeping"
+	mob_overlay_icon = 'icons/roguetown/clothing/onmob/detailed/tabards.dmi'
+	sleeved = 'icons/roguetown/clothing/onmob/detailed/tabards.dmi'
+	sleevetype = "shirt"
+
+/obj/item/clothing/cloak/tabard/devotee/astrata
+	name = "astratan tabard"
+	desc = "An outer garment commonly worn by soldiers. This one has the symbol of Astrata on it."
+	icon_state = "tabard_astrata_alt"
+	mob_overlay_icon = 'icons/roguetown/clothing/onmob/detailed/tabards.dmi'
+	sleeved = 'icons/roguetown/clothing/onmob/detailed/tabards.dmi'
+	sleevetype = "shirt"
+
+/obj/item/clothing/cloak/tabard/devotee/noc
+	name = "noc tabard"
+	desc = "An outer garment commonly worn by soldiers. This one has the symbol of Noc on it."
+	icon_state = "tabard_noc"
+	mob_overlay_icon = 'icons/roguetown/clothing/onmob/detailed/tabards.dmi'
+	sleeved = 'icons/roguetown/clothing/onmob/detailed/tabards.dmi'
+	sleevetype = "shirt"
+
+/obj/item/clothing/cloak/tabard/devotee/dendor
+	name = "dendor tabard"
+	desc = "An outer garment commonly worn by soldiers. This one has the symbol of Dendor on it."
+	icon_state = "tabard_dendor"
+	mob_overlay_icon = 'icons/roguetown/clothing/onmob/detailed/tabards.dmi'
+	sleeved = 'icons/roguetown/clothing/onmob/detailed/tabards.dmi'
+	sleevetype = "shirt"
+
+/obj/item/clothing/cloak/tabard/devotee/necra
+	name = "necra tabard"
+	desc = "An outer garment commonly worn by soldiers. This one has the symbol of Necra on it."
+	icon_state = "tabard_necra"
+	mob_overlay_icon = 'icons/roguetown/clothing/onmob/detailed/tabards.dmi'
+	sleeved = 'icons/roguetown/clothing/onmob/detailed/tabards.dmi'
+	sleevetype = "shirt"
+
+/obj/item/clothing/cloak/tabard/devotee/abyssor
+	name = "abyssor tabard"
+	desc = "An outer garment commonly worn by soldiers. This one has the symbol of Abyssor on it."
+	icon_state = "tabard_abyssor"
+	mob_overlay_icon = 'icons/roguetown/clothing/onmob/detailed/tabards.dmi'
+	sleeved = 'icons/roguetown/clothing/onmob/detailed/tabards.dmi'
+	sleevetype = "shirt"
+
+/obj/item/clothing/cloak/tabard/devotee/malum
+	name = "malum tabard"
+	desc = "An outer garment commonly worn by soldiers. This one has the symbol of Malum on it."
+	icon_state = "tabard_malum"
+	mob_overlay_icon = 'icons/roguetown/clothing/onmob/detailed/tabards.dmi'
+	sleeved = 'icons/roguetown/clothing/onmob/detailed/tabards.dmi'
+	sleevetype = "shirt"
+
 
 /obj/item/clothing/cloak/tabard/knight
 	color = CLOTHING_PURPLE
-
-/obj/item/clothing/cloak/tabard/knight/attack_right(mob/user)
-	return
+	custom_design = TRUE
 
 /obj/item/clothing/cloak/tabard/knight/Initialize()
 	. = ..()
@@ -252,6 +335,35 @@
 	GLOB.lordcolor -= src
 	return ..()
 
+
+/obj/item/clothing/cloak/tabard/retinue
+	desc = "A tabard with the lord's heraldic colors."
+	color = CLOTHING_AZURE
+	detail_tag = "_quad"
+	detail_color = CLOTHING_WHITE
+
+/obj/item/clothing/cloak/tabard/retinue/Initialize()
+	. = ..()
+	if(GLOB.lordprimary)
+		lordcolor(GLOB.lordprimary,GLOB.lordsecondary)
+	GLOB.lordcolor += src
+
+/obj/item/clothing/cloak/tabard/retinue/lordcolor(primary,secondary)
+	color = primary
+	detail_color = secondary
+	update_icon()
+	if(ismob(loc))
+		var/mob/L = loc
+		L.update_inv_cloak()
+
+/obj/item/clothing/cloak/tabard/retinue/Destroy()
+	GLOB.lordcolor -= src
+	return ..()
+
+/obj/item/clothing/cloak/tabard/retinue/captain //Because of his other snowflake cloak we can't actually use the naming normally.
+	name = "captain's tabard"
+
+
 /obj/item/clothing/cloak/tabard/crusader
 	detail_tag = "_psy"
 	detail_color = CLOTHING_RED
@@ -262,7 +374,7 @@
 	update_icon()
 
 /obj/item/clothing/cloak/tabard/crusader/attack_right(mob/user)
-	if(picked)
+	if(custom_design)
 		return
 	var/the_time = world.time
 	var/design = input(user, "Select a design.","Tabard Design") as null|anything in list("Default", "Gold Cross", "Jeruah", "BlackGold", "BlackWhite")
@@ -293,11 +405,40 @@
 			var/mob/L = loc
 			L.update_inv_cloak()
 		return
-	picked = TRUE
+	custom_design = TRUE
 
 /obj/item/clothing/cloak/tabard/crusader/tief
 	color = CLOTHING_RED
 	detail_color = CLOTHING_WHITE
+
+/obj/item/clothing/cloak/tabard/crusader/tief/attack_right(mob/user)
+	if(custom_design)
+		return
+	var/the_time = world.time
+	var/design = input(user, "Select a design.","Tabard Design") as null|anything in list("Default", "RedBlack", "BlackRed")
+	if(!design)
+		return
+	if(world.time > (the_time + 30 SECONDS))
+		return
+	if(design == "RedBlack")
+		detail_color = CLOTHING_BLACK
+		color = CLOTHING_RED
+	if(design == "BlackRed")
+		detail_color = CLOTHING_RED
+		color = CLOTHING_BLACK
+	update_icon()
+	if(ismob(loc))
+		var/mob/L = loc
+		L.update_inv_cloak()
+	if(alert("Are you pleased with your heraldry?", "Heraldry", "Yes", "No") != "Yes")
+		detail_color = initial(detail_color)
+		color = initial(color)
+		update_icon()
+		if(ismob(loc))
+			var/mob/L = loc
+			L.update_inv_cloak()
+		return
+	custom_design = TRUE
 
 /obj/item/clothing/cloak/tabard/crusader/astrata
 	color = "#9B7538"
@@ -335,241 +476,40 @@
 	color = CLOTHING_BLACK
 	detail_color = CLOTHING_WHITE
 
-//Eora content from Stonekeep
-
 /obj/item/clothing/cloak/tabard/crusader/eora
 	color = "#4D1E49"
 	detail_color = "#A95650"
 
 
-/obj/item/clothing/cloak/tabard/crusader/tief/attack_right(mob/user)
-	if(picked)
-		return
-	var/the_time = world.time
-	var/design = input(user, "Select a design.","Tabard Design") as null|anything in list("Default", "RedBlack", "BlackRed")
-	if(!design)
-		return
-	if(world.time > (the_time + 30 SECONDS))
-		return
-	if(design == "RedBlack")
-		detail_color = CLOTHING_BLACK
-		color = CLOTHING_RED
-	if(design == "BlackRed")
-		detail_color = CLOTHING_RED
-		color = CLOTHING_BLACK
-	update_icon()
-	if(ismob(loc))
-		var/mob/L = loc
-		L.update_inv_cloak()
-	if(alert("Are you pleased with your heraldry?", "Heraldry", "Yes", "No") != "Yes")
-		detail_color = initial(detail_color)
-		color = initial(color)
-		update_icon()
-		if(ismob(loc))
-			var/mob/L = loc
-			L.update_inv_cloak()
-		return
-	picked = TRUE
-
-/obj/item/clothing/cloak/tabard/retinue
-	desc = "A tabard with the lord's heraldic colors."
-	color = CLOTHING_AZURE
-	detail_tag = "_quad"
-	detail_color = CLOTHING_WHITE
-
-/obj/item/clothing/cloak/tabard/retinue/attack_right(mob/user)
-	if(picked)
-		return
-	var/the_time = world.time
-	var/chosen = input(user, "Select a design.","Tabard Design") as null|anything in list("Split", "Quadrants", "Boxes", "Diamonds")
-	if(world.time > (the_time + 10 SECONDS))
-		return
-	if(!chosen)
-		return
-	switch(chosen)
-		if("Split")
-			detail_tag = "_spl"
-		if("Quadrants")
-			detail_tag = "_quad"
-		if("Boxes")
-			detail_tag = "_box"
-		if("Diamonds")
-			detail_tag = "_dim"
-	update_icon()
-	if(ismob(loc))
-		var/mob/L = loc
-		L.update_inv_cloak()
-	if(alert("Are you pleased with your heraldry?", "Heraldry", "Yes", "No") != "Yes")
-		detail_tag = initial(detail_tag)
-		update_icon()
-		if(ismob(loc))
-			var/mob/L = loc
-			L.update_inv_cloak()
-		return
-	picked = TRUE
-
-/obj/item/clothing/cloak/tabard/retinue/Initialize()
-	. = ..()
-	if(GLOB.lordprimary)
-		lordcolor(GLOB.lordprimary,GLOB.lordsecondary)
-	GLOB.lordcolor += src
-
-/obj/item/clothing/cloak/tabard/retinue/lordcolor(primary,secondary)
-	color = primary
-	detail_color = secondary
-	update_icon()
-	if(ismob(loc))
-		var/mob/L = loc
-		L.update_inv_cloak()
-
-/obj/item/clothing/cloak/tabard/retinue/Destroy()
-	GLOB.lordcolor -= src
-	return ..()
-
-/obj/item/clothing/cloak/tabard/retinue/update_icon()
-	cut_overlays()
-	if(get_detail_tag())
-		var/mutable_appearance/pic = mutable_appearance(icon(icon, "[icon_state][detail_tag]"))
-		pic.appearance_flags = RESET_COLOR
-		if(get_detail_color())
-			pic.color = get_detail_color()
-		add_overlay(pic)
-
-/obj/item/clothing/cloak/tabard/retinue/captain //Because of his other snowflake cloak we can't actually use the naming normally.
-	name = "captain's tabard"
-
 //////////////////////////
 /// SOLDIER TABARD
 ////////////////////////
 
-/obj/item/clothing/cloak/stabard
+
+/obj/item/clothing/cloak/tabard/stabard
 	name = "surcoat"
 	desc = "An outer garment commonly worn by soldiers."
 	icon_state = "stabard"
-	alternate_worn_layer = TABARD_LAYER
-	body_parts_covered = CHEST|GROIN
 	boobed = TRUE
 	mob_overlay_icon = 'icons/roguetown/clothing/onmob/detailed/tabards.dmi'
 	sleeved = 'icons/roguetown/clothing/onmob/detailed/tabards.dmi'
 	sleevetype = "shirt"
 	nodismemsleeves = TRUE
-	slot_flags = ITEM_SLOT_ARMOR|ITEM_SLOT_CLOAK
-	flags_inv = HIDECROTCH|HIDEBOOB
-	var/picked
-	var/overarmor = TRUE
 
-/obj/item/clothing/cloak/stabard/ComponentInitialize()
-	. = ..()
-	AddComponent(/datum/component/storage/concrete/roguetown/cloak)
-
-/obj/item/clothing/cloak/stabard/dropped(mob/living/carbon/human/user)
-	..()
-	var/datum/component/storage/STR = GetComponent(/datum/component/storage)
-	if(STR)
-		var/list/things = STR.contents()
-		for(var/obj/item/I in things)
-			STR.remove_from_storage(I, get_turf(src))
-
-/obj/item/clothing/cloak/stabard/MiddleClick(mob/user)
-	overarmor = !overarmor
-	to_chat(user, span_info("I [overarmor ? "wear the tabard over my armor" : "wear the tabard under my armor"]."))
-	if(overarmor)
-		alternate_worn_layer = TABARD_LAYER
-	else
-		alternate_worn_layer = UNDER_ARMOR_LAYER
-	user.update_inv_cloak()
-	user.update_inv_armor()
-
-/obj/item/clothing/cloak/stabard/attack_right(mob/user)
-	if(picked)
-		return
-	var/the_time = world.time
-	var/design = input(user, "Select a design.","Tabard Design") as null|anything in list("None","Split", "Quadrants", "Boxes", "Diamonds")
-	if(!design)
-		return
-	var/colorone = input(user, "Select a primary color.","Tabard Design") as null|anything in CLOTHING_COLOR_NAMES
-	if(!colorone)
-		return
-	var/colortwo
-	if(design != "None")
-		colortwo = input(user, "Select a primary color.","Tabard Design") as null|anything in CLOTHING_COLOR_NAMES
-		if(!colortwo)
-			return
-	if(world.time > (the_time + 30 SECONDS))
-		return
-	switch(design)
-		if("Split")
-			detail_tag = "_spl"
-		if("Quadrants")
-			detail_tag = "_quad"
-		if("Boxes")
-			detail_tag = "_box"
-		if("Diamonds")
-			detail_tag = "_dim"
-	color = clothing_color2hex(colorone)
-	if(colortwo)
-		detail_color = clothing_color2hex(colortwo)
-	update_icon()
-	if(ismob(loc))
-		var/mob/L = loc
-		L.update_inv_cloak()
-	if(alert("Are you pleased with your heraldry?", "Heraldry", "Yes", "No") != "Yes")
-		detail_color = initial(detail_color)
-		color = initial(color)
-		boobed_detail = initial(boobed_detail)
-		detail_tag = initial(detail_tag)
-		update_icon()
-		if(ismob(loc))
-			var/mob/L = loc
-			L.update_inv_cloak()
-		return
-	picked = TRUE
-
-/obj/item/clothing/cloak/stabard/guard
+/obj/item/clothing/cloak/tabard/stabard/guard
 	name = "guard tabard"
 	desc = "A tabard with the lord's heraldic colors."
 	color = CLOTHING_AZURE
 	detail_tag = "_spl"
 	detail_color = CLOTHING_WHITE
 
-/obj/item/clothing/cloak/stabard/guard/attack_right(mob/user)
-	if(picked)
-		return
-	var/the_time = world.time
-	var/chosen = input(user, "Select a design.","Tabard Design") as null|anything in list("Split", "Quadrants", "Boxes", "Diamonds")
-	if(world.time > (the_time + 10 SECONDS))
-		return
-	if(!chosen)
-		return
-	switch(chosen)
-		if("Split")
-			detail_tag = "_spl"
-		if("Quadrants")
-			detail_tag = "_quad"
-		if("Boxes")
-			detail_tag = "_box"
-		if("Diamonds")
-			detail_tag = "_dim"
-	update_icon()
-	if(ismob(loc))
-		var/mob/L = loc
-		L.update_inv_cloak()
-	if(alert("Are you pleased with your heraldry?", "Heraldry", "Yes", "No") != "Yes")
-		detail_tag = initial(detail_tag)
-		update_icon()
-		if(ismob(loc))
-			var/mob/L = loc
-			L.update_inv_cloak()
-		return
-	picked = TRUE
-
-/obj/item/clothing/cloak/stabard/guard/Initialize()
+/obj/item/clothing/cloak/tabard/stabard/guard/Initialize()
 	. = ..()
 	if(GLOB.lordprimary)
 		lordcolor(GLOB.lordprimary,GLOB.lordsecondary)
 	GLOB.lordcolor += src
 
-/obj/item/clothing/cloak/stabard/guard/update_icon()
+/obj/item/clothing/cloak/tabard/stabard/guard/update_icon()
 	cut_overlays()
 	if(get_detail_tag())
 		var/mutable_appearance/pic = mutable_appearance(icon(icon, "[icon_state][detail_tag]"))
@@ -578,7 +518,7 @@
 			pic.color = get_detail_color()
 		add_overlay(pic)
 
-/obj/item/clothing/cloak/stabard/guard/lordcolor(primary,secondary)
+/obj/item/clothing/cloak/tabard/stabard/guard/lordcolor(primary,secondary)
 	color = primary
 	detail_color = secondary
 	update_icon()
@@ -586,153 +526,76 @@
 		var/mob/L = loc
 		L.update_inv_cloak()
 
-/obj/item/clothing/cloak/stabard/guard/Destroy()
+/obj/item/clothing/cloak/tabard/stabard/guard/Destroy()
 	GLOB.lordcolor -= src
 	return ..()
 
-/obj/item/clothing/cloak/stabard/bog
+/obj/item/clothing/cloak/tabard/stabard/bog
 	name = "bogman tabard"
 	desc = "A tabard colored in a glorius green of the mighty protectors of the BOG." // THE BOG DESERVES A BETTER DESCRIPTION!
 	color = CLOTHING_GREEN
 	detail_color = CLOTHING_DARK_GREEN
 
-/obj/item/clothing/cloak/stabard/grenzelhoft
+/obj/item/clothing/cloak/tabard/stabard/grenzelhoft
 	name = "grenzelhoft mercenary tabard"
 	desc = "A tabard bearing the colors of the Grenzelhoft emperiate mercenary guild."
 	color = CLOTHING_YELLOW
 	detail_color = CLOTHING_RED
 	detail_tag = "_box"
 
-/obj/item/clothing/cloak/stabard/dungeon
+/obj/item/clothing/cloak/tabard/stabard/dungeon
 	color = CLOTHING_BLACK
 
-/obj/item/clothing/cloak/stabard/dungeon/attack_right(mob/user)
+/obj/item/clothing/cloak/tabard/stabard/dungeon/attack_right(mob/user)
 	return
 
-/obj/item/clothing/cloak/stabard/mercenary
+/obj/item/clothing/cloak/tabard/stabard/mercenary
 	detail_tag = "_quad"
 
-/obj/item/clothing/cloak/stabard/mercenary/Initialize()
+/obj/item/clothing/cloak/tabard/stabard/mercenary/Initialize()
 	. = ..()
 	detail_tag = pick("_quad", "_spl", "_box", "_dim")
-	color = clothing_color2hex(pick(CLOTHING_COLOR_NAMES))
-	detail_color = clothing_color2hex(pick(CLOTHING_COLOR_NAMES))
+	color = pick(CLOTHING_COLOR_MAP)
+	detail_color = pick(CLOTHING_COLOR_MAP)
 	update_icon()
 	if(ismob(loc))
 		var/mob/L = loc
 		L.update_inv_cloak()
+
 
 //////////////////////////
 /// SURCOATS
 ////////////////////////
 
-/obj/item/clothing/cloak/stabard/surcoat
+
+/obj/item/clothing/cloak/tabard/stabard/surcoat
 	name = "jupon"
 	icon_state = "surcoat"
 
-/obj/item/clothing/cloak/stabard/surcoat/bailiff
+/obj/item/clothing/cloak/tabard/stabard/surcoat/bailiff
 	color = "#641E16"
 
-/obj/item/clothing/cloak/stabard/surcoat/councillor
+/obj/item/clothing/cloak/tabard/stabard/surcoat/councillor
 	color = "#2d2d2d"
 
-/obj/item/clothing/cloak/stabard/surcoat/attack_right(mob/user)
-	if(picked)
-		return
-	var/the_time = world.time
-	var/design = input(user, "Select a design.","Tabard Design") as null|anything in list("None","Split", "Quadrants", "Boxes", "Diamonds")
-	if(!design)
-		return
-	var/colorone = input(user, "Select a primary color.","Tabard Design") as null|anything in CLOTHING_COLOR_NAMES
-	if(!colorone)
-		return
-	var/colortwo
-	if(design != "None")
-		colortwo = input(user, "Select a primary color.","Tabard Design") as null|anything in CLOTHING_COLOR_NAMES
-		if(!colortwo)
-			return
-	if(world.time > (the_time + 30 SECONDS))
-		return
-	switch(design)
-		if("Split")
-			detail_tag = "_spl"
-		if("Quadrants")
-			detail_tag = "_quad"
-		if("Boxes")
-			detail_tag = "_box"
-		if("Diamonds")
-			detail_tag = "_dim"
-	color = clothing_color2hex(colorone)
-	if(colortwo)
-		detail_color = clothing_color2hex(colortwo)
-	update_icon()
-	if(ismob(loc))
-		var/mob/L = loc
-		L.update_inv_cloak()
-	if(alert("Are you pleased with your heraldry?", "Heraldry", "Yes", "No") != "Yes")
-		detail_color = initial(detail_color)
-		color = initial(color)
-		detail_tag = initial(detail_tag)
-		update_icon()
-		if(ismob(loc))
-			var/mob/L = loc
-			L.update_inv_cloak()
-		return
-	picked = TRUE
+/obj/item/clothing/cloak/tabard/stabard/surcoat/short
+	name = "short jupon"
+	icon_state = "surcoat_short"
+	body_parts_covered = CHEST
 
-/obj/item/clothing/cloak/stabard/surcoat/update_icon()
-	cut_overlays()
-	if(get_detail_tag())
-		var/mutable_appearance/pic = mutable_appearance(icon(icon, "[icon_state][detail_tag]"))
-		pic.appearance_flags = RESET_COLOR
-		if(get_detail_color())
-			pic.color = get_detail_color()
-		add_overlay(pic)
-
-/obj/item/clothing/cloak/stabard/surcoat/guard
+/obj/item/clothing/cloak/tabard/stabard/surcoat/guard
 	desc = "A surcoat with the lord's heraldic colors."
 	color = CLOTHING_AZURE
 	detail_tag = "_quad"
 	detail_color = CLOTHING_WHITE
 
-/obj/item/clothing/cloak/stabard/surcoat/guard/attack_right(mob/user)
-	if(picked)
-		return
-	var/the_time = world.time
-	var/chosen = input(user, "Select a design.","Tabard Design") as null|anything in list("Split", "Quadrants", "Boxes", "Diamonds")
-	if(world.time > (the_time + 10 SECONDS))
-		return
-	if(!chosen)
-		return
-	switch(chosen)
-		if("Split")
-			detail_tag = "_spl"
-		if("Quadrants")
-			detail_tag = "_quad"
-		if("Boxes")
-			detail_tag = "_box"
-		if("Diamonds")
-			detail_tag = "_dim"
-	update_icon()
-	if(ismob(loc))
-		var/mob/L = loc
-		L.update_inv_cloak()
-	if(alert("Are you pleased with your heraldry?", "Heraldry", "Yes", "No") != "Yes")
-		detail_tag = initial(detail_tag)
-		update_icon()
-		if(ismob(loc))
-			var/mob/L = loc
-			L.update_inv_cloak()
-		return
-	picked = TRUE
-
-/obj/item/clothing/cloak/stabard/surcoat/guard/Initialize()
+/obj/item/clothing/cloak/tabard/stabard/surcoat/guard/Initialize()
 	. = ..()
 	if(GLOB.lordprimary)
 		lordcolor(GLOB.lordprimary,GLOB.lordsecondary)
 	GLOB.lordcolor += src
 
-/obj/item/clothing/cloak/stabard/surcoat/guard/lordcolor(primary,secondary)
+/obj/item/clothing/cloak/tabard/stabard/surcoat/guard/lordcolor(primary,secondary)
 	color = primary
 	detail_color = secondary
 	update_icon()
@@ -740,12 +603,13 @@
 		var/mob/L = loc
 		L.update_inv_cloak()
 
-/obj/item/clothing/cloak/stabard/surcoat/guard/Destroy()
+/obj/item/clothing/cloak/tabard/stabard/surcoat/guard/Destroy()
 	GLOB.lordcolor -= src
 	return ..()
 
-/obj/item/clothing/cloak/stabard/black
+/obj/item/clothing/cloak/tabard/stabard/black
 	color = CLOTHING_BLACK
+
 
 /obj/item/clothing/cloak/lordcloak
 	name = "lordly cloak"
@@ -760,7 +624,6 @@
 	sleevetype = "shirt"
 	nodismemsleeves = TRUE
 	inhand_mod = TRUE
-//	allowed_sex = list(MALE)
 	allowed_race = NON_DWARVEN_RACE_TYPES
 	detail_tag = "_det"
 	detail_color = CLOTHING_AZURE
@@ -791,19 +654,6 @@
 	GLOB.lordcolor -= src
 	return ..()
 
-
-/obj/item/clothing/cloak/lordcloak/ComponentInitialize()
-	. = ..()
-	AddComponent(/datum/component/storage/concrete/roguetown/cloak/lord)
-
-/obj/item/clothing/cloak/lordcloak/dropped(mob/living/carbon/human/user)
-	..()
-	var/datum/component/storage/STR = GetComponent(/datum/component/storage)
-	if(STR)
-		var/list/things = STR.contents()
-		for(var/obj/item/I in things)
-			STR.remove_from_storage(I, get_turf(src))
-
 /obj/item/clothing/cloak/darkcloak
 	name = "dark cloak"
 	desc = "It'll warm up your flesh, but not your cold, dead heart."
@@ -820,30 +670,22 @@
 	allowed_race = NON_DWARVEN_RACE_TYPES
 	salvage_result = /obj/item/natural/fur
 
-/obj/item/clothing/cloak/darkcloak/ComponentInitialize()
-	. = ..()
-	AddComponent(/datum/component/storage/concrete/roguetown/cloak)
-
-/obj/item/clothing/cloak/darkcloak/dropped(mob/living/carbon/human/user)
-	..()
-	var/datum/component/storage/STR = GetComponent(/datum/component/storage)
-	if(STR)
-		var/list/things = STR.contents()
-		for(var/obj/item/I in things)
-			STR.remove_from_storage(I, get_turf(src))
-
 /obj/item/clothing/cloak/darkcloak/bear
 	name = "direbear cloak"
 	desc = "Made from the finest, warmest bear pelt. It might be worth more than your life."
 	icon_state = "bear_cloak"
 	item_state = "bear_cloak"
 	slot_flags = ITEM_SLOT_BACK_R|ITEM_SLOT_CLOAK
+	salvage_result = /obj/item/natural/hide/cured
+	salvage_amount = 3
 
 /obj/item/clothing/cloak/darkcloak/bear/light
 	name = "light direbear cloak"
 	icon_state = "bbear_cloak"
 	item_state = "bbear_cloak"
 	slot_flags = ITEM_SLOT_BACK_R|ITEM_SLOT_CLOAK
+	salvage_result = /obj/item/natural/hide/cured
+	salvage_amount = 3
 
 /obj/item/clothing/cloak/apron
 	name = "apron"
@@ -856,10 +698,6 @@
 	boobed = TRUE
 	allowed_race = CLOTHED_RACES_TYPES
 	flags_inv = HIDECROTCH|HIDEBOOB
-
-/obj/item/clothing/cloak/apron/ComponentInitialize()
-	. = ..()
-	AddComponent(/datum/component/storage/concrete/roguetown/cloak)
 
 /obj/item/clothing/cloak/apron/blacksmith
 	name = "leather apron"
@@ -902,19 +740,6 @@
 	slot_flags = ITEM_SLOT_ARMOR|ITEM_SLOT_CLOAK
 	boobed = FALSE
 
-/*
-/obj/item/clothing/cloak/apron/waist/ComponentInitialize()
-	. = ..()
-	var/datum/component/storage/STR = GetComponent(/datum/component/storage)
-	STR.max_combined_w_class = 21
-	STR.max_w_class = WEIGHT_CLASS_SMALL
-	STR.max_items = 1
-
-/obj/item/clothing/cloak/apron/waist/attack_right(mob/user)
-	var/datum/component/storage/CP = GetComponent(/datum/component/storage)
-	CP.on_attack_hand(CP, user)
-	return TRUE*/
-
 /obj/item/clothing/cloak/raincloak
 	name = "rain cloak"
 	desc = "This one will help against the rainy weather."
@@ -923,7 +748,6 @@
 	item_state = "rain_cloak"
 	alternate_worn_layer = CLOAK_BEHIND_LAYER
 	slot_flags = ITEM_SLOT_BACK_R|ITEM_SLOT_CLOAK
-//	body_parts_covered = ARMS|CHEST
 	boobed = TRUE
 	sleeved = 'icons/roguetown/clothing/onmob/cloaks.dmi'
 	sleevetype = "shirt"
@@ -932,20 +756,6 @@
 	hoodtype = /obj/item/clothing/head/hooded/rainhood
 	toggle_icon_state = FALSE
 	salvage_result = /obj/item/natural/hide/cured
-
-/obj/item/clothing/cloak/raincloak/ComponentInitialize()
-	. = ..()
-	AddComponent(/datum/component/storage/concrete/roguetown/cloak)
-
-/obj/item/clothing/cloak/raincloak/dropped(mob/living/carbon/human/user)
-	..()
-	var/datum/component/storage/STR = GetComponent(/datum/component/storage)
-	if(STR)
-		var/list/things = STR.contents()
-		for(var/obj/item/I in things)
-			STR.remove_from_storage(I, get_turf(src))
-
-
 
 /obj/item/clothing/cloak/raincloak/red
 	color = CLOTHING_RED
@@ -1045,14 +855,16 @@
 	if(ismob(loc))
 		var/mob/L = loc
 		L.update_inv_cloak()
+
 /obj/item/clothing/cloak/cape/guard/Destroy()
 	GLOB.lordcolor -= src
 	return ..()
 
-
 /obj/item/clothing/cloak/cape/puritan
 	icon_state = "puritan_cape"
 	allowed_race = CLOTHED_RACES_TYPES
+	salvage_result = /obj/item/natural/silk
+	salvage_amount = 1
 
 /obj/item/clothing/cloak/cape/archivist
 	icon_state = "puritan_cape"
@@ -1096,7 +908,6 @@
 	allowed_sex = list(MALE, FEMALE)
 	allowed_race = NON_DWARVEN_RACE_TYPES
 	nodismemsleeves = TRUE
-
 
 /obj/item/clothing/cloak/stole
 	name = "stole"
@@ -1150,19 +961,6 @@
 	alternate_worn_layer = CLOAK_BEHIND_LAYER
 	slot_flags = ITEM_SLOT_BACK_R|ITEM_SLOT_CLOAK
 
-/obj/item/clothing/cloak/undivided/ComponentInitialize()
-	. = ..()
-	AddComponent(/datum/component/storage/concrete/roguetown/cloak)
-
-/obj/item/clothing/cloak/undivided/dropped(mob/living/carbon/human/user)
-	..()
-	var/datum/component/storage/STR = GetComponent(/datum/component/storage)
-	if(STR)
-		var/list/things = STR.contents()
-		for(var/obj/item/I in things)
-			STR.remove_from_storage(I, get_turf(src))
-
-
 /obj/item/clothing/cloak/half
 	name = "halfcloak"
 	desc = ""
@@ -1170,7 +968,6 @@
 	icon_state = "halfcloak"
 	alternate_worn_layer = CLOAK_BEHIND_LAYER
 	slot_flags = ITEM_SLOT_BACK_R|ITEM_SLOT_CLOAK
-//	body_parts_covered = ARMS|CHEST
 	boobed = TRUE
 	sleeved = 'icons/roguetown/clothing/onmob/cloaks.dmi'
 	sleevetype = "shirt"
@@ -1182,18 +979,6 @@
 	allowed_sex = list(MALE, FEMALE)
 	flags_inv = null
 	var/flipped = FALSE
-
-/obj/item/clothing/cloak/half/ComponentInitialize()
-	. = ..()
-	AddComponent(/datum/component/storage/concrete/roguetown/cloak)
-
-/obj/item/clothing/cloak/half/dropped(mob/living/carbon/human/user)
-	..()
-	var/datum/component/storage/STR = GetComponent(/datum/component/storage)
-	if(STR)
-		var/list/things = STR.contents()
-		for(var/obj/item/I in things)
-			STR.remove_from_storage(I, get_turf(src))
 
 /obj/item/clothing/cloak/half/attack_right(mob/user)
 	if(!flipped)
@@ -1256,133 +1041,8 @@
 	slot_flags = ITEM_SLOT_BACK_R|ITEM_SLOT_CLOAK
 	color = CLOTHING_ORANGE
 
-/obj/item/clothing/cloak/thief_cloak/ComponentInitialize()
-	. = ..()
-	AddComponent(/datum/component/storage/concrete/roguetown/cloak)
-
-/obj/item/clothing/cloak/thief_cloak/dropped(mob/living/carbon/human/user)
-	..()
-	var/datum/component/storage/STR = GetComponent(/datum/component/storage)
-	if(STR)
-		var/list/things = STR.contents()
-		for(var/obj/item/I in things)
-			STR.remove_from_storage(I, get_turf(src))
-
 /obj/item/clothing/cloak/thief_cloak/yoruku
 	color = CLOTHING_BLACK
-
-/obj/item/clothing/cloak/templar
-	var/overarmor = TRUE
-
-/obj/item/clothing/cloak/templar/ComponentInitialize()
-	. = ..()
-	AddComponent(/datum/component/storage/concrete/roguetown/cloak)
-
-/obj/item/clothing/cloak/templar/dropped(mob/living/carbon/human/user)
-	..()
-	var/datum/component/storage/STR = GetComponent(/datum/component/storage)
-	if(STR)
-		var/list/things = STR.contents()
-		for(var/obj/item/I in things)
-			STR.remove_from_storage(I, get_turf(src))
-
-/obj/item/clothing/cloak/templar/psydon
-	name = "psydon tabard"
-	desc = "An outer garment commonly worn by soldiers. This one has the symbol of Psydon on it."
-	icon_state = "tabard_weeping"
-	alternate_worn_layer = TABARD_LAYER
-	body_parts_covered = CHEST|GROIN
-	boobed = TRUE
-	mob_overlay_icon = 'icons/roguetown/clothing/onmob/detailed/tabards.dmi'
-	sleeved = 'icons/roguetown/clothing/onmob/detailed/tabards.dmi'
-	sleevetype = "shirt"
-	nodismemsleeves = TRUE
-	slot_flags = ITEM_SLOT_ARMOR|ITEM_SLOT_CLOAK
-	flags_inv = HIDECROTCH|HIDEBOOB
-
-/obj/item/clothing/cloak/templar/astrata
-	name = "astratan tabard"
-	desc = "An outer garment commonly worn by soldiers. This one has the symbol of Astrata on it."
-	icon_state = "tabard_astrata_alt"
-	alternate_worn_layer = TABARD_LAYER
-	body_parts_covered = CHEST|GROIN
-	boobed = TRUE
-	mob_overlay_icon = 'icons/roguetown/clothing/onmob/detailed/tabards.dmi'
-	sleeved = 'icons/roguetown/clothing/onmob/detailed/tabards.dmi'
-	sleevetype = "shirt"
-	nodismemsleeves = TRUE
-	slot_flags = ITEM_SLOT_ARMOR|ITEM_SLOT_CLOAK
-	flags_inv = HIDECROTCH|HIDEBOOB
-
-/obj/item/clothing/cloak/templar/noc
-	name = "noc tabard"
-	desc = "An outer garment commonly worn by soldiers. This one has the symbol of Noc on it."
-	icon_state = "tabard_noc"
-	alternate_worn_layer = TABARD_LAYER
-	body_parts_covered = CHEST|GROIN
-	boobed = TRUE
-	mob_overlay_icon = 'icons/roguetown/clothing/onmob/detailed/tabards.dmi'
-	sleeved = 'icons/roguetown/clothing/onmob/detailed/tabards.dmi'
-	sleevetype = "shirt"
-	nodismemsleeves = TRUE
-	slot_flags = ITEM_SLOT_ARMOR|ITEM_SLOT_CLOAK
-	flags_inv = HIDECROTCH|HIDEBOOB
-
-/obj/item/clothing/cloak/templar/dendor
-	name = "dendor tabard"
-	desc = "An outer garment commonly worn by soldiers. This one has the symbol of Dendor on it."
-	icon_state = "tabard_dendor"
-	alternate_worn_layer = TABARD_LAYER
-	body_parts_covered = CHEST|GROIN
-	boobed = TRUE
-	mob_overlay_icon = 'icons/roguetown/clothing/onmob/detailed/tabards.dmi'
-	sleeved = 'icons/roguetown/clothing/onmob/detailed/tabards.dmi'
-	sleevetype = "shirt"
-	nodismemsleeves = TRUE
-	slot_flags = ITEM_SLOT_ARMOR|ITEM_SLOT_CLOAK
-	flags_inv = HIDECROTCH|HIDEBOOB
-
-/obj/item/clothing/cloak/templar/necra
-	name = "necra tabard"
-	desc = "An outer garment commonly worn by soldiers. This one has the symbol of Necra on it."
-	icon_state = "tabard_necra"
-	alternate_worn_layer = TABARD_LAYER
-	body_parts_covered = CHEST|GROIN
-	boobed = TRUE
-	mob_overlay_icon = 'icons/roguetown/clothing/onmob/detailed/tabards.dmi'
-	sleeved = 'icons/roguetown/clothing/onmob/detailed/tabards.dmi'
-	sleevetype = "shirt"
-	nodismemsleeves = TRUE
-	slot_flags = ITEM_SLOT_ARMOR|ITEM_SLOT_CLOAK
-	flags_inv = HIDECROTCH|HIDEBOOB
-
-/obj/item/clothing/cloak/templar/abyssor
-	name = "abyssor tabard"
-	desc = "An outer garment commonly worn by soldiers. This one has the symbol of Abyssor on it."
-	icon_state = "tabard_abyssor"
-	alternate_worn_layer = TABARD_LAYER
-	body_parts_covered = CHEST|GROIN
-	boobed = TRUE
-	mob_overlay_icon = 'icons/roguetown/clothing/onmob/detailed/tabards.dmi'
-	sleeved = 'icons/roguetown/clothing/onmob/detailed/tabards.dmi'
-	sleevetype = "shirt"
-	nodismemsleeves = TRUE
-	slot_flags = ITEM_SLOT_ARMOR|ITEM_SLOT_CLOAK
-	flags_inv = HIDECROTCH|HIDEBOOB
-
-/obj/item/clothing/cloak/templar/malum
-	name = "malum tabard"
-	desc = "An outer garment commonly worn by soldiers. This one has the symbol of Malum on it."
-	icon_state = "tabard_malum"
-	alternate_worn_layer = TABARD_LAYER
-	body_parts_covered = CHEST|GROIN
-	boobed = TRUE
-	mob_overlay_icon = 'icons/roguetown/clothing/onmob/detailed/tabards.dmi'
-	sleeved = 'icons/roguetown/clothing/onmob/detailed/tabards.dmi'
-	sleevetype = "shirt"
-	nodismemsleeves = TRUE
-	slot_flags = ITEM_SLOT_ARMOR|ITEM_SLOT_CLOAK
-	flags_inv = HIDECROTCH|HIDEBOOB
 
 /obj/item/clothing/cloak/volfmantle
 	name = "volf mantle"
@@ -1396,6 +1056,8 @@
 	inhand_mod = FALSE
 	slot_flags = ITEM_SLOT_BACK_R|ITEM_SLOT_CLOAK
 	flags_inv = HIDECROTCH|HIDEBOOB
+	salvage_result = /obj/item/natural/hide/cured
+	salvage_amount = 1
 
 /obj/item/clothing/cloak/wickercloak
 	name = "wicker cloak"
@@ -1409,6 +1071,20 @@
 	sleevetype = "shirt"
 	nodismemsleeves = TRUE
 	inhand_mod = TRUE
+	salvage_result = /obj/item/natural/fibers
+	salvage_amount = 2
+
+/obj/item/clothing/cloak/wickercloak/ComponentInitialize()
+	. = ..()
+	AddComponent(/datum/component/storage/concrete/roguetown/cloak)
+
+/obj/item/clothing/cloak/wickercloak/dropped(mob/living/carbon/human/user)
+	..()
+	var/datum/component/storage/STR = GetComponent(/datum/component/storage)
+	if(STR)
+		var/list/things = STR.contents()
+		for(var/obj/item/I in things)
+			STR.remove_from_storage(I, get_turf(src))
 
 /obj/item/clothing/cloak/tribal
 	name = "tribal pelt"
@@ -1549,55 +1225,6 @@
 	mob_overlay_icon = 'icons/roguetown/clothing/special/onmob/blkknight.dmi'
 	sleeved = 'icons/roguetown/clothing/special/onmob/blkknight.dmi'
 
-
-/obj/item/clothing/head/roguetown/helmet/heavy/blkknight
-	name = "blacksteel helmet"
-	icon_state = "bkhelm"
-	icon = 'icons/roguetown/clothing/special/blkknight.dmi'
-	mob_overlay_icon = 'icons/roguetown/clothing/special/onmob/blkknight.dmi'
-
-/obj/item/clothing/head/roguetown/helmet/heavy/blkknight/ComponentInitialize()
-	AddComponent(/datum/component/adjustable_clothing, (HEAD|EARS|HAIR), (HIDEEARS|HIDEHAIR), null, 'sound/items/visor.ogg', null, UPD_HEAD)
-
-/obj/item/clothing/head/roguetown/helmet/heavy/blkknight/attackby(obj/item/W, mob/living/user, params)
-	..()
-	if(istype(W, /obj/item/natural/feather) && !detail_tag)
-		var/choice = input(user, "Choose a color.", "Plume") as anything in colorlist
-		user.visible_message(span_warning("[user] adds [W] to [src]."))
-		user.transferItemToLoc(W, src, FALSE, FALSE)
-		detail_color = colorlist[choice]
-		detail_tag = "_detail"
-		update_icon()
-		if(loc == user && ishuman(user))
-			var/mob/living/carbon/H = user
-			H.update_inv_head()
-	if(istype(W, /obj/item/natural/cloth) && !altdetail_tag)
-		var/choicealt = input(user, "Choose a color.", "Orle") as anything in colorlist
-		user.visible_message(span_warning("[user] adds [W] to [src]."))
-		user.transferItemToLoc(W, src, FALSE, FALSE)
-		altdetail_color = colorlist[choicealt]
-		altdetail_tag = "_detailalt"
-		update_icon()
-		if(loc == user && ishuman(user))
-			var/mob/living/carbon/H = user
-			H.update_inv_head()
-
-/obj/item/clothing/head/roguetown/helmet/heavy/blkknight/update_icon()
-	cut_overlays()
-	if(get_detail_tag())
-		var/mutable_appearance/pic = mutable_appearance(icon(icon, "[icon_state][detail_tag]"))
-		pic.appearance_flags = RESET_COLOR
-		if(get_detail_color())
-			pic.color = get_detail_color()
-		add_overlay(pic)
-	if(get_altdetail_tag())
-		var/mutable_appearance/pic2 = mutable_appearance(icon(icon, "[icon_state][altdetail_tag]"))
-		pic2.appearance_flags = RESET_COLOR
-		if(get_altdetail_color())
-			pic2.color = get_altdetail_color()
-		add_overlay(pic2)
-
-
 /obj/item/clothing/cloak/tabard/blkknight
 	name = "blood sash"
 	icon_state = "bksash"
@@ -1624,7 +1251,7 @@
 	icon_state = "bktrinket"
 	max_integrity = 666 //Exceptionally strong, can be purchased multiple times, and provides a flat +2 to the entire statblock. If it gets destroyed in a fight, that's fair game. Reduced from the original value of 100,000.
 	armor = ARMOR_DRAGONSCALE
-	prevent_crits = list(BCLASS_CUT,BCLASS_BLUNT)
+	prevent_crits = PREVENT_CRITS_NONE
 	blocksound = PLATEHIT
 	icon = 'icons/roguetown/clothing/special/blkknight.dmi'
 	mob_overlay_icon = 'icons/roguetown/clothing/special/onmob/blkknight.dmi'
@@ -1695,7 +1322,7 @@
 
 //Short hoods for guards
 
-/obj/item/clothing/cloak/stabard/guardhood
+/obj/item/clothing/cloak/tabard/stabard/guardhood
 	name = "guard hood"
 	desc = "A hood with the lord's heraldic colors."
 	color = CLOTHING_AZURE
@@ -1705,8 +1332,8 @@
 	item_state = "guard_hood"
 	body_parts_covered = CHEST
 
-/obj/item/clothing/cloak/stabard/guardhood/attack_right(mob/user)
-	if(picked)
+/obj/item/clothing/cloak/tabard/stabard/guardhood/attack_right(mob/user)
+	if(custom_design)
 		return
 	var/the_time = world.time
 	var/chosen = input(user, "Select a design.","Tabard Design") as null|anything in list("Split")
@@ -1728,15 +1355,15 @@
 			var/mob/L = loc
 			L.update_inv_cloak()
 		return
-	picked = TRUE
+	custom_design = TRUE
 
-/obj/item/clothing/cloak/stabard/guardhood/Initialize()
+/obj/item/clothing/cloak/tabard/stabard/guardhood/Initialize()
 	. = ..()
 	if(GLOB.lordprimary)
 		lordcolor(GLOB.lordprimary,GLOB.lordsecondary)
 	GLOB.lordcolor += src
 
-/obj/item/clothing/cloak/stabard/guardhood/update_icon()
+/obj/item/clothing/cloak/tabard/stabard/guardhood/update_icon()
 	cut_overlays()
 	if(get_detail_tag())
 		var/mutable_appearance/pic = mutable_appearance(icon(icon, "[icon_state][detail_tag]"))
@@ -1745,7 +1372,7 @@
 			pic.color = get_detail_color()
 		add_overlay(pic)
 
-/obj/item/clothing/cloak/stabard/guardhood/lordcolor(primary,secondary)
+/obj/item/clothing/cloak/tabard/stabard/guardhood/lordcolor(primary,secondary)
 	color = primary
 	detail_color = secondary
 	update_icon()
@@ -1753,11 +1380,11 @@
 		var/mob/L = loc
 		L.update_inv_cloak()
 
-/obj/item/clothing/cloak/stabard/guardhood/Destroy()
+/obj/item/clothing/cloak/tabard/stabard/guardhood/Destroy()
 	GLOB.lordcolor -= src
 	return ..()
 
-/obj/item/clothing/cloak/stabard/guardhood/elder
+/obj/item/clothing/cloak/tabard/stabard/guardhood/elder
 	name = "elder's hood"
 
 /obj/item/clothing/cloak/hierophant
@@ -1766,19 +1393,7 @@
 	item_state = "naledisash"
 	desc = "A limp piece of fabric traditionally used to fasten bags that are too baggy, but in modern days has become more of a fashion statement than anything."
 
-/obj/item/clothing/cloak/hierophant/ComponentInitialize()
-	. = ..()
-	AddComponent(/datum/component/storage/concrete/roguetown/cloak)
-
-/obj/item/clothing/cloak/hierophant/dropped(mob/living/carbon/human/user)
-	..()
-	var/datum/component/storage/STR = GetComponent(/datum/component/storage)
-	if(STR)
-		var/list/things = STR.contents()
-		for(var/obj/item/I in things)
-			STR.remove_from_storage(I, get_turf(src))
-
-/obj/item/clothing/cloak/stabard/grenzelmage
+/obj/item/clothing/cloak/tabard/stabard/grenzelmage
 	name = "grenzelhoftian magos mantle"
 	desc = "A fashionable Mantle often worn by Celestial Academy Magos."
 	color = CLOTHING_WHITE
@@ -1798,10 +1413,6 @@
 	sleevetype = "shirt"
 	nodismemsleeves = TRUE
 	inhand_mod = TRUE
-
-/obj/item/clothing/cloak/wardencloak/ComponentInitialize()
-	. = ..()
-	AddComponent(/datum/component/storage/concrete/roguetown/cloak)
 
 /obj/item/clothing/cloak/graggar
 	name = "vicious cloak"
@@ -1829,10 +1440,6 @@
 	nodismemsleeves = TRUE
 	inhand_mod = TRUE
 
-/obj/item/clothing/cloak/forrestercloak/ComponentInitialize()
-	. = ..()
-	AddComponent(/datum/component/storage/concrete/roguetown/cloak)
-
 /obj/item/clothing/cloak/forrestercloak/snow
 	name = "snow cloak"
 	desc = "A cloak meant to keep one's body warm in the cold of the mountains as well as the dampness of Azuria."
@@ -1853,19 +1460,20 @@
 	detail_tag = "_detail"
 	detail_color = CLOTHING_WHITE
 
-/obj/item/clothing/cloak/poncho/ComponentInitialize()
-	. = ..()
-	AddComponent(/datum/component/storage/concrete/roguetown/cloak)
-
-/obj/item/clothing/cloak/poncho/dropped(mob/living/carbon/human/user)
-	..()
-	var/datum/component/storage/STR = GetComponent(/datum/component/storage)
-	if(STR)
-		var/list/things = STR.contents()
-		for(var/obj/item/I in things)
-			STR.remove_from_storage(I, get_turf(src))
-
-//eastern update
+/obj/item/clothing/cloak/poncho/fancycoat
+	name = "fancy coat"
+	desc = "A loose garment that is usually draped across ones upper body. No one's quite sure of its cultural origin but it does look fancy."
+	icon_state = "fancycoat"
+	item_state = "fancycoat"
+	alternate_worn_layer = TABARD_LAYER
+	boobed = FALSE
+	flags_inv = HIDECROTCH|HIDEBOOB
+	slot_flags = ITEM_SLOT_CLOAK|ITEM_SLOT_ARMOR
+	sleeved = 'icons/roguetown/clothing/onmob/cloaks.dmi'
+	nodismemsleeves = TRUE
+	color = CLOTHING_WHITE
+	detail_tag = "_detail"
+	detail_color = CLOTHING_WHITE
 
 /obj/item/clothing/cloak/eastcloak1
 	name = "cloud-cutter's cloak"
@@ -1905,11 +1513,6 @@
 	nodismemsleeves = TRUE
 	inhand_mod = TRUE
 
-
-/obj/item/clothing/cloak/psyaltrist/ComponentInitialize()
-	. = ..()
-	AddComponent(/datum/component/storage/concrete/roguetown/cloak)
-
 /obj/item/clothing/cloak/ordinatorcape
 	name = "ordinator cape"
 	desc = "A flowing red cape complete with an ornately patterned steel shoulderguard. Made to last. Made to ENDURE. Made to LYVE."
@@ -1921,10 +1524,6 @@
 	nodismemsleeves = TRUE
 	inhand_mod = TRUE
 
-/obj/item/clothing/cloak/ordinatorcape/ComponentInitialize()
-	. = ..()
-	AddComponent(/datum/component/storage/concrete/roguetown/cloak)
-
 /obj/item/clothing/cloak/absolutionistrobe
 	name = "absolver's robe"
 	desc = "Absolve them of their pain. Absolve them of their longing. Lyve, as PSYDON lyves."
@@ -1935,10 +1534,6 @@
 	sleevetype = "shirt"
 	nodismemsleeves = TRUE
 	inhand_mod = TRUE
-
-/obj/item/clothing/cloak/absolutionistrobe/ComponentInitialize()
-	. = ..()
-	AddComponent(/datum/component/storage/concrete/roguetown/cloak)
 
 /obj/item/clothing/cloak/cotehardie
 	name = "fitted coat"
@@ -1956,11 +1551,6 @@
 	detail_color = "#36241f"
 	sleeved = 'icons/roguetown/clothing/onmob/helpers/sleeves_cloaks.dmi'
 	sleevetype = "cotehardie"
-	var/overarmor = TRUE
-
-/obj/item/clothing/cloak/cotehardie/ComponentInitialize()
-	. = ..()
-	AddComponent(/datum/component/storage/concrete/roguetown/cloak)
 
 /obj/item/clothing/cloak/cotehardie/update_icon()
 	cut_overlays()
@@ -2014,6 +1604,16 @@
 	GLOB.lordcolor -= src
 	return ..()
 
+/obj/item/clothing/cloak/apron/waist/maid
+	name = "maid apron"
+	desc = "A fancy, somewhat short apron usually worn by servants."
+	body_parts_covered = null
+	icon_state = "maidapron"
+	item_state = "maidapron"
+	icon = 'icons/roguetown/clothing/special/maids.dmi'
+	mob_overlay_icon = 'icons/roguetown/clothing/special/onmob/maids.dmi'
+	sleeved = 'icons/roguetown/clothing/special/onmob/maids.dmi'
+
 /obj/item/clothing/cloak/kazengun
 	name = "jinbaori"
 	desc = "A simple kind of Kazengunite surcoat, worn here in the distant battlefields of Azuria to differentiate friend from foe."
@@ -2023,16 +1623,3 @@
 	slot_flags = ITEM_SLOT_BACK_R|ITEM_SLOT_CLOAK
 	color = "#FFFFFF"
 	detail_color = "#FFFFFF"
-
-/obj/item/clothing/cloak/kazengun/ComponentInitialize()
-	. = ..()
-	AddComponent(/datum/component/storage/concrete/roguetown/cloak)
-	
-/obj/item/clothing/cloak/kazengun/update_icon()
-	cut_overlays()
-	if(get_detail_tag())
-		var/mutable_appearance/pic = mutable_appearance(icon(icon, "[icon_state][detail_tag]"))
-		pic.appearance_flags = RESET_COLOR
-		if(get_detail_color())
-			pic.color = get_detail_color()
-		add_overlay(pic)

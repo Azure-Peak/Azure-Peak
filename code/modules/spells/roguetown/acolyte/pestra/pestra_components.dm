@@ -6,7 +6,7 @@
 	var/mob/living/parent_mob
 	var/was_at_max = FALSE
 	var/last_rebirth_use = 0
-	var/next_rebirth_use = 20 MINUTES
+	var/next_rebirth_use = 5 MINUTES
 
 /datum/component/infestation_charges/Initialize(obj/effect/proc_holder/spell/invoked/infestation/spell)
 	. = ..()
@@ -258,3 +258,8 @@
 		return
 	parent_mob.remove_filter(BLACK_ROT_FILTER)
 	parent_mob.remove_overlay(BLACK_ROT_LAYER)
+
+#undef BLACK_ROT_FIRE_ICON
+#undef BLACK_ROT_FIRE_STATE
+#undef BLACK_ROT_FILTER
+#undef DARK_OUTLINE_COLOUR

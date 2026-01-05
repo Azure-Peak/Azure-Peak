@@ -6,12 +6,44 @@
 	subtype_reqs = TRUE
 	structurecraft = /obj/structure/fluff/alch
 
+/datum/crafting_recipe/roguetown/alchemy/mortar
+	name = "alchemical mortar"
+	result = /obj/item/reagent_containers/glass/mortar
+	reqs = list(/obj/item/natural/stone = 1)
+	craftdiff = 2
+	structurecraft = null
+	verbage_simple = "create"
+
+/datum/crafting_recipe/roguetown/alchemy/pestle
+	name = "stone pestle"
+	result = /obj/item/pestle
+	reqs = list(/obj/item/natural/stone = 1)
+	craftdiff = 2
+	structurecraft = null
+	verbage_simple = "create"
+
 /datum/crafting_recipe/roguetown/alchemy/bbomb
 	name = "bottle bomb"
 	category = "Table"
 	result = list(/obj/item/bomb)
 	reqs = list(/obj/item/reagent_containers/glass/bottle = 1, /obj/item/ash = 2, /obj/item/rogueore/coal = 1, /obj/item/natural/cloth = 1)
 	craftdiff = 2
+
+/datum/crafting_recipe/roguetown/alchemy/viscera
+	name = "viscera"
+	category = "Table"
+	result = list(/obj/item/alch/viscera)
+	reqs = list(/obj/item/ash = 1, /obj/item/reagent_containers/food/snacks/rogue/meat/mince/beef = 2)
+	craftdiff = 2
+
+/datum/crafting_recipe/roguetown/alchemy/viscera_3x
+	name = "viscera (x3)"
+	category = "Table"
+	result = list(/obj/item/alch/viscera,
+					/obj/item/alch/viscera,
+					/obj/item/alch/viscera)
+	reqs = list(/obj/item/ash = 2, /obj/item/reagent_containers/food/snacks/rogue/meat/mince/beef = 6)
+	craftdiff = 3
 
 /datum/crafting_recipe/roguetown/alchemy/ozium
 	name = "ozium"
@@ -96,7 +128,7 @@
 	name = "paralytic venom activation"
 	category = "Table"
 	result = list(/obj/item/reagent_containers/glass/bottle/alchemical/spidervenom_paralytic = 1)
-	reqs = list(/obj/item/reagent_containers/spidervenom_inert = 2, /obj/item/reagent_containers/powder/moondust, /obj/item/reagent_containers/glass/bottle/alchemical)
+	reqs = list(/obj/item/reagent_containers/spidervenom_inert = 2, /obj/item/reagent_containers/powder/moondust = 1, /obj/item/reagent_containers/glass/bottle/alchemical = 1)
 	craftdiff = 5
 	verbage_simple = "mix"
 
@@ -190,6 +222,14 @@
 	craftdiff = 3
 	verbage_simple = "transmute"
 
+/datum/crafting_recipe/roguetown/alchemy/d2cla
+	name = "dirt to clay"
+	category = "Transmutation"
+	result = list(/obj/item/natural/clay = 1)
+	reqs = list(/obj/item/natural/dirtclod = 2)
+	craftdiff = 3
+	verbage_simple = "transmute"
+
 /datum/crafting_recipe/roguetown/alchemy/c2sto
 	name = "clay to stone"
 	category = "Transmutation"
@@ -268,6 +308,30 @@
 	result = list(/obj/item/riddleofsteel = 1)
 	reqs = list(/obj/item/roguegem/diamond = 2, /obj/item/rogueore/iron = 1, /obj/item/rogueore/coal = 1)
 	craftdiff = 6
+	verbage_simple = "transmute"
+
+/datum/crafting_recipe/roguetown/alchemy/cd2coa
+	name = "coal dust to coal"
+	category = "Transmutation"
+	result = list(/obj/item/rogueore/coal = 1)
+	reqs = list(/obj/item/alch/coaldust = 3)
+	craftdiff = 2
+	verbage_simple = "transmute"
+
+/datum/crafting_recipe/roguetown/alchemy/id2irn
+	name = "iron dust to iron"
+	category = "Transmutation"
+	result = list(/obj/item/rogueore/iron = 1)
+	reqs = list(/obj/item/alch/irondust = 3)
+	craftdiff = 3
+	verbage_simple = "transmute"
+
+/datum/crafting_recipe/roguetown/alchemy/gd2gol
+	name = "gold dust to gold"
+	category = "Transmutation"
+	result = list(/obj/item/rogueore/gold = 1)
+	reqs = list(/obj/item/alch/golddust = 3)
+	craftdiff = 4
 	verbage_simple = "transmute"
 
 /datum/crafting_recipe/roguetown/alchemy/frankenbrew

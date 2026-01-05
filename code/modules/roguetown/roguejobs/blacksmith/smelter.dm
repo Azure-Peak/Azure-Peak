@@ -41,7 +41,7 @@
 
 /obj/machinery/light/rogue/smelter/examine(mob/user, params)
 	. = ..()
-	. += span_info("It can hold up to [max_contained_items] ores at a time.")
+	. += span_info("It can hold up to <b>[max_contained_items] ores at a time</b>.")
 	. += span_info("Left click to insert an item. If it is a fuel item, a prompt will show on whether you want to fuel or smelt it. Right click on the furnace to put an item inside for smelting only.")
 	if(length(contained_items))
 		. += span_notice("Peeking inside, you can see:")
@@ -84,6 +84,16 @@
 	if(istype(attacking_item, /obj/item/rogueweapon/hammer))
 		to_chat(user, span_warning("\The [attacking_item] should be used at an anvil, not \the [src]!"))
 		return
+
+	if(istype(attacking_item, /obj/item/reagent_containers))
+		var/obj/item/reagent_containers/container = attacking_item
+		var/found_splash = FALSE
+		if(INTENT_SPLASH in container.possible_item_intents)
+			found_splash = TRUE
+		if(found_splash)
+			. = ..()
+			if(!.)
+				return
 
 	if(attacking_item.firefuel)
 		. = ..()
@@ -134,6 +144,8 @@
 	user.dropItemToGround(smelting_item)
 	smelting_item.forceMove(src)
 	contained_items += smelting_item
+	if(smelting_item.smelted)
+		smelting_item.smelted = FALSE
 	if(!isliving(user) || !user.mind)
 		contained_items[smelting_item] = SMELTERY_LEVEL_SPOIL
 	else
@@ -308,7 +320,7 @@
 		if(item.smeltresult == /obj/item/ingot/copper)
 			bronzealloy = bronzealloy + 2
 	if(bronzealloy == 7)
-		testing("BRONZE ALLOYED")
+
 		alloy = /obj/item/ingot/bronze
 	else
 		alloy = null

@@ -2,7 +2,7 @@
 // Is the main ingredient.
 /*	..................   Pepper steak   ................... */
 /obj/item/reagent_containers/food/snacks/rogue/peppersteak
-	list_reagents = list(/datum/reagent/consumable/nutriment = MEAL_MEAGRE)
+	list_reagents = list(/datum/reagent/consumable/nutriment = MEATSLAB_NUTRITION)
 	tastes = list("steak" = 1, "pepper" = 1)
 	name = "peppersteak"
 	desc = "Roasted meat flanked with a generous coating of ground pepper for intense flavor."
@@ -13,7 +13,7 @@
 	foodtype = MEAT
 	warming = 5 MINUTES
 	rotprocess = SHELFLIFE_DECENT
-	eat_effect = /datum/status_effect/buff/foodbuff
+	eat_effect = /datum/status_effect/buff/mealbuff
 	drop_sound = 'sound/foley/dropsound/gen_drop.ogg'
 
 /*	..................   Onion steak   ................... */
@@ -23,15 +23,15 @@
 	icon = 'modular/Neu_Food/icons/cooked/cooked_meat_meal.dmi'
 	icon_state = "onionsteak"
 	tastes = list("steak" = 1, "onions" = 1)
-	list_reagents = list(/datum/reagent/consumable/nutriment = SNACK_NUTRITIOUS)
+	list_reagents = list(/datum/reagent/consumable/nutriment = MEAL_MEAGRE)
 	foodtype = MEAT
 	faretype = FARE_NEUTRAL
 	portable = FALSE
 	warming = 5 MINUTES
 	rotprocess = SHELFLIFE_DECENT
-	eat_effect = /datum/status_effect/buff/foodbuff
+	eat_effect = /datum/status_effect/buff/mealbuff
 	drop_sound = 'sound/foley/dropsound/gen_drop.ogg'
-	
+
 
 /obj/item/reagent_containers/food/snacks/rogue/onionsteak/attackby(obj/item/I, mob/living/user, params)
 	var/found_table = locate(/obj/structure/table) in (loc)
@@ -55,11 +55,11 @@
 	icon = 'modular/Neu_Food/icons/cooked/cooked_meat_meal.dmi'
 	icon_state = "carrotsteak"
 	tastes = list("steak" = 1, "carrot" = 1)
-	list_reagents = list(/datum/reagent/consumable/nutriment = SNACK_DECENT+3)
+	list_reagents = list(/datum/reagent/consumable/nutriment = MEAL_MEAGRE)
 	foodtype = MEAT
 	warming = 5 MINUTES
 	rotprocess = SHELFLIFE_DECENT
-	eat_effect = /datum/status_effect/buff/foodbuff
+	eat_effect = /datum/status_effect/buff/mealbuff
 	drop_sound = 'sound/foley/dropsound/gen_drop.ogg'
 
 /obj/item/reagent_containers/food/snacks/rogue/carrotsteak/attackby(obj/item/I, mob/living/user, params)
@@ -79,9 +79,8 @@
 
 /*	.................   Steak & carrot & onion   ................... */
 /obj/item/reagent_containers/food/snacks/rogue/steakcarrotonion
-	list_reagents = list(/datum/reagent/consumable/nutriment = MEAL_MEAGRE)
+	list_reagents = list(/datum/reagent/consumable/nutriment = MEAL_AVERAGE)
 	tastes = list("steak" = 1, "onion" = 1, "carrots" = 1)
-	list_reagents = list(/datum/reagent/consumable/nutriment = SNACK_DECENT+3)
 	name = "steak meal"
 	desc = ""
 	icon = 'modular/Neu_Food/icons/cooked/cooked_meat_meal.dmi'
@@ -89,7 +88,7 @@
 	foodtype = VEGETABLES | MEAT
 	warming = 3 MINUTES
 	rotprocess = SHELFLIFE_DECENT
-	eat_effect = /datum/status_effect/buff/foodbuff
+	eat_effect = /datum/status_effect/buff/greatmealbuff
 
 /*	.................   Wiener Cabbage   ................... */
 /obj/item/reagent_containers/food/snacks/rogue/wienercabbage
@@ -104,8 +103,8 @@
 	foodtype = VEGETABLES | MEAT
 	warming = 3 MINUTES
 	rotprocess = SHELFLIFE_LONG
-	eat_effect = /datum/status_effect/buff/foodbuff
-	
+	eat_effect = /datum/status_effect/buff/mealbuff
+
 
 /*	.................   Wiener & Fried potato   ................... */
 /obj/item/reagent_containers/food/snacks/rogue/wienerpotato
@@ -120,8 +119,8 @@
 	foodtype = VEGETABLES | MEAT
 	warming = 3 MINUTES
 	rotprocess = SHELFLIFE_LONG
-	eat_effect = /datum/status_effect/buff/foodbuff
-	
+	eat_effect = /datum/status_effect/buff/mealbuff
+
 
 /obj/item/reagent_containers/food/snacks/rogue/wienerpotato/attackby(obj/item/I, mob/living/user, params)
 	var/found_table = locate(/obj/structure/table) in (loc)
@@ -151,8 +150,8 @@
 	foodtype = VEGETABLES | MEAT
 	warming = 3 MINUTES
 	rotprocess = SHELFLIFE_LONG
-	eat_effect = /datum/status_effect/buff/foodbuff
-	
+	eat_effect = /datum/status_effect/buff/mealbuff
+
 
 /obj/item/reagent_containers/food/snacks/rogue/wieneronions/attackby(obj/item/I, mob/living/user, params)
 	var/found_table = locate(/obj/structure/table) in (loc)
@@ -171,7 +170,7 @@
 
 /*	.................   Wiener & potato & onions   ................... */
 /obj/item/reagent_containers/food/snacks/rogue/wienerpotatonions
-	list_reagents = list(/datum/reagent/consumable/nutriment = MEAL_MEAGRE)
+	list_reagents = list(/datum/reagent/consumable/nutriment = MEAL_AVERAGE)
 	tastes = list("savory sausage" = 1, "potato" = 1)
 	name = "wiener meal"
 	desc = "Stout and nourishing."
@@ -182,7 +181,7 @@
 	foodtype = VEGETABLES | MEAT
 	warming = 3 MINUTES
 	rotprocess = SHELFLIFE_DECENT
-	eat_effect = /datum/status_effect/buff/foodbuff
+	eat_effect = /datum/status_effect/buff/greatmealbuff
 
 /*	.................   Frybird & Tato   ................... */
 /obj/item/reagent_containers/food/snacks/rogue/frybirdtato
@@ -197,4 +196,4 @@
 	foodtype = VEGETABLES | MEAT
 	warming = 3 MINUTES
 	rotprocess = SHELFLIFE_DECENT
-	eat_effect = /datum/status_effect/buff/foodbuff
+	eat_effect = /datum/status_effect/buff/mealbuff

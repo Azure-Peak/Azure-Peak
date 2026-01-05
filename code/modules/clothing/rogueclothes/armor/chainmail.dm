@@ -7,9 +7,10 @@
 	icon_state = "haubergeon"
 	armor = ARMOR_MAILLE
 	max_integrity = ARMOR_INT_CHEST_MEDIUM_STEEL
-	prevent_crits = list(BCLASS_CUT, BCLASS_STAB, BCLASS_CHOP, BCLASS_BLUNT)
 	blocksound = CHAINHIT
 	drop_sound = 'sound/foley/dropsound/chain_drop.ogg'
+	pickup_sound = 'sound/foley/equip/equip_armor_chain.ogg'
+	equip_sound = 'sound/foley/equip/equip_armor_chain.ogg'
 	anvilrepair = /datum/skill/craft/armorsmithing
 	smeltresult = /obj/item/ingot/steel
 	armor_class = ARMOR_CLASS_LIGHT //Experimental change; leave unlisted for now? Offers a weight-class advantage over the otherwise-superior hauberk. We'll see how it goes.
@@ -23,7 +24,7 @@
 
 /obj/item/clothing/suit/roguetown/armor/chainmail/Initialize(mapload)
 	. = ..()
-	AddComponent(/datum/component/item_equipped_movement_rustle)
+	AddComponent(/datum/component/item_equipped_movement_rustle, SFX_CHAIN_STEP)
 
 /obj/item/clothing/suit/roguetown/armor/chainmail/aalloy
 	name = "decrepit haubergeon"
@@ -31,8 +32,10 @@
 	icon_state = "ancientchain"
 	max_integrity = ARMOR_INT_CHEST_MEDIUM_DECREPIT
 	color = "#bb9696"
+	chunkcolor = "#532e25"
 	smeltresult = /obj/item/ingot/aaslag
 	anvilrepair = null
+	prevent_crits = PREVENT_CRITS_NONE
 
 /obj/item/clothing/suit/roguetown/armor/chainmail/paalloy
 	name = "ancient haubergeon"
@@ -68,8 +71,10 @@
 	icon_state = "ancienthauberk"
 	max_integrity = ARMOR_INT_CHEST_MEDIUM_DECREPIT
 	color = "#bb9696"
+	chunkcolor = "#532e25"
 	smeltresult = /obj/item/ingot/aaslag
 	anvilrepair = null
+	prevent_crits = PREVENT_CRITS_NONE
 
 /obj/item/clothing/suit/roguetown/armor/chainmail/hauberk/paalloy
 	name = "ancient hauberk"
@@ -97,3 +102,38 @@
 	allowed_race = CLOTHED_RACES_TYPES
 	body_parts_covered = CHEST|GROIN
 	armor_class = ARMOR_CLASS_LIGHT //placed in the medium category to keep it with its parent obj
+
+
+//
+
+/obj/item/clothing/suit/roguetown/armor/chainmail/hauberk/matthios
+	name = "gilded hauberk"
+	desc = "All that glimmers is gold; yet only shining stars shalt break the mold.."
+	color = "#ffc960"
+
+/obj/item/clothing/suit/roguetown/armor/chainmail/hauberk/matthios/Initialize()
+	. = ..()
+	AddComponent(/datum/component/cursed_item, TRAIT_COMMIE, "ARMOR")
+
+//
+
+/obj/item/clothing/suit/roguetown/armor/chainmail/hauberk/zizo
+	name = "avantyne hauberk"
+	desc = "The rings crackle with unkempt magicka, yearning to enamor the enlightened with avantynic might."
+	color = "#c1b18d"
+	chunkcolor = "#363030"
+
+/obj/item/clothing/suit/roguetown/armor/chainmail/hauberk/zizo/Initialize()
+	. = ..()
+	AddComponent(/datum/component/cursed_item, TRAIT_CABAL, "ARMOR")
+
+//
+
+/obj/item/clothing/suit/roguetown/armor/chainmail/hauberk/graggar
+	name = "vicious hauberk"
+	desc = "The blessing of a Martyr is nothing, when put before the Sinistar's rage."
+	color = "#ddc0a7"
+
+/obj/item/clothing/suit/roguetown/armor/chainmail/hauberk/graggar/Initialize()
+	. = ..()
+	AddComponent(/datum/component/cursed_item, TRAIT_HORDE, "ARMOR", "RENDERED ASUNDER")

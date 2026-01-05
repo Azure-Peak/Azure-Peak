@@ -1,6 +1,6 @@
 /obj/structure/roguemachine/atm
 	name = "MEISTER"
-	desc = "Stores and withdraws currency for accounts managed by the Grand Duchy of Azuria."
+	desc = "A magitech apparatus with a mouth that stores and withdraws currency for accounts managed by the Grand Duchy of Azuria."
 	icon = 'icons/roguetown/misc/machines.dmi'
 	icon_state = "atm"
 	density = FALSE
@@ -81,7 +81,8 @@
 		to_chat(user, span_warning("The machine bites my finger."))
 		if(!drilled)
 			icon_state = "atm-b"
-		H.flash_fullscreen("redflash3")
+		if(H.show_redflash())
+			H.flash_fullscreen("redflash3")
 		playsound(H, 'sound/combat/hits/bladed/genstab (1).ogg', 100, FALSE, -1)
 		SStreasury.create_bank_account(H)
 		if(H.mind)

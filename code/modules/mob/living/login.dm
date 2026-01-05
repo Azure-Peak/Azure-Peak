@@ -3,6 +3,8 @@
 	..()
 	if(client)
 		client.update_ooc_verb_visibility()
+		if(stat == DEAD)
+			client.verbs.Add(GLOB.ghost_verbs)
 	//Mind updates
 	sync_mind()
 	mind.show_memory(src, 0)
@@ -27,7 +29,7 @@
 
 	if(ranged_ability)
 		ranged_ability.deactivate()
-	
+
 	if(mind.warbandsetup)
 		mind.warband_manager.create_HUD_instance(mind.current)
 	set_ssd_indicator(FALSE)

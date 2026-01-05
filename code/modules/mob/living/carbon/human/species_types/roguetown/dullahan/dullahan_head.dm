@@ -28,31 +28,7 @@
 		to_chat(target, "<span class='warning'>[user] failed to touch you. (Your ERP preference, in the options)</span>")
 		log_combat(user, target, "tried unwanted ERP menu against")
 		return
-	user.sexcon.start(target)
-
-/obj/item/bodypart/head/dullahan/proc/check_closest_zones(mob/living/carbon/human/target)
-	var/mob/living/carbon/human/user = original_owner
-	var/datum/species/dullahan/user_species = user.dna.species
-	var/list/acceptable = list()
-	if(!user_species.headless)
-		return FALSE
-
-	var/datum/sex_controller/target_con = target.sexcon
-	var/check_con = FALSE
-	if(target.is_holding(src))
-		var/obj/item/bodypart/holding_bodypart = target.get_holding_bodypart_of_item(src)
-		// Someone will have to maintain this if they add more than two hands.
-		// However at that point they have bigger problems.
-		acceptable += holding_bodypart.aux_zone
-		check_con = TRUE
-
-	if(get_turf(src) == get_turf(target))
-		check_con = TRUE
-
-	if(check_con && target_con.target == user)
-		acceptable += target_con.using_zones
-
-	return user.zone_selected in acceptable
+	user.start_sex_session(target)
 
 // Attach head.
 /obj/item/bodypart/head/dullahan/melee_attack_chain(mob/living/carbon/human/user, mob/living/carbon/human/target, params)
@@ -300,7 +276,7 @@
 			var/mutable_appearance/mask_overlay = wear_mask.build_worn_icon(default_layer = MASK_LAYER, default_icon_file = 'icons/mob/clothing/mask.dmi')
 			. += mask_overlay
 
-/obj/item/bodypart/head/dullahan/dismember(dam_type = BRUTE, bclass = BCLASS_CUT, mob/living/user, zone_precise = src.body_zone, damage = 0)
+/obj/item/bodypart/head/dullahan/dismember(dam_type = BRUTE, bclass = BCLASS_CUT, mob/living/user, zone_precise = src.body_zone, damage = 0, vorpal = FALSE)
 	if(!owner)
 		return FALSE
 	var/mob/living/carbon/C = owner

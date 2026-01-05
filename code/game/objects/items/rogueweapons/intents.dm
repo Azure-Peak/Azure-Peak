@@ -1,9 +1,3 @@
-////click cooldowns, in tenths of a second, used for various combat actions
-//#define CLICK_CD_EXHAUSTED 35
-//#define CLICK_CD_MELEE 12
-//#define CLICK_CD_RANGE 4
-//#define CLICK_CD_RAPID 2
-
 /datum/intent
 	var/name = "intent"
 	var/desc = ""
@@ -15,43 +9,79 @@
 	var/intent_type
 	var/animname = "strike"
 	var/blade_class = BCLASS_BLUNT
+	/// Additive modifier to accuracy.
+	var/accuracy_modifier = 0
 	var/list/hitsound = list('sound/combat/hits/blunt/bluntsmall (1).ogg', 'sound/combat/hits/blunt/bluntsmall (2).ogg')
 	var/canparry = TRUE
 	var/candodge = TRUE
-	var/chargetime = 0 //if above 0, this attack must be charged to reach full damage
-	var/chargedrain = 0 //how mcuh fatigue is removed every second when at max charge
-	var/releasedrain = 1 //drain when we go off, regardless
-	var/misscost = 1	//extra drain from missing only, ALSO APPLIED IF ENEMY DODGES
+	/// If above 0, this attack must be charged to reach full damage.
+	var/chargetime = 0
+	/// Amount of fatigue removed per tick of full charge.
+	var/chargedrain = 0
+	/// Fatigue removed on release.
+	var/releasedrain = 1
+	/// Extra fatigue removed on missing the target, or if the enemy dodges.
+	var/misscost = 1
 	var/tranged = 0
-	var/noaa = FALSE //turns off auto aiming, also turns off the 'swooshes'
+	/// Turns of auto-aim as well as the 'swoosh'.
+	var/noaa = FALSE
 	var/warnie = ""
 	var/pointer = 'icons/effects/mousemice/human_attack.dmi'
-	var/clickcd = CLICK_CD_MELEE //the cd invoked clicking on stuff with this intent
-	var/recovery = 0		//RTD unable to move for this duration after an attack without becoming off balance
-	var/list/charge_invocation //list of stuff to say while charging
-	var/no_early_release = FALSE //we can't shoot off early
-	var/movement_interrupt = FALSE //we cancel charging when changing mob direction, for concentration spells
-	var/rmb_ranged = FALSE //we execute a proc with the same name when rmbing at range with no offhand intent selected
-	var/tshield = FALSE //probably needed or something
+	/// Invoked clickCD.
+	var/clickcd = CLICK_CD_MELEE
+	/// Amount of time required to stay stationary after attack. Moving during this period incurs off-balance.
+	var/recovery = 0
+	/// String list of chants during invoke.
+	var/list/charge_invocation
+	/// Allowing shooting during charge.
+	var/no_early_release = FALSE
+	/// Changing mob direction to cancel charge.
+	var/movement_interrupt = FALSE
+	/// Executes a ranged RMB proc of the same name, with no off-hand intent selected.
+	var/rmb_ranged = FALSE
+	var/tshield = FALSE
 	var/datum/looping_sound/chargedloop = null
 	var/keep_looping = TRUE
-	var/damfactor = 1 //multiplied by weapon's force for damage
-	var/penfactor = 0 //see armor_penetration
-	var/intent_intdamage_factor = 1 // Whether the intent itself has integrity damage modifier. Used for rend.
-	var/item_d_type = "blunt" // changes the item's attack type ("blunt" - area-pressure attack, "slash" - line-pressure attack, "stab" - point-pressure attack)
+	/// Multiplied damage modifier.
+	var/damfactor = 1
+	/// Multiplied armour penetration modifier.
+	var/penfactor = 0
+	/// Whether the intent itself has integrity damage modifier. Used for rend.
+	var/intent_intdamage_factor = 1
+	/// Changes the item's attack type ("blunt" - area-pressure attack, "slash" - line-pressure attack, "stab" - point-pressure attack)
+	var/item_d_type = "blunt"
 	var/charging_slowdown = 0
 	var/warnoffset = 0
 	var/swingdelay = 0
-	var/no_attack = FALSE //causes a return in /attack() but still allows to be used in attackby(
-	var/reach = 1 //In tiles, how far this weapon can reach; 1 for adjacent, which is default
-	var/miss_text //THESE ARE FOR UNARMED MISSING ATTACKS
-	var/miss_sound //THESE ARE FOR UNARMED MISSING ATTACKS
-	var/allow_offhand = TRUE	//Do I need my offhand free while using this intent?
-	var/peel_divisor = 0		//How many consecutive peel hits this intent requires to peel a piece of coverage? May be overriden by armor thresholds if they're higher.
-	var/glow_intensity = null	//How much glow this intent has. Used for spells
-	var/glow_color = null // The color of the glow. Used for spells
-	var/mob_light = null // tracking mob_light
-	var/obj/effect/mob_charge_effect = null // The effect to be added (on top) of the mob while it is charging
+	/// Causes a return in /attack() but still allows to be used in attackby()
+	var/no_attack = FALSE
+	/// Range in tiles for melee attacks.
+	var/reach = 1
+	/// Unarmed miss string.
+	var/miss_text
+	/// Unarmed sound string.
+	var/miss_sound
+	/// Bool to toggle hether off-hand is required to be free or not.
+	var/allow_offhand = TRUE
+	/// How many consecutive peel hits this intent requires to peel a piece of coverage? May be overriden by armor thresholds if they're higher.
+	var/peel_divisor = 0
+	/// How much glow this intent has. Used for spells
+	var/glow_intensity = null
+	/// The color of the glow. Used for spells
+	var/glow_color = null
+	/// Used to store and track mob lights.
+	var/mob_light = null
+	/// The effect to be added (on top) of the mob while it is charging.
+	var/obj/effect/mob_charge_effect = null
+	/// Custom icon for its swingdelay.
+	var/custom_swingdelay = null
+	/// Effective range for penfactor to apply fully.
+	var/effective_range = null
+	///	Effective range type. Can be Exact, Below or Above. Be sure to set this if you use effective_range!
+	/// Only use this with reach is >1 because otherwise like... why.
+	var/effective_range_type = EFF_RANGE_NONE
+	/// Extra sharpness drain per successful & parried hit.
+	var/sharpness_penalty = 0
 
 
 	var/list/static/bonk_animation_types = list(
@@ -87,7 +117,19 @@
 	if(desc)
 		inspec += "\n[desc]"
 	if(reach != 1)
-		inspec += "\n<b>Reach:</b> [reach]"
+		inspec += "\n<b>Reach:</b> [reach] paces"
+	if(effective_range)
+		var/suffix
+		switch(effective_range_type)
+			if(EFF_RANGE_EXACT)
+				suffix = "exactly"
+			if(EFF_RANGE_ABOVE)
+				suffix = "at and beyond"
+			if(EFF_RANGE_BELOW)
+				suffix = "at and within"
+			else
+				CRASH("effective_range found without a valid effective_range_type on [src] intent by [user]")
+		inspec += "\n<b>Effective Range:</b> [suffix] [effective_range] paces"
 	if(damfactor != 1)
 		inspec += "\n<b>Damage:</b> [damfactor]"
 	if(penfactor)
@@ -126,6 +168,8 @@
 	if(intent_intdamage_factor != 1)
 		var/percstr = abs(intent_intdamage_factor - 1) * 100
 		inspec += "\nThis intent deals [percstr]% [intent_intdamage_factor > 1 ? "more" : "less"] damage to integrity."
+	if(sharpness_penalty)
+		inspec += "\nThis intent will cost some sharpness for every attack made."
 	inspec += "<br>----------------------"
 
 	to_chat(user, "[inspec.Join()]")
@@ -157,7 +201,7 @@
 /datum/intent/proc/rmb_ranged(atom/target, mob/user)
 	return
 
-/datum/intent/proc/can_charge()
+/datum/intent/proc/can_charge(atom/clicked_object)
 	return TRUE
 
 /datum/intent/proc/afterchange()
@@ -639,6 +683,7 @@
 
 /datum/intent/effect/daze
 	name = "dazing strike"
+	desc = "A heavy strike aimed at the head to daze them."
 	icon_state = "indaze"
 	attack_verb = list("dazes")
 	animname = "strike"
@@ -651,7 +696,3 @@
 	intent_effect = /datum/status_effect/debuff/dazed
 	target_parts = list(BODY_ZONE_HEAD)
 	intent_intdamage_factor = BLUNT_DEFAULT_INT_DAMAGEFACTOR
-
-/*/datum/intent/effect/daze/shield
-	intent_effect = /datum/status_effect/debuff/dazed/shield
-	swingdelay = 3 */

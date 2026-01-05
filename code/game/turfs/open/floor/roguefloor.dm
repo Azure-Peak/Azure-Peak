@@ -208,7 +208,7 @@
 
 /turf/open/floor/rogue/AzureSand
 	name = "sand"
-	desc = "Warm sand that, sadly, have been mixed with dirt."
+	desc = "Warm sand that, sadly, has been mixed with dirt."
 	icon_state = "grimshart"
 	layer = MID_TURF_LAYER
 	footstep = FOOTSTEP_SAND
@@ -460,6 +460,8 @@
 			negate_slowdown = TRUE
 			break
 
+	if((isliving(user))&&(user?.movement_type == FLYING))
+		negate_slowdown = TRUE
 	if(HAS_TRAIT(user, TRAIT_LONGSTRIDER))
 		negate_slowdown = TRUE
 
@@ -1478,7 +1480,7 @@
 
 /turf/open/floor/rogue/shroud/Entered(atom/movable/AM, atom/oldLoc)
 	..()
-	if(isliving(AM))
+	if((isliving(AM))&&(!AM.movement_type == FLYING)) //if we're flying over something we shouldn't be making noise.
 		if(istype(oldLoc, type))
 			playsound(AM, "plantcross", 100, TRUE)
 

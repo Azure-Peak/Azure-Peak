@@ -32,6 +32,10 @@
 	name = "crab pie"
 	scent = "crab pie"
 
+/datum/pollutant/food/pumpkin_pie
+	name = "pumpkin pie"
+	scent = "pumpkin pie"
+
 /datum/pollutant/food/bread
 	name = "fresh baked bread"
 	scent = "fresh baked bread"

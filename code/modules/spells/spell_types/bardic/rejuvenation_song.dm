@@ -6,22 +6,7 @@
 	invocation_type = "shout"
 	overlay_state = "melody_t3_base"
 	action_icon_state = "melody_t3_base"
-
-
-/obj/effect/proc_holder/spell/invoked/song/rejuvenation_song/cast(mob/living/user = usr)
-	if(user.has_status_effect(/datum/status_effect/buff/playing_music))
-		for(var/datum/status_effect/buff/playing_melody/melodies in user.status_effects)
-			user.remove_status_effect(melodies)
-		for(var/datum/status_effect/buff/playing_dirge/dirges in user.status_effects)
-			user.remove_status_effect(dirges)
-		user.apply_status_effect(/datum/status_effect/buff/playing_melody/rejuvenation)
-		return TRUE
-	else
-		revert_cast()
-		to_chat(user, span_warning("I must be playing something to inspire my audience!"))
-		return
-
-
+	song_effect = /datum/status_effect/buff/playing_melody/rejuvenation
 
 /datum/status_effect/buff/playing_melody/rejuvenation
 	effect = /obj/effect/temp_visual/songs/inspiration_melodyt3

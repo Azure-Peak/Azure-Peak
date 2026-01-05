@@ -770,7 +770,7 @@
 	last_action_context = null
 	last_target = null
 
-	discipline.coven_action.active = FALSE
+	discipline.coven_action?.active = FALSE
 	//discipline.coven_action.build_all_button_icons()
 
 

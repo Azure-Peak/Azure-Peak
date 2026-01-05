@@ -1,16 +1,16 @@
 /datum/crafting_recipe/roguetown/leather/footwear
 	abstract_type = /datum/crafting_recipe/roguetown/leather/footwear
 	category = "Footwear"
+	reqs = list(/obj/item/natural/hide/cured = 1, 
+				/obj/item/natural/fibers = 1) //basic footwear all have the same recipe
 
-/datum/crafting_recipe/roguetown/leather/footwear/shoes
+/datum/crafting_recipe/roguetown/leather/footwear/shoes 
 	name = "shoes"
 	result = /obj/item/clothing/shoes/roguetown/simpleshoes
-	reqs = list(/obj/item/natural/hide/cured = 1)
 
 /datum/crafting_recipe/roguetown/leather/footwear/boots
 	name = "leather boots"
 	result = /obj/item/clothing/shoes/roguetown/boots/leather
-	reqs = list(/obj/item/natural/hide/cured = 1)
 
 /datum/crafting_recipe/roguetown/leather/footwear/boots_heavy
 	name = "heavy leather boots"
@@ -35,12 +35,10 @@
 /datum/crafting_recipe/roguetown/leather/footwear/boots/short
 	name = "shortboots"
 	result = /obj/item/clothing/shoes/roguetown/shortboots
-	reqs = list(/obj/item/natural/hide/cured = 1)
 
 /datum/crafting_recipe/roguetown/leather/footwear/boots/dark
 	name = "dark boots"
 	result = /obj/item/clothing/shoes/roguetown/boots
-	reqs = list(/obj/item/natural/hide/cured = 1)
 
 /datum/crafting_recipe/roguetown/leather/footwear/boots/noble
 	name = "noble boots"

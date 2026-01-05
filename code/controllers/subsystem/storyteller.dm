@@ -604,7 +604,8 @@ SUBSYSTEM_DEF(gamemode)
 		else
 			if(!SSvote.mode)
 				SSvote.initiate_vote("endround", pick("Zlod", "Sun King", "Gaia", "Moon Queen", "Aeon", "Gemini", "Aries"))
-
+	else if(roundvoteend && world.time >= round_ends_at)
+		return TRUE
 	if(SSmapping.retainer.head_rebel_decree)
 		if(reb_end_time == 0)
 			to_chat(world, span_boldannounce("The peasant rebels took control of the throne, hail the new community!"))
@@ -1449,3 +1450,5 @@ SUBSYSTEM_DEF(gamemode)
 #undef DESC_POPUP_WIDTH
 #undef DESC_POPUP_HEIGHT
 #undef TOWN_COMBATANT_ADDITIONAL_WEIGHT
+
+#undef INIT_ORDER_GAMEMODE

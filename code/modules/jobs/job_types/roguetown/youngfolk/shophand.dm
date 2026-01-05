@@ -9,6 +9,7 @@
 	allowed_races = ACCEPTED_RACES
 	allowed_sexes = list(MALE, FEMALE)
 	allowed_ages = list(AGE_ADULT)
+	is_quest_giver = TRUE
 
 	tutorial = "You work the largest store in the Peaks by grace of the Merchant who has shackled you to this drudgery. The work of stocking shelves and taking inventory for your employer is mind-numbing and repetitive--but at least you have a roof over your head and comfortable surroundings. With time, perhaps you will one day be more than a glorified servant."
 
@@ -21,7 +22,7 @@
 	cmode_music = 'sound/music/cmode/towner/combat_towner.ogg'
 
 	job_traits = list(TRAIT_SEEPRICES)
-	
+
 	advclass_cat_rolls = list(CTAG_SHOPHAND = 2)
 	job_subclasses = list(
 		/datum/advclass/shophand
@@ -82,3 +83,5 @@
 		H.adjust_skillrank(/datum/skill/combat/swords, 1, TRUE)
 		H.adjust_skillrank(/datum/skill/combat/maces, 1, TRUE)
 		H.change_stat(STATKEY_STR, 1)
+	if(H.mind)
+		SStreasury.give_money_account(ECONOMIC_UPPER_MIDDLE_CLASS, H, "Savings.")

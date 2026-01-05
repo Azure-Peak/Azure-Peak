@@ -13,7 +13,7 @@
 	display_order = JDO_HAND
 	tutorial = "You owe everything to your liege. Once, you were just a humble friend--now you are one of the most important people within the duchy itself. You have played spymaster and confidant to the Noble-Family for so long that you are a veritable vault of intrigue, something you exploit with potent conviction at every opportunity. Let no man ever forget into whose ear you whisper. You've killed more men with those lips than any blademaster could ever claim to."
 	whitelist_req = TRUE
-	give_bank_account = 44
+	give_bank_account = TRUE
 	noble_income = 22
 	min_pq = 9 //The second most powerful person in the realm...
 	max_pq = null
@@ -33,17 +33,13 @@
 	id = /obj/item/scomstone/garrison
 	job_bitflag = BITFLAG_ROYALTY
 
+/datum/outfit/job/roguetown/hand/pre_equip(mob/living/carbon/human/H)
+	H.mind.AddSpell(new /obj/effect/proc_holder/spell/self/convertrole/agent)
+	H.verbs |= /datum/job/roguetown/hand/proc/remember_agents
+
 /datum/job/roguetown/hand/after_spawn(mob/living/L, mob/M, latejoin = TRUE)
 	. = ..()
 	addtimer(CALLBACK(src, PROC_REF(know_agents), L), 5 SECONDS)
-
-/datum/job/roguetown/hand/proc/know_agents(var/mob/living/carbon/human/H)
-	if(!GLOB.court_agents.len)
-		to_chat(H, span_notice("You begun the week with no agents."))
-	else
-		to_chat(H, span_notice("We begun the week with these agents:"))
-		for(var/name in GLOB.court_agents)
-			to_chat(H, span_notice(name))
 
 ///////////
 //CLASSES//
@@ -97,6 +93,8 @@
 	if(H.age == AGE_OLD)
 		H.adjust_skillrank_up_to(/datum/skill/combat/swords, 5, TRUE)
 		H.change_stat(STATKEY_LCK, 2)
+	if(H.mind)
+		SStreasury.give_money_account(ECONOMIC_RICH, H, "Savings.")
 
 
 //Spymaster start
@@ -132,7 +130,7 @@
 		/datum/skill/misc/lockpicking = SKILL_LEVEL_MASTER, // not like they're gonna break into the vault.
 	)
 
-//Spymaster start. More similar to the rogue adventurer - loses heavy armor and sword skills for more sneaky stuff. 
+//Spymaster start. More similar to the rogue adventurer - loses heavy armor and sword skills for more sneaky stuff.
 /datum/outfit/job/roguetown/hand/spymaster/pre_equip(mob/living/carbon/human/H)
 	backpack_contents = list(
 		/obj/item/rogueweapon/huntingknife/idagger/dtace = 1,
@@ -156,6 +154,8 @@
 		H.adjust_skillrank_up_to(/datum/skill/misc/sneaking, 6, TRUE)
 		H.adjust_skillrank_up_to(/datum/skill/misc/stealing, 6, TRUE)
 		H.adjust_skillrank_up_to(/datum/skill/misc/lockpicking, 6, TRUE)
+	if(H.mind)
+		SStreasury.give_money_account(ECONOMIC_RICH, H, "Savings.")
 
 //Advisor Start
 /datum/advclass/hand/advisor
@@ -169,7 +169,7 @@
 		STATKEY_INT = 4,
 		STATKEY_PER = 3,
 		STATKEY_WIL = 2,
-		STATKEY_LCK = 2,		
+		STATKEY_LCK = 2,
 	)
 	subclass_spellpoints = 15
 	subclass_skills = list(
@@ -190,7 +190,7 @@
 		/datum/skill/magic/arcane = SKILL_LEVEL_APPRENTICE,
 	)
 
-//Advisor start. Trades combat skills for more knowledge and skills - for older hands, hands that don't do combat - people who wanna play wizened old advisors. 
+//Advisor start. Trades combat skills for more knowledge and skills - for older hands, hands that don't do combat - people who wanna play wizened old advisors.
 /datum/outfit/job/roguetown/hand/advisor/pre_equip(mob/living/carbon/human/H)
 	r_hand = /obj/item/rogueweapon/sword/rapier/dec
 	beltr = /obj/item/rogueweapon/scabbard/sword
@@ -214,3 +214,42 @@
 		H.change_stat(STATKEY_INT, 1)
 		H.change_stat(STATKEY_PER, 1)
 		H.mind?.adjust_spellpoints(3)
+	if(H.mind)
+		SStreasury.give_money_account(ECONOMIC_RICH, H, "Savings.")
+
+////////////////////
+///SPELLS & VERBS///
+////////////////////
+
+/datum/job/roguetown/hand/proc/know_agents(var/mob/living/carbon/human/H)
+	if(!GLOB.court_agents.len)
+		to_chat(H, span_boldnotice("You begun the week with no agents."))
+	else
+		to_chat(H, span_boldnotice("We begun the week with these agents:"))
+		for(var/name in GLOB.court_agents)
+			to_chat(H, span_greentext(name))
+
+/datum/job/roguetown/hand/proc/remember_agents()
+	set name = "Remember Agents"
+	set category = "Voice of Command"
+
+	to_chat(usr, span_boldnotice("I have these agents present:"))
+	for(var/name in GLOB.court_agents)
+		to_chat(usr, span_greentext(name))
+	return
+
+/obj/effect/proc_holder/spell/self/convertrole/agent
+	name = "Recruit Agent"
+	new_role = "Court Agent"//They get shown as adventurers either way.
+	overlay_state = "recruit_servant"
+	recruitment_faction = "Agents"
+	recruitment_message = "Serve the crown, %RECRUIT!"
+	accept_message = "FOR THE CROWN!"
+	refuse_message = "I refuse."
+	recharge_time = 100
+
+/obj/effect/proc_holder/spell/self/convertrole/agent/convert(mob/living/carbon/human/recruit, mob/living/carbon/human/recruiter)
+	. = ..()
+	if(!.)
+		return
+	GLOB.court_agents += recruit.real_name

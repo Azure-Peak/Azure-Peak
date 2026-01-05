@@ -5,7 +5,6 @@
 	ask_verb = "hisses"
 	exclaim_verb = "roars"
 	key = "s"
-	flags = LANGUAGE_HIDE_ICON_IF_UNDERSTOOD | LANGUAGE_HIDE_ICON_IF_NOT_UNDERSTOOD
 	space_chance = 40
 	default_priority = 90
 	icon_state = "lizard"

@@ -57,6 +57,7 @@
 #define SPAN_CLOWN "clown"
 #define SPAN_SINGING "singing"
 
+
 #define SPAN_GEN "say"
 #define SPAN_ORATOR "orator"
 #define SPAN_DWARF "dwarf"
@@ -73,9 +74,11 @@
 #define SPAN_DRACONIC "reptile"
 #define SPAN_KAZENGUNESE "kazengunese"
 #define SPAN_AAVNIC "aavnic"
-#define SPAN_UNDEAD "undead" //nyi but file found
+#define SPAN_UNDEAD "undead"
 #define SPAN_CAT "cat"		 //nyi but file found
 #define SPAN_PULSEDEATH "pulsedeath"
+
+#define LANGUAGE_SPANS list(SPAN_GEN,SPAN_ORATOR, SPAN_DWARF, SPAN_ELF, SPAN_SAND, SPAN_DELF, SPAN_HELL, SPAN_GRENZELHOFTIAN, SPAN_OTAVAN, SPAN_ETRUSCAN, SPAN_GRONNIC, SPAN_BEAST, SPAN_ORC, SPAN_DRACONIC, SPAN_KAZENGUNESE, SPAN_AAVNIC, SPAN_UNDEAD, SPAN_CAT, SPAN_PULSEDEATH)
 
 //bitflag #defines for return value of the radio() proc.
 #define ITALICS 1
@@ -113,3 +116,7 @@
 #define SANITIZE_FILENAME(text) (GLOB.filename_forbidden_chars.Replace(text, ""))
 /// Simply removes the < and > characters, and limits the length of the message.
 #define STRIP_HTML_SIMPLE(text, limit) (GLOB.angular_brackets.Replace(copytext(text, 1, limit), ""))
+
+GLOBAL_LIST_INIT(correct_punctuation, list("!" = TRUE, "." = TRUE, "?" = TRUE, "-" = TRUE, "~" = TRUE, \
+											"*" = TRUE, "/" = TRUE, ">" = TRUE, "'" = TRUE, "|" = TRUE, \
+											"," = TRUE, ":" = TRUE, ";" = TRUE, "\"" = TRUE, "+" = TRUE))

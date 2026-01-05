@@ -11,6 +11,7 @@
 	var/list/ingredients = list()
 	var/maxingredients = 4
 	var/brewing = 0
+	var/waterneed = 90
 	var/mob/living/carbon/human/lastuser
 	fueluse = 20 MINUTES
 	crossfire = FALSE
@@ -20,12 +21,12 @@
 	cut_overlays()
 	if(reagents.total_volume > 0)
 		if(!brewing)
-			var/mutable_appearance/filling = mutable_appearance('icons/roguetown/misc/alchemy.dmi', "cauldron_full")
+			var/mutable_appearance/filling = mutable_appearance(icon, "cauldron_full")
 			filling.color = mix_color_from_reagents(reagents.reagent_list)
 			filling.alpha = mix_alpha_from_reagents(reagents.reagent_list)
 			add_overlay(filling)
 		if(brewing > 0)
-			var/mutable_appearance/filling = mutable_appearance('icons/roguetown/misc/alchemy.dmi', "cauldron_boiling")
+			var/mutable_appearance/filling = mutable_appearance(icon, "cauldron_boiling")
 			filling.color = mix_color_from_reagents(reagents.reagent_list)
 			filling.alpha = mix_alpha_from_reagents(reagents.reagent_list)
 			add_overlay(filling)
@@ -59,7 +60,7 @@
 	if(on)
 		if(ingredients.len)
 			if(brewing < 20)
-				if(src.reagents.has_reagent(/datum/reagent/water,90))
+				if(src.reagents.has_reagent(/datum/reagent/water,waterneed))
 					brewing++
 					if(prob(10))
 						playsound(src, "bubbles", 100, FALSE)
@@ -148,7 +149,7 @@
 		lastuser = user
 		playsound(src, "bubbles", 100, TRUE)
 		cut_overlays()
-		var/mutable_appearance/filling = mutable_appearance('icons/roguetown/misc/alchemy.dmi', "cauldron_boiling")
+		var/mutable_appearance/filling = mutable_appearance(icon, "cauldron_boiling")
 		filling.color = mix_color_from_reagents(reagents.reagent_list)
 		filling.alpha = mix_alpha_from_reagents(reagents.reagent_list)
 		add_overlay(filling)
@@ -186,3 +187,31 @@
 	user.visible_message("<span class='info'>[user] kicks [src],spilling it's contents!</span>")
 	playsound(src, 'sound/items/beartrap2.ogg', 100, FALSE)
 	return ..()
+
+/obj/machinery/light/rogue/cauldron/folding
+	name = "folding cauldron"
+	desc = "Bubble, Bubble, toil and trouble. A great protable bronze cauldron for brewing potions."
+	icon = 'icons/roguetown/misc/gadgets.dmi'
+	icon_state = "FoldingCauldronDeployed1"
+	base_state = "FoldingCauldronDeployed"
+	maxingredients = 3 //-1
+	waterneed = 60
+	fueluse = 2 MINUTES 
+
+/obj/machinery/light/rogue/cauldron/folding/examine()
+	. = ..()
+	. += span_blue("Right-Click to fold the cauldron. Empty it first.")
+
+/obj/machinery/light/rogue/cauldron/folding/attack_right(mob/user)
+	if(do_after(user, 5 SECONDS, target = src))
+		user.visible_message(span_notice("[user] folds [src]."), span_notice("You fold [src]."))
+		new /obj/item/folding_alchcauldron_stored(drop_location())
+		qdel(src)
+		return ..()
+	return
+
+/obj/machinery/light/rogue/cauldron/folding/Initialize()
+	. = ..()
+	burn_out()
+	create_reagents(60, DRAINABLE | AMOUNT_VISIBLE | REFILLABLE) //small
+	update_icon()

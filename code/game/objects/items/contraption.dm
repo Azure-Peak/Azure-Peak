@@ -367,7 +367,7 @@
 				if("Resist")
 					to_chat(user, span_warning("the device fails, the patient is not willing"))
 					return
-				if("Yes")
+				if("Accept")
 					to_chat(user, span_warning("They agree, we can proceed")) //make sure they consent to the amputation
 					agreementtwo = TRUE
 				else

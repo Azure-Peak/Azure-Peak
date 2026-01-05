@@ -1,9 +1,4 @@
-#define DULLFACTOR_COUNTERED_BY 1.2 // If a shaft is COUNTERED by a weapon type, this is the damage to go for
-#define DULLFACTOR_NEUTRAL 1 // If a shaft is NEUTRAL to a weapon type, this is the damage to go for
-#define DULLFACTOR_COUNTERS 0.8 // If a shaft COUNTERS a damage type, this is the damage to go for
-#define DULLFACTOR_ANTAG 0.5 // For Grand Shaft. Also for dull blade
-// Previously value were closer to 0.4 - 0.5 and 1.5 - 1.7x, but it felt like it make weapons
-// counter certain shaft type too hard, so now the value is between 0.8 to 1.2x for regular type
+#define ATTACK_OVERRIDE_NODEFENSE 2
 
 /**
   *This is the proc that handles the order of an item_attack.
@@ -21,7 +16,7 @@
 	if(!user.has_hand_for_held_index(user.active_hand_index, TRUE)) //we obviously have a hadn, but we need to check for fingers/prosthetics
 		to_chat(user, span_warning("I can't move the fingers."))
 		return
-	if(!istype(src, /obj/item/grabbing))
+	if(!istype(src, /obj/item/grabbing) && !istype(src, /obj/item/rogueweapon/werewolf_claw))
 		if(HAS_TRAIT(user, TRAIT_CHUNKYFINGERS))
 			to_chat(user, span_warning("...What?"))
 			return
@@ -94,9 +89,32 @@
 	var/burialrited = FALSE
 
 /obj/item/proc/attack(mob/living/M, mob/living/user)
+	var/override_status
+	//Item signal for override
 	if(SEND_SIGNAL(src, COMSIG_ITEM_ATTACK, M, user) & COMPONENT_ITEM_NO_ATTACK)
 		return FALSE
-	SEND_SIGNAL(user, COMSIG_MOB_ITEM_ATTACK, M, user, src)
+
+	//Receiver signal for overrides
+	var/_receiver_signal = SEND_SIGNAL(M, COMSIG_MOB_ITEM_BEING_ATTACKED, M, user, src)
+	if(_receiver_signal & COMPONENT_ITEM_NO_ATTACK)
+		return FALSE
+	else if(_receiver_signal & COMPONENT_ITEM_NO_DEFENSE)
+		override_status = ATTACK_OVERRIDE_NODEFENSE
+
+	//Attacker signal generic + override for no defense
+	var/_attacker_signal = SEND_SIGNAL(user, COMSIG_MOB_ITEM_ATTACK, M, user, src)
+	if(_attacker_signal & COMPONENT_ITEM_NO_ATTACK)
+		return FALSE
+	else if(_attacker_signal & COMPONENT_ITEM_NO_DEFENSE)
+		override_status = ATTACK_OVERRIDE_NODEFENSE
+
+
+	if(HAS_TRAIT(M, TRAIT_TEMPO))
+		if(ishuman(M) && ishuman(user) && user.mind)
+			var/mob/living/carbon/human/H = M
+			H.process_tempo_attack(user)
+
+
 	if(item_flags & NOBLUDGEON)
 		return FALSE	
 
@@ -120,12 +138,18 @@
 
 //	if(force)
 //		user.emote("attackgrunt")
+
+	var/swingdelay = user.used_intent.swingdelay
+	var/_swingdelay_mod = SEND_SIGNAL(src, COMSIG_LIVING_SWINGDELAY_MOD)
+	if(_swingdelay_mod)
+		swingdelay += _swingdelay_mod
+
 	var/datum/intent/cached_intent = user.used_intent
-	if(user.used_intent.swingdelay)
+	if(swingdelay)
 		if(!user.used_intent.noaa && isnull(user.mind))
 			if(get_dist(get_turf(user), get_turf(M)) <= user.used_intent.reach)
 				user.do_attack_animation(M, user.used_intent.animname, user.used_intent.masteritem, used_intent = user.used_intent, simplified = TRUE)
-		sleep(user.used_intent.swingdelay)
+		sleep(swingdelay)
 	if(user.a_intent != cached_intent)
 		return
 	if(QDELETED(src) || QDELETED(M))
@@ -138,7 +162,7 @@
 		return
 	if((M.mobility_flags & MOBILITY_STAND))
 		if(M.checkmiss(user))
-			if(!user.used_intent.swingdelay)
+			if(!swingdelay)
 				if(get_dist(get_turf(user), get_turf(M)) <= user.used_intent.reach)
 					user.do_attack_animation(M, user.used_intent.animname, used_item = src, used_intent = user.used_intent, simplified = TRUE)
 			return
@@ -151,22 +175,6 @@
 	// Release drain on attacks besides unarmed attacks/grabs is 1, so it'll just be whatever the penalty is + 1.
 	// Unarmed attacks are the only ones right now that have differing releasedrain, see unarmed attacks for their calc.
 	user.stamina_add(user.used_intent.releasedrain + rmb_stam_penalty)
-	var/bad_guard = FALSE
-	//We have Guard / Clash active, and are hitting someone who doesn't. Cheesing a 'free' hit with a defensive buff is a no-no. You get punished.
-	if(user.has_status_effect(/datum/status_effect/buff/clash) && !M.has_status_effect(/datum/status_effect/buff/clash))
-		bad_guard = TRUE
-	if(M.has_status_effect(/datum/status_effect/buff/clash) && M.get_active_held_item() && ishuman(M) && !bad_guard)
-		var/mob/living/carbon/human/HM = M
-		var/obj/item/IM = M.get_active_held_item()
-		var/obj/item/IU 
-		if(user.used_intent.masteritem)
-			IU = user.used_intent.masteritem
-		HM.process_clash(user, IM, IU)
-		return
-	if(bad_guard)
-		if(ishuman(user))
-			var/mob/living/carbon/human/H = user
-			H.bad_guard(span_suicide("I switched stances too quickly! It drains me!"), cheesy = TRUE)
 	if(user.mob_biotypes & MOB_UNDEAD)
 		if(M.has_status_effect(/datum/status_effect/buff/necras_vow))
 			if(isnull(user.mind))
@@ -178,10 +186,21 @@
 			user.adjust_blurriness(3)
 			user.adjustBruteLoss(5)
 			user.apply_status_effect(/datum/status_effect/churned, M)
-	if(M.checkdefense(user.used_intent, user))
-		return
+	
+	//Niche signal for post-swingdelay attacks when we want to care about those.
+	_attacker_signal = null
+	_attacker_signal = SEND_SIGNAL(user, COMSIG_MOB_ITEM_ATTACK_POST_SWINGDELAY, M, user, src)
+	if(_attacker_signal & COMPONENT_ITEM_NO_ATTACK)
+		return FALSE
+	else if(_attacker_signal & COMPONENT_ITEM_NO_DEFENSE)
+		override_status = ATTACK_OVERRIDE_NODEFENSE
+
+	if(override_status != ATTACK_OVERRIDE_NODEFENSE)
+		if(M.checkdefense(user.used_intent, user))
+			return
 
 	SEND_SIGNAL(src, COMSIG_ITEM_ATTACK_SUCCESS, M, user)
+	SEND_SIGNAL(M, COMSIG_ITEM_ATTACKED_SUCCESS, src, user)
 	if(user.zone_selected == BODY_ZONE_PRECISE_R_INHAND)
 		var/offh = 0
 		var/obj/item/W = M.held_items[1]
@@ -243,7 +262,7 @@
 	if(!I?.force)
 		return 0
 	var/newforce = I.force_dynamic
-	testing("startforce [newforce]")
+
 	if(!istype(user))
 		return newforce
 	
@@ -256,8 +275,6 @@
 		var/mob/living/carbon/C = user
 		if(C.domhand)
 			used_str = C.get_str_arms(C.used_hand)
-	if(istype(user.rmb_intent, /datum/rmb_intent/strong))
-		used_str++
 	if(istype(user.rmb_intent, /datum/rmb_intent/weak))
 		used_str--
 	if(ishuman(user))
@@ -366,86 +383,7 @@
 			miner.mind.add_sleep_experience(/datum/skill/labor/mining, (miner.STAINT*0.2))
 		if(DULLING_SHAFT_CONJURED)
 			dullfactor = DULLFACTOR_COUNTERED_BY
-		if(DULLING_SHAFT_WOOD)	//Weak to cut / chop. No changes vs stab, resistant to blunt
-			switch(user.used_intent.blade_class)
-				if(BCLASS_CUT)
-					if(!I.remove_bintegrity(1))
-						dullfactor = DULLFACTOR_ANTAG
-					else
-						dullfactor = DULLFACTOR_COUNTERED_BY
-				if(BCLASS_CHOP)
-					if(!I.remove_bintegrity(1))
-						dullfactor = DULLFACTOR_ANTAG
-					else
-						dullfactor = DULLFACTOR_COUNTERED_BY
-				if(BCLASS_STAB)
-					dullfactor = DULLFACTOR_NEUTRAL
-				if(BCLASS_BLUNT)
-					dullfactor = DULLFACTOR_COUNTERS
-				if(BCLASS_SMASH)
-					dullfactor = DULLFACTOR_COUNTERS
-				if(BCLASS_PICK)
-					dullfactor = DULLFACTOR_COUNTERS
-		if(DULLING_SHAFT_REINFORCED)	//Weak to stab. No changes vs blunt, resistant to cut / chop
-			switch(user.used_intent.blade_class)
-				if(BCLASS_CUT)
-					if(!I.remove_bintegrity(1))
-						dullfactor = DULLFACTOR_ANTAG
-					else
-						dullfactor = DULLFACTOR_COUNTERS
-				if(BCLASS_CHOP)
-					if(!I.remove_bintegrity(1))
-						dullfactor = DULLFACTOR_ANTAG
-					else
-						dullfactor = DULLFACTOR_COUNTERS
-				if(BCLASS_STAB)
-					dullfactor = DULLFACTOR_COUNTERED_BY
-				if(BCLASS_BLUNT)
-					dullfactor = DULLFACTOR_NEUTRAL
-				if(BCLASS_SMASH)
-					dullfactor = DULLFACTOR_COUNTERED_BY
-				if(BCLASS_PICK)
-					dullfactor = DULLFACTOR_COUNTERS
-		if(DULLING_SHAFT_METAL)	//Weak to blunt. No changes vs stab, resistant to cut / chop. Pick can actually damage it.
-			switch(user.used_intent.blade_class)
-				if(BCLASS_CUT)
-					if(!I.remove_bintegrity(1))
-						dullfactor = DULLFACTOR_ANTAG
-					else
-						dullfactor = DULLFACTOR_COUNTERS
-				if(BCLASS_CHOP)
-					if(!I.remove_bintegrity(1))
-						dullfactor = DULLFACTOR_ANTAG
-					else
-						dullfactor = DULLFACTOR_COUNTERS
-				if(BCLASS_STAB)
-					dullfactor = DULLFACTOR_COUNTERS
-				if(BCLASS_BLUNT)
-					dullfactor = DULLFACTOR_COUNTERED_BY
-				if(BCLASS_SMASH)
-					dullfactor = DULLFACTOR_COUNTERED_BY
-				if(BCLASS_PICK)
-					dullfactor = DULLFACTOR_NEUTRAL
-		if(DULLING_SHAFT_GRAND)	//Resistant to all
-			switch(user.used_intent.blade_class)
-				if(BCLASS_CUT)
-					if(!I.remove_bintegrity(1))
-						dullfactor = 0
-					else
-						dullfactor = DULLFACTOR_ANTAG
-				if(BCLASS_CHOP)
-					if(!I.remove_bintegrity(1))
-						dullfactor = 0
-					else
-						dullfactor = DULLFACTOR_ANTAG
-				if(BCLASS_STAB)
-					dullfactor = DULLFACTOR_ANTAG
-				if(BCLASS_BLUNT)
-					dullfactor = DULLFACTOR_ANTAG
-				if(BCLASS_SMASH)
-					dullfactor = DULLFACTOR_NEUTRAL
-				if(BCLASS_PICK)
-					dullfactor = DULLFACTOR_ANTAG
+
 	var/newdam = (I.force_dynamic * user.used_intent.damfactor) - I.force_dynamic
 	if(user.used_intent.damfactor > 1 && I.sharpness != IS_BLUNT)	//Only relevant if damfactor actually adds damage.
 		if(dullness_ratio <= SHARPNESS_TIER1_FLOOR)
@@ -467,17 +405,20 @@
 			if(prob(33))
 				to_chat(user, span_info("The blade is dull..."))
 			newforce *= (lerpratio * 2)
-	testing("endforce [newforce]")
+
+	if(istype(user.rmb_intent, /datum/rmb_intent/strong))
+		newforce += (I.force_dynamic * STRONG_STANCE_DMG_BONUS)
+
 	return newforce
 
 /obj/attacked_by(obj/item/I, mob/living/user)
 	user.changeNext_move(CLICK_CD_INTENTCAP)
 	var/newforce = (get_complex_damage(I, user, blade_dulling) * I.demolition_mod)
 	if(!newforce)
-		testing("dam33")
+
 		return 0
 	if(newforce < damage_deflection)
-		testing("dam44")
+
 		return 0
 	if(user.used_intent.no_attack)
 		return 0
@@ -501,10 +442,10 @@
 /turf/proc/attacked_by(obj/item/I, mob/living/user, multiplier)
 	var/newforce = get_complex_damage(I, user, blade_dulling)
 	if(!newforce)
-		testing("attack6")
+
 		return 0
 	if(newforce < damage_deflection)
-		testing("attack7")
+
 		return 0
 	if(user.used_intent.no_attack)
 		return 0
@@ -601,7 +542,7 @@
 
 /mob/living/attacked_by(obj/item/I, mob/living/user)
 	var/hitlim = simple_limb_hit(user.zone_selected)
-	testing("[src] attacked_by")
+
 	I.funny_attack_effects(src, user)
 	if(I.force_dynamic)
 		var/newforce = get_complex_damage(I, user)
@@ -626,6 +567,7 @@
 					I.add_mob_blood(src)
 					var/turf/location = get_turf(src)
 					add_splatter_floor(location)
+					add_splatter_wall(location, force = newforce)
 					if(get_dist(user, src) <= 1)	//people with TK won't get smeared with blood
 						user.add_mob_blood(src)
 			if(newforce > 15)
@@ -633,6 +575,7 @@
 					I.add_mob_blood(src)
 					var/turf/location = get_turf(src)
 					add_splatter_floor(location)
+					add_splatter_wall(location, force = newforce)
 					if(get_dist(user, src) <= 1)	//people with TK won't get smeared with blood
 						user.add_mob_blood(src)
 	send_item_attack_message(I, user, hitlim)
@@ -650,7 +593,7 @@
 // Click parameters is the params string from byond Click() code, see that documentation.
 /obj/item/proc/afterattack(atom/target, mob/user, proximity_flag, click_parameters)
 	SEND_SIGNAL(src, COMSIG_ITEM_AFTERATTACK, target, user, proximity_flag, click_parameters)
-	SEND_SIGNAL(user, COMSIG_MOB_ITEM_AFTERATTACK, target, user, proximity_flag, click_parameters)
+	SEND_SIGNAL(user, COMSIG_MOB_ITEM_AFTERATTACK, target, src, proximity_flag, click_parameters)
 	if(force_dynamic && !user.used_intent.tranged && !user.used_intent.tshield)
 		if(proximity_flag && isopenturf(target) && !user.used_intent?.noaa)
 			var/adf = user.used_intent.clickcd
@@ -711,13 +654,20 @@
 	if(verb_appendix)
 		message_verb += verb_appendix
 	if(hit_area)
-		message_hit_area = " in the [span_userdanger(hit_area)]"
-	var/attack_message = "[src] is [message_verb][message_hit_area] with [I]!"
-	var/attack_message_local = "I'm [message_verb][message_hit_area] with [I]!"
+		message_hit_area = "[hit_area]"
+	var/attack_message = span_combatsecondary("[src] is [message_verb] in the [span_combatsecondarybp(message_hit_area)] with [I]!")
+	var/attack_message_local = span_danger("I'm [message_verb] in the [span_userdanger(message_hit_area)] with [I]!")
 	if(user in viewers(src, null))
-		attack_message = "[user] [message_verb] [src][message_hit_area] with [I]!"
-		attack_message_local = "[user] [message_verb] me[message_hit_area] with [I]!"
-	visible_message(span_danger("[attack_message][next_attack_msg.Join()]"),\
-		span_danger("[attack_message_local][next_attack_msg.Join()]"), null, COMBAT_MESSAGE_RANGE)
+		attack_message = span_combatsecondary("[user] [message_verb] [src] in the [span_combatsecondarybp(message_hit_area)] with [I]!")
+		attack_message_local = span_danger("[user] [message_verb] me in the [span_userdanger(message_hit_area)] with [I]!")
+
+	//Janky, but you'll see BIG TEXT for both the hits you make and take.
+	if(src != user)
+		var/attack_message_self = span_combatprimary("[user] [message_verb] [src] in the [span_combatsecondarybp(message_hit_area)] with [I]!")
+		to_chat(user, "[attack_message_self][next_attack_msg.Join()]")
+	visible_message("[attack_message][span_combatsecondarysmall(next_attack_msg.Join())]",\
+		"[attack_message_local][next_attack_msg.Join()]", null, COMBAT_MESSAGE_RANGE, user)	//We try not to show this to the user (attacker)
 	next_attack_msg.Cut()
 	return 1
+
+#undef ATTACK_OVERRIDE_NODEFENSE

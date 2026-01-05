@@ -26,7 +26,7 @@
 	if(prob(50))
 		neck= /obj/item/clothing/neck/roguetown/chaincoif/iron
 	if(prob(50))//CLOAK
-		cloak = /obj/item/clothing/cloak/stabard/bog
+		cloak = /obj/item/clothing/cloak/tabard/stabard/bog
 	switch(rand(1, 3))
 		if(1)
 			r_hand = /obj/item/rogueweapon/sword/iron
@@ -54,7 +54,7 @@
 	head = /obj/item/clothing/head/roguetown/helmet/bascinet/pigface/hounskull
 	gloves = /obj/item/clothing/gloves/roguetown/plate
 	pants = /obj/item/clothing/under/roguetown/chainlegs/iron
-	cloak = /obj/item/clothing/cloak/stabard/bog
+	cloak = /obj/item/clothing/cloak/tabard/stabard/bog
 	neck = /obj/item/clothing/neck/roguetown/chaincoif
 	shirt = /obj/item/clothing/suit/roguetown/armor/gambeson/heavy
 	armor = /obj/item/clothing/suit/roguetown/armor/plate/scale

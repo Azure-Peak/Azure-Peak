@@ -98,3 +98,18 @@
 	craftdiff = 5
 	required_tech_node = "BLACK_ROSE"
 	tech_unlocked = FALSE
+
+/datum/crafting_recipe/roguetown/fleshcrafting/leechbait
+	name = "leechbait"
+	craftdiff = 1
+	result = list(
+		/obj/item/bait/leech,
+		/obj/item/bait/leech,
+		/obj/item/bait/leech,
+		)
+	reqs = list(
+		/obj/item/storage/roguebag = 3,
+		/obj/item/reagent_containers/lux_impure = 1,
+		)
+	subtype_reqs = TRUE
+	structurecraft = null

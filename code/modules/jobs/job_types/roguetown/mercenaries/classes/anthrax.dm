@@ -12,7 +12,7 @@
 
 	cmode_music = 'sound/music/combat_delf.ogg'
 
-	traits_applied = list(TRAIT_DARKVISION, TRAIT_MEDIUMARMOR)
+	traits_applied = list(TRAIT_DARKVISION, TRAIT_MEDIUMARMOR, TRAIT_ANTHRAXI)
 	subclass_stats = list(
 		STATKEY_STR = 2,
 		STATKEY_CON = 2,
@@ -63,7 +63,7 @@
 	mask = /obj/item/clothing/mask/rogue/facemask/shadowfacemask
 	neck = /obj/item/clothing/neck/roguetown/chaincoif/chainmantle
 	backr = /obj/item/rogueweapon/shield/tower/spidershield
-	beltr = /obj/item/rogueweapon/whip/spiderwhip
+	beltr = /obj/item/rogueweapon/whip/spiderwhip	
 	beltl = /obj/item/rope/chain
 
 	if(H.mind)
@@ -73,14 +73,15 @@
 			if("I'm a spider rider (your pet with you)")
 				l_hand = /obj/item/bait/spider
 			if("I walk on my legs (+1 for athletics)")
-				H.adjust_skillrank_up_to(/datum/skill/misc/athletics, SKILL_LEVEL_MASTER, TRUE)
+				H.adjust_skillrank_up_to(/datum/skill/misc/athletics, SKILL_LEVEL_MASTER, TRUE)		
 
 	H.merctype = 15
 
 /datum/advclass/mercenary/anthrax/assasin
-	name = "Anthrax Assasin"
+	name = "Anthrax Assassin"
+	tutorial = "Black Venom's infamous killers for hire, it is said a single cut from their poison tipped blades is enough to send their victim to an early grave. You are one of those assassins, use your trusty bow and arrow to bring your targets' demise from afar or take a second sabre and weave a beautiful dance of death. All that matters is that your contract is fulfilled and your pockets heavy with mammon."
 	outfit = /datum/outfit/job/roguetown/mercenary/anthrax/assasin
-	traits_applied = list(TRAIT_DARKVISION, TRAIT_DODGEEXPERT)
+	traits_applied = list(TRAIT_DARKVISION, TRAIT_DODGEEXPERT, TRAIT_ANTHRAXI)
 	subclass_stats = list(
 		STATKEY_WIL = 2,
 		STATKEY_PER = 2,
@@ -88,8 +89,6 @@
 		STATKEY_SPD = 2,
 	)
 	subclass_skills = list(
-		/datum/skill/combat/bows = SKILL_LEVEL_APPRENTICE,
-		/datum/skill/combat/knives = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/combat/unarmed = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/misc/swimming = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/misc/athletics = SKILL_LEVEL_EXPERT, 
@@ -97,13 +96,11 @@
 		/datum/skill/misc/climbing = SKILL_LEVEL_EXPERT,
 		/datum/skill/misc/reading = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/misc/riding = SKILL_LEVEL_JOURNEYMAN,
-		/datum/skill/misc/sneaking = SKILL_LEVEL_JOURNEYMAN,
-		/datum/skill/craft/traps = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/craft/alchemy = SKILL_LEVEL_NOVICE,
 		/datum/skill/craft/crafting = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/misc/sneaking = SKILL_LEVEL_MASTER,
 		/datum/skill/misc/lockpicking = SKILL_LEVEL_JOURNEYMAN,
-		/datum/skill/combat/bows = SKILL_LEVEL_EXPERT,
+		/datum/skill/combat/bows = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/combat/crossbows = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/combat/swords = SKILL_LEVEL_EXPERT,
 		/datum/skill/combat/knives = SKILL_LEVEL_EXPERT,
@@ -122,8 +119,22 @@
 	wrists = /obj/item/clothing/wrists/roguetown/bracers/leather/heavy
 	mask = /obj/item/clothing/mask/rogue/shepherd/shadowmask/delf
 	neck = /obj/item/clothing/neck/roguetown/chaincoif/chainmantle
-	backr = /obj/item/gun/ballistic/revolver/grenadelauncher/bow/short
-	beltr = /obj/item/quiver/poisonarrows
 	beltl = /obj/item/rogueweapon/scabbard/sword
 	r_hand = /obj/item/rogueweapon/sword/sabre/stalker
+
+	if(H.mind)
+		var/weapon = list("Bow and Arrow", "Dual Sabres")
+		var/weaponchoice = input(H, "Choose your WEAPON.", "PICK YOUR INSTRUMENTS.") as anything in weapon
+		switch(weaponchoice)
+			if("Bow and Arrow")
+				backr = /obj/item/gun/ballistic/revolver/grenadelauncher/bow/short
+				beltr = /obj/item/quiver/poisonarrows
+				H.adjust_skillrank_up_to(/datum/skill/combat/bows, SKILL_LEVEL_EXPERT, TRUE)
+			if("Dual Sabres")
+				l_hand = /obj/item/rogueweapon/sword/sabre/stalker
+				beltr = /obj/item/rogueweapon/scabbard/sword
+				backr = null
+				ADD_TRAIT(H, TRAIT_DUALWIELDER, TRAIT_GENERIC)
+				
+	H.merctype = 15	
 

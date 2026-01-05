@@ -11,7 +11,7 @@
 	damtype = BRUTE
 	force = 5
 	hitsound = 'sound/items/bsmith1.ogg'
-	var/cooldown = 3 SECONDS
+	var/cooldown = 5 SECONDS
 	var/ringing = FALSE
 	resistance_flags = FIRE_PROOF
 	grid_width = 32
@@ -63,7 +63,7 @@
 	density = TRUE
 	layer = ABOVE_MOB_LAYER
 	plane = GAME_PLANE_UPPER
-	var/cooldown = 3 SECONDS
+	var/cooldown = 20 SECONDS
 	var/ringing = FALSE
 
 /*
@@ -84,17 +84,36 @@
 	if(ringing)
 		return
 	if(istype(used_item, /obj/item/rogueweapon/mace/church))
-		playsound(loc, 'sound/misc/bell.ogg', 50, 1)
-		for(var/mob/M in orange(150, src))
-			if(M.client)
-				to_chat(M, span_notice("The church bell rings, echoing solemnly through the area."))
+		playsound(loc, 'sound/misc/bell.ogg', 60, 1)
 		visible_message(span_notice("[user] uses the [used_item] to ring the [src]."))
+		ring_bell()
 		ringing = TRUE
 		sleep(cooldown)
 		ringing = FALSE
 	else
 
 		return ..()
+
+/obj/structure/stationary_bell/proc/ring_bell()
+	var/turf/origin_turf = get_turf(src)
+
+	for(var/mob/living/player in GLOB.player_list)
+		if(player.stat == DEAD)
+			continue
+		if(isbrain(player))
+			continue
+
+		var/distance = get_dist(player, origin_turf)
+		if(distance <= 7)
+			to_chat(player, span_notice("The church bell rings, echoing solemnly through the area."))
+			continue
+		if(distance <= 150)
+			to_chat(player, span_notice("The church bell rings, echoing solemnly through the area."))
+			player.playsound_local(get_turf(player), 'sound/misc/bell.ogg', 35, FALSE, pressure_affected = FALSE)
+			continue
+
+		to_chat(player, span_notice("The church bell rings, echoing distantly from afar."))
+		player.playsound_local(get_turf(player), 'sound/misc/bell.ogg', 35, FALSE, pressure_affected = FALSE)
 
 /obj/item/jingle_bells
 	name = "jingling bells"

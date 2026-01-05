@@ -205,8 +205,10 @@
 		var/honorary = "Sir"
 		if(H.pronouns == SHE_HER || H.pronouns == THEY_THEM_F)
 			honorary = "Dame"
-		H.real_name = "[honorary] [prev_real_name]"
-		H.name = "[honorary] [prev_name]"
+		// check if they already have it to avoid stacking titles
+		if(findtextEx(H.real_name, "[honorary] ") == 0)
+			H.real_name = "[honorary] [prev_real_name]"
+			H.name = "[honorary] [prev_name]"
 
 /datum/migrant_role/heartfelt/magos
 	name = "Magos of Heartfelt"
@@ -264,7 +266,6 @@
 		H.change_stat(STATKEY_SPD, -1)
 		H.change_stat(STATKEY_INT, 1)
 		H.change_stat(STATKEY_PER, 1)
-	if(H.mind)
 		H?.mind.adjust_spellpoints(6)
 	if(ishumannorthern(H))
 		belt = /obj/item/storage/belt/rogue/leather/plaquegold
@@ -286,7 +287,7 @@
 
 /datum/outfit/job/roguetown/heartfelt/prior/pre_equip(mob/living/carbon/human/H)
 	..()
-	H.mind.current.faction += "[H.name]_faction"
+	H.mind?.current.faction += "[H.name]_faction"
 	neck = /obj/item/clothing/neck/roguetown/psicross/astrata
 	shirt = /obj/item/clothing/suit/roguetown/shirt/undershirt/priest
 	pants = /obj/item/clothing/under/roguetown/tights/black

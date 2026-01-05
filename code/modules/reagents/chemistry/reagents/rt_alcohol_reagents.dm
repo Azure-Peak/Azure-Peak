@@ -562,8 +562,8 @@
 
 /datum/reagent/consumable/ethanol/luxwine/on_mob_life(mob/living/carbon/M) // stolen healthpot code. i am shameless.
 	if(volume > 0.99) // i have no clue if this works.
-		M.adjustBruteLoss(-1*REM, 0)
-		M.adjustFireLoss(-1*REM, 0)
+		M.adjustBruteLoss(-1  * REAGENTS_EFFECT_MULTIPLIER, 0)
+		M.adjustFireLoss(-1  * REAGENTS_EFFECT_MULTIPLIER, 0)
 	..()
 
 /datum/reagent/consumable/ethanol/whipwine // dont ask

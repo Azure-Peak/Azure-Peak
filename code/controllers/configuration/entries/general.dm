@@ -442,6 +442,18 @@
 /datum/config_entry/string/channel_announce_new_game_message
 	default = null
 
+/datum/config_entry/string/chat_announce_whitelist
+	config_entry_value = null
+
+/datum/config_entry/string/chat_announce_verify
+	config_entry_value = null
+
+/datum/config_entry/string/chat_announce_donator
+	config_entry_value = null
+
+/datum/config_entry/string/chat_command_whitelist
+	config_entry_value = null
+
 /datum/config_entry/flag/debug_admin_hrefs
 
 /datum/config_entry/number/mc_tick_rate/base_mc_tick_rate

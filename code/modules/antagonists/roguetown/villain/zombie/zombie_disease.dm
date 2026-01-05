@@ -85,7 +85,8 @@
 		if("bite")
 			to_chat(src, span_danger("A growing cold seeps into my body. I feel horrible... REALLY horrible..."))
 		if("wound")
-			flash_fullscreen("redflash3")
+			if(show_redflash())
+				flash_fullscreen("redflash3")
 			to_chat(src, span_danger("Ow! It hurts. I feel horrible... REALLY horrible..."))
 
 	return TRUE

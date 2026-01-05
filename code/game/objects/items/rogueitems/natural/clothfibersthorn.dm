@@ -42,7 +42,6 @@
 		/datum/crafting_recipe/roguetown/survival/abyssoramulet,
 		/datum/crafting_recipe/roguetown/survival/broom,
 		/datum/crafting_recipe/roguetown/survival/woodcross,
-		/datum/crafting_recipe/roguetown/survival/mantrap,
 		/datum/crafting_recipe/roguetown/survival/tribalrags,
 		/datum/crafting_recipe/roguetown/survival/skullmask,
 		/datum/crafting_recipe/roguetown/survival/bonespear,
@@ -139,9 +138,9 @@
 	I = mob.get_active_held_item()
 	if(I)
 		if(I.return_blood_DNA())
-			testing("yep")
+
 		else
-			testing("nope")
+
 
 #endif
 
@@ -214,7 +213,7 @@
 // CLEANING
 
 /obj/item/natural/cloth/attack_obj(obj/O, mob/living/user)
-	testing("attackobj")
+
 	if(user.client && ((O in user.client.screen) && !user.is_holding(O)))
 		to_chat(user, span_warning("I need to take that [O.name] off before cleaning it!"))
 		return
@@ -258,7 +257,7 @@
 
 // BANDAGING
 /obj/item/natural/cloth/attack(mob/living/M, mob/user)
-	testing("attack")
+
 	bandage(M, user)
 
 /obj/item/natural/cloth/wash_act()
@@ -266,10 +265,37 @@
 	wet = 10
 
 /obj/item/natural/cloth/proc/bandage(mob/living/M, mob/user)
+	var/used_time = 70
+	var/medskill = 0
+
+	if(ishuman(user))
+		var/mob/living/carbon/human/human_user = user
+		medskill = human_user.get_skill_level(/datum/skill/misc/medicine)
+		used_time -= ((medskill * 10) + (human_user.STASPD / 2)) //With 20 SPD you can insta bandage at max medicine.
+
+	if(istype(M, /mob/living/simple_animal))
+		var/mob/living/simple_animal/animal_patient = M
+		if(!animal_patient.bruteloss)
+			to_chat(user, span_warning("[animal_patient] doesn't need bandaging right now."))
+			return
+		playsound(loc, 'sound/foley/bandage.ogg', 100, FALSE)
+		if(!move_after(user, used_time, target = animal_patient))
+			return
+		playsound(loc, 'sound/foley/bandage.ogg', 100, FALSE)
+		animal_patient.adjustHealth(-((animal_patient.maxHealth / 5) * (medskill + 1)), TRUE)
+		user.visible_message(span_notice("[user] bandages [M]'s wounds."), span_notice("I bandage [M]'s wounds."))
+		// clear all the wounds
+		for(var/datum/wound/wound as anything in animal_patient.get_wounds())
+			qdel(wound)
+		qdel(src)
+		return
+
 	if(!M.can_inject(user, TRUE))
 		return
+
 	if(!ishuman(M))
 		return
+
 	var/mob/living/carbon/human/H = M
 	var/obj/item/bodypart/affecting = H.get_bodypart(check_zone(user.zone_selected))
 	if(!affecting)
@@ -277,10 +303,9 @@
 	if(affecting.bandage)
 		to_chat(user, span_warning("There is already a bandage."))
 		return
-	var/used_time = 70
-	used_time -= (H.get_skill_level(/datum/skill/misc/medicine) * 10)
+
 	playsound(loc, 'sound/foley/bandage.ogg', 100, FALSE)
-	if(!do_mob(user, M, used_time))
+	if(!move_after(user, used_time, target = M))
 		return
 	playsound(loc, 'sound/foley/bandage.ogg', 100, FALSE)
 
@@ -289,9 +314,9 @@
 	H.update_damage_overlays()
 
 	if(M == user)
-		user.visible_message(span_notice("[user] bandages [user.p_their()] [affecting]."), span_notice("I bandage my [affecting]."))
+		user.visible_message(span_notice("[user] bandages [user.p_their()] [affecting]."), span_notice("I bandage my [affecting.name]."))
 	else
-		user.visible_message(span_notice("[user] bandages [M]'s [affecting]."), span_notice("I bandage [M]'s [affecting]."))
+		user.visible_message(span_notice("[user] bandages [M]'s [affecting]."), span_notice("I bandage [M]'s [affecting.name]."))
 
 /obj/item/natural/thorn
 	name = "thorn"

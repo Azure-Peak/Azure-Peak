@@ -1,11 +1,3 @@
-#define COLLECT_ONE 0
-#define COLLECT_EVERYTHING 1
-#define COLLECT_SAME 2
-
-#define DROP_NOTHING 0
-#define DROP_AT_PARENT 1
-#define DROP_AT_LOCATION 2
-
 // External storage-related logic:
 // /mob/proc/ClickOn() in /_onclick/click.dm - clicking items in storages
 // /mob/living/Move() in /modules/mob/living/living.dm - hiding storage boxes on mob movement
@@ -52,6 +44,7 @@
 	var/atom/movable/screen/close/closer						//close button object
 
 	var/allow_big_nesting = FALSE					//allow storage objects of the same or greater size.
+	var/allow_nesting = FALSE						// fits in storage items of the same same or smaller size
 
 	var/attack_hand_interact = TRUE					//interact on attack hand.
 	var/quickdraw = FALSE							//altclick interact
@@ -70,6 +63,8 @@
 	//Vrell - Used for repair bypass clicks
 	var/being_repaired = FALSE
 
+	var/intercept_parent_attack = TRUE
+	var/intercept_parent_mousedrop = TRUE
 
 /datum/component/storage/Initialize(datum/component/storage/concrete/master)
 	if(!isatom(parent))
@@ -96,25 +91,26 @@
 
 	RegisterSignal(parent, COMSIG_TOPIC, PROC_REF(topic_handle))
 
-	RegisterSignal(parent, COMSIG_PARENT_ATTACKBY, PROC_REF(attackby))
+	if(intercept_parent_attack)
+		RegisterSignal(parent, COMSIG_PARENT_ATTACKBY, PROC_REF(attackby))
+		RegisterSignal(parent, COMSIG_ATOM_ATTACK_HAND, PROC_REF(on_attack_hand))
+		RegisterSignal(parent, COMSIG_ATOM_ATTACK_PAW, PROC_REF(on_attack_hand))
+		RegisterSignal(parent, COMSIG_ITEM_PRE_ATTACK, PROC_REF(preattack_intercept))
+		RegisterSignal(parent, COMSIG_ITEM_ATTACK_SELF, PROC_REF(attack_self))
 
-	RegisterSignal(parent, COMSIG_ATOM_ATTACK_HAND, PROC_REF(on_attack_hand))
-	RegisterSignal(parent, COMSIG_ATOM_ATTACK_PAW, PROC_REF(on_attack_hand))
+	if(intercept_parent_mousedrop)
+		RegisterSignal(parent, COMSIG_MOUSEDROP_ONTO, PROC_REF(mousedrop_onto))
+		RegisterSignal(parent, COMSIG_MOUSEDROPPED_ONTO, PROC_REF(mousedrop_receive))
+
 	RegisterSignal(parent, COMSIG_ATOM_ATTACK_GHOST, PROC_REF(show_to_ghost))
 	RegisterSignal(parent, COMSIG_ATOM_ENTERED, PROC_REF(refresh_mob_views))
 	RegisterSignal(parent, COMSIG_ATOM_EXITED, PROC_REF(_remove_and_refresh))
 	RegisterSignal(parent, COMSIG_ATOM_CANREACH, PROC_REF(canreach_react))
-
-	RegisterSignal(parent, COMSIG_ITEM_PRE_ATTACK, PROC_REF(preattack_intercept))
-	RegisterSignal(parent, COMSIG_ITEM_ATTACK_SELF, PROC_REF(attack_self))
 	RegisterSignal(parent, COMSIG_ITEM_PICKUP, PROC_REF(signal_on_pickup))
-
 	RegisterSignal(parent, COMSIG_MOVABLE_POST_THROW, PROC_REF(close_all))
 	RegisterSignal(parent, COMSIG_MOVABLE_MOVED, PROC_REF(on_move))
-
 	RegisterSignal(parent, COMSIG_CLICK_ALT, PROC_REF(on_alt_click))
-	RegisterSignal(parent, COMSIG_MOUSEDROP_ONTO, PROC_REF(mousedrop_onto))
-	RegisterSignal(parent, COMSIG_MOUSEDROPPED_ONTO, PROC_REF(mousedrop_receive))
+
 
 /datum/component/storage/Destroy()
 	close_all()
@@ -176,6 +172,9 @@
 	for(var/mob/living/L in can_see_contents())
 		if(!L.CanReach(A))
 			hide_from(L)
+	spill_contents(A)
+
+/datum/component/storage/proc/spill_contents(atom/A)
 	for(var/obj/item/reagent_containers/I in A.contents)
 		if(I.reagents && I.spillable)
 			I.reagents.remove_all(3)
@@ -252,20 +251,20 @@
 	for(var/obj/item/I in things)
 		things -= I
 		if(I.loc != thing_loc)
-			testing("debugbag1 [I]")
+
 			continue
 		if(I.type in rejections) // To limit bag spamming: any given type only complains once
-			testing("debugbag2 [I]")
+
 			continue
 		if(!can_be_inserted(I, stop_messages = TRUE))	// Note can_be_inserted still makes noise when the answer is no
 			if(real_location.contents.len >= max_items)
 				break
-			testing("debugbag3 [I]")
+
 			rejections += I.type	// therefore full bags are still a little spammy
 			continue
 
 		handle_item_insertion(I, TRUE)	//The TRUE stops the "You put the [parent] into [S]" insertion message from being displayed.
-		testing("debugbag4 [I]")
+
 		if (TICK_CHECK)
 			progress.update(progress.goal - things.len)
 			return TRUE
@@ -314,13 +313,13 @@
 	for(var/obj/item/I in things)
 		things -= I
 		if(I.loc != real_location)
-			testing("debugbag5 [I]")
+
 			continue
 		remove_from_storage(I, target)
 		I.pixel_x = initial(I.pixel_x) + rand(-10,10)
 		I.pixel_y = initial(I.pixel_y) + rand(-10,10)
 		if(trigger_on_found && I.on_found())
-			testing("debugbag6 [I]")
+
 			return FALSE
 		if(TICK_CHECK)
 			progress.update(progress.goal - length(things))
@@ -484,11 +483,11 @@
 //Call this proc to handle the removal of an item from the storage item. The item will be moved to the new_location target, if that is null it's being deleted
 /datum/component/storage/proc/remove_from_storage(atom/movable/AM, atom/new_location)
 	if(!istype(AM))
-		testing("debugbag88")
+
 		return FALSE
 	var/datum/component/storage/concrete/master = master()
 	if(!istype(master))
-		testing("debugbag99")
+
 		return FALSE
 	return master.remove_from_storage(AM, new_location)
 
@@ -666,7 +665,7 @@
 	if(real_location == I.loc)
 		return FALSE //Means the item is already in the storage item
 	if(!ismob(host.loc) && !isturf(host.loc))
-		testing("fugg [host] | [host.loc] | [M]")
+
 		return FALSE
 	if(locked)
 		if(M && !stop_messages)

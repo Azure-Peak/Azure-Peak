@@ -9,8 +9,9 @@
 					/obj/effect/proc_holder/spell/targeted/blesscrop			= CLERIC_T0,
 					/obj/effect/proc_holder/spell/invoked/lesser_heal 			= CLERIC_T1,
 					/obj/effect/proc_holder/spell/invoked/blood_heal			= CLERIC_T1,
-					/obj/effect/proc_holder/spell/targeted/wildshape			= CLERIC_T2,
+					/obj/effect/proc_holder/spell/self/wildshape				= CLERIC_T2,
 					/obj/effect/proc_holder/spell/targeted/conjure_glowshroom	= CLERIC_T3,
+					/obj/effect/proc_holder/spell/targeted/conjure_vines		= CLERIC_T3,
 					/obj/effect/proc_holder/spell/self/howl/call_of_the_moon	= CLERIC_T4,
 					/obj/effect/proc_holder/spell/invoked/resurrect/dendor		= CLERIC_T4,
 	)
@@ -41,6 +42,10 @@
 		return TRUE
 	to_chat(follower, span_danger("I must either be in Dendor's wilds, the Grove, near a wise tree, or near a Panetheon Cross for the 'Tree Father' to hear my prays..."))
 	return FALSE
+	
+/datum/patron/divine/dendor/on_gain(mob/living/H)
+	. = ..()
+	H.AddComponent(/datum/component/wise_tree_alert)
 
 /datum/patron/divine/dendor/on_lesser_heal(
     mob/living/user,

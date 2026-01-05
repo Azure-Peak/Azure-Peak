@@ -12,7 +12,7 @@
 
 	if(QDELETED(pawn))
 		return
-	
+
 	//Already doing something or don't need healing
 	//And not in some enviro that will tick damage
 	if((pawn.doing) || (pawn.get_bleed_rate() == 0) || (pawn.getBruteLoss() == 0) || (!cur_turf.can_traverse_safely(pawn)))
@@ -26,3 +26,6 @@
 
 /datum/ai_planning_subtree/simple_self_recovery/humanoid
 	heal_message = " tends to their wounds."
+
+/datum/ai_planning_subtree/simple_self_recovery/genericanimal
+	heal_message = " licks their wounds."

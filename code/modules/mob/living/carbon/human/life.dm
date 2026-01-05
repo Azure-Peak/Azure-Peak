@@ -94,9 +94,9 @@
 
 	handle_gas_mask_sound()
 
-	if(mode == NPC_AI_OFF)
-		if(sexcon)
-			sexcon.process_sexcon(1 SECONDS)
+	if(world.time > next_tempo_cull)
+		cull_tempo_list()
+		next_tempo_cull = world.time + TEMPO_CULL_DELAY
 
 	if(stat != DEAD)
 		return 1

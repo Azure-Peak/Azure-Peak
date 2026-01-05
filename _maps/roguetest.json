@@ -8,7 +8,6 @@
 	"space_ruin_levels": 0,
 	"shuttles": {
 	    "cargo": "cargo_rogue",
-	    "ferry": "ferry_base",
 	    "whiteship": "whiteship_box",
 	    "emergency": "emergency_rogue"
     }

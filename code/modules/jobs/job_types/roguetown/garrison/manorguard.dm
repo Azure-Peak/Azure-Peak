@@ -3,8 +3,8 @@
 	flag = MANATARMS
 	department_flag = GARRISON
 	faction = "Station"
-	total_positions = 8
-	spawn_positions = 8
+	total_positions = 5
+	spawn_positions = 5 //Not getting filled either way
 
 	allowed_sexes = list(MALE, FEMALE)
 	allowed_races = ACCEPTED_RACES
@@ -19,7 +19,7 @@
 	outfit = /datum/outfit/job/roguetown/manorguard
 	advclass_cat_rolls = list(CTAG_MENATARMS = 20)
 
-	give_bank_account = 22
+	give_bank_account = TRUE
 	min_pq = 3
 	max_pq = null
 	round_contrib_points = 2
@@ -28,7 +28,8 @@
 	job_subclasses = list(
 		/datum/advclass/manorguard/footsman,
 		/datum/advclass/manorguard/skirmisher,
-		/datum/advclass/manorguard/cavalry
+		/datum/advclass/manorguard/cavalry,
+		/datum/advclass/manorguard/bailiff
 	)
 
 /datum/outfit/job/roguetown/manorguard
@@ -38,7 +39,7 @@
 	. = ..()
 	if(ishuman(L))
 		var/mob/living/carbon/human/H = L
-		if(istype(H.cloak, /obj/item/clothing/cloak/stabard/surcoat/guard))
+		if(istype(H.cloak, /obj/item/clothing/cloak/tabard/stabard/surcoat/guard))
 			var/obj/item/clothing/S = H.cloak
 			var/index = findtext(H.real_name, " ")
 			if(index)
@@ -48,8 +49,9 @@
 			S.name = "man-at-arms jupon ([index])"
 
 /datum/outfit/job/roguetown/manorguard
-	cloak = /obj/item/clothing/cloak/stabard/surcoat/guard
+	cloak = /obj/item/clothing/cloak/tabard/stabard/surcoat/guard
 	shoes = /obj/item/clothing/shoes/roguetown/boots/leather/reinforced
+	saiga_shoes = /obj/item/clothing/shoes/roguetown/horseshoes
 	beltl = /obj/item/rogueweapon/mace/cudgel
 	belt = /obj/item/storage/belt/rogue/leather
 	backr = /obj/item/storage/backpack/rogue/satchel
@@ -66,7 +68,7 @@
 	subclass_stats = list(
 		STATKEY_STR = 2,// seems kinda lame but remember guardsman bonus!!
 		STATKEY_INT = 1,
-		STATKEY_CON = 1,
+		STATKEY_CON = 3, //Like other footman classes their main thing is constitution more so than anything else
 		STATKEY_WIL = 1
 	)
 	subclass_skills = list(
@@ -84,6 +86,7 @@
 		/datum/skill/misc/sneaking = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/misc/reading = SKILL_LEVEL_NOVICE,
 		/datum/skill/misc/athletics = SKILL_LEVEL_JOURNEYMAN,
+		/datum/skill/misc/swimming = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/misc/riding = SKILL_LEVEL_NOVICE,
 		/datum/skill/misc/tracking = SKILL_LEVEL_NOVICE,
 	)
@@ -97,7 +100,7 @@
 
 	H.adjust_blindness(-3)
 	if(H.mind)
-		var/weapons = list("Warhammer & Shield","Axe & Shield","Halberd","Greataxe")
+		var/weapons = list("Warhammer & Shield","Axe & Shield","Sword & Shield","Halberd & Sword","Greataxe & Sword")
 		var/weapon_choice = input(H, "Choose your weapon.", "TAKE UP ARMS") as anything in weapons
 		H.set_blindness(0)
 		switch(weapon_choice)
@@ -107,12 +110,20 @@
 			if("Axe & Shield")
 				beltr = /obj/item/rogueweapon/stoneaxe/woodcut/steel
 				backl = /obj/item/rogueweapon/shield/iron
-			if("Halberd")
+			if("Sword & Shield")
+				l_hand = /obj/item/rogueweapon/sword
+				beltr = /obj/item/rogueweapon/scabbard/sword
+				backl = /obj/item/rogueweapon/shield/iron
+			if("Halberd & Sword")
+				l_hand = /obj/item/rogueweapon/sword
 				r_hand = /obj/item/rogueweapon/halberd
 				backl = /obj/item/rogueweapon/scabbard/gwstrap
-			if("Greataxe")
+				beltr = /obj/item/rogueweapon/scabbard/sword
+			if("Greataxe & Sword")
+				l_hand = /obj/item/rogueweapon/sword
 				r_hand = /obj/item/rogueweapon/greataxe
 				backl = /obj/item/rogueweapon/scabbard/gwstrap
+				beltr = /obj/item/rogueweapon/scabbard/sword
 	backpack_contents = list(
 		/obj/item/rogueweapon/huntingknife/idagger/steel/special = 1,
 		/obj/item/rope/chain = 1,
@@ -123,11 +134,11 @@
 	H.verbs |= /mob/proc/haltyell
 
 	if(H.mind)
-		var/armor_options = list("Brigandine Set", "Maille Set")
+		var/armor_options = list("Light Brigandine Set", "Maille Set")
 		var/armor_choice = input(H, "Choose your armor.", "TAKE UP ARMS") as anything in armor_options
 
 		switch(armor_choice)
-			if("Brigandine Set")
+			if("Light Brigandine Set")
 				armor = /obj/item/clothing/suit/roguetown/armor/brigandine/light/retinue
 				shirt = /obj/item/clothing/suit/roguetown/armor/gambeson
 				wrists = /obj/item/clothing/wrists/roguetown/splintarms
@@ -142,7 +153,7 @@
 		var/helmets = list(
 		"Simple Helmet" 	= /obj/item/clothing/head/roguetown/helmet,
 		"Kettle Helmet" 	= /obj/item/clothing/head/roguetown/helmet/kettle,
-		"Bascinet Helmet"		= /obj/item/clothing/head/roguetown/helmet/bascinet,
+		"Bascinet Helmet"	= /obj/item/clothing/head/roguetown/helmet/bascinet,
 		"Sallet Helmet"		= /obj/item/clothing/head/roguetown/helmet/sallet,
 		"Winged Helmet" 	= /obj/item/clothing/head/roguetown/helmet/winged,
 		"Skull Cap"			= /obj/item/clothing/head/roguetown/helmet/skullcap,
@@ -151,6 +162,8 @@
 		var/helmchoice = input(H, "Choose your Helm.", "TAKE UP HELMS") as anything in helmets
 		if(helmchoice != "None")
 			head = helmets[helmchoice]
+	if(H.mind)
+		SStreasury.give_money_account(ECONOMIC_LOWER_MIDDLE_CLASS, H, "Savings.")
 
 // Ranged weapons and daggers on the side - lighter armor, but fleet!
 /datum/advclass/manorguard/skirmisher
@@ -161,12 +174,12 @@
 	category_tags = list(CTAG_MENATARMS)
 	//Garrison ranged/speed class. Time to go wild
 	subclass_stats = list(
+		STATKEY_STR = 1, //Xbow
 		STATKEY_SPD = 2,// seems kinda lame but remember guardsman bonus!!
 		STATKEY_PER = 2,
 		STATKEY_WIL = 1
 	)
 	subclass_skills = list(
-		/datum/skill/combat/swords = SKILL_LEVEL_EXPERT,
 		/datum/skill/combat/knives = SKILL_LEVEL_EXPERT,
 		/datum/skill/combat/maces = SKILL_LEVEL_APPRENTICE, 		// Still have a cugel.
 		/datum/skill/combat/crossbows = SKILL_LEVEL_MASTER,		//Only effects draw and reload time.
@@ -175,6 +188,7 @@
 		/datum/skill/misc/climbing = SKILL_LEVEL_EXPERT,
 		/datum/skill/misc/sneaking = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/misc/athletics = SKILL_LEVEL_EXPERT, // A little better; run fast, weak boy.
+		/datum/skill/misc/swimming = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/combat/wrestling = SKILL_LEVEL_EXPERT,
 		/datum/skill/combat/unarmed = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/misc/reading = SKILL_LEVEL_NOVICE,
@@ -229,7 +243,7 @@
 		var/helmets = list(
 		"Simple Helmet" 	= /obj/item/clothing/head/roguetown/helmet,
 		"Kettle Helmet" 	= /obj/item/clothing/head/roguetown/helmet/kettle,
-		"Bascinet Helmet"		= /obj/item/clothing/head/roguetown/helmet/bascinet,
+		"Bascinet Helmet"	= /obj/item/clothing/head/roguetown/helmet/bascinet,
 		"Sallet Helmet"		= /obj/item/clothing/head/roguetown/helmet/sallet,
 		"Winged Helmet" 	= /obj/item/clothing/head/roguetown/helmet/winged,
 		"Skull Cap"			= /obj/item/clothing/head/roguetown/helmet/skullcap,
@@ -238,6 +252,8 @@
 		var/helmchoice = input(H, "Choose your Helm.", "TAKE UP HELMS") as anything in helmets
 		if(helmchoice != "None")
 			head = helmets[helmchoice]
+	if(H.mind)
+		SStreasury.give_money_account(ECONOMIC_LOWER_MIDDLE_CLASS, H, "Savings.")
 
 
 /datum/advclass/manorguard/cavalry
@@ -254,6 +270,7 @@
 		STATKEY_WIL = 2,// Your name is speed, and speed is running.
 		STATKEY_STR = 1,
 		STATKEY_INT = 1, // No strength to account for the nominally better weapons. We'll see.
+		STATKEY_PER = 2 //Trackers
 	)
 	subclass_skills = list(
 		/datum/skill/combat/polearms = SKILL_LEVEL_EXPERT,
@@ -265,7 +282,8 @@
 		/datum/skill/combat/bows = SKILL_LEVEL_NOVICE,			// We discourage horse archers, though.
 		/datum/skill/combat/slings = SKILL_LEVEL_NOVICE,
 		/datum/skill/misc/climbing = SKILL_LEVEL_JOURNEYMAN,
-		/datum/skill/misc/athletics = SKILL_LEVEL_JOURNEYMAN, 
+		/datum/skill/misc/athletics = SKILL_LEVEL_JOURNEYMAN,
+		/datum/skill/misc/swimming = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/combat/wrestling = SKILL_LEVEL_EXPERT,
 		/datum/skill/combat/unarmed = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/misc/reading = SKILL_LEVEL_NOVICE,
@@ -280,18 +298,20 @@
 
 	H.adjust_blindness(-3)
 	if(H.mind)
-		var/weapons = list("Bardiche","Sword & Shield")
+		var/weapons = list("Bardiche & Sword","Sword & Shield")
 		var/weapon_choice = input(H, "Choose your weapon.", "TAKE UP ARMS") as anything in weapons
 		H.set_blindness(0)
 		switch(weapon_choice)
-			if("Bardiche")
+			if("Bardiche & Sword")
+				l_hand = /obj/item/rogueweapon/sword
 				r_hand = /obj/item/rogueweapon/halberd/bardiche
 				backl = /obj/item/rogueweapon/scabbard/gwstrap
+				beltr = /obj/item/rogueweapon/scabbard/sword
 			if("Sword & Shield")
 				beltr = /obj/item/rogueweapon/scabbard/sword
 				r_hand = /obj/item/rogueweapon/sword/sabre
 				backl = /obj/item/rogueweapon/shield/wood
-		
+
 		backpack_contents = list(
 			/obj/item/rogueweapon/huntingknife/idagger/steel/special = 1,
 			/obj/item/rope/chain = 1,
@@ -320,7 +340,7 @@
 		var/helmets = list(
 		"Simple Helmet" 	= /obj/item/clothing/head/roguetown/helmet,
 		"Kettle Helmet" 	= /obj/item/clothing/head/roguetown/helmet/kettle,
-		"Bascinet Helmet"		= /obj/item/clothing/head/roguetown/helmet/bascinet,
+		"Bascinet Helmet"	= /obj/item/clothing/head/roguetown/helmet/bascinet,
 		"Sallet Helmet"		= /obj/item/clothing/head/roguetown/helmet/sallet,
 		"Winged Helmet" 	= /obj/item/clothing/head/roguetown/helmet/winged,
 		"Skull Cap"			= /obj/item/clothing/head/roguetown/helmet/skullcap,
@@ -329,3 +349,79 @@
 		var/helmchoice = input(H, "Choose your Helm.", "TAKE UP HELMS") as anything in helmets
 		if(helmchoice != "None")
 			head = helmets[helmchoice]
+	if(H.mind)
+		SStreasury.give_money_account(ECONOMIC_LOWER_MIDDLE_CLASS, H, "Savings.")
+
+// Unarmed goon - Dungeoneer replacement
+/datum/advclass/manorguard/bailiff
+	name = "Bailiff"
+	tutorial = "You are a professional soldier of the realm, specializing in melee warfare. Stalwart and hardy, your body can both withstand and dish out powerful strikes.."
+	outfit = /datum/outfit/job/roguetown/manorguard/bailiff
+	maximum_possible_slots = 1 //Had one dungeoneer before, this is how many we get to keep still.
+
+	category_tags = list(CTAG_MENATARMS)
+	traits_applied = list(TRAIT_CIVILIZEDBARBARIAN)//This is surely going to be funny
+	subclass_stats = list(
+		STATKEY_STR = 2,
+		STATKEY_CON = 2,
+		STATKEY_WIL = 1,
+		STATKEY_LCK = 1 //Master skill and barbarian doesn't need that much more.
+	)
+	subclass_skills = list(
+		/datum/skill/combat/whipsflails = SKILL_LEVEL_EXPERT,
+		/datum/skill/combat/wrestling = SKILL_LEVEL_MASTER, //hilarious
+		/datum/skill/combat/unarmed = SKILL_LEVEL_EXPERT,
+		/datum/skill/combat/swords = SKILL_LEVEL_JOURNEYMAN,
+		/datum/skill/combat/slings = SKILL_LEVEL_JOURNEYMAN,//Funny
+		/datum/skill/combat/knives = SKILL_LEVEL_APPRENTICE,
+		/datum/skill/misc/medicine = SKILL_LEVEL_JOURNEYMAN,//Enough for majority of surgeries without grinding.
+		/datum/skill/craft/cooking = SKILL_LEVEL_NOVICE,
+		/datum/skill/craft/sewing = SKILL_LEVEL_NOVICE,
+		/datum/skill/craft/traps = SKILL_LEVEL_JOURNEYMAN,
+		/datum/skill/misc/reading = SKILL_LEVEL_NOVICE,
+		/datum/skill/misc/athletics = SKILL_LEVEL_JOURNEYMAN,
+		/datum/skill/misc/swimming = SKILL_LEVEL_APPRENTICE,
+		/datum/skill/misc/climbing = SKILL_LEVEL_JOURNEYMAN,//Since they are MAA now I guess
+		/datum/skill/misc/sneaking = SKILL_LEVEL_APPRENTICE,
+		/datum/skill/misc/tracking = SKILL_LEVEL_APPRENTICE
+	)
+
+/datum/outfit/job/roguetown/manorguard/bailiff/pre_equip(mob/living/carbon/human/H)
+	..()
+
+	neck = /obj/item/clothing/neck/roguetown/gorget
+	gloves = /obj/item/clothing/gloves/roguetown/plate/iron
+	armor = /obj/item/clothing/suit/roguetown/armor/brigandine/light/retinue
+	shirt = /obj/item/clothing/suit/roguetown/armor/gambeson
+	wrists = /obj/item/clothing/wrists/roguetown/splintarms
+	pants = /obj/item/clothing/under/roguetown/splintlegs
+	beltr = /obj/item/rogueweapon/whip/antique
+	backl = /obj/item/rogueweapon/sword/long/exe/cloth
+
+	H.adjust_blindness(-3)
+	if(H.mind)
+		H.set_blindness(0)
+	backpack_contents = list(
+		/obj/item/rogueweapon/huntingknife/idagger/steel/special = 1,
+		/obj/item/rope/chain = 1,
+		/obj/item/storage/keyring/guardcastle = 1,
+		/obj/item/rogueweapon/scabbard/sheath = 1,
+		/obj/item/reagent_containers/glass/bottle/rogue/healthpot = 1,
+		)
+	H.verbs |= /mob/proc/haltyell
+
+	if(H.mind)
+		var/helmets = list(
+		"Simple Helmet" 	= /obj/item/clothing/head/roguetown/helmet,
+		"Kettle Helmet" 	= /obj/item/clothing/head/roguetown/helmet/kettle,
+		"Bascinet Helmet"	= /obj/item/clothing/head/roguetown/helmet/bascinet,
+		"Sallet Helmet"		= /obj/item/clothing/head/roguetown/helmet/sallet,
+		"Winged Helmet" 	= /obj/item/clothing/head/roguetown/helmet/winged,
+		"Skull Cap"			= /obj/item/clothing/head/roguetown/helmet/skullcap,
+		"None"
+		)
+		var/helmchoice = input(H, "Choose your Helm.", "TAKE UP HELMS") as anything in helmets
+		if(helmchoice != "None")
+			head = helmets[helmchoice]
+	if(H.mind)
+		SStreasury.give_money_account(ECONOMIC_LOWER_MIDDLE_CLASS, H, "Savings.")

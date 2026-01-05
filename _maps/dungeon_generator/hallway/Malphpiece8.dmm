@@ -50,7 +50,7 @@
 /turf/open/floor/rogue/tile/checkeralt,
 /area/rogue/under/tomb/cave)
 "nq" = (
-/obj/machinery/light/rogue/wallfire/candle/l,
+/obj/machinery/light/rogue/candle/l,
 /turf/open/floor/rogue/carpet,
 /area/rogue/under/tomb/cave)
 "oX" = (
@@ -90,7 +90,7 @@
 /turf/open/floor/rogue/blocks/paving/vert,
 /area/rogue/under/tomb/cave)
 "sI" = (
-/obj/machinery/light/rogue/wallfire/candle/l,
+/obj/machinery/light/rogue/candle/l,
 /turf/open/floor/rogue/tile/checkeralt,
 /area/rogue/under/tomb/cave)
 "sS" = (
@@ -144,7 +144,7 @@
 /turf/open/floor/rogue/carpet,
 /area/rogue/under/tomb/cave)
 "EA" = (
-/obj/machinery/light/rogue/wallfire/candle/l,
+/obj/machinery/light/rogue/candle/l,
 /obj/structure/fluff/statue/knight/interior,
 /turf/open/floor/rogue/tile/checkeralt,
 /area/rogue/under/tomb/cave)
@@ -157,7 +157,7 @@
 /turf/open/floor/rogue/dirt/road,
 /area/rogue/under/tomb/cave)
 "FE" = (
-/obj/machinery/light/rogue/wallfire/candle/r,
+/obj/machinery/light/rogue/candle/r,
 /obj/structure/fluff/statue/knight/interior/r,
 /turf/open/floor/rogue/tile/checkeralt,
 /area/rogue/under/tomb/cave)
@@ -191,7 +191,7 @@
 /turf/open/floor/rogue/dirt/ambush,
 /area/rogue/under/tomb/cave)
 "Ng" = (
-/obj/machinery/light/rogue/wallfire/candle/r,
+/obj/machinery/light/rogue/candle/r,
 /turf/open/floor/rogue/tile/checkeralt,
 /area/rogue/under/tomb/cave)
 "Oz" = (
@@ -224,7 +224,7 @@
 /turf/closed/wall/mineral/rogue/wood,
 /area/rogue/under/tomb/cave)
 "Xd" = (
-/obj/machinery/light/rogue/wallfire/candle/r,
+/obj/machinery/light/rogue/candle/r,
 /turf/open/floor/rogue/carpet,
 /area/rogue/under/tomb/cave)
 "Yk" = (

@@ -49,7 +49,7 @@
 /datum/supply_pack/rogue/armor_steel/cuirass_steel
 	name = "Cuirass"
 	cost = 90 // 2 Steel
-	contains = list(/obj/item/clothing/suit/roguetown/armor/plate/half)
+	contains = list(/obj/item/clothing/suit/roguetown/armor/plate/cuirass)
 
 /datum/supply_pack/rogue/armor_steel/scalemail
 	name = "Scalemail"
@@ -70,6 +70,11 @@
 	name = "Chain Coif"
 	cost = 50 // 1 Steel
 	contains = list(/obj/item/clothing/neck/roguetown/chaincoif)
+
+/datum/supply_pack/rogue/armor_steel/chaincoif_full
+	name = "Chain Coif, Full"
+	cost = 50 // 1 Steel
+	contains = list(/obj/item/clothing/neck/roguetown/chaincoif/full)
 
 /datum/supply_pack/rogue/armor_steel/chainmantle
 	name = "Chain Mantle"
@@ -165,6 +170,11 @@
 	name = "Helmet, Etruscan Bascinet"
 	cost = 90 // 2 Steel
 	contains = list(/obj/item/clothing/head/roguetown/helmet/bascinet/etruscan)
+
+/datum/supply_pack/rogue/armor_steel/helmet_knight_armet
+	name = "Helmet, Armet, Knight's"
+	cost = 90 // 2 Steel
+	contains = list(/obj/item/clothing/head/roguetown/helmet/heavy/knight/old)
 
 /datum/supply_pack/rogue/armor_steel/helmet_knight
 	name = "Helmet, Knight's"

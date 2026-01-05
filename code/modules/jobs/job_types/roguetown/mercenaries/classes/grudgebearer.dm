@@ -46,7 +46,8 @@
 		shirt = /obj/item/clothing/suit/roguetown/shirt/undershirt/black
 		gloves = /obj/item/clothing/gloves/roguetown/plate/dwarven
 		pants = /obj/item/clothing/under/roguetown/trou/leather
-		armor = /obj/item/clothing/suit/roguetown/armor/plate/half
+		armor = /obj/item/clothing/suit/roguetown/armor/plate/full/dwarven/smith
+		head = /obj/item/clothing/head/roguetown/helmet/heavy/dwarven/smith
 		backpack_contents = list(
 			/obj/item/roguekey/mercenary,
 			/obj/item/storage/belt/rogue/pouch/coins/poor,
@@ -54,8 +55,15 @@
 			/obj/item/paper/scroll/grudge,
 			/obj/item/natural/feather,
 			/obj/item/rogueweapon/tongs = 1,
-			/obj/item/clothing/head/roguetown/helmet/heavy/dwarven,
 			)
+		var/weapons = list("Grand Mace", "Spiked Maul")
+		var/wepchoice = input("Choose your weapon", "Available weapons") as anything in weapons
+		switch(wepchoice)
+			if("Grand Mace")
+				backr = /obj/item/rogueweapon/mace/goden/steel
+			if("Spiked Maul")
+				r_hand = /obj/item/rogueweapon/mace/maul/spiked
+				backr = /obj/item/rogueweapon/scabbard/gwstrap
 		H.merctype = 8
 
 /datum/advclass/mercenary/grudgebearer/soldier
@@ -101,13 +109,16 @@
 			/obj/item/natural/feather,
 			)
 		if(H.mind)
-			var/weapons = list("Axe", "Mace")
-			var/wepchoice = input(H, "Choose your weapon", "Available weapons") as anything in weapons
+			var/weapons = list("Axe", "Grand Mace", "Maul")
+			var/wepchoice = input("Choose your weapon", "Available weapons") as anything in weapons
 			switch(wepchoice)
 				if("Axe")
 					backr = /obj/item/rogueweapon/stoneaxe/battle
-				if("Mace")
+				if("Grand Mace")
 					backr = /obj/item/rogueweapon/mace/goden/steel
+				if("Maul")
+					r_hand = /obj/item/rogueweapon/mace/maul/steel
+					backr = /obj/item/rogueweapon/scabbard/gwstrap
 		H.merctype = 8
 
 
@@ -120,7 +131,7 @@
 	icon_state = "dwarfchest"
 	item_state = "dwarfchest"
 	armor = ARMOR_GRUDGEBEARER
-	prevent_crits = list(BCLASS_TWIST)
+	prevent_crits = PREVENT_CRITS_NONE
 	body_parts_covered = CHEST|GROIN|VITALS|ARMS|LEGS
 	equip_delay_self = 5 SECONDS
 	unequip_delay_self = 5 SECONDS
@@ -133,18 +144,29 @@
 	. = ..()
 	AddComponent(/datum/component/layeredarmor/grudgebearer)
 
+/obj/item/clothing/suit/roguetown/armor/plate/full/dwarven/smith
+	name = "grudgebearer splint apron"
+	desc = "A standard, layered mixture of plate and maille, worn by many dwarven smiths. \
+	It cannot be worked on without intrinsic dwarven knowledge."
+	icon_state = "dsmithchest"
+	item_state = "dsmithchest"
+	armor_class = ARMOR_CLASS_MEDIUM
+	body_parts_covered = CHEST|GROIN|VITALS|LEGS
+	smelt_bar_num = 3
+
 /obj/item/clothing/head/roguetown/helmet/heavy/dwarven
 	name = "grudgebearer dwarven helm"
 	desc = "A hardy, layered helmet. It lets one's dwarvenly beard to poke out."
 	body_parts_covered = (HEAD | MOUTH | NOSE | EYES | EARS | NECK)	//This specifically omits hair so you could hang your beard out of the helm
 	armor = ARMOR_GRUDGEBEARER
-	prevent_crits = list(BCLASS_TWIST)
+	prevent_crits = PREVENT_CRITS_NONE
 	allowed_race = list(/datum/species/dwarf, /datum/species/dwarf/mountain)
 	icon = 'icons/roguetown/clothing/special/race_armor.dmi'
 	mob_overlay_icon = 'icons/roguetown/clothing/special/onmob/race_armor.dmi'
 	icon_state = "dwarfhead"
 	item_state = "dwarfhead"
 	block2add = FOV_BEHIND
+	stack_fovs = TRUE
 	bloody_icon = 'icons/effects/blood64.dmi'
 	smeltresult = /obj/item/ingot/steel
 	max_integrity = 1000
@@ -155,13 +177,20 @@
 	. = ..()
 	AddComponent(/datum/component/layeredarmor/grudgebearer/helmet)
 
+/obj/item/clothing/head/roguetown/helmet/heavy/dwarven/smith
+	name = "grudgebearer smith helm"
+	desc = "A hardy, layered helmet. It lets one's dwarvenly beard to poke out. \
+	This one is intended for the smiths of the clan. No less protective. All the more stylish."
+	icon_state = "dsmithhead"
+	item_state = "dsmithhead"
+
 /obj/item/clothing/gloves/roguetown/plate/dwarven
 	name = "grudgebearer dwarven gauntlets"
 	desc = "Forged to fit the stubbiest of fingers. It is covered in protective layers."
 	icon = 'icons/roguetown/clothing/special/race_armor.dmi'
 	mob_overlay_icon = 'icons/roguetown/clothing/special/onmob/race_armor.dmi'
 	allowed_race = list(/datum/species/dwarf, /datum/species/dwarf/mountain)
-	prevent_crits = list(BCLASS_TWIST)
+	prevent_crits = PREVENT_CRITS_NONE
 	icon_state = "dwarfhand"
 	item_state = "dwarfhand"
 	armor = ARMOR_GRUDGEBEARER
@@ -177,7 +206,7 @@
 	icon = 'icons/roguetown/clothing/special/race_armor.dmi'
 	mob_overlay_icon = 'icons/roguetown/clothing/special/onmob/race_armor.dmi'
 	allowed_race = list(/datum/species/dwarf, /datum/species/dwarf/mountain)
-	prevent_crits = list(BCLASS_TWIST)
+	prevent_crits = PREVENT_CRITS_NONE
 	icon_state = "dwarfshoe"
 	item_state = "dwarfshoe"
 	armor = ARMOR_GRUDGEBEARER

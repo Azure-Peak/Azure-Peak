@@ -22,8 +22,8 @@
 	expert_name = "Climber"
 
 /datum/skill/misc/reading
-	name = "Reading"
-	desc = "Increases your chance to read a spellbook successfully by 2% per level. Minimum of 1 is required to be literate and read various things."
+	name = "Literacy"
+	desc = "Increases your chance to read a spellbook successfully by 2% per level. Also raises your ability to write and comprehend skillbooks. Minimum of 1 is required to be literate and read various things."
 	dreams = list(
 		"...amidst the void, strange symbols and glyphs make their way into your mind. They re-arrange themselves unceasingly, indecipherable truths speaking in silent voices. The clouds part, and they fall still within the moonlight. The meaning of the gift is revealed...",
 		"...you cut into your meal, juices leaking from the edges of the book. Your mind expands throughout your meal, and you are about halfway through the meal when an old, bearded chef asks you how you like his specialty..."
@@ -37,7 +37,7 @@
 		"...there is no light in the suffocating dark. You choose a direction and your arms and legs tear at the thick, oily waters in a desperate attempt to reach the surface. Your heart pounds, and your body yearns for another breath...",
 		"...a wave rocks to the side of the boat, and you tumble into the yawning abyss. Lightning splits the sky as the old captain hurls a buoy into the churning sea. Salt water burns your lungs as you thrash and claw, struggling towards your lifeline...",
 		"...the current  the beach draws you out further into the ocean, relentless and fast. Your muscles burn as you struggle, every stroke a battle. 'Across, not against!' a voice from your past chides, guiding you as you break free of the riptide's grasp..."
-		
+
 	)
 	expert_name = "Swimmer"
 

@@ -25,8 +25,8 @@
 
 /obj/projectile/magic/aoe/fireball/rogue/great
 	name = "fireball"
-	exp_heavy = 0
-	exp_light = 1
+	exp_heavy = -1
+	exp_light = -1
 	exp_flash = 2
 	exp_fire = 2
 	damage = 90 // This is gonna fucking HURT

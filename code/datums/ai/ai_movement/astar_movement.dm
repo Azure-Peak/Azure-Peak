@@ -13,6 +13,10 @@
 		COOLDOWN_START(controller, movement_cooldown, controller.movement_delay)
 
 		var/atom/movable/movable_pawn = controller.pawn
+		if (!movable_pawn) // if we don't have a pawn, cleanup and move on
+			stop_moving_towards(controller)
+			continue
+
 		if(!isturf(movable_pawn.loc)) //No moving if not on a turf
 			continue
 

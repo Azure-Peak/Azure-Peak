@@ -8,14 +8,14 @@
 /turf/open/floor/rogue/ruinedwood/spiral,
 /area/rogue/under/tomb/indoors)
 "dx" = (
-/obj/machinery/light/rogue/wallfire/candle/blue,
+/obj/machinery/light/rogue/candle/blue,
 /obj/structure/table/vtable,
 /obj/item/storage/belt/rogue/pouch,
 /turf/open/floor/rogue/ruinedwood/spiral,
 /area/rogue/under/tomb/indoors)
 "eS" = (
 /obj/effect/decal/cleanable/sigil/N,
-/obj/machinery/light/rogue/wallfire/candle/blue,
+/obj/machinery/light/rogue/candle/blue,
 /turf/open/floor/rogue/ruinedwood/spiral,
 /area/rogue/under/tomb/indoors)
 "fo" = (
@@ -43,7 +43,7 @@
 /turf/open/floor/rogue/ruinedwood/spiral,
 /area/rogue/under/tomb/indoors)
 "hA" = (
-/obj/machinery/light/rogue/wallfire/candle/blue/r,
+/obj/machinery/light/rogue/candle/blue/r,
 /turf/open/floor/rogue/ruinedwood/spiral,
 /area/rogue/under/tomb/indoors)
 "hL" = (
@@ -103,7 +103,7 @@
 /turf/open/water/bath,
 /area/rogue/under/tomb/indoors)
 "kQ" = (
-/obj/machinery/light/rogue/wallfire{
+/obj/machinery/light/rogue{
 	pixel_y = 32
 	},
 /turf/open/floor/rogue/ruinedwood/spiral,
@@ -115,7 +115,7 @@
 /turf/open/floor/rogue/ruinedwood/spiral,
 /area/rogue/under/tomb/indoors)
 "mv" = (
-/obj/machinery/light/rogue/wallfire/candle/blue,
+/obj/machinery/light/rogue/candle/blue,
 /turf/open/water/bath,
 /area/rogue/under/tomb/indoors)
 "oo" = (
@@ -251,7 +251,7 @@
 /turf/open/floor/rogue/ruinedwood/spiral,
 /area/rogue/under/tomb/indoors)
 "yB" = (
-/obj/machinery/light/rogue/wallfire/candle/blue/l,
+/obj/machinery/light/rogue/candle/blue/l,
 /turf/open/floor/rogue/ruinedwood/spiral,
 /area/rogue/under/tomb/indoors)
 "yX" = (
@@ -265,7 +265,7 @@
 /turf/open/floor/rogue/ruinedwood/spiral,
 /area/rogue/under/tomb/indoors)
 "AD" = (
-/obj/machinery/light/rogue/wallfire/candle/blue,
+/obj/machinery/light/rogue/candle/blue,
 /obj/structure/bed/rogue/shit,
 /turf/open/floor/rogue/ruinedwood/spiral,
 /area/rogue/under/tomb/indoors)
@@ -372,7 +372,7 @@
 /turf/open/water/bath,
 /area/rogue/under/tomb/indoors)
 "Kf" = (
-/obj/machinery/light/rogue/wallfire/candle/blue,
+/obj/machinery/light/rogue/candle/blue,
 /obj/structure/closet/crate/drawer/inn,
 /turf/open/floor/rogue/ruinedwood/spiral,
 /area/rogue/under/tomb/indoors)
@@ -395,7 +395,7 @@
 /turf/open/floor/rogue/ruinedwood/spiral,
 /area/rogue/under/tomb/indoors)
 "Nh" = (
-/obj/machinery/light/rogue/wallfire/candle/blue,
+/obj/machinery/light/rogue/candle/blue,
 /obj/structure/closet/crate/drawer/inn,
 /obj/item/roguegem/blue,
 /turf/open/floor/rogue/ruinedwood/spiral,
@@ -415,8 +415,7 @@
 /area/rogue/under/tomb/indoors)
 "Rj" = (
 /obj/structure/roguewindow/openclose/reinforced,
-/turf/open/floor/rogue/ruinedwoodskeleton/npc/hardspread
-/area/rogue/under/tomb/indoors)
+/turf/open/floor/rogue/ruinedwood/area/rogue/under/tomb/indoors)
 "Rk" = (
 /obj/structure/fluff/railing/border{
 	dir = 5
@@ -467,7 +466,7 @@
 /turf/open/water/swamp/deep,
 /area/rogue/under/tomb/cave/wet)
 "Zk" = (
-/obj/machinery/light/rogue/wallfire/candle/blue,
+/obj/machinery/light/rogue/candle/blue,
 /obj/structure/rack/rogue/shelf/big,
 /obj/item/perfume/random{
 	pixel_y = 25
@@ -496,7 +495,7 @@
 /turf/open/floor/rogue/ruinedwood/spiral,
 /area/rogue/under/tomb/indoors)
 "ZQ" = (
-/obj/machinery/light/rogue/wallfire/candle/blue,
+/obj/machinery/light/rogue/candle/blue,
 /turf/open/floor/rogue/tile,
 /area/rogue/under/tomb/indoors)
 

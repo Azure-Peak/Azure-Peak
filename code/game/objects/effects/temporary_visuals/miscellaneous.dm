@@ -415,6 +415,29 @@
 	I.appearance_flags = RESET_ALPHA
 	animate(I, alpha = 0, time = duration)
 
+// NOCTRA STUFF
+/obj/effect/temp_visual/heart/sex_effects
+	duration = 4 SECONDS
+	plane = GAME_PLANE_UPPER
+
+/obj/effect/temp_visual/heart/sex_effects/Initialize(mapload)
+	. = ..()
+	var/random_pixel_w = rand(2, 5)
+	var/random_time = rand(2, 7) * 0.1 SECONDS
+	var/random_time2 = random_time + rand(5, 15) * 0.1 SECONDS
+	layer = prob(50) ? ABOVE_MOB_LAYER : BELOW_MOB_LAYER
+
+	animate(src, time = 5 SECONDS, transform = transform.Scale(0.1), flags = ANIMATION_PARALLEL)
+	animate(src, time = random_time, pixel_w = random_pixel_w, easing = CIRCULAR_EASING, flags = ANIMATION_PARALLEL|ANIMATION_RELATIVE)
+	animate(time = random_time2, pixel_w = -random_pixel_w, easing = CIRCULAR_EASING, flags = ANIMATION_RELATIVE)
+	animate(time = random_time, pixel_w = -random_pixel_w, easing = CIRCULAR_EASING, flags = ANIMATION_RELATIVE)
+	animate(time = random_time2, pixel_w = random_pixel_w, easing = CIRCULAR_EASING, flags = ANIMATION_RELATIVE, loop = -1)
+
+/obj/effect/temp_visual/heart/sex_effects/red_heart
+	name = "angry"
+	icon = 'icons/effects/noctravfx.dmi'
+	icon_state = "anger"
+
 /obj/effect/temp_visual/bleed
 	name = "bleed"
 	icon = 'icons/effects/bleed.dmi'

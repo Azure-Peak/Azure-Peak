@@ -172,6 +172,24 @@
 			to_chat(src, span_warning("I feed on succulent flesh. I feel satiated."))
 			user.reagents.add_reagent(/datum/reagent/consumable/nutriment, 15)
 			gib()
+		if(loc == user.loc)
+			var/datum/antagonist/vampire/vamp_biter = user.mind.has_antag_datum(/datum/antagonist/vampire)
+			if(vamp_biter)
+				var/mob/living/vampire_victim = src
+				var/bloodleft = vampire_victim.blood_volume
+				if (bloodleft < 100)
+					visible_message(span_danger("[user] bites the [vampire_victim]!"))
+					to_chat(user, span_warning("There's not enough blood left for me"))
+				else
+					user.visible_message(span_warning("[user] drinks from [vampire_victim]!"),\
+					span_warning("I drink from [vampire_victim]!"))
+					playsound(user.loc, 'sound/misc/drink_blood.ogg', 100, FALSE, -4)
+					vampire_victim.blood_volume -= 100
+					if(bloodleft < 100)
+						vampire_victim.blood_volume = 0
+					user.adjust_bloodpool(100)
+					user.add_stress(/datum/stressevent/drankrat)
+				return
 		return
 	if(src.apply_damage(damage, BRUTE))
 		if(istype(user, /mob/living/carbon/human/species/werewolf))

@@ -1,5 +1,6 @@
 /obj/structure/chair/bench
 	name = "bench"
+	desc = "A stouter, wider chair. It doesn't look terribly comfortable."
 	icon_state = "bench"
 	icon = 'icons/roguetown/misc/structure.dmi'
 	buildstackamount = 1
@@ -60,33 +61,39 @@
 		return COMPONENT_ATOM_BLOCK_EXIT
 
 /obj/structure/chair/bench/couch
+	desc = "A comfortable-looking piece of furniture, padded with fabric!"
 	icon_state = "redcouch"
 
 /obj/structure/chair/bench/church/smallbench
+	desc = "An unusually small, modest bench. Better than the floor."
 	icon_state = "benchsmall"
 
 /obj/structure/chair/bench/couch/r
 	icon_state = "redcouch2"
 
 /obj/structure/chair/bench/ultimacouch
+	desc = "A particularly affluent piece of furniture, upholstered with brown-green fabric."
 	icon_state = "ultimacouchleft"
 
 /obj/structure/chair/bench/ultimacouch/r
 	icon_state = "ultimacouchright"
 
 /obj/structure/chair/bench/coucha
+	desc = "A particularly affluent piece of furniture, upholstered with red fabric."
 	icon_state = "couchaleft"
 
 /obj/structure/chair/bench/coucha/r
 	icon_state = "coucharight"
 
 /obj/structure/chair/bench/couchablack
+	desc = "A particularly affluent piece of furniture, upholstered with black fabric."
 	icon_state = "couchablackaleft"
 
 /obj/structure/chair/bench/couchablack/r
 	icon_state = "couchablackaright"
 
 /obj/structure/chair/bench/couchamagenta
+	desc = "A particularly affluent piece of furniture, upholstered with magenta fabric."
 	icon_state = "couchamagentaleft"
 
 /obj/structure/chair/bench/couchamagenta/r
@@ -148,6 +155,7 @@
 
 /obj/structure/chair/wood/rogue/throne
 	icon_state = "thronechair"
+	desc = "Someone important must sit here."
 	icon = 'icons/roguetown/misc/structure.dmi'
 	blade_dulling = DULLING_BASHCHOP
 	destroy_sound = 'sound/combat/hits/onwood/destroyfurniture.ogg'
@@ -171,7 +179,6 @@
 	obj_flags = CAN_BE_HIT
 	destroy_sound = 'sound/combat/hits/onwood/destroyfurniture.ogg'
 	attacked_sound = "woodimpact"
-	sleepy = 0.35
 
 /obj/item/chair/rogue/getonmobprop(tag)
 	. = ..()
@@ -324,7 +331,7 @@
 	name = "straw bed"
 	desc = "A rough bed of straw. It's scratchy, and probably hides lots of bugs, but at least it's dry and warm."
 	icon_state = "shitbed"
-	sleepy = 1
+	sleepy = 1.5
 
 /obj/structure/bed/rogue/post_buckle_mob(mob/living/M)
 	..()
@@ -434,7 +441,7 @@
 	anchored = TRUE
 	can_buckle = TRUE
 	buckle_lying = 90
-	sleepy = 3
+	sleepy = 2
 	debris = list(/obj/item/grown/log/tree/small = 1)
 
 /obj/structure/bed/rogue/inn/wool
@@ -452,4 +459,4 @@
 	anchored = TRUE
 	can_buckle = TRUE
 	buckle_lying = 90
-	sleepy = 3
+	sleepy = 1

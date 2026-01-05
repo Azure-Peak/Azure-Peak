@@ -20,6 +20,8 @@
 			src.last_used = world.time
 
 /datum/magic_item/greater/lifesteal/on_hit(obj/item/source, atom/target, mob/user, proximity_flag, click_parameters)
+	if(!proximity_flag)
+		return
 	if(world.time < src.last_used + 100)
 		if(!warned)
 			to_chat(user, span_notice("[source] is not yet hungry for more life!"))
@@ -40,6 +42,8 @@
 	var/list/last_used = list()
 
 /datum/magic_item/greater/lightning/on_hit(obj/item/source, atom/target, mob/user, proximity_flag, click_parameters)
+	if(!proximity_flag)
+		return
 	if(world.time < (src.last_used[source] + (1 MINUTES + 40 SECONDS))) //thanks borbop
 		return
 
@@ -67,6 +71,8 @@
 	var/last_used
 
 /datum/magic_item/greater/frostveil/on_hit(obj/item/source, atom/target, mob/user, proximity_flag, click_parameters)
+	if(!proximity_flag)
+		return
 	if(world.time < src.last_used + 20 SECONDS)
 		return
 	if(isliving(target))
@@ -228,10 +234,12 @@
 	var/list/last_used = list()
 
 /datum/magic_item/greater/void/on_hit(obj/item/source, atom/target, mob/user, proximity_flag, click_parameters)
-	if(world.time < (src.last_used[source] + (1 MINUTES + 40 SECONDS)))
+	if(!proximity_flag)
+		return
+	if(world.time < (src.last_used[source] + 10 SECONDS))
 		return
 
-	if(isliving(target) && prob(15))
+	if(isliving(target) && target != user) //self teleporting might be scary actually
 		var/mob/living/L = target
 		to_chat(L, span_warning("You feel reality warp around you!"))
 		var/list/possible_turfs = list()
@@ -241,4 +249,4 @@
 			possible_turfs += T
 		if(possible_turfs.len)
 			L.forceMove(pick(possible_turfs))
-	last_used[source] = world.time
+		last_used[source] = world.time

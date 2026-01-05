@@ -28,7 +28,6 @@
 	..()
 	to_chat(H, span_warning("You are a master in the arts of the longsword. Wielder of Psydonia's most versatile and noble weapon, you needn't anything else. You can choose a regional longsword."))
 	l_hand = /obj/item/rogueweapon/scabbard/sword
-	armor = /obj/item/clothing/suit/roguetown/armor/plate/half/fencer	//Experimental.
 	var/weapons = list("Modified Training Sword !!!CHALLENGE!!!", "Etruscan Longsword", "Kriegsmesser", "Field Longsword")
 	if(H.mind)
 		var/weapon_choice = input(H, "Choose your weapon.", "TAKE UP ARMS") as anything in weapons
@@ -45,6 +44,15 @@
 			if("Field Longsword")		//A common longsword.
 				r_hand = /obj/item/rogueweapon/sword/long
 				beltr = /obj/item/rogueweapon/huntingknife/idagger
+
+		if(H.mind)
+			var/armors = list(
+				"Fencing Jacket"	= /obj/item/clothing/suit/roguetown/armor/leather/heavy/freifechter,
+				"Fencing Cuirass"	= /obj/item/clothing/suit/roguetown/armor/plate/cuirass/fencer
+			)
+			var/armorchoice = input(H, "Choose your armor.", "TAKE UP ARMOR") as anything in armors
+			armor = armors[armorchoice]
+
 	belt = /obj/item/storage/belt/rogue/leather/sash
 	beltl = /obj/item/flashlight/flare/torch/lantern
 	shirt = /obj/item/clothing/suit/roguetown/armor/gambeson/heavy/freifechter
@@ -62,13 +70,11 @@
 	outfit = /datum/outfit/job/roguetown/mercenary/freelancer_lancer
 	subclass_languages = list(/datum/language/aavnic)//Your character could not have possibly "graduated" without atleast some basic knowledge of Aavnic.
 	traits_applied = list(TRAIT_BADTRAINER)
-	//To give you an edge in specialty moves like feints and stop you from being feinted
 	subclass_stats = list(
-		STATKEY_CON = 4,//This is going to need live testing, since I'm not sure they should be getting this much CON without using a statpack to spec. Revision pending.
+		STATKEY_CON = 2,
 		STATKEY_PER = 3,
-		STATKEY_SPD = 1, //We want to encourage backstepping since you no longer get an extra layer of armour. I don't think this will break much of anything.
 		STATKEY_STR = 1,
-		STATKEY_WIL = -2
+		STATKEY_WIL = 2
 	)
 	subclass_skills = list(
 		/datum/skill/combat/polearms = SKILL_LEVEL_MASTER,	//This is the danger zone. Ultimately, the class won't be picked without this. I took the liberty of adjusting everything around to make this somewhat inoffensive, but we'll see if it sticks.

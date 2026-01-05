@@ -25,6 +25,8 @@
 		/obj/item/roguestatue/steel = 1,
 		/obj/item/roguestatue/aalloy = 1,
 		/obj/item/roguestatue/iron = 1,
+		/obj/item/repair_kit/bad = 1,
+		/obj/item/repair_kit/metal/bad = 1,
 	)
 
 /obj/effect/spawner/lootdrop/valuable_clutter_spawner
@@ -39,6 +41,7 @@
 		/obj/item/roguestatue/silver = 1,
 		/obj/item/roguestatue/steel = 1,
 		/obj/item/rogueweapon/hammer/steel = 1,
+		/obj/item/repair_kit = 1,
 	)
 
 /obj/effect/spawner/lootdrop/cheap_candle_spawner

@@ -20,6 +20,7 @@
 	var/berrypie
 	var/poisoning
 	var/crabby
+	var/pumpkinpie
 	var/substitute //There may be a better way to do this
 	cooked_smell = /datum/pollutant/food/pie_base
 
@@ -28,6 +29,7 @@
 	var/mutable_appearance/piebottom = mutable_appearance(icon, "pieuncooked")
 	var/mutable_appearance/roofeat = mutable_appearance(icon, "meatpie_raw")
 	var/mutable_appearance/roofish = mutable_appearance(icon, "fishpie_raw")
+	var/mutable_appearance/roofkin = mutable_appearance(icon, "pumpkinpie")
 	if (process_step == 2 && applepie)
 		var/mutable_appearance/apple1 = mutable_appearance(icon, "fill_apple1")
 		add_overlay(apple1)
@@ -46,6 +48,9 @@
 	if (process_step == 2 && crabby)
 		var/mutable_appearance/crabby1 = mutable_appearance(icon, "fill_crab1")
 		add_overlay(crabby1)
+	if (process_step == 2 && pumpkinpie)
+		var/mutable_appearance/pumpkin1 = mutable_appearance(icon, "fill_pumpkin1")
+		add_overlay(pumpkin1)
 	if (process_step == 3 && applepie)
 		var/mutable_appearance/apple2 = mutable_appearance(icon, "fill_apple2")
 		add_overlay(apple2)
@@ -64,6 +69,9 @@
 	if (process_step == 3 && crabby)
 		var/mutable_appearance/crabby2 = mutable_appearance(icon, "fill_crab2")
 		add_overlay(crabby2)
+	if (process_step == 3 && pumpkinpie)
+		var/mutable_appearance/pumpkin2 = mutable_appearance(icon, "fill_pumpkin2")
+		add_overlay(pumpkin2)
 	if (process_step == 4 && applepie)
 		var/mutable_appearance/apple3 = mutable_appearance(icon, "fill_apple3")
 		add_overlay(apple3)
@@ -82,9 +90,17 @@
 	if (process_step == 4 && crabby)
 		var/mutable_appearance/crabby3 = mutable_appearance(icon, "fill_crab3")
 		add_overlay(crabby3)
+	if (process_step == 4 && pumpkinpie)
+		var/mutable_appearance/pumpkin3 = mutable_appearance(icon, "fill_pumpkin3")
+		add_overlay(pumpkin3)
 	else if (process_step == 5)
 		cut_overlays()
-		add_overlay(piebottom)
+		if(pumpkinpie)
+			cut_overlay()
+			pumpkinpie = FALSE
+			add_overlay(roofkin)
+		else
+			add_overlay(piebottom)
 		if (fishy)
 			cut_overlays()
 			fishy = FALSE
@@ -152,6 +168,56 @@
 			update_icon()
 			qdel(I)
 			return
+
+	// -------------- PUMPKIN PIE --------------
+	if(istype(I, /obj/item/reagent_containers/food/snacks/rogue/fruit/pumpkin_sliced) || istype(I, /obj/item/reagent_containers/food/snacks/rogue/preserved/pumpkin_mashed))
+		if (process_step > 2)
+			return
+		playsound(get_turf(user), 'sound/foley/dropsound/food_drop.ogg', 30, TRUE, -1)
+		if(process_step == 1 && do_after(user,short_cooktime, target = src))
+			add_sleep_experience(user, /datum/skill/craft/cooking, user.STAINT)
+			to_chat(user, span_notice("Starting on a pumpkin pie... Some fresh cheese next."))
+			name = "unfinished pumpkin pie"
+			desc = initial(desc) + "\n" + span_smallnotice("It requires some fresh cheese.")
+			process_step += 1
+			pumpkinpie = TRUE
+			update_icon()
+			qdel(I)
+			return
+	if(pumpkinpie)
+		if (process_step > 4)
+			return
+		if(process_step == 2 && istype(I, /obj/item/reagent_containers/food/snacks/rogue/cheese))
+			playsound(get_turf(user), 'sound/foley/dropsound/food_drop.ogg', 30, TRUE, -1)
+			if(do_after(user,short_cooktime, target = src))
+				add_sleep_experience(user, /datum/skill/craft/cooking, user.STAINT)
+				to_chat(user, span_notice("Mixing the pumpkin and cheese in the pie. It needs an egg."))
+				desc = initial(desc) + "\n" + span_smallnotice("It requires an egg.")
+				process_step += 1
+				update_icon()
+				qdel(I)
+				return
+		else if(process_step == 3 && istype(I, /obj/item/reagent_containers/food/snacks/egg))
+			playsound(get_turf(user), 'modular/Neu_Food/sound/eggbreak.ogg', 30, TRUE, -1)
+			if(do_after(user,short_cooktime, target = src))
+				add_sleep_experience(user, /datum/skill/craft/cooking, user.STAINT)
+				to_chat(user, span_notice("Mixing the filling and egg in the pumpkin pie. It just needs sugar!"))
+				desc = initial(desc) + "\n" + span_smallnotice("It requires some sugar.")
+				process_step += 1
+				update_icon()
+				qdel(I)
+				return
+		else if(process_step == 4 && istype(I, /obj/item/reagent_containers/food/snacks/sugar))
+			playsound(get_turf(user), 'sound/foley/dropsound/food_drop.ogg', 30, TRUE, -1)
+			if(do_after(user,short_cooktime, target = src))
+				name = "uncooked pumpkin pie"
+				desc = initial(desc)
+				filling_color = "#df5c04"
+				cooked_type = /obj/item/reagent_containers/food/snacks/rogue/pie/cooked/pumpkin
+				cooked_smell = /datum/pollutant/food/pumpkin_pie
+				process_step += 1
+				update_icon()
+				qdel(I)
 
 	if(istype(I, /obj/item/reagent_containers/food/snacks/rogue/cheddarwedge) || istype(I, /obj/item/reagent_containers/food/snacks/rogue/veg/potato_sliced)  || istype(I, /obj/item/reagent_containers/food/snacks/rogue/cheese) )
 		if (process_step > 4)

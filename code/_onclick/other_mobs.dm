@@ -88,6 +88,8 @@
 					changeNext_move(CLICK_CD_MELEE)
 					return
 		A.attack_hand(src, params)
+		if(pulling)
+			changeNext_move(CLICK_CD_MELEE)
 
 /mob/living/rmb_on(atom/A, params)
 	if(stat)

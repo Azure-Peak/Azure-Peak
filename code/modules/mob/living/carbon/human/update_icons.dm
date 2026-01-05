@@ -295,6 +295,7 @@ There are several things that need to be remembered:
 		update_inv_head()
 		update_inv_belt()
 		update_inv_back()
+		update_inv_pants()
 //		update_inv_wear_suit()
 		update_inv_armor()
 		update_inv_pockets()
@@ -309,6 +310,7 @@ There are several things that need to be remembered:
 
 /mob/proc/regenerate_clothes()
 	return
+
 /mob/living/carbon/human/regenerate_clothes()
 	update_inv_wear_id()
 	update_inv_gloves()
@@ -626,10 +628,6 @@ There are several things that need to be remembered:
 		var/atom/movable/screen/inventory/inv = hud_used.inv_slots[SLOT_SHOES]
 		inv.update_icon()
 
-	var/obj/item/bodypart/taur/taur = get_taur_tail()
-	if(taur)
-		return // taurs don't render shoes if they manage to even equip them
-
 	if(shoes)
 		shoes.screen_loc = rogueui_shoes					//move the item to the appropriate screen loc
 		if(client && hud_used && hud_used.hud_shown)
@@ -642,7 +640,10 @@ There are several things that need to be remembered:
 			var/mutable_appearance/shoes_overlay
 			if(dna.species.custom_clothes)
 				racecustom = dna.species.clothes_id
-			if((gender == FEMALE && !dna.species.use_m) || dna.species.use_f)
+			var/obj/item/bodypart/taur/taur = get_taur_tail()
+			if(taur)
+				shoes_overlay = shoes.build_worn_icon(default_layer = SHOES_LAYER, default_icon_file = 'icons/mob/clothing/feet.dmi', female = FALSE, customi = racecustom, sleeveindex = footindex)
+			else if((gender == FEMALE && !dna.species.use_m) || dna.species.use_f)
 				shoes_overlay = shoes.build_worn_icon(default_layer = SHOES_LAYER, default_icon_file = 'icons/mob/clothing/feet.dmi', female = TRUE, customi = racecustom, sleeveindex = footindex, boobed_overlay = has_boobed_overlay())
 			else
 				shoes_overlay = shoes.build_worn_icon(default_layer = SHOES_LAYER, default_icon_file = 'icons/mob/clothing/feet.dmi', female = FALSE, customi = racecustom, sleeveindex = footindex)
@@ -1112,12 +1113,12 @@ There are several things that need to be remembered:
 			if(dna.species.custom_clothes)
 				racecustom = dna.species.clothes_id
 			if(gender == FEMALE && !dna.species.use_m)
-				cloak_overlay = cloak.build_worn_icon(default_layer = CLOAK_LAYER, default_icon_file = 'icons/mob/clothing/feet.dmi', female = TRUE, customi = racecustom, boobed_overlay = has_boobed_overlay(), clip_mask = c_mask)
+				cloak_overlay = cloak.build_worn_icon(default_layer = CLOAK_LAYER, default_icon_file = 'icons/mob/clothing/feet.dmi', female = TRUE, customi = racecustom, sleeveindex = 4, boobed_overlay = has_boobed_overlay(), clip_mask = c_mask)
 			else
 				if(dna.species.use_f)
-					cloak_overlay = cloak.build_worn_icon(default_layer = CLOAK_LAYER, default_icon_file = 'icons/mob/clothing/feet.dmi', female = TRUE, customi = racecustom, boobed_overlay = has_boobed_overlay(), clip_mask = c_mask)
+					cloak_overlay = cloak.build_worn_icon(default_layer = CLOAK_LAYER, default_icon_file = 'icons/mob/clothing/feet.dmi', female = TRUE, customi = racecustom, sleeveindex = 4, boobed_overlay = has_boobed_overlay(), clip_mask = c_mask)
 				else
-					cloak_overlay = cloak.build_worn_icon(default_layer = CLOAK_LAYER, default_icon_file = 'icons/mob/clothing/feet.dmi', female = FALSE, customi = racecustom, clip_mask = c_mask)
+					cloak_overlay = cloak.build_worn_icon(default_layer = CLOAK_LAYER, default_icon_file = 'icons/mob/clothing/feet.dmi', female = FALSE, customi = racecustom, sleeveindex = 4, clip_mask = c_mask)
 
 			if(gender == MALE)
 				if(OFFSET_CLOAK in dna.species.offset_features)
@@ -1130,7 +1131,7 @@ There are several things that need to be remembered:
 			if(cloak.alternate_worn_layer == TABARD_LAYER)
 				overlays_standing[TABARD_LAYER] = cloak_overlay
 			if(cloak.alternate_worn_layer == UNDER_ARMOR_LAYER)
-				overlays_standing[UNDER_ARMOR_LAYER] = cloak_overlay	
+				overlays_standing[UNDER_ARMOR_LAYER] = cloak_overlay
 			if(cloak.alternate_worn_layer == CLOAK_BEHIND_LAYER)
 				overlays_standing[CLOAK_BEHIND_LAYER] = cloak_overlay
 			if(!cloak.alternate_worn_layer)
@@ -1444,7 +1445,7 @@ There are several things that need to be remembered:
 				mouth_overlay.pixel_y += dna.species.offset_features[OFFSET_MOUTH_F][2]
 		overlays_standing[MOUTH_LAYER] = mouth_overlay
 		apply_overlay(MOUTH_LAYER)
-	
+
 	rebuild_obscured_flags()
 
 //endrogue
@@ -1929,7 +1930,7 @@ generate/load female uniform sprites matching all previously decided variables
 	if (!istype(HD))
 		return
 
-	testing("ehadonly [src]")
+
 	HD.update_limb()
 
 	add_overlay(HD.get_limb_icon())

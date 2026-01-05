@@ -61,4 +61,5 @@
 		H.adjust_skillrank(/datum/skill/misc/climbing, rand(1,5), TRUE)
 		H.adjust_skillrank(/datum/skill/misc/lockpicking, pick (1,2,3,4,5), TRUE)
 		H.STALUC = rand(5, 15)
-		
+	if(H.mind)
+		SStreasury.give_money_account(ECONOMIC_DESTITUTE, H, "Savings.")

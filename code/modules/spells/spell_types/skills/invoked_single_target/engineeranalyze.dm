@@ -57,7 +57,7 @@
 		to_chat(user, examination.Join("\n"))
 		return examination
 	//engineers can check constructs for injuries
-	if(ishuman(targets[1]) && istype(targets[1], /mob/living/carbon/human/species/construct))
+	if(ishuman(targets[1]) && (is_species(targets[1], /datum/species/construct)||is_species(targets[1], /datum/species/construct/metal)))
 		var/mob/living/carbon/human/human_target = targets[1]
 		human_target.check_for_injuries(user)		
 		return TRUE

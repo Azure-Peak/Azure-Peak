@@ -76,6 +76,7 @@ All foods are distributed among various categories. Use common sense.
 
 	var/ingredient_size = 1
 	var/eat_effect
+	var/extra_eat_effect //ideally the eat_effect should just be able to work with lists, but for now, this'll do
 	var/rotprocess = FALSE
 	var/become_rot_type = null
 
@@ -182,8 +183,8 @@ All foods are distributed among various categories. Use common sense.
 		return
 	if(cooktime)
 		var/added_input = input
-		// Pick flat burninput instead of skill-scaled input so high cooking skill doesn't make food burn faster 
-		if(!cooked_type && !fried_type) 
+		// Pick flat burninput instead of skill-scaled input so high cooking skill doesn't make food burn faster
+		if(!cooked_type && !fried_type)
 			added_input = burninput
 		if(cooking < cooktime)
 			cooking = cooking + added_input
@@ -337,6 +338,8 @@ All foods are distributed among various categories. Use common sense.
 
 	if(eat_effect && apply_effect)
 		eater.apply_status_effect(eat_effect)
+		if(extra_eat_effect)
+			eater.apply_status_effect(extra_eat_effect)
 	eater.taste(reagents)
 
 	if(!reagents.total_volume)
@@ -415,7 +418,7 @@ All foods are distributed among various categories. Use common sense.
 						if(!CH.grabbedby)
 							to_chat(user, span_info("[C.p_they(TRUE)] steals [C.p_their()] face from it."))
 							return FALSE
-				if(!do_mob(user, M, double_progress = TRUE))
+				if(!do_mob(user, M, double_progress = TRUE, can_move = FALSE))
 					return
 				log_combat(user, M, "fed", reagents.log_list())
 				if(istype(src, /obj/item/reagent_containers/food/snacks/grown/berries/rogue) || istype(src, /obj/item/reagent_containers/food/snacks/grown/fruit))
@@ -544,8 +547,14 @@ All foods are distributed among various categories. Use common sense.
 			. += span_smallred("It is rotten!")
 		if(/datum/status_effect/debuff/burnedfood)
 			. += span_smallred("It is burned!")
-		if(/datum/status_effect/buff/foodbuff)
-			. += span_smallnotice("It looks great!")
+		if(/datum/status_effect/buff/snackbuff)
+			. += span_smallnotice("It looks good!")
+		if(/datum/status_effect/buff/greatsnackbuff)
+			. += span_smallnotice("It looks great!!")
+		if(/datum/status_effect/buff/mealbuff)
+			. += span_smallnotice("It looks good!")
+		if(/datum/status_effect/buff/greatmealbuff)
+			. += span_smallnotice("It looks great!!")
 	. += span_smallnotice("[rotprocess_to_text()]")
 
 /obj/item/reagent_containers/food/snacks/attackby(obj/item/W, mob/user, params)

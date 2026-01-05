@@ -1,0 +1,6 @@
+author: "FreeStylaLT"
+delete-after: True
+changes:
+  - balance: "Martyr now gets the Tempo trait."
+  - balance: "Martyr gets all the benefits of the 2-minute duration from the start."
+  - balance: "Martyr 2-minute duration option no longer has a heal."

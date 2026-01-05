@@ -22,7 +22,7 @@
 	eat_effect = null
 	foodtype = GRAIN | DAIRY
 	chopping_sound = TRUE
-	eat_effect = /datum/status_effect/buff/foodbuff
+	eat_effect = /datum/status_effect/buff/snackbuff
 	dropshrink = 0.8
 
 /obj/item/reagent_containers/food/snacks/rogue/pie/throw_impact(atom/hit_atom, datum/thrownthing/throwingdatum)
@@ -71,7 +71,7 @@
 	foodtype = GRAIN | DAIRY
 	warming = 5 MINUTES
 	bitesize = 3
-	eat_effect = /datum/status_effect/buff/foodbuff
+	eat_effect = /datum/status_effect/buff/snackbuff
 	color = "#e7e2df"
 	rotprocess = SHELFLIFE_LONG
 
@@ -79,7 +79,7 @@
 /obj/item/reagent_containers/food/snacks/rogue/pie/cooked/meat // bae item
 	name = "meat pie"
 	desc = "A delicious, homemade pie made with minced meat. Still needs to be sliced."
-	eat_effect = /datum/status_effect/buff/foodbuff
+	eat_effect = /datum/status_effect/buff/snackbuff
 	foodtype = GRAIN | DAIRY | MEAT
 
 /obj/item/reagent_containers/food/snacks/rogue/pie/cooked/meat/meat
@@ -147,3 +147,33 @@
 	tastes = list("crispy butterdough" = 1, "rich crab meat" = 1)
 	filling_color = "#f1e0cb"
 	slice_name = "crab pie slice"
+
+// -------------- PUMPKIN PIE --------------
+/obj/item/reagent_containers/food/snacks/rogue/pie/cooked/pumpkin
+	name = "pumpkin pie"
+	desc = "A delicious, homemade pie made with pumpkin and cheese. Still needs to be sliced."
+	icon_state = "pumpkinpie"
+	filling_color = "#df7a04"
+	slice_path = /obj/item/reagent_containers/food/snacks/rogue/pieslice/pumpkin
+	slices_num = 4
+	slice_name = "pumpkin pie slice"
+	list_reagents = list(/datum/reagent/consumable/nutriment = MEAL_GOOD)
+	tastes = list("crispy butterdough" = 1,"pumpkin"=1,"cheese"=1)
+	foodtype = GRAIN | DAIRY | FRUIT | SUGAR
+	bitesize = 8
+	dropshrink = 0.85
+
+/obj/item/reagent_containers/food/snacks/rogue/pieslice/pumpkin
+	name = "pumpkin pie slice"
+	desc = "A delicious slice of homemade pie, made with pumpkin and cheese."
+	icon_state = "pumpkinslice"
+	color = "#f5e7d8"
+	filling_color = "#df7a04"
+	tastes = list("crispy butterdough"=1,"pumpkin"=1,"cheese"=1)
+	faretype = FARE_FINE
+	portable = FALSE
+	foodtype = GRAIN | DAIRY | FRUIT | SUGAR
+	warming = 5 MINUTES
+	bitesize = 3
+	eat_effect = /datum/status_effect/buff/snackbuff
+	rotprocess = SHELFLIFE_LONG

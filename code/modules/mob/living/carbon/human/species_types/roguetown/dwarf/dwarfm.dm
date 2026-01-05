@@ -25,10 +25,10 @@
 
 	default_color = "FFFFFF"
 	species_traits = list(EYECOLOR,HAIR,FACEHAIR,LIPS,YOUNGBEARD,STUBBLE,OLDGREY)
-	inherent_traits = list(TRAIT_DRUNK_HEALING)
+	inherent_traits = list(TRAIT_DRUNK_HEALING, TRAIT_CAVEDWELLER)
 	possible_ages = ALL_AGES_LIST
 	default_features = MANDATORY_FEATURE_LIST
-	use_skintones = 1
+	use_skintones = TRUE
 	disliked_food = NONE
 	liked_food = NONE
 	changesource_flags = MIRROR_BADMIN | WABBAJACK | MIRROR_MAGIC | MIRROR_PRIDE | RACE_SWAP | SLIME_EXTRACT

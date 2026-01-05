@@ -477,20 +477,17 @@ GLOBAL_LIST_EMPTY(external_rsc_urls)
 	check_ip_intel()
 	validate_key_in_db()
 
-//	send_resources()
-
+	send_resources()
 
 	generate_clickcatcher()
 	apply_clickcatcher()
 
-	// deez people removed the winset changelog window so i might as well comment it out JTGSZ 4/12/2024
-
-	//if(prefs.lastchangelog != GLOB.changelog_hash) //bolds the changelog button on the interface so we know there are updates.
-	//	//to_chat(src, span_info("I have unread updates in the changelog."))
-	//	if(CONFIG_GET(flag/aggressive_changelog))
-	//		changelog()
-	//	else
-	//		winset(src, "infowindow.changelog", "font-style=bold")
+	if(prefs.lastchangelog != GLOB.changelog_hash) //bolds the changelog button on the interface so we know there are updates.
+		to_chat(src, span_info("You have unread updates in the changelog."))
+		if(CONFIG_GET(flag/aggressive_changelog))
+			changelog()
+		else
+			winset(src, "infobuttons.changelog", "font-style=bold")
 
 	if(prefs.toggles & TOGGLE_FULLSCREEN)
 		toggle_fullscreeny(TRUE)
@@ -1007,9 +1004,7 @@ GLOBAL_LIST_EMPTY(external_rsc_urls)
 		if (CONFIG_GET(flag/asset_simple_preload))
 			addtimer(CALLBACK(SSassets.transport, TYPE_PROC_REF(/datum/asset_transport, send_assets_slow), src, SSassets.transport.preload), 5 SECONDS)
 
-		// #if (PRELOAD_RSC == 0)
-		// addtimer(CALLBACK(src, TYPE_PROC_REF(/client, preload_vox)), 1 MINUTES)
-		// #endif
+		// NOTE: Preload_vox was removed because we do not have vox
 
 //Hook, override it to run code when dir changes
 //Like for /atoms, but clients are their own snowflake FUCK
@@ -1147,7 +1142,7 @@ GLOBAL_LIST_EMPTY(external_rsc_urls)
 	if(mob)
 		if(isliving(mob)) //no ghost can call this
 			mob.ghostize(can_reenter_corpse)
-		testing("[mob] [mob.type] YEA CLIE")
+
 
 
 /client/proc/whitelisted()
@@ -1204,11 +1199,6 @@ GLOBAL_LIST_EMPTY(external_rsc_urls)
 		log_admin("COMMEND: [ckey] commends [theykey].")
 	return
 
-/client/proc/preload_music()
-	if(SSsounds.initialized == TRUE)
-		for(var/sound_path as anything in SSsounds.all_music_sounds)
-			src << load_resource(sound_path, -1)
-
 /**
  * Ensures the OOC verb is only present for lobby (new_player) mobs or admins.
  * Call this whenever the client's mob changes (e.g. after Login(), late-join, ghostize, etc.).
@@ -1227,3 +1217,10 @@ GLOBAL_LIST_EMPTY(external_rsc_urls)
 	else
 		if(/client/verb/ooc in verbs)
 			verbs -= /client/verb/ooc
+
+#undef LIMITER_SIZE
+#undef CURRENT_SECOND
+#undef SECOND_COUNT
+#undef CURRENT_MINUTE
+#undef MINUTE_COUNT
+#undef ADMINSWARNED_AT

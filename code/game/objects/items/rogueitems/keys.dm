@@ -114,7 +114,7 @@
 		SSroguemachine.key = src
 
 /obj/item/roguekey/lord/proc/anti_stall()
-	src.visible_message(span_warning("The Key of Azure Peak crumbles to dust, the ashes spiriting away in the direction of the Keep."))
+	src.visible_message(span_danger("The Key of Azure Peak crumbles to dust, the ashes spiriting away in the direction of the Keep."))
 	SSroguemachine.key = null //Do not harddel.
 	qdel(src) //Anti-stall
 
@@ -415,11 +415,11 @@
 	icon_state = "cheesekey"
 	lockid = "priest"
 
-/obj/item/roguekey/tower
-	name = "tower key"
-	desc = "This key should open anything within the tower."
+/obj/item/roguekey/university
+	name = "university key"
+	desc = "This key should open anything within the university."
 	icon_state = "greenkey"
-	lockid = "tower"
+	lockid = "university"
 
 /obj/item/roguekey/mage
 	name = "magicians's key"
