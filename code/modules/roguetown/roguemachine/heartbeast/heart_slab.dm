@@ -119,6 +119,7 @@
 	var/vial_count = (effectiveness >= 4) ? 2 : 1
 	for(var/i in 1 to vial_count)
 		new /obj/item/heart_blood_vial/filled(H.loc)
+	new /obj/item/roguecoin/copper(H.loc, effectiveness)
 
 	// Grant Echo Points: Clamp between 1 and 6 based on effectiveness
 	var/points_granted = clamp(effectiveness, 1, 6)
