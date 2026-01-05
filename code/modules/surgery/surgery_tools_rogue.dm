@@ -262,11 +262,15 @@ A MINOR PLAYER DRIVEN EVENT!!!!! DONT PUT IT ANYWHERE!!!!! I'LL LIVE YOU!!!!!
 // this is complete and utter dogshit but i did it without ai so im proud of it
 /obj/item/rogueweapon/surgery/cautery/branding_iron/attack(mob/living/M, mob/living/user)
 	. = ..()
-	if(M.real_name in GLOB.excommunicated_players)
-		to_chat(user,span_userdanger("THEY'VE ALREADY BEEN BRANDED!!!"))
+	if(!M.mind)
+		to_chat(user,span_userdanger("NICE TRY."))
 		return
-	else if(heated && user.zone_selected == BODY_ZONE_HEAD)
-		brand(M, user)
+	else
+		if(M.real_name in GLOB.excommunicated_players)
+			to_chat(user,span_userdanger("THEY'VE ALREADY BEEN BRANDED!!!"))
+			return
+		else if(heated && user.zone_selected == BODY_ZONE_HEAD)
+			brand(M, user)
 
 /obj/item/rogueweapon/surgery/cautery/branding_iron/proc/brand(mob/living/M, mob/living/user)
 	var/preop_sound = 'sound/surgery/cautery1.ogg'
@@ -279,7 +283,7 @@ A MINOR PLAYER DRIVEN EVENT!!!!! DONT PUT IT ANYWHERE!!!!! I'LL LIVE YOU!!!!!
 		if(do_after(user, 10 SECONDS))
 			playsound(M, success_sound, 50, FALSE)
 			M.emote("painscream")
-			user.visible_message(span_warning("[user] begins applying a building pressure..."))
+			user.visible_message(span_warning("[user] applies a building pressure..."))
 			playsound(M, preop_sound, 50, FALSE)
 			if(do_after(user, 10 SECONDS))
 				playsound(M, success_sound, 50, FALSE)
@@ -294,7 +298,7 @@ A MINOR PLAYER DRIVEN EVENT!!!!! DONT PUT IT ANYWHERE!!!!! I'LL LIVE YOU!!!!!
 					// this probably does bad stuff if someone else getsa hold of the iron. too bad!
 					GLOB.excommunicated_players += M.real_name
 					
-					message_admins("[user] has branded [M] as a heretic via BRANDING IRON. This SHOULD NOT BE USED by anyone EXCEPT Marcel.")
+					message_admins("[user] has branded [M] as a heretic via BRANDING IRON. This SHOULD NOT BE USED by anyone EXCEPT Marcel on CENNETIG.")
 					// this is REALLY fucking stupid but it works.
 					if(do_after(M, 5 SECONDS, FALSE, progress = FALSE, no_interrupt = TRUE))
 						playsound(M, 'sound/misc/adrenaline_rush.ogg', 50)
