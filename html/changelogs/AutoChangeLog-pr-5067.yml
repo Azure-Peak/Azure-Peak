@@ -1,5 +1,0 @@
-author: "mumblemancer"
-delete-after: True
-changes:
-  - code_imp: "pick -> pickweight"
-  - balance: "changed ~37.5% chance of \"good\" (gold, gem, silver) -> 16%. removed salt cus it amkes mes alty. hehe. its actually a little harder to get iron than a \"good\" drop but idk its still good i think. there's going to be way less of these when the whole thing is done."

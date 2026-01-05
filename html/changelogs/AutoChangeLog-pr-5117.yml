@@ -1,0 +1,4 @@
+author: "CometBlaze"
+delete-after: True
+changes:
+  - bugfix: "The Apex Predator buff is now correctly removed upon leaving the Underdark."

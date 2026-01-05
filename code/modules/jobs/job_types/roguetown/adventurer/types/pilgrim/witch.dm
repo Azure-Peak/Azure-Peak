@@ -11,6 +11,7 @@
 		STATKEY_SPD = 2,
 		STATKEY_LCK = 1
 	)
+	age_mod = /datum/class_age_mod/witch
 	subclass_spellpoints = 6
 	subclass_skills = list(
 		/datum/skill/misc/reading = SKILL_LEVEL_EXPERT,
@@ -54,10 +55,6 @@
 		armor = /obj/item/clothing/suit/roguetown/armor/corset
 		shirt = /obj/item/clothing/suit/roguetown/shirt/undershirt/lowcut
 		pants = /obj/item/clothing/under/roguetown/skirt/red
-	if(H.age == AGE_OLD)
-		H.change_stat(STATKEY_SPD, -1)
-		H.change_stat(STATKEY_INT, 1)
-		H.change_stat(STATKEY_LCK, 1)
 
 	switch(H.patron?.type)
 		if(/datum/patron/inhumen/zizo)

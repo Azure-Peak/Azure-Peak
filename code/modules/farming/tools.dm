@@ -326,12 +326,7 @@
 
 /obj/item/rogueweapon/pitchfork/copper
 	name = "copper pitchfork"
-	icon = 'icons/roguetown/weapons/64.dmi'
-	pixel_y = -16
-	pixel_x = -16
-	inhand_x_dimension = 64
-	inhand_y_dimension = 64
-	icon_state = "cfork"
+	icon_state = "cpitchfork"
 	smeltresult = /obj/item/ingot/copper
 
 /datum/intent/pforkdump

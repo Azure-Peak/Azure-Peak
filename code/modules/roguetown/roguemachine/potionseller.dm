@@ -174,9 +174,15 @@
 	// Create the vial
 	var/obj/item/reagent_containers/glass/bottle/B = null
 	if(dispensing_bottle_type == POTION_BOTTLE)
+		if(bottles_held <= 0)
+			say("I AM ALL OUT OF BOTTLES")
+			return
 		B = new /obj/item/reagent_containers/glass/bottle(src.loc)
 		bottles_held--
 	else
+		if(vials_held <= 0)
+			say("I AM ALL OUT OF VIALS")
+			return
 		B = new /obj/item/reagent_containers/glass/bottle/alchemical(src.loc)
 		vials_held--
 
@@ -282,6 +288,9 @@
 		if(!usr.canUseTopic(src, BE_CLOSE))
 			return
 		if(ishuman(usr))
+			if(vials_held <= 0)
+				to_chat(usr, span_warning("No vials left to remove."))
+				return
 			var/obj/item/reagent_containers/glass/bottle/alchemical/B = new /obj/item/reagent_containers/glass/bottle/alchemical(src.loc)
 			usr.put_in_hands(B)
 			vials_held--
@@ -290,6 +299,9 @@
 		if(!usr.canUseTopic(src, BE_CLOSE))
 			return
 		if(ishuman(usr))
+			if(bottles_held <= 0)
+				to_chat(usr, span_warning("No bottles left to remove."))
+				return
 			var/obj/item/reagent_containers/glass/bottle/B = new /obj/item/reagent_containers/glass/bottle(src.loc)
 			usr.put_in_hands(B)
 			bottles_held--

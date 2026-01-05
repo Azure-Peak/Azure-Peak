@@ -181,7 +181,7 @@
 		return
 	if(!grant_resident_key)
 		return
-	var/spare_key = alert(user, "Have I got an extra spare key?", "Home", "Yes", "No")
+	var/spare_key = alert(user, "Have I got a spare key?", "Home", "Yes", "No")
 	if(!grant_resident_key)
 		return
 	if(spare_key == "Yes")
@@ -203,6 +203,7 @@
 		to_chat(human, span_notice("They're just where I left them..."))
 	else
 		to_chat(human, span_notice("It's just where I left it..."))
+	name = "[user.real_name] the [human.advjob ? human.advjob : human.job]'s house"
 	return TRUE
 
 /obj/structure/mineral_door/Move()

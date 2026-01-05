@@ -38,6 +38,7 @@
 		STATKEY_INT = 1,
 		STATKEY_SPD = 1
 	)
+	age_mod = /datum/class_age_mod/innkeeper
 	subclass_skills = list(
 		/datum/skill/combat/swords = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/combat/knives = SKILL_LEVEL_APPRENTICE,
@@ -58,12 +59,6 @@
 /datum/outfit/job/roguetown/barkeep/basic/pre_equip(mob/living/carbon/human/H)
 	..()
 	H.adjust_blindness(-3)
-	if(H.age == AGE_MIDDLEAGED)
-		H.adjust_skillrank(/datum/skill/craft/cooking, 1, TRUE)
-		H.adjust_skillrank(/datum/skill/misc/music, 1, TRUE)
-	if(H.age == AGE_OLD)
-		H.adjust_skillrank(/datum/skill/craft/cooking, 2, TRUE)
-		H.adjust_skillrank(/datum/skill/misc/music, 1, TRUE)
 	pants = /obj/item/clothing/under/roguetown/tights/black
 	shoes = /obj/item/clothing/shoes/roguetown/shortboots
 	backr = /obj/item/storage/backpack/rogue/satchel

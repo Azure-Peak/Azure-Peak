@@ -407,6 +407,9 @@
 		STATKEY_PER = 2,
 		STATKEY_WIL = 1,
 	) //Follows the Adventurer's seven-point statblock rule. Adds an eighth point to an unoccupied statkey, when a discipline is selected.
+
+	age_mod = /datum/class_age_mod/exorcist
+
 	subclass_skills = list(
 		/datum/skill/combat/wrestling = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/combat/unarmed = SKILL_LEVEL_JOURNEYMAN,
@@ -565,14 +568,6 @@
 		/obj/item/rogueweapon/scabbard/sheath = 1,
 		/obj/item/rogueweapon/huntingknife = 1, //Ensures that Exorcists who take the Shovel can still butcher wildlife. Minor oversight on my part.
 		)
-	if(H.age == AGE_OLD)
-		H.change_stat(STATKEY_INT, 1)
-		H.adjust_skillrank(/datum/skill/combat/swords, 1, TRUE)
-		H.adjust_skillrank(/datum/skill/combat/maces, 1, TRUE)
-		H.adjust_skillrank(/datum/skill/combat/whipsflails, 1, TRUE)
-		H.adjust_skillrank(/datum/skill/combat/axes, 1, TRUE) 	
-		H.adjust_skillrank(/datum/skill/combat/polearms, 1, TRUE)
-		H.adjust_skillrank(/datum/skill/combat/staves, 1, TRUE)
 	//Old people get the option to become glass cannons. Expert Knives + Expert in their chosen weapon, but a permenant -I STR, -I PER, -2 SPD and -2 CON debuff.
 
 /datum/advclass/sfighter/deprived

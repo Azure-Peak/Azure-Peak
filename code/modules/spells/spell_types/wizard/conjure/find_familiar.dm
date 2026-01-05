@@ -17,7 +17,7 @@
 
 	xp_gain = TRUE
 	spell_tier = 1
-	cost = 1
+	cost = 0
 
 	invocations = list("Appare, spiritus fidus.")
 	invocation_type = "whisper"
@@ -58,6 +58,8 @@
 						return FALSE
 					else
 						revive_familiar(magic_stone, fam, user)
+						if (fam.buff_given)
+							user.apply_status_effect(fam.buff_given)
 						user.busy_summoning_familiar = FALSE
 						return TRUE
 				else if(choice == "Free them")
@@ -191,6 +193,8 @@
 		fam.faction |= faction_to_add
 		log_game("[key_name(user)] summoned non-sentient familiar of type [familiar_type]")
 		user.busy_summoning_familiar = FALSE
+		if (fam.buff_given)
+			user.apply_status_effect(fam.buff_given)
 		return TRUE
 	else
 		user.busy_summoning_familiar = FALSE
@@ -300,8 +304,8 @@
 	user.visible_message(span_notice("[awakener.summoning_emote]"))
 
 	// Apply summoner's familiar buff
-	//if (awakener.buff_given)
-	//	user.apply_status_effect(awakener.buff_given)
+	if (awakener.buff_given)
+		user.apply_status_effect(awakener.buff_given)
 
 	// Transfer player's mind to the familiar
 	if (!chosen_one.mind)
@@ -309,7 +313,9 @@
 		qdel(awakener)
 		return
 
-	chosen_one.mind.transfer_to(awakener, 1)
+	if (chosen_one.ckey)
+		awakener.ckey = chosen_one.ckey
+
 	var/datum/mind/mind_datum = awakener.mind
 	if (!mind_datum)
 		to_chat(user, span_warning("Familiar summoning failed: Mind transfer failed."))
@@ -375,4 +381,5 @@
     fam.revive(full_heal = TRUE, admin_revive = TRUE)
     fam.familiar_summoner = user
     fam.visible_message(span_notice("[fam.name] is restored to life by [user]'s magic!"))
+
     return TRUE

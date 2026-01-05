@@ -224,3 +224,4 @@
 	icon_state = "shadowrobe"
 	armor = ARMOR_PADDED_GOOD
 	max_integrity = ARMOR_INT_CHEST_LIGHT_MEDIUM + 30 //280
+

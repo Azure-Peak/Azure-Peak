@@ -1,0 +1,5 @@
+author: "Geevies"
+delete-after: True
+changes:
+  - balance: "Reworked how bandages work. They now have a certain amount of blood they can absorb before being bloodied, upon which they become useless. This means you can use a bandage on an arterial wound to staunch it while you repair the wound. Bleeding is no longer instantly stopped by bandages."
+  - balance: "Bandages can now be soaked in health potions, strong health potions, aqua vitae, and blessed water, to heal that specific limb better than it would've been healed by the 'broad' application of drinking the potion."

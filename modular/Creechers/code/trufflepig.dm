@@ -53,7 +53,7 @@
 	sellprice = 5
 
 /obj/item/reagent_containers/food/snacks/rogue/truffles/cooked
-	eat_effect = /datum/status_effect/buff/foodbuff
+	eat_effect = /datum/status_effect/buff/snackbuff
 	bonus_reagents = list(/datum/reagent/consumable/nutriment = 2)
 	color = "#835b4f"
 	tastes = list("succulent truffles" = 1)

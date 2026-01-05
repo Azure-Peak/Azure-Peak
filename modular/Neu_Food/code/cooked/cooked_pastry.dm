@@ -5,13 +5,13 @@
 	desc = "Crispy, buttery, and delightfully flaky. A favorite treat among children and sweetlovers."
 	icon = 'modular/Neu_Food/icons/cooked/cooked_pastry.dmi'
 	icon_state = "pastry"
-	list_reagents = list(/datum/reagent/consumable/nutriment = SNACK_DECENT)
+	list_reagents = list(/datum/reagent/consumable/nutriment = SMALLDOUGH_NUTRITION)
 	tastes = list("crispy butterdough" = 1)
 	faretype = FARE_FINE
 	w_class = WEIGHT_CLASS_NORMAL
 	bitesize = 3
 	rotprocess = SHELFLIFE_EXTREME
-	eat_effect = /datum/status_effect/buff/foodbuff
+	eat_effect = /datum/status_effect/buff/snackbuff
 
 /obj/item/reagent_containers/food/snacks/rogue/foodbase/biscuit_raw
 	name = "uncooked raisin biscuit"
@@ -29,11 +29,11 @@
 	icon_state = "biscuit"
 	faretype = FARE_POOR
 	filling_color = "#F0E68C"
-	list_reagents = list(/datum/reagent/consumable/nutriment = SNACK_DECENT+SNACK_POOR)
+	list_reagents = list(/datum/reagent/consumable/nutriment = BUTTERDOUGHSLICE_NUTRITION + SNACK_POOR)
 	w_class = WEIGHT_CLASS_NORMAL
 	bitesize = 3
 	tastes = list("crispy butterdough" = 1, "raisins" = 1)
-	eat_effect = /datum/status_effect/buff/foodbuff
+	eat_effect = /datum/status_effect/buff/snackbuff
 
 // MISSING RECIPE
 /obj/item/reagent_containers/food/snacks/rogue/cookie		//It's a biscuit.......
@@ -58,12 +58,12 @@
 	desc = "The next best thing after sliced bread. The recipe is a closely guarded secret among the dwarves. So dire is their conviction that not even the Inquisition's most agonizing methods could force them to reveal it."
 	icon = 'modular/Neu_Food/icons/cooked/cooked_pastry.dmi'
 	icon_state = "prezzel"
-	list_reagents = list(/datum/reagent/consumable/nutriment = SNACK_DECENT)
+	list_reagents = list(/datum/reagent/consumable/nutriment = SMALLDOUGH_NUTRITION)
 	faretype = FARE_FINE
 	tastes = list("crispy butterdough" = 1)
 	w_class = WEIGHT_CLASS_NORMAL
 	bitesize = 3
-	eat_effect = /datum/status_effect/buff/foodbuff
+	eat_effect = /datum/status_effect/buff/snackbuff
 
 /*	.............   Pumpkin balls   ................ */
 /obj/item/reagent_containers/food/snacks/rogue/foodbase/pumpkinball_raw
@@ -89,7 +89,7 @@
 	bitesize = 3
 	portable = TRUE
 	tastes = list("crispy butterdough" = 1, "pumpkin" = 1)
-	eat_effect = /datum/status_effect/buff/foodbuff
+	eat_effect = /datum/status_effect/buff/snackbuff
 
 /obj/item/reagent_containers/food/snacks/rogue/pumpkinball/On_Consume(mob/living/eater)
 	. = ..()
@@ -127,7 +127,7 @@
 	slice_batch = FALSE
 	slice_sound = TRUE
 	rotprocess = SHELFLIFE_EXTREME
-	eat_effect = /datum/status_effect/buff/foodbuff
+	eat_effect = /datum/status_effect/buff/snackbuff
 
 /obj/item/reagent_containers/food/snacks/rogue/pumpkinloaf/update_icon()
 	if(slices_num)
@@ -162,7 +162,7 @@
 	tastes = list("sweetbread" = 1,"pumpkin" = 1)
 	bitesize = 2
 	rotprocess = SHELFLIFE_LONG
-	eat_effect = /datum/status_effect/buff/foodbuff
+	eat_effect = /datum/status_effect/buff/snackbuff
 	dropshrink = 0.8
 
 /obj/item/reagent_containers/food/snacks/rogue/foodbase/handpieraw
@@ -245,7 +245,7 @@
 	desc = "The dwarves call this 'pierogi' in their dialect. It'll stay fresh for a good long while until the crust is bitten."
 	icon = 'modular/Neu_Food/icons/cooked/cooked_pastry.dmi'
 	icon_state = "handpie"
-	eat_effect = /datum/status_effect/buff/foodbuff
+	eat_effect = /datum/status_effect/buff/greatsnackbuff
 	bitesize = 4
 	faretype = FARE_FINE
 	bonus_reagents = list(/datum/reagent/consumable/nutriment = BUTTERDOUGHSLICE_NUTRITION+MINCE_NUTRITION)

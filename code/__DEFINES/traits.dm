@@ -68,6 +68,7 @@
 #define TRAIT_FROZEN_STAMINA "Frozen Stamina"
 #define TRAIT_WOODSMAN "Talented Woodsman"
 #define TRAIT_DUNGEONMASTER "Ruthless Jailor"
+#define TRAIT_ANTHRAXI "Apex Predator"
 #define TRAIT_DEATHBARGAIN "Death Bargain" // Used by UNDERMAIDEN'S BARGAIN
 #define TRAIT_RITUALIST "Ritualist"  // Allows use of ritual chalk
 #define TRAIT_INQUISITION "Otavan Adherent"
@@ -174,6 +175,7 @@
 #define TRAIT_SIMPLE_WOUNDS "simple_wounds"
 #define TRAIT_BANDITCAMP "banditcamp"
 #define TRAIT_VAMPMANSION "vampiremansion"
+#define TRAIT_CAVEDWELLER "Cave Dweller"
 #define TRAIT_VAMP_DREAMS "vamp_dreams"
 #define TRAIT_LIMPDICK "Limp Dick"
 #define TRAIT_SEXPASS "sexpass"
@@ -273,6 +275,7 @@ GLOBAL_LIST_INIT(roguetraits, list(
 	TRAIT_GUARDSMAN = span_info("I am vigilant in my duties. In the town of Azure Peak, my abilities are sharper due to my routine and familiarity."),
 	TRAIT_GUARDSMAN_DISGRACED = span_warning("I have betrayed my oath. My vigilance falters in the town. I must beg forgiveness to restore my honor, or see my betrayal through to the end."),
 	TRAIT_WOODSMAN = span_info("I am vigilant in my duties. In the grove and coast of Azure Peak, my abilities are sharper due to my routine and familiarity."),
+	TRAIT_ANTHRAXI = span_info("I am the deadliest being in the underdark. No beast or foe can ever hope to match me in the caves."),
 	TRAIT_DEATHBARGAIN = span_info("A horrible deal has been prepared in your name. May you never see it fulfilled..."),
 	TRAIT_RITUALIST = span_info("I am skilled in the holy arts. Using ritual chalk, I can more deftly channel my God's powers via runes."),
 	TRAIT_INSPIRING_MUSICIAN = span_info("The flow of battle dances to my song!"),
@@ -431,6 +434,7 @@ GLOBAL_LIST_INIT(roguetraits, list(
 	TRAIT_PESTRAS_BLESSING = span_infection("The sacred black rot of Pestra burns within me. Should intelligent foes try to harm me, they will feel her greatest plague."),
 	TRAIT_HERESIARCH = span_warning("I've been touched by the truth of Psydonia. Lyfe as we understand cannot persist under the Ten or the pretense of Psydon. Something must change."),
 	TRAIT_ZURCH = span_warning("I know of sacred sites of worship where followers of the Ascendants convene, and the path to the nearest conclave is etched into my memory."),
+	TRAIT_CAVEDWELLER = span_info("The mountains are my home. I prefer to live beneath the surface away from the sun's gaze and know the caves of this land like the back of my hand."),
 	TRAIT_CURSE_ASTRATA = span_warning("I am forsaken by the Sun. I will find no rest under Her unwavering gaze."),
 	TRAIT_CURSE_NOC = span_warning("I am forsaken by the Moon. I will find no salvation in His grace."),
 	TRAIT_CURSE_DENDOR = span_warning("I am forsaken by the Treefather. Reason and common sense abandon me."),

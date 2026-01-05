@@ -22,40 +22,72 @@
 		def_zone = CBP.body_zone
 	var/obj/item/clothing/used
 	var/protection = 0
-	used = get_best_worn_armor(def_zone, d_type)
-	if(used)
-		protection = used.armor.getRating(d_type)
-		if(!blade_dulling)
-			blade_dulling = BCLASS_BLUNT
-		if(blade_dulling == BCLASS_PEEL)	//Peel shouldn't be dealing any damage through armor, or to armor itself.
-			used.peel_coverage(def_zone, peeldivisor, src)
-			damage = 0
-			if(def_zone == BODY_ZONE_CHEST)
-				purge_peel(99)
-		if(used.blocksound)
-			playsound(loc, get_armor_sound(used.blocksound, blade_dulling), 100)
-		var/intdamage = damage
-		// Penetrative damage deals significantly less to the armor. Tentative.
-		if((damage + armor_penetration) > protection && d_type != "blunt")
-			intdamage = (damage + armor_penetration) - protection
-		if(intdamfactor != 1)
-			intdamage *= intdamfactor
-		if(d_type == "blunt" && mind)
-			if(used.armor?.getRating("blunt") > 0)
-				var/bluntrating = used.armor.getRating("blunt")
-				intdamage -= intdamage * ((bluntrating / 2) / 100)	//Half of the blunt rating reduces blunt damage taken by %-age.
-		if(istype(used_weapon) && used_weapon.is_silver && ((used.smeltresult in list(/obj/item/ingot/aaslag, /obj/item/ingot/aalloy, /obj/item/ingot/purifiedaalloy)) || used.GetComponent(/datum/component/cursed_item)))
-			// Blessed silver delivers more int damage against "cursed" alloys, see component for multiplier values
-			var/datum/component/silverbless/bless = used_weapon.GetComponent(/datum/component/silverbless)
-			if(bless.is_blessed)
-				// Apply multiplier if the blessing is active.
-				intdamage = round(intdamage * bless.cursed_item_intdamage)
-		var/tempo_bonus = get_tempo_bonus(TEMPO_TAG_ARMOR_INTEGFACTOR)
-		if(tempo_bonus)
-			intdamage *= tempo_bonus
-		used.take_damage(intdamage, damage_flag = d_type, sound_effect = FALSE, armor_penetration = 100)
+	var/intdamage = damage
+	if(d_type != "blunt")
+		used = get_best_worn_armor(def_zone, d_type)
+		if(used)
+			protection = used.armor.getRating(d_type)
+			if(!blade_dulling)
+				blade_dulling = BCLASS_BLUNT
+			if(blade_dulling == BCLASS_PEEL)	//Peel shouldn't be dealing any damage through armor, or to armor itself.
+				used.peel_coverage(def_zone, peeldivisor, src)
+				damage = 0
+				if(def_zone == BODY_ZONE_CHEST)
+					purge_peel(99)
+			if(used.blocksound)
+				playsound(loc, get_armor_sound(used.blocksound, blade_dulling), 100)
+        
+			// Penetrative damage deals significantly less to the armor. Tentative.
+			if((damage + armor_penetration) > protection)
+				intdamage = (damage + armor_penetration) - protection
+        
+			if(intdamfactor != 1)
+				intdamage *= intdamfactor
+        
+			if(istype(used_weapon) && used_weapon.is_silver && ((used.smeltresult in list(/obj/item/ingot/aaslag, /obj/item/ingot/aalloy, /obj/item/ingot/purifiedaalloy)) || used.GetComponent(/datum/component/cursed_item)))
+				// Blessed silver delivers more int damage against "cursed" alloys, see component for multiplier values
+				var/datum/component/silverbless/bless = used_weapon.GetComponent(/datum/component/silverbless)
+				if(bless.is_blessed)
+					// Apply multiplier if the blessing is active.
+					intdamage = round(intdamage * bless.cursed_item_intdamage)
+				
+			var/tempo_bonus = get_tempo_bonus(TEMPO_TAG_ARMOR_INTEGFACTOR)
+			if(tempo_bonus)
+				intdamage *= tempo_bonus
+				
+			used.take_damage(intdamage, damage_flag = d_type, sound_effect = FALSE, armor_penetration = 100)
+	else
+		var/list/layers = get_best_worn_armor_layered(def_zone, d_type)
+		if(length(layers))
+			for(var/C in layers)
+				if(layers[C] > protection)
+					protection = layers[C]
+			if(mind)
+				if(protection > 0)
+					intdamage -= intdamage * ((protection / 1.66) / 100)	//Reduces it up to 60% (100 dmg -> 40 dmg at Blunt S armor (100))
+			if(intdamfactor != 1)
+				intdamage *= intdamfactor
+        
+			var/tempo_bonus = get_tempo_bonus(TEMPO_TAG_ARMOR_INTEGFACTOR)
+			if(tempo_bonus)
+				intdamage *= tempo_bonus
+        
+			var/layers_deep = 1
+			var/played_sound = FALSE
+			for(var/obj/item/clothing/C in layers)
+				var/actualdmg = intdamage
+				actualdmg /= layers_deep
+				C.take_damage(actualdmg, damage_flag = d_type, sound_effect = FALSE, armor_penetration = 100)
+				if(C.blocksound && !played_sound)
+					playsound(loc, get_armor_sound(C.blocksound, blade_dulling), 100)
+					played_sound = TRUE
+				layers_deep++
+			layers.Cut()
+		
+
 	if(physiology)
 		protection += physiology.armor.getRating(d_type)
+	
 	return protection
 
 /mob/living/carbon/human/proc/checkcritarmor(def_zone, bclass)
@@ -823,6 +855,32 @@
 						protection = val
 						used = C
 	return used
+
+/// Helper proc that returns the worn item ref that has the highest rating covering the def_zone (targeted zone) for the d_type (damage type). Returns the whole list of items that cover def_zone, from highest rating to lowest.
+/mob/living/carbon/human/proc/get_best_worn_armor_layered(def_zone, d_type)
+	if(def_zone == BODY_ZONE_TAUR)
+		def_zone = pick(BODY_ZONE_L_LEG, BODY_ZONE_R_LEG)
+	else if(get_taur_tail())
+		switch(def_zone)
+			if(BODY_ZONE_PRECISE_L_FOOT)
+				def_zone = BODY_ZONE_L_LEG
+			if(BODY_ZONE_PRECISE_R_FOOT)
+				def_zone = BODY_ZONE_R_LEG
+	var/list/body_parts = list(skin_armor, head, wear_mask, wear_wrists, gloves, wear_neck, cloak, wear_armor, wear_shirt, shoes, wear_pants, backr, backl, belt, s_store, glasses, ears, wear_ring) //Everything but pockets. Pockets are l_store and r_store. (if pockets were allowed, putting something armored, gloves or hats for example, would double up on the armor)
+	var/list/used_armor = list()
+	for(var/bp in body_parts)
+		if(!bp)
+			continue
+		if(bp && istype(bp, /obj/item/clothing))
+			var/obj/item/clothing/C = bp
+			if(zone2covered(def_zone, C.body_parts_covered_dynamic))
+				if(C.max_integrity)
+					if(C.obj_integrity <= 0)
+						continue
+				var/val = C.armor.getRating(d_type)
+				if(val > 0)
+					used_armor[C] = val
+	return used_armor
 
 /mob/living/carbon/human/on_fire_stack(seconds_per_tick, datum/status_effect/fire_handler/fire_stacks/fire_handler)
 	//SEND_SIGNAL(src, COMSIG_HUMAN_BURNING)

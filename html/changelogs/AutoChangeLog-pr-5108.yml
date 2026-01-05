@@ -1,0 +1,4 @@
+author: "SayonaraEcho"
+delete-after: True
+changes:
+  - qol: "Gives a name to a town door when claimed."

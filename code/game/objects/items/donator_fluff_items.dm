@@ -226,30 +226,19 @@
 	icon = 'icons/clothing/donor_clothes.dmi'
 	mob_overlay_icon = 'icons/clothing/onmob/donor_clothes.dmi'
 	icon_state = "archaiccuirass"
-	sleeved = null
-
-/obj/item/clothing/suit/roguetown/armor/plate/cuirass/fluted/dasfox/attack_right(mob/user)
-	if(detail_tag)
-		return
-	var/the_time = world.time
-	var/pickedcolor = input(user, "Select a color.","Cuirass Color") as null|anything in COLOR_MAP
-	if(!pickedcolor)
-		return
-	if(world.time > (the_time + 30 SECONDS))
-		return
-	detail_tag = "_detail"
-	detail_color = COLOR_MAP[pickedcolor]
-	update_icon()
-	if(ismob(loc))
-		var/mob/L = loc
-		L.update_inv_armor()
-	chunkcolor = pickedcolor
+	sleeved = 'icons/clothing/onmob/donor_sleeves_armor.dmi'
+	detail_tag = "_det"
+	detail_color = CLOTHING_WHITE
+	boobed = FALSE
+	boobed_detail = FALSE
 
 /obj/item/clothing/suit/roguetown/armor/plate/cuirass/fluted/dasfox/update_icon()
 	cut_overlays()
-	if(get_detail_tag())
-		var/mutable_appearance/pic = mutable_appearance(icon(icon, "[icon_state][detail_tag]"))
-		pic.appearance_flags = RESET_COLOR
-		if(get_detail_color())
-			pic.color = get_detail_color()
-		add_overlay(pic)
+	if(!get_detail_tag())
+		return
+	var/mutable_appearance/pic = mutable_appearance(icon(icon, "[icon_state][detail_tag]"))
+	message_admins("[pic.icon_state]")
+	pic.appearance_flags = RESET_COLOR
+	if(get_detail_color())
+		pic.color = get_detail_color()
+	add_overlay(pic)

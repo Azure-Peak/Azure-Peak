@@ -1,7 +1,0 @@
-author: "mumblemancer"
-delete-after: True
-changes:
-  - bugfix: "spellchecked some stuff"
-  - bugfix: "carpet's to_chat makes sense"
-  - bugfix: "removed redundant information from some recipes"
-  - bugfix: "you no longer fall on your the left leg"

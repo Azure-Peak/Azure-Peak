@@ -1,0 +1,4 @@
+author: "FreeStylaLT"
+delete-after: True
+changes:
+  - refactor: "Class Old modifiers are now viewable in the class preview menu."

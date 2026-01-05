@@ -164,6 +164,13 @@
 	max_integrity = ARMOR_INT_CHEST_LIGHT_MASTER
 	sellprice = 25
 
+/obj/item/clothing/suit/roguetown/armor/leather/heavy/shadowvest
+	name = "drowcraft vest"
+	desc = "Traditional Drow armour, made from the hide of one of the Underdark's many beasts. Durable yet still flexible, perfect for skirmishers."
+	icon_state = "shadowvest"
+	item_state = "shadowvest"
+	allowed_race = NON_DWARVEN_RACE_TYPES
+
 /obj/item/clothing/suit/roguetown/armor/leather/heavy/freifechter
 	name = "fencing jacket"
 	desc = "A light, flexible button-up leather jacket that will keep your vitals out of harm's way."

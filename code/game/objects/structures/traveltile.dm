@@ -177,6 +177,8 @@
 	required_trait = TRAIT_VAMPMANSION
 /obj/structure/fluff/traveltile/wretch
 	required_trait = TRAIT_ZURCH //I'd tie this to trait_outlaw but unfortunately the heresiarch virtue exists so we're making a new trait instead.
+/obj/structure/fluff/traveltile/drow
+	required_trait = TRAIT_CAVEDWELLER	
 /obj/structure/fluff/traveltile/dungeon
 	name = "gate"
 	desc = "This gate's enveloping darkness is so opressive you dread to step through it."

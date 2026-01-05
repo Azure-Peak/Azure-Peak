@@ -1,6 +1,0 @@
-author: "dopamiin0"
-delete-after: True
-changes:
-  - rscadd: "you can now write your own author line for skillbooks"
-  - bugfix: "skillbooks won't out your true job if it's obscured"
-  - bugfix: "roast pork is no longer raw"
