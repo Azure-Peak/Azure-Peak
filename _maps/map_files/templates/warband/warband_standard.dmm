@@ -1547,10 +1547,6 @@
 	},
 /turf/open/floor/rogue/dirt/road,
 /area/rogue/outdoors/warcamp)
-"QA" = (
-/turf/open/floor/rogue/grassred,
-/turf/open/floor/rogue/cobble/mossy,
-/area/rogue/outdoors/warcamp)
 "QI" = (
 /obj/structure/flora/newleaf{
 	layer = 1
@@ -3765,7 +3761,7 @@ pI
 pI
 pI
 Wq
-QA
+DV
 jO
 bP
 nQ
