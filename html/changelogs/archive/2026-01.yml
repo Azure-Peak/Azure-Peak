@@ -68,3 +68,195 @@
   hazelrat:
   - rscadd: Added a new longknife available to Wardens and Assassin Rangers.
   - bugfix: Fireplaces now use the correct subtype on all maps.
+2026-01-03:
+  FreeStylaLT:
+  - bugfix: Fixed (hopefully) the infinitely looping flail sounds.
+  Geevies:
+  - balance: Using a grindstone now restores your weapon's max sharpness.
+  - rscadd: You can now adjust clothing in your helmet storage, meaning you can wear
+      the hood down.
+  - bugfix: Dyeing the headwear will no longer automatically apply the color to decorations.
+  - balance: Outfits now have a 50/50 chance of having their hands swapped. This means
+      ambushing mobs can now wield their weapon in their right hand too.
+  - qol: Examining a Deadite will now show big text that it's a deadite.
+  - rscadd: Added subclasses for the councillor, based on a few """playstyles""" they
+      might try to play into. Also changed their outfits to look a bit more noble,
+      befitting their station.
+  - rscadd: 'Councillor subclass: Herald. This class is based on movement and getting
+      word out to people quickly, it comes with less money but you gain a saiga and
+      some riding skill. Think about this as the person you send to send someone else
+      to gather a militia.'
+  - rscadd: 'Councillor subclass: Advisor. This class comes with extra intelligence.
+      This is the councillor that will be smart in courtly matters and discuss the
+      state with the Duke / Duchess.'
+  - rscadd: 'Councillor subclass: Cofferer. This class comes with m o n e y. This
+      is the councillor that isn''t particularly quick, smart, or enthused to do much.
+      They spawn with a lot of mammon and have the ability to see the price of items
+      on examine properly. They throw mammon at problems to make them go away.'
+  - rscadd: Hematomas and lashings now have wound descriptions to inform everyone
+      how bad they are.
+  Juubo:
+  - bugfix: fixes higher level vampires not able to turn multiple thralls, as intended
+  - code_imp: makes it easier to see where max thralls are defined
+  Kokserva:
+  - rscadd: 4 pixels for cobra hoods
+  Lamasmaster:
+  - balance: Equipment kits in stewardry
+  - rscadd: Towner Bog Guard
+  - rscadd: Goblin skintone
+  - bugfix: Obscure bug
+  - refactor: Battlemaster trait application.
+  - balance: Removed volfhelmet smithing
+  - image: Pigface and Hounskull sprites
+  - code_imp: Changed etruscan bascinet to klappvisier bascinet
+  - code_imp: Naming convention for Bascinets and Sallets
+  Ryan180602:
+  - balance: WW Claws are now 60 AP.
+  - balance: The game will try to put in 2 roundstart WWs.
+  SillyMoff:
+  - rscadd: things for chest, 1 light, hermes for druids
+  - bugfix: fixed herbs
+  SirSwagmeyer:
+  - balance: Gave the seax a mini-rend, the rhomphaia a thrust attack, and the hatchets
+      throwing damage.
+  - bugfix: fixed a few onmob sprites and the templar chestplate.
+  SpadesNeil:
+  - qol: Tree stumps and fallen ancient logs no longer block projectiles.
+  Vladmar11:
+  - qol: "\u0421hanging the approach to sound reproduction"
+  hazelrat:
+  - rscadd: Tunics no longer give chest-less characters using the feminine body type
+      the appearance of having a chest.
+2026-01-04:
+  FreeStylaLT:
+  - rscadd: Added some new Tiefling colors.
+  - bugfix: Fixed tempo exhausting the user.
+  Lamasmaster:
+  - image: Xylix Miracles + Status Effect Icons
+  Matheo351:
+  - qol: Fished up mobs no longer spawn directly on top of the player.
+  Ryan180602:
+  - code_imp: Add donor item.
+  ToasterStrudes:
+  - rscadd: Added a donator item for Toasterstrudes
+  - spellcheck: fixed a typo in the donator items for Toasterstrudes
+  dopamiin0:
+  - rscadd: you can now write your own author line for skillbooks
+  - bugfix: skillbooks won't out your true job if it's obscured
+  - bugfix: roast pork is no longer raw
+  mumblemancer:
+  - code_imp: pick -> pickweight
+  - balance: changed ~37.5% chance of "good" (gold, gem, silver) -> 16%. removed salt
+      cus it amkes mes alty. hehe. its actually a little harder to get iron than a
+      "good" drop but idk its still good i think. there's going to be way less of
+      these when the whole thing is done.
+  - bugfix: spellchecked some stuff
+  - bugfix: carpet's to_chat makes sense
+  - bugfix: removed redundant information from some recipes
+  - bugfix: you no longer fall on your the left leg
+2026-01-05:
+  BurpleBineapple:
+  - image: Blacksteel arming sword sprites by Dongwaiver
+  CometBlaze:
+  - rscadd: 'Added a new weapon: the Stalker Falx, a Drow variant of the falx'
+  - rscadd: 'Added a new armour: the Drowcraft Vest. Currently only available to Drow
+      NPCs'
+  - balance: Drow raider NPCs now dodge instead of parrying
+  - balance: Black Venom and Anthrax Assassin now get a stat buff while in the Underdark
+  FreeStylaLT:
+  - balance: Martyr now gets the Tempo trait.
+  - balance: Martyr gets all the benefits of the 2-minute duration from the start.
+  - balance: Martyr 2-minute duration option no longer has a heal.
+  - balance: Blunt Damage now damages all layers covering the targeted bodypart.
+  - balance: Blunt Armor now mitigates up to 60% blunt damage.
+  Geevies:
+  - bugfix: Fixes tights sleeves layering over boots.
+  - bugfix: Fixes sleeves not re-rendering when ripped off.
+  - rscadd: Different types of foods now give you different types of buffs, ranging
+      from good snacks, to great meals, and sweet treats.
+  Ketrai:
+  - rscdel: Removed all unique fish from the seafood tab.
+  - balance: You have to catch fish again for your fishy purposes.
+  - balance: Raised fish fillet price as it has more uses compared to mince.
+  Ryan180602:
+  - bugfix: donor item fixes.
+  SayonaraEcho:
+  - bugfix: no see through walls for witch in zad form, only vampires can do that
+  - bugfix: size of stockings in inventory as like underwear now
+  - bugfix: briar thorns were deleted by someone, I returned it
+  - bugfix: knight green tabard for templar was replaced with crusader dendor tabard
+      because there's no unique tabard for templar dendorites
+  - code_imp: was deleted unused file .dmi
+  - rscadd: mirror transformation was improved and fixed
+  - image: were ported from Vanderlin "cleric-paladin" tabards for small races onmob
+      (except alt. tabards)
+  THE-DUKE-OF-AZURE:
+  - balance: Lovesick vice requires a partner to be fulfilled.
+  Vladmar11:
+  - bugfix: Fixing a dupe of bottles through a vending machine
+  - bugfix: Fixed display of jewelry on helmets with offset coordinates.
+  dopamiin0:
+  - rscadd: familiars grant their owner a minor stat buff and malus
+  - rscadd: player familiars have special, low impact spells
+  - rscadd: player familiars get a modern examine panel, yay!
+  - rscdel: find familiar scrolls are no longer craftable
+  - balance: anyone with arcyne t1 or higher and at least 1 spellpoint can take find
+      familiar for free
+  - bugfix: players can actually control familiars now
+2026-01-06:
+  CometBlaze:
+  - bugfix: The Apex Predator buff is now correctly removed upon leaving the Underdark.
+  FreeStylaLT:
+  - refactor: Class Old modifiers are now viewable in the class preview menu.
+  - bugfix: Failed feints due to lack of LOS will now have a correctly shortened cooldown.
+  - bugfix: Fixed Tempo rclick CDR not applying correctly.
+  G9ose:
+  - rscadd: sprite cpitchfork
+  Geevies:
+  - balance: Reworked how bandages work. They now have a certain amount of blood they
+      can absorb before being bloodied, upon which they become useless. This means
+      you can use a bandage on an arterial wound to staunch it while you repair the
+      wound. Bleeding is no longer instantly stopped by bandages.
+  - balance: Bandages can now be soaked in health potions, strong health potions,
+      aqua vitae, and blessed water, to heal that specific limb better than it would've
+      been healed by the 'broad' application of drinking the potion.
+  Ketrai:
+  - balance: Leechtick bait recipes rebalanced.
+  - balance: Deprived have some extra traits.
+  - balance: All fishing sources are affected by skill, traits and abyssor patron
+      choice.
+  - balance: Fishing traps aren't guaranteed to lose their bait upon catching something.
+  - balance: Fishing traps can now catch sticks.
+  - rscadd: You can now use leechticks as fishing bait, do with this knowledge as
+      you would, sire.
+  Lamasmaster:
+  - balance: Good Lover
+  - bugfix: Eoran storyteller counting
+  Randall:
+  - rscadd: Lets Spear-Hunters claim Hunter houses just like Bow-Hunters
+  Ryan180602:
+  - rscadd: Lets bloodrain/bloodfog happen on Zizo/Graggar at night on a chance.
+  - rscadd: Lets falling leaves potentially happen.
+  - bugfix: Fixes indoor weather noise.
+  - rscadd: Adds snow/ice/hail.
+  SayonaraEcho:
+  - qol: Gives a name to a town door when claimed.
+  SpadesNeil:
+  - refactor: Refactored ammo.dm to remove bad and redundant copypasted code.
+  - refactor: Damage defines in ammo.dm are now actually used.
+  - bugfix: Fixed sling icons not appearing correctly in some situations.
+  - balance: Decrepit bodkin arrows now have worse embed chance than steel.
+  - balance: STAB projectiles now do PIERCE damage because that makes more sense.
+  - balance: Unused firearms bullets now have simple mob damage multiplier making
+      it still worse DPS than the crossbow but good burst damage for alpha strikes.
+  - bugfix: Rocks thrown by deep ones now do BLUNT damage, not STAB.
+  - bugfix: Water bolts now break and turn into normal arrows after use.
+  - bugfix: Ancient arrows fired by mobs no longer turn into stone arrows.
+  - balance: All bolt and arrow projectiles now travel at the same speed except for
+      simple mob fired projectiles.
+  - image: Added a missing texture catch for ammo.dmi
+  mumblemancer:
+  - rscadd: new statures
+  - rscadd: new physical descriptors
+  nauticall:
+  - bugfix: Fixed some newly added colors being inaccessible.

@@ -387,21 +387,19 @@
 
 /obj/effect/proc_holder/spell/self/phantom_flicker/cast(list/targets, mob/living/simple_animal/pet/familiar/ripplefox/user)
 	. = ..()
-
 	var/mob/living/simple_animal/pet/familiar/ripplefox/illusory_familiar = new user.type(user.loc)
-	user.visible_message(span_notice("[user.name] blurs and darts away in two directions at once!"))
-
 	illusory_familiar.familiar_summoner = user
 	illusory_familiar.fully_replace_character_name(null, user.name)
-
+	animate(user, alpha = 0, time = 1, easing = EASE_IN) //should be seamless, hopefully
 	// Schedule deletion safely with global context
 	addtimer(CALLBACK(GLOBAL_PROC, /proc/delete_illusory_fam, illusory_familiar, user), 200)
-
+	user.mob_timers[MT_INVISIBILITY] = world.time + 20 SECONDS
+	addtimer(CALLBACK(user, TYPE_PROC_REF(/mob/living, update_sneak_invis), TRUE), 200)
 	return TRUE
 
 /proc/delete_illusory_fam(var/mob/living/simple_animal/pet/familiar/ripplefox/illusory_familiar, var/mob/user)
 	if(illusory_familiar && !QDELETED(illusory_familiar))
-		user.visible_message(span_notice("[illusory_familiar.name] flickers and vanishes into nothingness."))
+		illusory_familiar.visible_message(span_notice("[illusory_familiar.name] flickers and vanishes into nothingness."))
 		qdel(illusory_familiar)
 
 /obj/effect/proc_holder/spell/self/lurking_step

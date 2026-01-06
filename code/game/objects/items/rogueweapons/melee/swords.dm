@@ -232,6 +232,13 @@
 	minstr = 4
 	wdefense = 6
 
+/obj/item/rogueweapon/sword/falx/stalker
+	name = "stalker falx"
+	desc = "A jagged blade with an in inward edge. Once a reputable weapon, now little more than a thug's tool."
+	force = 20 //trades damage for swift balance
+	icon_state = "spiderfalx"
+	wbalance = WBALANCE_SWIFT
+
 /obj/item/rogueweapon/sword/decorated
 	name = "decorated arming sword"
 	desc = "A valuable ornate arming sword made for the purpose of ceremonial fashion, with a fine leather grip and a carefully engraved golden crossguard."

@@ -1,0 +1,4 @@
+author: "Geevies"
+delete-after: True
+changes:
+  - rscadd: "Items that rustle when you move now continues rustling even when in your helmet."

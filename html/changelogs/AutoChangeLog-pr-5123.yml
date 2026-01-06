@@ -1,0 +1,4 @@
+author: "FreeStylaLT"
+delete-after: True
+changes:
+  - bugfix: "Fixed a rare bug where Riposte was ignored if the attack had a swingdelay under certain circumstances."

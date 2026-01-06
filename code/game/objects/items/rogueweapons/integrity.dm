@@ -30,8 +30,8 @@
 	if(L)
 		amt -= L.get_tempo_bonus(TEMPO_TAG_DEF_SHARPNESSFACTOR)
 		amt = max(amt, 0)
-	
-	if(L && max_blade_int)	
+
+	if(L && max_blade_int)
 		var/ratio = blade_int / max_blade_int
 		var/newratio = (blade_int - amt) / max_blade_int
 		if(ratio > SHARPNESS_TIER1_THRESHOLD && newratio <= SHARPNESS_TIER1_THRESHOLD) //We are above the first threshold but are about to hit it.
@@ -44,7 +44,7 @@
 			if(L.STAINT > 9)
 				to_chat(L, span_userdanger("A chunk snapped off! \The [src]'s damage will decay much quicker now."))
 			playsound(L, 'sound/combat/sharpness_loss2.ogg', 100, TRUE)
-	
+
 	blade_int = blade_int - amt
 	if(blade_int <= 0)
 		blade_int = 0
@@ -124,3 +124,9 @@
 		var/turf/front = get_step(user,user.dir)
 		S.set_up(1, 1, front)
 		S.start()
+
+//Could do without being a proc, but just in case this is expanded later.
+//Just used for grindstones, currently, to restore quality of a blade.
+/obj/item/proc/restore_bintegrity()
+	max_blade_int = initial(max_blade_int)//Given it's reduced above.
+	blade_int = initial(max_blade_int)//Now return it.

@@ -1,0 +1,5 @@
+author: "Ketrai"
+delete-after: True
+changes:
+  - rscadd: "The slab, use this in the church infirmary to research tier 1 chimeric beast techs. All tech interfaces show researched techs in a seperate tab now."
+  - rscadd: "Calyxes spawn throughout the world, use these once per person for a decent heal. Calyxes grant heartbeast tech points."

@@ -27,7 +27,7 @@
 	/obj/item/needle,
 	/obj/item/natural/worms/leech,
 	/obj/item/reagent_containers/lux,
-	/obj/item/natural/bundle/cloth,
+	/obj/item/natural/bundle/cloth/bandage,
 	/obj/item/natural/cloth))
 
 /datum/component/storage/concrete/roguetown/messkit

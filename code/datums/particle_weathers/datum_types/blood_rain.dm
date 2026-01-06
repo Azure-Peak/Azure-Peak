@@ -28,7 +28,7 @@
 	maxSeverityChange = 2
 	severitySteps = 5
 	immunity_type = TRAIT_RAINSTORM_IMMUNE
-	probability = 1
+	probability = 10
 	target_trait = PARTICLEWEATHER_BLOODRAIN
 
 /datum/particle_weather/blood_rain_gentle/weather_act(mob/living/L)
@@ -49,7 +49,7 @@
 	maxSeverityChange = 50
 	severitySteps = 50
 	immunity_type = TRAIT_RAINSTORM_IMMUNE
-	probability = 1
+	probability = 10
 	target_trait = PARTICLEWEATHER_BLOODRAIN
 
 //Makes you a bit chilly

@@ -10,6 +10,8 @@
 
 	var/mob/viewing
 
+/datum/examine_panel/familiar
+
 /datum/examine_panel/New(mob/holder_mob)
 	if(holder_mob)
 		holder = holder_mob
@@ -31,6 +33,64 @@
 	if(!ui)
 		ui = new(user, src, "ExaminePanel")
 		ui.open()
+
+/datum/examine_panel/familiar/ui_data(mob/user) //altered and condensed version used for familiars. sorry
+
+	var/flavor_text
+	var/flavor_text_nsfw //probably breaks if i remove it entirely, just leaving it null
+	var/ooc_notes = ""
+	var/ooc_notes_nsfw
+	var/headshot = ""
+	var/list/img_gallery = list()
+	var/char_name
+	var/song_url
+	var/has_song = FALSE
+	var/is_vet = FALSE
+	var/is_naked = FALSE
+	var/obscured = FALSE
+
+	var/datum/preferences/prefs = holder.client?.prefs
+	var/datum/familiar_prefs/fam_pref = prefs?.familiar_prefs
+
+	flavor_text = fam_pref.familiar_flavortext
+	ooc_notes = fam_pref.familiar_ooc_notes
+	headshot = fam_pref.familiar_headshot_link
+	char_name = fam_pref.familiar_name
+	song_url = prefs.ooc_extra
+	is_vet = viewing.check_agevet()
+	if(!headshot)
+		headshot = "headshot_red.png"
+	
+	if(song_url)
+		has_song = TRUE
+
+	ooc_notes = html_encode(ooc_notes)
+	ooc_notes = parsemarkdown_basic(ooc_notes, hyperlink=TRUE)
+	ooc_notes_nsfw = html_encode(ooc_notes_nsfw)
+	ooc_notes_nsfw = parsemarkdown_basic(ooc_notes_nsfw, hyperlink=TRUE)
+	flavor_text = html_encode(flavor_text)
+	flavor_text = parsemarkdown_basic(flavor_text, hyperlink=TRUE)
+	flavor_text_nsfw = html_encode(flavor_text_nsfw)
+	flavor_text_nsfw = parsemarkdown_basic(flavor_text_nsfw, hyperlink=TRUE)
+
+	var/list/data = list(
+		// Identity
+		"character_name" = obscured ? "Unknown" : char_name,
+		"headshot" = headshot,
+		"obscured" = obscured ? TRUE : FALSE,
+		// Descriptions
+		"flavor_text" = flavor_text,
+		"ooc_notes" = ooc_notes,
+		// Descriptions, but requiring manual input to see
+		"flavor_text_nsfw" = flavor_text_nsfw,
+		"ooc_notes_nsfw" = ooc_notes_nsfw,
+		"img_gallery" = img_gallery,
+		"is_playing" = is_playing,
+		"has_song" = has_song,
+		"is_vet" = is_vet,
+		"is_naked" = is_naked,
+	)
+	return data
 
 /datum/examine_panel/ui_data(mob/user)
 

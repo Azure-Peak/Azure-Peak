@@ -43,6 +43,9 @@
 	if(!H || !H.real_name)
 		return
 	var/author_job = H.advjob ? H.advjob : "Adventurer"
+	var/datum/job/J = SSjob.GetJob(H.job)
+	if (J.obsfuscated_job || J.wanderer_examine)
+		author_job = "Adventurer"
 	if(!(H.real_name in authors))
 		authors[H.real_name] = author_job
 	else if(authors[H.real_name] != author_job)
@@ -171,6 +174,8 @@
 			var/final_desc = "A book to improve your skills."
 			var/custom_title_chosen = FALSE
 			var/final_name = null
+			var/custom_authors_chosen = FALSE
+			var/final_authorline = null
 
 			if(user.real_name in authors)
 				var/obj/item/skillbook/temp_book = new /obj/item/skillbook()//Create a temporary book to get an automatic title
@@ -198,6 +203,18 @@
 						if(last_char != "." && last_char != "!" && last_char != "?")
 							new_desc += "."
 						final_desc = new_desc
+
+				if(alert("Would you like to write a custom author section for the book?", "Book Authors", "Yes", "No") == "Yes")
+					var/new_authorline = input(user, "Enter book authors (max 128 characters):", "Book Authors", final_authorline) as text|null
+					if(new_authorline)
+						if(length(new_authorline) > 128)
+							to_chat(user, span_warning("Author list is too long! Maximum 128 characters."))
+							return
+						custom_authors_chosen = TRUE
+						if(alert("One or multiple authors?", "Book Authors", "One", "Multiple") == "One")
+							final_authorline = " Author: [new_authorline]."
+						else
+							final_authorline = " Authors: [new_authorline]."
 			var/available_sprites = list(
 				"Basic Book" = "basic_book",
 				"Fancy Book" = "book",
@@ -248,6 +265,8 @@
 			to_chat(user,"I begin finalizing my writing...")
 			if(do_after(user, 50))
 				var/authors_line = get_authors_line()
+				if (custom_authors_chosen)
+					authors_line = final_authorline
 				to_chat(user, span_notice("I finish the book!"))
 				add_sleep_experience(user, /datum/skill/misc/reading, user.STAINT*1.5)//decently more than writing the book
 				var/obj/item/skillbook/newbook = new /obj/item/skillbook(get_turf(src))

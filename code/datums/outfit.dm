@@ -238,11 +238,17 @@
 			WARNING("Unable to equip accessory [accessory] in outfit [name]. No uniform present!")
 
 	if(!visualsOnly)
-		if(l_hand)
-			H.put_in_hands(new l_hand(get_turf(H)), FALSE, forced = TRUE)
-		if(r_hand)
-
-			H.put_in_hands(new r_hand(get_turf(H)), FALSE, forced = TRUE)
+		// gives a 50/50 chance for hands to be swapped
+		if(prob(50))
+			if(l_hand)
+				H.put_in_l_hand(new l_hand(get_turf(H)), TRUE)
+			if(r_hand)
+				H.put_in_r_hand(new r_hand(get_turf(H)), TRUE)
+		else
+			if(l_hand)
+				H.put_in_r_hand(new l_hand(get_turf(H)), TRUE)
+			if(r_hand)
+				H.put_in_l_hand(new r_hand(get_turf(H)), TRUE)
 
 	if(!visualsOnly) // Items in pockets or backpack don't show up on mob's icon.
 		if(l_pocket)

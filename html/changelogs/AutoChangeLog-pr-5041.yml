@@ -1,7 +1,0 @@
-author: "Geevies"
-delete-after: True
-changes:
-  - rscadd: "Added subclasses for the councillor, based on a few \"\"\"playstyles\"\"\" they might try to play into. Also changed their outfits to look a bit more noble, befitting their station."
-  - rscadd: "Councillor subclass: Herald. This class is based on movement and getting word out to people quickly, it comes with less money but you gain a saiga and some riding skill. Think about this as the person you send to send someone else to gather a militia."
-  - rscadd: "Councillor subclass: Advisor. This class comes with extra intelligence. This is the councillor that will be smart in courtly matters and discuss the state with the Duke / Duchess."
-  - rscadd: "Councillor subclass: Cofferer. This class comes with m o n e y. This is the councillor that isn't particularly quick, smart, or enthused to do much. They spawn with a lot of mammon and have the ability to see the price of items on examine properly. They throw mammon at problems to make them go away."

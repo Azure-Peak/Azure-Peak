@@ -44,6 +44,7 @@
 		STATKEY_STR = -1,
 		STATKEY_CON = -1,
 	)
+	age_mod = /datum/class_age_mod/court_physician
 	subclass_skills = list(
 		/datum/skill/misc/reading = SKILL_LEVEL_MASTER,
 		/datum/skill/combat/polearms = SKILL_LEVEL_JOURNEYMAN, //same tier as other yeomen
@@ -89,12 +90,5 @@
 	)
 	if(H.mind)
 		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/diagnose/secular)
-	if(H.age == AGE_MIDDLEAGED)
-		H.adjust_skillrank_up_to(/datum/skill/craft/sewing, 4, TRUE)
-	if(H.age == AGE_OLD)
-		H.adjust_skillrank_up_to(/datum/skill/craft/alchemy, 6, TRUE) //small carrot to play old
-		H.change_stat(STATKEY_SPD, -1)
-		H.change_stat(STATKEY_INT, 1)
-		H.change_stat(STATKEY_PER, 1)
 	if(H.mind)
 		SStreasury.give_money_account(ECONOMIC_RICH, H, "Savings.")

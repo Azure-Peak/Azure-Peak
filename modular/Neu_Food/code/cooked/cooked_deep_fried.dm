@@ -10,7 +10,7 @@
 	bitesize = 6 // Consistent with butter
 	faretype = FARE_FINE // Now you can eat butter as a knight...
 	tastes = list("crunchy toastcrumbs" = 1, "molten butter" = 1)
-	eat_effect = /datum/status_effect/buff/foodbuff
+	eat_effect = /datum/status_effect/buff/greatsnackbuff
 	rotprocess = SHELFLIFE_DECENT
 
 // Cooked results
@@ -25,7 +25,7 @@
 	bitesize = 5 // If you go through all of the efforts to make this it should have big portion
 	tastes = list("crunchy toastcrumbs" = 1, "tender pork" = 1)
 	cooked_type = null
-	eat_effect = /datum/status_effect/buff/foodbuff
+	eat_effect = /datum/status_effect/buff/greatsnackbuff
 	rotprocess = SHELFLIFE_DECENT
 
 // Doesn't matter it was spider meat if you go through the effort it should be as good

@@ -16,6 +16,7 @@
 		STATKEY_SPD = 1
 	)
 	subclass_spellpoints = 27 // Unlike Rogue Mage, who gets 6 but DExpert, this one don't have DExpert but have more spell points than anyone but the CM. 
+	age_mod = /datum/class_age_mod/wretch/hedge_mage
 	subclass_skills = list(
 		/datum/skill/combat/staves = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/combat/polearms = SKILL_LEVEL_JOURNEYMAN,
@@ -57,8 +58,5 @@
 		/obj/item/reagent_containers/glass/bottle/alchemical/healthpot = 1,	//Small health vial
 	)
 	H.dna.species.soundpack_m = new /datum/voicepack/male/wizard()
-	if(H.age == AGE_OLD)
-		H.adjust_skillrank_up_to(/datum/skill/magic/arcane, SKILL_LEVEL_MASTER, TRUE)
-		H.mind?.adjust_spellpoints(6)
 	if(H.mind)
 		wretch_select_bounty(H)

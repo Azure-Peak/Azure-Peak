@@ -1,0 +1,4 @@
+author: "mumblemancer"
+delete-after: True
+changes:
+  - bugfix: "made masked examines not be stuck 2gether"

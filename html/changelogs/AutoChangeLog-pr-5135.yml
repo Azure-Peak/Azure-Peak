@@ -1,0 +1,4 @@
+author: "Geevies"
+delete-after: True
+changes:
+  - rscadd: "Xylixian Devotees (anyone that has access to T0 miracles) now have a passive that lets them re-roll good and bad luck events."

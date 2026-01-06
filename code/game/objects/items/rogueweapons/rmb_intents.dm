@@ -187,6 +187,7 @@
 	skill_factor = (ourskill - theirskill)/2
 
 	var/special_msg
+	var/newcd = (BASE_RCLICK_CD - user.get_tempo_bonus(TEMPO_TAG_RCLICK_CD_BONUS)) + feintdur
 
 	if(L.has_status_effect(/datum/status_effect/debuff/exposed))
 		perc = 0
@@ -197,6 +198,7 @@
 
 	if(!L.can_see_cone(user) && L.mind)
 		perc = 0
+		newcd = 5 SECONDS
 		special_msg = span_warning("They need to see me for me to feint them!")
 
 	perc = CLAMP(perc, 0, 90)
@@ -205,7 +207,7 @@
 		playsound(user, 'sound/combat/feint.ogg', 100, TRUE)
 		if(user.client?.prefs.showrolls)
 			to_chat(user, span_warning("[L.p_they(TRUE)] did not fall for my feint... [perc]%"))
-		user.apply_status_effect(/datum/status_effect/debuff/feintcd)
+		user.apply_status_effect(/datum/status_effect/debuff/feintcd, newcd)
 		if(special_msg)
 			to_chat(user, special_msg)
 		return
@@ -215,12 +217,11 @@
 		to_chat(user, span_notice("[L.p_their(TRUE)] Guard disrupted!"))
 	L.apply_status_effect(/datum/status_effect/debuff/exposed, feintdur)
 	L.apply_status_effect(/datum/status_effect/debuff/clickcd, max(1.5 SECONDS + skill_factor, 2.5 SECONDS))
-	L.apply_status_effect(/datum/status_effect/debuff/feinted, 30 SECONDS + feintdur)
+	L.apply_status_effect(/datum/status_effect/debuff/feinted, newcd)
 	L.Immobilize(0.5 SECONDS)
 	L.stamina_add(L.stamina * 0.1)
 	L.Slowdown(2)
 
-	var/newcd = (BASE_RCLICK_CD - user.get_tempo_bonus(TEMPO_TAG_RCLICK_CD_BONUS)) + feintdur
 	user.apply_status_effect(/datum/status_effect/debuff/feintcd, newcd)
 	to_chat(user, span_notice("[L.p_they(TRUE)] fell for my feint attack!"))
 	to_chat(L, span_danger("I fall for [user.p_their()] feint attack!"))

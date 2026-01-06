@@ -1,5 +1,0 @@
-author: "Geevies"
-delete-after: True
-changes:
-  - rscadd: "You can now adjust clothing in your helmet storage, meaning you can wear the hood down."
-  - bugfix: "Dyeing the headwear will no longer automatically apply the color to decorations."

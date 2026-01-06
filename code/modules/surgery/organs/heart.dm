@@ -98,7 +98,7 @@
 
 				H.hearts_eaten++
 				nothing = TRUE
-				S.eat_effect = /datum/status_effect/buff/foodbuff*/
+				S.eat_effect = /datum/status_effect/buff/snackbuff*/
 	if(!nothing)
 		S.eat_effect = /datum/status_effect/debuff/uncookedfood
 	return S
