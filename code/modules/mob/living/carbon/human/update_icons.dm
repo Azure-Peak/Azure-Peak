@@ -1448,6 +1448,29 @@ There are several things that need to be remembered:
 
 	rebuild_obscured_flags()
 
+/mob/living/carbon/human/proc/update_inv_armor_special()
+	remove_overlay(ARMOR_LAYER)
+	to_chat(world, span_danger("We have a skin of [skin_armor] with icon of [skin_armor.icon] and state of [skin_armor.icon_state]"))
+
+	if(!skin_armor)
+		return
+
+	var/armor_icon_state = skin_armor.icon_state
+	var/armor_icon_file = skin_armor.icon
+
+	if(!(src.mobility_flags & MOBILITY_STAND))
+		armor_icon_state = "[skin_armor.icon_state]_down"
+	
+	// Create simple overlay
+	var/mutable_appearance/armor_overlay = mutable_appearance(
+		armor_icon_file,
+		armor_icon_state,
+		layer = ARMOR_LAYER
+	)
+
+	overlays_standing[ARMOR_LAYER] = armor_overlay
+	apply_overlay(ARMOR_LAYER)
+
 //endrogue
 
 

@@ -76,6 +76,7 @@
 		/datum/language/beast,
 		/datum/language/common,
 	)
+	var/gnoll_armor_icon = "beserker"
 
 /datum/species/gnoll/send_voice(mob/living/carbon/human/H)
 	playsound(get_turf(H), pick('sound/vo/mobs/wwolf/wolftalk1.ogg','sound/vo/mobs/wwolf/wolftalk2.ogg'), 100, TRUE, -1)
@@ -85,6 +86,8 @@
 	H.base_intents = list(INTENT_HELP, INTENT_DISARM, INTENT_GRAB)
 	H.icon_state = "firepelt"
 	H.update_damage_overlays()
+	//H.update_inv_armor_special()
+	//H.update_inv_armor()
 	return TRUE
 
 /datum/species/gnoll/on_species_gain(mob/living/carbon/C, datum/species/old_species)
@@ -94,6 +97,10 @@
 	C.pixel_x = -8
 	C.base_pixel_y = -4
 	C.pixel_y = -4
+
+	var/mob/living/carbon/human/H = C
+	H.skin_armor = new /obj/item/clothing/suit/roguetown/armor/regenerating/skin/gnoll_armor(C)
+	//H.equipOutfit(/datum/outfit/job/roguetown/gnoll)
 
 /datum/species/gnoll/update_damage_overlays(mob/living/carbon/human/H)
 	H.remove_overlay(DAMAGE_LAYER)
