@@ -6,7 +6,13 @@
 	var/changed = 0
 	if(lying != lying_prev && rotate_on_lying)
 		changed++
-		ntransform.TurnTo(lying_prev , lying)
+		if(src.dna?.species?.custom_rotation_icon)
+			if(!(src.mobility_flags & MOBILITY_STAND))
+				src.icon_state = "[icon_state]_down"
+			else
+				src.icon_state = src.dna?.species?.custom_base_icon
+		else
+			ntransform.TurnTo(lying_prev , lying)
 		lying_prev = lying
 		if(!lying) //Lying to standing
 			final_pixel_y = get_standard_pixel_y_offset()
