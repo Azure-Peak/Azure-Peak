@@ -163,3 +163,11 @@
 	name = "Foreign"
 	prefix = "%LOOK%"
 
+/datum/mob_descriptor/trait/soggy
+	name = "Soggy"
+	prefix = "%ARE% very"
+
+/datum/mob_descriptor/trait/rotten
+	name = "Rotten"
+	prefix = "%ARE% very
+
