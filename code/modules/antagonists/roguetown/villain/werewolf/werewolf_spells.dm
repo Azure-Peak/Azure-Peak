@@ -1,21 +1,24 @@
 /obj/effect/proc_holder/spell/self/howl
 	name = "Howl"
-	desc = "!"
+	desc = "Howl to the moon to communicate with my fellow wolves. Do beware, those versed in beasttongue may be listening."
 	overlay_state = "howl"
 	antimagic_allowed = TRUE
 	recharge_time = 600 //1 minute
 	ignore_cockblock = TRUE
 	var/use_language = FALSE
+	var/list/howl_sounds = list('sound/vo/mobs/wwolf/howl (1).ogg','sound/vo/mobs/wwolf/howl (2).ogg')
+	var/list/howl_sounds_far = list('sound/vo/mobs/wwolf/howldist (1).ogg','sound/vo/mobs/wwolf/howldist (2).ogg')
+	var/wolf_antag_type = /datum/antagonist/werewolf
 
 /obj/effect/proc_holder/spell/self/howl/cast(mob/user = usr)
 	..()
 	var/message = input("Howl at the hidden moon...", "MOONCURSED") as text|null
 	if(!message) return
 
-	var/datum/antagonist/werewolf/werewolf_player = user.mind.has_antag_datum(/datum/antagonist/werewolf)
+	var/datum/antagonist/antag_data = user.mind.has_antag_datum(wolf_antag_type)
 
 	// sound played for owner
-	playsound(src, pick('sound/vo/mobs/wwolf/howl (1).ogg','sound/vo/mobs/wwolf/howl (2).ogg'), 75, TRUE)
+	playsound(src, pick(howl_sounds), 75, TRUE)
 
 	for(var/mob/player in GLOB.player_list)
 
@@ -24,17 +27,16 @@
 		if(isbrain(player)) continue
 
 		// Announcement to other werewolves (and anyone else who has beast language somehow)
-		if(player.mind.has_antag_datum(/datum/antagonist/werewolf) || (player.has_language(/datum/language/beast)))
-			to_chat(player, span_boldannounce("[werewolf_player ? werewolf_player.wolfname : user.real_name] howls to the hidden moon: [message]"))
+		if(player.mind.has_antag_datum(wolf_antag_type) || (player.has_language(/datum/language/beast)))
+			var/speaker_name = (antag_data && hasvar(antag_data, "wolfname")) ? antag_data:wolfname : user.real_name
+			to_chat(player, span_boldannounce("[speaker_name] howls to the hidden moon: [message]"))
 
 		//sound played for other players
 		if(player == src) continue
 		if(get_dist(player, src) > 7)
-			player.playsound_local(get_turf(player), pick('sound/vo/mobs/wwolf/howldist (1).ogg','sound/vo/mobs/wwolf/howldist (2).ogg'), 50, FALSE, pressure_affected = FALSE)
+			player.playsound_local(get_turf(player), pick(howl_sounds_far), 50, FALSE, pressure_affected = FALSE)
 
-	var/log_type = werewolf_player ? "(WEREWOLF))" : "(BEAST LANGUAGE)"
-
-	user.log_message("howls: [message] ([log_type])", LOG_GAME)
+	user.log_message("howls: [message] ([wolf_antag_type])", LOG_GAME)
 
 /obj/effect/proc_holder/spell/self/claws
 	name = "Lupine Claws"
