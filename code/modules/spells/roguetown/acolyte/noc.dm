@@ -49,8 +49,12 @@ to still keep this unavailable to mages... for the moment, at least.
 	effectedstats = list(STATKEY_PER = -3)
 
 /datum/status_effect/blindness/on_creation(mob/living/new_owner, assocskill)
-	// Guaranteed at least five seconds. 
-	duration = clamp(assoc_skil*3, 5, 30)
+	// Guaranteed at least five seconds. Technically not needed but Just In CaseTM.
+	if(assocskill)
+		duration = clamp(assocskill*5, 5, 30)
+	// Fallback.
+	else
+		duration = 5 SECONDS
 	// Call parent after so it doesn't break down. 
 	. = ..()
 
