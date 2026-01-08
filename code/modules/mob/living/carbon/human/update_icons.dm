@@ -1450,7 +1450,6 @@ There are several things that need to be remembered:
 
 /mob/living/carbon/human/proc/update_inv_armor_special()
 	remove_overlay(ARMOR_LAYER)
-	to_chat(world, span_danger("We have a skin of [skin_armor] with icon of [skin_armor.icon] and state of [skin_armor.icon_state]"))
 
 	if(!skin_armor)
 		return

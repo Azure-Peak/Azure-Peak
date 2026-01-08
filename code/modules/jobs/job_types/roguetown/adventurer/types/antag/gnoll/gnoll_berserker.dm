@@ -4,15 +4,14 @@
 	allowed_sexes = list(MALE, FEMALE)
 	allowed_races = RACES_ALL_KINDS
 	outfit = /datum/outfit/job/roguetown/gnoll/berserker
-	cmode_music = 'sound/music/cmode/antag/combat_darkstar.ogg'
+	cmode_music = 'sound/music/combat_graggar.ogg'
 	category_tags = list(CTAG_GNOLL)
 	traits_applied = list()
-	// Literally same stat spread as Atgervi Shaman
 	subclass_stats = list(
 		STATKEY_STR = 3,
 		STATKEY_CON = 2,
 		STATKEY_WIL = 1,
-		STATKEY_SPD = 1,
+		STATKEY_SPD = 5,
 		STATKEY_INT = -1,
 		STATKEY_PER = -1
 	)
@@ -29,4 +28,3 @@
 	H.set_species(/datum/species/gnoll)
 	H.skin_armor = new /obj/item/clothing/suit/roguetown/armor/regenerating/skin/gnoll_armor(H)
 	don_pelt(H)
-	H.dna.species.soundpack_m = new /datum/voicepack/male/warrior()

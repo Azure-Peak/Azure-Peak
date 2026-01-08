@@ -1,6 +1,6 @@
 /datum/job/roguetown/gnoll
 	title = "Gnoll"
-	flag = WRETCH
+	flag = GNOLL
 	department_flag = PEASANTS
 	faction = "Station"
 	total_positions = 1
@@ -30,9 +30,9 @@
 	virtue_restrictions = list(/datum/virtue/utility/noble) //Are you for real?
 	job_subclasses = list(
 		/datum/advclass/gnoll/berserker,
-		//datum/advclass/gnoll/knight,
-		//datum/advclass/gnoll/templar,
-		//datum/advclass/gnoll/shaman,
+		/datum/advclass/gnoll/knight,
+		/datum/advclass/gnoll/templar,
+		/datum/advclass/gnoll/shaman,
 	)
 
 /datum/job/roguetown/gnoll/after_spawn(mob/living/L, mob/M, latejoin = TRUE)

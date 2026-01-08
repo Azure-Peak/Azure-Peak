@@ -159,6 +159,7 @@ GLOBAL_LIST_INIT(wanderer_positions, list(
 	"Assassin",
 	"Court Agent",
 	"Wretch",
+	"Gnoll",
 ))
 
 GLOBAL_LIST_INIT(roguewar_positions, list(
