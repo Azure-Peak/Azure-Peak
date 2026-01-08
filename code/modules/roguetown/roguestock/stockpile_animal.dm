@@ -44,20 +44,14 @@
 	name = "Pork"
 	desc = "Edible flesh harvested from swines."
 	item_type = /obj/item/reagent_containers/food/snacks/rogue/meat/fatty
-
 	held_items = list(0, 0)
-	held_random_upper = 5
-	held_random_lower = 1
-	nothing_chance = 40
-	export_only = TRUE
-
-	payout_price = 5
-	withdraw_price = 8
-	transport_fee = 8
-	export_price = 7
+	payout_price = 3
+	withdraw_price = 3
+	transport_fee = 1
+	export_price = 5
 	importexport_amt = 5
 	stockpile_limit = 25
-	passive_generation = 0
+	passive_generation = 2
 	category = "Animal"
 
 /datum/roguestock/stockpile/fat
