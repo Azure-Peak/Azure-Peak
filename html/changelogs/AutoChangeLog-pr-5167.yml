@@ -1,0 +1,4 @@
+author: "Geevies"
+delete-after: True
+changes:
+  - rscadd: "The HUD face reacts faster, and will react to injury."

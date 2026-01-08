@@ -1,0 +1,4 @@
+author: "bearrrrrrrr"
+delete-after: True
+changes:
+  - bugfix: "churn wealth dmg properly applied at max level, now kills and delimbs over 1k moni"

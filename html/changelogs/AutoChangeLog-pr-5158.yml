@@ -1,4 +1,0 @@
-author: "SpadesNeil"
-delete-after: True
-changes:
-  - bugfix: "Changes iron bullets for firearms to actually use the 2x multiplier on simple mobs that it was supposed to have from the start. 2.5x was in error from old code I forgot to change."

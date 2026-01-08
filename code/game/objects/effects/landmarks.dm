@@ -83,52 +83,10 @@ INITIALIZE_IMMEDIATE(/obj/effect/landmark)
 	jobspawn_override = list("Pilgrim", "Adventurer", "Migrant", "Trader")
 	delete_after_roundstart = FALSE
 
-/obj/effect/landmark/start/banditlate
-	name = "Bandit"
-	icon_state = "arrow"
-	jobspawn_override = list("Bandit")
-	delete_after_roundstart = FALSE
-
-/obj/effect/landmark/start/bogguardlate
-	name = "Bogguardlate"
-	icon_state = "arrow"
-	jobspawn_override = list("Bog Master", "Bog Guard", "Warden")
-	delete_after_roundstart = FALSE
-
-/obj/effect/landmark/start/vagrantlate
-	name = "Beggarlate"
-	icon_state = "arrow"
-	jobspawn_override = list("Beggar")
-	delete_after_roundstart = FALSE
-
-/obj/effect/landmark/start/orphanlate
-	name = "Vagabondlate"
-	icon_state = "arrow"
-	jobspawn_override = list("Vagabond")
-	delete_after_roundstart = FALSE
-
-/obj/effect/landmark/start/desertriderlate
-	name = "DesertRiderlate"
-	icon_state = "arrow"
-	jobspawn_override = list("Desert Rider Mercenary")
-	delete_after_roundstart = FALSE
-
-/obj/effect/landmark/start/grenzelhoftlate
-	name = "Grenzelhoftlate"
-	icon_state = "arrow"
-	jobspawn_override = list("Grenzelhoft Mercenary")
-	delete_after_roundstart = FALSE
-
 /obj/effect/landmark/start/mercenarylate
 	name = "Mercenarylate"
 	icon_state = "arrow"
 	jobspawn_override = list("Mercenary")
-	delete_after_roundstart = FALSE
-
-/obj/effect/landmark/start/villagerlate
-	name = "Townerlate"
-	icon_state = "arrow"
-	jobspawn_override = list("Towner")
 	delete_after_roundstart = FALSE
 
 /obj/effect/landmark/start/sieges
@@ -145,16 +103,12 @@ INITIALIZE_IMMEDIATE(/obj/effect/landmark)
 	name = "Knight"
 	icon_state = "arrow"
 
-/obj/effect/landmark/start/sheriff
-	name = "Town Sheriff"
-	icon_state = "arrow"
-
-/obj/effect/landmark/start/guard_captain
+/obj/effect/landmark/start/knight_captain
 	name = "Knight Captain"
 	icon_state = "arrow"
 
-/obj/effect/landmark/start/barkeep
-	name = "Barkeep"
+/obj/effect/landmark/start/innkeeper
+	name = "Innkeeper"
 	icon_state = "arrow"
 
 /obj/effect/landmark/start/cook
@@ -178,19 +132,11 @@ INITIALIZE_IMMEDIATE(/obj/effect/landmark)
 	icon_state = "arrow"
 
 /obj/effect/landmark/start/guardsman
-	name = "Watchman"
-	icon_state = "arrow"
-
-/obj/effect/landmark/start/manorguardsman
 	name = "Man at Arms"
 	icon_state = "arrow"
 
-/obj/effect/landmark/start/bogmaster
-	name = "Bog Master"
-	icon_state = "arrow"
-
-/obj/effect/landmark/start/bogguardsman
-	name = "Bog Guard"
+/obj/effect/landmark/start/warden
+	name = "Warden"
 	icon_state = "arrow"
 
 /obj/effect/landmark/start/marshal
@@ -205,10 +151,6 @@ INITIALIZE_IMMEDIATE(/obj/effect/landmark)
 	name = "Veteran"
 	icon_state = "arrow"
 
-/obj/effect/landmark/start/watchman
-	name = "Gatemaster"
-	icon_state = "arrow"
-
 /obj/effect/landmark/start/villager
 	name = "Towner"
 	icon_state = "arrow"
@@ -221,7 +163,7 @@ INITIALIZE_IMMEDIATE(/obj/effect/landmark)
 	name = "Keeper"
 	icon_state = "arrow"
 
-/obj/effect/landmark/start/priest
+/obj/effect/landmark/start/bishop
 	name = "Bishop"
 	icon_state = "arrow"
 
@@ -245,7 +187,7 @@ INITIALIZE_IMMEDIATE(/obj/effect/landmark)
 	name = "Martyr"
 	icon_state = "arrow"
 
-/obj/effect/landmark/start/puritan
+/obj/effect/landmark/start/inquisitor
 	name = "Inquisitor"
 	icon_state = "arrow"
 
@@ -261,11 +203,11 @@ INITIALIZE_IMMEDIATE(/obj/effect/landmark)
 	name = "Sergeant"
 	icon_state = "arrow"
 
-/obj/effect/landmark/start/nightman
+/obj/effect/landmark/start/bathmaster
 	name = "Bathmaster"
 	icon_state = "arrow"
 
-/obj/effect/landmark/start/nightmaiden
+/obj/effect/landmark/start/bathworker
 	name = "Bathhouse Attendant"
 	icon_state = "arrow"
 
@@ -276,11 +218,6 @@ INITIALIZE_IMMEDIATE(/obj/effect/landmark)
 /obj/effect/landmark/start/shophand
 	name = "Shophand"
 	icon_state = "arrow"
-
-/obj/effect/landmark/start/grabber
-	name = "Grabber"
-	icon_state = "arrow"
-
 
 /obj/effect/landmark/start/innkeep
 	name = "Innkeep"
@@ -302,14 +239,6 @@ INITIALIZE_IMMEDIATE(/obj/effect/landmark)
 	name = "Tailor"
 	icon_state = "arrow"
 
-/obj/effect/landmark/start/alchemist
-	name = "Alchemist"
-	icon_state = "arrow"
-
-/obj/effect/landmark/start/scribe
-	name = "Scribe"
-	icon_state = "arrow"
-
 /obj/effect/landmark/start/farmer
 	name = "Soilson"
 	icon_state = "arrow"
@@ -318,11 +247,11 @@ INITIALIZE_IMMEDIATE(/obj/effect/landmark)
 	name = "Cook"
 	icon_state = "arrow"
 
-/obj/effect/landmark/start/knavewench
+/obj/effect/landmark/start/tapster
 	name = "Tapster"
 	icon_state = "arrow"
 
-/obj/effect/landmark/start/gravedigger
+/obj/effect/landmark/start/gravedigger //UNUSED / DELETE LATER WITH MAP EDITOR
 	name = "Mortician"
 	icon_state = "arrow"
 
@@ -346,15 +275,11 @@ INITIALIZE_IMMEDIATE(/obj/effect/landmark)
 	name = "Prince"
 	icon_state = "arrow"
 
-/obj/effect/landmark/start/prisonerr
+/obj/effect/landmark/start/prisonerr //DELETE - UNUSED
 	name = "Prisoner (Azure Keep)"
 	icon_state = "arrow"
 
-/obj/effect/landmark/start/prisonerb
-	name = "Prisoner (Bog)"
-	icon_state = "arrow"
-
-/obj/effect/landmark/start/hostage
+/obj/effect/landmark/start/hostage //DELETE - UNUSED
 	name = "Hostage"
 	icon_state = "arrow"
 
@@ -366,23 +291,15 @@ INITIALIZE_IMMEDIATE(/obj/effect/landmark)
 	name = "Hand"
 	icon_state = "arrow"
 
-/obj/effect/landmark/start/hunter
-	name = "Hunter"
-	icon_state = "arrow"
-
-/obj/effect/landmark/start/fisher
+/obj/effect/landmark/start/fisher //DELETE - UNUSED
 	name = "Fisher"
 	icon_state = "arrow"
 
-/obj/effect/landmark/start/lumberjack
-	name = "Lumberjack"
-	icon_state = "arrow"
-
-/obj/effect/landmark/start/butler
+/obj/effect/landmark/start/seneschal
 	name = "Seneschal"
 	icon_state = "arrow"
 
-/obj/effect/landmark/start/barkeeper
+/obj/effect/landmark/start/innkeeperer
 	name = "Innkeeper"
 	icon_state = "arrow"
 
@@ -402,8 +319,6 @@ INITIALIZE_IMMEDIATE(/obj/effect/landmark)
 	name = "Lunatic"
 	icon_state = "arrow"
 
-//yrf
-
 /obj/effect/landmark/start/squire
 	name = "Squire"
 	icon_state = "arrow"
@@ -420,34 +335,12 @@ INITIALIZE_IMMEDIATE(/obj/effect/landmark)
 	name = "Servant"
 	icon_state = "arrow"
 
-/obj/effect/landmark/start/churchling
+/obj/effect/landmark/start/sexton
 	name = "Sexton"
 	icon_state = "arrow"
 
 /obj/effect/landmark/start/orphan
 	name = "Vagabond"
-	icon_state = "arrow"
-
-/obj/effect/landmark/start/sapprentice
-	name = "Smithy Apprentice"
-	icon_state = "arrow"
-
-//goblin
-
-/obj/effect/landmark/start/goblinking
-	name = "Goblin King"
-	icon_state = "arrow"
-
-/obj/effect/landmark/start/goblincook
-	name = "Goblin Cook"
-	icon_state = "arrow"
-
-/obj/effect/landmark/start/goblinguard
-	name = "Goblin Guard"
-	icon_state = "arrow"
-
-/obj/effect/landmark/start/goblinsmith
-	name = "Goblin Smith"
 	icon_state = "arrow"
 
 //Antagonist spawns

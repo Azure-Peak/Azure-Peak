@@ -857,6 +857,7 @@
 	rattlesound = 'sound/foley/doors/lockrattlemetal.ogg'
 	attacked_sound = list("sound/combat/hits/onmetal/metalimpact (1).ogg", "sound/combat/hits/onmetal/metalimpact (2).ogg")
 	lock_strength = 200
+	lockdifficulty = 3
 	repair_cost_second = /obj/item/ingot/iron
 	repair_skill = /datum/skill/craft/carpentry
 
@@ -948,6 +949,7 @@
 	ridethrough = TRUE
 	swing_closed = FALSE
 	lock_strength = 150
+	lockdifficulty = 2
 	repairable = TRUE
 	repair_cost_first = /obj/item/ingot/iron
 	repair_cost_second = /obj/item/ingot/iron
@@ -1029,12 +1031,12 @@
 	keylock = TRUE
 	grant_resident_key = TRUE
 	resident_key_type = /obj/item/roguekey/bath
-	resident_role = /datum/job/roguetown/nightmaiden
+	resident_role = /datum/job/roguetown/bathworker
 	lockid = null //Will be randomized
 
 /obj/structure/mineral_door/wood/bath/bathmaid
 	icon_state = "woodwindow"
-	resident_advclass = list(/datum/advclass/nightmaiden)
+	resident_advclass = list(/datum/advclass/bathworker)
 
 /obj/structure/mineral_door/wood/bath/courtesan
-	resident_advclass = list(/datum/advclass/nightmaiden/concubine, /datum/advclass/nightmaiden/courtesan)
+	resident_advclass = list(/datum/advclass/bathworker/concubine, /datum/advclass/bathworker/courtesan)

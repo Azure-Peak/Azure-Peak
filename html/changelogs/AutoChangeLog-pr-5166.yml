@@ -1,0 +1,4 @@
+author: "hazelrat"
+delete-after: True
+changes:
+  - bugfix: "Arrow quivers no longer appear full if emptied by clicking them directly with a bow."

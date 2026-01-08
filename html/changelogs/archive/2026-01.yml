@@ -303,3 +303,27 @@
       cabbits foot.
   mumblemancer:
   - bugfix: made masked examines not be stuck 2gether
+2026-01-08:
+  BurpleBineapple:
+  - rscadd: Bad omens now trigger bad omen events.
+  - rscadd: Bad omen events can now be force triggered at any time using the launch_omen_event()
+      proc.
+  FreeStylaLT:
+  - balance: Baits now require LOS.
+  Geevies:
+  - rscadd: Flavour Text music no longer stops playing when you close the window.
+  JustSomeGalSS13:
+  - rscadd: Mindlink now plays a sound for the recipient
+  Ketrai:
+  - rscadd: Stockpiles can now have random scarcity
+  - balance: Some stockpile goods are scarce now
+  Ryan180602:
+  - rscadd: Chance for sakura weather on Eora.
+  - bugfix: fix forever leaves.
+  SillyMoff:
+  - rscadd: 3 subclasses for withces
+  - balance: transforms now take 3 second
+  SpadesNeil:
+  - bugfix: Changes iron bullets for firearms to actually use the 2x multiplier on
+      simple mobs that it was supposed to have from the start. 2.5x was in error from
+      old code I forgot to change.

@@ -1,4 +1,0 @@
-author: "Geevies"
-delete-after: True
-changes:
-  - rscadd: "Flavour Text music no longer stops playing when you close the window."

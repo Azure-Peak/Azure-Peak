@@ -1,0 +1,4 @@
+author: "Lamasmaster"
+delete-after: True
+changes:
+  - rscdel: "Knight garrison armoury key"

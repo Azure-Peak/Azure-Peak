@@ -1,0 +1,4 @@
+author: "hazelrat"
+delete-after: True
+changes:
+  - rscadd: "The city walls can now be fully navigated by anyone with a wall key."
