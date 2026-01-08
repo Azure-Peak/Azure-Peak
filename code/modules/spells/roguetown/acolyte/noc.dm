@@ -57,6 +57,7 @@ to still keep this unavailable to mages... for the moment, at least.
 	. = ..()
 
 /datum/status_effect/blindness/on_apply()
+	// Blindness actually hooks into the vision_cone.dm as part of a status effect check.
 	. = ..()
 
 /datum/status_effect/blindness/on_remove()
