@@ -84,22 +84,20 @@
 /datum/species/gnoll/regenerate_icons(mob/living/carbon/human/H)
 	H.icon = 'icons/roguetown/mob/monster/gnoll.dmi'
 	H.base_intents = list(INTENT_HELP, INTENT_DISARM, INTENT_GRAB)
-	H.icon_state = "firepelt"
+	//H.icon_state = "firepelt"
 	H.update_damage_overlays()
-	//H.update_inv_armor_special()
+	H.update_inv_armor_special()
 	//H.update_inv_armor()
 	return TRUE
 
 /datum/species/gnoll/on_species_gain(mob/living/carbon/C, datum/species/old_species)
 	. = ..()
 	RegisterSignal(C, COMSIG_MOB_SAY, PROC_REF(handle_speech))
+	C.icon_state = "firepelt"
 	C.base_pixel_x = -8
 	C.pixel_x = -8
 	C.base_pixel_y = -4
 	C.pixel_y = -4
-
-	var/mob/living/carbon/human/H = C
-	H.skin_armor = new /obj/item/clothing/suit/roguetown/armor/regenerating/skin/gnoll_armor(C)
 	//H.equipOutfit(/datum/outfit/job/roguetown/gnoll)
 
 /datum/species/gnoll/update_damage_overlays(mob/living/carbon/human/H)
