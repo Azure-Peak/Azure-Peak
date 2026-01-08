@@ -169,5 +169,5 @@
 
 /datum/mob_descriptor/trait/rotten
 	name = "Rotten"
-	prefix = "%ARE% very
+	prefix = "%ARE% very"
 
