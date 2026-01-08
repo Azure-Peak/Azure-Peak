@@ -161,20 +161,14 @@
 	name = "Sugar"
 	desc = "A sweet powder milled from sugarcane"
 	item_type = /obj/item/reagent_containers/food/snacks/sugar
-
 	held_items = list(0, 0)
-	held_random_upper = 3
-	held_random_lower = 1
-	nothing_chance = 60
-	export_only = TRUE
-
 	payout_price = 4
-	withdraw_price = 10
+	withdraw_price = 6
 	transport_fee = 2
 	export_price = 6
 	importexport_amt = 10
 	stockpile_limit = 50
-	passive_generation = 0
+	passive_generation = 2
 	category = "Vegetable"
 
 /datum/roguestock/stockpile/coffee
