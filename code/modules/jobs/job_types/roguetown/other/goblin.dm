@@ -1,7 +1,7 @@
 /datum/job/roguetown/goblin
 	title = "Goblin"
 	flag = GOBLIN
-	department_flag = SLOP
+	department_flag = ANTAGONIST
 	faction = "Station"
 	total_positions = 0
 	spawn_positions = 0

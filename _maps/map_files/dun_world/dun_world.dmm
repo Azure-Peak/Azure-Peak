@@ -3456,7 +3456,7 @@
 /obj/structure/fluff/walldeco/church/line{
 	dir = 4
 	},
-/obj/effect/landmark/start/churchling,
+/obj/effect/landmark/start/sexton,
 /turf/open/floor/rogue/churchmarble,
 /area/rogue/indoors/town/church/chapel)
 "aQX" = (
@@ -4649,7 +4649,7 @@
 /area/rogue/outdoors/mountains/decap/stepbelow)
 "bhc" = (
 /obj/structure/chair/wood/rogue/fancy,
-/obj/effect/landmark/start/priest,
+/obj/effect/landmark/start/bishop,
 /turf/open/floor/carpet/stellar,
 /area/rogue/indoors/town/church/chapel)
 "bhd" = (
@@ -5570,7 +5570,7 @@
 /area/rogue/indoors/town/magician)
 "btQ" = (
 /obj/structure/bed/rogue,
-/obj/effect/landmark/start/bogguardsman{
+/obj/effect/landmark/start/warden{
 	dir = 8;
 	jobspawn_override = list("Bog Master","Bog Guard","Warden");
 	name = "Warden"
@@ -8095,7 +8095,7 @@
 /turf/open/floor/rogue/grassred,
 /area/rogue/outdoors/town)
 "bZx" = (
-/obj/effect/landmark/start/manorguardsman,
+/obj/effect/landmark/start/guardsman,
 /obj/structure/bed/rogue{
 	dir = 8
 	},
@@ -10474,7 +10474,7 @@
 /turf/open/floor/rogue/twig,
 /area/rogue/outdoors/bog/north)
 "cDU" = (
-/obj/effect/landmark/start/bogguardsman{
+/obj/effect/landmark/start/warden{
 	dir = 8;
 	jobspawn_override = list("Bog Master","Bog Guard","Warden");
 	name = "Warden"
@@ -11456,7 +11456,7 @@
 /area/rogue/indoors)
 "cPo" = (
 /obj/structure/bed/rogue,
-/obj/effect/landmark/start/manorguardsman,
+/obj/effect/landmark/start/guardsman,
 /obj/item/bedsheet/rogue/fabric,
 /turf/open/floor/rogue/ruinedwood/spiral,
 /area/rogue/indoors/town/garrison)
@@ -11670,7 +11670,7 @@
 /turf/closed/wall/mineral/rogue/wooddark/end/west,
 /area/rogue/outdoors/bog/south)
 "cSr" = (
-/obj/effect/landmark/start/guard_captain,
+/obj/effect/landmark/start/knight_captain,
 /obj/machinery/light/rogue/candle,
 /turf/open/floor/carpet/red,
 /area/rogue/indoors/town/garrison)
@@ -17963,7 +17963,7 @@
 /turf/open/floor/rogue/concrete,
 /area/rogue/under/cave/goblinfort)
 "euL" = (
-/obj/effect/landmark/start/puritan{
+/obj/effect/landmark/start/inquisitor{
 	dir = 8
 	},
 /obj/structure/bed/rogue/inn/double,
@@ -18117,7 +18117,7 @@
 /obj/structure/bed/rogue{
 	dir = 8
 	},
-/obj/effect/landmark/start/bogguardsman{
+/obj/effect/landmark/start/warden{
 	dir = 8;
 	jobspawn_override = list("Bog Master","Bog Guard","Warden");
 	name = "Warden"
@@ -22654,7 +22654,7 @@
 /area/rogue/under/town/sewer)
 "fBz" = (
 /obj/structure/fluff/walldeco/church/line,
-/obj/effect/landmark/start/churchling,
+/obj/effect/landmark/start/sexton,
 /turf/open/floor/rogue/churchmarble,
 /area/rogue/indoors/town/church/chapel)
 "fBC" = (
@@ -23736,7 +23736,7 @@
 /obj/machinery/light/rogue/candle/r,
 /obj/structure/bed/rogue/inn,
 /obj/item/bedsheet/rogue/fabric,
-/obj/effect/landmark/start/knavewench,
+/obj/effect/landmark/start/tapster,
 /turf/open/floor/rogue/ruinedwood/chevron,
 /area/rogue/indoors/town/tavern)
 "fRe" = (
@@ -24236,7 +24236,7 @@
 	},
 /area/rogue/under/town/sewer)
 "fYY" = (
-/obj/effect/landmark/start/manorguardsman,
+/obj/effect/landmark/start/guardsman,
 /obj/structure/bed/rogue{
 	dir = 8
 	},
@@ -24559,7 +24559,7 @@
 /area/rogue/under/town/sewer)
 "gdx" = (
 /obj/structure/chair/stool/rogue,
-/obj/effect/landmark/start/churchling,
+/obj/effect/landmark/start/sexton,
 /turf/open/floor/rogue/wood,
 /area/rogue/indoors/town/church/chapel)
 "gdA" = (
@@ -27172,7 +27172,7 @@
 "gMT" = (
 /obj/machinery/light/rogue/candle/l,
 /obj/structure/roguemachine/mail{
-	mailtag = "Priest"
+	mailtag = "Bishop"
 	},
 /turf/open/floor/rogue/herringbone,
 /area/rogue/indoors/town/church/chapel)
@@ -27291,7 +27291,7 @@
 /turf/open/floor/rogue/cobble,
 /area/rogue/under/cave/skeletoncrypt)
 "gOz" = (
-/obj/effect/landmark/start/barkeep{
+/obj/effect/landmark/start/innkeeper{
 	dir = 1;
 	name = "Innkeeper"
 	},
@@ -33892,7 +33892,7 @@
 /area/rogue/indoors/shelter)
 "isf" = (
 /obj/structure/chair/stool/rogue,
-/obj/effect/landmark/start/bogguardsman{
+/obj/effect/landmark/start/warden{
 	dir = 4;
 	jobspawn_override = list("Bog Master","Bog Guard","Warden");
 	name = "Warden"
@@ -39663,7 +39663,7 @@
 /obj/structure/chair/wood/rogue/chair5{
 	dir = 8
 	},
-/obj/effect/landmark/start/nightmaiden{
+/obj/effect/landmark/start/bathworker{
 	dir = 8
 	},
 /turf/open/floor/rogue/tile/harem,
@@ -45043,7 +45043,7 @@
 /turf/open/floor/rogue/twig/platform,
 /area/rogue/outdoors/town)
 "lbb" = (
-/obj/effect/landmark/start/priest,
+/obj/effect/landmark/start/bishop,
 /turf/open/floor/rogue/church,
 /area/rogue/indoors/town/church/chapel)
 "lbd" = (
@@ -45319,7 +45319,7 @@
 /turf/closed/wall/mineral/rogue/stone,
 /area/rogue/under/town/sewer)
 "lfb" = (
-/obj/effect/landmark/start/guard_captain,
+/obj/effect/landmark/start/knight_captain,
 /turf/open/floor/carpet/royalblack,
 /area/rogue/indoors/town/manor)
 "lfc" = (
@@ -46677,7 +46677,7 @@
 /turf/open/floor/rogue/naturalstone,
 /area/rogue/outdoors/beach/north)
 "lvm" = (
-/obj/effect/landmark/start/knavewench,
+/obj/effect/landmark/start/tapster,
 /turf/open/floor/rogue/cobble,
 /area/rogue/under/town/basement)
 "lvw" = (
@@ -46922,7 +46922,7 @@
 /turf/open/floor/rogue/wood,
 /area/rogue/indoors/shelter/mountains/decap)
 "lyq" = (
-/obj/effect/landmark/start/butler,
+/obj/effect/landmark/start/seneschal,
 /turf/open/floor/carpet/stellar,
 /area/rogue/indoors/town/manor)
 "lyr" = (
@@ -49720,7 +49720,7 @@
 /obj/structure/chair/wood/rogue/chair5{
 	dir = 4
 	},
-/obj/effect/landmark/start/nightmaiden{
+/obj/effect/landmark/start/bathworker{
 	dir = 4
 	},
 /turf/open/floor/rogue/tile/harem,
@@ -54030,7 +54030,7 @@
 /obj/structure/chair/wood/rogue/throne{
 	color = "#f858b5ff"
 	},
-/obj/effect/landmark/start/nightman,
+/obj/effect/landmark/start/bathmaster,
 /turf/open/floor/carpet/purple,
 /area/rogue/indoors/town/bath)
 "nlf" = (
@@ -60624,7 +60624,7 @@
 /area/rogue/indoors/town/manor)
 "oQM" = (
 /obj/structure/chair/wood/rogue/fancy,
-/obj/effect/landmark/start/guard_captain,
+/obj/effect/landmark/start/knight_captain,
 /turf/open/floor/carpet/red,
 /area/rogue/indoors/town/garrison)
 "oQT" = (
@@ -82960,7 +82960,7 @@
 /area/rogue/under/town/sewer)
 "uvp" = (
 /obj/structure/chair/stool/rogue,
-/obj/effect/landmark/start/nightmaiden{
+/obj/effect/landmark/start/bathworker{
 	dir = 1
 	},
 /turf/open/floor/rogue/tile/harem,
@@ -84913,7 +84913,7 @@
 /turf/open/floor/rogue/cobblerock,
 /area/rogue/outdoors/town)
 "uTU" = (
-/obj/effect/landmark/start/knavewench,
+/obj/effect/landmark/start/tapster,
 /turf/open/floor/rogue/hexstone,
 /area/rogue/indoors/town/tavern)
 "uTX" = (
@@ -92318,7 +92318,7 @@
 /obj/structure/mineral_door/wood/fancywood{
 	locked = 1;
 	lockid = "priest";
-	name = "Priest's Apartment"
+	name = "Bishop's Apartment"
 	},
 /turf/open/floor/rogue/concrete,
 /area/rogue/indoors/town/church/chapel)
@@ -92357,7 +92357,7 @@
 /area/rogue/indoors/town/bath)
 "wLA" = (
 /obj/structure/roguemachine/scomm/r{
-	scom_tag = "Church - Priest's Office"
+	scom_tag = "Church - Bishops's Office"
 	},
 /turf/open/floor/rogue/herringbone,
 /area/rogue/indoors/town/church/chapel)
@@ -92379,7 +92379,7 @@
 	dir = 5;
 	pixel_x = -6
 	},
-/obj/effect/landmark/start/churchling,
+/obj/effect/landmark/start/sexton,
 /turf/open/floor/rogue/ruinedwood/spiral,
 /area/rogue/indoors/town/church/chapel)
 "wLL" = (
@@ -92417,7 +92417,7 @@
 /turf/open/floor/rogue/cobble/mossy,
 /area/rogue/under/cave/his_vault)
 "wMe" = (
-/obj/effect/landmark/start/guard_captain,
+/obj/effect/landmark/start/knight_captain,
 /obj/structure/bed/rogue/inn/double{
 	can_buckle = 0
 	},
@@ -93465,7 +93465,7 @@
 /area/rogue/outdoors/town)
 "wYA" = (
 /obj/structure/chair/stool/rogue,
-/obj/effect/landmark/start/manorguardsman,
+/obj/effect/landmark/start/guardsman,
 /turf/open/floor/rogue/tile,
 /area/rogue/indoors/town/garrison)
 "wYE" = (
@@ -96910,7 +96910,7 @@
 /area/rogue/under/town/basement/keep)
 "xRJ" = (
 /obj/structure/chair/wood/rogue/fancy,
-/obj/effect/landmark/start/guard_captain,
+/obj/effect/landmark/start/knight_captain,
 /turf/open/floor/carpet/royalblack,
 /area/rogue/indoors/town/garrison)
 "xRM" = (

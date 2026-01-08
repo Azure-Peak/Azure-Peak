@@ -11,7 +11,7 @@
 	name = "Knife-fighting"
 	desc = "Increases your chance to successfully parry and bypass your opponent's parry by 20% with knives, and your chance to bypass dodge by 10%. At Apprentice or above, you will not fumble while taking out knives from a bandolier."
 	dreams = list(
-		"...a barkeep whistles as he cleans glasses and a drunkard snores, passed out on the counter. The rest of the tavern focuses on you with bated breath as your dagger darts between your fingers in an impressive display of legerdemain...",
+		"...an innkeeper whistles as he cleans glasses and a drunkard snores, passed out on the counter. The rest of the tavern focuses on you with bated breath as your dagger darts between your fingers in an impressive display of legerdemain...",
 		"...a flash of steel through the sky, and another, and another. Blades pass between your juggling hands as if you were pulling on singular, thick rope...",
 		"...you tuck the blade away in your cloak, and offer yourself up for inspection. While small, the invisible blade cannot be parried..."
 	)

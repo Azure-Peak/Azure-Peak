@@ -1599,14 +1599,15 @@ GLOBAL_LIST_INIT(duplicate_forbidden_vars,list(
 /proc/get_sorted_actors_list()
 	var/list/sorted_ckey_to_actor_data = list()
 	var/list/categories = list(
-		"Nobles" = GLOB.noble_positions,
+		"Ducal Family" = GLOB.noble_positions,
 		"Courtiers" = GLOB.courtier_positions,
+		"Retinue" = GLOB.retinue_positions,
 		"Garrison" = GLOB.garrison_positions,
 		"Church" = GLOB.church_positions,
-		"Inquisition" = GLOB.inquisition_positions,
-		"Yeoman" = GLOB.yeoman_positions,
+		"Burgher" = GLOB.burgher_positions,
 		"Peasant" = GLOB.peasant_positions,
-		"Youngfolk" = GLOB.youngfolk_positions,
+		"Sidefolk" = GLOB.sidefolk_positions,
+		"Inquisition" = GLOB.inquisition_positions,
 		"Wanderer" = GLOB.wanderer_positions,
 	)
 
