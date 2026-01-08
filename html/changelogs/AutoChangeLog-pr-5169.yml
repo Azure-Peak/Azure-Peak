@@ -1,0 +1,4 @@
+author: "ADONAI"
+delete-after: True
+changes:
+  - bugfix: "actually fixes examine text im so sorry"

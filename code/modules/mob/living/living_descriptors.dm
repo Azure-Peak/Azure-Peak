@@ -129,7 +129,7 @@
 	if(first_line)
 		lines += first_line
 
-	var/second_line = build_coalesce_description(desc_copy, described, list(MOB_DESCRIPTOR_SLOT_VOICE), " %THEY% %DESC1%.")
+	var/second_line = build_coalesce_description(desc_copy, described, list(MOB_DESCRIPTOR_SLOT_VOICE), "%THEY% %DESC1%.")
 	if(second_line)
 		lines += second_line
 
@@ -237,4 +237,8 @@
 	string = replacetext(string, "%MAN%", man_replace)
 	string = replacetext(string, "%HIM%", him_replace)
 	string = capitalize(string)
+	// Some strings dont have periods on the end. This might break shit!
+	// Too bad!
+	if(!endswith(string, "."))
+		string += "."
 	return string

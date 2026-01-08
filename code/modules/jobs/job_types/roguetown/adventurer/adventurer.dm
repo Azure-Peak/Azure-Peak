@@ -6,7 +6,7 @@ GLOBAL_VAR_INIT(adventurer_hugbox_duration_still, 3 MINUTES)
 /datum/job/roguetown/adventurer
 	title = "Adventurer"
 	flag = ADVENTURER
-	department_flag = PEASANTS
+	department_flag = WANDERERS
 	faction = "Station"
 	total_positions = 20
 	spawn_positions = 20
@@ -18,6 +18,7 @@ GLOBAL_VAR_INIT(adventurer_hugbox_duration_still, 3 MINUTES)
 	outfit_female = null
 
 	display_order = JDO_ADVENTURER
+	selection_color = JCOLOR_WANDERER
 	show_in_credits = FALSE
 	min_pq = 0
 	max_pq = null

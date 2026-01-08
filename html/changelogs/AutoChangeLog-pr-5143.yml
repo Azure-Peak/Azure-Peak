@@ -1,0 +1,4 @@
+author: "WatermelonsEverywhere"
+delete-after: True
+changes:
+  - rscadd: "Adds a unique sound effect to Mending"

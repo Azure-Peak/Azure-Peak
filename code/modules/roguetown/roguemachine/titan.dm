@@ -278,8 +278,8 @@ GLOBAL_VAR_INIT(last_crown_announcement_time, -1000)
 					say("You have not the noble blood to be regent.")
 					playsound(src, 'sound/misc/machineno.ogg', 100, FALSE, -1)
 					return
-				if(!(H.job in GLOB.noble_positions))
-					say("You are too estranged from this realm to be regent.")
+				if(!(H.job in GLOB.regency_positions))
+					say("You are not worthy of bearing the Crown.")
 					playsound(src, 'sound/misc/machineno.ogg', 100, FALSE, -1)
 					return
 				if(SSticker.regentday == GLOB.dayspassed)

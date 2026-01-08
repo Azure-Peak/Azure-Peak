@@ -1,12 +1,11 @@
 /datum/job/roguetown/farmer
 	title = "Soilson"
-	flag = FARMER
+	flag = SOILSON
 	department_flag = PEASANTS
 	faction = "Station"
 	total_positions = 3
 	spawn_positions = 5
 	display_order = JDO_SOILSON
-	selection_color = JCOLOR_PEASANT
 	allowed_sexes = list(MALE, FEMALE)
 	allowed_races = ACCEPTED_RACES
 	cmode_music = 'sound/music/cmode/towner/combat_towner2.ogg'

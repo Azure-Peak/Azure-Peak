@@ -108,7 +108,7 @@ SUBSYSTEM_DEF(nightshift)
 	allmig_reward++
 	var/triumphs_to_add = 1
 	var/static/list/towner_jobs
-	towner_jobs = GLOB.peasant_positions | GLOB.yeoman_positions | GLOB.youngfolk_positions
+	towner_jobs = GLOB.peasant_positions | GLOB.burgher_positions | GLOB.sidefolk_positions
 	if(mind.assigned_role != "Unassigned" && istype(mind.assigned_role, /datum/job) && (mind.assigned_role.title in towner_jobs)) //If you play a towner-related role, you get an additonal triumph
 		triumphs_to_add++
 	adjust_triumphs(triumphs_to_add)

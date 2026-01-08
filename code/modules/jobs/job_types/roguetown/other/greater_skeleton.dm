@@ -1,7 +1,7 @@
 /datum/job/roguetown/greater_skeleton
 	title = "Greater Skeleton"
 	flag = SKELETON
-	department_flag = SLOP
+	department_flag = ANTAGONIST
 	faction = "Station"
 	total_positions = 0
 	spawn_positions = 0

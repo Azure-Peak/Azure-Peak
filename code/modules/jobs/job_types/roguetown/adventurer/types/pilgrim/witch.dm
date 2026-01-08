@@ -53,7 +53,7 @@
 
 	switch (classchoice)
 		if("Old Magick")
-			// the original witch: arcyne t2 (buffed from t1) with 9 spellpoints
+			// the original witch: arcyne t2 with 9 spellpoints
 			ADD_TRAIT(H, TRAIT_ARCYNE_T2, TRAIT_GENERIC)
 			H.adjust_skillrank(/datum/skill/magic/arcane, SKILL_LEVEL_APPRENTICE, TRUE)
 			H.mind?.adjust_spellpoints(9) // twelve if you pick arcyne potential
@@ -101,6 +101,7 @@
 			if("Old Magick")
 				H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/guidance)
 				H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/aerosolize)
+				H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/projectile/arcynebolt)
 	if(H.gender == FEMALE)
 		armor = /obj/item/clothing/suit/roguetown/armor/corset
 		shirt = /obj/item/clothing/suit/roguetown/shirt/undershirt/lowcut
