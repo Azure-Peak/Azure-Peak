@@ -239,6 +239,6 @@
 	string = capitalize(string)
 	// Some strings dont have periods on the end. This might break shit!
 	// Too bad!
-	if(!endswith(string, "."))
+	if(!endswith(string, ".") && !endswith(string, "?") && !endswith(string, "!"))
 		string += "."
 	return string
