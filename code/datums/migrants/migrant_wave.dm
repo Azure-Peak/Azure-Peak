@@ -162,5 +162,5 @@
 	can_roll = FALSE
 	weight = 12
 	roles = list(
-		/datum/migrant_role/gnolls = 4,
+		/datum/migrant_role/gnoll = 4,
 	)
