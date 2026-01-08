@@ -31,6 +31,7 @@
 	don_pelt(H)
 	var/datum/devotion/C = new /datum/devotion(H, H.patron)
 	C.grant_miracles(H, cleric_tier = CLERIC_T4, passive_gain = CLERIC_REGEN_MAJOR, start_maxed = TRUE)
+	H.mind?.AddSpell(new /obj/effect/proc_holder/spell/invoked/convert_heretic)
 
 /obj/item/clothing/suit/roguetown/armor/regenerating/skin/gnoll_armor/shaman
 	icon_state = "shaman"
