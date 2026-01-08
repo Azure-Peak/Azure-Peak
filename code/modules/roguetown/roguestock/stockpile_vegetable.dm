@@ -222,7 +222,6 @@
 	held_random_upper = 3
 	held_random_lower = 1
 	nothing_chance = 40
-	export_only = TRUE
 
 	payout_price = 2
 	withdraw_price = 6
