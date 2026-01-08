@@ -1350,6 +1350,7 @@
 #include "code\modules\antagonists\roguetown\villain\dreamwalker\dreamwalker_spells.dm"
 #include "code\modules\antagonists\roguetown\villain\dreamwalker\dreamwalker_trident.dm"
 #include "code\modules\antagonists\roguetown\villain\gnoll\gnoll.dm"
+#include "code\modules\antagonists\roguetown\villain\gnoll\gnoll_spells.dm"
 #include "code\modules\antagonists\roguetown\villain\maniac\maniac.dm"
 #include "code\modules\antagonists\roguetown\villain\maniac\maniac_items.dm"
 #include "code\modules\antagonists\roguetown\villain\maniac\maniac_life.dm"

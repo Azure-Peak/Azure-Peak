@@ -34,7 +34,6 @@
 		TRAIT_SILVER_WEAK,
 		TRAIT_STRENGTH_UNCAPPED,
 		TRAIT_LONGSTRIDER,
-		TRAIT_SPELLCOCKBLOCK,
 		TRAIT_PIERCEIMMUNE,
 		TRAIT_HARDDISMEMBER,
 		TRAIT_NOSTINK,
@@ -44,13 +43,13 @@
 		TRAIT_BREADY,
 		TRAIT_STEELHEARTED,
 		TRAIT_BASHDOORS,
-		TRAIT_INFINITE_STAMINA,
 		TRAIT_ZJUMP,
 		TRAIT_NOSLEEP,
 		TRAIT_GRABIMMUNE,
 		TRAIT_STRONGBITE,
 		TRAIT_LYCANRESILENCE,
-		TRAIT_CHUNKYFINGERS,
+		TRAIT_GNARLYDIGITS,
+		TRAIT_NUDIST,
 	)
 	inherent_biotypes = MOB_HUMANOID
 	armor = 30
@@ -67,14 +66,15 @@
 		ORGAN_SLOT_LUNGS = /obj/item/organ/lungs,
 		ORGAN_SLOT_EYES = /obj/item/organ/eyes/night_vision/werewolf,
 		ORGAN_SLOT_EARS = /obj/item/organ/ears,
-		ORGAN_SLOT_TONGUE = /obj/item/organ/tongue/wild_tongue,
+		ORGAN_SLOT_TONGUE = /obj/item/organ/tongue,
 		ORGAN_SLOT_LIVER = /obj/item/organ/liver,
 		ORGAN_SLOT_STOMACH = /obj/item/organ/stomach,
 		ORGAN_SLOT_APPENDIX = /obj/item/organ/appendix,
 		)
 	languages = list(
-		/datum/language/beast,
 		/datum/language/common,
+		/datum/language/gronnic,
+		/datum/language/beast,
 	)
 	var/gnoll_armor_icon = "beserker"
 
@@ -84,10 +84,8 @@
 /datum/species/gnoll/regenerate_icons(mob/living/carbon/human/H)
 	H.icon = 'icons/roguetown/mob/monster/gnoll.dmi'
 	H.base_intents = list(INTENT_HELP, INTENT_DISARM, INTENT_GRAB)
-	//H.icon_state = "firepelt"
 	H.update_damage_overlays()
 	H.update_inv_armor_special()
-	//H.update_inv_armor()
 	return TRUE
 
 /datum/species/gnoll/on_species_gain(mob/living/carbon/C, datum/species/old_species)
@@ -98,7 +96,6 @@
 	C.pixel_x = -8
 	C.base_pixel_y = -4
 	C.pixel_y = -4
-	//H.equipOutfit(/datum/outfit/job/roguetown/gnoll)
 
 /datum/species/gnoll/update_damage_overlays(mob/living/carbon/human/H)
 	H.remove_overlay(DAMAGE_LAYER)

@@ -59,7 +59,7 @@
 /obj/item/rogueweapon/werewolf_claw/gnoll
 	name = "Gnoll Claw"
 	// We are smarter, we can use our solid, steel-like claws to defend ourselves.
-	wdefense = 4
+	wdefense = 5
 
 /obj/item/rogueweapon/werewolf_claw/gnoll/right
 

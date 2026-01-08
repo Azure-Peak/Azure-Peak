@@ -1277,6 +1277,9 @@ There are several things that need to be remembered:
 	apply_overlay(SHIRTSLEEVE_LAYER)
 
 /mob/living/carbon/human/update_inv_armor()
+	// Snowflake check to stop species with custom body sprites of losing their armor when it's handled by the skin armor they wear.
+	if(dna.species.custom_base_icon)
+		return
 	remove_overlay(ARMOR_LAYER)
 	remove_overlay(ARMORSLEEVE_LAYER)
 
@@ -1455,20 +1458,14 @@ There are several things that need to be remembered:
 		return
 
 	var/armor_icon_state = skin_armor.icon_state
-	var/armor_icon_file = skin_armor.icon
-
 	if(!(src.mobility_flags & MOBILITY_STAND))
 		armor_icon_state = "[skin_armor.icon_state]_down"
 	
-	// Create simple overlay
-	var/mutable_appearance/armor_overlay = mutable_appearance(
-		armor_icon_file,
-		armor_icon_state,
-		layer = ARMOR_LAYER
-	)
+	var/mutable_appearance/armor_overlay = mutable_appearance(skin_armor.icon, armor_icon_state, layer = ARMOR_LAYER)
 
 	overlays_standing[ARMOR_LAYER] = armor_overlay
-	apply_overlay(ARMOR_LAYER)
+
+	add_overlay(armor_overlay)
 
 //endrogue
 
