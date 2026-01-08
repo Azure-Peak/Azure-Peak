@@ -51,11 +51,9 @@ to still keep this unavailable to mages... for the moment, at least.
 /datum/status_effect/blindness/on_creation(mob/living/new_owner, assocskill)
 	// Guaranteed at least five seconds. Technically not needed but Just In CaseTM.
 	if(assocskill)
-		duration = clamp(assocskill*5, 5, 30)
-	// Fallback.
+		duration = clamp(assocskill*5, 5, 30) * 1 SECONDS
 	else
-		duration = 5 SECONDS
-	// Call parent after so it doesn't break down. 
+		duration = 5 SECONDS // Just in case someone somehow gets this W/O holy skill.
 	. = ..()
 
 /datum/status_effect/blindness/on_apply()
