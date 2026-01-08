@@ -261,7 +261,6 @@
 			pic2.color = get_altdetail_color()
 		add_overlay(pic2)
 
-
 /obj/item/clothing/head/roguetown/helmet/heavy/bucket/gold
 	name = "golden helmet"
 	icon_state = "topfhelm_gold"

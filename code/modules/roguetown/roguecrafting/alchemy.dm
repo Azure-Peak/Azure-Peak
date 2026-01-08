@@ -368,3 +368,13 @@
 	verbage_simple = "mix"
 	required_tech_node = "LUX_FILTRATION"
 	tech_unlocked = FALSE
+
+
+/datum/crafting_recipe/roguetown/alchemy/bandage
+	name = "bandages (alchemy)"
+	result = list(/obj/item/natural/cloth/bandage)
+	reqs = list(
+		/obj/item/natural/cloth = 1,
+		/obj/item/alch/bonemeal = 1,
+		)
+	craftdiff = 2

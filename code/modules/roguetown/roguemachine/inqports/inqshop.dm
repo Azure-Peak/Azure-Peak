@@ -28,7 +28,7 @@
 /obj/structure/closet/crate/chest/inqcrate/wardrobe/
 	name = "otava's finest wardrobe crate"
 
-/// ✤ SUPPLIES ✤ START HERE! WOW!	
+/// ✤ SUPPLIES ✤ START HERE! WOW!
 
 /datum/inqports/supplies/extrafunding
 	name = "(80 Silvers) Extra Funding"
@@ -70,11 +70,10 @@
 	new /obj/item/needle(src)
 	new /obj/item/needle(src)
 	new /obj/item/needle(src)
-	new /obj/item/natural/bundle/cloth/roll(src)
-	new /obj/item/natural/bundle/cloth/roll(src)
-	new /obj/item/natural/bundle/cloth/roll(src)
-	new /obj/item/natural/bundle/cloth/roll(src)
-	new /obj/item/natural/bundle/cloth/roll(src)
+	new /obj/item/natural/bundle/cloth/bandage/full(src)
+	new /obj/item/natural/bundle/cloth/bandage/full(src)
+	new /obj/item/natural/bundle/cloth/bandage/full(src)
+	new /obj/item/natural/bundle/cloth/bandage/full(src)
 
 /datum/inqports/supplies/chains
 	name = "2 Lengths of Chain"
@@ -201,7 +200,7 @@
 	new /obj/item/ingot/silverblessed/bullion(src)
 	new /obj/item/ingot/silverblessed/bullion(src)
 	new /obj/item/ingot/silverblessed/bullion(src)
-	
+
 
 // ✤ ARTICLES ✤ RIGHT HERE! THAT'S RIGHT!
 
@@ -333,13 +332,13 @@
 /obj/structure/closet/crate/chest/inqcrate/equipment/inqcordage/Initialize()
 	. = ..()
 	new /obj/item/rope/inqarticles/inquirycord(src)
-	new /obj/item/rope/inqarticles/inquirycord(src)	
+	new /obj/item/rope/inqarticles/inquirycord(src)
 
 /datum/inqports/equipment/blackbags
 	name = "3 Black Bags"
 	item_type = /obj/structure/closet/crate/chest/inqcrate/equipment/blackbags
 	marquescost = 8
-	
+
 /obj/structure/closet/crate/chest/inqcrate/equipment/blackbags/Initialize()
 	. = ..()
 	new /obj/item/clothing/head/inqarticles/blackbag(src)
@@ -352,7 +351,7 @@
 	item_type = /obj/structure/closet/crate/chest/inqcrate/equipment/psydonhelms
 	marquescost = 12
 	maximum = 1
-	
+
 /obj/structure/closet/crate/chest/inqcrate/equipment/psydonhelms/Initialize()
 	. = ..()
 	new /obj/item/clothing/head/roguetown/helmet/heavy/psydonbarbute(src)

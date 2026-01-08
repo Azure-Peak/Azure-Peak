@@ -127,3 +127,203 @@
   hazelrat:
   - rscadd: Tunics no longer give chest-less characters using the feminine body type
       the appearance of having a chest.
+2026-01-04:
+  FreeStylaLT:
+  - rscadd: Added some new Tiefling colors.
+  - bugfix: Fixed tempo exhausting the user.
+  Lamasmaster:
+  - image: Xylix Miracles + Status Effect Icons
+  Matheo351:
+  - qol: Fished up mobs no longer spawn directly on top of the player.
+  Ryan180602:
+  - code_imp: Add donor item.
+  ToasterStrudes:
+  - rscadd: Added a donator item for Toasterstrudes
+  - spellcheck: fixed a typo in the donator items for Toasterstrudes
+  dopamiin0:
+  - rscadd: you can now write your own author line for skillbooks
+  - bugfix: skillbooks won't out your true job if it's obscured
+  - bugfix: roast pork is no longer raw
+  mumblemancer:
+  - code_imp: pick -> pickweight
+  - balance: changed ~37.5% chance of "good" (gold, gem, silver) -> 16%. removed salt
+      cus it amkes mes alty. hehe. its actually a little harder to get iron than a
+      "good" drop but idk its still good i think. there's going to be way less of
+      these when the whole thing is done.
+  - bugfix: spellchecked some stuff
+  - bugfix: carpet's to_chat makes sense
+  - bugfix: removed redundant information from some recipes
+  - bugfix: you no longer fall on your the left leg
+2026-01-05:
+  BurpleBineapple:
+  - image: Blacksteel arming sword sprites by Dongwaiver
+  CometBlaze:
+  - rscadd: 'Added a new weapon: the Stalker Falx, a Drow variant of the falx'
+  - rscadd: 'Added a new armour: the Drowcraft Vest. Currently only available to Drow
+      NPCs'
+  - balance: Drow raider NPCs now dodge instead of parrying
+  - balance: Black Venom and Anthrax Assassin now get a stat buff while in the Underdark
+  FreeStylaLT:
+  - balance: Martyr now gets the Tempo trait.
+  - balance: Martyr gets all the benefits of the 2-minute duration from the start.
+  - balance: Martyr 2-minute duration option no longer has a heal.
+  - balance: Blunt Damage now damages all layers covering the targeted bodypart.
+  - balance: Blunt Armor now mitigates up to 60% blunt damage.
+  Geevies:
+  - bugfix: Fixes tights sleeves layering over boots.
+  - bugfix: Fixes sleeves not re-rendering when ripped off.
+  - rscadd: Different types of foods now give you different types of buffs, ranging
+      from good snacks, to great meals, and sweet treats.
+  Ketrai:
+  - rscdel: Removed all unique fish from the seafood tab.
+  - balance: You have to catch fish again for your fishy purposes.
+  - balance: Raised fish fillet price as it has more uses compared to mince.
+  Ryan180602:
+  - bugfix: donor item fixes.
+  SayonaraEcho:
+  - bugfix: no see through walls for witch in zad form, only vampires can do that
+  - bugfix: size of stockings in inventory as like underwear now
+  - bugfix: briar thorns were deleted by someone, I returned it
+  - bugfix: knight green tabard for templar was replaced with crusader dendor tabard
+      because there's no unique tabard for templar dendorites
+  - code_imp: was deleted unused file .dmi
+  - rscadd: mirror transformation was improved and fixed
+  - image: were ported from Vanderlin "cleric-paladin" tabards for small races onmob
+      (except alt. tabards)
+  THE-DUKE-OF-AZURE:
+  - balance: Lovesick vice requires a partner to be fulfilled.
+  Vladmar11:
+  - bugfix: Fixing a dupe of bottles through a vending machine
+  - bugfix: Fixed display of jewelry on helmets with offset coordinates.
+  dopamiin0:
+  - rscadd: familiars grant their owner a minor stat buff and malus
+  - rscadd: player familiars have special, low impact spells
+  - rscadd: player familiars get a modern examine panel, yay!
+  - rscdel: find familiar scrolls are no longer craftable
+  - balance: anyone with arcyne t1 or higher and at least 1 spellpoint can take find
+      familiar for free
+  - bugfix: players can actually control familiars now
+2026-01-06:
+  CometBlaze:
+  - bugfix: The Apex Predator buff is now correctly removed upon leaving the Underdark.
+  FreeStylaLT:
+  - refactor: Class Old modifiers are now viewable in the class preview menu.
+  - bugfix: Failed feints due to lack of LOS will now have a correctly shortened cooldown.
+  - bugfix: Fixed Tempo rclick CDR not applying correctly.
+  G9ose:
+  - rscadd: sprite cpitchfork
+  Geevies:
+  - balance: Reworked how bandages work. They now have a certain amount of blood they
+      can absorb before being bloodied, upon which they become useless. This means
+      you can use a bandage on an arterial wound to staunch it while you repair the
+      wound. Bleeding is no longer instantly stopped by bandages.
+  - balance: Bandages can now be soaked in health potions, strong health potions,
+      aqua vitae, and blessed water, to heal that specific limb better than it would've
+      been healed by the 'broad' application of drinking the potion.
+  Ketrai:
+  - balance: Leechtick bait recipes rebalanced.
+  - balance: Deprived have some extra traits.
+  - balance: All fishing sources are affected by skill, traits and abyssor patron
+      choice.
+  - balance: Fishing traps aren't guaranteed to lose their bait upon catching something.
+  - balance: Fishing traps can now catch sticks.
+  - rscadd: You can now use leechticks as fishing bait, do with this knowledge as
+      you would, sire.
+  Lamasmaster:
+  - balance: Good Lover
+  - bugfix: Eoran storyteller counting
+  Randall:
+  - rscadd: Lets Spear-Hunters claim Hunter houses just like Bow-Hunters
+  Ryan180602:
+  - rscadd: Lets bloodrain/bloodfog happen on Zizo/Graggar at night on a chance.
+  - rscadd: Lets falling leaves potentially happen.
+  - bugfix: Fixes indoor weather noise.
+  - rscadd: Adds snow/ice/hail.
+  SayonaraEcho:
+  - qol: Gives a name to a town door when claimed.
+  SpadesNeil:
+  - refactor: Refactored ammo.dm to remove bad and redundant copypasted code.
+  - refactor: Damage defines in ammo.dm are now actually used.
+  - bugfix: Fixed sling icons not appearing correctly in some situations.
+  - balance: Decrepit bodkin arrows now have worse embed chance than steel.
+  - balance: STAB projectiles now do PIERCE damage because that makes more sense.
+  - balance: Unused firearms bullets now have simple mob damage multiplier making
+      it still worse DPS than the crossbow but good burst damage for alpha strikes.
+  - bugfix: Rocks thrown by deep ones now do BLUNT damage, not STAB.
+  - bugfix: Water bolts now break and turn into normal arrows after use.
+  - bugfix: Ancient arrows fired by mobs no longer turn into stone arrows.
+  - balance: All bolt and arrow projectiles now travel at the same speed except for
+      simple mob fired projectiles.
+  - image: Added a missing texture catch for ammo.dmi
+  mumblemancer:
+  - rscadd: new statures
+  - rscadd: new physical descriptors
+  nauticall:
+  - bugfix: Fixed some newly added colors being inaccessible.
+2026-01-07:
+  Antoonij:
+  - bugfix: dullahans can no longer skeletonize their heads
+  BurpleBineapple:
+  - rscadd: Adds sex 2
+  FreeStylaLT:
+  - bugfix: Fixed a rare bug where Riposte was ignored if the attack had a swingdelay
+      under certain circumstances.
+  - bugfix: Fixed Tempo message showing for users who have not reached any stage of
+      Tempo.
+  Geevies:
+  - rscadd: Xylixian Devotees (anyone that has access to T0 miracles) now have a passive
+      that lets them re-roll good and bad luck events.
+  - rscadd: If you wear equipment while doing an action of intimate nature that causes
+      your character to thrust, your equipment will now rustle.
+  - rscadd: Items that rustle when you move now continues rustling even when in your
+      helmet.
+  Ketrai:
+  - balance: Eoran trees are now far easier to tend to, especially with higher farming
+      levels.
+  - balance: Crimson arils can be fed to others, and have a lower cost.
+  - rscadd: The slab, use this in the church infirmary to research tier 1 chimeric
+      beast techs. All tech interfaces show researched techs in a seperate tab now.
+  - rscadd: Calyxes spawn throughout the world, use these once per person for a decent
+      heal. Calyxes grant heartbeast tech points.
+  Lamasmaster:
+  - bugfix: Eora counter but for real.
+  - rscadd: Steel Poleaxe
+  - image: Split 64 weapon DMI file into it's own
+  PatapoIIIa:
+  - bugfix: Prevented antagonist and adventurer roles from being revealed via house
+      door names
+  - qol: Improved consistency of public-facing door naming
+  - code_imp: Adjusted resident door naming logic to respect hidden roles
+  Ryan180602:
+  - balance: Let bandoliers be worn on armourslot.
+  SirSwagmeyer:
+  - rscadd: Woodwalker, sewing, climbing for black oak pariah
+  ToasterStrudes:
+  - qol: Xylixan Acolyte/Monks/Templars now get their proper cross instead of the
+      cabbits foot.
+  mumblemancer:
+  - bugfix: made masked examines not be stuck 2gether
+2026-01-08:
+  BurpleBineapple:
+  - rscadd: Bad omens now trigger bad omen events.
+  - rscadd: Bad omen events can now be force triggered at any time using the launch_omen_event()
+      proc.
+  FreeStylaLT:
+  - balance: Baits now require LOS.
+  Geevies:
+  - rscadd: Flavour Text music no longer stops playing when you close the window.
+  JustSomeGalSS13:
+  - rscadd: Mindlink now plays a sound for the recipient
+  Ketrai:
+  - rscadd: Stockpiles can now have random scarcity
+  - balance: Some stockpile goods are scarce now
+  Ryan180602:
+  - rscadd: Chance for sakura weather on Eora.
+  - bugfix: fix forever leaves.
+  SillyMoff:
+  - rscadd: 3 subclasses for withces
+  - balance: transforms now take 3 second
+  SpadesNeil:
+  - bugfix: Changes iron bullets for firearms to actually use the 2x multiplier on
+      simple mobs that it was supposed to have from the start. 2.5x was in error from
+      old code I forgot to change.

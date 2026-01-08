@@ -10,6 +10,20 @@
 	slice_path = /obj/item/reagent_containers/food/snacks/rogue/meat/crab
 	cooked_smell = /datum/pollutant/food/fried_crab
 
+/obj/item/reagent_containers/food/snacks/rogue/meat/crab/attackby(obj/item/I, mob/living/user, params)
+	var/found_table = locate(/obj/structure/table) in (loc)
+	if(istype(I, /obj/item/reagent_containers/food/snacks/rogue/butterdoughslice))
+		if(isturf(loc)&& (found_table))
+			playsound(get_turf(user), 'modular/Neu_Food/sound/kneading.ogg', 100, TRUE, -1)
+			to_chat(user, "<span class='notice'>Covering the crab with butterdough...</span>")
+			if(do_after(user,short_cooktime, target = src))
+				user.mind.add_sleep_experience(/datum/skill/craft/cooking, user.STAINT)
+				new /obj/item/reagent_containers/food/snacks/rogue/foodbase/crabcakeraw(loc)
+				qdel(I)
+				qdel(src)
+		return TRUE
+	. = ..()
+
 /obj/item/reagent_containers/food/snacks/fish/clam
 	name = "clam"
 	desc = "A beastye built by Abyssor in the image of a knight. Hard shell, squishy interior."
@@ -114,7 +128,7 @@
 	sellprice = 3
 	grid_height = 32
 	grid_width = 32
-	
+
 // Close enough crab cake is raw shellfish
 /obj/item/reagent_containers/food/snacks/rogue/foodbase/crabcakeraw
 	name = "raw crab cake"
@@ -130,7 +144,7 @@
 	name = "crab cake"
 	desc = "A variant of the handpie filled with buttery, savory shellfish meat and made with a buttered slice of dough."
 	icon_state = "crab_cake"
-	eat_effect = /datum/status_effect/buff/foodbuff
+	eat_effect = /datum/status_effect/buff/greatsnackbuff
 	bitesize = 4
 	list_reagents = list(/datum/reagent/consumable/nutriment = SMALLDOUGH_NUTRITION + MEATSLAB_NUTRITION)
 	tastes = list("crispy butterdough and shellfish meat" = 1)

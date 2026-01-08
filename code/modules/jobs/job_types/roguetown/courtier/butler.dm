@@ -37,6 +37,7 @@
 		STATKEY_LCK = 1, // Usual leadership carrot.
 		STATKEY_SPD = 1
 	)
+	age_mod = /datum/class_age_mod/seneschal
 	subclass_skills = list(
 		/datum/skill/combat/knives = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/misc/reading = SKILL_LEVEL_EXPERT,
@@ -53,19 +54,6 @@
 
 /datum/outfit/job/roguetown/seneschal
 	has_loadout = TRUE
-
-//This applies to all Seneschal subclasses
-/datum/outfit/job/roguetown/seneschal/choose_loadout(mob/living/carbon/human/H)
-	. = ..()
-	if(H.age == AGE_MIDDLEAGED)
-		H.adjust_skillrank(/datum/skill/craft/cooking, 1, TRUE)
-		H.adjust_skillrank(/datum/skill/combat/knives, 1, TRUE)
-		H.adjust_skillrank(/datum/skill/labor/farming, 1, TRUE)
-	if(H.age == AGE_OLD)
-		H.adjust_skillrank(/datum/skill/craft/cooking, 2, TRUE)
-		H.adjust_skillrank(/datum/skill/combat/knives, 1, TRUE)
-		H.adjust_skillrank(/datum/skill/labor/farming, 1, TRUE)
-		H.adjust_skillrank(/datum/skill/misc/medicine, 1, TRUE)
 
 /datum/outfit/job/roguetown/seneschal/seneschal/pre_equip(mob/living/carbon/human/H)
 	..()

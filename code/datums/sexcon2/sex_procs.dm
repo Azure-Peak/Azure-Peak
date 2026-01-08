@@ -29,6 +29,14 @@
 	animate(user, pixel_x = target_x, pixel_y = target_y, time = time)
 	animate(pixel_x = oldx, pixel_y = oldy, time = time)
 
+	// and wretch after wretch....i fought....
+	// but it still wasnt enough
+	// their bells were still beyond me...
+	// thirty five yils...
+	// thirty five yils without a jinglejob...
+	SEND_SIGNAL(user, COMSIG_SEX_JOSTLE, target)
+	SEND_SIGNAL(target, COMSIG_SEX_JOSTLE, user)
+
 /mob/living/proc/start_sex_session(mob/living/target)
 	if(!target)
 		return

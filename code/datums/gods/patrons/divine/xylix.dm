@@ -13,6 +13,7 @@
 					/obj/effect/proc_holder/spell/invoked/mastersillusion		= CLERIC_T2,
 					/obj/effect/proc_holder/spell/invoked/resurrect/xylix		= CLERIC_T4,
 	)
+	traits_tier = list(TRAIT_XYLIX_DEVOTEE = CLERIC_T0) //Requires a minimal holy skill or the 'Devotee' virtue to unlock. Rerolls luck events
 	confess_lines = list(
 		"ASTRATA IS MY LIGHT!",
 		"NOC IS NIGHT!",

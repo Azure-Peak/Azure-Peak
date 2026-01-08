@@ -130,6 +130,10 @@ GLOBAL_LIST_EMPTY(loadout_items)
 	name = "Salvia Crown"
 	path = /obj/item/flowercrown/salvia
 
+/datum/loadout_item/briarthorns
+	name = "Briar Thorns"
+	path = /obj/item/clothing/head/roguetown/briarthorns
+
 //CLOAKS
 /datum/loadout_item/tabard
 	name = "Tabard"
@@ -733,3 +737,16 @@ GLOBAL_LIST_EMPTY(loadout_items)
 	name = "Donator Item - Royal Gown"
 	path = /obj/item/clothing/suit/roguetown/shirt/dress/royal
 	ckeywhitelist = list("willmbrink")
+
+/datum/loadout_item/donator_dasfox
+	name = "Donator Kit - Archaic Ceremonial Valkyrhelm"
+	path = /obj/item/enchantingkit/dasfox_helm
+	ckeywhitelist = list("dasfox")
+
+/datum/loadout_item/donator_dasfox/cuirass
+	name = "Donator Kit - Archaic Ceremonial Cuirass"
+	path = /obj/item/enchantingkit/dasfox_cuirass
+
+/datum/loadout_item/donator_dasfox/periapt
+	name = "Donator Item - Defiled Astratan Periapt"
+	path = /obj/item/clothing/neck/roguetown/psicross/astrata/dasfox

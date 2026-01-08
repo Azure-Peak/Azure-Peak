@@ -10,6 +10,7 @@
 	blade_dulling = DULLING_CUT
 	max_integrity = 200
 	integrity_failure = 0.1
+	throw_speed = 0.5
 	drop_sound = 'sound/foley/dropsound/cloth_drop.ogg'
 	var/gendered
 	var/race

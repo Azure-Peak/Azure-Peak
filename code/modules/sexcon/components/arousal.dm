@@ -112,6 +112,7 @@
 	if(is_spent())
 		return
 	ejaculate()
+	record_round_statistic(STATS_PLEASURES)
 
 /datum/component/arousal/proc/ejaculate()
 	var/mob/living/mob = parent
@@ -167,12 +168,23 @@
 
 	charge = max(0, charge - CHARGE_FOR_CLIMAX)
 
-	user.add_stress(/datum/stressevent/cumok)
-	if(user.has_flaw(/datum/charflaw/addiction/lovefiend))
-		user.sate_addiction()
+	if(user == target)
+		user.add_stress(/datum/stressevent/cumself)
+	else
+		user.add_stress(/datum/stressevent/cumok)
 	user.emote("moan", forced = TRUE)
 	user.playsound_local(user, 'sound/misc/mat/end.ogg', 100)
 	last_ejaculation_time = world.time
+
+	if(user != target && !isnull(user.mind) && !isnull(target.mind))
+		if(user.has_flaw(/datum/charflaw/addiction/lovefiend))
+			user.sate_addiction()
+			if(intimate)
+				user.add_stress(/datum/stressevent/cummax)
+			else
+				user.add_stress(/datum/stressevent/cumgood)
+		if(target.has_flaw(/datum/charflaw/addiction/lovefiend))
+			target.sate_addiction()
 
 	if(intimate)
 		after_intimate_climax(user, target)
@@ -180,7 +192,8 @@
 /datum/component/arousal/proc/after_intimate_climax(mob/living/carbon/human/user, mob/living/carbon/human/target)
 	if(user == target)
 		return
-	/*
+	user.add_stress(/datum/stressevent/cumgood)
+
 	if(HAS_TRAIT(target, TRAIT_GOODLOVER))
 		if(!user.mob_timers["cumtri"])
 			user.mob_timers["cumtri"] = world.time
@@ -191,7 +204,7 @@
 			target.mob_timers["cumtri"] = world.time
 			target.adjust_triumphs(1)
 			to_chat(target, span_love("Our loving is a true TRIUMPH!"))
-	*/
+
 
 /datum/component/arousal/proc/set_charge(amount)
 	var/empty = (charge < CHARGE_FOR_CLIMAX)

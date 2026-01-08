@@ -9,18 +9,8 @@
 	max_pq = null
 
 	allowed_sexes = list(MALE, FEMALE)
-	allowed_races = list(
-		"Humen",
-		"Rakshari",
-		"Elf",
-		"Half-Elf",
-		"Dwarf",
-		"Tiefling",
-		"Dark Elf",
-		"Aasimar",
-		"Half-Orc"
-	)
-	tutorial = ""
+	allowed_races = RACES_ALL_KINDS
+	tutorial = "Make Graggar proud or die trying."
 
 	outfit = /datum/outfit/job/roguetown/npc/goblin
 	show_in_credits = FALSE
@@ -52,6 +42,7 @@
 		H.remove_all_languages()
 		H.base_intents = list(INTENT_HELP, INTENT_DISARM, INTENT_GRAB, /datum/intent/simple/claw)
 		H.update_a_intents()
+		H.set_patron(/datum/patron/inhumen/graggar)
 
 		var/obj/item/organ/eyes/eyes = H.getorganslot(ORGAN_SLOT_EYES)
 		if(eyes)

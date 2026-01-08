@@ -213,6 +213,11 @@
 	cost = 30
 	contains = list(/obj/item/rogueweapon/greataxe/steel/doublehead)
 
+/datum/supply_pack/rogue/Brigand/SGaxeknight
+	name = "Steel Poleaxe"
+	cost = 35
+	contains = list(/obj/item/rogueweapon/greataxe/steel/knight)
+
 /datum/supply_pack/rogue/Brigand/maul
 	name = "Maul"
 	cost = 40

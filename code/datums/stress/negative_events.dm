@@ -334,7 +334,7 @@
 /datum/stressevent/uncanny
 	stressadd = 2
 	desc = span_red("Their face is.. wrong!")
-	timer = 3 MINUTES	
+	timer = 3 MINUTES
 
 /datum/stressevent/syoncalamity
 	stressadd = 15
@@ -441,3 +441,9 @@
 	timer = 1 MINUTES
 	stressadd = 4
 	desc = span_red("I was shushed by the archivist!")
+
+// this generally only happens if you're below 10 FOR, this is a little nudge to work on your luck stat
+/datum/stressevent/xylixian_pity
+	timer = 5 MINUTES
+	stressadd = 1
+	desc = span_red("Xylix took pity upon me and saved me from the consequences of bad luck. I must do better!")

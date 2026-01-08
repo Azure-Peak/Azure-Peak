@@ -111,7 +111,7 @@
 
 	H.adjust_blindness(-3)
 	if(H.mind)
-		var/weapons = list("Claymore","Great Mace","Battle Axe","Greataxe","Estoc","Lucerne", "Partizan")
+		var/weapons = list("Claymore","Great Mace","Battle Axe","Poleaxe","Estoc","Lucerne", "Partizan")
 		var/weapon_choice = input(H, "Choose your weapon.", "TAKE UP ARMS") as anything in weapons
 		H.set_blindness(0)
 		switch(weapon_choice)
@@ -122,8 +122,8 @@
 				r_hand = /obj/item/rogueweapon/mace/goden/steel
 			if("Battle Axe")
 				r_hand = /obj/item/rogueweapon/stoneaxe/battle
-			if("Greataxe")
-				r_hand = /obj/item/rogueweapon/greataxe/steel
+			if("Poleaxe")
+				r_hand = /obj/item/rogueweapon/greataxe/steel/knight
 				backl = /obj/item/rogueweapon/scabbard/gwstrap
 			if("Estoc")
 				r_hand = /obj/item/rogueweapon/estoc
@@ -418,7 +418,7 @@
 
 	H.adjust_blindness(-3)
 	if(H.mind)
-		var/weapons = list("Rapier + Longbow","Estoc + Recurve Bow","Sabre + Buckler","Whip + Crossbow","Greataxe + Sling")
+		var/weapons = list("Rapier + Longbow","Estoc + Recurve Bow","Sabre + Buckler","Whip + Crossbow","Poleaxe + Sling")
 		var/armor_options = list("Light Armor", "Medium Armor", "Medium Cuirass")
 		var/weapon_choice = input(H, "Choose your weapon.", "TAKE UP ARMS") as anything in weapons
 		var/armor_choice = input(H, "Choose your armor.", "TAKE UP ARMS") as anything in armor_options
@@ -446,10 +446,10 @@
 				backl = /obj/item/gun/ballistic/revolver/grenadelauncher/crossbow
 				beltr = /obj/item/quiver/bolts
 
-			if("Greataxe + Sling")
+			if("Poleaxe + Sling")
 				H.adjust_skillrank(/datum/skill/combat/slings, 4, TRUE)
 				H.adjust_skillrank_up_to(/datum/skill/combat/axes, 4, TRUE)
-				r_hand = /obj/item/rogueweapon/greataxe/steel
+				r_hand = /obj/item/rogueweapon/greataxe/steel/knight
 				backl = /obj/item/rogueweapon/scabbard/gwstrap
 				beltr = /obj/item/quiver/sling/iron
 				beltl = /obj/item/gun/ballistic/revolver/grenadelauncher/sling

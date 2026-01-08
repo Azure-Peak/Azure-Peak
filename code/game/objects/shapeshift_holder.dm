@@ -60,26 +60,42 @@
 		if(source.revert_on_death)
 			restore(death=TRUE)
 	else
-		restore()
+		restore(knockout=source.knockout_on_death)
 
-/obj/shapeshift_holder/proc/restore(death=FALSE)
+/obj/shapeshift_holder/proc/restore(death=FALSE, knockout=0)
 	restoring = TRUE
 	qdel(slink)
-	stored.forceMove(get_turf(src))
-	stored.notransform = FALSE
-	if(shape.mind)
-		shape.mind.transfer_to(stored)
+	if (stored)
+		stored.forceMove(get_turf(src))
+		stored.notransform = FALSE
+
+		// leave a track to indicate something has shifted out here
+		var/obj/effect/track/the_evidence = new(stored.loc)
+		the_evidence.handle_creation(stored)
+		the_evidence.track_type = "expanding animal tracks into humanoid footprints"
+		the_evidence.ambiguous_track_type = "curious footprints"
+		the_evidence.base_diff = 6
+		if (knockout)
+			stored.Unconscious(knockout, TRUE, TRUE)
+			stored.visible_message(span_boldwarning("[stored] twists and shifts back into humen guise in a sickening lurch of flesh and bone, and promptly passes out!"), span_userdanger("I quickly flee the waning vitality of my former shape, but the strain is too much--"))
+			to_chat(stored, span_crit("...DARKNESS..."))
+
+	if(shape && shape.mind)
+		shape.mind?.transfer_to(stored)
 	if(death)
 		stored.death()
 	else if(source.convert_damage)
+	else if(stored && source.convert_damage)
+		stored.revive(full_heal = TRUE, admin_revive = FALSE)
+
 		var/damage_percent = (shape.maxHealth - shape.health)/shape.maxHealth;
 		var/damapply = stored.maxHealth * damage_percent
-		stored.apply_damage(damapply, source.convert_damage_type, forced = TRUE)
-	else
-		stored.revive(full_heal = TRUE, admin_revive = FALSE) // Convert damage FALSE shifts keep the aheal, regenerative shifting?
 
+		stored.apply_damage(damapply, source.convert_damage_type, forced = TRUE)
 	qdel(shape)
 	qdel(src)
+	if (!QDELETED(src))
+		qdel(src)
 
 /datum/soullink/shapeshift
 	var/obj/shapeshift_holder/source

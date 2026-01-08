@@ -52,6 +52,7 @@
 		STATKEY_INT = 3,
 		STATKEY_SPD = 1
 	)
+	age_mod = /datum/class_age_mod/archivist
 	subclass_skills = list(
 		/datum/skill/misc/reading = SKILL_LEVEL_LEGENDARY,
 		/datum/skill/craft/alchemy = SKILL_LEVEL_JOURNEYMAN,
@@ -85,9 +86,6 @@
 	)
 	if (H && H.mind)
 		H.mind.adjust_spellpoints(6)
-	if(H.age == AGE_OLD)
-		H.change_stat(STATKEY_SPD, -1)
-		H.change_stat(STATKEY_INT, 1)
 	if(H.mind)
 		SStreasury.give_money_account(ECONOMIC_UPPER_CLASS, H, "Savings.")
 

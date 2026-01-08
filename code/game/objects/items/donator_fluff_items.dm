@@ -182,3 +182,63 @@
 	block2add = FOV_BEHIND
 	icon = 'icons/clothing/donor_clothes.dmi'
 	mob_overlay_icon = 'icons/clothing/onmob/donor_clothes.dmi'
+
+// DASFOX
+/obj/item/clothing/head/roguetown/helmet/heavy/knight/armet/dasfox
+	name = "archaic ceremonial valkyrhelm"
+	desc = "A winged and angular helm of archaic design, tracing its lineage back to the Celestial Empire's fall. \
+		House Timbermere makes sole use of its design within Azuria, claiming it as their heritage right. \
+		This one has been gilded by Astrata's own colors, with a hand-woven plume atop to bear heraldic colors."
+	icon_state = "valkyrhelm"
+	icon = 'icons/clothing/donor_clothes.dmi'
+	mob_overlay_icon = 'icons/clothing/onmob/donor_clothes.dmi'
+
+/obj/item/clothing/head/roguetown/helmet/heavy/knight/armet/dasfox/attackby(obj/item/W, mob/living/user, params)
+	..()
+	if(!(istype(W, /obj/item/natural/feather) && !detail_tag))
+		return
+	var/choice = input(user, "Choose a color.", "Plume") as anything in COLOR_MAP
+	user.visible_message(span_warning("[user] adds [W] to [src]."))
+	user.transferItemToLoc(W, src, FALSE, FALSE)
+	detail_color = COLOR_MAP[choice]
+	detail_tag = "_detail"
+	update_icon()
+	if(loc == user && ishuman(user))
+		var/mob/living/carbon/H = user
+		H.update_inv_head()
+
+/obj/item/clothing/neck/roguetown/psicross/astrata/dasfox
+	name = "defiled Astratan periapt"
+	desc = "This golden-lashed eye atop a blade was once a periapt of Astrata, \
+	used in prayer and reverence of Her Tyrannical Light. This one has been damaged heavily, \
+	and near-shattered- and is bound together by cloth and silver wires. \
+	In lieu of its former nature, it now serves as amulet or attachment to armor due to the braided wire to be \
+	utilized as a chain."
+	icon = 'icons/clothing/donor_clothes.dmi'
+	mob_overlay_icon = 'icons/clothing/onmob/donor_clothes.dmi'
+	icon_state = "astrata_periapt"
+
+/obj/item/clothing/suit/roguetown/armor/plate/cuirass/fluted/dasfox
+	name = "archaic ceremonial cuirass"
+	desc = "A cuirass and tasset set of archaic design, tracing its lineage back to the Celestial Empire's fall. \
+		House Timbermere makes sole use of its design within Azuria, claiming it as their heritage right. \
+		This one has been gilded by Astrata's own colors atop a sleeved surcoat to bear heraldic colors."
+	icon = 'icons/clothing/donor_clothes.dmi'
+	mob_overlay_icon = 'icons/clothing/onmob/donor_clothes.dmi'
+	icon_state = "archaiccuirass"
+	sleeved = 'icons/clothing/onmob/donor_sleeves_armor.dmi'
+	detail_tag = "_det"
+	detail_color = CLOTHING_WHITE
+	boobed = FALSE
+	boobed_detail = FALSE
+
+/obj/item/clothing/suit/roguetown/armor/plate/cuirass/fluted/dasfox/update_icon()
+	cut_overlays()
+	if(!get_detail_tag())
+		return
+	var/mutable_appearance/pic = mutable_appearance(icon(icon, "[icon_state][detail_tag]"))
+	message_admins("[pic.icon_state]")
+	pic.appearance_flags = RESET_COLOR
+	if(get_detail_color())
+		pic.color = get_detail_color()
+	add_overlay(pic)

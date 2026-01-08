@@ -133,3 +133,17 @@
 	name = "'Silence' morphing elixir"
 	target_items = list(/obj/item/rogueweapon/shovel)
 	result_item = /obj/item/rogueweapon/shovel/zoe_silence
+
+//DasFox - Armet
+/obj/item/enchantingkit/dasfox_helm
+	name = "'archaic valkyrhelm' morphing elixir"
+	target_items = list(/obj/item/clothing/head/roguetown/helmet/heavy/knight/armet)
+	result_item = /obj/item/clothing/head/roguetown/helmet/heavy/knight/armet/dasfox
+
+//DasFox - Cuirass
+/obj/item/enchantingkit/dasfox_cuirass
+	name = "'archaic cermonial cuirass' morphing elixir"
+	target_items = list(/obj/item/clothing/suit/roguetown/armor/plate/cuirass/fluted)
+	result_item = /obj/item/clothing/suit/roguetown/armor/plate/cuirass/fluted/dasfox
+
+

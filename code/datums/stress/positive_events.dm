@@ -58,6 +58,31 @@
 	stressadd = -1
 	desc = span_green("I'm stuffed! Feels good.")
 
+/datum/stressevent/goodsnack
+	timer = 8 MINUTES
+	stressadd = -1
+	desc = list(span_green("That snack tastes pretty good"), span_green("Tasty snack."))
+
+/datum/stressevent/greatsnack
+	timer = 10 MINUTES
+	stressadd = -2
+	desc = list(span_green("That snack was amazing! Can't wait for the next."), span_green("Great snack! I should get another one later."))
+
+/datum/stressevent/goodmeal
+	timer = 10 MINUTES
+	stressadd = -1
+	desc = list(span_green("That meal wasn't half bad"), span_green("A decent meal, finally"))
+
+/datum/stressevent/greatmeal
+	timer = 15 MINUTES
+	stressadd = -2
+	desc = list(span_green("That meal tasted great!"), span_green("I ate like a noble, it was great!"))
+
+/datum/stressevent/sweet
+	timer = 8 MINUTES
+	stressadd = -2
+	desc = list(span_green("Sweets always bring your spirits up"), span_green("Sweet embrace"))
+
 /datum/stressevent/hydrated
 	timer = 10 MINUTES
 	stressadd = -1
@@ -346,3 +371,7 @@
 	desc = span_green("Astrata and her gaze may burn you now, but you distantly remember when it was pleasant to your skin.")
 	timer = 20 SECONDS
 
+/datum/stressevent/xylixian_fate
+	timer = 10 MINUTES
+	stressadd = -2
+	desc = span_green("Xylix spun the thread of fate in my favour! Truly, I am blessed!")

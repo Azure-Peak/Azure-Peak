@@ -96,6 +96,7 @@
 	melee_damage_upper = 0
 	remains_type = /obj/effect/decal/remains/crow
 	fly_time = 3 SECONDS // slowing down crow for witches
+	sight = 0
 
 /obj/effect/decal/remains/crow
 	name = "zad remains"

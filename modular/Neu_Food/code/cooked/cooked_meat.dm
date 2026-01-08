@@ -45,7 +45,7 @@
 			add_sleep_experience(user, /datum/skill/craft/cooking, user.STAINT)
 			qdel(I)
 			qdel(src)
-	
+
 	if(istype(I, /obj/item/reagent_containers/food/snacks/rogue/preserved/carrot_baked))
 		playsound(get_turf(user), 'sound/foley/dropsound/food_drop.ogg', 40, TRUE, -1)
 		to_chat(user, "<span class='notice'>Adding carrots...</span>")
@@ -135,7 +135,7 @@
 	cooked_type = null
 	bonus_reagents = list(/datum/reagent/consumable/nutriment = MEAL_MEAGRE)
 	rotprocess = SHELFLIFE_DECENT
-	
+
 
 /obj/item/reagent_containers/food/snacks/rogue/meat/poultry/baked/attackby(obj/item/I, mob/user, params)
 	var/obj/item/reagent_containers/peppermill/mill = I
@@ -177,7 +177,7 @@
 	portable = FALSE
 	color = "#ffc0c0"
 	tastes = list("spicy birdmeat" = 1)
-	eat_effect = /datum/status_effect/buff/foodbuff
+	eat_effect = /datum/status_effect/buff/mealbuff
 
 /*	.............   Frybird   ................ */
 /obj/item/reagent_containers/food/snacks/rogue/meat/poultry/cutlet/fried

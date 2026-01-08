@@ -295,6 +295,7 @@ There are several things that need to be remembered:
 		update_inv_head()
 		update_inv_belt()
 		update_inv_back()
+		update_inv_pants()
 //		update_inv_wear_suit()
 		update_inv_armor()
 		update_inv_pockets()
@@ -309,6 +310,7 @@ There are several things that need to be remembered:
 
 /mob/proc/regenerate_clothes()
 	return
+
 /mob/living/carbon/human/regenerate_clothes()
 	update_inv_wear_id()
 	update_inv_gloves()

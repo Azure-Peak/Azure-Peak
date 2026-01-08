@@ -71,7 +71,7 @@
 			"Claymore",
 			"Great Mace",
 			"Battle Axe",
-			"Greataxe",
+			"Poleaxe",
 			"Estoc",
 			"Lucerne",
 			"Partizan",
@@ -104,8 +104,8 @@
 				r_hand = /obj/item/rogueweapon/mace/goden/steel
 			if("Battle Axe")
 				r_hand = /obj/item/rogueweapon/stoneaxe/battle
-			if("Greataxe")
-				r_hand = /obj/item/rogueweapon/greataxe/steel
+			if("Poleaxe")
+				r_hand = /obj/item/rogueweapon/greataxe/steel/knight
 				backl = /obj/item/rogueweapon/scabbard/gwstrap
 			if("Estoc")
 				r_hand = /obj/item/rogueweapon/estoc

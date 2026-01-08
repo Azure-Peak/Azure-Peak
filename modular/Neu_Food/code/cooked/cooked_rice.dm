@@ -94,7 +94,7 @@
 	icon_state = "ricepork"
 	faretype = FARE_FINE
 	rotprocess = SHELFLIFE_LONG
-	eat_effect = /datum/status_effect/buff/foodbuff
+	eat_effect = /datum/status_effect/buff/mealbuff
 
 /obj/item/reagent_containers/food/snacks/rogue/ricepork/attackby(obj/item/I, mob/living/user, params)
 	var/found_table = locate(/obj/structure/table) in (loc)
@@ -118,13 +118,13 @@
 /obj/item/reagent_containers/food/snacks/rogue/riceporkcuc
 	name = "rice and pork meal"
 	tastes = list("rice" = 1, "pork" = 1, "fresh cucumber" = 1)
-	list_reagents = list(/datum/reagent/consumable/nutriment = MEAL_MEAGRE)
+	list_reagents = list(/datum/reagent/consumable/nutriment = MEAL_AVERAGE)
 	desc = "Rice mixed with fatty pork and fresh cucumbers."
 	icon = 'modular/Neu_Food/icons/cooked/cooked_rice.dmi'
 	icon_state = "riceporkmeal"
 	faretype = FARE_LAVISH
 	rotprocess = SHELFLIFE_LONG
-	eat_effect = /datum/status_effect/buff/foodbuff
+	eat_effect = /datum/status_effect/buff/greatmealbuff
 
 /*	.................   Rice & beef ................... */
 /obj/item/reagent_containers/food/snacks/rogue/ricebeef
@@ -136,7 +136,7 @@
 	icon_state = "ricebeef"
 	faretype = FARE_FINE
 	rotprocess = SHELFLIFE_LONG
-	eat_effect = /datum/status_effect/buff/foodbuff
+	eat_effect = /datum/status_effect/buff/mealbuff
 
 /obj/item/reagent_containers/food/snacks/rogue/ricebeef/attackby(obj/item/I, mob/living/user, params)
 	var/found_table = locate(/obj/structure/table) in (loc)
@@ -160,13 +160,13 @@
 /obj/item/reagent_containers/food/snacks/rogue/ricebeefcar
 	name = "rice and beef meal"
 	tastes = list("rice" = 1, "steak" = 1, "carrot" = 1)
-	list_reagents = list(/datum/reagent/consumable/nutriment = MEAL_MEAGRE)
+	list_reagents = list(/datum/reagent/consumable/nutriment = MEAL_AVERAGE)
 	desc = "Rice mixed with beef steak and carrots."
 	icon = 'modular/Neu_Food/icons/cooked/cooked_rice.dmi'
 	icon_state = "ricebeefmeal"
 	faretype = FARE_LAVISH
 	rotprocess = SHELFLIFE_LONG
-	eat_effect = /datum/status_effect/buff/foodbuff
+	eat_effect = /datum/status_effect/buff/greatmealbuff
 
 /*	.................   Rice & shrimp ................... */
 /obj/item/reagent_containers/food/snacks/rogue/riceshrimp
@@ -178,7 +178,7 @@
 	icon_state = "riceshrimp"
 	faretype = FARE_FINE
 	rotprocess = SHELFLIFE_LONG
-	eat_effect = /datum/status_effect/buff/foodbuff
+	eat_effect = /datum/status_effect/buff/mealbuff
 
 /obj/item/reagent_containers/food/snacks/rogue/riceshrimp/attackby(obj/item/I, mob/living/user, params)
 	var/found_table = locate(/obj/structure/table) in (loc)
@@ -208,7 +208,7 @@
 	icon_state = "riceshrimpmeal"
 	faretype = FARE_LAVISH
 	rotprocess = SHELFLIFE_LONG
-	eat_effect = /datum/status_effect/buff/foodbuff
+	eat_effect = /datum/status_effect/buff/greatmealbuff
 
 /*	.................   Rice & bird ................... */
 /obj/item/reagent_containers/food/snacks/rogue/ricebird
@@ -220,7 +220,7 @@
 	icon_state = "ricebird"
 	faretype = FARE_FINE
 	rotprocess = SHELFLIFE_LONG
-	eat_effect = /datum/status_effect/buff/foodbuff
+	eat_effect = /datum/status_effect/buff/mealbuff
 
 /obj/item/reagent_containers/food/snacks/rogue/ricebird/attackby(obj/item/I, mob/living/user, params)
 	var/found_table = locate(/obj/structure/table) in (loc)
@@ -244,13 +244,13 @@
 /obj/item/reagent_containers/food/snacks/rogue/ricebirdcar
 	name = "rice and frybird meal"
 	tastes = list("rice" = 1, "tasty birdmeat" = 1, "carrot" = 1)
-	list_reagents = list(/datum/reagent/consumable/nutriment = MEAL_MEAGRE)
+	list_reagents = list(/datum/reagent/consumable/nutriment = MEAL_AVERAGE)
 	desc = "Rice mixed with frybird and carrots."
 	icon = 'modular/Neu_Food/icons/cooked/cooked_rice.dmi'
 	icon_state = "ricebirdmeal"
 	faretype = FARE_LAVISH
 	rotprocess = SHELFLIFE_LONG
-	eat_effect = /datum/status_effect/buff/foodbuff
+	eat_effect = /datum/status_effect/buff/greatmealbuff
 
 /*	.................   Rice & egg ................... */
 /obj/item/reagent_containers/food/snacks/rogue/riceegg
@@ -262,7 +262,7 @@
 	icon_state = "riceegg"
 	faretype = FARE_FINE
 	rotprocess = SHELFLIFE_LONG
-	eat_effect = /datum/status_effect/buff/foodbuff
+	eat_effect = /datum/status_effect/buff/mealbuff
 
 /obj/item/reagent_containers/food/snacks/rogue/riceegg/attackby(obj/item/I, mob/living/user, params)
 	var/found_table = locate(/obj/structure/table) in (loc)
@@ -292,7 +292,7 @@
 	icon_state = "ricecheese"
 	faretype = FARE_FINE
 	rotprocess = SHELFLIFE_LONG
-	eat_effect = /datum/status_effect/buff/foodbuff
+	eat_effect = /datum/status_effect/buff/mealbuff
 
 /obj/item/reagent_containers/food/snacks/rogue/ricecheese/attackby(obj/item/I, mob/living/user, params)
 	var/found_table = locate(/obj/structure/table) in (loc)
@@ -317,10 +317,10 @@
 /obj/item/reagent_containers/food/snacks/rogue/riceeggcheese
 	name = "rice with egg and cheese"
 	tastes = list("rice" = 1, "cheese" = 1, "egg" = 1)
-	list_reagents = list(/datum/reagent/consumable/nutriment = MEAL_MEAGRE)
+	list_reagents = list(/datum/reagent/consumable/nutriment = MEAL_GOOD)
 	desc = "Rice mixed with an egg and layered with melted cheese."
 	icon = 'modular/Neu_Food/icons/cooked/cooked_rice.dmi'
 	icon_state = "riceeggcheese"
 	faretype = FARE_LAVISH
 	rotprocess = SHELFLIFE_LONG
-	eat_effect = /datum/status_effect/buff/foodbuff
+	eat_effect = /datum/status_effect/buff/greatmealbuff

@@ -113,8 +113,8 @@
 	if(H.mind)
 		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/order/movemovemove)
 		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/order/takeaim)
-		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/order/onfeet)
 		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/order/hold)
+		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/order/onfeet)
 	H.dna.species.soundpack_m = new /datum/voicepack/male/knight()
 	H.verbs |= list(
 		/mob/living/carbon/human/proc/request_outlaw,
@@ -130,7 +130,7 @@
 			"Claymore",
 			"Great Mace",
 			"Battle Axe",
-			"Greataxe",
+			"Poleaxe",
 			"Estoc",
 			"Longsword",
 			"Flail",
@@ -149,9 +149,9 @@
 				H.adjust_skillrank_up_to(/datum/skill/combat/swords, 5, TRUE)
 				r_hand = /obj/item/rogueweapon/greatsword/zwei
 				backl = /obj/item/rogueweapon/scabbard/gwstrap
-			if("Greataxe")
+			if("Poleaxe")
 				H.adjust_skillrank_up_to(/datum/skill/combat/axes, 5, TRUE)
-				r_hand = /obj/item/rogueweapon/greataxe/steel/doublehead
+				r_hand = /obj/item/rogueweapon/greataxe/steel/knight
 				backl = /obj/item/rogueweapon/scabbard/gwstrap
 			if("Estoc")
 				H.adjust_skillrank_up_to(/datum/skill/combat/swords, 5, TRUE)
