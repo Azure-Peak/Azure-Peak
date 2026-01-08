@@ -107,6 +107,9 @@
 		return FALSE
 	if(mind.has_antag_datum(/datum/antagonist/skeleton))
 		return FALSE
+	//No cross species pollination!!!
+	if(mind.has_antag_datum(/datum/antagonist/gnoll))
+		return FALSE
 	if(HAS_TRAIT(src, TRAIT_SILVER_BLESSED))
 		return FALSE
 	return TRUE

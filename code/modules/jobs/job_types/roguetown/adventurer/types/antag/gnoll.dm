@@ -55,4 +55,5 @@
 		H.real_name = "[pick(GLOB.wolf_prefixes)] [pick(GLOB.wolf_suffixes)]"
 		H.AddSpell(new /obj/effect/proc_holder/spell/self/claws/gnoll)
 		H.AddSpell(new /obj/effect/proc_holder/spell/self/howl/gnoll)
+		H.AddSpell(new /obj/effect/proc_holder/spell/invoked/gnoll_sniff)
 		addtimer(CALLBACK(H, TYPE_PROC_REF(/mob/living/carbon/human, choose_name_popup), "GNOLL"), 5 SECONDS)
