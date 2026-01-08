@@ -34,7 +34,7 @@ to still keep this unavailable to mages... for the moment, at least.
 			return FALSE
 		var/assocskill = user.get_skill_level(associated_skill)
 		target.visible_message(span_warning("[user] points at [target]'s eyes!"), span_warning("[user] points at my eyes! Shadowy fingers are digging into my vision-- I can't SEE!"))
-		target.apply_status_effect(/datum/status_effect/blindness, assocskill)
+		target.apply_status_effect(STATUS_EFFECT_BLINDED, assocskill)
 		return TRUE
 	revert_cast()
 	return FALSE

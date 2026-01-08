@@ -294,7 +294,7 @@
 		var/cyclops_left = HAS_TRAIT(src, TRAIT_CYCLOPS_LEFT) 
 		var/cyclops_right = HAS_TRAIT(src, TRAIT_CYCLOPS_RIGHT)
 
-		if(H.has_status_effect(/datum/status_effect/blindness))
+		if(H.has_status_effect(STATUS_EFFECT_BLINDED))
 			fovangle |= FOV_LEFT
 			fovangle |= FOV_RIGHT
 
