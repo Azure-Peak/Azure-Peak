@@ -1,6 +1,6 @@
 /datum/job/roguetown/mercenary
 	title = "Mercenary"
-	flag = WANDERERS
+	flag = MERCENARY
 	department_flag = WANDERERS
 	faction = "Station"
 	total_positions = 8

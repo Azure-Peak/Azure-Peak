@@ -750,3 +750,12 @@ GLOBAL_LIST_EMPTY(loadout_items)
 /datum/loadout_item/donator_dasfox/periapt
 	name = "Donator Item - Defiled Astratan Periapt"
 	path = /obj/item/clothing/neck/roguetown/psicross/astrata/dasfox
+
+/datum/loadout_item/donator_ryan
+	name = "Donator Item - Western Estates Caparison"
+	path = /obj/item/caparison/ryan
+	ckeywhitelist = list("ryan180602")
+
+/datum/loadout_item/donator_ryan/psy_helm
+	name = "Donator Kit - Unorthodoxist Psydonite Helm"
+	path = /obj/item/enchantingkit/ryan_psyhelm

@@ -327,3 +327,29 @@
   - bugfix: Changes iron bullets for firearms to actually use the 2x multiplier on
       simple mobs that it was supposed to have from the start. 2.5x was in error from
       old code I forgot to change.
+2026-01-09:
+  ADONAI:
+  - bugfix: actually fixes examine text im so sorry
+  Antoonij:
+  - rscadd: firewalker and fire cascade spells
+  Geevies:
+  - rscadd: The HUD face reacts faster, and will react to injury.
+  - rscadd: Xylixians can now disguise their amulet as any other psycross amulet by
+      shift-right-clicking it.
+  - rscadd: Mounted Knights can now pick the Froggemund helmet.
+  - bugfix: Fixed knights' loadout referring to the klappvisier helmet as the Etruscan
+      helmet.
+  Lamasmaster:
+  - refactor: Jobs
+  - rscdel: Knight garrison armoury key
+  SillyMoff:
+  - bugfix: icons for spells and arcyne bolt is back
+  WatermelonsEverywhere:
+  - rscadd: Adds a unique sound effect to Mending
+  bearrrrrrrr:
+  - bugfix: churn wealth dmg properly applied at max level, now kills and delimbs
+      over 1k moni
+  hazelrat:
+  - rscadd: The city walls can now be fully navigated by anyone with a wall key.
+  - bugfix: Arrow quivers no longer appear full if emptied by clicking them directly
+      with a bow.

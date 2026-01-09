@@ -120,7 +120,7 @@
 	var/datum/job/user_job = SSjob.GetJob(user.job)
 	if(!user_job)
 		return NON_TOWNER_BROADCAST_COST
-	if(user_job.department_flag & (NOBLEMEN|YEOMEN|GARRISON|CHURCHMEN|COURTIERS))
+	if(user_job.department_flag & (NOBLEMEN|BURGHERS|GARRISON|CHURCHMEN|COURTIERS|RETINUE))
 		return TOWNER_BROADCAST_COST
 	if(HAS_TRAIT(user, TRAIT_NOBLE))
 		// Noble privilege! 

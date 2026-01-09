@@ -2,7 +2,6 @@
 	title = "Court Magician"
 	flag = WIZARD
 	department_flag = COURTIERS
-	selection_color = JCOLOR_COURTIER
 	faction = "Station"
 	total_positions = 1
 	spawn_positions = 1
