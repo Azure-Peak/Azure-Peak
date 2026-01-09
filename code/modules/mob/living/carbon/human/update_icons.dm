@@ -404,6 +404,10 @@ There are several things that need to be remembered:
 		update_hud_neck(wear_neck)
 	rebuild_obscured_flags()
 	update_hair()
+	// Snowflake check to stop species with custom body sprites of having ugly pouches appear on their sprite, unaccustomed to the shape.
+	if(dna.species.custom_base_icon)
+		return
+
 	apply_overlay(NECK_LAYER)
 
 /mob/living/carbon/human/update_inv_wear_id()

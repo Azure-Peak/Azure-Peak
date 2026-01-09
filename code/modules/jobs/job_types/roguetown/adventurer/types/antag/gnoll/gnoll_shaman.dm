@@ -30,6 +30,7 @@
 	if(H.mind)
 		H.set_species(/datum/species/gnoll)
 		H.skin_armor = new /obj/item/clothing/suit/roguetown/armor/regenerating/skin/gnoll_armor/shaman(H)
+		neck = /obj/item/storage/belt/rogue/pouch
 		don_pelt(H)
 		var/datum/devotion/C = new /datum/devotion(H, H.patron)
 		C.grant_miracles(H, cleric_tier = CLERIC_T4, passive_gain = CLERIC_REGEN_MAJOR, start_maxed = TRUE)
