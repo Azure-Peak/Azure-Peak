@@ -4,7 +4,7 @@
 
 /obj/effect/proc_holder/spell/self/howl/gnoll
 	howl_sounds = list('sound/vo/mobs/gnoll/yeen_howl.ogg')
-	howl_sounds_far = list('sound/vo/mobs/gnoll/yeen_howl.ogg')
+	howl_sounds_far = list('sound/vo/mobs/wwolf/howldist (1).ogg','sound/vo/mobs/wwolf/howldist (2).ogg')
 	wolf_antag_type = /datum/antagonist/gnoll
 
 /obj/effect/proc_holder/spell/invoked/gnoll_sniff

@@ -5,7 +5,7 @@
 	faction = "Station"
 	total_positions = 1
 	spawn_positions = 1
-	allowed_races = RACES_ALL_KINDS
+	allowed_races = RACES_NO_CONSTRUCT
 	tutorial = "You have proven yourself worthy to Graggar, and he's granted you his blessing most divine. Now you hunt for worthy opponents, seeking out those strong enough to make you bleed."
 	outfit = null
 	outfit_female = null
