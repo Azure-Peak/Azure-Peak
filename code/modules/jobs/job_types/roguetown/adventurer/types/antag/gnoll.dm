@@ -53,8 +53,17 @@
 		H.icon_state = "[pelt_choice]"
 		H.dna?.species?.custom_base_icon = "[pelt_choice]"
 		H.regenerate_icons()
-		H.real_name = "[pick(GLOB.wolf_prefixes)] [pick(GLOB.wolf_suffixes)]"
 		H.AddSpell(new /obj/effect/proc_holder/spell/self/claws/gnoll)
 		H.AddSpell(new /obj/effect/proc_holder/spell/self/howl/gnoll)
 		H.AddSpell(new /obj/effect/proc_holder/spell/invoked/gnoll_sniff)
-		addtimer(CALLBACK(H, TYPE_PROC_REF(/mob/living/carbon/human, choose_name_popup), "GNOLL"), 5 SECONDS)
+		spawn(50)
+			var/name_choice = alert(H, "What name do you want?", "MY NAME IS [H.real_name]", "Pick New Name", "Random Gnoll Name", "Keep Current Name")
+			switch(name_choice)
+				if("Pick New Name")
+					H.choose_name_popup("GNOLL")
+					to_chat(H, span_notice("Your name is now [H.real_name]."))
+				if("Random Gnoll Name")
+					H.real_name = "[pick(GLOB.wolf_prefixes)] [pick(GLOB.wolf_suffixes)]"
+					to_chat(H, span_notice("Your name is now [H.real_name]."))
+				if("Keep Current Name")
+					to_chat(H, span_notice("You keep your name as [H.real_name]."))
