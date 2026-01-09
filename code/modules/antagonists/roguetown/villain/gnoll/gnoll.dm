@@ -21,14 +21,19 @@
 /datum/antagonist/gnoll
 	name = "Gnoll"
 	roundend_category = "Gnolls"
-	antagpanel_category = "Gnoll"
+	antagpanel_category = "Gnolls"
 	job_rank = ROLE_GNOLL
 
 /datum/antagonist/gnoll/on_gain()
 	greet()
-	owner.special_role = name
+	owner.special_role = "Gnoll"
 
 	return ..()
+
+/datum/antagonist/gnoll/on_removal()
+	. = ..()
+	if(owner)
+		owner.special_role = null
 
 /datum/antagonist/gnoll/greet()
 	to_chat(owner.current, span_userdanger("I am one of Graggar's chosen. My body sculpted as a reward for my great deeds. Now, I must find worthy challengers to continue proving my merit. Unlike Dendor's wolves, gnollhood has left some of my intellect intact."))

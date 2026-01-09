@@ -85,7 +85,10 @@
 		else
 			to_chat(user, span_notice("You catch a faint whiff of [tracked_target.real_name] to the [dir_text]."))
 
-/obj/effect/proc_holder/spell/invoked/gnoll_sniff/proc/is_valid_hunted(mob/living/carbon/human/L)
+/obj/effect/proc_holder/spell/invoked/gnoll_sniff/proc/is_valid_hunted(atom/A)
+	if(!isliving(A))
+		return FALSE
+	var/mob/living/L = A
 	if(!L || QDELETED(L) || L.stat == DEAD)
 		return FALSE
 	return TRUE

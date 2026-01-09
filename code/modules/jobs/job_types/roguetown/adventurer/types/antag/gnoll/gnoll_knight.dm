@@ -26,9 +26,10 @@
 	cmode_music = 'sound/music/combat_graggar.ogg'
 
 /datum/outfit/job/roguetown/gnoll/knight/pre_equip(mob/living/carbon/human/H)
-	H.set_species(/datum/species/gnoll)
-	H.skin_armor = new /obj/item/clothing/suit/roguetown/armor/regenerating/skin/gnoll_armor/knight(H)
-	don_pelt(H)
+	if(H.mind)
+		H.set_species(/datum/species/gnoll)
+		H.skin_armor = new /obj/item/clothing/suit/roguetown/armor/regenerating/skin/gnoll_armor/knight(H)
+		don_pelt(H)
 
 /obj/item/clothing/suit/roguetown/armor/regenerating/skin/gnoll_armor/knight
 	icon_state = "knight"
