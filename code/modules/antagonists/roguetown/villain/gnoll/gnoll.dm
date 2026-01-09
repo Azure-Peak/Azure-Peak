@@ -8,7 +8,7 @@
 	body_parts_covered = FULL_BODY
 	body_parts_inherent = FULL_BODY
 	//slot_flags = ITEM_SLOT_SHIRT|ITEM_SLOT_ARMOR
-	armor = ARMOR_WWOLF
+	armor = ARMOR_GNOLL_STANDARD
 	prevent_crits = PREVENT_CRITS_ALL
 	blocksound = SOFTHIT
 	blade_dulling = DULLING_BASHCHOP
@@ -65,7 +65,55 @@
 	name = "Gnoll Claw"
 	// We are smarter, we can use our solid, steel-like claws to defend ourselves.
 	wdefense = 5
+	force = 25
+	possible_item_intents = list(/datum/intent/simple/gnoll_cut, /datum/intent/simple/werewolf/gnoll, /datum/intent/mace/smash/werewolf/gnoll, /datum/intent/mace/strike/gnoll)
 
 /obj/item/rogueweapon/werewolf_claw/gnoll/right
+	icon_state = "claw_r"
+	wlength = WLENGTH_SHORT
 
 /obj/item/rogueweapon/werewolf_claw/gnoll/left
+	icon_state = "claw_l"
+	wlength = WLENGTH_SHORT
+
+/datum/intent/simple/werewolf/gnoll
+	name = "claw"
+	icon_state = "inchop"
+	blade_class = BCLASS_CHOP
+	attack_verb = list("claws", "mauls", "eviscerates")
+	animname = "chop"
+	hitsound = "genslash"
+	penfactor = 60
+	candodge = TRUE
+	canparry = TRUE
+	miss_text = "slashes the air!"
+	miss_sound = "bluntwooshlarge"
+	item_d_type = "slash"
+
+/datum/intent/mace/smash/werewolf/gnoll
+	name = "thrash"
+	desc = "A powerful, smash of lycan muscle that deals normal damage but can throw a standing opponent back and slow them down, based on your strength. Ineffective below 10 strength. Slowdown & Knockback scales to your Strength up to 15 (1 - 5 tiles). Cannot be used consecutively more than every 5 seconds on the same target. Prone targets halve the knockback distance."
+	icon_state = "insmash"
+	maxrange = 5
+	chargetime = 1
+	penfactor = 60
+
+/datum/intent/simple/gnoll_cut
+	name = "cutting claw"
+	hitsound = "genslash"
+	penfactor = 80
+	candodge = TRUE
+	canparry = TRUE
+	miss_text = "slashes the air!"
+	miss_sound = "bluntwooshlarge"
+	icon_state = "incut"
+	attack_verb = list("cuts", "slashes")
+	animname = "cut"
+	blade_class = BCLASS_CUT
+	item_d_type = "slash"
+
+/datum/intent/mace/strike/gnoll
+	name = "armor rending strike"
+	miss_text = "strikes the air!"
+	miss_sound = "bluntwooshlarge"
+	attack_verb = list("punches", "strikes", "tears")

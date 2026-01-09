@@ -9,6 +9,7 @@
 	var/list/howl_sounds = list('sound/vo/mobs/wwolf/howl (1).ogg','sound/vo/mobs/wwolf/howl (2).ogg')
 	var/list/howl_sounds_far = list('sound/vo/mobs/wwolf/howldist (1).ogg','sound/vo/mobs/wwolf/howldist (2).ogg')
 	var/wolf_antag_type = /datum/antagonist/werewolf
+	var/howl_spies_allowed = TRUE
 
 /obj/effect/proc_holder/spell/self/howl/cast(mob/user = usr)
 	..()
@@ -27,7 +28,7 @@
 		if(isbrain(player)) continue
 
 		// Announcement to other werewolves (and anyone else who has beast language somehow)
-		if(player.mind.has_antag_datum(wolf_antag_type) || (player.has_language(/datum/language/beast)))
+		if(player.mind.has_antag_datum(wolf_antag_type) || (player.has_language(/datum/language/beast)) && howl_spies_allowed)
 			var/speaker_name = (antag_data && hasvar(antag_data, "wolfname")) ? antag_data:wolfname : user.real_name
 			to_chat(player, span_boldannounce("[speaker_name] howls to the hidden moon: [message]"))
 
@@ -72,11 +73,13 @@
 				continue
 			var/new_claw
 			if(hand_index == LEFT_HANDS)
-				new_claw = new /obj/item/rogueweapon/werewolf_claw/left(user)
+				var/left_claw_path = text2path("[claw_type]/left")
+				new_claw = new left_claw_path(user)
 				user.put_in_l_hand(new_claw)
 				extended_claw_record[LEFT_HANDS] = new_claw
 			else
-				new_claw = new /obj/item/rogueweapon/werewolf_claw/right(user)
+				var/right_claw_path = text2path("[claw_type]/right")
+				new_claw = new right_claw_path(user)
 				user.put_in_r_hand(new_claw)
 				extended_claw_record[RIGHT_HANDS] = new_claw
 			RegisterSignal(new_claw, COMSIG_QDELETING, PROC_REF(clear_claw_entry))

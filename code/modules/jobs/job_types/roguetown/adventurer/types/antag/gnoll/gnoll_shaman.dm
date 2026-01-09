@@ -40,3 +40,4 @@
 	icon_state = "shaman"
 	max_integrity = 400
 	repair_time = 12 SECONDS
+	armor = ARMOR_GNOLL_WEAK

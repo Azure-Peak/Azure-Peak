@@ -44,6 +44,7 @@
 		if(H.mind && !H.mind.has_antag_datum(/datum/antagonist/gnoll))
 			var/datum/antagonist/new_antag = new /datum/antagonist/gnoll()
 			H.mind.add_antag_datum(new_antag)
+			H.verbs |= /mob/living/carbon/human/proc/gnoll_inspect_skin
 
 /datum/outfit/job/roguetown/gnoll/proc/don_pelt(mob/living/carbon/human/H)
 	if(H.mind)
@@ -67,3 +68,13 @@
 					to_chat(H, span_notice("Your name is now [H.real_name]."))
 				if("Keep Current Name")
 					to_chat(H, span_notice("You keep your name as [H.real_name]."))
+
+/mob/living/carbon/human/proc/gnoll_inspect_skin()
+	set name = "Inspect Pelt"
+	set category = "Gnoll"
+	set desc = "Examine your gnoll skin armor"
+	if(!istype(skin_armor, /obj/item/clothing/suit/roguetown/armor/regenerating/skin/gnoll_armor))
+		to_chat(src, span_warning("You don't have any gnoll skin armor to inspect!"))
+		return
+	var/obj/item/clothing/suit/roguetown/armor/regenerating/skin/gnoll_armor/GA = skin_armor
+	GA.Topic(null, list("inspect" = "1"), src)
