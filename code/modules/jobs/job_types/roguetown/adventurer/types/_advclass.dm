@@ -53,6 +53,9 @@
 	/// Set to FALSE to skip apply_character_post_equipment() which applies virtue, flaw, loadout
 	var/applies_post_equipment = TRUE
 
+	/// set to TRUE to reset stats in equipme, clearing any racial bonuses or bonuses the character had before becoming this class
+	var/reset_stats = FALSE
+
 	var/datum/class_age_mod/age_mod = null
 
 /datum/advclass/New()
@@ -98,6 +101,9 @@
 	if(length(subclass_languages))
 		for(var/lang in subclass_languages)
 			H.grant_language(lang)
+
+	if(reset_stats)
+		H.reset_stats()
 
 	if(length(subclass_stats))
 		for(var/stat in subclass_stats)

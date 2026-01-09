@@ -6,6 +6,7 @@
 	outfit = /datum/outfit/job/roguetown/gnoll/templar
 	category_tags = list(CTAG_GNOLL)
 	traits_applied = list(TRAIT_HEAVYARMOR)
+	reset_stats = TRUE
 	subclass_stats = list(
 		STATKEY_STR = 2,
 		STATKEY_CON = 2,
