@@ -197,3 +197,10 @@
 
 /obj/item/storage/belt/rogue/pouch/food/PopulateContents()
 	new /obj/item/reagent_containers/food/snacks/rogue/crackerscooked(src)
+
+/obj/item/storage/belt/rogue/pouch/healing
+
+/obj/item/storage/belt/rogue/pouch/healing/PopulateContents()
+	new /obj/item/reagent_containers/glass/bottle/alchemical/healthpot(src)
+	new /obj/item/reagent_containers/glass/bottle/alchemical/healthpot(src)
+	new /obj/item/needle(src)
