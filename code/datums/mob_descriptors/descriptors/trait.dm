@@ -84,11 +84,11 @@
 
 /datum/mob_descriptor/trait/blessed
 	name = "Blessed"
-	prefix = "%ARE% very"
+	prefix = "%ARE%"
 
 /datum/mob_descriptor/trait/accursed
 	name = "Accursed"
-	prefix = "%ARE% a"
+	prefix = "%ARE%"
 
 /datum/mob_descriptor/trait/aquatic
 	name = "Aquatic"
