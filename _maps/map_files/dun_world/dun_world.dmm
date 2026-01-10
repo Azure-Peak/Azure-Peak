@@ -52505,13 +52505,6 @@
 "mQF" = (
 /turf/open/floor/rogue/tile,
 /area/rogue/outdoors/town/roofs)
-"mQK" = (
-/obj/structure/fluff/traveltile/drow{
-	aportalgoesto = drowout1;
-	aportalid = drowin1ssssssssssssss
-	},
-/turf/open/floor/rogue/naturalstone,
-/area/rogue/indoors/cave)
 "mQL" = (
 /turf/closed/wall/mineral/rogue/wooddark,
 /area/rogue/outdoors/beach/forest/hamlet)
@@ -262158,7 +262151,7 @@ tsB
 tsB
 tsB
 tsB
-mQK
+gJI
 gJI
 gJI
 onF
