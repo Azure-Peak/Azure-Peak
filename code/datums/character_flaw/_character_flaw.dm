@@ -89,12 +89,12 @@ GLOBAL_LIST_INIT(character_flaws, list(
 	desc = "I'm a normal person, how rare!"
 
 /datum/charflaw/noflaw
-	name = "No Flaw (-7 TRI)"
+	name = "No Flaw (-3 TRI)"
 	desc = "I'm a normal person, how rare! (Consumes 7 triumphs or gives a random flaw.)"
 
 /datum/charflaw/noflaw/apply_post_equipment(mob/user)
 	var/mob/living/carbon/human/H = user
-	if(H.get_triumphs() < 7)
+	if(H.get_triumphs() < 3)
 		var/flawz = GLOB.character_flaws.Copy()
 		var/charflaw = pick_n_take(flawz)
 		charflaw = GLOB.character_flaws[charflaw]
@@ -107,7 +107,7 @@ GLOBAL_LIST_INIT(character_flaws, list(
 		H.charflaw = new charflaw()
 		H.charflaw.on_mob_creation(H)
 	else
-		H.adjust_triumphs(-7)
+		H.adjust_triumphs(-3)
 
 /datum/charflaw/badsight
 	name = "Bad Eyesight"
