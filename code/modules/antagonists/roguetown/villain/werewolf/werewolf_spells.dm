@@ -10,6 +10,7 @@
 	var/list/howl_sounds_far = list('sound/vo/mobs/wwolf/howldist (1).ogg','sound/vo/mobs/wwolf/howldist (2).ogg')
 	var/wolf_antag_type = /datum/antagonist/werewolf
 	var/howl_spies_allowed = TRUE
+	var/howl_distance_limit = 500
 
 /obj/effect/proc_holder/spell/self/howl/cast(mob/user = usr)
 	..()
@@ -34,7 +35,8 @@
 
 		//sound played for other players
 		if(player == src) continue
-		if(get_dist(player, src) > 7)
+		var/player_distance = get_dist(player,src)
+		if(player_distance > 7 && player_distance <= howl_distance_limit)
 			player.playsound_local(get_turf(player), pick(howl_sounds_far), 50, FALSE, pressure_affected = FALSE)
 
 	user.log_message("howls: [message] ([wolf_antag_type])", LOG_GAME)
