@@ -176,9 +176,9 @@
 	desc = span_red("Better stay away.")
 
 /datum/stressevent/paracrowd
-	timer = 15 SECONDS
+	timer = 20 SECONDS
 	stressadd = 2
-	desc = span_red("There are too many people who don't look like me here.")
+	desc = span_red("Too many strangers... Where are my own kin?")
 
 /datum/stressevent/parablood
 	timer = 15 SECONDS

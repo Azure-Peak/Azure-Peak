@@ -433,7 +433,7 @@
 			do_knot_action = !do_knot_action
 			. = TRUE
 		if("set_arousal_value")
-			SEND_SIGNAL(user, COMSIG_SEX_SET_AROUSAL, params["amount"])
+			SEND_SIGNAL(user, COMSIG_SEX_SET_AROUSAL, params["amount"], TRUE)
 			. = TRUE
 		if("freeze_arousal")
 			SEND_SIGNAL(user, COMSIG_SEX_FREEZE_AROUSAL)

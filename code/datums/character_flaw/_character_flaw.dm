@@ -11,9 +11,10 @@ GLOBAL_LIST_INIT(character_flaws, list(
 	"Nymphomaniac"=/datum/charflaw/addiction/lovefiend,
 	"Sadist"=/datum/charflaw/addiction/sadist,
 	"Masochist"=/datum/charflaw/addiction/masochist,
-	"Paranoid"=/datum/charflaw/paranoid,
-	"Clingy"=/datum/charflaw/clingy,
-	"Isolationist"=/datum/charflaw/isolationist,
+	"Paranoid"=/datum/charflaw/addiction/paranoid,
+	"Clamorous"=/datum/charflaw/addiction/clamorous,
+	"Thrillseeker"=/datum/charflaw/addiction/thrillseeker,
+	"Voyeur"=/datum/charflaw/addiction/voyeur,
 	"Bad Sight"=/datum/charflaw/badsight,
 	"Cyclops (R)"=/datum/charflaw/noeyer,
 	"Cyclops (L)"=/datum/charflaw/noeyel,
@@ -145,92 +146,6 @@ GLOBAL_LIST_INIT(character_flaws, list(
 
 /datum/charflaw/badsight/proc/apply_reading_skill(mob/living/carbon/human/H)
 	H.adjust_skillrank(/datum/skill/misc/reading, 1, TRUE)
-
-/datum/charflaw/paranoid
-	name = "Paranoid"
-	desc = "I'm even more anxious than most people. I'm extra paranoid of other races and the sight of blood."
-	var/last_check = 0
-
-/datum/charflaw/paranoid/flaw_on_life(mob/user)
-	if(world.time < last_check + 10 SECONDS)
-		return
-	if(!user)
-		return
-	last_check = world.time
-	var/cnt = 0
-	for(var/mob/living/carbon/human/L in hearers(7, user))
-		if(L == src)
-			continue
-		if(L.stat)
-			continue
-		if(L.dna?.species)
-			if(ishuman(user))
-				var/mob/living/carbon/human/H = user
-				if(L.dna.species.id != H.dna.species.id)
-					cnt++
-		if(cnt > 2)
-			break
-	if(cnt > 2)
-		user.add_stress(/datum/stressevent/paracrowd)
-	cnt = 0
-	for(var/obj/effect/decal/cleanable/blood/B in view(7, user))
-		cnt++
-		if(cnt > 3)
-			break
-	if(cnt > 6)
-		user.add_stress(/datum/stressevent/parablood)
-
-/datum/charflaw/isolationist
-	name = "Isolationist"
-	desc = "I don't like being near people. They might be trying to do something to me..."
-	var/last_check = 0
-
-/datum/charflaw/isolationist/flaw_on_life(mob/user)
-	. = ..()
-	if(world.time < last_check + 10 SECONDS)
-		return
-	if(!user)
-		return
-	last_check = world.time
-	var/cnt = 0
-	for(var/mob/living/carbon/human/L in hearers(7, user))
-		if(L == user)
-			continue
-		if(L.stat)
-			continue
-		if(L.dna.species)
-			cnt++
-		if(cnt > 3)
-			break
-	var/mob/living/carbon/P = user
-	if(cnt > 3)
-		P.add_stress(/datum/stressevent/crowd)
-
-/datum/charflaw/clingy
-	name = "Clingy"
-	desc = "I like being around people, it's just so lively..."
-	var/last_check = 0
-
-/datum/charflaw/clingy/flaw_on_life(mob/user)
-	. = ..()
-	if(world.time < last_check + 10 SECONDS)
-		return
-	if(!user)
-		return
-	last_check = world.time
-	var/cnt = 0
-	for(var/mob/living/carbon/human/L in hearers(7, user))
-		if(L == user)
-			continue
-		if(L.stat)
-			continue
-		if(L.dna.species)
-			cnt++
-		if(cnt > 1)
-			break
-	var/mob/living/carbon/P = user
-	if(cnt < 1)
-		P.add_stress(/datum/stressevent/nopeople)
 
 /datum/charflaw/noeyer
 	name = "Cyclops (R)"

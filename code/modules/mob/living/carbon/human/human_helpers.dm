@@ -12,7 +12,7 @@
 		if(istype(wear_neck, /obj/item/clothing/neck/roguetown/talkstone))
 			return TRUE
 	if(!has_language(language))
-		if(has_flaw(/datum/charflaw/paranoid))
+		if(has_flaw(/datum/charflaw/addiction/paranoid))
 			add_stress(/datum/stressevent/paratalk)
 
 

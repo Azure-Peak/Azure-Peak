@@ -169,6 +169,17 @@
 			if(ishuman(owner))
 				var/mob/living/carbon/human/human_owner = owner
 				human_owner.hud_used?.stressies?.flick_pain(TRUE)
+
+			if(user.has_flaw(/datum/charflaw/addiction/thrillseeker))
+				var/datum/component/arousal/CAR = user.GetComponent(/datum/component/arousal)
+				if(CAR)
+					CAR.ejaculate()
+
+			if(owner.has_flaw(/datum/charflaw/addiction/thrillseeker))
+				var/datum/component/arousal/CAR = owner.GetComponent(/datum/component/arousal)
+				if(CAR)
+					CAR.ejaculate()
+
 			return crit_attempt
 	if(ishuman(owner))
 		var/mob/living/carbon/human/human_owner = owner

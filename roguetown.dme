@@ -2784,7 +2784,6 @@
 #include "modular\ambush\ambush_config\southern_coast_ambush.dm"
 #include "modular\code\controllers\configuration\entries\general.dm"
 #include "modular\code\controllers\subsystem\processing\sex.dm"
-#include "modular\code\datums\character_flaw.dm"
 #include "modular\code\game\objects\gallows.dm"
 #include "modular\code\game\objects\pillory.dm"
 #include "modular\code\game\objects\items\items.dm"

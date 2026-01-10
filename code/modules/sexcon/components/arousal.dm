@@ -51,10 +51,16 @@
 		return FALSE
 	return TRUE
 
-/datum/component/arousal/proc/set_arousal(datum/source, amount)
+/datum/component/arousal/proc/set_arousal(datum/source, amount, forced = FALSE)
 	if(amount > arousal)
 		last_arousal_increase_time = world.time
-	arousal = clamp(amount, 0, MAX_AROUSAL)
+	var/clamp_max = MAX_AROUSAL
+	var/mob/user = parent
+	if(user.has_flaw(/datum/charflaw/addiction/thrillseeker))
+		clamp_max = THRILLSEEKER_EJAC_THRESHOLD
+		if(forced)
+			clamp_max = 50
+	arousal = clamp(amount, 0, clamp_max)
 	update_arousal_effects()
 	try_ejaculate()
 	SEND_SIGNAL(parent, COMSIG_SEX_AROUSAL_CHANGED)
@@ -68,6 +74,9 @@
 	return set_arousal(source, arousal + amount)
 
 /datum/component/arousal/proc/freeze_arousal(datum/source, freeze_state = null)
+	var/mob/user = parent
+	if(user.has_flaw(/datum/charflaw/addiction/thrillseeker))
+		return
 	if(freeze_state == null)
 		arousal_frozen = !arousal_frozen
 	else
@@ -107,7 +116,11 @@
 	update_erect_state()
 
 /datum/component/arousal/proc/try_ejaculate()
-	if(arousal < PASSIVE_EJAC_THRESHOLD)
+	var/mob/user = parent
+
+	if(arousal < PASSIVE_EJAC_THRESHOLD && !user.has_flaw(/datum/charflaw/addiction/thrillseeker))
+		return
+	if(user.has_flaw(/datum/charflaw/addiction/thrillseeker) && arousal < THRILLSEEKER_EJAC_THRESHOLD_PASSIVE)
 		return
 	if(is_spent())
 		return
@@ -118,29 +131,33 @@
 	var/mob/living/mob = parent
 	var/list/parent_sessions = return_sessions_with_user(parent)
 	var/datum/sex_session/highest_priority = return_highest_priority_action(parent_sessions, parent)
-	playsound(parent, 'sound/misc/mat/endout.ogg', 50, TRUE, ignore_walls = FALSE)
-	// Special case for when the user has a penis but no testicles
-	if(!mob.getorganslot(ORGAN_SLOT_TESTICLES) && mob.getorganslot(ORGAN_SLOT_PENIS))
-		mob.visible_message(span_love("[mob] climaxes, yet nothing is released!"))
-		after_ejaculation(FALSE, parent)
-		return
-	if(!highest_priority)
-		mob.visible_message(span_love("[mob] makes a mess!"))
-		var/turf/turf = get_turf(parent)
-		new /obj/effect/decal/cleanable/coom(turf)
-		after_ejaculation(FALSE, parent)
-	else
-		var/datum/sex_action/action = SEX_ACTION(highest_priority.current_action)
-		var/return_type = action.handle_climax_message(highest_priority.user, highest_priority.target)
-		if(!return_type)
+	if(!mob.has_flaw(/datum/charflaw/addiction/thrillseeker))
+		playsound(parent, 'sound/misc/mat/endout.ogg', 50, TRUE, ignore_walls = FALSE)
+		// Special case for when the user has a penis but no testicles
+		if(!mob.getorganslot(ORGAN_SLOT_TESTICLES) && mob.getorganslot(ORGAN_SLOT_PENIS))
+			mob.visible_message(span_love("[mob] climaxes, yet nothing is released!"))
+			after_ejaculation(FALSE, parent)
+			return
+		if(!highest_priority)
 			mob.visible_message(span_love("[mob] makes a mess!"))
 			var/turf/turf = get_turf(parent)
 			new /obj/effect/decal/cleanable/coom(turf)
 			after_ejaculation(FALSE, parent)
 		else
-			handle_climax(return_type, highest_priority.user, highest_priority.target)
-		if(action.knot_on_finish)
-			action.try_knot_on_climax(mob, highest_priority.target)
+			var/datum/sex_action/action = SEX_ACTION(highest_priority.current_action)
+			var/return_type = action.handle_climax_message(highest_priority.user, highest_priority.target)
+			if(!return_type)
+				mob.visible_message(span_love("[mob] makes a mess!"))
+				var/turf/turf = get_turf(parent)
+				new /obj/effect/decal/cleanable/coom(turf)
+				after_ejaculation(FALSE, parent)
+			else
+				handle_climax(return_type, highest_priority.user, highest_priority.target)
+			if(action.knot_on_finish)
+				action.try_knot_on_climax(mob, highest_priority.target)
+	else
+		after_ejaculation(FALSE, parent)
+		mob.sate_addiction()
 
 
 /datum/component/arousal/proc/handle_climax(climax_type, mob/living/carbon/human/user, mob/living/carbon/human/target)
@@ -167,6 +184,12 @@
 	SEND_SIGNAL(user, COMSIG_SEX_CLIMAX)
 
 	charge = max(0, charge - CHARGE_FOR_CLIMAX)
+
+	if(user.has_flaw(/datum/charflaw/addiction/thrillseeker))
+		user.add_stress(/datum/stressevent/thrill)
+		user.playsound_local(user, 'sound/misc/mat/end.ogg', 100)
+		last_ejaculation_time = world.time
+		return
 
 	if(user == target)
 		user.add_stress(/datum/stressevent/cumself)

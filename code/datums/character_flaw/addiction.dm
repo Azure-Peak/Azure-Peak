@@ -6,6 +6,11 @@
 		var/datum/charflaw/addiction/A = charflaw
 		if(!A.sated)
 			to_chat(src, span_blue(A.sated_text))
+			
+			for(var/mob/living/L in get_hearers_in_view(2, src, RECURSIVE_CONTENTS_CLIENT_MOBS))
+				if(src != L && !istype(charflaw, /datum/charflaw/addiction/voyeur))	//Let's not have circular voyeur self-pleasing chains.
+					if(L.has_flaw(/datum/charflaw/addiction/voyeur))
+						L.sate_addiction()
 		A.sated = TRUE
 		A.time = initial(A.time) //reset roundstart sate offset to standard
 		A.next_sate = world.time + A.time
@@ -126,3 +131,35 @@
 
 /datum/charflaw/addiction/masochist/on_mob_creation(mob/living/living)
 	living.pain_threshold += 10
+
+/// LOVEFIEND
+
+/datum/charflaw/addiction/lovefiend
+	name = "Nymphomaniac"
+	desc = "I must make love!"
+	time = 90 MINUTES
+	needsate_text = "I'm feeling randy."
+
+/datum/charflaw/addiction/thrillseeker
+	name = "Thrillseeker"
+	desc = "Only fighting brings me pleasure."
+	time = 60 MINUTES
+	needsate_text = "I need a FIGHT!"
+
+/datum/charflaw/addiction/clamorous
+	name = "Clamorous"
+	desc = "The noise of people and fights drowns out my misery."
+	time = 20 MINUTES
+	needsate_text = "It's too quiet. Where's the yelling? The fighting?"
+
+/datum/charflaw/addiction/paranoid
+	name = "Paranoid"
+	desc = "I only feel comfortable around one of my own kind."
+	time = 40 MINUTES
+	needsate_text = "Am I the only one of my kind left?"
+
+/datum/charflaw/addiction/voyeur
+	name = "Voyeur"
+	desc = "Seeing others be happy... it makes me happy, too."
+	time = 40 MINUTES
+	needsate_text = "I must please someone."
