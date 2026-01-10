@@ -143,7 +143,7 @@
 /datum/charflaw/addiction/thrillseeker
 	name = "Thrillseeker"
 	desc = "Only fighting brings me pleasure."
-	time = 60 MINUTES
+	time = 40 MINUTES
 	needsate_text = "I need a FIGHT!"
 
 /datum/charflaw/addiction/clamorous
@@ -155,11 +155,11 @@
 /datum/charflaw/addiction/paranoid
 	name = "Paranoid"
 	desc = "I only feel comfortable around one of my own kind."
-	time = 40 MINUTES
+	time = 20 MINUTES
 	needsate_text = "Am I the only one of my kind left?"
 
 /datum/charflaw/addiction/voyeur
 	name = "Voyeur"
 	desc = "Seeing others be happy... it makes me happy, too."
-	time = 40 MINUTES
+	time = 30 MINUTES
 	needsate_text = "I must please someone."
