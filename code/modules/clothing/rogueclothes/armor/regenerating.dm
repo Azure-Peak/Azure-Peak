@@ -25,26 +25,31 @@
 
 /obj/item/clothing/suit/roguetown/armor/regenerating/take_damage(damage_amount, damage_type, damage_flag, sound_effect, attack_dir, armor_penetration)
 	..()
+	to_chat(world, span_userdanger("armor status is [obj_integrity] with [obj_broken] and [reptimer] and [active_timers]"))
 	if(reptimer)
 		if(!regen_interrupt(damage_amount, damage_type, damage_flag, attack_dir))
 			return
 		to_chat(loc, span_notice(repairmsg_stop))
 		deltimer(reptimer)
+		reptimer = null
 
 	to_chat(loc, span_notice(repairmsg_begin))
 	reptimer = addtimer(CALLBACK(src, PROC_REF(armour_regen)), repair_time, TIMER_OVERRIDE|TIMER_UNIQUE|TIMER_STOPPABLE)
 
 /obj/item/clothing/suit/roguetown/armor/regenerating/proc/armour_regen(var/repair_percent = 0.2 * max_integrity)
+	reptimer = null
+
 	if(obj_integrity >= max_integrity)
 		to_chat(loc, span_notice(repairmsg_end))
-		if(reptimer)
-			deltimer(reptimer)
 		return
 
-	to_chat(loc, span_notice(repairmsg_continue))
 	obj_integrity = min(obj_integrity + repair_percent, max_integrity)
-	if(obj_broken)
+
+	if(obj_broken && obj_integrity > 0)
 		obj_fix(full_repair = FALSE)
+	
+	to_chat(loc, span_notice(repairmsg_continue))
+
 	reptimer = addtimer(CALLBACK(src, PROC_REF(armour_regen)), repair_time, TIMER_OVERRIDE|TIMER_UNIQUE|TIMER_STOPPABLE)
 
 /obj/item/clothing/suit/roguetown/armor/regenerating/proc/regen_interrupt(damage_amount, damage_type, damage_flag, attack_dir)
