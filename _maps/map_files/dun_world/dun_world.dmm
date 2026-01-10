@@ -6743,6 +6743,13 @@
 /obj/effect/spawner/trap,
 /turf/open/water/swamp,
 /area/rogue/indoors/cave)
+"bJA" = (
+/obj/structure/fluff/traveltile/drow{
+	aportalgoesto = drowin1;
+	aportalid = drowout1
+	},
+/turf/open/floor/rogue/naturalstone,
+/area/rogue/under/underdark)
 "bJD" = (
 /obj/machinery/light/roguestreet/midlamp{
 	pixel_y = 10
@@ -26952,6 +26959,13 @@
 /obj/structure/spider/stickyweb/mirespider,
 /turf/open/floor/rogue/cobble/mossy,
 /area/rogue/under/cave/his_vault/one)
+"gJI" = (
+/obj/structure/fluff/traveltile/drow{
+	aportalgoesto = drowout1;
+	aportalid = drowin1
+	},
+/turf/open/floor/rogue/naturalstone,
+/area/rogue/indoors/cave)
 "gJN" = (
 /obj/structure/fluff/railing/corner/north_east,
 /turf/open/floor/rogue/grassyel,
@@ -52491,6 +52505,13 @@
 "mQF" = (
 /turf/open/floor/rogue/tile,
 /area/rogue/outdoors/town/roofs)
+"mQK" = (
+/obj/structure/fluff/traveltile/drow{
+	aportalgoesto = drowout1;
+	aportalid = drowin1ssssssssssssss
+	},
+/turf/open/floor/rogue/naturalstone,
+/area/rogue/indoors/cave)
 "mQL" = (
 /turf/closed/wall/mineral/rogue/wooddark,
 /area/rogue/outdoors/beach/forest/hamlet)
@@ -101117,16 +101138,16 @@ yjO
 yjO
 yjO
 szI
+bJA
+sPj
 szI
 szI
-szI
-szI
-szI
-szI
-szI
-szI
-szI
-szI
+sPj
+sPj
+sPj
+sPj
+sPj
+sPj
 szI
 szI
 szI
@@ -101569,16 +101590,16 @@ yjO
 yjO
 yjO
 szI
-szI
-szI
-szI
-szI
-szI
-szI
-szI
-szI
-szI
-szI
+bJA
+sPj
+sPj
+sPj
+sPj
+sPj
+sPj
+sPj
+sPj
+sPj
 szI
 szI
 szI
@@ -102021,17 +102042,17 @@ yjO
 yjO
 yjO
 szI
+bJA
+sPj
+sPj
+sPj
+sPj
 szI
 szI
 szI
-szI
-szI
-szI
-szI
-szI
-szI
-szI
-szI
+sPj
+sPj
+sPj
 szI
 szI
 szI
@@ -102473,6 +102494,8 @@ yjO
 yjO
 yjO
 szI
+bJA
+sPj
 szI
 szI
 szI
@@ -102480,11 +102503,9 @@ szI
 szI
 szI
 szI
-szI
-szI
-szI
-szI
-szI
+sPj
+sPj
+sPj
 szI
 szI
 szI
@@ -102935,8 +102956,8 @@ szI
 szI
 szI
 szI
-szI
-szI
+sPj
+sPj
 szI
 szI
 szI
@@ -103388,8 +103409,8 @@ szI
 szI
 szI
 szI
-szI
-szI
+sPj
+sPj
 szI
 szI
 szI
@@ -103840,8 +103861,8 @@ szI
 szI
 szI
 szI
-szI
-szI
+sPj
+sPj
 szI
 szI
 szI
@@ -104292,8 +104313,8 @@ szI
 szI
 szI
 szI
-szI
-szI
+sPj
+sPj
 szI
 szI
 szI
@@ -104744,8 +104765,8 @@ mnN
 szI
 szI
 szI
-szI
-szI
+sPj
+sPj
 szI
 szI
 szI
@@ -262137,9 +262158,9 @@ tsB
 tsB
 tsB
 tsB
-onF
-onF
-onF
+mQK
+gJI
+gJI
 onF
 onF
 onF
@@ -262589,14 +262610,14 @@ tsB
 tsB
 tsB
 tsB
-tsB
+fnC
+fnC
+fnC
 onF
 onF
 onF
 onF
-onF
-onF
-onF
+fnC
 tsB
 tsB
 tsB
@@ -263042,13 +263063,13 @@ tsB
 tsB
 tsB
 tsB
-tsB
+fnC
 onF
 onF
 onF
 onF
 onF
-onF
+fnC
 tsB
 tsB
 aoe
@@ -263494,13 +263515,13 @@ tsB
 tsB
 tsB
 tsB
-tsB
+fnC
 onF
 onF
 onF
 onF
-onF
-onF
+fnC
+fnC
 tsB
 tsB
 tsB
@@ -263946,12 +263967,12 @@ qPv
 tsB
 tsB
 tsB
-tsB
+fnC
 onF
 onF
 onF
 onF
-onF
+fnC
 onF
 onF
 tsB
@@ -264398,12 +264419,12 @@ qPv
 qPv
 tsB
 tsB
-tsB
-tsB
-tsB
+fnC
+fnC
+fnC
+fnC
 onF
-onF
-onF
+fnC
 onF
 onF
 tsB
@@ -264853,10 +264874,10 @@ tsB
 tsB
 tsB
 tsB
+fnC
 tsB
-tsB
-tsB
-onF
+fnC
+fnC
 tsB
 tsB
 tsB
@@ -265305,10 +265326,10 @@ qPv
 tsB
 tsB
 tsB
-tsB
-tsB
-tsB
-tsB
+fnC
+fnC
+fnC
+fnC
 tsB
 tsB
 tsB
@@ -265760,8 +265781,8 @@ tsB
 tsB
 tsB
 tsB
-tsB
-tsB
+fnC
+fnC
 tsB
 qPv
 tsB
@@ -266212,8 +266233,8 @@ tsB
 tsB
 tsB
 tsB
-tsB
-tsB
+fnC
+fnC
 tsB
 qPv
 tsB
@@ -266665,8 +266686,8 @@ tsB
 tsB
 tsB
 tsB
-tsB
-qPv
+fnC
+fnC
 qPv
 tsB
 aoe
@@ -267117,9 +267138,9 @@ qPv
 qPv
 tsB
 tsB
-tsB
-qPv
-qPv
+fnC
+fnC
+fnC
 aoe
 dOW
 qPv
@@ -267571,7 +267592,7 @@ qPv
 tsB
 tsB
 qPv
-qPv
+fnC
 aoe
 aoe
 qPv
