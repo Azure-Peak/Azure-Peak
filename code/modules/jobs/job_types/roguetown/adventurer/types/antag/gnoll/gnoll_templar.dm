@@ -37,5 +37,4 @@
 /obj/item/clothing/suit/roguetown/armor/regenerating/skin/gnoll_armor/templar
 	icon_state = "templar"
 	max_integrity = 800
-	repair_time = 40 SECONDS
 	armor = ARMOR_GNOLL_STANDARD

@@ -24,11 +24,25 @@
 	var/relative_repair_mode = FALSE
 	var/relative_repair_interval = 15 SECONDS
 
+	/// Auto mode
+	/// Enables relative repair mode if not enabled
+	/// Sets the total repair time of the armmor to be relative to the base repair amount and time.
+	/// By default, aims to repair 100 armor every 15 seconds.
+	var/auto_repair_mode = FALSE
+	var/auto_repair_mode_triggered = FALSE
+	var/auto_repair_mode_base = 100
+	var/auto_repair_mode_time = 15 SECONDS
+
 	/// Regen interrupt vars
 	var/interrupt_damount
 	var/interrupt_dtype
 	var/interrupt_dflag
 	var/interrupt_ddir
+
+/obj/item/clothing/suit/roguetown/armor/regenerating/Initialize(mapload)
+	. = ..()
+	if(auto_repair_mode)
+		setup_auto_repair()
 
 /obj/item/clothing/suit/roguetown/armor/regenerating/take_damage(damage_amount, damage_type, damage_flag, sound_effect, attack_dir, armor_penetration)
 	..()
@@ -87,6 +101,12 @@
 		return FALSE
 	return TRUE
 
+/obj/item/clothing/suit/roguetown/armor/regenerating/proc/setup_auto_repair()
+	repair_time = (max_integrity / auto_repair_mode_base) * auto_repair_mode_time
+	
+	// Ensure relative mode is on to respect the new calculated repair_time
+	relative_repair_mode = TRUE
+	auto_repair_mode_triggered = TRUE
 
 // SKIN ARMOUR
 
