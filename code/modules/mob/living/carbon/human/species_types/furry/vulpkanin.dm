@@ -10,7 +10,7 @@
 	Their name is quite obvious, coming from the Venards they closely resemble. \
 	Venardines are often much more solitary than Lupians, lacking the fervent pack mentality of their parent race. \
 	To this dae, their origin is heavily disputed by few archivists across Psydonia - though the rest, perhaps for sanity's sake, consider them to be just Lupians.<br>\
-	(+1 Perception, +1 Intelligence)"
+	(+1 Perception, +1 Intelligence, Perfect Tracker)"
 	default_color = "444"
 	species_traits = list(
 		MUTCOLORS,
@@ -18,6 +18,7 @@
 		LIPS,
 		HAIR,
 	)
+	inherent_traits = list(TRAIT_PERFECT_TRACKER)
 	inherent_biotypes = MOB_ORGANIC|MOB_HUMANOID
 	attack_verb = "slash"
 	liked_food = GROSS | MEAT | FRIED

@@ -10,7 +10,7 @@
 	Their bodies are naturally resilient and their minds as sharp as a Humen's own. \
 	A Lupian will usually display loyalty to a fault, as they are quite factional beings. \
 	Tales of old claim that they came to be when Noc stole Dendor’s curse to create lyfe of his own in an attempt to replicate Psydon’s, instead giving birth to a flawed beast-people.<br>\
-	(+1 Constitution, +1 Intelligence)"
+	(+1 Constitution, +1 Intelligence, Perfect Tracker)"
 	skin_tone_wording = "Ascendance"
 	species_traits = list(
 		MUTCOLORS,
@@ -18,6 +18,7 @@
 		LIPS,
 		HAIR,
 	)
+	inherent_traits = list(TRAIT_PERFECT_TRACKER)
 	inherent_biotypes = MOB_ORGANIC|MOB_HUMANOID
 	use_skintones = TRUE
 	attack_verb = "slash"

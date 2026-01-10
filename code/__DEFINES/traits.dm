@@ -99,6 +99,7 @@
 #define TRAIT_WAGES_SUSPENDED "Wages Suspended" //Stops nerve master daily pay for this guy
 #define TRAIT_NODEF "Recklessness"
 #define TRAIT_SHIRTLESS "Shirtless"
+#define TRAIT_HUMENSPIRIT "Humen Spirit"
 
 //Hearthstone port (Tracking)
 #define TRAIT_PERFECT_TRACKER "Huntmaster" //Will always find any tracks and analyzes them perfectly.
@@ -220,6 +221,7 @@
 #define TRAIT_SLEUTH	"Sleuth"
 #define TRAIT_HARDSHELL "Hardshell"
 #define TRAIT_WOODWALKER "Woodwalker"
+#define TRAIT_DRUNK_HEALING	"Dwarvish Drinker"
 #define TRAIT_ARCYNE_T1 "Arcyne Training (Novice)"
 #define TRAIT_ARCYNE_T2 "Arcyne Training (Apprentice)"
 #define TRAIT_ARCYNE_T3 "Arcyne Training (Expert)"
@@ -417,6 +419,8 @@ GLOBAL_LIST_INIT(roguetraits, list(
 	TRAIT_RESIDENT = span_info("I've been granted a Meister account, and the ownership of a house in Azure Peak."),
 	TRAIT_LIGHT_STEP = span_info("My steps are light and swift. I make less noise while sneaking, and can sneak much quicker."),
 	TRAIT_NOMOOD = span_info("I feel no sorrow, no joy, and no stress."),
+	TRAIT_NOMOBSWAP = span_info("I am hard to move while restrained. People restraining me can't push past me."),
+	TRAIT_DRUNK_HEALING = span_info("My Dwarvish blood is bolstered by alcohol. It's just like having a great meal all on its own!"),
 	TRAIT_AZURENATIVE = span_info("I've grown up and lived all my lyfe in these lands. I can only trigger ambushes if I sprint through them."),
 	TRAIT_SLEUTH = span_info("I can spot my tracked Mark's trail without needing to approach it, and can spot them at a distance. I can track more frequently, and the act is not impaired by movement. I can examine tracks right away."),
 	TRAIT_HARDSHELL = span_info("The bulk of this armor prevents me from parrying effectively, but I can still move out of the way."),
@@ -453,6 +457,7 @@ GLOBAL_LIST_INIT(roguetraits, list(
 	TRAIT_CURSE_MATTHIOS = span_warning("I am forsaken by the Dragon. Greed will be my only salvation."),
 	TRAIT_CURSE_BAOTHA = span_warning("I am forsaken by the Heartbreaker. I am drowning in her promises."),
 	TRAIT_JACKOFALLTRADES = span_notice("Skills cost half as much for me to raise."),
+	TRAIT_HUMENSPIRIT = span_notice("My indomitable humen spirit means skills only cost two-thirds as much for me to raise."),
 	TRAIT_BLOODLOSS_IMMUNE = span_notice("While I may bleed, I will feel nothing from it."),
 	TRAIT_ADRENALINE_RUSH = span_notice("I'm invigorated in the midst of battle! I don't feel my wounds!"),
 	TRAIT_MEDICINE_EXPERT = span_greentext("I've deep, intricate knowledge of the medicinal arts. This skill can progress to Master and Legendary levels."),
@@ -632,7 +637,7 @@ Remember to update _globalvars/traits.dm if you're adding/removing/renaming trai
 #define TRAIT_CANNOT_OPEN_PRESENTS "cannot-open-presents"
 #define TRAIT_PRESENT_VISION    "present-vision"
 #define TRAIT_DISK_VERIFIER     "disk-verifier"
-#define TRAIT_NOMOBSWAP         "no-mob-swap"
+#define TRAIT_NOMOBSWAP         "Hard Object"
 #define TRAIT_XRAY_VISION       "xray_vision"
 #define TRAIT_THERMAL_VISION    "thermal_vision"
 #define TRAIT_ABDUCTOR_TRAINING "abductor-training"
@@ -692,7 +697,6 @@ Remember to update _globalvars/traits.dm if you're adding/removing/renaming trai
 #define TRAIT_SKITTISH			"skittish"
 #define TRAIT_POOR_AIM			"poor_aim"
 #define TRAIT_PROSOPAGNOSIA		"prosopagnosia"
-#define TRAIT_DRUNK_HEALING		"drunk_healing"
 #define TRAIT_TAGGER			"tagger"
 #define TRAIT_PHOTOGRAPHER		"photographer"
 #define TRAIT_MUSICIAN			"musician"

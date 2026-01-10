@@ -20,7 +20,7 @@
 	individual, such as a kinder heart fleeing from a brutal society that scorns them for their \
 	less cruel nature. However, not every dark elf seen on the surface can be safely assumed as \
 	kind, for some leave the Underdark simply to find their own greater heights of power.<br>\
-	(+1 Intellect, +1 Perception)"
+	(+1 Intellect, +1 Perception, Web Walker)"
 
 /*
 	Former RT Desc: These guys were undead which doesn't really fit considering now you have a ton of them walking around.
@@ -48,7 +48,7 @@
 	use_skintones = TRUE
 	disliked_food = NONE
 	liked_food = NONE
-	inherent_traits = list(TRAIT_CAVEDWELLER)
+	inherent_traits = list(TRAIT_CAVEDWELLER, TRAIT_WEBWALK)
 	possible_ages = ALL_AGES_LIST
 	changesource_flags = MIRROR_BADMIN | WABBAJACK | MIRROR_MAGIC | MIRROR_PRIDE | RACE_SWAP | SLIME_EXTRACT
 	limbs_icon_m = 'icons/roguetown/mob/bodies/m/mem.dmi'

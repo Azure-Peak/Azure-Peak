@@ -14,9 +14,10 @@
 		Tabaxi eyes are slit-pupilled and usually green or yellow. \
 		Tabaxi are competent swimmers and climbers as well as speedy runners. \
 		They have a good sense of balance and an acute sense of smell.<br>\
-		(+1 Speed)"
+		(+1 Speed, Light Step)"
 	skin_tone_wording = "Fur Colors"
 	species_traits = list(EYECOLOR,HAIR,FACEHAIR,LIPS,STUBBLE, MUTCOLORS)
+	inherent_traits = list(TRAIT_LIGHT_STEP)
 	possible_ages = ALL_AGES_LIST
 	limbs_icon_m = 'icons/roguetown/mob/bodies/m/mta.dmi'
 	limbs_icon_f = 'icons/roguetown/mob/bodies/f/fma.dmi'

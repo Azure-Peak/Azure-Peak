@@ -5,7 +5,7 @@
 	name = "Verminvolk"
 	id = "anthromorphsmall"
 	desc = "A race akin to wild-kin, except afflicted with significantly smaller stature. A bit less respected than their kin due to their closer resemblance to vermin, like the dichotomy between Kobold and Zardman.<br>\
-	(+1 Speed)"
+	(+1 Speed, Beastly Digestion)"
 	default_color = "444"
 	species_traits = list(
 		MUTCOLORS,
@@ -13,6 +13,7 @@
 		LIPS,
 		HAIR,
 	)
+	inherent_traits = list(TRAIT_WILD_EATER) // Eat garbage
 	inherent_biotypes = MOB_ORGANIC|MOB_HUMANOID
 	attack_verb = "slash"
 	changesource_flags = MIRROR_BADMIN | WABBAJACK | MIRROR_MAGIC | MIRROR_PRIDE | RACE_SWAP | SLIME_EXTRACT

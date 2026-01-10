@@ -328,6 +328,8 @@ GLOBAL_LIST_INIT(ballmer_windows_me_msg, list("Yo man, what if, we like, uh, put
 				sate_addiction()
 		if(drunkenness >= 11 && slurring < 5)
 			slurring += 1.2
+			if(HAS_TRAIT(src, TRAIT_DRUNK_HEALING)) // You gotta really get drunk if you want a buff.
+				apply_status_effect(/datum/status_effect/buff/greatsnackbuff)
 
 		if(drunkenness >= 41)
 			if(prob(25))

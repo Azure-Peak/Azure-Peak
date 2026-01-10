@@ -12,12 +12,13 @@
 	have historically been at odds with one another. Being the eldest creations of the Weeping God, humens \
 	tend to find fortune easier than the other races, and are so diverse that no other racial traits \
 	are dominant in their species.<br>\
-	(+1 Willpower, +1 Intelligence)"
+	(+1 Willpower, +1 Intelligence, Humen Spirit)"
 
 	skin_tone_wording = "Ancestry"
 
 	default_color = "FFFFFF"
 	species_traits = list(EYECOLOR,HAIR,FACEHAIR,LIPS,STUBBLE,OLDGREY)
+	inherent_traits = list(TRAIT_HUMENSPIRIT)
 	default_features = MANDATORY_FEATURE_LIST
 	use_skintones = TRUE
 	possible_ages = ALL_AGES_LIST

@@ -10,9 +10,10 @@
 	Taller than humans and powerfully built, zardmen are often between 6 and 7 feet tall. \
 	Zardmen have non-prehensile muscular tails that grow to three or four feet in length, and these are used for balance. \
 	They also have sharp claws and teeth.<br>\
-	(+1 Constitution, +1 Willpower)"
+	(+1 Constitution, +1 Willpower, Big Guy)"
 	skin_tone_wording = "Skin Colors"
 	species_traits = list(EYECOLOR,LIPS,STUBBLE,MUTCOLORS)
+	inherent_traits = list(TRAIT_NOMOBSWAP, TRAIT_BIGGUY)
 	possible_ages = ALL_AGES_LIST
 	changesource_flags = MIRROR_BADMIN | WABBAJACK | MIRROR_MAGIC | MIRROR_PRIDE | RACE_SWAP | SLIME_EXTRACT
 	limbs_icon_m = 'icons/roguetown/mob/bodies/m/mta.dmi'

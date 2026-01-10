@@ -41,6 +41,8 @@
 		cost = max(1, FLOOR(cost * 0.5, 1)) // 50% reduction, minimum cost of 1
 	else if(user && HAS_TRAIT(user, TRAIT_JACKOFALLTRADES))
 		cost = max(1, FLOOR(cost * 0.5, 1)) // Ditto for Homesteader towners
+	else if(user && HAS_TRAIT(user, TRAIT_HUMENSPIRIT))
+		cost = max(1, FLOOR(cost * 0.66, 1)) // Humens reduce the cost of skill-ups by 1/3.
 	return cost
 
 /datum/skill/proc/skill_level_effect(level, datum/mind/mind)

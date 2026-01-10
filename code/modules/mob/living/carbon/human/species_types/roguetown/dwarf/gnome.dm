@@ -10,12 +10,13 @@ The naturally inquisitive mind of a Gnome inclines them towards arcane pursuits,
 Gnomish folk have an earned reputation for being brilliant tradespeople and crafters, although their rapid thoughts often lead to them seeming scatterbrained to the other beings of Azuria.<br>\
 Gnomes are typically a mixed race of Dwarves and a magical race, typically Elves when the two aren't arguing, but some are born with fae blood as well. <br>\
 Even though they are of mixed blood and smaller than typical dwarves, most gnomes and dwarves still regard each other as kin.<br>\
-	(+1 Intelligence, +1 Perception)"
+	(+1 Intelligence, +1 Perception, Cautious Fisher)"
 
 	skin_tone_wording = "Skintone"
 
 	default_color = "FFFFFF"
 	species_traits = list(EYECOLOR,HAIR,FACEHAIR,LIPS,YOUNGBEARD,STUBBLE,OLDGREY)
+	inherent_traits = list(TRAIT_CAUTIOUS_FISHER)
 	possible_ages = ALL_AGES_LIST
 	default_features = MANDATORY_FEATURE_LIST
 	use_skintones = TRUE

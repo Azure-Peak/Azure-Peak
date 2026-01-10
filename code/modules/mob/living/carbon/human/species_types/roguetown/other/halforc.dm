@@ -14,12 +14,12 @@
 	people cannot decide between regarding you with either mere distrust or outright disgust. Yet \
 	somehow your wandering feet came to Azure Peak, where half-orcs ply muscle and their hardiness \
 	in the rough underbelly or outer reaches of society.<br>\
-	(+1 Strength)"
+	(+1 Strength, Big Guy)"
 
 	skin_tone_wording = "Clan"
 
 	species_traits = list(EYECOLOR,HAIR,FACEHAIR,LIPS,STUBBLE,OLDGREY)
-	inherent_traits = list(TRAIT_NOMOBSWAP)
+	inherent_traits = list(TRAIT_NOMOBSWAP, TRAIT_BIGGUY)
 	default_features = MANDATORY_FEATURE_LIST
 	use_skintones = TRUE
 	disliked_food = NONE
