@@ -6745,8 +6745,8 @@
 /area/rogue/indoors/cave)
 "bJA" = (
 /obj/structure/fluff/traveltile/drow{
-	aportalgoesto = drowin1;
-	aportalid = drowout1
+	aportalgoesto = "drowin1";
+	aportalid = "drowout1"
 	},
 /turf/open/floor/rogue/naturalstone,
 /area/rogue/under/underdark)
@@ -26961,8 +26961,8 @@
 /area/rogue/under/cave/his_vault/one)
 "gJI" = (
 /obj/structure/fluff/traveltile/drow{
-	aportalgoesto = drowout1;
-	aportalid = drowin1
+	aportalgoesto = "drowout1";
+	aportalid = "drowin1"
 	},
 /turf/open/floor/rogue/naturalstone,
 /area/rogue/indoors/cave)
