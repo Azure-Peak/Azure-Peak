@@ -9,8 +9,8 @@
 	reset_stats = TRUE
 	subclass_stats = list(
 		STATKEY_STR = 2,
-		STATKEY_CON = 2,
-		STATKEY_WIL = 1,
+		STATKEY_CON = 3,
+		STATKEY_WIL = 2,
 		STATKEY_SPD = 2
 	)
 	subclass_skills = list(
@@ -32,6 +32,7 @@
 		don_pelt(H)
 		var/datum/devotion/C = new /datum/devotion(H, H.patron)
 		C.grant_miracles(H, cleric_tier = CLERIC_T2, passive_gain = CLERIC_REGEN_MINOR, start_maxed = FALSE)
+		H.mind?.AddSpell(new /obj/effect/proc_holder/spell/invoked/convert_heretic)
 
 /obj/item/clothing/suit/roguetown/armor/regenerating/skin/gnoll_armor/templar
 	icon_state = "templar"
