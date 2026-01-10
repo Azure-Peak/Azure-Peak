@@ -447,3 +447,8 @@
 	timer = 5 MINUTES
 	stressadd = 1
 	desc = span_red("Xylix took pity upon me and saved me from the consequences of bad luck. I must do better!")
+
+/datum/stressevent/debt
+	timer = 25 MINUTES
+	stressadd = 3
+	desc = span_red("I couldn't pay my debts in time.")

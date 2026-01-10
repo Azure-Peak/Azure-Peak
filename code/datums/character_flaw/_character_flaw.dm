@@ -14,6 +14,7 @@ GLOBAL_LIST_INIT(character_flaws, list(
 	"Paranoid"=/datum/charflaw/addiction/paranoid,
 	"Clamorous"=/datum/charflaw/addiction/clamorous,
 	"Thrillseeker"=/datum/charflaw/addiction/thrillseeker,
+	"Indebted"=/datum/charflaw/indebted,
 	"Voyeur"=/datum/charflaw/addiction/voyeur,
 	"Bad Sight"=/datum/charflaw/badsight,
 	"Cyclops (R)"=/datum/charflaw/noeyer,
@@ -432,3 +433,46 @@ GLOBAL_LIST_INIT(character_flaws, list(
 	insane_fool.hallucination = INFINITY
 	ADD_TRAIT(insane_fool, TRAIT_PSYCHOSIS, TRAIT_GENERIC)
 	insane_fool.adjust_triumphs(1)
+
+/datum/charflaw/indebted
+	name = "Indebted"
+	desc = "Whether by divorce, gambling debts, or wages due, I must pay a sum from my meister every dae. Not doing this will bring about great stress and potentially a bounty."
+	var/minimum = 30
+	var/relative = 0.2
+	var/interval = 30 MINUTES
+	var/next_alimony
+	var/is_active = FALSE
+	var/bounty_added = FALSE
+
+/datum/charflaw/indebted/apply_post_equipment(mob/living/carbon/human/alimony)
+	. = ..()
+	if(alimony.mind)
+		SStreasury.create_bank_account(alimony.real_name, minimum)
+		is_active = TRUE
+		next_alimony = world.time + interval
+
+/datum/charflaw/indebted/flaw_on_life(mob/user)
+	. = ..()
+	if(is_active)
+		if(world.time > next_alimony)
+			calculate_childsupport(user)
+
+/datum/charflaw/indebted/proc/calculate_childsupport(mob/deadbeat)
+	var/bankamt = SStreasury.bank_accounts[deadbeat.real_name]
+	var/alimony = minimum
+	if(bankamt > minimum)
+		if((bankamt * relative) > minimum)
+			alimony = bankamt * relative
+		SStreasury.give_money_account(-alimony, deadbeat.real_name, "Debts")
+	else
+		if(!bounty_added)
+			if(ishuman(deadbeat))
+				var/mob/living/carbon/human/H = deadbeat
+				var/list/d_list = H.get_mob_descriptors()
+				var/height = build_coalesce_description_nofluff(d_list, H, list(MOB_DESCRIPTOR_SLOT_HEIGHT), "%DESC1%")
+				var/body = build_coalesce_description_nofluff(d_list, H, list(MOB_DESCRIPTOR_SLOT_BODY), "%DESC1%")
+				var/voice = build_coalesce_description_nofluff(d_list, H, list(MOB_DESCRIPTOR_SLOT_VOICE), "%DESC1%")
+				add_bounty(H.real_name, H.dna.species, H.gender, height, body, voice, rand(50, 100), FALSE, "Failure to pay outstanding debts.", "The Justiciary of Azuria")
+			bounty_added = TRUE
+		deadbeat.add_stress(/datum/stressevent/debt)
+
