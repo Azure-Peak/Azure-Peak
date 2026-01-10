@@ -106,8 +106,6 @@
 	
 	// Ensure relative mode is on to respect the new calculated repair_time
 	relative_repair_mode = TRUE
-	// Ensure the timers are synced otherwise armor may repair too fast or too slow
-	relative_repair_interval = auto_repair_mode_time
 	auto_repair_mode_triggered = TRUE
 
 // SKIN ARMOUR
