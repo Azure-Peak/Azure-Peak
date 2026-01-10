@@ -311,10 +311,7 @@ GLOBAL_LIST_INIT(character_flaws, list(
 	var/gnoll_increase = 0
 
 	if(total_gnoll_positions <= 2)
-		if(prob(50))
-			gnoll_increase = 2
-		else
-			gnoll_increase = 1
+		gnoll_increase = 1
 	else if (total_gnoll_positions <= 5)
 		if(prob(50))
 			gnoll_increase = 1
