@@ -15,8 +15,10 @@
 	sewrepair = FALSE
 	max_integrity = 550
 	item_flags = DROPDEL
-	repair_time = 15 SECONDS
-	interrupt_damount = 35
+	repair_time = 80 SECONDS
+	relative_repair_mode = TRUE
+	relative_repair_interval = 15 SECONDS
+	interrupt_damount = 25
 
 /datum/antagonist/gnoll
 	name = "Gnoll"
