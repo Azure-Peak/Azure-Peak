@@ -308,16 +308,7 @@ GLOBAL_LIST_INIT(character_flaws, list(
 		return
 	var/datum/job/gnoll_job = SSjob.GetJob("Gnoll")
 	var/total_gnoll_positions = gnoll_job.total_positions
-	var/gnoll_increase = 0
-
-	if(total_gnoll_positions <= 2)
-		gnoll_increase = 1
-	else if (total_gnoll_positions <= 5)
-		if(prob(50))
-			gnoll_increase = 1
-	else if (total_gnoll_positions <= 9)
-		if(prob(25))
-			gnoll_increase = 1
+	var/gnoll_increase = get_gnoll_slot_increase(total_gnoll_positions)
 
 	if(gnoll_increase >= 1)
 		to_chat(user, span_notice("I have offended graggarite agents, and they may be tracking my scent."))
