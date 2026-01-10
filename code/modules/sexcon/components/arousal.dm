@@ -131,9 +131,10 @@
 	var/mob/living/mob = parent
 	var/list/parent_sessions = return_sessions_with_user(parent)
 	var/datum/sex_session/highest_priority = return_highest_priority_action(parent_sessions, parent)
-	if(mob.has_flaw(/datum/charflaw/addiction/thrillseeker) && (!target || !target.mind))
+	if(mob.has_flaw(/datum/charflaw/addiction/thrillseeker) && (!highest_priority?.target || !highest_priority?.target?.mind))
 		after_ejaculation(FALSE, parent)
 		mob.sate_addiction()
+		user.add_stress(/datum/stressevent/thrill)
 		return
 	playsound(parent, 'sound/misc/mat/endout.ogg', 50, TRUE, ignore_walls = FALSE)
 	// Special case for when the user has a penis but no testicles
@@ -189,12 +190,8 @@
 	if(user.has_flaw(/datum/charflaw/addiction/thrillseeker))
 		user.playsound_local(user, 'sound/misc/mat/end.ogg', 100)
 		last_ejaculation_time = world.time
-		if(!target)
-			user.add_stress(/datum/stressevent/thrill)
-			return
-		else
-			user.add_stress(/datum/stressevent/thrillsex)
-			return
+		user.add_stress(/datum/stressevent/thrillsex)
+		return
 
 	if(user == target)
 		user.add_stress(/datum/stressevent/cumself)
