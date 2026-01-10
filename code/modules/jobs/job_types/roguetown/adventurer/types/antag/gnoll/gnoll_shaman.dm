@@ -1,5 +1,5 @@
 /datum/advclass/gnoll/shaman
-	name = "Shaman"
+	name = "Gnoll Shaman"
 	tutorial = "Leader in faith, often the main source of wisdom within a gnoll pack. Few are closer to Graggar himself as you are."
 	outfit = /datum/outfit/job/roguetown/gnoll/shaman
 	traits_applied = list(TRAIT_RITUALIST, TRAIT_DODGEEXPERT) // Surely this won't be broken.
