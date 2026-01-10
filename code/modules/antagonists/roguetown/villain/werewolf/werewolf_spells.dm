@@ -20,7 +20,7 @@
 	var/datum/antagonist/antag_data = user.mind.has_antag_datum(wolf_antag_type)
 
 	// sound played for owner
-	playsound(src, pick(howl_sounds), 75, TRUE)
+	playsound(user, pick(howl_sounds_far), 75, TRUE)
 
 	for(var/mob/player in GLOB.player_list)
 
