@@ -1,4 +1,4 @@
-/obj/effect/proc_holder/spell/invoked/rebuke 
+/obj/effect/proc_holder/spell/invoked/rebuke
 	name = "Hellish Rebuke"
 	desc = "With a point of your finger, you shall cause a creechur in front of you to burst into flames, dealing damage over time. Able to cast whilst mouthgrabbed."
 	cost = 3
@@ -32,5 +32,5 @@
 		target.ignite_mob()
 		target.visible_message(span_warning("[user] makes a rude gesture at [target] and causes them to burst into flames!"), \
 		span_userdanger("[user] makes a rude gesture at you and causes you to burst into flames!"))
-		playsound(get_turf(target), 'sound/misc/explode/incendiary (1).ogg', 100, TRUE)
+		playsound(target, 'sound/misc/explode/incendiary (1).ogg', 100, TRUE)
 

@@ -54,7 +54,7 @@
 		return
 
 	if(istype(W,/obj/item/natural/stoneblock))
-		playsound(get_turf(user.loc), 'sound/foley/brickdrop.ogg', 100)
+		playsound(user, 'sound/foley/brickdrop.ogg', 100)
 		user.visible_message("<span class='info'>[user] adds a striking tool to the chisel set.</span>")
 		var/obj/item/rogueweapon/chisel/assembly/stoneblock/F = new(src.loc)
 		qdel(W)
@@ -63,7 +63,7 @@
 		return
 
 	else if(istype(W,/obj/item/natural/stone))
-		playsound(get_turf(user.loc), 'sound/foley/brickdrop.ogg', 100)
+		playsound(user, 'sound/foley/brickdrop.ogg', 100)
 		user.visible_message("<span class='info'>[user] adds a striking tool to the chisel set.</span>")
 		var/obj/item/rogueweapon/chisel/assembly/stone/F = new(src.loc)
 		qdel(W)
@@ -72,7 +72,7 @@
 		return
 
 	else if(istype(W, /obj/item/rogueweapon/hammer/steel))
-		playsound(get_turf(user.loc), 'sound/foley/brickdrop.ogg', 100)
+		playsound(user, 'sound/foley/brickdrop.ogg', 100)
 		user.visible_message("<span class='info'>[user] adds a striking tool to the chisel set.</span>")
 		var/obj/item/rogueweapon/chisel/assembly/hammerclaw/F = new(src.loc)
 		qdel(W)
@@ -81,7 +81,7 @@
 		return
 
 	else if(istype(W, /obj/item/rogueweapon/hammer/iron))
-		playsound(get_turf(user.loc), 'sound/foley/brickdrop.ogg', 100)
+		playsound(user, 'sound/foley/brickdrop.ogg', 100)
 		user.visible_message("<span class='info'>[user] adds a striking tool to the chisel set.</span>")
 		var/obj/item/rogueweapon/chisel/assembly/hammer/F = new(src.loc)
 		qdel(W)
@@ -90,7 +90,7 @@
 		return
 
 	else if(istype(W, /obj/item/rogueweapon/hammer/wood))
-		playsound(get_turf(user.loc), 'sound/foley/brickdrop.ogg', 100)
+		playsound(user, 'sound/foley/brickdrop.ogg', 100)
 		user.visible_message("<span class='info'>[user] adds a striking tool to the chisel set.</span>")
 		var/obj/item/rogueweapon/chisel/assembly/mallet/F = new(src.loc)
 		qdel(W)
@@ -99,7 +99,7 @@
 		return
 
 	else if(istype(W, /obj/item/rogueweapon/hammer/blacksteel))
-		playsound(get_turf(user.loc), 'sound/foley/brickdrop.ogg', 100)
+		playsound(user, 'sound/foley/brickdrop.ogg', 100)
 		user.visible_message("<span class='info'>[user] adds a striking tool to the chisel set.</span>")
 		var/obj/item/rogueweapon/chisel/assembly/hammerblacksteel/F = new(src.loc)
 		qdel(W)
@@ -124,7 +124,7 @@
 	var/obj/item/rogueweapon/chisel/F = new(user.loc)
 	var/obj/item/rogueweapon/hammer/wood/E = new(user.loc)
 	user.put_in_hands(E)
-	playsound(get_turf(user.loc), 'sound/foley/brickdrop.ogg', 100)
+	playsound(user, 'sound/foley/brickdrop.ogg', 100)
 	qdel(src)
 	user.put_in_hands(F)
 
@@ -136,7 +136,7 @@
 	var/obj/item/rogueweapon/chisel/F = new(user.loc)
 	var/obj/item/rogueweapon/hammer/iron/E = new(user.loc)
 	user.put_in_hands(E)
-	playsound(get_turf(user.loc), 'sound/foley/brickdrop.ogg', 100)
+	playsound(user, 'sound/foley/brickdrop.ogg', 100)
 	qdel(src)
 	user.put_in_hands(F)
 
@@ -148,7 +148,7 @@
 	var/obj/item/rogueweapon/chisel/F = new(user.loc)
 	var/obj/item/rogueweapon/hammer/steel/E = new(user.loc)
 	user.put_in_hands(E)
-	playsound(get_turf(user.loc), 'sound/foley/brickdrop.ogg', 100)
+	playsound(user, 'sound/foley/brickdrop.ogg', 100)
 	qdel(src)
 	user.put_in_hands(F)
 
@@ -160,7 +160,7 @@
 	var/obj/item/rogueweapon/chisel/F = new(user.loc)
 	var/obj/item/rogueweapon/hammer/blacksteel/E = new(user.loc)
 	user.put_in_hands(E)
-	playsound(get_turf(user.loc), 'sound/foley/brickdrop.ogg', 100)
+	playsound(user, 'sound/foley/brickdrop.ogg', 100)
 	qdel(src)
 	user.put_in_hands(F)
 
@@ -172,7 +172,7 @@
 	var/obj/item/rogueweapon/chisel/F = new(user.loc)
 	var/obj/item/natural/stone/E = new(user.loc)
 	user.put_in_hands(E)
-	playsound(get_turf(user.loc), 'sound/foley/brickdrop.ogg', 100)
+	playsound(user, 'sound/foley/brickdrop.ogg', 100)
 	qdel(src)
 	user.put_in_hands(F)
 
@@ -184,7 +184,7 @@
 	var/obj/item/rogueweapon/chisel/F = new(user.loc)
 	var/obj/item/natural/stoneblock/E = new(user.loc)
 	user.put_in_hands(E)
-	playsound(get_turf(user.loc), 'sound/foley/brickdrop.ogg', 100)
+	playsound(user, 'sound/foley/brickdrop.ogg', 100)
 	qdel(src)
 	user.put_in_hands(F)
 

@@ -11,7 +11,7 @@
 	var/drilled = FALSE
 	var/has_reported = FALSE
 	var/location_tag
-	
+
 /obj/structure/roguemachine/atm/attack_hand(mob/user)
 	if(!ishuman(user))
 		return
@@ -32,7 +32,7 @@
 				spawn(5)
 				say("Blueblood for the Freefolk!")
 				playsound(src, 'sound/vo/mobs/ghost/laugh (5).ogg', 100, TRUE)
-				return	
+				return
 	if(H in SStreasury.bank_accounts)
 		var/amt = SStreasury.bank_accounts[H]
 		if(!amt)
@@ -103,11 +103,11 @@
 
 /obj/structure/roguemachine/atm/attackby(obj/item/P, mob/user, params)
 	if(ishuman(user))
-		if(istype(P, /obj/item/roguecoin/aalloy))	
-			return	
-		
+		if(istype(P, /obj/item/roguecoin/aalloy))
+			return
+
 		if(istype(P, /obj/item/roguecoin/inqcoin))
-			return		
+			return
 
 		if(istype(P, /obj/item/roguecoin))
 			var/mob/living/carbon/human/H = user
@@ -173,7 +173,7 @@
 		drilling = FALSE
 		has_reported = FALSE
 		return
-	if(mammonsiphoned >199) // The cap variable for siphoning. 
+	if(mammonsiphoned >199) // The cap variable for siphoning.
 		new /obj/item/coveter(loc)
 		loc.visible_message(span_warning("Maximum withdrawal reached! The meister weeps."))
 		playsound(src, 'sound/misc/DrillDone.ogg', 70, TRUE)
@@ -328,7 +328,7 @@
 	var/obj/item/bodypart/head = H.get_bodypart(BODY_ZONE_HEAD)
 	switch(consequence)
 		if("crunch")
-			playsound(src.loc, 'sound/items/beartrap.ogg', 300, TRUE, -1)
+			playsound(src, 'sound/items/beartrap.ogg', 300, TRUE, -1)
 			visible_message(span_info("<font color ='red'>It pierces bone as it extracts!</font>"))
 			head.add_wound(/datum/wound/fracture)
 			head.update_disabled()

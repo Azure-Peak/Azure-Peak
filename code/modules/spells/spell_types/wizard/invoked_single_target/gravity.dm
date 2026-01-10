@@ -31,13 +31,13 @@
 /obj/effect/proc_holder/spell/invoked/gravity/cast(list/targets, mob/user)
 	var/turf/T = get_turf(targets[1])
 
-	for(var/turf/affected_turf in get_hear(area_of_effect, T)) 
+	for(var/turf/affected_turf in get_hear(area_of_effect, T))
 		if(affected_turf.density)
 			continue
 
 
 	for(var/turf/affected_turf in get_hear(area_of_effect, T))
-	
+
 		new /obj/effect/temp_visual/gravity_trap(affected_turf)
 
 		playsound(T, 'sound/magic/gravity.ogg', 80, TRUE, soundping = FALSE)
@@ -47,7 +47,7 @@
 		for(var/mob/living/L in affected_turf.contents)
 			if(L.anti_magic_check())
 				visible_message(span_warning("The gravity fades away around you [L] "))  //antimagic needs some testing
-				playsound(get_turf(L), 'sound/magic/magic_nulled.ogg', 100)
+				playsound(L, 'sound/magic/magic_nulled.ogg', 100)
 				return TRUE
 
 			var/mark_stacks = consume_arcane_mark_stacks(L)

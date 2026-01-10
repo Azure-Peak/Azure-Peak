@@ -475,7 +475,7 @@ GLOBAL_LIST_INIT(roleplay_readme, world.file2list("strings/rt/rp_prompt.txt"))
 //		if(!arrivals_docked)
 		var/atom/movable/screen/splash/Spl = new(character.client, TRUE)
 		Spl.Fade(TRUE)
-//			character.playsound_local(get_turf(character), 'sound/blank.ogg', 25)
+//			character.playsound_local(character, 'sound/blank.ogg', 25)
 
 
 	SSticker.minds += character.mind
@@ -600,7 +600,7 @@ GLOBAL_LIST_INIT(roleplay_readme, world.file2list("strings/rt/rp_prompt.txt"))
 				if (INQUISITION)
 					cat_name = "Inquisition"
 				if (ANTAGONIST)
-					cat_name = "Antagonists"			
+					cat_name = "Antagonists"
 
 			dat += "<fieldset style='width: 185px; border: 2px solid [cat_color]; display: inline'>"
 			dat += "<legend align='center' style='font-weight: bold; color: [cat_color]'>[cat_name]</legend>"
@@ -692,7 +692,7 @@ GLOBAL_LIST_INIT(roleplay_readme, world.file2list("strings/rt/rp_prompt.txt"))
 /mob/living/carbon/human/after_creation()
 	if(dna?.species)
 		dna.species.after_creation(src)
-	
+
 	roll_stats()
 
 /mob/dead/new_player/proc/transfer_character()

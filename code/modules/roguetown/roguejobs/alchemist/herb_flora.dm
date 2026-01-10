@@ -36,7 +36,7 @@
 	if(isliving(user))
 		var/mob/living/L = user
 		user.changeNext_move(CLICK_CD_INTENTCAP)
-		playsound(src.loc, "plantcross", 80, FALSE, -1)
+		playsound(src, "plantcross", 80, FALSE, -1)
 		if(do_after(L, rand(3,5), src))
 			if(!looty.len)
 				return

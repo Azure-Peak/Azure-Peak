@@ -25,7 +25,7 @@
 			user.transferItemToLoc(F, src)
 			food = I
 			to_chat(user, span_notice("You wrap [F] in the ration wrapper."))
-			playsound(get_turf(user), 'sound/foley/dropsound/food_drop.ogg', 40, TRUE, -1)
+			playsound(user, 'sound/foley/dropsound/food_drop.ogg', 40, TRUE, -1)
 			F.rotprocess = null
 			if(I.w_class >= WEIGHT_CLASS_NORMAL)
 				name = "large ration pack ([food.name])"
@@ -45,7 +45,7 @@
 	if(food)
 		if(do_after(user, 2 SECONDS, target = src))
 			to_chat(user, span_notice("You unwrap [food] from the ration wrapper."))
-			playsound(get_turf(user), 'sound/foley/dropsound/food_drop.ogg', 40, TRUE, -1)
+			playsound(user, 'sound/foley/dropsound/food_drop.ogg', 40, TRUE, -1)
 			var/obj/item/reagent_containers/food/snacks/F = food
 			user.put_in_hands(F)
 			F.update_icon()

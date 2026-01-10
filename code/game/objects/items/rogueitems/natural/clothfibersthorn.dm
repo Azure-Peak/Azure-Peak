@@ -527,7 +527,7 @@
 	. = ..()
 	user.changeNext_move(CLICK_CD_MELEE)
 	if(user.used_intent?.blade_class == BCLASS_CUT)
-		playsound(get_turf(src.loc), 'sound/items/wood_sharpen.ogg', 100)
+		playsound(src, 'sound/items/wood_sharpen.ogg', 100)
 		user.visible_message(span_info("[user] starts sharpening the sticks in [src]..."), span_info("I start sharpening the sticks in [src]...."))
 		for(var/i in 1 to (amount - 1))
 			if(!do_after(user, 20))

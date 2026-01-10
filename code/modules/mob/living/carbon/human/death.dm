@@ -136,7 +136,7 @@
 				//omen gets added separately, after a few minutes
 				for(var/mob/living/carbon/human/HU in GLOB.player_list)
 					if(!HU.stat && is_in_roguetown(HU))
-						HU.playsound_local(get_turf(HU), 'sound/music/lorddeath.ogg', 80, FALSE, pressure_affected = FALSE)
+						HU.playsound_local(HU, 'sound/music/lorddeath.ogg', 80, FALSE, pressure_affected = FALSE)
 				launch_omen_event()
 			if("Bishop")
 				addomen(OMEN_NOPRIEST)

@@ -143,7 +143,7 @@
 	var/mob/living/L = target
 	if(istype(L, /mob/living/carbon))
 		apply_arcane_mark(L)
-		playsound(get_turf(L), 'sound/magic/clang.ogg', 100)
+		playsound(L, 'sound/magic/clang.ogg', 100)
 		next_arcane_mark_time = world.time + ARCANE_MARK_COOLDOWN
 
 #undef DEFAULT_DURATION

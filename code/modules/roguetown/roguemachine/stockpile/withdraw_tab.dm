@@ -86,7 +86,7 @@
 			var/mob/user = usr
 			if(!user.put_in_hands(I))
 				I.forceMove(get_turf(user))
-			playsound(parent_structure.loc, 'sound/misc/hiss.ogg', 100, FALSE, -1)
+			playsound(parent_structure, 'sound/misc/hiss.ogg', 100, FALSE, -1)
 		return TRUE
 	if(href_list["compact"])
 		if(!usr.canUseTopic(parent_structure, BE_CLOSE))
@@ -111,7 +111,7 @@
 	budget += C.get_real_price()
 	qdel(C)
 	parent_structure.update_icon()
-	playsound(parent_structure.loc, 'sound/misc/coininsert.ogg', 100, TRUE, -1)
+	playsound(parent_structure, 'sound/misc/coininsert.ogg', 100, TRUE, -1)
 
 /proc/stock_announce(message)
 	for(var/obj/structure/roguemachine/stockpile/S in SSroguemachine.stock_machines)

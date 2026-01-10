@@ -116,7 +116,7 @@ And it also helps for the character set panel
 		setup_vampire_abilities(H)
 		apply_vampire_look(H)
 
-		H.playsound_local(get_turf(H), 'sound/music/vampintro.ogg', 80, FALSE, pressure_affected = FALSE)
+		H.playsound_local(H, 'sound/music/vampintro.ogg', 80, FALSE, pressure_affected = FALSE)
 		for(var/datum/coven/coven as anything in clane_covens)
 			H.give_coven(coven)
 		H.give_coven(/datum/coven/bloodheal)
@@ -512,7 +512,7 @@ And it also helps for the character set panel
 	eyes = new /obj/item/organ/eyes/night_vision/vampire
 	eyes.Insert(to_insert)
 	to_insert.set_eye_color(
-		eyecache["eye_color"], 
+		eyecache["eye_color"],
 		eyecache["second_color"],
 		TRUE,
 	)

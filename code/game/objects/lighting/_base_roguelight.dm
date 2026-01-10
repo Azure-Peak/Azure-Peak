@@ -59,7 +59,7 @@
 	if(soundloop)
 		soundloop.stop()
 	if(on)
-		playsound(src.loc, 'sound/items/firesnuff.ogg', 100)
+		playsound(src, 'sound/items/firesnuff.ogg', 100)
 	..()
 	update_icon()
 
@@ -83,7 +83,7 @@
 
 /obj/machinery/light/rogue/fire_act(added, maxstacks)
 	if(!on && ((fueluse > 0) || (initial(fueluse) == 0)))
-		playsound(src.loc, 'sound/items/firelight.ogg', 100)
+		playsound(src, 'sound/items/firelight.ogg', 100)
 		on = TRUE
 		update()
 		update_icon()

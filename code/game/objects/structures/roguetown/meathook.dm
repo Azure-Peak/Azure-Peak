@@ -38,7 +38,7 @@
 				for(var/item in L.guaranteed_butcher_results)
 					if(ispath(item, /obj/item/reagent_containers/food/snacks))
 						L.guaranteed_butcher_results[item] += 1
-			playsound(src.loc, 'sound/foley/butcher.ogg', 25, TRUE)
+			playsound(src, 'sound/foley/butcher.ogg', 25, TRUE)
 			L.visible_message(span_danger("[user] hangs [L] on [src]!"), span_danger("[user] hangs you on [src]]!"))
 			L.forceMove(drop_location())
 			L.emote("scream")

@@ -34,7 +34,7 @@
 	health = 3333
 	maxHealth = 3333 //Increased from 3000.
 	speak_chance = 3
-	speak = list("An invader in my fortress?! I will feed your corpse to my pit!", 
+	speak = list("An invader in my fortress?! I will feed your corpse to my pit!",
 	"Disgusting creature, you aren't worth the sum of your parts.",
 	"I will flay your flesh and ensure you are conscious for every agonizing moment!",
 	"Your soul will belong to me - my toy for eternity!")
@@ -96,13 +96,13 @@
 		var/mob/M = target
 		if(M.anti_magic_check())
 			visible_message(span_warning("[src] fizzles on contact with [target]!"))
-			playsound(get_turf(target), 'sound/magic/magic_nulled.ogg', 100)
+			playsound(target, 'sound/magic/magic_nulled.ogg', 100)
 			qdel(src)
 			return BULLET_ACT_BLOCK
 		if(isliving(target))
 			var/mob/living/L = target
 			L.Immobilize(1, src)
-			playsound(get_turf(src), pick('sound/misc/elec (1).ogg', 'sound/misc/elec (2).ogg', 'sound/misc/elec (3).ogg'), 100, FALSE)
+			playsound(src, pick('sound/misc/elec (1).ogg', 'sound/misc/elec (2).ogg', 'sound/misc/elec (3).ogg'), 100, FALSE)
 	qdel(src)
 
 /obj/projectile/magic/baroness/lightning
@@ -125,13 +125,13 @@
 		var/mob/M = target
 		if(M.anti_magic_check())
 			visible_message(span_warning("[src] fizzles on contact with [target]!"))
-			playsound(get_turf(target), 'sound/magic/magic_nulled.ogg', 100)
+			playsound(target, 'sound/magic/magic_nulled.ogg', 100)
 			qdel(src)
 			return BULLET_ACT_BLOCK
 		if(isliving(target))
 			var/mob/living/L = target
 			L.Immobilize(1, src)
-			playsound(get_turf(src), pick('sound/misc/elec (1).ogg', 'sound/misc/elec (2).ogg', 'sound/misc/elec (3).ogg'), 100, FALSE)
+			playsound(src, pick('sound/misc/elec (1).ogg', 'sound/misc/elec (2).ogg', 'sound/misc/elec (3).ogg'), 100, FALSE)
 	qdel(src)
 
 /mob/living/simple_animal/hostile/boss/baroness/proc/spawn_minions()

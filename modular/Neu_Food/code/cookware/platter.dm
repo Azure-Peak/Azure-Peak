@@ -20,7 +20,7 @@
 /*
 NEW SYSTEM
 What it does:
-	- The platter stays intact, adds object on top of it. 
+	- The platter stays intact, adds object on top of it.
 	- Examining the platter tells you what is on the platter
 	- Adds food overlay to the platre
 	- Can remove item with right click
@@ -38,7 +38,7 @@ What it does:
 	if(istype(I, /obj/item/reagent_containers/food/snacks/))
 		if(isturf(loc)&& (found_table))
 			if (contents.len == 0)
-				playsound(get_turf(user), 'sound/foley/dropsound/food_drop.ogg', 40, TRUE, -1)
+				playsound(user, 'sound/foley/dropsound/food_drop.ogg', 40, TRUE, -1)
 				to_chat(user, span_info("I add \the [I.name] to \the [name]."))
 				I.forceMove(src)
 				var/obj/item/reagent_containers/food/snacks/S = I
@@ -48,7 +48,7 @@ What it does:
 			else
 				to_chat(user, span_info("Something is already on this [initial(name)]! Remove it first."))
 		else
-			return ..()	
+			return ..()
 
 
 /obj/item/cooking/platter/attack(mob/living/M, mob/living/user, def_zone)

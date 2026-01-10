@@ -105,7 +105,7 @@
 	for (var/mob/living/carbon/C in view(2, user))
 		if (C.anti_magic_check())
 			visible_message(span_warning("The lightning fizzles harmlessly against [C]!"))
-			playsound(get_turf(C), 'sound/magic/magic_nulled.ogg', 100)
+			playsound(C, 'sound/magic/magic_nulled.ogg', 100)
 			continue
 		if (C == user)
 			continue

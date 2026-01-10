@@ -21,7 +21,7 @@
 	. = ..()
 	if(ringing)
 		return
-	playsound(src.loc, 'sound/misc/bell.ogg', 50, 1)
+	playsound(src, 'sound/misc/bell.ogg', 50, 1)
 
 
 	for(var/mob/M in view(10, src.loc))
@@ -109,11 +109,11 @@
 			continue
 		if(distance <= 150)
 			to_chat(player, span_notice("The church bell rings, echoing solemnly through the area."))
-			player.playsound_local(get_turf(player), 'sound/misc/bell.ogg', 35, FALSE, pressure_affected = FALSE)
+			player.playsound_local(player, 'sound/misc/bell.ogg', 35, FALSE, pressure_affected = FALSE)
 			continue
 
 		to_chat(player, span_notice("The church bell rings, echoing distantly from afar."))
-		player.playsound_local(get_turf(player), 'sound/misc/bell.ogg', 35, FALSE, pressure_affected = FALSE)
+		player.playsound_local(player, 'sound/misc/bell.ogg', 35, FALSE, pressure_affected = FALSE)
 
 /obj/item/jingle_bells
 	name = "jingling bells"

@@ -60,7 +60,7 @@
 	var/turf/my_turf = get_turf(user)
 	my_turf.pollute_turf(fragrance_type, 20)
 	user.changeNext_move(CLICK_CD_RANGE*2)
-	playsound(user.loc, 'sound/items/perfume.ogg', 100, TRUE)
+	playsound(user, 'sound/items/perfume.ogg', 100, TRUE)
 	target.AddComponent(/datum/component/temporary_pollution_emission, fragrance_type, 5, 10 MINUTES)
 
 /obj/item/perfume/random/Initialize()

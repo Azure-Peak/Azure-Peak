@@ -54,7 +54,7 @@
 				to_chat(M, "<span class='userdanger'>You tie \the [src] over your neck!</span>")
 			else
 				to_chat(M, "<span class='userdanger'>[user] ties \the [src] over your neck!</span>")
-			playsound(user.loc, 'sound/foley/noosed.ogg', 50, 1, -1)
+			playsound(user, 'sound/foley/noosed.ogg', 50, 1, -1)
 			return TRUE
 	user.visible_message("<span class='warning'>[user] fails to tie \the [src] over [M]'s neck!</span>")
 	to_chat(user, "<span class='warning'>You fail to tie \the [src] over [M]'s neck!</span>")
@@ -83,7 +83,7 @@
 					buckled_mob.adjustOxyLoss(10)
 					if(prob(20))
 						buckled_mob.emote("gasp")
-				playsound(buckled_mob.loc, 'sound/foley/noose_idle.ogg', 30, 1, -3)
+				playsound(buckled_mob, 'sound/foley/noose_idle.ogg', 30, 1, -3)
 			else
 				if(prob(1))
 					var/obj/item/bodypart/head/head = buckled_mob.get_bodypart("head")

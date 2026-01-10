@@ -9,7 +9,7 @@
 	recharge_time = 25 SECONDS
 	warnie = "spellwarning"
 	no_early_release = TRUE
-	movement_interrupt = FALSE	
+	movement_interrupt = FALSE
 	charging_slowdown = 3
 	chargedloop = /datum/looping_sound/invokegen
 	associated_skill = /datum/skill/magic/arcane
@@ -42,7 +42,7 @@
 	for(var/mob/living/L in range(area_of_effect, T))
 		if(L.anti_magic_check())
 			visible_message(span_warning("The tendrils of force can't seem to latch onto [L] "))  //antimagic needs some testing
-			playsound(get_turf(L), 'sound/magic/magic_nulled.ogg', 100)
+			playsound(L, 'sound/magic/magic_nulled.ogg', 100)
 			return
 		L.Immobilize(duration)
 		L.OffBalance(duration)

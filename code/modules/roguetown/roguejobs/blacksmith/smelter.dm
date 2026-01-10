@@ -184,7 +184,7 @@
 
 	if(smelting_progress < smelting_ticks)
 		smelting_progress++
-		playsound(src.loc,'sound/misc/smelter_sound.ogg', 50, FALSE)
+		playsound(src,'sound/misc/smelter_sound.ogg', 50, FALSE)
 		actively_smelting = TRUE
 		return
 

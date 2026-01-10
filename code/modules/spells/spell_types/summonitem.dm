@@ -86,9 +86,9 @@
 			if(!L.put_in_hands(item_to_retrieve))
 				item_to_retrieve.forceMove(L.drop_location())
 				item_to_retrieve.loc.visible_message(span_warning("The [item_to_retrieve.name] suddenly appears!"))
-				playsound(get_turf(L), 'sound/blank.ogg', 50, TRUE)
+				playsound(L, 'sound/blank.ogg', 50, TRUE)
 			else
 				item_to_retrieve.loc.visible_message(span_warning("The [item_to_retrieve.name] suddenly appears in [L]'s hand!"))
-				playsound(get_turf(L), 'sound/blank.ogg', 50, TRUE)
+				playsound(L, 'sound/blank.ogg', 50, TRUE)
 		if(message)
 			to_chat(L, message)

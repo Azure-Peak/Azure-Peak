@@ -64,7 +64,7 @@
 
 /datum/status_effect/buff/acidsplash/on_apply()
 	. = ..()
-	owner.playsound_local(get_turf(owner), 'sound/misc/lava_death.ogg', 35, FALSE, pressure_affected = FALSE)
+	owner.playsound_local(owner, 'sound/misc/lava_death.ogg', 35, FALSE, pressure_affected = FALSE)
 	owner.visible_message(span_warning("[owner] is covered in acid!"), span_danger("I am covered in acid!"))
 	owner.emote("scream")
 

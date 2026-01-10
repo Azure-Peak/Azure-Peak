@@ -294,7 +294,7 @@
 			else
 				playsound(src, "nodmg", 100, FALSE)
 		if(BURN)
-			playsound(src.loc, "burn", 100, TRUE)
+			playsound(src, "burn", 100, TRUE)
 
 /obj/structure/vine/Crossed(mob/crosser)
 	if(isliving(crosser))

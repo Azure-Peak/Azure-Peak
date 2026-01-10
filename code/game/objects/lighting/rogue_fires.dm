@@ -273,7 +273,7 @@
 		if(!on)
 			if(torchy.fuel > 0)
 				torchy.spark_act()
-				playsound(src.loc, 'sound/items/firelight.ogg', 100)
+				playsound(src, 'sound/items/firelight.ogg', 100)
 				on = TRUE
 				update()
 				update_icon()
@@ -319,7 +319,7 @@
 		on = FALSE
 		set_light(0)
 		update_icon()
-		playsound(src.loc, 'sound/foley/torchfixturetake.ogg', 70)
+		playsound(src, 'sound/foley/torchfixturetake.ogg', 70)
 
 /obj/machinery/light/rogue/torchholder/update_icon()
 	if(torchy)
@@ -346,7 +346,7 @@
 				else
 					torchy.spark_act()
 					user.visible_message("<span class='info'>[user] lights [src].</span>")
-					playsound(src.loc, 'sound/items/firelight.ogg', 100)
+					playsound(src, 'sound/items/firelight.ogg', 100)
 					on = TRUE
 					update()
 					update_icon()
@@ -373,7 +373,7 @@
 				torchy = LR
 				torchy.weather_resistant = TRUE
 				update_icon()
-			playsound(src.loc, 'sound/foley/torchfixtureput.ogg', 70)
+			playsound(src, 'sound/foley/torchfixtureput.ogg', 70)
 		return
 	. = ..()
 
@@ -475,7 +475,7 @@
 
 	if(!attachment)
 		if(istype(W, /obj/item/cooking/pan) || istype(W, /obj/item/reagent_containers/glass/bucket/pot ) || istype(W, /obj/item/reagent_containers/glass/crucible))
-			playsound(get_turf(user), 'sound/foley/dropsound/shovel_drop.ogg', 40, TRUE, -1)
+			playsound(user, 'sound/foley/dropsound/shovel_drop.ogg', 40, TRUE, -1)
 			attachment = W
 			user.doUnEquip(W)
 			W.forceMove(src)
@@ -507,14 +507,14 @@
 				var/obj/item/reagent_containers/food/snacks/S = W
 				if(istype(W, /obj/item/reagent_containers/food/snacks/egg)) // added
 					if(W.icon_state != "rawegg")
-						playsound(get_turf(user), 'modular/Neu_Food/sound/eggbreak.ogg', 100, TRUE, -1)
+						playsound(user, 'modular/Neu_Food/sound/eggbreak.ogg', 100, TRUE, -1)
 						sleep(25) // to get egg crack before frying hiss
 						W.icon_state = "rawegg" // added
 				if(!food)
 					S.forceMove(src)
 					food = S
 					update_icon()
-					playsound(src.loc, 'sound/misc/frying.ogg', 80, FALSE, extrarange = 5)
+					playsound(src, 'sound/misc/frying.ogg', 80, FALSE, extrarange = 5)
 					return
 			if(W.type in subtypesof(/obj/item/seeds))
 				var/obj/item/seeds/S = W
@@ -522,7 +522,7 @@
 					S.forceMove(src)
 					food = S
 					update_icon()
-					playsound(src.loc, 'sound/misc/frying.ogg', 80, FALSE, extrarange = 5)
+					playsound(src, 'sound/misc/frying.ogg', 80, FALSE, extrarange = 5)
 					return
 // Stew + Deep Frying code - refactored!!
 		else if(istype(attachment, /obj/item/reagent_containers/glass/bucket/pot))
@@ -565,7 +565,7 @@
 							user.visible_message(span_info("[user] places [W] into the pot.</span>"))
 							add_sleep_experience(user, /datum/skill/craft/cooking, user.STAINT)
 							qdel(W)
-							playsound(src.loc, 'sound/items/Fish_out.ogg', 20, TRUE)
+							playsound(src, 'sound/items/Fish_out.ogg', 20, TRUE)
 							pot.reagents.remove_reagent(/datum/reagent/water, VOLUME_PER_STEW_COOK)
 							sleep(R.cooktime / cooktime_divisor)
 							playsound(src, "bubbles", 30, TRUE)

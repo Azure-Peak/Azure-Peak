@@ -723,7 +723,7 @@ GLOBAL_LIST_INIT(hallucination_list, list(
 			to_chat(target, "<h1 class='alert'>Bad Omen</h1>")
 			to_chat(target, "<br><br><span class='alert'>The [SSticker.rulertype] is dead! We need a new ruler.</span><br><br>")
 			SEND_SOUND(target, 'sound/misc/evilevent.ogg')
-		if("priest dead") 
+		if("priest dead")
 			to_chat(target, "<h1 class='alert'>Bad Omen</h1>")
 			to_chat(target, "<br><br><span class='alert'>The High Priest is dead!</span><br><br>")
 			SEND_SOUND(target, 'sound/misc/evilevent.ogg')
@@ -1043,7 +1043,7 @@ GLOBAL_LIST_INIT(hallucination_list, list(
 		target.client.images |= shock_image
 		target.client.images |= electrocution_skeleton_anim
 	addtimer(CALLBACK(src, PROC_REF(reset_shock_animation)), 40)
-	target.playsound_local(get_turf(src), "sparks", 100, 1)
+	target.playsound_local(src, "sparks", 100, 1)
 	target.staminaloss += 50
 	target.Stun(40)
 	target.jitteriness += 1000
@@ -1151,7 +1151,7 @@ GLOBAL_LIST_INIT(hallucination_list, list(
 
 	for(var/obj/obj in oview(3, carbon))
 		objs += obj
-	
+
 	var/obj/obj = safepick(objs)
 
 	if(!obj)
@@ -1235,7 +1235,7 @@ GLOBAL_LIST_INIT(hallucination_list, list(
 /datum/hallucination/chasing_mob/Destroy()
 	if(target.client && hallucinated_image)
 		target.client.images -= hallucinated_image
-	
+
 	QDEL_NULL(hallucinated_image)
 
 	return ..()
@@ -1246,7 +1246,7 @@ GLOBAL_LIST_INIT(hallucination_list, list(
 	set waitfor = FALSE
 	..()
 	for(var/turf/open/floor/floor in view(dreamer))
-		if(prob(40)) 
+		if(prob(40))
 			continue
 
 		var/mutable_appearance/appearance = image(floor.icon, floor, floor.icon_state, floor.layer + 0.01)
@@ -1262,7 +1262,7 @@ GLOBAL_LIST_INIT(hallucination_list, list(
 
 	qdel(src)
 
-/datum/hallucination/floor_shift/proc/floor_back(mob/living/carbon/dreamer, mutable_appearance/appearance, offset, lower_duration)	
+/datum/hallucination/floor_shift/proc/floor_back(mob/living/carbon/dreamer, mutable_appearance/appearance, offset, lower_duration)
 	animate(appearance, pixel_y = -offset, time = lower_duration, flags = ANIMATION_RELATIVE)
 	addtimer(CALLBACK(src, PROC_REF(floor_remove), dreamer, appearance), lower_duration)
 
@@ -1287,5 +1287,5 @@ GLOBAL_LIST_INIT(hallucination_list, list(
 	victim.energy_add(-2)
 
 	qdel(src)
- 
+
 #undef HAL_LINES_FILE

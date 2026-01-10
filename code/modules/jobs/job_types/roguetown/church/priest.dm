@@ -394,7 +394,7 @@ GLOBAL_LIST_EMPTY(heretical_players)
 		return
 
 	src.visible_message(span_notice("[src] finishes the sermon, inspiring those nearby!"))
-	playsound(src.loc, 'sound/magic/bless.ogg', 80, TRUE)
+	playsound(src, 'sound/magic/bless.ogg', 80, TRUE)
 	COOLDOWN_START(src, priest_sermon, PRIEST_SERMON_COOLDOWN)
 
 	for (var/mob/living/carbon/human/H in view(7, src))
@@ -479,7 +479,7 @@ GLOBAL_LIST_EMPTY(heretical_players)
 		return TRUE
 
 	if (inputty in GLOB.excommunicated_players)
-		return //No stacking	
+		return //No stacking
 
 	if (H.real_name == inputty)
 		if (!COOLDOWN_FINISHED(src, priest_apostasy))

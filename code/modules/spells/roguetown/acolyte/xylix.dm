@@ -13,13 +13,13 @@
 	associated_skill = /datum/skill/magic/holy
 	antimagic_allowed = TRUE
 	recharge_time = 5 MINUTES
-	
+
 /obj/effect/proc_holder/spell/invoked/wheel/cast(list/targets, mob/user = usr)
 	if(isliving(targets[1]))
 		var/mob/living/target = targets[1]
 		if(target.anti_magic_check(TRUE, TRUE))
 			return FALSE
-		target.apply_status_effect(/datum/status_effect/wheel)		
+		target.apply_status_effect(/datum/status_effect/wheel)
 		return TRUE
 	revert_cast()
 	return FALSE
@@ -86,7 +86,7 @@
 	addtimer(CALLBACK(src, TYPE_PROC_REF(/mob/living/simple_animal, death), TRUE), 7 SECONDS)
 	icon = I
 	name = copycat.name
-	
+
 
 /obj/effect/proc_holder/spell/invoked/mockery
 	name = "Vicious Mockery"
@@ -98,7 +98,7 @@
 	range = 7
 
 /obj/effect/proc_holder/spell/invoked/mockery/cast(list/targets, mob/user = usr)
-	playsound(get_turf(user), 'sound/magic/mockery.ogg', 40, FALSE)
+	playsound(user, 'sound/magic/mockery.ogg', 40, FALSE)
 	if(isliving(targets[1]))
 		var/mob/living/target = targets[1]
 		if(target.anti_magic_check(TRUE, TRUE))

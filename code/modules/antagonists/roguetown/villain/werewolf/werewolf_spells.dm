@@ -30,7 +30,7 @@
 		//sound played for other players
 		if(player == src) continue
 		if(get_dist(player, src) > 7)
-			player.playsound_local(get_turf(player), pick('sound/vo/mobs/wwolf/howldist (1).ogg','sound/vo/mobs/wwolf/howldist (2).ogg'), 50, FALSE, pressure_affected = FALSE)
+			player.playsound_local(player, pick('sound/vo/mobs/wwolf/howldist (1).ogg','sound/vo/mobs/wwolf/howldist (2).ogg'), 50, FALSE, pressure_affected = FALSE)
 
 	var/log_type = werewolf_player ? "(WEREWOLF))" : "(BEAST LANGUAGE)"
 
@@ -91,7 +91,7 @@
 				log_runtime(msg)
 			user.temporarilyRemoveItemFromInventory(I = current_item, force = TRUE)
 			qdel(current_item)
-		extended_claw_record[hand_index] = FALSE		
+		extended_claw_record[hand_index] = FALSE
 	return TRUE
 
 /obj/effect/proc_holder/spell/self/claws/proc/clear_claw_entry(datum/source)
@@ -111,6 +111,6 @@
 	warnie = null
 	showsparkles = FALSE
 	chargedloop = null
-	invocations = null 
+	invocations = null
 	invocation_type = "none"
 	sound = list('sound/vo/mobs/wwolf/roar.ogg')

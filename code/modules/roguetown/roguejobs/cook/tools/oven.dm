@@ -41,7 +41,7 @@
 			donefoods = FALSE
 			W.forceMove(src)
 			food += W
-			playsound(get_turf(src.loc), 'sound/items/wood_sharpen.ogg', 50) // neu cooking
+			playsound(src, 'sound/items/wood_sharpen.ogg', 50) // neu cooking
 			user.visible_message(span_warning("[user] puts something in the oven."))
 			need_underlay_update = TRUE
 			update_icon()

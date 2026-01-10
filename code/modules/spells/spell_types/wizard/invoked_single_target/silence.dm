@@ -38,7 +38,7 @@
 			revert_cast()
 			return
 		ADD_TRAIT(target, TRAIT_MUTE, MAGIC_TRAIT)
-		playsound(get_turf(target), 'sound/magic/zizo_snuff.ogg', 80, TRUE, soundping = TRUE)
+		playsound(target, 'sound/magic/zizo_snuff.ogg', 80, TRUE, soundping = TRUE)
 		to_chat(target, span_warning("The wind in my voice goes still. I can't speak!"))
 		var/dur = max((9 * (user.get_skill_level(associated_skill, 5))))
 		addtimer(CALLBACK(src, PROC_REF(remove_buff), target), wait = dur SECONDS)

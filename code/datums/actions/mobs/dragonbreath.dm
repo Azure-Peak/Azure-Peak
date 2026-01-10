@@ -23,15 +23,15 @@
 
 /// Apply our specific fire breathing shape, in proc form so we can override it in subtypes
 /datum/action/cooldown/mob_cooldown/fire_breath/proc/attack_sequence(atom/target)
-	playsound(owner.loc, fire_sound, 200, TRUE)
+	playsound(owner, fire_sound, 200, TRUE)
 	fire_line(target)
 
 /// Breathe fire in a line towards the target, optionally rotated at an offset from the target
 /datum/action/cooldown/mob_cooldown/fire_breath/proc/fire_line(atom/target, offset)
 	if (isnull(target))
 		return
-	
-	
+
+
 	var/turf/target_turf = get_ranged_target_turf_direct(owner, target, fire_range, offset)
 	var/list/turfs = getline(owner, target_turf) - get_turf(owner)
 	INVOKE_ASYNC(src, PROC_REF(progressive_fire_line), turfs)
@@ -56,7 +56,7 @@
 /// Finally spawn the actual fire, spawns the fire hotspot in case you want to recolour it or something
 /datum/action/cooldown/mob_cooldown/fire_breath/proc/burn_turf(turf/fire_turf, list/hit_list, mob/living/source)
 	var/obj/effect/hotspot/fire_hotspot = new /obj/effect/hotspot(fire_turf)
-	
+
 	for(var/mob/living/barbecued in fire_turf.contents)
 		if(barbecued in hit_list)
 			continue
@@ -77,7 +77,7 @@
 	var/list/angles = list(-20, 0, 20)
 
 /datum/action/cooldown/mob_cooldown/fire_breath/cone/attack_sequence(atom/target)
-	playsound(owner.loc, fire_sound, 200, TRUE)
+	playsound(owner, fire_sound, 200, TRUE)
 	for(var/offset in angles)
 		fire_line(target, offset)
 
@@ -111,7 +111,7 @@
 /datum/action/cooldown/mob_cooldown/fire_breath/mass_fire/proc/fire_spin(target, spin_count)
 	if (QDELETED(owner) || owner.stat == DEAD)
 		return // Too dead to spin
-	playsound(owner.loc, fire_sound, 200, TRUE)
+	playsound(owner, fire_sound, 200, TRUE)
 	var/angle_increment = 360 / sectors
 	var/additional_offset = spin_count * angle_increment / 2
 	for (var/i in 1 to sectors)

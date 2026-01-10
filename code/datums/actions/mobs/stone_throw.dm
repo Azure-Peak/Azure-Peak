@@ -29,7 +29,7 @@
 	var/dy = (target.y - owner.y) * 32
 	if(can_see(owner, target, range) && dist < range && dist > 1)
 		owner.visible_message(span_boldwarning("[owner] chucks a huge rock!"))
-		playsound(owner.loc, 'sound/combat/shieldraise.ogg', 100)
+		playsound(owner, 'sound/combat/shieldraise.ogg', 100)
 		animate(stone, pixel_x = dx, pixel_y = dy, time = 4)
 		sleep(4) // Wait for the animation to complete
 		if(target && target.loc == original_target_loc)

@@ -229,7 +229,7 @@
 	return attack_hand(user)
 
 /obj/structure/foamedmetal/play_attack_sound(damage_amount, damage_type = BRUTE, damage_flag = 0)
-	playsound(src.loc, 'sound/blank.ogg', 100, TRUE)
+	playsound(src, 'sound/blank.ogg', 100, TRUE)
 
 /obj/structure/foamedmetal/attack_hand(mob/user)
 	. = ..()
@@ -238,7 +238,7 @@
 	user.changeNext_move(CLICK_CD_MELEE)
 	user.do_attack_animation(src, ATTACK_EFFECT_PUNCH)
 	to_chat(user, "<span class='warning'>I hit [src] but bounce off it!</span>")
-	playsound(src.loc, 'sound/blank.ogg', 100, TRUE)
+	playsound(src, 'sound/blank.ogg', 100, TRUE)
 
 /obj/structure/foamedmetal/CanPass(atom/movable/mover, turf/target)
 	return !density

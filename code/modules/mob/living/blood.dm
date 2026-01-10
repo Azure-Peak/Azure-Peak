@@ -26,7 +26,7 @@
 /mob/living/proc/handle_blood()
 	if((bodytemperature <= TCRYO) || HAS_TRAIT(src, TRAIT_HUSK)) //cryosleep or husked people do not pump the blood.
 		return
-	
+
 	blood_volume = min(blood_volume, BLOOD_VOLUME_MAXIMUM)
 	//Effects of bloodloss - only run if we're not actually dead.
 	if (stat != DEAD)
@@ -81,7 +81,7 @@
 /mob/living/carbon/handle_blood()
 	if((bodytemperature <= TCRYO) || HAS_TRAIT(src, TRAIT_HUSK)) //cryosleep or husked people do not pump the blood.
 		return
-	
+
 	blood_volume = min(blood_volume, BLOOD_VOLUME_MAXIMUM)
 	if(dna?.species)
 		if(NOBLOOD in dna.species.species_traits)
@@ -245,7 +245,7 @@
 	if(!(mobility_flags & MOBILITY_STAND))
 		vol2use = null
 	if(vol2use)
-		playsound(get_turf(src), vol2use, 100, FALSE)
+		playsound(src, vol2use, 100, FALSE)
 
 	return TRUE
 

@@ -73,7 +73,7 @@
 			if(card_holder.client && !(card_holder.client.prefs.chat_toggles & CHAT_BANKCARD) && !force)
 				return
 
-			card_holder.playsound_local(get_turf(card_holder), 'sound/blank.ogg', 50, TRUE)
+			card_holder.playsound_local(card_holder, 'sound/blank.ogg', 50, TRUE)
 			if(card_holder.can_hear())
 				to_chat(card_holder, "[icon2html(icon_source, card_holder)] *[message]*")
 		else if(isturf(A.loc)) //If on the ground
@@ -87,7 +87,7 @@
 			for(var/mob/M in A.loc) //If inside a container with other mobs (e.g. locker)
 				if(M.client && !(M.client.prefs.chat_toggles & CHAT_BANKCARD) && !force)
 					return
-				M.playsound_local(get_turf(M), 'sound/blank.ogg', 50, TRUE)
+				M.playsound_local(M, 'sound/blank.ogg', 50, TRUE)
 				if(M.can_hear())
 					to_chat(M, "[icon2html(icon_source, M)] *[message]*")
 

@@ -49,7 +49,7 @@
 
 	var/message_out = span_info("A choral sound comes from above and [target] is healed!")
 	var/message_self = span_notice("I am bathed in healing choral hymns!")
-		
+
 	user.patron.on_lesser_heal(user, target, &message_out, &message_self, &conditional_buff, &situational_bonus, &is_inhumen)
 
 	var/healing = 2.5
@@ -247,7 +247,7 @@
 		play_indicator(target,'icons/mob/overhead_effects.dmi', "timestop", 100, OBJ_LAYER)
 		addtimer(CALLBACK(src, PROC_REF(remove_buff), target), wait = 10 SECONDS)
 		return TRUE
-	
+
 
 /obj/effect/proc_holder/spell/invoked/stasis/proc/remove_buff(mob/living/carbon/target)
 	do_teleport(target, origin, no_effects=TRUE)
@@ -275,7 +275,7 @@
 		target.adjustOxyLoss(oxynew*-1 + oxy)
 		target.adjustToxLoss(target.getToxLoss()*-1 + toxin)
 		target.blood_volume = blood
-	playsound(target.loc, 'sound/magic/timereverse.ogg', 100, FALSE)
+	playsound(target, 'sound/magic/timereverse.ogg', 100, FALSE)
 
 /obj/effect/proc_holder/spell/invoked/stasis/proc/play_indicator(mob/living/carbon/target, icon_path, overlay_name, clear_time, overlay_layer)
 	if(!ishuman(target))
@@ -335,7 +335,7 @@
 
 /obj/effect/proc_holder/spell/invoked/wound_heal/cast(list/targets, mob/user = usr)
 	if(ishuman(targets[1]))
-	
+
 		var/mob/living/carbon/human/target = targets[1]
 		var/mob/living/carbon/human/HU = user
 		var/def_zone = check_zone(user.zone_selected)
@@ -422,7 +422,7 @@
 			to_chat(UH, span_warning("Their lyfeblood is at capacity. There is no need."))
 			revert_cast()
 			return FALSE
-			
+
 		if(HAS_TRAIT(target, TRAIT_PSYDONITE))
 			target.visible_message(span_info("[target] stirs for a moment, the miracle dissipates."), span_notice("A dull warmth swells in your heart, only to fade as quickly as it arrived."))
 			user.playsound_local(user, 'sound/magic/PSY.ogg', 100, FALSE, -1)

@@ -6,7 +6,7 @@
 	var/mob/living/U = user
 	if(H && U)
 		prob2defend = 0
-	
+
 	if(!can_see_cone(user))
 		if(!H.get_tempo_bonus(TEMPO_TAG_NOLOS_PARRY))
 			return FALSE
@@ -119,7 +119,7 @@
 
 	if(HAS_TRAIT(user, TRAIT_GUIDANCE))
 		prob2defend -= 20
-	
+
 	if(HAS_TRAIT(user, TRAIT_CURSE_RAVOX))
 		prob2defend -= 40
 
@@ -252,11 +252,11 @@
 				if(istype(user.rmb_intent, /datum/rmb_intent/strong))
 					sharp_loss += STRONG_SHP_BONUS
 					intdam += STRONG_INTG_BONUS
-          
+
 				var/tempobonus = H.get_tempo_bonus(TEMPO_TAG_DEF_INTEGFACTOR)
 				if(tempobonus)	//It is either null or 0.1 to 1, multiplication by null results in 0, so we check.
 					intdam *= tempobonus
-         
+
 				used_weapon.take_damage(intdam, BRUTE, used_weapon.d_type)
 				used_weapon.remove_bintegrity(sharp_loss, user)
 			return TRUE
@@ -291,7 +291,7 @@
 		parrydrain -= H.get_tempo_bonus(TEMPO_TAG_STAMLOSS_PARRY)
 		if(H.stamina_add(parrydrain))
 			if(W)
-				playsound(get_turf(src), pick(W.parrysound), 100, FALSE)
+				playsound(src, pick(W.parrysound), 100, FALSE)
 			if(src.client)
 				record_round_statistic(STATS_PARRIES)
 
@@ -318,7 +318,7 @@
 			return FALSE //crush through
 	else
 		if(W)
-			playsound(get_turf(src), pick(W.parrysound), 100, FALSE)
+			playsound(src, pick(W.parrysound), 100, FALSE)
 		return TRUE
 
 /mob/proc/do_unarmed_parry(parrydrain as num, mob/living/user)
@@ -328,7 +328,7 @@
 		parrydrain -= H.get_tempo_bonus(TEMPO_TAG_STAMLOSS_PARRY)
 
 		if(H.stamina_add(parrydrain))
-			playsound(get_turf(src), pick(parry_sound), 100, FALSE)
+			playsound(src, pick(parry_sound), 100, FALSE)
 			src.visible_message(span_warning("<b>[src]</b> parries [user]!"))
 			if(src.client)
 				record_round_statistic(STATS_PARRIES)
@@ -339,7 +339,7 @@
 	else
 		if(src.client)
 			record_round_statistic(STATS_PARRIES)
-		playsound(get_turf(src), pick(parry_sound), 100, FALSE)
+		playsound(src, pick(parry_sound), 100, FALSE)
 		return TRUE
 
 #undef STAM_DRAIN_PER_STR_DIFF_HEAVY_BAL

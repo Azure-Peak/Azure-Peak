@@ -42,7 +42,7 @@
 				stackcount -= clamp(stackcount, 2, 4)
 				user.put_in_hands(B)
 		for(var/obj/item/natural/brick/F in get_turf(src))
-			playsound(get_turf(user.loc), 'sound/foley/brickdrop.ogg', 100)
+			playsound(user, 'sound/foley/brickdrop.ogg', 100)
 			qdel(F)
 
 /obj/item/natural/bundle/brick

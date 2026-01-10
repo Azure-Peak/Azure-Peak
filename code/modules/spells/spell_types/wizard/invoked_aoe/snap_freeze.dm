@@ -69,7 +69,7 @@
 		for(var/mob/living/L in affected_turf.contents)
 			if(L.anti_magic_check())
 				visible_message(span_warning("The ice fades away around you. [L] "))  //antimagic needs some testing
-				playsound(get_turf(L), 'sound/magic/magic_nulled.ogg', 100)
+				playsound(L, 'sound/magic/magic_nulled.ogg', 100)
 				return
 			play_cleave = TRUE
 			if(ishuman(L))

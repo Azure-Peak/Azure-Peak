@@ -34,7 +34,7 @@
 	if(isliving(A))
 		var/mob/living/L = A
 		if(!used_intent.noaa)
-			playsound(get_turf(src), pick(GLOB.unarmed_swingmiss), 100, FALSE)
+			playsound(src, pick(GLOB.unarmed_swingmiss), 100, FALSE)
 //			src.emote("attackgrunt")
 		if(used_intent.releasedrain)
 			stamina_add(ceil(used_intent.releasedrain * rmb_stam_penalty))
@@ -245,7 +245,7 @@
 		do_attack_animation(A, visual_effect_icon = used_intent.animname)
 		changeNext_move(used_intent.clickcd)
 //		src.emote("attackgrunt")
-		playsound(get_turf(src), used_intent.miss_sound, 100, FALSE)
+		playsound(src, used_intent.miss_sound, 100, FALSE)
 		if(used_intent.miss_text)
 			visible_message(span_warning("[src] [used_intent.miss_text]!"), \
 							span_warning("I [used_intent.miss_text]!"))

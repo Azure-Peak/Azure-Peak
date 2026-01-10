@@ -496,7 +496,7 @@
 			if(cached_my_atom)
 				if(!ismob(cached_my_atom)) // No bubbling mobs
 					if(selected_reaction.mix_sound)
-						playsound(get_turf(cached_my_atom), selected_reaction.mix_sound, 80, TRUE)
+						playsound(cached_my_atom, selected_reaction.mix_sound, 80, TRUE)
 
 					if(selected_reaction.mix_message)
 						for(var/mob/M in seen)

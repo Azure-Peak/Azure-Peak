@@ -53,7 +53,7 @@
 	else
 		toggle_open(clothing_parent)
 	if(toggle_sound)
-		playsound(get_turf(clothing_parent), toggle_sound, 50, TRUE, -1)
+		playsound(clothing_parent, toggle_sound, 50, TRUE, -1)
 	clothing_parent.update_icon()
 	update_inv(human_wearer)
 	human_wearer.update_fov_angles()

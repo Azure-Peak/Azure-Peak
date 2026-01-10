@@ -166,7 +166,7 @@
 	// Notify all contributors
 	for(var/mob/living/contributor in project.contributors)
 		to_chat(contributor, span_boldannounce("[project.display_name] has been completed!"))
-		contributor.playsound_local(get_turf(src), project.completion_sound, 100, FALSE, pressure_affected = FALSE)
+		contributor.playsound_local(src, project.completion_sound, 100, FALSE, pressure_affected = FALSE)
 
 	// Execute project completion
 	project.on_complete(src)
@@ -230,7 +230,7 @@
 	if(!contribution || contribution < 1)
 		return
 
-	//setting this to 0, when it was at 1 it was just giving free vitae if it was less than 1 but a 
+	//setting this to 0, when it was at 1 it was just giving free vitae if it was less than 1 but a
 	contribution = clamp(contribution, 0, max_contribution)
 
 	if(user.bloodpool < contribution)

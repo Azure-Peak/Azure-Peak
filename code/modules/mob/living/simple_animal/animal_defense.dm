@@ -156,7 +156,7 @@
 	var/damage = 10*(user.STASTR/20)
 	if(HAS_TRAIT(user, TRAIT_STRONGBITE))
 		damage = damage*2
-	playsound(user.loc, "smallslash", 100, FALSE, -1)
+	playsound(user, "smallslash", 100, FALSE, -1)
 	user.next_attack_msg.Cut()
 	if(stat == DEAD)
 		if(user.has_status_effect(/datum/status_effect/fire_handler/fire_stacks/sunder))
@@ -183,7 +183,7 @@
 				else
 					user.visible_message(span_warning("[user] drinks from [vampire_victim]!"),\
 					span_warning("I drink from [vampire_victim]!"))
-					playsound(user.loc, 'sound/misc/drink_blood.ogg', 100, FALSE, -4)
+					playsound(user, 'sound/misc/drink_blood.ogg', 100, FALSE, -4)
 					vampire_victim.blood_volume -= 100
 					if(bloodleft < 100)
 						vampire_victim.blood_volume = 0
@@ -207,7 +207,7 @@
 		return FALSE
 	if(user == target)
 		return FALSE
-	if(!HAS_TRAIT(user, TRAIT_GARROTED))	
+	if(!HAS_TRAIT(user, TRAIT_GARROTED))
 		if(user.check_leg_grabbed(1) || user.check_leg_grabbed(2))
 			to_chat(user, span_notice("I can't move my leg!"))
 			return

@@ -81,9 +81,9 @@
 /* added to proc
 /obj/item/reagent_containers/food/snacks/proc/slice(obj/item/W, mob/user)
 	if(slice_sound)
-		playsound(get_turf(user), 'modular/Neu_Food/sound/slicing.ogg', 60, TRUE, -1) // added some choppy sound
+		playsound(user, 'modular/Neu_Food/sound/slicing.ogg', 60, TRUE, -1) // added some choppy sound
 	if(chopping_sound)
-		playsound(get_turf(user), 'modular/Neu_Food/sound/chopping_block.ogg', 60, TRUE, -1) // added some choppy sound
+		playsound(user, 'modular/Neu_Food/sound/chopping_block.ogg', 60, TRUE, -1) // added some choppy sound
 */
 /*	........   Kitchen tools / items   ................ */
 
@@ -139,7 +139,7 @@
 		to_chat(user, span_notice("Needs more water to work it."))
 		return TRUE
 	to_chat(user, span_notice("Adding water, now its time to knead it..."))
-	playsound(get_turf(user), 'modular/Neu_Food/sound/splishy.ogg', 100, TRUE, -1)
+	playsound(user, 'modular/Neu_Food/sound/splishy.ogg', 100, TRUE, -1)
 	if(do_after(user, short_cooktime, target = src))
 		add_sleep_experience(user, /datum/skill/craft/cooking, user.STAINT)
 		name = "wet flour"
@@ -151,7 +151,7 @@
 
 /obj/item/reagent_containers/powder/flour/attack_hand(mob/living/user)
 	if(water_added)
-		playsound(get_turf(user), 'modular/Neu_Food/sound/kneading_alt.ogg', 90, TRUE, -1)
+		playsound(user, 'modular/Neu_Food/sound/kneading_alt.ogg', 90, TRUE, -1)
 		if(do_after(user, short_cooktime, target = src))
 			add_sleep_experience(user, /datum/skill/craft/cooking, user.STAINT)
 			new /obj/item/reagent_containers/food/snacks/rogue/dough_base(loc)
@@ -194,7 +194,7 @@
 		to_chat(user, "<span class='notice'>Needs more water to work it.</span>")
 		return TRUE
 	to_chat(user, "<span class='notice'>Adding water, now its time to hand wash it...</span>")
-	playsound(get_turf(user), 'modular/Neu_Food/sound/splishy.ogg', 100, TRUE, -1)
+	playsound(user, 'modular/Neu_Food/sound/splishy.ogg', 100, TRUE, -1)
 	if(do_after(user,2 SECONDS, target = src))
 		user.adjust_experience(/datum/skill/craft/cooking, user.STAINT * 0.8)
 		name = "wet rice"
@@ -205,7 +205,7 @@
 
 /obj/item/reagent_containers/food/snacks/grown/rice/attack_hand(mob/living/user)
 	if(water_added)
-		playsound(get_turf(user), 'modular/Neu_Food/sound/kneading_alt.ogg', 90, TRUE, -1)
+		playsound(user, 'modular/Neu_Food/sound/kneading_alt.ogg', 90, TRUE, -1)
 		if(do_after(user,3 SECONDS, target = src))
 			user.adjust_experience(/datum/skill/craft/cooking, user.STAINT * 0.8)
 			new /obj/item/reagent_containers/food/snacks/rogue/ricewet(loc)
@@ -263,7 +263,7 @@
 		to_chat(user, span_notice("Needs more water to work it."))
 		return TRUE
 	to_chat(user, span_notice("Adding water, now its time to sift it..."))
-	playsound(get_turf(user), 'modular/Neu_Food/sound/splishy.ogg', 100, TRUE, -1)
+	playsound(user, 'modular/Neu_Food/sound/splishy.ogg', 100, TRUE, -1)
 	if(do_after(user, short_cooktime, target = src))
 		name = "prepared minerals"
 		desc = "Still quite coarse, needs some sifting."
@@ -276,7 +276,7 @@
 	if(water_added)
 		if(istype(I, /obj/item/natural/cloth))
 			user.visible_message(span_info("[user] sifts the minerals..."))
-			playsound(get_turf(user), 'modular/Neu_Food/sound/peppermill.ogg', 90, TRUE, -1)
+			playsound(user, 'modular/Neu_Food/sound/peppermill.ogg', 90, TRUE, -1)
 			if(do_after(user,3 SECONDS, target = src))
 				new /obj/item/reagent_containers/powder/coarse_salt(loc)
 				qdel(src)

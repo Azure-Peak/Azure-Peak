@@ -92,13 +92,13 @@
 
 		switch(user.job)
 			if("Warden")
-				player.playsound_local(get_turf(player), 'sound/items/horn/bogguardhorn.ogg', 35, FALSE, pressure_affected = FALSE)
+				player.playsound_local(player, 'sound/items/horn/bogguardhorn.ogg', 35, FALSE, pressure_affected = FALSE)
 			if("Marshall", "Watchman", "Sergeant", "Man at Arms")
-				player.playsound_local(get_turf(player), 'sound/items/horn/wardenhorn.ogg', 35, FALSE, pressure_affected = FALSE)
+				player.playsound_local(player, 'sound/items/horn/wardenhorn.ogg', 35, FALSE, pressure_affected = FALSE)
 			if("Knight Captain", "Knight")
-				player.playsound_local(get_turf(player), 'sound/items/horn/rghorn.ogg', 35, FALSE, pressure_affected = FALSE)
+				player.playsound_local(player, 'sound/items/horn/rghorn.ogg', 35, FALSE, pressure_affected = FALSE)
 			else
-				player.playsound_local(get_turf(player), 'sound/items/horn/signalhorn.ogg', 35, FALSE, pressure_affected = FALSE)
+				player.playsound_local(player, 'sound/items/horn/signalhorn.ogg', 35, FALSE, pressure_affected = FALSE)
 		to_chat(player, span_warning("I hear the horn of the Wardens somewhere [dirtext]"))
 
 	var/random_ambushes = 4 + rand(0,2) // 4 - 6 ambushes

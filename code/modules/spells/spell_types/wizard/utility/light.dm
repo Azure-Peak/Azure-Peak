@@ -15,7 +15,7 @@
 	cost = 1
 	miracle = FALSE
 
-	invocations = list("Evoca Lucem.") // Summon Light 
+	invocations = list("Evoca Lucem.") // Summon Light
 	invocation_type = "whisper" //can be none, whisper, emote and shout
 
 	var/obj/item/item
@@ -102,7 +102,7 @@
 				return
 
 /obj/item/flashlight/flare/light/turn_off()
-	playsound(src.loc, 'sound/items/firesnuff.ogg', 100)
+	playsound(src, 'sound/items/firesnuff.ogg', 100)
 	soundloop.stop()
 	STOP_PROCESSING(SSobj, src)
 	..()

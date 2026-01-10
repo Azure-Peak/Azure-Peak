@@ -160,7 +160,7 @@
 		if(I.tool_behaviour == TOOL_WRENCH && deconstruction_ready)
 			to_chat(user, span_notice("I start deconstructing [src]..."))
 			if(I.use_tool(src, user, 40, volume=50))
-				playsound(src.loc, 'sound/blank.ogg', 50, TRUE)
+				playsound(src, 'sound/blank.ogg', 50, TRUE)
 				deconstruct(TRUE, 1)
 			return
 

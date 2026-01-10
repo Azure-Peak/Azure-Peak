@@ -37,7 +37,7 @@
 		return
 	user.visible_message(span_notice("[user] hooks something to the line."), \
 						span_notice("I hook [I] to my line."))
-	playsound(src.loc, 'sound/foley/pierce.ogg', 50, FALSE)
+	playsound(src, 'sound/foley/pierce.ogg', 50, FALSE)
 	if(istype(I,/obj/item/natural/worms))
 		var/obj/item/natural/worms/W = I
 		if(W.amt > 1)
@@ -77,7 +77,7 @@
 			if(target in range(user,5))
 				user.visible_message("<span class='warning'>[user] casts a line!</span>", \
 									"<span class='notice'>I cast a line.</span>")
-				playsound(src.loc, 'sound/items/fishing_plouf.ogg', 100, TRUE)
+				playsound(src, 'sound/items/fishing_plouf.ogg', 100, TRUE)
 				ft -= (sl * 20) //every skill lvl is -2 seconds
 				ft = max(20,ft) //min of 2 seconds
 				if(do_after(user,ft, target = target))
@@ -102,7 +102,7 @@
 								var/ow = 30 + (sl * 10) // Opportunity window, in ticks. Longer means you get more time to cancel your bait
 								to_chat(user, "<span class='notice'>Something tugs the line!</span>")
 								target.balloon_alert_to_viewers("Tug!")
-								playsound(src.loc, 'sound/items/fishing_plouf.ogg', 100, TRUE)
+								playsound(src, 'sound/items/fishing_plouf.ogg', 100, TRUE)
 								if(!do_after(user,ow, target = target, same_direction = TRUE))
 									if(A in subtypesof(/mob/living))
 										var/mob/M = A
@@ -117,7 +117,7 @@
 										user.mind.add_sleep_experience(/datum/skill/labor/fishing, round(fisherman.STAINT, 2), FALSE) // Level up!
 										record_featured_stat(FEATURED_STATS_FISHERS, fisherman)
 										record_round_statistic(STATS_FISH_CAUGHT)
-										playsound(src.loc, 'sound/items/Fish_out.ogg', 100, TRUE)
+										playsound(src, 'sound/items/Fish_out.ogg', 100, TRUE)
 									if(getbaitlife(sl, baited)) // Higher skill levels make you less likely to lose your bait
 										to_chat(user, "<span class='warning'>Damn, it ate my bait.</span>")
 										qdel(baited)
@@ -127,7 +127,7 @@
 									if(getbaitlife(sl, baited, 100)) // Higher chance for it to flee with your bait.
 										to_chat(user, "<span class='warning'>...And took my bait, too.</span>")
 										qdel(baited)
-										baited = null													
+										baited = null
 						else
 							to_chat(user, "<span class='warning'>Not even a nibble...</span>")
 							user.mind.add_sleep_experience(/datum/skill/labor/fishing, fisherman.STAINT/2) // Pity XP.

@@ -29,8 +29,8 @@
 	if(ckey in finished_ckeys)
 		to_chat(user, span_warning("I've already tried my hand at [src]."))
 		return
-	playsound(src.loc, 'sound/items/wood_sharpen.ogg', 75, TRUE)
-	playsound(src.loc, 'sound/items/visor.ogg', 75, TRUE)
+	playsound(src, 'sound/items/wood_sharpen.ogg', 75, TRUE)
+	playsound(src, 'sound/items/visor.ogg', 75, TRUE)
 	if (alert(user, "My fingers trace the outside of this box. It looks of average difficulty. Do I try to solve it?", "ROGUETOWN", "Yes", "No") != "Yes")
 		return
 	if(do_after(user,70, target = src))
@@ -38,12 +38,12 @@
 			to_chat(user, span_notice("I solve [src] fairly easily. I feel rather satisfied."))
 			user.add_stress(/datum/stressevent/puzzle_easy)
 			finished_ckeys += ckey
-			playsound(src.loc, 'sound/foley/doors/lock.ogg', 75, TRUE)
+			playsound(src, 'sound/foley/doors/lock.ogg', 75, TRUE)
 		else
 			to_chat(user, span_warning("I can't solve \the [src]. Cack! Frustrated, I leave it alone."))
 			user.add_stress(/datum/stressevent/puzzle_fail)
 			finished_ckeys += ckey
-			playsound(src.loc, 'sound/foley/doors/lockrattle.ogg', 75, TRUE)
+			playsound(src, 'sound/foley/doors/lockrattle.ogg', 75, TRUE)
 
 
 //medium
@@ -72,8 +72,8 @@
 	if(ckey in finished_ckeys)
 		to_chat(user, span_warning("I've already tried my hand at [src]."))
 		return
-	playsound(src.loc, 'sound/items/wood_sharpen.ogg', 75, TRUE)
-	playsound(src.loc, 'sound/items/visor.ogg', 75, TRUE)
+	playsound(src, 'sound/items/wood_sharpen.ogg', 75, TRUE)
+	playsound(src, 'sound/items/visor.ogg', 75, TRUE)
 	if (alert(user, "My fingers trace the outside of this box. It looks of average difficulty. Do I try to solve it?", "ROGUETOWN", "Yes", "No") != "Yes")
 		return
 	if(do_after(user,70, target = src))
@@ -81,12 +81,12 @@
 			to_chat(user, span_notice("I solve [src] fairly easily. I feel rather satisfied."))
 			user.add_stress(/datum/stressevent/puzzle_medium)
 			finished_ckeys += ckey
-			playsound(src.loc, 'sound/foley/doors/lock.ogg', 75, TRUE)
+			playsound(src, 'sound/foley/doors/lock.ogg', 75, TRUE)
 		else
 			to_chat(user, span_warning("I can't solve [src]. Frustrated, I leave it alone."))
 			user.add_stress(/datum/stressevent/puzzle_fail)
 			finished_ckeys += ckey
-			playsound(src.loc, 'sound/foley/doors/lockrattle.ogg', 75, TRUE)
+			playsound(src, 'sound/foley/doors/lockrattle.ogg', 75, TRUE)
 
 
 //impossible. before you look at this and screech - even the highest int bonus jobs in the game start with a 0% chance assuming worst roll from this to beat this thing
@@ -116,8 +116,8 @@
 	if(ckey in finished_ckeys)
 		to_chat(user, span_warning("I've already tried my hand at [src]."))
 		return
-	playsound(src.loc, 'sound/items/wood_sharpen.ogg', 75, TRUE)
-	playsound(src.loc, 'sound/items/visor.ogg', 75, TRUE)
+	playsound(src, 'sound/items/wood_sharpen.ogg', 75, TRUE)
+	playsound(src, 'sound/items/visor.ogg', 75, TRUE)
 	if (alert(user, "My fingers trace the outside of this box. It looks nearly impossible. Do I try to solve it?", "ROGUETOWN", "Yes", "No") != "Yes")
 		return
 	if(do_after(user,100, target = src))
@@ -125,7 +125,7 @@
 			to_chat(user, span_notice("After much deliberation, I solve \the [src]!"))
 			user.add_stress(/datum/stressevent/puzzle_impossible)
 			finished_ckeys += ckey
-			playsound(src.loc, 'sound/foley/doors/lockrattle.ogg', 75, TRUE)
+			playsound(src, 'sound/foley/doors/lockrattle.ogg', 75, TRUE)
 			to_chat(user, span_notice("As I pop open \the [src], I feel a tingling wave run from my head to my feet. A piece of an azure crystal tumbles out. When I grab it, it's gone- and I suddenly feel invigorated."))
 			user.STAINT += rand(1,5)
 			user.STASTR += rand(1,5)
@@ -133,13 +133,13 @@
 			user.STACON += rand(1,5)
 			user.STAWIL += rand(1,5)
 			finished_ckeys += ckey
-			playsound(src.loc, 'sound/foley/doors/lock.ogg', 75, TRUE)
-			playsound(src.loc, 'sound/items/visor.ogg', 75, TRUE)
+			playsound(src, 'sound/foley/doors/lock.ogg', 75, TRUE)
+			playsound(src, 'sound/items/visor.ogg', 75, TRUE)
 		else
 			to_chat(user, span_warning("I can't even start to solve [src]. Feeling like an absolute fool, I put it aside."))
 			user.add_stress(/datum/stressevent/puzzle_fail)
 			finished_ckeys += ckey
-			playsound(src.loc, 'sound/foley/doors/lockrattle.ogg', 75, TRUE)
+			playsound(src, 'sound/foley/doors/lockrattle.ogg', 75, TRUE)
 
 
 // food cans
@@ -197,7 +197,7 @@
 //		if(A.type in subtypesof(/obj/item/rogueweapon/huntingknife)) //knife
 		if(istype(A, /obj/item/rogueweapon/huntingknife))
 			to_chat(user, span_notice("I dig in the blade and start opening the top of the container..."))
-			playsound(src.loc, 'sound/items/canned_food_open.ogg', 75, TRUE)
+			playsound(src, 'sound/items/canned_food_open.ogg', 75, TRUE)
 			if(do_after(user,50, target = src))
 				update_icon()
 				src.name_desc()
@@ -209,7 +209,7 @@
 //		if(A.type in subtypesof(/obj/item/natural/stone)) //in case someone wants to bash it open with a BOULDER i guess
 		if(istype(A, /obj/item/natural/stone))
 			to_chat(user, span_notice("I start messily bashing the can open..."))
-			playsound(src.loc, 'sound/items/canned_food_open.ogg', 75, TRUE)
+			playsound(src, 'sound/items/canned_food_open.ogg', 75, TRUE)
 			if(do_after(user,70, target = src))
 				src.name_desc()
 				src.can_sealed = 0

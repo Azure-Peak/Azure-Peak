@@ -643,7 +643,7 @@ It will also call down lightning strikes from the sky, and fling people with it'
 /obj/effect/proc_holder/spell/invoked/repulse/voiddragon/cast(list/targets, mob/user = usr)
 	if(iscarbon(user))
 		var/mob/living/carbon/C = user
-		playsound(C.loc, 'sound/combat/hits/punch/punch_hard (3).ogg', 80, TRUE, TRUE)
+		playsound(C, 'sound/combat/hits/punch/punch_hard (3).ogg', 80, TRUE, TRUE)
 		C.spin(6, 1)
 	..(targets, user, 3)
 

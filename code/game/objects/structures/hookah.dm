@@ -152,7 +152,7 @@
 		if(!istype(shisha) || !istype(user) || !(shisha.reagents?.total_volume))
 			return
 
-		playsound(get_turf(shisha), 'sound/foley/shisha_gurgle.ogg', rand(70, 100), FALSE, -1)
+		playsound(shisha, 'sound/foley/shisha_gurgle.ogg', rand(70, 100), FALSE, -1)
 		if(!do_after_mob(user, list(shisha), 2 SECONDS, required_mobility_flags = MOBILITY_USE) || QDELETED(shisha) || QDELETED(src))
 			return
 

@@ -52,13 +52,13 @@
 		if(BRUTE)
 			if(damage_amount)
 				if(islist(attacked_sound))
-					playsound(src.loc, pick(attacked_sound), 100, FALSE, -1)
+					playsound(src, pick(attacked_sound), 100, FALSE, -1)
 				else
-					playsound(src.loc, attacked_sound, 100, FALSE, -1)
+					playsound(src, attacked_sound, 100, FALSE, -1)
 			else
-				playsound(src.loc, "nodmg", 100, FALSE, -1)
+				playsound(src, "nodmg", 100, FALSE, -1)
 		if(BURN)
-			playsound(src.loc, "burn", 100, FALSE, -1)
+			playsound(src, "burn", 100, FALSE, -1)
 
 /obj/hitby(atom/movable/AM, skipcatch, hitpush, blocked, datum/thrownthing/throwingdatum, damage_flag = "blunt")
 	..()
@@ -94,7 +94,7 @@
 
 /obj/bullet_act(obj/projectile/P)
 	. = ..()
-	playsound(src.loc, P.hitsound, 50, TRUE)
+	playsound(src, P.hitsound, 50, TRUE)
 	visible_message(span_danger("[src] is hit by \a [P]!"), null, null, COMBAT_MESSAGE_RANGE)
 	if(!QDELETED(src)) //Bullet on_hit effect might have already destroyed this object
 		take_damage(P.damage, P.damage_type, P.flag, 0, turn(P.dir, 180), P.armor_penetration)
@@ -232,7 +232,7 @@ GLOBAL_DATUM_INIT(acid_overlay, /mutable_appearance, mutable_appearance('icons/e
 		return
 	obj_broken = TRUE
 	if(break_sound)
-		playsound(get_turf(src), break_sound, 80, TRUE)
+		playsound(src, break_sound, 80, TRUE)
 	if(break_message)
 		visible_message(break_message)
 	SEND_SIGNAL(src, COMSIG_ITEM_BROKEN)
@@ -254,7 +254,7 @@ GLOBAL_DATUM_INIT(acid_overlay, /mutable_appearance, mutable_appearance('icons/e
 		burn()
 	else
 		if(destroy_sound)
-			playsound(get_turf(src), destroy_sound, 100, TRUE)
+			playsound(src, destroy_sound, 100, TRUE)
 		if(destroy_message)
 			visible_message(destroy_message)
 		deconstruct(FALSE)

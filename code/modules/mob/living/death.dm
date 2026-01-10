@@ -6,13 +6,13 @@ GLOBAL_LIST_EMPTY(last_words)
 		death(TRUE)
 	if(client)
 		SSdroning.kill_droning(client)
-	playsound(src.loc, pick('sound/combat/gib (1).ogg','sound/combat/gib (2).ogg'), 200, FALSE, 3)
+	playsound(src, pick('sound/combat/gib (1).ogg','sound/combat/gib (2).ogg'), 200, FALSE, 3)
 
 	if(!prev_lying)
 		gib_animation()
 
 	spill_embedded_objects()
-	
+
 	spill_organs(no_brain, no_organs, no_bodyparts)
 
 	if(!no_bodyparts)
@@ -47,7 +47,7 @@ GLOBAL_LIST_EMPTY(last_words)
 
 	if(drop_items)
 		unequip_everything()
-	
+
 	if(buckled)
 		buckled.unbuckle_mob(src, force = TRUE)
 
@@ -125,7 +125,7 @@ GLOBAL_LIST_EMPTY(last_words)
 
 	. = ..()
 
-	SEND_SIGNAL(src, COMSIG_LIVING_DEATH, gibbed) 
+	SEND_SIGNAL(src, COMSIG_LIVING_DEATH, gibbed)
 	if(client)
 		client.move_delay = initial(client.move_delay)
 		if(!nocutscene)

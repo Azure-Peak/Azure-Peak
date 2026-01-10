@@ -32,7 +32,7 @@
 			to_chat(user, span_warning("Not enough salted milk."))
 			return
 		user.visible_message(span_info("[user] churns butter..."))
-		playsound(get_turf(user), 'modular/Neu_Food/sound/churn.ogg', 100, TRUE, -1)
+		playsound(user, 'modular/Neu_Food/sound/churn.ogg', 100, TRUE, -1)
 		if(do_after(user,long_cooktime, target = src))
 			add_sleep_experience(user, /datum/skill/craft/cooking, user.STAINT)
 			reagents.remove_reagent(/datum/reagent/consumable/milk/salted, 15)
@@ -60,7 +60,7 @@
 	if(istype(I, /obj/item/reagent_containers/food/snacks/egg))
 		to_chat(user, span_notice("Cracking an egg over the butter."))
 		if(do_after(user, short_cooktime, target = src))
-			playsound(get_turf(user), 'modular/Neu_Food/sound/eggbreak.ogg', 100, TRUE, -1)
+			playsound(user, 'modular/Neu_Food/sound/eggbreak.ogg', 100, TRUE, -1)
 			new /obj/item/reagent_containers/food/snacks/rogue/foodbase/squires_delight(drop_location())
 			qdel(I)
 			qdel(src)
@@ -104,7 +104,7 @@
 		if(isturf(loc)&& (found_table))
 			to_chat(user, span_notice("Mixing in sugar to make frosting..."))
 			if(do_after(user, long_cooktime, target = src))
-				playsound(get_turf(user), 'sound/foley/dropsound/food_drop.ogg', 30, TRUE, -1)
+				playsound(user, 'sound/foley/dropsound/food_drop.ogg', 30, TRUE, -1)
 				new /obj/item/reagent_containers/food/snacks/rogue/frosting(drop_location())
 				qdel(I)
 				qdel(src)
@@ -152,7 +152,7 @@
 	if(istype(I, /obj/item/reagent_containers/food/snacks/rogue/cheese))
 		if(isturf(loc)&& (found_table))
 			user.visible_message(span_info("[user] starts packing the cloth with fresh cheese..."))
-			playsound(get_turf(user), 'sound/foley/dropsound/food_drop.ogg', 30, TRUE, -1)
+			playsound(user, 'sound/foley/dropsound/food_drop.ogg', 30, TRUE, -1)
 			if(do_after(user,3 SECONDS, target = src))
 				add_sleep_experience(user, /datum/skill/craft/cooking, user.STAINT)
 				new /obj/item/reagent_containers/food/snacks/rogue/foodbase/cheesewheel(loc)
@@ -178,7 +178,7 @@
 		if(isturf(loc) && found_table)
 			if(process_step == 4)
 				return
-			playsound(get_turf(user), 'sound/foley/dropsound/food_drop.ogg', 30, TRUE, -1)
+			playsound(user, 'sound/foley/dropsound/food_drop.ogg', 30, TRUE, -1)
 			if(do_after(user, short_cooktime, target = src))
 				add_sleep_experience(user, /datum/skill/craft/cooking, user.STAINT)
 				process_step++
@@ -199,7 +199,7 @@
 		return ..()
 
 /obj/item/reagent_containers/food/snacks/rogue/foodbase/cheesewheel/proc/maturing_done()
-	playsound(src.loc, 'modular/Neu_Food/sound/rustle2.ogg', 100, TRUE, -1)
+	playsound(src, 'modular/Neu_Food/sound/rustle2.ogg', 100, TRUE, -1)
 	new /obj/item/reagent_containers/food/snacks/rogue/cheddar(loc)
 	new /obj/item/natural/cloth(loc)
 	qdel(src)

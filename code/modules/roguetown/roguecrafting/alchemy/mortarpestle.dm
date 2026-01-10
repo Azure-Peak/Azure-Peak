@@ -116,7 +116,7 @@
 							span_notice("I pour [I] into [src]."))
 			if(user.m_intent != MOVE_INTENT_SNEAK)
 				if(poursounds)
-					playsound(user.loc,pick(poursounds), 100, TRUE)
+					playsound(user,pick(poursounds), 100, TRUE)
 			for(var/i in 1 to 10)
 				if(do_after(user, 8, target = src))
 					if(!I.reagents.total_volume)
@@ -141,7 +141,7 @@
 				return
 			if(user.m_intent != MOVE_INTENT_SNEAK)
 				if(fillsounds)
-					playsound(user.loc,pick(fillsounds), 100, TRUE)
+					playsound(user,pick(fillsounds), 100, TRUE)
 			user.visible_message(span_notice("[user] fills [I] with [src]."), \
 								span_notice("I fill [I] with [src]."))
 			for(var/i in 1 to 10)

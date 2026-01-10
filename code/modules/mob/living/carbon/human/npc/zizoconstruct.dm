@@ -93,7 +93,7 @@ GLOBAL_LIST_INIT(zizoconstruct_aggro, world.file2list("strings/rt/zconstructaggr
 		to_chat(user, "<font color='purple'> You attempt to wield the knuckles. The spike sinks deeply into your hand, piercing it and drinking deep of your vital energies!</font>")
 		user.adjustBruteLoss(15)
 		user.Stun(40)
-		playsound(get_turf(user), 'sound/misc/drink_blood.ogg', 100)
+		playsound(user, 'sound/misc/drink_blood.ogg', 100)
 	..()
 
 /obj/item/clothing/suit/roguetown/armor/skin_armor/zizoconstructarmor //ww armor but for construct

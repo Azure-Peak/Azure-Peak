@@ -60,7 +60,7 @@ SUBSYSTEM_DEF(soundloopers)
 		if(get_dist(get_turf(mob),parent_turf) > world.view + PS.extra_range) //Too far away. get_dist shouldn't be too awful for repeated calcs
 			continue
 
-		if(mob_turf.z - parent_turf.z > 2 || mob_turf.z - parent_turf.z < 2) //for some reason get_dist not checking this properly
+		if(abs(mob_turf.z - parent_turf.z) > 2) //for some reason get_dist not checking this properly
 			continue
 
 		//otherwise add it to the client loops and off we go from there
@@ -70,14 +70,15 @@ SUBSYSTEM_DEF(soundloopers)
 		if(!our_sound)
 			continue //something fucked up and the loop has no cursound, wups. this should basically never happen
 
-		mob.playsound_local(parent_turf, PS.cursound, PS.volume, PS.vary, PS.frequency, PS.falloff, PS.channel, FALSE, our_sound, repeat = PS)
+		var/use_override = (mob && (PS_parent == mob || (PS_parent in mob.contents)))
+		mob.playsound_local(PS_parent, PS.cursound, PS.volume, PS.vary, PS.frequency, PS.falloff, null, FALSE, our_sound, repeat = PS, override = use_override)
 
 	//Now we check how far away etc we are
 	for(var/datum/looping_sound/loop in played_loops)
 		if (!loop)
 			played_loops -= loop
 			continue
-		
+
 		var/atom/loop_parent = loop.parent?.resolve()
 		if(!loop_parent)
 			continue
@@ -113,54 +114,19 @@ SUBSYSTEM_DEF(soundloopers)
 				mob.stop_sound_channel(found_sound.channel)
 
 		else if(distance_between <= max_distance)
-			//We are close enough to hear, check if volume should be changed
+			// We are close enough to hear, update position
+			// Always update when camera has moved to keep projection matrix current
+			var/prev_pixel_x = found_loop["PIXEL_X"]
+			var/prev_pixel_y = found_loop["PIXEL_Y"]
+			if(pixel_x != prev_pixel_x || pixel_y != prev_pixel_y)
+				// Re-calculate position with projection matrices
+				// playsound_local should handle distance falloff, z-level sound, camera compensation, master volume, etc.
+				var/use_override = found_loop["OVERRIDE"] ? TRUE : FALSE
 
-			var/new_volume = loop.volume
-			var/old_volume = found_loop["VOL"]
-
-			new_volume -= (distance_between * (0.1 * new_volume)) //reduce volume by 10% per tile
-
-			if(new_volume > 100)
-				new_volume = 100 //could just min() this but whatever. we old skool
-
-			if(new_volume <= 0) //Too quiet to hear despite being in range
-				if(loop.persistent_loop) //Copy pasting instead of making a new proc? egads you monster
-					found_loop["MUTESTATUS"] = TRUE
-					found_loop["VOL"] = 0
-					mob.mute_sound(found_sound)
-				else
-					played_loops -= loop
-					loop.thingshearing -= WEAKREF(mob)
-					mob.stop_sound_channel(found_sound.channel)
-				continue
-
-			//Some hacks for z-levels- this should be get_turf_above and _below
-			//those would require us building a block of turfs though, ehhhh
-			if(source_turf.z == mob.z + 1 || source_turf.z == mob.z - 1)
-				new_volume = new_volume / 2
-			else if (source_turf.z == mob.z + 2 || source_turf.z == mob.z - 2)
-				new_volume = new_volume / 4
-
-			new_volume = new_volume * (prefs.mastervol * 0.01) //Modify it at the end by the player's volume setting
-
-			if(old_volume != new_volume)
-				var/turf/T = get_turf(mob)
-				var/dx = source_turf.x - T.x
-				if(dx <= 1 && dx >= -1)
-					found_sound.x = 0
-				else
-					found_sound.x = dx
-				var/dz = source_turf.y - T.y
-				if(dz <= 1 && dz >= -1)
-					found_sound.z = 0
-				else
-					found_sound.z = dz
-//				var/dy = source_turf.z - T.z
-//				found_sound.y = dy
+				mob.playsound_local(loop_parent, loop.cursound, loop.volume, loop.vary, loop.frequency, loop.falloff, found_sound.channel, FALSE, found_sound, repeat = loop, override = use_override)
+				found_loop["PIXEL_X"] = pixel_x
+				found_loop["PIXEL_Y"] = pixel_y
 
 				if(loop.persistent_loop && found_loop["MUTESTATUS"] == TRUE) //It was out of range and now back in range, reset it
 					found_loop["MUTESTATUS"] = FALSE
 					mob.unmute_sound(found_sound)
-				found_loop["VOL"] = new_volume
-				mob.update_sound_volume(played_loops[loop]["SOUND"], new_volume)
-

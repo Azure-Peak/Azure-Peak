@@ -87,7 +87,7 @@
 
 	if(!istype(I, /obj/item/natural/fibers))
 		return
-	
+
 	I.visible_message(
 		span_warning("[user] begins to prepare [src].."),
 		span_notice("I begin to set-up [src] with [I].")
@@ -102,7 +102,7 @@
 			to_chat(user, span_warningbig("Uh oh."))
 			light()
 		return
-	
+
 	var/obj/item/bomb/tripbomb/trip = new /obj/item/bomb/tripbomb(get_turf(src))
 	trip.b_type = type
 	trip.icon_state = icon_state
@@ -178,7 +178,7 @@
 /obj/item/tripwire
 	name = "fibre tripwire"
 	desc = "You almost missed it - phew. Best cut it with a blade to disarm it."
-	icon = 'icons/roguetown/items/misc.dmi'	
+	icon = 'icons/roguetown/items/misc.dmi'
 	icon_state = "wire"
 	anchored = TRUE
 	var/obj/item/bomb/tripbomb/payload
@@ -280,7 +280,7 @@
 
 /obj/item/bomb/smoke/explode()
 	var/turf/T = get_turf(src)
-	if(!T) 
+	if(!T)
 		return FALSE
 	playsound(loc, 'sound/items/smokebomb.ogg', 50)
 	var/datum/effect_system/smoke_spread/smoke = new /datum/effect_system/smoke_spread
@@ -288,7 +288,7 @@
 	smoke.start()
 	new /obj/item/ash(T)
 	qdel(src)
-	
+
 /obj/item/tntstick
 	name = "blastsand stick"
 	desc = "A bit of gunpowder in paper shell..."
@@ -301,7 +301,7 @@
 	throw_speed = 0.5
 	var/fuze = 50
 	var/lit = FALSE
-	var/prob2fail = 1 
+	var/prob2fail = 1
 	var/PVE_damage = 160
 	grid_width = 32
 	grid_height = 64
@@ -322,7 +322,7 @@
 		START_PROCESSING(SSfastprocess, src)
 		icon_state = lit_state
 		lit = TRUE
-		playsound(src.loc, 'sound/items/firelight.ogg', 100)
+		playsound(src, 'sound/items/firelight.ogg', 100)
 		if(ismob(loc))
 			var/mob/M = loc
 			M.update_inv_hands()
@@ -334,7 +334,7 @@
 	if(lit)
 		lit = FALSE
 		STOP_PROCESSING(SSfastprocess, src)
-		playsound(src.loc, 'sound/items/firesnuff.ogg', 100)
+		playsound(src, 'sound/items/firesnuff.ogg', 100)
 		icon_state = initial(icon_state)
 		if(ismob(loc))
 			var/mob/M = loc
@@ -367,7 +367,7 @@
 
 	if(!istype(I, /obj/item/natural/fibers))
 		return
-	
+
 	I.visible_message(
 		span_warning("[user] begins to prepare [src].."),
 		span_notice("I begin to set-up [src] with [I].")
@@ -382,7 +382,7 @@
 			to_chat(user, span_warningbig("Uh oh."))
 			light()
 		return
-	
+
 	var/obj/item/bomb/tripbomb/trip = new /obj/item/bomb/tripbomb(get_turf(src))
 	trip.b_type = type
 	trip.icon_state = icon_state
@@ -411,14 +411,14 @@
 	icon_state = "satchel_bomb"
 	var/lit_state = "satchel_bomb-lit"
 	icon = 'icons/roguetown/items/misc.dmi'
-	w_class = WEIGHT_CLASS_BULKY 
+	w_class = WEIGHT_CLASS_BULKY
 	throwforce = 0
 	throw_range = 2
 	slot_flags = ITEM_SLOT_HIP
 	throw_speed = 0.3
 	var/fuze = 50
 	var/lit = FALSE
-	var/prob2fail = 1 
+	var/prob2fail = 1
 	var/PVE_damage = 300
 	grid_width = 256
 	grid_height = 256
@@ -439,7 +439,7 @@
 		START_PROCESSING(SSfastprocess, src)
 		icon_state = lit_state
 		lit = TRUE
-		playsound(src.loc, 'sound/items/firelight.ogg', 100)
+		playsound(src, 'sound/items/firelight.ogg', 100)
 		if(ismob(loc))
 			var/mob/M = loc
 			M.update_inv_hands()
@@ -451,7 +451,7 @@
 	if(lit)
 		lit = FALSE
 		STOP_PROCESSING(SSfastprocess, src)
-		playsound(src.loc, 'sound/items/firesnuff.ogg', 100)
+		playsound(src, 'sound/items/firesnuff.ogg', 100)
 		icon_state = initial(icon_state)
 		if(ismob(loc))
 			var/mob/M = loc
@@ -488,7 +488,7 @@
 
 	if(!istype(I, /obj/item/natural/fibers))
 		return
-	
+
 	I.visible_message(
 		span_warning("[user] begins to prepare [src].."),
 		span_notice("I begin to set-up [src] with [I].")
@@ -503,7 +503,7 @@
 			to_chat(user, span_warningbig("Uh oh."))
 			light()
 		return
-	
+
 	var/obj/item/bomb/tripbomb/trip = new /obj/item/bomb/tripbomb(get_turf(src))
 	trip.b_type = type
 	trip.icon_state = icon_state
@@ -554,14 +554,14 @@
 
 /obj/item/impact_grenade/attack_self(mob/user)
 	..()
-	explodes() 
+	explodes()
 
 /obj/item/impact_grenade/attackby(obj/item/I, mob/user, params)
 	..()
 
 	if(!istype(I, /obj/item/natural/fibers))
 		return
-	
+
 	I.visible_message(
 		span_warning("[user] begins to prepare [src].."),
 		span_notice("I begin to set-up [src] with [I].")
@@ -576,7 +576,7 @@
 			to_chat(user, span_warningbig("Uh oh."))
 			explodes()
 		return
-	
+
 	var/obj/item/bomb/tripbomb/trip = new /obj/item/bomb/tripbomb(get_turf(src))
 	trip.b_type = type
 	trip.icon_state = icon_state
@@ -673,4 +673,4 @@
 	name = "silent gas belcher"
 	desc = "A gas belcher. The smell from this makes your mind blank and your tongue still."
 	icon_state = "smokeshell_purple"
-	smoke_type = /datum/effect_system/smoke_spread/mute_gas	
+	smoke_type = /datum/effect_system/smoke_spread/mute_gas

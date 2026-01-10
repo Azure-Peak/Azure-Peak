@@ -20,7 +20,7 @@
 	associated_skill = /datum/skill/magic/arcane
 
 /obj/effect/proc_holder/spell/invoked/knock/cast(list/targets, mob/user = usr)
-	playsound(get_turf(user), 'sound/misc/chestopen.ogg', 100, TRUE, -1)
+	playsound(user, 'sound/misc/chestopen.ogg', 100, TRUE, -1)
 	for(var/turf/T in range(1, usr))
 		for(var/obj/structure/mineral_door/door in T.contents)
 			INVOKE_ASYNC(src, PROC_REF(open_door), door)

@@ -23,9 +23,9 @@
 		return FALSE
 	if(alert(user, "Do you wish to sacrifice this vessel in a powerful explosion?", "ELDRITCH BLAST", "Yes", "No") == "No")
 		return FALSE
-	playsound(get_turf(user), 'sound/magic/antimagic.ogg', 100)
+	playsound(user, 'sound/magic/antimagic.ogg', 100)
 	user.visible_message(
-		span_danger("[user] begins to shake violently, a blindingly bright light beginning to emanate from them!"), 
+		span_danger("[user] begins to shake violently, a blindingly bright light beginning to emanate from them!"),
 		span_danger("Powerful energy begins to expand outwards from inside me!")
 	)
 

@@ -92,7 +92,7 @@
 		last_heat_time = world.time
 	if(!hot && heat_progress >= heat_capacity && length(ingots) > 0)
 		hot = TRUE
-		playsound(src.loc, 'sound/items/firelight.ogg', 50, TRUE)
+		playsound(src, 'sound/items/firelight.ogg', 50, TRUE)
 		update_icon()
 	if(heat_progress > 0)
 		update_icon()
@@ -255,7 +255,7 @@
 
 	var/obj/item/blade/new_blade = new blade_path(get_turf(src))
 	new_blade.forceMove(get_turf(src))
-	
+
 	if(attached_sprue)
 		attached_sprue.forceMove(get_turf(src))
 		attached_sprue = null

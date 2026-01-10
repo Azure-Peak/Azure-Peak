@@ -19,7 +19,7 @@
 		if(!on)
 			if(torchy.fuel > 0)
 				torchy.spark_act()
-				playsound(src.loc, 'sound/items/firelight.ogg', 100)
+				playsound(src, 'sound/items/firelight.ogg', 100)
 				on = TRUE
 				update()
 				update_icon()
@@ -68,7 +68,7 @@
 				else
 					torchy.spark_act()
 					user.visible_message(span_info("[user] lights [src]."))
-					playsound(src.loc, 'sound/items/firelight.ogg', 100)
+					playsound(src, 'sound/items/firelight.ogg', 100)
 					on = TRUE
 					update()
 					update_icon()
@@ -91,6 +91,6 @@
 				LR.forceMove(src)
 				torchy = LR
 				update_icon()
-			playsound(src.loc, 'sound/foley/torchfixtureput.ogg', 100)
+			playsound(src, 'sound/foley/torchfixtureput.ogg', 100)
 		return
 	. = ..()

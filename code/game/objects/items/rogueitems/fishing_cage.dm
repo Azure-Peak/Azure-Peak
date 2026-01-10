@@ -31,7 +31,7 @@
 	if(locate(/obj/item/fishingcage) in T)
 		to_chat(user, span_warning("There's already a fishing cage here."))
 		return
-	
+
 	if(istype(T, /turf/open/water))
 		if(do_after(user, deploy_speed, target = src))
 			user.transferItemToLoc(src, T)
@@ -59,7 +59,7 @@
 					icon_state = "fishingcage_deployed"
 				else
 					//sound queue to keep it clear that it's still baited
-					playsound(src.loc, 'sound/foley/pierce.ogg', 50, FALSE)
+					playsound(src, 'sound/foley/pierce.ogg', 50, FALSE)
 					icon_state = "fishingcage_ready"
 					check_counter = world.time
 					time2catch = get_skill_delay(user.get_skill_level(/datum/skill/labor/fishing), 5, slowest = 40) //in seconds
@@ -87,7 +87,7 @@
 		user.visible_message(span_notice("[user] starts adding the bait to the fishing cage..."), \
 							span_notice("I start to add [I] to the fishing cage..."))
 		if(do_after(user, 3 SECONDS, target = src))
-			playsound(src.loc, 'sound/foley/pierce.ogg', 50, FALSE)
+			playsound(src, 'sound/foley/pierce.ogg', 50, FALSE)
 			I.forceMove(src)
 			bait = I
 			check_counter = world.time
@@ -118,4 +118,3 @@
 	. = ..()
 	if(icon_state == "fishingcage_caught")
 		. += span_warning("Something seems to be inside...")
-	

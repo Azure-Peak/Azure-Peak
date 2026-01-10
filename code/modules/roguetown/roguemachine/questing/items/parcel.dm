@@ -80,7 +80,7 @@
 		icon_state = I.w_class >= WEIGHT_CLASS_NORMAL ? "ration_large" : "ration_small"
 		dropshrink = 1
 		update_icon()
-		playsound(get_turf(user), 'sound/foley/dropsound/food_drop.ogg', 40, TRUE, -1)
+		playsound(user, 'sound/foley/dropsound/food_drop.ogg', 40, TRUE, -1)
 		to_chat(user, span_notice("You wrap [I] in the parcel wrapper."))
 
 /obj/item/parcel/attack_self(mob/user)
@@ -95,7 +95,7 @@
 
 	if(do_after(user, 2 SECONDS, target = src))
 		to_chat(user, span_notice("You unwrap [contained_item] from the parcel."))
-		playsound(get_turf(user), 'sound/foley/dropsound/food_drop.ogg', 40, TRUE, -1)
+		playsound(user, 'sound/foley/dropsound/food_drop.ogg', 40, TRUE, -1)
 		user.put_in_hands(contained_item)
 		contained_item.update_icon()
 		contained_item = null

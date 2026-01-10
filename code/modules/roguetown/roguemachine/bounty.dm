@@ -96,7 +96,7 @@
 			scom_announce("The bounty posting on [target_name] has been removed.")
 			message_admins("[ADMIN_LOOKUPFLW(user)] has removed the bounty on [ADMIN_LOOKUPFLW(target_name)]")
 			return
-	say("Error. Bounty no longer active.") 
+	say("Error. Bounty no longer active.")
 
 ///Sets a bounty on a target player through user input.
 ///@param user: The player setting the bounty.
@@ -299,7 +299,7 @@
 	if(!do_after(A, 3 SECONDS, TRUE, M))
 		return
 
-	playsound(src.loc, 'sound/items/pickgood1.ogg', 100, TRUE, -1)
+	playsound(src, 'sound/items/pickgood1.ogg', 100, TRUE, -1)
 	M.Paralyze(3 SECONDS)
 
 	var/obj/item/clothing/mask/old_mask = M.get_item_by_slot(SLOT_WEAR_MASK)
@@ -330,7 +330,7 @@
 	if(!do_after(A, 3 SECONDS, TRUE, M))
 		return
 
-	playsound(src.loc, 'sound/items/pickgood1.ogg', 100, TRUE, -1)
+	playsound(src, 'sound/items/pickgood1.ogg', 100, TRUE, -1)
 	M.Paralyze(3 SECONDS)
 
 	var/obj/item/clothing/mask/old_mask = M.get_item_by_slot(SLOT_WEAR_MASK)
@@ -390,7 +390,7 @@
 	if(!do_after(A, 5 SECONDS, TRUE, M))
 		return
 
-	playsound(src.loc, 'sound/items/beartrap.ogg', 100, TRUE, -1)
+	playsound(src, 'sound/items/beartrap.ogg', 100, TRUE, -1)
 	M.Paralyze(3 SECONDS)
 
 	var/correct_head = FALSE
@@ -437,7 +437,7 @@
 		var/obj/item/clothing/mask/rogue/facemask/prisoner/prisonmask = new(get_turf(M))
 		prisonmask.bounty_amount = reward_amount
 		M.equip_to_slot_or_del(prisonmask, SLOT_WEAR_MASK, TRUE)
-		playsound(src.loc, 'sound/items/beartrap.ogg', 100, TRUE, -1)
+		playsound(src, 'sound/items/beartrap.ogg', 100, TRUE, -1)
 	else
 		say("This skull carries no reward, you fool.")
 		playsound(src, 'sound/misc/machineno.ogg', 100, FALSE, -1)

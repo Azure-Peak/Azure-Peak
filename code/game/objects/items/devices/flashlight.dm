@@ -213,7 +213,7 @@
 	extinguish()
 
 /obj/item/flashlight/flare/torch/turn_off()
-	playsound(src.loc, 'sound/items/firesnuff.ogg', 100)
+	playsound(src, 'sound/items/firesnuff.ogg', 100)
 	if(soundloop)
 		soundloop.stop()
 	STOP_PROCESSING(SSobj, src)
@@ -227,7 +227,7 @@
 /obj/item/flashlight/flare/torch/fire_act(added, maxstacks)
 	if(fuel)
 		if(!on)
-			playsound(src.loc, 'sound/items/firelight.ogg', 100)
+			playsound(src, 'sound/items/firelight.ogg', 100)
 			on = TRUE
 			damtype = BURN
 			update_brightness()
@@ -278,10 +278,10 @@
 	on_damage = 15
 	wdefense = 1 //Metal rod. Offers a pittance-of-a-chance to parry an incoming strike.
 	smeltresult = /obj/item/rogueore/coal
-	max_integrity = 100	
+	max_integrity = 100
 	fuel = 120 MINUTES
 	should_self_destruct = FALSE
-	possible_item_intents = list(/datum/intent/use, /datum/intent/mace/strike) //Reflects the fact that it is, in essence, a heavy rod of iron. 
+	possible_item_intents = list(/datum/intent/use, /datum/intent/mace/strike) //Reflects the fact that it is, in essence, a heavy rod of iron.
 	extinguishable = FALSE
 	weather_resistant = TRUE
 
@@ -387,7 +387,7 @@
 		user.adjust_fire_stacks(5)
 		user.ignite_mob()
 		user.Stun(40)
-		playsound(get_turf(user), 'sound/magic/ahh2.ogg', 100)
+		playsound(user, 'sound/magic/ahh2.ogg', 100)
 	..()
 
 /obj/item/flashlight/flare/torch/lantern/copper
@@ -456,7 +456,7 @@
 		user.visible_message(span_notice("[user] inserts a candle into [src]."), \
 							span_notice("I insert a candle into [src]."))
 		if(do_after(user, 2 SECONDS))
-			playsound(get_turf(user), 'sound/foley/dropsound/food_drop.ogg', 60, TRUE, -1)
+			playsound(user, 'sound/foley/dropsound/food_drop.ogg', 60, TRUE, -1)
 			fuel += 120 MINUTES
 			var/obj/item/candle/yellow/C = I
 			if(C.lit == TRUE)

@@ -40,7 +40,7 @@
 	var/skill_level = user.get_skill_level(/datum/skill/labor/lumberjacking)
 	var/planking_time = (40 - (skill_level * 5))
 	if(lumber_amount && I.tool_behaviour == TOOL_SAW)
-		playsound(get_turf(src.loc), 'sound/foley/sawing.ogg', 100)
+		playsound(src, 'sound/foley/sawing.ogg', 100)
 		user.visible_message("<span class='notice'>[user] starts sawing [src] to smaller pieces.</span>")
 		if(do_after(user, planking_time))
 			new /obj/item/grown/log/tree/small(get_turf(src.loc))
@@ -175,7 +175,7 @@
 	if(HAS_TRAIT(user, TRAIT_MASTER_CARPENTER)) //we give extra to those in the role
 		woodtotal += pick(1,2)
 	if(I.tool_behaviour == TOOL_SAW)
-		playsound(get_turf(src.loc), 'sound/foley/sawing.ogg', 100)
+		playsound(src, 'sound/foley/sawing.ogg', 100)
 		user.visible_message("<span class='notice'>[user] starts sawing planks from [src].</span>")
 		if(do_after(user, planking_time))
 			if(user.is_holding(src))
@@ -268,7 +268,7 @@
 			qdel(src)
 			if (L.alpha == 0 && L.rogue_sneaking) // not anymore you're not
 				L.update_sneak_invis(TRUE)
-			if(!HAS_TRAIT(L, TRAIT_WOODWALKER))	
+			if(!HAS_TRAIT(L, TRAIT_WOODWALKER))
 				L.consider_ambush()
 
 /obj/item/grown/log/tree/stick/Initialize()
@@ -324,14 +324,14 @@
 				stackcount -= clamp(stackcount, 2, 4)
 				user.put_in_hands(B)
 		for(var/obj/item/grown/log/tree/stick/F in get_turf(src))
-			playsound(get_turf(user.loc), 'sound/foley/dropsound/wooden_drop.ogg', 100)
+			playsound(user, 'sound/foley/dropsound/wooden_drop.ogg', 100)
 			qdel(F)
 
 
 /obj/item/grown/log/tree/stick/attackby(obj/item/I, mob/living/user, params)
 	user.changeNext_move(CLICK_CD_INTENTCAP)
 	if(user.used_intent?.blade_class == BCLASS_CUT)
-		playsound(get_turf(src.loc), 'sound/items/wood_sharpen.ogg', 100)
+		playsound(src, 'sound/items/wood_sharpen.ogg', 100)
 		user.visible_message(span_notice("[user] starts sharpening [src]."))
 		if(do_after(user, 4 SECONDS))
 			user.visible_message(span_notice("[user] sharpens [src]."))
@@ -439,7 +439,7 @@
 	sellprice = 4
 	bundletype = /obj/item/natural/bundle/plank
 	smeltresult = /obj/item/ash
-	
+
 /obj/item/natural/wood/plank/attack_right(mob/living/user)
 	if(user.get_active_held_item())
 		return
@@ -460,7 +460,7 @@
 				stackcount -= clamp(stackcount, 2, 6)
 				user.put_in_hands(B)
 		for(var/obj/item/natural/wood/plank/F in get_turf(src))
-			playsound(get_turf(user.loc), 'sound/foley/dropsound/wooden_drop.ogg', 80)
+			playsound(user, 'sound/foley/dropsound/wooden_drop.ogg', 80)
 			qdel(F)
 
 /obj/item/natural/bundle/plank

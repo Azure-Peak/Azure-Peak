@@ -44,7 +44,7 @@
 				stackcount -= clamp(stackcount, 2, 5)
 				user.put_in_hands(B)
 		for(var/obj/item/construction/nail/F in get_turf(src))
-			playsound(get_turf(user.loc), 'sound/foley/coinphy (1).ogg', 80)
+			playsound(user, 'sound/foley/coinphy (1).ogg', 80)
 			qdel(F)
 
 /obj/item/construction/bundle/nail

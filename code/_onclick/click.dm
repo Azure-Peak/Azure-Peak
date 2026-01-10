@@ -316,9 +316,9 @@
 							adf = max(round(adf * CLICK_CD_MOD_SWIFT), CLICK_CD_INTENTCAP)
 						changeNext_move(adf)
 						if(W)
-							playsound(get_turf(src), pick(W.swingsound), 100, FALSE)
+							playsound(src, pick(W.swingsound), 100, FALSE)
 						else
-							playsound(get_turf(src), used_intent.miss_sound, 100, FALSE)
+							playsound(src, used_intent.miss_sound, 100, FALSE)
 							if(used_intent.miss_text)
 								visible_message(span_warning("[src] [used_intent.miss_text]!"), \
 												span_warning("I [used_intent.miss_text]!"))

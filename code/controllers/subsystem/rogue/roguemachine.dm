@@ -42,7 +42,7 @@ PROCESSING_SUBSYSTEM_DEF(roguemachine)
 					the_track = 'sound/misc/cas3.ogg'
 				for(var/mob/M in GLOB.player_list)
 					if(is_in_roguetown(M))
-						M.playsound_local(M.loc, the_track, 100, FALSE)
+						M.playsound_local(M, the_track, 100, FALSE)
 				death_queue.Cut()
 
 /proc/is_in_roguetown(atom/A)

@@ -485,7 +485,7 @@
 				message_param = "kisses %t on the forehead."
 			else
 				message_param = "kisses %t on \the [parse_zone(H.zone_selected)]."
-	playsound(target.loc, pick('sound/vo/kiss (1).ogg','sound/vo/kiss (2).ogg'), 100, FALSE, -1)
+	playsound(target, pick('sound/vo/kiss (1).ogg','sound/vo/kiss (2).ogg'), 100, FALSE, -1)
 	if(user.mind)
 		record_round_statistic(STATS_KISSES_MADE)
 
@@ -531,7 +531,7 @@
 				message_param = "licks %t cheek"
 			else
 				message_param = "licks %t [parse_zone(J.zone_selected)]."
-	playsound(target.loc, pick("sound/vo/lick.ogg"), 100, FALSE, -1)
+	playsound(target, pick("sound/vo/lick.ogg"), 100, FALSE, -1)
 
 /datum/emote/living/spit
 	key = "spit"
@@ -563,9 +563,9 @@
 	if(!user || !target)
 		return
 	if(user.gender == MALE)
-		playsound(target.loc, pick('sound/vo/male/gen/spit.ogg'), 100, FALSE, -1)
+		playsound(target, pick('sound/vo/male/gen/spit.ogg'), 100, FALSE, -1)
 	else
-		playsound(target.loc, pick('sound/vo/female/gen/spit.ogg'), 100, FALSE, -1)
+		playsound(target, pick('sound/vo/female/gen/spit.ogg'), 100, FALSE, -1)
 
 
 /datum/emote/living/hug
@@ -587,7 +587,7 @@
 	if(!user || !target)
 		return
 	if(ishuman(target))
-		playsound(target.loc, pick('sound/vo/hug.ogg'), 100, FALSE, -1)
+		playsound(target, pick('sound/vo/hug.ogg'), 100, FALSE, -1)
 		if(user.mind)
 			record_round_statistic(STATS_HUGS_MADE)
 			SEND_SIGNAL(user, COMSIG_MOB_HUGGED, target)
@@ -666,7 +666,7 @@
 		var/mob/living/carbon/human/H = target
 		H.flash_fullscreen("redflash3")
 		H.AdjustSleeping(-50)
-		playsound(target.loc, 'sound/foley/slap.ogg', 100, TRUE, -1)
+		playsound(target, 'sound/foley/slap.ogg', 100, TRUE, -1)
 
 /datum/emote/living/pinch
 	key = "pinch"
@@ -1983,7 +1983,7 @@
 
 		switch(key)
 			if("strength")
-				success = living.stat_roll(STAT_STRENGTH, chance_per_point, modifier_sum) 
+				success = living.stat_roll(STAT_STRENGTH, chance_per_point, modifier_sum)
 				chance = living.get_stat(STAT_STRENGTH)
 			if("perception")
 				success = living.stat_roll(STAT_PERCEPTION, chance_per_point, modifier_sum)

@@ -121,7 +121,7 @@
 
 /obj/structure/glowshroom/play_attack_sound(damage_amount, damage_type = BRUTE, damage_flag = 0)
 	if(damage_type == BURN && damage_amount)
-		playsound(src.loc, 'sound/blank.ogg', 100, TRUE)
+		playsound(src, 'sound/blank.ogg', 100, TRUE)
 
 /obj/structure/glowshroom/temperature_expose(exposed_temperature, exposed_volume)
 	if(exposed_temperature > 300)
@@ -135,7 +135,7 @@
 	qdel(src)
 
 /obj/structure/glowshroom/dendorite
-	var/timeleft = null //5 MINUTES //balancing factor no longer relevant, uncommoent if gay. 
+	var/timeleft = null //5 MINUTES //balancing factor no longer relevant, uncommoent if gay.
 
 /obj/structure/glowshroom/dendorite/Initialize()
 	. = ..()

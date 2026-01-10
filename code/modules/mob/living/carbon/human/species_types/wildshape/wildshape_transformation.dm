@@ -28,11 +28,11 @@
 	W.regenerate_icons()
 	W.stored_mob = src
 	W.cmode_music = 'sound/music/cmode/garrison/combat_warden.ogg'
-	playsound(W.loc, pick('sound/combat/gib (1).ogg','sound/combat/gib (2).ogg'), 200, FALSE, 3)
+	playsound(W, pick('sound/combat/gib (1).ogg','sound/combat/gib (2).ogg'), 200, FALSE, 3)
 	if (W.dna.species?.gibs_on_shapeshift)
-		playsound(W.loc, pick('sound/combat/gib (1).ogg','sound/combat/gib (2).ogg'), 200, FALSE, 3)
+		playsound(W, pick('sound/combat/gib (1).ogg','sound/combat/gib (2).ogg'), 200, FALSE, 3)
 		W.spawn_gibs(FALSE)
-	playsound(W.loc, 'sound/body/shapeshift-start.ogg', 100, FALSE, 3)
+	playsound(W, 'sound/body/shapeshift-start.ogg', 100, FALSE, 3)
 	src.forceMove(W)
 	// re-equip our stored neck and ring items, if we have them
 	if (stored_ring)
@@ -88,7 +88,7 @@
 	ADD_TRAIT(src, TRAIT_NOSLEEP, TRAIT_SOURCE_WILDSHAPE)
 	ADD_TRAIT(src, TRAIT_NOBREATH, TRAIT_SOURCE_WILDSHAPE)
 	ADD_TRAIT(src, TRAIT_NOPAIN, TRAIT_SOURCE_WILDSHAPE)
-	ADD_TRAIT(src, TRAIT_TOXIMMUNE, TRAIT_SOURCE_WILDSHAPE)	
+	ADD_TRAIT(src, TRAIT_TOXIMMUNE, TRAIT_SOURCE_WILDSHAPE)
 	ADD_TRAIT(src, TRAIT_NOHUNGER, TRAIT_SOURCE_WILDSHAPE)
 	ADD_TRAIT(src, TRAIT_NOMOOD, TRAIT_SOURCE_WILDSHAPE)
 	ADD_TRAIT(src, TRAIT_PACIFISM, TRAIT_SOURCE_WILDSHAPE) // just an extra layer of protection in case something will go wrong
@@ -163,7 +163,7 @@
 	W.copy_known_languages_from(WA.stored_language)
 	skills?.known_skills = WA.stored_skills.Copy()
 	skills?.skill_experience = WA.stored_experience.Copy()
-	playsound(W.loc, 'sound/body/shapeshift-end.ogg', 100, FALSE, 3)
+	playsound(W, 'sound/body/shapeshift-end.ogg', 100, FALSE, 3)
 	//Compares the list of spells we had before transformation with those we do now. If there are any that don't match, we remove them
 	for(var/obj/effect/proc_holder/spell/self/originspell in WA.stored_spells)
 		for(var/obj/effect/proc_holder/spell/self/wildspell in W.mind.spell_list)

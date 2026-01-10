@@ -35,7 +35,7 @@
 			if(!COOLDOWN_FINISHED(src, shield_bang))
 				return
 			user.visible_message(span_danger("[user] bangs [src] with [attackby_item]!"))
-			playsound(user.loc, 'sound/combat/shieldbang.ogg', 50, TRUE)
+			playsound(user, 'sound/combat/shieldbang.ogg', 50, TRUE)
 			COOLDOWN_START(src, shield_bang, SHIELD_BANG_COOLDOWN)
 			return
 
@@ -137,7 +137,7 @@
 	add_overlay(M)
 	if(alert("Are you pleased with your heraldry?", "Heraldry", "Yes", "No") != "Yes")
 		cut_overlays()
-	
+
 	update_icon()
 
 /obj/item/rogueweapon/shield/wood/getonmobprop(tag)
@@ -174,7 +174,7 @@
 	throwforce = 10
 	throw_speed = 1
 	throw_range = 3
-	possible_item_intents = list(SHIELD_BASH_METAL, SHIELD_BLOCK, SHIELD_SMASH_METAL)	
+	possible_item_intents = list(SHIELD_BASH_METAL, SHIELD_BLOCK, SHIELD_SMASH_METAL)
 	wlength = WLENGTH_NORMAL
 	resistance_flags = null
 	flags_1 = CONDUCT_1

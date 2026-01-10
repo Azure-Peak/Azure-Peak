@@ -146,7 +146,7 @@
 	alpha = 255
 	update_icon()
 	if(play_sound)
-		playsound(src.loc, 'sound/items/beartrap.ogg', 300, TRUE, -1)
+		playsound(src, 'sound/items/beartrap.ogg', 300, TRUE, -1)
 
 /obj/item/restraints/legcuffs/beartrap/Crossed(AM as mob|obj)
 	if(armed && isturf(loc))

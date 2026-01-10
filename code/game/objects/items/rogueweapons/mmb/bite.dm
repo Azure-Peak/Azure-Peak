@@ -237,7 +237,7 @@
 	C.next_attack_msg.Cut()
 	user.do_attack_animation(C, "bite")
 	if(C.apply_damage(damage, BRUTE, limb_grabbed, armor_block))
-		playsound(C.loc, "smallslash", 100, FALSE, -1)
+		playsound(C, "smallslash", 100, FALSE, -1)
 		var/datum/wound/caused_wound = limb_grabbed.bodypart_attacked_by(BCLASS_BITE, damage, user, sublimb_grabbed, crit_message = TRUE)
 		if(user.mind && caused_wound)
 			/*
@@ -272,7 +272,7 @@
 							to_chat(user, "<span class='boldnotice'>Braaaaaains!</span>")
 							if(!user.mob_timers["zombie_tri"])
 								user.mob_timers["zombie_tri"] = world.time
-							playsound(C.loc, 'sound/combat/fracture/headcrush (2).ogg', 100, FALSE, -1)
+							playsound(C, 'sound/combat/fracture/headcrush (2).ogg', 100, FALSE, -1)
 							return*/
 	else
 		C.next_attack_msg += VISMSG_ARMOR_BLOCKED

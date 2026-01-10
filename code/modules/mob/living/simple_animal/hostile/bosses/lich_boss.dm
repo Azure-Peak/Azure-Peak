@@ -35,9 +35,9 @@
 	STALUC = 15
 	loot = list(/obj/effect/temp_visual/lich_dying)
 	projectiletype = /obj/projectile/magic
-	var/allowed_projectile_types = list(/obj/projectile/magic/lightning, 
+	var/allowed_projectile_types = list(/obj/projectile/magic/lightning,
 	/obj/projectile/magic/sickness,
-	/obj/projectile/magic/arcane_barrage, 
+	/obj/projectile/magic/arcane_barrage,
 	/obj/projectile/magic/acidsplash,
 	/obj/projectile/magic/aoe/fireball/spitfire)
 	patron = /datum/patron/inhumen/zizo
@@ -116,7 +116,7 @@
 			return .
 	if(target && next_cast < world.time && health < maxHealth * 0.33 && next_blaststrong < world.time) //Fires a wave of greater fireballs after blinking
 		INVOKE_ASYNC(src, TYPE_PROC_REF(/atom/movable, say), "I am immortal, you are NOTHING!", null, list("colossus", "yell"))
-		playsound(get_turf(src), 'sound/magic/antimagic.ogg', 70, TRUE)
+		playsound(src, 'sound/magic/antimagic.ogg', 70, TRUE)
 		blaststrong()
 		next_cast = world.time + 100
 		next_blaststrong = world.time + 300
@@ -194,13 +194,13 @@
 		var/mob/M = target
 		if(M.anti_magic_check())
 			visible_message(span_warning("[src] fizzles on contact with [target]!"))
-			playsound(get_turf(target), 'sound/magic/magic_nulled.ogg', 100)
+			playsound(target, 'sound/magic/magic_nulled.ogg', 100)
 			qdel(src)
 			return BULLET_ACT_BLOCK
 		if(isliving(target))
 			var/mob/living/L = target
 			L.Immobilize(1, src)
-			playsound(get_turf(src), pick('sound/misc/elec (1).ogg', 'sound/misc/elec (2).ogg', 'sound/misc/elec (3).ogg'), 100, FALSE)
+			playsound(src, pick('sound/misc/elec (1).ogg', 'sound/misc/elec (2).ogg', 'sound/misc/elec (3).ogg'), 100, FALSE)
 	qdel(src)
 
 /mob/living/simple_animal/hostile/boss/lich/proc/spawn_minions()

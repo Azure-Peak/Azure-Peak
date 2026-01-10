@@ -13,7 +13,7 @@
 			return
 		to_chat(user, span_notice("Cracking an egg over the nitzel."))
 		if(do_after(user, short_cooktime, target = src))
-			playsound(get_turf(user), 'modular/Neu_Food/sound/eggbreak.ogg', 100, TRUE, -1)
+			playsound(user, 'modular/Neu_Food/sound/eggbreak.ogg', 100, TRUE, -1)
 			name = "nitzel with egg"
 			desc = "A nitzel with an egg cracked over it. It awaits toastcrumbs and a hot oil bath."
 			icon_state = "nitzel_step2"
@@ -52,7 +52,7 @@
 			return
 		to_chat(user, span_notice("Cracking an egg over the schnitzel."))
 		if(do_after(user, short_cooktime, target = src))
-			playsound(get_turf(user), 'modular/Neu_Food/sound/eggbreak.ogg', 100, TRUE, -1)
+			playsound(user, 'modular/Neu_Food/sound/eggbreak.ogg', 100, TRUE, -1)
 			name = "schnitzel with egg"
 			desc = "A schnitzel with an egg cracked over it. It awaits toastcrumbs and a hot oil bath."
 			icon_state = "schnitzel_step2"

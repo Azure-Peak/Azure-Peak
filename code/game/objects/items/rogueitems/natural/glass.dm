@@ -50,7 +50,7 @@
 				stackcount -= clamp(stackcount, 2, 3)
 				user.put_in_hands(B)
 		for(var/obj/item/natural/glass/F in get_turf(src))
-			playsound(get_turf(user.loc), 'sound/foley/dropsound/glass_drop.ogg', 90)
+			playsound(user, 'sound/foley/dropsound/glass_drop.ogg', 90)
 			qdel(F)
 
 //................	Glass panes stack	............... //

@@ -57,7 +57,7 @@
 		var/mob/living/H = target
 		if((H.job in list("Templar", "Acolyte", "Bishop", "Martyr")))
 			visible_message(span_warning("[src]'s power brushes off of [H] with no harm!"))
-			playsound(get_turf(H), 'sound/magic/magic_nulled.ogg', 100)
+			playsound(H, 'sound/magic/magic_nulled.ogg', 100)
 			qdel(src)
 			return BULLET_ACT_BLOCK
 		if(H.mob_biotypes & MOB_UNDEAD)
@@ -104,7 +104,7 @@
 					H.blur_eyes(10)
 				if(/datum/patron/divine/noc)
 					H.visible_message(span_warning("Moonlight engulfs [H]"), span_warning("Moonlight engulfs me!"))
-					for(var/obj/O in range(0, H))	
+					for(var/obj/O in range(0, H))
 						O.extinguish()
 					for(var/mob/M in range(0, H)) // extinguish lights of target(zizo snuff pretty much but range 0 always)
 						for(var/obj/O in M.contents)

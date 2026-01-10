@@ -128,7 +128,7 @@
 	target.remove_status_effect(/datum/status_effect/debuff/arcanemark)
 	if(stack_count >= 3)
 		target.remove_filter(ARCANEMARK_FILTER) //if anything runtimes, it's because of this. oops! lol!
-		playsound(get_turf(target), 'sound/magic/mark_det.ogg', 100) //feedback
+		playsound(target, 'sound/magic/mark_det.ogg', 100) //feedback
 	return stack_count
 
 
@@ -168,7 +168,7 @@
 		if(target)
 			target.visible_message(span_warning("[target]'s arcane marks flare as a finishing spell draws near!"), span_userdanger("MARKED."))
 			target.add_filter(ARCANEMARK_FILTER, 2, list("type" = "outline", "color" = outline_colour, "alpha" = 100, "size" = 1))
-			playsound(get_turf(target), 'sound/magic/mark_max.ogg', 100)
+			playsound(target, 'sound/magic/mark_max.ogg', 100)
 	update_alert()
 	return
 

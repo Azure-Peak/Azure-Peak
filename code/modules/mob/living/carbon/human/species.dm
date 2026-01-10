@@ -1054,7 +1054,7 @@ GLOBAL_LIST_EMPTY(roundstart_races)
 			H.remove_stress_list(list(/datum/stressevent/stuffed,/datum/stressevent/peckish,/datum/stressevent/hungry))
 			H.apply_status_effect(/datum/status_effect/debuff/hungryt3)
 			if(prob(3))
-				playsound(get_turf(H), pick('sound/vo/hungry1.ogg','sound/vo/hungry2.ogg','sound/vo/hungry3.ogg'), 100, TRUE, -1)
+				playsound(H, pick('sound/vo/hungry1.ogg','sound/vo/hungry2.ogg','sound/vo/hungry3.ogg'), 100, TRUE, -1)
 
 	switch(H.hydration)
 //		if(HYDRATION_LEVEL_WATERLOGGED to INFINITY)
@@ -1209,7 +1209,7 @@ GLOBAL_LIST_EMPTY(roundstart_races)
 				miss_chance = min((user.dna.species.punchdamagehigh/user.dna.species.punchdamagelow) + user.getStaminaLoss() + (user.getBruteLoss()*0.5), 100) //old base chance for a miss + various damage. capped at 100 to prevent weirdness in prob()
 
 		if(!damage || !affecting || prob(miss_chance))//future-proofing for species that have 0 damage/weird cases where no zone is targeted
-			playsound(target.loc, user.dna.species.miss_sound, 25, TRUE, -1)
+			playsound(target, user.dna.species.miss_sound, 25, TRUE, -1)
 			target.visible_message(span_danger("[user]'s [atk_verb] misses [target]!"), \
 							span_danger("I avoid [user]'s [atk_verb]!"), span_hear("I hear a swoosh!"), COMBAT_MESSAGE_RANGE, user)
 			to_chat(user, span_warning("My [atk_verb] misses [target]!"))
@@ -1260,7 +1260,7 @@ GLOBAL_LIST_EMPTY(roundstart_races)
 				if(HAS_TRAIT(target, TRAIT_HARDDISMEMBER) && !easy_dismember)
 					probability = min(probability, 5)
 				if(prob(probability) && affecting.dismember())
-					playsound(get_turf(target), "desecration", 80, TRUE)
+					playsound(target, "desecration", 80, TRUE)
 
 /*		if(user == target)
 			target.visible_message(span_danger("[user] [atk_verb]ed themself![target.next_attack_msg.Join()]"), COMBAT_MESSAGE_RANGE, user)
@@ -1295,7 +1295,7 @@ GLOBAL_LIST_EMPTY(roundstart_races)
 		if(!(target.mobility_flags & MOBILITY_STAND))
 			target.forcesay(GLOB.hit_appends)
 		if(!nodmg)
-			playsound(target.loc, user.used_intent.hitsound, 100, FALSE)
+			playsound(target, user.used_intent.hitsound, 100, FALSE)
 
 
 /datum/species/proc/spec_unarmedattacked(mob/living/carbon/human/user, mob/living/carbon/human/target)
@@ -1461,7 +1461,7 @@ GLOBAL_LIST_EMPTY(roundstart_races)
 						null,
 						COMBAT_MESSAGE_RANGE
 					)
-					playsound(target.loc, 'sound/combat/grabstruggle.ogg', 50, TRUE, -1)
+					playsound(target, 'sound/combat/grabstruggle.ogg', 50, TRUE, -1)
 
 				else if(target.grab_state <= GRAB_PASSIVE && painchance)
 					target.visible_message(
@@ -1472,7 +1472,7 @@ GLOBAL_LIST_EMPTY(roundstart_races)
 					)
 					append_message = "causing them to let go of [target.pulling]"
 					target.stop_pulling(TRUE)
-					playsound(target.loc, 'sound/combat/grabbreak.ogg', 50, TRUE, -1)
+					playsound(target, 'sound/combat/grabbreak.ogg', 50, TRUE, -1)
 
 			log_combat(user, target, "shoved", append_message)
 
@@ -1795,7 +1795,7 @@ GLOBAL_LIST_EMPTY(roundstart_races)
 					//affecting.add_embedded_object(I, silent = FALSE, crit_message = TRUE)
 					H.emote("embed")
 					H.Stun(10)
-					playsound(H.loc, "genblunt", 100, FALSE, -1)
+					playsound(H, "genblunt", 100, FALSE, -1)
 					user.visible_message(span_notice("[user] embeds [I] within [H]'s [affecting.name]!"), span_notice("I embed my [I] in [H]'s [affecting.name]."))
 					var/list/targets = list(H)
 					if(do_after_mob(user,targets, 10, progress = 0, uninterruptible = 1, required_mobility_flags = null))
@@ -1821,7 +1821,7 @@ GLOBAL_LIST_EMPTY(roundstart_races)
 		bloody = 1
 		I.add_mob_blood(H)
 		user.update_inv_hands()
-		playsound(get_turf(H), I.get_dismember_sound(), 80, TRUE)
+		playsound(H, I.get_dismember_sound(), 80, TRUE)
 
 	if(((I.damtype == BRUTE) && I.force && prob(25 + (I.force * 2))))
 		if(affecting.status == BODYPART_ORGANIC)
@@ -2220,7 +2220,7 @@ GLOBAL_LIST_EMPTY(roundstart_races)
 
 	to_chat(H, span_notice("My wings spazz out and launch you!"))
 
-	playsound(H.loc, 'sound/blank.ogg', 100, TRUE, -3)
+	playsound(H, 'sound/blank.ogg', 100, TRUE, -3)
 
 	for(var/obj/item/I in H.held_items)
 		H.accident(I)

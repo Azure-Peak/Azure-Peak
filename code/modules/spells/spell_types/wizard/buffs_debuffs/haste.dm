@@ -28,7 +28,7 @@
 		return
 
 	var/mob/living/spelltarget = A
-	playsound(get_turf(spelltarget), 'sound/magic/haste.ogg', 80, TRUE, soundping = TRUE)
+	playsound(spelltarget, 'sound/magic/haste.ogg', 80, TRUE, soundping = TRUE)
 
 	if(spelltarget != user)
 		user.visible_message("[user] mutters an incantation and [spelltarget] briefly shines yellow.")
@@ -39,7 +39,7 @@
 		spelltarget.apply_status_effect(/datum/status_effect/buff/haste, 1 MINUTES)
 
 	return TRUE
-	
+
 /atom/movable/screen/alert/status_effect/buff/haste
 	name = "Haste"
 	desc = "I am magically hastened."

@@ -34,7 +34,7 @@
 /obj/item/net/throw_at(atom/target, range, speed, mob/thrower, spin=1, diagonals_first = 0, datum/callback/callback)
 	if(!..())
 		return
-	playsound(src.loc,'sound/blank.ogg', 75, TRUE)
+	playsound(src,'sound/blank.ogg', 75, TRUE)
 
 /obj/item/net/throw_impact(atom/hit_atom, datum/thrownthing/throwingdatum)
 	if(..() || !iscarbon(hit_atom))//if it gets caught or the target can't be cuffed,

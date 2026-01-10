@@ -45,7 +45,7 @@
 		//H.Paralyze(delay)
 		buckle_mob(H, TRUE)
 		H.clear_alert("buckled") //easiest way to hide this option. Have to click the pit with a free hand to get loose.
-		playsound(src.loc, hitsound, 100)
+		playsound(src, hitsound, 100)
 		return
 
 	if(istype(AM, /mob/living/simple_animal))
@@ -54,7 +54,7 @@
 		L.Paralyze(40)
 		buckle_mob(L, TRUE)
 		L.get_sound("pain")
-		playsound(src.loc, hitsound, 100)
+		playsound(src, hitsound, 100)
 		return
 
 	. = ..()

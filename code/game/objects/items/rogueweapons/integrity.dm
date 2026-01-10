@@ -113,7 +113,7 @@
 	. = ..()
 
 /obj/item/proc/sharpen(obj/item/natural/ST, mob/user, factor = 1)
-	playsound(src.loc, pick('sound/items/sharpen_long1.ogg','sound/items/sharpen_long2.ogg'), 100, TRUE)
+	playsound(src, pick('sound/items/sharpen_long1.ogg','sound/items/sharpen_long2.ogg'), 100, TRUE)
 	user.changeNext_move(CLICK_CD_MELEE)
 	user.visible_message(span_notice("[user] sharpens [src]!"))
 	degrade_bintegrity(0.5)

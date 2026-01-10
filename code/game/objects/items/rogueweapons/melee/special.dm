@@ -119,7 +119,7 @@
 	. = ..()
 	if(get_dist(user, target) > 7)
 		return
-	
+
 	user.changeNext_move(CLICK_CD_MELEE)
 
 	if(ishuman(user))
@@ -557,7 +557,7 @@
 /obj/item/rogueweapon/spear/militia
 	force = 18
 	force_wielded = 30
-	possible_item_intents = list(SPEAR_THRUST_1H, SPEAR_CUT_1H) 
+	possible_item_intents = list(SPEAR_THRUST_1H, SPEAR_CUT_1H)
 	gripped_intents = list(SPEAR_THRUST, SPEAR_CUT, SPEAR_BASH)
 	name = "militia spear"
 	desc = "Pitchforks and hoes traditionally till the soil. In tymes of peril, however, it isn't uncommon for a militiaman to pound them into polearms."
@@ -573,7 +573,7 @@
 	light_outer_range = 5
 	light_on = FALSE
 	light_color = "#db892b"
-	var/is_loaded = FALSE 
+	var/is_loaded = FALSE
 	var/list/hay_types = list(/obj/structure/fluff/nest, /obj/structure/composter, /obj/structure/flora/roguegrass, /obj/item/reagent_containers/food/snacks/grown/wheat)
 
 /obj/item/rogueweapon/spear/militia/ComponentInitialize()
@@ -639,7 +639,7 @@
 /datum/component/ignitable/proc/light_on()
 	var/obj/I = parent
 	I.set_light_on(TRUE)
-	playsound(I.loc, 'sound/items/firelight.ogg', 100)
+	playsound(I, 'sound/items/firelight.ogg', 100)
 	is_active = TRUE
 	is_ignitable = FALSE
 	update_icon()
@@ -647,7 +647,7 @@
 /datum/component/ignitable/proc/light_off()
 	var/obj/I = parent
 	I.set_light_on(FALSE)
-	playsound(get_turf(I), 'sound/items/firesnuff.ogg', 100)
+	playsound(I, 'sound/items/firesnuff.ogg', 100)
 
 /datum/component/ignitable/proc/update_icon()
 	var/obj/item/I = parent
@@ -688,7 +688,7 @@
 					user.regenerate_icons()
 
 
-	
+
 /datum/component/ignitable/proc/on_examine(datum/source, mob/user, list/examine_list)
 	return
 

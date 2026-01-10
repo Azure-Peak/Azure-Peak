@@ -81,7 +81,7 @@
 
 		vampire_caster.apply_status_effect(/datum/status_effect/buff/vampire_float)
 		to_chat(vampire_caster, span_redtext("! LIFT ME ABOVE IT ALL !"))
-		vampire_caster.playsound_local(get_turf(vampire_caster), 'sound/misc/vampirespell.ogg', 100, FALSE, pressure_affected = FALSE)
+		vampire_caster.playsound_local(vampire_caster, 'sound/misc/vampirespell.ogg', 100, FALSE, pressure_affected = FALSE)
 
 #define VAMPIRIC_FILTER "vampiric_glow"
 

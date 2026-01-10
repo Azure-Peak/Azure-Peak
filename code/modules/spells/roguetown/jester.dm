@@ -13,7 +13,7 @@
 		return FALSE
 	user.say(joker, forced = "spell")
 	sleep(20)
-	playsound(get_turf(user), 'sound/magic/comedy.ogg', 100)
+	playsound(user, 'sound/magic/comedy.ogg', 100)
 	for(var/mob/living/carbon/CA in view(7, get_turf(user)))
 		if(CA == user)
 			continue
@@ -22,7 +22,7 @@
 		if(CA.get_stress_amount() <= 0)
 			CA.add_stress(/datum/stressevent/joke)
 			CA.emote(pick("laugh","chuckle","giggle"), forced = TRUE)
-			
+
 			// Apply Xylix buff to those with the trait who hear the laughter
 			// Only apply if the hearer is not the one laughing and not the spell caster
 			for(var/mob/living/carbon/human/H in hearers(7, CA))
@@ -48,7 +48,7 @@
 		return FALSE
 	user.say(joker, forced = "spell")
 	sleep(20)
-	playsound(get_turf(user), 'sound/magic/tragedy.ogg', 100)
+	playsound(user, 'sound/magic/tragedy.ogg', 100)
 	for(var/mob/living/carbon/CA in view(7, get_turf(user)))
 		if(CA == user)
 			continue

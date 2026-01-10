@@ -64,7 +64,7 @@
 	)
 
 /datum/species/shapefox/send_voice(mob/living/carbon/human/human)
-	playsound(get_turf(human), pick('sound/vo/mobs/vw/idle (1).ogg','sound/vo/mobs/vw/idle (2).ogg','sound/vo/mobs/vw/bark (1).ogg','sound/vo/mobs/vw/bark (2).ogg','sound/vo/mobs/vw/idle (3).ogg'), 80, TRUE, -1)
+	playsound(human, pick('sound/vo/mobs/vw/idle (1).ogg','sound/vo/mobs/vw/idle (2).ogg','sound/vo/mobs/vw/bark (1).ogg','sound/vo/mobs/vw/bark (2).ogg','sound/vo/mobs/vw/idle (3).ogg'), 80, TRUE, -1)
 
 /datum/species/shapefox/regenerate_icons(mob/living/carbon/human/human)
 	human.icon = 'icons/roguetown/mob/monster/fox.dmi'

@@ -29,6 +29,6 @@
 
 /datum/chemical_reaction/reagent_explosion/potassium_explosion/holyboom/on_reaction(datum/reagents/holder, created_volume)
 	if(created_volume >= 150)
-		playsound(get_turf(holder.my_atom), 'sound/blank.ogg', 80, FALSE, round(created_volume/48))
+		playsound(holder.my_atom, 'sound/blank.ogg', 80, FALSE, round(created_volume/48))
 		strengthdiv = 8
 	..()

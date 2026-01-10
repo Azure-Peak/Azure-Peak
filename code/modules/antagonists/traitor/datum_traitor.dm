@@ -149,7 +149,7 @@
 /datum/antagonist/traitor/proc/finalize_traitor()
 	if(should_equip)
 		equip(silent)
-	owner.current.playsound_local(get_turf(owner.current), 'sound/blank.ogg', 100, FALSE, pressure_affected = FALSE)
+	owner.current.playsound_local(owner.current, 'sound/blank.ogg', 100, FALSE, pressure_affected = FALSE)
 
 /datum/antagonist/traitor/apply_innate_effects(mob/living/mob_override)
 	. = ..()

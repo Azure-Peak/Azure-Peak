@@ -23,7 +23,7 @@
 
 /obj/effect/proc_holder/spell/invoked/firewalker/cast(list/targets, mob/living/user = usr)
 	. = ..()
-	playsound(get_turf(user), 'sound/magic/haste.ogg', 80, TRUE, soundping = TRUE)
+	playsound(user, 'sound/magic/haste.ogg', 80, TRUE, soundping = TRUE)
 
 	user.visible_message("[user] mutters an incantation, and the ground underneath begins to roar in flames!")
 	user.apply_status_effect(/datum/status_effect/buff/firewalker)

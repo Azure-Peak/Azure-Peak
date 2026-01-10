@@ -78,7 +78,7 @@
 		message_admins(span_notice("Admin [key_name_admin(usr)] blessed [key_name_admin(M)] with [blessing_path]! Duration: [duration_choice]."))
 		log_admin("[key_name(usr)] blessed [key_name(M)] with [blessing_path] for [duration_choice].")
 
-		M.playsound_local(get_turf(M), 'sound/magic/bless.ogg', 100, FALSE)
+		M.playsound_local(M, 'sound/magic/bless.ogg', 100, FALSE)
 
 		var/flavor_text = get_patron_blessing_text(M, blessing_path)
 		if(flavor_text)

@@ -43,7 +43,7 @@
 	var/turf/mobloc = get_turf(loc)
 
 	visible_message(span_warning("[src] sinks into the pool of blood!"))
-	playsound(get_turf(src), 'sound/blank.ogg', 50, TRUE, -1)
+	playsound(src, 'sound/blank.ogg', 50, TRUE, -1)
 	// Extinguish, unbuckle, stop being pulled, set our location into the
 	// dummy object
 	var/obj/effect/dummy/phased_mob/slaughter/holder = new /obj/effect/dummy/phased_mob/slaughter(mobloc)
@@ -91,7 +91,7 @@
 	var/sound = 'sound/blank.ogg'
 
 	for(var/i in 1 to 3)
-		playsound(get_turf(src),sound, 50, TRUE)
+		playsound(src,sound, 50, TRUE)
 		sleep(30)
 
 	if(!victim)
@@ -138,7 +138,7 @@
 	ADD_TRAIT(src, TRAIT_NODROP, ABSTRACT_ITEM_TRAIT)
 
 /mob/living/proc/exit_blood_effect(obj/effect/decal/cleanable/B)
-	playsound(get_turf(src), 'sound/blank.ogg', 50, TRUE, -1)
+	playsound(src, 'sound/blank.ogg', 50, TRUE, -1)
 	//Makes the mob have the color of the blood pool it came out of
 	var/newcolor = rgb(149, 10, 10)
 	if(istype(B, /obj/effect/decal/cleanable/xenoblood))

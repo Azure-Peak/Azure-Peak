@@ -45,7 +45,7 @@
 				return
 			if(user.pulling != L)
 				return
-			playsound(src.loc, 'sound/blank.ogg', 25, TRUE)
+			playsound(src, 'sound/blank.ogg', 25, TRUE)
 			L.visible_message(span_danger("[user] slams [L] onto the meat spike!"), span_danger("[user] slams you onto the meat spike!"), span_hear("You hear a squishy wet noise."))
 			L.forceMove(drop_location())
 			L.emote("scream")

@@ -70,7 +70,7 @@
 		for(var/mob/living/L in affected_turf.contents)
 			if(L.anti_magic_check())
 				visible_message(span_warning("The blades dispel when they near [L]!"))
-				playsound(get_turf(L), 'sound/magic/magic_nulled.ogg', 100)
+				playsound(L, 'sound/magic/magic_nulled.ogg', 100)
 				continue
 			play_cleave = TRUE
 			L.adjustBruteLoss(damage)

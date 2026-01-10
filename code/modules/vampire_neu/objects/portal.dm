@@ -34,7 +34,7 @@
 				var/obj/effect/landmark/vteleportdestination/VR = new(A.loc)
 				VR.amuletname = A.name
 				create_portal_return(A.name, 3000)
-				user.playsound_local(get_turf(src), 'sound/misc/portalactivate.ogg', 100, FALSE, pressure_affected = FALSE)
+				user.playsound_local(src, 'sound/misc/portalactivate.ogg', 100, FALSE, pressure_affected = FALSE)
 				if(A.uses <= 0)
 					A.visible_message("[A] shatters!")
 					qdel(A)
@@ -59,7 +59,7 @@
 						A.visible_message("[A] shatters!")
 						qdel(A)
 					create_portal()
-					user.playsound_local(get_turf(src), 'sound/misc/portalactivate.ogg', 100, FALSE, pressure_affected = FALSE)
+					user.playsound_local(src, 'sound/misc/portalactivate.ogg', 100, FALSE, pressure_affected = FALSE)
 
 /obj/structure/vampire/portal
 	name = "Eerie Portal"
@@ -144,7 +144,7 @@
 		Vamp.amuletname = name
 		for(var/obj/structure/vampire/portalmaker/P in GLOB.vampire_objects)
 			P.create_portal_return(name, 3000)
-		user.playsound_local(get_turf(src), 'sound/misc/portalactivate.ogg', 100, FALSE, pressure_affected = FALSE)
+		user.playsound_local(src, 'sound/misc/portalactivate.ogg', 100, FALSE, pressure_affected = FALSE)
 		if(uses <= 0)
 			visible_message("[src] shatters!")
 			qdel(src)

@@ -26,7 +26,7 @@
 
 /obj/item/natural/shellplant/pumpkin/examine(mob/user)
 	. = ..()
-	
+
 	if(open)
 		. += span_smallnotice("It is open and I could use a spoon to extract its flesh.")
 		. += span_smallnotice("It has [foodamt] chunks remaining.")
@@ -37,14 +37,14 @@
 	if((user.used_intent.blade_class == BCLASS_CUT) && (I.wlength == WLENGTH_SHORT) && (!user.used_intent.noaa))
 		if(!open)
 			if(do_after(user, 0.5 SECONDS))
-				playsound(get_turf(user), 'modular/Neu_Food/sound/slicing.ogg', 60, TRUE, -1)
+				playsound(user, 'modular/Neu_Food/sound/slicing.ogg', 60, TRUE, -1)
 				icon_state = "pumpkin-open"
 				open = TRUE
 				return
 		return
 	if((user.used_intent.blade_class == BCLASS_CHOP) && (!user.used_intent.noaa))
 		if(do_after(user, 0.5 SECONDS))
-			playsound(get_turf(user), 'modular/Neu_Food/sound/chopping_block.ogg', 60, TRUE, -1)
+			playsound(user, 'modular/Neu_Food/sound/chopping_block.ogg', 60, TRUE, -1)
 			while(foodamt-- > 0)
 				new foodextracted(get_turf(loc))
 			qdel(src)
@@ -150,7 +150,7 @@
 			user.visible_message(span_notice("[user] begins to carve a [P.name]."), \
 							span_notice("I begin carving a [P.name]."))
 			if(do_after(user, 2 SECONDS))
-				playsound(get_turf(user), 'modular/Neu_Food/sound/slicing.ogg', 60, TRUE, -1)
+				playsound(user, 'modular/Neu_Food/sound/slicing.ogg', 60, TRUE, -1)
 				new P(get_turf(loc))
 
 			ui.close()
