@@ -13,12 +13,12 @@
 	blocksound = SOFTHIT
 	blade_dulling = DULLING_BASHCHOP
 	sewrepair = FALSE
-	max_integrity = 550
+	max_integrity = 475
 	item_flags = DROPDEL
 
 	auto_repair_mode = TRUE
 	relative_repair_interval = 15 SECONDS
-	interrupt_damount = 35
+	interrupt_damount = 15
 
 /datum/antagonist/gnoll
 	name = "Gnoll"

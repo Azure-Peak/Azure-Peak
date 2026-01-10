@@ -24,9 +24,9 @@
 	var/relative_repair_mode = FALSE
 	var/relative_repair_interval = 15 SECONDS
 
-	/// Auto mode
-	/// Enables relative repair mode if not enabled
-	/// Sets the total repair time of the armmor to be relative to the base repair amount and time.
+	/// Auto mode.
+	/// Enables relative repair mode if not enabled.
+	/// Sets the total repair time of the armor to be relative to the base repair amount and time.
 	/// By default, aims to repair 100 armor every 15 seconds.
 	var/auto_repair_mode = FALSE
 	var/auto_repair_mode_triggered = FALSE
