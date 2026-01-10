@@ -20,9 +20,10 @@
 	desc = "The fundamental teachings of theology return to you:\n \
 		<b>Fill</b>: Beseech your Divine to create a small quantity of water in a container that you touch for some devotion.\n \
 		<b>Touch</b>: Direct a sliver of divine thaumaturgy into your being, causing your voice to become LOUD when you next speak. Known to sometimes scare the rats inside the SCOMlines. Can be used on light sources at range, and it will cause them flicker.\n \
-		<b>Use</b>: Issue a prayer for illumination, causing you or another living creature to begin glowing with light for five minutes - this stacks each time you cast it, with no upper limit. Using thaumaturgy on a person will remove this blessing from them, and MMB on your praying hand will remove any light blessings from yourself."
+		<b>Use</b>: Issue a prayer for illumination, causing you or another living creature to begin glowing with light for five minutes - this stacks each time you cast it, with no upper limit. Using thaumaturgy on a person will remove this blessing from them, and MMB on your praying hand will remove any light blessings from yourself.\n \
+		<b>Shove</b>: Lay hands upon an adjacent creature to channel divine restorative power through your touch. Both you and your target must remain still for the channeling to continue."
 	catchphrase = null
-	possible_item_intents = list(/datum/intent/fill, INTENT_HELP, /datum/intent/use)
+	possible_item_intents = list(/datum/intent/fill, INTENT_HELP, /datum/intent/use, INTENT_DISARM)
 	icon = 'icons/mob/roguehudgrabs.dmi'
 	icon_state = "pulling"
 	icon_state = "grabbing_greyscale"
@@ -31,6 +32,7 @@
 	var/thaumaturgy_devotion = 10
 	var/light_devotion = 5
 	var/water_moisten = 2
+	var/lay_hands_devotion = 10
 
 /obj/item/melee/touch_attack/orison/attack_self()
 	qdel(src)
@@ -56,6 +58,11 @@
 				qdel(src)
 		if (/datum/intent/use)
 			fatigue_used = cast_light(target, user)
+			if (fatigue_used)
+				user.devotion?.update_devotion(-fatigue_used)
+				qdel(src)
+		if (INTENT_DISARM)
+			fatigue_used = lay_hands(target, user)
 			if (fatigue_used)
 				user.devotion?.update_devotion(-fatigue_used)
 				qdel(src)
@@ -111,7 +118,7 @@
 			user.visible_message(span_notice("[user] reaches gently towards [thing], beads of light glimmering at [user.p_their()] fingertips..."), span_notice("Blessed [user.patron.name], I ask but for a light to guide the way..."))
 		else
 			user.visible_message(span_notice("[user] closes [user.p_their()] eyes and places a glowing hand upon [user.p_their()] chest..."), span_notice("Blessed [user.patron.name], I ask but for a light to guide the way..."))
-		
+
 		if (do_after(user, cast_time, target = thing))
 			var/mob/living/living_thing = thing
 			var/light_power = clamp(4 + (holy_skill - 3), 4, 7)
@@ -130,6 +137,79 @@
 		return
 
 #undef BLESSINGOFLIGHT_FILTER
+
+/obj/item/melee/touch_attack/orison/proc/lay_hands(atom/thing, mob/living/carbon/human/user)
+	var/holy_skill = user.get_skill_level(attached_spell.associated_skill)
+	var/cast_time = 40 - (holy_skill * 4)
+
+	if (!thing.Adjacent(user))
+		to_chat(user, span_info("I need to be next to [thing] to lay hands upon them!"))
+		return
+
+	if (!isliving(thing))
+		to_chat(user, span_notice("I can only channel healing through living beings."))
+		return
+
+	var/mob/living/target = thing
+
+	if (target.stat == DEAD)
+		to_chat(user, span_warning("The dead are beyond my reach..."))
+		return
+
+	if (target.has_status_effect(/datum/status_effect/buff/lay_hands))
+		to_chat(user, span_notice("[target] is already receiving the laying of hands."))
+		return
+
+	user.visible_message(span_notice("[user] places [user.p_their()] hands upon [target], divine power beginning to gather..."), span_notice("I lay my hands upon [target], channeling [user.patron.name]'s restorative power..."))
+
+	// Initial channel to establish the connection
+	if (!do_after(user, cast_time, target = target))
+		return
+
+	// Healing power scales better with holy skill: 0.3 to 0.8
+	var/healing_power = clamp(0.3 + (holy_skill * 0.1), 0.3, 0.8)
+
+	// Devotion cost per tick scales down with skill: 3 to 1
+	var/devotion_per_tick = clamp(4 - holy_skill, 1, 20)
+
+	user.visible_message(span_notice("Divine energy suffuses [target] as [user]'s channeling takes hold!"), span_notice("The connection is established - [user.patron.name]'s power flows through me into [target]."))
+
+	// Continuous healing loop - keeps going as long as both stay still and adjacent
+	var/first_application = TRUE
+	var/tick_time = 50 - (holy_skill * 3) // Faster ticks for more skilled clerics
+
+	do
+		// Check if we have enough devotion to continue
+		if (user.devotion?.devotion < devotion_per_tick)
+			to_chat(user, span_warning("My devotion is exhausted - I can no longer maintain the channeling!"))
+			break
+
+		// Break if target dies
+		if (target.stat == DEAD)
+			to_chat(user, span_warning("[target] has passed beyond my healing touch..."))
+			break
+
+		// Break if no longer adjacent
+		if (!target.Adjacent(user))
+			to_chat(user, span_warning("I am too far from [target] - the blessing fades!"))
+			break
+
+		// Apply or refresh the healing effect
+		target.apply_status_effect(/datum/status_effect/buff/lay_hands, healing_power)
+
+		// Consume devotion for this healing cycle
+		user.devotion?.update_devotion(-devotion_per_tick)
+
+		if (first_application)
+			to_chat(user, span_notice("I maintain my focus, channeling [user.patron.name]'s restorative power through my hands..."))
+			first_application = FALSE
+	while(do_after(user, tick_time, target = target))
+
+	// When the loop ends (player moved or stopped)
+	user.visible_message(span_notice("[user] withdraws [user.p_their()] hands from [target], the divine energy fading."), span_notice("I release my concentration and the channeling ends."))
+
+	return lay_hands_devotion
+
 /atom/movable/screen/alert/status_effect/thaumaturgy
 	name = "Thaumaturgical Voice"
 	desc = "The power of my god will make the next thing I say carry much further!"
@@ -151,7 +231,7 @@
 		// give us a buff that makes our next spoken thing really loud and also cause any linked, un-muted scom to shriek out the phrase at a 15% chance
 		var/cast_time = 50 - (holy_skill * 5)
 		user.visible_message(span_notice("[user] lowers [user.p_their()] head solemnly, whispered prayers spilling from [user.p_their()] lips..."), span_notice("O holy [user.patron.name], share unto me a sliver of your power..."))
-		
+
 		if (!user.has_status_effect(/datum/status_effect/thaumaturgy))
 			if (do_after(user, cast_time, target = user))
 				user.apply_status_effect(/datum/status_effect/thaumaturgy, holy_skill)
@@ -161,7 +241,7 @@
 			to_chat(user, span_notice("I'm already empowered with divine thaumaturgy!"))
 			return
 	else
-		// make a light source flicker, and others around it within a radius	
+		// make a light source flicker, and others around it within a radius
 		if (istype(thing, /obj/machinery/light) || istype(thing, /obj/item/flashlight))
 			for (var/obj/maybe_light in view(3 + holy_skill, thing))
 				if (istype(maybe_light, /obj/machinery/light))
@@ -175,7 +255,7 @@
 						user.devotion?.update_devotion(-1)
 
 			to_chat(user, span_notice("I direct the weight of my faith towards nearby flames, causing them to flicker!"))
-			
+
 			return thaumaturgy_devotion
 		else if (isturf(thing))
 
@@ -235,13 +315,13 @@
 /datum/reagent/water/blessed/reaction_mob(mob/living/M, method=TOUCH, reac_volume)
 	if (!istype(M))
 		return ..()
-	
+
 	if (method == TOUCH)
 		if (M.mob_biotypes & MOB_UNDEAD)
 			M.adjustFireLoss(2*reac_volume, 0)
 			M.visible_message(span_warning("[M] erupts into angry fizzling and hissing!"), span_warning("BLESSED WATER!!! IT BURNS!!!"))
 			M.emote("scream")
-	
+
 	return ..()
 
 /datum/reagent/water/cursed
@@ -283,7 +363,7 @@
 		if (thing.reagents.holder_full())
 			to_chat(user, span_warning("[thing] is full."))
 			return
-		
+
 		user.visible_message(span_info("[user] closes [user.p_their()] eyes in prayer and extends a hand over [thing] as water begins to stream from [user.p_their()] fingertips..."), span_notice("I utter forth a plea to [user.patron.name] for succour, and hold my hand out above [thing]..."))
 
 		var/holy_skill = user.get_skill_level(attached_spell.associated_skill)
@@ -309,7 +389,7 @@
 
 			if (prob(80))
 				playsound(user, 'sound/items/fillcup.ogg', 55, TRUE)
-		
+
 		return min(50, fatigue_spent)
 	else if (istype(thing, /obj/item/natural/cloth))
 		// stupid little easter egg here: you can dampen a cloth to clean with it, because prestidigitation also lets you clean things. also a lot cheaper devotion-wise than filling a bucket

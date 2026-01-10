@@ -640,6 +640,56 @@
 
 #undef CAMPFIRE_BASE_FILTER
 
+// Lay hands orison effect - gentle, slow healing
+#define LAY_HANDS_FILTER "lay_hands_glow"
+
+/atom/movable/screen/alert/status_effect/buff/lay_hands
+	name = "Laying of Hands"
+	desc = "Divine power flows through me, knitting my wounds."
+	icon_state = "buff"
+
+/datum/status_effect/buff/lay_hands
+	id = "lay_hands"
+	alert_type = /atom/movable/screen/alert/status_effect/buff/lay_hands
+	duration = 10 SECONDS // Short duration - continuously refreshed while channeling
+	examine_text = "SUBJECTPRONOUN is suffused with divine energy."
+	var/healing_on_tick = 0.3 // Very weak healing compared to normal miracles
+	var/outline_colour = "#FFD700" // Golden color instead of red
+
+/datum/status_effect/buff/lay_hands/on_creation(mob/living/new_owner, new_healing_on_tick)
+	healing_on_tick = new_healing_on_tick
+	return ..()
+
+/datum/status_effect/buff/lay_hands/on_apply()
+	var/filter = owner.get_filter(LAY_HANDS_FILTER)
+	if (!filter)
+		owner.add_filter(LAY_HANDS_FILTER, 2, list("type" = "outline", "color" = outline_colour, "alpha" = 50, "size" = 1))
+	playsound(owner, 'sound/magic/churn.ogg', 50, FALSE)
+	to_chat(owner, span_notice("Divine energy suffuses my body..."))
+	return TRUE
+
+/datum/status_effect/buff/lay_hands/tick()
+	var/obj/effect/temp_visual/heal/H = new /obj/effect/temp_visual/heal_rogue(get_turf(owner))
+	H.color = "#FFD700" // Golden healing particles
+	var/list/wCount = owner.get_wounds()
+	if(!owner.construct)
+		if(owner.blood_volume < BLOOD_VOLUME_NORMAL)
+			owner.blood_volume = min(owner.blood_volume+(healing_on_tick * 0.5), BLOOD_VOLUME_NORMAL)
+		if(wCount.len > 0)
+			owner.heal_wounds(healing_on_tick)
+			owner.update_damage_overlays()
+		owner.adjustBruteLoss(-healing_on_tick, 0)
+		owner.adjustFireLoss(-healing_on_tick, 0)
+		owner.adjustOxyLoss(-healing_on_tick * 0.5, 0)
+		owner.adjustToxLoss(-healing_on_tick * 0.5, 0)
+		owner.adjustOrganLoss(ORGAN_SLOT_BRAIN, -healing_on_tick * 0.5)
+
+/datum/status_effect/buff/lay_hands/on_remove()
+	owner.remove_filter(LAY_HANDS_FILTER)
+	to_chat(owner, span_notice("The divine energy fades from my body."))
+
+#undef LAY_HANDS_FILTER
+
 
 #define BLOODHEAL_DUR_SCALE_PER_LEVEL 3 SECONDS
 #define BLOODHEAL_RESTORE_DEFAULT 5
