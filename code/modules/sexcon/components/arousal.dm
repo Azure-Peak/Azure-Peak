@@ -66,12 +66,12 @@
 	SEND_SIGNAL(parent, COMSIG_SEX_AROUSAL_CHANGED)
 	return arousal
 
-/datum/component/arousal/proc/adjust_arousal(datum/source, amount)
+/datum/component/arousal/proc/adjust_arousal(datum/source, amount, forced = FALSE)
 	if(arousal_frozen)
 		return arousal
 	if(arousal > 0)
 		arousal *= arousal_multiplier
-	return set_arousal(source, arousal + amount)
+	return set_arousal(source, arousal + amount, forced)
 
 /datum/component/arousal/proc/freeze_arousal(datum/source, freeze_state = null)
 	var/mob/user = parent
@@ -131,33 +131,34 @@
 	var/mob/living/mob = parent
 	var/list/parent_sessions = return_sessions_with_user(parent)
 	var/datum/sex_session/highest_priority = return_highest_priority_action(parent_sessions, parent)
-	if(!mob.has_flaw(/datum/charflaw/addiction/thrillseeker))
-		playsound(parent, 'sound/misc/mat/endout.ogg', 50, TRUE, ignore_walls = FALSE)
-		// Special case for when the user has a penis but no testicles
-		if(!mob.getorganslot(ORGAN_SLOT_TESTICLES) && mob.getorganslot(ORGAN_SLOT_PENIS))
-			mob.visible_message(span_love("[mob] climaxes, yet nothing is released!"))
-			after_ejaculation(FALSE, parent)
-			return
-		if(!highest_priority)
+	if(mob.has_flaw(/datum/charflaw/addiction/thrillseeker) && (!target || !target.mind))
+		after_ejaculation(FALSE, parent)
+		mob.sate_addiction()
+		return
+	playsound(parent, 'sound/misc/mat/endout.ogg', 50, TRUE, ignore_walls = FALSE)
+	// Special case for when the user has a penis but no testicles
+	if(!mob.getorganslot(ORGAN_SLOT_TESTICLES) && mob.getorganslot(ORGAN_SLOT_PENIS))
+		mob.visible_message(span_love("[mob] climaxes, yet nothing is released!"))
+		after_ejaculation(FALSE, parent)
+		return
+	if(!highest_priority)
+		mob.visible_message(span_love("[mob] makes a mess!"))
+		var/turf/turf = get_turf(parent)
+		new /obj/effect/decal/cleanable/coom(turf)
+		after_ejaculation(FALSE, parent)
+	else
+		var/datum/sex_action/action = SEX_ACTION(highest_priority.current_action)
+		var/return_type = action.handle_climax_message(highest_priority.user, highest_priority.target)
+		if(!return_type)
 			mob.visible_message(span_love("[mob] makes a mess!"))
 			var/turf/turf = get_turf(parent)
 			new /obj/effect/decal/cleanable/coom(turf)
 			after_ejaculation(FALSE, parent)
 		else
-			var/datum/sex_action/action = SEX_ACTION(highest_priority.current_action)
-			var/return_type = action.handle_climax_message(highest_priority.user, highest_priority.target)
-			if(!return_type)
-				mob.visible_message(span_love("[mob] makes a mess!"))
-				var/turf/turf = get_turf(parent)
-				new /obj/effect/decal/cleanable/coom(turf)
-				after_ejaculation(FALSE, parent)
-			else
-				handle_climax(return_type, highest_priority.user, highest_priority.target)
-			if(action.knot_on_finish)
-				action.try_knot_on_climax(mob, highest_priority.target)
-	else
-		after_ejaculation(FALSE, parent)
-		mob.sate_addiction()
+			handle_climax(return_type, highest_priority.user, highest_priority.target)
+		if(action.knot_on_finish)
+			action.try_knot_on_climax(mob, highest_priority.target)
+
 
 
 /datum/component/arousal/proc/handle_climax(climax_type, mob/living/carbon/human/user, mob/living/carbon/human/target)
@@ -186,10 +187,14 @@
 	charge = max(0, charge - CHARGE_FOR_CLIMAX)
 
 	if(user.has_flaw(/datum/charflaw/addiction/thrillseeker))
-		user.add_stress(/datum/stressevent/thrill)
 		user.playsound_local(user, 'sound/misc/mat/end.ogg', 100)
 		last_ejaculation_time = world.time
-		return
+		if(!target)
+			user.add_stress(/datum/stressevent/thrill)
+			return
+		else
+			user.add_stress(/datum/stressevent/thrillsex)
+			return
 
 	if(user == target)
 		user.add_stress(/datum/stressevent/cumself)
