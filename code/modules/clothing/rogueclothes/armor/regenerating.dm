@@ -46,7 +46,6 @@
 
 /obj/item/clothing/suit/roguetown/armor/regenerating/take_damage(damage_amount, damage_type, damage_flag, sound_effect, attack_dir, armor_penetration)
 	..()
-	to_chat(world, span_userdanger("armor status is [obj_integrity] with [obj_broken] and [reptimer] and [active_timers]"))
 	if(reptimer)
 		if(!regen_interrupt(damage_amount, damage_type, damage_flag, attack_dir))
 			return
