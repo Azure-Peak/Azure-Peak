@@ -11,7 +11,7 @@
 	outfit = null
 	outfit_female = null
 	display_order = JDO_GNOLL
-	show_in_credits = FALSE
+	show_in_credits = TRUE
 	min_pq = 10
 	max_pq = null
 	allowed_patrons = list(/datum/patron/inhumen/graggar)
