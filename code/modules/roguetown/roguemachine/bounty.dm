@@ -207,19 +207,10 @@
 ///Composes a random bounty banner based on the given bounty info.
 ///@param new_bounty:  The bounty datum.
 /proc/compose_bounty(datum/bounty/new_bounty)
-	switch(rand(1, 3))
-		if(1)
-			new_bounty.banner += "A dire bounty hangs upon the capture of [new_bounty.target], for '[new_bounty.reason]'.<BR>"
-			new_bounty.banner += "They are a criminal belonging to the [new_bounty.target_race] race, going by the following description: they are [new_bounty.target_height], of a [new_bounty.target_body_type] build and they have [new_bounty.target_body_prefix] physique. They speak with [new_bounty.target_voice_prefix] voice.'.<BR>"
-			new_bounty.banner += "The patron, [new_bounty.employer], offers [new_bounty.amount] mammons for the task.<BR>"
-		if(2)
-			new_bounty.banner += "The capture of [new_bounty.target] is wanted for '[new_bounty.reason]''.<BR>"
-			new_bounty.banner += "They are a reprobate belonging to the [new_bounty.target_race] race, going by the following description: they are [new_bounty.target_height], of a [new_bounty.target_body_type] build and they have [new_bounty.target_body_prefix] physique. They speak with [new_bounty.target_voice_prefix] voice.'.<BR>"
-			new_bounty.banner += "The employer, [new_bounty.employer], offers [new_bounty.amount] mammons for the deed.<BR>"
-		if(3)
-			new_bounty.banner += "[new_bounty.employer] hath offered to pay [new_bounty.amount] mammons for the capture of [new_bounty.target].<BR>"
-			new_bounty.banner += "By reason of the following: '[new_bounty.reason]'.<BR>"
-			new_bounty.banner += "They are a heathen belonging to the [new_bounty.target_race] race, going by the following description: they are [new_bounty.target_height], of a [new_bounty.target_body_type] build and they have [new_bounty.target_body_prefix] physique. They speak with [new_bounty.target_voice_prefix] voice.'.<BR>"
+	new_bounty.banner += "'[new_bounty.employer]' hath offered to pay '[new_bounty.amount]' mammons for the capture of '[new_bounty.target]'.<BR>"
+	new_bounty.banner += "By reason of the following: '[new_bounty.reason]'.<BR>"
+	new_bounty.banner += "They are belonging to the '[new_bounty.target_race]' race.<BR>"
+	new_bounty.banner += "Going by the following description: they are of '[new_bounty.target_height]' height, of a '[new_bounty.target_body_type]' build and they have '[new_bounty.target_body_prefix]' physique. They speak with '[new_bounty.target_voice_prefix]' voice.<BR>"
 	new_bounty.banner += "--------------<BR>"
 
 /obj/structure/roguemachine/bounty/proc/print_bounty_scroll(mob/living/carbon/human/user)
