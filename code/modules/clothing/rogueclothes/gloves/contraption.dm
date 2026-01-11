@@ -32,7 +32,7 @@
 
 /obj/item/clothing/gloves/roguetown/contraption/voltic
 	name = "voltic contraption gauntlets"
-	desc = "A gauntlet of bronze and brass, fitted with whirring machinery and etched with voltic runes. It hums with unstable energy.(Right-click me to activate)"
+	desc = "A pair of bronze-plated gauntlets, fitted with whirring machinery. Runic enigmas have been meticulously etched onto its joints - a voltic incantation, humming with electrical power. </br>‎  </br>By right-clicking these gauntlets, I can unleash bursts of paralyzing lightning.. so long as the mechanisms are powered, at least."
 	icon_state = "volticgauntlets"
 	slot_flags = ITEM_SLOT_GLOVES
 	var/activate_sound = 'sound/items/stunmace_gen (2).ogg'

@@ -1,0 +1,6 @@
+author: "Ollanius"
+delete-after: True
+changes:
+  - rscadd: "The original Knight's Helmet (from Roguetown IE) is now available in all previous loadouts. The newer version is now known as the Knight's Armet, in those aforementioned loadouts."
+  - rscadd: "Adds the Padding Arming Jacket, a variant of the Padded Gambeson that can be crafted by trained hands."
+  - rscadd: "Overhauls a wide variety of armor-related descriptions."

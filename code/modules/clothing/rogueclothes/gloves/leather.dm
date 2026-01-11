@@ -1,7 +1,7 @@
 // Because no one fucking know about inheritance in this bleak codebase.
 /obj/item/clothing/gloves/roguetown/leather
 	name = "leather gloves"
-	desc = "Gloves made out of sturdy leather. Barely offer any protection, but are better than nothing."
+	desc = "A pair of gloves, stitched together from cured leather."
 	icon_state = "leather_gloves"
 	armor = ARMOR_LEATHER
 	prevent_crits = PREVENT_CRITS_NONE
@@ -68,7 +68,7 @@
 
 /obj/item/clothing/gloves/roguetown/otavan
 	name = "otavan leather gloves"
-	desc = "A pair of heavy Otavan leather gloves, commonly used by fencers, renowned for their quality."
+	desc = "A pair of heavy Otavan leather gloves, commonly used by fencers and renowned for their quality."
 	icon_state = "fencergloves"
 	item_state = "fencergloves"
 	armor = ARMOR_MAILLE

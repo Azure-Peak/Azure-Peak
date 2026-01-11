@@ -1,0 +1,5 @@
+author: "Ollanius"
+delete-after: True
+changes:
+  - rscadd: "Most Aprons can now be worn on the belt slot."
+  - rscadd: "Added the Cooking Apron to the Loadout and Sewing Menu."

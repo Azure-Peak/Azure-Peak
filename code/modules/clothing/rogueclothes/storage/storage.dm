@@ -483,12 +483,12 @@
 
 /obj/item/storage/hip/orestore/bronze
 	name = "mechanized ore bag"
-	desc = "a ticking Ore bag for sorting and compressing ore, ingots, and gems"
+	desc = "A becogged bag for sorting and compressing ore, ingots, and gemeralds. It idly ticks to the rhythm of unseen mechanisms, yearning for earthly treats."
 	icon = 'icons/roguetown/items/misc.dmi'
 	//mob_overlay_icon = 'icons/roguetown/clothing/onmob/belts.dmi'
 	icon_state = "rucksack"
 	item_state = "rucksack"
-	slot_flags = ITEM_SLOT_HIP
+	slot_flags = ITEM_SLOT_HIP|ITEM_SLOT_BACK 
 	w_class = WEIGHT_CLASS_NORMAL
 	max_integrity = 400
 	equip_sound = 'sound/blank.ogg'

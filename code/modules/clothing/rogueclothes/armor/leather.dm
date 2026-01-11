@@ -1,6 +1,6 @@
 /obj/item/clothing/suit/roguetown/armor/leather
 	name = "leather armor"
-	desc = "Flexible cowhide armor. Lightweight, better than nothing."
+	desc = "A flexible vest, stitched together from lengths of cured leather."
 	icon_state = "roguearmor"
 	body_parts_covered = COVERAGE_TORSO
 	armor = ARMOR_LEATHER
@@ -55,18 +55,18 @@
 /obj/item/clothing/suit/roguetown/armor/leather/jacket/artijacket
 	name = "artificer jacket"
 	icon_state = "artijacket"
-	desc = "A thick leather jacket adorned with fur and cog decals. The height of Heartfelt fashion."
+	desc = "A thick leather jacket adorned with fur and cog decals. The height of Heartfeltian fashion."
 
 /obj/item/clothing/suit/roguetown/armor/leather/cuirass
 	name = "leather cuirass"
-	desc = "A cuirass made of leather."
+	desc = "A leather cuirass."
 	icon_state = "leather"
 	max_integrity = ARMOR_INT_CHEST_LIGHT_MASTER
 	color = "#7D6653"
 
 /obj/item/clothing/suit/roguetown/armor/leather/hide
 	name = "hide armor"
-	desc = "A light armor of wildbeast hide. Far more durable than leather."
+	desc = "A furred vest, stitched from the hide of a forest-dwelling beaste."
 	icon_state = "hidearmor"
 	max_integrity = ARMOR_INT_CHEST_LIGHT_MEDIUM
 

@@ -679,21 +679,22 @@ GLOBAL_LIST_INIT(roleplay_readme, world.file2list("strings/rt/rp_prompt.txt"))
 	. = H
 	new_character = .
 
-	H.after_creation()
-
 	if(transfer_after)
 		transfer_character()
+
+	H.after_creation(src)
+
 	GLOB.chosen_names += H.real_name
 
 
-/mob/proc/after_creation()
+/mob/proc/after_creation(var/mob/dead/new_player/new_player)
 	return
 
-/mob/living/carbon/human/after_creation()
+/mob/living/carbon/human/after_creation(var/mob/dead/new_player/new_player)
 	if(dna?.species)
 		dna.species.after_creation(src)
 
-	roll_stats()
+	roll_stats(new_player)
 
 /mob/dead/new_player/proc/transfer_character()
 	. = new_character

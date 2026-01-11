@@ -1,0 +1,6 @@
+author: "Geevies"
+delete-after: True
+changes:
+  - rscadd: "Fated now locks in the stats you roll, so far travelling and coming back will give you the same stats for the same slot."
+  - rscadd: "Fated now shows you how you rolled once you spawn in."
+  - rscadd: "Xylixian believers now get better odds with the Fated statpack, receiving a -1 to +2 chance for a random number of stats, 0 to +2 for Fortune, instead of -2 to +2."

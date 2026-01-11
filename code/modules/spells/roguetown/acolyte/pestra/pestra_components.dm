@@ -205,6 +205,10 @@
 	if(target_rot)
 		return
 
+	var/rot_resistance = target.has_status_effect(/datum/status_effect/black_rot_debility)
+	if(rot_resistance)
+		return
+
 	if(prob(chance))
 		var/stacks_to_apply
 		if(skill_level < 3)

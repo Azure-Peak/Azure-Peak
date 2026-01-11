@@ -484,6 +484,8 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	if(needs_update == -2)		//fatal, can't load any data
 		return FALSE
 
+	loaded_slot = slot
+
 	//Species
 	_load_species(S)
 

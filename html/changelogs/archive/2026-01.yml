@@ -362,3 +362,11 @@
   - rscadd: donor stuff
   mumblemancer:
   - bugfix: genitals now respect gender. they no longer has a boobs.
+2026-01-11:
+  ADONAI:
+  - balance: dunjon-type doors should no longer break all your picks
+  Geevies:
+  - bugfix: Fixed tracks runtiming by making it override the signal.
+  Lamasmaster:
+  - bugfix: Sexton being unable to spawn
+  - qol: Excidium readability

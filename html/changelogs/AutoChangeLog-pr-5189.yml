@@ -1,0 +1,4 @@
+author: "hazelrat"
+delete-after: True
+changes:
+  - rscadd: "Ambushes may now occur on all coastal beaches on the map with the exception of Azure Peak's harbour."
