@@ -6,6 +6,9 @@
 	icon_state = null
 	slot_flags = ITEM_SLOT_SHIRT|ITEM_SLOT_ARMOR
 
+	/// Used to reinstate old armor values after breaking, we don't use initial for safety.______qdel_list_wrapper(list/L)
+	var/old_skin_armor = null
+
 	/// Feedback messages
 	var/repairmsg_begin = "My armour begins to slowly mend its abuse.."
 	var/repairmsg_continue = "My armour mends some of its abuse.."
@@ -43,9 +46,11 @@
 	. = ..()
 	if(auto_repair_mode)
 		setup_auto_repair()
+	old_skin_armor = armor
 
 /obj/item/clothing/suit/roguetown/armor/regenerating/take_damage(damage_amount, damage_type, damage_flag, sound_effect, attack_dir, armor_penetration)
 	..()
+	to_chat(world, span_danger("[obj_integrity] integrity taken [damage_amount] for [armor_penetration] pen"))
 	if(reptimer)
 		if(!regen_interrupt(damage_amount, damage_type, damage_flag, attack_dir))
 			return
@@ -61,6 +66,7 @@
 
 /obj/item/clothing/suit/roguetown/armor/regenerating/proc/armour_regen()
 	reptimer = null
+	to_chat(world, span_danger("[obj_integrity] integrity - before repair"))
 
 	if(obj_integrity >= max_integrity)
 		to_chat(loc, span_notice(repairmsg_end))
@@ -68,23 +74,34 @@
 
 	var/repair_amount
 	var/next_tick_time
+	var/skin_broken = 0
+	if(obj_integrity == 0)
+		skin_broken = 1
 
 	if(relative_repair_mode)
 		// math: (interval / total time) * max health
 		// example: (5s / 50s) * 100 HP = 10 HP per tick
 		var/repair_ratio = relative_repair_interval / repair_time
-		repair_amount = repair_ratio * max_integrity
+		if(!skin_broken)
+			repair_amount = repair_ratio * max_integrity
+		else
+			repair_amount = 5
 		next_tick_time = relative_repair_interval
 	else
 		// static mode: 20% of max integrity
-		repair_amount = 0.2 * max_integrity
+		if(!skin_broken)
+			repair_amount = 0.2 * max_integrity
+		else
+			repair_amount = 5
 		next_tick_time = repair_time
 
 	obj_integrity = min(obj_integrity + repair_amount, max_integrity)
 
+	// Fix armor so it can still be interrupted from regenerating
 	if(obj_broken && obj_integrity > 0)
 		obj_fix(full_repair = FALSE)
-	
+
+	to_chat(world, span_danger("[obj_integrity] integrity - after repair"))
 	to_chat(loc, span_notice(repairmsg_continue))
 
 	reptimer = addtimer(CALLBACK(src, PROC_REF(armour_regen)), next_tick_time, TIMER_OVERRIDE|TIMER_UNIQUE|TIMER_STOPPABLE)

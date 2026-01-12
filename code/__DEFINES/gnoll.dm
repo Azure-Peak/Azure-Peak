@@ -16,15 +16,18 @@ GLOBAL_VAR_INIT(gnoll_scaling_mode, 0)
 
 	switch(mode)
 		if(GNOLL_SCALING_DYNAMIC)
-			if(total_positions <= 2)
+			// up to two gnolls guaranteed if there's hunted.
+			if(total_positions <= 1)
 				return 1
-			if(total_positions <= 5 && prob(50))
+			// up to three gnolls with a 50% chance per hunted if there's more hunted.
+			if(total_positions <= 2 && prob(50))
 				return 1
-			if(total_positions <= 9 && prob(25))
+			// Up to four gnolsl with a 25% chance per hunted if there's more hunted.
+			if(total_positions <= 3 && prob(25))
 				return 1
 
 		if(GNOLL_SCALING_FLAT)
-			if(total_positions < 3 && prob(15))
+			if(total_positions < 3 && prob(10))
 				return 1
 				
 	return 0

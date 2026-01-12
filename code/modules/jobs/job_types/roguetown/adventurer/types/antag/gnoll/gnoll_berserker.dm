@@ -12,7 +12,7 @@
 		STATKEY_STR = 3,
 		STATKEY_CON = 2,
 		STATKEY_WIL = 3,
-		STATKEY_SPD = 5,
+		STATKEY_SPD = 4,
 		STATKEY_INT = -3,
 		STATKEY_PER = -1
 	)
@@ -23,6 +23,7 @@
 		/datum/skill/misc/athletics = SKILL_LEVEL_EXPERT,
 		/datum/skill/misc/climbing = SKILL_LEVEL_EXPERT,
 		/datum/skill/misc/tracking = SKILL_LEVEL_LEGENDARY,
+		/datum/skill/craft/crafting = SKILL_LEVEL_NOVICE
 	)
 
 /datum/outfit/job/roguetown/gnoll/berserker/pre_equip(mob/living/carbon/human/H)

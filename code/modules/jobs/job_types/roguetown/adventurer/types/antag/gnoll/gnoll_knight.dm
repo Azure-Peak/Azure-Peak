@@ -12,7 +12,8 @@
 	subclass_stats = list(
 		STATKEY_WIL = 3,
 		STATKEY_CON = 5,
-		STATKEY_SPD = 2
+		STATKEY_SPD = 2,
+		STATKEY_INT = 1
 	)
 	subclass_skills = list(
 		/datum/skill/combat/wrestling = SKILL_LEVEL_JOURNEYMAN,
@@ -21,6 +22,7 @@
 		/datum/skill/misc/athletics = SKILL_LEVEL_EXPERT,
 		/datum/skill/misc/climbing = SKILL_LEVEL_EXPERT,
 		/datum/skill/misc/tracking = SKILL_LEVEL_LEGENDARY,
+		/datum/skill/craft/crafting = SKILL_LEVEL_NOVICE
 	)
 	cmode_music = 'sound/music/combat_graggar.ogg'
 
@@ -33,7 +35,7 @@
 
 /obj/item/clothing/suit/roguetown/armor/regenerating/skin/gnoll_armor/knight
 	icon_state = "knight"
-	max_integrity = 750
+	max_integrity = 800
 	armor = ARMOR_GNOLL_STRONG
 	// Stronger, so repair less armor when it repairs
 	auto_repair_mode_base = 75
