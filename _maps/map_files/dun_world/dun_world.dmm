@@ -15602,12 +15602,8 @@
 /turf/open/floor/rogue/hexstone,
 /area/rogue/outdoors/mountains/decap/stepbelow)
 "dRS" = (
-/obj/structure/flora/roguetree/stump{
-	pixel_x = -10;
-	pixel_y = 5
-	},
-/obj/item/rogueweapon/stoneaxe/woodcut,
 /obj/effect/decal/cleanable/blood,
+/obj/structure/guillotine,
 /turf/open/floor/rogue/dirt/road,
 /area/rogue/outdoors/exposed/town/keep)
 "dRW" = (
