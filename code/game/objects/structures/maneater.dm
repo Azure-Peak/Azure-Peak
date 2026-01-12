@@ -84,6 +84,7 @@
 		return
 
 	buckle_mob(victim, TRUE, check_loc = FALSE)
+	playsound(src,'sound/misc/eat.ogg', rand(30,60), TRUE)
 	visible_message(span_userdanger("[src] begins to gnaw on [victim]! RESIST or be a chew toy!"))
 	addtimer(CALLBACK(src, PROC_REF(begin_eat), victim), 5 SECONDS, TIMER_OVERRIDE|TIMER_UNIQUE|TIMER_STOPPABLE)
 
@@ -105,7 +106,7 @@
 			begin_eat(victim)
 		victim.flash_fullscreen("redflash3")
 		playsound(loc, list('sound/vo/mobs/plant/attack (1).ogg','sound/vo/mobs/plant/attack (2).ogg','sound/vo/mobs/plant/attack (3).ogg','sound/vo/mobs/plant/attack (4).ogg'), 100, FALSE, -1)
-		if(limb.get_damage() > 60)
+		if(limb.get_damage() > 110)
 			if(limb.dismember(damage = 20))
 				seednutrition += 25
 				if(!victim.mind)
@@ -114,7 +115,7 @@
 					return
 				maneater_spit_out(victim)
 		else
-			victim.apply_damage(35, BRUTE, zone, victim.run_armor_check(zone, "slash", damage = 35))
+			victim.apply_damage(60, BRUTE, zone, victim.run_armor_check(zone, "slash", damage = 60))
 
 	if(victim.stat == DEAD || victim.stat == UNCONSCIOUS)
 		if(!victim.mind)
