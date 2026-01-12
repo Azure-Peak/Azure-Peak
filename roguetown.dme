@@ -2509,6 +2509,7 @@
 #include "code\modules\spells\roguetown\acolyte\eora\eora_arils.dm"
 #include "code\modules\spells\roguetown\acolyte\eora\eora_reagents.dm"
 #include "code\modules\spells\roguetown\acolyte\eora\eora_status_effects.dm"
+#include "code\modules\spells\roguetown\acolyte\necra\necra_cross.dm"
 #include "code\modules\spells\roguetown\acolyte\pestra\pestra_components.dm"
 #include "code\modules\spells\roguetown\acolyte\pestra\pestra_status_effects.dm"
 #include "code\modules\spells\spell_types\aimed.dm"
