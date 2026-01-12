@@ -6,9 +6,6 @@
 	icon_state = null
 	slot_flags = ITEM_SLOT_SHIRT|ITEM_SLOT_ARMOR
 
-	/// Used to reinstate old armor values after breaking, we don't use initial for safety.______qdel_list_wrapper(list/L)
-	var/old_skin_armor = null
-
 	/// Feedback messages
 	var/repairmsg_begin = "My armour begins to slowly mend its abuse.."
 	var/repairmsg_continue = "My armour mends some of its abuse.."
@@ -46,7 +43,6 @@
 	. = ..()
 	if(auto_repair_mode)
 		setup_auto_repair()
-	old_skin_armor = armor
 
 /obj/item/clothing/suit/roguetown/armor/regenerating/take_damage(damage_amount, damage_type, damage_flag, sound_effect, attack_dir, armor_penetration)
 	..()
