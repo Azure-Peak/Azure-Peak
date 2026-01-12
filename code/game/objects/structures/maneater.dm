@@ -167,9 +167,6 @@
 	else
 		user.visible_message(span_warning("[user] tries to break free of [src]!"))
 
-	if(do_after(user, 1.5 SECONDS, FALSE, src, TRUE, null, FALSE, TRUE))
-		user.visible_message(span_warning("[M] stops struggling!"))
-		return
 	if(!prob(time2mount))
 		user_unbuckle_mob(M, user, break_factor * 1.5)
 	..()
@@ -179,8 +176,36 @@
 
 /obj/structure/flora/roguegrass/maneater/real/attackby(obj/item/W, mob/user, params)
 	..()
+	var/oldagg = aggroed
 	aggroed = world.time
 	update_icon()
+
+	if(!W)
+		return TRUE
+
+	// If item is one of the edible types, handle feeding behaviour
+	if(is_type_in_list(W, eatablez))
+		// Do not consume bodyparts — spit them out instead
+		if(istype(W, /obj/item/bodypart))
+			visible_message(span_danger("[src] spits out [W]!"))
+			playsound(src,'sound/misc/maneaterspit.ogg', 100)
+			var/turf/target = get_ranged_target_turf(src, pick(GLOB.alldirs), 1)
+			W.throw_at(target,3,2)
+			return TRUE
+
+		// Otherwise, 'eat' the item like when it crosses the plant
+		last_eat = world.time
+		playsound(src,'sound/misc/eat.ogg', rand(30,60), TRUE)
+		if(W.loc)
+			W.forceMove(src)
+		seednutrition += 10
+
+		if(!oldagg)
+			START_PROCESSING(SSobj, src)
+
+		return TRUE
+
+	return TRUE
 
 
 //JUVENILE MANEATER
