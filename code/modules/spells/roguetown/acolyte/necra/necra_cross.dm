@@ -1,3 +1,71 @@
+/obj/effect/proc_holder/spell/invoked/bless_cross
+	name = "Bless Cross"
+	desc = "Channel holy energy to bless a Necran cross, allowing it to be activated against undead. devout can maintain one cross, while masters can maintain three. You can unbless a previously blessed cross to reclaim the slot."
+	invocations = list("Necra, grant this cross your watchful gaze!")
+	sound = 'sound/magic/bless.ogg'
+	devotion_cost = 100
+	recharge_time = 2 MINUTES
+	chargetime = 1 SECONDS
+	overlay_icon = 'icons/mob/actions/necramiracles.dmi'
+	overlay_state = "bless_cross"
+	action_icon_state = "bless_cross"
+	action_icon = 'icons/mob/actions/necramiracles.dmi'
+	associated_skill = /datum/skill/magic/holy
+
+	/// List of blessed crosses this caster maintains
+	var/list/obj/structure/fluff/psycross/necra/cloth/blessed_crosses = list()
+
+/obj/effect/proc_holder/spell/invoked/bless_cross/cast(list/targets, mob/living/user)
+	var/obj/structure/fluff/psycross/necra/cloth/cross = targets[1]
+
+	if(!istype(cross))
+		to_chat(user, span_warning("I can only bless cloth decorated Necran crosses!"))
+		revert_cast()
+		return FALSE
+
+	var/holy_skill = user.get_skill_level(associated_skill)
+	var/max_crosses = (holy_skill >= SKILL_LEVEL_MASTER) ? 3 : 1
+
+	for(var/i = blessed_crosses.len; i > 0; i--)
+		var/obj/structure/fluff/psycross/necra/cloth/C = blessed_crosses[i]
+		if(QDELETED(C) || !C.necran_blessing)
+			blessed_crosses -= C
+
+	if(cross.necran_blessing)
+		if(cross in blessed_crosses)
+			if(!do_after(user, 10 SECONDS, target = cross))
+				revert_cast()
+				return FALSE
+			cross.necran_blessing = FALSE
+			if(cross.cross_active)
+				cross.deactivate_cross()
+			blessed_crosses -= cross
+			playsound(cross, 'sound/magic/magnet.ogg', 50, TRUE)
+			to_chat(user, span_notice("Cross unblessed. You can maintain [max_crosses - blessed_crosses.len] crosses again."))
+			return TRUE
+		else
+			to_chat(user, span_warning("Another follower already blessed this cross!"))
+			revert_cast()
+			return FALSE
+
+	// Check if we have room for another cross
+	if(blessed_crosses.len >= max_crosses)
+		to_chat(user, span_warning("You can only maintain [max_crosses] crosses! Unbless one first."))
+		revert_cast()
+		return FALSE
+
+	// Bless the cross
+	if(!do_after(user, 10 SECONDS, target = cross))
+		revert_cast()
+		return FALSE
+
+	cross.necran_blessing = TRUE
+	blessed_crosses += cross
+
+	to_chat(user, span_notice("Cross blessed! You can bless [max_crosses - blessed_crosses.len] more crosses."))
+
+	return TRUE
+
 /obj/structure/fluff/psycross/necra
 	name = "necran cross"
 	desc = "Not all of the ten bear crosses, but as they oft mark the grave, so do Necrans raise these in honor of the dead. The undermaiden watches."
@@ -50,6 +118,9 @@
 		to_chat(user, span_warning("The cross is already active!"))
 		return FALSE
 
+	if(!necran_blessing)
+		return FALSE
+
 	if(world.time < last_activation_time + activation_cooldown)
 		to_chat(user, span_warning("The cross needs time to recharge its holy energy."))
 		return FALSE
@@ -99,7 +170,8 @@
 	if(!undead_found && last_activation_time + auto_deactivate_time < world.time)
 		visible_message(span_notice("With no undead to purify, the cross's glow fades away."))
 		deactivate_cross()
-
+	else
+		last_activation_time = world.time
 
 /obj/structure/fluff/psycross/necra/cloth/process(delta_time)
 	if(!cross_active)
@@ -155,9 +227,10 @@
 /obj/structure/fluff/psycross/necra/cloth/examine(mob/user)
 	. = ..()
 	if(cross_active)
-		. += span_notice("The cross is actively glowing with holy energy.")
+		. += span_notice("The cross is actively glowing with holy energy, weakening undead in the area.")
 	else if(necran_blessing)
 		. += span_info("You can touch it to activate its holy aura.")
+		. += span_good("A necran blessed this cross, the undermaiden is watching.")
 
 #define MOVESPEED_ID_NECRAN_CROSS "movespeed_necran_cross"
 
@@ -165,7 +238,7 @@
 	id = "necran_cross_debuff"
 	duration = -1 // Removed when leaving range or cross deactivates
 	alert_type = /atom/movable/screen/alert/status_effect/necran_cross_debuff
-	var/slowdown_multiplier = 4
+	var/slowdown_multiplier = 2
 	var/strength_debuff = -2
 	var/perception_debuff = -2
 	var/fortune_debuff = -2
@@ -190,7 +263,7 @@
 	return ..()
 
 /datum/status_effect/debuff/necran_cross/strong
-	slowdown_multiplier = 6
+	slowdown_multiplier = 4
 	strength_debuff = -2
 	perception_debuff = -2
 	fortune_debuff = -5
