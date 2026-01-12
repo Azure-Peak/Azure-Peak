@@ -50,7 +50,6 @@
 
 /obj/item/clothing/suit/roguetown/armor/regenerating/take_damage(damage_amount, damage_type, damage_flag, sound_effect, attack_dir, armor_penetration)
 	..()
-	to_chat(world, span_danger("[obj_integrity] integrity taken [damage_amount] for [armor_penetration] pen"))
 	if(reptimer)
 		if(!regen_interrupt(damage_amount, damage_type, damage_flag, attack_dir))
 			return
@@ -66,7 +65,6 @@
 
 /obj/item/clothing/suit/roguetown/armor/regenerating/proc/armour_regen()
 	reptimer = null
-	to_chat(world, span_danger("[obj_integrity] integrity - before repair"))
 
 	if(obj_integrity >= max_integrity)
 		to_chat(loc, span_notice(repairmsg_end))
@@ -101,7 +99,6 @@
 	if(obj_broken && obj_integrity > 0)
 		obj_fix(full_repair = FALSE)
 
-	to_chat(world, span_danger("[obj_integrity] integrity - after repair"))
 	to_chat(loc, span_notice(repairmsg_continue))
 
 	reptimer = addtimer(CALLBACK(src, PROC_REF(armour_regen)), next_tick_time, TIMER_OVERRIDE|TIMER_UNIQUE|TIMER_STOPPABLE)
