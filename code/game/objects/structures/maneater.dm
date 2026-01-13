@@ -20,7 +20,6 @@
 	var/seednutrition = 0
 	var/max_seednutrition = 100
 	var/mob/planter = null
-	var/list/escape_attempts = list() // Tracks escape attempts per victim
 
 /obj/structure/flora/roguegrass/maneater/real/process()
 	if(seednutrition >= max_seednutrition)
@@ -35,7 +34,6 @@
 /obj/structure/flora/roguegrass/maneater/real/obj_break(damage_flag)
 	..()
 	unbuckle_all_mobs()
-	escape_attempts.Remove()
 	if(contents.len)
 		for(var/obj/item/eaten in contents)
 			var/turf/target = get_ranged_target_turf(src, pick(GLOB.alldirs), 1)
@@ -86,9 +84,9 @@
 		return
 
 	buckle_mob(victim, TRUE, check_loc = FALSE)
-	playsound(src,'sound/misc/eat.ogg', rand(30,60), TRUE)
+	playsound(loc, list('sound/vo/mobs/plant/attack (1).ogg','sound/vo/mobs/plant/attack (2).ogg','sound/vo/mobs/plant/attack (3).ogg','sound/vo/mobs/plant/attack (4).ogg'), 100, FALSE, -1)
 	visible_message(span_userdanger("[src] begins to gnaw on [victim]! RESIST as many times as you can or become a chew toy!"))
-	addtimer(CALLBACK(src, PROC_REF(begin_eat), victim), 5 SECONDS, TIMER_OVERRIDE|TIMER_UNIQUE|TIMER_STOPPABLE)
+	addtimer(CALLBACK(src, PROC_REF(begin_eat), victim), 3 SECONDS, TIMER_OVERRIDE|TIMER_UNIQUE|TIMER_STOPPABLE)
 
 /obj/structure/flora/roguegrass/maneater/real/proc/begin_eat(mob/living/victim, var/chew_factor = 1)
 	if(victim.loc != loc)
@@ -117,7 +115,7 @@
 					return
 				maneater_spit_out(victim)
 		else
-			victim.apply_damage(60, BRUTE, zone, victim.run_armor_check(zone, "slash", damage = 60))
+			victim.apply_damage(60, BRUTE, zone, victim.run_armor_check(zone, BCLASS_CUT, damage = 60))
 
 	if(victim.stat == DEAD || victim.stat == UNCONSCIOUS)
 		if(!victim.mind)
@@ -136,7 +134,6 @@
 		return
 	visible_message(span_danger("[src] spits out [C]!"))
 	unbuckle_mob(C)
-	escape_attempts.Remove(C)
 	playsound(src,'sound/misc/maneaterspit.ogg', 100)
 	return TRUE
 
@@ -161,8 +158,7 @@
 		return
 
 	var/mob/living/L = user
-	var/attempts = escape_attempts[M] || 0
-	var/time2mount = CLAMP((L.STASTR * 2 * (1 + (attempts * 0.5))), 1, 99)
+	var/time2mount = CLAMP((L.STASTR * 2 * break_factor), 1, 99)
 	if(istype(src, /obj/structure/flora/roguegrass/maneater/real/juvenile))
 		time2mount *= 2
 	user.changeNext_move(CLICK_CD_FAST, override = TRUE)
@@ -172,10 +168,9 @@
 		user.visible_message(span_warning("[user] tries to break free of [src]!"))
 
 	if(!prob(time2mount))
-		escape_attempts[M] = attempts + 1
-		return
+		if(do_after(M, 0.75 SECONDS, target = src))
+			user_unbuckle_mob(M, user, break_factor * 1.5)
 	..()
-	escape_attempts.Remove(M)
 /obj/structure/flora/roguegrass/maneater/real/user_buckle_mob(mob/living/M, mob/living/user) //Don't want them getting put on the rack other than by spiking
 	return
 
