@@ -20,6 +20,7 @@
 	var/seednutrition = 0
 	var/max_seednutrition = 100
 	var/mob/planter = null
+	var/list/escape_attempts = list() // Tracks escape attempts per victim
 
 /obj/structure/flora/roguegrass/maneater/real/process()
 	if(seednutrition >= max_seednutrition)
@@ -34,6 +35,7 @@
 /obj/structure/flora/roguegrass/maneater/real/obj_break(damage_flag)
 	..()
 	unbuckle_all_mobs()
+	escape_attempts.Remove()
 	if(contents.len)
 		for(var/obj/item/eaten in contents)
 			var/turf/target = get_ranged_target_turf(src, pick(GLOB.alldirs), 1)
@@ -134,6 +136,7 @@
 		return
 	visible_message(span_danger("[src] spits out [C]!"))
 	unbuckle_mob(C)
+	escape_attempts.Remove(C)
 	playsound(src,'sound/misc/maneaterspit.ogg', 100)
 	return TRUE
 
@@ -158,7 +161,8 @@
 		return
 
 	var/mob/living/L = user
-	var/time2mount = CLAMP((L.STASTR * 2 * break_factor), 1, 99)
+	var/attempts = escape_attempts[M] || 0
+	var/time2mount = CLAMP((L.STASTR * 2 * (1 + (attempts * 0.5))), 1, 99)
 	if(istype(src, /obj/structure/flora/roguegrass/maneater/real/juvenile))
 		time2mount *= 2
 	user.changeNext_move(CLICK_CD_FAST, override = TRUE)
@@ -168,9 +172,10 @@
 		user.visible_message(span_warning("[user] tries to break free of [src]!"))
 
 	if(!prob(time2mount))
-		user_unbuckle_mob(M, user, break_factor * 1.5)
+		escape_attempts[M] = attempts + 1
+		return
 	..()
-
+	escape_attempts.Remove(M)
 /obj/structure/flora/roguegrass/maneater/real/user_buckle_mob(mob/living/M, mob/living/user) //Don't want them getting put on the rack other than by spiking
 	return
 
