@@ -269,9 +269,15 @@
 	. = ..()
 	if(cross_active)
 		. += span_notice("The cross is actively glowing with holy energy, weakening undead in the area.")
+		. += span_notice("The energy coursing through the cross seems to make it more fragile.")
 	else if(necran_blessing)
 		. += span_info("You can touch it to activate its holy aura.")
 		. += span_good("A necran blessed this cross, the undermaiden is watching.")
+	if(ishuman(user) && necran_blessing)
+		var/mob/living/carbon/human/H = user
+		if(H.dna?.species?.id == "revenant")
+			. += span_danger("I feel the undermaiden's scornful gaze!")
+			user.add_stress(/datum/stressevent/revenant_cross)
 
 #define MOVESPEED_ID_NECRAN_CROSS "movespeed_necran_cross"
 

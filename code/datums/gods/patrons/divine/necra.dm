@@ -56,3 +56,6 @@
 		if(carbon.health <= (carbon.maxHealth * 0.25))
 			*conditional_buff = TRUE
 			*situational_bonus = 2.5
+		if(user.has_status_effect(/datum/status_effect/buff/necran_mists))
+			*conditional_buff = TRUE
+			*situational_bonus += 1.25
