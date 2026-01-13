@@ -198,7 +198,7 @@
 		playsound(src,'sound/misc/eat.ogg', rand(30,60), TRUE)
 		if(W.loc)
 			W.forceMove(src)
-		seednutrition += 10
+		seednutrition += 20
 
 		if(!oldagg)
 			START_PROCESSING(SSobj, src)
