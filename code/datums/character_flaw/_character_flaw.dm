@@ -90,7 +90,7 @@ GLOBAL_LIST_INIT(character_flaws, list(
 
 /datum/charflaw/noflaw
 	name = "No Flaw (-3 TRI)"
-	desc = "I'm a normal person, how rare! (Consumes 7 triumphs or gives a random flaw.)"
+	desc = "I'm a normal person, how rare! (Consumes 3 triumphs or gives a random flaw.)"
 
 /datum/charflaw/noflaw/apply_post_equipment(mob/user)
 	var/mob/living/carbon/human/H = user
