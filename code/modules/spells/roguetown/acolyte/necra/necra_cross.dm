@@ -189,6 +189,7 @@
 				undead_found++
 			else if(is_necran_follower(L))
 				apply_necran_buff(L)
+				affected_mobs[L] = TRUE
 
 	// Remove effects from mobs that left range or are no longer undead
 	for(var/mob/living/L in affected_mobs)
