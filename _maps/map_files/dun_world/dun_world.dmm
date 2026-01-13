@@ -2127,6 +2127,13 @@
 /obj/structure/flora/roguegrass,
 /turf/open/floor/rogue/cobble/mossy,
 /area/rogue/under/cave/his_vault)
+"azt" = (
+/obj/structure/fluff/walldeco/customflag,
+/obj/structure/fluff/railing/border{
+	dir = 8
+	},
+/turf/closed/wall/mineral/rogue/craftstone,
+/area/rogue/outdoors/town)
 "azv" = (
 /obj/structure/fluff/railing/border/west{
 	dir = 4
@@ -5399,11 +5406,7 @@
 /turf/open/floor/rogue/cobble/mossy,
 /area/rogue/under/cave/his_vault)
 "bsw" = (
-/obj/structure/fluff/railing/wood{
-	dir = 1;
-	layer = 2.7;
-	pixel_y = 7
-	},
+/obj/structure/stairs,
 /turf/open/floor/rogue/ruinedwood/platform,
 /area/rogue/outdoors/town)
 "bsy" = (
@@ -15961,11 +15964,10 @@
 /turf/open/floor/rogue/hexstone,
 /area/rogue/under/cave/fishmandungeon)
 "dWz" = (
-/obj/structure/fluff/railing/wood{
-	pixel_y = -3
+/obj/structure/fluff/railing/border{
+	dir = 8
 	},
-/obj/structure/pillory/town,
-/turf/open/floor/rogue/ruinedwood/platform,
+/turf/open/floor/rogue/dirt/road,
 /area/rogue/outdoors/town)
 "dWA" = (
 /obj/item/natural/whetstone{
@@ -25568,12 +25570,6 @@
 /mob/living/simple_animal/hostile/retaliate/rogue/infernal/hellhound,
 /turf/open/floor/rogue/hexstone,
 /area/rogue/under/cave/goblinfort)
-"gra" = (
-/obj/structure/closet/crate/chest/wicker{
-	opened = 1
-	},
-/turf/open/floor/rogue/ruinedwood/platform,
-/area/rogue/outdoors/town)
 "grb" = (
 /obj/effect/decal/mossy{
 	dir = 4
@@ -39839,10 +39835,10 @@
 /turf/open/floor/carpet/inn,
 /area/rogue/indoors/town/tavern)
 "jSs" = (
-/obj/structure/fluff/railing/border{
-	dir = 8
+/obj/structure/closet/crate/chest/wicker{
+	opened = 1
 	},
-/turf/open/floor/rogue/dirt/road,
+/turf/open/floor/rogue/ruinedwood/platform,
 /area/rogue/outdoors/town)
 "jSv" = (
 /obj/structure/fluff/railing/border,
@@ -42686,7 +42682,11 @@
 /turf/open/floor/rogue/tile,
 /area/rogue/under/underdark/north)
 "kAd" = (
-/obj/structure/stairs,
+/obj/structure/fluff/railing/wood{
+	dir = 1;
+	layer = 2.7;
+	pixel_y = 7
+	},
 /turf/open/floor/rogue/ruinedwood/platform,
 /area/rogue/outdoors/town)
 "kAe" = (
@@ -49660,12 +49660,15 @@
 /turf/open/water/swamp,
 /area/rogue/outdoors/mountains/decap)
 "meh" = (
-/obj/structure/closet/crate/chest/wicker,
-/obj/item/trash/applecore,
-/obj/item/trash/applecore,
-/obj/item/trash/applecore,
-/obj/item/trash/applecore,
-/turf/open/floor/rogue/cobble,
+/obj/structure/stairs{
+	dir = 4
+	},
+/obj/structure/fluff/railing/wood{
+	dir = 1;
+	layer = 2.7;
+	pixel_y = 7
+	},
+/turf/open/floor/rogue/ruinedwood/platform,
 /area/rogue/outdoors/town)
 "mek" = (
 /obj/structure/hotspring/border/two,
@@ -50542,11 +50545,9 @@
 /turf/open/floor/rogue/ruinedwood/spiral,
 /area/rogue/indoors/town)
 "mqu" = (
-/obj/structure/fluff/walldeco/customflag,
-/obj/structure/fluff/railing/border{
-	dir = 8
-	},
-/turf/closed/wall/mineral/rogue/craftstone,
+/obj/structure/guillotine,
+/obj/effect/decal/cleanable/blood,
+/turf/open/floor/rogue/ruinedwood/platform,
 /area/rogue/outdoors/town)
 "mqx" = (
 /obj/item/roguebin/water/gross,
@@ -59242,11 +59243,6 @@
 	},
 /turf/open/floor/rogue/woodturned,
 /area/rogue/indoors/town)
-"oAz" = (
-/obj/structure/guillotine,
-/obj/effect/decal/cleanable/blood,
-/turf/open/floor/rogue/ruinedwood/platform,
-/area/rogue/outdoors/town)
 "oAA" = (
 /obj/machinery/light/rogue/candle,
 /obj/machinery/light/rogue/candle/l,
@@ -71643,17 +71639,6 @@
 /obj/item/reagent_containers/glass/bucket,
 /turf/open/floor/rogue/blocks/stonered/tiny,
 /area/rogue/indoors/town)
-"rFy" = (
-/obj/structure/stairs{
-	dir = 4
-	},
-/obj/structure/fluff/railing/wood{
-	dir = 1;
-	layer = 2.7;
-	pixel_y = 7
-	},
-/turf/open/floor/rogue/ruinedwood/platform,
-/area/rogue/outdoors/town)
 "rFD" = (
 /obj/structure/table/wood/long_table/right,
 /obj/item/natural/cloth{
@@ -82266,6 +82251,13 @@
 "ujP" = (
 /turf/open/water/river/flow/east,
 /area/rogue/indoors/cave)
+"ujQ" = (
+/obj/structure/fluff/railing/wood{
+	pixel_y = -3
+	},
+/obj/structure/pillory/town,
+/turf/open/floor/rogue/ruinedwood/platform,
+/area/rogue/outdoors/town)
 "ujV" = (
 /obj/structure/closet/crate/chest,
 /obj/item/reagent_containers/powder/salt,
@@ -246960,10 +246952,10 @@ fpx
 fpx
 fpx
 fpx
-rFy
-bsw
+meh
+kAd
 uLn
-dWz
+ujQ
 sns
 sns
 sns
@@ -247412,7 +247404,7 @@ dkS
 sGj
 eXk
 fpx
-bsw
+kAd
 uLn
 uLn
 jKr
@@ -247864,10 +247856,10 @@ oWc
 sGj
 sGj
 jFe
-bsw
+kAd
 xUD
 uLn
-dWz
+ujQ
 sns
 ehB
 sns
@@ -248316,7 +248308,7 @@ pbq
 iUO
 dkS
 mwM
-bsw
+kAd
 uLn
 uLn
 jKr
@@ -248768,7 +248760,7 @@ kpf
 mbB
 dkS
 rCj
-bsw
+kAd
 uLn
 uLn
 jKr
@@ -249220,9 +249212,9 @@ uwL
 sGj
 sGj
 idq
-bsw
-oAz
-gra
+kAd
+mqu
+jSs
 jKr
 sns
 qxe
@@ -249672,7 +249664,7 @@ nbL
 kOn
 sGj
 rCj
-bsw
+kAd
 uLn
 uLn
 jKr
@@ -250124,7 +250116,7 @@ mXZ
 vRV
 dkS
 rCj
-bsw
+kAd
 uLn
 uLn
 jKr
@@ -250576,10 +250568,10 @@ mXZ
 vRV
 dkS
 mwM
-bsw
+kAd
 xUD
 uLn
-dWz
+ujQ
 sns
 sns
 sns
@@ -251028,11 +251020,11 @@ mXZ
 shy
 dkS
 fby
-bsw
+kAd
 uLn
 uLn
 jKr
-meh
+sns
 sns
 sns
 sns
@@ -251480,10 +251472,10 @@ nbL
 pVG
 sGj
 sOz
-kAd
+bsw
 uLn
 uLn
-dWz
+ujQ
 exD
 sns
 sns
@@ -251932,9 +251924,9 @@ lHe
 dkS
 xqc
 pWT
-mqu
+azt
 wAm
-jSs
+dWz
 nnD
 exD
 sns
