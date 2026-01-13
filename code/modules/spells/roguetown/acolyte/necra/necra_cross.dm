@@ -354,7 +354,7 @@
 
 	var/list/filter_params = list(
 		"type" = "layer",
-		"icon" = icon('icons/mob/mob_effects_fog.dmi', "mists"),
+		"icon" = icon('icons/mob/mob_effects_fog.dmi', "subtle"),
 		"render_source" = H.render_target, 
 		"blend_mode" = BLEND_INSET_OVERLAY
 	)
