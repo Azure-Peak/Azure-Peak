@@ -182,20 +182,35 @@
 	for(var/mob/living/L in view(aura_range, src))
 		current_mobs += L
 
-		if(is_undead(L) && !affected_mobs[L])
-			apply_undead_debuff(L)
-			affected_mobs[L] = TRUE
-			undead_found++
+		if(!affected_mobs[L])
+			if(is_undead(L))
+				apply_undead_debuff(L)
+				affected_mobs[L] = TRUE
+				undead_found++
+			else if(is_necran_follower(L))
+				apply_necran_buff(L)
 
 	// Remove effects from mobs that left range or are no longer undead
 	for(var/mob/living/L in affected_mobs)
-		if(!(L in current_mobs) || !is_undead(L))
-			remove_undead_debuff(L)
-			undead_found = max(0, undead_found - 1)
+		if(!(L in current_mobs))
+			if(is_undead(L))
+				remove_undead_debuff(L)
+				undead_found = max(0, undead_found - 1)
+			else
+				remove_necran_buff(L)
 			affected_mobs -= L
 
 	if(!length(affected_mobs))
 		check_auto_deactivate()
+
+/obj/structure/fluff/psycross/necra/cloth/proc/is_necran_follower(mob/living/L)
+	if(!iscarbon(L))
+		return FALSE
+
+	var/mob/living/carbon/C = L
+	if(C.patron?.type == /datum/patron/divine/necra)
+		return TRUE
+	return FALSE
 
 /obj/structure/fluff/psycross/necra/cloth/proc/is_undead(mob/living/L)
 	if(L.mob_biotypes & MOB_UNDEAD)
@@ -203,6 +218,25 @@
 	if(L.mind?.has_antag_datum(/datum/antagonist/zombie))
 		return TRUE
 	return FALSE
+
+/obj/structure/fluff/psycross/necra/cloth/proc/apply_necran_buff(mob/living/carbon/human/H)
+	// Freaking necran cows! Raah!
+	if(!istype(H))
+		return
+
+	var/holy_skill = H.get_skill_level(/datum/skill/magic/holy)
+	var/buff_tier
+
+	// Determine buff tier based on holy skill
+	if(holy_skill >= SKILL_LEVEL_MASTER)
+		buff_tier = 3
+	else if(holy_skill >= SKILL_LEVEL_APPRENTICE)
+		buff_tier = 2
+	else
+		buff_tier = 1
+
+	// Apply the appropriate buff status effect
+	H.apply_status_effect(/datum/status_effect/buff/necran_mists, buff_tier)
 
 /obj/structure/fluff/psycross/necra/cloth/proc/apply_undead_debuff(mob/living/target)
 	if(!target || !is_undead(target))
@@ -224,6 +258,12 @@
 	target.remove_status_effect(/datum/status_effect/debuff/necran_cross)
 	target.remove_status_effect(/datum/status_effect/debuff/necran_cross/strong)
 
+/obj/structure/fluff/psycross/necra/cloth/proc/remove_necran_buff(mob/living/carbon/human/H)
+	if(!istype(H))
+		return
+
+	H.remove_status_effect(/datum/status_effect/buff/necran_mists)
+
 /obj/structure/fluff/psycross/necra/cloth/examine(mob/user)
 	. = ..()
 	if(cross_active)
@@ -244,8 +284,6 @@
 	var/fortune_debuff = -2
 
 /datum/status_effect/debuff/necran_cross/on_apply()
-	. = ..()
-
 	var/mob/living/carbon/human/H = owner
 	if(istype(H))
 		owner.add_movespeed_modifier(MOVESPEED_ID_NECRAN_CROSS, update=TRUE, priority=100, multiplicative_slowdown=slowdown_multiplier)
@@ -256,6 +294,7 @@
 		STATKEY_LCK = fortune_debuff
 			)
 
+	. = ..()
 	return TRUE
 
 /datum/status_effect/debuff/necran_cross/on_remove()
@@ -272,3 +311,65 @@
 	name = "Holy Purification"
 	desc = "The holy light of Necra weakens your undead form. Your movements are slowed and your senses dulled."
 	icon_state = "holy"
+
+#define NECRAN_MISTS_FILTER "necra_mists_filter"
+
+/datum/status_effect/buff/necran_mists
+	id = "necran_mists"
+	duration = -1 // Removed when leaving range
+	alert_type = /atom/movable/screen/alert/status_effect/buff/necran_mists
+	/// Tier of buff (1-3)
+	var/buff_tier = 1
+	var/speed_buff = 1
+
+/atom/movable/screen/alert/status_effect/buff/necran_mists
+	name = "Necra's Mists"
+	desc = "The sacred mists of Necra envelop you, granting protection and speed."
+	icon_state = "holybuff"
+
+/datum/status_effect/buff/necran_mists/on_creation(mob/living/new_owner, tier = 1)
+	buff_tier = tier
+	. = ..()
+
+/datum/status_effect/buff/necran_mists/on_apply()
+	var/mob/living/carbon/human/H = owner
+	if(!istype(H))
+		return FALSE
+
+	switch(buff_tier)
+		if(3) // Master or higher
+			ADD_TRAIT(H, TRAIT_MAGEARMOR, TRAIT_MIRACLE)
+			ADD_TRAIT(H, TRAIT_DODGEEXPERT, TRAIT_MIRACLE)
+			speed_buff = 3
+		if(2) // Apprentice to Master
+			ADD_TRAIT(H, TRAIT_DODGEEXPERT, TRAIT_MIRACLE)
+			speed_buff = 2
+		if(1) // Below apprentice
+			speed_buff = 1
+
+	effectedstats = list(
+		STATKEY_SPD = speed_buff
+		)
+
+	//owner.add_filter(NECRAN_MISTS_FILTER, 2, list("type" = "outline", "color" = "#5a5958", "alpha" = 225, "size" = 1))
+	var/list/filter_params = list(
+		"type" = "layer",
+		"icon" = icon('icons/mob/mob_effects_fog.dmi', "mists"),
+		"render_source" = H.render_target, 
+		"blend_mode" = BLEND_INSET_OVERLAY // Or BLEND_OVERLAY if using the source as a mask
+	)
+	H.add_filter(NECRAN_MISTS_FILTER, 1, filter_params)
+	. = ..()
+	return TRUE
+
+/datum/status_effect/buff/necran_mists/on_remove()
+	var/mob/living/carbon/human/H = owner
+	if(istype(H))
+		// Remove traits
+		REMOVE_TRAIT(H, TRAIT_MAGEARMOR, TRAIT_MIRACLE)
+		REMOVE_TRAIT(H, TRAIT_DODGEEXPERT, TRAIT_MIRACLE)
+		H.remove_filter(NECRAN_MISTS_FILTER)
+	return ..()
+
+#undef NECRAN_MISTS_FILTER
+#undef MOVESPEED_ID_NECRAN_CROSS
