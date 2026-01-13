@@ -352,12 +352,11 @@
 		STATKEY_SPD = speed_buff
 		)
 
-	//owner.add_filter(NECRAN_MISTS_FILTER, 2, list("type" = "outline", "color" = "#5a5958", "alpha" = 225, "size" = 1))
 	var/list/filter_params = list(
 		"type" = "layer",
 		"icon" = icon('icons/mob/mob_effects_fog.dmi', "mists"),
 		"render_source" = H.render_target, 
-		"blend_mode" = BLEND_INSET_OVERLAY // Or BLEND_OVERLAY if using the source as a mask
+		"blend_mode" = BLEND_INSET_OVERLAY
 	)
 	H.add_filter(NECRAN_MISTS_FILTER, 1, filter_params)
 	. = ..()
