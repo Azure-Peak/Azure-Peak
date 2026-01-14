@@ -731,6 +731,7 @@ SUBSYSTEM_DEF(gamemode)
 		var/datum/storyteller/storyboy = storytellers[storyteller_type]
 		if(findtext(html_contaminated, storyboy.name))
 			selected_storyteller = storyboy.type
+			get_gnoll_scaling() // Calling this here as to make sure scaling holds true as per the roundstart vote, not a latejoin hunted character joining.
 			break
 
 	var/datum/storyteller/storytypecasted = selected_storyteller
