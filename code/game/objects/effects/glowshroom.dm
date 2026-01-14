@@ -22,16 +22,12 @@ var/dendordam = 30 //FUCK YOOOOU DENDOR
 	light_color = "#d4fcac"
 
 /obj/structure/glowshroom/dendorite
-	var/timeleft = 5 MINUTES //balancing factor no longer relevant, uncommoent if gay // update: it was gay
+	var/timeleft = null //5 MINUTES balancing factor no longer relevant, uncommoent if gay // update: it's gay but I'm taking a mild amount of mercy because I'm already changing a lot
 
 /obj/structure/glowshroom/dendorite/Initialize()
 	. = ..()
 	if(timeleft)
 		QDEL_IN(src, timeleft)
-
-/obj/structure/glowshroom/dendorite/attackby(obj/item/W, mob/user, params)
-	// Dendorite glowshrooms don't electrocute when hit
-	. = ..()
 
 /obj/structure/glowshroom/fire_act(added, maxstacks)
 	visible_message(span_warning("[src] catches fire!"))
@@ -57,24 +53,26 @@ var/dendordam = 30 //FUCK YOOOOU DENDOR
 		if(HAS_TRAIT(L, TRAIT_KNEESTINGER_IMMUNITY)) //Dendor kneestinger immunity
 			return TRUE
 
+		if(!(L.m_intent == MOVE_INTENT_SNEAK || L.rogue_sneaking))
+			if(!istype(src, /obj/structure/glowshroom/dendorite))
+				L.consider_ambush(always = TRUE)
+
 		if(L.mind)
 			if(world.time > L.last_client_interact + 0.2 SECONDS)
 				return FALSE
 		if(world.time < (L.mob_timers["kneestinger"] + 30 SECONDS))
-			dmg = electrodam/2 // reduced damage on repeat exposure 
+			dmg = dmg/2 // reduced damage on repeat exposure
 		L.Immobilize(d/2 SECONDS)
 		L.apply_status_effect(/datum/status_effect/debuff/clickcd, d SECONDS)
 		L.apply_status_effect(/datum/status_effect/buff/lightningstruck, d SECONDS)
-		if(L.electrocute_act(dmg, src, 1, SHOCK_NOSTUN))
-			L.mob_timers["kneestinger"] = world.time
-			src.take_damage(30) //self-destructing plants woa.... .. .. . . 
-			if(!(L.m_intent == MOVE_INTENT_SNEAK || L.rogue_sneaking))
-				L.consider_ambush(always = TRUE)
-			if(L.throwing)
-				L.throwing.finalize(FALSE)
-			if(mover.loc != loc && L.stat == CONSCIOUS)
-				L.throw_at(get_step(L, throwdir), pick(1,5), 1, L, spin = FALSE)
-			return FALSE
+		L.electrocute_act(dmg, src, 1, SHOCK_NOSTUN)
+		L.mob_timers["kneestinger"] = world.time
+		src.take_damage(30) //self-destructing plants woa.... .. .. . . 
+		if(L.throwing)
+			L.throwing.finalize(FALSE)
+		if(mover.loc != loc && L.stat == CONSCIOUS)
+			L.throw_at(get_step(L, throwdir), pick(1,5), 1, L, spin = FALSE)
+		return FALSE
 	. = ..()
 
 /obj/structure/glowshroom/proc/can_zap(atom/movable/movable_victim)
@@ -104,18 +102,18 @@ var/dendordam = 30 //FUCK YOOOOU DENDOR
 		d = debuffdir/2
 	var/mob/living/victim = movable_victim
 	if(world.time < (victim.mob_timers["kneestinger"] + 30 SECONDS))
-		dmg = electrodam/2
+		dmg = dmg/2
+	if(!(victim.m_intent == MOVE_INTENT_SNEAK || victim.rogue_sneaking))
+		if(!istype(src, /obj/structure/glowshroom/dendorite))
+			victim.consider_ambush(always = TRUE)
 	victim.Immobilize(d/2 SECONDS)
 	victim.apply_status_effect(/datum/status_effect/debuff/clickcd, d SECONDS)
 	victim.apply_status_effect(/datum/status_effect/buff/lightningstruck, d SECONDS)
-	if(victim.electrocute_act(dmg, src, 1, SHOCK_NOSTUN))
-		victim.mob_timers["kneestinger"] = world.time
-		victim.emote("painscream")
-		if(!(victim.m_intent == MOVE_INTENT_SNEAK || victim.rogue_sneaking))
-			victim.consider_ambush(always = TRUE)
-		if(victim.throwing)
-			victim.throwing.finalize(FALSE)
-		return TRUE
+	victim.electrocute_act(dmg, src, 1, SHOCK_NOSTUN)
+	victim.mob_timers["kneestinger"] = world.time
+	victim.emote("painscream")
+	if(victim.throwing)
+		victim.throwing.finalize(FALSE)
 	return FALSE
 
 /obj/structure/glowshroom/Bumped(atom/movable/bumper)
@@ -133,23 +131,23 @@ var/dendordam = 30 //FUCK YOOOOU DENDOR
 	var/dmg = electrodam
 	var/d = debuffdir
 	if(istype(src, /obj/structure/glowshroom/dendorite))
-		dmg = dendordam
-		d = debuffdir/2
+		. = ..() //Dendorite shrooms were zapping, they shouldn't.
+		return FALSE
 	if(isliving(user) && W && user.z == z)
 		if(W.flags_1 & CONDUCT_1)
 			var/mob/living/L = user
 			if(world.time < (L.mob_timers["kneestinger"] + 30 SECONDS))
-				dmg = electrodam/2
+				dmg = dmg/2
+			if(!istype(src, /obj/structure/glowshroom/dendorite))
+				L.consider_ambush(always = TRUE)
 			L.Immobilize(d/2 SECONDS)
 			L.apply_status_effect(/datum/status_effect/debuff/clickcd, d SECONDS)
 			L.apply_status_effect(/datum/status_effect/buff/lightningstruck, d SECONDS)
-			if(L.electrocute_act(dmg, src, 1, SHOCK_NOSTUN)) // The kneestingers will let you pass if you worship dendor, but they won't take your stupid ass hitting them.
-				L.emote("painscream")
-				if(!(L.m_intent == MOVE_INTENT_SNEAK || L.rogue_sneaking))
-					L.consider_ambush(always = TRUE)
-				if(L.throwing)
-					L.throwing.finalize(FALSE)
-				return FALSE
+			L.electrocute_act(dmg, src, 1, SHOCK_NOSTUN) // The kneestingers will let you pass if you worship dendor, but they won't take your stupid ass hitting them.
+			L.emote("painscream")
+			if(L.throwing)
+				L.throwing.finalize(FALSE)
+			return FALSE
 	..()
 
 
