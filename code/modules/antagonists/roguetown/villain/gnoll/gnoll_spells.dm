@@ -215,7 +215,7 @@
 			to_chat(user, span_danger("My prey is close, my cloak lengthens."))
 			bonus_dur += 5 SECONDS // Small bonus for being close
 			if(prey.has_flaw(/datum/charflaw/hunted))
-				bonus_dur += 25 SECONDS // Massive bonus for hunted targets
+				bonus_dur += 35 SECONDS // Massive bonus for hunted targets
 
 	var/total_dur = base_dur + bonus_dur
 
