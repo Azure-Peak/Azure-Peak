@@ -34,14 +34,15 @@ GLOBAL_LIST_INIT(character_flaws, list(
 	))
 
 GLOBAL_LIST_INIT(averse_factions, list(
-	"Courtiers & Nobility" = (COURTIERS | NOBLEMEN),
+	"Courtiers & Nobility" = (COURTIERS | NOBLEMEN | COUNCILLOR),
 	"Inquisition" = INQUISITION,
 	"Burghers" = BURGHERS,
 	"Retinue" = RETINUE,
 	"Garrison" = GARRISON,
 	"Churchmen" = CHURCHMEN,
 	"Peasants" = PEASANTS,
-	"Wanderers" = WANDERERS
+	"Wanderers" = WANDERERS,
+	"Everyone" = (COURTIERS | NOBLEMEN | INQUISITION | BURGHERS | RETINUE | GARRISON | CHURCHMEN | PEASANTS | WANDERERS | SIDEFOLK | ANTAGONIST | COUNCILLOR)
 ))
 
 /datum/charflaw
@@ -505,7 +506,7 @@ GLOBAL_LIST_INIT(averse_factions, list(
 		if(user.has_stress_event(/datum/stressevent/averse))
 			return
 		for(var/mob/living/L in get_hearers_in_LOS(check_range, user, RECURSIVE_CONTENTS_CLIENT_MOBS))
-			if(L != user)
+			if(L != user && L.stat != DEAD)
 				var/datum/job/J = SSjob.GetJob(L.job)
 				if(chosen_group & J.department_flag)
 					user.add_stress(/datum/stressevent/averse)

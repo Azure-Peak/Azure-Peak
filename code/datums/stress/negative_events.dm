@@ -196,7 +196,7 @@
 	desc = span_red("They are plotting against me in evil tongues...")
 
 /datum/stressevent/averse
-	timer = 1 MINUTES
+	timer = 5 MINUTES
 	stressadd = 5
 	desc = span_red("One of <u>them</u> is here.")
 
