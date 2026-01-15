@@ -226,7 +226,8 @@
 		/datum/skill/misc/athletics = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/misc/climbing = SKILL_LEVEL_JOURNEYMAN,
 	)
-	extra_context = "This subclass has two disciplines to choose from: one provides Expert skills in fistfighting and the 'Expert Pugilist' trait, while the other provides unique equipment and a one-point exchange of Speed for Perception."
+	extra_context = "This subclass has three disciplines to choose from: one provides Expert skills in fistfighting and the 'Expert Pugilist' trait, the other provides unique equipment and a one-point exchange of Speed for Perception,\
+					 and the final one grants you a battleaxe and a special form of armor while taking away three points of intelligence."
 
 /datum/outfit/job/roguetown/adventurer/barbarian/pre_equip(mob/living/carbon/human/H, visualsOnly)
 	..()
@@ -234,7 +235,7 @@
 	H.dna.species.soundpack_m = new /datum/voicepack/male/warrior()
 	H.set_blindness(0)
 	if(H.mind)
-		var/weapons = list("Bronze Katar","Bronze Sword","Bronze Axe","Bronze Mace","Bronze Spear","Discipline - Whiphunter","Discipline - Unarmed")
+		var/weapons = list("Bronze Katar","Bronze Sword","Bronze Axe","Bronze Mace","Bronze Spear","Discipline - Whiphunter","Discipline - Unarmed","Discipline - Bodybuilder")
 		var/weapon_choice = input(H, "Choose your WEAPON.", "TAKE UP ARMS.") as anything in weapons
 		switch(weapon_choice)
 			if("Bronze Katar")
@@ -276,6 +277,12 @@
 				ADD_TRAIT(H, TRAIT_CIVILIZEDBARBARIAN, TRAIT_GENERIC)
 				head = /obj/item/clothing/head/roguetown/helmet/leather/volfhelm
 				gloves = /obj/item/clothing/gloves/roguetown/bandages/weighted
+			if ("Discipline - Bodybuilder")
+				H.adjust_skillrank_up_to(/datum/skill.combat/axes, SKILL_LEVEL_JOURNEYMAN, TRUE)
+				armor = /obj/item/clothing/suit/roguetown/armor/regenerating/skin/healable/pushups/leather
+				r_hand = /obj/item/rogueweapon/greataxe
+				backr = /obj/item/rogueweapon/scabbard/gwstrap
+				H.change_stat(STATKEY_INT, -3) ///This is probably waaay too much and makes this subclass completely unviable, but admins are concerned the armor might be OP.
 		belt = /obj/item/storage/belt/rogue/leather/battleskirt/barbarian
 		pants = /obj/item/clothing/under/roguetown/heavy_leather_pants/bronzeskirt
 		shoes = /obj/item/clothing/shoes/roguetown/boots/furlinedboots

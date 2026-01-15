@@ -54,13 +54,19 @@
 		)
 	H.dna.species.soundpack_m = new /datum/voicepack/male/warrior()
 	if(H.mind)
-		var/weapons = list("Discipline - Unarmed","Katar","Knuckledusters","Punch Dagger","Battle Axe","Grand Mace","Falx")
+		var/weapons = list("Discipline - Unarmed","Discipline - Bodybuilder","Katar","Knuckledusters","Punch Dagger","Battle Axe","Grand Mace","Falx")
 		var/weapon_choice = input(H, "Choose your WEAPON.", "SPILL THEIR ENTRAILS.") as anything in weapons
 		H.set_blindness(0)
 		switch(weapon_choice)
 			if("Discipline - Unarmed")
 				H.adjust_skillrank_up_to(/datum/skill/combat/unarmed, SKILL_LEVEL_MASTER, TRUE)
 				ADD_TRAIT(H, TRAIT_CIVILIZEDBARBARIAN, TRAIT_GENERIC)
+			if("Discipline - Bodybuilder")
+				H.adjust_skillrank_up_to(/datum/skill/combat/axes, SKILL_LEVEL_EXPERT, TRUE)
+				r_hand = /obj/item/rogueweapon/greataxe
+				armor = /obj/item/clothing/suit/roguetown/armor/regenerating/skin/healable/pushups/leather/good
+				backl = /obj/item/rogueweapon/scabbard/gwstrap
+				H.change_stat(STATKEY_INT, -3) /// Same reasoning as advent barbarian. I think it makes the subclass shit, but it is what it is.
 			if("Katar")
 				H.adjust_skillrank_up_to(/datum/skill/combat/unarmed, SKILL_LEVEL_MASTER, TRUE)
 				beltr = /obj/item/rogueweapon/katar
