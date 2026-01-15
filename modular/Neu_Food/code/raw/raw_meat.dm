@@ -317,3 +317,15 @@
 	slice_path = /obj/item/reagent_containers/food/snacks/rogue/meat/mince/beef		//Honestly, we don't need our own minced type on this one.
 	fried_type = /obj/item/reagent_containers/food/snacks/rogue/meat/steak/wolf/fried
 	cooked_type = /obj/item/reagent_containers/food/snacks/rogue/meat/steak/wolf/fried
+
+// Do NOT add this to the stockpile, they have other uses and are unique in how they're obtained.
+/* ............. Gnoll Meat ................*/
+/obj/item/reagent_containers/food/snacks/rogue/meat/steak/gnoll
+	name = "raw gnoll meat"
+	desc = "Meat taken from a gnoll. Strangely it doesn't look like it was cut out of a creature. Somehow, it seems perfectly alive."
+	icon_state = "gnoll"
+	slice_path = /obj/item/reagent_containers/food/snacks/rogue/meat/mince/beef		//Honestly, we don't need our own minced type on this one.
+	fried_type = /obj/item/reagent_containers/food/snacks/rogue/meat/steak/gnoll/seared
+	cooked_type = /obj/item/reagent_containers/food/snacks/rogue/meat/steak/gnoll/seared
+	rotprocess = SHELFLIFE_EXTREME
+	sellprice = 118

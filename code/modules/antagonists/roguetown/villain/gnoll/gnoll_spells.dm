@@ -174,14 +174,24 @@
 
 /datum/component/gnoll_combat_tracker
 	var/last_damage_time = 0
+	var/death_loot_given = FALSE
 
 /datum/component/gnoll_combat_tracker/Initialize()
 	if(!isliving(parent))
 		return COMPONENT_INCOMPATIBLE
 	RegisterSignal(parent, COMSIG_MOB_APPLY_DAMGE, PROC_REF(on_damage))
+	RegisterSignal(parent, COMSIG_LIVING_DEATH, PROC_REF(on_death))
 
 /datum/component/gnoll_combat_tracker/proc/on_damage()
 	last_damage_time = world.time
+
+/datum/component/gnoll_combat_tracker/proc/on_death()
+	if(!death_loot_given)
+		var/obj/item/loot = pick(/obj/item/reagent_containers/food/snacks/rogue/meat/steak/gnoll, /obj/item/roguegem/blood_diamond)
+		var/mob/living/gnoll = parent
+		new loot(gnoll.loc)
+		gnoll.visible_message(span_notice("A piece of [loot] is put down by a bloody ethereal hand, poised neatly by the gnoll's corpse."))
+		death_loot_given = TRUE
 
 /datum/component/gnoll_combat_tracker/proc/can_cast_stealth()
 	// Returns TRUE if 1 minute has passed
