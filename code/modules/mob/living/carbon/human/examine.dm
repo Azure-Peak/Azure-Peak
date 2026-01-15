@@ -206,9 +206,6 @@
 			if(has_flaw(/datum/charflaw/addiction/sadist) && user.has_flaw(/datum/charflaw/addiction/masochist))
 				. += span_secradio("[m1] looking with eyes filled with a desire to inflict pain. So exciting.")
 
-			if(has_flaw(/datum/charflaw/addiction/clamorous) && user.has_flaw(/datum/charflaw/addiction/clamorous))
-				. += span_servradio("[m1] just as boisterous and loud as I. They like the attention.")
-
 			if(has_flaw(/datum/charflaw/addiction/thrillseeker) && user.has_flaw(/datum/charflaw/addiction/thrillseeker))
 				. += span_rose("[m1] twitching for a thrilling fight. So am I.")
 
