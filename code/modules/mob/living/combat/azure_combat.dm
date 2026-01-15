@@ -378,3 +378,20 @@
 				return 2
 			if(has_status_effect(/datum/status_effect/buff/tempo_three))
 				return 3
+
+/mob/living/proc/check_effective_range(mob/living/user, mob/living/target)
+	var/dist = get_dist(target, user)
+	var/range = user.used_intent?.effective_range
+	if(!user.used_intent?.effective_range_type)
+		CRASH("Invalid effective_range_type used by [user] with effective_range! Please set an effective_range_type on [user.used_intent?.type]")
+	switch(user.used_intent?.effective_range_type)
+		if(EFF_RANGE_EXACT)
+			if(dist == range)
+				return TRUE
+		if(EFF_RANGE_BELOW)
+			if(dist <= range)
+				return TRUE
+		if(EFF_RANGE_ABOVE)
+			if(dist >= range)
+				return TRUE
+	return FALSE

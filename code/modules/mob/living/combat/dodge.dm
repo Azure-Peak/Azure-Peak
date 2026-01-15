@@ -170,6 +170,10 @@
 			if(HAS_TRAIT(UH, TRAIT_FENCERDEXTERITY))
 				prob2defend -= 10
 
+		if(U.used_intent?.effective_range && U.mobility_flags & MOBILITY_STAND)
+			if(U.check_effective_range(U, H))
+				prob2defend -= 30
+
 		prob2defend = clamp(prob2defend, 5, 90)
 
 		//------------Dual Wielding Checks------------
@@ -237,6 +241,11 @@
 			to_chat(src, span_warning("I'm too tired to dodge!"))
 			return FALSE
 	else //we are a non human
+
+		if(U.used_intent?.effective_range && (U.mobility_flags & MOBILITY_STAND))
+			if(U.check_effective_range(U, H))
+				prob2defend -= 30
+
 		prob2defend = clamp(prob2defend, 5, 90)
 		if(client?.prefs.showrolls)
 			to_chat(src, span_info("Roll to dodge... [prob2defend]%"))

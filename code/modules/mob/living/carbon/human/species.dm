@@ -1731,22 +1731,7 @@ GLOBAL_LIST_EMPTY(roundstart_races)
 
 	// Effective range check. Attacking a prone target doesn't apply a penalty at any range.
 	if(user.used_intent?.effective_range && H.mobility_flags & MOBILITY_STAND)
-		var/dist = get_dist(H, user)
-		var/range = user.used_intent?.effective_range
-		var/apply_penalty = FALSE
-		switch(user.used_intent?.effective_range_type)
-			if(EFF_RANGE_EXACT)
-				if(dist != range)
-					apply_penalty = TRUE
-			if(EFF_RANGE_BELOW)
-				if(dist <= range)
-					apply_penalty = TRUE
-			if(EFF_RANGE_ABOVE)
-				if(dist >= range)
-					apply_penalty = TRUE
-			else
-				CRASH("Invalid effective_range_type used by [user] with effective_range! Please set an effective_range_type on [user.used_intent?.type]")
-		if(apply_penalty)
+		if(!user.check_effective_range(user, H))
 			pen = BLUNT_DEFAULT_PENFACTOR
 			Iforce *= 0.5
 
