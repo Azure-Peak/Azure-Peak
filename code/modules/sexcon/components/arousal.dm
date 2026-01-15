@@ -133,8 +133,6 @@
 	var/datum/sex_session/highest_priority = return_highest_priority_action(parent_sessions, parent)
 	if(mob.has_flaw(/datum/charflaw/addiction/thrillseeker) && (!highest_priority?.target || !highest_priority?.target?.mind))
 		after_ejaculation(FALSE, parent)
-		mob.sate_addiction()
-		mob.add_stress(/datum/stressevent/thrill)
 		return
 	playsound(parent, 'sound/misc/mat/endout.ogg', 50, TRUE, ignore_walls = FALSE)
 	// Special case for when the user has a penis but no testicles
