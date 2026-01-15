@@ -329,3 +329,57 @@
 	cooked_type = /obj/item/reagent_containers/food/snacks/rogue/meat/steak/gnoll/seared
 	rotprocess = SHELFLIFE_EXTREME
 	sellprice = 118
+
+/obj/item/reagent_containers/food/snacks/rogue/meat/steak/vilespawn
+	name = "vilespawn flesh"
+	desc = "Meat that can be used to bring forth some vile creature."
+	icon_state = "vilespawn"
+	slice_path = null
+	fried_type = null
+	cooked_type = null
+	rotprocess = 0
+	sellprice = 118
+
+/obj/item/reagent_containers/food/snacks/rogue/meat/steak/vilespawn/attack_self(mob/living/user)
+	to_chat(user, span_notice("You offer the [src.name] to the void, chanting for a host..."))
+	var/list/candidates = pollGhostCandidates("Do you want to play as an Impure Gnoll? You'll be subservient to a master.", "Impure Gnoll", null, null, 10 SECONDS, "impure_gnoll")
+	if(!LAZYLEN(candidates))
+		to_chat(user, span_warning("The meat remains cold. No echoes of violence are hungry enough."))
+		return
+
+	var/mob/C = pick(candidates)
+	var/mob/living/carbon/human/H = new(get_turf(user))
+	H.key = C.key
+
+	H.set_species(/datum/species/gnoll)
+	var/datum/advclass/gnoll_impure/G = new()
+	G.equipme(H)
+
+	src.visible_message(span_warning("The [src.name] bloats and tears open as a gnoll claw bursts through!"))
+	playsound(H.loc, 'sound/magic/slimesquish.ogg', 100, TRUE)
+	qdel(C)
+	qdel(src)
+
+/obj/item/reagent_containers/food/snacks/rogue/meat/steak/vilespawn/admin
+	name = "twisted vilespawn flesh"
+	desc = "Transforms the user immediately into an Impure Gnoll."
+
+/obj/item/reagent_containers/food/snacks/rogue/meat/steak/vilespawn/admin/attack_self(mob/living/carbon/human/user)
+	if(!istype(user))
+		to_chat(user, "You need to be a human to test this.")
+		return
+
+	to_chat(user, span_boldnotice("I feel dreadful!"))
+
+	var/mob/living/carbon/human/H = new(get_turf(user))
+	H.key = user.key
+
+	H.set_species(/datum/species/gnoll)
+	var/datum/advclass/gnoll_impure/C = new()
+	C.equipme(H)
+
+	user.visible_message(span_warning("The [src.name] melds into [user]'s flesh as they transform into an Impure Gnoll!"))
+	playsound(user.loc, 'sound/magic/slimesquish.ogg', 100, TRUE)
+
+	qdel(user)
+	qdel(src)

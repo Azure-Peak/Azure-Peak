@@ -1722,6 +1722,7 @@
 #include "code\modules\jobs\job_types\roguetown\adventurer\types\antag\assassin\poisoner.dm"
 #include "code\modules\jobs\job_types\roguetown\adventurer\types\antag\assassin\ranger.dm"
 #include "code\modules\jobs\job_types\roguetown\adventurer\types\antag\gnoll\gnoll_berserker.dm"
+#include "code\modules\jobs\job_types\roguetown\adventurer\types\antag\gnoll\gnoll_impure.dm"
 #include "code\modules\jobs\job_types\roguetown\adventurer\types\antag\gnoll\gnoll_knight.dm"
 #include "code\modules\jobs\job_types\roguetown\adventurer\types\antag\gnoll\gnoll_shaman.dm"
 #include "code\modules\jobs\job_types\roguetown\adventurer\types\antag\gnoll\gnoll_templar.dm"
