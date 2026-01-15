@@ -57,6 +57,11 @@
 		H.AddSpell(new /obj/effect/proc_holder/spell/self/claws/gnoll)
 		H.AddSpell(new /obj/effect/proc_holder/spell/self/howl/gnoll)
 		H.AddSpell(new /obj/effect/proc_holder/spell/invoked/gnoll_sniff)
+
+		var/obj/effect/proc_holder/spell/invoked/abduct/S = new /obj/effect/proc_holder/spell/invoked/abduct()
+		S.destination_turf = get_turf(H) // Set the anchor to where they spawn/don the outfit
+		H.AddSpell(S)
+
 		var/mode = get_gnoll_scaling()
 		if(mode == GNOLL_SCALING_DYNAMIC)
 			to_chat(H, span_bignotice("I can expect to be joined by my pack this week. I should wait for them and group up."))

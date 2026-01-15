@@ -94,3 +94,75 @@
 	if(!L || QDELETED(L) || L.stat == DEAD)
 		return FALSE
 	return TRUE
+
+/obj/effect/proc_holder/spell/invoked/abduct
+	name = "Abduct"
+	desc = "Cast on self to set a destination. Cast on an aggressively grabbed human to teleport them and nearby Gnolls to that destination. Much faster on hunted targets. There is a small blood tax for all gnolls involved, be careful."
+	var/turf/destination_turf
+	var/blood_loss = 75
+	recharge_time = 5 MINUTES
+	invocation_type = "emote"
+	invocation_emote_self = "<span class='notice'>I rip a hole into space with my claw!</span>"
+
+/obj/effect/proc_holder/spell/invoked/abduct/cast(list/targets, mob/user)
+	if(targets[1] == user)
+		destination_turf = get_turf(user)
+		to_chat(user, span_notice("You anchor your connection to graggar's plane here. Any abducted will be fetched here."))
+		// We are reverting cast because we're only setting the destination.
+		revert_cast()
+		return FALSE
+
+	var/mob/living/carbon/human/target = targets[1]
+	if(!ishuman(target))
+		to_chat(user, span_warning("This spell only works on humans or yourself!"))
+		revert_cast()
+		return FALSE
+
+	if(user.pulling != target || user.grab_state < GRAB_AGGRESSIVE)
+		to_chat(user, span_warning("You must have an aggressive grab on [target] to begin the ritual!"))
+		revert_cast()
+		return FALSE
+
+	// Shouldn't ever prop up, but sanity check!
+	if(!destination_turf)
+		to_chat(user, span_warning("You haven't set a destination anchor yet!"))
+		revert_cast()
+		return FALSE
+
+	// Determine Channel Time
+	var/channel_time = 10 SECONDS
+	if(target.has_flaw(/datum/charflaw/hunted))
+		channel_time = 3 SECONDS
+
+	to_chat(user, span_notice("You begin pulling [target] into graggar's plane"))
+	to_chat(target, span_userdanger("The world around you begins to dissolve into a blood scented nightmare!"))
+	user.visible_message("[user] tears a blood red rift into space with a claw, and begins dragging [target] into it!")
+
+	if(!do_after(user, channel_time, target = target))
+		revert_cast()
+		return FALSE
+
+	// Ritual Execution
+	var/turf/origin_turf = get_turf(target)
+
+	var/obj/structure/portal_jaunt/portal = new(origin_turf)
+	portal.linked_turf = destination_turf
+	portal.safe_passage = TRUE 
+	portal.name = "fading blood rift"
+	portal.color = "#570f04"
+	portal.max_uses = 1
+
+	do_teleport(user, destination_turf)
+	do_teleport(target, destination_turf)
+
+	if(ishuman(user))
+		var/mob/living/carbon/human/userashuman = user
+		userashuman.blood_volume = max(0, userashuman.blood_volume - blood_loss)
+	for(var/mob/living/carbon/human/H in range(7, origin_turf))
+		if(H.dna?.species?.id == "gnoll")
+			H.blood_volume = max(0, H.blood_volume - blood_loss)
+			do_teleport(H, destination_turf)
+			to_chat(H, span_notice("You are swept along in the wake of the blood abduction!"))
+
+	to_chat(user, span_warning("The ritual is complete. You have brought them to your anchor."))
+	return TRUE
