@@ -119,7 +119,7 @@
 
 	if(!victim.clan && victim.mind && ishuman(victim) && VDrinker.generation > GENERATION_THINBLOOD && victim.blood_volume <= BLOOD_VOLUME_BAD)
 		var/datum/antagonist/vampire/vdrinker = mind?.has_antag_datum(/datum/antagonist/vampire)
-		if((vdrinker.max_thralls <= 0) || (isnull(vdrinker.max_thralls))) //thin bloods or low level vampires can't make thralls, incase they get past the last check by leveling up off others
+		if((vdrinker.max_thralls <= 0) || (isnull(vdrinker.max_thralls || VDrinker.generation == GENERATION_THINBLOOD))) //thin bloods or low level vampires can't make thralls, incase they get past the last check by leveling up off others
 			to_chat(src, span_warning("I cannot sire thralls, my blood is too weak!"))
 		else
 			if(vdrinker.thrall_count >= vdrinker.max_thralls) //you've hit your max
@@ -157,8 +157,8 @@
 
 	var/datum/mind/original_mind = mind
 	if(stat != DEAD)
-		Stun(VAMP_CONVERT_TIMEOUT)
-		Immobilize(VAMP_CONVERT_TIMEOUT)
+		apply_status_effect(/datum/status_effect/incapacitating/stun, VAMP_CONVERT_TIMEOUT)
+		apply_status_effect(/datum/status_effect/incapacitating/knockdown, VAMP_CONVERT_TIMEOUT)
 
 	var/vampire_choice = tgui_alert(
 		src,
@@ -167,6 +167,8 @@
 		list("MAKE IT SO", "I RESCIND"),
 		VAMP_CONVERT_TIMEOUT
 	)
+	remove_status_effect(/datum/status_effect/incapacitating/stun)
+	remove_status_effect(/datum/status_effect/incapacitating/knockdown)
 
 	if(QDELETED(src) || !mind)
 		vampire_conversion_prompt_active = FALSE
@@ -227,9 +229,8 @@
 	mind?.add_antag_datum(new_antag)
 	VDrinker.thrall_count++
 	adjust_bloodpool(VAMP_CONVERT_BLOOD_GAIN)
+	apply_status_effect(/datum/status_effect/incapacitating/stun, VAMP_CONVERT_POST_STUN)
 
-	Stun(VAMP_CONVERT_POST_STUN)
-	Immobilize(VAMP_CONVERT_POST_STUN)
 	vampire_conversion_prompt_active = FALSE
 	return
 
