@@ -195,10 +195,10 @@
 	stressadd = 2
 	desc = span_red("They are plotting against me in evil tongues...")
 
-/datum/stressevent/crowd
-	timer = 2 MINUTES
-	stressadd = 2
-	desc = "<span class='red'>Why is everyone here...? Are they trying to kill me?!</span>"
+/datum/stressevent/averse
+	timer = 1 MINUTES
+	stressadd = 5
+	desc = span_red("One of <u>them</u> is here.")
 
 /datum/stressevent/nopeople
 	timer = 2 MINUTES

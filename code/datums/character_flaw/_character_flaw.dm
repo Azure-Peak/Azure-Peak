@@ -1,6 +1,7 @@
 
 GLOBAL_LIST_INIT(character_flaws, list(
 	"Alcoholic"=/datum/charflaw/addiction/alcoholic,
+	"Averse"=/datum/charflaw/averse,
 	"Devout Follower"=/datum/charflaw/addiction/godfearing,
 	"Colorblind"=/datum/charflaw/colorblind,
 	"Smoker"=/datum/charflaw/addiction/smoker,
@@ -31,6 +32,17 @@ GLOBAL_LIST_INIT(character_flaws, list(
 	"No Flaw (-3 TRIUMPHS)"=/datum/charflaw/noflaw,
 	"Leper (+1 TRIUMPHS)"=/datum/charflaw/leprosy,
 	))
+
+GLOBAL_LIST_INIT(averse_factions, list(
+	"Courtiers & Nobility" = (COURTIERS | NOBLEMEN),
+	"Inquisition" = INQUISITION,
+	"Burghers" = BURGHERS,
+	"Retinue" = RETINUE,
+	"Garrison" = GARRISON,
+	"Churchmen" = CHURCHMEN,
+	"Peasants" = PEASANTS,
+	"Wanderers" = WANDERERS
+))
 
 /datum/charflaw
 	var/name
@@ -475,4 +487,87 @@ GLOBAL_LIST_INIT(character_flaws, list(
 				add_bounty(H.real_name, H.dna.species, H.gender, height, body, voice, rand(50, 100), FALSE, "Failure to pay outstanding debts.", "The Justiciary of Azuria")
 			bounty_added = TRUE
 		deadbeat.add_stress(/datum/stressevent/debt)
+
+/datum/charflaw/averse
+	name = "Averse"
+	desc = "I hate being around a particular kind of group."
+	var/chosen_group
+	var/paid_triumphs = FALSE
+	var/is_active = FALSE
+	var/check_interval = 15 SECONDS
+	var/active_since
+	var/next_check = 0
+	var/check_range
+
+/datum/charflaw/averse/flaw_on_life(mob/user)
+	if(is_active && world.time > next_check)
+		next_check = world.time + check_interval
+		if(user.has_stress_event(/datum/stressevent/averse))
+			return
+		for(var/mob/living/L in get_hearers_in_LOS(check_range, user, RECURSIVE_CONTENTS_CLIENT_MOBS))
+			if(L != user)
+				var/datum/job/J = SSjob.GetJob(L.job)
+				if(chosen_group & J.department_flag)
+					user.add_stress(/datum/stressevent/averse)
+				if(paid_triumphs)
+					triumph_refund(user)
+
+
+/datum/charflaw/averse/proc/triumph_refund(mob/user)
+	var/time_since = world.time - active_since
+	var/refund = 0
+	switch(time_since)
+		if(1 to 30 MINUTES)
+			refund = 3
+		if(31 MINUTES to 60 MINUTES)
+			refund = 2
+		if(61 MINUTES to 90 MINUTES)
+			refund = 1
+		if(91 to 9999 MINUTES)
+			refund = 0
+	if(refund)
+		to_chat(user, span_info("Refunding Triumphs due to vice."))
+		user.adjust_triumphs(refund)
+	paid_triumphs = FALSE
+
+/datum/charflaw/averse/proc/set_jobflag(faction)
+	if(!faction)
+		CRASH("Invalid set_jobflag called from Averse charflaw.")
+	if(faction in GLOB.averse_factions)
+		chosen_group = GLOB.averse_factions[faction]
+	else
+		CRASH("Invalid set_jobflag called from Averse charflaw using the faction:[faction].")
+
+/datum/charflaw/averse/proc/check_for_candidates(mob/user)
+	if(user.mind)
+		var/averse_found = FALSE
+		for(var/mob/living/L in GLOB.joined_player_list)
+			var/datum/job/J = SSjob.GetJob(L.job)
+			if(chosen_group & J.department_flag)
+				averse_found = TRUE
+		if(!averse_found)
+			var/list/options = list("Pick a Random Aversion", "Keep Current (-3 TRI)")
+			var/choice = input(user, "There are no viable candidates for your Aversion. What do you do?", "AVERSION ALERT") as anything in options
+			if(choice == "Keep Current (-3 TRI)" || !choice)
+				user.adjust_triumphs(-3)
+				paid_triumphs = TRUE
+			else if(choice == "Pick a Random Aversion")
+				var/new_aversion
+				var/max_attempts = 10
+				for(var/i = 1 to max_attempts)
+					new_aversion = pick(GLOB.averse_factions)
+					if(new_aversion != chosen_group)
+						to_chat(user, span_info("New Aversion selected: [new_aversion]"))
+						set_jobflag(new_aversion)
+						break
+
+
+/datum/charflaw/averse/apply_post_equipment(mob/user)
+	if(user.mind)
+		if(user.client.prefs?.averse_chosen_faction)
+			set_jobflag(user.client.prefs?.averse_chosen_faction)
+			is_active = TRUE
+			active_since = world.time
+	addtimer(CALLBACK(src, PROC_REF(check_for_candidates), user), 5 SECONDS)
+
 
