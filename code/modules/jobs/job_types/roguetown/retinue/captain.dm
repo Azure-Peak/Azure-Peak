@@ -74,7 +74,6 @@
 	on any battlefield."
 	outfit = /datum/outfit/job/roguetown/captain/infantry
 	category_tags = list(CTAG_CAPTAIN)
-	horse = /mob/living/simple_animal/hostile/retaliate/rogue/saiga/saigabuck/tame/saddled
 	subclass_stats = list(
 		STATKEY_STR = 2,
 		STATKEY_CON = 2,
@@ -98,6 +97,9 @@
 		/datum/skill/combat/crossbows = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/combat/bows = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/misc/swimming = SKILL_LEVEL_APPRENTICE,
+	)
+	subclass_virtues = list(
+		/datum/virtue/utility/riding
 	)
 	subclass_stashed_items = list("Ducal Caparison" = /obj/item/caparison/azure)
 	extra_context = "This class gains Master skill in their weapon of choice. Recieves Azurean Caparison in it's stash."
