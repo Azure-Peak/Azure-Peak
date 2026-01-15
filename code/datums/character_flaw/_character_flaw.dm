@@ -546,6 +546,7 @@ GLOBAL_LIST_INIT(averse_factions, list(
 			var/datum/job/J = SSjob.GetJob(L.job)
 			if(chosen_group & J.department_flag)
 				averse_found = TRUE
+				break
 		if(!averse_found)
 			var/list/options = list("Pick a Random Aversion", "Keep Current (-3 TRI)")
 			var/choice = input(user, "There are no viable candidates for your Aversion. What do you do?", "AVERSION ALERT") as anything in options
