@@ -136,7 +136,7 @@
 
 	to_chat(user, span_notice("You begin pulling [target] into graggar's plane"))
 	to_chat(target, span_userdanger("The world around you begins to dissolve into a blood scented nightmare!"))
-	user.visible_message("[user] tears a blood red rift into space with a claw, and begins dragging [target] into it!")
+	user.visible_message(span_userdanger("[user] tears a blood red rift into space with a claw, and begins dragging [target] into it!"))
 
 	if(!do_after(user, channel_time, target = target))
 		revert_cast()
@@ -165,4 +165,66 @@
 			to_chat(H, span_notice("You are swept along in the wake of the blood abduction!"))
 
 	to_chat(user, span_warning("The ritual is complete. You have brought them to your anchor."))
+	return TRUE
+
+/datum/component/gnoll_combat_tracker
+	var/last_damage_time = 0
+
+/datum/component/gnoll_combat_tracker/Initialize()
+	if(!isliving(parent))
+		return COMPONENT_INCOMPATIBLE
+	RegisterSignal(parent, COMSIG_MOB_APPLY_DAMGE, PROC_REF(on_damage))
+
+/datum/component/gnoll_combat_tracker/proc/on_damage()
+	last_damage_time = world.time
+
+/datum/component/gnoll_combat_tracker/proc/can_cast_stealth()
+	// Returns TRUE if 1 minute has passed
+	return (world.time >= last_damage_time + 60 SECONDS)
+
+/obj/effect/proc_holder/spell/invoked/invisibility/gnoll
+	name = "Stalk"
+	desc = "Fade from view. Lasts longer if you are close to your sniffed prey. Far longer if they are hunted. Taking damage makes it impossible to go invisible for a minute."
+	var/obj/effect/proc_holder/spell/invoked/gnoll_sniff/sniff_spell
+	recharge_time = 2 MINUTES
+
+/obj/effect/proc_holder/spell/invoked/invisibility/gnoll/cast(list/targets, mob/living/user)
+	var/mob/living/target = targets[1]
+	if(!isliving(target))
+		revert_cast()
+		return FALSE
+
+	// Check Damage Tracker Component
+	var/datum/component/gnoll_combat_tracker/tracker = user.GetComponent(/datum/component/gnoll_combat_tracker)
+	if(tracker && !tracker.can_cast_stealth())
+		var/wait = (tracker.last_damage_time + 60 SECONDS - world.time) / 10
+		to_chat(user, span_warning("Your blood is pumping too fast to use it to shroud someone's step! Wait [round(wait)] seconds."))
+		revert_cast()
+		return FALSE
+
+	if(target.anti_magic_check(TRUE, TRUE))
+		revert_cast()
+		return FALSE
+
+	var/base_dur = 5 SECONDS
+	var/bonus_dur = 0
+
+	if(sniff_spell && sniff_spell.tracked_target)
+		var/mob/living/prey = sniff_spell.tracked_target
+		if(get_dist(user, prey) <= 10)
+			to_chat(user, span_danger("My prey is close, my cloak lengthens."))
+			bonus_dur += 5 SECONDS // Small bonus for being close
+			if(prey.has_flaw(/datum/charflaw/hunted))
+				bonus_dur += 25 SECONDS // Massive bonus for hunted targets
+
+	var/total_dur = base_dur + bonus_dur
+
+	target.visible_message(span_warning("[target] vanishes into the scent of the hunt!"), span_notice("You vanish, the hunt guides your shadows."))
+
+	animate(target, alpha = 0, time = 1 SECONDS, easing = EASE_IN)
+	target.mob_timers[MT_INVISIBILITY] = world.time + total_dur
+
+	addtimer(CALLBACK(target, TYPE_PROC_REF(/mob/living, update_sneak_invis), TRUE), total_dur)
+	addtimer(CALLBACK(target, TYPE_PROC_REF(/atom/movable, visible_message), span_warning("[target] lunges out of the shadows!"), span_notice("Your invisibility fades.")), total_dur)
+
 	return TRUE
