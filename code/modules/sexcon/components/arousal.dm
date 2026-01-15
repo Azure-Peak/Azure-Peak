@@ -188,9 +188,11 @@
 	charge = max(0, charge - CHARGE_FOR_CLIMAX)
 
 	if(user.has_flaw(/datum/charflaw/addiction/thrillseeker))
+		var/datum/charflaw/addiction/thrill = user.get_flaw(/datum/charflaw/addiction/thrillseeker)
 		user.playsound_local(user, 'sound/misc/mat/end.ogg', 100)
 		last_ejaculation_time = world.time
-		user.add_stress(/datum/stressevent/thrillsex)
+		if(!thrill.sated)
+			user.add_stress(/datum/stressevent/thrillsex)
 		return
 
 	if(user == target)

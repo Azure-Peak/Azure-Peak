@@ -173,11 +173,15 @@
 			if(user.has_flaw(/datum/charflaw/addiction/thrillseeker))
 				var/datum/component/arousal/CAR = user.GetComponent(/datum/component/arousal)
 				if(CAR)
+					user.sate_addiction()
+					user.add_stress(/datum/stressevent/thrill)
 					CAR.ejaculate()
 
 			if(owner.has_flaw(/datum/charflaw/addiction/thrillseeker))
 				var/datum/component/arousal/CAR = owner.GetComponent(/datum/component/arousal)
 				if(CAR)
+					owner.sate_addiction()
+					owner.add_stress(/datum/stressevent/thrill)
 					CAR.ejaculate()
 
 			return crit_attempt
