@@ -97,7 +97,7 @@
 
 /obj/effect/proc_holder/spell/invoked/abduct
 	name = "Abduct"
-	desc = "Cast on self to set a destination. Cast on an aggressively grabbed human to teleport them and nearby Gnolls to that destination. Much faster on hunted targets. There is a small blood tax for all gnolls involved, be careful."
+	desc = "Cast on self to set a destination. Cast on an aggressively grabbed human to teleport them and nearby Gnolls to that destination. Much faster on hunted targets. There is a small blood tax for all gnolls involved, be careful. Pursuers may be able to follow."
 	var/turf/destination_turf
 	var/blood_loss = 75
 	recharge_time = 5 MINUTES
@@ -144,13 +144,7 @@
 
 	// Ritual Execution
 	var/turf/origin_turf = get_turf(target)
-
-	var/obj/structure/portal_jaunt/portal = new(origin_turf)
-	portal.linked_turf = destination_turf
-	portal.safe_passage = TRUE 
-	portal.name = "fading blood rift"
-	portal.color = "#570f04"
-	portal.max_uses = 1
+	var/gnoll_hitchhikers = 0
 
 	do_teleport(user, destination_turf)
 	do_teleport(target, destination_turf)
@@ -159,10 +153,21 @@
 		var/mob/living/carbon/human/userashuman = user
 		userashuman.blood_volume = max(0, userashuman.blood_volume - blood_loss)
 	for(var/mob/living/carbon/human/H in range(7, origin_turf))
-		if(H.dna?.species?.id == "gnoll")
+		if(H.dna?.species?.id == "gnoll" && !user)
+			gnoll_hitchhikers++
 			H.blood_volume = max(0, H.blood_volume - blood_loss)
 			do_teleport(H, destination_turf)
 			to_chat(H, span_notice("You are swept along in the wake of the blood abduction!"))
+
+	// Basically, if a gnoll is baddass enough to abduct his target alone, no one can follow
+	if(gnoll_hitchhikers)
+		var/obj/structure/portal_jaunt/portal = new(origin_turf)
+		portal.linked_turf = destination_turf
+		portal.safe_passage = TRUE 
+		portal.name = "fading blood rift"
+		portal.color = "#570f04"
+		portal.max_uses = 1
+	new /obj/effect/gibspawner/human/bodypartless(origin_turf, target)
 
 	to_chat(user, span_warning("The ritual is complete. You have brought them to your anchor."))
 	return TRUE
