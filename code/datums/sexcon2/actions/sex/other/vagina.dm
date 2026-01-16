@@ -2,6 +2,7 @@
 	name = "Ride them"
 	stamina_cost = 1.0
 	aggro_grab_instead_same_tile = FALSE
+	intensity = 4
 
 /datum/sex_action/sex/other/vagina/shows_on_menu(mob/living/carbon/human/user, mob/living/carbon/human/target)
 	if(user == target)

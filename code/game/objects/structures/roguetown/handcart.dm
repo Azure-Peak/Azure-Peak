@@ -33,6 +33,7 @@
 	. += span_info("Right clicking on the cart with an empty hand dumps all the contents out on the tile it's on.")
 	. += span_info("Left clicking on the cart with an item in hand will attempt to put that item into the cart.")
 	. += span_info("Middle clicking the cart will place all the items on the cart's turf, into the cart.")
+	. += span_info("Click-dragging a mob onto the cart will put them into the cart, as long as they're either not in combat mode, or dead.")
 	. += span_info("Click-dragging an item onto the cart will drag every item on that turf into the cart.")
 
 /obj/structure/handcart/proc/manage_upgrade()
@@ -79,7 +80,7 @@
 		return
 	if(user == O) //try to climb into or onto it
 		if(!(user.mobility_flags & MOBILITY_STAND))
-			if(!do_after(user, 20, target = src))
+			if(!do_after(user, 2 SECONDS, target = src))
 				return FALSE
 			if(put_in(O))
 				playsound(loc, 'sound/foley/cartadd.ogg', 100, FALSE, -1)
@@ -88,14 +89,33 @@
 	if(user.used_intent.type == INTENT_HELP || user.used_intent.type == /datum/intent/grab/move)
 		user.changeNext_move(CLICK_CD_MELEE)
 		var/play_sound = FALSE
-		var/turf/item_turf = get_turf(O)
-		for(var/obj/item/item_on_ground in item_turf)
-			if(item_on_ground == src)
-				continue
-			if(!insertion_allowed(item_on_ground))
-				continue
-			put_in(item_on_ground)
+		if(isliving(O))
+			var/mob/living/living_mob = O
+			if(!fits_in_cart(O))
+				to_chat(user, span_warning("[living_mob] doesn't fit into the cart!"))
+				return FALSE
+			if(!insertion_allowed(living_mob))
+				to_chat(user, span_warning("[living_mob] cannot be put into the cart!"))
+				return FALSE
+			if(!do_after(user, 2 SECONDS, target = src))
+				return FALSE
+			if(!fits_in_cart(O))
+				to_chat(user, span_warning("[living_mob] doesn't fit into the cart!"))
+				return FALSE
+			if(!insertion_allowed(living_mob))
+				to_chat(user, span_warning("[living_mob] cannot be put into the cart!"))
+				return FALSE
+			put_in(living_mob)
 			play_sound = TRUE
+		else
+			var/turf/item_turf = get_turf(O)
+			for(var/obj/item/item_on_ground in item_turf)
+				if(item_on_ground == src)
+					continue
+				if(!insertion_allowed(item_on_ground))
+					continue
+				put_in(item_on_ground)
+				play_sound = TRUE
 		if(play_sound)
 			playsound(loc, 'sound/foley/cartadd.ogg', 100, FALSE, -1)
 
@@ -174,9 +194,14 @@
 		return
 	..()
 
-/obj/structure/handcart/proc/put_in(atom/movable/O, mob/user)
+/obj/structure/handcart/proc/fits_in_cart(atom/movable/O)
 	var/atom_weight = get_atom_weight(O)
 	if(current_capacity + atom_weight > maximum_capacity)
+		return FALSE
+	return TRUE
+
+/obj/structure/handcart/proc/put_in(atom/movable/O, mob/user)
+	if(!fits_in_cart(O))
 		to_chat(user, span_warning("The cart cannot hold any more weight!"))
 		return FALSE
 
@@ -186,7 +211,7 @@
 	RegisterSignal(O, COMSIG_QDELETING, PROC_REF(remove_from_signal))
 
 	O.forceMove(src)
-	current_capacity += atom_weight
+	current_capacity += get_atom_weight(O)
 	contained_items += O
 	update_icon()
 	return TRUE
@@ -214,7 +239,8 @@
 		var/obj/item/I = atom
 		weight = I.w_class
 	if(isliving(atom))
-		weight = arbitrary_living_creature_weight
+		var/mob/living/living_atom = atom
+		weight = arbitrary_living_creature_weight * living_atom.mob_size // small critters take 10 space, human sized takes 20, large takes 30
 	return weight
 
 /obj/structure/handcart/proc/recalculate_capacity()

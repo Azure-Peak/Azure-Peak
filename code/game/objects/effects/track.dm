@@ -209,7 +209,7 @@
 	if(!HAS_TRAIT(user, TRAIT_PERFECT_TRACKER))
 		var/diff = 0
 		diff += tracking_modifier
-		diff += round((world.time - creation_time) / (60 SECONDS), 1) 
+		diff += round((world.time - creation_time) / (60 SECONDS), 1)
 		var/competence = abs(user.STAPER - 5)
 		if(user.mind)
 			competence += 5 * user.get_skill_level(/datum/skill/misc/tracking) //Skill is much more relevant for analysis.
@@ -231,7 +231,7 @@
 //Handles value settings done for a track that need to be done.
 /obj/effect/track/proc/handle_creation(mob/living/track_source)
 	creator = track_source
-	RegisterSignal(track_source, COMSIG_PARENT_QDELETING, PROC_REF(clear_creator_reference))
+	RegisterSignal(track_source, COMSIG_PARENT_QDELETING, PROC_REF(clear_creator_reference), TRUE)
 	creation_time = world.time
 	track_source.get_track_info(src)
 	if(track_source.m_intent == MOVE_INTENT_SNEAK)

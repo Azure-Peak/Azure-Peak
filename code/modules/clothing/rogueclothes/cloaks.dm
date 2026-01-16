@@ -696,6 +696,7 @@
 	item_state = "apron"
 	alternate_worn_layer = TABARD_LAYER
 	body_parts_covered = CHEST|GROIN
+	slot_flags = ITEM_SLOT_ARMOR|ITEM_SLOT_CLOAK|ITEM_SLOT_BELT
 	boobed = TRUE
 	allowed_race = CLOTHED_RACES_TYPES
 	flags_inv = HIDECROTCH|HIDEBOOB
@@ -738,7 +739,6 @@
 	icon_state = "aproncook"
 	item_state = "aproncook"
 	body_parts_covered = GROIN
-	slot_flags = ITEM_SLOT_ARMOR|ITEM_SLOT_CLOAK
 	boobed = FALSE
 
 /obj/item/clothing/cloak/raincloak

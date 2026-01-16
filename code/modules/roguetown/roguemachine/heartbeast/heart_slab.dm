@@ -78,11 +78,13 @@
 /obj/effect/landmark/chimeric_calyx_spawner/fifteen
 	calyx_spawn_chance = 15
 
-/obj/effect/landmark/chimeric_calyx_spawner/Initialize()
+/obj/effect/landmark/chimeric_calyx_spawner/Initialize(mapload)
 	. = ..()
+	if(SSticker && SSticker.setup_done)
+		return INITIALIZE_HINT_QDEL
 	if(prob(calyx_spawn_chance))
 		new /obj/structure/roguemachine/chimeric_calyx(loc)
-	qdel(src)
+	return INITIALIZE_HINT_QDEL
 
 /obj/structure/roguemachine/chimeric_calyx
 	name = "Heartbeast Calyx"
@@ -92,6 +94,9 @@
 	density = TRUE
 	anchored = TRUE
 	var/list/contributing_names = list()
+	var/calyx_uses = 0
+	blade_dulling = DULLING_CUT
+	max_integrity = 300
 
 /obj/structure/roguemachine/chimeric_calyx/attack_hand(mob/user)
 	if(!ishuman(user))
@@ -124,6 +129,7 @@
 	// Grant Echo Points: Clamp between 1 and 6 based on effectiveness
 	var/points_granted = clamp(effectiveness, 1, 6)
 	SSchimeric_tech.echo_points += points_granted
+	calyx_uses++
 	// One sippy per person
 	contributing_names += H.real_name
 	var/healing = 5
@@ -132,9 +138,48 @@
 	// 225 healing but slowly released across 10 minutes, can't be refreshed.
 	H.apply_status_effect(/datum/status_effect/buff/pestra_care)
 
+	if(H.has_status_effect(/datum/status_effect/black_rot))
+		var/datum/status_effect/black_rot/rot = H.has_status_effect(/datum/status_effect/black_rot)
+		rot.remove_stack(2)
+		to_chat(H, span_good("The calyx's purifying blood flows through you, cleansing the black rot!"))
+
 	to_chat(H, span_boldnotice("The calyx shudders as tendrils extend to feel up your arms, affectionately carressing your head. You have contributed [points_granted] Echoes."))
 	if(vial_count > 1)
 		to_chat(H, span_notice("Your affinity allows you to coax the creature into giving you an extra vial of blood."))
 	else
 		to_chat(H, span_notice("The calyx cautiously places a vial of blood on the ground with one tendril."))
 	playsound(src, 'sound/misc/machineyes.ogg', 50, 1)
+
+/obj/structure/roguemachine/chimeric_calyx/obj_destruction(damage_flag)
+	var/anger_chance = max(0, 75 - (calyx_uses * 25))
+	if(calyx_uses == 0 || prob(anger_chance))
+		playsound(src, 'sound/mobs/abyssal/abyssal_pain.ogg', 100, 1)
+		visible_message(span_userdanger("The calyx, its curiosity unsatisfied, turns its attention towards its assailants one last time before it disappears underground."))
+		spawn(10)
+			visible_message(span_userdanger("Stange vibrations rock through the earth! Something is coming!"))
+		var/list/possible_targets = get_adjacent_ambush_turfs(loc)
+		if(possible_targets.len)
+			playsound(src, 'sound/misc/jumpscare (4).ogg', 100, 1)
+			visible_message(span_userdanger("The earth bursts as underdweller creatures are coaxed out of the ground!"))
+			var/list/vengeance_mobs = list(
+				/mob/living/simple_animal/hostile/rogue/mirespider_paralytic = 2,
+				/mob/living/simple_animal/hostile/retaliate/rogue/mirespider = 5,
+				/mob/living/simple_animal/hostile/rogue/mirespider_lurker = 5,
+				/mob/living/simple_animal/hostile/rogue/mirespider_lurker/mushroom = 2
+			)
+			for(var/i in 1 to 3)
+				var/spawnloc = pick(possible_targets)
+				if(spawnloc)
+					var/random_delay = rand(1, 5)
+					spawn(random_delay SECONDS)
+						var/mob_type = pickweight(vengeance_mobs)
+						var/mob/living/simple_animal/hostile/vengeance_mob = new mob_type(spawnloc)
+						vengeance_mob.attack_same = FALSE
+						vengeance_mob.del_on_deaggro = 45 SECONDS
+						vengeance_mob.faction += "ambush"
+						playsound(spawnloc, 'sound/mobs/abyssal/abyssal_pain.ogg', 50, 1)
+		var/random_curiosity_reward = rand(2,max(3, 6 - calyx_uses))
+		SSchimeric_tech.echo_points += random_curiosity_reward
+	else
+		visible_message(span_info("The calyx harmlessly retreats underground after suffering some abuse."))
+	. = ..()

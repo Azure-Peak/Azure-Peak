@@ -33,10 +33,14 @@
 
 //Makes you a little chilly
 /datum/particle_weather/rain_gentle/weather_act(mob/living/L)
+	if(HAS_TRAIT(L, TRAIT_WEATHER_PROTECTED))
+		L.add_stress(/datum/stressevent/parasol_rain)
+		return
+
 	L.adjust_bodytemperature(-rand(1,3))
 	L.adjust_fire_stacks(-100)
 	L.SoakMob(FULL_BODY)
-	wash_atom(L,CLEAN_WEAK)
+	wash_atom(L, CLEAN_WEAK)
 
 /datum/particle_weather/rain_storm
 	name = "Rain"

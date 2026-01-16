@@ -312,6 +312,9 @@
 		/datum/mob_descriptor/trait/loutish,
 		/datum/mob_descriptor/trait/limping,
 		/datum/mob_descriptor/trait/foreign,
+		/datum/mob_descriptor/trait/rotten,
+		/datum/mob_descriptor/trait/soggy,
+
 	)
 
 /datum/descriptor_choice/skin_all

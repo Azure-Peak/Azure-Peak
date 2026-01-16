@@ -6,7 +6,7 @@
 /obj/item/clothing/suit/roguetown/armor/armordress
 	slot_flags = ITEM_SLOT_ARMOR
 	name = "padded dress"
-	desc = "This dress has been padded with leather for extra protection. Bolts and arrows punch right through it."
+	desc = "A thick, padded, and comfortable dress popular amongst nobility during winter. An errant gash might reveal a special secret beneath the silk: streaks of concealed leather, treated to disperse killing blows."
 	body_parts_covered = COVERAGE_FULL
 	icon_state = "armordress"
 	armor = ARMOR_LEATHER

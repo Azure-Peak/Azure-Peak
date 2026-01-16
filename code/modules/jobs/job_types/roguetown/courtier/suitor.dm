@@ -1,7 +1,7 @@
 /datum/job/roguetown/suitor
 	title = "Suitor"
 	flag = SUITOR
-	department_flag = NOBLEMEN
+	department_flag = COURTIERS
 	faction = "Station"
 	total_positions = 0
 	spawn_positions = 0

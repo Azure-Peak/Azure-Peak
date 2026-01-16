@@ -1,5 +1,0 @@
-author: "Geevies"
-delete-after: True
-changes:
-  - rscadd: "Mounted Knights can now pick the Froggemund helmet."
-  - bugfix: "Fixed knights' loadout referring to the klappvisier helmet as the Etruscan helmet."

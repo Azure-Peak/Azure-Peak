@@ -279,7 +279,7 @@ GLOBAL_LIST_EMPTY(round_join_times)
 #define CTAG_ASSASSIN		"CAT_ASSASSIN"		// Assassin classes - Tied to the assassin antag for specialization
 #define CTAG_CHALLENGE 		"CAT_CHALLENGE"  	// Challenge class - Meant to be free for everyone
 #define CTAG_VAGABOND		"CAT_VAGABOND"		// Vagabond class - start with nothing and work your way up
-#define CTAG_INQUISITION	"CAT_INQUISITION"	// For Orthodoxist subclasses
+#define CTAG_ORTHODOXIST	"CAT_ORTHODOXIST"	// For Orthodoxist subclasses
 #define CTAG_INQUSITOR		"CAT_INQUISITOR"	// For Inquisitor subclasses
 #define CTAG_ABSOLVER		"CAT_ABSOLVER"		// For Absolver (sub)class
 #define CTAG_COURTAGENT		"CAT_COURTAGENT"	// Court agent classes

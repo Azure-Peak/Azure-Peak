@@ -189,6 +189,8 @@
 	desc = "A dark whip with segmented, ashen spines for a base. Claimed to be hewn from dendrified prisoners of terror."
 	icon_state = "spiderwhip"
 	minstr = 6
+	smeltresult = /obj/item/ingot/drow
+	smelt_bar_num = 1
 
 /obj/item/rogueweapon/whip/bronze
 	name = "bronze whip"
