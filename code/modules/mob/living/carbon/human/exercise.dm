@@ -57,11 +57,11 @@ Exercise Verbs
 
 		/// For healable skin armor. This is unideal, but I'm a mapper, sire, and I don't know how signals work.
 		if(pushups_in_a_row % 10 == 0 && !on_knees)
-			var/obj/item/clothing/suit/roguetown/armor/regenerating/skin/healable/pushups/skin_armor
-			if (istype(wear_shirt, /obj/item/clothing/suit/roguetown/armor/regenerating/skin/healable/pushups))
+			var/obj/item/clothing/suit/roguetown/armor/manual/pushups/skin_armor
+			if (istype(wear_shirt, /obj/item/clothing/suit/roguetown/armor/manual/pushups))
 				skin_armor = wear_shirt
 
-			else if (istype(wear_armor, /obj/item/clothing/suit/roguetown/armor/regenerating/skin/healable/pushups))
+			else if (istype(wear_armor, /obj/item/clothing/suit/roguetown/armor/manual/pushups))
 				skin_armor = wear_armor
 
 			if (skin_armor)

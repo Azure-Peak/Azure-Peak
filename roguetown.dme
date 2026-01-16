@@ -1525,6 +1525,7 @@
 #include "code\modules\clothing\rogueclothes\armor\gambeson.dm"
 #include "code\modules\clothing\rogueclothes\armor\gronn.dm"
 #include "code\modules\clothing\rogueclothes\armor\leather.dm"
+#include "code\modules\clothing\rogueclothes\armor\manual.dm"
 #include "code\modules\clothing\rogueclothes\armor\misc.dm"
 #include "code\modules\clothing\rogueclothes\armor\plate.dm"
 #include "code\modules\clothing\rogueclothes\armor\regenerating.dm"

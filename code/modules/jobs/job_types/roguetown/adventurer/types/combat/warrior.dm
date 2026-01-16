@@ -279,7 +279,7 @@
 				gloves = /obj/item/clothing/gloves/roguetown/bandages/weighted
 			if ("Discipline - Bodybuilder")
 				H.adjust_skillrank_up_to(/datum/skill.combat/axes, SKILL_LEVEL_JOURNEYMAN, TRUE)
-				armor = /obj/item/clothing/suit/roguetown/armor/regenerating/skin/healable/pushups/leather
+				armor = /obj/item/clothing/suit/roguetown/armor/manual/pushups/leather
 				r_hand = /obj/item/rogueweapon/greataxe
 				backr = /obj/item/rogueweapon/scabbard/gwstrap
 				H.change_stat(STATKEY_INT, -3) ///This is probably waaay too much and makes this subclass completely unviable, but admins are concerned the armor might be OP.

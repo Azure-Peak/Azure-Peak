@@ -64,7 +64,7 @@
 			if("Discipline - Bodybuilder")
 				H.adjust_skillrank_up_to(/datum/skill/combat/axes, SKILL_LEVEL_EXPERT, TRUE)
 				r_hand = /obj/item/rogueweapon/greataxe
-				armor = /obj/item/clothing/suit/roguetown/armor/regenerating/skin/healable/pushups/leather/good
+				armor = /obj/item/clothing/suit/roguetown/armor/manual/pushups/leather/good
 				backl = /obj/item/rogueweapon/scabbard/gwstrap
 				H.change_stat(STATKEY_INT, -3) /// Same reasoning as advent barbarian. I think it makes the subclass shit, but it is what it is.
 			if("Katar")

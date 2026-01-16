@@ -23,20 +23,16 @@
 	var/interrupt_dflag
 	var/interrupt_ddir
 
-	/// Added to support healable skin armor.
-	var/regeneration = TRUE
-
 /obj/item/clothing/suit/roguetown/armor/regenerating/take_damage(damage_amount, damage_type, damage_flag, sound_effect, attack_dir, armor_penetration)
 	..()
-	if(regeneration)
-		if(reptimer)
-			if(!regen_interrupt(damage_amount, damage_type, damage_flag, attack_dir))
-				return
-			to_chat(loc, span_notice(repairmsg_stop))
-			deltimer(reptimer)
+	if(reptimer)
+		if(!regen_interrupt(damage_amount, damage_type, damage_flag, attack_dir))
+			return
+		to_chat(loc, span_notice(repairmsg_stop))
+		deltimer(reptimer)
 
-		to_chat(loc, span_notice(repairmsg_begin))
-		reptimer = addtimer(CALLBACK(src, PROC_REF(armour_regen)), repair_time, TIMER_OVERRIDE|TIMER_UNIQUE|TIMER_STOPPABLE)
+	to_chat(loc, span_notice(repairmsg_begin))
+	reptimer = addtimer(CALLBACK(src, PROC_REF(armour_regen)), repair_time, TIMER_OVERRIDE|TIMER_UNIQUE|TIMER_STOPPABLE)
 
 /obj/item/clothing/suit/roguetown/armor/regenerating/proc/armour_regen(var/repair_percent = 0.2 * max_integrity)
 	if(obj_integrity >= max_integrity)
@@ -49,22 +45,18 @@
 	obj_integrity = min(obj_integrity + repair_percent, max_integrity)
 	if(obj_broken)
 		obj_fix(full_repair = FALSE)
-	if(regeneration)
-		reptimer = addtimer(CALLBACK(src, PROC_REF(armour_regen)), repair_time, TIMER_OVERRIDE|TIMER_UNIQUE|TIMER_STOPPABLE)
-
-		
+	reptimer = addtimer(CALLBACK(src, PROC_REF(armour_regen)), repair_time, TIMER_OVERRIDE|TIMER_UNIQUE|TIMER_STOPPABLE)
 
 /obj/item/clothing/suit/roguetown/armor/regenerating/proc/regen_interrupt(damage_amount, damage_type, damage_flag, attack_dir)
-	if(regeneration)
-		if(interrupt_damount && interrupt_damount > damage_amount)
-			return FALSE
-		if(interrupt_dtype && interrupt_dtype != damage_type)
-			return FALSE
-		if(interrupt_dflag && interrupt_dflag != damage_flag)
-			return FALSE
-		if(interrupt_ddir && interrupt_ddir != attack_dir)
-			return FALSE
-		return TRUE
+	if(interrupt_damount && interrupt_damount > damage_amount)
+		return FALSE
+	if(interrupt_dtype && interrupt_dtype != damage_type)
+		return FALSE
+	if(interrupt_dflag && interrupt_dflag != damage_flag)
+		return FALSE
+	if(interrupt_ddir && interrupt_ddir != attack_dir)
+		return FALSE
+	return TRUE
 
 
 // SKIN ARMOUR
@@ -113,32 +105,3 @@
 	prevent_crits = list(BCLASS_CUT, BCLASS_BLUNT)
 	max_integrity = 300
 	repair_time = 20 SECONDS
-
-
-/// Abstract parent for all healable sources. This is here because I expect that other sources of healing will be added in the future.
-/obj/item/clothing/suit/roguetown/armor/regenerating/skin/healable
-	name = "healable skin armor"
-	desc = "This is an abstract parent for future forms of healable skin armor. If you see this, contact a dev."
-
-	/// Might break things if you turn this on w/ a secondary source of healing.
-	regeneration = FALSE
-
-
-/// The check for calling armour regen for this is in exercise.dm, and while this is unideal, I'm not a good enough coder to know another way.
-/obj/item/clothing/suit/roguetown/armor/regenerating/skin/healable/pushups
-	name = "muscled skin"
-	desc = "The reward for all your hard work. </br> THE INFLUENCE OF THE HAM SANDWYCH RACE IS WANING. I MUST DO PUSH-UPS, TO REMIND MY MUSCLES OF THEIR OWN STRENGTH."
-
-	/// We don't have repairmsg_stop set because there shouldn't be any way the healing can be interrupted. If you wanna try and do pushups as someone's smacking you with a sword, be my guest.
-	/// The same thing for begin: we don't use the timers, so it shouldn't ever be called.
-	repairmsg_continue = "My muscles mend from my efforts."
-	repairmsg_end = "My muscles sheen with vitality!"
-
-
-/// For advent barbarian. Sets armor stats to be equal to leather armor.
-/obj/item/clothing/suit/roguetown/armor/regenerating/skin/healable/pushups/leather
-	armor_class = ARMOR_LEATHER
-
-/// For wretch beserkers. An upgraded version of the advent one.
-/obj/item/clothing/suit/roguetown/armor/regenerating/skin/healable/pushups/leather/good
-	armor_class = ARMOR_LEATHER_GOOD
