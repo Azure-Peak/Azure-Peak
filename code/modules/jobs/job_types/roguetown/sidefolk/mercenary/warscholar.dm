@@ -176,6 +176,7 @@
 		STATKEY_SPD = 2,
 		STATKEY_WIL = 2,
 	)
+	traits_applied = list(TRAIT_MAGEARMOR, TRAIT_ARCYNE_T2, TRAIT_ALCHEMY_EXPERT) //Override parent with T2 arcyne so they don't get Arcyne Affinity and purchase mindlink or whatnot
 	subclass_skills = list(
 		/datum/skill/combat/wrestling = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/combat/unarmed = SKILL_LEVEL_APPRENTICE,
