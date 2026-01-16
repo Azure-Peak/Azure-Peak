@@ -350,7 +350,7 @@
 
 		if((HU in SStreasury.bank_accounts)) //do we not have an account?
 			playsound(loc, 'sound/misc/gold_menu.ogg', 100, TRUE, -1)
-			say("Yeoman [user.real_name] logged entering zone securisee.")
+			say("Bourgeois [user.real_name] logged entering zone securisee.")
 			return
 
 		else //?????

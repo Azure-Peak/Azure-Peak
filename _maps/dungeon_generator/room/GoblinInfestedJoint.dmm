@@ -35,13 +35,6 @@
 /obj/structure/spider/stickyweb,
 /turf/open/floor/rogue/dirt,
 /area/rogue/under/tomb/cave)
-"bQ" = (
-/obj/item/natural/stone{
-	pixel_x = 5;
-	pixel_y = 11
-	},
-/turf/open/floor/rogue/cobble/mossy,
-/area/rogue/under/tomb/indoors)
 "bZ" = (
 /turf/closed/wall/mineral/rogue/decostone/end{
 	dir = 8
@@ -78,13 +71,6 @@
 /obj/item/reagent_containers/food/snacks/grown/oat,
 /obj/item/reagent_containers/food/snacks/grown/oat,
 /obj/item/reagent_containers/food/snacks/grown/oat,
-/turf/open/floor/rogue/cobble,
-/area/rogue/under/tomb/indoors)
-"dc" = (
-/obj/item/natural/stone{
-	pixel_x = 10;
-	pixel_y = -10
-	},
 /turf/open/floor/rogue/cobble,
 /area/rogue/under/tomb/indoors)
 "dm" = (
@@ -611,10 +597,6 @@
 "vh" = (
 /obj/effect/decal/cleanable/blood/gibs/body,
 /obj/effect/decal/cleanable/blood,
-/obj/item/natural/stone{
-	pixel_x = 5;
-	pixel_y = 0
-	},
 /turf/open/floor/rogue/cobble/mossy,
 /area/rogue/under/tomb/indoors)
 "vl" = (
@@ -633,10 +615,7 @@
 	pixel_x = -4;
 	pixel_y = 5
 	},
-/obj/item/candle/yellow/lit{
-	pixel_x = 9;
-	pixel_y = -1
-	},
+/obj/effect/spawner/lootdrop/valuable_candle_spawner,
 /turf/open/floor/rogue/wood/nosmooth,
 /area/rogue/under/tomb/indoors)
 "vZ" = (
@@ -749,10 +728,6 @@
 "AP" = (
 /obj/effect/decal/cleanable/blood/gibs/body,
 /obj/effect/decal/cleanable/blood,
-/obj/item/natural/stone{
-	pixel_y = 12;
-	pixel_x = -8
-	},
 /turf/open/floor/rogue/cobble,
 /area/rogue/under/tomb/indoors)
 "AU" = (
@@ -972,12 +947,6 @@
 /area/rogue/under/tomb/indoors)
 "Ky" = (
 /turf/closed/wall/mineral/rogue/decostone/long,
-/area/rogue/under/tomb/indoors)
-"Kz" = (
-/obj/item/natural/stone{
-	pixel_x = 10
-	},
-/turf/open/floor/rogue/cobble,
 /area/rogue/under/tomb/indoors)
 "Lh" = (
 /obj/structure/spider/stickyweb/solo,
@@ -1330,6 +1299,33 @@
 /obj/structure/mineral_door/bars,
 /turf/open/floor/rogue/grass,
 /area/rogue/under/tomb)
+"Zp" = (
+/obj/item/roguegem/random{
+	pixel_x = 0;
+	pixel_y = 0
+	},
+/obj/item/grown/log/tree/stake{
+	pixel_x = -2;
+	pixel_y = 3
+	},
+/obj/item/natural/rock{
+	pixel_x = 6;
+	pixel_y = -7
+	},
+/obj/item/natural/stone{
+	pixel_x = -13;
+	pixel_y = -12
+	},
+/obj/item/natural/stone{
+	pixel_x = 12;
+	pixel_y = 11
+	},
+/obj/item/natural/stone{
+	pixel_x = -9;
+	pixel_y = 9
+	},
+/turf/open/floor/rogue/naturalstone,
+/area/rogue/under/tomb/cave/spider)
 "ZE" = (
 /obj/structure/table/wood/crafted,
 /obj/effect/spawner/lootdrop/general_loot_low,
@@ -2098,7 +2094,7 @@ lS
 bv
 AP
 bl
-dc
+Hm
 Hm
 BB
 ql
@@ -2163,8 +2159,8 @@ lS
 lS
 lS
 vd
-bQ
-Kz
+BB
+Hm
 Et
 ON
 ON
@@ -2450,7 +2446,7 @@ go
 go
 AU
 EJ
-nF
+Zp
 AU
 DW
 go

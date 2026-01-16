@@ -95,6 +95,8 @@
 	icon_state = "shadowgauntlets"
 	allowed_race = NON_DWARVEN_RACE_TYPES
 	body_parts_covered = HANDS|ARMS //For "heavy" drow merc
+	smeltresult = /obj/item/ingot/drow
+	smelt_bar_num = 1
 
 /obj/item/clothing/gloves/roguetown/plate/kote
 	name = "jjajeungna gauntlets"

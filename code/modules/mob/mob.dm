@@ -758,7 +758,7 @@ GLOBAL_VAR_INIT(mobids, 1)
 		if(3)
 			days = "WEDDING'S DAE"
 		if(4)
-			days = "THULE'S DAE"
+			days = "TOLL'S DAE"
 		if(5)
 			days = "FREYJA'S DAE"
 		if(6)
