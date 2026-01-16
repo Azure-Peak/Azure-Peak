@@ -1034,6 +1034,13 @@
 	created_item = /obj/item/rogueweapon/sword/long/exe
 	i_type = "Weapons"
 
+/datum/anvil_recipe/weapons/lithmyc/mace
+	name = "Lithmyc mace (+ blueprint)"
+	req_bar = /obj/item/ingot/lithmyc
+	additional_items = list(/obj/item/blueprint/mace_mushroom)
+	created_item = /obj/item/rogueweapon/mace/mushroom
+	i_type = "Weapons"
+	craftdiff = SKILL_LEVEL_LEGENDARY
 
 // BLACKSTEEL
 

@@ -1084,7 +1084,7 @@
 
 /obj/item/rogueweapon/sword/sabre/stalker
 	name = "stalker sabre"
-	desc = "A once-elegant blade of mythril, who's sunless edge now menaces with obsidian-hued mirth."
+	desc = "A once-elegant blade of ketryl, who's sunless edge now menaces with obsidian-hued mirth."
 	icon_state = "spidersaber"
 	force = 23
 	force_wielded = 23

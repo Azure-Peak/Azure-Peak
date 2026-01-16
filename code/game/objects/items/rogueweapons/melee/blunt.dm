@@ -737,9 +737,7 @@
 	SIGNAL_HANDLER
 
 	if(!istype(user.used_intent, /datum/intent/mace/boom))
-		to_chat(world, span_danger("NO BOOM INTENT"))
 		return
-	to_chat(world, span_danger("YES BOOM INTENT"))
 
 	var/current_time = world.time
 
@@ -830,7 +828,7 @@
 	damfactor = 1
 
 /obj/item/rogueweapon/mace/mushroom
-	name = "Mycelite Mace"
+	name = "Lithmyc Mace"
 	desc = "A heavy mace forged from fungal-infused metals. Looks spiky!"
 	icon_state = "mushroom"
 	force = 18

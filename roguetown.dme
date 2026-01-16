@@ -2350,6 +2350,7 @@
 #include "code\modules\roguetown\roguejobs\artificer\handsaw_chisel.dm"
 #include "code\modules\roguetown\roguejobs\blacksmith\_ANVIL_DEFINES.dm"
 #include "code\modules\roguetown\roguejobs\blacksmith\anvil.dm"
+#include "code\modules\roguetown\roguejobs\blacksmith\blueprints.dm"
 #include "code\modules\roguetown\roguejobs\blacksmith\casting.dm"
 #include "code\modules\roguetown\roguejobs\blacksmith\forge.dm"
 #include "code\modules\roguetown\roguejobs\blacksmith\grindwheel.dm"
