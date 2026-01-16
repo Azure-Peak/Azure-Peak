@@ -295,7 +295,7 @@
 	chargetime = 0 SECONDS
 	recharge_time = 60 SECONDS
 	hide_charge_effect = TRUE
-	gesture_required = TRUE // Mobility spell
+	gesture_required = FALSE // Slippery
 	devotion_cost = 100
 	miracle = TRUE
 	var/area_of_effect = 1
