@@ -1,8 +1,3 @@
-#define VAMP_CONVERT_TIMEOUT 4 MINUTES
-
-#define VAMP_CONVERT_POST_STUN    1 MINUTES
-#define VAMP_CONVERT_BLOOD_GAIN   500
-
 /mob/living/carbon/human
 	var/tmp/vampire_conversion_prompt_active = FALSE
 
