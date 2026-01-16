@@ -198,7 +198,7 @@
 /datum/stressevent/averse
 	timer = 5 MINUTES
 	stressadd = 5
-	desc = span_red("One of <u>them</u> is here.")
+	desc = span_red("<u>They</u> are here.")
 
 /datum/stressevent/nopeople
 	timer = 2 MINUTES

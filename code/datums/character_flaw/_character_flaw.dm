@@ -510,13 +510,16 @@ GLOBAL_LIST_INIT(averse_factions, list(
 		next_check = world.time + check_interval
 		if(user.has_stress_event(/datum/stressevent/averse))
 			return
+		var/count = 0
 		for(var/mob/living/L in get_hearers_in_LOS(check_range, user, RECURSIVE_CONTENTS_CLIENT_MOBS))
 			if(L != user && L.stat != DEAD)
 				var/datum/job/J = SSjob.GetJob(L.job)
 				if(chosen_group & J.department_flag)
-					user.add_stress(/datum/stressevent/averse)
-				if(paid_triumphs)
-					triumph_refund(user)
+					count++
+					if(count >= 2)
+						user.add_stress(/datum/stressevent/averse)
+					if(paid_triumphs)
+						triumph_refund(user)
 
 
 /datum/charflaw/averse/proc/triumph_refund(mob/user)
