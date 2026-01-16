@@ -458,11 +458,14 @@ GLOBAL_LIST_INIT(averse_factions, list(
 	var/bounty_added = FALSE
 
 /datum/charflaw/indebted/apply_post_equipment(mob/living/carbon/human/alimony)
-	. = ..()
-	if(alimony.mind)
-		SStreasury.create_bank_account(alimony.real_name, minimum)
-		is_active = TRUE
-		next_alimony = world.time + interval
+	addtimer(CALLBACK(src, PROC_REF(setup_self), alimony), 5 SECONDS)
+
+/datum/charflaw/indebted/proc/setup_self(mob/living/carbon/human/user)
+	if(user.mind)
+		if(!SStreasury.bank_accounts[user.real_name])
+			SStreasury.create_bank_account(user.real_name, minimum)
+			is_active = TRUE
+			next_alimony = world.time + interval
 
 /datum/charflaw/indebted/flaw_on_life(mob/user)
 	. = ..()
@@ -471,13 +474,16 @@ GLOBAL_LIST_INIT(averse_factions, list(
 			calculate_childsupport(user)
 
 /datum/charflaw/indebted/proc/calculate_childsupport(mob/deadbeat)
-	var/bankamt = SStreasury.bank_accounts[deadbeat.real_name]
+	var/bankamt = SStreasury.bank_accounts[deadbeat]
 	var/alimony = minimum
 	if(bankamt > minimum)
 		if((bankamt * relative) > minimum)
 			alimony = bankamt * relative
-		SStreasury.give_money_account(-alimony, deadbeat.real_name, "Debts")
+		SStreasury.give_money_account(-alimony, deadbeat, "Debts")
+		next_alimony = world.time + interval
 	else
+		SStreasury.give_money_account(-bankamt, deadbeat, "Defaulted Debts")
+		deadbeat.add_stress(/datum/stressevent/debt)
 		if(!bounty_added)
 			if(ishuman(deadbeat))
 				var/mob/living/carbon/human/H = deadbeat
@@ -487,7 +493,6 @@ GLOBAL_LIST_INIT(averse_factions, list(
 				var/voice = build_coalesce_description_nofluff(d_list, H, list(MOB_DESCRIPTOR_SLOT_VOICE), "%DESC1%")
 				add_bounty(H.real_name, H.dna.species, H.gender, height, body, voice, rand(50, 100), FALSE, "Failure to pay outstanding debts.", "The Justiciary of Azuria")
 			bounty_added = TRUE
-		deadbeat.add_stress(/datum/stressevent/debt)
 
 /datum/charflaw/averse
 	name = "Averse"
