@@ -39,6 +39,7 @@
 		to_chat(loc, span_notice(repairmsg_end))
 		if(reptimer)
 			deltimer(reptimer)
+			reptimer = 0
 		return
 
 	to_chat(loc, span_notice(repairmsg_continue))
