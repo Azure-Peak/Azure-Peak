@@ -133,9 +133,11 @@
 	var/datum/sex_session/highest_priority = return_highest_priority_action(parent_sessions, parent)
 	var/mob/living/carbon/human/user = highest_priority.user
 	var/mob/living/carbon/human/target = highest_priority.target
-	var/datum/sex_action/action = SEX_ACTION(highest_priority.current_action)	if(mob.has_flaw(/datum/charflaw/addiction/thrillseeker) && (!highest_priority?.target || !highest_priority?.target?.mind))
+	var/datum/sex_action/action = SEX_ACTION(highest_priority.current_action)	
+	if(mob.has_flaw(/datum/charflaw/addiction/thrillseeker) && (!highest_priority?.target || !highest_priority?.target?.mind))
 		after_ejaculation(FALSE, parent)
-		return	playsound(parent, 'sound/misc/mat/endout.ogg', 50, TRUE, ignore_walls = FALSE)
+		return	
+	playsound(parent, 'sound/misc/mat/endout.ogg', 50, TRUE, ignore_walls = FALSE)
 	// Special case for when the user has a penis but no testicles
 	if(!mob.getorganslot(ORGAN_SLOT_TESTICLES) && mob.getorganslot(ORGAN_SLOT_PENIS))
 		mob.visible_message(span_love("[mob] climaxes, yet nothing is released!"))
@@ -195,7 +197,8 @@
 		last_ejaculation_time = world.time
 		if(!thrill.sated)
 			user.add_stress(/datum/stressevent/thrillsex)
-		return	user.emote("moan", forced = TRUE)
+		return	
+	user.emote("moan", forced = TRUE)
 	user.playsound_local(user, 'sound/misc/mat/end.ogg', 100)
 	last_ejaculation_time = world.time
 
