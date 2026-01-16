@@ -595,7 +595,7 @@
 		if(3)
 			day = "Wedding's dae."
 		if(4)
-			day = "Thule's dae."
+			day = "Toll's dae."
 		if(5)
 			day = "Freyja's dae."
 		if(6)
@@ -662,7 +662,7 @@
 		if(3)
 			day = "Wedding's dae."
 		if(4)
-			day = "Thule's dae."
+			day = "Toll's dae."
 		if(5)
 			day = "Freyja's dae."
 		if(6)

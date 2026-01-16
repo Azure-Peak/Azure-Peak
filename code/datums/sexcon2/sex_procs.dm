@@ -90,8 +90,8 @@
 		may_bang = TRUE
 	#endif
 
-	if(!may_bang) // Don't bang someone that dosn't want it.
-		to_chat(user, "<span class='warning'>[src] dosn't wish to be touched. (Their ERP preference under options)</span>")
+	if(!may_bang) // Don't bang someone that doesn't want it.
+		to_chat(user, "<span class='warning'>[src] doesn't wish to be touched. (Their ERP preference under options)</span>")
 		to_chat(src, "<span class='warning'>[user] failed to touch you. (Your ERP preference under options)</span>")
 		return
 

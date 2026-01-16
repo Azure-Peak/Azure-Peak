@@ -119,7 +119,7 @@
 
 /obj/item/clothing/head/roguetown/helmet/heavy/knight
 	name = "knight's armet"
-	desc = "A noble knight's helm in the current style popular with nobility. Add a feather to show the colors of your family or allegiance."
+	desc = "A noble knight's greathelm, and the reigning symbol of sixteenth-century nobility. Add a feather to show the colors of your family or allegiance."
 	icon_state = "knight"
 	item_state = "knight"
 	adjustable = CAN_CADJUST
@@ -165,16 +165,18 @@
 /obj/item/clothing/head/roguetown/helmet/heavy/knight/iron
 	name = "iron knight's armet"
 	icon_state = "iknight"
-	desc = "A noble knight's helm made of iron."
+	desc = "A noble knight's greathelm made of iron; a popular choice in the preceding centuries, before many knew the answer to the riddle of steel.  Add a feather to show the colors of your family or allegiance."
 	smeltresult = /obj/item/ingot/iron
 	max_integrity = ARMOR_INT_HELMET_HEAVY_IRON
 
 /obj/item/clothing/head/roguetown/helmet/heavy/knight/old
 	name = "knight's helmet"
+	desc = "A knight's greathelm, forged from steel in the antiquated 'Rockhillic' style. Add a feather to show the colors of your family or allegiance. </br>‎  </br>'She waited in the dragon's keep, in the highest room of the tallest tower, for her true love, and true love's first kiss..'"
 	icon_state = "knightclassic"
 
 /obj/item/clothing/head/roguetown/helmet/heavy/knight/old/iron
 	name = "iron knight's helmet"
+	desc = "A knight's greathelm, forged from iron in the antiquated 'Rockhillic' style. Add a feather to show the colors of your family or allegiance. </br>‎  </br>'Despite everything, it's still you.'"
 	icon_state = "iknightclassic"
 	smeltresult = /obj/item/ingot/iron
 	max_integrity = ARMOR_INT_HELMET_HEAVY_IRON
@@ -677,7 +679,7 @@
 
 /obj/item/clothing/head/roguetown/helmet/heavy/graggar
 	name = "vicious helmet"
-	desc = "A rugged helmet which stirs with the same violence which drives our world."
+	desc = "'YOU FIGHT WELL. YOUR CLEMENCY HATH BEEN EARNED. SURRENDER NOW, AND THE SINISTAR SHALL-'</br>‎  </br>'No.' </br>‎  </br>'-WHAT? YOU'RE GOING TO THROW AWAY YOUR LYFE FOR A GOD THAT HAS NO LOVE FOR YOU?' </br>‎  </br>'One of us will.'"
 	icon_state = "graggarplatehelm"
 	max_integrity = ARMOR_INT_HELMET_ANTAG
 	flags_inv = HIDEEARS|HIDEFACE|HIDESNOUT|HIDEHAIR|HIDEFACIALHAIR
@@ -709,7 +711,7 @@
 
 /obj/item/clothing/head/roguetown/helmet/heavy/zizo
 	name = "avantyne barbute"
-	desc = "A avantyne barbute. This one has an adjustable visor. Called forth from the edge of what should be known. In Her name."
+	desc = "Crystallized inzanity, brought to a lower plane of existence and flared into an ethereal greathelm. It has been called forth from the edge of reality, in Her name."
 	adjustable = CAN_CADJUST
 	icon_state = "zizobarbute"
 	max_integrity = ARMOR_INT_HELMET_ANTAG
@@ -720,18 +722,18 @@
 
 /obj/item/clothing/head/roguetown/helmet/heavy/zizo/MiddleClick(mob/user)
 	frogstyle = !frogstyle
-	to_chat(user, span_info("My darksteel helmet shifts into the style of [frogstyle ? "a froggemund" : "a barbute"]."))
+	to_chat(user, span_info("My avantyne greathelmet shifts into the style of [frogstyle ? "a froggemund" : "a barbute"]."))
 	if(frogstyle)
 		icon_state = "zizofrogmouth"
-		name = "darksteel froggemund"
-		desc = "A darksteel froggemund. Called forth from the edge of what should be known. In Her name."
+		name = "avantyne froggemund"
+		desc = "Crystallized inzanity, brought to a lower plane of existence and flared into a wide-collared froggemund. It has been called forth from the edge of reality, in Her name."
 		flags_inv = HIDEFACE|HIDESNOUT|HIDEEARS
 		body_parts_covered = HEAD|EARS|HAIR
 		adjustable = CANT_CADJUST
 	else
 		icon_state = "zizobarbute"
-		name = "darksteel barbute"
-		desc = "A darksteel barbute. This one has an adjustable visor. Called forth from the edge of what should be known. In Her name."
+		name = "avantyne barbute"
+		desc = "Crystallized inzanity, brought to a lower plane of existence and flared into a visored aegis. It has been called forth from the edge of reality, in Her name."
 		adjustable = CAN_CADJUST
 	update_icon()
 	user.update_inv_head()

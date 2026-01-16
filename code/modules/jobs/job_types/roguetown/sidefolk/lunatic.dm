@@ -18,6 +18,7 @@
 	max_pq = null
 	tutorial = "The Lunatic, shunned by society and a magnet for misfortune. Your task is simple yet perilous: survive by any means, though your very existence invites danger from every corner. It is said that Azure Peak drives those most familiar with it, the most insane."
 	display_order = JDO_LUNATIC
+	selection_color = JCOLOR_SIDEFOLK
 
 	cmode_music = 'sound/music/combat_bum.ogg'
 

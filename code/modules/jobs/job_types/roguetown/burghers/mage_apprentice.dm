@@ -1,8 +1,7 @@
 /datum/job/roguetown/wapprentice
 	title = "Magicians Associate"
-	flag = MAGEAPPRENTICE
-	department_flag = PEASANTS
-	selection_color = JCOLOR_PEASANT	
+	flag = APPRENTICE
+	department_flag = BURGHERS
 	faction = "Station"
 	total_positions = 4
 	spawn_positions = 4
@@ -15,7 +14,7 @@
 
 	outfit = /datum/outfit/job/roguetown/wapprentice
 
-	display_order = JDO_MAGEAPPRENTICE
+	display_order = JDO_APPRENTICE
 	give_bank_account = TRUE
 
 	min_pq = 0

@@ -433,7 +433,8 @@
 			do_knot_action = !do_knot_action
 			. = TRUE
 		if("set_arousal_value")
-			SEND_SIGNAL(user, COMSIG_SEX_SET_AROUSAL, params["amount"], TRUE)
+			SEND_SIGNAL(user, COMSIG_SEX_SET_AROUSAL, params["amount"])
+			user.apply_status_effect(/datum/status_effect/debuff/no_coom_cheating)
 			. = TRUE
 		if("freeze_arousal")
 			SEND_SIGNAL(user, COMSIG_SEX_FREEZE_AROUSAL)

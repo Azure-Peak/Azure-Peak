@@ -1,6 +1,6 @@
 /obj/item/clothing/gloves/roguetown/chain
 	name = "chain gauntlets"
-	desc = "Gauntlets made of interlinked steel rings. They offer decent protection against common weaponries, except for arrows."
+	desc = "Armored mittens, woven together from a series of interlinked steel rings. Articulation is difficult, but unnecessary; one would imagine these aren't the gloves of a tinkerer, after all."
 	icon_state = "cgloves"
 	armor = ARMOR_MAILLE
 	resistance_flags = FIRE_PROOF
@@ -67,7 +67,7 @@
 
 /obj/item/clothing/gloves/roguetown/chain/iron
 	icon_state = "icgloves"
-	desc = "Gauntlets made of interlinked iron rings. They offer decent protection against common weaponries, except for arrows."
+	desc = "Armored mittens, woven together from a series of interlinked iron rings. Crude gestures are impossible with such gloves; then again, who needs an offending finger when one can articulate their hatred through a swing to the skull?"
 	anvilrepair = /datum/skill/craft/armorsmithing
 	smeltresult = /obj/item/ingot/iron
 	max_integrity = ARMOR_INT_SIDE_IRON

@@ -1,5 +1,6 @@
 /datum/sex_action/armpit_nuzzle
 	name = "Nuzzle their armpit"
+	intensity = 2
 
 /datum/sex_action/armpit_nuzzle/shows_on_menu(mob/living/carbon/human/user, mob/living/carbon/human/target)
 	if(user == target)

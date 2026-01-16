@@ -48,7 +48,8 @@
 	var/list/race_bonus = list()
 	var/construct = 0
 	var/gibs_on_shapeshift = FALSE
-/mob/living/proc/roll_stats()
+
+/mob/living/proc/roll_stats(mob/dead/new_player/new_player)
 	STASTR = 10
 	STAPER = 10
 	STAINT = 10
@@ -60,7 +61,7 @@
 		var/mob/living/carbon/human/H = src
 
 		if (H.statpack)
-			H.statpack.apply_to_human(H)
+			H.statpack.apply_to_human(H, new_player)
 		if (H.dna?.species) // LETHALSTONE EDIT: apply our race bonus, if we have one
 			var/datum/species/species = H.dna.species
 			if (species.race_bonus)

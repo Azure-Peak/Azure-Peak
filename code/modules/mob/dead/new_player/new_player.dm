@@ -600,7 +600,7 @@ GLOBAL_LIST_INIT(roleplay_readme, world.file2list("strings/rt/rp_prompt.txt"))
 				if (INQUISITION)
 					cat_name = "Inquisition"
 				if (ANTAGONIST)
-					cat_name = "Antagonists"			
+					cat_name = "Antagonists"
 
 			dat += "<fieldset style='width: 185px; border: 2px solid [cat_color]; display: inline'>"
 			dat += "<legend align='center' style='font-weight: bold; color: [cat_color]'>[cat_name]</legend>"
@@ -679,21 +679,22 @@ GLOBAL_LIST_INIT(roleplay_readme, world.file2list("strings/rt/rp_prompt.txt"))
 	. = H
 	new_character = .
 
-	H.after_creation()
-
 	if(transfer_after)
 		transfer_character()
+
+	H.after_creation(src)
+
 	GLOB.chosen_names += H.real_name
 
 
-/mob/proc/after_creation()
+/mob/proc/after_creation(var/mob/dead/new_player/new_player)
 	return
 
-/mob/living/carbon/human/after_creation()
+/mob/living/carbon/human/after_creation(var/mob/dead/new_player/new_player)
 	if(dna?.species)
 		dna.species.after_creation(src)
-	
-	roll_stats()
+
+	roll_stats(new_player)
 
 /mob/dead/new_player/proc/transfer_character()
 	. = new_character

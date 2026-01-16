@@ -26,6 +26,10 @@
 /obj/effect/dungeon_directional_helper/east,
 /turf/open/floor/rogue/naturalstone,
 /area/rogue/under/tomb/cave/lava)
+"s" = (
+/obj/item/natural/rock/gem,
+/turf/open/floor/rogue/naturalstone,
+/area/rogue/under/tomb/cave/lava)
 "u" = (
 /obj/effect/spawner/roguemap/treeorstump,
 /turf/open/floor/rogue/dirt,
@@ -96,6 +100,7 @@
 /area/rogue/under/tomb/cave/lava)
 "X" = (
 /obj/structure/flora/rock/pile,
+/obj/item/roguegem/random,
 /turf/open/floor/rogue/naturalstone,
 /area/rogue/under/tomb/cave/lava)
 "Y" = (
@@ -194,10 +199,10 @@ T
 T
 T
 a
+s
 T
 T
 T
-v
 T
 T
 a
@@ -212,7 +217,7 @@ T
 a
 a
 T
-v
+T
 K
 T
 a

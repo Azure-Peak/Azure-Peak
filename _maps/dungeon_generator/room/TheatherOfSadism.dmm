@@ -115,6 +115,16 @@
 /obj/effect/spawner/lootdrop/roguetown/dungeon/weapons,
 /turf/open/floor/rogue/dirt,
 /area/rogue/under/tomb)
+"hQ" = (
+/obj/structure/table/wood/fancy/red,
+/obj/item/cooking/platter/copper,
+/obj/item/kitchen/fork/iron{
+	pixel_x = -10
+	},
+/obj/item/organ/heart,
+/obj/effect/spawner/lootdrop/cheap_candle_spawner,
+/turf/open/floor/rogue/blocks/stonered/tiny,
+/area/rogue/under/tomb)
 "ih" = (
 /obj/structure/bars/cemetery,
 /turf/open/floor/rogue/dirt,
@@ -147,6 +157,7 @@
 	pixel_x = -10
 	},
 /obj/item/organ/tongue,
+/obj/effect/spawner/lootdrop/cheap_candle_spawner,
 /turf/open/floor/rogue/blocks/stonered/tiny,
 /area/rogue/under/tomb)
 "jh" = (
@@ -200,6 +211,16 @@
 /obj/effect/decal/cleanable/blood,
 /obj/effect/spawner/lootdrop/general_loot_low,
 /turf/open/water/swamp,
+/area/rogue/under/tomb)
+"nT" = (
+/obj/structure/table/wood/fancy/red,
+/obj/item/cooking/platter/copper,
+/obj/item/kitchen/fork/iron{
+	pixel_x = -10
+	},
+/obj/item/organ/stomach,
+/obj/effect/spawner/lootdrop/cheap_candle_spawner,
+/turf/open/floor/rogue/blocks/stonered/tiny,
 /area/rogue/under/tomb)
 "og" = (
 /obj/effect/decal/cleanable/blood,
@@ -2790,7 +2811,7 @@ LZ
 LZ
 oq
 NZ
-ql
+nT
 oq
 yt
 UF
@@ -2814,7 +2835,7 @@ Rs
 ql
 oq
 yt
-yt
+hQ
 oq
 LZ
 "}
