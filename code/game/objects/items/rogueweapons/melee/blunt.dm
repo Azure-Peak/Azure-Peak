@@ -836,6 +836,7 @@
 	max_integrity = 500
 	possible_item_intents = list(/datum/intent/mace/strike, /datum/intent/mace/boom)
 	gripped_intents = list(/datum/intent/mace/strike, /datum/intent/mace/boom, /datum/intent/mace/smash)
+	smelt_result = /obj/item/ingot/lithmyc
 
 /obj/item/rogueweapon/mace/mushroom/Initialize()
 	. = ..()
