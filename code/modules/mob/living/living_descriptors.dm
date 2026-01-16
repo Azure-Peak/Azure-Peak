@@ -237,8 +237,4 @@
 	string = replacetext(string, "%MAN%", man_replace)
 	string = replacetext(string, "%HIM%", him_replace)
 	string = capitalize(string)
-	// Some strings dont have periods on the end. This might break shit!
-	// Too bad!
-	if(!endswith(string, "."))
-		string += "."
 	return string

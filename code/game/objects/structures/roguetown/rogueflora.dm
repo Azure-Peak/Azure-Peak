@@ -817,10 +817,10 @@
 /obj/structure/flora/rogueshroom/happy/random/Initialize()
 	. = ..()
 	var/list/mushroom_types = list(
-		/obj/structure/flora/rogueshroom/happy       = 2499,
-		/obj/structure/flora/rogueshroom/happy/white = 2499,
-		/obj/structure/flora/rogueshroom/happy/fat   = 2499,
-		/obj/structure/flora/rogueshroom/happy/angel = 2499,
+		/obj/structure/flora/rogueshroom/happy       = 249,
+		/obj/structure/flora/rogueshroom/happy/white = 249,
+		/obj/structure/flora/rogueshroom/happy/fat   = 249,
+		/obj/structure/flora/rogueshroom/happy/angel = 249,
 		/obj/structure/flora/rogueshroom/happy/metal = 1,
 	)
 	var/mushroom_type = pickweight(mushroom_types)

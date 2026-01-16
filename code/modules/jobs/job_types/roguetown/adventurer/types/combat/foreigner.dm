@@ -51,7 +51,7 @@
 				armor = /obj/item/clothing/suit/roguetown/armor/basiceast/mentorsuit
 			if("Quarterstaff")
 				backr = /obj/item/rogueweapon/woodstaff/quarterstaff/steel
-				H.adjust_skillrank_up_to(/datum/skill/combat/polearms, 4, TRUE)
+				H.adjust_skillrank_up_to(/datum/skill/combat/staves, 4, TRUE)
 				armor = /obj/item/clothing/suit/roguetown/armor/basiceast/mentorsuit
 			if("Hwando")
 				beltl = /obj/item/rogueweapon/sword/sabre/mulyeog
@@ -98,6 +98,7 @@
 		/obj/item/recipe_book/survival = 1,
 		/obj/item/bomb/smoke = 3,
 		)
+	neck = /obj/item/storage/belt/rogue/pouch/coins/poor
 	belt = /obj/item/storage/belt/rogue/leather/knifebelt/black/kazengun
 	gloves = /obj/item/clothing/gloves/roguetown/eastgloves1
 	pants = /obj/item/clothing/under/roguetown/heavy_leather_pants/eastpants1

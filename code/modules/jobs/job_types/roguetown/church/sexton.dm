@@ -17,7 +17,7 @@
 	min_pq = -10
 	max_pq = null
 	round_contrib_points = 2
-	advclass_cat_rolls = list(CTAG_sexton = 2)
+	advclass_cat_rolls = list(CTAG_SEXTON = 2)
 	job_subclasses = list(
 		/datum/advclass/sexton
 	)

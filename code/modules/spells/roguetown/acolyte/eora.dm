@@ -457,6 +457,7 @@
 	var/happiness = 0
 	var/water_happiness = 0
 	var/fertilizer_happiness = 0
+	var/prune_happiness = 0
 	var/prune_count = 0
 	var/list/tree_offerings = list()
 	var/happiness_tier = 1
@@ -510,15 +511,20 @@
 			return TRUE
 		var/skill = get_farming_skill(user)
 		var/prune_time = get_skill_delay(skill, fastest = 0.5, slowest = 3)
+		var/branches_pruned = 1
+		var/remaining_cap = 20 - prune_happiness
 
 		to_chat(user, span_notice("You begin pruning the tree..."))
 
 		if(do_after(user, prune_time, target = src))
 			if(skill >= 3)
 				prune_count = min(4, prune_count + 2)
+				branches_pruned++
 			else
 				prune_count++
-			happiness = min(happiness + 5, 100)
+			var/actual_gain = min(branches_pruned * 5, remaining_cap)
+			prune_happiness += actual_gain
+			happiness = min(happiness + actual_gain, 100)
 			update_happiness_tier()
 			if(iscarbon(user))
 				var/mob/living/carbon/C = user
@@ -673,6 +679,7 @@
 	water_happiness = 0
 	fertilizer_happiness = 0
 	prune_count = 0
+	prune_happiness = 0
 	update_happiness_tier()
 	update_icon()
 
@@ -982,10 +989,10 @@
 #undef MATURING
 #undef FRUITING
 
-//Remove their ability to feel bad, restore a small amount of hunger / thirst if they're already starving.
+//Remove their ability to feel bad, restore a small amount of hunger / thirst
 /obj/effect/proc_holder/spell/invoked/eora_blessing
 	name = "Eora's Blessing"
-	desc = "Bestow a person with Eora's calm, if only for a little while."
+	desc = "Bestow a person with Eora's calm, if only for a little while. Restores their mood, as well as a tinge of hunger and thirst."
 	sound = 'sound/magic/eora_bless.ogg'
 	devotion_cost = 80
 	recharge_time = 5 MINUTES
@@ -998,7 +1005,7 @@
 /obj/effect/proc_holder/spell/invoked/eora_blessing/cast(list/targets, mob/living/user)
 	if(ishuman(targets[1]))
 		var/mob/living/L = targets[1]
-		var/assocskill = L.get_skill_level(associated_skill)
+		var/assocskill = user.get_skill_level(associated_skill)
 		L.apply_status_effect(/datum/status_effect/eora_blessing, assocskill)
 		return TRUE
 	revert_cast()
@@ -1009,37 +1016,50 @@
 	duration = 1 MINUTES
 	alert_type = /atom/movable/screen/alert/status_effect/buff/eora_blessing
 
-/datum/status_effect/eora_blessing/on_apply(assocskill)
+/datum/status_effect/eora_blessing/on_creation(mob/living/new_owner/, assocskill)
+
 	if(assocskill)
-		duration *= assocskill	//+1 minute per skill level.
+		// I asked the antichrist (gpt) to help me figure out why a bug was happening w/ this.
+		// Apparently BYOND explodes if you, like, do duration *= something.
+		duration = assocskill * 1 MINUTES
+
+	// Call parent here. We need owner to exist for the rest of the proc.
+	// Free. I am so sorry I used AI for this. Itsk illing me. This code is killing me.
+	. = ..()
+
 	var/mob/living/carbon/human/H = owner
-	ADD_TRAIT(owner, TRAIT_EORAN_SERENE, TRAIT_GENERIC)	//Generic origin so other Eorans do not have their innate traits overridden (they use TRAIT_MIRACLE)
-	var/hungercheck = H.nutrition
-	var/hydrohomiecheck = H.hydration
-	switch(hungercheck)
-		if(0 to NUTRITION_LEVEL_STARVING)
-			switch(assocskill)
-				if(SKILL_LEVEL_NOVICE)
-					H.nutrition = NUTRITION_LEVEL_STARVING + 50
-				if(SKILL_LEVEL_APPRENTICE to SKILL_LEVEL_EXPERT)
-					H.nutrition = NUTRITION_LEVEL_HUNGRY + 50
-				else	//Acolyte w/ Devotee
-					H.nutrition = NUTRITION_LEVEL_FED
-	switch(hydrohomiecheck)
-		if(0 to HYDRATION_LEVEL_DEHYDRATED)
-			switch(assocskill)
-				if(SKILL_LEVEL_NOVICE)
-					H.nutrition = HYDRATION_LEVEL_DEHYDRATED + 50
-				if(SKILL_LEVEL_APPRENTICE to SKILL_LEVEL_EXPERT)
-					H.nutrition = HYDRATION_LEVEL_THIRSTY + 50
-				else	//Acolyte w/ Devotee
-					H.nutrition = HYDRATION_LEVEL_SMALLTHIRST
+
+	// Attempted to rework it into more of a formula that's awesome and cool, but its hard to get numbers down..
+	// Maint, if you're reading this, pls give better ideas for formula.
+
+	/* Adjust nutrition based on skill
+	// As odd as these numbers are, its like, exponential, or quadaratic or some shit.
+	// I forgot the word. Anyhow-- acolytes can work together and boost a guy up pretty well, or recast and get
+	// someone out of starvation even with no food, though they'll have to make sure they dont exert themselves.
+	// AS this is recastable, and a secondary effect, its kinda eh.
+	*/
+	
+	// EXPECTED RANGE FOR FORMULA: 102 -> 172 (DEVOTEE TO LEGENDARY)
+	H.adjust_nutrition(100 + ((assocskill * assocskill)*2))
+	// Adjust hydration based on skill
+	// Same as above, but adjusts thirst. 
+	H.adjust_hydration(100 + ((assocskill * assocskill)*2))
+
+
+	// Apply stress effects
 	if(assocskill > SKILL_LEVEL_APPRENTICE)
 		H.add_stress(/datum/stressevent/eoran_blessing_greater)
 	else
 		H.add_stress(/datum/stressevent/eoran_blessing)
+
 	H.update_stress()
+
+/datum/status_effect/eora_blessing/on_apply()
 	. = ..()
+
+	// Add trait
+	ADD_TRAIT(owner, TRAIT_EORAN_SERENE, TRAIT_GENERIC)  //Generic origin so other Eorans do not have their innate traits overridden (they use TRAIT_MIRACLE)
+
 
 /datum/status_effect/eora_blessing/on_remove()
 	REMOVE_TRAIT(owner, TRAIT_EORAN_SERENE, TRAIT_GENERIC)

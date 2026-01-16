@@ -339,7 +339,7 @@ INITIALIZE_IMMEDIATE(/obj/effect/landmark)
 	name = "Sexton"
 	icon_state = "arrow"
 
-/obj/effect/landmark/start/orphan
+/obj/effect/landmark/start/vagabond
 	name = "Vagabond"
 	icon_state = "arrow"
 

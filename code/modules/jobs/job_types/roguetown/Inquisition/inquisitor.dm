@@ -15,7 +15,7 @@
 
 	outfit = /datum/outfit/job/roguetown/inquisitor
 	display_order = JDO_INQUISITOR
-	advclass_cat_rolls = list(CTAG_INQUISITION = 20)
+	advclass_cat_rolls = list(CTAG_INQUSITOR = 20)
 	give_bank_account = 30
 	min_pq = 10
 	max_pq = null
@@ -38,7 +38,7 @@
 	tutorial = "Investigators and diplomats, oft-selected from Confessors who've shown their aptitude in a variety of skills. A precise strike is all that's needed to forward the Orthodoxy's missive; whether it's struck with a diplomat's charm or a rapier's tip, however, is up to you."
 	outfit = /datum/outfit/job/roguetown/inquisitor/inspector
 	subclass_languages = list(/datum/language/otavan)
-	category_tags = list(CTAG_INQUISITION)
+	category_tags = list(CTAG_INQUSITOR)
 	traits_applied = list(
 		TRAIT_STEELHEARTED,
 		TRAIT_DODGEEXPERT,
@@ -144,7 +144,7 @@
 	subclass_languages = list(/datum/language/otavan)
 	cmode_music = 'sound/music/combat_inqordinator.ogg'
 
-	category_tags = list(CTAG_INQUISITION)
+	category_tags = list(CTAG_INQUSITOR)
 	traits_applied = list(
 		TRAIT_STEELHEARTED,
 		TRAIT_HEAVYARMOR,

@@ -1,7 +1,7 @@
 // Because no one fucking know about inheritance in this bleak codebase.
 /obj/item/clothing/gloves/roguetown/leather
 	name = "leather gloves"
-	desc = "Gloves made out of sturdy leather. Barely offer any protection, but are better than nothing."
+	desc = "A pair of gloves, stitched together from cured leather."
 	icon_state = "leather_gloves"
 	armor = ARMOR_LEATHER
 	prevent_crits = PREVENT_CRITS_NONE
@@ -68,7 +68,7 @@
 
 /obj/item/clothing/gloves/roguetown/otavan
 	name = "otavan leather gloves"
-	desc = "A pair of heavy Otavan leather gloves, commonly used by fencers, renowned for their quality."
+	desc = "A pair of heavy Otavan leather gloves, commonly used by fencers and renowned for their quality."
 	icon_state = "fencergloves"
 	item_state = "fencergloves"
 	armor = ARMOR_MAILLE
@@ -128,3 +128,49 @@
 	drop_sound = 'sound/foley/dropsound/cloth_drop.ogg'
 	anvilrepair = null
 	sewrepair = TRUE
+
+/obj/item/clothing/gloves/roguetown/courtphysician
+	name = "sanguine gloves"
+	desc = "Carefully sewn leather gloves, unrestricting to your ability to wield surgical tools, and stylish!"
+	icon_state = "docgloves"
+	item_state = "docgloves"
+	icon = 'icons/roguetown/clothing/special/courtphys.dmi'
+	sleeved = 'icons/roguetown/clothing/onmob/helpers/sleeves_courtphys.dmi'
+	mob_overlay_icon = 'icons/roguetown/clothing/special/onmob/courtphys.dmi'
+	detail_tag = "_detail"
+	detail_color = CLOTHING_RED
+	armor = ARMOR_LEATHER
+	prevent_crits = PREVENT_CRITS_NONE
+	resistance_flags = null
+	blocksound = SOFTHIT
+	blade_dulling = DULLING_BASHCHOP
+	break_sound = 'sound/foley/cloth_rip.ogg'
+	drop_sound = 'sound/foley/dropsound/cloth_drop.ogg'
+	anvilrepair = null
+	sewrepair = TRUE
+	salvage_result = /obj/item/natural/hide/cured
+
+/obj/item/clothing/gloves/roguetown/courtphysician/female
+	name = "sanguine sleeves"
+	desc = "Carefully sewn leather gloves with silk sleeves covering them, unrestricting to your ability to wield surgical tools, and stylish!"
+	icon_state = "docsleeves"
+	item_state = "docsleeves"
+	icon = 'icons/roguetown/clothing/special/courtphys.dmi'
+	sleeved = 'icons/roguetown/clothing/onmob/helpers/sleeves_courtphys.dmi'
+	mob_overlay_icon = 'icons/roguetown/clothing/special/onmob/courtphys.dmi'
+	detail_tag = "_detail"
+	detail_color = CLOTHING_RED
+	salvage_result = /obj/item/natural/silk
+
+/obj/item/clothing/gloves/roguetown/courtphysician/female/Initialize()
+	. = ..()
+	update_icon()
+
+/obj/item/clothing/gloves/roguetown/courtphysician/female/update_icon()
+	cut_overlays()
+	if(get_detail_tag())
+		var/mutable_appearance/pic = mutable_appearance(icon(icon, "[icon_state][detail_tag]"))
+		pic.appearance_flags = RESET_COLOR
+		if(get_detail_color())
+			pic.color = get_detail_color()
+		add_overlay(pic)

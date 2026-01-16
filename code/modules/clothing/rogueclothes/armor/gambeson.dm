@@ -3,7 +3,7 @@
 /obj/item/clothing/suit/roguetown/armor/gambeson
 	slot_flags = ITEM_SLOT_ARMOR|ITEM_SLOT_SHIRT
 	name = "gambeson"
-	desc = "A large shirt meant to be worn below armor."
+	desc = "A thick jacket of cloth, and the finest compatriot to alloyed chestpieces. In tymes of peace, the humble gambeson wards off a blizzard's chill - and in tymes of peril, it rebukes the crippling blows of bludgeons-and-bows alike."
 	icon_state = "gambeson"
 	body_parts_covered = COVERAGE_FULL
 	armor = ARMOR_PADDED
@@ -29,6 +29,7 @@
 
 /obj/item/clothing/suit/roguetown/armor/gambeson/lord
 	name = "arming jacket"
+	desc = "A collared jacket, purpose-woven for warfare. The flared collar and sleeves keep the wearer's dexterity from being mitigated, while its tighter presentation helps to ward off killing blows from afar."
 	icon_state = "dgamb"
 	body_parts_covered = COVERAGE_ALL_BUT_LEGS
 	prevent_crits = PREVENT_CRITS_MOST
@@ -41,18 +42,26 @@
 	prevent_crits = PREVENT_CRITS_MOST
 	icon_state = "shadowrobe"
 
-
 /obj/item/clothing/suit/roguetown/armor/gambeson/light
 	name = "light gambeson"
-	desc = "A thin barely-padded gambeson, typically worn by the peasantry as cheap yet fashionable armor for the whole body. May stop an arrow."
+	desc = "A light and insulative jacket, hewn from cloth. Peasants tend to wear these in the colder months, though they've also been repurposed - by more desperate hands - as armor-padding."
 	armor = ARMOR_PADDED_BAD
 	max_integrity = ARMOR_INT_CHEST_LIGHT_BASE
 	prevent_crits = PREVENT_CRITS_NONE
 	sellprice = 10
 
+/obj/item/clothing/suit/roguetown/armor/gambeson/lord/heavy
+	name = "padded arming jacket"
+	desc = "A collared jacket, intended to be worn underneath plate armor. The thicker padding ensures that any gaps left within its alloyed shell are thoroughly protected - lest an unforseen bowstrike, landing true, ruptures the vulnerable flesh beneath."
+	icon_state = "dgamb"
+	body_parts_covered = COVERAGE_ALL_BUT_LEGS
+	armor = ARMOR_PADDED_GOOD
+	max_integrity = ARMOR_INT_CHEST_LIGHT_MASTER
+	prevent_crits = PREVENT_CRITS_MOST
+
 /obj/item/clothing/suit/roguetown/armor/gambeson/heavy
 	name = "padded gambeson"
-	desc = "A gambeson with additional padding layers, hardened to make it more durable. It still does not compare to leather or metal, but it will probably stop a crossbow bolt, so it's typically worn to complement proper armor."
+	desc = "A heavyweight jacket, further tightened with dorpel-styled stitchwork. On its own, it is a masterwork that can reduce a crushing blow into a slight tickle; beneath an alloyed chestplate, it can ward off anything short of a greater fireball."
 	icon_state = "gambesonp"
 	armor = ARMOR_PADDED_GOOD
 	max_integrity = ARMOR_INT_CHEST_LIGHT_MASTER
@@ -211,7 +220,7 @@
 
 /obj/item/clothing/suit/roguetown/armor/gambeson/heavy/inq
 	name = "inquisitorial leather tunic"
-	desc = "The finest leather tunic. Made to ENDURE, Made to Inquire, come heretic or hellfire."
+	desc = "The finest leather tunic; made to ENDURE, made to INQUIRE, come heretic or hellfire."
 	icon_state = "leathertunic"
 	color = null
 	armor = ARMOR_PADDED

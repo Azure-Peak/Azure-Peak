@@ -126,6 +126,10 @@
 /obj/structure/toilet,
 /turf/open/floor/rogue/metal/barograte/open,
 /area/rogue/under/tomb/sewer)
+"Kz" = (
+/obj/effect/spawner/lootdrop/cheap_clutter_spawner,
+/turf/open/floor/rogue/metal/barograte/open,
+/area/rogue/under/tomb/sewer)
 "Mg" = (
 /mob/living/carbon/human/species/goblin/npc/ambush/sea,
 /turf/open/floor/rogue/metal/barograte/open,
@@ -517,7 +521,7 @@ Hv
 ai
 aA
 oB
-ai
+Kz
 aA
 ai
 ai
