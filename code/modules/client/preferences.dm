@@ -233,7 +233,7 @@ GLOBAL_LIST_EMPTY(chosen_names)
 
 	var/noble_gossip
 
-	var/averse_chosen_faction
+	var/averse_chosen_faction = "Inquisition"
 
 /datum/preferences/New(client/C)
 	parent = C
@@ -475,7 +475,9 @@ GLOBAL_LIST_EMPTY(chosen_names)
 				virtuetwo = GLOB.virtues[/datum/virtue/none]
 			dat += "<b>Vice:</b> <a href='?_src_=prefs;preference=charflaw;task=input'>[charflaw]</a><BR>"
 			if(istype(charflaw, /datum/charflaw/averse))
-				dat += "<b>Loathed Group:</b> <a href='?_src_=prefs;preference=charflaw_averse_choice;task=input'>[(averse_chosen_faction) ? averse_chosen_faction : "Inquisition"]</a><BR>"
+				if(!averse_chosen_faction)
+					averse_chosen_faction = "Inquisition"
+				dat += "<b>Loathed Group:</b> <a href='?_src_=prefs;preference=charflaw_averse_choice;task=input'>[averse_chosen_faction]</a><BR>"
 			var/datum/faith/selected_faith = GLOB.faithlist[selected_patron?.associated_faith]
 			dat += "<b>Faith:</b> <a href='?_src_=prefs;preference=faith;task=input'>[selected_faith?.name || "FUCK!"]</a><BR>"
 			dat += "<b>Patron:</b> <a href='?_src_=prefs;preference=patron;task=input'>[selected_patron?.name || "FUCK!"]</a><BR>"
