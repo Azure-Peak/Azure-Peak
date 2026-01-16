@@ -134,8 +134,8 @@
 	var/mob/living/carbon/human/user = highest_priority.user
 	var/mob/living/carbon/human/target = highest_priority.target
 	var/datum/sex_action/action = SEX_ACTION(highest_priority.current_action)	
-	if(mob.has_flaw(/datum/charflaw/addiction/thrillseeker) && (!highest_priority?.target || !highest_priority?.target?.mind))
-		after_ejaculation(FALSE, parent)
+	if(mob.has_flaw(/datum/charflaw/addiction/thrillseeker))
+		after_ejaculation(FALSE, user, target)
 		return	
 	playsound(parent, 'sound/misc/mat/endout.ogg', 50, TRUE, ignore_walls = FALSE)
 	// Special case for when the user has a penis but no testicles
