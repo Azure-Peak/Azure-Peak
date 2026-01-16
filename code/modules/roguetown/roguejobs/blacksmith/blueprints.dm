@@ -16,7 +16,7 @@
 	pickup_sound =  'sound/blank.ogg'
 
 /obj/item/blueprint/mace_mushroom
-	name = "mold-stained scroll"
+	name = "Lithmyc mace blueprint"
 	desc = "A tattered, damp parchment that smells of wet earth and copper."
 	color = "#124d00"
 
