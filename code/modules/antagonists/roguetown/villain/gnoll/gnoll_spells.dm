@@ -103,6 +103,10 @@
 	recharge_time = 5 MINUTES
 	invocation_type = "emote"
 	invocation_emote_self = "<span class='notice'>I rip a hole into space with my claw!</span>"
+	overlay_icon = 'icons/mob/actions/gnollmiracles.dmi'
+	action_icon = 'icons/mob/actions/gnollmiracles.dmi'
+	overlay_state = "abduct"
+	action_icon_state = "abduct"
 
 /obj/effect/proc_holder/spell/invoked/abduct/cast(list/targets, mob/user)
 	if(targets[1] == user)
@@ -202,6 +206,10 @@
 	desc = "Fade from view. Lasts longer if you are close to your sniffed prey. Far longer if they are hunted. Taking damage makes it impossible to go invisible for a minute."
 	var/obj/effect/proc_holder/spell/invoked/gnoll_sniff/sniff_spell
 	recharge_time = 2 MINUTES
+	overlay_icon = 'icons/mob/actions/gnollmiracles.dmi'
+	action_icon = 'icons/mob/actions/gnollmiracles.dmi'
+	overlay_state = "stalk"
+	action_icon_state = "stalk"
 
 /obj/effect/proc_holder/spell/invoked/invisibility/gnoll/cast(list/targets, mob/living/user)
 	var/mob/living/target = targets[1]
