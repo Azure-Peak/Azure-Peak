@@ -1,5 +1,6 @@
 /datum/sex_action/frotting
 	name = "Frot them"
+	intensity = 3
 
 /datum/sex_action/frotting/shows_on_menu(mob/living/carbon/human/user, mob/living/carbon/human/target)
 	if(user == target)

@@ -3,6 +3,7 @@
 	stamina_cost = 1.0
 	aggro_grab_instead_same_tile = FALSE
 	target_priority = 100
+	intensity = 4
 
 /datum/sex_action/sex/other/anal/shows_on_menu(mob/living/carbon/human/user, mob/living/carbon/human/target)
 	if(user == target)

@@ -261,6 +261,8 @@
 	tutorial = "You are a professional soldier of the realm, specializing in the steady beat of hoof falls. Lighter and more expendable then the knights, you charge with lance in hand."
 	outfit = /datum/outfit/job/roguetown/manorguard/cavalry
 	horse = /mob/living/simple_animal/hostile/retaliate/rogue/saiga/tame/saddled //Since knights start with the Buck
+	subclass_stashed_items = list("Ducal Caparison" = /obj/item/caparison/azure)
+	extra_context = "This subclass recieves Azurean Caparison in it's stash."
 
 	category_tags = list(CTAG_MENATARMS)
 	traits_applied = list(TRAIT_MEDIUMARMOR)
@@ -317,7 +319,7 @@
 			/obj/item/rope/chain = 1,
 			/obj/item/storage/keyring/guardcastle = 1,
 			/obj/item/rogueweapon/scabbard/sheath = 1,
-			/obj/item/reagent_containers/glass/bottle/rogue/healthpot = 1,
+			/obj/item/reagent_containers/glass/bottle/rogue/healthpot = 1
 			)
 		H.verbs |= /mob/proc/haltyell
 

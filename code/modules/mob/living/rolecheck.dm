@@ -9,7 +9,7 @@
 
 	return noble
 
-/mob/living/carbon/human/proc/is_yeoman()
+/mob/living/carbon/human/proc/is_burgher()
 	return job in GLOB.burgher_positions
 
 /mob/living/carbon/human/proc/is_courtier()

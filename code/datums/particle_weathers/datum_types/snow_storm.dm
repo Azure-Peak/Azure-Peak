@@ -31,6 +31,10 @@
 
 //Makes you a little chilly
 /datum/particle_weather/snow_gentle/weather_act(mob/living/L)
+	if(HAS_TRAIT(L, TRAIT_WEATHER_PROTECTED))
+		L.add_stress(/datum/stressevent/parasol_snow)
+		return
+
 	L.adjust_bodytemperature(-rand(5,10))
 
 

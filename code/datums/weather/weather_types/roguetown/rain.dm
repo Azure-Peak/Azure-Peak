@@ -34,8 +34,9 @@
 /datum/weather/rain/weather_act(atom/A)
 	if(isliving(A))
 		var/mob/living/M = A
-		M.adjust_fire_stacks(-100)
-		M.SoakMob(FULL_BODY)
+		if(!HAS_TRAIT(M, TRAIT_WEATHER_PROTECTED))
+			M.adjust_fire_stacks(-100)
+			M.SoakMob(FULL_BODY)
 		return TRUE
 	var/datum/reagent/water/W = new()
 	if(isobj(A))

@@ -7,6 +7,7 @@
 	armor_class = ARMOR_CLASS_LIGHT
 	body_parts_covered = CHEST
 	salvage_result = /obj/item/natural/hide/cured
+	sewrepair = TRUE
 	salvage_amount = 1
 	
 /obj/item/clothing/suit/roguetown/armor/longcoat

@@ -69,7 +69,7 @@
 /turf/open/floor/rogue/naturalstone,
 /area/rogue/under/tomb/cave)
 "fm" = (
-/obj/item/natural/rock/random_ore,
+/obj/item/natural/rock/dungeon,
 /turf/open/floor/rogue/dirt/road,
 /area/rogue/under/tomb/cave)
 "fy" = (
@@ -231,6 +231,26 @@
 /obj/effect/decal/cleanable/blood/splatter,
 /turf/open/floor/rogue/naturalstone,
 /area/rogue/under/tomb/cave)
+"vf" = (
+/obj/item/natural/rock,
+/obj/item/natural/stone{
+	pixel_x = -8;
+	pixel_y = -10
+	},
+/obj/item/natural/stone{
+	pixel_x = -13;
+	pixel_y = 7
+	},
+/obj/item/natural/stone{
+	pixel_x = 6;
+	pixel_y = -9
+	},
+/obj/item/rogueweapon/pick/stone{
+	pixel_x = -1;
+	pixel_y = 1
+	},
+/turf/open/floor/rogue/naturalstone,
+/area/rogue/under/tomb/cave)
 "vg" = (
 /turf/open/floor/rogue/cobblerock,
 /area/rogue/under/tomb/cave)
@@ -275,7 +295,7 @@
 /turf/open/floor/rogue/dirt,
 /area/rogue/under/tomb)
 "yN" = (
-/turf/closed/mineral,
+/turf/closed/mineral/random/rogue,
 /area/rogue/under/tomb/cave)
 "zU" = (
 /obj/item/natural/stone{
@@ -427,7 +447,7 @@
 /turf/open/floor/rogue/dirt/road,
 /area/rogue/under/tomb)
 "IB" = (
-/obj/item/natural/rock/random_ore,
+/obj/item/natural/rock/dungeon,
 /turf/open/floor/rogue/naturalstone,
 /area/rogue/under/tomb/cave)
 "IP" = (
@@ -489,7 +509,7 @@
 "Qk" = (
 /obj/structure/closet/dirthole/closed,
 /obj/effect/landmark/chest_or_mimic,
-/obj/item/natural/rock/random_ore,
+/obj/item/natural/rock/dungeon,
 /turf/open/floor/rogue/dirt,
 /area/rogue/under/tomb)
 "QX" = (
@@ -1855,7 +1875,7 @@ iR
 iR
 iR
 mu
-aH
+vf
 iR
 aX
 aX

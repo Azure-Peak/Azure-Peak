@@ -146,4 +146,10 @@
 	target_items = list(/obj/item/clothing/suit/roguetown/armor/plate/cuirass/fluted)
 	result_item = /obj/item/clothing/suit/roguetown/armor/plate/cuirass/fluted/dasfox
 
+//Ryan180602 - Armet
+/obj/item/enchantingkit/ryan_psyhelm
+	name = "'maimed psydonic helm' morphing elixir"
+	target_items = list(/obj/item/clothing/head/roguetown/helmet/heavy/psydonhelm)
+	result_item = /obj/item/clothing/head/roguetown/helmet/heavy/psydonhelm/ryan
+
 
