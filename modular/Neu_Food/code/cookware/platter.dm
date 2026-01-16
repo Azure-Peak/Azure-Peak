@@ -131,7 +131,6 @@ What it does:
 	icon_state = "platter_silver"
 	sellprice = 30
 	is_silver = TRUE
-	smeltresult = /obj/item/ingot/silver
 
 /obj/item/cooking/platter/gold
 	name = "gold platter"
@@ -140,4 +139,3 @@ What it does:
 	resistance_flags = FIRE_PROOF
 	drop_sound = 'sound/foley/dropsound/armor_drop.ogg'
 	sellprice = 25
-	smeltresult = /obj/item/ingot/gold

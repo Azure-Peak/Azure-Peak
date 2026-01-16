@@ -2302,7 +2302,9 @@
 /turf/open/floor/rogue/blocks,
 /area/rogue/outdoors/mountains/decap/minotaurfort)
 "aBP" = (
-/obj/structure/roguemachine/mail/r,
+/obj/structure/roguemachine/mail/r{
+	mailtag = "Council Office"
+	},
 /turf/open/floor/rogue/ruinedwood/herringbone,
 /area/rogue/indoors/town/manor)
 "aCh" = (
@@ -2465,7 +2467,9 @@
 	dir = 1;
 	icon_state = "borderfall"
 	},
-/obj/structure/roguemachine/mail,
+/obj/structure/roguemachine/mail{
+	mailtag = "Witch's Hill House"
+	},
 /turf/open/floor/rogue/dirt/road,
 /area/rogue/outdoors/mountains)
 "aEe" = (
@@ -6619,7 +6623,7 @@
 /turf/open/floor/rogue/ruinedwood/spiral,
 /area/rogue/outdoors/beach)
 "bIW" = (
-/obj/structure/mineral_door/wood/donjon/stone{
+/obj/structure/mineral_door/wood/donjon/stone/highsecurity{
 	locked = 1;
 	lockid = "inquisition";
 	name = "Secure Storage"
@@ -7178,7 +7182,9 @@
 /area/rogue/indoors/town/manor)
 "bPl" = (
 /obj/machinery/light/rogue/candle/off/l,
-/obj/structure/roguemachine/mail,
+/obj/structure/roguemachine/mail{
+	mailtag = "Warden's Tower"
+	},
 /obj/effect/decal/cleanable/debris/woody,
 /turf/open/floor/rogue/ruinedwood/spiral,
 /area/rogue/indoors/shelter/woods)
@@ -13836,7 +13842,9 @@
 /turf/open/transparent/openspace,
 /area/rogue/outdoors/beach/central)
 "dvV" = (
-/obj/structure/roguemachine/mail,
+/obj/structure/roguemachine/mail{
+	mailtag = "Outside Guild"
+	},
 /turf/open/floor/rogue/cobblerock,
 /area/rogue/outdoors/town)
 "dvX" = (
@@ -17925,7 +17933,9 @@
 /turf/open/floor/rogue/churchmarble,
 /area/rogue/under/cave/licharena/bossroom)
 "evl" = (
-/obj/structure/roguemachine/mail/l,
+/obj/structure/roguemachine/mail/l{
+	mailtag = "Church"
+	},
 /turf/open/floor/rogue/church,
 /area/rogue/indoors/town/church/chapel)
 "evr" = (
@@ -24920,7 +24930,9 @@
 /obj/structure/fluff/walldeco/church/line{
 	dir = 4
 	},
-/obj/structure/roguemachine/mail/r,
+/obj/structure/roguemachine/mail/r{
+	mailtag = "Inquisition's Basement"
+	},
 /turf/open/floor/rogue/churchrough,
 /area/rogue/indoors/inq/basement)
 "giF" = (
@@ -29402,7 +29414,9 @@
 /turf/open/transparent/openspace,
 /area/rogue/druidsgrove)
 "hmR" = (
-/obj/structure/roguemachine/mail,
+/obj/structure/roguemachine/mail{
+	mailtag = "Abandoned Coastal Inn"
+	},
 /turf/open/floor/rogue/wood/nosmooth,
 /area/rogue/indoors/shelter)
 "hmU" = (
@@ -31036,7 +31050,9 @@
 /turf/open/water/cleanshallow,
 /area/rogue/under/cave/fishmandungeon)
 "hGt" = (
-/obj/structure/roguemachine/mail/l,
+/obj/structure/roguemachine/mail/l{
+	mailtag = "Inquisition's Quarters"
+	},
 /turf/open/floor/carpet/red,
 /area/rogue/indoors/inq)
 "hGy" = (
@@ -36661,7 +36677,9 @@
 /turf/closed/wall/mineral/rogue/wooddark,
 /area/rogue/outdoors/mountains/decap/minotaurfort)
 "jcT" = (
-/obj/structure/roguemachine/mail/l,
+/obj/structure/roguemachine/mail/l{
+	mailtag = "Servant's Quarters"
+	},
 /turf/open/floor/rogue/ruinedwood/spiral,
 /area/rogue/indoors/town/manor)
 "jcV" = (
@@ -46084,10 +46102,11 @@
 /turf/open/floor/rogue/grassyel,
 /area/rogue/outdoors/exposed/town/keep)
 "lnx" = (
-/obj/structure/mineral_door/wood/donjon{
+/obj/structure/mineral_door/wood/donjon/highsecurity{
 	dir = 1;
 	locked = 1;
-	lockid = "priest"
+	lockid = "priest";
+	name = "Martyr's Room"
 	},
 /turf/open/floor/rogue/concrete,
 /area/rogue/indoors/town/church/chapel)
@@ -46284,7 +46303,9 @@
 /area/rogue/indoors/town)
 "lqh" = (
 /obj/effect/decal/cleanable/debris/glassy,
-/obj/structure/roguemachine/mail,
+/obj/structure/roguemachine/mail{
+	mailtag = "Abandoned Hot Springs"
+	},
 /turf/open/floor/rogue/dirt/road,
 /area/rogue/outdoors/rtfield/abandonedhotsprings)
 "lqk" = (
@@ -47955,7 +47976,7 @@
 /area/rogue/outdoors/woods/southeast)
 "lJX" = (
 /obj/structure/roguemachine/mail/r{
-	mailtag = "Seneschal"
+	mailtag = "Seneschal's Quarters"
 	},
 /turf/open/floor/carpet/stellar,
 /area/rogue/indoors/town/manor)
@@ -49570,7 +49591,7 @@
 /turf/open/floor/rogue/ruinedwood/spiral,
 /area/rogue/indoors)
 "mdz" = (
-/obj/structure/mineral_door/wood/donjon{
+/obj/structure/mineral_door/wood/donjon/highsecurity{
 	dir = 1;
 	locked = 1;
 	lockid = "manor";
@@ -51559,7 +51580,9 @@
 /area/rogue/indoors/shelter)
 "mDr" = (
 /obj/effect/decal/remains/human,
-/obj/structure/roguemachine/mail/r,
+/obj/structure/roguemachine/mail/r{
+	mailtag = "Abandoned Forest Inn"
+	},
 /turf/open/floor/rogue/ruinedwood,
 /area/rogue/indoors)
 "mDs" = (
@@ -53919,7 +53942,8 @@
 	icon_state = "wcr";
 	locked = 1;
 	lockid = "sergeant";
-	name = "Sergeant's Office"
+	name = "Sergeant's Office";
+	lockdifficulty = 1.5
 	},
 /turf/open/floor/rogue/tile,
 /area/rogue/indoors/town/garrison)
@@ -58255,10 +58279,10 @@
 /turf/closed/mineral/rogue/bedrock,
 /area/rogue/indoors/cave/central)
 "onc" = (
-/obj/structure/mineral_door/wood/donjon{
-	dir = 8;
+/obj/structure/mineral_door/wood/donjon/highsecurity{
 	locked = 1;
 	lockid = "manor";
+	dir = 8;
 	name = "Kitchen"
 	},
 /turf/open/floor/rogue/ruinedwood/spiral,
@@ -59894,9 +59918,10 @@
 /turf/open/floor/rogue/dirt,
 /area/rogue/outdoors/rtfield)
 "oHp" = (
-/obj/structure/mineral_door/wood/donjon/stone{
+/obj/structure/mineral_door/wood/donjon/stone/highsecurity{
+	lockid = "priest";
 	locked = 1;
-	lockid = "priest"
+	name = "Church Reliquary"
 	},
 /turf/open/floor/rogue/concrete,
 /area/rogue/indoors/town/church/chapel)
@@ -62112,10 +62137,6 @@
 	},
 /turf/open/floor/rogue/churchmarble,
 /area/rogue/under/underdark/north)
-"pks" = (
-/obj/structure/roguemachine/mail/l,
-/turf/open/floor/rogue/ruinedwood/herringbone,
-/area/rogue/indoors/town/manor)
 "pkt" = (
 /obj/structure/fluff/railing/corner/south_west,
 /obj/effect/decal/cobbleedge{
@@ -63529,6 +63550,12 @@
 	},
 /turf/open/floor/rogue/cobble,
 /area/rogue/outdoors/mountains)
+"pFT" = (
+/obj/structure/roguemachine/mail/r{
+	mailtag = "Meeting Room"
+	},
+/turf/open/floor/rogue/ruinedwood/herringbone,
+/area/rogue/indoors/town/manor)
 "pFU" = (
 /obj/effect/landmark/quest_spawner/easy,
 /turf/open/floor/rogue/grassyel,
@@ -72114,10 +72141,7 @@
 "rLB" = (
 /obj/structure/table/wood,
 /obj/item/paper,
-/obj/item/rogueweapon/huntingknife/idagger/silver/elvish{
-	name = "royal elvish dagger";
-	sellprice = 150
-	},
+/obj/item/rogueweapon/huntingknife/idagger/silver/elvish/poopknife,
 /turf/open/floor/rogue/herringbone,
 /area/rogue/indoors/town/manor)
 "rLF" = (
@@ -73934,7 +73958,9 @@
 /turf/open/floor/rogue/crawl_space,
 /area/rogue/outdoors/mountains/decap/gunduzirak)
 "skk" = (
-/obj/structure/roguemachine/mail/r,
+/obj/structure/roguemachine/mail/r{
+	mailtag = "Inquisitor's Chambers"
+	},
 /turf/open/floor/carpet/royalblack,
 /area/rogue/indoors/inq/office)
 "sks" = (
@@ -76127,7 +76153,7 @@
 /turf/open/floor/rogue/metal/barograte/open,
 /area/rogue/under/underdark/north)
 "sKU" = (
-/obj/structure/mineral_door/wood/donjon{
+/obj/structure/mineral_door/wood/donjon/highsecurity{
 	dir = 1;
 	locked = 1;
 	lockid = "vault";
@@ -78671,7 +78697,7 @@
 /area/rogue/outdoors/town)
 "tqJ" = (
 /obj/structure/roguemachine/mail{
-	name = "Witch House"
+	mailtag = "Witch's Forest House"
 	},
 /turf/open/floor/rogue/ruinedwood/herringbone,
 /area/rogue/indoors/town)
@@ -387533,7 +387559,7 @@ ygR
 vxe
 qxs
 rhy
-pks
+eYb
 ezH
 exC
 vxe
@@ -392031,7 +392057,7 @@ bGf
 vmi
 vxe
 end
-aBP
+pFT
 eYb
 eYb
 qou

@@ -47,7 +47,7 @@
 	age_mod = /datum/class_age_mod/court_physician
 	subclass_skills = list(
 		/datum/skill/misc/reading = SKILL_LEVEL_MASTER,
-		/datum/skill/combat/polearms = SKILL_LEVEL_JOURNEYMAN, //same tier as other yeomen
+		/datum/skill/combat/swords = SKILL_LEVEL_JOURNEYMAN, //to properly wield a caneblade
 		/datum/skill/combat/wrestling = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/craft/alchemy = SKILL_LEVEL_MASTER,
 		/datum/skill/misc/athletics = SKILL_LEVEL_JOURNEYMAN,
@@ -67,27 +67,35 @@
 /datum/outfit/job/roguetown/physician/basic/pre_equip(mob/living/carbon/human/H)
 	..()
 	H.adjust_blindness(-3)
-	head = /obj/item/clothing/head/roguetown/physician
-	mask = /obj/item/clothing/mask/rogue/physician
-	neck = /obj/item/storage/belt/rogue/pouch/coins/mid            //coin to hire mercenaries or adventurers with
-	armor = /obj/item/clothing/suit/roguetown/shirt/robe/physician
-	shirt = /obj/item/clothing/suit/roguetown/shirt/tunic/black
-	gloves = /obj/item/clothing/gloves/roguetown/leather
-	pants = /obj/item/clothing/under/roguetown/trou/leather/mourning
-	shoes = /obj/item/clothing/shoes/roguetown/boots/leather
+	mask = /obj/item/clothing/mask/rogue/courtphysician
+	neck = /obj/item/storage/belt/rogue/pouch/coins/mid //coin to hire mercenaries or adventurers with
+	wrists = /obj/item/storage/keyring/physician
 	saiga_shoes = /obj/item/clothing/shoes/roguetown/horseshoes
 	belt = /obj/item/storage/belt/rogue/leather/black
 	beltl = /obj/item/storage/belt/rogue/surgery_bag/full/physician
-	beltr = /obj/item/storage/keyring/physician
+	beltr = /obj/item/rogueweapon/scabbard/sheath/courtphysician
 	id = /obj/item/scomstone/bad
-	r_hand = /obj/item/rogueweapon/woodstaff/quarterstaff/
-	backl = /obj/item/storage/backpack/rogue/satchel/black
+	r_hand = /obj/item/rogueweapon/sword/rapier/courtphysician
+	backl = /obj/item/storage/backpack/rogue/satchel
 	backpack_contents = list(
 		/obj/item/reagent_containers/glass/bottle/rogue/healthpot = 2,
 		/obj/item/natural/worms/leech/cheele = 1, //little buddy
 		/obj/item/reagent_containers/glass/bottle/waterskin = 1,
-		/obj/item/recipe_book/alchemy = 1,
-	)
+		/obj/item/recipe_book/alchemy = 1,)
+	if(H.pronouns == SHE_HER)
+		head = /obj/item/clothing/head/roguetown/courtphysician/female
+		armor = /obj/item/clothing/suit/roguetown/armor/leather/heavy/jacket/courtphysician/female
+		shirt = /obj/item/clothing/suit/roguetown/shirt/courtphysician/female
+		gloves = /obj/item/clothing/gloves/roguetown/courtphysician/female
+		pants = /obj/item/clothing/under/roguetown/skirt/courtphysician
+		shoes = /obj/item/clothing/shoes/courtphysician/female
+	else
+		head = /obj/item/clothing/head/roguetown/courtphysician
+		armor = /obj/item/clothing/suit/roguetown/armor/leather/heavy/jacket/courtphysician
+		shirt = /obj/item/clothing/suit/roguetown/shirt/courtphysician
+		gloves = /obj/item/clothing/gloves/roguetown/courtphysician
+		pants = /obj/item/clothing/under/roguetown/trou/leather/courtphysician
+		shoes = /obj/item/clothing/shoes/courtphysician
 	if(H.mind)
 		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/diagnose/secular)
 	if(H.mind)
