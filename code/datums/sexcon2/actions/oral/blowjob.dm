@@ -4,6 +4,7 @@
 	require_grab = FALSE
 	check_same_tile = FALSE
 	target_priority = 100
+	intensity = 4
 
 /datum/sex_action/blowjob/can_perform(mob/living/carbon/human/user, mob/living/carbon/human/target)
 	. = ..()

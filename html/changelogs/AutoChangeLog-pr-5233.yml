@@ -1,5 +1,0 @@
-author: "PatapoIIIa"
-delete-after: True
-changes:
-  - qol: "clarified and highlighted the Obfuscate memory-wipe feedback so players better understand they forgot seeing the vampire"
-  - code_imp: "adjusted chat message formatting for the Obfuscate memory wipe"

@@ -481,3 +481,62 @@
   - balance: dungeons of matthios/tomb of i dont remember his name has reduced random
       gems in some tiles
   - balance: tomb has better loot in tiles that were previously shitty
+2026-01-15:
+  ADONAI:
+  - rscadd: special knife now in the lord's shitter
+  - balance: sergeant door lockdiff = 1.5
+  - balance: inquisitor manor secure storage = high sec (lockdiff 2.0)
+  - bugfix: global loadout ruma-clan sandals are no longer armored.
+  Ketrai:
+  - bugfix: eora tree pruning now correctly updates happiness at all skill levels
+  PatapoIIIa:
+  - qol: clarified and highlighted the Obfuscate memory-wipe feedback so players better
+      understand they forgot seeing the vampire
+  - code_imp: adjusted chat message formatting for the Obfuscate memory wipe
+  SirSwagmeyer:
+  - balance: expert daggers and athletics on vaquero
+  furrycactus:
+  - rscadd: Added Matricaria, Calendula, and Manabloom flower crowns, and sprites
+      for those individual flowers too.
+  - rscadd: Added a non-armour crown variant of the Briar Thorns.
+2026-01-16:
+  FreeStylaLT:
+  - bugfix: Fixed fixedeye getting locked up randomly.
+  Lamasmaster:
+  - balance: Boot strip speed
+  - rscadd: Ducal Caparison
+  - balance: Eagle Beak
+  Ollanius:
+  - balance: Increases the damage of Psydonic Knuckles from 17 to 27, fixing a months-long
+      oversight that left them far weaker than intended.
+  Quinalion:
+  - rscadd: New Head Physician Drip
+  - rscadd: New Head Physician Canesword
+  Randall:
+  - rscadd: Adds a Finisher effect for Frost Bolt for hitting someone that's arcyne
+      marked, triggering an Ensnare-like effect.
+  Ryan180602:
+  - code_imp: Golgotha nuke is now bigger + gibs surrounding mobs.
+  - balance: Golgotha smash takes 3s to wind up.
+  adonai:
+  - bugfix: close caress is steel equivalent again
+2026-01-17:
+  BurpleBineapple:
+  - bugfix: RC's +1 FOR is correctly applied.
+  HeroWithYay:
+  - bugfix: Carrot steaks and Carrot Onion Steaks no longer make you throw up (again)
+  Jakksergal:
+  - rscadd: Added 9 new antlers to character cistomization.
+  Lamasmaster:
+  - rscadd: Wordfilter words
+  - rscadd: Zig bandolier
+  - refactor: Zig boxes
+  Ryan180602:
+  - code_imp: Donor item update.
+  - balance: Poacher gets Expert Knives.
+  - balance: Black Oak Pariah gets a lamptern.
+  bearrrrrrrr:
+  - rscadd: Stygian Efflorescence. a T2 spell that fires three obsidian shards in
+      a fan. Detonates Arcane Mark.
+  zydras:
+  - qol: The Silky Dress can now be worn in the Cloak slot

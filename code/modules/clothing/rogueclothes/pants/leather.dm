@@ -79,3 +79,13 @@
 /obj/item/clothing/under/roguetown/trou/leather/eastern
 	icon_state = "eastpants1"
 	allowed_race = NON_DWARVEN_RACE_TYPES
+
+/obj/item/clothing/under/roguetown/trou/leather/courtphysician
+	name = "sanguine trousers"
+	desc = "A pair of formal trousers, clean to the best of the servant's ability, but some bloodstains are impossible to rid them of"
+	icon_state = "docpants"
+	salvage_result = /obj/item/natural/silk
+	item_state = "docpants"
+	icon = 'icons/roguetown/clothing/special/courtphys.dmi'
+	sleeved = 'icons/roguetown/clothing/onmob/helpers/sleeves_courtphys.dmi'
+	mob_overlay_icon = 'icons/roguetown/clothing/special/onmob/courtphys.dmi'

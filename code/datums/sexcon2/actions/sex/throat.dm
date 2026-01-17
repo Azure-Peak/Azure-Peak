@@ -1,6 +1,7 @@
 /datum/sex_action/sex/throat
 	name = "Fuck their throat"
 	stamina_cost = 1.0
+	intensity = 4
 
 /datum/sex_action/sex/throat/shows_on_menu(mob/living/carbon/human/user, mob/living/carbon/human/target)
 	if(user == target)

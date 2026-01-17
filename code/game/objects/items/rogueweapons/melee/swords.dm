@@ -138,9 +138,6 @@
 	damfactor = 1.2
 	clickcd = 10
 
-/datum/intent/sword/thrust/krieg
-	damfactor = 0.8
-
 /datum/intent/rend/krieg
 	intent_intdamage_factor = 0.2
 
@@ -799,6 +796,7 @@
 		)
 	icon_state = "eastshortsword"
 	sheathe_icon = "kodachi"
+	wbalance = WBALANCE_SWIFT
 
 /obj/item/rogueweapon/sword/short/iron
 	name = "iron shortsword"
@@ -1346,6 +1344,21 @@
 	force = 25 // Same statline as the cup hilted etruscan rapier
 	wdefense = 8
 
+/obj/item/rogueweapon/sword/rapier/courtphysician
+	name = "cane blade"
+	desc = "A steel blade with a gold handle, intended to be concealed inside of a cane, bears the visage of a vulture on its pommel."
+	icon = 'icons/roguetown/weapons/swords32.dmi'
+	icon_state = "doccaneblade"
+	sheathe_icon = "doccaneblade"
+	sellprice = 100 //Gold handle
+	grid_width = 32
+	grid_height = 64
+	dropshrink = 0
+	bigboy = FALSE
+	possible_item_intents = list(/datum/intent/sword/thrust/rapier, /datum/intent/sword/cut/rapier)
+	gripped_intents = null
+	force_wielded = 0
+
 /obj/item/rogueweapon/sword/cutlass
 	name = "cutlass"
 	desc = "The mariner's special: A short, broad sabre with a slightly curved blade optimized for slashing."
@@ -1572,7 +1585,7 @@
 	icon = 'icons/roguetown/weapons/swords64.dmi'
 	icon_state = "ssangsudo"
 	sheathe_icon = "ssangsudo"
-	gripped_intents = list(/datum/intent/sword/cut/krieg, /datum/intent/rend, /datum/intent/sword/strike) // better rend by .05
+	gripped_intents = list(/datum/intent/sword/cut/krieg, /datum/intent/sword/thrust/krieg, /datum/intent/rend, /datum/intent/sword/strike) // better rend by .05
 
 /obj/item/rogueweapon/sword/long/dec
 	name = "decorated longsword"

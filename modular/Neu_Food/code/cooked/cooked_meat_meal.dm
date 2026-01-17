@@ -57,6 +57,7 @@
 	tastes = list("steak" = 1, "carrot" = 1)
 	list_reagents = list(/datum/reagent/consumable/nutriment = MEAL_MEAGRE)
 	foodtype = MEAT
+	faretype = FARE_FINE
 	warming = 5 MINUTES
 	rotprocess = SHELFLIFE_DECENT
 	eat_effect = /datum/status_effect/buff/mealbuff
@@ -87,6 +88,7 @@
 	icon_state = "steakmeal"
 	foodtype = VEGETABLES | MEAT
 	warming = 3 MINUTES
+	faretype = FARE_LAVISH
 	rotprocess = SHELFLIFE_DECENT
 	eat_effect = /datum/status_effect/buff/greatmealbuff
 

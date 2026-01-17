@@ -1,6 +1,0 @@
-author: "ADONAI"
-delete-after: True
-changes:
-  - rscadd: "special knife now in the lord's shitter"
-  - balance: "sergeant door lockdiff = 1.5"
-  - balance: "inquisitor manor secure storage = high sec (lockdiff 2.0)"

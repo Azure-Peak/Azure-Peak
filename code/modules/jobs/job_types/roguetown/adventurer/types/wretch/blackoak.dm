@@ -56,7 +56,7 @@
 	armor = /obj/item/clothing/suit/roguetown/armor/leather/trophyfur
 	neck = /obj/item/clothing/neck/roguetown/chaincoif
 	beltl = /obj/item/rogueweapon/huntingknife/idagger/steel/special
-	beltr = /obj/item/flashlight/flare/torch
+	beltr = /obj/item/flashlight/flare/torch/lantern/prelit
 	r_hand = /obj/item/rogueweapon/halberd/glaive
 	backr = /obj/item/rogueweapon/scabbard/gwstrap
 	backpack_contents = list(
