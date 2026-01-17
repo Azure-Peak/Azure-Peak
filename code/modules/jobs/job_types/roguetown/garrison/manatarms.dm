@@ -436,16 +436,17 @@
 // No armour trait, but gets crit resist. STAY STANDING!!!
 /datum/advclass/manorguard/standard_bearer
 	name = "Standard Bearer"
-	tutorial = "You're the sergeant's second, entrusted with the keep's standard when you sally out into battle. \
+	tutorial = "You are one of the Man at Arms entrusted with the keep's standard when you sally out into battle. \
 	Your fellow soldiers know to rally around you, should you keep it safe."
 	outfit = /datum/outfit/job/roguetown/manorguard/standard_bearer
 	category_tags = list(CTAG_MENATARMS)
 	traits_applied = list(TRAIT_STANDARD_BEARER)
+	// on-par with footman, with one less CON and INT swapped out for PER
 	subclass_stats = list(
-		STATKEY_STR = -2,
-		STATKEY_CON = 1,
-		STATKEY_WIL = 3,
-		STATKEY_PER = 2, // You're on a budget here, buddy! Stab sure, stab often!
+		STATKEY_STR = 2, // seems kinda lame but remember guardsman bonus!!
+		STATKEY_PER = 1,
+		STATKEY_CON = 2,
+		STATKEY_WIL = 1
 	)
 	subclass_skills = list(
 		/datum/skill/combat/polearms = SKILL_LEVEL_EXPERT, // SWING THAT THING.
@@ -522,7 +523,7 @@
 		playsound(user.loc, 'sound/combat/shieldraise.ogg', 100, FALSE, -1)
 		if(.)
 			// gives them a rallying message, but doesn't reveal a location. gives antags some leeway
-			var/input_text = "<big><span style='color: [CLOTHING_WOAD_BLUE]'>THE DUCAL STANDARD CALLS FOR ALL GUARDSMEN TO RALLY!</span></big>"
+			var/input_text = "<big><span style='color: [CLOTHING_WOAD_BLUE]'>THE DUCAL STANDARD CALLS FOR ALL GUARDSMEN TO RALLY AT [uppertext(get_area_name(user))]!</span></big>" // non-specific rallying call
 			for(var/obj/item/scomstone/bad/garrison/S in SSroguemachine.scomm_machines)
 				S.repeat_message(input_text, src, CLOTHING_WOAD_BLUE)
 			for(var/obj/item/scomstone/garrison/S in SSroguemachine.scomm_machines)
