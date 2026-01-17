@@ -60,7 +60,16 @@
 		/datum/sprite_accessory/horns/sheephorns,
 		/datum/sprite_accessory/horns/doublehorns,
 		/datum/sprite_accessory/horns/tiefling,
-		/datum/sprite_accessory/horns/tieflingalt
+		/datum/sprite_accessory/horns/tieflingalt,
+		/datum/sprite_accessory/horns/large/big_antlers,
+		/datum/sprite_accessory/horns/large/large_antlers,
+		/datum/sprite_accessory/horns/large/regal_antlers,
+		/datum/sprite_accessory/horns/large/dukely_antlers,
+		/datum/sprite_accessory/horns/large/short_antlers,
+		/datum/sprite_accessory/horns/large/branching_antlers,
+		/datum/sprite_accessory/horns/large/pronghorn,
+		/datum/sprite_accessory/horns/large/spire,
+		/datum/sprite_accessory/horns/large/highrise
 		)
 
 /datum/customizer/organ/horns/demihuman
@@ -111,7 +120,16 @@
 		/datum/sprite_accessory/horns/sheephorns,
 		/datum/sprite_accessory/horns/doublehorns,
 		/datum/sprite_accessory/horns/tiefling,
-		/datum/sprite_accessory/horns/tieflingalt
+		/datum/sprite_accessory/horns/tieflingalt,
+		/datum/sprite_accessory/horns/large/big_antlers,
+		/datum/sprite_accessory/horns/large/large_antlers,
+		/datum/sprite_accessory/horns/large/regal_antlers,
+		/datum/sprite_accessory/horns/large/dukely_antlers,
+		/datum/sprite_accessory/horns/large/short_antlers,
+		/datum/sprite_accessory/horns/large/branching_antlers,
+		/datum/sprite_accessory/horns/large/pronghorn,
+		/datum/sprite_accessory/horns/large/spire,
+		/datum/sprite_accessory/horns/large/highrise
 		)
 
 /datum/customizer/organ/horns/anthro
@@ -162,7 +180,16 @@
 		/datum/sprite_accessory/horns/sheephorns,
 		/datum/sprite_accessory/horns/doublehorns,
 		/datum/sprite_accessory/horns/tiefling,
-		/datum/sprite_accessory/horns/tieflingalt
+		/datum/sprite_accessory/horns/tieflingalt,
+		/datum/sprite_accessory/horns/large/big_antlers,
+		/datum/sprite_accessory/horns/large/large_antlers,
+		/datum/sprite_accessory/horns/large/regal_antlers,
+		/datum/sprite_accessory/horns/large/dukely_antlers,
+		/datum/sprite_accessory/horns/large/short_antlers,
+		/datum/sprite_accessory/horns/large/branching_antlers,
+		/datum/sprite_accessory/horns/large/pronghorn,
+		/datum/sprite_accessory/horns/large/spire,
+		/datum/sprite_accessory/horns/large/highrise
 		)
 
 /datum/customizer/organ/horns/tusks

@@ -47,7 +47,7 @@
 
 /obj/item/clothing/under/roguetown/splintlegs/Initialize(mapload)
 	. = ..()
-	AddComponent(/datum/component/item_equipped_movement_rustle, SFX_PLATE_COAT_STEP, 3)
+	AddComponent(/datum/component/item_equipped_movement_rustle, SFX_PLATE_COAT_STEP, 10)
 
 /obj/item/clothing/under/roguetown/splintlegs/iron
 	name = "splinted leggings"

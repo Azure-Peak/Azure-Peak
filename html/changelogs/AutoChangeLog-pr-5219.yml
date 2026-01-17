@@ -1,4 +1,0 @@
-author: "Randall"
-delete-after: True
-changes:
-  - rscadd: "Adds a Finisher effect for Frost Bolt for hitting someone that's arcyne marked, triggering an Ensnare-like effect."

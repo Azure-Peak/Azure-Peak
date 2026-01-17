@@ -1,5 +1,6 @@
 /datum/sex_action/crotch_nuzzle
 	name = "Nuzzle their crotch"
+	intensity = 2
 
 /datum/sex_action/crotch_nuzzle/shows_on_menu(mob/living/carbon/human/user, mob/living/carbon/human/target)
 	if(user == target)
