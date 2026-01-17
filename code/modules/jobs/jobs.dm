@@ -81,7 +81,6 @@ GLOBAL_LIST_INIT(leadership_positions, list( // Used for boldening text primaril
 
 GLOBAL_LIST_INIT(regency_positions, list( // Used to determine elligibility for Regency
 	"Consort",
-	"Suitor",
 	"Prince",
 	"Hand",
 	"Steward",
@@ -89,38 +88,39 @@ GLOBAL_LIST_INIT(regency_positions, list( // Used to determine elligibility for 
 	"Marshal",
 ))
 
-GLOBAL_LIST_INIT(noble_positions, list(
+GLOBAL_LIST_INIT(noble_positions, list( //Royal family only
 	"Grand Duke",
 	"Consort",
-	"Suitor",
 	"Prince",
 ))
 
-GLOBAL_LIST_INIT(courtier_positions, list(
+GLOBAL_LIST_INIT(courtier_positions, list( //Anyone that is officially part of the court
 	"Hand",
 	"Steward",
 	"Councillor",
+	"Clerk",
 	"Jester",
 	"Court Magician",
 	"Archivist",
 	"Seneschal",
+	"Suitor",
 ))
 
-GLOBAL_LIST_INIT(retinue_positions, list(
+GLOBAL_LIST_INIT(retinue_positions, list( //Manorites
 	"Marshal",
 	"Knight Captain",
 	"Knight",
 	"Squire",
 ))
 
-GLOBAL_LIST_INIT(garrison_positions, list(
+GLOBAL_LIST_INIT(garrison_positions, list( //Guards
 	"Sergeant",
 	"Man at Arms",
 	"Warden",
 	"Watchman",
 ))
 
-GLOBAL_LIST_INIT(church_positions, list(
+GLOBAL_LIST_INIT(church_positions, list( //Church of the Ten
 	"Bishop",
 	"Martyr",
 	"Templar",
@@ -130,7 +130,7 @@ GLOBAL_LIST_INIT(church_positions, list(
 	"Sexton",
 ))
 
-GLOBAL_LIST_INIT(burgher_positions, list(
+GLOBAL_LIST_INIT(burgher_positions, list( //Artisans, store owners what have you.
 	"Merchant",
 	"Guildmaster",
 	"Guildsman",
@@ -140,42 +140,41 @@ GLOBAL_LIST_INIT(burgher_positions, list(
 	"Innkeeper",
 	"Bathmaster",
 	"Town Crier",
-	"Clerk",
+	"Magicians Associate",
 ))
 
-GLOBAL_LIST_INIT(peasant_positions, list(
-	"Magicians Associate",
-	"Servant",
-	"Shophand",
+GLOBAL_LIST_INIT(peasant_positions, list( //Serfs / peasants / generic towners
+	"Bathhouse Attendant",
 	"Cook",
 	"Tapster",
-	"Bathhouse Attendant",
+	"Servant",
+	"Shophand",
 	"Soilson",
 	"Towner",
 ))
 
-GLOBAL_LIST_INIT(sidefolk_positions, list(
-	"Veteran",
+GLOBAL_LIST_INIT(sidefolk_positions, list( //Weerdoes who hang around the town
 	"Lunatic",
-	"Beggar",
 	"Vagabond",
+	"Migrant",
 	"Pilgrim",
+	"Mercenary",	
+	"Veteran",
 ))
 
-GLOBAL_LIST_INIT(wanderer_positions, list(
+GLOBAL_LIST_INIT(wanderer_positions, list( //Homeless
 	"Adventurer",
-	"Trader",
-	"Mercenary",
 	"Court Agent",
+	"Trader",
 ))
 
-GLOBAL_LIST_INIT(antagonist_positions, list(
+GLOBAL_LIST_INIT(antagonist_positions, list( //Mostly lesser antagonists
 	"Assassin",
 	"Bandit",
 	"Wretch",
 ))
 
-GLOBAL_LIST_INIT(inquisition_positions, list(
+GLOBAL_LIST_INIT(inquisition_positions, list( //Self explanatory
 	"Inquisitor",
 	"Absolver",
 	"Orthodoxist",

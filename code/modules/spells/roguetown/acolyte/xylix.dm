@@ -24,6 +24,27 @@
 	revert_cast()
 	return FALSE
 
+/obj/effect/proc_holder/spell/invoked/ventriloquism
+	name = "Ventriloquism"
+	desc = "Throw one's voice into a object"
+	releasedrain = 10
+	chargedrain = 0
+	chargetime = 0
+	range = 1
+	no_early_release = TRUE
+	associated_skill = /datum/skill/magic/holy
+	recharge_time = 15 SECONDS
+	
+/obj/effect/proc_holder/spell/invoked/ventriloquism/cast(list/targets, mob/user = usr)
+	if(isobj(targets[1]))
+		var/obj/target = targets[1]
+		var/input_message = input(usr, "What shall [target] say?", src) as null|text
+		target.say("[input_message]")
+		return TRUE
+	revert_cast()
+	return FALSE
+
+
 /obj/effect/proc_holder/spell/invoked/mastersillusion
 	name = "Set Decoy"
 	desc = "Creates a body double of yourself and makes you invisible, after a delay your clone explodes into smoke."
@@ -207,3 +228,134 @@
 			playsound(H, pick(sounds), 100, TRUE)
 		return TRUE
 
+/obj/effect/proc_holder/spell/targeted/touch/parlor_trick
+	name = "Parlor Trick"
+	desc = "Take the form of objects to make fools of them. R-Click to destroy, left click to copy objects. Use to take a form."
+	clothes_req = FALSE
+	chargedrain = 0
+	chargetime = 2 SECONDS
+	releasedrain = 5
+	miracle = TRUE
+	devotion_cost = 5
+	chargedloop = /datum/looping_sound/invokegen
+	associated_skill = /datum/skill/magic/holy
+	hand_path = /obj/item/melee/touch_attack/parlor_trick
+
+/obj/item/melee/touch_attack/parlor_trick
+	name = "parlor trick"
+	icon = 'icons/mob/roguehudgrabs.dmi'
+	icon_state = "pulling"
+	icon_state = "grabbing_greyscale"
+	color = "#FFFFFF"
+	slot_flags = ITEM_SLOT_BELT
+	throwforce = 5
+	throw_speed = 3
+	throw_range = 5
+	w_class = WEIGHT_CLASS_SMALL
+	var/can_use = 1
+	var/obj/effect/dummy/parlor_trick/active_dummy = null
+	var/saved_appearance = null
+
+/obj/item/melee/touch_attack/parlor_trick/afterattack()
+	return
+
+/obj/item/melee/touch_attack/parlor_trick/Initialize(mapload)
+	. = ..()
+	var/obj/item/clothing/mask/cigarette/rollie/zig = /obj/item/clothing/mask/cigarette/rollie
+	saved_appearance = initial(zig.appearance)
+
+/obj/item/melee/touch_attack/parlor_trick/dropped()
+	..()
+	disrupt()
+
+/obj/item/melee/touch_attack/parlor_trick/equipped()
+	..()
+	disrupt()
+
+/obj/item/melee/touch_attack/parlor_trick/attack_self(mob/user)
+	if (isturf(user.loc) || istype(user.loc, /obj/structure) || active_dummy)
+		toggle(user)
+	else
+		to_chat(user, span_warning("You can't use [src] while inside something!"))
+
+/obj/item/melee/touch_attack/parlor_trick/attack_obj(obj/item/interacting_with, mob/living/user, list/modifiers)
+	make_copy(interacting_with, user)
+
+/obj/item/melee/touch_attack/parlor_trick/attack_right(mob/user)
+	qdel(src)
+
+/obj/item/melee/touch_attack/parlor_trick/proc/make_copy(atom/target, mob/user)
+	playsound(get_turf(src), 'sound/magic/decoylaugh.ogg', 20, TRUE, -6)
+	to_chat(user, span_notice("Copied [target]."))
+	var/obj/temp = new /obj()
+	temp.appearance = target.appearance
+	temp.layer = initial(target.layer)
+	saved_appearance = temp.appearance
+
+/obj/item/melee/touch_attack/parlor_trick/proc/check_sprite(atom/target)
+	return icon_exists(target.icon, target.icon_state)
+
+/obj/item/melee/touch_attack/parlor_trick/proc/toggle(mob/user)
+	if(!can_use || !saved_appearance)
+		return
+	if(active_dummy)
+		eject_all()
+		playsound(get_turf(src), 'sound/magic/decoylaugh.ogg', 20, TRUE, -6)
+		qdel(active_dummy)
+		active_dummy = null
+		to_chat(user, span_notice("You deactivate \the [src]."))
+		new /obj/effect/temp_visual/gravpush(get_turf(src))
+	else
+		playsound(get_turf(src), 'sound/magic/decoylaugh.ogg', 20, TRUE, -6)
+		var/obj/effect/dummy/parlor_trick/C = new/obj/effect/dummy/parlor_trick(user.drop_location())
+		C.activate(user, saved_appearance, src)
+		to_chat(user, span_notice("You activate \the [src]."))
+		new /obj/effect/temp_visual/gravpush(get_turf(src))
+
+/obj/item/melee/touch_attack/parlor_trick/proc/disrupt(delete_dummy = 1)
+	if(active_dummy)
+		for(var/mob/M in active_dummy)
+			to_chat(M, span_danger("Your parlor trick wanes!"))
+		new /obj/effect/temp_visual/gravpush(loc)
+		eject_all()
+		if(delete_dummy)
+			qdel(active_dummy)
+		active_dummy = null
+		can_use = FALSE
+		addtimer(VARSET_CALLBACK(src, can_use, TRUE), 5 SECONDS)
+
+/obj/item/melee/touch_attack/parlor_trick/proc/eject_all()
+	for(var/atom/movable/A in active_dummy)
+		A.forceMove(active_dummy.loc)
+		if(ismob(A))
+			var/mob/M = A
+			M.reset_perspective(null)
+
+/obj/effect/dummy/parlor_trick
+	name = ""
+	desc = ""
+	density = FALSE
+	var/can_move = 0
+	var/obj/item/melee/touch_attack/parlor_trick/master = null
+
+/obj/effect/dummy/parlor_trick/proc/activate(mob/M, saved_appearance, obj/item/melee/touch_attack/parlor_trick/C)
+	appearance = saved_appearance
+	if(istype(M.buckled, /obj/vehicle))
+		var/obj/vehicle/V = M.buckled
+		V.unbuckle_mob(M, force = TRUE)
+	M.forceMove(src)
+	master = C
+	master.active_dummy = src 
+
+
+/obj/effect/dummy/parlor_trick/Destroy()
+	if(master)
+		master.disrupt(0)
+		master = null
+	return ..()
+
+/obj/effect/dummy/parlor_trick/attackby()
+	master.disrupt()
+
+/obj/effect/dummy/parlor_trick/attack_hand()
+	master.disrupt()

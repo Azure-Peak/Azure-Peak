@@ -1620,3 +1620,74 @@
 /datum/crafting_recipe/roguetown/sewing/caparison/eora
 	name = "eoran caparison"
 	result = list(/obj/item/caparison/eora)
+
+/datum/crafting_recipe/roguetown/sewing/sanguinetrousers
+	name = "sanguine trousers"
+	result = /obj/item/clothing/under/roguetown/trou/leather/courtphysician
+	reqs = list(
+		/obj/item/natural/silk = 3
+	)
+	tools = list(/obj/item/needle)
+	craftdiff = 3
+
+/datum/crafting_recipe/roguetown/sewing/sanguinevest
+	name = "sanguine vest"
+	result = /obj/item/clothing/suit/roguetown/shirt/courtphysician
+	reqs = list(
+		/obj/item/natural/silk = 3
+	)
+	tools = list(/obj/item/needle)
+	craftdiff = 3
+
+/datum/crafting_recipe/roguetown/sewing/sanguineblouse
+	name = "sanguine blouse"
+	result = /obj/item/clothing/suit/roguetown/shirt/courtphysician/female
+	reqs = list(
+		/obj/item/natural/silk = 3
+	)
+	tools = list(/obj/item/needle)
+	craftdiff = 3
+
+/datum/crafting_recipe/roguetown/sewing/sanguineskirt
+	name = "sanguine skirt"
+	result = /obj/item/clothing/under/roguetown/skirt/courtphysician
+	reqs = list(
+		/obj/item/natural/silk = 3
+	)
+	tools = list(/obj/item/needle)
+	craftdiff = 3
+
+/datum/crafting_recipe/roguetown/sewing/sanguinehat
+	name = "sanguine hat"
+	result = /obj/item/clothing/head/roguetown/courtphysician
+	reqs = list(
+		/obj/item/natural/silk = 2
+	)
+	tools = list(/obj/item/needle)
+	craftdiff = 3
+
+/datum/crafting_recipe/roguetown/sewing/sanguinecap
+	name = "sanguine cap"
+	result = /obj/item/clothing/head/roguetown/courtphysician/female
+	reqs = list(
+		/obj/item/natural/silk = 2
+	)
+	tools = list(/obj/item/needle)
+	craftdiff = 3
+
+/datum/crafting_recipe/roguetown/sewing/paperparasol
+	name = "paper parasol"
+	result = list(/obj/item/rogueweapon/mace/parasol)
+	reqs = list(/obj/item/natural/cloth = 1,
+				/obj/item/natural/fibers = 2,
+				/obj/item/paper/scroll = 3)
+	craftdiff = 3
+
+/datum/crafting_recipe/roguetown/sewing/fineparasol
+	name = "fine parasol"
+	result = list(/obj/item/rogueweapon/mace/parasol/noble)
+	reqs = list(/obj/item/natural/cloth = 2,
+				/obj/item/natural/silk = 4,
+				/obj/item/paper/scroll = 2)
+	craftdiff = 5
+	sellprice = 45

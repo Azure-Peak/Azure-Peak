@@ -40,8 +40,9 @@
 	intent_intdamage_factor = BLUNT_DEFAULT_INT_DAMAGEFACTOR
 
 // Eaglebeak has a decent bash with range
-/datum/intent/spear/bash/eaglebeak
-	name = "eagle's beak bash"
+/datum/intent/spear/bash/polehammer //Used for something that is not just eagle beak
+	name = "crushing bash"
+	hitsound = list('sound/combat/hits/blunt/metalblunt (1).ogg', 'sound/combat/hits/blunt/metalblunt (2).ogg', 'sound/combat/hits/blunt/metalblunt (3).ogg')
 	damfactor = 1
 	reach = 2
 
@@ -859,8 +860,8 @@
 /obj/item/rogueweapon/eaglebeak
 	force = 15
 	force_wielded = 30
-	possible_item_intents = list(/datum/intent/spear/bash/eaglebeak, /datum/intent/mace/smash/eaglebeak)
-	gripped_intents = list(/datum/intent/spear/bash/eaglebeak, /datum/intent/mace/smash/eaglebeak, /datum/intent/spear/thrust/eaglebeak)
+	possible_item_intents = list(/datum/intent/spear/bash/polehammer, /datum/intent/mace/smash/eaglebeak)
+	gripped_intents = list(/datum/intent/spear/bash/polehammer, /datum/intent/mace/smash/eaglebeak, /datum/intent/spear/thrust/eaglebeak)
 	name = "eagle's beak"
 	desc = "A reinforced pole affixed with an ornate steel eagle's head, of which its beak is intended to pierce with great harm."
 	icon_state = "eaglebeak"
@@ -881,6 +882,7 @@
 	wdefense = 5
 	wbalance = WBALANCE_HEAVY
 	sellprice = 60
+	max_integrity = 250 //So there is actual difference between the two
 
 /obj/item/rogueweapon/eaglebeak/getonmobprop(tag)
 	. = ..()
@@ -902,6 +904,7 @@
 	icon_state = "polehammer"
 	smeltresult = /obj/item/ingot/iron
 	sellprice = 40
+	max_integrity = 200
 
 // A worse thrust for weapons specialized in other damage type like cut or blunt
 /datum/intent/spear/thrust/eaglebeak

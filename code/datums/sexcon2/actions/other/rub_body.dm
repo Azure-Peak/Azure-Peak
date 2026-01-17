@@ -1,6 +1,7 @@
 /datum/sex_action/rub_body
 	name = "Rub their body"
 	check_same_tile = FALSE
+	intensity = 2
 
 /datum/sex_action/rub_body/shows_on_menu(mob/living/carbon/human/user, mob/living/carbon/human/target)
 	if(user == target)

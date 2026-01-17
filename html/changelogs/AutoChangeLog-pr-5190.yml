@@ -1,6 +1,0 @@
-author: "Ketrai"
-delete-after: True
-changes:
-  - qol: "Calyxes and heartblood vials can be destroyed"
-  - balance: "Black rot has more ways to cure it now and is slower to kill people"
-  - rscadd: "heartblood and calyxes can cure black rot stacks"

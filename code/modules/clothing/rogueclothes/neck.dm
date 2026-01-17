@@ -62,7 +62,8 @@
 	flags_inv = HIDEEARS|HIDEFACE|HIDEHAIR|HIDEFACIALHAIR|HIDESNOUT
 	slot_flags = ITEM_SLOT_NECK|ITEM_SLOT_HEAD
 	blocksound = SOFTHIT
-	body_parts_covered = NECK|HAIR|EARS|HEAD|MOUTH
+	body_parts_covered = NECK|MOUTH|NOSE|HAIR|EARS|HEAD
+	max_integrity = ARMOR_INT_CHEST_LIGHT_MASTER //padded gambeson durability
 	armor = ARMOR_PADDED_GOOD //full padded gambeson basically
 	prevent_crits = PREVENT_CRITS_MOST
 	adjustable = CAN_CADJUST

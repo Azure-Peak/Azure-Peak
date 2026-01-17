@@ -114,7 +114,7 @@
 
 /obj/structure/broadcast_horn/paid/examine()
 	. = ..()
-	. += span_info("A noble, yeoman, churchman, retinue member, or courtier can use this for a zenny. Others must insert a ziliqua.")
+	. += span_info("A noble, burgher, churchman, retinue member, or courtier can use this for a zenny. Others must insert a ziliqua.")
 
 /obj/structure/broadcast_horn/paid/proc/get_broadcast_cost(mob/user)
 	var/datum/job/user_job = SSjob.GetJob(user.job)

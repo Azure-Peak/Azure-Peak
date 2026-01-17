@@ -1,6 +1,0 @@
-author: "mumblemancer"
-delete-after: True
-changes:
-  - bugfix: "eora's t0 actually accounts for skill now"
-  - bugfix: "eora's t0 tells you it restores hunger"
-  - rscadd: "eora's t0 now grants a bit of hunger/thirst based on your skill level"

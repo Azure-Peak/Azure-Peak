@@ -260,7 +260,7 @@
 	held_items[/obj/item/lipstick/purple] = list("PRICE" = rand(33,50),"NAME" = "purple lipstick")
 	held_items[/obj/item/lipstick/black] = list("PRICE" = rand(33,50),"NAME" = "black lipstick")
 	//azure peak addition - zigbox
-	held_items[/obj/item/quiver/zigs] = list("PRICE" = rand(5,10), "NAME" = "zigbox, empty")
+	held_items[/obj/item/storage/belt/rogue/pouch/zigarrete] = list("PRICE" = rand(5,10), "NAME" = "zigbox, empty")
 	held_items[/obj/item/reagent_containers/glass/bottle/alchemical/fermented_crab] = list("PRICE" = rand(50,70), "NAME" = "fermented crab")
 	// azure peak addition end
 

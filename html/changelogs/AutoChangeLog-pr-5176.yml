@@ -1,6 +1,0 @@
-author: "Ollanius"
-delete-after: True
-changes:
-  - rscadd: "Removes most mentions of 'gunpowder', and renames most instances of 'blastsand' into 'blastpowder'."
-  - rscadd: "Touches up the descriptions of most explosive, gaseous, and otherwise alchemical weapons."
-  - rscadd: "Allows the Mechanized Ore Bag to now be worn on the back slot, as well."

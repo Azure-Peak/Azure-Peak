@@ -30,7 +30,7 @@
 	var/base_state = null
 
 	var/locked = FALSE
-	var/lockdifficulty = 1 // DO NOT SET THIS ABOVE 2 WITHOUT GOOD REASON. IT WILL BREAK MOST PICKS EVEN W/ 5/6 SKILL.
+	var/lockdifficulty = 1 // THIS SHOULD BE A # BETWEEN 1-2. VALUES ABOVE 2 WILL BE NIGH UNPICKABLE EVEN W/ LEGENDARY SKILL.
 	var/last_bump = null
 	var/brokenstate = 0
 	var/keylock = FALSE
@@ -857,7 +857,7 @@
 	rattlesound = 'sound/foley/doors/lockrattlemetal.ogg'
 	attacked_sound = list("sound/combat/hits/onmetal/metalimpact (1).ogg", "sound/combat/hits/onmetal/metalimpact (2).ogg")
 	lock_strength = 200
-	lockdifficulty = 2
+	lockdifficulty = 1
 	repair_cost_second = /obj/item/ingot/iron
 	repair_skill = /datum/skill/craft/carpentry
 
@@ -927,6 +927,19 @@
 	..()
 	icon_state = "stonebr" // Weird override otherwise
 
+// These are variants of the donjon doors for "high security" locations. They have stronger
+// locks. This SHOULD BE A VALUE BETWEEN 1-2, NOT HIGHER THAN 2. Level 3 doors are near
+// impossible to lockpick through. These should also NOT be placed everywhere, as even lockdiff 2
+// will break picks like no tomorrow. 
+
+/obj/structure/mineral_door/wood/donjon/highsecurity
+	lockdifficulty = 2
+	desc = "A solid metal door with a slot to peek through. The lock has been reinforced."
+
+/obj/structure/mineral_door/wood/donjon/stone/highsecurity
+	// No special desc for this one BC stone doors dont really have one. For whatever reason.
+	lockdifficulty = 2
+
 
 /obj/structure/mineral_door/bars
 	name = "iron door"
@@ -949,7 +962,7 @@
 	ridethrough = TRUE
 	swing_closed = FALSE
 	lock_strength = 150
-	lockdifficulty = 2
+	lockdifficulty = 1.5
 	repairable = TRUE
 	repair_cost_first = /obj/item/ingot/iron
 	repair_cost_second = /obj/item/ingot/iron

@@ -201,6 +201,10 @@
 "tP" = (
 /turf/closed/mineral/rogue/bedrock,
 /area/rogue/under/tomb)
+"uh" = (
+/obj/structure/fluff/walldeco/painting/queen,
+/turf/closed/wall/mineral/rogue/decowood,
+/area/rogue/under/tomb/indoors)
 "ur" = (
 /obj/item/reagent_containers/glass/cup/wooden/crafted{
 	pixel_x = -6;
@@ -349,10 +353,6 @@
 "LC" = (
 /obj/structure/chair/wood,
 /turf/open/floor/rogue/ruinedwood/spiral,
-/area/rogue/under/tomb/indoors)
-"Ml" = (
-/obj/structure/fluff/walldeco/painting/queen,
-/turf/closed/wall/mineral/rogue/stone/moss,
 /area/rogue/under/tomb/indoors)
 "MK" = (
 /obj/machinery/light/rogue{
@@ -672,7 +672,7 @@ tu
 tu
 Im
 Oj
-Oj
+uh
 Oj
 lU
 AX
@@ -692,7 +692,7 @@ tP
 tP
 tu
 tu
-Ml
+Im
 lU
 lU
 lU

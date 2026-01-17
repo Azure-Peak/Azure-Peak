@@ -78,11 +78,13 @@
 /obj/effect/landmark/chimeric_calyx_spawner/fifteen
 	calyx_spawn_chance = 15
 
-/obj/effect/landmark/chimeric_calyx_spawner/Initialize()
+/obj/effect/landmark/chimeric_calyx_spawner/Initialize(mapload)
 	. = ..()
+	if(SSticker && SSticker.setup_done)
+		return INITIALIZE_HINT_QDEL
 	if(prob(calyx_spawn_chance))
 		new /obj/structure/roguemachine/chimeric_calyx(loc)
-	qdel(src)
+	return INITIALIZE_HINT_QDEL
 
 /obj/structure/roguemachine/chimeric_calyx
 	name = "Heartbeast Calyx"

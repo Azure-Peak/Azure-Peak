@@ -24,17 +24,18 @@
 #define LORD		(1<<0)
 #define LADY		(1<<1)
 #define PRINCE		(1<<3)
-#define SUITOR		(1<<4)
 
 #define COURTIERS			(1<<1)
 
 #define HAND		(1<<0)
 #define STEWARD		(1<<1)
 #define COUNCILLOR	(1<<2)
-#define JESTER		(1<<3)
-#define WIZARD		(1<<4)
-#define ARCHIVIST	(1<<5)
-#define SENESCHAL	(1<<6)
+#define CLERK 		(1<<4)
+#define JESTER		(1<<5)
+#define WIZARD		(1<<6)
+#define ARCHIVIST	(1<<7)
+#define SENESCHAL	(1<<8)
+#define SUITOR		(1<<9)
 
 #define RETINUE				(1<<2)
 
@@ -70,35 +71,33 @@
 #define APOTHECARY	(1<<5)
 #define INNKEEPER	(1<<6)
 #define BATHMASTER	(1<<7)
-#define CLERK 		(1<<8)
-#define CRIER		(1<<9)
+#define CRIER		(1<<8)
+#define APPRENTICE	(1<<9) //Readd the mage part if you are going to add any other role that uses this tag or use ASSOCIATE to avoid weird spacing.
 
 #define PEASANTS			(1<<6)
 
-#define MAGEAPPRENTICE	(1<<0)
-#define SHOPHAND	(1<<1)
-#define SERVANT		(1<<2)
-#define COOK		(1<<3)
-#define TAPSTER 	(1<<4)
-#define BATHWORKER	(1<<5)
-#define SOILSON		(1<<6)
-#define VILLAGER	(1<<7)
+#define BATHWORKER	(1<<0)
+#define COOK		(1<<1)
+#define TAPSTER 	(1<<2)
+#define SERVANT		(1<<3)
+#define SHOPHAND	(1<<4)
+#define SOILSON		(1<<5)
+#define VILLAGER	(1<<6)
 
 #define SIDEFOLK			(1<<7)
 
-#define VETERAN		(1<<0)
-#define LUNATIC		(1<<1)
-#define VAGABOND	(1<<2)
-#define ORPHAN		(1<<3)
-#define PILGRIM		(1<<4)
-#define MIGRANT		(1<<5)
+#define LUNATIC		(1<<0)
+#define VAGABOND	(1<<1)
+#define MIGRANT		(1<<2)
+#define PILGRIM		(1<<3)
+#define MERCENARY	(1<<4)
+#define VETERAN		(1<<5)
 
 #define WANDERERS			(1<<8)
 
 #define ADVENTURER	(1<<0)
-#define TRADER		(1<<1)
-#define MERCENARY	(1<<2)
-#define COURTAGENT	(1<<3)
+#define COURTAGENT	(1<<1)
+#define TRADER		(1<<2)
 
 #define INQUISITION			(1<<9)
 
@@ -140,17 +139,17 @@
 #define JDO_LORD 1
 #define JDO_LADY 1.1
 #define JDO_PRINCE 1.2
-#define JDO_SUITOR 1.3
 
 // Courtiers
 #define JDO_HAND 2
 #define JDO_STEWARD 2.1
 #define JDO_COUNCILLOR 2.2
-#define JDO_JESTER 2.3
-#define JDO_MAGICIAN 2.4
-#define JDO_ARCHIVIST 2.5
-#define JDO_PHYSICIAN 2.6
-#define JDO_SENESCHAL 2.7
+#define JDO_CLERK 2.3
+#define JDO_JESTER 2.4
+#define JDO_MAGICIAN 2.5
+#define JDO_ARCHIVIST 2.6
+#define JDO_SENESCHAL 2.8
+#define JDO_SUITOR 2.9
 
 // Retinue - Manor
 #define JDO_MARSHAL 3
@@ -178,35 +177,34 @@
 #define JDO_GUILDMASTER 6.1
 #define JDO_GUILDSMAN 6.2
 #define JDO_TAILOR 6.3
-#define JDO_INNKEEPER 6.4
-#define JDO_BATHMASTER 6.5
-#define JDO_CRIER 6.6
-#define JDO_APOTHECARY 6.7
-#define JDO_CLERK 6.8
+#define JDO_PHYSICIAN 6.4
+#define JDO_APOTHECARY 6.5
+#define JDO_INNKEEPER 6.6
+#define JDO_BATHMASTER 6.7
+#define JDO_CRIER 6.8
+#define JDO_APPRENTICE 6.9
 
 // Town Serfs - Peasants
-#define JDO_MAGEAPPRENTICE 7
-#define JDO_SHOPHAND 7.1
-#define JDO_SERVANT 7.2
-#define JDO_COOK 7.3
-#define JDO_TAPSTER 7.4
-#define JDO_BATHWORKER 7.5
-#define JDO_SOILSON 7.6
-#define JDO_VILLAGER 7.7
+#define JDO_BATHWORKER 7
+#define JDO_COOK 7.1
+#define JDO_TAPSTER 7.2
+#define JDO_SERVANT 7.3
+#define JDO_SHOPHAND 7.4
+#define JDO_SOILSON 7.5
+#define JDO_VILLAGER 7.6
 
 // Sidefolk - MISC jobs that don't fit any of the other categories really
-#define JDO_VET 8
-#define JDO_LUNATIC 8.1
-#define JDO_VAGABOND 8.2
-#define JDO_VAGRANT 8.3
-#define JDO_PILGRIM 8.4
-#define JDO_MIGRANT 8.5
+#define JDO_LUNATIC 8
+#define JDO_VAGABOND 8.1
+#define JDO_MIGRANT 8.2
+#define JDO_PILGRIM 8.3
+#define JDO_MERCENARY 8.4
+#define JDO_VETERAN 8.5
 
 // Wanderers
 #define JDO_ADVENTURER 9
-#define JDO_TRADER 9.1
-#define JDO_COURTAGENT 9.2
-#define JDO_MERCENARY 9.3
+#define JDO_COURTAGENT 9.1
+#define JDO_TRADER 9.2
 
 // Inquisition
 #define JDO_INQUISITOR 10

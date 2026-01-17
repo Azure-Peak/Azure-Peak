@@ -46,7 +46,7 @@
 /turf/open/floor/rogue/churchbrick,
 /area/rogue/under/tomb)
 "U" = (
-/turf/closed/mineral,
+/turf/closed/mineral/rogue/bedrock,
 /area/rogue/under/tomb)
 
 (1,1,1) = {"

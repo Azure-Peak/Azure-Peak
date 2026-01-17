@@ -23,7 +23,7 @@
 
 /obj/item/clothing/suit/roguetown/armor/plate/ComponentInitialize()
 	. = ..()
-	AddComponent(/datum/component/item_equipped_movement_rustle, SFX_PLATE_STEP, 5)
+	AddComponent(/datum/component/item_equipped_movement_rustle, SFX_PLATE_STEP, 12)
 	AddComponent(/datum/component/armour_filtering/negative, TRAIT_FENCERDEXTERITY)
 
 /obj/item/clothing/suit/roguetown/armor/plate/iron
@@ -301,6 +301,8 @@
 	item_state = "shadowplate"
 	armor_class = ARMOR_CLASS_MEDIUM
 	allowed_race = NON_DWARVEN_RACE_TYPES
+	smeltresult = /obj/item/ingot/drow
+	smelt_bar_num = 2
 
 /obj/item/clothing/suit/roguetown/armor/plate/full/fluted/ornate/ordinator
 	name = "inquisitorial ordinator's plate"
@@ -624,7 +626,7 @@
 	blocksound = PLATEHIT	
 
 /obj/item/clothing/suit/roguetown/armor/plate/scale/inqcoat/armored/ComponentInitialize()
-	AddComponent(/datum/component/item_equipped_movement_rustle, SFX_PLATE_STEP, 5)
+	AddComponent(/datum/component/item_equipped_movement_rustle, SFX_PLATE_STEP, 12)
 	return
 
 /obj/item/clothing/suit/roguetown/armor/plate/silver

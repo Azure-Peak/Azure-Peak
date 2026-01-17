@@ -1,6 +1,0 @@
-author: "ADONAI"
-delete-after: True
-changes:
-  - bugfix: "pronouns are now respected by descriptors"
-  - rscadd: "the soggy and rotten physical descriptors are now available for selection"
-  - bugfix: "edgecases caught w/ some string processing"

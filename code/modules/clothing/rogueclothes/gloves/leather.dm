@@ -128,3 +128,49 @@
 	drop_sound = 'sound/foley/dropsound/cloth_drop.ogg'
 	anvilrepair = null
 	sewrepair = TRUE
+
+/obj/item/clothing/gloves/roguetown/courtphysician
+	name = "sanguine gloves"
+	desc = "Carefully sewn leather gloves, unrestricting to your ability to wield surgical tools, and stylish!"
+	icon_state = "docgloves"
+	item_state = "docgloves"
+	icon = 'icons/roguetown/clothing/special/courtphys.dmi'
+	sleeved = 'icons/roguetown/clothing/onmob/helpers/sleeves_courtphys.dmi'
+	mob_overlay_icon = 'icons/roguetown/clothing/special/onmob/courtphys.dmi'
+	detail_tag = "_detail"
+	detail_color = CLOTHING_RED
+	armor = ARMOR_LEATHER
+	prevent_crits = PREVENT_CRITS_NONE
+	resistance_flags = null
+	blocksound = SOFTHIT
+	blade_dulling = DULLING_BASHCHOP
+	break_sound = 'sound/foley/cloth_rip.ogg'
+	drop_sound = 'sound/foley/dropsound/cloth_drop.ogg'
+	anvilrepair = null
+	sewrepair = TRUE
+	salvage_result = /obj/item/natural/hide/cured
+
+/obj/item/clothing/gloves/roguetown/courtphysician/female
+	name = "sanguine sleeves"
+	desc = "Carefully sewn leather gloves with silk sleeves covering them, unrestricting to your ability to wield surgical tools, and stylish!"
+	icon_state = "docsleeves"
+	item_state = "docsleeves"
+	icon = 'icons/roguetown/clothing/special/courtphys.dmi'
+	sleeved = 'icons/roguetown/clothing/onmob/helpers/sleeves_courtphys.dmi'
+	mob_overlay_icon = 'icons/roguetown/clothing/special/onmob/courtphys.dmi'
+	detail_tag = "_detail"
+	detail_color = CLOTHING_RED
+	salvage_result = /obj/item/natural/silk
+
+/obj/item/clothing/gloves/roguetown/courtphysician/female/Initialize()
+	. = ..()
+	update_icon()
+
+/obj/item/clothing/gloves/roguetown/courtphysician/female/update_icon()
+	cut_overlays()
+	if(get_detail_tag())
+		var/mutable_appearance/pic = mutable_appearance(icon(icon, "[icon_state][detail_tag]"))
+		pic.appearance_flags = RESET_COLOR
+		if(get_detail_color())
+			pic.color = get_detail_color()
+		add_overlay(pic)

@@ -199,9 +199,11 @@
 	if(mob.curplaying)
 		mob.curplaying.on_mouse_up()
 
-	if(!mob.fixedeye)
+	if(!mob.targetting)
+		mob.tempfixeye = FALSE
+
+	if(!mob.fixedeye && !mob.tempfixeye)
 		mob.nodirchange = FALSE
-	mob.tempfixeye = FALSE
 
 	if(mob.hud_used)
 		for(var/atom/movable/screen/eye_intent/eyet in mob.hud_used.static_inventory)
