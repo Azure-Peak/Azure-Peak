@@ -259,6 +259,20 @@
 	fried_type = null
 	cooked_type = null
 
+/* .............   Seared Gnoll   ................ */
+/obj/item/reagent_containers/food/snacks/rogue/meat/steak/gnoll/seared
+	eat_effect = null
+	slices_num = 0
+	name = "seared gnoll"
+	desc = "A disgusting sinewy mess of gnoll meat. Seems the muscle has only toughened after being seared."
+	icon = 'modular/Neu_Food/icons/cooked/cooked_meat.dmi'
+	icon_state = "searedgnoll"
+	bonus_reagents = list(/datum/reagent/consumable/nutriment = SNACK_CHUNKY)
+	faretype = FARE_POOR
+	rotprocess = SHELFLIFE_EXTREME
+	fried_type = null
+	cooked_type = null
+
 /* .............   Fried Filet    ................ */
 // This is seafood but is one of the "simple cooked meat" so I put it here.
 /obj/item/reagent_containers/food/snacks/rogue/meat/fish/fried

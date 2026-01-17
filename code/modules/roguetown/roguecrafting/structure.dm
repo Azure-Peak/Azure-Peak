@@ -57,6 +57,22 @@
 	verbage_simple = "construct"
 	verbage = "constructs"
 
+/datum/crafting_recipe/roguetown/structure/stonenecrapsycrss
+	name = "stone necran cross"
+	category = "Misc"
+	result = /obj/structure/fluff/psycross/necra
+	reqs =	list(/obj/item/natural/stone = 3)
+	verbage_simple = "construct"
+	verbage = "constructs"
+
+/datum/crafting_recipe/roguetown/structure/stonenecrapsycrsscloth
+	name = "stone necran cross (with clothpieces)"
+	category = "Misc"
+	result = /obj/structure/fluff/psycross/necra/cloth
+	reqs =	list(/obj/item/rogueore/iron = 1, /obj/item/natural/stone = 3, /obj/item/natural/cloth = 2)
+	verbage_simple = "construct"
+	verbage = "constructs"
+
 /datum/crafting_recipe/roguetown/structure/stonepsycruci
 	name = "stone psydonic cross"
 	category = "Misc"

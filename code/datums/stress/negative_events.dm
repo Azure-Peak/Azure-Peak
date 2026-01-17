@@ -452,3 +452,7 @@
 	timer = 25 MINUTES
 	stressadd = 3
 	desc = span_red("I couldn't pay my debts in time.")
+/datum/stressevent/revenant_cross // When a revenant looks at a necran cross that's blessed.
+	timer = 2 MINUTES
+	stressadd = 3
+	desc = span_boldred("The undermaiden is watching me with disgust!")

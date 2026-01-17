@@ -231,6 +231,19 @@ GLOBAL_LIST_INIT(averse_factions, list(
 			log_hunted("[H.ckey] playing as [H.name] had the hunted flaw by vice.")
 			logged = TRUE
 
+/datum/charflaw/hunted/apply_post_equipment(mob/user)
+	..()
+	if(!ishuman(user))
+		return
+	var/datum/job/gnoll_job = SSjob.GetJob("Gnoll")
+	var/total_gnoll_positions = gnoll_job.total_positions
+	var/gnoll_increase = get_gnoll_slot_increase(total_gnoll_positions)
+
+	if(gnoll_increase >= 1)
+		to_chat(user, span_notice("I have offended graggarite agents, and they may be tracking my scent."))
+		gnoll_job.total_positions = min(total_gnoll_positions + gnoll_increase, 10)
+		gnoll_job.spawn_positions = min(total_gnoll_positions + gnoll_increase, 10)
+
 /datum/charflaw/unintelligible
 	name = "Unintelligible"
 	desc = "I cannot speak the common tongue!"

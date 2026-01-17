@@ -404,6 +404,10 @@ There are several things that need to be remembered:
 		update_hud_neck(wear_neck)
 	rebuild_obscured_flags()
 	update_hair()
+	// Snowflake check to stop species with custom body sprites of having ugly pouches appear on their sprite, unaccustomed to the shape.
+	if(dna.species.custom_base_icon)
+		return
+
 	apply_overlay(NECK_LAYER)
 
 /mob/living/carbon/human/update_inv_wear_id()
@@ -1277,6 +1281,9 @@ There are several things that need to be remembered:
 	apply_overlay(SHIRTSLEEVE_LAYER)
 
 /mob/living/carbon/human/update_inv_armor()
+	// Snowflake check to stop species with custom body sprites of losing their armor when it's handled by the skin armor they wear.
+	if(dna.species.custom_base_icon)
+		return
 	remove_overlay(ARMOR_LAYER)
 	remove_overlay(ARMORSLEEVE_LAYER)
 
@@ -1447,6 +1454,22 @@ There are several things that need to be remembered:
 		apply_overlay(MOUTH_LAYER)
 
 	rebuild_obscured_flags()
+
+/mob/living/carbon/human/proc/update_inv_armor_special()
+	remove_overlay(ARMOR_LAYER)
+
+	if(!skin_armor)
+		return
+
+	var/armor_icon_state = skin_armor.icon_state
+	if(!(src.mobility_flags & MOBILITY_STAND))
+		armor_icon_state = "[skin_armor.icon_state]_down"
+	
+	var/mutable_appearance/armor_overlay = mutable_appearance(skin_armor.icon, armor_icon_state, layer = ARMOR_LAYER)
+
+	overlays_standing[ARMOR_LAYER] = armor_overlay
+
+	add_overlay(armor_overlay)
 
 //endrogue
 

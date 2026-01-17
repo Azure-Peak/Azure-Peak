@@ -127,7 +127,7 @@
 	backpack_contents = list(
 		/obj/item/rogueweapon/huntingknife/idagger/steel/special = 1,
 		/obj/item/rope/chain = 1,
-		/obj/item/storage/keyring/guardcastle = 1,
+		/obj/item/storage/keyring/manatarms = 1,
 		/obj/item/rogueweapon/scabbard/sheath = 1,
 		/obj/item/reagent_containers/glass/bottle/rogue/healthpot = 1,
 		)
@@ -234,7 +234,7 @@
 		backpack_contents = list(
 			/obj/item/rogueweapon/huntingknife/idagger/steel/special = 1,
 			/obj/item/rope/chain = 1,
-			/obj/item/storage/keyring/guardcastle = 1,
+			/obj/item/storage/keyring/manatarms = 1,
 			/obj/item/rogueweapon/scabbard/sheath = 1,
 			/obj/item/reagent_containers/glass/bottle/rogue/healthpot = 1,
 			)
@@ -317,7 +317,7 @@
 		backpack_contents = list(
 			/obj/item/rogueweapon/huntingknife/idagger/steel/special = 1,
 			/obj/item/rope/chain = 1,
-			/obj/item/storage/keyring/guardcastle = 1,
+			/obj/item/storage/keyring/manatarms = 1,
 			/obj/item/rogueweapon/scabbard/sheath = 1,
 			/obj/item/reagent_containers/glass/bottle/rogue/healthpot = 1
 			)
@@ -406,7 +406,7 @@
 	backpack_contents = list(
 		/obj/item/rogueweapon/huntingknife/idagger/steel/special = 1,
 		/obj/item/rope/chain = 1,
-		/obj/item/storage/keyring/guardcastle = 1,
+		/obj/item/storage/keyring/manatarms = 1,
 		/obj/item/rogueweapon/scabbard/sheath = 1,
 		/obj/item/reagent_containers/glass/bottle/rogue/healthpot = 1,
 		)

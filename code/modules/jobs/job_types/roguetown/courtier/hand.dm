@@ -90,7 +90,8 @@
 	backpack_contents = list(
 		/obj/item/rogueweapon/huntingknife/idagger/dtace = 1,
 		/obj/item/rogueweapon/scabbard/sheath = 1,
-		/obj/item/storage/keyring/hand = 1,
+		/obj/item/storage/keyring/lord = 1,
+		/obj/item/roguekey/skeleton = 1
 	)
 	if(H.mind)
 		SStreasury.give_money_account(ECONOMIC_RICH, H, "Savings.")
@@ -135,7 +136,8 @@
 	backpack_contents = list(
 		/obj/item/rogueweapon/huntingknife/idagger/dtace = 1,
 		/obj/item/rogueweapon/scabbard/sheath = 1,
-		/obj/item/storage/keyring/hand = 1,
+		/obj/item/storage/keyring/lord = 1,
+		/obj/item/roguekey/skeleton = 1,
 		/obj/item/lockpickring/mundane = 1,
 	)
 	if(H.dna.species.type in NON_DWARVEN_RACE_TYPES)
@@ -201,7 +203,8 @@
 	backpack_contents = list(
 		/obj/item/rogueweapon/huntingknife/idagger/dtace = 1,
 		/obj/item/rogueweapon/scabbard/sheath = 1,
-		/obj/item/storage/keyring/hand = 1,
+		/obj/item/storage/keyring/lord = 1,
+		/obj/item/roguekey/skeleton = 1,
 		/obj/item/lockpickring/mundane = 1,
 		/obj/item/reagent_containers/glass/bottle/rogue/poison = 1,//starts with a vial of poison, like all wizened evil advisors do!
 	)

@@ -71,7 +71,7 @@
 	backr = /obj/item/storage/backpack/rogue/satchel/black
 	id = /obj/item/scomstone/bad/garrison
 	backpack_contents = list(
-		/obj/item/storage/keyring/guardknight = 1,
+		/obj/item/storage/keyring/knight = 1,
 		/obj/item/reagent_containers/glass/bottle/rogue/healthpot = 1,
 	)
 
@@ -393,7 +393,7 @@
 		STATKEY_WIL = 2,
 		STATKEY_SPD = 2,
 		STATKEY_PER = 1,
-		STATKEY_FOR = 1
+		STATKEY_LCK = 1
 	)
 	subclass_skills = list(
 		/datum/skill/combat/swords = SKILL_LEVEL_EXPERT, //Swords and knives class.

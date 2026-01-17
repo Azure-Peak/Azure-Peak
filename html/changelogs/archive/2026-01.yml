@@ -520,3 +520,23 @@
   - balance: Golgotha smash takes 3s to wind up.
   adonai:
   - bugfix: close caress is steel equivalent again
+2026-01-17:
+  BurpleBineapple:
+  - bugfix: RC's +1 FOR is correctly applied.
+  HeroWithYay:
+  - bugfix: Carrot steaks and Carrot Onion Steaks no longer make you throw up (again)
+  Jakksergal:
+  - rscadd: Added 9 new antlers to character cistomization.
+  Lamasmaster:
+  - rscadd: Wordfilter words
+  - rscadd: Zig bandolier
+  - refactor: Zig boxes
+  Ryan180602:
+  - code_imp: Donor item update.
+  - balance: Poacher gets Expert Knives.
+  - balance: Black Oak Pariah gets a lamptern.
+  bearrrrrrrr:
+  - rscadd: Stygian Efflorescence. a T2 spell that fires three obsidian shards in
+      a fan. Detonates Arcane Mark.
+  zydras:
+  - qol: The Silky Dress can now be worn in the Cloak slot

@@ -116,6 +116,7 @@
 #define VAMPIRE_SERVANT (1<<6)
 #define VAMPIRE_GUARD 	(1<<7)
 #define VAMPIRE_SPAWN 	(1<<8)
+#define GNOLL			(1<<9)
 
 #define SLOP				(1<<11)
 
@@ -215,6 +216,7 @@
 #define JDO_ASSASSIN 11
 #define JDO_BANDIT 11.1
 #define JDO_WRETCH 11.2
+#define JDO_GNOLL 11.3
 
 #define BITFLAG_HOLY_WARRIOR (1<<0)
 #define BITFLAG_ROYALTY (1<<1)

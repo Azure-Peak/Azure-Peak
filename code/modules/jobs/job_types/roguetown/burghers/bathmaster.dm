@@ -66,7 +66,7 @@
 	shoes = /obj/item/clothing/shoes/roguetown/boots
 	belt = /obj/item/storage/belt/rogue/leather/black
 	shirt = /obj/item/clothing/suit/roguetown/shirt/tunic/purple
-	wrists = /obj/item/storage/keyring/nightman
+	wrists = /obj/item/storage/keyring/bathmaster
 	neck = /obj/item/storage/belt/rogue/pouch/merchant/coins
 	pants = /obj/item/clothing/under/roguetown/trou/leather
 	beltl = /obj/item/rogueweapon/whip

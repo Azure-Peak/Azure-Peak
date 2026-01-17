@@ -94,7 +94,7 @@
 /mob/living/carbon/human/can_use_guns(obj/item/G)
 	. = ..()
 	if(G.trigger_guard == TRIGGER_GUARD_NORMAL)
-		if(HAS_TRAIT(src, TRAIT_CHUNKYFINGERS))
+		if(HAS_TRAIT(src, TRAIT_CHUNKYFINGERS) || HAS_TRAIT(src, TRAIT_GNARLYDIGITS))
 			to_chat(src, span_warning("My meaty finger is much too large for the trigger guard!"))
 			return FALSE
 	if(HAS_TRAIT(src, TRAIT_NOGUNS))
