@@ -65,10 +65,6 @@
 	var/sl = user.get_skill_level(/datum/skill/labor/fishing) // User's skill level
 	var/ft = 120 //Time to get a catch, in ticks
 	var/fpp =  100 - (40 + (sl * 10)) // Fishing power penalty based on fishing skill level
-	var/frwt = list(/turf/open/water/river, /turf/open/water/cleanshallow, /turf/open/water/pond)
-	var/salwt_coast = list(/turf/open/water/ocean)
-	var/salwt_deep = list(/turf/open/water/ocean/deep)
-	var/mud = list(/turf/open/water/swamp, /turf/open/water/swamp/deep)
 	var/list/modlist
 	if(user.used_intent.type == SPEAR_BASH)
 		return ..()
@@ -100,43 +96,19 @@
 								fishchance -= fpp // Deduct a penalty the lower our fishing level is (-0 at legendary)
 						var/mob/living/carbon/human/fisherman = user
 						modlist = baited.fishingMods.Copy()
-						if(ishuman(fisherman))
-							if(fisherman.patron.type == /datum/patron/divine/abyssor)
-								modlist["dangerFishingMod"] *= 1.10  // +10% danger
-								modlist["treasureFishingMod"] *= 0.90  // -10% treasure
-								modlist["rareFishingMod"] *= 1.25  // +25% rare
-							if(fisherman.STALUC > 10)
-								var/trait_bonus = 0
-								if(HAS_TRAIT(fisherman, TRAIT_CAUTIOUS_FISHER))
-									trait_bonus = 0.20
-								var/tier1_bonus = min(fisherman.STALUC - 10, 5) // 5% bonus per point up until 15
-								var/tier2_bonus = max(fisherman.STALUC - 15, 0) // 1% bonus per point past 15
-								var/total_bonus = (tier1_bonus * 0.05) + (tier2_bonus * 0.01) + (trait_bonus)
-								modlist["rareFishingMod"] *= (1 + total_bonus)
-								modlist["treasureFishingMod"] *= (1 + total_bonus)
-								modlist["dangerFishingMod"] *= (1 - (trait_bonus * 3))
 						if(prob(fishchance)) // Finally, roll the dice to see if we fish.
-							var/A
-							if(target.type in frwt)
-								A = pickweightAllowZero(createFreshWaterFishWeightListModlist(modlist))
-							else if(target.type in salwt_coast)
-								A = pickweightAllowZero(createCoastalSeaFishWeightListModlist(modlist))
-							else if(target.type in salwt_deep)
-								A = pickweightAllowZero(createDeepSeaFishWeightListModlist(modlist))
-							else if(target.type in mud)
-								A = pickweightAllowZero(createMudFishWeightListModlist(modlist))
+							var/A = getfishingloot(user, modlist, target)
 							if(A)
 								var/ow = 30 + (sl * 10) // Opportunity window, in ticks. Longer means you get more time to cancel your bait
 								to_chat(user, "<span class='notice'>Something tugs the line!</span>")
 								target.balloon_alert_to_viewers("Tug!")
 								playsound(src.loc, 'sound/items/fishing_plouf.ogg', 100, TRUE)
 								if(!do_after(user,ow, target = target, same_direction = TRUE))
-									if(ismob(A)) // TODO: Baits with mobs on their fishloot lists OR water tiles with their own fish loot pools
+									if(A in subtypesof(/mob/living))
 										var/mob/M = A
-										if(M.type in subtypesof(/mob/living/simple_animal/hostile))
-											new M(target)
-										else
-											new M(user.loc)
+										new M(target)
+										if (!(M.type == /mob/living/simple_animal/hostile/retaliate/rogue/mudcrab))
+											user.playsound_local(src, pick('sound/misc/jumpscare (1).ogg','sound/misc/jumpscare (2).ogg','sound/misc/jumpscare (3).ogg','sound/misc/jumpscare (4).ogg'), 100)
 										user.mind.add_sleep_experience(/datum/skill/labor/fishing, fisherman.STAINT*2) // High risk high reward
 									else
 										new A(user.loc)
@@ -146,13 +118,13 @@
 										record_featured_stat(FEATURED_STATS_FISHERS, fisherman)
 										record_round_statistic(STATS_FISH_CAUGHT)
 										playsound(src.loc, 'sound/items/Fish_out.ogg', 100, TRUE)
-									if(prob(80 - (sl * 10))) // Higher skill levels make you less likely to lose your bait
+									if(getbaitlife(sl, baited)) // Higher skill levels make you less likely to lose your bait
 										to_chat(user, "<span class='warning'>Damn, it ate my bait.</span>")
 										qdel(baited)
 										baited = null
 								else
 									to_chat(user, "<span class='warning'>Damn, it got away... I should <b>pull away</b> next time.</span>")
-									if(prob(100 - (sl * 10))) // Higher chance for it to flee with your bait.
+									if(getbaitlife(sl, baited, 100)) // Higher chance for it to flee with your bait.
 										to_chat(user, "<span class='warning'>...And took my bait, too.</span>")
 										qdel(baited)
 										baited = null													

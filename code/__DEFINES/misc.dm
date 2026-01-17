@@ -33,9 +33,9 @@
 #define LEG_PART_LAYER			40
 #define LEGWEAR_LAYER			39
 #define PANTS_LAYER				38
-#define SHOES_LAYER				37
-#define LEG_DAMAGE_LAYER		36
-#define LEGSLEEVE_LAYER			35
+#define LEG_DAMAGE_LAYER		37
+#define LEGSLEEVE_LAYER			36
+#define SHOES_LAYER				35
 #define SHOESLEEVE_LAYER		34
 #define SHIRT_LAYER				33
 #define WRISTS_LAYER			32

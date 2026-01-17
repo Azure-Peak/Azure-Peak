@@ -1,7 +1,0 @@
-author: "Lamasmaster"
-delete-after: True
-changes:
-  - balance: "Removed volfhelmet smithing"
-  - image: "Pigface and Hounskull sprites"
-  - code_imp: "Changed etruscan bascinet to klappvisier bascinet"
-  - code_imp: "Naming convention for Bascinets and Sallets"

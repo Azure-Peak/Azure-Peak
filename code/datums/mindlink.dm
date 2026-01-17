@@ -33,6 +33,7 @@ GLOBAL_LIST_EMPTY(mindlinks)
 		
 		to_chat(speaker, span_purple("You project your thoughts to [recipient]: \"[message]\""))
 		to_chat(recipient, span_purple("[speaker] projects their thoughts to you: \"[message]\""))
+		recipient.playsound_local(recipient, 'sound/magic/message.ogg', 100)
 		speaker.log_talk(message, LOG_SAY, tag="mindlink (to [recipient])")
 		
 		speech_args[SPEECH_MESSAGE] = null // Prevent the normal speech from happening

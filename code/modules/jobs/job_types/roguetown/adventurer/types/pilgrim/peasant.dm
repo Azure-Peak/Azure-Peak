@@ -53,3 +53,20 @@
 	backr = /obj/item/rogueweapon/hoe
 	if(H.mind)
 		SStreasury.give_money_account(ECONOMIC_WORKING_CLASS, H, "Savings.")
+	if(H.mind)
+		var/seeds = list(
+			"Berry seeds" = /obj/item/storage/roguebag/farmer_berries,
+			"Rocknut seeds" = /obj/item/storage/roguebag/farmer_rocknut,
+			"Exotic fruit seeds" = /obj/item/storage/roguebag/farmer_fruits,
+			"Some extra smokes" = /obj/item/storage/roguebag/farmer_smokes,
+		)
+		var/seedbag_names = list()
+		for (var/name in seeds)
+			seedbag_names += name
+		for (var/i = 1 to 2)
+			var/seed_choice = input(H, "Choose your starting seed packs", "Select") as anything in seedbag_names
+			if (i == 1)
+				l_hand = seeds[seed_choice]
+			else
+				r_hand = seeds[seed_choice]
+		H.set_blindness(0)

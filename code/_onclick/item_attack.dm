@@ -190,9 +190,10 @@
 	//Niche signal for post-swingdelay attacks when we want to care about those.
 	_attacker_signal = null
 	_attacker_signal = SEND_SIGNAL(user, COMSIG_MOB_ITEM_ATTACK_POST_SWINGDELAY, M, user, src)
-	if(_attacker_signal & COMPONENT_ITEM_NO_ATTACK)
+	var/_defender_signal = SEND_SIGNAL(M, COMSIG_MOB_ITEM_POST_SWINGDELAY_ATTACKED, M, user, src)
+	if(_attacker_signal & COMPONENT_ITEM_NO_ATTACK || _defender_signal & COMPONENT_ITEM_NO_ATTACK)
 		return FALSE
-	else if(_attacker_signal & COMPONENT_ITEM_NO_DEFENSE)
+	else if(_attacker_signal & COMPONENT_ITEM_NO_DEFENSE || _defender_signal & ATTACK_OVERRIDE_NODEFENSE)
 		override_status = ATTACK_OVERRIDE_NODEFENSE
 
 	if(override_status != ATTACK_OVERRIDE_NODEFENSE)

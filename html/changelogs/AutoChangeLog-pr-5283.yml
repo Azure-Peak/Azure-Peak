@@ -1,0 +1,4 @@
+author: "BurpleBineapple"
+delete-after: True
+changes:
+  - bugfix: "Fixes DasFox donor armor."

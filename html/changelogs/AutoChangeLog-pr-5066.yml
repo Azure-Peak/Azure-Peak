@@ -1,5 +1,0 @@
-author: "SirSwagmeyer"
-delete-after: True
-changes:
-  - balance: "Gave the seax a mini-rend, the rhomphaia a thrust attack, and the hatchets throwing damage."
-  - bugfix: "fixed a few onmob sprites and the templar chestplate."

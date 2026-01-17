@@ -302,10 +302,13 @@
 	manage_tempo()
 
 /mob/living/carbon/human/proc/clear_tempo_all()
-	if(length(tempo_attackers) && HAS_TRAIT(src, TRAIT_TEMPO))
-		LAZYCLEARLIST(tempo_attackers)
-		to_chat(src, span_info("My muscles relax. My tempo is gone."))
-		manage_tempo()
+	if(HAS_TRAIT(src, TRAIT_TEMPO))
+		var/tempo_amt = length(tempo_attackers)
+		if(tempo_amt)
+			LAZYCLEARLIST(tempo_attackers)
+			if(tempo_amt >= TEMPO_ONE)
+				to_chat(src, span_info("My muscles relax. My tempo is gone."))
+			manage_tempo()
 
 /mob/living/proc/get_tempo_bonus(id)
 	switch(id)

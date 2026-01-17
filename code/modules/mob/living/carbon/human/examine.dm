@@ -175,7 +175,7 @@
 
 		if(name in GLOB.court_agents)
 			var/datum/job/J = SSjob.GetJob(user.mind?.assigned_role)
-			if(J?.department_flag & GARRISON || J?.department_flag & NOBLEMEN)
+			if(J?.department_flag & GARRISON || J?.department_flag & NOBLEMEN || J?.department_flag & COURTIERS || J?.department_flag & RETINUE)
 				. += span_greentext("<b>[m1] an agent of the court!</b>")
 
 		if(user != src && !HAS_TRAIT(src, TRAIT_DECEIVING_MEEKNESS))
@@ -885,11 +885,8 @@
 		app_str = "<details><summary>[span_info("Details")]</summary>"
 
 	for(var/line in lines)
-		var/index = 1
 		app_str += span_info(line)
-		index++
-		if(index != length(lines))
-			app_str += "<br>"
+		app_str += "<br>"
 	if(!(user.client?.prefs?.full_examine))
 		if(length(lines))
 			app_str += "</details>"
@@ -1015,6 +1012,8 @@
 				villain_text = span_notice("Free man!")
 			if(HAS_TRAIT(src,TRAIT_KNOWNCRIMINAL))
 				villain_text = span_userdanger("BANDIT!")
+		if(mind.special_role == "Deadite")
+			villain_text = span_userdanger("DEADITE!")
 		if(mind.special_role == "Vampire Lord")
 			var/datum/antagonist/vampire/VD = mind.has_antag_datum(/datum/antagonist/vampire)
 			if(!SEND_SIGNAL(VD.owner, COMSIG_DISGUISE_STATUS))

@@ -94,3 +94,38 @@
 		return 0
 
 	return max(0, 0 - C.player_age)
+
+
+/proc/select_omen_event() // There's probably a better place I could've put this. Too bad!
+	// Check for all existing omen events
+	var/list/candidates = list()
+	for(var/datum/round_event_control/E in SSevents.control)
+		if(E.track == EVENT_TRACK_OMENS)
+			candidates += E
+	// None exist
+	if(!length(candidates))
+		return null
+
+	// Use var/weight to roll for which event in the list should launch. Probably a little better than just rand(0, length(candidates))
+	var/total_weight = 0
+	for(var/datum/round_event_control/E in candidates)
+		total_weight += max(1, E.weight)
+
+	var/roll = rand(1, total_weight)
+	var/acc = 0
+	for(var/datum/round_event_control/E in candidates)
+		acc += max(1, E.weight)
+		if(roll <= acc)
+			return E
+
+/proc/launch_omen_event()
+	// Pick an omen event
+	var/datum/round_event_control/E = select_omen_event()
+	if(!E)
+		return
+
+	// Force it to launch. We don't care about the storyteller requirements.
+	E.req_omen = FALSE
+	E.earliest_start = 0
+	E.min_players = 0
+	E.runEvent()

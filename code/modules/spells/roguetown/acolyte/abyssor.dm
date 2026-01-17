@@ -132,10 +132,6 @@
 	miracle = TRUE
 	devotion_cost = 10
 	//Horrendous carry-over from fishing code
-	var/frwt = list(/turf/open/water/river, /turf/open/water/cleanshallow, /turf/open/water/pond)
-	var/salwt_coast = list(/turf/open/water/ocean)
-	var/salwt_deep = list(/turf/open/water/ocean/deep)
-	var/mud = list(/turf/open/water/swamp, /turf/open/water/swamp/deep)
 	var/list/fishingMods = list(
 		"commonFishingMod" = 0.8,
 		"rareFishingMod" = 1,
@@ -149,15 +145,7 @@
 	. = ..()
 	if(isturf(targets[1]))
 		var/turf/T = targets[1]
-		var/A
-		if(T.type in frwt)
-			A = pickweightAllowZero(createFreshWaterFishWeightListModlist(fishingMods))
-		else if(T.type in salwt_coast)
-			A = pickweightAllowZero(createCoastalSeaFishWeightListModlist(fishingMods))
-		else if(T.type in salwt_deep)
-			A = pickweightAllowZero(createDeepSeaFishWeightListModlist(fishingMods))
-		else if(T.type in mud)
-			A = pickweightAllowZero(createMudFishWeightListModlist(fishingMods))
+		var/A = getfishingloot(user, fishingMods, T, 0.5)
 		if(A)
 			var/atom/movable/AF = new A(T)
 			if(istype(AF, /obj/item/reagent_containers/food/snacks/fish))

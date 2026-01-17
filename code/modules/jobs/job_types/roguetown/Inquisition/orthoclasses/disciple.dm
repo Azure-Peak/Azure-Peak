@@ -5,7 +5,7 @@
 	allowed_races = RACES_ALL_KINDS
 	outfit = /datum/outfit/job/roguetown/disciple
 	subclass_languages = list(/datum/language/otavan)
-	category_tags = list(CTAG_INQUISITION)
+	category_tags = list(CTAG_ORTHODOXIST)
 	traits_applied = list(
 		TRAIT_CIVILIZEDBARBARIAN,
 	)

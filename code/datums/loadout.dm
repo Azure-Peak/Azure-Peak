@@ -45,6 +45,14 @@ GLOBAL_LIST_EMPTY(loadout_items)
 	path = /obj/item/rogueweapon/huntingknife/throwingknife/bauernwehr
 	triumph_cost = 3
 
+/datum/loadout_item/paper_parasol
+	name = "Paper Parasol"
+	path = /obj/item/rogueweapon/mace/parasol
+
+/datum/loadout_item/fine_parasol
+	name = "Fine Parasol"
+	path = /obj/item/rogueweapon/mace/parasol/noble
+
 //HATS
 /datum/loadout_item/shalal
 	name = "Keffiyeh"
@@ -130,6 +138,26 @@ GLOBAL_LIST_EMPTY(loadout_items)
 	name = "Salvia Crown"
 	path = /obj/item/flowercrown/salvia
 
+/datum/loadout_item/matricaria_crown
+	name = "Matricaria Crown"
+	path = /obj/item/flowercrown/matricaria
+
+/datum/loadout_item/calendula_crown
+	name = "Calendula Crown"
+	path = /obj/item/flowercrown/calendula
+
+/datum/loadout_item/manabloom_crown
+	name = "Manabloom Crown"
+	path = /obj/item/flowercrown/manabloom
+
+/datum/loadout_item/briar_crown
+	name = "Briar Thorn Crown"
+	path = /obj/item/flowercrown/briar
+
+/datum/loadout_item/briarthorns
+	name = "Briar Thorns"
+	path = /obj/item/clothing/head/roguetown/briarthorns
+
 //CLOAKS
 /datum/loadout_item/tabard
 	name = "Tabard"
@@ -207,6 +235,10 @@ GLOBAL_LIST_EMPTY(loadout_items)
 	name = "Poncho"
 	path = /obj/item/clothing/cloak/poncho
 
+/datum/loadout_item/aproncook
+	name = "Apron, Cooking"
+	path = /obj/item/clothing/cloak/apron/cook
+
 //SHOES
 /datum/loadout_item/darkboots
 	name = "Dark Boots"
@@ -250,7 +282,7 @@ GLOBAL_LIST_EMPTY(loadout_items)
 
 /datum/loadout_item/rumaclanshoes
 	name = "Raised Sandals"
-	path = /obj/item/clothing/shoes/roguetown/armor/rumaclan
+	path = /obj/item/clothing/shoes/roguetown/armor/rumaclan/shitty
 
 //SHIRTS
 /datum/loadout_item/longcoat
@@ -400,6 +432,7 @@ GLOBAL_LIST_EMPTY(loadout_items)
 /datum/loadout_item/eastshirt2
 	name = "White Foreign Shirt"
 	path = /obj/item/clothing/suit/roguetown/shirt/undershirt/eastshirt2
+
 //PANTS
 /datum/loadout_item/tights
 	name = "Cloth Tights"
@@ -654,9 +687,14 @@ GLOBAL_LIST_EMPTY(loadout_items)
 	path = /obj/item/enchantingkit/srusu
 	ckeywhitelist = list("cheekycrenando")
 
-/datum/loadout_item/donator_strudel
+/datum/loadout_item/donator_strudel1
 	name = "Donator Kit - Grenzelhoftian Mage Vest"
-	path = /obj/item/enchantingkit/strudle
+	path = /obj/item/enchantingkit/strudel1
+	ckeywhitelist = list("toasterstrudes")
+
+/datum/loadout_item/donator_strudel2
+	name = "Donator Kit - Xylixian Fasching Leotard"
+	path = /obj/item/enchantingkit/strudel2
 	ckeywhitelist = list("toasterstrudes")
 
 /datum/loadout_item/donator_bat
@@ -728,3 +766,26 @@ GLOBAL_LIST_EMPTY(loadout_items)
 	name = "Donator Item - Royal Gown"
 	path = /obj/item/clothing/suit/roguetown/shirt/dress/royal
 	ckeywhitelist = list("willmbrink")
+
+/datum/loadout_item/donator_dasfox
+	name = "Donator Kit - Archaic Ceremonial Valkyrhelm"
+	path = /obj/item/enchantingkit/dasfox_helm
+	ckeywhitelist = list("dasfox", "purplepineapple") // on request by dasfox
+
+/datum/loadout_item/donator_dasfox/cuirass
+	name = "Donator Kit - Archaic Ceremonial Cuirass"
+	path = /obj/item/enchantingkit/dasfox_cuirass
+
+/datum/loadout_item/donator_dasfox/periapt
+	name = "Donator Item - Defiled Astratan Periapt"
+	path = /obj/item/clothing/neck/roguetown/psicross/astrata/dasfox
+	ckeywhitelist = list("dasfox")
+
+/datum/loadout_item/donator_ryan
+	name = "Donator Item - Western Estates Caparison"
+	path = /obj/item/caparison/ryan
+	ckeywhitelist = list("ryan180602")
+
+/datum/loadout_item/donator_ryan/psy_helm
+	name = "Donator Kit - Unorthodoxist Psydonite Helm"
+	path = /obj/item/enchantingkit/ryan_psyhelm

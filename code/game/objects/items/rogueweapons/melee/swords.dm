@@ -138,9 +138,6 @@
 	damfactor = 1.2
 	clickcd = 10
 
-/datum/intent/sword/thrust/krieg
-	damfactor = 0.8
-
 /datum/intent/rend/krieg
 	intent_intdamage_factor = 0.2
 
@@ -232,6 +229,14 @@
 	minstr = 4
 	wdefense = 6
 
+/obj/item/rogueweapon/sword/falx/stalker
+	name = "stalker falx"
+	desc = "A jagged blade with an in inward edge. Once a reputable weapon, now little more than a thug's tool."
+	icon_state = "spiderfalx"
+	wbalance = WBALANCE_SWIFT
+	smeltresult = /obj/item/ingot/drow
+	smelt_bar_num = 1
+
 /obj/item/rogueweapon/sword/decorated
 	name = "decorated arming sword"
 	desc = "A valuable ornate arming sword made for the purpose of ceremonial fashion, with a fine leather grip and a carefully engraved golden crossguard."
@@ -284,7 +289,7 @@
 	alt_intents = list(/datum/intent/sword/strike, /datum/intent/sword/bash, /datum/intent/effect/daze)
 	mordhau = TRUE
 	icon_state = "longsword"
-	icon = 'icons/roguetown/weapons/64.dmi'
+	icon = 'icons/roguetown/weapons/swords64.dmi'
 	item_state = "longsword"
 	sheathe_icon = "longsword"
 	lefthand_file = 'icons/mob/inhands/weapons/roguebig_lefthand.dmi'
@@ -715,7 +720,6 @@
 /obj/item/rogueweapon/sword/long/kriegmesser/silver
 	name = "silver broadsword"
 	desc = "A two-handed broadsword, fitted with a blade of pure silver. Each swing commands more effort than the last, but not without purpose. One blow to crack the deadite's leg in twain; and a heartbeat later, another to splatter the soil with bile and teeth."
-	icon = 'icons/roguetown/weapons/64.dmi'
 	icon_state = "silverbroadsword"
 	sheathe_icon = "psysword"
 	force = 20
@@ -743,7 +747,6 @@
 /obj/item/rogueweapon/sword/long/kriegmesser/psy
 	name = "psydonic broadsword"
 	desc = "Sunder, cleave, smite; a sea of coagulated blackness, speckled with crimson. Absolve, cherish, endure; the will of one, christened to save Psydonia when all else is lost. </br>'Even here it is not safe, and even this grave has been defaced. Yet, someone has written on this stone, in some angry hand - HOPE RIDES ALONE..'"
-	icon = 'icons/roguetown/weapons/64.dmi'
 	icon_state = "silverbroadsword"
 	sheathe_icon = "psysword"
 	force = 20
@@ -793,6 +796,7 @@
 		)
 	icon_state = "eastshortsword"
 	sheathe_icon = "kodachi"
+	wbalance = WBALANCE_SWIFT
 
 /obj/item/rogueweapon/sword/short/iron
 	name = "iron shortsword"
@@ -1053,28 +1057,41 @@
 
 /obj/item/rogueweapon/sword/sabre/elf
 	name = "elvish saber"
-	desc = "This finely crafted saber is of elven design."
+	desc = "A single-edged masterwork of Elven design, who's silvered blade glimmers under the sun's glare."
 	icon_state = "esaber"
 	item_state = "esaber"
 	lefthand_file = 'icons/mob/inhands/weapons/swords_lefthand.dmi'
 	righthand_file = 'icons/mob/inhands/weapons/swords_righthand.dmi'
-	force = 25
-	force_wielded = 25
+	force = 23 //Equalized with the Stalker Sabre, with a +1DMG boost to its original stats.
+	force_wielded = 23
 	minstr = 7
-	wdefense = 9
+	wdefense = 7
 	last_used = 0
-	is_silver = FALSE
+	is_silver = TRUE //One of the rare silver-edged weapons that has a positive damage boost, due to it requiring both silver and gold to create.
 	smeltresult = /obj/item/ingot/gold
 	smelt_bar_num = 1
 
+/obj/item/rogueweapon/sword/sabre/elf/ComponentInitialize()
+	AddComponent(\
+		/datum/component/silverbless,\
+		pre_blessed = BLESSING_NONE,\
+		silver_type = SILVER_TENNITE,\
+		added_force = 0,\
+		added_blade_int = 100,\
+		added_int = 100,\
+		added_def = 2,\
+	)
+
 /obj/item/rogueweapon/sword/sabre/stalker
 	name = "stalker sabre"
-	desc = "A once elegant blade of mythril, diminishing under the suns gaze."
+	desc = "A once-elegant blade of mythril, who's sunless edge now menaces with obsidian-hued mirth."
 	icon_state = "spidersaber"
 	force = 23
 	force_wielded = 23
 	minstr = 7
 	wdefense = 8
+	smeltresult = /obj/item/ingot/drow
+	smelt_bar_num = 1
 
 /obj/item/rogueweapon/sword/sabre/shamshir
 	name = "shamshir"
@@ -1082,7 +1099,7 @@
 	force = 24
 	wdefense = 6	//Has chop mode, so slightly less defense. Slightly.
 	icon_state = "tabi"
-	icon = 'icons/roguetown/weapons/64.dmi'
+	icon = 'icons/roguetown/weapons/swords64.dmi'
 	possible_item_intents = list(/datum/intent/sword/cut/sabre, /datum/intent/sword/thrust, /datum/intent/sword/peel, /datum/intent/sword/chop)
 	alt_intents = list(/datum/intent/sword/cut/sabre, /datum/intent/sword/thrust, /datum/intent/sword/strike, /datum/intent/sword/chop)
 	bigboy = TRUE
@@ -1108,7 +1125,7 @@
 	desc = "A practically brand new sword type with a straight, slender and sharply pointed blade meant to be wielded in one hand. \
 		Originating in the islands of Etrusca, its name comes from the term \"spada ropera\" (Literally \"dress sword\") due to its primary function being that of an accessory. \
 		A very young type of fighting technique for this weapon is emerging in the island, aptly named \"Destreza\" for dexterity."
-	icon = 'icons/roguetown/weapons/64.dmi'
+	icon = 'icons/roguetown/weapons/swords64.dmi'
 	icon_state = "rapier"
 	sheathe_icon = "rapier"
 	bigboy = TRUE
@@ -1133,7 +1150,6 @@
 /obj/item/rogueweapon/sword/rapier/vaquero
 	name = "cup-hilt rapier"
 	desc = "A special variant of an Etruscan rapier. The cup hilt of this weapon is both simpler to produce and more protective than the type of traditional design of current rapiers."
-	icon = 'icons/roguetown/weapons/64.dmi'
 	icon_state = "cup_hilt_rapier"
 	wdefense = 8
 	force = 25
@@ -1327,6 +1343,21 @@
 	bigboy = FALSE
 	force = 25 // Same statline as the cup hilted etruscan rapier
 	wdefense = 8
+
+/obj/item/rogueweapon/sword/rapier/courtphysician
+	name = "cane blade"
+	desc = "A steel blade with a gold handle, intended to be concealed inside of a cane, bears the visage of a vulture on its pommel."
+	icon = 'icons/roguetown/weapons/swords32.dmi'
+	icon_state = "doccaneblade"
+	sheathe_icon = "doccaneblade"
+	sellprice = 100 //Gold handle
+	grid_width = 32
+	grid_height = 64
+	dropshrink = 0
+	bigboy = FALSE
+	possible_item_intents = list(/datum/intent/sword/thrust/rapier, /datum/intent/sword/cut/rapier)
+	gripped_intents = null
+	force_wielded = 0
 
 /obj/item/rogueweapon/sword/cutlass
 	name = "cutlass"
@@ -1542,7 +1573,6 @@
 	name = "kriegsmesser"
 	desc = "A large two-handed sword with a single-edged blade, a crossguard and a knife-like hilt. \
 	It is meant to be wielded with both hands and is a popular weapon amongst Grenzelhoftian mercenaries."
-	icon = 'icons/roguetown/weapons/swords64.dmi'
 	icon_state = "kriegmesser"
 	possible_item_intents = list(/datum/intent/sword/cut/krieg, /datum/intent/sword/chop/falx, /datum/intent/sword/strike, /datum/intent/rend/krieg)
 	gripped_intents = list(/datum/intent/sword/cut/krieg, /datum/intent/sword/thrust/krieg, /datum/intent/sword/strike, /datum/intent/rend/krieg)
@@ -1555,7 +1585,7 @@
 	icon = 'icons/roguetown/weapons/swords64.dmi'
 	icon_state = "ssangsudo"
 	sheathe_icon = "ssangsudo"
-	gripped_intents = list(/datum/intent/sword/cut/krieg, /datum/intent/rend, /datum/intent/sword/strike) // better rend by .05
+	gripped_intents = list(/datum/intent/sword/cut/krieg, /datum/intent/sword/thrust/krieg, /datum/intent/rend, /datum/intent/sword/strike) // better rend by .05
 
 /obj/item/rogueweapon/sword/long/dec
 	name = "decorated longsword"
@@ -1749,7 +1779,6 @@
 /obj/item/rogueweapon/sword/long/shotel
 	name = "steel shotel"
 	icon_state = "shotel_steel"
-	icon = 'icons/roguetown/weapons/64.dmi'
 	desc = "A long curved blade of Ranesheni Design."
 	possible_item_intents = list(/datum/intent/sword/cut/zwei, /datum/intent/sword/chop/long) //Shotels get 2 tile reach.
 	gripped_intents = list(/datum/intent/sword/cut/zwei, /datum/intent/sword/chop/long)

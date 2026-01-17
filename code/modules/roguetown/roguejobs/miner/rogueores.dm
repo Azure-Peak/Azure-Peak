@@ -95,6 +95,13 @@
 	grind_results = list(/datum/reagent/mercury = 15)
 	sellprice = 5
 
+/obj/item/rogueore/lithmyc
+	name = "lithmyc"
+	desc = "Strange green rocks covered in an oily film of metal-liquid, it's quite disgusting."
+	icon_state = "orelithmyc"
+	sellprice = 100
+	smeltresult = /obj/item/ingot/lithmyc
+
 /obj/item/ingot
 	name = "ingot"
 	icon = 'icons/roguetown/items/ore.dmi'
@@ -302,3 +309,18 @@
 	smeltresult = /obj/item/ingot/draconic
 	color = "#70b8ff"
 	sellprice = 333
+
+/obj/item/ingot/lithmyc
+	name = "lithmyc ingot"
+	desc = "A strange green ingot. It seems to be covered in an oily metal-liquid, though it refuses to leave the ingot-shape no matter how you much you try. No one in the region yet knows what the metal can be shaped into, as it's exceedingly stubborn. But, it sure seems priceless."
+	icon_state = "ingotlithmyc"
+	smeltresult = /obj/item/ingot/lithmyc
+	sellprice = 444
+
+/obj/item/ingot/drow
+	name = "skikudic ingot"
+	desc = "This ingot offers an alternative - if rarely-heard - solution to riddle of steel, courtesy of the Underdark's fungus-fueled forges. Sunlight refuses to illuminate its presence, no matter how bright its glare becomes. </br>'..perhaps, the forge's heat can scald away its fungal temperance..'"
+	icon_state = "ingotsteel"
+	smeltresult = /obj/item/ingot/iron //Smelting the ingot again 'burns away' the fungal temperance, allowing it to be reused for said recipes.
+	color = "#bc9ab7"
+	sellprice = 30 //Rarer to obtain than iron, and feasible to sell off as salvage.

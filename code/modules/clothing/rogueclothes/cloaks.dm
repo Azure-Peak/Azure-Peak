@@ -669,6 +669,7 @@
 	inhand_mod = TRUE
 	allowed_race = NON_DWARVEN_RACE_TYPES
 	salvage_result = /obj/item/natural/fur
+	cold_protection = 20
 
 /obj/item/clothing/cloak/darkcloak/bear
 	name = "direbear cloak"
@@ -695,6 +696,7 @@
 	item_state = "apron"
 	alternate_worn_layer = TABARD_LAYER
 	body_parts_covered = CHEST|GROIN
+	slot_flags = ITEM_SLOT_ARMOR|ITEM_SLOT_CLOAK|ITEM_SLOT_BELT
 	boobed = TRUE
 	allowed_race = CLOTHED_RACES_TYPES
 	flags_inv = HIDECROTCH|HIDEBOOB
@@ -737,7 +739,6 @@
 	icon_state = "aproncook"
 	item_state = "aproncook"
 	body_parts_covered = GROIN
-	slot_flags = ITEM_SLOT_ARMOR|ITEM_SLOT_CLOAK
 	boobed = FALSE
 
 /obj/item/clothing/cloak/raincloak
@@ -1444,6 +1445,7 @@
 	name = "snow cloak"
 	desc = "A cloak meant to keep one's body warm in the cold of the mountains as well as the dampness of Azuria."
 	icon_state = "snowcloak"
+	cold_protection = 15
 
 /obj/item/clothing/cloak/poncho
 	name = "cloth poncho"

@@ -4,7 +4,7 @@
 
 #define TAX_CAT_NOBLE "Nobility"
 #define TAX_CAT_CHURCH "Church"
-#define TAX_CAT_YEOMEN "Yeomanry"
+#define TAX_CAT_BURGHERS "Burghers"
 #define TAX_CAT_PEASANTS "Peasantry"
 
 /proc/send_ooc_note(msg, name, job)
@@ -35,7 +35,7 @@ SUBSYSTEM_DEF(treasury)
 	var/list/taxation_cat_settings = list(
 		TAX_CAT_NOBLE = list("taxAmount" = 0, "fineExemption" = TRUE),
 		TAX_CAT_CHURCH = list("taxAmount" = 6, "fineExemption" = TRUE),
-		TAX_CAT_YEOMEN = list("taxAmount" = 12, "fineExemption" = FALSE),
+		TAX_CAT_BURGHERS = list("taxAmount" = 12, "fineExemption" = FALSE),
 		TAX_CAT_PEASANTS = list("taxAmount" = 12, "fineExemption" = FALSE)
 	)
 	var/tax_value = 0.11
@@ -321,8 +321,8 @@ SUBSYSTEM_DEF(treasury)
 /datum/controller/subsystem/treasury/proc/get_tax_value_for(mob/living/person)
 	if(HAS_TRAIT(person, TRAIT_NOBLE))
 		return taxation_cat_settings[TAX_CAT_NOBLE]["taxAmount"] / 100
-	else if(HAS_TRAIT(person, TRAIT_RESIDENT) || (person.job in GLOB.yeoman_positions))
-		return taxation_cat_settings[TAX_CAT_YEOMEN]["taxAmount"] / 100
+	else if(HAS_TRAIT(person, TRAIT_RESIDENT) || (person.job in GLOB.burgher_positions))
+		return taxation_cat_settings[TAX_CAT_BURGHERS]["taxAmount"] / 100
 	else if(person.job in GLOB.church_positions)
 		return taxation_cat_settings[TAX_CAT_CHURCH]["taxAmount"] / 100
 	else
@@ -332,8 +332,8 @@ SUBSYSTEM_DEF(treasury)
 /datum/controller/subsystem/treasury/proc/check_fine_exemption(mob/living/person)
 	if(HAS_TRAIT(person, TRAIT_NOBLE))
 		return taxation_cat_settings[TAX_CAT_NOBLE]["fineExemption"]
-	else if(HAS_TRAIT(person, TRAIT_RESIDENT) || (person.job in GLOB.yeoman_positions))
-		return taxation_cat_settings[TAX_CAT_YEOMEN]["fineExemption"]
+	else if(HAS_TRAIT(person, TRAIT_RESIDENT) || (person.job in GLOB.burgher_positions))
+		return taxation_cat_settings[TAX_CAT_BURGHERS]["fineExemption"]
 	else if(person.job in GLOB.church_positions)
 		return taxation_cat_settings[TAX_CAT_CHURCH]["fineExemption"]
 	else
@@ -354,5 +354,5 @@ SUBSYSTEM_DEF(treasury)
 #undef EXPORT_ANNOUNCE_THRESHOLD
 #undef TAX_CAT_NOBLE
 #undef TAX_CAT_CHURCH
-#undef TAX_CAT_YEOMEN
+#undef TAX_CAT_BURGHERS
 #undef TAX_CAT_PEASANTS

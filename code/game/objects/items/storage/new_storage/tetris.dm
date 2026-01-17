@@ -756,6 +756,7 @@
 		else
 			coordinates = screen_loc_to_grid_coordinates(coordinates)
 		grid_add_item(storing, coordinates)
+	SEND_SIGNAL(storing, COMSIG_AFTER_STORAGE_INSERT, parent, user, src)
 	update_icon()
 	refresh_mob_views()
 	return TRUE
@@ -770,6 +771,7 @@
 	grid_remove_item(removed)
 	//Cache this as it should be reusable down the bottom, will not apply if anyone adds a sleep to dropped or moving objects, things that should never happen
 	var/atom/parent = src.parent
+	var/mob/carrying_mob
 	var/list/seeing_mobs = can_see_contents()
 	for(var/mob/seeing_mob as anything in seeing_mobs)
 		seeing_mob.client.screen -= removed
@@ -777,7 +779,7 @@
 		var/obj/item/removed_item = removed
 		removed_item.item_flags &= ~IN_STORAGE
 		if(ismob(parent.loc))
-			var/mob/carrying_mob = parent.loc
+			carrying_mob = parent.loc
 			removed_item.dropped(carrying_mob, TRUE)
 	if(new_location)
 		//Reset the items values
@@ -789,6 +791,7 @@
 		//Being destroyed, just move to nullspace now (so it's not in contents for the icon update)
 		removed.moveToNullspace()
 	removed.update_icon()
+	SEND_SIGNAL(removed, COMSIG_AFTER_STORAGE_REMOVE, parent, carrying_mob, src)
 	update_icon()
 	refresh_mob_views()
 	return TRUE

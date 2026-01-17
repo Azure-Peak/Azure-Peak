@@ -496,7 +496,8 @@ GLOBAL_VAR_INIT(rpg_loot_items, FALSE)
 	if(href_list["explainsharpness"])
 		var/output = span_info("Bladed weapons have sharpness. At [SHARPNESS_TIER1_THRESHOLD * 100]%, damage factor and strength damage starts to fall off gradually. \n\
 		At [SHARPNESS_TIER1_FLOOR * 100]%, strength and damage factor no longer applies. Below [SHARPNESS_TIER2_THRESHOLD * 100]%, the base damage value also starts to decline\n\
-		Sharpness declines by [SHARPNESS_ONHIT_DECAY] on parry for bladed weapon.")
+		Sharpness declines by [SHARPNESS_ONHIT_DECAY] on parry for bladed weapon.\n\
+		A grindstone can restore max sharpness, whereas other sources will degrade 0.5 max integrity per sharpening.")
 		if(!usr.client.prefs.no_examine_blocks)
 			output = examine_block(output)
 		to_chat(usr, output)

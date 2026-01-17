@@ -78,21 +78,21 @@
 
 /obj/item/clothing/head/roguetown/helmet/kettle
 	name = "kettle helmet"
-	desc = "A steel helmet which protects the top and sides of the head."
+	desc = "A steel helmet which protects the top and sides of the head. Amongst most standing garrisons, it's customary to wrap an orle - cloth, dyed with the Keep's chosen hues - atop its rim."
 	icon_state = "kettle"
 	body_parts_covered = HEAD|HAIR|EARS
 	armor = ARMOR_PLATE
 
 /obj/item/clothing/head/roguetown/helmet/kettle/iron
 	name = "iron kettle helmet"
-	desc = "A kettle helmet made of iron. It protects the top and sides of the head."
+	desc = "An iron helmet which protects the top and sides of the head. From a distance, it can almost be mistaken for a waterlogged straw hat; one must only wonder if such garments of peasantry inspired its design, in the first place."
 	icon_state = "ikettle"
 	smeltresult = /obj/item/ingot/iron
 	max_integrity = ARMOR_INT_HELMET_IRON
 
 /obj/item/clothing/head/roguetown/helmet/kettle/wide
 	name = "wide kettle helmet"
-	desc = "A steel helmet which protects the top and sides of the head. This one looks wider than others."
+	desc = "A wider variant of the humble 'kettle helmet', for those who prefer to keep Astrata's glare from blighting their eyes."
 	icon_state = "kettlewide"
 
 /obj/item/clothing/head/roguetown/helmet/kettle/attackby(obj/item/W, mob/living/user, params)
@@ -122,7 +122,7 @@
 /obj/item/clothing/head/roguetown/helmet/sallet
 	name = "sallet"
 	icon_state = "sallet"
-	desc = "A steel helmet which protects the ears."
+	desc = "A steel helmet which covers most of the head, offering superior coverage to the kettle helmet. Preferred by those who intend to clash steel, rather than those who arch-and-bombard from afar."
 	smeltresult = /obj/item/ingot/steel
 	body_parts_covered = HEAD|HAIR|EARS
 
@@ -156,13 +156,13 @@
 /obj/item/clothing/head/roguetown/helmet/sallet/iron
 	name = "iron sallet"
 	icon_state = "isallet"
-	desc = "A iron helmet which protects the ears."
+	desc = "A iron helmet covers most of the head, offeirng superior coverage to the kettle helmet. It comfortably fits atop most padded coifs-and-caps."
 	smeltresult = /obj/item/ingot/iron
 	max_integrity = ARMOR_INT_HELMET_IRON
 
 /obj/item/clothing/head/roguetown/helmet/sallet/visored
 	name = "visored sallet"
-	desc = "A steel helmet which protects the ears, nose, and eyes."
+	desc = "A steel 'sallet'-styled helmet with an adjustable visor. Away with you, vile beggar!"
 	icon_state = "sallet_visor"
 	adjustable = CAN_CADJUST
 	flags_inv = HIDEEARS|HIDEFACE|HIDESNOUT|HIDEHAIR
@@ -210,7 +210,7 @@
 /obj/item/clothing/head/roguetown/helmet/sallet/visored/iron
 	name = "iron visored sallet"
 	icon_state = "isallet_visor"
-	desc = "A iron helmet which protects the ears, nose, and eyes."
+	desc = "An iron 'sallet'-styled helmet with an adjustable visor. Out for a stroll, now, are we?"
 	smeltresult = /obj/item/ingot/iron
 	max_integrity = ARMOR_INT_HELMET_IRON
 
@@ -290,7 +290,7 @@
 
 /obj/item/clothing/head/roguetown/helmet/bascinet
 	name = "bascinet"
-	desc = "A steel bascinet helmet. Though it lacks a visor, it still protects the head and ears."
+	desc = "A steel bascinet helmet, and the basis for many-a-visored greathelm. Though it lacks a visor, it still protects the head and ears."
 	icon_state = "bascinet_novisor"
 	item_state = "bascinet_novisor"
 	emote_environment = 3

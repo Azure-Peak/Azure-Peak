@@ -740,3 +740,20 @@
 	if(iscarbon(owner))
 		var/mob/living/carbon/C = owner
 		C.remove_movespeed_modifier(MOVESPEED_ID_DAMAGE_SLOWDOWN)
+
+/datum/status_effect/debuff/no_coom_cheating //Gets triggered when someone sets their arousal, prevents orgasms from sating vice/giving mood boosts
+	id = "nocoomcheating"
+	alert_type = /atom/movable/screen/alert/status_effect/debuff/no_coom_cheating
+	duration = 30 SECONDS
+
+/atom/movable/screen/alert/status_effect/debuff/no_coom_cheating
+	name = "Arousal Imbalanced"
+	desc = "My arousal level changed drastically, any orgasm I have now will not be satisfactory."
+
+/datum/status_effect/debuff/no_coom_cheating/on_apply()
+	. = ..()
+	ADD_TRAIT(owner, TRAIT_UNSATISFIED, id)
+
+/datum/status_effect/debuff/no_coom_cheating/on_remove()
+	. = ..()
+	REMOVE_TRAIT(owner, TRAIT_UNSATISFIED, id)

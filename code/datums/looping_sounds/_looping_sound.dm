@@ -276,6 +276,9 @@ GLOBAL_LIST_EMPTY(created_sound_groups)
 	if(real_parent)
 		UnregisterSignal(real_parent, COMSIG_PARENT_QDELETING)
 	if(new_parent)
+		if(istype(new_parent, /datum/weakref)) // probably shouldn't happen but it does, so?
+			var/datum/weakref/passed_weakref = new_parent
+			new_parent = passed_weakref.resolve()
 		parent = WEAKREF(new_parent)
 		RegisterSignal(new_parent, COMSIG_PARENT_QDELETING, PROC_REF(handle_parent_del))
 

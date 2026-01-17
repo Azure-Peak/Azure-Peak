@@ -369,7 +369,7 @@
 	name = "psydonic knuckles"
 	desc = "A simple piece of harm molded in a holy mixture of steel and silver, finished with three stumps - Psydon's crown - to crush the heretics' garments and armor into smithereens."
 	icon_state = "psyknuckle"
-	force = 17
+	force = 27 //Smaller silver blunt weapons should have a +2-3 damage bonus, compared to their steel counterparts.
 	wdefense = 5
 	is_silver = TRUE
 	smeltresult = /obj/item/ingot/silverblessed
@@ -472,8 +472,8 @@
 /obj/item/rogueweapon/knuckles/eora
 	name = "close caress"
 	desc = "Some times call for a more intimate approach."
-	force = 24
 	icon_state = "eoraknuckle"
+	force = 28 // lower this to 27 if its too much
 
 ///Peasantry / Militia Weapon Pack///
 
@@ -485,7 +485,7 @@
 	name = "militia goedendag"
 	desc = "Clubs - and their spiked descendants - are older than most languages and civilizations. Tyme hasn't made them any less deadly, however. "
 	icon_state = "peasantwarclub"
-	icon = 'icons/roguetown/weapons/64.dmi'
+	icon = 'icons/roguetown/weapons/blunt64.dmi'
 	smeltresult = /obj/item/rogueore/coal
 	sharpness = IS_SHARP
 	walking_stick = TRUE
@@ -562,7 +562,6 @@
 	name = "militia spear"
 	desc = "Pitchforks and hoes traditionally till the soil. In tymes of peril, however, it isn't uncommon for a militiaman to pound them into polearms."
 	icon_state = "peasantwarspear"
-	icon = 'icons/roguetown/weapons/64.dmi'
 	minstr = 8
 	max_blade_int = 120
 	max_integrity = 200
@@ -701,7 +700,7 @@
 	name = "scythe"
 	desc = "The bane of fields, the trimmer of grass, the harvester of wheat, and - depending on who you ask - the shepherd of souls to the afterlyfe."
 	icon_state = "peasantscythe"
-	icon = 'icons/roguetown/weapons/64.dmi'
+	icon = 'icons/roguetown/weapons/polearms64.dmi'
 	pixel_y = -16
 	pixel_x = -16
 	inhand_x_dimension = 64

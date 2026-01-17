@@ -217,7 +217,7 @@
 
 /obj/effect/proc_holder/spell/invoked/rituos/proc/skeletonize_bodyparts(mob/living/carbon/human/user)
 	for(var/obj/item/bodypart/part as anything in user.bodyparts)
-		if(part.type in excluded_bodyparts)
+		if(is_type_in_list(part, excluded_bodyparts))
 			continue
 
 		part.skeletonize(FALSE)

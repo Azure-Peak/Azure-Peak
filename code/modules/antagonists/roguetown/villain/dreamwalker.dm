@@ -432,10 +432,10 @@
 
 		// Show weapon selection menu
 		var/list/weapon_options = list(
-			"Dreamreaver Greataxe" = image(icon = 'icons/roguetown/weapons/64.dmi', icon_state = "dreamaxeactive"),
-			"Harmonious Spear" = image(icon = 'icons/roguetown/weapons/64.dmi', icon_state = "dreamspearactive"),
-			"Oozing Sword" = image(icon = 'icons/roguetown/weapons/64.dmi', icon_state = "dreamswordactive"),
-			"Thunderous Trident" = image(icon = 'icons/roguetown/weapons/64.dmi', icon_state = "dreamtriactive")
+			"Dreamreaver Greataxe" = image(icon = 'icons/roguetown/weapons/axes64.dmi', icon_state = "dreamaxeactive"),
+			"Harmonious Spear" = image(icon = 'icons/roguetown/weapons/polearms64.dmi', icon_state = "dreamspearactive"),
+			"Oozing Sword" = image(icon = 'icons/roguetown/weapons/swords64.dmi', icon_state = "dreamswordactive"),
+			"Thunderous Trident" = image(icon = 'icons/roguetown/weapons/polearms64.dmi', icon_state = "dreamtriactive")
 		)
 
 		var/choice = show_radial_menu(user, src, weapon_options, require_near = TRUE, tooltips = TRUE)

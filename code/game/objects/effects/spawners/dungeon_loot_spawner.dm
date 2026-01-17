@@ -65,8 +65,8 @@
 
 		//medical
 		/obj/item/needle = 4,
-		/obj/item/natural/cloth = 5,
-		/obj/item/natural/bundle/cloth = 3,
+		/obj/item/natural/cloth/bandage = 5,
+		/obj/item/natural/bundle/cloth/bandage/full = 3,
 
 		//weapons
 		/obj/item/rogueweapon/mace = 2,
@@ -239,8 +239,8 @@
 	loot = list(
 		//medical
 		/obj/item/needle = 4,
-		/obj/item/natural/cloth = 5,
-		/obj/item/natural/bundle/cloth = 3
+		/obj/item/natural/cloth/bandage = 5,
+		/obj/item/natural/bundle/cloth/bandage/full = 3,
 	)
 	lootcount = 2
 

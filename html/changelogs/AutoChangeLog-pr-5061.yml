@@ -1,5 +1,0 @@
-author: "Juubo"
-delete-after: True
-changes:
-  - bugfix: "fixes higher level vampires not able to turn multiple thralls, as intended"
-  - code_imp: "makes it easier to see where max thralls are defined"

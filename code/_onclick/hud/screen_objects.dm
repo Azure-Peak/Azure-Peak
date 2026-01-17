@@ -1576,13 +1576,20 @@
 /atom/movable/screen/stress
 	name = "sanity"
 	icon = 'icons/mob/roguehud.dmi'
-	icon_state = "stressback"
+	icon_state = "mood_idle"
+
+/atom/movable/screen/stress/Initialize(mapload, ...)
+	. = ..()
+	var/image/mood_base = image(icon, null, "stressback")
+	mood_base.layer = layer - 0.01
+	add_overlay(mood_base)
 
 /atom/movable/screen/stress/update_icon()
-	cut_overlays()
 	var/state2use = "mood_idle"
-	if(ishuman(usr))
-		var/mob/living/carbon/human/H = usr
+
+	var/mob/our_mob = hud?.mymob
+	if(ishuman(our_mob))
+		var/mob/living/carbon/human/H = our_mob
 		//General stress moodlets
 		var/stress_amt = H.get_stress_amount()
 		switch(stress_amt)
@@ -1612,7 +1619,7 @@
 			state2use = "mood_starsugar"
 		if(H.has_status_effect(/datum/status_effect/buff/bloodrage))
 			state2use = "mood_ult"
-		
+
 		//We go down a janky list of exceptions for total overrides
 		if(HAS_TRAIT(H, TRAIT_NOMOOD))
 			state2use = "mood_hopeless"
@@ -1622,8 +1629,17 @@
 			state2use = "mood_zombidle"
 		else if(H.mind?.has_antag_datum(/datum/antagonist/lich))
 			state2use = "mood_boneidle"
-	add_overlay(state2use)
+		else if(H.stat && H.IsSleeping())
+			state2use = "mood_sleep"
+		else if(H.nausea >= 100)
+			state2use = "mood_sick"
+	icon_state = state2use
 
+/atom/movable/screen/stress/proc/flick_pain(var/critical = FALSE)
+	if(critical)
+		flick("mood_ouch", src)
+	else
+		flick("mood_hurt", src)
 
 /atom/movable/screen/stress/Click(location,control,params)
 	var/list/modifiers = params2list(params)

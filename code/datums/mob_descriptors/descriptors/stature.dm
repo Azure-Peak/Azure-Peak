@@ -183,3 +183,26 @@
 
 /datum/mob_descriptor/stature/socialite
 	name = "Socialite"
+
+/datum/mob_descriptor/stature/shitheel
+	name = "Shitheel"
+
+/datum/mob_descriptor/stature/critter
+	name = "Critter"
+
+// this one technically already exists but it was a very specific selection choice & i've got a request to add it
+/datum/mob_descriptor/stature/creacher
+	name = "Creacher"
+
+/datum/mob_descriptor/stature/cur
+	name = "Cur"
+
+/datum/mob_descriptor/stature/wretch
+	name = "Wretch"
+
+/datum/mob_descriptor/stature/dullard
+	name = "Dullard"
+
+// basterd. specifically basterd. it is funnier this way.
+/datum/mob_descriptor/stature/basterd
+	name = "Basterd"

@@ -1,4 +1,4 @@
-GLOBAL_LIST_INIT(vanderlin_weather, list(PARTICLEWEATHER_RAIN))
+GLOBAL_LIST_INIT(vanderlin_weather, list(PARTICLEWEATHER_RAIN, PARTICLEWEATHER_BLOODRAIN, PARTICLEWEATHER_LEAVES))
 SUBSYSTEM_DEF(ParticleWeather)
 	name = "Particle Weather"
 	flags = SS_BACKGROUND
@@ -30,7 +30,7 @@ SUBSYSTEM_DEF(ParticleWeather)
 		var/target_trait = initial(W.target_trait)
 
 		// any weather with a probability set may occur at random
-		if (probability && (target_trait in GLOB.vanderlin_weather)) //TODO VANDERLIN: Map trait this.
+		if (prob(probability) && (target_trait in GLOB.vanderlin_weather)) //TODO VANDERLIN: Map trait this.
 			LAZYINITLIST(elligble_weather)
 			elligble_weather[W] = probability
 	return ..()

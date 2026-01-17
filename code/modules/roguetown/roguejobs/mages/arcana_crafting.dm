@@ -331,9 +331,3 @@
 				/obj/item/rogueore/cinnabar = 1)
 	craftdiff = 5
 
-/datum/crafting_recipe/roguetown/arcana/findfamiliar
-	name = "scroll of find familiar"
-	result = /obj/item/book/granter/spell/blackstone/familiar
-	reqs = list(/obj/item/magic/manacrystal = 1,
-				/obj/item/paper/scroll = 1)
-	craftdiff = 1
