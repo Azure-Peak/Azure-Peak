@@ -1,5 +1,5 @@
 /obj/item/kitchen/fork
-	name = "wooden fork"	
+	name = "wooden fork"
 	icon = 'modular/Neu_Food/icons/cookware/fork.dmi'
 	icon_state = "fork_wooden"
 	flags_1 = CONDUCT_1
@@ -24,10 +24,12 @@
 /obj/item/kitchen/fork/gold
 	name = "gold fork"
 	icon_state = "fork_gold"
+	flags_1 = HOARDMASTER_ACCEPTED_1
 	sellprice = 10
 
 /obj/item/kitchen/fork/silver
 	name = "silver fork"
 	icon_state = "fork_silver"
+	flags_1 = HOARDMASTER_ACCEPTED_1
 	sellprice = 20
 	is_silver = TRUE

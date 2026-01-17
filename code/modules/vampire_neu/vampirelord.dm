@@ -158,6 +158,7 @@
 	name = "crown of darkness"
 	desc = "An obsidian crown, bejeweled with a beautifully-cut rontz. It is an eternal reminder that this world is yours to conquer - let no one, dull-blooded or otherwise, stop your fallen kingdom from rising once more."
 	icon_state = "vcrown"
+	flags_1 = HOARDMASTER_ACCEPTED_1
 	body_parts_covered = null
 	slot_flags = ITEM_SLOT_HEAD
 	dynamic_hair_suffix = null

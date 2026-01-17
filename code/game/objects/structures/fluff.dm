@@ -1070,35 +1070,6 @@
 	desc = "A statue built to the robber-god, Matthios, who stole the gift of fire from the underworld. It is said that he grants the wishes of those pagan bandits (free folk) who feed him money and valuable metals."
 	icon_state = "evilidol"
 	icon = 'icons/roguetown/misc/structure.dmi'
-// What items the idol will accept
-	var/treasuretypes = list(
-		/obj/item/roguecoin,
-		/obj/item/roguegem,
-		/obj/item/clothing/ring,
-		/obj/item/ingot/gold,
-		/obj/item/ingot/silver,
-		/obj/item/ingot/blacksteel,
-		/obj/item/clothing/neck/roguetown/psicross,
-		/obj/item/reagent_containers/glass/cup,
-		/obj/item/candle/gold,
-		/obj/item/candle/silver,
-		/obj/item/candle/candlestick/silver,
-		/obj/item/candle/candlestick/gold,
-		/obj/item/kitchen/fork/silver,
-		/obj/item/kitchen/fork/gold,
-        /obj/item/kitchen/spoon/silver,
-		/obj/item/kitchen/spoon/gold,
-		/obj/item/roguestatue,
-		/obj/item/riddleofsteel,
-		/obj/item/listenstone,
-		/obj/item/clothing/neck/roguetown/shalal,
-		/obj/item/clothing/neck/roguetown/horus,
-		/obj/item/rogue/painting,
-		/obj/item/clothing/head/roguetown/crown/serpcrown,
-		/obj/item/clothing/head/roguetown/vampire,
-		/obj/item/scomstone,
-		/obj/item/reagent_containers/lux
-	)
 
 /obj/structure/fluff/statue/evil/attackby(obj/item/W, mob/user, params)
 	if(!HAS_TRAIT(user, TRAIT_COMMIE))
@@ -1106,33 +1077,28 @@
 	var/donatedamnt = W.get_real_price()
 	if(user.mind)
 		if(user)
+			if(!(W.flags_1 & HOARDMASTER_ACCEPTED_1))
+				to_chat(user, span_warning("This item isn't a good offering."))
+				return
 			if(W.flags_1 & HOARDMASTER_SPAWNED_1)
 				to_chat(user, span_warning("This item is from the Hoard!"))
+				return
+			if(!(W.flags_1 & TOWN_SPAWNED_1))
+				to_chat(user, span_warning("This item is not of the town! The idol rejects it."))
 				return
 			if(W.sellprice <= 0)
 				to_chat(user, span_warning("This item is worthless."))
 				return
-			var/proceed_with_offer = FALSE
-			for(var/TT in treasuretypes)
-				if(istype(W, TT))
-					proceed_with_offer = TRUE
-					break
-			if(proceed_with_offer)
-				playsound(loc,'sound/items/carvty.ogg', 50, TRUE)
-				qdel(W)
-				for(var/mob/player in GLOB.player_list)
-					if(player.mind)
-						if(player.mind.has_antag_datum(/datum/antagonist/bandit))
-							var/datum/antagonist/bandit/bandit_players = player.mind.has_antag_datum(/datum/antagonist/bandit)
-							record_round_statistic(STATS_SHRINE_VALUE, W.get_real_price())
-							bandit_players.favor += donatedamnt
-							bandit_players.totaldonated += donatedamnt
-							to_chat(player, ("<font color='yellow'>[user.name] donates [donatedamnt] to the shrine! You now have [bandit_players.favor] favor.</font>"))
-
-			else
-				to_chat(user, span_warning("This item isn't a good offering."))
-				return
-	..()
+			playsound(loc,'sound/items/carvty.ogg', 50, TRUE)
+			qdel(W)
+			for(var/mob/player in GLOB.player_list)
+				if(player.mind)
+					if(player.mind.has_antag_datum(/datum/antagonist/bandit))
+						var/datum/antagonist/bandit/bandit_players = player.mind.has_antag_datum(/datum/antagonist/bandit)
+						record_round_statistic(STATS_SHRINE_VALUE, W.get_real_price())
+						bandit_players.favor += donatedamnt
+						bandit_players.totaldonated += donatedamnt
+						to_chat(player, ("<font color='yellow'>[user.name] donates [donatedamnt] to the shrine! You now have [bandit_players.favor] favor.</font>"))
 
 /obj/structure/fluff/psycross
 	name = "pantheon cross"

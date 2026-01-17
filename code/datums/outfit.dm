@@ -286,6 +286,13 @@
 
 	if(!visualsOnly)
 		apply_fingerprints(H)
+		if(H.job)
+			var/datum/job/job_dat = SSjob.GetJob(H.job)
+			if(job_dat?.department_flag & (NOBLEMEN|COURTIERS|RETINUE|GARRISON|CHURCHMEN|BURGHERS|SIDEFOLK|WANDERERS|INQUISITION))
+				// recursively populate the flags of all the objects on the mob, including any items that may be in storage
+				for(var/atom/thing in H.get_contents())
+					if(thing.flags_1 & HOARDMASTER_ACCEPTED_1)
+						thing.flags_1 |= TOWN_SPAWNED_1
 
 	H.update_body()
 	return TRUE

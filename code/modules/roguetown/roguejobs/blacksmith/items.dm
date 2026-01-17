@@ -3,6 +3,7 @@
 	icon = 'icons/roguetown/items/valuable.dmi'
 	name = "statue"
 	icon_state = ""
+	flags_1 = HOARDMASTER_ACCEPTED_1
 	w_class = WEIGHT_CLASS_NORMAL
 	experimental_inhand = FALSE
 	smeltresult = null

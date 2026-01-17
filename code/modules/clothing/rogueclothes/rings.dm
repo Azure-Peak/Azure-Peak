@@ -9,6 +9,7 @@
 	sleeved = 'icons/roguetown/clothing/onmob/rings.dmi'
 	sleevetype = "shirt"
 	icon_state = ""
+	flags_1 = HOARDMASTER_ACCEPTED_1
 	slot_flags = ITEM_SLOT_RING
 	resistance_flags = FIRE_PROOF | ACID_PROOF
 	anvilrepair = /datum/skill/craft/armorsmithing

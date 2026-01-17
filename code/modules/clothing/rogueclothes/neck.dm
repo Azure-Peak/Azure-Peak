@@ -390,6 +390,7 @@
 	desc = "'With every broken bone, I swore I lived!'"
 	icon_state = "psycross"
 	//dropshrink = 0.75
+	flags_1 = HOARDMASTER_ACCEPTED_1
 	resistance_flags = FIRE_PROOF
 	slot_flags = ITEM_SLOT_NECK|ITEM_SLOT_HIP|ITEM_SLOT_WRISTS
 	possible_item_intents = list(/datum/intent/use, /datum/intent/special/magicarc)
@@ -623,6 +624,7 @@
 	name = "amulet of appraisal"
 	desc = "An amulet with a pristine eye embedded into it. Blind to everything, but to that which shines in gold."
 	icon_state = "horus"
+	flags_1 = HOARDMASTER_ACCEPTED_1
 	//dropshrink = 0.75
 	resistance_flags = FIRE_PROOF
 	sellprice = 80
@@ -650,6 +652,7 @@
 	name = "desert rider medal"
 	desc = "Made out of the silver from the Ranesheni mercenaries' first pay. A tradition is kept between these hired blades: to give this one away to someone is to symbolize a debt in their favor - to be redeemed by any other mercenary in times of need."
 	icon_state = "shalal"
+	flags_1 = HOARDMASTER_ACCEPTED_1
 	slot_flags = ITEM_SLOT_NECK|ITEM_SLOT_HIP|ITEM_SLOT_WRISTS|ITEM_SLOT_RING		//Hey I guess you could pretend it is wrapped around your hand? Just keep it on, don't be a hoe.
 	//dropshrink = 0.75
 	resistance_flags = FIRE_PROOF

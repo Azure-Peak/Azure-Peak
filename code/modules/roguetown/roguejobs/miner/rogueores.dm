@@ -24,7 +24,7 @@
 	name = "raw silver" //Mechanically left unsilverified - like with ziliquae - for the sake of gameplay. Can be handwaved as not being pure enough to directly harm the unholy.
 	desc = "A gleaming ore of moonlight hue."
 	icon_state = "oresilv1"
-	smeltresult = /obj/item/ingot/silver 
+	smeltresult = /obj/item/ingot/silver
 	sellprice = 8
 
 /obj/item/rogueore/silver/Initialize()
@@ -106,6 +106,7 @@
 	name = "ingot"
 	icon = 'icons/roguetown/items/ore.dmi'
 	icon_state = "ingot"
+	flags_1 = HOARDMASTER_ACCEPTED_1
 	w_class = WEIGHT_CLASS_NORMAL
 	smeltresult = null
 	resistance_flags = FIRE_PROOF

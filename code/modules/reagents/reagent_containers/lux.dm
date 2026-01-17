@@ -4,6 +4,7 @@
 	icon = 'icons/roguetown/items/produce.dmi'
 	icon_state = "lux"
 	item_state = "lux"
+	flags_1 = HOARDMASTER_ACCEPTED_1
 	possible_transfer_amounts = list()
 	volume = 15
 	list_reagents = list(/datum/reagent/vitae = 5)

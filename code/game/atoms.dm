@@ -176,6 +176,11 @@
 	if (canSmoothWith)
 		canSmoothWith = typelist("canSmoothWith", canSmoothWith)
 
+	if(flags_1 & HOARDMASTER_ACCEPTED_1)
+		var/area/rogue/spawn_area = get_area(src)
+		if (istype(spawn_area) && spawn_area.town_area)
+			flags_1 |= TOWN_SPAWNED_1
+
 	ComponentInitialize()
 	InitializeAIController()
 
@@ -1259,7 +1264,7 @@
 /atom/proc/get_filter_index(name)
 	return filter_data?.Find(name)
 
-//Automatically turns based on nearby walls, destroys if not valid. 
+//Automatically turns based on nearby walls, destroys if not valid.
 /atom/proc/auto_turn_destructive()
 	var/turf/closed/T = null
 	var/gotdir = 0

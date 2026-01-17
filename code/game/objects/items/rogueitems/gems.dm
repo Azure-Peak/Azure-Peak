@@ -6,6 +6,7 @@
 	desc = "A debug tool to help us later"
 	lefthand_file = 'icons/mob/inhands/misc/food_lefthand.dmi'
 	righthand_file = 'icons/mob/inhands/misc/food_righthand.dmi'
+	flags_1 = HOARDMASTER_ACCEPTED_1
 	w_class = WEIGHT_CLASS_TINY
 	slot_flags = ITEM_SLOT_MOUTH
 	dropshrink = 0.4
@@ -171,6 +172,7 @@
 	desc = "Flesh, mind."
 	lefthand_file = 'icons/mob/inhands/misc/food_lefthand.dmi'
 	righthand_file = 'icons/mob/inhands/misc/food_righthand.dmi'
+	flags_1 = HOARDMASTER_ACCEPTED_1
 	w_class = WEIGHT_CLASS_TINY
 	slot_flags = ITEM_SLOT_MOUTH
 	dropshrink = 0.4

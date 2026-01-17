@@ -15,6 +15,7 @@
 	w_class = WEIGHT_CLASS_NORMAL
 	experimental_inhand = FALSE
 	volume = 25
+	flags_1 = HOARDMASTER_ACCEPTED_1
 	obj_flags = CAN_BE_HIT
 	sellprice = 1
 	drinksounds = list('sound/items/drink_cup (1).ogg','sound/items/drink_cup (2).ogg','sound/items/drink_cup (3).ogg','sound/items/drink_cup (4).ogg','sound/items/drink_cup (5).ogg')
@@ -76,7 +77,7 @@
 
 	if(!dice_in_cup.len)
 		return
-	
+
 	playsound(src, 'sound/items/cup_dice_roll.ogg', 100, TRUE)
 	if(do_after(user, 1.5 SECONDS))
 		rolling = TRUE

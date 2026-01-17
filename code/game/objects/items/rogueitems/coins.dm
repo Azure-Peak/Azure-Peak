@@ -12,6 +12,7 @@
 	icon_state = ""
 	lefthand_file = 'icons/mob/inhands/misc/food_lefthand.dmi'
 	righthand_file = 'icons/mob/inhands/misc/food_righthand.dmi'
+	flags_1 = HOARDMASTER_ACCEPTED_1
 	w_class = WEIGHT_CLASS_TINY
 	slot_flags = ITEM_SLOT_MOUTH
 	dropshrink = 0.2
@@ -41,7 +42,7 @@
 
 /obj/item/roguecoin/throw_impact(atom/hit_atom, datum/thrownthing/throwingdatum)
 	playsound(loc, 'sound/foley/coins1.ogg', 100, TRUE, -2)
-	..() 
+	..()
 
 /obj/item/roguecoin/Crossed(atom/movable/AM)
 	. = ..()
@@ -149,7 +150,7 @@
 	if(world.time < flip_cd + 30)
 		return
 	flip_cd = world.time
-	playsound(user, 'sound/foley/coinphy (1).ogg', 100, FALSE)	
+	playsound(user, 'sound/foley/coinphy (1).ogg', 100, FALSE)
 	if(prob(50))
 		user.visible_message(span_info("[user] flips the coin. ENDVRE!"))
 		heads_tails = TRUE
@@ -212,7 +213,7 @@
 	icon_state = "i1"
 	sellprice = 0
 	base_type = CTYPE_ICOIN
-	plural_name = "otavan marques"	
+	plural_name = "otavan marques"
 
 //GOLD
 /obj/item/roguecoin/gold
@@ -247,7 +248,7 @@
 	name = "psilen"
 	desc = "A coin of polished gilbranze, beheld to a fallen kingdom that hadn't endured the passage of tyme."
 	icon_state = "a1"
-	sellprice = 3 //Dungeon-specific coinage - valued by historians, collectors, and smelters. 
+	sellprice = 3 //Dungeon-specific coinage - valued by historians, collectors, and smelters.
 	base_type = CTYPE_ANCIENT
 	plural_name = "psila"
 
@@ -265,7 +266,7 @@
 
 /obj/item/roguecoin/silver/pile/Initialize()
 	. = ..()
-	set_quantity(rand(4,19))	
+	set_quantity(rand(4,19))
 
 /obj/item/roguecoin/silver/pile/readyuppile/Initialize()
 	. = ..()

@@ -8,6 +8,7 @@
 	//dropshrink = 0
 	dynamic_hair_suffix = null
 	sellprice = 200
+	flags_1 = HOARDMASTER_ACCEPTED_1
 	resistance_flags = FIRE_PROOF | ACID_PROOF
 	anvilrepair = /datum/skill/craft/armorsmithing
 	visual_replacement = /obj/item/clothing/head/roguetown/crown/fakecrown

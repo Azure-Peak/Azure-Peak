@@ -21,6 +21,9 @@
 			var/fumbled_value = max(1, round(real_value + (real_value * clamp(noise_hash(real_value, fumbling_seed) - 0.25, -0.25, 0.25)), 1))
 			. += span_info("Value: [fumbled_value] mammon... <i>I think</i>")
 
+	if(HAS_TRAIT(user, TRAIT_COMMIE) && (flags_1 & TOWN_SPAWNED_1))
+		. += span_notice("This item was produced by the town of Azure Peak. Sell it for favour!")
+
 	if(smeltresult)
 		var/obj/item/smelted = smeltresult
 		. += span_info("Smelts into [smelted.name].")
@@ -73,4 +76,3 @@
 				if(80 to 99)
 					result = span_warning("It's a little damaged.")
 	return result
-	

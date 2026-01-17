@@ -129,6 +129,7 @@
 	name = "three-stick gold candlestick"
 	icon = 'icons/roguetown/items/lighting.dmi'
 	icon_state = "gcandelabra"
+	flags_1 = HOARDMASTER_ACCEPTED_1
 	infinite = TRUE
 	sellprice = 40
 	possible_item_intents = list(/datum/intent/use, /datum/intent/hit)
@@ -145,6 +146,7 @@
 	name = "three-stick silver candlestick"
 	icon = 'icons/roguetown/items/lighting.dmi'
 	icon_state = "scandelabra"
+	flags_1 = HOARDMASTER_ACCEPTED_1
 	infinite = TRUE
 	sellprice = 60
 	is_silver = TRUE
@@ -195,6 +197,7 @@
 	name = "gold candle"
 	icon = 'icons/roguetown/items/lighting.dmi'
 	icon_state = "gcandle"
+	flags_1 = HOARDMASTER_ACCEPTED_1
 	infinite = TRUE
 	sellprice = 30
 
@@ -209,6 +212,7 @@
 	name = "silver candle"
 	icon = 'icons/roguetown/items/lighting.dmi'
 	icon_state = "scandle"
+	flags_1 = HOARDMASTER_ACCEPTED_1
 	infinite = TRUE
 	sellprice = 50
 	is_silver = TRUE
