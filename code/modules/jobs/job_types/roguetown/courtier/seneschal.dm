@@ -12,7 +12,6 @@
 	outfit = /datum/outfit/job/roguetown/seneschal
 	advclass_cat_rolls = list(CTAG_SENESCHAL = 20)
 	job_traits = list(TRAIT_FOOD_STIPEND)
-	display_order = JDO_BUTLER
 	display_order = JDO_SENESCHAL
 
 	give_bank_account = TRUE
