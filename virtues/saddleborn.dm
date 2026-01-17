@@ -18,12 +18,8 @@ GLOBAL_LIST_INIT(virtue_mount_choices, (list(
 )))
 
 GLOBAL_LIST_INIT(virtue_mount_choices_noble, (list(
-	list("white stallion (horse)", /mob/living/simple_animal/hostile/retaliate/rogue/horse/male/white/tame/saddled),
-	list("white mare (horse)", /mob/living/simple_animal/hostile/retaliate/rogue/horse/white/tame/saddled),
-	list("brown stallion (horse)", /mob/living/simple_animal/hostile/retaliate/rogue/horse/male/brown/tame/saddled),
-	list("brown mare (horse)", /mob/living/simple_animal/hostile/retaliate/rogue/horse/brown/tame/saddled),
-	list("black stallion (horse)", /mob/living/simple_animal/hostile/retaliate/rogue/horse/male/black/tame/saddled),
-	list("black mare (horse)", /mob/living/simple_animal/hostile/retaliate/rogue/horse/black/tame/saddled),
+	list("fogbeast mare", /mob/living/simple_animal/hostile/retaliate/rogue/fogbeast/tame/saddled),
+	list("fogbeast stallion", /mob/living/simple_animal/hostile/retaliate/rogue/fogbeast/male/tame/saddled),
 )))
 
 /datum/stressevent/precious_mob_died

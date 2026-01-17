@@ -39,8 +39,8 @@
 						/obj/item/alch/viscera = 2,
 						/obj/item/natural/head/saiga = 1)
 	base_intents = list(/datum/intent/simple/headbutt/saiga)
-	health = 156
-	maxHealth = 156
+	health = 400
+	maxHealth = 400
 	food_type = list(
 				/obj/item/reagent_containers/food/snacks/grown/wheat,
 				/obj/item/reagent_containers/food/snacks/grown/oat,
@@ -53,8 +53,8 @@
 	faction = list("saiga")
 	attack_verb_continuous = "headbutts"
 	attack_verb_simple = "headbutt"
-	melee_damage_lower = 10
-	melee_damage_upper = 25
+	melee_damage_lower = 60
+	melee_damage_upper = 90
 	retreat_distance = 10
 	minimum_distance = 10
 	rapid_melee = 1
@@ -115,10 +115,6 @@
 	faction = list("saiga")
 	attack_verb_continuous = "headbutts"
 	attack_verb_simple = "headbutt"
-	health = 400
-	maxHealth = 400
-	melee_damage_lower = 60
-	melee_damage_upper = 90
 	environment_smash = ENVIRONMENT_SMASH_NONE
 	retreat_distance = 0
 	minimum_distance = 0
