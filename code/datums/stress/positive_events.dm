@@ -388,6 +388,7 @@
 
 /datum/stressevent/graggarite_blood_rain
 	timer = 1 MINUTES
+	stressadd = -3
 	desc = list(span_boldred("I SOAKED IN THE BLOOD OF THE THOUSANDS DEAD! GRAGGAR GRAGGAR GRAGGAR!"))
 
 /datum/stressevent/keep_standard
