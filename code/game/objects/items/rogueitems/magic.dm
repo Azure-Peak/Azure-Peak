@@ -73,7 +73,7 @@
 	if(!do_after(user, time_to_use, target = user))
 		to_chat(user, span_warning("I need to focus..."))
 		return
-	
+
 	var/success_chance = 0
 
 	var/break_on_fail = FALSE
@@ -148,7 +148,7 @@
 		if(break_on_fail)
 			failure_break(user)
 		return
-	
+
 	playsound(src, 'sound/magic/whiteflame.ogg', 100, TRUE)
 	scry(user, target)
 
@@ -205,7 +205,7 @@
 	visible_message("\The [src] shatters!")
 	user.flash_fullscreen("redflash1")
 	new /obj/item/magic/obsidian(get_turf(src))
-	playsound(src, "shatter", 70, TRUE)
+	playsound(get_turf(src), "shatter", 70, TRUE)
 	qdel(src)
 
 /obj/item/scrying/proc/on_failure(mob/living/user, mob/living/carbon/human/target, severity)

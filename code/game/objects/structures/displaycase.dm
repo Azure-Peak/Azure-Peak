@@ -68,7 +68,7 @@
 	if(!obj_broken && !(flags_1 & NODECONSTRUCT_1))
 		density = FALSE
 		new /obj/item/natural/glass_shard( src.loc )
-		playsound(src, "shatter", 70, TRUE)
+		playsound(get_turf(src), "shatter", 70, TRUE)
 		update_icon()
 
 /obj/structure/displaycase/update_icon()

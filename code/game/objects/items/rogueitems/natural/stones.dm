@@ -319,14 +319,14 @@ GLOBAL_LIST_INIT(stone_personality_descs, list(
 			S.set_up(1, 1, front)
 			S.start()
 	if( user.used_intent.type == /datum/intent/chisel )
-		playsound(src, pick('sound/combat/hits/onrock/onrock (1).ogg', 'sound/combat/hits/onrock/onrock (2).ogg', 'sound/combat/hits/onrock/onrock (3).ogg', 'sound/combat/hits/onrock/onrock (4).ogg'), 100)
+		playsound(get_turf(src), pick('sound/combat/hits/onrock/onrock (1).ogg', 'sound/combat/hits/onrock/onrock (2).ogg', 'sound/combat/hits/onrock/onrock (3).ogg', 'sound/combat/hits/onrock/onrock (4).ogg'), 100)
 		user.visible_message("<span class='info'>[user] chisels the stone into a block.</span>")
 		if(do_after(user, work_time))
 			new /obj/item/natural/stoneblock(get_turf(src.loc))
 			if(HAS_TRAIT(user, TRAIT_MASTER_MASON)) //double the amount for any in a stone worker role
 				new /obj/item/natural/stoneblock(get_turf(src.loc))
 			new /obj/effect/decal/cleanable/debris/stony(get_turf(src))
-			playsound(src, pick('sound/combat/hits/onrock/onrock (1).ogg', 'sound/combat/hits/onrock/onrock (2).ogg', 'sound/combat/hits/onrock/onrock (3).ogg', 'sound/combat/hits/onrock/onrock (4).ogg'), 100)
+			playsound(get_turf(src), pick('sound/combat/hits/onrock/onrock (1).ogg', 'sound/combat/hits/onrock/onrock (2).ogg', 'sound/combat/hits/onrock/onrock (3).ogg', 'sound/combat/hits/onrock/onrock (4).ogg'), 100)
 			qdel(src)
 			user.mind.add_sleep_experience(/datum/skill/craft/masonry, (user.STAINT*0.2))
 		return
@@ -442,7 +442,7 @@ GLOBAL_LIST_INIT(stone_personality_descs, list(
 			S.start()
 		return
 	if( user.used_intent.type == /datum/intent/chisel )
-		playsound(src, pick('sound/combat/hits/onrock/onrock (1).ogg', 'sound/combat/hits/onrock/onrock (2).ogg', 'sound/combat/hits/onrock/onrock (3).ogg', 'sound/combat/hits/onrock/onrock (4).ogg'), 100)
+		playsound(get_turf(src), pick('sound/combat/hits/onrock/onrock (1).ogg', 'sound/combat/hits/onrock/onrock (2).ogg', 'sound/combat/hits/onrock/onrock (3).ogg', 'sound/combat/hits/onrock/onrock (4).ogg'), 100)
 		user.visible_message("<span class='info'>[user] chisels the boulder into blocks.</span>")
 		if(do_after(user, work_time))
 			new /obj/item/natural/stoneblock(get_turf(src.loc))
@@ -453,7 +453,7 @@ GLOBAL_LIST_INIT(stone_personality_descs, list(
 				new /obj/item/natural/stoneblock(get_turf(src.loc))
 				new /obj/item/natural/stoneblock(get_turf(src.loc))
 			new /obj/effect/decal/cleanable/debris/stony(get_turf(src))
-			playsound(src, pick('sound/combat/hits/onrock/onrock (1).ogg', 'sound/combat/hits/onrock/onrock (2).ogg', 'sound/combat/hits/onrock/onrock (3).ogg', 'sound/combat/hits/onrock/onrock (4).ogg'), 100)
+			playsound(get_turf(src), pick('sound/combat/hits/onrock/onrock (1).ogg', 'sound/combat/hits/onrock/onrock (2).ogg', 'sound/combat/hits/onrock/onrock (3).ogg', 'sound/combat/hits/onrock/onrock (4).ogg'), 100)
 			user.mind.add_sleep_experience(/datum/skill/craft/masonry, (user.STAINT*0.5))
 			qdel(src)
 		return
@@ -617,13 +617,13 @@ BECAUSE this is a dungeon reward, and you're SUPPOSED to get SOMETHING, they've 
 	if(HAS_TRAIT(user, TRAIT_MASTER_MASON)) //double the amount for any in a stone worker role
 		stonetotal += stonetotal
 	if( user.used_intent.type == /datum/intent/chisel )
-		playsound(src, pick('sound/combat/hits/onrock/onrock (1).ogg', 'sound/combat/hits/onrock/onrock (2).ogg', 'sound/combat/hits/onrock/onrock (3).ogg', 'sound/combat/hits/onrock/onrock (4).ogg'), 100)
+		playsound(get_turf(src), pick('sound/combat/hits/onrock/onrock (1).ogg', 'sound/combat/hits/onrock/onrock (2).ogg', 'sound/combat/hits/onrock/onrock (3).ogg', 'sound/combat/hits/onrock/onrock (4).ogg'), 100)
 		user.visible_message("<span class='info'>[user] chisels the rock into blocks.</span>")
 		if(do_after(user, 10 SECONDS))
 			for(var/i=1, i<=stonetotal, ++i)
 				new /obj/item/natural/stoneblock(get_turf(src.loc))
 			new /obj/effect/decal/cleanable/debris/stony(get_turf(src))
-			playsound(src, pick('sound/combat/hits/onrock/onrock (1).ogg', 'sound/combat/hits/onrock/onrock (2).ogg', 'sound/combat/hits/onrock/onrock (3).ogg', 'sound/combat/hits/onrock/onrock (4).ogg'), 100)
+			playsound(get_turf(src), pick('sound/combat/hits/onrock/onrock (1).ogg', 'sound/combat/hits/onrock/onrock (2).ogg', 'sound/combat/hits/onrock/onrock (3).ogg', 'sound/combat/hits/onrock/onrock (4).ogg'), 100)
 			user.mind.add_sleep_experience(/datum/skill/craft/masonry, (user.STAINT*1))
 			qdel(src)
 		return

@@ -6,7 +6,7 @@ GLOBAL_LIST_EMPTY(last_words)
 		death(TRUE)
 	if(client)
 		SSdroning.kill_droning(client)
-	playsound(src, pick('sound/combat/gib (1).ogg','sound/combat/gib (2).ogg'), 200, FALSE, 3)
+	playsound(get_turf(src), pick('sound/combat/gib (1).ogg','sound/combat/gib (2).ogg'), 200, FALSE, 3)
 
 	if(!prev_lying)
 		gib_animation()

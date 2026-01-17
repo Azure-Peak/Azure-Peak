@@ -33,7 +33,7 @@
 	qdel(L) // consume the lux
 	current_charges = min(current_charges + 1, max_charges)
 	to_chat(user, span_notice("The crystal hums as it drinks in the lyfe essence."))
-	playsound(src, 'sound/magic/churn.ogg', 70, TRUE)
+	playsound(get_turf(src), 'sound/magic/churn.ogg', 70, TRUE)
 	return TRUE
 
 /obj/item/necro_relics/necro_crystal/attackby(obj/item/I, mob/user, params)
@@ -43,9 +43,9 @@
 
 /obj/item/necro_relics/necro_crystal/attack_self(mob/living/user)
 	..()
-	if(!user) 
+	if(!user)
 		return FALSE
-		
+
 	if(length(active_skeletons) >= max_summons)
 		to_chat(user, span_warning("The crystal emits an ominous thrumming. The power within is too strained to conjure another skeleton right now."))
 		return FALSE
@@ -74,7 +74,7 @@
 		to_chat(user, span_warning("The crystal rejects you! It shatters within your grasp!"))
 		user.flash_fullscreen("redflash1")
 		new /obj/item/natural/glass_shard(get_turf(src))
-		playsound(src, "glassbreak", 70, TRUE)
+		playsound(get_turf(src), "glassbreak", 70, TRUE)
 		qdel(src)
 		return FALSE
 

@@ -40,7 +40,7 @@
 	var/skill_level = user.get_skill_level(/datum/skill/labor/lumberjacking)
 	var/planking_time = (40 - (skill_level * 5))
 	if(lumber_amount && I.tool_behaviour == TOOL_SAW)
-		playsound(src, 'sound/foley/sawing.ogg', 100)
+		playsound(get_turf(src), 'sound/foley/sawing.ogg', 100)
 		user.visible_message("<span class='notice'>[user] starts sawing [src] to smaller pieces.</span>")
 		if(do_after(user, planking_time))
 			new /obj/item/grown/log/tree/small(get_turf(src.loc))
@@ -56,7 +56,7 @@
 	if(user.used_intent.blade_class == BCLASS_CHOP && lumber_amount && lumber)
 		var/lumber_time = (40 - (skill_level * 5))
 		var/minimum = 1
-		playsound(src, 'sound/misc/woodhit.ogg', 100, TRUE)
+		playsound(get_turf(src), 'sound/misc/woodhit.ogg', 100, TRUE)
 		if(!do_after(user, lumber_time, target = user))
 			return
 		if(skill_level > 0) // If skill level is 1 or higher, we get more minimum wood!
@@ -71,11 +71,11 @@
 				if(!sound_played)
 					sound_played = TRUE
 					to_chat(user, span_warning("Dendor weeps..."))
-					playsound(src,pick('sound/items/gem.ogg'), 100, FALSE)
+					playsound(get_turf(src), pick('sound/items/gem.ogg'), 100, FALSE)
 		if(!skill_level)
 			to_chat(user, span_info("Due to inexperience, I ruin some of the timber..."))
 		user.mind.add_sleep_experience(/datum/skill/labor/lumberjacking, (user.STAINT*0.5))
-		playsound(src, destroy_sound, 100, TRUE)
+		playsound(get_turf(src), destroy_sound, 100, TRUE)
 		qdel(src)
 		return TRUE
 	..()
