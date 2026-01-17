@@ -1,0 +1,5 @@
+author: "Geevies"
+delete-after: True
+changes:
+  - rscadd: "Added a Standard Bearer subclass to MAA, there can only be one. They spawn with the Ducal Standard, a special spear which buffs them, and allows them to rally the garrison's forces."
+  - bugfix: "Checking the force of a wielded weapon will now show you the actual force, and not the unwielded force."

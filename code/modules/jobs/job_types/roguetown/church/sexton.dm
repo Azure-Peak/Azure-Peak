@@ -59,7 +59,7 @@
 	backl = /obj/item/storage/backpack/rogue/satchel
 	backpack_contents = list(
 		/obj/item/needle = 1,
-		/obj/item/storage/keyring/churchie = 1,
+		/obj/item/storage/keyring/acolyte = 1,
 		/obj/item/natural/cloth = 1,
 	)
 	switch(H.patron?.type)

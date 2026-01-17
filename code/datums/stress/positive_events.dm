@@ -390,3 +390,14 @@
 	timer = 1 MINUTES
 	stressadd = -3
 	desc = list(span_boldred("I SOAKED IN THE BLOOD OF THE THOUSANDS DEAD! GRAGGAR GRAGGAR GRAGGAR!"))
+
+/datum/stressevent/keep_standard
+	stressadd = -4
+	desc = span_aiprivradio("The standard speaks of certainty.")
+	timer = INFINITY
+
+/datum/stressevent/keep_standard_lesser
+	stressadd = -3
+	desc = span_aiprivradio("The standard calls out to me! It knows we're to see victory!")
+	timer = 3 MINUTES
+

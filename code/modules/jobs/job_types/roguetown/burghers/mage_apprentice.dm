@@ -35,7 +35,7 @@
 	pants = /obj/item/clothing/under/roguetown/tights/random
 	belt = /obj/item/storage/belt/rogue/leather
 	beltl = /obj/item/storage/magebag/associate
-	beltr = /obj/item/storage/keyring/mageapprentice
+	beltr = /obj/item/storage/keyring/apprentice
 	backl = /obj/item/storage/backpack/rogue/satchel
 	backr = /obj/item/rogueweapon/woodstaff
 	shoes = /obj/item/clothing/shoes/roguetown/gladiator // FANCY SANDALS

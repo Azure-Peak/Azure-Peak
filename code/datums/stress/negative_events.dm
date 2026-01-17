@@ -176,9 +176,9 @@
 	desc = span_red("Better stay away.")
 
 /datum/stressevent/paracrowd
-	timer = 15 SECONDS
-	stressadd = 2
-	desc = span_red("There are too many people who don't look like me here.")
+	timer = 2 MINUTES
+	stressadd = 3
+	desc = span_red("Too many strangers... Where are my own?")
 
 /datum/stressevent/parablood
 	timer = 15 SECONDS
@@ -195,10 +195,10 @@
 	stressadd = 2
 	desc = span_red("They are plotting against me in evil tongues...")
 
-/datum/stressevent/crowd
-	timer = 2 MINUTES
-	stressadd = 2
-	desc = "<span class='red'>Why is everyone here...? Are they trying to kill me?!</span>"
+/datum/stressevent/averse
+	timer = 5 MINUTES
+	stressadd = 5
+	desc = span_red("<u>They</u> are here.")
 
 /datum/stressevent/nopeople
 	timer = 2 MINUTES
@@ -447,3 +447,12 @@
 	timer = 5 MINUTES
 	stressadd = 1
 	desc = span_red("Xylix took pity upon me and saved me from the consequences of bad luck. I must do better!")
+
+/datum/stressevent/debt
+	timer = 25 MINUTES
+	stressadd = 3
+	desc = span_red("I couldn't pay my debts in time.")
+/datum/stressevent/revenant_cross // When a revenant looks at a necran cross that's blessed.
+	timer = 2 MINUTES
+	stressadd = 3
+	desc = span_boldred("The undermaiden is watching me with disgust!")

@@ -222,3 +222,30 @@
 		if(EAST)
 			pixel_x = 4
 	. = ..()
+
+/obj/structure/rope_ladder
+	name = "rope"
+	desc = "A length of rope that has been lowered against a surface to allow climbing."
+	icon = 'icons/roguetown/misc/structure.dmi'
+	icon_state = "pillar"
+	anchored = TRUE
+	obj_flags = BLOCK_Z_OUT_DOWN
+	max_integrity = 50
+	blade_dulling = DULLING_BASHCHOP
+
+/obj/structure/rope_ladder/get_mechanics_examine(mob/user)
+	. = ..()
+	. += "The rope can be retrieved by dragging it onto yourself."
+
+/obj/structure/rope_ladder/MouseDrop(atom/over)
+	if(usr != over)
+		return ..()
+	var/mob/living/living_user = usr
+	if(!Adjacent(living_user))
+		return
+	living_user.visible_message(span_notice("[living_user] begins removing the rope ladder from the wall..."), span_notice("You begin removing the rope ladder from the wall..."))
+	if(do_after(living_user, 5 SECONDS, TRUE, src))
+		var/obj/item/rope/rope = new(src.loc)
+		living_user.put_in_hands(rope)
+		living_user.visible_message(span_notice("[living_user] removes the rope ladder from the wall."), span_notice("You remove the rope ladder from the wall."))
+		qdel(src)

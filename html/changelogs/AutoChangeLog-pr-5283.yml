@@ -1,4 +1,4 @@
 author: "BurpleBineapple"
 delete-after: True
 changes:
-  - bugfix: "RC's +1 FOR is correctly applied."
+  - bugfix: "Fixes DasFox donor armor."

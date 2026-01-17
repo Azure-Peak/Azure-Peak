@@ -125,7 +125,7 @@
 	pants = /obj/item/clothing/under/roguetown/tights/black
 	belt = /obj/item/storage/belt/rogue/leather/rope
 	beltl = /obj/item/storage/belt/rogue/pouch/coins/mid
-	beltr = /obj/item/storage/keyring/churchie
+	beltr = /obj/item/storage/keyring/acolyte
 	shoes = /obj/item/clothing/shoes/roguetown/sandals
 
 	var/datum/devotion/C = new /datum/devotion(H, H.patron)
@@ -259,7 +259,7 @@
 		/obj/item/ritechalk = 1,
 		/obj/item/rogueweapon/scabbard/sheath = 1,
 		/obj/item/storage/belt/rogue/pouch/coins/mid = 1,
-		/obj/item/storage/keyring/churchie = 1
+		/obj/item/storage/keyring/acolyte = 1
 		)
 	H.cmode_music = 'sound/music/cmode/church/combat_reckoning.ogg' // this is probably awful implementation. too bad!
 	switch(H.patron?.type)
@@ -315,7 +315,7 @@
 			head = /obj/item/clothing/head/roguetown/helmet/heavy/ravoxhelm
 			cloak = /obj/item/clothing/cloak/templar/ravox
 			mask = /obj/item/clothing/head/roguetown/roguehood/ravoxgorget
-			backpack_contents = list(/obj/item/ritechalk, /obj/item/book/rogue/law, /obj/item/rogueweapon/scabbard/sheath, /obj/item/storage/belt/rogue/pouch/coins/mid, /obj/item/storage/keyring/churchie )
+			backpack_contents = list(/obj/item/ritechalk, /obj/item/book/rogue/law, /obj/item/rogueweapon/scabbard/sheath, /obj/item/storage/belt/rogue/pouch/coins/mid, /obj/item/storage/keyring/acolyte)
 		if(/datum/patron/divine/malum)
 			wrists = /obj/item/clothing/neck/roguetown/psicross/malum
 			cloak = /obj/item/clothing/cloak/templar/malumite

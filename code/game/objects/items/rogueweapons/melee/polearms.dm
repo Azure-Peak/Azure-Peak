@@ -26,6 +26,9 @@
 	effective_range_type = EFF_RANGE_NONE
 	sharpness_penalty = 3
 
+/datum/intent/spear/thrust/ducal_standard
+	penfactor = 30
+
 /datum/intent/spear/thrust/militia
 	penfactor = 40
 
@@ -280,7 +283,7 @@
 /obj/item/rogueweapon/spear
 	force = 22
 	force_wielded = 30
-	possible_item_intents = list(SPEAR_THRUST_1H, SPEAR_CUT_1H) 
+	possible_item_intents = list(SPEAR_THRUST_1H, SPEAR_CUT_1H)
 	gripped_intents = list(SPEAR_THRUST, SPEAR_CUT, SPEAR_BASH) //bash is for nonlethal takedowns, only targets limbs
 	name = "spear"
 	desc = "One of the oldest weapons still in use today, second only to the club. The lack of reinforcements along the shaft leaves it vulnerable to being split in two."
@@ -369,9 +372,9 @@
 									user.mind.add_sleep_experience(/datum/skill/labor/fishing, round(fisherman.STAINT, 2), FALSE)
 									record_featured_stat(FEATURED_STATS_FISHERS, fisherman)
 									GLOB.azure_round_stats[STATS_FISH_CAUGHT]++
-									playsound(src.loc, 'sound/items/Fish_out.ogg', 100, TRUE)	
+									playsound(src.loc, 'sound/items/Fish_out.ogg', 100, TRUE)
 							else
-								to_chat(user, "<span class='warning'>Damn, it got away... I should <b>pull away</b> next time.</span>")								
+								to_chat(user, "<span class='warning'>Damn, it got away... I should <b>pull away</b> next time.</span>")
 					else
 						to_chat(user, "<span class='warning'>Not a single fish...</span>")
 						user.mind.add_sleep_experience(/datum/skill/labor/fishing, fisherman.STAINT/2)
@@ -638,9 +641,9 @@
 									user.mind.add_sleep_experience(/datum/skill/labor/fishing, round(fisherman.STAINT, 2), FALSE) // Level up!
 									record_featured_stat(FEATURED_STATS_FISHERS, fisherman)
 									record_round_statistic(STATS_FISH_CAUGHT)
-									playsound(src.loc, 'sound/items/Fish_out.ogg', 100, TRUE)	
+									playsound(src.loc, 'sound/items/Fish_out.ogg', 100, TRUE)
 							else
-								to_chat(user, "<span class='warning'>Damn, it got away... I should <b>pull away</b> next time.</span>")								
+								to_chat(user, "<span class='warning'>Damn, it got away... I should <b>pull away</b> next time.</span>")
 					else
 						to_chat(user, "<span class='warning'>Not a single fish...</span>")
 						user.mind.add_sleep_experience(/datum/skill/labor/fishing, fisherman.STAINT/2) // Pity XP.
@@ -802,7 +805,7 @@
 		added_def = 2,\
 	)
 
-/obj/item/rogueweapon/halberd/psyhalberd	
+/obj/item/rogueweapon/halberd/psyhalberd
 	name = "psydonic halberd"
 	desc = "A reliable design that has served humenkind to fell the enemy and defend Psydon's flock - now fitted with a lengthier blade and twin, silver-tipped beaks."
 	icon_state = "silverhalberd"
@@ -841,9 +844,9 @@
 		switch(tag)
 			if("gen")
 				return list("shrink" = 0.6,"sx" = -7,"sy" = 2,"nx" = 7,"ny" = 3,"wx" = -2,"wy" = 1,"ex" = 1,"ey" = 1,"northabove" = 0,"southabove" = 1,"eastabove" = 1,"westabove" = 0,"nturn" = -38,"sturn" = 37,"wturn" = 30,"eturn" = -30,"nflip" = 0,"sflip" = 8,"wflip" = 8,"eflip" = 0)
-			if("wielded") 
+			if("wielded")
 				return list("shrink" = 0.6,"sx" = 3,"sy" = 4,"nx" = -1,"ny" = 4,"wx" = -8,"wy" = 3,"ex" = 7,"ey" = 0,"northabove" = 0,"southabove" = 1,"eastabove" = 1,"westabove" = 0,"nturn" = 0,"sturn" = 0,"wturn" = 0,"eturn" = 15,"nflip" = 8,"sflip" = 0,"wflip" = 8,"eflip" = 0)
-			if("onback") 
+			if("onback")
 				return list("shrink" = 0.5,"sx" = -1,"sy" = 2,"nx" = 0,"ny" = 2,"wx" = 2,"wy" = 1,"ex" = 0,"ey" = 1,"nturn" = 0,"sturn" = 0,"wturn" = 70,"eturn" = 15,"nflip" = 1,"sflip" = 1,"wflip" = 1,"eflip" = 1,"northabove" = 1,"southabove" = 0,"eastabove" = 0,"westabove" = 0)
 
 /// Ported from Scarlet Reach's Glaive. We're avoiding force increase because I hate roguepen. It can have better blade integrity and defense instead.
@@ -1420,7 +1423,7 @@
 	icon_state = "boarspear"
 	force_wielded = 33 // 10% base damage increase
 	wdefense = 6 // A little bit extra
-	max_blade_int = 200 
+	max_blade_int = 200
 	smeltresult = /obj/item/ingot/steel
 
 /obj/item/rogueweapon/spear/boar/frei
@@ -1435,7 +1438,7 @@
 	icon = 'icons/roguetown/weapons/polearms64.dmi'
 	icon_state = "lance"
 	force = 15 // Its gonna sucks for 1 handed use
-	force_wielded = 20 // Lower damage because a 3 tiles thrust without full charge time still deal base damage. 
+	force_wielded = 20 // Lower damage because a 3 tiles thrust without full charge time still deal base damage.
 	wdefense = 4 // 2 Lower than spear
 	max_integrity = 200
 	max_blade_int = 200 // Better sharpness
@@ -1456,7 +1459,7 @@
 	minstr = 7
 	max_blade_int = 150 //Nippon suteeru (dogshit)
 	wdefense = 5
-	throwforce = 12	//Not a throwing weapon. 
+	throwforce = 12	//Not a throwing weapon.
 	icon_angle_wielded = 50
 	smeltresult = /obj/item/ingot/steel
 
@@ -1577,7 +1580,7 @@
 	wdefense = 15
 	max_integrity = 555
 	max_blade_int = 555
-	alt_intents = null 
+	alt_intents = null
 	is_silver = TRUE
 	smeltresult = /obj/item/rogueweapon/greatsword/silver //Too thick to completely melt.
 

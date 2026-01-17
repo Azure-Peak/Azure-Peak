@@ -1,0 +1,5 @@
+author: "LiquidFirefly"
+delete-after: True
+changes:
+  - balance: "Reworked maneater chew behavior."
+  - bugfix: "Maneaters no longer teleport limbs randomly without checking for objects in the space they spit it into."

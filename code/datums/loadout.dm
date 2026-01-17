@@ -770,7 +770,7 @@ GLOBAL_LIST_EMPTY(loadout_items)
 /datum/loadout_item/donator_dasfox
 	name = "Donator Kit - Archaic Ceremonial Valkyrhelm"
 	path = /obj/item/enchantingkit/dasfox_helm
-	ckeywhitelist = list("dasfox")
+	ckeywhitelist = list("dasfox", "purplepineapple") // on request by dasfox
 
 /datum/loadout_item/donator_dasfox/cuirass
 	name = "Donator Kit - Archaic Ceremonial Cuirass"
@@ -779,6 +779,7 @@ GLOBAL_LIST_EMPTY(loadout_items)
 /datum/loadout_item/donator_dasfox/periapt
 	name = "Donator Item - Defiled Astratan Periapt"
 	path = /obj/item/clothing/neck/roguetown/psicross/astrata/dasfox
+	ckeywhitelist = list("dasfox")
 
 /datum/loadout_item/donator_ryan
 	name = "Donator Item - Western Estates Caparison"
