@@ -1,0 +1,4 @@
+author: "ADONAI"
+delete-after: True
+changes:
+  - balance: "dunjon-type doors should no longer break all your picks"

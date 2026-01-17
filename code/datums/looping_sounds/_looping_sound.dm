@@ -6,8 +6,9 @@ GLOBAL_LIST_EMPTY(created_sound_groups)
 
 /datum/sound_group/New()
 	. = ..()
+	reserved_channels = list()
 	for(var/channel = 1 to channel_count)
-		reserved_channels |= SSsounds.reserve_sound_channel(src)
+		reserved_channels += SSsounds.reserve_sound_channel(src)
 
 /datum/sound_group/torches
 	channel_count = 150
@@ -16,7 +17,7 @@ GLOBAL_LIST_EMPTY(created_sound_groups)
 	channel_count = 150
 
 /datum/sound_group/instruments
-	channel_count = 10 //probably more than enough
+	channel_count = 32 //probably more than enough
 
 /*
 	parent	(the source of the sound)			The source the sound comes from
@@ -80,7 +81,7 @@ GLOBAL_LIST_EMPTY(created_sound_groups)
 		if(!group)
 			group = new sound_group
 			GLOB.created_sound_groups |= group
-		if(group.last_iter == group.channel_count)
+		if(group.last_iter >= group.channel_count)
 			group.last_iter = 1
 
 		var/picked_channel = group.reserved_channels[group.last_iter]
@@ -196,7 +197,19 @@ GLOBAL_LIST_EMPTY(created_sound_groups)
 				on_hear_sound(M)
 
 /datum/looping_sound/proc/on_hear_sound(mob/M)
-	return
+	if(!persistent_loop || !M?.client)
+		return
+
+	var/list/L = M.client.played_loops[src]
+	if(!L)
+		return
+
+	L["MUTESTATUS"] = FALSE
+	L["VOL"] = volume
+
+	var/sound/SD = L["SOUND"]
+	if(SD)
+		M.unmute_sound(SD)
 
 /datum/looping_sound/proc/get_sound(starttime, _mid_sounds)
 	. = _mid_sounds || mid_sounds
@@ -208,9 +221,27 @@ GLOBAL_LIST_EMPTY(created_sound_groups)
 	if(start_sound) //does ANYTHING even use start_sound
 		play(start_sound)
 		start_wait = start_length
+	if(persistent_loop)
+		attach_loop_to_all_clients()
 	addtimer(CALLBACK(src, PROC_REF(begin_loop)), start_wait, TIMER_CLIENT_TIME)
 	if(persistent_loop && !(src in GLOB.persistent_sound_loops))
 		GLOB.persistent_sound_loops += src
+
+/datum/looping_sound/proc/attach_loop_to_all_clients()
+	if(!persistent_loop)
+		return
+
+	var/soundfile = get_sound(world.time, mid_sounds)
+	if(!soundfile)
+		return
+
+	cursound = soundfile
+	for(var/client/C in GLOB.clients)
+		var/mob/M = C.mob
+		if(!M)
+			continue
+
+		M.playsound_local(null, soundfile, 0, vary, frequency, falloff, channel, FALSE, null, src) 
 
 /datum/looping_sound/proc/begin_loop()
 	sound_loop()
@@ -245,6 +276,9 @@ GLOBAL_LIST_EMPTY(created_sound_groups)
 	if(real_parent)
 		UnregisterSignal(real_parent, COMSIG_PARENT_QDELETING)
 	if(new_parent)
+		if(istype(new_parent, /datum/weakref)) // probably shouldn't happen but it does, so?
+			var/datum/weakref/passed_weakref = new_parent
+			new_parent = passed_weakref.resolve()
 		parent = WEAKREF(new_parent)
 		RegisterSignal(new_parent, COMSIG_PARENT_QDELETING, PROC_REF(handle_parent_del))
 

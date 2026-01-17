@@ -153,6 +153,13 @@
 					/obj/item/rogueweapon/greataxe/steel,
 				)
 
+/datum/supply_pack/rogue/steel_weapons/greataxeknight
+	name = "Steel Poleaxe"
+	cost = 85 // 2 Steel Ingot, 1 Small Log
+	contains = list(
+					/obj/item/rogueweapon/greataxe/steel/knight,
+				)
+
 /datum/supply_pack/rogue/steel_weapons/greataxedoublehead
 	name = "Greataxe, Double-Headed"
 	cost = 110 // 3 Steel Ingot, 1 Small Log

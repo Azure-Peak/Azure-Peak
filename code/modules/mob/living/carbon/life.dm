@@ -16,6 +16,9 @@
 	if (QDELETED(src))
 		return
 
+	if(hud_used?.stressies)
+		hud_used.stressies.update_icon()
+
 	handle_wounds()
 	handle_embedded_objects()
 	handle_blood()
@@ -388,10 +391,10 @@ GLOBAL_LIST_INIT(ballmer_windows_me_msg, list("Yo man, what if, we like, uh, put
 /mob/living/carbon/proc/liver_failure()
 	reagents.end_metabolization(src, keep_liverless = TRUE) // Stops trait-based effects on reagents, to prevent permanent buffs
 	reagents.metabolize(src, can_overdose = FALSE, liverless = TRUE)
-	
+
 	if(HAS_TRAIT(src, TRAIT_STABLELIVER) || HAS_TRAIT(src, TRAIT_NOMETABOLISM))
 		return
-		
+
 	adjustToxLoss(4, TRUE,  TRUE)
 
 /////////////
@@ -613,9 +616,9 @@ GLOBAL_LIST_INIT(ballmer_windows_me_msg, list("Yo man, what if, we like, uh, put
 					if (sleepy_mod > 1)
 						sleep_threshold = 30
 					else
-						sleep_threshold = 45 
+						sleep_threshold = 45
 						message = "I'll fall asleep soon, although a proper bed would be more comfortable..."
-					if(sleepless_flaw) 
+					if(sleepless_flaw)
 						if(!sleepless_flaw.drugged_up)
 							message = "I am unable to sleep. I should just get up."
 							if(!fallingas)
@@ -638,10 +641,10 @@ GLOBAL_LIST_INIT(ballmer_windows_me_msg, list("Yo man, what if, we like, uh, put
 							sleepless_flaw.dream_prob += 500
 							sleepless_flaw.drugged_up = FALSE
 							Sleeping(250)
-						else 
+						else
 							teleport_to_dream(src, 10000, dream_prob)
 							Sleeping(300)
-						
+
 			else
 				is_asleep = FALSE
 				fallingas = FALSE

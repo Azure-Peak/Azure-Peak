@@ -95,6 +95,13 @@
 	grind_results = list(/datum/reagent/mercury = 15)
 	sellprice = 5
 
+/obj/item/rogueore/lithmyc
+	name = "lithmyc"
+	desc = "Strange green rocks covered in an oily film of metal-liquid, it's quite disgusting."
+	icon_state = "orelithmyc"
+	sellprice = 100
+	smeltresult = /obj/item/ingot/lithmyc
+
 /obj/item/ingot
 	name = "ingot"
 	icon = 'icons/roguetown/items/ore.dmi'
@@ -302,3 +309,10 @@
 	smeltresult = /obj/item/ingot/draconic
 	color = "#70b8ff"
 	sellprice = 333
+
+/obj/item/ingot/lithmyc
+	name = "lithmyc ingot"
+	desc = "A strange green ingot. It seems to be covered in an oily metal-liquid, though it refuses to leave the ingot-shape no matter how you much you try. No one in the region yet knows what the metal can be shaped into, as it's exceedingly stubborn. But, it sure seems priceless."
+	icon_state = "ingotlithmyc"
+	smeltresult = /obj/item/ingot/lithmyc
+	sellprice = 444

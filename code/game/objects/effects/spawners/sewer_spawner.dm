@@ -61,8 +61,8 @@
 
 		//medical
 		/obj/item/needle = 4,
-		/obj/item/natural/cloth = 10,
-		/obj/item/natural/bundle/cloth = 3,
+		/obj/item/natural/cloth/bandage = 10,
+		/obj/item/natural/bundle/cloth/bandage/full = 3,
 
 		//weapons
 		/obj/item/rogueweapon/mace = 2,

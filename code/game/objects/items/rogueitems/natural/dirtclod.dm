@@ -6,6 +6,15 @@
 	throwforce = 0
 	w_class = WEIGHT_CLASS_TINY
 
+/obj/item/natural/dirtclod/snow
+	name = "packed snow"
+	desc = "A handful of snow"
+	icon_state = "snow1"
+
+/obj/item/natural/dirtclod/snow/Initialize()
+	..()
+	icon_state = "snow[rand(1,2)]"
+
 /obj/item/natural/dirtclod/attackby(obj/item/W, mob/user, params)
 	if(istype(W, /obj/item/rogueweapon/shovel))
 		var/obj/item/rogueweapon/shovel/S = W

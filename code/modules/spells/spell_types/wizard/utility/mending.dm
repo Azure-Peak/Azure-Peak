@@ -56,7 +56,7 @@
 
 	I.obj_integrity = min(I.obj_integrity + repair_percent, I.max_integrity)
 	user.visible_message(span_info("[I] glows in a faint mending light."))
-	playsound(I, 'sound/foley/sewflesh.ogg', 50, TRUE, -2)
+	playsound(I, 'sound/magic/mending.ogg', 35, TRUE, -2)
 
 	if(I.obj_integrity >= I.max_integrity)
 		if(I.obj_broken)

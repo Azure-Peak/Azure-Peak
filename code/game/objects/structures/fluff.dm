@@ -1366,6 +1366,99 @@
 		var/diff = power - M.confused
 		M.confused += min(power, diff)
 
+/obj/structure/fluff/psycross/proc/summon_martyr_weapon_tgui(mob/user)
+	if(!user.mind)
+		return
+
+	var/list/weapon_choices = list(
+		"Sword" = CALLBACK(src, PROC_REF(summon_and_equip_sword), user),
+		"Axe" = CALLBACK(src, PROC_REF(summon_and_equip_axe), user),
+		"Mace" = CALLBACK(src, PROC_REF(summon_and_equip_mace), user),
+		"Trident" = CALLBACK(src, PROC_REF(summon_and_equip_spear), user)
+	)
+
+	var/result = tgui_input_list(user, "Choose a martyr weapon to summon:", "Martyr Weapon", weapon_choices)
+
+	if(result && weapon_choices[result])
+		var/datum/callback/selected_callback = weapon_choices[result]
+		selected_callback.Invoke()
+	else
+		to_chat(user, span_warning("No weapon was chosen."))
+
+/obj/structure/fluff/psycross/proc/summon_and_equip_sword(mob/user)
+	var/obj/item/rogueweapon/sword/long/martyr/I = SSroguemachine.martyrweapon
+
+	if(I)
+		I.anti_stall()
+
+	I = new /obj/item/rogueweapon/sword/long/martyr(src.loc)
+	SSroguemachine.martyrweapon = I
+
+	if(user.put_in_hands(I))
+		to_chat(user, span_notice("The martyr sword appears in your hand."))
+	else
+		to_chat(user, span_warning("Your hands are full! The sword falls to the ground."))
+
+	return I
+
+/obj/structure/fluff/psycross/proc/summon_and_equip_axe(mob/user)
+	var/obj/item/rogueweapon/greataxe/steel/doublehead/martyr/I = SSroguemachine.martyrweapon
+
+	if(I)
+		I.anti_stall()
+
+	I = new /obj/item/rogueweapon/greataxe/steel/doublehead/martyr(src.loc)
+	SSroguemachine.martyrweapon = I
+
+	if(user.put_in_hands(I))
+		to_chat(user, span_notice("The martyr axe appears in your hand."))
+	else
+		to_chat(user, span_warning("Your hands are full! The axe falls to the ground."))
+
+	return I
+
+/obj/structure/fluff/psycross/proc/summon_and_equip_mace(mob/user)
+	var/obj/item/rogueweapon/mace/goden/martyr/I = SSroguemachine.martyrweapon
+
+	if(I)
+		I.anti_stall()
+
+	I = new /obj/item/rogueweapon/mace/goden/martyr(src.loc)
+	SSroguemachine.martyrweapon = I
+
+	if(user.put_in_hands(I))
+		to_chat(user, span_notice("The martyr mace appears in your hand."))
+	else
+		to_chat(user, span_warning("Your hands are full! The mace falls to the ground."))
+
+	return I
+
+/obj/structure/fluff/psycross/proc/summon_and_equip_spear(mob/user)
+	var/obj/item/rogueweapon/spear/partizan/martyr/I = SSroguemachine.martyrweapon
+
+	if(I)
+		I.anti_stall()
+
+	I = new /obj/item/rogueweapon/spear/partizan/martyr(src.loc)
+	SSroguemachine.martyrweapon = I
+
+	if(user.put_in_hands(I))
+		to_chat(user, span_notice("The martyr trident appears in your hand."))
+	else
+		to_chat(user, span_warning("Your hands are full! The spear falls to the ground."))
+
+	return I
+
+/obj/structure/fluff/psycross/attack_hand(mob/user)
+	. = ..()
+	if(.)
+		return
+	if(user.job != "Martyr")
+		return
+	if((HAS_TRAIT(user, TRAIT_NOPAIN) && HAS_TRAIT(user, TRAIT_STRENGTH_UNCAPPED) && HAS_TRAIT(user, TRAIT_BLOODLOSS_IMMUNE))) // So that the martyr could not change weapons during his special ability... I do not know how to make it smarter.
+		return
+	summon_martyr_weapon_tgui(user)
+
 /obj/structure/fluff/beach_umbrella/security
 	icon_state = "hos_brella"
 

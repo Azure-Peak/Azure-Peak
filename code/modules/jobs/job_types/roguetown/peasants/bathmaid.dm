@@ -1,7 +1,7 @@
-/datum/job/roguetown/nightmaiden
+/datum/job/roguetown/bathworker
 	title = "Bathhouse Attendant"
 	f_title = "Bathhouse Attendant"
-	flag = WENCH
+	flag = BATHWORKER
 	department_flag = PEASANTS
 	faction = "Station"
 	total_positions = 5
@@ -14,9 +14,9 @@
 
 	tutorial = "Dancing, music, or practicioners of the body. You've worked up a reputation as an entertainer, and sometime in life, the bathmaster has chosen to onboard you for one of these talents. In the bathhouse, your place on the hierarchy is determined by how long you've been in the game - and how much mammon you're worth."
 
-	outfit = /datum/outfit/job/roguetown/nightmaiden
-	advclass_cat_rolls = list(CTAG_NIGHTMAIDEN = 20)
-	display_order = JDO_WENCH
+	outfit = /datum/outfit/job/roguetown/bathworker
+	advclass_cat_rolls = list(CTAG_BATHWORKER = 20)
+	display_order = JDO_BATHWORKER
 	give_bank_account = TRUE
 	can_random = FALSE
 	min_pq = -10
@@ -26,20 +26,20 @@
 	cmode_music = 'sound/music/cmode/towner/combat_towner.ogg'
 	job_traits = list(TRAIT_EMPATH, TRAIT_GOODLOVER, TRAIT_HOMESTEAD_EXPERT)
 	job_subclasses = list(
-		/datum/advclass/nightmaiden,
-		/datum/advclass/nightmaiden/concubine,
-		/datum/advclass/nightmaiden/courtesan
+		/datum/advclass/bathworker,
+		/datum/advclass/bathworker/concubine,
+		/datum/advclass/bathworker/courtesan
 	)
 
-/datum/outfit/job/roguetown/nightmaiden
+/datum/outfit/job/roguetown/bathworker
 	name = "Bathhouse Attendant"
 	// This is just a base outfit, the actual outfits are defined in the advclasses
 
-/datum/advclass/nightmaiden
+/datum/advclass/bathworker
 	name = "Bath Attendant"
 	tutorial = "A fresh initiate, most would decry the humble bath maid as a desperate fool tempting others into bedsheets for money--only sometimes, you say! You work underneath your betters in the communal bathhouse, keeping it and the guests in turn as tidy as they please. Wash laundry, tend mild wounds, and deftly wash your patrons with soap, for this is your craft."
-	outfit = /datum/outfit/job/roguetown/nightmaiden/attendant
-	category_tags = list(CTAG_NIGHTMAIDEN)
+	outfit = /datum/outfit/job/roguetown/bathworker/attendant
+	category_tags = list(CTAG_BATHWORKER)
 	traits_applied = list(TRAIT_NUTCRACKER, TRAIT_CICERONE)
 	subclass_stats = list(
 		STATKEY_CON = 3,
@@ -64,7 +64,7 @@
 		/datum/skill/misc/lockpicking = SKILL_LEVEL_NOVICE,
 	)
 
-/datum/outfit/job/roguetown/nightmaiden/attendant/pre_equip(mob/living/carbon/human/H)
+/datum/outfit/job/roguetown/bathworker/attendant/pre_equip(mob/living/carbon/human/H)
 	..()
 	head = /obj/item/clothing/head/roguetown/cap
 	neck = /obj/item/clothing/neck/roguetown/collar
@@ -88,11 +88,11 @@
 	if(H.mind)
 		SStreasury.give_money_account(ECONOMIC_LOWER_CLASS, H, "Savings.")
 
-/datum/advclass/nightmaiden/concubine
+/datum/advclass/bathworker/concubine
 	name = "Concubine"
 	tutorial = "Unlike your fellow bath attendants who maintain a professional facade, you have abandoned all pretense. You are a prized possession of the nobility, adorned in exotic silks and gold. Your role is to provide companionship, entertainment, and pleasure. Working underneath the finespun courtesans, you're a step above the bath attendants in your craft."
-	outfit = /datum/outfit/job/roguetown/nightmaiden/concubine
-	category_tags = list(CTAG_NIGHTMAIDEN)
+	outfit = /datum/outfit/job/roguetown/bathworker/concubine
+	category_tags = list(CTAG_BATHWORKER)
 	traits_applied = list(TRAIT_LIGHT_STEP, TRAIT_BEAUTIFUL)
 	subclass_stats = list(
 		STATKEY_PER = 3,
@@ -114,7 +114,7 @@
 		/datum/skill/craft/sewing = SKILL_LEVEL_JOURNEYMAN,
 	)
 
-/datum/outfit/job/roguetown/nightmaiden/concubine/pre_equip(mob/living/carbon/human/H)
+/datum/outfit/job/roguetown/bathworker/concubine/pre_equip(mob/living/carbon/human/H)
 	..()
 	beltl = /obj/item/roguekey/nightmaiden
 	beltr = /obj/item/storage/belt/rogue/pouch/coins/poor
@@ -165,11 +165,11 @@
 	if(H.mind)
 		SStreasury.give_money_account(ECONOMIC_LOWER_MIDDLE_CLASS, H, "Savings.")
 
-/datum/advclass/nightmaiden/courtesan
+/datum/advclass/bathworker/courtesan
 	name = "Courtesan"
 	tutorial = "Overcoming mind games, deceit and competition, you came into your own as one of the bathhouse's most prized moneymakers and socialites. Dressed in lavish gifts left behind by your patrons, not just anyone can have you. Under the matron, you do most of the social heavylifting and provide entertainment of all forms - behind a heavy price tag. "
-	outfit = /datum/outfit/job/roguetown/nightmaiden/courtesan
-	category_tags = list(CTAG_NIGHTMAIDEN)
+	outfit = /datum/outfit/job/roguetown/bathworker/courtesan
+	category_tags = list(CTAG_BATHWORKER)
 	traits_applied = list(TRAIT_KEENEARS, TRAIT_BEAUTIFUL)
 	subclass_stats = list(
 		STATKEY_SPD = 3,
@@ -191,7 +191,7 @@
 		/datum/skill/craft/cooking = SKILL_LEVEL_NOVICE,
 	)
 
-/datum/outfit/job/roguetown/nightmaiden/courtesan/pre_equip(mob/living/carbon/human/H)
+/datum/outfit/job/roguetown/bathworker/courtesan/pre_equip(mob/living/carbon/human/H)
 	..()
 	var/pinroll = rand(1, 20)
 	switch(pinroll)

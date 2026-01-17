@@ -123,7 +123,6 @@
 				if(l_sleeve_zone == BODY_ZONE_L_LEG)
 					body_parts_covered &= ~LEG_LEFT
 				l_sleeve_status = SLEEVE_ROLLED
-			return
 		else if(user.zone_selected == r_sleeve_zone)
 			if(r_sleeve_status == SLEEVE_ROLLED)
 				if(r_sleeve_zone == BODY_ZONE_R_ARM)
@@ -137,7 +136,6 @@
 				if(r_sleeve_zone == BODY_ZONE_R_LEG)
 					body_parts_covered &= ~LEG_RIGHT
 				r_sleeve_status = SLEEVE_ROLLED
-			return
 	else
 		if(user.zone_selected == r_sleeve_zone)
 			if(r_sleeve_status == SLEEVE_NOMOD)
@@ -159,9 +157,8 @@
 				var/obj/item/Sr = new salvage_result(get_turf(src))
 				Sr.color = color
 				user.put_in_hands(Sr)
-				return
 			else
-				user.visible_message(span_warning("[user] tries to tear [src]."))
+				user.visible_message(span_warning("[user] tries and fails to tear [src]."), span_warning("You try and fail to tear [src]."))
 				return
 		if(user.zone_selected == l_sleeve_zone)
 			if(l_sleeve_status == SLEEVE_NOMOD)
@@ -183,9 +180,8 @@
 				var/obj/item/Sr = new salvage_result(get_turf(src))
 				Sr.color = color
 				user.put_in_hands(Sr)
-				return
 			else
-				user.visible_message(span_warning("[user] tries to tear [src]."))
+				user.visible_message(span_warning("[user] tries and fails to tear [src]."), span_warning("You try and fail to tear [src]."))
 				return
 	if(loc == L)
 		L.regenerate_clothes()
@@ -548,7 +544,7 @@ BLIND     // can't see anything
 /obj/item/clothing/generate_tooltip(examine_text, showcrits)
 	if(!armor)	// No armor
 		return examine_text
-	
+
 	// Fake armor
 	if(armor.getRating("slash") == 0 && armor.getRating("stab") == 0 && armor.getRating("blunt") == 0 && armor.getRating("piercing") == 0)
 		return examine_text

@@ -1,4 +1,0 @@
-author: "hazelrat"
-delete-after: True
-changes:
-  - bugfix: "Fireplaces now use the correct subtype on all maps."

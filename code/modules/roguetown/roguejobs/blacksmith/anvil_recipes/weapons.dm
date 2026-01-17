@@ -623,6 +623,13 @@
 	additional_items = list(/obj/item/ingot/steel, /obj/item/grown/log/tree/small)
 	created_item = /obj/item/rogueweapon/greataxe/steel
 
+/datum/anvil_recipe/weapons/steel/greataxe/knight
+	name = "Poleaxe, Steel (+1 Steel, +1 Small Log, +1 Cloth)"
+	req_bar = /obj/item/ingot/steel
+	req_blade = /obj/item/blade/steel_axe
+	additional_items = list(/obj/item/ingot/steel, /obj/item/grown/log/tree/small, /obj/item/natural/cloth)
+	created_item = /obj/item/rogueweapon/greataxe/steel/knight
+
 /datum/anvil_recipe/weapons/steel/greataxe/doublehead
 	name = "Double-Headed Greataxe, Steel (+2 Steel, +1 Small Log)"
 	req_bar = /obj/item/ingot/steel

@@ -1,7 +1,7 @@
 /datum/job/roguetown/trader
 	title = "Trader"
 	flag = TRADER
-	department_flag = PEASANTS
+	department_flag = WANDERERS
 	faction = "Station"
 	total_positions = 20
 	spawn_positions = 20

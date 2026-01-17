@@ -3,6 +3,7 @@
 	desc = "A decorative piece of cloth meant to be used as a saddle decoration. This one fits on a Saiga."
 	icon = 'icons/roguetown/items/misc.dmi'
 	icon_state = "caparison"
+	var/caparison_icon = 'icons/roguetown/mob/monster/saiga.dmi'
 	var/caparison_state = "caparison"
 	var/female_caparison_state = "caparison-f"
 	gender = NEUTER

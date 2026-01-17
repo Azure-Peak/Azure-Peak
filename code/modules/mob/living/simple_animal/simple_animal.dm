@@ -290,8 +290,8 @@ GLOBAL_VAR_INIT(farm_animals, FALSE)
 	. = ..()
 	if(ccaparison && stat == CONSCIOUS && !resting)
 		var/caparison_overlay = ccaparison.female_caparison_state && gender == FEMALE ? ccaparison.female_caparison_state : ccaparison.caparison_state
-		var/mutable_appearance/caparison_above_overlay = mutable_appearance(icon, caparison_overlay + "-above", 4.31)
-		add_overlay(caparison_overlay)
+		var/mutable_appearance/caparison_above_overlay = mutable_appearance(ccaparison.caparison_icon, caparison_overlay + "-above", 4.31)
+		add_overlay(icon(ccaparison.caparison_icon, caparison_overlay))
 		add_overlay(caparison_above_overlay)
 
 ///Extra effects to add when the mob is tamed, such as adding a riding component

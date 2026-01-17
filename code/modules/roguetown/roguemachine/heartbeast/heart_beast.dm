@@ -220,6 +220,18 @@
 	.["points"] = heart_component.tech_points
 	.["tier"] = heart_component.language_tier
 
+	var/list/unlocked_data = list()
+	for(var/string_id in SSchimeric_tech.all_tech_nodes)
+		var/datum/chimeric_tech_node/N = SSchimeric_tech.all_tech_nodes[string_id]
+		if(N.unlocked)
+			UNTYPED_LIST_ADD(unlocked_data, list(
+				"name" = N.name,
+				"desc" = N.description,
+				"tier" = N.required_tier,
+			))
+
+ 	.["unlocked"] = unlocked_data
+
 	return .
 
 /obj/structure/roguemachine/chimeric_heart_beast/ui_act(action, list/params, datum/tgui/ui)

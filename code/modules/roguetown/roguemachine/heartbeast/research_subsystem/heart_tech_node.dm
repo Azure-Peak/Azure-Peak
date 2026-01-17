@@ -18,7 +18,7 @@
 /// HEALING MIRACLE TECHS
 /datum/chimeric_tech_node/awaken_healing
 	name = "Awaken divine regeneration"
-	description = "Increases the healing of most healing miracles significantly."
+	description = "Clears the veil weakening healing miracles in this region, improving healing miracles greatly."
 	string_id = "HEAL_TIER1"
 	required_tier = 1
 	cost = 15
