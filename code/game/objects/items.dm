@@ -482,7 +482,7 @@ GLOBAL_VAR_INIT(rpg_loot_items, FALSE)
 	Both multiplication are applied to the base number, and does not multiply each other. Reduced sharpness decrease the contribution of strength\n\
 	Force, combined with armor penetration on an intent determines whether an attack penetrate the target's armor. Armor penetrating attack deals less damage to the armor itself."
 	if(href_list["showforce"])
-		var/output = span_info("Actual Force: ([force]). [additional_explanation]")
+		var/output = span_info("Actual Force: ([force_dynamic]). [additional_explanation]")
 		if(!usr.client.prefs.no_examine_blocks)
 			output = examine_block(output)
 		to_chat(usr, output)
@@ -539,7 +539,7 @@ GLOBAL_VAR_INIT(rpg_loot_items, FALSE)
 			inspec += "\n<b>NO HALVING ON WIELD</b>"
 
 		if(force)
-			inspec += "\n<b>FORCE:</b> [get_force_string(force)] <span class='info'><a href='?src=[REF(src)];showforce=1'>{?}</a></span>"
+			inspec += "\n<b>FORCE:</b> [get_force_string(force_dynamic)] <span class='info'><a href='?src=[REF(src)];showforce=1'>{?}</a></span>"
 		if(gripped_intents && !wielded)
 			if(force_wielded)
 				inspec += "\n<b>WIELDED FORCE:</b> [get_force_string(force_wielded)] <span class='info'><a href='?src=[REF(src)];showforcewield=1'>{?}</a></span>"

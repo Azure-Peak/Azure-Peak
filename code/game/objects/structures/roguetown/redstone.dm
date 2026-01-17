@@ -569,7 +569,7 @@ GLOBAL_LIST_EMPTY(redstone_objs)
 		return
 	else
 		var/obj/item/roguekey/K = I
-		if(K.lockhash == lockhash || istype(K, /obj/item/roguekey/lord)) //master key cares not for lockhashes
+		if(K.lockhash == lockhash || istype(K, /obj/item/roguekey/lord) || istype(K, /obj/item/roguekey/skeleton)) //master key cares not for lockhashes
 			lock_toggle(user)
 			return
 		else

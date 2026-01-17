@@ -89,7 +89,7 @@
 	backr = /obj/item/rogueweapon/mace/cudgel/justice
 	belt = /obj/item/storage/belt/rogue/leather/plaquegold
 	beltr = /obj/item/storage/belt/rogue/pouch/coins/rich
-	beltl = /obj/item/storage/keyring/sheriff
+	beltl = /obj/item/storage/keyring/marshal
 	head = /obj/item/clothing/head/roguetown/chaperon/noble/bailiff
 
 /datum/advclass/marshal/kcommander
@@ -126,7 +126,7 @@
 	backr = /obj/item/rogueweapon/sword/long/oathkeeper
 	belt = /obj/item/storage/belt/rogue/leather
 	beltr = /obj/item/storage/belt/rogue/pouch/coins/rich
-	beltl = /obj/item/storage/keyring/sheriff
+	beltl = /obj/item/storage/keyring/marshal
 	l_hand = /obj/item/rogueweapon/scabbard/sword
 
 /mob/living/carbon/human/proc/request_law()

@@ -20,6 +20,11 @@
 		if(HAS_TRAIT(user, TRAIT_CHUNKYFINGERS))
 			to_chat(user, span_warning("...What?"))
 			return
+		// FAR less aggressive version of chunkyfingers, designed to be used with nudist. Shrimply lets the user still use neat stuff like orison without letting them weaponize.
+		if(HAS_TRAIT(user, TRAIT_GNARLYDIGITS))
+			if(istype(src, /obj/item/rogueweapon) && !istype(src, /obj/item/rogueweapon/werewolf_claw))
+				to_chat(user, span_warning("My fingers are too misshapen to use this puny implement."))
+				return
 	if(tool_behaviour && target.tool_act(user, src, tool_behaviour))
 		return
 	if(pre_attack(target, user, params))
@@ -234,6 +239,16 @@
 			else
 				playsound(M.loc,  "nodmg", 100, FALSE, -1)
 
+		if(M.has_flaw(/datum/charflaw/addiction/thrillseeker))
+			var/datum/component/arousal/CAR = M.GetComponent(/datum/component/arousal)
+			if(CAR)
+				CAR.adjust_arousal(src, 2)
+
+		if(user.has_flaw(/datum/charflaw/addiction/thrillseeker))
+			var/datum/component/arousal/CAR = user.GetComponent(/datum/component/arousal)
+			if(CAR)
+				CAR.adjust_arousal(src, 2)
+				
 	log_combat(user, M, "attacked", src.name, "(INTENT: [uppertext(user.used_intent.name)]) (DAMTYPE: [uppertext(damtype)])")
 	add_fingerprint(user)
 

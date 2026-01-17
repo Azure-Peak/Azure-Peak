@@ -3,6 +3,16 @@
 	stressadd = -1
 	desc = "<span class='green'>I came by myself.</span>"
 
+/datum/stressevent/thrillsex
+	timer = 1 MINUTES
+	stressadd = -1
+	desc = "<span class='green'>I came, but this was not enough.</span>"
+
+/datum/stressevent/thrill
+	timer = 15 MINUTES
+	stressadd = -3
+	desc = "<span class='green'>That fight felt good.</span>"
+
 /datum/stressevent/cumok
 	timer = 10 MINUTES
 	stressadd = -2

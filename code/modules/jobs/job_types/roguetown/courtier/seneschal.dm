@@ -65,7 +65,7 @@
 	saiga_shoes = /obj/item/clothing/shoes/roguetown/horseshoes
 	backl = /obj/item/storage/backpack/rogue/satchel
 	belt = /obj/item/storage/belt/rogue/leather
-	beltr = /obj/item/storage/keyring/servant
+	beltr = /obj/item/storage/keyring/seneschal
 	beltl = /obj/item/storage/belt/rogue/pouch/coins/mid
 	id = /obj/item/scomstone/bad
 	if(should_wear_femme_clothes(H))
@@ -106,7 +106,7 @@
 	saiga_shoes = /obj/item/clothing/shoes/roguetown/horseshoes
 	backl = /obj/item/storage/backpack/rogue/satchel
 	belt = /obj/item/storage/belt/rogue/leather/sash/maid
-	beltr = /obj/item/storage/keyring/servant
+	beltr = /obj/item/storage/keyring/seneschal
 	beltl = /obj/item/storage/belt/rogue/pouch/coins/mid
 	id = /obj/item/scomstone/bad
 	if(H.mind)
@@ -144,7 +144,7 @@
 	saiga_shoes = /obj/item/clothing/shoes/roguetown/horseshoes
 	backl = /obj/item/storage/backpack/rogue/satchel
 	belt = /obj/item/storage/belt/rogue/leather
-	beltr = /obj/item/storage/keyring/servant
+	beltr = /obj/item/storage/keyring/seneschal
 	beltl = /obj/item/storage/belt/rogue/pouch/coins/mid
 	armor = /obj/item/clothing/suit/roguetown/armor/leather/vest/black
 	id = /obj/item/scomstone/bad

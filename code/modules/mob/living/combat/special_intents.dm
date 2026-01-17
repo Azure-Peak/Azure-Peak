@@ -1054,3 +1054,58 @@ tile_coordinates = list(list(1,1), list(-1,1), list(-1,-1), list(1,-1),list(0,0)
 #undef WAVE_3_DELAY
 #undef SPECIAL_AOE_AROUND_ORIGIN
 #undef CUSTOM_TIMER_INDEX
+
+
+/datum/special_intent/upper_cut // 1x1 combo finisher, exposed targets get knocked down and take alot of damage, others take low damage.
+	name = "Upper Cut"
+	desc = "Charge up a devastating strike infront of you, if the target is Exposed they will fall over and be flung back with tremendous damage, if not exposed they will be pushed slightly back.."
+	tile_coordinates = list(list(0,0))
+	post_icon_state = "kick_fx"
+	pre_icon_state = "trap"
+	respect_adjacency = TRUE
+	delay = 1.2 SECONDS
+	cooldown = 30 SECONDS
+	stamcost = 25
+	var/KD_dur = 1 SECONDS
+	var/self_immob_dur = 1.5 SECONDS
+	var/dam = 50
+	var/pixel_z
+	var/prev_pixel_z
+	var/prev_transform
+	var/transform
+
+
+/datum/special_intent/upper_cut/on_create()
+	. = ..()
+	
+	howner.OffBalance(self_immob_dur)
+	howner.Immobilize(self_immob_dur)
+	animate(howner, pixel_z = pixel_z - 4, time = 3) // windup
+	dam = initial(dam)
+	playsound(howner, 'sound/combat/ground_smash_start.ogg', 100, TRUE)
+
+/datum/special_intent/upper_cut/apply_hit(turf/T)
+
+	animate(howner, pixel_z = pixel_z + 12, time = 2) //shoryuken
+	animate(pixel_z = prev_pixel_z, transform = turn(transform, pick(-12, 0, 12)), time=2)
+	animate(transform = prev_transform, time = 0)
+
+	for(var/mob/living/L in get_hearers_in_view(0, T))
+		if(L != howner)
+		
+			var/throwtarget = get_edge_target_turf(howner, get_dir(howner, get_step_away(L, howner)))
+			var/throwdist = 1
+			var/target_zone = BODY_ZONE_CHEST
+
+			if(L.has_status_effect(/datum/status_effect/debuff/exposed)) // big damage and a knockdown if they exposed
+				L.Knockdown(KD_dur)
+				throwdist = rand(2,4)
+				dam = 200 // big damage
+				target_zone = BODY_ZONE_HEAD
+				playsound(howner, 'sound/combat/tf2crit.ogg', 100, TRUE)
+
+			apply_generic_weapon_damage(L, dam, "blunt", target_zone, bclass = BCLASS_BLUNT, no_pen = TRUE)
+			L.safe_throw_at(throwtarget, throwdist, 1, howner, force = MOVE_FORCE_EXTREMELY_STRONG) // small pushback and 50 damage on non exposed
+			
+			playsound(howner, 'sound/combat/hits/punch/punch_hard (2).ogg', 100, TRUE)
+	..()

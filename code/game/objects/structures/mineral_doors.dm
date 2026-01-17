@@ -523,7 +523,7 @@
 		return
 	else
 		var/obj/item/roguekey/K = I
-		if(K.lockhash == lockhash || istype(K, /obj/item/roguekey/lord)) //master key cares not for lockhashes
+		if(K.lockhash == lockhash || istype(K, /obj/item/roguekey/lord) || istype(K, /obj/item/roguekey/skeleton)) //master key cares not for lockhashes
 			lock_toggle(user)
 			if(autobump)
 				src.Open()

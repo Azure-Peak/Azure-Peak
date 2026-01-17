@@ -515,6 +515,15 @@ GLOBAL_LIST_INIT(department_radio_keys, list(
 			var/name_to_highlight = H.nickname
 			if(name_to_highlight && name_to_highlight != "" && name_to_highlight != "Please Change Me")	//We don't need to highlight an unset or blank one.
 				highlighted_message = replacetext_char(message, name_to_highlight, "<b><font color = #[H.highlight_color]>[name_to_highlight]</font></b>")
+
+			if(H != src && message_mode != MODE_WHISPER && H.has_flaw(/datum/charflaw/addiction/clamorous))
+				var/chance = 5
+				if(Zs_yell)
+					chance += 10
+				if(Zs_all)
+					chance += 20
+				if(prob(chance))
+					H.sate_addiction()
 		var/atom/movable/tocheck = AM
 		if(isdullahan(AM))
 			var/mob/living/carbon/human/target = AM
@@ -522,10 +531,10 @@ GLOBAL_LIST_INIT(department_radio_keys, list(
 			tocheck = target_species.headless ? target_species.my_head : AM
 		if(eavesdrop_range && get_dist(source, tocheck) > message_range+keenears && !(the_dead[AM]))
 			AM.Hear(eavesrendered, src, message_language, eavesdropping, , spans, message_mode, original_message)
-		else if(highlighted_message)
-			AM.Hear(rendered, src, message_language, highlighted_message, , spans, message_mode, original_message)
 		else
-			AM.Hear(rendered, src, message_language, message, , spans, message_mode, original_message)
+			AM.Hear(rendered, src, message_language, (highlighted_message ? highlighted_message : message), , spans, message_mode, original_message)
+			
+
 	SEND_GLOBAL_SIGNAL(COMSIG_GLOB_LIVING_SAY_SPECIAL, src, message)
 
 	//speech bubble
