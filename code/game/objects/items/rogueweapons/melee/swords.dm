@@ -788,6 +788,22 @@
 	grid_width = 32
 	grid_height = 96
 
+/obj/item/rogueweapon/sword/short/helenium
+	name = "helenium shortsword"
+	desc = "A truly Xylixian blade. The hilt has bells on the end. It cuts through the air with a horrible, horrible sound..."
+	possible_item_intents = list(/datum/intent/sword/cut/short, /datum/intent/sword/thrust/short, /datum/intent/sword/peel)
+	icon_state = "swordshort"
+	sheathe_icon = "swordshort"
+	gripped_intents = null
+	force = 30
+	minstr = 4
+	wdefense = 8
+	wlength = WLENGTH_SHORT
+	w_class = WEIGHT_CLASS_NORMAL
+	grid_width = 32
+	grid_height = 96
+
+
 /obj/item/rogueweapon/sword/short/kazengun
 	name = "steel kodachi"
 	desc = "A razor-edged sword with a wavy pattern weld apparent on its blade."

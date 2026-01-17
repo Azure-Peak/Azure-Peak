@@ -324,3 +324,9 @@
 	smeltresult = /obj/item/ingot/iron //Smelting the ingot again 'burns away' the fungal temperance, allowing it to be reused for said recipes.
 	color = "#bc9ab7"
 	sellprice = 30 //Rarer to obtain than iron, and feasible to sell off as salvage.
+
+/obj/item/ingot/gold/helenium
+	name = "helenium bar"
+	desc = "A bar of legendary helenium. Nigh impossible to find-- it's said to be blessed by Xylix himself. Why does it jingle when you shake it...?"
+	smeltresult = /obj/item/ingot/gold/helenium
+	sellprice = 500

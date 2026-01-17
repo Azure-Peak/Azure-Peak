@@ -1255,3 +1255,11 @@
 	created_item = /obj/item/rogueweapon/whip/psywhip_lesser
 	additional_items = list(/obj/item/natural/hide/cured, /obj/item/natural/hide/cured, /obj/item/natural/hide/cured)
 	i_type = "Weapons"
+
+// HELENIUM
+
+/datum/anvil_recipe/weapons/sword/short/helenium
+	name = "Helenium Blade"
+	req_bar = /obj/item/ingot/gold/helenium
+	created_item = /obj/item/rogueweapon/sword/short/helenium
+	i_type = "Weapons"
