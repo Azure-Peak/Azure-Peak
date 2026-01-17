@@ -143,20 +143,17 @@ export const ImageGalleryPage = (props) => {
   const {
     img_gallery,
   } = data;
-  
+
   return (
-        <Stack fill justify="space-evenly">
+        <div>
             {img_gallery.map((val) => (
-              <Stack.Item grow key={val}>
-                  <Section align="center">
                   <Image
-                    maxHeight="100%"
-                    maxWidth="100%"
+                    key={val}
+                    maxHeight="600px"
+                    maxWidth="250px"
                     src={resolveAsset(val)}
                   />
-                  </Section>
-              </Stack.Item>
             ))}
-        </Stack>
+        </div>
   );
 };
