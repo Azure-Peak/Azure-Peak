@@ -566,7 +566,11 @@
 				dat += "</td></tr></table>"//Skill table end
 				if(adv_ref.extra_context)
 					dat += "<font color ='#a06c1e'>[adv_ref.extra_context]"
-					dat += "</font>"
+					dat += "<br></font>"
+				
+				if(istype(adv_ref.age_mod))
+					dat += adv_ref.age_mod.get_preview_string()
+
 				dat += "</details>"
 		dat += "<hr>"
 		if(length(job_stats))

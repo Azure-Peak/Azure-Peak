@@ -236,7 +236,7 @@
 	keys = list(/obj/item/roguekey/dungeon, /obj/item/roguekey/garrison, /obj/item/roguekey/warden, /obj/item/roguekey/walls, /obj/item/roguekey/manor, /obj/item/roguekey/armory, /obj/item/roguekey/sergeant)
 
 /obj/item/storage/keyring/guardknight
-	keys = list(/obj/item/roguekey/dungeon, /obj/item/roguekey/garrison, /obj/item/roguekey/walls, /obj/item/roguekey/manor, /obj/item/roguekey/armory, /obj/item/roguekey/knight)
+	keys = list(/obj/item/roguekey/dungeon, /obj/item/roguekey/garrison, /obj/item/roguekey/walls, /obj/item/roguekey/manor, /obj/item/roguekey/knight)
 
 /obj/item/storage/keyring/vtavern
 	keys = list(/obj/item/roguekey/tavern/village, /obj/item/roguekey/roomvi/village, /obj/item/roguekey/roomv/village, /obj/item/roguekey/roomiv/village, /obj/item/roguekey/roomiii/village, /obj/item/roguekey/roomii/village, /obj/item/roguekey/roomi/village)
@@ -255,6 +255,30 @@
 
 /obj/item/storage/keyring/innkeep
 	keys = list(/obj/item/roguekey/tavern, /obj/item/roguekey/tavernkeep, /obj/item/roguekey/roomhunt, /obj/item/roguekey/roomvi, /obj/item/roguekey/roomv, /obj/item/roguekey/roomiv, /obj/item/roguekey/roomiii, /obj/item/roguekey/roomii, /obj/item/roguekey/roomi, /obj/item/roguekey/fancyroomi, /obj/item/roguekey/fancyroomii, /obj/item/roguekey/fancyroomiii, /obj/item/roguekey/fancyroomiv, /obj/item/roguekey/fancyroomv)
+
+/obj/item/storage/keyring/innfancyi // 3 Keys
+	name = "luxury room I keyring"
+	keys = list(/obj/item/roguekey/fancyroomi, /obj/item/roguekey/fancyroomi, /obj/item/roguekey/fancyroomi)
+
+/obj/item/storage/keyring/innfancyii
+	name = "luxury room II keyring"
+	keys = list(/obj/item/roguekey/fancyroomii, /obj/item/roguekey/fancyroomii, /obj/item/roguekey/fancyroomii)
+
+/obj/item/storage/keyring/innfancyiii
+	name = "luxury room III keyring"
+	keys = list(/obj/item/roguekey/fancyroomiii, /obj/item/roguekey/fancyroomiii, /obj/item/roguekey/fancyroomiii)
+
+/obj/item/storage/keyring/innfancyiv
+	name = "luxury room IV keyring"
+	keys = list(/obj/item/roguekey/fancyroomiv, /obj/item/roguekey/fancyroomiv, /obj/item/roguekey/fancyroomiv)
+
+/obj/item/storage/keyring/innfancyv
+	name = "luxury room V keyring"
+	keys = list(/obj/item/roguekey/fancyroomv, /obj/item/roguekey/fancyroomv, /obj/item/roguekey/fancyroomv)
+
+/obj/item/storage/keyring/innhunt // 4 keys
+	name = "HUNT room keyring"
+	keys = list(/obj/item/roguekey/roomhunt, /obj/item/roguekey/roomhunt, /obj/item/roguekey/roomhunt, /obj/item/roguekey/roomhunt)
 
 /obj/item/storage/keyring/priest
 	keys = list(/obj/item/roguekey/priest, /obj/item/roguekey/church, /obj/item/roguekey/graveyard, /obj/item/roguekey/keeper)

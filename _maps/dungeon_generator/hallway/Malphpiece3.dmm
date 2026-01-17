@@ -35,9 +35,6 @@
 "aA" = (
 /obj/item/clothing/suit/roguetown/shirt/tunic/blue,
 /obj/item/clothing/shoes/roguetown/boots/leather,
-/obj/item/clothing/neck/roguetown/psicross/malum,
-/obj/item/clothing/ring/sapphires,
-/obj/item/storage/belt/rogue/leather/plaquesilver,
 /obj/item/rogueweapon/sword/rapier/dec,
 /obj/item/clothing/head/roguetown/hatblu,
 /obj/item/clothing/cloak/raincloak/blue,
@@ -45,6 +42,8 @@
 /obj/effect/mapping_helpers/floor_clothing_equipper,
 /obj/item/clothing/neck/roguetown/psicross/inhumen/aalloy,
 /mob/living/carbon/human/species/skeleton/npc/hard/noequip,
+/obj/item/clothing/ring/topaz,
+/obj/item/storage/belt/rogue/leather/plaquegold,
 /turf/open/floor/rogue/cobblerock,
 /area/rogue/under/tomb/cave)
 "aG" = (

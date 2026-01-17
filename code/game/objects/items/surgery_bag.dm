@@ -16,14 +16,14 @@
 		/obj/item/rogueweapon/surgery/scalpel,
 		/obj/item/rogueweapon/surgery/saw,
 		/obj/item/rogueweapon/surgery/hemostat/first,
-		/obj/item/rogueweapon/surgery/hemostat/second, //Different types for multiple surgery sites. 
+		/obj/item/rogueweapon/surgery/hemostat/second, //Different types for multiple surgery sites.
 		/obj/item/rogueweapon/surgery/hemostat/third,
 		/obj/item/rogueweapon/surgery/retractor,
 		/obj/item/rogueweapon/surgery/retractor,
 		/obj/item/rogueweapon/surgery/bonesetter,
 		/obj/item/rogueweapon/surgery/cautery,
 		/obj/item/rogueweapon/surgery/hammer,
-		/obj/item/natural/bundle/cloth,
+		/obj/item/natural/bundle/cloth/bandage/full,
 		/obj/item/needle
 	)
 
@@ -31,14 +31,14 @@
 	populate_contents = list(
 	/obj/item/rogueweapon/surgery/scalpel,
 	/obj/item/rogueweapon/surgery/saw,
-	/obj/item/rogueweapon/surgery/hemostat/first,  //Different types for multiple surgery sites. 
+	/obj/item/rogueweapon/surgery/hemostat/first,  //Different types for multiple surgery sites.
 	/obj/item/rogueweapon/surgery/hemostat/second,
 	/obj/item/rogueweapon/surgery/hemostat/third,
 	/obj/item/rogueweapon/surgery/retractor,
 	/obj/item/rogueweapon/surgery/retractor,
 	/obj/item/rogueweapon/surgery/bonesetter,
 	/obj/item/rogueweapon/surgery/cautery,
-	/obj/item/natural/bundle/cloth,
+	/obj/item/natural/bundle/cloth/bandage/full,
 	/obj/item/rogueweapon/surgery/hammer,
 	/obj/item/needle/pestra //Gets the special needle!
 	)
@@ -50,6 +50,6 @@
 /obj/item/storage/belt/rogue/pouch/medicine
 	populate_contents = list(
 	/obj/item/needle,
-	/obj/item/natural/bundle/cloth/roll,
+	/obj/item/natural/bundle/cloth/bandage/full,
 	/obj/item/reagent_containers/glass/bottle/alchemical/healthpot
 	)

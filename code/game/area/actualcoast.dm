@@ -1,6 +1,6 @@
-// Actual coastal coastal area
+// Actual coastal coastal area - this is for the harbour, which has no ambushes.
 /area/rogue/outdoors/beach
-	name = "Central Coast"
+	name = "City Harbour"
 	icon_state = "beach"
 	warden_area = TRUE
 	ambientsounds = AMB_BEACH
@@ -9,9 +9,20 @@
 	droning_sound_dusk = 'sound/music/area/septimus.ogg'
 	droning_sound_night = 'sound/music/area/sleeping.ogg'
 	converted_type = /area/rogue/under/lake
-	first_time_text = "CENTRAL COAST"
+	first_time_text = "CITY HARBOUR"
 	deathsight_message = "a windswept shore"
 	detail_text = DETAIL_TEXT_ACTUAL_COAST
+
+// No sea raiders here! The Central Coast is relatively safe.
+/area/rogue/outdoors/beach/central
+	name = "Central Coast"
+	ambush_mobs = list(
+		/mob/living/carbon/human/species/goblin/npc/ambush/sea = 20,
+		/mob/living/simple_animal/hostile/retaliate/rogue/mossback = 10,
+		new /datum/ambush_config/triple_deepone = 30,
+		new /datum/ambush_config/deepone_party = 20,
+	)
+	first_time_text = "CENTRAL COAST"
 
 /area/rogue/outdoors/beach/north
 	name = "Northern Coast"

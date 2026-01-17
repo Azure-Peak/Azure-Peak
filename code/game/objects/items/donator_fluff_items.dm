@@ -242,3 +242,20 @@
 	if(get_detail_color())
 		pic.color = get_detail_color()
 	add_overlay(pic)
+
+//RYAN180602
+/obj/item/caparison/ryan
+	name = "western estates caparison"
+	desc = "To the west, Grenzelhoft. The scrawny coastlines make it hard to lay anchor. The waters flow, regardless."
+	icon = 'icons/clothing/donor_clothes.dmi'
+	icon_state = "ryan_caparison"
+	caparison_icon = 'icons/clothing/onmob/donor_caparisons.dmi'
+	caparison_state = "ryan_caparison"
+	female_caparison_state = "ryan_caparison-f"
+
+/obj/item/clothing/head/roguetown/helmet/heavy/psydonhelm/ryan
+	name = "maimed psydonic helm"
+	desc = "Disavowed lamb, suicidal hero, cursed idiot - Psydon is dead. Will you follow Him to the grave, as a beacon of dying hope, or surrender to temptation?"
+	icon_state = "ryan_maimedhelm"
+	icon = 'icons/clothing/donor_clothes.dmi'
+	mob_overlay_icon = 'icons/clothing/onmob/donor_clothes64.dmi'

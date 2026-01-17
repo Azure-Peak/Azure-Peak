@@ -72,6 +72,7 @@
 	name = "mana bloom"
 	icon_state = "manabloom"
 	desc = "Dense mana that has taken the form of plant life."
+	mob_overlay_icon = 'icons/roguetown/clothing/onmob/head_items.dmi'
 	seed = /obj/item/herbseed/manabloom
 	resistance_flags = FLAMMABLE
 	w_class = WEIGHT_CLASS_SMALL

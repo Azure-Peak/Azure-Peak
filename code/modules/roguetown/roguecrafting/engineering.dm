@@ -173,7 +173,7 @@
 	craftdiff = 3
 
 /datum/crafting_recipe/roguetown/engineering/twentybolts
-	name = "Crossbow Bolts 20x"
+	name = "crossbow bolt (x20)"
 	category = "Ammo"
 	reqs = list(/obj/item/natural/wood/plank = 3, /obj/item/ingot/iron = 1)
 	result = list(/obj/item/ammo_casing/caseless/rogue/bolt,
@@ -276,7 +276,7 @@
 
 //rotational and minecart parts
 /datum/crafting_recipe/roguetown/engineering/shaft
-	name = "wooden shaft(6x)"
+	name = "wooden shaft (6x)"
 	category = "Rotational"
 	result = list(/obj/item/rotation_contraption/shaft,
 				  /obj/item/rotation_contraption/shaft,
@@ -318,7 +318,7 @@
 
 
 /datum/crafting_recipe/roguetown/engineering/waterwheel
-	name = "wooden waterwheel(2x)"
+	name = "wooden waterwheel (2x)"
 	category = "Rotational"
 	result = list(/obj/item/rotation_contraption/waterwheel,
 				  /obj/item/rotation_contraption/waterwheel)
@@ -330,7 +330,7 @@
 	craftdiff = 4
 
 /datum/crafting_recipe/roguetown/engineering/large_cog
-	name = "large wooden cogwheel(2x)"
+	name = "large wooden cogwheel (2x)"
 	category = "Rotational"
 	result = list(/obj/item/rotation_contraption/large_cog,
 				  /obj/item/rotation_contraption/large_cog)
@@ -342,7 +342,7 @@
 	craftdiff = 4
 
 /datum/crafting_recipe/roguetown/engineering/gearbox
-	name = "gearbox(2x)"
+	name = "gearbox (2x)"
 	category = "Rotational"
 	result = list(/obj/item/rotation_contraption/horizontal,
 				  /obj/item/rotation_contraption/horizontal)
@@ -353,7 +353,7 @@
 	craftdiff = 4
 
 /datum/crafting_recipe/roguetown/engineering/vertical_gearbox
-	name = "vertical gearbox(2x)"
+	name = "vertical gearbox (2x)"
 	category = "Rotational"
 	result = list(/obj/item/rotation_contraption/vertical,
 				  /obj/item/rotation_contraption/vertical)
@@ -422,7 +422,7 @@
 
 // ------------ Explosives expansion----------
 /datum/crafting_recipe/roguetown/engineering/tntbomb
-	name = "blastsand sticks"
+	name = "blastpowder stick"
 	category = "Explosives"
 	result = /obj/item/tntstick
 	reqs = list(/obj/item/paper = 2, /obj/item/alch/coaldust = 1, /obj/item/compost = 1, /obj/item/natural/fibers = 1)
@@ -431,7 +431,7 @@
 	craftdiff = 4
 
 /datum/crafting_recipe/roguetown/engineering/satchelbomb
-	name = "blastsand satchel"
+	name = "blastpowder satchel"
 	category = "Explosives"
 	result = /obj/item/satchel_bomb
 	reqs = list(/obj/item/storage/backpack/rogue/satchel  = 1, /obj/item/tntstick = 3, /obj/item/alch/firedust = 1, /obj/item/natural/fibers = 1)
@@ -441,7 +441,7 @@
 
 //increasing the number to reflect the effort it takes to get fyritius and firedust
 /datum/crafting_recipe/roguetown/engineering/impactexplosive
-	name = "explosive grenade"
+	name = "impact grenades (x3)"
 	category = "Explosives"
 	result = list(/obj/item/impact_grenade/explosion,
 				  /obj/item/impact_grenade/explosion,
@@ -452,18 +452,18 @@
 	craftdiff = 4
 
 /datum/crafting_recipe/roguetown/engineering/impactsmoke
-	name = "smoke grenade"
+	name = "smoke grenades (x3)"
 	category = "Explosives"
 	result = list(/obj/item/impact_grenade/smoke, 
 				  /obj/item/impact_grenade/smoke,
 				  /obj/item/impact_grenade/smoke,)
-	reqs =  list(/obj/item/smokeshell= 3, /obj/item/alch/coaldust = 1, /obj/item/ash = 1, /datum/reagent/water = 48)
+	reqs =  list(/obj/item/smokeshell = 3, /obj/item/alch/coaldust = 1, /obj/item/ash = 1, /datum/reagent/water = 48)
 	structurecraft = /obj/machinery/artificer_table
 	skillcraft = /datum/skill/craft/engineering
 	craftdiff = 4
 
 /datum/crafting_recipe/roguetown/engineering/impactpoisonsmoke
-	name = "poison smoke grenade"
+	name = "smoke grenades, poisonous (x3)"
 	category = "Explosives"
 	result = list(/obj/item/impact_grenade/smoke/poison_gas,
 				  /obj/item/impact_grenade/smoke/poison_gas,
@@ -474,7 +474,7 @@
 	craftdiff = 4
 
 /datum/crafting_recipe/roguetown/engineering/impactfiresmoke
-	name = "conflagaration smoke grenade"
+	name = "smoke grenades, incendiary (x3)"
 	category = "Explosives"
 	result = list(/obj/item/impact_grenade/smoke/fire_gas,
 				  /obj/item/impact_grenade/smoke/fire_gas,
@@ -485,7 +485,7 @@
 	craftdiff = 4
 
 /datum/crafting_recipe/roguetown/engineering/impactblindingsmoke
-	name = "blinding smoke grenade"
+	name = "smoke grenades, blinding (x3)"
 	category = "Explosives"
 	result = list(/obj/item/impact_grenade/smoke/blind_gas,
 				  /obj/item/impact_grenade/smoke/blind_gas,
@@ -496,7 +496,7 @@
 	craftdiff = 4
 
 /datum/crafting_recipe/roguetown/engineering/impactmutesmoke
-	name = "mute smoke grenade"
+	name = "smoke grenades, muting (x3)"
 	category = "Explosives"
 	result = list(/obj/item/impact_grenade/smoke/mute_gas,
 				  /obj/item/impact_grenade/smoke/mute_gas,
@@ -507,7 +507,7 @@
 	craftdiff = 4
 
 /datum/crafting_recipe/roguetown/engineering/impacthealingsmoke
-	name = "healing smoke grenade"
+	name = "smoke grenades, healing (x3)"
 	category = "Explosives"
 	result = list(/obj/item/impact_grenade/smoke/healing_gas,
 				  /obj/item/impact_grenade/smoke/healing_gas,

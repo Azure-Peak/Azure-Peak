@@ -58,7 +58,7 @@
 
 /obj/item/clothing/under/roguetown/webs
 	name = "webbing"
-	desc = "a fine webbing made from spidersilk, popular fashion within the underdark"
+	desc = "A fine webbing made from spidersilk, popular fashion within the Underdark."
 	gender = PLURAL
 	icon_state = "webs"
 	item_state = "webs"

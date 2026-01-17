@@ -440,7 +440,7 @@
 	desc = "My home. I watch vigilantly and respond swiftly."
 	icon_state = "guardsman"
 
-/atom/movable/screen/alert/status_effect/buff/barkeepbuff
+/atom/movable/screen/alert/status_effect/buff/innkeeperbuff
 	name = "Vigilant Tavernkeep"
 	desc = "My home. I watch vigilantly and respond swiftly."
 	icon_state = "drunk"
@@ -465,17 +465,17 @@
 	alert_type = /atom/movable/screen/alert/status_effect/buff/wardenbuff
 	effectedstats = list(STATKEY_SPD = 1, STATKEY_PER = 3)
 
-/datum/status_effect/buff/barkeepbuff
-	id = "barkeepbuff"
-	alert_type = /atom/movable/screen/alert/status_effect/buff/barkeepbuff
+/datum/status_effect/buff/innkeeperbuff
+	id = "innkeeperbuff"
+	alert_type = /atom/movable/screen/alert/status_effect/buff/innkeeperbuff
 	effectedstats = list(STATKEY_CON = 1,STATKEY_WIL = 1, STATKEY_SPD = 1, STATKEY_STR = 3)
 
-/datum/status_effect/buff/barkeepbuff/process()
+/datum/status_effect/buff/innkeeperbuff/process()
 
 	.=..()
 	var/area/rogue/our_area = get_area(owner)
 	if(!(our_area.tavern_area))
-		owner.remove_status_effect(/datum/status_effect/buff/barkeepbuff)
+		owner.remove_status_effect(/datum/status_effect/buff/innkeeperbuff)
 
 /datum/status_effect/buff/guardbuffone
 	id = "guardbuffone"
@@ -493,6 +493,13 @@
 	var/area/rogue/our_area = get_area(owner)
 	if(!(our_area.town_area))
 		owner.remove_status_effect(/datum/status_effect/buff/guardbuffone)
+
+/datum/status_effect/buff/anthraxbuff/process()
+
+	.=..()
+	var/area/rogue/our_area = get_area(owner)
+	if(!(our_area.drow_area))
+		owner.remove_status_effect(/datum/status_effect/buff/anthraxbuff)
 
 /datum/status_effect/buff/wardenbuff/process()
 
@@ -599,6 +606,7 @@
 	if(!owner.cmode)
 		stamheal *= 2
 	owner.energy_add(stamheal)
+	owner.adjust_bodytemperature(8)
 
 /datum/status_effect/buff/campfire_stamina/on_remove()
 	owner.remove_filter(CAMPFIRE_BASE_FILTER)
@@ -1246,6 +1254,7 @@
 	//At the moment we have no way of prioritising one signal over the other, it's first-come first-serve. Keep this in mind.
 	RegisterSignal(new_owner, COMSIG_MOB_ITEM_ATTACK, PROC_REF(process_attack))
 	RegisterSignal(new_owner, COMSIG_MOB_ITEM_BEING_ATTACKED, PROC_REF(process_attack))
+	RegisterSignal(new_owner, COMSIG_MOB_ITEM_POST_SWINGDELAY_ATTACKED, PROC_REF(process_attack))
 
 
 	RegisterSignal(new_owner, COMSIG_MOB_ATTACKED_BY_HAND, PROC_REF(process_touch))

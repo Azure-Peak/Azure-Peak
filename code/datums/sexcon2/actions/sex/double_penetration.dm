@@ -1,6 +1,7 @@
 /datum/sex_action/sex/double_penetration
 	name = "Fuck both their holes"
 	stamina_cost = 1.0
+	intensity = 4
 
 /datum/sex_action/sex/double_penetration/shows_on_menu(mob/living/carbon/human/user, mob/living/carbon/human/target)
 	if(user == target)
@@ -40,9 +41,6 @@
 	var/is_knotting = sex_session.do_knot_action
 	user.visible_message(sex_session.spanify_force("[user] [sex_session.get_generic_force_adjective()] [is_knotting ? "knot-fucks" : "fucks"] [target]'s holes together."))
 	playsound(target, sex_session.get_force_sound(), 50, TRUE, -2, ignore_walls = FALSE)
-	// but it still wasnt enough
-	if(istype(target.head, /obj/item/clothing/head/roguetown/jester))
-		playsound(target, SFX_JINGLE_BELLS, 30, TRUE, -2, ignore_walls = FALSE)
 	do_thrust_animate(user, target)
 
 	do_onomatopoeia(user)

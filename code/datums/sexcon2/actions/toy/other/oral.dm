@@ -1,6 +1,7 @@
 /datum/sex_action/toy/other/oral
 	name = "Fuck their mouth with a toy"
 	stamina_cost = 1.0
+	intensity = 3
 
 /datum/sex_action/toy/other/oral/can_perform(mob/living/carbon/human/user, mob/living/carbon/human/target)
 	. = ..()

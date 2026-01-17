@@ -59,3 +59,29 @@
 	name = "crown of salvia"
 	item_state = "salvia_crown"
 	icon_state = "salvia_crown"
+
+/obj/item/flowercrown/matricaria
+	name = "crown of matricaria"
+	item_state = "matricaria_crown"
+	icon_state = "matricaria_crown"
+
+/obj/item/flowercrown/calendula
+	name = "crown of calendula"
+	item_state = "calendula_crown"
+	icon_state = "calendula_crown"
+
+/obj/item/flowercrown/manabloom
+	name = "crown of manabloom"
+	item_state = "manabloom_crown"
+	icon_state = "manabloom_crown"
+
+/obj/item/flowercrown/briar
+	name = "crown of briar thorns"
+	desc = "The pain of wearing it might distract you from the whispers of a mad God overpowering your sanity..."
+	item_state = "briar_crown"
+	icon_state = "briar_crown"
+
+/obj/item/flowercrown/briar/pickup(mob/living/user)
+	. = ..()
+	to_chat(user, span_warning ("The thorns prick me."))
+	user.adjustBruteLoss(4)

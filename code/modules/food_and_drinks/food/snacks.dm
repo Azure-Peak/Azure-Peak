@@ -140,7 +140,7 @@ All foods are distributed among various categories. Use common sense.
 		return FALSE
 	return ..()
 
-/obj/item/reagent_containers/food/snacks/proc/become_rotten(to_color = TRUE)
+/obj/item/reagent_containers/food/snacks/proc/become_rotten(to_color = TRUE, to_rename = TRUE)
 	if(isturf(loc) && istype(get_area(src),/area/rogue/under/town/sewer))
 		if(!istype(src,/obj/item/reagent_containers/food/snacks/smallrat))
 			new /obj/item/reagent_containers/food/snacks/smallrat(loc)
@@ -163,7 +163,8 @@ All foods are distributed among various categories. Use common sense.
 			color = "#6c6897"
 		var/mutable_appearance/rotflies = mutable_appearance('icons/roguetown/mob/rotten.dmi', "rotten")
 		add_overlay(rotflies)
-		name = "rotten [initial(name)]"
+		if(to_rename)
+			name = "rotten [initial(name)]"
 		eat_effect = /datum/status_effect/debuff/rotfood
 		slices_num = 0
 		slice_path = null
@@ -326,7 +327,7 @@ All foods are distributed among various categories. Use common sense.
 							to_chat(eater, span_green("Ah, food fit for my title."))
 
 			// yeomen and courtiers are also used to a better quality of life but are way less picky
-			if (human_eater.is_yeoman() || human_eater.is_courtier())
+			if (human_eater.is_burgher() || human_eater.is_courtier())
 				switch (faretype)
 					if (FARE_IMPOVERISHED)
 						eater.add_stress(/datum/stressevent/noble_bland_food)
