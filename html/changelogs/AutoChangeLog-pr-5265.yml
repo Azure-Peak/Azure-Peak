@@ -1,0 +1,6 @@
+author: "Geevies"
+delete-after: True
+changes:
+  - rscadd: "You can now lower a rope to help someone below you climb. This works similarly to a rope ladder. Click on an open turf from above to lay down the rope. Drag the rope onto yourself to retrieve it. (+5 climbing skill)"
+  - rscadd: "Standing atop a tamed animal now gives you the same climbing bonus as standing on a table or a chair. (+1 climbing skill)"
+  - rscadd: "Having another human in your turf, with combat mode disabled, will also give you a climbing boost. (+1 climbing skill)"

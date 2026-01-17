@@ -51,23 +51,32 @@
 		return FALSE
 	return TRUE
 
-/datum/component/arousal/proc/set_arousal(datum/source, amount)
+/datum/component/arousal/proc/set_arousal(datum/source, amount, forced = FALSE)
 	if(amount > arousal)
 		last_arousal_increase_time = world.time
-	arousal = clamp(amount, 0, MAX_AROUSAL)
+	var/clamp_max = MAX_AROUSAL
+	var/mob/user = parent
+	if(user.has_flaw(/datum/charflaw/addiction/thrillseeker))
+		clamp_max = THRILLSEEKER_EJAC_THRESHOLD
+		if(forced)
+			clamp_max = 50
+	arousal = clamp(amount, 0, clamp_max)
 	update_arousal_effects()
 	try_ejaculate()
 	SEND_SIGNAL(parent, COMSIG_SEX_AROUSAL_CHANGED)
 	return arousal
 
-/datum/component/arousal/proc/adjust_arousal(datum/source, amount)
+/datum/component/arousal/proc/adjust_arousal(datum/source, amount, forced = FALSE)
 	if(arousal_frozen)
 		return arousal
 	if(arousal > 0)
 		arousal *= arousal_multiplier
-	return set_arousal(source, arousal + amount)
+	return set_arousal(source, arousal + amount, forced)
 
 /datum/component/arousal/proc/freeze_arousal(datum/source, freeze_state = null)
+	var/mob/user = parent
+	if(user.has_flaw(/datum/charflaw/addiction/thrillseeker))
+		return
 	if(freeze_state == null)
 		arousal_frozen = !arousal_frozen
 	else
@@ -107,7 +116,11 @@
 	update_erect_state()
 
 /datum/component/arousal/proc/try_ejaculate()
-	if(arousal < PASSIVE_EJAC_THRESHOLD)
+	var/mob/user = parent
+
+	if(arousal < PASSIVE_EJAC_THRESHOLD && !user.has_flaw(/datum/charflaw/addiction/thrillseeker))
+		return
+	if(user.has_flaw(/datum/charflaw/addiction/thrillseeker) && arousal < THRILLSEEKER_EJAC_THRESHOLD_PASSIVE)
 		return
 	if(is_spent())
 		return
@@ -120,7 +133,10 @@
 	var/datum/sex_session/highest_priority = return_highest_priority_action(parent_sessions, parent)
 	var/mob/living/carbon/human/user = highest_priority.user
 	var/mob/living/carbon/human/target = highest_priority.target
-	var/datum/sex_action/action = SEX_ACTION(highest_priority.current_action)
+	var/datum/sex_action/action = SEX_ACTION(highest_priority.current_action)	
+	if(mob.has_flaw(/datum/charflaw/addiction/thrillseeker))
+		after_ejaculation(FALSE, user, target)
+		return	
 	playsound(parent, 'sound/misc/mat/endout.ogg', 50, TRUE, ignore_walls = FALSE)
 	// Special case for when the user has a penis but no testicles
 	if(!mob.getorganslot(ORGAN_SLOT_TESTICLES) && mob.getorganslot(ORGAN_SLOT_PENIS))
@@ -146,6 +162,7 @@
 
 
 /datum/component/arousal/proc/handle_climax(climax_type, mob/living/carbon/human/user, mob/living/carbon/human/target, action)
+
 	switch(climax_type)
 		if("onto")
 			log_combat(user, target, "Came onto the target")
@@ -174,6 +191,13 @@
 	if(!action.masturbation) //If the action's masturbation, no good lover bonus
 		if(HAS_TRAIT(target, TRAIT_GOODLOVER)) //If your partner is a good lover, your climax is more intense
 			intensity += 1
+	if(user.has_flaw(/datum/charflaw/addiction/thrillseeker))
+		var/datum/charflaw/addiction/thrill = user.get_flaw(/datum/charflaw/addiction/thrillseeker)
+		user.playsound_local(user, 'sound/misc/mat/end.ogg', 100)
+		last_ejaculation_time = world.time
+		if(!thrill.sated)
+			user.add_stress(/datum/stressevent/thrillsex)
+		return	
 	user.emote("moan", forced = TRUE)
 	user.playsound_local(user, 'sound/misc/mat/end.ogg', 100)
 	last_ejaculation_time = world.time

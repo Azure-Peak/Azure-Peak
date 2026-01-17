@@ -2815,7 +2815,7 @@
 /obj/structure/closet/crate/roguecloset/dark{
 	keylock = 1;
 	locked = 1;
-	lockid = "garrison"
+	lockid = "walls"
 	},
 /obj/item/clothing/cloak/tabard/stabard/guard,
 /obj/item/clothing/cloak/tabard/stabard/guard,
@@ -34986,7 +34986,7 @@
 /obj/structure/closet/crate/drawer,
 /obj/item/roguekey/priest,
 /obj/item/roguekey/graveyard,
-/obj/item/storage/keyring/priest,
+/obj/item/storage/keyring/church,
 /obj/item/roguekey/church,
 /obj/item/roguekey/church,
 /turf/open/floor/carpet/stellar,
@@ -44173,7 +44173,7 @@
 "kSO" = (
 /obj/structure/mineral_door/wood/donjon{
 	locked = 1;
-	lockid = "garrison";
+	lockid = "walls";
 	name = "squireroom door"
 	},
 /turf/open/floor/rogue/cobble,
@@ -52066,7 +52066,7 @@
 /obj/item/roguekey/manor,
 /obj/item/roguekey/walls,
 /obj/item/roguekey/dungeon,
-/obj/item/roguekey/sheriff,
+/obj/item/roguekey/justiciary,
 /obj/item/roguekey/garrison,
 /obj/item/storage/belt/rogue/leather/steel/tasset,
 /obj/item/roguekey/warden,
@@ -68018,11 +68018,11 @@
 /area/rogue/indoors/town/garrison)
 "qJr" = (
 /obj/structure/closet/crate/drawer,
-/obj/item/roguekey/nightmaiden,
-/obj/item/roguekey/nightmaiden,
-/obj/item/roguekey/nightmaiden,
-/obj/item/roguekey/nightmaiden,
-/obj/item/roguekey/nightman,
+/obj/item/roguekey/bathworker,
+/obj/item/roguekey/bathworker,
+/obj/item/roguekey/bathworker,
+/obj/item/roguekey/bathworker,
+/obj/item/roguekey/bathmaster,
 /obj/structure/mirror,
 /turf/open/floor/rogue/tile/harem2,
 /area/rogue/indoors/town/bath)
@@ -73892,15 +73892,15 @@
 /turf/closed/mineral/rogue/bedrock,
 /area/rogue/outdoors/rtfield/abandonedhotsprings)
 "sjw" = (
-/obj/item/roguekey/nightmaiden{
+/obj/item/roguekey/bathworker{
 	lockid = "bath1";
 	name = "room I key"
 	},
-/obj/item/roguekey/nightmaiden{
+/obj/item/roguekey/bathworker{
 	lockid = "bath2";
 	name = "room II key"
 	},
-/obj/item/roguekey/nightmaiden{
+/obj/item/roguekey/bathworker{
 	lockid = "bath3";
 	name = "room III key"
 	},
@@ -78952,7 +78952,7 @@
 "ttO" = (
 /obj/structure/mineral_door/wood/donjon{
 	locked = 1;
-	lockid = "garrison";
+	lockid = "walls";
 	name = "squireroom door"
 	},
 /turf/open/floor/rogue/blocks,
@@ -81621,7 +81621,7 @@
 /obj/item/roguekey/farm,
 /obj/item/roguekey/tailor,
 /obj/item/roguekey/shop,
-/obj/item/roguekey/nightmaiden,
+/obj/item/roguekey/bathworker,
 /obj/item/roguekey/archive,
 /obj/item/roguekey/apartments/stable1,
 /obj/item/roguekey/apartments/stable2,
@@ -81904,7 +81904,7 @@
 /obj/structure/closet/crate/drawer,
 /obj/item/natural/bundle/cloth/bandage/full,
 /obj/item/needle,
-/obj/item/roguekey/inquisition,
+/obj/item/roguekey/inquisitionmanor,
 /obj/item/clothing/neck/roguetown/psicross/silver,
 /turf/open/floor/carpet/red,
 /area/rogue/indoors/inq/basement)
@@ -84300,9 +84300,9 @@
 "uJC" = (
 /obj/structure/table/wood/long_table/mid/alt,
 /obj/item/paper,
-/obj/item/roguekey/inquisition,
-/obj/item/roguekey/inquisition,
-/obj/item/roguekey/inquisition,
+/obj/item/roguekey/inquisitionmanor,
+/obj/item/roguekey/inquisitionmanor,
+/obj/item/roguekey/inquisitionmanor,
 /obj/structure/fluff/walldeco/painting/seraphina{
 	pixel_y = 32
 	},
@@ -90654,7 +90654,7 @@
 "wmP" = (
 /obj/structure/closet/crate/roguecloset/inn,
 /obj/item/roguekey/armory,
-/obj/item/roguekey/sheriff,
+/obj/item/roguekey/justiciary,
 /obj/item/roguekey/dungeon,
 /obj/item/roguekey/walls,
 /obj/item/roguekey/manor,

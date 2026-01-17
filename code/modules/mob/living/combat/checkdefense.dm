@@ -15,6 +15,11 @@
 		if(client.charging && used_intent.tranged && !used_intent.tshield)
 			return FALSE
 
+	if(has_flaw(/datum/charflaw/addiction/thrillseeker))
+		var/datum/component/arousal/CAR = GetComponent(/datum/component/arousal)
+		if(CAR)
+			CAR.adjust_arousal(src, 2)
+
 	switch(d_intent)
 		if(INTENT_PARRY)
 			return attempt_parry(intenty, user)

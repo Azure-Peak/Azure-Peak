@@ -11,7 +11,8 @@
 					/obj/effect/proc_holder/spell/invoked/avert					= CLERIC_T1,
 					/obj/effect/proc_holder/spell/targeted/locate_dead 			= CLERIC_T1,
 					// /obj/effect/proc_holder/spell/invoked/deaths_door			= CLERIC_T1, // DO NOT RE-ENABLE UNTIL THIS IS FIXED. IT CRASHES CLIENTS.
-					/obj/effect/proc_holder/spell/targeted/abrogation			= CLERIC_T2,
+					// /obj/effect/proc_holder/spell/targeted/abrogation			= CLERIC_T2, // Imagine that, another disabled Necran spell. Replaced with bless_cross for now.
+					/obj/effect/proc_holder/spell/invoked/bless_cross			= CLERIC_T3,
 					/obj/effect/proc_holder/spell/invoked/raise_spirits_vengeance = CLERIC_T2
 	)
 	confess_lines = list(
@@ -55,3 +56,6 @@
 		if(carbon.health <= (carbon.maxHealth * 0.25))
 			*conditional_buff = TRUE
 			*situational_bonus = 2.5
+		if(user.has_status_effect(/datum/status_effect/buff/necran_mists))
+			*conditional_buff = TRUE
+			*situational_bonus += 1.25

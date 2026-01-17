@@ -75,6 +75,9 @@
 			H.visible_message("<font color='white'>The unholy strike weakens the curse temporarily!</font>")
 			to_chat(H, span_userdanger("Silver rebukes my presence! My vitae smolders, and my powers wane!"))
 			H.adjust_fire_stacks(2, /datum/status_effect/fire_handler/fire_stacks/sunder)
+		if(H.has_status_effect(/datum/status_effect/debuff/necran_cross))
+			// Undead weakened by a blessed necran cross are more fragile to divine magycks
+			damage += 20
 		var/mob/living/carbon/human/caster
 		if (ishuman(firer))
 			caster = firer

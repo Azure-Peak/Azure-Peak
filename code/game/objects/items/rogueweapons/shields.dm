@@ -332,6 +332,12 @@
 	grid_height = 64
 	anvilrepair = /datum/skill/craft/weaponsmithing
 
+/obj/item/rogueweapon/shield/buckler/equipped(mob/user, slot, initial)
+	. = ..()
+	if(HAS_TRAIT(user, TRAIT_GNARLYDIGITS))
+		to_chat(user, span_danger("Woe! the handle of the [src] is too small for me to hold onto!"))
+		forceMove(user.loc)
+
 /obj/item/rogueweapon/shield/buckler/examine(mob/living/user)
 	. = ..()
 	. += "Buckler uses the skill of your active weapon to parry. Otherwise it uses your shields skill."

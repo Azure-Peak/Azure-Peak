@@ -210,13 +210,13 @@
 		return
 
 	new /obj/item/rogueweapon/sword/long/judgement(get_turf(src))
-	new /obj/item/clothing/wrists/roguetown/bracers(get_turf(src))
+	new /obj/item/clothing/head/roguetown/helmet/heavy/frogmouth(get_turf(src))
 	new /obj/item/clothing/neck/roguetown/gorget/steel(get_turf(src))
+	new /obj/item/clothing/suit/roguetown/armor/plate/full(get_turf(src))
+	new /obj/item/clothing/wrists/roguetown/bracers(get_turf(src))
+	new /obj/item/clothing/gloves/roguetown/plate(get_turf(src))
 	new /obj/item/storage/belt/rogue/leather/steel/tasset(get_turf(src))
-	new /obj/item/clothing/gloves/roguetown/blacksteel/modern/plategloves(get_turf(src))
-	new /obj/item/clothing/head/roguetown/helmet/blacksteel/modern/armet(get_turf(src))
-	new /obj/item/clothing/shoes/roguetown/boots/blacksteel/modern/plateboots(get_turf(src))
-	new /obj/item/clothing/suit/roguetown/armor/plate/full/blacksteel/modern(get_turf(src))
-	new /obj/item/clothing/under/roguetown/platelegs/blacksteel/modern(get_turf(src))
+	new /obj/item/clothing/under/roguetown/platelegs(get_turf(src))
+	new /obj/item/clothing/shoes/roguetown/boots/armor(get_turf(src))
 	has_spawned_gear = TRUE
 	close()

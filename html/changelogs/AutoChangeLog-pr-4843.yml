@@ -1,0 +1,5 @@
+author: "BurpleBineapple"
+delete-after: True
+changes:
+  - balance: "The Grand Duke/Duchess has TRAIT_DNR."
+  - balance: "Coronating a new Grand Duke/Duchess gives them TRAIT_DNR."

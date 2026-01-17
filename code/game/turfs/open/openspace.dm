@@ -277,6 +277,34 @@ GLOBAL_DATUM_INIT(openspace_backdrop_one_for_all, /atom/movable/openspace_backdr
 
 /turf/open/transparent/openspace/attackby(obj/item/C, mob/user, params)
 	..()
+	if(C.type == /obj/item/rope && isliving(user))
+		var/mob/living/living_user = user
+		living_user.visible_message(span_notice("[living_user] begins to lay down a rope for climbing..."), span_notice("I begin to lay down a rope for climbing..."))
+		if(do_after(living_user, 3 SECONDS, TRUE, target = src))
+			var/turf/target = get_step_multiz(src, DOWN)
+			if(!target)
+				to_chat(living_user, span_warning("There's nowhere to tie the rope here."))
+				return
+			var/obj/structure/rope_ladder/rope = new(target)
+			if(living_user.wallpressed)
+				rope.dir = living_user.dir
+			else
+				rope.dir = get_dir(src, living_user)
+				if(!(rope.dir in GLOB.cardinals))
+					rope.dir = living_user.dir
+			switch(rope.dir)
+				if(NORTH)
+					rope.pixel_y = 20
+				if(SOUTH)
+					rope.layer = ABOVE_MOB_LAYER
+				if(WEST)
+					rope.pixel_x = -12
+				if(EAST)
+					rope.pixel_x = 12
+			living_user.visible_message(span_notice("[living_user] secures the rope to the surface below."), span_notice("I secure the rope to the surface below."))
+			playsound(living_user, 'sound/foley/trap.ogg', 100, TRUE)
+			qdel(C)
+		return
 	if(!CanBuildHere())
 		return
 

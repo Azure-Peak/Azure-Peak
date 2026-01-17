@@ -1,0 +1,5 @@
+author: "Ketrai"
+delete-after: True
+changes:
+  - rscadd: "Necrans have a new T3 miracle, bless cross."
+  - rscdel: "Abrogation miracle has been disabled."

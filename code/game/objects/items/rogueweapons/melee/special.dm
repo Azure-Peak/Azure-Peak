@@ -421,7 +421,7 @@
 	smeltresult = /obj/item/ingot/steel
 	grid_width = 64
 	grid_height = 32
-
+	special = /datum/special_intent/upper_cut
 /obj/item/rogueweapon/knuckles/getonmobprop(tag)
 	. = ..()
 	if(tag)
@@ -1105,3 +1105,84 @@
 	src.container = container
 
 	S.forceMove(container)
+
+// Standard of the keep.
+// Big ol' flag that they keep to give bonuses, used by the manorguard standard bearer.
+/obj/item/rogueweapon/spear/keep_standard
+	name = "ducal standard"
+	desc = "The local lord's banner, fashioned to a blacksteel pike and turned into a deadly instrument of war. \
+	The man who wields this is said to bring great fortune to his house, and those who keep him safe. \
+	<small>Runes glow near the head of the pike. A sure sign of the arcyne.</small>"
+	force = 15
+	force_wielded = 30
+	throwforce = 40 // It'll be funny. Trust.
+	possible_item_intents = list(SPEAR_BASH)
+	gripped_intents = list(/datum/intent/spear/thrust/ducal_standard, /datum/intent/spear/bash/ranged, /datum/intent/mace/smash/eaglebeak) // GET THEM OFF OF ME!!! OOOUGH!!!
+	icon = 'icons/roguetown/weapons/polearms64.dmi'
+	icon_state = "standard"
+	max_blade_int = 200
+	max_integrity = 250
+	smeltresult = /obj/item/ingot/blacksteel
+	resistance_flags = FIRE_PROOF
+	var/active_item = FALSE
+
+/obj/item/rogueweapon/spear/keep_standard/equipped(mob/living/user)
+	. = ..()
+	if(active_item)
+		return
+	active_item = TRUE
+	if(user.job == "Man at Arms")
+		to_chat(user, span_suppradio("The standard's runes pulse, accepting me as its <b>master</b>."))
+		user.change_stat(STATKEY_LCK, 3)
+		user.change_stat(STATKEY_PER, 2)
+		user.add_stress(/datum/stressevent/keep_standard)
+		ADD_TRAIT(user, TRAIT_IGNOREDAMAGESLOWDOWN, TRAIT_GENERIC)
+		if(HAS_TRAIT(user, TRAIT_STANDARD_BEARER))
+			to_chat(user, span_suppradio("<small>It remains ready for your word. You need only ask.</small>"))
+			user.verbs |= /mob/proc/standard_position
+			user.verbs |= /mob/proc/standard_rally
+	else
+		to_chat(user, span_suicide("The standard's runes pulse, rejecting me as its <b>master</b>."))
+
+/obj/item/rogueweapon/spear/keep_standard/dropped(mob/living/user)
+	..()
+	if(!active_item)
+		return
+	active_item = FALSE
+	if(user.job == "Man at Arms")
+		to_chat(user, span_monkeyhive("The standard's runes pulse, rhythmically, as if sad to see you release your control."))
+		user.change_stat(STATKEY_LCK, -3)
+		user.change_stat(STATKEY_PER, -2)
+		user.remove_stress(/datum/stressevent/keep_standard)
+		REMOVE_TRAIT(user, TRAIT_IGNOREDAMAGESLOWDOWN, TRAIT_GENERIC)
+		if(HAS_TRAIT(user, TRAIT_STANDARD_BEARER))
+			to_chat(user, span_monkeyhive("<small>You feel ill. Was that a mistake?</small>"))
+			user.verbs -= /mob/proc/standard_position
+			user.verbs -= /mob/proc/standard_rally
+	else
+		to_chat(user, span_suicide("The standard's runes pulse, as if sighing in relief once I let go."))
+
+//Shameless copy of how clothes handle it.
+/obj/item/rogueweapon/spear/keep_standard/update_icon()
+	cut_overlays()
+	if(get_detail_tag())
+		var/mutable_appearance/pic = mutable_appearance(icon(icon, "[icon_state][detail_tag]"))
+		pic.appearance_flags = RESET_COLOR
+		if(get_detail_color())
+			pic.color = get_detail_color()
+		add_overlay(pic)
+
+/obj/item/rogueweapon/spear/keep_standard/Initialize()
+	. = ..()
+	if(GLOB.lordprimary)
+		lordcolor(GLOB.lordprimary, GLOB.lordsecondary)
+	GLOB.lordcolor += src
+
+/obj/item/rogueweapon/spear/keep_standard/lordcolor(primary, secondary)
+	detail_tag = "_det"
+	detail_color = primary
+	update_icon()
+
+/obj/item/rogueweapon/spear/keep_standard/Destroy()
+	GLOB.lordcolor -= src
+	return ..()

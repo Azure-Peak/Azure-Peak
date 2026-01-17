@@ -26,6 +26,9 @@
 	effective_range_type = EFF_RANGE_NONE
 	sharpness_penalty = 3
 
+/datum/intent/spear/thrust/ducal_standard
+	penfactor = 30
+
 /datum/intent/spear/thrust/militia
 	penfactor = 40
 
