@@ -166,6 +166,9 @@ GLOBAL_LIST_EMPTY(roundstart_races)
 	var/stress_desc = null
 
 	var/punch_damage
+	/// WARNING - This is a very simple implementation. Not meant for carbons composed of limbs!
+	var/custom_rotation_icon = null
+	var/custom_base_icon = null
 
 ///////////
 // PROCS //

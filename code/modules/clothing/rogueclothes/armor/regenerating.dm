@@ -17,11 +17,32 @@
 	/// Holder for timer
 	var/reptimer
 
+	/// To make repairs relative or not.
+	/// In other words, if you use relative repairing then it will use a different repair interval.
+	/// Repair_time becomes how long it will take on average for the armor to fully repair itself.
+	/// In this mode, armor doesn't repair with a flat 20%, but it repairs at a rate relative to the total time set to repair armor on average.
+	var/relative_repair_mode = FALSE
+	var/relative_repair_interval = 15 SECONDS
+
+	/// Auto mode.
+	/// Enables relative repair mode if not enabled.
+	/// Sets the total repair time of the armor to be relative to the base repair amount and time.
+	/// By default, aims to repair 100 armor every 15 seconds.
+	var/auto_repair_mode = FALSE
+	var/auto_repair_mode_triggered = FALSE
+	var/auto_repair_mode_base = 100
+	var/auto_repair_mode_time = 15 SECONDS
+
 	/// Regen interrupt vars
 	var/interrupt_damount
 	var/interrupt_dtype
 	var/interrupt_dflag
 	var/interrupt_ddir
+
+/obj/item/clothing/suit/roguetown/armor/regenerating/Initialize(mapload)
+	. = ..()
+	if(auto_repair_mode)
+		setup_auto_repair()
 
 /obj/item/clothing/suit/roguetown/armor/regenerating/take_damage(damage_amount, damage_type, damage_flag, sound_effect, attack_dir, armor_penetration)
 	..()
@@ -30,22 +51,53 @@
 			return
 		to_chat(loc, span_notice(repairmsg_stop))
 		deltimer(reptimer)
+		reptimer = null
+
+	// If relative repair mode is on, use the interval instead of repairing 20% every repair_time seconds
+	var/wait_time = relative_repair_mode ? relative_repair_interval : repair_time
 
 	to_chat(loc, span_notice(repairmsg_begin))
-	reptimer = addtimer(CALLBACK(src, PROC_REF(armour_regen)), repair_time, TIMER_OVERRIDE|TIMER_UNIQUE|TIMER_STOPPABLE)
+	reptimer = addtimer(CALLBACK(src, PROC_REF(armour_regen)), wait_time, TIMER_OVERRIDE|TIMER_UNIQUE|TIMER_STOPPABLE)
 
-/obj/item/clothing/suit/roguetown/armor/regenerating/proc/armour_regen(var/repair_percent = 0.2 * max_integrity)
+/obj/item/clothing/suit/roguetown/armor/regenerating/proc/armour_regen()
+	reptimer = null
+
 	if(obj_integrity >= max_integrity)
 		to_chat(loc, span_notice(repairmsg_end))
-		if(reptimer)
-			deltimer(reptimer)
 		return
 
-	to_chat(loc, span_notice(repairmsg_continue))
-	obj_integrity = min(obj_integrity + repair_percent, max_integrity)
-	if(obj_broken)
+	var/repair_amount
+	var/next_tick_time
+	var/skin_broken = 0
+	if(obj_integrity == 0)
+		skin_broken = 1
+
+	if(relative_repair_mode)
+		// math: (interval / total time) * max health
+		// example: (5s / 50s) * 100 HP = 10 HP per tick
+		var/repair_ratio = relative_repair_interval / repair_time
+		if(!skin_broken)
+			repair_amount = repair_ratio * max_integrity
+		else
+			repair_amount = 5
+		next_tick_time = relative_repair_interval
+	else
+		// static mode: 20% of max integrity
+		if(!skin_broken)
+			repair_amount = 0.2 * max_integrity
+		else
+			repair_amount = 5
+		next_tick_time = repair_time
+
+	obj_integrity = min(obj_integrity + repair_amount, max_integrity)
+
+	// Fix armor so it can still be interrupted from regenerating
+	if(obj_broken && obj_integrity > 0)
 		obj_fix(full_repair = FALSE)
-	reptimer = addtimer(CALLBACK(src, PROC_REF(armour_regen)), repair_time, TIMER_OVERRIDE|TIMER_UNIQUE|TIMER_STOPPABLE)
+
+	to_chat(loc, span_notice(repairmsg_continue))
+
+	reptimer = addtimer(CALLBACK(src, PROC_REF(armour_regen)), next_tick_time, TIMER_OVERRIDE|TIMER_UNIQUE|TIMER_STOPPABLE)
 
 /obj/item/clothing/suit/roguetown/armor/regenerating/proc/regen_interrupt(damage_amount, damage_type, damage_flag, attack_dir)
 	if(interrupt_damount && interrupt_damount > damage_amount)
@@ -58,6 +110,12 @@
 		return FALSE
 	return TRUE
 
+/obj/item/clothing/suit/roguetown/armor/regenerating/proc/setup_auto_repair()
+	repair_time = (max_integrity / auto_repair_mode_base) * auto_repair_mode_time
+	
+	// Ensure relative mode is on to respect the new calculated repair_time
+	relative_repair_mode = TRUE
+	auto_repair_mode_triggered = TRUE
 
 // SKIN ARMOUR
 

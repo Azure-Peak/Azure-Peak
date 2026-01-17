@@ -381,3 +381,13 @@
 		return isnull(dee_cee) ? prob(tocheck * chance_per_point) : prob(clamp((dee_cee - tocheck) * chance_per_point,0,100))
 	else
 		return isnull(dee_cee) ? prob(tocheck * chance_per_point) : prob(clamp((tocheck - dee_cee) * chance_per_point,0,100))
+
+/mob/living/proc/reset_stats()
+	STASTR = 10
+	STAPER = 10
+	STAINT = 10
+	STACON = 10
+	STAWIL = 10
+	STASPD = 10
+	STALUC = 10
+	return

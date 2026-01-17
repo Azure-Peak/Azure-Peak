@@ -673,7 +673,7 @@
 			draw_bodypart_features = FALSE
 	
 	// Markings overlays
-	if(!skeletonized)
+	if(!skeletonized && draw_bodypart_features)
 		var/list/marking_overlays = get_markings_overlays(override_color)
 		if(marking_overlays)
 			. += marking_overlays
