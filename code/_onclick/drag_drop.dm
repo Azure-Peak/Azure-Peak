@@ -269,13 +269,9 @@
 		charging = 1
 		L.used_intent.on_charge_start()
 		L.update_charging_movespeed(L.used_intent)
-//		L.update_warning(L.used_intent)
 		progress = 0
-
-//		if(L.used_intent.charge_invocation)
-//			sections = 100/L.used_intent.charge_invocation.len
-//		else
-//			sections = null
+		charge_start_time = world.time
+		charge_start_timeofday = world.timeofday
 		sections = null //commented //From what I can tell, this used to be for the mouse icon changing per % of the cast.
 		goal = L.used_intent.get_chargetime() //How much charge to get in order to cast
 		part = 1
