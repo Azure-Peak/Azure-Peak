@@ -604,7 +604,7 @@ GLOBAL_VAR_INIT(farm_animals, FALSE)
 
 /mob/living/simple_animal/proc/drop_loot()
 	for(var/i in loot) // If someone puts a turf in this list I'm going to kill you.
-		var/atom/movable/spawned_loot = new i(loc)
+		new i(loc)
 
 /mob/living/simple_animal/death(gibbed)
 	movement_type &= ~FLYING
