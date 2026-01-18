@@ -1,0 +1,4 @@
+author: "Randall"
+delete-after: True
+changes:
+  - bugfix: "You can no longer use bandages to craft bandages"
