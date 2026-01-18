@@ -166,7 +166,29 @@
 		var/sundering = HAS_TRAIT(owner, TRAIT_SILVER_WEAK) && istype(weapon) && weapon?.is_silver && psyblessed?.is_blessed
 		var/crit_attempt = try_crit(sundering ? BCLASS_SUNDER : bclass, dam, user, zone_precise, silent, crit_message)
 		if(crit_attempt)
+			if(ishuman(owner))
+				var/mob/living/carbon/human/human_owner = owner
+				human_owner.hud_used?.stressies?.flick_pain(TRUE)
+
+			if(user)
+				if(user.has_flaw(/datum/charflaw/addiction/thrillseeker))
+					var/datum/component/arousal/CAR = user.GetComponent(/datum/component/arousal)
+					if(CAR)
+						user.sate_addiction()
+						user.add_stress(/datum/stressevent/thrill)
+						CAR.ejaculate()
+
+				if(owner.has_flaw(/datum/charflaw/addiction/thrillseeker))
+					var/datum/component/arousal/CAR = owner.GetComponent(/datum/component/arousal)
+					if(CAR)
+						owner.sate_addiction()
+						owner.add_stress(/datum/stressevent/thrill)
+						CAR.ejaculate()
+
 			return crit_attempt
+	if(ishuman(owner))
+		var/mob/living/carbon/human/human_owner = owner
+		human_owner.hud_used?.stressies?.flick_pain(FALSE)
 	return dynwound
 
 /obj/item/bodypart/proc/manage_dynamic_wound(bclass, dam, armor)

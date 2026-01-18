@@ -51,6 +51,8 @@
 /datum/status_effect/New(list/arguments)
 	on_creation(arglist(arguments))
 
+// IF YOU NEED TO PASS ARGUMENTS TO THE PROC, TO MODIFY DURATION OR USE SKILLS, IT MUST BE DONE
+// ON THE ON_CREATION!!!!!!
 /datum/status_effect/proc/on_creation(mob/living/new_owner, ...)
 	testing("oncreation")
 	if(new_owner)

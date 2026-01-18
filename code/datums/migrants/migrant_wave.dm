@@ -155,3 +155,12 @@
 	roles = list(
 		/datum/migrant_role/assassin = 4,
 	)
+
+/datum/migrant_wave/gnolls
+	name = "Gnoll raid"
+	downgrade_wave = /datum/migrant_wave/gnolls
+	can_roll = FALSE
+	weight = 12
+	roles = list(
+		/datum/migrant_role/gnoll = 4,
+	)

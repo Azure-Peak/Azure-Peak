@@ -3,9 +3,6 @@
 		return
 	if(user.mind)
 		user.mind.i_know_person(src)
-	if(user.has_flaw(/datum/charflaw/paranoid))	//We hate different species, that are stronger than us, and aren't racist themselves
-		if(dna.species.name != user.dna.species.name && (STASTR - user.STASTR) > 1 && !has_flaw(/datum/charflaw/paranoid))
-			user.add_stress(/datum/stressevent/parastr)
 	if(HAS_TRAIT(user, TRAIT_JESTERPHOBIA) && job == "Jester")
 		user.add_stress(/datum/stressevent/jesterphobia)
 	if(HAS_TRAIT(src, TRAIT_BEAUTIFUL) && user != src)//it doesn't really make sense that you can examine your own face
@@ -175,7 +172,7 @@
 
 		if(name in GLOB.court_agents)
 			var/datum/job/J = SSjob.GetJob(user.mind?.assigned_role)
-			if(J?.department_flag & GARRISON || J?.department_flag & NOBLEMEN)
+			if(J?.department_flag & GARRISON || J?.department_flag & NOBLEMEN || J?.department_flag & COURTIERS || J?.department_flag & RETINUE)
 				. += span_greentext("<b>[m1] an agent of the court!</b>")
 
 		if(user != src && !HAS_TRAIT(src, TRAIT_DECEIVING_MEEKNESS))
@@ -191,17 +188,27 @@
 			if(has_flaw(/datum/charflaw/addiction/alcoholic) && user.has_flaw(/datum/charflaw/addiction/alcoholic))
 				. += span_syndradio("[m1] struggling to hide the hangover, and the stench of spirits. We're alike.")
 
-			if(has_flaw(/datum/charflaw/paranoid) && user.has_flaw(/datum/charflaw/paranoid))
+			if(user.has_flaw(/datum/charflaw/addiction/paranoid))
+				var/datum/charflaw/addiction/paranoid/pflaw = user.get_flaw()
 				if(ishuman(user))
-					var/mob/living/carbon/human/H = user
-					if(dna.species.name == H.dna.species.name)
-						. += span_nicegreen("[m1] privy to the dangers of all these strangers around us. [m1] just as afraid as I am.")
+					if(has_flaw(/datum/charflaw/addiction/paranoid))
+						. += span_nicegreen("[m1] is the kind who sticks to their own. I understand.")
+						user.sate_addiction()
+					else if(pflaw.check_faction(src))
+						. += span_nicegreen("One of my own.")
+						user.sate_addiction()
 					else
-						. += span_nicegreen("[m1] one of the good ones. [m1] just as afraid as I am.")
+						user.add_stress(/datum/stressevent/paracrowd)
+
 			if(has_flaw(/datum/charflaw/addiction/masochist) && user.has_flaw(/datum/charflaw/addiction/sadist))
 				. += span_secradio("[m1] marked by scars inflicted for pleasure. A delectable target for my urges.")
+
 			if(has_flaw(/datum/charflaw/addiction/sadist) && user.has_flaw(/datum/charflaw/addiction/masochist))
 				. += span_secradio("[m1] looking with eyes filled with a desire to inflict pain. So exciting.")
+
+			if(has_flaw(/datum/charflaw/addiction/thrillseeker) && user.has_flaw(/datum/charflaw/addiction/thrillseeker))
+				. += span_rose("[m1] twitching for a thrilling fight. So am I.")
+
 			if(HAS_TRAIT(user, TRAIT_EMPATH) && HAS_TRAIT(src, TRAIT_PERMAMUTE))
 				. += span_notice("[m1] lacks a voice. [m1] is a mute!")
 
@@ -885,11 +892,8 @@
 		app_str = "<details><summary>[span_info("Details")]</summary>"
 
 	for(var/line in lines)
-		var/index = 1
 		app_str += span_info(line)
-		index++
-		if(index != length(lines))
-			app_str += "<br>"
+		app_str += "<br>"
 	if(!(user.client?.prefs?.full_examine))
 		if(length(lines))
 			app_str += "</details>"
@@ -900,6 +904,12 @@
 	if(!appears_dead)
 		if(skipface && user.has_flaw(/datum/charflaw/hunted) && user != src)
 			user.add_stress(/datum/stressevent/hunted)
+
+	if(dna?.species?.type == /datum/species/gnoll)
+		var/mob/living/carbon/human/H = user
+		if(H.dna?.species?.type == /datum/species/gnoll)
+			if(user.advjob)
+				. += span_notice("<i>They are a [advjob] of the pack.</i>")
 
 	var/trait_exam = common_trait_examine()
 	if(!isnull(trait_exam))

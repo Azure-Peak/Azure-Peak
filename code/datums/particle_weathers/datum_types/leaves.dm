@@ -5,8 +5,6 @@
 	gravity 	= list(0, -1, 0.1)
 	friction    = 0.3
 	transform 	= null
-	lifespan = generator("num", 35, 55)
-	fadein = generator("num", 2, 6)
 	//Weather effects, max values
 	maxSpawning            = 25
 	minSpawning            = 3
@@ -19,8 +17,6 @@
 	gravity 	= list(0, -1, 0.1)
 	friction 	= 0.5
 	transform 	= null
-	lifespan = generator("num", 35, 55)
-	fadein = generator("num", 2, 6)
 	//Weather effects, max values
 	maxSpawning            = 30
 	minSpawning            = 5

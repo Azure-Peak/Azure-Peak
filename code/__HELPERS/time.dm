@@ -48,13 +48,17 @@ GLOBAL_VAR_INIT(dayspassed, FALSE)
 				if("dawn")
 					if(prob(25))
 						GLOB.forecast = PARTICLEWEATHER_RAIN
+					if(prob(20) && (SSgamemode.current_storyteller.name == "Eora"))
+						GLOB.forecast = PARTICLEWEATHER_SAKURA
 				if("day")
-					if(prob(5))
-						GLOB.forecast = PARTICLEWEATHER_RAIN
 					if(prob(20))
+						GLOB.forecast = PARTICLEWEATHER_RAIN
+					if(prob(30))
 						GLOB.forecast = PARTICLEWEATHER_LEAVES
+					if(prob(20) && (SSgamemode.current_storyteller.name == "Eora"))
+						GLOB.forecast = PARTICLEWEATHER_SAKURA
 				if("dusk")
-					if(prob(33))
+					if(prob(30))
 						GLOB.forecast = PARTICLEWEATHER_RAIN
 					if(prob(20))
 						GLOB.forecast = PARTICLEWEATHER_LEAVES
@@ -73,6 +77,8 @@ GLOBAL_VAR_INIT(dayspassed, FALSE)
 						SSParticleWeather?.run_weather(pick(/datum/particle_weather/leaves_gentle, /datum/particle_weather/leaves_storm))
 					if(PARTICLEWEATHER_BLOODRAIN)
 						SSParticleWeather?.run_weather(pick(/datum/particle_weather/blood_rain_gentle, /datum/particle_weather/blood_rain_storm))
+					if(PARTICLEWEATHER_SAKURA)
+						SSParticleWeather?.run_weather(pick(/datum/particle_weather/sakura_gentle, /datum/particle_weather/sakura_storm))
 
 		else
 			switch(GLOB.forecast) //end the weather now
@@ -117,7 +123,7 @@ GLOBAL_VAR_INIT(dayspassed, FALSE)
 			if(3)
 				text_to_show = "DAWN OF THE THIRD DAE\nWEDDING'S DAE"
 			if(4)
-				text_to_show = "DAWN OF THE FOURTH DAE\nTHULE'S DAE"
+				text_to_show = "DAWN OF THE FOURTH DAE\nTOLL'S DAE"
 			if(5)
 				text_to_show = "DAWN OF THE FIFTH DAE\nFREYJA'S DAE"
 			if(6)

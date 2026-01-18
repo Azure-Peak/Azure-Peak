@@ -1936,6 +1936,13 @@
 	},
 /turf/open/lava/acid,
 /area/rogue/under/tomb/cave/lava)
+"BC" = (
+/obj/item/clothing/neck/roguetown/psicross/silver{
+	pixel_x = -2;
+	pixel_y = -36
+	},
+/turf/open/floor/rogue/carpet,
+/area/rogue/under/tomb/indoors/royal)
 "BD" = (
 /obj/structure/spider/stickyweb,
 /obj/structure/spider/stickyweb{
@@ -3246,7 +3253,6 @@
 /obj/item/clothing/ring/quartz,
 /obj/item/clothing/suit/roguetown/armor/plate/cuirass/iron,
 /obj/item/rogueweapon/sword/rapier,
-/obj/item/clothing/neck/roguetown/psicross/silver,
 /mob/living/carbon/human/species/skeleton/npc/hard/noequip,
 /turf/open/floor/rogue/carpet,
 /area/rogue/under/tomb/indoors/royal)
@@ -4609,7 +4615,7 @@ Hi
 am
 Ar
 bZ
-Ar
+BC
 Zd
 hr
 Zq

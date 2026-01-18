@@ -26,6 +26,8 @@ GLOBAL_LIST_EMPTY(locked_sex_objects)
 #define COMSIG_SEX_CAN_USE_PENIS "sex_can_use_penis"
 /// Checks if user is considered limp. Return: TRUE/FALSE
 #define COMSIG_SEX_CONSIDERED_LIMP "sex_considered_limp"
+/// Sends a signal whenever the user thrusts, or gets thrusted at
+#define COMSIG_SEX_JOSTLE "sex_jostle"
 
 #define SEX_SPEED_LOW 1
 #define SEX_SPEED_MID 2
@@ -68,6 +70,8 @@ GLOBAL_LIST_EMPTY(locked_sex_objects)
 
 #define MAX_AROUSAL 150
 #define PASSIVE_EJAC_THRESHOLD 108
+#define THRILLSEEKER_EJAC_THRESHOLD 85
+#define THRILLSEEKER_EJAC_THRESHOLD_PASSIVE 80
 #define ACTIVE_EJAC_THRESHOLD 100
 #define SEX_MAX_CHARGE 300
 #define CHARGE_FOR_CLIMAX 100

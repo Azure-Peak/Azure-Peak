@@ -2,7 +2,6 @@
 	title = "Court Magician"
 	flag = WIZARD
 	department_flag = COURTIERS
-	selection_color = JCOLOR_COURTIER
 	faction = "Station"
 	total_positions = 1
 	spawn_positions = 1
@@ -105,7 +104,7 @@
 	shoes = /obj/item/clothing/shoes/roguetown/shortboots
 	saiga_shoes = /obj/item/clothing/shoes/roguetown/horseshoes
 	belt = /obj/item/storage/belt/rogue/leather/plaquesilver
-	beltr = /obj/item/storage/keyring/mage
+	beltr = /obj/item/storage/keyring/magician
 	beltl = /obj/item/storage/magebag/associate
 	id = /obj/item/clothing/ring/gold
 	r_hand = /obj/item/rogueweapon/woodstaff/riddle_of_steel/magos

@@ -1,6 +1,7 @@
 /datum/sex_action/sex/tailpegging_oral
 	name = "Fuck their throat with tail"
 	stamina_cost = 1.0
+	intensity = 3
 
 /datum/sex_action/sex/tailpegging_oral/shows_on_menu(mob/living/carbon/human/user, mob/living/carbon/human/target)
 	if(user == target)

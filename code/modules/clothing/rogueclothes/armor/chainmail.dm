@@ -2,7 +2,7 @@
 /obj/item/clothing/suit/roguetown/armor/chainmail
 	slot_flags = ITEM_SLOT_ARMOR|ITEM_SLOT_SHIRT
 	name = "haubergeon"
-	desc = "A steel maille shirt. Arrows and small daggers go right through the gaps in this."
+	desc = "A maille shirt fashioned from hundreds of interlinked steel rings. Though fragile, it is a coveted article of nobility. When worn beneath a silk blouse, it can thwart an unsuspecting assassin's blow."
 	body_parts_covered = COVERAGE_ALL_BUT_LEGS
 	icon_state = "haubergeon"
 	armor = ARMOR_MAILLE
@@ -18,7 +18,7 @@
 /obj/item/clothing/suit/roguetown/armor/chainmail/iron
 	icon_state = "ihaubergeon"
 	name = "iron haubergeon"
-	desc = "A chain vest made of heavy iron rings. Better than nothing."
+	desc = "A maille shirt fashioned from hundreds of interlinked iron rings. The humble combination of a haubergeon and gambeson is favored amongst Psydonia's levymen, alongside a sharpened spear and a cooled pint of ale."
 	max_integrity = ARMOR_INT_CHEST_MEDIUM_IRON
 	smeltresult = /obj/item/ingot/iron
 
@@ -48,7 +48,7 @@
 /obj/item/clothing/suit/roguetown/armor/chainmail/hauberk
 	slot_flags = ITEM_SLOT_ARMOR|ITEM_SLOT_SHIRT
 	name = "hauberk"
-	desc = "A longer steel maille that protects the legs, still doesn't protect against arrows though."
+	desc = "A maille-aketon of steel, sleeved to cover both the arms and legs. Before Psydonia was blessed with plate armor, these robes of steel cloaked those who swore their oaths to both God and Kingdom, alike."
 	body_parts_covered = COVERAGE_FULL
 	icon_state = "hauberk"
 	item_state = "hauberk"
@@ -59,7 +59,7 @@
 
 /obj/item/clothing/suit/roguetown/armor/chainmail/hauberk/iron
 	name = "iron hauberk"
-	desc = "A longer iron maille that protects the legs, still doesn't protect against arrows though."
+	desc = "A maille-aketon of iron, sleeved to cover both the arms and legs. Amongst the levymen, these robes of iron - while heftier than gambesons - are coveted when facing the monsters who claw-and-bite at nite."
 	icon_state = "ihauberk"
 	item_state = "ihauberk"
 	smeltresult = /obj/item/ingot/iron
@@ -87,7 +87,7 @@
 	armor_class = ARMOR_CLASS_HEAVY
 	armor = ARMOR_CUIRASS
 	name = "psydonic hauberk"
-	desc = "A beautiful steel cuirass, decorated with blessed silver fluting and worn atop thick chainmaille. While it falters against arrows and bolts, these interlinked layers are superb at warding off the blows of inhumen claws and axes. </br>'..the knowledge of evil, and the burden of carrying Psydonia's hope upon thine shoulders..' </br>... </br>With some blessed silver and a blacksmith's assistance, I can turn this hauberk into a set of full-plate armor."
+	desc = "A beautiful steel cuirass, decorated with blessed silver fluting and worn atop thick chainmaille. While it falters against arrows and bolts, these interlinked layers are superb at warding off the blows of inhumen claws and axes. </br>‎  </br>'..the knowledge of evil, and the burden of carrying Psydonia's hope upon thine shoulders..'"
 	icon_state = "ornatehauberk"
 	item_state = "ornatehauberk"
 	max_integrity = ARMOR_INT_CHEST_PLATE_PSYDON

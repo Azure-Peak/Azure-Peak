@@ -3,6 +3,11 @@
 	var/desc = ""
 	var/item_type = null
 	var/held_items = list(0, 0)
+	// The upper and lower limits for random amounts of starting stock, setting any of these overwrites held_items. Only works for remote stock.
+	var/held_random_upper = 0
+	var/held_random_lower = 0
+	// If set, there's a chance this good won't be filled in the stockpile with a starting supply whatsoever, despite held_items or held_random settings. In %. 50 is 50%.
+	var/nothing_chance = 0
 	var/payout_price = 1
 	var/withdraw_price = 1
 	var/transport_fee = 1
@@ -27,6 +32,11 @@
 	..()
 	if(!stable_price)
 		demand = rand(60,140)
+	if(prob(nothing_chance))
+		held_items = list(0, 0)
+	else if(held_random_upper && held_random_upper > held_random_lower)
+		var/starting_stock = rand(held_random_lower, held_random_upper)
+		held_items = list(0, starting_stock)
 	return
 
 /datum/roguestock/proc/get_payout_price(obj/item/I) //treasures modify this based on the price of the treasure

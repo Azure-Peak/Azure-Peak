@@ -1,12 +1,11 @@
 /datum/job/roguetown/farmer
 	title = "Soilson"
-	flag = FARMER
+	flag = SOILSON
 	department_flag = PEASANTS
 	faction = "Station"
 	total_positions = 3
 	spawn_positions = 5
 	display_order = JDO_SOILSON
-	selection_color = JCOLOR_PEASANT
 	allowed_sexes = list(MALE, FEMALE)
 	allowed_races = ACCEPTED_RACES
 	cmode_music = 'sound/music/cmode/towner/combat_towner2.ogg'
@@ -87,3 +86,57 @@
 		shirt = /obj/item/clothing/suit/roguetown/shirt/undershirt/random
 	if(H.mind)
 		SStreasury.give_money_account(ECONOMIC_WORKING_CLASS, H, "Savings.")
+	if(H.mind)
+		var/seeds = list(
+			"Berry seeds" = /obj/item/storage/roguebag/farmer_berries,
+			"Rocknut seeds" = /obj/item/storage/roguebag/farmer_rocknut,
+			"Exotic fruit seeds" = /obj/item/storage/roguebag/farmer_fruits,
+			"Some extra smokes" = /obj/item/storage/roguebag/farmer_smokes,
+		)
+		var/seedbag_names = list()
+		for (var/name in seeds)
+			seedbag_names += name
+		for (var/i = 1 to 2)
+			var/seed_choice = input(H, "Choose your starting seed packs", "Select") as anything in seedbag_names
+			if (i == 1)
+				l_hand = seeds[seed_choice]
+			else
+				r_hand = seeds[seed_choice]
+		H.set_blindness(0)
+
+/obj/item/storage/roguebag/farmer_berries
+	populate_contents = list(
+		/obj/item/seeds/raspberry,
+		/obj/item/seeds/raspberry,
+		/obj/item/seeds/blackberry,
+		/obj/item/seeds/blackberry,
+		/obj/item/seeds/strawberry,
+		/obj/item/seeds/strawberry,
+	)
+
+/obj/item/storage/roguebag/farmer_rocknut
+	populate_contents = list(
+		/obj/item/seeds/nut,
+		/obj/item/seeds/nut,
+		/obj/item/seeds/nut,
+	)
+
+/obj/item/storage/roguebag/farmer_fruits
+	populate_contents = list(
+		/obj/item/seeds/lemon,
+		/obj/item/seeds/lemon,
+		/obj/item/seeds/lime,
+		/obj/item/seeds/lime,
+		/obj/item/seeds/tangerine,
+		/obj/item/seeds/tangerine,
+		/obj/item/seeds/plum,
+		/obj/item/seeds/plum,
+	)
+
+/obj/item/storage/roguebag/farmer_smokes
+	populate_contents = list(
+		/obj/item/seeds/swampweed,
+		/obj/item/seeds/swampweed,
+		/obj/item/seeds/pipeweed,
+		/obj/item/seeds/pipeweed,
+	)

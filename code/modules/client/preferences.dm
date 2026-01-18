@@ -8,6 +8,7 @@ GLOBAL_LIST_EMPTY(chosen_names)
 	var/path
 	var/default_slot = 1				//Holder so it doesn't default to slot 1, rather the last one used
 	var/max_save_slots = 60
+	var/loaded_slot = 1
 
 	//non-preference stuff
 	var/muted = 0
@@ -232,6 +233,8 @@ GLOBAL_LIST_EMPTY(chosen_names)
 	var/rumour
 
 	var/noble_gossip
+
+	var/averse_chosen_faction = "Inquisition"
 
 /datum/preferences/New(client/C)
 	parent = C
@@ -472,6 +475,10 @@ GLOBAL_LIST_EMPTY(chosen_names)
 			else
 				virtuetwo = GLOB.virtues[/datum/virtue/none]
 			dat += "<b>Vice:</b> <a href='?_src_=prefs;preference=charflaw;task=input'>[charflaw]</a><BR>"
+			if(istype(charflaw, /datum/charflaw/averse))
+				if(!averse_chosen_faction)
+					averse_chosen_faction = "Inquisition"
+				dat += "<b>Loathed Group:</b> <a href='?_src_=prefs;preference=charflaw_averse_choice;task=input'>[averse_chosen_faction]</a><BR>"
 			var/datum/faith/selected_faith = GLOB.faithlist[selected_patron?.associated_faith]
 			dat += "<b>Faith:</b> <a href='?_src_=prefs;preference=faith;task=input'>[selected_faith?.name || "FUCK!"]</a><BR>"
 			dat += "<b>Patron:</b> <a href='?_src_=prefs;preference=patron;task=input'>[selected_patron?.name || "FUCK!"]</a><BR>"
@@ -1457,7 +1464,7 @@ Slots: [job.spawn_positions] [job.round_contrib_points ? "RCP: +[job.round_contr
 	else if(href_list["preference"] == "descriptors")
 		show_descriptors_ui(user)
 		return
-	
+
 	else if(href_list["preference"] == "lore_primer")
 		LorePopup(user)
 		return
@@ -2085,7 +2092,7 @@ Slots: [job.spawn_positions] [job.round_contrib_points ? "RCP: +[job.round_contr
 						rumour_display = parsemarkdown_basic(rumour_display, hyperlink = TRUE)
 						msg += "<b>You recall what you heard around Town about [real_name]...</b><br>[rumour_display]"
 					if(length(noble_gossip))
-						if(msg) 
+						if(msg)
 							msg += "<br><br>"
 						var/gossip_display = noble_gossip
 						gossip_display = html_encode(gossip_display)
@@ -2294,7 +2301,7 @@ Slots: [job.spawn_positions] [job.round_contrib_points ? "RCP: +[job.round_contr
 					if(choice)
 						preset_bounty_severity_key = sev_choices[choice]
 					return
-				
+
 				if("preset_bounty_severity_b_key")
 					var/list/sev_choices = list()
 					for(var/key in GLOB.bandit_severities)
@@ -2307,7 +2314,7 @@ Slots: [job.spawn_positions] [job.round_contrib_points ? "RCP: +[job.round_contr
 				if("preset_bounty_crime")
 					preset_bounty_crime = input(user, "What is your crime?", "Crime") as text|null
 					return
-					
+
 				if("update_mutant_colors")
 					update_mutant_colors = !update_mutant_colors
 
@@ -2370,6 +2377,11 @@ Slots: [job.spawn_positions] [job.round_contrib_points ? "RCP: +[job.round_contr
 						if(charflaw.desc)
 							to_chat(user, "<span class='info'>[charflaw.desc]</span>")
 
+				if("charflaw_averse_choice")
+					var/choice = tgui_input_list(user, "Who do you loathe?", "AVERSION", GLOB.averse_factions)
+					if(choice)
+						averse_chosen_faction = choice
+
 				if("race_bonus_select")
 					if(length(pref_species.custom_selection))
 						var/choice = tgui_input_list(user, "What has fate blessed your race with?", "BONUS", pref_species.custom_selection)
@@ -2425,15 +2437,6 @@ Slots: [job.spawn_positions] [job.round_contrib_points ? "RCP: +[job.round_contr
 						skin_tone = listy[new_s_tone]
 						features["mcolor"] = sanitize_hexcolor(skin_tone)
 						try_update_mutant_colors()
-
-				if("charflaw")
-					var/selectedflaw
-					selectedflaw = tgui_input_list(user, "Choose your character's flaw:", "FLAWS", GLOB.character_flaws)
-					if(selectedflaw)
-						charflaw = GLOB.character_flaws[selectedflaw]
-						charflaw = new charflaw()
-						if(charflaw.desc)
-							to_chat(user, span_info("[charflaw.desc]"))
 
 				if("char_accent")
 					var/selectedaccent = tgui_input_list(user, "Choose your character's accent:", "Character Preference", GLOB.character_accents)

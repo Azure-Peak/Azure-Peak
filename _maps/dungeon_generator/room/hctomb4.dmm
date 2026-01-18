@@ -110,7 +110,7 @@
 /turf/open/floor/rogue/ruinedwood/turned,
 /area/rogue/under/tomb/indoors)
 "dp" = (
-/obj/item/natural/rock/random_ore,
+/obj/item/natural/rock/dungeon,
 /turf/open/floor/rogue/cobblerock,
 /area/rogue/under/tomb/cave)
 "dw" = (
@@ -633,6 +633,11 @@
 /obj/effect/dungeon_directional_helper/north,
 /turf/open/floor/rogue/naturalstone,
 /area/rogue/under/tomb)
+"wp" = (
+/obj/effect/decal/cleanable/dirt/dust,
+/obj/effect/spawner/lootdrop/valuable_jewelry_spawner,
+/turf/open/floor/rogue/carpet,
+/area/rogue/under/tomb/indoors/magic)
 "wr" = (
 /turf/open/transparent/openspace,
 /area/rogue/under/tomb/indoors)
@@ -852,6 +857,8 @@
 "GM" = (
 /obj/structure/fluff/railing/border,
 /obj/structure/table/wood/fancy/royalblack,
+/obj/effect/spawner/lootdrop/valuable_jewelry_spawner,
+/obj/effect/spawner/lootdrop/valuable_clutter_spawner,
 /turf/open/floor/rogue/carpet,
 /area/rogue/under/tomb/indoors)
 "GP" = (
@@ -938,7 +945,7 @@
 /turf/open/floor/rogue/twig,
 /area/rogue/under/tomb/indoors)
 "LA" = (
-/obj/item/natural/rock/random_ore,
+/obj/item/natural/rock/dungeon,
 /turf/open/floor/rogue/naturalstone,
 /area/rogue/under/tomb/cave)
 "LR" = (
@@ -1242,7 +1249,7 @@
 /turf/open/floor/rogue/ruinedwood/spiral,
 /area/rogue/under/tomb/indoors)
 "Xv" = (
-/obj/item/natural/rock/random_ore,
+/obj/item/natural/rock/dungeon,
 /mob/living/simple_animal/hostile/retaliate/rogue/bigrat,
 /turf/open/floor/rogue/naturalstone,
 /area/rogue/under/tomb/cave)
@@ -1286,7 +1293,7 @@
 /turf/closed/wall/mineral/rogue/wooddark/vertical,
 /area/rogue/under/tomb/indoors)
 "YO" = (
-/turf/closed/mineral,
+/turf/closed/mineral/random/rogue,
 /area/rogue/under/tomb/cave)
 "YQ" = (
 /obj/structure/table/wood/crafted,
@@ -2531,7 +2538,7 @@ sz
 XV
 ie
 aN
-Sr
+wp
 Nn
 fk
 cy

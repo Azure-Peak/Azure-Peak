@@ -2,7 +2,7 @@
 /datum/job/roguetown/wretch
 	title = "Wretch"
 	flag = WRETCH
-	department_flag = PEASANTS
+	department_flag = ANTAGONIST
 	faction = "Station"
 	total_positions = 5
 	spawn_positions = 5
@@ -44,7 +44,8 @@
 		/datum/advclass/wretch/plaguebearer,
 		/datum/advclass/wretch/pyromaniac,
 		/datum/advclass/wretch/vigilante,
-		/datum/advclass/wretch/blackoakwyrm
+		/datum/advclass/wretch/blackoakwyrm,
+		/datum/advclass/wretch/munitioneer
 	)
 
 /datum/job/roguetown/wretch/after_spawn(mob/living/L, mob/M, latejoin = TRUE)

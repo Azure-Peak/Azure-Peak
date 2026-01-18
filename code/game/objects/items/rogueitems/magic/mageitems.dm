@@ -49,7 +49,18 @@
 		/obj/item/reagent_containers/food/snacks/grown/manabloom,
 		/obj/item/reagent_containers/food/snacks/grown/manabloom
 	)
-
+/obj/item/storage/magebag/starter
+	populate_contents = list(
+		/obj/item/magic/manacrystal,
+		/obj/item/magic/manacrystal,
+		/obj/item/magic/manacrystal,
+		/obj/item/magic/obsidian,
+		/obj/item/magic/obsidian,
+		/obj/item/magic/obsidian,
+		/obj/item/reagent_containers/food/snacks/grown/manabloom,
+		/obj/item/reagent_containers/food/snacks/grown/manabloom,
+		/obj/item/reagent_containers/food/snacks/grown/manabloom
+	)
 /obj/item/chalk
 	name = "stick of chalk"
 	desc = "A stark-white stick of chalk, possibly made from quicksilver. "

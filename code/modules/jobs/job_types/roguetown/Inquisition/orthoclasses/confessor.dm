@@ -4,7 +4,7 @@
 	allowed_sexes = list(MALE, FEMALE)
 	allowed_races = RACES_ALL_KINDS
 	outfit = /datum/outfit/job/roguetown/confessor
-	category_tags = list(CTAG_INQUISITION)
+	category_tags = list(CTAG_ORTHODOXIST)
 	subclass_languages = list(/datum/language/otavan)
 	cmode_music = 'sound/music/cmode/antag/combat_deadlyshadows.ogg'
 	traits_applied = list(
@@ -95,7 +95,7 @@
 	mask = /obj/item/clothing/mask/rogue/facemask/steel/confessor
 	id = /obj/item/clothing/ring/signet/silver
 	backpack_contents = list(
-		/obj/item/roguekey/inquisition = 1,
+		/obj/item/roguekey/inquisitionmanor = 1,
 		/obj/item/rope/inqarticles/inquirycord = 1,
 		/obj/item/lockpickring/mundane = 1,
 		/obj/item/clothing/head/inqarticles/blackbag = 1,

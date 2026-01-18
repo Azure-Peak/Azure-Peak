@@ -37,3 +37,29 @@
 	desc = "At least it cools me off, but what of the modesty?"
 	icon_state = "desertskirt"
 	item_state = "desertskirt"
+
+/obj/item/clothing/under/roguetown/skirt/courtphysician
+	name = "sanguine skirt"
+	desc = "An elegant velvet skirt that does you no good when running to someones aid."
+	icon_state = "docskirt"
+	item_state = "docskirt"
+	icon = 'icons/roguetown/clothing/special/courtphys.dmi'
+	sleeved = 'icons/roguetown/clothing/onmob/helpers/sleeves_courtphys.dmi'
+	mob_overlay_icon = 'icons/roguetown/clothing/special/onmob/courtphys.dmi'
+	detail_tag = "_detail"
+	detail_color = CLOTHING_RED
+	alternate_worn_layer = (SHIRT_LAYER)
+	salvage_result = /obj/item/natural/silk
+
+/obj/item/clothing/under/roguetown/skirt/courtphysician/Initialize()
+	. = ..()
+	update_icon()
+
+/obj/item/clothing/under/roguetown/skirt/courtphysician/update_icon()
+	cut_overlays()
+	if(get_detail_tag())
+		var/mutable_appearance/pic = mutable_appearance(icon(icon, "[icon_state][detail_tag]"))
+		pic.appearance_flags = RESET_COLOR
+		if(get_detail_color())
+			pic.color = get_detail_color()
+		add_overlay(pic)

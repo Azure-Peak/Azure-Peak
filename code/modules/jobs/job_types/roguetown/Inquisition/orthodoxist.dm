@@ -15,7 +15,7 @@
 	min_pq = 5
 	max_pq = null
 	round_contrib_points = 2
-	advclass_cat_rolls = list(CTAG_INQUISITION = 20)
+	advclass_cat_rolls = list(CTAG_ORTHODOXIST = 20)
 	wanderer_examine = FALSE
 	advjob_examine = TRUE
 	give_bank_account = 15

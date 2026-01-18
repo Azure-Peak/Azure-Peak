@@ -11,7 +11,7 @@ GLOBAL_LIST_EMPTY(heretical_players)
 
 /datum/job/roguetown/priest
 	title = "Bishop"
-	flag = PRIEST
+	flag = BISHOP
 	department_flag = CHURCHMEN
 	faction = "Station"
 	total_positions = 1
@@ -27,7 +27,7 @@ GLOBAL_LIST_EMPTY(heretical_players)
 
 	spells = list(/obj/effect/proc_holder/spell/invoked/cure_rot, /obj/effect/proc_holder/spell/self/convertrole/templar, /obj/effect/proc_holder/spell/self/convertrole/monk, /obj/effect/proc_holder/spell/invoked/projectile/divineblast, /obj/effect/proc_holder/spell/invoked/wound_heal, /obj/effect/proc_holder/spell/invoked/takeapprentice)
 	outfit = /datum/outfit/job/roguetown/priest
-	display_order = JDO_PRIEST
+	display_order = JDO_BISHOP
 	give_bank_account = TRUE
 	min_pq = 5 // You should know the basics of things if you're going to lead the town's entire religious sector
 	max_pq = null
@@ -87,7 +87,7 @@ GLOBAL_LIST_EMPTY(heretical_players)
 	shirt = /obj/item/clothing/suit/roguetown/shirt/undershirt/priest
 	pants = /obj/item/clothing/under/roguetown/tights/black
 	shoes = /obj/item/clothing/shoes/roguetown/shortboots
-	beltl = /obj/item/storage/keyring/priest
+	beltl = /obj/item/storage/keyring/church
 	belt = /obj/item/storage/belt/rogue/leather/rope
 	beltr = /obj/item/storage/belt/rogue/pouch/coins/rich
 	id = /obj/item/clothing/ring/active/nomag
@@ -278,7 +278,7 @@ GLOBAL_LIST_EMPTY(heretical_players)
 /datum/job/priest/vice //just used to change the priest title
 	title = "Vice Priest"
 	f_title = "Vice Priestess"
-	flag = PRIEST
+	flag = BISHOP
 	department_flag = CHURCHMEN
 	total_positions = 0
 	spawn_positions = 0
@@ -316,6 +316,7 @@ GLOBAL_LIST_EMPTY(heretical_players)
 		//Coronate new King (or Queen)
 		HU.mind.assigned_role = "Grand Duke"
 		HU.job = "Grand Duke"
+		ADD_TRAIT(HU, TRAIT_DNR, TRAIT_GENERIC) // Consequences, Johnathan.
 		SSticker.set_ruler_mob(HU)
 		SSticker.regentmob = null
 		var/dispjob = mind.assigned_role

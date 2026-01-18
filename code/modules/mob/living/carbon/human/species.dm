@@ -166,6 +166,9 @@ GLOBAL_LIST_EMPTY(roundstart_races)
 	var/stress_desc = null
 
 	var/punch_damage
+	/// WARNING - This is a very simple implementation. Not meant for carbons composed of limbs!
+	var/custom_rotation_icon = null
+	var/custom_base_icon = null
 
 ///////////
 // PROCS //
@@ -1563,16 +1566,27 @@ GLOBAL_LIST_EMPTY(roundstart_races)
 			if(HAS_TRAIT(user, TRAIT_STRONGKICK))
 				target.Knockdown(SHOVE_KNOCKDOWN_HUMAN)
 				var/throwtarget = get_edge_target_turf(user, get_dir(user, get_step_away(target, user)))
-				target.throw_at(throwtarget, 2, 2)
+				if(target.pulling && target.grab_state < GRAB_AGGRESSIVE)
+					target.throw_at(throwtarget, 2, 2)
 				target.visible_message(span_danger("[user.name] kicks [target.name], knocking them back!"),
-				span_danger("I'm knocked back from a kick by [user.name]!"), span_hear("I hear aggressive shuffling followed by a loud thud!"), COMBAT_MESSAGE_RANGE, user)
+				span_danger(
+					"I'm knocked [user.pulledby ? "down" : "back"] from a kick by [user.name]!"), 
+					span_hear("I hear aggressive shuffling followed by a loud thud!"), 
+					COMBAT_MESSAGE_RANGE, 
+					user
+				)
 				to_chat(user, span_danger("I kick [target.name], knocking them back!"))
 				log_combat(user, target, "kicked", "knocking them back")
 
 			else if((stander && target.stamina >= target.max_stamina) || target.IsOffBalanced()) //if you are kicked while fatigued, you are knocked down no matter what
 				target.Knockdown(target.IsOffBalanced() ? SHOVE_KNOCKDOWN_SOLID : 100)
 				target.visible_message(span_danger("[user.name] kicks [target.name], knocking them down!"),
-				span_danger("I'm knocked down from a kick by [user.name]!"), span_hear("I hear aggressive shuffling followed by a loud thud!"), COMBAT_MESSAGE_RANGE, user)
+				span_danger(
+					"I'm knocked down from a kick by [user.name]!"),
+					span_hear("I hear aggressive shuffling followed by a loud thud!"), 
+					COMBAT_MESSAGE_RANGE, 
+					user
+				)
 				to_chat(user, span_danger("I kick [target.name], knocking them down!"))
 				log_combat(user, target, "kicked", "knocking them down")
 

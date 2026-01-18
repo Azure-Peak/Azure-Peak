@@ -407,7 +407,7 @@
 	flag = "piercing"
 	armor_penetration = BULLET_PENETRATION
 	speed = 0.1
-	npc_simple_damage_mult = 2.5 // I know this isn't used in Azure Peak but trust me some downstream guys are going to thank me for this because everything that uses it shoots so fucking slow that even volves are hard to kill.
+	npc_simple_damage_mult = 2 // I know this isn't used in Azure Peak but trust me some downstream guys are going to thank me for this because everything that uses it shoots so fucking slow that even volves are hard to kill.
 
 /obj/item/ammo_casing/caseless/rogue/bullet
 	name = "lead sphere"
@@ -465,12 +465,41 @@
 	flag = "piercing"
 	speed = 2 // I guess slower to be slightly more forgiving to players since they're otherwise aimbots
 
+/obj/projectile/bullet/spider_shroom
+	name = "web glob"
+	damage = 10
+	damage_type = BRUTE
+	icon = 'modular/Mapping/icons/webbing.dmi'
+	icon_state = "webglob"
+	range = 15
+	hitsound = 'sound/combat/hits/hi_arrow2.ogg'
+	embedchance = 0
+	//Will not cause wounds.
+	woundclass = null
+	flag = "piercing"
+	speed = 2
+
 /obj/projectile/bullet/spider/on_hit(target)
 	. = ..()
 	if(ismob(target))
 		var/mob/living/M = target
 		M.apply_status_effect(/datum/status_effect/debuff/exposed)
 		M.Immobilize(15)
+	var/turf/T
+	if(isturf(target))
+		T = target
+	else
+		T = get_turf(target)
+	var/web = locate(/obj/structure/spider/stickyweb/mirespider) in T.contents
+	if(!(web in T.contents))
+		new /obj/structure/spider/stickyweb/mirespider(T)
+
+/obj/projectile/bullet/spider_shroom/on_hit(target)
+	. = ..()
+	if(ismob(target))
+		var/mob/living/M = target
+		M.apply_status_effect(/datum/status_effect/debuff/exposed)
+		M.apply_status_effect(/datum/status_effect/buff/druqks)
 	var/turf/T
 	if(isturf(target))
 		T = target

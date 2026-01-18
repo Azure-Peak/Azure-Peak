@@ -371,3 +371,33 @@
 	desc = span_green("Astrata and her gaze may burn you now, but you distantly remember when it was pleasant to your skin.")
 	timer = 20 SECONDS
 
+/datum/stressevent/xylixian_fate
+	timer = 10 MINUTES
+	stressadd = -2
+	desc = span_green("Xylix spun the thread of fate in my favour! Truly, I am blessed!")
+
+/datum/stressevent/parasol_rain
+	timer = 1 MINUTES
+	stressadd = -2
+	desc = list(span_blue("A covered stroll in the gentle rainfall is quite pleasant."))
+
+/datum/stressevent/parasol_snow
+	timer = 1 MINUTES
+	stressadd = -2
+	desc = list(span_blue("A covered stroll in the gentle snowfall is quite pleasant."))
+
+/datum/stressevent/graggarite_blood_rain
+	timer = 1 MINUTES
+	stressadd = -3
+	desc = list(span_boldred("I SOAKED IN THE BLOOD OF THE THOUSANDS DEAD! GRAGGAR GRAGGAR GRAGGAR!"))
+
+/datum/stressevent/keep_standard
+	stressadd = -4
+	desc = span_aiprivradio("The standard speaks of certainty.")
+	timer = INFINITY
+
+/datum/stressevent/keep_standard_lesser
+	stressadd = -3
+	desc = span_aiprivradio("The standard calls out to me! It knows we're to see victory!")
+	timer = 3 MINUTES
+

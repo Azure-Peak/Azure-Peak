@@ -4,7 +4,7 @@
 	allowed_sexes = list(MALE, FEMALE)
 	allowed_races = RACES_ALL_KINDS
 	outfit = /datum/outfit/job/roguetown/psydoniantemplar
-	category_tags = list(CTAG_INQUISITION)
+	category_tags = list(CTAG_ORTHODOXIST)
 	subclass_languages = list(/datum/language/otavan)
 	cmode_music = 'sound/music/templarofpsydonia.ogg'
 	traits_applied = list(TRAIT_HEAVYARMOR)
@@ -52,7 +52,7 @@
 	belt = /obj/item/storage/belt/rogue/leather/black
 	beltl = /obj/item/storage/belt/rogue/pouch/coins/mid
 	id = /obj/item/clothing/ring/signet/silver
-	backpack_contents = list(/obj/item/roguekey/inquisition = 1,
+	backpack_contents = list(/obj/item/roguekey/inquisitionmanor = 1,
 	/obj/item/paper/inqslip/arrival/ortho = 1)
 
 	H.dna.species.soundpack_m = new /datum/voicepack/male/knight()

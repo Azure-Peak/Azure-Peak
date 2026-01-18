@@ -41,13 +41,21 @@
 	var/mob/living/carbon/human/HU = user
 	var/target_zone = HT.zone_selected
 	var/user_zone = HU.zone_selected
+	var/newcd = (BASE_RCLICK_CD - HU.get_tempo_bonus(TEMPO_TAG_RCLICK_CD_BONUS))
 
 	if(HT.has_status_effect(/datum/status_effect/debuff/baited) || user.has_status_effect(/datum/status_effect/debuff/baitcd))
 		return	//We don't do anything if either of us is affected by bait statuses
 
+	if(!HT.can_see_cone(user) && HT.mind)
+		newcd = 5 SECONDS
+		to_chat(user, span_notice("[HT.p_they()] didn't see me! Nothing happened!"))
+		HU.apply_status_effect(/datum/status_effect/debuff/baitcd, newcd)
+		return
+
 	HU.visible_message(span_danger("[HU] baits an attack from [HT]!"))
-	var/newcd = (BASE_RCLICK_CD - HU.get_tempo_bonus(TEMPO_TAG_RCLICK_CD_BONUS))
+	
 	HU.apply_status_effect(/datum/status_effect/debuff/baitcd, newcd)
+
 
 	if((target_zone != user_zone) || ((target_zone == BODY_ZONE_CHEST) || (user_zone == BODY_ZONE_CHEST))) //Our zones do not match OR either of us is targeting chest.
 		var/guaranteed_fail = TRUE
