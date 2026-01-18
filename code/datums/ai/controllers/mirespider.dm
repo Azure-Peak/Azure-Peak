@@ -11,7 +11,7 @@
         /datum/ai_planning_subtree/target_retaliate,
         /datum/ai_planning_subtree/simple_find_target/closest,
 		/datum/ai_planning_subtree/attack_obstacle_in_path,
-        
+
         /datum/ai_planning_subtree/basic_melee_attack_subtree,
 
         /datum/ai_planning_subtree/simple_self_recovery,
@@ -34,6 +34,10 @@
     planning_subtrees = list(
         /datum/ai_planning_subtree/target_retaliate,
         /datum/ai_planning_subtree/simple_find_target/closest,
+
+        /datum/ai_planning_subtree/basic_melee_attack_subtree,
+        /datum/ai_planning_subtree/attack_obstacle_in_path,
+
         /datum/ai_planning_subtree/basic_ranged_attack_subtree/mirespider_lurker,
         /datum/ai_planning_subtree/find_cocoon_target,
         /datum/ai_planning_subtree/cocoon_target
@@ -53,6 +57,10 @@
     planning_subtrees = list(
         /datum/ai_planning_subtree/target_retaliate,
         /datum/ai_planning_subtree/simple_find_target/closest,
+
+        /datum/ai_planning_subtree/basic_melee_attack_subtree,
+        /datum/ai_planning_subtree/attack_obstacle_in_path,
+
         /datum/ai_planning_subtree/find_cocoon_target,
         /datum/ai_planning_subtree/cocoon_target
     )
@@ -76,7 +84,7 @@
     if (travel)  // Check if travel is defined
         controller.queue_behavior(travel_behavior, BB_TRAVEL_DESTINATION)
         return SUBTREE_RETURN_FINISH_PLANNING  // end here
-    
+
     else if (following)  // If we're following someone
         var/mob/target = following.ai_controller.blackboard[BB_BASIC_MOB_CURRENT_TARGET]
         following.add_follower(pawn)
@@ -143,9 +151,9 @@
     var/mob/living/simple_animal/hostile/rogue/mirespider_lurker/lurker = controller.pawn
     if (lurker)
         lurker.clear_followers_if_any()
-    
+
     controller.queue_behavior(ranged_attack_behavior, BB_BASIC_MOB_CURRENT_TARGET, BB_TARGETTING_DATUM, BB_BASIC_MOB_CURRENT_TARGET_HIDING_LOCATION)
-    return SUBTREE_RETURN_FINISH_PLANNING 
+    return SUBTREE_RETURN_FINISH_PLANNING
 
 /datum/ai_behavior/cocoon_target
     behavior_flags = AI_BEHAVIOR_REQUIRE_REACH | AI_BEHAVIOR_REQUIRE_MOVEMENT
@@ -219,7 +227,7 @@
     if(!QDELETED(target))
         // Busy with something
         return
-    
+
     controller.queue_behavior(behavior, cocoon_target_key, controller.blackboard[BB_BASIC_FOODS], vision_range)
 
 /datum/ai_behavior/find_and_set/cocoon_target
