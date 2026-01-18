@@ -122,7 +122,10 @@ GLOBAL_LIST_EMPTY(icon_state_cache)
 
 /obj/item/var/has_behind_state
 
-/obj/item/proc/generateonmob(tag, prop, behind, mirrored)
+/obj/item/proc/generateonmob(tag, prop, behind = FALSE, mirrored = FALSE, used_index = null)
+	if(!used_index)
+		used_index = icon_state
+
 	var/list/used_prop = prop
 	var/UH = 64
 	var/UW = 64
@@ -132,7 +135,7 @@ GLOBAL_LIST_EMPTY(icon_state_cache)
 	var/skipoverlays = FALSE
 	if(behind)
 		if(isnull(has_behind_state))
-			has_behind_state = check_state_in_icon(icon, "[icon_state]_behind")
+			has_behind_state = check_state_in_icon("[used_index]_behind", icon)
 		if(has_behind_state)
 			blended=icon("icon"=icon, "icon_state"="[icon_state]_behind")
 			skipoverlays = TRUE

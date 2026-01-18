@@ -510,6 +510,7 @@
 		hud_used.action_intent.switch_intent(r_index,l_index,oactive)
 
 /mob/proc/update_a_intents()
+	stop_attack()
 	QDEL_LIST(possible_a_intents)
 	QDEL_LIST(possible_offhand_intents)
 	var/list/intents = list()
@@ -1053,7 +1054,7 @@
 	if(mind)
 		. += mind.assigned_role
 		. += mind.special_role //In case there's something special leftover, try to avoid
-		for(var/datum/antagonist/A in mind.antag_datums)
+		for(var/datum/antagonist/A as anything in mind.antag_datums)
 			. += "[A.type]"
 
 ///Can the mob see reagents inside of containers?

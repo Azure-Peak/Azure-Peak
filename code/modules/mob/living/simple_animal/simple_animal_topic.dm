@@ -10,7 +10,7 @@
 
 		if(length(simple_embedded_objects))
 			msg += "<B>Embedded objects:</B>"
-			for(var/obj/item/embedded in simple_embedded_objects)
+			for(var/obj/item/embedded as anything in simple_embedded_objects)
 				msg += "<a href='?src=[REF(src)];embedded_object=[REF(embedded)]'>[embedded.name]</a>"
 
 		to_chat(usr, span_info("[msg.Join("\n")]"))

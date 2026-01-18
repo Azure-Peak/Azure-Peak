@@ -85,7 +85,7 @@
 	// we do this when we equip and unequip anything to make sure all our flags are set properly
 	var/list/equipped_items = get_equipped_items(FALSE)
 	var/new_flags = NONE
-	for(var/obj/item/thing in equipped_items)
+	for(var/obj/item/thing as anything in equipped_items)
 		if (thing.flags_inv)
 			new_flags |= thing.flags_inv
 	

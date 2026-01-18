@@ -39,6 +39,8 @@ GLOBAL_VAR_INIT(farm_animals, FALSE)
 	var/wander = 1
 	///When set to 1 this stops the animal from moving when someone is pulling it.
 	var/stop_automated_movement_when_pulled = 1
+	///Next time we can perform a grid update (throttled to avoid excessive updates)
+	var/next_grid_update_time = 0
 
 	var/obj/item/handcuffed = null //Whether or not the mob is handcuffed
 	var/obj/item/legcuffed = null  //Same as handcuffs but for legs. Bear traps use this.
@@ -1039,9 +1041,11 @@ GLOBAL_VAR_INIT(farm_animals, FALSE)
 
 /mob/living/simple_animal/Moved()
 	. = ..()
-	update_grid()
+	if(world.time >= next_grid_update_time)
+		update_grid()
 
 /mob/living/simple_animal/proc/update_grid()
+	next_grid_update_time = world.time + 5
 	var/turf/our_turf = get_turf(src)
 	if(isnull(our_turf) || isnull(our_cells))
 		return

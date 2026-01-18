@@ -63,7 +63,10 @@
 		remove_bodypart_feature(existing_feature)
 	bodypart_features += feature
 	if(owner)
-		owner.update_body()
+		if(ishuman(owner))
+			var/mob/living/carbon/human/H = owner
+			H.icon_render_key = null
+		owner.queue_icon_update(PENDING_UPDATE_BODY)
 	return TRUE
 
 /obj/item/bodypart/proc/remove_bodypart_feature(datum/bodypart_feature/feature)
@@ -71,7 +74,10 @@
 		return
 	bodypart_features -= feature
 	if(owner)
-		owner.update_body()
+		if(ishuman(owner))
+			var/mob/living/carbon/human/H = owner
+			H.icon_render_key = null
+		owner.queue_icon_update(PENDING_UPDATE_BODY)
 	return
 
 /obj/item/bodypart/proc/remove_all_bodypart_features()
@@ -79,7 +85,10 @@
 		return
 	bodypart_features.Cut()
 	if(owner)
-		owner.update_body()
+		if(ishuman(owner))
+			var/mob/living/carbon/human/H = owner
+			H.icon_render_key = null
+		owner.queue_icon_update(PENDING_UPDATE_BODY)
 
 /mob/living/carbon/proc/remove_all_bodypart_features()
 	for(var/obj/item/bodypart/bodypart as anything in bodyparts)

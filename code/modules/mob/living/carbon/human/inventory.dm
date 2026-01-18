@@ -237,6 +237,8 @@
 	. = ..() //See mob.dm for an explanation on this and some rage about people copypasting instead of calling ..() like they should.
 	if(!. || !I)
 		return
+	if(index)
+		update_a_intents()
 	if(IS_WEAKREF_OF(I, offered_item_ref))
 		stop_offering_item()
 	if(index && !QDELETED(src) && dna.species.mutanthands) //hand freed, fill with claws, skip if we're getting deleted.
