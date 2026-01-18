@@ -1898,6 +1898,7 @@
 #include "code\modules\language\slime.dm"
 #include "code\modules\language\swarmer.dm"
 #include "code\modules\language\xenocommon.dm"
+#include "code\modules\language\roguetown\abyssal.dm"
 #include "code\modules\language\roguetown\beast.dm"
 #include "code\modules\language\roguetown\dwarf.dm"
 #include "code\modules\language\roguetown\elf.dm"

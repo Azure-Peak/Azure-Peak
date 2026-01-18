@@ -61,6 +61,7 @@
 #define SPAN_GEN "say"
 #define SPAN_ORATOR "orator"
 #define SPAN_DWARF "dwarf"
+#define SPAN_ABYSS "abyssal"
 #define SPAN_ELF "elf"
 #define SPAN_SAND "sandspeak"
 #define SPAN_DELF "delf"

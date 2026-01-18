@@ -133,6 +133,7 @@
 			neck = /obj/item/clothing/neck/roguetown/psicross/noc
 		if(/datum/patron/divine/abyssor)
 			neck = /obj/item/clothing/neck/roguetown/psicross/abyssor
+			H.grant_language(/datum/language/abyssal)
 		if(/datum/patron/divine/dendor)
 			neck = /obj/item/clothing/neck/roguetown/psicross/dendor
 			H.cmode_music = 'sound/music/cmode/garrison/combat_warden.ogg' // see: druid.dm
@@ -332,6 +333,7 @@
 			wrists = /obj/item/clothing/neck/roguetown/psicross/noc
 		if(/datum/patron/divine/abyssor)
 			wrists = /obj/item/clothing/neck/roguetown/psicross/abyssor
+			H.grant_language(/datum/language/abyssal)
 		if(/datum/patron/divine/dendor)
 			wrists = /obj/item/clothing/neck/roguetown/psicross/dendor
 			H.cmode_music = 'sound/music/cmode/garrison/combat_warden.ogg' // see: druid.dm
@@ -476,6 +478,7 @@
 			neck = /obj/item/clothing/neck/roguetown/psicross/noc
 		if(/datum/patron/divine/abyssor)
 			neck = /obj/item/clothing/neck/roguetown/psicross/abyssor
+			H.grant_language(/datum/language/abyssal)
 		if(/datum/patron/divine/dendor)
 			neck = /obj/item/clothing/neck/roguetown/psicross/dendor
 			H.cmode_music = 'sound/music/cmode/garrison/combat_warden.ogg' // see: druid.dm
@@ -623,6 +626,7 @@
 			neck = /obj/item/clothing/neck/roguetown/psicross/noc
 		if(/datum/patron/divine/abyssor)
 			neck = /obj/item/clothing/neck/roguetown/psicross/abyssor
+			H.grant_language(/datum/language/abyssal)
 		if(/datum/patron/divine/dendor)
 			neck = /obj/item/clothing/neck/roguetown/psicross/dendor
 			H.cmode_music = 'sound/music/cmode/garrison/combat_warden.ogg' // see: druid.dm
