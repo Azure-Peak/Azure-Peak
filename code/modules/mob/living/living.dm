@@ -1837,6 +1837,7 @@
 			layer = initial(layer)
 	update_cone_show()
 	update_transform()
+	lying_prev = lying
 
 	// Movespeed mods based on arms/legs quantity
 	if(!get_leg_ignore())

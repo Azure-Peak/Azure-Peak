@@ -6,7 +6,16 @@
 	var/changed = 0
 	if(lying != lying_prev && rotate_on_lying)
 		changed++
-		ntransform.TurnTo(lying_prev , lying)
+		if(src.dna?.species?.custom_rotation_icon)
+			var/mob/living/carbon/human/H = src
+			if(!(src.mobility_flags & MOBILITY_STAND))
+				src.icon_state = "[src.dna?.species?.custom_base_icon]_down"
+				H.update_inv_armor_special()
+			else
+				src.icon_state = src.dna?.species?.custom_base_icon
+				H.update_inv_armor_special()
+		else
+			ntransform.TurnTo(lying_prev, lying)
 		if(!lying) //Lying to standing
 			final_pixel_y = get_standard_pixel_y_offset()
 		else //if(lying != 0)
@@ -29,6 +38,7 @@
 			pixel_x = get_standard_pixel_x_offset()
 			pixel_y = final_pixel_y
 		dir = final_dir
+		setMovetype(movement_type & ~FLOATING)  // If we were without gravity, the bouncing animation got stopped, so we make sure we restart it in next life().
 		update_vision_cone()
 	else
 		// Only reset pixel_x if we're not in a custom pixel shift
