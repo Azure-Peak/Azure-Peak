@@ -209,7 +209,6 @@ GLOBAL_VAR_INIT(farm_animals, FALSE)
 		AddSpell(newspell)
 
 /mob/living/simple_animal/Destroy()
-	our_cells = null
 	GLOB.simple_animals[AIStatus] -= src
 	SSnpcpool.currentrun -= src
 
@@ -229,7 +228,8 @@ GLOBAL_VAR_INIT(farm_animals, FALSE)
 	if (T && AIStatus == AI_Z_OFF)
 		SSidlenpcpool.idle_mobs_by_zlevel[T.z] -= src
 
-	return ..()
+	. = ..()
+	our_cells = null
 
 /mob/living/simple_animal/examine(mob/user)
 	. = ..()
@@ -603,9 +603,8 @@ GLOBAL_VAR_INIT(farm_animals, FALSE)
 	return //RTCHANGE
 
 /mob/living/simple_animal/proc/drop_loot()
-	if(loot.len)
-		for(var/i in loot)
-			new i(loc)
+	for(var/i in loot) // If someone puts a turf in this list I'm going to kill you.
+		var/atom/movable/spawned_loot = new i(loc)
 
 /mob/living/simple_animal/death(gibbed)
 	movement_type &= ~FLYING
