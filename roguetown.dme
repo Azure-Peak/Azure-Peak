@@ -3036,6 +3036,5 @@
 #include "modular_twilight_axis\lore\code\objects\objects_desc.dm"
 #include "modular_twilight_axis\lore\code\objects\ritechalk.dm"
 #include "modular_twilight_axis\lore\code\objects\ritualcircles.dm"
-#include "modular_twilight_axis\lore\code\species_types\roguetown_species.dm"
 #include "modular_twilight_axis\lore\code\tips\time.dm"
 // END_INCLUDE

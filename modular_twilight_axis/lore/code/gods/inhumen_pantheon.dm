@@ -80,13 +80,6 @@
 		"ЗИЗО СПАСЕТ НАС ОТ СТРАДАНИЙ!",
 	)
 
-/datum/patron/inhumen/zizo/post_equip(mob/living/pious)
-	. = ..()
-	if(ishuman(pious))
-		var/mob/living/carbon/human/human = pious
-		if(human.mind)
-			human.mind.special_items["Lexicon of Her Truth"] = /obj/item/book/rogue/bibble/zizo
-
 /datum/patron/inhumen/graggar
 	name = "Graggar"
 	translated_name = "Граггар"
@@ -147,9 +140,6 @@
 		"ПУТЬ К ПРОЦВЕТАНИЮ ЛЕЖИТ ЧЕРЕЗ РАЗДОР!",
 		"МЫ СРАВНЯЕМ ЦЕРКВИ И ТЮРЬМЫ С ЗЕМЛЕЙ!",
 	)
-
-/datum/objective/hoard_mammons/update_explanation_text()
-	explanation_text = "Accumulate at least [target_mammons] mammons in your possession to be used for Freedom's unstoppable march."
 
 /datum/patron/inhumen/baotha
 	name = "Baotha"
