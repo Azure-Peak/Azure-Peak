@@ -1667,10 +1667,8 @@ Slots: [job.spawn_positions] [job.round_contrib_points ? "RCP: +[job.round_contr
 						var/new_choice = input(user, "Choose an outfit preview:", "Outfit Preview")  as anything in choices|null
 						if(new_choice && new_choice != "None")
 							preview_subclass = choices[new_choice]
-							update_preview_icon()
 						else
 							preview_subclass = null
-							update_preview_icon(jobOnly = TRUE)
 
 //				if("age")
 //					var/new_age = input(user, "Choose your character's age:\n([AGE_MIN]-[AGE_MAX])", "Years Dead") as num|null
