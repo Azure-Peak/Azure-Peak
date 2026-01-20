@@ -505,7 +505,7 @@
 	miracle = TRUE
 	devotion_cost = 100
 
-	invocations = list("Raises their hand skyward, scared light materializing to a brilliant blade!")
+	invocations = list("raises their hand skyward, sacred light materializing into brilliant blade!")
 	invocation_emote_self = "<span class='notice'>I hold my hand skyward, a glimmering blade forms from light itself.</span>"
 	invocation_type = "emote"
 
