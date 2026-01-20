@@ -549,6 +549,7 @@ GLOBAL_LIST_INIT(spells, typesof(/obj/effect/proc_holder/spell)) //needed for th
 			. = range(distance,center)
 
 /obj/effect/proc_holder/spell/proc/revert_cast(mob/user = usr) //resets recharge or readds a charge
+	start_recharge()
 	switch(charge_type)
 		if("recharge")
 			charge_counter = recharge_time
