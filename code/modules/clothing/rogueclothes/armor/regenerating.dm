@@ -190,6 +190,8 @@
 	armor = ARMOR_LEATHER
 	slot_flags = ITEM_SLOT_SHIRT|ITEM_SLOT_ARMOR
 	surgery_cover = FALSE 
+	body_parts_covered = COVERAGE_FULL_HEAD
+	body_parts_inherent = COVERAGE_FULL_HEAD
 
 /obj/item/clothing/suit/roguetown/armor/regenerating/skin/disciple/barbarian/Initialize(mapload)
 	. = ..()
