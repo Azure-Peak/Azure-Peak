@@ -192,6 +192,8 @@
 	surgery_cover = FALSE 
 	body_parts_covered = COVERAGE_FULL_HEAD
 	body_parts_inherent = COVERAGE_FULL_HEAD
+	max_integrity = 300
+	repair_time = 30 SECONDS
 
 /obj/item/clothing/suit/roguetown/armor/regenerating/skin/disciple/barbarian/Initialize(mapload)
 	. = ..()
