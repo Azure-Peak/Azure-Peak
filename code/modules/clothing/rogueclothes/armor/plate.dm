@@ -357,7 +357,7 @@
 	strip_delay = 6 SECONDS
 	smelt_bar_num = 3
 
-/obj/item/clothing/suit/roguetown/armor/heartfelt/lord
+/obj/item/clothing/suit/roguetown/armor/heartfelt
 	slot_flags = ITEM_SLOT_ARMOR
 	name = "coat of armor"
 	desc = "A lordly coat of armor."
