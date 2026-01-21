@@ -208,7 +208,7 @@
 	tutorial = "You are a brutal warrior, who has foregone armor in favor of pure strength. Crush your enemies, see them driven before you, and hear the lamentations of their women! Oh, and you can specialize in unarmed combat and wrestling."
 	outfit = /datum/outfit/job/roguetown/adventurer/barbarian
 	cmode_music = 'sound/music/cmode/antag/combat_darkstar.ogg'
-	traits_applied = list(TRAIT_STEELHEARTED, TRAIT_CRITICAL_RESISTANCE, TRAIT_NOPAINSTUN)
+	traits_applied = list(TRAIT_STEELHEARTED, TRAIT_NOPAINSTUN)
 	subclass_stats = list(
 		STATKEY_STR = 3,
 		STATKEY_CON = 2,
@@ -273,9 +273,13 @@
 				H.change_stat(STATKEY_PER, 1) //Allows for more critical usage of the Whip's strengths.
 			if ("Discipline - Unarmed")
 				H.adjust_skillrank_up_to(/datum/skill/combat/unarmed, SKILL_LEVEL_EXPERT, TRUE)
-				ADD_TRAIT(H, TRAIT_CIVILIZEDBARBARIAN, TRAIT_GENERIC)
-				head = /obj/item/clothing/head/roguetown/helmet/leather/volfhelm
 				gloves = /obj/item/clothing/gloves/roguetown/bandages/weighted
+				armor = /obj/item/clothing/suit/roguetown/armor/regenerating/skin/disciple/barbarian
+		if(weapon_choice == "Discipline - Unarmed")
+			ADD_TRAIT(H, TRAIT_CIVILIZEDBARBARIAN, TRAIT_GENERIC)
+			ADD_TRAIT(H, TRAIT_CRITICAL_RESISTANCE, TRAIT_GENERIC)
+		else
+			ADD_TRAIT(H, TRAIT_BLOOD_RESISTANCE, TRAIT_GENERIC)
 		belt = /obj/item/storage/belt/rogue/leather/battleskirt/barbarian
 		pants = /obj/item/clothing/under/roguetown/heavy_leather_pants/bronzeskirt
 		shoes = /obj/item/clothing/shoes/roguetown/boots/furlinedboots
@@ -284,7 +288,9 @@
 		H.dna.species.soundpack_m = new /datum/voicepack/male/warrior()
 		backl = /obj/item/storage/backpack/rogue/satchel
 	if(should_wear_femme_clothes(H))
-		armor = /obj/item/clothing/suit/roguetown/armor/leather/bikini
+		// If we picked unarmed, we can't wear this anyways.
+		if(isnull(armor))
+			armor = /obj/item/clothing/suit/roguetown/armor/leather/bikini
 		backl = /obj/item/storage/backpack/rogue/satchel
 	backpack_contents = list(
 		/obj/item/flashlight/flare/torch = 1,
@@ -293,6 +299,11 @@
 		/obj/item/rogueweapon/scabbard/sheath = 1,
 		/obj/item/rogueweapon/huntingknife/bronze = 1,
 		)
+
+/datum/outfit/job/roguetown/adventurer/barbarian/post_equip(mob/living/carbon/human/H, visualsOnly)
+	. = ..()
+	if(HAS_TRAIT(H, TRAIT_CRITICAL_RESISTANCE))
+		ADD_TRAIT(H, TRAIT_SHIRTLESS, TRAIT_GENERIC)
 
 /datum/advclass/sfighter/ironclad
 	name = "Ironclad"

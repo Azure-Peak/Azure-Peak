@@ -161,5 +161,44 @@
 	HAPPINESS MUST BE FOUGHT FOR.'"
 	armor = list("blunt" = 30, "slash" = 50, "stab" = 50, "piercing" = 20, "fire" = 0, "acid" = 0) //Custom value; padded gambeson's slash- and stab- armor.
 	prevent_crits = list(BCLASS_CUT, BCLASS_BLUNT)
-	max_integrity = 300
+	max_integrity = 400
 	repair_time = 20 SECONDS
+
+/obj/item/clothing/suit/roguetown/armor/regenerating/skin/disciple/crownfallen
+	body_parts_covered = COVERAGE_FULL_HEAD
+	body_parts_inherent = COVERAGE_FULL_HEAD
+	max_integrity = 250
+	repair_time = 30 SECONDS
+	slot_flags = ITEM_SLOT_SHIRT|ITEM_SLOT_ARMOR
+	surgery_cover = FALSE 
+
+/obj/item/clothing/suit/roguetown/armor/regenerating/skin/disciple/barbarian
+	name = "barbarian's skin"
+	desc = "Toughened from abuse. My mettle remains."
+	max_integrity = 200
+	repair_time = 60 SECONDS
+	// Not given to disciple because they have the crown of thorns.
+	body_parts_covered = COVERAGE_FULL_HEAD
+	body_parts_inherent = COVERAGE_FULL_HEAD
+	slot_flags = ITEM_SLOT_SHIRT|ITEM_SLOT_ARMOR
+	surgery_cover = FALSE 
+	allowed_race = ALL_RACES_TYPES
+
+/obj/item/clothing/suit/roguetown/armor/regenerating/skin/disciple/berserker
+	name = "berserker's skin"
+	desc = "I've endured enough. The onslaught has lost its meaning."
+	armor = ARMOR_LEATHER
+	slot_flags = ITEM_SLOT_SHIRT|ITEM_SLOT_ARMOR
+	surgery_cover = FALSE 
+
+/obj/item/clothing/suit/roguetown/armor/regenerating/skin/disciple/barbarian/Initialize(mapload)
+	. = ..()
+	ADD_TRAIT(src, TRAIT_NODROP, CURSED_ITEM_TRAIT)
+
+/obj/item/clothing/suit/roguetown/armor/regenerating/skin/disciple/berserker/Initialize(mapload)
+	. = ..()
+	ADD_TRAIT(src, TRAIT_NODROP, CURSED_ITEM_TRAIT)
+
+/obj/item/clothing/suit/roguetown/armor/regenerating/skin/disciple/crownfallen/Initialize(mapload)
+	. = ..()
+	ADD_TRAIT(src, TRAIT_NODROP, CURSED_ITEM_TRAIT)
