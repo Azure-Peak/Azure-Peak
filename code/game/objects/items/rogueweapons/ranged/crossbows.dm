@@ -69,6 +69,8 @@
 			if(mastermob.get_num_arms(FALSE) < 2 && !c_bow.onehanded || mastermob.get_inactive_held_item() && !c_bow.onehanded)
 				to_chat(mastermob, span_warning("I need a free hand to draw [masteritem]!"))
 				return FALSE
+		if(istype(clicked_object, /obj/item/quiver) && istype(mastermob?.get_active_held_item(), /obj/item/gun/ballistic))
+			return FALSE
 	return TRUE
 
 /datum/intent/shoot/crossbow/get_chargetime()
@@ -98,8 +100,6 @@
 	chargetime = 1
 	basetime = 20
 	chargedrain = 0
-
-
 
 /datum/intent/arc/crossbow/can_charge(atom/clicked_object)
 	if(mastermob && masteritem)
