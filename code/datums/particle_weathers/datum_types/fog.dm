@@ -14,6 +14,11 @@
 	maxSpawning           = 40
 	wind                   = 5
 
+
+/datum/particle_weather/fog/necra
+	weather_duration_upper = 5 HOURS
+	name = "Necra Fog"
+
 /particles/weather/fog/bloodfog
 	gradient               = list(0,"#5e0101",100,"#230000","loop")
 
