@@ -1223,6 +1223,7 @@
 #include "code\game\objects\structures\roguetown\portal.dm"
 #include "code\game\objects\structures\roguetown\redstone.dm"
 #include "code\game\objects\structures\roguetown\rogueflora.dm"
+#include "code\game\objects\structures\roguetown\talkstatue.dm"
 #include "code\game\objects\structures\roguetown\telescope.dm"
 #include "code\game\objects\structures\roguetown\traps.dm"
 #include "code\game\rotational_objects\horizontal_gearbox.dm"

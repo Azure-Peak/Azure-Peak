@@ -1,4 +1,0 @@
-author: "Geevies"
-delete-after: True
-changes:
-  - rscadd: "Servants and Seneschals now get a Treasury-Line for the Vomitorium, meaning it'll draw directly from the treasury if no mammon has been inserted."

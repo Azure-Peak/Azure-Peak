@@ -96,7 +96,7 @@
 			scom_announce("The bounty posting on [target_name] has been removed.")
 			message_admins("[ADMIN_LOOKUPFLW(user)] has removed the bounty on [ADMIN_LOOKUPFLW(target_name)]")
 			return
-	say("Error. Bounty no longer active.") 
+	say("Error. Bounty no longer active.")
 
 ///Sets a bounty on a target player through user input.
 ///@param user: The player setting the bounty.

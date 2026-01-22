@@ -167,7 +167,7 @@
 	id = "net"
 	alert_type = /atom/movable/screen/alert/status_effect/debuff/netted
 	effectedstats = list(STATKEY_SPD = -5, STATKEY_WIL = -2)
-	duration = 3 MINUTES
+//	duration = 3 MINUTES // WHY?????
 
 /datum/status_effect/debuff/netted/on_apply()
 		. = ..()
@@ -308,7 +308,7 @@
 /atom/movable/screen/alert/status_effect/debuff/call_to_arms
 	name = "Ravox's Call to Arms"
 	desc = "His voice keeps ringing in your ears, rocking your soul.."
-	icon_state = "call_to_arms"
+	icon_state = "call_to_arms_negative"
 
 /datum/status_effect/debuff/ravox_burden
 	id = "ravox_burden"
@@ -330,7 +330,7 @@
 /atom/movable/screen/alert/status_effect/debuff/call_to_slaughter
 	name = "Call to Slaughter"
 	desc = "A putrid rotting scent fills your nose as Graggar's call for slaughter rattles you to your core.."
-	icon_state = "call_to_slaughter"
+	icon_state = "call_to_slaughter_negative"
 
 //For revive - your body DIDN'T rot, but it did suffer damage. Unlike being rotted, this one is only timed. Not forever.
 /datum/status_effect/debuff/revived
@@ -438,8 +438,7 @@
 /atom/movable/screen/alert/status_effect/debuff/excomm
 	name = "Excommunicated!"
 	desc = "The Ten have forsaken me!"
-	icon_state = "muscles"
-	color ="#6d1313"
+	icon_state = "excommunication"
 
 /datum/status_effect/debuff/apostasy
 	id = "Apostasy!"
@@ -500,8 +499,7 @@
 /atom/movable/screen/alert/status_effect/debuff/apostasy
 	name = "Apostasy!"
 	desc = "Shame upon the member of clergy!"
-	icon_state = "debuff"
-	color ="#7a0606"
+	icon_state = "apostate"
 
 /datum/status_effect/debuff/hereticsermon
 	id = "Heretic on sermon!"
@@ -512,8 +510,7 @@
 /atom/movable/screen/alert/status_effect/debuff/hereticsermon
 	name = "Heretic on sermon!"
 	desc = "I was on the sermon. My patron is not proud of me."
-	icon_state = "debuff"
-	color ="#af9f9f"
+	icon_state = "hereticsermon"
 
 /datum/status_effect/debuff/lost_naledi_mask
 	id = "naledimask"
@@ -642,7 +639,7 @@
 /atom/movable/screen/alert/status_effect/debuff/disgracedguardsman
 	name = "Disgraced Guardsman"
 	desc = "I betrayed my liege."
-	icon_state = "debuff"
+	icon_state = "guardsman_disgraced"
 
 /datum/status_effect/debuff/vampbite
 	id = "Vampire Bite"
@@ -749,6 +746,7 @@
 /atom/movable/screen/alert/status_effect/debuff/no_coom_cheating
 	name = "Arousal Imbalanced"
 	desc = "My arousal level changed drastically, any orgasm I have now will not be satisfactory."
+	icon_state = "arousalimbalance"
 
 /datum/status_effect/debuff/no_coom_cheating/on_apply()
 	. = ..()

@@ -316,6 +316,23 @@
 	buckle_lying = 90
 	sleepy = 3
 	debris = list(/obj/item/grown/log/tree/small = 1)
+	var/broken_matress = FALSE
+	var/broken_percentage = 0
+
+/obj/structure/bed/rogue/proc/damage_bed(dam_value)
+	if(sleepy <= 2) // the bed is already pretty awful and broken (i.e: straw bed/bedroll), so don't break it even further
+		return
+	broken_percentage += dam_value
+	if(!broken_matress && (broken_percentage >= 100))
+		broken_matress = TRUE
+		sleepy = 1 //Worse than a bedroll, better than nothing
+		visible_message(span_warning("\The [src] gives a violent snap. It looks broken!"))
+		playsound(src, 'sound/misc/mat/bed break.ogg', 50, TRUE, ignore_walls = FALSE)
+		desc += " The bed looks stained and has seen better days."
+	else if(broken_percentage >= 100)
+		broken_percentage = 100
+	else
+		playsound(src, pick(list('sound/misc/mat/bed squeak (1).ogg','sound/misc/mat/bed squeak (2).ogg','sound/misc/mat/bed squeak (3).ogg')), 30, TRUE, ignore_walls = FALSE)
 
 /obj/structure/bed/rogue/OnCrafted(dirin)
 	dirin = turn(dirin, 180)

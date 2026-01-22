@@ -194,7 +194,7 @@
 		var/obj/item/loot = pick(/obj/item/reagent_containers/food/snacks/rogue/meat/steak/gnoll, /obj/item/roguegem/blood_diamond)
 		var/mob/living/gnoll = parent
 		new loot(gnoll.loc)
-		gnoll.visible_message(span_notice("A piece of [loot] is put down by a bloody ethereal hand, poised neatly by the gnoll's corpse."))
+		gnoll.visible_message(span_notice("A piece of [loot.name] is put down by a bloody ethereal hand, poised neatly by the gnoll's corpse."))
 		death_loot_given = TRUE
 
 /datum/component/gnoll_combat_tracker/proc/can_cast_stealth()

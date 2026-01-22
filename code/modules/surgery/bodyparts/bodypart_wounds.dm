@@ -176,14 +176,14 @@
 					if(CAR)
 						user.sate_addiction()
 						user.add_stress(/datum/stressevent/thrill)
-						CAR.ejaculate()
+						CAR.ejaculate_special()
 
 				if(owner.has_flaw(/datum/charflaw/addiction/thrillseeker))
 					var/datum/component/arousal/CAR = owner.GetComponent(/datum/component/arousal)
 					if(CAR)
 						owner.sate_addiction()
 						owner.add_stress(/datum/stressevent/thrill)
-						CAR.ejaculate()
+						CAR.ejaculate_special()
 
 			return crit_attempt
 	if(ishuman(owner))

@@ -346,6 +346,7 @@
 	result = list(/obj/item/natural/cloth/bandage)
 	reqs = list(/obj/item/natural/silk = 2,
 				/obj/item/natural/cloth = 1)
+	subtype_reqs = FALSE //so you cant continuously craft bandages from bandages
 
 /datum/crafting_recipe/roguetown/sewing/gweightedbandagesalt
 	name = "bandages into weighted bandages, gloved"

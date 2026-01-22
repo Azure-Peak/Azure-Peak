@@ -235,6 +235,10 @@
 /obj/item/reagent_containers/powder/ozium,
 /turf/open/floor/rogue/blocks/newstone/alt,
 /area/rogue/indoors)
+"jC" = (
+/obj/structure/bed/rogue,
+/turf/open/floor/rogue/dirt/road,
+/area/rogue/outdoors)
 "jI" = (
 /obj/machinery/light/rogue/hearth,
 /obj/item/reagent_containers/glass/bucket/pot,
@@ -3073,7 +3077,7 @@ yK
 yK
 rT
 rT
-rT
+jC
 rT
 rT
 rT

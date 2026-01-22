@@ -125,6 +125,7 @@
 	desc = "Something about this gem just doesn't sit right with you. Holding it makes the blood leave your fingertips."
 
 /obj/item/roguegem/blood_diamond/examine(mob/user)
+	. = ..()
 	if(ishuman(user))
 		var/mob/living/carbon/human/H = user
 		if(H.patron.type == /datum/patron/inhumen/graggar)

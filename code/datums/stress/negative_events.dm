@@ -195,15 +195,45 @@
 	stressadd = 2
 	desc = span_red("They are plotting against me in evil tongues...")
 
+/datum/stressevent/crowd
+	timer = 2 MINUTES
+	stressadd = 3
+	desc = span_red("Too many people... It's making me nervous.")
+
 /datum/stressevent/averse
 	timer = 5 MINUTES
 	stressadd = 5
 	desc = span_red("<u>They</u> are here.")
 
-/datum/stressevent/nopeople
+/datum/stressevent/nocrowd
 	timer = 2 MINUTES
-	stressadd = 2
-	desc = "<span class='red'>Where did everyone go? Did something happen?!</span>"
+	stressadd = 3
+	desc = span_red("No one around... It's making me nervous.")
+
+/datum/stressevent/lonely_one
+	timer = 2 MINUTES
+	stressadd = 3
+	desc = span_red("I'm lonely. I need to see another face.")
+
+/datum/stressevent/lonely_two
+	timer = 4 MINUTES
+	stressadd = 5
+	desc = span_red("Am I truly alone? They abandoned me...")
+
+/datum/stressevent/lonely_three
+	timer = 6 MINUTES
+	stressadd = 7
+	desc = span_red("Please! Anyone! I just need anyone... The thoughts are coming back...")
+
+/datum/stressevent/lonely_max
+	timer = 10 MINUTES
+	stressadd = 15
+	desc = span_red("I'm worthless. I'm abandoned. Nobody likes me. Nobody wants to be around me. Nobody. Nobody. Nobody. Nobody.")
+
+/datum/stressevent/nopeople
+	timer = 3 MINUTES
+	stressadd = 3
+	desc = span_red("Why is everyone so far away?! Come closer! I don't bite!")
 
 /datum/stressevent/jesterphobia
 	timer = 4 MINUTES

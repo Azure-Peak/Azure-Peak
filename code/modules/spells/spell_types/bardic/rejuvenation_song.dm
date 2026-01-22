@@ -2,8 +2,8 @@
 	name = "Healing Hymn"
 	desc = "Recuperate your allies bodies with your song! Refills health slowly over time!"
 	song_tier = 3
-	invocations = list("Broken bones mend, flesh knits, to the hymn!") 
-	invocation_type = "shout"
+	invocations = list("plays a beautiful, stirring song. The world around them becomes more vivid.") 
+	invocation_type = "emote"
 	overlay_state = "melody_t3_base"
 	action_icon_state = "melody_t3_base"
 	song_effect = /datum/status_effect/buff/playing_melody/rejuvenation

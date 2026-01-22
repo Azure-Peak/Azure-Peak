@@ -242,12 +242,12 @@
 		if(M.has_flaw(/datum/charflaw/addiction/thrillseeker))
 			var/datum/component/arousal/CAR = M.GetComponent(/datum/component/arousal)
 			if(CAR)
-				CAR.adjust_arousal(src, 2)
+				CAR.adjust_arousal_special(src, 2)
 
 		if(user.has_flaw(/datum/charflaw/addiction/thrillseeker))
 			var/datum/component/arousal/CAR = user.GetComponent(/datum/component/arousal)
 			if(CAR)
-				CAR.adjust_arousal(src, 2)
+				CAR.adjust_arousal_special(src, 2)
 				
 	log_combat(user, M, "attacked", src.name, "(INTENT: [uppertext(user.used_intent.name)]) (DAMTYPE: [uppertext(damtype)])")
 	add_fingerprint(user)

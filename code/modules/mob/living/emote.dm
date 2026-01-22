@@ -526,7 +526,7 @@
 						to_chat(target, span_love("It tickles..."))
 			else if(J.zone_selected == BODY_ZONE_PRECISE_GROIN)
 				message_param = "licks %t between the legs."
-				to_chat(target, span_love("It somewhat stimulating..."))
+				to_chat(target, span_love("That feels nice..."))
 			else if(J.zone_selected == BODY_ZONE_HEAD)
 				message_param = "licks %t cheek"
 			else

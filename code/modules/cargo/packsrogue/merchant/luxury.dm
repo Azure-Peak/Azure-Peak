@@ -9,21 +9,25 @@
 	name = "Pipe Weed Zig"
 	cost = 3
 	contains = list(/obj/item/clothing/mask/cigarette/rollie/nicotine)
+	not_in_public = TRUE // go to the PURITY
 
 /datum/supply_pack/rogue/luxury/ozium
 	name = "Ozium"
 	cost = 5
 	contains = list(/obj/item/reagent_containers/powder/ozium)
+	not_in_public = TRUE // ditto
 
 /datum/supply_pack/rogue/luxury/moondust
 	name = "Moon Dust"
 	cost = 10
 	contains = list(/obj/item/reagent_containers/powder/moondust)
+	not_in_public = TRUE // ditto
 
 /datum/supply_pack/rogue/luxury/spice
 	name = "Spice"
 	cost = 30
 	contains = list(/obj/item/reagent_containers/powder/spice)
+	not_in_public = TRUE // ditto
 
 /datum/supply_pack/rogue/luxury/fancyteaset
 	name = "Fancy Tea Set (1 Teapot, 4 Cups)"

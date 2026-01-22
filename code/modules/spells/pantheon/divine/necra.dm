@@ -353,7 +353,7 @@
 	miracle = TRUE
 	devotion_cost = 30
 	range = 1
-	var/static/list/whitelisted_objects = list(/obj/structure/gravemarker, /obj/structure/fluff/psycross, /obj/structure/fluff/psycross/copper, /obj/structure/fluff/psycross/crafted)
+	var/static/list/whitelisted_objects = list(/obj/structure/gravemarker, /obj/structure/fluff/psycross, /obj/structure/fluff/psycross/copper, /obj/structure/fluff/psycross/crafted, /obj/structure/fluff/psycross/necra/cloth, /obj/structure/fluff/psycross/necra)
 	var/list/marked_objects = list()
 	var/outline_color = "#4ea1e6"
 	var/last_index = 1

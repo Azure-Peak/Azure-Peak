@@ -87,6 +87,7 @@
 				l_hand = /obj/item/spellbook_unfinished/pre_arcyne
 				ADD_TRAIT(H, TRAIT_ARCYNE_T2, TRAIT_GENERIC) //Sojourners are magyck-inclined lightweights, relying on evasive maneuvers and unorthodox techniques - compared to the Disciple, who simply Kills People With Rocks.
 				ADD_TRAIT(H, TRAIT_DODGEEXPERT, TRAIT_GENERIC)
+				ADD_TRAIT(H, TRAIT_NALEDI, TRAIT_GENERIC)
 				REMOVE_TRAIT(H, TRAIT_CRITICAL_RESISTANCE, TRAIT_GENERIC)
 				H.adjust_skillrank_up_to(/datum/skill/magic/arcane, 3, TRUE)
 				H.grant_language(/datum/language/celestial) //They're from Naledi, they should speak Sama'glos

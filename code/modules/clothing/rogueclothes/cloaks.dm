@@ -481,9 +481,9 @@
 	detail_color = "#A95650"
 
 
-//////////////////////////
-/// SOLDIER TABARD
-////////////////////////
+//////////////////////
+/// SOLDIER TABARD ///
+//////////////////////
 
 
 /obj/item/clothing/cloak/tabard/stabard
@@ -500,7 +500,7 @@
 	name = "guard tabard"
 	desc = "A tabard with the lord's heraldic colors."
 	color = CLOTHING_AZURE
-	detail_tag = "_spl"
+	detail_tag = "_quad"
 	detail_color = CLOTHING_WHITE
 
 /obj/item/clothing/cloak/tabard/stabard/guard/Initialize()
@@ -563,9 +563,9 @@
 		L.update_inv_cloak()
 
 
-//////////////////////////
-/// SURCOATS
-////////////////////////
+////////////////
+/// SURCOATS ///
+////////////////
 
 
 /obj/item/clothing/cloak/tabard/stabard/surcoat

@@ -271,3 +271,6 @@
 				user.say("Amicus declaratus es.")
 		return TRUE
 	return FALSE
+
+/obj/effect/proc_holder/spell/invoked/gravemark/no_sprite
+	overlay_state = ""

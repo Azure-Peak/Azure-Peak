@@ -18,7 +18,7 @@
 	if(has_flaw(/datum/charflaw/addiction/thrillseeker))
 		var/datum/component/arousal/CAR = GetComponent(/datum/component/arousal)
 		if(CAR)
-			CAR.adjust_arousal(src, 2)
+			CAR.adjust_arousal_special(src, 2)
 
 	switch(d_intent)
 		if(INTENT_PARRY)

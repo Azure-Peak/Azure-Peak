@@ -234,7 +234,7 @@
 		var/break_counter = 0
 		//note to future developers: RT doesn't have command staff so toggle_head was removed, go back in the git history if you need to readd it
 		//departments/groups that don't have command staff would throw a javascript error since there's no corresponding reference for toggle_head()
-		var/list/headless_job_lists = list("Nobles" = GLOB.noble_positions,
+		var/list/headless_job_lists = list("Ducal Family" = GLOB.noble_positions,
 							"Courtiers" = GLOB.courtier_positions,
 							"Retinue" = GLOB.retinue_positions,
 							"Garrison" = GLOB.garrison_positions,
@@ -256,11 +256,10 @@
 		var/list/long_job_lists = list("Peasants" = GLOB.peasant_positions,
 									"Burghers" = GLOB.burgher_positions,
 									"Sidefolk" = GLOB.sidefolk_positions,
-									"Ghost and Other Roles" = list(ROLE_NECRO_SKELETON, ROLE_LICH_SKELETON),
-									"Antagonist Positions" = list(ROLE_MANIAC, ROLE_WEREWOLF,
-									ROLE_VAMPIRE, ROLE_NBEAST, ROLE_BANDIT,
-									ROLE_DELF, ROLE_PREBEL, ROLE_ASPIRANT,
-									ROLE_LICH, ROLE_ASCENDANT, ROLE_WRETCH, ROLE_UNBOUND_DEATHKNIGHT))
+									"Ghost and Other Roles" = list(ROLE_NECRO_SKELETON, ROLE_LICH_SKELETON, ROLE_UNBOUND_DEATHKNIGHT, ROLE_DARK_ITINERANT),
+									"Antagonist Positions" = list(ROLE_ASCENDANT, ROLE_ASPIRANT, ROLE_BANDIT, ROLE_NBEAST, ROLE_WEREWOLF, ROLE_LICH, ROLE_PREBEL),
+									"Lesser Antagonst Positions" = list(ROLE_WRETCH, ROLE_DREAMWALKER, ROLE_GNOLL, ROLE_VAMPIRE))
+									//ADD BACK DARK ELF AND MANIAC TO THE LIST IF THEY ARE EVER REENABLED
 		for(var/department in long_job_lists)
 			output += "<div class='column'><label class='rolegroup long [ckey(department)]'><input type='checkbox' name='[department]' class='hidden' onClick='toggle_checkboxes(this, \"_com\")'>[department]</label><div class='content'>"
 			break_counter = 0
@@ -377,7 +376,7 @@
 			if("server")
 				roles_to_ban += "Server"
 			if("role")
-				href_list.Remove("Command", "Security", "Engineering", "Medical", "Science", "Supply", "Silicon", "Abstract", "Service", "Ghost and Other Roles", "Antagonist Positions") //remove the role banner hidden input values
+				href_list.Remove("Command", "Security", "Engineering", "Medical", "Science", "Supply", "Silicon", "Abstract", "Service", "Ghost and Other Roles", "Antagonist Positions", "Lesser Antagonst Positions") //remove the role banner hidden input values
 				if(href_list[href_list.len] == "roleban_delimiter")
 					error_state += "Role ban was selected but no roles to ban were selected."
 				else

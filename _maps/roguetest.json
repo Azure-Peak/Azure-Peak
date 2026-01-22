@@ -1,14 +1,15 @@
 {
-    "map_name": "Roguetest",
-    "map_path": "map_files/roguetest",
-    "map_file": "roguetest.dmm",
-	"traits": [{"Name": "Roguetest", "Up": true}, {"Down": true}],
+	"map_name": "Roguetest",
+	"map_path": "map_files/roguetest",
+	"map_file": "roguetest.dmm",
+	"traits": [{ "Name": "Roguetest", "Up": true }, { "Down": true }],
 	"minetype": null,
 	"space_empty_levels": 0,
 	"space_ruin_levels": 0,
+	"matthios_dungeon": 0,
 	"shuttles": {
-	    "cargo": "cargo_rogue",
-	    "whiteship": "whiteship_box",
-	    "emergency": "emergency_rogue"
-    }
+		"cargo": "cargo_rogue",
+		"whiteship": "whiteship_box",
+		"emergency": "emergency_rogue"
+	}
 }

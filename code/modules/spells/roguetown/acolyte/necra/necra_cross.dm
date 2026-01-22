@@ -151,8 +151,10 @@
 	icon_state = "cross_necra_cloth"
 	visible_message(span_notice("The glow fades from the Necran cross."))
 
+	// Inefficient but we're not doing this often.
 	for(var/mob/living/L in affected_mobs)
 		remove_undead_debuff(L)
+		remove_necran_buff(L)
 	affected_mobs.Cut()
 	STOP_PROCESSING(SSobj, src)
 

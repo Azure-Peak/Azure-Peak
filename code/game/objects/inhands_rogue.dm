@@ -1,22 +1,3 @@
-/obj/item
-	/// A lazylist to store inhands data.
-	var/list/onprop
-	var/d_type = "blunt"
-//#ifdef TESTSERVER
-	var/force_reupdate_inhand = TRUE
-	var/smelted = FALSE // Sanity for smelteries to avoid runtimes, if this is a bar smelted through ore for exp gain
-	/// Determines whether this item is silver or not.
-	var/is_silver = FALSE
-	var/last_used = 0
-	var/toggle_state = null
-	var/icon_x_offset = 0
-	var/icon_y_offset = 0
-	var/always_destroy = FALSE
-	var/is_important = FALSE // If TRUE, this item is not allowed to be minted. May be useful for other things later.
-	var/vorpal = FALSE // does this item/weapon circumvent two-stage death during dismemberment? (do not add this to anything but ultra rare shit)
-//#else
-//	var/force_reupdate_inhand = FALSE
-//#endif
 
 // Initalize addon for the var for custom inhands 32x32.
 /obj/item/Initialize()

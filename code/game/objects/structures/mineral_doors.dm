@@ -933,12 +933,12 @@
 // will break picks like no tomorrow. 
 
 /obj/structure/mineral_door/wood/donjon/highsecurity
-	lockdifficulty = 2
+	lockdifficulty = 1.8
 	desc = "A solid metal door with a slot to peek through. The lock has been reinforced."
 
 /obj/structure/mineral_door/wood/donjon/stone/highsecurity
 	// No special desc for this one BC stone doors dont really have one. For whatever reason.
-	lockdifficulty = 2
+	lockdifficulty = 1.8
 
 
 /obj/structure/mineral_door/bars

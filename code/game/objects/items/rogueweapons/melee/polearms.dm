@@ -192,6 +192,7 @@
 
 /datum/intent/spear/thrust/lance
 	damfactor = 1.5 // Turns its base damage into 30 on the 2hand thrust. It keeps the spear thrust one handed.
+	intent_intdamage_factor = BLUNT_DEFAULT_INT_DAMAGEFACTOR
 
 /datum/intent/lance/
 	name = "lance"
@@ -203,6 +204,7 @@
 	chargetime = 4 SECONDS
 	damfactor = 4 // 80 damage on hit. It is gonna hurt.
 	reach = 3 // Yep! 3 tiles
+	intent_intdamage_factor = BLUNT_DEFAULT_INT_DAMAGEFACTOR * 1.5
 
 /datum/intent/lance/onehand
 	chargetime = 5 SECONDS

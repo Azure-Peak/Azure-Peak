@@ -59,6 +59,8 @@
 		)
 	customizers = list(
 		/datum/customizer/organ/eyes/humanoid,
+		/datum/customizer/bodypart_feature/hair/head/humanoid,
+		/datum/customizer/bodypart_feature/hair/facial/humanoid,
 		/datum/customizer/bodypart_feature/crest,
 		/datum/customizer/bodypart_feature/accessory,
 		/datum/customizer/bodypart_feature/face_detail,
@@ -99,6 +101,9 @@
 		"IRON" = "525352",
 		"STEEL" = "babbb9",
 		"BRONZE" = "e2a670",
+		"GOLD" = "bf9b30",
+		"WOOD" = "8B4513",
+		"PORCELAIN" = "FFF5EE",
 	)
 
 /datum/species/construct/metal/get_hairc_list()

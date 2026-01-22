@@ -12,6 +12,9 @@ GLOBAL_LIST_INIT(character_flaws, list(
 	"Nymphomaniac"=/datum/charflaw/addiction/lovefiend,
 	"Sadist"=/datum/charflaw/addiction/sadist,
 	"Masochist"=/datum/charflaw/addiction/masochist,
+	"Clingy"=/datum/charflaw/clingy,
+	"Finicky"=/datum/charflaw/finicky,
+	"Lonely"=/datum/charflaw/lonely,
 	"Paranoid"=/datum/charflaw/addiction/paranoid,
 	"Clamorous"=/datum/charflaw/addiction/clamorous,
 	"Thrillseeker"=/datum/charflaw/addiction/thrillseeker,
@@ -160,6 +163,169 @@ GLOBAL_LIST_INIT(averse_factions, list(
 
 /datum/charflaw/badsight/proc/apply_reading_skill(mob/living/carbon/human/H)
 	H.adjust_skillrank(/datum/skill/misc/reading, 1, TRUE)
+
+/datum/charflaw/paranoid
+	name = "Paranoid"
+	desc = "I'm even more anxious than most people. I'm extra paranoid of other races and the sight of blood."
+	var/last_check = 0
+
+/datum/charflaw/paranoid/flaw_on_life(mob/user)
+	if(world.time < last_check + 10 SECONDS)
+		return
+	if(!user)
+		return
+	last_check = world.time
+	var/cnt = 0
+	for(var/mob/living/carbon/human/L in hearers(7, user))
+		if(L == src)
+			continue
+		if(L.stat)
+			continue
+		if(L.dna?.species)
+			if(ishuman(user))
+				var/mob/living/carbon/human/H = user
+				if(L.dna.species.id != H.dna.species.id)
+					cnt++
+		if(cnt > 2)
+			break
+	if(cnt > 2)
+		user.add_stress(/datum/stressevent/paracrowd)
+	cnt = 0
+	for(var/obj/effect/decal/cleanable/blood/B in view(7, user))
+		cnt++
+		if(cnt > 3)
+			break
+	if(cnt > 6)
+		user.add_stress(/datum/stressevent/parablood)
+
+/datum/charflaw/finicky
+	name = "Finicky"
+	desc = "I don't like crowds. I don't like being alone, neither. There's a middle, isn't there?"
+	var/interval = 1 MINUTES
+	var/is_active = FALSE
+	var/next_check = 0
+
+/datum/charflaw/finicky/flaw_on_life(mob/user)
+	if(!user)
+		return
+	if(is_active)
+		if(world.time > next_check)
+			next_check = world.time + interval
+			var/cnt = 0
+			for(var/mob/living/carbon/human/L in get_hearers_in_view(6, user, RECURSIVE_CONTENTS_CLIENT_MOBS))
+				if(L == user)
+					continue
+				if(L.stat)
+					continue
+				if(L.dna.species)
+					cnt++
+				if(cnt > 3)
+					break
+			var/mob/living/carbon/P = user
+			if(cnt > 3)
+				P.add_stress(/datum/stressevent/crowd)
+			if(cnt == 0)
+				P.add_stress(/datum/stressevent/nocrowd)
+
+/datum/charflaw/finicky/apply_post_equipment(mob/user)
+	if(user.mind)
+		is_active = TRUE
+
+/datum/charflaw/lonely
+	name = "Lonely"
+	desc = "I just don't like being alone."
+	var/interval = 1 MINUTES
+	var/severity_interval = 5 MINUTES
+	var/stacks = 0
+	var/is_active = FALSE
+	var/next_check = 0
+	var/next_severity = 0
+
+/datum/charflaw/lonely/flaw_on_life(mob/user)
+	if(!user)
+		return
+	if(is_active)
+		if(world.time > next_check)
+			next_check = world.time + interval
+			var/cnt = 0
+			for(var/mob/living/carbon/human/L in get_hearers_in_view(7, user, RECURSIVE_CONTENTS_CLIENT_MOBS))
+				if(L == user)
+					continue
+				if(L.stat)
+					continue
+				if(L.dna.species)
+					cnt++
+				if(cnt > 3)
+					break
+			var/mob/living/carbon/P = user
+			if(cnt <= 0)
+				handle_stacks(P)
+			else
+				reset_stacks(P)
+
+/datum/charflaw/lonely/apply_post_equipment(mob/user)
+	if(user.mind)
+		is_active = TRUE
+
+/datum/charflaw/lonely/proc/handle_stacks(mob/living/L)
+	if(world.time > next_severity)
+		stacks++
+		next_severity = world.time + severity_interval
+		switch(stacks)
+			if(1)
+				L.add_stress(/datum/stressevent/lonely_one)
+			if(2)
+				L.add_stress(/datum/stressevent/lonely_two)
+			if(3)
+				L.add_stress(/datum/stressevent/lonely_three)
+			if(4)
+				L.add_stress(/datum/stressevent/lonely_max)
+
+/datum/charflaw/lonely/proc/reset_stacks(mob/living/L)
+	if(stacks >= 2)
+		to_chat(L, span_info("Oh thank [L.patron?.name]! A person!"))
+	if(stacks > 1)
+		L.remove_stress_list(/datum/stressevent/lonely_one, /datum/stressevent/lonely_two, /datum/stressevent/lonely_three, /datum/stressevent/lonely_max)
+	stacks = 0
+
+/datum/charflaw/clingy
+	name = "Clingy"
+	desc = "I like being close to people. Real close."
+	var/next_check = 0
+	var/interval = 1 MINUTES
+	var/is_active = FALSE
+
+/datum/charflaw/clingy/flaw_on_life(mob/user)
+	if(!user)
+		return
+	if(is_active)
+		if(world.time > next_check)
+			next_check = world.time + interval
+			var/cnt = 0
+			var/distfound = FALSE
+			for(var/mob/living/carbon/human/L in get_hearers_in_view(2, user))
+				if(L == user)
+					continue
+				if(L.stat == DEAD)
+					continue
+				var/dist = get_dist(L, user)
+				if(dist <= 1)
+					distfound = TRUE
+					user.remove_stress(/datum/stressevent/nopeople)
+					break
+				if(L.dna.species)
+					cnt++
+				if(cnt >= 2)
+					user.remove_stress(/datum/stressevent/nopeople)
+					break
+			var/mob/living/carbon/P = user
+			if(cnt < 1 && !distfound)
+				P.add_stress(/datum/stressevent/nopeople)
+
+/datum/charflaw/clingy/apply_post_equipment(mob/user)
+	if(user.mind)
+		is_active = TRUE
+	
 
 /datum/charflaw/noeyer
 	name = "Cyclops (R)"
@@ -516,7 +682,7 @@ GLOBAL_LIST_INIT(averse_factions, list(
 	var/check_interval = 15 SECONDS
 	var/active_since
 	var/next_check = 0
-	var/check_range
+	var/check_range = 5
 
 /datum/charflaw/averse/flaw_on_life(mob/user)
 	if(is_active && world.time > next_check)
@@ -525,15 +691,20 @@ GLOBAL_LIST_INIT(averse_factions, list(
 			return
 		var/count = 0
 		for(var/mob/living/L in get_hearers_in_LOS(check_range, user, RECURSIVE_CONTENTS_CLIENT_MOBS))
-			if(L != user && L.stat != DEAD)
-				var/datum/job/J = SSjob.GetJob(L.job)
-				if(chosen_group & J.department_flag)
-					count++
-					if(count >= 2)
-						user.add_stress(/datum/stressevent/averse)
-					if(paid_triumphs)
-						triumph_refund(user)
+			if(check_aversion(user, L))
+				count++
+				if(count >= 2)
+					user.add_stress(/datum/stressevent/averse)
+				if(paid_triumphs)
+					triumph_refund(user)
 
+
+/datum/charflaw/averse/proc/check_aversion(mob/user, mob/target)
+	if(target != user && target.stat != DEAD)
+		var/datum/job/J = SSjob.GetJob(target.job)
+		if(chosen_group & J.department_flag)
+			return TRUE
+	return FALSE
 
 /datum/charflaw/averse/proc/triumph_refund(mob/user)
 	var/time_since = world.time - active_since
@@ -563,11 +734,13 @@ GLOBAL_LIST_INIT(averse_factions, list(
 /datum/charflaw/averse/proc/check_for_candidates(mob/user)
 	if(user.mind)
 		var/averse_found = FALSE
-		for(var/mob/living/L in GLOB.joined_player_list)
-			var/datum/job/J = SSjob.GetJob(L.job)
-			if(chosen_group & J.department_flag)
-				averse_found = TRUE
-				break
+		for(var/mob/living/player in GLOB.player_list)
+			if(player != user)
+				if(ishuman(player))
+					var/datum/job/J = SSjob.GetJob(player.job)
+					if(chosen_group & J.department_flag)
+						averse_found = TRUE
+						break
 		if(!averse_found)
 			var/list/options = list("Pick a Random Aversion", "Keep Current (-3 TRI)")
 			var/choice = input(user, "There are no viable candidates for your Aversion. What do you do?", "AVERSION ALERT") as anything in options

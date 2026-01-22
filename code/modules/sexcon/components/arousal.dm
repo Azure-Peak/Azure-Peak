@@ -57,7 +57,7 @@
 	var/clamp_max = MAX_AROUSAL
 	var/mob/user = parent
 	if(user.has_flaw(/datum/charflaw/addiction/thrillseeker))
-		clamp_max = THRILLSEEKER_EJAC_THRESHOLD
+		clamp_max = THRILLSEEKER_THRESHOLD
 		if(forced)
 			clamp_max = 50
 	arousal = clamp(amount, 0, clamp_max)
@@ -72,6 +72,29 @@
 	if(arousal > 0)
 		arousal *= arousal_multiplier
 	return set_arousal(source, arousal + amount, forced)
+
+/datum/component/arousal/proc/adjust_arousal_special(datum/source, amount, forced = FALSE)
+	var/mob/living/mob = parent
+	if(!mob.has_flaw(/datum/charflaw/addiction/thrillseeker))
+		return
+	if(arousal_frozen)
+		return arousal
+	if(arousal > 0)
+		arousal *= arousal_multiplier
+	return set_arousal_special(source, arousal + amount, THRILLSEEKER_THRESHOLD)
+
+/datum/component/arousal/proc/set_arousal_special(datum/source, amount, limit)
+	if(last_ejaculation_time > world.time - (3 MINUTES))	//Short break to not cover the screen in pink too quickly.
+		return
+	if(amount > arousal)
+		last_arousal_increase_time = world.time
+	var/clamp_max = MAX_AROUSAL
+	if(limit)
+		clamp_max = limit
+	arousal = clamp(amount, 0, clamp_max)
+	update_arousal_effects()
+	SEND_SIGNAL(parent, COMSIG_SEX_AROUSAL_CHANGED)
+	return arousal
 
 /datum/component/arousal/proc/freeze_arousal(datum/source, freeze_state = null)
 	var/mob/user = parent
@@ -116,11 +139,7 @@
 	update_erect_state()
 
 /datum/component/arousal/proc/try_ejaculate()
-	var/mob/user = parent
-
-	if(arousal < PASSIVE_EJAC_THRESHOLD && !user.has_flaw(/datum/charflaw/addiction/thrillseeker))
-		return
-	if(user.has_flaw(/datum/charflaw/addiction/thrillseeker) && arousal < THRILLSEEKER_EJAC_THRESHOLD_PASSIVE)
+	if(arousal < PASSIVE_EJAC_THRESHOLD)
 		return
 	if(is_spent())
 		return
@@ -131,108 +150,128 @@
 	var/mob/living/mob = parent
 	var/list/parent_sessions = return_sessions_with_user(parent)
 	var/datum/sex_session/highest_priority = return_highest_priority_action(parent_sessions, parent)
-	var/mob/living/carbon/human/user = highest_priority.user
-	var/mob/living/carbon/human/target = highest_priority.target
-	var/datum/sex_action/action = SEX_ACTION(highest_priority.current_action)	
-	if(mob.has_flaw(/datum/charflaw/addiction/thrillseeker))
-		after_ejaculation(FALSE, user, target)
-		return	
+	var/mob/living/carbon/human/climaxer
+	var/mob/living/carbon/human/partner 
+	var/datum/sex_action/action = SEX_ACTION(highest_priority.current_action)
+
+	if(action.flipped)
+		climaxer = highest_priority.target
+		partner = highest_priority.user
+	else
+		climaxer = highest_priority.user
+		partner = highest_priority.target
+
 	playsound(parent, 'sound/misc/mat/endout.ogg', 50, TRUE, ignore_walls = FALSE)
-	// Special case for when the user has a penis but no testicles
+	// Special case for when the climaxer has a penis but no testicles
 	if(!mob.getorganslot(ORGAN_SLOT_TESTICLES) && mob.getorganslot(ORGAN_SLOT_PENIS))
 		mob.visible_message(span_love("[mob] climaxes, yet nothing is released!"))
-		after_ejaculation(action, user, target)
+		after_ejaculation(action, climaxer, partner)
 		return
 	if(!highest_priority)
 		mob.visible_message(span_love("[mob] makes a mess!"))
 		var/turf/turf = get_turf(parent)
 		new /obj/effect/decal/cleanable/coom(turf)
-		after_ejaculation(action, user, target)
+		after_ejaculation(action, climaxer, partner)
 	else	
-		var/return_message = action.handle_climax_message(user, target)
+		var/return_message = action.handle_climax_message(climaxer, partner)
 		if(!return_message)
 			mob.visible_message(span_love("[mob] makes a mess!"))
 			var/turf/turf = get_turf(parent)
 			new /obj/effect/decal/cleanable/coom(turf)
-			after_ejaculation(action, user, target)
+			after_ejaculation(action, climaxer, partner)
 		else
-			handle_climax(return_message, user, target, action)
+			handle_climax(return_message, climaxer, partner, action)
 		if(action.knot_on_finish)
-			action.try_knot_on_climax(mob, target)
+			action.try_knot_on_climax(mob, partner)
 
+/datum/component/arousal/proc/ejaculate_special()
+	var/mob/living/mob = parent
+	after_ejaculation_special(mob)
+	last_ejaculation_time = world.time
 
-/datum/component/arousal/proc/handle_climax(climax_type, mob/living/carbon/human/user, mob/living/carbon/human/target, action)
+/datum/component/arousal/proc/after_ejaculation_special(mob/living/parent)
+	parent.add_stress(/datum/stressevent/thrill)
+	if(prob(1))
+		parent.emote("groan", forced = TRUE)
+
+/datum/component/arousal/proc/handle_climax(climax_type, mob/living/carbon/human/climaxer, mob/living/carbon/human/partner, action)
 
 	switch(climax_type)
 		if("onto")
-			log_combat(user, target, "Came onto the target")
-			playsound(target, 'sound/misc/mat/endout.ogg', 50, TRUE, ignore_walls = FALSE)
-			var/turf/turf = get_turf(target)
+			log_combat(climaxer, partner, "Came onto [partner]")
+			playsound(partner, 'sound/misc/mat/endout.ogg', 50, TRUE, ignore_walls = FALSE)
+			var/turf/turf = get_turf(partner)
 			new /obj/effect/decal/cleanable/coom(turf)
 		if("into")
-			log_combat(user, target, "Came inside the target")
-			playsound(target, 'sound/misc/mat/endin.ogg', 50, TRUE, ignore_walls = FALSE)
+			log_combat(climaxer, partner, "Came inside [partner]")
+			playsound(partner, 'sound/misc/mat/endin.ogg', 50, TRUE, ignore_walls = FALSE)
 		if("self")
-			log_combat(user, user, "Ejaculated")
-			user.visible_message(span_love("[user] makes a mess!"))
-			playsound(user, 'sound/misc/mat/endout.ogg', 50, TRUE, ignore_walls = FALSE)
-			var/turf/turf = get_turf(target)
+			log_combat(climaxer, climaxer, "Ejaculated")
+			climaxer.visible_message(span_love("[climaxer] makes a mess!"))
+			playsound(climaxer, 'sound/misc/mat/endout.ogg', 50, TRUE, ignore_walls = FALSE)
+			var/turf/turf = get_turf(partner)
 			new /obj/effect/decal/cleanable/coom(turf)
 
-	after_ejaculation(action, user, target)
+	after_ejaculation(action, climaxer, partner)
 
-/datum/component/arousal/proc/after_ejaculation(datum/sex_action/action, mob/living/carbon/human/user, mob/living/carbon/human/target)
-	SEND_SIGNAL(user, COMSIG_SEX_SET_AROUSAL, 20)
-	SEND_SIGNAL(user, COMSIG_SEX_CLIMAX)
+/datum/component/arousal/proc/after_ejaculation(datum/sex_action/action, mob/living/carbon/human/climaxer, mob/living/carbon/human/partner)
+	SEND_SIGNAL(climaxer, COMSIG_SEX_SET_AROUSAL, 20)
+	SEND_SIGNAL(climaxer, COMSIG_SEX_CLIMAX)
 
 	charge = max(0, charge - CHARGE_FOR_CLIMAX)
-	
-	var/intensity = action.intensity
-	if(!action.masturbation) //If the action's masturbation, no good lover bonus
-		if(HAS_TRAIT(target, TRAIT_GOODLOVER)) //If your partner is a good lover, your climax is more intense
-			intensity += 1
-	if(user.has_flaw(/datum/charflaw/addiction/thrillseeker))
-		var/datum/charflaw/addiction/thrill = user.get_flaw(/datum/charflaw/addiction/thrillseeker)
-		user.playsound_local(user, 'sound/misc/mat/end.ogg', 100)
+
+	var/intensity
+	if(action)
+		intensity = action.intensity
+		if(!action.masturbation) //If the action's masturbation, no good lover bonus
+			if(HAS_TRAIT(partner, TRAIT_GOODLOVER)) //If your partner is a good lover, your climax is more intense
+				intensity += 1
+
+	if(climaxer.has_flaw(/datum/charflaw/addiction/thrillseeker))
+		var/datum/charflaw/addiction/thrill = climaxer.get_flaw(/datum/charflaw/addiction/thrillseeker)
+		climaxer.playsound_local(climaxer, 'sound/misc/mat/end.ogg', 100)
 		last_ejaculation_time = world.time
 		if(!thrill.sated)
-			user.add_stress(/datum/stressevent/thrillsex)
+			climaxer.add_stress(/datum/stressevent/thrillsex)
+		if(prob(10))
+			climaxer.emote("groan", forced = TRUE)
 		return	
-	user.emote("moan", forced = TRUE)
-	user.playsound_local(user, 'sound/misc/mat/end.ogg', 100)
+
+	climaxer.emote("moan", forced = TRUE)
+	climaxer.playsound_local(climaxer, 'sound/misc/mat/end.ogg', 100)
 	last_ejaculation_time = world.time
 
-	if(HAS_TRAIT(user, TRAIT_UNSATISFIED)) //Given for 30 seconds when someone sets their arousal, it prevents gaining any benefits from orgasm
+	if(HAS_TRAIT(climaxer, TRAIT_UNSATISFIED)) //Given for 30 seconds when someone sets their arousal, it prevents gaining any benefits from orgasm
 		return
 
-	if(user.has_flaw(/datum/charflaw/addiction/lovefiend))
-		user.sate_addiction()
-	if(target.has_flaw(/datum/charflaw/addiction/lovefiend))
-		target.sate_addiction()
+	if(climaxer.has_flaw(/datum/charflaw/addiction/lovefiend))
+		climaxer.sate_addiction()
+	if(partner.has_flaw(/datum/charflaw/addiction/lovefiend))
+		partner.sate_addiction()
 
 	switch(intensity)
 		if(1) //Should only be achievable with masturbation
-			user.add_stress(/datum/stressevent/cumself)
+			climaxer.add_stress(/datum/stressevent/cumself)
 		if(2)
-			user.add_stress(/datum/stressevent/cumok)
+			climaxer.add_stress(/datum/stressevent/cumok)
 		if(3)
-			user.add_stress(/datum/stressevent/cummid)
+			climaxer.add_stress(/datum/stressevent/cummid)
 		if(4)
-			user.add_stress(/datum/stressevent/cumgood)
+			climaxer.add_stress(/datum/stressevent/cumgood)
 		if(5) //Should only be achievable with a good lover and a normally intimate action
-			user.add_stress(/datum/stressevent/cummax)
+			climaxer.add_stress(/datum/stressevent/cummax)
 		else //This should not trigger but just in case
-			user.add_stress(/datum/stressevent/cumok)
+			climaxer.add_stress(/datum/stressevent/cumok)
 
-	if((HAS_TRAIT(target, TRAIT_GOODLOVER) || HAS_TRAIT(user, TRAIT_GOODLOVER)) && intensity >= 4)
-		if(!user.mob_timers["cumtri"])
-			user.mob_timers["cumtri"] = world.time
-			user.adjust_triumphs(1)
-			to_chat(user, span_love("Our loving is a true TRIUMPH!"))
-		if(!target.mob_timers["cumtri"])
-			target.mob_timers["cumtri"] = world.time
-			target.adjust_triumphs(1)
-			to_chat(target, span_love("Our loving is a true TRIUMPH!"))
+	if(HAS_TRAIT(partner, TRAIT_GOODLOVER) && intensity >= 4)
+		if(!climaxer.mob_timers["cumtri"])
+			climaxer.mob_timers["cumtri"] = world.time
+			climaxer.adjust_triumphs(1)
+			to_chat(climaxer, span_love("Our loving is a true TRIUMPH!"))
+		if(!partner.mob_timers["cumtri"])
+			partner.mob_timers["cumtri"] = world.time
+			partner.adjust_triumphs(1)
+			to_chat(partner, span_love("Our loving is a true TRIUMPH!"))
 
 
 /datum/component/arousal/proc/set_charge(amount)
