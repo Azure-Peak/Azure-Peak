@@ -40,17 +40,17 @@
 	piercing_type = /obj/item/piercings/rings
 
 /datum/sprite_accessory/piercing/rings/emerald
-	name = "emerald rings"
+	name = "rings (emerald)"
 	icon_state = "rings-e"
 	piercing_type = /obj/item/piercings/rings/emerald
 
 /datum/sprite_accessory/piercing/rings/gold
-	name = "gold rings"
+	name = "rings (gold)"
 	icon_state = "rings-g"
 	piercing_type = /obj/item/piercings/rings/gold
 
 /datum/sprite_accessory/piercing/rings/silver
-	name = "silver rings"
+	name = "rings (silver)"
 	icon_state = "rings-s"
 	piercing_type = /obj/item/piercings/rings/silver
 
@@ -61,16 +61,16 @@
 	piercing_type = /obj/item/piercings/beads
 
 /datum/sprite_accessory/piercing/beads/emerald
-	name = "emerald beads"
+	name = "beads (emerald)"
 	icon_state = "beads-e"
 	piercing_type = /obj/item/piercings/beads/emerald
 
 /datum/sprite_accessory/piercing/beads/gold
-	name = "gold beads"
+	name = "beads (gold)"
 	icon_state = "beads-g"
 	piercing_type = /obj/item/piercings/beads/gold
 
 /datum/sprite_accessory/piercing/beads/silver
-	name = "silver beads"
+	name = "beads (silver)"
 	icon_state = "beads-s"
 	piercing_type = /obj/item/piercings/beads/silver
