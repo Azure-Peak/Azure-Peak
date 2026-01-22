@@ -28,3 +28,22 @@ SUBSYSTEM_DEF(event_scheduler)
 	var/weekday = time2text(world.timeofday, "Day") // Full day name
 
 	to_chat(world, span_userdanger("Today is [weekday], [mm]/[dd]/20[yy] at [hh]:[min]"))
+
+/datum/controller/subsystem/event_scheduler/proc/update_mob_fog_status(atom/movable/AM, area_is_safe)
+	if(!ishuman(AM))
+		return
+
+	var/mob/living/carbon/human/H = AM
+
+	if(!H.mind)
+		return
+
+	to_chat(H, span_userdanger("HELLO I AM THE COMPONENT YOU ARE IN [area_is_safe] AREA"))
+	var/datum/component/fogged/comp = H.GetComponent(/datum/component/fogged)
+
+	if(area_is_safe)
+		// If the area is safe, strip the component if they have it
+		if(comp)
+			qdel(comp)
+	else if(!comp)
+		H.AddComponent(/datum/component/fogged)
