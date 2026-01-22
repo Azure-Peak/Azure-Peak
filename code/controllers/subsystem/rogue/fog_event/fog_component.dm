@@ -1,10 +1,8 @@
 /datum/component/fogged
-	// Only allow one of these components per mob
 	dupe_mode = COMPONENT_DUPE_UNIQUE
 
-	// Configurable variables
-	var/ambush_chance = 50 // 2% chance per step
-	var/ambush_cooldown = 30 SECONDS // Don't spam spawn volfs
+	var/ambush_chance = 50
+	var/ambush_cooldown = 30 SECONDS
 	var/last_ambush_time = 0
 
 /datum/component/fogged/Initialize()
@@ -26,7 +24,7 @@
 /datum/component/fogged/proc/trigger_ambush()
 	var/mob/living/victim = parent
 	
-	// 1. Play scary sound
+	// Play scary sound
 	victim.playsound_local(victim, 'sound/misc/jumpscare (1).ogg', 100, FALSE)
 	to_chat(victim, span_userdanger("You feel eyes watching you from the fog..."))
 
@@ -34,6 +32,6 @@
 	if(!T || T.is_blocked_turf())
 		T = get_turf(victim)
 
-	new /mob/living/simple_animal/hostile/retaliate/rogue/wolf(T)
+	new /mob/living/simple_animal/hostile/retaliate/rogue/revenant(T)
 
 	last_ambush_time = world.time
