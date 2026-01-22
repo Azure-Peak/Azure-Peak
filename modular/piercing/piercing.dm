@@ -10,6 +10,17 @@
 	if(owner.getorganslot(ORGAN_SLOT_BREASTS))
 		var/obj/item/organ/breasts/breasts = owner.getorganslot(ORGAN_SLOT_BREASTS)
 		var/tag = icon_state
+		pixel_y = 0
+		pixel_x = 0
+		if(is_species(owner,/datum/species/dwarf) || is_species(owner,/datum/species/dwarf/gnome))
+			pixel_y = -3
+		if(is_species(owner,/datum/species/kobold))
+			pixel_y = -3
+		if(is_species(owner,/datum/species/goblinp))
+			pixel_y = -4
+		if(is_species(owner,/datum/species/elf) && owner.gender == MALE)
+			tag = tag + "_f"
+			pixel_y = 8
 		if((breasts.breast_size == 0) || (breasts.breast_size == 1))
 			tag = tag + "-1"
 		if(breasts.breast_size == 2)
@@ -25,6 +36,26 @@
 		var/tag = icon_state + "-1"
 		return tag
 
+/*
+/datum/sprite_accessory/piercing/get_icon_state(obj/item/organ/organ, obj/item/bodypart/bodypart, mob/living/carbon/owner)
+	if(owner.getorganslot(ORGAN_SLOT_BREASTS))
+		var/obj/item/organ/breasts/breasts = owner.getorganslot(ORGAN_SLOT_BREASTS)
+		var/tag = icon_state
+		if(is_species(owner,/datum/species/dwarf))
+			tag = tag + "_dwarf"
+			pixel_y = -2
+		if(is_species(owner,/datum/species/elf) && owner.gender == MALE)
+			tag = tag + "_f"
+			pixel_y = -2
+		return tag
+
+/datum/sprite_accessory/underwear/briefs/get_icon_state(obj/item/organ/organ, obj/item/bodypart/bodypart, mob/living/carbon/owner)
+	if(is_species(owner,/datum/species/dwarf))
+		return "maledwarf_reg"
+	if(owner.gender == FEMALE)
+		return "maleelf_reg"
+	return "male_reg"
+*/
 /datum/sprite_accessory/piercing/adjust_appearance_list(list/appearance_list, obj/item/organ/organ, obj/item/bodypart/bodypart, mob/living/carbon/owner)
 	generic_gender_feature_adjust(appearance_list, organ, bodypart, owner, OFFSET_SUIT, OFFSET_SUIT)
 
