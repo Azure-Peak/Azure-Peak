@@ -2056,7 +2056,7 @@
 /atom/movable/screen/alert/status_effect/buff/dagger_dash
 	name = "Dagger Dash"
 	desc = "I'm slipping through!"
-	icon_state = "daggerboost"
+	icon_state = "daggerdash"
 
 /atom/movable/screen/alert/status_effect/buff/dagger_boost
 	name = "Dagger Boost"
