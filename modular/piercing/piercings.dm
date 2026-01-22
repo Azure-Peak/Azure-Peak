@@ -32,24 +32,28 @@
 /obj/item/piercings/beads
 	name = "bead piercings"
 	desc = "Same as the ear ones, but for your nipples. These are in a shape of beads."
+	icon = 'modular/icons/mob/sprite_accessory/piercings/beads.dmi'
 	icon_state = "beads"
 	sprite_acc = /datum/sprite_accessory/piercing/beads
 
 /obj/item/piercings/beads/gold
 	name = "golden bead piercings"
 	desc = "Same as the ear ones, but for your nipples. These are in a shape of beads, made of gold."
+	icon = 'modular/icons/mob/sprite_accessory/piercings/beads.dmi'
 	icon_state = "beads-g"
 	sprite_acc = /datum/sprite_accessory/piercing/beads/gold
 
 /obj/item/piercings/beads/silver
 	name = "silver bead piercings"
 	desc = "Same as the ear ones, but for your nipples. These are in a shape of beads, made of silver."
+	icon = 'modular/icons/mob/sprite_accessory/piercings/beads.dmi'
 	icon_state = "beads-s"
 	sprite_acc = /datum/sprite_accessory/piercing/beads/silver
 
 /obj/item/piercings/beads/emerald
 	name = "emerald bead piercings"
 	desc = "Same as the ear ones, but for your nipples. These are in a shape of beads, made of emerald."
+	icon = 'modular/icons/mob/sprite_accessory/piercings/beads.dmi'
 	icon_state = "beads-e"
 	sprite_acc = /datum/sprite_accessory/piercing/beads/emerald
 
@@ -62,8 +66,8 @@
 /obj/item/piercings/rings/gold
 	name = "golden ring piercings"
 	desc = "Same as the ear ones, but for your nipples. These are in a shape of a ring, made of gold."
-	icon_state = "ring_g"
-//	sprite_acc = /datum/sprite_accessory/piercing/rings/gold
+	icon_state = "rings-g"
+	sprite_acc = /datum/sprite_accessory/piercing/rings/gold
 
 /obj/item/piercings/rings/silver
 	name = "silver ring piercings"
