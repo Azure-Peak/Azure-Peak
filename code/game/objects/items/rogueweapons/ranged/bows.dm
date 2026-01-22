@@ -49,7 +49,7 @@
 	chargedrain = 2
 	charging_slowdown = 3
 
-/datum/intent/arc/bow/can_charge()
+/datum/intent/arc/bow/can_charge(atom/clicked_object)
 	if(mastermob)
 		var/cooldown = (mastermob.active_hand_index == 1) ? mastermob.next_lmove : mastermob.next_rmove
 		if(cooldown > world.time)

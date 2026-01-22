@@ -58,7 +58,7 @@
 	chargedrain = 0 //no drain to aim a crossbow
 	basetime = 20
 
-/datum/intent/shoot/crossbow/can_charge()
+/datum/intent/shoot/crossbow/can_charge(atom/clicked_object)
 	if(mastermob?.next_move > world.time)
 		if(mastermob.client.last_cooldown_warn + 10 < world.time)
 			to_chat(mastermob, span_warning("I'm not ready to do that yet!"))

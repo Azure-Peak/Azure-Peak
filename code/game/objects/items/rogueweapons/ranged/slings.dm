@@ -5,7 +5,7 @@
 	chargedrain = 2
 	charging_slowdown = 3
 
-/datum/intent/swing/sling/can_charge()
+/datum/intent/swing/sling/can_charge(atom/clicked_object)
 	if(mastermob?.next_move > world.time)
 		if(mastermob.client.last_cooldown_warn + 10 < world.time)
 			to_chat(mastermob, span_warning("I'm not ready to do that yet!"))
@@ -39,7 +39,7 @@
 	chargedrain = 2
 	charging_slowdown = 3
 
-/datum/intent/arc/sling/can_charge()
+/datum/intent/arc/sling/can_charge(atom/clicked_object)
 	if(mastermob?.next_move > world.time)
 		if(mastermob.client.last_cooldown_warn + 10 < world.time)
 			to_chat(mastermob, span_warning("I'm not ready to do that yet!"))
