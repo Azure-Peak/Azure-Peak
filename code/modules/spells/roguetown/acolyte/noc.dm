@@ -86,7 +86,7 @@
 
 /obj/effect/proc_holder/spell/self/noc_spell_bundle
 	name = "Arcyne Affinity"
-	desc = "Allows you to learn a set of buffing, utility or combat spells."
+	desc = "Allows you to learn a set of empowering, utility or combat spells."
 	base_icon_state = "wisescroll"
 	miracle = TRUE
 	devotion_cost = 200
