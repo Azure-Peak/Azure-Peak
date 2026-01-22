@@ -625,7 +625,7 @@ var/global/list/anvil_recipe_prices[][]
 				I.visible_message(span_info("[I]'s mend together, completely."))
 				continue
 		if((user.devotion?.devotion - cost) < 0)
-			to_chat(user, span_warning("I don't have enough devotion!"))
+			to_chat(user, span_warning("I do not have enough devotion!"))
 			return FALSE
 		cast(user)
 	revert_cast()

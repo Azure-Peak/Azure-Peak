@@ -363,7 +363,7 @@
 	if(!iscarbon(user)) //Look ma, no hands
 		return
 	if(!(user.mobility_flags & MOBILITY_USE))
-		to_chat(user, "<span class='warning'>I can't reach out!</span>")
+		to_chat(user, "<span class='warning'>I cannot reach out!</span>")
 		return
 	..()
 
@@ -410,8 +410,8 @@
 //T1
 
 /obj/effect/proc_holder/spell/self/moon_light
-	name = "Glimpses of the Moon"
-	desc = "The moon will illuminate the living beings around you, highlighting them from the shadows with its light."
+	name = "Moonlight Glimmer"
+	desc = "The moon will illuminate the living beings around you, exposing them to you."
 	releasedrain = 10
 	chargedrain = 0
 	chargetime = 0
@@ -473,7 +473,7 @@
 /obj/effect/proc_holder/spell/self/wisescroll
 	name = "Moon Grimoire"
 	desc = "Using writing materials, and enough paper, write a great work: a Magic Scroll. Use your dreampoints as ink.\n\
-	You will require to have items worth 10 points in total around yourself and to hold a feather to cast the miricle.\n\
+	You will be required to have items worth 10 points in total around yourself and to hold a feather to cast the miracle.\n\
 	Piece of parchment - 1 point, scroll - 2 points, book - 5 points."
 	releasedrain = 200
 	chargedrain = 0
