@@ -778,7 +778,7 @@
 	can_parry = TRUE
 	wdefense = 8
 
-	max_integrity = 250
+	max_integrity = 0
 
 /obj/item/rogueweapon/scabbard/sword/kazengun/noparry
 	name = "ceremonial kazengun scabbard"
