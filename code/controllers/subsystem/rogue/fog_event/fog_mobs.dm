@@ -6,6 +6,7 @@
 	alpha = 0 // Starts invisible for the spawn animation
 	status_flags = CANPUSH
 	faction = list("revenants")
+	mob_biotypes = MOB_UNDEAD
 
 	health = 150
 	maxHealth = 150
@@ -26,6 +27,12 @@
 	. = ..()
 	AddComponent(/datum/component/fog_entity)
 	appear_animated()
+	ADD_TRAIT(src, TRAIT_NOBREATH, TRAIT_GENERIC)
+	ADD_TRAIT(src, TRAIT_NOPAIN, TRAIT_GENERIC)
+	ADD_TRAIT(src, TRAIT_KNEESTINGER_IMMUNITY, INNATE_TRAIT)
+	ADD_TRAIT(src, TRAIT_SILVER_WEAK, TRAIT_GENERIC)
+	// We do not bleed.
+	REMOVE_TRAIT(src, TRAIT_SIMPLE_WOUNDS, TRAIT_GENERIC)
 
 /mob/living/simple_animal/hostile/retaliate/rogue/revenant/proc/appear_animated()
 	move_to_delay = fade_time // Basically can't move until the animation is done!
