@@ -48,8 +48,8 @@ GLOBAL_LIST_INIT(ambush_encounters, init_ambush_encounters())
         /mob/living/simple_animal/hostile/retaliate/rogue/revenant/wolf,
         /mob/living/simple_animal/hostile/retaliate/rogue/revenant
     )
-    pack.unlock_score = 60
-    pack.point_cost = 60
+    pack.unlock_score = 50
+    pack.point_cost = 50
     pack.weight = 10
     L += pack
 
@@ -58,8 +58,8 @@ GLOBAL_LIST_INIT(ambush_encounters, init_ambush_encounters())
     // Mire Lurker Revenant
     var/datum/ambush_entry/mob/lurker = new
     lurker.mob_type = /mob/living/simple_animal/hostile/retaliate/rogue/revenant/mirespider_lurker
-    lurker.unlock_score = 50
-    lurker.point_cost = 50
+    lurker.unlock_score = 40
+    lurker.point_cost = 40
     lurker.weight = 10
     L += lurker
 
@@ -71,8 +71,8 @@ GLOBAL_LIST_INIT(ambush_encounters, init_ambush_encounters())
         /mob/living/simple_animal/hostile/retaliate/rogue/revenant/mirespider,
         /mob/living/simple_animal/hostile/retaliate/rogue/revenant/mirespider
     )
-    swarm.unlock_score = 80
-    swarm.point_cost = 80
+    swarm.unlock_score = 65
+    swarm.point_cost = 65
     swarm.weight = 8
     L += swarm
 
@@ -83,7 +83,7 @@ GLOBAL_LIST_INIT(ambush_encounters, init_ambush_encounters())
     dragon.mob_type = /mob/living/simple_animal/hostile/retaliate/rogue/revenant/dragon
     dragon.unlock_score = 150 // Requires a large group or very long exposure
     dragon.point_cost = 150
-    dragon.weight = 5
+    dragon.weight = 20
     dragon.can_repeat = FALSE
     L += dragon
 

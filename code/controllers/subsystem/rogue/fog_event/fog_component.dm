@@ -1,10 +1,11 @@
 /datum/component/fogged
 	dupe_mode = COMPONENT_DUPE_UNIQUE
 
-	var/ambush_chance = 50
-	var/ambush_cooldown = 30 SECONDS
+	var/ambush_chance = 5
 	var/last_ambush_time = 0
 	var/fog_enter_time = 0
+	var/ambush_in_progress = FALSE
+	var/ambush_grace_period = 5 SECONDS
 
 /datum/component/fogged/Initialize()
 	if(!isliving(parent))
@@ -30,12 +31,20 @@
 		trigger_ambush()
 
 /datum/component/fogged/proc/trigger_ambush()
+	// Let's make sure people can at least get across small distances, hmm?
+	if(world.time - ambush_grace_period < fog_enter_time)
+		return
+	// Calculating a big ambush is expensive, so let's make sure it doesn't trigger multiple times.
+	if(ambush_in_progress)
+		return
+
+	ambush_in_progress = TRUE
 	var/mob/living/victim_prime = parent
 	var/turf/T = get_turf(victim_prime)
 
 	var/list/mob/living/valid_victims = list()
-	var/total_ambush_score = 0
-	
+	var/total_ambush_score = 20
+
 	for(var/mob/living/potential in view(7, victim_prime))
 		if(potential.stat == DEAD)
 			continue
@@ -55,47 +64,53 @@
 		total_ambush_score += calculate_victim_score(potential, F.fog_enter_time)
 
 	if(!length(valid_victims))
+		ambush_in_progress = FALSE
 		return // No valid targets
-
-	// Select Encounter
-	total_ambush_score += 500
-	var/datum/ambush_entry/encounter = select_ambush_encounter(total_ambush_score)
-	if(!encounter)
-		return // Score too low for anything, or bad luck
 
 	var/list/spawn_candidates = get_fog_ambush_spawn(2, 7)
 	playsound(T, 'sound/misc/jumpscare (1).ogg', 75, TRUE)
 
 	if(!length(spawn_candidates))
+		ambush_in_progress = FALSE
 		return // Nowhere to spawn
 
-	// Execute Spawn
-	// Calculate Multiplier (2x or 3x points = 2x or 3x mobs)
-	var/count = 1
-	if(encounter.can_repeat)
-		if(total_ambush_score >= (encounter.unlock_score * 3))
-			count = 3
-		else if(total_ambush_score >= (encounter.unlock_score * 2))
-			count = 2
-
 	var/cooldown_penalty = 0
-	for(var/i in 1 to count)
+	// Just in case people do something silly, I'd rather not melt the server.
+	var/max_mobs = 15
+	var/current_mobs = 0
+
+	while(total_ambush_score > 0 && current_mobs < max_mobs)
+		var/datum/ambush_entry/encounter = select_ambush_encounter(total_ambush_score)
+
+		if(!encounter)
+			break // Nothing left that we can afford
+
 		var/turf/spawn_turf = pick(spawn_candidates)
 		var/list/spawned_mobs = encounter.spawn_at(spawn_turf)
 
-		// Setup aggression
 		for(var/mob/living/simple_animal/hostile/H in spawned_mobs)
 			H.faction += "ambush"
-			H.GiveTarget(pick(valid_victims)) // Pick a random person from the valid list
+			// Appears to be bugged sire
+			//H.GiveTarget(pick(valid_victims))
+			current_mobs++
+
+		// Deduct from budget and track for cooldown
+		total_ambush_score -= encounter.unlock_score
 		cooldown_penalty += encounter.point_cost
 
-	// Worse ambushes = Longer cooldowns
+	if(current_mobs <= 0)
+		ambush_in_progress = FALSE
+		return
+
+	// Using your 0.2s scaling for a tighter cooldown window
 	var/final_cooldown = 30 SECONDS + (cooldown_penalty * 0.2 SECONDS)
+
 	for(var/mob/living/V in valid_victims)
 		V.mob_timers["ambush_cooldown"] = world.time + final_cooldown
 		to_chat(V, span_userdanger("The fog churns violently... something has found you!"))
-		V.playsound_local(V, 'sound/misc/jumpscare (1).ogg', 100, FALSE)
 		shake_camera(V, 2, 2)
+	
+	ambush_in_progress = FALSE
 
 /datum/component/fogged/proc/calculate_victim_score(mob/living/victim, time_entered)
 	var/score = 0
