@@ -1094,13 +1094,6 @@
 	created_item = /obj/item/rogueweapon/shield/tower/holysee
 	i_type = "Weapons"
 
-/datum/anvil_recipe/weapons/holysteel/malum_sword
-	name = "Malumite Flamberge (+2 Holy Steel)"
-	req_bar = /obj/item/ingot/steelholy
-	additional_items = list(/obj/item/ingot/steelholy, /obj/item/ingot/steelholy)
-	created_item = /obj/item/rogueweapon/greatsword/grenz/flamberge/malum
-	i_type = "Weapons"
-
 // BLESSED SILVER
 
 /datum/anvil_recipe/weapons/psy/axe

@@ -1054,12 +1054,15 @@
 			if("onbelt")
 				return list("shrink" = 0.3,"sx" = -2,"sy" = -5,"nx" = 4,"ny" = -5,"wx" = 0,"wy" = -5,"ex" = 2,"ey" = -5,"nturn" = 0,"sturn" = 0,"wturn" = 0,"eturn" = 0,"nflip" = 0,"sflip" = 0,"wflip" = 0,"eflip" = 0,"northabove" = 0,"southabove" = 1,"eastabove" = 1,"westabove" = 0)
 
-/obj/item/rogueweapon/greatsword/grenz/flamberge/malum
-	name = "forgefiend flamberge"
-	desc = "This sword's creation took a riddle in its own making. A great sacrifice was made for a blade of perfect quality."
-	icon_state = "malumflamberge"
-	max_integrity = 200
-	max_blade_int = 200
+/obj/item/rogueweapon/greatsword/grenz/flamberge/ravox
+	name = "Censure"
+	desc = "A blade that invites imagery of hope. Of men clad in shattered plate and bearing blackened pauldrons, \
+	standing at His side. To correct Her wrongs, as they sought the censure of divine tyranny. \
+	<small>Even now, it smells of ash.</small>"
+	icon_state = "ravoxflamberge"
+	max_integrity = 240
+	max_blade_int = 240
+	wdefense = 7//You are truly unique, m'lord.
 
 /obj/item/rogueweapon/greatsword/grenz/flamberge/blacksteel
 	name = "blacksteel flamberge"

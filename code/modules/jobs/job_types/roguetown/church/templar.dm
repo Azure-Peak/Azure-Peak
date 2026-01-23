@@ -352,13 +352,13 @@
 		if(/datum/patron/divine/pestra)
 			weapons += "Plaguebringer Sickles"
 		if(/datum/patron/divine/malum)
-			weapons += "Forgefiend"
+			weapons += "Kargrund Maul"
 		if(/datum/patron/divine/dendor)
 			weapons += "Summer Scythe"
 		if(/datum/patron/divine/xylix)
 			weapons += "Cackle Lash"
 		if(/datum/patron/divine/ravox)
-			weapons += "Duel Settler"
+			weapons += "Censure"
 		if(/datum/patron/divine/eora)
 			weapons += "The Heartstring"
 		if(/datum/patron/divine/abyssor)
@@ -416,9 +416,10 @@
 			H.put_in_hands(new /obj/item/rogueweapon/huntingknife/idagger/steel/pestrasickle(H))
 			H.adjust_skillrank_up_to(/datum/skill/combat/knives, 4, TRUE) // actually makes them usable for the templar.
 			H.equip_to_slot_or_del(new /obj/item/clothing/suit/roguetown/armor/plate/silver, SLOT_ARMOR, TRUE)
-		if("Forgefiend")
-			H.put_in_hands(new /obj/item/rogueweapon/greatsword/grenz/flamberge/malum(H))
-			H.adjust_skillrank(/datum/skill/combat/swords, 1, TRUE)
+		if("Kargrund Maul")
+			H.put_in_hands(new /obj/item/rogueweapon/mace/maul/grand/malum(H), TRUE)
+			H.put_in_hands(new /obj/item/rogueweapon/scabbard/gwstrap(H))
+			H.adjust_skillrank(/datum/skill/combat/maces, 1, TRUE)
 			H.equip_to_slot_or_del(new /obj/item/clothing/suit/roguetown/armor/plate/silver, SLOT_ARMOR, TRUE)
 		if("Summer Scythe")
 			H.put_in_hands(new /obj/item/rogueweapon/halberd/bardiche/scythe(H))
@@ -429,9 +430,10 @@
 			H.put_in_hands(new /obj/item/rogueweapon/whip/xylix(H))
 			H.adjust_skillrank(/datum/skill/combat/whipsflails, 1, TRUE)
 			H.equip_to_slot_or_del(new /obj/item/clothing/suit/roguetown/armor/plate/silver, SLOT_ARMOR, TRUE)
-		if("Duel Settler")
-			H.put_in_hands(new /obj/item/rogueweapon/mace/goden/steel/ravox(H))
-			H.adjust_skillrank(/datum/skill/combat/maces, 1, TRUE)
+		if("Censure")
+			H.put_in_hands(new /obj/item/rogueweapon/greatsword/grenz/flamberge/ravox(H))
+			H.put_in_hands(new /obj/item/rogueweapon/scabbard/gwstrap(H))
+			H.adjust_skillrank(/datum/skill/combat/swords, 1, TRUE)
 			H.equip_to_slot_or_del(new /obj/item/clothing/suit/roguetown/armor/plate/silver, SLOT_ARMOR, TRUE)
 		if("The Heartstring")
 			H.put_in_hands(new /obj/item/rogueweapon/sword/rapier/eora(H))
