@@ -182,6 +182,7 @@ GLOBAL_LIST_INIT(roguetown_areas_typecache, typecacheof(/area/rogue/indoors/town
 	soundenv = 8
 	plane = INDOOR_PLANE
 	converted_type = /area/rogue/outdoors/exposed
+	fog_protected = TRUE
 
 /area/rogue/outdoors/exposed
 	icon_state = "exposed"

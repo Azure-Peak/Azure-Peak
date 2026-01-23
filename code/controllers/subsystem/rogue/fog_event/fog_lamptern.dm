@@ -1,6 +1,6 @@
 /obj/item/lantern/fog_repelling
 	name = "blessed fog lantern"
-	desc = "A specialized iron lamptern filled with sanctified oil. It projects a minor holy ward. Fuel is only consumed when moving through the fog."
+	desc = "A specialized iron lamptern filled with sanctified oil. It projects a minor holy ward. Fuel burns faster when moving through the fog."
 	icon = 'icons/roguetown/items/lighting.dmi'
 	icon_state = "lamp_ghost"
 	item_state = "lamp"
@@ -12,6 +12,9 @@
 	var/range = 5
 	var/active = FALSE
 	var/mob/living/carbon/human/holder
+
+/obj/item/lantern/fog_repelling/empty
+	fuel = 0
 
 /obj/item/lantern/fog_repelling/examine(mob/user)
 	. = ..()
@@ -58,18 +61,11 @@
 /obj/item/lantern/fog_repelling/proc/consume_fuel(mob/living/user)
 	if(!active)
 		return
-	// if(loc != holder)
-	// 	to_chat(holder, span_warning("The protective light of [src] fades as it leaves your exterior!"))
-	// 	holder.remove_status_effect(/datum/status_effect/buff/fog_ward_caster)
-	// 	extinguish(user)
-	// 	stop_tracking()
 
 	var/area/A = get_area(user)
 	// burns more fuel if moving through UNPROTECTED areas.
 	if(A && !A.fog_protected)
-		fuel -= 50
-		// Small debug to confirm it's working
-		to_chat(user, span_userdanger("The oil burns as you tread through the mist...")) 
+		fuel -= 2
 	else
 		fuel--
 	if(fuel <= 0)
@@ -115,9 +111,50 @@
 	. = ..()
 
 	if(holder)
-		if(loc != holder || istype(loc, /obj/item/storage) || istype(loc, /obj/structure/closet))
-			// ...it was dropped, put in a bag, or stuffed into a closet.
+		if(loc != holder || istype(loc, /obj/item/storage/backpack) || istype(loc, /obj/structure/closet))
 			to_chat(holder, span_warning("The protective light of [src] fades as it leaves your person!"))
 			holder.remove_status_effect(/datum/status_effect/buff/fog_ward_caster)
 			extinguish()
 			stop_tracking()
+
+/datum/reagent/sanctified_oil
+	name = "Sanctified Oil"
+	description = "A shimmering, golden oil blessed by a higher power. It burns with a pure, fog-repelling light."
+	color = "#fff2aa"
+	taste_description = "incense and warm sunlight"
+
+// The Bottle
+/obj/item/reagent_containers/glass/bottle/sanctified_oil
+	name = "bottle of sanctified oil"
+	desc = "A sturdy glass bottle containing sanctified oil. One bottle is enough to completely fill a fog lantern."
+	list_reagents = list(/datum/reagent/sanctified_oil = 48)
+
+/obj/item/lantern/fog_repelling/attackby(obj/item/I, mob/user)
+	if(istype(I, /obj/item/reagent_containers))
+		var/obj/item/reagent_containers/container = I
+		if(!container.reagents.has_reagent(/datum/reagent/sanctified_oil))
+			to_chat(user, span_warning("[container] doesn't contain sanctified oil!"))
+			return
+		if(fuel >= max_fuel)
+			to_chat(user, span_warning("[src] is already full!"))
+			return
+
+		// 1 unit of reagent = 25 units of fuel
+		var/oil_to_fuel_ratio = 25 
+		var/available_reagent = container.reagents.get_reagent_amount(/datum/reagent/sanctified_oil)
+
+		var/units_needed = CEILING((max_fuel - fuel) / oil_to_fuel_ratio, 1)
+		var/transfer_amount = min(available_reagent, units_needed)
+
+		if(transfer_amount > 0)
+			user.visible_message(span_notice("[user] carefully refills [src]."), \
+								 span_notice("You refill [src] with sanctified oil."))
+
+			container.reagents.remove_reagent(/datum/reagent/sanctified_oil, transfer_amount)
+			fuel = min(fuel + (transfer_amount * oil_to_fuel_ratio), max_fuel)
+			
+			playsound(src, 'sound/items/drink_bottle (2).ogg', 50, TRUE)
+			update_icon()
+		return TRUE
+
+	return ..()
