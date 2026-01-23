@@ -129,3 +129,10 @@
 	user.apply_status_effect(/datum/status_effect/buff/fog_ward_caster, ward_range, duration)
 
 	return TRUE
+
+/obj/effect/proc_holder/spell/invoked/fog_ward/on_gain(mob/living/user)
+	// Check the subsystem variable to see if fog is even a possibility this round
+	if(!SSevent_scheduler.fog_scheduled)
+		qdel(src)
+		return FALSE
+	return ..()

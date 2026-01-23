@@ -2,6 +2,7 @@ SUBSYSTEM_DEF(event_scheduler)
 	name = "Event Scheduler"
 	flags = SS_NO_FIRE
 	var/fog_active = FALSE
+	var/fog_scheduled = FALSE
 	var/fog_json_path = "data/fog_schedule.json"
 	var/list/fog_schedule = list()
 
@@ -12,6 +13,7 @@ SUBSYSTEM_DEF(event_scheduler)
 	load_fog_schedule()
 	check_schedule_new()
 	addtimer(CALLBACK(src, .proc/trigger_fog_event), 1 MINUTES)
+	fog_scheduled = TRUE
 
 /datum/controller/subsystem/event_scheduler/proc/schedule_fog()
 	to_chat(world, span_userdanger("Necra has brought the fog..."))
