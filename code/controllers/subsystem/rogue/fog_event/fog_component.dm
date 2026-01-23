@@ -13,6 +13,9 @@
 	RegisterSignal(parent, COMSIG_MOVABLE_MOVED, .proc/on_moved)
 
 /datum/component/fogged/proc/on_moved()
+	if(HAS_TRAIT(parent, TRAIT_FOG_WARDED))
+		return FALSE
+
 	// Check cooldown
 	if(world.time < last_ambush_time + ambush_cooldown)
 		return

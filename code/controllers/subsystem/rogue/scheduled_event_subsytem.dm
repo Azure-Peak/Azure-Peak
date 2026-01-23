@@ -13,8 +13,8 @@ SUBSYSTEM_DEF(event_scheduler)
 	check_schedule_new()
 	addtimer(CALLBACK(src, .proc/trigger_fog_event), 1 MINUTES)
 
-/datum/controller/subsystem/event_scheduler/proc/schedule_fog(storyteller_name)
-	to_chat(world, span_userdanger("[storyteller_name] has brought the fog..."))
+/datum/controller/subsystem/event_scheduler/proc/schedule_fog()
+	to_chat(world, span_userdanger("Necra has brought the fog..."))
 	// Still using the 30-minute delay before the actual weather hits
 	addtimer(CALLBACK(src, .proc/trigger_fog_event), 30 MINUTES)
 

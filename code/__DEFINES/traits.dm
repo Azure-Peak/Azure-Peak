@@ -102,6 +102,7 @@
 #define TRAIT_NODEF "Recklessness"
 #define TRAIT_SHIRTLESS "Shirtless"
 #define TRAIT_STANDARD_BEARER "Standard Bearer" //Can use the keep's standard to provide buffs and rally the retinue.
+#define TRAIT_FOG_WARDED "Fog Warded"
 
 //Hearthstone port (Tracking)
 #define TRAIT_PERFECT_TRACKER "Huntmaster" //Will always find any tracks and analyzes them perfectly.
@@ -493,6 +494,7 @@ GLOBAL_LIST_INIT(roguetraits, list(
 	TRAIT_WEATHER_PROTECTED = span_notice("I am holding or wearing an item that will keep me dry when there's rainy weather."),
 	TRAIT_FOOD_STIPEND = span_notice("The creachers of the vomitorium know my touch, and will pull costs for their products directly from the treasury for me."),
 	TRAIT_STANDARD_BEARER = span_info("The banner is my lifeline. Just as I am to it. The retinue know to rally around me, so long as I keep it safe."),
+	TRAIT_FOG_WARDED = span_info("I am protected from Necra's deadly fog. The revenants won't find me... for now."),
 ))
 
 // trait accessor defines
