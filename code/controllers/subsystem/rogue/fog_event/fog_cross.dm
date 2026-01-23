@@ -1,6 +1,6 @@
 /obj/item/cross_construction_kit
 	name = "blessed fog repelling cross construction kit"
-	desc = "A bundle of sanctified wood and nails. Cannot be placed near existing holy sanctuaries."
+	desc = "A bundle of sanctified wood and nails. Cannot be placed near existing holy sanctuaries. It doesn't work without a lamptern."
 	icon = 'icons/roguetown/items/lighting.dmi'
 	icon_state = "crosskit"
 
