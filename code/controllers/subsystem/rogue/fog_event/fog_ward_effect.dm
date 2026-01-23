@@ -18,12 +18,14 @@
 	owner.add_filter(FOG_WARD_OUTLINE, 1, list("type" = "outline", "color" = "#ffffffb3", "size" = 1))
 	return TRUE
 
-/datum/status_effect/buff/fog_ward/process(delta_time)
+/datum/status_effect/buff/fog_ward/process()
+	. = ..()
 	if(QDELETED(caster) || caster.stat == DEAD || !caster.has_status_effect(/datum/status_effect/buff/fog_ward_caster))
 		to_chat(owner, span_warning("Woe! The ward fades!"))
 		owner.remove_status_effect(/datum/status_effect/buff/fog_ward)
 		return
 
+	// should this cause lag, remind me to make this component based instead.
 	if(get_dist(owner, caster) > range)
 		if(!grace_period)
 			to_chat(owner, span_warning("You have stepped out of the holy ward! Return to the light!"))
@@ -69,7 +71,8 @@
 	owner.remove_filter(FOG_WARD_OUTLINE)
 	return ..()
 
-/datum/status_effect/buff/fog_ward_caster/process(delta_time)
+/datum/status_effect/buff/fog_ward_caster/process()
+	. = ..()
 	for(var/mob/living/L in view(range, owner))
 		if(L.has_status_effect(/datum/status_effect/buff/fog_ward_caster))
 			continue
