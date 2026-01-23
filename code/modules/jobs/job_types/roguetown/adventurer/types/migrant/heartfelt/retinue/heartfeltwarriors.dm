@@ -1,8 +1,8 @@
 
 /datum/advclass/heartfelt/retinue/houseguard
 	name = "Heartfeltian House Guard"
-	tutorial = "You are a House Guard for the Lord of Heartfelt, a valiant defender of the once-prosperous barony now in ruin. \
-	Guided by the Magos, you journey to the Peak, seeking aid to restore your domain to its former glory, or perhaps claim a new throne."
+	tutorial = "You are a House Guard for the Lord of Heartfelt, a valiant defender of the prosperous borderlands. \
+	However, with the increase in banditry, necromancy, deadite risings, and increasing sea raider raids, there are rumors abound that Heartfelt is not what it used to be."
 	allowed_sexes = list(MALE, FEMALE)
 	allowed_races = ACCEPTED_RACES
 	outfit = /datum/outfit/job/roguetown/heartfelt/retinue/houseguard
@@ -102,8 +102,8 @@
 // Ranged weapons
 /datum/advclass/heartfelt/retinue/housearb
 	name = "Heartfeltian Missilite"
-	tutorial = "You are a Missilite for the Lord of Heartfelt, a ranged combatant of the once-prosperous barony now in ruin. \
-	Guided by the Magos, you journey to the Peak, seeking aid to restore your domain to its former glory, or perhaps claim a new throne."
+	tutorial = "You are a Missilite for the Lord of Heartfelt, a ranged combatant of the prosperous borderlands. \
+	However, with the increase in banditry, necromancy, deadite risings, and increasing sea raider raids, there are rumors abound that Heartfelt is not what it used to be."
 	allowed_sexes = list(MALE, FEMALE)
 	outfit = /datum/outfit/job/roguetown/heartfelt/retinue/housearb
 	category_tags = list(CTAG_HFT_RETINUE)
@@ -201,8 +201,8 @@
 
 /datum/advclass/heartfelt/retinue/squire
 	name = "Heartfeltian Squire"
-	tutorial = "You are a Squire for the Knights of Heartfelt, a trainee of the valiant defenders of the once-prosperous barony now in ruin. \
-	Guided by the Magos, you journey to the Peak, seeking aid to restore your domain to its former glory, or perhaps claim a new throne."
+	tutorial = "You are a Squire for the Knights of Heartfelt, a trainee of the valiant defenders of the prosperous borderlands. \
+	However, with the increase in banditry, necromancy, deadite risings, and increasing sea raider raids, there are rumors abound that Heartfelt is not what it used to be."
 	allowed_sexes = list(MALE, FEMALE)
 	allowed_races = RACES_NO_CONSTRUCT
 	outfit = /datum/outfit/job/roguetown/heartfelt/retinue/squire

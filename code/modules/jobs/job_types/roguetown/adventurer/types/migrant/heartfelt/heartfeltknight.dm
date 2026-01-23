@@ -1,8 +1,8 @@
 
 /datum/job/roguetown/heartfelt/knight
 	title = "Knight of Heartfelt"
-	tutorial = "You are a Knight of Heartfelt, once part of a brotherhood in service to your Lord. \
-	Now, alone and committed to safeguarding what remains of your court, you ride to the Peak, resolved to ensure their safe arrival."
+	tutorial = "You are a Knight of Heartfelt, part of a brotherhood in service to your Lord. \
+	Now, alone and committed to safeguarding the court, you ride to the Peak, resolved to ensure their safe arrival."
 	allowed_sexes = list(MALE, FEMALE)
 	allowed_races = RACES_NO_CONSTRUCT
 	total_positions = 1

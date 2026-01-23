@@ -1,8 +1,8 @@
 
 /datum/advclass/heartfelt/retinue/armorer
 	name = "Heartfeltian Armorer"
-	tutorial = "You are the Heartfeltian's Armorer destined for greatness, but fate intervened with the barony's downfall,\
-	With your home in ruins, you look to the Peak, hoping to find new purpose or refuge amidst the chaos."
+	tutorial = "You are the Heartfeltian Armorer destined for greatness,\
+	However, with the increase in banditry, necromancy, deadite risings, and increasing sea raider raids, there are rumors abound that Heartfelt is not what it used to be."
 	allowed_sexes = list(MALE, FEMALE)
 	outfit = /datum/outfit/job/roguetown/heartfelt/retinue/armorer
 	maximum_possible_slots = 1

@@ -1,8 +1,8 @@
 
 /datum/job/roguetown/heartfelt/lord
 	title = "Lord of Heartfelt"
-	tutorial = "You are the Lord of Heartfelt, ruler of a once-prosperous barony now in ruin. \
-	Guided by your Magos, you journey to the Peak, seeking aid to restore your domain to its former glory, or perhaps claim a new throne."
+	tutorial = "You are the Lord of Heartfelt, ruler of a prosperous borderlands now in Azuria. \
+	However, with the increase in banditry, necromancy, deadite risings, and increasing sea raider raids, there are rumors abound that Heartfelt is not what it used to be."
 	allowed_sexes = list(MALE, FEMALE)
 	allowed_races = RACES_NO_CONSTRUCT
 	outfit = null
@@ -20,8 +20,8 @@
 
 /datum/advclass/heartfelt/lord/lord
 	name = "Lord of Heartfelt"
-	tutorial = "You are the Lord of Heartfelt, ruler of a once-prosperous barony now in ruin. \
-	Guided by your Magos, you journey to the Reach, seeking aid to restore your domain to its former glory, or perhaps claim a new throne."
+	tutorial = "You are the Lord of Heartfelt, ruler of a prosperous borderlands now in Azuria. \
+	However, with the increase in banditry, necromancy, deadite risings, and increasing sea raider raids, there are rumors abound that Heartfelt is not what it used to be."
 	category_tags = list(CTAG_HFT_LORD)
 	maximum_possible_slots = 1
 	outfit = /datum/outfit/job/heartfelt/lord/lord
@@ -82,8 +82,8 @@
 
 /datum/advclass/heartfelt/lord/archmage
 	name = "Archmagos of Heartfelt"
-	tutorial = "You are the Archmagos of Heartfelt, ruler of a once-prosperous acryne-barony now in ruin. \
-	Guided by visions of the great beyond, you journey to the Reach, seeking aid to restore your domain to its former glory, or perhaps claim a new throne."
+	tutorial = "You are the Archmagos of Heartfelt, ruler of a acryne-borderlands in Azuria. \
+	However, with the increase in banditry, necromancy, deadite risings, and increasing sea raider raids, there are rumors abound that Heartfelt is not what it used to be."
 	category_tags = list(CTAG_HFT_LORD)
 	maximum_possible_slots = 1
 	outfit = /datum/outfit/job/heartfelt/lord/archmage
@@ -214,9 +214,9 @@
 // Funny role I thought I'd make. Reminded me of Canute and his Jarldom
 
 /datum/advclass/heartfelt/lord/chief
-	name = "Chief of Heartfelt"
-	tutorial = "You are the Chieftain of Heartfelt, ruler of a once-prosperous barony now in ruin. \
-	Guided by your Magos, you journey to the Reach, seeking aid to restore your domain to its former glory, or perhaps claim a new throne."
+	name = "Chieftain of Heartfelt"
+	tutorial = "You are the Chieftain of Heartfelt, Chieftain of a once tribal lands over Azuria. Now, you rule it under the watchful gaze of the Grand Duchy. \
+	However, with the increase in banditry, necromancy, deadite risings, and increasing sea raider raids, there are rumors abound that Heartfelt is not what it used to be."
 	category_tags = list(CTAG_HFT_LORD)
 	maximum_possible_slots = 1
 	outfit = /datum/outfit/job/heartfelt/lord/chief

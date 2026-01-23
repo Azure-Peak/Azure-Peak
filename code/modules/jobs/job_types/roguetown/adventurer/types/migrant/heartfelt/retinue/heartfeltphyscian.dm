@@ -1,8 +1,8 @@
 
 /datum/advclass/heartfelt/retinue/physician
 	name = "Heartfeltian Physcian"
-	tutorial = "You are the Physician of Heartfelt, once celebrated for your steady hands and healing wisdom, yet powerless to save your barony from its grim fate. \
-	Haunted by those you could not protect, you ascend toward the Peak—seeking redemption, renewed purpose, and perhaps a cure for the wounds the world has inflicted."
+	tutorial = "You are the Physician of Heartfelt, celebrated for your steady hands and healing wisdom. \
+	However, with the increase in banditry, necromancy, deadite risings, and increasing sea raider raids, there are rumors abound that Heartfelt is not what it used to be."
 	allowed_sexes = list(MALE, FEMALE)
 	allowed_races = RACES_NO_CONSTRUCT
 	outfit = /datum/outfit/job/roguetown/heartfelt/retinue/physician

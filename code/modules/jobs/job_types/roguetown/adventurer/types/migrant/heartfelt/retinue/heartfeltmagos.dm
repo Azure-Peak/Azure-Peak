@@ -1,8 +1,8 @@
 
 /datum/advclass/heartfelt/retinue/magos
 	name = "Heartfeltian Magos"
-	tutorial = "You are the Magos of Heartfelt, renowned for your arcane knowledge yet unable to foresee the tragedy that befell your home. \
-	Drawn by a guiding star to the Peak, you seek answers and perhaps a new purpose in the wake of destruction."
+	tutorial = "You are the Magos of Heartfelt, renowned for your arcane knowledge. \
+	However, with the increase in banditry, necromancy, deadite risings, and increasing sea raider raids, there are rumors abound that Heartfelt is not what it used to be."
 	allowed_sexes = list(MALE, FEMALE)
 	allowed_races = RACES_NO_CONSTRUCT
 	outfit = /datum/outfit/job/roguetown/heartfelt/retinue/magos

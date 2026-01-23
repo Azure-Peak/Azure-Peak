@@ -1,7 +1,8 @@
 /datum/job/roguetown/heartfelt/hand
 	title = "Hand of Heartfelt"
-	tutorial = "You are the Hand of Heartfelt, burdened by the perception of failure in protecting your Lord's domain. \
-	Despite doubts from others, your loyalty remains steadfast as you journey to the Reach, determined to fulfill your duties."
+	tutorial = "You are the Hand of Heartfelt, burdened by the perception in protecting your Lord's domain. \
+	However, with the increase in banditry, necromancy, deadite risings, and increasing sea raider raids, there are rumors abound that Heartfelt is not what it used to be. \
+	Despite doubts from others, your loyalty remains steadfast as you journey to the Peak, determined to fulfill your duties."
 	allowed_sexes = list(MALE, FEMALE)
 	allowed_races = ACCEPTED_RACES
 	outfit = /datum/outfit/job/roguetown/heartfelt/hand
