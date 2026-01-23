@@ -49,3 +49,10 @@
 /mob/living/simple_animal/hostile/retaliate/rogue/revenant/death(gibbed)
 	..()
 	qdel(src)
+
+// Horde fodder
+/mob/living/simple_animal/hostile/retaliate/rogue/revenant/weak
+	health = 80
+	maxHealth = 80
+	melee_damage_lower = 15
+	melee_damage_upper = 20

@@ -51,14 +51,16 @@
 	status_type = STATUS_EFFECT_REFRESH
 	var/refresh_duration = 0
 	var/range = 5
+	var/dispel_revenants = TRUE
 
 /datum/status_effect/buff/fog_ward_caster/refresh()
 	duration = refresh_duration
 
-/datum/status_effect/buff/fog_ward_caster/on_creation(mob/living/new_owner, R, D)
+/datum/status_effect/buff/fog_ward_caster/on_creation(mob/living/new_owner, R, D, dispel)
 	range = R
 	duration = D
 	refresh_duration = D
+	dispel_revenants = dispel
 	. = ..()
 
 /datum/status_effect/buff/fog_ward_caster/on_apply()
@@ -77,10 +79,11 @@
 		if(L.has_status_effect(/datum/status_effect/buff/fog_ward_caster))
 			continue
 
-		if(istype(L, /mob/living/simple_animal/hostile/retaliate/rogue/revenant))
-			var/mob/living/simple_animal/hostile/retaliate/rogue/revenant/F = L
-			F.disappear_animated()
-			continue // Don't try to ward the thing we're dispelling
+		if(dispel_revenants)
+			if(istype(L, /mob/living/simple_animal/hostile/retaliate/rogue/revenant))
+				var/mob/living/simple_animal/hostile/retaliate/rogue/revenant/F = L
+				F.disappear_animated()
+				continue // Don't try to ward the thing we're dispelling
 
 		if(ishuman(L))
 			L.apply_status_effect(/datum/status_effect/buff/fog_ward, owner, range)
