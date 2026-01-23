@@ -267,7 +267,7 @@ GLOBAL_LIST_INIT(roguetown_areas_typecache, typecacheof(/area/rogue/indoors/town
 	converted_type = /area/rogue/indoors/shelter/town
 	first_time_text = "THE CITY OF AZURE PEAK"
 	town_area = TRUE
-	fog_protected = FALSE
+	fog_protected = TRUE
 
 /area/rogue/indoors/shelter/town
 	icon_state = "town"
