@@ -1,7 +1,7 @@
 
 /datum/advclass/heartfelt/retinue/prior
-	name = "Heartfeltian Prior"
-	tutorial = "The Prior of Heartfelt, you were destined for ascension within the Church. \
+	name = "Heartfeltian Priest"
+	tutorial = "The Priest of Heartfelt, you were destined for ascension within the Church. \
 	. Still guided by the blessings of Astrata, you journey to the Peak, determined to offer what aid and solace you can."
 	allowed_sexes = list(MALE, FEMALE)
 	allowed_races = RACES_NO_CONSTRUCT
