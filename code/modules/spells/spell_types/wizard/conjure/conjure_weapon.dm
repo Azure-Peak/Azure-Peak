@@ -32,7 +32,7 @@ nite_needle(user.drop_location())
 
 /obj/item/rogueweapon/sword/nite_neddle
 	name = "Nite-Needle"
-	desc = "A long thin needle, you can spy countless star within the blade."
+	desc = "A long needle, you can spy countless star within the blade."
 	force = 19			//more comparable to a dagger than a sword, for it is ultimately a tool
 	max_blade_int = 100 //Astrata made this out of light not dull, duh.
 	max_integrity = 100
