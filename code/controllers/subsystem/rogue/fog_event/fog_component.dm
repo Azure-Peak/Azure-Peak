@@ -67,7 +67,7 @@
 		ambush_in_progress = FALSE
 		return // No valid targets
 
-	var/list/spawn_candidates = get_fog_ambush_spawn(2, 7)
+	var/list/spawn_candidates = get_fog_ambush_spawn(2, 6)
 	playsound(T, 'sound/misc/jumpscare (1).ogg', 75, TRUE)
 
 	if(!length(spawn_candidates))
@@ -102,7 +102,6 @@
 		ambush_in_progress = FALSE
 		return
 
-	// Using your 0.2s scaling for a tighter cooldown window
 	var/final_cooldown = 30 SECONDS + (cooldown_penalty * 0.2 SECONDS)
 
 	for(var/mob/living/V in valid_victims)
@@ -160,12 +159,9 @@
 	var/mob/living/L = parent
 	var/list/possible_targets = list()
 
-	for(var/obj/structure/flora/F in orange(max_dist, L))
-		if(istype(F, /obj/structure/flora/roguetree/stump))
+	for(var/turf/T in orange(max_dist, L))
+		if(is_blocked_turf(T))
 			continue
-		if(istype(F, /obj/structure/flora/newtree) && !F.density)
-			continue
-		var/turf/T = F.loc
 		if(!isturf(T) || get_dist(T, L) < min_dist)
 			continue
 
