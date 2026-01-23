@@ -14,11 +14,11 @@
 
 	to_chat(user, span_notice("You begin assembling the cross..."))
 	if(do_after(user, 5 SECONDS, target = user))
-		new /obj/structure/fog_repelling_cross(get_turf(user))
+		new /obj/structure/fluff/psycross/fog(get_turf(user))
 		to_chat(user, span_notice("You finish the cross. It stands tall, ready to receive a light."))
 		qdel(src)
 
-/obj/structure/fog_repelling_cross
+/obj/structure/fluff/psycross/fog
 	name = "fog-repelling cross"
 	desc = "A tall wooden cross. It has a hook for a lantern to provide the light of sanctuary."
 	icon = 'icons/roguetown/misc/tallstructure.dmi'
@@ -31,7 +31,7 @@
 	var/list/turf/affected_turfs = list()
 	var/list/turf_to_original_area = list() // Stores the actual area instance to return to
 
-/obj/structure/fog_repelling_cross/attackby(obj/item/I, mob/user)
+/obj/structure/fluff/psycross/fog/attackby(obj/item/I, mob/user)
 	if(istype(I, /obj/item/flashlight/flare/torch/lantern))
 		if(inserted_lantern)
 			to_chat(user, span_warning("There is already a lantern on [src]."))
@@ -45,7 +45,7 @@
 		return
 	return ..()
 
-/obj/structure/fog_repelling_cross/attack_hand(mob/user)
+/obj/structure/fluff/psycross/fog/attack_hand(mob/user)
 	if(!inserted_lantern)
 		to_chat(user, span_warning("[src] needs a lantern to be activated!"))
 		return
@@ -56,13 +56,15 @@
 		activate_sanctuary()
 		to_chat(user, span_notice("You light the lantern. The cross begins to hum with a protective aura."))
 		icon_state = "cross_fog1"
+		set_light(5, 2, "#fff2aa")
 	else
 		deactivate_sanctuary()
 		to_chat(user, span_warning("You extinguish the lantern. The aura fades."))
 		icon_state = "cross_fog0"
+		set_light(0)
 	update_icon()
 
-/obj/structure/fog_repelling_cross/proc/activate_sanctuary()
+/obj/structure/fluff/psycross/fog/proc/activate_sanctuary()
 	var/turf/center = get_turf(src)
 	var/area/rogue/indoors/sanctuary/my_sanctuary = new()
 	my_sanctuary.name = "Sanctuary of [src.name]"
@@ -83,7 +85,7 @@
 	for(var/mob/living/carbon/human/H in range(range, center))
 		SSevent_scheduler.update_mob_fog_status(H, TRUE)
 
-/obj/structure/fog_repelling_cross/proc/deactivate_sanctuary()
+/obj/structure/fluff/psycross/fog/proc/deactivate_sanctuary()
 	if(!affected_turfs.len) // Sanity check
 		return
 
@@ -98,7 +100,7 @@
 	affected_turfs.Cut()
 	turf_to_original_area.Cut()
 
-/obj/structure/fog_repelling_cross/Destroy()
+/obj/structure/fluff/psycross/fog/Destroy()
 	deactivate_sanctuary()
 	if(inserted_lantern)
 		inserted_lantern.forceMove(get_turf(src))

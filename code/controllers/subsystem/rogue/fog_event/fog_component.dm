@@ -15,6 +15,9 @@
 /datum/component/fogged/proc/on_moved()
 	if(HAS_TRAIT(parent, TRAIT_FOG_WARDED))
 		return FALSE
+	// If there's no fog event, get rid of the component!
+	if(!SSevent_scheduler.fog_active)
+		qdel(src)
 
 	// Check cooldown
 	if(world.time < last_ambush_time + ambush_cooldown)
