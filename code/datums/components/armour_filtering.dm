@@ -138,6 +138,14 @@ TRAIT UNIQUE PROCS
 			REMOVE_TRAIT(user, TRAIT_ARMOUR_DISLIKED, TRAIT_GENERIC)
 		return
 
+	if(HAS_TRAIT(user, TRAIT_HONORBOUND))
+		if(!positive)
+			user.dropItemToGround(parent, TRUE, TRUE)
+			if(!HAS_TRAIT(user, TRAIT_ARMOUR_DISLIKED))
+				return
+			REMOVE_TRAIT(user, TRAIT_ARMOUR_DISLIKED, TRAIT_GENERIC)
+		return
+
 	if(HAS_TRAIT(user, TRAIT_PSYDONIAN_GRIT) && id == "ornate_plate")
 		if(positive)
 			user.apply_status_effect(/datum/status_effect/buff/psydonic_endurance)

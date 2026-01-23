@@ -1,7 +1,0 @@
-author: "Ketrai"
-delete-after: True
-changes:
-  - bugfix: "Gnolls now accurately herald the item they drop on death."
-  - bugfix: "Glut gem now has a description."
-  - bugfix: "Necra cross now correctly unblesses any necrans when it deactivates."
-  - bugfix: "Necra sight can now be used on necran crosses."

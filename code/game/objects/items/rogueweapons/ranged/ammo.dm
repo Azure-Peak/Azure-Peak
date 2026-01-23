@@ -701,6 +701,13 @@
 	flag = "piercing"
 	speed = 0.4
 	npc_simple_damage_mult = 2.5 // Deals roughly ~75-95 damage against a simplemob, compared to the ~140 damage of a crossbolt or arrow.
+	ricochets_max = 4
+	ricochet_chance = 80
+	ricochet_auto_aim_angle = 40
+	ricochet_auto_aim_range = 5
+	ricochet_incidence_leeway = 40
+	ricochet_decay_chance = 1
+	ricochet_decay_damage = 2 /// stronger with every bounce, fuck it
 
 /obj/projectile/bullet/reusable/sling_bullet/on_hit(atom/target)
 	. = ..()
@@ -741,6 +748,7 @@
 	damage = 35 // Best of both worlds 'cuz why not
 	armor_penetration = 30
 	ammo_type = /obj/item/ammo_casing/caseless/rogue/sling_bullet/paalloy
+	ricochets_max = 6
 
 #undef ARROW_DAMAGE
 #undef BOLT_DAMAGE

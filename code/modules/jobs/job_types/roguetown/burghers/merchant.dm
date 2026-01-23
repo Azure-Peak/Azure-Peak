@@ -61,7 +61,10 @@
 /datum/outfit/job/roguetown/merchant/basic/pre_equip(mob/living/carbon/human/H)
 	..()
 	H.adjust_blindness(-3)
-	backpack_contents = list(/obj/item/rogueweapon/huntingknife/idagger/navaja)
+	backpack_contents = list(
+		/obj/item/rogueweapon/huntingknife/idagger/navaja = 1,
+		/obj/item/blueprint/mace_mushroom = 1
+		)
 	neck = /obj/item/clothing/neck/roguetown/horus
 	armor = /obj/item/clothing/suit/roguetown/shirt/robe/merchant
 	shirt = /obj/item/clothing/suit/roguetown/shirt/undershirt/sailor

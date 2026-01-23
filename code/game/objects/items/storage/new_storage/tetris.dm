@@ -24,7 +24,7 @@
 	var/grid_height
 
 /obj/item/proc/inventory_flip(mob/user, force = FALSE)
-	if(!force && (user && ((!user.Adjacent(src) && !user.DirectAccess(src)) || !isliving(user))))
+	if(!force && (user && ((!user.Adjacent(src) && !user.IsDirectlyAccessible(src)) || !isliving(user))))
 		return
 	var/old_width = grid_width
 	var/old_height = grid_height

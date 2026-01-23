@@ -1,0 +1,4 @@
+author: "hazelrat"
+delete-after: True
+changes:
+  - bugfix: "Resolves a bug around quivers; clicking a quiver to nock an arrow on a bow no longer also begins to draw the bow."

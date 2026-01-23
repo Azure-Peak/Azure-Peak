@@ -1,6 +1,0 @@
-author: "Ryan180602"
-delete-after: True
-changes:
-  - refactor: "armour_filtering `id` additions."
-  - bugfix: "naledi and mask stress event fixes."
-  - balance: "sojourners need to wear their masks now."

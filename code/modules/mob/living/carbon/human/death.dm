@@ -200,7 +200,7 @@
 	if(T)
 		for(var/X in bodyparts)
 			var/obj/item/bodypart/BP = X
-			for(var/obj/item/I in BP.embedded_objects)
+			for(var/obj/item/I as anything in BP.embedded_objects)
 				I.forceMove(T)
 
 	if(mind.current)

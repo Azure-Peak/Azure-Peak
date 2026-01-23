@@ -597,6 +597,10 @@
 /obj/item/quiver/bolts,
 /turf/open/floor/rogue/grass,
 /area/rogue/indoors)
+"ud" = (
+/obj/effect/landmark/deaths_door/exit,
+/turf/open/floor/rogue/dirt/road,
+/area/rogue/outdoors)
 "uk" = (
 /obj/structure/table/wood{
 	icon_state = "longtable_mid";
@@ -3075,7 +3079,7 @@ yK
 yK
 yK
 yK
-rT
+ud
 rT
 jC
 rT

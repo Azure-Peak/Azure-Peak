@@ -1084,7 +1084,7 @@
 
 /obj/item/rogueweapon/sword/sabre/stalker
 	name = "stalker sabre"
-	desc = "A once-elegant blade of mythril, who's sunless edge now menaces with obsidian-hued mirth."
+	desc = "A once-elegant blade of ketryl, who's sunless edge now menaces with obsidian-hued mirth."
 	icon_state = "spidersaber"
 	force = 23
 	force_wielded = 23
@@ -1616,6 +1616,7 @@
 	desc = "A gold-stained sword with cloud patterns on the groove. One of a kind. It is a symbol of status within the Ruma clan."
 	icon_state = "eastsword3"
 	max_integrity = 180
+	sharpness_mod = 2
 	wdefense = 4
 
 /obj/item/rogueweapon/sword/sabre/hook

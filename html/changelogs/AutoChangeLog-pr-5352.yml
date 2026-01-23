@@ -1,4 +1,0 @@
-author: "kittysmooch"
-delete-after: True
-changes:
-  - bugfix: "reorganized code related to /obj/item to function better in visual code editors.\n:cl:"

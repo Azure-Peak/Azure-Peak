@@ -23846,7 +23846,9 @@
 /turf/open/floor/rogue/grass,
 /area/rogue/under/underdark/north)
 "fRM" = (
-/mob/living/simple_animal/pet/cat/rogue/black,
+/mob/living/simple_animal/pet/cat/rogue/black{
+	name = "morticia"
+	},
 /turf/open/floor/rogue/blocks,
 /area/rogue/indoors/town/church/basement)
 "fRR" = (
@@ -86399,6 +86401,10 @@
 	},
 /turf/open/floor/rogue/naturalstone,
 /area/rogue/indoors/cave)
+"vgT" = (
+/obj/effect/landmark/deaths_door/exit,
+/turf/open/floor/rogue/dirt,
+/area/rogue/under/cave/scarymaze)
 "vgU" = (
 /obj/structure/roguewindow/openclose/reinforced{
 	dir = 8
@@ -463032,7 +463038,7 @@ eWw
 ini
 xfP
 vGK
-xfP
+vgT
 jmf
 asc
 asc

@@ -86,7 +86,7 @@
 
 /obj/effect/proc_holder/spell/self/noc_spell_bundle
 	name = "Arcyne Affinity"
-	desc = "Allows you to learn a spell or two of a certain type once every cycle."
+	desc = "Allows you to learn a set of empowering, utility or combat spells."
 	base_icon_state = "wisescroll"
 	miracle = TRUE
 	devotion_cost = 200
@@ -318,10 +318,10 @@
 
 /obj/effect/proc_holder/spell/targeted/touch/summonrogueweapon/nocgrasp
 	name = "Noc Grasp"
-	desc = "Summon the sacred light from your soul and let it envelop your hands."
+	desc = "Summon the Light of Widsom from your soul and let it envelop your hand. Use on scrolls, parchment and books to convert them into devotion."
 	clothes_req = FALSE
-	drawmessage = "I prepare to perform a miracle incantation."
-	dropmessage = "I release my miracle focus."
+	drawmessage = "I prepare to perform a divine incantation."
+	dropmessage = "I release my divine focus."
 	overlay_state = "nocgrasp"
 	base_icon_state = "wisescroll"
 	chargedrain = 0
@@ -334,7 +334,7 @@
 	miracle = TRUE
 
 /obj/item/melee/touch_attack/rogueweapon/nocgrasp
-	name = "Shimmer Hand"
+	name = "Shimmering Hand"
 	desc = "The Sacred Light of Noc. \n\
 	click on self to remove it."
 	icon = 'icons/roguetown/misc/miraclestuff.dmi'
@@ -363,7 +363,7 @@
 	if(!iscarbon(user)) //Look ma, no hands
 		return
 	if(!(user.mobility_flags & MOBILITY_USE))
-		to_chat(user, "<span class='warning'>I can't reach out!</span>")
+		to_chat(user, "<span class='warning'>I cannot reach out!</span>")
 		return
 	..()
 
@@ -410,8 +410,8 @@
 //T1
 
 /obj/effect/proc_holder/spell/self/moon_light
-	name = "Moon Lights"
-	desc = "The moon will illuminate the living beings around you, highlighting them from the shadows with its light."
+	name = "Moonlight Glimmer"
+	desc = "The moon will illuminate the living beings around you, exposing them to you."
 	releasedrain = 10
 	chargedrain = 0
 	chargetime = 0
@@ -431,7 +431,7 @@
 /obj/effect/proc_holder/spell/self/moon_light/cast(list/targets, mob/user = usr)
 	. = ..()
 	if(GLOB.tod == "day" || GLOB.tod == "dawn")
-		to_chat(user, "Sun covers a moon with it's rays!")
+		to_chat(user, "Astrata covers the Moon with her rays!")
 		revert_cast()
 		return FALSE
 	var/checkrange = (range + user.get_skill_level(/datum/skill/magic/holy)) //+1 range per holy skill up to a potential of 8.
@@ -464,7 +464,7 @@
 		ADD_TRAIT(owner, TRAIT_CRITICAL_WEAKNESS, TRAIT_GENERIC)
 
 /datum/status_effect/light_buff/moon/tick()
-	if(!owner.mind || istype(owner, /mob/living/simple_animal)) //AI mobs take 3 burn damage per tick. 45 burn witchout 15 seconds.
+	if(!owner.mind || istype(owner, /mob/living/simple_animal)) //AI mobs take 3 burn damage per tick. 45 burn without 15 seconds.
 		var/mob/living/target = owner
 		target.adjustFireLoss(3)
 
@@ -472,8 +472,9 @@
 
 /obj/effect/proc_holder/spell/self/wisescroll
 	name = "Moon Grimoire"
-	desc = "Using writing materials, and enough paper, write a great work: A Magic Scroll. Use your dreampoints as ink.\n\
-	Points granters: 1 - parchment or 2 - papyrus scroll or 5 - books. You need Ten point-infusing items around you, for cast it, and feather in your hand."
+	desc = "Using writing materials, and enough paper, write a great work: a Magic Scroll. Use your dreampoints as ink.\n\
+	You will be required to have items worth 10 points in total around yourself and to hold a feather to cast the miracle.\n\
+	Piece of parchment - 1 point, scroll - 2 points, book - 5 points."
 	releasedrain = 200
 	chargedrain = 0
 	chargetime = 0
@@ -493,7 +494,7 @@
 /obj/effect/proc_holder/spell/self/wisescroll/cast(mob/living/carbon/human/user)
 	. = ..()
 	if(GLOB.tod == "day" || GLOB.tod == "dawn")
-		to_chat(user, "Sun covers a moon with it's rays!")
+		to_chat(user, "Astrata covers the Moon with her rays!")
 		revert_cast()
 		return FALSE
 
@@ -504,7 +505,7 @@
 			feather_check = TRUE
 
 	if(feather_check == FALSE)
-		to_chat(user, "I need feather!")
+		to_chat(user, "I need a feather!")
 		revert_cast()
 		return FALSE
 
@@ -528,7 +529,7 @@
 				pointlock = FALSE
 
 	if(pointlock == TRUE)
-		to_chat(user, "I didn't burn enough pages!")
+		to_chat(user, "I did not burn enough pages!")
 		revert_cast()
 		return FALSE
 

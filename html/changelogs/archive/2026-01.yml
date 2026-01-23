@@ -663,3 +663,87 @@
       of dark boots
   hubertjones:
   - rscadd: drip for 1 person
+2026-01-22:
+  ADONAI:
+  - bugfix: tailor silverface now longer has cheaper silver amulet im sorry.
+  - bugfix: drugs are no longer available from the public silverface. go to the purity.
+  - rscadd: lots of new clothes to the tailor silverface
+  - balance: bottlebombs are now in the apothecary's silverface under "potions". dont
+      ask why.
+  JustSomeGalSS13:
+  - bugfix: The riding verb should now show who's filling whom correctly
+  Ketrai:
+  - bugfix: Gnolls now accurately herald the item they drop on death.
+  - bugfix: Glut gem now has a description.
+  - bugfix: Necra cross now correctly unblesses any necrans when it deactivates.
+  - bugfix: Necra sight can now be used on necran crosses.
+  Lamasmaster:
+  - image: Added more status effect icons
+  - bugfix: Coat of Commander details for feminine sprites.
+  - rscdel: Glaive spawns and duplicate store entry
+  - rscadd: Surcoats for Guard
+  - image: Changed Surcoat Sleeves
+  Ryan180602:
+  - refactor: armour_filtering `id` additions.
+  - bugfix: naledi and mask stress event fixes.
+  - balance: sojourners need to wear their masks now.
+  - balance: Lance intent gets 2.4x damfactor against integrity.
+  - balance: Lance thrust gets 1.6x damfactor against integrity.
+  Vladmar11:
+  - rscadd: New miracles for Astrata, Noc, Ravox and Malum
+  - image: The icons of the miracles of Astrata, Noc, Ravox and Malum have been redrawn
+  babamandaa:
+  - rscadd: bard songs are now emotes instead of shouts, and have had a flavor text
+      pass.
+  bearrrrrrrr:
+  - rscadd: A mercenary statue has appeared in multiple locations.
+  hazelrat:
+  - rscadd: Implemented a small remap for the Warden's Barracks. It now has slings
+      and spades!
+  kittysmooch:
+  - bugfix: 'reorganized code related to /obj/item to function better in visual code
+      editors.
+
+      :cl:'
+  zydras:
+  - rscadd: Added donator items (3x) for zydras
+  - rscdel: Removed an unused (1x) donator item
+2026-01-23:
+  Burrito-Justice:
+  - bugfix: Purging laws no longer explodes your eardrums
+  FreeStylaLT:
+  - bugfix: Fixed Dagger Special having infinite duration.
+  Ketrai:
+  - rscadd: Town blacksmiths and guild smiths, as well as the merchant now spawns
+      with an artefact blueprint.
+  Klein3:
+  - bugfix: Old acolytes have their legendary miracle skill back
+  - bugfix: Shoes take 5 seconds to stip instead of 10
+  - bugfix: 'Abyssal language should have an icon and be available to Acolytes and
+      Bishops.
+
+      :cl:'
+  - rscadd: Abyssal language added, and available Dreamwalkers, Abyssorite clergy,
+      heretical wretches and mad worshippers of Abyssor.
+  - bugfix: Fixed a bug where old Bishops did not recieve legendary miracle skill.
+  - spellcheck: 'Clarified the descriptions of the new miracles added in #5124.'
+  Kokserva:
+  - rscadd: nipple piercing for everyone, yippe
+  - bugfix: socks and now gnomes have socks too
+  Onutsio:
+  - rscadd: Death's Door - T4 Necran miracle
+  - qol: Necra's Sight has nameable crosses now.
+  Quinalion:
+  - rscadd: Lich Voicepack & Intro
+  SirSwagmeyer:
+  - rscadd: Added armor blacklist and whitelist to ruma clan
+  - balance: rebalanced tattoo armor and swords
+  kittysmooch:
+  - rscadd: thrown items now apply their demolition modifier
+  - rscadd: 'overhauled ricochet code and added ricochet mechanics to sling bullets
+      and arcyne bolt.
+
+      :cl:'
+  - bugfix: 'fresh character slots default to no underwear selection
+
+      :cl:'

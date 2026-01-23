@@ -6,6 +6,7 @@
 	icon = 'icons/turf/walls/wall.dmi'
 	icon_state = "wall"
 	explosion_block = 1
+	flags_1 = CHECK_RICOCHET_1
 
 	baseturfs = list(/turf/open/floor/rogue/dirt/road)
 
@@ -29,17 +30,6 @@
 
 /turf/closed/wall/attack_tk()
 	return
-
-/turf/closed/wall/handle_ricochet(obj/projectile/P)			//A huge pile of shitcode!
-	var/turf/p_turf = get_turf(P)
-	var/face_direction = get_dir(src, p_turf)
-	var/face_angle = dir2angle(face_direction)
-	var/incidence_s = GET_ANGLE_OF_INCIDENCE(face_angle, (P.Angle + 180))
-	if(abs(incidence_s) > 90 && abs(incidence_s) < 270)
-		return FALSE
-	var/new_angle_s = SIMPLIFY_DEGREES(face_angle + incidence_s)
-	P.setAngle(new_angle_s)
-	return TRUE
 
 /turf/closed/wall/turf_destruction()
 	visible_message("<span class='notice'>\The [src] crumbles!</span>")

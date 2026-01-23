@@ -1,6 +1,6 @@
 /obj/effect/proc_holder/spell/invoked/projectile/lightningbolt/sacred_flame_rogue
 	name = "Sacred Flame"
-	desc = "Deals damage and ignites target, Deals extra damage to undead."
+	desc = "Deals damage and ignites target, with extra damage done to undead."
 	overlay_state = "sacredflame"
 	base_icon_state = "regalyscroll"
 	req_items = list(/obj/item/clothing/neck/roguetown/psicross)
@@ -206,10 +206,9 @@
 
 /obj/effect/proc_holder/spell/invoked/astrataspark
 	name = "Flame Order"
-	desc = "A spell can make any flame source burst into a bright, searing flash. \n\
-	Cast it on any light emit structure witch flame inside, for create 3x3 flame explosion. \n\
-	You can cast it on burning mobs, for doubles their firestacks. \n\
-	Cast on self, for burning all lighting object in radius."
+	desc = "Casting on a fire-based light source will make a searing explosion in a 3x3 area around the light source. \n\
+	Casting on a burning mob will double their fire stacks.\n\
+	Casting on yourself will ignite any flammable object in a 3x3 area around yourself."
 	clothes_req = FALSE
 	overlay_state = "astraflame"
 	base_icon_state = "regalyscroll"
@@ -235,7 +234,7 @@
 /obj/effect/proc_holder/spell/invoked/astrataspark/cast(list/targets, mob/user = usr)
 	var/turf/T = get_turf(targets[1])
 	if(T.z != user.z)
-		to_chat(span_warning("You can't cast this spell on a different z-level!"))
+		to_chat(span_warning("You cannot cast this spell on a different z-level!"))
 		revert_cast()
 		return FALSE
 	for(var/obj/effect/hotspot/H in T.contents)
@@ -416,7 +415,7 @@
 			cost = 0
 	if(user.has_status_effect(/datum/status_effect/buff/dragonhide/fireresist) || user.has_status_effect(/datum/status_effect/buff/dragonhide/fireresist/buff))
 		if((user.devotion?.devotion - cost) < 0)
-			to_chat(user, span_warning("I don't have enough devotion!"))
+			to_chat(user, span_warning("I do not have enough devotion!"))
 			return
 		user.devotion?.update_devotion(-cost)
 		if(cost != 0)
@@ -441,11 +440,11 @@
 	owner.weather_immunities -= "lava"
 
 /obj/effect/proc_holder/spell/targeted/touch/summonrogueweapon/astratagrasp
-	name = "Astrata Grasp"
-	desc = "Summon the sacred flame from your soul and let it envelop your hands."
+	name = "Astrata's Grasp"
+	desc = "Summon the Sacred Flame from your soul and let it envelop your hand. Use on ashes, fire dust and fyritius flowers to convert them into devotion. Can ignite objects."
 	clothes_req = FALSE
-	drawmessage = "I prepare to perform a miracle incantation."
-	dropmessage = "I release my miracle focus."
+	drawmessage = "I prepare to perform a divine incantation."
+	dropmessage = "I release my divine focus."
 	overlay_state = "astratagrasp"
 	base_icon_state = "regalyscroll"
 	chargedrain = 0
@@ -499,7 +498,7 @@
 	if(!iscarbon(user)) //Look ma, no hands
 		return
 	if(!(user.mobility_flags & MOBILITY_USE))
-		to_chat(user, "<span class='warning'>I can't reach out!</span>")
+		to_chat(user, "<span class='warning'>I cannot reach out!</span>")
 		return
 	..()
 
@@ -924,7 +923,7 @@
 		if(H.mind?.assigned_role == "Bishop")
 			found = H
 	if(!found)
-		to_chat(user, span_warning("I need a holy cross, Bishop or cast it in more holy-area."))
+		to_chat(user, span_warning("I need to be near a Holy Cross, the Bishop or on Holy Land to cast it."))
 		revert_cast()
 		return FALSE
 	return TRUE
@@ -964,7 +963,7 @@
 
 	for(var/turf/Target_turf in range(1, get_turf(src)))
 		for(var/mob/living/L in Target_turf.contents)
-			to_chat(L, span_userdanger("Unatural heavy gaze bring on you"))
+			to_chat(L, span_userdanger("I feel a terrifyingly heavy gaze upon me!!"))
 
 /obj/effect/temp_visual/firewave/sunstrike/primary/proc/strike()
 	var/turf/T = get_turf(src)
@@ -978,7 +977,7 @@
 			new /obj/effect/hotspot(get_turf(turf))
 	for(var/turf/Target_turf in range(5, T))
 		for(var/mob/living/L in Target_turf.contents)
-			to_chat(L, span_userdanger("Sun falls on your head!!"))
+			to_chat(L, span_userdanger("The sun crushes you!!"))
 			var/dist_to_epicenter = get_dist(T, L)
 			var/firedamage = 200 - (dist_to_epicenter*15)
 			var/firestack = 10 - dist_to_epicenter

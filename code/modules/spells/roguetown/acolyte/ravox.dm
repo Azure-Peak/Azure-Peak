@@ -408,8 +408,8 @@ GLOBAL_LIST_EMPTY(arenafolks) // we're just going to use a list and add to it. S
 //T0
 
 /obj/effect/proc_holder/spell/self/balance_immune
-	name = "Strong Stand"
-	desc = "Remove and prevent unbalance effect for next Ten seconds."
+	name = "Strong Stance"
+	desc = "Regain balance and become immune to any form of stun for the next 10 seconds."
 	action_icon = 'icons/mob/actions/ravoxmiracles.dmi'
 	overlay_icon = 'icons/mob/actions/ravoxmiracles.dmi'
 	overlay_state = "balance_immune"
@@ -460,7 +460,7 @@ GLOBAL_LIST_EMPTY(arenafolks) // we're just going to use a list and add to it. S
 
 /obj/effect/proc_holder/spell/self/provocation
 	name = "Provocation"
-	desc = "make all the hostile creatures around, reset their current targets and attacking you."
+	desc = "Forces hostile creatures around to target you."
 	action_icon = 'icons/mob/actions/ravoxmiracles.dmi'
 	overlay_icon = 'icons/mob/actions/ravoxmiracles.dmi'
 	overlay_state = "provocation"
@@ -499,7 +499,7 @@ GLOBAL_LIST_EMPTY(arenafolks) // we're just going to use a list and add to it. S
 
 /atom/movable/screen/alert/status_effect/buff/ravox_provocation
 	name = "Provocation"
-	desc = "All hostile mob attack me! For Ravox!"
+	desc = "All hostile creatures are targeting me! For Ravox!"
 	icon_state = "astrata_gaze"
 
 /datum/status_effect/buff/ravox_provocation
@@ -584,11 +584,11 @@ GLOBAL_LIST_EMPTY(arenafolks) // we're just going to use a list and add to it. S
 	return FALSE
 
 /obj/effect/proc_holder/spell/targeted/touch/summonrogueweapon/ravoxgrasp
-	name = "Ravox Grasp"
-	desc = "Summon the sacred light from your soul and let it envelop your hands."
+	name = "Ravox' Grasp"
+	desc = "Summon the Divine Justice from your soul and let it envelop your hand. Use on heads of criminals (NPCs only) to convert them into devotion."
 	clothes_req = FALSE
-	drawmessage = "I prepare to perform a miracle incantation."
-	dropmessage = "I release my miracle focus."
+	drawmessage = "I prepare to perform a divine incantation."
+	dropmessage = "I release my divine focus."
 	overlay_state = "justice_hand"
 	action_icon = 'icons/mob/actions/ravoxmiracles.dmi'
 	overlay_icon = 'icons/mob/actions/ravoxmiracles.dmi'
@@ -631,7 +631,7 @@ GLOBAL_LIST_EMPTY(arenafolks) // we're just going to use a list and add to it. S
 	if(!iscarbon(user)) //Look ma, no hands
 		return
 	if(!(user.mobility_flags & MOBILITY_USE))
-		to_chat(user, "<span class='warning'>I can't reach out!</span>")
+		to_chat(user, "<span class='warning'>I cannot reach out!</span>")
 		return
 	..()
 

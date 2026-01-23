@@ -1,0 +1,4 @@
+author: "Onutsio"
+delete-after: True
+changes:
+  - bugfix: "fix death's door lux strand spawning"

@@ -770,6 +770,10 @@
 "fQ" = (
 /turf/open/floor/rogue/cobble,
 /area/rogue/indoors/eventarea)
+"fY" = (
+/obj/effect/landmark/deaths_door/entry/br,
+/turf/open/floor/rogue/underworld/road,
+/area/rogue/indoors/deathsedge)
 "gm" = (
 /turf/open/floor/rogue/ruinedwood/platform,
 /area/rogue/indoors/eventarea)
@@ -850,6 +854,10 @@
 /obj/effect/landmark/start/wretch,
 /turf/open/floor/rogue/blocks,
 /area/rogue/under/cave/inhumen)
+"iQ" = (
+/obj/structure/flora/roguetree/underworld,
+/turf/open/floor/rogue/underworld/road,
+/area/rogue/indoors/deathsedge)
 "jc" = (
 /turf/open/floor/rogue/tile/checker,
 /area/rogue/indoors/eventarea)
@@ -967,6 +975,10 @@
 "mg" = (
 /turf/open/floor/rogue/grass,
 /area/rogue/indoors/eventarea)
+"ms" = (
+/obj/structure/deaths_door_shrine,
+/turf/open/floor/rogue/underworld/road,
+/area/rogue/indoors/deathsedge)
 "mt" = (
 /turf/open/floor/rogue/ruinedwood/spiral,
 /area/rogue/indoors/eventarea)
@@ -1195,6 +1207,10 @@
 "rZ" = (
 /turf/open/floor/rogue/dark_ice,
 /area/rogue/underworld/dream)
+"sh" = (
+/obj/effect/landmark/underworldstrands,
+/turf/open/floor/rogue/underworld/road,
+/area/rogue/indoors/deathsedge)
 "sp" = (
 /turf/open/floor/rogue/tile,
 /area/rogue/indoors/eventarea)
@@ -1257,6 +1273,10 @@
 /obj/effect/decal/cleanable/blood/tracks,
 /turf/open/floor/rogue/naturalstone,
 /area/rogue/under/cave/inhumen)
+"ts" = (
+/obj/effect/landmark/deaths_door/entry/tr,
+/turf/open/floor/rogue/underworld/road,
+/area/rogue/indoors/deathsedge)
 "tx" = (
 /obj/structure/table/wood{
 	dir = 10;
@@ -1340,6 +1360,10 @@
 /obj/item/rogueweapon/shield/tower,
 /turf/open/floor/rogue/cobble,
 /area/rogue)
+"vN" = (
+/obj/effect/landmark/deaths_door/entry/tl,
+/turf/open/floor/rogue/underworld/road,
+/area/rogue/indoors/deathsedge)
 "vP" = (
 /turf/closed/wall/mineral/rogue/stone,
 /area/rogue)
@@ -1416,6 +1440,10 @@
 "yd" = (
 /turf/open/floor/rogue/rooftop/green/corner1/dirnine,
 /area/rogue/indoors/eventarea)
+"yh" = (
+/obj/structure/underworld/carriageman,
+/turf/open/floor/rogue/underworld/road,
+/area/rogue/indoors/deathsedge)
 "yk" = (
 /obj/structure/table/wood{
 	dir = 8;
@@ -1584,6 +1612,10 @@
 /obj/effect/landmark/start/wretch,
 /turf/open/floor/rogue/naturalstone,
 /area/rogue/under/cave/inhumen)
+"DK" = (
+/obj/effect/landmark/deaths_door/entry/bl,
+/turf/open/floor/rogue/underworld/road,
+/area/rogue/indoors/deathsedge)
 "DL" = (
 /turf/open/floor/rogue/snow,
 /area/rogue/indoors/eventarea)
@@ -1692,6 +1724,11 @@
 /obj/effect/landmark/start/wretch,
 /turf/open/floor/rogue/concrete,
 /area/rogue/under/cave/inhumen)
+"HI" = (
+/obj/structure/table/church,
+/obj/effect/landmark/underworldstrands,
+/turf/open/floor/rogue/underworld/road,
+/area/rogue/indoors/deathsedge)
 "HK" = (
 /obj/structure/table/wood{
 	dir = 9;
@@ -2037,6 +2074,11 @@
 	},
 /turf/open/floor/rogue/blocks,
 /area/rogue/under/cave/inhumen)
+"SV" = (
+/obj/structure/table/church/m,
+/obj/effect/landmark/underworldstrands,
+/turf/open/floor/rogue/underworld/road,
+/area/rogue/indoors/deathsedge)
 "SX" = (
 /obj/structure/fluff/traveltile/wretch{
 	aportalgoesto = "wretchout2";
@@ -2128,6 +2170,9 @@
 /obj/item/quiver/bolts,
 /turf/open/floor/rogue/cobble,
 /area/rogue/outdoors)
+"Vk" = (
+/turf/open/floor/rogue/underworld/road,
+/area/rogue/indoors/deathsedge)
 "Vl" = (
 /obj/structure/table/wood{
 	dir = 10;
@@ -8521,18 +8566,18 @@ rQ
 rQ
 rQ
 rQ
-rQ
-rQ
-rQ
-rQ
-rQ
-rQ
-rQ
-rQ
-rQ
-rQ
-rQ
-rQ
+iQ
+iQ
+iQ
+iQ
+iQ
+iQ
+iQ
+iQ
+iQ
+iQ
+iQ
+iQ
 rQ
 rQ
 rQ
@@ -8651,18 +8696,18 @@ rQ
 rQ
 rQ
 rQ
-rQ
-rQ
-rQ
-rQ
-rQ
-rQ
-rQ
-rQ
-rQ
-rQ
-rQ
-rQ
+iQ
+vN
+Vk
+Vk
+Vk
+Vk
+iQ
+Vk
+Vk
+Vk
+DK
+iQ
 rQ
 rQ
 rQ
@@ -8781,18 +8826,18 @@ rQ
 rQ
 rQ
 rQ
-rQ
-rQ
-rQ
-rQ
-rQ
-rQ
-rQ
-rQ
-rQ
-rQ
-rQ
-rQ
+iQ
+Vk
+Vk
+Vk
+Vk
+Vk
+iQ
+Vk
+Vk
+Vk
+Vk
+iQ
 rQ
 rQ
 rQ
@@ -8911,18 +8956,18 @@ rQ
 rQ
 rQ
 rQ
-rQ
-rQ
-rQ
-rQ
-rQ
-rQ
-rQ
-rQ
-rQ
-rQ
-rQ
-rQ
+iQ
+iQ
+iQ
+iQ
+Vk
+Vk
+iQ
+Vk
+Vk
+Vk
+Vk
+iQ
 rQ
 rQ
 rQ
@@ -9041,18 +9086,18 @@ rQ
 rQ
 rQ
 rQ
-rQ
-rQ
-rQ
-rQ
-rQ
-rQ
-rQ
-rQ
-rQ
-rQ
-rQ
-rQ
+iQ
+Vk
+Vk
+iQ
+sh
+Vk
+iQ
+Vk
+Vk
+sh
+Vk
+iQ
 rQ
 rQ
 rQ
@@ -9171,18 +9216,18 @@ rQ
 rQ
 rQ
 rQ
-rQ
-rQ
-rQ
-rQ
-rQ
-rQ
-rQ
-rQ
-rQ
-rQ
-rQ
-rQ
+iQ
+Vk
+Vk
+yh
+Vk
+Vk
+Vk
+Vk
+Vk
+Vk
+Vk
+iQ
 rQ
 rQ
 rQ
@@ -9301,18 +9346,18 @@ rQ
 rQ
 rQ
 rQ
-rQ
-rQ
-rQ
-rQ
-rQ
-rQ
-rQ
-rQ
-rQ
-rQ
-rQ
-rQ
+iQ
+Vk
+Vk
+Vk
+Vk
+ms
+Vk
+HI
+Vk
+Vk
+Vk
+iQ
 rQ
 rQ
 rQ
@@ -9431,18 +9476,18 @@ rQ
 rQ
 rQ
 rQ
-rQ
-rQ
-rQ
-rQ
-rQ
-rQ
-rQ
-rQ
-rQ
-rQ
-rQ
-rQ
+iQ
+Vk
+Vk
+Vk
+Vk
+Vk
+Vk
+SV
+Vk
+Vk
+Vk
+iQ
 rQ
 rQ
 rQ
@@ -9561,18 +9606,18 @@ rQ
 rQ
 rQ
 rQ
-rQ
-rQ
-rQ
-rQ
-rQ
-rQ
-rQ
-rQ
-rQ
-rQ
-rQ
-rQ
+iQ
+Vk
+iQ
+Vk
+Vk
+Vk
+Vk
+Vk
+Vk
+iQ
+Vk
+iQ
 rQ
 rQ
 rQ
@@ -9691,18 +9736,18 @@ rQ
 rQ
 rQ
 rQ
-rQ
-rQ
-rQ
-rQ
-rQ
-rQ
-rQ
-rQ
-rQ
-rQ
-rQ
-rQ
+iQ
+Vk
+Vk
+iQ
+sh
+Vk
+Vk
+Vk
+Vk
+Vk
+Vk
+iQ
 rQ
 rQ
 rQ
@@ -9821,18 +9866,18 @@ rQ
 rQ
 rQ
 rQ
-rQ
-rQ
-rQ
-rQ
-rQ
-rQ
-rQ
-rQ
-rQ
-rQ
-rQ
-rQ
+iQ
+Vk
+Vk
+Vk
+iQ
+Vk
+Vk
+Vk
+Vk
+Vk
+Vk
+iQ
 rQ
 rQ
 rQ
@@ -9951,18 +9996,18 @@ rQ
 rQ
 rQ
 rQ
-rQ
-rQ
-rQ
-rQ
-rQ
-rQ
-rQ
-rQ
-rQ
-rQ
-rQ
-rQ
+iQ
+ts
+Vk
+Vk
+Vk
+Vk
+Vk
+Vk
+sh
+Vk
+fY
+iQ
 rQ
 rQ
 rQ
@@ -10081,18 +10126,18 @@ rQ
 rQ
 rQ
 rQ
-rQ
-rQ
-rQ
-rQ
-rQ
-rQ
-rQ
-rQ
-rQ
-rQ
-rQ
-rQ
+iQ
+iQ
+iQ
+iQ
+iQ
+iQ
+iQ
+iQ
+iQ
+iQ
+iQ
+iQ
 rQ
 rQ
 rQ
