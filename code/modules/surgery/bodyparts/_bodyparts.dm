@@ -61,6 +61,11 @@
 	var/species_flags_list = list()
 	var/dmg_overlay_type //the type of damage overlay (if any) to use when this bodypart is bruised/burned.
 
+	/// Cached key for limb appearance - invalidated when limb state changes
+	var/limb_appearance_cache_key
+	/// Cached base limb appearances (without organ/feature overlays)
+	var/list/cached_base_appearances
+
 	//Damage messages used by help_shake_act()
 	var/heavy_brute_msg = "MANGLED"
 	var/medium_brute_msg = "battered"
@@ -88,6 +93,7 @@
 	var/fingers = TRUE
 	var/organ_slowdown = 0 // Its here because this is first shared definition between two leg organ paths
 	var/is_prosthetic = FALSE
+	var/limb_material = "flesh" //used for icon_state
 
 	/// Visaul markings to be rendered alongside the bodypart
 	var/list/markings
@@ -178,6 +184,12 @@
 		QDEL_NULL(bandage)
 	for(var/datum/wound/wound as anything in wounds)
 		qdel(wound)
+	if(embedded_objects && length(embedded_objects))
+		for(var/obj/item/embedded as anything in embedded_objects)
+			embedded_objects -= embedded
+			if(!QDELETED(embedded))
+				qdel(embedded)
+		embedded_objects = null
 	return ..()
 
 /obj/item/bodypart/onbite(mob/living/carbon/human/user)
@@ -283,6 +295,7 @@
 	for(var/obj/item/I in src) //dust organs
 		qdel(I)
 	skeletonized = TRUE
+	invalidate_limb_cache()
 	for(var/datum/wound/bloody_wound as anything in wounds)
 		if(isnull(bloody_wound.bleed_rate))
 			continue
@@ -446,24 +459,29 @@
 	last_disable = world.time
 	if(owner)
 		owner.update_health_hud() //update the healthdoll
-		owner.update_body()
+		if(ishuman(owner))
+			var/mob/living/carbon/human/H = owner
+			H.icon_render_key = null
+		owner.queue_icon_update(PENDING_UPDATE_BODY)
 		owner.update_mobility()
 	return TRUE //if there was a change.
 
 //Updates an organ's brute/burn states for use by update_damage_overlays()
 //Returns 1 if we need to update overlays. 0 otherwise.
 /obj/item/bodypart/proc/update_bodypart_damage_state()
-	var/tbrute	= round( (brute_dam/max_damage)*3, 1 )
-	var/tburn	= round( (burn_dam/max_damage)*3, 1 )
+	var/tbrute = round((brute_dam / max_damage) * 3, 1)
+	var/tburn = round((burn_dam / max_damage) * 3, 1)
 	if((tbrute != brutestate) || (tburn != burnstate))
 		brutestate = tbrute
 		burnstate = tburn
+		invalidate_limb_cache()
 		return TRUE
 	return FALSE
 
 //Change organ status
 /obj/item/bodypart/proc/change_bodypart_status(new_limb_status, heal_limb, change_icon_to_default)
 	status = new_limb_status
+	invalidate_limb_cache()
 	if(heal_limb)
 		burn_dam = 0
 		brute_dam = 0
@@ -478,9 +496,12 @@
 
 	if(owner)
 		owner.updatehealth()
-		owner.update_body() //if our head becomes robotic, we remove the lizard horns and human hair.
-		owner.update_hair()
-		owner.update_damage_overlays()
+		if(ishuman(owner))
+			var/mob/living/carbon/human/H = owner
+			H.body_overlay_cache_key = null
+			H.damage_overlay_cache_key = null
+			H.icon_render_key = null
+		owner.queue_icon_update(PENDING_UPDATE_BODY | PENDING_UPDATE_HAIR | PENDING_UPDATE_DAMAGE)
 
 /obj/item/bodypart/proc/is_organic_limb()
 	return (status == BODYPART_ORGANIC)
@@ -553,6 +574,8 @@
 	if(dropping_limb)
 		no_update = TRUE //when attached, the limb won't be affected by the appearance changes of its mob owner.
 
+	invalidate_limb_cache()
+
 //to update the bodypart's icon when not attached to a mob
 /obj/item/bodypart/proc/update_icon_dropped()
 	cut_overlays()
@@ -577,123 +600,141 @@
 
 	return bodypart_organs
 
+/// Generates a cache key for this limb's base appearance
+/obj/item/bodypart/proc/generate_limb_cache_key(dropped, hideaux)
+	var/list/key_parts = list(
+		body_zone,
+		body_gender,
+		dropped,
+		hideaux,
+		skeletonized,
+		animal_origin,
+		species_id,
+		use_digitigrade,
+		status,
+		should_draw_greyscale,
+		rotted,
+		brutestate,
+		burnstate,
+		dmg_overlay_type,
+		species_color,
+		mutation_color,
+		skin_tone,
+		limb_material
+	)
+	return key_parts.Join("-")
+
+/// Invalidates the cached limb appearance
+/obj/item/bodypart/proc/invalidate_limb_cache()
+	limb_appearance_cache_key = null
+	cached_base_appearances = null
+
 //Gives you a proper icon appearance for the dismembered limb
 /obj/item/bodypart/proc/get_limb_icon(dropped, hideaux = FALSE)
-	icon_state = "" //to erase the default sprite, we're building the visual aspects of the bodypart through overlays alone.
+	icon_state = ""
 
 	. = list()
-	var/icon_gender = (body_gender == FEMALE) ? "f" : "m" //gender of the icon, if applicable
+	var/icon_gender = (body_gender == FEMALE) ? "f" : "m"
+	var/image_dir = dropped && !skeletonized ? SOUTH : 0
 
-	var/image_dir = 0
-	if(dropped && !skeletonized)
-		if(static_icon)
-			icon = initial(icon)
-			icon_state = initial(icon_state)
-			return
-		image_dir = SOUTH
-		if(dmg_overlay_type)
+	if(dropped && !skeletonized && static_icon)
+		icon = initial(icon)
+		icon_state = initial(icon_state)
+		return
+
+	// Check cache for base appearances
+	var/new_cache_key = generate_limb_cache_key(dropped, hideaux)
+	if(limb_appearance_cache_key == new_cache_key && cached_base_appearances)
+		. = cached_base_appearances.Copy()
+	else
+		// Generate base appearances
+		if(dropped && !skeletonized && dmg_overlay_type)
 			if(brutestate)
 				. += image('icons/mob/dam_mob.dmi', "[dmg_overlay_type]_[body_zone]_[brutestate]0_[icon_gender]", -DAMAGE_LAYER, image_dir)
 			if(burnstate)
 				. += image('icons/mob/dam_mob.dmi', "[dmg_overlay_type]_[body_zone]_0[burnstate]_[icon_gender]", -DAMAGE_LAYER, image_dir)
 
-	var/image/limb = image(layer = -BODYPARTS_LAYER, dir = image_dir)
-	var/image/aux
+		var/image/limb = image(layer = -BODYPARTS_LAYER, dir = image_dir)
+		var/image/aux
+		. += limb
 
-	. += limb
-
-	if(animal_origin)
-		if(is_organic_limb())
-			limb.icon = 'icons/mob/animal_parts.dmi'
-			if(species_id == "husk")
-				limb.icon_state = "[animal_origin]_husk_[body_zone]"
+		if(animal_origin)
+			if(is_organic_limb())
+				limb.icon = 'icons/mob/animal_parts.dmi'
+				limb.icon_state = species_id == "husk" ? "[animal_origin]_husk_[body_zone]" : "[animal_origin]_[body_zone]"
 			else
+				limb.icon = 'icons/mob/augmentation/augments.dmi'
 				limb.icon_state = "[animal_origin]_[body_zone]"
-		else
-			limb.icon = 'icons/mob/augmentation/augments.dmi'
-			limb.icon_state = "[animal_origin]_[body_zone]"
-		return
+			cached_base_appearances = .
+			limb_appearance_cache_key = new_cache_key
+			return
 
-//	if((body_zone != BODY_ZONE_HEAD && body_zone != BODY_ZONE_CHEST))
-//		should_draw_gender = FALSE
-	should_draw_gender = TRUE
+		should_draw_gender = TRUE
+		var/skel = skeletonized ? "_s" : ""
+		var/is_organic = is_organic_limb()
 
-	var/skel = skeletonized ? "_s" : ""
-
-	var/is_organic_limb = is_organic_limb()
-
-	if(is_organic_limb)
-		if(should_draw_greyscale)
-			limb.icon = species_icon
-			if(should_draw_gender)
-				limb.icon_state = "[body_zone][skel]"
-			else if(use_digitigrade)
-				limb.icon_state = "digitigrade_[use_digitigrade]_[body_zone]"
+		if(is_organic)
+			if(should_draw_greyscale)
+				limb.icon = species_icon
+				if(use_digitigrade)
+					limb.icon_state = "digitigrade_[use_digitigrade]_[body_zone]"
+				else
+					limb.icon_state = "[body_zone][skel]"
 			else
-				limb.icon_state = "[body_zone][skel]"
-		else
-			limb.icon = 'icons/mob/human_parts.dmi'
-			if(should_draw_gender)
-				limb.icon_state = "[species_id]_[body_zone]_[icon_gender]"
-			else
-				limb.icon_state = "[species_id]_[body_zone]"
-		if(aux_zone)
-			if(!hideaux)
+				limb.icon = 'icons/mob/human_parts.dmi'
+				limb.icon_state = should_draw_gender ? "[species_id]_[body_zone]_[icon_gender]" : "[species_id]_[body_zone]"
+			if(aux_zone && !hideaux)
 				aux = image(limb.icon, "[aux_zone][skel]", -aux_layer, image_dir)
 				. += aux
-
-	else
-		limb.icon = species_icon
-		limb.icon_state = "[prosthetic_prefix]_[body_zone]"
-		if(aux_zone)
-			if(!hideaux)
-				aux = image(limb.icon, "pr_[aux_zone]", -aux_layer, image_dir)
+		else
+			limb.icon = species_icon
+			limb.icon_state = "pr_[limb_material]_[body_zone]"
+			if(aux_zone && !hideaux)
+				aux = image(limb.icon, "pr_[limb_material]_[aux_zone]", -aux_layer, image_dir)
 				. += aux
 
+		var/override_color = rotted ? SKIN_COLOR_ROT : null
+		if(is_organic && should_draw_greyscale && !skeletonized)
+			var/draw_color = mutation_color || species_color || skin_tone
+			if(rotted || (owner && HAS_TRAIT(owner, TRAIT_ROTMAN)))
+				draw_color = SKIN_COLOR_ROT
+			if(draw_color)
+				limb.color = "#[draw_color]"
+				if(aux)
+					aux.color = "#[draw_color]"
 
-	var/override_color = null
-	if(rotted)
-		override_color = SKIN_COLOR_ROT
-	if(is_organic_limb && should_draw_greyscale && !skeletonized)
-		var/draw_color =  mutation_color || species_color || skin_tone
-		if(rotted || (owner && HAS_TRAIT(owner, TRAIT_ROTMAN)))
-			draw_color = SKIN_COLOR_ROT
-		if(draw_color)
-			limb.color = "#[draw_color]"
-			if(aux_zone && !hideaux)
-				aux.color = "#[draw_color]"
-	
+		// Cache the base appearances
+		cached_base_appearances = _list_copy(.)
+		limb_appearance_cache_key = new_cache_key
+
+		// Markings overlays (not cached - can vary)
+		if(!skeletonized)
+			var/list/marking_overlays = get_markings_overlays(override_color)
+			if(marking_overlays)
+				. += marking_overlays
+
+	// These are not cached as they can change independently
 	var/draw_organ_features = TRUE
 	var/draw_bodypart_features = TRUE
-	if(owner && owner.dna)
+	if(owner?.dna?.species)
 		var/datum/species/owner_species = owner.dna.species
 		if(NO_ORGAN_FEATURES in owner_species.species_traits)
 			draw_organ_features = FALSE
 		if(NO_BODYPART_FEATURES in owner_species.species_traits)
 			draw_bodypart_features = FALSE
-	
-	// Markings overlays
-	if(!skeletonized && draw_bodypart_features)
-		var/list/marking_overlays = get_markings_overlays(override_color)
-		if(marking_overlays)
-			. += marking_overlays
-	
-	// Organ overlays
+
 	if(!skeletonized && draw_organ_features)
 		for(var/obj/item/organ/organ as anything in get_organs())
-			if(!organ.is_visible())
-				continue
-			var/mutable_appearance/organ_appearance = organ.get_bodypart_overlay(src)
-			if(organ_appearance)
-				. += organ_appearance
-	
-	// Feature overlays
+			if(organ.is_visible())
+				var/mutable_appearance/organ_appearance = organ.get_bodypart_overlay(src)
+				if(organ_appearance)
+					. += organ_appearance
+
 	if(!skeletonized && draw_bodypart_features)
 		for(var/datum/bodypart_feature/feature as anything in bodypart_features)
 			var/overlays = feature.get_bodypart_overlay(src)
-			if(!overlays)
-				continue
-			. += overlays
+			if(overlays)
+				. += overlays
 
 /obj/item/bodypart/deconstruct(disassembled = TRUE)
 	drop_organs()

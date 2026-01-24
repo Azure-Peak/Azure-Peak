@@ -22,6 +22,7 @@
 	. = ..()
 	AddComponent(/datum/component/item_equipped_movement_rustle, SFX_CHAIN_STEP, 7)
 	AddComponent(/datum/component/armour_filtering/negative, TRAIT_FENCERDEXTERITY)
+	AddComponent(/datum/component/armour_filtering/negative, TRAIT_HONORBOUND)
 
 /obj/item/clothing/under/roguetown/splintlegs
 	name = "brigandine chausses"
@@ -140,8 +141,8 @@
 	sleeved = 'icons/roguetown/clothing/onmob/helpers/sleeves_pants.dmi'
 	alternate_worn_layer = (SHIRT_LAYER)
 
-/obj/item/clothing/under/roguetown/chainlegs/captain
-	name = "captain's chausses"
+/obj/item/clothing/under/roguetown/chainlegs/banneret
+	name = "knight banneret's chausses"
 	desc = "A resplendent set of plated chausses, gilded and besilked. Such a masterwork can only be found upon the finest of Azuria's knights."
 	icon_state = "capplateleg"
 	item_state = "capplateleg"

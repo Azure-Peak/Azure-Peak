@@ -408,29 +408,30 @@
 	var/list/obscured = list()
 	var/hidden_slots = NONE
 
-	for(var/obj/item/I in get_equipped_items())
+	var/list/equipped = get_equipped_items()
+	for(var/obj/item/I as anything in equipped)
 		hidden_slots |= I.flags_inv
 		if(transparent_protection)
 			hidden_slots |= I.transparent_protection
 
 	if(hidden_slots & HIDENECK)
-		obscured |= SLOT_NECK
+		obscured += SLOT_NECK
 	if(hidden_slots & HIDEMASK)
-		obscured |= SLOT_WEAR_MASK
+		obscured += SLOT_WEAR_MASK
 	if(hidden_slots & HIDEEYES)
-		obscured |= SLOT_GLASSES
+		obscured += SLOT_GLASSES
 	if(hidden_slots & HIDEGLOVES)
-		obscured |= SLOT_GLOVES
+		obscured += SLOT_GLOVES
 	if(hidden_slots & HIDEJUMPSUIT)
-		obscured |= SLOT_PANTS
+		obscured += SLOT_PANTS
 	if(hidden_slots & HIDESHOES)
-		obscured |= SLOT_SHOES
+		obscured += SLOT_SHOES
 	if(hidden_slots & HIDEBELT)
-		obscured |= SLOT_BELT_R
-		obscured |= SLOT_BELT_L
-		obscured |= SLOT_BELT
+		obscured += SLOT_BELT_R
+		obscured += SLOT_BELT_L
+		obscured += SLOT_BELT
 	if(hidden_slots & HIDESUITSTORAGE)
-		obscured |= SLOT_S_STORE
+		obscured += SLOT_S_STORE
 
 	return obscured
 

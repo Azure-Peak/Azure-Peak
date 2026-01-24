@@ -1,5 +1,0 @@
-author: "Ryan180602"
-delete-after: True
-changes:
-  - balance: "Lance intent gets 2.4x damfactor against integrity."
-  - balance: "Lance thrust gets 1.6x damfactor against integrity."

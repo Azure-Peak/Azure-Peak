@@ -759,8 +759,8 @@
 	smeltresult = /obj/item/ingot/iron
 	smelt_bar_num = 2
 
-/obj/item/clothing/head/roguetown/helmet/heavy/captain
-	name = "captain's helmet"
+/obj/item/clothing/head/roguetown/helmet/heavy/banneret
+	name = "banneret's helmet"
 	desc = "An elegant barbute, fitted with the gold trim and polished metal of nobility."
 	icon = 'icons/roguetown/clothing/special/captain.dmi'
 	mob_overlay_icon = 'icons/roguetown/clothing/special/onmob/captain.dmi'
@@ -771,5 +771,5 @@
 	smeltresult = /obj/item/ingot/steel
 	smelt_bar_num = 2
 
-/obj/item/clothing/head/roguetown/helmet/heavy/captain/ComponentInitialize()
+/obj/item/clothing/head/roguetown/helmet/heavy/banneret/ComponentInitialize()
 	AddComponent(/datum/component/adjustable_clothing, (HEAD|EARS|HAIR), (HIDEEARS|HIDEHAIR), null, 'sound/items/visor.ogg', null, UPD_HEAD)	//Standard helmet

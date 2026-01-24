@@ -1,5 +1,0 @@
-author: "zydras"
-delete-after: True
-changes:
-  - rscadd: "Added donator items (3x) for zydras"
-  - rscdel: "Removed an unused (1x) donator item"

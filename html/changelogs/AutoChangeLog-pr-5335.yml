@@ -1,0 +1,9 @@
+author: "Ryan180602"
+delete-after: True
+changes:
+  - rscdel: "Kill knight-captain."
+  - rscadd: "Knight Banneret Knight subclass."
+  - bugfix: "Rename Royal Champion to Irregular Knight."
+  - rscadd: "Sergeant office is in the Justiciary now."
+  - rscadd: "Adds bath-room to the watchhouse."
+  - balance: "Knight slots are now 4, instead of 3."

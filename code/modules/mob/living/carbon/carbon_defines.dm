@@ -88,3 +88,10 @@
 	var/stam_paralyzed = FALSE
 
 	var/next_smell = 0
+
+	/// Bitflags for pending icon updates - batched at end of tick
+	var/pending_icon_updates = NONE
+	/// Cached key for damage overlay state - invalidated when damage state changes
+	var/damage_overlay_cache_key
+	/// Cached key for body overlay state (facial features, etc) - invalidated when body state changes
+	var/body_overlay_cache_key

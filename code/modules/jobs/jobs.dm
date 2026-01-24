@@ -68,7 +68,6 @@ GLOBAL_LIST_INIT(leadership_positions, list( // Used for boldening text primaril
 	"Hand",
 	"Court Magician",
 	"Marshal",
-	"Knight Captain",
 	"Sergeant",
 	"Bishop",
 	"Martyr",
@@ -108,7 +107,6 @@ GLOBAL_LIST_INIT(courtier_positions, list( //Anyone that is officially part of t
 
 GLOBAL_LIST_INIT(retinue_positions, list( //Manorites
 	"Marshal",
-	"Knight Captain",
 	"Knight",
 	"Squire",
 ))
@@ -203,7 +201,6 @@ GLOBAL_LIST_INIT(rogueantag_positions, list(
 	"Prince",
 	"Hand",
 	"Marshal",
-	"Knight Captain",
 	"Knight",
 	"Sergeant",
 	"Bishop",

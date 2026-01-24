@@ -59,16 +59,19 @@
 	basetime = 20
 
 /datum/intent/shoot/crossbow/can_charge(atom/clicked_object)
-	if(mastermob && masteritem)
-		var/obj/item/gun/ballistic/revolver/grenadelauncher/crossbow/c_bow = masteritem
-		if(mastermob.get_num_arms(FALSE) < 2 && !c_bow.onehanded)
+	if(mastermob?.next_move > world.time)
+		if(mastermob.client.last_cooldown_warn + 10 < world.time)
+			to_chat(mastermob, span_warning("I'm not ready to do that yet!"))
+			mastermob.client.last_cooldown_warn = world.time
 			return FALSE
-		if(mastermob.get_inactive_held_item() && !c_bow.onehanded)
-			return FALSE
-		if(istype(clicked_object, /obj/item/quiver) && istype(mastermob.get_active_held_item(), /obj/item/gun/ballistic))
+		if(mastermob && masteritem)
+			var/obj/item/gun/ballistic/revolver/grenadelauncher/crossbow/c_bow = masteritem
+			if(mastermob.get_num_arms(FALSE) < 2 && !c_bow.onehanded || mastermob.get_inactive_held_item() && !c_bow.onehanded)
+				to_chat(mastermob, span_warning("I need a free hand to draw [masteritem]!"))
+				return FALSE
+		if(istype(clicked_object, /obj/item/quiver) && istype(mastermob?.get_active_held_item(), /obj/item/gun/ballistic))
 			return FALSE
 	return TRUE
-
 
 /datum/intent/shoot/crossbow/get_chargetime()
 	if(mastermob && chargetime && masteritem)
@@ -97,8 +100,6 @@
 	chargetime = 1
 	basetime = 20
 	chargedrain = 0
-
-
 
 /datum/intent/arc/crossbow/can_charge(atom/clicked_object)
 	if(mastermob && masteritem)
