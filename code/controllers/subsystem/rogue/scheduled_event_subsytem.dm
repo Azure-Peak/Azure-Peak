@@ -10,14 +10,16 @@ SUBSYSTEM_DEF(event_scheduler)
 /datum/controller/subsystem/event_scheduler/Initialize()
 	. = ..()
 	show_current_datetime()
-	// for testing purposes
 	load_fog_schedule()
-	// if(check_schedule_new())
-	// 	schedule_fog()
-	//  addtimer(CALLBACK(src, .proc/delayed_tech_unlock), 1 MINUTES)
-	fog_timer_id = addtimer(CALLBACK(src, .proc/trigger_fog_event), 1 MINUTES, TIMER_STOPPABLE)
-	addtimer(CALLBACK(src, .proc/delayed_tech_unlock), 1 MINUTES)
-	fog_scheduled = TRUE
+	if(check_schedule_new())
+		schedule_fog()
+		addtimer(CALLBACK(src, .proc/delayed_tech_unlock), 1 MINUTES)
+
+	/// UNCOMMENT BELOW FOR DEBUGGING PURPOSES, ENABLES FOG REGARDLESS OF SCHEDULER ///
+
+	// fog_timer_id = addtimer(CALLBACK(src, .proc/trigger_fog_event), 1 MINUTES, TIMER_STOPPABLE)
+	// addtimer(CALLBACK(src, .proc/delayed_tech_unlock), 1 MINUTES)
+	// fog_scheduled = TRUE
 
 /datum/controller/subsystem/event_scheduler/proc/schedule_fog()
 	if(fog_scheduled || fog_active)
@@ -152,36 +154,80 @@ SUBSYSTEM_DEF(event_scheduler)
 
 		ui_interact(usr)
 
+// /datum/controller/subsystem/event_scheduler/proc/check_schedule_new()
+// 	var/weekday = lowertext(time2text(world.timeofday, "Day")) 
+// 	var/time_str = fog_schedule[weekday]
+// 	to_chat(world, span_userdanger("FOG DEBUG: System checking schedule for: [weekday]"))
+
+// 	if(!time_str)
+// 		to_chat(world, span_userdanger("FOG DEBUG: No time string found in JSON for today."))
+// 		return FALSE
+
+// 	var/current_ds = (world.timeofday + 1 HOURS) % 24 HOURS
+// 	var/list/split = splittext(time_str, ":")
+	
+// 	if(length(split) < 2) 
+// 		to_chat(world, span_userdanger("FOG DEBUG: Time format error for [time_str]. Needs HH:MM."))
+// 		return FALSE
+
+// 	var/target_ds = (text2num(split[1]) * 1 HOURS) + (text2num(split[2]) * 1 MINUTES)
+	
+// 	// Logic for window (30 mins before, 3.5 hours after)
+// 	var/start_window = target_ds - 30 MINUTES
+// 	var/end_window = target_ds + 210 MINUTES
+
+// 	to_chat(world, span_userdanger("FOG DEBUG: Current Time (DS): [current_ds]"))
+// 	to_chat(world, span_userdanger("FOG DEBUG: Target Time (DS): [target_ds] (Window: [start_window] - [end_window])"))
+
+// 	var/result = FALSE
+// 	// Midnight Rollover Logic
+// 	if(start_window < 0)
+// 		to_chat(world, span_userdanger("FOG DEBUG: Handling Midnight Rollover (Start < 0)"))
+// 		if(current_ds >= (start_window + 24 HOURS) || current_ds <= end_window)
+// 			result = TRUE
+// 	else if(end_window > 24 HOURS)
+// 		to_chat(world, span_userdanger("FOG DEBUG: Handling Midnight Rollover (End > 24h)"))
+// 		if(current_ds >= start_window || current_ds <= (end_window - 24 HOURS))
+// 			result = TRUE
+// 	else
+// 		to_chat(world, span_userdanger("FOG DEBUG: Standard Window Check Logic active."))
+// 		if(current_ds >= start_window && current_ds <= end_window)
+// 			result = TRUE
+
+// 	to_chat(world, span_userdanger("FOG DEBUG: Final Decision: [result ? "TRUE - TRIGGERING" : "FALSE - SLEEPING"]"))
+// 	return result
+
 /datum/controller/subsystem/event_scheduler/proc/check_schedule_new()
 	var/weekday = lowertext(time2text(world.timeofday, "Day")) 
 	var/time_str = fog_schedule[weekday]
 
-	if(!time_str)
+	if(!time_str || time_str == "")
 		return FALSE
 
-	var/current_ds = MODULUS(REALTIMEOFDAY, 24 HOURS)
+	// Get current hours and minutes exactly how show_current_datetime does it
+	var/curr_hh = text2num(time2text(world.timeofday, "hh"))
+	var/curr_mm = text2num(time2text(world.timeofday, "mm"))
+	
+	// Parse the target
 	var/list/split = splittext(time_str, ":")
+	var/targ_hh = text2num(split[1])
+	var/targ_mm = text2num(split[2])
+
+	// Convert everything to simple minutes past midnight for easy comparison
+	var/now_mins = (curr_hh * 60) + curr_mm
+	var/targ_mins = (targ_hh * 60) + targ_mm
+
+	// Define the window in minutes (30 mins before, 210 mins after)
+	var/start_win = targ_mins - 30
+	var/end_win = targ_mins + 210
+
+	to_chat(world, span_userdanger("FOG DEBUG: Clock says [curr_hh]:[curr_mm]. Target is [targ_hh]:[targ_mm]."))
 	
-	if(length(split) < 2) 
-		return FALSE
+	if(now_mins >= start_win && now_mins <= end_win)
+		to_chat(world, span_userdanger("FOG DEBUG: MATCH! Decision: TRUE"))
+		return TRUE
 
-	var/target_ds = (text2num(split[1]) * 1 HOURS) + (text2num(split[2]) * 1 MINUTES)
-	
-	// Logic for window (30 mins before, 3.5 hours after)
-	var/start_window = target_ds - 30 MINUTES
-	var/end_window = target_ds + 210 MINUTES
-
-	// Midnight Rollover Logic
-	if(start_window < 0)
-		if(current_ds >= (start_window + 24 HOURS) || current_ds <= end_window)
-			return TRUE
-	else if(end_window > 24 HOURS)
-		if(current_ds >= start_window || current_ds <= (end_window - 24 HOURS))
-			return TRUE
-	else
-		if(current_ds >= start_window && current_ds <= end_window)
-			return TRUE
-
+	to_chat(world, span_userdanger("FOG DEBUG: NO MATCH. Decision: FALSE"))
 	return FALSE
 
 /client/proc/manage_fog_schedule()
