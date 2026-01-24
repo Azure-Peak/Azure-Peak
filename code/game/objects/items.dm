@@ -254,6 +254,24 @@ GLOBAL_VAR_INIT(rpg_loot_items, FALSE)
 	/// Makes this item impossible to enchant, for temporary item
 	var/unenchantable = FALSE
 
+	/// A lazylist to store inhands data.
+	var/list/onprop
+	var/d_type = "blunt"
+	var/force_reupdate_inhand = TRUE
+	/// Sanity for smelteries to avoid runtimes, if this is a bar smelted through ore for exp gain
+	var/smelted = FALSE
+	/// Determines whether this item is silver or not.
+	var/is_silver = FALSE
+	var/last_used = 0
+	var/toggle_state = null
+	var/icon_x_offset = 0
+	var/icon_y_offset = 0
+	var/always_destroy = FALSE
+	/// If TRUE, this item is not allowed to be minted. May be useful for other things later.
+	var/is_important = FALSE
+	/// does this item/weapon circumvent two-stage death during dismemberment? (do not add this to anything but ultra rare shit)
+	var/vorpal = FALSE
+
 /obj/item/Initialize()
 	. = ..()
 	if(!pixel_x && !pixel_y && !bigboy)
@@ -482,7 +500,7 @@ GLOBAL_VAR_INIT(rpg_loot_items, FALSE)
 	Both multiplication are applied to the base number, and does not multiply each other. Reduced sharpness decrease the contribution of strength\n\
 	Force, combined with armor penetration on an intent determines whether an attack penetrate the target's armor. Armor penetrating attack deals less damage to the armor itself."
 	if(href_list["showforce"])
-		var/output = span_info("Actual Force: ([force]). [additional_explanation]")
+		var/output = span_info("Actual Force: ([force_dynamic]). [additional_explanation]")
 		if(!usr.client.prefs.no_examine_blocks)
 			output = examine_block(output)
 		to_chat(usr, output)
@@ -539,7 +557,7 @@ GLOBAL_VAR_INIT(rpg_loot_items, FALSE)
 			inspec += "\n<b>NO HALVING ON WIELD</b>"
 
 		if(force)
-			inspec += "\n<b>FORCE:</b> [get_force_string(force)] <span class='info'><a href='?src=[REF(src)];showforce=1'>{?}</a></span>"
+			inspec += "\n<b>FORCE:</b> [get_force_string(force_dynamic)] <span class='info'><a href='?src=[REF(src)];showforce=1'>{?}</a></span>"
 		if(gripped_intents && !wielded)
 			if(force_wielded)
 				inspec += "\n<b>WIELDED FORCE:</b> [get_force_string(force_wielded)] <span class='info'><a href='?src=[REF(src)];showforcewield=1'>{?}</a></span>"

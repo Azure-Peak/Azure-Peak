@@ -1,6 +1,6 @@
 /obj/structure/roguemachine/bounty
 	name = "EXCIDIUM"
-	desc = "Created by a fanatical sect of devout followers of Ravox, this machine sets bounties."
+	desc = "A device hungering for flesh and souls of the wicked. While favored by Astratan orders and tolerated by Ravoxian sects, it is seen as nothing more than a barbaric implement for turbulent tymes by anyone else. This one allows to meditate upon those who need to be brought to justice."
 	icon = 'icons/roguetown/topadd/statue1.dmi'
 	icon_state = "baldguy"
 	density = FALSE
@@ -96,7 +96,7 @@
 			scom_announce("The bounty posting on [target_name] has been removed.")
 			message_admins("[ADMIN_LOOKUPFLW(user)] has removed the bounty on [ADMIN_LOOKUPFLW(target_name)]")
 			return
-	say("Error. Bounty no longer active.") 
+	say("Error. Bounty no longer active.")
 
 ///Sets a bounty on a target player through user input.
 ///@param user: The player setting the bounty.
@@ -335,7 +335,7 @@
 
 /obj/structure/chair/arrestchair
 	name = "CASTIFICO"
-	desc = "A chair-shaped machine that collects bounties, for a greater reward, in exchange for a penalty that some might consider worse than death."
+	desc = "A crude metal chair with clasps to hold down any rapscallion the EXCIDIUM deems worthy of punishment. Simple pull of a lever is all it takes."
 	icon = 'icons/roguetown/misc/machines.dmi'
 	icon_state = "evilchair"
 	blade_dulling = DULLING_BASH
@@ -361,7 +361,7 @@
 			A.emote("whimper")
 			return
 	if(!ismob(M))
-		say("Cannot begin skull structure analysis without a subject buckled to the Castifico.")
+		say("Unable to comply without a subject. Aborting...")
 		playsound(src, 'sound/misc/machineno.ogg', 100, FALSE, -1)
 		return
 	if(!ishuman(M))
@@ -369,7 +369,7 @@
 		playsound(src, 'sound/misc/machineno.ogg', 100, FALSE, -1)
 		return
 	if(!M.buckled)
-		say("Subject is not properly secured for analysis.")
+		say("Subject is not properly secured. Aborting...")
 		playsound(src, 'sound/misc/machineno.ogg', 100, FALSE, -1)
 		return
 	var/obj/item/bodypart/head/headcheck
@@ -393,7 +393,7 @@
 			reward_amount += b.amount
 			GLOB.head_bounties -= b
 
-	say(pick(list("Performing intra-cranial inspection...", "Analyzing skull structure...", "Commencing cephalic dissection...")))
+	say(pick(list("Processing subject...", "Commencing PUNISHMENT routine...", "Restoring ORDER...")))
 
 	sleep(1 SECONDS)
 
@@ -430,7 +430,7 @@
 		M.equip_to_slot_or_del(prisonmask, SLOT_WEAR_MASK, TRUE)
 		playsound(src.loc, 'sound/items/beartrap.ogg', 100, TRUE, -1)
 	else
-		say("This skull carries no reward, you fool.")
+		say("This head carries no reward, you fool.")
 		playsound(src, 'sound/misc/machineno.ogg', 100, FALSE, -1)
 
 	if(!submission)
@@ -438,8 +438,8 @@
 			say("Resistance detected...")
 			src.Shake()
 			var/obj/item/bodypart/head/victim_head = M.get_bodypart(BODY_ZONE_HEAD)
-			message_admins("[M.real_name] was killed by the Excidium.")
-			log_admin("[M.real_name] was killed by the Excidium.")
+			message_admins("[M.real_name] was killed by the EXCIDIUM.")
+			log_admin("[M.real_name] was killed by the EXCIDIUM.")
 			playsound(src, 'sound/combat/vite.ogg', 100, FALSE, -1)
 			victim_head.skeletonize()
 			submission = TRUE
@@ -451,8 +451,8 @@
 
 /obj/structure/chair/arrestchair/proc/giveup(mob/living/carbon/human/M)
 	if(alert(M, "Do you submit to the Mask, or do you die? You have 10 seconds to decide.", "CHOICE OF LYFE", "Submit", "Perish") == "Perish")
-		message_admins("[M.real_name] chose to die to the Excidium.")
-		log_admin("[M.real_name] opted to die to the Excidium.")
+		message_admins("[M.real_name] chose to die to the EXCIDIUM.")
+		log_admin("[M.real_name] opted to die to the EXCIDIUM.")
 		if(M.Adjacent(src))	//No buffering this for later
 			submission = FALSE
 

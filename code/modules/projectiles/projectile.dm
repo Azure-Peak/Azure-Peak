@@ -43,10 +43,27 @@
 	var/nondirectional_sprite = FALSE //Set TRUE to prevent projectiles from having their sprites rotated based on firing angle
 	var/spread = 0			//amount (in degrees) of projectile spread
 	animate_movement = NO_STEPS	//Use SLIDE_STEPS in conjunction with legacy
+
+	// Ricochet logic
+	/// How many times we've ricochet'd so far (instance variable, not a stat)
 	var/ricochets = 0
-	var/ricochets_max = 2
-	var/ricochet_chance = 30
-	var/force_hit = FALSE //If the object being hit can pass ths damage on to something else, it should not do it for this bullet.
+	/// How many times we can ricochet max
+	var/ricochets_max = 0
+	/// 0-100 (or more, I guess), the base chance of ricocheting, before being modified by the atom we shoot and our chance decay
+	var/ricochet_chance = 0
+	/// 0-1 (or more, I guess) multiplier, the ricochet_chance is modified by multiplying this after each ricochet
+	var/ricochet_decay_chance = 0.7
+	/// 0-1 (or more, I guess) multiplier, the projectile's damage is modified by multiplying this after each ricochet
+	var/ricochet_decay_damage = 0.7
+	/// On ricochet, if nonzero, we consider all mobs within this range of our projectile at the time of ricochet to home in on like Revolver Ocelot, as governed by ricochet_auto_aim_angle
+	var/ricochet_auto_aim_range = 0
+	/// On ricochet, if ricochet_auto_aim_range is nonzero, we'll consider any mobs within this range of the normal angle of incidence to home in on, higher = more auto aim
+	var/ricochet_auto_aim_angle = 30
+	/// the angle of impact must be within this many degrees of the struck surface, set to 0 to allow any angle
+	var/ricochet_incidence_leeway = 40
+
+	///If the object being hit can pass ths damage on to something else, it should not do it for this bullet
+	var/force_hit = FALSE
 
 	//Hitscan
 	var/hitscan = FALSE		//Whether this is hitscan. If it is, speed is basically ignored.
@@ -115,12 +132,16 @@
 	var/ammo_type
 
 	var/arcshot = FALSE
+	var/diagonal_step = 0
+	var/diagonal_target_z = 0
 	var/poisontype
 	var/poisonamount
 	var/poisonfeel
 
 	var/accuracy = 65 //How likely the project will hit it's intended target area. Decreases over distance moved, increased from perception.
 	var/bonus_accuracy = 0 //bonus accuracy that cannot be affected by range drop off.
+
+	var/target_z = 0
 
 /obj/projectile/proc/handle_drop()
 	return
@@ -130,8 +151,38 @@
 	permutated = list()
 	decayedRange = range
 
+/obj/projectile/proc/get_nearest_open_turf(turf/center, max_range)
+	for(var/i in 0 to max_range)
+		for(var/turf/T in range(i, center))
+			if(!T.density && !has_dense_content(T))
+				return T
+	return null
+
+/obj/projectile/proc/has_dense_content(turf/T)
+	for(var/atom/A in T)
+		if(A.density && A != src && A != firer)
+			return TRUE
+	return FALSE
+
 /obj/projectile/proc/Range()
 	range--
+	if(diagonal_step && diagonal_target_z && z != diagonal_target_z)
+		if((decayedRange - range) >= diagonal_step)
+			var/turf/T = locate(x, y, diagonal_target_z)
+			if(T)
+				if(T.density || has_dense_content(T))
+					T = get_nearest_open_turf(T, 3)
+				
+				if(T)
+					trajectory_ignore_forcemove = TRUE
+					forceMove(T)
+					trajectory_ignore_forcemove = FALSE
+					if(trajectory)
+						trajectory.z = T.z
+				else
+					qdel(src)
+					return
+
 	if(accuracy > 20) //so there is always a somewhat prevalent chance to hit the target, despite distance.
 		accuracy -= 10
 	if(range <= 0 && loc)
@@ -187,8 +238,8 @@
 
 	var/mob/living/L = target
 
-	if (!L.mind && istype(L, /mob/living/simple_animal))
-		damage *= npc_simple_damage_mult // bonus damage against simple animals.
+	if(!L.mind)
+		damage *= npc_simple_damage_mult // bonus damage against NPCs.
 	if(blocked != 100) // not completely blocked
 		if(damage && L.blood_volume && damage_type == BRUTE)
 			var/splatter_dir = dir
@@ -197,7 +248,6 @@
 			new /obj/effect/temp_visual/dir_setting/bloodsplatter(target_loca, splatter_dir)
 			if(prob(33))
 				L.add_splatter_floor(target_loca)
-				L.add_splatter_wall(target_loca, force = damage, spill_amount = 2) //Projectiles hurt and spray blood everywhere behind and around of course.
 
 	if(impact_effect_type && !hitscan)
 		new impact_effect_type(target_loca, hitx, hity)
@@ -223,8 +273,22 @@
 	else
 		return 50 //if the projectile doesn't do damage, play its hitsound at 50% volume
 
-/obj/projectile/proc/on_ricochet(atom/A)
-	return
+/obj/projectile/proc/on_ricochet(atom/target)
+	if(!ricochet_auto_aim_angle || !ricochet_auto_aim_range)
+		return
+
+	var/mob/living/unlucky_sob
+	var/best_angle = ricochet_auto_aim_angle
+	for(var/mob/living/L in range(ricochet_auto_aim_range, src.loc))
+		if(L.stat == DEAD || !isInSight(src, L))
+			continue
+		var/our_angle = abs(closer_angle_difference(Angle, Get_Angle(src.loc, L.loc)))
+		if(our_angle < best_angle)
+			best_angle = our_angle
+			unlucky_sob = L
+
+	if(unlucky_sob)
+		setAngle(Get_Angle(src, unlucky_sob.loc))
 
 /obj/projectile/proc/store_hitscan_collision(datum/point/pcache)
 	beam_segments[beam_index] = pcache
@@ -234,12 +298,14 @@
 /obj/projectile/Bump(atom/A)
 	var/datum/point/pcache = trajectory.copy_to()
 	var/turf/T = get_turf(A)
-	if(check_ricochet(A) && check_ricochet_flag(A) && ricochets < ricochets_max)
+	if(ricochets < ricochets_max && check_ricochet_flag(A) && check_ricochet(A))
 		ricochets++
 		if(A.handle_ricochet(src))
 			on_ricochet(A)
 			ignore_source_check = TRUE
 			decayedRange = max(0, decayedRange - reflect_range_decrease)
+			ricochet_chance *= ricochet_decay_chance
+			damage *= ricochet_decay_damage
 			range = decayedRange
 			if(hitscan)
 				store_hitscan_collision(pcache)
@@ -519,13 +585,32 @@
 		else if(T != loc)
 			step_towards(src, T)
 			hitscan_last = loc
+		
+		if(arcshot && starting && target_z && z > target_z)
+			var/tx = starting.x + xo
+			var/ty = starting.y + yo
+			
+			if(get_dist(loc, locate(tx, ty, z)) == 0)
+				var/turf/below = locate(x, y, target_z)
+				if(below)
+					var/old = loc
+					before_z_change(loc, below)
+					trajectory_ignore_forcemove = TRUE
+					forceMove(below)
+					trajectory_ignore_forcemove = FALSE
+					after_z_change(old, loc)
+					if(trajectory)
+						trajectory.z = below.z
+					forcemoved = TRUE
+					hitscan_last = loc
+
 	if(!hitscanning && !forcemoved)
 		pixel_x = trajectory.return_px() - trajectory.mpx * trajectory_multiplier * SSprojectiles.global_iterations_per_move
 		pixel_y = trajectory.return_py() - trajectory.mpy * trajectory_multiplier * SSprojectiles.global_iterations_per_move
 		animate(src, pixel_x = trajectory.return_px(), pixel_y = trajectory.return_py(), time = 1, flags = ANIMATION_END_NOW)
 	Range()
 
-/obj/projectile/proc/process_homing()			//may need speeding up in the future performance wise.
+/obj/projectile/proc/process_homing()		//may need speeding up in the future performance wise.
 	if(!homing_target)
 		return FALSE
 	var/datum/point/PT = RETURN_PRECISE_POINT(homing_target)
@@ -553,7 +638,7 @@
 		return FALSE
 	if(!isliving(target))
 		if(direct_target)
-
+			testing("DIRECT TARGET")
 			if(isturf(target))
 				if(arcshot)
 					return TRUE
@@ -585,15 +670,26 @@
 /obj/projectile/proc/preparePixelProjectile(atom/target, atom/source, params, spread = 0)
 	var/turf/curloc = get_turf(source)
 	var/turf/targloc = get_turf(target)
+	var/turf/start_loc = curloc
+
 	if(targloc && curloc)
-		if(targloc.z > curloc.z)
-			var/turf/above = get_step_multiz(curloc, UP)
-			if(istype(above, /turf/open/transparent/openspace))
-				curloc = above
+		target_z = targloc.z
+		if(arcshot)
+			if(targloc.z > curloc.z)
+				var/turf/above = get_step_multiz(curloc, UP)
+				if(above)
+					curloc = above
+					start_loc = above
+		else
+			if(targloc.z != curloc.z)
+				var/dist = get_dist_euclidian(curloc, targloc)
+				diagonal_step = max(1, round(dist / 2))
+				diagonal_target_z = targloc.z
+
 	trajectory_ignore_forcemove = TRUE
-	forceMove(get_turf(source))
+	forceMove(start_loc)
 	trajectory_ignore_forcemove = FALSE
-	starting = get_turf(source)
+	starting = start_loc
 	original = target
 	if(targloc || !params)
 		yo = targloc.y - curloc.y

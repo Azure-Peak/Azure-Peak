@@ -69,7 +69,7 @@
 	..()
 	head = /obj/item/clothing/head/roguetown/cap
 	neck = /obj/item/clothing/neck/roguetown/collar
-	beltl = /obj/item/roguekey/nightmaiden
+	beltl = /obj/item/roguekey/bathworker
 	beltr = /obj/item/storage/belt/rogue/pouch/coins/poor
 	backl = /obj/item/storage/backpack/rogue/satchel
 	shoes = /obj/item/clothing/shoes/roguetown/sandals
@@ -132,7 +132,7 @@
 		if(20)
 			head = /obj/item/lockpick/goldpin/silver
 	neck = /obj/item/clothing/neck/roguetown/collar/leather
-	beltl = /obj/item/roguekey/nightmaiden
+	beltl = /obj/item/roguekey/bathworker
 	beltr = /obj/item/storage/belt/rogue/pouch/coins/poor
 	backl = /obj/item/storage/backpack/rogue/satchel
 	shoes = /obj/item/clothing/shoes/roguetown/sandals
@@ -198,7 +198,7 @@
 			id = /obj/item/clothing/ring/silver
 		if(96 to 100)
 			id = /obj/item/clothing/ring/diamond
-	beltl = /obj/item/roguekey/nightmaiden
+	beltl = /obj/item/roguekey/bathworker
 	beltr = /obj/item/storage/belt/rogue/pouch/coins/poor
 	backl = /obj/item/storage/backpack/rogue/satchel
 	backpack_contents = list(

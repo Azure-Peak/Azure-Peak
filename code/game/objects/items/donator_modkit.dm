@@ -84,11 +84,21 @@
 	target_items = list(/obj/item/rogueweapon/greataxe/steel)
 	result_item = /obj/item/rogueweapon/greataxe/steel/gilded
 
-//Zydras donator item - bathmatron padded dress
-/obj/item/enchantingkit/zydras
-	name = "'Gold-Black silky dress morphing elixir"
-	target_items = list(/obj/item/clothing/suit/roguetown/shirt/dress/silkydress)
-	result_item = /obj/item/clothing/suit/roguetown/shirt/dress/silkydress/zydrasdress
+//Zydras donator items - Iconoclast pyromaniac
+/obj/item/enchantingkit/zydrasiconocrown
+	name = "Barred Helmet morphing elixir"
+	target_items = list(/obj/item/clothing/head/roguetown/helmet/heavy/sheriff)
+	result_item = /obj/item/clothing/head/roguetown/helmet/heavy/sheriff/zydrasiconocrown
+
+/obj/item/enchantingkit/zydrasiconopauldrons
+	name = "Light Brigandine morphing elixir"
+	target_items = list(/obj/item/clothing/suit/roguetown/armor/brigandine/light)
+	result_item = /obj/item/clothing/suit/roguetown/armor/brigandine/light/zydrasiconopauldrons
+
+/obj/item/enchantingkit/zydrasiconosash
+	name = "Iron Hauberk morphing elixir"
+	target_items = list(/obj/item/clothing/suit/roguetown/armor/chainmail/hauberk/iron)
+	result_item = /obj/item/clothing/suit/roguetown/armor/chainmail/hauberk/iron/zydrasiconosash
 
 //Eiren - Zweihander and sabres
 /obj/item/enchantingkit/eiren

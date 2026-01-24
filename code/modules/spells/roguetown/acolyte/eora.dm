@@ -388,6 +388,8 @@
 	else
 		recharge_time = base_recharge_time
 
+	START_PROCESSING(SSfastprocess, src)
+
 /obj/effect/proc_holder/spell/invoked/pomegranate
 	name = "Amaranth Sanctuary"
 	invocations = list("Eora, provide sanctuary for your beauty!")

@@ -103,10 +103,6 @@ INITIALIZE_IMMEDIATE(/obj/effect/landmark)
 	name = "Knight"
 	icon_state = "arrow"
 
-/obj/effect/landmark/start/knight_captain
-	name = "Knight Captain"
-	icon_state = "arrow"
-
 /obj/effect/landmark/start/innkeeper
 	name = "Innkeeper"
 	icon_state = "arrow"
@@ -395,6 +391,17 @@ INITIALIZE_IMMEDIATE(/obj/effect/landmark)
 	delete_after_roundstart = FALSE
 	jobspawn_override = list("Wretch")
 
+/obj/effect/landmark/start/gnoll
+	name = "gnoll"
+	icon_state = "arrow"
+	jobspawn_override = list("Gnoll")
+
+/obj/effect/landmark/start/gnolllate
+	name = "gnoll"
+	icon_state = "arrow"
+	delete_after_roundstart = FALSE
+	jobspawn_override = list("Gnoll")
+
 /obj/effect/landmark/start/nukeop_leader
 	name = "nukeop leader"
 	icon = 'icons/effects/landmarks_static.dmi'
@@ -615,3 +622,31 @@ GLOBAL_LIST_EMPTY(travel_spawn_points)
 		tile.aportalid = travel_id
 		tile.aportalgoesto = travel_goes_to_id
 		tile.required_trait = required_trait
+
+
+//Deathsdoor landmark
+/obj/effect/landmark/deaths_door/entry/Initialize(mapload)
+	. = ..()
+	var/turf/T = get_turf(src)
+	if(T)
+		GLOB.deaths_door_entries += T
+	qdel(src)
+
+/obj/effect/landmark/deaths_door/entry/tl
+	name = "deaths door entry point"
+/obj/effect/landmark/deaths_door/entry/tr
+	name = "deaths door entry point"
+/obj/effect/landmark/deaths_door/entry/bl
+	name = "deaths door entry point"
+/obj/effect/landmark/deaths_door/entry/br
+	name = "deaths door entry point"
+
+/obj/effect/landmark/deaths_door/exit/Initialize(mapload)
+	. = ..()
+	var/turf/T = get_turf(src)
+	if(T)
+		GLOB.deaths_door_exit = T
+	qdel(src)
+
+/obj/effect/landmark/deaths_door/exit
+	name = "deaths door exit point"

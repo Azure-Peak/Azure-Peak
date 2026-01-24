@@ -291,7 +291,7 @@
 			target.Stun(40)
 			playsound(user, 'sound/magic/churn.ogg', 100, TRUE)
 			return
-		if(totalvalue <= 1000)
+		if(totalvalue <= 2500)
 			target.visible_message(span_danger("[target] is smited with holy light!"), span_userdanger("I feel the weight of my wealth rend my soul apart!"))
 			user.say("Your final transaction! The Free-God rebukes!!")
 			target.Stun(60)
@@ -302,7 +302,7 @@
 			playsound(user, 'sound/magic/churn.ogg', 100, TRUE)
 			explosion(get_turf(target), light_impact_range = 1, flame_range = 1, smoke = FALSE)
 			return
-		if(totalvalue >=1001) //THE POWER OF MY STAND: 'EXPLODE AND DIE INSTANTLY'
+		if(totalvalue >=2501) //THE POWER OF MY STAND: 'EXPLODE AND DIE INSTANTLY'
 			target.visible_message(span_danger("[target]'s skin begins to SLOUGH AND BURN HORRIFICALLY, glowing like molten metal!"), span_userdanger("MY LIMBS BURN IN AGONY..."))
 			user.say("Wealth beyond measure- YOUR FINAL TRANSACTION!!")
 			target.Stun(80)

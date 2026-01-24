@@ -43,3 +43,8 @@
 	name = "Assassin"
 	antag_datum = /datum/antagonist/assassin
 	advclass_cat_rolls = list(CTAG_ASSASSIN = 20)
+
+/datum/migrant_role/gnoll
+	name = "Gnoll"
+	antag_datum = /datum/antagonist/gnoll
+	advclass_cat_rolls = list(CTAG_GNOLL = 20)

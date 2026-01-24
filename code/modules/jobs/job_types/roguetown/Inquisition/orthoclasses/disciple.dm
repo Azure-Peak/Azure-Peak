@@ -87,6 +87,7 @@
 				l_hand = /obj/item/spellbook_unfinished/pre_arcyne
 				ADD_TRAIT(H, TRAIT_ARCYNE_T2, TRAIT_GENERIC) //Sojourners are magyck-inclined lightweights, relying on evasive maneuvers and unorthodox techniques - compared to the Disciple, who simply Kills People With Rocks.
 				ADD_TRAIT(H, TRAIT_DODGEEXPERT, TRAIT_GENERIC)
+				ADD_TRAIT(H, TRAIT_NALEDI, TRAIT_GENERIC)
 				REMOVE_TRAIT(H, TRAIT_CRITICAL_RESISTANCE, TRAIT_GENERIC)
 				H.adjust_skillrank_up_to(/datum/skill/magic/arcane, 3, TRUE)
 				H.grant_language(/datum/language/celestial) //They're from Naledi, they should speak Sama'glos
@@ -103,7 +104,7 @@
 	shoes = /obj/item/clothing/shoes/roguetown/boots/psydonboots
 	armor = /obj/item/clothing/suit/roguetown/armor/regenerating/skin/disciple
 	
-	backpack_contents = list(/obj/item/roguekey/inquisition = 1,
+	backpack_contents = list(/obj/item/roguekey/inquisitionmanor = 1,
 	/obj/item/paper/inqslip/arrival/ortho = 1,
 	/obj/item/roguegem/amethyst/naledi = 1) //Kept here for now, until we figure out how to make it better fit in overfilled hands.
 	belt = /obj/item/storage/belt/rogue/leather/rope/dark

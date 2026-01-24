@@ -767,9 +767,8 @@ world
 	var/render_icon = curicon
 
 	if (render_icon)
-		var/curstates = icon_states(curicon)
-		if(!(curstate in curstates))
-			if ("" in curstates)
+		if(!icon_exists(curicon, curstate))
+			if(icon_exists(curicon, ""))
 				curstate = ""
 			else
 				render_icon = FALSE
@@ -1554,3 +1553,15 @@ GLOBAL_LIST_EMPTY(headshot_cache)
 		"html" = icon_html
 	)
 	return icon_html
+
+/proc/get_cached_damage_overlay(icon, icon_state, layer, pixel_x = 0, pixel_y = 0, overlay_color)
+	var/key = "[icon]|[icon_state]|[layer]|[pixel_x]|[pixel_y]|[overlay_color]"
+	var/mutable_appearance/cached = GLOB.damage_overlay_cache[key]
+	if(!cached)
+		cached = mutable_appearance(icon, icon_state, -layer)
+		cached.pixel_x = pixel_x
+		cached.pixel_y = pixel_y
+		if(overlay_color)
+			cached.color = overlay_color
+		GLOB.damage_overlay_cache[key] = cached
+	return cached

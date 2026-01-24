@@ -320,13 +320,93 @@
 	return O
 
 /proc/remove_images_from_clients(image/I, list/show_to)
-	for(var/client/C in show_to)
+	for(var/client/C as anything in show_to)
 		C.images -= I
 
+GLOBAL_LIST_EMPTY(image_removal_schedule)
+GLOBAL_VAR(image_cleanup_timer_id)
+
+#define IMAGE_CLEANUP_INTERVAL 2
+
+/proc/process_image_cleanup()
+	if(!GLOB.image_removal_schedule || !length(GLOB.image_removal_schedule))
+		GLOB.image_cleanup_timer_id = null
+		return TIMER_STOPPABLE
+
+	var/current_time = world.time
+	var/list/images_to_remove = list()
+
+	for(var/image/I as anything in GLOB.image_removal_schedule)
+		if(!I || QDELETED(I))
+			var/list/client_schedule = GLOB.image_removal_schedule[I]
+			if(client_schedule && I)
+				for(var/client/C as anything in client_schedule)
+					if(C && !QDELETED(C))
+						C.images -= I
+			images_to_remove += I
+			continue
+
+		var/list/client_schedule = GLOB.image_removal_schedule[I]
+		if(!client_schedule || !length(client_schedule))
+			images_to_remove += I
+			continue
+
+		var/list/clients_to_remove = list()
+
+		for(var/client/C as anything in client_schedule)
+			if(!C || QDELETED(C))
+				clients_to_remove += C
+				continue
+
+			var/expire_time = client_schedule[C]
+			if(current_time >= expire_time)
+				C.images -= I
+				clients_to_remove += C
+
+		for(var/client/C as anything in clients_to_remove)
+			client_schedule -= C
+
+		if(!length(client_schedule))
+			images_to_remove += I
+
+	for(var/image/I as anything in images_to_remove)
+		GLOB.image_removal_schedule -= I
+
+	if(!length(GLOB.image_removal_schedule))
+		GLOB.image_cleanup_timer_id = null
+		return TIMER_STOPPABLE
+
+	return FALSE
+
 /proc/flick_overlay(image/I, list/show_to, duration)
-	for(var/client/C in show_to)
-		C.images += I
-	addtimer(CALLBACK(GLOBAL_PROC, GLOBAL_PROC_REF(remove_images_from_clients), I, show_to), duration, TIMER_CLIENT_TIME)
+	if(!show_to || !length(show_to))
+		return
+
+	var/expire_time = world.time + duration
+	var/anything_added = FALSE
+
+	var/list/client_schedule = GLOB.image_removal_schedule[I]
+	if(!client_schedule)
+		client_schedule = list()
+		GLOB.image_removal_schedule[I] = client_schedule
+
+	for(var/client/C as anything in show_to)
+		if(!C || QDELETED(C))
+			continue
+
+		if(client_schedule[C])
+			if(expire_time > client_schedule[C])
+				client_schedule[C] = expire_time
+			continue
+
+		client_schedule[C] = expire_time
+		anything_added = TRUE
+
+	if(!length(client_schedule))
+		GLOB.image_removal_schedule -= I
+
+	if(anything_added && !GLOB.image_cleanup_timer_id)
+		GLOB.image_cleanup_timer_id = addtimer(CALLBACK(GLOBAL_PROC, GLOBAL_PROC_REF(process_image_cleanup)), IMAGE_CLEANUP_INTERVAL, TIMER_STOPPABLE | TIMER_LOOP)
 
 /proc/flick_overlay_view(image/I, atom/target, duration) //wrapper for the above, flicks to everyone who can see the target atom
 	var/list/viewing = list()

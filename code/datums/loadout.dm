@@ -722,11 +722,21 @@ GLOBAL_LIST_EMPTY(loadout_items)
 	path = /obj/item/enchantingkit/bigfoot_axe
 	ckeywhitelist = list("bigfoot02")
 
-/datum/loadout_item/donator_zydras
-	name = "Donator Kit - Padded silky dress"
-	path = /obj/item/enchantingkit/zydras
+/datum/loadout_item/donator_zydrasiconocrown
+	name = "Donator Kit - Iconoclast Crown"
+	path = /obj/item/enchantingkit/zydrasiconocrown
 	ckeywhitelist = list("1ceres")
-
+	
+/datum/loadout_item/donator_zydrasiconopauldrons
+	name = "Donator Kit - Iconoclast Pauldrons"
+	path = /obj/item/enchantingkit/zydrasiconopauldrons
+	ckeywhitelist = list("1ceres")
+	
+/datum/loadout_item/donator_zydrasiconosash
+	name = "Donator Kit - Iconoclast Sash"
+	path = /obj/item/enchantingkit/zydrasiconosash
+	ckeywhitelist = list("1ceres")
+	
 /datum/loadout_item/donator_eiren
 	name = "Donator Kit - Regret"
 	path = /obj/item/enchantingkit/eiren
@@ -789,3 +799,8 @@ GLOBAL_LIST_EMPTY(loadout_items)
 /datum/loadout_item/donator_ryan/psy_helm
 	name = "Donator Kit - Unorthodoxist Psydonite Helm"
 	path = /obj/item/enchantingkit/ryan_psyhelm
+
+/datum/loadout_item/donator_koruu/hat
+	name = "Donator Kit - Well-Worn Bamboo Hat"
+	path = /obj/item/clothing/head/roguetown/mentorhat/koruu
+	ckeywhitelist = list("koruu")

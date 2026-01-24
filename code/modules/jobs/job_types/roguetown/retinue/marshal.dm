@@ -11,7 +11,7 @@
 	display_order = JDO_MARSHAL
 	selection_color = JCOLOR_RETINUE
 	tutorial = "You are an agent of the crown in matters of law and military, making sure that laws are pushed, verified and carried out by the retinue upon the citizenry of the realm. \
-				While you preside over the knights and men-at-arms, much of your work happens behind a desk, deferring to the Sergeant-at-Arms or the Knight Captain to make sure your will is carried out in the field."
+				While you preside over the knights and men-at-arms, much of your work happens behind a desk, deferring to the Sergeant-at-Arms to make sure your will is carried out in the field."
 	whitelist_req = FALSE
 
 	spells = list(/obj/effect/proc_holder/spell/self/convertrole/guard) // /obj/effect/proc_holder/spell/self/convertrole/bog
@@ -89,7 +89,7 @@
 	backr = /obj/item/rogueweapon/mace/cudgel/justice
 	belt = /obj/item/storage/belt/rogue/leather/plaquegold
 	beltr = /obj/item/storage/belt/rogue/pouch/coins/rich
-	beltl = /obj/item/storage/keyring/sheriff
+	beltl = /obj/item/storage/keyring/marshal
 	head = /obj/item/clothing/head/roguetown/chaperon/noble/bailiff
 
 /datum/advclass/marshal/kcommander
@@ -126,7 +126,7 @@
 	backr = /obj/item/rogueweapon/sword/long/oathkeeper
 	belt = /obj/item/storage/belt/rogue/leather
 	beltr = /obj/item/storage/belt/rogue/pouch/coins/rich
-	beltl = /obj/item/storage/keyring/sheriff
+	beltl = /obj/item/storage/keyring/marshal
 	l_hand = /obj/item/rogueweapon/scabbard/sword
 
 /mob/living/carbon/human/proc/request_law()

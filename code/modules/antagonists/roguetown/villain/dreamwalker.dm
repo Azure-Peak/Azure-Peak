@@ -71,6 +71,7 @@
 		body.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/jaunt)
 		body.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/dream_bind)
 		body.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/dream_trance)
+		body.grant_language(/datum/language/abyssal)
 	body.ambushable = FALSE
 	body.AddComponent(/datum/component/dreamwalker_repair)
 	body.AddComponent(/datum/component/dreamwalker_mark)
@@ -232,6 +233,7 @@
 	var/uses = 0
 	var/max_uses = 3
 	var/turf/linked_turf
+	var/safe_passage = FALSE
 
 /obj/structure/portal_jaunt/Initialize()
 	. = ..()
@@ -261,7 +263,7 @@
 	uses++
 	cooldown = world.time + 15 SECONDS
 	// High likelyhood of getting a dreamfiend summon upon non dreamwalkers when used.
-	if(!HAS_TRAIT(user, TRAIT_DREAMWALKER) && prob(75))
+	if(!safe_passage && !HAS_TRAIT(user, TRAIT_DREAMWALKER) && (prob(75)))
 		summon_dreamfiend(
 			target = user,
 			user = user,

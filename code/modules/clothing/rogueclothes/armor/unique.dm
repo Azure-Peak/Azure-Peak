@@ -32,6 +32,9 @@
 	allowed_race = NON_DWARVEN_RACE_TYPES
 	flags_inv = HIDEBOOB|HIDECROTCH
 
+/obj/item/clothing/suit/roguetown/armor/basiceast/ComponentInitialize()
+	AddComponent(/datum/component/armour_filtering/positive, TRAIT_HONORBOUND)
+
 //less integrity than a leather cuirass, incredibly weak to blunt damage - great against slash - standard leather value against stab
 //the intent for these armors is to create specific weaknesses/strengths for people to play with
 
