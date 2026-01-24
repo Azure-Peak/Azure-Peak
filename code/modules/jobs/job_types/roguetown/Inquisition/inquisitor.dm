@@ -40,7 +40,6 @@
 	subclass_languages = list(/datum/language/otavan)
 	category_tags = list(CTAG_INQUSITOR)
 	traits_applied = list(
-		TRAIT_STEELHEARTED,
 		TRAIT_DODGEEXPERT,
 		TRAIT_MEDIUMARMOR,
 		TRAIT_BLACKBAGGER,
@@ -146,19 +145,18 @@
 
 	category_tags = list(CTAG_INQUSITOR)
 	traits_applied = list(
-		TRAIT_STEELHEARTED,
 		TRAIT_HEAVYARMOR,
 		TRAIT_SILVER_BLESSED,
 		TRAIT_INQUISITION,
 		TRAIT_PURITAN,
 		)
 	subclass_stats = list(
-		STATKEY_CON = 3,
-		STATKEY_WIL = 3,
-		STATKEY_INT = 1,
-		STATKEY_STR = 3,
-		STATKEY_PER = 1,
-		STATKEY_SPD = -3
+		STATKEY_CON = 1,
+		STATKEY_WIL = 1,
+		STATKEY_INT = 2,
+		STATKEY_STR = 2,
+		STATKEY_PER = 2,
+		STATKEY_SPD = -1
 	)
 	subclass_skills = list(
 		/datum/skill/misc/climbing = SKILL_LEVEL_EXPERT,
@@ -209,21 +207,21 @@
 			H.put_in_hands(new /obj/item/rogueweapon/huntingknife/idagger/silver/psydagger(H))
 			H.equip_to_slot_or_del(new /obj/item/rogueweapon/scabbard/sword, SLOT_BACK_R, TRUE)
 			H.equip_to_slot_or_del(new /obj/item/rogueweapon/scabbard/sheath, SLOT_BELT_L, TRUE)
-			H.adjust_skillrank_up_to(/datum/skill/combat/swords, 5, TRUE)
+			H.adjust_skillrank_up_to(/datum/skill/combat/swords, 4, TRUE)
 			H.adjust_skillrank_up_to(/datum/skill/combat/knives, 4, TRUE)
 		if("Psydonic Poleaxe + Dagger")
 			H.put_in_hands(new /obj/item/rogueweapon/greataxe/psy/preblessed(H))
 			H.put_in_hands(new /obj/item/rogueweapon/huntingknife/idagger/silver/psydagger(H))
 			H.equip_to_slot_or_del(new /obj/item/rogueweapon/scabbard/gwstrap, SLOT_BELT_L, TRUE)
 			H.equip_to_slot_or_del(new /obj/item/rogueweapon/scabbard/sheath, SLOT_BELT_L, TRUE)
-			H.adjust_skillrank_up_to(/datum/skill/combat/axes, 5, TRUE)
+			H.adjust_skillrank_up_to(/datum/skill/combat/axes, 4, TRUE)
 			H.adjust_skillrank_up_to(/datum/skill/combat/knives, 4, TRUE)
 		if("Apocrypha (Greatsword) + Dagger")
 			H.put_in_hands(new /obj/item/rogueweapon/greatsword/psygsword/relic(H))
 			H.put_in_hands(new /obj/item/rogueweapon/huntingknife/idagger/silver/psydagger(H))
 			H.equip_to_slot_or_del(new /obj/item/rogueweapon/scabbard/gwstrap, SLOT_BACK_R, TRUE)
 			H.equip_to_slot_or_del(new /obj/item/rogueweapon/scabbard/sheath, SLOT_BELT_L, TRUE)
-			H.adjust_skillrank_up_to(/datum/skill/combat/swords, 5, TRUE)
+			H.adjust_skillrank_up_to(/datum/skill/combat/swords, 4, TRUE)
 			H.adjust_skillrank_up_to(/datum/skill/combat/knives, 4, TRUE)
 		if("Covenant And Creed (Broadsword + Shield)")
 			H.put_in_hands(new /obj/item/rogueweapon/greatsword/bsword/psy/relic(H))
@@ -233,12 +231,12 @@
 			qdel(annoyingbag)
 			H.equip_to_slot(new /obj/item/rogueweapon/scabbard/gwstrap, SLOT_BACK_L, TRUE)
 			H.equip_to_slot_or_del(new /obj/item/storage/keyring/inquisitor, SLOT_BELT_L, TRUE)
-			H.adjust_skillrank_up_to(/datum/skill/combat/swords, 5, TRUE)
+			H.adjust_skillrank_up_to(/datum/skill/combat/swords, 4, TRUE)
 			H.adjust_skillrank_up_to(/datum/skill/combat/shields, 4, TRUE)
 		if("Covenant and Consecratia (Flail + Shield)")
 			H.put_in_hands(new /obj/item/rogueweapon/flail/sflail/psyflail/relic(H))
 			H.equip_to_slot_or_del(new /obj/item/rogueweapon/shield/tower/metal/psy, SLOT_BACK_R, TRUE)
-			H.adjust_skillrank_up_to(/datum/skill/combat/whipsflails, 5, TRUE)
+			H.adjust_skillrank_up_to(/datum/skill/combat/whipsflails, 4, TRUE)
 			H.adjust_skillrank_up_to(/datum/skill/combat/shields, 4, TRUE)
 
 /obj/item/clothing/gloves/roguetown/chain/blk
