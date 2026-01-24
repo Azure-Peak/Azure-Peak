@@ -9,7 +9,6 @@ SUBSYSTEM_DEF(event_scheduler)
 
 /datum/controller/subsystem/event_scheduler/Initialize()
 	. = ..()
-	show_current_datetime()
 	load_fog_schedule()
 	if(check_schedule_new())
 		schedule_fog()
