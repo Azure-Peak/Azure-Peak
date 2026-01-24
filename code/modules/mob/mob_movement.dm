@@ -636,7 +636,7 @@
 			if(m_intent == MOVE_INTENT_WALK)
 				visible_message(span_notice("[src] digs their heels into \the [mount], preparing to gallop!"))
 				mount.emote("aggro")
-				var/sprint_time = 2 SECONDS - (get_skill_level(/datum/skill/misc/riding) * 0.5 SECONDS)
+				var/sprint_time = 2.5 SECONDS - (get_skill_level(/datum/skill/misc/riding) * 0.5 SECONDS)
 				if(do_after(src, sprint_time))
 					m_intent = MOVE_INTENT_RUN
 			else

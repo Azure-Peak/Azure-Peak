@@ -2,12 +2,13 @@
 	name = "Saddleborn"
 	desc = "I am skilled at riding animals of all kinds, and have an especially strong bond with one, allowing me to call it from afar and send it away as needed. Should my treasured companion ever die, my mood will not recover."
 	custom_text = "Provides an ability that allows you to select a type of mount to call to your side, and additionally name. Noble characters are able to choose horses. Gains two abilities to send the mount away and call it back as needed (outdoors only). If the chosen mount dies, -10 to mood for the rest of the round (cannot be recovered from in any circumstance)."
-	added_skills = list(list(/datum/skill/misc/riding, 1, 6))
+	added_skills = list(list(/datum/skill/misc/riding, 1, SKILL_LEVEL_LEGENDARY))
 	added_traits = list(TRAIT_EQUESTRIAN)
 
 /datum/virtue/utility/riding/apply_to_human(mob/living/carbon/human/recipient)
 	// neatly handles everything, when we want it, when we need it.
-	recipient.AddSpell(new /obj/effect/proc_holder/spell/self/choose_riding_virtue_mount)
+	if(!recipient.HasSpell(/obj/effect/proc_holder/spell/self/choose_riding_virtue_mount))
+		recipient.AddSpell(new /obj/effect/proc_holder/spell/self/choose_riding_virtue_mount)
 
 GLOBAL_LIST_INIT(virtue_mount_choices, (list(
 	/mob/living/simple_animal/hostile/retaliate/rogue/saiga/tame/saddled,

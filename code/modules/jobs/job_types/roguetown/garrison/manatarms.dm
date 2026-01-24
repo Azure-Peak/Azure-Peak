@@ -289,7 +289,7 @@
 		/datum/skill/combat/wrestling = SKILL_LEVEL_EXPERT,
 		/datum/skill/combat/unarmed = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/misc/reading = SKILL_LEVEL_NOVICE,
-		/datum/skill/misc/riding = SKILL_LEVEL_EXPERT, 		// Like the other horselords.
+		/datum/skill/misc/riding = SKILL_LEVEL_JOURNEYMAN, 		// Like the other horselords.
 		/datum/skill/misc/tracking = SKILL_LEVEL_JOURNEYMAN,	//Best tracker. Might as well give it something to stick-out utility wise.
 	)
 	subclass_virtues = list(

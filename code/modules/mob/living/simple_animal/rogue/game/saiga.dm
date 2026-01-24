@@ -212,7 +212,9 @@
 	SIGNAL_HANDLER
 	for(var/mob/living/carbon/human/rider in buckled_mobs)
 		if(rider.m_intent == MOVE_INTENT_RUN)
-			violent_dismount(rider)
+			var/rider_skill = rider.get_skill_level(/datum/skill/misc/riding)
+			if(rider_skill < SKILL_LEVEL_MASTER)
+				violent_dismount(rider)
 
 /mob/living/simple_animal/hostile/retaliate/rogue/saiga/post_buckle_mob(mob/living/M)
 	. = ..()
