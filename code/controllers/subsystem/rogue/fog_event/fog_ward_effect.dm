@@ -64,7 +64,7 @@
 	. = ..()
 
 /datum/status_effect/buff/fog_ward_caster/on_apply()
-	ADD_TRAIT(owner, TRAIT_FOG_WARDED, "ward_miracle")
+	ADD_TRAIT(owner, TRAIT_FOG_WARDED, TRAIT_MIRACLE)
 	owner.add_filter(FOG_WARD_OUTLINE, 1, list("type" = "outline", "color" = "#ffffff", "size" = 2))
 	return TRUE
 

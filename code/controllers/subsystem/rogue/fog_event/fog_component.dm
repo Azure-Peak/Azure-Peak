@@ -12,8 +12,16 @@
 		return COMPONENT_INCOMPATIBLE
 
 	fog_enter_time = world.time
+	var/mob/living/L = parent
+	if(!HAS_TRAIT(L, TRAIT_FOG_WARDED))
+		L.apply_status_effect(/datum/status_effect/debuff/fog_chilled)
 	// Listen for movement
 	RegisterSignal(parent, COMSIG_MOVABLE_MOVED, .proc/on_moved)
+
+/datum/component/fogged/Destroy()
+	var/mob/living/L = parent
+	L.remove_status_effect(/datum/status_effect/debuff/fog_chilled)
+	return ..()
 
 /datum/component/fogged/proc/on_moved()
 	if(HAS_TRAIT(parent, TRAIT_FOG_WARDED))
