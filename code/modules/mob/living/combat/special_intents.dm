@@ -1215,7 +1215,7 @@ tile_coordinates = list(list(1,1), list(-1,1), list(-1,-1), list(1,-1),list(0,0)
 	howner.visible_message(span_warning("The ice covering [iparent]'s blade thaws out!"))
 	var/obj/item/rogueweapon/greataxe/steel/ice/W = iparent
 	W.icon_state = "icegaxe"
-	W.toggle_state = "icegaxe1"
+	W.toggle_state = null
 	W.possible_item_intents = W.inactive_intents
 	W.gripped_intents = W.inactive_gripped_intents
 	howner.update_a_intents()
