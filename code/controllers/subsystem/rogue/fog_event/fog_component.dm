@@ -17,6 +17,7 @@
 		L.apply_status_effect(/datum/status_effect/debuff/fog_chilled)
 	// Listen for movement
 	RegisterSignal(parent, COMSIG_MOVABLE_MOVED, .proc/on_moved)
+	RegisterSignal(parent, COMSIG_WARDED_TRAIT_CHANGE, .proc/handle_ward_change)
 
 /datum/component/fogged/Destroy()
 	var/mob/living/L = parent
@@ -187,3 +188,10 @@
 			possible_targets += AT
 
 	return possible_targets
+
+/datum/component/fogged/proc/handle_ward_change()
+	var/mob/living/L = parent
+	if(HAS_TRAIT(L, TRAIT_FOG_WARDED))
+		L.remove_status_effect(/datum/status_effect/debuff/fog_chilled)
+	else
+		L.apply_status_effect(/datum/status_effect/debuff/fog_chilled)
