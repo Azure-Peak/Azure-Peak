@@ -14,7 +14,9 @@ SUBSYSTEM_DEF(event_scheduler)
 	load_fog_schedule()
 	// if(check_schedule_new())
 	// 	schedule_fog()
+	//  addtimer(CALLBACK(src, .proc/delayed_tech_unlock), 1 MINUTES)
 	fog_timer_id = addtimer(CALLBACK(src, .proc/trigger_fog_event), 1 MINUTES, TIMER_STOPPABLE)
+	addtimer(CALLBACK(src, .proc/delayed_tech_unlock), 1 MINUTES)
 	fog_scheduled = TRUE
 
 /datum/controller/subsystem/event_scheduler/proc/schedule_fog()
@@ -189,3 +191,7 @@ SUBSYSTEM_DEF(event_scheduler)
 		return
 
 	SSevent_scheduler.ui_interact(src)
+
+/datum/controller/subsystem/event_scheduler/proc/delayed_tech_unlock()
+	var/tech_id = "SANCTIFIED_LAMPTERNS"
+	SSchimeric_tech.admin_force_unlock(tech_id, TRUE)

@@ -1,5 +1,5 @@
 /obj/item/lantern/fog_repelling
-	name = "blessed fog lantern"
+	name = "blessed fog lamptern"
 	desc = "A specialized iron lamptern filled with sanctified oil. It projects a minor holy ward. Fuel burns faster when moving through the fog."
 	icon = 'icons/roguetown/items/lighting.dmi'
 	icon_state = "lamp_ghost"

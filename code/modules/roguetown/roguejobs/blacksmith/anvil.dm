@@ -183,6 +183,8 @@
 	var/datum/asset/spritesheet/spritesheet = get_asset_datum(/datum/asset/spritesheet/anvil_recipes)
 
 	for(var/datum/anvil_recipe/R in GLOB.anvil_recipes)
+		if(R.required_tech_node && !R.tech_unlocked)
+			continue
 		var/valid_recipe = FALSE
 
 		if(current_workpiece)
