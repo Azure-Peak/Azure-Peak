@@ -83,6 +83,10 @@
 	/// Extra sharpness drain per successful & parried hit.
 	var/sharpness_penalty = 0
 
+	///Effect stuff.
+	var/datum/status_effect/intent_effect	//Status effect this intent will apply on a successful hit (damage not needed)
+	var/list/target_parts					//Targeted bodyparts which will apply the effect. Leave blank for anywhere on the body.
+
 
 	var/list/static/bonk_animation_types = list(
 		BCLASS_BLUNT,
@@ -678,8 +682,6 @@
 
 /datum/intent/effect
 	blade_class = BCLASS_EFFECT
-	var/datum/status_effect/intent_effect	//Status effect this intent will apply on a successful hit (damage not needed)
-	var/list/target_parts					//Targeted bodyparts which will apply the effect. Leave blank for anywhere on the body.
 
 /datum/intent/effect/daze
 	name = "dazing strike"

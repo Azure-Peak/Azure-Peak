@@ -84,7 +84,18 @@
 	hitsound = list('sound/combat/hits/bladed/genchop (1).ogg', 'sound/combat/hits/bladed/genchop (2).ogg', 'sound/combat/hits/bladed/genchop (3).ogg')
 	penfactor = 30
 
+/datum/intent/dagger/cut/blunt
+	blade_class = BCLASS_BLUNT
+	
+/datum/intent/dagger/thrust/blunt
+	blade_class = BCLASS_BLUNT
+
+/datum/intent/dagger/thrust/pick/blunt
+	blade_class = BCLASS_BLUNT
+
 //knife and dagger objs ฅ^•ﻌ•^ฅ
+
+
 
 /obj/item/rogueweapon/huntingknife
 	force = 12
@@ -537,6 +548,16 @@
 	wrapping of twisted cordage provides a secure grip."
 	icon_state = "eastdagger"
 	sheathe_icon = "tanto"
+
+/obj/item/rogueweapon/huntingknife/idagger/steel/fire
+	name = "fire dagger"
+	desc = "A dagger enchanted with lost arcyne arts to render it as Astrata's wrath, but only for a short duration."
+	icon_state = "fdagger"
+	sheathe_icon = "fdagger"
+	smeltresult = null
+	special = /datum/special_intent/ignite_dagger
+	var/active_intents =  list(/datum/intent/dagger/thrust/blunt,/datum/intent/dagger/cut/blunt, /datum/intent/dagger/thrust/pick/blunt, /datum/intent/dagger/sucker_punch)
+	var/inactive_intents = list()
 
 /obj/item/rogueweapon/huntingknife/idagger/silver
 	name = "silver dagger"
