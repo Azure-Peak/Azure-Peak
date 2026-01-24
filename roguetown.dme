@@ -2139,6 +2139,7 @@
 #include "code\modules\mob\living\carbon\human\voicepacks\male\dwarf.dm"
 #include "code\modules\mob\living\carbon\human\voicepacks\male\elf.dm"
 #include "code\modules\mob\living\carbon\human\voicepacks\male\evil.dm"
+#include "code\modules\mob\living\carbon\human\voicepacks\male\foppish.dm"
 #include "code\modules\mob\living\carbon\human\voicepacks\male\goblin.dm"
 #include "code\modules\mob\living\carbon\human\voicepacks\male\jester.dm"
 #include "code\modules\mob\living\carbon\human\voicepacks\male\knight.dm"
