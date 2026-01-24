@@ -96,7 +96,7 @@
 	. = ..()
 	if(!isliving(user))
 		return
-	if(active && (slot == ITEM_SLOT_HANDS || slot == ITEM_SLOT_BELT))
+	if(active && (slot == ITEM_SLOT_HANDS || slot == SLOT_BELT_L || slot == SLOT_BELT_R ))
 		start_tracking(user)
 	else
 		user.remove_status_effect(/datum/status_effect/buff/fog_ward_caster)
@@ -111,7 +111,7 @@
 	. = ..()
 
 	if(holder)
-		if(loc != holder || istype(loc, /obj/item/storage/backpack) || istype(loc, /obj/structure/closet))
+		if(loc != holder  || istype(loc, /obj/item/storage/backpack) || istype(loc, /obj/structure/closet))
 			to_chat(holder, span_warning("The protective light of [src] fades as it leaves your person!"))
 			holder.remove_status_effect(/datum/status_effect/buff/fog_ward_caster)
 			extinguish()
