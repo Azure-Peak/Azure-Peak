@@ -2365,6 +2365,7 @@
 #include "code\modules\roguetown\roguecrafting\alchemy\mortarpestle.dm"
 #include "code\modules\roguetown\roguecrafting\alchemy\potionbuffs.dm"
 #include "code\modules\roguetown\roguecrafting\alchemy\reagents.dm"
+#include "code\modules\roguetown\roguecrafting\alchemy\special_event.dm"
 #include "code\modules\roguetown\roguecrafting\crafting\ammo_and_ranged.dm"
 #include "code\modules\roguetown\roguecrafting\crafting\clothes.dm"
 #include "code\modules\roguetown\roguecrafting\crafting\houseware.dm"
