@@ -33,3 +33,6 @@
 	name = "Chilling Fog"
 	desc = "The heavy mist clings to your limbs, making every movement a chore. Something moves within the white..."
 	//icon_state = "fog_alert"
+
+#undef MOVESPEED_ID_FOG_SLOW
+#undef FILTER_SLOWING_FOG
