@@ -511,8 +511,6 @@
 
 	category_tags = list(CTAG_ROYALGUARD)
 	outfit = /datum/outfit/job/roguetown/knightchampion
-
-	horse = /mob/living/simple_animal/hostile/retaliate/rogue/saiga/saigabuck/tame/saddled
 	traits_applied = list(TRAIT_HEAVYARMOR)
 
 	subclass_stashed_items = list("Ducal Caparison" = /obj/item/caparison/azure)
@@ -542,6 +540,10 @@
 		/datum/skill/combat/crossbows = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/combat/bows = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/misc/swimming = SKILL_LEVEL_APPRENTICE,
+	)
+
+	subclass_virtues = list(
+		/datum/virtue/utility/riding
 	)
 
 /datum/outfit/job/roguetown/knightchampion/pre_equip(mob/living/carbon/human/H)
@@ -691,4 +693,4 @@
 			head = helmets[helmchoice]
 
 		if(HAS_TRAIT(H, TRAIT_GOODTRAINER))
-			REMOVE_TRAIT(H, TRAIT_GOODTRAINER, JOB_TRAIT)	
+			REMOVE_TRAIT(H, TRAIT_GOODTRAINER, JOB_TRAIT)
