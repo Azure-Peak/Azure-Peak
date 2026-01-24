@@ -91,12 +91,13 @@
 /atom/movable/screen/alert/status_effect/buff/fog_ward
 	name = "Holy Ward"
 	desc = "You are protected from fog ambushes by a holy miracle. Stay close to the caster!"
-	icon_state = "holy_ward"
+	// I'll make icons for these later
+	//icon_state = "holy_ward"
 
 /atom/movable/screen/alert/status_effect/buff/fog_ward/caster
 	name = "Sanctuary Aura"
 	desc = "You are projecting a holy ward. Fog creatures that enter your light will be dispelled."
-	icon_state = "holy_aura"
+	//icon_state = "holy_aura"
 
 #undef FOG_WARD_OUTLINE
 

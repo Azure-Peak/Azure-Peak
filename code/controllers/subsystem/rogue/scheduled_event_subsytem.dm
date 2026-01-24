@@ -48,7 +48,6 @@ SUBSYSTEM_DEF(event_scheduler)
 	if(!H.mind)
 		return
 
-	to_chat(H, span_userdanger("HELLO I AM THE COMPONENT YOU ARE IN [area_is_safe] AREA"))
 	var/datum/component/fogged/comp = H.GetComponent(/datum/component/fogged)
 
 	if(area_is_safe)

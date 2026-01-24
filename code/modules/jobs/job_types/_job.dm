@@ -450,6 +450,7 @@
 		J = SSjob.GetJob(H.job)
 
 	// --- FOG HIJACK START ---
+	// Basically fog protection on spawn
 	if(SSevent_scheduler.fog_scheduled)
 		H.apply_status_effect(/datum/status_effect/buff/fog_grace)
 

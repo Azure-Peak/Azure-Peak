@@ -18,6 +18,10 @@
 /datum/particle_weather/fog/necra
 	weather_duration_upper = 5 HOURS
 	name = "Necra Fog"
+	particleEffectType = /particles/weather/fog/necra
+
+/particles/weather/fog/necra
+	gradient               = list(0,"#7c9b98",100,"#5ea9b6","loop")
 
 /particles/weather/fog/bloodfog
 	gradient               = list(0,"#5e0101",100,"#230000","loop")
