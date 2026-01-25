@@ -23,6 +23,10 @@
 			used = list('sound/vo/male/foppish/sniff.ogg', 'sound/vo/male/foppish/sniff (2).ogg', 'sound/vo/male/foppish/sniff (3).ogg', 'sound/vo/male/foppish/sniff (4).ogg')
 		if("sneeze")
 			used = 'sound/vo/male/foppish/sneeze.ogg'
+		if("giggle")
+			used = list('sound/vo/male/foppish/giggle (1).ogg', 'sound/vo/male/foppish/giggle (2).ogg', 'sound/vo/male/foppish/giggle (3).ogg', 'sound/vo/male/foppish/giggle (4).ogg')
+		if("cackle")
+			used = list('sound/vo/male/foppish/cackle (1).ogg', 'sound/vo/male/foppish/cackle (2).ogg')
 		if("hum")
 			used = list('sound/vo/male/foppish/hum (1).ogg', 'sound/vo/male/foppish/hum (2).ogg', 'sound/vo/male/foppish/hum (3).ogg', 'sound/vo/male/foppish/hum (4).ogg',)
 		if("hmm")
