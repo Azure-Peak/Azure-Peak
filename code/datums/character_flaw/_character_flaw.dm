@@ -659,7 +659,7 @@ GLOBAL_LIST_INIT(averse_factions, list(
 	var/alimony = minimum
 	if(bankamt > minimum)
 		if((bankamt * relative) > minimum)
-			alimony = bankamt * relative
+			alimony = round(bankamt * relative)
 		SStreasury.give_money_account(-alimony, deadbeat, "Debts")
 		next_alimony = world.time + interval
 	else

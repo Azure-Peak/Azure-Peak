@@ -423,5 +423,5 @@
 		var/obj/P = new X(src)
 		held_items[P] = list()
 		held_items[P]["NAME"] = P.name
-		held_items[P]["PRICE"] = 30
+		held_items[P]["PRICE"] = 100 // relatively expensive, but cheaper than importing a whole mount
 	update_icon()

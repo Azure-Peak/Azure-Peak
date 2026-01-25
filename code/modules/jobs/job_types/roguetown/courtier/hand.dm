@@ -41,6 +41,11 @@
 /datum/job/roguetown/hand/after_spawn(mob/living/L, mob/M, latejoin = TRUE)
 	. = ..()
 	addtimer(CALLBACK(src, PROC_REF(know_agents), L), 5 SECONDS)
+	if(L)
+		if(ishuman(L))
+			var/mob/living/carbon/human/H = L
+			GLOB.court_spymaster += H.real_name
+			..()
 
 ///////////
 //CLASSES//
@@ -237,8 +242,8 @@
 	new_role = "Court Agent"//They get shown as adventurers either way.
 	overlay_state = "recruit_servant"
 	recruitment_faction = "Agents"
-	recruitment_message = "Serve the crown, %RECRUIT!"
-	accept_message = "FOR THE CROWN!"
+	recruitment_message = "Serve the crown, %RECRUIT."
+	accept_message = "For the crown."//We no longer shout because we aren't stupid
 	refuse_message = "I refuse."
 	recharge_time = 100
 
@@ -247,3 +252,4 @@
 	if(!.)
 		return
 	GLOB.court_agents += recruit.real_name
+	recruit.verbs |= /datum/job/roguetown/adventurer/courtagent/proc/remember_employer

@@ -1,0 +1,9 @@
+author: "dopamiin0"
+delete-after: True
+changes:
+  - rscadd: "WE'RE RICH (miner ore sight is visible to others)"
+  - bugfix: "miner ore sight works"
+  - bugfix: "ppl with no_hunger dont latejoin permathirsty"
+  - bugfix: "maneaters can be set on fires with lampterns and such again"
+  - bugfix: "you can no longer be put into fractional meister values by the indebted vice"
+  - bugfix: "static glass windows no longer hide from the crafting menu when you can craft them"

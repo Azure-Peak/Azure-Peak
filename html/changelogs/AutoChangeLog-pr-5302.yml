@@ -1,0 +1,9 @@
+author: "ToasterStrudes"
+delete-after: True
+changes:
+  - rscadd: "Adds a new DMI file for Xylixan miracle icons"
+  - rscadd: "Added new T0 Xylix spell: Mimicry"
+  - rscadd: "Added new T2 Xylix spell: Vendetta"
+  - rscadd: "Added new T4 Xylix spell: Abscond"
+  - refactor: "Xylixian T1 spell Ventriloquism moved to T0"
+  - refactor: "Xylixian T1 spell The Wheel reworked into new spell: T1 Tip Scales"

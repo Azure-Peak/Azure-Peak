@@ -408,6 +408,13 @@
 	additional_items = list(/obj/item/grown/log/tree/small)
 	created_item = /obj/item/rogueweapon/spear
 
+/datum/anvil_recipe/weapons/iron/spear_trainer
+	name = "Spear Trainer, Iron (+1 Small Log)"
+	req_bar = /obj/item/ingot/iron
+	req_blade = /obj/item/blade/iron_polearm
+	additional_items = list(/obj/item/grown/log/tree/small)
+	created_item = /obj/item/rogueweapon/spear/trainer
+
 /datum/anvil_recipe/weapons/iron/bardiche
 	name = "Bardiche, Iron (+1 Iron, +1 Small Log)"
 	req_bar = /obj/item/ingot/iron
@@ -457,6 +464,13 @@
 	req_bar = /obj/item/ingot/steel
 	req_blade = /obj/item/blade/steel_knife
 	created_item = /obj/item/rogueweapon/huntingknife/idagger/steel
+	createditem_num = 1
+
+/datum/anvil_recipe/weapons/steel/dagger_trainer
+	name = "Dagger Trainer, Steel"
+	req_bar = /obj/item/ingot/steel
+	req_blade = /obj/item/blade/steel_knife
+	created_item = /obj/item/rogueweapon/huntingknife/idagger/steel/trainer
 	createditem_num = 1
 
 /datum/anvil_recipe/weapons/steel/daggerparrying

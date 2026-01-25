@@ -38,6 +38,11 @@
 	armor_penetration = 20
 	npc_simple_damage_mult = 1.5
 	speed = 2
+	ricochets_max = 4
+	ricochet_chance = 50
+	ricochet_auto_aim_angle = 40
+	ricochet_auto_aim_range = 5
+	ricochet_incidence_leeway = 50
 	hitsound = 'sound/foley/glass_step.ogg'
 
 /obj/projectile/energy/shrapnelbloom/on_hit(target) //no antimagic; knockback for full stacks

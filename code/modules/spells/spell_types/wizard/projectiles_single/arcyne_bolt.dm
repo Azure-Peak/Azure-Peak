@@ -45,11 +45,6 @@
 	npc_simple_damage_mult = 1.5 // Makes it more effective against NPCs.
 	hitsound = 'sound/combat/hits/blunt/shovel_hit2.ogg'
 	speed = 1
-	ricochets_max = 4
-	ricochet_chance = 90
-	ricochet_auto_aim_angle = 40
-	ricochet_auto_aim_range = 5
-	ricochet_incidence_leeway = 50
 	var/apply_mark = TRUE
 
 /obj/projectile/energy/arcynebolt/arc

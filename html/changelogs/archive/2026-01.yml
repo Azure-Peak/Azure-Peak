@@ -747,3 +747,26 @@
   - bugfix: 'fresh character slots default to no underwear selection
 
       :cl:'
+2026-01-24:
+  Onutsio:
+  - bugfix: fix death's door lux strand spawning
+  hazelrat:
+  - bugfix: Resolves a bug around quivers; clicking a quiver to nock an arrow on a
+      bow no longer also begins to draw the bow.
+2026-01-25:
+  Lamasmaster:
+  - rscadd: Recall spymaster for Court Agent
+  Ryan180602:
+  - rscdel: Kill knight-captain.
+  - rscadd: Knight Banneret Knight subclass.
+  - bugfix: Rename Royal Champion to Irregular Knight.
+  - rscadd: Sergeant office is in the Justiciary now.
+  - rscadd: Adds bath-room to the watchhouse.
+  - balance: Knight slots are now 4, instead of 3.
+  kittysmooch:
+  - bugfix: 'fixed a runtime with thrown atoms hitting walls
+
+      :cl:'
+  mumblemancer:
+  - rscadd: '*sigh''ing, *sulk''ing, or *cry''ing will add +1 to your "TOP Emotional"
+      stat in the endround screen'

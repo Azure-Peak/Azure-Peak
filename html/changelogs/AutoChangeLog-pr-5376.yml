@@ -1,0 +1,4 @@
+author: "kittysmooch"
+delete-after: True
+changes:
+  - rscadd: "Added new trainers and remade squire loadouts around them.\n:cl:"

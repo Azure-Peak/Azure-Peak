@@ -1,0 +1,9 @@
+author: "Geevies"
+delete-after: True
+changes:
+  - rscadd: "The Equestrian virtue has now been replaced with Saddleborn, which allows you to pick your mount, send it away, and summon it back with a whistle. Nobles can pick horses."
+  - rscadd: "You incur a massive mood penalty for the entire round if your mount dies."
+  - rscadd: "Mounted Knights, Cavalry MAAs, and the Knight Captain get Saddleborn by default."
+  - balance: "Toggling a mount between sprinting and not sprinting has a shorter wait time based on your riding skill."
+  - balance: "Saiga does now have as much health, and do as much damage as saiga bucks."
+  - balance: "Master level riders now no longer get removed from their mount if struck while running."
