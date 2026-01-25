@@ -53,6 +53,8 @@
 				used = list('sound/vo/female/gen/huh (1).ogg','sound/vo/female/gen/huh (2).ogg','sound/vo/female/gen/huh (3).ogg')
 			if("hum")
 				used = list('sound/vo/female/gen/hum (1).ogg','sound/vo/female/gen/hum (2).ogg','sound/vo/female/gen/hum (3).ogg')
+			if("hmph")
+				used = 'sound/vo/female/gen/hmph (1).ogg'
 			if("jump")
 				used = 'sound/vo/female/gen/jump.ogg'
 			if("leap")
