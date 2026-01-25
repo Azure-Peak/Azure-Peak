@@ -48,6 +48,20 @@
 		STATKEY_WIL = 1,
 	)
 
+	subclass_skills = list(
+	/datum/skill/combat/swords = SKILL_LEVEL_EXPERT,
+	/datum/skill/combat/polearms = SKILL_LEVEL_EXPERT,
+	/datum/skill/misc/medicine = SKILL_LEVEL_EXPERT,
+	/datum/skill/craft/cooking = SKILL_LEVEL_EXPERT,
+	/datum/skill/misc/reading = SKILL_LEVEL_EXPERT,
+	/datum/skill/misc/riding = SKILL_LEVEL_EXPERT,
+	/datum/skill/combat/wrestling = SKILL_LEVEL_JOURNEYMAN,
+	/datum/skill/combat/unarmed = SKILL_LEVEL_JOURNEYMAN,
+	/datum/skill/misc/swimming = SKILL_LEVEL_JOURNEYMAN,
+	/datum/skill/misc/climbing = SKILL_LEVEL_JOURNEYMAN,
+	/datum/skill/misc/athletics = SKILL_LEVEL_JOURNEYMAN,
+	)
+
 /datum/outfit/job/roguetown/heartfelt/hand/marshal/pre_equip(mob/living/carbon/human/H)
 	..()
 	neck = /obj/item/clothing/neck/roguetown/gorget/steel
@@ -60,17 +74,6 @@
 		/obj/item/rogueweapon/scabbard/sheath = 1,
 		/obj/item/rogueweapon/huntingknife = 1,
 		/obj/item/storage/belt/rogue/pouch/coins/rich = 1,)
-	H.adjust_skillrank(/datum/skill/combat/polearms, 4, TRUE)
-	H.adjust_skillrank(/datum/skill/misc/medicine, 4, TRUE)
-	H.adjust_skillrank(/datum/skill/craft/cooking, 4, TRUE)
-	H.adjust_skillrank(/datum/skill/combat/wrestling, 3, TRUE)
-	H.adjust_skillrank(/datum/skill/combat/unarmed, 3, TRUE)
-	H.adjust_skillrank(/datum/skill/combat/swords, 4, TRUE)
-	H.adjust_skillrank(/datum/skill/misc/swimming, 3, TRUE)
-	H.adjust_skillrank(/datum/skill/misc/climbing, 3, TRUE)
-	H.adjust_skillrank(/datum/skill/misc/athletics, 3, TRUE)
-	H.adjust_skillrank(/datum/skill/misc/reading, 4, TRUE)
-	H.adjust_skillrank(/datum/skill/misc/riding, 4, TRUE)
 	if(H.mind)
 		H.mind.AddSpell(new /obj/effect/proc_holder/spell/self/convertrole/heartfelt)
 		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/order/heartfelt/retreat)
@@ -111,6 +114,20 @@
 		STATKEY_WIL = 2,
 	)
 
+	subclass_skills = list(
+	/datum/skill/combat/swords = SKILL_LEVEL_EXPERT,
+	/datum/skill/combat/maces = SKILL_LEVEL_APPRENTICE,
+	/datum/skill/misc/medicine = SKILL_LEVEL_EXPERT,
+	/datum/skill/craft/cooking = SKILL_LEVEL_EXPERT,
+	/datum/skill/combat/wrestling = SKILL_LEVEL_JOURNEYMAN,
+	/datum/skill/combat/unarmed = SKILL_LEVEL_JOURNEYMAN,
+	/datum/skill/misc/swimming = SKILL_LEVEL_JOURNEYMAN,
+	/datum/skill/misc/climbing = SKILL_LEVEL_JOURNEYMAN,
+	/datum/skill/misc/athletics = SKILL_LEVEL_JOURNEYMAN,
+	/datum/skill/misc/reading = SKILL_LEVEL_MASTER,
+	/datum/skill/misc/riding = SKILL_LEVEL_APPRENTICE,
+	)
+
 /datum/outfit/job/roguetown/heartfelt/hand/steward/pre_equip(mob/living/carbon/human/H)
 	..()
 	armor = /obj/item/clothing/suit/roguetown/armor/brigandine
@@ -128,17 +145,6 @@
 	id = /obj/item/scomstone
 	if(H.mind)
 		H.mind.AddSpell(new /obj/effect/proc_holder/spell/self/convertrole/heartfelt)
-	H.adjust_skillrank(/datum/skill/combat/maces, 2, TRUE)
-	H.adjust_skillrank(/datum/skill/misc/medicine, 4, TRUE)
-	H.adjust_skillrank(/datum/skill/craft/cooking, 4, TRUE)
-	H.adjust_skillrank(/datum/skill/combat/wrestling, 3, TRUE)
-	H.adjust_skillrank(/datum/skill/combat/unarmed, 3, TRUE)
-	H.adjust_skillrank(/datum/skill/combat/swords, 4, TRUE)
-	H.adjust_skillrank(/datum/skill/misc/swimming, 3, TRUE)
-	H.adjust_skillrank(/datum/skill/misc/climbing, 3, TRUE)
-	H.adjust_skillrank(/datum/skill/misc/athletics, 3, TRUE)
-	H.adjust_skillrank(/datum/skill/misc/reading, 5, TRUE)
-	H.adjust_skillrank(/datum/skill/misc/riding, 2, TRUE)
 
 /***************************************************************/
 // ADVISOR - MAGE CLASS //

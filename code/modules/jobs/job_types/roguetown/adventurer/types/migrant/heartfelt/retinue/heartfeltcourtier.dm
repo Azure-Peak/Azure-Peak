@@ -13,6 +13,32 @@
 	
 // HIGH COURT - /ONE SLOT/ Roles that were previously in the Court, but moved here.
 
+	traits_applied = list(TRAIT_SEEPRICES, TRAIT_NOBLE, TRAIT_NUTCRACKER, TRAIT_HEARTFELT)
+
+	subclass_stats = list(
+		STATKEY_INT = 3,
+		STATKEY_WIL = 3,
+		STATKEY_SPD = 2,
+		STATKEY_PER = 2,
+		STATKEY_LCK = 5,
+	)
+
+	subclass_skills = list(
+	/datum/skill/misc/stealing = SKILL_LEVEL_EXPERT,
+	/datum/skill/misc/sneaking = SKILL_LEVEL_JOURNEYMAN,
+	/datum/skill/combat/knives = SKILL_LEVEL_JOURNEYMAN,
+	/datum/skill/misc/swimming = SKILL_LEVEL_NOVICE,
+	/datum/skill/misc/climbing = SKILL_LEVEL_NOVICE,
+	/datum/skill/misc/athletics = SKILL_LEVEL_EXPERT,
+	/datum/skill/misc/reading = SKILL_LEVEL_EXPERT,
+	/datum/skill/misc/medicine = SKILL_LEVEL_APPRENTICE,
+	/datum/skill/misc/lockpicking = SKILL_LEVEL_EXPERT,
+	/datum/skill/craft/sewing = SKILL_LEVEL_JOURNEYMAN,
+	/datum/skill/craft/cooking = SKILL_LEVEL_APPRENTICE,
+	)
+
+
+
 /datum/outfit/job/roguetown/heartfelt/retinue/courtier/pre_equip(mob/living/carbon/human/H)
 	..()
 	head = /obj/item/clothing/head/roguetown/circlet
@@ -37,23 +63,3 @@
 	/obj/item/reagent_containers/glass/bottle/rogue/elfred = 1,
 	/obj/item/reagent_containers/glass/bottle/rogue/beer/kgunsake = 1,
 	)
-	H.adjust_skillrank(/datum/skill/misc/stealing, 4, TRUE)
-	H.adjust_skillrank(/datum/skill/misc/sneaking, 3, TRUE)
-	H.adjust_skillrank(/datum/skill/combat/knives, 3, TRUE)
-	H.adjust_skillrank(/datum/skill/misc/swimming, 1, TRUE)
-	H.adjust_skillrank(/datum/skill/misc/climbing, 1, TRUE)
-	H.adjust_skillrank(/datum/skill/misc/athletics, 4, TRUE)
-	H.adjust_skillrank(/datum/skill/misc/reading, 4, TRUE)
-	H.adjust_skillrank(/datum/skill/misc/medicine, 2, TRUE)
-	H.adjust_skillrank(/datum/skill/misc/lockpicking, 4, TRUE)
-	H.adjust_skillrank(/datum/skill/craft/sewing, 3, TRUE)
-	H.adjust_skillrank(/datum/skill/craft/cooking, 2, TRUE)
-	H.change_stat("intelligence", 3)
-	H.change_stat("willpower", 3)
-	H.change_stat("speed", 2)
-	H.change_stat("perception", 2)
-	H.change_stat("fortune", 5)
-	ADD_TRAIT(H, TRAIT_SEEPRICES, TRAIT_GENERIC)
-	ADD_TRAIT(H, TRAIT_NOBLE, TRAIT_GENERIC)
-	ADD_TRAIT(H, TRAIT_NUTCRACKER, TRAIT_GENERIC)
-	ADD_TRAIT(H, TRAIT_HEARTFELT, TRAIT_GENERIC)

@@ -11,6 +11,8 @@
 	category_tags = list(CTAG_HFT_RETINUE)
 	class_select_category = CLASS_CAT_HFT_COURT
 
+	traits_applied = list(TRAIT_HEARTFELT, TRAIT_NOSTINK, TRAIT_EMPATH)
+
 	subclass_stats = list(
 		STATKEY_INT = 4,
 		STATKEY_WIL = 1,
@@ -57,10 +59,6 @@
 		/obj/item/recipe_book/alchemy = 1,
 		/obj/item/bedroll = 1,
 	)
-
-	ADD_TRAIT(H, TRAIT_HEARTFELT, TRAIT_GENERIC)
-	ADD_TRAIT(H, TRAIT_NOSTINK, TRAIT_GENERIC)
-	ADD_TRAIT(H,TRAIT_EMPATH, TRAIT_GENERIC)
 	if(H.mind)
 		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/diagnose/secular)
 		backpack_contents += /obj/item/clothing/mask/rogue/physician

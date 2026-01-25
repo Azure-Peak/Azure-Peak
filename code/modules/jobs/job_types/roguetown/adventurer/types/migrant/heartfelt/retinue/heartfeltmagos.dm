@@ -13,6 +13,39 @@
 
 // HIGH COURT - /ONE SLOT/ Roles that were previously in the Court, but moved here.
 
+
+	traits_applied = list(TRAIT_MAGEARMOR, TRAIT_ARCYNE_T4, TRAIT_INTELLECTUAL, TRAIT_SEEPRICES, TRAIT_ALCHEMY_EXPERT, TRAIT_HEARTFELT)
+	subclass_stats = list(
+		STATKEY_INT = 5,
+		STATKEY_PER = 3,
+		STATKEY_WIL = 2,
+		STATKEY_STR = -1,
+		STATKEY_CON = -1,
+	)
+
+	subclass_spellpoints = 36
+
+	subclass_skills = list(
+	/datum/skill/misc/reading = SKILL_LEVEL_LEGENDARY,
+	/datum/skill/craft/alchemy = SKILL_LEVEL_JOURNEYMAN,
+	/datum/skill/magic/arcane = SKILL_LEVEL_MASTER,
+	/datum/skill/misc/riding = SKILL_LEVEL_APPRENTICE,
+	/datum/skill/combat/polearms = SKILL_LEVEL_JOURNEYMAN,
+	/datum/skill/combat/staves = SKILL_LEVEL_JOURNEYMAN,
+	/datum/skill/combat/wrestling = SKILL_LEVEL_NOVICE,
+	/datum/skill/combat/unarmed = SKILL_LEVEL_NOVICE,
+	/datum/skill/misc/swimming = SKILL_LEVEL_NOVICE,
+	/datum/skill/misc/climbing = SKILL_LEVEL_NOVICE,
+	/datum/skill/misc/athletics = SKILL_LEVEL_NOVICE,
+	/datum/skill/combat/swords = SKILL_LEVEL_NOVICE,
+	/datum/skill/combat/knives = SKILL_LEVEL_NOVICE,
+	/datum/skill/craft/crafting = SKILL_LEVEL_NOVICE,
+	/datum/skill/misc/medicine = SKILL_LEVEL_JOURNEYMAN,
+	/datum/skill/misc/riding = SKILL_LEVEL_NOVICE,
+	)
+
+
+
 /datum/outfit/job/roguetown/heartfelt/retinue/magos/pre_equip(mob/living/carbon/human/H)
 	..()
 	neck = /obj/item/clothing/neck/roguetown/talkstone
@@ -35,36 +68,6 @@
 		/obj/item/rogueweapon/huntingknife/idagger/silver/arcyne,
 		/obj/item/scrying
 		)
-
-	ADD_TRAIT(H, TRAIT_SEEPRICES, "[type]")
-	ADD_TRAIT(H, TRAIT_ARCYNE_T4, TRAIT_GENERIC)
-	ADD_TRAIT(H, TRAIT_HEARTFELT, TRAIT_GENERIC)
-	ADD_TRAIT(H, TRAIT_ALCHEMY_EXPERT, TRAIT_GENERIC)
-	ADD_TRAIT(H, TRAIT_INTELLECTUAL, TRAIT_GENERIC)
-	H.adjust_skillrank(/datum/skill/misc/reading, 6, TRUE)
-	H.adjust_skillrank(/datum/skill/craft/alchemy, 3, TRUE)
-	H.adjust_skillrank(/datum/skill/magic/arcane, 5, TRUE)
-	H.adjust_skillrank(/datum/skill/misc/riding, 2, TRUE)
-	H.adjust_skillrank(/datum/skill/combat/polearms, 3, TRUE)
-	H.adjust_skillrank(/datum/skill/combat/staves, 3, TRUE)
-	H.adjust_skillrank(/datum/skill/combat/wrestling, 1, TRUE)
-	H.adjust_skillrank(/datum/skill/combat/unarmed, 1, TRUE)
-	H.adjust_skillrank(/datum/skill/misc/swimming, 1, TRUE)
-	H.adjust_skillrank(/datum/skill/misc/climbing, 1, TRUE)
-	H.adjust_skillrank(/datum/skill/misc/athletics, 1, TRUE)
-	H.adjust_skillrank(/datum/skill/combat/swords, 1, TRUE)
-	H.adjust_skillrank(/datum/skill/combat/knives, 1, TRUE)
-	H.adjust_skillrank(/datum/skill/craft/crafting, 1, TRUE)
-	H.adjust_skillrank(/datum/skill/misc/medicine, 3, TRUE)
-	H.adjust_skillrank(/datum/skill/misc/riding, 1, TRUE)
-	H.change_stat("strength", -1)
-	H.change_stat("constitution", -1)
-	H.change_stat("willpower", 2)
-	H.change_stat("perception", 3)
-	H.change_stat("intelligence", 5)
-	if(H.mind)
-		H?.mind.adjust_spellpoints(36)
-	ADD_TRAIT(H, TRAIT_MAGEARMOR, TRAIT_GENERIC)
 	if(H.age == AGE_OLD)
 		H.adjust_skillrank(/datum/skill/magic/arcane, 1, TRUE)
 		H.change_stat("speed", -1)
