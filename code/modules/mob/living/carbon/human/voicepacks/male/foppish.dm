@@ -11,6 +11,8 @@
 			used = list('sound/vo/male/foppish/yawn (1).ogg', 'sound/vo/male/foppish/yawn (2).ogg', 'sound/vo/male/foppish/yawn (3).ogg')
 		if("painscream")
 			used = list('sound/vo/male/foppish/painscream (1).ogg', 'sound/vo/male/foppish/painscream (2).ogg', 'sound/vo/male/foppish/painscream (3).ogg', 'sound/vo/male/foppish/painscream (4).ogg')
+		if("painmoan")
+			used = list('sound/vo/male/foppish/painmoan (1).ogg', 'sound/vo/male/foppish/painmoan (2).ogg', 'sound/vo/male/foppish/painmoan (3).ogg', 'sound/vo/male/foppish/painmoan (4).ogg')
 		if("fatigue")
 			used = 'sound/vo/male/foppish/fatigue.ogg'
 		if("sigh")
@@ -35,6 +37,10 @@
 			used = list('sound/vo/male/foppish/groan (1).ogg', 'sound/vo/male/foppish/groan (2).ogg', 'sound/vo/male/foppish/groan (3).ogg', 'sound/vo/male/foppish/groan (4).ogg', 'sound/vo/male/foppish/groan (5).ogg', 'sound/vo/male/foppish/groan (6).ogg')
 		if("pain")
 			used = list('sound/vo/male/young/pain (1).ogg', 'sound/vo/male/young/pain (2).ogg', 'sound/vo/male/young/pain (3).ogg', 'sound/vo/male/young/pain (4).ogg')
+		if("rage")
+			used = 'sound/vo/male/foppish/rage (1).ogg'
+		if("scream")
+			used = list('sound/vo/male/young/firescream (1).ogg', 'sound/vo/male/young/firescream (2).ogg', 'sound/vo/male/young/firescream (3).ogg', 'sound/vo/male/foppish/scream (1).ogg', 'sound/vo/male/foppish/scream (2).ogg')
 	if(!used)
 		used = ..(soundin, modifiers)
 	return used
