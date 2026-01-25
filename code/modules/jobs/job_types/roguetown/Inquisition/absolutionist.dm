@@ -19,12 +19,9 @@
 	give_bank_account = 15
 
 	job_traits = list(
-		TRAIT_NOPAINSTUN,
 		TRAIT_PACIFISM,
 		TRAIT_EMPATH,
-		TRAIT_CRITICAL_RESISTANCE,
 		TRAIT_SILVER_BLESSED,
-		TRAIT_STEELHEARTED,
 		TRAIT_INQUISITION,
 	)
 
@@ -40,9 +37,9 @@
 	subclass_languages = list(/datum/language/otavan)
 	category_tags = list(CTAG_ABSOLVER)
 	subclass_stats = list(
-		STATKEY_CON = 7,
+		STATKEY_CON = 5,
 		STATKEY_WIL = 3,
-		STATKEY_SPD = -2 //Originally swapped to -3, but this probably isn't as important due to the pacifism trait.
+		STATKEY_SPD = -1 //Originally swapped to -3, but this probably isn't as important due to the pacifism trait.
 	)
 	subclass_skills = list(
 		/datum/skill/misc/athletics = SKILL_LEVEL_JOURNEYMAN, // Enduring.
