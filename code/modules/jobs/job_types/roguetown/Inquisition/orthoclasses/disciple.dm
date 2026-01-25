@@ -40,24 +40,28 @@
 
 /datum/outfit/job/roguetown/disciple/pre_equip(mob/living/carbon/human/H, visualsOnly)
 	..()
+
+	armor = /obj/item/clothing/suit/roguetown/armor/regenerating/skin/disciple
 	if(H.mind)
-		var/weapons = list("Discipline - Unarmed", "Katar", "Knuckledusters", "Quarterstaff")
+		var/weapons = list("Discipline - Unarmed", "Katar", "Knuckledusters", "Quarterstaff", "Unarmed - No armor but mine grit")
 		var/weapon_choice = input(H,"Choose your WEAPON.", "TAKE UP PSYDON'S ARMS.") as anything in weapons
 		switch(weapon_choice)
-			if("Discipline - Unarmed")
-				H.adjust_skillrank_up_to(/datum/skill/combat/unarmed, 5, TRUE)
-				H.adjust_skillrank_up_to(/datum/skill/misc/athletics, 5, TRUE)
+			if("Unarmed - No armor but mine grit")
+				H.adjust_skillrank_up_to(/datum/skill/misc/athletics, SKILL_LEVEL_MASTER, TRUE)
 				gloves = /obj/item/clothing/gloves/roguetown/bandages/pugilist
 				ADD_TRAIT(H, TRAIT_CRITICAL_RESISTANCE, TRAIT_GENERIC)
+				ADD_TRAIT(H, TRAIT_NOPAINSTUN, TRAIT_GENERIC)
+				armor = /obj/item/clothing/suit/roguetown/armor/regenerating/skin/disciple/crownfallen
+			if("Discipline - Unarmed")
+				H.adjust_skillrank_up_to(/datum/skill/misc/athletics, SKILL_LEVEL_MASTER, TRUE)
+				gloves = /obj/item/clothing/gloves/roguetown/bandages/pugilist
 				ADD_TRAIT(H, TRAIT_IGNOREDAMAGESLOWDOWN, TRAIT_GENERIC) //Removes pain-inflicted slowdowns. Does not immunize against pain, nor other means of slowdown - frostspells, unpaved terrain, etc.
 			if("Katar")
 				r_hand = /obj/item/rogueweapon/katar/psydon
 				gloves = /obj/item/clothing/gloves/roguetown/bandages/weighted
-				ADD_TRAIT(H, TRAIT_CRITICAL_RESISTANCE, TRAIT_GENERIC)
 			if("Knuckledusters")
 				r_hand = /obj/item/rogueweapon/knuckles/psydon
 				gloves = /obj/item/clothing/gloves/roguetown/bandages/weighted
-				ADD_TRAIT(H, TRAIT_CRITICAL_RESISTANCE, TRAIT_GENERIC)
 			if("Quarterstaff")
 				H.adjust_skillrank_up_to(/datum/skill/combat/staves, 4, TRUE)
 				H.adjust_skillrank_up_to(/datum/skill/combat/polearms, 3, TRUE)
@@ -69,16 +73,18 @@
 		var/armor_choice = input(H, "Choose your ARCHETYPE.", "TAKE UP PSYDON'S DUTY.") as anything in armors
 		switch(armor_choice)
 			if("Otavan - Heavyweight, Blacksteel Thorns")
-				head = /obj/item/clothing/head/roguetown/roguehood/psydon
-				mask = /obj/item/clothing/head/roguetown/helmet/blacksteel/psythorns
+				if(weapon_choice != "Unarmed - No armor but mine grit")
+					head = /obj/item/clothing/head/roguetown/roguehood/psydon
+					mask = /obj/item/clothing/head/roguetown/helmet/blacksteel/psythorns
 				backl = /obj/item/storage/backpack/rogue/satchel/otavan
 				pants = /obj/item/clothing/under/roguetown/heavy_leather_pants/otavan
 				wrists = /obj/item/clothing/wrists/roguetown/bracers/psythorns
 				neck = /obj/item/clothing/neck/roguetown/psicross/silver
 				id = /obj/item/clothing/ring/signet/silver
 			if("Naledian - Lightweight, Arcyne-Martiality")
-				head = /obj/item/clothing/head/roguetown/headband/naledi
-				mask = /obj/item/clothing/mask/rogue/lordmask/naledi/sojourner
+				if(weapon_choice != "Unarmed - No armor but mine grit")
+					head = /obj/item/clothing/head/roguetown/headband/naledi
+					mask = /obj/item/clothing/mask/rogue/lordmask/naledi/sojourner
 				wrists = /obj/item/clothing/wrists/roguetown/bracers/cloth/naledi
 				backl = /obj/item/storage/backpack/rogue/satchel/black
 				pants = /obj/item/clothing/under/roguetown/heavy_leather_pants
@@ -102,7 +108,6 @@
 				H.change_stat(STATKEY_SPD, 2) //Turns the Sojourner's unmodified statblock to 3/0/0/1/1, compared to the Disciple's 3/3/3/-2/-1.
 
 	shoes = /obj/item/clothing/shoes/roguetown/boots/psydonboots
-	armor = /obj/item/clothing/suit/roguetown/armor/regenerating/skin/disciple
 	
 	backpack_contents = list(/obj/item/roguekey/inquisitionmanor = 1,
 	/obj/item/paper/inqslip/arrival/ortho = 1,
@@ -113,3 +118,8 @@
 
 	var/datum/devotion/C = new /datum/devotion(H, H.patron)
 	C.grant_miracles(H, cleric_tier = CLERIC_T2, passive_gain = CLERIC_REGEN_WEAK, devotion_limit = CLERIC_REQ_1)	//Capped to T2 miracles.
+
+/datum/outfit/job/roguetown/disciple/post_equip(mob/living/carbon/human/H, visualsOnly)
+	. = ..()
+	if(HAS_TRAIT(H, TRAIT_CRITICAL_RESISTANCE))
+		ADD_TRAIT(H, TRAIT_SHIRTLESS, TRAIT_GENERIC)

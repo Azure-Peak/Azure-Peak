@@ -24,6 +24,8 @@
 #define COVERAGE_ALL_BUT_ARMS	( CHEST | GROIN | VITALS | LEGS )
 #define COVERAGE_ALL_BUT_LEGS	( CHEST | GROIN | VITALS | ARMS )
 #define COVERAGE_FULL			( CHEST | GROIN | VITALS | LEGS | ARMS )
+/// All except eyes, nose, ears, neck.
+#define COVERAGE_FULL_HEAD		( CHEST | GROIN | VITALS | LEGS | ARMS | HEAD)
 
 #define COVERAGE_PANTS			( GROIN | LEGS )
 #define COVERAGE_FULL_LEG		( LEGS | FEET )

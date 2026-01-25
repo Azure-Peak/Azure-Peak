@@ -6,7 +6,7 @@
 	outfit = /datum/outfit/job/roguetown/wretch/berserker
 	cmode_music = 'sound/music/cmode/antag/combat_darkstar.ogg'
 	category_tags = list(CTAG_WRETCH)
-	traits_applied = list(TRAIT_STRONGBITE, TRAIT_CRITICAL_RESISTANCE, TRAIT_NOPAINSTUN)
+	traits_applied = list(TRAIT_STRONGBITE, TRAIT_IGNOREDAMAGESLOWDOWN, TRAIT_NOPAINSTUN)
 	// Literally same stat spread as Atgervi Shaman
 	subclass_stats = list(
 		STATKEY_STR = 3,
@@ -61,6 +61,8 @@
 			if("Discipline - Unarmed")
 				H.adjust_skillrank_up_to(/datum/skill/combat/unarmed, SKILL_LEVEL_MASTER, TRUE)
 				ADD_TRAIT(H, TRAIT_CIVILIZEDBARBARIAN, TRAIT_GENERIC)
+				ADD_TRAIT(H, TRAIT_CRITICAL_RESISTANCE, TRAIT_GENERIC)
+				armor = /obj/item/clothing/suit/roguetown/armor/regenerating/skin/disciple/berserker
 			if("Katar")
 				H.adjust_skillrank_up_to(/datum/skill/combat/unarmed, SKILL_LEVEL_MASTER, TRUE)
 				beltr = /obj/item/rogueweapon/katar
@@ -80,12 +82,19 @@
 				H.adjust_skillrank_up_to(/datum/skill/combat/swords, SKILL_LEVEL_EXPERT, TRUE)
 				beltr = /obj/item/rogueweapon/scabbard/sword
 				r_hand = /obj/item/rogueweapon/sword/falx
-		var/helmets = list("Berserker's Volfskulle Bascinet","Steel Kettle + Wildguard")
-		var/helmet_choice = input(H, "Choose your HELMET.", "STEEL YOURSELF.") as anything in helmets
-		switch(helmet_choice)
-			if("Berserker's Volfskulle Bascinet")
-				head = /obj/item/clothing/head/roguetown/helmet/heavy/volfplate/berserker //Pseudoantagonistic-exclusive. Light AC with an on-wear trait for HELMBITING.
-			if("Steel Kettle + Wildguard")
-				head = /obj/item/clothing/head/roguetown/helmet/kettle
-				mask = /obj/item/clothing/mask/rogue/wildguard
+		if(weapon_choice != "Discipline - Unarmed")
+			ADD_TRAIT(H, TRAIT_BLOOD_RESISTANCE, TRAIT_GENERIC)
+			var/helmets = list("Berserker's Volfskulle Bascinet","Steel Kettle + Wildguard")
+			var/helmet_choice = input(H, "Choose your HELMET.", "STEEL YOURSELF.") as anything in helmets
+			switch(helmet_choice)
+				if("Berserker's Volfskulle Bascinet")
+					head = /obj/item/clothing/head/roguetown/helmet/heavy/volfplate/berserker //Pseudoantagonistic-exclusive. Light AC with an on-wear trait for HELMBITING.
+				if("Steel Kettle + Wildguard")
+					head = /obj/item/clothing/head/roguetown/helmet/kettle
+					mask = /obj/item/clothing/mask/rogue/wildguard
 		wretch_select_bounty(H)
+
+/datum/outfit/job/roguetown/wretch/berserker/post_equip(mob/living/carbon/human/H, visualsOnly)
+	. = ..()
+	if(HAS_TRAIT(H, TRAIT_CRITICAL_RESISTANCE))
+		ADD_TRAIT(H, TRAIT_SHIRTLESS, TRAIT_GENERIC)
