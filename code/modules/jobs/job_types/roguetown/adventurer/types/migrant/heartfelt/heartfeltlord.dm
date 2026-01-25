@@ -254,7 +254,7 @@
 		to_chat(recruiter, span_warning("They're already part of our cause!"))
 		return FALSE
 	if(HAS_TRAIT(recruit, TRAIT_GUARDSMAN))
-		to_chat(recruiter, span_warning("They're already part of the Reach's guard! They can't join our cause!"))
+		to_chat(recruiter, span_warning("They're already part of the Peak's guard! They can't join our cause!"))
 		return FALSE
 	if(HAS_TRAIT(recruit, TRAIT_INQUISITION))
 		to_chat(recruiter, span_warning("Their loyalty is to Psydon alone! They can't join our cause!"))
