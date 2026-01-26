@@ -185,7 +185,7 @@
 	unequip_delay_self = 6 SECONDS
 
 	max_integrity = ARMOR_INT_CHEST_PLATE_STEEL
-	body_parts_covered = COVERAGE_FULL // Less durability than proper plate, more expensive to manufacture, and accurate to the sprite.
+	body_parts_covered = COVERAGE_ALL_BUT_HANDFEET // Less durability than proper plate, more expensive to manufacture, and accurate to the sprite.
 	armor_class = ARMOR_CLASS_HEAVY
 
 /obj/item/clothing/suit/roguetown/armor/plate/fluted/graggar
@@ -205,7 +205,7 @@
 	desc = "A beautiful steel cuirass, fitted with tassets and pauldrons for additional coverage. Lesser clerics of Psydon oft-decorate these sets with dyed cloths, so that those who're wounded can still find salvation in the madness of battle. </br>‎  </br>'..the thrumbing of madness, to think that your suffering was all-for-naught to Adonai's sacrifical lamb..'"
 	icon_state = "ornatehalfplate"
 	smeltresult = /obj/item/ingot/silverblessed
-	body_parts_covered = COVERAGE_FULL // Less durability than proper plate, more expensive to manufacture, and accurate to the sprite.
+	body_parts_covered = COVERAGE_ALL_BUT_HANDFEET // Less durability than proper plate, more expensive to manufacture, and accurate to the sprite.
 
 	max_integrity = ARMOR_INT_CHEST_PLATE_PSYDON
 
@@ -217,7 +217,7 @@
 	name = "plate armor"
 	desc = "A pristine set of steel plate armor, fitted with tassets and bracers for additional coverage. To the Knights of Psydonia, these sets are a symbolic manifestation of their oath; to serve thine kingdom without hesitation, and to rebuke all the villains who'd dare to defile it. </br>‎  </br>'Slow to don-and-doff, without a trusted Squire's aid..'"
 	icon_state = "plate"
-	body_parts_covered = COVERAGE_FULL
+	body_parts_covered = COVERAGE_ALL_BUT_HANDFEET
 	equip_delay_self = 12 SECONDS
 	unequip_delay_self = 12 SECONDS
 	equip_delay_other = 3 SECONDS
@@ -379,7 +379,7 @@
 	slot_flags = ITEM_SLOT_ARMOR
 	name = "coat of armor"
 	desc = "A lordly coat of armor."
-	body_parts_covered = COVERAGE_FULL
+	body_parts_covered = COVERAGE_ALL_BUT_HANDFEET
 	icon_state = "heartfelt_hand"
 	item_state = "heartfelt_hand"
 	armor = ARMOR_PLATE
@@ -577,7 +577,7 @@
 	slot_flags = ITEM_SLOT_ARMOR
 	name = "inquisitorial duster"
 	desc = "A heavy longcoat with layers of maille hidden beneath the leather, donned by the Holy Otavan Inquisition's finest. </br>A Psydonic Cuirass can be fitted with this longcoat, in order to ward off deadlier blows without compromising one's fashion sense."
-	body_parts_covered = COVERAGE_FULL
+	body_parts_covered = COVERAGE_ALL_BUT_HANDFEET
 	allowed_sex = list(MALE, FEMALE)
 	allowed_sex = list(MALE, FEMALE)
 	icon_state = "inqcoat"

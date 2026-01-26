@@ -147,11 +147,11 @@
 		if(!cocked)
 			to_chat(user, span_info("I step on the stirrup and use all my might..."))
 			if(!movingreload)
-				if(do_after(user, reloadtime - user.STASTR, target = user))
-					playsound(user, 'sound/combat/Ranged/crossbow_medium_reload-01.ogg', 100, FALSE)
-					cocked = TRUE
+				if(do_after(user, reloadtime - user.STASTR - user.get_skill_level(/datum/skill/combat/crossbows), target = user ))
+					playsound(user, 'sound/combat/Ranged/crossbow_medium_reload-01.ogg', 100, FALSE) //11 STR + MASTER Crossbow = 2.5~ second reload not including TIDI
+					cocked = TRUE //13 STR + NO Crossbow still amounts to around 3 seconds reload, so as it is each level of skill is +1 STR equivalent.
 			else
-				if(move_after(user, reloadtime - user.STASTR, target = user))
+				if(move_after(user, reloadtime - user.STASTR, target = user)) //Slurbow becomes instant loading if it uses skills at 11 STR + MASTER Crossbow
 					playsound(user, 'sound/combat/Ranged/crossbow_medium_reload-01.ogg', 100, FALSE)
 					cocked = TRUE
 		else

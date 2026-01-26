@@ -5,7 +5,7 @@
 	name = "gambeson"
 	desc = "A thick jacket of cloth, and the finest compatriot to alloyed chestpieces. In tymes of peace, the humble gambeson wards off a blizzard's chill - and in tymes of peril, it rebukes the crippling blows of bludgeons-and-bows alike."
 	icon_state = "gambeson"
-	body_parts_covered = COVERAGE_FULL
+	body_parts_covered = COVERAGE_ALL_BUT_HANDFEET
 	armor = ARMOR_PADDED
 	prevent_crits = PREVENT_CRITS_NONE
 	blocksound = SOFTUNDERHIT
@@ -226,7 +226,7 @@
 	color = null
 	armor = ARMOR_PADDED
 	shiftable = FALSE
-	body_parts_covered = COVERAGE_ALL_BUT_LEGS
+	body_parts_covered = COVERAGE_ALL_BUT_HANDFEET
 
 /obj/item/clothing/suit/roguetown/armor/gambeson/heavy/shadowrobe
 	name = "stalker robe"

@@ -53,7 +53,7 @@
 	slot_flags = ITEM_SLOT_ARMOR|ITEM_SLOT_SHIRT
 	name = "hauberk"
 	desc = "A maille-aketon of steel, sleeved to cover both the arms and legs. Before Psydonia was blessed with plate armor, these robes of steel cloaked those who swore their oaths to both God and Kingdom, alike."
-	body_parts_covered = COVERAGE_FULL
+	body_parts_covered = COVERAGE_ALL_BUT_HANDFEET
 	icon_state = "hauberk"
 	item_state = "hauberk"
 	armor = ARMOR_MAILLE

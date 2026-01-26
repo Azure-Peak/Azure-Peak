@@ -224,8 +224,10 @@ GLOBAL_LIST_INIT(averse_factions, list(
 			var/mob/living/carbon/P = user
 			if(cnt > 3)
 				P.add_stress(/datum/stressevent/crowd)
-			if(cnt == 0)
+			else if(cnt == 0)
 				P.add_stress(/datum/stressevent/nocrowd)
+			else
+				next_check = world.time + (interval * 6)	//we procced it successfully, so the delay is longer
 
 /datum/charflaw/finicky/apply_post_equipment(mob/user)
 	if(user.mind)
@@ -321,6 +323,8 @@ GLOBAL_LIST_INIT(averse_factions, list(
 			var/mob/living/carbon/P = user
 			if(cnt < 1 && !distfound)
 				P.add_stress(/datum/stressevent/nopeople)
+			else
+				next_check = world.time + (interval * 6) //we procced it successfully, so the delay is longer
 
 /datum/charflaw/clingy/apply_post_equipment(mob/user)
 	if(user.mind)
@@ -659,7 +663,7 @@ GLOBAL_LIST_INIT(averse_factions, list(
 	var/alimony = minimum
 	if(bankamt > minimum)
 		if((bankamt * relative) > minimum)
-			alimony = bankamt * relative
+			alimony = round(bankamt * relative)
 		SStreasury.give_money_account(-alimony, deadbeat, "Debts")
 		next_alimony = world.time + interval
 	else

@@ -41,6 +41,9 @@
 	/// Subclass languages.
 	var/list/subclass_languages
 
+	/// Subclass virtues.
+	var/list/subclass_virtues
+
 	/// Spellpoints. If More than 0, Gives Prestidigitation & the Learning Spell.
 	var/subclass_spellpoints = 0
 
@@ -112,6 +115,10 @@
 	if(length(subclass_skills))
 		for(var/skill in subclass_skills)
 			H.adjust_skillrank_up_to(skill, subclass_skills[skill], TRUE)
+
+	if(length(subclass_virtues))
+		for(var/virtue in subclass_virtues)
+			apply_virtue(H, new virtue)
 
 	if(age_mod)
 		if(istype(age_mod))

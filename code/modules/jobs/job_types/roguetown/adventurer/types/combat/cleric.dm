@@ -68,8 +68,8 @@
 		var/weapon_choice = input(H, "Choose your weapon.", "TAKE UP ARMS") as anything in weapons
 		switch(weapon_choice)
 			if("Discipline - Unarmed")
-				H.adjust_skillrank_up_to(/datum/skill/combat/unarmed, 4, TRUE)
-				H.adjust_skillrank_up_to(/datum/skill/combat/wrestling, 4, TRUE)
+				H.adjust_skillrank_up_to(/datum/skill/combat/unarmed, SKILL_LEVEL_EXPERT, TRUE)
+				H.adjust_skillrank_up_to(/datum/skill/combat/wrestling, SKILL_LEVEL_EXPERT, TRUE)
 				gloves = /obj/item/clothing/gloves/roguetown/bandages/weighted
 			if("Katar")
 				beltl = /obj/item/rogueweapon/katar/bronze

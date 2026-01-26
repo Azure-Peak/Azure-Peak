@@ -943,8 +943,6 @@ GLOBAL_LIST_EMPTY(roundstart_races)
 ////////
 
 /datum/species/proc/handle_digestion(mob/living/carbon/human/H)
-	if(HAS_TRAIT(H, TRAIT_NOHUNGER))
-		return //hunger is for BABIES
 
 	//The fucking TRAIT_FAT mutation is the dumbest shit ever. It makes the code so difficult to work with
 //	if(HAS_TRAIT_FROM(H, TRAIT_FAT, OBESITY))//I share my pain, past coder.
@@ -1034,6 +1032,10 @@ GLOBAL_LIST_EMPTY(roundstart_races)
 //					H.add_movespeed_modifier(MOVESPEED_ID_HUNGRY, override = TRUE, multiplicative_slowdown = (1.5 * (1 - E.get_charge(H) / 100)))
 //			else
 //				H.remove_movespeed_modifier(MOVESPEED_ID_HUNGRY)
+	if(HAS_TRAIT(H, TRAIT_NOHUNGER)) //hunger is for BABIES
+		H.nutrition = NUTRITION_LEVEL_DEATHLESS
+		H.hydration = HYDRATION_LEVEL_DEATHLESS
+
 
 	switch(H.nutrition)
 //		if(NUTRITION_LEVEL_FAT to INFINITY) //currently disabled/999999 define
@@ -1655,7 +1657,7 @@ GLOBAL_LIST_EMPTY(roundstart_races)
 		var/obj/item/bodypart/affecting = target.get_bodypart(check_zone(selzone))
 		if(!affecting)
 			affecting = target.get_bodypart(BODY_ZONE_CHEST)
-		var/armor_block = target.run_armor_check(selzone, "blunt", blade_dulling = BCLASS_BLUNT)
+		var/armor_block = target.run_armor_check(selzone, "blunt", blade_dulling = BCLASS_BLUNT, armor_penetration = BLUNT_DEFAULT_PENFACTOR)
 		var/damage = user.get_punch_dmg()
 		if(!target.apply_damage(damage, user.dna.species.attack_type, affecting, armor_block))
 			target.next_attack_msg += VISMSG_ARMOR_BLOCKED

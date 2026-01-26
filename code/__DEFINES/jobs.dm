@@ -40,7 +40,6 @@
 #define RETINUE				(1<<2)
 
 #define MARSHAL		(1<<0)
-#define CAPTAIN		(1<<1)
 #define KNIGHT		(1<<2)
 #define SQUIRE		(1<<3)
 
@@ -154,7 +153,6 @@
 
 // Retinue - Manor
 #define JDO_MARSHAL 3
-#define JDO_CAPTAIN 3.1
 #define JDO_KNIGHT 3.2
 #define JDO_SQUIRE 3.3
 

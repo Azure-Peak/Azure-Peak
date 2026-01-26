@@ -1,0 +1,4 @@
+author: "FreeStylaLT"
+delete-after: True
+changes:
+  - balance: "Scrying is now always known about to the target, if they're alive."

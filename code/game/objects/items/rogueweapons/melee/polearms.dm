@@ -311,6 +311,30 @@
 	resistance_flags = FLAMMABLE
 	special = /datum/special_intent/polearm_backstep
 
+/obj/item/rogueweapon/spear/trainer
+	name = "sparring spear"
+	desc = "An old dulled spear with a shaft worn by the hands of countless trainees before you. The fabric and watting wrap is meant to protect combatants, \
+	but getting hit with this still leaves welts and breaks fingers."
+	icon_state = "spear_trainer"
+	possible_item_intents = list(SPEAR_BASH)
+	gripped_intents = list(SPEAR_BASH,/datum/intent/mace/smash/wood)
+	force = 7
+	force_wielded = 15
+	sharpness = IS_BLUNT
+	thrown_bclass = BCLASS_BLUNT
+	wdefense = 7
+	wdefense_wbonus = 8
+
+/obj/item/rogueweapon/spear/trainer/getonmobprop(tag)
+	. = ..()
+	if(tag)
+		switch(tag)
+			if("gen")
+				return list("shrink" = 0.6,"sx" = -6,"sy" = 2,"nx" = 8,"ny" = 2,"wx" = -4,"wy" = 2,"ex" = 1,"ey" = 2,"northabove" = 0,"southabove" = 1,"eastabove" = 1,"westabove" = 0,"nturn" = -38,"sturn" = 300,"wturn" = 32,"eturn" = -23,"nflip" = 0,"sflip" = 100,"wflip" = 8,"eflip" = 0)
+			if("wielded")
+				return list("shrink" = 0.6,"sx" = 4,"sy" = -2,"nx" = -3,"ny" = -2,"wx" = -5,"wy" = -1,"ex" = 3,"ey" = -2,"northabove" = 0,"southabove" = 1,"eastabove" = 1,"westabove" = 0,"nturn" = 7,"sturn" = -7,"wturn" = 16,"eturn" = -22,"nflip" = 8,"sflip" = 0,"wflip" = 8,"eflip" = 0)
+
+
 /obj/item/rogueweapon/spear/trident
 	// Better one handed & throwing weapon, flimsier.
 	name = "bronze trident"

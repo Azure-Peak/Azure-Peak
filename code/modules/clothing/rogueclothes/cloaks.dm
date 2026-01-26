@@ -360,8 +360,8 @@
 	GLOB.lordcolor -= src
 	return ..()
 
-/obj/item/clothing/cloak/tabard/retinue/captain //Because of his other snowflake cloak we can't actually use the naming normally.
-	name = "captain's tabard"
+/obj/item/clothing/cloak/tabard/retinue/banneret //Because of his other snowflake cloak we can't actually use the naming normally.
+	name = "knight banneret's tabard"
 
 
 /obj/item/clothing/cloak/tabard/crusader
@@ -1577,8 +1577,8 @@
 	user.update_inv_cloak()
 	user.update_inv_armor()
 
-/obj/item/clothing/cloak/captain
-	name = "captain's cape"
+/obj/item/clothing/cloak/banneret
+	name = "knight banneret's cape"
 	desc = "A cape with a gold embroided heraldry of Azure."
 	icon = 'icons/roguetown/clothing/special/captain.dmi'
 	mob_overlay_icon = 'icons/roguetown/clothing/special/onmob/captain.dmi'
@@ -1589,7 +1589,7 @@
 	alternate_worn_layer = CLOAK_BEHIND_LAYER
 	detail_color = "#39404d"
 
-/obj/item/clothing/cloak/captain/Initialize()
+/obj/item/clothing/cloak/banneret/Initialize()
 	. = ..()
 	if(GLOB.lordprimary)
 		lordcolor(GLOB.lordprimary, GLOB.lordsecondary)
@@ -1602,7 +1602,7 @@
 		var/mob/L = loc
 		L.update_inv_cloak()
 
-/obj/item/clothing/cloak/captain/Destroy()
+/obj/item/clothing/cloak/banneret/Destroy()
 	GLOB.lordcolor -= src
 	return ..()
 

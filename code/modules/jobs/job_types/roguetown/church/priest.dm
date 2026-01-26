@@ -59,8 +59,8 @@ GLOBAL_LIST_EMPTY(heretical_players)
 	)
 	age_mod = /datum/class_age_mod/priest
 	subclass_skills = list(
-		/datum/skill/combat/wrestling = SKILL_LEVEL_MASTER,
-		/datum/skill/combat/unarmed = SKILL_LEVEL_MASTER,
+		/datum/skill/combat/wrestling = SKILL_LEVEL_JOURNEYMAN,
+		/datum/skill/combat/unarmed = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/combat/staves = SKILL_LEVEL_MASTER,
 		/datum/skill/combat/polearms = SKILL_LEVEL_MASTER,
 		/datum/skill/misc/reading = SKILL_LEVEL_LEGENDARY,

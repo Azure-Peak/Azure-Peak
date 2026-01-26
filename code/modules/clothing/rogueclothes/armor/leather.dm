@@ -140,7 +140,7 @@
 	desc = "A sturdy raincoat draped atop of a tightly-fastened boiled leather cuirass. Saint Astratan youths often fashion little pieces of memorabilia and stitch it on the inner pockets of the coat to remind the confessors that their cause is virtuous, and that they mustn't lose sight of what matters."
 	icon_state = "confessorcoat"
 	item_state = "confessorcoat"
-	body_parts_covered = COVERAGE_FULL
+	body_parts_covered = COVERAGE_ALL_BUT_HANDFEET
 	sleeved = 'icons/roguetown/clothing/onmob/helpers/sleeves_armor.dmi'
 	armor = ARMOR_LEATHER_STUDDED
 	max_integrity = ARMOR_INT_CHEST_LIGHT_BASE	

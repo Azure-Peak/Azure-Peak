@@ -318,8 +318,8 @@
 /obj/item/rogueweapon/sword/long/training
 	name = "training sword"
 	desc = "Swords like these, with blunted tips and dull edges, are often used for practice without much risk of injury."
-	force = 5
-	force_wielded = 8
+	force = 7
+	force_wielded = 15
 	sharpness = IS_BLUNT
 	possible_item_intents = list(/datum/intent/mace/strike, /datum/intent/sword/thrust/blunt, /datum/intent/sword/peel/weak)
 	gripped_intents = list(/datum/intent/mace/strike, /datum/intent/sword/thrust/blunt, /datum/intent/sword/peel/weak)
@@ -1836,7 +1836,7 @@
 			if("onbelt")
 				return list("shrink" = 0.4,"sx" = -4,"sy" = -6,"nx" = 5,"ny" = -6,"wx" = 0,"wy" = -6,"ex" = -1,"ey" = -6,"nturn" = 100,"sturn" = 156,"wturn" = 90,"eturn" = 180,"nflip" = 0,"sflip" = 0,"wflip" = 0,"eflip" = 0,"northabove" = 0,"southabove" = 1,"eastabove" = 1,"westabove" = 0)
 
-/obj/item/rogueweapon/sword/sabre/knightcaptain // just a better sabre, unique knight captain weapon
+/obj/item/rogueweapon/sword/sabre/banneret // just a better sabre, unique banneret weapon
 	name = "'Edict'"
 	desc = "A lavish blacksteel sabre, inlaid with gold along the hilt and crossguard. The blade bears an inscription,\"FIAT JUSTITIA\"."
 	icon_state = "capsabre"

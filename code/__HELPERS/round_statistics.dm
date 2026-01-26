@@ -337,6 +337,7 @@ GLOBAL_LIST_EMPTY(patron_follower_counts)
 #define FEATURED_STATS_FISHERS "fishers"
 #define FEATURED_STATS_GOURMETS "gourmets"
 #define FEATURED_STATS_SCREAMERS "screamers"
+#define FEATURED_STATS_EMOS "emos"
 #define FEATURED_STATS_MINERS "miners"
 #define FEATURED_STATS_CRIMINALS "criminals"
 #define FEATURED_STATS_MAGES "mages"
@@ -424,6 +425,11 @@ GLOBAL_LIST_INIT(featured_stats, list(
 		"name" = "TOP Screamers",
 		"color" = "#d34747",
 		"entries" = list()
+	),
+	FEATURED_STATS_EMOS = list(
+		"name" = "TOP Emotionals",
+		"color" = "#48505e", // im blue da ba de ba da die
+		"entires" = list()
 	),
 	FEATURED_STATS_THIEVES = list(
 		"name" = "TOP Thieves",

@@ -20,6 +20,7 @@
 	min_pq = 5
 	max_pq = null
 	round_contrib_points = 3
+	vice_restrictions = list(/datum/charflaw/mute, /datum/charflaw/unintelligible) //Needs to use the throat - sometimes
 
 /datum/job/roguetown/exlady
 	title = "Consort Dowager"
