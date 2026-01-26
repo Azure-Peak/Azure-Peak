@@ -23,6 +23,12 @@
 	penfactor = 20
 	clickcd = 11
 
+/datum/intent/dagger/cut/blunt
+	blade_class = BCLASS_BLUNT
+	hitsound = list('sound/combat/hits/blunt/metalblunt (1).ogg', 'sound/combat/hits/blunt/metalblunt (2).ogg', 'sound/combat/hits/blunt/metalblunt (3).ogg')
+	penfactor = BLUNT_DEFAULT_PENFACTOR
+	intent_intdamage_factor = BLUNT_DEFAULT_INT_DAMAGEFACTOR
+
 /datum/intent/dagger/thrust
 	name = "thrust"
 	icon_state = "instab"
@@ -39,6 +45,12 @@
 /datum/intent/dagger/thrust/weak
 	name = "lopsided thrust"
 	damfactor = 0.8
+
+/datum/intent/dagger/thrust/blunt
+	blade_class = BCLASS_BLUNT
+	hitsound = list('sound/combat/hits/blunt/metalblunt (1).ogg', 'sound/combat/hits/blunt/metalblunt (2).ogg', 'sound/combat/hits/blunt/metalblunt (3).ogg')
+	penfactor = BLUNT_DEFAULT_PENFACTOR
+	intent_intdamage_factor = BLUNT_DEFAULT_INT_DAMAGEFACTOR
 
 /datum/intent/dagger/thrust/pick
 	name = "icepick stab"
@@ -385,7 +397,12 @@
 	intent_intdamage_factor = 0.05
 
 /obj/item/rogueweapon/huntingknife/idagger
-	possible_item_intents = list(/datum/intent/dagger/thrust,/datum/intent/dagger/cut, /datum/intent/dagger/thrust/pick, /datum/intent/dagger/sucker_punch)
+	possible_item_intents = list(
+		/datum/intent/dagger/thrust,
+		/datum/intent/dagger/cut,
+		/datum/intent/dagger/thrust/pick,
+		/datum/intent/dagger/sucker_punch,
+		)
 	force = 15
 	max_integrity = 100
 	name = "iron dagger"
@@ -399,7 +416,7 @@
 	possible_item_intents = list(/datum/intent/dagger/thrust/weak, /datum/intent/dagger/cut/heavy, /datum/intent/dagger/chop/cleaver, /datum/intent/dagger/sucker_punch) // Stronger cut and chop, but no pick.
 	force = 22 // Slightly more damage than a steel dagger.
 	max_integrity = 130 // Slightly less integrity than a steel dagger.
-	name = "Wardens' seax"
+	name = "warden's seax"
 	desc = "A well-worn seax utilised by the Fraternity of Wardens both as a tool and weapon. Nearly as effective for hacking \
 	down men as it is foiliage, but not quite as durable as more modern steel tools. More suitable for cutting than for thrusting."
 	icon_state = "warden_machete"
@@ -444,6 +461,19 @@
 	force = 20
 	max_integrity = 150
 	smeltresult = /obj/item/ingot/steel
+
+/obj/item/rogueweapon/huntingknife/idagger/steel/trainer
+	name = "dagger trainer"
+	desc = "A blunted steel dagger with a flexible blade for practicing close-in combat with vicious welts \
+	instead of lethal wounds. Still hurts, though."
+	icon_state = "dagger_trainer"
+	sheathe_icon = "sheath_dagger_trainer"
+	force = 7
+	possible_item_intents = list(
+		/datum/intent/dagger/thrust/blunt,
+		/datum/intent/dagger/cut/blunt,
+		/datum/intent/dagger/sucker_punch,
+		)
 
 /obj/item/rogueweapon/huntingknife/idagger/steel/corroded
 	name = "corroded dagger"

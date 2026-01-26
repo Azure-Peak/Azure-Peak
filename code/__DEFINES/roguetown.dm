@@ -18,15 +18,16 @@
 #define COVERAGE_NASAL			( HEAD | HAIR | NOSE )
 #define COVERAGE_SKULL			( HEAD | HAIR )
 
-#define COVERAGE_VEST			( CHEST | VITALS )
-#define COVERAGE_SHIRT			( CHEST | VITALS | ARMS )
-#define COVERAGE_TORSO			( CHEST | GROIN | VITALS )
-#define COVERAGE_ALL_BUT_ARMS	( CHEST | GROIN | VITALS | LEGS )
-#define COVERAGE_ALL_BUT_LEGS	( CHEST | GROIN | VITALS | ARMS )
-#define COVERAGE_FULL			( CHEST | GROIN | VITALS | LEGS | ARMS )
+#define COVERAGE_VEST				( CHEST | VITALS )
+#define COVERAGE_SHIRT				( CHEST | VITALS | ARMS )
+#define COVERAGE_TORSO				( CHEST | GROIN | VITALS )
+#define COVERAGE_ALL_BUT_ARMS		( CHEST | GROIN | VITALS | LEGS | FEET)
+#define COVERAGE_ALL_BUT_LEGS		( CHEST | GROIN | VITALS | ARMS | HANDS)
+#define COVERAGE_ALL_BUT_HANDFEET	( CHEST | GROIN | VITALS | LEGS | ARMS)
+#define COVERAGE_FULL				( CHEST | GROIN | VITALS | LEGS | ARMS | HANDS | FEET)
 
 #define COVERAGE_PANTS			( GROIN | LEGS )
-#define COVERAGE_FULL_LEG		( LEGS | FEET )
+#define COVERAGE_ALL_BUT_HANDFEET_LEG		( LEGS | FEET )
 
 /*
 Balloon Alert / Floating Text defines
@@ -307,7 +308,6 @@ GLOBAL_LIST_EMPTY(round_join_times)
 #define CTAG_MARSHAL		"CAT_MARSHAL"		// Marshal class
 #define CTAG_SENESCHAL		"CAT_SENESCHAL"		// Seneschal's aesthetic choices. 
 #define CTAG_SERVANT		"CAT_SERVANT"		// Servant's aesthetic choices.
-#define CTAG_CAPTAIN		"CAT_CAPTAIN"		// Handles Captain class selector
 #define CTAG_WAPPRENTICE	"CTAG_WAPPRENTICE"	// Mage Apprentice Classes - Handles Mage Apprentices class selector
 #define CTAG_GUILDSMASTER 	"CAT_GUILDSMASTER"	// Guildsmaster class - Handles Guildsmaster class selector 
 #define CTAG_GUILDSMEN 		"CAT_GUILDSMEN"		// Guildsmen class - Handles Guildsmen class selector

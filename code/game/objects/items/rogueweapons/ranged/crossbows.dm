@@ -59,16 +59,19 @@
 	basetime = 20
 
 /datum/intent/shoot/crossbow/can_charge(atom/clicked_object)
-	if(mastermob && masteritem)
-		var/obj/item/gun/ballistic/revolver/grenadelauncher/crossbow/c_bow = masteritem
-		if(mastermob.get_num_arms(FALSE) < 2 && !c_bow.onehanded)
+	if(mastermob?.next_move > world.time)
+		if(mastermob.client.last_cooldown_warn + 10 < world.time)
+			to_chat(mastermob, span_warning("I'm not ready to do that yet!"))
+			mastermob.client.last_cooldown_warn = world.time
 			return FALSE
-		if(mastermob.get_inactive_held_item() && !c_bow.onehanded)
-			return FALSE
-		if(istype(clicked_object, /obj/item/quiver) && istype(mastermob.get_active_held_item(), /obj/item/gun/ballistic))
+		if(mastermob && masteritem)
+			var/obj/item/gun/ballistic/revolver/grenadelauncher/crossbow/c_bow = masteritem
+			if(mastermob.get_num_arms(FALSE) < 2 && !c_bow.onehanded || mastermob.get_inactive_held_item() && !c_bow.onehanded)
+				to_chat(mastermob, span_warning("I need a free hand to draw [masteritem]!"))
+				return FALSE
+		if(istype(clicked_object, /obj/item/quiver) && istype(mastermob?.get_active_held_item(), /obj/item/gun/ballistic))
 			return FALSE
 	return TRUE
-
 
 /datum/intent/shoot/crossbow/get_chargetime()
 	if(mastermob && chargetime && masteritem)
@@ -97,8 +100,6 @@
 	chargetime = 1
 	basetime = 20
 	chargedrain = 0
-
-
 
 /datum/intent/arc/crossbow/can_charge(atom/clicked_object)
 	if(mastermob && masteritem)
@@ -146,11 +147,11 @@
 		if(!cocked)
 			to_chat(user, span_info("I step on the stirrup and use all my might..."))
 			if(!movingreload)
-				if(do_after(user, reloadtime - user.STASTR, target = user))
-					playsound(user, 'sound/combat/Ranged/crossbow_medium_reload-01.ogg', 100, FALSE)
-					cocked = TRUE
+				if(do_after(user, reloadtime - user.STASTR - user.get_skill_level(/datum/skill/combat/crossbows), target = user ))
+					playsound(user, 'sound/combat/Ranged/crossbow_medium_reload-01.ogg', 100, FALSE) //11 STR + MASTER Crossbow = 2.5~ second reload not including TIDI
+					cocked = TRUE //13 STR + NO Crossbow still amounts to around 3 seconds reload, so as it is each level of skill is +1 STR equivalent.
 			else
-				if(move_after(user, reloadtime - user.STASTR, target = user))
+				if(move_after(user, reloadtime - user.STASTR, target = user)) //Slurbow becomes instant loading if it uses skills at 11 STR + MASTER Crossbow
 					playsound(user, 'sound/combat/Ranged/crossbow_medium_reload-01.ogg', 100, FALSE)
 					cocked = TRUE
 		else

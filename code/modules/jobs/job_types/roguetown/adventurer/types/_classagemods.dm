@@ -282,7 +282,7 @@
 /datum/class_age_mod/acolyte
 	target_age = AGE_OLD
 	skill_mods = list(
-		/datum/skill/magic/holy = SKILL_LEVEL_MASTER,
+		/datum/skill/magic/holy = SKILL_LEVEL_LEGENDARY,
 	)
 
 /datum/class_age_mod/priest

@@ -663,3 +663,185 @@
       of dark boots
   hubertjones:
   - rscadd: drip for 1 person
+2026-01-22:
+  ADONAI:
+  - bugfix: tailor silverface now longer has cheaper silver amulet im sorry.
+  - bugfix: drugs are no longer available from the public silverface. go to the purity.
+  - rscadd: lots of new clothes to the tailor silverface
+  - balance: bottlebombs are now in the apothecary's silverface under "potions". dont
+      ask why.
+  JustSomeGalSS13:
+  - bugfix: The riding verb should now show who's filling whom correctly
+  Ketrai:
+  - bugfix: Gnolls now accurately herald the item they drop on death.
+  - bugfix: Glut gem now has a description.
+  - bugfix: Necra cross now correctly unblesses any necrans when it deactivates.
+  - bugfix: Necra sight can now be used on necran crosses.
+  Lamasmaster:
+  - image: Added more status effect icons
+  - bugfix: Coat of Commander details for feminine sprites.
+  - rscdel: Glaive spawns and duplicate store entry
+  - rscadd: Surcoats for Guard
+  - image: Changed Surcoat Sleeves
+  Ryan180602:
+  - refactor: armour_filtering `id` additions.
+  - bugfix: naledi and mask stress event fixes.
+  - balance: sojourners need to wear their masks now.
+  - balance: Lance intent gets 2.4x damfactor against integrity.
+  - balance: Lance thrust gets 1.6x damfactor against integrity.
+  Vladmar11:
+  - rscadd: New miracles for Astrata, Noc, Ravox and Malum
+  - image: The icons of the miracles of Astrata, Noc, Ravox and Malum have been redrawn
+  babamandaa:
+  - rscadd: bard songs are now emotes instead of shouts, and have had a flavor text
+      pass.
+  bearrrrrrrr:
+  - rscadd: A mercenary statue has appeared in multiple locations.
+  hazelrat:
+  - rscadd: Implemented a small remap for the Warden's Barracks. It now has slings
+      and spades!
+  kittysmooch:
+  - bugfix: 'reorganized code related to /obj/item to function better in visual code
+      editors.
+
+      :cl:'
+  zydras:
+  - rscadd: Added donator items (3x) for zydras
+  - rscdel: Removed an unused (1x) donator item
+2026-01-23:
+  Burrito-Justice:
+  - bugfix: Purging laws no longer explodes your eardrums
+  FreeStylaLT:
+  - bugfix: Fixed Dagger Special having infinite duration.
+  Ketrai:
+  - rscadd: Town blacksmiths and guild smiths, as well as the merchant now spawns
+      with an artefact blueprint.
+  Klein3:
+  - bugfix: Old acolytes have their legendary miracle skill back
+  - bugfix: Shoes take 5 seconds to stip instead of 10
+  - bugfix: 'Abyssal language should have an icon and be available to Acolytes and
+      Bishops.
+
+      :cl:'
+  - rscadd: Abyssal language added, and available Dreamwalkers, Abyssorite clergy,
+      heretical wretches and mad worshippers of Abyssor.
+  - bugfix: Fixed a bug where old Bishops did not recieve legendary miracle skill.
+  - spellcheck: 'Clarified the descriptions of the new miracles added in #5124.'
+  Kokserva:
+  - rscadd: nipple piercing for everyone, yippe
+  - bugfix: socks and now gnomes have socks too
+  Onutsio:
+  - rscadd: Death's Door - T4 Necran miracle
+  - qol: Necra's Sight has nameable crosses now.
+  Quinalion:
+  - rscadd: Lich Voicepack & Intro
+  SirSwagmeyer:
+  - rscadd: Added armor blacklist and whitelist to ruma clan
+  - balance: rebalanced tattoo armor and swords
+  kittysmooch:
+  - rscadd: thrown items now apply their demolition modifier
+  - rscadd: 'overhauled ricochet code and added ricochet mechanics to sling bullets
+      and arcyne bolt.
+
+      :cl:'
+  - bugfix: 'fresh character slots default to no underwear selection
+
+      :cl:'
+2026-01-24:
+  Onutsio:
+  - bugfix: fix death's door lux strand spawning
+  hazelrat:
+  - bugfix: Resolves a bug around quivers; clicking a quiver to nock an arrow on a
+      bow no longer also begins to draw the bow.
+2026-01-25:
+  Lamasmaster:
+  - rscadd: Recall spymaster for Court Agent
+  Ryan180602:
+  - rscdel: Kill knight-captain.
+  - rscadd: Knight Banneret Knight subclass.
+  - bugfix: Rename Royal Champion to Irregular Knight.
+  - rscadd: Sergeant office is in the Justiciary now.
+  - rscadd: Adds bath-room to the watchhouse.
+  - balance: Knight slots are now 4, instead of 3.
+  kittysmooch:
+  - bugfix: 'fixed a runtime with thrown atoms hitting walls
+
+      :cl:'
+  mumblemancer:
+  - rscadd: '*sigh''ing, *sulk''ing, or *cry''ing will add +1 to your "TOP Emotional"
+      stat in the endround screen'
+2026-01-26:
+  FreeStylaLT:
+  - balance: Successfully proccing Clingy / Finicky vices will now delay the next
+      vice check for longer.
+  G9ose:
+  - bugfix: 'fixed one thingie
+
+      <!-- Both :cl:''s are required for the changelog to work! You can put your name
+      to the right of the first :cl: if you want to overwrite your GitHub username
+      as author ingame. -->
+
+      <!-- You can use multiple of the same prefix (they''re only used for the icon
+      ingame) and delete the unneeded ones. Despite some of the tags, changelogs should
+      generally represent how a player might be affected by the changes rather than
+      a summary of the PR''s contents. -->'
+  Geevies:
+  - rscadd: The Equestrian virtue has now been replaced with Saddleborn, which allows
+      you to pick your mount, send it away, and summon it back with a whistle. Nobles
+      can pick horses.
+  - rscadd: You incur a massive mood penalty for the entire round if your mount dies.
+  - rscadd: Mounted Knights, Cavalry MAAs, and the Knight Captain get Saddleborn by
+      default.
+  - balance: Toggling a mount between sprinting and not sprinting has a shorter wait
+      time based on your riding skill.
+  - balance: Saiga does now have as much health, and do as much damage as saiga bucks.
+  - balance: Master level riders now no longer get removed from their mount if struck
+      while running.
+  Lamasmaster:
+  - rscadd: Vice restrictions to REGENCY capable roles.
+  - balance: Egg foods and Salo
+  - bugfix: Stuffed Egg
+  - image: Stonekeep food sprites (at least some)
+  - balance: Crossbow reload speed
+  Onutsio:
+  - rscadd: Added Psyaltrist soulchurner interaction
+  - balance: Halves bardic inspiration energy drain
+  Quinalion:
+  - bugfix: fixed warden's seax cannot process hide
+  Ryan180602:
+  - balance: All non-wrestling classes are now capped to Jman wrestling roundstart.
+  - balance: All wrestling classes have lost critres/nopainstun (if they had it).
+  - balance: Wretch Berserker / Adv Warrior gain IgnoreDamageSlowdown. They get their
+      respective skin-armour.
+  - balance: Otavan Repentant lost CritRes.
+  - balance: Atgervi Shaman/Church Monk/Inq Disciple/MAA Bailiff gain Expert wrestling,
+      now.
+  - balance: Disciple's Skin is now +100 integrity. Berserker skin armour is leather-tier,
+      same integrity/repair. Barbarian is half integrity, 5s more repair.
+  - bugfix: Knight Banneret ranged options now work.
+  - balance: Stygian Efflorescene gets ricochet.
+  - balance: Arcyne Bolt loses ricochet.
+  ToasterStrudes:
+  - rscadd: Adds a new DMI file for Xylixan miracle icons
+  - rscadd: 'Added new T0 Xylix spell: Mimicry'
+  - rscadd: 'Added new T2 Xylix spell: Vendetta'
+  - rscadd: 'Added new T4 Xylix spell: Abscond'
+  - refactor: Xylixian T1 spell Ventriloquism moved to T0
+  - refactor: 'Xylixian T1 spell The Wheel reworked into new spell: T1 Tip Scales'
+  chemistrymain3:
+  - rscdel: removed the holy see from the tome of justice
+  dopamiin0:
+  - rscadd: WE'RE RICH (miner ore sight is visible to others)
+  - bugfix: miner ore sight works
+  - bugfix: ppl with no_hunger dont latejoin permathirsty
+  - bugfix: maneaters can be set on fires with lampterns and such again
+  - bugfix: you can no longer be put into fractional meister values by the indebted
+      vice
+  - bugfix: static glass windows no longer hide from the crafting menu when you can
+      craft them
+  grooverstones:
+  - balance: significantly reduces eora's antag spawn chance
+  kittysmooch:
+  - rscadd: 'Added new trainers and remade squire loadouts around them.
+
+      :cl:'

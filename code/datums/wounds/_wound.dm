@@ -92,6 +92,7 @@ GLOBAL_LIST_INIT(primordial_wounds, init_primordial_wounds())
 	bodypart_owner = null
 	owner = null
 	. = ..()
+	return QDEL_HINT_IWILLGC
 
 /// Description of this wound returned to the player when a bodypart is examined and such
 /datum/wound/proc/get_visible_name(mob/user)

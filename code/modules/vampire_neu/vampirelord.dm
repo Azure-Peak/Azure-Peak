@@ -193,7 +193,7 @@
 	slot_flags = ITEM_SLOT_ARMOR
 	name = "ancient ceremonial plate"
 	desc = "Enchanted gilbranze armor, bearing the heraldry of a fallen kingdom. Upon the cuirass remains a singular puncture, unable to be fully mended by even the finest blood magicks: that which invoked your torpor, oh-so-long ago."
-	body_parts_covered = COVERAGE_FULL
+	body_parts_covered = COVERAGE_ALL_BUT_HANDFEET
 	body_parts_inherent = FULL_BODY
 	icon_state = "vplate"
 	item_state = "vplate"

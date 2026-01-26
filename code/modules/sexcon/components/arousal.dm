@@ -16,10 +16,6 @@
 	/// Last ejaculation time
 	var/last_ejaculation_time = 0
 
-/datum/component/arousal/Initialize(...)
-	. = ..()
-	START_PROCESSING(SSobj, src)
-
 /datum/component/arousal/Destroy(force)
 	. = ..()
 	STOP_PROCESSING(SSobj, src)
@@ -31,6 +27,8 @@
 	RegisterSignal(parent, COMSIG_SEX_FREEZE_AROUSAL, PROC_REF(freeze_arousal))
 	RegisterSignal(parent, COMSIG_SEX_GET_AROUSAL, PROC_REF(get_arousal))
 	RegisterSignal(parent, COMSIG_SEX_RECEIVE_ACTION, PROC_REF(receive_sex_action))
+	RegisterSignal(parent, COMSIG_MOB_CLIENT_LOGIN, PROC_REF(check_processing))
+	RegisterSignal(parent, COMSIG_MOB_LOGOUT, PROC_REF(check_processing))
 
 /datum/component/arousal/UnregisterFromParent()
 	. = ..()
@@ -39,12 +37,23 @@
 	UnregisterSignal(parent, COMSIG_SEX_FREEZE_AROUSAL)
 	UnregisterSignal(parent, COMSIG_SEX_GET_AROUSAL)
 	UnregisterSignal(parent, COMSIG_SEX_RECEIVE_ACTION)
+	UnregisterSignal(parent, COMSIG_MOB_CLIENT_LOGIN)
+	UnregisterSignal(parent, COMSIG_MOB_LOGOUT)
 
 /datum/component/arousal/process(dt)
 	handle_charge(dt * 1)
 	if(!can_lose_arousal())
 		return
 	adjust_arousal(parent, dt * -1)
+
+/// Checks if our parent has a client and adjusts processing.
+/datum/component/arousal/proc/check_processing()
+	SIGNAL_HANDLER
+	var/mob/parent_mob = parent
+	if(parent_mob.client)
+		START_PROCESSING(SSobj, src)
+	else
+		STOP_PROCESSING(SSobj, src)
 
 /datum/component/arousal/proc/can_lose_arousal()
 	if(last_arousal_increase_time + AROUSAL_TIME_TO_UNHORNY > world.time)

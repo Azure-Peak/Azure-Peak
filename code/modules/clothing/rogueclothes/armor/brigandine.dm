@@ -80,9 +80,6 @@
 	desc = "A coat of plates concealed beneath a heavy leather surcoat. Only the most battle-hardened of Azuria's commanders can hope to bear its burden, both metaphorically and quite literally."
 	icon_state = "leathercoat"
 	item_state = "leathercoat"
-	sleeved_detail = TRUE
-	boobed_detail = TRUE
-	color = "#7D6653"
 
 /obj/item/clothing/suit/roguetown/armor/brigandine/light
 	slot_flags = ITEM_SLOT_ARMOR
@@ -141,8 +138,8 @@
 	GLOB.lordcolor -= src
 	return ..()
 
-/obj/item/clothing/suit/roguetown/armor/brigandine/captain
-	name = "captain's brigandine"
+/obj/item/clothing/suit/roguetown/armor/brigandine/banneret
+	name = "knight banneret's brigandine"
 	desc = "A resplendant coat-of-plates, gilded and veiled in dyeable silk. Only the finest of Azuria's Knights has been entrusted with this beautiful article."
 	icon_state = "capplate"
 	icon = 'icons/roguetown/clothing/special/captain.dmi'

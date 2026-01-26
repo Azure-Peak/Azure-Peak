@@ -175,6 +175,9 @@
 
 		if(energy <= 0)
 			addtimer(CALLBACK(src, PROC_REF(Knockdown), 30), 1 SECONDS)
+			var/area/rogue/our_area = get_area(src)
+			if(our_area.necra_area)
+				src.extract_from_deaths_edge()
 		addtimer(CALLBACK(src, PROC_REF(Immobilize), 30), 1 SECONDS)
 		if(iscarbon(src))
 			var/mob/living/carbon/C = src

@@ -113,7 +113,7 @@
 		return FALSE
 	else if(mob.is_shifted)
 		mob.unpixel_shift()
-	
+
 	mob.last_client_interact = world.time
 
 	var/mob/living/L = mob  //Already checked for isliving earlier
@@ -255,7 +255,7 @@
 			return FALSE
 		move_delay = world.time + 10
 		to_chat(src, span_warning("I am clinging to [L]! I need a stronger grip to stop them!"))
-		return TRUE    
+		return TRUE
 
 	if(isanimal(mob.pulling))
 		var/mob/living/simple_animal/bound = mob.pulling
@@ -609,7 +609,7 @@
 			light_amount = T.get_lumcount() // this is moderately expensive, so only check it if we really need to
 			if (light_amount >= light_threshold)
 				should_reveal = TRUE
-			
+
 		if (should_reveal)
 			used_time = round(clamp((50 - (used_time*1.75)), 5, 50),1)
 			animate(src, alpha = initial(alpha), time =	used_time) //sneak skill makes you reveal slower but not as drastic as disappearing speed
@@ -630,21 +630,22 @@
 /mob/proc/toggle_rogmove_intent(intent, silent = FALSE)
 	var/is_mounted = FALSE
 	if(buckled && intent != MOVE_INTENT_SNEAK)
-		if(istype(buckled, /mob/living/simple_animal/hostile/retaliate/rogue/saiga))
-			if(ishuman(src))
-				var/mob/living/carbon/human/H = src
-				var/mob/living/simple_animal/hostile/retaliate/rogue/saiga/S = buckled
-				is_mounted = TRUE
-				if(H.m_intent == MOVE_INTENT_WALK)
-					H.visible_message(span_notice("[H] digs their heels into \the [S], preparing to gallop!"))
-					S.emote("aggro")
-					if(do_after(H, 20))
-						H.m_intent = MOVE_INTENT_RUN
-				else
-					H.visible_message(span_notice("\The [S] calms, slowing its gait."))
-					S.emote("idle")
-					if(do_after(H, 15))
-						H.m_intent = MOVE_INTENT_WALK
+		if(is_type_in_list(buckled, list(/mob/living/simple_animal/hostile/retaliate/rogue/saiga, /mob/living/simple_animal/hostile/retaliate/rogue/fogbeast)))
+			var/mob/living/simple_animal/hostile/retaliate/rogue/mount = buckled
+			is_mounted = TRUE
+			if(m_intent == MOVE_INTENT_WALK)
+				visible_message(span_notice("[src] digs their heels into \the [mount], preparing to gallop!"))
+				mount.emote("aggro")
+				var/sprint_time = 2.5 SECONDS - (get_skill_level(/datum/skill/misc/riding) * 0.5 SECONDS)
+				if(do_after(src, sprint_time))
+					m_intent = MOVE_INTENT_RUN
+			else
+				visible_message(span_notice("\The [mount] calms, slowing its gait."))
+				mount.emote("idle")
+				var/slow_time = 1.5 SECONDS - (get_skill_level(/datum/skill/misc/riding) * 0.5 SECONDS)
+				if(do_after(src, slow_time))
+					m_intent = MOVE_INTENT_WALK
+
 	// If we're becoming sprinting from non-sprinting, reset the counter
 	if(!(m_intent == MOVE_INTENT_RUN && intent == MOVE_INTENT_RUN))
 		sprinted_tiles = 0
@@ -683,7 +684,7 @@
 	if(hud_used?.static_inventory) //Update UI
 		for(var/atom/movable/screen/rogmove/selector in hud_used.static_inventory)
 			selector.update_icon()
-			
+
 	if(!silent)
 		playsound_local(src, 'sound/misc/click.ogg', 100)
 
@@ -775,7 +776,7 @@
 		src.apply_status_effect(/datum/status_effect/buff/magearmor)
 		return TRUE
 
-	
+
 
 /mob/proc/toggle_eye_intent(mob/user) //clicking the fixeye button either makes you fixeye or clears your target
 	if(fixedeye)
@@ -820,7 +821,7 @@
 /mob/proc/canZMove(direction, turf/target)
 	return FALSE
 
-// Ageneral-purpose proc used to centralize checks to skip turf, movement, step, etc. effects 
+// Ageneral-purpose proc used to centralize checks to skip turf, movement, step, etc. effects
 // for mobs that are floating, flying, intangible, etc.
 /mob/proc/is_floor_hazard_immune()
 	return throwing || (movement_type & (FLYING|FLOATING))

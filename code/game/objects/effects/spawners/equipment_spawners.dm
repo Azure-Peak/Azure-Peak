@@ -211,7 +211,6 @@
 		/obj/item/rogueweapon/spear/billhook = 1,
 		/obj/item/rogueweapon/fishspear = 1,
 		/obj/item/rogueweapon/halberd = 2,
-		/obj/item/rogueweapon/halberd/glaive = 1,
 		/obj/item/rogueweapon/eaglebeak = 1,
 		/obj/item/rogueweapon/greatsword = 1,
 		/obj/item/rogueweapon/huntingknife/combat = 1,

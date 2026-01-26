@@ -56,6 +56,19 @@
 					legwear_socks.forceMove(get_turf(src))
 					src.put_in_hands(legwear_socks)
 					legwear_socks = null
+		if(user.zone_selected == BODY_ZONE_CHEST)
+			if(!piercings_item)
+				return
+			var/under_clothes = get_location_accessible(src, BODY_ZONE_CHEST, skipundies = TRUE)
+			src.visible_message(span_notice("[src] begins to take off [piercings_item][under_clothes ? " from under their clothes" : ""]..."))
+			var/delay = under_clothes ? 25 : 40
+			if(do_after(user, delay, target = src))
+				var/obj/item/bodypart/chest = get_bodypart(BODY_ZONE_CHEST)
+				chest.remove_bodypart_feature(piercings_item.piercings_feature)
+				piercings_item.forceMove(get_turf(src))
+				src.put_in_hands(piercings_item)
+				piercings_item = null
+				regenerate_icons()
 #endif
 
 /mob/living/carbon/human/Initialize()
@@ -889,6 +902,9 @@
 
 /mob/living/carbon/human/adjust_nutrition(change) //Honestly FUCK the oldcoders for putting nutrition on /mob someone else can move it up because holy hell I'd have to fix SO many typechecks
 	if(HAS_TRAIT(src, TRAIT_NOHUNGER))
+		remove_status_effect(/datum/status_effect/debuff/hungryt1)
+		remove_status_effect(/datum/status_effect/debuff/hungryt2)
+		remove_status_effect(/datum/status_effect/debuff/hungryt3)
 		return FALSE
 	return ..()
 
@@ -899,6 +915,9 @@
 
 /mob/living/carbon/human/adjust_hydration(change)
 	if(HAS_TRAIT(src, TRAIT_NOHUNGER))
+		remove_status_effect(/datum/status_effect/debuff/thirstyt1)
+		remove_status_effect(/datum/status_effect/debuff/thirstyt2)
+		remove_status_effect(/datum/status_effect/debuff/thirstyt3)
 		return FALSE
 	return ..()
 

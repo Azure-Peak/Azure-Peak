@@ -93,212 +93,32 @@
 
 /obj/effect/proc_holder/spell/invoked/deaths_door
 	name = "Death's Door"
-	desc = "Opens a portal into a realm between lyfe and death, People can be dragged into the portal to be put into stasis, though undead will never return. Casting the portal again while people are trapped inside spits them out of the gates. <br>Necras domain will only hold people for five minutes at a time."
-	range = 7
+	desc = "Opens a one-way portal into a realm on the edge of death, People can be dragged into the portal to prevent their decay. Undead with be set aflame. Those whom enter the domain will find their Will to continue heavily weaken. <br>Necras domain can be left through a portal within to a shrine, or a grave/psycross marked with necra's sight."
+	range = 6
 	no_early_release = TRUE
-	charging_slowdown = 1
-	releasedrain = 20
 	chargedrain = 0
-	overlay_state = "deathdoor" // Icon Credit to DelineFortune
+	overlay_state = "deathdoor"
+	charging_slowdown = 1
 	chargetime = 2 SECONDS
-	chargedloop = null
+	recharge_time = 30 SECONDS
+	antimagic_allowed = TRUE
 	sound = 'sound/misc/deadbell.ogg'
 	invocations = list("Necra, show me my destination!")
 	invocation_type = "shout"
-	associated_skill = /datum/skill/magic/holy
-	antimagic_allowed = TRUE
-	recharge_time = 30 SECONDS
 	miracle = TRUE
 	devotion_cost = 30
 
-
 /obj/effect/proc_holder/spell/invoked/deaths_door/cast(list/targets, mob/living/user)
-	..()
-
 	var/turf/T = get_turf(targets[1])
 	if(!isopenturf(T))
-		to_chat(user, span_warning("The targeted location is blocked. I cannot open a doorway here."))
-		return FALSE
-	for (var/obj/structure/underworld_portal/e_portal in user.contents) // checks if the portal exists, and shits them out
-		if(istype(e_portal))
-			e_portal.dispelled = FALSE //we are recasting after dispelling, its safe to set this as false.
-			e_portal.spitout_mob(user, T)
-			return TRUE
-	if(!locate(/obj/structure/underworld_portal) in T)
-		var/obj/structure/underworld_portal/portal = new /obj/structure/underworld_portal(T)
-		portal.caster = user
-		return TRUE
-
-
-/obj/structure/underworld_portal
-	name = "underworld portal"
-	desc = null // see examine
-	icon = 'icons/roguetown/misc/structure.dmi'
-	icon_state = "shitportal" //get a better sprite for this
-	max_integrity = 50
-	move_resist = MOVE_FORCE_EXTREMELY_STRONG
-	anchored = TRUE
-	density = FALSE
-	var/mob/living/caster // stores the caster. obviously.
-	var/mob/living/trapped // stores the trapped.
-	var/time_id
-	var/dispelled = FALSE //Safety check
-
-
-/obj/structure/underworld_portal/examine(mob/living/carbon/user)
-	. = ..()
-
-	if(user.mob_biotypes & MOB_UNDEAD)
-		. += "A temporary gateway to the underworld. [span_warning("Faintly, you can see clutching fingers in the dark, reaching for you. If you go through, you won't come back.")]"
-	else
-		. += "A temporary gateway to the underworld. You can hear faint whispers through it. [span_warning("It might be possible to step through.")]"
-
-	. += "[span_notice("As the caster, click on GRAB to store the portal, provided there are souls inside. Use HARM to destroy the portal.")]"
-	if(trapped)
-		. += "[span_notice("Right-click on the portal to pull trapped souls out.")]"
-
-
-/obj/structure/underworld_portal/attack_hand(mob/living/carbon/user, list/modifiers)
-	if(user == caster)
-		var/mob/living/carbon/victim = locate(/mob/living/carbon) in contents
-		if(user.used_intent.type == INTENT_GRAB)
-			if(victim)
-				caster.contents.Add(src)
-				user.visible_message(
-					span_revenwarning("[user] dispels the doorway with a touch."),
-					span_purple("I close the gateway.")
-					)
-				return TRUE
-
-		if(user.used_intent.type == INTENT_HARM)
-			if(victim)
-				to_chat(user, span_warning("There are still souls trapped inside!"))
-				return FALSE
-			qdel(src)
-			return TRUE
 		return FALSE
 
-	if(!do_after(user, 2 SECONDS, src))
+	if(locate(/obj/structure/deaths_door_portal) in T)
+		to_chat(user, span_warning("A gate already stands here."))
 		return FALSE
-	gobble_mob(user, caster)
 
-	..()
-
-
-/obj/structure/underworld_portal/Destroy()
-	if(dispelled == FALSE)	//Only do this if we DON'T close it ourselves,that means something ELSE -FUNNY- happend.
-							//As we are already calling qdel on:Right click, if you do not have this is gonna to call spitout mob TWICE
-		spitout_mob(caster, loc)
-	visible_message(span_revenwarning("The portal collapses with an angry hiss."))//will keep this outside the if though, its coo
-	..()
-
-/obj/structure/underworld_portal/attack_right(mob/living/carbon/user, list/modifiers)
-	..()
-
-	if(user != caster)
-		return FALSE
-	spitout_mob(user, loc)
-	user.visible_message(
-				span_revenwarning("[user] gestures their hand at the gateway to expel what is within."),
-				span_purple("I gesture at the gateway to release whatever is inside.")
-			)
-	qdel(src)
-
+	new /obj/structure/deaths_door_portal(T, user)
 	return TRUE
-
-
-/obj/structure/underworld_portal/MouseDrop_T(atom/movable/O, mob/living/user)
-	if(!isliving(O))
-		return
-	if(!istype(user) || user.incapacitated())
-		return
-	if(!Adjacent(user) || !user.Adjacent(O))
-		return
-	if(!do_after_mob(user, O, 5 SECONDS))
-		return
-	if(O == caster)
-		return
-	gobble_mob(O, user)
-	user.visible_message(
-		span_warning("[user] forces [O] into the portal!")
-	)
-
-	return TRUE
-
-
-/obj/structure/underworld_portal/proc/gobble_mob(mob/living/carbon/user, mob/living/carbon/caster)
-	if(user.mob_biotypes & MOB_UNDEAD)
-		user.visible_message(
-			span_warning("[user] is suddenly grabbed by a massive hand-and pulled through!"),
-			span_userdanger("Touching the portal, the Carriageman's hand closes around my own! No! NO!")
-			)
-		playsound(user, 'sound/misc/deadbell.ogg', 50, TRUE, -2, ignore_walls = TRUE)
-		new /obj/effect/gibspawner/generic(get_turf(user))
-		qdel(user)
-		return TRUE
-
-	user.visible_message(
-		span_revenwarning("[user] slips through the portal. Silence follows."),
-		span_purple("I touch the doorway. I slip through, and the world is silent and dark. I hear the distant rattle of a passing carriage.")
-		)
-
-	if(user.mind)
-		if(trapped)
-			to_chat(user, span_warning("There is already a soul trapped inside!"))
-			return FALSE
-		user.forceMove(src)
-		ADD_TRAIT(user, TRAIT_BLOODLOSS_IMMUNE, STATUS_EFFECT_TRAIT)
-		ADD_TRAIT(user, TRAIT_NOBREATH, STATUS_EFFECT_TRAIT)
-		user.add_client_colour(/datum/client_colour/monochrome)
-		trapped = user
-	contents.Add(user)
-	time_id = addtimer(CALLBACK(src, PROC_REF(spitout_mob), user, null), 5 MINUTES, TIMER_UNIQUE | TIMER_OVERRIDE | TIMER_STOPPABLE) // 5 mins timer else its spitting you out where the necran is.
-
-	return TRUE
-
-/obj/structure/underworld_portal/proc/spitout_mob(mob/living/carbon/user, turf/T)
-	if(src.loc == user)
-		forceMove(T ? T : user.loc)
-		user.contents.Remove(src)
-
-	if(trapped)
-		if(dispelled == TRUE)//dispelled at the caster, this is the case of we do not recast out dispelled portal and its been five minutes.
-			user.forceMove(caster.loc)//has to be user i tried doing it as trapped before but the TIMER calls user so that can trip it up.
-			dispelled = FALSE
-		else
-			user.forceMove(src.loc)
-		contents.Remove(user)
-		user.remove_client_colour(/datum/client_colour/monochrome)
-		REMOVE_TRAIT(user, TRAIT_BLOODLOSS_IMMUNE, STATUS_EFFECT_TRAIT)
-		REMOVE_TRAIT(user, TRAIT_NOBREATH, STATUS_EFFECT_TRAIT)
-		trapped = null
-
-		user.visible_message(
-			span_revenwarning("[trapped] slips out from the whispering portal. Shadow roils off their form like smoke."),
-			span_purple("I am pulled from Necra's realm. Air fills my lungs, my heart starts beating- I live.")
-		)
-
-	for(var/mob/living/thing in contents)
-		if(istype(thing, /mob/living))
-			contents.Remove(thing)
-			thing.forceMove(loc)
-
-	if(time_id)
-		deltimer(time_id)
-
-	return TRUE
-
-
-/obj/structure/underworld_portal/container_resist(mob/living/user)
-	..()
-
-	if(trapped != user)
-		return
-	var/resist_prob = user.STASTR * 2.5
-	if(!prob(resist_prob))
-		return
-	spitout_mob(user)
-
 
 /*
 	SOUL SPEAK

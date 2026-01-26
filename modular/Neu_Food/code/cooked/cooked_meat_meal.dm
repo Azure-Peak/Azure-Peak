@@ -16,6 +16,28 @@
 	eat_effect = /datum/status_effect/buff/mealbuff
 	drop_sound = 'sound/foley/dropsound/gen_drop.ogg'
 
+/obj/item/reagent_containers/food/snacks/rogue/peppersteak/attackby(obj/item/I, mob/living/user, params)
+	var/found_table = locate(/obj/structure/table) in (loc)
+	if(!experimental_inhand)
+		return
+	if(istype(I, /obj/item/reagent_containers/food/snacks/grown/garlick/rogue))
+		if(isturf(loc)&& (found_table))
+			playsound(get_turf(user), 'sound/foley/dropsound/gen_drop.ogg', 30, TRUE, -1)
+			if(do_after(user,3 SECONDS, target = src))
+				user.adjust_experience(/datum/skill/craft/cooking, user.STAINT * 0.8)
+				new /obj/item/reagent_containers/food/snacks/rogue/peppersteak/ducal(loc)
+				qdel(I)
+				qdel(src)
+	else
+		return ..()
+
+/obj/item/reagent_containers/food/snacks/rogue/peppersteak/ducal
+	tastes = list("steak" = 1, "pepper" = 1, "garlick" = 1)
+	name = "ducal steak"
+	desc = "Roasted meat flanked with a generous coating of ground pepper for intense flavor and scribbled in with garlick. Said to have been favorite meal of the Mad Duke."
+	faretype = FARE_LAVISH
+	icon_state = "ducalsteak"
+
 /*	..................   Onion steak   ................... */
 /obj/item/reagent_containers/food/snacks/rogue/onionsteak
 	name = "onion steak"

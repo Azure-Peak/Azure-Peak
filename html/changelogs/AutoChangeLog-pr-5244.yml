@@ -1,7 +1,0 @@
-author: "ADONAI"
-delete-after: True
-changes:
-  - bugfix: "tailor silverface now longer has cheaper silver amulet im sorry."
-  - bugfix: "drugs are no longer available from the public silverface. go to the purity."
-  - rscadd: "lots of new clothes to the tailor silverface"
-  - balance: "bottlebombs are now in the apothecary's silverface under \"potions\". dont ask why."
