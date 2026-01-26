@@ -110,6 +110,15 @@
 
 /obj/effect/proc_holder/spell/invoked/abduct/cast(list/targets, mob/user)
 	if(targets[1] == user)
+		var/check_turf = get_turf(user)
+		var/can_abduct = FALSE
+		switch(destination_turf.z)
+			if(2,3,4)	//very shoddy way of checking if it's within the "normal" game world, there's probably a zweb check for this
+				can_abduct = TRUE
+		if(!can_abduct)
+			to_chat(user, span_warning("This is not a suitable place for such an anchor!"))
+			revert_cast()
+			return FALSE
 		destination_turf = get_turf(user)
 		to_chat(user, span_notice("You anchor your connection to graggar's plane here. Any abducted will be fetched here."))
 		// We are reverting cast because we're only setting the destination.

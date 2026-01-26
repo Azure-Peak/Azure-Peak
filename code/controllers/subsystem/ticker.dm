@@ -472,6 +472,7 @@ SUBSYSTEM_DEF(ticker)
 		if(player.ready == PLAYER_READY_TO_PLAY)
 			GLOB.joined_player_list += player.ckey
 			update_wretch_slots()
+			update_gnoll_slots()
 			player.create_character(FALSE)
 		else
 			player.new_player_panel()
