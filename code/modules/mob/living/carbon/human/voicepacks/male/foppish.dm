@@ -46,7 +46,7 @@
 		if("chuckle")
 			used = list('sound/vo/male/foppish/chuckle (1).ogg', 'sound/vo/male/foppish/chuckle (2).ogg', 'sound/vo/male/foppish/chuckle (3).ogg')
 		if("groan")
-			used = list('sound/vo/male/foppish/groan (1).ogg', )
+			used = list('sound/vo/male/foppish/groan (1).ogg', 'sound/vo/male/foppish/groanfrust (1).ogg', 'sound/vo/male/foppish/groanfrust (2).ogg', 'sound/vo/male/foppish/groanfrust (3).ogg', 'sound/vo/male/foppish/groanfrust (4).ogg', 'sound/vo/male/foppish/groanfrust (5).ogg', 'sound/vo/male/foppish/groanfrust (6).ogg')
 		if("pain")
 			used = list('sound/vo/male/young/pain (1).ogg', 'sound/vo/male/young/pain (2).ogg', 'sound/vo/male/young/pain (3).ogg', 'sound/vo/male/young/pain (4).ogg')
 		if("rage")
