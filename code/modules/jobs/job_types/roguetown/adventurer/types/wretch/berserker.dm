@@ -63,8 +63,8 @@
 				ADD_TRAIT(H, TRAIT_CIVILIZEDBARBARIAN, TRAIT_GENERIC)
         		armor = /obj/item/clothing/suit/roguetown/armor/regenerating/skin/disciple/berserker
 			if("Discipline - Bodybuilder")
-				H.adjust_skillrank_up_to(/datum/skill/combat/axes, SKILL_LEVEL_EXPERT, TRUE)
-				r_hand = /obj/item/rogueweapon/greataxe
+				H.adjust_skillrank_up_to(/datum/skill/combat/swords, SKILL_LEVEL_EXPERT, TRUE)
+				r_hand = /obj/item/rogueweapon/greatsword/paalloy
 				armor = /obj/item/clothing/suit/roguetown/armor/manual/pushups/leather/good
 				backl = /obj/item/rogueweapon/scabbard/gwstrap
 				H.change_stat(STATKEY_INT, -3) /// Same reasoning as advent barbarian. I think it makes the subclass shit, but it is what it is.
