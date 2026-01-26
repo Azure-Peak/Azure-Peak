@@ -21,3 +21,15 @@
 				continue
 
 			to_chat(player, span_danger("Graggar demands blood, gnolls flock to Azuria."))
+
+/proc/update_gnoll_slots()
+	var/datum/job/gnoll_job = SSjob.GetJob("Gnoll")
+	if(!gnoll_job)
+		return
+
+	var/player_count = length(GLOB.joined_player_list)
+	
+	//Add 1 slot for every 10 players over 30. Less than 40 players, 5 slots. 40 or more players, 6 slots. 50 or more players, 7 slots - etc.
+	if(player_count > 40 && gnoll_job.total_positions <= 0)
+		gnoll_job.total_positions = 1
+		gnoll_job.spawn_positions = 1

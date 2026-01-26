@@ -112,7 +112,7 @@
 	if(targets[1] == user)
 		var/check_turf = get_turf(user)
 		var/can_abduct = FALSE
-		switch(destination_turf.z)
+		switch(check_turf.z)
 			if(2,3,4)	//very shoddy way of checking if it's within the "normal" game world, there's probably a zweb check for this
 				can_abduct = TRUE
 		if(!can_abduct)
