@@ -29,7 +29,7 @@
 
 	var/player_count = length(GLOB.joined_player_list)
 	
-	//Add 1 slot for every 10 players over 30. Less than 40 players, 5 slots. 40 or more players, 6 slots. 50 or more players, 7 slots - etc.
+	//Add 1 slot if there's more than 40 players in the game and there are no Gnolls.
 	if(player_count > 40 && gnoll_job.total_positions <= 0)
 		gnoll_job.total_positions = 1
 		gnoll_job.spawn_positions = 1
