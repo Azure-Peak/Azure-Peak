@@ -267,7 +267,10 @@
 		if("Discipline - Whiphunter")
 			H.adjust_skillrank_up_to(/datum/skill/combat/whipsflails, SKILL_LEVEL_JOURNEYMAN, TRUE)
 			head = /obj/item/clothing/head/roguetown/headband/monk/barbarian
-			armor = /obj/item/clothing/suit/roguetown/armor/leather/hide
+			if(should_wear_femme_clothes(H))
+				armor = /obj/item/clothing/suit/roguetown/armor/leather/bikini
+			else
+				armor = /obj/item/clothing/suit/roguetown/armor/leather/hide
 			r_hand = /obj/item/rogueweapon/whip/bronze
 			gloves = /obj/item/clothing/gloves/roguetown/bandages
 			H.change_stat(STATKEY_SPD, -1) //Little more protection, little less speed.
@@ -284,9 +287,6 @@
 	wrists = /obj/item/clothing/wrists/roguetown/bracers/leather
 	if(should_wear_masc_clothes(H))
 		H.dna.species.soundpack_m = new /datum/voicepack/male/warrior()
-	if(should_wear_femme_clothes(H))
-		if(weapon_choice != "Disciple - Unarmed")
-			armor = /obj/item/clothing/suit/roguetown/armor/leather/bikini
 	backl = /obj/item/storage/backpack/rogue/satchel
 	backpack_contents = list(
 		/obj/item/flashlight/flare/torch = 1,
