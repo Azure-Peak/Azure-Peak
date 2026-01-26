@@ -1178,6 +1178,7 @@ tile_coordinates = list(list(1,1), list(-1,1), list(-1,-1), list(1,-1),list(0,0)
 	active_timer = addtimer(CALLBACK(src, PROC_REF(effect_expire)), 20 SECONDS, TIMER_STOPPABLE)
 	W.damtype = TOX
 	W.force -= 15
+	W.update_force_dynamic()
 	W.icon_state = "poisonsaber_active"
 	howner.regenerate_icons()
 	playsound(W.loc, 'sound/misc/lava_death.ogg', 100)
@@ -1187,6 +1188,7 @@ tile_coordinates = list(list(1,1), list(-1,1), list(-1,-1), list(1,-1),list(0,0)
 	var/obj/item/rogueweapon/sword/sabre/bane/W = iparent
 	W.damtype = BRUTE
 	W.force += 15
+	W.update_force_dynamic()
 	W.icon_state = "poisonsaber"
 	playsound(W.loc, 'sound/magic/bladescrape.ogg', 100)
 
