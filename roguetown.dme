@@ -733,6 +733,7 @@
 #include "code\datums\gods\patrons\inhumen\baotha.dm"
 #include "code\datums\gods\patrons\inhumen\graggar.dm"
 #include "code\datums\gods\patrons\inhumen\matthios.dm"
+#include "code\datums\gods\patrons\inhumen\resurrect_inhumen.dm"
 #include "code\datums\gods\patrons\inhumen\zizo.dm"
 #include "code\datums\helper_datums\events.dm"
 #include "code\datums\helper_datums\getrev.dm"
