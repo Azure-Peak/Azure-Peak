@@ -254,7 +254,7 @@
 	name = "silky dress"
 	desc = "Despite not actually being made of silk, the legendary expertise needed to sew this puts the quality on par."
 	body_parts_covered = CHEST|GROIN|ARMS|VITALS
-	slot_flags = ITEM_SLOT_SHIRT|ITEM_SLOT_ARMOR
+	slot_flags = ITEM_SLOT_SHIRT|ITEM_SLOT_ARMOR|ITEM_SLOT_CLOAK
 	icon_state = "silkydress"
 	item_state = "silkydress"
 	sleevetype = null
@@ -693,15 +693,15 @@
 	slot_flags = ITEM_SLOT_SHIRT|ITEM_SLOT_ARMOR
 	prevent_crits = PREVENT_CRITS_NONE
 	armor = ARMOR_RUMACLAN
-	body_parts_covered = COVERAGE_FULL
-	body_parts_inherent = COVERAGE_FULL
+	body_parts_covered = COVERAGE_ALL_BUT_HANDFEET
+	body_parts_inherent = COVERAGE_ALL_BUT_HANDFEET
 	icon = 'icons/roguetown/clothing/shirts.dmi'
 	mob_overlay_icon = 'icons/roguetown/clothing/onmob/shirts.dmi'
 	sleeved = 'icons/roguetown/clothing/onmob/helpers/sleeves_shirts.dmi'
 	r_sleeve_status = SLEEVE_NORMAL
 	l_sleeve_status = SLEEVE_NORMAL
 	allowed_race = NON_DWARVEN_RACE_TYPES
-	max_integrity = 195
+	max_integrity = 270
 	flags_inv = null //free the breast
 	surgery_cover = FALSE // cauterize and surgery through it.
 

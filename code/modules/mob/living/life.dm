@@ -138,18 +138,19 @@
 
 /mob/living/proc/handle_wounds()
 	for(var/datum/wound/wound as anything in get_wounds())
-		if(istype(wound, /datum/wound))
-			if (stat != DEAD)
-				wound.on_life()
-			else
-				wound.on_death()
+		if(!wound)
+			continue
 
+		if(stat != DEAD)
+			wound.on_life()
+		else
+			wound.on_death()
 
 /obj/item/proc/on_embed_life(mob/living/user, obj/item/bodypart/bodypart)
 	return
 
 /mob/living/proc/handle_embedded_objects()
-	for(var/obj/item/embedded in simple_embedded_objects)
+	for(var/obj/item/embedded as anything in simple_embedded_objects)
 		if(embedded.on_embed_life(src))
 			continue
 

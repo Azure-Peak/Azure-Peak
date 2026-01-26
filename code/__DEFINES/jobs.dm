@@ -40,7 +40,6 @@
 #define RETINUE				(1<<2)
 
 #define MARSHAL		(1<<0)
-#define CAPTAIN		(1<<1)
 #define KNIGHT		(1<<2)
 #define SQUIRE		(1<<3)
 
@@ -116,6 +115,7 @@
 #define VAMPIRE_SERVANT (1<<6)
 #define VAMPIRE_GUARD 	(1<<7)
 #define VAMPIRE_SPAWN 	(1<<8)
+#define GNOLL			(1<<9)
 
 #define SLOP				(1<<11)
 
@@ -153,7 +153,6 @@
 
 // Retinue - Manor
 #define JDO_MARSHAL 3
-#define JDO_CAPTAIN 3.1
 #define JDO_KNIGHT 3.2
 #define JDO_SQUIRE 3.3
 
@@ -215,6 +214,7 @@
 #define JDO_ASSASSIN 11
 #define JDO_BANDIT 11.1
 #define JDO_WRETCH 11.2
+#define JDO_GNOLL 11.3
 
 #define BITFLAG_HOLY_WARRIOR (1<<0)
 #define BITFLAG_ROYALTY (1<<1)

@@ -496,3 +496,29 @@
 	anvilrepair = /datum/skill/craft/blacksmithing
 	smeltresult = /obj/item/ingot/bronze
 	component_type = /datum/component/storage/concrete/grid/orestore/bronze
+
+/obj/item/storage/belt/rogue/leather/zig_bandolier
+	name = "zig bandolier"
+	desc = "For when your addiction gets a hold on you."
+	icon_state = "twstrap0"
+	item_state = "twstrap"
+	icon = 'icons/obj/items/twstrap.dmi'
+	lefthand_file = 'icons/mob/inhands/equipment/backpack_lefthand.dmi'
+	righthand_file = 'icons/mob/inhands/equipment/backpack_righthand.dmi'
+	w_class = WEIGHT_CLASS_BULKY
+	slot_flags = ITEM_SLOT_BACK | ITEM_SLOT_ARMOR
+	resistance_flags = FIRE_PROOF
+	equip_delay_self = 5 SECONDS
+	unequip_delay_self = 5 SECONDS
+	max_integrity = 0
+	sellprice = 15
+	inhand_x_dimension = 64
+	inhand_y_dimension = 64
+	pixel_y = -16
+	pixel_x = -16
+	bigboy = TRUE
+	equip_sound = 'sound/blank.ogg'
+	bloody_icon_state = "bodyblood"
+	alternate_worn_layer = UNDER_CLOAK_LAYER
+	strip_delay = 20
+	component_type = /datum/component/storage/concrete/roguetown/zig_bandolier

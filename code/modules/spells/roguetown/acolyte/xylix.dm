@@ -1,32 +1,9 @@
-/obj/effect/proc_holder/spell/invoked/wheel
-	name = "The Wheel"
-	desc = "Spins the wheel, either buffing or debuffing the targets fortune."
-	overlay_state = "wheel" //Wheel of Fortune
-	releasedrain = 10
-	chargedrain = 0
-	chargetime = 3
-	range = 1
-	no_early_release = TRUE
-	movement_interrupt = TRUE
-	chargedloop = /datum/looping_sound/invokeholy
-	sound = 'sound/misc/letsgogambling.ogg'
-	associated_skill = /datum/skill/magic/holy
-	antimagic_allowed = TRUE
-	recharge_time = 5 MINUTES
-	
-/obj/effect/proc_holder/spell/invoked/wheel/cast(list/targets, mob/user = usr)
-	if(isliving(targets[1]))
-		var/mob/living/target = targets[1]
-		if(target.anti_magic_check(TRUE, TRUE))
-			return FALSE
-		target.apply_status_effect(/datum/status_effect/wheel)		
-		return TRUE
-	revert_cast()
-	return FALSE
-
 /obj/effect/proc_holder/spell/invoked/ventriloquism
 	name = "Ventriloquism"
 	desc = "Throw one's voice into a object"
+	overlay_icon = 'icons/mob/actions/xylixmiracles.dmi'
+	action_icon = 'icons/mob/actions/xylixmiracles.dmi'
+	overlay_state = "ventril"
 	releasedrain = 10
 	chargedrain = 0
 	chargetime = 0
@@ -48,7 +25,9 @@
 /obj/effect/proc_holder/spell/invoked/mastersillusion
 	name = "Set Decoy"
 	desc = "Creates a body double of yourself and makes you invisible, after a delay your clone explodes into smoke."
-	overlay_state = "decoy" //The Fool
+	overlay_icon = 'icons/mob/actions/xylixmiracles.dmi'
+	action_icon = 'icons/mob/actions/xylixmiracles.dmi'
+	overlay_state = "disguise"
 	releasedrain = 10
 	chargedrain = 0
 	chargetime = 0
@@ -112,7 +91,9 @@
 /obj/effect/proc_holder/spell/invoked/mockery
 	name = "Vicious Mockery"
 	desc = "Mock your target, reducing their INT, SPD, STR and WIL for a time."
-	overlay_state = "mockery" //Judgement
+	overlay_icon = 'icons/mob/actions/xylixmiracles.dmi'
+	action_icon = 'icons/mob/actions/xylixmiracles.dmi'
+	overlay_state = "mockery"
 	releasedrain = 50
 	associated_skill = /datum/skill/misc/music
 	recharge_time = 2 MINUTES
@@ -178,7 +159,9 @@
 /obj/effect/proc_holder/spell/self/xylixslip
 	name = "Xylixian Slip"
 	desc = "Jumps you up to 3 tiles away."
-	overlay_state = "slip" //Chariot
+	overlay_icon = 'icons/mob/actions/xylixmiracles.dmi'
+	action_icon = 'icons/mob/actions/xylixmiracles.dmi'
+	overlay_state = "slip"
 	releasedrain = 10
 	chargedrain = 0
 	chargetime = 0
@@ -231,6 +214,9 @@
 /obj/effect/proc_holder/spell/targeted/touch/parlor_trick
 	name = "Parlor Trick"
 	desc = "Take the form of objects to make fools of them. R-Click to destroy, left click to copy objects. Use to take a form."
+	overlay_icon = 'icons/mob/actions/xylixmiracles.dmi'
+	action_icon = 'icons/mob/actions/xylixmiracles.dmi'
+	overlay_state = "parlor"
 	clothes_req = FALSE
 	chargedrain = 0
 	chargetime = 2 SECONDS
@@ -359,3 +345,364 @@
 
 /obj/effect/dummy/parlor_trick/attack_hand()
 	master.disrupt()
+
+/obj/effect/proc_holder/spell/invoked/abscond
+	name = "Abscond"
+	desc = "Disappear in a flash of smoke! (With a range of 4 tiles)"
+	releasedrain = 30
+	warnie = "spellwarning"
+	movement_interrupt = TRUE
+	associated_skill = /datum/skill/magic/holy
+	overlay_icon = 'icons/mob/actions/xylixmiracles.dmi'
+	action_icon = 'icons/mob/actions/xylixmiracles.dmi'
+	overlay_state = "abscond"
+	chargedrain = 1
+	chargetime = 0 SECONDS
+	recharge_time = 60 SECONDS
+	hide_charge_effect = TRUE
+	gesture_required = FALSE // Slippery
+	devotion_cost = 100
+	miracle = TRUE
+	var/area_of_effect = 1
+	var/max_range = 4
+	var/turf/destination_turf
+	var/turf/user_turf
+	var/mutable_appearance/tile_effect
+	var/mutable_appearance/target_effect
+	var/datum/looping_sound/invokeshadow/shadowloop
+	var/static/list/sounds = list('sound/magic/xylix_slip1.ogg','sound/magic/xylix_slip2.ogg','sound/magic/xylix_slip3.ogg','sound/magic/xylix_slip4.ogg')
+
+//Resets the tile and turf effects.
+/obj/effect/proc_holder/spell/invoked/abscond/proc/reset(silent = FALSE)
+	if(tile_effect && destination_turf)
+		destination_turf.cut_overlay(tile_effect)
+		qdel(tile_effect)
+		destination_turf = null
+	if(user_turf && target_effect)
+		user_turf.cut_overlay(target_effect)
+		qdel(target_effect)
+		user_turf = null
+	update_icon()
+
+/obj/effect/proc_holder/spell/invoked/abscond/proc/check_path(turf/Tu, turf/Tt)
+	var/dist = get_dist(Tt, Tu)
+	var/last_dir
+	var/turf/last_step
+	if(Tu.z > Tt.z) 
+		last_step = get_step_multiz(Tu, DOWN)
+	else if(Tu.z < Tt.z)
+		last_step = get_step_multiz(Tu, UP)
+	else 
+		last_step = locate(Tu.x, Tu.y, Tu.z)
+	var/success = FALSE
+	for(var/i = 0, i <= dist, i++)
+		last_dir = get_dir(last_step, Tt)
+		var/turf/Tstep = get_step(last_step, last_dir)
+		if(!Tstep.density)
+			success = TRUE
+			var/list/contents = Tstep.GetAllContents()
+			for(var/obj/structure/bars/B in contents)
+				success = FALSE
+				return success
+			var/list/cont = Tstep.GetAllContents(/obj/structure/roguewindow)
+			for(var/obj/structure/roguewindow/W in cont)
+				if(W.climbable && !W.opacity)	//It's climbable and can be seen through
+					success = TRUE
+					continue
+				else if(!W.climbable)
+					success = FALSE
+					return success
+		else
+			success = FALSE
+			return success
+		last_step = Tstep
+	return success
+
+//Successful teleport, complete reset.
+/obj/effect/proc_holder/spell/invoked/abscond/proc/tp(mob/user)
+	if(destination_turf)
+		if(do_teleport(user, destination_turf, no_effects=TRUE))
+			log_admin("[user.real_name]([key_name(user)] Shadowstepped from X:[user_turf.x] Y:[user_turf.y] Z:[user_turf.z] to X:[destination_turf.x] Y:[destination_turf.y] Z:[destination_turf.z] in area: [get_area(destination_turf)]")
+			if(user.m_intent == MOVE_INTENT_SNEAK)
+				playsound(user_turf, pick(sounds), 20, TRUE)
+				playsound(destination_turf, pick(sounds), 20, TRUE)
+			else
+				playsound(user_turf, pick(sounds), 100, TRUE)
+				playsound(destination_turf, pick(sounds), 100, TRUE)
+			reset(silent = TRUE)
+
+/obj/effect/proc_holder/spell/invoked/abscond/cast(list/targets, mob/user)
+	var/turf/O = get_turf(user)
+	var/turf/T = get_turf(targets[1])
+	var/datum/effect_system/smoke_spread/S = new /datum/effect_system/smoke_spread/fast
+	if(!istransparentturf(T))
+		var/reason
+		if(max_range >= get_dist(user, T) && !T.density)
+			if(check_path(get_turf(user), T))	//We check for opaque turfs or non-climbable windows in the way via a simple pathfind.
+				if(get_dist(user, T) < 2 && user.z == T.z)
+					to_chat(user, span_info("Too close!"))
+					revert_cast()
+					return FALSE
+				to_chat(user, span_info("I begin to slip away!"))
+				lockon(T, user)
+				if(do_after(user, 3 SECONDS))
+					S.set_up(1, O)
+					S.start()
+					tp(user)
+					return TRUE
+				else
+					reset(silent = TRUE)
+					revert_cast()
+				return FALSE
+			else
+				to_chat(user, span_info("The path is blocked!"))
+				revert_cast()
+				return FALSE
+		else if(get_dist(user, T) > max_range)
+			reason = "It's too far."
+			revert_cast()
+			return FALSE
+		else if (T.density)
+			reason = "It's a wall!"
+			revert_cast()
+			return FALSE
+		to_chat(user, span_info("I cannot slip there! "+"[reason]"))
+	else
+		to_chat(user, span_info("I cannot slip there!"))
+		revert_cast()
+		return
+	. = ..()
+
+//Plays affects at target Turf
+/obj/effect/proc_holder/spell/invoked/abscond/proc/lockon(turf/T, mob/user)
+	if(user.m_intent == MOVE_INTENT_SNEAK)
+		playsound(T, 'sound/magic/shadowstep_destination.ogg', 20, FALSE, 5)
+	else
+		playsound(T, 'sound/magic/shadowstep_destination.ogg', 100, FALSE, 5)
+	tile_effect = mutable_appearance(icon = 'icons/effects/effects.dmi', icon_state = "mist", layer = 18)
+	target_effect = mutable_appearance(icon = 'icons/effects/effects.dmi', icon_state = "mist", layer = 18)
+	user_turf = get_turf(user)
+	destination_turf = T
+	user_turf.add_overlay(target_effect)
+	destination_turf.add_overlay(tile_effect)
+
+/obj/effect/proc_holder/spell/invoked/mimicry
+	name = "Mimicry"
+	desc = "Play a sound of your choice at the targeted location, you brilliant jester."
+	overlay_icon = 'icons/mob/actions/xylixmiracles.dmi'
+	action_icon = 'icons/mob/actions/xylixmiracles.dmi'
+	overlay_state = "mimicry"
+	releasedrain = 10
+	chargedrain = 0
+	chargetime = 0
+	chargedloop = /datum/looping_sound/invokeholy
+	sound = null
+	associated_skill = /datum/skill/magic/holy
+	antimagic_allowed = FALSE
+	recharge_time = 12 SECONDS
+	devotion_cost = 30
+	miracle = TRUE
+	var/list/soundpick = list(
+		"Angry Skeleton" = 'sound/vo/mobs/skel/skeleton_scream (1).ogg',
+		"Armor Break" = 'sound/combat/armor_degrade1.ogg',
+		"Attack Swing" = 'sound/combat/wooshes/bladed/wooshlarge (1).ogg',
+		"Bell" = 'sound/misc/bell.ogg',
+		"Bell Jingle" = 'sound/items/jinglebell1.ogg',
+		"Broken Door" = 'sound/combat/hits/onwood/destroywalldoor.ogg',
+		"Clap" = 'sound/vo/clap (1).ogg',
+		"Clear Throat" = 'sound/vo/female/gen/clearthroat.ogg',
+		"Defending" = 'sound/combat/clash_initiate.ogg',
+		"Door Unlock" = 'sound/foley/doors/woodlock.ogg',
+		"Explosion" = 'sound/magic/fireball.ogg',
+		"Glass Shatter" = 'sound/combat/hits/onglass/glassbreak (2).ogg',
+		"Goblin Jabber" = 'sound/vo/male/goblin/giggle (2).ogg',
+		"Guard Houndstone" = 'sound/misc/garrisonscom.ogg',
+		"Hallelujah" = 'sound/magic/hallelujah.ogg',
+		"Howl" = 'sound/vo/mobs/wwolf/howl (1).ogg',
+		"Jumping" = 'sound/vo/male/gen/jump.ogg',
+		"Large Creecher Jump" = 'sound/vo/mobs/wwolf/jump (1).ogg',
+		"Lockpick Click" = 'sound/items/pickbad.ogg',
+		"Message" = 'sound/magic/message.ogg',
+		"Psst" = 'sound/vo/psst.ogg',
+		"Rat Chitter/SCOM" = 'sound/vo/mobs/rat/rat_life.ogg',
+		"Relief" = 'sound/ddrelief.ogg',
+		"Scream - Agony" = 'sound/vo/male/old/scream.ogg',
+		"Scream - Rage" = 'sound/vo/female/gen/rage (1).ogg',
+		"Skeleton Laugh" = 'sound/vo/mobs/skel/skeleton_laugh.ogg',
+		"Snap Finger" = 'sound/foley/finger-snap.ogg',
+		"Spider Chitter" = 'sound/vo/mobs/spider/idle (1).ogg',
+		"Stress" = 'sound/ddstress.ogg',
+		"Vicious Mockery" = 'sound/magic/mockery.ogg',
+		"Volf Snarl" = 'sound/vo/mobs/vw/idle (1).ogg',
+	)
+	
+/obj/effect/proc_holder/spell/invoked/mimicry/cast(list/targets, mob/living/user)
+	var/turf/T = get_turf(targets[1])
+	var/pickedsound = input(user, "Choose a sound, my wise bureaucrat.", "Mimic Sound") as anything in soundpick
+	if(!pickedsound)
+		revert_cast()
+		return FALSE
+	if(T)
+		new /obj/effect/temp_visual/soundping(T)
+		playsound(T, soundpick[pickedsound], 100)
+		return TRUE
+	else
+		to_chat(user, "<span class='warning'>The trick failed you poor fool.</span>")
+		revert_cast()
+		return FALSE
+
+/obj/effect/proc_holder/spell/invoked/vendetta
+	name = "Vendetta"
+	desc = "Cast upon your foe a Vendetta, your battle will be dramatic. Both you and your opponent will clash more dramaically for the next two minutes."
+	overlay_icon = 'icons/mob/actions/xylixmiracles.dmi'
+	action_icon = 'icons/mob/actions/xylixmiracles.dmi'
+	overlay_state = "vendetta"
+	releasedrain = 10
+	chargedrain = 0
+	chargetime = 1 SECONDS
+	chargedloop = /datum/looping_sound/invokeholy
+	sound = null
+	associated_skill = /datum/skill/magic/holy
+	antimagic_allowed = FALSE
+	recharge_time = 5 MINUTES
+	devotion_cost = 50
+	miracle = TRUE
+
+/obj/effect/proc_holder/spell/invoked/vendetta/cast(list/targets, mob/living/user)
+	var/atom/A = targets[1]
+	if(!isliving(A))
+		revert_cast()
+		return FALSE
+	var/mob/living/vendettatarget = A
+	playsound(get_turf(vendettatarget), 'sound/combat/clash_struck.ogg', 80, TRUE, soundping = TRUE)
+	if(vendettatarget != user)
+		user.visible_message("[user] locks eyes with [vendettatarget].")
+		to_chat(user, span_notice("I have formed a Vendetta against [vendettatarget], our battle shall be dramatic!"))
+		to_chat(vendettatarget, span_notice("A Vendetta has been made agaisnt me and [user], our fight shall be dramatic!"))
+		vendettatarget.apply_status_effect(/datum/status_effect/buff/vendetta)
+		user.apply_status_effect(/datum/status_effect/buff/vendetta)
+		if(istype(vendettatarget.patron, /datum/patron/inhumen)) // make the fight even more interesting
+			vendettatarget.apply_status_effect(/datum/status_effect/buff/adrenaline_rush)
+			user.apply_status_effect(/datum/status_effect/buff/adrenaline_rush)
+		return TRUE
+	else
+		to_chat(user, span_notice("I sadly cannot have a Vendetta against myself."))
+		revert_cast()
+		return FALSE
+
+/atom/movable/screen/alert/status_effect/buff/vendetta
+	name = "Vendetta"
+	desc = "I have a Vendetta! If both me and my opponent have a Vendetta when clashing, it will be far more dramatic!"
+	icon_state = "buff"
+
+/datum/status_effect/buff/vendetta
+	id = "vendetta"
+	alert_type = /atom/movable/screen/alert/status_effect/buff/vendetta
+	duration = 3 MINUTES
+
+/datum/status_effect/buff/vendetta/on_apply()
+	. = ..()
+	ADD_TRAIT(owner, TRAIT_VENDETTA, MAGIC_TRAIT)
+
+/datum/status_effect/buff/vendetta/on_remove()
+	. = ..()
+	REMOVE_TRAIT(owner, TRAIT_VENDETTA, MAGIC_TRAIT)
+
+/obj/effect/proc_holder/spell/invoked/tipscales
+	name = "Tip Scales"
+	desc = "Tip the Scales! Pick between Boon and Woe. Boon increases fortune from 1-3 and lets someone cheat at gambling, Woe decreases their mood and fortune by 1-3."
+	overlay_icon = 'icons/mob/actions/xylixmiracles.dmi'
+	action_icon = 'icons/mob/actions/xylixmiracles.dmi'
+	overlay_state = "tipscale"
+	releasedrain = 10
+	chargedrain = 0
+	chargetime = 1 SECONDS
+	range = 1
+	no_early_release = TRUE
+	movement_interrupt = TRUE
+	chargedloop = /datum/looping_sound/invokeholy
+	sound = 'sound/misc/letsgogambling.ogg'
+	associated_skill = /datum/skill/magic/holy
+	antimagic_allowed = TRUE
+	recharge_time = 3 MINUTES
+	devotion_cost = 50
+	var/list/boonwoechoice = list(
+		"Boon" = "Boon",
+		"Woe" = "Woe",
+		"Nevermind!" = "Nevermind"
+	)
+		
+/obj/effect/proc_holder/spell/invoked/tipscales/cast(list/targets, mob/user = usr)
+	if(!isliving(targets[1]))
+		to_chat(usr, span_notice("You missed that one, try another!"))
+		revert_cast()
+		return FALSE
+	else
+		var/boonwoe = input(usr, "Boon or Woe, my poor fool?", "Boon/Woe") as anything in boonwoechoice
+		if(boonwoe == "Nevermind")
+			revert_cast()
+			return FALSE
+		if(boonwoe == "Boon")
+			if(isliving(targets[1]))
+				var/mob/living/target = targets[1]
+				if(target.anti_magic_check(TRUE, TRUE))
+					return FALSE
+				target.apply_status_effect(/datum/status_effect/boon)
+				to_chat(target, "<span class='warning'>The scales tipped, in your favor! How fortuitous.</span>")
+				return TRUE
+		if(boonwoe == "Woe")
+			if(isliving(targets[1]))
+				var/mob/living/target = targets[1]
+				if(target.anti_magic_check(TRUE, TRUE))
+					return FALSE
+				target.apply_status_effect(/datum/status_effect/woe)
+				to_chat(target, "<span class='warning'>That bastard, that fool! Oh whatever shall you do.</span>")
+				return TRUE
+		revert_cast()
+		return FALSE
+	
+/datum/status_effect/boon
+	id = "xylixboon"
+	status_type = STATUS_EFFECT_UNIQUE
+	duration = 3 MINUTES
+	alert_type = /atom/movable/screen/alert/status_effect/boon
+	var/booneffect
+
+/atom/movable/screen/alert/status_effect/boon
+	name = "Xylix's Boon"
+	desc = "The scales feel tipped in my favor! How lucky. (You can cheat in coinflips/dice by holding a coin/dice in your offhand, and then right clicking the coin/dice while an empty hand is active!)"
+	icon_state = "asleep"
+	
+/datum/status_effect/boon/on_apply()
+	. = ..()
+	booneffect = rand(1,3)
+	owner.change_stat(STATKEY_LCK, booneffect)
+	ADD_TRAIT(owner, TRAIT_BLACKLEG, MAGIC_TRAIT)
+
+/datum/status_effect/boon/on_remove()
+	. = ..()
+	owner.change_stat(STATKEY_LCK, -booneffect)
+	REMOVE_TRAIT(owner, TRAIT_BLACKLEG, MAGIC_TRAIT)
+	
+/datum/status_effect/woe
+	id = "xylixwoe"
+	status_type = STATUS_EFFECT_UNIQUE
+	duration = 3 MINUTES
+	alert_type = /atom/movable/screen/alert/status_effect/woe
+	var/woeeffect
+
+/atom/movable/screen/alert/status_effect/woe
+	name = "Xylix's Woe"
+	desc = "That damned fool has tipped the scales out of my favor, this day cannot get any worse..."
+	icon_state = "asleep"
+	
+/datum/status_effect/woe/on_apply()
+	. = ..()
+	woeeffect = rand(-1,-3)
+	owner.change_stat(STATKEY_LCK, woeeffect)
+	ADD_TRAIT(owner, TRAIT_BAD_MOOD, MAGIC_TRAIT)
+
+/datum/status_effect/woe/on_remove()
+	. = ..()
+	owner.change_stat(STATKEY_LCK, -woeeffect)
+	REMOVE_TRAIT(owner, TRAIT_BAD_MOOD, MAGIC_TRAIT)

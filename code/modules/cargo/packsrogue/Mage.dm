@@ -142,11 +142,6 @@
 // MAGIC //
 ///////////
 
-/datum/supply_pack/rogue/Mage/unfinbook
-	name = "Unfinished Spellbook"
-	cost = 10
-	contains = list(/obj/item/spellbook_unfinished)
-
 /datum/supply_pack/rogue/Mage/nomag
 	name = "Ring of Nullmagic"
 	cost = 200
@@ -171,10 +166,10 @@
 // UTILITY //
 /////////////
 
-/datum/supply_pack/rogue/Mage/scrolls
-	name = "Scrolls"
-	cost = 2
-	contains = list(/obj/item/paper/scroll)
+/datum/supply_pack/rogue/Mage/book
+	name = "Spellbook"
+	cost = 80
+	contains = list(/obj/item/book/spellbook)
 
 /datum/supply_pack/rogue/bandit/Mage/cinnabar
 	name = "Cinnabar Ore"
@@ -186,31 +181,31 @@
 /////////////////
 
 /datum/supply_pack/rogue/Mage/toper
-	name = "Toper"
+	name = "Toper Stave"
 	cost = 55
-	contains = list(/obj/item/roguegem/yellow)
+	contains = list(/obj/item/rogueweapon/woodstaff/toper)
 
 /datum/supply_pack/rogue/Mage/gemerald
-	name = "Gemerald"
+	name = "Gemerald Stave"
 	cost = 70
-	contains = list(/obj/item/roguegem/green)
+	contains = list(/obj/item/rogueweapon/woodstaff/emerald)
 
 /datum/supply_pack/rogue/Mage/saffira
-	name = "Saffira"
+	name = "Saffira Stave"
 	cost = 90
-	contains = list(/obj/item/roguegem/violet)
+	contains = list(/obj/item/rogueweapon/woodstaff/sapphire)
 
 /datum/supply_pack/rogue/Mage/Blortz
-	name = "Blortz"
+	name = "Blortz Stave"
 	cost = 120
-	contains = list(/obj/item/roguegem/blue)
+	contains = list(/obj/item/rogueweapon/woodstaff/quartz)
 
 /datum/supply_pack/rogue/Mage/Rontz
-	name = "Rontz"
+	name = "Rontz Stave"
 	cost = 150
-	contains = list(/obj/item/roguegem/ruby)
+	contains = list(/obj/item/rogueweapon/woodstaff/ruby)
 
 /datum/supply_pack/rogue/Mage/Dorpel
-	name = "Dorpel"
+	name = "Dorpel Stave"
 	cost = 180
-	contains = list(/obj/item/roguegem/diamond)
+	contains = list(/obj/item/rogueweapon/woodstaff/diamond)

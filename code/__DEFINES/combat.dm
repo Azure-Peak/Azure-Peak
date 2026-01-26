@@ -380,6 +380,8 @@ Medical defines
 #define PREVENT_CRITS_MOST	1
 #define PREVENT_CRITS_ALL	2
 
+#define BLOOD_RESISTANCE_EFFECTIVE_BLEEDRATE 0.5
+
 /*
 	Dullfactor Defines. These should be removed at some point.
 */

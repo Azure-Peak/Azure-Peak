@@ -40,6 +40,7 @@
 	var/ticks_to_apply = 10
 	duration = -1
 	var/obj/effect/temp_visual/songs/effect = /obj/effect/temp_visual/songs/inspiration_dirget1
+	var/energytodrain = -12.5
 
 
 /atom/movable/screen/alert/status_effect/buff/playing_dirge
@@ -56,7 +57,7 @@
 	new effect(get_turf(owner))
 	if (pulse >= ticks_to_apply)
 		pulse = 0
-		O.energy_add(-25)
+		O.energy_add(energytodrain)
 		for (var/mob/living/carbon/human/H in hearers(10, owner))
 			if(!O.in_audience(H))
 				H.apply_status_effect(debuff_to_apply)
@@ -71,6 +72,7 @@
 	var/ticks_to_apply = 10
 	duration = -1
 	var/obj/effect/temp_visual/songs/effect = /obj/effect/temp_visual/songs/inspiration_melodyt1
+	var/energytodrain = -12.5
 
 
 /atom/movable/screen/alert/status_effect/buff/playing_melody
@@ -87,7 +89,7 @@
 	pulse += 1
 	if (pulse >= ticks_to_apply)
 		pulse = 0
-		O.energy_add(-25)
+		O.energy_add(energytodrain)
 		for (var/mob/living/carbon/human/H in hearers(10, owner))
 			if(O.in_audience(H))
 				H.apply_status_effect(buff_to_apply)

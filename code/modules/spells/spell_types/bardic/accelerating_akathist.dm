@@ -2,8 +2,8 @@
 	name = "Accelerating Akathist"
 	desc = "Accelerate your allies with your bardic song!"
 	song_tier = 3
-	invocations = list("Time to accelerate!") 
-	invocation_type = "shout"
+	invocations = list("plays a blisteringly fast series of notes!") 
+	invocation_type = "emote"
 	overlay_state = "bardsong_t3_base"
 	action_icon_state = "bardsong_t3_base"
 	song_effect = /datum/status_effect/buff/playing_melody/accelakathist
@@ -14,7 +14,7 @@
 	
 /atom/movable/screen/alert/status_effect/buff/song/accelakathist
 	name = "Accelerating Akathist"
-	desc = "I am musically hastened."
+	desc = "I can feel the rhythm!"
 	icon_state = "buff"
 
 #define ACCELAKATHIST_FILTER "akathist_glow"
@@ -31,12 +31,12 @@
 	var/filter = owner.get_filter(ACCELAKATHIST_FILTER)
 	if (!filter)
 		owner.add_filter(ACCELAKATHIST_FILTER, 2, list("type" = "outline", "color" = outline_colour, "alpha" = 25, "size" = 1))
-	to_chat(owner, span_warning("My limbs move with uncanny swiftness."))
+	to_chat(owner, span_warning("I am being invited to dance! My heart pounds in my ears as my movements quicken!"))
 
 /datum/status_effect/buff/song/accelakathist/on_remove()
 	. = ..()
 	owner.remove_filter(ACCELAKATHIST_FILTER)
-	to_chat(owner, span_warning("My body move slowly again..."))
+	to_chat(owner, span_warning("The song ends, and my heartbeat slows back down to a more moderate tempo."))
 
 #undef ACCELAKATHIST_FILTER
 

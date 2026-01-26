@@ -118,6 +118,15 @@
 	can_have_ai = FALSE
 	ai_controller = /datum/ai_controller/generic/goat //slightly more agressive retaliation
 
+/mob/living/simple_animal/hostile/retaliate/rogue/goat/tame
+	tame = TRUE
+
+/mob/living/simple_animal/hostile/retaliate/rogue/goat/tame/saddled/Initialize()
+	. = ..()
+	ssaddle = new /obj/item/natural/saddle(src)
+	// excuse me please fucking compile again thank you
+	update_icon()
+
 /mob/living/simple_animal/hostile/retaliate/rogue/goat/get_sound(input)
 	switch(input)
 		if("aggro")
@@ -264,6 +273,11 @@
 
 /mob/living/simple_animal/hostile/retaliate/rogue/goatmale/tame
 	tame = TRUE
+
+/mob/living/simple_animal/hostile/retaliate/rogue/goatmale/tame/saddled/Initialize()
+	. = ..()
+	ssaddle = new /obj/item/natural/saddle(src)
+	update_icon()
 
 /mob/living/simple_animal/hostile/retaliate/rogue/goatmale/update_icon()
 	cut_overlays()

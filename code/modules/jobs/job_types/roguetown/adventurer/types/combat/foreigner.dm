@@ -51,7 +51,7 @@
 				armor = /obj/item/clothing/suit/roguetown/armor/basiceast/mentorsuit
 			if("Quarterstaff")
 				backr = /obj/item/rogueweapon/woodstaff/quarterstaff/steel
-				H.adjust_skillrank_up_to(/datum/skill/combat/polearms, 4, TRUE)
+				H.adjust_skillrank_up_to(/datum/skill/combat/staves, 4, TRUE)
 				armor = /obj/item/clothing/suit/roguetown/armor/basiceast/mentorsuit
 			if("Hwando")
 				beltl = /obj/item/rogueweapon/sword/sabre/mulyeog
@@ -98,6 +98,7 @@
 		/obj/item/recipe_book/survival = 1,
 		/obj/item/bomb/smoke = 3,
 		)
+	neck = /obj/item/storage/belt/rogue/pouch/coins/poor
 	belt = /obj/item/storage/belt/rogue/leather/knifebelt/black/kazengun
 	gloves = /obj/item/clothing/gloves/roguetown/eastgloves1
 	pants = /obj/item/clothing/under/roguetown/heavy_leather_pants/eastpants1
@@ -135,7 +136,7 @@
 	subclass_languages = list(/datum/language/otavan)
 	cmode_music = 'sound/music/cmode/adventurer/combat_outlander2.ogg'
 	category_tags = list(CTAG_ADVENTURER, CTAG_COURTAGENT)
-	traits_applied = list(TRAIT_STEELHEARTED, TRAIT_CRITICAL_RESISTANCE, TRAIT_NOPAINSTUN)
+	traits_applied = list(TRAIT_STEELHEARTED, TRAIT_NOPAINSTUN)
 	subclass_stats = list(
 		STATKEY_CON = 3,
 		STATKEY_SPD = -1,

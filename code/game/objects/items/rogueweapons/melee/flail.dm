@@ -73,6 +73,7 @@
 	damfactor = 0.9
 
 /datum/intent/mace/smash/flail/golgotha
+	chargetime = 3 SECONDS
 	hitsound = list('sound/items/beartrap2.ogg')
 
 /datum/intent/mace/smash/flailrange

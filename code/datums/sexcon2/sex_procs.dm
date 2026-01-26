@@ -8,7 +8,7 @@
 			grabstate = l_grab.grab_state
 	return grabstate
 
-/proc/do_thrust_animate(atom/movable/user, atom/movable/target, pixels = 4, time = 2.7)
+/proc/do_thrust_animate(atom/movable/user, atom/movable/target, datum/sex_session/sex_session, pixels = 4, time = 2.7)
 	var/oldx = user.pixel_x
 	var/oldy = user.pixel_y
 	var/target_x = oldx
@@ -36,6 +36,23 @@
 	// thirty five yils without a jinglejob...
 	SEND_SIGNAL(user, COMSIG_SEX_JOSTLE, target)
 	SEND_SIGNAL(target, COMSIG_SEX_JOSTLE, user)
+
+	if(sex_session?.bed && sex_session?.force > SEX_FORCE_MID)
+		if(QDELETED(sex_session.bed))
+			sex_session.find_bed()
+		if(QDELETED(sex_session.bed))
+			return
+		oldy = sex_session.bed.pixel_y
+		target_y = oldy-1
+		time /= 2
+		animate(sex_session.bed, pixel_y = target_y, time = time)
+		animate(pixel_y = oldy, time = time)
+		if(sex_session.target_on_bed && target)
+			oldy = target.pixel_y
+			target_y = oldy-1
+			animate(target, pixel_y = target_y, time = time)
+			animate(pixel_y = oldy, time = time)
+		sex_session.bed.damage_bed(sex_session.force > SEX_FORCE_HIGH ? 0.5 : 0.25)
 
 /mob/living/proc/start_sex_session(mob/living/target)
 	if(!target)
@@ -90,8 +107,8 @@
 		may_bang = TRUE
 	#endif
 
-	if(!may_bang) // Don't bang someone that dosn't want it.
-		to_chat(user, "<span class='warning'>[src] dosn't wish to be touched. (Their ERP preference under options)</span>")
+	if(!may_bang) // Don't bang someone that doesn't want it.
+		to_chat(user, "<span class='warning'>[src] doesn't wish to be touched. (Their ERP preference under options)</span>")
 		to_chat(src, "<span class='warning'>[user] failed to touch you. (Your ERP preference under options)</span>")
 		return
 

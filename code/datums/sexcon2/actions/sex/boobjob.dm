@@ -1,5 +1,6 @@
 /datum/sex_action/sex/boobjob
 	name = "Use their tits to get off"
+	intensity = 3
 
 /datum/sex_action/sex/boobjob/shows_on_menu(mob/living/carbon/human/user, mob/living/carbon/human/target)
 	if(user == target)

@@ -526,7 +526,7 @@
 						to_chat(target, span_love("It tickles..."))
 			else if(J.zone_selected == BODY_ZONE_PRECISE_GROIN)
 				message_param = "licks %t between the legs."
-				to_chat(target, span_love("It somewhat stimulating..."))
+				to_chat(target, span_love("That feels nice..."))
 			else if(J.zone_selected == BODY_ZONE_HEAD)
 				message_param = "licks %t cheek"
 			else
@@ -818,7 +818,8 @@
 					L.sate_addiction()
 				continue
 			if(L.has_flaw(/datum/charflaw/addiction/sadist))
-				L.sate_addiction()
+				if(get_dist(L, user) <= 2 && L != user)
+					L.sate_addiction()
 
 /datum/emote/living/scream/strain
 	key = "strain"
@@ -842,7 +843,7 @@
 				if(L.has_flaw(/datum/charflaw/addiction/masochist))
 					L.sate_addiction()
 				continue // i hope this shit works.
-			if(L.has_flaw(/datum/charflaw/addiction/sadist))
+			if(get_dist(L, user) <= 2 && L != user)
 				L.sate_addiction()
 
 /datum/emote/living/scream/firescream
@@ -860,7 +861,7 @@
 				if(L.has_flaw(/datum/charflaw/addiction/masochist))
 					L.sate_addiction()
 				continue // i hope this shit works.
-			if(L.has_flaw(/datum/charflaw/addiction/sadist))
+			if(get_dist(L, user) <= 2 && L != user)
 				L.sate_addiction()
 
 /datum/emote/living/aggro
@@ -1034,6 +1035,11 @@
 
 	emote("sigh", intentional = TRUE)
 
+/datum/emote/living/sigh/run_emote(mob/user, params, type_override, intentional, targetted)
+	. = ..()
+	if(. && user.mind)
+		record_featured_stat(FEATURED_STATS_EMOS, user)
+
 /datum/emote/living/whistle
 	key = "whistle"
 	key_third_person = "whistles"
@@ -1160,6 +1166,11 @@
 	key = "sulk"
 	key_third_person = "sulks"
 	message = "sulks down sadly."
+
+/datum/emote/living/sulk/run_emote(mob/user, params, type_override, intentional, targetted)
+	. = ..()
+	if(. && user.mind)
+		record_featured_stat(FEATURED_STATS_EMOS, user)
 
 /datum/emote/living/sway
 	key = "sway"

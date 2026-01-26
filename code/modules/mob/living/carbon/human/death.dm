@@ -144,10 +144,6 @@
 			if("Inquisitor")
 				addomen(OMEN_INQUISITORDEATH)
 				launch_omen_event()
-//		if(yeae)
-//			if(mind)
-//				if((mind.assigned_role == "Lord") || (mind.assigned_role == "Priest") || (mind.assigned_role == "Knight Captain") || (mind.assigned_role == "Merchant"))
-//					addomen(OMEN_NOBLEDEATH)
 
 		if(!gibbed && yeae)
 			for(var/mob/living/carbon/human/HU in viewers(7, src))
@@ -200,7 +196,7 @@
 	if(T)
 		for(var/X in bodyparts)
 			var/obj/item/bodypart/BP = X
-			for(var/obj/item/I in BP.embedded_objects)
+			for(var/obj/item/I as anything in BP.embedded_objects)
 				I.forceMove(T)
 
 	if(mind.current)

@@ -1,6 +1,7 @@
 /datum/sex_action/toy/other/vagina
 	name = "Fuck their pussy using toy"
 	stamina_cost = 1.0
+	intensity = 4
 
 /datum/sex_action/toy/other/vagina/can_perform(mob/living/carbon/human/user, mob/living/carbon/human/target)
 	. = ..()

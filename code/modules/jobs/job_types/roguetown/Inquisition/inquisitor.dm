@@ -97,7 +97,7 @@
 	id = /obj/item/clothing/ring/signet/silver
 	armor = /obj/item/clothing/suit/roguetown/armor/plate/scale/inqcoat
 	backpack_contents = list(
-		/obj/item/storage/keyring/puritan = 1,
+		/obj/item/storage/keyring/inquisitor = 1,
 		/obj/item/lockpickring/mundane = 1,
 		/obj/item/rogueweapon/huntingknife/idagger/silver/psydagger,
 		/obj/item/clothing/head/inqarticles/blackbag = 1,
@@ -163,8 +163,8 @@
 	subclass_skills = list(
 		/datum/skill/misc/climbing = SKILL_LEVEL_EXPERT,
 		/datum/skill/misc/athletics = SKILL_LEVEL_EXPERT,
-		/datum/skill/combat/wrestling = SKILL_LEVEL_EXPERT,
-		/datum/skill/combat/unarmed = SKILL_LEVEL_EXPERT,
+		/datum/skill/combat/wrestling = SKILL_LEVEL_JOURNEYMAN,
+		/datum/skill/combat/unarmed = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/misc/riding = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/misc/reading = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/misc/medicine = SKILL_LEVEL_JOURNEYMAN,
@@ -195,7 +195,7 @@
 	head = /obj/item/clothing/head/roguetown/helmet/heavy/ordinatorhelm
 	gloves = /obj/item/clothing/gloves/roguetown/otavan/psygloves
 	backpack_contents = list(
-		/obj/item/storage/keyring/puritan = 1,
+		/obj/item/storage/keyring/inquisitor = 1,
 		/obj/item/paper/inqslip/arrival/inq = 1
 		)
 
@@ -232,7 +232,7 @@
 			var/annoyingbag = H.get_item_by_slot(SLOT_BACK_L)
 			qdel(annoyingbag)
 			H.equip_to_slot(new /obj/item/rogueweapon/scabbard/gwstrap, SLOT_BACK_L, TRUE)
-			H.equip_to_slot_or_del(new /obj/item/storage/keyring/puritan, SLOT_BELT_L, TRUE)
+			H.equip_to_slot_or_del(new /obj/item/storage/keyring/inquisitor, SLOT_BELT_L, TRUE)
 			H.adjust_skillrank_up_to(/datum/skill/combat/swords, 5, TRUE)
 			H.adjust_skillrank_up_to(/datum/skill/combat/shields, 4, TRUE)
 		if("Covenant and Consecratia (Flail + Shield)")

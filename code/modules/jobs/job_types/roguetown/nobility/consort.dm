@@ -20,6 +20,7 @@
 	min_pq = 5
 	max_pq = null
 	round_contrib_points = 3
+	vice_restrictions = list(/datum/charflaw/mute, /datum/charflaw/unintelligible) //Needs to use the throat - sometimes
 
 /datum/job/roguetown/exlady
 	title = "Consort Dowager"
@@ -41,7 +42,7 @@
 	ADD_TRAIT(H, TRAIT_NUTCRACKER, TRAIT_GENERIC)
 //		SSticker.rulermob = H
 	if(should_wear_femme_clothes(H))
-		beltl = /obj/item/storage/keyring/royal
+		beltl = /obj/item/storage/keyring/lady
 		neck = /obj/item/storage/belt/rogue/pouch/coins/rich
 		belt = /obj/item/storage/belt/rogue/leather/cloth/lady
 		head = /obj/item/clothing/head/roguetown/nyle/consortcrown
@@ -55,7 +56,7 @@
 		armor = /obj/item/clothing/suit/roguetown/armor/gambeson/heavy
 		shoes = /obj/item/clothing/shoes/roguetown/shortboots
 		belt = /obj/item/storage/belt/rogue/leather
-		beltl = /obj/item/storage/keyring/royal
+		beltl = /obj/item/storage/keyring/lady
 		beltr = /obj/item/storage/belt/rogue/pouch/coins/rich
 		backr = /obj/item/storage/backpack/rogue/satchel
 		id = /obj/item/clothing/ring/silver

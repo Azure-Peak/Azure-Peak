@@ -153,20 +153,57 @@
 					to_chat(user, span_warning("I can't climb here."))
 					return
 			var/used_time = 0
+			var/list/helping_items = list()
 			if(L.mind)
 				var/myskill = L.get_skill_level(/datum/skill/misc/climbing)
+
+				var/has_step_ladder = FALSE
 				var/obj/structure/table/TA = locate() in L.loc
 				if(TA)
 					myskill += 1
-				else
+					helping_items += TA.name
+					has_step_ladder = TRUE
+				if(!has_step_ladder)
 					var/obj/structure/chair/CH = locate() in L.loc
 					if(CH)
 						myskill += 1
-					var/obj/structure/wallladder/WL = locate() in L.loc
-					if(WL)
-						if(get_dir(WL.loc,src) == WL.dir)
-							myskill += 8
-							climbsound = 'sound/foley/ladder.ogg'
+						helping_items += CH.name
+						has_step_ladder = TRUE
+				if(!has_step_ladder)
+					for(var/mob/living/carbon/human/human in L.loc)
+						if(human == L)
+							continue
+						if(!human.cmode && !human.get_active_held_item() && human.mob_size >= MOB_SIZE_HUMAN)
+							myskill += 1
+							helping_items += human.name
+							has_step_ladder = TRUE
+							break
+				if(!has_step_ladder)
+					for(var/mob/living/simple_animal/animal in L.loc)
+						if(animal == L)
+							continue
+						if(animal.tame && animal.mob_size >= MOB_SIZE_HUMAN)
+							myskill += 1
+							helping_items += animal.name
+							has_step_ladder = TRUE
+							break
+
+				var/has_wall_ladder = FALSE
+				for(var/obj/structure/wallladder/WL in L.loc)
+					if(get_dir(WL.loc,src) == WL.dir)
+						myskill += 8
+						climbsound = 'sound/foley/ladder.ogg'
+						helping_items += WL.name
+						has_wall_ladder = TRUE
+						break
+				if(!has_wall_ladder)
+					for(var/obj/structure/rope_ladder/rope in L.loc)
+						if(get_dir(rope.loc, src) == rope.dir)
+							myskill += 5
+							climbsound = 'sound/foley/noose_idle.ogg'
+							helping_items += rope.name
+							has_wall_ladder = TRUE
+							break
 
 				if(myskill < climbdiff)
 					to_chat(user, span_warning("I'm not capable of climbing this wall."))
@@ -174,7 +211,7 @@
 				used_time = max(70 - (myskill * 10) - (L.STASPD * 3), 30)
 			if(user.m_intent != MOVE_INTENT_SNEAK)
 				playsound(user, climbsound, 100, TRUE)
-			user.visible_message(span_warning("[user] starts to climb [src]."), span_warning("I start to climb [src]..."))
+			user.visible_message(span_warning("[user] starts to climb [src][length(helping_items) ? " with the help of \the [english_list(helping_items)]" : ""]."), span_warning("I start to climb [src][length(helping_items) ? " with the help of \the [english_list(helping_items)]" : ""]..."))
 			if(do_after(L, used_time, target = src))
 				var/pulling = user.pulling
 				var/mob/living/carbon/human/climber = user

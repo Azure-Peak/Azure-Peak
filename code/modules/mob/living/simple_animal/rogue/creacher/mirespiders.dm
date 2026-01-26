@@ -184,6 +184,8 @@
 	STAPER = 15
 	pixel_x = -4
 
+	AIStatus = AI_OFF
+	can_have_ai = FALSE
 	ai_controller = /datum/ai_controller/mirespider_lurker
 	projectiletype = /obj/projectile/bullet/spider
 
@@ -295,6 +297,8 @@
 	STASPD = 12
 	STAPER = 7
 
+	AIStatus = AI_OFF
+	can_have_ai = FALSE
 	ai_controller = /datum/ai_controller/mirespider_paralytic
 
 /datum/intent/simple/bite/mirespider_paralytic

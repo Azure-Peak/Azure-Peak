@@ -52,6 +52,10 @@
 	var/can_knot = FALSE
 	///basically for actions being done by the user where the target is the inserter set this to true
 	var/flipped = FALSE
+	///Intensity of the climax from this action.
+	var/intensity = 2
+	///Used for determining whether the good lover bonus can apply
+	var/masturbation = FALSE
 
 /datum/sex_action/Destroy()
 	for(var/datum/sex_session_lock/lock in sex_locks)
