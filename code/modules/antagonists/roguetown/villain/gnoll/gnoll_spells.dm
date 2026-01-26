@@ -110,7 +110,7 @@
 
 /obj/effect/proc_holder/spell/invoked/abduct/cast(list/targets, mob/user)
 	if(targets[1] == user)
-		var/check_turf = get_turf(user)
+		var/turf/check_turf = get_turf(user)
 		var/can_abduct = FALSE
 		switch(check_turf.z)
 			if(2,3,4)	//very shoddy way of checking if it's within the "normal" game world, there's probably a zweb check for this
