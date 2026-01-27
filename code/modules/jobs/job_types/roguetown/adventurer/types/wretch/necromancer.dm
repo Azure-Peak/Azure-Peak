@@ -14,7 +14,7 @@
 		STATKEY_WIL = 1,
 		STATKEY_SPD = 1
 	)
-	age_mod = /datum/class_age_mod/wretch/hedge_mage
+	age_mod = /datum/class_age_mod/wretch/rogue_mage
 	subclass_spellpoints = 12
 	subclass_skills = list(
 		/datum/skill/combat/polearms = SKILL_LEVEL_JOURNEYMAN,

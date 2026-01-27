@@ -111,7 +111,6 @@
 #define ARMOR_GNOLL_WEAK list("blunt" = 90, "slash" = 90, "stab" = 80, "piercing" = 70, "fire" = 40, "acid" = 0)
 #define ARMOR_GNOLL_STANDARD list("blunt" = 70, "slash" = 95, "stab" = 90, "piercing" = 80, "fire" = 40, "acid" = 0)
 #define ARMOR_GNOLL_STRONG list("blunt" = 50, "slash" = 120, "stab" = 120, "piercing" = 90, "fire" = 40, "acid" = 0)
-#define ARMOR_DRAGONSCALE list("blunt" = 100, "slash" = 100, "stab" = 100, "fire" = 50, "acid" = 0)
 #define ARMOR_ASCENDANT list("blunt" = 50, "slash" = 100, "stab" = 80, "piercing" = 80, "fire" = 0, "acid" = 0)
 #define ARMOR_GRUDGEBEARER list("blunt" = 40, "slash" = 200, "stab" = 200, "piercing" = 100, "fire" = 0, "acid" = 0)
 #define ARMOR_ZIZOCONCSTRUCT list("blunt" = 60, "slash" = 70, "stab" = 70, "piercing" = 60, "fire" = 40, "acid" = 10)

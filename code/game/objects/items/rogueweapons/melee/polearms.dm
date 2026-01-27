@@ -1085,6 +1085,16 @@
 	max_integrity = 200
 	max_blade_int = 200
 
+/obj/item/rogueweapon/greatsword/grenz/flamberge/ravox
+	name = "Censure"
+	desc = "A blade that invites imagery of hope. Of men clad in shattered plate and bearing blackened pauldrons, \
+	standing at His side. To correct Her wrongs, as they sought the censure of divine tyranny. \
+	<small>Even now, it smells of ash.</small>"
+	icon_state = "ravoxflamberge"
+	max_integrity = 240
+	max_blade_int = 240
+	wdefense = 7//You are truly unique, m'lord.
+
 /obj/item/rogueweapon/greatsword/grenz/flamberge/blacksteel
 	name = "blacksteel flamberge"
 	desc = "An uncommon kind of sword with a characteristically undulating style of blade, made with an equally rare metal. \

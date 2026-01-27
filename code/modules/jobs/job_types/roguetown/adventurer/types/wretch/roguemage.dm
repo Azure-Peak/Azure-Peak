@@ -1,10 +1,10 @@
-// Hedge Mage, a pure mage adventurer sidegrade to Necromancer without the Necromancer free spells and forced patron. More spellpoints, otherwise mostly the same.
-/datum/advclass/wretch/hedgemage
-	name = "Hedge Mage"
+// Rogue Mage, a pure mage adventurer sidegrade to Necromancer without the Necromancer free spells and forced patron. More spellpoints, otherwise mostly the same.
+/datum/advclass/wretch/roguemage
+	name = "Rogue Mage"
 	tutorial = "They reject your genius, they cast you out, they call you unethical. They do not understand the SACRIFICES you must make. But it does not matter anymore, your power eclipse any of those fools, save for the Court Magos themselves. Show them true magic. Why do I have an eyepatch?"
 	allowed_sexes = list(MALE, FEMALE)
 	allowed_races = RACES_ALL_KINDS
-	outfit = /datum/outfit/job/roguetown/wretch/hedgemage
+	outfit = /datum/outfit/job/roguetown/wretch/roguemage
 	cmode_music = 'sound/music/cmode/antag/combat_thewall.ogg'
 	category_tags = list(CTAG_WRETCH)
 	traits_applied = list(TRAIT_MAGEARMOR, TRAIT_ARCYNE_T3, TRAIT_ALCHEMY_EXPERT)
@@ -15,8 +15,8 @@
 		STATKEY_WIL = 1,
 		STATKEY_SPD = 1
 	)
-	subclass_spellpoints = 27 // Unlike Rogue Mage, who gets 6 but DExpert, this one don't have DExpert but have more spell points than anyone but the CM. 
-	age_mod = /datum/class_age_mod/wretch/hedge_mage
+	subclass_spellpoints = 27
+	age_mod = /datum/class_age_mod/wretch/rogue_mage
 	subclass_skills = list(
 		/datum/skill/combat/staves = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/combat/polearms = SKILL_LEVEL_JOURNEYMAN,
@@ -29,8 +29,8 @@
 		/datum/skill/magic/arcane = SKILL_LEVEL_EXPERT,
 	)
 
-// Hedge Mage on purpose has nearly the same fit as a Adv Mage / Mage Associate who cast conjure armor roundstart. Call it meta disguise.
-/datum/outfit/job/roguetown/wretch/hedgemage/pre_equip(mob/living/carbon/human/H)
+// Rogue Mage on purpose has nearly the same fit as a Adv Mage / Mage Associate who cast conjure armor roundstart. Call it meta disguise.
+/datum/outfit/job/roguetown/wretch/roguemage/pre_equip(mob/living/carbon/human/H)
 	mask = /obj/item/clothing/mask/rogue/eyepatch // Chuunibyou up to 11.
 	head = /obj/item/clothing/head/roguetown/roguehood/black
 	shoes = /obj/item/clothing/shoes/roguetown/boots/leather/reinforced

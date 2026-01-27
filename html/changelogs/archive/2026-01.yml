@@ -845,3 +845,28 @@
   - rscadd: 'Added new trainers and remade squire loadouts around them.
 
       :cl:'
+2026-01-27:
+  FreeStylaLT:
+  - balance: Scrying is now always known about to the target, if they're alive.
+  - bugfix: Fixed Deathless / Aasimars spawning in permanently thirsty.
+  Ketrai:
+  - rscadd: Added rous, venard and cabbit form to witches
+  Lamasmaster:
+  - bugfix: Helmet armor class not being involved in calculations.
+  - balance: Bandit classes
+  - balance: Bandit hoardmaster
+  - balance: Dragonscale Necklace
+  Onutsio:
+  - rscadd: New hat for the psyaltrist
+  - balance: Psyaltrist skills + Loadout
+  - bugfix: PSY Rapier now golgatha blessable
+  Randall:
+  - rscadd: More floors can have tracks.
+  Ryan180602:
+  - bugfix: femme barbarians spawn with skin on unarmed.
+  - bugfix: inqcoat no longer covers hands and feet.
+  - bugfix: Remove goodtrainer on banneret.
+  UEDCommander:
+  - rscadd: Black Venom and Anthrax mercenaries can now take Drider Spider as their
+      mount if they have Saddleborn virtue
+  - balance: Black Venom can now choose to have Saddleborn as free virtue

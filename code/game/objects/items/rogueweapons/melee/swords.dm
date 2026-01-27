@@ -1283,6 +1283,17 @@
 	smeltresult = /obj/item/ingot/silverblessed
 	is_silver = TRUE
 
+/obj/item/rogueweapon/sword/rapier/psy/ComponentInitialize()
+	AddComponent(\
+		/datum/component/silverbless,\
+		pre_blessed = BLESSING_NONE,\
+		silver_type = SILVER_PSYDONIAN,\
+		added_force = 0,\
+		added_blade_int = 100,\
+		added_int = 100,\
+		added_def = 2,\
+	)
+
 /obj/item/rogueweapon/sword/rapier/psy/preblessed/ComponentInitialize()
 	AddComponent(\
 		/datum/component/silverbless,\

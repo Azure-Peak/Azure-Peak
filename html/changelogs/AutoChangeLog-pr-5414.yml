@@ -1,0 +1,5 @@
+author: "hazelrat"
+delete-after: True
+changes:
+  - rscdel: "Removed the delay on drawing a bow after nocking it. You can now begin to draw a bow or sling immediately after nocking it."
+  - bugfix: "Slings no longer begin to swing when left-clicked on a quiver to load a bullet."

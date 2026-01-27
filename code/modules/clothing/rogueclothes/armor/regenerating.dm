@@ -164,6 +164,19 @@
 	max_integrity = 400
 	repair_time = 20 SECONDS
 
+/obj/item/clothing/suit/roguetown/armor/regenerating/skin/iconoclast
+	name = "dragon's skin"
+	desc = "We passed upon the stair, we spoke of was and when.</br> \
+	Although I wasn't there, he said I was his friend.</br> \
+	Which came as some surprise. I spoke into his eyes.</br> \
+	I thought you died alone, a long, long time ago.</br> \
+	Oh no, not me, I never lost control.</br> \
+	You're face to face, with the man who sold the world."
+	armor = list("blunt" = 40, "slash" = 60, "stab" = 50, "piercing" = 40, "fire" = 50, "acid" = 0) //Fire resistance unlike the disciple one
+	prevent_crits = list(BCLASS_CUT, BCLASS_BLUNT)
+	max_integrity = 300
+	repair_time = 20 SECONDS
+
 /obj/item/clothing/suit/roguetown/armor/regenerating/skin/disciple/barbarian
 	name = "barbarian's skin"
 	desc = "Toughened from abuse. My mettle remains."
