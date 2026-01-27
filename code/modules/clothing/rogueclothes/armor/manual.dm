@@ -20,6 +20,16 @@
 
     var/repairmsg_end = "My skin has become taut with newfound vigor!"
     var/repairmsg_continue = "My armour mends some of its abuse.."
+
+/obj/item/clothing/suit/roguetown/armor/manual/Initialize(mapload)
+	..()
+	ADD_TRAIT(src, TRAIT_NODROP, CURSED_ITEM_TRAIT)
+
+/obj/item/clothing/suit/roguetown/armor/manual/dropped(mob/living/carbon/human/user)
+	..()
+	if(QDELETED(src))
+		return
+	qdel(src)
     
 /obj/item/clothing/suit/roguetown/armor/manual/proc/armour_regen(var/repair_percent = 0.2 * max_integrity)
     if(obj_integrity >= max_integrity)
