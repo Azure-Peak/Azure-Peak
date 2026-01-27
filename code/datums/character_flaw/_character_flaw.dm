@@ -407,14 +407,17 @@ GLOBAL_LIST_INIT(averse_factions, list(
 		return
 	
 	if(length(GLOB.joined_player_list) >= 30)
-		var/datum/job/gnoll_job = SSjob.GetJob("Gnoll")
-		var/total_gnoll_positions = gnoll_job.total_positions
-		var/gnoll_increase = get_gnoll_slot_increase(total_gnoll_positions)
+		addtimer(CALLBACK(src, PROC_REF(add_gnolls), user), 10 SECONDS)
 
-		if(gnoll_increase >= 1)
-			to_chat(user, span_notice("I have offended graggarite agents, and they may be tracking my scent."))
-			gnoll_job.total_positions = min(total_gnoll_positions + gnoll_increase, 10)
-			gnoll_job.spawn_positions = min(total_gnoll_positions + gnoll_increase, 10)
+/datum/charflaw/hunted/proc/add_gnolls(mob/user)
+	var/datum/job/gnoll_job = SSjob.GetJob("Gnoll")
+	var/total_gnoll_positions = gnoll_job.total_positions
+	var/gnoll_increase = get_gnoll_slot_increase(total_gnoll_positions)
+
+	if(gnoll_increase >= 1)
+		to_chat(user, span_notice("I have offended graggarite agents, and they may be tracking my scent."))
+		gnoll_job.total_positions = min(total_gnoll_positions + gnoll_increase, 10)
+		gnoll_job.spawn_positions = min(total_gnoll_positions + gnoll_increase, 10)
 
 /datum/charflaw/unintelligible
 	name = "Unintelligible"
