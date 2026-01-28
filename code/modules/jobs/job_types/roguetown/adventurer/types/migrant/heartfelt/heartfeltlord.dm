@@ -146,7 +146,7 @@
 		/obj/item/rogueweapon/huntingknife/idagger/silver/arcyne,
 		/obj/item/natural/feather = 1,
 		/obj/item/paper/scroll = 1,
-		/obj/item/reagent_containers/glass/bottle/alchemical/manapotnew = 1,
+		/obj/item/reagent_containers/glass/bottle/alchemical/strongmanapot = 1,
 		/obj/item/reagent_containers/glass/bottle/alchemical/healthpotnew = 1,
 	)
 	id = /obj/item/scomstone
