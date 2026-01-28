@@ -57,7 +57,8 @@
 	action_icon = 'icons/mob/actions/zizomiracles.dmi'
 	required_items = list(/obj/item/heart_blood_vial/filled = 3)
 	alt_required_items = list(/obj/item/heart_blood_vial/filled = 1)
-	debuff_type = /datum/status_effect/debuff/zizo_drain
+	// We apply zizo's debuff differently
+	debuff_type = null
 	required_structure = /obj/structure/fluff/psycross/zizocross
 
 /// - MATTHIOS - ///
@@ -496,7 +497,7 @@
 // THE BOON - Caster
 /datum/status_effect/buff/zizo_tithe
 	id = "zizo_tithe"
-	duration = 10 MINUTES
+	duration = 15 MINUTES
 	alert_type = /atom/movable/screen/alert/status_effect/buff/zizo_tithe
 	var/mob/living/carbon/human/victim
 
