@@ -69,7 +69,7 @@
 	r_hand = /obj/item/rogueweapon/sword/long/marlin
 	beltr = /obj/item/rogueweapon/huntingknife
 	gloves = /obj/item/clothing/gloves/roguetown/leather/black
-	backl = /obj/item/storage/backpack/rogue/satchel/heartfelt // Paper and Feather
+	backl = /obj/item/storage/backpack/rogue/satchel // Paper and Feather
 	backpack_contents = list(
 		/obj/item/rogueweapon/huntingknife/idagger/steel/special = 1,
 		/obj/item/rogueweapon/scabbard/sheath = 1,
@@ -138,7 +138,7 @@
 	r_hand = /obj/item/rogueweapon/woodstaff/diamond
 	beltr = /obj/item/rogueweapon/huntingknife
 	gloves = /obj/item/clothing/gloves/roguetown/leather/black
-	backl = /obj/item/storage/backpack/rogue/satchel/heartfelt // Paper and Feather
+	backl = /obj/item/storage/backpack/rogue/satchel // Paper and Feather
 	backpack_contents = list(
 		/obj/item/recipe_book/alchemy,
 		/obj/item/roguegem/amethyst,
@@ -215,7 +215,7 @@
 	neck = /obj/item/clothing/neck/roguetown/leather
 	beltr = /obj/item/rogueweapon/huntingknife
 	gloves = /obj/item/clothing/gloves/roguetown/leather/black
-	backl = /obj/item/storage/backpack/rogue/satchel/heartfelt // Paper and Feather
+	backl = /obj/item/storage/backpack/rogue/satchel // Paper and Feather
 	backpack_contents = list(
 		/obj/item/rogueweapon/huntingknife/idagger/steel/special = 1,
 		/obj/item/rogueweapon/scabbard/sheath = 1,
