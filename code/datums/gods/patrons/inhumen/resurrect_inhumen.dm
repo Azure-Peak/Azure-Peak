@@ -47,7 +47,7 @@
 
 /obj/effect/proc_holder/spell/invoked/resurrect/zizo
 	name = "Zizo's Rebirth"
-	desc = "Revive a fallen ally by siphoning their potential. You gain their strength, whilst they gain a second chance."
+	desc = "Revive a fallen ally by siphoning their potential. You gain their strength, whilst they gain a second chance. Do not let them die or you will lose your strength."
 	sound = 'sound/magic/slimesquish.ogg'
 	chargedloop = /datum/looping_sound/invokelightning
 	harms_undead = FALSE
@@ -479,7 +479,7 @@
 	// check if parent returns TRUE
 	if(.)
 		var/mob/living/carbon/human/target = targets[1]
-		user.apply_status_effect(/datum/status_effect/buff/zizo_tithe, tithe_distribution)
+		user.apply_status_effect(/datum/status_effect/buff/zizo_tithe, tithe_distribution, target)
 		target.apply_status_effect(/datum/status_effect/debuff/zizo_drain, tithe_distribution)
 
 		to_chat(user, span_nicegreen("The victim's essence flows into you as they gasp for air."))
@@ -498,11 +498,24 @@
 	id = "zizo_tithe"
 	duration = 10 MINUTES
 	alert_type = /atom/movable/screen/alert/status_effect/buff/zizo_tithe
+	var/mob/living/carbon/human/victim
 
-/datum/status_effect/buff/zizo_tithe/on_creation(mob/living/new_owner, list/distribution)
+/datum/status_effect/buff/zizo_tithe/on_creation(mob/living/new_owner, list/distribution, var/mob/living/carbon/human/H)
 	for(var/S in distribution)
 		effectedstats[S] = distribution[S]
+	victim = H
+	RegisterSignal(victim, COMSIG_LIVING_DEATH, .proc/cancel_early)
 	return ..()
+
+/datum/status_effect/buff/zizo_tithe/on_remove()
+	UnregisterSignal(victim, COMSIG_LIVING_DEATH)
+	. = ..()
+
+/datum/status_effect/buff/zizo_tithe/proc/cancel_early()
+	SIGNAL_HANDLER
+
+	var/mob/living/carbon/human/H = owner
+	H.remove_status_effect(/datum/status_effect/buff/zizo_tithe)
 
 // THE DRAIN - Victim
 /datum/status_effect/debuff/zizo_drain
