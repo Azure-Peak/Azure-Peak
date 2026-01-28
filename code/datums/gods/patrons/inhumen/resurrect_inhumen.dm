@@ -1,3 +1,65 @@
+/// SPELL DATUMS
+
+/obj/effect/proc_holder/spell/invoked/resurrect/matthios
+	name = "Life transaction"
+	desc = "Revives the target by arranging a deal with matthios. They will be indebted to him."
+	debuff_type = /datum/status_effect/debuff/debt_indicator
+	alt_required_items = list()
+	required_items = list()
+	sound = 'sound/magic/slimesquish.ogg'
+	chargedloop = /datum/looping_sound/invokelightning
+	harms_undead = FALSE
+	overlay_icon = 'icons/mob/actions/zizomiracles.dmi'
+	overlay_state = "revival"
+	action_icon_state = "revival"
+	action_icon = 'icons/mob/actions/zizomiracles.dmi'
+	required_structure = /obj/structure/fluff/psycross/zizocross
+
+/obj/effect/proc_holder/spell/invoked/resurrect/graggar
+	name = "Blood for graggar"
+	desc = "Revives the target by arranging a deal with graggar. They will be indebted to him."
+	debuff_type = /datum/status_effect/debuff/graggar_challenge
+	alt_required_items = list(/obj/item/organ/heart = 1)
+	required_items = list(/obj/item/organ/heart = 1)
+	sound = 'sound/magic/slimesquish.ogg'
+	chargedloop = /datum/looping_sound/invokelightning
+	harms_undead = FALSE
+	overlay_icon = 'icons/mob/actions/zizomiracles.dmi'
+	overlay_state = "revival"
+	action_icon_state = "revival"
+	action_icon = 'icons/mob/actions/zizomiracles.dmi'
+	required_structure = /obj/structure/fluff/psycross/zizocross
+
+/obj/effect/proc_holder/spell/invoked/resurrect/baotha
+	name = "Drive the thorns deep"
+	desc = "Revives the target by afflicting them with a lasting addiction."
+	debuff_type = /datum/status_effect/debuff/baotha_addiction
+	alt_required_items = list(/obj/item/natural/thorn = 3)
+	required_items = list(/obj/item/natural/thorn = 7)
+	sound = 'sound/magic/slimesquish.ogg'
+	chargedloop = /datum/looping_sound/invokelightning
+	harms_undead = FALSE
+	overlay_icon = 'icons/mob/actions/zizomiracles.dmi'
+	overlay_state = "revival"
+	action_icon_state = "revival"
+	action_icon = 'icons/mob/actions/zizomiracles.dmi'
+	required_structure = /obj/structure/fluff/psycross/zizocross
+
+/obj/effect/proc_holder/spell/invoked/resurrect/zizo
+	name = "Zizo's Rebirth"
+	desc = "Revive a fallen ally by siphoning their potential. You gain their strength, whilst they gain a second chance."
+	sound = 'sound/magic/slimesquish.ogg'
+	chargedloop = /datum/looping_sound/invokelightning
+	harms_undead = FALSE
+	overlay_icon = 'icons/mob/actions/zizomiracles.dmi'
+	overlay_state = "revival"
+	action_icon_state = "revival"
+	action_icon = 'icons/mob/actions/zizomiracles.dmi'
+	required_items = list(/obj/item/heart_blood_vial/filled = 3)
+	alt_required_items = list(/obj/item/heart_blood_vial/filled = 1)
+	debuff_type = /datum/status_effect/debuff/zizo_drain
+	required_structure = /obj/structure/fluff/psycross/zizocross
+
 /// - MATTHIOS - ///
 
 #define NOBLE_MULTIPLIER 2.5
@@ -117,13 +179,6 @@
 /datum/status_effect/debuff/debt_indicator/on_remove()
 	. = ..()
 	to_chat(owner, span_nicegreen("The crushing weight lifts from your soul. You are free!"))
-
-/obj/effect/proc_holder/spell/invoked/resurrect/matthios
-	name = "Life transaction"
-	desc = "Revives the target by arranging a deal with matthios. They will be indebted to him."
-	debuff_type = /datum/status_effect/debuff/debt_indicator
-	alt_required_items = list()
-	required_items = list()
 
 /// - GRAGGAR ///
 
@@ -307,13 +362,6 @@
 	summoned = TRUE
 	return TRUE
 
-/obj/effect/proc_holder/spell/invoked/resurrect/graggar
-	name = "Blood for graggar"
-	desc = "Revives the target by arranging a deal with graggar. They will be indebted to him."
-	debuff_type = /datum/status_effect/debuff/graggar_challenge
-	alt_required_items = list(/obj/item/organ/heart = 1)
-	required_items = list(/obj/item/organ/heart = 1)
-
 /// - Baotha ///
 
 /datum/stressevent/baotha_withdrawal_severe
@@ -406,22 +454,7 @@
 	name = "Withdrawal"
 	desc = "You are weak, slow, and miserable. Sniff something quickly to restore your strength!"
 
-/obj/effect/proc_holder/spell/invoked/resurrect/baotha
-	name = "Drive the thorns deep"
-	desc = "Revives the target by afflicting them with a lasting addiction."
-	debuff_type = /datum/status_effect/debuff/baotha_addiction
-	alt_required_items = list(/obj/item/natural/thorn = 3)
-	required_items = list(/obj/item/natural/thorn = 7)
-
 /// - Zizo ///
-
-/obj/effect/proc_holder/spell/invoked/resurrect/zizo
-	name = "Zizo's Rebirth"
-	desc = "Revive a fallen ally by siphoning their potential. You gain their strength, whilst they gain a second chance."
-	sound = 'sound/magic/slimesquish.ogg'
-	chargedloop = /datum/looping_sound/invokelightning
-	required_items = list(/obj/item/heart_blood_vial/filled = 3)
-	debuff_type = /datum/status_effect/debuff/zizo_drain
 
 /obj/effect/proc_holder/spell/invoked/resurrect/zizo/cast(list/targets, mob/living/carbon/human/user)
 	var/list/stat_pool = list(STATKEY_STR, STATKEY_SPD, STATKEY_CON, STATKEY_WIL, STATKEY_INT, STATKEY_PER, STATKEY_LCK)
