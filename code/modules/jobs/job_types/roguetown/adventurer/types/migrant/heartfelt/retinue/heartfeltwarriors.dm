@@ -45,7 +45,8 @@
 	wrists = /obj/item/clothing/wrists/roguetown/bracers
 	gloves = /obj/item/clothing/gloves/roguetown/angle
 	shoes = /obj/item/clothing/shoes/roguetown/boots/leather/reinforced
-	beltl = /obj/item/rogueweapon/sword
+	beltl = /obj/item/rogueweapon/scabbard/sword
+	l_hand = /obj/item/rogueweapon/sword
 	belt = /obj/item/storage/belt/rogue/leather/black
 	backr = /obj/item/storage/backpack/rogue/satchel/black
 	shirt = /obj/item/clothing/suit/roguetown/armor/gambeson/heavy		//Bit worse shirt protection than the archer
@@ -142,7 +143,8 @@
 	wrists = /obj/item/clothing/wrists/roguetown/bracers
 	gloves = /obj/item/clothing/gloves/roguetown/angle
 	shoes = /obj/item/clothing/shoes/roguetown/boots/leather/reinforced
-	beltl = /obj/item/rogueweapon/sword
+	beltl = /obj/item/rogueweapon/scabbard/sword
+	l_hand = /obj/item/rogueweapon/sword
 	belt = /obj/item/storage/belt/rogue/leather/black
 	backr = /obj/item/storage/backpack/rogue/satchel/black
 	shirt = /obj/item/clothing/suit/roguetown/armor/gambeson/heavy		
@@ -270,7 +272,8 @@
 	H.set_blindness(0)
 	switch(weapon_choice)
 		if("Sword & Shield")
-			beltr = /obj/item/rogueweapon/sword
+			l_hand = /obj/item/rogueweapon/sword
+			beltr = /obj/item/rogueweapon/scabbard/sword
 			backl = /obj/item/rogueweapon/shield/iron
 		if("Mace & Shield")
 			beltr = /obj/item/rogueweapon/mace/steel
