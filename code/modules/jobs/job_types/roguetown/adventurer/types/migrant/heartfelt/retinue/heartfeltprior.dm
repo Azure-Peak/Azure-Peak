@@ -47,7 +47,7 @@
 	shoes = /obj/item/clothing/shoes/roguetown/shortboots
 	belt = /obj/item/storage/belt/rogue/leather/rope
 	beltl = /obj/item/flashlight/flare/torch/lantern
-	beltr = /obj/item/storage/belt/rogue/pouch/coins/rich
+	beltr = /obj/item/storage/belt/rogue/pouch/coins/veryrich
 	armor = /obj/item/clothing/suit/roguetown/shirt/robe/priest
 	cloak = /obj/item/clothing/cloak/chasuble
 	backl = /obj/item/storage/backpack/rogue/satchel

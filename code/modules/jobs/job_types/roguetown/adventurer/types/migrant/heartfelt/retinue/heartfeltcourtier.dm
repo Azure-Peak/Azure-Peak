@@ -42,7 +42,7 @@
 /datum/outfit/job/roguetown/heartfelt/retinue/courtier/pre_equip(mob/living/carbon/human/H)
 	..()
 	head = /obj/item/clothing/head/roguetown/circlet
-	neck = /obj/item/storage/belt/rogue/pouch/coins/rich
+	neck = /obj/item/storage/belt/rogue/pouch/coins/veryrich
 	cloak = /obj/item/clothing/cloak/heartfelt
 	shirt = /obj/item/clothing/suit/roguetown/shirt/dress/silkydress/random
 	if(isdwarf(H))

@@ -73,7 +73,11 @@
 	backpack_contents = list(
 		/obj/item/rogueweapon/huntingknife/idagger/steel/special = 1,
 		/obj/item/rogueweapon/scabbard/sheath = 1,
-		/obj/item/storage/belt/rogue/pouch/coins/rich = 2,)
+		/obj/item/storage/belt/rogue/pouch/coins/veryrich = 2,
+		/obj/item/natural/feather = 1,
+		/obj/item/paper/scroll = 1,
+		/obj/item/reagent_containers/glass/bottle/alchemical/healthpotnew = 2,
+		)
 	id = /obj/item/scomstone
 	if(H.mind)
 		H.mind.AddSpell(new /obj/effect/proc_holder/spell/self/convertrole/heartfelt)
@@ -129,7 +133,7 @@
 	pants = /obj/item/clothing/under/roguetown/tights/black
 	cloak = /obj/item/clothing/cloak/heartfelt
 	armor = /obj/item/clothing/cloak/poncho/fancycoat
-	neck = /obj/item/storage/belt/rogue/pouch/coins/rich
+	neck = /obj/item/storage/belt/rogue/pouch/coins/veryrich
 	beltl = /obj/item/flashlight/flare/torch/lantern
 	r_hand = /obj/item/rogueweapon/woodstaff/diamond
 	beltr = /obj/item/rogueweapon/huntingknife
@@ -140,6 +144,10 @@
 		/obj/item/roguegem/amethyst,
 		/obj/item/spellbook_unfinished/pre_arcyne,
 		/obj/item/rogueweapon/huntingknife/idagger/silver/arcyne,
+		/obj/item/natural/feather = 1,
+		/obj/item/paper/scroll = 1,
+		/obj/item/reagent_containers/glass/bottle/alchemical/manapotnew = 1,
+		/obj/item/reagent_containers/glass/bottle/alchemical/healthpotnew = 1,
 	)
 	id = /obj/item/scomstone
 	if(H.mind)
@@ -211,7 +219,11 @@
 	backpack_contents = list(
 		/obj/item/rogueweapon/huntingknife/idagger/steel/special = 1,
 		/obj/item/rogueweapon/scabbard/sheath = 1,
-		/obj/item/storage/belt/rogue/pouch/coins/rich = 1,)
+		/obj/item/storage/belt/rogue/pouch/coins/veryrich = 1,
+		/obj/item/natural/feather = 1,
+		/obj/item/paper/scroll = 1,
+		/obj/item/reagent_containers/glass/bottle/alchemical/healthpotnew = 1,
+		)
 	id = /obj/item/scomstone
 	if(H.mind)
 		H.mind.AddSpell(new /obj/effect/proc_holder/spell/self/convertrole/heartfelt)

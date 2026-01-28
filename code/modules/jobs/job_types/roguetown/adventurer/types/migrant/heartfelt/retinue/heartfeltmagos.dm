@@ -66,7 +66,8 @@
 		/obj/item/roguegem/amethyst,
 		/obj/item/spellbook_unfinished/pre_arcyne,
 		/obj/item/rogueweapon/huntingknife/idagger/silver/arcyne,
-		/obj/item/scrying
+		/obj/item/scrying,
+		/obj/item/storage/belt/rogue/pouch/coins/rich = 1,
 		)
 	if(H.age == AGE_OLD)
 		H.adjust_skillrank(/datum/skill/magic/arcane, 1, TRUE)
