@@ -94,6 +94,7 @@ SUBSYSTEM_DEF(event_scheduler)
 /datum/controller/subsystem/event_scheduler/proc/stop_active_fog()
 	fog_active = FALSE
 	SSParticleWeather.stopWeather()
+	SEND_SIGNAL(src, COMSIG_FOG_END)
 	priority_announce("The fog dissipates as quickly as it arrived. The sun returns.", "Azure Peak Weather")
 
 /datum/controller/subsystem/event_scheduler/ui_interact(mob/user)

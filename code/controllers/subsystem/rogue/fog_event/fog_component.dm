@@ -85,7 +85,7 @@
 
 	var/cooldown_penalty = 0
 	// Just in case people do something silly, I'd rather not melt the server.
-	var/max_mobs = 15
+	var/max_mobs = 8
 	var/current_mobs = 0
 
 	while(total_ambush_score > 0 && current_mobs < max_mobs)
@@ -111,7 +111,7 @@
 		ambush_in_progress = FALSE
 		return
 
-	var/final_cooldown = 30 SECONDS + (cooldown_penalty * 0.2 SECONDS)
+	var/final_cooldown = 40 SECONDS + (cooldown_penalty * 0.2 SECONDS)
 
 	for(var/mob/living/V in valid_victims)
 		V.mob_timers["ambush_cooldown"] = world.time + final_cooldown

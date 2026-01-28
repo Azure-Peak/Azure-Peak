@@ -7,8 +7,10 @@
 		return COMPONENT_INCOMPATIBLE
 
 	RegisterSignal(parent, COMSIG_ENTER_AREA, .proc/check_area_safety)
+	RegisterSignal(SSevent_scheduler, COMSIG_FOG_END, .proc/fog_end)
 
 /datum/component/fog_entity/proc/check_area_safety(datum/source, area/new_area)
+	SIGNAL_HANDLER
 	if(vanishing)
 		return
 
@@ -26,3 +28,7 @@
 	else
 		qdel(R) // Fallback for non-revenant types
 		// You know, just in case someone gives this to any other cool mobs.
+
+/datum/component/fog_entity/proc/fog_end()
+	SIGNAL_HANDLER
+	start_vanishing()

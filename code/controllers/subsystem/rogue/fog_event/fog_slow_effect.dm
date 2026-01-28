@@ -5,7 +5,7 @@
 	id = "fog_chilled"
 	duration = -1
 	alert_type = /atom/movable/screen/alert/status_effect/fog_chilled
-	var/slowdown_val = 1.5
+	var/slowdown_val = 1.75
 
 /datum/status_effect/debuff/fog_chilled/on_apply()
 	if(!isliving(owner))

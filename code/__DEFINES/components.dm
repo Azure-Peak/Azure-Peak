@@ -416,6 +416,7 @@
 #define COMSIG_INFESTATION_CHARGE_REMOVE "infestation_charge_remove"	//from /proc/remove_infestation_charges(mob/living/user, num/amount): (num/amount)
 //Necra fog
 #define COMSIG_WARDED_TRAIT_CHANGE "warded_trait_change"
+#define COMSIG_FOG_END "fog_end"
 
 #define COMSIG_DIVINE_REBIRTH_CAST "devine_rebirth_cast"				//from /obj/effect/proc_holder/spell/invoked/divine_rebirth/cast(): (mob/living/target)
 
