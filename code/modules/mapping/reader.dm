@@ -895,9 +895,20 @@ GLOBAL_LIST_EMPTY(map_model_default)
 	// Note, this would actually drop area vvs in the tile, but like, why tho
 	if(!crds)
 		return
+
+	if(!islist(model) || model.len < 2)
+		return
+	if(!islist(model[1]) || ispath(model[1]))
+		model[1] = list()
+	if(!islist(model[2]) || ispath(model[2]))
+		model[2] = list()
+
 	var/index
 	var/list/members = model[1]
 	var/list/members_attributes = model[2]
+
+	if(!members.len)
+		return
 
 	// We use static lists here because it's cheaper then passing them around
 	var/static/list/default_list = GLOB.map_model_default
@@ -912,8 +923,9 @@ GLOBAL_LIST_EMPTY(map_model_default)
 	//first instance the /area and remove it from the members list
 	index = members.len
 	if(members[index] != /area/template_noop)
-		if(members_attributes[index] != default_list)
+		if(members_attributes.len >= index && members_attributes[index] != default_list)
 			world.preloader_setup(members_attributes[index], members[index])//preloader for assigning  set variables on atom creation
+
 		var/area/area_instance = loaded_areas[members[index]]
 		if(!area_instance)
 			var/area_type = members[index]
@@ -939,12 +951,16 @@ GLOBAL_LIST_EMPTY(map_model_default)
 
 	// Index right before /area is /turf
 	index--
+
+	if(index < 1 || index > members.len)
+		return
+
 	var/atom/instance
 	//then instance the /turf
 	//NOTE: this used to place any turfs before the last "underneath" it using .appearance and underlays
 	//We don't actually use this, and all it did was cost cpu, so we don't do this anymore
 	if(members[index] != /turf/template_noop)
-		if(members_attributes[index] != default_list)
+		if(members_attributes.len >= index && members_attributes[index] != default_list)
 			world.preloader_setup(members_attributes[index], members[index])
 
 		// Note: we make the assertion that the last path WILL be a turf. if it isn't, this will fail.
@@ -957,11 +973,12 @@ GLOBAL_LIST_EMPTY(map_model_default)
 
 		if(GLOB.use_preloader && instance)//second preloader pass, for those atoms that don't ..() in New()
 			world.preloader_load(instance)
+
 	MAPLOADING_CHECK_TICK
 
 	//finally instance all remainings objects/mobs
 	for(var/atom_index in 1 to index-1)
-		if(members_attributes[atom_index] != default_list)
+		if(members_attributes.len >= atom_index && members_attributes[atom_index] != default_list)
 			world.preloader_setup(members_attributes[atom_index], members[atom_index])
 
 		// We make the assertion that only /atom s will be in this portion of the code. if that isn't true, this will fail
@@ -969,6 +986,7 @@ GLOBAL_LIST_EMPTY(map_model_default)
 
 		if(GLOB.use_preloader && instance)//second preloader pass, for those atoms that don't ..() in New()
 			world.preloader_load(instance)
+
 		MAPLOADING_CHECK_TICK
 
 ////////////////
