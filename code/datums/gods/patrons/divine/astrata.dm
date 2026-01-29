@@ -7,12 +7,16 @@
 	miracles = list(/obj/effect/proc_holder/spell/targeted/touch/orison			= CLERIC_ORI,
 					/obj/effect/proc_holder/spell/invoked/ignition				= CLERIC_T0,
 					/obj/effect/proc_holder/spell/self/astrata_gaze				= CLERIC_T0,
+					/obj/effect/proc_holder/spell/self/astrata_fireresist       = CLERIC_T1,
 					/obj/effect/proc_holder/spell/invoked/lesser_heal 			= CLERIC_T1,
 					/obj/effect/proc_holder/spell/invoked/blood_heal			= CLERIC_T1,
+					/obj/effect/proc_holder/spell/targeted/touch/summonrogueweapon/astratagrasp         = CLERIC_T0,
 					/obj/effect/proc_holder/spell/invoked/projectile/lightningbolt/sacred_flame_rogue	= CLERIC_T1,
-					/obj/effect/proc_holder/spell/invoked/heal					= CLERIC_T2,
+					/obj/effect/proc_holder/spell/invoked/astrataspark          = CLERIC_T2,
+					/obj/effect/proc_holder/spell/invoked/heal/astrata			= CLERIC_T2,
 					/obj/effect/proc_holder/spell/invoked/revive				= CLERIC_T3,
 					/obj/effect/proc_holder/spell/invoked/immolation			= CLERIC_T4,
+					/obj/effect/proc_holder/spell/invoked/sunstrike 			= CLERIC_T4,
 	)
 	confess_lines = list(
 		"ASTRATA IS MY LIGHT!",

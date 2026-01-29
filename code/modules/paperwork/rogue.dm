@@ -397,7 +397,7 @@
 			var/obj/item/inqarticles/indexer/Q = I
 			if(paired)
 				return
-			if(!Q.subject)
+			if(!Q.hasSubject)
 				if(signed)
 					to_chat(user, span_warning("I should fill [Q] before pairing it with [src]."))
 					return
@@ -405,7 +405,7 @@
 					paired = Q
 					user.transferItemToLoc(Q, src, TRUE)
 					update_icon()
-			else if(Q.subject && Q.full)
+			else if(Q.full)
 				if(sliptype == 2)
 					if(Q.subject == signee)
 						paired = Q

@@ -1,0 +1,8 @@
+author: "dopamiin0"
+delete-after: True
+changes:
+  - bugfix: "reach weapons no longer inexplicably fall through 1 space gaps and can actually hit things on the other side (credit to Constantinell at Scarlet Reach before it closed for this one)"
+  - bugfix: "fishing spears no longer have weird drop patterns in certain circumstances"
+  - bugfix: "INDEXERs can be put in slips even if their subject no longer exists"
+  - bugfix: "you no longer are considered still a deadite after most revival methods"
+  - bugfix: "familiar revivals should be 3% more functional"

@@ -22,7 +22,8 @@
 	var/blocks_air = FALSE
 
 	flags_1 = CAN_BE_DIRTY_1
-
+	var/turf_flags = NONE
+	
 	var/list/image/blueprint_data //for the station blueprints, images of objects eg: pipes
 
 	var/explosion_level = 0	//for preventing explosion dodging
@@ -54,7 +55,7 @@
 	var/neighborlay_list = list()
 	var/neighborlay_override
 	var/teleport_restricted = FALSE //whether turf teleport spells are forbidden from teleporting to this turf
-
+	
 	vis_flags = VIS_INHERIT_PLANE|VIS_INHERIT_ID
 
 /turf/vv_edit_var(var_name, new_value)

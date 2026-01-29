@@ -2,6 +2,7 @@
 	icon = 'icons/obj/structures.dmi'
 	max_integrity = 300
 	interaction_flags_atom = INTERACT_ATOM_ATTACK_HAND | INTERACT_ATOM_UI_INTERACT
+	flags_1 = CHECK_RICOCHET_1
 	layer = BELOW_OBJ_LAYER
 	anchored = TRUE
 	plane = GAME_PLANE_LOWER

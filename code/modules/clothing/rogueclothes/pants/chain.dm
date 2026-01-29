@@ -1,6 +1,6 @@
 /obj/item/clothing/under/roguetown/chainlegs
 	name = "steel chain chausses"
-	desc = "Chain leggings composed of interlinked metal rings."
+	desc = "A set of armored leggings, composed from interlinked steel rings."
 	gender = PLURAL
 	icon_state = "chain_legs"
 	item_state = "chain_legs"
@@ -22,6 +22,7 @@
 	. = ..()
 	AddComponent(/datum/component/item_equipped_movement_rustle, SFX_CHAIN_STEP, 7)
 	AddComponent(/datum/component/armour_filtering/negative, TRAIT_FENCERDEXTERITY)
+	AddComponent(/datum/component/armour_filtering/negative, TRAIT_HONORBOUND)
 
 /obj/item/clothing/under/roguetown/splintlegs
 	name = "brigandine chausses"
@@ -47,7 +48,7 @@
 
 /obj/item/clothing/under/roguetown/splintlegs/Initialize(mapload)
 	. = ..()
-	AddComponent(/datum/component/item_equipped_movement_rustle, SFX_PLATE_COAT_STEP, 3)
+	AddComponent(/datum/component/item_equipped_movement_rustle, SFX_PLATE_COAT_STEP, 10)
 
 /obj/item/clothing/under/roguetown/splintlegs/iron
 	name = "splinted leggings"
@@ -91,6 +92,7 @@
 /obj/item/clothing/under/roguetown/chainlegs/iron
 	name = "iron chain chausses"
 	icon_state = "ichain_legs"
+	desc = "A set of armored leggings, composed from interlinked iron rings."
 	max_integrity = ARMOR_INT_LEG_IRON_CHAIN
 	anvilrepair = /datum/skill/craft/armorsmithing
 	smeltresult = /obj/item/ingot/iron
@@ -139,9 +141,9 @@
 	sleeved = 'icons/roguetown/clothing/onmob/helpers/sleeves_pants.dmi'
 	alternate_worn_layer = (SHIRT_LAYER)
 
-/obj/item/clothing/under/roguetown/chainlegs/captain
-	name = "captain's chausses"
-	desc = "Cuisses made of plated steel, offering additional protection against blunt force. These are specially fitted for the captain."
+/obj/item/clothing/under/roguetown/chainlegs/banneret
+	name = "knight banneret's chausses"
+	desc = "A resplendent set of plated chausses, gilded and besilked. Such a masterwork can only be found upon the finest of Azuria's knights."
 	icon_state = "capplateleg"
 	item_state = "capplateleg"
 	icon = 'icons/roguetown/clothing/special/captain.dmi'

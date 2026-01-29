@@ -105,17 +105,6 @@
 					/obj/item/quiver/pyrobolts,
 				)
 
-/datum/supply_pack/rogue/ranged_weapons/bottlebombs
-	name = "Bottle Bomb"
-	cost = 40
-	contains = list(
-					/obj/item/bomb,
-					/obj/item/bomb,
-					/obj/item/bomb,
-					/obj/item/bomb,
-					/obj/item/bomb
-				)
-
 /datum/supply_pack/rogue/ranged_weapons/slingandpouch
 	name = "Sling and Pouch"
 	cost = 15

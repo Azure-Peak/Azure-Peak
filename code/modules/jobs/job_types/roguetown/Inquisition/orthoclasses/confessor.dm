@@ -95,7 +95,7 @@
 	mask = /obj/item/clothing/mask/rogue/facemask/steel/confessor
 	id = /obj/item/clothing/ring/signet/silver
 	backpack_contents = list(
-		/obj/item/roguekey/inquisition = 1,
+		/obj/item/roguekey/inquisitionmanor = 1,
 		/obj/item/rope/inqarticles/inquirycord = 1,
 		/obj/item/lockpickring/mundane = 1,
 		/obj/item/clothing/head/inqarticles/blackbag = 1,

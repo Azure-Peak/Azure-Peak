@@ -69,26 +69,24 @@
 		return ..()
 
 /*	.............   Deviled Eggs   ................ */
-/obj/item/reagent_containers/food/snacks/rogue/stuffeggraw
+/obj/item/reagent_containers/food/snacks/rogue/stuffedegg
 	name = "raw stuffed egg"
 	desc = "Raw egg stuffed with a creamy cheese filling."
 	icon = 'modular/Neu_Food/icons/cooked/cooked_egg.dmi'
 	icon_state = "deviledegg_raw"
-	cooked_type = /obj/item/reagent_containers/food/snacks/rogue/preserved/stuffegg
+	cooked_type = /obj/item/reagent_containers/food/snacks/rogue/stuffedegg/cooked
+	fried_type = /obj/item/reagent_containers/food/snacks/rogue/stuffedegg/cooked
 	foodtype = MEAT
 	warming = 5 MINUTES
 	rotprocess = SHELFLIFE_DECENT
+	faretype = FARE_POOR
 
-/obj/item/reagent_containers/food/snacks/rogue/preserved/stuffegg
+/obj/item/reagent_containers/food/snacks/rogue/stuffedegg/cooked
 	tastes = list("creamy cheese" = 1, "egg" = 1)
 	list_reagents = list(/datum/reagent/consumable/nutriment = SNACK_DECENT)
 	name = "stuffed egg"
 	desc = "Egg stuffed with a creamy cheese filling."
-	icon = 'modular/Neu_Food/icons/cooked/cooked_egg.dmi'
 	icon_state = "deviledegg"
-	foodtype = MEAT
-	warming = 5 MINUTES
-	rotprocess = SHELFLIFE_DECENT
 
 /* * * * * * * * * * * **
  *						*
@@ -119,6 +117,7 @@
 	icon = 'modular/Neu_Food/icons/cooked/cooked_egg.dmi'
 	icon_state = "baconegg"
 	eat_effect = /datum/status_effect/buff/mealbuff
+	faretype = FARE_NEUTRAL
 	rotprocess = SHELFLIFE_DECENT
 
 /*	.................   Hammerholdian Breakfast   ................... */
@@ -131,6 +130,7 @@
 	icon = 'modular/Neu_Food/icons/cooked/cooked_egg.dmi'
 	icon_state = "wieneregg"
 	eat_effect = /datum/status_effect/buff/mealbuff
+	faretype = FARE_NEUTRAL
 	rotprocess = SHELFLIFE_DECENT
 
 /obj/item/reagent_containers/food/snacks/rogue/friedegg/sausage/attackby(obj/item/I, mob/living/user, params)
@@ -155,6 +155,7 @@
 	icon = 'modular/Neu_Food/icons/cooked/cooked_egg.dmi'
 	icon_state = "wienereggbacon"
 	eat_effect = /datum/status_effect/buff/mealbuff
+	faretype = FARE_FINE
 	rotprocess = SHELFLIFE_DECENT
 
 /obj/item/reagent_containers/food/snacks/rogue/friedegg/sausagebacon/attackby(obj/item/I, mob/living/user, params)
@@ -179,4 +180,5 @@
 	icon = 'modular/Neu_Food/icons/cooked/cooked_egg.dmi'
 	icon_state = "hammerbreak"
 	eat_effect = /datum/status_effect/buff/mealbuff
+	faretype = FARE_LAVISH
 	rotprocess = SHELFLIFE_DECENT

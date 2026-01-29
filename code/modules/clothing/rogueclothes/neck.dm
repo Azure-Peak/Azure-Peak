@@ -23,7 +23,7 @@
 
 /obj/item/clothing/neck/roguetown/coif
 	name = "coif"
-	desc = "Cheap and easy to make. It's better than leaving your neck exposed."
+	desc = "A thin coif of cloth, favored by peasantry and highwaymen alike."
 	icon_state = "coif"
 	item_state = "coif"
 	color = CLOTHING_BROWN
@@ -39,7 +39,7 @@
 
 /obj/item/clothing/neck/roguetown/coif/padded
 	name = "padded coif"
-	desc = "A cheap and simple gambeson coif meant to be worn on its own or under a helmet. It's better than nothing."
+	desc = "A gambeson's coif, hewn from cloth. It can either be worn beneath a helmet to cushion one's skull from punishment, or worn on its own to keep one's cheeks warm in more frigid climates."
 	icon_state = "ccoif"
 	item_state = "ccoif"
 	color = "#ad977d"
@@ -55,14 +55,15 @@
 
 /obj/item/clothing/neck/roguetown/coif/heavypadding
 	name = "heavy padded coif"
-	desc = "A heavier padded coif meant to be worn on its own or under a helmet. Layered properly, it can last through even the busiest of daes."
+	desc = "A padded gambeson's coif, bearing the distinct dorpel-styled stitchwork of its larger cousin. When layered properly, it can last through even the busiest of daes."
 	icon_state = "fullpadded"
 	item_state = "fullpadded"
 	color = "#976E6B"
 	flags_inv = HIDEEARS|HIDEFACE|HIDEHAIR|HIDEFACIALHAIR|HIDESNOUT
 	slot_flags = ITEM_SLOT_NECK|ITEM_SLOT_HEAD
 	blocksound = SOFTHIT
-	body_parts_covered = NECK|HAIR|EARS|HEAD|MOUTH
+	body_parts_covered = NECK|MOUTH|NOSE|HAIR|EARS|HEAD
+	max_integrity = ARMOR_INT_CHEST_LIGHT_MASTER //padded gambeson durability
 	armor = ARMOR_PADDED_GOOD //full padded gambeson basically
 	prevent_crits = PREVENT_CRITS_MOST
 	adjustable = CAN_CADJUST
@@ -104,6 +105,7 @@
 /obj/item/clothing/neck/roguetown/coif/ComponentInitialize()
 	AddComponent(/datum/component/adjustable_clothing, NECK, null, null, null, null, (UPD_HEAD|UPD_MASK|UPD_NECK))	//Soundless coif
 	AddComponent(/datum/component/armour_filtering/positive, TRAIT_FENCERDEXTERITY)
+	AddComponent(/datum/component/armour_filtering/positive, TRAIT_HONORBOUND)
 
 /obj/item/clothing/neck/roguetown/leather
 	name = "hardened leather gorget"
@@ -122,7 +124,7 @@
 
 /obj/item/clothing/neck/roguetown/chaincoif
 	name = "chain coif"
-	desc = "Offers superior coverage to a simple gorget, though it sacrifices some protection in return."
+	desc = "A maille-hood, fashioned from interlinked steel rings - a favorite amongst Psydonia's more noble-hearted errants. It offers superior coverage to gorgets and bevors, though it sacrifices some protection in return."
 	icon_state = "chaincoif"
 	item_state = "chaincoif"
 	drop_sound = 'sound/foley/dropsound/chain_drop.ogg'
@@ -143,6 +145,7 @@
 /obj/item/clothing/neck/roguetown/chaincoif/ComponentInitialize()
 	AddComponent(/datum/component/adjustable_clothing, NECK, null, null, 'sound/foley/equip/chain_equip.ogg', null, (UPD_HEAD|UPD_MASK|UPD_NECK))	//Chain coif.
 	AddComponent(/datum/component/armour_filtering/negative, TRAIT_FENCERDEXTERITY)
+	AddComponent(/datum/component/armour_filtering/negative, TRAIT_HONORBOUND)
 
 /obj/item/clothing/neck/roguetown/chaincoif/paalloy
 	name = "ancient coif"
@@ -173,10 +176,11 @@
 /obj/item/clothing/neck/roguetown/chaincoif/chainmantle/ComponentInitialize()
 	AddComponent(/datum/component/adjustable_clothing, (NECK), null, null, 'sound/foley/equip/equip_armor_chain.ogg', null, (UPD_HEAD|UPD_MASK|UPD_NECK))	//Chain coif.
 	AddComponent(/datum/component/armour_filtering/negative, TRAIT_FENCERDEXTERITY)
+	AddComponent(/datum/component/armour_filtering/negative, TRAIT_HONORBOUND)
 
 /obj/item/clothing/neck/roguetown/chaincoif/iron
 	name = "iron chain coif"
-	desc = "A coif of meticulously crafted iron rings. It isn't steel, but metal is metal, and it might just save your life."
+	desc = "A maille-hood, fashioned from interlinked iron rings. Levymen oft-wear these atop a padded coif or beneath a kettle, depending on the nature of their rally; be it to defend their hearth-and-home from beastes or Bandits."
 	icon_state = "ichaincoif"
 	anvilrepair = /datum/skill/craft/armorsmithing
 	smeltresult = /obj/item/ingot/iron
@@ -227,7 +231,7 @@
 
 /obj/item/clothing/neck/roguetown/bevor
 	name = "bevor"
-	desc = "A series of steel plates designed to protect the neck."
+	desc = "A steel neckguard, traditionally mounted to the collar of a cuirass. It restricts the head's motion, but ensures the absence of abuseable gaps."
 	icon_state = "bevor"
 	armor = ARMOR_PLATE
 	anvilrepair = /datum/skill/craft/armorsmithing
@@ -245,10 +249,11 @@
 /obj/item/clothing/neck/roguetown/bevor/ComponentInitialize()
 	AddComponent(/datum/component/adjustable_clothing, NECK, null, null, 'sound/items/visor.ogg', null, (UPD_HEAD|UPD_MASK|UPD_NECK)) // adjustable falling buffe for the bevor
 	AddComponent(/datum/component/armour_filtering/positive, TRAIT_FENCERDEXTERITY)
+	AddComponent(/datum/component/armour_filtering/negative, TRAIT_HONORBOUND)
 
 /obj/item/clothing/neck/roguetown/bevor/iron
 	name = "iron bevor"
-	desc = "A series of iron plates designed to protect the neck."
+	desc = "An iron neckguard, traditionally mounted to the collar of a cuirass. It restricts the head's motion, but ensures the absence of abuseable gaps."
 	icon_state = "ibevor"
 	smeltresult = /obj/item/ingot/iron
 	max_integrity = ARMOR_INT_SIDE_IRON
@@ -256,7 +261,7 @@
 
 /obj/item/clothing/neck/roguetown/gorget
 	name = "gorget"
-	desc = "A series of iron plates designed to protect the neck."
+	desc = "A series of iron plates designed to protect the neck, traditionally atop a jacket or cuirass. While it lacks a coif's coverage, it is more-than-capable of thwarting a dagger's viscous bite."
 	icon_state = "gorget"
 	armor = ARMOR_PLATE
 	prevent_crits = PREVENT_CRITS_ALL
@@ -285,7 +290,7 @@
 /obj/item/clothing/neck/roguetown/gorget/copper
 	name = "neck protector"
 	icon_state = "copperneck"
-	desc = "An antique and simple protection for the neck, used more as an accessory by the common folk. But poor protection is still better than nothing."
+	desc = "A curved disk of copper, rounded out to cradle one's neck; vulnerable, but far better than nothing at all."
 	armor = ARMOR_PLATE_BAD
 	smeltresult = /obj/item/ingot/copper
 
@@ -341,6 +346,7 @@
 
 /obj/item/clothing/neck/roguetown/gorget/steel
 	name = "steel gorget"
+	desc = "A series of steel plates designed to protect the neck, traditionally worn atop a jacket or cuirass. It bares a mammon-sized divet along its right flank; the certification of its 'proofedness' against a longbow's strike."
 	smeltresult = /obj/item/ingot/steel
 	max_integrity = ARMOR_INT_SIDE_STEEL
 	icon_state = "sgorget"

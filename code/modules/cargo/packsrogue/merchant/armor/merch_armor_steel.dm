@@ -196,6 +196,21 @@
 	cost = 90 // 2 Steel
 	contains = list(/obj/item/clothing/head/roguetown/helmet/heavy/sheriff)
 
+/datum/supply_pack/rogue/armor_steel/kettle_slitted
+	name = "Helmet, Slitted Kettle"
+	cost = 90 // 2 Steel
+	contains = list(/obj/item/clothing/head/roguetown/helmet/heavy/knight/skettle)
+
+/datum/supply_pack/rogue/armor_steel/elvenbarbute
+	name = "Helmet, Elven, Barbute"
+	cost = 90 // 2 Steel
+	contains = list(/obj/item/clothing/head/roguetown/helmet/elvenbarbute)
+
+/datum/supply_pack/rogue/armor_steel/elvenbarbutewinged
+	name = "Helmet, Elven, Barbute, Winged"
+	cost = 90 // 2 Steel
+	contains = list(/obj/item/clothing/head/roguetown/helmet/elvenbarbute/winged)
+
 /datum/supply_pack/rogue/armor_steel/bevor
 	name = "Bevor"
 	cost = 50 // 1 Steel

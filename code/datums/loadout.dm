@@ -45,6 +45,14 @@ GLOBAL_LIST_EMPTY(loadout_items)
 	path = /obj/item/rogueweapon/huntingknife/throwingknife/bauernwehr
 	triumph_cost = 3
 
+/datum/loadout_item/paper_parasol
+	name = "Paper Parasol"
+	path = /obj/item/rogueweapon/mace/parasol
+
+/datum/loadout_item/fine_parasol
+	name = "Fine Parasol"
+	path = /obj/item/rogueweapon/mace/parasol/noble
+
 //HATS
 /datum/loadout_item/shalal
 	name = "Keffiyeh"
@@ -130,6 +138,22 @@ GLOBAL_LIST_EMPTY(loadout_items)
 	name = "Salvia Crown"
 	path = /obj/item/flowercrown/salvia
 
+/datum/loadout_item/matricaria_crown
+	name = "Matricaria Crown"
+	path = /obj/item/flowercrown/matricaria
+
+/datum/loadout_item/calendula_crown
+	name = "Calendula Crown"
+	path = /obj/item/flowercrown/calendula
+
+/datum/loadout_item/manabloom_crown
+	name = "Manabloom Crown"
+	path = /obj/item/flowercrown/manabloom
+
+/datum/loadout_item/briar_crown
+	name = "Briar Thorn Crown"
+	path = /obj/item/flowercrown/briar
+
 /datum/loadout_item/briarthorns
 	name = "Briar Thorns"
 	path = /obj/item/clothing/head/roguetown/briarthorns
@@ -211,6 +235,10 @@ GLOBAL_LIST_EMPTY(loadout_items)
 	name = "Poncho"
 	path = /obj/item/clothing/cloak/poncho
 
+/datum/loadout_item/aproncook
+	name = "Apron, Cooking"
+	path = /obj/item/clothing/cloak/apron/cook
+
 //SHOES
 /datum/loadout_item/darkboots
 	name = "Dark Boots"
@@ -254,7 +282,7 @@ GLOBAL_LIST_EMPTY(loadout_items)
 
 /datum/loadout_item/rumaclanshoes
 	name = "Raised Sandals"
-	path = /obj/item/clothing/shoes/roguetown/armor/rumaclan
+	path = /obj/item/clothing/shoes/roguetown/armor/rumaclan/shitty
 
 //SHIRTS
 /datum/loadout_item/longcoat
@@ -404,6 +432,7 @@ GLOBAL_LIST_EMPTY(loadout_items)
 /datum/loadout_item/eastshirt2
 	name = "White Foreign Shirt"
 	path = /obj/item/clothing/suit/roguetown/shirt/undershirt/eastshirt2
+
 //PANTS
 /datum/loadout_item/tights
 	name = "Cloth Tights"
@@ -693,11 +722,21 @@ GLOBAL_LIST_EMPTY(loadout_items)
 	path = /obj/item/enchantingkit/bigfoot_axe
 	ckeywhitelist = list("bigfoot02")
 
-/datum/loadout_item/donator_zydras
-	name = "Donator Kit - Padded silky dress"
-	path = /obj/item/enchantingkit/zydras
+/datum/loadout_item/donator_zydrasiconocrown
+	name = "Donator Kit - Iconoclast Crown"
+	path = /obj/item/enchantingkit/zydrasiconocrown
 	ckeywhitelist = list("1ceres")
-
+	
+/datum/loadout_item/donator_zydrasiconopauldrons
+	name = "Donator Kit - Iconoclast Pauldrons"
+	path = /obj/item/enchantingkit/zydrasiconopauldrons
+	ckeywhitelist = list("1ceres")
+	
+/datum/loadout_item/donator_zydrasiconosash
+	name = "Donator Kit - Iconoclast Sash"
+	path = /obj/item/enchantingkit/zydrasiconosash
+	ckeywhitelist = list("1ceres")
+	
 /datum/loadout_item/donator_eiren
 	name = "Donator Kit - Regret"
 	path = /obj/item/enchantingkit/eiren
@@ -738,10 +777,14 @@ GLOBAL_LIST_EMPTY(loadout_items)
 	path = /obj/item/clothing/suit/roguetown/shirt/dress/royal
 	ckeywhitelist = list("willmbrink")
 
+/datum/loadout_item/donator_willmbrink/sleeves
+	name = "Donator Item - Royal Sleeves"
+	path = /obj/item/clothing/wrists/roguetown/royalsleeves
+
 /datum/loadout_item/donator_dasfox
 	name = "Donator Kit - Archaic Ceremonial Valkyrhelm"
 	path = /obj/item/enchantingkit/dasfox_helm
-	ckeywhitelist = list("dasfox")
+	ckeywhitelist = list("dasfox", "purplepineapple") // on request by dasfox
 
 /datum/loadout_item/donator_dasfox/cuirass
 	name = "Donator Kit - Archaic Ceremonial Cuirass"
@@ -750,6 +793,7 @@ GLOBAL_LIST_EMPTY(loadout_items)
 /datum/loadout_item/donator_dasfox/periapt
 	name = "Donator Item - Defiled Astratan Periapt"
 	path = /obj/item/clothing/neck/roguetown/psicross/astrata/dasfox
+	ckeywhitelist = list("dasfox")
 
 /datum/loadout_item/donator_ryan
 	name = "Donator Item - Western Estates Caparison"
@@ -759,3 +803,8 @@ GLOBAL_LIST_EMPTY(loadout_items)
 /datum/loadout_item/donator_ryan/psy_helm
 	name = "Donator Kit - Unorthodoxist Psydonite Helm"
 	path = /obj/item/enchantingkit/ryan_psyhelm
+
+/datum/loadout_item/donator_koruu/hat
+	name = "Donator Kit - Well-Worn Bamboo Hat"
+	path = /obj/item/clothing/head/roguetown/mentorhat/koruu
+	ckeywhitelist = list("koruu")

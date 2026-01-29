@@ -1,6 +1,8 @@
 /datum/sex_action/foot_lick
 	name = "Lick their feet"
 	check_same_tile = FALSE
+	intensity = 2
+	flipped = TRUE
 
 /datum/sex_action/foot_lick/shows_on_menu(mob/living/carbon/human/user, mob/living/carbon/human/target)
 	if(user == target)

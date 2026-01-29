@@ -25,3 +25,5 @@
 	icon_state = "tablecloth_silk"
 	sellprice = 40
 	w_class = WEIGHT_CLASS_NORMAL
+	grid_width = 32
+	grid_height = 64

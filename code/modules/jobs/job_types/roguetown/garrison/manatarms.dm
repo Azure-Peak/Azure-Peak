@@ -29,7 +29,8 @@
 		/datum/advclass/manorguard/footsman,
 		/datum/advclass/manorguard/skirmisher,
 		/datum/advclass/manorguard/cavalry,
-		/datum/advclass/manorguard/bailiff
+		/datum/advclass/manorguard/bailiff,
+		/datum/advclass/manorguard/standard_bearer
 	)
 
 /datum/outfit/job/roguetown/manorguard
@@ -39,17 +40,17 @@
 	. = ..()
 	if(ishuman(L))
 		var/mob/living/carbon/human/H = L
-		if(istype(H.cloak, /obj/item/clothing/cloak/tabard/stabard/surcoat/guard))
+		if(istype(H.cloak, /obj/item/clothing/cloak/tabard/stabard/guard))
 			var/obj/item/clothing/S = H.cloak
 			var/index = findtext(H.real_name, " ")
 			if(index)
 				index = copytext(H.real_name, 1,index)
 			if(!index)
 				index = H.real_name
-			S.name = "man-at-arms jupon ([index])"
+			S.name = "man-at-arms surcoat ([index])"
 
 /datum/outfit/job/roguetown/manorguard
-	cloak = /obj/item/clothing/cloak/tabard/stabard/surcoat/guard
+	cloak = /obj/item/clothing/cloak/tabard/stabard/guard
 	shoes = /obj/item/clothing/shoes/roguetown/boots/leather/reinforced
 	saiga_shoes = /obj/item/clothing/shoes/roguetown/horseshoes
 	beltl = /obj/item/rogueweapon/mace/cudgel
@@ -80,7 +81,7 @@
 		/datum/skill/combat/whipsflails = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/combat/slings = SKILL_LEVEL_NOVICE,
 		/datum/skill/combat/shields = SKILL_LEVEL_JOURNEYMAN,
-		/datum/skill/combat/wrestling = SKILL_LEVEL_EXPERT,
+		/datum/skill/combat/wrestling = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/combat/unarmed = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/misc/climbing = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/misc/sneaking = SKILL_LEVEL_APPRENTICE,
@@ -127,7 +128,7 @@
 	backpack_contents = list(
 		/obj/item/rogueweapon/huntingknife/idagger/steel/special = 1,
 		/obj/item/rope/chain = 1,
-		/obj/item/storage/keyring/guardcastle = 1,
+		/obj/item/storage/keyring/manatarms = 1,
 		/obj/item/rogueweapon/scabbard/sheath = 1,
 		/obj/item/reagent_containers/glass/bottle/rogue/healthpot = 1,
 		)
@@ -189,7 +190,7 @@
 		/datum/skill/misc/sneaking = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/misc/athletics = SKILL_LEVEL_EXPERT, // A little better; run fast, weak boy.
 		/datum/skill/misc/swimming = SKILL_LEVEL_JOURNEYMAN,
-		/datum/skill/combat/wrestling = SKILL_LEVEL_EXPERT,
+		/datum/skill/combat/wrestling = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/combat/unarmed = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/misc/reading = SKILL_LEVEL_NOVICE,
 		/datum/skill/misc/riding = SKILL_LEVEL_NOVICE,
@@ -234,7 +235,7 @@
 		backpack_contents = list(
 			/obj/item/rogueweapon/huntingknife/idagger/steel/special = 1,
 			/obj/item/rope/chain = 1,
-			/obj/item/storage/keyring/guardcastle = 1,
+			/obj/item/storage/keyring/manatarms = 1,
 			/obj/item/rogueweapon/scabbard/sheath = 1,
 			/obj/item/reagent_containers/glass/bottle/rogue/healthpot = 1,
 			)
@@ -260,10 +261,12 @@
 	name = "Cavalryman"
 	tutorial = "You are a professional soldier of the realm, specializing in the steady beat of hoof falls. Lighter and more expendable then the knights, you charge with lance in hand."
 	outfit = /datum/outfit/job/roguetown/manorguard/cavalry
-	horse = /mob/living/simple_animal/hostile/retaliate/rogue/saiga/tame/saddled //Since knights start with the Buck
+	subclass_stashed_items = list("Ducal Caparison" = /obj/item/caparison/azure)
+	extra_context = "This subclass recieves Azurean Caparison in it's stash."
 
 	category_tags = list(CTAG_MENATARMS)
 	traits_applied = list(TRAIT_MEDIUMARMOR)
+	maximum_possible_slots = 2 //We don't want a horde of these as well there ARE only 2 stables at barracks
 	//Garrison mounted class; charge and charge often.
 	subclass_stats = list(
 		STATKEY_CON = 2,// seems kinda lame but remember guardsman bonus!!
@@ -276,66 +279,59 @@
 		/datum/skill/combat/polearms = SKILL_LEVEL_EXPERT,
 		/datum/skill/combat/swords = SKILL_LEVEL_EXPERT,
 		/datum/skill/combat/knives = SKILL_LEVEL_APPRENTICE,
-		/datum/skill/combat/maces = SKILL_LEVEL_JOURNEYMAN, 		// Still have a cugel.
+		/datum/skill/combat/maces = SKILL_LEVEL_APPRENTICE, 		// Still have a cugel.
 		/datum/skill/combat/shields = SKILL_LEVEL_JOURNEYMAN,
-		/datum/skill/combat/whipsflails = SKILL_LEVEL_JOURNEYMAN,	//Best whip training out of MAAs, they're strong.
-		/datum/skill/combat/bows = SKILL_LEVEL_NOVICE,			// We discourage horse archers, though.
-		/datum/skill/combat/slings = SKILL_LEVEL_NOVICE,
+		/datum/skill/combat/whipsflails = SKILL_LEVEL_EXPERT,	//Not case anymore so let's put them on par with Bailiff.
+		/datum/skill/combat/crossbows = SKILL_LEVEL_EXPERT,
 		/datum/skill/misc/climbing = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/misc/athletics = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/misc/swimming = SKILL_LEVEL_APPRENTICE,
-		/datum/skill/combat/wrestling = SKILL_LEVEL_EXPERT,
+		/datum/skill/combat/wrestling = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/combat/unarmed = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/misc/reading = SKILL_LEVEL_NOVICE,
-		/datum/skill/misc/riding = SKILL_LEVEL_EXPERT, 		// Like the other horselords.
+		/datum/skill/misc/riding = SKILL_LEVEL_JOURNEYMAN, 		// Like the other horselords.
 		/datum/skill/misc/tracking = SKILL_LEVEL_JOURNEYMAN,	//Best tracker. Might as well give it something to stick-out utility wise.
+	)
+	subclass_virtues = list(
+		/datum/virtue/utility/riding
 	)
 
 /datum/outfit/job/roguetown/manorguard/cavalry/pre_equip(mob/living/carbon/human/H)
 	..()
 	neck = /obj/item/clothing/neck/roguetown/gorget
-	gloves = /obj/item/clothing/gloves/roguetown/chain/iron
+	armor = /obj/item/clothing/suit/roguetown/armor/plate/scale
+	shirt = /obj/item/clothing/suit/roguetown/armor/chainmail/iron
+	wrists = /obj/item/clothing/wrists/roguetown/bracers
+	gloves = /obj/item/clothing/gloves/roguetown/chain
+	pants = /obj/item/clothing/under/roguetown/chainlegs
 
 	H.adjust_blindness(-3)
 	if(H.mind)
-		var/weapons = list("Bardiche & Sword","Sword & Shield")
+		var/weapons = list("Sabre & Crossbow", "Flail & Shield","Lucerne & Whip")
 		var/weapon_choice = input(H, "Choose your weapon.", "TAKE UP ARMS") as anything in weapons
 		H.set_blindness(0)
 		switch(weapon_choice)
-			if("Bardiche & Sword")
-				l_hand = /obj/item/rogueweapon/sword
-				r_hand = /obj/item/rogueweapon/halberd/bardiche
+			if("Sabre & Crossbow")
+				l_hand = /obj/item/rogueweapon/sword/sabre
+				r_hand = /obj/item/rogueweapon/scabbard/sword
+				backl = /obj/item/gun/ballistic/revolver/grenadelauncher/crossbow
+				beltr = /obj/item/quiver/bolts
+			if("Flail & Shield")
+				beltr = /obj/item/rogueweapon/flail/sflail
+				backl = /obj/item/rogueweapon/shield/tower
+			if("Lucerne & Whip")
+				r_hand = /obj/item/rogueweapon/eaglebeak/lucerne
 				backl = /obj/item/rogueweapon/scabbard/gwstrap
-				beltr = /obj/item/rogueweapon/scabbard/sword
-			if("Sword & Shield")
-				beltr = /obj/item/rogueweapon/scabbard/sword
-				r_hand = /obj/item/rogueweapon/sword/sabre
-				backl = /obj/item/rogueweapon/shield/wood
+				beltr = /obj/item/rogueweapon/whip
 
 		backpack_contents = list(
 			/obj/item/rogueweapon/huntingknife/idagger/steel/special = 1,
 			/obj/item/rope/chain = 1,
-			/obj/item/storage/keyring/guardcastle = 1,
+			/obj/item/storage/keyring/manatarms = 1,
 			/obj/item/rogueweapon/scabbard/sheath = 1,
-			/obj/item/reagent_containers/glass/bottle/rogue/healthpot = 1,
+			/obj/item/reagent_containers/glass/bottle/rogue/healthpot = 1
 			)
 		H.verbs |= /mob/proc/haltyell
-
-		var/armor_options = list("Brigandine Set", "Maille Set")
-		var/armor_choice = input(H, "Choose your armor.", "TAKE UP ARMS") as anything in armor_options
-
-		switch(armor_choice)
-			if("Brigandine Set")
-				armor = /obj/item/clothing/suit/roguetown/armor/brigandine/light/retinue
-				shirt = /obj/item/clothing/suit/roguetown/armor/gambeson
-				wrists = /obj/item/clothing/wrists/roguetown/splintarms
-				pants = /obj/item/clothing/under/roguetown/splintlegs
-
-			if("Maille Set")
-				armor = /obj/item/clothing/suit/roguetown/armor/plate/scale
-				shirt = /obj/item/clothing/suit/roguetown/armor/chainmail/iron
-				wrists = /obj/item/clothing/wrists/roguetown/bracers
-				pants = /obj/item/clothing/under/roguetown/chainlegs
 
 		var/helmets = list(
 		"Simple Helmet" 	= /obj/item/clothing/head/roguetown/helmet,
@@ -349,6 +345,7 @@
 		var/helmchoice = input(H, "Choose your Helm.", "TAKE UP HELMS") as anything in helmets
 		if(helmchoice != "None")
 			head = helmets[helmchoice]
+
 	if(H.mind)
 		SStreasury.give_money_account(ECONOMIC_LOWER_MIDDLE_CLASS, H, "Savings.")
 
@@ -369,7 +366,7 @@
 	)
 	subclass_skills = list(
 		/datum/skill/combat/whipsflails = SKILL_LEVEL_EXPERT,
-		/datum/skill/combat/wrestling = SKILL_LEVEL_MASTER, //hilarious
+		/datum/skill/combat/wrestling = SKILL_LEVEL_EXPERT, //hilarious
 		/datum/skill/combat/unarmed = SKILL_LEVEL_EXPERT,
 		/datum/skill/combat/swords = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/combat/slings = SKILL_LEVEL_JOURNEYMAN,//Funny
@@ -404,7 +401,7 @@
 	backpack_contents = list(
 		/obj/item/rogueweapon/huntingknife/idagger/steel/special = 1,
 		/obj/item/rope/chain = 1,
-		/obj/item/storage/keyring/guardcastle = 1,
+		/obj/item/storage/keyring/manatarms = 1,
 		/obj/item/rogueweapon/scabbard/sheath = 1,
 		/obj/item/reagent_containers/glass/bottle/rogue/healthpot = 1,
 		)
@@ -425,3 +422,107 @@
 			head = helmets[helmchoice]
 	if(H.mind)
 		SStreasury.give_money_account(ECONOMIC_LOWER_MIDDLE_CLASS, H, "Savings.")
+
+// Carries the ducal standard.
+// When carrying it, he's granted a few unique traits.
+// Bonuses, relaying location, etc.
+// The stats are middling, as a result. Really bad, honestly.
+// No armour trait, but gets crit resist. STAY STANDING!!!
+/datum/advclass/manorguard/standard_bearer
+	name = "Standard Bearer"
+	tutorial = "You are one of the Man at Arms entrusted with the keep's standard when you sally out into battle. \
+	Your fellow soldiers know to rally around you, should you keep it safe."
+	outfit = /datum/outfit/job/roguetown/manorguard/standard_bearer
+	category_tags = list(CTAG_MENATARMS)
+	traits_applied = list(TRAIT_STANDARD_BEARER)
+	// on-par with footman, with one less CON and INT swapped out for PER
+	subclass_stats = list(
+		STATKEY_STR = 2, // seems kinda lame but remember guardsman bonus!!
+		STATKEY_PER = 1,
+		STATKEY_CON = 2,
+		STATKEY_WIL = 1
+	)
+	subclass_skills = list(
+		/datum/skill/combat/polearms = SKILL_LEVEL_EXPERT, // SWING THAT THING.
+		/datum/skill/combat/wrestling = SKILL_LEVEL_EXPERT, // OR THOSE ARMS, I GUESS.
+		/datum/skill/combat/unarmed = SKILL_LEVEL_JOURNEYMAN,
+		/datum/skill/combat/knives = SKILL_LEVEL_JOURNEYMAN,
+		/datum/skill/misc/climbing = SKILL_LEVEL_JOURNEYMAN,
+		/datum/skill/misc/athletics = SKILL_LEVEL_JOURNEYMAN,
+		/datum/skill/misc/reading = SKILL_LEVEL_NOVICE,
+	)
+	maximum_possible_slots = 1 // Haha... no... unless...?
+
+/datum/outfit/job/roguetown/manorguard/standard_bearer/pre_equip(mob/living/carbon/human/H)
+	..()
+	H.adjust_blindness(-3)
+	neck = /obj/item/clothing/neck/roguetown/gorget
+	gloves = /obj/item/clothing/gloves/roguetown/chain/iron
+	head = /obj/item/clothing/head/roguetown/helmet/kettle
+	armor = /obj/item/clothing/suit/roguetown/armor/brigandine/light/retinue
+	shirt = /obj/item/clothing/suit/roguetown/armor/gambeson
+	wrists = /obj/item/clothing/wrists/roguetown/splintarms
+	pants = /obj/item/clothing/under/roguetown/splintlegs
+	r_hand = /obj/item/rogueweapon/spear/keep_standard
+	backl = /obj/item/rogueweapon/scabbard/gwstrap
+	backpack_contents = list(
+		/obj/item/rogueweapon/huntingknife/idagger/steel/special = 1,
+		/obj/item/rope/chain = 1,
+		/obj/item/storage/keyring/manatarms = 1,
+		/obj/item/rogueweapon/scabbard/sheath = 1,
+		/obj/item/reagent_containers/glass/bottle/rogue/healthpot = 1,
+	)
+	H.verbs |= /mob/proc/haltyell
+
+// These are really hacky, but it works.
+// One proc to moodbuff.
+/mob/proc/standard_position()
+	set name = "PLANT"
+	set category = "Standard"
+	emote("standard_position", intentional = TRUE)
+	stamina_add(rand(15, 35))
+
+/datum/emote/living/standard_position
+	key = "standard_position"
+	message = "plants the standard!"
+	emote_type = EMOTE_VISIBLE
+	show_runechat = TRUE
+
+/datum/emote/living/standard_position/run_emote(mob/user, params, type_override, intentional)
+	. = ..()
+	if(do_after(user, 8 SECONDS)) // SCORE SOME GOALS!!!
+		playsound(user.loc, 'sound/combat/shieldraise.ogg', 100, FALSE, -1)
+		if(.)
+			for(var/mob/living/carbon/human/L in viewers(7, user))
+				if(HAS_TRAIT(L, TRAIT_GUARDSMAN))
+					to_chat(L, span_monkeyhive("The standard calls out to me!"))
+					L.add_stress(/datum/stressevent/keep_standard_lesser)
+
+//Another to call out.
+/mob/proc/standard_rally()
+	set name = "RALLY"
+	set category = "Standard"
+	emote("standard_rally", intentional = TRUE)
+	stamina_add(rand(15, 35))
+
+/datum/emote/living/standard_rally
+	key = "standard_rally"
+	message = "activates the standard's rallying cry!"
+	emote_type = EMOTE_VISIBLE
+	show_runechat = TRUE
+
+/datum/emote/living/standard_rally/run_emote(mob/user, params, type_override, intentional)
+	. = ..()
+	if(do_after(user, 8 SECONDS)) // COME ON!!!
+		playsound(user.loc, 'sound/combat/shieldraise.ogg', 100, FALSE, -1)
+		if(.)
+			// gives them a rallying message, but doesn't reveal a location. gives antags some leeway
+			var/input_text = "<big><span style='color: [CLOTHING_WOAD_BLUE]'>THE DUCAL STANDARD CALLS FOR ALL GUARDSMEN TO RALLY AT [uppertext(get_area_name(user))]!</span></big>" // non-specific rallying call
+			for(var/obj/item/scomstone/bad/garrison/S in SSroguemachine.scomm_machines)
+				S.repeat_message(input_text, src, CLOTHING_WOAD_BLUE)
+			for(var/obj/item/scomstone/garrison/S in SSroguemachine.scomm_machines)
+				S.repeat_message(input_text, src, CLOTHING_WOAD_BLUE)
+			for(var/obj/structure/roguemachine/scomm/S in SSroguemachine.scomm_machines)
+				if(S.garrisonline)
+					S.repeat_message(input_text, src, CLOTHING_WOAD_BLUE)
+			SSroguemachine.crown?.repeat_message(input_text, src, CLOTHING_WOAD_BLUE)

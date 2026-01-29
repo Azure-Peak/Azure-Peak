@@ -18,6 +18,7 @@
 
 /obj/item/clothing/head/roguetown/armingcap/padded/ComponentInitialize()
 	AddComponent(/datum/component/armour_filtering/positive, TRAIT_FENCERDEXTERITY)
+	AddComponent(/datum/component/armour_filtering/positive, TRAIT_HONORBOUND)
 
 /obj/item/clothing/head/roguetown/armingcap/padded
 	name = "padded arming cap"
@@ -43,6 +44,53 @@
 	blocksound = SOFTHIT
 	max_integrity = ARMOR_INT_HELMET_LEATHER
 	salvage_result = /obj/item/natural/hide/cured
+
+/obj/item/clothing/head/roguetown/helmet/leather/chapeau
+	name = "Chapeau a Naled"
+	desc = "A leather cap, armored with layers of especially crafted armored coins each baring wards against supernatural forces. The heavy closeable, face-obscuring flaps are both practical, to protect from sand and dust and frigid nights--and to ensure the Otavan aids were not violating Naledi customs with their uncovered faces.</br>They are heavily associated with the Poet-Historian Aalis Petit and her writings and songs about the campaign into Naledi and through her, adventurous bards of Otava. "
+	icon_state = "chapnaled"
+	var/open_wear = TRUE
+	flags_inv = HIDEHAIR
+	body_parts_covered = HEAD|HAIR|EARS
+
+/obj/item/clothing/head/roguetown/helmet/leather/chapeau/attack_right(mob/user)
+	switch(open_wear)
+		if(FALSE)
+			icon_state = "chapnaledalt"
+			item_state = "chapnaledalt"
+			open_wear = TRUE
+			flags_inv = HIDESNOUT|HIDEHAIR
+			body_parts_covered_dynamic = HEAD|HAIR|FACE
+		if(TRUE)
+			icon_state = "chapnaled"
+			item_state = "chapnaled"
+			open_wear = FALSE
+			flags_inv = HIDEHAIR
+			body_parts_covered_dynamic = HEAD|HAIR|EARS
+	update_icon()
+	if(user)
+		if(ishuman(user))
+			var/mob/living/carbon/H = user
+			H.update_inv_head()
+
+/obj/item/clothing/head/roguetown/helmet/leather/chapeau/AltRightClick(mob/user)
+	if(!istype(loc, /mob/living/carbon))
+		return
+	var/mob/living/carbon/H = user
+	if(icon_state == "[initial(icon_state)]_snout")
+		icon_state = initial(icon_state)
+		H.update_inv_head()
+		update_icon()
+		return
+
+	var/icon/J = new('icons/roguetown/clothing/onmob/head.dmi')
+	var/list/istates = J.IconStates()
+	for(var/icon_s in istates)
+		if(findtext(icon_s, "[icon_state]_snout"))
+			icon_state += "_snout"
+			H.update_inv_head()
+			update_icon()
+			return
 
 /obj/item/clothing/head/roguetown/helmet/leather/volfhelm
 	slot_flags = ITEM_SLOT_HEAD|ITEM_SLOT_HIP
@@ -178,3 +226,6 @@
 	flags_inv = HIDEEARS
 	body_parts_covered = HEAD|HAIR|EARS|NOSE|EYES
 	resistance_flags = FIRE_PROOF
+
+/obj/item/clothing/head/roguetown/mentorhat/ComponentInitialize()
+	AddComponent(/datum/component/armour_filtering/positive, TRAIT_HONORBOUND)

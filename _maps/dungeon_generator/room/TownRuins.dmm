@@ -396,6 +396,7 @@
 "ia" = (
 /obj/structure/table/wood/fancy,
 /obj/item/roguestatue/gold,
+/obj/effect/spawner/lootdrop/valuable_candle_spawner,
 /turf/open/floor/rogue/ruinedwood/chevron,
 /area/rogue/under/tomb/indoors)
 "ij" = (
@@ -605,6 +606,7 @@
 	pixel_y = -1
 	},
 /obj/effect/decal/cleanable/debris/stony,
+/obj/item/soap/bath,
 /turf/open/floor/rogue/tile,
 /area/rogue/under/tomb/indoors)
 "mZ" = (
@@ -798,7 +800,7 @@
 /area/rogue/under/tomb/indoors/church)
 "pK" = (
 /obj/effect/decal/cleanable/dirt,
-/obj/structure/bed,
+/obj/structure/bed/rogue/inn,
 /turf/open/floor/rogue/hexstone,
 /area/rogue/under/tomb/indoors)
 "pQ" = (
@@ -880,15 +882,6 @@
 /area/rogue/under/tomb)
 "ru" = (
 /obj/structure/mineral_door/wood/deadbolt,
-/turf/open/floor/rogue/tile,
-/area/rogue/under/tomb/indoors)
-"rw" = (
-/obj/item/soap/bath,
-/obj/item/soap/bath,
-/obj/structure/closet/crate/chest,
-/obj/item/soap/bath,
-/obj/item/soap,
-/obj/effect/spawner/lootdrop/general_loot_low,
 /turf/open/floor/rogue/tile,
 /area/rogue/under/tomb/indoors)
 "rO" = (
@@ -2326,6 +2319,14 @@
 /obj/structure/bars,
 /turf/open/transparent/openspace,
 /area/rogue/under/tomb)
+"WN" = (
+/obj/structure/closet/crate/chest,
+/obj/item/soap,
+/obj/effect/spawner/lootdrop/general_loot_low,
+/obj/item/soap/bath,
+/obj/item/soap/bath,
+/turf/open/floor/rogue/tile,
+/area/rogue/under/tomb/indoors)
 "WQ" = (
 /obj/effect/decal/cleanable/dirt,
 /obj/effect/decal/cleanable/dirt,
@@ -2486,7 +2487,7 @@
 /turf/open/floor/rogue/naturalstone,
 /area/rogue/under/tomb/indoors/church)
 "ZT" = (
-/obj/structure/bed,
+/obj/structure/bed/rogue/inn,
 /turf/open/floor/rogue/hexstone,
 /area/rogue/under/tomb/indoors)
 "ZW" = (
@@ -3629,7 +3630,7 @@ gQ
 rV
 VM
 Dz
-rw
+VM
 rV
 cc
 cc
@@ -3725,7 +3726,7 @@ lL
 ru
 Dz
 JZ
-VM
+WN
 rV
 oM
 fJ

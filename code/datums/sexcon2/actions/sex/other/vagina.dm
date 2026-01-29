@@ -2,6 +2,7 @@
 	name = "Ride them"
 	stamina_cost = 1.0
 	aggro_grab_instead_same_tile = FALSE
+	intensity = 4
 
 /datum/sex_action/sex/other/vagina/shows_on_menu(mob/living/carbon/human/user, mob/living/carbon/human/target)
 	if(user == target)
@@ -43,7 +44,7 @@
 	// i became a man at arms to get access to the keep...
 	if(istype(user.head, /obj/item/clothing/head/roguetown/jester))
 		playsound(user, SFX_JINGLE_BELLS, 30, TRUE, -2, ignore_walls = FALSE)
-	do_thrust_animate(user, target)
+	do_thrust_animate(user, target, sex_session)
 
 	do_onomatopoeia(user)
 
@@ -56,7 +57,7 @@
 	sex_session.perform_sex_action(target, 2, 4, FALSE)
 
 /datum/sex_action/sex/other/vagina/handle_climax_message(mob/living/carbon/human/user, mob/living/carbon/human/target)
-	target.visible_message(span_love("[target] cums into [user]'s cunt!"))
+	target.visible_message(span_love("[user] cums into [target]'s cunt!"))
 	target.virginity = FALSE
 	user.virginity = FALSE
 	user.try_impregnate(target)

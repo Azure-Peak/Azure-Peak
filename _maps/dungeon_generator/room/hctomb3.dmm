@@ -880,7 +880,7 @@
 "Fs" = (
 /mob/living/simple_animal/hostile/retaliate/rogue/mimic,
 /obj/effect/decal/cleanable/dirt/dust,
-/obj/item/natural/rock/random_ore,
+/obj/item/natural/rock/dungeon,
 /turf/open/floor/rogue/church,
 /area/rogue/under/tomb/cave/spider)
 "Fz" = (
@@ -1251,7 +1251,7 @@
 /mob/living/simple_animal/hostile/retaliate/rogue/mimic,
 /obj/machinery/light/rogue/candle/blue,
 /obj/effect/decal/cleanable/dirt/dust,
-/obj/item/natural/rock/random_ore,
+/obj/item/natural/rock/dungeon,
 /turf/open/floor/rogue/church,
 /area/rogue/under/tomb/cave/spider)
 "PG" = (

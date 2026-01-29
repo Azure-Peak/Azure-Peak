@@ -316,3 +316,18 @@
 	icon_state = "ingotlithmyc"
 	smeltresult = /obj/item/ingot/lithmyc
 	sellprice = 444
+
+/obj/item/ingot/ketryl
+	name = "ketryl ingot"
+	desc = "Named after its mythical status, this ingot is forged as per the dwarven standards etched in a small imprint on the ingot's surface. Ketryl is often folded in thin layers, stronger than steel, yet unusually light at the same time."
+	icon_state = "ingotketryl"
+	smeltresult = null
+	sellprice = 555
+
+/obj/item/ingot/drow
+	name = "skikudic ingot"
+	desc = "This ingot offers an alternative - if rarely-heard - solution to riddle of steel, courtesy of the Underdark's fungus-fueled forges. Sunlight refuses to illuminate its presence, no matter how bright its glare becomes. </br>'..perhaps, the forge's heat can scald away its fungal temperance..'"
+	icon_state = "ingotsteel"
+	smeltresult = /obj/item/ingot/iron //Smelting the ingot again 'burns away' the fungal temperance, allowing it to be reused for said recipes.
+	color = "#bc9ab7"
+	sellprice = 30 //Rarer to obtain than iron, and feasible to sell off as salvage.

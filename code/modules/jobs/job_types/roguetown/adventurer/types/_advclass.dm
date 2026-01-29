@@ -41,6 +41,9 @@
 	/// Subclass languages.
 	var/list/subclass_languages
 
+	/// Subclass virtues.
+	var/list/subclass_virtues
+
 	/// Spellpoints. If More than 0, Gives Prestidigitation & the Learning Spell.
 	var/subclass_spellpoints = 0
 
@@ -52,6 +55,9 @@
 
 	/// Set to FALSE to skip apply_character_post_equipment() which applies virtue, flaw, loadout
 	var/applies_post_equipment = TRUE
+
+	/// set to TRUE to reset stats in equipme, clearing any racial bonuses or bonuses the character had before becoming this class
+	var/reset_stats = FALSE
 
 	var/datum/class_age_mod/age_mod = null
 
@@ -99,6 +105,9 @@
 		for(var/lang in subclass_languages)
 			H.grant_language(lang)
 
+	if(reset_stats)
+		H.reset_stats()
+
 	if(length(subclass_stats))
 		for(var/stat in subclass_stats)
 			H.change_stat(stat, subclass_stats[stat])
@@ -106,6 +115,10 @@
 	if(length(subclass_skills))
 		for(var/skill in subclass_skills)
 			H.adjust_skillrank_up_to(skill, subclass_skills[skill], TRUE)
+
+	if(length(subclass_virtues))
+		for(var/virtue in subclass_virtues)
+			apply_virtue(H, new virtue)
 
 	if(age_mod)
 		if(istype(age_mod))

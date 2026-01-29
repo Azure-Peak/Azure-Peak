@@ -185,27 +185,79 @@ Sunlight System
 
 /* check ourselves and neighbours to see what outdoor effects we need */
 /* turf won't initialize an outdoor_effect if sky_blocked*/
-/turf/proc/get_sky_and_weather_states()
+/turf/proc/update_sky_and_weather_states()
 	var/TempState
 
-	var/roofStat = get_ceiling_status()
-	var/tempRoofStat
-	if(roofStat["SKYVISIBLE"])
-		TempState = SKY_VISIBLE
-		for(var/turf/CT in RANGE_TURFS(1, src))
-			tempRoofStat = CT.get_ceiling_status()
-			if(!tempRoofStat["SKYVISIBLE"]) /* if we have a single roofed/indoor neighbour, we are a border */
-				TempState = SKY_VISIBLE_BORDER
-				break
-	else /* roofed, so turn off the lights */
+	var/sky_visible = is_sky_visible()
+	var/turf_weatherproof = is_weatherproof()
+	if(!sky_visible)/* roofed, so turn off the lights */
 		TempState = SKY_BLOCKED
+	else
+		TempState = SKY_VISIBLE
+		for(var/turf/closed/closed_neighbor in orange(1, src)) // use byond's built-in type filtering for speed
+			TempState = SKY_VISIBLE_BORDER
+			break
+		if(TempState != SKY_VISIBLE_BORDER)
+			for(var/turf/open/open_neighbor in orange(1, src)) // once again, use orange instead of RANGE_TURFS for the built-in type filtering
+				if(!open_neighbor.is_sky_visible()) /* if we have a single roofed/indoor neighbour, we are a border */
+					TempState = SKY_VISIBLE_BORDER
+					break
 
 	/* if border or indoor, initialize. Set sunlight state if valid */
-	if(!outdoor_effect && (TempState <> SKY_BLOCKED || !roofStat["WEATHERPROOF"]))
+	if(!outdoor_effect && (TempState != SKY_BLOCKED || !turf_weatherproof))
 		outdoor_effect = new /atom/movable/outdoor_effect(src)
 	if(outdoor_effect)
 		outdoor_effect.state = TempState
-		outdoor_effect.weatherproof = roofStat["WEATHERPROOF"]
+		outdoor_effect.weatherproof = turf_weatherproof
+		if(turf_weatherproof) // we're weatherproof so make sure we're not being weathered
+			if(turf_flags & TURF_BEING_WEATHERED) // only remove it from the list if we're sure it's already in it
+				SSParticleWeather.weathered_turfs -= src
+				turf_flags &= ~TURF_BEING_WEATHERED
+		else if(SSoutdoor_effects.turf_weather_affectable_z_levels[z]) // not weatherproof, enable weathering if allowed
+			turf_flags |= TURF_BEING_WEATHERED
+			SSParticleWeather.weathered_turfs += src
+
+/// Do this turf and all the turfs above it in the z-stack allow sunlight through?
+/turf/proc/is_sky_visible()
+	// rare for this to be true but it overrides everything else
+	return FALSE
+
+/turf/proc/is_sky_visible_through()
+	if(!istransparentturf(src))
+		return FALSE
+	for(var/obj/structure/thing in src)
+		if(thing.weatherproof)
+			return FALSE
+	return is_sky_visible()
+
+/// Does this turf, or ANY turf in the Z-stack above it, block weather effects?
+/turf/proc/is_weatherproof()
+	// rare for this to be true
+	if (pseudo_roof)
+		return TRUE
+	var/turf/ceiling = _GET_TURF_ABOVE_UNSAFE(src)
+	if(ceiling)
+		return ceiling.is_weatherproof_ceiling()
+	var/area/turf_area = loc
+	return !turf_area.outdoors // if this runtimes because a turf isn't in an area i'll just die
+
+/turf/closed/is_weatherproof() // skip checks for this. refactor if you ever allow closed turfs to let weather through ig
+	return TRUE
+
+/// Does this turf block the ones below it from receiving weather effects?
+/// Equivalent to is_weatherproof(recursionStarted = TRUE) in the old format.
+/turf/proc/is_weatherproof_ceiling()
+	// due to the type overrides of this proc we can assume src is never a closed turf
+	if(weatherproof) // turf weatherproof only applies for passing weather downwards
+		return TRUE
+	// not inherently weatherproof
+	for(var/obj/structure/thing in src) // check for weather blockers (tent walls, etc)
+		if(thing.weatherproof)
+			return TRUE
+	return is_weatherproof() // check our own roof
+
+/turf/closed/is_weatherproof_ceiling() // ditto, skip checks for this.
+	return TRUE
 
 /* runs up the Z stack for this turf, returns a assoc (SKYVISIBLE, WEATHERPROOF)*/
 /* pass recursionStarted=TRUE when we are checking our ceiling's stats */

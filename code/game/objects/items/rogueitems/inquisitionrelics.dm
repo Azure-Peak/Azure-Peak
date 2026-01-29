@@ -64,6 +64,7 @@
 	twohands_required = TRUE
 	var/datum/looping_sound/psydonmusicboxsound/soundloop
 
+
 /obj/item/psydonmusicbox/examine(mob/user)
 	. = ..()
 	if(HAS_TRAIT(usr, TRAIT_INQUISITION))
@@ -79,7 +80,13 @@
 	cranking = !cranking
 	update_icon()
 	if(cranking)
-		user.apply_status_effect(/datum/status_effect/buff/cranking_soulchurner)
+		if(!HAS_TRAIT(usr, TRAIT_INSPIRING_MUSICIAN))
+			user.apply_status_effect(/datum/status_effect/buff/cranking_soulchurner)
+		else
+			if(alert("Harmonize the voices or let them scream?",, "Harmonize", "Scream") != "Scream")
+				user.apply_status_effect(/datum/status_effect/buff/quelling_soulchurner)
+			else
+				user.apply_status_effect(/datum/status_effect/buff/cranking_soulchurner)	
 		soundloop.start()
 		var/songhearers = view(7, user)
 		for(var/mob/living/carbon/human/target in songhearers)
@@ -87,6 +94,7 @@
 	if(!cranking)
 		soundloop.stop()
 		user.remove_status_effect(/datum/status_effect/buff/cranking_soulchurner)
+		user.remove_status_effect(/datum/status_effect/buff/quelling_soulchurner)
 
 /obj/item/psydonmusicbox/Initialize()
 	soundloop = new(src, FALSE)
@@ -260,6 +268,34 @@
 						H.add_stress(/datum/stressevent/soulchurner)
 						if(!H.has_status_effect(/datum/status_effect/buff/churnernegative))
 							H.apply_status_effect(/datum/status_effect/buff/churnernegative)
+
+
+/atom/movable/screen/alert/status_effect/buff/quelling_soulchurner
+	name = "Quelling Soulchurner"
+	desc = "I am bringing the twisted device to life, quelling the voices..."
+	icon_state = "buff"
+
+/datum/status_effect/buff/quelling_soulchurner
+	id = "quellchurner"
+	alert_type = /atom/movable/screen/alert/status_effect/buff/quelling_soulchurner
+	var/effect_color
+	var/pulse = 0
+	var/ticks_to_apply = 10
+
+/datum/status_effect/buff/quelling_soulchurner/tick()
+	var/obj/effect/temp_visual/music_rogue/M = new /obj/effect/temp_visual/music_rogue(get_turf(owner))
+	M.color = "#800000"
+	pulse += 1
+	if (pulse >= ticks_to_apply)
+		pulse = 0
+		if(!HAS_TRAIT(owner, TRAIT_INQUISITION))
+			owner.add_stress(/datum/stressevent/soulchurnerhorror)
+		for (var/mob/living/carbon/human/H in hearers(7, owner))
+			if (!H.client)
+				continue
+			if(HAS_TRAIT(H, TRAIT_INQUISITION))
+				H.apply_status_effect(/datum/status_effect/buff/churnerprotection)
+
 /*
 Inquisitorial armory down here
 
@@ -357,7 +393,7 @@ Inquisitorial armory down here
 	. = ..()	//We smashed a guy with it turned on. Bad idea!
 	if(ismob(A) && on && (user.used_intent.type == /datum/intent/mace/smash/flail/golgotha) && user.cmode)
 		user.visible_message(span_warningbig("[user] smashes the exposed [src], shattering the shard of SYON!"))
-		explosion(get_turf(A),devastation_range = 2, heavy_impact_range = 3, light_impact_range = 4, flame_range = 2, flash_range = 4, smoke = FALSE)
+		explosion(get_turf(A),devastation_range = 3, heavy_impact_range = 5, light_impact_range = 6, flame_range = 3, flash_range = 6, smoke = FALSE)
 		fuel = 0
 		turn_off()
 		icon_state = "psycenser-broken"
@@ -366,6 +402,8 @@ Inquisitorial armory down here
 		for(var/mob/living/carbon/human/H in view(get_turf(src)))
 			if(H.patron?.type == /datum/patron/old_god)	//Psydonites get VERY depressed seeing an artifact get turned into an ulapool caber.
 				H.add_stress(/datum/stressevent/syoncalamity)
+		for(var/mob/living/carbon/human/H in range(1, get_turf(src)))
+			H.gib()
 	if(isitem(A) && on && user.used_intent.type == /datum/intent/bless)
 		var/datum/component/silverbless/CP = A.GetComponent(/datum/component/silverbless)
 		if(CP)
@@ -423,6 +461,7 @@ Inquisitorial armory down here
 	var/cursedblood	
 	var/active
 	var/mob/living/carbon/subject
+	var/hasSubject = FALSE
 	var/full	
 	var/timestaken
 	var/working
@@ -509,6 +548,7 @@ Inquisitorial armory down here
 	cursedblood = initial(cursedblood)
 	working = initial(working)
 	subject = initial(subject)
+	hasSubject = FALSE
 	full = initial(full)
 	timestaken = initial(timestaken)
 	desc = initial(desc)
@@ -556,6 +596,7 @@ Inquisitorial armory down here
 			if(M.show_redflash())
 				M.flash_fullscreen("redflash3")
 			subject = M
+			hasSubject = TRUE
 			if(!HAS_TRAIT(M, TRAIT_NOPAIN) || !HAS_TRAIT(M, TRAIT_NOPAINSTUN))
 				if(prob(15))
 					M.emote("whimper", forced = TRUE)
@@ -1179,6 +1220,9 @@ Inquisitorial armory down here
 		for(var/mob/living/carbon/human/HL in GLOB.player_list) 
 		//	to_chat(world, "going through mob: [HL] | real_name: [HL.real_name] | input: [input] | [world.time]") Mirror-bugsplatter. Disregard this.
 			if(HL.real_name == input)
+				if(HAS_TRAIT(HL, TRAIT_ANTISCRYING))
+					to_chat(user, span_warning("They are not within the gaze of the Mirror."))
+					return
 				target = HL
 				active = TRUE
 				effect = target.throw_alert("blackmirror", /atom/movable/screen/alert/blackmirror, override = TRUE)
@@ -1324,6 +1368,11 @@ Inquisitorial armory down here
 		QDEL_NULL(soundloop)
 	return ..()
 
+/atom/movable/screen/alert/scryingeye
+	name = "SCRYING EYE"
+	desc = "I SEE YOU."
+	icon_state = "scryingeye"
+	timeout = 8 SECONDS
 
 /atom/movable/screen/alert/blackmirror
 	name = "BLACK EYE"

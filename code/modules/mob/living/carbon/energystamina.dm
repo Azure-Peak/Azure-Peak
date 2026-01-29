@@ -34,8 +34,11 @@
 	if(HAS_TRAIT(src, TRAIT_INFINITE_ENERGY))
 		energy = max_energy
 	if(HAS_TRAIT(src, TRAIT_BREADY))
-		energy_add(4) // Battle Ready now gives you a small amount of regeneration.
-		// This generally cover most reasonable in combat usage.
+		if(src.mind)
+			energy_add(4) // Battle Ready now gives you a small amount of regeneration.
+			// This generally cover most reasonable in combat usage.
+		else
+			energy_add(2) // Halve effectiveness for NPCs.
 
 /mob/proc/energy_add(added as num)
 	return
@@ -175,6 +178,9 @@
 
 		if(energy <= 0)
 			addtimer(CALLBACK(src, PROC_REF(Knockdown), 30), 1 SECONDS)
+			var/area/rogue/our_area = get_area(src)
+			if(our_area.necra_area)
+				src.extract_from_deaths_edge()
 		addtimer(CALLBACK(src, PROC_REF(Immobilize), 30), 1 SECONDS)
 		if(iscarbon(src))
 			var/mob/living/carbon/C = src

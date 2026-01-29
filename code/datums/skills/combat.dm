@@ -82,7 +82,7 @@
 
 /datum/skill/combat/crossbows
 	name = "Crossbows"
-	desc = "Alongside perception, increases the speed you ready a crossbow and have it ready to shoot. Does not influence damage or chance to hit."
+	desc = "Alongside perception, increases the speed you ready a crossbow and have it ready to shoot as well it's draw speed. Does not influence damage or chance to hit."
 	dreams = list(
 	"...you put your foot down and pull on the string. You wind the crossbow back with all your might. It feels like the thing is mocking you, impossible to pull taut. Only when a seasoned arbalist reminds you to pull from your back, and not your knees, do you make progress...",
 	"...the crossbow is a deadly marvel of engineering, waiting for your guidance. You steady your breath, finger poised on the trigger. The world narrows as you take aim, the perfect shot soon to come..."

@@ -309,6 +309,8 @@
 	desc = "A bulky shield of spike-like lengths molten together. The motifs evoke anything but safety and protection."
 	icon_state = "spidershield"
 	coverage = 55
+	smeltresult = /obj/item/ingot/drow
+	smelt_bar_num = 1
 
 /obj/item/rogueweapon/shield/buckler
 	name = "buckler shield"
@@ -329,6 +331,12 @@
 	grid_width = 32
 	grid_height = 64
 	anvilrepair = /datum/skill/craft/weaponsmithing
+
+/obj/item/rogueweapon/shield/buckler/equipped(mob/user, slot, initial)
+	. = ..()
+	if(HAS_TRAIT(user, TRAIT_GNARLYDIGITS))
+		to_chat(user, span_danger("Woe! the handle of the [src] is too small for me to hold onto!"))
+		forceMove(user.loc)
 
 /obj/item/rogueweapon/shield/buckler/examine(mob/living/user)
 	. = ..()
@@ -367,10 +375,10 @@
 	max_integrity = 85
 	smeltresult = /obj/item/ingot/purifiedaalloy
 
-// unique, better buckler for knight captain
-/obj/item/rogueweapon/shield/buckler/knightcaptain
+// unique, better buckler for champion
+/obj/item/rogueweapon/shield/buckler/banneret
 	name = "'Aegis'"
-	desc = "A special buckler made out of blacksteel for the Knight Captain, adorned with a crest. An inscription along the top reads,\"RUAT CAELUM\""
+	desc = "A special buckler made out of blacksteel for the Knight Banneret, adorned with a crest. An inscription along the top reads,\"RUAT CAELUM\""
 	icon_state = "capbuckler"
 	icon = 'icons/roguetown/weapons/special/captain.dmi'
 	max_integrity = 150

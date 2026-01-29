@@ -535,8 +535,8 @@
 			continue
 		var/category
 		if(R.skillcraft)
-			var/datum/skill/S = new R.skillcraft()
-			category = S.name
+			var/datum/skill/S = R.skillcraft
+			category = initial(S.name)
 		else
 			category = "Other"
 		if(isnull(crafting_recipes[category]))

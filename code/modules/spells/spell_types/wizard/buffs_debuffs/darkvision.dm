@@ -21,6 +21,7 @@
 	cost = 2
 
 /obj/effect/proc_holder/spell/invoked/darkvision/miracle
+	base_icon_state = "wisescroll"
 	cost = 0
 	spell_tier = 0
 	associated_skill = /datum/skill/magic/holy

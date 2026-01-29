@@ -84,6 +84,7 @@
 		I.max_integrity += round(added_int * blessing_divisor)
 		I.obj_integrity = I.max_integrity
 		I.wdefense += round(added_def * blessing_divisor)
+		I.wdefense_dynamic = I.wdefense
 		I.name = "blessed [I.name]"
 		I.AddComponent(/datum/component/metal_glint)
 

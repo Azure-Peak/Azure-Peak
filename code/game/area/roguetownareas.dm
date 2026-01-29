@@ -21,6 +21,7 @@ GLOBAL_LIST_INIT(roguetown_areas_typecache, typecacheof(/area/rogue/indoors/town
 	var/holy_area = FALSE
 	var/cell_area = FALSE
 	var/drow_area = FALSE
+	var/necra_area = FALSE
 	var/ceiling_protected = FALSE //Prevents tunneling into these from above
 
 /area/rogue/Entered(mob/living/carbon/human/guy)
@@ -35,6 +36,11 @@ GLOBAL_LIST_INIT(roguetown_areas_typecache, typecacheof(/area/rogue/indoors/town
 		guy.apply_status_effect(/datum/status_effect/buff/anthraxbuff)
 	if((src.holy_area == TRUE) && HAS_TRAIT(guy, TRAIT_UNDIVIDED)) // get a long-lingering mood buff so long as we visit the church daily as Undivided.
 		guy.add_stress(/datum/stressevent/seeblessed)
+	if((src.necra_area == TRUE) && !(guy.has_status_effect(/datum/status_effect/debuff/necrandeathdoorwilloss)||(guy.has_status_effect(/datum/status_effect/debuff/deathdoorwilloss)))) //Necra saps at wil
+		if(HAS_TRAIT(guy, TRAIT_SOUL_EXAMINE))
+			guy.apply_status_effect(/datum/status_effect/debuff/necrandeathdoorwilloss)
+		else
+			guy.apply_status_effect(/datum/status_effect/debuff/deathdoorwilloss)
 
 /area/rogue/indoors
 	name = "indoors rt"
@@ -336,3 +342,14 @@ GLOBAL_LIST_INIT(roguetown_areas_typecache, typecacheof(/area/rogue/indoors/town
 	name = "dream realm"
 	icon_state = "dream"
 	first_time_text = "Abyssal Dream"
+
+
+
+/area/rogue/indoors/deathsedge
+	name = "Death's Precipice"
+	deathsight_message = "an place bordering necra's grasp"
+	necra_area = TRUE
+	droning_sound = 'sound/music/area/underworlddrone.ogg'
+	droning_sound_dusk = null
+	droning_sound_night = null
+	first_time_text = "DEATHS PRECIPICE"
