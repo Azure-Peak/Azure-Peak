@@ -307,7 +307,6 @@
 
 /datum/status_effect/debuff/graggar_challenge/on_remove()
 	// If the duration ran out naturally (didn't get cleared by the rift)
-	to_chat(world, "DEBUG: Start: [creation_time] | End Target: [creation_time + failure_time] | Current: [world.time]")
 	if(world.time >= (creation_time + failure_time - 5))
 		to_chat(owner, span_userdanger("You failed to prove your worth to Graggar!"))
 		trigger_failure_consequences(owner)
