@@ -896,18 +896,26 @@ GLOBAL_LIST_EMPTY(map_model_default)
 	if(!crds)
 		return
 
+	// [GUARD] model sanity
 	if(!islist(model) || model.len < 2)
+		world.log << "build_coordinate: invalid model at [crds] ([model])"
 		return
+
 	if(!islist(model[1]) || ispath(model[1]))
-		model[1] = list()
+		world.log << "build_coordinate: invalid members list at [crds] ([model[1]] / [typeof(model[1])])"
+		return
+
 	if(!islist(model[2]) || ispath(model[2]))
-		model[2] = list()
+		world.log << "build_coordinate: invalid members_attributes list at [crds] ([model[2]] / [typeof(model[2])])"
+		return
 
 	var/index
 	var/list/members = model[1]
 	var/list/members_attributes = model[2]
 
+	// [GUARD] empty model
 	if(!members.len)
+		world.log << "build_coordinate: empty members list at [crds]"
 		return
 
 	// We use static lists here because it's cheaper then passing them around
@@ -952,7 +960,9 @@ GLOBAL_LIST_EMPTY(map_model_default)
 	// Index right before /area is /turf
 	index--
 
+	// [GUARD] invalid turf index
 	if(index < 1 || index > members.len)
+		world.log << "build_coordinate: invalid turf index [index] at [crds] (members.len=[members.len])"
 		return
 
 	var/atom/instance
