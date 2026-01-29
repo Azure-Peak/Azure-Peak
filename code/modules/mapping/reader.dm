@@ -902,11 +902,11 @@ GLOBAL_LIST_EMPTY(map_model_default)
 		return
 
 	if(!islist(model[1]) || ispath(model[1]))
-		world.log << "build_coordinate: invalid members list at [crds] ([model[1]] / [typeof(model[1])])"
+		world.log << "build_coordinate: invalid members list at [crds] ([model[1]])"
 		return
 
 	if(!islist(model[2]) || ispath(model[2]))
-		world.log << "build_coordinate: invalid members_attributes list at [crds] ([model[2]] / [typeof(model[2])])"
+		world.log << "build_coordinate: invalid members list at [crds] ([model[2]])"
 		return
 
 	var/index
