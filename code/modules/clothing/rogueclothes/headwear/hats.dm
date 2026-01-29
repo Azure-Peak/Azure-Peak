@@ -528,3 +528,48 @@
 	icon = 'icons/roguetown/clothing/special/maids.dmi'
 	mob_overlay_icon = 'icons/roguetown/clothing/special/onmob/maids.dmi'
 	sleeved = 'icons/roguetown/clothing/special/onmob/maids.dmi'
+
+/obj/item/clothing/head/roguetown/courtphysician
+	name = "sanguine hat"
+	desc = "A hat for keeping the splattered blood out of your face, for when your trade is required."
+	icon_state = "dochat1"
+	item_state = "dochat1"
+	detail_tag = "_detail"
+	detail_color = CLOTHING_RED
+	icon = 'icons/roguetown/clothing/special/courtphys.dmi'
+	mob_overlay_icon = 'icons/roguetown/clothing/special/onmob/courtphys.dmi'
+	salvage_result = /obj/item/natural/silk
+
+/obj/item/clothing/head/roguetown/courtphysician/Initialize()
+	. = ..()
+	update_icon()
+
+/obj/item/clothing/head/roguetown/courtphysician/update_icon()
+	cut_overlays()
+	if(get_detail_tag())
+		var/mutable_appearance/pic = mutable_appearance(icon(icon, "[icon_state][detail_tag]"))
+		pic.appearance_flags = RESET_COLOR
+		if(get_detail_color())
+			pic.color = get_detail_color()
+		add_overlay(pic)
+
+/obj/item/clothing/head/roguetown/courtphysician/female
+	name = "sanguine cap"
+	desc = "A cap for keeping the splattered blood out of your hair, for when your trade is required."
+	icon_state = "dochat2"
+	item_state = "dochat2"
+	detail_tag = "_detail"
+	detail_color = CLOTHING_RED
+
+/obj/item/clothing/head/roguetown/courtphysician/female/Initialize()
+	. = ..()
+	update_icon()
+
+/obj/item/clothing/head/roguetown/courtphysician/female/update_icon()
+	cut_overlays()
+	if(get_detail_tag())
+		var/mutable_appearance/pic = mutable_appearance(icon(icon, "[icon_state][detail_tag]"))
+		pic.appearance_flags = RESET_COLOR
+		if(get_detail_color())
+			pic.color = get_detail_color()
+		add_overlay(pic)

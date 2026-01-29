@@ -249,6 +249,9 @@
 
 		to_chat(M, span_notice("Rising early, you made sure to pack a pouch of coins in your stash and eat a hearty breakfast before starting your day. A true TRIUMPH!"))
 
+	if(HAS_TRAIT(H, TRAIT_NOHUNGER))
+		H.hydration = 1000
+
 	if(H.islatejoin && announce_latejoin)
 		var/used_title = display_title || title
 		if((H.pronouns == SHE_HER || H.pronouns == THEY_THEM_F) && f_title)
@@ -542,6 +545,12 @@
 					for(var/stashed_item in adv_ref.subclass_stashed_items)
 						dat += "<br> - <i>[stashed_item]</i>"
 					dat += "</font>"
+				if(length(adv_ref.subclass_virtues))
+					dat += "<br><font color ='#7a4d0a'>Subclass Virtues:</font><font color ='#d4b164'>"
+					for(var/virtue_type in adv_ref.subclass_virtues)
+						var/datum/virtue/virtue = virtue_type
+						dat += "<br> - <i>[initial(virtue.name)]</i>"
+					dat += "</font>"
 				dat += "</td>"	//Trait Table end
 				if(length(adv_ref.subclass_skills))
 					dat += "<td width = 50%; style='text-align:right'>"
@@ -567,7 +576,7 @@
 				if(adv_ref.extra_context)
 					dat += "<font color ='#a06c1e'>[adv_ref.extra_context]"
 					dat += "<br></font>"
-				
+
 				if(istype(adv_ref.age_mod))
 					dat += adv_ref.age_mod.get_preview_string()
 

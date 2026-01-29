@@ -532,7 +532,6 @@
 	name = "Vengant Bum"
 	greet_text = span_notice("I was once a nobleman, high on life until my father was murdered right in front of me. Thankfully, my mentor took me to safety and taught me all I needed to survive in these disgusting lands. They think I am a lowlife, but that's just an advantage.")
 	req_text = "Be a beggar"
-	allowed_jobs = list(/datum/job/roguetown/beggar)
 	weight = 7
 
 /datum/special_trait/vengantbum/on_apply(mob/living/carbon/human/character, silent)
@@ -548,7 +547,6 @@
 	name = "My Precious"
 	greet_text = span_notice("The ring, it's so shiny.. so valuable, I can feel it's power. It's all mine!")
 	req_text = "Be a beggar"
-	allowed_jobs = list(/datum/job/roguetown/beggar)
 	weight = 50
 
 /datum/special_trait/my_precious/on_apply(mob/living/carbon/human/character, silent)

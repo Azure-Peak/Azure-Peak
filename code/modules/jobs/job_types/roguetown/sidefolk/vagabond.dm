@@ -1,14 +1,74 @@
-/datum/job/roguetown/orphan
-	tutorial = "The world is not a kind place, and many have lost everything in the pursuit of even a meagre existence. Vagabonds are such individuals, and start with next to nothing but their skills and wits."
+/datum/job/roguetown/vagabond
+	title = "Vagabond"
+	flag = VAGABOND
+	department_flag = SIDEFOLK
+	faction = "Station"
+	total_positions = 12
+	spawn_positions = 12
+
+	allowed_ages = list(AGE_ADULT, AGE_MIDDLEAGED, AGE_OLD)
+	allowed_races = ACCEPTED_RACES
+
 	outfit = null
 	outfit_female = null
-	allowed_ages = list(AGE_ADULT, AGE_MIDDLEAGED, AGE_OLD)
-	allowed_races = RACES_ALL_KINDS
-
-	advclass_cat_rolls = list(CTAG_VAGABOND = 20)
 	wanderer_examine = TRUE
 	advjob_examine = FALSE
 	always_show_on_latechoices = TRUE
 	job_reopens_slots_on_death = TRUE
 	same_job_respawn_delay = 10 SECONDS
 	announce_latejoin = FALSE
+
+	advclass_cat_rolls = list(CTAG_VAGABOND = 20)
+
+	tutorial = "Dozens of people end up down on their luck in the kingdom of Psydonia every day. They sometimes make something of themselves but much more often die in the streets."
+
+	outfit = /datum/outfit/job/roguetown/vagabond
+	display_order = JDO_VAGABOND
+	show_in_credits = FALSE
+	min_pq = -30
+	max_pq = null
+	round_contrib_points = 2
+
+	give_bank_account = TRUE
+
+	cmode_music = 'sound/music/combat_bum.ogg'
+	job_subclasses = list(
+		/datum/advclass/vagabond_original,
+		/datum/advclass/vagabond_beggar,
+		/datum/advclass/vagabond_courier,
+		/datum/advclass/vagabond_excommunicated,
+		/datum/advclass/vagabond_goatherd,
+		/datum/advclass/vagabond_mage,
+		/datum/advclass/vagabond_runner,
+		/datum/advclass/vagabond_scholar,
+		/datum/advclass/vagabond_wanted,
+		/datum/advclass/vagabond_unraveled
+	)
+
+/datum/job/roguetown/vagabond/New()
+	. = ..()
+	peopleknowme = list()
+
+/datum/outfit/job/roguetown/vagabond/pre_equip(mob/living/carbon/human/H)
+	..()
+	if(should_wear_femme_clothes(H))
+		armor = /obj/item/clothing/suit/roguetown/shirt/rags
+	else if(should_wear_masc_clothes(H))
+		pants = /obj/item/clothing/under/roguetown/tights/vagrant
+		if(prob(50))
+			pants = /obj/item/clothing/under/roguetown/tights/vagrant/l
+		shirt = /obj/item/clothing/suit/roguetown/shirt/undershirt/vagrant
+		if(prob(50))
+			shirt = /obj/item/clothing/suit/roguetown/shirt/undershirt/vagrant/l
+	if(prob(33))
+		cloak = /obj/item/clothing/cloak/half/brown
+		gloves = /obj/item/clothing/gloves/roguetown/fingerless
+	H.adjust_skillrank(/datum/skill/misc/sneaking, 2, TRUE)
+	H.adjust_skillrank(/datum/skill/misc/stealing, 4, TRUE)
+	H.adjust_skillrank(/datum/skill/misc/climbing, 4, TRUE)
+	H.STALUC = rand(1, 20)
+	if(prob(10))
+		r_hand = /obj/item/rogue/instrument/flute
+	H.change_stat(STATKEY_INT, round(rand(-4,4)))
+	H.change_stat(STATKEY_CON, -1)
+	H.change_stat(STATKEY_WIL, -1)

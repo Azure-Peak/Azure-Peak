@@ -4,8 +4,8 @@
 	overlay_state = "dirge_t3_base"
 	action_icon_state = "dirge_t3_base"
 	song_tier = 3
-	invocations = list("Suffocating seliloquy, snuff the sinners' breath!") 
-	invocation_type = "shout"
+	invocations = list("plays a soft, anxiety-inducing tune that seems to thicken the air around them.") 
+	invocation_type = "emote"
 	overlay_state = "dirge_t3_base"
 	action_icon_state = "dirge_t3_base"
 	sound = list('sound/magic/debuffroll.ogg')
@@ -18,7 +18,7 @@
 
 /atom/movable/screen/alert/status_effect/debuff/song/suffocationsong
 	name = "Musical Suffocation!"
-	desc = "I am suffocating on the song!"
+	desc = "They are killing me softly with this song!"
 	icon_state = "debuff"
 
 /datum/status_effect/debuff/song/suffocationsong

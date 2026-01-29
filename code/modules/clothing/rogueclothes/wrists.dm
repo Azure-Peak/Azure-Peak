@@ -27,7 +27,7 @@
 
 /obj/item/clothing/wrists/roguetown/bracers
 	name = "bracers"
-	desc = "Steel bracers that protect the arms."
+	desc = "A pair of steel vambraces, protecting the arms from blows-most-foul."
 	body_parts_covered = ARMS
 	icon_state = "bracers"
 	item_state = "bracers"
@@ -41,8 +41,9 @@
 	sewrepair = FALSE
 	smeltresult = /obj/item/ingot/steel
 
-/obj/item/clothing/wrists/roguetown/bracers/leather/ComponentInitialize()
+/obj/item/clothing/wrists/roguetown/bracers/ComponentInitialize()
 	AddComponent(/datum/component/armour_filtering/negative, TRAIT_FENCERDEXTERITY)
+	AddComponent(/datum/component/armour_filtering/negative, TRAIT_HONORBOUND)
 
 /obj/item/clothing/wrists/roguetown/bracers/psythorns
 	name = "psydonic thorns"
@@ -99,7 +100,7 @@
 
 /obj/item/clothing/wrists/roguetown/bracers/leather
 	name = "leather bracers"
-	desc = "Standard leather bracers that offer some meager protection for the arms."
+	desc = "A pair of leather wristguards, which can protect one's arms from both bludgeons and bites."
 	icon_state = "lbracers"
 	item_state = "lbracers"
 	armor = ARMOR_PADDED_GOOD
@@ -118,10 +119,11 @@
 
 /obj/item/clothing/wrists/roguetown/bracers/leather/ComponentInitialize()
 	AddComponent(/datum/component/armour_filtering/positive, TRAIT_FENCERDEXTERITY)
+	AddComponent(/datum/component/armour_filtering/positive, TRAIT_HONORBOUND)
 
 /obj/item/clothing/wrists/roguetown/bracers/leather/heavy
 	name = "hardened leather bracers"
-	desc = "Hardened leather braces that will keep your wrists safe from bludgeoning."
+	desc = "A pair of heavy leather wristguards, deliciously darkened for deterring dangers."
 	icon_state = "albracers"
 	armor = ARMOR_LEATHER_GOOD
 	max_integrity = ARMOR_INT_SIDE_STEEL
@@ -132,7 +134,7 @@
 
 /obj/item/clothing/wrists/roguetown/bracers/copper
 	name = "copper bracers"
-	desc = "Copper forearm guards that offer some protection while looking rather stylish"
+	desc = "Crude vambraces of copper, claspable around the wrists; stylish, if nothing else."
 	icon_state = "copperarm"
 	item_state = "copperarm"
 	smeltresult = /obj/item/ingot/copper
@@ -227,9 +229,9 @@
 	body_parts_covered = ARMS
 	icon_state = "splintarms"
 	item_state = "splintarms"
-	armor = ARMOR_PLATE
+	armor = ARMOR_LEATHER_STUDDED
 	blocksound = SOFTHIT
-	max_integrity = ARMOR_INT_SIDE_IRON
+	max_integrity = ARMOR_INT_SIDE_STEEL
 	anvilrepair = /datum/skill/craft/armorsmithing
 	smeltresult = /obj/item/ingot/steel
 	w_class = WEIGHT_CLASS_NORMAL
@@ -238,6 +240,7 @@
 
 /obj/item/clothing/wrists/roguetown/splintarms/ComponentInitialize()
 	AddComponent(/datum/component/armour_filtering/negative, TRAIT_FENCERDEXTERITY)
+	AddComponent(/datum/component/armour_filtering/negative, TRAIT_HONORBOUND)
 
 /obj/item/clothing/wrists/roguetown/splintarms/iron
 	name = "splint bracers"
@@ -256,7 +259,7 @@
 
 /obj/item/clothing/wrists/roguetown/bracers/iron
 	name = "iron bracers"
-	desc = "Iron bracers that protect the arms."
+	desc = "A pair of iron vambrace, pounded together from segmented plates and kept firm with leather straps."
 	body_parts_covered = ARMS
 	icon_state = "ibracers"
 	item_state = "ibracers"
@@ -277,6 +280,7 @@
 
 /obj/item/clothing/wrists/roguetown/bracers/jackchain/ComponentInitialize()
 	AddComponent(/datum/component/armour_filtering/positive, TRAIT_FENCERDEXTERITY)
+	AddComponent(/datum/component/armour_filtering/positive, TRAIT_HONORBOUND)
 
 //
 

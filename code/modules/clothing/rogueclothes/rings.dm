@@ -41,7 +41,7 @@
 
 /obj/item/clothing/ring/active
 	var/active = FALSE
-	desc = "Unfortunately, like most magic rings, it must be used sparingly. (Right-click me to activate)"
+	desc = "A golden ring that bares a runic enigma, capable of nullifying all incoming magicka. The runic enigma pulsates with crimson light, rendering me invulnerable to arcynic violence!"
 	var/cooldowny
 	var/cdtime
 	var/activetime
@@ -78,6 +78,7 @@
 /obj/item/clothing/ring/active/nomag
 	name = "ring of null magic"
 	icon_state = "ruby"
+	desc = "A golden ring that bares a runic enigma, capable of nullifying all incoming magicka. Unfortuantely, like with most magic rings, its powers can only be used sparingly - a half-minute's ward, followed by a half-dae's recharging. </br>‎  </br>By right-clicking the ring, I can temporarily render myself invulnerable to magicka."
 	activate_sound = 'sound/magic/antimagic.ogg'
 	cdtime = 10 MINUTES
 	activetime = 30 SECONDS
@@ -231,7 +232,7 @@
 	desc = "An arcyne creation first theorized by malcontents with the resolution of Xylix's plays. It protects it's wearer by tugging things gently toward less fatal potentials."
 	icon_state = "ring_s"
 	max_integrity = 50
-	body_parts_covered = COVERAGE_FULL | COVERAGE_HEAD_NOSE | NECK | HANDS | FEET //field covers the whole body
+	body_parts_covered = COVERAGE_ALL_BUT_HANDFEET | COVERAGE_HEAD_NOSE | NECK | HANDS | FEET //field covers the whole body
 	armor = ARMOR_FATEWEAVER //even protection against most damage types
 	blade_dulling = DULLING_BASHCHOP
 	blocksound = PLATEHIT

@@ -197,3 +197,49 @@
 
 /obj/item/storage/belt/rogue/pouch/food/PopulateContents()
 	new /obj/item/reagent_containers/food/snacks/rogue/crackerscooked(src)
+
+/obj/item/storage/belt/rogue/pouch/healing
+
+/obj/item/storage/belt/rogue/pouch/healing/PopulateContents()
+	new /obj/item/reagent_containers/glass/bottle/alchemical/healthpot(src)
+	new /obj/item/reagent_containers/glass/bottle/alchemical/healthpot(src)
+	new /obj/item/needle(src)
+
+/obj/item/storage/belt/rogue/pouch/alchemy
+
+/obj/item/storage/belt/rogue/pouch/alchemy/PopulateContents()
+	new /obj/item/reagent_containers/glass/bottle/alchemical(src)
+	new /obj/item/reagent_containers/glass/bottle/alchemical(src)
+	new /obj/item/reagent_containers/glass/bottle/alchemical(src)
+	new /obj/item/needle(src)
+  
+/obj/item/storage/belt/rogue/pouch/zigarrete
+	name = "zig box"
+	desc = "Used to hold someone's zigs and flints."
+	icon_state = "smokebox"
+	item_state = "smokebox"
+	component_type = /datum/component/storage/concrete/roguetown/zig_box
+
+/obj/item/storage/belt/rogue/pouch/zigarrete/nicotine/PopulateContents()
+	new /obj/item/clothing/mask/cigarette/rollie/nicotine(src)
+	new /obj/item/clothing/mask/cigarette/rollie/nicotine(src)
+	new /obj/item/clothing/mask/cigarette/rollie/nicotine(src)
+	new /obj/item/clothing/mask/cigarette/rollie/nicotine(src)
+	new /obj/item/clothing/mask/cigarette/rollie/nicotine(src)
+	new /obj/item/clothing/mask/cigarette/rollie/nicotine(src)
+
+/obj/item/storage/belt/rogue/pouch/zigarrete/trippy/PopulateContents()
+	new /obj/item/clothing/mask/cigarette/rollie/trippy(src)
+	new /obj/item/clothing/mask/cigarette/rollie/trippy(src)
+	new /obj/item/clothing/mask/cigarette/rollie/trippy(src)
+	new /obj/item/clothing/mask/cigarette/rollie/trippy(src)
+	new /obj/item/clothing/mask/cigarette/rollie/trippy(src)
+	new /obj/item/clothing/mask/cigarette/rollie/trippy(src)
+
+/obj/item/storage/belt/rogue/pouch/zigarrete/cannabis/PopulateContents()
+	new /obj/item/clothing/mask/cigarette/rollie/cannabis(src)
+	new /obj/item/clothing/mask/cigarette/rollie/cannabis(src)
+	new /obj/item/clothing/mask/cigarette/rollie/cannabis(src)
+	new /obj/item/clothing/mask/cigarette/rollie/cannabis(src)
+	new /obj/item/clothing/mask/cigarette/rollie/cannabis(src)
+	new /obj/item/clothing/mask/cigarette/rollie/cannabis(src)

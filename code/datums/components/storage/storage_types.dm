@@ -281,3 +281,28 @@
 /datum/component/storage/concrete/roguetown/dice_pouch/New(datum/P, ...)
 	. = ..()
 	can_hold = typecacheof(list(/obj/item/dice))
+
+/datum/component/storage/concrete/roguetown/zig_box
+	screen_max_rows = 3
+	screen_max_columns = 2
+	max_w_class = WEIGHT_CLASS_SMALL
+	not_while_equipped = FALSE
+
+/datum/component/storage/concrete/roguetown/zig_box/New(datum/P, ...)
+	. = ..()
+	set_holdable(list(
+		/obj/item/clothing/mask/cigarette/rollie,
+		/obj/item/flint,
+		))
+
+/datum/component/storage/concrete/roguetown/zig_bandolier
+	screen_max_rows = 8
+	screen_max_columns = 3
+	max_w_class = WEIGHT_CLASS_SMALL
+
+/datum/component/storage/concrete/roguetown/zig_bandolier/New(datum/P, ...)
+	. = ..()
+	set_holdable(list(
+		/obj/item/clothing/mask/cigarette/rollie,
+		/obj/item/flint,
+		))

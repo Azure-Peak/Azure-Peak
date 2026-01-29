@@ -283,6 +283,7 @@
 	icon = 'icons/obj/structures/heart_items.dmi'
 	icon_state = "blood_canister_empty"
 	w_class = WEIGHT_CLASS_TINY
+	max_integrity = 50
 
 /obj/item/heart_blood_canister/filled
 	name = "Full heartblood canister"
@@ -295,6 +296,7 @@
 	icon = 'icons/obj/structures/heart_items.dmi'
 	icon_state = "blood_vial_empty"
 	w_class = WEIGHT_CLASS_TINY
+	max_integrity = 10
 
 /obj/item/heart_blood_vial/filled
 	name = "Full heartblood vial"
@@ -383,3 +385,81 @@
 		// Add the compiled data to the UI data
 		.["aspect_data"] = aspect_data
 	return .
+
+/obj/item/proc/break_fancy_container(obj/item/container)
+	if(!container)
+		return
+	var/turf/T = get_turf(container)
+	playsound(T, 'sound/foley/glassbreak.ogg', 75, TRUE)
+	new /obj/effect/decal/cleanable/heart_shards(T)
+	if(istype(container, /obj/item/heart_blood_canister/filled) || istype(container, /obj/item/heart_blood_vial/filled))
+		if(istype(container, /obj/item/heart_blood_canister/filled))
+			new /obj/effect/decal/cleanable/heart_blood(T)
+		else if(istype(container, /obj/item/heart_blood_vial/filled))
+			new /obj/effect/decal/cleanable/heart_blood/small(T)
+	qdel(container)
+	return TRUE
+
+/obj/effect/decal/cleanable/heart_blood
+	name = "heart blood"
+	desc = ""
+	icon = 'icons/obj/structures/heart_items.dmi'
+	icon_state = "blood"
+
+/obj/effect/decal/cleanable/heart_blood/small
+	name = "heart blood"
+	icon_state = "blood_small"
+
+/obj/effect/decal/cleanable/heart_shards
+	name = "heart shards"
+	desc = ""
+	icon = 'icons/obj/structures/heart_items.dmi'
+	icon_state = "shards"
+
+/obj/item/heart_blood_canister/throw_impact(atom/hit_atom, datum/thrownthing/throwingdatum)
+	. = ..()
+	break_fancy_container(src)
+
+/obj/item/heart_blood_vial/throw_impact(atom/hit_atom, datum/thrownthing/throwingdatum)
+	. = ..()
+	break_fancy_container(src)
+
+/obj/item/heart_blood_canister/obj_destruction(damage_flag)
+	break_fancy_container(src)
+
+/obj/item/heart_blood_vial/obj_destruction(damage_flag)
+	break_fancy_container(src)
+
+/obj/item/heart_blood_canister/filled/attack(mob/living/target, mob/living/user)
+	if(istype(target))
+		var/datum/status_effect/black_rot/rot = target.has_status_effect(/datum/status_effect/black_rot)
+		if(!rot)
+			to_chat(user, span_infection("[target] isn't infected with black rot currently."))
+			return
+		if(!do_mob(user, target, 0.6 SECONDS, FALSE))
+			return
+		if(target == user)
+			target.visible_message(span_notice("[user] drinks some heartblood."), span_notice("I drink the heartblood, feeling it fight the rot within."))
+		else
+			target.visible_message(span_notice("[user] feeds [target] some heartblood."), span_notice("[user] feeds you some heartblood."))
+		rot.remove_stack(2)
+		qdel(src)
+		return TRUE
+	return ..()
+
+/obj/item/heart_blood_vial/filled/attack(mob/living/target, mob/living/user)
+	if(istype(target))
+		var/datum/status_effect/black_rot/rot = target.has_status_effect(/datum/status_effect/black_rot)
+		if(!rot)
+			to_chat(user, span_infection("[target] isn't infected with black rot currently."))
+			return
+		if(!do_mob(user, target, 0.6 SECONDS, FALSE))
+			return
+		if(target == user)
+			target.visible_message(span_notice("[user] drinks some heartblood."), span_notice("I drink the heartblood, feeling it fight the rot within."))
+		else
+			target.visible_message(span_notice("[user] feeds [target] some heartblood."), span_notice("[user] feeds you some heartblood."))
+		rot.remove_stack(1)
+		qdel(src)
+		return TRUE
+	return ..()

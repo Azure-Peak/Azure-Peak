@@ -7,7 +7,7 @@
 	density = FALSE
 	anchored = TRUE
 	can_buckle = FALSE
-	max_integrity = 0
+	max_integrity = 100
 	buckle_lying = 90
 	layer = 2.8
 

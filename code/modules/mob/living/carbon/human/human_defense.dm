@@ -184,22 +184,22 @@
 	return ..(P, def_zone)
 
 /mob/living/carbon/human/proc/check_reflect(def_zone) //Reflection checks for anything in my l_hand, r_hand, or wear_armor based on the reflection chance of the object
-	if(wear_armor)
-		if(wear_armor.IsReflect(def_zone) == 1)
-			return 1
-	for(var/obj/item/I in held_items)
-		if(I.IsReflect(def_zone) == 1)
+	if(wear_armor?.IsReflect(def_zone) == 1)
+		return 1
+	for(var/obj/item/I as anything in held_items)
+		if(I?.IsReflect(def_zone) == 1)
 			return 1
 	return 0
 
 /mob/living/carbon/human/proc/check_shields(atom/AM, damage, attack_text = "the attack", attack_type = MELEE_ATTACK, armor_penetration = 0)
 	var/block_chance_modifier = round(damage / -3)
 
-	for(var/obj/item/I in held_items)
-		if(!istype(I, /obj/item/clothing))
-			var/final_block_chance = I.block_chance - (CLAMP((armor_penetration-I.armor_penetration)/2,0,100)) + block_chance_modifier //So armour piercing blades can still be parried by other blades, for example
-			if(I.hit_reaction(src, AM, attack_text, final_block_chance, damage, attack_type))
-				return TRUE
+	for(var/obj/item/I as anything in held_items)
+		if(!I || istype(I, /obj/item/clothing))
+			continue
+		var/final_block_chance = I.block_chance - (CLAMP((armor_penetration-I.armor_penetration)/2,0,100)) + block_chance_modifier
+		if(I.hit_reaction(src, AM, attack_text, final_block_chance, damage, attack_type))
+			return TRUE
 	if(head)
 		var/final_block_chance = head.block_chance - (CLAMP((armor_penetration-head.armor_penetration)/2,0,100)) + block_chance_modifier
 		if(head.hit_reaction(src, AM, attack_text, final_block_chance, damage, attack_type))
@@ -216,7 +216,7 @@
 		var/final_block_chance = wear_neck.block_chance - (CLAMP((armor_penetration-wear_neck.armor_penetration)/2,0,100)) + block_chance_modifier
 		if(wear_neck.hit_reaction(src, AM, attack_text, final_block_chance, damage, attack_type))
 			return TRUE
-  return FALSE
+	return FALSE
 
 /mob/living/carbon/human/proc/check_block()
 	if(mind)
@@ -647,8 +647,8 @@
 
 		inventory_items_to_kill += held_items
 
-	for(var/obj/item/I in inventory_items_to_kill)
-		I.acid_act(acidpwr, acid_volume)
+	for(var/obj/item/I as anything in inventory_items_to_kill)
+		I?.acid_act(acidpwr, acid_volume)
 	return 1
 
 /mob/living/carbon/human/help_shake_act(mob/living/carbon/M)
@@ -824,7 +824,7 @@
 		if(leg_clothes)
 			torn_items |= leg_clothes
 
-	for(var/obj/item/I in torn_items)
+	for(var/obj/item/I as anything in torn_items)
 		I.take_damage(damage_amount, damage_type, damage_flag, 0)
 
 /// Helper proc that returns the worn item ref that has the highest rating covering the def_zone (targeted zone) for the d_type (damage type)

@@ -103,7 +103,7 @@
 		/obj/item/paper/inqslip/arrival/abso = 1,
 		/obj/item/needle = 1,
 		/obj/item/natural/worms/leech/cheele = 1,
-		/obj/item/storage/keyring/puritan = 1,
+		/obj/item/storage/keyring/inquisitor = 1,
 		)
 	var/datum/devotion/C = new /datum/devotion(H, H.patron)
 	C.grant_miracles(H, cleric_tier = CLERIC_T4, passive_gain = CLERIC_REGEN_ABSOLVER, start_maxed = TRUE) // PSYDONIAN MIRACLE-WORKER. LUX-MERGING FREEK.

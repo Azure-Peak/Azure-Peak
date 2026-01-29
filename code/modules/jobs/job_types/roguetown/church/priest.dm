@@ -57,9 +57,10 @@ GLOBAL_LIST_EMPTY(heretical_players)
 		STATKEY_CON = -1,
 		STATKEY_SPD = -1
 	)
+	age_mod = /datum/class_age_mod/priest
 	subclass_skills = list(
-		/datum/skill/combat/wrestling = SKILL_LEVEL_MASTER,
-		/datum/skill/combat/unarmed = SKILL_LEVEL_MASTER,
+		/datum/skill/combat/wrestling = SKILL_LEVEL_JOURNEYMAN,
+		/datum/skill/combat/unarmed = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/combat/staves = SKILL_LEVEL_MASTER,
 		/datum/skill/combat/polearms = SKILL_LEVEL_MASTER,
 		/datum/skill/misc/reading = SKILL_LEVEL_LEGENDARY,
@@ -87,7 +88,7 @@ GLOBAL_LIST_EMPTY(heretical_players)
 	shirt = /obj/item/clothing/suit/roguetown/shirt/undershirt/priest
 	pants = /obj/item/clothing/under/roguetown/tights/black
 	shoes = /obj/item/clothing/shoes/roguetown/shortboots
-	beltl = /obj/item/storage/keyring/priest
+	beltl = /obj/item/storage/keyring/church
 	belt = /obj/item/storage/belt/rogue/leather/rope
 	beltr = /obj/item/storage/belt/rogue/pouch/coins/rich
 	id = /obj/item/clothing/ring/active/nomag
@@ -260,6 +261,7 @@ GLOBAL_LIST_EMPTY(heretical_players)
 		ADD_TRAIT(H, TRAIT_ARCYNE_T1, TRAIT_GENERIC)
 	if(H.patron?.type == /datum/patron/divine/abyssor)
 		ADD_TRAIT(H, TRAIT_WATERBREATHING, TRAIT_GENERIC)
+		H.grant_language(/datum/language/abyssal)
 	if(H.patron?.type == /datum/patron/divine/necra)
 		ADD_TRAIT(H, TRAIT_NOSTINK, TRAIT_GENERIC)
 		ADD_TRAIT(H, TRAIT_SOUL_EXAMINE, TRAIT_GENERIC)
@@ -316,6 +318,7 @@ GLOBAL_LIST_EMPTY(heretical_players)
 		//Coronate new King (or Queen)
 		HU.mind.assigned_role = "Grand Duke"
 		HU.job = "Grand Duke"
+		ADD_TRAIT(HU, TRAIT_DNR, TRAIT_GENERIC) // Consequences, Johnathan.
 		SSticker.set_ruler_mob(HU)
 		SSticker.regentmob = null
 		var/dispjob = mind.assigned_role

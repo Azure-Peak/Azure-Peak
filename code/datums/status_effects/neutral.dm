@@ -10,6 +10,12 @@
 	mob_effect_offset_y = -4	//We want this shown UNDER the feet of the mob.
 	mob_effect_layer = MOB_EFFECT_LAYER_OFFBALANCED
 
+/datum/status_effect/incapacitating/off_balanced/on_apply()
+	. = ..()
+	if(owner.has_status_effect(/datum/status_effect/balance_immune))
+		owner.remove_status_effect(/datum/status_effect/incapacitating/off_balanced)
+		return
+
 /datum/status_effect/incapacitating/off_balanced/on_creation(mob/living/new_owner, set_duration, updating_canmove)
 	var/cmode_involved = FALSE
 	if(new_owner.mind)	//We skip bothering with this at all if it's AI
@@ -214,3 +220,4 @@
 /datum/status_effect/compliance
 	id = "compliance"
 	alert_type = /atom/movable/screen/alert/status_effect/compliance
+	needs_processing = FALSE

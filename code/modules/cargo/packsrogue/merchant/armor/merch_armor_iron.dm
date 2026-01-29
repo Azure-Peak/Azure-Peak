@@ -39,7 +39,7 @@
 /datum/supply_pack/rogue/armor_iron/halfplate
 	name = "Half-Plate Armor"
 	cost = 75 // Uhhh I don't think I should be selling them for 65 LOL
-	contains = list(/obj/item/clothing/suit/roguetown/armor/plate/cuirass/iron)
+	contains = list(/obj/item/clothing/suit/roguetown/armor/plate/iron)
 
 /datum/supply_pack/rogue/armor_iron/fullplate
 	name = "Full Plate"

@@ -235,6 +235,10 @@
 /obj/item/reagent_containers/powder/ozium,
 /turf/open/floor/rogue/blocks/newstone/alt,
 /area/rogue/indoors)
+"jC" = (
+/obj/structure/bed/rogue,
+/turf/open/floor/rogue/dirt/road,
+/area/rogue/outdoors)
 "jI" = (
 /obj/machinery/light/rogue/hearth,
 /obj/item/reagent_containers/glass/bucket/pot,
@@ -593,6 +597,10 @@
 /obj/item/quiver/bolts,
 /turf/open/floor/rogue/grass,
 /area/rogue/indoors)
+"ud" = (
+/obj/effect/landmark/deaths_door/exit,
+/turf/open/floor/rogue/dirt/road,
+/area/rogue/outdoors)
 "uk" = (
 /obj/structure/table/wood{
 	icon_state = "longtable_mid";
@@ -3071,9 +3079,9 @@ yK
 yK
 yK
 yK
+ud
 rT
-rT
-rT
+jC
 rT
 rT
 rT

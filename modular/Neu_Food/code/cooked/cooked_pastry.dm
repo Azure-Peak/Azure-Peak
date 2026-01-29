@@ -286,3 +286,77 @@
 	if(bitecount == 1)
 		rotprocess = SHELFLIFE_DECENT
 		addtimer(CALLBACK(src, PROC_REF(begin_rotting)), 20, TIMER_CLIENT_TIME)
+
+/*	.................   Muffins   ................... */
+/obj/item/reagent_containers/food/snacks/rogue/muffin
+	name = "muffin"
+	desc = "Simple to prepare and enjoyed by everyone. Treat in a mushroom shaped package. Could do with something on top."
+	icon = 'modular/Neu_Food/icons/cooked/cooked_pastry.dmi'
+	icon_state = "muffin"
+	list_reagents = list(/datum/reagent/consumable/nutriment = SMALLDOUGH_NUTRITION)
+	tastes = list("crispy butterdough" = 1)
+	faretype = FARE_NEUTRAL
+	w_class = WEIGHT_CLASS_NORMAL
+	bitesize = 3
+	rotprocess = SHELFLIFE_DECENT
+	eat_effect = /datum/status_effect/buff/snackbuff
+
+/obj/item/reagent_containers/food/snacks/rogue/muffin/attackby(obj/item/I, mob/living/user, params)
+	var/found_table = locate(/obj/structure/table) in (loc)
+	update_cooktime(user)
+	if(istype(I, /obj/item/reagent_containers/food/snacks/rogue/cheese))
+		if(isturf(loc)&& (found_table))
+			playsound(get_turf(user), 'sound/foley/dropsound/food_drop.ogg', 40, TRUE, -1)
+			to_chat(user, span_notice("You start to glaze the muffin with cheese..."))
+			if(do_after(user,long_cooktime, target = src))
+				add_sleep_experience(user, /datum/skill/craft/cooking, user.STAINT)
+				new /obj/item/reagent_containers/food/snacks/rogue/muffin/cheese(loc)
+				qdel(I)
+				qdel(src)
+		else
+			to_chat(user, span_warning("You need to put [src] on a table to roll it out!"))
+	if(istype(I, /obj/item/reagent_containers/food/snacks/rogue/honey))
+		if(isturf(loc)&& (found_table))
+			playsound(get_turf(user), 'sound/foley/dropsound/food_drop.ogg', 40, TRUE, -1)
+			to_chat(user, span_notice("You start to glaze the muffin with honey..."))
+			if(do_after(user,short_cooktime, target = src))
+				add_sleep_experience(user, /datum/skill/craft/cooking, user.STAINT)
+				new /obj/item/reagent_containers/food/snacks/rogue/muffin/honey(loc)
+				qdel(I)
+				qdel(src)
+		else
+			to_chat(user, span_warning("You need to put [src] on a table to prepare it!"))
+	else
+		return ..()
+
+/obj/item/reagent_containers/food/snacks/rogue/muffin/cheese
+	name = "raw cheese muffin"
+	desc = "A mushroom shaped treat for whole topped off with cheese. Still needs to be baked!"
+	icon_state = "muffin_cheese_raw"
+	cooked_type = /obj/item/reagent_containers/food/snacks/rogue/muffin/cheese/baked
+	cooked_smell = /datum/pollutant/food/muffin
+
+/obj/item/reagent_containers/food/snacks/rogue/muffin/cheese/baked
+	name = "cheese muffin"
+	desc = "A mushroom shaped treat for whole topped off with cheese. Fit for a yeoman."
+	icon_state = "muffin_cheese"
+	list_reagents = list(/datum/reagent/consumable/nutriment = BUTTERDOUGH_NUTRITION)
+	tastes = list("crispy butterdough" = 1, "cheese" = 1)
+	faretype = FARE_FINE
+	cooked_type = null
+
+/obj/item/reagent_containers/food/snacks/rogue/muffin/honey
+	name = "raw honey muffin"
+	desc = "A mushroom shaped treat for whole topped off with honey. Still needs to be baked!"
+	icon_state = "muffin_honey_raw"
+	cooked_type = /obj/item/reagent_containers/food/snacks/rogue/muffin/honey/baked
+	cooked_smell = /datum/pollutant/food/muffin
+
+/obj/item/reagent_containers/food/snacks/rogue/muffin/honey/baked
+	name = "honey muffin"
+	desc = "A mushroom shaped treat for whole topped off with honey. Fit for a burgher."
+	icon_state = "muffin_honey"
+	cooked_type = /obj/item/reagent_containers/food/snacks/rogue/muffin/cheese/baked
+	cooked_smell = /datum/pollutant/food/muffin
+	faretype = FARE_FINE
+	cooked_type = null

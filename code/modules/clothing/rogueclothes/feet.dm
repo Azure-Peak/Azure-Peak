@@ -69,6 +69,7 @@
 
 /obj/item/clothing/shoes/roguetown/boots/psydonboots/ComponentInitialize()
 	AddComponent(/datum/component/armour_filtering/positive, TRAIT_FENCERDEXTERITY)
+	AddComponent(/datum/component/armour_filtering/positive, TRAIT_HONORBOUND)
 
 /obj/item/clothing/shoes/roguetown/boots/nobleboot
 	name = "noble boots"
@@ -85,6 +86,7 @@
 
 /obj/item/clothing/shoes/roguetown/boots/nobleboot/ComponentInitialize()
 	AddComponent(/datum/component/armour_filtering/positive, TRAIT_FENCERDEXTERITY)
+	AddComponent(/datum/component/armour_filtering/positive, TRAIT_HONORBOUND)
 
 /obj/item/clothing/shoes/roguetown/boots/nobleboot/steppesman
 	name = "aavnic riding boots"
@@ -193,6 +195,7 @@
 
 /obj/item/clothing/shoes/roguetown/boots/leather/ComponentInitialize()
 	AddComponent(/datum/component/armour_filtering/positive, TRAIT_FENCERDEXTERITY)
+	AddComponent(/datum/component/armour_filtering/positive, TRAIT_HONORBOUND)
 
 /obj/item/clothing/shoes/roguetown/boots/leather/reinforced
 	name = "heavy leather boots"
@@ -225,6 +228,7 @@
 
 /obj/item/clothing/shoes/roguetown/boots/otavan/ComponentInitialize()
 	AddComponent(/datum/component/armour_filtering/positive, TRAIT_FENCERDEXTERITY)
+	AddComponent(/datum/component/armour_filtering/negative, TRAIT_HONORBOUND)
 
 /obj/item/clothing/shoes/roguetown/grenzelhoft
 	name = "grenzelhoft boots"
@@ -250,7 +254,7 @@
 
 /obj/item/clothing/shoes/roguetown/boots/armor
 	name = "plated boots"
-	desc = "Boots forged of a set of steel plates to protect your fragile toes."
+	desc = "Alloyed sabatons, fitted to guard one's toes from blows-most-unpleasant."
 	body_parts_covered = FEET
 	icon_state = "armorboots"
 	item_state = "armorboots"
@@ -266,10 +270,11 @@
 
 /obj/item/clothing/shoes/roguetown/boots/armor/ComponentInitialize()
 	AddComponent(/datum/component/armour_filtering/negative, TRAIT_FENCERDEXTERITY)
+	AddComponent(/datum/component/armour_filtering/negative, TRAIT_HONORBOUND)
 
 /obj/item/clothing/shoes/roguetown/boots/armor/graggar
 	name = "vicious boots"
-	desc = "Plated boots which stir with the same violence driving our world. They have treaded a thousand skulls."
+	desc = "Fluted sabatons, dusted with the bonedust of a thousand crushed skulls. Spit this final act, thine embodiment of sin - why would you ever want for something else, when you are God?"
 	max_integrity = ARMOR_INT_SIDE_ANTAG
 	armor = ARMOR_ASCENDANT
 	icon_state = "graggarplateboots"
@@ -299,7 +304,7 @@
 /obj/item/clothing/shoes/roguetown/boots/armor/zizo
 	max_integrity = ARMOR_INT_SIDE_ANTAG
 	name = "avantyne boots"
-	desc = "Plate boots. Called forth from the edge of what should be known. In Her name."
+	desc = "Ensnaring paradoxes, rended beneath logic and solidified into tangible footguards. Called forth from the edge of what should be known, in Her name."
 	icon_state = "zizoboots"
 	chunkcolor = "#363030"
 	armor = ARMOR_ASCENDANT
@@ -316,7 +321,7 @@
 
 /obj/item/clothing/shoes/roguetown/boots/armor/iron
 	name = "light plated boots"
-	desc = "Boots with iron for added protection."
+	desc = "A pair of boots, further reinforced with leather-strapped plates."
 	body_parts_covered = FEET
 	icon_state = "soldierboots"
 	item_state = "soldierboots"
@@ -398,7 +403,7 @@
 
 /obj/item/clothing/shoes/roguetown/boots/furlinedboots
 	name = "fur lined boots"
-	desc = "Leather boots lined with fur."
+	desc = "Leather boots, lined-and-cuffed with the fur of a forest-dwelling beaste."
 	gender = PLURAL
 	icon_state = "furlinedboots"
 	item_state = "furlinedboots"
@@ -443,7 +448,7 @@
 
 /obj/item/clothing/shoes/roguetown/boots/blacksteel/modern/plateboots
 	name = "blacksteel plate boots"
-	desc = "Boots forged of durable blacksteel, using a modern design."
+	desc = "Magnificent sabatons of blacksteel, pointed-yet-restrained. By the click of your heels, a thousand levymen shall march without question - and 'pon a leaping start, they shall see the bravery that earned such alloyed gifts to begin with."
 	body_parts_covered = FEET
 	icon = 'icons/roguetown/clothing/special/blkknight.dmi'
 	mob_overlay_icon = 'icons/roguetown/clothing/special/onmob/blkknight.dmi'
@@ -461,7 +466,7 @@
 
 /obj/item/clothing/shoes/roguetown/boots/blacksteel/plateboots
 	name = "ancient blacksteel plate boots"
-	desc = "Boots forged of durable blacksteel."
+	desc = "Antiquated sabatons, forged from segmented plates of blacksteel. Am I the cancer that is killing this world? Is it my hate, my spite, my lust - that, which poisons the ones around me, and siphons away the hope of Man and God alike? When the last hearth is quenched and Psydonia is nothing more than a shriveled husk, will I still blame the corpses for what I had done? </br>‎  </br>Let go of your hate. Your lyfe is yours, and yours alone to arbitrate."
 	body_parts_covered = FEET
 	icon = 'icons/roguetown/clothing/special/blkknight.dmi'
 	mob_overlay_icon = 'icons/roguetown/clothing/special/onmob/blkknight.dmi'
@@ -496,6 +501,9 @@
 	item_state = "eastsandals"
 	sleeved = 'icons/roguetown/clothing/onmob/helpers/stonekeep_merc.dmi'
 	armor = ARMOR_LEATHER_GOOD
+
+/obj/item/clothing/shoes/roguetown/armor/rumaclan/shitty
+	armor = ARMOR_CLOTHING
 
 // horseshoes!
 /obj/item/clothing/shoes/roguetown/horseshoes
@@ -554,3 +562,37 @@
 	sewrepair = FALSE
 	armor = ARMOR_PLATE_BAD // these are awful!
 	smeltresult = /obj/item/ingot/gold
+
+/obj/item/clothing/shoes/courtphysician
+	name = "sanguine shoes"
+	desc = "Leather shoes, the solemn tap of these bears grim news, or salvation."
+	icon_state = "docshoes"
+	item_state = "docshoes"
+	icon = 'icons/roguetown/clothing/special/courtphys.dmi'
+	sleeved = 'icons/roguetown/clothing/onmob/helpers/sleeves_courtphys.dmi'
+	mob_overlay_icon = 'icons/roguetown/clothing/special/onmob/courtphys.dmi'
+	salvage_result = /obj/item/natural/hide/cured
+
+/obj/item/clothing/shoes/courtphysician/female
+	name = "sanguine heels"
+	desc = "Leather heels, the solemn tap of these bears grim news, or salvation."
+	icon_state = "docheels"
+	item_state = "docheels"
+	icon = 'icons/roguetown/clothing/special/courtphys.dmi'
+	sleeved = 'icons/roguetown/clothing/onmob/helpers/sleeves_courtphys.dmi'
+	mob_overlay_icon = 'icons/roguetown/clothing/special/onmob/courtphys.dmi'
+	detail_tag = "_detail"
+	detail_color = CLOTHING_RED
+
+/obj/item/clothing/shoes/courtphysician/female/Initialize()
+	. = ..()
+	update_icon()
+
+/obj/item/clothing/shoes/courtphysician/female/update_icon()
+	cut_overlays()
+	if(get_detail_tag())
+		var/mutable_appearance/pic = mutable_appearance(icon(icon, "[icon_state][detail_tag]"))
+		pic.appearance_flags = RESET_COLOR
+		if(get_detail_color())
+			pic.color = get_detail_color()
+		add_overlay(pic)

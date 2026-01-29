@@ -34,7 +34,7 @@
 		/datum/advclass/wretch/deserter,
 		/datum/advclass/wretch/deserter/maa,
 		/datum/advclass/wretch/berserker,
-		/datum/advclass/wretch/hedgemage,
+		/datum/advclass/wretch/roguemage,
 		/datum/advclass/wretch/necromancer,
 		/datum/advclass/wretch/heretic,
 		/datum/advclass/wretch/heretic/spy,
@@ -44,7 +44,8 @@
 		/datum/advclass/wretch/plaguebearer,
 		/datum/advclass/wretch/pyromaniac,
 		/datum/advclass/wretch/vigilante,
-		/datum/advclass/wretch/blackoakwyrm
+		/datum/advclass/wretch/blackoakwyrm,
+		/datum/advclass/wretch/munitioneer
 	)
 
 /datum/job/roguetown/wretch/after_spawn(mob/living/L, mob/M, latejoin = TRUE)

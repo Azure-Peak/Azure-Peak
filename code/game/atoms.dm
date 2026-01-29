@@ -229,8 +229,17 @@
 
 	return ..()
 
-/atom/proc/handle_ricochet(obj/projectile/P)
-	return
+/atom/proc/handle_ricochet(obj/projectile/ricocheting_projectile)
+	var/turf/p_turf = get_turf(ricocheting_projectile)
+	var/face_direction = get_dir(src, p_turf) || get_dir(src, ricocheting_projectile)
+	var/face_angle = dir2angle(face_direction)
+	var/incidence_s = GET_ANGLE_OF_INCIDENCE(face_angle, (ricocheting_projectile.Angle + 180))
+	var/a_incidence_s = abs(incidence_s)
+	if(a_incidence_s > 90 && a_incidence_s < 270)
+		return FALSE
+	var/new_angle_s = SIMPLIFY_DEGREES(face_angle + incidence_s)
+	ricocheting_projectile.setAngle(new_angle_s)
+	return TRUE
 
 ///Can the mover object pass this atom, while heading for the target turf
 /atom/proc/CanPass(atom/movable/mover, turf/target)

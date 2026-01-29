@@ -352,6 +352,7 @@ GLOBAL_LIST_INIT(spells, typesof(/obj/effect/proc_holder/spell)) //needed for th
 				adjust_var(user, holder_var_type, holder_var_amount)
 	if(action)
 		action.UpdateButtonIcon()
+	START_PROCESSING(SSfastprocess, src)
 	record_featured_stat(FEATURED_STATS_MAGES, user)
 	return TRUE
 
@@ -426,12 +427,15 @@ GLOBAL_LIST_INIT(spells, typesof(/obj/effect/proc_holder/spell)) //needed for th
 			var/diff2 = SPELL_SCALING_THRESHOLD - ranged_ability_user.STAINT
 			recharge_time = initial(recharge_time) + (initial(recharge_time) * (diff2 * COOLDOWN_REDUCTION_PER_INT))
 
+	START_PROCESSING(SSfastprocess, src)
+
 /obj/effect/proc_holder/spell/process()
 	if(charge_counter <= recharge_time) // Edge case when charge counter is set
 		charge_counter += 2	//processes 5 times per second instead of 10.
 		if(charge_counter >= recharge_time)
 			action.UpdateButtonIcon()
 			charge_counter = recharge_time
+			STOP_PROCESSING(SSfastprocess, src)
 
 /obj/effect/proc_holder/spell/proc/perform(list/targets, recharge = TRUE, mob/user = usr) //if recharge is started is important for the trigger spells
 	if(!ignore_los)
@@ -535,6 +539,8 @@ GLOBAL_LIST_INIT(spells, typesof(/obj/effect/proc_holder/spell)) //needed for th
 	/* if(xp_gain)
 		adjust_experience(usr, associated_skill, round(get_fatigue_drain() * MAGIC_XP_MULTIPLIER)) */
 
+	START_PROCESSING(SSfastprocess, src) // ensure we always end up reprocessing after casting
+
 /obj/effect/proc_holder/spell/proc/view_or_range(distance = world.view, center=usr, type="view")
 	switch(type)
 		if("view")
@@ -543,6 +549,7 @@ GLOBAL_LIST_INIT(spells, typesof(/obj/effect/proc_holder/spell)) //needed for th
 			. = range(distance,center)
 
 /obj/effect/proc_holder/spell/proc/revert_cast(mob/user = usr) //resets recharge or readds a charge
+	start_recharge()
 	switch(charge_type)
 		if("recharge")
 			charge_counter = recharge_time
@@ -550,6 +557,7 @@ GLOBAL_LIST_INIT(spells, typesof(/obj/effect/proc_holder/spell)) //needed for th
 			charge_counter++
 		if("holdervar")
 			adjust_var(user, holder_var_type, -holder_var_amount)
+	START_PROCESSING(SSfastprocess, src)
 	if(action)
 		action.UpdateButtonIcon()
 

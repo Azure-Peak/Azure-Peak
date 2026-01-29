@@ -41,7 +41,7 @@
 	damage -= (medskill * 6)
 	damage = max(0, damage)
 	target.adjustBruteLoss(damage)
-	if(target.remove_status_effect(/datum/status_effect/black_rot))
+	if(target.remove_status_effect(/datum/status_effect/black_rot) || target.remove_status_effect(/datum/status_effect/black_rot_debility))
 		display_results(user, target, span_notice("The black rot corruption recedes."),
 			"[user] finishes purifying the area. The black coloration recedes from [target]'s flesh.",
 			"[user] uses the [tool] to cauterize and purify [target]'s chest.")

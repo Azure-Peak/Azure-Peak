@@ -178,7 +178,10 @@ GLOBAL_VAR_INIT(ambush_mobconsider_cooldown, 2 MINUTES) // Cooldown for each ind
 			continue
 		if(isturf(RS.loc) && !get_dist(RS.loc, src) < min_dist)
 			possible_targets += get_adjacent_ambush_turfs(RS.loc)
-
+	// Ambush mobs can spawn in aquatic foliage, so they can still occur on the coast which lacks all other objects.
+	for(var/obj/structure/flora/roguegrass/water/WF in orange(max_dist, src))
+		if(isturf(WF.loc) && !get_dist(WF.loc, src) < min_dist)
+			possible_targets += get_adjacent_ambush_turfs(WF.loc)
 	return possible_targets
 
 /proc/get_adjacent_ambush_turfs(turf/T)

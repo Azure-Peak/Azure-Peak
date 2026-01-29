@@ -55,6 +55,14 @@
 	produce_amount_max = 4
 	maturation_time = FAST_GROWING
 
+/datum/plant_def/carrot
+	name = "carrot patch"
+	icon_state = "carrot"
+	produce_type = /obj/item/reagent_containers/food/snacks/grown/carrot
+	produce_amount_min = 3
+	produce_amount_max = 4
+	maturation_time = FAST_GROWING
+
 /datum/plant_def/onion
 	name = "onion patch"
 	icon_state = "onion"
@@ -189,6 +197,14 @@
 	icon_state = "tomato"
 	produce_type = /obj/item/reagent_containers/food/snacks/grown/fruit/tomato
 
+/datum/plant_def/bush/eggplant
+	name = "eggplant vines"
+	icon = 'icons/roguetown/misc/crops.dmi'
+	icon_state = "eggplant"
+	produce_type = /obj/item/reagent_containers/food/snacks/grown/eggplant
+	produce_amount_min = 2
+	produce_amount_max = 4
+
 /datum/plant_def/sugarcane
 	name = "sugarcane"
 	icon_state = "sugarcane"
@@ -310,6 +326,7 @@
 	produce_type = /obj/item/reagent_containers/food/snacks/grown/tea
 	produce_amount_min = 2
 	produce_amount_max = 3
+
 
 /datum/plant_def/pumpkin
 	name = "pumpkin plant"

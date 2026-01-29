@@ -540,10 +540,11 @@
 
 /mob/living/carbon/human/proc/npc_try_backstep()
 	// JUKE: backstep after attacking if you're fast and have movement left
-	var/const/base_juke_chance = 5
+	// Also made base chance 30% instead of 5% as per original
+	var/const/base_juke_chance = 15
 	// for every point of STASPD above 10 you get an extra 5% juke chance
 	var/const/min_spd_for_juke = 10
-	var/const/juke_per_overspd = 5
+	var/const/juke_per_overspd = 5 
 	if(mind?.has_antag_datum(/datum/antagonist/zombie)) // deadites cannot juke
 		return FALSE
 	if(!target)
@@ -561,7 +562,7 @@
 	var/list/newPath = list()
 	var/turf/lastTurf
 	// Use up to half your remaining distance, with a minimum of one tile.
-	var/juke_distance = rand(1, ceil((maxStepsTick - steps_moved_this_turn)/2))
+	var/juke_distance = 1 // Make it single step juke only.
 	for(var/i in 1 to juke_distance)
 		// pick random turfs to juke to until we're out of movement
 		var/list/turf/juke_candidates = get_dodge_destinations(target, lastTurf)

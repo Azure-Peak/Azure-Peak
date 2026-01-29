@@ -23,6 +23,12 @@
 	penfactor = 20
 	clickcd = 11
 
+/datum/intent/dagger/cut/blunt
+	blade_class = BCLASS_BLUNT
+	hitsound = list('sound/combat/hits/blunt/metalblunt (1).ogg', 'sound/combat/hits/blunt/metalblunt (2).ogg', 'sound/combat/hits/blunt/metalblunt (3).ogg')
+	penfactor = BLUNT_DEFAULT_PENFACTOR
+	intent_intdamage_factor = BLUNT_DEFAULT_INT_DAMAGEFACTOR
+
 /datum/intent/dagger/thrust
 	name = "thrust"
 	icon_state = "instab"
@@ -39,6 +45,12 @@
 /datum/intent/dagger/thrust/weak
 	name = "lopsided thrust"
 	damfactor = 0.8
+
+/datum/intent/dagger/thrust/blunt
+	blade_class = BCLASS_BLUNT
+	hitsound = list('sound/combat/hits/blunt/metalblunt (1).ogg', 'sound/combat/hits/blunt/metalblunt (2).ogg', 'sound/combat/hits/blunt/metalblunt (3).ogg')
+	penfactor = BLUNT_DEFAULT_PENFACTOR
+	intent_intdamage_factor = BLUNT_DEFAULT_INT_DAMAGEFACTOR
 
 /datum/intent/dagger/thrust/pick
 	name = "icepick stab"
@@ -330,7 +342,7 @@
 /obj/item/rogueweapon/huntingknife/combat //>Combat knife //>Literally never seen it used in combat
 	force = 22 //Hunting knife's bigger, meaner older brother. No pick intent, so it deserves a slight damage bump.
 	name = "seax"
-	desc = "An intimidatingly large sidearm that's been used amongst the Grenzels and Northerners for centuries, both as a combat knife and as a tool for dae-to-dae laboring."
+	desc = "An intimidatingly large dagger, fit for both hand-to-hand combat and dae-to-dae laboring. The ancenstry of this centuries-old design runs red with Gronnic and Grenzelhoftian blood, alike."
 	possible_item_intents = list(/datum/intent/dagger/cut, /datum/intent/dagger/cut/combat, /datum/intent/dagger/sucker_punch, /datum/intent/dagger/thrust/combat)
 	icon_state = "combatknife"
 	sheathe_icon = "combatknife"
@@ -385,7 +397,12 @@
 	intent_intdamage_factor = 0.05
 
 /obj/item/rogueweapon/huntingknife/idagger
-	possible_item_intents = list(/datum/intent/dagger/thrust,/datum/intent/dagger/cut, /datum/intent/dagger/thrust/pick, /datum/intent/dagger/sucker_punch)
+	possible_item_intents = list(
+		/datum/intent/dagger/thrust,
+		/datum/intent/dagger/cut,
+		/datum/intent/dagger/thrust/pick,
+		/datum/intent/dagger/sucker_punch,
+		)
 	force = 15
 	max_integrity = 100
 	name = "iron dagger"
@@ -393,12 +410,13 @@
 	icon_state = "idagger"
 	sheathe_icon = "idagger"
 	smeltresult = /obj/item/ingot/iron
+	special = /datum/special_intent/dagger_dash
 
 /obj/item/rogueweapon/huntingknife/idagger/warden_machete
 	possible_item_intents = list(/datum/intent/dagger/thrust/weak, /datum/intent/dagger/cut/heavy, /datum/intent/dagger/chop/cleaver, /datum/intent/dagger/sucker_punch) // Stronger cut and chop, but no pick.
 	force = 22 // Slightly more damage than a steel dagger.
 	max_integrity = 130 // Slightly less integrity than a steel dagger.
-	name = "Wardens' seax"
+	name = "warden's seax"
 	desc = "A well-worn seax utilised by the Fraternity of Wardens both as a tool and weapon. Nearly as effective for hacking \
 	down men as it is foiliage, but not quite as durable as more modern steel tools. More suitable for cutting than for thrusting."
 	icon_state = "warden_machete"
@@ -444,6 +462,19 @@
 	max_integrity = 150
 	smeltresult = /obj/item/ingot/steel
 
+/obj/item/rogueweapon/huntingknife/idagger/steel/trainer
+	name = "dagger trainer"
+	desc = "A blunted steel dagger with a flexible blade for practicing close-in combat with vicious welts \
+	instead of lethal wounds. Still hurts, though."
+	icon_state = "dagger_trainer"
+	sheathe_icon = "sheath_dagger_trainer"
+	force = 7
+	possible_item_intents = list(
+		/datum/intent/dagger/thrust/blunt,
+		/datum/intent/dagger/cut/blunt,
+		/datum/intent/dagger/sucker_punch,
+		)
+
 /obj/item/rogueweapon/huntingknife/idagger/steel/corroded
 	name = "corroded dagger"
 	desc = "A wicked deliverer of poison, serrated and notched. Curved steel cradles the knuckles, ensuring that the wielder doesn't inflict the fatal dose on themselves. </br>I can coat this dagger in most poisons, ensuring that my next strike leaves a festering surprise."
@@ -456,10 +487,11 @@
 
 /obj/item/rogueweapon/huntingknife/idagger/steel/corroded/dirk
 	name = "fanged dagger"
-	desc = "A dagger modeled after the fang of an anthrax spider. Can be poisoned."
+	desc = "A wave-bladed dagger, forged in reverance to the visage of an anthraxi spider's fang. Offer a keen-eyed glance to its obsidian edge, and you might just notice the hundreds of capillary-like channels lining its surface; a cruel finishing touch, soon to be understood by the sundrunk. </br>I can coat this dagger in most poisons, ensuring that my next strike leaves a festering surprise."
 	icon_state = "spiderdagger"
 	sheathe_icon = "spiderdagger"
-	smeltresult = null
+	smeltresult = /obj/item/ingot/drow
+	smelt_bar_num = 1
 
 /obj/item/rogueweapon/huntingknife/idagger/steel/holysee
 	name = "eclipsum dagger"
@@ -488,7 +520,7 @@
 	)
 
 /obj/item/rogueweapon/huntingknife/idagger/steel/pestrasickle
-	name ="plaguebringer sickle"
+	name = "plaguebringer sickle"
 	desc = "A wicked edge brings feculent delights."
 	icon_state = "pestrasickle"
 	force = 22 // 10% - This is a 8 clickCD weapon
@@ -708,19 +740,29 @@
 
 /obj/item/rogueweapon/huntingknife/idagger/silver/elvish
 	name = "elvish dagger"
-	desc = "This beautiful dagger is of intricate, elvish design. Sharper, too."
-	force = 22
+	desc = "A wave-bladed dagger of Elven design, who's silvered beauty is only rivaled by its deceptive lethality."
+	force = 22 //One of the rare silver-edged weapons that has a positive damage boost, due to it requiring both silver and gold to create.
 	icon_state = "elfdagger"
 	item_state = "elfdag"
 	last_used = 0
-	is_silver = FALSE
+	smeltresult = /obj/item/ingot/gold
+	smelt_bar_num = 1
+
+/obj/item/rogueweapon/huntingknife/idagger/silver/elvish/poopknife
+	name = "thine majesty's nitesoil-cleaver"
+	desc = "A heraldric accompaniment to the chamberpot, and the most closely-guarded secret in all of Azuria. It is said that this once belonged to the Duke's eldest ancestor, who - in a fit of constipatory labor - had unwittingly realized another use for their wave-bladed trophy."
+	max_integrity = 50 //Should render to ~100, at most. More fragile than alloyed knives. You know why.
+	max_blade_int = 333 //Exceedingly sharp. Ditto.
+	possible_item_intents = list(/datum/intent/dagger/cut, /datum/intent/dagger/cut/combat, /datum/intent/dagger/sucker_punch, /datum/intent/dagger/thrust/combat) //Seax's intents, for self-explanatory reasons.
 
 /obj/item/rogueweapon/huntingknife/idagger/silver/elvish/drow
 	name = "dark elvish dagger"
-	desc = "A vicious wave-bladed dagger from the Underdark."
-	force = 18
+	desc = "A once-elegant mithril dagger, who's sunless presence has long since been overshadowed by its vicious bite."
+	force = 18 
 	last_used = 0
-	is_silver = TRUE
+	is_silver = FALSE //Intended, as it's technically not silver - or at the very least, so divorced from traditional silver that it no longer retains its properties.
+	smeltresult = /obj/item/ingot/drow
+	smelt_bar_num = 1
 
 /obj/item/rogueweapon/huntingknife/idagger/navaja
 	possible_item_intents = list(/datum/intent/dagger/thrust,/datum/intent/dagger/cut,  /datum/intent/dagger/thrust/pick)

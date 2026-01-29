@@ -54,6 +54,20 @@ Exercise Verbs
 		var/number_words = numberToWords(pushups_in_a_row)
 		balloon_alert_to_viewers(number_words, number_words, 7, y_offset = -12)
 		stamina_add(stamina_loss)
+
+		/// For healable skin armor. This is unideal, but I'm a mapper, sire, and I don't know how signals work.
+		if(pushups_in_a_row % 10 == 0 && !on_knees)
+			var/obj/item/clothing/suit/roguetown/armor/manual/pushups/skin_armor
+			if (istype(wear_shirt, /obj/item/clothing/suit/roguetown/armor/manual/pushups))
+				skin_armor = wear_shirt
+
+			else if (istype(wear_armor, /obj/item/clothing/suit/roguetown/armor/manual/pushups))
+				skin_armor = wear_armor
+
+			if (skin_armor)
+				skin_armor.armour_regen()
+
+
 	to_chat(src, span_warning("You slump down to the floor, too tired to keep going."))
 	stop_pushups()
 

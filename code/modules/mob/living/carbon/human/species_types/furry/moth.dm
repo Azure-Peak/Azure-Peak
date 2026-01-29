@@ -62,6 +62,7 @@
 		/datum/customizer/bodypart_feature/face_detail,
 		/datum/customizer/bodypart_feature/underwear,
 		/datum/customizer/bodypart_feature/legwear,
+		/datum/customizer/bodypart_feature/piercing,
 		/datum/customizer/organ/wings/moth,
 		/datum/customizer/organ/antennas/moth,
 		/datum/customizer/organ/neck_feature/moth_fluff,

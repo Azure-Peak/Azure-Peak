@@ -672,6 +672,21 @@
 	wdefense_wbonus = 4 // from 6
 	smelt_bar_num = 3
 
+//Malumite maul. Intended for Templars.
+/obj/item/rogueweapon/mace/maul/grand/malum
+	name = "Kargrund Maul"
+	desc = "Forged from the legacy of dwarven rock-hammers, this maul’s holy steel and divine runes grant it immense power. \
+	Unwieldy to those weak of arm or faith, its mighty blows have the strength to shatter both stone and skull alike."
+	icon_state = "malumhammer"
+	minstr = 8//Handled by the unique interaction below. Inverted to start, since they spawn with it, and funny stuff can happen.
+
+/obj/item/rogueweapon/mace/maul/grand/malum/pickup(mob/living/user)
+	if(HAS_TRAIT(user, TRAIT_FORGEBLESSED))
+		src.minstr = 8//-10, if you have the ability to use this.
+	else
+		src.minstr = 18
+	..()
+	
 //Dwarvish mauls. Unobtanium outside of Grudgebearer. Do not change that.
 /obj/item/rogueweapon/mace/maul/steel
 	name = "dwarvish maul"
@@ -721,3 +736,123 @@
 	warnie = "mobwarning"
 	hitsound = list('sound/combat/hits/bladed/genstab (1).ogg', 'sound/combat/hits/bladed/genstab (2).ogg', 'sound/combat/hits/bladed/genstab (3).ogg')
 	item_d_type = "stab"
+
+/datum/component/mushroom_mace
+	dupe_mode = COMPONENT_DUPE_UNIQUE
+	var/hit_count = 0
+	var/last_hit_time = 0
+	var/reset_timeout = 75 SECONDS
+
+/datum/component/mushroom_mace/Initialize()
+	if(!isitem(parent))
+		return COMPONENT_INCOMPATIBLE
+	RegisterSignal(parent, COMSIG_ITEM_ATTACK_SUCCESS, .proc/on_attack)
+
+/datum/component/mushroom_mace/proc/on_attack(obj/item/source, mob/living/target, mob/living/user)
+	SIGNAL_HANDLER
+
+	if(!istype(user.used_intent, /datum/intent/mace/boom))
+		return
+
+	var/current_time = world.time
+
+	// Reset hit count if it's been too long since the last succesful hit.
+	if(hit_count > 0 && (current_time - last_hit_time) > reset_timeout)
+		hit_count = 1
+		last_hit_time = current_time
+		to_chat(user, span_infection("The mushroom mace starts pulsing."))
+
+	hit_count++
+	spawn(0)
+		spawn_spore_clouds(target, user)
+
+	if(hit_count == 6)
+		playsound(user, 'sound/magic/magnet.ogg', 75)
+		to_chat(user, span_userdanger("The mushroom mace is pulsing wildly!"))
+
+	if(hit_count >= 7)
+		spawn(0)
+			mushroom_boom(target, user)
+		hit_count = 0 // Reset after the big boom
+
+/datum/component/mushroom_mace/proc/spawn_spore_clouds(mob/living/target, mob/living/user)
+	var/turf/T = get_turf(target)
+	var/dir_to_target = get_dir(user, target)
+
+	var/list/target_turfs = list(T)
+	target_turfs += get_step(T, dir_to_target)
+	target_turfs += get_step(T, turn(dir_to_target, 90))
+	target_turfs += get_step(T, turn(dir_to_target, -90))
+
+	for(var/turf/cloud_turf in target_turfs)
+		if(cloud_turf == get_turf(user))
+			continue
+		var/obj/effect/temp_visual/spore/old_spores = locate(/obj/effect/temp_visual/spore) in cloud_turf
+		if(old_spores)
+			qdel(old_spores)
+		new /obj/effect/temp_visual/spore(cloud_turf) 
+
+/datum/component/mushroom_mace/proc/mushroom_boom(mob/living/target, mob/living/user)
+	var/turf/T = get_turf(target)
+	T.visible_message(span_boldwarning("The mushroom mace releases a massive fungal detonation!"))
+	explosion(T, devastation_range = 0, heavy_impact_range = 0, light_impact_range = 4, smoke = TRUE, soundin = pick('sound/misc/explode/explosion.ogg'))
+
+	for(var/mob/living/L in range(2, T))
+		var/damage = 30
+		if(L == user)
+			damage = 10 // User takes reduced damage
+		L.apply_damage(damage, TOX)
+		if(L != user && ishuman(L))
+			var/mob/living/carbon/human/H = L
+			H.Immobilize(15)
+			H.apply_status_effect(/datum/status_effect/debuff/exposed)
+
+/obj/effect/temp_visual/spore
+	name = "spore"
+	icon_state = "spores"
+	duration = 16 SECONDS
+	plane = GAME_PLANE_UPPER
+	layer = ABOVE_ALL_MOB_LAYER
+	var/damage_amount = 5
+
+/obj/effect/temp_visual/spore/Initialize(mapload)
+	. = ..()
+	// Damage anyone already standing on the tile
+	var/turf/T = get_turf(src)
+	for(var/mob/living/L in T)
+		apply_spore_damage(L)
+
+/obj/effect/temp_visual/spore/Crossed(atom/movable/AM)
+	. = ..()
+	if(isliving(AM))
+		apply_spore_damage(AM)
+
+/obj/effect/temp_visual/spore/proc/apply_spore_damage(mob/living/L)
+	if(L.stat == DEAD)
+		return
+
+	to_chat(L, span_danger("You breathe in the spiky spores!"))
+	L.apply_damage(damage_amount, BRUTE)
+
+/datum/intent/mace/boom
+	name = "boom"
+	attack_verb = list("thumps", "fungal-strikes")
+	icon_state = "inboom"
+	item_d_type = "blunt"
+	desc = "A specialized strike that releases spores. Landing 7 consecutive strikes within 75 seconds triggers a fungal explosion."
+	damfactor = 1
+
+/obj/item/rogueweapon/mace/mushroom
+	name = "Lithmyc Mace"
+	desc = "A heavy mace forged from fungal-infused metals. Looks spiky!"
+	icon_state = "mushroom"
+	force = 18
+	force_wielded = 24
+	max_integrity = 500
+	possible_item_intents = list(/datum/intent/mace/strike, /datum/intent/mace/boom)
+	gripped_intents = list(/datum/intent/mace/strike, /datum/intent/mace/boom, /datum/intent/mace/smash)
+	smeltresult = /obj/item/ingot/lithmyc
+
+/obj/item/rogueweapon/mace/mushroom/Initialize()
+	. = ..()
+	AddComponent(/datum/component/mushroom_mace)

@@ -758,7 +758,7 @@ GLOBAL_VAR_INIT(mobids, 1)
 		if(3)
 			days = "WEDDING'S DAE"
 		if(4)
-			days = "THULE'S DAE"
+			days = "TOLL'S DAE"
 		if(5)
 			days = "FREYJA'S DAE"
 		if(6)
@@ -994,6 +994,12 @@ GLOBAL_VAR_INIT(mobids, 1)
 /mob/proc/AddSpell(obj/effect/proc_holder/spell/S)
 	mob_spell_list += S
 	S.action.Grant(src)
+
+/mob/proc/HasSpell(var/spell_type)
+	for(var/obj/effect/proc_holder/spell/spell as anything in mob_spell_list)
+		if(spell.type == spell_type)
+			return spell
+	return null
 
 ///Remove a spell from the mobs spell list
 /mob/proc/RemoveSpell(obj/effect/proc_holder/spell/spell)

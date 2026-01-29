@@ -1,3 +1,6 @@
+/datum/voicepack/male
+	preview = list("agony", "laugh", "pain", "hmph", "painmoan", "rage", "paincrit", "chuckle", "clearthroat", "embed", "grumble", "groan", "hmm", "huh", "laugh", "rage", "warcry")
+
 /datum/voicepack/male/get_sound(soundin, modifiers)
 	var/used
 	switch(modifiers)
@@ -58,6 +61,8 @@
 				used = list('sound/vo/male/gen/huh (1).ogg','sound/vo/male/gen/huh (2).ogg','sound/vo/male/gen/huh (3).ogg')
 			if("hum")
 				used = list('sound/vo/male/gen/hum (1).ogg','sound/vo/male/gen/hum (2).ogg','sound/vo/male/gen/hum (3).ogg')
+			if("hmph")
+				used = list('sound/vo/male/gen/hmph (1).ogg', 'sound/vo/male/gen/hmph (2).ogg')
 			if("jump")
 				used = 'sound/vo/male/gen/jump.ogg'
 			if("laugh")
@@ -162,5 +167,12 @@
 				used = list('sound/vo/male/gen/moan (1).ogg','sound/vo/male/gen/moan (2).ogg','sound/vo/male/gen/moan (3).ogg')
 			if("sexmoanhvy")
 				used = list('sound/vo/male/gen/moan (1).ogg','sound/vo/male/gen/moan (2).ogg','sound/vo/male/gen/moan (3).ogg')
-
+			if("bellow")
+				used = list('sound/vo/LizardBellow.ogg')
+			if("hiss")
+				used = list('sound/vo/LizardHiss.ogg')
+			if("squeal")
+				used = list('sound/vo/LizardSqueal.ogg')
+			if("thump")
+				used = list('sound/vo/LizardThump.ogg')
 	return used

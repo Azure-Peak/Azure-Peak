@@ -408,6 +408,13 @@
 	additional_items = list(/obj/item/grown/log/tree/small)
 	created_item = /obj/item/rogueweapon/spear
 
+/datum/anvil_recipe/weapons/iron/spear_trainer
+	name = "Spear Trainer, Iron (+1 Small Log)"
+	req_bar = /obj/item/ingot/iron
+	req_blade = /obj/item/blade/iron_polearm
+	additional_items = list(/obj/item/grown/log/tree/small)
+	created_item = /obj/item/rogueweapon/spear/trainer
+
 /datum/anvil_recipe/weapons/iron/bardiche
 	name = "Bardiche, Iron (+1 Iron, +1 Small Log)"
 	req_bar = /obj/item/ingot/iron
@@ -457,6 +464,13 @@
 	req_bar = /obj/item/ingot/steel
 	req_blade = /obj/item/blade/steel_knife
 	created_item = /obj/item/rogueweapon/huntingknife/idagger/steel
+	createditem_num = 1
+
+/datum/anvil_recipe/weapons/steel/dagger_trainer
+	name = "Dagger Trainer, Steel"
+	req_bar = /obj/item/ingot/steel
+	req_blade = /obj/item/blade/steel_knife
+	created_item = /obj/item/rogueweapon/huntingknife/idagger/steel/trainer
 	createditem_num = 1
 
 /datum/anvil_recipe/weapons/steel/daggerparrying
@@ -760,19 +774,21 @@
 	additional_items = list(/obj/item/rogueweapon/sword/long)
 	created_item = /obj/item/rogueweapon/sword/long/dec
 
+/datum/anvil_recipe/weapons/decorated/elfsaber
+	name = "Elegant Sabre, Elvish (+3 Silver)"
+	req_bar = /obj/item/ingot/gold
+	additional_items = list(/obj/item/ingot/silver, /obj/item/ingot/silver, /obj/item/ingot/silver)
+	created_item = /obj/item/rogueweapon/sword/sabre/elf
+	craftdiff = 5 //Combination of Decorated- and Silver-tier methods, alongside being stronger than either.
+
+/datum/anvil_recipe/weapons/decorated/elfdagger
+	name = "Elegant Dagger, Elvish (+2 Silver)"
+	req_bar = /obj/item/ingot/gold
+	additional_items = list(/obj/item/ingot/silver, /obj/item/ingot/silver)
+	created_item = /obj/item/rogueweapon/huntingknife/idagger/silver/elvish
+	craftdiff = 5 //Ditto.
 
 // SILVER
-
-/datum/anvil_recipe/weapons/silver/elfsaber
-	name = "Sabre, Elvish (+1 Gold)"
-	req_bar = /obj/item/ingot/silver
-	additional_items = list(/obj/item/ingot/gold)
-	created_item = /obj/item/rogueweapon/sword/sabre/elf
-
-/datum/anvil_recipe/weapons/silver/elfdagger
-	name = "Dagger, Elvish"
-	req_bar = /obj/item/ingot/silver
-	created_item = /obj/item/rogueweapon/huntingknife/idagger/silver/elvish
 
 /datum/anvil_recipe/weapons/silver/dagger
 	name = "Dagger, Silver (+1 Silver)"
@@ -1032,6 +1048,13 @@
 	created_item = /obj/item/rogueweapon/sword/long/exe
 	i_type = "Weapons"
 
+/datum/anvil_recipe/weapons/lithmyc/mace
+	name = "Lithmyc mace (+ blueprint)"
+	req_bar = /obj/item/ingot/lithmyc
+	additional_items = list(/obj/item/blueprint/mace_mushroom)
+	created_item = /obj/item/rogueweapon/mace/mushroom
+	i_type = "Weapons"
+	craftdiff = SKILL_LEVEL_LEGENDARY
 
 // BLACKSTEEL
 

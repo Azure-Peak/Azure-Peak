@@ -824,3 +824,66 @@
 	wdefense = 3
 
 	max_integrity = 0
+
+/obj/item/rogueweapon/scabbard/sheath/courtphysician
+	name = "fancy cane"
+	desc = "A decorated cane bearing the visage of a vulture."
+	icon_state = "doccanesheath"
+	item_state = "doccanesheath"
+	valid_blade = /obj/item/rogueweapon/sword/rapier/courtphysician
+	sellprice = 45
+
+/obj/item/rogueweapon/scabbard/sheath/courtphysician/getonmobprop(tag)
+	. = ..()
+	if(tag)
+		switch(tag)
+			if("gen")
+				return list(
+					"shrink" = 0.5,
+					"sx" = -6,
+					"sy" = -6,
+					"nx" = 6,
+					"ny" = -5,
+					"wx" = -1,
+					"wy" = -5,
+					"ex" = -1,
+					"ey" = -5,
+					"nturn" = -45,
+					"sturn" = -45,
+					"wturn" = -45,
+					"eturn" = -45,
+					"nflip" = 0,
+					"sflip" = 0,
+					"wflip" = 0,
+					"eflip" = 0,
+					"northabove" = FALSE,
+					"southabove" = TRUE,
+					"eastabove" = TRUE,
+					"westabove" = FALSE
+				)
+			if("wielded")
+				return list(
+					"shrink" = 0.5,
+					"sx" = 0,
+					"sy" = 0,
+					"nx" = 0,
+					"ny" = 0,
+					"wx" = -3,
+					"wy" = 0,
+					"ex" = 3,
+					"ey" = 0,
+					"nturn" = -90,
+					"sturn" = 0,
+					"wturn" = -90,
+					"eturn" = 0,
+					"nflip" = 0,
+					"sflip" = 0,
+					"wflip" = 0,
+					"eflip" = 0,
+					"northabove" = FALSE,
+					"southabove" = TRUE,
+					"eastabove" = TRUE,
+					"westabove" = TRUE
+				)
+			if("onbelt")
+				return list("shrink" = 0.3,"sx" = -2,"sy" = -5,"nx" = 4,"ny" = -5,"wx" = 0,"wy" = -5,"ex" = 2,"ey" = -5,"nturn" = 0,"sturn" = 0,"wturn" = 0,"eturn" = 0,"nflip" = 0,"sflip" = 0,"wflip" = 0,"eflip" = 0,"northabove" = 0,"southabove" = 1,"eastabove" = 1,"westabove" = 0)

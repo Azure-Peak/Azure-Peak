@@ -86,6 +86,8 @@
 	var/bonus_points = 0
 	/// If the storyteller is ascendant this round, that is if he reached over 100 points in rankings of the gods
 	var/ascendant = FALSE
+	/// Which kind of gnoll scaling this storyteller prefers, default is 1 gnoll spawn.
+	var/preferred_gnoll_mode = GNOLL_SCALING_SINGLE
 
 /datum/storyteller/New()
 	. = ..()

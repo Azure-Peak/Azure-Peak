@@ -64,6 +64,7 @@
 /obj/structure/closet/crate/chest/steward/saigabuck/Initialize()
 	. = ..()
 	new /mob/living/simple_animal/hostile/retaliate/rogue/saiga/saigabuck/tame/saddled(src)
+	new /obj/item/caparison/azure(src)
 
 /datum/roguestock/import/cow
 	name = "Cow"
@@ -300,7 +301,7 @@
 		new /obj/item/natural/wood/plank(src)
 
 /datum/roguestock/import/keyringsset
-	name = "Retinue Keyring Set Crate"
+	name = "Man-At-Arms Keyring Set Crate"
 	desc = "A set of keys for new hires."
 	item_type = /obj/structure/closet/crate/chest/steward/keyringsset
 	export_price = 100
@@ -308,10 +309,10 @@
 
 /obj/structure/closet/crate/chest/steward/keyringsset/Initialize()
 	. = ..()
-	new /obj/item/storage/keyring/guardcastle(src)
-	new /obj/item/storage/keyring/guardcastle(src)
-	new /obj/item/storage/keyring/guardcastle(src)
-	new /obj/item/storage/keyring/guardcastle(src)
+	new /obj/item/storage/keyring/manatarms(src)
+	new /obj/item/storage/keyring/manatarms(src)
+	new /obj/item/storage/keyring/manatarms(src)
+	new /obj/item/storage/keyring/manatarms(src)
 
 /datum/roguestock/import/crossbow
 	name = "Crossbows Crate"
@@ -351,7 +352,7 @@
 	new /obj/item/gun/ballistic/revolver/grenadelauncher/bow/recurve/warden(src)
 	new /obj/item/quiver/arrows(src)
 	new /obj/item/storage/belt/rogue/leather(src)
-	new /obj/item/storage/keyring/guard(src)//Different ring to the rest
+	new /obj/item/storage/keyring/warden(src)//Different ring to the rest
 
 /datum/roguestock/import/manatarms
 	name = "Man-at-Arms Equipment Crate"

@@ -125,7 +125,7 @@
 	pants = /obj/item/clothing/under/roguetown/tights/black
 	belt = /obj/item/storage/belt/rogue/leather/rope
 	beltl = /obj/item/storage/belt/rogue/pouch/coins/mid
-	beltr = /obj/item/storage/keyring/churchie
+	beltr = /obj/item/storage/keyring/acolyte
 	shoes = /obj/item/clothing/shoes/roguetown/sandals
 
 	var/datum/devotion/C = new /datum/devotion(H, H.patron)
@@ -145,7 +145,7 @@
 	var/weapon_choice = input(H,"Choose your weapon.", "TAKE UP ARMS") as anything in weapons
 	switch(weapon_choice)
 		if("Discipline - Unarmed")
-			H.adjust_skillrank_up_to(/datum/skill/combat/unarmed, 5, TRUE)
+			H.adjust_skillrank_up_to(/datum/skill/combat/unarmed, SKILL_LEVEL_EXPERT, TRUE)
 			gloves = /obj/item/clothing/gloves/roguetown/bandages/pugilist
 			ADD_TRAIT(H, TRAIT_DODGEEXPERT, TRAIT_GENERIC)
 		if("Katar")
@@ -188,6 +188,7 @@
 	if(H.patron?.type == /datum/patron/divine/abyssor)
 		H.adjust_skillrank(/datum/skill/labor/fishing, 2, TRUE)
 		ADD_TRAIT(H, TRAIT_WATERBREATHING, TRAIT_GENERIC)
+		H.grant_language(/datum/language/abyssal)
 	if(H.patron?.type == /datum/patron/divine/necra)
 		ADD_TRAIT(H, TRAIT_NOSTINK, TRAIT_GENERIC)
 		ADD_TRAIT(H, TRAIT_SOUL_EXAMINE, TRAIT_GENERIC)
@@ -259,7 +260,7 @@
 		/obj/item/ritechalk = 1,
 		/obj/item/rogueweapon/scabbard/sheath = 1,
 		/obj/item/storage/belt/rogue/pouch/coins/mid = 1,
-		/obj/item/storage/keyring/churchie = 1
+		/obj/item/storage/keyring/acolyte = 1
 		)
 	H.cmode_music = 'sound/music/cmode/church/combat_reckoning.ogg' // this is probably awful implementation. too bad!
 	switch(H.patron?.type)
@@ -315,7 +316,7 @@
 			head = /obj/item/clothing/head/roguetown/helmet/heavy/ravoxhelm
 			cloak = /obj/item/clothing/cloak/templar/ravox
 			mask = /obj/item/clothing/head/roguetown/roguehood/ravoxgorget
-			backpack_contents = list(/obj/item/ritechalk, /obj/item/book/rogue/law, /obj/item/rogueweapon/scabbard/sheath, /obj/item/storage/belt/rogue/pouch/coins/mid, /obj/item/storage/keyring/churchie )
+			backpack_contents = list(/obj/item/ritechalk, /obj/item/book/rogue/law, /obj/item/rogueweapon/scabbard/sheath, /obj/item/storage/belt/rogue/pouch/coins/mid, /obj/item/storage/keyring/acolyte)
 		if(/datum/patron/divine/malum)
 			wrists = /obj/item/clothing/neck/roguetown/psicross/malum
 			cloak = /obj/item/clothing/cloak/templar/malumite
@@ -352,12 +353,14 @@
 			weapons += "Plaguebringer Sickles"
 		if(/datum/patron/divine/malum)
 			weapons += "Forgefiend"
+			weapons += "Kargrund Maul"
 		if(/datum/patron/divine/dendor)
 			weapons += "Summer Scythe"
 		if(/datum/patron/divine/xylix)
 			weapons += "Cackle Lash"
 		if(/datum/patron/divine/ravox)
 			weapons += "Duel Settler"
+			weapons += "Censure"
 		if(/datum/patron/divine/eora)
 			weapons += "The Heartstring"
 		if(/datum/patron/divine/abyssor)
@@ -419,6 +422,11 @@
 			H.put_in_hands(new /obj/item/rogueweapon/greatsword/grenz/flamberge/malum(H))
 			H.adjust_skillrank(/datum/skill/combat/swords, 1, TRUE)
 			H.equip_to_slot_or_del(new /obj/item/clothing/suit/roguetown/armor/plate/silver, SLOT_ARMOR, TRUE)
+		if("Kargrund Maul")
+			H.put_in_hands(new /obj/item/rogueweapon/mace/maul/grand/malum(H), TRUE)
+			H.put_in_hands(new /obj/item/rogueweapon/scabbard/gwstrap(H), FALSE)
+			H.adjust_skillrank(/datum/skill/combat/maces, 1, TRUE)
+			H.equip_to_slot_or_del(new /obj/item/clothing/suit/roguetown/armor/plate/silver, SLOT_ARMOR, TRUE)
 		if("Summer Scythe")
 			H.put_in_hands(new /obj/item/rogueweapon/halberd/bardiche/scythe(H))
 			H.put_in_hands(new /obj/item/rogueweapon/scabbard/gwstrap(H))
@@ -431,6 +439,11 @@
 		if("Duel Settler")
 			H.put_in_hands(new /obj/item/rogueweapon/mace/goden/steel/ravox(H))
 			H.adjust_skillrank(/datum/skill/combat/maces, 1, TRUE)
+			H.equip_to_slot_or_del(new /obj/item/clothing/suit/roguetown/armor/plate/silver, SLOT_ARMOR, TRUE)
+		if("Censure")
+			H.put_in_hands(new /obj/item/rogueweapon/greatsword/grenz/flamberge/ravox(H), TRUE)
+			H.put_in_hands(new /obj/item/rogueweapon/scabbard/gwstrap(H), FALSE)
+			H.adjust_skillrank(/datum/skill/combat/swords, 1, TRUE)
 			H.equip_to_slot_or_del(new /obj/item/clothing/suit/roguetown/armor/plate/silver, SLOT_ARMOR, TRUE)
 		if("The Heartstring")
 			H.put_in_hands(new /obj/item/rogueweapon/sword/rapier/eora(H))
@@ -458,6 +471,7 @@
 		H.adjust_skillrank(/datum/skill/labor/fishing, 2, TRUE)
 		H.adjust_skillrank(/datum/skill/misc/swimming, 3, TRUE)
 		ADD_TRAIT(H, TRAIT_WATERBREATHING, TRAIT_GENERIC)
+		H.grant_language(/datum/language/abyssal)
 	if(H.patron?.type == /datum/patron/divine/necra)
 		ADD_TRAIT(H, TRAIT_NOSTINK, TRAIT_GENERIC)
 		ADD_TRAIT(H, TRAIT_SOUL_EXAMINE, TRAIT_GENERIC)

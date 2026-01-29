@@ -1,6 +1,7 @@
 /datum/sex_action/sex/other/footjob
 	name = "Jerk them off with feet"
 	check_same_tile = FALSE
+	intensity = 3
 
 /datum/sex_action/sex/other/footjob/shows_on_menu(mob/living/carbon/human/user, mob/living/carbon/human/target)
 	if(user == target)

@@ -1,22 +1,3 @@
-/obj/item
-	/// A lazylist to store inhands data.
-	var/list/onprop
-	var/d_type = "blunt"
-//#ifdef TESTSERVER
-	var/force_reupdate_inhand = TRUE
-	var/smelted = FALSE // Sanity for smelteries to avoid runtimes, if this is a bar smelted through ore for exp gain
-	/// Determines whether this item is silver or not.
-	var/is_silver = FALSE
-	var/last_used = 0
-	var/toggle_state = null
-	var/icon_x_offset = 0
-	var/icon_y_offset = 0
-	var/always_destroy = FALSE
-	var/is_important = FALSE // If TRUE, this item is not allowed to be minted. May be useful for other things later.
-	var/vorpal = FALSE // does this item/weapon circumvent two-stage death during dismemberment? (do not add this to anything but ultra rare shit)
-//#else
-//	var/force_reupdate_inhand = FALSE
-//#endif
 
 // Initalize addon for the var for custom inhands 32x32.
 /obj/item/Initialize()
@@ -122,7 +103,10 @@ GLOBAL_LIST_EMPTY(icon_state_cache)
 
 /obj/item/var/has_behind_state
 
-/obj/item/proc/generateonmob(tag, prop, behind, mirrored)
+/obj/item/proc/generateonmob(tag, prop, behind = FALSE, mirrored = FALSE, used_index = null)
+	if(!used_index)
+		used_index = icon_state
+
 	var/list/used_prop = prop
 	var/UH = 64
 	var/UW = 64
@@ -130,207 +114,113 @@ GLOBAL_LIST_EMPTY(icon_state_cache)
 	var/icon/returned = icon(used_mask, "blank")
 	var/icon/blended
 	var/skipoverlays = FALSE
+
 	if(behind)
 		if(isnull(has_behind_state))
-			has_behind_state = check_state_in_icon(icon, "[icon_state]_behind")
+			has_behind_state = check_state_in_icon("[used_index]_behind", icon)
 		if(has_behind_state)
-			blended=icon("icon"=icon, "icon_state"="[icon_state]_behind")
+			blended = icon("icon"=icon, "icon_state"="[used_index]_behind")
 			skipoverlays = TRUE
 		else
-			blended=icon("icon"=icon, "icon_state"=icon_state)
+			blended = icon("icon"=icon, "icon_state"=used_index)
 	else
-		blended=icon("icon"=icon, "icon_state"=icon_state)
+		blended = icon("icon"=icon, "icon_state"=used_index)
 
 	if(!blended)
-		blended=getFlatIcon(src)
+		blended = getFlatIcon(src)
 
 	if(!blended)
-		return
-
-//	if(color) //getflat does this i think?
-//		blended.Blend(color,ICON_MULTIPLY)
+		return null
 
 	if(!skipoverlays)
 		for(var/V in overlays)
 			var/image/IM = V
-			var/icon/image_overlay = new(IM.icon,IM.icon_state)
+			var/icon/image_overlay = new(IM.icon, IM.icon_state)
 			if(IM.color)
-				image_overlay.Blend(IM.color,ICON_MULTIPLY)
-			blended.Blend(image_overlay,ICON_OVERLAY)
+				image_overlay.Blend(IM.color, ICON_MULTIPLY)
+			blended.Blend(image_overlay, ICON_OVERLAY)
 
 	var/icon/holder
 	if(blended.Height() == 32)
 		UW = 32
 		UH = 32
 		used_mask = 'icons/roguetown/helpers/inhand.dmi'
-	var/icon/masky
-	var/px = 0
-	var/py = 0
-	var/ax = 0
-	var/usedtag
 
-	//north
-	var/render_this_dir = FALSE
-	if(!behind)
-		if(used_prop["northabove"] == 1)
-			render_this_dir = TRUE
-	else
-		if(used_prop["northabove"] == 0)
-			render_this_dir = TRUE
-	if(render_this_dir)
+	var/list/directions = list(
+		list("north", "n", "northabove", WEST),
+		list("south", "s", "southabove", EAST),
+		list("east", "e", "eastabove", EAST),
+		list("west", "w", "westabove", EAST)
+	)
+
+	for(var/list/dir_data in directions)
+		var/direction = dir_data[1]
+		var/tag_prefix = dir_data[2]
+		var/above_key = dir_data[3]
+		var/mirror_flip = dir_data[4]
+
+		// Handle east/west mirroring logic
+		var/actual_above_key = above_key
+		var/actual_tag_prefix = tag_prefix
+		if(direction == "east" && mirrored)
+			actual_above_key = "westabove"
+			actual_tag_prefix = "w"
+		else if(direction == "west" && mirrored)
+			actual_above_key = "eastabove"
+			actual_tag_prefix = "e"
+
+		// Check if we should render this direction
+		var/render_this_dir = FALSE
+		if(!behind)
+			if(used_prop[actual_above_key] == 1)
+				render_this_dir = TRUE
+		else
+			if(used_prop[actual_above_key] == 0)
+				render_this_dir = TRUE
+
+		if(!render_this_dir)
+			continue
+
+		// Create and process the icon for this direction
 		holder = icon(blended)
-		masky = icon("icon"=used_mask, "icon_state"="north")
+		var/icon/masky = icon("icon"=used_mask, "icon_state"=direction)
 		holder.Blend(masky, ICON_MULTIPLY)
-		if("nflip" in used_prop)
-			holder.Flip(used_prop["nflip"])
-		if("nturn" in used_prop)
-			holder.Turn(used_prop["nturn"])
-		if("nx" in used_prop)
+
+		// Apply transforms
+		if("[actual_tag_prefix]flip" in used_prop)
+			holder.Flip(used_prop["[actual_tag_prefix]flip"])
+		if("[actual_tag_prefix]turn" in used_prop)
+			holder.Turn(used_prop["[actual_tag_prefix]turn"])
+
+		// Calculate px position
+		var/px = 0
+		var/py = 0
+		if("[actual_tag_prefix]x" in used_prop)
+			px = used_prop["[actual_tag_prefix]x"]
 			if(mirrored)
-				px += used_prop["nx"]*-1
-				var/biggu = FALSE
-				if(UH > 32)
-					biggu = TRUE
-				if(mirror_fix(used_prop["shrink"], biggu))
-					px += mirror_fix(used_prop["shrink"], biggu)
-//				if(UH == 64)
-//				else
-			else
-				px += used_prop["nx"]
-		if("ny" in used_prop)
-			py = used_prop["ny"]
-		ax = 0
+				if(direction == "north" || direction == "south")
+					px *= -1
+					var/biggu = (UH > 32)
+					if(mirror_fix(used_prop["shrink"], biggu))
+						px += mirror_fix(used_prop["shrink"], biggu)
+				else
+					px *= -1
+		if("[actual_tag_prefix]y" in used_prop)
+			py = used_prop["[actual_tag_prefix]y"]
+
+		// Apply more transforms ffs
+		var/ax = 0
 		if("shrink" in used_prop)
-			holder.Scale(UW*used_prop["shrink"],UH*used_prop["shrink"])
+			holder.Scale(UW*used_prop["shrink"], UH*used_prop["shrink"])
 			ax = 32-(holder.Width()/2)
 		px += ax
 		py += ax
-		if(mirrored)
-			holder.Flip(WEST)
-		returned.Blend(holder,ICON_OVERLAY,x=px,y=py)
 
-	//south
-	render_this_dir = FALSE
-	if(!behind)
-		if(used_prop["southabove"] == 1)
-			render_this_dir = TRUE
-	else
-		if(used_prop["southabove"] == 0)
-			render_this_dir = TRUE
-	if(render_this_dir)
-		px = 0
-		py = 0
-		holder = icon(blended)
-		masky = icon("icon"=used_mask, "icon_state"="south")
-		holder.Blend(masky, ICON_MULTIPLY)
-		if("sflip" in used_prop)
-			holder.Flip(used_prop["sflip"])
-		if("sturn" in used_prop)
-			holder.Turn(used_prop["sturn"])
-		if("sx" in used_prop)
-			if(mirrored)
-				px += used_prop["sx"]*-1
-				var/biggu = FALSE
-				if(UH > 32)
-					biggu = TRUE
-				if(mirror_fix(used_prop["shrink"], biggu))
-					px += mirror_fix(used_prop["shrink"], biggu)
-//				if(UH == 64)
-//				else
-			else
-				px += used_prop["sx"]
-		if("sy" in used_prop)
-			py += used_prop["sy"]
-		ax = 0
-		if("shrink" in used_prop)
-			holder.Scale(UW*used_prop["shrink"],UH*used_prop["shrink"])
-			ax = 32-(holder.Width()/2)
-		px += ax
-		py += ax
+		// Apply mirroring flip
 		if(mirrored)
-			holder.Flip(EAST)
-		returned.Blend(holder,ICON_OVERLAY,x=px,y=py)
+			holder.Flip(mirror_flip)
 
-	//east
-	render_this_dir = FALSE
-	var/t2us = "eastabove"
-	if(mirrored)
-		t2us = "westabove"
-	if(!behind)
-		if(used_prop[t2us] == 1)
-			render_this_dir = TRUE
-	else
-		if(used_prop[t2us] == 0)
-			render_this_dir = TRUE
-	if(render_this_dir)
-		usedtag = "e"
-		if(mirrored)
-			usedtag = "w"
-		px = 0
-		py = 0
-		holder = icon(blended)
-		masky = icon("icon"=used_mask, "icon_state"="east")
-		holder.Blend(masky, ICON_MULTIPLY)
-		if("[usedtag]flip" in used_prop)
-			holder.Flip(used_prop["[usedtag]flip"])
-		if("[usedtag]turn" in used_prop)
-			holder.Turn(used_prop["[usedtag]turn"])
-		if("[usedtag]x" in used_prop)
-			px = used_prop["[usedtag]x"]
-			if(mirrored)
-				px = px*-1
-		if("[usedtag]y" in used_prop)
-			py = used_prop["[usedtag]y"]
-		ax = 0
-		if("shrink" in used_prop)
-			holder.Scale(UW*used_prop["shrink"],UH*used_prop["shrink"])
-			ax = 32-(holder.Width()/2)
-		px += ax
-		py += ax
-		if(mirrored)
-			holder.Flip(EAST)
-		returned.Blend(holder,ICON_OVERLAY,x=px,y=py)
-
-	//west
-	render_this_dir = FALSE
-	t2us = "westabove"
-	if(mirrored)
-		t2us = "eastabove"
-	if(!behind)
-		if(used_prop[t2us] == 1)
-			render_this_dir = TRUE
-	else
-		if(used_prop[t2us] == 0)
-			render_this_dir = TRUE
-	if(render_this_dir)
-		usedtag = "w"
-		if(mirrored)
-			usedtag = "e"
-		px = 0
-		py = 0
-		holder = icon(blended)
-		masky = icon("icon"=used_mask, "icon_state"="west")
-		holder.Blend(masky, ICON_MULTIPLY)
-		if("[usedtag]flip" in used_prop)
-			holder.Flip(used_prop["[usedtag]flip"])
-		if("[usedtag]turn" in used_prop)
-			holder.Turn(used_prop["[usedtag]turn"])
-		if("[usedtag]x" in used_prop)
-			px = used_prop["[usedtag]x"]
-			if(mirrored)
-				px = px*-1
-		if("[usedtag]y" in used_prop)
-			py = used_prop["[usedtag]y"]
-		ax = 0
-		if("shrink" in used_prop)
-			holder.Scale(UW*used_prop["shrink"],UH*used_prop["shrink"])
-			ax = 32-(holder.Width()/2)
-		px += ax
-		py += ax
-		if(mirrored)
-			holder.Flip(EAST)
-		returned.Blend(holder,ICON_OVERLAY,x=px,y=py)
-
+		returned.Blend(holder, ICON_OVERLAY, x=px, y=py) // All icon blending is done during init
 
 	return returned
 

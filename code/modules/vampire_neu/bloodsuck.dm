@@ -1,3 +1,6 @@
+/mob/living/carbon/human
+	var/tmp/vampire_conversion_prompt_active = FALSE
+
 /mob/living/carbon/human/proc/add_bite_animation()
 	remove_overlay(SUNDER_LAYER)
 	var/mutable_appearance/bite_overlay = mutable_appearance('icons/effects/clan.dmi', "bite", -SUNDER_LAYER)
@@ -111,7 +114,7 @@
 
 	if(!victim.clan && victim.mind && ishuman(victim) && VDrinker.generation > GENERATION_THINBLOOD && victim.blood_volume <= BLOOD_VOLUME_BAD)
 		var/datum/antagonist/vampire/vdrinker = mind?.has_antag_datum(/datum/antagonist/vampire)
-		if((vdrinker.max_thralls <= 0) || (isnull(vdrinker.max_thralls))) //thin bloods or low level vampires can't make thralls, incase they get past the last check by leveling up off others
+		if((vdrinker.max_thralls <= 0) || (isnull(vdrinker.max_thralls || VDrinker.generation == GENERATION_THINBLOOD))) //thin bloods or low level vampires can't make thralls, incase they get past the last check by leveling up off others
 			to_chat(src, span_warning("I cannot sire thralls, my blood is too weak!"))
 		else
 			if(vdrinker.thrall_count >= vdrinker.max_thralls) //you've hit your max
@@ -124,33 +127,107 @@
 					if(!do_mob(src, victim, 7 SECONDS, double_progress = TRUE, can_move = FALSE))
 						to_chat(src, span_warning("I was interrupted during my siring!"))
 						return
+					if(HAS_TRAIT_FROM(victim, TRAIT_REFUSED_VAMP_CONVERT, REF(src)))
+						to_chat(src, span_warning("[victim] has already refused your offer to sire them."))
+						return
+
+					var/mob/living/carbon/human/H = victim
+					if(H.vampire_conversion_prompt_active)
+						to_chat(src, span_warning("[victim] still fights the curse."))
+						return
 					INVOKE_ASYNC(victim, TYPE_PROC_REF(/mob/living/carbon/human, vampire_conversion_prompt), src)
 
 /mob/living/carbon/human/proc/vampire_conversion_prompt(mob/living/carbon/sire)
-	if(!mind)
+	if(!mind || QDELETED(src))
 		return
+
+	if(vampire_conversion_prompt_active)
+		return
+	vampire_conversion_prompt_active = TRUE
 
 	var/datum/antagonist/vampire/VDrinker = sire?.mind?.has_antag_datum(/datum/antagonist/vampire)
 	if(!istype(VDrinker))
+		vampire_conversion_prompt_active = FALSE
 		return
 
 	var/datum/mind/original_mind = mind
+	if(stat != DEAD)
+		apply_status_effect(/datum/status_effect/incapacitating/stun, VAMP_CONVERT_TIMEOUT)
+		apply_status_effect(/datum/status_effect/incapacitating/knockdown, VAMP_CONVERT_TIMEOUT)
 
-	if(alert(src, "Would you like to rise as a vampire spawn? Warning: refusal may or may not mortally wound you.", "THE CURSE OF KAIN", "MAKE IT SO", "I RESCIND") != "MAKE IT SO")
-		to_chat(sire, span_danger("Your victim twitches, yet the curse fails to take over. As if something otherworldly intervenes..."))
-		if(HAS_TRAIT_FROM(src, TRAIT_REFUSED_VAMP_CONVERT, REF(sire)))
-			return
+	var/vampire_choice = tgui_alert(
+		src,
+		"Would you like to rise as a vampire spawn? Warning: refusal may or may not mortally wound you.",
+		"THE CURSE OF KAIN",
+		list("MAKE IT SO", "I RESCIND"),
+		VAMP_CONVERT_TIMEOUT
+	)
+	remove_status_effect(/datum/status_effect/incapacitating/stun)
+	remove_status_effect(/datum/status_effect/incapacitating/knockdown)
 
-		to_chat(sire, span_danger("The curse fails to take hold of [src], yet you still manage to squeeze the last drop of vitae out of them."))
-		sire.adjust_bloodpool(VITAE_PER_UNIQUE_CONVERSION_REJECT)
-		ADD_TRAIT(src, TRAIT_REFUSED_VAMP_CONVERT, REF(sire))
+	if(QDELETED(src) || !mind)
+		vampire_conversion_prompt_active = FALSE
 		return
 
-	fully_heal(TRUE, FALSE)
+	if(QDELETED(sire) || !sire?.mind)
+		vampire_conversion_prompt_active = FALSE
+		return
+
+	VDrinker = sire.mind.has_antag_datum(/datum/antagonist/vampire)
+	if(!istype(VDrinker))
+		vampire_conversion_prompt_active = FALSE
+		return
+
+	if(vampire_choice != "MAKE IT SO")
+		if(!vampire_choice)
+			vampire_conversion_prompt_active = FALSE
+			return
+
+		if(HAS_TRAIT_FROM(src, TRAIT_REFUSED_VAMP_CONVERT, REF(sire)))
+			to_chat(sire, span_danger("Your victim resists the curse once more."))
+			vampire_conversion_prompt_active = FALSE
+			return
+
+		to_chat(
+			sire,
+			span_danger("The curse fails to take hold of [src], yet you still manage to squeeze the last drop of vitae out of them.")
+		)
+		sire.adjust_bloodpool(VITAE_PER_UNIQUE_CONVERSION_REJECT)
+		ADD_TRAIT(src, TRAIT_REFUSED_VAMP_CONVERT, REF(sire))
+		vampire_conversion_prompt_active = FALSE
+		return
+
+	if(stat == DEAD)
+		revive(full_heal = TRUE)
+	else
+		heal_overall_damage(INFINITY, INFINITY)
+
+	stat = CONSCIOUS
+
+	remove_status_effect(/datum/status_effect/debuff/rotted_zombie)
+	mind?.remove_antag_datum(/datum/antagonist/zombie)
+
+	if(client)
+		client.verbs.Remove(GLOB.ghost_verbs)
+
 	visible_message(span_danger("Some dark energy begins to flow from [sire] into [src]..."))
 	visible_message(span_red("[src] rises as a new spawn!"))
+
 	original_mind?.transfer_to(src, TRUE)
-	var/datum/antagonist/vampire/new_antag = new /datum/antagonist/vampire(incoming_clan = sire.clan, forced_clan = TRUE, generation = VDrinker.generation-1)
+
+	var/datum/antagonist/vampire/new_antag = new /datum/antagonist/vampire(
+		incoming_clan = sire.clan,
+		forced_clan = TRUE,
+		generation = max(VDrinker.generation - 1, GENERATION_THINBLOOD)
+	)
+
 	mind?.add_antag_datum(new_antag)
 	VDrinker.thrall_count++
-	adjust_bloodpool(500)
+	adjust_bloodpool(VAMP_CONVERT_BLOOD_GAIN)
+	apply_status_effect(/datum/status_effect/incapacitating/stun, VAMP_CONVERT_POST_STUN)
+
+	vampire_conversion_prompt_active = FALSE
+	return
+
+
+

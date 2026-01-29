@@ -5,8 +5,8 @@
 	action_icon_state = "dirge_t2_base"
 	song_tier = 2
 	warnie = "spellwarning"
-	invocations = list("A festering performance!") 
-	invocation_type = "shout"
+	invocations = list("plays a droning, shrill dirge! The world around them dries and crackles!") 
+	invocation_type = "emote"
 	sound = list('sound/magic/debuffroll.ogg')
 	song_effect = /datum/status_effect/buff/playing_dirge/pestilent_piedpiper
 
@@ -17,7 +17,7 @@
 
 /atom/movable/screen/alert/status_effect/debuff/song/pestilentpiper
 	name = "Musical Droning!"
-	desc = "I am weakened by the song!"
+	desc = "This music is terrifying! My heart catches in my throat as I am magically weakened!"
 	icon_state = "debuff"
 
 /datum/status_effect/debuff/song/pestilentpiper

@@ -80,7 +80,7 @@
 	list_reagents = list(/datum/reagent/consumable/nutriment = SNACK_CHUNKY)
 	bitesize = 6
 	slice_path = /obj/item/reagent_containers/food/snacks/fat/salo/slice
-	faretype = FARE_POOR
+	faretype = FARE_IMPOVERISHED
 	slices_num = 4
 	slice_batch = FALSE
 	rotprocess = null

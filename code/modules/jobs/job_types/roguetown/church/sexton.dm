@@ -17,7 +17,7 @@
 	min_pq = -10
 	max_pq = null
 	round_contrib_points = 2
-	advclass_cat_rolls = list(CTAG_sexton = 2)
+	advclass_cat_rolls = list(CTAG_SEXTON = 2)
 	job_subclasses = list(
 		/datum/advclass/sexton
 	)
@@ -59,7 +59,7 @@
 	backl = /obj/item/storage/backpack/rogue/satchel
 	backpack_contents = list(
 		/obj/item/needle = 1,
-		/obj/item/storage/keyring/churchie = 1,
+		/obj/item/storage/keyring/acolyte = 1,
 		/obj/item/natural/cloth = 1,
 	)
 	switch(H.patron?.type)

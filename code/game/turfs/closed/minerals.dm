@@ -7,6 +7,7 @@
 	icon_state = "rock"
 	var/smooth_icon = 'icons/turf/smoothrocks.dmi'
 	smooth = SMOOTH_MORE|SMOOTH_BORDER
+	flags_1 = CHECK_RICOCHET_1
 	canSmoothWith = null
 	baseturfs = list(/turf/open/floor/rogue/naturalstone)
 	opacity = 1

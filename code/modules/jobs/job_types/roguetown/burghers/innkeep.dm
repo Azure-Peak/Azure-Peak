@@ -73,7 +73,8 @@
 		armor = /obj/item/clothing/suit/roguetown/armor/leather/vest/sailor
 	backpack_contents = list(
 		/obj/item/recipe_book/survival,
-		/obj/item/bottle_kit
+		/obj/item/bottle_kit,
+		/obj/item/storage/keyring/innkeep_rooms
 	)
 	if(H.mind)
 		SStreasury.give_money_account(ECONOMIC_UPPER_CLASS, H, "Savings.")

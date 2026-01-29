@@ -65,6 +65,8 @@
 	var/area/A = get_area(C)
 	if (istype(A, /area/rogue/indoors/town))	//Stops rotting inside town buildings; will stop your zombification such as at church or appothocary.
 		return
+	if (istype(A, /area/rogue/indoors/deathsedge))	//Stops rotting inside Death's Edge (Death's Door spell area)
+		return
 
 	if(!(C.mob_biotypes & (MOB_ORGANIC|MOB_UNDEAD)))
 		qdel(src)

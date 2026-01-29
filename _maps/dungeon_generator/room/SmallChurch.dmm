@@ -80,7 +80,7 @@
 /turf/open/floor/rogue/tile/masonic/spiral,
 /area/rogue/under/tomb/indoors/church)
 "cR" = (
-/obj/item/natural/rock/random_ore,
+/obj/item/natural/rock/dungeon,
 /turf/open/floor/rogue/dirt,
 /area/rogue/under/tomb)
 "da" = (
@@ -240,11 +240,6 @@
 	pixel_y = -10
 	},
 /turf/open/floor/rogue/concrete,
-/area/rogue/under/tomb/indoors/church)
-"ho" = (
-/obj/structure/mineral_door/bars,
-/obj/effect/mapping_helpers/access/locker,
-/turf/open/floor/rogue/churchmarble,
 /area/rogue/under/tomb/indoors/church)
 "hW" = (
 /obj/item/rogueweapon/pick/copper,
@@ -1062,7 +1057,7 @@
 	pixel_x = -8;
 	pixel_y = 7
 	},
-/obj/item/natural/rock/random_ore,
+/obj/item/natural/rock/dungeon,
 /turf/open/floor/rogue/woodturned/nosmooth,
 /area/rogue/under/tomb/cave)
 "Pq" = (
@@ -1201,10 +1196,11 @@
 /area/rogue/under/tomb/cave/wet)
 "Vk" = (
 /obj/structure/closet/crate/roguecloset/crafted,
-/obj/item/clothing/suit/roguetown/shirt/robe/priest,
-/obj/item/clothing/suit/roguetown/shirt/undershirt/priest,
-/obj/item/clothing/head/roguetown/priestmask,
 /obj/machinery/light/rogue/torchholder/r,
+/obj/item/clothing/suit/roguetown/shirt/robe/noc,
+/obj/item/clothing/suit/roguetown/shirt/robe/necra,
+/obj/item/clothing/suit/roguetown/shirt/robe/monk,
+/obj/item/clothing/suit/roguetown/shirt/robe/eora,
 /turf/open/floor/rogue/churchmarble,
 /area/rogue/under/tomb/indoors/church)
 "VI" = (
@@ -2010,7 +2006,7 @@ uT
 JQ
 JQ
 JQ
-ho
+xb
 uT
 jd
 EO
@@ -2038,7 +2034,7 @@ nm
 qB
 Ju
 Ju
-ho
+xb
 kn
 Tm
 dB
@@ -2066,7 +2062,7 @@ JI
 JI
 JI
 Ju
-ho
+xb
 JI
 JI
 JI
@@ -2098,7 +2094,7 @@ ty
 KC
 SL
 eo
-ho
+xb
 JI
 JI
 JI
@@ -2903,7 +2899,7 @@ nm
 JI
 JI
 JI
-ho
+xb
 JI
 yk
 jk
@@ -3031,7 +3027,7 @@ nm
 cN
 JI
 mv
-ho
+xb
 JI
 jk
 JI
