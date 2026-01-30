@@ -516,6 +516,9 @@
 	A.Bumped(src)
 
 /atom/movable/proc/forceMove(atom/destination)
+	if(!destination || QDELETED(src))
+		CRASH("[src] No valid destination passed into forceMove")
+
 	var/mob/living/carbon/human/H = null
 	if(ishuman(src.loc))
 		H = src.loc

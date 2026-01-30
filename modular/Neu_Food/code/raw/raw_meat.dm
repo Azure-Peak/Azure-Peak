@@ -128,6 +128,22 @@
 	slice_path = /obj/item/reagent_containers/food/snacks/rogue/meat/mince/poultry
 	cooked_type = /obj/item/reagent_containers/food/snacks/rogue/meat/poultry/cutlet/fried
 
+/obj/item/reagent_containers/food/snacks/rogue/meat/poultry/cutlet/attackby(obj/item/I, mob/living/user)
+	update_cooktime(user)
+	var/found_table = locate(/obj/structure/table) in (loc)
+	if(istype(I, /obj/item/kitchen/rollingpin))
+		if(isturf(loc)&& (found_table))
+			playsound(get_turf(user), 'modular/Neu_Food/sound/rollingpin.ogg', 100, TRUE, -1)
+			to_chat(user, span_notice("Tenderizing [src]."))
+			if(do_after(user,long_cooktime, target = src))
+				add_sleep_experience(user, /datum/skill/craft/cooking, user.STAINT)
+				new /obj/item/reagent_containers/food/snacks/rogue/foodbase/chickentender(loc)
+				qdel(src)
+		else
+			to_chat(user, span_warning("You need to put [src] on a table to roll it out!"))
+	else 
+		return ..()
+
 /* ............. Crab Meat ................*/
 /obj/item/reagent_containers/food/snacks/rogue/meat/crab
 	name = "crab meat"

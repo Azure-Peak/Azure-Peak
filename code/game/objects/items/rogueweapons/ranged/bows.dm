@@ -9,15 +9,9 @@
 	if(mastermob?.get_num_arms(FALSE) < 2 || mastermob.get_inactive_held_item())
 		to_chat(mastermob, span_warning("I need a free hand to draw [masteritem]!"))
 		return FALSE
-
 	if(istype(clicked_object, /obj/item/quiver) && istype(mastermob?.get_active_held_item(), /obj/item/gun/ballistic))
 		return FALSE
 
-	if(mastermob.next_move > world.time)
-		if(mastermob.client.last_cooldown_warn + 10 < world.time)
-			to_chat(mastermob, span_warning("I'm not ready to do that yet!"))
-			mastermob.client.last_cooldown_warn = world.time
-		return FALSE
 	return TRUE
 
 /datum/intent/shoot/bow/prewarning()
@@ -50,18 +44,12 @@
 	charging_slowdown = 3
 
 /datum/intent/arc/bow/can_charge(atom/clicked_object)
-	if(mastermob)
-		var/cooldown = (mastermob.active_hand_index == 1) ? mastermob.next_lmove : mastermob.next_rmove
-		if(cooldown > world.time)
-			if(mastermob.client.last_cooldown_warn + 10 < world.time)
-				to_chat(mastermob, span_warning("I'm not ready to do that yet!"))
-				mastermob.client.last_cooldown_warn = world.time
-			return FALSE
-		if(mastermob.get_num_arms(FALSE) < 2 || mastermob.get_inactive_held_item())
-			to_chat(mastermob, span_warning("I need a free hand to draw [masteritem]!"))
-			return FALSE
-		if(istype(clicked_object, /obj/item/quiver) && istype(mastermob?.get_active_held_item(), /obj/item/gun/ballistic))
-			return FALSE
+	if(mastermob?.get_num_arms(FALSE) < 2 || mastermob.get_inactive_held_item())
+		to_chat(mastermob, span_warning("I need a free hand to draw [masteritem]!"))
+		return FALSE
+	if(istype(clicked_object, /obj/item/quiver) && istype(mastermob?.get_active_held_item(), /obj/item/gun/ballistic))
+		return FALSE
+
 	return TRUE
 
 /datum/intent/arc/bow/prewarning()
@@ -76,7 +64,7 @@
 		if(strength_check == TRUE)
 			newtime = ((newtime + 10) - (mastermob.STASTR / 2))
 		else
-			newtime = newtime 
+			newtime = newtime
 		newtime = ((newtime + 20) - (mastermob.STAPER))
 		if(newtime > 3)
 			return newtime

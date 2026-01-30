@@ -166,18 +166,25 @@
 		else
 			mill.icon_state = "peppermill"
 	else
+		var/found_table = locate(/obj/structure/table) in (loc)
+		update_cooktime(user)
+		if(istype(I, /obj/item/reagent_containers/food/snacks/butter))
+			if(isturf(loc)&& (found_table))
+				playsound(get_turf(user), 'sound/foley/dropsound/gen_drop.ogg', 30, TRUE, -1)
+				to_chat(user, "You start shoving butter into the roasted bird.")
+				if(do_after(user,short_cooktime, target = src))
+					new /obj/item/reagent_containers/food/snacks/rogue/meat/poultry/baked/butter(loc)
+					qdel(I)
+					qdel(src)
+		if(istype(I, /obj/item/reagent_containers/food/snacks/rogue/meat/poultry/baked))
+			if(isturf(loc)&& (found_table))
+				playsound(get_turf(user), 'sound/foley/dropsound/gen_drop.ogg', 30, TRUE, -1)
+				to_chat(user, "You start shoving another bird into the roasted bird - are you sure you want to do this?")
+				if(do_after(user,short_cooktime, target = src))
+					new /obj/item/reagent_containers/food/snacks/rogue/meat/poultry/baked/doublestacked(loc)
+					qdel(I)
+					qdel(src)
 		return ..()
-
-/*	.................  Spiced Baked Poultry  ................... */
-// Leaving it here instead of meal cuz it has no sprite
-/obj/item/reagent_containers/food/snacks/rogue/meat/poultry/baked/spiced
-	name = "spiced bird-roast"
-	desc = "A plump bird, roasted perfection, spiced to taste divine."
-	faretype = FARE_LAVISH
-	portable = FALSE
-	color = "#ffc0c0"
-	tastes = list("spicy birdmeat" = 1)
-	eat_effect = /datum/status_effect/buff/mealbuff
 
 /*	.............   Frybird   ................ */
 /obj/item/reagent_containers/food/snacks/rogue/meat/poultry/cutlet/fried

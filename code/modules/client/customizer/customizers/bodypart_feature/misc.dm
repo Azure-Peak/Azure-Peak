@@ -68,6 +68,7 @@
 	feature_type = /datum/bodypart_feature/underwear
 	sprite_accessories = list(
 		/datum/sprite_accessory/underwear/briefs,
+		/datum/sprite_accessory/underwear/briefs/eoran,
 		/datum/sprite_accessory/underwear/panties,
 		/datum/sprite_accessory/underwear/bikini,
 		/datum/sprite_accessory/underwear/leotard,
@@ -90,5 +91,7 @@
 		/datum/sprite_accessory/legwear/stockings/silk,
 		/datum/sprite_accessory/legwear/stockings/fishnet,
 		/datum/sprite_accessory/legwear/stockings/thigh_high,
+		/datum/sprite_accessory/legwear/stockings/thigh_high_silk,
 		/datum/sprite_accessory/legwear/stockings/knee_high,
+		/datum/sprite_accessory/legwear/stockings/knee_high_silk,
 		)

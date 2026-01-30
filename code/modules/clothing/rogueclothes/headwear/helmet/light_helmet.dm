@@ -45,6 +45,53 @@
 	max_integrity = ARMOR_INT_HELMET_LEATHER
 	salvage_result = /obj/item/natural/hide/cured
 
+/obj/item/clothing/head/roguetown/helmet/leather/chapeau
+	name = "Chapeau a Naled"
+	desc = "A leather cap, armored with layers of especially crafted armored coins each baring wards against supernatural forces. The heavy closeable, face-obscuring flaps are both practical, to protect from sand and dust and frigid nights--and to ensure the Otavan aids were not violating Naledi customs with their uncovered faces.</br>They are heavily associated with the Poet-Historian Aalis Petit and her writings and songs about the campaign into Naledi and through her, adventurous bards of Otava. "
+	icon_state = "chapnaled"
+	var/open_wear = TRUE
+	flags_inv = HIDEHAIR
+	body_parts_covered = HEAD|HAIR|EARS
+
+/obj/item/clothing/head/roguetown/helmet/leather/chapeau/attack_right(mob/user)
+	switch(open_wear)
+		if(FALSE)
+			icon_state = "chapnaledalt"
+			item_state = "chapnaledalt"
+			open_wear = TRUE
+			flags_inv = HIDESNOUT|HIDEHAIR
+			body_parts_covered_dynamic = HEAD|HAIR|FACE
+		if(TRUE)
+			icon_state = "chapnaled"
+			item_state = "chapnaled"
+			open_wear = FALSE
+			flags_inv = HIDEHAIR
+			body_parts_covered_dynamic = HEAD|HAIR|EARS
+	update_icon()
+	if(user)
+		if(ishuman(user))
+			var/mob/living/carbon/H = user
+			H.update_inv_head()
+
+/obj/item/clothing/head/roguetown/helmet/leather/chapeau/AltRightClick(mob/user)
+	if(!istype(loc, /mob/living/carbon))
+		return
+	var/mob/living/carbon/H = user
+	if(icon_state == "[initial(icon_state)]_snout")
+		icon_state = initial(icon_state)
+		H.update_inv_head()
+		update_icon()
+		return
+
+	var/icon/J = new('icons/roguetown/clothing/onmob/head.dmi')
+	var/list/istates = J.IconStates()
+	for(var/icon_s in istates)
+		if(findtext(icon_s, "[icon_state]_snout"))
+			icon_state += "_snout"
+			H.update_inv_head()
+			update_icon()
+			return
+
 /obj/item/clothing/head/roguetown/helmet/leather/volfhelm
 	slot_flags = ITEM_SLOT_HEAD|ITEM_SLOT_HIP
 	name = "volf helmet"
@@ -101,7 +148,7 @@
 // Grenzel unique drip head. Pretend it is a secrete (A type of hat with a hidden helmet underneath). Same stats as kettle
 /obj/item/clothing/head/roguetown/grenzelhofthat
 	name = "grenzelhoft plume hat"
-	desc = "Whether it's monsters or fair maidens, a true Grenzelhoftian slays both. This hat contains a hidden metallic cap underneath to protect the head from blows."
+	desc = "Whether it's monsters or fair maidens, a true Grenzelhoftian slays both. This hat contains a hidden metallic cap underneath to protect the head from blows. </br>I can fit this onto a sallet, Etruscan bascinet, or Blacksteel armet for added protection."
 	icon_state = "grenzelhat"
 	item_state = "grenzelhat"
 	icon = 'icons/roguetown/clothing/head.dmi'
@@ -135,6 +182,53 @@
 			H.update_inv_head()
 
 /obj/item/clothing/head/roguetown/grenzelhofthat/update_icon()
+	cut_overlays()
+	if(get_detail_tag())
+		var/mutable_appearance/pic = mutable_appearance(icon(icon, "[icon_state][detail_tag]"))
+		pic.appearance_flags = RESET_COLOR
+		if(get_detail_color())
+			pic.color = get_detail_color()
+		add_overlay(pic)
+
+	if(get_altdetail_tag())
+		var/mutable_appearance/pic2 = mutable_appearance(icon(icon, "[icon_state][altdetail_tag]"))
+		pic2.appearance_flags = RESET_COLOR
+		if(get_altdetail_color())
+			pic2.color = get_altdetail_color()
+		add_overlay(pic2)
+
+/obj/item/clothing/head/roguetown/grenzelhofthat/triumph
+	name = "grenzelhoft tellerbarret"
+	desc = "The latest in sixteenth-century fashionwear, stitched by the finest tailors in Grenzelhoft. </br>I can fit this onto a sallet, Etruscan bascinet, or Blacksteel armet for added protection."
+	max_integrity = ARMOR_INT_HELMET_CLOTH
+	prevent_crits = PREVENT_CRITS_NONE
+	icon_state = "grenzelhat"
+	item_state = "grenzelhat"
+	icon = 'icons/roguetown/clothing/head.dmi'
+	sleeved = 'icons/roguetown/clothing/onmob/helpers/stonekeep_merc.dmi'
+	detail_tag = "_detail"
+	altdetail_tag = "_detailalt"
+	dynamic_hair_suffix = ""
+	armor = ARMOR_CLOTHING_GOOD //One-to-one replication of the original Plume Hat's protections.
+	resistance_flags = FLAMMABLE
+	color = "#262927"
+	detail_color = "#FFFFFF"
+	altdetail_color = "#007fff"
+
+/obj/item/clothing/head/roguetown/grenzelhofthat/triumph/attack_right(mob/user)
+	..()
+	if(!picked)
+		var/choice = input(user, "Choose a color.", "Grenzelhoft colors") as anything in COLOR_MAP
+		var/playerchoice = COLOR_MAP[choice]
+		picked = TRUE
+		detail_color = playerchoice
+		detail_tag = "_detail"
+		update_icon()
+		if(loc == user && ishuman(user))
+			var/mob/living/carbon/H = user
+			H.update_inv_head()
+
+/obj/item/clothing/head/roguetown/grenzelhofthat/triumph/update_icon()
 	cut_overlays()
 	if(get_detail_tag())
 		var/mutable_appearance/pic = mutable_appearance(icon(icon, "[icon_state][detail_tag]"))

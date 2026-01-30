@@ -37,7 +37,7 @@
 	neck = /obj/item/storage/belt/rogue/pouch/coins/rich
 	id = /obj/item/clothing/ring/silver
 	beltl = /obj/item/rogueweapon/sword/sabre/dec
-	l_hand = /obj/item/rogueweapon/scabbard/sword
+	l_hand = /obj/item/rogueweapon/scabbard/sword/noble
 	if(should_wear_masc_clothes(H))
 		cloak = /obj/item/clothing/cloak/half/red
 		shirt = /obj/item/clothing/suit/roguetown/shirt/tunic/red
@@ -128,13 +128,13 @@
 		new /mob/living/simple_animal/hostile/retaliate/rogue/saiga/tame/saddled(TU)
 	H.set_blindness(0)
 	if(H.mind)
-		var/weapons = list("Longsword","Mace + Shield","Flail + Shield","Billhook","Battle Axe","Greataxe")
+		var/weapons = list("Longsword","Mace + Shield","Flail + Shield","Billhook","Battle Axe","Greataxe","Greatflail")
 		var/weapon_choice = input(H, "Choose your weapon.", "TAKE UP ARMS") as anything in weapons
 		switch(weapon_choice)
 			if("Longsword")
 				H.adjust_skillrank_up_to(/datum/skill/combat/swords, SKILL_LEVEL_JOURNEYMAN, TRUE)
 				beltr = /obj/item/rogueweapon/sword/long
-				r_hand = /obj/item/rogueweapon/scabbard/sword
+				r_hand = /obj/item/rogueweapon/scabbard/sword/noble
 			if("Mace + Shield")
 				H.adjust_skillrank_up_to(/datum/skill/combat/maces, SKILL_LEVEL_JOURNEYMAN, TRUE)
 				H.adjust_skillrank_up_to(/datum/skill/combat/shields, SKILL_LEVEL_JOURNEYMAN, TRUE)
@@ -145,6 +145,10 @@
 				H.adjust_skillrank_up_to(/datum/skill/combat/shields, SKILL_LEVEL_JOURNEYMAN, TRUE)
 				beltr = /obj/item/rogueweapon/flail
 				backr = /obj/item/rogueweapon/shield/tower/metal
+			if("Greatflail")
+				H.adjust_skillrank_up_to(/datum/skill/combat/polearms, SKILL_LEVEL_JOURNEYMAN, TRUE)
+				r_hand = /obj/item/rogueweapon/flail/peasantwarflail/iron
+				backr = /obj/item/rogueweapon/scabbard/gwstrap
 			if("Billhook")
 				H.adjust_skillrank_up_to(/datum/skill/combat/polearms, SKILL_LEVEL_JOURNEYMAN, TRUE)
 				r_hand = /obj/item/rogueweapon/spear/billhook

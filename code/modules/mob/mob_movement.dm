@@ -719,6 +719,15 @@
 			if(!HAS_TRAIT(src, TRAIT_HEAVYARMOR))
 				if(!HAS_TRAIT(src, TRAIT_MEDIUMARMOR))
 					return FALSE
+	if(istype(src.head, /obj/item/clothing))
+		var/obj/item/clothing/CL = src.head
+		if(CL.armor_class == ARMOR_CLASS_HEAVY)
+			if(!HAS_TRAIT(src, TRAIT_HEAVYARMOR))
+				return FALSE
+		if(CL.armor_class == ARMOR_CLASS_MEDIUM)
+			if(!HAS_TRAIT(src, TRAIT_HEAVYARMOR))
+				if(!HAS_TRAIT(src, TRAIT_MEDIUMARMOR))
+					return FALSE
 	return TRUE
 
 /mob/living/proc/check_dodge_skill()
@@ -745,6 +754,15 @@
 			return FALSE
 		if(CL.armor_class == ARMOR_CLASS_MEDIUM)
 			return FALSE
+	if(istype(src.head, /obj/item/clothing))
+		var/obj/item/clothing/CL = src.head
+		if(CL.armor_class == ARMOR_CLASS_HEAVY)
+			if(!HAS_TRAIT(src, TRAIT_HEAVYARMOR))
+				return FALSE
+		if(CL.armor_class == ARMOR_CLASS_MEDIUM)
+			if(!HAS_TRAIT(src, TRAIT_HEAVYARMOR))
+				if(!HAS_TRAIT(src, TRAIT_MEDIUMARMOR))
+					return FALSE
 	return TRUE
 
 /mob/living/proc/check_mage_armor()
@@ -771,6 +789,15 @@
 			return FALSE
 		if(CL.armor_class == ARMOR_CLASS_MEDIUM)
 			return FALSE
+	if(istype(src.head, /obj/item/clothing))
+		var/obj/item/clothing/CL = src.head
+		if(CL.armor_class == ARMOR_CLASS_HEAVY)
+			if(!HAS_TRAIT(src, TRAIT_HEAVYARMOR))
+				return FALSE
+		if(CL.armor_class == ARMOR_CLASS_MEDIUM)
+			if(!HAS_TRAIT(src, TRAIT_HEAVYARMOR))
+				if(!HAS_TRAIT(src, TRAIT_MEDIUMARMOR))
+					return FALSE
 	if(src.magearmor == 0)
 		src.magearmor = 1
 		src.apply_status_effect(/datum/status_effect/buff/magearmor)

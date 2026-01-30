@@ -1,0 +1,46 @@
+/datum/voicepack/female/dainty
+	preview = list("cry", "huh", "giggle", "laugh", "chuckle", "sigh", "hmm", "gasp", "scream", "pain", "painmoan", "paincrit", "shh")
+
+/datum/voicepack/female/dainty/get_sound(soundin, modifiers)
+	var/used
+	switch(soundin)
+		if("clearthroat")
+			used = list('sound/vo/female/dainty/clearthroat (1).ogg', 'sound/vo/female/dainty/clearthroat (2).ogg')
+		if("cough")
+			used = 'sound/vo/female/dainty/cough (1).ogg'
+		if("cry")
+			used = 'sound/vo/female/dainty/cry (1).ogg'
+		if("huh")
+			used = list('sound/vo/female/dainty/huh (1).ogg', 'sound/vo/female/dainty/huh (2).ogg', 'sound/vo/female/dainty/huh (3).ogg')
+		if("giggle")
+			used = list('sound/vo/female/dainty/giggle (1).ogg', 'sound/vo/female/dainty/giggle (2).ogg')
+		if("laugh")
+			used = list('sound/vo/female/dainty/laugh (1).ogg', 'sound/vo/female/dainty/laugh (2).ogg', 'sound/vo/female/dainty/laugh (3).ogg')
+		if("chuckle")
+			used = list('sound/vo/female/dainty/chuckle (1).ogg', 'sound/vo/female/dainty/chuckle (2).ogg', 'sound/vo/female/dainty/chuckle (3).ogg')
+		if("hmm")
+			used = list('sound/vo/female/dainty/hmm (1).ogg', 'sound/vo/female/dainty/hmm (2).ogg', 'sound/vo/female/dainty/hmm (3).ogg', 'sound/vo/female/dainty/hmm (4).ogg', 'sound/vo/female/dainty/hmm (5).ogg')
+		if("hmph")
+			used = list('sound/vo/female/gen/hmph (1).ogg', 'sound/vo/female/haughty/hmph (1).ogg')
+		if("sigh")
+			used = list('sound/vo/female/dainty/sigh (1).ogg', 'sound/vo/female/dainty/sigh (2).ogg', 'sound/vo/female/dainty/sigh (3).ogg', 'sound/vo/female/dainty/sigh (4).ogg')
+		if("sneeze")
+			used = 'sound/vo/female/dainty/sneeze (1).ogg'
+		if("shh")
+			used = list('sound/vo/female/dainty/shh (1).ogg', 'sound/vo/female/dainty/shh (2).ogg',)
+		if("gasp")
+			used = list('sound/vo/female/dainty/gasp (1).ogg', 'sound/vo/female/dainty/gasp (2).ogg', 'sound/vo/female/dainty/gasp (3).ogg', 'sound/vo/female/haughty/gasp (1).ogg')
+		if("scream")
+			used = list('sound/vo/female/dainty/scream (1).ogg', 'sound/vo/female/dainty/scream (2).ogg')
+		if("pain")
+			used = list('sound/vo/female/dainty/pain (1).ogg', 'sound/vo/female/dainty/pain (2).ogg', 'sound/vo/female/dainty/pain (3).ogg', 'sound/vo/female/dainty/pain (4).ogg', 'sound/vo/female/dainty/pain (5).ogg', 'sound/vo/female/dainty/pain (6).ogg', )
+		if("painmoan")
+			used = list('sound/vo/female/dainty/painmoan (1).ogg', 'sound/vo/female/dainty/painmoan (2).ogg', 'sound/vo/female/dainty/painmoan (3).ogg', 'sound/vo/female/dainty/painmoan (4).ogg', 'sound/vo/female/dainty/painmoan (5).ogg')
+		if("painscream")
+			used = list('sound/vo/female/dainty/painscream (1).ogg', 'sound/vo/female/dainty/painscream (2).ogg', 'sound/vo/female/dainty/painscream (3).ogg', 'sound/vo/female/dainty/painscream (4).ogg')
+		if("paincrit")
+			used = list('sound/vo/female/dainty/paincrit (1).ogg', 'sound/vo/female/dainty/paincrit (2).ogg', 'sound/vo/female/dainty/paincrit (3).ogg', 'sound/vo/female/dainty/paincrit (4).ogg', 'sound/vo/female/dainty/paincrit (5).ogg', 'sound/vo/female/dainty/paincrit (6).ogg', 'sound/vo/female/dainty/paincrit (7).ogg')
+
+	if(!used)
+		used = ..(soundin, modifiers)
+	return used

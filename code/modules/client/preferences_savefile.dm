@@ -448,6 +448,7 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	S["feature_ethcolor"]	>> features["ethcolor"]
 	S["pronouns"]			>> pronouns
 	S["voice_type"]			>> voice_type
+	S["voice_pack"]			>> voice_pack
 	S["nickname"]			>> nickname
 	S["highlight_color"]	>> highlight_color
 	S["taur_type"]			>> taur_type
@@ -590,12 +591,20 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 
 	S["pronouns"] >> pronouns
 	S["voice_type"] >> voice_type
+	S["voice_pack"] >> voice_pack
 	S["body_size"] >> features["body_size"]
 	if (!features["body_size"])
 		features["body_size"] = BODY_SIZE_NORMAL
 	//try to fix any outdated data if necessary
 	if(needs_update >= 0)
 		update_character(needs_update, S)		//needs_update == savefile_version if we need an update (positive integer)
+
+	// Regenerate cache for flavor texts etc. Must be UNCONDITIONAL because prefs is on client.
+	// We use empty string if they are empty, so the previous slot's data don't get kept in the cache.
+	flavortext_cached = flavortext ? parsemarkdown_basic(html_encode(flavortext), hyperlink = TRUE) : ""
+	ooc_notes_cached = ooc_notes ? parsemarkdown_basic(html_encode(ooc_notes), hyperlink = TRUE) : ""
+	nsfwflavortext_cached = nsfwflavortext ? parsemarkdown_basic(html_encode(nsfwflavortext), hyperlink = TRUE) : ""
+	erpprefs_cached = erpprefs ? parsemarkdown_basic(html_encode(erpprefs), hyperlink = TRUE) : ""
 
 	//Sanitize
 
@@ -767,6 +776,7 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	WRITE_FILE(S["song_title"] , song_title)
 	WRITE_FILE(S["char_accent"] , char_accent)
 	WRITE_FILE(S["voice_type"] , voice_type)
+	WRITE_FILE(S["voice_pack"] , voice_pack)
 	WRITE_FILE(S["pronouns"] , pronouns)
 	WRITE_FILE(S["statpack"] , statpack.type)
 	WRITE_FILE(S["virtue"] , virtue.type)

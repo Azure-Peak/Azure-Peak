@@ -123,7 +123,7 @@ LICH SKELETONS
 	H.adjust_skillrank(/datum/skill/craft/crafting, 2, TRUE)
 	H.adjust_skillrank(/datum/skill/craft/sewing, 2, TRUE)
 
-	head = /obj/item/clothing/head/roguetown/helmet/heavy/paalloy
+	head = /obj/item/clothing/head/roguetown/helmet/kettle/paalloy
 	shirt = /obj/item/clothing/suit/roguetown/armor/chainmail/paalloy
 	pants = /obj/item/clothing/under/roguetown/chainlegs/kilt/paalloy
 	armor = /obj/item/clothing/suit/roguetown/armor/leather/studded
@@ -132,22 +132,28 @@ LICH SKELETONS
 
 	beltr = /obj/item/rogueweapon/huntingknife/idagger/steel/padagger
 	H.adjust_blindness(-3)
-	var/weapons = list("Recurve Bow","Yew Longbow", "Crossbow", "Sling")
+	var/weapons = list("Bow & 20 Arrows", "Heavy Longbow & 20 Arrows", "Crossbow & 16 Bolts", "Heavy Crossbow & 8 Siegebolts", "Sling")
 	var/weapon_choice = input(H, "Choose your weapon.", "TAKE UP ARMS") as anything in weapons
 	H.set_blindness(0)
 	switch(weapon_choice)
-		if("Recurve Bow")
+		if("Bow & 20 Arrows")
 			l_hand = /obj/item/gun/ballistic/revolver/grenadelauncher/bow/recurve
 			beltl = /obj/item/quiver/paalloy
 			H.adjust_skillrank(/datum/skill/combat/bows, 1, TRUE)
-		if("Crossbow")
-			l_hand = /obj/item/gun/ballistic/revolver/grenadelauncher/crossbow
-			beltl = /obj/item/quiver/bolts/paalloy
-			H.adjust_skillrank(/datum/skill/combat/crossbows, 1, TRUE)
-		if("Yew Longbow")
+		if("Heavy Longbow & 20 Arrows")
 			l_hand = /obj/item/gun/ballistic/revolver/grenadelauncher/bow/longbow
 			beltl = /obj/item/quiver/paalloy
 			H.adjust_skillrank(/datum/skill/combat/bows, 1, TRUE)
+		if("Crossbow & 16 Bolts")
+			l_hand = /obj/item/gun/ballistic/revolver/grenadelauncher/crossbow
+			beltl = /obj/item/quiver/bolt/paalloy
+			H.adjust_skillrank(/datum/skill/combat/crossbows, 1, TRUE)
+		if("Heavy Crossbow & 8 Siegebolts")
+			l_hand = /obj/item/gun/ballistic/revolver/grenadelauncher/crossbow/heavy
+			beltl = /obj/item/quiver/bolt/heavy/paalloy
+			H.adjust_skillrank(/datum/skill/combat/crossbows, 1, TRUE)
+			H.change_stat(STATKEY_STR, 2) //Without any statpack or racial modifier, this meets the bare minimum for using the Siegebow as a melee weapon.
+			H.change_stat(STATKEY_SPD, -3) //Minimum strength required to effectively use the Siegebow. Heavily reduced speed to denote their nature as high-profile targets.
 		if("Sling")
 			l_hand = /obj/item/gun/ballistic/revolver/grenadelauncher/sling
 			beltl = /obj/item/quiver/sling/paalloy
@@ -221,6 +227,17 @@ LICH SKELETONS
 			l_hand = /obj/item/rogueweapon/shield/wood
 			H.adjust_skillrank(/datum/skill/combat/maces, 1, TRUE)
 			H.adjust_skillrank(/datum/skill/combat/shields, 1, TRUE)
+	var/armors = list("Sayovard + Cuirass & Hauberk", "Bascinet + Heavy Hauberk")
+	var/armor_choice = input(H, "Choose your armor.", "TAKE UP ARMOR") as anything in armors
+	switch(armor_choice)
+		if("Sayovard + Cuirass & Hauberk")
+			head = /obj/item/clothing/head/roguetown/helmet/heavy/guard/paalloy
+			shirt = /obj/item/clothing/suit/roguetown/armor/chainmail/hauberk/paalloy
+			armor = /obj/item/clothing/suit/roguetown/armor/plate/cuirass/paalloy
+		if("Bascinet + Heavy Hauberk")
+			head = /obj/item/clothing/head/roguetown/helmet/heavy/knight/paalloy
+			shirt = /obj/item/clothing/suit/roguetown/armor/gambeson/light
+			armor = /obj/item/clothing/suit/roguetown/armor/chainmail/hauberk/paalloy/heavy
 
 	H.energy = H.max_energy
 
@@ -271,6 +288,6 @@ LICH SKELETONS
 	backl = /obj/item/storage/backpack/rogue/satchel
 
 	beltr = /obj/item/rogueweapon/stoneaxe/woodcut
-	beltl = /obj/item/rogueweapon/pick/copper
+	beltl = /obj/item/rogueweapon/pick/paalloy
 
 	H.energy = H.max_energy

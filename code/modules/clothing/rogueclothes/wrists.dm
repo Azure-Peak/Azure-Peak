@@ -45,6 +45,27 @@
 	AddComponent(/datum/component/armour_filtering/negative, TRAIT_FENCERDEXTERITY)
 	AddComponent(/datum/component/armour_filtering/negative, TRAIT_HONORBOUND)
 
+/obj/item/clothing/wrists/roguetown/bracers/gold
+	name = "golden bracers"
+	desc = "A resplendant pair of golden vambraces, further padded with besilked sleeves. Each halve is marked with a holy sigil, sloped upwards to help catch-and-reflect sunlight into the eyes of unsuspecting assailants."
+	icon_state = "goldbracers"
+	item_state = "goldbracers"
+	body_parts_covered = ARMS | HANDS //Experimental, but should compliment the cost. Let all handhitters fear your presence.. for exactly five strikes.
+	armor_class = ARMOR_CLASS_HEAVY //Ceremonial. Heavy is the head that bares the burden.
+	armor = ARMOR_GOLD //Renders its wearer completely invulnerable to damage. The caveat is, however..
+	max_integrity = ARMOR_INT_SIDE_GOLD // ..is that it's extraordinarily fragile. To note, this is lower than even Decrepit-tier armor.
+	anvilrepair = null
+	smeltresult = /obj/item/ingot/gold
+	smelt_bar_num = 1
+	grid_height = 96
+	grid_width = 96
+	sellprice = 200
+
+/obj/item/clothing/wrists/roguetown/bracers/gold/king
+	name = "royal golden bracers"
+	max_integrity = ARMOR_INT_SIDE_GOLDPLUS // Doubled integrity.
+	sellprice = 300
+
 /obj/item/clothing/wrists/roguetown/bracers/psythorns
 	name = "psydonic thorns"
 	desc = "Thorns fashioned from pliable yet durable blacksteel - woven and interlinked, fashioned to be wrapped around the wrists."
@@ -98,6 +119,16 @@
 	icon_state = "ancientbracers"
 	smeltresult = /obj/item/ingot/aaslag
 
+/obj/item/clothing/wrists/roguetown/bracers/bronze
+	name = "bronze wristguards"
+	desc = "Padded with hide and cuffed to comfort the joints, these bronze plates fit perfectly around both forearms. Your fingers tingle with an unspoken purpose, as the bracers clasp into place; primordial, yet everclear."
+	icon_state = "bronzebracers"
+	body_parts_covered = ARMS | HANDS //Experimental, but should play well with the increased durability.
+	smeltresult = /obj/item/ingot/bronze
+	armor = ARMOR_PLATE_BRONZE
+	max_integrity = ARMOR_INT_SIDE_BRONZE
+	prevent_crits = PREVENT_CRITS_ALL
+
 /obj/item/clothing/wrists/roguetown/bracers/leather
 	name = "leather bracers"
 	desc = "A pair of leather wristguards, which can protect one's arms from both bludgeons and bites."
@@ -115,7 +146,7 @@
 	smeltresult = null
 	salvage_amount = 0 // sry
 	salvage_result = /obj/item/natural/hide/cured
-	color = "#684338"
+	color = "#b76f61"
 
 /obj/item/clothing/wrists/roguetown/bracers/leather/ComponentInitialize()
 	AddComponent(/datum/component/armour_filtering/positive, TRAIT_FENCERDEXTERITY)
@@ -130,7 +161,7 @@
 	sellprice = 10
 	salvage_amount = 1
 	salvage_result = /obj/item/natural/hide/cured
-	color = "#4d4d4d"
+	color = "#7f829d"
 
 /obj/item/clothing/wrists/roguetown/bracers/copper
 	name = "copper bracers"

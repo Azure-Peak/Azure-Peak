@@ -158,7 +158,8 @@ GLOBAL_LIST_INIT(hedgeknight_aggro, world.file2list("strings/rt/hedgeknightaggro
 	update_body()
 
 	var/list/possible_turfs = list()
-	for(var/turf/open/T in oview(2, src))
+	var/turf/my_turf = get_turf(src) // Uses the turf since we are created a bit late
+	for(var/turf/open/T in oview(2, my_turf))
 		possible_turfs += T
 
 	def_intent_change(INTENT_PARRY)

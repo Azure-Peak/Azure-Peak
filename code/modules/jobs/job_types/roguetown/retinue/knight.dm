@@ -7,7 +7,7 @@
 	spawn_positions = 4
 	allowed_races = RACES_NO_CONSTRUCT
 	allowed_sexes = list(MALE, FEMALE)
-	allowed_ages = list(AGE_ADULT, AGE_MIDDLEAGED)
+	allowed_ages = list(AGE_ADULT, AGE_MIDDLEAGED, AGE_OLD)
 	tutorial = "Having proven yourself both loyal and capable, you have been knighted to serve the realm as the royal family's sentry. \
 				You listen to your Liege and the Marshal, defending your Lord and realm - the last beacon of chivalry in these dark times."
 	display_order = JDO_KNIGHT
@@ -96,7 +96,7 @@
 		/datum/skill/combat/axes = SKILL_LEVEL_EXPERT,
 		/datum/skill/combat/maces = SKILL_LEVEL_EXPERT,
 		/datum/skill/misc/riding = SKILL_LEVEL_NOVICE,	//Too heavy for horses.
-		/datum/skill/combat/wrestling = SKILL_LEVEL_EXPERT,
+		/datum/skill/combat/wrestling = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/combat/unarmed = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/misc/climbing = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/misc/reading = SKILL_LEVEL_APPRENTICE,
@@ -146,7 +146,8 @@
 			"Guard Helmet"		= /obj/item/clothing/head/roguetown/helmet/heavy/guard,
 			"Barred Helmet"		= /obj/item/clothing/head/roguetown/helmet/heavy/sheriff,
 			"Bucket Helmet"		= /obj/item/clothing/head/roguetown/helmet/heavy/bucket,
-			"Knight Helmet"		= /obj/item/clothing/head/roguetown/helmet/heavy/knight,
+			"Knight's Armet"	= /obj/item/clothing/head/roguetown/helmet/heavy/knight,
+			"Knight's Helmet"	= /obj/item/clothing/head/roguetown/helmet/heavy/knight/old,
 			"Visored Sallet"	= /obj/item/clothing/head/roguetown/helmet/sallet/visored,
 			"Armet"				= /obj/item/clothing/head/roguetown/helmet/heavy/knight/armet,
 			"Hounskull Bascinet" = /obj/item/clothing/head/roguetown/helmet/bascinet/pigface/hounskull,
@@ -170,7 +171,7 @@
 	backpack_contents = list(
 		/obj/item/rogueweapon/huntingknife/idagger/steel/special = 1,
 		/obj/item/rope/chain = 1,
-		/obj/item/rogueweapon/scabbard/sheath = 1
+		/obj/item/rogueweapon/scabbard/sheath/noble = 1
 	)
 	if(H.mind)
 		SStreasury.give_money_account(ECONOMIC_UPPER_CLASS, H, "Savings.")
@@ -195,7 +196,7 @@
 		/datum/skill/combat/maces = SKILL_LEVEL_EXPERT,
 		/datum/skill/combat/shields = SKILL_LEVEL_EXPERT,
 		/datum/skill/misc/riding = SKILL_LEVEL_APPRENTICE,
-		/datum/skill/combat/wrestling = SKILL_LEVEL_EXPERT,
+		/datum/skill/combat/wrestling = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/combat/unarmed = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/misc/climbing = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/misc/reading = SKILL_LEVEL_APPRENTICE,
@@ -217,14 +218,14 @@
 		H.set_blindness(0)
 		switch(weapon_choice)
 			if("Longsword")
-				beltl = /obj/item/rogueweapon/scabbard/sword
+				beltl = /obj/item/rogueweapon/scabbard/sword/noble
 				l_hand = /obj/item/rogueweapon/sword/long
 			if("Flail")
 				beltr = /obj/item/rogueweapon/flail/sflail
 			if ("Warhammer")
 				beltr = /obj/item/rogueweapon/mace/warhammer //Iron warhammer. This is one-handed and pairs well with shields. They can upgrade to steel in-round.
 			if("Sabre")
-				beltl = /obj/item/rogueweapon/scabbard/sword
+				beltl = /obj/item/rogueweapon/scabbard/sword/noble
 				l_hand = /obj/item/rogueweapon/sword/sabre
 
 	shirt = /obj/item/clothing/suit/roguetown/armor/chainmail
@@ -236,7 +237,8 @@
 			"Guard Helmet"		= /obj/item/clothing/head/roguetown/helmet/heavy/guard,
 			"Barred Helmet"		= /obj/item/clothing/head/roguetown/helmet/heavy/sheriff,
 			"Bucket Helmet"		= /obj/item/clothing/head/roguetown/helmet/heavy/bucket,
-			"Knight Helmet"		= /obj/item/clothing/head/roguetown/helmet/heavy/knight,
+			"Knight's Armet"	= /obj/item/clothing/head/roguetown/helmet/heavy/knight,
+			"Knight's Helmet"	= /obj/item/clothing/head/roguetown/helmet/heavy/knight/old,
 			"Visored Sallet"	= /obj/item/clothing/head/roguetown/helmet/sallet/visored,
 			"Armet"				= /obj/item/clothing/head/roguetown/helmet/heavy/knight/armet,
 			"Hounskull Bascinet" = /obj/item/clothing/head/roguetown/helmet/bascinet/pigface/hounskull,
@@ -260,7 +262,7 @@
 	backpack_contents = list(
 		/obj/item/rogueweapon/huntingknife/idagger/steel/special = 1,
 		/obj/item/rope/chain = 1,
-		/obj/item/rogueweapon/scabbard/sheath = 1
+		/obj/item/rogueweapon/scabbard/sheath/noble = 1
 	)
 	if(H.mind)
 		SStreasury.give_money_account(ECONOMIC_UPPER_CLASS, H, "Savings.")
@@ -290,7 +292,7 @@
 		/datum/skill/misc/riding = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/combat/crossbows = SKILL_LEVEL_EXPERT,
 		/datum/skill/combat/bows = SKILL_LEVEL_EXPERT,
-		/datum/skill/combat/wrestling = SKILL_LEVEL_EXPERT,
+		/datum/skill/combat/wrestling = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/combat/unarmed = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/misc/climbing = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/misc/reading = SKILL_LEVEL_APPRENTICE,
@@ -321,7 +323,7 @@
 		H.set_blindness(0)
 		switch(weapon_choice)
 			if("Longsword + Crossbow")
-				beltl = /obj/item/rogueweapon/scabbard/sword
+				beltl = /obj/item/rogueweapon/scabbard/sword/noble
 				r_hand = /obj/item/rogueweapon/sword/long
 				beltr = /obj/item/quiver/bolts
 				backl = /obj/item/gun/ballistic/revolver/grenadelauncher/crossbow
@@ -335,7 +337,7 @@
 				beltr = /obj/item/quiver/arrows
 				beltl = /obj/item/rogueweapon/mace/goden/steel
 			if("Sabre + Recurve Bow")
-				l_hand = /obj/item/rogueweapon/scabbard/sword
+				l_hand = /obj/item/rogueweapon/scabbard/sword/noble
 				r_hand = /obj/item/rogueweapon/sword/sabre
 				beltr = /obj/item/quiver/arrows
 				beltl = /obj/item/gun/ballistic/revolver/grenadelauncher/bow/recurve
@@ -353,7 +355,8 @@
 			"Guard Helmet"		= /obj/item/clothing/head/roguetown/helmet/heavy/guard,
 			"Barred Helmet"		= /obj/item/clothing/head/roguetown/helmet/heavy/sheriff,
 			"Bucket Helmet"		= /obj/item/clothing/head/roguetown/helmet/heavy/bucket,
-			"Knight Helmet"		= /obj/item/clothing/head/roguetown/helmet/heavy/knight,
+			"Knight's Armet"	= /obj/item/clothing/head/roguetown/helmet/heavy/knight,
+			"Knight's Helmet"	= /obj/item/clothing/head/roguetown/helmet/heavy/knight/old,
 			"Froggemund Helmet"	= /obj/item/clothing/head/roguetown/helmet/heavy/frogmouth,
 			"Visored Sallet"	= /obj/item/clothing/head/roguetown/helmet/sallet/visored,
 			"Armet"				= /obj/item/clothing/head/roguetown/helmet/heavy/knight/armet,
@@ -378,7 +381,7 @@
 	backpack_contents = list(
 		/obj/item/rogueweapon/huntingknife/idagger/steel/special = 1,
 		/obj/item/rope/chain = 1,
-		/obj/item/rogueweapon/scabbard/sheath = 1
+		/obj/item/rogueweapon/scabbard/sheath/noble = 1
 	)
 	if(H.mind)
 		SStreasury.give_money_account(ECONOMIC_UPPER_CLASS, H, "Savings.")
@@ -433,7 +436,7 @@
 		switch(weapon_choice)
 			if("Rapier + Longbow")
 				r_hand = /obj/item/rogueweapon/sword/rapier
-				beltl = /obj/item/rogueweapon/scabbard/sword
+				beltl = /obj/item/rogueweapon/scabbard/sword/noble
 				backl = /obj/item/gun/ballistic/revolver/grenadelauncher/bow/longbow
 				beltr = /obj/item/quiver/arrows
 
@@ -444,7 +447,7 @@
 				beltl = /obj/item/gun/ballistic/revolver/grenadelauncher/bow/recurve
 
 			if("Sabre + Buckler")
-				beltl = /obj/item/rogueweapon/scabbard/sword
+				beltl = /obj/item/rogueweapon/scabbard/sword/noble
 				r_hand = /obj/item/rogueweapon/sword/sabre
 				backl = /obj/item/rogueweapon/shield/buckler
 
@@ -480,7 +483,8 @@
 			"Guard Helmet"		= /obj/item/clothing/head/roguetown/helmet/heavy/guard,
 			"Barred Helmet"		= /obj/item/clothing/head/roguetown/helmet/heavy/sheriff,
 			"Bucket Helmet"		= /obj/item/clothing/head/roguetown/helmet/heavy/bucket,
-			"Knight Helmet"		= /obj/item/clothing/head/roguetown/helmet/heavy/knight,
+			"Knight's Armet"	= /obj/item/clothing/head/roguetown/helmet/heavy/knight,
+			"Knight's Helmet"	= /obj/item/clothing/head/roguetown/helmet/heavy/knight/old,
 			"Visored Sallet"	= /obj/item/clothing/head/roguetown/helmet/sallet/visored,
 			"Armet"				= /obj/item/clothing/head/roguetown/helmet/heavy/knight/armet,
 			"Hounskull Bascinet" = /obj/item/clothing/head/roguetown/helmet/bascinet/pigface/hounskull,
@@ -495,7 +499,7 @@
 	backpack_contents = list(
 		/obj/item/rogueweapon/huntingknife/idagger/steel/special = 1,
 		/obj/item/rope/chain = 1,
-		/obj/item/rogueweapon/scabbard/sheath = 1
+		/obj/item/rogueweapon/scabbard/sheath/noble = 1
 	)
 	if(H.mind)
 		SStreasury.give_money_account(ECONOMIC_UPPER_CLASS, H, "Savings.")
@@ -551,6 +555,7 @@
 		/obj/item/rogueweapon/huntingknife/idagger/steel/special = 1,
 		/obj/item/rogueweapon/scabbard/sheath = 1,
 		/obj/item/clothing/cloak/banneret = 1,
+		/obj/item/scomstone/garrison = 1
 		)
 	cloak = /obj/item/clothing/cloak/tabard/retinue/banneret
 	neck = /obj/item/clothing/neck/roguetown/bevor
@@ -558,139 +563,141 @@
 	gloves = /obj/item/clothing/gloves/roguetown/plate
 	wrists = /obj/item/clothing/wrists/roguetown/bracers
 	shoes = /obj/item/clothing/shoes/roguetown/boots/armor
-	beltl = /obj/item/scomstone/garrison
 
 	job_bitflag = BITFLAG_ROYALTY | BITFLAG_GARRISON
 
-	if(H.mind)
-		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/order/movemovemove)
-		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/order/takeaim)
-		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/order/hold)
-		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/order/onfeet)
+	if(!H.mind)
+		return
+
+	H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/order/movemovemove)
+	H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/order/takeaim)
+	H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/order/hold)
+	H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/order/onfeet)
 	H.dna.species.soundpack_m = new /datum/voicepack/male/knight()
+
 	H.verbs |= list(
 		/mob/living/carbon/human/proc/request_outlaw,
 		/mob/proc/haltyell,
 		/mob/living/carbon/human/mind/proc/setorders
 	)
-	if(H.mind)
-		SStreasury.give_money_account(ECONOMIC_RICH, H, "Savings.")
+
+	SStreasury.give_money_account(ECONOMIC_RICH, H, "Savings.")
+
 	H.adjust_blindness(-3)
-	if(H.mind)
-		var/weapons = list(
-			"Edict & Aegis (Sabre & Buckler)",
-			"Claymore",
-			"Great Mace",
-			"Battle Axe",
-			"Poleaxe",
-			"Estoc",
-			"Longsword",
-			"Flail",
-			"Sabre",
-			"Lance",
-			)
-		var/weapon_choice = input(H, "Choose your weapon.", "TAKE UP ARMS") as anything in weapons
-		H.set_blindness(0)
-		switch(weapon_choice)
-			if("Edict & Aegis (Sabre & Buckler)")
-				H.adjust_skillrank_up_to(/datum/skill/combat/swords, SKILL_LEVEL_MASTER, TRUE)
-				r_hand = /obj/item/rogueweapon/sword/sabre/banneret
-				l_hand = /obj/item/rogueweapon/shield/buckler/banneret
-				beltr = /obj/item/rogueweapon/scabbard/sword
-			if("Claymore")
-				H.adjust_skillrank_up_to(/datum/skill/combat/swords, SKILL_LEVEL_MASTER, TRUE)
-				r_hand = /obj/item/rogueweapon/greatsword/zwei
-				backl = /obj/item/rogueweapon/scabbard/gwstrap
-			if("Poleaxe")
-				H.adjust_skillrank_up_to(/datum/skill/combat/axes, SKILL_LEVEL_MASTER, TRUE)
-				r_hand = /obj/item/rogueweapon/greataxe/steel/knight
-				backl = /obj/item/rogueweapon/scabbard/gwstrap
-			if("Estoc")
-				H.adjust_skillrank_up_to(/datum/skill/combat/swords, SKILL_LEVEL_MASTER, TRUE)
-				r_hand = /obj/item/rogueweapon/estoc
-				backl = /obj/item/rogueweapon/scabbard/gwstrap
-			if("Battle Axe")
-				H.adjust_skillrank_up_to(/datum/skill/combat/axes, SKILL_LEVEL_MASTER, TRUE)
-				r_hand = /obj/item/rogueweapon/stoneaxe/battle
-			if("Great Mace")
-				H.adjust_skillrank_up_to(/datum/skill/combat/maces, SKILL_LEVEL_MASTER, TRUE)
-				r_hand = /obj/item/rogueweapon/mace/goden/steel
-			if("Longsword")
-				H.adjust_skillrank_up_to(/datum/skill/combat/swords, SKILL_LEVEL_MASTER, TRUE)
-				r_hand = /obj/item/rogueweapon/sword/long
-				beltr = /obj/item/rogueweapon/scabbard/sword
-			if("Flail")
-				H.adjust_skillrank_up_to(/datum/skill/combat/whipsflails, SKILL_LEVEL_MASTER, TRUE)
-				beltr = /obj/item/rogueweapon/flail/sflail
-			if("Sabre")
-				H.adjust_skillrank_up_to(/datum/skill/combat/swords, SKILL_LEVEL_MASTER, TRUE)
-				beltr = /obj/item/rogueweapon/scabbard/sword
-				r_hand = /obj/item/rogueweapon/sword/sabre
-			if("Lance")
-				H.adjust_skillrank_up_to(/datum/skill/combat/polearms, SKILL_LEVEL_MASTER, TRUE)
-				r_hand = /obj/item/rogueweapon/spear/lance
-		if(weapon_choice in list("Battle Axe", "Great Mace", "Longsword", "Flail", "Sabre", "Lance"))
-			var/secondary = list(
-				"Kite Shield",
-				"Crossbow",
-				"Recurve Bow",
-			)
-			var/secondary_choice = input(H, "Choose your secondary.", "TAKE UP ARMS") as anything in secondary
-			switch(secondary_choice)
-				if("Kite Shield")
-					backl = /obj/item/rogueweapon/shield/tower/metal
-				if("Crossbow")
-					H.adjust_skillrank_up_to(/datum/skill/combat/crossbows, 4, TRUE)
-					backl = /obj/item/gun/ballistic/revolver/grenadelauncher/crossbow
-					beltl = /obj/item/quiver/bolts
-				if("Recurve Bow")
-					H.adjust_skillrank_up_to(/datum/skill/combat/bows, 4, TRUE)
-					beltl = /obj/item/quiver/arrows
-					backl = /obj/item/gun/ballistic/revolver/grenadelauncher/bow/recurve
-
-		var/armors = list(
-			"Brigandine",
-			"Coat of Plates",
-			"Fluted Cuirass",
-			"Champion's Plate"
+	var/weapons = list(
+		"Edict & Aegis (Sabre & Buckler)",
+		"Claymore",
+		"Great Mace",
+		"Battle Axe",
+		"Poleaxe",
+		"Estoc",
+		"Longsword",
+		"Flail",
+		"Sabre",
+		"Lance",
 		)
-		var/armorchoice = input(H, "Choose your armor.", "TAKE UP ARMOR") as anything in armors
-		switch(armorchoice)
-			if("Brigandine")
-				armor = /obj/item/clothing/suit/roguetown/armor/brigandine/retinue
-				pants = /obj/item/clothing/under/roguetown/chainlegs
-			if("Coat of Plates")
-				armor = /obj/item/clothing/suit/roguetown/armor/brigandine/coatplates
-				pants = /obj/item/clothing/under/roguetown/chainlegs
-			if("Fluted Cuirass")
-				armor = /obj/item/clothing/suit/roguetown/armor/plate/cuirass/fluted
-				pants = /obj/item/clothing/under/roguetown/chainlegs
-			if("Champion's Plate")
-				armor = /obj/item/clothing/suit/roguetown/armor/brigandine/banneret
-				pants = /obj/item/clothing/under/roguetown/chainlegs/banneret
-				head = /obj/item/clothing/head/roguetown/helmet/heavy/banneret
-
-		if(armorchoice == "Champion's Plate")
-			return // Get helmet from armor selection
-
-		var/helmets = list(
-			"Pigface Bascinet" 	= /obj/item/clothing/head/roguetown/helmet/bascinet/pigface,
-			"Guard Helmet"		= /obj/item/clothing/head/roguetown/helmet/heavy/guard,
-			"Barred Helmet"		= /obj/item/clothing/head/roguetown/helmet/heavy/sheriff,
-			"Bucket Helmet"		= /obj/item/clothing/head/roguetown/helmet/heavy/bucket,
-			"Knight Helmet"		= /obj/item/clothing/head/roguetown/helmet/heavy/knight,
-			"Froggemund Helmet"	= /obj/item/clothing/head/roguetown/helmet/heavy/frogmouth,
-			"Visored Sallet"	= /obj/item/clothing/head/roguetown/helmet/sallet/visored,
-			"Armet"				= /obj/item/clothing/head/roguetown/helmet/heavy/knight/armet,
-			"Hounskull Bascinet" = /obj/item/clothing/head/roguetown/helmet/bascinet/pigface/hounskull,
-			"Klappvisier Bascinet" = /obj/item/clothing/head/roguetown/helmet/bascinet/etruscan,
-			"Etruscan Bascinet" = /obj/item/clothing/head/roguetown/helmet/bascinet/etruscan,
-			"Slitted Kettle"	= /obj/item/clothing/head/roguetown/helmet/heavy/knight/skettle,
-			"None"
+	var/weapon_choice = input(H, "Choose your weapon.", "TAKE UP ARMS") as anything in weapons
+	H.set_blindness(0)
+	switch(weapon_choice)
+		if("Edict & Aegis (Sabre & Buckler)")
+			H.adjust_skillrank_up_to(/datum/skill/combat/swords, SKILL_LEVEL_MASTER, TRUE)
+			r_hand = /obj/item/rogueweapon/sword/sabre/banneret
+			l_hand = /obj/item/rogueweapon/shield/buckler/banneret
+			beltr = /obj/item/rogueweapon/scabbard/sword
+		if("Claymore")
+			H.adjust_skillrank_up_to(/datum/skill/combat/swords, SKILL_LEVEL_MASTER, TRUE)
+			r_hand = /obj/item/rogueweapon/greatsword/zwei
+			backl = /obj/item/rogueweapon/scabbard/gwstrap
+		if("Poleaxe")
+			H.adjust_skillrank_up_to(/datum/skill/combat/axes, SKILL_LEVEL_MASTER, TRUE)
+			r_hand = /obj/item/rogueweapon/greataxe/steel/knight
+			backl = /obj/item/rogueweapon/scabbard/gwstrap
+		if("Estoc")
+			H.adjust_skillrank_up_to(/datum/skill/combat/swords, SKILL_LEVEL_MASTER, TRUE)
+			r_hand = /obj/item/rogueweapon/estoc
+			backl = /obj/item/rogueweapon/scabbard/gwstrap
+		if("Battle Axe")
+			H.adjust_skillrank_up_to(/datum/skill/combat/axes, SKILL_LEVEL_MASTER, TRUE)
+			r_hand = /obj/item/rogueweapon/stoneaxe/battle
+		if("Great Mace")
+			H.adjust_skillrank_up_to(/datum/skill/combat/maces, SKILL_LEVEL_MASTER, TRUE)
+			r_hand = /obj/item/rogueweapon/mace/goden/steel
+		if("Longsword")
+			H.adjust_skillrank_up_to(/datum/skill/combat/swords, SKILL_LEVEL_MASTER, TRUE)
+			r_hand = /obj/item/rogueweapon/sword/long
+			beltr = /obj/item/rogueweapon/scabbard/sword
+		if("Flail")
+			H.adjust_skillrank_up_to(/datum/skill/combat/whipsflails, SKILL_LEVEL_MASTER, TRUE)
+			beltr = /obj/item/rogueweapon/flail/sflail
+		if("Sabre")
+			H.adjust_skillrank_up_to(/datum/skill/combat/swords, SKILL_LEVEL_MASTER, TRUE)
+			beltr = /obj/item/rogueweapon/scabbard/sword
+			r_hand = /obj/item/rogueweapon/sword/sabre
+		if("Lance")
+			H.adjust_skillrank_up_to(/datum/skill/combat/polearms, SKILL_LEVEL_MASTER, TRUE)
+			r_hand = /obj/item/rogueweapon/spear/lance
+	if(weapon_choice in list("Battle Axe", "Great Mace", "Longsword", "Flail", "Sabre", "Lance"))
+		var/secondary = list(
+			"Kite Shield",
+			"Crossbow",
+			"Recurve Bow",
 		)
-		var/helmchoice = input(H, "Choose your Helm.", "TAKE UP HELMS") as anything in helmets
-		if(helmchoice != "None")
-			head = helmets[helmchoice]
+		var/secondary_choice = input(H, "Choose your secondary.", "TAKE UP ARMS") as anything in secondary
+		switch(secondary_choice)
+			if("Kite Shield")
+				backl = /obj/item/rogueweapon/shield/tower/metal
+			if("Crossbow")
+				H.adjust_skillrank_up_to(/datum/skill/combat/crossbows, 4, TRUE)
+				backl = /obj/item/gun/ballistic/revolver/grenadelauncher/crossbow
+				beltl = /obj/item/quiver/bolts
+			if("Recurve Bow")
+				H.adjust_skillrank_up_to(/datum/skill/combat/bows, 4, TRUE)
+				beltl = /obj/item/quiver/arrows
+				backl = /obj/item/gun/ballistic/revolver/grenadelauncher/bow/recurve
 
-		if(HAS_TRAIT(H, TRAIT_GOODTRAINER))
-			REMOVE_TRAIT(H, TRAIT_GOODTRAINER, JOB_TRAIT)
+	var/armors = list(
+		"Brigandine",
+		"Coat of Plates",
+		"Fluted Cuirass",
+		"Champion's Plate"
+	)
+	var/armorchoice = input(H, "Choose your armor.", "TAKE UP ARMOR") as anything in armors
+	switch(armorchoice)
+		if("Brigandine")
+			armor = /obj/item/clothing/suit/roguetown/armor/brigandine/retinue
+			pants = /obj/item/clothing/under/roguetown/chainlegs
+		if("Coat of Plates")
+			armor = /obj/item/clothing/suit/roguetown/armor/brigandine/coatplates
+			pants = /obj/item/clothing/under/roguetown/chainlegs
+		if("Fluted Cuirass")
+			armor = /obj/item/clothing/suit/roguetown/armor/plate/cuirass/fluted
+			pants = /obj/item/clothing/under/roguetown/chainlegs
+		if("Champion's Plate")
+			armor = /obj/item/clothing/suit/roguetown/armor/brigandine/banneret
+			pants = /obj/item/clothing/under/roguetown/chainlegs/banneret
+			head = /obj/item/clothing/head/roguetown/helmet/heavy/banneret
+
+	if(armorchoice == "Champion's Plate")
+		return // Get helmet from armor selection
+
+	var/helmets = list(
+		"Pigface Bascinet" 	= /obj/item/clothing/head/roguetown/helmet/bascinet/pigface,
+		"Guard Helmet"		= /obj/item/clothing/head/roguetown/helmet/heavy/guard,
+		"Barred Helmet"		= /obj/item/clothing/head/roguetown/helmet/heavy/sheriff,
+		"Bucket Helmet"		= /obj/item/clothing/head/roguetown/helmet/heavy/bucket,
+		"Knight Helmet"		= /obj/item/clothing/head/roguetown/helmet/heavy/knight,
+		"Froggemund Helmet"	= /obj/item/clothing/head/roguetown/helmet/heavy/frogmouth,
+		"Visored Sallet"	= /obj/item/clothing/head/roguetown/helmet/sallet/visored,
+		"Armet"				= /obj/item/clothing/head/roguetown/helmet/heavy/knight/armet,
+		"Hounskull Bascinet" = /obj/item/clothing/head/roguetown/helmet/bascinet/pigface/hounskull,
+		"Klappvisier Bascinet" = /obj/item/clothing/head/roguetown/helmet/bascinet/etruscan,
+		"Etruscan Bascinet" = /obj/item/clothing/head/roguetown/helmet/bascinet/etruscan,
+		"Slitted Kettle"	= /obj/item/clothing/head/roguetown/helmet/heavy/knight/skettle,
+		"None"
+	)
+	var/helmchoice = input(H, "Choose your Helm.", "TAKE UP HELMS") as anything in helmets
+	if(helmchoice != "None")
+		head = helmets[helmchoice]
+
+	if(HAS_TRAIT(H, TRAIT_GOODTRAINER))
+		REMOVE_TRAIT(H, TRAIT_GOODTRAINER, JOB_TRAIT)

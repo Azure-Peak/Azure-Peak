@@ -1,3 +1,6 @@
+/datum/voicepack/female
+	preview = list("agony", "laugh", "pain", "hmph", "painmoan", "rage", "paincrit", "chuckle", "clearthroat", "embed", "grumble", "groan", "hmm", "huh", "laugh", "rage", "warcry")
+
 /datum/voicepack/female/get_sound(soundin, modifiers)
 	var/used
 	switch(modifiers)
@@ -53,6 +56,8 @@
 				used = list('sound/vo/female/gen/huh (1).ogg','sound/vo/female/gen/huh (2).ogg','sound/vo/female/gen/huh (3).ogg')
 			if("hum")
 				used = list('sound/vo/female/gen/hum (1).ogg','sound/vo/female/gen/hum (2).ogg','sound/vo/female/gen/hum (3).ogg')
+			if("hmph")
+				used = 'sound/vo/female/gen/hmph (1).ogg'
 			if("jump")
 				used = 'sound/vo/female/gen/jump.ogg'
 			if("leap")
@@ -122,7 +127,7 @@
 			if("blink")
 				used = list('sound/vo/blink.ogg')
 			if("cackle")
-				used = list('sound/vo/mobs/hyena/cackle.ogg')
+				used = list('sound/vo/female/haughty/cackle (2).ogg')
 			if("whine")
 				used = list('sound/vo/mobs/vw/whine.ogg')
 			if("fwhine")
@@ -157,5 +162,12 @@
 				used = list('sound/vo/yip.ogg', 'sound/vo/yip2.ogg', 'sound/vo/yip3.ogg')
 			if("oink")
 				used = list('modular/Creechers/sound/pig1.ogg', 'modular/Creechers/sound/pig2.ogg')
-
+			if("bellow")
+				used = list('sound/vo/LizardBellow.ogg')
+			if("hiss")
+				used = list('sound/vo/LizardHiss.ogg')
+			if("squeal")
+				used = list('sound/vo/LizardSqueal.ogg')
+			if("thump")
+				used = list('sound/vo/LizardThump.ogg')
 	return used

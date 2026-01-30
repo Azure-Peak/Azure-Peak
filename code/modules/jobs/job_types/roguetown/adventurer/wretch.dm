@@ -34,7 +34,7 @@
 		/datum/advclass/wretch/deserter,
 		/datum/advclass/wretch/deserter/maa,
 		/datum/advclass/wretch/berserker,
-		/datum/advclass/wretch/hedgemage,
+		/datum/advclass/wretch/roguemage,
 		/datum/advclass/wretch/necromancer,
 		/datum/advclass/wretch/heretic,
 		/datum/advclass/wretch/heretic/spy,

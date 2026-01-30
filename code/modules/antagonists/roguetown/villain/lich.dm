@@ -187,6 +187,7 @@
 /datum/antagonist/lich/proc/equip_and_traits()
 	var/mob/living/carbon/human/body = owner.current
 	var/list/equipment_slots = list(
+		SLOT_HEAD,
 		SLOT_PANTS,
 		SLOT_SHOES,
 		SLOT_NECK,
@@ -204,10 +205,11 @@
 		)
 
 	var/list/equipment_items = list(
+		/obj/item/clothing/head/roguetown/roguehood/unholy/lich,
 		/obj/item/clothing/under/roguetown/chainlegs,
 		/obj/item/clothing/shoes/roguetown/boots,
 		/obj/item/clothing/neck/roguetown/chaincoif,
-		/obj/item/clothing/cloak/raincloak/mortus,
+		/obj/item/clothing/suit/roguetown/shirt/robe/unholy/lich,
 		/obj/item/clothing/suit/roguetown/armor/plate/blacksteel,
 		/obj/item/clothing/suit/roguetown/shirt/tunic/ucolored,
 		/obj/item/clothing/wrists/roguetown/bracers,

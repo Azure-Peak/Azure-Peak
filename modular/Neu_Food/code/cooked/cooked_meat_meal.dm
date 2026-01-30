@@ -16,6 +16,28 @@
 	eat_effect = /datum/status_effect/buff/mealbuff
 	drop_sound = 'sound/foley/dropsound/gen_drop.ogg'
 
+/obj/item/reagent_containers/food/snacks/rogue/peppersteak/attackby(obj/item/I, mob/living/user, params)
+	var/found_table = locate(/obj/structure/table) in (loc)
+	if(!experimental_inhand)
+		return
+	if(istype(I, /obj/item/reagent_containers/food/snacks/grown/garlick/rogue))
+		if(isturf(loc)&& (found_table))
+			playsound(get_turf(user), 'sound/foley/dropsound/gen_drop.ogg', 30, TRUE, -1)
+			if(do_after(user,3 SECONDS, target = src))
+				user.adjust_experience(/datum/skill/craft/cooking, user.STAINT * 0.8)
+				new /obj/item/reagent_containers/food/snacks/rogue/peppersteak/ducal(loc)
+				qdel(I)
+				qdel(src)
+	else
+		return ..()
+
+/obj/item/reagent_containers/food/snacks/rogue/peppersteak/ducal
+	tastes = list("steak" = 1, "pepper" = 1, "garlick" = 1)
+	name = "ducal steak"
+	desc = "Roasted meat flanked with a generous coating of ground pepper for intense flavor and scribbled in with garlick. Said to have been favorite meal of the Mad Duke."
+	faretype = FARE_LAVISH
+	icon_state = "ducalsteak"
+
 /*	..................   Onion steak   ................... */
 /obj/item/reagent_containers/food/snacks/rogue/onionsteak
 	name = "onion steak"
@@ -185,6 +207,35 @@
 	rotprocess = SHELFLIFE_DECENT
 	eat_effect = /datum/status_effect/buff/greatmealbuff
 
+/*	.................  Spiced Baked Poultry  ................... */
+/obj/item/reagent_containers/food/snacks/rogue/meat/poultry/baked/spiced
+	name = "spiced bird-roast"
+	desc = "A plump bird, roasted perfection, spiced to taste divine."
+	faretype = FARE_LAVISH
+	icon = 'modular/Neu_Food/icons/cooked/cooked_meat_meal.dmi'
+	icon_state = "pepperchicken"
+	tastes = list("spicy birdmeat" = 1)
+	eat_effect = /datum/status_effect/buff/mealbuff
+
+/*	.................  Baked Butter Poultry  ................... */
+/obj/item/reagent_containers/food/snacks/rogue/meat/poultry/baked/butter
+	name = "butter bird-roast"
+	desc = "A plump bird, roasted perfection, overflowing with butter from the inside."
+	faretype = FARE_LAVISH
+	icon = 'modular/Neu_Food/icons/cooked/cooked_meat_meal.dmi'
+	icon_state = "butterchicken"
+	tastes = list("buttery birdmeat" = 1)
+	eat_effect = /datum/status_effect/buff/mealbuff
+
+/*	.................  Baked Double Poultry  ................... */
+/obj/item/reagent_containers/food/snacks/rogue/meat/poultry/baked/doublestacked
+	name = "bird filled bird-roast"
+	desc = "A plump bird, roasted perfection.. filled with another bird - what compelled you to make this? Psydon Weeps at your hubris."
+	icon = 'modular/Neu_Food/icons/cooked/cooked_meat_meal.dmi'
+	icon_state = "stuffedchicken"
+	eat_effect = /datum/status_effect/buff/mealbuff
+	bonus_reagents = list(/datum/reagent/consumable/nutriment = MEAL_MEAGRE*2)
+
 /*	.................   Frybird & Tato   ................... */
 /obj/item/reagent_containers/food/snacks/rogue/frybirdtato
 	list_reagents = list(/datum/reagent/consumable/nutriment = MEAL_MEAGRE)
@@ -195,6 +246,21 @@
 	portable = FALSE
 	icon = 'modular/Neu_Food/icons/cooked/cooked_meat_meal.dmi'
 	icon_state = "frybirdtato"
+	foodtype = VEGETABLES | MEAT
+	warming = 3 MINUTES
+	rotprocess = SHELFLIFE_DECENT
+	eat_effect = /datum/status_effect/buff/mealbuff
+
+/*	.................   Frybird Bucket   ................... */
+/obj/item/reagent_containers/food/snacks/rogue/frybirdbucket
+	list_reagents = list(/datum/reagent/consumable/nutriment = MEAL_MEAGRE*3)
+	tastes = list("frybird" = 1)
+	name = "frybird bucket"
+	desc = "Hearty, comforting, and rich - Azurean Frybirds are the best on the entire continent and now even in a convinient bucket!"
+	faretype = FARE_FINE
+	portable = FALSE
+	icon = 'modular/Neu_Food/icons/cooked/cooked_meat_meal.dmi'
+	icon_state = "frybirdbucket"
 	foodtype = VEGETABLES | MEAT
 	warming = 3 MINUTES
 	rotprocess = SHELFLIFE_DECENT

@@ -98,8 +98,101 @@
 			pic2.color = get_altdetail_color()
 		add_overlay(pic2)
 
-///////// CRAFTING DATUMS FOR PLUME HATS /////////
+///
 
+/obj/item/clothing/head/roguetown/helmet/sallet/grenzelhoft/triumph
+	name = "sallet w/plumed beret"
+	desc = "A Grenzelhoftian 'tellerbarret' placed atop a regular steel sallet, staying fashionable while protecting the wearer's head to a better degree."
+	icon_state = "grenzelmid"
+	item_state = "grenzelmid"
+	icon = 'icons/roguetown/clothing/special/grenzelhats.dmi'
+	mob_overlay_icon = 'icons/roguetown/clothing/special/onmob/grenzelhats.dmi'
+	detail_tag = "_detail"
+	altdetail_tag = "_detailalt"
+	resistance_flags = FIRE_PROOF
+	color = "#FFFFFF"
+	detail_color = "#262927"
+	altdetail_color = "#FFFFFF"
+	max_integrity = ARMOR_INT_HELMET_STEEL + 15
+
+/obj/item/clothing/head/roguetown/helmet/sallet/grenzelhoft/triumph/update_icon()
+	cut_overlays()
+	if(get_detail_tag())
+		var/mutable_appearance/pic = mutable_appearance(icon(icon, "[icon_state][detail_tag]"))
+		pic.appearance_flags = RESET_COLOR
+		if(get_detail_color())
+			pic.color = get_detail_color()
+		add_overlay(pic)
+
+	if(get_altdetail_tag())
+		var/mutable_appearance/pic2 = mutable_appearance(icon(icon, "[icon_state][altdetail_tag]"))
+		pic2.appearance_flags = RESET_COLOR
+		if(get_altdetail_color())
+			pic2.color = get_altdetail_color()
+		add_overlay(pic2)
+
+/obj/item/clothing/head/roguetown/helmet/bascinet/etruscan/grenzelhoft/triumph
+	name = "etruscan bascinet w/plumed beret"
+	desc = "A Grenzelhoftian 'tellerbarret' placed atop an Etruscan bascinet, staying fashionable while protecting the wearer's head to a better degree."
+	icon_state = "grenzelheavy"
+	item_state = "grenzelheavy"
+	icon = 'icons/roguetown/clothing/special/grenzelhats.dmi'
+	mob_overlay_icon = 'icons/roguetown/clothing/special/onmob/grenzelhats.dmi'
+	detail_tag = "_detail"
+	altdetail_tag = "_detailalt"
+	resistance_flags = FIRE_PROOF
+	color = "#FFFFFF"
+	detail_color = "#262927"
+	altdetail_color = "#FFFFFF"
+	max_integrity = ARMOR_INT_HELMET_STEEL + 10
+
+/obj/item/clothing/head/roguetown/helmet/bascinet/etruscan/grenzelhoft/triumph/update_icon()
+	cut_overlays()
+	if(get_detail_tag())
+		var/mutable_appearance/pic = mutable_appearance(icon(icon, "[icon_state][detail_tag]"))
+		pic.appearance_flags = RESET_COLOR
+		if(get_detail_color())
+			pic.color = get_detail_color()
+		add_overlay(pic)
+
+	if(get_altdetail_tag())
+		var/mutable_appearance/pic2 = mutable_appearance(icon(icon, "[icon_state][altdetail_tag]"))
+		pic2.appearance_flags = RESET_COLOR
+		if(get_altdetail_color())
+			pic2.color = get_altdetail_color()
+		add_overlay(pic2)
+
+/obj/item/clothing/head/roguetown/helmet/blacksteel/modern/armet/grenzelhoft/triumph
+	name = "blacksteel armet w/plumed beret"
+	desc = "A Grenzelhoftian 'tellerbarret' placed atop a blacksteel armet, staying fashionable while protecting the wearer's head for a better degree. Aren't you the affluent mercenary."
+	icon_state = "grenzelblack"
+	item_state = "grenzelblack"
+	icon = 'icons/roguetown/clothing/special/grenzelhats.dmi'
+	mob_overlay_icon = 'icons/roguetown/clothing/special/onmob/grenzelhats.dmi'
+	detail_tag = "_detail"
+	altdetail_tag = "_detailalt"
+	resistance_flags = FIRE_PROOF
+	color = "#FFFFFF"
+	detail_color = "#262927"
+	altdetail_color = "#FFFFFF"
+
+/obj/item/clothing/head/roguetown/helmet/blacksteel/modern/armet/triumph/grenzelhoft/update_icon()
+	cut_overlays()
+	if(get_detail_tag())
+		var/mutable_appearance/pic = mutable_appearance(icon(icon, "[icon_state][detail_tag]"))
+		pic.appearance_flags = RESET_COLOR
+		if(get_detail_color())
+			pic.color = get_detail_color()
+		add_overlay(pic)
+
+	if(get_altdetail_tag())
+		var/mutable_appearance/pic2 = mutable_appearance(icon(icon, "[icon_state][altdetail_tag]"))
+		pic2.appearance_flags = RESET_COLOR
+		if(get_altdetail_color())
+			pic2.color = get_altdetail_color()
+		add_overlay(pic2)
+
+///////// CRAFTING DATUMS FOR PLUME HATS /////////
 /datum/crafting_recipe/roguetown/sewing/grenzelhelm
 	name = "grenzelhoftian hat with steel sallet"
 	result = list(/obj/item/clothing/head/roguetown/helmet/sallet/grenzelhoft)
@@ -136,3 +229,43 @@
 	            /obj/item/clothing/head/roguetown/helmet/blacksteel/modern/armet = 1)
 	bypass_dupe_test = TRUE
 	craftdiff = 0
+
+///////// CRAFTING DATUMS FOR PLUME HATS, TRIUMPHED /////////
+
+/datum/crafting_recipe/roguetown/sewing/grenzelhelm/triumph
+	name = "grenzelhoftian beret with steel sallet"
+	result = list(/obj/item/clothing/head/roguetown/helmet/sallet/grenzelhoft/triumph)
+	reqs = list(/obj/item/clothing/head/roguetown/grenzelhofthat/triumph = 1,
+	            /obj/item/clothing/head/roguetown/helmet/sallet = 1)
+	craftdiff = 0
+
+/datum/crafting_recipe/roguetown/sewing/grenzelhelm/triumph/off
+	name = "take beret off steel sallet"
+	result = list(/obj/item/clothing/head/roguetown/grenzelhofthat/triumph = 1, /obj/item/clothing/head/roguetown/helmet/sallet = 1)
+	reqs = list(/obj/item/clothing/head/roguetown/helmet/sallet/grenzelhoft/triumph = 1)
+	bypass_dupe_test = TRUE
+	craftdiff = 0
+
+/datum/crafting_recipe/roguetown/sewing/grenzelklapper/triumph
+	name = "grenzelhoftian beret with klappvisier"
+	result = list(/obj/item/clothing/head/roguetown/helmet/bascinet/etruscan/grenzelhoft/triumph)
+	reqs = list(/obj/item/clothing/head/roguetown/grenzelhofthat/triumph = 1,
+	            /obj/item/clothing/head/roguetown/helmet/bascinet/etruscan = 1)
+	bypass_dupe_test = TRUE
+	craftdiff = 0
+
+/datum/crafting_recipe/roguetown/sewing/grenzelklapper/triumph/off
+	name = "take beret off etruscan bascinet"
+	result = list(/obj/item/clothing/head/roguetown/grenzelhofthat/triumph = 1, /obj/item/clothing/head/roguetown/helmet/bascinet/etruscan = 1)
+	reqs = list(/obj/item/clothing/head/roguetown/helmet/bascinet/etruscan/grenzelhoft/triumph = 1)
+	bypass_dupe_test = TRUE
+	craftdiff = 0
+
+/datum/crafting_recipe/roguetown/sewing/grenzelblack/triumph
+	name = "grenzelhoftian beret with blacksteel armet"
+	result = list(/obj/item/clothing/head/roguetown/helmet/blacksteel/modern/armet/grenzelhoft/triumph)
+	reqs = list(/obj/item/clothing/head/roguetown/grenzelhofthat/triumph = 1,
+	            /obj/item/clothing/head/roguetown/helmet/blacksteel/modern/armet = 1)
+	bypass_dupe_test = TRUE
+	craftdiff = 0
+

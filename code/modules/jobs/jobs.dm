@@ -76,6 +76,7 @@ GLOBAL_LIST_INIT(leadership_positions, list( // Used for boldening text primaril
 	"Head Physician",
 	"Innkeeper",
 	"Bathmaster",
+	"Inquisitor"
 ))
 
 GLOBAL_LIST_INIT(regency_positions, list( // Used to determine elligibility for Regency
@@ -179,6 +180,26 @@ GLOBAL_LIST_INIT(inquisition_positions, list( //Self explanatory
 	"Orthodoxist",
 ))
 
+GLOBAL_LIST_INIT(rogueoverthrow_positions, list( //Used for Aspirant / Peasant Rebellion
+	"Grand Duke",
+	"Consort",
+	"Suitor",
+	"Prince",
+	"Hand",
+	"Steward",
+	"Councillor",
+	"Suitor",
+	"Marshal",
+	"Knight",
+	"Inquisitor",
+	"Absolver",
+	"Orthodoxist",
+	"Assassin",
+	"Bandit",
+	"Wretch",
+	"Gnoll"
+))
+
 GLOBAL_LIST_INIT(roguewar_positions, list(
 	"Adventurer",
 ))
@@ -192,21 +213,6 @@ GLOBAL_LIST_INIT(roguefight_positions, list(
 	"Green Caster",
 	"Green Ranger",
 	"Green Fighter",
-))
-
-GLOBAL_LIST_INIT(rogueantag_positions, list(
-	"Grand Duke",
-	"Consort",
-	"Suitor",
-	"Prince",
-	"Hand",
-	"Marshal",
-	"Knight",
-	"Sergeant",
-	"Bishop",
-	"Martyr",
-	"Inquisitor",
-	"Absolver",
 ))
 
 //This list is used to prevent the duke from stripping nobility from certain jobs that aren't intrinsically a part of the town.

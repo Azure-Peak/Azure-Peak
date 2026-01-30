@@ -26,6 +26,7 @@
 	advclass_cat_rolls = list (CTAG_MARSHAL = 20)
 
 	job_traits = list(TRAIT_NOBLE, TRAIT_HEAVYARMOR, TRAIT_PERFECT_TRACKER)
+	vice_restrictions = list(/datum/charflaw/mute, /datum/charflaw/unintelligible) //Needs to use the throat - sometimes
 	job_subclasses = list(
 		/datum/advclass/marshal/classic,
 		/datum/advclass/marshal/kcommander
@@ -45,7 +46,7 @@
 	id = /obj/item/scomstone/garrison
 	backpack_contents = list(
 		/obj/item/rogueweapon/huntingknife/idagger/steel/special = 1,
-		/obj/item/rogueweapon/scabbard/sheath = 1,
+		/obj/item/rogueweapon/scabbard/sheath/noble = 1,
 		/obj/item/signal_horn = 1,
 		/obj/item/reagent_containers/glass/bottle/rogue/healthpot = 1,
 		)
@@ -71,7 +72,7 @@
 	)
 	subclass_skills = list(
 		/datum/skill/combat/maces = SKILL_LEVEL_EXPERT,
-		/datum/skill/combat/wrestling = SKILL_LEVEL_EXPERT,
+		/datum/skill/combat/wrestling = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/misc/tracking = SKILL_LEVEL_EXPERT,
 		/datum/skill/misc/athletics = SKILL_LEVEL_EXPERT,
 		/datum/skill/combat/knives = SKILL_LEVEL_JOURNEYMAN,
@@ -109,7 +110,7 @@
 	)
 	subclass_skills = list(
 		/datum/skill/combat/swords = SKILL_LEVEL_EXPERT,
-		/datum/skill/combat/wrestling = SKILL_LEVEL_EXPERT,
+		/datum/skill/combat/wrestling = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/misc/tracking = SKILL_LEVEL_EXPERT,
 		/datum/skill/misc/athletics = SKILL_LEVEL_EXPERT,
 		/datum/skill/combat/unarmed = SKILL_LEVEL_JOURNEYMAN,
@@ -127,7 +128,7 @@
 	belt = /obj/item/storage/belt/rogue/leather
 	beltr = /obj/item/storage/belt/rogue/pouch/coins/rich
 	beltl = /obj/item/storage/keyring/marshal
-	l_hand = /obj/item/rogueweapon/scabbard/sword
+	l_hand = /obj/item/rogueweapon/scabbard/sword/noble
 
 /mob/living/carbon/human/proc/request_law()
 	set name = "Request Law"

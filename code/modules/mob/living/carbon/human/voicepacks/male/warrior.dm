@@ -1,3 +1,6 @@
+/datum/voicepack/male/warrior
+	preview = list("laugh", "pain", "painscream", "rage", "paincrit")
+
 /datum/voicepack/male/warrior/get_sound(soundin, modifiers)
 	var/used
 	switch(soundin)

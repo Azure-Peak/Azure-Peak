@@ -20,7 +20,7 @@
 
 /datum/supply_pack/rogue/Mage/leather/Lhelmet
 	name = "Leather Helmet"
-	cost = 5
+	cost = 10
 	contains = list(/obj/item/clothing/head/roguetown/helmet/leather)
 
 //////////
@@ -61,44 +61,24 @@
 	cost = 10
 	contains = list(/obj/item/clothing/suit/roguetown/armor/leather)
 
-/datum/supply_pack/rogue/Mage/leather/studded
-	name = "Studded Leather Armor"
-	cost = 20
-	contains = list(/obj/item/clothing/suit/roguetown/armor/leather/studded)
-
-/datum/supply_pack/rogue/Mage/leather/heavy
-	name = "Hardened Leather Armor"
-	cost = 20
-	contains = list(/obj/item/clothing/suit/roguetown/armor/leather/heavy)
-
 ///////////////////
 // WRISTS/GLOVES //
 ///////////////////
 
 /datum/supply_pack/rogue/Mage/leather/Lbracers
 	name = "Leather Bracers"
-	cost = 5
+	cost = 10
 	contains = list(/obj/item/clothing/wrists/roguetown/bracers/leather)
 
 /datum/supply_pack/rogue/Mage/leather/hbracers
 	name = "Hardened Leather Bracers"
-	cost = 10
+	cost = 20
 	contains = list(/obj/item/clothing/wrists/roguetown/bracers/leather/heavy)
 
 /datum/supply_pack/rogue/Mage/leather/lgloves
 	name = "Leather Gloves"
-	cost = 5
+	cost = 10
 	contains = list(/obj/item/clothing/gloves/roguetown/leather)
-
-/datum/supply_pack/rogue/Mage/leather/hlgloves
-	name = "Heavy Leather Gloves"
-	cost = 10
-	contains = list(/obj/item/clothing/gloves/roguetown/angle)
-
-/datum/supply_pack/rogue/Mage/leather/flgloves
-	name = "Fingerless Leather Gloves"
-	cost = 10
-	contains = list(/obj/item/clothing/gloves/roguetown/fingerless_leather)
 
 ///////////////
 // LEGS/FEET //
@@ -138,14 +118,29 @@
 	cost = 100
 	contains = list(/obj/item/rogueweapon/huntingknife/idagger/silver)
 
-///////////
-// MAGIC //
-///////////
+//////////////////
+// ✨ MAGIC ✨ //
+//////////////////
 
 /datum/supply_pack/rogue/Mage/nomag
 	name = "Ring of Nullmagic"
 	cost = 200
 	contains = list(/obj/item/clothing/ring/active/nomag)
+
+/datum/supply_pack/rogue/Mage/ring_swiftness
+	name = "Ring of Swiftness"
+	cost = 250
+	contains = list(/obj/item/clothing/ring/statgemerald)
+
+/datum/supply_pack/rogue/Mage/ring_vitality
+	name = "Ring of Vitality"
+	cost = 250
+	contains = list(/obj/item/clothing/ring/statonyx)
+
+/datum/supply_pack/rogue/Mage/ring_wisdom
+	name = "Ring of Wisdom"
+	cost = 250
+	contains = list(/obj/item/clothing/ring/statamythortz)
 
 /datum/supply_pack/rogue/Mage/talkstone
 	name = "Talkstone"

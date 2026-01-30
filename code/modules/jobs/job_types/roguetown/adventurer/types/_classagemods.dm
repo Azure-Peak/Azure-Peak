@@ -41,18 +41,7 @@
 
 //--- BANDITS ---
 
-/datum/class_age_mod/bandit/rogue_mage
-	target_age = AGE_OLD
-	stat_mods = list(
-		STATKEY_INT = 1,
-		STATKEY_PER = 1
-	)
-	skill_mods = list(
-		/datum/skill/magic/arcane = SKILL_LEVEL_MASTER
-	)
-	sp_mod = 6
-
-/datum/class_age_mod/bandit/sawbones
+/datum/class_age_mod/bandit/hedgealchemist
 	target_age = AGE_OLD
 	stat_mods = list(
 		STATKEY_SPD = -1,
@@ -62,7 +51,7 @@
 
 //--- WRETCHES ---
 
-/datum/class_age_mod/wretch/hedge_mage
+/datum/class_age_mod/wretch/rogue_mage
 	target_age = AGE_OLD
 	skill_mods = list(
 		/datum/skill/magic/arcane = SKILL_LEVEL_MASTER

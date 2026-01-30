@@ -15,7 +15,7 @@
 	/// If defined, this is the maximum amount of times this wave can spawn
 	var/max_spawns = null
 	/// The relative probability this wave will be picked, from all available waves
-	var/weight = 100
+	var/weight = 20
 	/// Name of the latejoin spawn landmark for the wave to decide where to spawn
 	var/spawn_landmark = "Pilgrim"
 	/// Text to greet all players in the wave with
@@ -118,7 +118,7 @@
 	weight = 16
 	spawn_landmark = "Bandit"
 	roles = list(
-		/datum/migrant_role/bandit = 4,
+		/datum/migrant_role/bandit = 3,
 	)
 
 /datum/migrant_wave/bandit_down_one
@@ -127,19 +127,10 @@
 	can_roll = FALSE
 	spawn_landmark = "Bandit"
 	roles = list(
-		/datum/migrant_role/bandit = 3,
-	)
-
-/datum/migrant_wave/bandit_down_two
-	name = "Bandit Raid"
-	downgrade_wave = /datum/migrant_wave/bandit_down_three
-	can_roll = FALSE
-	spawn_landmark = "Bandit"
-	roles = list(
 		/datum/migrant_role/bandit = 2,
 	)
 
-/datum/migrant_wave/bandit_down_three
+/datum/migrant_wave/bandit_down_two
 	name = "Bandit Raid"
 	can_roll = FALSE
 	spawn_landmark = "Bandit"

@@ -1,0 +1,4 @@
+author: "WeNeedMorePhoron"
+delete-after: True
+changes:
+  - bugfix: "Examine panel lagging the shit out of the server should be fixed. Report any oddity with your FT / OOC notes."

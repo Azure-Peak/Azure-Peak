@@ -693,8 +693,8 @@
 	slot_flags = ITEM_SLOT_SHIRT|ITEM_SLOT_ARMOR
 	prevent_crits = PREVENT_CRITS_NONE
 	armor = ARMOR_RUMACLAN
-	body_parts_covered = COVERAGE_FULL
-	body_parts_inherent = COVERAGE_FULL
+	body_parts_covered = COVERAGE_ALL_BUT_HANDFEET
+	body_parts_inherent = COVERAGE_ALL_BUT_HANDFEET
 	icon = 'icons/roguetown/clothing/shirts.dmi'
 	mob_overlay_icon = 'icons/roguetown/clothing/onmob/shirts.dmi'
 	sleeved = 'icons/roguetown/clothing/onmob/helpers/sleeves_shirts.dmi'

@@ -2,7 +2,7 @@
 	slot_flags = ITEM_SLOT_ARMOR
 	name = "spellsinger robes"
 	desc = "A set of reinforced, leather-padded robes worn by spellblades."
-	body_parts_covered = COVERAGE_FULL
+	body_parts_covered = COVERAGE_ALL_BUT_HANDFEET
 	armor = ARMOR_SPELLSINGER
 	armor_class = ARMOR_CLASS_LIGHT
 	icon_state = "spellcasterrobe"
@@ -21,7 +21,7 @@
 	sleeved = 'icons/roguetown/clothing/onmob/helpers/sleeves_armor.dmi'
 	break_sound = 'sound/foley/cloth_rip.ogg'
 	drop_sound = 'sound/foley/dropsound/cloth_drop.ogg'
-	body_parts_covered = COVERAGE_FULL
+	body_parts_covered = COVERAGE_ALL_BUT_HANDFEET
 	armor = ARMOR_SPELLSINGER
 	blocksound = SOFTHIT
 	blade_dulling = DULLING_BASHCHOP
@@ -76,7 +76,7 @@
 	allowed_race = list(/datum/species/elf/wood, /datum/species/human/halfelf, /datum/species/elf/dark, /datum/species/elf)
 	armor = list("blunt" = 100, "slash" = 20, "stab" = 130, "piercing" = 40, "fire" = 0, "acid" = 0)
 	prevent_crits = PREVENT_CRITS_ALL
-	body_parts_covered = COVERAGE_FULL
+	body_parts_covered = COVERAGE_ALL_BUT_HANDFEET
 	icon = 'icons/roguetown/clothing/special/race_armor.dmi'
 	mob_overlay_icon = 'icons/roguetown/clothing/special/onmob/race_armor.dmi'
 	icon_state = "welfchest"

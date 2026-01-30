@@ -13,8 +13,8 @@
 	warnie = "sydwarning"
 	movement_interrupt = FALSE
 	sound = 'sound/magic/ENDVRE.ogg'
-	invocations = list("ENDURE!","GET UP!","COME ON!") //Kept intentionally vague as to whether it's genuine magic or just a very inspiring attempt to rally the target, like with 'PRAYER'. Invigorate the wounded; give them the motivation to thug it out.
-	invocation_type = "shout"
+	invocations = list(span_blue("quietly recites an orison, invoking the warmth of a dying light."))
+	invocation_type = "emote"
 	associated_skill = /datum/skill/magic/holy
 	antimagic_allowed = FALSE
 	recharge_time = 30 SECONDS
@@ -399,7 +399,7 @@
 	warnie = "sydwarning"
 	movement_interrupt = FALSE
 	sound = null
-	invocations = list(span_blue("faithfully whispers a hushed promise to steady themselves.."))
+	invocations = list(span_blue("quietly recites a prayer, steadying their mind."))
 	invocation_type = "emote"
 	associated_skill = /datum/skill/magic/holy
 	antimagic_allowed = FALSE
@@ -505,7 +505,7 @@
 	warnie = "sydwarning"
 	movement_interrupt = FALSE
 	sound = null
-	invocations = list(span_blue("passionately whispers a hushed prayer to steady themselves.."))
+	invocations = list(span_blue("quietly recites a lesser psalm, soothing their pains."))
 	invocation_type = "emote"
 	associated_skill = /datum/skill/magic/holy
 	antimagic_allowed = FALSE
@@ -610,7 +610,7 @@
 	range = 2
 	warnie = "sydwarning"
 	movement_interrupt = FALSE
-	invocations = list(span_blue("reverently whispers a hushed psalm to steady themselves.."))
+	invocations = list(span_blue("quietly recites a greater psalm, soothing their pains."))
 	invocation_type = "emote"
 	sound = null
 	associated_skill = /datum/skill/magic/holy

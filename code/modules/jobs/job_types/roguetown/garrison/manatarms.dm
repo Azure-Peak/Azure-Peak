@@ -81,7 +81,7 @@
 		/datum/skill/combat/whipsflails = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/combat/slings = SKILL_LEVEL_NOVICE,
 		/datum/skill/combat/shields = SKILL_LEVEL_JOURNEYMAN,
-		/datum/skill/combat/wrestling = SKILL_LEVEL_EXPERT,
+		/datum/skill/combat/wrestling = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/combat/unarmed = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/misc/climbing = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/misc/sneaking = SKILL_LEVEL_APPRENTICE,
@@ -190,7 +190,7 @@
 		/datum/skill/misc/sneaking = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/misc/athletics = SKILL_LEVEL_EXPERT, // A little better; run fast, weak boy.
 		/datum/skill/misc/swimming = SKILL_LEVEL_JOURNEYMAN,
-		/datum/skill/combat/wrestling = SKILL_LEVEL_EXPERT,
+		/datum/skill/combat/wrestling = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/combat/unarmed = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/misc/reading = SKILL_LEVEL_NOVICE,
 		/datum/skill/misc/riding = SKILL_LEVEL_NOVICE,
@@ -286,7 +286,7 @@
 		/datum/skill/misc/climbing = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/misc/athletics = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/misc/swimming = SKILL_LEVEL_APPRENTICE,
-		/datum/skill/combat/wrestling = SKILL_LEVEL_EXPERT,
+		/datum/skill/combat/wrestling = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/combat/unarmed = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/misc/reading = SKILL_LEVEL_NOVICE,
 		/datum/skill/misc/riding = SKILL_LEVEL_JOURNEYMAN, 		// Like the other horselords.
@@ -352,7 +352,7 @@
 // Unarmed goon - Dungeoneer replacement
 /datum/advclass/manorguard/bailiff
 	name = "Bailiff"
-	tutorial = "You are a professional soldier of the realm, specializing in melee warfare. Stalwart and hardy, your body can both withstand and dish out powerful strikes.."
+	tutorial = "Once, you held the tasking of an executioner; yet the dungeons have grown quiet, and the nooses limply sway in the breeze. Now, you serve a lesser office in the Lord's name - as a master of the fist-and-flail."
 	outfit = /datum/outfit/job/roguetown/manorguard/bailiff
 	maximum_possible_slots = 1 //Had one dungeoneer before, this is how many we get to keep still.
 
@@ -366,7 +366,7 @@
 	)
 	subclass_skills = list(
 		/datum/skill/combat/whipsflails = SKILL_LEVEL_EXPERT,
-		/datum/skill/combat/wrestling = SKILL_LEVEL_MASTER, //hilarious
+		/datum/skill/combat/wrestling = SKILL_LEVEL_EXPERT, //hilarious
 		/datum/skill/combat/unarmed = SKILL_LEVEL_EXPERT,
 		/datum/skill/combat/swords = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/combat/slings = SKILL_LEVEL_JOURNEYMAN,//Funny
@@ -404,6 +404,7 @@
 		/obj/item/storage/keyring/manatarms = 1,
 		/obj/item/rogueweapon/scabbard/sheath = 1,
 		/obj/item/reagent_containers/glass/bottle/rogue/healthpot = 1,
+		/obj/item/clothing/head/roguetown/menacing/executioner = 1,
 		)
 	H.verbs |= /mob/proc/haltyell
 

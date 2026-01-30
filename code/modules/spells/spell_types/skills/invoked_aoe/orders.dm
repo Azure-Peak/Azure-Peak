@@ -24,6 +24,8 @@
 			affectedjobs = list("Knight", "Squire")
 		else if(user.job == "Wretch")
 			affectedjobs = list("Brother")
+		else if(user.job == "Migrant")
+			affectedjobs = list("Heartfeltian Retinue", "Migrant")
 		else //failsafe in case someone somehow gets the spells without a role that uses them
 			to_chat(user, span_alert("I don't have authority to order anyone!"))
 			revert_cast()

@@ -182,6 +182,14 @@
 	color = "#bb9696"
 	sellprice = 15
 
+/obj/item/rogueweapon/shovel/bronze
+	force = 23
+	name = "bronze shovel"
+	desc = "Dig the mound, so that water may flow into a thirsting crop. Puncture the earth, so that its depths may be catered to your whim. Leaven the soil, so that the buried may know peace from this world's evils."
+	icon_state = "bronzeshovel"
+	smeltresult = /obj/item/ingot/bronze
+	max_integrity = 300
+
 /obj/item/rogueweapon/shovel/silver
 	force = 25
 	name = "silver shovel"
