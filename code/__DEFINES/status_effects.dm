@@ -40,7 +40,7 @@
 // DEBUFFS //
 /////////////
 
-#define STATUS_EFFECT_BLINDED /datum/status_effect/blindness // "new" noc blind effect. see noc.dm for details.
+#define STATUS_EFFECT_BLINDED /datum/status_effect/debuff/blindness // "new" noc blind effect. see noc.dm for details.
 
 #define STATUS_EFFECT_OFFBALANCED /datum/status_effect/incapacitating/off_balanced
 

@@ -39,16 +39,16 @@ to still keep this unavailable to mages... for the moment, at least.
 	revert_cast()
 	return FALSE
 
-/atom/movable/screen/alert/status_effect/blindness
+/atom/movable/screen/alert/status_effect/debuff/blindness
 	name = "Blindness"
 	desc = "I see naught but darkness! (-3 PER, vision cone reduced)"
 
-/datum/status_effect/blindness
+/datum/status_effect/debuff/blindness
 	id = "blindness"
-	alert_type = /atom/movable/screen/alert/status_effect/blindness
+	alert_type = /atom/movable/screen/alert/status_effect/debuff/blindness
 	effectedstats = list(STATKEY_PER = -3)
 
-/datum/status_effect/blindness/on_creation(mob/living/new_owner, assocskill)
+/datum/status_effect/debuff/blindness/on_creation(mob/living/new_owner, assocskill)
 	// Guaranteed at least five seconds. Technically not needed but Just In CaseTM.
 	if(assocskill)
 		duration = clamp(assocskill*5, 5, 30) * 1 SECONDS
@@ -56,11 +56,11 @@ to still keep this unavailable to mages... for the moment, at least.
 		duration = 5 SECONDS // Just in case someone somehow gets this W/O holy skill.
 	. = ..()
 
-/datum/status_effect/blindness/on_apply()
+/datum/status_effect/debuff/blindness/on_apply()
 	// Blindness actually hooks into the vision_cone.dm as part of a status effect check.
 	. = ..()
 
-/datum/status_effect/blindness/on_remove()
+/datum/status_effect/debuff/blindness/on_remove()
 	. = ..()
 	to_chat(owner, span_warning("My vision returns...!"))
 
