@@ -606,18 +606,19 @@ Somewhat fitting, considering the broadness of their domains. I also just think 
 //T3
 
 /obj/effect/proc_holder/spell/self/wisescroll
-	name = "Moon Grimoire"
-	desc = "Using writing materials, and enough paper, write a great work: a Magic Scroll. Use your dreampoints as ink.\n\
-	You will be required to have items worth 10 points in total around yourself and to hold a feather to cast the miracle.\n\
-	Piece of parchment - 1 point, scroll - 2 points, book - 5 points."
+	name = "Moonlit Grimoire"
+	desc = "Using writing materials, and enough paper, create a great work: a Magic Scroll!\n\
+	You will need to be holding a feather and to have 10 points worth of items around your person.\n\
+	Piece of parchment - 1 point, scroll - 2 points, book - 5 points. \n\
+	Uses your dream-points as ink. The more points a spell costs, the higher your recharge time will be."
 	releasedrain = 200
 	chargedrain = 0
 	chargetime = 0
 	chargedloop = /datum/looping_sound/invokeholy
-	invocations = list("The Moon guided my hand...")
+	invocations = list("Deepest dreaming, scribe!")
 	invocation_type = "shout"
 	overlay_state = "noc"
-	sound = 'sound/magic/churn.ogg'
+	sound = 'sound/magic/clang.ogg'
 	base_icon_state = "wisescroll"
 	associated_skill = /datum/skill/magic/holy
 	antimagic_allowed = FALSE
@@ -629,7 +630,7 @@ Somewhat fitting, considering the broadness of their domains. I also just think 
 /obj/effect/proc_holder/spell/self/wisescroll/cast(mob/living/carbon/human/user)
 	. = ..()
 	if(GLOB.tod == "day" || GLOB.tod == "dawn")
-		to_chat(user, "Astrata covers the Moon with her rays!")
+		to_chat(user, "ASTRATA IS RISEN! MY SPELL FIZZLES!")
 		revert_cast()
 		return FALSE
 
@@ -685,7 +686,7 @@ Somewhat fitting, considering the broadness of their domains. I also just think 
 		revert_cast()
 		return FALSE
 
-	var/choice = input("☾Choose a scroll☾, points left: [user.mind.sleep_adv.sleep_adv_points]") as null|anything in choices
+	var/choice = input("☾ Choose a scroll ☾, points left: [user.mind.sleep_adv.sleep_adv_points]") as null|anything in choices
 	var/obj/item/book/granter/item = choices[choice]
 
 	if(!item)
