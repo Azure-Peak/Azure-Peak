@@ -1,3 +1,6 @@
+/datum/voicepack/male
+	preview = list("agony", "laugh", "pain", "hmph", "painmoan", "rage", "paincrit", "chuckle", "clearthroat", "embed", "grumble", "groan", "hmm", "huh", "laugh", "rage", "warcry")
+
 /datum/voicepack/male/get_sound(soundin, modifiers)
 	var/used
 	switch(modifiers)

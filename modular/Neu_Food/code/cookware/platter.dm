@@ -109,6 +109,12 @@ What it does:
 	color = "#bb9696"
 	sellprice = 15
 
+/obj/item/cooking/platter/bronze
+	name = "bronze platter"
+	desc = "A shined bronze platter that hasn't lost its charm, even after a thousand yils."
+	icon_state = "platter_bronze"
+	sellprice = 15
+
 /obj/item/cooking/platter/copper
 	name = "copper platter"
 	desc = "A platter made from a sheet of copper. Known to impart a metallic taste when combined with acidic food."
@@ -130,7 +136,7 @@ What it does:
 	desc = "A fancy silver plate often used by the nobility as a symbol of class."
 	icon_state = "platter_silver"
 	sellprice = 30
-	is_silver = TRUE
+	is_silver = FALSE
 
 /obj/item/cooking/platter/gold
 	name = "gold platter"

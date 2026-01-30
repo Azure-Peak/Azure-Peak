@@ -192,7 +192,7 @@
 			 // LETHALSTONE ADDITION BEGIN: use preference-set voice types where possible
 			if(H.voice_type)
 				switch (H.voice_type)
-					if (VOICE_TYPE_MASC, VOICE_TYPE_MASC_FOP)
+					if (VOICE_TYPE_MASC)
 						possible_sounds = H.dna.species.soundpack_m.get_sound(key, modifier)
 					else
 						if (H.dna.species.soundpack_f)

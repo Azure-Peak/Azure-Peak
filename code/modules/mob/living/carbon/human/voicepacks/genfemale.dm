@@ -1,3 +1,6 @@
+/datum/voicepack/female
+	preview = list("agony", "laugh", "pain", "hmph", "painmoan", "rage", "paincrit", "chuckle", "clearthroat", "embed", "grumble", "groan", "hmm", "huh", "laugh", "rage", "warcry")
+
 /datum/voicepack/female/get_sound(soundin, modifiers)
 	var/used
 	switch(modifiers)
@@ -124,7 +127,7 @@
 			if("blink")
 				used = list('sound/vo/blink.ogg')
 			if("cackle")
-				used = list('sound/vo/mobs/hyena/cackle.ogg')
+				used = list('sound/vo/female/haughty/cackle (2).ogg')
 			if("whine")
 				used = list('sound/vo/mobs/vw/whine.ogg')
 			if("fwhine")

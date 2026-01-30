@@ -55,6 +55,9 @@ GLOBAL_LIST_EMPTY(personal_objective_minds)
 	var/movemovemovetext = "Move!!"
 	var/takeaimtext = "Take aim!!"
 	var/holdtext = "Hold!!"
+	var/retreattext = "Fall back!!"
+	var/chargetext = "Charge!!"
+	var/bolstertext = "Hold the line!!"
 	var/onfeettext = "On your feet!!"
 
 	var/mob/living/carbon/champion = null

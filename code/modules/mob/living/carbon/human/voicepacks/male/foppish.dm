@@ -1,3 +1,6 @@
+/datum/voicepack/male/foppish
+	preview = list("laugh", "giggle", "chuckle", "hmph", "pain", "painmoan", "rage", "paincrit", "chuckle", "clearthroat", "embed", "grumble", "groan", "hmm", "huh", "laugh")
+
 /datum/voicepack/male/foppish/get_sound(soundin, modifiers)
 	var/used
 	switch(soundin)

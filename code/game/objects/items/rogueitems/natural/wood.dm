@@ -365,7 +365,7 @@
 /obj/item/grown/log/tree/stake
 	name = "stake"
 	icon_state = "stake"
-	desc = "A sharpened piece of wood, fantastic for both pinning tarps and impaling nitecreechers."
+	desc = "A snapped tree branch with a hand-whittled tip; the bane of both unspooled tarps and lesser nitecreechers. </br>With a whetstone, I could further sharpen this stake and gift it a proper handle for use against the unholy."
 	grid_width = 32
 	grid_height = 64
 	force = 10

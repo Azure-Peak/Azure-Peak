@@ -44,6 +44,26 @@
 	cost = 250
 	contains = list(/obj/item/clothing/neck/roguetown/psicross/silver)
 
+/datum/supply_pack/rogue/luxury/silverastcross
+	name = "Silver Amulet of Astrata"
+	cost = 250
+	contains = list(/obj/item/clothing/neck/roguetown/psicross/silver/astrata)
+
+/datum/supply_pack/rogue/luxury/silvertencross
+	name = "Silver Amulet of the Pantheon"
+	cost = 250
+	contains = list(/obj/item/clothing/neck/roguetown/psicross/silver/undivided)
+
+/datum/supply_pack/rogue/luxury/silvernecracross
+	name = "Silver Amulet of Necra"
+	cost = 250
+	contains = list(/obj/item/clothing/neck/roguetown/psicross/silver/necra)
+
+/datum/supply_pack/rogue/luxury/silvernoccross
+	name = "Silver Amulet of Noc"
+	cost = 250
+	contains = list(/obj/item/clothing/neck/roguetown/psicross/silver/noc)
+
 /datum/supply_pack/rogue/luxury/silverdagger
 	name = "Silver Dagger"
 	cost = 250 //Note that the Merchant's abode always spawns with a free silver dagger.

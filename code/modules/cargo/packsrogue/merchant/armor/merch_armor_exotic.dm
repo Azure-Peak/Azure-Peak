@@ -38,3 +38,23 @@
 		/obj/item/clothing/under/roguetown/platelegs/iron/gronn,
 		/obj/item/clothing/shoes/roguetown/boots/armor/iron/gronn
 		)
+
+/datum/supply_pack/rogue/armor_exotic/legacycuirass_steel
+	name = "Valorian Cuirass, Steel"
+	cost = 90
+	contains = list(/obj/item/clothing/suit/roguetown/armor/plate/cuirass/legacy)
+
+/datum/supply_pack/rogue/armor_exotic/legacyhalfplate_steel
+	name = "Valorian Half-Plate, Steel"
+	cost = 130
+	contains = list(/obj/item/clothing/suit/roguetown/armor/plate/legacy)
+
+/datum/supply_pack/rogue/armor_exotic/legacyfullplate_steel
+	name = "Valorian Full-Plate, Steel"
+	cost = 350
+	contains = list(/obj/item/clothing/suit/roguetown/armor/plate/full/legacy)
+
+/datum/supply_pack/rogue/armor_exotic/legacyfluteplate_steel
+	name = "Valorian Fluted Full-Plate, Steel"
+	cost = 380
+	contains = list(/obj/item/clothing/suit/roguetown/armor/plate/full/fluted/legacy)

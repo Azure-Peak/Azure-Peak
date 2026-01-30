@@ -197,7 +197,7 @@
 //fae conversions
 
 /datum/crafting_recipe/roguetown/arcana/fairydust //T1 mage summon loot
-	name = "fairy dust)"
+	name = "fairy dust"
 	result = /obj/item/magic/fairydust
 	reqs = list(/obj/item/magic/manacrystal = 1,
 				/obj/item/reagent_containers/food/snacks/grown/berries/rogue = 2)

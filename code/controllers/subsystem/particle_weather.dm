@@ -11,6 +11,9 @@ SUBSYSTEM_DEF(ParticleWeather)
 	var/particles/weather/particleEffect
 	var/obj/weatherEffect
 
+	var/list/turfs_to_process = list()
+	var/list/weathered_turfs = list()
+
 /datum/controller/subsystem/ParticleWeather/fire()
 	// process active weather
 	if(runningWeather)

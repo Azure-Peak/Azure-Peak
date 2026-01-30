@@ -181,27 +181,42 @@
 	force = 10
 	throwforce = 15
 
+/obj/item/reagent_containers/glass/cup/bronzemug
+	name = "bronze mug"
+	desc = "Froth spills over the rim, and a clinking amongst other tankards causes its fizzling tithe to splash across the table. Oh, such a nite of revelry!"
+	icon_state = "bronzemug"
+	sellprice = 8
+	force = 7
+	throwforce = 13
+
+/obj/item/reagent_containers/glass/cup/bronzegob
+	name = "bronze goblet"
+	desc = "Drink deeply, my champion."
+	icon_state = "bronzegoblet"
+	sellprice = 10
+	force = 13
+	throwforce = 17
+
 /obj/item/reagent_containers/glass/cup/silver
 	name = "silver goblet"
 	desc = "A silver goblet, its surface adorned with intricate carvings and runes."
 	icon_state = "silver"
 	sellprice = 30
 	last_used = 0
-	is_silver = TRUE
+	is_silver = FALSE //temporary measure to prevent people from easily metachecking vampyres. Replace with a more sophisticated alternative if-or-when available.
 	force = 10
 	throwforce = 15
 
 /obj/item/reagent_containers/glass/cup/silver/pewter //ugly but better than the alternatives
 	name = "pewter goblet"
 	desc = "A pewter goblet, cheaper than silver, but with a similar shine!"
-	is_silver = FALSE
 
 /obj/item/reagent_containers/glass/cup/silver/small
 	name = "silver cup"
 	desc = "A silver cup, its surface adorned with intricate carvings and runes."
 	icon_state = "scup"
 	sellprice = 20
-	is_silver = TRUE
+	is_silver = FALSE //Ditto.
 	force = 5
 	throwforce = 10
 

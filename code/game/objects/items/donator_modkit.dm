@@ -2,7 +2,7 @@
 //Tl;dr - Click the assigned modkit to the object type's parent, it'll change it into the child. Modkits, aka enchanting kits, are what you get.
 /obj/item/enchantingkit
 	name = "morphing elixir"
-	desc = "A small container of special morphing dust, perfect to make a specifc item."
+	desc = "A small container of special morphing dust, perfect to make a specific item."
 	icon = 'icons/obj/items/donor_objects.dmi'	//We default to here just to avoid tons of uneeded sprites.
 	icon_state = "enchanting_kit"
 	w_class = WEIGHT_CLASS_SMALL	//So can fit in a bag, we don't need these large. They're just used to apply to items.
@@ -163,3 +163,66 @@
 	result_item = /obj/item/clothing/head/roguetown/helmet/heavy/psydonhelm/ryan
 
 
+/////////////////////////////
+// ! Triumph-Exc. Kits !   //
+/////////////////////////////
+
+/obj/item/enchantingkit/triumph_armorkit
+	name = "'Valorian' armor morphing elixir"
+	desc = "A small container of special morphing dust, perfect to make a specific item. It can restore the original appearance of.. </br>..a Steel Cuirass.. </br>..a Steel Halfplate.. </br>..a set of Steel Plate Armor.. </br>..or a set of Fluted Plate Armor."
+	target_items = list(
+		/obj/item/clothing/suit/roguetown/armor/plate/cuirass 		= /obj/item/clothing/suit/roguetown/armor/plate/cuirass/legacy,
+		/obj/item/clothing/suit/roguetown/armor/plate	  			= /obj/item/clothing/suit/roguetown/armor/plate/legacy,
+		/obj/item/clothing/suit/roguetown/armor/plate/full 			= /obj/item/clothing/suit/roguetown/armor/plate/full/legacy,
+		/obj/item/clothing/suit/roguetown/armor/plate/full/fluted 	= /obj/item/clothing/suit/roguetown/armor/plate/full/fluted/legacy
+		)
+	result_item = null
+
+/obj/item/enchantingkit/triumph_weaponkit_tri
+	name = "'Valorian' longsword morphing elixir"
+	desc = "A small container of special morphing dust, perfect to make a specific item. It can be used to alter the appearance of.. </br>..a Steel Longsword."
+	target_items = list(/obj/item/rogueweapon/sword/long)
+	result_item = /obj/item/rogueweapon/sword/long/triumph
+
+/obj/item/enchantingkit/triumph_weaponkit_wide
+	name = "'Wideguard' longsword morphing elixir"
+	desc = "A small container of special morphing dust, perfect to make a specific item. It can be used to alter the appearance of.. </br>..a Steel Longsword </br>..or a Rapier."
+	target_items = list(/obj/item/rogueweapon/sword/long)
+	result_item = /obj/item/rogueweapon/sword/long/triumph/wideguard
+
+	target_items = list(
+		/obj/item/rogueweapon/sword/long					= /obj/item/rogueweapon/sword/long/triumph/wideguard,
+		/obj/item/rogueweapon/sword/rapier	  			= /obj/item/rogueweapon/sword/rapier/wideguard
+		)
+	result_item = null
+
+
+/obj/item/enchantingkit/triumph_weaponkit_rock
+	name = "'Rockhillian' longsword morphing elixir"
+	desc = "A small container of special morphing dust, perfect to make a specific item. It can be used to alter the appearance of.. </br>..a Steel Longsword.. </br>..a Steel Broadsword.. </br>..or an Executioner Sword."
+	target_items = list(
+		/obj/item/rogueweapon/sword/long						= /obj/item/rogueweapon/sword/long/triumph/rockhill,
+		/obj/item/rogueweapon/sword/long/exe	  				= /obj/item/rogueweapon/sword/long/exe/rockhill,
+		/obj/item/rogueweapon/sword/long/broadsword/steel		= /obj/item/rogueweapon/sword/long/broadsword/steel/rockhill
+		)
+	result_item = null
+
+/obj/item/enchantingkit/triumph_weaponkit_sabre
+	name = "'Sabreguard' longsword morphing elixir"
+	desc = "A small container of special morphing dust, perfect to make a specific item. It can be used to alter the appearance of.. </br>..a Steel Longsword.. </br>..or a Kriegmesser."
+	target_items = list(
+		/obj/item/rogueweapon/sword/long							= /obj/item/rogueweapon/sword/long/triumph/sabreguard,
+		/obj/item/rogueweapon/sword/long/kriegmesser	  			= /obj/item/rogueweapon/sword/long/kriegmesser/sabreguard
+		)
+	result_item = null
+
+/obj/item/enchantingkit/triumph_weaponkit_psy
+	name = "'Psycrucifix' longsword morphing elixir"
+	desc = "A small container of special morphing dust, perfect to make a specific item. It can be used to alter the appearance of.. </br>..a Steel Longsword.. </br>..or a Psydonic Longsword."
+	target_items = list(/obj/item/rogueweapon/sword/long)
+	result_item = /obj/item/rogueweapon/sword/long/triumph/psycrucifix
+	target_items = list(
+		/obj/item/rogueweapon/sword/long						= /obj/item/rogueweapon/sword/long/triumph/psycrucifix,
+		/obj/item/rogueweapon/sword/long/psysword	  			= /obj/item/rogueweapon/sword/long/psysword/psycrucifix
+		)
+	result_item = null

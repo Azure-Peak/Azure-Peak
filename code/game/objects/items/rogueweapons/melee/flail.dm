@@ -2,7 +2,7 @@
 	force = 25
 	possible_item_intents = list(/datum/intent/flail/strike, /datum/intent/mace/smash/flail)
 	name = "flail"
-	desc = "This is a swift, iron flail. Strikes hard and far."
+	desc = "A spiked macehead and wooden handle, linked together with a length of chain. It can be spun around to smash armored opponents with tremendous force, cracking plate and bone alike with unflinching impunity."
 	icon_state = "iflail"
 	icon = 'icons/roguetown/weapons/blunt32.dmi'
 	sharpness = IS_BLUNT
@@ -114,10 +114,20 @@
 	icon_state = "aflail"
 	smeltresult = /obj/item/ingot/aaslag
 
+/obj/item/rogueweapon/flail/bronze
+	force = 27
+	throwforce = 20
+	max_integrity = 150
+	icon_state = "bronzeflail"
+	name = "bronze flail"
+	desc = "A studded weight and a whittled handle, linked together with a length of bronze chain. It can be spun around to smash armored opponents with tremendous force, cracking plate and bone alike with unflinching impunity."
+	smeltresult = /obj/item/ingot/bronze
+	minstr = 7
+
 /obj/item/rogueweapon/flail/sflail
 	force = 30
 	icon_state = "flail"
-	desc = "This is a swift, steel flail. Strikes hard and far."
+	desc = "A flanged macehead and a carved handle, linked together with a length of steel chain. It can be spun around to smash armored opponents with tremendous force, cracking plate and bone alike with unflinching impunity."
 	smeltresult = /obj/item/ingot/steel
 	minstr = 5
 
@@ -233,6 +243,14 @@
 				return list("shrink" = 0.6,"sx" = -7,"sy" = 2,"nx" = 7,"ny" = 3,"wx" = -2,"wy" = 1,"ex" = 1,"ey" = 1,"northabove" = 0,"southabove" = 1,"eastabove" = 1,"westabove" = 0,"nturn" = -38,"sturn" = 37,"wturn" = 30,"eturn" = -30,"nflip" = 0,"sflip" = 8,"wflip" = 8,"eflip" = 0)
 			if("wielded")
 				return list("shrink" = 0.6,"sx" = 5,"sy" = -3,"nx" = -5,"ny" = -2,"wx" = -5,"wy" = -1,"ex" = 3,"ey" = -2,"northabove" = 0,"southabove" = 1,"eastabove" = 1,"westabove" = 0,"nturn" = 7,"sturn" = -7,"wturn" = 16,"eturn" = -22,"nflip" = 8,"sflip" = 0,"wflip" = 8,"eflip" = 0)
+
+/obj/item/rogueweapon/flail/peasantwarflail/iron
+	name = "greatflail"
+	desc = "The lucerne's ungaitly cousin, favoring a 'ball-and-chain' design that - once spun - can devastate anything caught in its way; a trait that makes it dearly beloved by both peasantry and knights alike."
+	icon_state = "greatflail"
+	wdefense = 6
+	minstr = 10
+	anvilrepair = /datum/skill/craft/weaponsmithing
 
 /obj/item/rogueweapon/flail/peasantwarflail/matthios
 	name = "gilded flail"

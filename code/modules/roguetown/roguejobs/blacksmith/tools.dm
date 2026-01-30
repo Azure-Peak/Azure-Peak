@@ -17,6 +17,17 @@
 	grid_height = 64
 	var/quality = 1
 
+/obj/item/rogueweapon/hammer/getonmobprop(tag)
+	. = ..()
+	if(tag)
+		switch(tag)
+			if("gen")
+				return list("shrink" = 0.6,"sx" = -11,"sy" = -8,"nx" = 12,"ny" = -8,"wx" = -5,"wy" = -8,"ex" = 6,"ey" = -8,"northabove" = 0,"southabove" = 1,"eastabove" = 1,"westabove" = 0,"nturn" = 90,"sturn" = -90,"wturn" = -90,"eturn" = 90,"nflip" = 0,"sflip" = 8,"wflip" = 8,"eflip" = 0)
+			if("wielded")
+				return list("shrink" = 0.7,"sx" = 5,"sy" = -4,"nx" = -5,"ny" = -4,"wx" = -5,"wy" = -3,"ex" = 7,"ey" = -4,"northabove" = 0,"southabove" = 1,"eastabove" = 1,"westabove" = 0,"nturn" = -45,"sturn" = 45,"wturn" = -45,"eturn" = 45,"nflip" = 8,"sflip" = 0,"wflip" = 8,"eflip" = 0)
+			if("onbelt")
+				return list("shrink" = 0.5,"sx" = -2,"sy" = -5,"nx" = 4,"ny" = -5,"wx" = 0,"wy" = -5,"ex" = 2,"ey" = -5,"nturn" = 0,"sturn" = 0,"wturn" = 0,"eturn" = 0,"nflip" = 0,"sflip" = 0,"wflip" = 0,"eflip" = 0,"northabove" = 0,"southabove" = 1,"eastabove" = 1,"westabove" = 0)
+
 /obj/item/rogueweapon/hammer/attack_hand(mob/living/user)
 	if(HAS_TRAIT(user, TRAIT_CURSE_MALUM))
 		to_chat(user, span_warning("Your cursed hands burn at the touch of the hammer!"))
@@ -205,7 +216,13 @@
 	color = "#bb9696"
 	sellprice = 15
 
-
+/obj/item/rogueweapon/hammer/bronze
+	name = "bronze hammer"
+	desc = "'I've been gripping this thing since before I could even walk - I didn't choose this, this is who I am. I just strike it. I don't think.' </br>'I spent my youth desperate to forge a better sword, become a more skilled smith, before I knew it..' </br>'I was old.' </br>'I don't even know what the hell I strike the iron for. But there is still one thing I like about it..' </br>'..the sparks. I like seeing sparks.. ..breathtaking, life, bursting before my eyes for just a moment..'"
+	icon_state = "hammer_bronze"
+	smeltresult = /obj/item/ingot/bronze
+	force = 24
+	max_integrity = 300
 
 /obj/item/rogueweapon/hammer/copper
 	name = "copper hammer"
@@ -244,7 +261,6 @@
 	..()
 */
 /obj/item/rogueweapon/hammer/blacksteel
-	force = 25
 	name = "blacksteel hammer"
 	desc = "A hammer made of blacksteel, to drive even the hardest metals into submission."
 	icon = 'icons/roguetown/weapons/tools.dmi'
@@ -252,35 +268,20 @@
 	item_state = "bs_masterhammer"
 	quality = 2
 	smeltresult = /obj/item/ingot/blacksteel
+	max_integrity = 450
+	force = 28
 
-/obj/item/rogueweapon/hammer/getonmobprop(tag)
+/obj/item/rogueweapon/hammer/blacksteel/getonmobprop(tag)
 	. = ..()
 	if(tag)
 		switch(tag)
 			if("gen")
-				return list("shrink" = 0.6,
-"sx" = -15,
-"sy" = -12,
-"nx" = 9,
-"ny" = -11,
-"wx" = -11,
-"wy" = -11,
-"ex" = 1,
-"ey" = -12,
-"northabove" = 0,
-"southabove" = 1,
-"eastabove" = 1,
-"westabove" = 0,
-"nturn" = 90,
-"sturn" = -90,
-"wturn" = -90,
-"eturn" = 90,
-"nflip" = 0,
-"sflip" = 8,
-"wflip" = 8,
-"eflip" = 0)
+				return list("shrink" = 0.6,"sx" = -11,"sy" = -8,"nx" = 12,"ny" = -8,"wx" = -5,"wy" = -8,"ex" = 6,"ey" = -8,"northabove" = 0,"southabove" = 1,"eastabove" = 1,"westabove" = 0,"nturn" = 90,"sturn" = -90,"wturn" = -90,"eturn" = 90,"nflip" = 0,"sflip" = 8,"wflip" = 8,"eflip" = 0)
+			if("wielded")
+				return list("shrink" = 0.7,"sx" = 5,"sy" = -4,"nx" = -5,"ny" = -4,"wx" = -5,"wy" = -3,"ex" = 7,"ey" = -4,"northabove" = 0,"southabove" = 1,"eastabove" = 1,"westabove" = 0,"nturn" = -45,"sturn" = 45,"wturn" = -45,"eturn" = 45,"nflip" = 8,"sflip" = 0,"wflip" = 8,"eflip" = 0)
 			if("onbelt")
-				return list("shrink" = 0.3,"sx" = -2,"sy" = -5,"nx" = 4,"ny" = -5,"wx" = 0,"wy" = -5,"ex" = 2,"ey" = -5,"nturn" = 0,"sturn" = 0,"wturn" = 0,"eturn" = 0,"nflip" = 0,"sflip" = 0,"wflip" = 0,"eflip" = 0,"northabove" = 0,"southabove" = 1,"eastabove" = 1,"westabove" = 0)
+				return list("shrink" = 0.5,"sx" = -2,"sy" = -5,"nx" = 4,"ny" = -5,"wx" = 0,"wy" = -5,"ex" = 2,"ey" = -5,"nturn" = 0,"sturn" = 0,"wturn" = 0,"eturn" = 0,"nflip" = 0,"sflip" = 0,"wflip" = 0,"eflip" = 0,"northabove" = 0,"southabove" = 1,"eastabove" = 1,"westabove" = 0)
+
 
 /obj/item/rogueweapon/tongs
 	force = 10
@@ -353,29 +354,11 @@
 	if(tag)
 		switch(tag)
 			if("gen")
-				return list("shrink" = 0.6,
-"sx" = -15,
-"sy" = -12,
-"nx" = 9,
-"ny" = -11,
-"wx" = -11,
-"wy" = -11,
-"ex" = 1,
-"ey" = -12,
-"northabove" = 0,
-"southabove" = 1,
-"eastabove" = 1,
-"westabove" = 0,
-"nturn" = 90,
-"sturn" = -90,
-"wturn" = -90,
-"eturn" = 90,
-"nflip" = 0,
-"sflip" = 8,
-"wflip" = 8,
-"eflip" = 0)
+				return list("shrink" = 0.6,"sx" = -11,"sy" = -8,"nx" = 12,"ny" = -8,"wx" = -5,"wy" = -8,"ex" = 6,"ey" = -8,"northabove" = 0,"southabove" = 1,"eastabove" = 1,"westabove" = 0,"nturn" = 90,"sturn" = -90,"wturn" = -90,"eturn" = 90,"nflip" = 0,"sflip" = 8,"wflip" = 8,"eflip" = 0)
+			if("wielded")
+				return list("shrink" = 0.7,"sx" = 5,"sy" = -4,"nx" = -5,"ny" = -4,"wx" = -5,"wy" = -3,"ex" = 7,"ey" = -4,"northabove" = 0,"southabove" = 1,"eastabove" = 1,"westabove" = 0,"nturn" = -45,"sturn" = 45,"wturn" = -45,"eturn" = 45,"nflip" = 8,"sflip" = 0,"wflip" = 8,"eflip" = 0)
 			if("onbelt")
-				return list("shrink" = 0.3,"sx" = -2,"sy" = -5,"nx" = 4,"ny" = -5,"wx" = 0,"wy" = -5,"ex" = 2,"ey" = -5,"nturn" = 0,"sturn" = 0,"wturn" = 0,"eturn" = 0,"nflip" = 0,"sflip" = 0,"wflip" = 0,"eflip" = 0,"northabove" = 0,"southabove" = 1,"eastabove" = 1,"westabove" = 0)
+				return list("shrink" = 0.5,"sx" = -2,"sy" = -5,"nx" = 4,"ny" = -5,"wx" = 0,"wy" = -5,"ex" = 2,"ey" = -5,"nturn" = 0,"sturn" = 0,"wturn" = 0,"eturn" = 0,"nflip" = 0,"sflip" = 0,"wflip" = 0,"eflip" = 0,"northabove" = 0,"southabove" = 1,"eastabove" = 1,"westabove" = 0)
 
 /obj/item/rogueweapon/tongs/stone
 	name = "stone tongs"
@@ -414,6 +397,26 @@
 		else
 			icon_state = "atongsi0"
 
+/obj/item/rogueweapon/tongs/bronze
+	name = "bronze tongs"
+	desc = "Pincers of bronze, handled of wood. Plunge into the coals without fear of burning, so that you may command alloy-and-stone to morph as you please."
+	icon_state = "bronzetongs"
+	wdefense = 6
+	smeltresult = /obj/item/ingot/bronze
+	icon = 'icons/roguetown/weapons/tools.dmi'
+	force = 14
+	max_integrity = 300
+
+/obj/item/rogueweapon/tongs/bronze/update_icon()
+	. = ..()
+	if(!hingot)
+		icon_state = "bronzetongs"
+	else
+		if(hott)
+			icon_state = "bronzetongsi1"
+		else
+			icon_state = "bronzetongsi0"
+
 /obj/item/rogueweapon/tongs/blacksteel
 	name = "blacksteel tongs"
 	desc = "A pair of blacksteel jaws almost certainly used as a sign of prestige."
@@ -421,6 +424,8 @@
 	wdefense = 6
 	icon = 'icons/roguetown/weapons/tools.dmi'
 	smeltresult = /obj/item/ingot/blacksteel
+	force = 20
+	max_integrity = 450
 
 /obj/item/rogueweapon/tongs/blacksteel/update_icon()
 	. = ..()

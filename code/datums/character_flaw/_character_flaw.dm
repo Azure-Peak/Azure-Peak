@@ -701,15 +701,28 @@ GLOBAL_LIST_INIT(averse_factions, list(
 				count++
 				if(count >= 2)
 					user.add_stress(/datum/stressevent/averse)
+					break
 				if(paid_triumphs)
 					triumph_refund(user)
 
 
 /datum/charflaw/averse/proc/check_aversion(mob/user, mob/target)
-	if(target != user && target.stat != DEAD)
-		var/datum/job/J = SSjob.GetJob(target.job)
-		if(chosen_group & J.department_flag)
-			return TRUE
+	if(target == user || target.stat == DEAD)
+		return FALSE
+
+	if(!ishuman(target))
+		return FALSE
+
+	var/datum/job/J = SSjob.GetJob(target.job)
+	if(!J || !J.department_flag)
+		return FALSE
+
+	if(!chosen_group)
+		return FALSE
+
+	if(chosen_group & J.department_flag)
+		return TRUE
+
 	return FALSE
 
 /datum/charflaw/averse/proc/triumph_refund(mob/user)
@@ -738,30 +751,40 @@ GLOBAL_LIST_INIT(averse_factions, list(
 		CRASH("Invalid set_jobflag called from Averse charflaw using the faction:[faction].")
 
 /datum/charflaw/averse/proc/check_for_candidates(mob/user)
-	if(user.mind)
-		var/averse_found = FALSE
-		for(var/mob/living/player in GLOB.player_list)
-			if(player != user)
-				if(ishuman(player))
-					var/datum/job/J = SSjob.GetJob(player.job)
-					if(chosen_group & J.department_flag)
-						averse_found = TRUE
-						break
-		if(!averse_found)
-			var/list/options = list("Pick a Random Aversion", "Keep Current (-3 TRI)")
-			var/choice = input(user, "There are no viable candidates for your Aversion. What do you do?", "AVERSION ALERT") as anything in options
-			if(choice == "Keep Current (-3 TRI)" || !choice)
-				user.adjust_triumphs(-3)
-				paid_triumphs = TRUE
-			else if(choice == "Pick a Random Aversion")
-				var/new_aversion
-				var/max_attempts = 10
-				for(var/i = 1 to max_attempts)
-					new_aversion = pick(GLOB.averse_factions)
-					if(new_aversion != chosen_group)
-						to_chat(user, span_info("New Aversion selected: [new_aversion]"))
-						set_jobflag(new_aversion)
-						break
+	if(!user || QDELETED(user) || !user.mind)
+		return
+
+	var/averse_found = FALSE
+	for(var/mob/living/player in GLOB.player_list)
+		if(player == user)
+			continue
+		if(!ishuman(player))
+			continue
+
+		var/datum/job/J = SSjob.GetJob(player.job)
+		if(!J || !J.department_flag)
+			continue
+		if(!chosen_group)
+			return FALSE
+
+		if(chosen_group & J.department_flag)
+			averse_found = TRUE
+			break
+	if(!averse_found)
+		var/list/options = list("Pick a Random Aversion", "Keep Current (-3 TRI)")
+		var/choice = input(user, "There are no viable candidates for your Aversion. What do you do?", "AVERSION ALERT") as anything in options
+		if(choice == "Keep Current (-3 TRI)" || !choice)
+			user.adjust_triumphs(-3)
+			paid_triumphs = TRUE
+		else if(choice == "Pick a Random Aversion")
+			var/new_aversion
+			var/max_attempts = 10
+			for(var/i = 1 to max_attempts)
+				new_aversion = pick(GLOB.averse_factions)
+				if(new_aversion != chosen_group)
+					to_chat(user, span_info("New Aversion selected: [new_aversion]"))
+					set_jobflag(new_aversion)
+					break
 
 
 /datum/charflaw/averse/apply_post_equipment(mob/user)
@@ -770,6 +793,8 @@ GLOBAL_LIST_INIT(averse_factions, list(
 			set_jobflag(user.client.prefs?.averse_chosen_faction)
 			is_active = TRUE
 			active_since = world.time
-	addtimer(CALLBACK(src, PROC_REF(check_for_candidates), user), 5 SECONDS)
+	if(is_active && user && !QDELETED(user))
+		addtimer(CALLBACK(src, PROC_REF(check_for_candidates), user), 5 SECONDS)
+
 
 

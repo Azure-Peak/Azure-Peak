@@ -113,8 +113,8 @@
 	if(!mob.fixedeye)
 		mob.tempfixeye = TRUE
 		mob.nodirchange = TRUE
-		for(var/atom/movable/screen/eye_intent/eyet in mob.hud_used.static_inventory)
-			eyet.update_icon(mob)
+		// for(var/atom/movable/screen/eye_intent/eyet in mob.hud_used.static_inventory)
+		// 	eyet.update_icon(mob)
 
 	if(delay)
 		selected_target[1] = object
@@ -214,9 +214,9 @@
 	if(!mob.fixedeye && !mob.tempfixeye)
 		mob.nodirchange = FALSE
 
-	if(mob.hud_used)
-		for(var/atom/movable/screen/eye_intent/eyet in mob.hud_used.static_inventory)
-			eyet.update_icon(mob) //Update eye icon
+	// if(mob.hud_used)
+	// 	for(var/atom/movable/screen/eye_intent/eyet in mob.hud_used.static_inventory)
+	// 		eyet.update_icon(mob) //Update eye icon
 
 	if(!mob.atkswinging)
 		return

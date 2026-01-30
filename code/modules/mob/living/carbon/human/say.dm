@@ -63,7 +63,7 @@
 		switch(voice_type)
 			if(VOICE_TYPE_FEM)
 				voice_gender = "Woman"
-			if(VOICE_TYPE_MASC, VOICE_TYPE_MASC_FOP)
+			if(VOICE_TYPE_MASC)
 				voice_gender = "Man"
 			if(VOICE_TYPE_ANDR)
 				voice_gender = "Person"

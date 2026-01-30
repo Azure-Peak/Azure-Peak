@@ -88,7 +88,7 @@
 	switch(weapon_choice)
 		if("Psydonic Longsword")
 			H.put_in_hands(new /obj/item/rogueweapon/sword/long/psysword(H))
-			H.put_in_hands(new /obj/item/rogueweapon/scabbard/sword(H))
+			H.put_in_hands(new /obj/item/rogueweapon/scabbard/sword/noble(H))
 			H.adjust_skillrank_up_to(/datum/skill/combat/swords, 4, TRUE)
 		if("Psydonic War Axe")
 			H.put_in_hands(new /obj/item/rogueweapon/stoneaxe/battle/psyaxe(H))

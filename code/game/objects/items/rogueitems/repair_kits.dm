@@ -136,8 +136,8 @@
 	if(!isitem(O))
 		return
 	var/obj/item/I = O
-	if(I.anvilrepair || I == /obj/item/scrap)
-		if(I.smeltresult == /obj/item/ingot/iron || I == /obj/item/scrap) //all iron stuff and iron scrap
+	if(I.anvilrepair || I.type == /obj/item/scrap)
+		if(I.smeltresult == /obj/item/ingot/iron || I.type == /obj/item/scrap) //all iron stuff and iron scrap
 			if(!do_after(user, 2 SECONDS, target = I))
 				return
 			user.visible_message(span_notice("[user] salvages [I] into usable materials."))

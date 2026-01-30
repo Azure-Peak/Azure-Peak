@@ -55,7 +55,7 @@
 			if(target.hellbound && target.stat == DEAD)
 				return BULLET_ACT_BLOCK
 			if(target.revive(full_heal = TRUE, admin_revive = TRUE))
-				target.grab_ghost(force = TRUE) // even suicides
+				(force = TRUE) // even suicides
 				to_chat(target, span_notice("I rise with a start, you're alive!!!"))
 			else if(target.stat != DEAD)
 				to_chat(target, span_notice("I feel great!"))

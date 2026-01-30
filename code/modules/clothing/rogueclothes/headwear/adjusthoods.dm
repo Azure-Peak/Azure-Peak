@@ -209,6 +209,29 @@
 	salvage_amount = 1
 	block2add = null
 
+// UN-Holy Hoods!
+/obj/item/clothing/head/roguetown/roguehood/unholy
+	name = "foreboding hood"
+	desc = "A veil to the cultic and capricious. The runic sigils stitched along the hems teem with unimaginable knowledge, in the most literal sense of the word."
+	max_integrity = ARMOR_INT_HELMET_CLOTH
+	armor = ARMOR_PADDED
+	color = null
+	item_state = "warlockhood"
+	icon_state = "warlockhood"
+
+/obj/item/clothing/head/roguetown/roguehood/unholy/lich
+	name = "ominous hood"
+	desc = "An otherworldly veil, whispering the constant ponderances of a runic enigma. She watches over you; and Her grin is crooked into one of eternal malice."
+	max_integrity = ARMOR_INT_HELMET_ANTAG 
+
+/obj/item/clothing/head/roguetown/roguehood/unholy/enchanted
+	name = "ominously enchanted hood"
+	desc = "An otherworldly veil, amythortz-woven and crackling with the unignorable truths of a runic enigma. She watches over you; and Her grin is crooked into one of eternal malice."
+	max_integrity = ARMOR_INT_HELMET_ANTAG 
+	armor = ARMOR_SPELLSINGER
+	item_state = "ewarlockhood"
+	icon_state = "ewarlockhood"
+
 //............... Feldshers Hood ............... //
 /obj/item/clothing/head/roguetown/roguehood/feld
 	name = "feldsher's hood"
@@ -248,6 +271,16 @@
 	desc = "A billowing hood, carrying the aroma of smoldering charcoal."
 	icon_state = "surghood"
 	item_state = "surghood"
+	body_parts_covered = HEAD|EARS|NOSE
+	color = null
+	salvage_result = /obj/item/natural/cloth
+	salvage_amount = 1
+
+/obj/item/clothing/head/roguetown/roguehood/shroudwhite
+	name = "robed shroud"
+	desc = "A billowing hood, carrying the aroma of a distant memory."
+	icon_state = "whitehood"
+	item_state = "whitehood"
 	body_parts_covered = HEAD|EARS|NOSE
 	color = null
 	salvage_result = /obj/item/natural/cloth

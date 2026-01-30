@@ -1603,9 +1603,9 @@
 	REMOVE_TRAIT(owner, TRAIT_HEAVYARMOR, src)
 
 /atom/movable/screen/alert/status_effect/buff/psydonic_endurance
-	name = "Psydonic Endurance"
-	desc = "I am protected by blessed Psydonian plate armor."
-	icon_state = "buff"
+	name = "Psydonic Vitality"
+	desc = "I feel blessed, underneath this holy armor!"
+	icon_state = "stressvg"
 
 #undef BLOODRAGE_FILTER
 

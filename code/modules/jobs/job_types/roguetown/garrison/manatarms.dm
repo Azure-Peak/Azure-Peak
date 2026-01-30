@@ -352,7 +352,7 @@
 // Unarmed goon - Dungeoneer replacement
 /datum/advclass/manorguard/bailiff
 	name = "Bailiff"
-	tutorial = "You are a professional soldier of the realm, specializing in melee warfare. Stalwart and hardy, your body can both withstand and dish out powerful strikes.."
+	tutorial = "Once, you held the tasking of an executioner; yet the dungeons have grown quiet, and the nooses limply sway in the breeze. Now, you serve a lesser office in the Lord's name - as a master of the fist-and-flail."
 	outfit = /datum/outfit/job/roguetown/manorguard/bailiff
 	maximum_possible_slots = 1 //Had one dungeoneer before, this is how many we get to keep still.
 
@@ -404,6 +404,7 @@
 		/obj/item/storage/keyring/manatarms = 1,
 		/obj/item/rogueweapon/scabbard/sheath = 1,
 		/obj/item/reagent_containers/glass/bottle/rogue/healthpot = 1,
+		/obj/item/clothing/head/roguetown/menacing/executioner = 1,
 		)
 	H.verbs |= /mob/proc/haltyell
 

@@ -27,6 +27,33 @@
 	AddComponent(/datum/component/armour_filtering/negative, TRAIT_FENCERDEXTERITY)
 	AddComponent(/datum/component/armour_filtering/negative, TRAIT_HONORBOUND)
 
+//
+
+/obj/item/clothing/suit/roguetown/armor/plate/cuirass/legacy
+    name = "valorian cuirass"
+    desc = "A steel cuirass. Do you still remember the first time you tasted blood; that sanguine succor, dribbling from a busted lip?"
+    icon_state = "legacycuirass"
+    item_state = "legacycuirass"
+
+/obj/item/clothing/suit/roguetown/armor/plate/legacy
+    name = "valorian half-plate"
+    desc = "A padded steel cuirass, 'adventurer-fitted' with a pair of pauldrons. Before you is your weapon; when was the last time you had ever thought without its presence?"
+    icon_state = "legacyhalfplate"
+    item_state = "legacyhalfplate"
+
+/obj/item/clothing/suit/roguetown/armor/plate/full/legacy
+    name = "valorian plate armor"
+    desc = "A complete set of steel plate armor, fitted with tassets and bracers for additional coverage. When the kingdom comes crashing down, will you deliver its people from evil; or will you be the one to string up 'pon the pyre?"
+    icon_state = "legacyplate"
+    item_state = "legacyplate"
+
+/obj/item/clothing/suit/roguetown/armor/plate/full/fluted/legacy
+    name = "valorian fluted plate armor"
+    desc = "A resplendant set of steel plate armor, decorated with silver flutings. Blessed dreamer, accursed heathen, lowly fool; the curtain call is a mere heartbeat away. Are you ready for one last dance, before midnight calls?"
+    icon_state = "legacyornateplate"
+    item_state = "legacyornateplate"
+//
+
 /obj/item/clothing/suit/roguetown/armor/plate/iron
 	name = "iron half-plate"
 	desc = "A padded iron cuirass, bottomed with segmented tassets. It is inexpensive yet robust; a desirable combination, which has long-since led to its proliferation amongst most of Psydonia's standing garrisons."
@@ -37,6 +64,19 @@
 	max_integrity = ARMOR_INT_CHEST_PLATE_IRON
 	armor_class = ARMOR_CLASS_MEDIUM
 	smeltresult = /obj/item/ingot/iron
+
+/obj/item/clothing/suit/roguetown/armor/plate/bronze
+	name = "bronze cuirass"
+	desc = "A chiseled breastplate of bronze, further padded with hide to comfort its championing bod. The plates have been carefully forged to mimic the statuesque physiques of Psydonia's ancient heroes. Wearing it bolsters you with determination."
+	body_parts_covered = CHEST | VITALS | LEGS 
+	icon_state = "bronzecuirass"
+	armor = ARMOR_PLATE_BRONZE
+	smeltresult = /obj/item/ingot/bronze
+	max_integrity = ARMOR_INT_CHEST_MEDIUM_BRONZE
+	armor_class = ARMOR_CLASS_MEDIUM
+	prevent_crits = PREVENT_CRITS_ALL
+	boobed = FALSE
+	smelt_bar_num = 2
 
 /obj/item/clothing/suit/roguetown/armor/plate/aalloy
 	name = "decrepit half-plate"
@@ -69,6 +109,7 @@
 	var/active_item = FALSE //Prevents issues like dragon ring giving negative str instead
 	var/legendaryarcane = FALSE
 	var/legendaryathletics = FALSE
+
 /obj/item/clothing/suit/roguetown/armor/plate/paalloy/artificer/Initialize()
 	.=..()
 	update_description()
@@ -358,11 +399,11 @@
 	strip_delay = 6 SECONDS
 	smelt_bar_num = 3
 
-/obj/item/clothing/suit/roguetown/armor/heartfelt/lord
+/obj/item/clothing/suit/roguetown/armor/heartfelt
 	slot_flags = ITEM_SLOT_ARMOR
 	name = "coat of armor"
 	desc = "A lordly coat of armor."
-	body_parts_covered = CHEST|GROIN|VITALS|LEGS|ARMS
+	body_parts_covered = COVERAGE_ALL_BUT_HANDFEET
 	icon_state = "heartfelt"
 	item_state = "heartfelt"
 	armor = ARMOR_PLATE
@@ -382,15 +423,7 @@
 	body_parts_covered = COVERAGE_ALL_BUT_HANDFEET
 	icon_state = "heartfelt_hand"
 	item_state = "heartfelt_hand"
-	armor = ARMOR_PLATE
-	allowed_sex = list(MALE, FEMALE)
-	nodismemsleeves = TRUE
-	blocking_behavior = null
-	max_integrity = ARMOR_INT_CHEST_PLATE_STEEL
-	anvilrepair = /datum/skill/craft/armorsmithing
-	smeltresult = /obj/item/ingot/steel
-	armor_class = ARMOR_CLASS_HEAVY
-	smelt_bar_num = 4
+
 
 /obj/item/clothing/suit/roguetown/armor/plate/otavan
 	name = "otavan half-plate"
@@ -471,7 +504,7 @@
 	anvilrepair = /datum/skill/craft/armorsmithing
 	smeltresult = /obj/item/ingot/steel
 	armor_class = ARMOR_CLASS_MEDIUM
-	smelt_bar_num = 2
+	smelt_bar_num = 1
 
 /obj/item/clothing/suit/roguetown/armor/plate/cuirass/fencer
 	name = "fencer's cuirass"
@@ -519,6 +552,30 @@
 
 	body_parts_covered = CHEST | VITALS | LEGS 
 	max_integrity = ARMOR_INT_CHEST_MEDIUM_STEEL
+
+/obj/item/clothing/suit/roguetown/armor/plate/cuirass/fluted/gold
+	name = "golden cuirass"
+	icon_state = "goldcuirass"
+	desc = "A resplendant cuirass of pure gold, fitted with tassets for additional coverage. It is dressed atop a besilked arming jacket to ensure the absolute comfort of its wearer, and the holy sigil has been meticulously formed from its slanted plates."
+	armor = ARMOR_GOLD //Renders its wearer completely invulnerable to damage. The caveat is, however..
+	max_integrity = ARMOR_INT_SIDE_GOLD // ..is that it's extraordinarily fragile, especially against blunt damage.
+	armor_class = ARMOR_CLASS_HEAVY
+	anvilrepair = null
+	smeltresult = /obj/item/ingot/gold
+	smelt_bar_num = 1
+	grid_height = 96
+	grid_width = 96
+	sellprice = 300
+
+/obj/item/clothing/suit/roguetown/armor/plate/cuirass/fluted/gold/heroic
+	name = "golden heroic cuirass"
+	icon_state = "heroiccuirass"
+	desc = "A resplendant cuirass of pure gold, fitted with tassets for additional coverage. It has been meticulously waxed-and-assembled from dozens of smaller golden plates, in order to replicate the statuesque physique of Psydonia's legendary heroes."
+
+/obj/item/clothing/suit/roguetown/armor/plate/cuirass/fluted/gold/king
+	name = "golden heroic cuirass"
+	max_integrity = ARMOR_INT_SIDE_GOLDPLUS // Doubled integrity.
+	sellprice = 400
 
 /obj/item/clothing/suit/roguetown/armor/plate/cuirass/fluted/ornate
 	name = "psydonic cuirass"
@@ -645,5 +702,3 @@
 	smeltresult = /obj/item/ingot/steel
 	armor_class = ARMOR_CLASS_MEDIUM
 	smelt_bar_num = 3
-
-	item_state = "ornateplate"
