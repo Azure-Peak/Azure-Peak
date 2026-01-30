@@ -26,9 +26,6 @@
 	effective_range_type = EFF_RANGE_NONE
 	sharpness_penalty = 3
 
-/datum/intent/spear/thrust/ducal_standard
-	penfactor = 30
-
 /datum/intent/spear/thrust/militia
 	penfactor = 40
 
@@ -192,7 +189,6 @@
 
 /datum/intent/spear/thrust/lance
 	damfactor = 1.5 // Turns its base damage into 30 on the 2hand thrust. It keeps the spear thrust one handed.
-	intent_intdamage_factor = BLUNT_DEFAULT_INT_DAMAGEFACTOR
 
 /datum/intent/lance/
 	name = "lance"
@@ -204,7 +200,6 @@
 	chargetime = 4 SECONDS
 	damfactor = 4 // 80 damage on hit. It is gonna hurt.
 	reach = 3 // Yep! 3 tiles
-	intent_intdamage_factor = BLUNT_DEFAULT_INT_DAMAGEFACTOR * 1.5
 
 /datum/intent/lance/onehand
 	chargetime = 5 SECONDS
@@ -285,7 +280,7 @@
 /obj/item/rogueweapon/spear
 	force = 22
 	force_wielded = 30
-	possible_item_intents = list(SPEAR_THRUST_1H, SPEAR_CUT_1H)
+	possible_item_intents = list(SPEAR_THRUST_1H, SPEAR_CUT_1H) 
 	gripped_intents = list(SPEAR_THRUST, SPEAR_CUT, SPEAR_BASH) //bash is for nonlethal takedowns, only targets limbs
 	name = "spear"
 	desc = "One of the oldest weapons still in use today, second only to the club. The lack of reinforcements along the shaft leaves it vulnerable to being split in two."
@@ -347,6 +342,7 @@
 	max_integrity = 225
 	throwforce = 30
 	possible_item_intents = list(SPEAR_THRUST, SPEAR_BASH, SPEAR_CAST)
+	smeltresult = /obj/item/ingot/bronze
 	fishingMods=list(
 		"commonFishingMod" = 0.8,
 		"rareFishingMod" = 1.4,
@@ -398,9 +394,9 @@
 									user.mind.add_sleep_experience(/datum/skill/labor/fishing, round(fisherman.STAINT, 2), FALSE)
 									record_featured_stat(FEATURED_STATS_FISHERS, fisherman)
 									GLOB.azure_round_stats[STATS_FISH_CAUGHT]++
-									playsound(src.loc, 'sound/items/Fish_out.ogg', 100, TRUE)
+									playsound(src.loc, 'sound/items/Fish_out.ogg', 100, TRUE)	
 							else
-								to_chat(user, "<span class='warning'>Damn, it got away... I should <b>pull away</b> next time.</span>")
+								to_chat(user, "<span class='warning'>Damn, it got away... I should <b>pull away</b> next time.</span>")								
 					else
 						to_chat(user, "<span class='warning'>Not a single fish...</span>")
 						user.mind.add_sleep_experience(/datum/skill/labor/fishing, fisherman.STAINT/2)
@@ -501,7 +497,7 @@
 	force = 18
 	force_wielded = 22
 	name = "bone spear"
-	desc = "A spear made of bones..."
+	desc = "Yesterday's hunt, tomorrow's weapon."
 	icon_state = "bonespear"
 	pixel_y = -16
 	pixel_x = -16
@@ -667,9 +663,9 @@
 									user.mind.add_sleep_experience(/datum/skill/labor/fishing, round(fisherman.STAINT, 2), FALSE) // Level up!
 									record_featured_stat(FEATURED_STATS_FISHERS, fisherman)
 									record_round_statistic(STATS_FISH_CAUGHT)
-									playsound(src.loc, 'sound/items/Fish_out.ogg', 100, TRUE)
+									playsound(src.loc, 'sound/items/Fish_out.ogg', 100, TRUE)	
 							else
-								to_chat(user, "<span class='warning'>Damn, it got away... I should <b>pull away</b> next time.</span>")
+								to_chat(user, "<span class='warning'>Damn, it got away... I should <b>pull away</b> next time.</span>")								
 					else
 						to_chat(user, "<span class='warning'>Not a single fish...</span>")
 						user.mind.add_sleep_experience(/datum/skill/labor/fishing, fisherman.STAINT/2) // Pity XP.
@@ -831,7 +827,7 @@
 		added_def = 2,\
 	)
 
-/obj/item/rogueweapon/halberd/psyhalberd
+/obj/item/rogueweapon/halberd/psyhalberd	
 	name = "psydonic halberd"
 	desc = "A reliable design that has served humenkind to fell the enemy and defend Psydon's flock - now fitted with a lengthier blade and twin, silver-tipped beaks."
 	icon_state = "silverhalberd"
@@ -870,9 +866,9 @@
 		switch(tag)
 			if("gen")
 				return list("shrink" = 0.6,"sx" = -7,"sy" = 2,"nx" = 7,"ny" = 3,"wx" = -2,"wy" = 1,"ex" = 1,"ey" = 1,"northabove" = 0,"southabove" = 1,"eastabove" = 1,"westabove" = 0,"nturn" = -38,"sturn" = 37,"wturn" = 30,"eturn" = -30,"nflip" = 0,"sflip" = 8,"wflip" = 8,"eflip" = 0)
-			if("wielded")
+			if("wielded") 
 				return list("shrink" = 0.6,"sx" = 3,"sy" = 4,"nx" = -1,"ny" = 4,"wx" = -8,"wy" = 3,"ex" = 7,"ey" = 0,"northabove" = 0,"southabove" = 1,"eastabove" = 1,"westabove" = 0,"nturn" = 0,"sturn" = 0,"wturn" = 0,"eturn" = 15,"nflip" = 8,"sflip" = 0,"wflip" = 8,"eflip" = 0)
-			if("onback")
+			if("onback") 
 				return list("shrink" = 0.5,"sx" = -1,"sy" = 2,"nx" = 0,"ny" = 2,"wx" = 2,"wy" = 1,"ex" = 0,"ey" = 1,"nturn" = 0,"sturn" = 0,"wturn" = 70,"eturn" = 15,"nflip" = 1,"sflip" = 1,"wflip" = 1,"eflip" = 1,"northabove" = 1,"southabove" = 0,"eastabove" = 0,"westabove" = 0)
 
 /// Ported from Scarlet Reach's Glaive. We're avoiding force increase because I hate roguepen. It can have better blade integrity and defense instead.
@@ -1009,9 +1005,31 @@
 			if("onback")
 				return list("shrink" = 0.6,"sx" = -1,"sy" = 2,"nx" = 0,"ny" = 2,"wx" = 2,"wy" = 1,"ex" = 0,"ey" = 1,"nturn" = 0,"sturn" = 0,"wturn" = 70,"eturn" = 15,"nflip" = 1,"sflip" = 1,"wflip" = 1,"eflip" = 1,"northabove" = 1,"southabove" = 0,"eastabove" = 0,"westabove" = 0)
 
+/obj/item/rogueweapon/greatsword/elfgsword
+	name = "elven kriegsmesser"
+	desc = "An elegant greatsword, crested with a glistening blade that - in spite of its intimidating length - is mysteriously light. Unlike most elven masterworks, the grip is dressed in rosaleather; a foreboding symbol, christening it as a weapon of war against those who'd threaten elvekind."
+	icon_state = "elfkriegmesser"
+	item_state = "elfkriegmesser"
+	minstr = 10
+	wdefense = 7
+	sellprice = 120
+
+/obj/item/rogueweapon/greatsword/elfgsword/getonmobprop(tag)
+	. = ..()
+	if(tag)
+		switch(tag)
+			if("gen")
+				return list("shrink" = 0.6,"sx" = -6,"sy" = 6,"nx" = 6,"ny" = 7,"wx" = 0,"wy" = 5,"ex" = -1,"ey" = 7,"northabove" = 0,"southabove" = 1,"eastabove" = 1,"westabove" = 0,"nturn" = -50,"sturn" = 40,"wturn" = 50,"eturn" = -50,"nflip" = 0,"sflip" = 8,"wflip" = 8,"eflip" = 0)
+			if("altgrip")
+				return list("shrink" = 0.6,"sx" = -6,"sy" = 6,"nx" = 6,"ny" = 7,"wx" = 0,"wy" = 5,"ex" = -1,"ey" = 7,"northabove" = 0,"southabove" = 1,"eastabove" = 1,"westabove" = 0,"nturn" = 85,"sturn" = 265,"wturn" = 275,"eturn" = 85,"nflip" = 0,"sflip" = 8,"wflip" = 8,"eflip" = 0)
+			if("wielded")
+				return list("shrink" = 0.6,"sx" = 9,"sy" = -4,"nx" = -7,"ny" = 1,"wx" = -9,"wy" = 2,"ex" = 10,"ey" = 2,"northabove" = 0,"southabove" = 1,"eastabove" = 1,"westabove" = 0,"nturn" = 5,"sturn" = -190,"wturn" = -170,"eturn" = -10,"nflip" = 4,"sflip" = 4,"wflip" = 1,"eflip" = 0)
+			if("onback")
+				return list("shrink" = 0.6,"sx" = -1,"sy" = 3,"nx" = -1,"ny" = 2,"wx" = 3,"wy" = 4,"ex" = -1,"ey" = 5,"nturn" = 0,"sturn" = 0,"wturn" = 70,"eturn" = 20,"nflip" = 1,"sflip" = 1,"wflip" = 1,"eflip" = 1,"northabove" = 1,"southabove" = 0,"eastabove" = 0,"westabove" = 0)
+
 /obj/item/rogueweapon/greatsword/iron
 	name = "iron greatsword"
-	desc = "Wrought in iron. Heftier and less sturdier than its steel equivalent - but it still does the job."
+	desc = "A massive sword of iron, requiring both hands to properly wield. Heftier and less sturdier than its steel equivalent - but it still does the job."
 	icon_state = "igsw"
 	max_blade_int = 200
 	max_integrity = 200
@@ -1067,6 +1085,7 @@
 	max_blade_int = 180
 	max_integrity = 130
 	wdefense = 6
+
 /obj/item/rogueweapon/greatsword/grenz/flamberge/getonmobprop(tag)
 	. = ..()
 	if(tag)
@@ -1459,7 +1478,7 @@
 	icon_state = "boarspear"
 	force_wielded = 33 // 10% base damage increase
 	wdefense = 6 // A little bit extra
-	max_blade_int = 200
+	max_blade_int = 200 
 	smeltresult = /obj/item/ingot/steel
 
 /obj/item/rogueweapon/spear/boar/frei
@@ -1474,7 +1493,7 @@
 	icon = 'icons/roguetown/weapons/polearms64.dmi'
 	icon_state = "lance"
 	force = 15 // Its gonna sucks for 1 handed use
-	force_wielded = 20 // Lower damage because a 3 tiles thrust without full charge time still deal base damage.
+	force_wielded = 20 // Lower damage because a 3 tiles thrust without full charge time still deal base damage. 
 	wdefense = 4 // 2 Lower than spear
 	max_integrity = 200
 	max_blade_int = 200 // Better sharpness
@@ -1495,7 +1514,7 @@
 	minstr = 7
 	max_blade_int = 150 //Nippon suteeru (dogshit)
 	wdefense = 5
-	throwforce = 12	//Not a throwing weapon.
+	throwforce = 12	//Not a throwing weapon. 
 	icon_angle_wielded = 50
 	smeltresult = /obj/item/ingot/steel
 
@@ -1526,107 +1545,3 @@
 	icon_state = "assegai_steel"
 	gripsprite = FALSE
 	smeltresult = /obj/item/ingot/steel
-
-/////////////////////
-// Special Weapon! //
-/////////////////////
-
-
-/datum/intent/sword/thrust/estoc/dragonslayer
-	name = "impale"
-	icon_state = "inimpale"
-	penfactor = 55
-	attack_verb = list("impales", "runs through")
-	reach = 3
-	damfactor = 1.25
-	clickcd = 55
-	swingdelay = 15
-
-/datum/intent/sword/chop/dragonslayer
-	name = "eviscerate"
-	icon_state = "inrend"
-	blade_class = BCLASS_CHOP
-	attack_verb = list("splits", "eviscerates")
-	animname = "chop"
-	hitsound = list('sound/combat/hits/bladed/genchop (1).ogg', 'sound/combat/hits/bladed/genchop (2).ogg', 'sound/combat/hits/bladed/genchop (3).ogg')
-	penfactor = 40
-	damfactor = 2
-	swingdelay = 15
-	reach = 2
-	clickcd = 55
-	item_d_type = "slash"
-
-/datum/intent/sword/smash/dragonslayer
-	name = "pulverize"
-	blade_class = BCLASS_SMASH
-	attack_verb = list("clangs", "pulverizes")
-	hitsound = list('sound/combat/hits/blunt/frying_pan(1).ogg', 'sound/combat/hits/blunt/frying_pan(2).ogg', 'sound/combat/hits/blunt/frying_pan(3).ogg', 'sound/combat/hits/blunt/frying_pan(4).ogg')
-	penfactor = BLUNT_DEFAULT_PENFACTOR
-	reach = 2
-	damfactor = 2.5
-	swingdelay = 25
-	clickcd = 55
-	icon_state = "insmash"
-	item_d_type = "blunt"
-
-/datum/intent/sword/sucker_punch/dragonslayer
-	name = "unevadable haymaker"
-	icon_state = "inpunch"
-	attack_verb = list("punches", "throttles", "clocks")
-	animname = "strike"
-	blade_class = BCLASS_BLUNT
-	hitsound = list('sound/combat/hits/blunt/bluntsmall (1).ogg', 'sound/combat/hits/blunt/bluntsmall (2).ogg', 'sound/combat/hits/kick/kick.ogg')
-	damfactor = 4
-	penfactor = BLUNT_DEFAULT_PENFACTOR
-	clickcd = 55
-	recovery = 15
-	item_d_type = "blunt"
-	canparry = FALSE
-	candodge = FALSE
-
-/datum/intent/sword/flay/dragonslayer
-	name = "flay"
-	icon_state = "inpeel"
-	attack_verb = list("<font color ='#e7e7e7'>flays</font>")
-	animname = "cut"
-	blade_class = BCLASS_PEEL
-	hitsound = list('sound/combat/hits/blunt/frying_pan(1).ogg', 'sound/combat/hits/blunt/frying_pan(2).ogg', 'sound/combat/hits/blunt/frying_pan(3).ogg', 'sound/combat/hits/blunt/frying_pan(4).ogg')
-	reach = 2
-	penfactor = BLUNT_DEFAULT_PENFACTOR
-	swingdelay = 15
-	clickcd = 50
-	damfactor = 0.5
-	item_d_type = "slash"
-	peel_divisor = 1
-
-//
-
-/obj/item/rogueweapon/greatsword/psygsword/dragonslayer
-	name = "\"Daemonslayer\""
-	desc = "'That thing was too big to be called a sword. Too big, too thick, too heavy, and too rough. No, it was more like a large hunk of silver.' </br>Intimidatingly massive, unfathomably powerful, and - above all else - a testament to one's guts."
-	icon_state = "machaslayer"
-	icon = 'icons/roguetown/weapons/swords64.dmi'
-	wlength = WLENGTH_GREAT
-	w_class = WEIGHT_CLASS_BULKY
-	possible_item_intents = list(/datum/intent/sword/thrust/estoc/dragonslayer, /datum/intent/sword/sucker_punch/dragonslayer)
-	gripped_intents = list(/datum/intent/sword/chop/dragonslayer, /datum/intent/sword/thrust/estoc/dragonslayer, /datum/intent/sword/smash/dragonslayer, /datum/intent/sword/flay/dragonslayer)
-	force = 35
-	force_wielded = 55
-	minstr = 15
-	wdefense = 15
-	max_integrity = 555
-	max_blade_int = 555
-	alt_intents = null
-	is_silver = TRUE
-	smeltresult = /obj/item/rogueweapon/greatsword/silver //Too thick to completely melt.
-
-/obj/item/rogueweapon/greatsword/psygsword/dragonslayer/ComponentInitialize()
-	AddComponent(\
-		/datum/component/silverbless,\
-		pre_blessed = BLESSING_PSYDONIAN,\
-		silver_type = SILVER_PSYDONIAN,\
-		added_force = 0,\
-		added_blade_int = 0,\
-		added_int = 0,\
-		added_def = 0,\
-	)

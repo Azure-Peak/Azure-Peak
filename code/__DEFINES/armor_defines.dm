@@ -8,10 +8,12 @@
 // Helmet
 #define ARMOR_INT_HELMET_ANTAG 600
 #define ARMOR_INT_HELMET_BLACKSTEEL 500
+#define ARMOR_INT_HELMET_HEAVY_BRONZE 450
 #define ARMOR_INT_HELMET_HEAVY_STEEL 400
 #define ARMOR_INT_HELMET_HEAVY_IRON 300
 #define ARMOR_INT_HELMET_HEAVY_DECREPIT 200
 #define ARMOR_INT_HELMET_HEAVY_ADJUSTABLE_PENALTY 50 // Integrity reduction, if a helmet is adjustable
+#define ARMOR_INT_HELMET_BRONZE 350 //More integrity, less protection.
 #define ARMOR_INT_HELMET_STEEL 300 
 #define ARMOR_INT_HELMET_IRON 225
 #define ARMOR_INT_HELMET_HARDLEATHER 250
@@ -23,13 +25,18 @@
 // HEAVY
 #define ARMOR_INT_CHEST_PLATE_ANTAG 700
 #define ARMOR_INT_CHEST_PLATE_BLACKSTEEL 600
+#define ARMOR_INT_CHEST_PLATE_BRONZE 550 //More integrity, less protection.
 #define ARMOR_INT_CHEST_PLATE_STEEL 500
-#define ARMOR_INT_CHEST_PLATE_BRIGANDINE 350
+#define ARMOR_INT_CHEST_PLATE_STEELLIGHT 450
 #define ARMOR_INT_CHEST_PLATE_PSYDON 400 // You get free training, less int
 #define ARMOR_INT_CHEST_PLATE_IRON 375
+#define ARMOR_INT_CHEST_PLATE_BRIGANDINE 350
+#define ARMOR_INT_CHEST_PLATE_IRONLIGHT 325
 #define ARMOR_INT_CHEST_PLATE_DECREPIT 250
+#define ARMOR_INT_CHEST_PLATE_DECREPITLIGHT 200
 
 // MEDIUM
+#define ARMOR_INT_CHEST_MEDIUM_BRONZE 350 //More integrity, less protection.
 #define ARMOR_INT_CHEST_MEDIUM_STEEL 300
 #define ARMOR_INT_CHEST_MEDIUM_IRON 225
 #define ARMOR_INT_CHEST_MEDIUM_SCALE 200 // More coverage, less integrity
@@ -59,13 +66,15 @@
 // SIDE PIECES - Non-Chest armor
 #define ARMOR_INT_SIDE_ANTAG 500 // Integrity for antag pieces
 #define ARMOR_INT_SIDE_BLACKSTEEL 400 // Integrity for blacksteel pieces
+#define ARMOR_INT_SIDE_BRONZE 350 // Integrity for bronze pieces
 #define ARMOR_INT_SIDE_STEEL 300 // Integrity for steel pieces
 #define ARMOR_INT_SIDE_IRON 225 // Integrity for iron pieces
 #define ARMOR_INT_SIDE_HARDLEATHER 250 // Integrity for hardened leather pieces
 #define ARMOR_INT_SIDE_LEATHER 200 // Integrity for leather / copper pieces
 #define ARMOR_INT_SIDE_DECREPIT 150 // Integrity for decrepit pieces
 #define ARMOR_INT_SIDE_CLOTH 100 // Integrity for cloth / aesthetic oriented pieces
-
+#define ARMOR_INT_SIDE_GOLDPLUS 10 // Integrity for royal variants of golden / cermemonial pieces
+#define ARMOR_INT_SIDE_GOLD 5 // Integrity for golden / ceremonial pieces
 
 /*--------------------\
 | ARMOR VALUE DEFINES |	
@@ -84,6 +93,7 @@
 // Capped to 90 blunt rating. This means light armor will take approx. 75% damage from blunt-weapon blunt attacks.
 // So blunt weapon can still be used against light armor but just not as effective.  
 #define ARMOR_CLOTHING list("blunt" = 0, "slash" = 10, "stab" = 20, "piercing" = 0, "fire" = 0, "acid" = 0)
+#define ARMOR_CLOTHING_GOOD list("blunt" = 10, "slash" = 20, "stab" = 20, "piercing" = 0, "fire" = 0, "acid" = 0)
 #define ARMOR_PADDED_BAD list("blunt" = 50, "slash" = 30, "stab" = 20, "piercing" = 40, "fire" = 0, "acid" = 0)
 #define ARMOR_PADDED list("blunt" = 70, "slash" = 40, "stab" = 30, "piercing" = 50, "fire" = 0, "acid" = 0)
 #define ARMOR_PADDED_GOOD list("blunt" = 90, "slash" = 50, "stab" = 50, "piercing" = 80, "fire" = 0, "acid" = 0)
@@ -95,6 +105,7 @@
 #define ARMOR_LEATHER_STUDDED list("blunt" = 80, "slash" = 80, "stab" = 60, "piercing" = 40, "fire" = 0, "acid" = 0) // Pseudo metallic armor therefore worse vs blunt and piercing
 
 // Medium AC
+#define ARMOR_CUIRASS_BAD list("blunt" = 20, "slash" = 80, "stab" = 60, "piercing" = 20, "fire" = 0, "acid" = 0)	
 #define ARMOR_CUIRASS list("blunt" = 40, "slash" = 100, "stab" = 80, "piercing" = 40, "fire" = 0, "acid" = 0)	
 #define ARMOR_MAILLE list("blunt" = 40, "slash" = 100, "stab" = 80, "piercing" = 10, "fire" = 0, "acid" = 0)
 
@@ -102,6 +113,7 @@
 // Also applicable to fully metallic armor (i.e. helmet)
 #define ARMOR_PLATE_BAD list("blunt" = 10, "slash" = 50, "stab" = 50, "piercing" = 20, "fire" = 0, "acid" = 0) // For really bad / copper plate
 #define ARMOR_PLATE list("blunt" = 10, "slash" = 100, "stab" = 80, "piercing" = 40, "fire" = 0, "acid" = 0)
+#define ARMOR_PLATE_BRONZE list("blunt" = 50, "slash" = 50, "stab" = 50, "piercing" = 20, "fire" = 0, "acid" = 0) // Bronze. Same as PLATE_BAD, but with better blunt force protection - padded with leather and fur.
 #define ARMOR_PLATE_BSTEEL list("blunt" = 80, "slash" = 100, "stab" = 90, "piercing" = 80, "fire" = 0, "acid" = 0) // It's EVIL. OH GOD.
 
 //Antag / Special / Unique armor defines
@@ -119,3 +131,4 @@
 #define ARMOR_RUMACLAN	list("blunt" = 5,"slash" = 90, "stab" = 90, "piercing" = 50, "fire" = 0, "acid" = 0)
 // Blocks every hit, at least once
 #define ARMOR_GRONN_LIGHT list("blunt" = 80, "slash" = 80, "stab" = 30, "piercing" = 30, "fire" = 0, "acid" = 0)
+#define ARMOR_GOLD list("blunt" = 200, "slash" = 200, "stab" = 200, "piercing" = 200, "fire" = 200, "acid" = 200) // Effective invulnerability on the covered limb(s). Can only be damaged through attacks with an integrity damage modifier.

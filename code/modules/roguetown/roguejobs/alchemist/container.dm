@@ -14,7 +14,6 @@
 /obj/item/reagent_containers/glass/bottle/rogue/water
 	list_reagents = list(/datum/reagent/water = 50)
 
-
 /obj/item/reagent_containers/glass/bottle/mercury
 	list_reagents = list(/datum/reagent/mercury = 50)
 
@@ -96,6 +95,11 @@
 	icon_state = "beer_2"
 	list_reagents = list(/datum/reagent/consumable/ethanol/beer = 50)
 	desc = "A bottle that contains a generic housebrewed small-beer. It has an improvised corkseal made of hardened clay."
+
+/obj/item/reagent_containers/glass/bottle/rogue/triumphbeer
+	name = "bottle of beer"
+	list_reagents = list(/datum/reagent/consumable/ethanol/beer = 50)
+	desc = "A glass bottle with a laced cork-seal. It swishes with fizzled goodness; a cure to the parched throat, a remedy to the sleepless nites, and a toast for the journey ahead."
 
 /obj/item/reagent_containers/glass/bottle/rogue/beer/zagul
 	name = "bottle of Zagul"
@@ -347,3 +351,13 @@
 /obj/item/reagent_containers/glass/bottle/claybottle/whitewine
 	list_reagents = list(/datum/reagent/consumable/ethanol/whitewine = 75)
 	desc = "A bottle with the Otavan Merchant Guild cork-seal. This one appears to be labelled as a sweet wine from the colder northern regions."
+
+
+		///////////////////////////
+		// TRIUMPH-EXCLUSIVE !   //
+		///////////////////////////
+
+/obj/item/reagent_containers/glass/bottle/alchemical/tripot
+	name = "vial of distilled triumphance"
+	desc = "The fruits of your labor, distilled into a sparkling pittance that shimmers with Azurian light. Even after the vial's emptying, it still retains that otherworldly glitterance."
+	list_reagents = list(/datum/reagent/buff/tri = 10)

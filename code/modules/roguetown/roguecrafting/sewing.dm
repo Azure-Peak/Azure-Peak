@@ -787,16 +787,24 @@
 	name = "padded arm wrappings"
 	category = "Bracers"
 	result = list(/obj/item/clothing/wrists/roguetown/bracers/cloth/monk)
-	reqs = list(/obj/item/natural/cloth = 3,
-				/obj/item/natural/fibers = 2)
+	reqs = list(/obj/item/natural/cloth = 4,
+				/obj/item/natural/fibers = 4)
 	craftdiff = 3
 
-/datum/crafting_recipe/roguetown/sewing/monkheadband
-	name = "padded headband"
+/datum/crafting_recipe/roguetown/sewing/hunterheadband
+	name = "padded headband, hunter's style"
 	category = "Coifs"
-	result = list(/obj/item/clothing/head/roguetown/headband/monk)
+	result = list(/obj/item/clothing/head/roguetown/headband/monk/barbarian)
 	reqs = list(/obj/item/natural/cloth = 3,
 				/obj/item/natural/fibers = 2)
+	craftdiff = 2
+
+/datum/crafting_recipe/roguetown/sewing/monkheadband
+	name = "padded headband, monk's style"
+	category = "Coifs"
+	result = list(/obj/item/clothing/head/roguetown/headband/monk)
+	reqs = list(/obj/item/natural/cloth = 4,
+				/obj/item/natural/fibers = 4)
 	craftdiff = 3
 
 /datum/crafting_recipe/roguetown/sewing/heavypadded
@@ -1359,6 +1367,16 @@
 	craftdiff = 4
 	sellprice = 13
 
+/datum/crafting_recipe/roguetown/sewing/sleevelessrobewhite
+	name = "robed tabard"
+	category = "Robes"
+	result = list(/obj/item/clothing/suit/roguetown/shirt/robe/tabardwhite)
+	reqs = list(/obj/item/natural/cloth = 3,
+	            /obj/item/natural/fibers = 2)
+	tools = list(/obj/item/needle)
+	craftdiff = 4
+	sellprice = 13
+
 /datum/crafting_recipe/roguetown/sewing/hoodphys
 	name = "physicker's hood"
 	category = "Hoods"
@@ -1373,6 +1391,16 @@
 	name = "feldsher's hood"
 	category = "Hoods"
 	result = list(/obj/item/clothing/head/roguetown/roguehood/feld)
+	reqs = list(/obj/item/natural/cloth = 2,
+	            /obj/item/natural/fibers = 1)
+	tools = list(/obj/item/needle)
+	craftdiff = 4
+	sellprice = 13
+
+/datum/crafting_recipe/roguetown/sewing/hoodwhite
+	name = "robed tabard's hood"
+	category = "Hoods"
+	result = list(/obj/item/clothing/head/roguetown/roguehood/shroudwhite)
 	reqs = list(/obj/item/natural/cloth = 2,
 	            /obj/item/natural/fibers = 1)
 	tools = list(/obj/item/needle)

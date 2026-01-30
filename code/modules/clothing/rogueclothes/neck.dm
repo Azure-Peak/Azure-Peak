@@ -276,6 +276,15 @@
 	body_parts_covered = NECK
 	blocksound = PLATEHIT
 
+/obj/item/clothing/neck/roguetown/gorget/bronze
+	name = "bronze neckguard"
+	desc = "An interlinked veil of bronze plates, shielding the throat from terrible wounds since the dawn of tyme. Piercing blows may sunder the plate, but - as long as the alloy persists - so shall you."
+	icon_state = "bronzegorget"
+	armor = ARMOR_PLATE_BRONZE
+	prevent_crits = PREVENT_CRITS_ALL
+	smeltresult = /obj/item/ingot/bronze
+	max_integrity = ARMOR_INT_SIDE_BRONZE
+
 /obj/item/clothing/neck/roguetown/gorget/aalloy
 	name = "decrepit gorget"
 	desc = "Frayed bronze plates, shingled together to shroud the neck. Primitive scrapes line the flanks, yet the center seems to've been cored out by a spear's thrust."
@@ -350,6 +359,25 @@
 	smeltresult = /obj/item/ingot/steel
 	max_integrity = ARMOR_INT_SIDE_STEEL
 	icon_state = "sgorget"
+
+/obj/item/clothing/neck/roguetown/gorget/gold
+	name = "golden gorget"
+	desc = "A series of resplendant golden plates designed to protect the neck, traditionally worn atop a jacket or cuirass. The holy sigil between its buckled halves promises to carry the flame of its wearer, no matter what strike's poised its way."
+	icon_state = "goldgorget"
+	armor_class = ARMOR_CLASS_HEAVY //Ceremonial. Heavy is the head that bares the burden.
+	armor = ARMOR_GOLD //Renders its wearer completely invulnerable to damage. The caveat is, however..
+	max_integrity = ARMOR_INT_SIDE_GOLD // ..is that it's extraordinarily fragile. To note, this is lower than even Decrepit-tier armor.
+	anvilrepair = null
+	smeltresult = /obj/item/ingot/gold
+	smelt_bar_num = 1
+	grid_height = 96
+	grid_width = 96
+	sellprice = 200
+
+/obj/item/clothing/neck/roguetown/gorget/gold/king
+	name = "royal golden gorget"
+	max_integrity = ARMOR_INT_SIDE_GOLDPLUS // Doubled integrity.
+	sellprice = 300
 
 /obj/item/clothing/neck/roguetown/gorget/steel/kazengun
 	name = "kazengunite gorget"
@@ -441,6 +469,20 @@
 	icon_state = "zcross_iron"
 	resistance_flags = FIRE_PROOF
 
+/obj/item/clothing/neck/roguetown/psicross/inhumen/bronze
+	name = "bronze inverted psycross"
+	desc = "'Look upon mine works, thee-mighty, and despair!'"
+	icon_state = "zcross_b"
+	resistance_flags = FIRE_PROOF
+	sellprice = 25
+
+/obj/item/clothing/neck/roguetown/psicross/inhumen/g
+	name = "golden inverted psycross"
+	desc = "'Doth thee wish to live deliciously? Mortality is but a shackle; and if you wish to break free from its steely grasp, all you need to do.. is put thine faith in me.'"
+	icon_state = "zcross_g"
+	resistance_flags = FIRE_PROOF
+	sellprice = 100
+
 /obj/item/clothing/neck/roguetown/psicross/inhumen/matthios
 	name = "amulet of Matthios"
 	desc = "He was but one flame in the dark. Together, his flock shall outblaze the tyrant sun."
@@ -463,15 +505,39 @@
 	icon_state = "undivided"
 	slot_flags = ITEM_SLOT_NECK|ITEM_SLOT_HIP|ITEM_SLOT_WRISTS|ITEM_SLOT_RING
 
+/obj/item/clothing/neck/roguetown/psicross/silver/undivided
+	name = "silver amulet of Ten"
+	desc = "Ward of silver, sigil of eternity; by the Ten, I command thee back to Hell!"
+	icon_state = "undivided_s"
+	sellprice = 50
+
 /obj/item/clothing/neck/roguetown/psicross/astrata
 	name = "amulet of Astrata"
 	desc = "As sure as the sun rises, tomorrow will come."
 	icon_state = "astrata"
 
+/obj/item/clothing/neck/roguetown/psicross/silver/astrata
+	name = "silver amulet of Astrata"
+	desc = "Let no monster hold comfort in Her brother's shadow."
+	icon_state = "astrata_s"
+	sellprice = 50
+
+/obj/item/clothing/neck/roguetown/psicross/astrata/g
+	name = "golden amulet of Astrata"
+	desc = "The sun's blinding glare, adorning the faithful and scorning the faithless."
+	icon_state = "astrata_g"
+	sellprice = 100
+
 /obj/item/clothing/neck/roguetown/psicross/noc
 	name = "amulet of Noc"
 	desc = "There is always more to know, more to learn, more to be."
 	icon_state = "noc"
+
+/obj/item/clothing/neck/roguetown/psicross/silver/noc
+	name = "blessed amulet of Noc"
+	desc = "Within the Beyond, where dreams and daemons coalesce, lies the secret to all knowledge; both arcyne and aeternal. Under my ward, I shall guide thee forth to this pedestal."
+	icon_state = "noc"
+	sellprice = 50
 
 /obj/item/clothing/neck/roguetown/psicross/abyssor
 	name = "amulet of Abyssor"
@@ -490,6 +556,11 @@
 	desc = "The certainty of death is a reminder to enjoy the time you have."
 	icon_state = "necra"
 
+/obj/item/clothing/neck/roguetown/psicross/silver/necra
+	name = "silver amulet of Necra"
+	desc = "Guide the lost, the forgotten, and the damned to their final resting place."
+	icon_state = "necra_s"
+
 /obj/item/clothing/neck/roguetown/psicross/pestra
 	name = "amulet of Pestra"
 	desc = "The healthy wear a crown only the sick can see."
@@ -499,6 +570,11 @@
 	name = "amulet of Ravox"
 	desc = "What are you fighting for?"
 	icon_state = "ravox"
+
+/obj/item/clothing/neck/roguetown/psicross/ravox/bronze
+	name = "bronze amulet of Ravox"
+	desc = "'YOU FIGHT WELL, RAVOX OF UR. YOUR CLEMENCY HATH BEEN EARNED. SURRENDER NOW, AND GRAGGAR SHALL-'</br>‎  </br>'No.' </br>‎  </br>'-WHAT? YOU'RE GOING TO THROW AWAY YOUR LYFE FOR A GOD THAT HAS NO LOVE FOR YOU?' </br>‎  </br>'One of us will.'"
+	icon_state = "ravox_b"
 
 /obj/item/clothing/neck/roguetown/psicross/malum
 	name = "amulet of Malum"
@@ -561,6 +637,14 @@
 	sellprice = 0
 	salvage_result = /obj/item/grown/log/tree/stick
 	salvage_amount = 1
+
+/obj/item/clothing/neck/roguetown/psicross/bronze
+	name = "bronze psycross"
+	desc = "'Until my heart ceases beating, and until my vigil ends - I will bring you down with me!'"
+	icon_state = "psycross_b"
+	item_state = "psycross_b"
+	sellprice = 25
+	is_silver = TRUE
 
 /obj/item/clothing/neck/roguetown/psicross/silver
 	name = "silver psycross"
@@ -746,6 +830,34 @@
 	dropshrink = 0.5
 	slot_flags = ITEM_SLOT_NECK|ITEM_SLOT_MASK
 	body_parts_covered = NECK|FACE
+
+////////////////////////
+// Triumph Exclusive! //
+////////////////////////
+
+//Purchasable via Triumphs. Blacklisted from the Stockpile and fitted with a reduced saleprice.
+/obj/item/clothing/neck/roguetown/ornateamulet/noble/triumph
+	name = "ornate amulet"
+	desc = "An opulent, golden necklace. When it catches the candelight, it offers a warped yet unmarred reflection of its wearer's guise."
+	sellprice = 33
+
+/obj/item/clothing/neck/roguetown/psicross/g/triumph
+	name = "ornate golden psycross"
+	desc = "'It does not matter, whether He is lyving or gone. His greatest creation still persists; the very world that our feet tread 'pon, now. That, alone, makes everything worth fighting for.'"
+	sellprice = 55
+
+/obj/item/clothing/neck/roguetown/psicross/inhumen/g/triumph
+	name = "ornate inverted psycross"
+	desc = "'Meet your lord, and know your place. Let progress be my chariot, and let my hands be the vessel that rips paradise free from its heavenly grasp. Let Psydonia's carcass not spell the death of Man, but the birth of Gods.'"
+	sellprice = 66
+
+/obj/item/clothing/neck/roguetown/psicross/astrata/g/triumph
+	name = "ornate amulet of Astrata"
+	desc = "Her command is absolute, and Her tyranny is unmarrable. Reclaim this world, child of mine, from those who'd seek to destroy it."
+	icon_state = "astrata_g"
+	sellprice = 77
+
+//
 
 /obj/item/clothing/neck/roguetown/luckcharm
 	name = "luck charm"

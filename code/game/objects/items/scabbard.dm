@@ -262,10 +262,9 @@
 				)
 
 
-/*
-	DAGGER SHEATHS
-*/
-
+//////////////////////
+//	DAGGER SHEATHS  //
+//////////////////////
 
 /obj/item/rogueweapon/scabbard/sheath
 	name = "dagger sheath"
@@ -277,6 +276,7 @@
 
 	valid_blade = /obj/item/rogueweapon/huntingknife
 	w_class = WEIGHT_CLASS_SMALL
+	slot_flags = ITEM_SLOT_HIP|ITEM_SLOT_BACK|ITEM_SLOT_WRISTS //An intended design, albeit rather late-in-timing. Sacrifice arm protection for more versatile storage.
 
 	grid_width = 32
 	grid_height = 64
@@ -286,8 +286,8 @@
 	sellprice = 2
 
 	invalid_blades = list(
-		/obj/item/rogueweapon/huntingknife/idagger/silver/stake
-	)
+		/obj/item/rogueweapon/huntingknife/idagger/stake,
+		/obj/item/rogueweapon/huntingknife/idagger/silver/stake)
 
 /obj/item/rogueweapon/scabbard/sheath/weapon_check(mob/living/user, obj/item/A)
 	. = ..()
@@ -489,132 +489,32 @@
 					"eflip" = 0
 				)
 
-/*
-	GREATWEAPON STRAPS
-*/
+/obj/item/rogueweapon/scabbard/sheath/noble
+	name = "silver-decorated knife sheath"
+	desc = "A dagger's noble sheath, enamored with elaborate silver decorations. Oft-flaunted upon the faulds of a knight, it dangles and sways whenever its steely reserve is drawn."
+	icon_state = "nsheath"
+	associated_skill = /datum/skill/combat/shields
+	possible_item_intents = list(SHIELD_BASH, SHIELD_BLOCK)
+	can_parry = TRUE
+	wdefense = 2
+	max_integrity = 50
+	sellprice = 50
+	resistance_flags = null
 
+/obj/item/rogueweapon/scabbard/sheath/royal
+	name = "gold-decorated knife sheath"
+	desc = "A dagger's royal sheath, enamored with exquisite golden decorations. The hand that draws will spell the fate of many; be it for the kingdom or the world."
+	icon_state = "rsheath"
+	associated_skill = /datum/skill/combat/shields
+	possible_item_intents = list(SHIELD_BASH, SHIELD_BLOCK)
+	can_parry = TRUE
+	wdefense = 4
+	sellprice = 100
+	resistance_flags = null
 
-/obj/item/rogueweapon/scabbard/gwstrap
-	name = "greatweapon strap"
-	desc = ""
-
-	icon_state = "gws0"
-	item_state = "gwstrap"
-	icon = 'icons/obj/items/gwstrap.dmi'
-	lefthand_file = 'icons/mob/inhands/equipment/backpack_lefthand.dmi'
-	righthand_file = 'icons/mob/inhands/equipment/backpack_righthand.dmi'
-	pixel_y = -16
-	pixel_x = -16
-	inhand_x_dimension = 64
-	inhand_y_dimension = 64
-
-	w_class = WEIGHT_CLASS_BULKY
-	slot_flags = ITEM_SLOT_BACK
-	resistance_flags = NONE
-	experimental_onback = FALSE
-	bigboy = TRUE
-	sewrepair = TRUE
-
-	equip_delay_self = 5 SECONDS
-	unequip_delay_self = 5 SECONDS
-	strip_delay = 2 SECONDS
-	sheathe_time = 2 SECONDS
-
-	max_integrity = 0
-	sellprice = 15
-
-/obj/item/rogueweapon/scabbard/gwstrap/weapon_check(mob/living/user, obj/item/A)
-	. = ..()
-	if(.)
-		if(sheathed)
-			return FALSE
-		if(istype(A, /obj/item/rogueweapon))
-			if(A.w_class >= WEIGHT_CLASS_BULKY)
-				return TRUE
-		if(!istype(A, /obj/item/clothing/neck/roguetown/psicross)) //snowflake that bypasses the valid_blades that i made. i will commit seppuku eventually
-			return FALSE
-
-/obj/item/rogueweapon/scabbard/gwstrap/update_icon(mob/living/user)
-	if(sheathed)
-		worn_x_dimension = 64
-		worn_y_dimension = 64
-		icon = sheathed.icon
-		icon_state = sheathed.icon_state
-		experimental_onback = TRUE
-	else
-		icon = initial(icon)
-		icon_state = initial(icon_state)
-		worn_x_dimension = initial(worn_x_dimension)
-		worn_y_dimension = initial(worn_y_dimension)
-		experimental_onback = FALSE
-
-	if(user)
-		user.update_inv_back()
-
-	getonmobprop(tag)
-
-/obj/item/rogueweapon/scabbard/gwstrap/getonmobprop(tag)
-	..()
-	if(!sheathed)
-		return
-	if(istype(sheathed, /obj/item/rogueweapon/estoc) || istype(sheathed, /obj/item/rogueweapon/greatsword))
-		switch(tag)
-			if("onback")
-				return list(
-					"shrink" = 0.6,
-					"sx" = -1,
-					"sy" = 2,
-					"nx" = 0,
-					"ny" = 2,
-					"wx" = 2,
-					"wy" = 1,
-					"ex" = 0,
-					"ey" = 1,
-					"nturn" = 0,
-					"sturn" = 0,
-					"wturn" = 70,
-					"eturn" = 15,
-					"nflip" = 1,
-					"sflip" = 1,
-					"wflip" = 1,
-					"eflip" = 1,
-					"northabove" = 1,
-					"southabove" = 0,
-					"eastabove" = 0,
-					"westabove" = 0
-				)
-	else
-		switch(tag)
-			if("onback")
-				return list(
-					"shrink" = 0.7,
-					"sx" = 1,
-					"sy" = -1,
-					"nx" = 1,
-					"ny" = -1,
-					"wx" = 4,
-					"wy" = -1,
-					"ex" = -1,
-					"ey" = -1,
-					"nturn" = 0,
-					"sturn" = 0,
-					"wturn" = 0,
-					"eturn" = 0,
-					"nflip" = 8,
-					"sflip" = 0,
-					"wflip" = 0,
-					"eflip" = 0,
-					"northabove" = 1,
-					"southabove" = 0,
-					"eastabove" = 0,
-					"westabove" = 0
-				)
-
-
-/*
-	GENERIC SCABBARDS
-*/
-
+///////////////////////
+//	SWORD SCABBARDS  //
+///////////////////////
 
 /obj/item/rogueweapon/scabbard/sword
 	name = "simple scabbard"
@@ -628,7 +528,8 @@
 	valid_blade = /obj/item/rogueweapon/sword
 	invalid_blades = list(
 		/obj/item/rogueweapon/sword/long/exe,
-		/obj/item/rogueweapon/sword/long/martyr
+		/obj/item/rogueweapon/sword/long/martyr,
+		/obj/item/rogueweapon/sword/long/exe/berserk
 	)
 
 	force = 7
@@ -761,10 +662,31 @@
 					"westabove" = 0
 				)
 
-/*
-	KAZENGUN
-*/
+/obj/item/rogueweapon/scabbard/sword/noble
+	name = "silver-decorated scabbard"
+	desc = "A sword's noble scabbard, enamored with elaborate silver decorations. It carries an aristocrat's sword upon a silver platter, and - just like an actual platter - can suffice at riposting an errant blow."
+	icon_state = "nscabbard"
+	associated_skill = /datum/skill/combat/shields
+	possible_item_intents = list(SHIELD_BASH, SHIELD_BLOCK)
+	can_parry = TRUE
+	wdefense = 4
+	max_integrity = 75
+	sellprice = 50
+	resistance_flags = null
 
+/obj/item/rogueweapon/scabbard/sword/royal
+	name = "gold-decorated scabbard"
+	desc = "A sword's royal scabbard, enamored with exquisite golden decorations. It pampers a champion's sword in a veil of gilded silk, reluctant to let go."
+	icon_state = "rscabbard"
+	associated_skill = /datum/skill/combat/shields
+	possible_item_intents = list(SHIELD_BASH, SHIELD_BLOCK)
+	can_parry = TRUE
+	wdefense = 6
+	max_integrity = 150
+	sellprice = 100
+	resistance_flags = null
+
+//
 
 /obj/item/rogueweapon/scabbard/sword/kazengun
 	name = "simple kazengun scabbard"
@@ -887,3 +809,123 @@
 				)
 			if("onbelt")
 				return list("shrink" = 0.3,"sx" = -2,"sy" = -5,"nx" = 4,"ny" = -5,"wx" = 0,"wy" = -5,"ex" = 2,"ey" = -5,"nturn" = 0,"sturn" = 0,"wturn" = 0,"eturn" = 0,"nflip" = 0,"sflip" = 0,"wflip" = 0,"eflip" = 0,"northabove" = 0,"southabove" = 1,"eastabove" = 1,"westabove" = 0)
+
+///////////////////////
+//	GREATWEP. STRAPS //
+///////////////////////
+
+/obj/item/rogueweapon/scabbard/gwstrap
+	name = "greatweapon strap"
+	desc = "A buckled sling that can support the weight of weapons too weighty for one's belt. Be mindful, as it takes a couple seconds to properly unfasten-and-refasten the latches."
+
+	icon_state = "gws0"
+	item_state = "gwstrap"
+	icon = 'icons/obj/items/gwstrap.dmi'
+	lefthand_file = 'icons/mob/inhands/equipment/backpack_lefthand.dmi'
+	righthand_file = 'icons/mob/inhands/equipment/backpack_righthand.dmi'
+	pixel_y = -16
+	pixel_x = -16
+	inhand_x_dimension = 64
+	inhand_y_dimension = 64
+
+	w_class = WEIGHT_CLASS_BULKY
+	slot_flags = ITEM_SLOT_BACK
+	resistance_flags = NONE
+	experimental_onback = FALSE
+	bigboy = TRUE
+	sewrepair = TRUE
+
+	equip_delay_self = 5 SECONDS
+	unequip_delay_self = 5 SECONDS
+	strip_delay = 2 SECONDS
+	sheathe_time = 2 SECONDS
+
+	max_integrity = 0
+	sellprice = 15
+
+/obj/item/rogueweapon/scabbard/gwstrap/weapon_check(mob/living/user, obj/item/A)
+	. = ..()
+	if(.)
+		if(sheathed)
+			return FALSE
+		if(istype(A, /obj/item/rogueweapon))
+			if(A.w_class >= WEIGHT_CLASS_BULKY)
+				return TRUE
+		if(!istype(A, /obj/item/clothing/neck/roguetown/psicross)) //snowflake that bypasses the valid_blades that i made. i will commit seppuku eventually
+			return FALSE
+
+/obj/item/rogueweapon/scabbard/gwstrap/update_icon(mob/living/user)
+	if(sheathed)
+		worn_x_dimension = 64
+		worn_y_dimension = 64
+		icon = sheathed.icon
+		icon_state = sheathed.icon_state
+		experimental_onback = TRUE
+	else
+		icon = initial(icon)
+		icon_state = initial(icon_state)
+		worn_x_dimension = initial(worn_x_dimension)
+		worn_y_dimension = initial(worn_y_dimension)
+		experimental_onback = FALSE
+
+	if(user)
+		user.update_inv_back()
+
+	getonmobprop(tag)
+
+/obj/item/rogueweapon/scabbard/gwstrap/getonmobprop(tag)
+	..()
+	if(!sheathed)
+		return
+	if(istype(sheathed, /obj/item/rogueweapon/estoc) || istype(sheathed, /obj/item/rogueweapon/greatsword))
+		switch(tag)
+			if("onback")
+				return list(
+					"shrink" = 0.6,
+					"sx" = -1,
+					"sy" = 2,
+					"nx" = 0,
+					"ny" = 2,
+					"wx" = 2,
+					"wy" = 1,
+					"ex" = 0,
+					"ey" = 1,
+					"nturn" = 0,
+					"sturn" = 0,
+					"wturn" = 70,
+					"eturn" = 15,
+					"nflip" = 1,
+					"sflip" = 1,
+					"wflip" = 1,
+					"eflip" = 1,
+					"northabove" = 1,
+					"southabove" = 0,
+					"eastabove" = 0,
+					"westabove" = 0
+				)
+	else
+		switch(tag)
+			if("onback")
+				return list(
+					"shrink" = 0.7,
+					"sx" = 1,
+					"sy" = -1,
+					"nx" = 1,
+					"ny" = -1,
+					"wx" = 4,
+					"wy" = -1,
+					"ex" = -1,
+					"ey" = -1,
+					"nturn" = 0,
+					"sturn" = 0,
+					"wturn" = 0,
+					"eturn" = 0,
+					"nflip" = 8,
+					"sflip" = 0,
+					"wflip" = 0,
+					"eflip" = 0,
+					"northabove" = 1,
+					"southabove" = 0,
+					"eastabove" = 0,
+					"westabove" = 0
+				)

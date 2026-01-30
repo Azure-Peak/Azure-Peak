@@ -68,7 +68,7 @@
 /datum/antagonist/aspirant/can_be_owned(datum/mind/new_owner)
 	. = ..()
 	if(.)
-		if(!((new_owner.assigned_role in GLOB.rogueantag_positions)))
+		if(!((new_owner.assigned_role in GLOB.rogueoverthrow_positions)))
 			return FALSE
 
 /datum/antagonist/aspirant/on_gain()

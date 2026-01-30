@@ -1,21 +1,18 @@
 // Default blacklist for antagonist roles. Mostly leadership and higher responsibility role.
 #define DEFAULT_ANTAG_BLACKLISTED_ROLES list(\
 		"Grand Duke",\
+		"Consort",\
+		"Hand",\
+		"Court Magician",\
 		"Marshal",\
-		"Merchant",\
 		"Bishop",\
 		"Martyr",\
-		"Hand",\
-		"Steward",\
-		"Knight",\
-		"Templar",\
-		"Sergeant",\
+		"Keeper",\
 		"Inquisitor",\
 		"Absolver",\
-		"Veteran",\
-		"Bathmaster",\
+		"Orthodoxist",\
+		"Assassin",\
 		"Bandit",\
-		"Guildmaster",\
-		"Court Magician",\
-		"Keeper",\
+		"Wretch",\
+		"Gnoll",\
 	)

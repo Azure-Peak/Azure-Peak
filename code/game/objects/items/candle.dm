@@ -147,7 +147,7 @@
 	icon_state = "scandelabra"
 	infinite = TRUE
 	sellprice = 60
-	is_silver = TRUE
+	is_silver = FALSE //temporary measure to prevent people from easily metachecking vampyres. Replace with a more sophisticated alternative if-or-when available.
 	possible_item_intents = list(/datum/intent/use, /datum/intent/hit)
 	force = 12 //Bludgeons!
 
@@ -182,7 +182,7 @@
 	sellprice = 50
 	possible_item_intents = list(/datum/intent/use, /datum/intent/hit)
 	force = 12 //Bludgeons!
-	is_silver = TRUE
+	is_silver = FALSE //Ditto.
 
 /obj/item/candle/candlestick/silver/single/update_icon()
 	icon_state = "singlescandelabra[lit ? "_lit" : ""]"
@@ -211,13 +211,12 @@
 	icon_state = "scandle"
 	infinite = TRUE
 	sellprice = 50
-	is_silver = TRUE
+	is_silver = FALSE
 
 /obj/item/candle/silver/update_icon()
 	icon_state = "scandle[lit ? "_lit" : ""]"
 
 /obj/item/candle/silver/lit
 	icon_state = "scandle_lit"
-	start_lit = TRUE
 
 #undef CANDLE_LUMINOSITY

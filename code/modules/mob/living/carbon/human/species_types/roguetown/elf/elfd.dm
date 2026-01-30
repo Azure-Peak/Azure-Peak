@@ -124,8 +124,6 @@
 	stress_examine = TRUE
 	stress_desc = span_red("A loathesome dark elf.")
 
-/datum/species/elf/dark/after_creation(mob/living/carbon/C)
-	C.faction += "spider_lowers"
 
 /datum/species/elf/dark/get_span_language(datum/language/message_language)
 	if(!message_language)

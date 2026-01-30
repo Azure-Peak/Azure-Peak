@@ -163,9 +163,7 @@
 /datum/outfit/job/roguetown/mercenary/grenzelhoft_crossbowman/pre_equip(mob/living/carbon/human/H)
 	..()
 	to_chat(H, span_warning("You're a proved marksman with a crossbow, and learned how to set up camp and defenses in the wild. The guild needs you."))
-	beltr = /obj/item/quiver/bolts
 	beltl = /obj/item/rogueweapon/stoneaxe/woodcut/steel
-	r_hand = /obj/item/gun/ballistic/revolver/grenadelauncher/crossbow
 	if(H.mind)
 		var/armor_options = list("Light Brigandine", "Studded Leather Vest")
 		var/armor_choice = input(H, "Choose your armor.", "DRESS UP") as anything in armor_options
@@ -174,7 +172,17 @@
 				armor = /obj/item/clothing/suit/roguetown/armor/brigandine/light	// find a smithy to fix it
 			if("Studded Leather Vest")
 				armor = /obj/item/clothing/suit/roguetown/armor/leather/studded		// or maintain it yourself!
-	//General gear regardless of class.
+		var/weapons = list("Crossbow & 20 Bolts","Heavy Crossbow & 8 Heavy Bolts")
+		var/weapon_choice = input(H, "Choose your weapon.", "RENOCK AND REBOLT") as anything in weapons
+		switch(weapon_choice)
+			if("Crossbow & 20 Bolts")
+				beltr = /obj/item/quiver/bolts
+				r_hand = /obj/item/gun/ballistic/revolver/grenadelauncher/crossbow
+			if("Heavy Crossbow & 8 Heavy Bolts")
+				beltr = /obj/item/quiver/bolt/heavy/standard/ //Eight bolts. More than enough to kill anything that moves.
+				r_hand = /obj/item/gun/ballistic/revolver/grenadelauncher/crossbow/heavy
+				H.change_stat(STATKEY_STR, 1) //Without any statpack or racial modifier, this meets the bare minimum for using the Siegebow as a melee weapon.
+				H.change_stat(STATKEY_SPD, -1)
 	wrists = /obj/item/clothing/wrists/roguetown/bracers
 	belt = /obj/item/storage/belt/rogue/leather
 	neck = /obj/item/clothing/neck/roguetown/gorget

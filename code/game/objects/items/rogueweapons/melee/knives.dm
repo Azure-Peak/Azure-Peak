@@ -16,18 +16,19 @@
 	clickcd = 10
 	item_d_type = "slash"
 
+// Training dagger-exclusive(?) slash. Could potentially be reused for other blunt-edged handweapons.
+/datum/intent/dagger/cut/blunt
+	blade_class = BCLASS_BLUNT
+	hitsound = list('sound/combat/hits/blunt/metalblunt (1).ogg', 'sound/combat/hits/blunt/metalblunt (2).ogg', 'sound/combat/hits/blunt/metalblunt (3).ogg')
+	penfactor = BLUNT_DEFAULT_PENFACTOR
+	intent_intdamage_factor = BLUNT_DEFAULT_INT_DAMAGEFACTOR
+
 /// For unusually heavy daggers with a strong cutting edge.
 /datum/intent/dagger/cut/heavy
 	name = "heavy cut"
 	damfactor = 1.2
 	penfactor = 20
 	clickcd = 11
-
-/datum/intent/dagger/cut/blunt
-	blade_class = BCLASS_BLUNT
-	hitsound = list('sound/combat/hits/blunt/metalblunt (1).ogg', 'sound/combat/hits/blunt/metalblunt (2).ogg', 'sound/combat/hits/blunt/metalblunt (3).ogg')
-	penfactor = BLUNT_DEFAULT_PENFACTOR
-	intent_intdamage_factor = BLUNT_DEFAULT_INT_DAMAGEFACTOR
 
 /datum/intent/dagger/thrust
 	name = "thrust"
@@ -46,12 +47,6 @@
 	name = "lopsided thrust"
 	damfactor = 0.8
 
-/datum/intent/dagger/thrust/blunt
-	blade_class = BCLASS_BLUNT
-	hitsound = list('sound/combat/hits/blunt/metalblunt (1).ogg', 'sound/combat/hits/blunt/metalblunt (2).ogg', 'sound/combat/hits/blunt/metalblunt (3).ogg')
-	penfactor = BLUNT_DEFAULT_PENFACTOR
-	intent_intdamage_factor = BLUNT_DEFAULT_INT_DAMAGEFACTOR
-
 /datum/intent/dagger/thrust/pick
 	name = "icepick stab"
 	icon_state = "inpick"
@@ -62,6 +57,13 @@
 	swingdelay = 12
 	damfactor = 1.1
 	blade_class = BCLASS_PICK
+
+// Training dagger-exclusive(?) thrust. Could potentially be reused for other blunt-edged handweapons.
+/datum/intent/dagger/thrust/blunt
+	blade_class = BCLASS_BLUNT
+	hitsound = list('sound/combat/hits/blunt/metalblunt (1).ogg', 'sound/combat/hits/blunt/metalblunt (2).ogg', 'sound/combat/hits/blunt/metalblunt (3).ogg')
+	penfactor = BLUNT_DEFAULT_PENFACTOR
+	intent_intdamage_factor = BLUNT_DEFAULT_INT_DAMAGEFACTOR
 
 /datum/intent/dagger/sucker_punch
 	name = "unevadable punch"
@@ -100,7 +102,12 @@
 
 /obj/item/rogueweapon/huntingknife
 	force = 12
-	possible_item_intents = list(/datum/intent/dagger/cut, /datum/intent/dagger/thrust, /datum/intent/dagger/chop)
+	possible_item_intents = list(
+		/datum/intent/dagger/thrust,
+		/datum/intent/dagger/cut,
+		/datum/intent/dagger/thrust/pick,
+		/datum/intent/dagger/sucker_punch,
+		)
 	slot_flags = ITEM_SLOT_HIP|ITEM_SLOT_MOUTH
 	name = "hunting knife"
 	desc = "A hunter's prized possession. Keep it sharp, and it might last you through the wild."
@@ -198,13 +205,14 @@
 	smeltresult = null // TODO: We don't have partial melt so coping time
 
 /obj/item/rogueweapon/huntingknife/bronze
-	name = "bronze dagger"
+	name = "bronze knife"
 	desc = "A wide blade of bronze, fitted to a wooden handle. Ancient laborers and priests coveted this tool above all else: both as a means to handle the dae's labors, and to indulge in the rituos of sacrifice."
-	icon_state = "bronzedagger"
+	icon_state = "bronzeknife"
+	sheathe_icon = "genknife"
 	possible_item_intents = list(/datum/intent/dagger/cut, /datum/intent/dagger/chop/bronze, /datum/intent/dagger/sucker_punch, /datum/intent/dagger/thrust/bronze)
 	force = 18
 	throwforce = 18
-	max_blade_int = 225
+	max_blade_int = 200
 	max_integrity = 175
 	smeltresult = /obj/item/ingot/bronze
 
@@ -295,35 +303,6 @@
 	w_class = WEIGHT_CLASS_NORMAL
 	smeltresult = /obj/item/ingot/steel
 
-/obj/item/rogueweapon/huntingknife/cleaver/getonmobprop(tag)
-	. = ..()
-	if(tag)
-		switch(tag)
-			if("gen")
-				return list("shrink" = 0.5,
-"sx" = -10,
-"sy" = 0,
-"nx" = 13,
-"ny" = 2,
-"wx" = -8,
-"wy" = 2,
-"ex" = 5,
-"ey" = 2,
-"northabove" = 0,
-"southabove" = 1,
-"eastabove" = 1,
-"westabove" = 0,
-"nturn" = 21,
-"sturn" = -18,
-"wturn" = -18,
-"eturn" = 21,
-"nflip" = 0,
-"sflip" = 8,
-"wflip" = 8,
-"eflip" = 0)
-			if("onbelt")
-				return list("shrink" = 0.3,"sx" = -2,"sy" = -5,"nx" = 4,"ny" = -5,"wx" = 0,"wy" = -5,"ex" = 2,"ey" = -5,"nturn" = 0,"sturn" = 0,"wturn" = 0,"eturn" = 0,"nflip" = 0,"sflip" = 0,"wflip" = 0,"eflip" = 0,"northabove" = 0,"southabove" = 1,"eastabove" = 1,"westabove" = 0)
-
 /obj/item/rogueweapon/huntingknife/chefknife
 	force = 15
 	name = "chef's knife"
@@ -366,6 +345,28 @@
 			if("onbelt")
 				return list("shrink" = 0.3,"sx" = -2,"sy" = -5,"nx" = 4,"ny" = -5,"wx" = 0,"wy" = -5,"ex" = 2,"ey" = -5,"nturn" = 0,"sturn" = 0,"wturn" = 0,"eturn" = 0,"nflip" = 0,"sflip" = 0,"wflip" = 0,"eflip" = 0,"northabove" = 0,"southabove" = 1,"eastabove" = 1,"westabove" = 0)
 
+/obj/item/rogueweapon/huntingknife/combat/iron
+	name = "bauernwehr"
+	desc = "The hunting knife's older brother: massive, girthsome, and legally implaceable between 'daggers' and 'shortswords'. With it, there is no tasking too laborious to overcome - and no wildebeaste too thick to hack apart."
+	icon_state = "icombatknife"
+	sheathe_icon = "idagger"
+	wdefense = 3
+	max_integrity = 250 //Less defense, but full damage and intents. A little more integrity as wel.
+	smeltresult = /obj/item/ingot/iron
+
+/obj/item/rogueweapon/huntingknife/combat/bronze
+	name = "sydearmme"
+	desc = "Wedged bronze and whittled rockwood, handfitted into the dagger's most ancient-of-ancestors. It bares marks of flintknaping along its middlewidth; a customary tradition that's purported to atune its edge to the forces of nature."
+	icon_state = "bronzedagger"
+	sheathe_icon = "bronzedagger"
+	possible_item_intents = list(/datum/intent/dagger/cut, /datum/intent/dagger/chop/bronze, /datum/intent/dagger/sucker_punch, /datum/intent/dagger/thrust/bronze)
+	force = 20 //Sidegrade of the combat knife. Less damage and lower multipliers, but more blade integrity and a reduced pick variable.
+	wdefense = 3
+	throwforce = 20
+	max_blade_int = 250
+	max_integrity = 130 //Less integrity as well.
+	smeltresult = /obj/item/ingot/bronze
+
 /datum/intent/dagger/thrust/combat
 	name = "wedged thrust"
 	icon_state = "instab"
@@ -397,12 +398,7 @@
 	intent_intdamage_factor = 0.05
 
 /obj/item/rogueweapon/huntingknife/idagger
-	possible_item_intents = list(
-		/datum/intent/dagger/thrust,
-		/datum/intent/dagger/cut,
-		/datum/intent/dagger/thrust/pick,
-		/datum/intent/dagger/sucker_punch,
-		)
+	possible_item_intents = list(/datum/intent/dagger/thrust,/datum/intent/dagger/cut, /datum/intent/dagger/thrust/pick, /datum/intent/dagger/sucker_punch)
 	force = 15
 	max_integrity = 100
 	name = "iron dagger"
@@ -416,7 +412,7 @@
 	possible_item_intents = list(/datum/intent/dagger/thrust/weak, /datum/intent/dagger/cut/heavy, /datum/intent/dagger/chop/cleaver, /datum/intent/dagger/sucker_punch) // Stronger cut and chop, but no pick.
 	force = 22 // Slightly more damage than a steel dagger.
 	max_integrity = 130 // Slightly less integrity than a steel dagger.
-	name = "warden's seax"
+	name = "Wardens' seax"
 	desc = "A well-worn seax utilised by the Fraternity of Wardens both as a tool and weapon. Nearly as effective for hacking \
 	down men as it is foiliage, but not quite as durable as more modern steel tools. More suitable for cutting than for thrusting."
 	icon_state = "warden_machete"
@@ -467,13 +463,20 @@
 	desc = "A blunted steel dagger with a flexible blade for practicing close-in combat with vicious welts \
 	instead of lethal wounds. Still hurts, though."
 	icon_state = "dagger_trainer"
-	sheathe_icon = "sheath_dagger_trainer"
+	sheathe_icon = "dagger_trainer"
 	force = 7
 	possible_item_intents = list(
 		/datum/intent/dagger/thrust/blunt,
 		/datum/intent/dagger/cut/blunt,
 		/datum/intent/dagger/sucker_punch,
 		)
+
+/obj/item/rogueweapon/huntingknife/idagger/steel/decorated
+	name = "decorated dagger"
+	desc = "A valuable ornate dagger made for the purpose of ceremonial fashion, with a fine leather grip and a carefully engraved golden crossguard."
+	icon_state = "decdagger"
+	sheathe_icon = "decdagger"
+	sellprice = 100
 
 /obj/item/rogueweapon/huntingknife/idagger/steel/corroded
 	name = "corroded dagger"
@@ -539,6 +542,15 @@
 	max_integrity = 200
 	smeltresult = /obj/item/ingot/steel
 
+/obj/item/rogueweapon/huntingknife/idagger/steel/rondel
+	name = "rondel dagger"
+	desc = "This is the traditional sidearm of a knight: a lightweight dagger of solid steel, well-balanced for delivering rapid thrusts that can shuck grapplers like oysters."
+	icon_state = "rondeldagger"
+	sheathe_icon = "dagger_trainer"
+	possible_item_intents = list(/datum/intent/dagger/thrust/quick, /datum/intent/dagger/thrust/pick, /datum/intent/dagger/sucker_punch, /datum/intent/dagger/cut)
+	wdefense = 4 //Slightly more defense than a regular dagger. Intended to function as a tool for countering grapplers or finishing off armored opponents with broken pieces.
+	smeltresult = /obj/item/ingot/steel
+
 /obj/item/rogueweapon/huntingknife/idagger/steel/parrying
 	name = "steel parrying dagger"
 	force = 12
@@ -591,11 +603,28 @@
 		added_def = 2,\
 	)
 
+/obj/item/rogueweapon/huntingknife/idagger/stake
+	name = "sharpened stake"
+	desc = "A branch that has been broken off of an azurielve tree, sharpened to a fine point. It can lay some unholy creechers to rest, but only by piercing their hearts."
+	icon_state = "stake"
+	possible_item_intents = list(/datum/intent/dagger/thrust, /datum/intent/dagger/thrust/pick, /datum/intent/dagger/sucker_punch, /datum/intent/dagger/thrust/quick)
+	force = 12
+	throwforce = 12
+	wdefense = 0
+	max_integrity = 25
+	sellprice = 5
+	slot_flags = ITEM_SLOT_HIP
+	smeltresult = /obj/item/rogueore/coal
+	last_used = 0
+	equip_delay_self = 0 //No delay when stowing away, without a scabbard.
+	unequip_delay_self = 0 //No delay when drawing.
+	inv_storage_delay = 0 //No delay when retrieving from a storage slot.
+
 /obj/item/rogueweapon/huntingknife/idagger/silver/stake
 	name = "silver-tipped stake"
 	desc = "A branch that has been broken off of a boswellia tree, sharpened to a fine point and tipped with blessed silver. It can lay most unholy creechers to rest, but only by piercing their hearts."
-	icon_state = "stake" //Should hopefully autogenerate an inhand. Need to politely ask a coder to import a custom sprite for this stake, later.
-	icon = 'icons/roguetown/items/natural.dmi'
+	icon_state = "stake_silver"
+	possible_item_intents = list(/datum/intent/dagger/thrust, /datum/intent/dagger/thrust/pick, /datum/intent/dagger/sucker_punch, /datum/intent/dagger/thrust/quick)
 	force = 20
 	throwforce = 20
 	wdefense = 0
@@ -743,6 +772,7 @@
 	desc = "A wave-bladed dagger of Elven design, who's silvered beauty is only rivaled by its deceptive lethality."
 	force = 22 //One of the rare silver-edged weapons that has a positive damage boost, due to it requiring both silver and gold to create.
 	icon_state = "elfdagger"
+	sheathe_icon = "elfdagger"
 	item_state = "elfdag"
 	last_used = 0
 	smeltresult = /obj/item/ingot/gold
@@ -750,7 +780,8 @@
 
 /obj/item/rogueweapon/huntingknife/idagger/silver/elvish/poopknife
 	name = "thine majesty's nitesoil-cleaver"
-	desc = "A heraldric accompaniment to the chamberpot, and the most closely-guarded secret in all of Azuria. It is said that this once belonged to the Duke's eldest ancestor, who - in a fit of constipatory labor - had unwittingly realized another use for their wave-bladed trophy."
+	desc = "A heraldric accompaniment to the chamberpot, and the most closely-guarded secret in all of Azuria. It is said that this once belonged to the Duke's eldest ancestor, who - in a fit of constipatory labor - had unwittingly realized another use for their wave-bladed trophy. Clinging to its silvered edge is a thin layer of otherworldly ash, refusing to yield to neither soap-nor-rag."
+	force = 15 //On the FIRST ROUND this was added, someone managed to kill the Vampire Lord with the Poop Knife. Reducing the force 
 	max_integrity = 50 //Should render to ~100, at most. More fragile than alloyed knives. You know why.
 	max_blade_int = 333 //Exceedingly sharp. Ditto.
 	possible_item_intents = list(/datum/intent/dagger/cut, /datum/intent/dagger/cut/combat, /datum/intent/dagger/sucker_punch, /datum/intent/dagger/thrust/combat) //Seax's intents, for self-explanatory reasons.
@@ -913,19 +944,24 @@
 		added_def = 3,\
 	)
 
-/obj/item/rogueweapon/huntingknife/throwingknife/bauernwehr
-	name = "bauernwehr"
-	desc = "The pilgrim's fondest friend — a short but sharp blade fitted to a wooden handle. Known to Grenzelhoft as the 'bauernwehr', these knives ensure that no labors are without an answer. This knife can be stowed in a boot."
-	icon_state = "throw_knifei"
+/obj/item/rogueweapon/huntingknife/throwingknife/triumph
+	name = "knife"
+	desc = "A stout blade affixed to a stouter handle, fit for any labor that the dae thrusts upon it. Keeping one tucked inside the boot is a favored trick amongst overcautious adventurers; a surprise for disarming presences."
+	icon_state = "vdagger"
+	sheathe_icon = "genknife"
 	wdefense = 1
 	max_blade_int = 250
 	max_integrity = 250
 	force = 10
 	throwforce = 10
-	throw_speed = 2
-	armor_penetration = 20
-	embedding = list("embedded_pain_multiplier" = 5, "embed_chance" = 75, "embedded_fall_chance" = 10)
-	possible_item_intents = list(/datum/intent/dagger/cut, /datum/intent/dagger/chop/cleaver, /datum/intent/snip, /datum/intent/dagger/sucker_punch)
+	embedding = list("embedded_pain_multiplier" = 4, "embed_chance" = 50, "embedded_fall_chance" = 15)
+	possible_item_intents = list(/datum/intent/dagger/cut, /datum/intent/dagger/chop/cleaver, /datum/intent/snip, /datum/intent/dagger/thrust/quick)
+
+/datum/intent/dagger/thrust/quick
+	name = "quick thrust"
+	attack_verb = list("thrusts", "shanks")
+	penfactor = 20 //Counts as up to 30-35AP, when factoring in strength-modified damage. 
+	clickcd = 4 //Halved penetration, doubled attack speed. This is either going to be extremely funny, or extremely evil.
 
 /obj/item/rogueweapon/huntingknife/scissors
 	possible_item_intents = list(/datum/intent/snip, /datum/intent/dagger/thrust, /datum/intent/dagger/cut)

@@ -499,6 +499,7 @@
 	blocksound = SOFTHIT
 	max_integrity = 100
 	sewrepair = TRUE
+	mob_overlay_icon = 'icons/roguetown/clothing/onmob/head_items.dmi'
 
 /obj/item/clothing/head/roguetown/veiled/update_icon()
 	cut_overlays()

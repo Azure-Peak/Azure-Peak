@@ -106,7 +106,7 @@
 		/obj/item/grapplinghook = 1,
 		/obj/item/storage/belt/rogue/pouch/coins/rich = 1,
 		/obj/item/paper/inqslip/arrival/inq = 1,
-		/obj/item/rogueweapon/scabbard/sheath = 1
+		/obj/item/rogueweapon/scabbard/sheath/noble = 1
 		)
 
 
@@ -117,11 +117,11 @@
 	switch(weapon_choice)
 		if("Psydonic Longsword")
 			H.put_in_hands(new /obj/item/rogueweapon/sword/long/psysword/preblessed(H))
-			H.equip_to_slot_or_del(new /obj/item/rogueweapon/scabbard/sword, SLOT_BELT_L, TRUE)
+			H.equip_to_slot_or_del(new /obj/item/rogueweapon/scabbard/sword/noble, SLOT_BELT_L, TRUE)
 			H.adjust_skillrank_up_to(/datum/skill/combat/swords, 4, TRUE)
 		if("Psydonic Rapier")
 			H.put_in_hands(new /obj/item/rogueweapon/sword/rapier/psy/preblessed(H))
-			H.equip_to_slot_or_del(new /obj/item/rogueweapon/scabbard/sword, SLOT_BELT_L, TRUE)
+			H.equip_to_slot_or_del(new /obj/item/rogueweapon/scabbard/sword/noble, SLOT_BELT_L, TRUE)
 			H.adjust_skillrank_up_to(/datum/skill/combat/swords, 4, TRUE)
 		if("Daybreak (Whip)")
 			H.put_in_hands(new /obj/item/rogueweapon/whip/antique/psywhip(H))
@@ -132,7 +132,7 @@
 			H.adjust_skillrank_up_to(/datum/skill/combat/polearms, 4, TRUE)
 		if("Eucharist (Rapier)")
 			H.put_in_hands(new /obj/item/rogueweapon/sword/rapier/psy/relic(H))
-			H.equip_to_slot_or_del(new /obj/item/rogueweapon/scabbard/sword, SLOT_BELT_L, TRUE)
+			H.equip_to_slot_or_del(new /obj/item/rogueweapon/scabbard/sword/noble, SLOT_BELT_L, TRUE)
 			H.adjust_skillrank_up_to(/datum/skill/combat/swords, 4, TRUE)
 
 ///The Inquisitor's 'martial' archetype. Portrayed similarly to a Hollywood knight; remarkably strong and skilled, but cripplingly slow and vulnerable to the environment. Superb for one-on-one clashes, but relies on a full sect - and a saiga - for maximum effectiveness.
@@ -207,22 +207,22 @@
 		if("Psydonic Broadsword + Dagger")
 			H.put_in_hands(new /obj/item/rogueweapon/sword/long/kriegmesser/psy/preblessed(H))
 			H.put_in_hands(new /obj/item/rogueweapon/huntingknife/idagger/silver/psydagger(H))
-			H.equip_to_slot_or_del(new /obj/item/rogueweapon/scabbard/sword, SLOT_BACK_R, TRUE)
-			H.equip_to_slot_or_del(new /obj/item/rogueweapon/scabbard/sheath, SLOT_BELT_L, TRUE)
+			H.equip_to_slot_or_del(new /obj/item/rogueweapon/scabbard/sword/noble, SLOT_BACK_R, TRUE)
+			H.equip_to_slot_or_del(new /obj/item/rogueweapon/scabbard/sheath/noble, SLOT_BELT_L, TRUE)
 			H.adjust_skillrank_up_to(/datum/skill/combat/swords, 5, TRUE)
 			H.adjust_skillrank_up_to(/datum/skill/combat/knives, 4, TRUE)
 		if("Psydonic Poleaxe + Dagger")
 			H.put_in_hands(new /obj/item/rogueweapon/greataxe/psy/preblessed(H))
 			H.put_in_hands(new /obj/item/rogueweapon/huntingknife/idagger/silver/psydagger(H))
 			H.equip_to_slot_or_del(new /obj/item/rogueweapon/scabbard/gwstrap, SLOT_BELT_L, TRUE)
-			H.equip_to_slot_or_del(new /obj/item/rogueweapon/scabbard/sheath, SLOT_BELT_L, TRUE)
+			H.equip_to_slot_or_del(new /obj/item/rogueweapon/scabbard/sheath/noble, SLOT_BELT_L, TRUE)
 			H.adjust_skillrank_up_to(/datum/skill/combat/axes, 5, TRUE)
 			H.adjust_skillrank_up_to(/datum/skill/combat/knives, 4, TRUE)
 		if("Apocrypha (Greatsword) + Dagger")
 			H.put_in_hands(new /obj/item/rogueweapon/greatsword/psygsword/relic(H))
 			H.put_in_hands(new /obj/item/rogueweapon/huntingknife/idagger/silver/psydagger(H))
 			H.equip_to_slot_or_del(new /obj/item/rogueweapon/scabbard/gwstrap, SLOT_BACK_R, TRUE)
-			H.equip_to_slot_or_del(new /obj/item/rogueweapon/scabbard/sheath, SLOT_BELT_L, TRUE)
+			H.equip_to_slot_or_del(new /obj/item/rogueweapon/scabbard/sheath/noble, SLOT_BELT_L, TRUE)
 			H.adjust_skillrank_up_to(/datum/skill/combat/swords, 5, TRUE)
 			H.adjust_skillrank_up_to(/datum/skill/combat/knives, 4, TRUE)
 		if("Covenant And Creed (Broadsword + Shield)")

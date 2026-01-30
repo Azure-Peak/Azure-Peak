@@ -34,6 +34,8 @@
 	icon_state = "dgamb"
 	body_parts_covered = COVERAGE_ALL_BUT_LEGS
 	prevent_crits = PREVENT_CRITS_MOST
+	color = null
+	chunkcolor = null
 	allowed_sex = list(MALE, FEMALE)
 
 /obj/item/clothing/suit/roguetown/armor/gambeson/shadowrobe

@@ -66,6 +66,8 @@
 	beltr = /obj/item/rogueweapon/whip/spiderwhip	
 	beltl = /obj/item/rope/chain
 
+	H.faction += "spider_lowers"
+
 	if(H.mind)
 		var/riding = list("I'm a spider rider (your pet with you)", "I walk on my legs (+1 for athletics)")
 		var/ridingchoice = input(H, "Choose your faith", "FAITH") as anything in riding
@@ -121,6 +123,8 @@
 	neck = /obj/item/clothing/neck/roguetown/chaincoif/chainmantle
 	beltl = /obj/item/rogueweapon/scabbard/sword
 	r_hand = /obj/item/rogueweapon/sword/sabre/stalker
+
+	H.faction += "spider_lowers"
 
 	if(H.mind)
 		var/weapon = list("Bow and Arrow", "Dual Sabres")

@@ -293,7 +293,8 @@
 	blade_type = /obj/item/blade/iron_axe
 	metal_to_blade = list(
 		/obj/item/ingot/iron = /obj/item/blade/iron_axe,
-		/obj/item/ingot/steel = /obj/item/blade/steel_axe
+		/obj/item/ingot/steel = /obj/item/blade/steel_axe,
+		/obj/item/ingot/bronze = /obj/item/blade/bronze_axe
 	)
 
 /obj/item/mold/sword
@@ -303,7 +304,8 @@
 	blade_type = /obj/item/blade/iron_sword
 	metal_to_blade = list(
 		/obj/item/ingot/iron = /obj/item/blade/iron_sword,
-		/obj/item/ingot/steel = /obj/item/blade/steel_sword
+		/obj/item/ingot/steel = /obj/item/blade/steel_sword,
+		/obj/item/ingot/bronze = /obj/item/blade/bronze_sword
 	)
 
 /obj/item/mold/knife
@@ -313,7 +315,8 @@
 	blade_type = /obj/item/blade/iron_knife
 	metal_to_blade = list(
 		/obj/item/ingot/iron = /obj/item/blade/iron_knife,
-		/obj/item/ingot/steel = /obj/item/blade/steel_knife
+		/obj/item/ingot/steel = /obj/item/blade/steel_knife,
+		/obj/item/ingot/bronze = /obj/item/blade/bronze_knife
 	)
 
 /obj/item/mold/mace
@@ -323,7 +326,8 @@
 	blade_type = /obj/item/blade/iron_mace
 	metal_to_blade = list(
 		/obj/item/ingot/iron = /obj/item/blade/iron_mace,
-		/obj/item/ingot/steel = /obj/item/blade/steel_mace
+		/obj/item/ingot/steel = /obj/item/blade/steel_mace,
+		/obj/item/ingot/bronze = /obj/item/blade/bronze_mace
 	)
 
 /obj/item/mold/polearm
@@ -333,7 +337,8 @@
 	blade_type = /obj/item/blade/iron_polearm
 	metal_to_blade = list(
 		/obj/item/ingot/iron = /obj/item/blade/iron_polearm,
-		/obj/item/ingot/steel = /obj/item/blade/steel_polearm
+		/obj/item/ingot/steel = /obj/item/blade/steel_polearm,
+		/obj/item/ingot/bronze = /obj/item/blade/bronze_polearm
 	)
 
 /obj/item/mold/plate
@@ -343,5 +348,6 @@
 	blade_type = /obj/item/blade/iron_plate
 	metal_to_blade = list(
 		/obj/item/ingot/iron = /obj/item/blade/iron_plate,
-		/obj/item/ingot/steel = /obj/item/blade/steel_plate
+		/obj/item/ingot/steel = /obj/item/blade/steel_plate,
+		/obj/item/ingot/bronze = /obj/item/blade/bronze_plate
 	)

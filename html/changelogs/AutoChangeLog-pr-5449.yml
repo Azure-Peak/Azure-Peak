@@ -1,0 +1,5 @@
+author: "Ollanius"
+delete-after: True
+changes:
+  - rscadd: "The 'ENDURE' miracle now prints a uniquely-colored emote upon casting, instead of forcing the caster to shout."
+  - rscadd: "Slightly tweaked the verbage on the emotes that 'PRAYER', 'RESPITE', and 'PERSIST' print upon completion."
