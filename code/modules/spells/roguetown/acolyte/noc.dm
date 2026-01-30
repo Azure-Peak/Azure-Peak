@@ -441,9 +441,9 @@ Somewhat fitting, considering the broadness of their domains. I also just think 
 			to_chat(user, span_warning("ASTRATA IS RISEN! MY SPELL FIZZLES!"))
 			revert_cast()
 			return FALSE
-		user.visible_message(span_blue("[user] draws a glowing blue crescent on [target]\'s forehead!"))
-		to_chat(target, span_blue("My mind flashes with inspiring images of the NOCMOS! My dreams will prove fruitful...!")) // the NOCMOS IS SPEAKING TO ME.
 		if(target.mind?.sleep_adv)
+			user.visible_message(span_blue("[user] draws a glowing blue crescent on [target]\'s forehead!"))
+			to_chat(target, span_blue("My mind flashes with inspiring images of the NOCMOS! My dreams will prove fruitful...!")) // the NOCMOS IS SPEAKING TO ME.
 			target.mind.sleep_adv.sleep_adv_points += H.get_skill_level(associated_skill)
 			H.mind.sleep_adv.sleep_adv_points += floor(H.get_skill_level(associated_skill)/2) //good boy, take a bun.
 		return TRUE
