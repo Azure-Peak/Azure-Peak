@@ -346,17 +346,17 @@ Somewhat fitting, considering the broadness of their domains. I also just think 
 //T0.
 /obj/effect/proc_holder/spell/self/wise_moon
 	name = "Enlightenment"
-	desc = "Ask the Wise Moon for help."
+	desc = "Invoke a lesser form of the Moonlight Dance, temporarily increasing your intelligence. Scales with holy skill and grows much more effective at nite."
 	base_icon_state = "wisescroll"
 	overlay_state = "noc_gaze"
 	releasedrain = 10
 	chargedrain = 0
 	chargetime = 0
 	chargedloop = /datum/looping_sound/invokeholy
-	sound = 'sound/magic/churn.ogg'
+	sound = 'sound/magic/clang.ogg'
 	associated_skill = /datum/skill/magic/holy
 	antimagic_allowed = FALSE
-	invocations = list("Noc show me true.")
+	invocations = list("His gaze upon me...!", "I beseech the stars; show me truth!") 
 	invocation_type = "shout"
 	recharge_time = 3 MINUTES
 	devotion_cost = 30
