@@ -451,7 +451,7 @@ Somewhat fitting, considering the broadness of their domains. I also just think 
 
 /obj/effect/proc_holder/spell/targeted/touch/summonrogueweapon/nocgrasp
 	name = "Noc Grasp"
-	desc = "Summon the Light of Widsom from your soul and let it envelop your hand. Use on scrolls, parchment and books to convert them into devotion."
+	desc = "Summon a vestige of Noc and let it envelop your hand. Use it on scrolls, parchment and books to convert them into devotion."
 	clothes_req = FALSE
 	drawmessage = "I prepare to perform a divine incantation."
 	dropmessage = "I release my divine focus."
@@ -469,7 +469,7 @@ Somewhat fitting, considering the broadness of their domains. I also just think 
 /obj/item/melee/touch_attack/rogueweapon/nocgrasp
 	name = "Shimmering Hand"
 	desc = "The Sacred Light of Noc. \n\
-	click on self to remove it."
+	Touch yourself to dispel it."
 	icon = 'icons/roguetown/misc/miraclestuff.dmi'
 	mob_overlay_icon = 'icons/roguetown/misc/miraclestuff.dmi'
 	lefthand_file = 'icons/roguetown/misc/miraclestuff.dmi'
@@ -478,7 +478,7 @@ Somewhat fitting, considering the broadness of their domains. I also just think 
 	item_state = "mooni"
 	possible_item_intents = list(/datum/intent/use)
 	parrysound = list('sound/magic/magic_nulled.ogg')
-	swingsound = list('sound/magic/churn.ogg')
+	swingsound = list('sound/magic/cosmic_expansion.ogg')
 	attached_spell = /obj/effect/proc_holder/spell/targeted/touch/summonrogueweapon/nocgrasp
 	wbalance = WBALANCE_HEAVY
 	force = 0
