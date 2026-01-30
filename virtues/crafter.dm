@@ -55,6 +55,16 @@
 						list(/datum/skill/misc/tracking, 2, 2)
 	)
 
+/datum/virtue/utility/herbapprentice
+	name = "Herbalist's Apprentice"
+	desc = "In my youth, I worked under a skilled herbalist, learning about various plants and their uses."
+	softcap = TRUE
+	added_skills = list(list(/datum/skill/craft/farming, 2, 2),
+						list(/datum/skill/craft/alchemy, 2, 2),
+						list(/datum/skill/craft/cooking, 2, 2),
+						list(/datum/skill/misc/medicine, 2, 2)
+	)
+
 /datum/virtue/utility/artificer
 	name = "Artificer's Apprentice"
 	desc = "In my youth, I worked under a skilled artificer, studying construction and engineering."

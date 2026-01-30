@@ -246,6 +246,25 @@
 						list(/datum/skill/combat/knives, 2, 2)
 	)
 
+/datum/virtue/utility/streeturchin
+	name = "Street Urchin"
+	desc = "You grew up on the streets, surviving only by your wits and ability to get yourself out of trouble. These skills have stayed with you well into adulthood."
+	added_skills = list(list(/datum/skill/misc/sneaking, 2, 2),
+						list(/datum/skill/misc/lockpicking, 2, 2)
+						list(/datum/skill/misc/climbing, 2, 2)
+						list(/datum/skill/misc/stealing, 2, 2)
+	)
+
+/datum/virtue/utility/housekeeper
+	name = "Housekeeper"
+	desc = "You've been a lowly servant for most of your life, performing every sort of mundane household chore imaginable ever since you were old enough to hold a broom."
+	added_skills = list(list(/datum/skill/craft/cooking, 2, 2),
+						list(/datum/skill/labor/farming, 2, 2),
+						list(/datum/skill/craft/sewing, 2, 2),
+						list(/datum/skill/labor/butchering, 2, 2),
+						list(/datum/skill/labor/lumberjacking, 2, 2)
+						)
+
 /datum/virtue/utility/ugly
 	name = "Ugly"
 	desc = "Be it your family's habits in and out of womb, your own choices or Xylix's cruel roll of fate, you have been left unbearable to look at. Stuck to the unseen pits and crevices of the town, you've grown used to the foul odours of lyfe that often follow you. Corpses do not stink for you, and that is all the company you might find."
