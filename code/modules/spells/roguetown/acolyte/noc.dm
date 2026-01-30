@@ -416,6 +416,7 @@ Somewhat fitting, considering the broadness of their domains. I also just think 
 	invocations = list("Good nite.") // good nite :) i love you :)
 	associated_skill = /datum/skill/magic/holy
 	recharge_time = 30 MINUTES
+	gesture_required = TRUE
 	miracle = TRUE
 	devotion_cost = 30
 
