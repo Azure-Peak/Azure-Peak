@@ -371,8 +371,8 @@ Somewhat fitting, considering the broadness of their domains. I also just think 
 	return TRUE
 
 /atom/movable/screen/alert/status_effect/buff/wise_moon
-	name = "Wise Moon"
-	desc = "Moonlight makes my thinking easier."
+	name = "Enlightenment"
+	desc = "Divine magic is boosting my intelligence."
 	icon = 'icons/mob/actions/roguespells.dmi'
 	icon_state = "wise_moon"
 
@@ -394,7 +394,7 @@ Somewhat fitting, considering the broadness of their domains. I also just think 
 			int_bonus = assocskill
 		duration *= 2
 	if(GLOB.tod == "day")
-		to_chat(owner, "Sun covers a moon with its rays!")
+		to_chat(owner, "Astrata is risen! My spell loses some of it's potency! (-1 INT BOOST EFFECTIVENESS.)")
 		int_bonus--
 	if(int_bonus > 0)
 		effectedstats = list(STATKEY_INT = int_bonus)
@@ -403,19 +403,19 @@ Somewhat fitting, considering the broadness of their domains. I also just think 
 //T0
 
 /obj/effect/proc_holder/spell/invoked/moondream
-	name = "Moonlight Dream"
-	desc = "The next dream of the target will bring more dreampoints."
+	name = "Hypnagognian Inspiration"
+	desc = "Touch a target. Their next dream will be inspired, granting more dream-points.\nThis spell will fail if it's dae or dawn."
 	overlay_state = "moondream"
 	base_icon_state = "wisescroll"
 	releasedrain = 15
 	chargedrain = 0
 	chargetime = 1 SECONDS
-	range = 2
+	range = 1 // touch spell cause its cooler that way
 	warnie = "sydwarning"
 	movement_interrupt = FALSE
-	sound = 'sound/magic/churn.ogg'
-	invocations = list("Moon will give you a bright dream.")
-	invocation_type = "shout"
+	sound = 'sound/magic/owlhoot.ogg' // its cool
+	invocation_type = "whisper"
+	invocations = list("Good nite.") // good nite :) i love you :)
 	associated_skill = /datum/skill/magic/holy
 	recharge_time = 30 MINUTES
 	miracle = TRUE
