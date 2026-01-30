@@ -544,12 +544,14 @@ Somewhat fitting, considering the broadness of their domains. I also just think 
 
 /obj/effect/proc_holder/spell/self/moon_light
 	name = "Moonlight Glimmer"
-	desc = "The moon will illuminate the living beings around you, exposing them to you."
+	desc = "Calls down shimmering moonlight onto those around you in a certain radius, scaling with holy skill. \n\
+	Mindless creachers will become critically weak. Simple creachers will burn.\n\
+	This CASTS INSTANTLY on selection, and does not work during dae nor dawn."
 	releasedrain = 10
 	chargedrain = 0
 	chargetime = 0
 	chargedloop = /datum/looping_sound/invokeholy
-	invocations = list("Darkness away!")
+	invocations = list("ALL WILL BE REVEALED!!", "DARKNESS, AWAY!!") // this is a LOUD yell bc it can FUUUUCK shit up. and rogues.
 	invocation_type = "shout"
 	sound = 'sound/magic/churn.ogg'
 	base_icon_state = "wisescroll"
@@ -564,7 +566,7 @@ Somewhat fitting, considering the broadness of their domains. I also just think 
 /obj/effect/proc_holder/spell/self/moon_light/cast(list/targets, mob/user = usr)
 	. = ..()
 	if(GLOB.tod == "day" || GLOB.tod == "dawn")
-		to_chat(user, "Astrata covers the Moon with her rays!")
+		to_chat(user, "ASTRATA IS RISEN! MY SPELL FIZZLES!")
 		revert_cast()
 		return FALSE
 	var/checkrange = (range + user.get_skill_level(/datum/skill/magic/holy)) //+1 range per holy skill up to a potential of 8.
