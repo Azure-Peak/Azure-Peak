@@ -238,8 +238,8 @@
 
 	var/mob/living/L = target
 
-	if(!L.mind)
-		damage *= npc_simple_damage_mult // bonus damage against NPCs.
+	if (!L.mind && istype(L, /mob/living/simple_animal))
+		damage *= npc_simple_damage_mult // bonus damage against simple.
 	if(blocked != 100) // not completely blocked
 		if(damage && L.blood_volume && damage_type == BRUTE)
 			var/splatter_dir = dir

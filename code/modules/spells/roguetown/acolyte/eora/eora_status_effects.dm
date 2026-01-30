@@ -186,7 +186,7 @@
 		record_round_statistic(STATS_LUX_REVIVALS)
 		M.update_body()
 		M.visible_message(span_notice("[M] is dragged back from Necra's hold!"), span_green("I awake from the void."))
-
+		M.mind.remove_antag_datum(/datum/antagonist/zombie)
 		M.remove_status_effect(/datum/status_effect/debuff/rotted_zombie)
 		M.apply_status_effect(/datum/status_effect/debuff/revived)
 		M.remove_status_effect(src)

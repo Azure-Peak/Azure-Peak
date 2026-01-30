@@ -27,6 +27,10 @@
 	name = "iron bowl"
 	icon_state = "bowl_iron"
 
+/obj/item/reagent_containers/glass/bowl/bronze
+	name = "bronze bowl"
+	icon_state = "bowl_bronze"
+
 /obj/item/reagent_containers/glass/bowl/gold
 	name = "gold bowl"
 	icon_state = "bowl_gold"
@@ -36,7 +40,7 @@
 	name = "silver bowl"
 	icon_state = "bowl_silver"
 	sellprice = 60
-	is_silver = TRUE
+	is_silver = FALSE //temporary measure to prevent people from easily metachecking vampyres. Replace with a more sophisticated alternative if-or-when available.
 
 /obj/item/reagent_containers/glass/bowl/update_icon()
 	cut_overlays()

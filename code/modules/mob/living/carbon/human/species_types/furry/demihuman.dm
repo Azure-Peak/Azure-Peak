@@ -13,6 +13,7 @@
 		/obj/item/bodypart/taur/lamia,
 		/obj/item/bodypart/taur/spider,
 		/obj/item/bodypart/taur/horse,
+		/obj/item/bodypart/taur/goat,
 	)
 	default_features = MANDATORY_FEATURE_LIST
 	use_skintones = TRUE

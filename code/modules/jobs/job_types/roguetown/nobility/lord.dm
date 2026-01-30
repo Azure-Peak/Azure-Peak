@@ -73,6 +73,7 @@ GLOBAL_LIST_EMPTY(lord_titles)
 	cloak = /obj/item/clothing/cloak/lordcloak
 	belt = /obj/item/storage/belt/rogue/leather/plaquegold
 	beltl = /obj/item/storage/keyring/lord
+	beltr = /obj/item/rogueweapon/scabbard/sword/royal
 	backpack_contents = list(/obj/item/rogueweapon/huntingknife/idagger/steel/special = 1, /obj/item/blueprint/mace_mushroom = 1)
 	id = /obj/item/scomstone/garrison
 

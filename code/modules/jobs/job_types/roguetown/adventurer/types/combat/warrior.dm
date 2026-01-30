@@ -33,7 +33,7 @@
 	H.dna.species.soundpack_m = new /datum/voicepack/male/warrior()
 	H.set_blindness(0)
 	if(H.mind)
-		var/weapons = list("Short Sword & Iron Shield","Arming Sword & Wood Shield","Longsword & +1 Wrestling","Battle Axe & Wood Shield","Mace & Iron Shield","Flail & Iron Shield","Billhook")
+		var/weapons = list("Short Sword & Iron Shield","Arming Sword & Wood Shield","Longsword & +1 Wrestling","Battle Axe & Wood Shield","Mace & Iron Shield","Flail & Iron Shield","Billhook","Greatflail")
 		var/weapon_choice = input(H, "Choose your weapon.", "TAKE UP ARMS") as anything in weapons
 		switch(weapon_choice)
 			if("Short Sword & Iron Shield")
@@ -71,6 +71,10 @@
 			if("Billhook")
 				H.adjust_skillrank_up_to(/datum/skill/combat/polearms, SKILL_LEVEL_EXPERT, TRUE)
 				r_hand = /obj/item/rogueweapon/spear/billhook
+				backr = /obj/item/rogueweapon/scabbard/gwstrap
+			if("Greatflail")
+				H.adjust_skillrank_up_to(/datum/skill/combat/polearms, SKILL_LEVEL_EXPERT, TRUE)
+				r_hand = /obj/item/rogueweapon/flail/peasantwarflail/iron
 				backr = /obj/item/rogueweapon/scabbard/gwstrap
 		var/armors = list("Chainmaille Set","Iron Breastplate","Gambeson & Helmet","Light Raneshi Armor")
 		var/armor_choice = input(H, "Choose your armor.", "TAKE UP ARMOR") as anything in armors
@@ -226,7 +230,8 @@
 		/datum/skill/misc/athletics = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/misc/climbing = SKILL_LEVEL_JOURNEYMAN,
 	)
-	extra_context = "This subclass has two disciplines to choose from: one provides Expert skills in fistfighting and the 'Expert Pugilist' trait, while the other provides unique equipment and a one-point exchange of Speed for Perception."
+	extra_context = "This subclass has three disciplines to choose from: one provides Expert skills in fistfighting and the 'Expert Pugilist' trait, the other provides unique equipment and a one-point exchange of Speed for Perception,\
+					 and the final one grants you a greatsword and a special form of armor while taking away three points of intelligence."
 
 /datum/outfit/job/roguetown/adventurer/barbarian/pre_equip(mob/living/carbon/human/H, visualsOnly)
 	..()
@@ -235,7 +240,8 @@
 	H.set_blindness(0)
 	if(!H.mind)
 		return
-	var/weapons = list("Bronze Katar","Bronze Sword","Bronze Axe","Bronze Mace","Bronze Spear","Discipline - Whiphunter","Discipline - Unarmed")
+
+	var/weapons = list("Bronze Katar","Bronze Sword","Bronze Axe","Bronze Mace","Bronze Spear","Discipline - Whiphunter","Discipline - Unarmed","Discipline - Bodybuilder")
 	var/weapon_choice = input(H, "Choose your WEAPON.", "TAKE UP ARMS.") as anything in weapons
 	switch(weapon_choice)
 		if("Bronze Katar")
@@ -278,6 +284,12 @@
 			head = /obj/item/clothing/head/roguetown/helmet/leather/volfhelm
 			gloves = /obj/item/clothing/gloves/roguetown/bandages/weighted
 			armor = /obj/item/clothing/suit/roguetown/armor/regenerating/skin/disciple/barbarian
+		if ("Discipline - Bodybuilder")
+			H.adjust_skillrank_up_to(/datum/skill.combat/swords, SKILL_LEVEL_JOURNEYMAN, TRUE)
+			armor = /obj/item/clothing/suit/roguetown/armor/manual/pushups/leather
+			r_hand = /obj/item/rogueweapon/greatsword/iron
+			backr = /obj/item/rogueweapon/scabbard/gwstrap
+			H.change_stat(STATKEY_INT, -3) ///This is probably waaay too much and makes this subclass completely unviable, but admins are concerned the armor might be OP.
 	belt = /obj/item/storage/belt/rogue/leather/battleskirt/barbarian
 	pants = /obj/item/clothing/under/roguetown/heavy_leather_pants/bronzeskirt
 	shoes = /obj/item/clothing/shoes/roguetown/boots/furlinedboots
@@ -285,7 +297,7 @@
 	if(should_wear_masc_clothes(H))
 		H.dna.species.soundpack_m = new /datum/voicepack/male/warrior()
 	if(should_wear_femme_clothes(H))
-		if(weapon_choice != "Discipline - Unarmed")
+		if(weapon_choice != "Discipline - Unarmed" && weapon_choice != "Discipline - Bodybuilder")
 			armor = /obj/item/clothing/suit/roguetown/armor/leather/bikini
 	backl = /obj/item/storage/backpack/rogue/satchel
 	backpack_contents = list(
@@ -372,7 +384,7 @@
 	H.dna.species.soundpack_m = new /datum/voicepack/male/warrior()
 	H.set_blindness(0)
 	if(H.mind)
-		var/weapons = list("Executioner's Sword","Warhammer + Shield","Flail + Shield","Lucerne","Greataxe")
+		var/weapons = list("Executioner's Sword","Warhammer + Shield","Flail + Shield","Lucerne","Greataxe","Greatflail")
 		var/weapon_choice = input(H, "Choose your weapon.", "TAKE UP ARMS") as anything in weapons
 		switch(weapon_choice)
 			if("Executioner's Sword")
@@ -388,6 +400,10 @@
 				H.adjust_skillrank_up_to(/datum/skill/combat/shields, SKILL_LEVEL_JOURNEYMAN, TRUE)
 				beltr = /obj/item/rogueweapon/flail
 				backr = /obj/item/rogueweapon/shield/iron
+			if("Greatflail")
+				H.adjust_skillrank_up_to(/datum/skill/combat/polearms, SKILL_LEVEL_JOURNEYMAN, TRUE)
+				r_hand = /obj/item/rogueweapon/flail/peasantwarflail/iron
+				backr = /obj/item/rogueweapon/scabbard/gwstrap
 			if("Lucerne")
 				H.adjust_skillrank_up_to(/datum/skill/combat/polearms, SKILL_LEVEL_JOURNEYMAN, TRUE)
 				r_hand = /obj/item/rogueweapon/eaglebeak/lucerne
@@ -557,13 +573,12 @@
 					if("Fluted Armet")
 						head = /obj/item/clothing/head/roguetown/helmet/heavy/knight/fluted
 
-	backl = /obj/item/storage/backpack/rogue/satchel
-	wrists = /obj/item/clothing/neck/roguetown/psicross/silver
 	shoes = /obj/item/clothing/shoes/roguetown/boots/leather/reinforced
 	pants = /obj/item/clothing/under/roguetown/tights/puritan
 	cloak = /obj/item/clothing/cloak/cape/puritan
 	neck = /obj/item/clothing/neck/roguetown/chaincoif
 	gloves = /obj/item/clothing/gloves/roguetown/angle
+	backl = /obj/item/storage/backpack/rogue/satchel
 	backpack_contents = list(
 		/obj/item/flashlight/flare/torch/metal = 1,
 		/obj/item/recipe_book/survival = 1,
@@ -571,6 +586,20 @@
 		/obj/item/rogueweapon/scabbard/sheath = 1,
 		/obj/item/rogueweapon/huntingknife = 1, //Ensures that Exorcists who take the Shovel can still butcher wildlife. Minor oversight on my part.
 		)
+
+	H.set_blindness(0)
+	switch(H.patron?.type)
+		if(/datum/patron/old_god)
+			wrists = /obj/item/clothing/neck/roguetown/psicross/silver
+		if(/datum/patron/divine/astrata)
+			wrists = /obj/item/clothing/neck/roguetown/psicross/silver/astrata
+		if(/datum/patron/divine/necra)
+			wrists = /obj/item/clothing/neck/roguetown/psicross/silver/necra
+		if(/datum/patron/divine/noc)
+			wrists = /obj/item/clothing/neck/roguetown/psicross/silver/noc 
+		else
+			wrists = /obj/item/clothing/neck/roguetown/psicross/silver/undivided
+
 	//Old people get the option to become glass cannons. Expert Knives + Expert in their chosen weapon, but a permenant -I STR, -I PER, -2 SPD and -2 CON debuff.
 
 /datum/advclass/sfighter/deprived

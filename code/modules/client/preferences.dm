@@ -70,6 +70,7 @@ GLOBAL_LIST_EMPTY(chosen_names)
 	var/real_name						//our character's name
 	var/gender = MALE					//gender of character (well duh) (LETHALSTONE EDIT: this no longer references anything but whether the masculine or feminine model is used)
 	var/pronouns = HE_HIM				// LETHALSTONE EDIT: character's pronouns (well duh)
+	var/voice_pack = "Default"
 	var/voice_type = VOICE_TYPE_MASC	// LETHALSTONE EDIT: the type of soundpack the mob should use
 	var/datum/statpack/statpack	= new /datum/statpack/wildcard/fated // LETHALSTONE EDIT: the statpack we're giving our char instead of racial bonuses
 	var/datum/virtue/virtue = new /datum/virtue/none // LETHALSTONE EDIT: the virtue we get for not picking a statpack
@@ -235,6 +236,8 @@ GLOBAL_LIST_EMPTY(chosen_names)
 	var/noble_gossip
 
 	var/averse_chosen_faction = "Inquisition"
+
+	var/datum/voicepack/temp_vp
 
 /datum/preferences/New(client/C)
 	parent = C
@@ -414,6 +417,12 @@ GLOBAL_LIST_EMPTY(chosen_names)
 			// LETHALSTONE EDIT BEGIN: add pronoun prefs
 			dat += "<b>Pronouns:</b> <a href='?_src_=prefs;preference=pronouns;task=input'>[pronouns]</a><BR>"
 			// LETHALSTONE EDIT END
+			if(!voice_pack)
+				voice_pack = "Default"
+			// LETHALSTONE EDIT BEGIN: add voice type prefs
+			dat += "<b>Voice Identity</b>: <a href='?_src_=prefs;preference=voicetype;task=input'>[voice_type]</a><BR>"
+			// LETHALSTONE EDIT END
+			dat += "<b>Voice Pack</b>: <a href='?_src_=prefs;preference=voicepack;task=input'>[voice_pack]</a>[(voice_pack != "Default") ? "|<a href='?_src_=prefs;preference=voicepack_preview;task=input'>(Sample)</a>" : ""]<BR>"
 
 			dat += "<BR>"
 			dat += "<b>Race:</b> <a href='?_src_=prefs;preference=species;task=input'>[pref_species.name]</a>[spec_check(user) ? "" : " (!)"]<BR>"
@@ -451,10 +460,6 @@ GLOBAL_LIST_EMPTY(chosen_names)
 				var/name = ispath(T) ? T::name : "None"
 				dat += "<b>Taur Body Type:</b> <a href='?_src_=prefs;preference=taur_type;task=input'>[name]</a><BR>"
 				dat += "<b>Taur Color:</b><span style='border: 1px solid #161616; background-color: #[taur_color];'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> <a href='?_src_=prefs;preference=taur_color;task=input'>Change</a><BR>"
-
-			// LETHALSTONE EDIT BEGIN: add voice type prefs
-			dat += "<b>Voice Type</b>: <a href='?_src_=prefs;preference=voicetype;task=input'>[voice_type]</a><BR>"
-			// LETHALSTONE EDIT END
 
 			dat += "<b>Age:</b> <a href='?_src_=prefs;preference=age;task=input'>[age]</a><BR>"
 
@@ -1718,6 +1723,22 @@ Slots: [job.spawn_positions] [job.round_contrib_points ? "RCP: +[job.round_contr
 						voice_type = voicetype_input
 						to_chat(user, "<font color='red'>Your character will now vocalize with a [lowertext(voice_type)] affect.</font>")
 
+				if ("voicepack")
+					var/voicepack_input = tgui_input_list(user, "Choose your character's emote voice pack", "VOICE PACK", GLOB.voice_packs_list)
+					if(voicepack_input)
+						voice_pack = voicepack_input
+						if(voicepack_input != "Default")
+							to_chat(user, span_red("<font color='red'>Your character will now audibly emote with a [lowertext(voicepack_input)] affect.") + span_notice("<br>This will override your Voice Identity and Class-specific voice packs.</font>"))
+						else
+							to_chat(user, "<font color='red'>Your character will now audibly emote in accordance to their Voice Identity and any Racial / Class-specific voice packs.</font>")
+				if("voicepack_preview")
+					if(voice_pack != "Default")
+						var/datum/voicepack/VP = GLOB.voice_packs_list[voice_pack]
+						if(!istype(temp_vp, VP))
+							temp_vp = new VP()
+						var/voiceline = temp_vp.get_sound(pick(temp_vp.preview))
+						user.playsound_local(user, voiceline, 100)
+
 				if("taur_type")
 					var/list/species_taur_list = pref_species.get_taur_list()
 					if(!LAZYLEN(species_taur_list))
@@ -2144,7 +2165,7 @@ Slots: [job.spawn_positions] [job.round_contrib_points ? "RCP: +[job.round_contr
 							continue
 						loadouts_available[loadout.name] = loadout
 
-					var/loadout_input = tgui_input_list(user, "Choose your character's loadout item. RMB a tree, statue or clock to collect. I cannot stress this enough. YOU DON'T SPAWN WITH THESE. YOU HAVE TO MANUALLY PICK THEM UP!!", "LOADOUT THAT YOU GET FROM A TREE OR STATUE OR CLOCK", loadouts_available)
+					var/loadout_input = tgui_input_list(user, "Choose an item for your character's stashed loadout. Your character can access their stash by right-clicking a tree, statue, or clock. If you have a stashed item with a listed Triumph cost, it'll automatically be purchased whenever your character joins the round.", "LOADOUT", loadouts_available)
 					if(loadout_input)
 						if(loadout_input == "None")
 							loadout = null
@@ -2165,7 +2186,7 @@ Slots: [job.spawn_positions] [job.round_contrib_points ? "RCP: +[job.round_contr
 							continue
 						loadouts_available[loadout2.name] = loadout2
 
-					var/loadout_input2 = tgui_input_list(user, "Choose your character's loadout item. RMB a tree, statue or clock to collect. I cannot stress this enough. YOU DON'T SPAWN WITH THESE. YOU HAVE TO MANUALLY PICK THEM UP!!", "LOADOUT THAT YOU GET FROM A TREE OR STATUE OR CLOCK", loadouts_available)
+					var/loadout_input2 = tgui_input_list(user, "Choose an item for your character's stashed loadout. Your character can access their stash by right-clicking a tree, statue, or clock. If you have a stashed item with a listed Triumph cost, it'll automatically be purchased whenever your character joins the round.", "LOADOUT", loadouts_available)
 					if(loadout_input2)
 						if(loadout_input2 == "None")
 							loadout2 = null
@@ -2186,7 +2207,7 @@ Slots: [job.spawn_positions] [job.round_contrib_points ? "RCP: +[job.round_contr
 							continue
 						loadouts_available[loadout3.name] = loadout3
 
-					var/loadout_input3 = tgui_input_list(user, "Choose your character's loadout item. RMB a tree, statue or clock to collect. I cannot stress this enough. YOU DON'T SPAWN WITH THESE. YOU HAVE TO MANUALLY PICK THEM UP!!", "LOADOUT THAT YOU GET FROM A TREE OR STATUE OR CLOCK", loadouts_available)
+					var/loadout_input3 = tgui_input_list(user, "Choose an item for your character's stashed loadout. Your character can access their stash by right-clicking a tree, statue, or clock. If you have a stashed item with a listed Triumph cost, it'll automatically be purchased whenever your character joins the round.", "LOADOUT", loadouts_available)
 					if(loadout_input3)
 						if(loadout_input3 == "None")
 							loadout3 = null

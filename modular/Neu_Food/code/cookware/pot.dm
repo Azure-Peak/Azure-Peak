@@ -68,6 +68,11 @@
 	desc = "A pot made out of copper. It can hold a lot of liquid."
 	icon_state = "pote_copper"
 
+/obj/item/reagent_containers/glass/bucket/pot/bronze
+	name = "bronze pot"
+	desc = "A cauldron of bronze, aching to churn water and chopmealings into a champion's broth. It can hold a lot of liquid."
+	icon_state = "bronzepot"
+
 /obj/item/reagent_containers/glass/bucket/pot/teapot
 	name = "teapot"
 	desc = "A teapot made out of ceramic. Used to serve tea, it can hold a lot of liquid. It can still spill, however."

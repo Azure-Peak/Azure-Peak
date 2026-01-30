@@ -23,6 +23,10 @@ GLOBAL_LIST_INIT(virtue_mount_choices_noble, (list(
 	list("fogbeast stallion", /mob/living/simple_animal/hostile/retaliate/rogue/fogbeast/male/tame/saddled),
 )))
 
+GLOBAL_LIST_INIT(virtue_mount_choices_anthrax, (list(
+	list("drider spider", /mob/living/simple_animal/hostile/retaliate/rogue/drider/tame/saddled),
+)))
+
 /datum/stressevent/precious_mob_died
 	timer = INFINITY
 	stressadd = 10
@@ -70,6 +74,9 @@ GLOBAL_LIST_INIT(virtue_mount_choices_noble, (list(
 	if (HAS_TRAIT(user, TRAIT_NOBLE))
 		to_chat(user, span_info("As an anointed noble, your steed can also come from pedigree stock."))
 		mount_choices += GLOB.virtue_mount_choices_noble
+	if (HAS_TRAIT(user, TRAIT_ANTHRAXI))
+		to_chat(user, span_info("As a Drow, you are skilled in handling giant spiders of the Underdark."))
+		mount_choices += GLOB.virtue_mount_choices_anthrax
 
 	for(var/i = 1, i <= mount_choices.len, i++)
 		var/mob/living/simple_animal/honse
@@ -107,7 +114,10 @@ GLOBAL_LIST_INIT(virtue_mount_choices_noble, (list(
 	playsound(user, 'sound/magic/saddleborn-call.ogg', 150, FALSE, 5)
 	if (!user.buckled)
 		the_real_honse.buckle_mob(user, TRUE)
-		playsound(the_real_honse, 'sound/magic/saddleborn-summoned.ogg', 100, FALSE, 2)
+		if(istype(the_real_honse, /mob/living/simple_animal/hostile/retaliate/rogue/drider/tame/saddled))
+			playsound(the_real_honse, 'sound/vo/mobs/spider/speak (3).ogg', 100, FALSE, 2)
+		else
+			playsound(the_real_honse, 'sound/magic/saddleborn-summoned.ogg', 100, FALSE, 2)
 
 	// give us all the saddleborn summon/send-away spells and all that jazz
 	user.AddSpell(new /obj/effect/proc_holder/spell/self/saddleborn/sendaway)
@@ -269,7 +279,10 @@ GLOBAL_LIST_INIT(virtue_mount_choices_noble, (list(
 		honse.forceMove(user.loc)
 		if (!user.buckled)
 			honse.buckle_mob(user, TRUE)
-		playsound(honse, 'sound/magic/saddleborn-summoned.ogg', 100, FALSE, 2)
+		if(istype(honse, /mob/living/simple_animal/hostile/retaliate/rogue/drider/tame/saddled))
+			playsound(honse, 'sound/vo/mobs/spider/speak (3).ogg', 100, FALSE, 2)
+		else
+			playsound(honse, 'sound/magic/saddleborn-summoned.ogg', 100, FALSE, 2)
 
 		if (dangerous_summon) // the horse dragged some attention uh-oh
 			if (!user.goodluck(10)) // every point of fortune above 10 gives us a 10% chance to not summon

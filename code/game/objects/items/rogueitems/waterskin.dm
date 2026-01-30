@@ -8,7 +8,7 @@
 	dropshrink = 1
 	sellprice = 10
 	closed = FALSE
-	slot_flags = ITEM_SLOT_HIP|ITEM_SLOT_NECK
+	slot_flags = ITEM_SLOT_HIP|ITEM_SLOT_NECK|ITEM_SLOT_BACK
 	obj_flags = CAN_BE_HIT
 	reagent_flags = OPENCONTAINER
 	w_class =  WEIGHT_CLASS_NORMAL

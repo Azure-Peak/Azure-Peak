@@ -1,7 +1,6 @@
-
 /obj/item/quiver
 	name = "quiver"
-	desc = "A quiver used to hold arrows. An archer's best friend."
+	desc = "A light, slingable bag that can store arrows. It is the best friend of many-a-plucksome archer. </br>I can quickly nock an arrow by left-clicking on the quiver with my bow."
 	icon_state = "quiver0"
 	item_state = "quiver"
 	icon = 'icons/roguetown/weapons/ammo.dmi'
@@ -114,6 +113,14 @@
 		arrows += A
 	update_icon()
 
+/obj/item/quiver/arrows/bronze/Initialize()
+	..()
+	for(var/i in 1 to max_storage)
+		var/obj/item/ammo_casing/caseless/rogue/arrow/bronze/A = new()
+		arrows += A
+	update_icon()
+
+
 /obj/item/quiver/bluntarrows/Initialize()
 	..()
 	for(var/i in 1 to max_storage)
@@ -142,7 +149,6 @@
 		arrows += A
 	update_icon()
 
-
 /obj/item/quiver/Wbolts/Initialize()
 	..()
 	for(var/i in 1 to max_storage)
@@ -156,7 +162,6 @@
 		var/obj/item/ammo_casing/caseless/rogue/bolt/pyro/A = new()
 		arrows += A
 	update_icon()
-
 
 /obj/item/quiver/poisonarrows/Initialize()
 	. = ..()
@@ -203,9 +208,246 @@
 		arrows += A
 	update_icon()
 
+/obj/item/quiver/silver/Initialize()
+	..()
+	for(var/i in 1 to max_storage)
+		var/obj/item/ammo_casing/caseless/rogue/arrow/silver/A = new()
+		arrows += A
+	update_icon()
+
+//////////// Note - silver quivers and bolt pouches shouldn't be obtainable through normal circumstances.
+// BOLTS  // For now, they should only be available as uncraftable singles.
+////////////
+
+/obj/item/quiver/bolt
+	name = "bolt pouch"
+	desc = "A leather canister that can be used to carry bolts. Smaller, sleeker, yet nevertheless spacious enough to pack enough ammunition for a full nite's hunt."
+	icon_state = "boltpouch0"
+	item_state = "boltpouch"
+	max_storage = 16
+	sellprice = 10
+
+/obj/item/quiver/bolt/attack_turf(turf/T, mob/living/user)
+	if(arrows.len >= max_storage)
+		to_chat(user, span_warning("My [src.name] is full!"))
+		return
+	to_chat(user, span_notice("I begin to gather the ammunition..."))
+	for(var/obj/item/ammo_casing/caseless/rogue/bolt in T.contents)
+		if(do_after(user, 5))
+			if(!eatarrow(bolt))
+				break
+
+/obj/item/quiver/bolt/attackby(obj/A, loc, params)
+	if(A.type in subtypesof(/obj/item/ammo_casing/caseless/rogue/bolt))
+		if(arrows.len < max_storage)
+			if(ismob(loc))
+				var/mob/M = loc
+				M.doUnEquip(A, TRUE, src, TRUE, silent = TRUE)
+			else
+				A.forceMove(src)
+			arrows += A
+			update_icon()
+		else
+			to_chat(loc, span_warning("Full!"))
+		return
+	..()
+
+/obj/item/quiver/bolt/attack_right(mob/user)
+	if(arrows.len)
+		var/obj/O = arrows[arrows.len]
+		arrows -= O
+		O.forceMove(user.loc)
+		user.put_in_hands(O)
+		update_icon()
+		return TRUE
+
+/obj/item/quiver/bolt/examine(mob/user)
+	. = ..()
+	if(arrows.len)
+		. += span_notice("[arrows.len] inside.")
+
+/obj/item/quiver/bolt/update_icon()
+	if(arrows.len)
+		icon_state = "boltpouch1"
+	else
+		icon_state = "boltpouch0"
+
+/obj/item/quiver/bolt/standard/Initialize()
+	..()
+	for(var/i in 1 to max_storage)
+		var/obj/item/ammo_casing/caseless/rogue/bolt/A = new()
+		arrows += A
+	update_icon()
+
+/obj/item/quiver/bolt/aalloy/Initialize()
+	..()
+	for(var/i in 1 to max_storage)
+		var/obj/item/ammo_casing/caseless/rogue/bolt/aalloy/A = new()
+		arrows += A
+	update_icon()
+
+/obj/item/quiver/bolt/bronze/Initialize()
+	..()
+	for(var/i in 1 to max_storage)
+		var/obj/item/ammo_casing/caseless/rogue/bolt/bronze/A = new()
+		arrows += A
+	update_icon()
+
+/obj/item/quiver/bolt/paalloy/Initialize()
+	..()
+	for(var/i in 1 to max_storage)
+		var/obj/item/ammo_casing/caseless/rogue/bolt/paalloy/A = new()
+		arrows += A
+	update_icon()
+
+/obj/item/quiver/bolt/blunt/Initialize()
+	..()
+	for(var/i in 1 to max_storage)
+		var/obj/item/ammo_casing/caseless/rogue/bolt/blunt/A = new()
+		arrows += A
+	update_icon()
+
+/obj/item/quiver/bolt/holy/Initialize()
+	..()
+	for(var/i in 1 to max_storage)
+		var/obj/item/ammo_casing/caseless/rogue/bolt/holy/A = new()
+		arrows += A
+	update_icon()
+
+/obj/item/quiver/bolt/pyro/Initialize()
+	..()
+	for(var/i in 1 to max_storage)
+		var/obj/item/ammo_casing/caseless/rogue/bolt/pyro/A = new()
+		arrows += A
+	update_icon()
+
+/obj/item/quiver/bolt/water/Initialize()
+	..()
+	for(var/i in 1 to max_storage)
+		var/obj/item/ammo_casing/caseless/rogue/bolt/water/A = new()
+		arrows += A
+	update_icon()
+
+/obj/item/quiver/bolt/silver/Initialize()
+	..()
+	for(var/i in 1 to max_storage)
+		var/obj/item/ammo_casing/caseless/rogue/bolt/silver/A = new()
+		arrows += A
+	update_icon()
+
+/obj/item/quiver/bolt/silver/Initialize()
+	..()
+	for(var/i in 1 to max_storage)
+		var/obj/item/ammo_casing/caseless/rogue/bolt/bronze/A = new()
+		arrows += A
+	update_icon()
+
+/////////////
+// BOLT, H.//
+/////////////
+
+/obj/item/quiver/bolt/heavy
+	name = "heavy bolt pouch"
+	desc = "A heavy leather canister that can be used to carry heavier bolts. Casketed inside are the missiles that, whether launched from a mounted ballista or handheld siegebow, will devastate without quarter."
+	icon_state = "boltpouch0"
+	item_state = "boltpouch"
+	max_storage = 8
+	sellprice = 10
+
+/obj/item/quiver/bolt/heavy/attack_turf(turf/T, mob/living/user)
+	if(arrows.len >= max_storage)
+		to_chat(user, span_warning("My [src.name] is full!"))
+		return
+	to_chat(user, span_notice("I begin to gather the ammunition..."))
+	for(var/obj/item/ammo_casing/caseless/rogue/heavy_bolt in T.contents)
+		if(do_after(user, 5))
+			if(!eatarrow(heavy_bolt))
+				break
+
+/obj/item/quiver/bolt/heavy/attackby(obj/A, loc, params)
+	if(A.type in subtypesof(/obj/item/ammo_casing/caseless/rogue/heavy_bolt))
+		if(arrows.len < max_storage)
+			if(ismob(loc))
+				var/mob/M = loc
+				M.doUnEquip(A, TRUE, src, TRUE, silent = TRUE)
+			else
+				A.forceMove(src)
+			arrows += A
+			update_icon()
+		else
+			to_chat(loc, span_warning("Full!"))
+		return
+	..()
+
+/obj/item/quiver/bolt/heavy/attack_right(mob/user)
+	if(arrows.len)
+		var/obj/O = arrows[arrows.len]
+		arrows -= O
+		O.forceMove(user.loc)
+		user.put_in_hands(O)
+		update_icon()
+		return TRUE
+
+/obj/item/quiver/bolt/heavy/examine(mob/user)
+	. = ..()
+	if(arrows.len)
+		. += span_notice("[arrows.len] inside.")
+
+/obj/item/quiver/bolt/heavy/update_icon()
+	if(arrows.len)
+		icon_state = "boltpouch1"
+	else
+		icon_state = "boltpouch0"
+
+/obj/item/quiver/bolt/heavy/standard/Initialize()
+	..()
+	for(var/i in 1 to max_storage)
+		var/obj/item/ammo_casing/caseless/rogue/heavy_bolt/A = new()
+		arrows += A
+	update_icon()
+
+/obj/item/quiver/bolt/heavy/bronze/Initialize()
+	..()
+	for(var/i in 1 to max_storage)
+		var/obj/item/ammo_casing/caseless/rogue/heavy_bolt/bronze/A = new()
+		arrows += A
+	update_icon()
+
+/obj/item/quiver/bolt/heavy/aalloy/Initialize()
+	..()
+	for(var/i in 1 to max_storage)
+		var/obj/item/ammo_casing/caseless/rogue/heavy_bolt/aalloy/A = new()
+		arrows += A
+	update_icon()
+
+/obj/item/quiver/bolt/heavy/paalloy/Initialize()
+	..()
+	for(var/i in 1 to max_storage)
+		var/obj/item/ammo_casing/caseless/rogue/heavy_bolt/paalloy/A = new()
+		arrows += A
+	update_icon()
+
+/obj/item/quiver/bolt/heavy/blunt/Initialize()
+	..()
+	for(var/i in 1 to max_storage)
+		var/obj/item/ammo_casing/caseless/rogue/heavy_bolt/blunt/A = new()
+		arrows += A
+	update_icon()
+
+/obj/item/quiver/bolt/heavy/silver/Initialize()
+	..()
+	for(var/i in 1 to max_storage)
+		var/obj/item/ammo_casing/caseless/rogue/heavy_bolt/silver/A = new()
+		arrows += A
+	update_icon()
+
+//////////////
+// JAVELINS //
+//////////////
+
 /obj/item/quiver/javelin
 	name = "javelinbag"
-	desc = "A large, durable quiver used to hold javelins."
+	desc = "A heavy, hip-hookable sleeve that can carry javelins. It has yet to reclaim the same love it once had, during the wars of pre-Syonic antiquity."
 	icon_state = "javelinbag0"
 	item_state = "javelinbag"
 	max_storage = 4
@@ -277,9 +519,20 @@
 		arrows += A
 	update_icon()
 
+/obj/item/quiver/javelin/bronze/Initialize()
+	..()
+	for(var/i in 1 to max_storage)
+		var/obj/item/ammo_casing/caseless/rogue/javelin/bronze/A = new()
+		arrows += A
+	update_icon()
+
+////////////
+// SLINGS //
+////////////
+
 /obj/item/quiver/sling
 	name = "sling bullet pouch"
-	desc = "This pouch holds the ouch." //i came up with this line on an impulse
+	desc = "A pouch that can be packed with a perplexing amount of pebble-like projectiles. </br>'This pouch packs the ouch!' </br>I can quickly ready a bullet by left-clicking on the pouch with my sling."
 	icon = 'icons/roguetown/weapons/ammo.dmi'
 	icon_state = "slingpouch"
 	item_state = "slingpouch"
@@ -335,6 +588,13 @@
 /obj/item/quiver/sling/update_icon()
 	return
 
+/obj/item/quiver/sling/stone/Initialize()
+	. = ..()
+	for(var/i in 1 to max_storage)
+		var/obj/item/ammo_casing/caseless/rogue/sling_bullet/stone/A = new()
+		arrows += A
+	update_icon()
+
 /obj/item/quiver/sling/iron/Initialize()
 	. = ..()
 	for(var/i in 1 to max_storage)
@@ -342,9 +602,30 @@
 		arrows += A
 	update_icon()
 
+/obj/item/quiver/sling/steel/Initialize()
+	. = ..()
+	for(var/i in 1 to max_storage)
+		var/obj/item/ammo_casing/caseless/rogue/sling_bullet/steel/A = new()
+		arrows += A
+	update_icon()
+
+/obj/item/quiver/sling/aalloy/Initialize()
+	. = ..()
+	for(var/i in 1 to max_storage)
+		var/obj/item/ammo_casing/caseless/rogue/sling_bullet/aalloy/A = new()
+		arrows += A
+	update_icon()
+
 /obj/item/quiver/sling/paalloy/Initialize()
 	. = ..()
 	for(var/i in 1 to max_storage)
 		var/obj/item/ammo_casing/caseless/rogue/sling_bullet/paalloy/A = new()
+		arrows += A
+	update_icon()
+
+/obj/item/quiver/sling/bronze/Initialize()
+	. = ..()
+	for(var/i in 1 to max_storage)
+		var/obj/item/ammo_casing/caseless/rogue/sling_bullet/bronze/A = new()
 		arrows += A
 	update_icon()

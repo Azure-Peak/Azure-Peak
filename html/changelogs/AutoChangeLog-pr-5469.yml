@@ -1,0 +1,4 @@
+author: "Matheo351"
+delete-after: True
+changes:
+  - bugfix: "iron scrap can be used to fill empty metal repair kit"

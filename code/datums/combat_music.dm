@@ -358,7 +358,7 @@ GLOBAL_LIST_EMPTY(cmode_tracks_by_name)
 	musicpath = list('sound/music/combat_ozium.ogg')
 
 /datum/combat_music/physician
-	name = "Physician (Sawbones)"
+	name = "Physician (Alchemist)"
 	desc = ""
 	shortname = "Physician"
 	credits = "Pathologic (Classic) - Utroba Aggression"

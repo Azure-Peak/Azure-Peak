@@ -150,7 +150,7 @@
 		else
 			roll_percentage = "0%"
 
-		sidebar_dat += "<div style='margin-bottom: 12px; padding: 8px; border: 1px solid #444; border-radius: 4px;' title='Roll Chance: [roll_percentage] (Base: [wave.weight], Triumph: +[wave.triumph_total * 2])'>"
+		sidebar_dat += "<div style='margin-bottom: 12px; padding: 8px; border: 1px solid #444; border-radius: 4px;' title='Roll Chance: [roll_percentage] (Base: [wave.weight], Triumph: +[wave.triumph_total * 6])'>"
 		sidebar_dat += "<div style='color: [wave_color]; font-weight: bold; margin-bottom: 4px;'>[wave_name]</div>"
 		sidebar_dat += "<div style='background-color: #333; height: 12px; border-radius: 6px; margin-bottom: 4px;'>"
 		sidebar_dat += "<div style='background-color: [threshold_reached ? "gold" : (is_maxed_out ? "#666666" : "cyan")]; height: 100%; width: [progress_percent]%; border-radius: 6px;'></div>"

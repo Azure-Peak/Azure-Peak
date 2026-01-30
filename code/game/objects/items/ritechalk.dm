@@ -67,7 +67,7 @@
 			to_chat(user,span_cultsmall("I begin inscribing the rune of His Madness."))
 			if(do_after(user, 30, src))
 				playsound(src, 'sound/foley/scribble.ogg', 40, TRUE)
-				new /obj/structure/ritualcircle/dendor(step_turf)
+				new /obj/effect/decal/cleanable/roguerune/god/dendor(step_turf)
 		if("Rune of Forge")
 			to_chat(user,span_cultsmall("I begin inscribing the rune of Their Craft..."))
 			if(do_after(user, 30, src))

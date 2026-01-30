@@ -845,3 +845,71 @@
   - rscadd: 'Added new trainers and remade squire loadouts around them.
 
       :cl:'
+2026-01-27:
+  FreeStylaLT:
+  - balance: Scrying is now always known about to the target, if they're alive.
+  - bugfix: Fixed Deathless / Aasimars spawning in permanently thirsty.
+  Ketrai:
+  - rscadd: Added rous, venard and cabbit form to witches
+  Lamasmaster:
+  - bugfix: Helmet armor class not being involved in calculations.
+  - balance: Bandit classes
+  - balance: Bandit hoardmaster
+  - balance: Dragonscale Necklace
+  Onutsio:
+  - rscadd: New hat for the psyaltrist
+  - balance: Psyaltrist skills + Loadout
+  - bugfix: PSY Rapier now golgatha blessable
+  Randall:
+  - rscadd: More floors can have tracks.
+  Ryan180602:
+  - bugfix: femme barbarians spawn with skin on unarmed.
+  - bugfix: inqcoat no longer covers hands and feet.
+  - bugfix: Remove goodtrainer on banneret.
+  UEDCommander:
+  - rscadd: Black Venom and Anthrax mercenaries can now take Drider Spider as their
+      mount if they have Saddleborn virtue
+  - balance: Black Venom can now choose to have Saddleborn as free virtue
+2026-01-28:
+  FreeStylaLT:
+  - rscadd: Added a new voice pack, Masculine (Foppish). It has an emote pack with
+      a softer male voice.
+  Lamasmaster:
+  - rscadd: Chicken recipes
+  - qol: Animal noises have their own category now
+  - rscadd: Silk knee/thigh stockings and eoran briefs
+  Ryan180602:
+  - rscadd: willmbrink donor item
+  SirSwagmeyer:
+  - rscadd: Old age knights
+  WeNeedMorePhoron:
+  - balance: NPCs now juke more often, but can no longer do physics breaking multistep
+      juke
+  - balance: NPC's BReady trait is halved in effectiveness to make it slightly easier
+      to exhaust them in battle.
+  WrongEndoftheRainbow:
+  - rscadd: Added two new subclasses for Barbarian and Beserker that grant muscled
+      skin.
+  - code_imp: Added a form of armor that heals via doing pushups, called muscled skin.
+  hazelrat:
+  - rscdel: Removed the delay on drawing a bow after nocking it. You can now begin
+      to draw a bow or sling immediately after nocking it.
+  - bugfix: Slings no longer begin to swing when left-clicked on a quiver to load
+      a bullet.
+2026-01-29:
+  FreeStylaLT:
+  - rscadd: Voice Pack selection to char setup.
+  Ketrai:
+  - bugfix: fixed male guild blacksmiths not receiving the lithmyc mace blueprint.
+  PatapoIIIa:
+  - bugfix: Prevented runtime error when firing one-handed crossbows with an empty
+      off-hand
+  - code_imp: Hardened dual-wield crossbow logic with safe type checks and early exits
+  - bugfix: Prevented dirt clod stacking from causing runtime errors and server lag
+  - refactor: Refactored dirt clod merge logic to be event-driven and safer
+  - code_imp: Added safeguards against repeated deletion and null element access
+  - server: Improved server stability during high player activity involving dirt
+  WeNeedMorePhoron:
+  - bugfix: NPC damage multiplier on projectiles no longer apply to complex mob. Again.
+  zRainbowcat:
+  - bugfix: minor bugfix

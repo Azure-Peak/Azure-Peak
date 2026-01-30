@@ -36,7 +36,29 @@
 	if(istype(I, /obj/item/natural/head))
 		return FALSE  // Thats the HEADEATER's job.
 	if(istype(I, /obj/item/storage))
-		return FALSE //Anti-Exploit fix
+		return FALSE // Anti-exploitation fix.
+	if(istype(I, /obj/item/clothing/ring/signet/triumph))
+		return FALSE // Prevents 'free coinage' exploitage.
+	if(istype(I, /obj/item/clothing/ring/gold/triumph))
+		return FALSE // Ditto, going down.
+	if(istype(I, /obj/item/clothing/ring/diamond/triumph))
+		return FALSE
+	if(istype(I, /obj/item/clothing/neck/roguetown/ornateamulet/noble/triumph))
+		return FALSE
+	if(istype(I, /obj/item/clothing/neck/roguetown/psicross/g/triumph))
+		return FALSE
+	if(istype(I, /obj/item/clothing/neck/roguetown/psicross/inhumen/g/triumph))
+		return FALSE
+	if(istype(I, /obj/item/clothing/head/roguetown/circlet/triumph))
+		return FALSE
+	if(istype(I, /obj/item/clothing/mask/rogue/lordmask/triumph))
+		return FALSE
+	if(istype(I, /obj/item/clothing/mask/rogue/facemask/goldmask/triumph))
+		return FALSE
+	if(istype(I, /obj/item/clothing/mask/rogue/facemask/goldmaskc/triumph))
+		return FALSE
+	if(istype(I, /obj/item/rogueweapon/scabbard))
+		return FALSE // If you have to sell your decorated scabbards for ozium-money, you'll have to barter.
 	if(I.get_real_price() > 0)
 		if(istype(I, /obj/item/reagent_containers/glass/cup)) //As Randall explained, these statements allow any item in the codepath to be sold, regardless of their value.
 			return TRUE

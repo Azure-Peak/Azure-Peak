@@ -45,6 +45,15 @@
 	craftdiff = 0
 	structurecraft = /obj/machinery/tanningrack
 
+/datum/crafting_recipe/roguetown/cooking/frybirdbucket
+	name = "frybird bucket"
+	reqs = list(
+		/obj/item/reagent_containers/food/snacks/rogue/meat/poultry/cutlet/fried = 3,
+		/obj/item/reagent_containers/glass/bucket = 1,
+		/obj/item/reagent_containers/powder/salt = 1)
+	result = /obj/item/reagent_containers/food/snacks/rogue/frybirdbucket
+	craftdiff = 0
+
 /datum/crafting_recipe/roguetown/cooking/dryleaf
 	name = "dry swampweed"
 	result = /obj/item/reagent_containers/food/snacks/grown/rogue/swampweeddry

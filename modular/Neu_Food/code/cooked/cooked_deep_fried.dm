@@ -34,3 +34,17 @@
 	desc = "A deep-fried schnitzel, coated in toastcrumbs and ready to eat."
 	icon_state = "schnitzel"
 	tastes = list("crunchy toastcrumbs" = 1, "tender spidermeat" = 1)
+
+/obj/item/reagent_containers/food/snacks/rogue/meat/chickentender
+	name = "tender frybird"
+	desc = "A deep-fried frybird, coated in toastcrumbs and ready to eat."
+	icon = 'modular/Neu_Food/icons/cooked/cooked_deep_fried.dmi'
+	icon_state = "chickentender"
+	faretype = FARE_LAVISH
+	foodtype = MEAT | GRAIN
+	list_reagents = list(/datum/reagent/consumable/nutriment = SNACK_CHUNKY * 2)
+	bitesize = 5 // If you go through all of the efforts to make this it should have big portion
+	tastes = list("crunchy toastcrumbs" = 1, "tender chicken" = 1)
+	cooked_type = null
+	eat_effect = /datum/status_effect/buff/greatsnackbuff
+	rotprocess = SHELFLIFE_DECENT

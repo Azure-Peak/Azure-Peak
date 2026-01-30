@@ -461,6 +461,7 @@ Inquisitorial armory down here
 	var/cursedblood	
 	var/active
 	var/mob/living/carbon/subject
+	var/hasSubject = FALSE
 	var/full	
 	var/timestaken
 	var/working
@@ -547,6 +548,7 @@ Inquisitorial armory down here
 	cursedblood = initial(cursedblood)
 	working = initial(working)
 	subject = initial(subject)
+	hasSubject = FALSE
 	full = initial(full)
 	timestaken = initial(timestaken)
 	desc = initial(desc)
@@ -594,6 +596,7 @@ Inquisitorial armory down here
 			if(M.show_redflash())
 				M.flash_fullscreen("redflash3")
 			subject = M
+			hasSubject = TRUE
 			if(!HAS_TRAIT(M, TRAIT_NOPAIN) || !HAS_TRAIT(M, TRAIT_NOPAINSTUN))
 				if(prob(15))
 					M.emote("whimper", forced = TRUE)

@@ -243,3 +243,12 @@
 	new /obj/item/clothing/mask/cigarette/rollie/cannabis(src)
 	new /obj/item/clothing/mask/cigarette/rollie/cannabis(src)
 	new /obj/item/clothing/mask/cigarette/rollie/cannabis(src)
+
+/obj/item/storage/belt/rogue/pouch/triumphlunch
+	name = "pouched luncheon"
+	desc = "A pouch that's been packed for a particularly peckish pilgrim. </br>'I wonder what's for dinner.. !'"
+	populate_contents = list(
+	/obj/item/reagent_containers/food/snacks/rogue/cheddarwedge,
+	/obj/item/reagent_containers/food/snacks/rogue/handpie/meat,
+	/obj/item/reagent_containers/glass/bottle/rogue/triumphbeer,
+	)

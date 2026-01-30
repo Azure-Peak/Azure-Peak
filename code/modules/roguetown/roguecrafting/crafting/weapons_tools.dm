@@ -429,6 +429,17 @@
 	skillcraft = /datum/skill/craft/carpentry
 	craftdiff = 0
 
+/datum/crafting_recipe/roguetown/survival/sharpenedstake
+	name = "stake, sharpened"
+	category = "Tools" 
+	result = list(/obj/item/rogueweapon/huntingknife/idagger/stake)
+	reqs = list(
+		/obj/item/grown/log/tree/stake = 1,
+		/obj/item/natural/whetstone = 1,
+		)
+	skillcraft = /datum/skill/craft/crafting
+	craftdiff = 2
+
 /datum/crafting_recipe/roguetown/survival/wood_dagger
 	name = "wooden dagger (x3)"
 	category = "Tools"

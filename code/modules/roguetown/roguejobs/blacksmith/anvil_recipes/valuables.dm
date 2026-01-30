@@ -54,6 +54,37 @@
 	created_item = /obj/item/clothing/neck/roguetown/psicross/inhumen/graggar
 	craftdiff = 1
 
+/datum/anvil_recipe/valuables/ringb
+	name = "Rings, Bronze (x2)"
+	req_bar = /obj/item/ingot/bronze
+	created_item = /obj/item/clothing/ring/bronze
+	craftdiff = SKILL_LEVEL_JOURNEYMAN
+	createditem_num = 2
+
+/datum/anvil_recipe/valuables/psicrossbronze
+	name = "Amulet of Psydonia, Bronze"
+	req_bar = /obj/item/ingot/bronze
+	created_item = /obj/item/clothing/neck/roguetown/psicross/bronze
+	craftdiff = SKILL_LEVEL_JOURNEYMAN
+
+/datum/anvil_recipe/valuables/zcrossbronze
+	name = "Amulet of Inhumenity, Bronze"
+	req_bar = /obj/item/ingot/bronze
+	created_item = /obj/item/clothing/neck/roguetown/psicross/inhumen/bronze
+	craftdiff = SKILL_LEVEL_JOURNEYMAN
+
+/datum/anvil_recipe/valuables/ravoxbronze
+	name = "Amulet of Ravox, Bronze"
+	req_bar = /obj/item/ingot/bronze
+	created_item = /obj/item/clothing/neck/roguetown/psicross/ravox/bronze
+	craftdiff = SKILL_LEVEL_JOURNEYMAN
+
+/datum/anvil_recipe/valuables/statuebronze
+	name = "Statue, Bronze"
+	req_bar = /obj/item/ingot/bronze
+	created_item = /obj/item/roguestatue/bronze
+	craftdiff = SKILL_LEVEL_JOURNEYMAN
+
 /datum/anvil_recipe/valuables/ringg
 	name = "Rings, Gold (x3)"
 	req_bar = /obj/item/ingot/gold
@@ -230,7 +261,7 @@
 	req_bar = /obj/item/ingot/silver
 	hides_from_books = TRUE //Note to self - adding more than five additional items to a crafting recipe might result in unintended consequences.
 	additional_items = list(/obj/item/rogueweapon/greatsword/silver, /obj/item/rogueweapon/greatsword/paalloy, /obj/item/ingot/draconic, /obj/item/ingot/weeping, /obj/item/riddleofsteel)
-	created_item = /obj/item/rogueweapon/greatsword/psygsword/dragonslayer
+	created_item = /obj/item/rogueweapon/sword/long/exe/berserk/dragonslayer
 	appro_skill = /datum/skill/craft/weaponsmithing
 	i_type = "Weapons"
 	craftdiff = SKILL_LEVEL_LEGENDARY

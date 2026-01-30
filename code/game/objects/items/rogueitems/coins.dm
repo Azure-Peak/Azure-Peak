@@ -43,12 +43,6 @@
 	playsound(loc, 'sound/foley/coins1.ogg', 100, TRUE, -2)
 	..() 
 
-/obj/item/roguecoin/Crossed(atom/movable/AM)
-	. = ..()
-	if(istype(AM, /obj/item/roguecoin) && isturf(loc)) // Only on floor
-		merge(AM, null)
-		return
-
 /obj/item/roguecoin/get_real_price()
 	return sellprice * quantity
 

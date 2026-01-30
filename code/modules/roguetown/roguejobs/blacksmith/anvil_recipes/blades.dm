@@ -42,6 +42,41 @@
 	overlay_color = "#808080"
 	desc = "A cast plate waiting to be finished."
 
+//
+
+/obj/item/blade/bronze_axe
+	name = "bronze axe blade"
+	icon_state = "blade_axe"
+	overlay_color = "#f9d690"
+
+/obj/item/blade/bronze_mace
+	name = "bronze mace head"
+	icon_state = "blade_mace"
+	overlay_color = "#f9d690"
+
+/obj/item/blade/bronze_sword
+	name = "bronze sword blade"
+	icon_state = "blade_sword"
+	overlay_color = "#f9d690"
+
+/obj/item/blade/bronze_knife
+	name = "bronze knife blade"
+	icon_state = "blade_knife"
+	overlay_color = "#f9d690"
+
+/obj/item/blade/bronze_polearm
+	name = "bronze polearm blade"
+	icon_state = "blade_polearm"
+	overlay_color = "#f9d690"
+
+/obj/item/blade/bronze_plate
+	name = "bronze plate"
+	icon_state = "blade_plate"
+	overlay_color = "#f9d690"
+	desc = "A cast plate waiting to be finished."
+
+//
+
 /obj/item/blade/steel_axe
 	name = "steel axe blade"
 	icon_state = "blade_axe"
