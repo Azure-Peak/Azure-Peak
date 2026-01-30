@@ -428,7 +428,7 @@ Somewhat fitting, considering the broadness of their domains. I also just think 
 			to_chat(user, span_userdanger("I cannot cast this spell on myself!"))
 			revert_cast()
 			return FALSE
-		if(!user.Adjacent(target))
+		if(!user.Adjacent(target)) // the range on this doesnt work for some reason. remove this if you can fix it. thx.
 			to_chat(user, span_userdanger("I must be adjacent to the target to cast this spell!"))
 			revert_cast()
 			return FALSE
