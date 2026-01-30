@@ -427,14 +427,19 @@ Somewhat fitting, considering the broadness of their domains. I also just think 
 		var/mob/living/carbon/human/target = targets[1]
 		var/mob/living/carbon/human/H = user
 		if(target == user)
+			to_chat(user, span_userdanger("I cannot cast this spell on myself!"))
+			revert_cast()
+			return FALSE
+		if(!user.Adjacent(target))
+			to_chat(user, span_userdanger("I must be adjacent to the target to cast this spell!"))
 			revert_cast()
 			return FALSE
 		if(GLOB.tod == "day" || GLOB.tod == "dawn")
-			to_chat(user, "Sun covers a moon with it's rays!")
+			to_chat(user, "ASTRATA IS RISEN! MY SPELL FIZZLES!")
 			revert_cast()
 			return FALSE
-		user.visible_message("<font color='blue'>[user] points on [target]!</font>")
-		target.visible_message("<font color='blue'>You feel your mind is filled with curious ideas, and your understanding of what you know is growing..</font>")
+		user.visible_message(span_blue("[user] draws a glowing blue crescent on [target]\'s forehead!"))
+		to_chat(target, span_blue("My mind flashes with inspiring images of the NOCMOS! My dreams will prove fruitful...!")) // the NOCMOS IS SPEAKING TO ME.
 		if(target.mind?.sleep_adv)
 			target.mind.sleep_adv.sleep_adv_points += H.get_skill_level(associated_skill)
 			H.mind.sleep_adv.sleep_adv_points += floor(H.get_skill_level(associated_skill)/2) //good boy, take a bun.
