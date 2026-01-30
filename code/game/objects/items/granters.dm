@@ -427,7 +427,7 @@
 	name = "Arcyne Insight"
 	icon_state = "scrollpurple"
 	icon = 'icons/roguetown/items/misc.dmi'
-	desc = "This scroll giving the reader 3 spell points."
+	desc = "This scroll grants the reader an additional three spell points. They must already be a NOVICE in the arcyne..."
 	oneuse = TRUE
 	drop_sound = 'sound/foley/dropsound/paper_drop.ogg'
 	pickup_sound =  'sound/blank.ogg'
@@ -459,7 +459,7 @@
 	name = "Arcyne Manuscript"
 	icon_state = "scrollpurple"
 	icon = 'icons/roguetown/items/misc.dmi'
-	desc = "This scroll giving the reader new arcyne Tyr."
+	desc = "This scroll gives the reader greater arcyne power, and spell-points to accompany it."
 	oneuse = TRUE
 	drop_sound = 'sound/foley/dropsound/paper_drop.ogg'
 	pickup_sound =  'sound/blank.ogg'
