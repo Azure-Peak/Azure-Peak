@@ -426,11 +426,15 @@ Somewhat fitting, considering the broadness of their domains. I also just think 
 		var/mob/living/carbon/human/target = targets[1]
 		var/mob/living/carbon/human/H = user
 		if(target == user)
-			to_chat(user, span_userdanger("I cannot cast this spell on myself!"))
+			to_chat(user, span_warning("I cannot cast this spell on myself!"))
 			revert_cast()
 			return FALSE
 		if(!user.Adjacent(target)) // the range on this doesnt work for some reason. remove this if you can fix it. thx.
-			to_chat(user, span_userdanger("I must be adjacent to the target to cast this spell!"))
+			to_chat(user, span_warning("I must be adjacent to the target to cast this spell!"))
+			revert_cast()
+			return FALSE
+		if(!target.mind)
+			to_chat(user, span_warning("They are too simple for this spell to work!"))
 			revert_cast()
 			return FALSE
 		if(GLOB.tod == "day" || GLOB.tod == "dawn")
