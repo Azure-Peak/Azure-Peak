@@ -173,7 +173,7 @@
 			if(!move_failed)
 				return TRUE
 
-	if(m_intent == MOVE_INTENT_RUN && dir == get_dir(src, M))
+	if(m_intent == MOVE_INTENT_RUN && dir == get_dir(src, M) && HAS_TRAIT(src, TRAIT_CIVILIZEDBARBARIAN))
 		if(isliving(M))
 			var/sprint_distance = sprinted_tiles
 			var/instafail = FALSE
