@@ -82,6 +82,7 @@
 	desc = "Regenerate wounds with visible speed, this violates the masquerade!"
 
 	level = 3
+	minimal_generation = GENERATION_ANCILLAE
 	research_cost = 2
 	vitae_cost = 16
 	duration_length = 1.5 SECONDS
@@ -93,6 +94,7 @@
 	desc = "Rapidly regenerate even serious injuries. This violates the masquerade!"
 
 	level = 4
+	minimal_generation = GENERATION_ANCILLAE
 	research_cost = 3
 	vitae_cost = 20
 	duration_length = 1 SECONDS
@@ -104,6 +106,7 @@
 	desc = "Regenerate injuries and restore damaged organs. This violates the masquerade!"
 
 	level = 5
+	minimal_generation = GENERATION_METHUSELAH
 	research_cost = 4
 	vitae_cost = 30
 	duration_length = 0.8 SECONDS

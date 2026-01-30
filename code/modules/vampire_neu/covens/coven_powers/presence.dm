@@ -151,6 +151,7 @@
 	desc = "Make those kneel before you."
 
 	level = 3
+	minimal_generation = GENERATION_ANCILLAE
 	research_cost = 2
 	vitae_cost = 200
 	check_flags = COVEN_CHECK_CAPABLE|COVEN_CHECK_SPEAK
@@ -185,6 +186,7 @@
 	desc = "Keep your friends close, but your enemies closer. Teleport a target to you."
 
 	level = 4
+	minimal_generation = GENERATION_ANCILLAE
 	research_cost = 3
 	vitae_cost = 200
 	check_flags = COVEN_CHECK_CAPABLE|COVEN_CHECK_SPEAK
@@ -239,6 +241,7 @@
 	desc = "Become so grand that others find it nearly impossible to disobey or harm you."
 
 	level = 5
+	minimal_generation = GENERATION_METHUSELAH
 	research_cost = 4
 	check_flags = COVEN_CHECK_CAPABLE|COVEN_CHECK_SPEAK
 	vitae_cost = 35

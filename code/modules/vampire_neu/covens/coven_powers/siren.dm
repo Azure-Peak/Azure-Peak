@@ -108,6 +108,7 @@
 	desc = "Sing a siren song, calling all nearby to you."
 
 	level = 3
+	minimal_generation = GENERATION_ANCILLAE
 	research_cost = 2
 	vitae_cost = 200
 	check_flags = COVEN_CHECK_CONSCIOUS | COVEN_CHECK_CAPABLE | COVEN_CHECK_IMMOBILE | COVEN_CHECK_SPEAK
@@ -143,6 +144,7 @@
 	desc = "Sing an unearthly song to stun those around you."
 
 	level = 4
+	minimal_generation = GENERATION_ANCILLAE
 	research_cost = 3
 	vitae_cost = 250
 	check_flags = COVEN_CHECK_CONSCIOUS | COVEN_CHECK_CAPABLE | COVEN_CHECK_IMMOBILE | COVEN_CHECK_SPEAK
@@ -178,8 +180,8 @@
 	desc = "Scream at an unnatural pitch, shattering the bodies of your enemies."
 
 	level = 5
-	research_cost = 4
 	minimal_generation = GENERATION_ANCILLAE
+	research_cost = 4
 	check_flags = COVEN_CHECK_CONSCIOUS | COVEN_CHECK_CAPABLE | COVEN_CHECK_IMMOBILE | COVEN_CHECK_SPEAK
 	duration_length = 3 SECONDS
 	cooldown_length = 30 SECONDS

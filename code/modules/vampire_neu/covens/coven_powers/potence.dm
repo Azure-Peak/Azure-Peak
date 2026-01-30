@@ -92,6 +92,7 @@
 	desc = "Become an unyielding machine for as long as your Vitae lasts."
 
 	level = 4
+	minimal_generation = GENERATION_ANCILLAE
 	research_cost = 3
 	vitae_cost = 65
 	check_flags = COVEN_CHECK_CAPABLE
@@ -116,6 +117,7 @@
 	desc = "The people could worship you as a god if you showed them this."
 
 	level = 5
+	minimal_generation = GENERATION_ANCILLAE
 	research_cost = 4
 	vitae_cost = 70
 	check_flags = COVEN_CHECK_CAPABLE

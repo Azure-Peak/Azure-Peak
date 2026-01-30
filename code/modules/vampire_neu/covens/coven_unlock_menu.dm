@@ -257,7 +257,7 @@
 		else if(parent_coven.level >= node.required_level)
 			// Check prerequisites
 			if(node.minimal_generation > user.get_vampire_generation())
-				to_chat(user, span_warning("[node.name] can be unlocked only by vampires of [GLOB.vamp_generation_to_text[node.minimal_generation]]. You are [GLOB.vamp_generation_to_text[user.get_vampire_generation()]]")) 
+				to_chat(user, span_warning("[node.name] can be unlocked only by vampires of [GLOB.vamp_generation_to_text[node.minimal_generation]]. You are [GLOB.vamp_generation_to_text[user.get_vampire_generation()]]"))
 				return
 			var/prereqs_met = TRUE
 			var/missing_prereqs = list()

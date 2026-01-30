@@ -66,6 +66,7 @@
 	desc = "Move faster. React in less time. Your body is under perfect control."
 
 	level = 3
+	minimal_generation = GENERATION_ANCILLAE
 	research_cost = 2
 	vitae_cost = 60
 	check_flags = COVEN_CHECK_LYING | COVEN_CHECK_IMMOBILE
@@ -80,6 +81,7 @@
 	desc = "Breach the limits of what is humanly possible. Move like a lightning bolt."
 
 	level = 4
+	minimal_generation = GENERATION_ANCILLAE
 	research_cost = 3
 	vitae_cost = 65
 	check_flags = COVEN_CHECK_LYING | COVEN_CHECK_IMMOBILE
@@ -94,6 +96,7 @@
 	desc = "You are like light. Blaze your way through the world."
 
 	level = 5
+	minimal_generation = GENERATION_ANCILLAE
 	research_cost = 4
 	vitae_cost = 70
 	check_flags = COVEN_CHECK_LYING | COVEN_CHECK_IMMOBILE

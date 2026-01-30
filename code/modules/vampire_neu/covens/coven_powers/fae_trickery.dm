@@ -25,7 +25,7 @@
 /datum/coven_power/fae_trickery/darkling_trickery/activate(mob/living/target)
 	. = ..()
 	target.visible_message(span_suicide("[target] is disarmed!"),
-					span_boldwarning("I'm disarmed!"))	
+					span_boldwarning("I'm disarmed!"))
 	playsound(get_turf(target), 'sound/magic/mockery.ogg', 40, FALSE)
 	var/turnangle = (prob(50) ? 270 : 90)
 	var/turndir = turn(target.dir, turnangle)
@@ -295,7 +295,7 @@
 		if(AM != owner)
 			AM.adjustBruteLoss(35)
 			AM.Knockdown(5)
-			AM.visible_message(span_suicide("[AM] is disarmed!"), 
+			AM.visible_message(span_suicide("[AM] is disarmed!"),
 							span_boldwarning("I'm disarmed!"))
 			playsound(get_turf(AM), 'sound/magic/mockery.ogg', 40, FALSE)
 			var/target_turf = get_ranged_target_turf(get_turf(AM), pick(GLOB.cardinals), rand(2, 5))
@@ -308,6 +308,7 @@
 	desc = "Plants a symbol under you. Brutal traps throw victims violently, spin makes them dizzy, drop knocks them on the ground and throws their weapon away."
 
 	level = 3
+	minimal_generation = GENERATION_ANCILLAE
 	research_cost = 2
 	check_flags = COVEN_CHECK_CONSCIOUS | COVEN_CHECK_CAPABLE | COVEN_CHECK_IMMOBILE
 	vitae_cost = 80
@@ -340,6 +341,7 @@
 	desc = "Pose a confounding riddle to your victim, forcing them to answer it before they can do anything else."
 
 	level = 4
+	minimal_generation = GENERATION_ANCILLAE
 	research_cost = 3
 	vitae_cost = 250
 	minimal_generation = GENERATION_ANCILLAE
@@ -479,9 +481,9 @@
 	desc = "Unleash a barrage of strikes upon thine foes."
 
 	level = 5
+	minimal_generation = GENERATION_ANCILLAE
 	research_cost = 4
 	vitae_cost = 250
-	minimal_generation = GENERATION_ANCILLAE
 	check_flags = COVEN_CHECK_CONSCIOUS | COVEN_CHECK_CAPABLE | COVEN_CHECK_IMMOBILE | COVEN_CHECK_SPEAK
 	range = 7
 

@@ -31,10 +31,6 @@
 	)
 /obj/effect/proc_holder/spell/targeted/shapeshift/cast(list/targets,mob/user = usr)
 	. = ..()
-	var/datum/antagonist/vampire/VD = usr?.mind?.has_antag_datum(/datum/antagonist/vampire)
-	if(VD && SEND_SIGNAL(user, COMSIG_DISGUISE_STATUS))
-		to_chat(usr, span_warning("My curse is hidden."))
-		return
 	if(usr.restrained(ignore_grab = FALSE))
 		to_chat(usr, span_warn("I am restrained, I can't shapeshift!"))
 		return
@@ -64,7 +60,7 @@
 					Restore(M)
 			Shapeshift(M)
 			return TRUE
-	return 
+	return
 
 /obj/effect/proc_holder/spell/targeted/shapeshift/proc/Shapeshift(mob/living/caster)
 	var/obj/shapeshift_holder/H = locate() in caster

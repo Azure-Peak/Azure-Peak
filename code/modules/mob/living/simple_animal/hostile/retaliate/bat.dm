@@ -34,6 +34,7 @@
 	sight = (SEE_TURFS|SEE_MOBS|SEE_OBJS|SEE_SELF)
 	see_in_dark = 8
 	lighting_alpha = LIGHTING_PLANE_ALPHA_MOSTLY_INVISIBLE
+	speed = -1 // good scouting animals
 
 	var/fly_time = 5 //5 ticks because vampire bats are agile
 
@@ -49,7 +50,7 @@
 /mob/living/simple_animal/hostile/retaliate/bat/Initialize()
 	. = ..()
 	verbs += list(/mob/living/simple_animal/hostile/retaliate/bat/proc/fly_up,
-	/mob/living/simple_animal/hostile/retaliate/bat/proc/fly_down) 
+	/mob/living/simple_animal/hostile/retaliate/bat/proc/fly_down)
 
 /mob/living/simple_animal/hostile/retaliate/bat/proc/fly_up()
 	set category = "Winged Form"

@@ -70,6 +70,7 @@
 	desc = "Turn your hands into deadly claws."
 
 	level = 3
+	minimal_generation = GENERATION_ANCILLAE
 	research_cost = 2
 	check_flags = COVEN_CHECK_CONSCIOUS | COVEN_CHECK_CAPABLE
 	vitae_cost = 250
@@ -104,6 +105,7 @@
 	desc = "Set your foes on fire with a fireball."
 
 	level = 4
+	minimal_generation = GENERATION_ANCILLAE
 	research_cost = 3
 	check_flags = COVEN_CHECK_CONSCIOUS | COVEN_CHECK_CAPABLE | COVEN_CHECK_IMMOBILE | COVEN_CHECK_LYING
 
@@ -126,6 +128,7 @@
 	name = "Wall of Fire"
 	desc = "Firebolt? Fireball? No. Wall of Fire!"
 	level = 5
+	minimal_generation = GENERATION_ANCILLAE
 	research_cost = 4
 	check_flags = COVEN_CHECK_CONSCIOUS | COVEN_CHECK_CAPABLE | COVEN_CHECK_IMMOBILE
 	range = 10
@@ -133,7 +136,6 @@
 	cooldown_length = 120 SECONDS
 	violates_masquerade = TRUE
 	research_cost = 4
-	minimal_generation = GENERATION_ANCILLAE
 	var/initialized_curses = FALSE
 	var/list/curse_names = list()
 	var/list/curses = list()

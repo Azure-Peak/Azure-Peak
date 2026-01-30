@@ -180,6 +180,7 @@
 	desc = "Transmute your vitae into a toxin that destroys all flesh it touches. Must be used on a SHARP weapon."
 
 	level = 3
+	minimal_generation = GENERATION_ANCILLAE
 	research_cost = 2
 	check_flags = COVEN_CHECK_CAPABLE | COVEN_CHECK_CONSCIOUS | COVEN_CHECK_IMMOBILE | COVEN_CHECK_LYING
 	vitae_cost = 150
@@ -212,6 +213,7 @@
 	desc = "Spit a glob of caustic blood at your enemies."
 
 	level = 4
+	minimal_generation = GENERATION_ANCILLAE
 	research_cost = 3
 	check_flags = COVEN_CHECK_CAPABLE | COVEN_CHECK_CONSCIOUS | COVEN_CHECK_IMMOBILE | COVEN_CHECK_LYING
 	violates_masquerade = TRUE
@@ -234,8 +236,8 @@
 	desc = "Curse the last person you attacked to drown in their own blood."
 
 	level = 5
-	research_cost = 4
 	minimal_generation = GENERATION_ANCILLAE
+	research_cost = 4
 	check_flags = COVEN_CHECK_CAPABLE | COVEN_CHECK_CONSCIOUS | COVEN_CHECK_IMMOBILE | COVEN_CHECK_LYING
 	cooldown_length = 30 SECONDS
 

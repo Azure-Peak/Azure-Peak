@@ -126,6 +126,7 @@
 	desc = "Disappear from plain view instantly, and wipe your presence from recent memory."
 
 	level = 3
+	minimal_generation = GENERATION_ANCILLAE
 	research_cost = 2
 	vitae_cost = 100
 	check_flags = COVEN_CHECK_CAPABLE
@@ -169,6 +170,7 @@
 	desc = "Hide yourself and others in a small area. All nearby allies become invisible."
 
 	level = 4
+	minimal_generation = GENERATION_ANCILLAE
 	research_cost = 3
 	check_flags = COVEN_CHECK_CAPABLE
 	vitae_cost = 150
