@@ -33,7 +33,7 @@ to still keep this unavailable to mages... for the moment, at least.
 		if(target.anti_magic_check(TRUE, TRUE))
 			return FALSE
 		var/assocskill = user.get_skill_level(associated_skill)
-		target.visible_message(span_warning("[user] points at [target]'s eyes!"), span_warning("[user] points at my eyes! Shadowy fingers are digging into my vision-- I can't SEE!"))
+		target.visible_message(span_warning("[user] points at [target]'s eyes!"), span_userdanger("[user] points at my eyes! Shadowy fingers are digging into my vision-- I can't SEE!"))
 		target.apply_status_effect(STATUS_EFFECT_BLINDED, assocskill)
 		return TRUE
 	revert_cast()
@@ -158,7 +158,7 @@ Somewhat fitting, considering the broadness of their domains. I also just think 
 		var/mob/living/target = targets[1]
 		if(target.anti_magic_check(TRUE, TRUE))
 			return FALSE
-		target.visible_message(span_warning("[user] points at [target]'s eyes!"),span_warning("My eyes are covered in darkness!"))
+		target.visible_message(span_warning("[user] points at [target]'s eyes!"),span_userdanger("My eyes are covered in darkness!"))
 		var/strength = min(user.get_skill_level(associated_skill) * 4, 4)
 		target.blind_eyes(strength)
 		return TRUE
@@ -392,7 +392,7 @@ Somewhat fitting, considering the broadness of their domains. I also just think 
 			int_bonus = assocskill
 		duration *= 2
 	if(GLOB.tod == "day")
-		to_chat(owner, "Astrata is risen! My spell loses some of it's potency! (-1 INT BOOST EFFECTIVENESS.)")
+		to_chat(owner, span_warning("ASTRATA IS RISEN! My spell loses some of it's potency! (-1 INT BOOST EFFECTIVENESS.)"))
 		int_bonus--
 	if(int_bonus > 0)
 		effectedstats = list(STATKEY_INT = int_bonus)
@@ -434,7 +434,7 @@ Somewhat fitting, considering the broadness of their domains. I also just think 
 			revert_cast()
 			return FALSE
 		if(GLOB.tod == "day" || GLOB.tod == "dawn")
-			to_chat(user, "ASTRATA IS RISEN! MY SPELL FIZZLES!")
+			to_chat(user, span_warning("ASTRATA IS RISEN! MY SPELL FIZZLES!"))
 			revert_cast()
 			return FALSE
 		user.visible_message(span_blue("[user] draws a glowing blue crescent on [target]\'s forehead!"))
@@ -565,7 +565,7 @@ Somewhat fitting, considering the broadness of their domains. I also just think 
 /obj/effect/proc_holder/spell/self/moon_light/cast(list/targets, mob/user = usr)
 	. = ..()
 	if(GLOB.tod == "day" || GLOB.tod == "dawn")
-		to_chat(user, "ASTRATA IS RISEN! MY SPELL FIZZLES!")
+		to_chat(user, span_warning("ASTRATA IS RISEN! MY SPELL FIZZLES!"))
 		revert_cast()
 		return FALSE
 	var/checkrange = (range + user.get_skill_level(/datum/skill/magic/holy)) //+1 range per holy skill up to a potential of 8.
@@ -629,7 +629,7 @@ Somewhat fitting, considering the broadness of their domains. I also just think 
 /obj/effect/proc_holder/spell/self/wisescroll/cast(mob/living/carbon/human/user)
 	. = ..()
 	if(GLOB.tod == "day" || GLOB.tod == "dawn")
-		to_chat(user, "ASTRATA IS RISEN! MY SPELL FIZZLES!")
+		to_chat(user, span_warning("ASTRATA IS RISEN! MY SPELL FIZZLES!"))
 		revert_cast()
 		return FALSE
 
