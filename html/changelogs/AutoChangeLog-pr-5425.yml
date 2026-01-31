@@ -1,6 +1,0 @@
-author: "Ollanius"
-delete-after: True
-changes:
-  - rscadd: "Besilked Jackets - a Master-tier sewcraft that weaves a Padded Arming Jacket's protection into a set of Formal Silks."
-  - rscadd: "A crafting recipe for the lightweight haubergeon, under the name of 'Fencing Haubergeon'. Requires a Tailor's assistance."
-  - balance: "Slightly reduces the cost of creating an Arming Jacket and Padded Arming Jacket."

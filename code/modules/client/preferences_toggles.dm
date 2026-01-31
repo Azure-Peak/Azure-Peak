@@ -199,6 +199,17 @@
 		prefs.save_preferences()
 	to_chat(src, "You will [prefs.toggles & CMODE_STRIPPING ? "" : "not"] be able to open the strip menu in combat mode.")
 
+/client/verb/mood_messages_in_chat()
+	set category = "Options"
+	set name = "Toggle Mood Messages"
+
+	if(prefs)
+		prefs.chat_toggles ^= CHAT_MOODMESSAGES
+		prefs.save_preferences()
+
+	to_chat(src, "You will[prefs.chat_toggles & CHAT_MOODMESSAGES ? "" : " not"] see all mood messages \
+	in your chat. Sufficiently severe mood messages are shown in chat regardless of this toggle.")
+
 /client/verb/toggle_xptext() // Whether the user can see the balloon XP pop ups.
 	set category = "Options"
 	set name = "Toggle XP Text"

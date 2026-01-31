@@ -1072,3 +1072,59 @@
   - bugfix: INDEXERs can be put in slips even if their subject no longer exists
   - bugfix: you no longer are considered still a deadite after most revival methods
   - bugfix: familiar revivals should be 3% more functional
+2026-01-31:
+  FreeStylaLT:
+  - balance: Feeling no hunger or thirst prevents food & drink based buffs from being
+      applied.
+  - balance: Mindlink has been made to be loud.
+  Ketrai:
+  - rscadd: Adds inhumen revival spells.
+  - rscadd: Added scheduled events
+  Lamasmaster:
+  - rscadd: Debuff to wearing Dragon Necklace as nonbandit
+  - rscadd: Faithlocks for Alchemist Knave and Sellsword
+  - balance: Iconoclast - Golden Serpent
+  - bugfix: Flameberge not spawning for Hedge Knight
+  NewyearnewmeUwu:
+  - rscadd: 3 currently-unimplemented bone weapons have been added.
+  - rscadd: Pestran Templars get access to a unique kriegmesser reskin as well as
+      a halberd reskin.
+  Ollanius:
+  - rscadd: Adds the Besilked Haubergeon, a lightweight variant of its namesake. Exclusively
+      spawns on the Exorcist, for now.
+  - balance: Restored the Haubergeon's AC to Medium. Roles without the 'Maille Training'
+      trait can no longer effectively use it.
+  - rscadd: Heartfeltian noblemen, Azurian hands, and the Knight-Banneret now receive
+      fancier scabbards.
+  - rscadd: The Lore Primer now has an entry on Heartfelt, and the updated fate of
+      Rudmarsch.
+  - balance: The Bronze Smelter is now crafted with a piece of copper ore and tin
+      ore, instead of iron ore.
+  - rscadd: '''..and in that Duchy, there is the capital of Azure Peak - and they
+      say it is the end of the world.'''
+  - rscadd: Added two new deities to the Gronnic Pantheon's flag. Gronnites can now
+      mechanically worship region-specific versions of Abyssor (as the Spiraling Kraken)
+      and Dendor (as the Volfskinned Man).
+  - rscadd: Talismans, made by 7Sin! All Gronnic roles now spawn with a special amulet
+      that provides a crash course on the region-specific version of their chosen
+      patron. Heed them well, lest you face scrutiny from your countrymen.
+  - bugfix: Purchasing a Mess Kit via the loadout system will now properly give you
+      a Mess Kit, instead of nothing.
+  - rscadd: Besilked Jackets - a Master-tier sewcraft that weaves a Padded Arming
+      Jacket's protection into a set of Formal Silks.
+  - rscadd: A crafting recipe for the lightweight haubergeon, under the name of 'Fencing
+      Haubergeon'. Requires a Tailor's assistance.
+  - balance: Slightly reduces the cost of creating an Arming Jacket and Padded Arming
+      Jacket.
+  - rscadd: Dwarves and Smallfolk can now wear both variants of the Foreign / Eastern
+      Undershirt.
+  ToasterStrudes:
+  - bugfix: Goat legs now can have things like dresses/tabards hang over them a little
+      bit
+  WeNeedMorePhoron:
+  - bugfix: Outlaw Contract spawns in goons for you to fight properly again now.
+  - bugfix: Examine panel lagging the shit out of the server should be fixed. Report
+      any oddity with your FT / OOC notes.
+  hazelrat:
+  - rscadd: Followers of Abyssor now gain a mood buff in rain, and a stronger mood
+      buff in storms!

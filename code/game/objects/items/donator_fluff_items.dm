@@ -165,6 +165,34 @@
 	icon = 'icons/obj/items/donor_weapons.dmi'
 	sheathe_icon = "eiren3"
 
+/obj/item/clothing/suit/roguetown/armor/longcoat/eiren //Longcoat has no armor, ignore the /armor/ path.
+	name = "Darkwood's Embrace"
+	desc = "A tough leather coat, taken from one of the few remaining arcyne studies of Lord Darkwood. Ancient, but in remarkably good condition as the weight of memory and sin tries to drag you down."
+	sleeved = TRUE
+	icon = 'icons/clothing/donor_clothes.dmi'
+	icon_state = "eirencoat"
+	item_state = "eirencoat"
+	mob_overlay_icon = 'icons/clothing/onmob/donor_clothes.dmi'
+	sleeved = 'icons/clothing/onmob/donor_sleeves_armor.dmi'
+	sleevetype = "eirencoat"
+	detail_tag = "_detail"
+	detail_color = CLOTHING_RED
+	color = CLOTHING_WHITE
+	boobed = FALSE
+
+/obj/item/clothing/suit/roguetown/armor/longcoat/eiren/Initialize()
+	. = ..()
+	update_icon()
+
+/obj/item/clothing/suit/roguetown/armor/longcoat/eiren/update_icon()
+	cut_overlays()
+	if(get_detail_tag())
+		var/mutable_appearance/pic = mutable_appearance(icon(icon, "[icon_state][detail_tag]"))
+		pic.appearance_flags = RESET_COLOR
+		if(get_detail_color())
+			pic.color = get_detail_color()
+		add_overlay(pic)
+
 //pretzel's special sword
 /obj/item/rogueweapon/greatsword/weeperslathe
 	name = "Weeper's Lathe"

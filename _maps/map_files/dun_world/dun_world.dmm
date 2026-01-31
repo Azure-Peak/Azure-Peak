@@ -14457,10 +14457,6 @@
 /obj/machinery/light/rogue/torchholder/l,
 /turf/open/floor/rogue/dirt/road,
 /area/rogue/outdoors/rtfield)
-"dDb" = (
-/obj/effect/landmark/quest_spawner/medium,
-/turf/open/floor/rogue/twig,
-/area/rogue/outdoors/bog/north)
 "dDd" = (
 /obj/effect/decal/cobbleedge{
 	icon_state = "cobbleedge-sread"
@@ -20055,10 +20051,6 @@
 /obj/item/clothing/under/roguetown/splintlegs/iron,
 /turf/open/floor/rogue/blocks,
 /area/rogue/indoors/town/garrison)
-"eUf" = (
-/obj/effect/landmark/quest_spawner/medium,
-/turf/open/floor/rogue/dirt,
-/area/rogue/outdoors/bog/south)
 "eUh" = (
 /obj/machinery/light/rogue/torchholder/c,
 /turf/open/transparent/openspace,
@@ -38298,10 +38290,6 @@
 	},
 /turf/open/floor/rogue/tile/bfloorz,
 /area/rogue/indoors/town/manor)
-"jum" = (
-/obj/effect/landmark/quest_spawner/medium,
-/turf/open/floor/rogue/twig,
-/area/rogue/outdoors/bog/south)
 "jus" = (
 /obj/structure/table/wood/long_table,
 /obj/item/reagent_containers/glass/cup/steel,
@@ -337491,7 +337479,7 @@ lCD
 lCD
 eCO
 jYu
-jum
+xcc
 jYu
 jYu
 aAp
@@ -337516,7 +337504,7 @@ aay
 byS
 byS
 byS
-eUf
+sxN
 sxN
 sxN
 sxN
@@ -343838,7 +343826,7 @@ jYu
 eCO
 lCD
 xcc
-eUf
+sxN
 sxN
 sxN
 lCD
@@ -346959,7 +346947,7 @@ pMO
 mjV
 aAP
 aAP
-dDb
+aAP
 aAP
 pMO
 pMO
@@ -347349,7 +347337,7 @@ eWk
 pMO
 irm
 irm
-dDb
+aAP
 aAP
 pCi
 pCi
@@ -348743,7 +348731,7 @@ mjV
 irm
 irm
 bTS
-dDb
+aAP
 aAP
 aAP
 aAP
@@ -349207,7 +349195,7 @@ bTS
 bTS
 aAP
 aAP
-dDb
+aAP
 aAP
 mjV
 pMO
@@ -352401,7 +352389,7 @@ lCD
 lCD
 lCD
 lCD
-jum
+xcc
 xKu
 xKu
 xKu
@@ -352422,7 +352410,7 @@ xcc
 xcc
 xcc
 sxN
-eUf
+sxN
 eCO
 eCO
 jYu
@@ -353704,7 +353692,7 @@ pMO
 mjV
 mjV
 pMO
-dDb
+aAP
 ygj
 pMO
 uGX
@@ -355042,7 +355030,7 @@ eWk
 pMO
 pMO
 pMO
-dDb
+aAP
 pMO
 pMO
 uHo
@@ -355108,7 +355096,7 @@ mjV
 aay
 xcc
 xcc
-jum
+xcc
 aay
 aay
 aay
@@ -356457,7 +356445,7 @@ irm
 irm
 aAP
 aAP
-dDb
+aAP
 eWk
 pMO
 fvl
@@ -363260,7 +363248,7 @@ lCD
 lCD
 aay
 jYu
-jum
+xcc
 jYu
 aay
 lCD
@@ -364142,7 +364130,7 @@ eWk
 mjV
 eWk
 aAP
-dDb
+aAP
 pCi
 pCi
 lCD

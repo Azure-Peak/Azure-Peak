@@ -129,6 +129,7 @@
 #define ARMOR_DRAGONHIDE list("blunt" = 30, "slash" = 30, "stab" = 30, "piercing" = 30, "fire" = 40, "acid" = 0) // snowflake armor for dragonhide, fire resist but lower other values from the ring since more integ
 #define ARMOR_FATEWEAVER list("blunt" = 10, "slash" = 100, "stab" = 100, "piercing" = 100, "fire" = 0, "acid" = 0)
 #define ARMOR_RUMACLAN	list("blunt" = 5,"slash" = 90, "stab" = 90, "piercing" = 50, "fire" = 0, "acid" = 0)
+#define ARMOR_BLACKOAK list("blunt" = 100, "slash" = 20, "stab" = 120, "piercing" = 40, "fire" = 0, "acid" = 0)
 // Blocks every hit, at least once
 #define ARMOR_GRONN_LIGHT list("blunt" = 80, "slash" = 80, "stab" = 30, "piercing" = 30, "fire" = 0, "acid" = 0)
 #define ARMOR_GOLD list("blunt" = 200, "slash" = 200, "stab" = 200, "piercing" = 200, "fire" = 200, "acid" = 200) // Effective invulnerability on the covered limb(s). Can only be damaged through attacks with an integrity damage modifier.

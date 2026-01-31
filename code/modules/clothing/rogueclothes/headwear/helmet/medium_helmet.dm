@@ -246,12 +246,6 @@
 	smeltresult = /obj/item/ingot/iron
 	max_integrity = ARMOR_INT_HELMET_IRON
 
-/obj/item/clothing/head/roguetown/helmet/sallet/elven
-	desc = "A steel helmet with a thin gold plating designed for Elven woodland guardians."
-	icon_state = "bascinet_novisor"
-	item_state = "bascinet_novisor"
-	color = COLOR_ASSEMBLY_GOLD
-
 /obj/item/clothing/head/roguetown/helmet/sallet/raneshen
 	name = "kulah khud"
 	desc = "A sturdy, conical helm that has served the Empire well throughout its many campaigns. It's a sight to see, thousands of these bobbing as an army marches. The only greater humiliation than losing it is losing one's medallion."
@@ -331,6 +325,14 @@
 	desc = "A winged version of the elven barbute. They have always been known for their vanity."
 	icon_state = "elven_barbute_winged"
 	item_state = "elven_barbute_winged"
+
+/obj/item/clothing/head/roguetown/helmet/elvenbarbute/blackoak
+	desc = "An elven barbute with a thin gold plating designed for Elven Woodland guardians."
+	color = COLOR_ASSEMBLY_GOLD
+
+/obj/item/clothing/head/roguetown/helmet/elvenbarbute/winged/blackoak
+	desc = "A winged version of the elven barbute with a thin gold plating designed for Elven Woodland guardians."
+	color = COLOR_ASSEMBLY_GOLD
 
 /obj/item/clothing/head/roguetown/helmet/bascinet
 	name = "bascinet"

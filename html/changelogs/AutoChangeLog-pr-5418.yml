@@ -1,5 +1,0 @@
-author: "Ollanius"
-delete-after: True
-changes:
-  - rscadd: "Adds the Besilked Haubergeon, a lightweight variant of its namesake. Exclusively spawns on the Exorcist, for now."
-  - balance: "Restored the Haubergeon's AC to Medium. Roles without the 'Maille Training' trait can no longer effectively use it."

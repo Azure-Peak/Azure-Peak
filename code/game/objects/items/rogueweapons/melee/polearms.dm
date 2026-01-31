@@ -1556,3 +1556,138 @@
 	icon_state = "assegai_steel"
 	gripsprite = FALSE
 	smeltresult = /obj/item/ingot/steel
+
+/////////////////////
+// Special Weapon! //
+/////////////////////
+
+
+/datum/intent/sword/thrust/estoc/dragonslayer
+	name = "impale"
+	icon_state = "inimpale"
+	penfactor = 55
+	attack_verb = list("impales", "runs through")
+	reach = 3
+	damfactor = 1.25
+	clickcd = 55
+	swingdelay = 15
+
+/datum/intent/sword/chop/dragonslayer
+	name = "eviscerate"
+	icon_state = "inrend"
+	blade_class = BCLASS_CHOP
+	attack_verb = list("splits", "eviscerates")
+	animname = "chop"
+	hitsound = list('sound/combat/hits/bladed/genchop (1).ogg', 'sound/combat/hits/bladed/genchop (2).ogg', 'sound/combat/hits/bladed/genchop (3).ogg')
+	penfactor = 40
+	damfactor = 2
+	swingdelay = 15
+	reach = 2
+	clickcd = 55
+	item_d_type = "slash"
+
+/datum/intent/sword/smash/dragonslayer
+	name = "pulverize"
+	blade_class = BCLASS_SMASH
+	attack_verb = list("clangs", "pulverizes")
+	hitsound = list('sound/combat/hits/blunt/frying_pan(1).ogg', 'sound/combat/hits/blunt/frying_pan(2).ogg', 'sound/combat/hits/blunt/frying_pan(3).ogg', 'sound/combat/hits/blunt/frying_pan(4).ogg')
+	penfactor = BLUNT_DEFAULT_PENFACTOR
+	reach = 2
+	damfactor = 2.5
+	swingdelay = 25
+	clickcd = 55
+	icon_state = "insmash"
+	item_d_type = "blunt"
+
+/datum/intent/sword/sucker_punch/dragonslayer
+	name = "unevadable haymaker"
+	icon_state = "inpunch"
+	attack_verb = list("punches", "throttles", "clocks")
+	animname = "strike"
+	blade_class = BCLASS_BLUNT
+	hitsound = list('sound/combat/hits/blunt/bluntsmall (1).ogg', 'sound/combat/hits/blunt/bluntsmall (2).ogg', 'sound/combat/hits/kick/kick.ogg')
+	damfactor = 4
+	penfactor = BLUNT_DEFAULT_PENFACTOR
+	clickcd = 55
+	recovery = 15
+	item_d_type = "blunt"
+	canparry = FALSE
+	candodge = FALSE
+
+/datum/intent/sword/flay/dragonslayer
+	name = "flay"
+	icon_state = "inpeel"
+	attack_verb = list("<font color ='#e7e7e7'>flays</font>")
+	animname = "cut"
+	blade_class = BCLASS_PEEL
+	hitsound = list('sound/combat/hits/blunt/frying_pan(1).ogg', 'sound/combat/hits/blunt/frying_pan(2).ogg', 'sound/combat/hits/blunt/frying_pan(3).ogg', 'sound/combat/hits/blunt/frying_pan(4).ogg')
+	reach = 2
+	penfactor = BLUNT_DEFAULT_PENFACTOR
+	swingdelay = 15
+	clickcd = 50
+	damfactor = 0.5
+	item_d_type = "slash"
+	peel_divisor = 1
+
+//
+
+/obj/item/rogueweapon/greatsword/psygsword/dragonslayer
+	name = "\"Daemonslayer\""
+	desc = "'That thing was too big to be called a sword. Too big, too thick, too heavy, and too rough. No, it was more like a large hunk of silver.' </br>Intimidatingly massive, unfathomably powerful, and - above all else - a testament to one's guts."
+	icon_state = "machaslayer"
+	icon = 'icons/roguetown/weapons/swords64.dmi'
+	wlength = WLENGTH_GREAT
+	w_class = WEIGHT_CLASS_BULKY
+	possible_item_intents = list(/datum/intent/sword/thrust/estoc/dragonslayer, /datum/intent/sword/sucker_punch/dragonslayer)
+	gripped_intents = list(/datum/intent/sword/chop/dragonslayer, /datum/intent/sword/thrust/estoc/dragonslayer, /datum/intent/sword/smash/dragonslayer, /datum/intent/sword/flay/dragonslayer)
+	force = 35
+	force_wielded = 55
+	minstr = 15
+	wdefense = 15
+	max_integrity = 555
+	max_blade_int = 555
+	alt_intents = null
+	is_silver = TRUE
+	smeltresult = /obj/item/rogueweapon/greatsword/silver //Too thick to completely melt.
+
+/obj/item/rogueweapon/greatsword/psygsword/dragonslayer/ComponentInitialize()
+	AddComponent(\
+		/datum/component/silverbless,\
+		pre_blessed = BLESSING_PSYDONIAN,\
+		silver_type = SILVER_PSYDONIAN,\
+		added_force = 0,\
+		added_blade_int = 0,\
+		added_int = 0,\
+		added_def = 0,\
+	)
+
+//Elven weapons sprited and added by Jam
+
+/obj/item/rogueweapon/greatsword/elvish
+	possible_item_intents = list(/datum/intent/sword/chop,/datum/intent/sword/strike) //bash is for nonlethal takedowns, only targets limbs
+	// Design Intent: It is pretty purely a two-handed weapon. In one hand it's a bit clumsy.
+	gripped_intents = list(/datum/intent/sword/cut/zwei, /datum/intent/rend, /datum/intent/sword/thrust/zwei, /datum/intent/sword/strike/bad)
+	alt_intents = list(null)//can't be alt-gripped. Ought to compensate for that.
+	name = "elvish curveblade"
+	desc = "The Elven Curveblade is a traditional weapon, its practice as much a dance as a method of death. Flowing like the water's current, let its path lead to your enemy's throat."
+	icon_state = "elfcurveblade"
+	wlength = WLENGTH_LONG// Less reach than greatsword!
+	minstr = 7// Lighter
+	wdefense = 8// Better defence than greatsword
+	sellprice = 60
+
+/obj/item/rogueweapon/halberd/glaive/elvish
+	name = "elvish glaive"
+	desc = "An elven weapon that combines the elegant sweeping blade typical of Elven design with a lengthy handle. The true guardian of the forest realm."
+	icon_state = "elfglaive"
+	max_blade_int = 180 //Elven design makes it sharper
+	sellprice = 60
+
+/obj/item/rogueweapon/halberd/glaive/elvish/getonmobprop(tag)
+	. = ..()
+	if(tag)
+		switch(tag)
+			if("gen")
+				return list("shrink" = 0.6,"sx" = -6,"sy" = 2,"nx" = 8,"ny" = 2,"wx" = -4,"wy" = 2,"ex" = 1,"ey" = 2,"northabove" = 0,"southabove" = 1,"eastabove" = 1,"westabove" = 0,"nturn" = -38,"sturn" = 300,"wturn" = 32,"eturn" = -23,"nflip" = 0,"sflip" = 100,"wflip" = 8,"eflip" = 0)
+			if("wielded")
+				return list("shrink" = 0.6,"sx" = 4,"sy" = -2,"nx" = -3,"ny" = -2,"wx" = -5,"wy" = -1,"ex" = 3,"ey" = -2,"northabove" = 0,"southabove" = 1,"eastabove" = 1,"westabove" = 0,"nturn" = 7,"sturn" = -7,"wturn" = 16,"eturn" = -22,"nflip" = 8,"sflip" = 0,"wflip" = 8,"eflip" = 0)

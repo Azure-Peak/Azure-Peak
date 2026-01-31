@@ -243,6 +243,8 @@ GLOBAL_LIST_EMPTY(chosen_names)
 
 	var/datum/voicepack/temp_vp
 
+	var/mood_messages_in_chat
+
 /datum/preferences/New(client/C)
 	parent = C
 	migrant  = new /datum/migrant_pref(src)

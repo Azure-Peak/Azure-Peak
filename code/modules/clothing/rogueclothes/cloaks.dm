@@ -1452,6 +1452,7 @@
 	sleevetype = "shirt"
 	nodismemsleeves = TRUE
 	inhand_mod = TRUE
+	resistance_flags = FIRE_PROOF
 
 /obj/item/clothing/cloak/forrestercloak/snow
 	name = "snow cloak"

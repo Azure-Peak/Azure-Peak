@@ -241,16 +241,24 @@
 	salvage_result = /obj/item/natural/hide/cured
 	sewrepair = TRUE
 
-/obj/item/clothing/shoes/roguetown/boots/leather/elven_boots
+/obj/item/clothing/shoes/roguetown/boots/elven_boots
 	name = "woad elven boots"
 	desc = "The living trunks still blossom in the spring. They let water through, but it is never cold."
-	armor = list("blunt" = 100, "slash" = 10, "stab" = 100, "piercing" = 20, "fire" = 0, "acid" = 0) //Resistant to blunt and stab, but very weak to slash.
+	armor = ARMOR_BLACKOAK //Resistant to blunt and stab, but very weak to slash.
 	prevent_crits = PREVENT_CRITS_ALL
+	max_integrity = ARMOR_INT_SIDE_IRON
+	resistance_flags = FIRE_PROOF
+	blocksound = SOFTHIT
 	icon = 'icons/roguetown/clothing/special/race_armor.dmi'
 	mob_overlay_icon = 'icons/roguetown/clothing/special/onmob/race_armor.dmi'
 	icon_state = "welfshoes"
 	item_state = "welfshoes"
 	anvilrepair = /datum/skill/craft/carpentry
+	smeltresult = /obj/item/rogueore/coal
+
+/obj/item/clothing/shoes/roguetown/boots/elven_boots/Initialize(mapload)
+	. = ..()
+	AddComponent(/datum/component/item_equipped_movement_rustle, SFX_WOOD_ARMOR, 10)
 
 /obj/item/clothing/shoes/roguetown/boots/armor
 	name = "plated boots"

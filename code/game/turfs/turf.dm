@@ -412,6 +412,17 @@
 		has_opaque_atom = TRUE // Make sure to do this before reconsider_lights(), incase we're on instant updates. Guaranteed to be on in this case.
 		reconsider_lights()
 
+/turf/Exited(atom/movable/Obj, atom/newloc)
+	. = ..()
+
+	if(istype(Obj))
+		SEND_SIGNAL(src, COMSIG_TURF_EXITED, Obj, newloc)
+		SEND_SIGNAL(Obj, COMSIG_MOVABLE_TURF_EXITED, src, newloc)
+
+	if (Obj && Obj.opacity)
+		recalc_atom_opacity() // Make sure to do this before reconsider_lights(), incase we're on instant updates.
+		reconsider_lights()
+
 /turf/open/Entered(atom/movable/AM)
 	..()
 	//melting

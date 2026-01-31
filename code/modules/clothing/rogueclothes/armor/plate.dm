@@ -604,8 +604,8 @@
 	armor_class = ARMOR_CLASS_LIGHT
 	smelt_bar_num = 1
 
-/obj/item/clothing/suit/roguetown/armor/plate/cuirass/elven
-	name = "elven guardian cuirass"
+/obj/item/clothing/suit/roguetown/armor/plate/cuirass/fencer/elven
+	name = "elven cuirass"
 	desc = "A cuirass made of steel with a thin decorative gold plating. Lightweight and durable."
 	color = COLOR_ASSEMBLY_GOLD
 

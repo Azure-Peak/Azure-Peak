@@ -2291,3 +2291,22 @@
 
 	grid_width = 32
 	grid_height = 96
+
+//Elven weapons sprited and added by Jam
+/obj/item/rogueweapon/sword/short/elvish
+	name = "elvish shortsword"
+	desc = "A finely crafted Elvish shortsword, light and swift, ideal for precise strikes."
+	icon_state = "elfsword"
+	sellprice = 40
+	sheathe_icon = "elfsword"
+	wbalance = WBALANCE_SWIFT //Elven designs tend to be light and swift
+	max_blade_int = 220
+
+/obj/item/rogueweapon/sword/long/elvish
+	name = "elvish longsword"
+	desc = "A mighty Elvish longsword, well-balanced and efficient, favored for both offense and defense."
+	icon = 'icons/roguetown/weapons/64.dmi'
+	icon_state = "elflongsword"
+	sellprice = 50
+	sheathe_icon = "elfsword"
+	max_blade_int = 300

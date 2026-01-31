@@ -1,7 +1,0 @@
-author: "Lamasmaster"
-delete-after: True
-changes:
-  - rscadd: "Debuff to wearing Dragon Necklace as nonbandit"
-  - rscadd: "Faithlocks for Alchemist Knave and Sellsword"
-  - balance: "Iconoclast - Golden Serpent"
-  - bugfix: "Flameberge not spawning for Hedge Knight"
