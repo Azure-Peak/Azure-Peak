@@ -20,13 +20,13 @@
 /obj/effect/proc_holder/spell/invoked/mineroresight/cast(list/targets, mob/living/user)
 	//show the miners what rock turfs are valuable
 	for(var/turf/closed/mineral/rockturfs in get_hear(7,get_turf(user)))
-		if(istype(rockturfs, /turf/closed/mineral/random/rogue/med) || istype(rockturfs, /turf/closed/mineral/rogue/copper) || istype(rockturfs, /turf/closed/mineral/rogue/tin) || istype(rockturfs, /turf/closed/mineral/rogue/coal))
+		if(istype(rockturfs, /turf/closed/mineral/random/rogue/med) 
 			new /obj/effect/temp_visual/medqualityore(get_turf(rockturfs))
 			//to_chat(user, span_warning("I see some medium quality stone"))
-		if(istype(rockturfs, /turf/closed/mineral/random/rogue/high) || istype(rockturfs, /turf/closed/mineral/rogue/cinnabar) || istype(rockturfs, /turf/closed/mineral/rogue/iron) || istype(rockturfs, /turf/closed/mineral/rogue/gold) || istype(rockturfs, /turf/closed/mineral/rogue/silver))
+		if(istype(rockturfs, /turf/closed/mineral/random/rogue/high) 
 			new /obj/effect/temp_visual/highqualityore(get_turf(rockturfs))
 			//to_chat(user, span_warning("I see some high quality stone"))
-		if(istype(rockturfs, /turf/closed/mineral/rogue/gem))
+		if(istype(rockturfs, /turf/closed/mineral/rogue/gem)) || istype(rockturfs, /turf/closed/mineral/rogue/copper) || istype(rockturfs, /turf/closed/mineral/rogue/tin) || istype(rockturfs, /turf/closed/mineral/rogue/coal)) || istype(rockturfs, /turf/closed/mineral/rogue/cinnabar) || istype(rockturfs, /turf/closed/mineral/rogue/iron) || istype(rockturfs, /turf/closed/mineral/rogue/gold) || istype(rockturfs, /turf/closed/mineral/rogue/silver))
 			new /obj/effect/temp_visual/gemqualityore(get_turf(rockturfs))
 			//to_chat(user, span_warning("I see some GREAT quality stone"))
 		if(istype(rockturfs, /turf/closed/mineral/rogue/bedrock))
@@ -49,8 +49,8 @@
 	icon = 'icons/effects/effects.dmi'
 	icon_state = "sparks"
 	dir = NORTH
-	name = "useful ore"
-	desc = "The stone here must contain something handy."
+	name = "low-yield stone"
+	desc = "The stone here might contain something handy."
 	randomdir = FALSE
 	duration = 1 SECONDS
 	layer = 18
@@ -59,8 +59,8 @@
 	icon = 'icons/effects/effects.dmi'
 	icon_state = "shieldsparkles"
 	dir = NORTH
-	name = "valuable ore"
-	desc = "The stone here must contain something pricy!"
+	name = "high-yield stone"
+	desc = "The stone here has some good digging!"
 	randomdir = FALSE
 	duration = 1 SECONDS
 	layer = 18
@@ -69,8 +69,8 @@
 	icon = 'icons/effects/effects.dmi'
 	icon_state = "quantum_sparks"
 	dir = NORTH
-	name = "glittering ore"
-	desc = "GEMS! I'M RICH!!!"
+	name = "exposed ore vein"
+	desc = "I'M RICH!!!"
 	randomdir = FALSE
 	duration = 1 SECONDS
 	layer = 18
