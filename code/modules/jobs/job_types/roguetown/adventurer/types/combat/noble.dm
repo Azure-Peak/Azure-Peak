@@ -83,17 +83,11 @@
 	if(H.mind)
 		to_chat(H, span_warning("You are a knight from a distant land, a scion of a noble house visiting Azuria for one reason or another."))
 		var/helmets = list(
-			"Pigface Bascinet" 	= /obj/item/clothing/head/roguetown/helmet/bascinet/pigface,
-			"Guard Helmet"		= /obj/item/clothing/head/roguetown/helmet/heavy/guard,
-			"Barred Helmet"		= /obj/item/clothing/head/roguetown/helmet/heavy/sheriff,
-			"Bucket Helmet"		= /obj/item/clothing/head/roguetown/helmet/heavy/bucket,
-			"Knight's Armet"		= /obj/item/clothing/head/roguetown/helmet/heavy/knight,
-			"Knight's Helmet"		= /obj/item/clothing/head/roguetown/helmet/heavy/knight/old,
-			"Visored Sallet"			= /obj/item/clothing/head/roguetown/helmet/sallet/visored,
-			"Armet"				= /obj/item/clothing/head/roguetown/helmet/heavy/knight/armet,
-			"Hounskull Bascinet" 		= /obj/item/clothing/head/roguetown/helmet/bascinet/pigface/hounskull,
-			"Etruscan Bascinet" 		= /obj/item/clothing/head/roguetown/helmet/bascinet/etruscan,
-			"Slitted Kettle"		= /obj/item/clothing/head/roguetown/helmet/heavy/knight/skettle,
+			"Simple Helmet" = /obj/item/clothing/head/roguetown/helmet,
+			"Skullcap" = /obj/item/clothing/head/roguetown/helmet/skullcap,
+			"Winged Cap" = /obj/item/clothing/head/roguetown/helmet/winged,
+			"Kettle Helm" = /obj/item/clothing/head/roguetown/helmet/kettle/iron,
+			"Sallet" = /obj/item/clothing/head/roguetown/helmet/sallet/iron,
 			"None"
 			)
 		var/helmchoice = input(H, "Choose your Helm.", "TAKE UP HELMS") as anything in helmets
@@ -101,20 +95,25 @@
 			head = helmets[helmchoice]
 
 		var/armors = list(
-			"Brigandine"		= /obj/item/clothing/suit/roguetown/armor/brigandine,
-			"Coat of Plates"	= /obj/item/clothing/suit/roguetown/armor/brigandine/coatplates,
-			"Steel Cuirass"		= /obj/item/clothing/suit/roguetown/armor/plate/cuirass,
+			"Light Brigandine"		= /obj/item/clothing/suit/roguetown/armor/brigandine/light,
+			"Cuirass"	= /obj/item/clothing/suit/roguetown/armor/plate/cuirass/iron,
+			"Half-Plate"		= /obj/item/clothing/suit/roguetown/armor/plate/iron,
 			)
 		var/armorchoice = input(H, "Choose your armor.", "TAKE UP ARMOR") as anything in armors
 		armor = armors[armorchoice]
 
+		var/shirts = list(
+			"Gambeson"	= /obj/item/clothing/suit/roguetown/armor/gambeson/heavy,
+			"Hauberk"	= /obj/item/clothing/suit/roguetown/armor/chainmail/hauberk/iron,
+			)
+		var/shirtchoice = input(H, "Choose your underlayer.", "TAKE UP SHIRT") as anything in shirts
+		shirt = shirts[shirtchoice]
+
 	gloves = /obj/item/clothing/gloves/roguetown/chain
 	pants = /obj/item/clothing/under/roguetown/chainlegs
 	cloak = /obj/item/clothing/cloak/tabard/stabard
-	neck = /obj/item/clothing/neck/roguetown/bevor
-	shirt = /obj/item/clothing/suit/roguetown/armor/chainmail
-	wrists = /obj/item/clothing/wrists/roguetown/bracers
-	shoes = /obj/item/clothing/shoes/roguetown/boots/armor
+	neck = /obj/item/clothing/neck/roguetown/bevor/iron
+	shoes = /obj/item/clothing/shoes/roguetown/boots/leather/reinforced
 	belt = /obj/item/storage/belt/rogue/leather/steel/tasset
 	backl = /obj/item/storage/backpack/rogue/satchel
 	beltl = /obj/item/flashlight/flare/torch/lantern
@@ -156,10 +155,6 @@
 			if("Battle Axe")
 				H.adjust_skillrank_up_to(/datum/skill/combat/axes, SKILL_LEVEL_JOURNEYMAN, TRUE)
 				r_hand = /obj/item/rogueweapon/stoneaxe/battle
-			if("Greataxe")
-				H.adjust_skillrank_up_to(/datum/skill/combat/axes, SKILL_LEVEL_JOURNEYMAN, TRUE)
-				r_hand = /obj/item/rogueweapon/greataxe
-				backr = /obj/item/rogueweapon/scabbard/gwstrap
 
 /datum/advclass/noble/squire
 	name = "Squire Errant"
