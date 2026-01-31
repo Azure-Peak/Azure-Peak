@@ -328,14 +328,6 @@ SUBSYSTEM_DEF(garbage)
 				return
 			// Returning LETMELIVE after being told to force destroy
 			// indicates the objects Destroy() does not respect force
-			#ifdef TESTING
-			if(!trash.no_respect_force)
-				testing("WARNING: [to_delete.type] has been force deleted, but is \
-					returning an immortal QDEL_HINT, indicating it does \
-					not respect the force flag for qdel(). It has been \
-					placed in the queue, further instances of this type \
-					will also be queued.")
-			#endif
 			trash.no_respect_force++
 
 			SSgarbage.Queue(to_delete)
@@ -352,9 +344,5 @@ SUBSYSTEM_DEF(garbage)
 			SSgarbage.reference_find_on_fail[text_ref(to_delete)] = TRUE
 		#endif
 		else
-			#ifdef TESTING
-			if(!trash.no_hint)
-				testing("WARNING: [to_delete.type] is not returning a qdel hint. It is being placed in the queue. Further instances of this type will also be queued.")
-			#endif
 			trash.no_hint++
 			SSgarbage.Queue(to_delete)
