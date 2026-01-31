@@ -83,11 +83,9 @@
 	if(H.mind)
 		to_chat(H, span_warning("You are a knight from a distant land, a scion of a noble house visiting Azuria for one reason or another."))
 		var/helmets = list(
-			"Simple Helmet" = /obj/item/clothing/head/roguetown/helmet,
-			"Skullcap" = /obj/item/clothing/head/roguetown/helmet/skullcap,
-			"Winged Cap" = /obj/item/clothing/head/roguetown/helmet/winged,
-			"Kettle Helm" = /obj/item/clothing/head/roguetown/helmet/kettle/iron,
-			"Sallet" = /obj/item/clothing/head/roguetown/helmet/sallet/iron,
+			"Armet"	= /obj/item/clothing/head/roguetown/helmet/heavy/knight,
+			"Kettle Helm" = /obj/item/clothing/head/roguetown/helmet/kettle,
+			"Sallet" = /obj/item/clothing/head/roguetown/helmet/sallet,
 			"None"
 			)
 		var/helmchoice = input(H, "Choose your Helm.", "TAKE UP HELMS") as anything in helmets
@@ -96,8 +94,9 @@
 
 		var/armors = list(
 			"Light Brigandine"		= /obj/item/clothing/suit/roguetown/armor/brigandine/light,
-			"Cuirass"	= /obj/item/clothing/suit/roguetown/armor/plate/cuirass/iron,
-			"Half-Plate"		= /obj/item/clothing/suit/roguetown/armor/plate/iron,
+			"Cuirass"	= /obj/item/clothing/suit/roguetown/armor/plate/cuirass,
+			"Half-Plate"		= /obj/item/clothing/suit/roguetown/armor/plate,
+			"Fancy Coat"		= /obj/item/clothing/suit/roguetown/shirt/tunic/noblecoat
 			)
 		var/armorchoice = input(H, "Choose your armor.", "TAKE UP ARMOR") as anything in armors
 		armor = armors[armorchoice]
@@ -105,12 +104,13 @@
 		var/shirts = list(
 			"Gambeson"	= /obj/item/clothing/suit/roguetown/armor/gambeson/heavy,
 			"Hauberk"	= /obj/item/clothing/suit/roguetown/armor/chainmail/hauberk/iron,
+			"Gilded Dress Shirt" = /obj/item/clothing/suit/roguetown/shirt/dress/royal/prince,
 			)
 		var/shirtchoice = input(H, "Choose your underlayer.", "TAKE UP SHIRT") as anything in shirts
 		shirt = shirts[shirtchoice]
 
-	gloves = /obj/item/clothing/gloves/roguetown/chain
-	pants = /obj/item/clothing/under/roguetown/chainlegs
+	gloves = /obj/item/clothing/gloves/roguetown/chain/iron
+	pants = /obj/item/clothing/under/roguetown/chainlegs/iron
 	cloak = /obj/item/clothing/cloak/tabard/stabard
 	neck = /obj/item/clothing/neck/roguetown/bevor/iron
 	shoes = /obj/item/clothing/shoes/roguetown/boots/leather/reinforced
