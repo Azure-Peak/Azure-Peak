@@ -211,3 +211,14 @@ Gold can be used to forge the finest - and most expensive - arms in all of Psydo
 Gold is paradoxically cherished by the worshippers of both Astrata and Matthios; the catalyst of ultimate authority, fit to both establish and usurp tyranny.
 Silver is cherished by the worshippers of Psydon, as they believe it to be the fragments of a divine alloy; the very same used to arm His angels in their war against the Archdevil.
 Silver is cherished by the worshippers of Noc, as they believe it to be the fragments of divine magicka; a catalyst that would eventually reintroduce arcyne secrets to the worthy.
+Spells are bound to ALT ONE through ALT SIX. Control-clicking said spells and shifting them between each other changes which spell is bound to a given number.
+Using a rope on an open space drops the rope down, allowing allies to easily scale a given surface. Pull it onto yourself to retrieve it.
+Having someone else within your personal space assists in climbing many surfaces.
+Joapstone, Petriamber, Rosellusk, and Aoetal are not real stones. Do not listen to the rambling of gem-crafting madmen.
+Gemerald skulls are a sign of calamity. Folk-tales mention their service to the darker impulses of the Trickster God.
+The rat overlords inside the SCOMS are fond of cheese. Feed them and the cries of your victims will go unheard... for a time.
+College mages are often good sources of treasure. They steal from the university as much as any rogue does.
+Inspect tabards closely, they tend to bear the names of the wearer... or horrible jokes.
+WHEN WAS THE LAST TIME YOU SAW A SAIGA WILDKIN?
+A CLEAVED HEAD NO LONGER PLOTS.
+STRIKE FAST AND STRIKE TRUE: THE BLADE IS MY GOD.
