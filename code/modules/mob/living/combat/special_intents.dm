@@ -1201,10 +1201,10 @@ tile_coordinates = list(list(1,1), list(-1,1), list(-1,-1), list(1,-1),list(0,0)
 /datum/special_intent/permafrost/on_create()
 	. = ..()
 	howner.visible_message(span_warning("[iparent]'s blade forms a layer of ice in [howner]'s grasp!"))
-	var/obj/item/rogueweapon/greataxe/steel/ice/W = iparent
+	var/obj/item/rogueweapon/stoneaxe/battle/ice/W = iparent
 	active_timer = addtimer(CALLBACK(src, PROC_REF(effect_expire)), 20 SECONDS, TIMER_STOPPABLE)
-	W.icon_state = "icegaxeactive"
-	W.toggle_state = "icegaxeactive"
+	W.icon_state = "iceaxeactive"
+	W.toggle_state = "iceaxeactive"
 	W.inactive_intents = W.possible_item_intents
 	W.inactive_gripped_intents = W.gripped_intents
 	W.possible_item_intents = W.active_intents
@@ -1215,8 +1215,8 @@ tile_coordinates = list(list(1,1), list(-1,1), list(-1,-1), list(1,-1),list(0,0)
 
 /datum/special_intent/permafrost/proc/effect_expire()
 	howner.visible_message(span_warning("The ice covering [iparent]'s blade thaws out!"))
-	var/obj/item/rogueweapon/greataxe/steel/ice/W = iparent
-	W.icon_state = "icegaxe"
+	var/obj/item/rogueweapon/stoneaxe/battle/ice/W = iparent
+	W.icon_state = "iceaxe"
 	W.toggle_state = null
 	W.possible_item_intents = W.inactive_intents
 	W.gripped_intents = W.inactive_gripped_intents

@@ -609,25 +609,20 @@
 	minstr = 13							//Heavy, but still good.
 	wdefense = 3						//Slightly better than norm, has 6 defense 2 handing it.
 
-/datum/intent/axe/cut/frost
+/datum/intent/axe/cut/battle/frost
 	intent_effect = /datum/status_effect/buff/frostbite
 
-/datum/intent/axe/chop/frost
+/datum/intent/axe/chop/battle/frost
 	intent_effect = /datum/status_effect/buff/frostbite
 
-/datum/intent/axe/cut/battle/greataxe/frost
-	intent_effect = /datum/status_effect/buff/frostbite
-
-/datum/intent/axe/chop/battle/greataxe/frost
-	intent_effect = /datum/status_effect/buff/frostbite
-
-/obj/item/rogueweapon/greataxe/steel/ice
+/obj/item/rogueweapon/stoneaxe/battle/ice
 	name = "deathfrost axe"
-	desc = "This greataxe's blade is as sharp as it is cold."
-	icon_state = "icegaxe"
+	desc = "This axe's blade is as sharp as it is cold."
+	icon = 'icons/roguetown/weapons/axes64.dmi'
+	icon_state = "iceaxe"
 	smeltresult = null
 	special = /datum/special_intent/permafrost
-	var/active_intents =  list(/datum/intent/axe/cut/frost, /datum/intent/axe/chop/frost, SPEAR_BASH)
-	var/active_gripped_intents = list(/datum/intent/axe/cut/battle/greataxe/frost, /datum/intent/axe/chop/battle/greataxe/frost, SPEAR_BASH)
+	var/active_intents =  list(/datum/intent/axe/cut/battle/frost, /datum/intent/axe/chop/battle/frost, /datum/intent/axe/bash, /datum/intent/sword/peel)
+	var/active_gripped_intents = list(/datum/intent/axe/cut/battle/frost, /datum/intent/axe/chop/battle/frost, /datum/intent/axe/bash, /datum/intent/sword/peel)
 	var/inactive_intents = list()
 	var/inactive_gripped_intents = list()
