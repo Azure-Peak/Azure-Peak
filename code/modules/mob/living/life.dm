@@ -131,6 +131,7 @@
 								span_warning("I'm frozen in pain!"))
 					sleep(10)
 					Stun(110)
+					drop_all_held_items()
 					Knockdown(110)
 
 /mob/living/proc/handle_environment()
