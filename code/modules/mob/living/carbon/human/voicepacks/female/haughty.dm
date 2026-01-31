@@ -12,6 +12,8 @@
 			used = list('sound/vo/female/haughty/gasp (2).ogg')
 		if("cackle")
 			used = list('sound/vo/female/haughty/cackle (1).ogg')
+		if("clap")
+			used = 'sound/vo/golfclap.ogg'
 		if("chuckle")
 			used = list('sound/vo/female/haughty/chuckle (1).ogg', 'sound/vo/female/haughty/chuckle (2).ogg')
 		if("laugh")
