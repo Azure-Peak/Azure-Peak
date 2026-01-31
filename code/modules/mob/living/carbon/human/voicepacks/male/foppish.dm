@@ -10,6 +10,8 @@
 			used = list('sound/vo/male/young/paincrit (1).ogg','sound/vo/male/young/paincrit (2).ogg','sound/vo/male/young/paincrit (3).ogg')
 		if("cry")
 			used = list('sound/vo/male/foppish/cry (1).ogg', 'sound/vo/male/foppish/cry (2).ogg', 'sound/vo/male/foppish/cry (3).ogg')
+		if("clap")
+			used = 'sound/vo/golfclap.ogg'
 		if("yawn")
 			used = list('sound/vo/male/foppish/yawn (1).ogg', 'sound/vo/male/foppish/yawn (2).ogg', 'sound/vo/male/foppish/yawn (3).ogg')
 		if("painscream")
