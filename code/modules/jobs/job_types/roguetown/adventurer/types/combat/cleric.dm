@@ -47,7 +47,6 @@
 	to_chat(H, span_warning("You are a wandering acolyte, versed in both miracles and martial arts. You forego the hauberk that paladins wear in favor of humbling your foes through bloodless strikes. Your satchel hangs heavy, too, with ample provisions for the pilgrimage you're upon."))
 	head = /obj/item/clothing/head/roguetown/headband/monk
 	shirt = /obj/item/clothing/suit/roguetown/shirt/undershirt
-	armor = /obj/item/clothing/suit/roguetown/shirt/robe/monk
 	pants = /obj/item/clothing/under/roguetown/tights/black
 	shoes = /obj/item/clothing/shoes/roguetown/sandals
 	backl = /obj/item/storage/backpack/rogue/satchel
@@ -64,6 +63,13 @@
 	var/datum/devotion/C = new /datum/devotion(H, H.patron)
 	C.grant_miracles(H, cleric_tier = CLERIC_T1, passive_gain = CLERIC_REGEN_MINOR, devotion_limit = CLERIC_REQ_1)	//Capped to T1 miracles. Better passive regeneration.
 	if(H.mind)
+		var/armors = list("Robes","Bodybuilder")
+		var/armor_choice = input(H, "Choose your armor.", "TAKE UP ARMS") as anything in armors
+		switch(armor_choice)
+			if("Robes")
+				armor = /obj/item/clothing/suit/roguetown/shirt/robe/monk
+			if("Bodybuilder") //Not adding any nerfs to getting leather armor should be fine, since it is unupgradable throughout the round. Roundstart armor in return for never getting good armor.
+				armor = /obj/item/clothing/suit/roguetown/armor/manual/pushups/leather
 		var/weapons = list("Discipline - Unarmed","Katar","Knuckledusters","Quarterstaff")
 		var/weapon_choice = input(H, "Choose your weapon.", "TAKE UP ARMS") as anything in weapons
 		switch(weapon_choice)

@@ -230,7 +230,7 @@
 				H.adjust_skillrank_up_to(/datum/skill/combat/crossbows, SKILL_LEVEL_JOURNEYMAN, TRUE)
 				backr = /obj/item/gun/ballistic/revolver/grenadelauncher/crossbow
 				beltl = /obj/item/quiver/bolts
-		var/armors = list("Light Armor","Medium Armor")
+		var/armors = list("Light Armor","Medium Armor", "Bodybuilder")
 		var/armor_choice = input(H, "Choose your armor.", "TAKE UP ARMS") as anything in armors
 		switch(armor_choice)
 			if("Light Armor")
@@ -246,3 +246,9 @@
 				ADD_TRAIT(H, TRAIT_MEDIUMARMOR, TRAIT_GENERIC)
 				H.change_stat(STATKEY_STR, 1)
 				H.set_blindness(0)
+			if("Bodybuilder") // We effectively just replace the hide armor with leather armor that's harder to repair.
+				armor = /obj/item/clothing/suit/roguetown/armor/manual/pushups/leather
+				pants = /obj/item/clothing/under/roguetown/heavy_leather_pants
+				gloves = /obj/item/clothing/gloves/roguetown/fingerless_leather
+				ADD_TRAIT(H, TRAIT_DODGEEXPERT, TRAIT_GENERIC)
+				H.change_stat(STATKEY_SPD, 1)
