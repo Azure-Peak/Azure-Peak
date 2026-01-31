@@ -2,7 +2,7 @@
 /datum/job/roguetown/heartfelt/knight
 	title = "Knight of Heartfelt"
 	tutorial = "You are a Knight of Heartfelt, part of a brotherhood in service to your Lord. \
-	Now, alone and committed to safeguarding the court, you ride to the Peak, resolved to ensure their safe arrival."
+	Now, alone and committed to safeguarding the court, you ride to the Peaks, resolved to ensure their safe arrival."
 	allowed_sexes = list(MALE, FEMALE)
 	allowed_races = RACES_NO_CONSTRUCT
 	total_positions = 1
@@ -44,7 +44,7 @@
 /datum/advclass/heartfelt/knight
 	name = "Knight of Heartfelt"
 	tutorial = "You are a Knight of Heartfelt, once part of a brotherhood in service to your Lord. \
-	Now, alone and committed to safeguarding what remains of your court, you ride to the Peak, resolved to ensure their safe arrival."
+	Now, alone and committed to safeguarding what remains of your court, you ride to the Peaks, resolved to ensure their safe arrival."
 	allowed_sexes = list(MALE, FEMALE)
 	allowed_races = RACES_NO_CONSTRUCT
 	outfit = /datum/outfit/job/heartfelt/knight
@@ -90,7 +90,7 @@
 	shirt = /obj/item/clothing/suit/roguetown/armor/chainmail
 	armor = /obj/item/clothing/suit/roguetown/armor/plate/full
 	shoes = /obj/item/clothing/shoes/roguetown/boots/armor
-	beltr = /obj/item/rogueweapon/scabbard/sword
+	beltr = /obj/item/rogueweapon/scabbard/sword/noble
 	l_hand = /obj/item/rogueweapon/sword/long
 	r_hand = /obj/item/rogueweapon/mace/goden/steel
 	beltl = /obj/item/flashlight/flare/torch/lantern
@@ -100,7 +100,7 @@
 	backpack_contents = list(
 		/obj/item/rogueweapon/huntingknife/idagger/steel/special = 1,
 		/obj/item/rope/chain = 1,
-		/obj/item/rogueweapon/scabbard/sheath = 1,
+		/obj/item/rogueweapon/scabbard/sheath/noble = 1,
 		/obj/item/storage/belt/rogue/pouch/coins/rich = 1,
 		/obj/item/reagent_containers/glass/bottle/alchemical/healthpotnew = 2,
 	)
@@ -129,7 +129,7 @@
 		else //In case they DC or don't choose close the panel, etc
 			r_hand = /obj/item/rogueweapon/eaglebeak/lucerne
 
-	var/helmet = list("Pigface Bascinet","Guard Helmet","Barred Helmet","Bucket Helmet","Knight Helmet","Volf Plate Helmet" ,"Visored Sallet","Armet","Hounskull Bascinet", "Etruscan Bascinet", "Slitted Kettle")
+	var/helmet = list("Pigface Bascinet","Guard Helmet","Barred Helmet","Bucket Helmet","Knight's Helmet","Knight's Armet","Volf Plate Helmet" ,"Visored Sallet","Armet","Hounskull Bascinet", "Etruscan Bascinet", "Slitted Kettle")
 	var/helmet_choice = input(H, "Choose your Helm.", "TAKE UP HELMS") as anything in helmet
 	switch(helmet_choice)
 		if("Pigface Bascinet") 
@@ -140,7 +140,9 @@
 			head = /obj/item/clothing/head/roguetown/helmet/heavy/sheriff
 		if("Bucket Helmet")		
 			head = /obj/item/clothing/head/roguetown/helmet/heavy/bucket
-		if("Knight Helmet")		
+		if("Knight's Helmet")		
+			head = /obj/item/clothing/head/roguetown/helmet/heavy/knight/old
+		if("Knight's Armet")		
 			head = /obj/item/clothing/head/roguetown/helmet/heavy/knight
 		if("Volf Plate Helmet") 
 			head = /obj/item/clothing/head/roguetown/helmet/heavy/volfplate

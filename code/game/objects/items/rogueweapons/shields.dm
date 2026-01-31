@@ -454,6 +454,12 @@
 			if("onback")
 				return list("shrink" = 0.6,"sx" = 1,"sy" = 4,"nx" = 1,"ny" = 2,"wx" = 3,"wy" = 3,"ex" = 0,"ey" = 2,"nturn" = 0,"sturn" = 0,"wturn" = 0,"eturn" = 0,"nflip" = 8,"sflip" = 0,"wflip" = 0,"eflip" = 0,"northabove" = 1,"southabove" = 0,"eastabove" = 0,"westabove" = 0)
 
+/obj/item/rogueweapon/shield/iron/bone
+	name = "bone shield"
+	desc = "If they couldn't protect their previous owners, how confident are you in these bones protecting you?"
+	icon_state = "boneshield"
+	smeltresult = null 
+	
 #undef SHIELD_BANG_COOLDOWN
 
 /obj/item/rogueweapon/shield/bronze

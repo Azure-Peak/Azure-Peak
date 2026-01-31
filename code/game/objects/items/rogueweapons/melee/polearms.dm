@@ -882,6 +882,17 @@
 	max_blade_int = 200
 	sellprice = 250
 
+/obj/item/rogueweapon/halberd/pestran
+	name = "Lance of Boils"
+	desc = "For when a scalpel is too short, and you still need to perform Pestra's holy work."
+	icon_state = "pestranhalberd"
+
+/obj/item/rogueweapon/halberd/bone
+	name = "bone halberd"
+	desc = "What an elegantly morbid statement."
+	icon_state = "bonehalberd"
+	smeltresult = null
+
 /obj/item/rogueweapon/eaglebeak
 	force = 15
 	force_wielded = 30

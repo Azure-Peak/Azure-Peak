@@ -4,10 +4,10 @@
 	clothes_req = FALSE
 	overlay_state = "mindlink"
 	associated_skill = /datum/skill/magic/arcane
-	cost = 3
+	cost = 2
 	xp_gain = TRUE
 	recharge_time = 3 MINUTES
-	spell_tier = 3
+	spell_tier = 2
 	invocations = list("Mens Nexu")
 	invocation_type = "whisper"
 
@@ -69,14 +69,21 @@
 		if(HL.real_name == second_target_name)
 			second_target = HL
 
+	for(var/datum/mindlink/ML in GLOB.mindlinks)
+		if(ML)
+			if(ML.owner == first_target || ML.target == first_target || ML.owner == second_target || ML.target == second_target)
+				to_chat(user, span_warning("A mindlink is already present binding one of the targets!"))
+				revert_cast()
+				return
+
 	user.visible_message(span_notice("[user] touches their temples and concentrates..."), span_notice("I establish a mental connection between [first_target] and [second_target]..."))
 
 	// Create the mindlink
 	var/datum/mindlink/link = new(first_target, second_target)
 	GLOB.mindlinks += link
 
-	to_chat(first_target, span_notice("A mindlink has been established with [second_target]! Use ,y before a message to communicate telepathically."))
-	to_chat(second_target, span_notice("A mindlink has been established with [first_target]! Use ,y before a message to communicate telepathically."))
+	to_chat(first_target, span_notice("A mindlink has been established with [second_target]! Use ,y before a message to communicate telepathically. Use ,mst to break the link."))
+	to_chat(second_target, span_notice("A mindlink has been established with [first_target]! Use ,y before a message to communicate telepathically. Use ,mst to break the link."))
 
 	addtimer(CALLBACK(src, PROC_REF(break_link), link), 3 MINUTES)
 	return TRUE

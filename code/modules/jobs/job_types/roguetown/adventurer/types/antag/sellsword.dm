@@ -35,6 +35,9 @@
 
 /datum/outfit/job/roguetown/bandit/sellsword/pre_equip(mob/living/carbon/human/H)
 	..()
+	if (!(istype(H.patron, /datum/patron/inhumen/matthios)))	//This is the only class that forces Matthios. Needed for miracles + limited slot.
+		to_chat(H, span_warning("Matthios embraces me.. I must uphold his creed. I am his light in the darkness."))
+		H.set_patron(/datum/patron/inhumen/matthios)
 	head = /obj/item/clothing/head/roguetown/helmet/sallet/visored/iron
 	neck = /obj/item/clothing/neck/roguetown/bevor/iron
 	cloak = /obj/item/clothing/cloak/tabard/stabard/dungeon
@@ -70,9 +73,3 @@
 				beltr = /obj/item/quiver/bolts
 				r_hand = /obj/item/rogueweapon/sword
 				beltl = /obj/item/rogueweapon/scabbard/sword
-
-	if(!istype(H.patron, /datum/patron/inhumen/matthios))
-		var/inputty = input(H, "Would you like to change your patron to Matthios?", "The Transactor calls", "No") as anything in list("Yes", "No")
-		if(inputty == "Yes")
-			to_chat(H, span_warning("My former deity has abandoned me.. Matthios is my new master."))
-			H.set_patron(/datum/patron/inhumen/matthios)

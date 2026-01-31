@@ -65,14 +65,14 @@
 	cloak = /obj/item/clothing/cloak/heartfelt
 	armor = /obj/item/clothing/suit/roguetown/armor/heartfelt
 	neck = /obj/item/clothing/neck/roguetown/gorget/steel
-	beltl =/obj/item/rogueweapon/scabbard/sword
+	beltl =/obj/item/rogueweapon/scabbard/sword/royal
 	r_hand = /obj/item/rogueweapon/sword/long/marlin
 	beltr = /obj/item/rogueweapon/huntingknife
 	gloves = /obj/item/clothing/gloves/roguetown/leather/black
 	backl = /obj/item/storage/backpack/rogue/satchel // Paper and Feather
 	backpack_contents = list(
 		/obj/item/rogueweapon/huntingknife/idagger/steel/special = 1,
-		/obj/item/rogueweapon/scabbard/sheath = 1,
+		/obj/item/rogueweapon/scabbard/sheath/royal = 1,
 		/obj/item/storage/belt/rogue/pouch/coins/veryrich = 2,
 		/obj/item/natural/feather = 1,
 		/obj/item/paper/scroll = 1,
@@ -218,7 +218,7 @@
 	backl = /obj/item/storage/backpack/rogue/satchel // Paper and Feather
 	backpack_contents = list(
 		/obj/item/rogueweapon/huntingknife/idagger/steel/special = 1,
-		/obj/item/rogueweapon/scabbard/sheath = 1,
+		/obj/item/rogueweapon/scabbard/sheath/royal = 1,
 		/obj/item/storage/belt/rogue/pouch/coins/veryrich = 1,
 		/obj/item/natural/feather = 1,
 		/obj/item/paper/scroll = 1,
@@ -233,11 +233,11 @@
 		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/order/heartfelt/forheartfelt)
 		// H.mind.AddSpell(new/obj/effect/proc_holder/spell/invoked/order/heartfelt/focustarget)
 		H.verbs |= list(/mob/living/carbon/human/mind/proc/setordersheartfelt)
-	var/weapons = list("Double-head Greataxe", "Great Mace", "Battle Axe + Shield", , "Warhammer + Shield")
+	var/weapons = list("Double-Headed Greataxe", "Great Mace", "Battle Axe + Shield", , "Warhammer + Shield")
 	var/weapon_choice = input(H, "Choose your weapon.", "TAKE UP ARMS") as anything in weapons
 	H.set_blindness(0)
 	switch(weapon_choice)
-		if("Double-head Greataxe")
+		if("Double-Headed Greataxe")
 			r_hand = /obj/item/rogueweapon/greataxe/steel/doublehead
 		if("Great Mace")
 			r_hand = /obj/item/rogueweapon/mace/goden/steel

@@ -2,7 +2,7 @@
 	title = "Hand of Heartfelt"
 	tutorial = "You are the Hand of Heartfelt, burdened by the perception in protecting your Lord's domain. \
 	However, with the increase in banditry, necromancy, deadite risings, and increasing sea raider raids, there are rumors abound that Heartfelt is not what it used to be. \
-	Despite doubts from others, your loyalty remains steadfast as you journey to the Peak, determined to fulfill your duties."
+	Despite doubts from others, your loyalty remains steadfast as you journey to the Peaks, determined to fulfill your duties."
 	allowed_sexes = list(MALE, FEMALE)
 	allowed_races = ACCEPTED_RACES
 	outfit = /datum/outfit/job/roguetown/heartfelt/hand
@@ -36,7 +36,7 @@
 /datum/advclass/heartfelt/hand/marshal
 	name = "Marshal of Heartfelt"
 	tutorial = "Renowned for your command of war, you laid down your blade in peaceful years, but peace died with Heartfelt. \
-	Pressed once more into service by tragedy, you climb towards the Reach."
+	Pressed once more into service by tragedy, you climb towards the Peaks."
 	outfit = /datum/outfit/job/roguetown/heartfelt/hand/marshal
 	category_tags = list(CTAG_HFT_HAND)
 	traits_applied = list(TRAIT_HEAVYARMOR, TRAIT_NOBLE, TRAIT_HEARTFELT, TRAIT_STEELHEARTED)
@@ -68,10 +68,10 @@
 	armor = /obj/item/clothing/suit/roguetown/armor/heartfelt/hand
 	r_hand = /obj/item/rogueweapon/sword/long/dec
 	//l_hand = banner-pike for when I add it
-	beltl = /obj/item/rogueweapon/scabbard/sword
+	beltl = /obj/item/rogueweapon/scabbard/sword/royal
 	backpack_contents = list(
 		/obj/item/rogueweapon/huntingknife/idagger/steel/special = 1,
-		/obj/item/rogueweapon/scabbard/sheath = 1,
+		/obj/item/rogueweapon/scabbard/sheath/royal = 1,
 		/obj/item/rogueweapon/huntingknife = 1,
 		/obj/item/storage/belt/rogue/pouch/coins/veryrich = 1,
 		/obj/item/reagent_containers/glass/bottle/alchemical/healthpotnew = 2,
@@ -106,7 +106,7 @@
 	name = "Steward of Heartfelt"
 	tutorial = "You are the Steward of Heartfelt, once the quiet architect behind the barony's \
 	order—keeper of ledgers, harvests, and the lifeblood that sustained your people. \
-	Pressed once more into service by tragedy, you climb towards the Reach."
+	Pressed once more into service by tragedy, you climb towards the Peaks."
 	outfit = /datum/outfit/job/roguetown/heartfelt/hand/steward
 	category_tags = list(CTAG_HFT_HAND)
 	traits_applied = list(TRAIT_MEDIUMARMOR, TRAIT_SEEPRICES, TRAIT_HEARTFELT)
@@ -137,12 +137,12 @@
 	armor = /obj/item/clothing/suit/roguetown/armor/brigandine
 	gloves = /obj/item/clothing/gloves/roguetown/leather/black
 	r_hand = /obj/item/rogueweapon/sword/sabre/dec
-	beltl = /obj/item/rogueweapon/scabbard/sword
+	beltl = /obj/item/rogueweapon/scabbard/sword/royal
 	beltr = /obj/item/flashlight/flare/torch/lantern
 	neck = /obj/item/storage/belt/rogue/pouch/coins/veryrich
 	backpack_contents = list(
 		/obj/item/rogueweapon/huntingknife/idagger/steel/special = 1,
-		/obj/item/rogueweapon/scabbard/sheath = 1,
+		/obj/item/rogueweapon/scabbard/sheath/royal = 1,
 		/obj/item/rogueweapon/huntingknife = 1,
 		/obj/item/storage/belt/rogue/pouch/coins/veryrich = 2,
 		/obj/item/reagent_containers/glass/bottle/alchemical/healthpotnew = 1,
@@ -161,7 +161,7 @@
 /datum/advclass/heartfelt/hand/advisor
 	name = "Advisor of Heartfelt"
 	tutorial = "You are the Advisor of Heartfelt, trusted for your measured counsel and keen insight into matters of state. \
-	Bound once more to serve in the wake of ruin, you climb towards the Reach."
+	Bound once more to serve in the wake of ruin, you climb towards the Peaks."
 	outfit = /datum/outfit/job/roguetown/heartfelt/hand/advisor
 	category_tags = list(CTAG_HFT_HAND)
 	traits_applied = list(TRAIT_MAGEARMOR, TRAIT_ARCYNE_T2, TRAIT_INTELLECTUAL, TRAIT_SEEPRICES_SHITTY, TRAIT_HEARTFELT)
@@ -196,11 +196,11 @@
 	..()
 	shirt = /obj/item/clothing/suit/roguetown/shirt/undershirt/guard
 	r_hand = /obj/item/rogueweapon/sword/sabre/dec
-	beltl = /obj/item/rogueweapon/scabbard/sword
+	beltl = /obj/item/rogueweapon/scabbard/sword/royal
 	mask = /obj/item/clothing/mask/rogue/spectacles/golden
 	backpack_contents = list(
 		/obj/item/rogueweapon/huntingknife/idagger/steel/special = 1,
-		/obj/item/rogueweapon/scabbard/sheath = 1,
+		/obj/item/rogueweapon/scabbard/sheath/royal = 1,
 		/obj/item/rogueweapon/huntingknife = 1,
 		/obj/item/storage/belt/rogue/pouch/coins/veryrich = 1,
 		/obj/item/lockpickring/mundane = 1, 

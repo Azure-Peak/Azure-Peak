@@ -553,7 +553,7 @@
 /datum/outfit/job/roguetown/knightchampion/pre_equip(mob/living/carbon/human/H)
 	backpack_contents = list(
 		/obj/item/rogueweapon/huntingknife/idagger/steel/special = 1,
-		/obj/item/rogueweapon/scabbard/sheath = 1,
+		/obj/item/rogueweapon/scabbard/sheath/royal = 1,
 		/obj/item/clothing/cloak/banneret = 1,
 		/obj/item/scomstone/garrison = 1
 		)
@@ -603,7 +603,7 @@
 			H.adjust_skillrank_up_to(/datum/skill/combat/swords, SKILL_LEVEL_MASTER, TRUE)
 			r_hand = /obj/item/rogueweapon/sword/sabre/banneret
 			l_hand = /obj/item/rogueweapon/shield/buckler/banneret
-			beltr = /obj/item/rogueweapon/scabbard/sword
+			beltr = /obj/item/rogueweapon/scabbard/sword/royal
 		if("Claymore")
 			H.adjust_skillrank_up_to(/datum/skill/combat/swords, SKILL_LEVEL_MASTER, TRUE)
 			r_hand = /obj/item/rogueweapon/greatsword/zwei
@@ -625,13 +625,13 @@
 		if("Longsword")
 			H.adjust_skillrank_up_to(/datum/skill/combat/swords, SKILL_LEVEL_MASTER, TRUE)
 			r_hand = /obj/item/rogueweapon/sword/long
-			beltr = /obj/item/rogueweapon/scabbard/sword
+			beltr = /obj/item/rogueweapon/scabbard/sword/royal
 		if("Flail")
 			H.adjust_skillrank_up_to(/datum/skill/combat/whipsflails, SKILL_LEVEL_MASTER, TRUE)
 			beltr = /obj/item/rogueweapon/flail/sflail
 		if("Sabre")
 			H.adjust_skillrank_up_to(/datum/skill/combat/swords, SKILL_LEVEL_MASTER, TRUE)
-			beltr = /obj/item/rogueweapon/scabbard/sword
+			beltr = /obj/item/rogueweapon/scabbard/sword/royal
 			r_hand = /obj/item/rogueweapon/sword/sabre
 		if("Lance")
 			H.adjust_skillrank_up_to(/datum/skill/combat/polearms, SKILL_LEVEL_MASTER, TRUE)
@@ -685,7 +685,8 @@
 		"Guard Helmet"		= /obj/item/clothing/head/roguetown/helmet/heavy/guard,
 		"Barred Helmet"		= /obj/item/clothing/head/roguetown/helmet/heavy/sheriff,
 		"Bucket Helmet"		= /obj/item/clothing/head/roguetown/helmet/heavy/bucket,
-		"Knight Helmet"		= /obj/item/clothing/head/roguetown/helmet/heavy/knight,
+		"Knight's Armet"	= /obj/item/clothing/head/roguetown/helmet/heavy/knight,
+		"Knight's Helmet"	= /obj/item/clothing/head/roguetown/helmet/heavy/knight/old,
 		"Froggemund Helmet"	= /obj/item/clothing/head/roguetown/helmet/heavy/frogmouth,
 		"Visored Sallet"	= /obj/item/clothing/head/roguetown/helmet/sallet/visored,
 		"Armet"				= /obj/item/clothing/head/roguetown/helmet/heavy/knight/armet,

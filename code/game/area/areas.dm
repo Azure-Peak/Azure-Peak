@@ -116,6 +116,8 @@
 	var/deathsight_message = "a locale wreathed in enigmatic fog"
 
 	var/coven_protected = FALSE
+	/// Whether or not an area protects against Necra's vengeful fog
+	var/fog_protected = FALSE
 
 
 /**
@@ -397,6 +399,8 @@ GLOBAL_LIST_EMPTY(teleportlocs)
 
 	if(first_time_text)
 		L.intro_area(src)
+	if(SSevent_scheduler.fog_active)
+		SSevent_scheduler.update_mob_fog_status(M, fog_protected)
 
 	var/mob/living/living_arrived = M
 

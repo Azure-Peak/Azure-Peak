@@ -713,6 +713,13 @@
 	additional_items = list(/obj/item/ingot/steel, /obj/item/clothing/suit/roguetown/armor/leather/heavy/freifechter)
 	created_item = /obj/item/clothing/suit/roguetown/armor/plate/cuirass/fencer
 
+/datum/anvil_recipe/armor/steel/lighthaubergeon
+	name = "Haubergeon, Fencing, Steel (+1 Steel, +1 Besilked Jacket)" //needs cooperation with a tailor to make
+	req_bar = /obj/item/ingot/steel
+	req_blade = /obj/item/blade/steel_plate
+	additional_items = list(/obj/item/ingot/steel, /obj/item/clothing/suit/roguetown/armor/gambeson/lord/heavy/silkjacket) //Quick patchwork to prevent loadouteers from gaming the system.
+	created_item = /obj/item/clothing/suit/roguetown/armor/chainmail/light/fencer
+
 /datum/anvil_recipe/armor/steel/cuirass/legacy
 	name = "Valorian Cuirass, Steel (+1 Steel)"
 	req_bar = /obj/item/ingot/steel

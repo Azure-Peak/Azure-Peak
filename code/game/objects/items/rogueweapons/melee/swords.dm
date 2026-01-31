@@ -1901,6 +1901,12 @@
 	sheathe_icon = "ssangsudo"
 	gripped_intents = list(/datum/intent/sword/cut/krieg, /datum/intent/sword/thrust/krieg, /datum/intent/rend, /datum/intent/sword/strike) // better rend by .05
 
+/obj/item/rogueweapon/sword/long/kriegmesser/pestran
+	name = "Cleansing Edge"
+	desc = "A cut in time saves a life."
+	icon_state = "pestranmesser"
+	sheathe_icon = "pestranmesser"
+
 /obj/item/rogueweapon/sword/long/dec
 	name = "decorated longsword"
 	desc = "A valuable ornate longsword made for the purpose of ceremonial fashion, with a fine leather grip and a carefully engraved golden crossguard. \

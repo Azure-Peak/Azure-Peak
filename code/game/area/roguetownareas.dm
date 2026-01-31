@@ -56,6 +56,7 @@ GLOBAL_LIST_INIT(roguetown_areas_typecache, typecacheof(/area/rogue/indoors/town
 	soundenv = 2
 	plane = INDOOR_PLANE
 	converted_type = /area/rogue/outdoors
+	fog_protected = TRUE
 
 /area/rogue/indoors/banditcamp
 	name = "Bandit Camp"
@@ -187,6 +188,7 @@ GLOBAL_LIST_INIT(roguetown_areas_typecache, typecacheof(/area/rogue/indoors/town
 	soundenv = 8
 	plane = INDOOR_PLANE
 	converted_type = /area/rogue/outdoors/exposed
+	fog_protected = TRUE
 
 /area/rogue/outdoors/exposed
 	icon_state = "exposed"
@@ -265,6 +267,7 @@ GLOBAL_LIST_INIT(roguetown_areas_typecache, typecacheof(/area/rogue/indoors/town
 	converted_type = /area/rogue/indoors/shelter/town
 	first_time_text = "THE CITY OF AZURE PEAK"
 	town_area = TRUE
+	fog_protected = TRUE
 
 /area/rogue/indoors/shelter/town
 	icon_state = "town"

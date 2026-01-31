@@ -1,0 +1,7 @@
+author: "Ollanius"
+delete-after: True
+changes:
+  - rscadd: "Heartfeltian noblemen, Azurian hands, and the Knight-Banneret now receive fancier scabbards."
+  - rscadd: "The Lore Primer now has an entry on Heartfelt, and the updated fate of Rudmarsch."
+  - balance: "The Bronze Smelter is now crafted with a piece of copper ore and tin ore, instead of iron ore."
+  - rscadd: "'..and in that Duchy, there is the capital of Azure Peak - and they say it is the end of the world.'"

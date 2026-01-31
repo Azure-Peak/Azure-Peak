@@ -1,0 +1,4 @@
+author: "hazelrat"
+delete-after: True
+changes:
+  - rscadd: "Followers of Abyssor now gain a mood buff in rain, and a stronger mood buff in storms!"

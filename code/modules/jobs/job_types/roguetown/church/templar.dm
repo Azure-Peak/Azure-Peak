@@ -351,6 +351,8 @@
 			weapons += "Swift End"
 		if(/datum/patron/divine/pestra)
 			weapons += "Plaguebringer Sickles"
+			weapons += "Lance of Boils"
+			weapons += "Cleansing Edge"
 		if(/datum/patron/divine/malum)
 			weapons += "Forgefiend"
 			weapons += "Kargrund Maul"
@@ -417,6 +419,15 @@
 			H.put_in_hands(new /obj/item/rogueweapon/huntingknife/idagger/steel/pestrasickle(H))
 			H.put_in_hands(new /obj/item/rogueweapon/huntingknife/idagger/steel/pestrasickle(H))
 			H.adjust_skillrank_up_to(/datum/skill/combat/knives, 4, TRUE) // actually makes them usable for the templar.
+			H.equip_to_slot_or_del(new /obj/item/clothing/suit/roguetown/armor/plate/silver, SLOT_ARMOR, TRUE)
+		if("Lance of Boils")
+			H.put_in_hands(new /obj/item/rogueweapon/halberd/pestran(H))
+			H.put_in_hands(new /obj/item/rogueweapon/scabbard/gwstrap(H))
+			H.adjust_skillrank_up_to(/datum/skill/combat/polearms, 4, TRUE)
+			H.equip_to_slot_or_del(new /obj/item/clothing/suit/roguetown/armor/plate/silver, SLOT_ARMOR, TRUE)
+		if("Cleansing Edge")
+			H.put_in_hands(new /obj/item/rogueweapon/sword/long/kriegmesser/pestran(H))
+			H.adjust_skillrank(/datum/skill/combat/swords, 1, TRUE)
 			H.equip_to_slot_or_del(new /obj/item/clothing/suit/roguetown/armor/plate/silver, SLOT_ARMOR, TRUE)
 		if("Forgefiend")
 			H.put_in_hands(new /obj/item/rogueweapon/greatsword/grenz/flamberge/malum(H))

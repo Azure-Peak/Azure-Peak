@@ -8,6 +8,11 @@
 	effectedstats = list(STATKEY_INT = -2, STATKEY_WIL = 1)
 	duration = 5 MINUTES
 
+/datum/status_effect/buff/drunk/on_creation(mob/living/new_owner)
+	if(HAS_TRAIT(new_owner, TRAIT_NOHUNGER))
+		return FALSE
+	. = ..()
+
 /atom/movable/screen/alert/status_effect/buff/drunk
 	name = "Drunk"
 	desc = ""
@@ -29,17 +34,32 @@
 	effectedstats = list(STATKEY_INT = 5)
 	duration = 2 MINUTES
 
+/datum/status_effect/buff/murkwine/on_creation(mob/living/new_owner)
+	if(HAS_TRAIT(new_owner, TRAIT_NOHUNGER))
+		return FALSE
+	. = ..()
+
 /datum/status_effect/buff/nocshine
 	id = "nocshine"
 	alert_type = /atom/movable/screen/alert/status_effect/buff/drunknoc
 	effectedstats = list(STATKEY_STR = 1, STATKEY_WIL = 1)
 	duration = 2 MINUTES
 
+/datum/status_effect/buff/nocshine/on_creation(mob/living/new_owner)
+	if(HAS_TRAIT(new_owner, TRAIT_NOHUNGER))
+		return FALSE
+	. = ..()
+
 /datum/status_effect/buff/snackbuff
 	id = "snack"
 	alert_type = /atom/movable/screen/alert/status_effect/buff/snackbuff
 	effectedstats = list(STATKEY_WIL = 1)
 	duration = 8 MINUTES
+
+/datum/status_effect/buff/snackbuff/on_creation(mob/living/new_owner)
+	if(HAS_TRAIT(new_owner, TRAIT_NOHUNGER))
+		return FALSE
+	. = ..()
 
 /atom/movable/screen/alert/status_effect/buff/snackbuff
 	name = "Good snack"
@@ -58,6 +78,11 @@
 	alert_type = /atom/movable/screen/alert/status_effect/buff/greatsnackbuff
 	effectedstats = list(STATKEY_CON = 1,STATKEY_WIL = 1)
 	duration = 10 MINUTES
+
+/datum/status_effect/buff/greatsnackbuff/on_creation(mob/living/new_owner)
+	if(HAS_TRAIT(new_owner, TRAIT_NOHUNGER))
+		return FALSE
+	. = ..()
 
 /atom/movable/screen/alert/status_effect/buff/greatsnackbuff
 	name = "Great Snack!"
@@ -81,6 +106,11 @@
 	desc = "A meal a day keeps the barber away, or at least it makes it slighly easier."
 	icon_state = "foodbuff"
 
+/datum/status_effect/buff/mealbuff/on_creation(mob/living/new_owner)
+	if(HAS_TRAIT(new_owner, TRAIT_NOHUNGER))
+		return FALSE
+	. = ..()
+
 /datum/status_effect/buff/mealbuff/on_apply()
 	. = ..()
 	owner.add_stress(/datum/stressevent/goodmeal)
@@ -98,6 +128,11 @@
 	desc = "That meal was something akin to a noble's feast! It's bound to keep me energized for an entire day."
 	icon_state = "foodbuff"
 
+/datum/status_effect/buff/greatmealbuff/on_creation(mob/living/new_owner)
+	if(HAS_TRAIT(new_owner, TRAIT_NOHUNGER))
+		return FALSE
+	. = ..()
+
 /datum/status_effect/buff/greatmealbuff/on_apply()
 	. = ..()
 	owner.add_stress(/datum/stressevent/greatmeal)
@@ -109,6 +144,11 @@
 	alert_type = /atom/movable/screen/alert/status_effect/buff/sweet
 	effectedstats = list(STATKEY_LCK = 1)
 	duration = 8 MINUTES
+
+/datum/status_effect/buff/sweet/on_creation(mob/living/new_owner)
+	if(HAS_TRAIT(new_owner, TRAIT_NOHUNGER))
+		return FALSE
+	. = ..()
 
 /atom/movable/screen/alert/status_effect/buff/sweet
 	name = "Sweet embrace"

@@ -601,6 +601,13 @@
 	var/active_intents =  list(/datum/intent/dagger/thrust/blunt,/datum/intent/dagger/cut/blunt, /datum/intent/dagger/thrust/pick/blunt, /datum/intent/dagger/sucker_punch)
 	var/inactive_intents = list()
 
+/obj/item/rogueweapon/huntingknife/idagger/steel/bone
+	name = "bone dagger"
+	desc = "This is a tool that can be used to make more of itself."
+	icon_state = "bonedagger"
+	sheathe_icon = "bonedagger"
+	smeltresult = null
+
 /obj/item/rogueweapon/huntingknife/idagger/silver
 	name = "silver dagger"
 	desc = "A dagger of pure silver; the bane of vampyres, verevolves, deadites, and all other unsaintly nitecreechers. Errant light transforms into a blinding glare, when cast along the blade's edge."

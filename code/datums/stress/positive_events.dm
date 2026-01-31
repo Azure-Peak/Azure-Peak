@@ -391,6 +391,19 @@
 	stressadd = -3
 	desc = list(span_boldred("I SOAKED IN THE BLOOD OF THE THOUSANDS DEAD! GRAGGAR GRAGGAR GRAGGAR!"))
 
+// Intended to proc upon exposure to gentle rain.
+/datum/stressevent/abyssor_rain
+	timer = 1 MINUTES
+	stressadd = -2
+	desc = list(span_blue("This downpour cleanses the earth and brings into pleasing clarity \
+	my recollections of the divine dream. If only I could remember more..."))
+
+// Intended to proc upon exposure to a storm.
+/datum/stressevent/abyssor_storm
+	timer = 1 MINUTES
+	stressadd = -4
+	desc = list(span_blue("WHAT A MAJESTIC TEMPEST! BELOVED ABYSSOR, SEND STRONGER WINDS!"))
+
 /datum/stressevent/keep_standard
 	stressadd = -4
 	desc = span_aiprivradio("The standard speaks of certainty.")

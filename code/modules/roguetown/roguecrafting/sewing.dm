@@ -681,8 +681,8 @@
 	name = "arming jacket"
 	category = "Gambesons"
 	result = /obj/item/clothing/suit/roguetown/armor/gambeson/lord
-	reqs = list(/obj/item/natural/cloth = 4,
-				/obj/item/natural/fibers = 1)
+	reqs = list(/obj/item/natural/cloth = 3,
+				/obj/item/natural/fibers = 2)
 	tools = list(/obj/item/needle)
 	craftdiff = 3
 
@@ -779,7 +779,7 @@
 	name = "padded arming jacket"
 	category = "Gambesons"
 	result = list(/obj/item/clothing/suit/roguetown/armor/gambeson/lord/heavy)
-	reqs = list(/obj/item/natural/cloth = 6,
+	reqs = list(/obj/item/natural/cloth = 5,
 				/obj/item/natural/fibers = 4)
 	craftdiff = 3
 
@@ -1038,6 +1038,39 @@
 	reqs = list(/obj/item/natural/cloth = 3,
 				/obj/item/natural/fibers = 2,
 				/obj/item/natural/silk = 2)
+	tools = list(/obj/item/needle)
+	craftdiff = 5
+	sellprice = 30
+
+/datum/crafting_recipe/roguetown/sewing/formalsilks
+	name = "formal silks"
+	category = "Shirts"
+	result = list(/obj/item/clothing/suit/roguetown/shirt/undershirt/puritan)
+	reqs = list(/obj/item/natural/cloth = 2,
+				/obj/item/natural/fibers = 2,
+				/obj/item/natural/silk = 2)
+	tools = list(/obj/item/needle)
+	craftdiff = 5
+	sellprice = 30
+
+/datum/crafting_recipe/roguetown/sewing/formalbreeches
+	name = "formal breeches"
+	category = "Pants"
+	result = list(/obj/item/clothing/under/roguetown/tights/puritan)
+	reqs = list(/obj/item/natural/cloth = 2,
+				/obj/item/natural/fibers = 2,
+				/obj/item/natural/silk = 2)
+	tools = list(/obj/item/needle)
+	craftdiff = 5
+	sellprice = 30
+
+/datum/crafting_recipe/roguetown/sewing/formalsilkjacket
+	name = "besilked jacket"
+	category = "Shirts"
+	result = list(/obj/item/clothing/suit/roguetown/armor/gambeson/lord/heavy/silkjacket)
+	reqs = list(/obj/item/natural/cloth = 2,
+				/obj/item/natural/fibers = 2,
+				/obj/item/natural/silk = 6)
 	tools = list(/obj/item/needle)
 	craftdiff = 5
 	sellprice = 30

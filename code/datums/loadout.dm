@@ -861,7 +861,7 @@ GLOBAL_LIST_EMPTY(loadout_items)
 
 /datum/loadout_item/triumph_messkit
 	name = "Mess Kit (-5 TRI)"
-	path = /datum/component/storage/concrete/roguetown/messkit
+	path = /obj/item/storage/gadget/messkit
 	triumph_cost = 5
 
 /datum/loadout_item/triumph_foldtable

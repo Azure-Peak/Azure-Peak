@@ -1,0 +1,4 @@
+author: "FreeStylaLT"
+delete-after: True
+changes:
+  - balance: "Feeling no hunger or thirst prevents food & drink based buffs from being applied."

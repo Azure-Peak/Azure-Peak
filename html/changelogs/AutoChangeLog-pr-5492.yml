@@ -1,0 +1,4 @@
+author: "Ollanius"
+delete-after: True
+changes:
+  - bugfix: "Purchasing a Mess Kit via the loadout system will now properly give you a Mess Kit, instead of nothing."

@@ -146,6 +146,7 @@ GLOBAL_LIST_INIT(admin_verbs_fun, list(
 //	/client/proc/admin_change_sec_level,
 //	/client/proc/run_weather,
 	/client/proc/run_particle_weather,
+	/client/proc/manage_fog_schedule,
 	/client/proc/run_custom_particle_weather,
 	/client/proc/show_tip,
 	/client/proc/smite
