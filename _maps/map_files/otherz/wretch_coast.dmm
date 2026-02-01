@@ -3770,7 +3770,7 @@
 	aportalgoesto = "wretchout3";
 	aportalid = "wretchin3"
 	},
-/turf/open/floor/rogue/grass,
+/turf/open/floor/rogue/dirt/road,
 /area/rogue/outdoors/woods/wretch_lair)
 "uD" = (
 /obj/machinery/light/rogue/candle/r,
@@ -31368,9 +31368,9 @@ UM
 IL
 IL
 IL
-Xm
-Xm
-Xm
+Ev
+Ev
+Ev
 Ev
 Ev
 Ry
@@ -31515,9 +31515,9 @@ UM
 IL
 IL
 IL
-Xm
-Xm
-Xm
+Ev
+Ev
+Ev
 Ev
 Ev
 Ev
@@ -31663,8 +31663,8 @@ IL
 Xm
 Xm
 Xm
-Xm
-Xm
+Ev
+Ev
 Ev
 Ev
 Ev
@@ -31810,7 +31810,7 @@ IL
 Xm
 Xm
 wC
-Xm
+Ev
 Ev
 Ev
 Ev
