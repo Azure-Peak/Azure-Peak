@@ -1007,6 +1007,7 @@
 /obj/structure/stairs{
 	dir = 4
 	},
+/obj/machinery/light/rogue/candle,
 /turf/open/floor/rogue/tile,
 /area/rogue/under/cave/inhumen)
 "mp" = (
@@ -2512,6 +2513,7 @@
 /obj/structure/rack/rogue/shelf/biggest,
 /obj/item/natural/cloth,
 /obj/item/natural/cloth,
+/obj/machinery/light/rogue/candle/l,
 /turf/open/floor/rogue/tile,
 /area/rogue/under/cave/inhumen)
 "LG" = (
@@ -3119,6 +3121,7 @@
 /area/rogue/outdoors/woods/wretch_lair)
 "Xo" = (
 /obj/structure/rack/rogue/shelf/biggest,
+/obj/machinery/light/rogue/candle/l,
 /turf/open/floor/rogue/tile,
 /area/rogue/under/cave/inhumen)
 "Xq" = (
@@ -3308,6 +3311,13 @@
 "Zp" = (
 /obj/structure/vine,
 /turf/open/floor/rogue/naturalstone,
+/area/rogue/under/cave/inhumen)
+"Zq" = (
+/obj/structure/fluff/railing/border/east,
+/obj/machinery/light/rogue/candle{
+	pixel_y = -32
+	},
+/turf/open/floor/rogue/tile,
 /area/rogue/under/cave/inhumen)
 "Zr" = (
 /obj/structure/fluff/railing/border/north,
@@ -3705,7 +3715,7 @@ IL
 vG
 mn
 bJ
-bJ
+Zq
 vG
 LG
 bK
