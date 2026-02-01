@@ -1267,6 +1267,10 @@
 	},
 /turf/open/floor/rogue/dirt/road,
 /area/rogue/outdoors/woods/wretch_lair)
+"sn" = (
+/obj/machinery/light/rogue/torchholder/l,
+/turf/open/floor/rogue/dirt/road,
+/area/rogue/outdoors/woods/wretch_lair)
 "sp" = (
 /obj/structure/closet/crate/chest/old_crate,
 /obj/item/kitchen/fork{
@@ -9262,7 +9266,7 @@ IL
 IL
 IL
 IL
-Ev
+sn
 lE
 Ic
 WT
