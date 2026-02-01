@@ -1353,8 +1353,6 @@
 	dir = 8;
 	locked = 1;
 	max_integrity = 9999;
-	indestructible = 1;
-	unacidable = 1;
 	lock_strength = 9999;
 	lockdifficulty = 9999;
 	lockid = "admin_event_door"
