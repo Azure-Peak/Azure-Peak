@@ -298,7 +298,7 @@ Somewhat fitting, considering the broadness of their domains. I also just think 
 	name = "Noc's Gaze"
 	overlay_state = "noc_sight"
 	base_icon_state = "wisescroll"
-	desc = "Peer ahead. \n(This spell allows projects your vision as if you had a very high perception.)"
+	desc = "Peer ahead. (Use MMB to project your vision as if you had a very high perception.)"
 	chargetime = 0
 	chargedrain = 0
 	clothes_req = FALSE
