@@ -11947,6 +11947,13 @@
 	},
 /turf/open/floor/rogue/cobble,
 /area/rogue/under/cave/his_vault/one)
+"cWg" = (
+/obj/structure/fluff/traveltile/wretch{
+	aportalgoesto = "wretchin6";
+	aportalid = "wretchout6"
+	},
+/turf/open/floor/rogue/dirt,
+/area/rogue/indoors/cave/southern)
 "cWl" = (
 /obj/effect/decal/cobbleedge,
 /turf/open/floor/rogue/cobble/mossy,
@@ -27610,10 +27617,6 @@
 "gQM" = (
 /turf/closed/wall/mineral/rogue/stone,
 /area/rogue/outdoors/town/roofs)
-"gQN" = (
-/obj/effect/landmark/start/wretchlate,
-/turf/open/floor/rogue/ruinedwood,
-/area/rogue/outdoors/beach/forest/hamlet)
 "gQO" = (
 /obj/structure/rack/rogue,
 /obj/item/clothing/wrists/roguetown/splintarms,
@@ -32693,10 +32696,6 @@
 /obj/structure/flora/roguegrass/bush,
 /turf/open/floor/rogue/grassyel,
 /area/rogue/druidsgrove)
-"ibF" = (
-/obj/effect/landmark/start/wretchlate,
-/turf/open/floor/rogue/naturalstone,
-/area/rogue/under/cave)
 "ibK" = (
 /obj/structure/flora/roguegrass,
 /obj/structure/flora/newleaf,
@@ -39500,10 +39499,6 @@
 /obj/item/toy/cards/deck/syndicate,
 /turf/open/floor/carpet/red,
 /area/rogue/indoors/shelter)
-"jKk" = (
-/obj/effect/landmark/start/wretchlate,
-/turf/open/floor/rogue/rooftop/green/north,
-/area/rogue/outdoors/mountains)
 "jKl" = (
 /obj/structure/flora/ausbushes/lavendergrass,
 /obj/structure/flora/roguegrass,
@@ -41516,10 +41511,6 @@
 	},
 /turf/open/floor/rogue/churchmarble,
 /area/rogue/indoors/shelter)
-"khY" = (
-/obj/effect/landmark/start/wretchlate,
-/turf/open/floor/rogue/rooftop/north,
-/area/rogue/outdoors/beach/forest/south)
 "kia" = (
 /obj/structure/roguewindow,
 /turf/open/floor/rogue/concrete,
@@ -42500,6 +42491,13 @@
 "kvN" = (
 /turf/open/floor/rogue/snow,
 /area/rogue/under/cave/goblinfort)
+"kvO" = (
+/obj/structure/fluff/traveltile/wretch{
+	aportalgoesto = "wretchin3";
+	aportalid = "wretchout3"
+	},
+/turf/open/floor/rogue/naturalstone,
+/area/rogue/outdoors/mountains/decap)
 "kvU" = (
 /obj/item/rogueweapon/huntingknife/scissors,
 /turf/open/floor/rogue/naturalstone,
@@ -58284,12 +58282,6 @@
 /obj/effect/decal/cleanable/blood,
 /turf/open/floor/rogue/cobble,
 /area/rogue/under/cave/his_vault)
-"olk" = (
-/obj/effect/landmark/start/wretchlate{
-	pixel_x = 2
-	},
-/turf/open/floor/rogue/naturalstone,
-/area/rogue/indoors/cave)
 "oln" = (
 /obj/structure/flora/roguegrass,
 /obj/structure/flora/roguegrass,
@@ -63884,6 +63876,13 @@
 /obj/item/flashlight/flare/torch/lantern,
 /turf/open/floor/rogue/hexstone,
 /area/rogue/under/cave/fishmandungeon)
+"pHO" = (
+/obj/structure/fluff/traveltile/wretch{
+	aportalgoesto = "wretchin4";
+	aportalid = "wretchout4"
+	},
+/turf/open/floor/rogue/naturalstone,
+/area/rogue/outdoors/mountains)
 "pHT" = (
 /obj/effect/decal/mossy{
 	dir = 4
@@ -75587,6 +75586,13 @@
 /obj/machinery/light/rogue/candle/blue/l,
 /turf/open/floor/rogue/dirt/road,
 /area/rogue/under/cave/dukecourt)
+"sAA" = (
+/obj/structure/fluff/traveltile/wretch{
+	aportalgoesto = "wretchin5";
+	aportalid = "wretchout5"
+	},
+/turf/open/floor/rogue/dirt,
+/area/rogue/outdoors/mountains)
 "sAI" = (
 /obj/structure/flora/hotspring_rocks/small/five,
 /obj/structure/trap/rock_fall,
@@ -178283,7 +178289,7 @@ aYF
 aYF
 aYF
 aYF
-nmw
+cWg
 nmw
 vPQ
 vPQ
@@ -178735,7 +178741,7 @@ aYF
 aYF
 aYF
 aYF
-nmw
+cWg
 nmw
 vPQ
 vPQ
@@ -209044,7 +209050,7 @@ uir
 uir
 uir
 xXR
-ibF
+toJ
 toJ
 uir
 uir
@@ -378965,7 +378971,7 @@ tNX
 fnC
 uJN
 fnC
-olk
+fnC
 ujm
 qwK
 qwK
@@ -449477,7 +449483,7 @@ cxA
 cxA
 cxA
 cxA
-rnW
+sAA
 cxA
 cxA
 cxA
@@ -449930,7 +449936,7 @@ cxA
 cxA
 ulI
 rnW
-rnW
+sAA
 cxA
 cxA
 cxA
@@ -463867,7 +463873,7 @@ oyf
 oyf
 oyf
 oyf
-lfO
+kvO
 oyf
 oyf
 eAq
@@ -464320,7 +464326,7 @@ oyf
 oyf
 oyf
 lfO
-lfO
+kvO
 oyf
 oyf
 eAq
@@ -487506,7 +487512,7 @@ yff
 eLx
 yff
 abs
-cxA
+pHO
 cxA
 cxA
 cxA
@@ -487958,7 +487964,7 @@ xec
 gJc
 bSX
 xec
-cxA
+pHO
 cxA
 cxA
 cxA
@@ -488410,7 +488416,7 @@ bAa
 bSX
 xec
 pfa
-cxA
+pHO
 cxA
 cxA
 cxA
@@ -529914,7 +529920,7 @@ qkh
 qkh
 qkh
 qkh
-khY
+qkh
 qkh
 qkh
 qkh
@@ -529999,7 +530005,7 @@ aBB
 aBB
 aBB
 nRO
-jKk
+nRO
 nRO
 tVb
 lGo
@@ -531672,7 +531678,7 @@ ujm
 ujm
 ujm
 ujm
-olk
+fnC
 fnC
 ujP
 ujP
@@ -541607,7 +541613,7 @@ tDV
 tDV
 uwt
 klz
-gQN
+klz
 meA
 mRp
 mRp
