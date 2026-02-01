@@ -224,6 +224,10 @@
 /obj/machinery/light/rogue/candle/l,
 /turf/open/floor/rogue/twig,
 /area/rogue/under/cave/inhumen)
+"cr" = (
+/obj/machinery/light/rogue/firebowl/church,
+/turf/open/floor/rogue/twig,
+/area/rogue/under/cave/inhumen)
 "cv" = (
 /obj/structure/fluff/railing/border/north,
 /obj/structure/fluff/railing/border,
@@ -303,6 +307,7 @@
 /area/rogue/under/cave/inhumen)
 "du" = (
 /obj/structure/fluff/statue/gargoyle/candles,
+/obj/machinery/light/rogue/torchholder/l,
 /turf/open/floor/rogue/naturalstone,
 /area/rogue/under/cave/inhumen)
 "dx" = (
@@ -2178,6 +2183,7 @@
 	dir = 10;
 	icon_state = "cobbleedge-e"
 	},
+/obj/machinery/light/rogue/torchholder/c,
 /turf/open/floor/rogue/twig,
 /area/rogue/under/cave/inhumen)
 "DC" = (
@@ -2319,6 +2325,7 @@
 /area/rogue/under/cave/inhumen)
 "FH" = (
 /obj/structure/fluff/statue/gargoyle/moss/candles,
+/obj/machinery/light/rogue/torchholder/l,
 /turf/open/floor/rogue/naturalstone,
 /area/rogue/under/cave/inhumen)
 "FP" = (
@@ -2897,6 +2904,10 @@
 /obj/structure/bookcase/random/archive,
 /turf/open/floor/rogue/ruinedwood/turned,
 /area/rogue/under/cave/inhumen)
+"OI" = (
+/obj/machinery/light/rogue/candle/floorcandle,
+/turf/open/floor/rogue/dirt/road,
+/area/rogue/outdoors/woods/wretch_lair)
 "OO" = (
 /obj/effect/decal/cleanable/roguerune/god/baotha,
 /obj/machinery/light/rogue/candle/r,
@@ -3480,6 +3491,10 @@
 "Yy" = (
 /obj/structure/fluff/railing/corner/north_east,
 /turf/open/floor/rogue/cobble,
+/area/rogue/outdoors/woods/wretch_lair)
+"Yz" = (
+/obj/machinery/light/rogue/candle/floorcandle,
+/turf/open/floor/rogue/naturalstone,
 /area/rogue/outdoors/woods/wretch_lair)
 "YA" = (
 /obj/structure/stairs/stone{
@@ -4365,7 +4380,7 @@ IL
 IL
 IL
 IL
-IL
+Ic
 Ic
 bh
 qW
@@ -4431,8 +4446,8 @@ IL
 IL
 IL
 IL
-IL
-IL
+vG
+cr
 XY
 qW
 ds
@@ -4497,7 +4512,7 @@ IL
 IL
 IL
 IL
-IL
+Ic
 Ic
 Vc
 qW
@@ -11140,7 +11155,7 @@ ap
 "}
 (35,1,2) = {"
 IL
-Or
+bh
 Or
 Or
 Ry
@@ -11277,7 +11292,7 @@ ap
 ap
 ap
 ap
-Ry
+Yz
 Ry
 Ry
 Ry
@@ -11355,7 +11370,7 @@ IL
 IL
 IL
 IL
-Ev
+OI
 Ev
 Ev
 Ev
@@ -11480,7 +11495,7 @@ ap
 ap
 ap
 ap
-Ry
+Yz
 Ry
 Ry
 Xm
@@ -11488,8 +11503,8 @@ Xm
 IL
 JG
 JG
-Xm
-Xm
+Ev
+Ev
 Ev
 Ev
 Ev
@@ -11553,9 +11568,9 @@ Ry
 Ry
 Ry
 JG
-Xm
-Xm
-Xm
+Ev
+Ev
+Ev
 Xm
 Xm
 Xm
@@ -11619,7 +11634,7 @@ Ry
 Ry
 Ry
 Ry
-Xm
+Ev
 JG
 JG
 Xm
@@ -11750,7 +11765,7 @@ ap
 ap
 ap
 Ry
-Ry
+Yz
 Ry
 Xm
 Xm
