@@ -57,6 +57,10 @@
 /obj/effect/landmark/start/wretch,
 /turf/open/floor/rogue/ruinedwood/spiral,
 /area/rogue/under/cave/inhumen)
+"ay" = (
+/obj/machinery/light/rogue/candle/l,
+/turf/open/floor/rogue/cobble/mossy,
+/area/rogue/under/cave/inhumen)
 "aB" = (
 /obj/structure/fermentation_keg/random/water{
 	icon_state = "barrel_tapped_ready";
@@ -323,6 +327,9 @@
 /obj/structure/ritualcircle/graggar,
 /turf/open/floor/rogue/cobble,
 /area/rogue/under/cave/inhumen)
+"dK" = (
+/turf/open/floor/rogue/dirt/road,
+/area/rogue/under/cave/inhumen)
 "dN" = (
 /obj/effect/decal/cleanable/blood,
 /obj/structure/fluff/railing/border/east,
@@ -335,6 +342,10 @@
 "ee" = (
 /obj/machinery/gear_painter,
 /turf/open/floor/carpet/royalblack,
+/area/rogue/under/cave/inhumen)
+"ef" = (
+/obj/structure/fluff/grindwheel,
+/turf/open/floor/rogue/cobble,
 /area/rogue/under/cave/inhumen)
 "eh" = (
 /obj/machinery/light/rogue/candle/r,
@@ -415,12 +426,6 @@
 /area/rogue/under/cave/inhumen)
 "eP" = (
 /obj/item/rogueweapon/stoneaxe,
-/turf/open/floor/rogue/grass,
-/area/rogue/outdoors/woods/wretch_lair)
-"eS" = (
-/obj/structure/closet/crate/chest/neu_iron,
-/obj/item/rogueweapon/thresher,
-/obj/item/rogueweapon/hoe,
 /turf/open/floor/rogue/grass,
 /area/rogue/outdoors/woods/wretch_lair)
 "eT" = (
@@ -547,6 +552,9 @@
 "gk" = (
 /turf/open/water/ocean/deep,
 /area/rogue/outdoors/woods/wretch_lair)
+"go" = (
+/turf/open/floor/rogue/dirt,
+/area/rogue/under/cave/inhumen)
 "gp" = (
 /obj/structure/table/wood/poor,
 /obj/item/storage/keyring,
@@ -1113,6 +1121,10 @@
 /obj/structure/ritualcircle/matthios,
 /turf/open/floor/rogue/cobble,
 /area/rogue/under/cave/inhumen)
+"pu" = (
+/obj/machinery/light/rogue/candle/r,
+/turf/open/floor/rogue/dirt,
+/area/rogue/under/cave/inhumen)
 "py" = (
 /obj/structure/table/wood/poor,
 /obj/item/candle/candlestick/gold/lit{
@@ -1524,10 +1536,6 @@
 /obj/machinery/light/rogue/candle/floorcandle/alt,
 /turf/open/floor/rogue/cobble/mossy,
 /area/rogue/under/cave/inhumen)
-"wC" = (
-/obj/structure/composter,
-/turf/open/floor/rogue/grass,
-/area/rogue/outdoors/woods/wretch_lair)
 "wF" = (
 /obj/machinery/light/rogue/oven/east,
 /obj/machinery/light/rogue/hearth,
@@ -1945,6 +1953,14 @@
 	},
 /turf/open/floor/rogue/cobble,
 /area/rogue/outdoors/woods/wretch_lair)
+"CU" = (
+/obj/structure/table/wood{
+	dir = 10;
+	icon_state = "tablewood2"
+	},
+/obj/item/rogueweapon/shovel,
+/turf/open/floor/rogue/cobble/mossy,
+/area/rogue/under/cave/inhumen)
 "Dc" = (
 /obj/structure/chair/stool/rogue,
 /turf/open/floor/rogue/twig,
@@ -1996,6 +2012,13 @@
 /obj/structure/fluff/railing/corner,
 /turf/open/floor/rogue/dirt/road,
 /area/rogue/outdoors/woods/wretch_lair)
+"Dz" = (
+/obj/effect/decal/cobbleedge{
+	dir = 10;
+	icon_state = "cobbleedge-e"
+	},
+/turf/open/floor/rogue/twig,
+/area/rogue/under/cave/inhumen)
 "DC" = (
 /obj/effect/decal/cobbleedge{
 	dir = 10;
@@ -2356,6 +2379,10 @@
 	},
 /turf/open/floor/rogue/twig,
 /area/rogue/under/cave/inhumen)
+"JJ" = (
+/obj/structure/composter,
+/turf/open/floor/rogue/cobble/mossy,
+/area/rogue/under/cave/inhumen)
 "JQ" = (
 /obj/structure/table/church,
 /obj/effect/spawner/lootdrop/roguetown/dungeon/money,
@@ -2699,14 +2726,6 @@
 	},
 /turf/open/floor/rogue/tile,
 /area/rogue/under/cave/inhumen)
-"PI" = (
-/obj/structure/table/wood{
-	dir = 10;
-	icon_state = "tablewood2"
-	},
-/obj/item/rogueweapon/shovel,
-/turf/open/floor/rogue/grass,
-/area/rogue/outdoors/woods/wretch_lair)
 "PK" = (
 /obj/structure/fluff/walldeco/church/line{
 	dir = 1
@@ -2869,6 +2888,12 @@
 	pixel_x = 0
 	},
 /turf/open/floor/rogue/naturalstone,
+/area/rogue/under/cave/inhumen)
+"SY" = (
+/obj/structure/closet/crate/chest/neu_iron,
+/obj/item/rogueweapon/thresher,
+/obj/item/rogueweapon/hoe,
+/turf/open/floor/rogue/cobble/mossy,
 /area/rogue/under/cave/inhumen)
 "SZ" = (
 /obj/structure/wallladder{
@@ -11536,7 +11561,7 @@ Xm
 Xm
 Xm
 Xm
-Xm
+rQ
 Ev
 Ev
 Ev
@@ -11597,12 +11622,12 @@ Ry
 Xm
 Xm
 Xm
-Xm
-Xm
-Xm
-Xm
-Xm
-rQ
+HO
+QK
+QK
+lT
+QK
+UM
 Ev
 Ev
 Ev
@@ -11663,11 +11688,11 @@ Ry
 Xm
 Xm
 Xm
-Xm
-HO
-QK
-lT
-QK
+zU
+bI
+qW
+qW
+qW
 UM
 CN
 Ev
@@ -11729,9 +11754,9 @@ Ry
 Ry
 Xm
 Xm
-Xm
 zU
-bI
+ga
+qW
 Zn
 Zh
 UM
@@ -11795,9 +11820,9 @@ Ry
 Ry
 Xm
 Xm
-Xm
 zU
 ga
+qW
 Zn
 HO
 UM
@@ -11860,9 +11885,9 @@ Ry
 Ry
 Ry
 Ry
-Xm
-UM
 HO
+UM
+Dz
 dD
 Zn
 lT
@@ -11871,9 +11896,9 @@ Ev
 Ev
 Ev
 Ev
-Pg
-Pg
-Pg
+Xm
+Xm
+Xm
 Xm
 Xm
 Xm
@@ -11926,8 +11951,8 @@ Ry
 Ry
 Ry
 Ry
-Xm
-UM
+zU
+ef
 iY
 xt
 Gv
@@ -11937,10 +11962,10 @@ Ev
 Ev
 Ev
 Ev
-Pg
-Pg
-Pg
-Pg
+Xm
+Xm
+Xm
+Xm
 Xm
 Xm
 UM
@@ -11992,7 +12017,7 @@ WC
 Ry
 Ry
 Ry
-Xm
+zU
 UM
 aT
 Wv
@@ -12003,11 +12028,11 @@ bY
 Ev
 Ev
 Ev
-Pg
-Pg
-Pg
-Pg
-Pg
+Xm
+Xm
+Xm
+Xm
+Xm
 Xm
 UM
 UM
@@ -12058,7 +12083,7 @@ Ry
 Ry
 WC
 Ry
-Ry
+HO
 UM
 HO
 UM
@@ -12069,11 +12094,11 @@ xx
 Ev
 Ev
 Ev
-Pg
-Pg
-Pg
-Pg
-Pg
+Xm
+Xm
+Xm
+Xm
+Xm
 Xm
 UM
 UM
@@ -12135,11 +12160,11 @@ Ev
 Ev
 Ev
 Ev
-Pg
-Pg
-Pg
-Pg
-Pg
+Xm
+Xm
+Xm
+Xm
+Xm
 Xm
 UM
 UM
@@ -12201,11 +12226,11 @@ Xm
 Ev
 Ev
 Ev
-Pg
-Pg
-Pg
-Pg
-Pg
+Xm
+Xm
+Xm
+Xm
+Xm
 Xm
 tV
 UM
@@ -12267,11 +12292,11 @@ rQ
 Ev
 Ev
 Ev
-Pg
-Pg
-Pg
-Pg
-Pg
+Xm
+Xm
+Xm
+Xm
+Xm
 Xm
 tV
 UM
@@ -12333,11 +12358,11 @@ Xm
 Ev
 Ev
 Ev
-Pg
-Pg
-Pg
-Pg
-Pg
+Xm
+Xm
+Xm
+Xm
+Xm
 Xm
 tV
 UM
@@ -12399,11 +12424,11 @@ Xm
 Ev
 Ev
 Ev
-Pg
-Pg
-Pg
-Pg
-Pg
+Xm
+Xm
+Xm
+Xm
+Xm
 Xm
 UM
 UM
@@ -12465,9 +12490,9 @@ Xm
 Ev
 Ev
 Ev
-Pg
-Pg
-Pg
+Xm
+Xm
+Xm
 Xm
 Xm
 Xm
@@ -12533,7 +12558,7 @@ Ev
 Ev
 Ev
 Xm
-wC
+Xm
 Xm
 Xm
 Xm
@@ -12598,7 +12623,7 @@ Ev
 Ev
 Ev
 Ev
-eS
+Xm
 IL
 rQ
 Xm
@@ -12664,7 +12689,7 @@ Ev
 Ev
 Ev
 Ev
-PI
+Xm
 IL
 IL
 Xm
@@ -13952,18 +13977,18 @@ IL
 IL
 IL
 IL
-IL
-IL
-IL
-IL
-IL
-IL
-IL
-IL
-IL
-IL
-IL
-IL
+Ic
+WT
+WT
+WT
+WT
+WT
+WT
+WT
+WT
+WT
+WT
+WT
 Ic
 WT
 WT
@@ -14018,17 +14043,17 @@ IL
 IL
 IL
 IL
-IL
-IL
-IL
-IL
-IL
-IL
-IL
-IL
-IL
-IL
-IL
+vG
+vN
+iZ
+ay
+iZ
+ay
+iZ
+ay
+iZ
+ay
+JJ
 Ic
 nv
 bi
@@ -14084,18 +14109,18 @@ IL
 IL
 IL
 IL
-IL
-IL
-IL
-IL
-IL
-IL
-IL
-IL
-IL
-IL
-IL
 vG
+vN
+dK
+go
+dK
+go
+dK
+go
+dK
+go
+iZ
+Ic
 Pv
 Aw
 Aw
@@ -14150,19 +14175,19 @@ IL
 IL
 IL
 IL
-IL
-IL
-IL
-IL
-IL
-IL
-IL
-IL
-IL
-IL
-IL
 vG
-Pv
+vN
+dK
+go
+dK
+go
+dK
+go
+dK
+go
+iZ
+HE
+Aw
 Aw
 Aw
 fV
@@ -14216,18 +14241,18 @@ IL
 IL
 IL
 IL
-IL
-IL
-IL
-IL
-IL
-IL
-IL
-IL
-IL
-IL
-IL
 vG
+vN
+dK
+go
+dK
+go
+dK
+go
+dK
+go
+SY
+Ic
 Pv
 Aw
 Aw
@@ -14282,17 +14307,17 @@ IL
 IL
 IL
 IL
-IL
-IL
-IL
-IL
-IL
-IL
-IL
-IL
-IL
-IL
-IL
+vG
+vN
+dK
+pu
+dK
+pu
+dK
+pu
+dK
+pu
+CU
 Ic
 Ic
 Aw
@@ -14348,17 +14373,17 @@ IL
 IL
 IL
 IL
-IL
-IL
-IL
-IL
-IL
-IL
-IL
-IL
-IL
-IL
-IL
+Ic
+WT
+WT
+WT
+WT
+WT
+WT
+WT
+WT
+WT
+WT
 Ic
 Ic
 Aw
@@ -16878,12 +16903,12 @@ ap
 ap
 ap
 ap
-ap
-ap
-ap
-ap
-ap
-ap
+Zn
+Zn
+Zn
+Zn
+Zn
+jS
 ap
 ap
 ap
@@ -16944,7 +16969,7 @@ ap
 ap
 ap
 ap
-ap
+Zn
 Zn
 Zn
 Zn
@@ -17010,7 +17035,7 @@ ap
 ap
 ap
 ap
-ap
+Zn
 Zn
 Zn
 ap
@@ -17076,7 +17101,7 @@ ap
 ap
 ap
 ap
-ap
+Zn
 Zn
 Zn
 ap
@@ -17141,7 +17166,7 @@ ap
 ap
 ap
 ap
-ap
+Zn
 jS
 Zn
 ap
@@ -17207,7 +17232,7 @@ ap
 ap
 ap
 ap
-ap
+Zn
 jS
 Zn
 ap
@@ -17273,7 +17298,7 @@ ap
 ap
 ap
 ap
-ap
+Zn
 jS
 Zn
 Zn
@@ -17339,7 +17364,7 @@ ap
 ap
 ap
 ap
-ap
+Zn
 jS
 Zn
 jS
