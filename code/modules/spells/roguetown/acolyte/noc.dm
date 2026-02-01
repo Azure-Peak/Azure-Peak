@@ -392,7 +392,7 @@ Somewhat fitting, considering the broadness of their domains. I also just think 
 			int_bonus = assocskill
 		duration *= 2
 	if(GLOB.tod == "day")
-		to_chat(owner, span_warning("ASTRATA IS RISEN! My spell loses some of it's potency! (-1 INT BOOST EFFECTIVENESS.)"))
+		to_chat(owner, span_warning("ASTRATA IS RISEN! My spell loses some of it's potency! (-1 TO STAT BOOST.)"))
 		int_bonus--
 	if(int_bonus > 0)
 		effectedstats = list(STATKEY_INT = int_bonus)
@@ -402,7 +402,8 @@ Somewhat fitting, considering the broadness of their domains. I also just think 
 
 /obj/effect/proc_holder/spell/invoked/moondream
 	name = "Hypnagognian Inspiration"
-	desc = "Touch a target. Their next dream will be inspired, granting more dream-points.\nThis spell will fail if it's dae or dawn."
+	desc = "Touch a target. Their next dream will be inspired, granting more dream-points to the target and a few to yourself.\n\
+	This spell will fail if it's dae or dawn. Points granted scales with holy skill."
 	overlay_state = "moondream"
 	base_icon_state = "wisescroll"
 	releasedrain = 15
