@@ -137,6 +137,7 @@
 	  */
 	var/list/chameleon_extras
 
+	var/preload = TRUE
 
 /**
   * Called at the start of the equip proc
@@ -181,59 +182,59 @@
 
 	//Start with uniform,suit,backpack for additional slots
 	if(uniform)
-		H.equip_to_slot_or_del(new pants(H),SLOT_PANTS, TRUE)
+		H.equip_to_slot_or_del(SSwardrobe.provide_type(pants, H), SLOT_PANTS, TRUE)
 	if(suit)
-		H.equip_to_slot_or_del(new suit(H),SLOT_ARMOR, TRUE)
+		H.equip_to_slot_or_del(SSwardrobe.provide_type(suit, H), SLOT_ARMOR, TRUE)
 	if(back)
-		H.equip_to_slot_or_del(new back(H),SLOT_BACK, TRUE)
+		H.equip_to_slot_or_del(SSwardrobe.provide_type(back, H), SLOT_BACK, TRUE)
 	if(belt)
-		H.equip_to_slot_or_del(new belt(H),SLOT_BELT, TRUE)
+		H.equip_to_slot_or_del(SSwardrobe.provide_type(belt, H), SLOT_BELT, TRUE)
 	if(gloves)
-		H.equip_to_slot_or_del(new gloves(H),SLOT_GLOVES, TRUE)
+		H.equip_to_slot_or_del(SSwardrobe.provide_type(gloves, H), SLOT_GLOVES, TRUE)
 	if(saiga_shoes)
 		var/obj/item/bodypart/taur/taur = H.get_taur_tail()
 		if(istype(taur, /obj/item/bodypart/taur/horse))
-			H.equip_to_slot_or_del(new saiga_shoes(H), SLOT_SHOES, TRUE)
+			H.equip_to_slot_or_del(SSwardrobe.provide_type(saiga_shoes, H), SLOT_SHOES, TRUE)
 	if(shoes)
-		H.equip_to_slot_or_del(new shoes(H),SLOT_SHOES, TRUE)
+		H.equip_to_slot_or_del(SSwardrobe.provide_type(shoes, H), SLOT_SHOES, TRUE)
 	if(head)
-		H.equip_to_slot_or_del(new head(H),SLOT_HEAD, TRUE)
+		H.equip_to_slot_or_del(SSwardrobe.provide_type(head, H), SLOT_HEAD, TRUE)
 	if(mask)
-		H.equip_to_slot_or_del(new mask(H),SLOT_WEAR_MASK, TRUE)
+		H.equip_to_slot_or_del(SSwardrobe.provide_type(mask, H), SLOT_WEAR_MASK, TRUE)
 	if(neck)
-		H.equip_to_slot_or_del(new neck(H),SLOT_NECK, TRUE)
+		H.equip_to_slot_or_del(SSwardrobe.provide_type(neck, H), SLOT_NECK, TRUE)
 	if(ears)
-		H.equip_to_slot_or_del(new ears(H),SLOT_WEAR_MASK, TRUE)
+		H.equip_to_slot_or_del(SSwardrobe.provide_type(ears, H), SLOT_WEAR_MASK, TRUE)
 	if(glasses)
-		H.equip_to_slot_or_del(new glasses(H),SLOT_GLASSES, TRUE)
+		H.equip_to_slot_or_del(SSwardrobe.provide_type(glasses, H), SLOT_GLASSES, TRUE)
 	if(id)
-		H.equip_to_slot_or_del(new id(H),SLOT_RING, TRUE)
+		H.equip_to_slot_or_del(SSwardrobe.provide_type(id, H), SLOT_RING, TRUE)
 	if(wrists)
-		H.equip_to_slot_or_del(new wrists(H),SLOT_WRISTS, TRUE)
+		H.equip_to_slot_or_del(SSwardrobe.provide_type(wrists, H), SLOT_WRISTS, TRUE)
 	if(suit_store)
-		H.equip_to_slot_or_del(new suit_store(H),SLOT_S_STORE, TRUE)
+		H.equip_to_slot_or_del(SSwardrobe.provide_type(suit_store, H), SLOT_S_STORE, TRUE)
 	if(cloak)
-		H.equip_to_slot_or_del(new cloak(H),SLOT_CLOAK, TRUE)
+		H.equip_to_slot_or_del(SSwardrobe.provide_type(cloak, H), SLOT_CLOAK, TRUE)
 	if(beltl)
-		H.equip_to_slot_or_del(new beltl(H),SLOT_BELT_L, TRUE)
+		H.equip_to_slot_or_del(SSwardrobe.provide_type(beltl, H), SLOT_BELT_L, TRUE)
 	if(beltr)
-		H.equip_to_slot_or_del(new beltr(H),SLOT_BELT_R, TRUE)
+		H.equip_to_slot_or_del(SSwardrobe.provide_type(beltr, H), SLOT_BELT_R, TRUE)
 	if(backr)
-		H.equip_to_slot_or_del(new backr(H),SLOT_BACK_R, TRUE)
+		H.equip_to_slot_or_del(SSwardrobe.provide_type(backr, H), SLOT_BACK_R, TRUE)
 	if(backl)
-		H.equip_to_slot_or_del(new backl(H),SLOT_BACK_L, TRUE)
+		H.equip_to_slot_or_del(SSwardrobe.provide_type(backl, H), SLOT_BACK_L, TRUE)
 	if(mouth)
-		H.equip_to_slot_or_del(new mouth(H),SLOT_MOUTH, TRUE)
+		H.equip_to_slot_or_del(SSwardrobe.provide_type(mouth, H), SLOT_MOUTH, TRUE)
 	if(pants)
-		H.equip_to_slot_or_del(new pants(H),SLOT_PANTS, TRUE)
+		H.equip_to_slot_or_del(SSwardrobe.provide_type(pants, H), SLOT_PANTS, TRUE)
 	if(armor)
-		H.equip_to_slot_or_del(new armor(H),SLOT_ARMOR, TRUE)
+		H.equip_to_slot_or_del(SSwardrobe.provide_type(armor, H), SLOT_ARMOR, TRUE)
 	if(shirt)
-		H.equip_to_slot_or_del(new shirt(H),SLOT_SHIRT, TRUE)
+		H.equip_to_slot_or_del(SSwardrobe.provide_type(shirt, H), SLOT_SHIRT, TRUE)
 	if(accessory)
 		var/obj/item/clothing/under/U = H.wear_pants
 		if(U)
-			U.attach_accessory(new accessory(H))
+			U.attach_accessory(SSwardrobe.provide_type(accessory, H))
 		else
 			WARNING("Unable to equip accessory [accessory] in outfit [name]. No uniform present!")
 
@@ -241,20 +242,20 @@
 		// gives a 50/50 chance for hands to be swapped
 		if(prob(50))
 			if(l_hand)
-				H.put_in_l_hand(new l_hand(get_turf(H)), TRUE)
+				H.put_in_l_hand(SSwardrobe.provide_type(l_hand, get_turf(H)), TRUE)
 			if(r_hand)
-				H.put_in_r_hand(new r_hand(get_turf(H)), TRUE)
+				H.put_in_r_hand(SSwardrobe.provide_type(r_hand, get_turf(H)), TRUE)
 		else
 			if(l_hand)
-				H.put_in_r_hand(new l_hand(get_turf(H)), TRUE)
+				H.put_in_r_hand(SSwardrobe.provide_type(l_hand, get_turf(H)), TRUE)
 			if(r_hand)
-				H.put_in_l_hand(new r_hand(get_turf(H)), TRUE)
+				H.put_in_l_hand(SSwardrobe.provide_type(r_hand, get_turf(H)), TRUE)
 
 	if(!visualsOnly) // Items in pockets or backpack don't show up on mob's icon.
 		if(l_pocket)
-			H.equip_to_slot_or_del(new l_pocket(H),SLOT_L_STORE, TRUE)
+			H.equip_to_slot_or_del(SSwardrobe.provide_type(l_pocket, H), SLOT_L_STORE, TRUE)
 		if(r_pocket)
-			H.equip_to_slot_or_del(new r_pocket(H),SLOT_R_STORE, TRUE)
+			H.equip_to_slot_or_del(SSwardrobe.provide_type(r_pocket, H), SLOT_R_STORE, TRUE)
 
 //		if(box)
 //			if(!backpack_contents)
@@ -268,7 +269,7 @@
 				if(!isnum(number))//Default to 1
 					number = 1
 				for(var/i in 1 to number)
-					var/obj/item/new_item = new path(H)
+					var/obj/item/new_item = SSwardrobe.provide_type(path, H)
 					var/obj/item/item = H.get_item_by_slot(SLOT_BACK_L)
 					if(!item)
 						item = H.get_item_by_slot(SLOT_BACK_R)
@@ -432,3 +433,48 @@
 			implants += imptype
 	accessory = text2path(outfit_data["accessory"])
 	return TRUE
+
+
+/// Return a list of types to pregenerate for later equipping
+/// This should not be things that do unique stuff in Initialize() based off their location, since we'll be storing them for a while
+/datum/outfit/proc/get_types_to_preload()
+	var/list/preload = list()
+	preload += uniform
+	preload += suit
+	preload += back
+	preload += belt
+	preload += gloves
+	preload += shoes
+	preload += saiga_shoes
+	preload += head
+	preload += mask
+	preload += neck
+	preload += ears
+	preload += glasses
+	preload += id
+	preload += wrists
+	preload += l_pocket
+	preload += r_pocket
+	preload += beltr
+	preload += beltl
+	preload += backr
+	preload += backl
+	preload += cloak
+	preload += shirt
+	preload += mouth
+	preload += pants
+	preload += armor
+	preload += suit_store
+	preload += r_hand
+	preload += l_hand
+	preload += accessory
+
+	if(backpack_contents)
+		for(var/type_to_load in backpack_contents)
+			var/num_to_load = backpack_contents[type_to_load]
+			if(!isnum(num_to_load))
+				num_to_load = 1
+			for(var/i in 1 to num_to_load)
+				preload += type_to_load
+
+	return preload

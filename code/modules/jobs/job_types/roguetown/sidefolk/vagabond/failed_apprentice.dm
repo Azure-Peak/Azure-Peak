@@ -14,11 +14,10 @@
 	)
 	subclass_spellpoints = 9
 	subclass_skills = list(
-		/datum/skill/magic/arcane = SKILL_LEVEL_NOVICE,
 		/datum/skill/misc/reading = SKILL_LEVEL_EXPERT,
-		/datum/skill/craft/alchemy = SKILL_LEVEL_NOVICE,
 		/datum/skill/craft/crafting = SKILL_LEVEL_APPRENTICE,
 	)
+	extra_context = "Contains randomized skills and stats."
 
 /datum/outfit/job/roguetown/vagabond/mage/pre_equip(mob/living/carbon/human/H)
 	..()
@@ -40,3 +39,7 @@
 
 	if(H.mind)
 		SStreasury.give_money_account(ECONOMIC_DESTITUTE, H, "Savings.")
+		H.adjust_skillrank(/datum/skill/craft/alchemy, rand(1,4), TRUE)
+		H.adjust_skillrank(/datum/skill/magic/arcane, rand(1,4), TRUE)
+		H.STAINT = rand(8, 20)
+		H.STACON = rand(5, 10)

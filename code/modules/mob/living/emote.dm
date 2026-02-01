@@ -1104,6 +1104,14 @@
 	emote_type = EMOTE_AUDIBLE
 	show_runechat = TRUE
 
+/datum/emote/living/pleased
+	key = "pleased"
+	key_third_person = "pleased"
+	message = "makes a pleased sound."
+	message_muffled = "makes a muffled sneeze."
+	emote_type = EMOTE_AUDIBLE
+	show_runechat = FALSE
+
 /datum/emote/living/shh
 	key = "shh"
 	key_third_person = "shhs"

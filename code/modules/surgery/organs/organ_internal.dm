@@ -206,7 +206,7 @@
 
 /obj/item/organ/Initialize()
 	. = ..()
-	if(accessory_type)
+	if(accessory_type && owner)
 		set_accessory_type(accessory_type)
 	START_PROCESSING(SSobj, src)
 
@@ -402,3 +402,12 @@
 		if(!getorganslot(ORGAN_SLOT_EARS))
 			var/obj/item/organ/ears/ears = new()
 			ears.Insert(src)
+
+///Used as callbacks by object pooling
+/obj/item/organ/proc/exit_wardrobe()
+	START_PROCESSING(SSobj, src)
+
+//See above
+/obj/item/organ/proc/enter_wardrobe()
+	accessory_type = initial(accessory_type)
+	STOP_PROCESSING(SSobj, src)

@@ -201,16 +201,14 @@
 /datum/outfit/job/roguetown/manorguard/skirmisher/pre_equip(mob/living/carbon/human/H)
 	..()
 	neck = /obj/item/clothing/neck/roguetown/chaincoif
-	pants = /obj/item/clothing/under/roguetown/splintlegs
-	wrists = /obj/item/clothing/wrists/roguetown/splintarms
-	armor = /obj/item/clothing/suit/roguetown/armor/brigandine/light/retinue
+	shirt = /obj/item/clothing/suit/roguetown/armor/gambeson
 	gloves = /obj/item/clothing/gloves/roguetown/fingerless_leather
 
 	H.adjust_blindness(-3)
 	if(H.mind)
 		var/weapons = list("Crossbow","Bow","Sling")
 		var/weapon_choice = input(H, "Choose your weapon.", "TAKE UP ARMS") as anything in weapons
-		var/armor_options = list("Light Armor", "Medium Armor")
+		var/armor_options = list("Leather Armor", "Brigandine Armor")
 		var/armor_choice = input(H, "Choose your armor.", "TAKE UP ARMS") as anything in armor_options
 		H.set_blindness(0)
 		switch(weapon_choice)
@@ -225,15 +223,21 @@
 				r_hand = /obj/item/gun/ballistic/revolver/grenadelauncher/sling // Both are belt slots and it's not worth setting where the cugel goes for everyone else, sad.
 
 		switch(armor_choice)
-			if("Light Armor")
-				shirt = /obj/item/clothing/suit/roguetown/armor/gambeson
+			if("Leather Armor") //OG more or less RT guardsman archer
+				head = /obj/item/clothing/head/roguetown/roguehood/studded/retinue
+				armor = /obj/item/clothing/suit/roguetown/armor/leather/heavy
+				wrists = /obj/item/clothing/wrists/roguetown/bracers
+				pants = /obj/item/clothing/under/roguetown/heavy_leather_pants
 				ADD_TRAIT(H, TRAIT_DODGEEXPERT, TRAIT_GENERIC)
-			if("Medium Armor")
-				shirt = /obj/item/clothing/suit/roguetown/armor/chainmail/iron
+			if("Brigandine Armor") //New MAA skirmisher
+				head = /obj/item/clothing/head/roguetown/helmet/kettle
+				armor = /obj/item/clothing/suit/roguetown/armor/brigandine/light/retinue
+				wrists = /obj/item/clothing/wrists/roguetown/splintarms
+				pants = /obj/item/clothing/under/roguetown/splintlegs
 				ADD_TRAIT(H, TRAIT_MEDIUMARMOR, TRAIT_GENERIC)
 
 		backpack_contents = list(
-			/obj/item/rogueweapon/huntingknife/idagger/steel/special = 1,
+			/obj/item/rogueweapon/huntingknife/combat/messser = 1,
 			/obj/item/rope/chain = 1,
 			/obj/item/storage/keyring/manatarms = 1,
 			/obj/item/rogueweapon/scabbard/sheath = 1,
@@ -241,18 +245,6 @@
 			)
 		H.verbs |= /mob/proc/haltyell
 
-		var/helmets = list(
-		"Simple Helmet" 	= /obj/item/clothing/head/roguetown/helmet,
-		"Kettle Helmet" 	= /obj/item/clothing/head/roguetown/helmet/kettle,
-		"Bascinet Helmet"	= /obj/item/clothing/head/roguetown/helmet/bascinet,
-		"Sallet Helmet"		= /obj/item/clothing/head/roguetown/helmet/sallet,
-		"Winged Helmet" 	= /obj/item/clothing/head/roguetown/helmet/winged,
-		"Skull Cap"			= /obj/item/clothing/head/roguetown/helmet/skullcap,
-		"None"
-		)
-		var/helmchoice = input(H, "Choose your Helm.", "TAKE UP HELMS") as anything in helmets
-		if(helmchoice != "None")
-			head = helmets[helmchoice]
 	if(H.mind)
 		SStreasury.give_money_account(ECONOMIC_LOWER_MIDDLE_CLASS, H, "Savings.")
 

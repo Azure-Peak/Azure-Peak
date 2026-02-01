@@ -1,0 +1,60 @@
+2026-02-01:
+  ADONAI:
+  - rscdel: wretches no longer get access to templar helmets
+  - rscadd: wretches now get helmet selection
+  - code_imp: psydonic helm selection is now a list which gets added to the original
+      list
+  - rscadd: astratan, necran, and eoran paladins/wretches now have access to their
+      old helms!
+  Antoonij:
+  - bugfix: fixed some runtimes
+  - code_imp: lights out event  now uses byond event loop
+  FreeStylaLT:
+  - rscadd: Stern Voice Pack
+  - rscadd: '*pleased emote.'
+  - refactor: Foppish Voice Pack has new *clearthroat sounds.
+  Lamasmaster:
+  - balance: Accursed object
+  - rscadd: New knife
+  - rscadd: Studded hood
+  - balance: Skirmisher Armor Loadouts
+  - balance: Seax cost
+  - image: Leather Armor sprite
+  - balance: Randomization on Vagabond / his subclasses
+  Ollanius:
+  - bugfix: "Hunting knife\u2019s intents work as intended, once again. Chop away!"
+  Quinalion:
+  - rscadd: Black Oaks can now choose from five unique elven weapons
+  - rscadd: Elven barbute variations for Black Oaks
+  - rscadd: Four unique elven weapons from Ratwood
+  - rscadd: Elven fencer cuirass
+  - rscdel: Elven sallet
+  - balance: Black Oak's armor is slightly better than it before
+  - balance: Black Oak's Ranger now have the Woodwalker trait
+  - balance: Leather bracers for Black Oaks
+  - balance: Replaces Black Oak's Ranger navaja with hunting knife
+  - balance: Replaces Pariah's Vicious Mockery spell with Dark Vision
+  Ryan180602:
+  - balance: Psyaltrist gets the Shortsword instead of the Rapier, now.
+  - balance: Confessor gets the Rapier instead of the Shortsword, now.
+  - balance: Javelins now embed.
+  SirSwagmeyer:
+  - rscadd: Added new loadout items for Levy
+  - balance: Rebalanced skillset for Pyromaniac, rebalance loadout selections for
+      Outlaw and Marauder.
+  - balance: Replaced the psydonic shortsword for the rapier.
+  Vladmar11:
+  - code_imp: add SSwardrobe from /tg/station
+  WeNeedMorePhoron:
+  - bugfix: Walking into hotspring no longer visually shave your lower body off permanently
+  - bugfix: Possibly removed a source of massive lag from an icon optimization PR
+  - rscdel: Removed medium quest spawners from terrorbog
+  ZIZO, MATTHIOS, BAOTHA, GRAGGAR THE GREY, GANDALF THE WHITE, AND MONTY PYTHON AND THE:
+  - bugfix: unholy blast now actually hurts clergy
+  - bugfix: unholy blast actually functions. enjoy your patron based buffs!
+  - bugfix: divine blast now SAYS when it sunders something
+  - bugfix: divine blast no longer hurts druids or sextons
+  hazelrat:
+  - rscadd: Added a toggle under the Options menu titled 'Toggle Mood Messages'. If
+      enabled, this will show the player all mood messages in their chat as soon as
+      they occur. If disabled, only severely negative mood messages will appear.

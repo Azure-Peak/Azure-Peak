@@ -1,5 +1,5 @@
 /datum/voicepack/male/foppish
-	preview = list("laugh", "giggle", "chuckle", "hmph", "pain", "painmoan", "rage", "paincrit", "chuckle", "clearthroat", "embed", "grumble", "groan", "hmm", "huh", "laugh")
+	preview = list("laugh", "giggle", "pleased", "chuckle", "hmph", "pain", "painmoan", "rage", "paincrit", "chuckle", "clearthroat", "embed", "grumble", "groan", "hmm", "huh", "laugh")
 
 /datum/voicepack/male/foppish/get_sound(soundin, modifiers)
 	var/used
@@ -21,7 +21,7 @@
 		if("sigh")
 			used = list('sound/vo/male/foppish/sigh (1).ogg', 'sound/vo/male/foppish/sigh (2).ogg', 'sound/vo/male/foppish/sigh (3).ogg', 'sound/vo/male/foppish/sigh (4).ogg', 'sound/vo/male/foppish/sigh (5).ogg', 'sound/vo/male/foppish/sigh (6).ogg')
 		if("clearthroat")
-			used = list('sound/vo/male/foppish/clearthroat (1).ogg', 'sound/vo/male/foppish/clearthroat (2).ogg', 'sound/vo/male/foppish/clearthroat (3).ogg', 'sound/vo/male/foppish/clearthroat (4).ogg', 'sound/vo/male/foppish/clearthroat (5).ogg', 'sound/vo/male/foppish/clearthroat (6).ogg')
+			used = list('sound/vo/male/foppish/clearthroat (1).ogg', 'sound/vo/male/foppish/clearthroat (2).ogg', 'sound/vo/male/foppish/clearthroat (3).ogg', 'sound/vo/male/foppish/clearthroat (4).ogg')
 		if("sniff")
 			used = list('sound/vo/male/foppish/sniff.ogg', 'sound/vo/male/foppish/sniff (2).ogg', 'sound/vo/male/foppish/sniff (3).ogg', 'sound/vo/male/foppish/sniff (4).ogg')
 		if("sexmoanlight")
@@ -60,6 +60,8 @@
 			used = list('sound/vo/male/gen/jump.ogg', 'sound/vo/male/foppish/jump (1).ogg', 'sound/vo/male/foppish/jump (2).ogg', 'sound/vo/male/foppish/jump (3).ogg')
 		if("hmph")
 			used = list('sound/vo/male/foppish/hmph (1).ogg', 'sound/vo/male/foppish/hmph (2).ogg', 'sound/vo/male/foppish/hmph (3).ogg', 'sound/vo/male/foppish/hmph (4).ogg')
+		if("pleased")
+			used = list('sound/vo/male/foppish/pleased (1).ogg', 'sound/vo/male/foppish/pleased (2).ogg', 'sound/vo/male/foppish/pleased (3).ogg', 'sound/vo/male/foppish/pleased (4).ogg', 'sound/vo/male/foppish/pleased (5).ogg')
 
 	if(!used)
 		used = ..(soundin, modifiers)

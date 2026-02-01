@@ -352,3 +352,65 @@
 	naledicolor = TRUE
 	salvage_result = /obj/item/natural/cloth
 	salvage_amount = 1
+
+/obj/item/clothing/head/roguetown/roguehood/studded
+	name = "studded hood"
+	desc = "A padded hood splinted across creating a cocooon for whoever wears it - won't protect your face however."
+	icon_state = "studhood"
+	item_state = "studhood"
+	body_parts_covered = NECK | HEAD | HAIR
+	slot_flags = ITEM_SLOT_HEAD
+	flags_inv = HIDEEARS|HIDEHAIR
+	blocksound = SOFTHIT
+	armor = ARMOR_LEATHER_STUDDED
+	prevent_crits = PREVENT_CRITS_MOST
+	max_integrity = ARMOR_INT_CHEST_LIGHT_MASTER
+	dynamic_hair_suffix = ""
+	edelay_type = 1
+	adjustable = CAN_CADJUST
+	toggle_icon_state = TRUE
+	block2add = null
+	salvage_result = /obj/item/natural/cloth
+	salvage_amount = 1
+
+	color = CLOTHING_BROWN
+
+/obj/item/clothing/head/roguetown/roguehood/studded/retinue //For skirmisher
+	name = "guard studded hood"
+	desc = "A padded hood splinted across creating a cocooon for whoever wears it - won't protect your face however. This one bears the heraldry of the local lord."
+	detail_tag = "_detail"
+	color = CLOTHING_AZURE
+	detail_color = CLOTHING_WHITE
+
+/obj/item/clothing/head/roguetown/roguehood/studded/ComponentInitialize()
+	. = ..()
+	AddComponent(/datum/component/adjustable_clothing, NECK, null, null, 'sound/foley/equip/cloak (3).ogg', null, (UPD_HEAD))
+	AddComponent(/datum/component/armour_filtering/negative, TRAIT_FENCERDEXTERITY)
+	AddComponent(/datum/component/armour_filtering/negative, TRAIT_HONORBOUND)
+
+/obj/item/clothing/head/roguetown/roguehood/studded/retinue/update_icon()
+	cut_overlays()
+	if(get_detail_tag())
+		var/mutable_appearance/pic = mutable_appearance(icon(icon, "[icon_state][detail_tag]"))
+		pic.appearance_flags = RESET_COLOR
+		if(get_detail_color())
+			pic.color = get_detail_color()
+		add_overlay(pic)
+
+/obj/item/clothing/head/roguetown/roguehood/studded/retinue/Initialize()
+	. = ..()
+	if(GLOB.lordprimary)
+		lordcolor(GLOB.lordprimary,GLOB.lordsecondary)
+	GLOB.lordcolor += src
+
+/obj/item/clothing/head/roguetown/roguehood/studded/retinue/lordcolor(primary,secondary)
+	color = primary
+	detail_color = secondary
+	update_icon()
+	if(ismob(loc))
+		var/mob/L = loc
+		L.update_inv_armor()
+
+/obj/item/clothing/head/roguetown/roguehood/studded/retinue/Destroy()
+	GLOB.lordcolor -= src
+	return ..()
