@@ -1628,13 +1628,6 @@
 	},
 /turf/open/floor/rogue/naturalstone,
 /area/rogue/under/cave/inhumen)
-"iU" = (
-/obj/effect/landmark/mapGenerator/rogue/forest{
-	endTurfX = 90;
-	endTurfY = 80
-	},
-/turf/closed/mineral/rogue/bedrock,
-/area/rogue/indoors/cave)
 "iY" = (
 /turf/open/floor/rogue/cobble,
 /area/rogue/under/cave/inhumen)
@@ -3938,9 +3931,6 @@
 "vU" = (
 /turf/open/water/cleanshallow,
 /area/rogue/outdoors/woods)
-"vW" = (
-/turf/closed/mineral/rogue/bedrock,
-/area/rogue/outdoors/woods/wretch_lair)
 "vX" = (
 /turf/closed/wall/mineral/rogue/stone/moss,
 /area/rogue/indoors/vampire_manor)
@@ -5415,6 +5405,13 @@
 /obj/structure/chair/stool/rogue,
 /turf/open/floor/rogue/dirt/road,
 /area/rogue/indoors/banditcamp)
+"DU" = (
+/obj/effect/landmark/mapGenerator/rogue/forest{
+	endTurfX = 144;
+	endTurfY = 145
+	},
+/turf/closed/mineral/rogue/bedrock,
+/area/rogue/under/cave/inhumen)
 "DV" = (
 /obj/structure/closet/crate/roguecloset/inn,
 /obj/machinery/light/rogue/candle/r,
@@ -6753,8 +6750,8 @@
 /area/rogue/outdoors/woods/wretch_lair)
 "LO" = (
 /obj/effect/landmark/mapGenerator/rogue/forest{
-	endTurfX = 80;
-	endTurfY = 64
+	endTurfX = 144;
+	endTurfY = 145
 	},
 /turf/closed/mineral/rogue/bedrock,
 /area/rogue/outdoors/woods/wretch_lair)
@@ -7873,13 +7870,6 @@
 	},
 /turf/open/floor/rogue/cobblerock,
 /area/rogue/outdoors/woods/wretch_lair)
-"Tc" = (
-/obj/effect/landmark/mapGenerator/rogue/forest{
-	endTurfX = 54;
-	endTurfY = 70
-	},
-/turf/closed/mineral/rogue/bedrock,
-/area/rogue/outdoors/woods/vampire_lair)
 "Td" = (
 /obj/effect/decal/cobbleedge{
 	dir = 10;
@@ -9134,7 +9124,7 @@ PI
 PI
 PI
 PI
-iU
+PI
 eS
 IL
 IL
@@ -9199,7 +9189,7 @@ IL
 IL
 IL
 IL
-IL
+DU
 "}
 (2,1,1) = {"
 PI
@@ -30303,7 +30293,7 @@ PI
 PI
 PI
 PI
-iU
+PI
 eS
 IL
 IL
@@ -43598,7 +43588,7 @@ St
 St
 St
 St
-Tc
+St
 "}
 (92,1,2) = {"
 eS
@@ -51537,7 +51527,7 @@ IL
 IL
 IL
 IL
-vW
+LO
 "}
 (2,1,3) = {"
 PI
