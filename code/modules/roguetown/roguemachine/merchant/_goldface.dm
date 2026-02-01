@@ -152,10 +152,12 @@
 		"Apparel",
 		"Adventuring Supplies",
 		"Armor (Iron)",
+		"Alcohols",
+		"Drugs",
 		"Potions",
 		"Weapons (Ranged)",
 		"Weapons (Iron and Shields)",
-		"Wardrobe",
+		"Wardrobe"
 	)
 	categories_gamer = list()
 
