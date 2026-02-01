@@ -1966,6 +1966,11 @@
 /obj/item/rogueweapon/shovel,
 /turf/open/floor/rogue/cobble/mossy,
 /area/rogue/under/cave/inhumen)
+"CV" = (
+/obj/structure/fluff/railing/wood/north,
+/obj/machinery/light/rogue/torchholder/r,
+/turf/open/floor/rogue/twig,
+/area/rogue/under/cave/inhumen)
 "Dc" = (
 /obj/structure/chair/stool/rogue,
 /turf/open/floor/rogue/twig,
@@ -3033,6 +3038,11 @@
 /obj/structure/fluff/walldeco/church/line,
 /turf/open/floor/rogue/cobble/mossy,
 /area/rogue/outdoors/woods/wretch_lair)
+"VM" = (
+/obj/structure/fluff/railing/wood/east,
+/obj/machinery/light/rogue/torchholder/c,
+/turf/open/floor/rogue/twig,
+/area/rogue/under/cave/inhumen)
 "VP" = (
 /obj/structure/fluff/railing/border/north,
 /obj/structure/fluff/railing/border/west,
@@ -14882,7 +14892,7 @@ ap
 ap
 ap
 sH
-rM
+CV
 qW
 qW
 qW
@@ -15016,7 +15026,7 @@ ap
 eB
 kv
 HO
-IR
+VM
 IR
 IR
 IR
