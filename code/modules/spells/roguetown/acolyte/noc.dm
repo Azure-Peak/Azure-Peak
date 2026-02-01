@@ -700,7 +700,7 @@ Somewhat fitting, considering the broadness of their domains. I also just think 
 		revert_cast()
 		return FALSE
 	if(item.dreamcost > user.mind.sleep_adv.sleep_adv_points)
-		to_chat(user,span_warning("You do not have enough experience to create a new spell."))
+		to_chat(user,span_warning("You do not have enough experience to create this spell."))
 		revert_cast()
 		return FALSE		// not enough spell points
 	else
