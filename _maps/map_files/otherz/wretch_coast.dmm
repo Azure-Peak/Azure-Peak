@@ -2917,6 +2917,11 @@
 /obj/item/paper/scroll,
 /turf/open/floor/rogue/ruinedwood/spiral,
 /area/rogue/under/cave/inhumen)
+"Uc" = (
+/obj/item/roguekey/zurch_bedroom/admin,
+/obj/structure/table/wood/poor,
+/turf/open/floor/rogue/cobble/mossy,
+/area/rogue/under/cave/inhumen)
 "Uf" = (
 /obj/structure/table/wood/poor,
 /turf/open/floor/rogue/naturalstone,
@@ -5708,7 +5713,7 @@ IL
 IL
 IL
 tV
-iZ
+Uc
 iZ
 iZ
 tV

@@ -709,6 +709,12 @@
 	icon_state = "rustkey"
 	lockid = "zurch_bedroom_12"
 
+/obj/item/roguekey/zurch_bedroom/admin
+	name = "ancient key"
+	desc = "A ancient, rusty key."
+	icon_state = "rustkey"
+	lockid = "admin_event_door"
+
 ///////////////////////////////////////
 // ABSOLUTELY ZERO CLUE WHAT THIS IS //
 ///////////////////////////////////////
