@@ -234,6 +234,9 @@
 	var/reward = 0
 	var/original_reward = 0
 	var/total_deposit_return = 0
+	var/tax_rate = SStreasury.tax_value
+	var/tax_amt = 0
+
 	if(scroll.assigned_quest?.complete)
 		// Calculate base reward
 		var/base_reward = scroll.assigned_quest.reward_amount
@@ -257,9 +260,17 @@
 		qdel(scroll.assigned_quest)
 		qdel(scroll)
 
-	cash_in(round(reward), original_reward)
+		// Tax payment
+		tax_amt = round(tax_rate * reward)
+		if(tax_amt > 0)
+			reward -= tax_amt
+			SStreasury.give_money_treasury(tax_amt, "quest completion tax - [src.name]")
+			record_featured_stat(FEATURED_STATS_TAX_PAYERS, user, tax_amt)
+			record_round_statistic(STATS_TAXES_COLLECTED, tax_amt)
 
-/obj/structure/roguemachine/contractledger/proc/cash_in(reward, original_reward)
+	cash_in(round(reward), original_reward, tax_amt)
+
+/obj/structure/roguemachine/contractledger/proc/cash_in(reward, original_reward, tax_amt)
 	var/list/coin_types = list(
 		/obj/item/roguecoin/gold = FLOOR(reward / 10, 1),
 		/obj/item/roguecoin/silver = FLOOR(reward % 10 / 5, 1),
@@ -275,10 +286,10 @@
 			coin_stack.update_transform()
 
 	if(reward > 0)
-		say(reward != original_reward ? \
-			"Your handler assistance-increased reward of [reward] mammons has been dispensed! The difference is [reward - original_reward] mammons." : \
-			"Your reward of [reward] mammons has been dispensed.")
-
+		say(reward > original_reward ? \
+			"Your handler assistance-increased reward of [reward] mammons has been dispensed! The difference is [reward - original_reward] mammons. ([tax_amt] mammons taxed.)" : \
+			"Your reward of [reward] mammons has been dispensed. ([tax_amt] mammons taxed.)")
+		
 /obj/structure/roguemachine/contractledger/proc/abandon_contract(mob/user)
 	var/obj/item/paper/scroll/quest/abandoned_scroll = locate() in input_point
 	if(!abandoned_scroll)

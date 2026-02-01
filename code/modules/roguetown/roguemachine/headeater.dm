@@ -7,7 +7,7 @@
 	density = FALSE
 	blade_dulling = DULLING_BASH
 	pixel_y = 32
-	var/return_ratio = 0.4 // 40% cost should make it enticing enough to sell to merchant probably?
+	var/return_ratio = 0.45 // 45% cost should make it enticing enough to sell to merchant probably? Upped from 40 to account for taxation
 	var/topay = 0
 
 /obj/structure/roguemachine/headeater/examine()
@@ -20,6 +20,15 @@
 		to_chat(user, span_danger("It seems uninterested by [H]"))
 		return
 	eathead(H, user)
+
+/obj/structure/roguemachine/headeater/proc/tax(amount)
+	var/tax_rate = SStreasury.tax_value
+	var/tax_imposed = amount - (amount * tax_rate)
+	if(tax_imposed > 0)
+		SStreasury.give_money_treasury(tax_imposed, "headeater tax - [src.name]")
+		record_round_statistic(STATS_TAXES_COLLECTED, tax_imposed)
+	return round(amount - tax_imposed)
+	
 
 /obj/structure/roguemachine/headeater/proc/eathead(obj/item/H, mob/user, supress_message = FALSE, paynow = TRUE)
 	if(istype(H, /obj/item/bodypart/head))
@@ -40,7 +49,7 @@
 			if(!supress_message)
 				to_chat(user, span_danger("the [src] consumes [A] spitting out coins in its place!"))
 			if(paynow)
-				budget2change(A.sellprice * return_ratio, user)
+				budget2change(tax(A.sellprice * return_ratio, user))
 			else
 				topay += A.sellprice * return_ratio
 			A.forceMove(src)
@@ -54,7 +63,7 @@
 			if(istype(I, /obj/item/bodypart/head))
 				eathead(I, user, TRUE, FALSE)
 	if(topay > 0)
-		topay = round(topay)
+		topay = round(tax(topay))
 		to_chat(user, span_danger("The [src] spits out [topay] mammons!"))
 		budget2change(topay, user)
 		topay = 0

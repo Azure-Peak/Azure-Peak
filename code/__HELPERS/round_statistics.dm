@@ -64,6 +64,7 @@
 #define STATS_PURITY_VALUE_SPENT "purity_spent"
 #define STATS_TAXES_EVADED "taxes_evaded"
 #define STATS_NOBLE_INCOME_TOTAL "noble_income_total"
+#define STATS_BANK_INTEREST_CREATED "bank_interest_created"
 #define STATS_DIRECT_TREASURY_TRANSFERS "direct_treasury_transfers"
 #define STATS_STOCKPILE_EXPORTS_VALUE "stockpile_exports_value"
 #define STATS_STOCKPILE_IMPORTS_VALUE "stockpile_imports_value"

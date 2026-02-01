@@ -40,6 +40,8 @@ SUBSYSTEM_DEF(treasury)
 	)
 	var/tax_value = 0.11
 	var/queens_tax = 0.10
+	var/bank_interest_rate = 0.035 // 3.5% per day; changeable at steward
+	var/bank_interest_cap = 50
 	var/treasury_value = 0
 	var/mint_multiplier = 0.8 // 1x is meant to leave a margin after standard 80% collectable. Less than Bathmatron.
 	var/minted = 0
@@ -96,6 +98,7 @@ SUBSYSTEM_DEF(treasury)
 		give_money_treasury(RURAL_TAX, "Rural Tax Collection") //Give the King's purse to the treasury
 		record_round_statistic(STATS_RURAL_TAXES_COLLECTED, RURAL_TAX)
 		total_rural_tax += RURAL_TAX
+	
 		auto_export()
 
 /datum/controller/subsystem/treasury/proc/create_bank_account(name, initial_deposit)
@@ -253,6 +256,33 @@ SUBSYSTEM_DEF(treasury)
 	if(total_paid > 0)
 		log_to_steward("Daily wages distributed: [total_paid]m total")
 
+/datum/controller/subsystem/treasury/proc/apply_bank_interest()
+	var/total_interest_created = 0
+	var/interest_cap = 50 // Maximum interest per account per day
+
+	for(var/account in bank_accounts)
+		var/balance = bank_accounts[account]
+		if(balance <= 0)
+			continue
+
+		var/interest = round(balance * bank_interest_rate)
+		if(interest <= 0)
+			continue
+
+		interest = min(interest, interest_cap)
+
+		bank_accounts[account] += interest
+		total_interest_created += interest
+
+		// Notify real characters only
+		if(istype(account, /mob/living/carbon/human))
+			var/mob/living/carbon/human/H = account
+			send_ooc_note("<b>MEISTER:</b> You received [interest]m in bank interest.", H.real_name)
+
+	if(total_interest_created > 0)
+		log_to_steward("-[total_interest_created] from treasury (interest credit issued)")
+		record_round_statistic(STATS_BANK_INTEREST_CREATED, total_interest_created)
+
 /datum/controller/subsystem/treasury/proc/do_export(var/datum/roguestock/D, silent = FALSE)
 	if((D.held_items[1] < D.importexport_amt))
 		return FALSE
@@ -352,7 +382,3 @@ SUBSYSTEM_DEF(treasury)
 #undef RURAL_TAX
 #undef TREASURY_TICK_AMOUNT
 #undef EXPORT_ANNOUNCE_THRESHOLD
-#undef TAX_CAT_NOBLE
-#undef TAX_CAT_CHURCH
-#undef TAX_CAT_BURGHERS
-#undef TAX_CAT_PEASANTS
