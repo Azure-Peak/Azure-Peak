@@ -2083,6 +2083,10 @@
 "Ev" = (
 /turf/open/floor/rogue/dirt/road,
 /area/rogue/outdoors/woods/wretch_lair)
+"EE" = (
+/obj/item/reagent_containers/glass/bucket,
+/turf/open/floor/rogue/ruinedwood/spiral,
+/area/rogue/under/cave/inhumen)
 "EI" = (
 /obj/effect/decal/cobbleedge{
 	dir = 6;
@@ -2105,6 +2109,10 @@
 /obj/structure/fluff/railing/border/west,
 /obj/structure/roguerock,
 /turf/open/floor/rogue/naturalstone,
+/area/rogue/under/cave/inhumen)
+"EZ" = (
+/obj/item/reagent_containers/glass/bucket,
+/turf/open/floor/rogue/cobble,
 /area/rogue/under/cave/inhumen)
 "Ff" = (
 /obj/structure/mineral_door/wood/donjon{
@@ -2480,6 +2488,9 @@
 "La" = (
 /obj/structure/table/wood/poor,
 /obj/machinery/light/rogue/candle/r,
+/obj/item/reagent_containers/glass/bucket{
+	pixel_y = 10
+	},
 /turf/open/floor/rogue/twig,
 /area/rogue/under/cave/inhumen)
 "Lh" = (
@@ -2812,6 +2823,10 @@
 /obj/structure/fermentation_keg/random/water,
 /turf/open/floor/rogue/cobble,
 /area/rogue/under/cave/inhumen)
+"RK" = (
+/obj/item/reagent_containers/glass/bucket,
+/turf/open/floor/rogue/dirt/road,
+/area/rogue/outdoors/woods/wretch_lair)
 "RS" = (
 /turf/open/water/bloody,
 /area/rogue/under/cave/inhumen)
@@ -8848,7 +8863,7 @@ ew
 Me
 Me
 Cu
-iY
+EZ
 vG
 Dr
 vG
@@ -9299,7 +9314,7 @@ IL
 IL
 IL
 Ev
-Ev
+RK
 Ev
 vG
 NB
@@ -14326,7 +14341,7 @@ Aw
 Aw
 Aw
 Aw
-Aw
+EE
 vG
 mM
 mM
