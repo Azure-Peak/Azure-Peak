@@ -149,7 +149,9 @@
 			H.equip_to_slot_or_del(new /obj/item/clothing/head/roguetown/helmet/heavy/dendorhelm, SLOT_HEAD, TRUE)
 			H.equip_to_slot_or_del(new /obj/item/clothing/cloak/tabard/crusader/dendor, SLOT_CLOAK, TRUE)
 			H.cmode_music = 'sound/music/cmode/garrison/combat_warden.ogg'
-			H.adjust_skillrank(/datum/skill/labor/farming, 1, TRUE)
+			ADD_TRAIT(H, TRAIT_WOODWALKER, TRAIT_GENERIC)
+			ADD_TRAIT(H, TRAIT_OUTDOORSMAN, TRAIT_GENERIC)
+			H.adjust_skillrank(/datum/skill/magic/druidic, 3, TRUE) //so they can shapeshift
 			H.adjust_skillrank(/datum/skill/misc/climbing, 1, TRUE)
 		if(/datum/patron/divine/necra)
 			H.equip_to_slot_or_del(new /obj/item/clothing/neck/roguetown/psicross/necra, SLOT_RING, TRUE)
