@@ -153,6 +153,7 @@
 		"Adventuring Supplies",
 		"Armor (Iron)",
 		"Alcohols",
+		"Consumable",
 		"Drugs",
 		"Potions",
 		"Weapons (Ranged)",
