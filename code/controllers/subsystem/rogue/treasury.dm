@@ -1,11 +1,4 @@
-#define RURAL_TAX 50 // Free money. A small safety pool for lowpop mostly
-#define TREASURY_TICK_AMOUNT 6 MINUTES
-#define EXPORT_ANNOUNCE_THRESHOLD 100
-
-#define TAX_CAT_NOBLE "Nobility"
-#define TAX_CAT_CHURCH "Church"
-#define TAX_CAT_BURGHERS "Burghers"
-#define TAX_CAT_PEASANTS "Peasantry"
+// SEE treasury.dm in __DEFINES for definitions
 
 /proc/send_ooc_note(msg, name, job)
 	var/list/names_to = list()
@@ -378,11 +371,4 @@ SUBSYSTEM_DEF(treasury)
 	treasury_value -= amt
 	log_to_steward("-[amt] withdrawn from treasury by [target]")
 	return TRUE
-
-#undef RURAL_TAX
-#undef TREASURY_TICK_AMOUNT
-#undef EXPORT_ANNOUNCE_THRESHOLD
-#undef TAX_CAT_NOBLE
-#undef TAX_CAT_CHURCH
-#undef TAX_CAT_BURGHERS
-#undef TAX_CAT_PEASANTS
+	
