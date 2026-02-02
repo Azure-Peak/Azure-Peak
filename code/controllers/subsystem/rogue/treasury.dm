@@ -256,7 +256,7 @@ SUBSYSTEM_DEF(treasury)
 	if(total_paid > 0)
 		log_to_steward("Daily wages distributed: [total_paid]m total")
 
-/datum/controller/subsystem/treasury/proc/apply_bank_interest()
+/datum/controller/subsystem/treasury/proc/distribute_interest()
 	var/total_interest_created = 0
 	var/interest_cap = 50 // Maximum interest per account per day
 
@@ -277,10 +277,10 @@ SUBSYSTEM_DEF(treasury)
 		// Notify real characters only
 		if(istype(account, /mob/living/carbon/human))
 			var/mob/living/carbon/human/H = account
-			send_ooc_note("<b>MEISTER:</b> You received [interest]m in bank interest.", H.real_name)
+			send_ooc_note("<b>MEISTER:</b> You received [interest]m in interest.", H.real_name)
 
 	if(total_interest_created > 0)
-		log_to_steward("-[total_interest_created] from treasury (interest credit issued)")
+		log_to_steward("-[total_interest_created] from treasury (interest issued)")
 		record_round_statistic(STATS_BANK_INTEREST_CREATED, total_interest_created)
 
 /datum/controller/subsystem/treasury/proc/do_export(var/datum/roguestock/D, silent = FALSE)

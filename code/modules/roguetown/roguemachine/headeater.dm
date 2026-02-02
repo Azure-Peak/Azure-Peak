@@ -23,13 +23,15 @@
 
 /obj/structure/roguemachine/headeater/proc/tax(amount)
 	var/tax_rate = SStreasury.tax_value
-	var/tax_imposed = amount - (amount * tax_rate)
-	if(tax_imposed > 0)
-		SStreasury.give_money_treasury(tax_imposed, "headeater tax - [src.name]")
-		record_round_statistic(STATS_TAXES_COLLECTED, tax_imposed)
-	return round(amount - tax_imposed)
-	
+	var/tax_amt = round(amount * tax_rate)
+	var/net_amount = amount - tax_amt
 
+	if(tax_amt > 0)
+		SStreasury.give_money_treasury(tax_amt, "headeater tax - [src.name]")
+		record_round_statistic(STATS_TAXES_COLLECTED, tax_amt)
+
+	return round(net_amount)
+	
 /obj/structure/roguemachine/headeater/proc/eathead(obj/item/H, mob/user, supress_message = FALSE, paynow = TRUE)
 	if(istype(H, /obj/item/bodypart/head))
 		var/obj/item/bodypart/head/E = H
@@ -63,7 +65,7 @@
 			if(istype(I, /obj/item/bodypart/head))
 				eathead(I, user, TRUE, FALSE)
 	if(topay > 0)
-		topay = round(tax(topay))
+		topay = tax(topay)
 		to_chat(user, span_danger("The [src] spits out [topay] mammons!"))
 		budget2change(topay, user)
 		topay = 0
