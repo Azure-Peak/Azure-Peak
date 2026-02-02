@@ -143,8 +143,8 @@
 
 /obj/structure/roguemachine/goldface/public/wretch_cat
 	name = "Vile Vheslie"
-	desc = "A ferocious little beast that hoards a mountain of goods under its home, the dreaded creechur is willing to part waes with its lower quality items..for a price."
-	icon = 'icons/roguetown/misc/machines.dmi'
+	desc = "A ferocious little beast that hoards a mountain of goods under its home. The dreaded creechur is willing to part waes with its lower quality items..for a price."
+	icon = 'icons/roguetown/misc/structure.dmi'
 	icon_state = "vheslie"
 	lockid = "Vheslie"
 	profit_id = list("Guildsman", "Guildmaster", "Tailor")
