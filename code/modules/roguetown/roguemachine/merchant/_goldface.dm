@@ -143,10 +143,10 @@
 
 /obj/structure/roguemachine/goldface/public/wretch_cat
 	name = "Vile Vheslie"
-	desc = "A ferocious little beast that hordes a mountain of goods under its home, the dreaded creechur is willing to part waes with its lower quality items..for a price."
+	desc = "A ferocious little beast that hoards a mountain of goods under its home, the dreaded creechur is willing to part waes with its lower quality items..for a price."
 	icon = 'icons/roguetown/misc/machines.dmi'
 	icon_state = "vheslie"
-	lockid = null
+	lockid = "Vheslie"
 	profit_id = list("Guildsman", "Guildmaster", "Tailor")
 	categories = list(
 		"Apparel",
@@ -160,10 +160,6 @@
 		"Wardrobe"
 	)
 	categories_gamer = list()
-
-/obj/structure/roguemachine/goldface/public/wretch_cat/examine()
-	. = ..()
-	. += span_info("This can be locked by a guild's key")
 
 /obj/structure/roguemachine/goldface/Initialize()
 	. = ..()
