@@ -6299,7 +6299,7 @@
 "JE" = (
 /obj/structure/table/wood/poor,
 /obj/structure/roguemachine/goldface/public/wretch_cat{
-	pixel_y = 2
+	pixel_y = 5
 	},
 /turf/open/floor/rogue/twig,
 /area/rogue/under/cave/inhumen)
