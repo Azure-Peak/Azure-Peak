@@ -32977,9 +32977,6 @@
 	layer = 2.81
 	},
 /obj/structure/table/wood/poor,
-/obj/structure/bars/passage/shutter/open{
-	redstone_id = "stewardshutter"
-	},
 /obj/structure/bars/passage/shutter{
 	redstone_id = "towner_smith_shutter"
 	},
