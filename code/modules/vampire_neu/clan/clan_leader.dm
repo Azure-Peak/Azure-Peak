@@ -51,7 +51,6 @@
 	H.maxbloodpool += vitae_bonus
 	if(vamp_datum)
 		vamp_datum.name = "[lord_title]"
-		vamp_datum.antag_hud_name = "Vlord"
 
 /datum/clan_leader/proc/remove_leader(mob/living/carbon/human/H)
 	REMOVE_TRAIT(H, TRAIT_CLAN_LEADER, "clan")
