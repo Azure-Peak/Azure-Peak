@@ -1734,7 +1734,12 @@ Slots: [job.spawn_positions] [job.round_contrib_points ? "RCP: +[job.round_contr
 						var/datum/voicepack/VP = GLOB.voice_packs_list[voice_pack]
 						if(!istype(temp_vp, /datum/voicepack))
 							temp_vp = new VP()
-						var/sound/voiceline = sound(temp_vp.get_sound(pick(temp_vp.preview)))
+							
+						var/soundpath = temp_vp.get_sound(pick(temp_vp.preview))
+						var/sound/voiceline
+
+						if(soundpath)
+							voiceline = sound(soundpath)
 						if(voiceline)
 							voiceline.frequency = voice_pitch
 							user.playsound_local(user, vol = 100, S = voiceline)
