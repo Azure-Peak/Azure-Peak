@@ -298,7 +298,6 @@
 /atom/movable/screen/alert/status_effect/debuff/ritesexpended
 	name = "Rites Complete"
 	desc = "It will take time before I can next perform a rite."
-	icon_state = "ritesexpended"
 
 /datum/status_effect/debuff/ritesexpended_heavy
 	id = "ritesexpended_heavy"
@@ -308,7 +307,6 @@
 /atom/movable/screen/alert/status_effect/debuff/ritesexpended_heavy
 	name = "Rites Complete"
 	desc = "It will take a lot of time before I can perform a next rite. I am drained."
-	icon_state = "ritesexpended"
 
 /datum/status_effect/debuff/call_to_arms
 	id = "call_to_arms"
