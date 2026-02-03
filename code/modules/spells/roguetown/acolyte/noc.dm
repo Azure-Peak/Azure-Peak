@@ -630,12 +630,21 @@ Somewhat fitting, considering the broadness of their domains. I also just think 
 	miracle = TRUE
 	devotion_cost = 200
 	var/points_need = 10
+	var/alreadychoosing = FALSE
 
 /obj/effect/proc_holder/spell/self/wisescroll/cast(mob/living/carbon/human/user)
+	if(alreadychoosing)
+		to_chat(user, span_warning("I'm already picking a spell..."))
+		revert_cast()
+		return
+
+	alreadychoosing = TRUE
+
 	. = ..()
 	if(GLOB.tod == "day" || GLOB.tod == "dawn")
 		to_chat(user, span_warning("ASTRATA IS RISEN! MY SPELL FIZZLES!"))
 		revert_cast()
+		alreadychoosing = FALSE
 		return FALSE
 
 	var/feather_check = FALSE
@@ -647,30 +656,32 @@ Somewhat fitting, considering the broadness of their domains. I also just think 
 	if(feather_check == FALSE)
 		to_chat(user, "I need a feather!")
 		revert_cast()
+		alreadychoosing = FALSE
 		return FALSE
 
 	var/points = 0
 	var/pointlock = TRUE
+	var/list/books_burnt = list()
+
 	for(var/obj/item/I in range(1, user))
 		if(points < points_need)
 			if(istype(I, /obj/item/paper))
 				points += 1
-				new /obj/effect/temp_visual/moon/spell(get_turf(I))
-				qdel(I)
+				books_burnt += I
 			if(istype(I, /obj/item/paper/scroll))
 				points += 2
-				new /obj/effect/temp_visual/moon/spell(get_turf(I))
-				qdel(I)
+				books_burnt += I
 			if(istype(I, /obj/item/skillbook) || istype(I, /obj/item/recipe_book) || istype(I, /obj/item/book))
 				points += 5
-				new /obj/effect/temp_visual/moon/spell(get_turf(I))
-				qdel(I)
+				books_burnt += I
 			if(points >= points_need)
 				pointlock = FALSE
 
+	// Ensure we have enough pages...
 	if(pointlock == TRUE)
-		to_chat(user, "I did not burn enough pages!")
+		to_chat(user, span_warning("I need more papers!"))
 		revert_cast()
+		alreadychoosing = FALSE
 		return FALSE
 
 	var/list/choices = list()
@@ -688,6 +699,7 @@ Somewhat fitting, considering the broadness of their domains. I also just think 
 	if(user.mind.sleep_adv.sleep_adv_points == 0)
 		to_chat(user, "Not enough dreampoints!")	
 		revert_cast()
+		alreadychoosing = FALSE
 		return FALSE
 
 	var/choice = input("☾ Choose a scroll ☾, points left: [user.mind.sleep_adv.sleep_adv_points]") as null|anything in choices
@@ -695,15 +707,21 @@ Somewhat fitting, considering the broadness of their domains. I also just think 
 
 	if(!item)
 		revert_cast()
+		alreadychoosing = FALSE
 		return FALSE    // user canceled;
 	if(alert(user, "[item.desc]", "[item.name]", "Write", "Remind") == "Cancel") //gives a preview of the spell's description to let people know what a spell does
 		revert_cast()
+		alreadychoosing = FALSE
 		return FALSE
 	if(item.dreamcost > user.mind.sleep_adv.sleep_adv_points)
 		to_chat(user,span_warning("You do not have enough experience to create this spell."))
 		revert_cast()
+		alreadychoosing = FALSE
 		return FALSE		// not enough spell points
 	else
+		for(var/obj/item/burn in books_burnt)
+			new /obj/effect/temp_visual/moon/spell(get_turf(burn))
+			qdel(burn)
 		user.mind.sleep_adv.sleep_adv_points -= item.dreamcost
 		if(item.dreamcost == 3)
 			start_recharge(5 MINUTES)
@@ -714,6 +732,7 @@ Somewhat fitting, considering the broadness of their domains. I also just think 
 			recharge_time(30 MINUTES)
 		var/obj/item/I = new item (get_turf(user))
 		user.put_in_hands(I)
+		alreadychoosing = FALSE
 		return TRUE
 
 /obj/effect/temp_visual/moon/spell
