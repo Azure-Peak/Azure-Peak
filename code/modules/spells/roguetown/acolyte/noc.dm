@@ -402,7 +402,7 @@ Somewhat fitting, considering the broadness of their domains. I also just think 
 
 /obj/effect/proc_holder/spell/invoked/moondream
 	name = "Hypnagognian Inspiration"
-	desc = "Touch a target. Their next dream will be inspired, granting more dream-points to the target and a few to yourself.\n\
+	desc = "Touch a target. Their next dream will be inspired, granting more dream-points to the target and a few to yourself.\
 	This spell will fail if it's dae or dawn. Points granted scales with holy skill."
 	overlay_state = "moondream"
 	base_icon_state = "wisescroll"
@@ -472,7 +472,7 @@ Somewhat fitting, considering the broadness of their domains. I also just think 
 
 /obj/item/melee/touch_attack/rogueweapon/nocgrasp
 	name = "Shimmering Hand"
-	desc = "The Sacred Light of Noc. \n\
+	desc = "The Sacred Light of Noc. \
 	Touch yourself to dispel it."
 	icon = 'icons/roguetown/misc/miraclestuff.dmi'
 	mob_overlay_icon = 'icons/roguetown/misc/miraclestuff.dmi'
@@ -548,8 +548,8 @@ Somewhat fitting, considering the broadness of their domains. I also just think 
 
 /obj/effect/proc_holder/spell/self/moon_light
 	name = "Moonlight Glimmer"
-	desc = "Calls down shimmering moonlight onto those around you in a certain radius, scaling with holy skill. \n\
-	Mindless creachers will become critically weak. Simple creachers will burn.\n\
+	desc = "Calls down shimmering moonlight onto those around you in a certain radius, scaling with holy skill. \
+	Mindless creachers will become critically weak. Simple creachers will burn. \
 	This CASTS INSTANTLY on selection, and does not work during dae nor dawn."
 	releasedrain = 10
 	chargedrain = 0
@@ -611,9 +611,9 @@ Somewhat fitting, considering the broadness of their domains. I also just think 
 
 /obj/effect/proc_holder/spell/self/wisescroll
 	name = "Moonlit Grimoire"
-	desc = "Using writing materials, and enough paper, create a great work: a Magic Scroll!\n\
+	desc = "Using writing materials, and enough paper, create a great work: a Magic Scroll!\
 	You will need to be holding a feather and to have 10 points worth of items around your person.\n\
-	Piece of parchment - 1 point, scroll - 2 points, book - 5 points. \n\
+	Piece of parchment - 1 point, scroll - 2 points, book - 5 points.\n\
 	Uses your dream-points as ink. The more points a spell costs, the higher your recharge time will be."
 	releasedrain = 200
 	chargedrain = 0
