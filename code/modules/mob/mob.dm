@@ -747,54 +747,37 @@ GLOBAL_VAR_INIT(mobids, 1)
  */
 /mob/Stat()
 	..()
-	// && check_rights(R_ADMIN,0)
-	var/time_left = SSgamemode.round_ends_at - world.time
-	var/days = "TWILIGHT"
-	switch(GLOB.dayspassed)
-		if(1)
-			days = "MOON'S DAE"
-		if(2)
-			days = "TIW'S DAE"
-		if(3)
-			days = "WEDDING'S DAE"
-		if(4)
-			days = "TOLL'S DAE"
-		if(5)
-			days = "FREYJA'S DAE"
-		if(6)
-			days = "SATURN'S DAE"
-		if(7)
-			days = "SUN'S DAE"
 
-	if(client)
-		if(statpanel("RoundInfo"))
-			stat(null, "MAP: [SSmapping.config?.map_name || "Loading..."]")
-			var/datum/map_config/cached = SSmapping.next_map_config
-			if(cached)
-				stat(null, "Next Map: [cached.map_name]")
-			stat(null, "ROUND ID: [GLOB.rogue_round_id ? GLOB.rogue_round_id : "NULL"]")
-			stat(null, "ROUND TIME: [time2text(STATION_TIME_PASSED(), "hh:mm:ss", 0)] [world.time - SSticker.round_start_time]")
-			if(SSgamemode.roundvoteend)
-				stat("ROUND END: [DisplayTimeText(time_left)]")
-			if(client?.holder)
-				stat(null, "ROUND TrueTime: [worldtime2text()] [world.time]")
-			stat(null, "TIMEOFDAY: [days] ᛉ [uppertext(GLOB.tod)] ᛉ [station_time_timestamp("hh:mm")]")
-			stat(null, "IC Time: [station_time_timestamp()] [station_time()]")
-			stat(null, "PING: [round(client.lastping, 1)]ms (Average: [round(client.avgping, 1)]ms)")
-			stat(null, "TIME DILATION: [round(SStime_track.time_dilation_current,1)]% AVG:([round(SStime_track.time_dilation_avg_fast,1)]%, [round(SStime_track.time_dilation_avg,1)]%, [round(SStime_track.time_dilation_avg_slow,1)]%)")
-			if(check_rights(R_ADMIN,0))
-				stat(null, SSmigrants.get_status_line())
+	if(!client)
+		return
 
-	if(client && client.holder && check_rights(R_DEBUG,0))
+	var/datum/controller/subsystem/statpanel/SS = SSstatpanel
+
+	if(statpanel("RoundInfo"))
+		for(var/line in SS.base_roundinfo_text)
+			stat(null, line)
+
+		if(client.holder)
+			for(var/line in SS.debug_roundinfo_text)
+				stat(null, line)
+
+		stat(null, SS.timeofday_text)
+		stat(null, SS.ic_time_text)
+		stat(null, "PING: [round(client.lastping,1)]ms (AVG: [round(client.avgping,1)]ms)")
+		stat(null, SS.td_info_text)
+		if(check_rights(R_ADMIN,0))
+			for(var/line in SS.admin_roundinfo_text)
+				stat(null, line)
+
+	if(client?.holder && check_rights(R_DEBUG, 0))
 		if(statpanel("MC"))
 			var/turf/T = get_turf(client.eye)
 			stat("Location:", COORD(T))
-			stat("CPU:", "[world.cpu]")
-			stat("Instances:", "[num2text(world.contents.len, 10)]")
-			stat("World Time:", "[world.time]")
+			for(var/line in SSstatpanel.mc_info_text)
+				stat(null, line)
+
 			GLOB.stat_entry()
 			config.stat_entry()
-			stat(null)
 			if(Master)
 				Master.stat_entry()
 			else
@@ -803,12 +786,16 @@ GLOBAL_VAR_INIT(mobids, 1)
 				Failsafe.stat_entry()
 			else
 				stat("Failsafe Controller:", "ERROR")
-			if(Master)
-				stat(null)
-				for(var/datum/controller/subsystem/SS in Master.subsystems)
-					SS.stat_entry()
+				
+			stat(null)
+
+			for(var/entry in SSstatpanel.mc_cache)
+				var/datum/controller/subsystem/SSsub = entry["subsystem"]
+				stat(entry["title"], SSsub.statclick.update(entry["msg"]))
+				
 		if(statpanel("Tickets"))
 			GLOB.ahelp_tickets.stat_entry()
+
 		if(length(GLOB.sdql2_queries))
 			if(statpanel("SDQL2"))
 				stat("Access Global SDQL2 List", GLOB.sdql2_vv_statobj)
@@ -821,10 +808,12 @@ GLOBAL_VAR_INIT(mobids, 1)
 			listed_turf = null
 		else
 			statpanel(listed_turf.name, null, listed_turf)
+
 			var/list/overrides = list()
 			for(var/image/I in client.images)
 				if(I.loc && I.loc.loc == listed_turf && I.override)
 					overrides += I.loc
+
 			for(var/atom/A in listed_turf)
 				if(!A.mouse_opacity)
 					continue
@@ -832,8 +821,8 @@ GLOBAL_VAR_INIT(mobids, 1)
 					continue
 				if(overrides.len && (A in overrides))
 					continue
-				statpanel(listed_turf.name, null, A)
 
+				statpanel(listed_turf.name, null, A)
 
 //	if(mind)
 //		add_spells_to_statpanel(mind.spell_list)

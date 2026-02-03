@@ -39,7 +39,7 @@
 	shirt = /obj/item/clothing/suit/roguetown/shirt/undershirt/puritan
 	belt = /obj/item/storage/belt/rogue/leather
 	beltl = /obj/item/storage/belt/rogue/surgery_bag/full
-	beltr = /obj/item/rogueweapon/huntingknife/cleaver /// proper self defense an tree aquiring
+	beltr = /obj/item/rogueweapon/huntingknife/chefknife/cleaver /// proper self defense an tree aquiring
 	pants = /obj/item/clothing/under/roguetown/trou
 	shoes = /obj/item/clothing/shoes/roguetown/simpleshoes
 	backl = /obj/item/storage/backpack/rogue/backpack

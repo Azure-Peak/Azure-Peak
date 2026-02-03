@@ -125,20 +125,6 @@
 					/obj/item/rogueweapon/greatsword,
 				)
 
-/datum/supply_pack/rogue/steel_weapons/zweihander
-	name = "Zweihander"
-	cost = 105 // 3 Steel Ingot
-	contains = list(
-					/obj/item/rogueweapon/greatsword/grenz,
-				)
-
-/datum/supply_pack/rogue/steel_weapons/flamberge
-	name = "Steel Flamberge"
-	cost = 105
-	contains = list(
-		/obj/item/rogueweapon/greatsword/grenz/flamberge
-	)
-
 /datum/supply_pack/rogue/steel_weapons/estoc
 	name = "Estoc"
 	cost = 70 // 2 Steel Ingot

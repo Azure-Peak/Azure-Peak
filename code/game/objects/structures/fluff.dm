@@ -1327,6 +1327,7 @@
 						thebride.adjust_triumphs(1)
 						//Bite the apple first if you want to be the groom.
 						priority_announce("[thegroom.real_name] has married [bridefirst]!", title = "Holy Union!", sound = 'sound/misc/bell.ogg')
+						record_round_statistic(STATS_MARRIAGES_MADE)
 						marriage = TRUE
 						qdel(A)
 

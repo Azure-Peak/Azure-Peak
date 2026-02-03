@@ -39,7 +39,6 @@
 					forging_comp.material_quality += previous_material_quality
 				forging_comp.current_recipe.num_of_materials += 1
 				T.hingot = null
-				qdel(consumed)
 				T.update_icon()
 				update_icon()
 				return
@@ -152,7 +151,6 @@
 			forging_comp.current_recipe.num_of_materials += 1
 			if(user?.is_holding(W))
 				user.temporarilyRemoveItemFromInventory(W, TRUE)
-			qdel(W)
 			return
 
 	if(W.anvilrepair)

@@ -11,6 +11,13 @@
 					/obj/item/rogueweapon/sword/iron,
 				)
 
+/datum/supply_pack/rogue/iron_weapons/greatsword
+	name = "Iron Greatsword"
+	cost = 50
+	contains = list(
+					/obj/item/rogueweapon/greatsword/iron,
+				)
+
 /datum/supply_pack/rogue/iron_weapons/shortsword
 	name = "Shortsword"
 	cost = 25 // 1 Iron Ingot
@@ -72,13 +79,6 @@
 	cost = 25 // 1 Iron Ingot
 	contains = list(
 					/obj/item/rogueweapon/mace/warhammer,
-				)
-
-/datum/supply_pack/rogue/iron_weapons/claymore
-	name = "Claymore"
-	cost = 40 // 2 Iron Ingot
-	contains = list(
-					/obj/item/rogueweapon/greatsword/zwei,
 				)
 
 /datum/supply_pack/rogue/iron_weapons/greataxe

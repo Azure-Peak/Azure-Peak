@@ -373,11 +373,13 @@
 	grid_height = 96
 	grid_width = 96
 	sellprice = 200
+	unenchantable = TRUE
 
 /obj/item/clothing/neck/roguetown/gorget/gold/king
 	name = "royal golden gorget"
 	max_integrity = ARMOR_INT_SIDE_GOLDPLUS // Doubled integrity.
 	sellprice = 300
+	unenchantable = TRUE
 
 /obj/item/clothing/neck/roguetown/gorget/steel/kazengun
 	name = "kazengunite gorget"
@@ -430,23 +432,38 @@
 	anvilrepair = /datum/skill/craft/armorsmithing
 	grid_width = 32
 	grid_height = 32
+	/// Used to see whether or not we display the wrist icon or the neck icon regardless.
+	var/wrist_display = FALSE
 
 /obj/item/clothing/neck/roguetown/psicross/mob_can_equip(mob/living/M, mob/living/equipper, slot, disable_warning = FALSE, bypass_equip_delay_self = FALSE)
 	..()
 
-	if(slot == SLOT_WRISTS)
+	if(slot == SLOT_WRISTS || (wrist_display && slot != SLOT_NECK))
 		mob_overlay_icon = 'icons/roguetown/clothing/onmob/wrists.dmi'
 		sleeved = 'icons/roguetown/clothing/onmob/wrists.dmi'
-	if(slot == SLOT_NECK)
+	else
 		mob_overlay_icon = initial(mob_overlay_icon)
 		sleeved = initial(sleeved)
 
 	return TRUE
 
 /obj/item/clothing/neck/roguetown/psicross/attack_right(mob/user)
-	..()
-	user.emote("pray")
-	return
+	if(!ismob(loc))
+		return ..()
+
+	wrist_display = !wrist_display
+	to_chat(user, span_info("You adjust \the [src] to [wrist_display ? "display on your wrists" : "display around your neck"]."))
+	if(wrist_display)
+		mob_overlay_icon = 'icons/roguetown/clothing/onmob/wrists.dmi'
+		sleeved = 'icons/roguetown/clothing/onmob/wrists.dmi'
+	else
+		mob_overlay_icon = initial(mob_overlay_icon)
+		sleeved = initial(sleeved)
+
+	if(isliving(loc))
+		var/mob/living/L = loc
+		L.regenerate_clothes()
+	return ..()
 
 /obj/item/clothing/neck/roguetown/psicross/aalloy
 	name = "decrepit psicross"

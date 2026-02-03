@@ -49,7 +49,7 @@
 		/obj/item/clothing/suit/roguetown/armor/leather=33,
 		/obj/item/roguestatue/gold/loot=1,
 		/obj/item/ingot/iron=22,
-		/obj/item/rogueweapon/huntingknife/cleaver=22,
+		/obj/item/rogueweapon/huntingknife/chefknife/cleaver=22,
 		/obj/item/rogueweapon/mace=22,
 		/obj/item/clothing/cloak/raincloak/mortus=22,
 		/obj/item/reagent_containers/food/snacks/butter=22,

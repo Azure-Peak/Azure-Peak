@@ -138,6 +138,29 @@
 	damfactor = 1.2
 	clickcd = 10
 
+/datum/intent/sword/chop/broadsword
+	name = "heavy swing" //Standard penetration, but with a higher damage modifier.
+	penfactor = 30
+	damfactor = 1.15
+
+/datum/intent/sword/thrust/long/broadsword
+	name = "heavy thrust" //Ditto.
+	penfactor = 30
+	damfactor = 1.15
+	swingdelay = 4 //Halved swingdelay compared to chopping.
+
+/datum/intent/sword/thrust/long/broadsword/lesser
+	penfactor = 15
+	damfactor = 1.15
+
+/datum/intent/sword/thrust/long/broadsword/heavy
+	name = "impale" //Stabbing variant of the Chop intent. Higher damage, but slower and evadable. Exclusive to two-handed broadswords.
+	icon_state = "inimpale"
+	attack_verb = list("impales", "thrusts into")
+	penfactor = 30
+	damfactor = 1.3
+	swingdelay = 8
+
 /datum/intent/rend/krieg
 	intent_intdamage_factor = 0.2
 
@@ -145,6 +168,7 @@
 	name = "cleave"
 	chargedrain = 1
 	chargetime = 5
+	damfactor = 1.2
 	intent_intdamage_factor = BLUNT_DEFAULT_INT_DAMAGEFACTOR
 	desc = "A powerful, charged-up swing that deals increased damage and can throw a standing opponent back and slow them down, based on your strength. Ineffective below 10 strength. Slowdown & Knockback scales to your Strength up to 13 (1 - 3 tiles). Cannot be used consecutively more than every 5 seconds on the same target. Prone targets halve the knockback distance. Not fully charging the attack limits knockback to 1 tile."
 	var/maxrange = 3
@@ -357,8 +381,9 @@
 	max_blade_int = 230 //Less of an edge than the longsword..
 	max_integrity = 180 //..but tougher.
 	wdefense_wbonus = 3 // Same defense when one-handed, but slightly reduced wielded defense compared to the longsword.
-	possible_item_intents = list(/datum/intent/sword/chop, /datum/intent/sword/thrust/long, /datum/intent/sword/strike, /datum/intent/sword/peel) 
-	smeltresult = /obj/item/ingot/iron //Note for the above line - otherwise 1:1 with the longsword, intent-wise. One-handed chop helps to fill the gap left by the lack of iron axes.
+	possible_item_intents = list(/datum/intent/sword/chop/broadsword, /datum/intent/sword/thrust/long/broadsword, /datum/intent/sword/strike, /datum/intent/sword/peel)
+	gripped_intents = list(/datum/intent/sword/chop/broadsword, /datum/intent/sword/thrust/long/broadsword/heavy, /datum/intent/sword/strike, /datum/intent/sword/peel)
+	smeltresult = /obj/item/ingot/iron //Sidegrade of the longswords and battle axes - non-blunt attacks hit harder, but are always telegraphed and swing-delayed.
 
 /obj/item/rogueweapon/sword/long/broadsword/bronze
 	name = "spatha"
@@ -369,7 +394,8 @@
 	wdefense_wbonus = 3
 	max_blade_int = 295 //Inverse. Sharper..
 	max_integrity = 125 //..but weaker.
-	possible_item_intents = list(/datum/intent/sword/chop, /datum/intent/sword/thrust/long, /datum/intent/sword/strike, /datum/intent/sword/peel) 
+	possible_item_intents = list(/datum/intent/sword/chop/broadsword, /datum/intent/sword/thrust/long/broadsword, /datum/intent/sword/strike, /datum/intent/sword/peel)
+	gripped_intents = list(/datum/intent/sword/chop/broadsword, /datum/intent/sword/thrust/long/broadsword/heavy, /datum/intent/sword/strike, /datum/intent/sword/peel)
 	smeltresult = /obj/item/ingot/bronze //Like before, it falls under the unofficial 'broadsword' category with one-handed chops. Best to pack a shield!
 
 /obj/item/rogueweapon/sword/long/broadsword/steel
@@ -377,13 +403,14 @@
 	desc = "A lethal and well-balanced weapon. The broadsword - better known as a 'hand-and-a-halfer' - has dutifully served the \
 	swordsmen of Psydonia in their clashes against man-and-monster alike since time immemmorial. Valoria's watchmen are renowned for \
 	their use of these steel-bladed iterations: an expensive necessity, in order to lay their undying besiegers to rest for good."
-	icon_state = "broadsword"
+	icon_state = "sbroadsword"
 	sheathe_icon = "sbroadsword"
 	max_blade_int = 330 //Sharper than a longsword, but with reduced defense. The use of steel balances its integrity out with a slight +10 bonus.
 	max_integrity = 160 
 	wdefense_wbonus = 3
-	possible_item_intents = list(/datum/intent/sword/chop, /datum/intent/sword/thrust/long, /datum/intent/sword/strike, /datum/intent/sword/peel) 
-	smeltresult = /obj/item/ingot/steel //Note for the above line - otherwise 1:1 with the longsword, intent-wise. One-handed chop helps to fill the gap left by the lack of iron axes.
+	possible_item_intents = list(/datum/intent/sword/chop/broadsword, /datum/intent/sword/thrust/long/broadsword, /datum/intent/sword/strike, /datum/intent/sword/peel)
+	gripped_intents = list(/datum/intent/sword/chop/broadsword, /datum/intent/sword/thrust/long/broadsword/heavy, /datum/intent/sword/strike, /datum/intent/sword/peel)
+	smeltresult = /obj/item/ingot/steel
 
 ////////////////////////
 // TRIUMPH-EXCLUSIVE! //
@@ -437,7 +464,7 @@
 			if("onback")
 				return list("shrink" = 0.5,"sx" = -1,"sy" = 2,"nx" = 0,"ny" = 2,"wx" = 2,"wy" = 1,"ex" = 0,"ey" = 1,"nturn" = 0,"sturn" = 0,"wturn" = 70,"eturn" = 15,"nflip" = 1,"sflip" = 1,"wflip" = 1,"eflip" = 1,"northabove" = 1,"southabove" = 0,"eastabove" = 0,"westabove" = 0)
 			if("wielded")
-				return list("shrink" = 0.5,"sx" = 5,"sy" = -2,"nx" = -6,"ny" = -2,"wx" = -6,"wy" = -2,"ex" = 7,"ey" = -2,"northabove" = 0,"southabove" = 1,"eastabove" = 1,"westabove" = 0,"nturn" = -28,"sturn" = 29,"wturn" = -35,"eturn" = 32,"nflip" = 8,"sflip" = 0,"wflip" = 8,"eflip" = 0)
+				return list("shrink" = 0.6,"sx" = 5,"sy" = -2,"nx" = -6,"ny" = -2,"wx" = -6,"wy" = -2,"ex" = 7,"ey" = -2,"northabove" = 0,"southabove" = 1,"eastabove" = 1,"westabove" = 0,"nturn" = -28,"sturn" = 29,"wturn" = -35,"eturn" = 32,"nflip" = 8,"sflip" = 0,"wflip" = 8,"eflip" = 0)
 			if("onbelt")
 				return list("shrink" = 0.4,"sx" = -4,"sy" = -6,"nx" = 5,"ny" = -6,"wx" = 0,"wy" = -6,"ex" = -1,"ey" = -6,"nturn" = 100,"sturn" = 156,"wturn" = 90,"eturn" = 180,"nflip" = 0,"sflip" = 0,"wflip" = 0,"eflip" = 0,"northabove" = 0,"southabove" = 1,"eastabove" = 1,"westabove" = 0)
 
@@ -460,7 +487,7 @@
 			if("onback")
 				return list("shrink" = 0.5,"sx" = -1,"sy" = 2,"nx" = 0,"ny" = 2,"wx" = 2,"wy" = 1,"ex" = 0,"ey" = 1,"nturn" = 0,"sturn" = 0,"wturn" = 70,"eturn" = 15,"nflip" = 1,"sflip" = 1,"wflip" = 1,"eflip" = 1,"northabove" = 1,"southabove" = 0,"eastabove" = 0,"westabove" = 0)
 			if("wielded")
-				return list("shrink" = 0.5,"sx" = 5,"sy" = -2,"nx" = -6,"ny" = -2,"wx" = -6,"wy" = -2,"ex" = 7,"ey" = -2,"northabove" = 0,"southabove" = 1,"eastabove" = 1,"westabove" = 0,"nturn" = -28,"sturn" = 29,"wturn" = -35,"eturn" = 32,"nflip" = 8,"sflip" = 0,"wflip" = 8,"eflip" = 0)
+				return list("shrink" = 0.6,"sx" = 5,"sy" = -2,"nx" = -6,"ny" = -2,"wx" = -6,"wy" = -2,"ex" = 7,"ey" = -2,"northabove" = 0,"southabove" = 1,"eastabove" = 1,"westabove" = 0,"nturn" = -28,"sturn" = 29,"wturn" = -35,"eturn" = 32,"nflip" = 8,"sflip" = 0,"wflip" = 8,"eflip" = 0)
 			if("onbelt")
 				return list("shrink" = 0.4,"sx" = -4,"sy" = -6,"nx" = 5,"ny" = -6,"wx" = 0,"wy" = -6,"ex" = -1,"ey" = -6,"nturn" = 100,"sturn" = 156,"wturn" = 90,"eturn" = 180,"nflip" = 0,"sflip" = 0,"wflip" = 0,"eflip" = 0,"northabove" = 0,"southabove" = 1,"eastabove" = 1,"westabove" = 0)
 
@@ -491,7 +518,7 @@
 			if("onback")
 				return list("shrink" = 0.5,"sx" = -1,"sy" = 2,"nx" = 0,"ny" = 2,"wx" = 2,"wy" = 1,"ex" = 0,"ey" = 1,"nturn" = 0,"sturn" = 0,"wturn" = 70,"eturn" = 15,"nflip" = 1,"sflip" = 1,"wflip" = 1,"eflip" = 1,"northabove" = 1,"southabove" = 0,"eastabove" = 0,"westabove" = 0)
 			if("wielded")
-				return list("shrink" = 0.5,"sx" = 5,"sy" = -2,"nx" = -6,"ny" = -2,"wx" = -6,"wy" = -2,"ex" = 7,"ey" = -2,"northabove" = 0,"southabove" = 1,"eastabove" = 1,"westabove" = 0,"nturn" = -28,"sturn" = 29,"wturn" = -35,"eturn" = 32,"nflip" = 8,"sflip" = 0,"wflip" = 8,"eflip" = 0)
+				return list("shrink" = 0.6,"sx" = 5,"sy" = -2,"nx" = -6,"ny" = -2,"wx" = -6,"wy" = -2,"ex" = 7,"ey" = -2,"northabove" = 0,"southabove" = 1,"eastabove" = 1,"westabove" = 0,"nturn" = -28,"sturn" = 29,"wturn" = -35,"eturn" = 32,"nflip" = 8,"sflip" = 0,"wflip" = 8,"eflip" = 0)
 			if("onbelt")
 				return list("shrink" = 0.4,"sx" = -4,"sy" = -6,"nx" = 5,"ny" = -6,"wx" = 0,"wy" = -6,"ex" = -1,"ey" = -6,"nturn" = 100,"sturn" = 156,"wturn" = 90,"eturn" = 180,"nflip" = 0,"sflip" = 0,"wflip" = 0,"eflip" = 0,"northabove" = 0,"southabove" = 1,"eastabove" = 1,"westabove" = 0)
 
@@ -522,7 +549,7 @@
 			if("onback")
 				return list("shrink" = 0.5,"sx" = -1,"sy" = 2,"nx" = 0,"ny" = 2,"wx" = 2,"wy" = 1,"ex" = 0,"ey" = 1,"nturn" = 0,"sturn" = 0,"wturn" = 70,"eturn" = 15,"nflip" = 1,"sflip" = 1,"wflip" = 1,"eflip" = 1,"northabove" = 1,"southabove" = 0,"eastabove" = 0,"westabove" = 0)
 			if("wielded")
-				return list("shrink" = 0.5,"sx" = 5,"sy" = -2,"nx" = -6,"ny" = -2,"wx" = -6,"wy" = -2,"ex" = 7,"ey" = -2,"northabove" = 0,"southabove" = 1,"eastabove" = 1,"westabove" = 0,"nturn" = -28,"sturn" = 29,"wturn" = -35,"eturn" = 32,"nflip" = 8,"sflip" = 0,"wflip" = 8,"eflip" = 0)
+				return list("shrink" = 0.6,"sx" = 5,"sy" = -2,"nx" = -6,"ny" = -2,"wx" = -6,"wy" = -2,"ex" = 7,"ey" = -2,"northabove" = 0,"southabove" = 1,"eastabove" = 1,"westabove" = 0,"nturn" = -28,"sturn" = 29,"wturn" = -35,"eturn" = 32,"nflip" = 8,"sflip" = 0,"wflip" = 8,"eflip" = 0)
 			if("onbelt")
 				return list("shrink" = 0.4,"sx" = -4,"sy" = -6,"nx" = 5,"ny" = -6,"wx" = 0,"wy" = -6,"ex" = -1,"ey" = -6,"nturn" = 100,"sturn" = 156,"wturn" = 90,"eturn" = 180,"nflip" = 0,"sflip" = 0,"wflip" = 0,"eflip" = 0,"northabove" = 0,"southabove" = 1,"eastabove" = 1,"westabove" = 0)
 
@@ -553,7 +580,7 @@
 			if("onback")
 				return list("shrink" = 0.5,"sx" = -1,"sy" = 2,"nx" = 0,"ny" = 2,"wx" = 2,"wy" = 1,"ex" = 0,"ey" = 1,"nturn" = 0,"sturn" = 0,"wturn" = 70,"eturn" = 15,"nflip" = 1,"sflip" = 1,"wflip" = 1,"eflip" = 1,"northabove" = 1,"southabove" = 0,"eastabove" = 0,"westabove" = 0)
 			if("wielded")
-				return list("shrink" = 0.5,"sx" = 5,"sy" = -2,"nx" = -6,"ny" = -2,"wx" = -6,"wy" = -2,"ex" = 7,"ey" = -2,"northabove" = 0,"southabove" = 1,"eastabove" = 1,"westabove" = 0,"nturn" = -28,"sturn" = 29,"wturn" = -35,"eturn" = 32,"nflip" = 8,"sflip" = 0,"wflip" = 8,"eflip" = 0)
+				return list("shrink" = 0.6,"sx" = 5,"sy" = -2,"nx" = -6,"ny" = -2,"wx" = -6,"wy" = -2,"ex" = 7,"ey" = -2,"northabove" = 0,"southabove" = 1,"eastabove" = 1,"westabove" = 0,"nturn" = -28,"sturn" = 29,"wturn" = -35,"eturn" = 32,"nflip" = 8,"sflip" = 0,"wflip" = 8,"eflip" = 0)
 			if("onbelt")
 				return list("shrink" = 0.4,"sx" = -4,"sy" = -6,"nx" = 5,"ny" = -6,"wx" = 0,"wy" = -6,"ex" = -1,"ey" = -6,"nturn" = 100,"sturn" = 156,"wturn" = 90,"eturn" = 180,"nflip" = 0,"sflip" = 0,"wflip" = 0,"eflip" = 0,"northabove" = 0,"southabove" = 1,"eastabove" = 1,"westabove" = 0)
 
@@ -767,7 +794,7 @@
 			if("onback")
 				return list("shrink" = 0.5,"sx" = -1,"sy" = 2,"nx" = 0,"ny" = 2,"wx" = 2,"wy" = 1,"ex" = 0,"ey" = 1,"nturn" = 0,"sturn" = 0,"wturn" = 70,"eturn" = 15,"nflip" = 1,"sflip" = 1,"wflip" = 1,"eflip" = 1,"northabove" = 1,"southabove" = 0,"eastabove" = 0,"westabove" = 0)
 			if("wielded")
-				return list("shrink" = 0.5,"sx" = 5,"sy" = -2,"nx" = -6,"ny" = -2,"wx" = -6,"wy" = -2,"ex" = 7,"ey" = -2,"northabove" = 0,"southabove" = 1,"eastabove" = 1,"westabove" = 0,"nturn" = -28,"sturn" = 29,"wturn" = -35,"eturn" = 32,"nflip" = 8,"sflip" = 0,"wflip" = 8,"eflip" = 0)
+				return list("shrink" = 0.6,"sx" = 5,"sy" = -2,"nx" = -6,"ny" = -2,"wx" = -6,"wy" = -2,"ex" = 7,"ey" = -2,"northabove" = 0,"southabove" = 1,"eastabove" = 1,"westabove" = 0,"nturn" = -28,"sturn" = 29,"wturn" = -35,"eturn" = 32,"nflip" = 8,"sflip" = 0,"wflip" = 8,"eflip" = 0)
 			if("onbelt")
 				return list("shrink" = 0.4,"sx" = -4,"sy" = -6,"nx" = 5,"ny" = -6,"wx" = 0,"wy" = -6,"ex" = -1,"ey" = -6,"nturn" = 100,"sturn" = 156,"wturn" = 90,"eturn" = 180,"nflip" = 0,"sflip" = 0,"wflip" = 0,"eflip" = 0,"northabove" = 0,"southabove" = 1,"eastabove" = 1,"westabove" = 0)
 
@@ -844,13 +871,14 @@
 //Slightly more expensive than a longsword by 1 iron, so gets to be slightly better.
 /obj/item/rogueweapon/sword/long/exe
 	name = "executioners sword"
-	desc = "A longsword with extra heft to its blade, reinforced."
-	possible_item_intents = list(/datum/intent/sword/cut, /datum/intent/sword/thrust, /datum/intent/sword/strike, /datum/intent/sword/peel)
-	gripped_intents = list(/datum/intent/sword/cut, /datum/intent/sword/thrust/exe, /datum/intent/rend, /datum/intent/axe/chop)
+	desc = "A heavy broadsword with a terrifyingly sharp edge, purpose-made to part heads from shoulders. Owing to its nature as a weapon of justice, it lacks the piercing tips that befit most battle-ready broadswords. If you're strong enough to wield such a weapon, however, then that probably won't stop you from finding a way."
+	possible_item_intents = list(/datum/intent/sword/chop/broadsword, /datum/intent/sword/cut, /datum/intent/sword/thrust/long/broadsword/lesser, /datum/intent/sword/strike)
+	gripped_intents = list(/datum/intent/rend, /datum/intent/sword/chop/broadsword, /datum/intent/sword/cut, /datum/intent/sword/thrust/exe)
 	icon_state = "exe"
 	minstr = 12
-	slot_flags = ITEM_SLOT_BACK //Too big for hip
+	slot_flags = ITEM_SLOT_BACK
 	smeltresult = /obj/item/ingot/iron
+	max_blade_int = 330 
 	smelt_bar_num = 2 // 1 bar loss
 	vorpal = TRUE // snicker snack this shit cuts heads off effortlessly (DO NOT PUT THIS ON ANYTHING ELSE UNLESS IT'S SUPER FUCKING RARE!!!)
 
@@ -864,8 +892,8 @@
 	desc = "An incredibly unusual executioner's sword clad in gold and brass. Two separate blades protude outwards and join near its intricately decorated crossguard. This weapon calls for order."
 	icon_state = "astratasword"
 	max_integrity = 200
-	possible_item_intents = list(/datum/intent/sword/cut, /datum/intent/sword/thrust, /datum/intent/sword/strike)
-	gripped_intents = list(/datum/intent/sword/cut, /datum/intent/sword/thrust, /datum/intent/sword/peel, /datum/intent/axe/chop)
+	possible_item_intents = list(/datum/intent/sword/chop/broadsword, /datum/intent/sword/cut, /datum/intent/sword/thrust/long/broadsword/lesser, /datum/intent/sword/strike)
+	gripped_intents = list(/datum/intent/rend, /datum/intent/sword/chop/broadsword, /datum/intent/sword/cut, /datum/intent/sword/thrust/exe)
 	vorpal = TRUE // snicker snack this shit cuts heads off effortlessly (DO NOT PUT THIS ON ANYTHING ELSE UNLESS IT'S SUPER FUCKING RARE!!!)
 
 /obj/item/rogueweapon/sword/long/exe/getonmobprop(tag)
@@ -873,11 +901,11 @@
 	if(tag)
 		switch(tag)
 			if("gen")
-				return list("shrink" = 0.47,"sx" = -10,"sy" = -6,"nx" = 8,"ny" = -4,"wx" = -8,"wy" = -6,"ex" = 7,"ey" = -7,"northabove" = 0,"southabove" = 1,"eastabove" = 1,"westabove" = 0,"nturn" = -70,"sturn" = -83,"wturn" = -69,"eturn" = 60,"nflip" = 0,"sflip" = 8,"wflip" = 8,"eflip" = 0)
+				return list("shrink" = 0.6,"sx" = -14,"sy" = -8,"nx" = 15,"ny" = -7,"wx" = -10,"wy" = -5,"ex" = 7,"ey" = -6,"northabove" = 0,"southabove" = 1,"eastabove" = 1,"westabove" = 0,"nturn" = -13,"sturn" = 110,"wturn" = -60,"eturn" = -30,"nflip" = 1,"sflip" = 1,"wflip" = 8,"eflip" = 1)
 			if("wielded")
-				return list("shrink" = 0.45,"sx" = 9,"sy" = -4,"nx" = -7,"ny" = 1,"wx" = -9,"wy" = 2,"ex" = 10,"ey" = 2,"northabove" = 0,"southabove" = 1,"eastabove" = 1,"westabove" = 0,"nturn" = 5,"sturn" = -190,"wturn" = -170,"eturn" = -10,"nflip" = 8,"sflip" = 8,"wflip" = 1,"eflip" = 0)
+				return list("shrink" = 0.6,"sx" = 9,"sy" = -4,"nx" = -7,"ny" = 1,"wx" = -9,"wy" = 2,"ex" = 10,"ey" = 2,"northabove" = 0,"southabove" = 1,"eastabove" = 1,"westabove" = 0,"nturn" = 5,"sturn" = -190,"wturn" = -170,"eturn" = -10,"nflip" = 8,"sflip" = 8,"wflip" = 1,"eflip" = 0)
 			if("onback")
-				return list("shrink" = 0.47,"sx" = -1,"sy" = 3,"nx" = -1,"ny" = 2,"wx" = 3,"wy" = 4,"ex" = -1,"ey" = 5,"nturn" = 0,"sturn" = 0,"wturn" = 70,"eturn" = 20,"nflip" = 5,"sflip" = 1,"wflip" = 1,"eflip" = 1,"northabove" = 1,"southabove" = 0,"eastabove" = 0,"westabove" = 0)
+				return list("shrink" = 0.6,"sx" = -1,"sy" = 2,"nx" = 0,"ny" = 2,"wx" = 2,"wy" = 1,"ex" = 0,"ey" = 1,"nturn" = 0,"sturn" = 0,"wturn" = 70,"eturn" = 15,"nflip" = 1,"sflip" = 1,"wflip" = 1,"eflip" = 1,"northabove" = 1,"southabove" = 0,"eastabove" = 0,"westabove" = 0)
 			if("altgrip") 
 				return list("shrink" = 0.45,"sx" = 2,"sy" = 3,"nx" = -7,"ny" = 1,"wx" = -8,"wy" = 0,"ex" = 8,"ey" = -1,"northabove" = 0,"southabove" = 1,"eastabove" = 1,"westabove" = 0,"nturn" = -135,"sturn" = -35,"wturn" = 45,"eturn" = 145,"nflip" = 8,"sflip" = 8,"wflip" = 1,"eflip" = 0)
 
@@ -900,13 +928,13 @@
 	desc = "A raw heap of iron, hewn into an intimidatingly massive cleaver. Most could never aspire to effectively swing such a laborsome blade about; those few that have the strength, however, can force even the strongest opponents to stagger back."
 	icon = 'icons/roguetown/weapons/swords64.dmi'
 	icon_state = "dragonslayer"
-	possible_item_intents = list(/datum/intent/sword/cut, /datum/intent/sword/thrust, /datum/intent/sword/strike, /datum/intent/axe/chop)
-	gripped_intents = list(/datum/intent/sword/cut, /datum/intent/sword/thrust/exe, /datum/intent/rend, /datum/intent/sword/chop/cleave)
+	possible_item_intents = list(/datum/intent/sword/chop/broadsword, /datum/intent/sword/cut, /datum/intent/sword/thrust/long/broadsword/lesser, /datum/intent/sword/strike)
+	gripped_intents = list(/datum/intent/sword/chop/cleave, /datum/intent/rend, /datum/intent/sword/cut, /datum/intent/sword/thrust/exe)
 	wbalance = WBALANCE_HEAVY //Stronger but sturdier executioner's sword, exchanging its peelage for an armor-piercing variant of Ansari's knockback variable.
 	alt_intents = null 
 	minstr = 13 //Should be uncraftable, but obtainable through other variants. Challenge classes, dungeon rewards?
 	wdefense = 9
-	max_blade_int = 333
+	max_blade_int = 400
 
 /obj/item/rogueweapon/sword/long/exe/berserk/dragonslayer
 	name = "\"Daemonslayer\""
@@ -2181,6 +2209,7 @@
 	sellprice = 300
 	sheathe_icon = "goldsword"
 	wbalance = WBALANCE_HEAVY
+	unenchantable = TRUE
 
 /obj/item/rogueweapon/sword/gold/lordscepter
 	name = "\"Godshand\""
@@ -2194,6 +2223,7 @@
 	sellprice = 363
 	possible_item_intents = list(/datum/intent/sword/cut/arming, /datum/intent/sword/thrust/arming, /datum/intent/lord_electrocute, /datum/intent/lord_silence)
 	gripped_intents = list(/datum/intent/sword/cut/arming, /datum/intent/sword/thrust/arming, /datum/intent/sword/strike, /datum/intent/sword/peel)
+	unenchantable = TRUE
 	COOLDOWN_DECLARE(sceptersword)
 
 /obj/item/rogueweapon/sword/gold/lordscepter/afterattack(atom/target, mob/user, flag)

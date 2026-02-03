@@ -37,7 +37,7 @@
 		if("hum")
 			used = list('sound/vo/male/foppish/hum (1).ogg', 'sound/vo/male/foppish/hum (2).ogg', 'sound/vo/male/foppish/hum (3).ogg', 'sound/vo/male/foppish/hum (4).ogg',)
 		if("hmm")
-			used = list('sound/vo/male/foppish/hmm (1).ogg', 'sound/vo/male/foppish/hmm (2).ogg', 'sound/vo/male/foppish/hmm (3).ogg', 'sound/vo/male/foppish/hmm (4).ogg', 'sound/vo/male/foppish/hmm (5).ogg', 'sound/vo/male/foppish/hmm (6).ogg', 'sound/vo/male/foppish/hmm (7).ogg')
+			used = list('sound/vo/male/foppish/hmm (1).ogg', 'sound/vo/male/foppish/hmm (2).ogg', 'sound/vo/male/foppish/hmm (3).ogg', 'sound/vo/male/foppish/hmm (4).ogg', 'sound/vo/male/foppish/hmm (5).ogg', 'sound/vo/male/foppish/hmm (6).ogg', 'sound/vo/male/foppish/hmm (7).ogg', 'sound/vo/male/foppish/hmm (8).ogg')
 		if("huh")
 			used = list('sound/vo/male/foppish/huh (1).ogg', 'sound/vo/male/foppish/huh (2).ogg', 'sound/vo/male/foppish/huh (3).ogg', 'sound/vo/male/foppish/huh (4).ogg')
 		if("moan")

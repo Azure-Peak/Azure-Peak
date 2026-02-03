@@ -376,19 +376,14 @@
 	to_chat(user, span_notice("You bless [target] with Eora's love!"))
 	return TRUE
 
-/obj/effect/proc_holder/spell/invoked/bless_food/start_recharge()
-	if(ranged_ability_user)
-		var/holy_skill = ranged_ability_user.get_skill_level(associated_skill)
-		// Reduce recharge by 6 seconds per skill level
-		var/skill_reduction = (6 SECONDS) * holy_skill
-		recharge_time = base_recharge_time - skill_reduction
-		// Ensure recharge doesn't go below 0
-		if(recharge_time < 0)
-			recharge_time = 0
-	else
-		recharge_time = base_recharge_time
-
-	START_PROCESSING(SSfastprocess, src)
+/obj/effect/proc_holder/spell/invoked/bless_food/calculate_recharge_time()
+	if(!ranged_ability_user)
+		return base_recharge_time
+		
+	var/holy_skill = ranged_ability_user.get_skill_level(associated_skill)
+	var/skill_reduction = (6 SECONDS) * holy_skill
+	
+	return max(cooldown_min, base_recharge_time - skill_reduction)
 
 /obj/effect/proc_holder/spell/invoked/pomegranate
 	name = "Amaranth Sanctuary"

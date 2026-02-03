@@ -26,7 +26,6 @@
 	COOLDOWN_DECLARE(shield_bang)
 	special = /datum/special_intent/limbguard
 
-
 /obj/item/rogueweapon/shield/attackby(obj/item/attackby_item, mob/user, params)
 
 	// Shield banging
@@ -115,12 +114,14 @@
 	max_integrity = 200
 
 /obj/item/rogueweapon/shield/attack_right(mob/user)
-	if(overlays.len)
+	if(length(overlays))
 		..()
 		return
 
 	var/icon/J = new('icons/roguetown/weapons/shield_heraldry.dmi')
-	var/list/istates = J.IconStates()
+	var/list/istates = get_icon_states_cached(J)
+	if(!istates || !length(istates))
+		return
 	for(var/icon_s in istates)
 		if(!findtext(icon_s, "[icon_state]_"))
 			istates.Remove(icon_s)
@@ -257,6 +258,7 @@
 	parrysound = list('sound/combat/parry/shield/metalshield (1).ogg','sound/combat/parry/shield/metalshield (2).ogg','sound/combat/parry/shield/metalshield (3).ogg')
 	max_integrity = 50
 	smeltresult = /obj/item/ingot/gold
+	unenchantable = TRUE
 
 /obj/item/rogueweapon/shield/tower/metal/psy
 	name = "Covenant"
@@ -583,6 +585,7 @@
 	var/smoke_path = /obj/effect/particle_effect/smoke/transparent
 	var/cooldowny
 	var/cdtime = 30 SECONDS
+	unenchantable = TRUE
 
 /obj/item/rogueweapon/shield/tower/metal/gold/king/attack_self(mob/user)
 	if(cooldowny)
@@ -629,3 +632,26 @@
 /obj/item/rogueweapon/shield/tower/metal/gold/king/proc/steamready(mob/user)
 	playsound(user, 'sound/items/steamcreation.ogg', 100, FALSE, -1)
 	to_chat(user, span_warning("[src] is ready to be used again!"))
+
+/proc/get_icon_states_cached(icon_or_path)
+	if(!icon_or_path)
+		return null
+
+	var/cache_key
+	var/icon/I
+
+	if(istext(icon_or_path))
+		cache_key = icon_or_path
+		if(!GLOB.IconStates_cache[cache_key])
+			I = icon(icon_or_path)
+			GLOB.IconStates_cache[cache_key] = I.IconStates()
+		return GLOB.IconStates_cache[cache_key]
+
+	if(isicon(icon_or_path))
+		I = icon_or_path
+		cache_key = "[I]"
+		if(!GLOB.IconStates_cache[cache_key])
+			GLOB.IconStates_cache[cache_key] = I.IconStates()
+		return GLOB.IconStates_cache[cache_key]
+
+	return null

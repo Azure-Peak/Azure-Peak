@@ -15,25 +15,26 @@
 
 /datum/job/roguetown/heartfelt/knight/after_spawn(mob/living/L, mob/M, latejoin = TRUE)
 	..()
-	if(ishuman(L))
-		var/mob/living/carbon/human/H = L
-		if(istype(H.cloak, /obj/item/clothing/cloak/tabard/knight/guard))
-			var/obj/item/clothing/S = H.cloak
-			var/index = findtext(H.real_name, " ")
-			if(index)
-				index = copytext(H.real_name, 1,index)
-			if(!index)
-				index = H.real_name
-			S.name = "knight tabard ([index])"
-		var/prev_real_name = H.real_name
-		var/prev_name = H.name
-		var/honorary = "Ser"
-		if(H.pronouns == SHE_HER || H.pronouns == THEY_THEM_F)
-			honorary = "Dame"
-		GLOB.chosen_names -= prev_real_name
+	if(!ishuman(L))
+		return
+	var/mob/living/carbon/human/H = L
+	if(istype(H.cloak, /obj/item/clothing/cloak/tabard))
+		var/obj/item/clothing/S = H.cloak
+		var/index = findtext(H.real_name, " ")
+		if(index)
+			index = copytext(H.real_name, 1,index)
+		if(!index)
+			index = H.real_name
+		S.name = "knight's tabard ([index])"
+	var/prev_real_name = H.real_name
+	var/prev_name = H.name
+	var/honorary = "Ser"
+	if(should_wear_femme_clothes(H))
+		honorary = "Dame"
+	// check if they already have it to avoid stacking titles
+	if(findtextEx(H.real_name, "[honorary] ") == 0)
 		H.real_name = "[honorary] [prev_real_name]"
 		H.name = "[honorary] [prev_name]"
-		GLOB.chosen_names += H.real_name
 
 		for(var/X in peopleknowme)
 			for(var/datum/mind/MF in get_minds(X))
@@ -69,6 +70,7 @@
 	/datum/skill/combat/axes = SKILL_LEVEL_EXPERT,
 	/datum/skill/combat/whipsflails = SKILL_LEVEL_EXPERT,
 	/datum/skill/combat/wrestling = SKILL_LEVEL_JOURNEYMAN,
+	/datum/skill/combat/shields = SKILL_LEVEL_APPRENTICE,
 	/datum/skill/combat/unarmed =SKILL_LEVEL_JOURNEYMAN,
 	/datum/skill/combat/crossbows = SKILL_LEVEL_JOURNEYMAN,
 	/datum/skill/combat/bows = SKILL_LEVEL_JOURNEYMAN,
@@ -84,7 +86,7 @@
 
 	gloves = /obj/item/clothing/gloves/roguetown/plate
 	pants = /obj/item/clothing/under/roguetown/platelegs
-	cloak = /obj/item/clothing/cloak/tabard/knight/guard
+	cloak = /obj/item/clothing/cloak/tabard
 	head = /obj/item/clothing/head/roguetown/helmet/heavy/knight
 	neck = /obj/item/clothing/neck/roguetown/bevor
 	shirt = /obj/item/clothing/suit/roguetown/armor/chainmail
@@ -96,6 +98,7 @@
 	beltl = /obj/item/flashlight/flare/torch/lantern
 	belt = /obj/item/storage/belt/rogue/leather/steel
 	backr = /obj/item/storage/backpack/rogue/satchel/black
+	backl = /obj/item/rogueweapon/scabbard/gwstrap
 	head = /obj/item/clothing/head/roguetown/helmet/heavy/knight
 	backpack_contents = list(
 		/obj/item/rogueweapon/huntingknife/idagger/steel/special = 1,
@@ -103,6 +106,7 @@
 		/obj/item/rogueweapon/scabbard/sheath/noble = 1,
 		/obj/item/storage/belt/rogue/pouch/coins/rich = 1,
 		/obj/item/reagent_containers/glass/bottle/alchemical/healthpotnew = 2,
+		/obj/item/natural/bundle/cloth/bandage/full = 1,
 	)
 	// This code is broken but also not, I assume because it has 1 Advanced Class at the moment DO NOT UNCOMMENT. 
 	// IT WORKS :TM: still gives them a helm and grandmace, just not the choice

@@ -38,7 +38,7 @@
 			return FALSE
 		return TRUE
 	// Allows prayer if raining and outside. Psydon weeps.
-	if(GLOB.forecast == "rain")
+	if(GLOB.forecast == PARTICLEWEATHER_RAIN)
 		if(istype(get_area(follower), /area/rogue/outdoors))
 			return TRUE
 	// Allows prayer if bleeding.

@@ -349,18 +349,18 @@
 	maximum_possible_slots = 1 //Had one dungeoneer before, this is how many we get to keep still.
 
 	category_tags = list(CTAG_MENATARMS)
-	traits_applied = list(TRAIT_CIVILIZEDBARBARIAN)//This is surely going to be funny
+	traits_applied = list(TRAIT_JAILOR, TRAIT_CIVILIZEDBARBARIAN)//This is surely going to be funny
 	subclass_stats = list(
-		STATKEY_STR = 2,
+		STATKEY_STR = 3,
 		STATKEY_CON = 2,
-		STATKEY_WIL = 1,
-		STATKEY_LCK = 1 //Master skill and barbarian doesn't need that much more.
+		STATKEY_WIL = 2,
+		STATKEY_INT = -1//Old dungeoneer statspread more or less
 	)
 	subclass_skills = list(
-		/datum/skill/combat/whipsflails = SKILL_LEVEL_EXPERT,
+		/datum/skill/combat/whipsflails = SKILL_LEVEL_EXPERT,//Primary way they are meant to dispose of ppl
 		/datum/skill/combat/wrestling = SKILL_LEVEL_EXPERT, //hilarious
 		/datum/skill/combat/unarmed = SKILL_LEVEL_EXPERT,
-		/datum/skill/combat/swords = SKILL_LEVEL_JOURNEYMAN,
+		/datum/skill/combat/swords = SKILL_LEVEL_NOVICE, //You are not actually meant to use this in combat.
 		/datum/skill/combat/slings = SKILL_LEVEL_JOURNEYMAN,//Funny
 		/datum/skill/combat/knives = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/misc/medicine = SKILL_LEVEL_JOURNEYMAN,//Enough for majority of surgeries without grinding.
@@ -378,12 +378,13 @@
 /datum/outfit/job/roguetown/manorguard/bailiff/pre_equip(mob/living/carbon/human/H)
 	..()
 
+	head = /obj/item/clothing/head/roguetown/menacing/executioner
 	neck = /obj/item/clothing/neck/roguetown/gorget
-	gloves = /obj/item/clothing/gloves/roguetown/plate/iron
-	armor = /obj/item/clothing/suit/roguetown/armor/brigandine/light/retinue
-	shirt = /obj/item/clothing/suit/roguetown/armor/gambeson
-	wrists = /obj/item/clothing/wrists/roguetown/splintarms
-	pants = /obj/item/clothing/under/roguetown/splintlegs
+	mask = /obj/item/clothing/head/roguetown/roguehood/black
+	armor = /obj/item/clothing/suit/roguetown/armor/regenerating/skin/disciple/bailiff
+	wrists = /obj/item/clothing/wrists/roguetown/bracers
+	gloves = /obj/item/clothing/gloves/roguetown/leather
+	pants = /obj/item/clothing/under/roguetown/heavy_leather_pants
 	beltr = /obj/item/rogueweapon/whip/antique
 	backl = /obj/item/rogueweapon/sword/long/exe/cloth
 
@@ -391,28 +392,14 @@
 	if(H.mind)
 		H.set_blindness(0)
 	backpack_contents = list(
-		/obj/item/rogueweapon/huntingknife/idagger/steel/special = 1,
+		/obj/item/rogueweapon/huntingknife = 1,
 		/obj/item/rope/chain = 1,
 		/obj/item/storage/keyring/manatarms = 1,
 		/obj/item/rogueweapon/scabbard/sheath = 1,
-		/obj/item/reagent_containers/glass/bottle/rogue/healthpot = 1,
-		/obj/item/clothing/head/roguetown/menacing/executioner = 1,
+		/obj/item/reagent_containers/glass/bottle/rogue/healthpot = 1
 		)
 	H.verbs |= /mob/proc/haltyell
 
-	if(H.mind)
-		var/helmets = list(
-		"Simple Helmet" 	= /obj/item/clothing/head/roguetown/helmet,
-		"Kettle Helmet" 	= /obj/item/clothing/head/roguetown/helmet/kettle,
-		"Bascinet Helmet"	= /obj/item/clothing/head/roguetown/helmet/bascinet,
-		"Sallet Helmet"		= /obj/item/clothing/head/roguetown/helmet/sallet,
-		"Winged Helmet" 	= /obj/item/clothing/head/roguetown/helmet/winged,
-		"Skull Cap"			= /obj/item/clothing/head/roguetown/helmet/skullcap,
-		"None"
-		)
-		var/helmchoice = input(H, "Choose your Helm.", "TAKE UP HELMS") as anything in helmets
-		if(helmchoice != "None")
-			head = helmets[helmchoice]
 	if(H.mind)
 		SStreasury.give_money_account(ECONOMIC_LOWER_MIDDLE_CLASS, H, "Savings.")
 

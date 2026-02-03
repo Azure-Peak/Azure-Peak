@@ -262,7 +262,7 @@
 		chargedloop.start(chargedloop.parent)
 		mastermob.curplaying = src
 	if(glow_color && glow_intensity)
-		mob_light = mastermob.mob_light(glow_color, glow_intensity)
+		mob_light = mastermob.mob_light(glow_color, glow_intensity, FLASH_LIGHT_SPELLGLOW)
 	if(mob_charge_effect)
 		mastermob.vis_contents += mob_charge_effect
 

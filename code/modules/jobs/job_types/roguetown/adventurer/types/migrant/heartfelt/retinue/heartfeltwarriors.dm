@@ -67,10 +67,13 @@
 			backl = /obj/item/rogueweapon/shield/iron
 		if("Halberd")
 			r_hand = /obj/item/rogueweapon/halberd
+			backl = /obj/item/rogueweapon/scabbard/gwstrap
 		if("Greataxe")
 			r_hand = /obj/item/rogueweapon/greataxe
+			backl = /obj/item/rogueweapon/scabbard/gwstrap
 		else
 			r_hand = /obj/item/rogueweapon/halberd
+			backl = /obj/item/rogueweapon/scabbard/gwstrap
 	backpack_contents = list(
 		/obj/item/rogueweapon/huntingknife/idagger/steel/special = 1,
 		/obj/item/rope/chain = 1,
@@ -232,6 +235,7 @@
 		/datum/skill/combat/swords = SKILL_LEVEL_JOURNEYMAN,		
 		/datum/skill/combat/polearms = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/combat/maces = SKILL_LEVEL_JOURNEYMAN,
+		/datum/skill/combat/shields = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/combat/knives = SKILL_LEVEL_JOURNEYMAN,		
 		/datum/skill/combat/crossbows = SKILL_LEVEL_EXPERT,		//Only effects draw and reload time.
 		/datum/skill/combat/bows = SKILL_LEVEL_EXPERT,			//Only effects draw times.
@@ -255,7 +259,7 @@
 	shoes = /obj/item/clothing/shoes/roguetown/boots/leather/reinforced
 	belt = /obj/item/storage/belt/rogue/leather
 	beltl = /obj/item/flashlight/flare/torch/lantern
-	cloak = /obj/item/clothing/cloak/tabard/knight/guard
+	cloak = /obj/item/clothing/cloak/tabard
 	neck = /obj/item/clothing/neck/roguetown/chaincoif
 	backr = /obj/item/storage/backpack/rogue/satchel
 	backpack_contents = list(
@@ -280,6 +284,7 @@
 			backl = /obj/item/rogueweapon/shield/iron
 		if("Spear")
 			r_hand = /obj/item/rogueweapon/spear
+			backl = /obj/item/rogueweapon/scabbard/gwstrap
 		if("Crossbow")
 			beltr = /obj/item/quiver/bolts
 			backl = /obj/item/gun/ballistic/revolver/grenadelauncher/crossbow

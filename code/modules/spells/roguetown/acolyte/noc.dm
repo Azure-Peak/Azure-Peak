@@ -68,21 +68,35 @@
 	associated_skill = /datum/skill/magic/holy
 
 /obj/effect/proc_holder/spell/invoked/invisibility/cast(list/targets, mob/living/user)
-	if(isliving(targets[1]))
-		var/mob/living/target = targets[1]
-		if(target.anti_magic_check(TRUE, TRUE))
-			return FALSE
-		target.visible_message(span_warning("[target] starts to fade into thin air!"), span_notice("You start to become invisible!"))
-		var/dur = max((5 * (user.get_skill_level(associated_skill))), 5)
-		if(dur >= recharge_time)
-			recharge_time = dur + 5 SECONDS
-		animate(target, alpha = 0, time = 1 SECONDS, easing = EASE_IN)
-		target.mob_timers[MT_INVISIBILITY] = world.time + dur SECONDS
-		addtimer(CALLBACK(target, TYPE_PROC_REF(/mob/living, update_sneak_invis), TRUE), dur SECONDS)
-		addtimer(CALLBACK(target, TYPE_PROC_REF(/atom/movable, visible_message), span_warning("[target] fades back into view."), span_notice("You become visible again.")), dur SECONDS)
-		return TRUE
-	revert_cast()
-	return FALSE
+	if(!isliving(targets[1]))
+		revert_cast()
+		return FALSE
+
+	var/mob/living/target = targets[1]
+	if(target.anti_magic_check(TRUE, TRUE))
+		return FALSE
+
+	target.visible_message(span_warning("[target] starts to fade into thin air!"), span_notice("You start to become invisible!"))
+	var/dur = max((5 * (user.get_skill_level(associated_skill))), 5)
+	animate(target, alpha = 0, time = 1 SECONDS, easing = EASE_IN)
+	target.mob_timers[MT_INVISIBILITY] = world.time + dur SECONDS
+
+	addtimer(CALLBACK(target, TYPE_PROC_REF(/mob/living, update_sneak_invis), TRUE), dur SECONDS)
+	addtimer(CALLBACK(target, TYPE_PROC_REF(/atom/movable, visible_message), span_warning("[target] fades back into view."), span_notice("You become visible again.")), dur SECONDS)
+
+	return TRUE
+
+/obj/effect/proc_holder/spell/invoked/invisibility/calculate_recharge_time()
+    var/final_time = ..() 
+    
+    if(ranged_ability_user)
+        var/skill_level = ranged_ability_user.get_skill_level(associated_skill)
+        var/dur = max((5 * skill_level), 5) SECONDS
+        
+        if(dur >= final_time)
+            final_time = dur + 5 SECONDS
+            
+    return max(cooldown_min, final_time)
 
 /obj/effect/proc_holder/spell/self/noc_spell_bundle
 	name = "Arcyne Affinity"

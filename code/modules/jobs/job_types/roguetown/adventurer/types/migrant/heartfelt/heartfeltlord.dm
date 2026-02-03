@@ -62,17 +62,16 @@
 	belt = /obj/item/storage/belt/rogue/leather/black
 	shoes = /obj/item/clothing/shoes/roguetown/boots/nobleboot
 	pants = /obj/item/clothing/under/roguetown/tights/black
-	cloak = /obj/item/clothing/cloak/heartfelt
 	armor = /obj/item/clothing/suit/roguetown/armor/heartfelt
 	neck = /obj/item/clothing/neck/roguetown/gorget/steel
-	beltl =/obj/item/rogueweapon/scabbard/sword/royal
+	beltl = /obj/item/rogueweapon/scabbard/sword/noble
 	r_hand = /obj/item/rogueweapon/sword/long/marlin
 	beltr = /obj/item/rogueweapon/huntingknife
 	gloves = /obj/item/clothing/gloves/roguetown/leather/black
 	backl = /obj/item/storage/backpack/rogue/satchel // Paper and Feather
 	backpack_contents = list(
 		/obj/item/rogueweapon/huntingknife/idagger/steel/special = 1,
-		/obj/item/rogueweapon/scabbard/sheath/royal = 1,
+		/obj/item/rogueweapon/scabbard/sheath/noble = 1,
 		/obj/item/storage/belt/rogue/pouch/coins/veryrich = 2,
 		/obj/item/natural/feather = 1,
 		/obj/item/paper/scroll = 1,
@@ -124,14 +123,13 @@
 		/datum/skill/misc/sneaking = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/misc/riding = SKILL_LEVEL_JOURNEYMAN,
 	)
-	
+
 /datum/outfit/job/heartfelt/lord/archmage/pre_equip(mob/living/carbon/human/H)
 	..()
 	shirt = /obj/item/clothing/suit/roguetown/armor/gambeson/heavy
 	belt = /obj/item/storage/belt/rogue/leather/black
 	shoes = /obj/item/clothing/shoes/roguetown/boots/nobleboot
 	pants = /obj/item/clothing/under/roguetown/tights/black
-	cloak = /obj/item/clothing/cloak/heartfelt
 	armor = /obj/item/clothing/cloak/poncho/fancycoat
 	neck = /obj/item/storage/belt/rogue/pouch/coins/veryrich
 	beltl = /obj/item/flashlight/flare/torch/lantern
@@ -218,7 +216,7 @@
 	backl = /obj/item/storage/backpack/rogue/satchel // Paper and Feather
 	backpack_contents = list(
 		/obj/item/rogueweapon/huntingknife/idagger/steel/special = 1,
-		/obj/item/rogueweapon/scabbard/sheath/royal = 1,
+		/obj/item/rogueweapon/scabbard/sheath/noble = 1,
 		/obj/item/storage/belt/rogue/pouch/coins/veryrich = 1,
 		/obj/item/natural/feather = 1,
 		/obj/item/paper/scroll = 1,

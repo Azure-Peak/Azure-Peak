@@ -68,10 +68,10 @@
 	armor = /obj/item/clothing/suit/roguetown/armor/heartfelt/hand
 	r_hand = /obj/item/rogueweapon/sword/long/dec
 	//l_hand = banner-pike for when I add it
-	beltl = /obj/item/rogueweapon/scabbard/sword/royal
+	beltl = /obj/item/rogueweapon/scabbard/sword/noble
 	backpack_contents = list(
 		/obj/item/rogueweapon/huntingknife/idagger/steel/special = 1,
-		/obj/item/rogueweapon/scabbard/sheath/royal = 1,
+		/obj/item/rogueweapon/scabbard/sheath/noble = 1,
 		/obj/item/rogueweapon/huntingknife = 1,
 		/obj/item/storage/belt/rogue/pouch/coins/veryrich = 1,
 		/obj/item/reagent_containers/glass/bottle/alchemical/healthpotnew = 2,
@@ -137,12 +137,12 @@
 	armor = /obj/item/clothing/suit/roguetown/armor/brigandine
 	gloves = /obj/item/clothing/gloves/roguetown/leather/black
 	r_hand = /obj/item/rogueweapon/sword/sabre/dec
-	beltl = /obj/item/rogueweapon/scabbard/sword/royal
+	beltl = /obj/item/rogueweapon/scabbard/sword/noble
 	beltr = /obj/item/flashlight/flare/torch/lantern
 	neck = /obj/item/storage/belt/rogue/pouch/coins/veryrich
 	backpack_contents = list(
 		/obj/item/rogueweapon/huntingknife/idagger/steel/special = 1,
-		/obj/item/rogueweapon/scabbard/sheath/royal = 1,
+		/obj/item/rogueweapon/scabbard/sheath/noble = 1,
 		/obj/item/rogueweapon/huntingknife = 1,
 		/obj/item/storage/belt/rogue/pouch/coins/veryrich = 2,
 		/obj/item/reagent_containers/glass/bottle/alchemical/healthpotnew = 1,
@@ -196,11 +196,11 @@
 	..()
 	shirt = /obj/item/clothing/suit/roguetown/shirt/undershirt/guard
 	r_hand = /obj/item/rogueweapon/sword/sabre/dec
-	beltl = /obj/item/rogueweapon/scabbard/sword/royal
+	beltl = /obj/item/rogueweapon/scabbard/sword/noble
 	mask = /obj/item/clothing/mask/rogue/spectacles/golden
 	backpack_contents = list(
 		/obj/item/rogueweapon/huntingknife/idagger/steel/special = 1,
-		/obj/item/rogueweapon/scabbard/sheath/royal = 1,
+		/obj/item/rogueweapon/scabbard/sheath/noble = 1,
 		/obj/item/rogueweapon/huntingknife = 1,
 		/obj/item/storage/belt/rogue/pouch/coins/veryrich = 1,
 		/obj/item/lockpickring/mundane = 1, 

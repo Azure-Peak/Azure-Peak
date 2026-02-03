@@ -347,28 +347,28 @@
 	playsound(get_turf(M), pick(M.attack_sound), 100, FALSE)
 
 	var/cached_intent = M.used_intent
+	if(cached_intent)
+		sleep(M.used_intent.swingdelay)
+		M.swinging = FALSE
+		if(M.a_intent != cached_intent)
+			return FALSE
+		if(QDELETED(src) || QDELETED(M))
+			return FALSE
+		if(!M.CanReach(src)) // Possible performance hit.
+			return FALSE
+		if(M.incapacitated())
+			return FALSE
 
-	sleep(M.used_intent.swingdelay)
-	M.swinging = FALSE
-	if(M.a_intent != cached_intent)
-		return FALSE
-	if(QDELETED(src) || QDELETED(M))
-		return FALSE
-	if(!M.CanReach(src)) // Possible performance hit.
-		return FALSE
-	if(M.incapacitated())
-		return FALSE
+		if(checkmiss(M))
+			return FALSE
 
-	if(checkmiss(M))
-		return FALSE
+		if(checkdefense(M.a_intent, M))
+			return FALSE
 
-	if(checkdefense(M.a_intent, M))
-		return FALSE
+		if(M.attack_sound)
+			playsound(loc, M.a_intent.hitsound, 100, FALSE)
 
-	if(M.attack_sound)
-		playsound(loc, M.a_intent.hitsound, 100, FALSE)
-
-	log_combat(M, src, "attacked")
+		log_combat(M, src, "attacked")
 
 	return TRUE
 
