@@ -636,10 +636,6 @@
 	playsound(src, "bodyfall", 100, TRUE)
 	if(!faller.mind)
 		faller.drop_all_held_items()
-	else
-		if(faller.cmode && (HAS_TRAIT(faller, TRAIT_MEDIUMARMOR) || HAS_TRAIT(faller, TRAIT_HEAVYARMOR) || HAS_TRAIT(faller, TRAIT_DODGEEXPERT) || HAS_TRAIT(faller, TRAIT_NOPAINSTUN)))
-			return
-		faller.drop_all_held_items()
 
 /turf/proc/photograph(limit=20)
 	var/image/I = new()
