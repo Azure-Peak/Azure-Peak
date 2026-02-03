@@ -593,9 +593,8 @@
 	max_integrity = 0
 
 /obj/item/rogueweapon/scabbard/sheath/courtphysician
-	name = "velvet sister"
-	desc = "Sleek, fashionable and deadly. Traits shared by both staff and the one holding it. Never let yourself be outdone, never rely on merely one trick.\
-	The rontz embedded in the handle serves as focus for arcyne arts."
+	name = "fancy cane"
+	desc = "A decorated cane bearing the visage of a vulture."
 	icon_state = "doccanesheath"
 	item_state = "doccanesheath"
 	valid_blade = /obj/item/rogueweapon/sword/rapier/courtphysician
@@ -657,14 +656,15 @@
 				return list("shrink" = 0.3,"sx" = -2,"sy" = -5,"nx" = 4,"ny" = -5,"wx" = 0,"wy" = -5,"ex" = 2,"ey" = -5,"nturn" = 0,"sturn" = 0,"wturn" = 0,"eturn" = 0,"nflip" = 0,"sflip" = 0,"wflip" = 0,"eflip" = 0,"northabove" = 0,"southabove" = 1,"eastabove" = 1,"westabove" = 0)
 
 /obj/item/rogueweapon/scabbard/sheath/courtphysician/hand
-	name = "fancy staff"
-	desc = "A decorated, regal cane with arcyne runes encrusted on the inner layers."
+	name = "velvet sister"
+	desc = "Sleek, fashionable and deadly. Traits shared by both staff and the one holding it. Never let yourself be outdone, never rely on merely one trick.\
+	The rontz embedded in the handle serves as focus for arcyne arts."
 	icon = 'icons/roguetown/weapons/special/hand32.dmi'
 	icon_state = "staffsheath"
 	item_state = "staffsheath"
 	valid_blade = /obj/item/rogueweapon/sword/rapier/hand
 	sellprice = 100
-	cast_time_reduction = null //The component alters this.
+	cast_time_reduction = null //The component alters this. 
 
 /obj/item/rogueweapon/scabbard/sheath/courtphysician/hand/ComponentInitialize()
 	AddComponent(/datum/component/holster/handstaff, valid_blade, null, null, sheathe_time)
