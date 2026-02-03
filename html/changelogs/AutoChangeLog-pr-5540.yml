@@ -1,4 +1,0 @@
-author: "Ollanius"
-delete-after: True
-changes:
-  - bugfix: "Fixes an oversight, ensuring that all golden weapons, armorpieces, and shields can no longer be enchanted. This does not apply to more fashionable things, such as amulets and ciruclets."

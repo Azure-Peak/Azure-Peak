@@ -1,0 +1,5 @@
+author: "WeNeedMorePhoron"
+delete-after: True
+changes:
+  - rscadd: "You can now jump over spike pits safely."
+  - rscadd: "When you are thrown into a spike pit, for example by fetch / repel, the impact destroys the spike pit."

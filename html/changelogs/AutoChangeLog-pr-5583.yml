@@ -1,0 +1,4 @@
+author: "SpartanBobby"
+delete-after: True
+changes:
+  - bugfix: "replaces huntingknife/cleaver with huntingknife/chefknife/cleaver"

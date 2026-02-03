@@ -542,6 +542,16 @@
 	name = "Lost Hood"
 	desc = "The sacred hood is lost. I feel frail and sapped without it."
 
+/datum/status_effect/debuff/lost_dungeoneer_hood
+	id = "dungeoneerhood"
+	alert_type = /atom/movable/screen/alert/status_effect/debuff/dungeoneer_hood
+	effectedstats = list(STATKEY_STR = -3, STATKEY_LCK = -3)
+
+/atom/movable/screen/alert/status_effect/debuff/dungeoneer_hood
+	name = "Gnarly Visage"
+	desc = "I am a repulsive freek looked down upon by everyone else. I'd do best to hide my visage once more."
+	icon_state = "muscles"
+
 ///////////////////////
 /// CLIMBING STUFF ///
 /////////////////////

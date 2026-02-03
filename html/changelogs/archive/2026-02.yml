@@ -84,3 +84,69 @@
   zydras:
   - rscdel: The Hand and Lord of Heartfelt seem to have lost their cloaks...
   - image: '...But in turn, acquired fresh new pieces of armor!'
+2026-02-03:
+  FreeStylaLT:
+  - balance: Panel noises now do not travel across z-levels and only propagate for
+      3 tiles from the source.
+  - bugfix: Fixed the Panel not using all the sounds properly.
+  - balance: Most Influential Patron timer has been reduced to 45 minutes from 90.
+  - balance: Zweihander and Flamberge are no longer sold in the Silverface
+  - balance: Flamberge smithing recipe now costs 3 Steel Ingots.
+  - refactor: Scabbard behaviour was turned into a component, paving way for more
+      items to be able to hold swords and the like.
+  - refactor: Voice Pack Sampling now respects voice pitch.
+  Lamasmaster:
+  - balance: Bailiff
+  - balance: God influences
+  - bugfix: Eoran influences, AGAIN
+  Ollanius:
+  - balance: 'Broadswords are now more clearly defined as sidegrades to the Longsword
+      and Axe. Chopping, thrusting, and impaling deals more damage, but comes with
+      uncontestable swing delays: make sure your footwork''s up-to-par, or else you
+      won''t be hitting anything.'
+  - balance: Executioner Swords now inherit variants of the Broadsword's chopping
+      and thrusting intents, at the cost of peeling. This extends to the Solar Judge,
+      Berserker Sword, and a certain secret item.
+  - bugfix: The Steel Broadsword now properly uses the Steel Broadsword icon.
+  - bugfix: Judgement- and Valorian-type swords now properly scale when wielded with
+      both hands.
+  - bugfix: Fixes an oversight, ensuring that all golden weapons, armorpieces, and
+      shields can no longer be enchanted. This does not apply to more fashionable
+      things, such as amulets and ciruclets.
+  - rscadd: Dolabras can now properly till soil when held in one hand. Historical
+      reenactors, rejoice!
+  - rscadd: The 'Quick Thrust' intent now uses the 'Thresh' icon to better differentiate
+      it from regular stabs.
+  - balance: Rondel Daggers and Stakes now have the 'Light Cut' intent - with a x0.8
+      damage penalty.
+  - bugfix: Rondel Daggers are no longer invisible.
+  - rscadd: The Weeping Psicross now interacts with most Psydonic miracles, offering
+      the highest amplification of their effects out of any other psycross.
+  - rscadd: Tweaks the inhands of all Flamberges and Executioner Swords to be a little
+      more clean.
+  - rscadd: Adds a new filepath for the Cleaver, which should help fix its broken
+      inhands.
+  - rscdel: Removes the old Cleaver from most ingame instances, pending a total removal
+      via remappage.
+  - code_imp: Phasing out the old Cleaver since its inhands are inherently messed
+      up. Use the chefknife-forked one, going forward.
+  Ryan180602:
+  - balance: Re-adds T2 zizite skeleton summoning but 1 skeleton.
+  ToasterStrudes:
+  - rscadd: 'Emergency Sovl Injection: Adds a use function to the Court Magos staff
+      that allows for shocking Associates.'
+  WeNeedMorePhoron:
+  - bugfix: Probably fix hard deletes with anvil
+  hazelrat:
+  - rscadd: Followers of Abyssor no longer receive a mood debuff when soaked in water.
+  - qol: Tweaked several negative mood messages to read more seamlessly.
+  - refactor: Removed several unused mood datums.
+  mumblemancer:
+  - balance: excidium timers can no longer exceed 20 minutes
+  - bugfix: pans can now be repaired
+  nauticall:
+  - code_imp: Items in 'lordcolor' no longer remove themselves from the list after
+      the royal colors are first applied. In practice this means the royal colors
+      can now be changed an unlimited amount of times - subject to admin discretion.
+  - qol: Grace period for latejoining Dukes choosing the royal standard has been bumped
+      from 10 minutes to 30.

@@ -1,4 +1,0 @@
-author: "FreeStylaLT"
-delete-after: True
-changes:
-  - refactor: "Scabbard behaviour was turned into a component, paving way for more items to be able to hold swords and the like."

@@ -1,6 +1,0 @@
-author: "Ollanius"
-delete-after: True
-changes:
-  - rscadd: "Adds a new filepath for the Cleaver, which should help fix its broken inhands."
-  - rscdel: "Removes the old Cleaver from most ingame instances, pending a total removal via remappage."
-  - code_imp: "Phasing out the old Cleaver since its inhands are inherently messed up. Use the chefknife-forked one, going forward."
