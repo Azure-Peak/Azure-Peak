@@ -15,7 +15,7 @@
 	nomouseover = TRUE
 	plane = FLOOR_PLANE
 	pass_flags = LETPASSTHROW
-	max_integrity = 900 // We want these quite durable so they aren't accidentally broken during fights.
+	max_integrity = 1200 // We want these quite durable so they aren't accidentally broken during fights.
 
 /obj/structure/stairs/Initialize(mapload)
 	. = ..()
@@ -62,7 +62,7 @@
 	name = "stone stairs"
 	icon = 'icons/obj/stairs.dmi'
 	icon_state = "stonestairs"
-	max_integrity = 1800
+	max_integrity = 2400
 
 //	climb_offset = 10
 	//RTD animate climbing offset so this can be here
