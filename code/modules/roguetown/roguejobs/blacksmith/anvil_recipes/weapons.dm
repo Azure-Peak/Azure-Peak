@@ -318,7 +318,7 @@
 	created_item = /obj/item/rogueweapon/sword/falchion/militia/bronze
 
 /datum/anvil_recipe/weapons/bronze/battleaxe
-	name = "Waraxe, Bronze (+1 Bronze)"
+	name = "War Axe, Bronze (+1 Bronze)"
 	req_bar = /obj/item/ingot/bronze
 	req_blade = /obj/item/blade/bronze_axe
 	additional_items = list(/obj/item/ingot/bronze)
@@ -419,6 +419,11 @@
 	req_bar = /obj/item/ingot/iron
 	created_item = /obj/item/rogueweapon/flail
 
+/datum/anvil_recipe/weapons/iron/flailalt
+	name = "Flail, Studded, Iron"
+	req_bar = /obj/item/ingot/iron
+	created_item = /obj/item/rogueweapon/flail/alt
+
 /datum/anvil_recipe/weapons/iron/huntknife
 	name = "Hunting Knife, Iron"
 	req_bar = /obj/item/ingot/iron
@@ -459,6 +464,13 @@
 	req_blade = /obj/item/blade/iron_axe
 	additional_items = list(/obj/item/grown/log/tree/stick)
 	created_item = /obj/item/rogueweapon/stoneaxe/woodcut
+
+/datum/anvil_recipe/weapons/iron/axelegacy
+	name = "Woodcutting Handaxe, Iron (+1 Small Log)"
+	req_bar = /obj/item/ingot/iron
+	req_blade = /obj/item/blade/iron_axe
+	additional_items = list(/obj/item/grown/log/tree/small)
+	created_item = /obj/item/rogueweapon/stoneaxe/woodcut/woodcutter
 
 /datum/anvil_recipe/weapons/iron/greataxe
 	name = "Greataxe, Iron (+1 Iron, +1 Small Log)"

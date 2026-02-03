@@ -245,6 +245,8 @@ GLOBAL_LIST_EMPTY(chosen_names)
 
 	var/mood_messages_in_chat
 
+	var/attack_blip_frequency = ATTACK_BLIP_PREF_DEFAULT
+
 /datum/preferences/New(client/C)
 	parent = C
 	migrant  = new /datum/migrant_pref(src)

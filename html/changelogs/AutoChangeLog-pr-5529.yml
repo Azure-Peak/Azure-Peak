@@ -1,5 +1,0 @@
-author: "FreeStylaLT"
-delete-after: True
-changes:
-  - balance: "Panel noises now do not travel across z-levels and only propagate for 3 tiles from the source."
-  - bugfix: "Fixed the Panel not using all the sounds properly."

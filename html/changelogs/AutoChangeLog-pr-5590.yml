@@ -1,0 +1,4 @@
+author: "WeNeedMorePhoron"
+delete-after: True
+changes:
+  - bugfix: "Crystallized Mana gathered by Presdtidigitation from a Mana Fountain now appears below the user instead of underneath the fountain."

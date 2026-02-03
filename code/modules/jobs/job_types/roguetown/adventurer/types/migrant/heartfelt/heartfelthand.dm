@@ -48,6 +48,11 @@
 		STATKEY_WIL = 1,
 	)
 
+	subclass_stashed_items = list("Heartfelt Caparison" = /obj/item/caparison/heartfelt)
+	subclass_virtues = list(
+		/datum/virtue/utility/riding
+	)
+
 	subclass_skills = list(
 	/datum/skill/combat/swords = SKILL_LEVEL_EXPERT,
 	/datum/skill/combat/polearms = SKILL_LEVEL_EXPERT,
@@ -86,11 +91,13 @@
 		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/order/heartfelt/forheartfelt)
 		// H.mind.AddSpell(new/obj/effect/proc_holder/spell/invoked/order/heartfelt/focustarget)
 		H.verbs |= list(/mob/living/carbon/human/mind/proc/setordersheartfelt)
-	var/helmet = list("Etruscan Bascinet","Beak Helmet","Visored Sallet",)
+	var/helmet = list("Etruscan Bascinet","Volf Plate Helmet","Beak Helmet","Visored Sallet",)
 	var/helmet_choice = input("Choose your Helm.", "TAKE UP HELMS") as anything in helmet
 	switch(helmet_choice)
 		if("Etruscan Bascinet")
 			head = /obj/item/clothing/head/roguetown/helmet/bascinet/etruscan
+		if("Volf Plate Helmet") 
+			head = /obj/item/clothing/head/roguetown/helmet/heavy/volfplate
 		if("Beak Helmet") // GUUUUTS NO GUTS NOOOOO
 			head = /obj/item/clothing/head/roguetown/helmet/heavy/beakhelm
 		if("Visored Sallet")	
@@ -116,6 +123,11 @@
 		STATKEY_INT = 2,
 		STATKEY_CON = 1,
 		STATKEY_WIL = 2,
+	)
+
+	subclass_stashed_items = list("Heartfelt Caparison" = /obj/item/caparison/heartfelt)
+	subclass_virtues = list(
+		/datum/virtue/utility/riding
 	)
 
 	subclass_skills = list(
@@ -169,6 +181,11 @@
 		STATKEY_INT = 4,
 		STATKEY_PER = 3,
 		STATKEY_SPD = 1
+	)
+
+	subclass_stashed_items = list("Heartfelt Caparison" = /obj/item/caparison/heartfelt)
+	subclass_virtues = list(
+		/datum/virtue/utility/riding
 	)
 
 	subclass_spellpoints = 15

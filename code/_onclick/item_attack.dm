@@ -205,6 +205,15 @@
 		if(M.checkdefense(user.used_intent, user))
 			return
 
+	if(user.mind)
+		if(user.client?.prefs?.attack_blip_frequency != ATTACK_BLIP_PREF_NEVER)
+			var/blip_prob = user.client?.prefs?.attack_blip_frequency
+			if(prob(blip_prob))
+				user.emote("attack", forced = TRUE)
+	else
+		if(prob(PROB_ATTACK_EMOTE_NPC))
+			user.emote("attack", forced = TRUE)
+
 	SEND_SIGNAL(src, COMSIG_ITEM_ATTACK_SUCCESS, M, user)
 	SEND_SIGNAL(M, COMSIG_ITEM_ATTACKED_SUCCESS, src, user)
 	if(user.zone_selected == BODY_ZONE_PRECISE_R_INHAND)

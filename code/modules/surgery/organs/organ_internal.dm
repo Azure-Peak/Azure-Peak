@@ -67,6 +67,10 @@
 
 	owner = M
 	last_owner = M
+
+	if (visible_organ)
+		M.visible_organs |= src
+
 	M.internal_organs |= src
 	M.internal_organs_slot[slot] = src
 	moveToNullspace()
@@ -85,6 +89,9 @@
 	SEND_SIGNAL(owner, COMSIG_MOB_ORGAN_REMOVED, src, special, drop_if_replaced)
 	owner = null
 	if(M)
+		if (visible_organ)
+			M.visible_organs -= src
+
 		M.internal_organs -= src
 		if(M.internal_organs_slot[slot] == src)
 			M.internal_organs_slot.Remove(slot)

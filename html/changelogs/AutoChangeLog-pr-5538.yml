@@ -1,6 +1,0 @@
-author: "Ollanius"
-delete-after: True
-changes:
-  - rscadd: "The 'Quick Thrust' intent now uses the 'Thresh' icon to better differentiate it from regular stabs."
-  - balance: "Rondel Daggers and Stakes now have the 'Light Cut' intent - with a x0.8 damage penalty."
-  - bugfix: "Rondel Daggers are no longer invisible."

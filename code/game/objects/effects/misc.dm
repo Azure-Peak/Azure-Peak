@@ -85,5 +85,12 @@
 
 /obj/effect/dummy/lighting_obj/moblight/Initialize(mapload, _color, _range, _power, _duration)
 	. = ..()
+	if(_duration)
+		QDEL_IN(src, _duration)
 	if(!ismob(loc))
 		return INITIALIZE_HINT_QDEL
+
+/obj/effect/dummy/lighting_obj/moblight/Destroy()
+    set_light_on(FALSE)
+    QDEL_NULL(light)
+    return ..()

@@ -52,7 +52,8 @@
 		/datum/advclass/mercenary/underdweller,
 		/datum/advclass/mercenary/grudgebearer,
 		/datum/advclass/mercenary/grudgebearer/soldier,
-		/datum/advclass/mercenary/trollslayer
+		/datum/advclass/mercenary/trollslayer,
+		/datum/advclass/mercenary/lirvanmerc
 	)
 
 /datum/job/roguetown/mercenary/after_spawn(mob/living/L, mob/M, latejoin = FALSE)

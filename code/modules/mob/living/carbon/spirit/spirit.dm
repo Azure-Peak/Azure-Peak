@@ -87,6 +87,9 @@
 	internal_organs += new /obj/item/organ/ears
 	internal_organs += new /obj/item/organ/liver
 	internal_organs += new /obj/item/organ/stomach
+
+	visible_organs += new /obj/item/organ/eyes
+	visible_organs += new /obj/item/organ/ears
 	..()
 
 /mob/living/carbon/spirit/Destroy()
