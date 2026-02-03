@@ -20181,7 +20181,8 @@
 	dir = 4
 	},
 /obj/structure/roguemachine/vendor/church_bedroomset_one{
-	pixel_x = -32
+	pixel_x = -32;
+	density = 0
 	},
 /turf/open/floor/rogue/wood,
 /area/rogue/indoors/town/church/chapel)
@@ -34994,6 +34995,10 @@
 /obj/item/reagent_containers/food/snacks/smallrat,
 /turf/open/floor/rogue/cobble,
 /area/rogue/indoors/town)
+"ixt" = (
+/obj/machinery/light/rogue/candle/floorcandle,
+/turf/open/floor/rogue/blocks,
+/area/rogue/indoors/town/church/basement)
 "ixv" = (
 /obj/item/roguecoin/copper,
 /turf/open/floor/rogue/cobble/mossy,
@@ -123257,7 +123262,7 @@ hub
 xaa
 lhE
 llO
-kcq
+ixt
 fIo
 nWs
 llO
@@ -124161,7 +124166,7 @@ jnh
 fnH
 ese
 llO
-kcq
+ixt
 fIo
 nWs
 llO
