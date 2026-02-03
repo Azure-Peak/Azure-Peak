@@ -285,6 +285,90 @@
 	icon_state = "rustkey"
 	lockid = "graveyard"
 
+/obj/item/roguekey/church/roomi
+	name = "church bedroom I key"
+	desc = "The key to the first room."
+	icon_state = "brownkey"
+	lockid = "church_bedroom_up_1"
+
+/obj/item/roguekey/church/roomii
+	name = "church bedroom II key"
+	desc = "The key to the second room."
+	icon_state = "brownkey"
+	lockid = "church_bedroom_up_2"
+
+/obj/item/roguekey/church/roomiii
+	name = "church bedroom III key"
+	desc = "The key to the third room."
+	icon_state = "brownkey"
+	lockid = "church_bedroom_up_3"
+
+/obj/item/roguekey/church/roomiv
+	name = "church bedroom IV key"
+	desc = "The key to the fourth room."
+	icon_state = "brownkey"
+	lockid = "church_bedroom_up_4"
+
+/obj/item/roguekey/church/roomv
+	name = "church bedroom V key"
+	desc = "The key to the fifth room."
+	icon_state = "brownkey"
+	lockid = "church_bedroom_up_5"
+
+/obj/item/roguekey/church/roomvi
+	name = "church bedroom VI key"
+	desc = "The key to the fifth room."
+	icon_state = "brownkey"
+	lockid = "church_bedroom_up_6"
+
+/obj/item/roguekey/church/roomvii
+	name = "church bedroom VII key"
+	desc = "The key to the fifth room."
+	icon_state = "brownkey"
+	lockid = "church_bedroom_up_7"
+
+/obj/item/roguekey/church/roomviii
+	name = "church bedroom VIII key"
+	desc = "The key to the fifth room."
+	icon_state = "brownkey"
+	lockid = "church_bedroom_up_8"
+
+/obj/item/roguekey/church/roomix
+	name = "church bedroom IX key"
+	desc = "The key to the fifth room."
+	icon_state = "brownkey"
+	lockid = "church_bedroom_up_9"
+
+/obj/item/roguekey/church/roomx
+	name = "church bedroom X key"
+	desc = "The key to the fifth room."
+	icon_state = "brownkey"
+	lockid = "church_bedroom_up_10"
+
+/obj/item/roguekey/church/roomxi
+	name = "church bedroom XI key"
+	desc = "The key to the fifth room."
+	icon_state = "brownkey"
+	lockid = "church_bedroom_up_11"
+	
+/obj/item/roguekey/church/roomxii
+	name = "church bedroom XII key"
+	desc = "The key to the fifth room."
+	icon_state = "brownkey"
+	lockid = "church_bedroom_up_12"
+
+/obj/item/roguekey/church/roomxiii
+	name = "church bedroom XIII key"
+	desc = "The key to the fifth room."
+	icon_state = "brownkey"
+	lockid = "church_bedroom_up_13"
+
+/obj/item/roguekey/church/roomxiv
+	name = "church bedroom XIV key"
+	desc = "The key to the fifth room."
+	icon_state = "brownkey"
+	lockid = "church_bedroom_up_14"
+
 //////////////
 // BURGHERS //
 //////////////
