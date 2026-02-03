@@ -598,8 +598,6 @@
 	max_integrity = 200
 	wdefense = 9
 
-/obj/item/rogueweapon/huntingknife/idagger/steel/parrying/hand
-	name = ""
 
 /obj/item/rogueweapon/huntingknife/idagger/steel/parrying/vaquero
 	name = "sail dagger"
