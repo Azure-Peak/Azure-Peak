@@ -48,6 +48,7 @@
 		H.clear_alert("buckled") //easiest way to hide this option. Have to click the pit with a free hand to get loose.
 		playsound(src.loc, hitsound, 100)
 		if(was_thrown)
+			AM.throwing?.finalize(FALSE) // Stop throw momentum, so spike pit are not destroyed in a row
 			visible_message(span_warning("The spikes shatter from the impact!"))
 			qdel(src)
 		return
@@ -60,6 +61,7 @@
 		L.get_sound("pain")
 		playsound(src.loc, hitsound, 100)
 		if(was_thrown)
+			AM.throwing?.finalize(FALSE) // Stop throw momentum, so spike pit are not destroyed in a row
 			visible_message(span_warning("The spikes shatter from the impact!"))
 			qdel(src)
 		return
