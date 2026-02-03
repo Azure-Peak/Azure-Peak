@@ -663,7 +663,7 @@
 	item_state = "staffsheath"
 	valid_blade = /obj/item/rogueweapon/sword/rapier/hand
 	sellprice = 100
-	cast_time_reduction = RUBY_CAST_TIME_REDUCTION
+	cast_time_reduction = null //The component alters this.
 
 /obj/item/rogueweapon/scabbard/sheath/courtphysician/hand/ComponentInitialize()
 	AddComponent(/datum/component/holster/handstaff, valid_blade, null, null, sheathe_time)
