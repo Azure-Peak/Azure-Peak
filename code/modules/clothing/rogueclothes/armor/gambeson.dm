@@ -253,12 +253,13 @@
 	icon_state = "handgambeson"
 	mob_overlay_icon = 'icons/roguetown/clothing/special/onmob/hand.dmi'
 	sleeved = 'icons/roguetown/clothing/special/onmob/hand.dmi'
+	detail_tag = "_detail"
+	detail_color = "#6e423a"
 	armor = ARMOR_ASCENDANT
 	slot_flags = ITEM_SLOT_ARMOR
 	max_integrity = ARMOR_INT_CHEST_LIGHT_STEEL
 	prevent_crits = PREVENT_CRITS_MOST
 	sellprice = 250
-	detail_color = "#6e423a"
 	shiftable = FALSE
 
 /obj/item/clothing/suit/roguetown/armor/gambeson/heavy/hand/advisor

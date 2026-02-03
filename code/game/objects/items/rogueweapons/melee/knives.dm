@@ -570,10 +570,12 @@
 /obj/item/rogueweapon/huntingknife/idagger/dtace
 	name = "'De Tace'"
 	desc = "The right hand of the right hand, this narrow length of steel serves as a quick solution to petty greviences."
-	icon_state = "stiletto"
-	sheathe_icon = "stiletto"
+	icon = 'icons/roguetown/weapons/special/hand32.dmi'
+	icon_state = "sdaggerhand"
+	sheathe_icon = "sdaggerhand"
 	force = 25
 	max_integrity = 200
+	sellprice = 200
 	smeltresult = /obj/item/ingot/steel
 
 /obj/item/rogueweapon/huntingknife/idagger/steel/rondel
@@ -585,14 +587,19 @@
 	wdefense = 4 //Slightly more defense than a regular dagger. Intended to function as a tool for countering grapplers or finishing off armored opponents with broken pieces.
 	smeltresult = /obj/item/ingot/steel
 
-/obj/item/rogueweapon/huntingknife/idagger/steel/parrying
-	name = "steel parrying dagger"
+/obj/item/rogueweapon/huntingknife/idagger/steel/parrying/hand
+	name = "'Repeta'"
+	desc = "The left hand of the right hand, this sturdy length of steel serves as a perfect counterpart to any offense."
 	force = 12
 	throwforce = 12
-	desc = "This is a parrying dagger made of solid steel, used to catch opponent's weapons in the handguard. It's a bit more dull, however."
-	sheathe_icon = "spdagger"
-	max_integrity = 175
-	wdefense = 8		//This way with expert dagger skill you'd have ~12 defense. 1 higher than a kiteshield, but no arrow protection.
+	icon = 'icons/roguetown/weapons/special/hand32.dmi'
+	icon_state = "spdaggerhand"
+	sheathe_icon = "spdaggerhand"
+	max_integrity = 200
+	wdefense = 9
+
+/obj/item/rogueweapon/huntingknife/idagger/steel/parrying/hand
+	name = ""
 
 /obj/item/rogueweapon/huntingknife/idagger/steel/parrying/vaquero
 	name = "sail dagger"
