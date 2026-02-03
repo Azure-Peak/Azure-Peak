@@ -593,8 +593,9 @@
 	max_integrity = 0
 
 /obj/item/rogueweapon/scabbard/sheath/courtphysician
-	name = "fancy cane"
-	desc = "A decorated cane bearing the visage of a vulture."
+	name = "velvet sister"
+	desc = "Sleek, fashionable and deadly. Traits shared by both staff and the one holding it. Never let yourself be outdone, never rely on merely one trick.\
+	The rontz embedded in the handle serves as focus for arcyne arts."
 	icon_state = "doccanesheath"
 	item_state = "doccanesheath"
 	valid_blade = /obj/item/rogueweapon/sword/rapier/courtphysician
