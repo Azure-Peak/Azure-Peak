@@ -1732,11 +1732,12 @@ Slots: [job.spawn_positions] [job.round_contrib_points ? "RCP: +[job.round_contr
 				if("voicepack_preview")
 					if(voice_pack != "Default")
 						var/datum/voicepack/VP = GLOB.voice_packs_list[voice_pack]
-						if(!istype(temp_vp, VP))
+						if(!istype(temp_vp, /datum/voicepack))
 							temp_vp = new VP()
 						var/sound/voiceline = sound(temp_vp.get_sound(pick(temp_vp.preview)))
-						voiceline.frequency = voice_pitch
-						user.playsound_local(user, vol = 100, S = voiceline)
+						if(voiceline)
+							voiceline.frequency = voice_pitch
+							user.playsound_local(user, vol = 100, S = voiceline)
 
 				if("taur_type")
 					var/list/species_taur_list = pref_species.get_taur_list()
