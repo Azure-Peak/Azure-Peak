@@ -418,14 +418,19 @@ GLOBAL_LIST_INIT(spells, typesof(/obj/effect/proc_holder/spell)) //needed for th
 /obj/effect/proc_holder/spell/proc/can_target(mob/living/target)
 	return TRUE
 
-/obj/effect/proc_holder/spell/proc/start_recharge()
+/obj/effect/proc_holder/spell/proc/start_recharge(var/custom_cooldown = null)
+	// By default, we want this to be the initial recharge time.
+	var/delay = initial(recharge_time)
+	// BUT if we supplier a custom cooldown, set it to that instead.
+	if(custom_cooldown)
+		delay = custom_cooldown
 	if(ranged_ability_user && !is_cdr_exempt)
 		if(ranged_ability_user.STAINT > SPELL_SCALING_THRESHOLD)
 			var/diff = min(ranged_ability_user.STAINT, SPELL_POSITIVE_SCALING_THRESHOLD) - SPELL_SCALING_THRESHOLD
-			recharge_time = initial(recharge_time) - (initial(recharge_time) * diff * COOLDOWN_REDUCTION_PER_INT)
+			recharge_time = delay - (delay * diff * COOLDOWN_REDUCTION_PER_INT)
 		else if(ranged_ability_user.STAINT < SPELL_SCALING_THRESHOLD)
 			var/diff2 = SPELL_SCALING_THRESHOLD - ranged_ability_user.STAINT
-			recharge_time = initial(recharge_time) + (initial(recharge_time) * (diff2 * COOLDOWN_REDUCTION_PER_INT))
+			recharge_time = delay + (delay * (diff2 * COOLDOWN_REDUCTION_PER_INT))
 
 	START_PROCESSING(SSfastprocess, src)
 
