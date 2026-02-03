@@ -4,10 +4,10 @@
 	overlay_state = "meteor_storm"
 	cost = 9
 	spell_tier = 4 // Highest tier AOE
-	releasedrain = 50
+	releasedrain = 90
 	chargedrain = 1
 	chargetime = 50
-	recharge_time =  100 SECONDS
+	recharge_time = 300 SECONDS
 	warnie = "spellwarning"
 	no_early_release = TRUE
 	movement_interrupt = TRUE
