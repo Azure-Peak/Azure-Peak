@@ -261,6 +261,7 @@
 	prevent_crits = PREVENT_CRITS_MOST
 	sellprice = 250
 	shiftable = FALSE
+	unenchantable = TRUE
 
 /obj/item/clothing/suit/roguetown/armor/gambeson/heavy/hand/advisor
 	detail_color = "#6678c9"
