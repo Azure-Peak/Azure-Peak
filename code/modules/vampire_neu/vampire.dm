@@ -118,6 +118,8 @@ GLOBAL_LIST_EMPTY(vampire_objects)
 	. = ..()
 	equip()
 
+	owner.current.faction |= "undead"
+
 	if(HAS_TRAIT(owner, TRAIT_CRITICAL_RESISTANCE))
 		REMOVE_TRAIT(owner, TRAIT_CRITICAL_RESISTANCE, null)
 

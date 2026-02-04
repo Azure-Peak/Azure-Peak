@@ -141,7 +141,7 @@
  */
 /mob/living/carbon/human/proc/give_coven(datum/coven/coven)
 	if(ispath(coven))
-		var/datum/coven/new_coven = new coven(1)
+		var/datum/coven/new_coven = new coven(coven.starting_level)
 		coven = new_coven
 
 	// Store the coven on the mob
@@ -154,7 +154,7 @@
 	// Store by name for easy access
 	covens[coven.name] = coven
 
-	if(coven.level > 0)
+	if(coven.has_action && coven.level > 0)
 		var/datum/action/coven/action = new(src, coven)
 		action.Grant(src)
 

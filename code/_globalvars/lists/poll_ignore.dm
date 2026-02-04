@@ -26,6 +26,7 @@
 #define POLL_IGNORE_DEATHKNIGHT_TARGET      "deathknight_target"
 #define POLL_IGNORE_DEATHKNIGHT             "deathknight"
 #define POLL_IGNORE_VL_SERVANT              "vl_servant"
+#define POLL_IGNORE_VAMPIRE_UNDEAD          "vampire_undead"
 
 GLOBAL_LIST_INIT(poll_ignore_desc, list(
 	POLL_IGNORE_SENTIENCE_POTION = "Sentience potion",

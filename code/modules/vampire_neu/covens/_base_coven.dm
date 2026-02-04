@@ -13,6 +13,8 @@
 	/* LEVELING SYSTEM */
 	///What rank, or how many dots the caster has in this Coven.
 	var/level = 1
+	///What level this coven starts with
+	var/starting_level = 1
 	///Maximum level this coven can reach
 	var/max_level = 5
 	///Current experience points in this coven
@@ -36,6 +38,8 @@
 	///If this Coven has been assigned before and post_gain effects have already been applied.
 	var/post_gain_applied
 
+	/// whether this coven has an action
+	var/has_action = TRUE
 	///our coven action
 	var/datum/action/coven/coven_action
 

@@ -2817,6 +2817,7 @@
 #include "code\modules\vampire_neu\covens\coven_powers\demonic.dm"
 #include "code\modules\vampire_neu\covens\coven_powers\eoran.dm"
 #include "code\modules\vampire_neu\covens\coven_powers\fae_trickery.dm"
+#include "code\modules\vampire_neu\covens\coven_powers\necromantic.dm"
 #include "code\modules\vampire_neu\covens\coven_powers\obfuscate.dm"
 #include "code\modules\vampire_neu\covens\coven_powers\potence.dm"
 #include "code\modules\vampire_neu\covens\coven_powers\presence.dm"
