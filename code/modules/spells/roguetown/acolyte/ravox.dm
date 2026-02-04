@@ -285,53 +285,65 @@ GLOBAL_LIST_EMPTY(arenafolks) // we're just going to use a list and add to it. S
 		revert_cast()
 		return FALSE
 
-	if(isliving(targets[1]))
-		var/mob/living/target = targets[1]
-		var/originalcmodeuser = user.cmode_music
-		var/originalcmodetarget = target.cmode_music
-		var/turf/storedchallengerturf = get_turf(user)
-		var/turf/storedchallengedturf = get_turf(target)
-		if(user.z != target.z)
-			revert_cast()
-			return FALSE
-		if(target == user)
-			revert_cast()
-			return FALSE
+	if(!isliving(targets[1]))
+		revert_cast()
+		return FALSE
 
-		for(var/obj/structure/fluff/ravox/challenger/aflag in thearena)
-			challengerspawnpoint = get_turf(aflag)
-		for(var/obj/structure/fluff/ravox/challenged/bflag in thearena)
-			challengedspawnpoint = get_turf(bflag)
-		
-		do_teleport(user, challengerspawnpoint)
-		do_teleport(target, challengedspawnpoint)
-		GLOB.arenafolks += user
-		GLOB.arenafolks += target
-		storedchallengerturf.visible_message((span_cult("[user] calls upon the Ravoxian rite of Trial! [target] and [user] are brought to Trial!")))
+	var/mob/living/carbon/target = targets[1]
+	var/originalcmodeuser = user.cmode_music
+	var/originalcmodetarget = target.cmode_music
+	var/turf/storedchallengerturf = get_turf(user)
+	var/turf/storedchallengedturf = get_turf(target)
 
-		new /obj/structure/fluff/ravox/challenger/recall(storedchallengerturf)
-		new /obj/structure/fluff/ravox/challenged/recall(storedchallengedturf)
+	if(user.z != target.z)
+		revert_cast()
+		return FALSE
+	if(target == user)
+		revert_cast()
+		return FALSE
+	if(
+		(target.stat > CONSCIOUS) || \
+		!(target.mobility_flags & MOBILITY_STAND) || \
+		!(target.mobility_flags & MOBILITY_MOVE) || \
+		(HAS_TRAIT(target, TRAIT_PACIFISM)) || \
+		(target.handcuffed) || \
+		(target.legcuffed)
+	)
+		to_chat(user, span_warning("[target] is in no shape to accept the duel!"))
+		revert_cast()
+		return FALSE
 
-		to_chat(user, span_userdanger("THE TRIAL IS CALLED, IMPRESS US, PROSECUTOR!!"))
-		to_chat(target, span_userdanger("A TRIAL OF RAVOX BEGINS. IMPRESS US, DEFENDANT!!"))
+	for(var/obj/structure/fluff/ravox/challenger/aflag in thearena)
+		challengerspawnpoint = get_turf(aflag)
+	for(var/obj/structure/fluff/ravox/challenged/bflag in thearena)
+		challengedspawnpoint = get_turf(bflag)
 
-		user.cmode_change('sound/music/ravoxarena.ogg')
-		target.cmode_change('sound/music/ravoxarena.ogg')
+	do_teleport(user, challengerspawnpoint)
+	do_teleport(target, challengedspawnpoint)
+	GLOB.arenafolks += user
+	GLOB.arenafolks += target
+	storedchallengerturf.visible_message((span_cult("[user] calls upon the Ravoxian rite of Trial! [target] and [user] are brought to Trial!")))
 
-		addtimer(CALLBACK(user, GLOBAL_PROC_REF(do_teleport), user, storedchallengerturf), 3 MINUTES)
-		addtimer(CALLBACK(target, GLOBAL_PROC_REF(do_teleport), target, storedchallengedturf), 3 MINUTES)
-		addtimer(CALLBACK(user, TYPE_PROC_REF(/mob, cmode_change), originalcmodeuser), 3 MINUTES)
-		addtimer(CALLBACK(target,TYPE_PROC_REF(/mob, cmode_change), originalcmodetarget), 3 MINUTES)
-		addtimer(CALLBACK(thearena,TYPE_PROC_REF(/area/rogue/indoors/ravoxarena, cleanthearena), storedchallengedturf), 3 MINUTES) // shunt all items from the arena out onto the challenged spot.
+	new /obj/structure/fluff/ravox/challenger/recall(storedchallengerturf)
+	new /obj/structure/fluff/ravox/challenged/recall(storedchallengedturf)
 
-		if(iscarbon(target))
-			var/mob/living/carbon/human/spawnprotectiontarget = target
-			addtimer(CALLBACK(spawnprotectiontarget,TYPE_PROC_REF(/mob/living/carbon/human, do_invisibility), 10 SECONDS), 3 MINUTES)
+	to_chat(user, span_userdanger("THE TRIAL IS CALLED, IMPRESS US, PROSECUTOR!!"))
+	to_chat(target, span_userdanger("A TRIAL OF RAVOX BEGINS. IMPRESS US, DEFENDANT!!"))
 
+	user.cmode_change('sound/music/ravoxarena.ogg')
+	target.cmode_change('sound/music/ravoxarena.ogg')
 
-		return TRUE
-	revert_cast()
-	return FALSE
+	addtimer(CALLBACK(user, GLOBAL_PROC_REF(do_teleport), user, storedchallengerturf), 3 MINUTES)
+	addtimer(CALLBACK(target, GLOBAL_PROC_REF(do_teleport), target, storedchallengedturf), 3 MINUTES)
+	addtimer(CALLBACK(user, TYPE_PROC_REF(/mob, cmode_change), originalcmodeuser), 3 MINUTES)
+	addtimer(CALLBACK(target,TYPE_PROC_REF(/mob, cmode_change), originalcmodetarget), 3 MINUTES)
+	addtimer(CALLBACK(thearena,TYPE_PROC_REF(/area/rogue/indoors/ravoxarena, cleanthearena), storedchallengedturf), 3 MINUTES) // shunt all items from the arena out onto the challenged spot.
+
+	if(iscarbon(target))
+		var/mob/living/carbon/human/spawnprotectiontarget = target
+		addtimer(CALLBACK(spawnprotectiontarget,TYPE_PROC_REF(/mob/living/carbon/human, do_invisibility), 10 SECONDS), 3 MINUTES)
+
+	return TRUE
 
 
 /obj/structure/fluff/ravox

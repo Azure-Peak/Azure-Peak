@@ -35,6 +35,9 @@
 
 /datum/outfit/job/roguetown/bandit/hedgealchemist/pre_equip(mob/living/carbon/human/H)
 	..()
+	if (!(istype(H.patron, /datum/patron/inhumen/matthios)))	//This is the only class that forces Matthios. Needed for miracles + limited slot.
+		to_chat(H, span_warning("Matthios embraces me.. I must uphold his creed. I am his light in the darkness."))
+		H.set_patron(/datum/patron/inhumen/matthios)
 	mask = /obj/item/clothing/mask/rogue/facemask/steel
 	head = /obj/item/clothing/head/roguetown/nightman
 	armor = /obj/item/clothing/suit/roguetown/armor/leather/vest
@@ -63,9 +66,3 @@
 				ADD_TRAIT(H, TRAIT_DODGEEXPERT, TRAIT_GENERIC)
 			if("Medium Armor")
 				ADD_TRAIT(H, TRAIT_MEDIUMARMOR, TRAIT_GENERIC)
-
-	if(!istype(H.patron, /datum/patron/inhumen/matthios))
-		var/inputty = input(H, "Would you like to change your patron to Matthios?", "The Transactor calls", "No") as anything in list("Yes", "No")
-		if(inputty == "Yes")
-			to_chat(H, span_warning("My former deity has abandoned me.. Matthios is my new master."))
-			H.set_patron(/datum/patron/inhumen/matthios)

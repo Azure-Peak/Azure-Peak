@@ -137,9 +137,50 @@
 	gripped_intents = list(SPEAR_BASH, /datum/intent/special/magicarc, /datum/intent/mace/smash/wood)
 	sellprice = 400
 
+/datum/intent/magos_electrocute
+	name = "shock associate"
+	blade_class = null
+	icon_state = "inuse"
+	tranged = TRUE
+	noaa = TRUE
+
 /obj/item/rogueweapon/woodstaff/riddle_of_steel/magos
 	name = "\improper Staff of the Court Magos"
 	icon_state = "courtstaff"
+	possible_item_intents = list(SPEAR_BASH, /datum/intent/special/magicarc, /datum/intent/magos_electrocute)
+	gripped_intents = list(SPEAR_BASH, /datum/intent/special/magicarc, /datum/intent/mace/smash/wood, /datum/intent/magos_electrocute)
+	COOLDOWN_DECLARE(magosstaff)
+
+/obj/item/rogueweapon/woodstaff/riddle_of_steel/magos/afterattack(atom/target, mob/user, flag)
+	. = ..()
+	if(get_dist(user, target) > 7)
+		return
+	user.changeNext_move(CLICK_CD_MELEE)
+	if(ishuman(user))
+		var/mob/living/carbon/human/HU = user
+		if(HU.job != "Court Magician")
+			to_chat(user, span_danger("The staff doesn't obey me."))
+			return
+		if(ishuman(target))
+			var/mob/living/carbon/human/H = target
+			if(H == HU)
+				return
+			if(!COOLDOWN_FINISHED(src, magosstaff))
+				to_chat(user, span_danger("The [src] is not ready yet! [round(COOLDOWN_TIMELEFT(src, magosstaff) / 10, 1)] seconds left!"))
+				return
+			if(H.anti_magic_check())
+				to_chat(user, span_danger("Their magic protection has interrupted my cast!"))
+				return
+			if(H.job != "Magicians Associate")
+				to_chat(user, span_danger("The target must one of my associates!"))
+				return
+			if(istype(user.used_intent, /datum/intent/magos_electrocute))
+				HU.visible_message(span_warning("[HU] electrocutes [H] with the [src]."))
+				user.Beam(target,icon_state="lightning[rand(1,12)]",time=5)
+				H.electrocute_act(5, src)
+				COOLDOWN_START(src, magosstaff, 20 SECONDS)
+				to_chat(H, span_danger("I'm electrocuted by the Court Magos!"))
+				return
 
 /obj/item/rogueweapon/woodstaff/naledi
 	cast_time_reduction = DIAMOND_CAST_TIME_REDUCTION

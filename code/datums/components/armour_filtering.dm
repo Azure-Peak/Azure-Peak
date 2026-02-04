@@ -157,6 +157,12 @@ TRAIT UNIQUE PROCS
 			user.remove_stress(/datum/stressevent/naledimasklost)
 		return
 
+	if(HAS_TRAIT(user, TRAIT_JAILOR) && id == "dungeoneer")
+		if(positive)
+			user.remove_status_effect(/datum/status_effect/debuff/lost_dungeoneer_hood)
+			user.remove_stress(/datum/stressevent/dungeoneerhoodlost)
+		return
+
 	return
 
 /datum/component/armour_filtering/proc/trait_boon_drop(mob/living/carbon/human/user, id)

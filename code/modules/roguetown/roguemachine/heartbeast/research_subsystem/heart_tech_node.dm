@@ -158,3 +158,12 @@
 	required_tier = 1
 	cost = 5
 	selection_weight = 2
+
+// SPECIAL RESEARCH
+	name = "Sanctified lampterns"
+	description = "Allows fashioning fog repelling lampterns at anvils."
+	string_id = "SANCTIFIED_LAMPTERNS"
+	required_tier = 99
+	cost = 5
+	selection_weight = 1
+	is_recipe_node = TRUE

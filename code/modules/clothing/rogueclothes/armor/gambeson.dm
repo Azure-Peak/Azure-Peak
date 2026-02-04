@@ -62,6 +62,13 @@
 	max_integrity = ARMOR_INT_CHEST_LIGHT_MASTER
 	prevent_crits = PREVENT_CRITS_MOST
 
+/obj/item/clothing/suit/roguetown/armor/gambeson/lord/heavy/silkjacket
+	name = "besilked jacket"
+	desc = "A lightweight jacket, who's besilked stitchwork allows it to catch thrusts-and-arrows alike without compromise. For reasons that needn't be spoken, such traits make it coveted among lesser nobility."
+	icon = 'icons/roguetown/clothing/shirts.dmi'
+	mob_overlay_icon = 'icons/roguetown/clothing/onmob/shirts.dmi'
+	icon_state = "puritan_shirt"
+
 /obj/item/clothing/suit/roguetown/armor/gambeson/heavy
 	name = "padded gambeson"
 	desc = "A heavyweight jacket, further tightened with dorpel-styled stitchwork. On its own, it is a masterwork that can reduce a crushing blow into a slight tickle; beneath an alloyed chestplate, it can ward off anything short of a greater fireball."

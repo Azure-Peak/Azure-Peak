@@ -165,8 +165,6 @@
 	data += "<font color='#4492a5'><span class='bold'>Fish Caught:</span></font> [GLOB.azure_round_stats[STATS_FISH_CAUGHT]]<br>"
 	data += "<font color='#836033'><span class='bold'>Trees Felled:</span></font> [GLOB.azure_round_stats[STATS_TREES_CUT]]<br>"
 	data += "<font color='#af2323'><span class='bold'>Organs Eaten:</span></font> [GLOB.azure_round_stats[STATS_ORGANS_EATEN]]<br>"
-	data += "<font color='#afa623'><span class='bold'>Locks Picked:</span></font> [GLOB.azure_round_stats[STATS_LOCKS_PICKED]]<br>"
-	data += "<font color='#af2379'><span class='bold'>Kisses Made:</span></font> [GLOB.azure_round_stats[STATS_KISSES_MADE]]<br>"
 	data += "</div>"
 	data += "</div></div>"
 	data += "</div>"

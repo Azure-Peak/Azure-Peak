@@ -59,7 +59,9 @@
 		/obj/item/rogueweapon/huntingknife/idagger = 1,
 		/obj/item/rogueweapon/scabbard/sheath = 1, 
 		/obj/item/natural/feather = 1,
-		/obj/item/paper/scroll = 2
+		/obj/item/paper/scroll = 2,
+		/obj/item/storage/belt/rogue/pouch/coins/veryrich = 2,
+		/obj/item/reagent_containers/glass/bottle/alchemical/healthpotnew = 2,
 		)
 	H.cmode_music = 'sound/music/combat_grenzelhoft.ogg'
 	H.grant_language(/datum/language/grenzelhoftian)
@@ -116,9 +118,11 @@
 	backl = /obj/item/rogueweapon/scabbard/gwstrap
 	r_hand = /obj/item/rogueweapon/greatsword/grenz
 	backpack_contents = list(
-		/obj/item/storage/belt/rogue/pouch/coins/poor = 1,
+		/obj/item/storage/belt/rogue/pouch/coins/mid = 1,
 		/obj/item/rogueweapon/huntingknife/idagger = 1,
-		/obj/item/rogueweapon/scabbard/sheath = 1
+		/obj/item/rogueweapon/scabbard/sheath = 1,
+		/obj/item/reagent_containers/glass/bottle/alchemical/healthpotnew = 1,
+		/obj/item/natural/bundle/cloth/bandage/full = 1,
 		)
 	H.cmode_music = 'sound/music/combat_grenzelhoft.ogg'
 	H.grant_language(/datum/language/grenzelhoftian)
@@ -161,7 +165,7 @@
 	shoes = /obj/item/clothing/shoes/roguetown/shortboots
 	belt = /obj/item/storage/belt/rogue/leather/rope
 	beltl = /obj/item/flashlight/flare/torch/lantern
-	beltr = /obj/item/storage/belt/rogue/pouch/coins/rich
+	beltr = /obj/item/storage/belt/rogue/pouch/coins/veryrich
 	armor = /obj/item/clothing/suit/roguetown/shirt/robe/priest
 	cloak = /obj/item/clothing/cloak/chasuble
 	backl = /obj/item/storage/backpack/rogue/satchel

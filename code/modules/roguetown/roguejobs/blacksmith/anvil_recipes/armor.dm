@@ -305,6 +305,56 @@
 	req_bar = /obj/item/ingot/iron
 	req_blade = /obj/item/blade/iron_plate
 	additional_items = list(/obj/item/ingot/iron)
+	created_item = /obj/item/clothing/head/roguetown/helmet/sallet/visored/iron
+
+/datum/anvil_recipe/armor/iron/knightarmet
+	name = "Helmet, Armet, Knight, Iron (+1 Iron)"
+	req_bar = /obj/item/ingot/iron
+	req_blade = /obj/item/blade/iron_plate
+	additional_items = list(/obj/item/ingot/iron)
+	created_item = /obj/item/clothing/head/roguetown/helmet/heavy/knight/iron
+
+/datum/anvil_recipe/armor/iron/knighthelmet
+	name = "Helmet, Knight, Iron (+1 Iron)"
+	req_bar = /obj/item/ingot/iron
+	req_blade = /obj/item/blade/iron_plate
+	additional_items = list(/obj/item/ingot/iron)
+	created_item = /obj/item/clothing/head/roguetown/helmet/heavy/knight/old/iron
+
+/datum/anvil_recipe/armor/iron/bucket
+	name = "Helmet, Bucket, Iron (+1 Iron)"
+	req_bar = /obj/item/ingot/iron
+	req_blade = /obj/item/blade/iron_plate
+	additional_items = list(/obj/item/ingot/iron)
+	created_item = /obj/item/clothing/head/roguetown/helmet/heavy/bucket/iron
+
+/datum/anvil_recipe/armor/iron/helmethorned
+	name = "Helmet, Horned, Iron"
+	req_bar = /obj/item/ingot/iron
+	req_blade = /obj/item/blade/iron_plate
+	created_item = /obj/item/clothing/head/roguetown/helmet/horned
+	craftdiff = 2
+
+/datum/anvil_recipe/armor/iron/hoodstudded
+	name = "Hood, Studded Leather (+ Leather Hood)"
+	req_bar = /obj/item/ingot/iron
+	req_blade = /obj/item/blade/iron_plate
+	additional_items = list(/obj/item/clothing/head/roguetown/roguehood)
+	created_item = /obj/item/clothing/head/roguetown/roguehood/studded
+
+/datum/anvil_recipe/armor/iron/mask
+	name = "Mask, Iron"
+	req_bar = /obj/item/ingot/iron
+	req_blade = /obj/item/blade/iron_plate
+	created_item = /obj/item/clothing/mask/rogue/facemask
+	createditem_num = 1
+
+/datum/anvil_recipe/armor/iron/wildguard
+	name = "Wild Guard, Iron"
+	req_bar = /obj/item/ingot/iron
+	req_blade = /obj/item/blade/iron_plate
+	created_item = /obj/item/clothing/mask/rogue/wildguard
+	createditem_num = 1
 	created_item = /obj/item/clothing/suit/roguetown/armor/chainmail/hauberk/iron
 
 /datum/anvil_recipe/armor/iron/chaincoif
@@ -712,6 +762,13 @@
 	req_blade = /obj/item/blade/steel_plate
 	additional_items = list(/obj/item/ingot/steel, /obj/item/clothing/suit/roguetown/armor/leather/heavy/freifechter)
 	created_item = /obj/item/clothing/suit/roguetown/armor/plate/cuirass/fencer
+
+/datum/anvil_recipe/armor/steel/lighthaubergeon
+	name = "Haubergeon, Fencing, Steel (+1 Steel, +1 Besilked Jacket)" //needs cooperation with a tailor to make
+	req_bar = /obj/item/ingot/steel
+	req_blade = /obj/item/blade/steel_plate
+	additional_items = list(/obj/item/ingot/steel, /obj/item/clothing/suit/roguetown/armor/gambeson/lord/heavy/silkjacket) //Quick patchwork to prevent loadouteers from gaming the system.
+	created_item = /obj/item/clothing/suit/roguetown/armor/chainmail/light/fencer
 
 /datum/anvil_recipe/armor/steel/cuirass/legacy
 	name = "Valorian Cuirass, Steel (+1 Steel)"

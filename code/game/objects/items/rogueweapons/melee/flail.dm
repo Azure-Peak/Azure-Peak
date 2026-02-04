@@ -25,6 +25,10 @@
 	grid_height = 96
 	special = /datum/special_intent/flail_sweep
 
+/obj/item/rogueweapon/flail/alt
+	desc = "A studded macehead and wooden handle, linked together with a length of chain. It can be spun around to smash armored opponents with tremendous force, cracking plate and bone alike with unflinching impunity."
+	icon_state = "iflailalt"
+
 /datum/intent/flail/strike
 	name = "strike"
 	blade_class = BCLASS_BLUNT

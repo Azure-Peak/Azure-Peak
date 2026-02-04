@@ -749,9 +749,16 @@ GLOBAL_LIST_EMPTY(loadout_items)
 	path = /obj/item/enchantingkit/eirensabre
 	ckeywhitelist = list("eirenxiv")
 
+/*	Swapped out for _eiren4
 /datum/loadout_item/donator_eiren3
 	name = "Donator Kit - Cinis"
 	path = /obj/item/enchantingkit/eirensabre2
+	ckeywhitelist = list("eirenxiv")
+*/
+
+/datum/loadout_item/donator_eiren4
+	name = "Donator Kit - Darkwood's Embrace"
+	path = /obj/item/clothing/suit/roguetown/armor/longcoat/eiren
 	ckeywhitelist = list("eirenxiv")
 
 /datum/loadout_item/donator_waff
@@ -805,6 +812,11 @@ GLOBAL_LIST_EMPTY(loadout_items)
 /datum/loadout_item/donator_ryan/psy_helm
 	name = "Donator Kit - Unorthodoxist Psydonite Helm"
 	path = /obj/item/enchantingkit/ryan_psyhelm
+
+/datum/loadout_item/donator_koruu/hat
+	name = "Donator Kit - Well-Worn Bamboo Hat"
+	path = /obj/item/clothing/head/roguetown/mentorhat/koruu
+	ckeywhitelist = list("koruu")
 
 //////////////////
 //  TRIUMPHS !  //
@@ -861,7 +873,7 @@ GLOBAL_LIST_EMPTY(loadout_items)
 
 /datum/loadout_item/triumph_messkit
 	name = "Mess Kit (-5 TRI)"
-	path = /datum/component/storage/concrete/roguetown/messkit
+	path = /obj/item/storage/gadget/messkit
 	triumph_cost = 5
 
 /datum/loadout_item/triumph_foldtable

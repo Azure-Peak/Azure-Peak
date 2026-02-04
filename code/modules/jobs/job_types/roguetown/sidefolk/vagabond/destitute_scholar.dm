@@ -6,19 +6,12 @@
 	outfit = /datum/outfit/job/roguetown/vagabond/scholar
 	category_tags = list(CTAG_VAGABOND)
 	traits_applied = list(TRAIT_CICERONE, TRAIT_SEEDKNOW)
-	subclass_stats = list(
-		STATKEY_INT = 2,
-		STATKEY_CON = -1,
-		STATKEY_WIL = -1
-	)
 	subclass_skills = list(
 		/datum/skill/craft/cooking = SKILL_LEVEL_NOVICE,
 		/datum/skill/craft/crafting = SKILL_LEVEL_NOVICE,
-		/datum/skill/craft/alchemy = SKILL_LEVEL_NOVICE,
-		/datum/skill/misc/medicine = SKILL_LEVEL_NOVICE,
-		/datum/skill/misc/reading = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/misc/sneaking = SKILL_LEVEL_JOURNEYMAN,
 	)
+	extra_context = "Contains randomized skills and stats."
 
 /datum/outfit/job/roguetown/vagabond/scholar/pre_equip(mob/living/carbon/human/H)
 	..()
@@ -41,3 +34,8 @@
 
 	if(H.mind)
 		SStreasury.give_money_account(ECONOMIC_DESTITUTE, H, "Savings.")
+		H.adjust_skillrank(/datum/skill/craft/alchemy, rand(1,4), TRUE)
+		H.adjust_skillrank(/datum/skill/misc/medicine, rand(1,4), TRUE)
+		H.adjust_skillrank(/datum/skill/misc/reading, rand(3,6), TRUE)
+		H.STAINT = rand(8, 20)
+		H.STACON = rand(5, 10)

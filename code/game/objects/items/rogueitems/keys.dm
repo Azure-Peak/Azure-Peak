@@ -563,6 +563,12 @@
 	icon_state = "greenkey"
 	lockid = "university"
 
+/obj/item/roguekey/townie_smith_extras
+	name = "town smith key"
+	desc = "The key to the basement and bedroom of the towner smiths house."
+	icon_state = "brownkey"
+	lockid = "townie_smith_extra"
+
 /////////////////
 // INQUISITION //
 /////////////////

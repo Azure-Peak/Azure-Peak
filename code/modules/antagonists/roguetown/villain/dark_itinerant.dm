@@ -44,9 +44,10 @@
 		/obj/item/rogueweapon/scabbard/sheath = 1,
 		/obj/item/rogueweapon/hammer/iron = 1, 
 		/obj/item/rogueweapon/tongs = 1, 
-		/obj/item/storage/belt/rogue/pouch/coins/poor = 1, 
+		/obj/item/storage/belt/rogue/pouch/coins/mid = 1, 
 		/obj/item/repair_kit/metal = 1,
 		/obj/item/repair_kit = 1,
+		/obj/item/reagent_containers/glass/bottle/alchemical/healthpotnew = 1,
 	)
 	if(H.mind)
 		H.adjust_skillrank(/datum/skill/combat/bows, 3, TRUE)
@@ -119,7 +120,8 @@
 	backpack_contents = list(
 		/obj/item/rogueweapon/huntingknife/idagger/steel = 1, 
 		/obj/item/rogueweapon/scabbard/sheath = 1,
-		/obj/item/storage/belt/rogue/pouch/coins/poor = 1,
+		/obj/item/storage/belt/rogue/pouch/coins/mid = 1,
+		/obj/item/reagent_containers/glass/bottle/alchemical/healthpotnew = 2,
 		/obj/item/ritechalk = 1,
 	)
 

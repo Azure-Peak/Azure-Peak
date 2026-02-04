@@ -25,7 +25,7 @@
 
 /mob/proc/adjust_skillrank_down_to(skill, amt, silent = FALSE)
 	return ensure_skills().adjust_skillrank_down_to(skill, amt, silent)
-	
+
 /mob/proc/print_levels()
 	return ensure_skills().print_levels(src)
 
@@ -68,7 +68,7 @@
 
 /datum/skill_holder/proc/set_current(mob/incoming)
 	current = incoming
-	RegisterSignal(incoming, COMSIG_MIND_TRANSFER, PROC_REF(transfer_skills))
+	RegisterSignal(incoming, COMSIG_MIND_TRANSFER, PROC_REF(transfer_skills),override = TRUE)
 	incoming.skills = src
 
 /datum/skill_holder/proc/transfer_skills(mob/source, mob/destination)

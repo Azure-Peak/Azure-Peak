@@ -10,7 +10,7 @@
 	pickprob = 100
 	category_tags = list(CTAG_HFT_RETINUE)
 	class_select_category = CLASS_CAT_HFT_GUARD
-	traits_applied = list(TRAIT_MEDIUMARMOR, TRAIT_STEELHEARTED) // MAA footman W/O Guardsman Trait
+	traits_applied = list(TRAIT_MEDIUMARMOR, TRAIT_STEELHEARTED, TRAIT_HEARTFELT) // MAA footman W/O Guardsman Trait
 	subclass_stats = list( //
 		STATKEY_STR = 2, 
 		STATKEY_INT = 1,
@@ -67,10 +67,13 @@
 			backl = /obj/item/rogueweapon/shield/iron
 		if("Halberd")
 			r_hand = /obj/item/rogueweapon/halberd
+			backl = /obj/item/rogueweapon/scabbard/gwstrap
 		if("Greataxe")
 			r_hand = /obj/item/rogueweapon/greataxe
+			backl = /obj/item/rogueweapon/scabbard/gwstrap
 		else
 			r_hand = /obj/item/rogueweapon/halberd
+			backl = /obj/item/rogueweapon/scabbard/gwstrap
 	backpack_contents = list(
 		/obj/item/rogueweapon/huntingknife/idagger/steel/special = 1,
 		/obj/item/rope/chain = 1,
@@ -80,11 +83,13 @@
 	)
 	H.verbs |= /mob/proc/haltyell
 
-	var/helmet = list("Etruscan Bascinet","Visored Sallet","Slitted Kettle","Simple Helmet","Kettle Helmet","Sallet Helmet","Winged Helmet",)
+	var/helmet = list("Etruscan Bascinet","Volf Plate Helmet","Visored Sallet","Slitted Kettle","Simple Helmet","Kettle Helmet","Sallet Helmet","Winged Helmet",)
 	var/helmet_choice = input("Choose your Helm.", "TAKE UP HELMS") as anything in helmet
 	switch(helmet_choice)
 		if("Etruscan Bascinet")
 			head = /obj/item/clothing/head/roguetown/helmet/bascinet/etruscan
+		if("Volf Plate Helmet") 
+			head = /obj/item/clothing/head/roguetown/helmet/heavy/volfplate
 		if("Visored Sallet")	
 			head = /obj/item/clothing/head/roguetown/helmet/sallet/visored
 		if("Slitted Kettle") 
@@ -110,7 +115,7 @@
 	outfit = /datum/outfit/job/roguetown/heartfelt/retinue/housearb
 	category_tags = list(CTAG_HFT_RETINUE)
 	class_select_category = CLASS_CAT_HFT_GUARD
-	traits_applied = list(TRAIT_MEDIUMARMOR, TRAIT_STEELHEARTED) // Medium Armor Forced - Heavier 'Defensive' Class
+	traits_applied = list(TRAIT_MEDIUMARMOR, TRAIT_STEELHEARTED, TRAIT_HEARTFELT) // Medium Armor Forced - Heavier 'Defensive' Class
 	subclass_stats = list(
 		STATKEY_SPD = 2,
 		STATKEY_PER = 2,
@@ -182,11 +187,13 @@
 	)
 	H.verbs |= /mob/proc/haltyell
 
-	var/helmet = list("Etruscan Bascinet","Visored Sallet","Slitted Kettle","Simple Helmet","Kettle Helmet","Sallet Helmet","Winged Helmet",)
+	var/helmet = list("Etruscan Bascinet","Volf Plate Helmet","Visored Sallet","Slitted Kettle","Simple Helmet","Kettle Helmet","Sallet Helmet","Winged Helmet",)
 	var/helmet_choice = input("Choose your Helm.", "TAKE UP HELMS") as anything in helmet
 	switch(helmet_choice)
 		if("Etruscan Bascinet")
 			head = /obj/item/clothing/head/roguetown/helmet/bascinet/etruscan
+		if("Volf Plate Helmet") 
+			head = /obj/item/clothing/head/roguetown/helmet/heavy/volfplate
 		if("Visored Sallet")	
 			head = /obj/item/clothing/head/roguetown/helmet/sallet/visored
 		if("Slitted Kettle") 
@@ -217,7 +224,7 @@
 	pickprob = 100
 	category_tags = list(CTAG_HFT_RETINUE)
 	class_select_category = CLASS_CAT_HFT_GUARD
-	traits_applied = list(TRAIT_MEDIUMARMOR, TRAIT_SQUIRE_REPAIR, TRAIT_STEELHEARTED)
+	traits_applied = list(TRAIT_MEDIUMARMOR, TRAIT_SQUIRE_REPAIR, TRAIT_STEELHEARTED, TRAIT_HEARTFELT)
 	subclass_stats = list( // Made 9 points due to lack of Guardsman Trait
 		STATKEY_STR = 1, 
 		STATKEY_INT = 1,
@@ -232,6 +239,7 @@
 		/datum/skill/combat/swords = SKILL_LEVEL_JOURNEYMAN,		
 		/datum/skill/combat/polearms = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/combat/maces = SKILL_LEVEL_JOURNEYMAN,
+		/datum/skill/combat/shields = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/combat/knives = SKILL_LEVEL_JOURNEYMAN,		
 		/datum/skill/combat/crossbows = SKILL_LEVEL_EXPERT,		//Only effects draw and reload time.
 		/datum/skill/combat/bows = SKILL_LEVEL_EXPERT,			//Only effects draw times.
@@ -255,7 +263,7 @@
 	shoes = /obj/item/clothing/shoes/roguetown/boots/leather/reinforced
 	belt = /obj/item/storage/belt/rogue/leather
 	beltl = /obj/item/flashlight/flare/torch/lantern
-	cloak = /obj/item/clothing/cloak/tabard/knight/guard
+	cloak = /obj/item/clothing/cloak/tabard
 	neck = /obj/item/clothing/neck/roguetown/chaincoif
 	backr = /obj/item/storage/backpack/rogue/satchel
 	backpack_contents = list(
@@ -280,6 +288,7 @@
 			backl = /obj/item/rogueweapon/shield/iron
 		if("Spear")
 			r_hand = /obj/item/rogueweapon/spear
+			backl = /obj/item/rogueweapon/scabbard/gwstrap
 		if("Crossbow")
 			beltr = /obj/item/quiver/bolts
 			backl = /obj/item/gun/ballistic/revolver/grenadelauncher/crossbow
@@ -290,11 +299,13 @@
 			beltr = /obj/item/rogueweapon/sword
 			backl = /obj/item/rogueweapon/shield/iron
 
-	var/helmet = list("Etruscan Bascinet","Visored Sallet","Slitted Kettle","Simple Helmet","Kettle Helmet","Sallet Helmet","Winged Helmet",)
+	var/helmet = list("Etruscan Bascinet","Volf Plate Helmet","Visored Sallet","Slitted Kettle","Simple Helmet","Kettle Helmet","Sallet Helmet","Winged Helmet",)
 	var/helmet_choice = input("Choose your Helm.", "TAKE UP HELMS") as anything in helmet
 	switch(helmet_choice)
 		if("Etruscan Bascinet")
 			head = /obj/item/clothing/head/roguetown/helmet/bascinet/etruscan
+		if("Volf Plate Helmet") 
+			head = /obj/item/clothing/head/roguetown/helmet/heavy/volfplate
 		if("Visored Sallet")	
 			head = /obj/item/clothing/head/roguetown/helmet/sallet/visored
 		if("Slitted Kettle") 

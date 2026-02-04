@@ -41,7 +41,8 @@ GLOBAL_LIST_INIT(stress_messages, world.file2list("strings/rt/stress_messages.tx
 		if(!event.can_apply(src))
 			return
 
-		if(event.stressadd >= 2 && mind && !stressors[event_type])
+		// If the event is sufficiently severe, show regardless of the message toggle!
+		if(((event.stressadd >= 2 || -2) || src.client?.prefs.chat_toggles & CHAT_MOODMESSAGES) && mind && !stressors[event_type])
 			var/text = ((islist(event.desc)) ? (pick(event.desc)) : (event.desc))
 			to_chat(src, text)
 

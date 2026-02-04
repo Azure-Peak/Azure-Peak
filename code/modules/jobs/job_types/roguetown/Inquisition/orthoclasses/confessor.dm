@@ -43,7 +43,7 @@
 /datum/outfit/job/roguetown/confessor/pre_equip(mob/living/carbon/human/H, visualsOnly)
 	..()
 	if(H.mind)
-		var/weapons = list("Blessed Psydonic Dagger", "Psydonic Handmace", "Psydonic Shortsword")
+		var/weapons = list("Blessed Psydonic Dagger", "Psydonic Handmace", "Psydonic Rapier")
 		var/weapon_choice = input(H,"Choose your WEAPON.", "TAKE UP PSYDON'S ARMS.") as anything in weapons
 		switch(weapon_choice)
 			if("Blessed Psydonic Dagger")
@@ -53,8 +53,8 @@
 			if("Psydonic Handmace")
 				l_hand = /obj/item/rogueweapon/mace/cudgel/psy
 				H.adjust_skillrank_up_to(/datum/skill/combat/maces, 4, TRUE)	
-			if("Psydonic Shortsword")
-				l_hand = /obj/item/rogueweapon/sword/short/psy
+			if("Psydonic Rapier")
+				l_hand = /obj/item/rogueweapon/sword/rapier/psy
 				r_hand = /obj/item/rogueweapon/scabbard/sword
 				H.adjust_skillrank_up_to(/datum/skill/combat/swords, 4, TRUE)
 		var/armors = list("Confessor - Slurbow, Leather Maillecoat", "Arbalist - Crossbow, Psydonic Chestplate")

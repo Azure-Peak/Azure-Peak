@@ -174,6 +174,7 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	S["widescreenpref"]	    >> widescreenpref
 	S["menuoptions"]		>> menuoptions
 	S["enable_tips"]		>> enable_tips
+	S["attack_blip_frequency"] >> attack_blip_frequency
 	S["tip_delay"]			>> tip_delay
 	S["pda_style"]			>> pda_style
 	S["pda_color"]			>> pda_color
@@ -210,6 +211,7 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	parallax		= sanitize_integer(parallax, PARALLAX_INSANE, PARALLAX_DISABLE, null)
 	ambientocclusion	= sanitize_integer(ambientocclusion, 0, 1, initial(ambientocclusion))
 	auto_fit_viewport	= sanitize_integer(auto_fit_viewport, 0, 1, initial(auto_fit_viewport))
+	attack_blip_frequency = sanitize_integer(attack_blip_frequency, 0, 100, ATTACK_BLIP_PREF_DEFAULT)
 	widescreenpref  = sanitize_integer(widescreenpref, 0, 1, initial(widescreenpref))
 	ghost_form		= sanitize_inlist(ghost_form, GLOB.ghost_forms, initial(ghost_form))
 	ghost_orbit 	= sanitize_inlist(ghost_orbit, GLOB.ghost_orbits, initial(ghost_orbit))
@@ -599,6 +601,13 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	if(needs_update >= 0)
 		update_character(needs_update, S)		//needs_update == savefile_version if we need an update (positive integer)
 
+	// Regenerate cache for flavor texts etc. Must be UNCONDITIONAL because prefs is on client.
+	// We use empty string if they are empty, so the previous slot's data don't get kept in the cache.
+	flavortext_cached = flavortext ? parsemarkdown_basic(html_encode(flavortext), hyperlink = TRUE) : ""
+	ooc_notes_cached = ooc_notes ? parsemarkdown_basic(html_encode(ooc_notes), hyperlink = TRUE) : ""
+	nsfwflavortext_cached = nsfwflavortext ? parsemarkdown_basic(html_encode(nsfwflavortext), hyperlink = TRUE) : ""
+	erpprefs_cached = erpprefs ? parsemarkdown_basic(html_encode(erpprefs), hyperlink = TRUE) : ""
+
 	//Sanitize
 
 	real_name = reject_bad_name(real_name)
@@ -764,6 +773,7 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	WRITE_FILE(S["ooc_extra"] ,	ooc_extra)
 	WRITE_FILE(S["rumour"] , html_decode(rumour))
 	WRITE_FILE(S["noble_gossip"] , html_decode(noble_gossip))
+	WRITE_FILE(S["attack_blip_frequency"] , attack_blip_frequency)
 	WRITE_FILE(S["averse_chosen_faction"] , html_decode(averse_chosen_faction))
 	WRITE_FILE(S["song_artist"] , song_artist)
 	WRITE_FILE(S["song_title"] , song_title)

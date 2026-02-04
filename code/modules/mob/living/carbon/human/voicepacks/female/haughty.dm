@@ -15,7 +15,7 @@
 		if("chuckle")
 			used = list('sound/vo/female/haughty/chuckle (1).ogg', 'sound/vo/female/haughty/chuckle (2).ogg')
 		if("laugh")
-			used = list('sound/vo/female/haughty/laugh (1).ogg', 'sound/vo/female/haughty/laugh (2).ogg', 'sound/vo/female/haughty/laugh (3).ogg', 'sound/vo/female/old/noble/laugh (1).ogg', 'sound/vo/female/old/noble/laugh (2).ogg', 'sound/vo/female/old/noble/laugh (3).ogg')
+			used = list('sound/vo/female/haughty/laugh (4).ogg', 'sound/vo/female/haughty/laugh (2).ogg', 'sound/vo/female/haughty/laugh (3).ogg', 'sound/vo/female/old/noble/laugh (1).ogg', 'sound/vo/female/old/noble/laugh (2).ogg', 'sound/vo/female/old/noble/laugh (3).ogg')
 		if("painscream")
 			used = list('sound/vo/female/haughty/painscream (1).ogg', 'sound/vo/female/haughty/painscream (2).ogg')
 		if("painmoan")

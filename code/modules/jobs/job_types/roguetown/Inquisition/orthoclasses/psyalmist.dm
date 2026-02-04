@@ -77,14 +77,14 @@
 			if("Flute")
 				backr = /obj/item/rogue/instrument/flute
 
-	var/weapons = list("Psydonic Whip", "Psydonic Rapier")
+	var/weapons = list("Psydonic Whip", "Psydonic Shortsword")
 	var/weapon_choice = tgui_input_list(H,"Choose your WEAPON.", "TAKE UP PSYDON'S ARMS.", weapons)
 	switch(weapon_choice)
 		if("Psydonic Whip")
 			H.put_in_hands(new /obj/item/rogueweapon/whip/psywhip_lesser(H))
 			H.adjust_skillrank_up_to(/datum/skill/combat/whipsflails, 4, TRUE)
-		if("Psydonic Rapier")
-			H.put_in_hands(new /obj/item/rogueweapon/sword/rapier/psy(H))
+		if("Psydonic Shortsword")
+			H.put_in_hands(new /obj/item/rogueweapon/sword/short/psy(H))
 			H.put_in_hands(new /obj/item/rogueweapon/scabbard/sword(H))
 			H.adjust_skillrank_up_to(/datum/skill/combat/swords, 4, TRUE)
 

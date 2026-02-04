@@ -216,7 +216,7 @@
 
 /obj/item/ingot/bronze
 	name = "bronze bar"
-	desc = "An alloy of tin and copper, humming with yet-untapped potential. The fondest friend of tinkerers, engineers, and primitives alike."
+	desc = "An alloy of tin and copper, humming with yet-untapped potential. The fondest friend of legionnaires, tinkerers, and homesteaders alike."
 	icon_state = "ingotbronze"
 	smeltresult = /obj/item/ingot/bronze
 	sellprice = 25

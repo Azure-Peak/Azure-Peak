@@ -202,12 +202,16 @@ GLOBAL_LIST_EMPTY(chosen_names)
 	var/loadout_3_hex
 
 	var/flavortext
+	var/flavortext_cached
 
 	var/ooc_notes
+	var/ooc_notes_cached
 
 	var/nsfwflavortext
+	var/nsfwflavortext_cached
 
 	var/erpprefs
+	var/erpprefs_cached
 
 	var/list/img_gallery = list()
 
@@ -238,6 +242,10 @@ GLOBAL_LIST_EMPTY(chosen_names)
 	var/averse_chosen_faction = "Inquisition"
 
 	var/datum/voicepack/temp_vp
+
+	var/mood_messages_in_chat
+
+	var/attack_blip_frequency = ATTACK_BLIP_PREF_DEFAULT
 
 /datum/preferences/New(client/C)
 	parent = C
@@ -523,14 +531,6 @@ GLOBAL_LIST_EMPTY(chosen_names)
 			// Middle dummy Column, 20% width
 			dat += "</td>"
 			dat += "<td width=20% valign='top'>"
-			var/datum/job/highest_pref
-			for(var/job in job_preferences)
-				if(job_preferences[job] > highest_pref)
-					highest_pref = SSjob.GetJob(job)
-			if(!isnull(highest_pref) && !istype(highest_pref, /datum/job/roguetown/jester))
-				dat += "<div style='text-align: center'><br>Subclass Preview:<br> <a href='?_src_=prefs;preference=subclassoutfit;task=input'>[preview_subclass ? "[preview_subclass.name]" : "None"]</a></div>"
-			else
-				preview_subclass = null
 			// Rightmost column, 40% width
 			dat += "<td width=40% valign='top'>"
 			dat += "<h2>Body</h2>"
@@ -1736,8 +1736,9 @@ Slots: [job.spawn_positions] [job.round_contrib_points ? "RCP: +[job.round_contr
 						var/datum/voicepack/VP = GLOB.voice_packs_list[voice_pack]
 						if(!istype(temp_vp, VP))
 							temp_vp = new VP()
-						var/voiceline = temp_vp.get_sound(pick(temp_vp.preview))
-						user.playsound_local(user, voiceline, 100)
+						var/sound/voiceline = sound(temp_vp.get_sound(pick(temp_vp.preview)))
+						voiceline.frequency = voice_pitch
+						user.playsound_local(user, vol = 100, S = voiceline)
 
 				if("taur_type")
 					var/list/species_taur_list = pref_species.get_taur_list()
@@ -1956,6 +1957,7 @@ Slots: [job.spawn_positions] [job.round_contrib_points ? "RCP: +[job.round_contr
 						ShowChoices(user)
 						return
 					flavortext = new_flavortext
+					flavortext_cached = parsemarkdown_basic(html_encode(flavortext), hyperlink = TRUE)
 					to_chat(user, "<span class='notice'>Successfully updated flavortext</span>")
 					log_game("[user] has set their flavortext'.")
 				if("ooc_notes")
@@ -1968,6 +1970,7 @@ Slots: [job.spawn_positions] [job.round_contrib_points ? "RCP: +[job.round_contr
 						ShowChoices(user)
 						return
 					ooc_notes = new_ooc_notes
+					ooc_notes_cached = parsemarkdown_basic(html_encode(ooc_notes), hyperlink = TRUE)
 					to_chat(user, "<span class='notice'>Successfully updated OOC notes.</span>")
 					log_game("[user] has set their OOC notes'.")
 
@@ -2018,6 +2021,7 @@ Slots: [job.spawn_positions] [job.round_contrib_points ? "RCP: +[job.round_contr
 						ShowChoices(user)
 						return
 					nsfwflavortext = new_nsfwflavortext
+					nsfwflavortext_cached = parsemarkdown_basic(html_encode(nsfwflavortext), hyperlink = TRUE)
 					to_chat(user, "<span class='notice'>Successfully updated NSFW flavortext</span>")
 					log_game("[user] has set their NSFW flavortext'.")
 				if("erpprefs")
@@ -2033,6 +2037,7 @@ Slots: [job.spawn_positions] [job.round_contrib_points ? "RCP: +[job.round_contr
 						ShowChoices(user)
 						return
 					erpprefs = new_erpprefs
+					erpprefs_cached = parsemarkdown_basic(html_encode(erpprefs), hyperlink = TRUE)
 					to_chat(user, "<span class='notice'>Successfully updated ERP Preferences.</span>")
 					log_game("[user] has set their ERP preferences'.")
 
@@ -2917,12 +2922,15 @@ Slots: [job.spawn_positions] [job.round_contrib_points ? "RCP: +[job.round_contr
 	character.statpack = statpack
 
 	character.flavortext = flavortext
-
 	character.ooc_notes = ooc_notes
-
 	character.nsfwflavortext = nsfwflavortext
-
 	character.erpprefs = erpprefs
+	
+	// Copy the cached version
+	character.flavortext_cached = flavortext_cached
+	character.ooc_notes_cached = ooc_notes_cached
+	character.nsfwflavortext_cached = nsfwflavortext_cached
+	character.erpprefs_cached = erpprefs_cached
 
 	character.img_gallery = img_gallery
 
@@ -2961,6 +2969,8 @@ Slots: [job.spawn_positions] [job.round_contrib_points ? "RCP: +[job.round_contr
 		character.update_body_parts(redraw = TRUE)
 
 	character.char_accent = char_accent
+
+	apply_customizers_to_character(character)
 
 	if(culinary_preferences)
 		apply_culinary_preferences(character)

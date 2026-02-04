@@ -1050,7 +1050,7 @@ GLOBAL_LIST_EMPTY(friendly_animal_types)
 				new_item.flags_inv = item.flags_inv
 				new_item.body_parts_covered = item.body_parts_covered
 				new_item.color = item.color
-				body.equip_to_slot_if_possible(new_item, slot)
+				body.equip_to_slot_if_possible(new_item, slot, bypass_equip_delay_self = TRUE)
 
 			if(copy_appearance)
 				human_gear_override.dna.transfer_identity(body)

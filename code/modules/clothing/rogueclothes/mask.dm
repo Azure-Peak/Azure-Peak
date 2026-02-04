@@ -443,7 +443,8 @@
 			var/additional_time = bounty_amount * 0.1 // 10 mammon = 1 minute
 			additional_time = round(additional_time)
 			timer += additional_time MINUTES
-
+			timer = clamp(timer, 0 MINUTES, 20 MINUTES)
+	
 		var/timer_minutes = timer / 600
 
 		addtimer(CALLBACK(src, PROC_REF(timerup), user), timer)

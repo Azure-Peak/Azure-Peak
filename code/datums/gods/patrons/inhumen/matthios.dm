@@ -14,6 +14,7 @@
 					/obj/effect/proc_holder/spell/invoked/blood_heal					= CLERIC_T1,
 					/obj/effect/proc_holder/spell/invoked/equalize						= CLERIC_T2,
 					/obj/effect/proc_holder/spell/invoked/churnwealthy					= CLERIC_T3,
+					/obj/effect/proc_holder/spell/invoked/resurrect/matthios			= CLERIC_T3, // Counterpart to anastasis
 	)
 	confess_lines = list(
 		"MATTHIOS STEALS FROM THE WORTHLESS!",
