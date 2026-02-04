@@ -204,7 +204,6 @@
 	beltr = /obj/item/rogueweapon/scabbard/sheath/courtphysician/hand
 	beltl = /obj/item/rogueweapon/huntingknife/idagger/dtace
 	head = /obj/item/clothing/head/roguetown/chaperon/noble/hand
-	armor = /obj/item/clothing/suit/roguetown/armor/leather/vest/hand
 	pants = /obj/item/clothing/under/roguetown/tights/black
 
 //Advisor start. Trades combat skills for more knowledge and skills - for older hands, hands that don't do combat - people who wanna play wizened old advisors.
