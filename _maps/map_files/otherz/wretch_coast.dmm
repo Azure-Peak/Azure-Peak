@@ -4320,6 +4320,10 @@
 /obj/structure/flora/roguetree,
 /turf/open/floor/rogue/dirt,
 /area/rogue/outdoors/mountains)
+"xG" = (
+/obj/structure/far_travel,
+/turf/open/floor/rogue/naturalstone,
+/area/rogue/under/cave/inhumen)
 "xH" = (
 /obj/structure/fluff/railing/border,
 /turf/open/floor/rogue/grasscold,
@@ -29189,9 +29193,9 @@ IL
 IL
 IL
 IL
-IL
-IL
-IL
+xG
+xG
+xG
 IL
 IL
 Xm
