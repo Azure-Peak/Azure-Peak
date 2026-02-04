@@ -4361,10 +4361,6 @@
 /obj/machinery/light/rogue/candle/r,
 /turf/open/floor/rogue/blocks,
 /area/rogue/indoors/vampire_manor)
-"xS" = (
-/obj/structure/far_travel,
-/turf/open/floor/rogue/grass,
-/area/rogue/outdoors/woods/vampire_lair)
 "xU" = (
 /obj/structure/fluff/railing/border/north,
 /obj/effect/decal/cobble/mossy{
@@ -6579,7 +6575,7 @@
 /area/rogue/indoors/vampire_manor)
 "KD" = (
 /obj/structure/far_travel,
-/turf/open/floor/rogue/dirt/ambush,
+/turf/open/floor/rogue/dirt/road,
 /area/rogue/outdoors/woods/vampire_lair)
 "KE" = (
 /obj/structure/fluff/railing/corner/north_east,
@@ -41231,7 +41227,7 @@ DB
 DB
 fI
 fI
-xS
+KD
 St
 "}
 (115,1,2) = {"
@@ -41361,7 +41357,7 @@ DB
 DB
 DB
 fI
-xS
+KD
 St
 "}
 (116,1,2) = {"
