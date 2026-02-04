@@ -4373,6 +4373,11 @@
 /obj/structure/closet/crate/chest,
 /turf/open/floor/rogue/cobble,
 /area/rogue/under/cave/inhumen)
+"xZ" = (
+/turf/closed/wall/mineral/rogue/decostone/mossy/long{
+	dir = 1
+	},
+/area/rogue/under/cave/inhumen)
 "yb" = (
 /obj/structure/fluff/railing/wood/east,
 /turf/open/floor/rogue/grasscold,
@@ -5063,6 +5068,9 @@
 /obj/effect/decal/cleanable/dirt/cobweb/cobweb2,
 /turf/open/floor/rogue/tile/bfloorz,
 /area/rogue/indoors/vampire_manor)
+"BB" = (
+/turf/closed/wall/mineral/rogue/decostone/mossy/long,
+/area/rogue/under/cave/inhumen)
 "BC" = (
 /turf/open/floor/rogue/naturalstone,
 /area/rogue/outdoors/woods)
@@ -7368,6 +7376,9 @@
 /obj/structure/flora/roguegrass/herb/random,
 /turf/open/floor/rogue/grasscold,
 /area/rogue/outdoors/woods/vampire_lair)
+"OX" = (
+/turf/closed/wall/mineral/rogue/decostone/mossy/cand,
+/area/rogue/under/cave/inhumen)
 "Pc" = (
 /obj/structure/fluff/railing/wood,
 /turf/open/floor/rogue/twig,
@@ -8771,6 +8782,9 @@
 /obj/effect/decal/cleanable/roguerune/god/baotha,
 /turf/open/floor/rogue/naturalstone,
 /area/rogue/under/cave/inhumen)
+"Xz" = (
+/turf/closed/wall/mineral/rogue/decostone/mossy,
+/area/rogue/under/cave/inhumen)
 "XB" = (
 /obj/structure/fluff/railing/corner/north_east,
 /turf/open/floor/rogue/dirt/road,
@@ -9301,8 +9315,8 @@ IL
 IL
 IL
 Ic
-WT
-WT
+mG
+mG
 WT
 WT
 WT
@@ -9693,7 +9707,7 @@ Ic
 bK
 bK
 bK
-Ic
+lB
 jN
 Ic
 HE
@@ -9822,8 +9836,8 @@ bK
 HE
 oe
 qh
-Ic
-nv
+lB
+jh
 bM
 cW
 bK
@@ -9952,7 +9966,7 @@ bK
 Ic
 tD
 Mn
-vG
+ZK
 dj
 dj
 dj
@@ -10216,7 +10230,7 @@ vG
 eh
 dj
 BK
-vG
+ZK
 IL
 IL
 HO
@@ -10342,11 +10356,11 @@ WT
 Ic
 IL
 IL
-vG
-WT
-WT
-WT
 Ic
+mG
+mG
+mG
+lB
 IL
 gc
 xB
@@ -10605,8 +10619,8 @@ IL
 IL
 IL
 IL
-Ic
-Ic
+lB
+jh
 bh
 qW
 JQ
@@ -10865,8 +10879,8 @@ IL
 IL
 IL
 IL
-Ic
-Ic
+lB
+jh
 Vc
 qW
 Qa
@@ -11126,7 +11140,7 @@ IL
 IL
 IL
 IL
-Ic
+lB
 oX
 KV
 qW
@@ -26470,11 +26484,11 @@ WT
 WT
 WT
 WT
-Ic
-WT
-WT
-WT
-WT
+lB
+mG
+mG
+mG
+mG
 WT
 Ic
 IL
@@ -26600,7 +26614,7 @@ SU
 wF
 RI
 Jy
-vG
+ZK
 bK
 BJ
 fq
@@ -26730,9 +26744,9 @@ Me
 Me
 Cu
 Sb
-vG
+ZK
 Dr
-vG
+ZK
 bt
 UU
 fV
@@ -26860,9 +26874,9 @@ iY
 iY
 iY
 pJ
-vG
+ZK
 bK
-Ic
+lB
 WT
 WT
 WT
@@ -27370,7 +27384,7 @@ IL
 IL
 IL
 IL
-vG
+ZK
 bK
 bK
 vG
@@ -27500,7 +27514,7 @@ IL
 IL
 Fw
 lE
-Ic
+lB
 WT
 zd
 Ic
@@ -27630,7 +27644,7 @@ IL
 Ev
 rg
 Ev
-vG
+ZK
 NB
 bK
 Zg
@@ -27760,8 +27774,8 @@ xC
 Ev
 Ev
 Ev
-Ic
-nv
+lB
+jh
 ni
 bK
 bK
@@ -27891,9 +27905,9 @@ Ev
 Ev
 Ev
 Ev
-Ic
-WT
-WT
+lB
+mG
+mG
 jN
 WT
 WT
@@ -28556,7 +28570,7 @@ fB
 fq
 kb
 Ua
-vG
+xZ
 Xm
 IL
 UM
@@ -28685,8 +28699,8 @@ NB
 vG
 qO
 qP
-nv
-Ic
+OX
+Xz
 Xm
 Xm
 UM
@@ -28815,7 +28829,7 @@ WT
 Ic
 WT
 WT
-Ic
+Xz
 wC
 wC
 Xm
@@ -44791,7 +44805,7 @@ IL
 ap
 ap
 ap
-vG
+xZ
 Pv
 Aw
 Pv
@@ -44921,8 +44935,8 @@ ap
 ap
 ap
 ap
-Ic
-nv
+Xz
+OX
 kI
 Pv
 kI
@@ -45052,9 +45066,9 @@ ap
 ap
 ap
 ap
-Ic
-WT
-WT
+Xz
+BB
+BB
 WT
 Ic
 WT
@@ -45320,7 +45334,7 @@ qW
 qW
 qW
 FP
-Ic
+lB
 Xk
 mM
 Ti
@@ -45450,7 +45464,7 @@ qW
 qW
 pW
 qW
-vG
+ZK
 mM
 mM
 vG
@@ -45580,14 +45594,14 @@ gl
 IR
 IR
 IR
-vG
+ZK
 dm
 dm
 Ic
 WT
 WT
 WT
-Ic
+Xz
 ap
 IL
 UM
@@ -45710,14 +45724,14 @@ JD
 JD
 JD
 JD
-vG
+ZK
 LW
 dm
 de
 IN
 Zl
 KU
-vG
+xZ
 ap
 IL
 UM
@@ -45840,14 +45854,14 @@ ap
 ap
 ap
 ap
-Ic
-nv
+lB
+jh
 TH
 vG
 xD
 YY
-nv
-Ic
+OX
+Xz
 ap
 ap
 UM
@@ -45971,12 +45985,12 @@ ap
 ap
 ap
 ap
-Ic
+lB
+mG
+lB
 WT
-Ic
 WT
-WT
-Ic
+Xz
 ap
 ap
 ap
