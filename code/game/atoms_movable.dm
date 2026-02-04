@@ -400,6 +400,8 @@
 	if(.)
 		Moved(oldloc, direct)
 	if(. && pulled && pulledby == pulled && pulled.cmode && pulled.grab_state < GRAB_AGGRESSIVE) //NICHE case of being in a first tier grab state.
+		if(!pulledby || QDELETED(pulledby))
+			return
 		if(pulledby.anchored)
 			pulledby.stop_pulling()
 		else
@@ -410,6 +412,8 @@
 				pulledby.Move(T, get_dir(pulledby, T), glide_size) //the pullee tries to reach our previous position
 				pulledby.moving_from_pull = null
 	if(. && pulling && pulling == pullee && pulling != moving_from_pull) //we were pulling a thing and didn't lose it during our move.
+		if(!pulling || QDELETED(pulling))
+			return
 		if(pulling.anchored)
 			stop_pulling()
 		else
@@ -516,6 +520,9 @@
 	A.Bumped(src)
 
 /atom/movable/proc/forceMove(atom/destination)
+	if(!destination || QDELETED(src))
+		CRASH("[src] No valid destination passed into forceMove")
+
 	var/mob/living/carbon/human/H = null
 	if(ishuman(src.loc))
 		H = src.loc

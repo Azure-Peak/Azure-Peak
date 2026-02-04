@@ -105,6 +105,9 @@
 	color = pick("#6b5445", "#435436", "#704542", "#79763f")
 	..()
 
+/obj/item/clothing/suit/roguetown/shirt/undershirt/green
+	color = CLOTHING_GREEN
+
 /obj/item/clothing/suit/roguetown/shirt/undershirt/puritan
 	name = "formal silks"
 	slot_flags = ITEM_SLOT_SHIRT|ITEM_SLOT_ARMOR
@@ -667,7 +670,6 @@
 	r_sleeve_status = SLEEVE_NORMAL
 	l_sleeve_status = SLEEVE_NORMAL
 	flags_inv = HIDECROTCH|HIDEBOOB
-	allowed_race = NON_DWARVEN_RACE_TYPES
 
 /obj/item/clothing/suit/roguetown/shirt/undershirt/eastshirt2
 	slot_flags = ITEM_SLOT_SHIRT|ITEM_SLOT_ARMOR
@@ -682,7 +684,6 @@
 	r_sleeve_status = SLEEVE_NORMAL
 	l_sleeve_status = SLEEVE_NORMAL
 	flags_inv = HIDECROTCH|HIDEBOOB
-	allowed_race = NON_DWARVEN_RACE_TYPES
 
 //tattoo code
 /obj/item/clothing/suit/roguetown/armor/regenerating/easttats

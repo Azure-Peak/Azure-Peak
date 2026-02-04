@@ -96,6 +96,7 @@
 #define STATS_LITERACY_TAUGHT "literacy_taught"
 #define STATS_BOOKS_BURNED "books_burned"
 #define STATS_SKILLS_DREAMED "skills_dreamed"
+#define STATS_VOYEURS "voyeurs"
 
 //Necra
 #define STATS_SKELETONS_KILLED "skeletons_killed"
@@ -121,6 +122,7 @@
 #define STATS_PARRIES "parries"
 #define STATS_WARCRIES "warcries"
 #define STATS_YIELDS "yields"
+#define STATS_THRILLSEEKERS "thrillseekers"
 
 //Xylix
 #define STATS_LAUGHS_MADE "laughs_made"
@@ -144,15 +146,17 @@
 
 //Eora
 #define STATS_KISSES_MADE "kisses_made"
-#define STATS_PLEASURES "pleasures"
 #define STATS_HUGS_MADE "hugs_made"
 #define STATS_CLINGY_PEOPLE "clingy_people"
+#define STATS_BEAUTIFUL_PEOPLE "beautiful_people"
+#define STATS_MARRIAGES_MADE "marriages_done"
 
 //Zizo
 #define STATS_ZIZO_PRAISED "zizo_praised"
 #define STATS_DEADITES_WOKEN_UP "deadites_woken_up"
 #define STATS_CLERGY_DEATHS "priest_deaths"
 #define STATS_TORTURES "tortures"
+#define STATS_SADISTS "sadists"
 
 //Graggar
 #define STATS_BLOOD_SPILT "blood_spilt"
@@ -164,8 +168,10 @@
 //Baotha
 #define STATS_DRUGS_SNORTED "drugs_snorted"
 #define STATS_ALCOHOL_CONSUMED "alcohol_consumed"
+#define STATS_PLEASURES "pleasures"
 #define STATS_ALCOHOLICS "alcoholics"
 #define STATS_JUNKIES "junkies"
+#define STATS_NYMPHOMANIACS "nymphomaniacs"
 
 //Matthios
 #define STATS_ITEMS_PICKPOCKETED "items_pickpocketed"
@@ -173,7 +179,7 @@
 #define STATS_GREEDY_PEOPLE "tomb_deaths"
 #define STATS_LOCKS_PICKED "locks_picked"
 #define STATS_BANDITS "bandits"
-#define STATS_KLEPTOMANIACS "kleptomaniacs"
+#define STATS_INDEBTED "indebt_people"
 
 GLOBAL_LIST_INIT(azure_round_stats, list(
 	STATS_DEATHS = 0,
@@ -213,7 +219,7 @@ GLOBAL_LIST_INIT(azure_round_stats, list(
 	STATS_ROT_CURED = 0,
 	STATS_WEREVOLVES = 0,
 	STATS_BANDITS = 0,
-	STATS_KLEPTOMANIACS = 0,
+	STATS_INDEBTED = 0,
 	STATS_FOREST_DEATHS = 0,
 	STATS_COMBAT_SKILLS = 0,
 	STATS_PARRIES = 0,
@@ -227,13 +233,18 @@ GLOBAL_LIST_INIT(azure_round_stats, list(
 	STATS_LEECHES_EMBEDDED = 0,
 	STATS_HUGS_MADE = 0,
 	STATS_CLINGY_PEOPLE = 0,
+	STATS_BEAUTIFUL_PEOPLE = 0,
+	STATS_MARRIAGES_MADE = 0,
 	STATS_DEADITES_ALIVE = 0,
 	STATS_CLERGY_DEATHS = 0,
 	STATS_ALCOHOL_CONSUMED = 0,
 	STATS_ALCOHOLICS = 0,
 	STATS_JUNKIES = 0,
+	STATS_NYMPHOMANIACS = 0,
 	STATS_SHRINE_VALUE = 0,
 	STATS_GREEDY_PEOPLE = 0,
+	STATS_THRILLSEEKERS = 0,
+	STATS_VOYEURS = 0,
 	STATS_ALIVE_NORTHERN_HUMANS = 0,
 	STATS_ALIVE_DWARVES = 0,
 	STATS_ALIVE_DARK_ELVES = 0,

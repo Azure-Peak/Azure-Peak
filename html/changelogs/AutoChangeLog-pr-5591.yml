@@ -1,0 +1,8 @@
+author: "Ollanius"
+delete-after: True
+changes:
+  - balance: "The Unarmed Discipline for Templar!Monks now gives Master Athletics, instead of nothing at all."
+  - rscadd: "Templar!Monks, like their adventuring counterparts, now properly spawn with patron-specific robes and tabards."
+  - bugfix: "Templar!Monks no longer spawn without their specialized gloves."
+  - code_imp: "Note - this fix is mostly a bandaid, as I couldn't find any other way to restore the glove-giving component without potentially rewriting the Templar!Monk's loadout code. If you pick 'Unarmed Discipline', it'll give you the better gloves as an item."
+  - code_imp: "For Templar!Monks, the Ravox-specific buff has been changed to use 'H.adjust_skillrank_up_to'. Everything'll still work exactly the same as before, but it'll prevent someone from potentially getting Legendary Athletics. Do we want that for later? Maybe."

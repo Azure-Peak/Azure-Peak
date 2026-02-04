@@ -22,7 +22,7 @@
 	)
 
 /datum/outfit/job/roguetown/mercenary/gronn
-	allowed_patrons = ALL_INHUMEN_PATRONS
+	allowed_patrons = ALL_GRONNIC_PATRONS //Subvariant of the 'ALL_INHUMEN_PATRONS' tag, with Abyssor and Dendor as situational additions. Do not add any more to this, no matter what.
 
 /datum/outfit/job/roguetown/mercenary/gronn/pre_equip(mob/living/carbon/human/H)
 	..()
@@ -37,6 +37,22 @@
 		/obj/item/rogueweapon/huntingknife = 1,
 		/obj/item/rogueweapon/scabbard/sheath = 1
 		)
+
+	switch(H.patron?.type)
+		if(/datum/patron/inhumen/zizo)
+			id = /obj/item/clothing/neck/roguetown/psicross/inhumen/gronn
+		if(/datum/patron/inhumen/graggar)
+			id = /obj/item/clothing/neck/roguetown/psicross/inhumen/graggar/gronn
+		if(/datum/patron/inhumen/matthios)
+			id = /obj/item/clothing/neck/roguetown/psicross/inhumen/matthios/gronn
+		if(/datum/patron/inhumen/baotha)
+			id = /obj/item/clothing/neck/roguetown/psicross/inhumen/baothagronn
+		if(/datum/patron/divine/abyssor)
+			id = /obj/item/clothing/neck/roguetown/psicross/abyssor/gronn
+		if(/datum/patron/divine/dendor)
+			id = /obj/item/clothing/neck/roguetown/psicross/dendor/gronn
+		else
+			id = /obj/item/clothing/neck/roguetown/psicross/inhumen/gronn/special //Failsafe. Gives a specially-fluffed version of Zizo's talisman, which can be reinterpreted as needed.
 
 	// CLASS ARCHETYPES
 	H.adjust_blindness(-3)

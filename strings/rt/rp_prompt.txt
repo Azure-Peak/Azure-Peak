@@ -439,13 +439,34 @@ Their proximity to the Terrorbog, however, means that they're also oft-beleaguer
 	</details>
 
 	<details>
+		<summary><strong> HEARTFELT </strong></summary>
+		<br>
+		<em>The Branchbearer, Kingdom of the Borderland</em>
+		<br><br>
+		A greater kingdom of mild renown, Heartfelt sits upon the Borderland - a remarkably temperate mesa that is equally distant from Azuria, Rockhill, Lyndvhar, and the Vale. Such makes it the ideal destination for the intermingling, banqueting, and negotiating of noblemen all across the inner contient.
+<br><br>
+Trouble has recently tickled its underbelly, however, with the steadying presence of misfortune and malice. Heartfeltian envoys are becoming increasingly common, and can now oft-be-seen as diplomatic guests to many of the aforementioned kingdoms.
+		<br>
+	</details>
+
+	<details>
 		<summary><strong> RUDMARSCH </strong></summary>
 		<br>
-		<em>The Reach, Kingdom of Sanguine Fields</em>
+		<em>The Reach, Fallen Kingdom of Sanguine Fields</em>
 		<br><br>
 		Colloquially known as the 'Scarlet Reach', this lesser kingdom once had the misfortune of being in the middle of a century-long war between Grenzelhoft and Otava. While the fighting has long since ceased, its fields have forever retained an unnaturally red hue. 
 <br><br>
-Even so, their reputation is mercifully softened by the fact that they grow some of the highest-quality wheat and tea within Psydonia. They briefly came into conflict with Azuria over a salt mine that sat on contested territories.
+		Now, there is nothing left. 
+<br><br>
+		Over the past weeks, the northern skies of Azuria have been ailed with billowing smoke. None knew of its origins, until the Duchy suddenly found itself hosting dozens of glazy-eyed survivors from the Reach. Noblemen, peasants, burghers and priests; all united in soot-and-trauma.
+<br><br>
+		They say that an unspeakable evil had been unleashed upon the Reach, and that it now eternally smolders with balefire. Stone, flesh, wheat; smoldering like fetid shit upon the pyre, seeping into the world's wounds and accelerating the Rot from within. The air has only grown colder.
+<br><br>
+		They say that the forces of Zizo have claimed its souls, and that its legion now seeks to march upon the Peaks as well. Thousands of the deathless, donned in gilbranze and rust, prepare a final pilgrimage to the Comet's resting place; for there lies the power to alter fate itself.
+<br><br>
+		They say that there is a Grand Duchy built on traditional elven homelands - and in that Duchy there is the capital of Azure Peak.
+<br><br>
+		And they say it is the end of the world.
 		<br>
 	</details>
 	<br><br>
@@ -493,6 +514,7 @@ Even so, their reputation is mercifully softened by the fact that they grow some
 		<p><strong> Silverface </strong> - Toggleable vendors, drawing from the stockpile of local businesses. Far more expensive, yet quicker, than commissions.</p>
 		<p><strong> Excidium </strong> - The leyline of bounty-hunters: a machine that both tracks and redeems local bounties for a sum of coinage.</p>
 		<p><strong> Lampternball </strong> - A popular sport, where one maneuvers a rounded lamptern into either a hoop, goal, or a blaggard's face.</p>
+		<p><strong> Blastpowder </strong> - An alchemic enigma, capable of erupting with tremendous power at the lightest spark. Additionally known as 'blastsand'.</p>
 		<p><strong> PR </strong> - The previous calender-era, lasting from the beginning of recorded history to the Comet Syon's impact - and Psydon's absence. </p>
 		<p><strong> AP </strong> - The current calender-era, which started after the end of Psydonic supremacy. The current date, as mentioned, is 1513 AP. </p>
 		<br>

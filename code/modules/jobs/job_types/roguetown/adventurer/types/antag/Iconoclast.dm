@@ -74,10 +74,12 @@
 				shirt = /obj/item/clothing/suit/roguetown/shirt/robe/monk/holy
 				ADD_TRAIT(H, TRAIT_GNARLYDIGITS, TRAIT_GENERIC)
 				ADD_TRAIT(H, TRAIT_CYCLOPS_RIGHT, TRAIT_GENERIC)
+				ADD_TRAIT(H, TRAIT_IGNOREDAMAGESLOWDOWN, TRAIT_GENERIC)
 				H.adjust_skillrank_up_to(/datum/skill/combat/wrestling, SKILL_LEVEL_LEGENDARY, TRUE)
 				H.adjust_skillrank_up_to(/datum/skill/combat/unarmed, SKILL_LEVEL_LEGENDARY, TRUE)
 				H.change_stat(STATKEY_CON, 2)
 				H.change_stat(STATKEY_LCK, -2)
+				H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/mending/lesser)//So he can fix his arm
 				var/static/list/safe_bodyzones = list(
 					BODY_ZONE_HEAD,
 					BODY_ZONE_CHEST,

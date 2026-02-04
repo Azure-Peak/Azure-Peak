@@ -2,7 +2,7 @@
 	var/list/played_loops = list() //uses dlink to link to the sound
 
 
-/proc/playsound(atom/source, soundin, vol as num, vary, extrarange as num, falloff, frequency = null, channel, pressure_affected = FALSE, ignore_walls = TRUE, soundping = FALSE, repeat, animal_pref = FALSE)
+/proc/playsound(atom/source, soundin, vol as num, vary, extrarange as num, falloff, frequency = null, channel, pressure_affected = FALSE, ignore_walls = TRUE, soundping = FALSE, repeat, animal_pref = FALSE, quiet = FALSE)
 	if(isarea(source))
 		CRASH("playsound(): source is an area")
 
@@ -68,6 +68,12 @@
 			var/datum/species/dullahan/dullahan = human.dna.species
 			if(dullahan.headless)
 				turf_check = get_turf(dullahan.my_head)
+		
+		if(quiet)
+			if(turf_check.z != turf_source.z)
+				continue
+			if(get_dist(turf_check, turf_source) > 3)
+				continue
 
 		if(get_dist(turf_check, turf_source) <= maxdistance)
 			if(animal_pref)

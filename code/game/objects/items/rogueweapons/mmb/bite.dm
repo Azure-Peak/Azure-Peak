@@ -170,6 +170,9 @@
 
 /obj/item/grabbing/bite/valid_check()
 	// We require adjacency to count the grab as valid
+	if(!grabbee)
+		qdel(src)
+		return FALSE
 
 	if(isdullahan(grabbee) && ishuman(grabbed))
 		var/mob/living/carbon/human/target = grabbed

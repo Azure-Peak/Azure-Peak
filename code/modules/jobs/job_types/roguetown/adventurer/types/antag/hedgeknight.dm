@@ -58,7 +58,7 @@
 	H.set_blindness(0)
 	switch(weapon_choice)//Knight Captain equivalent pmuch
 		if("Flameberge")
-			beltr = /obj/item/rogueweapon/greatsword/grenz/flamberge
+			r_hand = /obj/item/rogueweapon/greatsword/grenz/flamberge
 			backl = /obj/item/rogueweapon/scabbard/gwstrap
 			H.adjust_skillrank_up_to(/datum/skill/combat/swords, 5, TRUE)
 		if("Polemace")
@@ -72,9 +72,3 @@
 			r_hand = /obj/item/rogueweapon/eaglebeak
 			backl = /obj/item/rogueweapon/scabbard/gwstrap
 			H.adjust_skillrank_up_to(/datum/skill/combat/polearms, 5, TRUE) //This will NOT have any far reaching consequences
-
-	if(!istype(H.patron, /datum/patron/inhumen/matthios))
-		var/inputty = input(H, "Would you like to change your patron to Matthios?", "The Transactor calls", "No") as anything in list("Yes", "No")
-		if(inputty == "Yes")
-			to_chat(H, span_warning("My former deity has abandoned me.. Matthios is my new master."))
-			H.set_patron(/datum/patron/inhumen/matthios)

@@ -11,17 +11,17 @@
 /datum/stressevent/viewsinpunish
 	timer = 5 MINUTES
 	stressadd = -2
-	desc = span_green("I saw a sinner get punished!")
+	desc = span_green("Justice to the sinful has been served!")
 
 /datum/stressevent/joke
 	timer = 30 MINUTES
 	stressadd = -2
-	desc = span_green("I heard a good joke.")
+	desc = span_green("I heard a good joke!")
 
 /datum/stressevent/tragedy
 	timer = 30 MINUTES
 	stressadd = -2
-	desc = span_green("Life isn't so bad after all.")
+	desc = span_green("Perhaps life isn't so bad after all.")
 
 /datum/stressevent/blessed
 	timer = 60 MINUTES
@@ -36,71 +36,72 @@
 /datum/stressevent/drunk
 	timer = 1 MINUTES
 	stressadd = -2
-	desc = list(span_green("Alcohol eases the pain."),span_green("Alcohol, my true friend."))
+	desc = list(span_green("I feel quite drunk, now."), span_green("Everything is spinning!"))
 
 /datum/stressevent/pweed
 	timer = 1 MINUTES
 	stressadd = -2
-	desc = list(span_green("A relaxing smoke."),span_green("A flavorful smoke."))
+	desc = span_green("I've enjoyed a relaxing smoke.")
 
 /datum/stressevent/weed
 	timer = 5 MINUTES
 	stressadd = -4
-	desc = span_blue("I love you sweet leaf.")
+	desc = list(span_blue("My senses numb, and my vision blurs!"), span_blue("A pleasant euphoria clouds my mind..."))
 
 /datum/stressevent/high
 	timer = 5 MINUTES
 	stressadd = -4
-	desc = span_blue("I'm so high, don't take away my sky.")
+	desc = span_blue("My mind is addled in such a pleasant way!")
 
 /datum/stressevent/stuffed
 	timer = 20 MINUTES
 	stressadd = -1
-	desc = span_green("I'm stuffed! Feels good.")
+	desc = span_green("I've a full stomach! This is a good dae.")
 
 /datum/stressevent/goodsnack
 	timer = 8 MINUTES
 	stressadd = -1
-	desc = list(span_green("That snack tastes pretty good"), span_green("Tasty snack."))
+	desc = span_green("That was quite a pleasant snack!")
 
 /datum/stressevent/greatsnack
 	timer = 10 MINUTES
 	stressadd = -2
-	desc = list(span_green("That snack was amazing! Can't wait for the next."), span_green("Great snack! I should get another one later."))
+	desc = list(span_green("That snack was amazing!"), span_green("A truly sumptuous delicacy!"))
 
 /datum/stressevent/goodmeal
 	timer = 10 MINUTES
 	stressadd = -1
-	desc = list(span_green("That meal wasn't half bad"), span_green("A decent meal, finally"))
+	desc = list(span_green("That meal wasn't half bad!"), span_green("A decent meal, finally!"))
 
 /datum/stressevent/greatmeal
 	timer = 15 MINUTES
 	stressadd = -2
-	desc = list(span_green("That meal tasted great!"), span_green("I ate like a noble, it was great!"))
+	desc = list(span_green("That was a meal fit for a king!"), span_green("What an explosion of flavour \
+	I just experienced!"))
 
 /datum/stressevent/sweet
 	timer = 8 MINUTES
 	stressadd = -2
-	desc = list(span_green("Sweets always bring your spirits up"), span_green("Sweet embrace"))
+	desc = span_green("Sweets raise even the lowest of moods!")
 
 /datum/stressevent/hydrated
 	timer = 10 MINUTES
 	stressadd = -1
-	desc = span_green("My thirst is quenched. Invigorating.")
+	desc = span_green("My thirst is quenched!")
 
 /datum/stressevent/prebel
 	timer = 5 MINUTES
 	stressadd = -5
-	desc = span_boldgreen("Down with the tyranny!")
+	desc = span_boldgreen("I am invigoated by revolutinary fervor!")
 
 /datum/stressevent/music
 	timer = 1 MINUTES
 	stressadd = -1
-	desc = span_green("This music is relaxing.")
+	desc = span_green("This music is quite relaxing.")
 
 /datum/stressevent/music/two
 	stressadd = -2
-	desc = span_green("This music is very relaxing.")
+	desc = span_green("This music is very relaxing!")
 	timer = 2 MINUTES
 
 /datum/stressevent/music/three
@@ -110,7 +111,7 @@
 
 /datum/stressevent/music/four
 	stressadd = -3
-	desc = span_green("This music is great.")
+	desc = span_green("This music is great!")
 	timer = 6 MINUTES
 
 /datum/stressevent/music/five
@@ -121,16 +122,16 @@
 /datum/stressevent/music/six
 	stressadd = -4
 	timer = 10 MINUTES
-	desc = span_boldgreen("This music is exceptional!")
+	desc = span_boldgreen("This music is exceptional! Bravo!")
 
 /datum/stressevent/vblood
 	stressadd = -5
-	desc = span_boldred("Virgin blood!")
+	desc = span_boldred("Virgin blood sates my thirst!")
 	timer = 5 MINUTES
 
 /datum/stressevent/bathwater
 	stressadd = -1
-	desc = span_blue("Relaxing.")
+	desc = span_blue("I feel soothed in this warm, clean water.")
 	timer = 1 MINUTES
 
 /datum/stressevent/bathwater/on_apply(mob/living/user)
@@ -141,12 +142,12 @@
 
 /datum/stressevent/beautiful
 	stressadd = -2
-	desc = span_green("Their face is a work of art!")
+	desc = span_green("That person's face is a work of art!")
 	timer = 2 MINUTES
 
 /datum/stressevent/night_owl
 	stressadd = -3
-	desc = span_green("The night is so relaxing and peaceful.")
+	desc = span_green("This night is relaxing and peaceful.")
 	timer = 20 MINUTES
 
 /datum/stressevent/ozium
@@ -156,17 +157,17 @@
 
 /datum/stressevent/moondust
 	stressadd = -6
-	desc = span_boldgreen("Moondust surges through me.")
+	desc = span_boldgreen("Moondust surges through me!")
 	timer = 4 MINUTES
 
 /datum/stressevent/starsugar
 	stressadd = -1
-	desc = span_boldgreen("My heart rushes, my blood runs, I feel tightly bound together. I could run a marathon.")
+	desc = span_boldgreen("My heart rushes, my blood runs, I feel tightly bound together! I could run a marathon!")
 	timer = 4 MINUTES
 
 /datum/stressevent/moondust_purest
 	stressadd = -8
-	desc = span_boldgreen("PURE moondust surges through me!")
+	desc = span_boldgreen("Pure moondust surges through me!")
 	timer = 4 MINUTES
 
 /datum/stressevent/campfire
@@ -191,7 +192,8 @@
 
 /datum/stressevent/puzzle_impossible
 	stressadd = -4
-	desc = span_boldgreen("I solved an extremely difficult puzzle. Xylix is smiling at me, and surely even Noc must find it impressive.")
+	desc = span_boldgreen("I solved an extremely difficult puzzle. Xylix is smiling at me, and surely even \
+	 Noc must find it impressive.")
 	timer = 15 MINUTES
 
 /datum/stressevent/noble_lavish_food
@@ -235,7 +237,7 @@
 
 /datum/stressevent/favourite_drink
 	stressadd = -1
-	desc = span_green("I had my favourite drink!")
+	desc = span_green("I drank my favourite drink!")
 	timer = 5 MINUTES
 
 /datum/stressevent/favourite_drink/can_apply(mob/living/user)
@@ -254,7 +256,7 @@
 
 /datum/stressevent/hated_food
 	stressadd = 1
-	desc = span_red("I had to eat my most hated food!")
+	desc = span_red("How vile! How can anyone eat what I just ate?!")
 	timer = 10 MINUTES
 
 /datum/stressevent/hated_food/can_apply(mob/living/user)
@@ -266,7 +268,7 @@
 
 /datum/stressevent/hated_drink
 	stressadd = 1
-	desc = span_red("I had to consume my most hated drink!")
+	desc = span_red("Disgusting! How could anyone drink what I just drank?!")
 	timer = 10 MINUTES
 
 /datum/stressevent/hated_drink/can_apply(mob/living/user)
@@ -305,7 +307,7 @@
 /datum/stressevent/noble_bowed_to
 	timer = 5 MINUTES
 	stressadd = -3
-	desc = span_green("Someone showed me the respect I deserve as a noble.")
+	desc = span_green("Someone showed me the respect I deserve as a noble!")
 
 /datum/stressevent/noble_bowed_to/can_apply(mob/living/user)
 	return HAS_TRAIT(user, TRAIT_NOBLE)
@@ -332,14 +334,13 @@
 
 /datum/stressevent/eoran_blessing_greater
 	stressadd = -2
-	desc = span_info("A Devout Eoran shone their brightness upon me.")
+	desc = span_info("A Devout Eoran shone their brightness upon me!")
 	timer = 10 MINUTES
 
 /datum/stressevent/sermon
 	stressadd = -5
-	desc = span_green("I feel inspired by the sermon.")
+	desc = span_green("I feel inspired by the sermon!")
 	timer = 20 MINUTES
-
 
 /datum/stressevent/champion
 	stressadd = -3
@@ -363,12 +364,14 @@
 
 /datum/stressevent/fermented_crab_good
 	stressadd = -1
-	desc = span_green("That fermented crab was not the most pleasant dish ever, but youthful vigor in my body was worth the sacrifice!")
+	desc = span_green("That fermented crab was not the most pleasant dish ever, but youthful vigor in my body \
+	was worth the sacrifice!")
 	timer = 3 MINUTES
 
 /datum/stressevent/vampiric_nostalgia
 	stressadd = -2
-	desc = span_green("Astrata and her gaze may burn you now, but you distantly remember when it was pleasant to your skin.")
+	desc = span_green("Astrata and her gaze may burn you now, but you distantly remember when it was pleasant \
+	to your skin.")
 	timer = 20 SECONDS
 
 /datum/stressevent/xylixian_fate
@@ -390,6 +393,19 @@
 	timer = 1 MINUTES
 	stressadd = -3
 	desc = list(span_boldred("I SOAKED IN THE BLOOD OF THE THOUSANDS DEAD! GRAGGAR GRAGGAR GRAGGAR!"))
+
+// Intended to proc upon exposure to gentle rain.
+/datum/stressevent/abyssor_rain
+	timer = 1 MINUTES
+	stressadd = -2
+	desc = list(span_blue("This downpour cleanses the earth and brings into pleasing clarity \
+	my recollections of the divine dream. If only I could remember more..."))
+
+// Intended to proc upon exposure to a storm.
+/datum/stressevent/abyssor_storm
+	timer = 1 MINUTES
+	stressadd = -4
+	desc = list(span_blue("WHAT A MAJESTIC TEMPEST! BELOVED ABYSSOR, SEND STRONGER WINDS!"))
 
 /datum/stressevent/keep_standard
 	stressadd = -4

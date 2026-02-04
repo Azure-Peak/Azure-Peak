@@ -46,7 +46,7 @@
 	force = 20
 	force_wielded = 25
 	icon_state = "bronzepick"
-	possible_item_intents = list(/datum/intent/pick/bad, /datum/intent/axe/cut, /datum/intent/mace/strike)
+	possible_item_intents = list(/datum/intent/pick/bad, /datum/intent/axe/cut, /datum/intent/mace/strike, /datum/intent/till)
 	gripped_intents = list(/datum/intent/pick, /datum/intent/axe/cut, /datum/intent/axe/chop, /datum/intent/mace/strike)
 	max_integrity = 500
 	max_blade_int = 225

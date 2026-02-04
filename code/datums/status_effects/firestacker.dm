@@ -221,9 +221,10 @@
 		owner.visible_message(span_warning("[owner] catches fire!"), span_userdanger("You're set on fire!"))
 
 	if(moblight_type)
-		if(moblight)
-			qdel(moblight)
-		moblight = new moblight_type(owner)
+		if(!moblight || QDELETED(moblight))
+			moblight = new moblight_type(owner)
+		else
+			moblight.set_light_on(TRUE)
 
 	cache_stacks()
 	SEND_SIGNAL(owner, COMSIG_LIVING_IGNITED, owner)
@@ -234,7 +235,7 @@
  */
 
 /datum/status_effect/fire_handler/fire_stacks/proc/extinguish()
-	QDEL_NULL(moblight)
+	moblight?.set_light_on(FALSE)
 	on_fire = FALSE
 	SEND_SIGNAL(owner, COMSIG_LIVING_EXTINGUISHED, owner)
 	cache_stacks()

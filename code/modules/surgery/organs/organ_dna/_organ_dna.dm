@@ -15,7 +15,7 @@
 
 /// Creates an organ at location, imprints its information on it and returns it
 /datum/organ_dna/proc/create_organ(atom/location)
-	var/obj/item/organ/new_organ = new organ_type(location)
+	var/obj/item/organ/new_organ = SSwardrobe.provide_type(organ_type, location)
 	imprint_organ(new_organ)
 	return new_organ
 
