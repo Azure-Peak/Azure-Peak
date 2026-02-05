@@ -138,6 +138,8 @@
 		puke_sword(user)
 
 /datum/component/holster/proc/attack_by(atom/source, obj/item/I, mob/user, params)
+	if(istype(I, /obj/item/needle) || istype(I, /obj/item/rogueweapon/hammer) || user.cmode)
+		return
 	if(!sheathed)
 		if(!eat_sword(user, I))
 			return
