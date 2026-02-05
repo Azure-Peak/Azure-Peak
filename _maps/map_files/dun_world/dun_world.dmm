@@ -3846,7 +3846,10 @@
 /area/rogue/indoors/town/magician)
 "aUZ" = (
 /obj/structure/fluff/statue/astrata/gold,
-/turf/open/floor/rogue/churchrough,
+/obj/effect/decal/cobbleedge{
+	dir = 4
+	},
+/turf/open/floor/rogue/cobble,
 /area/rogue/indoors/town/church/chapel)
 "aVe" = (
 /obj/structure/flora/newtree,
@@ -12088,7 +12091,7 @@
 /obj/structure/fluff/walldeco/painting/queen{
 	pixel_x = -32
 	},
-/turf/open/floor/rogue/ruinedwood/spiral,
+/turf/open/floor/rogue/cobble,
 /area/rogue/indoors/town/church/chapel)
 "cWL" = (
 /obj/effect/decal/remains/human,
@@ -19745,6 +19748,10 @@
 	},
 /turf/open/floor/rogue/tile/masonic/single,
 /area/rogue/indoors/town/manor)
+"eOF" = (
+/obj/machinery/light/rogue/candle/blue,
+/turf/open/floor/carpet/royalblack,
+/area/rogue/indoors/town/church/chapel)
 "eOG" = (
 /obj/structure/roguewindow,
 /obj/structure/bars/grille{
@@ -39612,6 +39619,13 @@
 /obj/structure/fluff/pillow/magenta,
 /turf/open/floor/rogue/tile/harem,
 /area/rogue/indoors/town/bath)
+"jGg" = (
+/obj/effect/decal/cobbleedge{
+	dir = 4
+	},
+/obj/structure/curtain/blue,
+/turf/open/floor/rogue/ruinedwood/spiral,
+/area/rogue/indoors/town/church/chapel)
 "jGj" = (
 /obj/structure/fermentation_keg/hagwoodbitter,
 /turf/open/floor/rogue/blocks,
@@ -56871,7 +56885,7 @@
 	lockid = "church"
 	},
 /obj/structure/fluff/railing/corner,
-/turf/open/floor/rogue/blocks,
+/turf/open/floor/rogue/concrete,
 /area/rogue/indoors/town/church/chapel)
 "nLk" = (
 /obj/structure/fluff/railing/corner/north_east,
@@ -80285,6 +80299,10 @@
 "twR" = (
 /turf/open/floor/rogue/cobble/mossy,
 /area/rogue/indoors/shelter)
+"txe" = (
+/obj/machinery/light/rogue/candle/blue,
+/turf/open/floor/carpet/red,
+/area/rogue/indoors/town/church/chapel)
 "txi" = (
 /obj/structure/table/wood/poor,
 /obj/machinery/light/rogue/candle/floorcandle,
@@ -88725,6 +88743,10 @@
 /area/rogue/indoors/inq/office)
 "vyD" = (
 /obj/structure/chair/stool/rogue,
+/obj/effect/decal/cobbleedge{
+	dir = 4
+	},
+/obj/structure/curtain/blue,
 /turf/open/floor/rogue/ruinedwood/spiral,
 /area/rogue/indoors/town/church/chapel)
 "vyI" = (
@@ -89106,9 +89128,6 @@
 /obj/structure/fluff/walldeco/church/line,
 /turf/open/floor/rogue/church,
 /area/rogue/indoors/town/church/basement)
-"vEd" = (
-/turf/open/floor/rogue/churchrough,
-/area/rogue/indoors/town/church/chapel)
 "vEh" = (
 /obj/structure/vine{
 	opacity = 1
@@ -90768,13 +90787,6 @@
 /obj/structure/fluff/walldeco/chains,
 /turf/open/floor/rogue/cobble,
 /area/rogue/indoors/town/garrison)
-"vZM" = (
-/obj/structure/mineral_door/wood/donjon/stone{
-	locked = 1;
-	lockid = "church"
-	},
-/turf/open/floor/rogue/wood,
-/area/rogue/indoors/town/church/chapel)
 "vZU" = (
 /obj/structure/chair/wood/rogue/throne,
 /obj/effect/decal/cleanable/dirt/dust,
@@ -91763,7 +91775,7 @@
 	pixel_y = 7;
 	pixel_x = 4
 	},
-/turf/open/floor/rogue/ruinedwood/spiral,
+/turf/open/floor/rogue/cobble,
 /area/rogue/indoors/town/church/chapel)
 "wmn" = (
 /obj/structure/table/wood/long_table/mid/alt,
@@ -469798,9 +469810,9 @@ qUS
 qUS
 qUS
 orT
-hfa
+jGg
 vyD
-hfa
+jGg
 vkY
 sqx
 sqx
@@ -472504,7 +472516,7 @@ tqj
 qrn
 xPN
 xPN
-vEd
+gQx
 hZD
 hfa
 hfa
@@ -472963,8 +472975,8 @@ jbB
 jbB
 jbB
 xPN
-vZM
-vZM
+lCF
+lCF
 omX
 qUS
 qUS
@@ -475675,8 +475687,8 @@ jbB
 xPN
 jbB
 jbB
-vZM
-vZM
+lCF
+lCF
 vkY
 bFl
 bFl
@@ -476572,11 +476584,11 @@ bGf
 bGf
 cIj
 iqx
-uDs
+eOF
 bNA
-uDs
+eOF
 bNA
-ylI
+txe
 wGr
 wGr
 ylI
