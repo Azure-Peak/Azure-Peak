@@ -88260,6 +88260,13 @@
 /obj/structure/flora/hotspring_rocks/grassy,
 /turf/open/floor/rogue/grassred,
 /area/rogue/outdoors/rtfield/eora)
+"vsS" = (
+/obj/machinery/light/rogue/candle/l{
+	pixel_x = 0;
+	pixel_y = 32
+	},
+/turf/open/floor/rogue/wood,
+/area/rogue/indoors/town/church/chapel)
 "vte" = (
 /obj/structure/roguewindow,
 /obj/structure/fluff/railing/border/west,
@@ -474331,7 +474338,7 @@ jgI
 xPN
 jbB
 xPN
-fwK
+vsS
 fwK
 fhH
 lPw
