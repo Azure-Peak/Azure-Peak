@@ -7114,10 +7114,6 @@
 	},
 /turf/open/transparent/openspace,
 /area/rogue/druidsgrove)
-"bNA" = (
-/turf/closed/wall/mineral/rogue/wooddark,
-/turf/open/floor/rogue/herringbone,
-/area/rogue/indoors/town/church/chapel)
 "bNB" = (
 /obj/effect/decal/cleanable/blood,
 /obj/effect/decal/cobbleedge{
@@ -34391,10 +34387,6 @@
 	},
 /turf/open/floor/rogue/cobblerock,
 /area/rogue/outdoors/town)
-"iqx" = (
-/turf/closed/wall/mineral/rogue/wooddark,
-/turf/open/floor/carpet/royalblack,
-/area/rogue/indoors/town/church/chapel)
 "iqB" = (
 /obj/structure/fluff/walldeco/church/line{
 	dir = 8
@@ -476590,11 +476582,11 @@ bGf
 bGf
 bGf
 cIj
-iqx
+xPN
 eOF
-bNA
+xPN
 eOF
-bNA
+xPN
 txe
 wGr
 wGr
