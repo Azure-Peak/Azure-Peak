@@ -628,7 +628,7 @@ Somewhat fitting, considering the broadness of their domains. I also just think 
 	desc = "Using writing materials, and enough paper, create a great work: a Magic Scroll!\
 	You will need to be holding a feather and to have 10 points worth of items around your person.\n\
 	Piece of parchment - 1 point, scroll - 2 points, book - 5 points.\n\
-	Uses your dream-points as ink. The more points a spell costs, the higher your recharge time will be."
+	Uses your dream-points as ink."
 	releasedrain = 200
 	chargedrain = 0
 	chargetime = 0
@@ -737,13 +737,12 @@ Somewhat fitting, considering the broadness of their domains. I also just think 
 			new /obj/effect/temp_visual/moon/spell(get_turf(burn))
 			qdel(burn)
 		user.mind.sleep_adv.sleep_adv_points -= item.dreamcost
-		if(item.dreamcost == 3)
-			start_recharge(5 MINUTES)
-		if(item.dreamcost == 6)
-			start_recharge(15 MINUTES)
-			revert_cast()
+		if(item.dreamcost == 3) // this doesnt fucking work. our code doesnt allow for custom recharges to be done 
+			recharge_time = 5 MINUTES // in any convenient way. if you want to fix this later try using a status_effect
+		if(item.dreamcost == 6) // secondary charge system instead of this shit. 
+			recharge_time = 15 MINUTES // kept in so the intent is understood.
 		if(item.dreamcost >= 9)
-			recharge_time(30 MINUTES)
+			recharge_time = 30 MINUTES
 		var/obj/item/I = new item (get_turf(user))
 		user.put_in_hands(I)
 		alreadychoosing = FALSE
