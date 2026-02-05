@@ -19,10 +19,12 @@
 	var/month_number = FLOOR((day_of_year - 1) / CALENDAR_DAYS_IN_MONTH, 1) + 1 // 1 to 12
 	var/day_of_month = MODULUS((day_of_year - 1), CALENDAR_DAYS_IN_MONTH) + 1 // 1 to 28
 	var/month_name = get_month_number_to_text(month_number)
+	var/season = get_season_from_month(month_number)
+	var/season_phase = get_season_phase(month_number)
 
 	var/current_cycle = FLOOR(round_id / (YEAR_PER_CYCLE * CALENDAR_WEEKS_IN_YEAR), 1) + 1
 
-	return "[day_of_month] [month_name] [year_number], Cycle [current_cycle]"
+	return "[day_of_month] [month_name] [year_number] ([season_phase] [season]), Cycle [current_cycle]"
 
 // Returns the current IC time as a string in the format [DAYS] ᛉ HH:MM ([Time Of Day])
 /proc/get_current_ic_time_as_string()
@@ -86,3 +88,31 @@
 			return "Ravox" // February
 		else
 			return "Unknown Month ([month_number])"
+
+/* Returns the season based on month number (1-12)
+ Months 1 - 3: Spring, 4 - 6: Summer, 7 - 9: Autumn, 10 - 12: Winter
+ */
+/proc/get_season_from_month(month_number)
+	switch(CEILING(month_number, 3) / 3)
+		if(1)
+			return "Spring"
+		if(2)
+			return "Summer"
+		if(3)
+			return "Autumn"
+		if(4)
+			return "Winter"
+	return "Unknown"
+
+/* Returns Early/Mid/Late based on position within the season
+ 1st month of season: Early, 2nd: Mid, 3rd: Late
+*/
+/proc/get_season_phase(month_number)
+	switch(MODULUS(month_number - 1, 3) + 1)
+		if(1)
+			return "Early"
+		if(2)
+			return "Mid"
+		if(3)
+			return "Late"
+	return ""
