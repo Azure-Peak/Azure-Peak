@@ -655,11 +655,13 @@ Somewhat fitting, considering the broadness of their domains. I also just think 
 	alreadychoosing = TRUE
 
 	. = ..()
+	// commentened out until someone fixes the cooldown code. 
+	/*
 	if(GLOB.tod == "day" || GLOB.tod == "dawn")
 		to_chat(user, span_warning("ASTRATA IS RISEN! MY SPELL FIZZLES!"))
 		revert_cast()
 		alreadychoosing = FALSE
-		return FALSE
+		return FALSE*/
 
 	var/feather_check = FALSE
 
