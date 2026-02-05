@@ -624,7 +624,7 @@ Somewhat fitting, considering the broadness of their domains. I also just think 
 //T3
 
 /obj/effect/proc_holder/spell/self/wisescroll
-	name = "Moonlit Grimoire"
+	name = "Kytherian Grimoire"
 	desc = "Using writing materials, and enough paper, create a great work: a Magic Scroll!\
 	You will need to be holding a feather and to have 10 points worth of items around your person.\n\
 	Piece of parchment - 1 point, scroll - 2 points, book - 5 points.\n\
