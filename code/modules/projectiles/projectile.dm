@@ -62,6 +62,16 @@
 	/// the angle of impact must be within this many degrees of the struck surface, set to 0 to allow any angle
 	var/ricochet_incidence_leeway = 40
 
+	// Demo mod
+	/// Multiplier for damage dealt to objects of all types. 1 is no multiplier. 0.5 is 50% less. 1.5 is 50% more.
+	var/object_damage_multiplier = 1
+	/// Whether or not our projectile can damage walls
+	var/damages_turf_walls = FALSE
+	/// Chance for our projectile to break upon impacting a wall for reusable projectiles.
+	var/wall_impact_break_probability = 0
+	/// Hit state used to track whether or not we hit a turf for reusable projectiles.
+	var/hit_wall = FALSE
+
 	///If the object being hit can pass ths damage on to something else, it should not do it for this bullet
 	var/force_hit = FALSE
 
@@ -222,12 +232,16 @@
 		hitx = target.pixel_x + rand(-8, 8)
 		hity = target.pixel_y + rand(-8, 8)
 
-	if(!nodamage && (damage_type == BRUTE || damage_type == BURN) && iswallturf(target_loca) && prob(75))
+	if(!nodamage && (damage_type == BRUTE || damage_type == BURN) && iswallturf(target_loca))
 		var/turf/closed/wall/W = target_loca
-		if(impact_effect_type && !hitscan)
-			new impact_effect_type(target_loca, hitx, hity)
+		hit_wall = TRUE
+		if(prob(75))
+			if(impact_effect_type && !hitscan)
+				new impact_effect_type(target_loca, hitx, hity)
+			W.add_dent(WALL_DENT_SHOT, hitx, hity)
 
-		W.add_dent(WALL_DENT_SHOT, hitx, hity)
+		if(damages_turf_walls)
+			W.take_damage(damage, damage_type, flag, TRUE, object_damage_multiplier)
 
 		return BULLET_ACT_HIT
 

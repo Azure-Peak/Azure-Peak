@@ -601,7 +601,7 @@
 	return bodypart_organs
 
 /// Generates a cache key for this limb's base appearance
-/obj/item/bodypart/proc/generate_limb_cache_key(dropped, hideaux)
+/obj/item/bodypart/proc/generate_limb_cache_key(dropped, hideaux, owner_render_key = null)
 	var/list/key_parts = list(
 		body_zone,
 		body_gender,
@@ -622,12 +622,29 @@
 		skin_tone,
 		limb_material
 	)
+
+	// CHANGED: include owner's render keys ONLY when provided (i.e. safe to cache full output)
+	// This makes cache auto-bust when organs/features/overlays change on the owner.
+	if(owner_render_key)
+		key_parts += owner_render_key
+
 	return key_parts.Join("-")
 
 /// Invalidates the cached limb appearance
 /obj/item/bodypart/proc/invalidate_limb_cache()
 	limb_appearance_cache_key = null
 	cached_base_appearances = null
+
+/obj/item/bodypart/proc/get_visible_organs()
+	if(!owner)
+		return FALSE
+
+	var/list/bodypart_organs
+	for(var/obj/item/organ/organ_check as anything in owner.visible_organs) //internal organs inside the dismembered limb are dropped.
+		if(check_zone(organ_check.zone) == body_zone)
+			LAZYADD(bodypart_organs, organ_check) // this way if we don't have any, it'll just return null
+
+	return bodypart_organs
 
 //Gives you a proper icon appearance for the dismembered limb
 /obj/item/bodypart/proc/get_limb_icon(dropped, hideaux = FALSE)
@@ -642,78 +659,113 @@
 		icon_state = initial(icon_state)
 		return
 
-	// Check cache for base appearances
-	var/new_cache_key = generate_limb_cache_key(dropped, hideaux)
-	if(limb_appearance_cache_key == new_cache_key && cached_base_appearances)
-		. = cached_base_appearances.Copy()
-	else
-		// Generate base appearances
-		if(dropped && !skeletonized && dmg_overlay_type)
-			if(brutestate)
-				. += image('icons/mob/dam_mob.dmi', "[dmg_overlay_type]_[body_zone]_[brutestate]0_[icon_gender]", -DAMAGE_LAYER, image_dir)
-			if(burnstate)
-				. += image('icons/mob/dam_mob.dmi', "[dmg_overlay_type]_[body_zone]_0[burnstate]_[icon_gender]", -DAMAGE_LAYER, image_dir)
+	// -------------------------
+	// CHANGED: Decide if we can safely cache FULL overlays
+	// We only do "full" caching when the owner is human AND their cache keys are non-null.
+	// If keys are null, it usually means "rebuild in progress" -> don't cache to avoid stale visuals.
+	// -------------------------
+	var/owner_render_key = null
+	var/can_cache_full = TRUE
 
-		var/image/limb = image(layer = -BODYPARTS_LAYER, dir = image_dir)
-		var/image/aux
-		. += limb
-
-		if(animal_origin)
-			if(is_organic_limb())
-				limb.icon = 'icons/mob/animal_parts.dmi'
-				limb.icon_state = species_id == "husk" ? "[animal_origin]_husk_[body_zone]" : "[animal_origin]_[body_zone]"
-			else
-				limb.icon = 'icons/mob/augmentation/augments.dmi'
-				limb.icon_state = "[animal_origin]_[body_zone]"
-			cached_base_appearances = .
-			limb_appearance_cache_key = new_cache_key
-			return
-
-		should_draw_gender = TRUE
-		var/skel = skeletonized ? "_s" : ""
-		var/is_organic = is_organic_limb()
-
-		if(is_organic)
-			if(should_draw_greyscale)
-				limb.icon = species_icon
-				if(use_digitigrade)
-					limb.icon_state = "digitigrade_[use_digitigrade]_[body_zone]"
-				else
-					limb.icon_state = "[body_zone][skel]"
-			else
-				limb.icon = 'icons/mob/human_parts.dmi'
-				limb.icon_state = should_draw_gender ? "[species_id]_[body_zone]_[icon_gender]" : "[species_id]_[body_zone]"
-			if(aux_zone && !hideaux)
-				aux = image(limb.icon, "[aux_zone][skel]", -aux_layer, image_dir)
-				. += aux
+	if(owner && ishuman(owner) && !dropped)
+		var/mob/living/carbon/human/H = owner
+		if(isnull(H.body_overlay_cache_key) || isnull(H.damage_overlay_cache_key) || isnull(H.icon_render_key))
+			can_cache_full = FALSE
 		else
+			// Keep it compact but unique enough.
+			owner_render_key = "[H.body_overlay_cache_key]|[H.damage_overlay_cache_key]|[H.icon_render_key]"
+	else
+		// For non-human owners, we don't have stable keys to tie to -> avoid caching full overlays.
+		// Dropped limbs usually have no owner anyway, and the heavy part won't run.
+		if(owner && !ishuman(owner))
+			can_cache_full = FALSE
+
+	// -------------------------
+	// CHANGED: Cache lookup uses key that (optionally) includes owner_render_key.
+	// If can_cache_full is FALSE, we still compute a key (without owner_render_key),
+	// but we will NOT write to cache at the end.
+	// -------------------------
+	var/new_cache_key = generate_limb_cache_key(dropped, hideaux, owner_render_key)
+
+	if(limb_appearance_cache_key == new_cache_key && cached_base_appearances)
+		return cached_base_appearances.Copy()
+
+	// =========================
+	// Build FULL output
+	// =========================
+
+	// Damage overlays
+	if(dropped && !skeletonized && dmg_overlay_type)
+		if(brutestate)
+			. += image('icons/mob/dam_mob.dmi', "[dmg_overlay_type]_[body_zone]_[brutestate]0_[icon_gender]", -DAMAGE_LAYER, image_dir)
+		if(burnstate)
+			. += image('icons/mob/dam_mob.dmi', "[dmg_overlay_type]_[body_zone]_0[burnstate]_[icon_gender]", -DAMAGE_LAYER, image_dir)
+
+	var/image/limb = image(layer = -BODYPARTS_LAYER, dir = image_dir)
+	var/image/aux
+	. += limb
+
+	// Animal origin handling
+	if(animal_origin)
+		if(is_organic_limb())
+			limb.icon = 'icons/mob/animal_parts.dmi'
+			limb.icon_state = species_id == "husk" ? "[animal_origin]_husk_[body_zone]" : "[animal_origin]_[body_zone]"
+		else
+			limb.icon = 'icons/mob/augmentation/augments.dmi'
+			limb.icon_state = "[animal_origin]_[body_zone]"
+
+		// CHANGED: only cache if allowed (usually fine here, but keep consistent)
+		if(can_cache_full)
+			cached_base_appearances = _list_copy(.)
+			limb_appearance_cache_key = new_cache_key
+		return
+
+	var/skel = skeletonized ? "_s" : ""
+	var/is_organic = is_organic_limb()
+
+	// Base limb/aux
+	if(is_organic)
+		if(should_draw_greyscale)
 			limb.icon = species_icon
-			limb.icon_state = "pr_[limb_material]_[body_zone]"
-			if(aux_zone && !hideaux)
-				aux = image(limb.icon, "pr_[limb_material]_[aux_zone]", -aux_layer, image_dir)
-				. += aux
+			if(use_digitigrade)
+				limb.icon_state = "digitigrade_[use_digitigrade]_[body_zone]"
+			else
+				limb.icon_state = "[body_zone][skel]"
+		else
+			limb.icon = 'icons/mob/human_parts.dmi'
+			limb.icon_state = should_draw_gender ? "[species_id]_[body_zone]_[icon_gender]" : "[species_id]_[body_zone]"
 
-		var/override_color = rotted ? SKIN_COLOR_ROT : null
-		if(is_organic && should_draw_greyscale && !skeletonized)
-			var/draw_color = mutation_color || species_color || skin_tone
-			if(rotted || (owner && HAS_TRAIT(owner, TRAIT_ROTMAN)))
-				draw_color = SKIN_COLOR_ROT
-			if(draw_color)
-				limb.color = "#[draw_color]"
-				if(aux)
-					aux.color = "#[draw_color]"
+		if(aux_zone && !hideaux)
+			aux = image(limb.icon, "[aux_zone][skel]", -aux_layer, image_dir)
+			. += aux
+	else
+		limb.icon = species_icon
+		limb.icon_state = "pr_[limb_material]_[body_zone]"
+		if(aux_zone && !hideaux)
+			aux = image(limb.icon, "pr_[limb_material]_[aux_zone]", -aux_layer, image_dir)
+			. += aux
 
-		// Cache the base appearances
-		cached_base_appearances = _list_copy(.)
-		limb_appearance_cache_key = new_cache_key
+	// Color
+	var/override_color = rotted ? SKIN_COLOR_ROT : null
+	if(is_organic && should_draw_greyscale && !skeletonized)
+		var/draw_color = mutation_color || species_color || skin_tone
+		if(rotted || (owner && HAS_TRAIT(owner, TRAIT_ROTMAN)))
+			draw_color = SKIN_COLOR_ROT
+		if(draw_color)
+			limb.color = "#[draw_color]"
+			if(aux)
+				aux.color = "#[draw_color]"
 
-		// Markings overlays (not cached - can vary)
-		if(!skeletonized)
-			var/list/marking_overlays = get_markings_overlays(override_color)
-			if(marking_overlays)
-				. += marking_overlays
+	// Markings (still part of full output)
+	if(!skeletonized)
+		var/list/marking_overlays = get_markings_overlays(override_color)
+		if(marking_overlays)
+			. += marking_overlays
 
-	// These are not cached as they can change independently
+	// -------------------------
+	// CHANGED: The expensive part (organs/features) is now INCLUDED in the cached output,
+	// so it only runs when the cache key changes.
+	// -------------------------
 	var/draw_organ_features = TRUE
 	var/draw_bodypart_features = TRUE
 	if(owner?.dna?.species)
@@ -724,17 +776,26 @@
 			draw_bodypart_features = FALSE
 
 	if(!skeletonized && draw_organ_features)
-		for(var/obj/item/organ/organ as anything in get_organs())
-			if(organ.is_visible())
-				var/mutable_appearance/organ_appearance = organ.get_bodypart_overlay(src)
-				if(organ_appearance)
-					. += organ_appearance
+		for(var/obj/item/organ/organ as anything in get_visible_organs())
+			var/mutable_appearance/organ_appearance = organ.get_bodypart_overlay(src)
+			if(organ_appearance)
+				. += organ_appearance
 
 	if(!skeletonized && draw_bodypart_features)
 		for(var/datum/bodypart_feature/feature as anything in bodypart_features)
 			var/overlays = feature.get_bodypart_overlay(src)
 			if(overlays)
 				. += overlays
+
+	// -------------------------
+	// CHANGED: Write cache ONLY when it's safe.
+	// This prevents "sticky wrong visuals" while owner's cache keys are null.
+	// -------------------------
+	if(can_cache_full)
+		cached_base_appearances = _list_copy(.)
+		limb_appearance_cache_key = new_cache_key
+
+	return
 
 /obj/item/bodypart/deconstruct(disassembled = TRUE)
 	drop_organs()

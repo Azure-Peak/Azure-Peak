@@ -295,11 +295,13 @@
 	grid_height = 96
 	grid_width = 96
 	sellprice = 200
+	unenchantable = TRUE
 
 /obj/item/clothing/shoes/roguetown/boots/armor/gold/king
 	name = "royal golden greaves"
 	max_integrity = ARMOR_INT_SIDE_GOLDPLUS // Doubled integrity.
 	sellprice = 300
+	unenchantable = TRUE
 
 /obj/item/clothing/shoes/roguetown/boots/armor/bronze
 	name = "bronze greaves"

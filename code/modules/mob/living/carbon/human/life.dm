@@ -70,8 +70,8 @@
 				leprosy = 3
 	//heart attack stuff
 	handle_heart()
-	update_stamina()
 	update_energy()
+	update_stamina()
 	if(charflaw && !charflaw.ephemeral && mind)
 		charflaw.flaw_on_life(src)
 	if(health <= 0)
@@ -161,7 +161,6 @@
 /mob/living/carbon/human/SoakMob(locations)
 	. = ..()
 	var/coverhead
-//	var/coverfeet
 	//add belt slots to this for rusting
 	var/list/body_parts = list(head, wear_mask, wear_wrists, wear_shirt, wear_neck, cloak, wear_armor, wear_pants, backr, backl, gloves, shoes, belt, s_store, glasses, ears, wear_ring) //Everything but pockets. Pockets are l_store and r_store. (if pockets were allowed, putting something armored, gloves or hats for example, would double up on the armor)
 	for(var/bp in body_parts)
@@ -171,14 +170,10 @@
 			var/obj/item/clothing/C = bp
 			if(zone2covered(BODY_ZONE_HEAD, C.body_parts_covered))
 				coverhead = TRUE
-//			if(zone2covered(BODY_ZONE_PRECISE_L_FOOT, C.body_parts_covered))
-//				coverfeet = TRUE
 	if(locations & HEAD)
-		if(!coverhead)
+		// An exception for Abyssorites, since otherwise they gain stress in rain when they shouldn't.
+		if(!coverhead && !HAS_TRAIT(src, TRAIT_ABYSSOR_SWIM))
 			add_stress(/datum/stressevent/coldhead)
-//	if(locations & FEET)
-//		if(!coverfeet)
-//			add_stress(/datum/stressevent/coldfeet)
 
 //END FIRE CODE
 

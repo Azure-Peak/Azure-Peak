@@ -505,9 +505,9 @@
 /obj/item/reagent_containers/food/snacks/grown/rogue/pipeweeddry/Initialize()
 	. = ..()
 	var/static/list/slapcraft_recipe_list = list(
-		/datum/crafting_recipe/roguetown/survival/sigdry,
-		/datum/crafting_recipe/roguetown/survival/sigdry/cheroot,
-		/datum/crafting_recipe/roguetown/survival/sigsweet/cheroot,
+		/datum/crafting_recipe/roguetown/cooking/sigdry,
+		/datum/crafting_recipe/roguetown/cooking/sigdry/cheroot,
+		/datum/crafting_recipe/roguetown/cooking/sigsweet/cheroot,
 		)
 
 	AddElement(
@@ -529,8 +529,8 @@
 /obj/item/reagent_containers/food/snacks/grown/rogue/swampweeddry/Initialize()
 	. = ..()
 	var/static/list/slapcraft_recipe_list = list(
-		/datum/crafting_recipe/roguetown/survival/sigsweet,
-		/datum/crafting_recipe/roguetown/survival/sigsweet/cheroot,
+		/datum/crafting_recipe/roguetown/cooking/sigsweet,
+		/datum/crafting_recipe/roguetown/cooking/sigsweet/cheroot,
 		)
 
 	AddElement(

@@ -37,13 +37,7 @@
 /datum/outfit/job/roguetown/heartfelt/retinue/physician/pre_equip(mob/living/carbon/human/H)
 	..()
 	H.adjust_blindness(-3)
-	head = /obj/item/clothing/head/roguetown/physician
 	neck = /obj/item/clothing/neck/roguetown/psicross/pestra
-	armor = /obj/item/clothing/suit/roguetown/shirt/robe/physician
-	shirt = /obj/item/clothing/suit/roguetown/shirt/tunic/black
-	gloves = /obj/item/clothing/gloves/roguetown/leather
-	pants = /obj/item/clothing/under/roguetown/trou/leather/mourning
-	shoes = /obj/item/clothing/shoes/roguetown/boots/leather
 	belt = /obj/item/storage/belt/rogue/leather/black
 	beltl = /obj/item/storage/belt/rogue/surgery_bag/full/physician
 	beltr = /obj/item/rogueweapon/huntingknife
@@ -59,6 +53,21 @@
 		/obj/item/recipe_book/alchemy = 1,
 		/obj/item/bedroll = 1,
 	)
+	if(H.pronouns == SHE_HER)
+		head = /obj/item/clothing/head/roguetown/courtphysician/female
+		armor = /obj/item/clothing/suit/roguetown/armor/leather/heavy/jacket/courtphysician/female
+		shirt = /obj/item/clothing/suit/roguetown/shirt/courtphysician/female
+		gloves = /obj/item/clothing/gloves/roguetown/courtphysician/female
+		pants = /obj/item/clothing/under/roguetown/skirt/courtphysician
+		shoes = /obj/item/clothing/shoes/courtphysician/female/
+	else
+		head = /obj/item/clothing/head/roguetown/courtphysician
+		armor = /obj/item/clothing/suit/roguetown/armor/leather/heavy/jacket/courtphysician
+		shirt = /obj/item/clothing/suit/roguetown/shirt/courtphysician
+		gloves = /obj/item/clothing/gloves/roguetown/courtphysician
+		pants = /obj/item/clothing/under/roguetown/trou/leather/courtphysician
+		shoes = /obj/item/clothing/shoes/courtphysician
+
 	if(H.mind)
 		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/diagnose/secular)
 		backpack_contents += /obj/item/clothing/mask/rogue/physician

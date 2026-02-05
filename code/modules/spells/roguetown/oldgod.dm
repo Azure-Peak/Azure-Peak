@@ -70,6 +70,8 @@
 						psicross_bonus = 0.4	
 					if(/obj/item/clothing/neck/roguetown/psicross/g) // PURITY AFLOAT.
 						psicross_bonus = 0.5
+					if(/obj/item/clothing/neck/roguetown/psicross/weeping)
+						psicross_bonus = 0.7
 					if(/obj/item/clothing/neck/roguetown/psicross/inhumen/aalloy)
 						zcross_trigger = TRUE	
 
@@ -435,6 +437,8 @@
 					psicross_bonus = -6
 				if(/obj/item/clothing/neck/roguetown/psicross/g) // PURITY AFLOAT.
 					psicross_bonus = -7
+				if(/obj/item/clothing/neck/roguetown/psicross/weeping)
+					psicross_bonus = -9
 				if(/obj/item/clothing/neck/roguetown/psicross/inhumen/aalloy)
 					zcross_trigger = TRUE		
 	if(brute > 100) //A supplemental healing bonus, scaling off of how much damage's currently inflicted onto you.
@@ -541,6 +545,8 @@
 					psicross_bonus = -7
 				if(/obj/item/clothing/neck/roguetown/psicross/g) // PURITY AFLOAT.
 					psicross_bonus = -9
+				if(/obj/item/clothing/neck/roguetown/psicross/weeping)
+					psicross_bonus = -11
 				if(/obj/item/clothing/neck/roguetown/psicross/inhumen/aalloy)
 					zcross_trigger = TRUE		
 	if(brute > 100)
@@ -647,6 +653,8 @@
 					psicross_bonus = -7
 				if(/obj/item/clothing/neck/roguetown/psicross/g) // PURITY AFLOAT.
 					psicross_bonus = -9
+				if(/obj/item/clothing/neck/roguetown/psicross/weeping)
+					psicross_bonus = -11
 				if(/obj/item/clothing/neck/roguetown/psicross/inhumen/aalloy)
 					zcross_trigger = TRUE		
 	if(brute > 100)

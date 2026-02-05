@@ -6,7 +6,7 @@
 /datum/stressevent/miasmagas
 	timer = 10 SECONDS
 	stressadd = 2
-	desc = span_red("Smells like death here.")
+	desc = span_red("It smells like death here.")
 
 /datum/stressevent/peckish
 	timer = 10 MINUTES
@@ -36,24 +36,24 @@
 /datum/stressevent/parched
 	timer = 10 MINUTES
 	stressadd = 5
-	desc = span_boldred("I'm going to die of thirst.")
+	desc = span_boldred("I'm going to die of thirst!")
 
 /datum/stressevent/dismembered
 	timer = 40 MINUTES
 	stressadd = 5
-	desc = span_boldred("I've lost a limb.")
+	desc = span_boldred("I've lost a limb!")
 
 /datum/stressevent/dwarfshaved
 	timer = 40 MINUTES
 	stressadd = 6
-	desc = span_boldred("I'd rather cut my own throat than my beard.")
+	desc = span_boldred("I'd rather have cut my own throat than my beard! This is an outrage!")
 
 /datum/stressevent/viewdismember
 	timer = 15 MINUTES
 	max_stacks = 5
 	stressadd = 2
 	stressadd_per_extra_stack = 2
-	desc = span_red("I watched people get butchered.")
+	desc = span_red("I witnessed someone's dismemberment. What a terrible sight!")
 
 /datum/stressevent/fviewdismember
 	timer = 1 MINUTES
@@ -115,12 +115,12 @@
 /datum/stressevent/virginchurch
 	timer = 999 MINUTES
 	stressadd = 10
-	desc = span_boldred("I have broken my oath of chastity to The Gods!")
+	desc = span_boldred("I have broken my oath of chastity to the Gods!")
 
 /datum/stressevent/badmeal
 	timer = 3 MINUTES
 	stressadd = 2
-	desc = span_red("It tastes VILE!")
+	desc = span_red("That tasted VILE!")
 
 /datum/stressevent/vomit
 	timer = 3 MINUTES
@@ -141,7 +141,7 @@
 	stressadd = 3
 	max_stacks = 3
 	stressadd_per_extra_stack = 3
-	desc = span_red("I have someone's puke on myself!")
+	desc = span_red("Someone puked on me! Gross!")
 
 /datum/stressevent/vomitedonother
 	timer = 3 MINUTES
@@ -150,45 +150,20 @@
 	stressadd_per_extra_stack = 2
 	desc = span_red("I puked on someone!")
 
-/datum/stressevent/cumbad
-	timer = 5 MINUTES
-	stressadd = 5
-	desc = span_boldred("I was violated.")
-
-/datum/stressevent/cumcorpse
-	timer = 1 MINUTES
-	stressadd = 10
-	desc = span_boldred("What have I done?")
-
-/datum/stressevent/blueb
-	timer = 1 MINUTES
-	stressadd = 2
-	desc = span_red("My loins ache!")
-
-/datum/stressevent/shunned_race
-	timer = 1 MINUTES
-	stressadd = 1
-	desc = span_red("Better stay away.")
-
-/datum/stressevent/shunned_race_xenophobic
-	timer = 2 MINUTES
-	stressadd = 5
-	desc = span_red("Better stay away.")
-
 /datum/stressevent/paracrowd
 	timer = 2 MINUTES
 	stressadd = 3
-	desc = span_red("Too many strangers... Where are my own?")
+	desc = span_red("There's too many strangers here. Where are my own people?")
 
 /datum/stressevent/parablood
 	timer = 15 SECONDS
 	stressadd = 3
-	desc = span_red("There is so much blood here... It's like a battlefield!")
+	desc = span_red("There is far too much blood here! Iron stings my nostrils!")
 
 /datum/stressevent/parastr
 	timer = 2 MINUTES
 	stressadd = 2
-	desc = span_red("That beast is stronger... And might easily kill me!")
+	desc = span_red("That beast there is stronger than I, and could quite easily kill me...")
 
 /datum/stressevent/paratalk
 	timer = 2 MINUTES
@@ -198,7 +173,7 @@
 /datum/stressevent/crowd
 	timer = 2 MINUTES
 	stressadd = 3
-	desc = span_red("Too many people... It's making me nervous.")
+	desc = span_red("There's too many people here. It's making me nervous.")
 
 /datum/stressevent/averse
 	timer = 5 MINUTES
@@ -208,7 +183,7 @@
 /datum/stressevent/nocrowd
 	timer = 2 MINUTES
 	stressadd = 3
-	desc = span_red("No one around... It's making me nervous.")
+	desc = span_red("There's nobody here. It's making me nervous...")
 
 /datum/stressevent/lonely_one
 	timer = 2 MINUTES
@@ -223,12 +198,13 @@
 /datum/stressevent/lonely_three
 	timer = 6 MINUTES
 	stressadd = 7
-	desc = span_red("Please! Anyone! I just need anyone... The thoughts are coming back...")
+	desc = span_red("Please! Anyone! I just need anyone! The thoughts are coming back...")
 
 /datum/stressevent/lonely_max
 	timer = 10 MINUTES
 	stressadd = 15
-	desc = span_red("I'm worthless. I'm abandoned. Nobody likes me. Nobody wants to be around me. Nobody. Nobody. Nobody. Nobody.")
+	desc = span_red("I'm worthless. I'm abandoned. Nobody likes me. Nobody wants to be around me. \
+	Nobody. Nobody. Nobody. Nobody.")
 
 /datum/stressevent/nopeople
 	timer = 3 MINUTES
@@ -243,7 +219,7 @@
 /datum/stressevent/coldhead
 	timer = 60 SECONDS
 	stressadd = 1
-	desc = span_red("My head is cold and ugly.")
+	desc = span_red("My head and neck feel uncomfortably cold.")
 
 /datum/stressevent/sleepytime
 	timer = 40 MINUTES
@@ -257,14 +233,19 @@
 	desc = span_boldred("I'm broken.")
 	timer = 60 SECONDS
 
+/datum/stressevent/tortured/on_apply(mob/living/user)
+	. = ..()
+	if(user.client)
+		record_round_statistic(STATS_TORTURES)
+
 /datum/stressevent/confessed
 	stressadd = 3
-	desc = span_red("I've confessed to sin.")
+	desc = span_red("I've confessed to my sins.")
 	timer = 15 MINUTES
 
 /datum/stressevent/confessedgood
 	stressadd = 1
-	desc = span_red("I've confessed to sin, it feels good.")
+	desc = span_red("I've confessed to my sins. Perhaps my path to redemption begins here?")
 	timer = 15 MINUTES
 
 /datum/stressevent/saw_wonder
@@ -274,17 +255,13 @@
 
 /datum/stressevent/maniac_woke_up
 	stressadd = 10
-	desc = span_boldred("No... I want to go back...")
+	desc = span_boldred("No! I want to go back...")
 	timer = 999 MINUTES
 
 /datum/stressevent/drankrat
 	stressadd = 1
-	desc = span_red("I drank from a lesser creature.")
+	desc = span_red("I drank from a lesser creature. Stale, mindless blood laps at my tongue.")
 	timer = 1 MINUTES
-
-/datum/stressevent/lowvampire
-	stressadd = 1
-	desc = span_red("I'm dead... what comes next?")
 
 /datum/stressevent/oziumoff
 	stressadd = 10
@@ -303,7 +280,7 @@
 
 /datum/stressevent/noble_desperate
 	stressadd = 6
-	desc = span_boldred("What level of desperation have I fallen to?")
+	desc = span_boldred("What level of desperation have I fallen to that I would eat such a thing?")
 	timer = 60 MINUTES
 
 /datum/stressevent/noble_bland_food
@@ -311,24 +288,20 @@
 	desc = span_red("This fare is really beneath me. I deserve better than this...")
 	timer = 5 MINUTES
 
-/datum/stressevent/tortured/on_apply(mob/living/user)
-	. = ..()
-	if(user.client)
-		record_round_statistic(STATS_TORTURES)
-
 /datum/stressevent/noble_bad_manners
 	stressadd = 1
-	desc = span_red("I should've used a spoon...")
+	desc = span_red("It would have been more proper to have used a spoon, there. I hope \
+	my fellows do not think less of me...")
 	timer = 5 MINUTES
 
 /datum/stressevent/noble_ate_without_table
 	stressadd = 1
-	desc = span_red("Eating such a meal without a table? Churlish.")
+	desc = span_red("Eating such a meal without a table? How churlish!")
 	timer = 2 MINUTES
 
 /datum/stressevent/graggar_culling_unfinished
 	stressadd = 1
-	desc = span_red("I must eat my opponent's heart before he eats MINE!")
+	desc = span_red("I must eat my opponent's heart before they eat MINE!")
 	timer = INFINITY
 
 /datum/stressevent/soulchurnerhorror
@@ -363,7 +336,7 @@
 
 /datum/stressevent/uncanny
 	stressadd = 2
-	desc = span_red("Their face is.. wrong!")
+	desc = span_red("Their face is somehow wrong...")
 	timer = 3 MINUTES
 
 /datum/stressevent/syoncalamity
@@ -406,7 +379,6 @@
 	desc = span_red("I have failed my ward! My ribbon fades in color!")
 	timer = 25 MINUTES
 
-
 /datum/stressevent/necrarevive
 	stressadd = 15
 	desc = span_boldred("SO CLOSE TO BEING GRASPED, SO COLD!")
@@ -419,12 +391,17 @@
 
 /datum/stressevent/naledimasklost
 	stressadd = 3
-	desc = span_boldred("The mask! Anyone here could be a djinn. I'm exposed.")
+	desc = span_boldred("I have lost my mask! Anyone here could be a djinn! I'm dangerously exposed!")
 	timer = 999 MINUTES
 
 /datum/stressevent/shamanhoodlost
 	stressadd = 3
-	desc = span_boldred("The hood! My faith wavers without it. I feel ashamed.")
+	desc = span_boldred("I have lost my hood! My faith wavers without it. I feel ashamed.")
+	timer = 999 MINUTES
+
+/datum/stressevent/dungeoneerhoodlost
+	stressadd = 3
+	desc = span_boldred("I have lost my hood! It's not right. I feel ashamed.")
 	timer = 999 MINUTES
 
 /datum/stressevent/headless
@@ -435,7 +412,7 @@
 /datum/stressevent/hunted // When a hunted character sees someone in a mask
 	timer = 2 MINUTES
 	stressadd = 3
-	desc = span_boldred("I can't see their face! Have they found me!")
+	desc = span_boldred("I can't see their face! Have they found me? Is this the end?")
 
 /datum/stressevent/profane // When a non-assassin touches a profane dagger
 	timer = 3 MINUTES
@@ -449,7 +426,8 @@
 
 /datum/stressevent/vampiric_reality
 	stressadd = 3
-	desc = span_boldred("The holy sun returns, it's only a matter of time until I turn to ash. I wish to be Mortal again.")
+	desc = span_boldred("The holy sun returns, and it's only a matter of time until I turn to ash. I wish \
+	to be mortal again.")
 	timer = 30 SECONDS
 
 /datum/stressevent/dimwitted
@@ -482,6 +460,7 @@
 	timer = 25 MINUTES
 	stressadd = 3
 	desc = span_red("I couldn't pay my debts in time.")
+
 /datum/stressevent/revenant_cross // When a revenant looks at a necran cross that's blessed.
 	timer = 2 MINUTES
 	stressadd = 3

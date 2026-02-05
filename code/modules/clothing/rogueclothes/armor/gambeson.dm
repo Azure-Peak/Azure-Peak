@@ -245,3 +245,26 @@
 	armor = ARMOR_PADDED_GOOD
 	max_integrity = ARMOR_INT_CHEST_LIGHT_MEDIUM + 30 //280
 
+//Special Hand armor. More defense, low integrity, similar logic to Ruma Clan tattoos. Can't be worn in shirt slot.
+/obj/item/clothing/suit/roguetown/armor/gambeson/heavy/hand
+	name = "hand's gambeson"
+	desc = "Sturdy leather, fine silks and ornaments of gold, opulent and imperial, for any one who must say <i>\"I am in charge.\"</i> holds no power at all."
+	icon = 'icons/roguetown/clothing/special/hand.dmi'
+	icon_state = "handgambeson"
+	mob_overlay_icon = 'icons/roguetown/clothing/special/onmob/hand.dmi'
+	sleeved = 'icons/roguetown/clothing/special/onmob/hand.dmi'
+	detail_tag = "_detail"
+	detail_color = "#6e423a"
+	armor = ARMOR_HANDGAMB
+	slot_flags = ITEM_SLOT_ARMOR
+	max_integrity = ARMOR_INT_CHEST_LIGHT_STEEL
+	prevent_crits = PREVENT_CRITS_MOST
+	sellprice = 250
+	shiftable = FALSE
+	unenchantable = TRUE
+
+/obj/item/clothing/suit/roguetown/armor/gambeson/heavy/hand/advisor
+	detail_color = "#6678c9"
+
+/obj/item/clothing/suit/roguetown/armor/gambeson/heavy/hand/spymaster
+	detail_color = "#742277"

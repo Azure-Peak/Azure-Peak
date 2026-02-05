@@ -150,7 +150,9 @@
 	damage = 120 //+50% the damage of a regular crossbow bolt.
 	damage_type = BRUTE
 	armor_penetration = 0 //No penetration.
-	demolition_mod = 10 //Should destroy wooden barricades and doors in one shot, stone-and-iron doors in two, and The Gate in four.
+	object_damage_multiplier = 10 //Should destroy wooden barricades and doors in one shot, stone-and-iron doors in two, and The Gate in four.
+	wall_impact_break_probability = 100
+	damages_turf_walls = TRUE
 	icon = 'icons/roguetown/weapons/ammo.dmi'
 	icon_state = "heavybolt_proj"
 	ammo_type = /obj/item/ammo_casing/caseless/rogue/heavy_bolt
@@ -173,7 +175,7 @@
 	name = "blunt heavy bolt"
 	damage = 90
 	embedchance = 50 //'If you're reading this, duck!'
-	demolition_mod = 12 //Ensures the bolt can still, at a minimum, destroy most wooden barricades and doors in one shot.
+	object_damage_multiplier = 12 //Ensures the bolt can still, at a minimum, destroy most wooden barricades and doors in one shot.
 	woundclass = BCLASS_BLUNT
 	icon_state = "heavybolt_proj"
 
@@ -188,7 +190,7 @@
 	name = "decrepit heavy bolt"
 	damage = 90 
 	embedchance = 50
-	demolition_mod = 12 //Ensures the bolt can still, at a minimum, destroy most wooden barricades and doors in one shot.
+	object_damage_multiplier = 12 //Ensures the bolt can still, at a minimum, destroy most wooden barricades and doors in one shot.
 	icon_state = "ancientbolt_proj"
 	poisontype = /datum/reagent/stampoison
 	poisonamount = 2 //You are, in essence, giving them tenantus.

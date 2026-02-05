@@ -1,8 +1,8 @@
 /obj/item/reagent_containers/food/snacks/rogue/friedegg
 	list_reagents = list(/datum/reagent/consumable/nutriment = SNACK_DECENT)
 	tastes = list("fried egg" = 1)
-	name = "fried egg"
-	desc = "Some Astratans enjoy their eggs sunny-side up."
+	name = "base fried egg"
+	desc = "you shouldn't be seeing this."
 	icon = 'modular/Neu_Food/icons/cooked/cooked_egg.dmi'
 	icon_state = "friedegg"
 	portable = FALSE
@@ -11,10 +11,14 @@
 	warming = 5 MINUTES
 	rotprocess = SHELFLIFE_DECENT
 
-/obj/item/reagent_containers/food/snacks/rogue/friedegg/attackby(obj/item/I, mob/living/user, params)
+/obj/item/reagent_containers/food/snacks/rogue/friedegg/fried //so fried-egg specific shit stops getting inherited
+	name = "fried egg"
+	desc = "Some Astratans enjoy their eggs sunny-side up."
+
+/obj/item/reagent_containers/food/snacks/rogue/friedegg/fried/attackby(obj/item/I, mob/living/user, params)
 	var/found_table = locate(/obj/structure/table) in (loc)
 	update_cooktime(user)
-	if(istype(I, /obj/item/reagent_containers/food/snacks/rogue/friedegg))
+	if(istype(I, /obj/item/reagent_containers/food/snacks/rogue/friedegg/fried))
 		if(isturf(loc)&& (found_table))
 			playsound(get_turf(user), 'sound/foley/dropsound/gen_drop.ogg', 30, TRUE, -1)
 			if(do_after(user,short_cooktime, target = src))
@@ -119,6 +123,20 @@
 	eat_effect = /datum/status_effect/buff/mealbuff
 	faretype = FARE_NEUTRAL
 	rotprocess = SHELFLIFE_DECENT
+
+/obj/item/reagent_containers/food/snacks/rogue/friedegg/bacon/attackby(obj/item/I, mob/living/user, params)
+	var/found_table = locate(/obj/structure/table) in (loc)
+	update_cooktime(user)
+	if(istype(I, /obj/item/reagent_containers/food/snacks/rogue/meat/sausage/cooked))
+		if(isturf(loc)&& (found_table))
+			playsound(get_turf(user), 'sound/foley/dropsound/gen_drop.ogg', 30, TRUE, -1)
+			if(do_after(user,long_cooktime, target = src))
+				add_sleep_experience(user, /datum/skill/craft/cooking, user.STAINT)
+				new /obj/item/reagent_containers/food/snacks/rogue/friedegg/sausagebacon(loc)
+				qdel(I)
+				qdel(src)
+	else
+		return ..()
 
 /*	.................   Hammerholdian Breakfast   ................... */
 //This is an extremely convoluded recipe probably not even worth it but yknow what, why not.

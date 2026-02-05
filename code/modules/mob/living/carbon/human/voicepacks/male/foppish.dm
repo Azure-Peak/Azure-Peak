@@ -4,6 +4,8 @@
 /datum/voicepack/male/foppish/get_sound(soundin, modifiers)
 	var/used
 	switch(soundin)
+		if("attack")
+			used = list('sound/vo/male/foppish/attack (1).ogg', 'sound/vo/male/foppish/attack (2).ogg', 'sound/vo/male/foppish/attack (3).ogg', 'sound/vo/male/foppish/attack (4).ogg', 'sound/vo/male/foppish/attack (5).ogg', 'sound/vo/male/foppish/attack (6).ogg', 'sound/vo/male/foppish/attack (7).ogg', 'sound/vo/male/foppish/attack (8).ogg', 'sound/vo/male/foppish/attack (9).ogg', 'sound/vo/male/foppish/attack (10).ogg', 'sound/vo/male/foppish/attack (11).ogg', 'sound/vo/male/foppish/attack (12).ogg', 'sound/vo/male/foppish/attack (13).ogg', 'sound/vo/male/foppish/attack (14).ogg', 'sound/vo/male/foppish/attack (15).ogg', 'sound/vo/male/foppish/attack (16).ogg')
 		if("gasp")
 			used = list('sound/vo/male/foppish/gasp (1).ogg', 'sound/vo/male/foppish/gasp (2).ogg', 'sound/vo/male/foppish/gasp (3).ogg', 'sound/vo/male/foppish/gasp (4).ogg')
 		if("paincrit")
@@ -19,7 +21,7 @@
 		if("fatigue")
 			used = 'sound/vo/male/foppish/fatigue.ogg'
 		if("sigh")
-			used = list('sound/vo/male/foppish/sigh (1).ogg', 'sound/vo/male/foppish/sigh (2).ogg', 'sound/vo/male/foppish/sigh (3).ogg', 'sound/vo/male/foppish/sigh (4).ogg', 'sound/vo/male/foppish/sigh (5).ogg', 'sound/vo/male/foppish/sigh (6).ogg')
+			used = list('sound/vo/male/foppish/sigh (1).ogg', 'sound/vo/male/foppish/sigh (2).ogg', 'sound/vo/male/foppish/sigh (3).ogg', 'sound/vo/male/foppish/sigh (4).ogg', 'sound/vo/male/foppish/sigh (5).ogg', 'sound/vo/male/foppish/sigh (6).ogg', 'sound/vo/male/foppish/sigh (7).ogg')
 		if("clearthroat")
 			used = list('sound/vo/male/foppish/clearthroat (1).ogg', 'sound/vo/male/foppish/clearthroat (2).ogg', 'sound/vo/male/foppish/clearthroat (3).ogg', 'sound/vo/male/foppish/clearthroat (4).ogg')
 		if("sniff")
@@ -37,7 +39,7 @@
 		if("hum")
 			used = list('sound/vo/male/foppish/hum (1).ogg', 'sound/vo/male/foppish/hum (2).ogg', 'sound/vo/male/foppish/hum (3).ogg', 'sound/vo/male/foppish/hum (4).ogg',)
 		if("hmm")
-			used = list('sound/vo/male/foppish/hmm (1).ogg', 'sound/vo/male/foppish/hmm (2).ogg', 'sound/vo/male/foppish/hmm (3).ogg', 'sound/vo/male/foppish/hmm (4).ogg', 'sound/vo/male/foppish/hmm (5).ogg', 'sound/vo/male/foppish/hmm (6).ogg', 'sound/vo/male/foppish/hmm (7).ogg')
+			used = list('sound/vo/male/foppish/hmm (1).ogg', 'sound/vo/male/foppish/hmm (2).ogg', 'sound/vo/male/foppish/hmm (3).ogg', 'sound/vo/male/foppish/hmm (4).ogg', 'sound/vo/male/foppish/hmm (5).ogg', 'sound/vo/male/foppish/hmm (6).ogg', 'sound/vo/male/foppish/hmm (7).ogg', 'sound/vo/male/foppish/hmm (8).ogg')
 		if("huh")
 			used = list('sound/vo/male/foppish/huh (1).ogg', 'sound/vo/male/foppish/huh (2).ogg', 'sound/vo/male/foppish/huh (3).ogg', 'sound/vo/male/foppish/huh (4).ogg')
 		if("moan")

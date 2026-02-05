@@ -6,12 +6,23 @@
 		inhand_x_dimension = 32
 		inhand_y_dimension = 32
 
+// Helper items for spriters so they can see how in-hands look in game.
+// They're basically red square sprites placed on the floor so spriters can adjust their sprites properly
+// Used on admin testing area only.
+
+GLOBAL_LIST_INIT(IconStates_cache, list())
+GLOBAL_LIST_INIT(has_behind_cache, list()) // cheaty hack to avoid repeated list searches
+
+// 32x32 in-hand helper item
 /obj/item/inhand_tester
 	icon = 'icons/roguetown/items/misc.dmi'
 	icon_state = "inhand_test"
 
+// 64x64 in-hand helper item
 /obj/item/inhand_tester/big
 	icon = 'icons/roguetown/misc/64x64.dmi'
+
+// START OF ROGUE PROCS NECESSARY FOR ITEM TRANSFORMS, ETC
 
 /obj/item/proc/getmoboverlay(tag, prop, behind = FALSE, mirrored = FALSE)
 	var/used_index = icon_state
@@ -23,8 +34,6 @@
 	var/static/list/onmob_sprites = list()
 	var/icon/onmob = onmob_sprites["[tag][behind][mirrored][used_index]"]
 	if(!onmob || force_reupdate_inhand)
-		if(force_reupdate_inhand)
-			has_behind_state = null
 		onmob = fcopy_rsc(generateonmob(tag, prop, behind, mirrored))
 		onmob_sprites["[tag][behind][mirrored][used_index]"] = onmob
 	return onmob
@@ -32,6 +41,27 @@
 /obj/item/proc/get_extra_onmob_index()
 	//perhaps in the future: force items like flasks to use getflaticon to get their filled states and drinking cups too. that's all
 	return
+
+///Wrapper so the deflection callback can work properly.
+/obj/item/proc/fake_throw_at(atom/target, range, speed, mob/thrower)
+	safe_throw_at(target, range, speed, thrower)
+	return
+///Throws the item 90, 270 or 180 degrees from wherever it was thrown relative to the deflector mob.
+///Mob ref is only needed for their dir to know how to rotate it and for the throw proc.
+/obj/item/proc/get_deflected(mob/deflector)
+	var/turnangle = (prob(50) ? 270 : 90)
+	if(prob(10))	
+		turnangle = 0 //Right back at thee
+	var/turndir = turn(deflector.dir, turnangle)
+	var/dist = rand(1, 6)
+	var/turf/current_turf = get_turf(src)
+	var/turf/target_turf = get_ranged_target_turf(current_turf, turndir, dist)
+	var/soundin = pick(list('sound/combat/parry/deflect_1.ogg','sound/combat/parry/deflect_2.ogg','sound/combat/parry/deflect_3.ogg','sound/combat/parry/deflect_4.ogg','sound/combat/parry/deflect_5.ogg','sound/combat/parry/deflect_6.ogg'))
+	playsound(deflector, soundin, 100, TRUE)
+
+	//If called immediately it does not work as intended, likely because the movement of the item is still being overridden by the original throw procchain.
+	//This is basically the modern version of spawn(0) that "makes it work"
+	addtimer(CALLBACK(src, PROC_REF(fake_throw_at), target_turf, dist, dist, deflector), 0.1 SECONDS)
 
 /obj/item/proc/getonmobprop(tag)
 	if(tag)
@@ -61,52 +91,7 @@
 		if(0.7)
 			return 1
 
-///Wrapper so the deflection callback can work properly.
-/obj/item/proc/fake_throw_at(atom/target, range, speed, mob/thrower)
-	safe_throw_at(target, range, speed, thrower)
-	return
-
-///Throws the item 90, 270 or 180 degrees from wherever it was thrown relative to the deflector mob.
-///Mob ref is only needed for their dir to know how to rotate it and for the throw proc.
-/obj/item/proc/get_deflected(mob/deflector)
-	var/turnangle = (prob(50) ? 270 : 90)
-	if(prob(10))	
-		turnangle = 0 //Right back at thee
-	var/turndir = turn(deflector.dir, turnangle)
-	var/dist = rand(1, 6)
-	var/turf/current_turf = get_turf(src)
-	var/turf/target_turf = get_ranged_target_turf(current_turf, turndir, dist)
-	var/soundin = pick(list('sound/combat/parry/deflect_1.ogg','sound/combat/parry/deflect_2.ogg','sound/combat/parry/deflect_3.ogg','sound/combat/parry/deflect_4.ogg','sound/combat/parry/deflect_5.ogg','sound/combat/parry/deflect_6.ogg'))
-	playsound(deflector, soundin, 100, TRUE)
-
-	//If called immediately it does not work as intended, likely because the movement of the item is still being overridden by the original throw procchain.
-	//This is basically the modern version of spawn(0) that "makes it work"
-	addtimer(CALLBACK(src, PROC_REF(fake_throw_at), target_turf, dist, dist, deflector), 0.1 SECONDS)
-
-// For checking if we have a specific icon state in an icon.
-// Cached cause asking icons is expensive. This is still expensive, so avoid using it if
-// you can reasonably expect the icon_state to exist beforehand, or if you can cache the
-// value somewhere.
-GLOBAL_LIST_EMPTY(icon_state_cache)
-/proc/check_state_in_icon(var/checkstate, var/checkicon)
-	// isicon() is apparently quite expensive so short-circuit out early if we can.
-	if(!istext(checkstate) || isnull(checkicon) || !(isfile(checkicon) || isicon(checkicon)))
-		return FALSE
-	var/checkkey = "\ref[checkicon]"
-	var/list/check = GLOB.icon_state_cache[checkkey]
-	if(!check)
-		check = list()
-		for(var/istate in icon_states(checkicon))
-			check[istate] = TRUE
-		GLOB.icon_state_cache[checkkey] = check
-	. = check[checkstate]
-
-/obj/item/var/has_behind_state
-
-/obj/item/proc/generateonmob(tag, prop, behind = FALSE, mirrored = FALSE, used_index = null)
-	if(!used_index)
-		used_index = icon_state
-
+/obj/item/proc/generateonmob(tag, prop, behind, mirrored)
 	var/list/used_prop = prop
 	var/UH = 64
 	var/UW = 64
@@ -115,112 +100,232 @@ GLOBAL_LIST_EMPTY(icon_state_cache)
 	var/icon/blended
 	var/skipoverlays = FALSE
 
+	// --- behind handling + icon_states cache ---
 	if(behind)
-		if(isnull(has_behind_state))
-			has_behind_state = check_state_in_icon("[used_index]_behind", icon)
-		if(has_behind_state)
-			blended = icon("icon"=icon, "icon_state"="[used_index]_behind")
+		var/icon_key = "[icon]"
+		if(!GLOB.IconStates_cache[icon_key])
+			var/list/istates = icon_states(icon)
+			GLOB.IconStates_cache[icon_key] = istates
+			GLOB.has_behind_cache[icon_key] = ("[icon_state]_behind" in istates)
+
+		if(GLOB.has_behind_cache[icon_key])
+			blended = icon(icon = icon, icon_state = "[icon_state]_behind")
 			skipoverlays = TRUE
 		else
-			blended = icon("icon"=icon, "icon_state"=used_index)
+			blended = icon(icon = icon, icon_state = icon_state)
 	else
-		blended = icon("icon"=icon, "icon_state"=used_index)
+		blended = icon(icon = icon, icon_state = icon_state)
 
 	if(!blended)
 		blended = getFlatIcon(src)
 
 	if(!blended)
-		return null
+		return
 
-	if(!skipoverlays)
-		for(var/V in overlays)
-			var/image/IM = V
-			var/icon/image_overlay = new(IM.icon, IM.icon_state)
-			if(IM.color)
-				image_overlay.Blend(IM.color, ICON_MULTIPLY)
-			blended.Blend(image_overlay, ICON_OVERLAY)
+	// --- overlays ---
+	if(!skipoverlays && overlays.len)
+		var/static/list/plane_whitelist = list(FLOAT_PLANE, GAME_PLANE, FLOOR_PLANE)
 
-	var/icon/holder
+		for(var/mutable_appearance/overlay as anything in overlays)
+			if(!(overlay.plane in plane_whitelist))
+				continue
+
+			if(!overlay.color)
+				blended.Blend(icon(overlay.icon, overlay.icon_state), ICON_OVERLAY)
+			else
+				var/icon/image_overlay = icon(overlay.icon, overlay.icon_state)
+				image_overlay.Blend(overlay.color, ICON_MULTIPLY)
+				blended.Blend(image_overlay, ICON_OVERLAY)
+
+	// --- size switch ---
 	if(blended.Height() == 32)
 		UW = 32
 		UH = 32
 		used_mask = 'icons/roguetown/helpers/inhand.dmi'
 
-	var/list/directions = list(
-		list("north", "n", "northabove", WEST),
-		list("south", "s", "southabove", EAST),
-		list("east", "e", "eastabove", EAST),
-		list("west", "w", "westabove", EAST)
-	)
+	var/icon/holder
+	var/icon/masky
+	var/px
+	var/py
+	var/ax
+	var/usedtag
+	var/render_this_dir
 
-	for(var/list/dir_data in directions)
-		var/direction = dir_data[1]
-		var/tag_prefix = dir_data[2]
-		var/above_key = dir_data[3]
-		var/mirror_flip = dir_data[4]
+	// ================= NORTH =================
+	render_this_dir = FALSE
+	if(!behind)
+		if(used_prop["northabove"] == 1)
+			render_this_dir = TRUE
+	else
+		if(used_prop["northabove"] == 0)
+			render_this_dir = TRUE
 
-		// Handle east/west mirroring logic
-		var/actual_above_key = above_key
-		var/actual_tag_prefix = tag_prefix
-		if(direction == "east" && mirrored)
-			actual_above_key = "westabove"
-			actual_tag_prefix = "w"
-		else if(direction == "west" && mirrored)
-			actual_above_key = "eastabove"
-			actual_tag_prefix = "e"
-
-		// Check if we should render this direction
-		var/render_this_dir = FALSE
-		if(!behind)
-			if(used_prop[actual_above_key] == 1)
-				render_this_dir = TRUE
-		else
-			if(used_prop[actual_above_key] == 0)
-				render_this_dir = TRUE
-
-		if(!render_this_dir)
-			continue
-
-		// Create and process the icon for this direction
+	if(render_this_dir)
+		px = 0
+		py = 0
 		holder = icon(blended)
-		var/icon/masky = icon("icon"=used_mask, "icon_state"=direction)
+		masky = icon(icon = used_mask, icon_state = "north")
 		holder.Blend(masky, ICON_MULTIPLY)
 
-		// Apply transforms
-		if("[actual_tag_prefix]flip" in used_prop)
-			holder.Flip(used_prop["[actual_tag_prefix]flip"])
-		if("[actual_tag_prefix]turn" in used_prop)
-			holder.Turn(used_prop["[actual_tag_prefix]turn"])
+		if(!isnull(used_prop["nflip"]))
+			holder.Flip(used_prop["nflip"])
+		if(!isnull(used_prop["nturn"]))
+			holder.Turn(used_prop["nturn"])
 
-		// Calculate px position
-		var/px = 0
-		var/py = 0
-		if("[actual_tag_prefix]x" in used_prop)
-			px = used_prop["[actual_tag_prefix]x"]
+		if(!isnull(used_prop["nx"]))
 			if(mirrored)
-				if(direction == "north" || direction == "south")
-					px *= -1
-					var/biggu = (UH > 32)
-					if(mirror_fix(used_prop["shrink"], biggu))
-						px += mirror_fix(used_prop["shrink"], biggu)
-				else
-					px *= -1
-		if("[actual_tag_prefix]y" in used_prop)
-			py = used_prop["[actual_tag_prefix]y"]
+				px -= used_prop["nx"]
+				if(mirror_fix(used_prop["shrink"], UH > 32))
+					px += mirror_fix(used_prop["shrink"], UH > 32)
+			else
+				px += used_prop["nx"]
 
-		// Apply more transforms ffs
-		var/ax = 0
-		if("shrink" in used_prop)
-			holder.Scale(UW*used_prop["shrink"], UH*used_prop["shrink"])
-			ax = 32-(holder.Width()/2)
+		if(!isnull(used_prop["ny"]))
+			py += used_prop["ny"]
+
+		ax = 0
+		if(!isnull(used_prop["shrink"]))
+			holder.Scale(UW * used_prop["shrink"], UH * used_prop["shrink"])
+			ax = 32 - (holder.Width() / 2)
+
 		px += ax
 		py += ax
 
-		// Apply mirroring flip
 		if(mirrored)
-			holder.Flip(mirror_flip)
+			holder.Flip(WEST)
 
-		returned.Blend(holder, ICON_OVERLAY, x=px, y=py) // All icon blending is done during init
+		returned.Blend(holder, ICON_OVERLAY, x = px, y = py)
+
+	// ================= SOUTH =================
+	render_this_dir = FALSE
+	if(!behind)
+		if(used_prop["southabove"] == 1)
+			render_this_dir = TRUE
+	else
+		if(used_prop["southabove"] == 0)
+			render_this_dir = TRUE
+
+	if(render_this_dir)
+		px = 0
+		py = 0
+		holder = icon(blended)
+		masky = icon(icon = used_mask, icon_state = "south")
+		holder.Blend(masky, ICON_MULTIPLY)
+
+		if(!isnull(used_prop["sflip"]))
+			holder.Flip(used_prop["sflip"])
+		if(!isnull(used_prop["sturn"]))
+			holder.Turn(used_prop["sturn"])
+
+		if(!isnull(used_prop["sx"]))
+			if(mirrored)
+				px -= used_prop["sx"]
+				if(mirror_fix(used_prop["shrink"], UH > 32))
+					px += mirror_fix(used_prop["shrink"], UH > 32)
+			else
+				px += used_prop["sx"]
+
+		if(!isnull(used_prop["sy"]))
+			py += used_prop["sy"]
+
+		ax = 0
+		if(!isnull(used_prop["shrink"]))
+			holder.Scale(UW * used_prop["shrink"], UH * used_prop["shrink"])
+			ax = 32 - (holder.Width() / 2)
+
+		px += ax
+		py += ax
+
+		if(mirrored)
+			holder.Flip(EAST)
+
+		returned.Blend(holder, ICON_OVERLAY, x = px, y = py)
+
+	// ================= EAST =================
+	render_this_dir = FALSE
+	usedtag = mirrored ? "w" : "e"
+	if(!behind)
+		if(used_prop[mirrored ? "westabove" : "eastabove"] == 1)
+			render_this_dir = TRUE
+	else
+		if(used_prop[mirrored ? "westabove" : "eastabove"] == 0)
+			render_this_dir = TRUE
+
+	if(render_this_dir)
+		px = 0
+		py = 0
+		holder = icon(blended)
+		masky = icon(icon = used_mask, icon_state = "east")
+		holder.Blend(masky, ICON_MULTIPLY)
+
+		if(!isnull(used_prop["[usedtag]flip"]))
+			holder.Flip(used_prop["[usedtag]flip"])
+		if(!isnull(used_prop["[usedtag]turn"]))
+			holder.Turn(used_prop["[usedtag]turn"])
+
+		if(!isnull(used_prop["[usedtag]x"]))
+			px = used_prop["[usedtag]x"]
+			if(mirrored)
+				px *= -1
+
+		if(!isnull(used_prop["[usedtag]y"]))
+			py = used_prop["[usedtag]y"]
+
+		ax = 0
+		if(!isnull(used_prop["shrink"]))
+			holder.Scale(UW * used_prop["shrink"], UH * used_prop["shrink"])
+			ax = 32 - (holder.Width() / 2)
+
+		px += ax
+		py += ax
+
+		if(mirrored)
+			holder.Flip(EAST)
+
+		returned.Blend(holder, ICON_OVERLAY, x = px, y = py)
+
+	// ================= WEST =================
+	render_this_dir = FALSE
+	usedtag = mirrored ? "e" : "w"
+	if(!behind)
+		if(used_prop[mirrored ? "eastabove" : "westabove"] == 1)
+			render_this_dir = TRUE
+	else
+		if(used_prop[mirrored ? "eastabove" : "westabove"] == 0)
+			render_this_dir = TRUE
+
+	if(render_this_dir)
+		px = 0
+		py = 0
+		holder = icon(blended)
+		masky = icon(icon = used_mask, icon_state = "west")
+		holder.Blend(masky, ICON_MULTIPLY)
+
+		if(!isnull(used_prop["[usedtag]flip"]))
+			holder.Flip(used_prop["[usedtag]flip"])
+		if(!isnull(used_prop["[usedtag]turn"]))
+			holder.Turn(used_prop["[usedtag]turn"])
+
+		if(!isnull(used_prop["[usedtag]x"]))
+			px = used_prop["[usedtag]x"]
+			if(mirrored)
+				px *= -1
+
+		if(!isnull(used_prop["[usedtag]y"]))
+			py = used_prop["[usedtag]y"]
+
+		ax = 0
+		if(!isnull(used_prop["shrink"]))
+			holder.Scale(UW * used_prop["shrink"], UH * used_prop["shrink"])
+			ax = 32 - (holder.Width() / 2)
+
+		px += ax
+		py += ax
+
+		if(mirrored)
+			holder.Flip(EAST)
+
+		returned.Blend(holder, ICON_OVERLAY, x = px, y = py)
 
 	return returned
 
@@ -286,7 +391,7 @@ GLOBAL_LIST_EMPTY(icon_state_cache)
 	if(I)
 		if(!used_cat && I.altgripped)
 			used_cat = "altgrip"
-		if(!used_cat && I.wielded)
+		if(!used_cat && HAS_TRAIT(I, TRAIT_WIELDED))
 			used_cat = "wielded"
 		if(!used_cat)
 			used_cat = "gen"
@@ -337,7 +442,7 @@ GLOBAL_LIST_EMPTY(icon_state_cache)
 	if(I)
 		if(!used_cat && I.altgripped)
 			used_cat = "altgrip"
-		if(!used_cat && I.wielded)
+		if(!used_cat && HAS_TRAIT(I, TRAIT_WIELDED))
 			used_cat = "wielded"
 		if(!used_cat)
 			used_cat = "gen"
@@ -388,7 +493,7 @@ GLOBAL_LIST_EMPTY(icon_state_cache)
 	if(I)
 		if(!used_cat && I.altgripped)
 			used_cat = "altgrip"
-		if(!used_cat && I.wielded)
+		if(!used_cat && HAS_TRAIT(I, TRAIT_WIELDED))
 			used_cat = "wielded"
 		if(!used_cat)
 			used_cat = "gen"
@@ -439,7 +544,7 @@ GLOBAL_LIST_EMPTY(icon_state_cache)
 	if(I)
 		if(!used_cat && I.altgripped)
 			used_cat = "altgrip"
-		if(!used_cat && I.wielded)
+		if(!used_cat && HAS_TRAIT(I, TRAIT_WIELDED))
 			used_cat = "wielded"
 		if(!used_cat)
 			used_cat = "gen"
@@ -490,7 +595,7 @@ GLOBAL_LIST_EMPTY(icon_state_cache)
 	if(I)
 		if(!used_cat && I.altgripped)
 			used_cat = "altgrip"
-		if(!used_cat && I.wielded)
+		if(!used_cat && HAS_TRAIT(I, TRAIT_WIELDED))
 			used_cat = "wielded"
 		if(!used_cat)
 			used_cat = "gen"
@@ -554,7 +659,7 @@ GLOBAL_LIST_EMPTY(icon_state_cache)
 	if(I)
 		if(!used_cat && I.altgripped)
 			used_cat = "altgrip"
-		if(!used_cat && I.wielded)
+		if(!used_cat && HAS_TRAIT(I, TRAIT_WIELDED))
 			used_cat = "wielded"
 		if(!used_cat)
 			used_cat = "gen"
@@ -607,7 +712,7 @@ GLOBAL_LIST_EMPTY(icon_state_cache)
 	if(I)
 		if(!used_cat && I.altgripped)
 			used_cat = "altgrip"
-		if(!used_cat && I.wielded)
+		if(!used_cat && HAS_TRAIT(I, TRAIT_WIELDED))
 			used_cat = "wielded"
 		if(!used_cat)
 			used_cat = "gen"
@@ -651,7 +756,7 @@ GLOBAL_LIST_EMPTY(icon_state_cache)
 	if(I)
 		if(!used_cat && I.altgripped)
 			used_cat = "altgrip"
-		if(!used_cat && I.wielded)
+		if(!used_cat && HAS_TRAIT(I, TRAIT_WIELDED))
 			used_cat = "wielded"
 		if(!used_cat)
 			used_cat = "gen"
@@ -689,7 +794,7 @@ GLOBAL_LIST_EMPTY(icon_state_cache)
 	if(I)
 		if(!used_cat && I.altgripped)
 			used_cat = "altgrip"
-		if(!used_cat && I.wielded)
+		if(!used_cat && HAS_TRAIT(I, TRAIT_WIELDED))
 			used_cat = "wielded"
 		if(!used_cat)
 			used_cat = "gen"
@@ -698,7 +803,6 @@ GLOBAL_LIST_EMPTY(icon_state_cache)
 			var/list/L = I.onprop[used_cat]
 			L[needtofind] -= 0.1
 			to_chat(LI, "[needtofind] = [L[needtofind]]")
-	LI.update_inv_hands()
 	LI.update_inv_belt()
 	LI.update_inv_back()
 
@@ -708,7 +812,7 @@ GLOBAL_LIST_EMPTY(icon_state_cache)
 	if(mob)
 		var/turf/T = get_turf(mob)
 		if(T)
-			new /obj/item/roguecoin/gold/pile(T)
+			new /obj/item/coin/gold/pile(T)
 /*
 /client/verb/wwolf()
 	set category = "DEBUGTEST"
@@ -744,18 +848,5 @@ GLOBAL_LIST_EMPTY(icon_state_cache)
 			var/list/screens = list(C.hud_used.plane_masters["[FLOOR_PLANE]"], C.hud_used.plane_masters["[GAME_PLANE]"], C.hud_used.plane_masters["[LIGHTING_PLANE]"])
 			for(var/whole_screen in screens)
 				animate(whole_screen, transform = matrix(), time = 5, easing = QUAD_EASING)
-#endif
 
-#ifdef TESTING
-/client/verb/door_test_button()
-	set category = "DEBUGTEST"
-	set name = "door_test_button"
-	if(mob)
-		var/mob/M = mob
-		if(isturf(M.loc))
-			var/turf/T = M.loc
-			for(var/obj/structure/mineral_door/D in T)
-				to_chat(M, "DOOR - [D]")
-				to_chat(M, "LOCKID: [D.lockid]")
-				to_chat(M, "LOCKSTATUS: [D.locked]")
 #endif

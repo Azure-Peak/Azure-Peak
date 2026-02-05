@@ -318,7 +318,7 @@
 	created_item = /obj/item/rogueweapon/sword/falchion/militia/bronze
 
 /datum/anvil_recipe/weapons/bronze/battleaxe
-	name = "Waraxe, Bronze (+1 Bronze)"
+	name = "War Axe, Bronze (+1 Bronze)"
 	req_bar = /obj/item/ingot/bronze
 	req_blade = /obj/item/blade/bronze_axe
 	additional_items = list(/obj/item/ingot/bronze)
@@ -419,6 +419,11 @@
 	req_bar = /obj/item/ingot/iron
 	created_item = /obj/item/rogueweapon/flail
 
+/datum/anvil_recipe/weapons/iron/flailalt
+	name = "Flail, Studded, Iron"
+	req_bar = /obj/item/ingot/iron
+	created_item = /obj/item/rogueweapon/flail/alt
+
 /datum/anvil_recipe/weapons/iron/huntknife
 	name = "Hunting Knife, Iron"
 	req_bar = /obj/item/ingot/iron
@@ -447,10 +452,10 @@
 	created_item = /obj/item/rogueweapon/greatsword/iron
 
 /datum/anvil_recipe/weapons/iron/claymore
-	name = "Claymore, Iron (+2 Iron)"
+	name = "Claymore, Iron (+4 Iron)"
 	req_bar = /obj/item/ingot/iron
 	req_blade = /obj/item/blade/iron_sword
-	additional_items = list(/obj/item/ingot/iron, /obj/item/ingot/iron)
+	additional_items = list(/obj/item/ingot/iron, /obj/item/ingot/iron, /obj/item/ingot/iron, /obj/item/ingot/iron)
 	created_item = /obj/item/rogueweapon/greatsword/zwei
 
 /datum/anvil_recipe/weapons/iron/axe
@@ -459,6 +464,13 @@
 	req_blade = /obj/item/blade/iron_axe
 	additional_items = list(/obj/item/grown/log/tree/stick)
 	created_item = /obj/item/rogueweapon/stoneaxe/woodcut
+
+/datum/anvil_recipe/weapons/iron/axelegacy
+	name = "Woodcutting Handaxe, Iron (+1 Small Log)"
+	req_bar = /obj/item/ingot/iron
+	req_blade = /obj/item/blade/iron_axe
+	additional_items = list(/obj/item/grown/log/tree/small)
+	created_item = /obj/item/rogueweapon/stoneaxe/woodcut/woodcutter
 
 /datum/anvil_recipe/weapons/iron/greataxe
 	name = "Greataxe, Iron (+1 Iron, +1 Small Log)"
@@ -718,10 +730,10 @@
 	created_item = /obj/item/rogueweapon/greatsword
 
 /datum/anvil_recipe/weapons/steel/flamb
-	name = "Flamberge, Steel (+2 Steel)"
+	name = "Flamberge, Steel (+3 Steel)"
 	req_bar = /obj/item/ingot/steel
 	req_blade = /obj/item/blade/steel_sword
-	additional_items = list(/obj/item/ingot/steel, /obj/item/ingot/steel)
+	additional_items = list(/obj/item/ingot/steel, /obj/item/ingot/steel, /obj/item/ingot/steel)
 	created_item = /obj/item/rogueweapon/greatsword/grenz/flamberge
 
 /datum/anvil_recipe/weapons/steel/estoc

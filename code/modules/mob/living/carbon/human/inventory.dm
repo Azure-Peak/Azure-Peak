@@ -523,7 +523,14 @@
 
 	if(!equipped)
 		return FALSE
-	if(!istype(equipped, /obj/item/rogueweapon/scabbard))
+	var/datum/component/holster/HC = equipped.GetComponent(/datum/component/holster)
+	if(HC)
+		if(!HC.sheathed && thing)
+			HC.eat_sword(src, thing)
+		if(HC.sheathed && !thing)
+			HC.right_click(src, src)
+		return TRUE
+	if(!HC)
 		if(SEND_SIGNAL(equipped, COMSIG_CONTAINS_STORAGE))
 			if(!equipped.contents.len)
 				return FALSE
@@ -534,14 +541,12 @@
 				return FALSE
 			use_thing = stored
 
-	var/obj/item/rogueweapon/scabbard/scab = use_thing ? use_thing : equipped
-	if(!istype(scab))
+	if(use_thing)
+		HC = use_thing.GetComponent(/datum/component/holster)
+	if(!istype(HC))
 		return FALSE
-	if(!thing)
-		if(!scab.sheathed)
-			return FALSE
-		return scab.attack_right(src)
-	if(!istype(thing, scab.valid_blade))
-		return FALSE
-	return scab.attackby(thing, src)
+	if(!HC.sheathed && thing)
+		return HC.eat_sword(src, thing)
+	if(HC.sheathed && !thing)
+		return HC.right_click(src, src)
 

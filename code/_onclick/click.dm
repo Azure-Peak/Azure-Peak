@@ -503,33 +503,33 @@ GLOBAL_LIST_EMPTY(reach_dummy_pool)
 
 /proc/CheckToolReach(atom/movable/here, atom/movable/there, reach)
 	if(!here || !there)
-		return
+		return FALSE
+
+	var/turf/start = get_turf(here)
+	if(!start)
+		return FALSE
+
 	switch(reach)
 		if(0)
 			return FALSE
 		if(1)
-			return FALSE //here.Adjacent(there)
-		if(2 to INFINITY)
-			var/obj/dummy
-			if(GLOB.reach_dummy_pool.len)
-				dummy = GLOB.reach_dummy_pool[GLOB.reach_dummy_pool.len]
-				GLOB.reach_dummy_pool.len--
-			else
-				dummy = new /obj()
-				dummy.pass_flags |= PASSTABLE
-				dummy.invisibility = INVISIBILITY_ABSTRACT
-			dummy.movement_type = FLYING
-			dummy.forceMove(get_turf(here))
-			for(var/i in 1 to reach) //Limit it to that many tries
-				var/turf/T = get_step(dummy, get_dir(dummy, there))
-				if(dummy.CanReach(there))
-					GLOB.reach_dummy_pool += dummy
-					return TRUE
-				if(!dummy.Move(T)) //we're blocked!
-					GLOB.reach_dummy_pool += dummy
-					return
-			GLOB.reach_dummy_pool += dummy
 			return FALSE
+		if(2 to INFINITY)
+			var/obj/effect/dummy = new(start)
+			dummy.pass_flags |= PASSTABLE
+			dummy.movement_type = FLYING
+			dummy.invisibility = INVISIBILITY_ABSTRACT
+			for(var/i in 1 to reach)
+				if(dummy.CanReach(there))
+					qdel(dummy)
+					return TRUE
+				var/turf/T = get_step(dummy, get_dir(dummy, there))
+				if(!T || !dummy.Move(T))
+					qdel(dummy)
+					return FALSE
+			qdel(dummy)
+			return FALSE
+
 
 // Default behavior: ignore double clicks (the second click that makes the doubleclick call already calls for a normal click)
 /mob/proc/DblClickOn(atom/A, params)

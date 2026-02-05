@@ -744,7 +744,6 @@
 /obj/item/clothing/cloak/apron/waist/bar
 	color = "#251f1d"
 
-
 /obj/item/clothing/cloak/apron/cook
 	name = "cook apron"
 	desc = "An apron meant to show how clean the cook is."
@@ -1538,6 +1537,13 @@
 	sleevetype = "shirt"
 	nodismemsleeves = TRUE
 	inhand_mod = TRUE
+
+/obj/item/clothing/cloak/ordinatorcape/lirvas
+	name = "lirvan silks"
+	desc = "Fine silks. Only the best for me, of course. You need to look good while beating someone to death. </br> </br> ...In Lirvasi society, this isn't even a well-off fellow's shirt; truth be told, this is the sort a yeoman would wear. How terrible to be the wretched 'mongst wealthy; but how glorious that the wretched look so glorious, here."
+	icon_state = "lirvastabard"
+	item_state = "lirvastabard"
+	sellprice = 25
 
 /obj/item/clothing/cloak/absolutionistrobe
 	name = "absolver's robe"

@@ -60,11 +60,19 @@
 	grid_height = 96
 	grid_width = 96
 	sellprice = 200
+	unenchantable = TRUE
 
 /obj/item/clothing/wrists/roguetown/bracers/gold/king
 	name = "royal golden bracers"
 	max_integrity = ARMOR_INT_SIDE_GOLDPLUS // Doubled integrity.
 	sellprice = 300
+	unenchantable = TRUE
+
+/obj/item/clothing/wrists/roguetown/bracers/lirvas
+	name = "lirvasi pauldrons"
+	desc = "Oversized gold pauldrons that protect the forearms and upper-arms. Surprisingly protective and flashy, but heavy...!"
+	icon_state = "goldpauldron"
+	sellprice = 20
 
 /obj/item/clothing/wrists/roguetown/bracers/psythorns
 	name = "psydonic thorns"
@@ -96,7 +104,7 @@
 			user.dropItemToGround(src)
 			user.put_in_hands(P)
 		P.obj_integrity = src.obj_integrity
-		user.adjustBruteLoss(25)	
+		user.adjustBruteLoss(25)
 		qdel(src)
 	else
 		user.visible_message(span_warning("[user] stops reshaping [src]."))
@@ -346,3 +354,14 @@
 	. = ..()
 	AddComponent(/datum/component/cursed_item, TRAIT_HORDE, "ARMOR", "RENDERED ASUNDER")
 
+/obj/item/clothing/wrists/roguetown/bracers/leather/heavy/hand
+	name = "hand's bracers"
+	desc = "Discretion had always been the better part of valour, and nobody understands that better than the one holding an ace up their sleeve."
+	color = null
+	sellprice = 250
+	icon = 'icons/roguetown/clothing/special/hand.dmi'
+	icon_state = "bracersheath"
+
+/obj/item/clothing/wrists/roguetown/bracers/leather/heavy/hand/ComponentInitialize()
+	. = ..()
+	AddComponent(/datum/component/holster, /obj/item/rogueweapon/huntingknife, null, list(/obj/item/rogueweapon/huntingknife/idagger/stake, /obj/item/rogueweapon/huntingknife/idagger/silver/stake))

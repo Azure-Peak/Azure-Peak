@@ -94,11 +94,14 @@
 	miracle = TRUE
 	devotion_cost = 75
 	cabal_affine = TRUE
-	to_spawn = 2
+	to_spawn = 1
 
 // T2: carbon spawn
 
 /obj/effect/proc_holder/spell/invoked/raise_undead_guard/miracle
+	name = "Raise Deadite"
+	desc = "Raises a singular, weak deadite."
+	chargetime = 3 SECONDS
 	miracle = TRUE
 	devotion_cost = 75
 

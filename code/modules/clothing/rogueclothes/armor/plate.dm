@@ -566,16 +566,19 @@
 	grid_height = 96
 	grid_width = 96
 	sellprice = 300
+	unenchantable = TRUE
 
 /obj/item/clothing/suit/roguetown/armor/plate/cuirass/fluted/gold/heroic
 	name = "golden heroic cuirass"
 	icon_state = "heroiccuirass"
 	desc = "A resplendant cuirass of pure gold, fitted with tassets for additional coverage. It has been meticulously waxed-and-assembled from dozens of smaller golden plates, in order to replicate the statuesque physique of Psydonia's legendary heroes."
+	unenchantable = TRUE
 
 /obj/item/clothing/suit/roguetown/armor/plate/cuirass/fluted/gold/king
 	name = "golden heroic cuirass"
 	max_integrity = ARMOR_INT_SIDE_GOLDPLUS // Doubled integrity.
 	sellprice = 400
+	unenchantable = TRUE
 
 /obj/item/clothing/suit/roguetown/armor/plate/cuirass/fluted/ornate
 	name = "psydonic cuirass"

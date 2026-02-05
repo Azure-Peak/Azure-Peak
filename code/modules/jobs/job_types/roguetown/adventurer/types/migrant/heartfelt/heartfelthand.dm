@@ -48,6 +48,11 @@
 		STATKEY_WIL = 1,
 	)
 
+	subclass_stashed_items = list("Heartfelt Caparison" = /obj/item/caparison/heartfelt)
+	subclass_virtues = list(
+		/datum/virtue/utility/riding
+	)
+
 	subclass_skills = list(
 	/datum/skill/combat/swords = SKILL_LEVEL_EXPERT,
 	/datum/skill/combat/polearms = SKILL_LEVEL_EXPERT,
@@ -68,10 +73,10 @@
 	armor = /obj/item/clothing/suit/roguetown/armor/heartfelt/hand
 	r_hand = /obj/item/rogueweapon/sword/long/dec
 	//l_hand = banner-pike for when I add it
-	beltl = /obj/item/rogueweapon/scabbard/sword/royal
+	beltl = /obj/item/rogueweapon/scabbard/sword/noble
 	backpack_contents = list(
 		/obj/item/rogueweapon/huntingknife/idagger/steel/special = 1,
-		/obj/item/rogueweapon/scabbard/sheath/royal = 1,
+		/obj/item/rogueweapon/scabbard/sheath/noble = 1,
 		/obj/item/rogueweapon/huntingknife = 1,
 		/obj/item/storage/belt/rogue/pouch/coins/veryrich = 1,
 		/obj/item/reagent_containers/glass/bottle/alchemical/healthpotnew = 2,
@@ -86,11 +91,13 @@
 		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/order/heartfelt/forheartfelt)
 		// H.mind.AddSpell(new/obj/effect/proc_holder/spell/invoked/order/heartfelt/focustarget)
 		H.verbs |= list(/mob/living/carbon/human/mind/proc/setordersheartfelt)
-	var/helmet = list("Etruscan Bascinet","Beak Helmet","Visored Sallet",)
+	var/helmet = list("Etruscan Bascinet","Volf Plate Helmet","Beak Helmet","Visored Sallet",)
 	var/helmet_choice = input("Choose your Helm.", "TAKE UP HELMS") as anything in helmet
 	switch(helmet_choice)
 		if("Etruscan Bascinet")
 			head = /obj/item/clothing/head/roguetown/helmet/bascinet/etruscan
+		if("Volf Plate Helmet") 
+			head = /obj/item/clothing/head/roguetown/helmet/heavy/volfplate
 		if("Beak Helmet") // GUUUUTS NO GUTS NOOOOO
 			head = /obj/item/clothing/head/roguetown/helmet/heavy/beakhelm
 		if("Visored Sallet")	
@@ -118,6 +125,11 @@
 		STATKEY_WIL = 2,
 	)
 
+	subclass_stashed_items = list("Heartfelt Caparison" = /obj/item/caparison/heartfelt)
+	subclass_virtues = list(
+		/datum/virtue/utility/riding
+	)
+
 	subclass_skills = list(
 	/datum/skill/combat/swords = SKILL_LEVEL_EXPERT,
 	/datum/skill/combat/maces = SKILL_LEVEL_APPRENTICE,
@@ -137,12 +149,12 @@
 	armor = /obj/item/clothing/suit/roguetown/armor/brigandine
 	gloves = /obj/item/clothing/gloves/roguetown/leather/black
 	r_hand = /obj/item/rogueweapon/sword/sabre/dec
-	beltl = /obj/item/rogueweapon/scabbard/sword/royal
+	beltl = /obj/item/rogueweapon/scabbard/sword/noble
 	beltr = /obj/item/flashlight/flare/torch/lantern
 	neck = /obj/item/storage/belt/rogue/pouch/coins/veryrich
 	backpack_contents = list(
 		/obj/item/rogueweapon/huntingknife/idagger/steel/special = 1,
-		/obj/item/rogueweapon/scabbard/sheath/royal = 1,
+		/obj/item/rogueweapon/scabbard/sheath/noble = 1,
 		/obj/item/rogueweapon/huntingknife = 1,
 		/obj/item/storage/belt/rogue/pouch/coins/veryrich = 2,
 		/obj/item/reagent_containers/glass/bottle/alchemical/healthpotnew = 1,
@@ -171,6 +183,11 @@
 		STATKEY_SPD = 1
 	)
 
+	subclass_stashed_items = list("Heartfelt Caparison" = /obj/item/caparison/heartfelt)
+	subclass_virtues = list(
+		/datum/virtue/utility/riding
+	)
+
 	subclass_spellpoints = 15
 
 	subclass_skills = list(
@@ -196,11 +213,11 @@
 	..()
 	shirt = /obj/item/clothing/suit/roguetown/shirt/undershirt/guard
 	r_hand = /obj/item/rogueweapon/sword/sabre/dec
-	beltl = /obj/item/rogueweapon/scabbard/sword/royal
+	beltl = /obj/item/rogueweapon/scabbard/sword/noble
 	mask = /obj/item/clothing/mask/rogue/spectacles/golden
 	backpack_contents = list(
 		/obj/item/rogueweapon/huntingknife/idagger/steel/special = 1,
-		/obj/item/rogueweapon/scabbard/sheath/royal = 1,
+		/obj/item/rogueweapon/scabbard/sheath/noble = 1,
 		/obj/item/rogueweapon/huntingknife = 1,
 		/obj/item/storage/belt/rogue/pouch/coins/veryrich = 1,
 		/obj/item/lockpickring/mundane = 1, 

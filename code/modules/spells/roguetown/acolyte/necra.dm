@@ -29,7 +29,7 @@
 		if(success)
 			user.visible_message("[user] consecrates [hole]!", "My funeral rites have been performed on [hole]!")
 			record_round_statistic(STATS_GRAVES_CONSECRATED)
-			return
+			return TRUE
 	to_chat(user, span_red("I failed to perform the rites."))
 
 /obj/effect/proc_holder/spell/targeted/churn

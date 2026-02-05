@@ -110,7 +110,9 @@
 		var/explo_mineral_amount = mineralAmt
 		var/obj/item/natural/rock/explo_rock = rockType
 		ScrapeAway()
-		GLOB.mined_resource_loc |= get_turf(src)
+		var/turf/T = get_turf(src)
+		if(T)
+			GLOB.mined_resource_loc |= T
 		queue_smooth_neighbors(src)
 		new /obj/item/natural/stone(src)
 		if(prob(30))

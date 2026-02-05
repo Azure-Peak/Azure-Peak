@@ -205,6 +205,15 @@
 		if(M.checkdefense(user.used_intent, user))
 			return
 
+	if(user.mind)
+		if(user.client?.prefs?.attack_blip_frequency != ATTACK_BLIP_PREF_NEVER)
+			var/blip_prob = user.client?.prefs?.attack_blip_frequency
+			if(prob(blip_prob))
+				user.emote("attack", forced = TRUE)
+	else
+		if(prob(PROB_ATTACK_EMOTE_NPC))
+			user.emote("attack", forced = TRUE)
+
 	SEND_SIGNAL(src, COMSIG_ITEM_ATTACK_SUCCESS, M, user)
 	SEND_SIGNAL(M, COMSIG_ITEM_ATTACKED_SUCCESS, src, user)
 	if(user.zone_selected == BODY_ZONE_PRECISE_R_INHAND)
@@ -264,6 +273,8 @@
 		return TRUE
 
 /obj/item/proc/attack_turf(turf/T, mob/living/user, multiplier)
+	if(SEND_SIGNAL(src, COMSIG_ITEM_ATTACK_TURF, T, user) & COMPONENT_NO_ATTACK_OBJ)
+		return
 	if(T.max_integrity)
 		if(T.attacked_by(src, user, multiplier))
 			user.do_attack_animation(T, simplified = TRUE)
@@ -424,6 +435,8 @@
 
 	if(istype(user.rmb_intent, /datum/rmb_intent/strong))
 		newforce += (I.force_dynamic * STRONG_STANCE_DMG_BONUS)
+
+	newforce = CLAMP(newforce, user.used_intent.min_intent_damage, user.used_intent.max_intent_damage)
 
 	return newforce
 

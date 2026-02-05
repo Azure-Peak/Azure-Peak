@@ -105,6 +105,9 @@
 	color = pick("#6b5445", "#435436", "#704542", "#79763f")
 	..()
 
+/obj/item/clothing/suit/roguetown/shirt/undershirt/green
+	color = CLOTHING_GREEN
+
 /obj/item/clothing/suit/roguetown/shirt/undershirt/puritan
 	name = "formal silks"
 	slot_flags = ITEM_SLOT_SHIRT|ITEM_SLOT_ARMOR

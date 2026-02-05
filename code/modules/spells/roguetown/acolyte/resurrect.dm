@@ -26,13 +26,12 @@
 	var/harms_undead = TRUE
 	priest_excluded = TRUE
 
-/obj/effect/proc_holder/spell/invoked/resurrect/start_recharge()
-	var/old_recharge = recharge_time
-	recharge_time = initial(recharge_time) * SSchimeric_tech.get_resurrection_multiplier()
-	// If the spell was fully charged, keep it fully charged after adjusting recharge_time
-	if(charge_counter >= old_recharge && old_recharge > 0)
-		charge_counter = recharge_time
-	. = ..()
+/obj/effect/proc_holder/spell/invoked/resurrect/calculate_recharge_time()
+	var/final_time = ..()
+	
+	final_time *= SSchimeric_tech.get_resurrection_multiplier()
+	
+	return max(cooldown_min, round(final_time))
 
 /obj/effect/proc_holder/spell/invoked/resurrect/proc/get_current_required_items()
 	if(SSchimeric_tech.has_revival_cost_reduction() && length(alt_required_items))
@@ -46,7 +45,7 @@
 
 		var/validation_result = validate_items(target)
 		if(validation_result != "")
-			to_chat(user, span_warning("[validation_result] on the floor next to or on top of [target]"))
+			to_chat(user, span_warning("[validation_result] on the floor next to or on top of [target]."))
 			revert_cast()
 			return FALSE
 

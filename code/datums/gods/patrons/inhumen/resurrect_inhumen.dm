@@ -31,7 +31,7 @@
 	required_structure = /obj/structure/fluff/psycross/zizocross
 
 /obj/effect/proc_holder/spell/invoked/resurrect/baotha
-	name = "Drive the thorns deep"
+	name = "Drive the Thorns Deep"
 	desc = "Revives the target by afflicting them with a lasting addiction."
 	debuff_type = /datum/status_effect/debuff/baotha_addiction
 	alt_required_items = list(/obj/item/natural/thorn = 3)
@@ -44,6 +44,7 @@
 	action_icon_state = "revival"
 	action_icon = 'icons/mob/actions/zizomiracles.dmi'
 	required_structure = /obj/structure/fluff/psycross/zizocross
+	req_items = list() // temp. baothans dont have a holy symbol. apparently one is being commed so this is just the stopgap.
 
 /obj/effect/proc_holder/spell/invoked/resurrect/zizo
 	name = "Zizo's Rebirth"

@@ -145,7 +145,7 @@
 			user.put_in_hands(sammich)
 			qdel(I)
 			qdel(src)
-	if(istype(I, /obj/item/reagent_containers/food/snacks/rogue/friedegg)) //This actually creates a toast out of regular bread so we put it here.
+	if(istype(I, /obj/item/reagent_containers/food/snacks/rogue/friedegg/fried)) //This actually creates a toast out of regular bread so we put it here.
 		playsound(get_turf(user), 'sound/foley/dropsound/food_drop.ogg', 50, TRUE, -1)
 		if(do_after(user,short_cooktime, target = src))
 			var/obj/item/reagent_containers/food/snacks/rogue/sandwich/egg/sammich= new(get_turf(user))
@@ -166,7 +166,7 @@
 	name = "buttered toast"
 	icon = 'modular/Neu_Food/icons/cooked/cooked_baked.dmi'
 	icon_state = "toast_butter"
-	faretype = FARE_NEUTRAL
+	faretype = FARE_FINE
 	tastes = list("butter" = 1)
 	list_reagents = list(/datum/reagent/consumable/nutriment = SNACK_DECENT)
 
@@ -198,7 +198,6 @@
 	tastes = list("salumoi" = 1,"bread" = 1)
 	name = "salumoi bread"
 	desc = "A piece of toast with a thin slice of salumoi on top. Often eaten by soldiers on the march. Salty!"
-	faretype = FARE_NEUTRAL
 	icon_state = "bread_salami"
 	foodtype = GRAIN | MEAT
 
@@ -206,7 +205,6 @@
 	tastes = list("cheese" = 1,"bread" = 1)
 	name = "cheese bread"
 	desc = "A slice of toast with a rather thick wedge of cheese melted into the crust."
-	faretype = FARE_NEUTRAL
 	icon_state = "bread_cheese"
 	foodtype = GRAIN | DAIRY
 
@@ -214,7 +212,6 @@
 	tastes = list("cheese" = 1,"egg" = 1)
 	name = "egg toast"
 	desc = "A piece of toast with a fried egg on top that jiggles gently when prodded."
-	faretype = FARE_NEUTRAL
 	icon_state = "bread_egg"
 	foodtype = GRAIN | MEAT
 
