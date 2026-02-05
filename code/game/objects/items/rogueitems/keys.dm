@@ -611,11 +611,115 @@
 	icon_state = "rustkey"
 	lockid = "bandit"
 
+//Zurch
+
 /obj/item/roguekey/inhumen
 	name = "old cell key"
 	desc = "A ancient, rusty key. Seems like it goes to some kind of cell."
 	icon_state = "rustkey"
 	lockid = "inhumen"
+
+/obj/item/roguekey/inhumen/one
+	name = "cell key one"
+	desc = "A ancient, rusty key. Seems like it goes to some kind of cell."
+	icon_state = "rustkey"
+	lockid = "inhumen1"
+
+/obj/item/roguekey/inhumen/two
+	name = "cell key two"
+	desc = "A ancient, rusty key. Seems like it goes to some kind of cell."
+	icon_state = "rustkey"
+	lockid = "inhumen2"
+
+/obj/item/roguekey/inhumen/three
+	name = "cell key three"
+	desc = "A ancient, rusty key. Seems like it goes to some kind of cell."
+	icon_state = "rustkey"
+	lockid = "inhumen3"
+
+/obj/item/roguekey/inhumen/four
+	name = "cell key four"
+	desc = "A ancient, rusty key. Seems like it goes to some kind of cell."
+	icon_state = "rustkey"
+	lockid = "inhumen4"
+
+/obj/item/roguekey/zurch_bedroom
+	name = "bedroom i key"
+	desc = "A ancient, rusty key."
+	icon_state = "rustkey"
+	lockid = "zurch_bedroom_1"
+
+/obj/item/roguekey/zurch_bedroom/two
+	name = "bedroom ii key"
+	desc = "A ancient, rusty key."
+	icon_state = "rustkey"
+	lockid = "zurch_bedroom_2"
+
+/obj/item/roguekey/zurch_bedroom/three
+	name = "bedroom iii key"
+	desc = "A ancient, rusty key."
+	icon_state = "rustkey"
+	lockid = "zurch_bedroom_3"
+
+/obj/item/roguekey/zurch_bedroom/four
+	name = "bedroom iv key"
+	desc = "A ancient, rusty key."
+	icon_state = "rustkey"
+	lockid = "zurch_bedroom_4"
+
+/obj/item/roguekey/zurch_bedroom/five
+	name = "bedroom v key"
+	desc = "A ancient, rusty key."
+	icon_state = "rustkey"
+	lockid = "zurch_bedroom_5"
+
+/obj/item/roguekey/zurch_bedroom/six
+	name = "bedroom vi key"
+	desc = "A ancient, rusty key."
+	icon_state = "rustkey"
+	lockid = "zurch_bedroom_6"
+
+/obj/item/roguekey/zurch_bedroom/seven
+	name = "bedroom vii key"
+	desc = "A ancient, rusty key."
+	icon_state = "rustkey"
+	lockid = "zurch_bedroom_7"
+
+/obj/item/roguekey/zurch_bedroom/eight
+	name = "bedroom viii key"
+	desc = "A ancient, rusty key."
+	icon_state = "rustkey"
+	lockid = "zurch_bedroom_8"
+
+/obj/item/roguekey/zurch_bedroom/nine
+	name = "bedroom ix key"
+	desc = "A ancient, rusty key."
+	icon_state = "rustkey"
+	lockid = "zurch_bedroom_9"
+
+/obj/item/roguekey/zurch_bedroom/ten
+	name = "bedroom x key"
+	desc = "A ancient, rusty key."
+	icon_state = "rustkey"
+	lockid = "zurch_bedroom_10"
+
+/obj/item/roguekey/zurch_bedroom/eleven
+	name = "bedroom xi key"
+	desc = "A ancient, rusty key."
+	icon_state = "rustkey"
+	lockid = "zurch_bedroom_11"
+
+/obj/item/roguekey/zurch_bedroom/twelve
+	name = "bedroom xii key"
+	desc = "A ancient, rusty key."
+	icon_state = "rustkey"
+	lockid = "zurch_bedroom_12"
+
+/obj/item/roguekey/zurch_bedroom/admin
+	name = "ancient key"
+	desc = "A ancient, rusty key."
+	icon_state = "rustkey"
+	lockid = "admin_event_door"
 
 ///////////////////////////////////////
 // ABSOLUTELY ZERO CLUE WHAT THIS IS //

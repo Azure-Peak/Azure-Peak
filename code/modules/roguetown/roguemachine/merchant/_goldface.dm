@@ -141,6 +141,27 @@
 	. = ..()
 	. += span_info("This can be locked by a physician's key")
 
+/obj/structure/roguemachine/goldface/public/wretch_cat
+	name = "Vile Vheslie"
+	desc = "A ferocious little beast that hoards a mountain of goods under its home. The dreaded creechur is willing to part waes with its lower quality items..for a price."
+	icon = 'icons/roguetown/misc/structure.dmi'
+	icon_state = "vheslie"
+	lockid = "Vheslie"
+	profit_id = list("Guildsman", "Guildmaster", "Tailor")
+	categories = list(
+		"Apparel",
+		"Adventuring Supplies",
+		"Armor (Iron)",
+		"Alcohols",
+		"Consumable",
+		"Drugs",
+		"Potions",
+		"Weapons (Ranged)",
+		"Weapons (Iron and Shields)",
+		"Wardrobe"
+	)
+	categories_gamer = list()
+
 /obj/structure/roguemachine/goldface/Initialize()
 	. = ..()
 	update_icon()
