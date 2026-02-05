@@ -58,6 +58,8 @@ to still keep this unavailable to mages... for the moment, at least.
 
 /datum/status_effect/debuff/blindness/on_apply()
 	// Blindness actually hooks into the vision_cone.dm as part of a status effect check.
+	// If any of you can figure out how to get a fullscreen overlay working (imparied vision or the oxyloss if you want to be nicer)
+	// that'd be awesome to add. Unfortunately, I couldnt! 
 	. = ..()
 
 /datum/status_effect/debuff/blindness/on_remove()
