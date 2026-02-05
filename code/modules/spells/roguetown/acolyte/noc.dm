@@ -728,7 +728,7 @@ Somewhat fitting, considering the broadness of their domains. I also just think 
 		alreadychoosing = FALSE
 		return FALSE
 	if(item.dreamcost > user.mind.sleep_adv.sleep_adv_points)
-		to_chat(user,span_warning("You do not have enough experience to create this spell."))
+		to_chat(user,span_warning("You do not have enough dream-points to create this spell."))
 		revert_cast()
 		alreadychoosing = FALSE
 		return FALSE		// not enough spell points
