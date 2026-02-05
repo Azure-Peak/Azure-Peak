@@ -22,6 +22,7 @@
 	glow_intensity = GLOW_INTENSITY_LOW
 	cost = 3
 	gesture_required = TRUE // Offensive spell
+	human_req = TRUE // Combat spell
 
 /obj/effect/proc_holder/spell/invoked/frostbite/cast(list/targets, mob/living/user)
 	if(isliving(targets[1]))

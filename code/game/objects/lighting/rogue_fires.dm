@@ -203,7 +203,8 @@
 	bulb_colour = "#7b60f3"
 	icon_state = "wallcandleb1"
 	base_state = "wallcandleb"
-	desc = "Tiny bluish flames flicker gently like the stars themselves."
+	desc = "Tiny bluish flames flicker gently like the stars themselves. Mana-infused wax \
+	is rather expensive, but makes quite an impression!"
 
 /obj/machinery/light/rogue/candle/blue/r
 	pixel_y = 0

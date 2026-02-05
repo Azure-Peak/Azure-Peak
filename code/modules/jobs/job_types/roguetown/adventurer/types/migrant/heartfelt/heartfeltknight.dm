@@ -54,6 +54,12 @@
 	category_tags = list(CTAG_HFT_KNIGHT)
 	class_select_category = CLASS_CAT_HFT_COURT
 	traits_applied = list(TRAIT_NOBLE, TRAIT_HEAVYARMOR, TRAIT_STEELHEARTED, TRAIT_HEARTFELT)
+
+	subclass_stashed_items = list("Heartfelt Caparison" = /obj/item/caparison/heartfelt)
+	subclass_virtues = list(
+		/datum/virtue/utility/riding
+	)
+
 	subclass_stats = list(
 		STATKEY_STR = 3,
 		STATKEY_PER = 1,
@@ -93,12 +99,9 @@
 	armor = /obj/item/clothing/suit/roguetown/armor/plate/full
 	shoes = /obj/item/clothing/shoes/roguetown/boots/armor
 	beltr = /obj/item/rogueweapon/scabbard/sword/noble
-	l_hand = /obj/item/rogueweapon/sword/long
-	r_hand = /obj/item/rogueweapon/mace/goden/steel
 	beltl = /obj/item/flashlight/flare/torch/lantern
 	belt = /obj/item/storage/belt/rogue/leather/steel
 	backr = /obj/item/storage/backpack/rogue/satchel/black
-	backl = /obj/item/rogueweapon/scabbard/gwstrap
 	head = /obj/item/clothing/head/roguetown/helmet/heavy/knight
 	backpack_contents = list(
 		/obj/item/rogueweapon/huntingknife/idagger/steel/special = 1,
@@ -112,24 +115,46 @@
 	// IT WORKS :TM: still gives them a helm and grandmace, just not the choice
 	
 	H.adjust_blindness(-3)
-	var/weapons = list("Zweihander","Great Mace","Battle Axe","Greataxe","Estoc","Lucerne", "Partizan")
+	var/weapons = list("Dec Sword + Shield"," Zweihander","Great Mace","Battle Axe","Greataxe","Estoc","Eagle Beak", "Partizan", "Lance + Shield")
 	var/weapon_choice = input(H, "Choose your weapon.", "TAKE UP ARMS") as anything in weapons
 	H.set_blindness(0)
 	switch(weapon_choice)
+		if("Dec Sword + Shield")
+			l_hand = /obj/item/rogueweapon/sword/long/dec
+			backl = /obj/item/rogueweapon/shield/tower/metal
+			H.adjust_skillrank_up_to(/datum/skill/combat/shields, SKILL_LEVEL_JOURNEYMAN, TRUE)
 		if("Zweihander")
+			l_hand = /obj/item/rogueweapon/sword/long
 			r_hand = /obj/item/rogueweapon/greatsword/zwei
+			backl = /obj/item/rogueweapon/scabbard/gwstrap
 		if("Great Mace")
+			l_hand = /obj/item/rogueweapon/sword/long
 			r_hand = /obj/item/rogueweapon/mace/goden/steel
+			backl = /obj/item/rogueweapon/scabbard/gwstrap
 		if("Battle Axe")
+			l_hand = /obj/item/rogueweapon/sword/long
 			r_hand = /obj/item/rogueweapon/stoneaxe/battle
+			backl = /obj/item/rogueweapon/scabbard/gwstrap
 		if("Greataxe")
+			l_hand = /obj/item/rogueweapon/sword/long
 			r_hand = /obj/item/rogueweapon/greataxe/steel
+			backl = /obj/item/rogueweapon/scabbard/gwstrap
 		if("Estoc")
+			l_hand = /obj/item/rogueweapon/sword/long
 			r_hand = /obj/item/rogueweapon/estoc
-		if("Lucerne")
-			r_hand = /obj/item/rogueweapon/eaglebeak/lucerne
+			backl = /obj/item/rogueweapon/scabbard/gwstrap
+		if("Eagle Beak")
+			l_hand = /obj/item/rogueweapon/sword/long
+			r_hand = /obj/item/rogueweapon/eaglebeak
+			backl = /obj/item/rogueweapon/scabbard/gwstrap
 		if("Partizan")
+			l_hand = /obj/item/rogueweapon/sword/long
 			r_hand = /obj/item/rogueweapon/spear/partizan
+			backl = /obj/item/rogueweapon/scabbard/gwstrap
+		if("Lance + Shield")
+			l_hand = /obj/item/rogueweapon/spear/lance
+			backl = /obj/item/rogueweapon/shield/tower/metal
+			H.adjust_skillrank_up_to(/datum/skill/combat/shields, SKILL_LEVEL_JOURNEYMAN, TRUE)
 		else //In case they DC or don't choose close the panel, etc
 			r_hand = /obj/item/rogueweapon/eaglebeak/lucerne
 

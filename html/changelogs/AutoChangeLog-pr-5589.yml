@@ -1,0 +1,8 @@
+author: "FreeStylaLT"
+delete-after: True
+changes:
+  - rscadd: "Added a Hand Update!"
+  - rscadd: "Each Hand subclass gets a new armored jacket, a Handpin that acts like a crownstone and a special pair of wrist bracelets."
+  - rscadd: "Blademaster Hand now gets Azurefyre, a new sword."
+  - rscadd: "Spymaster Hand now gets a new parrying dagger."
+  - rscadd: "Advisor Hand gets a new staff that serves as both a scabbard and a Ruby-tier mage staff."

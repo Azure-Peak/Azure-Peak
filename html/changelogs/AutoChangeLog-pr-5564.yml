@@ -1,0 +1,4 @@
+author: "Quinalion"
+delete-after: True
+changes:
+  - bugfix: "removes excess shutters at blacksmith's house"

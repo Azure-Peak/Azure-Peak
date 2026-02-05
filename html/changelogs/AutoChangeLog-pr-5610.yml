@@ -1,0 +1,6 @@
+author: "Lamasmaster"
+delete-after: True
+changes:
+  - rscadd: "More dishes"
+  - balance: "High tier dishes grant great meal buff"
+  - image: "Bacon Bread icon"

@@ -99,6 +99,7 @@ GLOBAL_LIST_EMPTY(cached_drink_flat_icons)
 		/obj/item/reagent_containers/food/snacks/rogue/dough,
 		/obj/item/reagent_containers/food/snacks/rogue/cake_base,
 		/obj/item/reagent_containers/food/snacks/rogue/frostedcakeuncooked,
+		/obj/item/reagent_containers/food/snacks/rogue/tartar,
 		/obj/item/reagent_containers/food/snacks/rogue/preserved,
 		/obj/item/reagent_containers/food/snacks/rogue/fruit,
 		/obj/item/reagent_containers/food/snacks/rogue/veg,

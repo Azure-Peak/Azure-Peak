@@ -1701,6 +1701,14 @@
 	gripped_intents = null
 	force_wielded = 0
 
+/obj/item/rogueweapon/sword/rapier/hand
+	name = "dark sister"
+	desc = "A tool made for nobler tasks than shedding blood, discreet and every ready, as you should be too."
+	icon = 'icons/roguetown/weapons/special/hand32.dmi'
+	icon_state = "staffblade"
+	item_state = "staffblade"
+	sheathe_icon = "staffblade"
+
 /obj/item/rogueweapon/sword/cutlass
 	name = "cutlass"
 	desc = "The mariner's special: A short, broad sabre with a slightly curved blade optimized for slashing."
@@ -1787,6 +1795,13 @@
 				return list("shrink" = 0.5,"sx" = -14,"sy" = -8,"nx" = 15,"ny" = -7,"wx" = -10,"wy" = -5,"ex" = 7,"ey" = -6,"northabove" = 0,"southabove" = 1,"eastabove" = 1,"westabove" = 0,"nturn" = -13,"sturn" = 110,"wturn" = -60,"eturn" = -30,"nflip" = 1,"sflip" = 1,"wflip" = 8,"eflip" = 1)
 			if("onbelt")
 				return list("shrink" = 0.4,"sx" = -4,"sy" = -6,"nx" = 5,"ny" = -6,"wx" = 0,"wy" = -6,"ex" = -1,"ey" = -6,"nturn" = 100,"sturn" = 156,"wturn" = 90,"eturn" = 180,"nflip" = 0,"sflip" = 0,"wflip" = 0,"eflip" = 0,"northabove" = 0,"southabove" = 1,"eastabove" = 1,"westabove" = 0)
+
+/obj/item/rogueweapon/sword/long/oathkeeper/hand
+	name = "Azurefyre"
+	desc = "The Blade fit for the Hand, wielded in service to the crown and never mistaken for another."
+	icon = 'icons/roguetown/weapons/special/hand64.dmi'
+	sellprice = 250
+	icon_state = "handsword"
 
 /obj/item/rogueweapon/sword/long/holysee
 	name = "eclipsum sword"
@@ -2194,6 +2209,17 @@
 	parrysound = list('sound/combat/parry/bladed/bladedthin (1).ogg', 'sound/combat/parry/bladed/bladedthin (2).ogg', 'sound/combat/parry/bladed/bladedthin (3).ogg')
 	sellprice = 100 // lets not make it too profitable
 	smeltresult = /obj/item/ingot/blacksteel
+
+/obj/item/rogueweapon/sword/sabre/bane
+	name = "Bane's Edge"
+	desc = "A stained sabre made of blacksteel, its edge is coated in long-dried blood as well as poison."
+	icon_state = "poisonsaber"
+	force = 25
+	max_integrity = 200 
+	parrysound = list('sound/combat/parry/bladed/bladedthin (1).ogg', 'sound/combat/parry/bladed/bladedthin (2).ogg', 'sound/combat/parry/bladed/bladedthin (3).ogg')
+	sellprice = 50
+	smeltresult = null
+	special = /datum/special_intent/coat_blade
 
 /obj/item/rogueweapon/sword/gold
 	name = "golden arming sword"

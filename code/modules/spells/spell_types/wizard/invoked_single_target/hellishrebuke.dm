@@ -20,6 +20,7 @@
 	glow_color = GLOW_COLOR_FIRE
 	glow_intensity = GLOW_INTENSITY_LOW
 	gesture_required = TRUE
+	human_req = TRUE // Combat spell
 	range = 1
 	ignore_los = FALSE
 

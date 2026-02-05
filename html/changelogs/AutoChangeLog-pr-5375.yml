@@ -1,0 +1,5 @@
+author: "FreeStylaLT"
+delete-after: True
+changes:
+  - rscadd: "Baothans now have innate Cicerone."
+  - balance: "Baothans now only get OD immunity at a certain Cleric tier."

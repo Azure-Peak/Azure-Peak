@@ -581,9 +581,6 @@
 /obj/structure/spider/stickyweb,
 /turf/open/floor/rogue/ruinedwood/chevron,
 /area/rogue/under/tomb/indoors)
-"hI" = (
-/turf/closed/mineral,
-/area/rogue/under/tomb)
 "hK" = (
 /obj/machinery/light/rogue/candle,
 /turf/open/floor/rogue/cobble,
@@ -1063,11 +1060,6 @@
 /mob/living/carbon/human/species/goblin/npc/ambush/cave,
 /turf/open/floor/rogue/tile/checker,
 /area/rogue/under/tomb/indoors)
-"mE" = (
-/obj/structure/table/wood/crafted,
-/obj/item/chair,
-/turf/open/floor/rogue/tile/masonic/inverted,
-/area/rogue/under/tomb/indoors)
 "mG" = (
 /mob/living/simple_animal/hostile/retaliate/rogue/saiga/saigabuck,
 /turf/open/floor/rogue/dirt,
@@ -1240,12 +1232,6 @@
 /obj/effect/decal/cleanable/blood,
 /turf/closed/mineral/rogue/bedrock,
 /area/rogue/under/tomb)
-"oB" = (
-/obj/item/chair/wood{
-	dir = 8
-	},
-/turf/open/floor/carpet/red,
-/area/rogue/under/tomb/indoors)
 "oC" = (
 /obj/structure/fluff/walldeco/rpainting/forest{
 	pixel_x = -2;
@@ -1339,12 +1325,6 @@
 /area/rogue/under/tomb/indoors)
 "pL" = (
 /turf/open/floor/carpet/purple,
-/area/rogue/under/tomb/indoors)
-"pM" = (
-/obj/item/chair{
-	dir = 8
-	},
-/turf/open/floor/rogue/tile/masonic/inverted,
 /area/rogue/under/tomb/indoors)
 "pR" = (
 /obj/structure/table/wood/crafted,
@@ -2760,6 +2740,10 @@
 /obj/effect/spawner/lootdrop/cheap_tableware_spawner,
 /turf/open/floor/rogue/ruinedwood/spiral,
 /area/rogue/under/tomb/indoors)
+"Hf" = (
+/obj/item/chair/rogue,
+/turf/open/floor/rogue/tile/masonic/inverted,
+/area/rogue/under/tomb/indoors)
 "Hg" = (
 /obj/effect/decal/cleanable/sigil/N,
 /obj/effect/decal/cleanable/blood,
@@ -2839,10 +2823,6 @@
 /turf/open/floor/rogue/herringbone,
 /area/rogue/under/tomb/indoors)
 "HN" = (
-/turf/open/floor/rogue/tile/masonic/inverted,
-/area/rogue/under/tomb/indoors)
-"HR" = (
-/obj/item/chair,
 /turf/open/floor/rogue/tile/masonic/inverted,
 /area/rogue/under/tomb/indoors)
 "HY" = (
@@ -3748,11 +3728,6 @@
 /obj/structure/rack/rogue/shelf/biggest,
 /obj/effect/spawner/lootdrop/general_loot_mid,
 /turf/open/floor/rogue/cobble,
-/area/rogue/under/tomb/indoors)
-"TD" = (
-/obj/item/chair,
-/mob/living/carbon/human/species/orc/npc/footsoldier,
-/turf/open/floor/rogue/tile/masonic/inverted,
 /area/rogue/under/tomb/indoors)
 "TF" = (
 /turf/open/floor/rogue/cobble,
@@ -8333,7 +8308,7 @@ rk
 ur
 cR
 zh
-Eh
+zh
 zh
 zh
 cR
@@ -8476,9 +8451,9 @@ LX
 rk
 ur
 cR
-oB
 qy
-oB
+qy
+qy
 qy
 cR
 Lz
@@ -10063,7 +10038,7 @@ vX
 vX
 rk
 rk
-hI
+Xf
 rk
 rk
 rk
@@ -10129,13 +10104,13 @@ Xf
 "}
 (32,1,2) = {"
 Xf
-hI
+Xf
 lw
 lw
 Hu
 lw
-hI
-hI
+Xf
+Xf
 rk
 jm
 TZ
@@ -10201,13 +10176,13 @@ Xf
 "}
 (33,1,2) = {"
 Xf
-hI
-hI
+Xf
+Xf
 lw
 lw
 lw
 Gg
-hI
+Xf
 rk
 hC
 oG
@@ -10273,9 +10248,9 @@ Xf
 "}
 (34,1,2) = {"
 Xf
-hI
-hI
-hI
+Xf
+Xf
+Xf
 yQ
 La
 yQ
@@ -10345,11 +10320,11 @@ Xf
 "}
 (35,1,2) = {"
 Xf
-hI
-hI
-hI
-hI
-hI
+Xf
+Xf
+Xf
+Xf
+Xf
 Gg
 Gg
 Yv
@@ -10851,11 +10826,11 @@ Xf
 Xf
 wn
 HN
-HR
 HN
+Hf
 HN
 rN
-HN
+Hf
 rN
 FH
 rk
@@ -10924,12 +10899,12 @@ Xf
 wn
 bh
 mY
-mE
+sk
 FH
 sk
 fe
 hn
-TD
+vT
 rk
 YP
 YP
@@ -10994,7 +10969,7 @@ Xf
 (44,1,2) = {"
 Xf
 wn
-pM
+Hf
 sk
 gn
 ko
@@ -11284,7 +11259,7 @@ Xf
 wn
 FH
 ko
-HR
+HN
 HN
 HN
 HN

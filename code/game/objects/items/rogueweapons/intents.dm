@@ -48,6 +48,10 @@
 	var/penfactor = 0
 	/// Whether the intent itself has integrity damage modifier. Used for rend.
 	var/intent_intdamage_factor = 1
+	/// Minimum damage from the intent.
+	var/min_intent_damage = 0
+	/// Maximum damage from the intent.
+	var/max_intent_damage = 200
 	/// Changes the item's attack type ("blunt" - area-pressure attack, "slash" - line-pressure attack, "stab" - point-pressure attack)
 	var/item_d_type = "blunt"
 	var/charging_slowdown = 0
@@ -82,6 +86,10 @@
 	var/effective_range_type = EFF_RANGE_NONE
 	/// Extra sharpness drain per successful & parried hit.
 	var/sharpness_penalty = 0
+
+	///Effect stuff.
+	var/datum/status_effect/intent_effect	//Status effect this intent will apply on a successful hit (damage not needed)
+	var/list/target_parts					//Targeted bodyparts which will apply the effect. Leave blank for anywhere on the body.
 
 
 	var/list/static/bonk_animation_types = list(
@@ -678,8 +686,6 @@
 
 /datum/intent/effect
 	blade_class = BCLASS_EFFECT
-	var/datum/status_effect/intent_effect	//Status effect this intent will apply on a successful hit (damage not needed)
-	var/list/target_parts					//Targeted bodyparts which will apply the effect. Leave blank for anywhere on the body.
 
 /datum/intent/effect/daze
 	name = "dazing strike"

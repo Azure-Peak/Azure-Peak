@@ -12,6 +12,26 @@
 					/obj/item/rogueweapon/huntingknife/idagger/steel,
 				)
 
+/datum/supply_pack/rogue/steel_weapons/chefknife
+	name = "Chef's Knife"
+	cost = 40 // 1 Steel Ingot
+	contains = list(
+					/obj/item/rogueweapon/huntingknife/idagger/steel,
+				)
+
+/datum/supply_pack/rogue/steel_weapons/chefcleaver
+	name = "Chef's Cleaver"
+	cost = 40 // 1 Steel Ingot
+	contains = list(
+					/obj/item/rogueweapon/huntingknife/chefknife/cleaver,
+				)
+
+/datum/supply_pack/rogue/steel_weapons/rondeldagger
+	name = "Rondel Dagger"
+	cost = 70 // 2 Steel Ingots
+	contains = list(
+					/obj/item/rogueweapon/huntingknife/idagger/steel/rondel,
+				)
 
 /datum/supply_pack/rogue/steel_weapons/katar
 	name = "Katar"
@@ -102,6 +122,13 @@
 	cost = 70 // 2 Steel Ingot
 	contains = list(
 					/obj/item/rogueweapon/sword/long/kriegmesser,
+				)
+
+/datum/supply_pack/rogue/steel_weapons/broadsword
+	name = "Broadsword"
+	cost = 75 // 2 Steel Ingot + 1 Small Log
+	contains = list(
+					/obj/item/rogueweapon/sword/long/broadsword/steel,
 				)
 
 /datum/supply_pack/rogue/steel_weapons/battleaxe

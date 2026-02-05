@@ -150,3 +150,77 @@
       can now be changed an unlimited amount of times - subject to admin discretion.
   - qol: Grace period for latejoining Dukes choosing the royal standard has been bumped
       from 10 minutes to 30.
+2026-02-04:
+  FreeStylaLT:
+  - refactor: Normalized Dainty Voice Pack volume.
+  - rscadd: Added combat attack sounds for Voice Packs.
+  - refactor: Normalized most of Haughty Voice Pack audio.
+  - bugfix: Failed casts will no longer unselect the spell.
+  Ketrai:
+  - bugfix: Siege crossbows hurt walls now. They also use their damage modifier against
+      objects & walls now.
+  Ollanius:
+  - rscadd: New weapons from the 'Big One' PR can now be acquired, in limited amounts,
+      by Adventuring Warriors and Clerics.
+  - rscadd: New sprites for the Iron Flail, alongside the Studded Flail - a cosmetic
+      alternative.
+  - rscadd: New sprite for the Iron Axe. The original Iron Axe is now available as
+      the Woodcutter's Handaxe, which can be smithed and imported for a little more
+      than usual. This variant also gets a small bonus to integrity and demolishing!
+  - rscadd: Rondel Daggers, Baurenwehrs, Broadswords and Studded Flails can now be
+      imported.
+  - balance: Combat Knives have lost Rend, in favor of  their original Chops (1.5x
+      + 30AP) and their newly-acquired Cuts (1.2x + 20 AP).
+  - balance: Kampfmessers are now the sole retainers of Rend. Hack and slash away!
+  - balance: Maciejowskis can now chop with one hand.
+  - balance: Exorcists no longer spawn with a spare Hunting Knife. Plan accordingly.
+  - balance: The Poop Knife can no longer Rend.
+  Ryan180602:
+  - rscadd: give revenants taur options.
+  - bugfix: fix donor item
+  - rscadd: Iron plate gauntlets to smith silverface.
+  SpartanBobby:
+  - bugfix: replaces huntingknife/cleaver with huntingknife/chefknife/cleaver
+  Vladmar11:
+  - bugfix: fixed a lot of runtimes
+  - code_imp: separate controller for the stat panel, improved optimization
+  WeNeedMorePhoron:
+  - rscadd: You can now jump over spike pits safely.
+  - rscadd: When you are thrown into a spike pit, for example by fetch / repel, the
+      impact destroys the spike pit.
+  - bugfix: Crystallized Mana gathered by Presdtidigitation from a Mana Fountain now
+      appears below the user instead of underneath the fountain.
+  bearrrrrrrr:
+  - rscadd: Adds new racial-exclusive Lirvan Tithebound mercenary class.
+2026-02-05:
+  FreeStylaLT:
+  - bugfix: Fixed churn wealthy cooldown
+  - bugfix: Fixed not having full energy on spawn.
+  Lamasmaster:
+  - rscadd: Lesser mending to Golden Serpent
+  Ollanius:
+  - balance: The Unarmed Discipline for Templar!Monks now gives Master Athletics,
+      instead of nothing at all.
+  - rscadd: Templar!Monks, like their adventuring counterparts, now properly spawn
+      with patron-specific robes and tabards.
+  - bugfix: Templar!Monks no longer spawn without their specialized gloves.
+  - code_imp: Note - this fix is mostly a bandaid, as I couldn't find any other way
+      to restore the glove-giving component without potentially rewriting the Templar!Monk's
+      loadout code. If you pick 'Unarmed Discipline', it'll give you the better gloves
+      as an item.
+  - code_imp: For Templar!Monks, the Ravox-specific buff has been changed to use 'H.adjust_skillrank_up_to'.
+      Everything'll still work exactly the same as before, but it'll prevent someone
+      from potentially getting Legendary Athletics. Do we want that for later? Maybe.
+  Ryan180602:
+  - code_imp: added min/max intent damages.
+  - bugfix: haubergeon no longer covers hands or feet
+  WeNeedMorePhoron:
+  - bugfix: Hammerfall no longer have no CD or devotion cost.
+  - rscadd: Tome in Waiting (Spellbook before you put a magical stone / gem) is now
+      menu craftable
+  dopamiin0:
+  - bugfix: exorcist dodge experts actually get most of their gear again
+  - bugfix: egg related crafting recipes do less weird stuff. no more turning 2 valerian
+      omellettes into just 2 eggs. egg + bacon + sausage can be made in both orders
+      instead of just 1
+  - bugfix: master chef no longer runtimes and eats your entire backpack

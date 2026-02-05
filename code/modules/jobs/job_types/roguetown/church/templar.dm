@@ -69,6 +69,7 @@
 	neck = /obj/item/clothing/neck/roguetown/psicross/undivided
 	cloak = /obj/item/clothing/cloak/tabard/crusader/tief
 	id = /obj/item/clothing/ring/silver
+	gloves = /obj/item/clothing/gloves/roguetown/bandages/weighted
 	backl = /obj/item/storage/backpack/rogue/satchel
 	backpack_contents = list(
 		/obj/item/ritechalk = 1,
@@ -87,21 +88,21 @@
 						cloak = /obj/item/clothing/cloak/templar/undivided
 		if(/datum/patron/divine/astrata)
 			neck = /obj/item/clothing/neck/roguetown/psicross/astrata
-			cloak = /obj/item/clothing/cloak/tabard/crusader/astrata
+			cloak = /obj/item/clothing/suit/roguetown/shirt/robe/astrata
 		if(/datum/patron/divine/abyssor)
 			neck = /obj/item/clothing/neck/roguetown/psicross/abyssor
-			cloak = /obj/item/clothing/cloak/tabard/abyssortabard
+			cloak = /obj/item/clothing/suit/roguetown/shirt/robe/abyssor
 		if(/datum/patron/divine/xylix)
 			neck = /obj/item/clothing/neck/roguetown/psicross/xylix
 			cloak = /obj/item/clothing/cloak/templar/xylixian
 			H.cmode_music = 'sound/music/combat_jester.ogg'
 		if(/datum/patron/divine/dendor)
 			neck = /obj/item/clothing/neck/roguetown/psicross/dendor
-			cloak = /obj/item/clothing/cloak/tabard/devotee/dendor // There's no unique templar-tabard for dendorite templar
+			cloak = /obj/item/clothing/suit/roguetown/shirt/robe/dendor
 			H.cmode_music = 'sound/music/cmode/garrison/combat_warden.ogg'
 		if(/datum/patron/divine/necra)
 			neck = /obj/item/clothing/neck/roguetown/psicross/necra
-			cloak = /obj/item/clothing/cloak/templar/necran
+			cloak = /obj/item/clothing/suit/roguetown/shirt/robe/necra
 		if(/datum/patron/divine/pestra)
 			neck = /obj/item/clothing/neck/roguetown/psicross/pestra
 			cloak = /obj/item/clothing/cloak/templar/pestran
@@ -110,7 +111,7 @@
 			cloak = /obj/item/clothing/cloak/templar/eoran
 		if(/datum/patron/divine/noc)
 			neck = /obj/item/clothing/neck/roguetown/psicross/noc
-			cloak = /obj/item/clothing/cloak/tabard/crusader/noc
+			cloak = /obj/item/clothing/suit/roguetown/shirt/robe/noc
 		if(/datum/patron/divine/ravox)
 			neck = /obj/item/clothing/neck/roguetown/psicross/ravox
 			cloak = /obj/item/clothing/cloak/templar/ravox
@@ -145,31 +146,26 @@
 	var/weapon_choice = input(H,"Choose your weapon.", "TAKE UP ARMS") as anything in weapons
 	switch(weapon_choice)
 		if("Discipline - Unarmed")
-			H.adjust_skillrank_up_to(/datum/skill/combat/unarmed, SKILL_LEVEL_EXPERT, TRUE)
-			gloves = /obj/item/clothing/gloves/roguetown/bandages/pugilist
+			H.adjust_skillrank_up_to(/datum/skill/misc/athletics, SKILL_LEVEL_MASTER, TRUE)
+			H.put_in_hands(new /obj/item/clothing/gloves/roguetown/bandages/pugilist(H))
 			ADD_TRAIT(H, TRAIT_DODGEEXPERT, TRAIT_GENERIC)
 		if("Katar")
 			H.put_in_hands(new /obj/item/rogueweapon/katar(H))
-			gloves = /obj/item/clothing/gloves/roguetown/bandages/weighted
 			ADD_TRAIT(H, TRAIT_DODGEEXPERT, TRAIT_GENERIC)
 		if("Knuckledusters")
 			H.put_in_hands(new /obj/item/rogueweapon/knuckles(H))
-			gloves = /obj/item/clothing/gloves/roguetown/bandages/weighted
 			ADD_TRAIT(H, TRAIT_DODGEEXPERT, TRAIT_GENERIC)
 		if("Quarterstaff")
 			H.adjust_skillrank_up_to(/datum/skill/combat/staves, 4, TRUE) //Tested with Disciples, first. Should hopefully be not too busted - reduce to Journeyman, otherwise.
 			H.adjust_skillrank_up_to(/datum/skill/combat/polearms, 3, TRUE)
-			gloves = /obj/item/clothing/gloves/roguetown/bandages/weighted
 			H.put_in_hands(new /obj/item/rogueweapon/woodstaff/quarterstaff/steel(H))
 			H.put_in_hands(new /obj/item/rogueweapon/scabbard/gwstrap(H))
 			H.change_stat(STATKEY_PER, 1) //Matches the Disciple's balance; exchanges the 'dodge expert' trait for additional accuracy with the staff.
 		if("Close Caress")
 			H.put_in_hands(new /obj/item/rogueweapon/knuckles/eora(H))
-			gloves = /obj/item/clothing/gloves/roguetown/bandages/weighted
 			ADD_TRAIT(H, TRAIT_DODGEEXPERT, TRAIT_GENERIC)
 		if("Barotrauma")
 			H.put_in_hands(new /obj/item/rogueweapon/katar/abyssor(H))
-			gloves = /obj/item/clothing/gloves/roguetown/bandages/weighted
 			ADD_TRAIT(H, TRAIT_DODGEEXPERT, TRAIT_GENERIC)
 
 	// -- Start of section for god specific bonuses --
@@ -207,12 +203,12 @@
 		H.adjust_skillrank(/datum/skill/craft/armorsmithing, 1, TRUE)
 		H.adjust_skillrank(/datum/skill/craft/weaponsmithing, 1, TRUE)
 		H.adjust_skillrank(/datum/skill/craft/smelting, 1, TRUE)
-	if(H.patron?.type == /datum/patron/divine/ravox)
-		H.adjust_skillrank(/datum/skill/misc/athletics, 1, TRUE)
 	if(H.patron?.type == /datum/patron/divine/xylix)
 		H.adjust_skillrank(/datum/skill/misc/climbing, 1, TRUE)
 		H.adjust_skillrank(/datum/skill/misc/lockpicking, 1, TRUE)
 		H.adjust_skillrank(/datum/skill/misc/music, 1, TRUE)
+	if(H.patron?.type == /datum/patron/divine/ravox)
+		H.adjust_skillrank_up_to(/datum/skill/misc/athletics, 5, TRUE)
 	// -- End of section for god specific bonuses --
 
 /datum/advclass/templar/crusader

@@ -247,7 +247,8 @@
 //................ Briar Thorns ............... //	- Dendor Briar
 /obj/item/clothing/head/roguetown/briarthorns
 	name = "briar thorns"
-	desc = "The pain of wearing it might distract you from the whispers of a mad God overpowering your sanity..."
+	desc = "A circlet of thorns often worn by devout followers of Dendor. Designed to dig \
+	into the flesh just enough to ground the wearer's sanity."
 	icon_state = "briarthorns"
 	max_integrity = 150
 	body_parts_covered = HEAD|HAIR|EARS

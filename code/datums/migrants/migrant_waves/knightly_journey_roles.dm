@@ -5,6 +5,26 @@
 	name = "Knight"
 	advclass_cat_rolls = list(CTAG_KJ_KNIGHT = 20)
 
+/datum/migrant_role/kj_knight/after_spawn(mob/living/L, mob/M, latejoin = TRUE)
+	..()
+	if(ishuman(L))
+		var/mob/living/carbon/human/H = L
+		if(istype(H.cloak, /obj/item/clothing/cloak/tabard/stabard))
+			var/obj/item/clothing/S = H.cloak
+			var/index = findtext(H.real_name, " ")
+			if(index)
+				index = copytext(H.real_name, 1,index)
+			if(!index)
+				index = H.real_name
+			S.name = "knight tabard ([index])"
+		var/prev_real_name = H.real_name
+		var/prev_name = H.name
+		var/honorary = "Ser"
+		if(H.pronouns == SHE_HER || H.pronouns == THEY_THEM_F)
+			honorary = "Dame"
+		H.real_name = "[honorary] [prev_real_name]"
+		H.name = "[honorary] [prev_name]"
+
 /datum/advclass/kj_knight
 	name = "Knight"
 	tutorial = "You are a knight from a distant land, a scion of a noble house visiting Azuria for one reason or another."
@@ -60,6 +80,8 @@
 		"Brigandine"		= /obj/item/clothing/suit/roguetown/armor/brigandine,
 		"Coat of Plates"	= /obj/item/clothing/suit/roguetown/armor/brigandine/coatplates,
 		"Steel Cuirass"		= /obj/item/clothing/suit/roguetown/armor/plate/cuirass,
+		"Fluted Cuirass"	= /obj/item/clothing/suit/roguetown/armor/plate/cuirass/fluted,
+		"Scalemail"		= /obj/item/clothing/suit/roguetown/armor/plate/scale,
 		)
 	var/armorchoice = input(H, "Choose your armor.", "TAKE UP ARMOR") as anything in armors
 	armor = armors[armorchoice]
@@ -80,13 +102,15 @@
 		)
 	H.dna.species.soundpack_m = new /datum/voicepack/male/knight()
 	H.set_blindness(0)
-	var/weapons = list("Longsword","Mace + Shield","Flail + Shield","Billhook","Battle Axe","Greataxe")
+	var/weapons = list("Longsword + Shield","Mace + Shield","Flail + Shield","Billhook","Lance + Kite Shield","Battle Axe","Greataxe")
 	var/weapon_choice = input(H, "Choose your weapon.", "TAKE UP ARMS") as anything in weapons
 	switch(weapon_choice)
-		if("Longsword")
+		if("Longsword + Shield")
 			H.adjust_skillrank_up_to(/datum/skill/combat/swords, SKILL_LEVEL_EXPERT, TRUE)
+			H.adjust_skillrank_up_to(/datum/skill/combat/shields, SKILL_LEVEL_MASTER, TRUE)
 			beltr = /obj/item/rogueweapon/sword/long
 			r_hand = /obj/item/rogueweapon/scabbard/sword
+			backr = /obj/item/rogueweapon/shield/tower/metal
 		if("Mace + Shield")
 			H.adjust_skillrank_up_to(/datum/skill/combat/maces, SKILL_LEVEL_EXPERT, TRUE)
 			H.adjust_skillrank_up_to(/datum/skill/combat/shields, SKILL_LEVEL_MASTER, TRUE)
@@ -101,6 +125,11 @@
 			H.adjust_skillrank_up_to(/datum/skill/combat/polearms, SKILL_LEVEL_EXPERT, TRUE)
 			r_hand = /obj/item/rogueweapon/spear/billhook
 			backr = /obj/item/rogueweapon/scabbard/gwstrap
+		if("Lance + Kite Shield")
+			H.adjust_skillrank_up_to(/datum/skill/combat/polearms, SKILL_LEVEL_EXPERT, TRUE)
+			H.adjust_skillrank_up_to(/datum/skill/combat/shields, SKILL_LEVEL_MASTER, TRUE)
+			r_hand = /obj/item/rogueweapon/spear/lance
+			backr = /obj/item/rogueweapon/shield/tower/metal
 		if("Battle Axe")
 			H.adjust_skillrank_up_to(/datum/skill/combat/axes, SKILL_LEVEL_EXPERT, TRUE)
 			r_hand = /obj/item/rogueweapon/stoneaxe/battle

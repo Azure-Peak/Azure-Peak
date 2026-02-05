@@ -73,7 +73,7 @@
 	beltl = /obj/item/rogueweapon/scabbard/sword
 	beltr = /obj/item/rogueweapon/scabbard/sword
 	l_hand = /obj/item/rogueweapon/sword/sabre/shamshir
-	
+
 	H.merctype = 4
 
 /datum/advclass/mercenary/desert_rider/zeybek
@@ -87,7 +87,7 @@
 		STATKEY_INT = 1,
 	)
 	subclass_skills = list(
-		/datum/skill/combat/swords = SKILL_LEVEL_JOURNEYMAN, 
+		/datum/skill/combat/swords = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/combat/knives = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/combat/whipsflails = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/combat/maces = SKILL_LEVEL_APPRENTICE,
@@ -148,7 +148,7 @@
 	beltl = /obj/item/rogueweapon/scabbard/sword
 	beltr = /obj/item/rogueweapon/scabbard/sword
 	l_hand = /obj/item/rogueweapon/sword/sabre/shamshir
-	
+
 	H.merctype = 4
 
 /datum/advclass/mercenary/desert_rider/almah
@@ -210,7 +210,8 @@
 	beltl = /obj/item/rogueweapon/scabbard/sword
 	beltr = /obj/item/rogueweapon/scabbard/sword
 	l_hand = /obj/item/rogueweapon/sword/sabre/shamshir
-	
+	r_hand = /obj/item/rogueweapon/sword/sabre/shamshir
+
 	H.merctype = 4
 
 

@@ -4,8 +4,10 @@
 /datum/voicepack/female/warrior/get_sound(soundin, modifiers)
 	var/used
 	switch(soundin)
+		if("attack")
+			used = list('sound/vo/female/warrior/attack (1).ogg', 'sound/vo/female/warrior/attack (2).ogg', 'sound/vo/female/warrior/attack (3).ogg', 'sound/vo/female/warrior/attack (4).ogg', 'sound/vo/female/warrior/attack (5).ogg', 'sound/vo/female/warrior/attack (6).ogg', 'sound/vo/female/warrior/attack (7).ogg', 'sound/vo/female/warrior/attack (8).ogg', 'sound/vo/female/warrior/attack (9).ogg', 'sound/vo/female/warrior/attack (10).ogg', 'sound/vo/female/warrior/attack (11).ogg', 'sound/vo/female/warrior/attack (12).ogg')
 		if("pain")
-			used = list('sound/vo/female/warrior/pain (1).ogg', 'sound/vo/female/warrior/pain (2).ogg', 'sound/vo/female/warrior/pain (3).ogg', 'sound/vo/female/warrior/pain (4).ogg', 'sound/vo/female/warrior/pain (5).ogg', 'sound/vo/female/warrior/pain (6).ogg', 'sound/vo/female/warrior/pain (7).ogg')
+			used = list('sound/vo/female/warrior/pain (1).ogg', 'sound/vo/female/warrior/pain (2).ogg', 'sound/vo/female/warrior/pain (3).ogg', 'sound/vo/female/warrior/pain (4).ogg', 'sound/vo/female/warrior/pain (5).ogg', 'sound/vo/female/warrior/pain (6).ogg', 'sound/vo/female/warrior/pain (7).ogg', 'sound/vo/female/warrior/pain (8).ogg', 'sound/vo/female/warrior/pain (9).ogg', 'sound/vo/female/warrior/pain (10).ogg', 'sound/vo/female/warrior/pain (11).ogg', 'sound/vo/female/warrior/pain (12).ogg', 'sound/vo/female/warrior/pain (13).ogg')
 		if("rage")
 			used = list('sound/vo/female/warrior/rage (1).ogg', 'sound/vo/female/warrior/rage (2).ogg', 'sound/vo/female/warrior/rage (3).ogg')
 		if("painmoan")

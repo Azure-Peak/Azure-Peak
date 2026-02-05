@@ -145,13 +145,20 @@
 			user.put_in_hands(sammich)
 			qdel(I)
 			qdel(src)
-	if(istype(I, /obj/item/reagent_containers/food/snacks/rogue/friedegg)) //This actually creates a toast out of regular bread so we put it here.
+	if(istype(I, /obj/item/reagent_containers/food/snacks/rogue/friedegg/fried)) //This actually creates a toast out of regular bread so we put it here.
 		playsound(get_turf(user), 'sound/foley/dropsound/food_drop.ogg', 50, TRUE, -1)
 		if(do_after(user,short_cooktime, target = src))
 			var/obj/item/reagent_containers/food/snacks/rogue/sandwich/egg/sammich= new(get_turf(user))
 			user.put_in_hands(sammich)
 			qdel(I)
 			qdel(src)
+/*	if(istype(I, /obj/item/reagent_containers/food/snacks/rogue/tartar))
+		if(isturf(loc)&& (found_table))
+			playsound(get_turf(user), 'sound/foley/dropsound/gen_drop.ogg', 30, TRUE, -1)
+			if(do_after(user,short_cooktime, target = src))
+				var/obj/item/reagent_containers/food/snacks/rogue/sandwich/tartar/sammich= new(get_turf(user))
+				qdel(I)
+				qdel(src)*/
 	if(istype(I, /obj/item/reagent_containers/food/snacks/rogue/friedegg/sausagebacon))
 		if(isturf(loc)&& (found_table))
 			playsound(get_turf(user), 'sound/foley/dropsound/gen_drop.ogg', 30, TRUE, -1)
@@ -226,11 +233,18 @@
 /obj/item/reagent_containers/food/snacks/rogue/sandwich/bacon
 	tastes = list("bacon" = 1)
 	name = "bacon bread"
-	desc = "A slice of bread with crispy bacon on top for the perfect breakfast. Why does it look like a salo?"
-	icon_state = "bread_salo" // Someone forgot the sprite for this one
+	desc = "A slice of bread with crispy bacon on top for the perfect breakfast."
+	icon_state = "toast_bacon"
 	foodtype = GRAIN | MEAT
-
-
+/*
+/obj/item/reagent_containers/food/snacks/rogue/sandwich/tartar
+	tastes = list("dissapointment" = 1)
+	name = "tartar bread"
+	desc = "A slice of bread with tartar on top for the perfect breakfast. What's that stench?"
+	faretype = FARE_POOR
+	icon_state = "toast_tartar"
+	foodtype = GRAIN | MEAT
+*/
 /*	.................   Bread bun   ................... */
 /obj/item/reagent_containers/food/snacks/rogue/bun
 	name = "bun"
@@ -351,7 +365,7 @@
 /obj/item/reagent_containers/food/snacks/rogue/rbread_half
 	name = "half-done raisin dough"
 	desc = "It needs more raisins!"
-	icon = 'modular/Neu_Food/icons/cooked/cooked_baked.dmi'
+	icon = 'modular/Neu_Food/icons/raw/raw_dough.dmi'
 	icon_state = "dough_raisin"
 	list_reagents = list(/datum/reagent/consumable/nutriment = 1)
 	w_class = WEIGHT_CLASS_NORMAL

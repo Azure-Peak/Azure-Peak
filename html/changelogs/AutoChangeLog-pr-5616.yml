@@ -1,0 +1,4 @@
+author: "hazelrat"
+delete-after: True
+changes:
+  - rscadd: "Slings may now be worn on your wrist slot, representing the act of wrapping the sling around your forearm."

@@ -1,5 +1,0 @@
-author: "Vladmar11"
-delete-after: True
-changes:
-  - bugfix: "fixed a lot of runtimes"
-  - code_imp: "separate controller for the stat panel, improved optimization"

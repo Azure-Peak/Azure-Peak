@@ -147,6 +147,7 @@ GLOBAL_LIST_INIT(stone_personality_descs, list(
 /obj/item/natural/stone/Initialize()
 	. = ..()
 	stone_lore()
+	update_force_dynamic() // Else it will not display the force properly.
 
 	var/static/list/slapcraft_recipe_list = list(
 		/datum/crafting_recipe/roguetown/survival/stoneaxe,

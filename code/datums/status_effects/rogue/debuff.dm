@@ -321,6 +321,29 @@
 	desc = "His voice keeps ringing in your ears, rocking your soul.."
 	icon_state = "call_to_arms_negative"
 
+/datum/status_effect/debuff/ravox_spirit_backlash
+	id = "ravox_spirit_backlash"
+	alert_type = /atom/movable/screen/alert/status_effect/debuff/ravox_spirit_backlash
+	effectedstats = list(STATKEY_WIL = -1, STATKEY_CON = -1, STATKEY_STR = -1)
+	duration = 60 SECONDS
+
+/atom/movable/screen/alert/status_effect/debuff/ravox_spirit_backlash
+	name = "Spiritual Backlash"
+	desc = "Myne body weak, myne muscles burn- but I must fight on."
+	icon_state = "call_to_arms_negative"
+
+/atom/movable/screen/alert/status_effect/debuff/ravox_warrior_spirit
+	name = "Lux-strain"
+	desc = "My spirit is momentarily stretched thin."
+	icon_state = "astrata_gaze"
+
+/datum/status_effect/debuff/ravox_warrior_spirit
+	id = "ravox_warrior_spirit"
+	alert_type = /atom/movable/screen/alert/status_effect/debuff/ravox_warrior_spirit
+	duration = 1 MINUTES
+	effectedstats = list(STATKEY_STR = -1, STATKEY_WIL = -1, STATKEY_SPD = -1)
+
+
 /datum/status_effect/debuff/ravox_burden
 	id = "ravox_burden"
 	alert_type = /atom/movable/screen/alert/status_effect/debuff/ravox_burden
@@ -681,7 +704,7 @@
 			PM.backdrop(owner)
 			PM = locate(/atom/movable/screen/plane_master/game_world_above) in owner.client.screen
 			PM.backdrop(owner)
-	
+
 /datum/status_effect/debuff/vampbite/on_remove()
 	. = ..()
 	REMOVE_TRAIT(owner, TRAIT_DRUQK, id)
