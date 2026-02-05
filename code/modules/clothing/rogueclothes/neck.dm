@@ -1048,6 +1048,12 @@
 	slot_flags = ITEM_SLOT_NECK
 	body_parts_covered = NONE //it's not armor
 
+/obj/item/clothing/neck/roguetown/collar/prisoner/get_mechanics_examine(mob/user)
+	. = ..()
+	. += span_info("This cursed collar enforces pacifism and blocks spellcasting.")
+	. += span_info("It will automatically release after a period of penance (5-20 minutes based on bounty amount).")
+	. += span_info("It can only be removed early by a LIBERTAS machine.")
+
 /obj/item/clothing/neck/roguetown/collar/prisoner/Initialize()
 	. = ..()
 	ADD_TRAIT(src, TRAIT_NODROP, CURSED_ITEM_TRAIT)

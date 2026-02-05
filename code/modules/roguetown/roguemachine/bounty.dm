@@ -8,6 +8,12 @@
 	anchored = TRUE
 	max_integrity = 999999
 
+/obj/structure/roguemachine/bounty/get_mechanics_examine(mob/user)
+	. = ..()
+	. += span_info("Click to interact with the bounty system.")
+	. += span_info("You can consult active bounties, set new bounties, print a list, or remove your own bounties.")
+	. += span_info("Setting a bounty costs mammon from your bank account.")
+
 /datum/bounty
 	var/target
 	var/target_race
@@ -272,6 +278,11 @@
 	item_chair = null
 	anchored = TRUE
 
+/obj/structure/chair/freedomchair/get_mechanics_examine(mob/user)
+	. = ..()
+	. += span_info("Buckle a collared prisoner to the chair, then right-click to remove their castifico collar.")
+	. += span_info("Crafted versions are unstable and will explode when used on a prisoner.")
+
 /obj/structure/chair/freedomchair/crafted
 	desc = "A chair-shaped machine normally used to place cursed collars onto a prisoner's neck. This one's clearly been tampered with, and looks suspicious."
 
@@ -344,6 +355,13 @@
 	anchored = TRUE
 	var/submission = TRUE
 	max_integrity = 999999
+
+/obj/structure/chair/arrestchair/get_mechanics_examine(mob/user)
+	. = ..()
+	. += span_info("Buckle a bounty target to the chair, then right-click to process them.")
+	. += span_info("If they have an active bounty, they will be fitted with a pacification collar and you will receive a reward.")
+	. += span_info("The target can choose to submit or perish - resistance is fatal.")
+	. += span_info("Outlaws cannot operate this machine.")
 
 /obj/structure/chair/arrestchair/attack_right(mob/living/carbon/human/A)
 	. = ..()
