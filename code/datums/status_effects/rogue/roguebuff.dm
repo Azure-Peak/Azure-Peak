@@ -1008,7 +1008,6 @@
 /atom/movable/screen/alert/status_effect/buff/moonlightdance
 	name = "Moonlight Dance"
 	desc = "Noc's stony touch lay upon my mind, bringing me wisdom."
-	icon_state = "moonlightdance"
 
 
 /datum/status_effect/buff/moonlightdance/on_apply()
