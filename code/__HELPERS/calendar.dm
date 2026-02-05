@@ -61,9 +61,9 @@
 		if(3)
 			return "Dendor" // May
 		if(4)
-		// June, the hottest month is the month of the god of the NIGHT, because this is when they come into prominence
+		// June, the hottest month is the month of the god of the SUN, because this is when they come into prominence
 		// Historically, the winter solstice was celebrated as the rebirth of the sun / sun god, so it makes sense for the hottest month to be dedicated to the night god
-			return "Noc" // June  
+			return "Astrata" // June  
 		if(5)
 			return "Xylix" // July
 		if(6)
@@ -81,8 +81,8 @@
 			// A month dedicated to the goddess of death, before the sun's rebirth and after the goddess of rot
 			return "Necra" // November
 		if(10)
-			// And on winter solstice and the end of the gregorian (but not OUR year) comes the rebirth of the sun god.
-			return "Astrata" // December
+			// And on winter solstice and the longest night of the year, we have the month dedicated to the god of night 
+			return "Noc" // December
 		if(11)
 			return "Abyssor" // January
 		if(12)
