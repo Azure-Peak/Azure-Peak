@@ -12,8 +12,8 @@
  [Weekday], [Day] [Month] [Year], [HH:MM] ([Time Of Day]), ([Cycle Number])
 */
 /proc/get_current_ic_date_as_string()
-	var/round_id = text2num(GLOB.round_id) // Also number of weeks passed since epoch
-	var/days_since_epoch = (round_id - 1) * CALENDAR_DAYS_IN_WEEK + (GLOB.dayspassed - 2)
+	var/round_id = text2num(GLOB.round_id) || 1 // Default to 1 if not initialized
+	var/days_since_epoch = (round_id) * CALENDAR_DAYS_IN_WEEK + (GLOB.dayspassed - 1)
 	var/year_number = CALENDAR_EPOCH_YEAR + FLOOR(days_since_epoch / CALENDAR_DAYS_IN_YEAR, 1)
 	var/day_of_year = MODULUS(days_since_epoch, CALENDAR_DAYS_IN_YEAR) + 1 // 1 to 336
 	var/month_number = FLOOR((day_of_year - 1) / CALENDAR_DAYS_IN_MONTH, 1) + 1 // 1 to 12
