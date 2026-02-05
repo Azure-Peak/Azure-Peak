@@ -1,6 +1,8 @@
 /datum/sex_action/toy/oral
 	name = "Suck off toy"
 	stamina_cost = 1.0
+	intensity = 1
+	masturbation = TRUE
 
 /datum/sex_action/toy/oral/can_perform(mob/living/carbon/human/user, mob/living/carbon/human/target)
 	. = ..()

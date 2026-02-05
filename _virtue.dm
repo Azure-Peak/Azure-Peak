@@ -37,30 +37,46 @@ GLOBAL_LIST_EMPTY(virtues)
 		ADD_TRAIT(recipient, trait, TRAIT_VIRTUE)
 
 /datum/virtue/proc/handle_skills(mob/living/carbon/human/recipient)
-	if (!recipient.mind || !LAZYLEN(added_skills))
+	if (!recipient?.mind || !LAZYLEN(added_skills))
 		return
-	for(var/skill in added_skills)
-		if (!islist(skill))
-			recipient.adjust_skillrank(skill, added_skills[skill], TRUE)
+
+	for (var/entry in added_skills)
+		var/datum/skill/S
+		var/inc
+		var/max = null
+
+		if (islist(entry))
+			S   = entry[1]
+			inc = entry[2]
+			max = entry[3]
 		else
-			var/list/skill_block = skill
-			var/datum/skill/the_skill = skill_block[1]
-			var/increase_by = skill_block[2]
-			var/maximum_skill = skill_block[3]
-			var/our_skill = recipient.get_skill_level(the_skill)
-			if (our_skill < maximum_skill)
-				if ((our_skill + increase_by) > maximum_skill) // we'll be pushing it higher than our max with 1 addition, so lower increase_by
-					increase_by = (maximum_skill - our_skill)
-				recipient.adjust_skillrank(the_skill.type, increase_by, TRUE)
-			else if (softcap) //
-				increase_by = 1
-				if ((our_skill + increase_by) > 6) // we can't go above legendary
-					increase_by = (maximum_skill - our_skill)
-				recipient.adjust_skillrank(the_skill.type, increase_by, TRUE)
-				to_chat(recipient, span_notice("My Virtue can only minorly influence my skill with [lowertext(the_skill.name)]."))
-			else
-				to_chat(recipient, span_notice("My Virtue cannot influence my skill with [lowertext(the_skill.name)] any further."))
-				
+			S   = entry
+			inc = added_skills[entry]
+
+		if (!S || !inc)
+			continue
+
+		var/current = recipient.get_skill_level(S)
+		var/increase_amount = 0
+		var/virtue_limit = 6
+		if (max)
+			virtue_limit = min(max, 6)
+
+		if (current < virtue_limit)
+			var/space_left = virtue_limit - current
+			increase_amount = min(inc, space_left)
+
+		if (increase_amount == 0 && softcap && current < 6)
+			increase_amount = 1
+
+		if (increase_amount == 0)
+
+			to_chat(recipient, span_notice("My Virtue cannot influence my skill with [lowertext(S.name)] any further."))
+		else
+			recipient.adjust_skillrank(S.type, increase_amount, TRUE)
+
+			if (increase_amount == 1 && max && current >= max)
+				to_chat(recipient, span_notice("My Virtue can only minorly influence my skill with [lowertext(S.name)]."))
 
 /datum/virtue/proc/handle_stashed_items(mob/living/carbon/human/recipient)
 	if (!recipient.mind || !LAZYLEN(added_stashed_items))
@@ -71,14 +87,14 @@ GLOBAL_LIST_EMPTY(virtues)
 /datum/virtue/proc/handle_added_languages(mob/living/carbon/human/recipient)
 	if (!LAZYLEN(added_languages))
 		return
-	
+
 	for (var/language in added_languages)
 		recipient.grant_language(language)
 
 /datum/virtue/proc/handle_stats(mob/living/carbon/human/recipient)
 	if (!LAZYLEN(added_stats))
 		return
-	
+
 	for (var/stat in added_stats)
 		var/value = added_stats[stat]
 		recipient.change_stat(stat, value)
@@ -86,10 +102,10 @@ GLOBAL_LIST_EMPTY(virtues)
 /datum/virtue/proc/check_triumphs(mob/living/carbon/human/recipient)
 	if (!triumph_cost)
 		return TRUE
-	
+
 	if (!recipient.mind)
 		return FALSE
-	
+
 	// we should check to see if they have triumphs first but i can't be fucked
 	recipient.adjust_triumphs(-triumph_cost, FALSE)
 	return TRUE

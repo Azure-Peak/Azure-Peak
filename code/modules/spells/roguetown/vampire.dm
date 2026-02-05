@@ -16,6 +16,7 @@
 /obj/effect/proc_holder/spell/targeted/shapeshift/vampire/bat
 	name = "Bat Form"
 	desc = ""
+	overlay_state = "bat_transform"
 	recharge_time = 50
 	cooldown_min = 50
 	die_with_shapeshifted_form =  FALSE
@@ -29,19 +30,6 @@
 	cooldown_min = 50
 	die_with_shapeshifted_form =  FALSE
 	shapeshift_type = /mob/living/simple_animal/hostile/retaliate/gaseousform
-
-/obj/effect/proc_holder/spell/targeted/shapeshift/crow
-	name = "Zad Form"
-	overlay_state = "zad"
-	desc = ""
-	gesture_required = TRUE
-	chargetime = 5 SECONDS
-	recharge_time = 50
-	cooldown_min = 50
-	die_with_shapeshifted_form =  FALSE
-	do_gib = FALSE
-	shapeshift_type = /mob/living/simple_animal/hostile/retaliate/bat/crow
-	sound = 'sound/vo/mobs/bird/birdfly.ogg'
 
 /obj/effect/proc_holder/spell/targeted/shapeshift/rat
 	name = "Rat Form"
@@ -61,7 +49,7 @@
 	do_gib = FALSE
 	shapeshift_type = /mob/living/simple_animal/hostile/retaliate/rogue/mudcrab/cabbit
 
-/obj/effect/proc_holder/spell/targeted/vampire_float
+/obj/effect/proc_holder/spell/invoked/vampire_float
 	name = "Float"
 	desc = "Float off the air without a sound"
 	recharge_time = 5 SECONDS
@@ -80,22 +68,12 @@
 	glow_color = GLOW_COLOR_VAMPIRIC
 	glow_intensity = GLOW_INTENSITY_MEDIUM
 
-/obj/effect/proc_holder/spell/targeted/vampire_float/cast(list/targets, mob/living/user)
+/obj/effect/proc_holder/spell/invoked/vampire_float/cast(list/targets, mob/living/user)
 	if(isliving(targets[1]))
 		var/mob/living/carbon/human/vampire_caster = targets[1]
 		if(!user)
 			return
-/*
-		if(!HAS_TRAIT(BSDrinker,TRAIT_VAMPIRISM))
-			to_chat(BSDrinker, span_warning("I'm not a vampire, what am I doing?"))
-			return
-		if(BSDrinker.has_status_effect(/datum/status_effect/debuff/veil_up))
-			to_chat(BSDrinker, span_warning("My curse is hidden."))
-			return
-		if(BSDrinker.vitae < vitaedrain)
-			to_chat(BSDrinker, span_warning("Not enough vitae."))
-			return
-*/
+
 		if(vampire_caster.has_status_effect(/datum/status_effect/buff/vampire_float))
 			to_chat(vampire_caster, span_warning("Already active."))
 			return
@@ -116,7 +94,7 @@
 
 /datum/status_effect/buff/vampire_float/on_remove()
 	. = ..()
-	to_chat(owner, span_warning("My fortitude leaves me"))
+	to_chat(owner, span_warning("I'm no longer floating"))
 	owner.remove_filter(VAMPIRIC_FILTER)
 
 #undef VAMPIRIC_FILTER

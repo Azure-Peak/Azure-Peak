@@ -65,7 +65,6 @@
 	name = "goblin"
 	desc = "A green changeling creature."
 	icon_state = "goblin"
-	prevent_crits = list(BCLASS_CUT, BCLASS_BLUNT, BCLASS_TWIST, BCLASS_PEEL, BCLASS_PIERCE, BCLASS_CHOP, BCLASS_LASHING, BCLASS_STAB)
 	max_integrity = 200
 	body_parts_covered = FULL_HEAD
 	embedding = list("embedded_pain_multiplier" = 0, "embed_chance" = 0, "embedded_fall_chance" = 0)

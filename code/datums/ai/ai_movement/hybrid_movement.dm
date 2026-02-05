@@ -12,6 +12,8 @@
 
 /datum/ai_movement/hybrid_pathing/process(delta_time)
 	for(var/datum/ai_controller/controller as anything in moving_controllers)
+		if(QDELETED(controller) || !controller.blackboard || QDELETED(controller.pawn))
+			continue
 		if(!(future_path_blackboard_key in controller.blackboard))
 			controller.add_blackboard_key(future_path_blackboard_key, null)
 		if(!COOLDOWN_FINISHED(controller, movement_cooldown))

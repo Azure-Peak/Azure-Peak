@@ -34,7 +34,8 @@
 	var/atom/movable/screen/alert/status_effect/linked_alert = null
 	/// Each entry defines a stat affected by the status effect during its duration.
 	var/list/effectedstats = list()
-
+	/// if TRUE, we will be entered into SSfastprocess for ticking. if the effect is cleared/managed by another source, this should be FALSE.
+	var/needs_processing = TRUE
 
 	///Icon path for this effect's on-mob effect.
 	var/mob_effect_icon = 'icons/mob/mob_effects.dmi'
@@ -46,11 +47,13 @@
 	var/mob_effect_offset_x
 	var/mob_effect_offset_y
 	///A direct reference to the generated mob effect post-creation. Used for manipulation (or deletion) of the effect. Normally expires.
-	var/mutable_appearance/mob_effect
+	var/atom/mob_effect
 
 /datum/status_effect/New(list/arguments)
 	on_creation(arglist(arguments))
 
+// IF YOU NEED TO PASS ARGUMENTS TO THE PROC, TO MODIFY DURATION OR USE SKILLS, IT MUST BE DONE
+// ON THE ON_CREATION!!!!!!
 /datum/status_effect/proc/on_creation(mob/living/new_owner, ...)
 	testing("oncreation")
 	if(new_owner)
@@ -62,7 +65,7 @@
 		LAZYADD(owner.status_effects, src)
 		owner.status_effects_by_id[id] = src
 
-	if(!owner || !on_apply())
+	if(!owner)
 		qdel(src)
 		return
 
@@ -70,7 +73,13 @@
 		if(!mob_effect_dur)
 			mob_effect_dur = (duration - 1)	//-1 tick juuust in case something goes wrong between status effect deletion and the callback of the appearance itself.
 		mob_effect = owner.play_overhead_indicator_flick(mob_effect_icon, mob_effect_icon_state, mob_effect_dur, mob_effect_layer, null, mob_effect_offset_y, mob_effect_offset_x)
-	
+		mob_effect.plane = ABOVE_LIGHTING_PLANE
+
+	if(!on_apply())
+		on_remove()
+		qdel(src)
+		return
+
 	if(duration != -1)
 		duration = world.time + duration
 	tick_interval = world.time + tick_interval
@@ -79,11 +88,13 @@
 		A?.attached_effect = src //so the alert can reference us, if it needs to
 		linked_alert = A //so we can reference the alert, if we need to
 
-	START_PROCESSING(SSfastprocess, src)
+	if(needs_processing)
+		START_PROCESSING(SSfastprocess, src)
 	return TRUE
 
 /datum/status_effect/Destroy()
-	STOP_PROCESSING(SSfastprocess, src)
+	if(needs_processing)
+		STOP_PROCESSING(SSfastprocess, src)
 	if(owner)
 		linked_alert = null
 		owner.clear_alert(id)
@@ -96,8 +107,9 @@
 		on_remove()
 		owner = null
 
-	effectedstats = list()
-	return ..()
+	effectedstats = null
+	. = ..()
+	return QDEL_HINT_IWILLGC
 
 /datum/status_effect/process(wait)
 	if(QDELETED(owner))

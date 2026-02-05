@@ -473,7 +473,7 @@ SUBSYSTEM_DEF(migrants)
 	var/triumph_bonus = wave.triumph_total
 
 	// Triumph provides a linear bonus to weight (configurable multiplier)
-	var/triumph_multiplier = 2 // Each triumph point adds 2x weight
+	var/triumph_multiplier = 6 // Each triumph point adds 6x weight
 	var/final_weight = base_weight + (triumph_bonus * triumph_multiplier)
 
 	return max(final_weight, 1) // Ensure minimum weight of 1

@@ -102,7 +102,8 @@
 
 /obj/structure/fluff/walldeco/sparrowflag
 	name = "sparrow flag"
-	desc = ""
+	desc = "A flag of coarse fabric bearing the symbol of a blood-red sparrow, its wings unfurled. A symbol of mercenaries \
+	cut-throats, and all those willing to spill blood for gold. "
 	icon_state = "sparrow"
 
 /obj/structure/fluff/walldeco/xavo
@@ -117,7 +118,8 @@
 
 /obj/structure/fluff/walldeco/artificerflag
 	name = "Artificer's Guild"
-	desc = ""
+	desc = "Fine fabric bears the symbol of a square and compass, heraldry of the Guild of Craft. Artisans of beautiful \
+	works, and jealous protectors of the monopoly of their business."
 	icon_state = "artificer"
 
 /obj/structure/fluff/walldeco/maidendrape
@@ -128,8 +130,9 @@
 	pixel_y = 32
 
 /obj/structure/fluff/walldeco/wallshield
-	name = ""
-	desc = ""
+	name = "decorative shield"
+	desc = "This is a large, broad shield attached to a wall as decoration. Often used to denote structures operated by \
+	a city's garrison."
 	icon_state = "wallshield"
 
 /obj/structure/fluff/walldeco/sign/merchantsign
@@ -142,7 +145,9 @@
 	icon_state = "shopsign_merchant_left"
 
 /obj/structure/fluff/walldeco/psybanner
-	name = "banner"
+	name = "psydonic banner"
+	desc = "A banner of fine fabric bearing the symbol of Psydon, the Weeping God, creator of the world. \
+	Flown frequently by both Psydonite and Tennite authorities."
 	icon_state = "Psybanner-PURPLE"
 
 /obj/structure/fluff/walldeco/psybanner/red
@@ -347,7 +352,7 @@
 
 		if((HU in SStreasury.bank_accounts)) //do we not have an account?
 			playsound(loc, 'sound/misc/gold_menu.ogg', 100, TRUE, -1)
-			say("Yeoman [user.real_name] logged entering zone securisee.")
+			say("Bourgeois [user.real_name] logged entering zone securisee.")
 			return
 
 		else //?????

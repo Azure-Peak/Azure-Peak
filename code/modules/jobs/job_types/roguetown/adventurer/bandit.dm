@@ -1,7 +1,7 @@
 /datum/job/roguetown/bandit //pysdon above there's like THREE bandit.dms now I'm so sorry. This one is latejoin bandits, the one in villain is the antag datum, and the one in the 'antag' folder is an old adventurer class we don't use. Good luck!
 	title = "Bandit"
 	flag = BANDIT
-	department_flag = PEASANTS
+	department_flag = ANTAGONIST
 	faction = "Station"
 	total_positions = 0
 	spawn_positions = 0
@@ -27,16 +27,17 @@
 	advjob_examine = TRUE
 	always_show_on_latechoices = TRUE
 	job_reopens_slots_on_death = FALSE //no endless stream of bandits, unless the migration waves deem it so
-	job_traits = list(TRAIT_SELF_SUSTENANCE)
+	job_traits = list(TRAIT_SELF_SUSTENANCE, TRAIT_STEELHEARTED)//Bandits and knaves truly though
+	vice_restrictions = list(/datum/charflaw/noeyer, /datum/charflaw/noeyel, /datum/charflaw/mute, /datum/charflaw/limbloss/arm_r, /datum/charflaw/limbloss/arm_l)
 	same_job_respawn_delay = 1 MINUTES
 	cmode_music = 'sound/music/cmode/antag/combat_deadlyshadows.ogg'
 	job_subclasses = list(
 		/datum/advclass/brigand,
+		/datum/advclass/hedgealchemist,
 		/datum/advclass/hedgeknight,
+		/datum/advclass/hedgemage,
 		/datum/advclass/iconoclast,
 		/datum/advclass/knave,
-		/datum/advclass/roguemage,
-		/datum/advclass/sawbones,
 		/datum/advclass/sellsword
 	)
 
@@ -70,23 +71,52 @@
 
 // Changed up proc from Wretch to suit bandits bit more
 /proc/bandit_select_bounty(mob/living/carbon/human/H)
-	var/bounty_poster = input(H, "Who placed a bounty on you?", "Bounty Poster") as anything in list("The Justiciary of Azuria", "The Grenzelhoftian Holy See")
-	var/bounty_severity = input(H, "How notorious are you?", "Bounty Amount") as anything in list("Small Fish", "Bay Butcher", "Azurean Boogeyman")
+	var/datum/preferences/P = H?.client?.prefs
+
+	var/bounty_poster_key
+	var/bounty_severity_key
+	var/my_crime
+
+	if(P?.preset_bounty_enabled)
+		bounty_poster_key = P.preset_bounty_poster_key
+		bounty_severity_key = P.preset_bounty_severity_b_key
+		my_crime = P.preset_bounty_crime
+
+	if(bounty_poster_key && !GLOB.bounty_posters[bounty_poster_key])
+		bounty_poster_key = null
+
+	if(bounty_severity_key && !GLOB.bandit_bounty_severities[bounty_severity_key])
+		bounty_severity_key = null
+	if(!bounty_poster_key)
+		var/list/poster_choices = list()
+		for(var/key in GLOB.bounty_posters)
+			poster_choices[GLOB.bounty_posters[key]] = key
+		var/choice = input(H, "Who placed a bounty on you?", "Bounty Poster") as anything in poster_choices
+		bounty_poster_key = poster_choices[choice]
+
+	if(!bounty_severity_key)
+		var/list/sev_choices = list()
+		for(var/key in GLOB.bandit_bounty_severities)
+			sev_choices[GLOB.bandit_bounty_severities[key]["name"]] = key
+		var/choice = input(H, "How notorious are you?", "Bounty Amount") as anything in sev_choices
+		bounty_severity_key = sev_choices[choice]
+	var/bounty_poster = GLOB.bounty_posters[bounty_poster_key]
+
+	var/list/sev_data = GLOB.bandit_bounty_severities[bounty_severity_key]
+	var/bounty_total = rand(sev_data["min"], sev_data["max"])
+
+	if(!my_crime)
+		my_crime = input(H, "What is your crime?", "Crime") as text|null
+	if(!my_crime)
+		my_crime = "Brigandry"
+
 	var/race = H.dna.species
 	var/gender = H.gender
 	var/list/d_list = H.get_mob_descriptors()
+
 	var/descriptor_height = build_coalesce_description_nofluff(d_list, H, list(MOB_DESCRIPTOR_SLOT_HEIGHT), "%DESC1%")
 	var/descriptor_body = build_coalesce_description_nofluff(d_list, H, list(MOB_DESCRIPTOR_SLOT_BODY), "%DESC1%")
 	var/descriptor_voice = build_coalesce_description_nofluff(d_list, H, list(MOB_DESCRIPTOR_SLOT_VOICE), "%DESC1%")
-	var/bounty_total = rand(300, 600)
-	switch(bounty_severity)
-		if("Small Fish")
-			bounty_total = rand(300, 400)
-		if("Bay Butcher")
-			bounty_total = rand(400, 500)
-		if("Azurean Boogeyman")
-			bounty_total = rand(500, 600)
-	var/my_crime = input(H, "What is your crime?", "Crime") as text|null
-	if (!my_crime)
-		my_crime = "Brigandry"
+
 	add_bounty(H.real_name, race, gender, descriptor_height, descriptor_body, descriptor_voice, bounty_total, FALSE, my_crime, bounty_poster)
+

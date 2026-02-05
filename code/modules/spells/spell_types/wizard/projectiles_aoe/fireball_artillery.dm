@@ -37,8 +37,8 @@
 
 /obj/projectile/magic/aoe/fireball/rogue/artillery
 	name = "Artillery Fireball"
-	exp_heavy = 0
-	exp_light = 0
+	exp_heavy = -1
+	exp_light = -1
 	exp_flash = 0
 	exp_fire = 1
 	damage = 50 // 10 less damage than actual fireball on direct fire

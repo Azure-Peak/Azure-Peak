@@ -1,5 +1,6 @@
 /mob/living/simple_animal/hostile/retaliate/rogue/mirespider
 	icon = 'icons/mob/mirespider_small.dmi'
+	desc = "Said to have originated from the decapitated heads of fallen legionnaires from eons past, grown legs and a voracious appetite, mire crawlers are common pests in many a wetland. Occasionally hunted for their silk."
 	name = "mire crawler"
 	icon_state = "crawler"
 	icon_living = "crawler"
@@ -146,6 +147,7 @@
 
 /mob/living/simple_animal/hostile/rogue/mirespider_lurker
 	icon = 'icons/mob/mirespider_big.dmi'
+	desc = "An unusually large and dangerous mire crawler, these lumbering creatures tend to find smaller specimens gravitating to them for safety - or perhaps simply to hunt more efficiently."
 	name = "mire lurker"
 	icon_state = "lurker"
 	icon_living = "lurker"
@@ -182,6 +184,8 @@
 	STAPER = 15
 	pixel_x = -4
 
+	AIStatus = AI_OFF
+	can_have_ai = FALSE
 	ai_controller = /datum/ai_controller/mirespider_lurker
 	projectiletype = /obj/projectile/bullet/spider
 
@@ -191,6 +195,39 @@
 	check_friendly_fire = 1
 
 	var/list/mob/living/simple_animal/hostile/retaliate/rogue/mirespider/followers = list()
+
+/mob/living/simple_animal/hostile/rogue/mirespider_lurker/mushroom
+	icon = 'icons/mob/mirespider_shroom.dmi'
+	desc = "While recognizable as a mire lurker, this specimen appears to suffer a gigantic \
+	fungal growth over its rear end. It reeks of the smell of mold, and tar-like secretions \
+	drip from its mandibles. Something here is horribly wrong."
+	name = "mire lurker?"
+	icon_state = "mushroom"
+	icon_living = "mushroom"
+	icon_dead = "mushroom_dead"
+	health = MIRESPIDER_MUSHROOM_HEALTH
+	maxHealth = MIRESPIDER_MUSHROOM_HEALTH
+	pixel_x = -8
+
+	projectiletype = /obj/projectile/bullet/spider_shroom
+	botched_butcher_results = list(/obj/item/reagent_containers/food/snacks/rogue/meat/spider = 2,
+						/obj/item/natural/hide = 2,
+						/obj/item/natural/silk = 1, 
+						/obj/item/reagent_containers/powder/ozium = 1,
+						/obj/item/alch/viscera = 1)
+	butcher_results = list(/obj/item/reagent_containers/food/snacks/rogue/meat/spider = 4,
+						/obj/item/natural/hide = 3,
+						/obj/item/natural/silk = 3, 
+						/obj/item/reagent_containers/powder/ozium = 2,
+						/obj/item/alch/viscera = 4,
+						/obj/item/natural/head/mirelurker = 1)
+	perfect_butcher_results = list(/obj/item/reagent_containers/food/snacks/rogue/meat/spider = 4,
+						/obj/item/natural/hide = 4,
+						/obj/item/natural/silk = 5, // You killed the mire lurker. You get all the figgy pudding . . .
+						/obj/item/reagent_containers/powder/ozium = 2,
+						/obj/item/reagent_containers/powder/herozium = 1,
+						/obj/item/alch/viscera = 4,
+						/obj/item/natural/head/mirelurker = 1)
 
 /mob/living/simple_animal/hostile/rogue/mirespider_lurker/Initialize()
 	. = ..()
@@ -228,6 +265,8 @@
 /mob/living/simple_animal/hostile/rogue/mirespider_paralytic
 	icon = 'icons/mob/mirespider_small.dmi'
 	name = "aragn"
+	desc = "A gigantic species of spider accompanied always by a strong sulphuric stench. Its fangs carry \
+	a dangerous paralytic; a danger for the common traveller, and an opportunity to any aspiring poisoner."
 	icon_state = "aragn"
 	icon_living = "aragn"
 	icon_dead = "aragn_dead"
@@ -262,6 +301,8 @@
 	STASPD = 12
 	STAPER = 7
 
+	AIStatus = AI_OFF
+	can_have_ai = FALSE
 	ai_controller = /datum/ai_controller/mirespider_paralytic
 
 /datum/intent/simple/bite/mirespider_paralytic

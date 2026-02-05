@@ -7,18 +7,19 @@
 	density = FALSE
 	anchored = TRUE
 	can_buckle = FALSE
-	max_integrity = 0
+	max_integrity = 100
 	buckle_lying = 90
 	layer = 2.8
 
 /obj/structure/spike_pit/Crossed(atom/movable/AM)
 	var/hitsound = pick('sound/combat/hits/bladed/genstab (1).ogg', 'sound/combat/hits/bladed/genstab (2).ogg', 'sound/combat/hits/bladed/genstab (3).ogg')
-	// TO DO: figure out how to either make jumping its own special proc
-	// Or read throw_at to understand how to parse it here to allow jumping
+	var/was_thrown = AM.throwing // If you are thrown - like by fetch spells, it destroys the pit for balance.
 
 	if(isliving(AM))
 		var/mob/living/L = AM
 		if(L.movement_type & (FLYING|FLOATING)) //don't close the trap if they're flying/floating over it.
+			return ..()
+		if(L.is_jumping) // Allow jumping over the pit
 			return ..()
 
 	if(ishuman(AM))
@@ -46,6 +47,10 @@
 		buckle_mob(H, TRUE)
 		H.clear_alert("buckled") //easiest way to hide this option. Have to click the pit with a free hand to get loose.
 		playsound(src.loc, hitsound, 100)
+		if(was_thrown)
+			AM.throwing?.finalize(FALSE) // Stop throw momentum, so spike pit are not destroyed in a row
+			visible_message(span_warning("The spikes shatter from the impact!"))
+			qdel(src)
 		return
 
 	if(istype(AM, /mob/living/simple_animal))
@@ -55,6 +60,10 @@
 		buckle_mob(L, TRUE)
 		L.get_sound("pain")
 		playsound(src.loc, hitsound, 100)
+		if(was_thrown)
+			AM.throwing?.finalize(FALSE) // Stop throw momentum, so spike pit are not destroyed in a row
+			visible_message(span_warning("The spikes shatter from the impact!"))
+			qdel(src)
 		return
 
 	. = ..()

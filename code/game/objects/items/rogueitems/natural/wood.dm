@@ -125,7 +125,6 @@
 		/datum/crafting_recipe/roguetown/survival/woodtray,
 		/datum/crafting_recipe/roguetown/survival/woodbowl,
 		/datum/crafting_recipe/roguetown/survival/pipe,
-		/datum/crafting_recipe/roguetown/survival/mantrap,
 		/datum/crafting_recipe/roguetown/survival/paperscroll,
 		/datum/crafting_recipe/roguetown/survival/boneaxe,
 		/datum/crafting_recipe/roguetown/survival/prosthetic/woodleftarm,
@@ -366,7 +365,7 @@
 /obj/item/grown/log/tree/stake
 	name = "stake"
 	icon_state = "stake"
-	desc = "A sharpened piece of wood, fantastic for piercing"
+	desc = "A snapped tree branch with a hand-whittled tip; the bane of both unspooled tarps and lesser nitecreechers. </br>With a whetstone, I could further sharpen this stake and gift it a proper handle for use against the unholy."
 	grid_width = 32
 	grid_height = 64
 	force = 10
@@ -384,6 +383,15 @@
 	slot_flags = ITEM_SLOT_MOUTH|ITEM_SLOT_HIP
 	lumber_amount = 0
 
+/obj/item/grown/log/tree/stake/getonmobprop(tag)
+	. = ..()
+	if(tag)
+		switch(tag)
+			if("gen")
+				return list("shrink" = 0.4,"sx" = -10,"sy" = 0,"nx" = 11,"ny" = 0,"wx" = -4,"wy" = 0,"ex" = 2,"ey" = 0,"northabove" = 0,"southabove" = 1,"eastabove" = 1,"westabove" = 0,"nturn" = 0,"sturn" = 0,"wturn" = 0,"eturn" = 0,"nflip" = 0,"sflip" = 8,"wflip" = 8,"eflip" = 0)
+			if("onbelt")
+				return list("shrink" = 0.3,"sx" = -2,"sy" = -5,"nx" = 4,"ny" = -5,"wx" = 0,"wy" = -5,"ex" = 2,"ey" = -5,"nturn" = 0,"sturn" = 0,"wturn" = 0,"eturn" = 0,"nflip" = 0,"sflip" = 0,"wflip" = 0,"eflip" = 0,"northabove" = 0,"southabove" = 1,"eastabove" = 1,"westabove" = 0)
+
 /obj/item/grown/log/tree/stake/Initialize()
 	. = ..()
 	var/static/list/slapcraft_recipe_list = list(
@@ -399,6 +407,14 @@
 	. = ..()
 	if(isitem(O))
 		var/obj/item/I = O
+		if(istype(I, /obj/item/ingot/iron))
+			if(!do_after(user, 4 SECONDS, target = I))
+				return
+			to_chat(user, span_warning("The [user] breaks an [I] using stake into small parts!"))
+			new /obj/item/scrap(get_turf(I))
+			new /obj/item/scrap(get_turf(I))
+			new /obj/item/scrap(get_turf(I))
+			qdel(I)
 		if(I.anvilrepair)
 			if(I.smeltresult == /obj/item/ingot/iron)
 				if(!do_after(user, 4 SECONDS, target = I))

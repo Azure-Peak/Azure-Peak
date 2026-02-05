@@ -4,7 +4,7 @@
 	allowed_sexes = list(MALE, FEMALE)
 	allowed_races = RACES_ALL_KINDS
 	outfit = /datum/outfit/job/roguetown/psydoniantemplar
-	category_tags = list(CTAG_INQUISITION)
+	category_tags = list(CTAG_ORTHODOXIST)
 	subclass_languages = list(/datum/language/otavan)
 	cmode_music = 'sound/music/templarofpsydonia.ogg'
 	traits_applied = list(TRAIT_HEAVYARMOR)
@@ -52,7 +52,7 @@
 	belt = /obj/item/storage/belt/rogue/leather/black
 	beltl = /obj/item/storage/belt/rogue/pouch/coins/mid
 	id = /obj/item/clothing/ring/signet/silver
-	backpack_contents = list(/obj/item/roguekey/inquisition = 1,
+	backpack_contents = list(/obj/item/roguekey/inquisitionmanor = 1,
 	/obj/item/paper/inqslip/arrival/ortho = 1)
 
 	H.dna.species.soundpack_m = new /datum/voicepack/male/knight()
@@ -87,28 +87,28 @@
 	var/weapon_choice = input(H,"Choose your WEAPON.", "TAKE UP PSYDON'S ARMS.") as anything in weapons
 	switch(weapon_choice)
 		if("Psydonic Longsword")
-			H.put_in_hands(new /obj/item/rogueweapon/sword/long/psysword(H), TRUE)
-			H.put_in_hands(new /obj/item/rogueweapon/scabbard/sword(H), TRUE)
+			H.put_in_hands(new /obj/item/rogueweapon/sword/long/psysword(H))
+			H.put_in_hands(new /obj/item/rogueweapon/scabbard/sword/noble(H))
 			H.adjust_skillrank_up_to(/datum/skill/combat/swords, 4, TRUE)
 		if("Psydonic War Axe")
-			H.put_in_hands(new /obj/item/rogueweapon/stoneaxe/battle/psyaxe(H), TRUE)
+			H.put_in_hands(new /obj/item/rogueweapon/stoneaxe/battle/psyaxe(H))
 			H.adjust_skillrank_up_to(/datum/skill/combat/axes, 4, TRUE)
 		if("Psydonic Whip")
-			H.put_in_hands(new /obj/item/rogueweapon/whip/psywhip_lesser(H), TRUE)
+			H.put_in_hands(new /obj/item/rogueweapon/whip/psywhip_lesser(H))
 			H.adjust_skillrank_up_to(/datum/skill/combat/whipsflails, 4, TRUE)
 		if("Psydonic Flail")
-			H.put_in_hands(new /obj/item/rogueweapon/flail/sflail/psyflail(H), TRUE)
+			H.put_in_hands(new /obj/item/rogueweapon/flail/sflail/psyflail(H))
 			H.adjust_skillrank_up_to(/datum/skill/combat/whipsflails, 4, TRUE)
 		if("Psydonic Mace")
-			H.put_in_hands(new /obj/item/rogueweapon/mace/goden/psymace(H), TRUE)
+			H.put_in_hands(new /obj/item/rogueweapon/mace/goden/psymace(H))
 			H.adjust_skillrank_up_to(/datum/skill/combat/maces, 4, TRUE)
 		if("Psydonic Spear + Handmace")
-			H.put_in_hands(new /obj/item/rogueweapon/spear/psyspear(H), TRUE)
-			H.put_in_hands(new /obj/item/rogueweapon/mace/cudgel/psy(H), TRUE)
-			H.put_in_hands(new /obj/item/rogueweapon/scabbard/gwstrap(H), TRUE)
+			H.put_in_hands(new /obj/item/rogueweapon/spear/psyspear(H))
+			H.put_in_hands(new /obj/item/rogueweapon/mace/cudgel/psy(H))
+			H.put_in_hands(new /obj/item/rogueweapon/scabbard/gwstrap(H))
 			H.adjust_skillrank_up_to(/datum/skill/combat/polearms, 4, TRUE)
 		if("Psydonic Poleaxe + Shortsword")
-			H.put_in_hands(new /obj/item/rogueweapon/greataxe/psy(H), TRUE)
-			H.put_in_hands(new /obj/item/rogueweapon/sword/short/psy(H), TRUE)
-			H.put_in_hands(new /obj/item/rogueweapon/scabbard/gwstrap(H), TRUE)
+			H.put_in_hands(new /obj/item/rogueweapon/greataxe/psy(H))
+			H.put_in_hands(new /obj/item/rogueweapon/sword/short/psy(H))
+			H.put_in_hands(new /obj/item/rogueweapon/scabbard/gwstrap(H))
 			H.adjust_skillrank_up_to(/datum/skill/combat/axes, 4, TRUE)

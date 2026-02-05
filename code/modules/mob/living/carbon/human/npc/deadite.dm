@@ -157,6 +157,8 @@
 		return
 	if(mind.has_antag_datum(/datum/antagonist/werewolf))
 		return
+	if(mind.has_antag_datum(/datum/antagonist/gnoll))
+		return
 	if(mind.has_antag_datum(/datum/antagonist/skeleton))
 		return
 	if(HAS_TRAIT(src, TRAIT_ZOMBIE_IMMUNE))
@@ -171,7 +173,9 @@
 	if(!zombie_antag)
 		return
 	if(stat >= DEAD) //do shit the natural way i guess
-		return
+		return FALSE
+	if(HAS_TRAIT(src, TRAIT_ZOMBIE_IMMUNE))
+		return FALSE
 	var/datum/status_effect/zombie_infection/infection = has_status_effect(/datum/status_effect/zombie_infection)
 	if(infection)
 		var/time_remaining = infection.transformation_time - world.time

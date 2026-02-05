@@ -22,7 +22,11 @@
 #define COVENS_PER_CLAN 3
 #define COVENS_PER_WRETCH_CLAN 2
 
-/// Mandatory mofe_after() before a vampire can batform. (SHAPESHIFT_MOVEAFTER - vampire.generation) SECONDS 
+#define VAMP_CONVERT_TIMEOUT 4 MINUTES
+#define VAMP_CONVERT_POST_STUN    1 MINUTES
+#define VAMP_CONVERT_BLOOD_GAIN   500
+
+/// Mandatory mofe_after() before a vampire can batform. (SHAPESHIFT_MOVEAFTER - vampire.generation) SECONDS
 #define SHAPESHIFT_MOVEAFTER 5
 
 /// Vitae drained from mobs **with client** is multiplied by this define

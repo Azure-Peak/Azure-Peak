@@ -3,15 +3,20 @@
 	domain = "God of Justice, Glory, Battle"
 	desc = "Stalwart warrior, glorious justicier; legends say he came down to the Basin to repel the vile hordes of demons with his own hands, and that he seeks warriors for his divine army among mortals."
 	worshippers = "Warriors, Sellswords & those who seek Justice"
-	mob_traits = list(TRAIT_SHARPER_BLADES, TRAIT_JUSTICARSIGHT)
+	mob_traits = list(TRAIT_SHARPER_BLADES)
+	traits_tier = list(TRAIT_BATTLEMASTER = CLERIC_T1)
 	miracles = list(/obj/effect/proc_holder/spell/targeted/touch/orison			= CLERIC_ORI,
 					/obj/effect/proc_holder/spell/invoked/tug_of_war			= CLERIC_T0,
+					/obj/effect/proc_holder/spell/self/provocation	       		= CLERIC_T0,
+					/obj/effect/proc_holder/spell/targeted/touch/summonrogueweapon/ravoxgrasp = CLERIC_T0,
 					/obj/effect/proc_holder/spell/invoked/lesser_heal 			= CLERIC_T1,
 					/obj/effect/proc_holder/spell/invoked/blood_heal			= CLERIC_T1,
 					/obj/effect/proc_holder/spell/self/divine_strike			= CLERIC_T1,
+					/obj/effect/proc_holder/spell/self/balance_immune   		= CLERIC_T2,
 					/obj/effect/proc_holder/spell/self/call_to_arms				= CLERIC_T2,
 					/obj/effect/proc_holder/spell/invoked/challenge				= CLERIC_T2,
 					/obj/effect/proc_holder/spell/invoked/persistence			= CLERIC_T3,
+					/obj/effect/proc_holder/spell/invoked/raise_warrior_spirits = CLERIC_T3,
 					/obj/effect/proc_holder/spell/invoked/resurrect/ravox		= CLERIC_T4,
 	)
 	confess_lines = list(

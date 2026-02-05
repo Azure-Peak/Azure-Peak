@@ -1,7 +1,9 @@
 #define ULTRA_PRECISE_ZONE 1 
 #define PRECISE_ZONE 2 
 #define NO_PENALTY_ZONE 3
+#define PRECISE_FACE_ZONE 4
 #define RANGED_MAX_ULTRA_PRECISE_HIT_CHANCE 50 // No matter what max 50% chance to hit
+#define RANGED_MAX_FACE_HIT_CHANCE 30 // No matter what max 30% chance to hit
 #define RANGED_ULTRA_PRECISE_HIT_PENALTY -25 // -25 for you - THEN we clamp.
 #define RANGED_MAX_PRECISE_HIT_CHANCE 75 // No matter what max 75% chance to hit
 #define RANGED_PRECISE_HIT_PENALTY -10 // -10 - THEN we clamp.
@@ -30,6 +32,9 @@
 	if(check_zone(zone) == zone)	//Are we targeting a big limb or chest?
 		chance2hit += 10
 
+	if(check_face_subzone(zone) && used_intent.blade_class != BCLASS_PEEL && target.mind)	//Are we targeting the face of a player mob?
+		chance2hit -= 24	// -3 PER, feel free to adjust if face attacks get too real.
+
 	chance2hit += (user.get_skill_level(associated_skill) * 8)
 
 	if(used_intent)
@@ -41,6 +46,8 @@
 			chance2hit += 6
 		if((used_intent.blade_class == BCLASS_BLUNT || used_intent.blade_class == BCLASS_SMASH) && check_zone(zone) != zone)	//A mace can't hit the eyes very well
 			chance2hit -= 10
+		if(used_intent.accuracy_modifier)
+			chance2hit += used_intent.accuracy_modifier
 
 	if(I)
 		if(I.wlength == WLENGTH_SHORT)
@@ -99,10 +106,7 @@
 /proc/ranged_zone_difficulty(zone)
 	switch(zone)
 		//Hyper specific targetting is very difficult
-		if(BODY_ZONE_PRECISE_R_EYE, BODY_ZONE_PRECISE_L_EYE,
-		   BODY_ZONE_PRECISE_SKULL, BODY_ZONE_PRECISE_EARS,
-		   BODY_ZONE_PRECISE_NOSE, BODY_ZONE_PRECISE_MOUTH,
-		   BODY_ZONE_PRECISE_L_HAND, BODY_ZONE_PRECISE_R_HAND,
+		if(BODY_ZONE_PRECISE_L_HAND, BODY_ZONE_PRECISE_R_HAND,
 		   BODY_ZONE_PRECISE_L_FOOT, BODY_ZONE_PRECISE_R_FOOT)
 			return ULTRA_PRECISE_ZONE
 
@@ -111,6 +115,12 @@
 		   BODY_ZONE_L_ARM, BODY_ZONE_R_ARM,
 		   BODY_ZONE_L_LEG, BODY_ZONE_R_LEG)
 			return PRECISE_ZONE
+
+		// Face & Skull targeting is extra-extra difficult due to their debilitating crits. Players only!
+		if(BODY_ZONE_PRECISE_R_EYE, BODY_ZONE_PRECISE_L_EYE,
+		   BODY_ZONE_PRECISE_SKULL, BODY_ZONE_PRECISE_EARS,
+		   BODY_ZONE_PRECISE_NOSE, BODY_ZONE_PRECISE_MOUTH)
+			return PRECISE_FACE_ZONE
 
 	return NO_PENALTY_ZONE // Groin, Stomach and Chest are OK and Center of Mass.
 
@@ -123,6 +133,10 @@
 	// If you aim precisely (at limb), -10, 75% max.
 	// Aiming very precise part has a chance of hitting the parent limb instead.
 
+	// We only want these limits vs Players
+	if(zone_type == PRECISE_FACE_ZONE && !mind)
+		zone_type = ULTRA_PRECISE_ZONE
+
 	switch(zone_type)
 		if(ULTRA_PRECISE_ZONE)
 			chance2hit -= RANGED_ULTRA_PRECISE_HIT_PENALTY
@@ -130,6 +144,9 @@
 		if(PRECISE_ZONE)
 			chance2hit -= RANGED_PRECISE_HIT_PENALTY
 			chance2hit = CLAMP(chance2hit, 5, RANGED_MAX_PRECISE_HIT_CHANCE)
+		if(PRECISE_FACE_ZONE)
+			chance2hit -= (RANGED_ULTRA_PRECISE_HIT_PENALTY + RANGED_PRECISE_HIT_PENALTY)
+			chance2hit = CLAMP(chance2hit, 5, RANGED_MAX_FACE_HIT_CHANCE)
 
 	if(prob(chance2hit))
 		return def_zone
@@ -141,7 +158,9 @@
 #undef ULTRA_PRECISE_ZONE
 #undef PRECISE_ZONE
 #undef NO_PENALTY_ZONE
+#undef PRECISE_FACE_ZONE
 #undef RANGED_MAX_PRECISE_HIT_CHANCE
 #undef RANGED_ULTRA_PRECISE_HIT_PENALTY
 #undef RANGED_MAX_ULTRA_PRECISE_HIT_CHANCE
 #undef RANGED_PRECISE_HIT_PENALTY
+#undef RANGED_MAX_FACE_HIT_CHANCE

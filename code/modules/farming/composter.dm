@@ -12,6 +12,7 @@
 	var/unflipped_compost = 0
 	var/flipped_compost = 0
 	var/ready_compost = 0
+	var/processing = FALSE
 
 /obj/structure/composter/halffull
 	ready_compost = MAXIMUM_TOTAL_COMPOST * 0.5
@@ -33,7 +34,6 @@
 	update_overlays()
 
 /obj/structure/composter/Initialize()
-	START_PROCESSING(SSprocessing, src)
 	update_icon()
 	. = ..()
 
@@ -50,6 +50,8 @@
 	flipped_compost -= compost_to_process
 	unflipped_compost += compost_to_process * 0.25
 	ready_compost += compost_to_process * 0.75
+	maybe_stop_processing()
+
 
 /obj/structure/composter/proc/get_total_compost()
 	return unflipped_compost + flipped_compost + ready_compost
@@ -59,7 +61,6 @@
 	if(attacking_item)
 		if(istype(attacking_item, /obj/item/rogueweapon/pitchfork) || istype(attacking_item, /obj/item/rogueweapon/shovel))
 			using_tool = TRUE
-			to_chat(user, span_notice("I dig my pitchfork into the compost..."))
 	var/do_time = using_tool ? 4 SECONDS : 7 SECONDS
 	var/fatigue = using_tool ? 10 : 20
 	if(do_after(user, get_farming_do_time(user, do_time), target = src))
@@ -74,6 +75,7 @@
 	var/flip_amount = unflipped_compost
 	unflipped_compost -= flip_amount
 	flipped_compost += flip_amount
+	maybe_start_processing()
 	update_icon()
 
 /obj/structure/composter/proc/try_handle_adding_compost(obj/item/attacking_item, mob/user, batch_process)
@@ -93,7 +95,6 @@
 		if(!batch_process)
 			to_chat(user, span_notice("I add \the [attacking_item] to \the [src]"))
 		qdel(attacking_item)
-		update_icon()
 		return TRUE
 	return FALSE
 
@@ -132,8 +133,10 @@
 			attacking_item.update_icon()
 		else
 			to_chat(user, span_warning("There's nothing in [attacking_item] that can be composted."))
+		update_icon()
 		return TRUE
 	if(try_handle_adding_compost(attacking_item, user, params))
+		update_icon()
 		return
 	. = ..()
 
@@ -178,6 +181,20 @@
 		. += "post_compost_mid"
 	else if (total_processed >= COMPOST_PER_PRODUCED_ITEM)
 		. += "post_compost_low"
+
+/obj/structure/composter/proc/maybe_start_processing()
+	// Start processing if there is any flipped compost to process
+	if(!processing && flipped_compost > 0)
+		START_PROCESSING(SSprocessing, src)
+		processing = TRUE
+		update_overlays()
+
+/obj/structure/composter/proc/maybe_stop_processing()
+	// Stop processing if there is no flipped compost left
+	if(processing && flipped_compost <= 0)
+		STOP_PROCESSING(SSprocessing, src)
+		processing = FALSE
+		update_overlays()
 
 /obj/item/compost
 	name = "compost"

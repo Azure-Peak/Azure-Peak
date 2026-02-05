@@ -1,6 +1,6 @@
 /mob/living/simple_animal/hostile/rogue/haunt
 	name = "haunt"
-	desc = ""
+	desc = "Something dances in the corner of your eye; something is both there and not there."
 	icon = 'icons/roguetown/mob/monster/wraith.dmi'
 	icon_state = "haunt"
 	icon_living = "haunt"

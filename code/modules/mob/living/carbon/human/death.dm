@@ -137,12 +137,13 @@
 				for(var/mob/living/carbon/human/HU in GLOB.player_list)
 					if(!HU.stat && is_in_roguetown(HU))
 						HU.playsound_local(get_turf(HU), 'sound/music/lorddeath.ogg', 80, FALSE, pressure_affected = FALSE)
+				launch_omen_event()
 			if("Bishop")
 				addomen(OMEN_NOPRIEST)
-//		if(yeae)
-//			if(mind)
-//				if((mind.assigned_role == "Lord") || (mind.assigned_role == "Priest") || (mind.assigned_role == "Knight Captain") || (mind.assigned_role == "Merchant"))
-//					addomen(OMEN_NOBLEDEATH)
+				launch_omen_event()
+			if("Inquisitor")
+				addomen(OMEN_INQUISITORDEATH)
+				launch_omen_event()
 
 		if(!gibbed && yeae)
 			for(var/mob/living/carbon/human/HU in viewers(7, src))
@@ -195,7 +196,7 @@
 	if(T)
 		for(var/X in bodyparts)
 			var/obj/item/bodypart/BP = X
-			for(var/obj/item/I in BP.embedded_objects)
+			for(var/obj/item/I as anything in BP.embedded_objects)
 				I.forceMove(T)
 
 	if(mind.current)

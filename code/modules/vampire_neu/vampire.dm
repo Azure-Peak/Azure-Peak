@@ -24,6 +24,8 @@ GLOBAL_LIST_EMPTY(vampire_objects)
 	var/datum/clan/forcing_clan
 	var/generation
 	var/research_points = 10
+	var/max_thralls = 1
+	var/thrall_count = 0
 
 /datum/antagonist/vampire/New(incoming_clan = /datum/clan/nosferatu, forced_clan = FALSE, generation)
 	. = ..()
@@ -72,11 +74,32 @@ GLOBAL_LIST_EMPTY(vampire_objects)
 	//move_to_spawnpoint()
 	owner.special_role = name
 	owner.current.adjust_bloodpool()
+	max_thralls = initial(max_thralls)
 	if(ishuman(owner.current))
 		var/mob/living/carbon/human/vampdude = owner.current
 		vampdude.hud_used?.shutdown_bloodpool()
 		vampdude.hud_used?.initialize_bloodpool()
 		vampdude.hud_used?.bloodpool.set_fill_color("#510000")
+
+		switch(generation)
+			if(GENERATION_METHUSELAH)
+				vampdude?.adjust_skillrank_up_to(/datum/skill/magic/blood, 6, TRUE)
+				max_thralls = 69
+			if(GENERATION_ANCILLAE)
+				vampdude?.adjust_skillrank_up_to(/datum/skill/magic/blood, 5, TRUE)
+				max_thralls = 3
+			if(GENERATION_NEONATE)
+				vampdude?.adjust_skillrank_up_to(/datum/skill/magic/blood, 4, TRUE) // Licker Wretch
+				max_thralls = 1
+			if(GENERATION_THINBLOOD)
+				vampdude?.adjust_skillrank_up_to(/datum/skill/magic/blood, 3, TRUE) // You are not even an antagonist
+				max_thralls = 0
+			else
+				vampdude?.adjust_skillrank_up_to(/datum/skill/magic/blood, 2, TRUE) // Default weight if generation not set
+				max_thralls = 0
+
+		if(HAS_TRAIT(vampdude, TRAIT_DNR)) //if you have DNR, we add dustable
+			ADD_TRAIT(vampdude, TRAIT_DUSTABLE, TRAIT_GENERIC)
 
 		if(!forced)
 			// Show clan selection interface
@@ -88,6 +111,7 @@ GLOBAL_LIST_EMPTY(vampire_objects)
 		else
 			vampdude.set_clan_direct(forcing_clan)
 			forcing_clan = null
+
 
 	// The clan system now handles most of the setup, but we can still do antagonist-specific things
 	after_gain()
@@ -158,6 +182,8 @@ GLOBAL_LIST_EMPTY(vampire_objects)
 		var/mob/living/carbon/human/vampdude = owner.current
 		// Remove the clan when losing antagonist status
 		vampdude.set_clan(null)
+		if(HAS_TRAIT(vampdude, TRAIT_DUSTABLE)) //if you have DNR, we add dustable
+			REMOVE_TRAIT(vampdude, TRAIT_DUSTABLE, TRAIT_GENERIC)
 	owner.current?.hud_used?.shutdown_bloodpool()
 	if(!silent && owner.current)
 		to_chat(owner.current, span_danger("I am no longer a [job_rank]!"))

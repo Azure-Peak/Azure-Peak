@@ -154,6 +154,38 @@ GLOBAL_LIST_EMPTY(explosions)
 		for(var/mob/living/L in viewers(flash_range, epicenter))
 			L.flash_act()
 
+	//damage. WTF, where it?
+	var/dist_epi
+	var/brute
+	var/burn
+	if(!isnull(devastation_range))
+		for(var/mob/living/L in viewers(devastation_range, epicenter))
+			dist_epi = get_dist(L, epicenter)
+			if(!L.mind)
+				burn = rand(100,250)
+				brute = rand(50,150)
+				L.adjustBruteLoss(brute)
+				L.adjustFireLoss(burn)
+	if(!isnull(heavy_impact_range))
+		for(var/mob/living/L in viewers(heavy_impact_range, epicenter))
+			dist_epi = get_dist(L, epicenter)
+			if(dist_epi <= devastation_range)
+				continue
+			if(!L.mind)
+				burn = rand(50,180)
+				brute = rand(30,120)
+				L.adjustFireLoss(burn)
+				L.adjustBruteLoss(brute)
+	if(!isnull(light_impact_range))
+		for(var/mob/living/L in viewers(light_impact_range, epicenter))
+			dist_epi = get_dist(L, epicenter)
+			if(dist_epi <= heavy_impact_range)
+				continue
+			if(!L.mind)
+				burn = rand(25,90)
+				brute = rand(15,60)
+				L.adjustFireLoss(burn)
+				L.adjustBruteLoss(brute)
 	EX_PREPROCESS_CHECK_TICK
 
 	var/list/exploded_this_tick = list()	//open turfs that need to be blocked off while we sleep

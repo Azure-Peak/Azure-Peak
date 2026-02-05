@@ -4,6 +4,8 @@
 	require_grab = FALSE
 	check_same_tile = FALSE
 	target_priority = 100
+	intensity = 4
+	flipped = TRUE
 
 /datum/sex_action/blowjob/can_perform(mob/living/carbon/human/user, mob/living/carbon/human/target)
 	. = ..()
@@ -30,10 +32,12 @@
 
 /datum/sex_action/blowjob/on_perform(mob/living/carbon/human/user, mob/living/carbon/human/target)
 	user.make_sucking_noise()
-	do_thrust_animate(user, target)
+	// you want to know how i got these scars?
+	if(istype(user.head, /obj/item/clothing/head/roguetown/jester))
+		playsound(user, SFX_JINGLE_BELLS, 30, TRUE, -2, ignore_walls = FALSE)
 
 	var/datum/sex_session/sex_session = get_sex_session(user, target)
-
+	do_thrust_animate(user, target, sex_session)
 	sex_session.perform_sex_action(target, 2, 0, TRUE)
 
 /datum/sex_action/blowjob/on_finish(mob/living/carbon/human/user, mob/living/carbon/human/target)

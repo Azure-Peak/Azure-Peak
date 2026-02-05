@@ -170,6 +170,8 @@
 
 	var/slowdown
 
+	var/last_integ_sound
+
 	var/last_dir_change = 0
 
 	var/list/death_trackers = list()
@@ -199,3 +201,8 @@
 
 	/// Parry timer for projectiles post-attack. Hooks into the attack animation, so is fairly clunky.
 	var/projectile_parry_timer
+
+	/// Toggle delay for Specials, or really anything else that you don't want input spam to instantly cycle through.
+	var/toggle_delay = 1 SECONDS
+	/// Toggle timer for Specials, or really anything else that you don't want input spam to instantly cycle through.
+	var/toggle_timer

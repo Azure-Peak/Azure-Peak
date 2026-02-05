@@ -65,6 +65,14 @@
 	color = "#bb9696"
 	sellprice = 15
 
+/obj/item/rogueweapon/thresher/bronze
+	name = "bronze thresher"
+	desc = "Threshed stalks beget grains to eat, and stricken grains beget seeds to grow. This cycle, humble as it is, is the sole reason why Psydonia's many inhabitants still lyve todae."
+	force = 15
+	force_wielded = 20
+	icon_state = "bronzethresh"
+	smeltresult = /obj/item/ingot/bronze
+	max_integrity = 300
 
 /obj/item/rogueweapon/sickle
 	force = 10
@@ -101,6 +109,14 @@
 	color = "#bb9696"
 	sellprice = 15
 	smeltresult = /obj/item/ingot/aaslag
+
+/obj/item/rogueweapon/sickle/bronze
+	name = "bronze sickle"
+	desc = "Wheat from the chaff, flesh from the bone. Carve a meal from the stalks, and cultivate your own kingdom upon the soil."
+	force = 15
+	icon_state = "bronzesickle"
+	smeltresult = /obj/item/ingot/bronze
+	max_integrity = 300
 
 /obj/item/rogueweapon/sickle/copper
 	name = "copper sickle"
@@ -140,6 +156,15 @@
 	name = "copper hoe"
 	icon_state = "choe"
 	smeltresult = /obj/item/ingot/copper
+
+/obj/item/rogueweapon/hoe/bronze
+	force = 15
+	force_wielded = 20
+	name = "bronze hoe"
+	desc = "Till the soil, so that it may receive your seed. Alongside the sickle and thresher, it forms the holy trinity of agriculturality. Don't ask about the pitchfork."
+	icon_state = "bronzehoe"
+	smeltresult = /obj/item/ingot/bronze
+	max_integrity = 300
 
 /obj/item/rogueweapon/hoe/stone
 	force = 7
@@ -283,7 +308,6 @@
 	..()
 */
 /obj/item/rogueweapon/pitchfork
-
 	force = 10
 	force_wielded = 15
 	possible_item_intents = list(SPEAR_BASH)
@@ -324,14 +348,18 @@
 	color = "#bb9696"
 	sellprice = 15
 
+/obj/item/rogueweapon/pitchfork/bronze
+	force = 15
+	force_wielded = 20
+	name = "bronze pitchfork"
+	desc = "'Ah, there you are! I tell you, the others simply do not appreciate the labors I pull to keep their hands clean. I'd like to see a hoe try to scoop a whole cart's worth of wheat on its own - see how that fares!'"
+	icon_state = "bronzepitchfork"
+	smeltresult = /obj/item/ingot/bronze
+	max_integrity = 300
+
 /obj/item/rogueweapon/pitchfork/copper
 	name = "copper pitchfork"
-	icon = 'icons/roguetown/weapons/64.dmi'
-	pixel_y = -16
-	pixel_x = -16
-	inhand_x_dimension = 64
-	inhand_y_dimension = 64
-	icon_state = "cfork"
+	icon_state = "cpitchfork"
 	smeltresult = /obj/item/ingot/copper
 
 /datum/intent/pforkdump

@@ -1,6 +1,6 @@
 /mob/living/simple_animal/hostile/rogue/skeleton
 	name = "Skeleton"
-	desc = ""
+	desc = "A shambling anatomy of bleached bones kept together only by necromantic forces."
 	icon = 'icons/mob/skeletons.dmi'
 	icon_state = "skeleton"
 	icon_living = "skeleton"
@@ -51,7 +51,6 @@
 
 /mob/living/simple_animal/hostile/rogue/skeleton/axe
 	name = "Skeleton"
-	desc = ""
 	icon = 'icons/mob/skeletons.dmi'
 	base_intents = list(/datum/intent/simple/axe/skeleton)
 	icon_state = "skeleton_axe"
@@ -61,7 +60,6 @@
 
 /mob/living/simple_animal/hostile/rogue/skeleton/spear
 	name = "Skeleton"
-	desc = ""
 	icon = 'icons/mob/skeletons.dmi'
 	base_intents = list(/datum/intent/simple/spear/skeleton)
 	icon_state = "skeleton_spear"
@@ -73,7 +71,6 @@
 
 /mob/living/simple_animal/hostile/rogue/skeleton/guard
 	name = "Skeleton"
-	desc = ""
 	icon = 'icons/mob/skeletons.dmi'
 	base_intents = list(/datum/intent/simple/axe/skeleton)
 	icon_state = "skeleton_guard"
@@ -85,7 +82,6 @@
 
 /mob/living/simple_animal/hostile/rogue/skeleton/bow
 	name = "Skeleton"
-	desc = ""
 	icon = 'icons/mob/skeletons.dmi'
 	icon_state = "skeleton_bow"
 	icon_living = "skeleton_bow"
@@ -139,10 +135,10 @@
 			faction = list("undead", "[user.mind.current.real_name]_faction", "[user.real_name]_faction") //no changes. Undead faction + lich_name faction
 	damage_check = world.time
 	if(is_summoned) //check, if it NOT summoned skeleton, he lifetime - infinity. For mapping-spawned skeltons
-		addtimer(CALLBACK(src, PROC_REF(deathtime)), 1 MINUTES)
+		addtimer(CALLBACK(src, TYPE_PROC_REF(/mob/living/simple_animal/hostile/rogue/skeleton, deathtime), TRUE), 1 MINUTES)
 
 /mob/living/simple_animal/hostile/rogue/skeleton/proc/deathtime()
-	target.add_atom_colour(newcolor, ADMIN_COLOUR_PRIORITY)
+	src.add_atom_colour(newcolor, ADMIN_COLOUR_PRIORITY)
 	start_take_damage = TRUE
 
 /mob/living/simple_animal/hostile/rogue/skeleton/Life(mob/user)
@@ -164,7 +160,7 @@
 		return FALSE
 	if (!(user.name in friends))
 		return FALSE
-	
+
 	return TRUE
 
 /mob/living/simple_animal/hostile/rogue/skeleton/beckoned(mob/user)
@@ -207,7 +203,7 @@
 
 /datum/intent/simple/claw/skeleton
 	clickcd = SKELETON_ATTACK_SPEED
-	
+
 /datum/intent/simple/spear/skeleton
 	reach = 2
 	clickcd = SKELETON_ATTACK_SPEED * 1.2
@@ -237,3 +233,68 @@
 /mob/living/simple_animal/hostile/rogue/skeleton/bow/Initialize(mapload, mob/user, cabal_affine = FALSE, is_summoned = FALSE)
     . = ..(mapload, user, cabal_affine, is_summoned)
 
+/mob/living/simple_animal/hostile/rogue/skeleton/ravox_ghost
+	name = "Ravoxian Soul"
+	desc = "A portion of a Ravoxian's soul. Kill it to damage and stun them. Metal."
+	icon = 'icons/roguetown/mob/monster/ravoxghost.dmi'
+	icon_state = "rghost"
+	icon_living = "rghost"
+	STACON = 10
+	STASTR = 10
+	STASPD = 8
+	maxHealth = 60 //summoned with 60 + 10 hp per skill lvl
+	health = 50
+	pixel_x = -16
+	pixel_y = -16
+	harm_intent_damage = 10
+	melee_damage_lower = 25
+	melee_damage_upper = 30
+	icon_dead = ""
+	loot = list(/obj/item/ash,	/obj/item/ash)
+	can_have_ai = FALSE //disable native ai
+	AIStatus = AI_OFF
+	var/buffed_r = FALSE
+	var/mob/living/spirit_owner = null
+
+/mob/living/simple_animal/hostile/rogue/skeleton/ravox_ghost/Initialize(mapload, mob/user, cabal_affine = FALSE, is_summoned = FALSE)
+	. = ..(mapload, user, cabal_affine, is_summoned)
+	if(isliving(user))
+		spirit_owner = user
+
+/mob/living/simple_animal/hostile/rogue/skeleton/ravox_ghost/death(gibbed)
+	if(spirit_owner && isliving(spirit_owner))
+		spirit_owner.adjustBruteLoss(30)
+		spirit_owner.apply_status_effect(/datum/status_effect/debuff/ravox_spirit_backlash)
+		spirit_owner.Immobilize(20)
+		spirit_owner.emote("agony", forced = TRUE)
+	. = ..()
+
+/mob/living/simple_animal/hostile/rogue/skeleton/ravox_ghost/spear
+	icon_state = "rghost_s"
+	icon_living = "rghost_s"
+	attack_sound = 'sound/foley/pierce.ogg'
+	base_intents = list(/datum/intent/simple/spear/skeleton)
+	ai_controller = /datum/ai_controller/skeleton_spear
+
+/mob/living/simple_animal/hostile/rogue/skeleton/ravox_ghost/axe
+	icon_state = "rghost_a"
+	icon_living = "rghost_a"
+	base_intents = list(/datum/intent/simple/axe/skeleton)
+
+/mob/living/simple_animal/hostile/rogue/skeleton/ravox_ghost/sword
+	icon_state = "rghost_sw"
+	icon_living = "rghost_sw"
+	base_intents = list(/datum/intent/simple/axe/skeleton)
+
+/mob/living/simple_animal/hostile/rogue/skeleton/ravox_ghost/get_sound(input)
+	switch(input)
+		if("laugh")
+			return pick('sound/vo/mobs/ghost/laugh (1).ogg','sound/vo/mobs/ghost/laugh (2).ogg','sound/vo/mobs/ghost/laugh (3).ogg','sound/vo/mobs/ghost/laugh (4).ogg','sound/vo/mobs/ghost/laugh (5).ogg','sound/vo/mobs/ghost/laugh (6).ogg')
+		if("moan")
+			return pick('sound/vo/mobs/ghost/moan (1).ogg','sound/vo/mobs/ghost/laugh (2).ogg','sound/vo/mobs/ghost/laugh (3).ogg')
+		if("death")
+			return 'sound/vo/mobs/ghost/death.ogg'
+		if("whisper")
+			return pick('sound/vo/mobs/ghost/whisper (1).ogg','sound/vo/mobs/ghost/whisper (2).ogg','sound/vo/mobs/ghost/whisper (3).ogg')
+		if("aggro")
+			return pick('sound/vo/mobs/ghost/aggro (1).ogg','sound/vo/mobs/ghost/aggro (2).ogg','sound/vo/mobs/ghost/aggro (3).ogg','sound/vo/mobs/ghost/aggro (4).ogg','sound/vo/mobs/ghost/aggro (5).ogg','sound/vo/mobs/ghost/aggro (6).ogg')

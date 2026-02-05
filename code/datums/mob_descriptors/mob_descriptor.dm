@@ -5,7 +5,7 @@
 	var/describe
 	var/prefix
 	var/suffix
-	var/verbage
+	var/verbage // If adding verbage, please check living_descriptors.dm, as they will need to be a %REPLACEABLE% stand-in instead of a regular has/have or similar.
 	var/slot = MOB_DESCRIPTOR_SLOT_NOTHING
 	var/pre_string
 	var/post_string
@@ -42,7 +42,7 @@
 	return TRUE
 
 /datum/mob_descriptor/proc/get_standalone_text(mob/living/described)
-	return "%THEY% [get_coalesce_text(described)]"
+	return "%THEY% [get_coalesce_text(described)]."
 
 /datum/mob_descriptor/proc/get_coalesce_text(mob/living/described, list/used_verbage)
 	return "[should_add_verbage(described, used_verbage) ? "[get_verbage(described)] " : ""][get_pre_string(described)][get_description(described)][post_string]"

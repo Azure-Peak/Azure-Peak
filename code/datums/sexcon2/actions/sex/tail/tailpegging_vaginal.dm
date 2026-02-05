@@ -1,6 +1,7 @@
 /datum/sex_action/sex/tailpegging_vaginal
 	name = "Fuck their pussy with tail"
 	stamina_cost = 1.0
+	intensity = 3
 
 /datum/sex_action/sex/tailpegging_vaginal/shows_on_menu(mob/living/carbon/human/user, mob/living/carbon/human/target)
 	if(user == target)
@@ -35,7 +36,7 @@
 	var/datum/sex_session/sex_session = get_sex_session(user, target)
 	user.visible_message(sex_session.spanify_force("[user] [sex_session.get_generic_force_adjective()] fucks [target]'s pussy with [user.p_their()] tail."))
 	playsound(target, sex_session.get_force_sound(), 50, TRUE, -2, ignore_walls = FALSE)
-	do_thrust_animate(user, target)
+	do_thrust_animate(user, target, sex_session)
 
 	do_onomatopoeia(user)
 

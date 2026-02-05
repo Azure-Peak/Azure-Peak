@@ -1,7 +1,7 @@
 // Please only put REALLY, REALLY MISCELLANEOUS stuff in here. Like rolling pins
 /obj/item/kitchen/rollingpin
 	name = "rolling pin"
-	desc = ""
+	desc = "A wooden implement designed to flatten dough."
 	icon = 'modular/Neu_Food/icons/cookware/misc.dmi'
 	icon_state = "rolling_pin"
 	force = 8
@@ -25,3 +25,5 @@
 	icon_state = "tablecloth_silk"
 	sellprice = 40
 	w_class = WEIGHT_CLASS_NORMAL
+	grid_width = 32
+	grid_height = 64

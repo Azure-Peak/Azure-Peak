@@ -118,6 +118,7 @@
 			/obj/item/reagent_containers/food/snacks/fish/lobster = 250*commonMod,
 			/obj/item/reagent_containers/food/snacks/smallrat = 1 + 15*cheeseMod, //Oh for fucks sake!
 			/mob/living/simple_animal/hostile/retaliate/rogue/bigrat = 1*cheeseMod,
+			/obj/item/grown/log/tree/stick =  100*trashMod,
 	)
 	return counterlist_ceiling(weightList)
 

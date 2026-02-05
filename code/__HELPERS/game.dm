@@ -320,13 +320,35 @@
 	return O
 
 /proc/remove_images_from_clients(image/I, list/show_to)
-	for(var/client/C in show_to)
+	for(var/client/C as anything in show_to)
 		C.images -= I
 
 /proc/flick_overlay(image/I, list/show_to, duration)
-	for(var/client/C in show_to)
+	if(!show_to || !length(show_to))
+		return
+
+	var/expire_time = world.time + duration
+
+	var/list/client_schedule = SSiconupdates.image_removal_schedule[I]
+	if(!client_schedule)
+		client_schedule = list()
+		SSiconupdates.image_removal_schedule[I] = client_schedule
+
+	for(var/client/C as anything in show_to)
+		if(!C || QDELETED(C))
+			continue
+
+		if(client_schedule[C])
+			if(expire_time > client_schedule[C])
+				client_schedule[C] = expire_time
+			continue
+
 		C.images += I
-	addtimer(CALLBACK(GLOBAL_PROC, GLOBAL_PROC_REF(remove_images_from_clients), I, show_to), duration, TIMER_CLIENT_TIME)
+
+		client_schedule[C] = expire_time
+
+	if(!length(client_schedule))
+		SSiconupdates.image_removal_schedule -= I
 
 /proc/flick_overlay_view(image/I, atom/target, duration) //wrapper for the above, flicks to everyone who can see the target atom
 	var/list/viewing = list()

@@ -147,7 +147,7 @@
 /turf/open/floor/rogue/dirt,
 /area/rogue/under/tomb/cave/lava)
 "lv" = (
-/obj/machinery/light/rogue/wallfire/candle/blue{
+/obj/machinery/light/rogue/candle/blue{
 	pixel_x = 32;
 	pixel_y = 0
 	},
@@ -237,7 +237,7 @@
 /turf/open/floor/rogue/grassred,
 /area/rogue/under/tomb/cave/lava)
 "oU" = (
-/obj/machinery/light/rogue/wallfire/candle/blue/r,
+/obj/machinery/light/rogue/candle/blue/r,
 /turf/open/floor/carpet/royalblack,
 /area/rogue/under/tomb/indoors)
 "ph" = (
@@ -300,7 +300,7 @@
 /turf/open/floor/rogue/ruinedwood/spiral,
 /area/rogue/under/tomb/indoors/magic)
 "sY" = (
-/obj/machinery/light/rogue/wallfire/candle/blue,
+/obj/machinery/light/rogue/candle/blue,
 /turf/open/floor/rogue/hexstone,
 /area/rogue/under/tomb/indoors)
 "tJ" = (
@@ -378,11 +378,11 @@
 /turf/open/floor/rogue/dirt,
 /area/rogue/under/tomb/cave/lava)
 "yN" = (
-/obj/machinery/light/rogue/wallfire/candle,
+/obj/machinery/light/rogue/candle,
 /turf/open/floor/rogue/grassred,
 /area/rogue/under/tomb/cave/lava)
 "zk" = (
-/obj/machinery/light/rogue/wallfire/candle/blue/l,
+/obj/machinery/light/rogue/candle/blue/l,
 /mob/living/carbon/human/species/skeleton/npc/bogguard,
 /turf/open/floor/carpet/royalblack,
 /area/rogue/under/tomb/indoors)
@@ -418,7 +418,7 @@
 /turf/open/lava,
 /area/rogue/under/tomb/cave/lava)
 "AH" = (
-/obj/machinery/light/rogue/wallfire/candle/blue{
+/obj/machinery/light/rogue/candle/blue{
 	pixel_y = -32
 	},
 /turf/open/floor/rogue/ruinedwood/spiral,
@@ -566,11 +566,11 @@
 /turf/open/floor/rogue/dirt,
 /area/rogue/under/tomb/cave/lava)
 "KC" = (
-/obj/machinery/light/rogue/wallfire/candle/blue,
+/obj/machinery/light/rogue/candle/blue,
 /turf/open/floor/rogue/ruinedwood/spiral,
 /area/rogue/under/tomb/indoors/magic)
 "Lo" = (
-/obj/machinery/light/rogue/wallfire/candle/blue{
+/obj/machinery/light/rogue/candle/blue{
 	pixel_x = -32;
 	pixel_y = 0
 	},
@@ -597,7 +597,7 @@
 /turf/open/floor/rogue/hexstone,
 /area/rogue/under/tomb/indoors)
 "OE" = (
-/obj/machinery/light/rogue/wallfire/candle/blue{
+/obj/machinery/light/rogue/candle/blue{
 	pixel_x = 32;
 	pixel_y = 0
 	},
@@ -686,7 +686,7 @@
 /turf/open/floor/rogue/metal,
 /area/rogue/under/tomb/cave/lava)
 "TU" = (
-/obj/machinery/light/rogue/wallfire/candle/blue{
+/obj/machinery/light/rogue/candle/blue{
 	pixel_y = -32
 	},
 /turf/open/floor/rogue/hexstone,
@@ -700,7 +700,7 @@
 /turf/open/floor/rogue/grassred,
 /area/rogue/under/tomb/cave/lava)
 "Uv" = (
-/obj/machinery/light/rogue/wallfire/candle/blue{
+/obj/machinery/light/rogue/candle/blue{
 	pixel_y = -32
 	},
 /mob/living/carbon/human/species/skeleton/npc/mediumspread,

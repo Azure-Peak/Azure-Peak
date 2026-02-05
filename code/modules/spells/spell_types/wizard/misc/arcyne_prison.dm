@@ -15,8 +15,8 @@
 /obj/effect/proc_holder/spell/invoked/forcewall/arcyne_prison/cast(list/targets,mob/user = usr)
 	var/turf/target = get_turf(targets[1])
 
-	for(var/turf/affected_turf in view(2, target))
-		if(!(affected_turf in view(target)))
+	for(var/turf/affected_turf in get_hear(2, target))
+		if(!(affected_turf in get_hear(2, target)))
 			continue
 		if(get_dist(target, affected_turf) != 2)
 			continue

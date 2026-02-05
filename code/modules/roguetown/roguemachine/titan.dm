@@ -1,6 +1,7 @@
 GLOBAL_LIST_EMPTY(outlawed_players)
 GLOBAL_LIST_EMPTY(lord_decrees)
 GLOBAL_LIST_EMPTY(court_agents)
+GLOBAL_LIST_EMPTY(court_spymaster)
 GLOBAL_LIST_INIT(laws_of_the_land, initialize_laws_of_the_land())
 GLOBAL_VAR_INIT(last_crown_announcement_time, -1000)
 
@@ -69,45 +70,56 @@ GLOBAL_VAR_INIT(last_crown_announcement_time, -1000)
 		if(findtext(message, "nevermind"))
 			mode = 0
 			return
+	
 	if(findtext(message, "summon crown")) //This must never fail, thus place it before all other modestuffs.
-		if(!SSroguemachine.crown)
-			new /obj/item/clothing/head/roguetown/crown/serpcrown(src.loc)
-			say("The crown is summoned!")
-			playsound(src, 'sound/misc/machinetalk.ogg', 100, FALSE, -1)
-			playsound(src, 'sound/misc/hiss.ogg', 100, FALSE, -1)
-		if(SSroguemachine.crown)
-			var/obj/item/clothing/head/roguetown/crown/serpcrown/I = SSroguemachine.crown
-			if(!I)
-				I = new /obj/item/clothing/head/roguetown/crown/serpcrown(src.loc)
-			if(I && !ismob(I.loc))//You MUST MUST MUST keep the Crown on a person to prevent it from being summoned (magical interference)
-				var/area/crown_area = get_area(I)
-				if(crown_area && istype(crown_area, /area/rogue/indoors/town/vault) && notlord) //Anti throat snipe from vault
-					say("The crown is within the vault.")
-					playsound(src, 'sound/misc/machinetalk.ogg', 100, FALSE, -1)
-					return
-				I.anti_stall()
-				I = new /obj/item/clothing/head/roguetown/crown/serpcrown(src.loc)
-				say("The crown is summoned!")
+		var/obj/item/clothing/head/roguetown/crown/serpcrown/I = SSroguemachine.crown
+		
+		// If no crown exists
+		if(!I)
+			I = summon_crown()
+			return
+
+		var/mob/M = get_containing_mob(I)
+
+		// Not contained by anyone => summonable (vault exception)
+		if(!M)
+			var/area/crown_area = get_area(I)
+			if(crown_area && istype(crown_area, /area/rogue/indoors/town/vault) && notlord)
+				say("The crown is within the vault.")
 				playsound(src, 'sound/misc/machinetalk.ogg', 100, FALSE, -1)
-				playsound(src, 'sound/misc/hiss.ogg', 100, FALSE, -1)
 				return
-			if(ishuman(I.loc))
-				var/mob/living/carbon/human/HC = I.loc
-				if(HC.stat != DEAD)
-					if(I in HC.held_items)
-						say("[HC.real_name] holds the crown!")
-						playsound(src, 'sound/misc/machinetalk.ogg', 100, FALSE, -1)
-						return
-					if(HC.head == I)
-						say("[HC.real_name] wears the crown!")
-						playsound(src, 'sound/misc/machinetalk.ogg', 100, FALSE, -1)
-						return
+			I = summon_crown()
+			return
+
+		if(ishuman(M))
+			var/mob/living/carbon/human/HC = M
+
+			// Dead holders can't block
+			if(HC.stat == DEAD)
+				HC.dropItemToGround(I, TRUE)
+				I = summon_crown()
+				return
+
+			// Ruler/regent blocks even if stowed/held
+			if(SSticker.rulermob == HC || SSticker.regentmob == HC)
+				if(I in HC.held_items)
+					say("Master [HC.real_name] holds the crown!")
+				else if(HC.head == I)
+					say("Master [HC.real_name] wears the crown!")
 				else
-					HC.dropItemToGround(I, TRUE) //If you're dead, forcedrop it, then move it.
-			I.forceMove(src.loc)
-			say("The crown is summoned!")
-			playsound(src, 'sound/misc/machinetalk.ogg', 100, FALSE, -1)
-			playsound(src, 'sound/misc/hiss.ogg', 100, FALSE, -1)
+					say("Master [HC.real_name] has the crown stowed away!")
+				playsound(src, 'sound/misc/machinetalk.ogg', 100, FALSE, -1)
+				return
+
+			// Non-lords block ONLY if worn
+			if(HC.head == I)
+				say("[HC.real_name] wears the crown!")
+				playsound(src, 'sound/misc/machinetalk.ogg', 100, FALSE, -1)
+				return
+
+		I = summon_crown()
+		return
+
 	if(findtext(message, "summon key"))
 		if(nocrown)
 			say("You need the crown.")
@@ -267,8 +279,8 @@ GLOBAL_VAR_INIT(last_crown_announcement_time, -1000)
 					say("You have not the noble blood to be regent.")
 					playsound(src, 'sound/misc/machineno.ogg', 100, FALSE, -1)
 					return
-				if(!(H.job in GLOB.noble_positions))
-					say("You are too estranged from this realm to be regent.")
+				if(!(H.job in GLOB.regency_positions))
+					say("You are not worthy of bearing the Crown.")
 					playsound(src, 'sound/misc/machineno.ogg', 100, FALSE, -1)
 					return
 				if(SSticker.regentday == GLOB.dayspassed)
@@ -296,6 +308,21 @@ GLOBAL_VAR_INIT(last_crown_announcement_time, -1000)
 				return
 			make_law(raw_message)
 			mode = 0
+
+/obj/structure/roguemachine/titan/proc/summon_crown()
+	var/obj/item/clothing/head/roguetown/crown/serpcrown/I = SSroguemachine.crown
+
+	if(I)
+		I.anti_stall()
+	
+	I = new /obj/item/clothing/head/roguetown/crown/serpcrown(src.loc)
+	SSroguemachine.crown = I
+
+	say("The crown is summoned!")
+	playsound(src, 'sound/misc/machinetalk.ogg', 100, FALSE, -1)
+	playsound(src, 'sound/misc/hiss.ogg', 100, FALSE, -1)
+
+	return I
 
 /obj/structure/roguemachine/titan/proc/give_tax_popup(mob/living/carbon/human/user)
 	if(!Adjacent(user))
@@ -350,19 +377,36 @@ GLOBAL_VAR_INIT(last_crown_announcement_time, -1000)
 		return
 	return make_outlaw(raw_message)
 
+/proc/get_containing_mob(atom/A) // Returns the mob that ultimately contains A (A in bag in clothing in mob, etc.), or null.
+	var/atom/current = A
+	var/safety = 0
+	while(current && safety++ < 30)
+		if(ismob(current))
+			return current
+		current = current.loc
+	return null
+
 /proc/make_outlaw(raw_message)
-	if(raw_message in GLOB.outlawed_players)
-		GLOB.outlawed_players -= raw_message
-		priority_announce("[raw_message] is no longer an outlaw in the Azure Peak.", "The [SSticker.rulertype] Decrees", 'sound/misc/royal_decree.ogg', "Captain")
-		return FALSE
-	var/found = FALSE
+	var/mob/living/carbon/human/found_human
 	for(var/mob/living/carbon/human/H in GLOB.player_list)
 		if(H.real_name == raw_message)
-			found = TRUE
-	if(!found)
+			found_human = H
+	if(raw_message in GLOB.outlawed_players)
+		GLOB.outlawed_players -= raw_message
+		priority_announce("[raw_message] is no longer an outlaw in [SSticker.realm_name].", "The [SSticker.rulertype] Decrees", 'sound/misc/royal_decree.ogg', "Captain")
+		if(istype(found_human) && HAS_TRAIT(found_human, TRAIT_GUARDSMAN_DISGRACED))
+			REMOVE_TRAIT(found_human, TRAIT_GUARDSMAN_DISGRACED, TRAIT_GENERIC)
+			ADD_TRAIT(found_human, TRAIT_GUARDSMAN, JOB_TRAIT)
+			found_human.remove_status_effect(/datum/status_effect/debuff/disgracedguardsman)
+		return FALSE
+	if(!found_human)
 		return FALSE
 	GLOB.outlawed_players += raw_message
 	priority_announce("[raw_message] has been declared an outlaw and must be captured or slain.", "The [SSticker.rulertype] Decrees", 'sound/misc/royal_decree2.ogg', "Captain")
+	if(HAS_TRAIT(found_human, TRAIT_GUARDSMAN))
+		REMOVE_TRAIT(found_human, TRAIT_GUARDSMAN, JOB_TRAIT)
+		ADD_TRAIT(found_human, TRAIT_GUARDSMAN_DISGRACED, TRAIT_GENERIC)
+		found_human.apply_status_effect(/datum/status_effect/debuff/disgracedguardsman)
 	return TRUE
 
 /proc/make_law(raw_message)

@@ -1,9 +1,8 @@
 /obj/item/clothing/gloves/roguetown/angle
 	name = "heavy leather gloves"
-	desc = "A heavier pair of leather gloves with extra padding. These look like they can take some beating. Fair melee protection and decent durability."
+	desc = "A pair of heavy leather gloves, padded with the fur of a forest-dwelling beaste. The lengthened cuffs help to catch unseen bites from prowling monsters; a blessing, when even a single gnash can spread curses-most-foul."
 	icon_state = "angle"
 	armor = ARMOR_LEATHER_GOOD
-	prevent_crits = list(BCLASS_CUT, BCLASS_STAB, BCLASS_BLUNT, BCLASS_TWIST)
 	resistance_flags = FIRE_PROOF
 	blocksound = SOFTHIT
 	max_integrity = ARMOR_INT_SIDE_HARDLEATHER
@@ -14,11 +13,15 @@
 	anvilrepair = null
 	sewrepair = TRUE
 	salvage_result = /obj/item/natural/fur
-	color = "#4d4d4d"
+	color = "#7f829d"
+
+/obj/item/clothing/gloves/roguetown/angle/ComponentInitialize()
+	AddComponent(/datum/component/armour_filtering/positive, TRAIT_FENCERDEXTERITY)
+	AddComponent(/datum/component/armour_filtering/positive, TRAIT_HONORBOUND)
 
 /obj/item/clothing/gloves/roguetown/angle/grenzelgloves
 	name = "grenzelhoft gloves"
-	desc = "Regal gloves of Grenzelhoftian design, more a fashion statement than actual protection."
+	desc = "Regal gloves of Grenzelhoftian design; more a fashion statement than actual protection."
 	icon_state = "grenzelgloves"
 	item_state = "grenzelgloves"
 	sleeved = 'icons/roguetown/clothing/onmob/helpers/stonekeep_merc.dmi'

@@ -1,0 +1,4 @@
+author: "Ryan180602"
+delete-after: True
+changes:
+  - code_imp: "Armour Filter/Skill Blessed will give feedback on good/bad items."

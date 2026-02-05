@@ -69,6 +69,7 @@ And it also helps for the character set panel
 	var/selectable_by_vampires = TRUE
 
 	var/covens_to_select = COVENS_PER_CLAN
+	var/handling_organ_loss = FALSE
 
 /datum/clan/proc/get_downside_string()
 	return "burn in sunlight"
@@ -119,7 +120,8 @@ And it also helps for the character set panel
 		H.playsound_local(get_turf(H), 'sound/music/vampintro.ogg', 80, FALSE, pressure_affected = FALSE)
 		for(var/datum/coven/coven as anything in clane_covens)
 			H.give_coven(coven)
-		H.give_coven(/datum/coven/bloodheal)
+		if(!H.covens || !H.covens["Bloodheal"])
+			H.give_coven(/datum/coven/bloodheal)
 	else
 		non_vampire_members |= H
 		// Apply non-vampire specific benefits (lighter version)
@@ -512,21 +514,38 @@ And it also helps for the character set panel
 	eyes = new /obj/item/organ/eyes/night_vision/vampire
 	eyes.Insert(to_insert)
 	to_insert.set_eye_color(
-		eyecache["eye_color"], 
+		eyecache["eye_color"],
 		eyecache["second_color"],
 		TRUE,
 	)
 
 /// Prevents tongue and eye loss by the vampyre
 /datum/clan/proc/on_organ_loss(mob/living/carbon/lost_organ, obj/item/organ/removed, special, drop_if_replaced)
-	if(!lost_organ || !removed)
+	if(handling_organ_loss)
 		return
+
+	handling_organ_loss = TRUE
+
+	if(!lost_organ || !removed)
+		handling_organ_loss = FALSE
+		return
+
 	if(removed.slot == ORGAN_SLOT_BRAIN)
-		UnregisterSignal(lost_organ, COMSIG_MOB_ORGAN_REMOVED, PROC_REF(on_organ_loss))//Removing the signal check, as they've lost their head
+		UnregisterSignal(lost_organ, COMSIG_MOB_ORGAN_REMOVED, PROC_REF(on_organ_loss))
+		handling_organ_loss = FALSE
+		return
+
 	if(removed.slot == ORGAN_SLOT_EYES)
 		implant_vampire_eyes(lost_organ)
-	else if(removed.slot == ORGAN_SLOT_TONGUE)
+		handling_organ_loss = FALSE
+		return
+
+	if(removed.slot == ORGAN_SLOT_TONGUE)
 		removed.Insert(lost_organ)
+		handling_organ_loss = FALSE
+		return
+
+	handling_organ_loss = FALSE
 
 /datum/clan/proc/open_clan_menu(mob/living/carbon/human/user)
 	if(!user.covens || !length(user.covens))

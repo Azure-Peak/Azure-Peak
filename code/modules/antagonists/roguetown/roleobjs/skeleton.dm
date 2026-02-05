@@ -4,7 +4,7 @@
 	increase_votepwr = FALSE
 
 /datum/antagonist/skeleton/get_antag_cap_weight()
-	return 0.5
+	return 0
 
 /datum/antagonist/skeleton/examine_friendorfoe(datum/antagonist/examined_datum,mob/examiner,mob/examined)
 	if(istype(examined_datum, /datum/antagonist/vampire))

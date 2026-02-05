@@ -1,11 +1,16 @@
 /obj/projectile/bullet/reusable
 	name = "reusable bullet"
 	desc = ""
+	icon = 'icons/roguetown/weapons/ammo.dmi'
 	ammo_type = /obj/item/ammo_casing/caseless
 	impact_effect_type = null
 	var/has_dropped = FALSE  //Flag to track if we've already dropped the ammo
 
 /obj/projectile/bullet/reusable/handle_drop()
+	if(hit_wall)
+		if(prob(wall_impact_break_probability))
+			return // We hit a wall and shatter..
+		else hit_wall = FALSE
 	if(has_dropped)  //If we've already dropped an ammo, do nothing
 		return
 	has_dropped = TRUE  //Mark as dropped

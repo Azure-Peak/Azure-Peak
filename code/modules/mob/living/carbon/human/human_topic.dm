@@ -76,7 +76,16 @@ GLOBAL_VAR_INIT(year_integer, text2num(year)) // = 2013???
 			usr.visible_message("<span class='warning'>[usr] starts unbandaging [usr.p_their()] [L.name].</span>","<span class='warning'>I start unbandaging [L.name]...</span>")
 		else
 			usr.visible_message("<span class='warning'>[usr] starts unbandaging [src]'s [L.name].</span>","<span class='warning'>I start unbandaging [src]'s [L.name]...</span>")
-		if(do_after(usr, 50, needhand = TRUE, target = src))
+
+		var/used_time = 5 SECONDS
+		var/medskill = 0
+
+		if(ishuman(usr))
+			var/mob/living/carbon/human/human_user = usr
+			medskill = human_user.get_skill_level(/datum/skill/misc/medicine)
+			used_time -= ((medskill * 10) + (human_user.STASPD / 2)) //With 20 SPD you can insta unbandage at max medicine.
+
+		if(do_after(usr, used_time, needhand = TRUE, target = src))
 			if(QDELETED(I) || QDELETED(L) || (L.bandage != I))
 				return
 			L.remove_bandage()
@@ -166,14 +175,14 @@ GLOBAL_VAR_INIT(year_integer, text2num(year)) // = 2013???
 		if(!ishuman(src))
 			return
 		var/success = FALSE
-		var/obscured_name = FALSE 
+		var/obscured_name = FALSE
 
 		var/static/list/unknown_names = list(
 		"Unknown",
 		"Unknown Man",
 		"Unknown Woman",
 		)
-		
+
 		var/mob/living/carbon/human/H = src
 		var/mob/living/carbon/human/user = usr
 		var/intellectual = HAS_TRAIT(user, TRAIT_INTELLECTUAL)
@@ -187,7 +196,7 @@ GLOBAL_VAR_INIT(year_integer, text2num(year)) // = 2013???
 			to_chat(user, span_info("They've moved too far away!"))
 			return
 		user.visible_message("[user] begins assessing [src].")
-		
+
 		if(do_mob(user, src, ((intellectual ? 20 : 40)) - (user.STAINT - 10) - (user.STAPER - 10) - user.get_skill_level(/datum/skill/misc/reading), uninterruptible = intellectual, double_progress = (intellectual ? FALSE : TRUE)))
 			var/is_guarded = HAS_TRAIT(src, TRAIT_DECEIVING_MEEKNESS)	//Will scramble Stats and prevent skills from being shown
 			var/is_smart = FALSE	//Maximum info (all skills, gear and stats) either Intellectual virtue or having high enough PER / INT / Reading
@@ -195,7 +204,7 @@ GLOBAL_VAR_INIT(year_integer, text2num(year)) // = 2013???
 			var/is_normal = FALSE	//High amount of info -- most gear slots, combat skills. No stats.
 			//If you don't get any of these, you'll still get to see 3 gear slots and shown weapon skills in Assess.
 			if(intellectual || ((user.STAINT - 10) + (user.STAPER - 10) + user.get_skill_level(/datum/skill/misc/reading)) >= 10)
-				is_smart = TRUE	
+				is_smart = TRUE
 			if(user.STAINT < 10 && !is_smart)
 				is_stupid = TRUE
 			if(!is_smart && !is_stupid && ((user.STAINT - 10) + (user.STAPER - 10) + user?.get_skill_level(/datum/skill/misc/reading)) >= 5)
@@ -234,17 +243,15 @@ GLOBAL_VAR_INIT(year_integer, text2num(year)) // = 2013???
 			var/list/coverage_exposed = list(READABLE_ZONE_HEAD, READABLE_ZONE_CHEST, READABLE_ZONE_ARMS, READABLE_ZONE_L_ARM, READABLE_ZONE_R_ARM, READABLE_ZONE_LEGS, READABLE_ZONE_L_LEG, READABLE_ZONE_R_LEG, READABLE_ZONE_NOSE, READABLE_ZONE_MOUTH, READABLE_ZONE_EYES, READABLE_ZONE_NECK, READABLE_ZONE_VITALS, READABLE_ZONE_GROIN, READABLE_ZONE_HANDS, READABLE_ZONE_L_HAND, READABLE_ZONE_R_HAND, READABLE_ZONE_FEET, READABLE_ZONE_L_FOOT, READABLE_ZONE_R_FOOT)
 			var/list/coverage = list()	//All of the covered areas
 			var/list/blunt_max = list()	//Highest armor prot values
-			var/list/slash_max = list()	
+			var/list/slash_max = list()
 			var/list/stab_max = list()
 			var/list/piercing_max = list()
-			var/list/crit_weakness = list()	//The critical damage type the zone will be weak to
 			for(var/part in body_parts)
 				if(!part)
 					continue
 				if(part && istype(part, /obj/item/clothing))
 					var/obj/item/clothing/C = part
 					var/list/readable_coverage
-					var/list/critclasses = list(BCLASS_CUT, BCLASS_STAB, BCLASS_CHOP, BCLASS_BLUNT, BCLASS_TWIST, BCLASS_SMASH, BCLASS_PICK)
 					if(C.max_integrity)
 						if(C.obj_integrity <= 0)
 							continue
@@ -258,14 +265,6 @@ GLOBAL_VAR_INIT(year_integer, text2num(year)) // = 2013???
 							continue
 					if(C.body_parts_covered_dynamic)
 						readable_coverage = body_parts_covered2organ_names(C.body_parts_covered_dynamic, verbose = TRUE)
-					
-					if(length(C.prevent_crits) && (is_normal || is_smart))
-						for(var/critzone in C.prevent_crits)
-							for(var/crit in critclasses)
-								if(critzone == crit)
-									LAZYREMOVE(critclasses, crit)
-									continue
-
 					for(var/coverageflag in readable_coverage)
 						for(var/type in damtypes)
 							switch(type)			//We get the max armor  values for this coverage flag
@@ -278,13 +277,6 @@ GLOBAL_VAR_INIT(year_integer, text2num(year)) // = 2013???
 								if("piercing")
 									piercing_max[coverageflag] = max(C.armor.getRating(type), piercing_max[coverageflag])
 						coverage[coverageflag] += 1
-						if(length(critclasses) && (is_normal || is_smart))
-							var/str
-							for(var/critzone in critclasses)
-								if(critzone == BCLASS_PICK)
-									critzone = "Pick"
-								str += "| [capitalize(critzone)] | "
-							crit_weakness[coverageflag] = str
 						switch(coverageflag)		//This removes covered zones from the _exposed list. The remainder, if any, will be highlighted in red as an "exposed" zone.
 							if(READABLE_ZONE_L_ARM)
 								coverage_exposed.Remove(READABLE_ZONE_ARMS, READABLE_ZONE_L_ARM)
@@ -292,7 +284,7 @@ GLOBAL_VAR_INIT(year_integer, text2num(year)) // = 2013???
 								coverage_exposed.Remove(READABLE_ZONE_ARMS, READABLE_ZONE_R_ARM)	//Since individual limbs can be exposed, this is needed for the accuracy / granularity of the printout.
 							if(READABLE_ZONE_L_LEG)
 								coverage_exposed.Remove(READABLE_ZONE_LEGS, READABLE_ZONE_L_LEG)	//However it do be ugly.
-							if(READABLE_ZONE_R_LEG)	
+							if(READABLE_ZONE_R_LEG)
 								coverage_exposed.Remove(READABLE_ZONE_LEGS, READABLE_ZONE_R_LEG)
 							if(READABLE_ZONE_L_HAND)
 								coverage_exposed.Remove(READABLE_ZONE_HANDS, READABLE_ZONE_L_HAND)
@@ -337,7 +329,7 @@ GLOBAL_VAR_INIT(year_integer, text2num(year)) // = 2013???
 							else
 								coverage.Remove(READABLE_ZONE_FEET)
 						else
-							coverage.Remove(READABLE_ZONE_FEET)		
+							coverage.Remove(READABLE_ZONE_FEET)
 			for(var/exposedzone in coverage_exposed)	//We also filter out redundancies from the exposed remainder. Mostly L / Rs if there's a combined flag that slipped through.
 				switch(exposedzone)
 					if(READABLE_ZONE_HANDS)
@@ -365,7 +357,7 @@ GLOBAL_VAR_INIT(year_integer, text2num(year)) // = 2013???
 							for(var/exposed in coverage_exposed)
 								str += "<b>[exposed]</b>: <font color = '#770404'><b>EXPOSED!</B></font><br>"
 					for(var/thing in coverage)
-						str += "<b>[thing]</b> LAYERS: <b>[coverage[thing]]</b> | [colorgrade_rating("", blunt_max[thing], TRUE)] | [colorgrade_rating("", slash_max[thing], TRUE)] | [colorgrade_rating("", stab_max[thing], TRUE)] | [colorgrade_rating("", piercing_max[thing], TRUE)] <br><font color = '#a35252'>[crit_weakness[thing]]</font><br>"
+						str += "<b>[thing]</b> LAYERS: <b>[coverage[thing]]</b> | [colorgrade_rating("", blunt_max[thing], TRUE)] | [colorgrade_rating("", slash_max[thing], TRUE)] | [colorgrade_rating("", stab_max[thing], TRUE)] | [colorgrade_rating("", piercing_max[thing], TRUE)]"
 					dat += str
 				else
 					dat += "<b><center>I don't know! Just hit them!</center></b>"
@@ -417,7 +409,7 @@ GLOBAL_VAR_INIT(year_integer, text2num(year)) // = 2013???
 									dat += "-----------------------<br>"
 								else
 									continue
-					
+
 			dat += "</td>"
 			dat += "</tr>"
 			var/datum/browser/popup = new(user, "assess", ntitle = "[src] Assesment", nwidth = 1000, nheight = 600)
@@ -426,6 +418,29 @@ GLOBAL_VAR_INIT(year_integer, text2num(year)) // = 2013???
 		else
 			user.visible_message("[user] fails to assess [src]!")
 		return
+
+	if(href_list["task"] == "view_rumours_gossip")
+		if(!ismob(usr))
+			return
+		var/msg = ""
+		if(rumour && length(rumour))
+			var/rumour_display = rumour
+			rumour_display = html_encode(rumour_display)
+			rumour_display = parsemarkdown_basic(rumour_display, hyperlink = TRUE)
+			msg += "<b>You recall what you heard around Town about [src]...</b><br>[rumour_display]"
+		if(((HAS_TRAIT(usr, TRAIT_NOBLE)) || observer_privilege) && length(noble_gossip))
+			if(msg)
+				msg += "<br><br>"
+			var/gossip_display = noble_gossip
+			gossip_display = html_encode(gossip_display)
+			gossip_display = parsemarkdown_basic(gossip_display, hyperlink = TRUE)
+			msg += "<b>You recall what the other Blue-bloods hushed about [src]...</b><br>[gossip_display]"
+		if(msg)
+			to_chat(usr, "<span class='info'>[msg]</span>")
+		else	//Edge-case of there being ONLY noble gossip, but we aren't a noble.
+			to_chat(usr, "<span class='info'>Any tales of intrigue of this one are reserved to the nobility...</span>")
+		return
+
 	return ..() //end of this massive fucking chain. TODO: make the hud chain not spooky. - Yeah, great job doing that. - I made it worse sorry guys.
 
 //Sorry colorblind folks...
@@ -470,61 +485,6 @@ GLOBAL_VAR_INIT(year_integer, text2num(year)) // = 2013???
 		else
 			str = "[input] (Under 0 or above 200! Contact coders.)"
 	return str
-
-/*/proc/defense_report(var/obj/item/clothing/C, var/stupid, var/normal, var/smart, var/stupid_string)
-	var/str
-
-	if(!istype(C, /obj/item/clothing))
-		str += "<br>---------------------------<br>"
-		return str
-	if(C.armor)
-		var/defense = "<u><b>ABSORPTION: </b></u><br>"
-		var/datum/armor/def_armor = C.armor
-		defense += "[colorgrade_rating("BLUNT", def_armor.blunt, smart)] | "
-		defense += "[colorgrade_rating("SLASH", def_armor.slash, smart)] | "
-		defense += "[colorgrade_rating("STAB", def_armor.stab, smart)] | "
-		defense += "[colorgrade_rating("PIERCING", def_armor.piercing, smart)] "
-		str += "[defense]<br>"
-
-	var/coverage = "<u><b>COVERS: </b></u><br>"
-	if(!stupid)
-		coverage += "<font color = '#cccccc'> | </font>"
-		for(var/zone in body_parts_covered2organ_names(C.body_parts_covered))
-			coverage += "<font color = '#cccccc'><b>[zone] | </b></font>"
-		str += "[coverage]<br>"
-	else
-		str += coverage
-		str += stupid_string
-	if(normal || smart)
-		var/list/critclasses = list(BCLASS_CUT, BCLASS_STAB, BCLASS_CHOP, BCLASS_BLUNT, BCLASS_TWIST, BCLASS_SMASH, BCLASS_PICK)
-		var/crits
-		if(C.prevent_crits || smart)
-			crits = "<b><u>PREVENTS CRITS: </u></b>"
-		if(C.prevent_crits)
-			crits += "<br>"
-			crits += "<font color = '#69a1a8'>| </font>"
-			for(var/zone in C.prevent_crits)
-				for(var/crit in critclasses)
-					if(zone == crit)
-						if(zone == BCLASS_PICK)
-							zone = "pick"		//Pick is labelled as 'Stab'
-						zone = "<font color = '#69a1a8'>[capitalize(zone)] | </font>"
-						crits += zone
-						LAZYREMOVE(critclasses, crit)
-						continue
-		if(smart)
-			crits += "<br>"
-			crits += "<font color = '#a35252'>| </font>"
-			for(var/crit in critclasses)
-				if(crit == BCLASS_PICK)
-					crit = "pick"		//Pick is labelled as 'Stab', this prevents confusion
-				crit = "<font color = '#a35252'>[capitalize(crit)] | </font>"
-				crits += crit
-
-		str += crits
-	str += "<br>---------------------------<br>"
-	
-	return str*/
 
 /proc/skilldiff_report(var/input)
 	switch (input)

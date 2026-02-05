@@ -41,6 +41,9 @@
 	/// Subclass languages.
 	var/list/subclass_languages
 
+	/// Subclass virtues.
+	var/list/subclass_virtues
+
 	/// Spellpoints. If More than 0, Gives Prestidigitation & the Learning Spell.
 	var/subclass_spellpoints = 0
 
@@ -52,6 +55,17 @@
 
 	/// Set to FALSE to skip apply_character_post_equipment() which applies virtue, flaw, loadout
 	var/applies_post_equipment = TRUE
+
+	/// set to TRUE to reset stats in equipme, clearing any racial bonuses or bonuses the character had before becoming this class
+	var/reset_stats = FALSE
+
+	var/datum/class_age_mod/age_mod = null
+
+/datum/advclass/New()
+	if(ispath(age_mod) && !istype(age_mod))
+		var/datum/class_age_mod/newmod = new age_mod()
+		age_mod = newmod
+	. = ..()
 
 /datum/advclass/proc/equipme(mob/living/carbon/human/H, dummy = FALSE)
 	// input sleeps....
@@ -72,7 +86,11 @@
 	var/turf/TU = get_turf(H)
 	if(TU)
 		if(horse)
-			new horse(TU)
+			var/mob/horse_mob = new horse(TU)
+			if(istype(horse_mob, /mob/living/simple_animal/hostile/retaliate/rogue))
+				var/mob/living/simple_animal/hostile/retaliate/rogue/rogue_animal = horse_mob
+				rogue_animal.owner = H
+				rogue_animal.friends |= H
 
 	for(var/trait in traits_applied)
 		ADD_TRAIT(H, trait, ADVENTURER_TRAIT)
@@ -87,6 +105,9 @@
 		for(var/lang in subclass_languages)
 			H.grant_language(lang)
 
+	if(reset_stats)
+		H.reset_stats()
+
 	if(length(subclass_stats))
 		for(var/stat in subclass_stats)
 			H.change_stat(stat, subclass_stats[stat])
@@ -94,6 +115,14 @@
 	if(length(subclass_skills))
 		for(var/skill in subclass_skills)
 			H.adjust_skillrank_up_to(skill, subclass_skills[skill], TRUE)
+
+	if(length(subclass_virtues))
+		for(var/virtue in subclass_virtues)
+			apply_virtue(H, new virtue)
+
+	if(age_mod)
+		if(istype(age_mod))
+			age_mod.apply_age_mod(H)
 
 	if(length(subclass_stashed_items))
 		if(!H.mind)
@@ -139,7 +168,7 @@
 	if(length(allowed_ages) && !(H.age in allowed_ages))
 		return FALSE
 
-	if(length(allowed_patrons) && !(H.patron in allowed_patrons))
+	if(length(allowed_patrons) && !(H.patron.type in allowed_patrons))
 		return FALSE
 
 	if(maximum_possible_slots > -1)

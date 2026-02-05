@@ -9,6 +9,14 @@
 /mob/living/carbon/human/species/goblin/npc/ambush/cave,
 /turf/open/floor/rogue/volcanic,
 /area/rogue/under/tomb/cave/lava)
+"l" = (
+/obj/item/natural/rock/copper,
+/turf/open/floor/rogue/volcanic,
+/area/rogue/under/tomb/cave/lava)
+"m" = (
+/obj/item/natural/rock/copper,
+/turf/open/floor/rogue/naturalstone,
+/area/rogue/under/tomb/cave/lava)
 "n" = (
 /mob/living/carbon/human/species/goblin/npc/ambush/cave,
 /turf/open/floor/rogue/naturalstone,
@@ -16,8 +24,12 @@
 "o" = (
 /turf/open/floor/rogue/volcanic,
 /area/rogue/under/tomb/cave/lava)
+"q" = (
+/obj/item/natural/rock/iron,
+/turf/open/floor/rogue/volcanic,
+/area/rogue/under/tomb/cave/lava)
 "t" = (
-/obj/item/natural/rock/random_ore,
+/obj/item/natural/rock/dungeon,
 /turf/open/floor/rogue/volcanic,
 /area/rogue/under/tomb/cave/lava)
 "A" = (
@@ -30,7 +42,7 @@
 /area/rogue/under/tomb/cave/lava)
 "I" = (
 /mob/living/carbon/human/species/goblin/npc/ambush/cave,
-/obj/item/natural/rock/random_ore,
+/obj/item/natural/rock/dungeon,
 /turf/open/floor/rogue/naturalstone,
 /area/rogue/under/tomb/cave/lava)
 "M" = (
@@ -39,8 +51,16 @@
 	},
 /turf/open/floor/rogue/naturalstone,
 /area/rogue/under/tomb/cave/lava)
+"P" = (
+/obj/item/natural/rock/coal,
+/turf/open/floor/rogue/naturalstone,
+/area/rogue/under/tomb/cave/lava)
 "Q" = (
 /obj/effect/dungeon_directional_helper/west,
+/turf/open/floor/rogue/naturalstone,
+/area/rogue/under/tomb/cave/lava)
+"R" = (
+/obj/item/natural/rock/iron,
 /turf/open/floor/rogue/naturalstone,
 /area/rogue/under/tomb/cave/lava)
 "S" = (
@@ -51,11 +71,15 @@
 /obj/effect/dungeon_directional_helper/north,
 /turf/open/floor/rogue/volcanic,
 /area/rogue/under/tomb/cave/lava)
+"V" = (
+/obj/item/natural/rock/coal,
+/turf/open/floor/rogue/volcanic,
+/area/rogue/under/tomb/cave/lava)
 "W" = (
 /turf/open/transparent/openspace,
 /area/rogue/under/tomb/cave/lava)
 "X" = (
-/obj/item/natural/rock/random_ore,
+/obj/item/natural/rock/dungeon,
 /turf/open/floor/rogue/naturalstone,
 /area/rogue/under/tomb/cave/lava)
 "Y" = (
@@ -124,7 +148,7 @@ a
 o
 o
 a
-X
+R
 t
 o
 a
@@ -135,8 +159,8 @@ a
 a
 Y
 Y
-t
-t
+q
+R
 o
 o
 a
@@ -160,7 +184,7 @@ a
 a
 a
 a
-X
+P
 o
 a
 "}
@@ -218,14 +242,14 @@ d
 (10,1,1) = {"
 o
 o
-t
+V
 a
 Y
 d
 o
 k
 d
-t
+R
 o
 t
 Y
@@ -234,7 +258,7 @@ a
 "}
 (11,1,1) = {"
 a
-X
+m
 a
 a
 o
@@ -242,7 +266,7 @@ o
 o
 d
 o
-t
+P
 a
 Y
 Y
@@ -254,7 +278,7 @@ a
 X
 d
 o
-t
+l
 o
 d
 a
@@ -341,8 +365,8 @@ a
 a
 a
 a
-t
-t
+q
+q
 d
 d
 d
@@ -359,7 +383,7 @@ a
 a
 o
 o
-t
+P
 d
 d
 o
@@ -374,7 +398,7 @@ a
 a
 a
 W
-t
+q
 a
 a
 d
@@ -423,7 +447,7 @@ a
 (7,1,2) = {"
 d
 X
-X
+R
 d
 d
 d
@@ -472,7 +496,7 @@ o
 o
 "}
 (10,1,2) = {"
-t
+R
 o
 S
 a
@@ -507,7 +531,7 @@ a
 "}
 (12,1,2) = {"
 a
-t
+R
 o
 d
 d
@@ -517,8 +541,8 @@ o
 a
 a
 a
-X
-X
+R
+R
 a
 a
 "}
@@ -530,7 +554,7 @@ W
 a
 a
 t
-t
+R
 o
 o
 d

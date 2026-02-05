@@ -165,6 +165,7 @@
 	shoes = /obj/item/clothing/shoes/roguetown/boots/aalloy
 	neck = /obj/item/clothing/neck/roguetown/chaincoif/iron/aalloy
 	gloves = /obj/item/clothing/gloves/roguetown/chain/aalloy
+	belt = /obj/item/storage/belt/rogue/leather/rope
 	if(prob(15))
 		beltl = /obj/item/repair_kit/bad
 	if(prob(33)) // 33% chance of shield, so ranged don't get screwed over entirely
@@ -219,6 +220,7 @@
 		shoes = /obj/item/clothing/shoes/roguetown/boots/aalloy
 		neck = /obj/item/clothing/neck/roguetown/gorget/aalloy
 		gloves = /obj/item/clothing/gloves/roguetown/plate/aalloy
+		belt = /obj/item/storage/belt/rogue/leather
 		if(prob(15))
 			beltl = /obj/item/repair_kit/metal/bad
 		if(prob(50))

@@ -1,5 +1,5 @@
 #define NORMAL_SCOM_TRANSMISSION_DELAY 15 SECONDS
-#define NORMAL_SCOM_PER_MESSAGE_DELAY 15 SECONDS 
+#define NORMAL_SCOM_PER_MESSAGE_DELAY 15 SECONDS
 #define CHEESE_QUIET_TIME 2 MINUTES // How long stuffing a slice of cheese in quieten the SCOM
 
 /obj/structure/roguemachine/scomm
@@ -22,7 +22,7 @@
 	var/scom_tag
 	var/obj/structure/roguemachine/scomm/calling = null
 	var/obj/structure/roguemachine/scomm/called_by = null
-	/// Last time the SCOM sent a message. Used to check delay  
+	/// Last time the SCOM sent a message. Used to check delay
 	var/last_message = 0
 	/// Whether this is a receive only SCOM, that cannot transmit any messages. Uses this for any kind of SCOM that is out of town and is not actionable
 	var/receive_only = FALSE
@@ -175,7 +175,7 @@
 /obj/structure/roguemachine/scomm/MiddleClick(mob/living/carbon/human/user)
 	if(.)
 		return
-	if((HAS_TRAIT(user, TRAIT_GUARDSMAN) || (user.job == "Watchman") || (user.job == "Warden") || (user.job == "Squire") || (user.job == "Marshal") || (user.job == "Grand Duke") || (user.job == "Knight Captain") || (user.job == "Grand Duchess") || (user.job == "Hand")))
+	if(HAS_TRAIT(user, TRAIT_GARRISON_ITEM))
 		if(alert("Would you like to swap lines or connect to a jabberline?",, "swap", "jabberline") != "jabberline")
 			garrisonline = !garrisonline
 			to_chat(user, span_info("I [garrisonline ? "connect to the garrison SCOMline" : "connect to the general SCOMLINE"]"))
@@ -303,9 +303,7 @@
 	animate(pixel_x = oldx, time = 0.5)
 
 /obj/structure/roguemachine/scomm/proc/repeat_message(message, atom/A, tcolor, message_language, list/tspans, broadcaster_tag)
-	if(A == src)
-		return
-	// The SCOM just do not work silently if cheesed 
+	// The SCOM just do not work silently if cheesed
 	if(last_cheese && (last_cheese + CHEESE_QUIET_TIME >= world.time))
 		return
 	if(tcolor)
@@ -369,7 +367,7 @@
 		else
 			addtimer(CALLBACK(src, PROC_REF(repeat_message_scom), raw_message, usedcolor, message_language), NORMAL_SCOM_TRANSMISSION_DELAY)
 
-// Repeat message for normal SCOM. Meant to be used in a callback with delay 
+// Repeat message for normal SCOM. Meant to be used in a callback with delay
 /obj/structure/roguemachine/scomm/proc/repeat_message_scom(raw_message, usedcolor, message_language)
 	for(var/obj/structure/roguemachine/scomm/S in SSroguemachine.scomm_machines)
 		if(!S.calling)

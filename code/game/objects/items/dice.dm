@@ -66,7 +66,7 @@
 
 /obj/item/dice //depreciated d6, use /obj/item/dice/d6 if you actually want a d6
 	name = "die"
-	desc = ""
+	desc = "An item beloved by Xylix, and the scourge of innumerable lives."
 	icon = 'icons/obj/dice.dmi'
 	icon_state = "d6"
 	dropshrink = 0.75

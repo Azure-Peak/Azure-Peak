@@ -9,27 +9,31 @@
 	name = "Pipe Weed Zig"
 	cost = 3
 	contains = list(/obj/item/clothing/mask/cigarette/rollie/nicotine)
+	not_in_public = TRUE // go to the PURITY
 
 /datum/supply_pack/rogue/luxury/ozium
 	name = "Ozium"
 	cost = 5
 	contains = list(/obj/item/reagent_containers/powder/ozium)
+	not_in_public = TRUE // ditto
 
 /datum/supply_pack/rogue/luxury/moondust
 	name = "Moon Dust"
 	cost = 10
 	contains = list(/obj/item/reagent_containers/powder/moondust)
+	not_in_public = TRUE // ditto
 
 /datum/supply_pack/rogue/luxury/spice
 	name = "Spice"
 	cost = 30
 	contains = list(/obj/item/reagent_containers/powder/spice)
+	not_in_public = TRUE // ditto
 
 /datum/supply_pack/rogue/luxury/fancyteaset
 	name = "Fancy Tea Set (1 Teapot, 4 Cups)"
 	cost = 110
 	no_name_quantity = TRUE
-	contains = list(/obj/item/reagent_containers/glass/bucket/pot/teapot/fancy, 
+	contains = list(/obj/item/reagent_containers/glass/bucket/pot/teapot/fancy,
 	/obj/item/reagent_containers/glass/cup/ceramic/fancy,
 	/obj/item/reagent_containers/glass/cup/ceramic/fancy,
 	/obj/item/reagent_containers/glass/cup/ceramic/fancy,
@@ -39,6 +43,26 @@
 	name = "Silver Psycross"
 	cost = 250
 	contains = list(/obj/item/clothing/neck/roguetown/psicross/silver)
+
+/datum/supply_pack/rogue/luxury/silverastcross
+	name = "Silver Amulet of Astrata"
+	cost = 250
+	contains = list(/obj/item/clothing/neck/roguetown/psicross/silver/astrata)
+
+/datum/supply_pack/rogue/luxury/silvertencross
+	name = "Silver Amulet of the Pantheon"
+	cost = 250
+	contains = list(/obj/item/clothing/neck/roguetown/psicross/silver/undivided)
+
+/datum/supply_pack/rogue/luxury/silvernecracross
+	name = "Silver Amulet of Necra"
+	cost = 250
+	contains = list(/obj/item/clothing/neck/roguetown/psicross/silver/necra)
+
+/datum/supply_pack/rogue/luxury/silvernoccross
+	name = "Silver Amulet of Noc"
+	cost = 250
+	contains = list(/obj/item/clothing/neck/roguetown/psicross/silver/noc)
 
 /datum/supply_pack/rogue/luxury/silverdagger
 	name = "Silver Dagger"
@@ -89,7 +113,7 @@
 /datum/supply_pack/rogue/luxury/obsidianfragment
 	name = "Obsidian Fragments"
 	cost = 55
-	contains = list(	
+	contains = list(
 			/obj/item/magic/obsidian,
 			/obj/item/magic/obsidian,
 			/obj/item/magic/obsidian,
@@ -98,7 +122,7 @@
 /datum/supply_pack/rogue/luxury/manaflower
 	name = "Manabloom Flowers"
 	cost = 55
-	contains = list(	
+	contains = list(
 			/obj/item/reagent_containers/food/snacks/grown/manabloom,
 			/obj/item/reagent_containers/food/snacks/grown/manabloom,
 			/obj/item/reagent_containers/food/snacks/grown/manabloom,
@@ -107,7 +131,7 @@
 /datum/supply_pack/rogue/luxury/manacrystal
 	name = "Mana Crystals"
 	cost = 55
-	contains = list(	
+	contains = list(
 			/obj/item/magic/manacrystal,
 			/obj/item/magic/manacrystal,
 			/obj/item/magic/manacrystal,
@@ -137,3 +161,13 @@
 	name = "Paint palette"
 	cost = 15
 	contains = list(/obj/item/paint_palette)
+
+/datum/supply_pack/rogue/luxury/parasol
+	name = "Paper Parasol"
+	cost = 30
+	contains = list(/obj/item/rogueweapon/mace/parasol)
+
+/datum/supply_pack/rogue/luxury/fineparasol
+	name = "Fine Parasol"
+	cost = 65
+	contains = list(/obj/item/rogueweapon/mace/parasol/noble)

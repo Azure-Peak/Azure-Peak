@@ -40,6 +40,15 @@
 		revert_cast()
 		return
 
+	user.visible_message(
+		span_warning("[user] begins to concentrate on [I]!"),
+		span_notice("I begin to concentrate on [I]..")
+	)
+	if(!do_after(user, 4 SECONDS, TRUE, I, TRUE))
+		to_chat(user, span_warning("My concentration breaks! I could not repair [I]."))
+		revert_cast()
+		return
+
 	repair_percent = initial(repair_percent)
 	int_bonus = CLAMP((user.STAINT * 0.01), 0.01, 0.9)
 	repair_percent += int_bonus
@@ -47,7 +56,7 @@
 
 	I.obj_integrity = min(I.obj_integrity + repair_percent, I.max_integrity)
 	user.visible_message(span_info("[I] glows in a faint mending light."))
-	playsound(I, 'sound/foley/sewflesh.ogg', 50, TRUE, -2)
+	playsound(I, 'sound/magic/mending.ogg', 35, TRUE, -2)
 
 	if(I.obj_integrity >= I.max_integrity)
 		if(I.obj_broken)
@@ -60,6 +69,12 @@
 				I.repair_coverage()
 				to_chat(user, span_info("[I]'s shorn layers mend together, completely."))
 
+	if(mob_charge_effect)
+		QDEL_NULL(mob_charge_effect)
+
+	deactivate(user)
+
+	return TRUE
 
 /obj/effect/proc_holder/spell/invoked/mending/lesser
 	name = "Lesser Mending"

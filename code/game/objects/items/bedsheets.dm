@@ -80,38 +80,35 @@ LINEN BINS
 	UnregisterSignal(sleeper, COMSIG_PARENT_QDELETING)
 	signal_sleeper = null
 
+/obj/item/bedsheet/rogue
+	desc = "May be hidden under whenever unable, or unwilling, to face the world."
+
 /obj/item/bedsheet/rogue/cloth
-	desc = ""
 	icon = 'icons/roguetown/misc/beds.dmi'
 	icon_state = "cloth_bedsheet"
 	item_state = "cloth_bedsheet"
 
 /obj/item/bedsheet/rogue/pelt
-	desc = ""
 	icon = 'icons/roguetown/misc/beds.dmi'
 	icon_state = "pelt_bedsheet"
 	item_state = "pelt_bedsheet"
 
 /obj/item/bedsheet/rogue/wool
-	desc = ""
 	icon = 'icons/roguetown/misc/beds.dmi'
 	icon_state = "wool_bedsheet"
 	item_state = "wool_bedsheet"
 
 /obj/item/bedsheet/rogue/double_pelt
-	desc = ""
 	icon = 'icons/roguetown/misc/beds.dmi'
 	icon_state = "double_pelt_bedsheet"
 	item_state = "double_pelt_bedsheet"
 
 /obj/item/bedsheet/rogue/fabric
-	desc = ""
 	icon = 'icons/roguetown/misc/beds.dmi'
 	icon_state = "fabric_bedsheet"
 	item_state = "fabric_bedsheet"
 
 /obj/item/bedsheet/rogue/fabric_double
-	desc = ""
 	icon = 'icons/roguetown/misc/beds.dmi'
 	icon_state = "double_fabric_bedsheet"
 	item_state = "double_fabric_bedsheet"
@@ -119,4 +116,3 @@ LINEN BINS
 /obj/item/bedsheet/random
 	icon_state = "random_bedsheet"
 	name = "random bedsheet"
-	desc = ""

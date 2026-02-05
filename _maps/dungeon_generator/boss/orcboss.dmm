@@ -32,7 +32,7 @@
 /obj/structure/table/wood{
 	icon_state = "tablewood1"
 	},
-/obj/machinery/light/rogue/wallfire/candle,
+/obj/machinery/light/rogue/candle,
 /turf/open/floor/rogue/ruinedwood,
 /area/rogue)
 "mA" = (
@@ -130,7 +130,7 @@
 /turf/open/floor/rogue/dirt,
 /area/rogue)
 "wJ" = (
-/obj/machinery/light/rogue/wallfire/candle/l,
+/obj/machinery/light/rogue/candle/l,
 /turf/open/floor/rogue/ruinedwood,
 /area/rogue)
 "BM" = (
@@ -253,7 +253,7 @@
 /turf/open/floor/rogue/ruinedwood,
 /area/rogue)
 "Ro" = (
-/obj/machinery/light/rogue/wallfire/candle{
+/obj/machinery/light/rogue/candle{
 	pixel_y = 0;
 	pixel_x = 32
 	},

@@ -1,6 +1,8 @@
 /mob/living/simple_animal/hostile/retaliate/rogue/elemental/crawler
 	icon = 'icons/mob/summonable/32x32.dmi'
 	name = "earthen crawler"
+	desc = "This is a relatively small elemental formed of dirt, rock, and clay. It \
+	clambers about with the use of too few limbs, but still reaches up to your knees."
 	summon_primer = "You are an crawler, a small elemental. Elementals such as yourself spend immeasurable time wandering about within your plane. Now you've been pulled from your home into a new world, that is decidedly less peaceful then your carefully guarded plane. How you react to these events, only time can tell."
 	summon_tier = 1
 	icon_state = "crawler"

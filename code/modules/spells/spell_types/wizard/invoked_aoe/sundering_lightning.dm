@@ -15,6 +15,8 @@
 	glow_color = GLOW_COLOR_LIGHTNING
 	glow_intensity = GLOW_INTENSITY_HIGH
 	chargedloop = /datum/looping_sound/invokegen
+	gesture_required = TRUE // Offensive spell
+	human_req = TRUE // Combat spell
 	associated_skill = /datum/skill/magic/arcane
 	range = 4
 

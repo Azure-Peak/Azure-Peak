@@ -1,6 +1,6 @@
 /obj/structure/boatbell
 	name = "bell"
-	desc = "This is the doomspeller of Roguetown."
+	desc = "This is the doomspeller of Azure Peak."
 	icon = 'icons/roguetown/misc/structure.dmi'
 	icon_state = "bell"
 	density = FALSE
@@ -64,7 +64,7 @@
 			var/list/rolestonotify = list()
 			switch(localarea)
 				if("church")
-					rolestonotify = list("Bishop", "Acolyte", "Druid", "Martyr", "Templar", "Churchling")
+					rolestonotify = list("Bishop", "Acolyte", "Druid", "Martyr", "Templar", "Sexton")
 				if("Shop")
 					rolestonotify = list("Merchant", "Shophand")
 				if("Physician")
@@ -78,7 +78,7 @@
 				if("The Inquisition")
 					rolestonotify = list("Inquisitor", "Orthodoxist", "Absolver")
 				if("Garrison")
-					rolestonotify = list("Man at Arms", "Sergeant", "Dungeoneer", "Watchman")
+					rolestonotify = list("Man at Arms", "Sergeant", "Watchman")
 				if("Manor", "keep basement")
 					rolestonotify = list("Servant", "Seneschal")
 			if(!specific_location)

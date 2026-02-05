@@ -39,6 +39,8 @@ GLOBAL_VAR_INIT(farm_animals, FALSE)
 	var/wander = 1
 	///When set to 1 this stops the animal from moving when someone is pulling it.
 	var/stop_automated_movement_when_pulled = 1
+	///Next time we can perform a grid update (throttled to avoid excessive updates)
+	var/next_grid_update_time = 0
 
 	var/obj/item/handcuffed = null //Whether or not the mob is handcuffed
 	var/obj/item/legcuffed = null  //Same as handcuffs but for legs. Bear traps use this.
@@ -186,6 +188,8 @@ GLOBAL_VAR_INIT(farm_animals, FALSE)
 	///our current cell grid
 	var/datum/cell_tracker/our_cells
 
+	var/obj/item/caparison/ccaparison
+
 /mob/living/simple_animal/Initialize()
 	. = ..()
 	GLOB.simple_animals[AIStatus] += src
@@ -205,7 +209,6 @@ GLOBAL_VAR_INIT(farm_animals, FALSE)
 		AddSpell(newspell)
 
 /mob/living/simple_animal/Destroy()
-	our_cells = null
 	GLOB.simple_animals[AIStatus] -= src
 	SSnpcpool.currentrun -= src
 
@@ -217,11 +220,25 @@ GLOBAL_VAR_INIT(farm_animals, FALSE)
 		QDEL_NULL(ssaddle)
 		ssaddle = null
 
+	if(ccaparison)
+		QDEL_NULL(ccaparison)
+		ccaparison = null
+
 	var/turf/T = get_turf(src)
 	if (T && AIStatus == AI_Z_OFF)
 		SSidlenpcpool.idle_mobs_by_zlevel[T.z] -= src
 
-	return ..()
+	. = ..()
+	our_cells = null
+
+/mob/living/simple_animal/examine(mob/user)
+	. = ..()
+	if(tame)
+		. += span_notice("This animal appears to be tamed.")
+	if(ssaddle)
+		. += span_notice("This animal is saddled: ([ssaddle.name]).")
+	if(ccaparison)
+		. += span_notice("This animal is wearing a caparison: ([ccaparison.name]).")
 
 /mob/living/simple_animal/attackby(obj/item/O, mob/user, params)
 	if(!is_type_in_list(O, food_type))
@@ -243,6 +260,41 @@ GLOBAL_VAR_INIT(farm_animals, FALSE)
 				else
 					tame_chance += bonus_tame_chance
 
+/mob/living/simple_animal/attack_right(mob/user, params)
+	if(ccaparison)
+		user.visible_message(span_notice("[user] is removing the caparison from [src]..."), span_notice("I start removing the caparison from [src]..."))
+		if(!do_after(user, 10 SECONDS, TRUE, src))
+			return
+		playsound(loc, 'sound/foley/saddledismount.ogg', 100, FALSE)
+		user.visible_message(span_notice("[user] removes the caparison from [src]."), span_notice("I remove the caparison from [src]."))
+		var/obj/item/caparison/C = ccaparison
+		ccaparison = null
+		C.forceMove(get_turf(src))
+		user.put_in_hands(C)
+		update_icon()
+		return
+	else if(ssaddle)
+		user.visible_message(span_notice("[user] is removing the saddle from [src]..."), span_notice("I start removing the saddle from [src]..."))
+		if(!do_after(user, 5 SECONDS, TRUE, src))
+			return
+		playsound(loc, 'sound/foley/saddledismount.ogg', 100, FALSE)
+		user.visible_message(span_notice("[user] removes the saddle from [src]."), span_notice("I remove the saddle from [src]."))
+		var/obj/item/natural/saddle/S = ssaddle
+		ssaddle = null
+		S.forceMove(get_turf(src))
+		user.put_in_hands(S)
+		update_icon()
+		return
+	return ..()
+
+/mob/living/simple_animal/update_icon()
+	cut_overlays()
+	. = ..()
+	if(ccaparison && stat == CONSCIOUS && !resting)
+		var/caparison_overlay = ccaparison.female_caparison_state && gender == FEMALE ? ccaparison.female_caparison_state : ccaparison.caparison_state
+		var/mutable_appearance/caparison_above_overlay = mutable_appearance(ccaparison.caparison_icon, caparison_overlay + "-above", 4.31)
+		add_overlay(icon(ccaparison.caparison_icon, caparison_overlay))
+		add_overlay(caparison_above_overlay)
 
 ///Extra effects to add when the mob is tamed, such as adding a riding component
 /mob/living/simple_animal/proc/tamed(mob/user)
@@ -252,7 +304,6 @@ GLOBAL_VAR_INIT(farm_animals, FALSE)
 	if(user)
 		owner = user
 		SEND_SIGNAL(user, COMSIG_ANIMAL_TAMED, src)
-	return
 
 //mob/living/simple_animal/examine(mob/user)
 //	. = ..()
@@ -552,9 +603,8 @@ GLOBAL_VAR_INIT(farm_animals, FALSE)
 	return //RTCHANGE
 
 /mob/living/simple_animal/proc/drop_loot()
-	if(loot.len)
-		for(var/i in loot)
-			new i(loc)
+	for(var/i in loot) // If someone puts a turf in this list I'm going to kill you.
+		new i(loc)
 
 /mob/living/simple_animal/death(gibbed)
 	movement_type &= ~FLYING
@@ -580,6 +630,7 @@ GLOBAL_VAR_INIT(farm_animals, FALSE)
 			transform = transform.Turn(180)
 		density = FALSE
 		..()
+	update_icon()
 
 /mob/living/simple_animal/proc/CanAttack(atom/the_target)
 	if(binded)
@@ -989,9 +1040,11 @@ GLOBAL_VAR_INIT(farm_animals, FALSE)
 
 /mob/living/simple_animal/Moved()
 	. = ..()
-	update_grid()
+	if(world.time >= next_grid_update_time)
+		update_grid()
 
 /mob/living/simple_animal/proc/update_grid()
+	next_grid_update_time = world.time + 5
 	var/turf/our_turf = get_turf(src)
 	if(isnull(our_turf) || isnull(our_cells))
 		return

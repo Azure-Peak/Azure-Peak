@@ -1,6 +1,6 @@
 /obj/structure/fluff/grindwheel
 	name = "grinding wheel"
-	desc = "Steadily hums when operated, a massive wheel of grinding stone."
+	desc = "Steadily hums when operated, a massive wheel of grinding stone. Can be used to sharpen metal, and to cut logs into planks."
 	icon = 'icons/roguetown/misc/forge.dmi'
 	icon_state = "grindwheel"
 	density = TRUE
@@ -12,7 +12,7 @@
 	if(I.max_blade_int)
 		playsound(loc,'sound/foley/grindblade.ogg', 100, FALSE)
 		if(do_after(user, 41, target = src))
-			I.add_bintegrity(999, user)
+			I.restore_bintegrity()
 		return
 	if(istype(I, /obj/item/grown/log/tree/small))
 		var/skill_level = user.get_skill_level(/datum/skill/craft/carpentry)

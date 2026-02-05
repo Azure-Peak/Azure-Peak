@@ -88,6 +88,6 @@
 		if(M.client in GLOB.admins)
 			prefix += "([mob.ckey]) <A href='?_src_=holder;[HrefToken()];adminplayeropts=[REF(mob)]]'>\[PP\]</font></a>"
 
-		var/rendered = span_gamedeadsay("<span class='prefix'>[prefix]</span> <span class='name'>[rank_name ? "([rank_name])" : ""][player_name]</span> [deadbarks], <span class='message'>\"[emoji_parse(msg)]\"</span>")
+		var/rendered = span_gamedeadsay("<span class='prefix'>[prefix]</span> <span class='name'>[rank_name ? "([rank_name])" : ""][player_name]</span> [deadbarks], <span class='dsayspeech'>\"[emoji_parse(msg)]\"</span>")
 		if(isobserver(M) || (M.client in GLOB.admins))
 			to_chat(M, rendered)

@@ -2,7 +2,7 @@
 
 /mob/living/simple_animal/hostile/retaliate/goose
 	name = "goose"
-	desc = ""
+	desc = "This thing looks aggressive."
 	icon_state = "goose" // sprites by cogwerks from goonstation, used with permission
 	icon_living = "goose"
 	icon_dead = "goose_dead"

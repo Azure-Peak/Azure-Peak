@@ -1,0 +1,5 @@
+author: "WHERE IS CLOSED/TURF/MINERAL?! WHERE IS HE?!!"
+delete-after: True
+changes:
+  - bugfix: "the last of the dungeons of matthios tiles should have weird broken chairs and stuff removed."
+  - balance: "dungeons of matthios lava rooms have less high-tier rocks in them. sorry, gamers."

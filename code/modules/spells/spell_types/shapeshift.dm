@@ -12,6 +12,7 @@
 
 	var/revert_on_death = TRUE
 	var/die_with_shapeshifted_form = TRUE
+	var/knockout_on_death = 0 // we will apply this value (as deciseconds) to our host mob as a knockout effect when punted out of the form
 	var/convert_damage = TRUE //If you want to convert the caster's health to the shift, and vice versa.
 	var/convert_damage_type = BRUTE //Since simplemobs don't have advanced damagetypes, what to convert damage back into.
 	var/do_gib = TRUE

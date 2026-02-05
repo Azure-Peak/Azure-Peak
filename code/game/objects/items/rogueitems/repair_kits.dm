@@ -89,9 +89,9 @@
 						user.mind.add_sleep_experience(/datum/skill/craft/sewing, user.STAINT * XP_ON_SUCCESS)
 				I.obj_integrity = min(I.obj_integrity + (max_integrity/10), I.max_integrity) //10%
 				src.obj_integrity = min(src.obj_integrity - 10, src.max_integrity) //can restore 700% for good cloth kits, and 300% for bad cloth, 400% for bad metal,  1000% for good metal kit.
-				if(I.obj_broken && istype(I, /obj/item/clothing) && I.obj_integrity >= I.max_integrity)
-					var/obj/item/clothing/cloth = I
-					cloth.obj_fix()
+				if(I.obj_broken && I.obj_integrity >= I.max_integrity)
+					var/obj/item/T = I
+					T.obj_fix()
 					return
 				if(do_after(user, AUTO_SEW_DELAY, target = I))
 					attack_obj(I, user)
@@ -111,14 +111,14 @@
 	icon_state = "armorkit"
 	desc = "A wonderful set of metal patches, individual armor plates and straps for fastening them.  Everything you need to fix a leaky metal armor."
 	repair_type = 1
-	max_integrity = 1000
+	max_integrity = 600
 	table_need = TRUE
 
 /obj/item/repair_kit/metal/bad
 	name = "metal scrap kit"
 	icon_state = "custararmorkit"
 	desc = "A meager set of various pieces of old iron armor, some parts can be used for field repairs, but do not expect a miracle from this pile of metal."
-	max_integrity = 400
+	max_integrity = 300
 
 /obj/item/armorkit_empty
 	name = "empty metal kit"
@@ -136,8 +136,8 @@
 	if(!isitem(O))
 		return
 	var/obj/item/I = O
-	if(I.anvilrepair)
-		if(I.smeltresult == /obj/item/ingot/iron || I == /obj/item/scrap) //all iron stuff and iron scrap
+	if(I.anvilrepair || I.type == /obj/item/scrap)
+		if(I.smeltresult == /obj/item/ingot/iron || I.type == /obj/item/scrap) //all iron stuff and iron scrap
 			if(!do_after(user, 2 SECONDS, target = I))
 				return
 			user.visible_message(span_notice("[user] salvages [I] into usable materials."))

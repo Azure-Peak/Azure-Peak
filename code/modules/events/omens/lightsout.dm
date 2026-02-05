@@ -16,9 +16,9 @@
 
 /datum/round_event/lightsout/start()
 	if(LAZYLEN(GLOB.fires_list))
-		for(var/obj/i in GLOB.fires_list)
-			i.extinguish()
+		for(var/obj/fire in GLOB.fires_list)
+			INVOKE_ASYNC(fire, TYPE_PROC_REF(/obj, extinguish))
 	if(LAZYLEN(GLOB.streetlamp_list))
-		for(var/obj/machinery/light/roguestreet/i in GLOB.streetlamp_list)
-			i.lights_out()
+		for(var/obj/machinery/light/roguestreet/light in GLOB.streetlamp_list)
+			INVOKE_ASYNC(light, TYPE_PROC_REF(/obj/machinery/light/roguestreet, lights_out))
 	return

@@ -337,6 +337,11 @@
 	. = ..()
 	spark_act()
 
+/obj/item/flashlight/flare/torch/lantern/bronze
+	name = "bronze handlamptern"
+	icon_state = "lesserbronzelamp"
+	desc = "A light to guide the way, and a cage to carry your flame."
+
 /obj/item/flashlight/flare/torch/lantern/bronzelamptern
 	name = "bronze lamptern"
 	icon_state = "bronzelamp"

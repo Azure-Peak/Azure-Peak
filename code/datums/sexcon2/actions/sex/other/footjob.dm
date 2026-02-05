@@ -1,6 +1,7 @@
 /datum/sex_action/sex/other/footjob
 	name = "Jerk them off with feet"
 	check_same_tile = FALSE
+	intensity = 3
 
 /datum/sex_action/sex/other/footjob/shows_on_menu(mob/living/carbon/human/user, mob/living/carbon/human/target)
 	if(user == target)
@@ -15,9 +16,9 @@
 		return FALSE
 	if(user == target)
 		return FALSE
-	if(!check_location_accessible(user, user, BODY_ZONE_PRECISE_L_FOOT))
+	if(!check_location_accessible(user, user, BODY_ZONE_PRECISE_L_FOOT) && !istype(user.shoes, /obj/item/clothing/shoes/roguetown/jester))
 		return FALSE
-	if(!check_location_accessible(user, user, BODY_ZONE_PRECISE_R_FOOT))
+	if(!check_location_accessible(user, user, BODY_ZONE_PRECISE_R_FOOT) && !istype(user.shoes, /obj/item/clothing/shoes/roguetown/jester))
 		return FALSE
 	if(!check_location_accessible(user, target, BODY_ZONE_PRECISE_GROIN, TRUE))
 		return FALSE
@@ -34,6 +35,10 @@
 	var/datum/sex_session/sex_session = get_sex_session(user, target)
 	user.visible_message(sex_session.spanify_force("[user] [sex_session.get_generic_force_adjective()] jerks [target]'s cock with [user.p_their()] feet..."))
 	playsound(user, 'sound/misc/mat/fingering.ogg', 30, TRUE, -2, ignore_walls = FALSE)
+	// and i had never had c hance to interact with the jesters...
+	if(istype(user.shoes, /obj/item/clothing/shoes/roguetown/jester))
+		playsound(user, SFX_JINGLE_BELLS, 30, TRUE, -2, ignore_walls = FALSE)
+
 
 	sex_session.perform_sex_action(target, 2, 4, TRUE)
 	sex_session.handle_passive_ejaculation(target)

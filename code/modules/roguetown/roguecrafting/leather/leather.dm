@@ -178,7 +178,7 @@
 /datum/crafting_recipe/roguetown/leather/doctormask
 	name = "plague mask"
 	result = /obj/item/clothing/mask/rogue/physician
-	reqs = list(/obj/item/natural/hide/cured = 1, /obj/item/natural/bone = 1)
+	reqs = list(/obj/item/natural/hide/cured = 1)
 	craftdiff = 1
 
 /datum/crafting_recipe/roguetown/leather/skillbook
@@ -190,3 +190,58 @@
 	structurecraft = null//surely it's possible to stitch a book and paper together without a drying rack...
 	craftdiff = 1
 	always_availible = TRUE
+
+/datum/crafting_recipe/roguetown/leather/doctormask
+	name = "head physician's mask"
+	result = /obj/item/clothing/mask/rogue/courtphysician
+	reqs = list(/obj/item/natural/hide/cured = 1, /obj/item/natural/bone = 1)
+	craftdiff = 1
+
+/datum/crafting_recipe/roguetown/leather/sanguinejacket
+	name = "sanguine jacket"
+	reqs = list(
+		/obj/item/natural/hide/cured = 3
+	)
+	result = /obj/item/clothing/suit/roguetown/armor/leather/heavy/jacket/courtphysician/female
+	craftdiff = 3
+
+/datum/crafting_recipe/roguetown/leather/sanguinegloves
+	name = "sanguine gloves"
+	reqs = list(
+		/obj/item/natural/hide/cured = 2
+	)
+	result = /obj/item/clothing/gloves/roguetown/courtphysician
+	craftdiff = 3
+
+/datum/crafting_recipe/roguetown/leather/sanguinesleeves
+	name = "sanguine sleeves"
+	reqs = list(
+		/obj/item/natural/hide/cured = 2,
+		/obj/item/natural/silk = 2,
+	)
+	result = /obj/item/clothing/gloves/roguetown/courtphysician/female
+	craftdiff = 3
+
+/datum/crafting_recipe/roguetown/leather/sanguinecoat
+	name = "sanguine coat"
+	reqs = list(
+		/obj/item/natural/hide/cured = 3
+	)
+	result = /obj/item/clothing/suit/roguetown/armor/leather/heavy/jacket/courtphysician
+	craftdiff = 3
+
+/datum/crafting_recipe/roguetown/leather/sanguineshoes
+	name = "sanguine shoes"
+	reqs = list(
+		/obj/item/natural/hide/cured = 2
+	)
+	result = /obj/item/clothing/shoes/courtphysician
+	craftdiff = 3
+
+/datum/crafting_recipe/roguetown/leather/sanguineheels
+	name = "sanguine heels"
+	reqs = list(
+		/obj/item/natural/hide/cured = 2
+	)
+	result = /obj/item/clothing/shoes/courtphysician/female
+	craftdiff = 3

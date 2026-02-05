@@ -226,7 +226,7 @@
 
 /obj/item/reagent_containers/powder/mineral
 	name = "coarse minerals"
-	desc = "ground up rock, could be made into mineral salts with more work."
+	desc = "Ground up rock. It could be made into mineral salts with more work."
 	gender = PLURAL
 	icon_state = "salt"
 	list_reagents = list(/datum/reagent/floure = 1)
@@ -236,7 +236,7 @@
 
 /obj/item/reagent_containers/powder/coarse_salt
 	name = "coarse salt"
-	desc = "somewhat gritty, coarse salt. Could be ground down into finer salt."
+	desc = "Somewhat gritty, coarse salt. Could be ground down into finer salt."
 	gender = PLURAL
 	icon_state = "salt"
 	list_reagents = list(/datum/reagent/floure = 1)

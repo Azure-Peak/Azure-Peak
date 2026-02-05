@@ -182,6 +182,97 @@
 
 #undef CHURN_FILTER
 
+/obj/effect/proc_holder/spell/targeted/locate_dead
+	name = "Locate Corpse"
+	desc = "Call upon the Undermaiden to guide you to a lost soul."
+	overlay_state = "necraeye"
+	sound = 'sound/magic/whiteflame.ogg'
+	releasedrain = 30
+	chargedrain = 0.5
+	max_targets = 0
+	cast_without_targets = TRUE
+	miracle = TRUE
+	associated_skill = /datum/skill/magic/holy
+	req_items = list(/obj/item/clothing/neck/roguetown/psicross)
+	invocations = list("Undermaiden, guide my hand to those who have lost their way.")
+	invocation_type = "whisper"
+	recharge_time = 15 SECONDS
+	devotion_cost = 35
+
+/obj/effect/proc_holder/spell/targeted/locate_dead/cast(list/targets, mob/living/user = usr)
+	. = ..()
+	var/list/mob/corpses = list()
+	for(var/mob/living/C in GLOB.dead_mob_list)
+		if(!C.mind)
+			continue
+		if(istype(C, /mob/living/carbon/human))
+			var/mob/living/carbon/human/B = C
+			if(B.buried)
+				continue
+		var/time_dead = 0
+		if(C.timeofdeath)
+			time_dead = world.time - C.timeofdeath
+		var/corpse_name
+
+		if(time_dead < 5 MINUTES)
+			corpse_name = "Fresh corpse "
+		else if(time_dead < 10 MINUTES)
+			corpse_name = "Recently deceased "
+		else if(time_dead < 30 MINUTES)
+			corpse_name = "Long dead "
+		else
+			corpse_name = "Forgotten remains of "
+		var/list/d_list = C.get_mob_descriptors()
+		var/trait_desc = "[capitalize(build_coalesce_description_nofluff(d_list, C, list(MOB_DESCRIPTOR_SLOT_TRAIT), "%DESC1%"))]"
+		var/stature_desc = "[capitalize(build_coalesce_description_nofluff(d_list, C, list(MOB_DESCRIPTOR_SLOT_STATURE), "%DESC1%"))]"
+		var/descriptor_name = "[trait_desc] [stature_desc]"
+		if(descriptor_name == " ")
+			descriptor_name = "Unknown"
+
+		corpse_name += " of \a [descriptor_name]..."
+		corpses[corpse_name] = C
+
+	if(!length(corpses))
+		to_chat(user, span_warning("The Undermaiden's grasp lets slip."))
+		return .
+
+	var/mob/selected = tgui_input_list(user, "Which body shall I seek?", "Available Bodies", corpses)
+
+	if(QDELETED(src) || QDELETED(user) || QDELETED(corpses[selected]))
+		to_chat(user, span_warning("The Undermaiden's grasp lets slip."))
+		return .
+
+	var/corpse = corpses[selected]
+
+	var/turf/turf_user = get_turf(user)
+	var/turf/turf_corpse = get_turf(corpse)
+	var/direction_name = "unknown"
+	if(turf_user.z != turf_corpse.z)
+		if(turf_corpse.z > turf_user.z)
+			direction_name = "above"
+		else
+			direction_name = "below"
+	else
+		var/direction = get_dir(user, corpse)
+		switch(direction)
+			if(NORTH)
+				direction_name = "north"
+			if(SOUTH)
+				direction_name = "south"
+			if(EAST)
+				direction_name = "east"
+			if(WEST)
+				direction_name = "west"
+			if(NORTHEAST)
+				direction_name = "northeast"
+			if(NORTHWEST)
+				direction_name = "northwest"
+			if(SOUTHEAST)
+				direction_name = "southeast"
+			if(SOUTHWEST)
+				direction_name = "southwest"
+
+	to_chat(user, span_notice("The Undermaiden pulls on your hand, guiding you [direction_name]."))
 
 /obj/effect/proc_holder/spell/invoked/necra_vow
 	name = "Vow to Necra"
@@ -265,7 +356,7 @@
 	miracle = TRUE
 	devotion_cost = 30
 	range = 1
-	var/static/list/whitelisted_objects = list(/obj/structure/gravemarker, /obj/structure/fluff/psycross, /obj/structure/fluff/psycross/copper, /obj/structure/fluff/psycross/crafted)
+	var/static/list/whitelisted_objects = list(/obj/structure/gravemarker, /obj/structure/fluff/psycross, /obj/structure/fluff/psycross/copper, /obj/structure/fluff/psycross/crafted, /obj/structure/fluff/psycross/necra/cloth, /obj/structure/fluff/psycross/necra)
 	var/list/marked_objects = list()
 	var/outline_color = "#4ea1e6"
 	var/last_index = 1
@@ -297,24 +388,61 @@
 
 /obj/effect/proc_holder/spell/invoked/necras_sight/proc/try_scry(mob/living/carbon/human/user)
 	listclearnulls(marked_objects)
-	var/selected_grave = input(user, "Which Grave shall we peer through?", "") as null|anything in marked_objects
-	if(selected_grave)
-		var/obj/structure/gravemarker/spygrave = selected_grave
-		var/filter = spygrave.get_filter(GRAVE_SPY)
-		if(!filter)
-			spygrave.add_filter(GRAVE_SPY, 2, list("type" = "outline", "color" = outline_color, "alpha" = 200, "size" = 1))
-		var/mob/dead/observer/screye/S = user.scry_ghost()
-		spygrave.visible_message(span_warning("[spygrave] shimmers with an eerie glow."))
-		if(!S)
-			return FALSE
-		S.ManualFollow(spygrave)
-		user.visible_message(span_danger("[user] blinks, [user.p_their()] eyes rolling back into [user.p_their()] head."))
-		user.playsound_local(get_turf(user), 'sound/magic/necra_sight.ogg', 80)
-		addtimer(CALLBACK(S, TYPE_PROC_REF(/mob/dead/observer, reenter_corpse)), (8 SECONDS))
-		addtimer(CALLBACK(spygrave, TYPE_PROC_REF(/atom/movable, remove_filter), GRAVE_SPY), (8 SECONDS))
-		return TRUE
-	else
+	if(!length(marked_objects))
 		return FALSE
+// Build a display list: label -> obj
+	var/list/choices = list()
+	for(var/obj/O as anything in marked_objects)
+		choices[marked_objects[O]] = O
+
+	var/choice = input(user, "Which grave shall we peer through?", "") as null|anything in choices
+	if(!choice)
+		return FALSE
+
+	var/obj/structure/gravemarker/spygrave = choices[choice]
+	if(!spygrave)
+		return FALSE
+
+	// Add outline filter if missing
+	var/filter = spygrave.get_filter(GRAVE_SPY)
+	if(!filter)
+		spygrave.add_filter(
+			GRAVE_SPY,
+			2,
+			list(
+				"type" = "outline",
+				"color" = outline_color,
+				"alpha" = 200,
+				"size" = 1
+			)
+		)
+
+	// Create scry eye
+	var/mob/dead/observer/screye/S = user.scry_ghost()
+	if(!S)
+		return FALSE
+
+	spygrave.visible_message(span_warning("[spygrave] shimmers with an eerie glow."))
+	S.ManualFollow(spygrave)
+
+	user.visible_message(
+		span_danger("[user] blinks, [user.p_their()] eyes rolling back into [user.p_their()] head.")
+	)
+
+	user.playsound_local(get_turf(user), 'sound/magic/necra_sight.ogg', 80)
+
+	// Cleanup after duration
+	addtimer(
+		CALLBACK(S, TYPE_PROC_REF(/mob/dead/observer, reenter_corpse)),
+		(8 SECONDS)
+	)
+
+	addtimer(
+		CALLBACK(spygrave, TYPE_PROC_REF(/atom/movable, remove_filter), GRAVE_SPY),
+		(8 SECONDS)
+	)
+
+	return TRUE
 
 #undef GRAVE_SPY
 
@@ -323,20 +451,26 @@
 		revert_cast()
 		return
 	var/holyskill = user.get_skill_level(/datum/skill/magic/holy)
+	var/label = input(user, "Name this grave for your sight:", "Mark Holy Object") as text|null
+	if(!label || !length(label))
+		label = "[O.name]"
+
+// Replace logic when at cap
 	if(length(marked_objects) >= holyskill)
-		to_chat(user, span_warning("I'm focusing on too many gravestones already! I will replace this one with the first I recall."))
-		marked_objects[last_index] = O
+		to_chat(user, span_warning("I'm focusing on too many graves already. One slips from my mind..."))
+
+		var/old_obj = marked_objects[last_index]
+		marked_objects -= old_obj
+
+		marked_objects[O] = label
+
 		last_index++
-		if(last_index >= holyskill)
+		if(last_index > holyskill)
 			last_index = 1
 		return
-	to_chat(user, span_info("I incant a whisper and touch the gravestone, marking it for later use..."))
-	for(var/i in 1 to holyskill)
-		if(!LAZYACCESS(marked_objects, i))
-			LAZYADD(marked_objects, O)
-			break
-		else
-			continue
+
+	to_chat(user, span_info("I whisper a name and mark the grave for later use..."))
+	marked_objects[O] = label
 
 /obj/effect/proc_holder/spell/invoked/raise_spirits_vengeance
 	name = "Avenging Spirits"

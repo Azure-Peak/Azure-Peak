@@ -39,8 +39,10 @@
 #define AXE_CHOP			/datum/intent/axe/chop
 
 #define SPEAR_THRUST		/datum/intent/spear/thrust
+#define SPEAR_THRUST_1H		/datum/intent/spear/thrust/oneh
 #define SPEAR_BASH			/datum/intent/spear/bash
 #define SPEAR_CUT			/datum/intent/spear/cut
+#define SPEAR_CUT_1H		/datum/intent/spear/cut/oneh
 #define SPEAR_CAST          /datum/intent/spear/cast
 #define PARTIZAN_REND		/datum/intent/rend/reach/partizan
 #define PARTIZAN_PEEL		/datum/intent/partizan/peel

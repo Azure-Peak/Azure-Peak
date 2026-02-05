@@ -1,7 +1,7 @@
 
 /obj/structure/closet/dirthole
 	name = "hole"
-	desc = "Just a small hole..."
+	desc = "A modest hole dug into the dirt."
 	icon_state = "hole1"
 	icon = 'icons/turf/roguefloor.dmi'
 	var/stage = 1

@@ -57,7 +57,8 @@
 /mob/living/simple_animal/hostile/retaliate/rogue/goat
 	icon = 'icons/roguetown/mob/monster/gote.dmi'
 	name = "goat"
-	desc = ""
+	desc = "Renowned for their mountaineering skills and their resilience, goats are said to have been one of the first animals \
+	domesticated by the children of Psydon and remain the key livestock to pastoralist communities across the known world."
 	icon_state = "goat"
 	icon_living = "goat"
 	icon_dead = "goat_dead"
@@ -117,6 +118,15 @@
 	can_have_ai = FALSE
 	ai_controller = /datum/ai_controller/generic/goat //slightly more agressive retaliation
 
+/mob/living/simple_animal/hostile/retaliate/rogue/goat/tame
+	tame = TRUE
+
+/mob/living/simple_animal/hostile/retaliate/rogue/goat/tame/saddled/Initialize()
+	. = ..()
+	ssaddle = new /obj/item/natural/saddle(src)
+	// excuse me please fucking compile again thank you
+	update_icon()
+
 /mob/living/simple_animal/hostile/retaliate/rogue/goat/get_sound(input)
 	switch(input)
 		if("aggro")
@@ -132,7 +142,6 @@
 /mob/living/simple_animal/hostile/retaliate/rogue/goat/goatlet
 	icon = 'icons/roguetown/mob/monster/gote.dmi'
 	name = "goatlet"
-	desc = ""
 	icon_state = "goatlet"
 	icon_living = "goatlet"
 	icon_dead = "goatlet_dead"
@@ -200,6 +209,8 @@
 /mob/living/simple_animal/hostile/retaliate/rogue/goatmale
 	icon = 'icons/roguetown/mob/monster/gote.dmi'
 	name = "goat"
+	desc = "Renowned for their mountaineering skills and their resilience, goats are said to have been one of the first animals \
+	domesticated by the children of Psydon and remain the key livestock to pastoralist communities across the known world."
 	icon_state = "goatmale"
 	icon_living = "goatmale"
 	icon_dead = "goatmale_dead"
@@ -262,6 +273,11 @@
 
 /mob/living/simple_animal/hostile/retaliate/rogue/goatmale/tame
 	tame = TRUE
+
+/mob/living/simple_animal/hostile/retaliate/rogue/goatmale/tame/saddled/Initialize()
+	. = ..()
+	ssaddle = new /obj/item/natural/saddle(src)
+	update_icon()
 
 /mob/living/simple_animal/hostile/retaliate/rogue/goatmale/update_icon()
 	cut_overlays()
@@ -377,7 +393,6 @@
 /mob/living/simple_animal/hostile/retaliate/rogue/goat/goatletboy
 	icon = 'icons/roguetown/mob/monster/gote.dmi'
 	name = "goatlet"
-	desc = ""
 	gender = MALE
 	icon_state = "goatletboy"
 	icon_living = "goatletboy"

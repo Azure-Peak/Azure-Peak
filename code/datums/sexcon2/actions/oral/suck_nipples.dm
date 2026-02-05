@@ -1,6 +1,8 @@
 /datum/sex_action/suck_nipples
 	name = "Suck their nipples"
 	check_same_tile = FALSE
+	intensity = 3
+	flipped = TRUE
 
 /datum/sex_action/suck_nipples/shows_on_menu(mob/living/carbon/human/user, mob/living/carbon/human/target)
 	if(user == target)

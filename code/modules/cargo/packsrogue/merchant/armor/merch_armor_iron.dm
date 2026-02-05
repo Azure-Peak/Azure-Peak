@@ -39,7 +39,7 @@
 /datum/supply_pack/rogue/armor_iron/halfplate
 	name = "Half-Plate Armor"
 	cost = 75 // Uhhh I don't think I should be selling them for 65 LOL
-	contains = list(/obj/item/clothing/suit/roguetown/armor/plate/cuirass/iron)
+	contains = list(/obj/item/clothing/suit/roguetown/armor/plate/iron)
 
 /datum/supply_pack/rogue/armor_iron/fullplate
 	name = "Full Plate"
@@ -65,6 +65,11 @@
 	name = "Gauntlets, Chain"
 	cost = 20
 	contains = list(/obj/item/clothing/gloves/roguetown/chain/iron)
+
+/datum/supply_pack/rogue/armor_iron/plategloves_iron
+	name = "Gauntlets, Plate"
+	cost = 30
+	contains = list(/obj/item/clothing/gloves/roguetown/plate/iron)
 
 /datum/supply_pack/rogue/armor_iron/chainleg_iron
 	name = "Chausses, Chain"
@@ -126,7 +131,12 @@
 	cost = 40
 	contains = list(/obj/item/clothing/head/roguetown/helmet/sallet/visored/iron)
 
+/datum/supply_pack/rogue/armor_iron/knightarmet
+	name = "Helmet, Armet, Knight's"
+	cost = 40
+	contains = list(/obj/item/clothing/head/roguetown/helmet/heavy/knight/iron)
+
 /datum/supply_pack/rogue/armor_iron/knight
 	name = "Helmet, Knight"
 	cost = 40
-	contains = list(/obj/item/clothing/head/roguetown/helmet/heavy/knight/iron)
+	contains = list(/obj/item/clothing/head/roguetown/helmet/heavy/knight/old/iron)

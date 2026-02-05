@@ -1,6 +1,8 @@
 /mob/living/simple_animal/hostile/retaliate/rogue/infernal/fiend
 	icon = 'icons/mob/summonable/32x32.dmi'
 	name = "fiend"
+	desc = "A much larger relative of the common infernal imp, this otherworldly creature stands to an impressive height \
+	and breadth. Whenever it ceases to move its body freezes to a complete standstill, as if it were a gargoyle."
 	icon_state = "fiend"
 	icon_living = "fiend"
 	icon_dead = "vvd"

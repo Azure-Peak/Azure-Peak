@@ -22,7 +22,7 @@
 		STASPD = 16
 
 		AddSpell(new /obj/effect/proc_holder/spell/self/foxclaws)
-		real_name = "Vernard"
+		real_name = "vernard"
 		faction += "wolfs"
 
 /datum/species/shapefox
@@ -89,7 +89,7 @@
 	body_parts_covered = FULL_BODY
 	body_parts_inherent = FULL_BODY
 	armor = ARMOR_LEATHER
-	prevent_crits = list(BCLASS_CUT, BCLASS_BLUNT, BCLASS_TWIST)
+	prevent_crits = PREVENT_CRITS_NONE
 	blocksound = SOFTHIT
 	blade_dulling = DULLING_BASHCHOP
 	sewrepair = FALSE

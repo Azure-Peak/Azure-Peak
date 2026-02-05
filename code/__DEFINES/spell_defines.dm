@@ -1,4 +1,4 @@
-// Constants for glow color used in spells 
+// Constants for glow color used in spells
 #define GLOW_COLOR_FIRE "#FF4500" // Red
 #define GLOW_COLOR_ICE "#87CEEB" // Cyan
 #define GLOW_COLOR_LIGHTNING "#FFFF00" // Yellow
@@ -17,7 +17,10 @@
 // Constants for enchanted_weapon
 #define FORCE_BLADE_ENCHANT 2
 #define DURABILITY_ENCHANT 3
+#define ARCANE_MARK_ENCHANT 4
 #define FORCE_BLADE_FORCE 5
 #define DURABILITY_INCREASE 100
 #define FORCE_FILTER "force_blade"
 #define DURABILITY_FILTER "durability_enchant"
+#define ARCANE_MARK_FILTER_WEAPON "arcane_mark_enchant"
+#define ARCANE_MARK_COOLDOWN 12 SECONDS

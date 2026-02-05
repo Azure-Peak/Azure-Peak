@@ -53,7 +53,7 @@
 	blade_dulling = DULLING_BASHCHOP
 	blocksound = PLATEHIT
 	armor = ARMOR_DRAGONHIDE
-	body_parts_covered = COVERAGE_FULL | COVERAGE_HEAD_NOSE | NECK | HANDS | FEET
+	body_parts_covered = COVERAGE_ALL_BUT_HANDFEET | COVERAGE_HEAD_NOSE | NECK | HANDS | FEET
 	unenchantable = TRUE
 
 /obj/item/clothing/suit/roguetown/dragonhide/equipped(mob/living/user)

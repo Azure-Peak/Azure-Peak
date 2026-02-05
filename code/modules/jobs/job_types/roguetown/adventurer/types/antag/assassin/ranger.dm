@@ -49,8 +49,8 @@
 	backr = /obj/item/storage/backpack/rogue/satchel
 	backpack_contents = list(
 					/obj/item/flashlight/flare/torch/lantern/prelit = 1,
-					/obj/item/rogueweapon/scabbard/sheath = 1, 
-					/obj/item/rogueweapon/huntingknife/idagger/steel = 1,
+					/obj/item/rogueweapon/scabbard/sheath = 1,
+					/obj/item/rogueweapon/huntingknife/idagger/warden_machete = 1,
 					/obj/item/needle/thorn = 1,
 					/obj/item/natural/cloth = 1,
 					)

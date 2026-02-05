@@ -85,9 +85,8 @@
 
 /obj/effect/proc_holder/spell/targeted/conjure_glowshroom/cast(list/targets, mob/user = usr)
 	..()
-
 	to_chat(user, span_notice("I begin enriching the soil around me!"))
-	if(!do_after(user, 2 SECONDS, progress = TRUE))
+	if(!do_after(user, 0.5 SECONDS, progress = TRUE))
 		revert_cast()
 		return FALSE
 
@@ -97,7 +96,36 @@
 		if(!isclosedturf(TT) && !locate(/obj/structure/glowshroom) in TT)
 			new /obj/structure/glowshroom(TT)
 	return TRUE
+/obj/effect/proc_holder/spell/targeted/conjure_vines
+	name = "Vine Sprout"
+	desc = "Summon vines nearby."
+	overlay_state = "blesscrop"
+	releasedrain = 90
+	invocations = list("Treefather, bring forth vines.")
+	invocation_type = "shout"
+	devotion_cost = 90
+	range = 1
+	recharge_time = 30 SECONDS
+	req_items = list(/obj/item/clothing/neck/roguetown/psicross)
+	max_targets = 0
+	cast_without_targets = TRUE
+	sound = 'sound/items/dig_shovel.ogg'
+	associated_skill = /datum/skill/magic/holy
+	miracle = TRUE
 
+/obj/effect/proc_holder/spell/targeted/conjure_vines/cast(list/targets, mob/user = usr)
+	. = ..()
+	var/turf/target_turf = get_step(user, user.dir)
+	var/turf/target_turf_two = get_step(target_turf, turn(user.dir, 90))
+	var/turf/target_turf_three = get_step(target_turf, turn(user.dir, -90))
+	if(!locate(/obj/structure/vine) in target_turf)
+		new /obj/structure/vine/dendor(target_turf)
+	if(!locate(/obj/structure/vine) in target_turf_two)
+		new /obj/structure/vine/dendor(target_turf_two)
+	if(!locate(/obj/structure/vine) in target_turf_three)
+		new /obj/structure/vine/dendor(target_turf_three)
+
+	return TRUE
 /obj/effect/proc_holder/spell/self/howl/call_of_the_moon
 	name = "Call of the Moon"
 	desc = "Draw upon the the secrets of the hidden firmament to converse with the mooncursed."

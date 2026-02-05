@@ -4,7 +4,7 @@
 	allowed_sexes = list(MALE, FEMALE)
 	allowed_races = RACES_ALL_KINDS
 	outfit = /datum/outfit/job/roguetown/confessor
-	category_tags = list(CTAG_INQUISITION)
+	category_tags = list(CTAG_ORTHODOXIST)
 	subclass_languages = list(/datum/language/otavan)
 	cmode_music = 'sound/music/cmode/antag/combat_deadlyshadows.ogg'
 	traits_applied = list(
@@ -43,7 +43,7 @@
 /datum/outfit/job/roguetown/confessor/pre_equip(mob/living/carbon/human/H, visualsOnly)
 	..()
 	if(H.mind)
-		var/weapons = list("Blessed Psydonic Dagger", "Psydonic Handmace", "Psydonic Shortsword")
+		var/weapons = list("Blessed Psydonic Dagger", "Psydonic Handmace", "Psydonic Rapier")
 		var/weapon_choice = input(H,"Choose your WEAPON.", "TAKE UP PSYDON'S ARMS.") as anything in weapons
 		switch(weapon_choice)
 			if("Blessed Psydonic Dagger")
@@ -53,8 +53,8 @@
 			if("Psydonic Handmace")
 				l_hand = /obj/item/rogueweapon/mace/cudgel/psy
 				H.adjust_skillrank_up_to(/datum/skill/combat/maces, 4, TRUE)	
-			if("Psydonic Shortsword")
-				l_hand = /obj/item/rogueweapon/sword/short/psy
+			if("Psydonic Rapier")
+				l_hand = /obj/item/rogueweapon/sword/rapier/psy
 				r_hand = /obj/item/rogueweapon/scabbard/sword
 				H.adjust_skillrank_up_to(/datum/skill/combat/swords, 4, TRUE)
 		var/armors = list("Confessor - Slurbow, Leather Maillecoat", "Arbalist - Crossbow, Psydonic Chestplate")
@@ -95,7 +95,7 @@
 	mask = /obj/item/clothing/mask/rogue/facemask/steel/confessor
 	id = /obj/item/clothing/ring/signet/silver
 	backpack_contents = list(
-		/obj/item/roguekey/inquisition = 1,
+		/obj/item/roguekey/inquisitionmanor = 1,
 		/obj/item/rope/inqarticles/inquirycord = 1,
 		/obj/item/lockpickring/mundane = 1,
 		/obj/item/clothing/head/inqarticles/blackbag = 1,

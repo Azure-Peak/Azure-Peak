@@ -1,5 +1,6 @@
 /mob/living/simple_animal/hostile/rogue/dreamfiend
 	icon = 'icons/mob/abyssal_small.dmi'
+	desc = "A dizzying sight ripped violently from a distant dream and brought where it never belonged. It folds in on itself in ways impossible, and seems to move without moving."
 	name = "minor dream fiend"
 	icon_state = "dreamfiend"
 	icon_living = "dreamfiend"
@@ -184,7 +185,7 @@
 
 /obj/effect/decal/cleanable/dreamfiend_ichor
 	name = "vile ichor"
-	desc = "this dark shifting liquid looks impossibly deep"
+	desc = "This dark shifting liquid looks impossibly deep."
 	icon = 'icons/mob/abyssal_small.dmi'
 	icon_state = "dreamfiend_dead"
 	beauty = -100

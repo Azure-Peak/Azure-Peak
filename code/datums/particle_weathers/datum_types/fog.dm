@@ -14,6 +14,15 @@
 	maxSpawning           = 40
 	wind                   = 5
 
+
+/datum/particle_weather/fog/necra
+	weather_duration_upper = 5 HOURS
+	name = "Necra Fog"
+	particleEffectType = /particles/weather/fog/necra
+
+/particles/weather/fog/necra
+	gradient               = list(0,"#7c9b98",100,"#5ea9b6","loop")
+
 /particles/weather/fog/bloodfog
 	gradient               = list(0,"#5e0101",100,"#230000","loop")
 
@@ -93,7 +102,7 @@
 	maxSeverityChange = 2
 	severitySteps = 5
 	immunity_type = TRAIT_RAINSTORM_IMMUNE
-	probability = 1
+	probability = 30
 	target_trait = PARTICLEWEATHER_RAIN
 	#ifndef  SPACEMAN_DMM
 	filter_type = filter(type="alpha", render_source = O_LIGHTING_VISUAL_RENDER_TARGET, flags = MASK_INVERSE)
@@ -128,12 +137,15 @@
 /datum/particle_weather/fog/swamp
 	name = "Swamp Fog"
 	particleEffectType = /particles/weather/fog/swamp
+	probability = 10
 
 /datum/particle_weather/fog/darkness
 	name = "Omen of Darkness Fog"
 	particleEffectType = /particles/weather/dark
+	probability = 1
 
 /datum/particle_weather/fog/blood
 	name = "Omen of Blood Feat Fog"
 	particleEffectType = /particles/weather/fog/bloodfog
+	probability = 1
 

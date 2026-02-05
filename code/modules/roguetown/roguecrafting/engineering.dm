@@ -164,7 +164,7 @@
 //crossbows, crossbow bolts, and specialized arrows and bolts
 //adding in crossbows and bolts at a reduced cost and seeing if this upsets any balance. If it works I may add in other bows and arrows using planks
 /datum/crafting_recipe/roguetown/engineering/crossbow
-	name = "Crossbow"
+	name = "crossbow"
 	category = "Weapons"
 	result = /obj/item/gun/ballistic/revolver/grenadelauncher/crossbow
 	reqs = list(/obj/item/ingot/steel = 1, /obj/item/natural/fibers = 1, /obj/item/natural/wood/plank = 2)
@@ -173,9 +173,9 @@
 	craftdiff = 3
 
 /datum/crafting_recipe/roguetown/engineering/twentybolts
-	name = "Crossbow Bolts 20x"
+	name = "crossbow bolt (x20)"
 	category = "Ammo"
-	reqs = list(/obj/item/natural/wood/plank = 3, /obj/item/ingot/iron)
+	reqs = list(/obj/item/natural/wood/plank = 3, /obj/item/ingot/iron = 1)
 	result = list(/obj/item/ammo_casing/caseless/rogue/bolt,
 						/obj/item/ammo_casing/caseless/rogue/bolt,
 						/obj/item/ammo_casing/caseless/rogue/bolt,
@@ -200,7 +200,146 @@
 	structurecraft = /obj/machinery/artificer_table
 	skillcraft = /datum/skill/craft/engineering
 	craftdiff = 3
-	
+
+/datum/crafting_recipe/roguetown/engineering/twentyboltsbronze
+	name = "hastequilled crossbow bolt, bronze (x20)"
+	category = "Ammo"
+	reqs = list(/obj/item/natural/wood/plank = 3, /obj/item/ingot/bronze = 1)
+	result = list(/obj/item/ammo_casing/caseless/rogue/bolt/bronze,
+						/obj/item/ammo_casing/caseless/rogue/bolt/bronze,
+						/obj/item/ammo_casing/caseless/rogue/bolt/bronze,
+						/obj/item/ammo_casing/caseless/rogue/bolt/bronze,
+						/obj/item/ammo_casing/caseless/rogue/bolt/bronze,
+						/obj/item/ammo_casing/caseless/rogue/bolt/bronze,
+						/obj/item/ammo_casing/caseless/rogue/bolt/bronze,
+						/obj/item/ammo_casing/caseless/rogue/bolt/bronze,
+						/obj/item/ammo_casing/caseless/rogue/bolt/bronze,
+						/obj/item/ammo_casing/caseless/rogue/bolt/bronze,
+						/obj/item/ammo_casing/caseless/rogue/bolt/bronze,
+						/obj/item/ammo_casing/caseless/rogue/bolt/bronze,
+						/obj/item/ammo_casing/caseless/rogue/bolt/bronze,
+						/obj/item/ammo_casing/caseless/rogue/bolt/bronze,
+						/obj/item/ammo_casing/caseless/rogue/bolt/bronze,
+						/obj/item/ammo_casing/caseless/rogue/bolt/bronze,
+						/obj/item/ammo_casing/caseless/rogue/bolt/bronze,
+						/obj/item/ammo_casing/caseless/rogue/bolt/bronze,
+						/obj/item/ammo_casing/caseless/rogue/bolt/bronze,
+						/obj/item/ammo_casing/caseless/rogue/bolt/bronze,
+					)
+	structurecraft = /obj/machinery/artificer_table
+	skillcraft = /datum/skill/craft/engineering
+	craftdiff = 3
+
+/datum/crafting_recipe/roguetown/engineering/lightcrossbow
+	name = "crossbow, stockless"
+	category = "Weapons"
+	result = /obj/item/gun/ballistic/revolver/grenadelauncher/crossbow/light
+	reqs = list(/obj/item/ingot/steel = 1, /obj/item/natural/fibers = 2, /obj/item/natural/wood/plank = 2, /obj/item/roguegear = 1) //More fibers and a gear to support its drawstrength.
+	structurecraft = /obj/machinery/artificer_table
+	skillcraft = /datum/skill/craft/engineering
+	craftdiff = 5
+
+/datum/crafting_recipe/roguetown/engineering/heavycrossbow
+	name = "siegebow with heavy bolt pouch"
+	category = "Weapons"
+	result = list(/obj/item/gun/ballistic/revolver/grenadelauncher/crossbow/heavy,
+						/obj/item/quiver/bolt/heavy,
+					)
+	reqs = list(/obj/item/roguegear = 2, /obj/item/ingot/steel = 2, /obj/item/natural/fibers = 4, /obj/item/natural/wood/plank = 4, /obj/item/natural/hide/cured = 2)
+	structurecraft = /obj/machinery/artificer_table
+	skillcraft = /datum/skill/craft/engineering
+	craftdiff = 5
+
+/datum/crafting_recipe/roguetown/engineering/heavyboltsminor
+	name = "heavy bolts (x4)"
+	category = "Ammo"
+	reqs = list(/obj/item/natural/wood/plank = 2, /obj/item/ingot/steel = 1)
+	result = list(/obj/item/ammo_casing/caseless/rogue/heavy_bolt,
+						/obj/item/ammo_casing/caseless/rogue/heavy_bolt,
+						/obj/item/ammo_casing/caseless/rogue/heavy_bolt,
+						/obj/item/ammo_casing/caseless/rogue/heavy_bolt,
+					)
+	structurecraft = /obj/machinery/artificer_table
+	skillcraft = /datum/skill/craft/engineering
+	craftdiff = 5
+
+/datum/crafting_recipe/roguetown/engineering/heavyboltsmajor
+	name = "heavy bolts (x8)"
+	category = "Ammo"
+	reqs = list(/obj/item/natural/wood/plank = 4, /obj/item/ingot/steel = 2)
+	result = list(/obj/item/ammo_casing/caseless/rogue/heavy_bolt,
+						/obj/item/ammo_casing/caseless/rogue/heavy_bolt,
+						/obj/item/ammo_casing/caseless/rogue/heavy_bolt,
+						/obj/item/ammo_casing/caseless/rogue/heavy_bolt,
+						/obj/item/ammo_casing/caseless/rogue/heavy_bolt,
+						/obj/item/ammo_casing/caseless/rogue/heavy_bolt,
+						/obj/item/ammo_casing/caseless/rogue/heavy_bolt,
+						/obj/item/ammo_casing/caseless/rogue/heavy_bolt,
+					)
+	structurecraft = /obj/machinery/artificer_table
+	skillcraft = /datum/skill/craft/engineering
+	craftdiff = 5
+
+/datum/crafting_recipe/roguetown/engineering/heavyboltsminorblunt
+	name = "blunt heavy bolts, iron (x4)"
+	category = "Ammo"
+	reqs = list(/obj/item/natural/wood/plank = 2, /obj/item/ingot/iron = 1)
+	result = list(/obj/item/ammo_casing/caseless/rogue/heavy_bolt/blunt,
+						/obj/item/ammo_casing/caseless/rogue/heavy_bolt/blunt,
+						/obj/item/ammo_casing/caseless/rogue/heavy_bolt/blunt,
+						/obj/item/ammo_casing/caseless/rogue/heavy_bolt/blunt,
+					)
+	structurecraft = /obj/machinery/artificer_table
+	skillcraft = /datum/skill/craft/engineering
+	craftdiff = 5
+
+/datum/crafting_recipe/roguetown/engineering/heavyboltsmajorblunt
+	name = "blunt heavy bolts, iron (x8)"
+	category = "Ammo"
+	reqs = list(/obj/item/natural/wood/plank = 4, /obj/item/ingot/iron = 2)
+	result = list(/obj/item/ammo_casing/caseless/rogue/heavy_bolt/blunt,
+						/obj/item/ammo_casing/caseless/rogue/heavy_bolt/blunt,
+						/obj/item/ammo_casing/caseless/rogue/heavy_bolt/blunt,
+						/obj/item/ammo_casing/caseless/rogue/heavy_bolt/blunt,
+						/obj/item/ammo_casing/caseless/rogue/heavy_bolt/blunt,
+						/obj/item/ammo_casing/caseless/rogue/heavy_bolt/blunt,
+						/obj/item/ammo_casing/caseless/rogue/heavy_bolt/blunt,
+						/obj/item/ammo_casing/caseless/rogue/heavy_bolt/blunt,
+					)
+	structurecraft = /obj/machinery/artificer_table
+	skillcraft = /datum/skill/craft/engineering
+	craftdiff = 5
+
+/datum/crafting_recipe/roguetown/engineering/heavyboltsminorbronze
+	name = "hastequilled heavy bolts, bronze (x4)"
+	category = "Ammo"
+	reqs = list(/obj/item/natural/wood/plank = 2, /obj/item/ingot/bronze = 1)
+	result = list(/obj/item/ammo_casing/caseless/rogue/heavy_bolt/bronze,
+						/obj/item/ammo_casing/caseless/rogue/heavy_bolt/bronze,
+						/obj/item/ammo_casing/caseless/rogue/heavy_bolt/bronze,
+						/obj/item/ammo_casing/caseless/rogue/heavy_bolt/bronze,
+					)
+	structurecraft = /obj/machinery/artificer_table
+	skillcraft = /datum/skill/craft/engineering
+	craftdiff = 5
+
+/datum/crafting_recipe/roguetown/engineering/heavyboltsmajorbronze
+	name = "hastequilled heavy bolts, bronze (x8)"
+	category = "Ammo"
+	reqs = list(/obj/item/natural/wood/plank = 4, /obj/item/ingot/bronze = 2)
+	result = list(/obj/item/ammo_casing/caseless/rogue/heavy_bolt/bronze,
+						/obj/item/ammo_casing/caseless/rogue/heavy_bolt/bronze,
+						/obj/item/ammo_casing/caseless/rogue/heavy_bolt/bronze,
+						/obj/item/ammo_casing/caseless/rogue/heavy_bolt/bronze,
+						/obj/item/ammo_casing/caseless/rogue/heavy_bolt/bronze,
+						/obj/item/ammo_casing/caseless/rogue/heavy_bolt/bronze,
+						/obj/item/ammo_casing/caseless/rogue/heavy_bolt/bronze,
+						/obj/item/ammo_casing/caseless/rogue/heavy_bolt/bronze,
+					)
+	structurecraft = /obj/machinery/artificer_table
+	skillcraft = /datum/skill/craft/engineering
+	craftdiff = 5
+
 //pyro arrow crafting, from stonekeep
 /datum/crafting_recipe/roguetown/engineering/pyrobolt
 	name = "pyroclastic bolt"
@@ -276,7 +415,7 @@
 
 //rotational and minecart parts
 /datum/crafting_recipe/roguetown/engineering/shaft
-	name = "wooden shaft(6x)"
+	name = "wooden shaft (6x)"
 	category = "Rotational"
 	result = list(/obj/item/rotation_contraption/shaft,
 				  /obj/item/rotation_contraption/shaft,
@@ -318,7 +457,7 @@
 
 
 /datum/crafting_recipe/roguetown/engineering/waterwheel
-	name = "wooden waterwheel(2x)"
+	name = "wooden waterwheel (2x)"
 	category = "Rotational"
 	result = list(/obj/item/rotation_contraption/waterwheel,
 				  /obj/item/rotation_contraption/waterwheel)
@@ -330,7 +469,7 @@
 	craftdiff = 4
 
 /datum/crafting_recipe/roguetown/engineering/large_cog
-	name = "large wooden cogwheel(2x)"
+	name = "large wooden cogwheel (2x)"
 	category = "Rotational"
 	result = list(/obj/item/rotation_contraption/large_cog,
 				  /obj/item/rotation_contraption/large_cog)
@@ -342,7 +481,7 @@
 	craftdiff = 4
 
 /datum/crafting_recipe/roguetown/engineering/gearbox
-	name = "gearbox(2x)"
+	name = "gearbox (2x)"
 	category = "Rotational"
 	result = list(/obj/item/rotation_contraption/horizontal,
 				  /obj/item/rotation_contraption/horizontal)
@@ -353,7 +492,7 @@
 	craftdiff = 4
 
 /datum/crafting_recipe/roguetown/engineering/vertical_gearbox
-	name = "vertical gearbox(2x)"
+	name = "vertical gearbox (2x)"
 	category = "Rotational"
 	result = list(/obj/item/rotation_contraption/vertical,
 				  /obj/item/rotation_contraption/vertical)
@@ -422,7 +561,7 @@
 
 // ------------ Explosives expansion----------
 /datum/crafting_recipe/roguetown/engineering/tntbomb
-	name = "blastsand sticks"
+	name = "blastpowder stick"
 	category = "Explosives"
 	result = /obj/item/tntstick
 	reqs = list(/obj/item/paper = 2, /obj/item/alch/coaldust = 1, /obj/item/compost = 1, /obj/item/natural/fibers = 1)
@@ -430,9 +569,8 @@
 	skillcraft = /datum/skill/craft/engineering
 	craftdiff = 4
 
-
 /datum/crafting_recipe/roguetown/engineering/satchelbomb
-	name = "blastsand satchel"
+	name = "blastpowder satchel"
 	category = "Explosives"
 	result = /obj/item/satchel_bomb
 	reqs = list(/obj/item/storage/backpack/rogue/satchel  = 1, /obj/item/tntstick = 3, /obj/item/alch/firedust = 1, /obj/item/natural/fibers = 1)
@@ -440,29 +578,31 @@
 	skillcraft = /datum/skill/craft/engineering
 	craftdiff = 4
 
-
+//increasing the number to reflect the effort it takes to get fyritius and firedust
 /datum/crafting_recipe/roguetown/engineering/impactexplosive
-	name = "explosive grenade"
+	name = "impact grenades (x3)"
 	category = "Explosives"
-	result = /obj/item/impact_grenade/explosion
+	result = list(/obj/item/impact_grenade/explosion,
+				  /obj/item/impact_grenade/explosion,
+				  /obj/item/impact_grenade/explosion)
 	reqs = list(/obj/item/natural/clay = 1, /obj/item/paper = 1, /obj/item/alch/coaldust = 1, /obj/item/alch/firedust = 1, /obj/item/reagent_containers/food/snacks/grown/rogue/fyritius = 1)
 	structurecraft = /obj/machinery/artificer_table
 	skillcraft = /datum/skill/craft/engineering
 	craftdiff = 4
 
 /datum/crafting_recipe/roguetown/engineering/impactsmoke
-	name = "smoke grenade"
+	name = "smoke grenades (x3)"
 	category = "Explosives"
 	result = list(/obj/item/impact_grenade/smoke, 
 				  /obj/item/impact_grenade/smoke,
 				  /obj/item/impact_grenade/smoke,)
-	reqs =  list(/obj/item/smokeshell= 3, /obj/item/alch/coaldust = 1, /obj/item/ash = 1, /datum/reagent/water = 48)
+	reqs =  list(/obj/item/smokeshell = 3, /obj/item/alch/coaldust = 1, /obj/item/ash = 1, /datum/reagent/water = 48)
 	structurecraft = /obj/machinery/artificer_table
 	skillcraft = /datum/skill/craft/engineering
 	craftdiff = 4
 
 /datum/crafting_recipe/roguetown/engineering/impactpoisonsmoke
-	name = "poison smoke grenade"
+	name = "smoke grenades, poisonous (x3)"
 	category = "Explosives"
 	result = list(/obj/item/impact_grenade/smoke/poison_gas,
 				  /obj/item/impact_grenade/smoke/poison_gas,
@@ -473,7 +613,7 @@
 	craftdiff = 4
 
 /datum/crafting_recipe/roguetown/engineering/impactfiresmoke
-	name = "conflagaration smoke grenade"
+	name = "smoke grenades, incendiary (x3)"
 	category = "Explosives"
 	result = list(/obj/item/impact_grenade/smoke/fire_gas,
 				  /obj/item/impact_grenade/smoke/fire_gas,
@@ -484,7 +624,7 @@
 	craftdiff = 4
 
 /datum/crafting_recipe/roguetown/engineering/impactblindingsmoke
-	name = "blinding smoke grenade"
+	name = "smoke grenades, blinding (x3)"
 	category = "Explosives"
 	result = list(/obj/item/impact_grenade/smoke/blind_gas,
 				  /obj/item/impact_grenade/smoke/blind_gas,
@@ -495,7 +635,7 @@
 	craftdiff = 4
 
 /datum/crafting_recipe/roguetown/engineering/impactmutesmoke
-	name = "mute smoke grenade"
+	name = "smoke grenades, muting (x3)"
 	category = "Explosives"
 	result = list(/obj/item/impact_grenade/smoke/mute_gas,
 				  /obj/item/impact_grenade/smoke/mute_gas,
@@ -506,7 +646,7 @@
 	craftdiff = 4
 
 /datum/crafting_recipe/roguetown/engineering/impacthealingsmoke
-	name = "healing smoke grenade"
+	name = "smoke grenades, healing (x3)"
 	category = "Explosives"
 	result = list(/obj/item/impact_grenade/smoke/healing_gas,
 				  /obj/item/impact_grenade/smoke/healing_gas,
@@ -517,12 +657,18 @@
 	craftdiff = 4
 
 // ------------ Craftable Traps ----------
-//trying out adding in traps, we'll start with 3 of them. 
+//setting these up as a more "arcane" alternative to trap making done with engineering. 
 
-
+/datum/crafting_recipe/roguetown/engineering/rocktrap
+	name = "rock trap (engineered)"
+	category = "Traps"
+	result = /obj/structure/trap/rock_fall
+	reqs =  list(/obj/item/roguegear = 1, /obj/item/natural/clay = 2, /obj/item/roguegem/amethyst = 1, /obj/item/alch/irondust =1, /obj/item/natural/rock = 1)
+	skillcraft = /datum/skill/craft/engineering
+	craftdiff = 4
 
 /datum/crafting_recipe/roguetown/engineering/sawbladetrap
-	name = "saw blades trap"
+	name = "saw blades trap (engineered)"
 	category = "Traps"
 	result = /obj/structure/trap/saw_blades
 	reqs =  list(/obj/item/roguegear = 2, /obj/item/natural/clay = 2, /obj/item/roguegem/amethyst = 1, /obj/item/alch/irondust =1, /obj/item/natural/whetstone = 1)
@@ -530,7 +676,7 @@
 	craftdiff = 5
 
 /datum/crafting_recipe/roguetown/engineering/flametrap
-	name = "flame trap"
+	name = "flame trap (engineered)"
 	category = "Traps"
 	result = /obj/structure/trap/flame
 	reqs =  list(/obj/item/roguegear = 1, /obj/item/natural/clay = 2, /obj/item/roguegem/amethyst = 1, /obj/item/alch/irondust =1, /obj/item/alch/firedust =1)
@@ -538,9 +684,17 @@
 	craftdiff = 5
 
 /datum/crafting_recipe/roguetown/engineering/shocktrap
-	name = "shock trap"
+	name = "shock trap (engineered)"
 	category = "Traps"
 	result = /obj/structure/trap/shock
 	reqs =  list(/obj/item/roguegear = 1, /obj/item/natural/clay = 2, /obj/item/roguegem/amethyst = 1, /obj/item/alch/irondust =1, /obj/item/alch/magicdust =1)
+	skillcraft = /datum/skill/craft/engineering
+	craftdiff = 6
+
+/datum/crafting_recipe/roguetown/engineering/bombtrap
+	name = "bomb trap (engineered)"
+	category = "Traps"
+	result = /obj/structure/trap/bomb
+	reqs =  list(/obj/item/roguegear = 1, /obj/item/natural/clay = 2, /obj/item/roguegem/amethyst = 1, /obj/item/alch/irondust =1, /obj/item/impact_grenade/explosion = 1)
 	skillcraft = /datum/skill/craft/engineering
 	craftdiff = 6

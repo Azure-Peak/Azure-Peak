@@ -43,7 +43,7 @@
 		if(C.prefs.chat_toggles & CHAT_PRAYER)
 			to_chat(C, msg)
 			if(C.prefs.toggles & SOUND_PRAYERS)
-				if(usr.job == "Priest")
+				if(HAS_TRAIT(usr, TRAIT_CHOSEN))
 					SEND_SOUND(C, sound('sound/pray.ogg'))
 
 	for(var/mob/M in GLOB.dead_mob_list)

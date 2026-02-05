@@ -117,7 +117,7 @@
 /obj/structure/chair/wood
 	icon_state = "chair1"
 	name = "chair"
-	desc = ""
+	desc = "I have four legs, but I never run. I may have arms, but never hands. What am I?"
 	icon = 'icons/roguetown/misc/structure.dmi'
 	resistance_flags = FLAMMABLE
 	max_integrity = 70

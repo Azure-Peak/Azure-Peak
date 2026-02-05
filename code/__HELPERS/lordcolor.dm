@@ -22,13 +22,12 @@ GLOBAL_VAR(lordsecondary)
 		return
 	var/prim
 	var/sec
-	var/choice = input(src, "Choose a Primary Color", "ROGUETOWN") as anything in colorlist
+	var/choice = input(src, "Choose a Primary Color", "ROYAL STANDARD") as anything in COLOR_MAP
 	if(choice)
-		prim = colorlist[choice]
-		colorlist -= choice
-	choice = input(src, "Choose a Secondary Color", "ROGUETOWN") as anything in colorlist
+		prim = COLOR_MAP[choice]
+	choice = input(src, "Choose a Secondary Color", "ROYAL STANDARD") as anything in COLOR_MAP
 	if(choice)
-		sec = colorlist[choice]
+		sec = COLOR_MAP[choice]
 	if(!prim || !sec)
 		GLOB.lordcolor = list()
 		return
@@ -36,10 +35,9 @@ GLOBAL_VAR(lordsecondary)
 	GLOB.lordsecondary = sec
 	for(var/obj/O in GLOB.lordcolor)
 		O.lordcolor(prim,sec)
-		GLOB.lordcolor -= O
+		
 	for(var/turf/T in GLOB.lordcolor)
 		T.lordcolor(prim,sec)
-		GLOB.lordcolor -= T
 
 /proc/lord_color_default()
 	GLOB.lordprimary = "#007fff" //AZURE

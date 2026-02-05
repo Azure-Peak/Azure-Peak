@@ -1,9 +1,8 @@
 /obj/item/clothing/gloves/roguetown/plate
 	name = "plate gauntlets"
-	desc = "Plate gauntlets made out of steel. Good all-around protection for the hands."
+	desc = "A pair of alloyed gauntlets. Each finger is afforded a trinity of segments; with it, one can use a quill as precisely as an arming sword."
 	icon_state = "gauntlets"
 	armor = ARMOR_PLATE
-	prevent_crits = list(BCLASS_CHOP, BCLASS_CUT, BCLASS_BLUNT, BCLASS_TWIST)
 	resistance_flags = FIRE_PROOF
 	blocksound = PLATEHIT
 	max_integrity = ARMOR_INT_SIDE_STEEL
@@ -19,9 +18,13 @@
 	grid_height = 32
 	unarmed_bonus = 1.2
 
+/obj/item/clothing/gloves/roguetown/plate/ComponentInitialize()
+	AddComponent(/datum/component/armour_filtering/positive, TRAIT_FENCERDEXTERITY)
+	AddComponent(/datum/component/armour_filtering/negative, TRAIT_HONORBOUND)
+
 /obj/item/clothing/gloves/roguetown/plate/iron
 	name = "iron plate gauntlets"
-	desc = "Plate gauntlets made out of iron. Good all-around protection for the hands. Slightly less durable than its steel counterpart."
+	desc = "A pair of armored gauntlets. The joints, though simplistic, nevertheless allow for the strumming of both a bowstring and lute."
 	icon_state = "igauntlets"
 	smeltresult = /obj/item/ingot/iron
 	max_integrity = ARMOR_INT_SIDE_IRON
@@ -32,8 +35,10 @@
 	icon_state = "agauntlets"
 	max_integrity = ARMOR_INT_SIDE_DECREPIT
 	color = "#bb9696"
+	chunkcolor = "#532e25"
 	smeltresult = /obj/item/ingot/aaslag
 	anvilrepair = null
+	prevent_crits = PREVENT_CRITS_NONE
 
 /obj/item/clothing/gloves/roguetown/plate/paalloy
 	name = "ancient plate gauntlets"
@@ -43,7 +48,7 @@
 
 /obj/item/clothing/gloves/roguetown/plate/graggar
 	name = "vicious gauntlets"
-	desc = "Plate gauntlets which carry the motive force of this world, violence."
+	desc = "Fluted gauntlets, razor-tipped and fluidic in motion. Most are led to believe that 'might makes right', yet Graggar's truth is far more succinct - 'might makes'. Murder is the ultimate force; the only difference between you and them is that they're too afraid to admit it."
 	max_integrity = ARMOR_INT_SIDE_ANTAG
 	icon_state = "graggarplategloves"
 
@@ -70,9 +75,10 @@
 
 /obj/item/clothing/gloves/roguetown/plate/zizo
 	name = "avantyne gauntlets"
-	desc = "avantyne plate gauntlets. Called forth from the edge of what should be known. In Her name."
+	desc = "Unknowing truths, veiling the hands that prayed. Called forth from the edge of what should be known, in Her name."
 	icon_state = "zizogauntlets"
 	max_integrity = ARMOR_INT_SIDE_ANTAG
+	chunkcolor = "#363030"
 
 /obj/item/clothing/gloves/roguetown/plate/zizo/Initialize()
 	. = ..()
@@ -90,6 +96,8 @@
 	icon_state = "shadowgauntlets"
 	allowed_race = NON_DWARVEN_RACE_TYPES
 	body_parts_covered = HANDS|ARMS //For "heavy" drow merc
+	smeltresult = /obj/item/ingot/drow
+	smelt_bar_num = 1
 
 /obj/item/clothing/gloves/roguetown/plate/kote
 	name = "jjajeungna gauntlets"
@@ -105,8 +113,8 @@
 /obj/item/clothing/gloves/roguetown/plate/kote/attack_right(mob/user)
 	..()
 	if(!picked)
-		var/choice = input(user, "Choose a color.", "Uniform colors") as anything in colorlist
-		var/playerchoice = colorlist[choice]
+		var/choice = input(user, "Choose a color.", "Uniform colors") as anything in COLOR_MAP
+		var/playerchoice = COLOR_MAP[choice]
 		picked = TRUE
 		detail_color = playerchoice
 		detail_tag = "_detail"

@@ -18,6 +18,9 @@
 	component_type = /datum/component/storage/concrete/tray
 	var/tray_display_dummies = list()
 
+/obj/item/storage/bag/tray/check_spill()
+	return
+
 /obj/item/storage/bag/tray/psy
 	name = "tray"
 	icon = 'icons/obj/food/containers.dmi'

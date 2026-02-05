@@ -5,9 +5,8 @@
 		/obj/item/reagent_containers/food/snacks/rogue/meat/sausage = 1,
 		/obj/item/reagent_containers/powder/salt = 1)
 	result = /obj/item/reagent_containers/food/snacks/rogue/meat/salami
-	req_table = FALSE
 	structurecraft = /obj/machinery/tanningrack
-	craftdiff = 0
+	craftdiff = 2
 
 /datum/crafting_recipe/roguetown/cooking/coppiette
 	name = "coppiette"
@@ -15,8 +14,7 @@
 		/obj/item/reagent_containers/food/snacks/rogue/meat/steak = 1,
 		/obj/item/reagent_containers/powder/salt = 1)
 	result = /obj/item/reagent_containers/food/snacks/rogue/meat/coppiette
-	req_table = FALSE
-	craftdiff = 0
+	craftdiff = 1
 	structurecraft = /obj/machinery/tanningrack
 
 /datum/crafting_recipe/roguetown/cooking/salo
@@ -25,17 +23,139 @@
 		/obj/item/reagent_containers/food/snacks/fat = 1,
 		/obj/item/reagent_containers/powder/salt = 1)
 	result = /obj/item/reagent_containers/food/snacks/fat/salo
-	craftdiff = 0
+	craftdiff = 1
 	structurecraft = /obj/machinery/tanningrack
-	req_table = FALSE
 
 /datum/crafting_recipe/roguetown/cooking/raisins
 	name = "raisins"
 	reqs = list(/obj/item/reagent_containers/food/snacks/grown/berries/rogue = 1)
-	parts = list(
-		/obj/item/reagent_containers/food/snacks/grown/berries/rogue = 1)
+	parts = list(/obj/item/reagent_containers/food/snacks/grown/berries/rogue = 1)
 	result = /obj/item/reagent_containers/food/snacks/rogue/raisins
 	structurecraft = /obj/machinery/tanningrack
-	req_table = FALSE
-	craftdiff = 0
+	craftdiff = 1
 	subtype_reqs = TRUE
+
+/datum/crafting_recipe/roguetown/cooking/trailmix
+	name = "trail-mix"
+	reqs = list(
+		/obj/item/reagent_containers/food/snacks/rogue/raisins = 1,
+		/obj/item/reagent_containers/food/snacks/rogue/fruit/pumpkin_sliced = 1,
+		/obj/item/reagent_containers/food/snacks/roastseeds = 1,
+		/obj/item/ration = 1
+		)
+	result = /obj/item/reagent_containers/food/snacks/rogue/trailmix
+	structurecraft = /obj/machinery/tanningrack
+	craftdiff = 2
+
+/datum/crafting_recipe/roguetown/cooking/fish
+	name = "dried fish filet"
+	reqs = list(
+		/obj/item/reagent_containers/food/snacks/rogue/meat/fish = 1,
+		/obj/item/reagent_containers/powder/salt = 1)
+	result = /obj/item/reagent_containers/food/snacks/rogue/meat/driedfishfilet
+	craftdiff = 2
+	structurecraft = /obj/machinery/tanningrack
+
+/datum/crafting_recipe/roguetown/cooking/frybirdbucket
+	name = "frybird bucket"
+	reqs = list(
+		/obj/item/reagent_containers/food/snacks/rogue/meat/poultry/cutlet/fried = 3,
+		/obj/item/reagent_containers/glass/bucket = 1,
+		/obj/item/reagent_containers/powder/salt = 1)
+	result = /obj/item/reagent_containers/food/snacks/rogue/frybirdbucket
+	craftdiff = 3
+
+/datum/crafting_recipe/roguetown/cooking/dryleaf
+	name = "dry swampweed"
+	result = /obj/item/reagent_containers/food/snacks/grown/rogue/swampweeddry
+	reqs = list(/obj/item/reagent_containers/food/snacks/grown/rogue/swampweed = 1)
+	structurecraft = /obj/machinery/tanningrack
+	time = 2 SECONDS
+	verbage_simple = "dry"
+	verbage = "dries"
+	craftsound = null
+
+/datum/crafting_recipe/roguetown/cooking/drytea
+	name = "dry tea leaves"
+	result = /obj/item/reagent_containers/food/snacks/grown/rogue/tealeaves_dry
+	reqs = list(/obj/item/reagent_containers/food/snacks/grown/tea = 1)
+	structurecraft = /obj/machinery/tanningrack
+	time = 2 SECONDS
+	verbage_simple = "dry"
+	verbage = "dries"
+	craftsound = null
+
+/datum/crafting_recipe/roguetown/cooking/dryweed
+	name = "dry westleach leaf"
+	result = /obj/item/reagent_containers/food/snacks/grown/rogue/pipeweeddry
+	reqs = list(/obj/item/reagent_containers/food/snacks/grown/rogue/pipeweed = 1)
+	structurecraft = /obj/machinery/tanningrack
+	time = 2 SECONDS
+	verbage_simple = "dry"
+	verbage = "dries"
+	craftsound = null
+
+/datum/crafting_recipe/roguetown/cooking/dryrosa
+	name = "dry rosa petals"
+	result = /obj/item/reagent_containers/food/snacks/grown/rogue/rosa_petals_dried
+	reqs = list(/obj/item/reagent_containers/food/snacks/grown/rogue/rosa_petals = 1)
+	structurecraft = /obj/machinery/tanningrack
+	time = 2 SECONDS
+	verbage_simple = "dry"
+	verbage = "dries"
+	craftsound = null
+
+/datum/crafting_recipe/roguetown/cooking/sigsweet/cheroot
+	name = "cheroot - swampweed"
+	result = /obj/item/clothing/mask/cigarette/rollie/cannabis/cheroot
+	reqs = list(
+		/obj/item/reagent_containers/food/snacks/grown/rogue/swampweeddry = 1,
+		/obj/item/reagent_containers/food/snacks/grown/rogue/pipeweeddry = 1,
+		)
+	time = 10 SECONDS
+	verbage_simple = "roll"
+	verbage = "rolls"
+
+/datum/crafting_recipe/roguetown/cooking/sigdry/cheroot
+	name = "cheroot - westleach"
+	result = /obj/item/clothing/mask/cigarette/rollie/nicotine/cheroot
+	reqs = list(
+		/obj/item/reagent_containers/food/snacks/grown/rogue/pipeweeddry = 1,
+		/obj/item/reagent_containers/food/snacks/grown/rogue/pipeweed = 1,
+		)
+	time = 10 SECONDS
+	verbage_simple = "roll"
+	verbage = "rolls"
+
+/datum/crafting_recipe/roguetown/cooking/sigsweet
+	name = "zig - swampweed"
+	result = /obj/item/clothing/mask/cigarette/rollie/cannabis
+	reqs = list(
+		/obj/item/reagent_containers/food/snacks/grown/rogue/swampweeddry = 1,
+		/obj/item/paper = 1,
+		)
+	time = 10 SECONDS
+	verbage_simple = "roll"
+	verbage = "rolls"
+
+/datum/crafting_recipe/roguetown/cooking/sigdry
+	name = "zig - westleach"
+	result = /obj/item/clothing/mask/cigarette/rollie/nicotine
+	reqs = list(
+		/obj/item/reagent_containers/food/snacks/grown/rogue/pipeweeddry = 1,
+		/obj/item/paper = 1,
+		)
+	time = 10 SECONDS
+	verbage_simple = "roll"
+	verbage = "rolls"
+
+/datum/crafting_recipe/roguetown/cooking/rocknutdry
+	name = "zig - rocknut"
+	result = /obj/item/clothing/mask/cigarette/rollie/nicotine
+	reqs = list(
+		/obj/item/reagent_containers/powder/rocknut = 1,
+		/obj/item/paper = 1,
+		)
+	time = 10 SECONDS
+	verbage_simple = "roll"
+	verbage = "rolls"

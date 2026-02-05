@@ -2,7 +2,7 @@
 /mob/living/simple_animal/hostile/retaliate/rogue/cow
 	icon = 'icons/roguetown/mob/monster/cow.dmi'
 	name = "cow"
-	desc = ""
+	desc = "Cattle are a staple of animal husbandry across the world, both for their milk and for their meat."
 	icon_state = "cow"
 	icon_living = "cow"
 	icon_dead = "cow_dead"
@@ -66,7 +66,6 @@
 
 /mob/living/simple_animal/hostile/retaliate/rogue/cow/cowlet
 	name = "calf"
-	desc = ""
 	icon_state = "cowlet"
 	icon_living = "cowlet"
 	icon_dead = "cowlet_dead"
@@ -142,7 +141,8 @@
 
 /mob/living/simple_animal/hostile/retaliate/rogue/bull
 	icon = 'icons/roguetown/mob/monster/cow.dmi'
-	name = "cow"
+	name = "bull"
+	desc = "Cattle are a staple of animal husbandry across the world, both for their milk and for their meat."
 	icon_state = "bull"
 	icon_living = "bull"
 	icon_dead = "bull_dead"
@@ -255,7 +255,6 @@
 
 /mob/living/simple_animal/hostile/retaliate/rogue/cow/bullet
 	name = "calf"
-	desc = ""
 	gender = MALE
 	icon_state = "bullet"
 	icon_living = "bullet"

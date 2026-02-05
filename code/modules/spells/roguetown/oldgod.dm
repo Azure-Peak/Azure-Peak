@@ -13,8 +13,8 @@
 	warnie = "sydwarning"
 	movement_interrupt = FALSE
 	sound = 'sound/magic/ENDVRE.ogg'
-	invocations = list("ENDURE!","GET UP!","COME ON!") //Kept intentionally vague as to whether it's genuine magic or just a very inspiring attempt to rally the target, like with 'PRAYER'. Invigorate the wounded; give them the motivation to thug it out.
-	invocation_type = "shout"
+	invocations = list(span_blue("quietly recites an orison, invoking the warmth of a dying light."))
+	invocation_type = "emote"
 	associated_skill = /datum/skill/magic/holy
 	antimagic_allowed = FALSE
 	recharge_time = 30 SECONDS
@@ -70,6 +70,8 @@
 						psicross_bonus = 0.4	
 					if(/obj/item/clothing/neck/roguetown/psicross/g) // PURITY AFLOAT.
 						psicross_bonus = 0.5
+					if(/obj/item/clothing/neck/roguetown/psicross/weeping)
+						psicross_bonus = 0.7
 					if(/obj/item/clothing/neck/roguetown/psicross/inhumen/aalloy)
 						zcross_trigger = TRUE	
 
@@ -399,15 +401,15 @@
 	warnie = "sydwarning"
 	movement_interrupt = FALSE
 	sound = null
-	invocations = list("#..our father above, hallowed be thy name..","#..thy kingdom come, thy will be done..","#..I fear no evil, for thou art with me..") //Like with 'ENDURE', it's kept vague as to whether this is an acutal miracle or not. Fluffs it as a proper prayer, incantations and all!
-	invocation_type = "shout"
+	invocations = list(span_blue("quietly recites a prayer, steadying their mind."))
+	invocation_type = "emote"
 	associated_skill = /datum/skill/magic/holy
 	antimagic_allowed = FALSE
 	recharge_time = 5 SECONDS
 	miracle = TRUE
 	devotion_cost = 0 //Doesn't have an initial cost, but charges the caster once they're interrupted or have cycled a couple times. Check the 'if-doafter' line near the bottom if you wish to fiddle with the logic.
 
-/obj/effect/proc_holder/spell/self/psydonprayer/cast(mob/living/carbon/human/user) ///Lesser version of 'RESPITE' and 'PERSIST', T1. Self-regenerative
+/obj/effect/proc_holder/spell/self/psydonprayer/cast(mob/living/carbon/human/user) ///Lesser version of 'RESPITE' and 'PERSIST', T1. Self-regenerative.
 	. = ..()
 	if(!ishuman(user))
 		revert_cast()
@@ -435,6 +437,8 @@
 					psicross_bonus = -6
 				if(/obj/item/clothing/neck/roguetown/psicross/g) // PURITY AFLOAT.
 					psicross_bonus = -7
+				if(/obj/item/clothing/neck/roguetown/psicross/weeping)
+					psicross_bonus = -9
 				if(/obj/item/clothing/neck/roguetown/psicross/inhumen/aalloy)
 					zcross_trigger = TRUE		
 	if(brute > 100) //A supplemental healing bonus, scaling off of how much damage's currently inflicted onto you.
@@ -505,8 +509,8 @@
 	warnie = "sydwarning"
 	movement_interrupt = FALSE
 	sound = null
-	invocations = list("#..with every broken bone, I swore I lyved..","#..thou shalt ward me within the valleys o' evil..","#..the fires of Syon, everburning with thine vigor..") //General rule of thumb, with these prayers; the more powerful they are, the more zealous the incantations should be.
-	invocation_type = "shout"
+	invocations = list(span_blue("quietly recites a lesser psalm, soothing their pains."))
+	invocation_type = "emote"
 	associated_skill = /datum/skill/magic/holy
 	antimagic_allowed = FALSE
 	recharge_time = 5 SECONDS
@@ -541,6 +545,8 @@
 					psicross_bonus = -7
 				if(/obj/item/clothing/neck/roguetown/psicross/g) // PURITY AFLOAT.
 					psicross_bonus = -9
+				if(/obj/item/clothing/neck/roguetown/psicross/weeping)
+					psicross_bonus = -11
 				if(/obj/item/clothing/neck/roguetown/psicross/inhumen/aalloy)
 					zcross_trigger = TRUE		
 	if(brute > 100)
@@ -610,8 +616,8 @@
 	range = 2
 	warnie = "sydwarning"
 	movement_interrupt = FALSE
-	invocations = list("#..in Psydon's glory, all malaises shall melt away..","#..thine holy spirit lies within all our hearts, weeping forevermore..","#..thou shalt know all, for enduring begets enlightenment..") //Highest tier of self-healing, and - in turn - the most devoutly-phrased.
-	invocation_type = "shout"
+	invocations = list(span_blue("quietly recites a greater psalm, soothing their pains."))
+	invocation_type = "emote"
 	sound = null
 	associated_skill = /datum/skill/magic/holy
 	antimagic_allowed = FALSE
@@ -647,6 +653,8 @@
 					psicross_bonus = -7
 				if(/obj/item/clothing/neck/roguetown/psicross/g) // PURITY AFLOAT.
 					psicross_bonus = -9
+				if(/obj/item/clothing/neck/roguetown/psicross/weeping)
+					psicross_bonus = -11
 				if(/obj/item/clothing/neck/roguetown/psicross/inhumen/aalloy)
 					zcross_trigger = TRUE		
 	if(brute > 100)
@@ -701,5 +709,12 @@
 		cast(user)	
 		return TRUE
 	else
-		to_chat(H, span_warning("My thoughts and sense of quiet escape me."))	
+		to_chat(H, span_warning("My thoughts and sense of quiet escape me!"))	
 		return FALSE					
+
+//
+
+// UNUSED DIALOGUE: PRAYER, RESPITE, PERSIST
+// ("#..our father above, hallowed be thy name..","#..thy kingdom come, thy will be done..","#..I fear no evil, for thou art with me..")
+// ("#..with every broken bone, I swore I lyved..","#..thou shalt ward me within the valleys o' evil..","#..the fires of Syon, everburning with thine vigor..")
+// ("#..in Psydon's glory, all malaises shall melt away..","#..thine holy spirit lies within all our hearts, weeping forevermore..","#..thou shalt know all, for enduring begets enlightenment..")

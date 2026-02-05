@@ -360,22 +360,24 @@
 
 /datum/vampire_project/armor_crafting
 	display_name = "Wicked Plate"
-	description = "Craft a complete set of vampiric armor from crystallized blood."
+	description = "Summon a complete set of vampiric plate armor from crystallized blood. Let not steel, silver, nor salvation inhibit the Lord's plan."
 	total_cost = 5000
 	completion_sound = 'sound/misc/vcraft.ogg'
 
 /datum/vampire_project/armor_crafting/on_complete(atom/movable/creation_point)
 	new /obj/item/clothing/under/roguetown/platelegs/vampire (bloodpool.loc)
-	new /obj/item/clothing/suit/roguetown/armor/chainmail/iron/vampire (bloodpool.loc)
+	new /obj/item/clothing/suit/roguetown/armor/chainmail/hauberk/paalloy/vampire (bloodpool.loc)
 	new /obj/item/clothing/suit/roguetown/armor/plate/vampire (bloodpool.loc)
 	new /obj/item/clothing/shoes/roguetown/boots/armor/vampire (bloodpool.loc)
 	new /obj/item/clothing/head/roguetown/helmet/heavy/vampire (bloodpool.loc)
 	new /obj/item/clothing/gloves/roguetown/chain/vampire (bloodpool.loc)
-	creation_point.visible_message(span_notice("A complete set of armor materializes from the crimson crucible."))
+	new /obj/item/clothing/wrists/roguetown/bracers/paalloy/vampire (bloodpool.loc)
+	new /obj/item/clothing/neck/roguetown/gorget/paalloy/vampire (bloodpool.loc)
+	creation_point.visible_message(span_notice("A complete set of plate armor materializes from the crimson crucible."))
 
 /datum/vampire_project/sunsteal
 	display_name = "Steal the Sun"
-	description = "The scorching gaze of the Sun-Tyrant shall hamper our plans no more. This project can only be initiated by your lorde."
+	description = "The scorching gaze of the Sun-Tyrant shall hamper our plans no more. This project can only be initiated by your Lorde."
 	total_cost = SUN_STEAL_COST
 	completion_sound = 'sound/misc/vcraft.ogg'
 	can_be_initiated_by = INITIATE_LORDE

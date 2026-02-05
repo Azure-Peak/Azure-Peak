@@ -67,6 +67,10 @@
 
 	owner = M
 	last_owner = M
+
+	if (visible_organ)
+		M.visible_organs |= src
+
 	M.internal_organs |= src
 	M.internal_organs_slot[slot] = src
 	moveToNullspace()
@@ -85,6 +89,9 @@
 	SEND_SIGNAL(owner, COMSIG_MOB_ORGAN_REMOVED, src, special, drop_if_replaced)
 	owner = null
 	if(M)
+		if (visible_organ)
+			M.visible_organs -= src
+
 		M.internal_organs -= src
 		if(M.internal_organs_slot[slot] == src)
 			M.internal_organs_slot.Remove(slot)
@@ -163,7 +170,7 @@
 
 /obj/item/reagent_containers/food/snacks/organ/On_Consume(mob/living/eater)		//Graggarites looove eating organs, they loooove eating organs!
 	if(HAS_TRAIT(eater, TRAIT_ORGAN_EATER))
-		eat_effect = /datum/status_effect/buff/foodbuff
+		eat_effect = /datum/status_effect/buff/snackbuff
 		foodtype = RAW | MEAT
 	else
 		eat_effect = initial(eat_effect)
@@ -206,7 +213,7 @@
 
 /obj/item/organ/Initialize()
 	. = ..()
-	if(accessory_type)
+	if(accessory_type && owner)
 		set_accessory_type(accessory_type)
 	START_PROCESSING(SSobj, src)
 
@@ -402,3 +409,12 @@
 		if(!getorganslot(ORGAN_SLOT_EARS))
 			var/obj/item/organ/ears/ears = new()
 			ears.Insert(src)
+
+///Used as callbacks by object pooling
+/obj/item/organ/proc/exit_wardrobe()
+	START_PROCESSING(SSobj, src)
+
+//See above
+/obj/item/organ/proc/enter_wardrobe()
+	accessory_type = initial(accessory_type)
+	STOP_PROCESSING(SSobj, src)

@@ -29,7 +29,7 @@
 /turf/open/floor/rogue/dirt/road,
 /area/rogue/under/tomb)
 "av" = (
-/obj/machinery/light/rogue/wallfire/candle/weak/l,
+/obj/machinery/light/rogue/candle/weak/l,
 /turf/open/floor/rogue/ruinedwood/chevron,
 /area/rogue/under/tomb/indoors)
 "aw" = (
@@ -80,7 +80,7 @@
 /area/rogue/under/tomb)
 "aZ" = (
 /obj/structure/table/wood,
-/obj/machinery/light/rogue/wallfire/candle/weak/l,
+/obj/machinery/light/rogue/candle/weak/l,
 /obj/item/reagent_containers/food/snacks/rogue/cheddar/aged,
 /obj/item/reagent_containers/glass/cup/skull,
 /turf/open/floor/rogue/cobblerock,
@@ -120,7 +120,7 @@
 /turf/open/floor/rogue/ruinedwood/chevron,
 /area/rogue/under/tomb/indoors)
 "zA" = (
-/obj/machinery/light/rogue/wallfire/candle/r,
+/obj/machinery/light/rogue/candle/r,
 /turf/open/floor/rogue/ruinedwood/chevron,
 /area/rogue/under/tomb/indoors)
 "HU" = (
@@ -137,7 +137,7 @@
 /turf/open/floor/rogue/ruinedwood/chevron,
 /area/rogue/under/tomb/indoors)
 "TY" = (
-/obj/machinery/light/rogue/wallfire/candle/r,
+/obj/machinery/light/rogue/candle/r,
 /mob/living/carbon/human/species/skeleton/npc/bogguard,
 /turf/open/floor/rogue/ruinedwood/chevron,
 /area/rogue/under/tomb/indoors)

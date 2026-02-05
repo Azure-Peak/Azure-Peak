@@ -48,6 +48,7 @@
 	use_skintones = TRUE
 	disliked_food = NONE
 	liked_food = NONE
+	inherent_traits = list(TRAIT_CAVEDWELLER)
 	possible_ages = ALL_AGES_LIST
 	changesource_flags = MIRROR_BADMIN | WABBAJACK | MIRROR_MAGIC | MIRROR_PRIDE | RACE_SWAP | SLIME_EXTRACT
 	limbs_icon_m = 'icons/roguetown/mob/bodies/m/mem.dmi'
@@ -94,6 +95,7 @@
 		/datum/customizer/bodypart_feature/face_detail,
 		/datum/customizer/bodypart_feature/underwear,
 		/datum/customizer/bodypart_feature/legwear,
+		/datum/customizer/bodypart_feature/piercing,
 		/datum/customizer/organ/ears/elf,
 		/datum/customizer/organ/testicles/anthro,
 		/datum/customizer/organ/penis/anthro,
@@ -122,8 +124,6 @@
 	stress_examine = TRUE
 	stress_desc = span_red("A loathesome dark elf.")
 
-/datum/species/elf/dark/after_creation(mob/living/carbon/C)
-	C.faction += "spider_lowers"
 
 /datum/species/elf/dark/get_span_language(datum/language/message_language)
 	if(!message_language)

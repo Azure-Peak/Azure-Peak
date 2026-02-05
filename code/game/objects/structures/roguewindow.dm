@@ -1,7 +1,8 @@
 
 /obj/structure/roguewindow
 	name = "window"
-	desc = "A glass window."
+	desc = "A glass window formed of several moderately sized panes of glass in a frame. Quite the \
+	luxury for any home, offering a clear view to the outside world."
 	icon = 'icons/roguetown/misc/roguewindow.dmi'
 	icon_state = "window-solid"
 	layer = TABLE_LAYER
@@ -31,7 +32,7 @@
 /obj/structure/roguewindow/attacked_by(obj/item/I, mob/living/user)
 	..()
 	if(obj_broken || obj_destroyed)
-		var/obj/effect/track/structure/new_track = new(get_turf(src))
+		var/obj/effect/track/structure/new_track = SStracks.get_track(/obj/effect/track/structure, get_turf(src))
 		message_admins("Window [obj_destroyed ? "destroyed" : "broken"] by [user?.real_name] using [I] [ADMIN_JMP(src)]")
 		log_admin("Window [obj_destroyed ? "destroyed" : "broken"] by [user?.real_name] at X:[src.x] Y:[src.y] Z:[src.z] in area: [get_area(src)]")
 		new_track.handle_creation(user)
@@ -48,21 +49,35 @@
 	. = ..(dirin)
 
 /obj/structure/roguewindow/stained
+	name = "stained glass window"
+	desc = "A stained glass window bearing religious imagery." // Basic template, if any more subtypes are added.
 	icon_state = null
 	base_state = null
 	opacity = TRUE
-	max_integrity = 200 
+	max_integrity = 200
 	integrity_failure = 0.5
 
 /obj/structure/roguewindow/stained/silver
+	name = "psydonic stained glass window"
+	desc = "A stained glass window bearing the cross of Psydon, the Weeping God, creator of the world. \
+	Either as a venerated martyr or a still-living deity, His imagery features often in both churches of the Ten \
+	and those of the Otavan Orthodoxy. Despite their differences, they share a common origin."
 	icon_state = "stained-silver"
 	base_state = "stained-silver"
 
 /obj/structure/roguewindow/stained/yellow
+	name = "astratan stained glass window"
+	desc = "A stained glass window bearing the symbolism of Astrata, the Tyrant Sister Sun that reigns over the Divine \
+	Pantheon of Ten. Her uniquely vaunted position earns her symbol's common usage in all churches of the Ten, whereas \
+	She is reduced to the status of a saint by the Otavan Orthodoxy."
 	icon_state = "stained-yellow"
 	base_state = "stained-yellow"
-	
+
 /obj/structure/roguewindow/stained/zizo
+	name = "ecclesial stained glass window"
+	desc = "A stained glass window bearing an inverted cross of Psydon, usually used as a symbol of the Ascendant Goddess Zizo, \
+	Lady of Progress, Harbinger of Undeath, and a deity condemned in almost realm of the world. All the same, Her followers \
+	construct such intricate things in Her honor, even knowing that they may so soon be shattered."
 	icon_state = "stained-zizo"
 	base_state = "stained-zizo"
 
@@ -72,6 +87,10 @@
 	opacity = TRUE
 	max_integrity = 200
 	integrity_failure = 0.5
+
+/obj/structure/roguewindow/openclose/get_mechanics_examine(mob/user)
+	. = ..()
+	. += span_info("Right clicking on the window will open or close it.")
 
 /obj/structure/roguewindow/openclose/OnCrafted(dirin)
 	dir = turn(dirin, 180)
@@ -83,7 +102,8 @@
 	icon_state = base_state
 
 /obj/structure/roguewindow/openclose/reinforced
-	desc = "A glass window. This one looks reinforced with a metal mesh."
+	desc = "A glass window. This one looks reinforced with a metal mesh; you would have to \
+	open it to see very much outside."
 	icon_state = "reinforcedwindowdir"
 	base_state = "reinforcedwindow"
 	max_integrity = 800

@@ -2,7 +2,7 @@
 /mob/living/simple_animal/hostile/retaliate/rogue/wolf/bobcat
 	icon = 'icons/roguetown/mob/monster/bobcat.dmi'
 	name = "lynx"
-	desc = "An adorable albiet hated creacher of Azuria's northern coast, hunting livestock and vulnrable people alike.."
+	desc = "An adorable albiet hated creacher of Azuria's northern coast, hunting livestock and vulnerable people alike."
 	icon_state = "bobcat"
 	icon_living = "bobcat"
 	icon_dead = "bobcat_dead"
@@ -39,6 +39,7 @@
 
 /obj/effect/decal/remains/bobcat
 	name = "remains"
+	desc = "These are the dessicated remains of a lively lynx. It was not fast enough."
 	gender = PLURAL
 	icon_state = "bones"
 	icon = 'icons/roguetown/mob/monster/bobcat.dmi'

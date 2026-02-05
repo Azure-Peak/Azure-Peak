@@ -1,0 +1,4 @@
+author: "N8-Toe"
+delete-after: True
+changes:
+  - rscadd: "Gives Necras sight if not already possessed by caster upon using Death's Door"

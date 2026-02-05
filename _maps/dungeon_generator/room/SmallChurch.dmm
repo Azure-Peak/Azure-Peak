@@ -79,10 +79,6 @@
 /obj/item/clothing/ring/quartz,
 /turf/open/floor/rogue/tile/masonic/spiral,
 /area/rogue/under/tomb/indoors/church)
-"cR" = (
-/obj/item/natural/rock/random_ore,
-/turf/open/floor/rogue/dirt,
-/area/rogue/under/tomb)
 "da" = (
 /obj/structure/fluff/railing/wood,
 /obj/structure/fluff/railing/wood{
@@ -240,11 +236,6 @@
 	pixel_y = -10
 	},
 /turf/open/floor/rogue/concrete,
-/area/rogue/under/tomb/indoors/church)
-"ho" = (
-/obj/structure/mineral_door/bars,
-/obj/effect/mapping_helpers/access/locker,
-/turf/open/floor/rogue/churchmarble,
 /area/rogue/under/tomb/indoors/church)
 "hW" = (
 /obj/item/rogueweapon/pick/copper,
@@ -443,7 +434,6 @@
 /area/rogue/under/tomb/indoors/church)
 "oq" = (
 /obj/item/clothing/head/roguetown/helmet/leather,
-/obj/item/rogueweapon/pick/copper,
 /turf/open/floor/rogue/ruinedwood/turned,
 /area/rogue/under/tomb)
 "oA" = (
@@ -661,6 +651,19 @@
 /obj/structure/flora/roguegrass,
 /turf/open/floor/rogue/grass,
 /area/rogue/under/tomb/cave/wet)
+"zd" = (
+/obj/item/rogueweapon/pick/copper,
+/obj/item/natural/stone{
+	pixel_x = 7;
+	pixel_y = -11
+	},
+/obj/item/natural/stone{
+	pixel_x = -5;
+	pixel_y = 8
+	},
+/obj/item/natural/rock/dungeon,
+/turf/open/floor/rogue/naturalstone,
+/area/rogue/under/tomb/cave)
 "zh" = (
 /obj/structure/flora/ausbushes/fullgrass,
 /turf/open/floor/rogue/grass,
@@ -755,9 +758,6 @@
 "Dz" = (
 /turf/open/floor/rogue/herringbone,
 /area/rogue/under/tomb)
-"DM" = (
-/turf/closed/mineral/random,
-/area/rogue/under/tomb/cave)
 "Ep" = (
 /turf/open/floor/rogue/ruinedwood/turned,
 /area/rogue/under/tomb)
@@ -862,7 +862,7 @@
 /turf/open/floor/rogue/dirt,
 /area/rogue/under/tomb/cave)
 "HL" = (
-/turf/closed/mineral,
+/turf/closed/mineral/random/rogue/high,
 /area/rogue/under/tomb/cave)
 "HW" = (
 /obj/machinery/light/rogue/campfire/longlived,
@@ -981,10 +981,22 @@
 /obj/structure/fluff/statue/psy,
 /turf/open/floor/rogue/tile/masonic/spiral,
 /area/rogue/under/tomb/indoors/church)
-"Mr" = (
+"MB" = (
+/obj/item/natural/stone{
+	pixel_x = 7;
+	pixel_y = 9
+	},
+/obj/item/natural/stone{
+	pixel_x = -6;
+	pixel_y = -9
+	},
+/obj/item/natural/stone{
+	pixel_x = -10;
+	pixel_y = 6
+	},
 /obj/item/rogueweapon/pick/copper,
-/turf/open/floor/rogue/dirt,
-/area/rogue/under/tomb)
+/turf/open/floor/rogue/naturalstone,
+/area/rogue/under/tomb/cave)
 "MD" = (
 /turf/open/transparent/openspace,
 /area/rogue/under/tomb)
@@ -1062,7 +1074,7 @@
 	pixel_x = -8;
 	pixel_y = 7
 	},
-/obj/item/natural/rock/random_ore,
+/obj/item/natural/rock/dungeon,
 /turf/open/floor/rogue/woodturned/nosmooth,
 /area/rogue/under/tomb/cave)
 "Pq" = (
@@ -1201,10 +1213,11 @@
 /area/rogue/under/tomb/cave/wet)
 "Vk" = (
 /obj/structure/closet/crate/roguecloset/crafted,
-/obj/item/clothing/suit/roguetown/shirt/robe/priest,
-/obj/item/clothing/suit/roguetown/shirt/undershirt/priest,
-/obj/item/clothing/head/roguetown/priestmask,
 /obj/machinery/light/rogue/torchholder/r,
+/obj/item/clothing/suit/roguetown/shirt/robe/noc,
+/obj/item/clothing/suit/roguetown/shirt/robe/necra,
+/obj/item/clothing/suit/roguetown/shirt/robe/monk,
+/obj/item/clothing/suit/roguetown/shirt/robe/eora,
 /turf/open/floor/rogue/churchmarble,
 /area/rogue/under/tomb/indoors/church)
 "VI" = (
@@ -2010,7 +2023,7 @@ uT
 JQ
 JQ
 JQ
-ho
+xb
 uT
 jd
 EO
@@ -2038,7 +2051,7 @@ nm
 qB
 Ju
 Ju
-ho
+xb
 kn
 Tm
 dB
@@ -2066,7 +2079,7 @@ JI
 JI
 JI
 Ju
-ho
+xb
 JI
 JI
 JI
@@ -2098,7 +2111,7 @@ ty
 KC
 SL
 eo
-ho
+xb
 JI
 JI
 JI
@@ -2436,8 +2449,8 @@ KK
 "}
 (6,1,2) = {"
 KK
-DM
-DM
+HL
+HL
 KK
 MD
 MD
@@ -2468,9 +2481,9 @@ KK
 "}
 (7,1,2) = {"
 KK
-DM
-DM
-DM
+HL
+HL
+HL
 HL
 MD
 MD
@@ -2500,9 +2513,9 @@ KK
 "}
 (8,1,2) = {"
 KK
-DM
+HL
 lg
-DM
+HL
 HL
 MD
 MD
@@ -2533,8 +2546,8 @@ KK
 (9,1,2) = {"
 KK
 HL
-DM
-DM
+HL
+HL
 MD
 MD
 MD
@@ -2565,7 +2578,7 @@ KK
 (10,1,2) = {"
 KK
 HL
-DM
+HL
 HL
 MD
 MD
@@ -2596,10 +2609,10 @@ KK
 "}
 (11,1,2) = {"
 KK
-DM
-DM
-DM
-DM
+HL
+HL
+HL
+HL
 MD
 MD
 MD
@@ -2628,10 +2641,10 @@ KK
 "}
 (12,1,2) = {"
 KK
-DM
+HL
+MB
 HL
 HL
-DM
 MD
 MD
 MD
@@ -2661,9 +2674,9 @@ KK
 (13,1,2) = {"
 Ye
 Ep
-cR
+UZ
 HL
-DM
+HL
 MD
 MD
 MD
@@ -2692,7 +2705,7 @@ NF
 "}
 (14,1,2) = {"
 UZ
-Mr
+UZ
 Ep
 HL
 MD
@@ -2727,7 +2740,7 @@ UZ
 Xc
 UZ
 HL
-DM
+HL
 MD
 MD
 MD
@@ -2758,8 +2771,8 @@ Dz
 Ye
 Ep
 oq
-DM
-DM
+HL
+HL
 HL
 MD
 MD
@@ -2788,11 +2801,11 @@ pj
 "}
 (17,1,2) = {"
 KK
+zd
 HL
-DM
-DM
-DM
-DM
+HL
+HL
+HL
 MD
 uT
 nm
@@ -2821,9 +2834,9 @@ pj
 (18,1,2) = {"
 KK
 HL
-DM
-DM
-DM
+HL
+HL
+HL
 HL
 MD
 cC
@@ -2853,9 +2866,9 @@ pj
 (19,1,2) = {"
 KK
 jm
-DM
-DM
-DM
+HL
+HL
+HL
 MD
 uT
 nm
@@ -2903,7 +2916,7 @@ nm
 JI
 JI
 JI
-ho
+xb
 JI
 yk
 jk
@@ -3031,7 +3044,7 @@ nm
 cN
 JI
 mv
-ho
+xb
 JI
 jk
 JI

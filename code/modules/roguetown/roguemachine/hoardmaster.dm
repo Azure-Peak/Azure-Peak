@@ -100,11 +100,11 @@
 			unlocked_cats+="Brigand"
 		if("Sellsword")
 			unlocked_cats+="Sellsword"
-		if("Sawbones")
-			unlocked_cats+="Sawbones"
+		if("Hedge Alchemist")
+			unlocked_cats+="Alchemist"
 		if("Hedge Knight")
 			unlocked_cats+="Knight"
-		if("Rogue Mage")
+		if("Hedge Mage")
 			unlocked_cats+="Mage"
 		if("Knave")
 			unlocked_cats+="Knave"

@@ -20,7 +20,7 @@
 	)
 
 //Dismember a limb
-/obj/item/bodypart/proc/dismember(dam_type = BRUTE, bclass = BCLASS_CUT, mob/living/user, zone_precise = src.body_zone, damage = 0)
+/obj/item/bodypart/proc/dismember(dam_type = BRUTE, bclass = BCLASS_CUT, mob/living/user, zone_precise = src.body_zone, damage = 0, vorpal = FALSE)
 	if(!owner)
 		return FALSE
 	var/mob/living/carbon/C = owner
@@ -66,20 +66,46 @@
 	if(affecting && dismember_wound)
 		affecting.add_wound(dismember_wound)
 	playsound(C, pick(dismemsound), 50, FALSE, -1)
-	if(body_zone == BODY_ZONE_HEAD)
-		C.visible_message(span_danger("<B>[C] is [pick("BRUTALLY","VIOLENTLY","BLOODILY","MESSILY")] DECAPITATED!</B>"))
-	else
-		C.visible_message(span_danger("<B>The [src.name] is [pick("torn off", "sundered", "severed", "separated", "unsewn")]!</B>"))
-	if(!HAS_TRAIT(C, TRAIT_NOPAIN))
-		C.emote("painscream")
-	if(!(NOBLOOD in C.dna?.species?.species_traits))
-		add_mob_blood(C)
-	C.add_stress(/datum/stressevent/dismembered)
+
 	var/stress2give = /datum/stressevent/viewdismember
+	var/guillotine_execution = FALSE
 	if(C.buckled)
+		if(istype(C.buckled, /obj/structure/guillotine))
+			guillotine_execution = TRUE
 		if(istype(C.buckled, /obj/structure/fluff/psycross))
 			if(C.real_name in GLOB.excommunicated_players)
 				stress2give = /datum/stressevent/viewsinpunish
+
+	if(body_zone == BODY_ZONE_HEAD)
+		// decaps should happen in two phases: the first one inflicts a spinal column sever, killing them instantly.
+		// if they're already spinal-severed, THEN the head is removed.
+		// extra note: we only do this for mobs with a mind, aka not NPCS. npcs always get insta-decapped as before
+		if (owner?.client && !vorpal && !guillotine_execution && two_stage_death && !grievously_wounded)
+			if (owner?.construct)
+				C.visible_message(span_danger("<b>[C]'s wrought skull is <span class='crit'>CLEFT NIGH IN TWAIN</span> by a fearsome blow, crumbling into a <span class='crit'>CLOUD of DUST!</span></b>"))
+				C.death()
+				return
+			
+			if (skeletonized)
+				C.visible_message(span_danger("<b>[C]'s bony skull is <span class='crit'>MULCHED</span> by a fearsome blow, spalling into a <span class='crit'>CLOUD of SHARDS!</span></b>"))
+				C.death()
+				return
+			else
+				C.visible_message(span_danger("<B>[C] is <span class='crit'>[pick("ENDED", "SLAIN", "SLAUGHTERED","MURDERED","SNUFFED","BUTCHERED","FELLED","FINISHED","FRAGGED")]</span> as their ravaged neck <span class='crit'>BLOSSOMS</span> into petals of <span class='crit'>GORE and BONE!</span></B>"))
+				add_wound(/datum/wound/grievous/pre_decapitation) // this causes a bigass wound, marks the limb as greviously wounded and instantly kills the affected user.
+				return
+		else
+			// we're greviously wounded OR we don't give a shit about two-stage death (guillotines, npcs, etc)
+			C.visible_message(span_danger("<B>[C] is [pick("BRUTALLY","VIOLENTLY","BLOODILY","MESSILY")] DECAPITATED!</B>"))
+	else
+		C.visible_message(span_danger("<B>The [src.name] is [pick("torn off", "sundered", "severed", "separated", "unsewn")]!</B>"))
+
+	if(!HAS_TRAIT(C, TRAIT_NOPAIN))
+		C.emote("painscream")
+
+	if(!(NOBLOOD in C.dna?.species?.species_traits))
+		add_mob_blood(C)
+
 	if(stress2give && C.mind) //Shouldn't be freaking out over a boglin getting their shit rocked.
 		for(var/mob/living/carbon/CA in hearers(world.view, C))
 			if(CA != C && !HAS_TRAIT(CA, TRAIT_BLIND))
@@ -121,6 +147,7 @@
 	var/turf/location = C.loc
 	if(istype(location))
 		C.add_splatter_floor(location)
+		C.add_splatter_wall(user, location, force = 2, spill_amount = 3) //Garunteed at least 2 tile distance of blood spattering on the walls, and up to 3 walls to splat.
 	var/direction = pick(GLOB.cardinals)
 	var/t_range = rand(2,max(throw_range/2, 2))
 	var/turf/target_turf = get_turf(src)
@@ -135,7 +162,7 @@
 	owner = C
 	return TRUE
 
-/obj/item/bodypart/chest/dismember(dam_type = BRUTE, bclass = BCLASS_CUT, mob/living/user, zone_precise = src.body_zone, damage = 0)
+/obj/item/bodypart/chest/dismember(dam_type = BRUTE, bclass = BCLASS_CUT, mob/living/user, zone_precise = src.body_zone, damage = 0, vorpal = FALSE)
 	if(!owner)
 		return FALSE
 	var/mob/living/carbon/C = owner
@@ -197,10 +224,15 @@
 	was_owner.bodyparts -= src
 	owner = null
 
+	if(ishuman(was_owner))
+		var/mob/living/carbon/human/H = was_owner
+		H.body_overlay_cache_key = null
+		H.damage_overlay_cache_key = null
+		H.icon_render_key = null
+
 	update_icon_dropped()
 	was_owner.update_health_hud() //update the healthdoll
-	was_owner.update_body()
-	was_owner.update_hair()
+	was_owner.queue_icon_update(PENDING_UPDATE_BODY)
 	was_owner.update_mobility()
 
 	// drop_location = null happens when a "dummy human" used for rendering icons on prefs screen gets its limbs replaced.
@@ -413,12 +445,22 @@
 
 	update_bodypart_damage_state()
 
+	if(ishuman(C))
+		var/mob/living/carbon/human/H = C
+		H.body_overlay_cache_key = null
+		H.damage_overlay_cache_key = null
+		// Clear limb cache entries for both old and new states in an attempt to prevent orphaned aux_zone overlays >:/
+		var/old_key = H.icon_render_key
+		if(old_key)
+			H.limb_icon_cache -= old_key
+		H.icon_render_key = null
+		var/new_key = H.generate_icon_render_key()
+		H.limb_icon_cache -= new_key
+
 	if(organ_slowdown)
 		C.add_movespeed_modifier("[src.type]_slow", update=TRUE, priority=100, flags=NONE, override=FALSE, multiplicative_slowdown=organ_slowdown, movetypes=GROUND, blacklisted_movetypes=NONE, conflict=FALSE)
 	C.updatehealth()
-	C.update_body()
-	C.update_hair()
-	C.update_damage_overlays()
+	C.queue_icon_update(PENDING_UPDATE_BODY | PENDING_UPDATE_HAIR | PENDING_UPDATE_DAMAGE)	
 	C.update_mobility()
 	return TRUE
 

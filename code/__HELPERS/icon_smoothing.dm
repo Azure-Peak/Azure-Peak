@@ -40,6 +40,22 @@
 #define SMOOTH_BORDER	(1<<3)	//atom will smooth with the borders of the map
 #define SMOOTH_QUEUED	(1<<4)	//atom is currently queued to smooth.
 
+/* smoothing_flags */
+/// Smoothing system in where adjacencies are calculated and used to select a pre-baked icon_state, encoded by bitmasking.
+#define SMOOTH_BITMASK	(1<<5)
+/// Limits SMOOTH_BITMASK to only cardinal directions, for use with cardinal smoothing
+#define SMOOTH_BITMASK_CARDINALS (1<<6)
+/// Turf only, uses overlays to create edges on smoothed atoms. Incompatible with bitmask smoothing.
+#define SMOOTH_EDGE		(1<<7)
+/// smooths with objects, and will thus need to scan turfs for contents.
+#define SMOOTH_OBJ		(1<<8)
+
+#define USES_SMOOTHING (SMOOTH_BITMASK|SMOOTH_BITMASK_CARDINALS|SMOOTH_EDGE)
+#define USES_BITMASK_SMOOTHING (SMOOTH_BITMASK|SMOOTH_BITMASK_CARDINALS)
+
+#define QUEUE_SMOOTH(thing_to_queue) if(thing_to_queue.smooth & USES_SMOOTHING) {SSicon_smooth.add_to_queue(thing_to_queue)}
+#define QUEUE_SMOOTH_NEIGHBORS(thing_to_queue) for(var/atom/atom_neighbor as anything in orange(1, thing_to_queue)) {QUEUE_SMOOTH(atom_neighbor)}
+
 #define NULLTURF_BORDER 123456789
 
 #define DEFAULT_UNDERLAY_ICON 			'icons/turf/floors.dmi'

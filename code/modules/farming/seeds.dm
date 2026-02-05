@@ -241,3 +241,11 @@
 	seed_identity = "pumpkin seeds"
 	plant_def_type = /datum/plant_def/pumpkin
 	cooked_type = /obj/item/reagent_containers/food/snacks/roastseeds/pumpkin
+
+/obj/item/seeds/carrot
+	seed_identity = "carrot seeds"
+	plant_def_type = /datum/plant_def/carrot
+
+/obj/item/seeds/eggplant
+	seed_identity = "eggplant seeds"
+	plant_def_type = /datum/plant_def/bush/eggplant

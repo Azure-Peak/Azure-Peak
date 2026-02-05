@@ -6,6 +6,14 @@ GLOBAL_LIST_INIT(familiar_types, list(
 				"Ashcoiler" = /mob/living/simple_animal/pet/familiar/ashcoiler,
 				"Glimmer Hare" = /mob/living/simple_animal/pet/familiar/glimmer_hare,
 				"Hollow Antlerling" = /mob/living/simple_animal/pet/familiar/hollow_antlerling,
+				"Gravemoss Serpent" = /mob/living/simple_animal/pet/familiar/gravemoss_serpent,
+				"Starfield Zad" = /mob/living/simple_animal/pet/familiar/starfield_crow,
+				"Emberdrake" = /mob/living/simple_animal/pet/familiar/emberdrake,
+				"Ripplefox" = /mob/living/simple_animal/pet/familiar/ripplefox,
+				"Whisper Stoat" = /mob/living/simple_animal/pet/familiar/whisper_stoat,
+				"Thornback Turtle" = /mob/living/simple_animal/pet/familiar/thornback_turtle,
+				"Brass Thrum" = /mob/living/simple_animal/pet/familiar/mechanical/brass_thrum,
+				"Gemspire Beetle" = /mob/living/simple_animal/pet/familiar/mechanical/gemspire_beetle,
 				"Mouse (brown)" = /mob/living/simple_animal/pet/familiar/mouse_brown,
 				"Mouse (white)" = /mob/living/simple_animal/pet/familiar/mouse_white,
 				"Mouse (grey)" = /mob/living/simple_animal/pet/familiar/mouse_grey,
@@ -22,15 +30,7 @@ GLOBAL_LIST_INIT(familiar_types, list(
 				"Snake" = /mob/living/simple_animal/pet/familiar/snake,
 				"Mudcrab" = /mob/living/simple_animal/pet/familiar/mudcrab,
 				"Cat (Pink)" = /mob/living/simple_animal/pet/familiar/cat_pink,
-				"Cat (Black)" = /mob/living/simple_animal/pet/familiar/cat_black,
-				"Brass Thrum" = /mob/living/simple_animal/pet/familiar/mechanical/brass_thrum,
-				"Gemspire Beetle" = /mob/living/simple_animal/pet/familiar/mechanical/gemspire_beetle,
-				"Gravemoss Serpent" = /mob/living/simple_animal/pet/familiar/gravemoss_serpent,
-				"Starfield Zad" = /mob/living/simple_animal/pet/familiar/starfield_crow,
-				"Emberdrake" = /mob/living/simple_animal/pet/familiar/emberdrake,
-				"Ripplefox" = /mob/living/simple_animal/pet/familiar/ripplefox,
-				"Whisper Stoat" = /mob/living/simple_animal/pet/familiar/whisper_stoat,
-				"Thornback Turtle" = /mob/living/simple_animal/pet/familiar/thornback_turtle
+				"Cat (Black)" = /mob/living/simple_animal/pet/familiar/cat_black
 ))
 
 GLOBAL_LIST_INIT(familiar_display_names, list(

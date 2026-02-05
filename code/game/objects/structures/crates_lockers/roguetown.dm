@@ -1,6 +1,6 @@
 /obj/structure/closet/crate/chest
 	name = "chest"
-	desc = ""
+	desc = "A wooden chest with a lid held on metal hinges."
 	icon = 'icons/roguetown/misc/structure.dmi'
 	icon_state = "chest3s"
 	base_icon_state = "chest3s"
@@ -49,7 +49,7 @@
 		/obj/item/clothing/suit/roguetown/armor/leather=33,
 		/obj/item/roguestatue/gold/loot=1,
 		/obj/item/ingot/iron=22,
-		/obj/item/rogueweapon/huntingknife/cleaver=22,
+		/obj/item/rogueweapon/huntingknife/chefknife/cleaver=22,
 		/obj/item/rogueweapon/mace=22,
 		/obj/item/clothing/cloak/raincloak/mortus=22,
 		/obj/item/reagent_containers/food/snacks/butter=22,
@@ -72,7 +72,7 @@
 
 /obj/structure/closet/crate/roguecloset
 	name = "closet"
-	desc = ""
+	desc = "A simple wooden closet, used to store whatever it is you would like out of sight."
 	icon = 'icons/roguetown/misc/structure.dmi'
 	base_icon_state = "closet"
 	icon_state = "closet"
@@ -105,6 +105,7 @@
 	icon_state = "closetdark"
 
 /obj/structure/closet/crate/roguecloset/lord
+	desc = "An unusually ornate closet, fit for a lord!"
 	keylock = TRUE
 	lockid = "lord"
 	locked = TRUE
@@ -209,12 +210,13 @@
 		return
 
 	new /obj/item/rogueweapon/sword/long/judgement(get_turf(src))
+	new /obj/item/clothing/head/roguetown/helmet/heavy/frogmouth(get_turf(src))
+	new /obj/item/clothing/neck/roguetown/gorget/steel(get_turf(src))
+	new /obj/item/clothing/suit/roguetown/armor/plate/full(get_turf(src))
 	new /obj/item/clothing/wrists/roguetown/bracers(get_turf(src))
+	new /obj/item/clothing/gloves/roguetown/plate(get_turf(src))
 	new /obj/item/storage/belt/rogue/leather/steel/tasset(get_turf(src))
-	new /obj/item/clothing/gloves/roguetown/blacksteel/modern/plategloves(get_turf(src))
-	new /obj/item/clothing/head/roguetown/helmet/blacksteel/modern/armet(get_turf(src))
-	new /obj/item/clothing/shoes/roguetown/boots/blacksteel/modern/plateboots(get_turf(src))
-	new /obj/item/clothing/suit/roguetown/armor/plate/full/blacksteel/modern(get_turf(src))
-	new /obj/item/clothing/under/roguetown/platelegs/blacksteel/modern(get_turf(src))
+	new /obj/item/clothing/under/roguetown/platelegs(get_turf(src))
+	new /obj/item/clothing/shoes/roguetown/boots/armor(get_turf(src))
 	has_spawned_gear = TRUE
 	close()

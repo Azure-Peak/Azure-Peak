@@ -767,9 +767,8 @@ world
 	var/render_icon = curicon
 
 	if (render_icon)
-		var/curstates = icon_states(curicon)
-		if(!(curstate in curstates))
-			if ("" in curstates)
+		if(!icon_exists(curicon, curstate))
+			if(icon_exists(curicon, ""))
 				curstate = ""
 			else
 				render_icon = FALSE
@@ -1051,7 +1050,7 @@ GLOBAL_LIST_EMPTY(friendly_animal_types)
 				new_item.flags_inv = item.flags_inv
 				new_item.body_parts_covered = item.body_parts_covered
 				new_item.color = item.color
-				body.equip_to_slot_if_possible(new_item, slot)
+				body.equip_to_slot_if_possible(new_item, slot, bypass_equip_delay_self = TRUE)
 
 			if(copy_appearance)
 				human_gear_override.dna.transfer_identity(body)
@@ -1554,3 +1553,15 @@ GLOBAL_LIST_EMPTY(headshot_cache)
 		"html" = icon_html
 	)
 	return icon_html
+
+/proc/get_cached_damage_overlay(icon, icon_state, layer, pixel_x = 0, pixel_y = 0, overlay_color)
+	var/key = "[icon]|[icon_state]|[layer]|[pixel_x]|[pixel_y]|[overlay_color]"
+	var/mutable_appearance/cached = GLOB.damage_overlay_cache[key]
+	if(!cached)
+		cached = mutable_appearance(icon, icon_state, -layer)
+		cached.pixel_x = pixel_x
+		cached.pixel_y = pixel_y
+		if(overlay_color)
+			cached.color = overlay_color
+		GLOB.damage_overlay_cache[key] = cached
+	return cached

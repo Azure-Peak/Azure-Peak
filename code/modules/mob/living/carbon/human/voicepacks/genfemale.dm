@@ -1,3 +1,6 @@
+/datum/voicepack/female
+	preview = list("agony", "laugh", "pain", "hmph", "painmoan", "rage", "paincrit", "chuckle", "clearthroat", "embed", "grumble", "groan", "hmm", "huh", "laugh", "rage", "warcry")
+
 /datum/voicepack/female/get_sound(soundin, modifiers)
 	var/used
 	switch(modifiers)
@@ -9,6 +12,8 @@
 			used = getfsilenced(soundin)
 	if(!used)
 		switch(soundin)
+			if("attack")
+				used = list('sound/vo/female/gen/attack (1).ogg', 'sound/vo/female/gen/attack (2).ogg', 'sound/vo/female/gen/attack (3).ogg', 'sound/vo/female/gen/attack (4).ogg', 'sound/vo/female/gen/attack (5).ogg', 'sound/vo/female/gen/attack (6).ogg', 'sound/vo/female/gen/attack (7).ogg', 'sound/vo/female/gen/attack (8).ogg', 'sound/vo/female/gen/attack (9).ogg', 'sound/vo/female/gen/attack (10).ogg', 'sound/vo/female/gen/attack (11).ogg')
 			if("deathgurgle")
 				used = pick('sound/vo/female/gen/deathgurgle (1).ogg','sound/vo/female/gen/deathgurgle (2).ogg','sound/vo/female/gen/deathgurgle (3).ogg')
 			if("agony")
@@ -53,12 +58,16 @@
 				used = list('sound/vo/female/gen/huh (1).ogg','sound/vo/female/gen/huh (2).ogg','sound/vo/female/gen/huh (3).ogg')
 			if("hum")
 				used = list('sound/vo/female/gen/hum (1).ogg','sound/vo/female/gen/hum (2).ogg','sound/vo/female/gen/hum (3).ogg')
+			if("hmph")
+				used = 'sound/vo/female/gen/hmph (1).ogg'
 			if("jump")
 				used = 'sound/vo/female/gen/jump.ogg'
 			if("leap")
 				used = 'sound/vo/female/gen/jump.ogg'
 			if("laugh")
 				used = list('sound/vo/female/gen/laugh (1).ogg','sound/vo/female/gen/laugh (2).ogg','sound/vo/female/gen/laugh (3).ogg')
+			if("pleased")
+				used = list('sound/vo/female/gen/pleased (1).ogg', 'sound/vo/female/gen/pleased (2).ogg', 'sound/vo/female/gen/pleased (3).ogg')
 			if("pain")
 				used = list('sound/vo/female/gen/pain (1).ogg','sound/vo/female/gen/pain (2).ogg','sound/vo/female/gen/pain (3).ogg')
 			if("paincrit")
@@ -97,6 +106,8 @@
 				used = list('sound/vo/female/gen/se/sex (1).ogg','sound/vo/female/gen/se/sex (2).ogg','sound/vo/female/gen/se/sex (3).ogg','sound/vo/female/gen/se/sex (4).ogg','sound/vo/female/gen/se/sex (5).ogg','sound/vo/female/gen/se/sex (6).ogg','sound/vo/female/gen/se/sex (7).ogg','sound/vo/female/gen/se/sex (8).ogg')
 			if("meow")
 				used = list('sound/vo/mobs/cat/cat_meow1.ogg', 'sound/vo/mobs/cat/cat_meow2.ogg', 'sound/vo/mobs/cat/cat_meow3.ogg', 'sound/vo/mobs/cat/cat_meow4.ogg')
+			if("mrrp")
+				used = list('sound/vo/mobs/cat/mrrp.ogg')
 			if("caw")
 				used = list('sound/vo/mobs/bird/CROW_01.ogg', 'sound/vo/mobs/bird/CROW_03.ogg',)
 			if("peep")
@@ -120,15 +131,19 @@
 			if("blink")
 				used = list('sound/vo/blink.ogg')
 			if("cackle")
-				used = list('sound/vo/mobs/hyena/cackle.ogg')
+				used = list('sound/vo/female/haughty/cackle (2).ogg')
 			if("whine")
 				used = list('sound/vo/mobs/vw/whine.ogg')
+			if("fwhine")
+				used = list('sound/vo/mobs/venard/fox1.ogg','sound/vo/mobs/venard/fox2.ogg','sound/vo/mobs/venard/fox3.ogg','sound/vo/mobs/venard/fox4.ogg','sound/vo/mobs/venard/fox5.ogg','sound/vo/mobs/venard/fox6.ogg','sound/vo/mobs/venard/fox7.ogg','sound/vo/mobs/venard/fox8.ogg','sound/vo/mobs/venard/fox9.ogg','sound/vo/mobs/venard/fox10.ogg','sound/vo/mobs/venard/fox11.ogg','sound/vo/mobs/venard/fox12.ogg','sound/vo/mobs/venard/fox13.ogg')
 			if("psnort")
 				used = list('sound/vo/mobs/dog/pugsnort.ogg')
 			if("roar")
 				used = list('sound/vo/mobs/cat/roar1.ogg', 'sound/vo/mobs/cat/roar2.ogg', 'sound/vo/mobs/cat/roar3.ogg', 'sound/vo/mobs/cat/roar4.ogg')
 			if("howl")
 				used = list('sound/vo/mobs/wwolf/ehowl1.ogg', 'sound/vo/mobs/wwolf/ehowl2.ogg', 'sound/vo/mobs/wwolf/ehowl3.ogg', 'sound/vo/mobs/wwolf/ehowl4.ogg', 'sound/vo/mobs/wwolf/ehowl5.ogg')
+			if("prbt")
+				used = list('sound/vo/mobs/shark/prbt.ogg')
 			if("trill")
 				used = list('sound/vo/mobs/cat/trill.ogg')
 			if("purr")
@@ -149,5 +164,14 @@
 				used = 'sound/vo/female/gen/strain.ogg'
 			if("yip")
 				used = list('sound/vo/yip.ogg', 'sound/vo/yip2.ogg', 'sound/vo/yip3.ogg')
-
+			if("oink")
+				used = list('modular/Creechers/sound/pig1.ogg', 'modular/Creechers/sound/pig2.ogg')
+			if("bellow")
+				used = list('sound/vo/LizardBellow.ogg')
+			if("hiss")
+				used = list('sound/vo/LizardHiss.ogg')
+			if("squeal")
+				used = list('sound/vo/LizardSqueal.ogg')
+			if("thump")
+				used = list('sound/vo/LizardThump.ogg')
 	return used

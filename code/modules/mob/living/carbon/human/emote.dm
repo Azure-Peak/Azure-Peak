@@ -20,12 +20,18 @@
 		if(C.silent || !C.can_speak())
 			message = "makes a noise. Tears stream down their face."
 
+/datum/emote/living/carbon/human/cry/run_emote(mob/user, params, type_override, intentional, targetted)
+	. = ..()
+	if(. && user.mind)
+		record_featured_stat(FEATURED_STATS_EMOS, user)
+
 
 /datum/emote/living/carbon/human/sexmoanlight
 	key = "sexmoanlight"
 	emote_type = EMOTE_AUDIBLE
 	nomsg = TRUE
 	only_forced_audio = TRUE
+	is_quiet = TRUE
 
 /datum/emote/living/carbon/human/sexmoanlight/can_run_emote(mob/living/user, status_check = TRUE , intentional)
 	. = ..()
@@ -39,6 +45,7 @@
 	emote_type = EMOTE_AUDIBLE
 	nomsg = TRUE
 	only_forced_audio = TRUE
+	is_quiet = TRUE
 
 /datum/emote/living/carbon/human/sexmoanhvy/can_run_emote(mob/living/user, status_check = TRUE , intentional)
 	. = ..()

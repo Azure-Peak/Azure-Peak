@@ -92,6 +92,7 @@ GLOBAL_LIST_INIT(primordial_wounds, init_primordial_wounds())
 	bodypart_owner = null
 	owner = null
 	. = ..()
+	return QDEL_HINT_IWILLGC
 
 /// Description of this wound returned to the player when a bodypart is examined and such
 /datum/wound/proc/get_visible_name(mob/user)
@@ -382,7 +383,10 @@ GLOBAL_LIST_INIT(primordial_wounds, init_primordial_wounds())
 	var/oldname = name
 	if(length(severity_names))
 		for(var/sevname in severity_names)
-			if(severity_names[sevname] <= bleed_rate)
+			if(!bleed_rate) //if it's a hematoma, use whp for naming
+				if(severity_names[sevname] <= whp)
+					newname = sevname
+			else if(severity_names[sevname] <= bleed_rate)
 				newname = sevname
 	name = "[newname  ? "[newname] " : ""][initial(name)]"	//[adjective] [name], aka, "gnarly slash" or "slash"
 	if(name != oldname)

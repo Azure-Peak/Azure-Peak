@@ -71,6 +71,7 @@
 		body.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/jaunt)
 		body.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/dream_bind)
 		body.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/dream_trance)
+		body.grant_language(/datum/language/abyssal)
 	body.ambushable = FALSE
 	body.AddComponent(/datum/component/dreamwalker_repair)
 	body.AddComponent(/datum/component/dreamwalker_mark)
@@ -232,6 +233,7 @@
 	var/uses = 0
 	var/max_uses = 3
 	var/turf/linked_turf
+	var/safe_passage = FALSE
 
 /obj/structure/portal_jaunt/Initialize()
 	. = ..()
@@ -261,7 +263,7 @@
 	uses++
 	cooldown = world.time + 15 SECONDS
 	// High likelyhood of getting a dreamfiend summon upon non dreamwalkers when used.
-	if(!HAS_TRAIT(user, TRAIT_DREAMWALKER) && prob(75))
+	if(!safe_passage && !HAS_TRAIT(user, TRAIT_DREAMWALKER) && (prob(75)))
 		summon_dreamfiend(
 			target = user,
 			user = user,
@@ -432,10 +434,10 @@
 
 		// Show weapon selection menu
 		var/list/weapon_options = list(
-			"Dreamreaver Greataxe" = image(icon = 'icons/roguetown/weapons/64.dmi', icon_state = "dreamaxeactive"),
-			"Harmonious Spear" = image(icon = 'icons/roguetown/weapons/64.dmi', icon_state = "dreamspearactive"),
-			"Oozing Sword" = image(icon = 'icons/roguetown/weapons/64.dmi', icon_state = "dreamswordactive"),
-			"Thunderous Trident" = image(icon = 'icons/roguetown/weapons/64.dmi', icon_state = "dreamtriactive")
+			"Dreamreaver Greataxe" = image(icon = 'icons/roguetown/weapons/axes64.dmi', icon_state = "dreamaxeactive"),
+			"Harmonious Spear" = image(icon = 'icons/roguetown/weapons/polearms64.dmi', icon_state = "dreamspearactive"),
+			"Oozing Sword" = image(icon = 'icons/roguetown/weapons/swords64.dmi', icon_state = "dreamswordactive"),
+			"Thunderous Trident" = image(icon = 'icons/roguetown/weapons/polearms64.dmi', icon_state = "dreamtriactive")
 		)
 
 		var/choice = show_radial_menu(user, src, weapon_options, require_near = TRUE, tooltips = TRUE)
@@ -640,6 +642,7 @@
 	desc = "Strange iridescent full plate. It reflects light as if covered in shiny oil."
 	icon_state = "dreamplate"
 	max_integrity = ARMOR_INT_CHEST_PLATE_ANTAG
+	prevent_crits = PREVENT_CRITS_ALL
 	item_flags = DREAM_ITEM
 	peel_threshold = 5
 
@@ -654,7 +657,7 @@
 	icon_state = "dreamlegs"
 	armor = ARMOR_ASCENDANT
 	item_flags = DREAM_ITEM
-	prevent_crits = list(BCLASS_CUT, BCLASS_STAB, BCLASS_CHOP, BCLASS_BLUNT, BCLASS_SMASH, BCLASS_PICK)
+	prevent_crits = PREVENT_CRITS_ALL
 
 /obj/item/clothing/under/roguetown/platelegs/dreamwalker/Initialize()
 	. = ..()

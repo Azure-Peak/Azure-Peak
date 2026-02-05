@@ -85,13 +85,16 @@
 	addtimer(CALLBACK(GLOBAL_PROC, GLOBAL_PROC_REF(remove_image_from_client), balloon_alert, viewer_client), BALLOON_TEXT_TOTAL_LIFETIME(length_mult))
 
 ///Proc for creating a balloon alert that only someone with a specific trait would see.
-/atom/proc/filtered_balloon_alert(trait, text, x_offset, y_offset)
+/atom/proc/filtered_balloon_alert(trait, text, x_offset, y_offset, show_self = TRUE)
 	var/list/candidates = get_hearers_in_view(DEFAULT_MESSAGE_RANGE, src, RECURSIVE_CONTENTS_CLIENT_MOBS)
 	if(trait)	
 		for(var/mob/living/carbon/human/H in candidates)
+			if(!show_self && H == src)
+				candidates -= H
 			if(HAS_TRAIT(H, trait))
 				candidates -= H
 	else
 		CRASH("filtered_balloon_alert called without a trait, either it's an error or use balloon_alert instead.")
-
-	balloon_alert_to_viewers(text, null, DEFAULT_MESSAGE_RANGE, candidates, x_offset, y_offset)
+		
+	if(length(candidates))
+		balloon_alert_to_viewers(text, null, DEFAULT_MESSAGE_RANGE, candidates, x_offset, y_offset)

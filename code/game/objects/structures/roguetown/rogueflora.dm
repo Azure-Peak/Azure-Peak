@@ -2,8 +2,9 @@
 //newtree
 
 /obj/structure/flora/roguetree
-	name = "old tree"
-	desc = "An old wicked tree that not even elves could love."
+	name = "bedraggled tree"
+	desc = "A stunted tree upon which structures loosely resembling faces have formed. Thought to result \
+	from the possession of the tree by wayward spirits. Increasingly common in all parts of the world."
 	icon = 'icons/roguetown/misc/foliagetall.dmi'
 	icon_state = "t1"
 	opacity = 1
@@ -98,7 +99,9 @@
 
 /obj/structure/flora/roguetree/wise
 	name = "sacred tree"
-	desc = "A blessed primordial tree, ancient beyond years. Said to be the very embodiment of the Tree Father himself—whose presence alone imbues druids with wild energies."
+	desc = "A blessed primordial tree, ancient beyond years. Said to be an emanation of the \
+	Tree Father himself, whose presence imbues druids with wild energies. It is wildly taboo \
+	among Dendorites to fell a tree through which their God is peering."
 	icon_state = "mystical"
 	max_integrity = 400
 	var/activated = FALSE
@@ -145,7 +148,7 @@
 
 /obj/structure/flora/roguetree/burnt
 	name = "burnt tree"
-	desc = "Maybe lightning, maybe war, took the life of this once lively tree."
+	desc = "A burned husk of a tree. It cannot be known how it died, only that it did."
 	icon = 'icons/roguetown/misc/96x96.dmi'
 	icon_state = "t1"
 	stump_type = /obj/structure/flora/roguetree/stump/burnt
@@ -181,7 +184,7 @@
 
 /obj/structure/flora/roguetree/underworld
 	name = "screaming tree"
-	desc = "Human faces everywhere."
+	desc = "Something resembling a tree. It sways in the breeze like so much fabric."
 	icon = 'icons/roguetown/misc/foliagetall.dmi'
 	icon_state = "screaming1"
 	opacity = 1
@@ -196,6 +199,7 @@
 	desc = "Someone cut this tree down."
 	icon_state = "t1stump"
 	opacity = 0
+	pass_flags = LETPASSTHROW
 	max_integrity = 100
 	climbable = TRUE
 	climb_time = 0
@@ -456,13 +460,15 @@
 	layer = ABOVE_ALL_MOB_LAYER
 	plane = GAME_PLANE_UPPER
 	dir = SOUTH
+	var/random_mush_zone = TRUE
 
 /obj/structure/flora/rogueshroom/attack_right(mob/user)
 	handle_special_items_retrieval(user, src)
 
 /obj/structure/flora/rogueshroom/Initialize()
 	. = ..()
-	icon_state = "mush[rand(1,5)]"
+	if(random_mush_zone)
+		icon_state = "mush[rand(1,5)]"
 	if(icon_state == "mush5")
 		static_debris = list(/obj/item/natural/thorn=1, /obj/item/grown/log/tree/small = 1)
 	pixel_x += rand(8,-8)
@@ -497,8 +503,7 @@
 	return ..()
 
 /obj/structure/flora/rogueshroom/obj_destruction(damage_flag)
-	var/obj/structure/S = new /obj/structure/flora/shroomstump(loc)
-	S.icon_state = "[icon_state]stump"
+	new /obj/structure/flora/shroomstump(loc, initial(icon_state), icon)
 	. = ..()
 
 
@@ -523,9 +528,12 @@
 	attacked_sound = 'sound/misc/woodhit.ogg'
 	destroy_sound = 'sound/misc/treefall.ogg'
 
-/obj/structure/flora/shroomstump/Initialize()
+/obj/structure/flora/shroomstump/Initialize(mapload, new_icon_state, new_icon)
 	. = ..()
-	icon_state = "t[rand(1,4)]stump"
+	if(new_icon)
+		icon = new_icon
+	if(new_icon_state)
+		icon_state = "[new_icon_state]stump"
 
 /obj/structure/roguerock
 	name = "rock"
@@ -554,15 +562,15 @@
 //Thorn bush
 
 /obj/structure/flora/roguegrass/thorn_bush
-    name = "thorn bush"
-    desc = "A thorny bush. Watch your step!"
-    icon_state = "thornbush"
-    layer = ABOVE_ALL_MOB_LAYER
-    blade_dulling = DULLING_CUT
-    max_integrity = 35
-    climbable = FALSE
-    dir = SOUTH
-    debris = list(/obj/item/natural/thorn = 3, /obj/item/grown/log/tree/stick = 1)
+	name = "thorn bush"
+	desc = "A thorny bush. Watch your step!"
+	icon_state = "thornbush"
+	layer = ABOVE_ALL_MOB_LAYER
+	blade_dulling = DULLING_CUT
+	max_integrity = 35
+	climbable = FALSE
+	dir = SOUTH
+	debris = list(/obj/item/natural/thorn = 3, /obj/item/grown/log/tree/stick = 1)
 
 /obj/structure/flora/roguegrass/thorn_bush/update_icon()
 	icon_state = "thornbush"
@@ -585,7 +593,7 @@
 
 /obj/structure/flora/roguegrass/pyroclasticflowers/update_icon()
 	icon_state = "pyroflower[rand(1,3)]"
-	
+
 /obj/structure/flora/roguegrass/pyroclasticflowers/Initialize()
 	. = ..()
 	if(prob(88))
@@ -624,7 +632,8 @@
 // swarmpweed bush -- STONEKEEP PORT
 /obj/structure/flora/roguegrass/swampweed
 	name = "bunch of swampweed"
-	desc = "a green root good for smoking."
+	desc = "A green root known to, when smoked, elicit a strong euphoric response. A common alternative to alcohol \
+	for those who wish to escape their woes, or to simply have an enjoyable evening."
 	icon_state = "swampweed1"
 	layer = ABOVE_ALL_MOB_LAYER
 	max_integrity = 1
@@ -716,34 +725,132 @@
 			user.visible_message("<span class='warning'>[user] searches through [src].</span>")
 
 // cute underdark mushrooms from dreamkeep
+// now with some scary mushrooms to rectify sins against pixelart
 
 /obj/structure/flora/rogueshroom/happy
-	name = "underdark mushroom"
-	icon_state = "happymush1"
-	icon = 'icons/roguetown/misc/foliagetall.dmi'
-	desc = "Mushrooms might be the happiest beings in this god forsaken place."
+	name = "corpse fungus"
+	icon_state = "scarymush"
+	icon = 'icons/roguetown/misc/foliagemushroom48x64.dmi'
+	desc = "This mushroom looks alive and thinking, giving you mush to think about."
+	random_mush_zone = FALSE
+	max_integrity = 240
+	pixel_x = -8
+	var/mush_light_range = 3
+	var/mush_light_power = 3
+	var/mush_light_color = "#850707"
+	var/int_req = 14
+	var/trait_required = TRAIT_WOODSMAN
+	var/special_examine = "Upon closer inspection, the pulsing rhythm of its cap matches a humen heartbeat. You recall these grow atop corpses, mimicing the cadence of that specific person."
+	var/list/abyssal_screams = list(
+		'sound/mobs/abyssal/abyssal_attack.ogg',
+		'sound/mobs/abyssal/abyssal_attack2.ogg',
+		'sound/mobs/abyssal/abyssal_aggro.ogg',
+		'sound/mobs/abyssal/abyssal_pain.ogg',
+		'sound/mobs/abyssal/abyssal_teleport.ogg',
+		'sound/misc/murderbeast.ogg'
+	)
+	static_debris = list(/obj/item/reagent_containers/food/snacks/rogue/meat_rotten = 1)
+	var/rare_mush_bonus_drop = /obj/item/reagent_containers/powder/ozium
+	var/mush_animate = TRUE
+	var/mush_scream = TRUE
 
-/obj/structure/flora/rogueshroom/happy/mushroom2
-	icon_state = "happymush2"
+/obj/structure/flora/rogueshroom/happy/Initialize()
+	. = ..()
+	if(mush_animate)
+		animate(src, icon_state = "[icon_state]animated", delay = rand(1, 100), loop = -1, time = 10)
 
-/obj/structure/flora/rogueshroom/happy/mushroom3
-	icon_state = "happymush3"
+/obj/structure/flora/rogueshroom/happy/take_damage(damage_amount, damage_type, damage_flag, sound_effect, attack_dir)
+	. = ..()
+	if(damage_amount > 0 && mush_scream)
+		playsound(src, pick(abyssal_screams), 80, FALSE)
 
-/obj/structure/flora/rogueshroom/happy/mushroom4
-	icon_state = "happymush4"
+/obj/structure/flora/rogueshroom/happy/obj_destruction(damage_flag)
+	playsound(src, pick(abyssal_screams), 100, FALSE)
+	if(prob(7) && rare_mush_bonus_drop)
+		new rare_mush_bonus_drop(loc)
+	. = ..()
 
-/obj/structure/flora/rogueshroom/happy/mushroom5
-	icon_state = "happymush5"
+/obj/structure/flora/rogueshroom/happy/examine(mob/living/user)
+	. = ..()
+	if(user.STAINT >= int_req && int_req || HAS_TRAIT(user, TRAIT_WOODSMAN))
+		. += span_infection("\n[special_examine]")
+
+/obj/structure/flora/rogueshroom/happy/white
+	name = "marrow-cap"
+	icon_state = "scarymush1"
+	desc = "You swear these mushrooms weren't so vile, it's as if Baotha herself lifted the veil."
+	mush_light_range = 4
+	mush_light_power = 2
+	mush_light_color = "#e2e2e2"
+	int_req = 0
+	special_examine = "You recall the gathering of wildsmasters recently. It hasn't been long, but these mushrooms were always believed to be happy and colorful. The spores of this one are rumoured to be the cause, it's like... they collectively made a decision top stop fooling humenkind."
+	static_debris = list(/obj/item/natural/fibers = 1,
+						 /obj/item/grown/log/tree/small = 1)
+	rare_mush_bonus_drop = /mob/living/simple_animal/hostile/rogue/mirespider_lurker/mushroom
+	mush_animate = FALSE
+
+/obj/structure/flora/rogueshroom/happy/fat
+	name = "canker stool"
+	icon_state = "scarymush2"
+	desc = "A pale mushroom with weeping sores. You feel strangely watched."
+	mush_light_range = 0
+	mush_light_power = 0
+	mush_light_color = null
+	int_req = 20
+	max_integrity = 480
+	special_examine = "To the world of academics, it appears as if this mushroom has many eyes, one in each sore. Yet, upon dissection, it is as if the eyes have melted away."
+	static_debris = list(/obj/item/grown/log/tree = 1)
+	rare_mush_bonus_drop = /obj/item/rogueore/iron
+	mush_animate = TRUE
+
+/obj/structure/flora/rogueshroom/happy/angel
+	name = "grieving angel"
+	icon_state = "angelmush"
+	desc = "each of these mushrooms is believed to have sprouted out of angel tears in the long past"
+	mush_light_range = 3
+	mush_light_power = 3
+	mush_light_color = "#e2e2e2"
+	int_req = 10
+	special_examine = "This mushroom has an identical appearance to a highly murderous mushroom, called the weeping angel, but luckily that one isn't native to Azure."
+	static_debris = null
+	mush_animate = FALSE
 
 /obj/structure/flora/rogueshroom/happy/random
 
 /obj/structure/flora/rogueshroom/happy/random/Initialize()
 	. = ..()
-	icon_state = "happymush[rand(1,5)]"
+	var/list/mushroom_types = list(
+		/obj/structure/flora/rogueshroom/happy       = 249,
+		/obj/structure/flora/rogueshroom/happy/white = 249,
+		/obj/structure/flora/rogueshroom/happy/fat   = 249,
+		/obj/structure/flora/rogueshroom/happy/angel = 249,
+		/obj/structure/flora/rogueshroom/happy/metal = 1,
+	)
+	var/mushroom_type = pickweight(mushroom_types)
+	new mushroom_type(loc)
+	qdel(src)
 
 /obj/structure/flora/rogueshroom/happy/New(loc)
 	..()
-	set_light(3, 3, 3, l_color ="#5D3FD3")
+	if(mush_light_power > 0)
+		set_light(mush_light_range, mush_light_range, mush_light_power, l_color = mush_light_color)
+
+/obj/structure/flora/rogueshroom/happy/metal
+	name = "metallic mushroom"
+	icon_state = "metal"
+	icon = 'icons/roguetown/misc/foliagemushroom60x64.dmi'
+	desc = "An incomprehensible metal mushroom. It has a strange sheen. It seems nigh indestructible, but stubbornness can fell anything."
+	max_integrity = 3250
+	pixel_x = -14
+	blade_dulling = DULLING_PICK
+	special_examine = "Huh, strange."
+	mush_light_range = 0
+	mush_light_power = 0
+	mush_light_color = null
+	int_req = 20
+	mush_animate = FALSE
+	static_debris = list(/obj/item/rogueore/lithmyc = 1)
+	mush_scream = FALSE
 
 /obj/structure/flora/mushroomcluster
 	name = "mushroom cluster"
@@ -751,6 +858,10 @@
 	icon = 'icons/roguetown/misc/foliage.dmi'
 	icon_state = "mushroomcluster"
 	density = TRUE
+
+/obj/structure/flora/mushroomcluster/cute
+	desc = "A large cluster of mushrooms with a strange glow."
+	icon_state = "mushroomcluster_old"
 
 /obj/structure/flora/mushroomcluster/New(loc)
 	..()
@@ -762,10 +873,15 @@
 	icon = 'icons/roguetown/misc/foliage.dmi'
 	icon_state = "tinymushrooms"
 
+/obj/structure/flora/tinymushrooms/cute
+	desc = "A cluster of tiny mushrooms that are growing in a suspicious circle shape."
+	icon_state = "tinymushrooms_old"
+
 /obj/structure/flora/roguetree/pine
 	name = "pine tree"
 	icon_state = "pine1"
-	desc = ""
+	desc = "A mighty conifer tree, standing proud. A familiar sight in cold and mountainous climates, \
+	and highly sought after for their resin."
 	icon = 'icons/obj/flora/pines.dmi'
 	pixel_w = -24
 	density = 0
@@ -783,6 +899,7 @@
 
 /obj/structure/flora/roguetree/pine/dead
 	name = "burnt pine tree"
+	desc = "Charred bark and ashen needles."
 	icon_state = "dead1"
 	max_integrity = 50
 	static_debris = list(/obj/item/rogueore/coal/charcoal = 1)

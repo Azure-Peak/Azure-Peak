@@ -115,11 +115,19 @@
 	var/flavortext = null
 	var/ooc_notes = null
 	var/ooc_extra
+	var/rumour = null
+	var/noble_gossip = null
 	var/song_title
 	var/song_artist
 	var/received_resident_key = FALSE
 	var/nsfwflavortext = null
 	var/erpprefs = null
+
+	// Cached version
+	var/flavortext_cached = ""
+	var/nsfwflavortext_cached = ""
+	var/ooc_notes_cached = ""
+	var/erpprefs_cached = ""
 
 	var/list/img_gallery = list()
 	
@@ -158,6 +166,12 @@
 
 	/// Assoc list of culinary preferences of the mob
 	var/list/culinary_preferences = list()
+
+	/// List of mobs that have attacked us. Only relevant to someone with TRAIT_TEMPO.
+	var/list/tempo_attackers = list()
+
+	var/next_tempo_cull
+
 
 	var/datum/charflaw/charflaw
 

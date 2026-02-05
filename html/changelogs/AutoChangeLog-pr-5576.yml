@@ -1,0 +1,7 @@
+author: "WeNeedMorePhoron"
+delete-after: True
+changes:
+  - balance: "Fetch & Repel no longer cross Z Level. It consumes 15 instead of 5 stamina."
+  - balance: "Fetch CD is now 8 seconds instead of 3"
+  - balance: "Frost Bolt no longer consume full arcyne mark for a 5 seconds immobilize and offbalance hard stun."
+  - balance: " Meteor Storm now have 300 seconds instead of 100 seconds CD. Release Drain is now 90 instead of 50 stamina."

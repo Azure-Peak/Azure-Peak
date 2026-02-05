@@ -10,6 +10,8 @@
 
 	var/mob/viewing
 
+/datum/examine_panel/familiar
+
 /datum/examine_panel/New(mob/holder_mob)
 	if(holder_mob)
 		holder = holder_mob
@@ -32,8 +34,63 @@
 		ui = new(user, src, "ExaminePanel")
 		ui.open()
 
-/datum/examine_panel/ui_data(mob/user)
+/datum/examine_panel/familiar/ui_static_data(mob/user) //altered and condensed version used for familiars. sorry
 
+	var/flavor_text
+	var/flavor_text_nsfw //probably breaks if i remove it entirely, just leaving it null
+	var/ooc_notes = ""
+	var/ooc_notes_nsfw
+	var/headshot = ""
+	var/list/img_gallery = list()
+	var/char_name
+	var/song_url
+	var/has_song = FALSE
+	var/is_vet = FALSE
+	var/is_naked = FALSE
+	var/obscured = FALSE
+
+	var/datum/preferences/prefs = holder.client?.prefs
+	var/datum/familiar_prefs/fam_pref = prefs?.familiar_prefs
+
+	flavor_text = fam_pref.familiar_flavortext_display
+	ooc_notes = fam_pref.familiar_ooc_notes_display
+	headshot = fam_pref.familiar_headshot_link
+	char_name = fam_pref.familiar_name
+	song_url = prefs.ooc_extra
+	is_vet = viewing.check_agevet()
+	if(!headshot)
+		headshot = "headshot_red.png"
+
+	if(song_url)
+		has_song = TRUE
+
+	var/list/data = list(
+		// Identity
+		"character_name" = obscured ? "Unknown" : char_name,
+		"headshot" = headshot,
+		"obscured" = obscured ? TRUE : FALSE,
+		// Descriptions
+		"flavor_text" = flavor_text,
+		"ooc_notes" = ooc_notes,
+		// Descriptions, but requiring manual input to see
+		"flavor_text_nsfw" = flavor_text_nsfw,
+		"ooc_notes_nsfw" = ooc_notes_nsfw,
+		"img_gallery" = img_gallery,
+		"has_song" = has_song,
+		"is_vet" = is_vet,
+		"is_naked" = is_naked,
+	)
+
+	return data
+
+/datum/examine_panel/familiar/ui_data(mob/user)
+	var/list/data = list( 
+		"is_playing" = is_playing,
+	)
+	return data
+
+// Where MOST of the examine panel data lives because it don't update mid game
+/datum/examine_panel/ui_static_data(mob/user)
 	var/flavor_text
 	var/flavor_text_nsfw
 	var/obscured
@@ -54,10 +111,10 @@
 		if(!(holder.wear_armor && holder.wear_armor.flags_inv) && !(holder.wear_shirt && holder.wear_shirt.flags_inv))
 			is_naked = TRUE
 		obscured = ((!isobserver(user)) && !holder_human.client?.prefs?.masked_examine) && ((holder_human.wear_mask && (holder_human.wear_mask.flags_inv & HIDEFACE)) || (holder_human.head && (holder_human.head.flags_inv & HIDEFACE)))
-		flavor_text = obscured ? "Obscured" : holder.flavortext
-		flavor_text_nsfw = obscured ? "Obscured" : holder.nsfwflavortext
-		ooc_notes += holder.ooc_notes
-		ooc_notes_nsfw += holder.erpprefs
+		flavor_text = obscured ? "Obscured" : holder.flavortext_cached
+		flavor_text_nsfw = obscured ? "Obscured" : holder.nsfwflavortext_cached
+		ooc_notes += holder.ooc_notes_cached
+		ooc_notes_nsfw += holder.erpprefs_cached
 		char_name = holder.name
 		song_url = holder.ooc_extra
 		is_vet = holder.check_agevet()
@@ -75,10 +132,10 @@
 	else if(pref)
 		is_naked = TRUE
 		obscured = FALSE
-		flavor_text = pref.flavortext
-		flavor_text_nsfw = pref.nsfwflavortext
-		ooc_notes = pref.ooc_notes
-		ooc_notes_nsfw = pref.erpprefs
+		flavor_text = pref.flavortext_cached
+		flavor_text_nsfw = pref.nsfwflavortext_cached
+		ooc_notes = pref.ooc_notes_cached
+		ooc_notes_nsfw = pref.erpprefs_cached
 		if(vampireplayer && (!SEND_SIGNAL(pref, COMSIG_DISGUISE_STATUS))&& !isnull(pref.vampire_headshot_link)) //vampire with their disguise down and a valid headshot
 			headshot = pref.vampire_headshot_link
 		else if (lichplayer && !isnull(pref.lich_headshot_link))//Lich with a valid headshot
@@ -91,18 +148,9 @@
 		is_vet = viewing.check_agevet()
 		if(!headshot)
 			headshot = "headshot_red.png"
-	
+
 	if(song_url)
 		has_song = TRUE
-
-	ooc_notes = html_encode(ooc_notes)
-	ooc_notes = parsemarkdown_basic(ooc_notes, hyperlink=TRUE)
-	ooc_notes_nsfw = html_encode(ooc_notes_nsfw)
-	ooc_notes_nsfw = parsemarkdown_basic(ooc_notes_nsfw, hyperlink=TRUE)
-	flavor_text = html_encode(flavor_text)
-	flavor_text = parsemarkdown_basic(flavor_text, hyperlink=TRUE)
-	flavor_text_nsfw = html_encode(flavor_text_nsfw)
-	flavor_text_nsfw = parsemarkdown_basic(flavor_text_nsfw, hyperlink=TRUE)
 
 	var/list/data = list(
 		// Identity
@@ -116,10 +164,15 @@
 		"flavor_text_nsfw" = flavor_text_nsfw,
 		"ooc_notes_nsfw" = ooc_notes_nsfw,
 		"img_gallery" = img_gallery,
-		"is_playing" = is_playing,
 		"has_song" = has_song,
 		"is_vet" = is_vet,
 		"is_naked" = is_naked,
+	)
+	return data
+
+/datum/examine_panel/ui_data(mob/user)
+	var/list/data = list(
+		"is_playing" = is_playing,
 	)
 	return data
 
@@ -137,7 +190,7 @@
 	var/artist_name = "Song Artist Hidden"
 	var/song_title
 	var/list/music_extra_data = list()
-	
+
 	C = viewing.client
 
 	if(ishuman(holder))
@@ -176,7 +229,6 @@
 			return TRUE
 
 /datum/examine_panel/ui_close()
-	viewing.client?.tgui_panel?.stop_music()
 	QDEL_NULL(src)
 
 /datum/examine_panel/ui_assets(mob/user)

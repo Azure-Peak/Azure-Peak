@@ -16,10 +16,15 @@
 	if(!user.has_hand_for_held_index(user.active_hand_index, TRUE)) //we obviously have a hadn, but we need to check for fingers/prosthetics
 		to_chat(user, span_warning("I can't move the fingers."))
 		return
-	if(!istype(src, /obj/item/grabbing))
+	if(!istype(src, /obj/item/grabbing) && !istype(src, /obj/item/rogueweapon/werewolf_claw))
 		if(HAS_TRAIT(user, TRAIT_CHUNKYFINGERS))
 			to_chat(user, span_warning("...What?"))
 			return
+		// FAR less aggressive version of chunkyfingers, designed to be used with nudist. Shrimply lets the user still use neat stuff like orison without letting them weaponize.
+		if(HAS_TRAIT(user, TRAIT_GNARLYDIGITS))
+			if(istype(src, /obj/item/rogueweapon) && !istype(src, /obj/item/rogueweapon/werewolf_claw))
+				to_chat(user, span_warning("My fingers are too misshapen to use this puny implement."))
+				return
 	if(tool_behaviour && target.tool_act(user, src, tool_behaviour))
 		return
 	if(pre_attack(target, user, params))
@@ -109,6 +114,12 @@
 		override_status = ATTACK_OVERRIDE_NODEFENSE
 
 
+	if(HAS_TRAIT(M, TRAIT_TEMPO))
+		if(ishuman(M) && ishuman(user) && user.mind)
+			var/mob/living/carbon/human/H = M
+			H.process_tempo_attack(user)
+
+
 	if(item_flags & NOBLUDGEON)
 		return FALSE	
 
@@ -184,14 +195,24 @@
 	//Niche signal for post-swingdelay attacks when we want to care about those.
 	_attacker_signal = null
 	_attacker_signal = SEND_SIGNAL(user, COMSIG_MOB_ITEM_ATTACK_POST_SWINGDELAY, M, user, src)
-	if(_attacker_signal & COMPONENT_ITEM_NO_ATTACK)
+	var/_defender_signal = SEND_SIGNAL(M, COMSIG_MOB_ITEM_POST_SWINGDELAY_ATTACKED, M, user, src)
+	if(_attacker_signal & COMPONENT_ITEM_NO_ATTACK || _defender_signal & COMPONENT_ITEM_NO_ATTACK)
 		return FALSE
-	else if(_attacker_signal & COMPONENT_ITEM_NO_DEFENSE)
+	else if(_attacker_signal & COMPONENT_ITEM_NO_DEFENSE || _defender_signal & ATTACK_OVERRIDE_NODEFENSE)
 		override_status = ATTACK_OVERRIDE_NODEFENSE
 
 	if(override_status != ATTACK_OVERRIDE_NODEFENSE)
 		if(M.checkdefense(user.used_intent, user))
 			return
+
+	if(user.mind)
+		if(user.client?.prefs?.attack_blip_frequency != ATTACK_BLIP_PREF_NEVER)
+			var/blip_prob = user.client?.prefs?.attack_blip_frequency
+			if(prob(blip_prob))
+				user.emote("attack", forced = TRUE)
+	else
+		if(prob(PROB_ATTACK_EMOTE_NPC))
+			user.emote("attack", forced = TRUE)
 
 	SEND_SIGNAL(src, COMSIG_ITEM_ATTACK_SUCCESS, M, user)
 	SEND_SIGNAL(M, COMSIG_ITEM_ATTACKED_SUCCESS, src, user)
@@ -227,6 +248,16 @@
 			else
 				playsound(M.loc,  "nodmg", 100, FALSE, -1)
 
+		if(M.has_flaw(/datum/charflaw/addiction/thrillseeker))
+			var/datum/component/arousal/CAR = M.GetComponent(/datum/component/arousal)
+			if(CAR)
+				CAR.adjust_arousal_special(src, 2)
+
+		if(user.has_flaw(/datum/charflaw/addiction/thrillseeker))
+			var/datum/component/arousal/CAR = user.GetComponent(/datum/component/arousal)
+			if(CAR)
+				CAR.adjust_arousal_special(src, 2)
+				
 	log_combat(user, M, "attacked", src.name, "(INTENT: [uppertext(user.used_intent.name)]) (DAMTYPE: [uppertext(damtype)])")
 	add_fingerprint(user)
 
@@ -242,6 +273,8 @@
 		return TRUE
 
 /obj/item/proc/attack_turf(turf/T, mob/living/user, multiplier)
+	if(SEND_SIGNAL(src, COMSIG_ITEM_ATTACK_TURF, T, user) & COMPONENT_NO_ATTACK_OBJ)
+		return
 	if(T.max_integrity)
 		if(T.attacked_by(src, user, multiplier))
 			user.do_attack_animation(T, simplified = TRUE)
@@ -269,8 +302,6 @@
 		var/mob/living/carbon/C = user
 		if(C.domhand)
 			used_str = C.get_str_arms(C.used_hand)
-	if(istype(user.rmb_intent, /datum/rmb_intent/strong))
-		used_str++
 	if(istype(user.rmb_intent, /datum/rmb_intent/weak))
 		used_str--
 	if(ishuman(user))
@@ -379,86 +410,7 @@
 			miner.mind.add_sleep_experience(/datum/skill/labor/mining, (miner.STAINT*0.2))
 		if(DULLING_SHAFT_CONJURED)
 			dullfactor = DULLFACTOR_COUNTERED_BY
-		if(DULLING_SHAFT_WOOD)	//Weak to cut / chop. No changes vs stab, resistant to blunt
-			switch(user.used_intent.blade_class)
-				if(BCLASS_CUT)
-					if(!I.remove_bintegrity(1))
-						dullfactor = DULLFACTOR_ANTAG
-					else
-						dullfactor = DULLFACTOR_COUNTERED_BY
-				if(BCLASS_CHOP)
-					if(!I.remove_bintegrity(1))
-						dullfactor = DULLFACTOR_ANTAG
-					else
-						dullfactor = DULLFACTOR_COUNTERED_BY
-				if(BCLASS_STAB)
-					dullfactor = DULLFACTOR_NEUTRAL
-				if(BCLASS_BLUNT)
-					dullfactor = DULLFACTOR_COUNTERS
-				if(BCLASS_SMASH)
-					dullfactor = DULLFACTOR_COUNTERS
-				if(BCLASS_PICK)
-					dullfactor = DULLFACTOR_COUNTERS
-		if(DULLING_SHAFT_REINFORCED)	//Weak to stab. No changes vs blunt, resistant to cut / chop
-			switch(user.used_intent.blade_class)
-				if(BCLASS_CUT)
-					if(!I.remove_bintegrity(1))
-						dullfactor = DULLFACTOR_ANTAG
-					else
-						dullfactor = DULLFACTOR_COUNTERS
-				if(BCLASS_CHOP)
-					if(!I.remove_bintegrity(1))
-						dullfactor = DULLFACTOR_ANTAG
-					else
-						dullfactor = DULLFACTOR_COUNTERS
-				if(BCLASS_STAB)
-					dullfactor = DULLFACTOR_COUNTERED_BY
-				if(BCLASS_BLUNT)
-					dullfactor = DULLFACTOR_NEUTRAL
-				if(BCLASS_SMASH)
-					dullfactor = DULLFACTOR_COUNTERED_BY
-				if(BCLASS_PICK)
-					dullfactor = DULLFACTOR_COUNTERS
-		if(DULLING_SHAFT_METAL)	//Weak to blunt. No changes vs stab, resistant to cut / chop. Pick can actually damage it.
-			switch(user.used_intent.blade_class)
-				if(BCLASS_CUT)
-					if(!I.remove_bintegrity(1))
-						dullfactor = DULLFACTOR_ANTAG
-					else
-						dullfactor = DULLFACTOR_COUNTERS
-				if(BCLASS_CHOP)
-					if(!I.remove_bintegrity(1))
-						dullfactor = DULLFACTOR_ANTAG
-					else
-						dullfactor = DULLFACTOR_COUNTERS
-				if(BCLASS_STAB)
-					dullfactor = DULLFACTOR_COUNTERS
-				if(BCLASS_BLUNT)
-					dullfactor = DULLFACTOR_COUNTERED_BY
-				if(BCLASS_SMASH)
-					dullfactor = DULLFACTOR_COUNTERED_BY
-				if(BCLASS_PICK)
-					dullfactor = DULLFACTOR_NEUTRAL
-		if(DULLING_SHAFT_GRAND)	//Resistant to all
-			switch(user.used_intent.blade_class)
-				if(BCLASS_CUT)
-					if(!I.remove_bintegrity(1))
-						dullfactor = 0
-					else
-						dullfactor = DULLFACTOR_ANTAG
-				if(BCLASS_CHOP)
-					if(!I.remove_bintegrity(1))
-						dullfactor = 0
-					else
-						dullfactor = DULLFACTOR_ANTAG
-				if(BCLASS_STAB)
-					dullfactor = DULLFACTOR_ANTAG
-				if(BCLASS_BLUNT)
-					dullfactor = DULLFACTOR_ANTAG
-				if(BCLASS_SMASH)
-					dullfactor = DULLFACTOR_NEUTRAL
-				if(BCLASS_PICK)
-					dullfactor = DULLFACTOR_ANTAG
+
 	var/newdam = (I.force_dynamic * user.used_intent.damfactor) - I.force_dynamic
 	if(user.used_intent.damfactor > 1 && I.sharpness != IS_BLUNT)	//Only relevant if damfactor actually adds damage.
 		if(dullness_ratio <= SHARPNESS_TIER1_FLOOR)
@@ -480,6 +432,11 @@
 			if(prob(33))
 				to_chat(user, span_info("The blade is dull..."))
 			newforce *= (lerpratio * 2)
+
+	if(istype(user.rmb_intent, /datum/rmb_intent/strong))
+		newforce += (I.force_dynamic * STRONG_STANCE_DMG_BONUS)
+
+	newforce = CLAMP(newforce, user.used_intent.min_intent_damage, user.used_intent.max_intent_damage)
 
 	return newforce
 
@@ -639,6 +596,7 @@
 					I.add_mob_blood(src)
 					var/turf/location = get_turf(src)
 					add_splatter_floor(location)
+					add_splatter_wall(location, force = newforce)
 					if(get_dist(user, src) <= 1)	//people with TK won't get smeared with blood
 						user.add_mob_blood(src)
 			if(newforce > 15)
@@ -646,6 +604,7 @@
 					I.add_mob_blood(src)
 					var/turf/location = get_turf(src)
 					add_splatter_floor(location)
+					add_splatter_wall(location, force = newforce)
 					if(get_dist(user, src) <= 1)	//people with TK won't get smeared with blood
 						user.add_mob_blood(src)
 	send_item_attack_message(I, user, hitlim)
@@ -736,7 +695,7 @@
 		var/attack_message_self = span_combatprimary("[user] [message_verb] [src] in the [span_combatsecondarybp(message_hit_area)] with [I]!")
 		to_chat(user, "[attack_message_self][next_attack_msg.Join()]")
 	visible_message("[attack_message][span_combatsecondarysmall(next_attack_msg.Join())]",\
-		"[attack_message_local][next_attack_msg.Join()]", null, COMBAT_MESSAGE_RANGE, list(user))	//We try not to show this to the user (attacker)
+		"[attack_message_local][next_attack_msg.Join()]", null, COMBAT_MESSAGE_RANGE, user)	//We try not to show this to the user (attacker)
 	next_attack_msg.Cut()
 	return 1
 

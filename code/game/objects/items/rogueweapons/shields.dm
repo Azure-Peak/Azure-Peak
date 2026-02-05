@@ -24,7 +24,7 @@
 	max_integrity = 100
 	anvilrepair = /datum/skill/craft/carpentry
 	COOLDOWN_DECLARE(shield_bang)
-
+	special = /datum/special_intent/limbguard
 
 /obj/item/rogueweapon/shield/attackby(obj/item/attackby_item, mob/user, params)
 
@@ -95,6 +95,9 @@
 /datum/intent/mace/smash/shield/metal
 	hitsound = list('sound/combat/parry/shield/metalshield (1).ogg')
 
+/datum/intent/effect/daze/shield
+	hitsound = list('sound/combat/parry/shield/metalshield (1).ogg')
+
 /obj/item/rogueweapon/shield/wood
 	name = "wooden shield"
 	desc = "A sturdy wooden shield. Will block anything you can imagine."
@@ -103,13 +106,22 @@
 	anvilrepair = /datum/skill/craft/carpentry
 	coverage = 30
 
+/obj/item/rogueweapon/shield/wood/deprived
+	name = "ghastly shield"
+	desc = "A frail looking amalgamation of planks. Yet somehow, the very wood itself seem to be filling you with resolve."
+	icon_state = "deprived"
+	coverage = 40
+	max_integrity = 200
+
 /obj/item/rogueweapon/shield/attack_right(mob/user)
-	if(overlays.len)
+	if(length(overlays))
 		..()
 		return
 
 	var/icon/J = new('icons/roguetown/weapons/shield_heraldry.dmi')
 	var/list/istates = J.IconStates()
+	if(!istates || !length(istates))
+		return
 	for(var/icon_s in istates)
 		if(!findtext(icon_s, "[icon_state]_"))
 			istates.Remove(icon_s)
@@ -228,6 +240,26 @@
 				return list("shrink" = 0.6,"sx" = 1,"sy" = 4,"nx" = 1,"ny" = 2,"wx" = 3,"wy" = 3,"ex" = 0,"ey" = 2,"nturn" = 0,"sturn" = 0,"wturn" = 0,"eturn" = 0,"nflip" = 8,"sflip" = 0,"wflip" = 0,"eflip" = 0,"northabove" = 1,"southabove" = 0,"eastabove" = 0,"westabove" = 0)
 	return ..()
 
+/obj/item/rogueweapon/shield/tower/metal/gold
+	name = "golden shield"
+	desc = "A resplendant kite shield, assembled from six golden plates that've been hooked together by a glimmering holy sigil. Nobility may be fragile, but - so long as its grip remains steadfast - none could ever hope to sever its weakest link."
+	icon_state = "goldshield"
+	force = 25
+	throwforce = 35
+	throw_speed = 1
+	throw_range = 3
+	possible_item_intents = list(SHIELD_BASH_METAL, SHIELD_BLOCK, SHIELD_SMASH_METAL)
+	wlength = WLENGTH_NORMAL
+	resistance_flags = null
+	flags_1 = CONDUCT_1
+	wdefense = 14
+	coverage = 50
+	attacked_sound = list('sound/combat/parry/shield/metalshield (1).ogg','sound/combat/parry/shield/metalshield (2).ogg','sound/combat/parry/shield/metalshield (3).ogg')
+	parrysound = list('sound/combat/parry/shield/metalshield (1).ogg','sound/combat/parry/shield/metalshield (2).ogg','sound/combat/parry/shield/metalshield (3).ogg')
+	max_integrity = 50
+	smeltresult = /obj/item/ingot/gold
+	unenchantable = TRUE
+
 /obj/item/rogueweapon/shield/tower/metal/psy
 	name = "Covenant"
 	desc = "A Psydonian endures. A Psydonian preserves themselves. A Psydonian preserves His flock."
@@ -301,6 +333,8 @@
 	desc = "A bulky shield of spike-like lengths molten together. The motifs evoke anything but safety and protection."
 	icon_state = "spidershield"
 	coverage = 55
+	smeltresult = /obj/item/ingot/drow
+	smelt_bar_num = 1
 
 /obj/item/rogueweapon/shield/buckler
 	name = "buckler shield"
@@ -321,6 +355,12 @@
 	grid_width = 32
 	grid_height = 64
 	anvilrepair = /datum/skill/craft/weaponsmithing
+
+/obj/item/rogueweapon/shield/buckler/equipped(mob/user, slot, initial)
+	. = ..()
+	if(HAS_TRAIT(user, TRAIT_GNARLYDIGITS))
+		to_chat(user, span_danger("Woe! the handle of the [src] is too small for me to hold onto!"))
+		forceMove(user.loc)
 
 /obj/item/rogueweapon/shield/buckler/examine(mob/living/user)
 	. = ..()
@@ -359,10 +399,10 @@
 	max_integrity = 85
 	smeltresult = /obj/item/ingot/purifiedaalloy
 
-// unique, better buckler for knight captain
-/obj/item/rogueweapon/shield/buckler/knightcaptain
+// unique, better buckler for champion
+/obj/item/rogueweapon/shield/buckler/banneret
 	name = "'Aegis'"
-	desc = "A special buckler made out of blacksteel for the Knight Captain, adorned with a crest. An inscription along the top reads,\"RUAT CAELUM\""
+	desc = "A special buckler made out of blacksteel for the Knight Banneret, adorned with a crest. An inscription along the top reads,\"RUAT CAELUM\""
 	icon_state = "capbuckler"
 	icon = 'icons/roguetown/weapons/special/captain.dmi'
 	max_integrity = 150
@@ -374,6 +414,7 @@
 	name = "heater shield"
 	desc = "A sturdy wood and leather shield. Made to not be too encumbering while still providing good protection."
 	icon_state = "heatersh"
+	slot_flags = ITEM_SLOT_HIP | ITEM_SLOT_BACK
 	force = 15
 	throwforce = 10
 	dropshrink = 0.8
@@ -415,7 +456,37 @@
 			if("onback")
 				return list("shrink" = 0.6,"sx" = 1,"sy" = 4,"nx" = 1,"ny" = 2,"wx" = 3,"wy" = 3,"ex" = 0,"ey" = 2,"nturn" = 0,"sturn" = 0,"wturn" = 0,"eturn" = 0,"nflip" = 8,"sflip" = 0,"wflip" = 0,"eflip" = 0,"northabove" = 1,"southabove" = 0,"eastabove" = 0,"westabove" = 0)
 
+/obj/item/rogueweapon/shield/iron/bone
+	name = "bone shield"
+	desc = "If they couldn't protect their previous owners, how confident are you in these bones protecting you?"
+	icon_state = "boneshield"
+	smeltresult = null 
+	
 #undef SHIELD_BANG_COOLDOWN
+
+/obj/item/rogueweapon/shield/bronze
+	name = "hoplon shield"
+	desc = "The finest companion to a javelin, gladius, and warclub; a thick-yet-sturdy shield of bronze. "
+	icon_state = "bronzeshield"
+	force = 25
+	throwforce = 30 // DO NOT GIVE ANYTHING; BUT TAKE FROM THEM.. EVERYTHING!
+	dropshrink = 0.8 // Free free to add actual designs to this shield, too, if-or-whenever.
+	coverage = 30
+	minstr = 11 //Particularly heavy to use as a melee weapon.
+	attacked_sound = list('sound/combat/parry/shield/metalshield (1).ogg','sound/combat/parry/shield/metalshield (2).ogg','sound/combat/parry/shield/metalshield (3).ogg')
+	parrysound = list('sound/combat/parry/shield/metalshield (1).ogg','sound/combat/parry/shield/metalshield (2).ogg','sound/combat/parry/shield/metalshield (3).ogg')
+	possible_item_intents = list(/datum/intent/shield/block, /datum/intent/mace/smash/shield/metal, /datum/intent/effect/daze) // No SHIELD_BASH. Able to inflict Daze due to its weight. 
+	max_integrity = 260
+	anvilrepair = /datum/skill/craft/weaponsmithing
+
+/obj/item/rogueweapon/shield/bronze/getonmobprop(tag)
+	. = ..()
+	if(tag)
+		switch(tag)
+			if("gen")
+				return list("shrink" = 0.6,"sx" = -5,"sy" = -1,"nx" = 6,"ny" = -1,"wx" = 0,"wy" = -2,"ex" = 0,"ey" = -2,"northabove" = 0,"southabove" = 1,"eastabove" = 1,"westabove" = 0,"nturn" = 0,"sturn" = 0,"wturn" = 0,"eturn" = 0,"nflip" = 0,"sflip" = 0,"wflip" = 0,"eflip" = 0)
+			if("onback")
+				return list("shrink" = 0.6,"sx" = 1,"sy" = 4,"nx" = 1,"ny" = 2,"wx" = 3,"wy" = 3,"ex" = 0,"ey" = 2,"nturn" = 0,"sturn" = 0,"wturn" = 0,"eturn" = 0,"nflip" = 8,"sflip" = 0,"wflip" = 0,"eflip" = 0,"northabove" = 1,"southabove" = 0,"eastabove" = 0,"westabove" = 0)
 
 /obj/item/rogueweapon/shield/iron/steppesman
 	name = "steppesman shield"
@@ -431,6 +502,10 @@
 	coverage = 15
 	max_integrity = 200
 	possible_item_intents = list(SHIELD_BLOCK, FENCER_DAZE) */
+
+//////////////
+// SPECIAL! //
+//////////////
 
 /obj/item/rogueweapon/shield/steam
 	name = "steam shield"
@@ -450,7 +525,7 @@
 /obj/item/rogueweapon/shield/steam/attack_self(mob/user)
 	if(cooldowny)
 		if(world.time < cooldowny + cdtime)
-			to_chat(user, span_warning("[src] hisses weakly, It's still building up steam!"))
+			to_chat(user, span_warning("[src] hisses weakly, it's still building up steam!"))
 			return
 	if(prob(25))
 		smoke_path = /obj/effect/particle_effect/smoke/bad
@@ -500,3 +575,83 @@
 				return list("shrink" = 0.6,"sx" = -5,"sy" = -1,"nx" = 6,"ny" = -1,"wx" = 0,"wy" = -2,"ex" = 0,"ey" = -2,"northabove" = 0,"southabove" = 1,"eastabove" = 1,"westabove" = 0,"nturn" = 0,"sturn" = 0,"wturn" = 0,"eturn" = 0,"nflip" = 0,"sflip" = 0,"wflip" = 0,"eflip" = 0)
 			if("onback")
 				return list("shrink" = 0.6,"sx" = 1,"sy" = 4,"nx" = 1,"ny" = 2,"wx" = 3,"wy" = 3,"ex" = 0,"ey" = 2,"nturn" = 0,"sturn" = 0,"wturn" = 0,"eturn" = 0,"nflip" = 8,"sflip" = 0,"wflip" = 0,"eflip" = 0,"northabove" = 1,"southabove" = 0,"eastabove" = 0,"westabove" = 0)
+
+
+/obj/item/rogueweapon/shield/tower/metal/gold/king
+	name = "\"Bulwarke\""
+	desc = "A resplendant kite shield, assembled from six golden plates that've been hooked together by a glimmering holy sigil. Mounted in its core is a shard of Astrata's divinity authority, crackling with the strength to violently repulse man-and-monster alike. ‎</br>‎‎ </br>'Tyranny and honor! Glory to thine kingdome-come! Let thine will be done!'"
+	icon_state = "goldshieldking"
+	max_integrity = 350
+	var/smoke_path = /obj/effect/particle_effect/smoke/transparent
+	var/cooldowny
+	var/cdtime = 30 SECONDS
+	unenchantable = TRUE
+
+/obj/item/rogueweapon/shield/tower/metal/gold/king/attack_self(mob/user)
+	if(cooldowny)
+		if(world.time < cooldowny + cdtime)
+			to_chat(user, span_warning("[src] weakly crackles, yet to be ready for another repulsation!"))
+			return
+	if(prob(25))
+		smoke_path = /obj/effect/particle_effect/smoke
+	else
+		smoke_path = /obj/effect/particle_effect/smoke/transparent
+	var/list/thrownatoms = list()
+	var/atom/throwtarget
+	var/distfromcaster
+	user.visible_message(span_notice("The dorpel mounted upon [src] crackles, crackling with restored power!"))
+	to_chat(user, span_warning("[user] invokes the power within [src], releasing a powerful shockwave!"))
+	sleep(15)
+	playsound(user, 'sound/items/steamrelease.ogg', 100, FALSE, -1)
+	cooldowny = world.time
+	addtimer(CALLBACK(src,PROC_REF(steamready), user), cdtime)
+	for(var/atom/movable/AM in view(1, user))
+		thrownatoms += AM
+	for(var/turf/T in oview(2, user))
+		new smoke_path(T) //smoke everywhere!
+
+	for(var/atom/movable/AM as anything in thrownatoms)
+		if(AM == user || AM.anchored)
+			continue
+		throwtarget = get_edge_target_turf(user, get_dir(user, get_step_away(AM, user)))
+		distfromcaster = get_dist(user, AM)
+
+		if(distfromcaster == 0)
+			if(isliving(AM))
+				var/mob/living/M = AM
+				M.Paralyze(10)
+				M.adjustFireLoss(25)
+				to_chat(M, span_danger("You're slammed into the floor by [user]!"))
+		else
+			if(isliving(AM))
+				var/mob/living/M = AM
+				M.adjustFireLoss(25)
+				to_chat(M, span_danger( "You're thrown back by [user]!"))
+			AM.safe_throw_at(throwtarget, 4, 2, user, TRUE, force = MOVE_FORCE_OVERPOWERING)
+
+/obj/item/rogueweapon/shield/tower/metal/gold/king/proc/steamready(mob/user)
+	playsound(user, 'sound/items/steamcreation.ogg', 100, FALSE, -1)
+	to_chat(user, span_warning("[src] is ready to be used again!"))
+
+/proc/get_icon_states_cached(icon_or_path)
+	if(!icon_or_path)
+		return null
+
+	var/cache_key
+	var/icon/I
+
+	if(istext(icon_or_path))
+		cache_key = icon_or_path
+		if(!GLOB.IconStates_cache[cache_key])
+			I = icon(icon_or_path)
+			GLOB.IconStates_cache[cache_key] = I.IconStates()
+		return GLOB.IconStates_cache[cache_key]
+
+	if(isicon(icon_or_path))
+		I = icon_or_path
+		cache_key = "[I]"
+		if(!GLOB.IconStates_cache[cache_key])
+			GLOB.IconStates_cache[cache_key] = I.IconStates()
+		return GLOB.IconStates_cache[cache_key]
+
+	return null

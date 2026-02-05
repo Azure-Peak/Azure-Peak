@@ -171,6 +171,11 @@
 	cost = 90 // 2 Steel
 	contains = list(/obj/item/clothing/head/roguetown/helmet/bascinet/etruscan)
 
+/datum/supply_pack/rogue/armor_steel/helmet_knight_armet
+	name = "Helmet, Armet, Knight's"
+	cost = 90 // 2 Steel
+	contains = list(/obj/item/clothing/head/roguetown/helmet/heavy/knight/old)
+
 /datum/supply_pack/rogue/armor_steel/helmet_knight
 	name = "Helmet, Knight's"
 	cost = 90 // 2 Steel
@@ -190,6 +195,21 @@
 	name = "Helmet, Barred"
 	cost = 90 // 2 Steel
 	contains = list(/obj/item/clothing/head/roguetown/helmet/heavy/sheriff)
+
+/datum/supply_pack/rogue/armor_steel/kettle_slitted
+	name = "Helmet, Slitted Kettle"
+	cost = 90 // 2 Steel
+	contains = list(/obj/item/clothing/head/roguetown/helmet/heavy/knight/skettle)
+
+/datum/supply_pack/rogue/armor_steel/elvenbarbute
+	name = "Helmet, Elven, Barbute"
+	cost = 90 // 2 Steel
+	contains = list(/obj/item/clothing/head/roguetown/helmet/elvenbarbute)
+
+/datum/supply_pack/rogue/armor_steel/elvenbarbutewinged
+	name = "Helmet, Elven, Barbute, Winged"
+	cost = 90 // 2 Steel
+	contains = list(/obj/item/clothing/head/roguetown/helmet/elvenbarbute/winged)
 
 /datum/supply_pack/rogue/armor_steel/bevor
 	name = "Bevor"
@@ -220,8 +240,3 @@
 	name = "Belt, Tasseted"
 	cost = 50 // 1 Steel
 	contains = list(/obj/item/storage/belt/rogue/leather/steel/tasset)
-
-/datum/supply_pack/rogue/armor_steel/steel/metalkit
-	name = "Armor Plates"
-	cost = 60 // 1 Steel 0.5 iron 1 leather
-	contains = list(/obj/item/repair_kit/metal)

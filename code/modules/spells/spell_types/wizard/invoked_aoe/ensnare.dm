@@ -21,6 +21,7 @@
 	glow_color = GLOW_COLOR_DISPLACEMENT
 	glow_intensity = GLOW_INTENSITY_MEDIUM
 	overlay_state = "ensnare"
+	human_req = TRUE // Combat spell
 	var/area_of_effect = 1
 	var/duration = 5 SECONDS
 	var/delay = 0.8 SECONDS
@@ -28,7 +29,7 @@
 /obj/effect/proc_holder/spell/invoked/ensnare/cast(list/targets, mob/user = usr)
 	var/turf/T = get_turf(targets[1])
 
-	for(var/turf/affected_turf in view(area_of_effect, T))
+	for(var/turf/affected_turf in get_hear(area_of_effect, T))
 		if(affected_turf.density)
 			continue
 		new /obj/effect/temp_visual/ensnare(affected_turf)

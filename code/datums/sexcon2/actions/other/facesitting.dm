@@ -1,5 +1,6 @@
 /datum/sex_action/facesitting
 	name = "Sit on their face"
+	intensity = 3
 
 /datum/sex_action/facesitting/shows_on_menu(mob/living/carbon/human/user, mob/living/carbon/human/target)
 	if(user == target)
@@ -37,7 +38,7 @@
 	var/verbstring = pick(list("rubs", "smushes", "forces"))
 	user.visible_message(sex_session.spanify_force("[user] [sex_session.get_generic_force_adjective()] [verbstring] [user.p_their()] butt against [target] face."))
 	target.make_sucking_noise()
-	do_thrust_animate(user, target)
+	do_thrust_animate(user, target, sex_session)
 
 	sex_session.perform_sex_action(user, 1, 3, TRUE)
 	sex_session.handle_passive_ejaculation()

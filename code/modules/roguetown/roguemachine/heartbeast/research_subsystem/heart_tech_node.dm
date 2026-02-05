@@ -18,7 +18,7 @@
 /// HEALING MIRACLE TECHS
 /datum/chimeric_tech_node/awaken_healing
 	name = "Awaken divine regeneration"
-	description = "Increases the healing of most healing miracles significantly."
+	description = "Clears the veil weakening healing miracles in this region, improving healing miracles greatly."
 	string_id = "HEAL_TIER1"
 	required_tier = 1
 	cost = 15
@@ -158,3 +158,12 @@
 	required_tier = 1
 	cost = 5
 	selection_weight = 2
+
+// SPECIAL RESEARCH
+	name = "Sanctified lampterns"
+	description = "Allows fashioning fog repelling lampterns at anvils."
+	string_id = "SANCTIFIED_LAMPTERNS"
+	required_tier = 99
+	cost = 5
+	selection_weight = 1
+	is_recipe_node = TRUE

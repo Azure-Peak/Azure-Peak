@@ -60,6 +60,18 @@
 	reqs = list(/obj/item/natural/hide/cured = 2,
 				/obj/item/natural/fibers = 2)
 
+/datum/crafting_recipe/roguetown/leather/container/boltpouch
+	name = "quiver, bolt pouch"
+	result = /obj/item/quiver/bolt
+	reqs = list(/obj/item/natural/hide/cured = 2,
+				/obj/item/natural/fibers = 1)
+
+/datum/crafting_recipe/roguetown/leather/container/heavyboltpouch
+	name = "quiver, heavy bolt pouch"
+	result = /obj/item/quiver/bolt/heavy
+	reqs = list(/obj/item/natural/hide/cured = 3,
+				/obj/item/natural/fibers = 2)
+
 /datum/crafting_recipe/roguetown/leather/container/javelinbag
 	name = "javelin bag"
 	result = /obj/item/quiver/javelin
@@ -76,6 +88,12 @@
 	name = "bandolier"
 	result = /obj/item/twstrap
 	reqs = list(/obj/item/natural/hide/cured = 2,
+				/obj/item/rope = 1)
+
+/datum/crafting_recipe/roguetown/leather/container/grenstrap
+	name = "grenadier bandolier"
+	result = /obj/item/twstrap/bombstrap
+	reqs = list(/obj/item/natural/hide/cured = 3,
 				/obj/item/rope = 1)
 
 /datum/crafting_recipe/roguetown/leather/container/belt

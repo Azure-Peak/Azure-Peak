@@ -100,7 +100,7 @@
 	tech_unlocked = FALSE
 
 /datum/crafting_recipe/roguetown/fleshcrafting/leechbait
-	name = "leechbait"
+	name = "leechbait (from bag)"
 	craftdiff = 1
 	result = list(
 		/obj/item/bait/leech,
@@ -108,8 +108,36 @@
 		/obj/item/bait/leech,
 		)
 	reqs = list(
-		/obj/item/storage/roguebag = 3,
+		/obj/item/storage/roguebag = 1,
 		/obj/item/reagent_containers/lux_impure = 1,
+		)
+	subtype_reqs = TRUE
+	structurecraft = null
+
+/datum/crafting_recipe/roguetown/fleshcrafting/leechbaitcloth
+	name = "leechbait (from cloth)"
+	craftdiff = 1
+	result = list(
+		/obj/item/bait/leech,
+		/obj/item/bait/leech,
+		/obj/item/bait/leech,
+		)
+	reqs = list(
+		/obj/item/natural/cloth = 2,
+		/obj/item/reagent_containers/lux_impure = 1,
+		)
+	subtype_reqs = TRUE
+	structurecraft = null
+
+/datum/crafting_recipe/roguetown/fleshcrafting/imperfect_gnoll
+	name = "vilespawn flesh"
+	craftdiff = 1
+	result = list(
+		/obj/item/reagent_containers/food/snacks/rogue/meat/steak/vilespawn
+		)
+	reqs = list(
+		/obj/item/reagent_containers/food/snacks/rogue/meat/steak/gnoll = 1,
+		/obj/item/roguegem/blood_diamond = 1,
 		)
 	subtype_reqs = TRUE
 	structurecraft = null

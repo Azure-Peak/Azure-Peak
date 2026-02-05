@@ -186,6 +186,8 @@ GLOBAL_VAR_INIT(mobids, 1)
 		return
 	if(!islist(ignored_mobs))
 		ignored_mobs = list(ignored_mobs)
+	if(!isnum(vision_distance))
+		vision_distance = DEFAULT_MESSAGE_RANGE
 	var/list/hearers = get_hearers_in_view(vision_distance, src) //caches the hearers and then removes ignored mobs.
 	hearers -= ignored_mobs
 	if(self_message)
@@ -221,14 +223,14 @@ GLOBAL_VAR_INIT(mobids, 1)
  * * deaf_message (optional) is what deaf people will see.
  * * hearing_distance (optional) is the range, how many tiles away the message can be heard.
  */
-/atom/proc/audible_message(message, deaf_message, hearing_distance = DEFAULT_MESSAGE_RANGE, self_message, runechat_message = null, log_seen = NONE, log_seen_msg = null)
+/atom/proc/audible_message(message, deaf_message, hearing_distance = DEFAULT_MESSAGE_RANGE, self_message, runechat_message = null, log_seen = NONE, log_seen_msg = null, custom_spans = list("emote"), used_language = /datum/language/common)
 	var/list/hearers = get_hearers_in_view(hearing_distance, src)
 	if(self_message)
 		hearers -= src
 	for(var/mob/M in hearers)
 		M.show_message(message, MSG_AUDIBLE, deaf_message, MSG_VISUAL)
 		if(runechat_message && M.can_see_runechat(src) && M.can_hear())
-			M.create_chat_message(src, raw_message = runechat_message, spans = list("emote"))
+			M.create_chat_message(src, used_language, raw_message = runechat_message, spans = custom_spans)
 	if(log_seen)
 		log_seen(src, null, hearers, (log_seen_msg ? log_seen_msg : message), log_seen)
 
@@ -299,7 +301,7 @@ GLOBAL_VAR_INIT(mobids, 1)
  * * deaf_message (optional) is what deaf people will see.
  * * hearing_distance (optional) is the range, how many tiles away the message can be heard.
  */
-/mob/audible_message(message, deaf_message, hearing_distance = DEFAULT_MESSAGE_RANGE, self_message, runechat_message = null, log_seen = NONE, log_seen_msg = null)
+/mob/audible_message(message, deaf_message, hearing_distance = DEFAULT_MESSAGE_RANGE, self_message, runechat_message = null, log_seen = NONE, log_seen_msg = null, custom_spans = list("emote"), used_language = /datum/language/common)
 	. = ..()
 	if(self_message)
 		show_message(self_message, MSG_AUDIBLE, deaf_message, MSG_VISUAL)
@@ -489,7 +491,7 @@ GLOBAL_VAR_INIT(mobids, 1)
 				target = "themselves"
 			else if(A.loc == src)
 				target = "[src.p_their()] [A.name]"
-			else if(A.loc.loc == src)
+			else if(A.loc?.loc == src)
 				message = "[src] looks into"
 				target = "[src.p_their()] [A.loc.name]"
 			else if(isliving(A) && src.cmode)
@@ -745,37 +747,38 @@ GLOBAL_VAR_INIT(mobids, 1)
  */
 /mob/Stat()
 	..()
-	// && check_rights(R_ADMIN,0)
-	var/time_left = SSgamemode.round_ends_at - world.time
-	if(client)
-		if(statpanel("RoundInfo"))
-			stat(null, "MAP: [SSmapping.config?.map_name || "Loading..."]")
-			var/datum/map_config/cached = SSmapping.next_map_config
-			if(cached)
-				stat(null, "Next Map: [cached.map_name]")
-			stat(null, "Round Id: [GLOB.rogue_round_id ? GLOB.rogue_round_id : "NULL"]")
-			stat(null, "Round Time: [time2text(STATION_TIME_PASSED(), "hh:mm:ss", 0)] [world.time - SSticker.round_start_time]")
-			if(SSgamemode.roundvoteend)
-				stat("Round End: [DisplayTimeText(time_left)]")
-			if(client?.holder)
-				stat(null, "Round TrueTime: [worldtime2text()] [world.time]")
-			stat(null, "IC Date: [get_current_ic_date_as_string()]")
-			stat(null, "Time: [get_current_ic_time_as_string()]")
-			stat(null, "Ping: [round(client.lastping, 1)]ms (Average: [round(client.avgping, 1)]ms)")
-			stat(null, "Time Dilation: [round(SStime_track.time_dilation_current,1)]% AVG:([round(SStime_track.time_dilation_avg_fast,1)]%, [round(SStime_track.time_dilation_avg,1)]%, [round(SStime_track.time_dilation_avg_slow,1)]%)")
-			if(check_rights(R_ADMIN,0))
-				stat(null, SSmigrants.get_status_line())
 
-	if(client && client.holder && check_rights(R_DEBUG,0))
+	if(!client)
+		return
+
+	var/datum/controller/subsystem/statpanel/SS = SSstatpanel
+
+	if(statpanel("RoundInfo"))
+		for(var/line in SS.base_roundinfo_text)
+			stat(null, line)
+
+		if(client.holder)
+			for(var/line in SS.debug_roundinfo_text)
+				stat(null, line)
+
+		stat(null, SS.ic_date_text)
+		stat(null, SS.timeofday_text)
+		stat(null, "PING: [round(client.lastping,1)]ms (AVG: [round(client.avgping,1)]ms)")
+		stat(null, SS.td_info_text)
+
+		if(check_rights(R_ADMIN,0))
+			for(var/line in SS.admin_roundinfo_text)
+				stat(null, line)
+
+	if(client?.holder && check_rights(R_DEBUG, 0))
 		if(statpanel("MC"))
 			var/turf/T = get_turf(client.eye)
 			stat("Location:", COORD(T))
-			stat("CPU:", "[world.cpu]")
-			stat("Instances:", "[num2text(world.contents.len, 10)]")
-			stat("World Time:", "[world.time]")
+			for(var/line in SSstatpanel.mc_info_text)
+				stat(null, line)
+
 			GLOB.stat_entry()
 			config.stat_entry()
-			stat(null)
 			if(Master)
 				Master.stat_entry()
 			else
@@ -784,12 +787,16 @@ GLOBAL_VAR_INIT(mobids, 1)
 				Failsafe.stat_entry()
 			else
 				stat("Failsafe Controller:", "ERROR")
-			if(Master)
-				stat(null)
-				for(var/datum/controller/subsystem/SS in Master.subsystems)
-					SS.stat_entry()
+				
+			stat(null)
+
+			for(var/entry in SSstatpanel.mc_cache)
+				var/datum/controller/subsystem/SSsub = entry["subsystem"]
+				stat(entry["title"], SSsub.statclick.update(entry["msg"]))
+				
 		if(statpanel("Tickets"))
 			GLOB.ahelp_tickets.stat_entry()
+
 		if(length(GLOB.sdql2_queries))
 			if(statpanel("SDQL2"))
 				stat("Access Global SDQL2 List", GLOB.sdql2_vv_statobj)
@@ -802,10 +809,12 @@ GLOBAL_VAR_INIT(mobids, 1)
 			listed_turf = null
 		else
 			statpanel(listed_turf.name, null, listed_turf)
+
 			var/list/overrides = list()
 			for(var/image/I in client.images)
 				if(I.loc && I.loc.loc == listed_turf && I.override)
 					overrides += I.loc
+
 			for(var/atom/A in listed_turf)
 				if(!A.mouse_opacity)
 					continue
@@ -813,8 +822,8 @@ GLOBAL_VAR_INIT(mobids, 1)
 					continue
 				if(overrides.len && (A in overrides))
 					continue
-				statpanel(listed_turf.name, null, A)
 
+				statpanel(listed_turf.name, null, A)
 
 //	if(mind)
 //		add_spells_to_statpanel(mind.spell_list)
@@ -975,6 +984,12 @@ GLOBAL_VAR_INIT(mobids, 1)
 /mob/proc/AddSpell(obj/effect/proc_holder/spell/S)
 	mob_spell_list += S
 	S.action.Grant(src)
+
+/mob/proc/HasSpell(var/spell_type)
+	for(var/obj/effect/proc_holder/spell/spell as anything in mob_spell_list)
+		if(spell.type == spell_type)
+			return spell
+	return null
 
 ///Remove a spell from the mobs spell list
 /mob/proc/RemoveSpell(obj/effect/proc_holder/spell/spell)

@@ -4,7 +4,7 @@
 /area/rogue/under/tomb/cave)
 "b" = (
 /obj/structure/fluff/walldeco/vinez/l,
-/obj/machinery/light/rogue/wallfire/candle/blue/l,
+/obj/machinery/light/rogue/candle/blue/l,
 /obj/effect/decal/cleanable/blood,
 /obj/effect/decal/cleanable/blood/gibs/old,
 /obj/effect/decal/cleanable/blood/drip,
@@ -18,7 +18,7 @@
 /turf/open/floor/rogue/carpet/lord/center,
 /area/rogue/under/tomb/cave)
 "d" = (
-/obj/machinery/light/rogue/wallfire/candle/l,
+/obj/machinery/light/rogue/candle/l,
 /turf/open/floor/rogue/cobble/mossy,
 /area/rogue/under/tomb/cave)
 "f" = (
@@ -28,7 +28,7 @@
 /area/rogue/under/tomb/cave)
 "g" = (
 /obj/structure/fluff/walldeco/vinez/r,
-/obj/machinery/light/rogue/wallfire/candle/blue/r,
+/obj/machinery/light/rogue/candle/blue/r,
 /obj/effect/decal/cleanable/blood/drip,
 /obj/effect/decal/cleanable/blood/puddle,
 /turf/open/floor/rogue/carpet/lord/right,
@@ -119,7 +119,7 @@
 /area/rogue/under/tomb/cave)
 "A" = (
 /obj/structure/fluff/walldeco/vinez/l,
-/obj/machinery/light/rogue/wallfire/candle/blue/l,
+/obj/machinery/light/rogue/candle/blue/l,
 /obj/effect/decal/cleanable/blood/drip,
 /obj/effect/decal/cleanable/blood/gibs/limb,
 /turf/open/floor/rogue/carpet/lord/left,
@@ -157,7 +157,7 @@
 /area/rogue/under/tomb/cave)
 "H" = (
 /obj/structure/fluff/walldeco/vinez/r,
-/obj/machinery/light/rogue/wallfire/candle/blue/r,
+/obj/machinery/light/rogue/candle/blue/r,
 /obj/effect/decal/cleanable/blood,
 /obj/effect/decal/cleanable/blood/gibs/body,
 /obj/effect/decal/cleanable/blood/puddle,
@@ -195,7 +195,7 @@
 /turf/open/floor/rogue/cobble/mossy,
 /area/rogue/under/tomb/cave)
 "O" = (
-/obj/machinery/light/rogue/wallfire/candle/r,
+/obj/machinery/light/rogue/candle/r,
 /turf/open/floor/rogue/cobble/mossy,
 /area/rogue/under/tomb/cave)
 "P" = (

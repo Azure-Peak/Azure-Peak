@@ -1,6 +1,6 @@
 ///the essential proc to call when an obj must receive damage of any kind.
-/turf/proc/take_damage(damage_amount, damage_type = BRUTE, damage_flag = "", sound_effect = TRUE)
-
+/turf/proc/take_damage(damage_amount, damage_type = BRUTE, damage_flag = "", sound_effect = TRUE, object_damage_multiplier = 1)
+	damage_amount = round(damage_amount * object_damage_multiplier, DAMAGE_PRECISION)
 	if((damage_flag == "blunt" || damage_flag == "slash" || damage_flag == "stab") && damage_amount < damage_deflection)
 		return 0
 	if(QDELETED(src))

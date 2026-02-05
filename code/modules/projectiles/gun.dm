@@ -100,18 +100,14 @@
 		var/mob/living/L = user
 		if(!can_trigger_gun(L))
 			return
-
-//	if(flag)
-//		if(user.zone_selected == BODY_ZONE_PRECISE_MOUTH)
-//			handle_suicide(user, target, params)
-//			return
+		if(L.used_intent && L.used_intent.get_chargetime())
+			if(L.client.charge_was_blocked_by_cooldown)
+				L.client.charge_was_blocked_by_cooldown = FALSE
+				return
 
 	if(!can_shoot()) //Just because you can pull the trigger doesn't mean it can shoot.
 		shoot_with_empty_chamber(user)
 		return
-
-	if(user?.used_intent.arc_check() && target.z != user.z) //temporary fix for openspace arrow dupe
-		target = get_turf(locate(target.x, target.y, user.z))
 
 	return process_fire(target, user, TRUE, params, null, 0)
 

@@ -65,6 +65,8 @@
 
 /mob/living/simple_animal/hostile/retaliate/rogue/primordial/fire
 	name = "flame primordial"
+	desc = "Billowing heat strikes your face and threatens to singe your eyebrows! \
+	It may be wise not to touch it."
 	icon_state = "primordial_fire"
 	icon_living = "primordial_fire"
 	icon_dead = ""
@@ -145,6 +147,8 @@
 
 /mob/living/simple_animal/hostile/retaliate/rogue/primordial/water
 	name = "water primordial"
+	desc = "A torrential flood, magically animated and bound to service. It seems \
+	to draw moisture from the ground it traverses."
 	icon_state = "primordial_water"
 	icon_living = "primordial_water"
 	icon_dead = ""
@@ -253,6 +257,8 @@
 
 /mob/living/simple_animal/hostile/retaliate/rogue/primordial/air
 	name = "air primordial"
+	desc = "Storm-winds whip at the air wherever this creature travels! \
+	It is scarcely even easy to keep one's footing while close."
 	icon_state = "primordial_air"
 	icon_living = "primordial_air"
 	icon_dead = ""

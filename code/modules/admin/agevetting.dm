@@ -47,6 +47,8 @@ GLOBAL_PROTECT(agevetted_list)
 	log_admin("ID VETTING: Added [target_ckey] to the agevetted list[admin_ckey? " by [admin_ckey]":""]")
 	save_agevets_to_file()
 	log_agevet_to_csv(target_ckey, admin_ckey)
+	if(CONFIG_GET(string/chat_announce_verify))
+		send2chat(new /datum/tgs_message_content("ID VETTING: Added [target_ckey] to the agevetted list[admin_ckey? " by [admin_ckey]":""]"), CONFIG_GET(string/chat_announce_verify))
 
 	// if they're online, notify
 	var/recipient = LAZYACCESS(GLOB.directory, target_ckey)

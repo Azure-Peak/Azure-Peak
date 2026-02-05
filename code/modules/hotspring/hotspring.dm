@@ -20,6 +20,7 @@
 /obj/structure/hotspring
 	abstract_type = /obj/structure/hotspring
 	name = "hot spring"
+	desc = "Wisps of vapour rise delicately from this warm, mineral-rich water."
 	icon = 'icons/obj/structures/hotspring.dmi'
 	icon_state = "hotspring"
 	nomouseover = TRUE
@@ -91,7 +92,7 @@
 		return
 	..()
 
-	
+
 
 /obj/structure/hotspring/border
 	icon_state = "hotspring_border_1"
@@ -165,7 +166,7 @@
 
 /obj/structure/flora/hotspring_rocks
 	name = "large rock"
-
+	desc = "Swept smooth by the slow erosion of water."
 	icon = 'icons/obj/structures/hotspring.dmi'
 	icon_state = "bigrock"
 	obj_flags = CAN_BE_HIT | IGNORE_SINK
@@ -197,13 +198,13 @@
 	desc = "A stone lantern, built in Kazengunese style. It is believed these lanterns attracts spirits and guide their way."
 	icon = 'icons/obj/structures/hotspring.dmi'
 	icon_state = "stonelantern1"
-	torch_off_state = "stonelantern0"
+	torch_off_state = "stonelantern"
 	base_state = "stonelantern"
 
 /obj/machinery/light/rogue/torchholder/hotspring/standing
 	name = "standing stone lantern"
 	icon_state = "stonelantern_standing1"
-	torch_off_state = "stonelantern_standing0"
+	torch_off_state = "stonelantern_standing"
 	base_state = "stonelantern_standing"
 
 /obj/effect/lily_petal
@@ -236,8 +237,9 @@
 
 /obj/structure/flora/sakura
 	name = "cherry blossom tree"
-	desc = "A tree that has been introduced from the far east. A symbol of the transience of life. In the islands of Kazengun,\
-	it is strongly associated with both romance and death. On the mainland, it is known as a representation of brotherhood.\ "
+	desc = "A tree that has been introduced from the far east. A symbol of the transience of life. \
+	In the islands of Kazengun, it is strongly associated with both romance and death. On the mainland, \
+	it is known as a representation of brotherhood.\ "
 	icon = 'icons/obj/structures/sakura_tree.dmi'
 	icon_state = "sakura_tree"
 	obj_flags = CAN_BE_HIT | IGNORE_SINK

@@ -7,12 +7,14 @@
 
 /obj/structure/stairs
 	name = "stairs"
+	desc = "You use these to go up or down! One of the more defining inventions of our time."
 	icon = 'icons/obj/stairs.dmi'
 	icon_state = "stairs"
 	anchored = TRUE
 	layer = 5
 	nomouseover = TRUE
 	plane = FLOOR_PLANE
+	pass_flags = LETPASSTHROW
 
 /obj/structure/stairs/Initialize(mapload)
 	. = ..()
@@ -27,7 +29,6 @@
 		return
 
 	if(user_walk_into_target_loc(leaving, get_dir(src, new_location)))
-		leaving.Bump(src)
 		return COMPONENT_ATOM_BLOCK_EXIT
 
 /// From a cardinal direction, returns the resulting turf we'll end up at if we're uncrossing the stairs. Used for pathfinding, mostly.

@@ -38,6 +38,7 @@ GLOBAL_LIST_INIT(special_traits, build_special_traits())
 	apply_prefs_special(character, player)
 	apply_prefs_virtue(character, player)
 	apply_prefs_race_bonus(character, player)
+	apply_voicepacks(character, player)
 	if(player.prefs.dnr_pref)
 		apply_dnr_trait(character, player)
 	if(player.prefs.qsr_pref)
@@ -55,6 +56,9 @@ GLOBAL_LIST_INIT(special_traits, build_special_traits())
 	if(assigned_job)
 		assigned_job.clamp_stats(character)
 	check_trait_incompatibilities(character)
+	character.calculate_energy()
+	character.calculate_stamina()
+	character.energy = character.max_energy
 
 /// Check for incompatible traits and remove one of them
 /proc/check_trait_incompatibilities(mob/living/carbon/human/H)
@@ -64,6 +68,13 @@ GLOBAL_LIST_INIT(special_traits, build_special_traits())
 		REMOVE_TRAIT(H, TRAIT_CRITICAL_RESISTANCE, null)
 		to_chat(H, span_warning("My limbs are too frail and my body too tough... the contradiction leaves me unable to resist critical wounds."))
 	return TRUE
+
+/proc/apply_voicepacks(mob/living/carbon/human/character, client/player)
+	if(player.prefs.voice_pack != "Default")
+		var/datum/voicepack/VP = GLOB.voice_packs_list[player.prefs.voice_pack]
+		character.dna.species.soundpack_m = new VP()
+		character.dna.species.soundpack_f = new VP()
+
 
 /proc/apply_prefs_virtue(mob/living/carbon/human/character, client/player)
 	if (!player)
@@ -78,7 +89,7 @@ GLOBAL_LIST_INIT(special_traits, build_special_traits())
 	if(istype(player.prefs.selected_patron, /datum/patron/inhumen))
 		heretic = TRUE
 
-	if(player.prefs.statpack.name == "Virtuous")
+	if(player.prefs.statpack.virtuous)
 		virtuous = TRUE
 
 	var/datum/virtue/virtue_type = player.prefs.virtue
