@@ -1036,3 +1036,66 @@
 		REMOVE_TRAIT(user, TRAIT_STRENGTH_UNCAPPED, TRAIT_GENERIC)
 		active_item = FALSE
 	return
+
+/obj/item/clothing/neck/roguetown/collar/prisoner
+	name = "castifico collar"
+	icon_state = "castifico_collar"
+	item_state = "castifico_collar"
+	desc = "A metal collar that seals around the neck, making it impossible to remove. It seems to be enchanted with some kind of vile magic..."
+	var/active_item
+	var/bounty_amount
+	resistance_flags = FIRE_PROOF
+	slot_flags = ITEM_SLOT_NECK
+	body_parts_covered = NONE //it's not armor
+
+/obj/item/clothing/neck/roguetown/collar/prisoner/Initialize()
+	. = ..()
+	ADD_TRAIT(src, TRAIT_NODROP, CURSED_ITEM_TRAIT)
+
+/obj/item/clothing/neck/roguetown/collar/prisoner/dropped(mob/living/carbon/human/user)
+	. = ..()
+	REMOVE_TRAIT(user, TRAIT_PACIFISM, "castificocollar")
+	REMOVE_TRAIT(user, TRAIT_SPELLCOCKBLOCK, "castificocollar")
+	if(QDELETED(src))
+		return
+	qdel(src)
+
+/obj/item/clothing/neck/roguetown/collar/prisoner/proc/timerup(mob/living/carbon/human/user)
+	REMOVE_TRAIT(user, TRAIT_PACIFISM, "castificocollar")
+	REMOVE_TRAIT(user, TRAIT_SPELLCOCKBLOCK, "castificocollar")
+	visible_message(span_warning("The castifico collar opens with a click, falling off of [user]'s neck and clambering apart on the ground, their penance complete."))
+	say("YOUR PENANCE IS COMPLETE.")
+	for(var/name in GLOB.outlawed_players)
+		if(user.real_name == name)
+			GLOB.outlawed_players -= user.real_name
+			priority_announce("[user.real_name] has completed their penance. Justice has been served in the eyes of Ravox.", "PENANCE", 'sound/misc/bell.ogg')
+	playsound(src.loc, pick('sound/items/pickgood1.ogg','sound/items/pickgood2.ogg'), 5, TRUE)
+	if(QDELETED(src))
+		return
+	qdel(src)
+
+/obj/item/clothing/neck/roguetown/collar/prisoner/equipped(mob/living/user, slot)
+	. = ..()
+	if(active_item)
+		return
+	else if(slot == SLOT_NECK)
+		active_item = TRUE
+		to_chat(user, span_warning("This accursed collar pacifies me!"))
+		ADD_TRAIT(user, TRAIT_PACIFISM, "castificocollar")
+		ADD_TRAIT(user, TRAIT_SPELLCOCKBLOCK, "castificocollar")
+		if(HAS_TRAIT(user, TRAIT_RITUALIST))
+			user.apply_status_effect(/datum/status_effect/debuff/ritesexpended)
+		var/timer = 5 MINUTES //Base timer is 5 minutes, additional time added per bounty amount
+
+		if(bounty_amount >= 10)
+			var/additional_time = bounty_amount * 0.1 // 10 mammon = 1 minute
+			additional_time = round(additional_time)
+			timer += additional_time MINUTES
+			timer = clamp(timer, 0 MINUTES, 20 MINUTES)
+
+		var/timer_minutes = timer / 600
+
+		addtimer(CALLBACK(src, PROC_REF(timerup), user), timer)
+		say("YOUR PENANCE WILL BE COMPLETE IN [timer_minutes] MINUTES.")
+	return
+
