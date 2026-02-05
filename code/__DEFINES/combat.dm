@@ -399,5 +399,14 @@ Medical defines
 #define VISMSG_ARMOR_INT_STAGETWO "<span class='armoralert'> Damaged.</span>"
 #define VISMSG_ARMOR_INT_STAGETHREE "<span class='armoralert'><b> Crumbling!</b></span>"
 
+//Cast time reduction
+#define TOPER_CAST_TIME_REDUCTION 0.1
+#define EMERALD_CAST_TIME_REDUCTION 0.15
+#define SAPPHIRE_CAST_TIME_REDUCTION 0.2
+#define QUARTZ_CAST_TIME_REDUCTION 0.25
+#define RUBY_CAST_TIME_REDUCTION 0.3
+#define DIAMOND_CAST_TIME_REDUCTION 0.35
+#define RIDDLE_OF_STEEL_CAST_TIME_REDUCTION 0.4
+
 #define PROB_ATTACK_EMOTE_PLAYER 10
 #define PROB_ATTACK_EMOTE_NPC 10

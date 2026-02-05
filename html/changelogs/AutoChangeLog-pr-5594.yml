@@ -1,0 +1,4 @@
+author: "hazelrat"
+delete-after: True
+changes:
+  - rscadd: "Added two training daggers and two training spears to the training storage closet adjacent to the keep. Additionally, the same closet may now be opened by any character with a walls key."

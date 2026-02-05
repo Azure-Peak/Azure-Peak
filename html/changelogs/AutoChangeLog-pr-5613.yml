@@ -1,0 +1,4 @@
+author: "WeNeedMorePhoron"
+delete-after: True
+changes:
+  - rscadd: "You can now attack-self / interact with a glass bottle to toggle the cork on and off."

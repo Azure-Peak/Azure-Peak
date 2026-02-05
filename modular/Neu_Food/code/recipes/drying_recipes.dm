@@ -29,12 +29,23 @@
 /datum/crafting_recipe/roguetown/cooking/raisins
 	name = "raisins"
 	reqs = list(/obj/item/reagent_containers/food/snacks/grown/berries/rogue = 1)
-	parts = list(
-		/obj/item/reagent_containers/food/snacks/grown/berries/rogue = 1)
+	parts = list(/obj/item/reagent_containers/food/snacks/grown/berries/rogue = 1)
 	result = /obj/item/reagent_containers/food/snacks/rogue/raisins
 	structurecraft = /obj/machinery/tanningrack
 	craftdiff = 1
 	subtype_reqs = TRUE
+
+/datum/crafting_recipe/roguetown/cooking/trailmix
+	name = "trail-mix"
+	reqs = list(
+		/obj/item/reagent_containers/food/snacks/rogue/raisins = 1,
+		/obj/item/reagent_containers/food/snacks/rogue/fruit/pumpkin_sliced = 1,
+		/obj/item/reagent_containers/food/snacks/roastseeds = 1,
+		/obj/item/ration = 1
+		)
+	result = /obj/item/reagent_containers/food/snacks/rogue/trailmix
+	structurecraft = /obj/machinery/tanningrack
+	craftdiff = 2
 
 /datum/crafting_recipe/roguetown/cooking/fish
 	name = "dried fish filet"

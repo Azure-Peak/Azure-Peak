@@ -119,7 +119,7 @@
 		return
 
 	var/icon/J = new('icons/roguetown/weapons/shield_heraldry.dmi')
-	var/list/istates = get_icon_states_cached(J)
+	var/list/istates = J.IconStates()
 	if(!istates || !length(istates))
 		return
 	for(var/icon_s in istates)

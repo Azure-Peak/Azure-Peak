@@ -160,7 +160,7 @@
 		return FALSE
 	if (!(user.name in friends))
 		return FALSE
-	
+
 	return TRUE
 
 /mob/living/simple_animal/hostile/rogue/skeleton/beckoned(mob/user)
@@ -203,7 +203,7 @@
 
 /datum/intent/simple/claw/skeleton
 	clickcd = SKELETON_ATTACK_SPEED
-	
+
 /datum/intent/simple/spear/skeleton
 	reach = 2
 	clickcd = SKELETON_ATTACK_SPEED * 1.2
@@ -234,15 +234,15 @@
     . = ..(mapload, user, cabal_affine, is_summoned)
 
 /mob/living/simple_animal/hostile/rogue/skeleton/ravox_ghost
-	name = "Warrior Soul"
-	desc = ""
+	name = "Ravoxian Soul"
+	desc = "A portion of a Ravoxian's soul. Kill it to damage and stun them. Metal."
 	icon = 'icons/roguetown/mob/monster/ravoxghost.dmi'
 	icon_state = "rghost"
 	icon_living = "rghost"
-	STACON = 14
-	STASTR = 13
+	STACON = 10
+	STASTR = 10
 	STASPD = 8
-	maxHealth = 50
+	maxHealth = 60 //summoned with 60 + 10 hp per skill lvl
 	health = 50
 	pixel_x = -16
 	pixel_y = -16
@@ -254,6 +254,20 @@
 	can_have_ai = FALSE //disable native ai
 	AIStatus = AI_OFF
 	var/buffed_r = FALSE
+	var/mob/living/spirit_owner = null
+
+/mob/living/simple_animal/hostile/rogue/skeleton/ravox_ghost/Initialize(mapload, mob/user, cabal_affine = FALSE, is_summoned = FALSE)
+	. = ..(mapload, user, cabal_affine, is_summoned)
+	if(isliving(user))
+		spirit_owner = user
+
+/mob/living/simple_animal/hostile/rogue/skeleton/ravox_ghost/death(gibbed)
+	if(spirit_owner && isliving(spirit_owner))
+		spirit_owner.adjustBruteLoss(30)
+		spirit_owner.apply_status_effect(/datum/status_effect/debuff/ravox_spirit_backlash)
+		spirit_owner.Immobilize(20)
+		spirit_owner.emote("agony", forced = TRUE)
+	. = ..()
 
 /mob/living/simple_animal/hostile/rogue/skeleton/ravox_ghost/spear
 	icon_state = "rghost_s"

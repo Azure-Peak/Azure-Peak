@@ -3,7 +3,7 @@ GLOBAL_LIST_INIT(wisdoms, world.file2list("strings/rt/wisdoms.txt"))
 
 /obj/item/reagent_containers/glass/bottle
 	name = "bottle"
-	desc = "A bottle with a cork."
+	desc = "A glass bottle with a cork."
 	icon = 'icons/roguetown/items/cooking.dmi'
 	icon_state = "clear_bottle1"
 	amount_per_transfer_from_this = 10
@@ -51,6 +51,11 @@ GLOBAL_LIST_INIT(wisdoms, world.file2list("strings/rt/wisdoms.txt"))
 	if(closed)
 		add_overlay("[icon_state]cork")
 
+/obj/item/reagent_containers/glass/bottle/get_mechanics_examine(mob/user)
+	. = ..()
+	. += span_info("Use in hand or right-click to toggle the cork.")
+	. += span_info("Throwing a bottle will shatter it on impact")
+
 /obj/item/reagent_containers/glass/bottle/throw_impact(atom/hit_atom, datum/thrownthing/throwingdatum, do_splash = TRUE)
 	playsound(loc, 'sound/combat/hits/onglass/glassbreak (4).ogg', 100)
 	shatter(get_turf(src))
@@ -64,8 +69,7 @@ GLOBAL_LIST_INIT(wisdoms, world.file2list("strings/rt/wisdoms.txt"))
 	new /obj/effect/decal/cleanable/debris/glassy(get_turf(T))
 	qdel(src)
 
-/obj/item/reagent_containers/glass/bottle/rmb_self(mob/user)
-	. = ..()
+/obj/item/reagent_containers/glass/bottle/proc/toggle_cork(mob/user)
 	closed = !closed
 	user.changeNext_move(CLICK_CD_RAPID, override = TRUE)
 	if(closed)
@@ -87,6 +91,14 @@ GLOBAL_LIST_INIT(wisdoms, world.file2list("strings/rt/wisdoms.txt"))
 		if(!fancy)
 			desc = "An open bottle. Hopefully a cork is nearby."
 	update_icon()
+
+/obj/item/reagent_containers/glass/bottle/rmb_self(mob/user)
+	. = ..()
+	toggle_cork(user)
+
+/obj/item/reagent_containers/glass/bottle/attack_self(mob/user)
+	. = ..()
+	toggle_cork(user)
 
 /obj/item/reagent_containers/glass/bottle/Initialize()
 	. = ..()

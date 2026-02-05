@@ -12558,6 +12558,14 @@
 /obj/structure/rack/rogue,
 /obj/item/rogueweapon/sword/long/training,
 /obj/item/rogueweapon/sword/long/training,
+/obj/item/rogueweapon/huntingknife/idagger/steel/trainer{
+	pixel_x = 7;
+	pixel_y = -3
+	},
+/obj/item/rogueweapon/huntingknife/idagger/steel/trainer{
+	pixel_x = 7;
+	pixel_y = -3
+	},
 /turf/open/floor/rogue/ruinedwood/spiral,
 /area/rogue/indoors/town/manor)
 "deg" = (
@@ -29960,7 +29968,7 @@
 "hrt" = (
 /obj/structure/mineral_door/wood/fancywood{
 	locked = 1;
-	lockid = "manor";
+	lockid = "walls";
 	name = "Training gear"
 	},
 /turf/open/floor/rogue/concrete,
@@ -32977,9 +32985,6 @@
 	layer = 2.81
 	},
 /obj/structure/table/wood/poor,
-/obj/structure/bars/passage/shutter/open{
-	redstone_id = "stewardshutter"
-	},
 /obj/structure/bars/passage/shutter{
 	redstone_id = "towner_smith_shutter"
 	},
@@ -33611,8 +33616,7 @@
 /area/rogue/indoors/town/steward)
 "ikT" = (
 /obj/structure/mineral_door/wood/deadbolt{
-	dir = 4;
-	locked = 1
+	dir = 4
 	},
 /turf/open/floor/rogue/ruinedwood,
 /area/rogue/indoors/town/garrison)
@@ -71472,6 +71476,14 @@
 /obj/item/rogueweapon/woodstaff/polearm,
 /obj/item/rogueweapon/woodstaff/polearm,
 /obj/item/rogueweapon/woodstaff/polearm,
+/obj/item/rogueweapon/spear/trainer{
+	pixel_x = -8;
+	pixel_y = -5
+	},
+/obj/item/rogueweapon/spear/trainer{
+	pixel_x = -8;
+	pixel_y = -5
+	},
 /turf/open/floor/rogue/ruinedwood/spiral,
 /area/rogue/indoors/town/manor)
 "rxK" = (

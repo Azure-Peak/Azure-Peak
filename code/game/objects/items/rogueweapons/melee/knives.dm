@@ -103,7 +103,18 @@
 	hitsound = list('sound/combat/hits/bladed/genchop (1).ogg', 'sound/combat/hits/bladed/genchop (2).ogg', 'sound/combat/hits/bladed/genchop (3).ogg')
 	penfactor = 30
 
+/datum/intent/dagger/cut/blunt
+	blade_class = BCLASS_BLUNT
+	
+/datum/intent/dagger/thrust/blunt
+	blade_class = BCLASS_BLUNT
+
+/datum/intent/dagger/thrust/pick/blunt
+	blade_class = BCLASS_BLUNT
+
 //knife and dagger objs ฅ^•ﻌ•^ฅ
+
+
 
 /obj/item/rogueweapon/huntingknife
 	force = 12
@@ -570,10 +581,12 @@
 /obj/item/rogueweapon/huntingknife/idagger/dtace
 	name = "'De Tace'"
 	desc = "The right hand of the right hand, this narrow length of steel serves as a quick solution to petty greviences."
-	icon_state = "stiletto"
-	sheathe_icon = "stiletto"
+	icon = 'icons/roguetown/weapons/special/hand32.dmi'
+	icon_state = "sdaggerhand"
+	sheathe_icon = "sdaggerhand"
 	force = 25
 	max_integrity = 200
+	sellprice = 200
 	smeltresult = /obj/item/ingot/steel
 
 /obj/item/rogueweapon/huntingknife/idagger/steel/rondel
@@ -585,14 +598,17 @@
 	wdefense = 4 //Slightly more defense than a regular dagger. Intended to function as a tool for countering grapplers or finishing off armored opponents with broken pieces.
 	smeltresult = /obj/item/ingot/steel
 
-/obj/item/rogueweapon/huntingknife/idagger/steel/parrying
-	name = "steel parrying dagger"
+/obj/item/rogueweapon/huntingknife/idagger/steel/parrying/hand
+	name = "'Repeta'"
+	desc = "The left hand of the right hand, this sturdy length of steel serves as a perfect counterpart to any offense."
 	force = 12
 	throwforce = 12
-	desc = "This is a parrying dagger made of solid steel, used to catch opponent's weapons in the handguard. It's a bit more dull, however."
-	sheathe_icon = "spdagger"
-	max_integrity = 175
-	wdefense = 8		//This way with expert dagger skill you'd have ~12 defense. 1 higher than a kiteshield, but no arrow protection.
+	icon = 'icons/roguetown/weapons/special/hand32.dmi'
+	icon_state = "spdaggerhand"
+	sheathe_icon = "spdaggerhand"
+	max_integrity = 200
+	wdefense = 9
+
 
 /obj/item/rogueweapon/huntingknife/idagger/steel/parrying/vaquero
 	name = "sail dagger"
@@ -613,6 +629,16 @@
 	wrapping of twisted cordage provides a secure grip."
 	icon_state = "eastdagger"
 	sheathe_icon = "tanto"
+
+/obj/item/rogueweapon/huntingknife/idagger/steel/fire
+	name = "fire dagger"
+	desc = "A dagger enchanted with lost arcyne arts to render it as Astrata's wrath, but only for a short duration."
+	icon_state = "fdagger"
+	sheathe_icon = "fdagger"
+	smeltresult = null
+	special = /datum/special_intent/ignite_dagger
+	var/active_intents =  list(/datum/intent/dagger/thrust/blunt,/datum/intent/dagger/cut/blunt, /datum/intent/dagger/thrust/pick/blunt, /datum/intent/dagger/sucker_punch)
+	var/inactive_intents = list()
 
 /obj/item/rogueweapon/huntingknife/idagger/steel/bone
 	name = "bone dagger"

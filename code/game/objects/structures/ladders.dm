@@ -1,7 +1,8 @@
 // Basic ladder. By default links to the z-level above/below.
 /obj/structure/ladder
 	name = "ladder"
-	desc = ""
+	desc = "'This would be easier if not for gravity' is what you <b>would</b> think were \
+	you aware of the theory of gravity."
 	icon = 'icons/roguetown/misc/structure.dmi'
 	icon_state = "ladder11"
 	anchored = TRUE

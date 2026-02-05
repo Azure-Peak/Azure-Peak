@@ -15,6 +15,7 @@
 
 	RegisterSignal(parent, COMSIG_ITEM_EQUIPPED, PROC_REF(on_equip))
 	RegisterSignal(parent, COMSIG_ITEM_DROPPED, PROC_REF(on_drop))
+	RegisterSignal(parent, COMSIG_PARENT_EXAMINE, PROC_REF(on_obj_examine))
 
 /datum/component/armour_filtering/positive
 	positive = TRUE
@@ -93,6 +94,14 @@
 				ADD_TRAIT(user, TRAIT_ARMOUR_DISLIKED, TRAIT_GENERIC)
 
 	return
+
+/datum/component/armour_filtering/proc/on_obj_examine(datum/source, mob/M)
+	if(!HAS_TRAIT(M, required_trait))
+		return
+	if(positive)
+		to_chat(M, span_green("[parent] suits me. ([required_trait])"))
+		return
+	to_chat(M, span_red("[parent] does not suit me. ([required_trait])"))
 
 
 /datum/component/armour_filtering/proc/handle_boons(mob/living/carbon/human/user, equip)

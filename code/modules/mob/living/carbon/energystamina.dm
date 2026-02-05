@@ -1,6 +1,5 @@
 /mob/living/proc/update_stamina() //update hud and regen after last_fatigued delay on taking
-	max_stamina = max_energy / 10
-
+	calculate_stamina()
 	var/delay = 20
 	if(HAS_TRAIT(src, TRAIT_APRICITY))
 		switch(GLOB.tod)
@@ -24,10 +23,11 @@
 
 	update_health_hud()
 
+/mob/living/proc/calculate_stamina()
+	max_stamina = max_energy / 10
+
 /mob/living/proc/update_energy()
-	var/athletics_skill = 0
-	athletics_skill = get_skill_level(/datum/skill/misc/athletics)
-	max_energy = (STAWIL + (athletics_skill/2 ) ) * 100
+	calculate_energy()
 	if(cmode)
 		if(!HAS_TRAIT(src, TRAIT_BREADY))
 			energy_add(-2)
@@ -39,6 +39,11 @@
 			// This generally cover most reasonable in combat usage.
 		else
 			energy_add(2) // Halve effectiveness for NPCs.
+
+/mob/living/proc/calculate_energy()
+	var/athletics_skill = 0
+	athletics_skill = get_skill_level(/datum/skill/misc/athletics)
+	max_energy = (STAWIL + (athletics_skill/2 ) ) * 100
 
 /mob/proc/energy_add(added as num)
 	return

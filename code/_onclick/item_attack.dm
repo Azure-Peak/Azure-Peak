@@ -436,6 +436,8 @@
 	if(istype(user.rmb_intent, /datum/rmb_intent/strong))
 		newforce += (I.force_dynamic * STRONG_STANCE_DMG_BONUS)
 
+	newforce = CLAMP(newforce, user.used_intent.min_intent_damage, user.used_intent.max_intent_damage)
+
 	return newforce
 
 /obj/attacked_by(obj/item/I, mob/living/user)

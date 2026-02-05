@@ -144,6 +144,8 @@
 	var/arcshot = FALSE
 	var/diagonal_step = 0
 	var/diagonal_target_z = 0
+	// Is this projectile blacklisted from crossing z-level
+	var/cannot_cross_z = 0
 	var/poisontype
 	var/poisonamount
 	var/poisonfeel
@@ -695,7 +697,7 @@
 					curloc = above
 					start_loc = above
 		else
-			if(targloc.z != curloc.z)
+			if(targloc.z != curloc.z && !cannot_cross_z)
 				var/dist = get_dist_euclidian(curloc, targloc)
 				diagonal_step = max(1, round(dist / 2))
 				diagonal_target_z = targloc.z

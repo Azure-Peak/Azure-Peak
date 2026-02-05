@@ -216,8 +216,8 @@ GLOBAL_LIST_INIT(spells, typesof(/obj/effect/proc_holder/spell)) //needed for th
 		if(sbook && sbook?.open)
 			newtime = newtime - (chargetime * (sbook.get_castred()))
 		//staff cast time reduction
-		var/obj/item/rogueweapon/woodstaff/staff = ranged_ability_user.is_holding_item_of_type(/obj/item/rogueweapon/woodstaff/)
-		if(staff)
+		var/obj/item/rogueweapon/staff = ranged_ability_user.is_holding_item_of_type(/obj/item/rogueweapon/)
+		if(staff && staff.cast_time_reduction)
 			newtime = newtime - (chargetime * (staff.cast_time_reduction))
 		if(newtime > 0)
 			return newtime
@@ -557,7 +557,6 @@ GLOBAL_LIST_INIT(spells, typesof(/obj/effect/proc_holder/spell)) //needed for th
 	if(mob_charge_effect)
 		QDEL_NULL(mob_charge_effect)
 
-	deactivate(user)
 	start_recharge()
 	switch(charge_type)
 		if("recharge")

@@ -16,9 +16,9 @@
 
 /obj/item/clothing/shoes/roguetown/boots
 	name = "dark boots"
+	desc = "A pair of dark, well-cobbled boots. You have a feeling they're in your size."
 	//dropshrink = 0.75
 	color = "#d5c2aa"
-	desc = ""
 	gender = PLURAL
 	icon_state = "blackboots"
 	item_state = "blackboots"

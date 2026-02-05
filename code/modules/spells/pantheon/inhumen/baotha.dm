@@ -32,6 +32,7 @@
 			return FALSE
 		target.apply_status_effect(/datum/status_effect/buff/druqks/baotha) //Gets the trait temorarily, basically will just stop any active/upcoming ODs.	
 		target.visible_message("<span class='info'>[target]'s eyes appear to gloss over!</span>", "<span class='notice'>I feel.. at ease.</span>")
+	return TRUE
 
 //Enrapturing Powder - T2, basically a crackhead blowing cocaine in your face.
 
@@ -105,6 +106,46 @@
 		return
 
 	physiology.pain_mod /= 0.5
+
+/obj/effect/proc_holder/spell/self/bless_drink
+	name = "Bless Drink"
+	desc = "Blesses a container to allow it to be drunk to no end. Lasts about a minute."
+	overlay_state = "baotha_bless_drink"
+	releasedrain = 10
+	chargedrain = 0
+	chargetime = 0
+	range = 1
+	warnie = "sydwarning"
+	movement_interrupt = FALSE
+	invocation_type = "none"
+	associated_skill = /datum/skill/magic/holy
+	antimagic_allowed = TRUE
+	recharge_time = 5 SECONDS 
+	miracle = TRUE
+	devotion_cost = 10
+	var/duration = 60 SECONDS
+
+/obj/effect/proc_holder/spell/self/bless_drink/cast(list/targets, mob/living/user)
+	. = ..()
+	if(!ishuman(user))
+		revert_cast()
+		return FALSE
+	var/held = user.get_active_held_item()
+	if(!istype(held, /obj/item/reagent_containers/glass))
+		revert_cast()
+		to_chat(user, span_info("This is not a suitable container for this!"))
+		return FALSE
+	
+	var/obj/item/reagent_containers/glass/target_container = held
+	var/dur = duration * user.get_skill_level(associated_skill)
+	var/printed_dur = round(dur / 600)
+	if(target_container.set_infinite(user, dur))
+		user.playsound_local(get_turf(user), 'sound/magic/baotha_blessdrink.ogg', 100, TRUE)
+		to_chat(user, span_notice("The drink swirls for a mote. This will last around [printed_dur] minute[(printed_dur > 1) ? "s" : ""]."))
+	else
+		revert_cast()
+		return FALSE
+	return TRUE
 
 //T0 that tells the user the person's vice.
 /obj/effect/proc_holder/spell/invoked/baothavice

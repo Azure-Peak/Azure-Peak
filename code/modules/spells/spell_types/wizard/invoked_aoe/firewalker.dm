@@ -20,6 +20,7 @@
 	charging_slowdown = 2
 	chargedloop = /datum/looping_sound/invokegen
 	associated_skill = /datum/skill/magic/arcane
+	human_req = TRUE // Combat spell
 
 /obj/effect/proc_holder/spell/invoked/firewalker/cast(list/targets, mob/living/user = usr)
 	. = ..()

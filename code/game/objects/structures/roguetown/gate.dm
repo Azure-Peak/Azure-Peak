@@ -2,7 +2,8 @@ GLOBAL_LIST_EMPTY(biggates)
 
 /obj/structure/gate
 	name = "gate"
-	desc = "A strong steel gate."
+	desc = "A strong steel gate decorated ornately with vivid images. Something important \
+	must be behind it."
 	icon = 'icons/roguetown/misc/gate.dmi'
 	icon_state = "gate1"
 	density = TRUE
@@ -28,6 +29,9 @@ GLOBAL_LIST_EMPTY(biggates)
 	INVOKE_ASYNC(src, PROC_REF(open))
 
 /obj/structure/gate/bars
+	desc = "A large portculis, designed to close vertically and to be extremely difficult to break \
+	through. When you aren't sure if you'll win a fight, try putting three inches of steel \
+	between you and your enemy."
 	icon_state = "bar1"
 	base_state = "bar"
 	opacity = FALSE

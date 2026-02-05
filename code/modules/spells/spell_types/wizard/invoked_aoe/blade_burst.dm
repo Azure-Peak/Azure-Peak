@@ -23,6 +23,7 @@
 	glow_intensity = GLOW_INTENSITY_HIGH
 	gesture_required = TRUE
 	ignore_los = FALSE
+	human_req = TRUE // Combat spell
 	var/delay = 12
 	var/damage = 125 //if you get hit by this it's your fault
 	var/area_of_effect = 1

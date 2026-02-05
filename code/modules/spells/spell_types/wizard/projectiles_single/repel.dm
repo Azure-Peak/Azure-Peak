@@ -7,7 +7,7 @@
 	overlay_state = ""
 	sound = list('sound/magic/unmagnet.ogg')
 	active = FALSE
-	releasedrain = 7
+	releasedrain = 15
 	chargedrain = 0
 	chargetime = 0
 	recharge_time = 15 SECONDS
@@ -29,6 +29,7 @@
 	icon = 'icons/effects/effects.dmi'
 	icon_state = "curseblob"
 	range = 15
+	cannot_cross_z = TRUE
 
 /obj/effect/proc_holder/spell/invoked/projectile/cast(list/targets, mob/living/user)
 	. = ..()

@@ -1,0 +1,5 @@
+author: "WeNeedMorePhoron"
+delete-after: True
+changes:
+  - balance: "Offensive spells are not usable in zadform anymore"
+  - balance: "Zadform / Batform now have low str / con, making them unable to charge down someone."
