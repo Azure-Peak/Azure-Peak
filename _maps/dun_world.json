@@ -9,8 +9,7 @@
 		{ "Down": true }
 	],
 	"other_z": [
-		"_maps/map_files/otherz/vl_manor.json",
-		"_maps/map_files/otherz/bandit_fortress.json"
+		"_maps/map_files/otherz/wretch_coast.json"
 	],
 	"space_empty_levels": 0,
 	"space_ruin_levels": 0,
