@@ -3,9 +3,10 @@
 	domain = "Goddess of Hedonism, Addiction, Anguish, and Heartbreak"
 	desc = "The twin sister of Eora, fallen to disgrace. She brings comfort to those who can't find it elsewhere but the bottom of a bottle; and she tempts those who have lost much into her fold through offers of relief and pleasure, yet they soon find themselves unable to escape her grasp. Seen as a scorned lover by many, and followed by such."
 	worshippers = "Widows, Gamblers, Addicts, and Scorned Lovers"
-	mob_traits = list(TRAIT_DEPRAVED, TRAIT_CRACKHEAD)
+	mob_traits = list(TRAIT_DEPRAVED, TRAIT_CICERONE)
 	miracles = list(/obj/effect/proc_holder/spell/targeted/touch/orison					= CLERIC_ORI,
 					/obj/effect/proc_holder/spell/invoked/baothavice					= CLERIC_T0,
+					/obj/effect/proc_holder/spell/self/bless_drink						= CLERIC_T0,
 					/obj/effect/proc_holder/spell/targeted/touch/loversruin				= CLERIC_T0,
 					/obj/effect/proc_holder/spell/invoked/lesser_heal 					= CLERIC_T1,
 					/obj/effect/proc_holder/spell/invoked/baothablessings				= CLERIC_T1,
@@ -23,6 +24,7 @@
 		"BAOTHA IS MY JOY!",
 	)
 	storyteller = /datum/storyteller/baotha
+	traits_tier = list(TRAIT_CRACKHEAD = CLERIC_T2)
 
 /datum/patron/inhumen/baotha/can_pray(mob/living/follower)
 	. = ..()

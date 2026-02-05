@@ -20,6 +20,7 @@
 /obj/structure/hotspring
 	abstract_type = /obj/structure/hotspring
 	name = "hot spring"
+	desc = "Wisps of vapour rise delicately from this warm, mineral-rich water."
 	icon = 'icons/obj/structures/hotspring.dmi'
 	icon_state = "hotspring"
 	nomouseover = TRUE
@@ -236,8 +237,9 @@
 
 /obj/structure/flora/sakura
 	name = "cherry blossom tree"
-	desc = "A tree that has been introduced from the far east. A symbol of the transience of life. In the islands of Kazengun,\
-	it is strongly associated with both romance and death. On the mainland, it is known as a representation of brotherhood.\ "
+	desc = "A tree that has been introduced from the far east. A symbol of the transience of life. \
+	In the islands of Kazengun, it is strongly associated with both romance and death. On the mainland, \
+	it is known as a representation of brotherhood.\ "
 	icon = 'icons/obj/structures/sakura_tree.dmi'
 	icon_state = "sakura_tree"
 	obj_flags = CAN_BE_HIT | IGNORE_SINK

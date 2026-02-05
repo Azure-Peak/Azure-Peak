@@ -335,13 +335,6 @@
 	created_item = /obj/item/clothing/head/roguetown/helmet/horned
 	craftdiff = 2
 
-/datum/anvil_recipe/armor/iron/hoodstudded
-	name = "Hood, Studded Leather (+ Leather Hood)"
-	req_bar = /obj/item/ingot/iron
-	req_blade = /obj/item/blade/iron_plate
-	additional_items = list(/obj/item/clothing/head/roguetown/roguehood)
-	created_item = /obj/item/clothing/head/roguetown/roguehood/studded
-
 /datum/anvil_recipe/armor/iron/mask
 	name = "Mask, Iron"
 	req_bar = /obj/item/ingot/iron
@@ -390,14 +383,6 @@
 	req_blade = /obj/item/blade/iron_plate
 	additional_items = list(/obj/item/natural/cloth)
 	created_item = /obj/item/clothing/suit/roguetown/armor/brigandine/light
-	i_type = "Armor"
-
-/datum/anvil_recipe/armor/iron/wardenbrig
-	name = "Forester's Brigandine (+1 Forester's Armor, +1 Iron, +1 Essence of Wilderness)"
-	req_bar = /obj/item/ingot/iron
-	req_blade = /obj/item/blade/iron_plate
-	additional_items = list(/obj/item/clothing/suit/roguetown/armor/leather/studded/warden, /obj/item/ingot/iron, /obj/item/natural/cured/essence)
-	created_item = /obj/item/clothing/suit/roguetown/armor/leather/studded/warden/upgraded
 	i_type = "Armor"
 
 /datum/anvil_recipe/armor/iron/halfplate
@@ -538,20 +523,6 @@
 	req_blade = /obj/item/blade/iron_plate
 	additional_items = list(/obj/item/ingot/iron)
 	created_item = /obj/item/clothing/head/roguetown/helmet/heavy/bucket/iron
-
-/datum/anvil_recipe/armor/iron/studded
-	name = "Studded Leather Armor (+ Leather Armor)"
-	req_bar = /obj/item/ingot/iron
-	req_blade = /obj/item/blade/iron_plate
-	additional_items = list(/obj/item/clothing/suit/roguetown/armor/leather)
-	created_item = /obj/item/clothing/suit/roguetown/armor/leather/studded
-
-/datum/anvil_recipe/armor/studdedbikini
-	name = "Studded Leather Corslet (+ Leather Corslet)"
-	req_bar = /obj/item/ingot/iron
-	req_blade = /obj/item/blade/iron_plate
-	additional_items = list(/obj/item/clothing/suit/roguetown/armor/leather)
-	created_item = /obj/item/clothing/suit/roguetown/armor/leather/studded/bikini
 
 /datum/anvil_recipe/armor/iron/helmethorned
 	name = "Horned Helmet, Iron"

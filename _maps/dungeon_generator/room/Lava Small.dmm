@@ -6,10 +6,6 @@
 /obj/effect/dungeon_directional_helper/north,
 /turf/open/floor/rogue/naturalstone,
 /area/rogue/under/tomb/cave/lava)
-"g" = (
-/obj/item/natural/rock/coal,
-/turf/open/floor/rogue/volcanic,
-/area/rogue/under/tomb/cave/lava)
 "h" = (
 /obj/structure/flora/rock,
 /turf/open/floor/rogue/naturalstone,
@@ -117,7 +113,7 @@ a
 a
 U
 U
-g
+p
 x
 x
 a
@@ -126,15 +122,15 @@ U
 a
 "}
 (5,1,1) = {"
-D
-D
+E
+E
 x
 p
 x
 x
 O
 p
-D
+E
 G
 "}
 (6,1,1) = {"
@@ -180,8 +176,8 @@ a
 x
 x
 x
-D
-D
+E
+E
 a
 a
 "}
@@ -236,27 +232,27 @@ a
 "}
 (4,1,2) = {"
 x
-G
+x
 a
 a
 x
 x
 x
 a
-G
+E
 a
 "}
 (5,1,2) = {"
 x
-E
-G
+m
+m
 x
 x
 a
 x
 x
 P
-G
+x
 "}
 (6,1,2) = {"
 x
@@ -299,7 +295,7 @@ a
 a
 x
 x
-G
+m
 x
 a
 a

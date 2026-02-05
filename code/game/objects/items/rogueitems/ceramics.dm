@@ -91,7 +91,7 @@
 //Bricks - Makes bricks which are used for building. (Need brick-wall sprites for this.. augh..)
 /obj/item/natural/clay/claybrick
 	name = "uncooked clay brick"
-	desc = "an uncooked clay brick. Still needs to be cooked in a kilm."
+	desc = "An uncooked clay brick. It still needs to be cooked in a kiln."
 	icon = 'icons/roguetown/items/cooking.dmi'
 	icon_state = "claybrickraw"
 	cooked_type = /obj/item/natural/brick
@@ -99,14 +99,14 @@
 //Statues - Basically cheapest version of the metal-made statues, but way easier to make given no rare material usage. Just skill. Plus, dyeable.
 /obj/item/natural/clay/claystatue
 	name = "uncooked clay statue"
-	desc = "an uncooked clay statue. Still needs to be cooked in a kilm."
+	desc = "An uncooked clay statue. It still needs to be cooked in a kiln."
 	icon = 'icons/roguetown/items/cooking.dmi'
 	icon_state = "claystatueraw"
 	cooked_type = /obj/item/roguestatue/clay
 
 /obj/item/roguestatue/clay
 	name = "ceramic statue"
-	desc = "A ceramic statue, shining in its eligance!"
+	desc = "A ceramic statue, shining in its elegance!"
 	icon = 'icons/roguetown/items/cooking.dmi'
 	icon_state = "claystatuecooked1"
 	smeltresult = null	//No resource return

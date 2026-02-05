@@ -46,5 +46,19 @@
 						)
 	if(H.mind)
 		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/fittedclothing)
-	if(H.mind)
 		SStreasury.give_money_account(ECONOMIC_LOWER_MIDDLE_CLASS, H, "Savings.")
+		H.mind.teach_crafting_recipe(/datum/crafting_recipe/roguetown/leather/unique/furlinedjacket)
+		H.mind.teach_crafting_recipe(/datum/crafting_recipe/roguetown/leather/unique/artipants)//Artificer
+		H.mind.teach_crafting_recipe(/datum/crafting_recipe/roguetown/leather/unique/buckleshoes)
+		H.mind.teach_crafting_recipe(/datum/crafting_recipe/roguetown/leather/unique/winterjacket)
+		H.mind.teach_crafting_recipe(/datum/crafting_recipe/roguetown/leatherunique/gladsandals)
+		H.mind.teach_crafting_recipe(/datum/crafting_recipe/roguetown/leather/unique/monkrobes)//Generic
+//Seamster should get the local stuff, makes sense really.
+		var/regions = list("The Familiar", "The Unfamiliar")
+		var/regional_specilization = input(H, "Choose your specilization.", "TAKE UP NEEDLE") as anything in regions
+		H.set_blindness(0)
+		switch(regional_specilization)
+			if("The Familiar")
+				r_hand = /obj/item/book/granter/crafting_recipe/tailor/western
+			if("The Unfamiliar")
+				r_hand = /obj/item/book/granter/crafting_recipe/tailor/eastern

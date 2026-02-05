@@ -87,6 +87,8 @@
 //RTD make this a storage item and make clickign on animals with things put it in storage
 /obj/item/natural/saddle
 	name = "saddle"
+	desc = "A leather harness typically fastened to the back of a riding animal, bearing several \
+	useful pouches and attached bags for your favoured beast of burden to bear."
 	icon_state = "saddle"
 	associated_skill = /datum/skill/misc/riding
 	w_class = WEIGHT_CLASS_BULKY
@@ -181,8 +183,9 @@
 /obj/item/natural/cured/essence
 	name = "essence of wilderness"
 	icon_state = "wessence"
-	desc = "A large drop of mystical sap said to contain Dendor's own energies, \n\
-	often carried by hunters and other wildsmen as a token of luck. A skilled tailor can imbue it into certain clothing or leather to provide protection."
+	desc = "A large drop of mystical sap said to contain Dendor's own energies, \
+	often carried by hunters and other wildsmen as a token of luck. A skilled \
+	tailor can imbue it into certain clothing or leather to provide protection."
 	resistance_flags = FLAMMABLE
 	w_class = WEIGHT_CLASS_SMALL
 	sellprice = 20

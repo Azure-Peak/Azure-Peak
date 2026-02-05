@@ -1,6 +1,6 @@
 /mob/living/simple_animal/hostile/rogue/spirit_vengeance
-	name = "Rancor Spirit"
-	desc = ""
+	name = "rancor spirit"
+	desc = "Death is no end, but a fascinating new beginning."
 	icon = 'icons/mob/spirit_vengeance.dmi'
 	icon_state = "spirit_vengeance"
 	icon_living = "spirit_vengeance"

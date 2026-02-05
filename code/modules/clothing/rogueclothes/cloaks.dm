@@ -141,7 +141,7 @@
 
 /obj/item/clothing/cloak/tabard/abyssortabard
 	name = "abyssorite tabard"
-	desc = "A tabard worn by Abyssorite devouts."
+	desc = "A tabard worn by Abyssorite devouts. It reeks of brine."
 	color = null
 	icon_state = "abyssortabard"
 	item_state = "abyssortabard"
@@ -1417,7 +1417,8 @@
 
 /obj/item/clothing/cloak/wardencloak
 	name = "warden cloak"
-	desc = "A cloak worn by the Wardens of Azuria's Forests"
+	desc = "A cloak of dense, thick wool worn by the Wardens of Azuria's Forests. Incredibly warm, \
+	and doubles as a blanket in a pinch."
 	icon_state = "wardencloak"
 	alternate_worn_layer = CLOAK_BEHIND_LAYER
 	slot_flags = ITEM_SLOT_BACK_R|ITEM_SLOT_CLOAK

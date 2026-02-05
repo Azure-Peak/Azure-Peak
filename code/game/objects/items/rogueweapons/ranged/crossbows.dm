@@ -1,7 +1,11 @@
 
 /obj/item/gun/ballistic/revolver/grenadelauncher/crossbow
 	name = "crossbow"
-	desc = "A deadly weapon that shoots a bolt with terrific power. Unlike the common bow, it uses a sophisticated mechanism to renock - and retain - its half-length bolts; a matter that relies more on raw strength than dexterity to master. </br>A favorite amongst the Keep's ever-dutiful watchmen, both for its relative ease-of-use and effectiveness against Psydonia's unchivalrous inhabitants."
+	desc = "A deadly weapon that shoots a bolt with terrific power. Unlike the common bow, \
+	it uses a sophisticated mechanism to renock - and retain - its half-length bolts; a \
+	matter that relies more on raw strength than dexterity to master. </br>A favorite \
+	amongst the Keep's ever-dutiful watchmen, both for its relative ease-of-use and \
+	effectiveness against Psydonia's unchivalrous inhabitants."
 	icon = 'icons/roguetown/weapons/misc32.dmi'
 	icon_state = "crossbow0"
 	item_state = "crossbow"

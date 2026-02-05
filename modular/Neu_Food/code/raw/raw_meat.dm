@@ -19,7 +19,8 @@
 	eat_effect = /datum/status_effect/debuff/rotfood
 	list_reagents = list(/datum/reagent/consumable/nutriment = SNACK_POOR)
 	name = "rotten meat"
-	desc = "This was edible once... To most it's just a putrid mess now."
+	desc = "This was once edible. It is now only a putrid mess, except to the most steadfast \
+	of stomachs."
 	icon = 'modular/Neu_Food/icons/raw/raw_meat.dmi'
 	icon_state = "meat_rotten"
 
@@ -253,6 +254,17 @@
 			if(do_after(user,long_cooktime, target = src))
 				add_sleep_experience(user, /datum/skill/craft/cooking, user.STAINT)
 				new /obj/item/reagent_containers/food/snacks/rogue/meat/sausage(loc)
+				qdel(I)
+				qdel(src)
+		else
+			to_chat(user, span_warning("You need to put [src] on a table to work on it."))
+	if(istype(I, /obj/item/reagent_containers/food/snacks/egg))
+		if(isturf(loc)&& (found_table))
+			to_chat(user, span_notice("Preparing a tartar..."))
+			playsound(get_turf(user), 'sound/foley/dropsound/food_drop.ogg', 40, TRUE, -1)
+			if(do_after(user,long_cooktime, target = src))
+				add_sleep_experience(user, /datum/skill/craft/cooking, user.STAINT)
+				new /obj/item/reagent_containers/food/snacks/rogue/tartar(loc)
 				qdel(I)
 				qdel(src)
 		else

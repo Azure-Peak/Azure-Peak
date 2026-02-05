@@ -103,12 +103,12 @@
 
 /obj/structure/wild_plant/nospread/manabloom
 	name = "wild manabloom"
-	desc = "Wild manabloom"
+	desc = "It flutters ethereally in the breeze."
 	icon_state = "manabloom2"
 	plant_type = /datum/plant_def/manabloom
 
 /obj/structure/wild_plant/nospread/poppy
 	name = "wild poppy"
-	desc = "Wild poppy"
+	desc = "A lively red flower which will eventually wilt."
 	icon_state = "poppy2"
 	plant_type = /datum/plant_def/poppy

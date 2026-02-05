@@ -15,6 +15,7 @@
 	chargedloop = /datum/looping_sound/invokelightning
 	associated_skill = /datum/skill/magic/arcane
 	gesture_required = TRUE
+	human_req = TRUE // Combat spell
 	spell_tier = 3
 	invocations = list("Feri Fulmine Hostem!") // Based on Zeus - Strike the Enemy with Lightning!
 	invocation_type = "shout"

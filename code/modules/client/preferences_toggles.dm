@@ -210,6 +210,24 @@
 	to_chat(src, "You will[prefs.chat_toggles & CHAT_MOODMESSAGES ? "" : " not"] see all mood messages \
 	in your chat. Sufficiently severe mood messages are shown in chat regardless of this toggle.")
 
+/client/verb/attack_blip_frequency()
+	set category = "Options"
+	set name = "Change Attack Sound Frequency"
+
+	var/choice = input(src, "How often do you wish to hear your character emote on successful hits?", "ATTACK NOISE FREQUENCY") as null|anything in GLOB.attack_blip_pref_list
+	if(!choice)
+		return
+
+	if(choice && prefs)
+		prefs.attack_blip_frequency = GLOB.attack_blip_pref_list[choice]
+		prefs.save_preferences()
+
+	var/text = choice
+	if(choice == "Half the time (Default)")
+		text = "Half the time"
+
+	to_chat(src, "Your character will [text] voice their successful attacks.")
+
 /client/verb/toggle_xptext() // Whether the user can see the balloon XP pop ups.
 	set category = "Options"
 	set name = "Toggle XP Text"

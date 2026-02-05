@@ -27,7 +27,9 @@
 
 /obj/structure/globe
 	name = "globe"
-	desc = "A mysterious globe representing the world."
+	desc = "A wooden globe representing the world. Key landmarks are indicated by adjacent \
+	annotations; at a glance you can pick out 'Otava', 'Grenzelhoft', 'Kazengun', 'Naledi', \
+	and on the northern half of the western continent, a modest peninsula marked as 'Azuria'."
 	icon = 'icons/roguetown/misc/structure.dmi'
 	icon_state = "globe"
 	density = TRUE

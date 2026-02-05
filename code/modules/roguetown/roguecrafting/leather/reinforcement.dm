@@ -13,3 +13,43 @@
 		)
 	tools = list(/obj/item/needle)
 	craftdiff = 3
+
+/datum/crafting_recipe/roguetown/leather/reinforcement/studded
+	craftdiff = 4
+	tools = list(/obj/item/needle, /obj/item/rogueweapon/hammer)
+
+/datum/crafting_recipe/roguetown/leather/reinforcement/studded/hood
+	name = "studded leather hood"
+	result = list(/obj/item/clothing/head/roguetown/roguehood/studded)
+	reqs = list(
+		/obj/item/clothing/head/roguetown/roguehood = 1,
+		/obj/item/scrap = 2,
+		/obj/item/reagent_containers/food/snacks/fat = 1,
+		)
+
+/datum/crafting_recipe/roguetown/leather/reinforcement/studded/chestplate
+	name = "studded leather chestplate"
+	result = list(/obj/item/clothing/suit/roguetown/armor/leather/studded)
+	reqs = list(
+		/obj/item/clothing/suit/roguetown/armor/leather = 1,
+		/obj/item/scrap = 3,
+		/obj/item/reagent_containers/food/snacks/fat = 1,
+		)
+
+/datum/crafting_recipe/roguetown/leather/reinforcement/studded/bikini
+	name = "studded leather corslet"
+	result = list(/obj/item/clothing/suit/roguetown/armor/leather/studded/bikini)
+	reqs = list(
+		/obj/item/clothing/suit/roguetown/armor/leather = 1,
+		/obj/item/scrap = 2,
+		/obj/item/reagent_containers/food/snacks/fat = 1,
+		)
+
+/datum/crafting_recipe/roguetown/leather/reinforcement/studded/forester
+	name = "forester's brigandine"
+	result = list(/obj/item/clothing/suit/roguetown/armor/leather/studded/warden/upgraded)
+	reqs = list(
+		/obj/item/clothing/suit/roguetown/armor/leather/studded/warden = 1,
+		/obj/item/natural/cured/essence = 1,
+		/obj/item/reagent_containers/food/snacks/fat = 1,
+		)

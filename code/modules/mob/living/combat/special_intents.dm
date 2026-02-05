@@ -86,6 +86,8 @@ This allows the devs to draw whatever shape they want at the cost of it feeling 
 
 	var/datum/skill/custom_skill
 
+	var/active_timer
+
 ///To be called by EXTERNAL SOURCES, preferably. We don't want to bog this datum down with built-in costs, but I won't stop you.
 /datum/special_intent/proc/apply_cost(mob/living/L)
 	if(L.has_status_effect(/datum/status_effect/buff/clash/limbguard))	//TODO: A more standardised way of checking for toggle Specials that should prevent others from being used.
@@ -1133,3 +1135,92 @@ tile_coordinates = list(list(1,1), list(-1,1), list(-1,-1), list(1,-1),list(0,0)
 	howner.apply_status_effect(/datum/status_effect/buff/dagger_dash)
 	playsound(howner, 'sound/combat/dagger_boost.ogg', 100, TRUE)
 	apply_cooldown()
+
+/datum/special_intent/ignite_dagger
+	name = "Ignite Dagger"
+	desc = "Channel the power of the magycks within the dagger to heat it to an incredible degree."
+	cooldown = 120 SECONDS
+	stamcost = 25
+
+/datum/special_intent/ignite_dagger/on_create()
+	. = ..()
+	howner.visible_message(span_warning("[iparent]'s blade begins to glow intensely in [howner]'s grasp!"))
+	var/obj/item/rogueweapon/huntingknife/idagger/steel/fire/W = iparent
+	active_timer = addtimer(CALLBACK(src, PROC_REF(effect_expire)), 20 SECONDS, TIMER_STOPPABLE)
+	W.damtype = BURN
+	W.icon_state = "fdagger_active"
+	W.inactive_intents = W.possible_item_intents
+	W.possible_item_intents = W.active_intents
+	howner.update_a_intents()
+	howner.regenerate_icons()
+	playsound(W.loc, 'sound/items/firelight.ogg', 100)
+
+/datum/special_intent/ignite_dagger/proc/effect_expire()
+	howner.visible_message(span_warning("[iparent]'s blade cools down!"))
+	var/obj/item/rogueweapon/huntingknife/idagger/steel/fire/W = iparent
+	W.damtype = BRUTE
+	W.icon_state = "fdagger"
+	W.possible_item_intents = W.inactive_intents
+	howner.update_a_intents()
+	howner.regenerate_icons()
+	playsound(W.loc, 'sound/items/firesnuff.ogg', 100)
+
+/datum/special_intent/coat_blade
+	name = "Coat Blade"
+	desc = "Channel the power of the magycks within this sabre to render it as toxic as it once was."
+	cooldown = 120 SECONDS
+	stamcost = 25
+
+/datum/special_intent/coat_blade/on_create()
+	. = ..()
+	howner.visible_message(span_warning("[iparent]'s blade forms a solid layer of poison in [howner]'s grasp!"))
+	var/obj/item/rogueweapon/sword/sabre/bane/W = iparent
+	active_timer = addtimer(CALLBACK(src, PROC_REF(effect_expire)), 20 SECONDS, TIMER_STOPPABLE)
+	W.damtype = TOX
+	W.force -= 15
+	W.update_force_dynamic()
+	W.icon_state = "poisonsaber_active"
+	howner.regenerate_icons()
+	playsound(W.loc, 'sound/misc/lava_death.ogg', 100)
+
+/datum/special_intent/coat_blade/proc/effect_expire()
+	howner.visible_message(span_warning("[iparent]'s coating of toxins falls to the dirt!"))
+	var/obj/item/rogueweapon/sword/sabre/bane/W = iparent
+	W.damtype = BRUTE
+	W.force += 15
+	W.update_force_dynamic()
+	W.icon_state = "poisonsaber"
+	playsound(W.loc, 'sound/magic/bladescrape.ogg', 100)
+
+/datum/special_intent/permafrost
+	name = "Permafrost"
+	desc = "Channel the deathly cold lingering in the blade's memory to spread it to your enemies."
+	cooldown = 120 SECONDS
+	stamcost = 25
+
+/datum/special_intent/permafrost/on_create()
+	. = ..()
+	howner.visible_message(span_warning("[iparent]'s blade forms a layer of ice in [howner]'s grasp!"))
+	var/obj/item/rogueweapon/stoneaxe/battle/ice/W = iparent
+	active_timer = addtimer(CALLBACK(src, PROC_REF(effect_expire)), 20 SECONDS, TIMER_STOPPABLE)
+	W.icon_state = "iceaxeactive"
+	W.toggle_state = "iceaxeactive"
+	W.inactive_intents = W.possible_item_intents
+	W.inactive_gripped_intents = W.gripped_intents
+	W.possible_item_intents = W.active_intents
+	W.gripped_intents = W.active_gripped_intents
+	howner.update_a_intents()
+	howner.regenerate_icons()
+	playsound(W.loc, 'sound/magic/blade_burst.ogg', 100)
+
+/datum/special_intent/permafrost/proc/effect_expire()
+	howner.visible_message(span_warning("The ice covering [iparent]'s blade thaws out!"))
+	var/obj/item/rogueweapon/stoneaxe/battle/ice/W = iparent
+	W.icon_state = "iceaxe"
+	W.toggle_state = null
+	W.possible_item_intents = W.inactive_intents
+	W.gripped_intents = W.inactive_gripped_intents
+	howner.update_a_intents()
+	howner.regenerate_icons()
+	playsound(W.loc, 'sound/foley/waterenter.ogg', 100)
+

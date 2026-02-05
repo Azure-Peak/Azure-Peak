@@ -9,6 +9,28 @@
 	spillable = TRUE
 	possible_item_intents = list(INTENT_POUR, /datum/intent/fill, INTENT_SPLASH, INTENT_GENERIC)
 	resistance_flags = ACID_PROOF
+	var/is_infinite = FALSE
+
+/obj/item/reagent_containers/glass/examine(mob/user)
+	. = ..()
+	if(user.mind && ishuman(user))
+		var/mob/living/carbon/human/H = user
+		if(!H.patron || !istype(H.patron, /datum/patron/inhumen/baotha))
+			return
+		if(is_infinite)
+			. += span_notice("It's been touched by the Lady... it won't run dry, for now.")
+/obj/item/reagent_containers/glass/proc/reset_infinite()
+	is_infinite = FALSE
+
+/obj/item/reagent_containers/glass/proc/set_infinite(mob/user, delay)
+	if(is_infinite)
+		to_chat(user, span_info("It's already blessed to never run out!"))
+		return FALSE
+	else
+		is_infinite = TRUE
+		var/timer = (delay ? delay : 60 SECONDS)
+		addtimer(CALLBACK(src, PROC_REF(reset_infinite)), timer)
+		return TRUE
 
 /datum/intent/fill
 	name = "fill"
@@ -75,7 +97,7 @@
 					if (prob(25))
 						to_chat(human_user, span_red("I've got better manners than this..."))
 			to_chat(user, span_notice("I swallow a gulp of [src]."))
-		addtimer(CALLBACK(reagents, TYPE_PROC_REF(/datum/reagents, trans_to), M, amount_per_gulp, TRUE, TRUE, FALSE, user, FALSE, INGEST), 5)
+		addtimer(CALLBACK(reagents, TYPE_PROC_REF(/datum/reagents, trans_to), M, amount_per_gulp, TRUE, TRUE, FALSE, user, FALSE, INGEST, TRUE, FALSE, (is_infinite ? FALSE : TRUE)), 5)
 		playsound(M.loc,pick(drinksounds), 100, TRUE)
 		if(user.client?.prefs.autoconsume)
 			if(M == user && do_after(user, CLICK_CD_MELEE))

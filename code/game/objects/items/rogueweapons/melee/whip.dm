@@ -2,7 +2,8 @@
 	force = 21
 	possible_item_intents = list(/datum/intent/whip/lash, /datum/intent/whip/crack, /datum/intent/whip/punish)
 	name = "whip"
-	desc = "A leather whip, tipped with a flintknapped stone. Though intended to shepherd unruly livestock, the tip's jagged points also suffice at leaving assailants with horrific lacerations."
+	desc = "A leather whip, tipped with a flintknapped stone. Though intended to shepherd \
+	unruly livestock, the tip's jagged points also suffice at leaving assailants with horrific lacerations."
 	icon_state = "whip"
 	icon = 'icons/roguetown/weapons/whips32.dmi'
 	sharpness = IS_BLUNT

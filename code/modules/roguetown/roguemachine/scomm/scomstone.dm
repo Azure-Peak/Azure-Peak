@@ -145,6 +145,13 @@
 	hearrange = 0
 	sellprice = 100
 
+/obj/item/scomstone/garrison/hand
+	name = "handpin"
+	desc = " unique crownstone, perfect for long days and short lives, both honor and burden."
+	icon = 'icons/roguetown/clothing/special/hand.dmi'
+	mob_overlay_icon = 'icons/roguetown/clothing/special/onmob/hand.dmi'
+	icon_state = "handpin"
+
 /obj/item/scomstone/garrison/equipped(mob/living/user, slot)
 	. = ..()
 	if(slot == SLOT_RING)
@@ -157,13 +164,13 @@
 /obj/item/scomstone/garrison/attack_right(mob/living/carbon/human/user)
 	user.changeNext_move(CLICK_CD_INTENTCAP)
 	if(on_cooldown)
-		to_chat(user, span_warning("The gemstone inside the ring radiates heat. It's still cooling down from its last use."))
+		to_chat(user, span_warning("The gemstone inside \the [src] radiates heat. It's still cooling down from its last use."))
 		playsound(loc, 'sound/misc/machineno.ogg', 100, FALSE, -1)
 		return
 	if(!get_location_accessible(user, BODY_ZONE_PRECISE_MOUTH, grabs = TRUE))
 		to_chat(user, span_warning("My mouth is covered!"))
 		return
-	visible_message(span_notice ("[user] presses their ring against their mouth."))
+	visible_message(span_notice ("[user] presses their [src] against their mouth."))
 	var/input_text = input(user, "Enter your message:", "Message")
 	if(!input_text)
 		return

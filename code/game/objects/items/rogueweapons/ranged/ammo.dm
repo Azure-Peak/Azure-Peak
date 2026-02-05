@@ -32,13 +32,15 @@
 
 /obj/item/ammo_casing/caseless/rogue/bolt/paalloy
 	name = "ancient bolt"
-	desc = "An ancient bolt, tipped with polished gilbranze. The razor-thin tip resembles a sabot more than an arrowhead; something that most alloys cannot reliably withstand."
+	desc = "An ancient bolt, tipped with polished gilbranze. The razor-thin tip \
+	resembles a sabot more than an arrowhead; something that most alloys cannot reliably withstand."
 	icon_state = "ancientbolt"
 	projectile_type = /obj/projectile/bullet/reusable/bolt/paalloy
 
 /obj/item/ammo_casing/caseless/rogue/bolt/bronze
 	name = "bronze bolt"
-	desc = "Bronze and wood, fitted by-hand to fashion a bolt's fuselage. The design, perfected over a millennium of trial-and-error, sails with tremendous haste."
+	desc = "Bronze and wood, fitted by-hand to fashion a bolt's fuselage. The \
+	design, perfected over a millennium of trial-and-error, sails with tremendous haste."
 	icon_state = "bronzebolt"
 	projectile_type = /obj/projectile/bullet/reusable/bolt/bronze
 
@@ -129,7 +131,8 @@
 
 /obj/item/ammo_casing/caseless/rogue/heavy_bolt
 	name = "heavy bolt"
-	desc = "A massive steel bolt that is designed to pulverize the defenses of another, whether it be a castle's parapit or a knight's plate."
+	desc = "A massive steel bolt that is designed to pulverize the defenses of \
+	another, whether it be a castle's parapit or a knight's plate."
 	projectile_type = /obj/projectile/bullet/reusable/heavy_bolt
 	possible_item_intents = list(/datum/intent/dagger/cut, /datum/intent/dagger/thrust)
 	caliber = "heabolt"
@@ -150,7 +153,9 @@
 	damage = 120 //+50% the damage of a regular crossbow bolt.
 	damage_type = BRUTE
 	armor_penetration = 0 //No penetration.
-	demolition_mod = 10 //Should destroy wooden barricades and doors in one shot, stone-and-iron doors in two, and The Gate in four.
+	object_damage_multiplier = 10 //Should destroy wooden barricades and doors in one shot, stone-and-iron doors in two, and The Gate in four.
+	wall_impact_break_probability = 100
+	damages_turf_walls = TRUE
 	icon = 'icons/roguetown/weapons/ammo.dmi'
 	icon_state = "heavybolt_proj"
 	ammo_type = /obj/item/ammo_casing/caseless/rogue/heavy_bolt
@@ -173,13 +178,15 @@
 	name = "blunt heavy bolt"
 	damage = 90
 	embedchance = 50 //'If you're reading this, duck!'
-	demolition_mod = 12 //Ensures the bolt can still, at a minimum, destroy most wooden barricades and doors in one shot.
+	object_damage_multiplier = 12 //Ensures the bolt can still, at a minimum, destroy most wooden barricades and doors in one shot.
 	woundclass = BCLASS_BLUNT
 	icon_state = "heavybolt_proj"
 
 /obj/item/ammo_casing/caseless/rogue/heavy_bolt/aalloy
 	name = "decrepit heavy bolt"
-	desc = "A length of frayed bronze, quilled to take flight and tear down the living. Metal flakes occassionally peel off from its core, mysteriously hovering about - tolerable by the undying, but unbearibly noxious to the living."
+	desc = "A length of frayed bronze, quilled to take flight and tear down the living. \
+	Metal flakes occassionally peel off from its core, mysteriously hovering about - \
+	tolerable by the undying, but unbearibly noxious to the living."
 	icon_state = "ancientheavybolt"
 	projectile_type = /obj/projectile/bullet/reusable/heavy_bolt/aalloy
 	color = "#bb9696"
@@ -188,7 +195,7 @@
 	name = "decrepit heavy bolt"
 	damage = 90 
 	embedchance = 50
-	demolition_mod = 12 //Ensures the bolt can still, at a minimum, destroy most wooden barricades and doors in one shot.
+	object_damage_multiplier = 12 //Ensures the bolt can still, at a minimum, destroy most wooden barricades and doors in one shot.
 	icon_state = "ancientbolt_proj"
 	poisontype = /datum/reagent/stampoison
 	poisonamount = 2 //You are, in essence, giving them tenantus.
@@ -276,7 +283,9 @@
 
 /obj/item/ammo_casing/caseless/rogue/arrow/iron/aalloy
 	name = "decrepit broadhead arrow"
-	desc = "An arrow; one end, tipped with flattened and frayed bronze - the other, inlaid with decayed feathers. The alloy's decrepity forces it to burst into shrapnel upon impact, shredding flesh."
+	desc = "An arrow; one end, tipped with flattened and frayed bronze - the other, \
+	inlaid with decayed feathers. The alloy's decrepity forces it to burst into \
+	shrapnel upon impact, shredding flesh."
 	icon_state = "ancientarrow"
 	projectile_type = /obj/projectile/bullet/reusable/arrow/iron/aalloy
 	color = "#bb9696"
@@ -290,7 +299,9 @@
 
 /obj/item/ammo_casing/caseless/rogue/arrow/steel/paalloy
 	name = "ancient bodkin arrow"
-	desc = "An arrow; one end, tipped with a sharpened rod of polished gilbranze - the other, inlaid with feathers. The razor-thin tip resembles a sabot; an alloyed sliver that can punch straight through steel."
+	desc = "An arrow; one end, tipped with a sharpened rod of polished gilbranze - \
+	the other, inlaid with feathers. The razor-thin tip resembles a sabot; an alloyed \
+	sliver that can punch straight through steel."
 	icon_state = "ancientarrow"
 	projectile_type = /obj/projectile/bullet/reusable/arrow/steel/paalloy
 
@@ -367,7 +378,7 @@
 	icon_state = "ancientarrow_proj"
 	damage = 35
 	armor_penetration = 35
-	embedchance = 60 
+	embedchance = 60
 
 /obj/projectile/bullet/reusable/arrow/bronze
 	name = "bronze arrow"
@@ -375,7 +386,7 @@
 	icon_state = "bronzearrow_proj"
 	damage = 60
 	armor_penetration = 10
-	embedchance = 60 //+20 damage and embedding, -50% AP. 
+	embedchance = 60 //+20 damage and embedding, -50% AP.
 	npc_simple_damage_mult = 3 //More damage over simplemobs!
 	speed = 0.15 // Faster!
 

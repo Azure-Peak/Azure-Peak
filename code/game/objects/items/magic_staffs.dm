@@ -1,17 +1,6 @@
-#define TOPER_CAST_TIME_REDUCTION 0.1
-#define EMERALD_CAST_TIME_REDUCTION 0.15
-#define SAPPHIRE_CAST_TIME_REDUCTION 0.2
-#define QUARTZ_CAST_TIME_REDUCTION 0.25
-#define RUBY_CAST_TIME_REDUCTION 0.3
-#define DIAMOND_CAST_TIME_REDUCTION 0.35
-#define RIDDLE_OF_STEEL_CAST_TIME_REDUCTION 0.4
-
 //we use discrete staff objs so that they can be easily thrown into loot tables and maps without complex varediting
 
-/obj/item/rogueweapon/woodstaff
-	var/cast_time_reduction = null
-
-/obj/item/rogueweapon/woodstaff/examine(mob/user)
+/obj/item/rogueweapon/examine(mob/user)
 	.=..()
 	if(cast_time_reduction)
 		. += span_notice("This staff has been augmented with a gem, reducing a mage's spell casting time by [cast_time_reduction * 100]% when they hold it in their hand.")
@@ -254,12 +243,3 @@
 	reqs = list(/obj/item/rogueweapon/woodstaff/emerald/blacksteelstaff = 1,
 				/obj/item/roguegem/diamond = 1)
 	craftdiff = 0
-
-
-#undef TOPER_CAST_TIME_REDUCTION
-#undef EMERALD_CAST_TIME_REDUCTION
-#undef SAPPHIRE_CAST_TIME_REDUCTION
-#undef QUARTZ_CAST_TIME_REDUCTION
-#undef RUBY_CAST_TIME_REDUCTION
-#undef DIAMOND_CAST_TIME_REDUCTION
-#undef RIDDLE_OF_STEEL_CAST_TIME_REDUCTION

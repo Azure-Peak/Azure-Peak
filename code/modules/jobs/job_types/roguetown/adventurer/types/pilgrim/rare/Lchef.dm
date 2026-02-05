@@ -36,7 +36,7 @@
 	cloak = /obj/item/clothing/cloak/apron
 	head = /obj/item/clothing/head/roguetown/chef
 	shoes = /obj/item/clothing/shoes/roguetown/shortboots
-	backr = /obj/item/storage/backpack/rogue/backpack
+	backl = /obj/item/storage/backpack/rogue/backpack
 	neck = /obj/item/storage/belt/rogue/pouch/coins/mid
 	wrists = /obj/item/clothing/wrists/roguetown/bracers/leather
 	beltr = /obj/item/cooking/pan

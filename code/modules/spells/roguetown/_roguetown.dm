@@ -76,6 +76,7 @@
 	var/current_amount = 0	//How many projectiles left.
 	var/projectiles_per_fire = 1		//Projectiles per fire. Probably not a good thing to use unless you override ready_projectile().
 	gesture_required = TRUE // All projectiles are offensive and should be locked to not handcuff
+	human_req = TRUE
 
 /obj/effect/proc_holder/spell/invoked/projectile/proc/ready_projectile(obj/projectile/P, atom/target, mob/user, iteration)
 	return
