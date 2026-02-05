@@ -133,9 +133,11 @@
 	apply_enchant(I, TRUE)
 
 //special snowflake arcane mark proc grahhh
-/datum/component/enchanted_weapon/proc/arcane_mark_afterattack(obj/item/source, atom/target, mob/user, click_parameters)
+/datum/component/enchanted_weapon/proc/arcane_mark_afterattack(obj/item/source, atom/target, mob/user, proximity_flag, click_parameters)
 
 	SIGNAL_HANDLER
+	if(!proximity_flag)
+		return
 	if(world.time < next_arcane_mark_time)
 		return
 	if(!ismob(target))
