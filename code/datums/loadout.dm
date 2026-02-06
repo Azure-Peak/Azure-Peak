@@ -807,7 +807,7 @@ GLOBAL_LIST_EMPTY(loadout_items)
 /datum/loadout_item/donator_dasfox/lance
 	name = "Donator Item - Decorated Lance"
 	path = /obj/item/enchantingkit/dasfox_lance
-	ckeywhitelist = list("dasfox")
+	ckeywhitelist = list("dasfox", "cre77") // on request by dasfox
 
 /datum/loadout_item/donator_ryan
 	name = "Donator Item - Western Estates Caparison"
