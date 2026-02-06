@@ -78,6 +78,5 @@
 		if(istype(M, /mob/living/carbon))
 			apply_arcane_mark(M)
 	else if(isatom(target))
-		// Ignite light sources, braziers, and ignitable items without creating fire hotspots
 		var/atom/A = target
 		A.fire_act()
