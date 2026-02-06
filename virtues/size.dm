@@ -8,3 +8,4 @@
 	recipient.transform = recipient.transform.Scale(1.25, 1.25)
 	recipient.transform = recipient.transform.Translate(0, (0.25 * 16))
 	recipient.update_transform()
+	recipient.change_stat("constitution", 1)
