@@ -15,6 +15,7 @@
 	strip_delay = 6 SECONDS
 	smelt_bar_num = 4
 	chunkcolor = "#303036"
+	material_category = ARMOR_MAT_PLATE
 
 /obj/item/clothing/suit/roguetown/armor/plate/full/blacksteel
 	name = "ancient blacksteel plate armor"
@@ -29,6 +30,7 @@
 	max_integrity = ARMOR_INT_CHEST_PLATE_BLACKSTEEL
 	smeltresult = /obj/item/ingot/blacksteel
 	chunkcolor = "#303036"
+	material_category = ARMOR_MAT_PLATE
 
 /obj/item/clothing/suit/roguetown/armor/plate/cuirass/blacksteel
 	name = "blacksteel cuirass"
@@ -42,6 +44,7 @@
 	armor_class = ARMOR_CLASS_MEDIUM
 	smelt_bar_num = 2
 	chunkcolor = "#303036"
+	material_category = ARMOR_MAT_PLATE
 
 /obj/item/clothing/suit/roguetown/armor/plate/blacksteel
 	slot_flags = ITEM_SLOT_ARMOR
@@ -57,3 +60,4 @@
 	nodismemsleeves = TRUE
 	smeltresult = /obj/item/ingot/blacksteel
 	chunkcolor = "#303036"
+	material_category = ARMOR_MAT_PLATE

@@ -57,6 +57,7 @@
 	sellprice = 1
 	var/naledicolor = FALSE
 	var/chunkcolor = "#5e5e5e"
+	var/material_category = ARMOR_MAT_LEATHER
 
 /obj/item
 	var/blocking_behavior
@@ -503,6 +504,35 @@ BLIND     // can't see anything
 /obj/item/clothing/proc/step_action() //this was made to rewrite clown shoes squeaking
 	SEND_SIGNAL(src, COMSIG_CLOTHING_STEP_ACTION)
 
+/obj/item/clothing/proc/pick_damage_sound(tier)
+	var/picked_sound
+	switch(material_category)
+		if(ARMOR_MAT_PLATE)
+			switch(tier)
+				if(1)
+					picked_sound = 'sound/combat/armor_degrade_plate1.ogg'
+				if(2)
+					picked_sound = 'sound/combat/armor_degrade_plate2.ogg'
+				if(3)
+					picked_sound = 'sound/combat/armor_degrade_plate3.ogg'
+		if(ARMOR_MAT_CHAINMAIL)
+			switch(tier)
+				if(1)
+					picked_sound = 'sound/combat/armor_degrade_chain1.ogg'
+				if(2)
+					picked_sound = 'sound/combat/armor_degrade_chain2.ogg'
+				if(3)
+					picked_sound = 'sound/combat/armor_degrade_chain3.ogg'
+		if(ARMOR_MAT_LEATHER)
+			switch(tier)
+				if(1)
+					picked_sound = 'sound/combat/armor_degrade_leather1.ogg'
+				if(2)
+					picked_sound = 'sound/combat/armor_degrade_leather2.ogg'
+				if(3)
+					picked_sound = 'sound/combat/armor_degrade_leather3.ogg'
+	return (picked_sound ? picked_sound : FALSE)
+
 /obj/item/clothing/take_damage(damage_amount, damage_type = BRUTE, damage_flag, sound_effect, attack_dir, armor_penetration)
 	var/newdam = run_obj_armor(damage_amount, damage_type, damage_flag, attack_dir, armor_penetration)
 	var/eff_maxint = max_integrity - (max_integrity * integrity_failure)
@@ -515,17 +545,17 @@ BLIND     // can't see anything
 	var/sfx
 	if(ratio > 0.75 && ratio_newinteg < 0.75)
 		text = "Armor <br><font color = '#8aaa4d'>marred</font>"
-		sfx = 'sound/combat/armor_degrade1.ogg'
+		sfx = pick_damage_sound(1)
 		chunkicon = "chunkfall1"
 		y_offset = -5
 	if(ratio > 0.5 && ratio_newinteg < 0.5)
 		text = "Armor <br><font color = '#d4d36c'>damaged</font>"
-		sfx = 'sound/combat/armor_degrade2.ogg'
+		sfx = pick_damage_sound(2)
 		chunkicon = "chunkfall2"
 		y_offset = 15
 	if(ratio > 0.25 && ratio_newinteg < 0.25)
 		text = "Armor <br><font color = '#a8705a'>sundered</font>"
-		sfx = 'sound/combat/armor_degrade3.ogg'
+		sfx = pick_damage_sound(3)
 		chunkicon = "chunkfall3"
 		y_offset = 30
 	if(text)

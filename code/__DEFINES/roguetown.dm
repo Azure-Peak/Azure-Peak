@@ -391,3 +391,8 @@ GLOBAL_LIST_EMPTY(round_join_times)
 #define CLASS_CAT_HFT_COURT "Upper Court"
 #define CLASS_CAT_HFT_GUARD "House Guard"
 #define CLASS_CAT_HFT_WORKER "Workers"
+
+//Armor material categories
+#define ARMOR_MAT_PLATE 1
+#define ARMOR_MAT_LEATHER 2
+#define ARMOR_MAT_CHAINMAIL 3

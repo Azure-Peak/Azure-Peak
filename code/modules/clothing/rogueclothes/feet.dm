@@ -348,6 +348,7 @@
 	desc = "Ensnaring paradoxes, rended beneath logic and solidified into tangible footguards. Called forth from the edge of what should be known, in Her name."
 	icon_state = "zizoboots"
 	chunkcolor = "#363030"
+	material_category = ARMOR_MAT_PLATE
 	armor = ARMOR_ASCENDANT
 
 /obj/item/clothing/shoes/roguetown/boots/armor/zizo/Initialize()
@@ -504,6 +505,7 @@
 	smeltresult = /obj/item/ingot/blacksteel
 	resistance_flags = FIRE_PROOF
 	chunkcolor = "#303036"
+	material_category = ARMOR_MAT_PLATE
 
 /obj/item/clothing/shoes/roguetown/boots/blacksteel/plateboots
 	name = "ancient blacksteel plate boots"
@@ -521,6 +523,7 @@
 	smeltresult = /obj/item/ingot/blacksteel
 	resistance_flags = FIRE_PROOF
 	chunkcolor = "#303036"
+	material_category = ARMOR_MAT_PLATE
 
 // ----------------- BLACKSTEEL END -----------------------
 

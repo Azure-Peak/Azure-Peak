@@ -117,6 +117,7 @@
 	icon_state = "ancientbracers"
 	color = "#bb9696"
 	chunkcolor = "#532e25"
+	material_category = ARMOR_MAT_PLATE
 	smeltresult = /obj/item/ingot/aaslag
 	anvilrepair = null
 	prevent_crits = PREVENT_CRITS_NONE
@@ -339,6 +340,7 @@
 	desc = "Clasped, yet unburdening. The pursuit of knowledge has led you to this very moment; there is no going back."
 	color = "#c1b18d"
 	chunkcolor = "#363030"
+	material_category = ARMOR_MAT_PLATE
 
 /obj/item/clothing/wrists/roguetown/bracers/zizo/Initialize()
 	. = ..()

@@ -17,6 +17,7 @@
 	sleeved_detail = FALSE
 	boobed_detail = FALSE
 	chunkcolor = "#7d9097"
+	material_category = ARMOR_MAT_PLATE
 
 /obj/item/clothing/suit/roguetown/armor/brigandine/Initialize()
 	. = ..()

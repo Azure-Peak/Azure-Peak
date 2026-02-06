@@ -23,6 +23,7 @@
 	experimental_onhip = TRUE
 	experimental_inhand = TRUE
 	chunkcolor = "#8c9599"
+	material_category = ARMOR_MAT_LEATHER
 
 /obj/item/clothing/head/roguetown/helmet/MiddleClick(mob/user)
 	if(!ishuman(user))
@@ -93,6 +94,7 @@
 	body_parts_covered = HEAD|HAIR|EARS
 	color = "#bb9696"
 	chunkcolor = "#532e25"
+	material_category = ARMOR_MAT_PLATE
 	smeltresult = /obj/item/ingot/aaslag
 	anvilrepair = null
 	prevent_crits = PREVENT_CRITS_NONE

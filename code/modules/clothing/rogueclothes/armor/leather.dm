@@ -16,6 +16,7 @@
 	armor_class = ARMOR_CLASS_LIGHT
 	salvage_result = /obj/item/natural/hide/cured
 	chunkcolor = "#7e5d17"
+	material_category = ARMOR_MAT_LEATHER
 
 /obj/item/clothing/suit/roguetown/armor/leather/ComponentInitialize()
 	AddComponent(/datum/component/armour_filtering/positive, TRAIT_FENCERDEXTERITY)
