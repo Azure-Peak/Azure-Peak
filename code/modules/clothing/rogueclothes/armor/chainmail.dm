@@ -3,7 +3,7 @@
 	slot_flags = ITEM_SLOT_ARMOR|ITEM_SLOT_SHIRT
 	name = "haubergeon"
 	desc = "A maille shirt fashioned from hundreds of interlinked steel rings. This blouse covers all the little nooks-and-crannies that're neglected by a standard cuirass, and - when paired with a gambeson - offers superb protection from most worldly strikes."
-	body_parts_covered = COVERAGE_ALL_BUT_HANDFEET
+	body_parts_covered = COVERAGE_ALL_BUT_HANDLEGS
 	icon_state = "haubergeon"
 	armor = ARMOR_MAILLE
 	max_integrity = ARMOR_INT_CHEST_MEDIUM_STEEL
