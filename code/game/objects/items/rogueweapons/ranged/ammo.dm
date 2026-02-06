@@ -696,7 +696,7 @@
 	. = ..()
 	if(ismob(target))
 		var/mob/living/M = target
-		M.apply_status_effect(/datum/status_effect/debuff/exposed)
+		M.apply_status_effect(/datum/status_effect/debuff/vulnerable)
 		M.Immobilize(15)
 	var/turf/T
 	if(isturf(target))
@@ -711,7 +711,7 @@
 	. = ..()
 	if(ismob(target))
 		var/mob/living/M = target
-		M.apply_status_effect(/datum/status_effect/debuff/exposed)
+		M.apply_status_effect(/datum/status_effect/debuff/vulnerable)
 		M.apply_status_effect(/datum/status_effect/buff/druqks)
 	var/turf/T
 	if(isturf(target))
