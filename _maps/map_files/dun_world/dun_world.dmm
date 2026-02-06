@@ -4200,6 +4200,7 @@
 /obj/item/rogueweapon/shovel,
 /obj/item/clothing/mask/cigarette/pipe/westman,
 /obj/item/rogueweapon/hoe,
+/obj/item/rogueweapon/thresher,
 /turf/open/floor/rogue/cobble/mossy,
 /area/rogue/indoors/town/manor)
 "baS" = (
