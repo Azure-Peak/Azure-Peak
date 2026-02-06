@@ -1104,7 +1104,7 @@ tile_coordinates = list(list(1,1), list(-1,1), list(-1,-1), list(1,-1),list(0,0)
 			var/throwdist = 1
 			var/target_zone = BODY_ZONE_CHEST
 
-			if(L.has_status_effect(/datum/status_effect/debuff/exposed)) // big damage and a knockdown if they exposed
+			if(L.has_status_effect(/datum/status_effect/debuff/exposed) || has_status_effect(/datum/status_effect/debuff/vulnerable)) // big damage and a knockdown if they exposed / vuln.
 				L.Knockdown(KD_dur)
 				throwdist = rand(2,4)
 				dam = 200 // big damage

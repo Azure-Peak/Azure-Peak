@@ -195,9 +195,9 @@
 	skill_factor = (ourskill - theirskill)/2
 
 	var/special_msg
-	var/newcd = (BASE_RCLICK_CD - user.get_tempo_bonus(TEMPO_TAG_RCLICK_CD_BONUS)) + feintdur
+	var/newcd = (FEINT_RCLICK_CD - user.get_tempo_bonus(TEMPO_TAG_RCLICK_CD_BONUS))
 
-	if(L.has_status_effect(/datum/status_effect/debuff/exposed))
+	if(L.has_status_effect(/datum/status_effect/debuff/exposed) || L.has_status_effect(/datum/status_effect/debuff/vulnerable))
 		perc = 0
 
 	if(L.has_status_effect(/datum/status_effect/debuff/feinted))
@@ -223,9 +223,8 @@
 	if(L.has_status_effect(/datum/status_effect/buff/clash))
 		L.remove_status_effect(/datum/status_effect/buff/clash)
 		to_chat(user, span_notice("[L.p_their(TRUE)] Guard disrupted!"))
-	L.apply_status_effect(/datum/status_effect/debuff/exposed, feintdur)
+	L.apply_status_effect(/datum/status_effect/debuff/vulnerable, feintdur)
 	L.apply_status_effect(/datum/status_effect/debuff/clickcd, max(1.5 SECONDS + skill_factor, 2.5 SECONDS))
-	L.apply_status_effect(/datum/status_effect/debuff/feinted, newcd)
 	L.Immobilize(0.5 SECONDS)
 	L.stamina_add(L.stamina * 0.1)
 	L.Slowdown(2)

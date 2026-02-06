@@ -330,6 +330,7 @@ GLOBAL_LIST_INIT(shove_disarming_types, typecacheof(list(
 #define GUARD_PEEL_REDUCTION 2	//How many Peel stacks to lose if a Guard is hit.
 #define BAIT_PEEL_REDUCTION 1	//How many Peel stacks to lose if we perfectly bait.
 #define BASE_RCLICK_CD 30 SECONDS
+#define FEINT_RCLICK_CD 20 SECONDS
 
 /* TEMPO DEFINES */
 #define TEMPO_CULL_DELAY 	12 SECONDS	//Interval for checking our tempo lists. Only relevant to player mobs with TRAIT_TEMPO

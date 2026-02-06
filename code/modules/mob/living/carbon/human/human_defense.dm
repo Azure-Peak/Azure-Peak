@@ -55,11 +55,18 @@
 			if(tempo_bonus)
 				intdamage *= tempo_bonus
 
-			if(has_status_effect(/datum/status_effect/debuff/exposed) && mind)
-				intdamage *= 3	//3 attacks equivalent.
-				playsound(src, 'sound/combat/exposed_pop.ogg', 100, TRUE)
-				remove_status_effect(/datum/status_effect/debuff/exposed)
-				emote("pain", forced = TRUE)
+
+			if(mind)
+				if(has_status_effect(/datum/status_effect/debuff/exposed))
+					intdamage *= 3	//3 attacks equivalent.
+					playsound(src, 'sound/combat/exposed_pop.ogg', 100, TRUE)
+					remove_status_effect(/datum/status_effect/debuff/exposed)
+					emote("pain", forced = TRUE)
+				else if(has_status_effect(/datum/status_effect/debuff/vulnerable))
+					intdamage *= 1.5
+					playsound(src, 'sound/combat/vulnerable_pop.ogg', 100, TRUE)
+					remove_status_effect(/datum/status_effect/debuff/vulnerable)
+					emote("groan", forced = TRUE)
 
 			used.take_damage(intdamage, damage_flag = d_type, sound_effect = FALSE, armor_penetration = 100)
 	else
@@ -78,11 +85,17 @@
 			if(tempo_bonus)
 				intdamage *= tempo_bonus
         
-			if(has_status_effect(/datum/status_effect/debuff/exposed) && mind)
-				intdamage *= 3	//3 attacks equivalent, considering layers -- yikes!
-				playsound(src, 'sound/combat/exposed_pop.ogg', 100, TRUE)
-				remove_status_effect(/datum/status_effect/debuff/exposed)
-				emote("pain", forced = TRUE)
+			if(mind)
+				if(has_status_effect(/datum/status_effect/debuff/exposed))
+					intdamage *= 3	//3 attacks equivalent, considering layers -- yikes!
+					playsound(src, 'sound/combat/exposed_pop.ogg', 100, TRUE)
+					remove_status_effect(/datum/status_effect/debuff/exposed)
+					emote("pain", forced = TRUE)
+				else if(has_status_effect(/datum/status_effect/debuff/vulnerable))
+					intdamage *= 1.5
+					playsound(src, 'sound/combat/vulnerable_pop.ogg', 100, TRUE)
+					remove_status_effect(/datum/status_effect/debuff/vulnerable)
+					emote("groan", forced = TRUE)
 
 			var/layers_deep = 1
 			var/played_sound = FALSE
