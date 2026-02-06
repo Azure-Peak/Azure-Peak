@@ -54,7 +54,13 @@
 			var/tempo_bonus = get_tempo_bonus(TEMPO_TAG_ARMOR_INTEGFACTOR)
 			if(tempo_bonus)
 				intdamage *= tempo_bonus
-				
+
+			if(has_status_effect(/datum/status_effect/debuff/exposed) && mind)
+				intdamage *= 3	//3 attacks equivalent.
+				playsound(src, 'sound/combat/exposed_pop.ogg', 100, TRUE)
+				remove_status_effect(/datum/status_effect/debuff/exposed)
+				emote("pain", forced = TRUE)
+
 			used.take_damage(intdamage, damage_flag = d_type, sound_effect = FALSE, armor_penetration = 100)
 	else
 		var/list/layers = get_best_worn_armor_layered(def_zone, d_type)
@@ -72,6 +78,12 @@
 			if(tempo_bonus)
 				intdamage *= tempo_bonus
         
+			if(has_status_effect(/datum/status_effect/debuff/exposed) && mind)
+				intdamage *= 3	//3 attacks equivalent, considering layers -- yikes!
+				playsound(src, 'sound/combat/exposed_pop.ogg', 100, TRUE)
+				remove_status_effect(/datum/status_effect/debuff/exposed)
+				emote("pain", forced = TRUE)
+
 			var/layers_deep = 1
 			var/played_sound = FALSE
 			for(var/obj/item/clothing/C in layers)
