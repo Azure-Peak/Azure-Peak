@@ -83,7 +83,7 @@
 	outfit = /datum/outfit/job/roguetown/wretch/marauder
 	cmode_music = 'sound/music/cmode/antag/combat_thewall.ogg'
 	subclass_languages = list(/datum/language/thievescant)
-	traits_applied = list(TRAIT_MEDIUMARMOR)
+	traits_applied = list(TRAIT_MEDIUMARMOR, TRAIT_SQUIRE_REPAIR)
 	//Still the speed class
 	subclass_stats = list(
 		STATKEY_CON = 2,
