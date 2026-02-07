@@ -30,6 +30,8 @@
 		/datum/skill/misc/climbing = SKILL_LEVEL_EXPERT,
 		/datum/skill/misc/riding = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/misc/reading = SKILL_LEVEL_JOURNEYMAN,
+		/datum/skill/craft/armorsmithing = SKILL_LEVEL_APPRENTICE
+		/datum/skill/craft/weaponsmithing = SKILL_LEVEL_APPRENTICE
 	)
 	subclass_virtues = list(
 		/datum/virtue/utility/riding
