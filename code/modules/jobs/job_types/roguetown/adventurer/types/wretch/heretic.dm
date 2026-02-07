@@ -123,8 +123,8 @@
 			"None"
 		)
 	
-	if(H.patron?.type in ALL_DIVINE_PATRONS)
-		ADD_TRAIT(H, TRAIT_SQUIRE_REPAIR, "Self-Sustenance")
+	if(H.patron?.type in ALL_DIVINE_PATRONS) // ascendant heretics can repair their armor thru mending/summoning new kinds
+		ADD_TRAIT(H, TRAIT_SQUIRE_REPAIR, "Self-Sustenance") // non-ascendants cannot, therefore repair trait.
 
 	switch(H.patron?.type)
 		if(/datum/patron/inhumen/zizo)
