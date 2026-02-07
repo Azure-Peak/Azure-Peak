@@ -107,6 +107,8 @@
 		/datum/skill/misc/reading = SKILL_LEVEL_NOVICE,
 		/datum/skill/misc/sneaking = SKILL_LEVEL_EXPERT,
 		/datum/skill/misc/stealing = SKILL_LEVEL_EXPERT,
+		/datum/skill/craft/armorsmithing = SKILL_LEVEL_APPRENTICE
+		/datum/skill/craft/weaponsmithing = SKILL_LEVEL_APPRENTICE
 	)
 
 /datum/outfit/job/roguetown/wretch/marauder/pre_equip(mob/living/carbon/human/H)
