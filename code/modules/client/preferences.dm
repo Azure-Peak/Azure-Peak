@@ -2794,13 +2794,13 @@ Slots: [job.spawn_positions] [job.round_contrib_points ? "RCP: +[job.round_contr
 								S.cd = "/character[i]"
 								S["nickname"] >> name
 								if(!name)
-									name = "Slot [i]"
+									name = "[i] - \[EMPTY SLOT\]"
 								else
 									name = "[i] - [name]"
 								if(loaded_slot == i)
 									choices_default = name
 								choices[name] = i
-					var/choice = tgui_input_list(user, "CHOOSE A HERO","ROGUETOWN", choices, choices_default)
+					var/choice = tgui_input_list(user, "CHOOSE A HERO","AZURE PEAK", choices, choices_default)
 					if(choice)
 						choice = choices[choice]
 						if(!load_character(choice))
