@@ -3,7 +3,6 @@ import {
   Box,
   Button,
   Input,
-  LabeledList,
   Section,
   Stack,
   TextArea,
@@ -36,62 +35,75 @@ export const Hermes = (props: any, context: any) => {
       <Window.Content>
         <Stack vertical fill>
           <Stack.Item>
-            <Section title="Balance">
-              <Box fontSize="1.2em" textAlign="center" bold>
-                {balance} Mammon
-              </Box>
-            </Section>
-          </Stack.Item>
-
-          <Stack.Item>
-            <Section title="Supplies">
-              <Stack>
-                <Stack.Item grow>
-                  <Button
-                    fluid
-                    icon="scroll"
-                    disabled={!canBuyPaper}
-                    onClick={() => act('buy_paper')}
-                  >
-                    Paper ({paper_cost} mammon)
-                  </Button>
-                </Stack.Item>
-                <Stack.Item grow>
-                  <Button
-                    fluid
-                    icon="feather"
-                    disabled={!canBuyQuill}
-                    onClick={() => act('buy_quill')}
-                  >
-                    Quill ({quill_cost} mammon)
-                  </Button>
-                </Stack.Item>
-              </Stack>
-            </Section>
+            <Stack align="center">
+              <Stack.Item>
+                <Box bold inline mr={1}>
+                  {balance} Mammon
+                </Box>
+              </Stack.Item>
+              <Stack.Item grow>
+                <Stack>
+                  <Stack.Item>
+                    <Button
+                      compact
+                      icon="scroll"
+                      disabled={!canBuyPaper}
+                      onClick={() => act('buy_paper')}
+                    >
+                      Paper ({paper_cost})
+                    </Button>
+                  </Stack.Item>
+                  <Stack.Item>
+                    <Button
+                      compact
+                      icon="feather"
+                      disabled={!canBuyQuill}
+                      onClick={() => act('buy_quill')}
+                    >
+                      Quill ({quill_cost})
+                    </Button>
+                  </Stack.Item>
+                </Stack>
+              </Stack.Item>
+              <Stack.Item>
+                <Button
+                  compact
+                  icon="coins"
+                  color="caution"
+                  disabled={balance <= 0}
+                  onClick={() => act('refund')}
+                >
+                  Refund
+                </Button>
+              </Stack.Item>
+            </Stack>
           </Stack.Item>
 
           <Stack.Item grow>
-            <Section title={`Write Letter (${letter_cost} mammon)`} fill>
+            <Section
+              title={`Write Letter (${letter_cost} mammon)`}
+              fill
+            >
               <Stack vertical fill>
                 <Stack.Item>
-                  <LabeledList>
-                    <LabeledList.Item label="To">
+                  <Stack>
+                    <Stack.Item grow>
                       <Input
                         fluid
-                        placeholder="Name or #number"
+                        placeholder="To: Name or #number"
                         value={recipient}
                         onChange={(value) => setRecipient(value)}
                       />
-                    </LabeledList.Item>
-                    <LabeledList.Item label="From">
+                    </Stack.Item>
+                    <Stack.Item grow>
                       <Input
                         fluid
-                        placeholder="Anonymous"
+                        placeholder="From: Anonymous"
                         value={sender}
                         onChange={(value) => setSender(value)}
                       />
-                    </LabeledList.Item>
-                  </LabeledList>
+                    </Stack.Item>
+                  </Stack>
                 </Stack.Item>
                 <Stack.Item grow>
                   <TextArea
@@ -121,18 +133,6 @@ export const Hermes = (props: any, context: any) => {
                 </Stack.Item>
               </Stack>
             </Section>
-          </Stack.Item>
-
-          <Stack.Item>
-            <Button
-              fluid
-              icon="coins"
-              color="caution"
-              disabled={balance <= 0}
-              onClick={() => act('refund')}
-            >
-              Return Coins
-            </Button>
           </Stack.Item>
         </Stack>
       </Window.Content>
