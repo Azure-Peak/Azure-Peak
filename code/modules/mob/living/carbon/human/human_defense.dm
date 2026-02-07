@@ -59,7 +59,7 @@
 			if(has_status_effect(/datum/status_effect/debuff/exposed))
 				intdamage *= 3	//3 attacks equivalent.
 				playsound(src, 'sound/combat/exposed_pop.ogg', 100, TRUE)
-				visible_message(span_combatsecondarybodypart("[src] suffers a savage hit to their armor while exposed!"))
+				visible_message("<span class = 'combatsecondarybodypart'>[src] suffers a savage hit to their armor while exposed!</span>")
 				remove_status_effect(/datum/status_effect/debuff/exposed)
 				emote("pain", forced = TRUE)
 			else if(has_status_effect(/datum/status_effect/debuff/vulnerable))
@@ -90,7 +90,7 @@
 			if(has_status_effect(/datum/status_effect/debuff/exposed))
 				full_dmg = TRUE
 				playsound(src, 'sound/combat/exposed_pop.ogg', 100, TRUE)
-				visible_message(span_combatsecondarybodypart("[src] suffers a savage hit to their armor while exposed!"))
+				visible_message("<span class = 'combatsecondarybodypart'>[src] suffers a savage hit to their armor while exposed!</span>")
 				remove_status_effect(/datum/status_effect/debuff/exposed)
 				emote("pain", forced = TRUE)
 			else if(has_status_effect(/datum/status_effect/debuff/vulnerable))

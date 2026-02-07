@@ -205,7 +205,7 @@
 	else if(owner?.has_status_effect(/datum/status_effect/debuff/vulnerable))
 		playsound(owner, 'sound/combat/vulnerable_pop.ogg', 100, TRUE)
 		owner.remove_status_effect(/datum/status_effect/debuff/vulnerable)
-		visible_message(combatprimary("[src] is struck while vulnerable!"))
+		visible_message(span_combatprimary("[src] is struck while vulnerable!"))
 		if(!do_crit)	//We aren't already screaming from a crit.
 			owner.emote("pain", forced = TRUE)
 
