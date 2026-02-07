@@ -223,9 +223,6 @@
 				update_icon()
 			return TRUE
 
-/obj/structure/roguemachine/mail/ui_state(mob/user)
-	return GLOB.physical_state
-
 /obj/structure/roguemachine/mail/attackby(obj/item/P, mob/user, params)
 	if(istype(P, /obj/item/merctoken))
 		if(ishuman(user))
