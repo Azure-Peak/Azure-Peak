@@ -122,7 +122,12 @@
 			"Slitted Kettle" = /obj/item/clothing/head/roguetown/helmet/heavy/knight/skettle,
 			"None"
 		)
-	
+	// Benefits for all non-Ascendant heretics. Right now, they cannot mend their armor w/o a virtue.
+	// ...this is kinda stupid, as this is their main "thing".
+	if(H.patron?.type in ALL_DIVINE_PATRONS)
+		H.adjust_skillrank_up_to(/datum/skill/craft/armorsmithing, 2, TRUE)
+		H.adjust_skillrank_up_to(/datum/skill/craft/weaponsmithing, 2, TRUE)
+
 	switch(H.patron?.type)
 		if(/datum/patron/inhumen/zizo)
 			H.cmode_music = 'sound/music/combat_heretic.ogg'
