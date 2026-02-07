@@ -52,10 +52,10 @@
 	var/break_message = null
 
 	var/neighborlay
-	var/neighborlay_list = list()
+	var/list/neighborlay_list
 	var/neighborlay_override
 	var/teleport_restricted = FALSE //whether turf teleport spells are forbidden from teleporting to this turf
-	
+
 	vis_flags = VIS_INHERIT_PLANE|VIS_INHERIT_ID
 
 	/// If we were going to smooth with an Atom instead overlay this onto self

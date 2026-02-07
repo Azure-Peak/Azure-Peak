@@ -669,9 +669,9 @@
 	var/list/New
 	var/holder
 
-	for(var/A in neighborlay_list)
-		cut_overlay("[A]")
-		neighborlay_list -= A
+	cut_overlay(neighborlay_list)
+	neighborlay_list = null
+
 	var/usedturf
 	if(adjacencies & N_NORTH)
 		usedturf = get_step(src, NORTH)
@@ -680,11 +680,11 @@
 			if(neighborlay_override)
 				holder = "[neighborlay_override]-n"
 				LAZYADD(New, holder)
-				neighborlay_list += holder
+				LAZYADD(neighborlay_list, holder)
 			else if(T.neighborlay)
 				holder = "[T.neighborlay]-n"
 				LAZYADD(New, holder)
-				neighborlay_list += holder
+				LAZYADD(neighborlay_list, holder)
 	if(adjacencies & N_SOUTH)
 		usedturf = get_step(src, SOUTH)
 		if(isturf(usedturf))
@@ -692,11 +692,11 @@
 			if(neighborlay_override)
 				holder = "[neighborlay_override]-s"
 				LAZYADD(New, holder)
-				neighborlay_list += holder
+				LAZYADD(neighborlay_list, holder)
 			else if(T.neighborlay)
 				holder = "[T.neighborlay]-s"
 				LAZYADD(New, holder)
-				neighborlay_list += holder
+				LAZYADD(neighborlay_list, holder)
 	if(adjacencies & N_WEST)
 		usedturf = get_step(src, WEST)
 		if(isturf(usedturf))
@@ -704,11 +704,11 @@
 			if(neighborlay_override)
 				holder = "[neighborlay_override]-w"
 				LAZYADD(New, holder)
-				neighborlay_list += holder
+				LAZYADD(neighborlay_list, holder)
 			else if(T.neighborlay)
 				holder = "[T.neighborlay]-w"
 				LAZYADD(New, holder)
-				neighborlay_list += holder
+				LAZYADD(neighborlay_list, holder)
 	if(adjacencies & N_EAST)
 		usedturf = get_step(src, EAST)
 		if(isturf(usedturf))
@@ -716,11 +716,11 @@
 			if(neighborlay_override)
 				holder = "[neighborlay_override]-e"
 				LAZYADD(New, holder)
-				neighborlay_list += holder
+				LAZYADD(neighborlay_list, holder)
 			else if(T.neighborlay)
 				holder = "[T.neighborlay]-e"
 				LAZYADD(New, holder)
-				neighborlay_list += holder
+				LAZYADD(neighborlay_list, holder)
 
 	if(New)
 		add_overlay(New)
