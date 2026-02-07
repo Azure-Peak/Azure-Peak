@@ -217,6 +217,8 @@
 /datum/sleep_adv/proc/process_sleep()
 	if(is_considered_sleeping())
 		return
+	if(mind.current.eyesclosed)
+		return
 	close_ui()
 
 /datum/sleep_adv/proc/is_considered_sleeping()
@@ -341,7 +343,7 @@
 	if(!mind.current)
 		close_ui()
 		return
-	if(!is_considered_sleeping())
+	if(!mind.current.eyesclosed)
 		close_ui()
 		return
 	switch(href_list["task"])
