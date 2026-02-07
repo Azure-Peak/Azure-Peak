@@ -37,7 +37,7 @@ export const Hermes = (props: any, context: any) => {
           <Stack.Item>
             <Stack align="center">
               <Stack.Item>
-                <Box bold inline mr={1}>
+                <Box bold inline mr={1} color={balance <= 0 ? 'bad' : 'good'}>
                   {balance} Mammon
                 </Box>
               </Stack.Item>

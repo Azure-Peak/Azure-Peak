@@ -107,7 +107,7 @@
 	if(.)
 		return
 	if(!coin_loaded)
-		to_chat(user, span_warning("The machine doesn't respond. It needs coins."))
+		to_chat(user, span_warning("Insert coins to use the terminal."))
 		return
 	if(inqcoins)
 		to_chat(user, span_warning("The machine doesn't respond."))
