@@ -27,6 +27,8 @@
 		/datum/skill/craft/crafting = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/craft/engineering = SKILL_LEVEL_NOVICE,
 		/datum/skill/labor/farming = SKILL_LEVEL_NOVICE,
+		/datum/skill/craft/armorsmithing = SKILL_LEVEL_APPRENTICE
+		/datum/skill/craft/weaponsmithing = SKILL_LEVEL_APPRENTICE
 	)
 
 /datum/outfit/job/roguetown/wretch/pyromaniac/pre_equip(mob/living/carbon/human/H)
