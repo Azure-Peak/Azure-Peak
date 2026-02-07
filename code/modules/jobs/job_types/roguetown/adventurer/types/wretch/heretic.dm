@@ -123,6 +123,9 @@
 			"None"
 		)
 	
+	if(H.patron?.type in ALL_DIVINE_PATRONS)
+		ADD_TRAIT(H, TRAIT_SQUIRE_REPAIR, "Self-Sustenance")
+
 	switch(H.patron?.type)
 		if(/datum/patron/inhumen/zizo)
 			H.cmode_music = 'sound/music/combat_heretic.ogg'
