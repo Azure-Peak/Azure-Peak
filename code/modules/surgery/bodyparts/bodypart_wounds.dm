@@ -196,16 +196,18 @@
 		var/mob/living/carbon/human/human_owner = owner
 		human_owner.hud_used?.stressies?.flick_pain(FALSE)
 
-	if(owner?.mind)
-		if(owner?.has_status_effect(/datum/status_effect/debuff/exposed))
-			playsound(owner, 'sound/combat/exposed_pop.ogg', 100, TRUE)
-			owner.remove_status_effect(/datum/status_effect/debuff/exposed)
-			if(!do_crit)	//We aren't already screaming from a crit.
-				owner.emote("painmoan", forced = TRUE)
-		if(owner?.has_status_effect(/datum/status_effect/debuff/vulnerable))
-			owner.remove_status_effect(/datum/status_effect/debuff/vulnerable)
-			if(!do_crit)	//We aren't already screaming from a crit.
-				owner.emote("pain", forced = TRUE)
+	if(owner?.has_status_effect(/datum/status_effect/debuff/exposed))
+		playsound(owner, 'sound/combat/exposed_pop.ogg', 100, TRUE)
+		owner.remove_status_effect(/datum/status_effect/debuff/exposed)
+		visible_message(span_danger("[src] suffers a savage hit while exposed!"))
+		if(!do_crit)	//We aren't already screaming from a crit.
+			owner.emote("painmoan", forced = TRUE)
+	else if(owner?.has_status_effect(/datum/status_effect/debuff/vulnerable))
+		playsound(owner, 'sound/combat/vulnerable_pop.ogg', 100, TRUE)
+		owner.remove_status_effect(/datum/status_effect/debuff/vulnerable)
+		visible_message(combatprimary("[src] is struck while vulnerable!"))
+		if(!do_crit)	//We aren't already screaming from a crit.
+			owner.emote("pain", forced = TRUE)
 
 	return dynwound
 

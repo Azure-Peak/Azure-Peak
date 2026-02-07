@@ -56,17 +56,18 @@
 				intdamage *= tempo_bonus
 
 
-			if(mind)
-				if(has_status_effect(/datum/status_effect/debuff/exposed))
-					intdamage *= 3	//3 attacks equivalent.
-					playsound(src, 'sound/combat/exposed_pop.ogg', 100, TRUE)
-					remove_status_effect(/datum/status_effect/debuff/exposed)
-					emote("pain", forced = TRUE)
-				else if(has_status_effect(/datum/status_effect/debuff/vulnerable))
-					intdamage *= 1.5
-					playsound(src, 'sound/combat/vulnerable_pop.ogg', 100, TRUE)
-					remove_status_effect(/datum/status_effect/debuff/vulnerable)
-					emote("groan", forced = TRUE)
+			if(has_status_effect(/datum/status_effect/debuff/exposed))
+				intdamage *= 3	//3 attacks equivalent.
+				playsound(src, 'sound/combat/exposed_pop.ogg', 100, TRUE)
+				visible_message(span_combatsecondarybodypart("[src] suffers a savage hit to their armor while exposed!"))
+				remove_status_effect(/datum/status_effect/debuff/exposed)
+				emote("pain", forced = TRUE)
+			else if(has_status_effect(/datum/status_effect/debuff/vulnerable))
+				intdamage *= 1.5
+				playsound(src, 'sound/combat/vulnerable_pop.ogg', 100, TRUE)
+				visible_message(span_biginfo("[src] is struck into their armor while vulnerable!"))
+				remove_status_effect(/datum/status_effect/debuff/vulnerable)
+				emote("groan", forced = TRUE)
 
 			used.take_damage(intdamage, damage_flag = d_type, sound_effect = FALSE, armor_penetration = 100)
 	else
@@ -85,23 +86,26 @@
 			if(tempo_bonus)
 				intdamage *= tempo_bonus
         
-			if(mind)
-				if(has_status_effect(/datum/status_effect/debuff/exposed))
-					intdamage *= 3	//3 attacks equivalent, considering layers -- yikes!
-					playsound(src, 'sound/combat/exposed_pop.ogg', 100, TRUE)
-					remove_status_effect(/datum/status_effect/debuff/exposed)
-					emote("pain", forced = TRUE)
-				else if(has_status_effect(/datum/status_effect/debuff/vulnerable))
-					intdamage *= 1.5
-					playsound(src, 'sound/combat/vulnerable_pop.ogg', 100, TRUE)
-					remove_status_effect(/datum/status_effect/debuff/vulnerable)
-					emote("groan", forced = TRUE)
+			var/full_dmg
+			if(has_status_effect(/datum/status_effect/debuff/exposed))
+				full_dmg = TRUE
+				playsound(src, 'sound/combat/exposed_pop.ogg', 100, TRUE)
+				visible_message(span_combatsecondarybodypart("[src] suffers a savage hit to their armor while exposed!"))
+				remove_status_effect(/datum/status_effect/debuff/exposed)
+				emote("pain", forced = TRUE)
+			else if(has_status_effect(/datum/status_effect/debuff/vulnerable))
+				intdamage *= 1.2
+				playsound(src, 'sound/combat/vulnerable_pop.ogg', 100, TRUE)
+				visible_message(span_biginfo("[src] is struck into their armor while vulnerable!"))
+				remove_status_effect(/datum/status_effect/debuff/vulnerable)
+				emote("groan", forced = TRUE)
 
 			var/layers_deep = 1
 			var/played_sound = FALSE
 			for(var/obj/item/clothing/C in layers)
 				var/actualdmg = intdamage
-				actualdmg /= layers_deep
+				if(!full_dmg)
+					actualdmg /= layers_deep
 				C.take_damage(actualdmg, damage_flag = d_type, sound_effect = FALSE, armor_penetration = 100)
 				if(C.blocksound && !played_sound)
 					playsound(loc, get_armor_sound(C.blocksound, blade_dulling), 100)

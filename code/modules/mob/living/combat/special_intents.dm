@@ -1110,6 +1110,8 @@ tile_coordinates = list(list(1,1), list(-1,1), list(-1,-1), list(1,-1),list(0,0)
 				dam = 200 // big damage
 				target_zone = BODY_ZONE_HEAD
 				playsound(howner, 'sound/combat/tf2crit.ogg', 100, TRUE)
+				L.remove_status_effect(/datum/status_effect/debuff/exposed)
+				L.remove_status_effect(/datum/status_effect/debuff/vulnerable)
 
 			apply_generic_weapon_damage(L, dam, "blunt", target_zone, bclass = BCLASS_BLUNT, no_pen = TRUE)
 			L.safe_throw_at(throwtarget, throwdist, 1, howner, force = MOVE_FORCE_EXTREMELY_STRONG) // small pushback and 50 damage on non exposed
