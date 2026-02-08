@@ -81,7 +81,7 @@
 	STOP_PROCESSING(SSfastprocess, src)
 	if(isobj(grabbed))
 		var/obj/I = grabbed
-		I.grabbedby -= src
+		LAZYREMOVE(I.grabbedby, src)
 	if(ismob(grabbed))
 		var/mob/M = grabbed
 		LAZYREMOVE(M.grabbedby, src)
