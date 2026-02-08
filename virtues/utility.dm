@@ -250,8 +250,8 @@
 	name = "Street Urchin"
 	desc = "You grew up on the streets, surviving only by your wits and ability to get yourself out of trouble. These skills have stayed with you well into adulthood."
 	added_skills = list(list(/datum/skill/misc/sneaking, 2, 2),
-						list(/datum/skill/misc/lockpicking, 2, 2)
-						list(/datum/skill/misc/climbing, 2, 2)
+						list(/datum/skill/misc/lockpicking, 2, 2),
+						list(/datum/skill/misc/climbing, 2, 2),
 						list(/datum/skill/misc/stealing, 2, 2)
 	)
 
