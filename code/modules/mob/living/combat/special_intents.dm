@@ -560,7 +560,7 @@ SPECIALS START HERE
 	victim_count = initial(victim_count)
 	if(howner)
 		howner.Immobilize(delay)
-		howner.apply_status_effect(/datum/status_effect/debuff/clickcd(delay))
+		howner.apply_status_effect(/datum/status_effect/debuff/clickcd, delay)
 
 /datum/special_intent/flail_sweep/apply_hit(turf/T)
 	for(var/mob/living/L in get_hearers_in_view(0, T))
@@ -639,7 +639,7 @@ SPECIALS START HERE
 /datum/special_intent/axe_swing/on_create()
 	if(howner)
 		howner.Immobilize(0.9 SECONDS)	//total pause for all the hits
-		howner.apply_status_effect(/datum/status_effect/debuff/clickcd(0.9 SECONDS))
+		howner.apply_status_effect(/datum/status_effect/debuff/clickcd, 0.9 SECONDS)
 	playsound(howner, 'sound/combat/rend_start.ogg', 100, TRUE)
 
 /datum/special_intent/axe_swing/apply_hit(turf/T)
