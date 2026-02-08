@@ -404,7 +404,7 @@ SPECIALS START HERE
 	delay = 0.6 SECONDS
 	cooldown = 17 SECONDS
 	stamcost = 25
-	var/eff_dur = 5 SECONDS
+	var/eff_dur = 4 SECONDS
 	var/dam = 20
 	var/t_zone
 
@@ -432,10 +432,10 @@ SPECIALS START HERE
 /datum/special_intent/side_sweep/apply_hit(turf/T)
 	for(var/mob/living/L in get_hearers_in_view(0, T))
 		if(L != howner)
-			L.apply_status_effect(/datum/status_effect/debuff/exposed, eff_dur)
 			if(L.mobility_flags & MOBILITY_STAND)
 				var/obj/item/rogueweapon/W = iparent
 				apply_generic_weapon_damage(L, dam, W.d_type, t_zone, bclass = BCLASS_CUT)
+				L.apply_status_effect(/datum/status_effect/debuff/exposed, eff_dur)
 	..()
 
 /datum/special_intent/shin_swipe
