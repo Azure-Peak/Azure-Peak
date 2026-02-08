@@ -808,9 +808,9 @@ SPECIALS START HERE
 		for(var/mob/living/L in get_hearers_in_view(0, T))
 			if(L != howner)
 				L.Slowdown(slow_dur)
-				L.apply_status_effect(/datum/status_effect/debuff/exposed, 3 SECONDS)
 				var/throwtarget = get_edge_target_turf(howner, pushdir)
 				apply_generic_weapon_damage(L, dam, "blunt", BODY_ZONE_CHEST, bclass = BCLASS_BLUNT, no_pen = TRUE)
+				L.apply_status_effect(/datum/status_effect/debuff/exposed, 3 SECONDS)
 				L.safe_throw_at(throwtarget, push_dist, 1, howner, force = MOVE_FORCE_EXTREMELY_STRONG)
 
 
