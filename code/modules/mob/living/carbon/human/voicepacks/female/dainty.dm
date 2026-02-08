@@ -1,5 +1,5 @@
 /datum/voicepack/female/dainty
-	preview = list("cry", "huh", "giggle", "laugh", "chuckle", "sigh", "hmm", "gasp", "scream", "pain", "painmoan", "paincrit", "shh")
+	preview = list("cry")
 
 /datum/voicepack/female/dainty/get_sound(soundin, modifiers)
 	var/used
@@ -9,7 +9,7 @@
 		if("cough")
 			used = 'sound/vo/female/dainty/cough (1).ogg'
 		if("cry")
-			used = 'sound/vo/female/dainty/cry (1).ogg'
+			used = 'sound/vo/female/dainty/cry (1).mp3'
 		if("huh")
 			used = list('sound/vo/female/dainty/huh (1).ogg', 'sound/vo/female/dainty/huh (2).ogg', 'sound/vo/female/dainty/huh (3).ogg')
 		if("giggle")
