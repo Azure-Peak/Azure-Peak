@@ -544,7 +544,7 @@ SPECIALS START HERE
 	post_icon_state = "sweep_fx"
 	pre_icon_state = "trap"
 	sfx_pre_delay = 'sound/combat/flail_sweep.ogg'
-	use_doafter = TRUE
+	use_doafter = FALSE
 	respect_adjacency = FALSE
 	delay = 0.7 SECONDS
 	cooldown = 25 SECONDS
@@ -557,8 +557,10 @@ SPECIALS START HERE
 	var/dam = 20
 
 /datum/special_intent/flail_sweep/on_create()
-	. = ..()
 	victim_count = initial(victim_count)
+	if(howner)
+		howner.Immobilize(delay)
+		howner.apply_status_effect(/datum/status_effect/debuff/clickcd(delay))
 
 /datum/special_intent/flail_sweep/apply_hit(turf/T)
 	for(var/mob/living/L in get_hearers_in_view(0, T))
@@ -611,7 +613,7 @@ SPECIALS START HERE
 	tile_coordinates = AXE_SWING_GRID_DEFAULT
 	post_icon_state = "sweep_fx"
 	pre_icon_state = "trap"
-	use_doafter = TRUE
+	use_doafter = FALSE
 	respect_adjacency = FALSE
 	delay = 0.5 SECONDS
 	cooldown = 25 SECONDS
@@ -635,7 +637,9 @@ SPECIALS START HERE
 
 //We play the pre-sfx here because it otherwise it gets played per tile. Sounds funky.
 /datum/special_intent/axe_swing/on_create()
-	..()
+	if(howner)
+		howner.Immobilize(0.9 SECONDS)	//total pause for all the hits
+		howner.apply_status_effect(/datum/status_effect/debuff/clickcd(0.9 SECONDS))
 	playsound(howner, 'sound/combat/rend_start.ogg', 100, TRUE)
 
 /datum/special_intent/axe_swing/apply_hit(turf/T)
