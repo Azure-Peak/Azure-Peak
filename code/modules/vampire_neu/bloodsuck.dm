@@ -1,7 +1,41 @@
-/mob/living/carbon/human
-	var/tmp/vampire_conversion_prompt_active = FALSE
+/*
+Bloodsuck flow overview (top-down reading order):
 
+add_bite_animation(), remove_bite()
+	Visual feedback for blood drinking.
 
+can_use_drinksomeblood(), check_silver_block()
+	Pre-flight validation before blood interaction.
+
+get_vampire_drinker(), get_vampire_victim()
+	Resolve vampire context for actor and target.
+
+perform_initial_blooddrink()
+	Immediate blood loss, messages, sounds, signals.
+
+force_puke(), should_puke_*
+	Side effects for invalid or forbidden blood sources.
+
+build_blood_handle(), consume_vitae()
+	Blood preference flags and vitae processing.
+
+handle_diablerie(), process_vampire_blood()
+	Diablerie resolution and blood mechanics.
+
+attempt_siring_prompt()
+	Checks and initiates siring flow.
+
+vampire_conversion_prompt()
+	Player-facing conversion and spawn creation.
+
+resolve_blooddrink_consequences()
+	Post-drink resolution logic.
+
+drinksomeblood()
+	Main entry point.
+*/
+
+/// VISUALS
 /mob/living/carbon/human/proc/add_bite_animation()
 	remove_overlay(SUNDER_LAYER)
 	var/mutable_appearance/bite_overlay = mutable_appearance('icons/effects/clan.dmi', "bite", -SUNDER_LAYER)
@@ -9,27 +43,16 @@
 	apply_overlay(SUNDER_LAYER)
 	addtimer(CALLBACK(src, PROC_REF(remove_bite)), 1.5 SECONDS)
 
-
 /mob/living/carbon/human/proc/remove_bite()
 	remove_overlay(SUNDER_LAYER)
 
-
-
+/// BASIC CHECKS
 /mob/living/proc/can_use_drinksomeblood()
 	if(world.time <= next_move)
 		return FALSE
 	if(world.time < last_drinkblood_use + 2 SECONDS)
 		return FALSE
 	return TRUE
-
-
-/mob/living/proc/get_vampire_drinker()
-	return mind?.has_antag_datum(/datum/antagonist/vampire)
-
-
-/mob/living/proc/get_vampire_victim(mob/living/carbon/victim)
-	return victim.mind?.has_antag_datum(/datum/antagonist/vampire)
-
 
 /mob/living/proc/check_silver_block(mob/living/carbon/victim)
 	var/datum/antagonist/vampire/VDrinker = get_vampire_drinker()
@@ -48,8 +71,14 @@
 
 	return TRUE
 
+/// CONTEXT
+/mob/living/proc/get_vampire_drinker()
+	return mind?.has_antag_datum(/datum/antagonist/vampire)
 
+/mob/living/proc/get_vampire_victim(mob/living/carbon/victim)
+	return victim.mind?.has_antag_datum(/datum/antagonist/vampire)
 
+/// INITIAL ACTION
 /mob/living/proc/perform_initial_blooddrink(mob/living/carbon/victim, sublimb_grabbed)
 	if(ishuman(victim))
 		var/mob/living/carbon/human/H = victim
@@ -76,18 +105,15 @@
 	to_chat(src, span_warning("I drink from [victim]'s [parse_zone(sublimb_grabbed)]."))
 	log_combat(src, victim, "drank blood from ")
 
-
-
+/// SIDE EFFECTS
 /mob/living/proc/force_puke()
 	to_chat(src, span_warning("I'm going to puke..."))
 	addtimer(CALLBACK(src, TYPE_PROC_REF(/mob/living/carbon, vomit), 0, TRUE), rand(8 SECONDS, 15 SECONDS))
-
 
 /mob/living/proc/should_puke_nonvamp()
 	if(HAS_TRAIT(src, TRAIT_HORDE) || HAS_TRAIT(src, TRAIT_NASTY_EATER))
 		return FALSE
 	return TRUE
-
 
 /mob/living/proc/should_puke_bad_source(mob/living/carbon/victim)
 	if(victim.mind?.has_antag_datum(/datum/antagonist/werewolf))
@@ -96,8 +122,7 @@
 		return TRUE
 	return FALSE
 
-
-
+/// BLOOD MECHANICS
 /mob/living/proc/build_blood_handle(mob/living/carbon/victim, datum/antagonist/vampire/VVictim)
 	var/blood_handle
 
@@ -114,7 +139,6 @@
 		blood_handle &= ~BLOOD_PREFERENCE_LIVING
 
 	return blood_handle
-
 
 /mob/living/proc/consume_vitae(mob/living/carbon/victim)
 	var/used_vitae = 150
@@ -134,7 +158,7 @@
 	adjust_bloodpool(used_vitae)
 	adjust_hydration(used_vitae * 0.1)
 
-
+/// DIABLERIE
 /mob/living/proc/handle_diablerie(mob/living/carbon/victim, datum/antagonist/vampire/VDrinker, datum/antagonist/vampire/VVictim)
 	if(VVictim)
 		AdjustMasquerade(-1)
@@ -146,7 +170,6 @@
 			VDrinker.generation = VVictim.generation
 
 		VDrinker.research_points += VVictim.research_points
-
 		victim.death()
 		victim.adjustBruteLoss(-50, TRUE)
 		victim.adjustFireLoss(-50, TRUE)
@@ -159,7 +182,6 @@
 		return TRUE
 
 	return FALSE
-
 
 /mob/living/proc/process_vampire_blood(mob/living/carbon/victim, datum/antagonist/vampire/VDrinker, datum/antagonist/vampire/VVictim)
 	var/blood_handle = build_blood_handle(victim, VVictim)
@@ -174,8 +196,7 @@
 
 	return FALSE
 
-
-
+/// SIRING
 /mob/living/proc/attempt_siring_prompt(mob/living/carbon/victim, datum/antagonist/vampire/VDrinker)
 	if(!victim.clan && victim.mind && ishuman(victim) && VDrinker.generation > GENERATION_THINBLOOD && victim.blood_volume <= BLOOD_VOLUME_BAD)
 		var/datum/antagonist/vampire/vdrinker = mind?.has_antag_datum(/datum/antagonist/vampire)
@@ -199,52 +220,7 @@
 					else
 						INVOKE_ASYNC(victim, TYPE_PROC_REF(/mob/living/carbon/human, vampire_conversion_prompt), src)
 
-
-/mob/living/proc/resolve_blooddrink_consequences(mob/living/carbon/victim)
-	var/datum/antagonist/vampire/VDrinker = get_vampire_drinker()
-
-	if(!VDrinker)
-		if(should_puke_nonvamp())
-			force_puke()
-		return
-
-	if(should_puke_bad_source(victim))
-		force_puke()
-		return
-
-	var/datum/antagonist/vampire/VVictim = get_vampire_victim(victim)
-	if(VVictim)
-		to_chat(src, span_userdanger("<b>YOU TRY TO COMMIT DIABLERIE ON [victim].</b>"))
-
-	if(process_vampire_blood(victim, VDrinker, VVictim))
-		return
-
-	attempt_siring_prompt(victim, VDrinker)
-
-
-
-/mob/living/proc/drinksomeblood(mob/living/carbon/victim, sublimb_grabbed)
-	if(!can_use_drinksomeblood())
-		return
-
-	if(!istype(victim))
-		to_chat(src, span_warning("I can only drink blood from living, intelligent beings!"))
-		return
-
-	if(victim.dna?.species && (NOBLOOD in victim.dna.species.species_traits))
-		to_chat(src, span_warning("Sigh. No blood."))
-		return
-
-	if(victim.blood_volume <= 0)
-		to_chat(src, span_warning("Sigh. No blood."))
-		return
-
-	if(!check_silver_block(victim))
-		return
-
-	perform_initial_blooddrink(victim, sublimb_grabbed)
-	resolve_blooddrink_consequences(victim)
-
+/// CONVERSION
 /mob/living/carbon/human/proc/vampire_conversion_prompt(mob/living/carbon/sire)
 	if(!mind || QDELETED(src))
 		return
@@ -337,4 +313,47 @@
 	vampire_conversion_prompt_active = FALSE
 	return
 
+/// RESOLUTION
+/mob/living/proc/resolve_blooddrink_consequences(mob/living/carbon/victim)
+	var/datum/antagonist/vampire/VDrinker = get_vampire_drinker()
 
+	if(!VDrinker)
+		if(should_puke_nonvamp())
+			force_puke()
+		return
+
+	if(should_puke_bad_source(victim))
+		force_puke()
+		return
+
+	var/datum/antagonist/vampire/VVictim = get_vampire_victim(victim)
+	if(VVictim)
+		to_chat(src, span_userdanger("<b>YOU TRY TO COMMIT DIABLERIE ON [victim].</b>"))
+
+	if(process_vampire_blood(victim, VDrinker, VVictim))
+		return
+
+	attempt_siring_prompt(victim, VDrinker)
+
+/// ENTRY POINT
+/mob/living/proc/drinksomeblood(mob/living/carbon/victim, sublimb_grabbed)
+	if(!can_use_drinksomeblood())
+		return
+
+	if(!istype(victim))
+		to_chat(src, span_warning("I can only drink blood from living, intelligent beings!"))
+		return
+
+	if(victim.dna?.species && (NOBLOOD in victim.dna.species.species_traits))
+		to_chat(src, span_warning("Sigh. No blood."))
+		return
+
+	if(victim.blood_volume <= 0)
+		to_chat(src, span_warning("Sigh. No blood."))
+		return
+
+	if(!check_silver_block(victim))
+		return
+
+	perform_initial_blooddrink(victim, sublimb_grabbed)
+	resolve_blooddrink_consequences(victim)
