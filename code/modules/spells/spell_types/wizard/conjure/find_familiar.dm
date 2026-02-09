@@ -33,7 +33,12 @@
 /obj/effect/proc_holder/spell/self/findfamiliar/cast(list/targets, mob/living/carbon/user)
 	if (!user)
 		return FALSE
-
+	
+	if(istype(get_area(user), /area/rogue/indoors/ravoxarena))
+		to_chat(user, span_userdanger("I reach for outer help, but something rebukes me! This challenge is only for me to overcome!"))
+		revert_cast()
+		return FALSE
+		
 	// Prevent multiple simultaneous summon attempts
 	if (user.busy_summoning_familiar)
 		to_chat(user, span_warning("You are already attempting to summon a familiar! Please wait for your current summon to resolve."))

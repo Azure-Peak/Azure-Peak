@@ -561,6 +561,12 @@ GLOBAL_LIST_EMPTY(arenafolks) // we're just going to use a list and add to it. S
 
 /obj/effect/proc_holder/spell/invoked/raise_warrior_spirits/cast(list/targets, mob/living/user)
 	. = ..()
+
+	if(istype(get_area(user), /area/rogue/indoors/ravoxarena))
+		to_chat(user, span_userdanger("I reach for outer help, but Ravox rebukes me! This opponet is only for me to overcome!"))
+		revert_cast()
+		return FALSE
+
 	if(!("[user.mind.current.real_name]_faction" in user.faction))  //FUCK VVV
 		user.faction |= "[user.mind.current.real_name]_faction"
 

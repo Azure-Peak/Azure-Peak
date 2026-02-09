@@ -501,6 +501,12 @@
 
 /obj/effect/proc_holder/spell/invoked/raise_spirits_vengeance/cast(list/targets, mob/living/user)
 	. = ..()
+
+	if(istype(get_area(user), /area/rogue/indoors/ravoxarena))
+		to_chat(user, span_userdanger("I reach for outer help, but something rebukes me! This challenge is only for me to overcome!"))
+		revert_cast()
+		return FALSE
+
 	if(isliving(targets[1]))
 		var/mob/living/target = targets[1]
 		if(user.dir == SOUTH || user.dir == NORTH)

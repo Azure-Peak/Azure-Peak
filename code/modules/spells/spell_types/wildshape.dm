@@ -28,6 +28,11 @@
 /obj/effect/proc_holder/spell/self/wildshape/cast(list/targets, mob/living/carbon/human/user = usr)
 	. = ..()
 
+	if(istype(get_area(user), /area/rogue/indoors/ravoxarena))
+		to_chat(user, span_userdanger("I tried to transform, but something rebukes me! This challenge is for my current vessel only!"))
+		revert_cast()
+		return FALSE
+
 	if(user.has_status_effect(/datum/status_effect/debuff/submissive))
 		to_chat(user, span_warning("Your will is too broken to change form."))
 		return FALSE
