@@ -7946,7 +7946,6 @@
 "bWE" = (
 /obj/structure/bed/rogue/inn/double,
 /obj/item/bedsheet/rogue/fabric_double,
-/obj/effect/landmark/start/councillor,
 /obj/structure/fluff/walldeco/rpainting/crown{
 	pixel_y = 32
 	},
@@ -17799,6 +17798,9 @@
 /area/rogue/under/cave/scarymaze)
 "erU" = (
 /obj/structure/chair/wood/rogue/fancy{
+	dir = 4
+	},
+/obj/effect/landmark/start/councillor{
 	dir = 4
 	},
 /turf/open/floor/rogue/ruinedwood/spiral,
@@ -31344,7 +31346,6 @@
 "hFd" = (
 /obj/structure/bed/rogue/inn/double,
 /obj/item/bedsheet/rogue/fabric_double,
-/obj/effect/landmark/start/councillor,
 /obj/structure/fluff/walldeco/rpainting{
 	pixel_y = 32
 	},
@@ -46087,6 +46088,9 @@
 /obj/structure/chair/wood/rogue/fancy{
 	dir = 8
 	},
+/obj/effect/landmark/start/councillor{
+	dir = 8
+	},
 /turf/open/floor/carpet/royalblack,
 /area/rogue/indoors/town/manor)
 "leO" = (
@@ -59149,7 +59153,6 @@
 "olb" = (
 /obj/structure/bed/rogue/inn/double,
 /obj/item/bedsheet/rogue/fabric_double,
-/obj/effect/landmark/start/councillor,
 /turf/open/floor/carpet/inn,
 /area/rogue/indoors/town/manor)
 "old" = (
@@ -68163,6 +68166,7 @@
 /area/rogue/outdoors/town)
 "qxj" = (
 /obj/structure/chair/bench/couchablack/r,
+/obj/effect/landmark/start/councillor,
 /turf/open/floor/carpet/purple,
 /area/rogue/indoors/town/manor)
 "qxo" = (
