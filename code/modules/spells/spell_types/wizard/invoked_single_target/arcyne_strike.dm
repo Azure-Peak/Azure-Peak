@@ -2,7 +2,7 @@
 	name = "Arcyne Strike"
 	desc = "Imbue your held weapon with latent arcyne energy before striking your target"
 	cost = 2 // basic spellblade melee spell
-	overlay_state = "hellish_rebuke"
+	overlay_state = "conjure_weapon"
 	releasedrain = 20
 	chargedrain = 0
 	chargetime = 0.6 SECONDS
