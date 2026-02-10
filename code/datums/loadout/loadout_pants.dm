@@ -33,3 +33,13 @@
 	name = "Skirt"
 	path = /obj/item/clothing/under/roguetown/skirt
 	sort_category = "Pants"
+
+/datum/loadout_item/desertskirt
+	name = "Desert Skirt"
+	path = /obj/item/clothing/under/roguetown/skirt/desert
+	sort_category = "Pants"
+
+/datum/loadout_item/explorerpants
+	name = "Explorer Pants"
+	path = /obj/item/clothing/under/roguetown/tights/explorerpants
+	sort_category = "Pants"

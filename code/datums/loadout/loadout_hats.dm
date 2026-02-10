@@ -128,3 +128,13 @@
 	name = "Briar Thorns"
 	path = /obj/item/clothing/head/roguetown/briarthorns
 	sort_category = "Hats"
+
+/datum/loadout_item/deserthood
+	name = "Desert Hood"
+	path = /obj/item/clothing/head/roguetown/deserthood
+	sort_category = "Hats"
+
+/datum/loadout_item/explorerhat
+	name = "Explorer Hat"
+	path = /obj/item/clothing/head/roguetown/explorerhat
+	sort_category = "Hats"

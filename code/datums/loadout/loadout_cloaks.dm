@@ -108,3 +108,8 @@
 	name = "Apron, Cooking"
 	path = /obj/item/clothing/cloak/apron/cook
 	sort_category = "Cloaks"
+
+/datum/loadout_item/fancycoat
+	name = "Fancy Coat"
+	path = /obj/item/clothing/cloak/poncho/fancycoat
+	sort_category = "Cloaks"

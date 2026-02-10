@@ -59,34 +59,9 @@
 	path = /obj/item/clothing/suit/roguetown/shirt/desertbra
 	sort_category = "Shirts"
 
-/datum/loadout_item/deserthood
-	name = "Desert Hood"
-	path = /obj/item/clothing/head/roguetown/deserthood
-	sort_category = "Shirts"
-
-/datum/loadout_item/desertskirt
-	name = "Desert Skirt"
-	path = /obj/item/clothing/under/roguetown/skirt/desert
-	sort_category = "Shirts"
-
-/datum/loadout_item/explorerhat
-	name = "Explorer Hat"
-	path = /obj/item/clothing/head/roguetown/explorerhat
-	sort_category = "Shirts"
-
 /datum/loadout_item/explorervest
 	name = "Explorer Vest"
 	path = /obj/item/clothing/suit/roguetown/shirt/explorer
-	sort_category = "Shirts"
-
-/datum/loadout_item/fancycoat
-	name = "Fancy Coat"
-	path = /obj/item/clothing/cloak/poncho/fancycoat
-	sort_category = "Shirts"
-
-/datum/loadout_item/explorerpants
-	name = "Explorer Pants"
-	path = /obj/item/clothing/under/roguetown/tights/explorerpants
 	sort_category = "Shirts"
 
 /datum/loadout_item/bottomtunic
