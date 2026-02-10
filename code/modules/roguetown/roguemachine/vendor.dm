@@ -451,3 +451,55 @@
 		held_items[P] = list()
 		held_items[P]["NAME"] = P.name
 		held_items[P]["PRICE"] = 0
+
+/obj/structure/roguemachine/vendor/keep_knights
+	keycontrol = "lord"
+	will_hawk = FALSE
+
+/obj/structure/roguemachine/vendor/keep_knights/Initialize()
+	. = ..()
+
+	for (var/X in list(/obj/item/roguekey/manor/knight, /obj/item/roguekey/manor/knight/two, /obj/item/roguekey/manor/knight/three, /obj/item/roguekey/manor/knight/four))
+		var/obj/P = new X(src)
+		held_items[P] = list()
+		held_items[P]["NAME"] = P.name
+		held_items[P]["PRICE"] = 0
+
+/obj/structure/roguemachine/vendor/keep_princes
+	keycontrol = "lord"
+	will_hawk = FALSE
+
+/obj/structure/roguemachine/vendor/keep_princes/Initialize()
+	. = ..()
+
+	for (var/X in list(/obj/item/roguekey/heir/one, /obj/item/roguekey/heir/two))
+		var/obj/P = new X(src)
+		held_items[P] = list()
+		held_items[P]["NAME"] = P.name
+		held_items[P]["PRICE"] = 0
+
+/obj/structure/roguemachine/vendor/keep_councillors
+	keycontrol = "lord"
+	will_hawk = FALSE
+
+/obj/structure/roguemachine/vendor/keep_councillors/Initialize()
+	. = ..()
+
+	for (var/X in list(/obj/item/roguekey/manor/councillor, /obj/item/roguekey/manor/councillor/two, /obj/item/roguekey/manor/councillor/three))
+		var/obj/P = new X(src)
+		held_items[P] = list()
+		held_items[P]["NAME"] = P.name
+		held_items[P]["PRICE"] = 0
+
+/obj/structure/roguemachine/vendor/keep_guests
+	keycontrol = "lord"
+	will_hawk = FALSE
+
+/obj/structure/roguemachine/vendor/keep_guests/Initialize()
+	. = ..()
+
+	for (var/X in list(/obj/item/roguekey/manor/guest, /obj/item/roguekey/manor/guest/two, /obj/item/roguekey/manor/guest/three, /obj/item/roguekey/manor/guest/four))
+		var/obj/P = new X(src)
+		held_items[P] = list()
+		held_items[P]["NAME"] = P.name
+		held_items[P]["PRICE"] = 0

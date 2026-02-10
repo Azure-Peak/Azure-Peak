@@ -169,6 +169,14 @@
 	icon_state = "hornkey"
 	lockid = "heir"
 
+/obj/item/roguekey/heir/one
+	name = "heir room I key"
+	lockid = "heir1"
+
+/obj/item/roguekey/heir/two
+	name = "heir room II key"
+	lockid = "heir2"
+
 /obj/item/roguekey/vault
 	name = "vault key"
 	desc = "This key opens the mighty vault."
@@ -198,6 +206,50 @@
 	desc = "This is the court wizard's key. It watches you..."
 	icon_state = "eyekey"
 	lockid = "mage"
+
+/obj/item/roguekey/manor/knight
+	name = "retinue bedroom I key"
+	lockid = "manor_knight_one"
+
+/obj/item/roguekey/manor/knight/two
+	name = "retinue bedroom II key"
+	lockid = "manor_knight_two"
+
+/obj/item/roguekey/manor/knight/three
+	name = "retinue bedroom III key"
+	lockid = "manor_knight_three"
+
+/obj/item/roguekey/manor/knight/four
+	name = "retinue bedroom IV key"
+	lockid = "manor_knight_four"
+
+/obj/item/roguekey/manor/councillor
+	name = "councillor bedroom I key"
+	lockid = "manor_councillor_one"
+
+/obj/item/roguekey/manor/councillor/two
+	name = "councillor bedroom II key"
+	lockid = "manor_councillor_two"
+
+/obj/item/roguekey/manor/councillor/three
+	name = "councillor bedroom III key"
+	lockid = "manor_councillor_three"
+
+/obj/item/roguekey/manor/guest
+	name = "guest bedroom I key"
+	lockid = "guest_knight_one"
+
+/obj/item/roguekey/manor/guest/two
+	name = "guest bedroom II key"
+	lockid = "guest_knight_two"
+
+/obj/item/roguekey/manor/guest/three
+	name = "guest bedroom III key"
+	lockid = "guest_knight_three"
+
+/obj/item/roguekey/manor/guest/four
+	name = "guest bedroom IV key"
+	lockid = "guest_knight_four"
 
 ////////////////////////
 // RETINUE / GARRISON //
@@ -804,6 +856,17 @@
 	desc = "A ancient, rusty key."
 	icon_state = "rustkey"
 	lockid = "admin_event_door"
+
+//////////////
+// SIDEFOLK //
+//////////////
+
+/obj/item/roguekey/veteran
+	name = "veteran's keys"
+	desc = "A key to the private residence of the town's grumpy battlemaster."
+	icon_state = "greenkey"
+	lockid = "veteran"
+
 
 ///////////////////////////////////////
 // ABSOLUTELY ZERO CLUE WHAT THIS IS //
