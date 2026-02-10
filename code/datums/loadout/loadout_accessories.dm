@@ -205,33 +205,33 @@
 	sort_category = "Accessories"
 
 /datum/loadout_item/chaperon
-    name = "Chaperon (Normal)"
-    path = /obj/item/clothing/head/roguetown/chaperon
+	name = "Chaperon (Normal)"
+	path = /obj/item/clothing/head/roguetown/chaperon
 	sort_category = "Accessories"
 
 /datum/loadout_item/chaperon/alt
-    name = "Chaperon (Alt)"
-    path = /obj/item/clothing/head/roguetown/chaperon/greyscale
+	name = "Chaperon (Alt)"
+	path = /obj/item/clothing/head/roguetown/chaperon/greyscale
 	sort_category = "Accessories"
 
 /datum/loadout_item/chaperon/burgher
-    name = "Noble's Chaperon"
-    path = /obj/item/clothing/head/roguetown/chaperon/noble
+	name = "Noble's Chaperon"
+	path = /obj/item/clothing/head/roguetown/chaperon/noble
 	sort_category = "Accessories"
 
 /datum/loadout_item/jesterhat
-    name = "Jester's Hat"
-    path = /obj/item/clothing/head/roguetown/jester
+	name = "Jester's Hat"
+	path = /obj/item/clothing/head/roguetown/jester
 	sort_category = "Accessories"
 
 /datum/loadout_item/jestertunick
-    name = "Jester's Tunick"
-    path = /obj/item/clothing/suit/roguetown/shirt/jester
+	name = "Jester's Tunick"
+	path = /obj/item/clothing/suit/roguetown/shirt/jester
 	sort_category = "Accessories"
 
 /datum/loadout_item/jestershoes
-    name = "Jester's Shoes"
-    path = /obj/item/clothing/shoes/roguetown/jester
+	name = "Jester's Shoes"
+	path = /obj/item/clothing/shoes/roguetown/jester
 	sort_category = "Accessories"
 
 /datum/loadout_item/cotehardie
