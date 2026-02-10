@@ -24,9 +24,9 @@
 
 /obj/effect/proc_holder/spell/invoked/arcynestrike/cast(list/targets, mob/user = user)
 	var/mob/living/carbon/human/H = user
-	var/datum/intent/a_intent = H.a_intent // Use the attack intent
+	var/datum/intent/attack_intent = H.a_intent // Use the attack intent
 	var/mapped_wound_class = BCLASS_CUT
-	switch(a_intent.blade_class)
+	switch(attack_intent.blade_class)
 		if(BCLASS_BLUNT)
 			mapped_wound_class = BCLASS_BLUNT
 		if(BCLASS_SMASH)
