@@ -96034,6 +96034,10 @@
 /obj/item/natural/rock,
 /turf/open/floor/rogue/dirt/road,
 /area/rogue/under/underdark/north)
+"xeA" = (
+/obj/machinery/light/rogue/firebowl/standing,
+/turf/open/floor/rogue/wood,
+/area/rogue/outdoors/mountains)
 "xeB" = (
 /obj/structure/flora/roguetree/burnt,
 /turf/open/floor/rogue/dirt/road,
@@ -409894,7 +409898,7 @@ aBB
 aBB
 qFM
 dKv
-nXu
+xeA
 saj
 aBB
 aBB
@@ -415318,7 +415322,7 @@ aBB
 aBB
 qFM
 jZv
-nXu
+xeA
 saj
 aBB
 aBB
