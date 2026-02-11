@@ -5993,6 +5993,13 @@
 /mob/living/carbon/human/species/npc/deadite,
 /turf/open/floor/rogue/cobble,
 /area/rogue/under/cave/his_vault)
+"byL" = (
+/obj/structure/bars{
+	color = "#755f48";
+	name = "rusted bars"
+	},
+/turf/open/water/river/flow/east,
+/area/rogue/outdoors/rtfield)
 "byP" = (
 /obj/structure/chair/wood/rogue/chair3,
 /turf/open/floor/rogue/cobble,
@@ -15011,6 +15018,7 @@
 /obj/item/reagent_containers/food/snacks/grown/berries/rogue,
 /obj/item/reagent_containers/food/snacks/grown/apple,
 /obj/item/reagent_containers/food/snacks/grown/apple,
+/obj/item/reagent_containers/food/snacks/butter,
 /turf/open/floor/rogue/ruinedwood/spiral,
 /area/rogue/indoors/shelter/woods)
 "dJa" = (
@@ -24699,7 +24707,6 @@
 /turf/open/floor/rogue/cobble,
 /area/rogue/under/cave/his_vault/three)
 "gap" = (
-/obj/machinery/light/rogue/candle/off/r,
 /obj/structure/rack/rogue,
 /obj/item/rogueweapon/shovel,
 /obj/item/rogueweapon/stoneaxe/woodcut,
@@ -34889,30 +34896,6 @@
 /area/rogue/under/underdark)
 "iwU" = (
 /obj/structure/rack/rogue/shelf/biggest,
-/obj/item/clothing/head/roguetown/helmet/kettle{
-	pixel_x = 0;
-	pixel_y = 0
-	},
-/obj/item/clothing/head/roguetown/helmet/kettle{
-	pixel_x = 0;
-	pixel_y = 0
-	},
-/obj/item/clothing/head/roguetown/helmet/kettle{
-	pixel_x = 0;
-	pixel_y = 0
-	},
-/obj/item/clothing/head/roguetown/helmet/kettle{
-	pixel_x = 0;
-	pixel_y = 0
-	},
-/obj/item/clothing/head/roguetown/helmet/kettle{
-	pixel_x = 0;
-	pixel_y = 0
-	},
-/obj/item/clothing/head/roguetown/helmet/kettle{
-	pixel_x = 0;
-	pixel_y = 0
-	},
 /obj/item/clothing/mask/rogue/wildguard{
 	pixel_x = 5;
 	pixel_y = 11
@@ -34926,16 +34909,40 @@
 	pixel_y = 11
 	},
 /obj/item/clothing/mask/rogue/wildguard{
-	pixel_x = -3;
+	pixel_x = 5;
 	pixel_y = 11
 	},
-/obj/item/clothing/mask/rogue/wildguard{
-	pixel_x = -3;
-	pixel_y = 11
+/obj/item/clothing/mask/rogue/facemask/steel{
+	pixel_x = -5;
+	pixel_y = 7
 	},
-/obj/item/clothing/mask/rogue/wildguard{
-	pixel_x = -3;
-	pixel_y = 11
+/obj/item/clothing/mask/rogue/facemask/steel{
+	pixel_x = -5;
+	pixel_y = 7
+	},
+/obj/item/clothing/mask/rogue/facemask/steel{
+	pixel_x = -5;
+	pixel_y = 7
+	},
+/obj/item/clothing/mask/rogue/facemask/steel{
+	pixel_x = -5;
+	pixel_y = 7
+	},
+/obj/item/clothing/head/roguetown/helmet/kettle{
+	pixel_x = 0;
+	pixel_y = 0
+	},
+/obj/item/clothing/head/roguetown/helmet/kettle{
+	pixel_x = 0;
+	pixel_y = 0
+	},
+/obj/item/clothing/head/roguetown/helmet/kettle{
+	pixel_x = 0;
+	pixel_y = 0
+	},
+/obj/item/clothing/head/roguetown/helmet/kettle{
+	pixel_x = 0;
+	pixel_y = 0
 	},
 /turf/open/floor/rogue/ruinedwood/turned,
 /area/rogue/indoors/town)
@@ -43235,13 +43242,6 @@
 	},
 /turf/open/floor/rogue/blocks,
 /area/rogue/indoors/town/manor)
-"kyo" = (
-/obj/item/grown/log/tree/stick{
-	pixel_x = -11;
-	pixel_y = 5
-	},
-/turf/open/floor/rogue/ruinedwood,
-/area/rogue/indoors/shelter/woods)
 "kyr" = (
 /obj/effect/decal/cobbleedge{
 	dir = 10
@@ -44037,12 +44037,24 @@
 	pixel_x = 1;
 	pixel_y = -1
 	},
+/obj/structure/roguemachine/atm{
+	location_tag = "Azure Justiciar";
+	pixel_x = 33;
+	pixel_y = -1
+	},
 /turf/open/floor/rogue/ruinedwood/spiral,
 /area/rogue/indoors/town)
 "kIi" = (
 /obj/machinery/light/rogue/torchholder/l,
 /turf/open/floor/rogue/herringbone,
 /area/rogue/under/cave/mazedungeon)
+"kIj" = (
+/obj/structure/roguemachine/withdraw{
+	pixel_x = 32;
+	pixel_y = -2
+	},
+/turf/open/floor/rogue/ruinedwood/spiral,
+/area/rogue/indoors/town)
 "kIl" = (
 /obj/structure/chair/bench/couch,
 /obj/effect/landmark/start/archivist,
@@ -47647,6 +47659,10 @@
 /obj/effect/spawner/roguemap/stump,
 /turf/open/floor/rogue/grass,
 /area/rogue/indoors/cave/underhamlet)
+"lxq" = (
+/obj/machinery/light/rogue/candle/off/l,
+/turf/open/floor/rogue/hexstone,
+/area/rogue/indoors/shelter/woods)
 "lxt" = (
 /obj/effect/decal/edge{
 	color = "#3f3f3f"
@@ -55785,7 +55801,6 @@
 /turf/open/floor/rogue/naturalstone,
 /area/rogue/outdoors/mountains)
 "nvU" = (
-/obj/machinery/light/rogue/candle/off/l,
 /obj/structure/rogue/trophy/deer,
 /obj/structure/handcart{
 	dir = 4
@@ -57512,6 +57527,7 @@
 	pixel_x = 0;
 	pixel_y = 10
 	},
+/obj/structure/fluff/wallclock,
 /turf/open/floor/rogue/hexstone,
 /area/rogue/indoors/shelter/woods)
 "nTs" = (
@@ -66722,6 +66738,10 @@
 /obj/effect/decal/cobbleedge,
 /turf/closed/wall/mineral/rogue/wooddark,
 /area/rogue/indoors/town/shop)
+"qie" = (
+/obj/machinery/light/rogue/candle/off/r,
+/turf/open/floor/rogue/hexstone,
+/area/rogue/indoors/shelter/woods)
 "qim" = (
 /obj/effect/decal/cleanable/blood{
 	icon_state = "floor4-old"
@@ -75229,6 +75249,7 @@
 /area/rogue/indoors/shelter)
 "slI" = (
 /obj/effect/decal/cleanable/debris/woody,
+/obj/structure/table/wood/poor,
 /turf/open/floor/rogue/ruinedwood,
 /area/rogue/indoors/shelter/woods)
 "slT" = (
@@ -85702,7 +85723,7 @@
 /turf/open/floor/rogue/hexstone,
 /area/rogue/under/cavewet/bogcaves/north)
 "uLf" = (
-/obj/structure/fluff/wallclock,
+/obj/structure/roguemachine/withdraw,
 /turf/open/floor/rogue/ruinedwood/spiral,
 /area/rogue/indoors/shelter/woods)
 "uLj" = (
@@ -88877,6 +88898,14 @@
 /obj/effect/decal/mossy,
 /turf/open/floor/rogue/dirt/road,
 /area/rogue/outdoors/town)
+"vyp" = (
+/obj/structure/table/wood/poor,
+/obj/item/grown/log/tree/stick{
+	pixel_x = -4;
+	pixel_y = 6
+	},
+/turf/open/floor/rogue/ruinedwood,
+/area/rogue/indoors/shelter/woods)
 "vys" = (
 /obj/structure/rack/rogue,
 /obj/item/clothing/suit/roguetown/armor/chainmail/bikini,
@@ -277690,7 +277719,7 @@ diN
 sgU
 gnI
 hKY
-hPs
+byL
 hKY
 gnI
 sgU
@@ -283112,13 +283141,13 @@ asY
 asY
 asY
 asY
+asY
 iTq
 cby
 cby
 cby
 cby
 pYO
-asY
 asY
 asY
 asY
@@ -283564,13 +283593,13 @@ asY
 asY
 asY
 asY
+asY
 xDp
 nPz
 nPz
 nPz
 nPz
 loP
-asY
 asY
 asY
 asY
@@ -285368,7 +285397,7 @@ gnI
 diN
 gnI
 npj
-kyo
+kbo
 vmf
 mdU
 asY
@@ -285819,7 +285848,7 @@ jIb
 apU
 rlV
 apU
-kbo
+vyp
 kbo
 gnI
 fWc
@@ -288078,7 +288107,7 @@ lGG
 lGG
 lGG
 nvU
-bWg
+lxq
 oYS
 asY
 asY
@@ -288990,7 +289019,7 @@ diN
 sgU
 gnI
 hKY
-hPs
+byL
 hKY
 gnI
 sgU
@@ -289886,8 +289915,8 @@ dpy
 dpy
 nTq
 gap
+qie
 hnC
-bWg
 lGG
 jaH
 jaH
@@ -353317,7 +353346,7 @@ phl
 phl
 ivH
 dra
-dra
+kIj
 kIh
 fJs
 xat
