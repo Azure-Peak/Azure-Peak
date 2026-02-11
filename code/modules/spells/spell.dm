@@ -45,6 +45,7 @@
 	var/priest_excluded = FALSE
 
 	var/skipcharge = FALSE
+	var/cast_reverted = FALSE
 
 /obj/effect/proc_holder/Initialize()
 	. = ..()
@@ -480,7 +481,10 @@ GLOBAL_LIST_INIT(spells, typesof(/obj/effect/proc_holder/spell)) //needed for th
 	if(user.mob_timers[MT_INVISIBILITY] > world.time)			
 		user.mob_timers[MT_INVISIBILITY] = world.time
 		user.update_sneak_invis(reset = TRUE)
+	cast_reverted = FALSE
 	cast(targets, user = user)
+	if(cast_reverted)
+		return FALSE
 	invocation(user)
 	start_recharge()
 	if(sound)
@@ -559,6 +563,7 @@ GLOBAL_LIST_INIT(spells, typesof(/obj/effect/proc_holder/spell)) //needed for th
 			. = range(distance,center)
 
 /obj/effect/proc_holder/spell/proc/revert_cast(mob/user = usr) //resets recharge or readds a charge
+	cast_reverted = TRUE
 	start_recharge()
 	switch(charge_type)
 		if("recharge")
