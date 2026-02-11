@@ -52532,10 +52532,6 @@
 	},
 /turf/open/floor/rogue/metal/barograte,
 /area/rogue/outdoors/beach)
-"mFQ" = (
-/obj/structure/fluff/walldeco/wallshield,
-/turf/closed/wall/mineral/rogue/wooddark/vertical,
-/area/rogue/indoors/shelter/woods)
 "mFV" = (
 /obj/structure/hotspring/border/ten,
 /turf/open/floor/rogue/snow,
@@ -65845,6 +65841,7 @@
 /obj/structure/closet/crate/chest/wicker,
 /obj/item/storage/roguebag,
 /obj/item/storage/roguebag,
+/obj/item/soap,
 /turf/open/floor/rogue/twig,
 /area/rogue/indoors/shelter/woods)
 "pXx" = (
@@ -284964,7 +284961,7 @@ ihF
 pxF
 gnI
 sgU
-mFQ
+gnI
 sNZ
 sNZ
 sNZ
