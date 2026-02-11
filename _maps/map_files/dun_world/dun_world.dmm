@@ -52532,6 +52532,10 @@
 	},
 /turf/open/floor/rogue/metal/barograte,
 /area/rogue/outdoors/beach)
+"mFQ" = (
+/obj/structure/fluff/walldeco/wallshield,
+/turf/closed/wall/mineral/rogue/wooddark/vertical,
+/area/rogue/indoors/shelter/woods)
 "mFV" = (
 /obj/structure/hotspring/border/ten,
 /turf/open/floor/rogue/snow,
@@ -69920,6 +69924,7 @@
 /area/rogue/indoors/town/garrison)
 "qUK" = (
 /obj/effect/decal/remains/wolf,
+/obj/machinery/light/rogue/candle/off,
 /turf/open/floor/rogue/ruinedwood,
 /area/rogue/outdoors/rtfield)
 "qUM" = (
@@ -284959,7 +284964,7 @@ ihF
 pxF
 gnI
 sgU
-gnI
+mFQ
 sNZ
 sNZ
 sNZ
