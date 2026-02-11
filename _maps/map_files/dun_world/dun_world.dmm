@@ -15018,7 +15018,6 @@
 /obj/item/reagent_containers/food/snacks/grown/berries/rogue,
 /obj/item/reagent_containers/food/snacks/grown/apple,
 /obj/item/reagent_containers/food/snacks/grown/apple,
-/obj/item/reagent_containers/food/snacks/butter,
 /turf/open/floor/rogue/ruinedwood/spiral,
 /area/rogue/indoors/shelter/woods)
 "dJa" = (
@@ -34896,37 +34895,13 @@
 /area/rogue/under/underdark)
 "iwU" = (
 /obj/structure/rack/rogue/shelf/biggest,
-/obj/item/clothing/mask/rogue/wildguard{
-	pixel_x = 5;
-	pixel_y = 11
+/obj/item/clothing/head/roguetown/helmet/kettle{
+	pixel_x = 0;
+	pixel_y = 0
 	},
-/obj/item/clothing/mask/rogue/wildguard{
-	pixel_x = 5;
-	pixel_y = 11
-	},
-/obj/item/clothing/mask/rogue/wildguard{
-	pixel_x = 5;
-	pixel_y = 11
-	},
-/obj/item/clothing/mask/rogue/wildguard{
-	pixel_x = 5;
-	pixel_y = 11
-	},
-/obj/item/clothing/mask/rogue/facemask/steel{
-	pixel_x = -5;
-	pixel_y = 7
-	},
-/obj/item/clothing/mask/rogue/facemask/steel{
-	pixel_x = -5;
-	pixel_y = 7
-	},
-/obj/item/clothing/mask/rogue/facemask/steel{
-	pixel_x = -5;
-	pixel_y = 7
-	},
-/obj/item/clothing/mask/rogue/facemask/steel{
-	pixel_x = -5;
-	pixel_y = 7
+/obj/item/clothing/head/roguetown/helmet/kettle{
+	pixel_x = 0;
+	pixel_y = 0
 	},
 /obj/item/clothing/head/roguetown/helmet/kettle{
 	pixel_x = 0;
@@ -34943,6 +34918,30 @@
 /obj/item/clothing/head/roguetown/helmet/kettle{
 	pixel_x = 0;
 	pixel_y = 0
+	},
+/obj/item/clothing/mask/rogue/wildguard{
+	pixel_x = 5;
+	pixel_y = 11
+	},
+/obj/item/clothing/mask/rogue/wildguard{
+	pixel_x = 5;
+	pixel_y = 11
+	},
+/obj/item/clothing/mask/rogue/wildguard{
+	pixel_x = 5;
+	pixel_y = 11
+	},
+/obj/item/clothing/mask/rogue/wildguard{
+	pixel_x = -3;
+	pixel_y = 11
+	},
+/obj/item/clothing/mask/rogue/wildguard{
+	pixel_x = -3;
+	pixel_y = 11
+	},
+/obj/item/clothing/mask/rogue/wildguard{
+	pixel_x = -3;
+	pixel_y = 11
 	},
 /turf/open/floor/rogue/ruinedwood/turned,
 /area/rogue/indoors/town)
@@ -57527,7 +57526,6 @@
 	pixel_x = 0;
 	pixel_y = 10
 	},
-/obj/structure/fluff/wallclock,
 /turf/open/floor/rogue/hexstone,
 /area/rogue/indoors/shelter/woods)
 "nTs" = (
@@ -66738,10 +66736,6 @@
 /obj/effect/decal/cobbleedge,
 /turf/closed/wall/mineral/rogue/wooddark,
 /area/rogue/indoors/town/shop)
-"qie" = (
-/obj/machinery/light/rogue/candle/off/r,
-/turf/open/floor/rogue/hexstone,
-/area/rogue/indoors/shelter/woods)
 "qim" = (
 /obj/effect/decal/cleanable/blood{
 	icon_state = "floor4-old"
@@ -71930,6 +71924,10 @@
 /obj/item/reagent_containers/glass/cup/aalloymug{
 	pixel_x = -5;
 	pixel_y = 39
+	},
+/obj/structure/fluff/wallclock{
+	pixel_y = 0;
+	pixel_x = 32
 	},
 /turf/open/floor/rogue/twig,
 /area/rogue/indoors/shelter/woods)
@@ -83453,6 +83451,13 @@
 /obj/structure/fluff/railing/border/west,
 /turf/open/floor/rogue/cobble,
 /area/rogue/under/cave/his_vault)
+"uiL" = (
+/obj/item/grown/log/tree/stick{
+	pixel_x = -11;
+	pixel_y = 5
+	},
+/turf/open/floor/rogue/ruinedwood,
+/area/rogue/indoors/shelter/woods)
 "uiM" = (
 /obj/structure/fluff/signage{
 	dir = 8
@@ -88898,14 +88903,6 @@
 /obj/effect/decal/mossy,
 /turf/open/floor/rogue/dirt/road,
 /area/rogue/outdoors/town)
-"vyp" = (
-/obj/structure/table/wood/poor,
-/obj/item/grown/log/tree/stick{
-	pixel_x = -4;
-	pixel_y = 6
-	},
-/turf/open/floor/rogue/ruinedwood,
-/area/rogue/indoors/shelter/woods)
 "vys" = (
 /obj/structure/rack/rogue,
 /obj/item/clothing/suit/roguetown/armor/chainmail/bikini,
@@ -285397,7 +285394,7 @@ gnI
 diN
 gnI
 npj
-kbo
+uiL
 vmf
 mdU
 asY
@@ -285848,7 +285845,7 @@ jIb
 apU
 rlV
 apU
-vyp
+apk
 kbo
 gnI
 fWc
@@ -289915,7 +289912,7 @@ dpy
 dpy
 nTq
 gap
-qie
+bWg
 hnC
 lGG
 jaH
