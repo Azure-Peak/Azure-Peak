@@ -49225,8 +49225,8 @@
 "lQr" = (
 /obj/effect/decal/cleanable/debris/woody,
 /obj/item/grown/log/tree/small{
-	pixel_x = -14;
-	pixel_y = 3
+	pixel_x = -21;
+	pixel_y = 4
 	},
 /turf/open/floor/rogue/ruinedwood,
 /area/rogue/indoors/shelter/woods)
@@ -83451,13 +83451,6 @@
 /obj/structure/fluff/railing/border/west,
 /turf/open/floor/rogue/cobble,
 /area/rogue/under/cave/his_vault)
-"uiL" = (
-/obj/item/grown/log/tree/stick{
-	pixel_x = -11;
-	pixel_y = 5
-	},
-/turf/open/floor/rogue/ruinedwood,
-/area/rogue/indoors/shelter/woods)
 "uiM" = (
 /obj/structure/fluff/signage{
 	dir = 8
@@ -89847,6 +89840,14 @@
 /obj/item/roguegem/random,
 /turf/open/floor/rogue/carpet/lord/center,
 /area/rogue/under/cave/licharena/bossroom)
+"vLn" = (
+/obj/structure/table/wood/poor,
+/obj/item/grown/log/tree/stick{
+	pixel_x = -4;
+	pixel_y = 6
+	},
+/turf/open/floor/rogue/ruinedwood,
+/area/rogue/indoors/shelter/woods)
 "vLw" = (
 /turf/open/floor/rogue/twig,
 /area/rogue/outdoors/rtfield/abandonedhotsprings)
@@ -285394,7 +285395,7 @@ gnI
 diN
 gnI
 npj
-uiL
+kbo
 vmf
 mdU
 asY
@@ -285845,7 +285846,7 @@ jIb
 apU
 rlV
 apU
-apk
+vLn
 kbo
 gnI
 fWc
