@@ -406,7 +406,7 @@
 	ammo_type = /obj/item/ammo_casing/caseless/rogue/arrow/bronze
 	icon_state = "bronzearrow_proj"
 	damage = 40
-	armor_penetration = 0 // Pierces 80 (padded gambesons) at 20PER, 17PER with a longbow.
+	armor_penetration = 0 // Cannot pierce 80 (padded gambesons) with a recurve, does so at 17PER with a longbow.
 	embedchance = 70
 	npc_simple_damage_mult = 3 //More damage over simplemobs!
 	speed = 0.15 // Faster!
