@@ -9917,6 +9917,10 @@
 /obj/structure/plasticflaps,
 /turf/open/floor/rogue/tile/brownbrick,
 /area/rogue/indoors/town/bath)
+"cvS" = (
+/obj/machinery/light/rogue/candle/off/r,
+/turf/open/floor/rogue/hexstone,
+/area/rogue/indoors/shelter/woods)
 "cvU" = (
 /obj/structure/table/wood/long_table,
 /obj/item/candle/yellow/lit,
@@ -289933,7 +289937,7 @@ dpy
 dpy
 nTq
 gap
-bWg
+cvS
 hnC
 lGG
 jaH
