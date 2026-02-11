@@ -69198,6 +69198,10 @@
 /obj/structure/flora/hotspring_rocks,
 /turf/open/floor/rogue/cobble,
 /area/rogue/outdoors/beach)
+"qLk" = (
+/obj/machinery/light/rogue/campfire,
+/turf/open/floor/rogue/dirt,
+/area/rogue/outdoors/rtfield)
 "qLt" = (
 /turf/open/floor/carpet/royalblack,
 /area/rogue/outdoors/mountains/decap/gunduzirak/bossarena)
@@ -74392,6 +74396,10 @@
 "sak" = (
 /turf/open/floor/rogue/tile,
 /area/rogue/indoors/shelter/mountains/decap)
+"sat" = (
+/obj/structure/fluff/walldeco/wallshield,
+/turf/closed/wall/mineral/rogue/wooddark/vertical,
+/area/rogue/indoors/shelter/woods)
 "sav" = (
 /obj/structure/table/wood,
 /obj/structure/lever{
@@ -79549,6 +79557,10 @@
 /obj/structure/ladder,
 /turf/open/floor/rogue/ruinedwood/spiral,
 /area/rogue/indoors/town)
+"tlT" = (
+/obj/item/roguebin/water,
+/turf/open/floor/rogue/grass,
+/area/rogue/outdoors/rtfield)
 "tlU" = (
 /obj/item/rogueweapon/pick/steel,
 /turf/open/floor/rogue/naturalstone,
@@ -89055,6 +89067,12 @@
 "vAw" = (
 /turf/open/floor/rogue/dirt/road,
 /area/rogue/outdoors/exposed/town/keep)
+"vAE" = (
+/obj/structure/fluff/walldeco/customflag{
+	pixel_x = 32
+	},
+/turf/open/floor/rogue/cobblerock,
+/area/rogue/outdoors/rtfield)
 "vAG" = (
 /obj/structure/ladder,
 /obj/machinery/light/rogue/torchholder/c,
@@ -281325,14 +281343,14 @@ gsD
 gsD
 keJ
 jIb
-gnI
+sat
 diN
 gnI
 sPF
 bAf
 rDz
 mdU
-bsL
+hJb
 rZO
 rZO
 fVo
@@ -281345,7 +281363,7 @@ rZO
 rZO
 gnI
 diN
-gnI
+sat
 sNZ
 sNZ
 sNZ
@@ -281784,7 +281802,7 @@ hoL
 jMC
 jvR
 ioj
-bsL
+qLk
 bsL
 oVz
 fVo
@@ -282236,7 +282254,7 @@ vyu
 asY
 aDv
 rZO
-hJb
+bsL
 rZO
 oVz
 fVo
@@ -284941,7 +284959,7 @@ jIb
 jaH
 jIb
 jIb
-gnI
+sat
 sgU
 gnI
 cIf
@@ -284961,7 +284979,7 @@ ihF
 pxF
 gnI
 sgU
-gnI
+sat
 sNZ
 sNZ
 sNZ
@@ -288109,11 +288127,11 @@ lGG
 nvU
 lxq
 oYS
+vAE
 asY
 asY
 asY
-asY
-sNZ
+tlT
 fVo
 hPs
 fVo
