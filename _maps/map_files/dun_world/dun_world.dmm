@@ -4765,6 +4765,15 @@
 /obj/effect/lily_petal/two,
 /turf/open/floor/rogue/cobble/mossy,
 /area/rogue/outdoors/rtfield/eora)
+"bje" = (
+/obj/structure/mineral_door/wood/donjon{
+	dir = 1;
+	locked = 1;
+	lockid = "manor";
+	name = "Secure section"
+	},
+/turf/open/floor/rogue/concrete,
+/area/rogue/indoors/town/garrison)
 "bjm" = (
 /obj/item/restraints/legcuffs/beartrap/armed/camouflage,
 /obj/structure/bars/passage/steel{
@@ -10999,6 +11008,15 @@
 	},
 /turf/open/floor/rogue/naturalstone,
 /area/rogue/outdoors/mountains/decap/gunduzirak/bossarena)
+"cJt" = (
+/obj/structure/mineral_door/swing_door{
+	keylock = 1;
+	locked = 1;
+	lockid = "manor";
+	name = "stables"
+	},
+/turf/open/floor/rogue/concrete,
+/area/rogue/indoors/town/garrison)
 "cJv" = (
 /obj/structure/fluff/railing/border,
 /obj/structure/rack/rogue,
@@ -11041,7 +11059,7 @@
 "cJP" = (
 /obj/structure/mineral_door/wood/donjon{
 	locked = 1;
-	lockid = "walls"
+	lockid = "manor"
 	},
 /turf/open/floor/rogue/concrete,
 /area/rogue/indoors/town/garrison)
@@ -11842,6 +11860,13 @@
 	},
 /turf/open/floor/rogue/tile/brownbrick,
 /area/rogue/indoors/town)
+"cSO" = (
+/obj/effect/decal/cobbleedge{
+	dir = 6;
+	pixel_y = 10
+	},
+/turf/open/floor/rogue/cobblerock,
+/area/rogue/outdoors/exposed/town/keep)
 "cSP" = (
 /mob/living/carbon/human/species/orc/npc/berserker,
 /turf/open/floor/rogue/herringbone,
@@ -13990,6 +14015,15 @@
 	},
 /turf/open/floor/rogue/dirt,
 /area/rogue/outdoors/mountains/decap/gunduzirak)
+"duE" = (
+/obj/structure/flora/roguegrass,
+/obj/structure/flora/ausbushes/ppflowers,
+/obj/effect/decal/cobbleedge{
+	dir = 10;
+	pixel_y = 10
+	},
+/turf/open/floor/rogue/grass,
+/area/rogue/outdoors/exposed/town/keep)
 "duF" = (
 /obj/structure/fluff/littlebanners/bluewhite{
 	pixel_y = -6
@@ -38922,6 +38956,10 @@
 /area/rogue/indoors/town/garrison)
 "jry" = (
 /obj/machinery/light/rogue/torchholder/c,
+/obj/effect/decal/cobbleedge{
+	dir = 10;
+	icon_state = "cobbleedge-n"
+	},
 /turf/open/floor/rogue/cobblerock,
 /area/rogue/outdoors/exposed/town/keep)
 "jrD" = (
@@ -45809,6 +45847,11 @@
 /obj/structure/chair/wood/rogue/fancy,
 /turf/open/floor/carpet/royalblack,
 /area/rogue/indoors/town/dwarfin)
+"kWT" = (
+/obj/structure/fluff/railing/border/east,
+/obj/structure/fluff/railing/border/north,
+/turf/open/transparent/openspace,
+/area/rogue/outdoors/town/roofs/keep)
 "kWU" = (
 /obj/item/clothing/under/roguetown/heavy_leather_pants,
 /turf/open/floor/rogue/naturalstone,
@@ -53442,6 +53485,11 @@
 	},
 /turf/open/floor/rogue/ruinedwood/spiral,
 /area/rogue/indoors/town)
+"mKD" = (
+/obj/structure/fluff/railing/border/west,
+/obj/structure/fluff/railing/border/north,
+/turf/open/transparent/openspace,
+/area/rogue/outdoors/town/roofs/keep)
 "mKF" = (
 /mob/living/carbon/human/species/elf/dark/drowraider,
 /turf/open/floor/rogue/ruinedwood/spiral,
@@ -61652,6 +61700,10 @@
 /obj/item/natural/feather,
 /turf/open/floor/carpet/stellar,
 /area/rogue/indoors/town/church/chapel)
+"oKA" = (
+/obj/structure/fluff/railing/border/north,
+/turf/open/floor/rogue/rooftop/green,
+/area/rogue/outdoors/town/roofs/keep)
 "oKC" = (
 /turf/closed/wall/mineral/rogue/pipe/line/four,
 /area/rogue/indoors/shelter/mountains/decap)
@@ -63938,6 +63990,15 @@
 /obj/structure/flora/newtree,
 /turf/open/floor/rogue/grassred,
 /area/rogue/outdoors/woods/south)
+"pnF" = (
+/obj/structure/mineral_door/wood/donjon{
+	dir = 8;
+	locked = 1;
+	lockid = "manor";
+	name = "Secure section"
+	},
+/turf/open/floor/rogue/concrete,
+/area/rogue/indoors/town/garrison)
 "pnO" = (
 /obj/structure/fluff/railing/border/east,
 /turf/open/floor/rogue/grassred,
@@ -64072,6 +64133,13 @@
 /obj/structure/flora/roguetree/burnt,
 /turf/open/floor/rogue/grasscold,
 /area/rogue/outdoors/mountains)
+"ppJ" = (
+/obj/effect/decal/cobbleedge{
+	dir = 10;
+	icon_state = "cobbleedge-n"
+	},
+/turf/open/floor/rogue/cobblerock,
+/area/rogue/outdoors/exposed/town/keep)
 "ppU" = (
 /obj/structure/rack/rogue,
 /obj/effect/spawner/lootdrop/roguetown/dungeon/armor,
@@ -64786,6 +64854,10 @@
 /obj/effect/wisp,
 /turf/open/water/swamp,
 /area/rogue/outdoors/mountains/decap)
+"pAQ" = (
+/obj/structure/fluff/railing/corner/north_east,
+/turf/open/transparent/openspace,
+/area/rogue/indoors/town/manor)
 "pAS" = (
 /obj/effect/landmark/quest_spawner/easy,
 /turf/open/floor/rogue/AzureSand,
@@ -82799,6 +82871,10 @@
 /obj/structure/flora/rock/pile,
 /turf/closed/mineral/random/rogue,
 /area/rogue/outdoors/beach/central)
+"tRW" = (
+/obj/structure/fluff/railing/corner/north_east,
+/turf/open/floor/rogue/rooftop/green,
+/area/rogue/outdoors/town/roofs/keep)
 "tRY" = (
 /obj/structure/closet/crate/chest/gold,
 /obj/item/paper/scroll,
@@ -86491,6 +86567,10 @@
 	},
 /turf/open/floor/rogue/dirt,
 /area/rogue/outdoors/town)
+"uJS" = (
+/obj/structure/fluff/railing/corner,
+/turf/open/transparent/openspace,
+/area/rogue/indoors/town/manor)
 "uJU" = (
 /obj/item/restraints/legcuffs/beartrap/armed/camouflage,
 /turf/open/floor/rogue/ruinedwood/spiral,
@@ -271069,7 +271149,7 @@ pXu
 vVT
 fNP
 lwu
-pap
+duE
 osp
 osp
 osp
@@ -271521,7 +271601,7 @@ iCo
 iCo
 iCo
 daL
-osp
+ppJ
 osp
 osp
 osp
@@ -271973,7 +272053,7 @@ wFR
 aiV
 eDj
 lwu
-osp
+ppJ
 osp
 osp
 osp
@@ -272877,7 +272957,7 @@ lqP
 jxd
 aSu
 lwu
-osp
+ppJ
 osp
 osp
 qoi
@@ -273328,8 +273408,8 @@ gXo
 bsy
 abb
 kPX
-wta
-osp
+cJt
+ppJ
 osp
 mPf
 pRh
@@ -273781,7 +273861,7 @@ kPX
 dJW
 oTE
 lwu
-osp
+ppJ
 osp
 rMf
 iey
@@ -274685,7 +274765,7 @@ lqP
 nKq
 aSu
 lwu
-osp
+ppJ
 osp
 osp
 osp
@@ -275136,8 +275216,8 @@ gXo
 bsy
 abb
 kPX
-wta
-osp
+cJt
+ppJ
 osp
 osp
 osp
@@ -275589,14 +275669,14 @@ kPX
 kPX
 oTE
 lwu
-osp
+cSO
 osp
 osp
 osp
 osp
 osp
 kOS
-nnI
+bje
 iWa
 iWa
 iWa
@@ -276502,7 +276582,7 @@ nQb
 gXo
 gXo
 gXo
-bue
+pnF
 gXo
 gXo
 gXo
@@ -279669,7 +279749,7 @@ ftb
 usR
 iWa
 iWa
-nnI
+bje
 qVg
 qVg
 qVg
@@ -505198,7 +505278,7 @@ ugj
 uSR
 uSR
 ugj
-vmi
+lxg
 vmi
 vmi
 vmi
@@ -505650,7 +505730,7 @@ ugj
 uSR
 uSR
 awt
-vmi
+jHJ
 vmi
 vmi
 vmi
@@ -506102,7 +506182,7 @@ ugj
 opY
 uSR
 awt
-woI
+kWT
 lxg
 vmi
 vmi
@@ -507458,7 +507538,7 @@ efI
 gfQ
 gfQ
 awt
-pNy
+mKD
 pYK
 vmi
 vmi
@@ -507910,7 +507990,7 @@ efI
 gfQ
 gfQ
 awt
-vmi
+jHJ
 vmi
 vmi
 vmi
@@ -508362,7 +508442,7 @@ efI
 gfQ
 gfQ
 awt
-woI
+kWT
 lxg
 vmi
 vmi
@@ -509718,7 +509798,7 @@ ugj
 uSR
 uSR
 awt
-pNy
+mKD
 pYK
 vmi
 vmi
@@ -510170,7 +510250,7 @@ ugj
 opY
 uSR
 awt
-vmi
+jHJ
 vmi
 vmi
 vmi
@@ -510622,7 +510702,7 @@ ugj
 uSR
 uSR
 ugj
-vmi
+pYK
 vmi
 vmi
 vmi
@@ -511979,9 +512059,9 @@ gfQ
 gfQ
 ugj
 ugj
-vmi
-vmi
-vmi
+woI
+woI
+lxg
 vmi
 vmi
 vmi
@@ -512864,8 +512944,8 @@ nVY
 nVY
 nVY
 ugj
-dbc
-dbc
+kVR
+uJS
 dbc
 dbc
 dbc
@@ -513317,7 +513397,7 @@ nVY
 nVY
 ugj
 ugj
-dbc
+pAQ
 dbc
 dbc
 dbc
@@ -513338,7 +513418,7 @@ ugj
 nrK
 uNB
 ugj
-arw
+tRW
 vmi
 vmi
 fxa
@@ -513769,7 +513849,7 @@ nVY
 nVY
 cGM
 awt
-dbc
+rBO
 dbc
 dbc
 dbc
@@ -513790,7 +513870,7 @@ ugj
 hng
 hOz
 oip
-arw
+oKA
 vmi
 vmi
 vmi
@@ -514221,7 +514301,7 @@ nVY
 nVY
 cGM
 awt
-dbc
+rBO
 dbc
 ahk
 dbc
@@ -514242,7 +514322,7 @@ ugj
 hOz
 jhe
 ugj
-arw
+qYs
 vmi
 vmi
 vmi
@@ -514673,7 +514753,7 @@ nVY
 nVY
 cGM
 awt
-dbc
+rBO
 dbc
 dbc
 dbc
@@ -515125,7 +515205,7 @@ nVY
 nVY
 ugj
 ugj
-dbc
+uJS
 dbc
 dbc
 dbc
@@ -515146,7 +515226,7 @@ ugj
 ugj
 ugj
 ugj
-arw
+tRW
 vmi
 vmi
 fxa
@@ -515576,8 +515656,8 @@ nVY
 nVY
 nVY
 ugj
-dbc
-dbc
+bHD
+pAQ
 dbc
 dbc
 dbc
@@ -515598,7 +515678,7 @@ aIT
 sfC
 aFY
 oip
-vmi
+jHJ
 vmi
 vmi
 vmi
@@ -516050,7 +516130,7 @@ iQR
 fKX
 kJn
 oip
-vmi
+jHJ
 xfy
 woI
 lxg
