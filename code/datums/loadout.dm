@@ -824,7 +824,7 @@ GLOBAL_LIST_EMPTY(loadout_items)
 /datum/loadout_item/donator_koruu
 	name = "Donator Kit - Well-Worn Bamboo Hat"
 	path = /obj/item/clothing/head/roguetown/mentorhat/koruu
-	ckeywhitelist = list("koruu")
+	ckeywhitelist = list("koruu", "painfeeler", "poots13")
 
 /datum/loadout_item/donator_dakken
 	name = "Donator Kit - Armoured Avantyne Barbute"
