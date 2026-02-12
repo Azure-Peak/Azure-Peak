@@ -2656,7 +2656,7 @@
 #include "code\modules\spells\spell_types\wizard\invoked_aoe\sundering_lightning.dm"
 #include "code\modules\spells\spell_types\wizard\invoked_aoe\thunderstrike.dm"
 #include "code\modules\spells\spell_types\wizard\invoked_aoe\wither.dm"
-#include "code\modules\spells\spell_types\wizard\invoked_single_target\arcyne_strike.dm"
+#include "code\modules\spells\spell_types\wizard\projectiles_single\arcyne_strike.dm"
 #include "code\modules\spells\spell_types\wizard\invoked_single_target\counterspell.dm"
 #include "code\modules\spells\spell_types\wizard\invoked_single_target\frostbite.dm"
 #include "code\modules\spells\spell_types\wizard\invoked_single_target\gravity.dm"
