@@ -364,7 +364,7 @@ GLOBAL_LIST_INIT(spells, typesof(/obj/effect/proc_holder/spell)) //needed for th
 		return TRUE
 	switch(charge_type)
 		if("recharge")
-			if(world.time < next_recharge_time)
+			if(world.time < next_recharge_time || charge_counter < recharge_time)
 				to_chat(user, still_recharging_msg)
 				return FALSE
 		if("charges")
