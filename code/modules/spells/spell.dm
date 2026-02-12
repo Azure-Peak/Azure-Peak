@@ -437,18 +437,15 @@ GLOBAL_LIST_INIT(spells, typesof(/obj/effect/proc_holder/spell)) //needed for th
 
 /obj/effect/proc_holder/spell/proc/start_recharge()
     var/final_time = calculate_recharge_time()
-
+    
     next_recharge_time = world.time + final_time
     addtimer(CALLBACK(src, .proc/finish_recharge), final_time)
-    if(action?.button)
-        action.button.update_maptext(final_time)
 
 /obj/effect/proc_holder/spell/proc/finish_recharge()
 	charge_counter = recharge_time
 
 	// Notify it is recharged - even if you cannot cast right now.
 	if(action?.button)
-		action.button.update_maptext(0)
 		action.button.color = rgb(255,255,255,255)
 
 /obj/effect/proc_holder/spell/proc/perform(list/targets, recharge = TRUE, mob/user = usr) //if recharge is started is important for the trigger spells
@@ -578,8 +575,7 @@ GLOBAL_LIST_INIT(spells, typesof(/obj/effect/proc_holder/spell)) //needed for th
 		if("holdervar")
 			adjust_var(user, holder_var_type, -holder_var_amount)
 	START_PROCESSING(SSfastprocess, src)
-	if(action?.button)
-		action.button.update_maptext(0)
+	if(action)
 		action.UpdateButtonIcon()
 	if(user.mmb_intent && user.mmb_intent.mob_light)
 		QDEL_NULL(user.mmb_intent.mob_light)
