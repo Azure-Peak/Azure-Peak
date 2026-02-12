@@ -1,8 +1,10 @@
-/obj/effect/proc_holder/spell/invoked/arcynestrike
+/obj/effect/proc_holder/spell/invoked/projectile/arcynestrike
 	name = "Arcyne Strike"
 	desc = "Imbue your held weapon with latent arcyne energy before striking your target"
 	cost = 2 // basic spellblade melee spell
 	overlay_state = "conjure_weapon"
+	range = 1
+	projectile_type = /obj/projectile/energy/arcynestrike
 	releasedrain = 20
 	chargedrain = 0
 	chargetime = 0.6 SECONDS
@@ -14,15 +16,15 @@
 	charging_slowdown = 1
 	chargedloop = /datum/looping_sound/invokegen
 	associated_skill = /datum/skill/magic/arcane
-	spell_tier = 2
+	spell_tier = 2 // offensive magic
 	invocation_type = "none"
 	glow_color = GLOW_COLOR_ARCANE
 	glow_intensity = GLOW_INTENSITY_LOW
 	gesture_required = TRUE
 	human_req = TRUE // Combat spell
-	range = 1
+	
 
-/obj/effect/proc_holder/spell/invoked/arcynestrike/cast(list/targets, mob/user = user)
+/obj/effect/proc_holder/spell/invoked/projectile/arcynestrike/cast(list/targets, mob/user = user)
 	var/mob/living/carbon/human/H = user
 	var/datum/intent/attack_intent = H.a_intent // Use the attack intent
 	var/mapped_wound_class = BCLASS_CUT
@@ -35,54 +37,54 @@
 			mapped_wound_class = BCLASS_STAB
 		if(BCLASS_STAB)
 			mapped_wound_class = BCLASS_STAB
-				switch(mapped_wound_class)
+	switch(mapped_wound_class)
 		if(BCLASS_BLUNT)
-			cast(/obj/effect/proc_holder/spell/invoked/smite/blunt/cast(list/targets, mob/living/user))
+			projectile_type = /obj/projectile/energy/arcynestrike/blunt
 		if(BCLASS_STAB)
-			cast(/obj/effect/proc_holder/spell/invoked/smite/stab/cast(list/targets, mob/living/user))
+			projectile_type = /obj/projectile/energy/arcynestrike/stab
 		else
-			cast(/obj/effect/proc_holder/spell/invoked/smite/cast(list/targets, mob/living/user))
+			projectile_type = /obj/projectile/energy/arcynestrike
 
 	. = ..()
 
 
-/obj/effect/proc_holder/spell/invoked/smite/cast(list/targets, mob/living/user)
-	if(!isliving(targets[1]))
-		return FALSE
-
-	var/mob/living/carbon/target = targets[1]
+/obj/projectile/energy/arcynestrike
+	name = "Arcyne Smite (Cut)"
+	icon_state = "air_blade_cut"
 	damage = 50
+	range = 1
 	woundclass = BCLASS_CUT
 	nodamage = FALSE
 	npc_simple_damage_mult = 1.5 // Makes it more effective against NPCs.
 	hitsound = 'sound/combat/hits/bladed/smallslash (1).ogg'
-	target.visible_message(span_warning("[user] strikes at [target] with rending arcyne energy!"), \
-	span_userdanger("[user] striles you with rending arcyne energy"))
+	speed = 10 // to make sure it hit the target
+	var/apply_mark = TRUE
 
-/obj/effect/proc_holder/spell/invoked/smite/blunt/cast(list/targets, mob/living/user)
-	if(!isliving(targets[1]))
-		return FALSE
-
-	var/mob/living/carbon/target = targets[1]
+/obj/projectile/energy/arcynestrike/blunt
+	name = "Arcyne Smite (Blunt)"
+	icon_state = "air_blade_blunt"
 	woundclass = BCLASS_BLUNT
-	hitsound = 'sound/combat/hits/blunt/shovel_hit2.ogg'
-	target.visible_message(span_warning("[user] strikes at [target] with crushing arcyne energy!"), \
-	span_userdanger("[user] striles you with crushing arcyne energy"))
+	hitsound = 'sound/combat/hits/blunt/shovel_hit2.ogg' // Different sound for blunt
 
-/obj/effect/proc_holder/spell/invoked/smite/stab/cast(list/targets, mob/living/user)
-	if(!isliving(targets[1]))
-		return FALSE
-
-	var/mob/living/carbon/target = targets[1]
+/obj/projectile/energy/arcynestrike/stab
+	name = "Arcyne Smite (Stab)"
+	icon_state = "air_blade_stab"
 	woundclass = BCLASS_STAB
-	hitsound = 'sound/combat/hits/bladed/genstab (3).ogg'
-	target.visible_message(span_warning("[user] strikes at [target] with piercing arcyne energy!"), \
-	span_userdanger("[user] striles you with piercing arcyne energy"))
+	hitsound = 'sound/combat/hits/bladed/genstab (3).ogg' // Different sound for stab
 
-/obj/effect/proc_holder/spell/invoked/smite/on_hit(target)
-	. = ..()
+/obj/projectile/energy/arcynestrike/on_hit(target)
+
+	var/mob/living/carbon/M = target
 	if(ismob(target))
-		var/mob/living/carbon/M = target
+		var/datum/status_effect/debuff/arcanemark/mark = M.has_status_effect(/datum/status_effect/debuff/arcanemark)
+		if(mark && mark.stacks == mark.max_stacks)
+			armor_penetration = 40 //pierces most armors
+			apply_mark = FALSE
+			consume_arcane_mark_stacks(M)
+
+	. = ..()
+
+	if(ismob(target))
 		if(M.anti_magic_check())
 			visible_message(span_warning("[src] fizzles on contact with [target]!"))
 			playsound(get_turf(target), 'sound/magic/magic_nulled.ogg', 100)
