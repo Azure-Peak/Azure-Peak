@@ -444,8 +444,9 @@ GLOBAL_LIST_INIT(spells, typesof(/obj/effect/proc_holder/spell)) //needed for th
 /obj/effect/proc_holder/spell/proc/finish_recharge()
 	charge_counter = recharge_time
 
-	if(action)
-		action.UpdateButtonIcon()
+	// Notify it is recharged - even if you cannot cast right now.
+	if(action?.button)
+		action.button.color = rgb(255,255,255,255)
 
 /obj/effect/proc_holder/spell/proc/perform(list/targets, recharge = TRUE, mob/user = usr) //if recharge is started is important for the trigger spells
 	if(!ignore_los)
