@@ -85,7 +85,7 @@
 
 // A weaker strike for swords with high damage so that it don't end up becoming better than mace
 /datum/intent/sword/strike/bad
-	damfactor = 0.7 
+	damfactor = 0.2 
 
 /datum/intent/sword/peel
 	name = "armor peel"

@@ -75,7 +75,8 @@
 			var/layers_deep = 1
 			var/played_sound = FALSE
 			for(var/obj/item/clothing/C in layers)
-				var/actualdmg = intdamage
+				var/reduction = min(protection, 80)
+				var/actualdmg = intdamage * (1 - reduction / 100) // so armor with good blunt defence stays longer
 				actualdmg /= layers_deep
 				C.take_damage(actualdmg, damage_flag = d_type, sound_effect = FALSE, armor_penetration = 100)
 				if(C.blocksound && !played_sound)
