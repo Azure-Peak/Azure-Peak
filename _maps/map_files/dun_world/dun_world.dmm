@@ -961,6 +961,13 @@
 /mob/living/simple_animal/hostile/retaliate/rogue/bigrat/gethsmane,
 /turf/open/water/swamp,
 /area/rogue/under/cave/dungeon1/gethsmane/inner)
+"amL" = (
+/obj/structure/closet/dirthole/closed/loot{
+	dir = 1
+	},
+/obj/structure/gravemarker,
+/turf/open/floor/rogue/dirt,
+/area/rogue/under/cave/scarymaze)
 "amN" = (
 /obj/item/roguebin/water/gross,
 /turf/open/floor/rogue/herringbone,
@@ -24864,8 +24871,11 @@
 /turf/closed/wall/mineral/rogue/stone,
 /area/rogue/indoors/town/garrison)
 "gaC" = (
-/obj/structure/gravemarker,
-/obj/structure/closet/dirthole/closed/loot,
+/obj/structure/fluff/walldeco/church/line{
+	dir = 8;
+	pixel_x = -1;
+	pixel_y = 0
+	},
 /turf/open/floor/rogue/dirt,
 /area/rogue/under/cave/scarymaze)
 "gaJ" = (
@@ -40803,6 +40813,14 @@
 	},
 /turf/open/floor/rogue/concrete,
 /area/rogue/indoors/town/manor)
+"jTa" = (
+/obj/structure/fluff/walldeco/church/line{
+	dir = 8;
+	pixel_x = -1;
+	pixel_y = 0
+	},
+/turf/open/floor/rogue/church,
+/area/rogue/under/cave/scarymaze)
 "jTh" = (
 /mob/living/simple_animal/hostile/rogue/skeleton/bow,
 /turf/open/floor/rogue/hexstone,
@@ -57017,6 +57035,12 @@
 /obj/effect/landmark/chimeric_calyx_spawner/fifteen,
 /turf/open/floor/rogue/blocks/stonered,
 /area/rogue/under/underdark/north)
+"nJt" = (
+/obj/structure/fluff/walldeco/church/line{
+	dir = 1
+	},
+/turf/open/floor/rogue/church,
+/area/rogue/outdoors/mountains)
 "nJu" = (
 /obj/structure/table/vtable/v2,
 /obj/machinery/light/rogue/candle/floorcandle,
@@ -57646,6 +57670,10 @@
 "nRt" = (
 /turf/closed/wall/mineral/rogue/craftstone,
 /area/rogue/indoors/shelter/mountains/decap)
+"nRv" = (
+/obj/structure/closet/dirthole/grave,
+/turf/open/floor/rogue/dirt,
+/area/rogue/outdoors/mountains)
 "nRx" = (
 /obj/structure/fluff/walldeco/med6{
 	pixel_y = 32
@@ -58549,6 +58577,10 @@
 /obj/structure/fluff/walldeco/church/line,
 /turf/open/floor/rogue/naturalstone,
 /area/rogue/under/cave/his_vault)
+"obY" = (
+/obj/structure/flora/tinymushrooms,
+/turf/open/floor/rogue/dirt,
+/area/rogue/outdoors/mountains)
 "ocd" = (
 /obj/machinery/light/rogue/torchholder/l,
 /turf/open/floor/rogue/ruinedwood,
@@ -76851,6 +76883,11 @@
 /obj/structure/bed/rogue/shit,
 /turf/open/floor/rogue/twig,
 /area/rogue/indoors/town)
+"szo" = (
+/obj/structure/gravemarker,
+/obj/structure/closet/dirthole/closed/loot,
+/turf/open/floor/rogue/dirt,
+/area/rogue/outdoors/mountains)
 "szp" = (
 /obj/structure/fluff/railing/border/north,
 /turf/open/floor/rogue/woodturned,
@@ -84551,6 +84588,13 @@
 /obj/structure/spider/stickyweb,
 /turf/open/floor/rogue/blocks/green,
 /area/rogue/under/town/sewer)
+"use" = (
+/obj/structure/fluff/walldeco/church/line,
+/obj/structure/fluff/walldeco/church/line{
+	dir = 1
+	},
+/turf/open/floor/rogue/church,
+/area/rogue/outdoors/mountains)
 "usj" = (
 /turf/open/floor/rogue/ruinedwood,
 /area/rogue/indoors)
@@ -88588,6 +88632,15 @@
 /obj/effect/spawner/lootdrop/roguetown/dungeon/medical,
 /turf/open/floor/rogue/wood,
 /area/rogue/under/cave/scarymaze)
+"vpH" = (
+/obj/structure/fluff/walldeco/church/line{
+	dir = 4
+	},
+/obj/structure/fluff/walldeco/church/line{
+	dir = 8
+	},
+/turf/open/floor/rogue/church,
+/area/rogue/outdoors/mountains)
 "vpI" = (
 /obj/machinery/light/rogue/candle/r,
 /obj/item/roguebin/water,
@@ -473387,7 +473440,7 @@ heG
 tLN
 eOe
 eOe
-eOe
+ini
 gCk
 pJW
 dgP
@@ -474289,11 +474342,11 @@ eAq
 wHi
 dgP
 kQM
-gaC
-gaC
+xfP
+amL
 fEp
-roX
-roX
+xfP
+xfP
 heG
 ebL
 ulq
@@ -474741,11 +474794,11 @@ lRZ
 wHi
 iob
 fEp
-rJA
-xfP
-fEp
-xfP
-xfP
+jTa
+jTa
+ulq
+jTa
+jTa
 iob
 iDQ
 ulq
@@ -475193,10 +475246,10 @@ sEo
 wHi
 iob
 bwm
-roX
+gaC
 gaC
 fEp
-roX
+gaC
 gaC
 acq
 ebL
@@ -475645,9 +475698,9 @@ lRZ
 wHi
 iob
 fEp
-xfP
-xfP
-wkw
+jTa
+jTa
+ulq
 nyZ
 nyZ
 nFm
@@ -476100,8 +476153,8 @@ kQM
 gaC
 gaC
 fEp
-gaC
-rJA
+xfP
+xfP
 dgP
 suE
 suE
@@ -476549,11 +476602,11 @@ eAq
 wHi
 iob
 fEp
-xfP
-xfP
-fEp
-xfP
-xfP
+jTa
+jTa
+ulq
+jTa
+jTa
 heG
 qaL
 eZQ
@@ -477005,7 +477058,7 @@ gaC
 gaC
 fEp
 gaC
-roX
+gaC
 iob
 vAq
 fMz
@@ -540460,11 +540513,11 @@ aBB
 aBB
 aBB
 aBB
-aBB
-aBB
-aBB
-aBB
-aBB
+szo
+szo
+use
+nRv
+nRv
 aBB
 aBB
 aBB
@@ -540912,11 +540965,11 @@ aBB
 aBB
 aBB
 aBB
-aBB
-aBB
-aBB
-aBB
-aBB
+obY
+rnW
+use
+rnW
+rnW
 aBB
 aBB
 aBB
@@ -541364,11 +541417,11 @@ aBB
 aBB
 aBB
 aBB
-aBB
-aBB
-aBB
-aBB
-aBB
+nRv
+szo
+use
+nRv
+szo
 aBB
 aBB
 aBB
@@ -541816,11 +541869,11 @@ aBB
 aBB
 aBB
 aBB
-aBB
-aBB
-aBB
-aBB
-aBB
+rnW
+rnW
+nJt
+vpH
+vpH
 aBB
 aBB
 aBB
@@ -542268,11 +542321,11 @@ aBB
 aBB
 aBB
 aBB
-aBB
-aBB
-aBB
-aBB
-aBB
+szo
+szo
+use
+szo
+obY
 aBB
 aBB
 aBB
@@ -542720,11 +542773,11 @@ aBB
 aBB
 aBB
 aBB
-aBB
-aBB
-aBB
-aBB
-aBB
+rnW
+rnW
+use
+rnW
+rnW
 aBB
 aBB
 aBB
@@ -543172,11 +543225,11 @@ aBB
 aBB
 aBB
 aBB
-aBB
-aBB
-aBB
-aBB
-aBB
+szo
+szo
+use
+szo
+nRv
 aBB
 aBB
 aBB
