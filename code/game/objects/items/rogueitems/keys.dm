@@ -101,7 +101,7 @@
 
 /obj/item/roguekey/lord
 	name = "master key"
-	desc = "The Lord's key."
+	desc = "A magical key that molds itself to fit any lock. Can always be recalled by the Crown."
 	icon_state = "bosskey"
 	lockid = "lord"
 	visual_replacement = /obj/item/roguekey/royal
@@ -132,7 +132,7 @@
 /obj/item/roguekey/skeleton //Think of it less FOR skeletons and more just master key but can't be recalled and can be lost.
 	name = "skeleton key"
 	desc = "A moldable key able to fit anywhere. Marvel of engineering."
-	icon_state = "bosskey"
+	icon_state = "skeletonkey"
 	lockid = "lord"
 	visual_replacement = /obj/item/roguekey/royal
 
