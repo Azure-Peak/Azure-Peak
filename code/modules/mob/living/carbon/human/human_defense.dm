@@ -23,6 +23,7 @@
 	var/obj/item/clothing/used
 	var/protection = 0
 	var/intdamage = damage
+	var/consume_debuff = TRUE
 	if(d_type != "blunt")
 		used = get_best_worn_armor(def_zone, d_type)
 		if(used)
@@ -39,6 +40,7 @@
         
 			// Penetrative damage deals significantly less to the armor. Tentative.
 			if((damage + armor_penetration) > protection)
+				consume_debuff = FALSE
 				intdamage = (damage + armor_penetration) - protection
         
 			if(intdamfactor != 1)
@@ -56,18 +58,19 @@
 				intdamage *= tempo_bonus
 
 
-			if(has_status_effect(/datum/status_effect/debuff/exposed))
-				intdamage *= 3	//3 attacks equivalent.
-				playsound(src, 'sound/combat/exposed_pop.ogg', 100, TRUE)
-				visible_message("<span class = 'combatsecondarybodypart'>[src] suffers a savage hit to their armor while exposed!</span>")
-				remove_status_effect(/datum/status_effect/debuff/exposed)
-				emote("pain", forced = TRUE)
-			else if(has_status_effect(/datum/status_effect/debuff/vulnerable))
-				intdamage *= 1.5
-				playsound(src, 'sound/combat/vulnerable_pop.ogg', 100, TRUE)
-				visible_message(span_biginfo("[src] is struck into their armor while vulnerable!"))
-				remove_status_effect(/datum/status_effect/debuff/vulnerable)
-				emote("groan", forced = TRUE)
+			if(consume_debuff)	//This is a penetrative hit, so we consume these in bodypart_attacked_by.
+				if(has_status_effect(/datum/status_effect/debuff/exposed))
+					intdamage *= 2.5	//2.5 attacks equivalent.
+					playsound(src, 'sound/combat/exposed_pop.ogg', 100, TRUE)
+					visible_message("<span class = 'combatsecondarybodypart'>[src] suffers a savage hit to their armor while exposed!</span>")
+					remove_status_effect(/datum/status_effect/debuff/exposed)
+					emote("pain", forced = TRUE)
+				else if(has_status_effect(/datum/status_effect/debuff/vulnerable))
+					intdamage *= 1.3
+					playsound(src, 'sound/combat/vulnerable_pop.ogg', 100, TRUE)
+					visible_message(span_biginfo("[src] is struck into their armor while vulnerable!"))
+					remove_status_effect(/datum/status_effect/debuff/vulnerable)
+					emote("groan", forced = TRUE)
 
 			used.take_damage(intdamage, damage_flag = d_type, sound_effect = FALSE, armor_penetration = 100)
 	else
@@ -94,7 +97,6 @@
 				remove_status_effect(/datum/status_effect/debuff/exposed)
 				emote("pain", forced = TRUE)
 			else if(has_status_effect(/datum/status_effect/debuff/vulnerable))
-				intdamage *= 1.2
 				playsound(src, 'sound/combat/vulnerable_pop.ogg', 100, TRUE)
 				visible_message(span_biginfo("[src] is struck into their armor while vulnerable!"))
 				remove_status_effect(/datum/status_effect/debuff/vulnerable)
