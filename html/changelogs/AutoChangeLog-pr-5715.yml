@@ -1,0 +1,6 @@
+author: "Ryan180602"
+delete-after: True
+changes:
+  - balance: "Confessor Arbalist gets D-all tier, 100 integ manually repairable (with needle or cautery) skin armour."
+  - bugfix: "Pushup armour that were leather tier are actually leather tier, now."
+  - rscadd: "Sewable armour."

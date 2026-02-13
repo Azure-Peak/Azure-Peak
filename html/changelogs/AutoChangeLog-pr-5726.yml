@@ -1,0 +1,4 @@
+author: "WeNeedMorePhoron"
+delete-after: True
+changes:
+  - rscadd: "Added a 20 \"limit\" to each towner subclass so you can preview who is playing what classes. Levy and all thug subclasses now display properly"

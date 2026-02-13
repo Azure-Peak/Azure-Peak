@@ -74,7 +74,7 @@
 		to_chat(user, span_warning("My mind is already focused on a different weapon."))
 		return
 
-	to_chat(user, span_info("[parent] and I are old friends. ([required_trait])"))
+	to_chat(user, span_info("I'm well acquainted with [parent]. ([required_trait])"))
 	original_skill = user.get_skill_level(weapon_skill)
 	user.adjust_skillrank_up_to(weapon_skill, skill_amount, silent = TRUE)
 	ADD_TRAIT(user, TRAIT_SKILLBLESSED, TRAIT_GENERIC)

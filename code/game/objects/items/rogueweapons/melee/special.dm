@@ -331,8 +331,11 @@
 /obj/item/rogueweapon/katar/punchdagger/frei
 	name = "vývrtka"
 	desc = "A type of punch dagger of Aavnic make initially designed to level the playing field with an orc in fisticuffs, its serrated edges and longer, thinner point are designed to maximize pain for the recipient. It's aptly given the name of \"corkscrew\", and this specific one has the colours of Szöréndnížina. Can be worn on your ring slot."
+	force = 18
 	icon_state = "freiplug"
 	slot_flags = ITEM_SLOT_RING
+	icon = 'icons/roguetown/weapons/special/freifechter32.dmi'
+	possible_item_intents = list(/datum/intent/dagger/thrust, /datum/intent/dagger/thrust/pick, /datum/intent/knuckles/strike)
 
 /obj/item/rogueweapon/katar/psydon
 	name = "psydonic katar"

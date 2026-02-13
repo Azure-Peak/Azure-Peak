@@ -30,7 +30,7 @@
 	if(QDELETED(src))
 		return
 	qdel(src)
-    
+
 /obj/item/clothing/suit/roguetown/armor/manual/proc/armour_regen(var/repair_percent = 0.2 * max_integrity)
     if(obj_integrity >= max_integrity)
         to_chat(loc, span_notice(repairmsg_end))
@@ -39,15 +39,103 @@
     if(obj_broken)
         obj_fix(full_repair = FALSE)
 
+
+/*
+ * PUSHUP ARMOUR
+ */
+
 /obj/item/clothing/suit/roguetown/armor/manual/pushups
-    name = "Muscular Skin"
+    name = "muscular skin"
     desc = "The reward for all your hard work. </br>THE INFLUENCE OF THE HAM SANDWYCH RACE IS WANING. I MUST DO PUSH-UPS, TO REMIND MY MUSCLES OF THEIR OWN STRENGTH."
 
     repairmsg_end = "My muscles sheen with vitality!"
     repairmsg_continue = "My muscles are reminded of their own strength."
 
+/obj/item/clothing/suit/roguetown/armor/manual/pushups/get_mechanics_examine(mob/user)
+	. = ..()
+
+	. += span_info("Repairable via push-up emotes.")
+
 /obj/item/clothing/suit/roguetown/armor/manual/pushups/leather
-    armor_class = ARMOR_LEATHER
+    armor = ARMOR_LEATHER
 
 /obj/item/clothing/suit/roguetown/armor/manual/pushups/leather/good
-    armor_class = ARMOR_LEATHER_GOOD
+    armor = ARMOR_LEATHER_GOOD
+
+
+/*
+ * SEWABLE ARMOUR
+ */
+
+/obj/item/clothing/suit/roguetown/armor/manual/sewable
+	var/list/repair_items[] = list(
+		/obj/item/needle = 'sound/foley/sewflesh.ogg',
+		/obj/item/needle/thorn = 'sound/foley/sewflesh.ogg',
+		/obj/item/needle/bronze = 'sound/foley/sewflesh.ogg',
+		/obj/item/needle/pestra = 'sound/foley/sewflesh.ogg'
+	)
+
+/obj/item/clothing/suit/roguetown/armor/manual/sewable/get_mechanics_examine(mob/user)
+	. = ..()
+
+	for(var/repair_thing in repair_items)
+		var/obj/item/thing = new repair_thing
+		. += span_info("Repairable via [thing.name].")
+
+/obj/item/clothing/suit/roguetown/armor/manual/sewable/attackby(obj/item/I, mob/user, params)
+	if(user != loc)
+		return FALSE
+	if(obj_integrity == max_integrity)
+		to_chat(user, span_warning("My skin isn't wounded."))
+		return FALSE
+	if(!repair_check(user, I))
+		return FALSE
+
+	if(!do_after(user, 5 SECONDS, target = src))
+		return FALSE
+
+	armour_regen()
+
+	playsound(loc, repair_items[I.type], 100, TRUE)
+	return TRUE
+
+/obj/item/clothing/suit/roguetown/armor/manual/sewable/proc/repair_check(mob/user, obj/item/I)
+	if(!(I.type in repair_items))
+		return FALSE
+
+	if(istype(I, /obj/item/needle))
+		var/obj/item/needle/sew_needle = I
+		if(!sew_needle.stringamt)
+			to_chat(user, span_warning("[src] has no thread!"))
+			return FALSE
+
+	return TRUE
+
+
+/obj/item/clothing/suit/roguetown/armor/manual/sewable/confessor
+	name = "arbalist's skin"
+	desc = "Taut lyke the bow I draw."
+	armor = ARMOR_CLOTHING_GOOD
+	max_integrity = ARMOR_INT_CHEST_CIVILIAN
+	prevent_crits = list(BCLASS_CUT, BCLASS_BLUNT)
+	repair_items = list(
+		/obj/item/needle = 'sound/foley/sewflesh.ogg',
+		/obj/item/needle/thorn = 'sound/foley/sewflesh.ogg',
+		/obj/item/needle/bronze = 'sound/foley/sewflesh.ogg',
+		/obj/item/needle/pestra = 'sound/foley/sewflesh.ogg',
+		/obj/item/rogueweapon/surgery/cautery = 'sound/surgery/cautery1.ogg'
+	)
+
+/obj/item/clothing/suit/roguetown/armor/manual/sewable/repair_check(mob/user, obj/item/I)
+	. = ..()
+
+	if(!.)
+		return FALSE
+
+	if(istype(I, /obj/item/rogueweapon/surgery/cautery))
+		var/obj/item/rogueweapon/surgery/cautery/sew_cautery = I
+		if(!sew_cautery.heated)
+			to_chat(user, span_warning("[src] is not heated up!"))
+			return FALSE
+
+	return TRUE

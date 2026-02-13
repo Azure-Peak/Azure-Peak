@@ -433,6 +433,39 @@
 	demolition_mod = 2.5
 	walking_stick = TRUE
 
+/obj/item/rogueweapon/stoneaxe/battle/steppesman/chupa
+	name = "aavnic ćiupaga"
+	desc = "A steel axe of Aavnic make that combines a deadly weapon with a walking stick - hence its pointed end. It has a flat head that fits the hand comfortably, and it's usable for chopping and smashing. It can hook an opponent's weapon in a pinch. It carries the colours of Szöréndnížina."
+	possible_item_intents = list(/datum/intent/axe/cut/battle, /datum/intent/axe/cut/battle/lunge, /datum/intent/sword/disarm)
+	gripped_intents = list(/datum/intent/axe/cut/battle ,/datum/intent/axe/chop/battle, /datum/intent/mace/smash)
+	force = 22
+	force_wielded = 25
+	icon = 'icons/roguetown/weapons/special/freifechter.dmi'
+	icon_state = "ciupaga"
+	pixel_y = -10
+	pixel_x = 0
+	inhand_x_dimension = 64
+	inhand_y_dimension = 64
+	demolition_mod = 2
+
+/datum/intent/axe/cut/battle/lunge
+	name = "ćiupaga lunge"
+	desc = "Grip your ćiupaga by the tail-end of the handle and swing in a circular motion to reach further ahead. It will deal extra damage if perfectly positioned, otherwise you'll just hit them with the handle."
+	damfactor = 1.75
+	penfactor = 42
+	effective_range = 2
+	effective_range_type = EFF_RANGE_EXACT
+	sharpness_penalty = 2
+	blade_class = BCLASS_CHOP
+	reach = 2
+	swingdelay = 2
+	icon_state = "inchop"
+	attack_verb = list("lunges and chops", "lunges and hacks")
+	animname = "chop"
+	hitsound = list('sound/combat/hits/bladed/genchop (1).ogg', 'sound/combat/hits/bladed/genchop (2).ogg', 'sound/combat/hits/bladed/genchop (3).ogg')
+	clickcd = 14
+	item_d_type = "slash"
+
 /datum/intent/axe/cut/battle/greataxe
 	reach = 2
 

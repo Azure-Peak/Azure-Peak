@@ -1,0 +1,6 @@
+author: "nauticall"
+delete-after: True
+changes:
+  - rscadd: "Master/skeleton keys can now lock and unlock SILVERFACES and GOLDFACES."
+  - bugfix: "The Grand Duke can now make Priority Postings and also remove postings on the Notice Board."
+  - image: "Added a new sprite for the skeleton key."

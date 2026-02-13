@@ -180,93 +180,61 @@
 /mob/living/carbon/spirit/get_spirit()
 	return src
 
-/// Proc that will search inside a given atom for any corpses, and send the associated ghost to the lobby if possible
-/proc/pacify_coffin(atom/movable/coffin, mob/user, deep = TRUE, give_pq = PQ_GAIN_BURIAL)
+/// Proc that will search inside a given atom for any corpses, and return TRUE if it finds one.
+/proc/pacify_coffin(atom/movable/coffin, mob/user, deep = TRUE)
 	if(!coffin)
 		return FALSE
 	var/success = FALSE
+
 	if(isliving(coffin))
 		if(pacify_corpse(coffin, user))
 			success = TRUE
+
 	for(var/mob/living/corpse in coffin)
 		if(pacify_corpse(corpse, user))
 			success = TRUE
+
 	for(var/obj/item/bodypart/head/head in coffin)
 		if(!head.brainmob)
 			continue
 		if(pacify_corpse(head.brainmob, user))
 			success = TRUE
-	//if this is a deep search, we will also search the contents of the coffin to pacify (EXCEPT MOBS, SINCE WE HANDLED THOSE)
+
+	// If this is a deep search, we will also search the contents of the coffin to pacify
+	// (EXCEPT MOBS, SINCE WE HANDLED THOSE)
 	if(deep)
 		for(var/atom/movable/stuffing in coffin)
 			if(isliving(stuffing) || istype(stuffing, /obj/item/bodypart/head))
 				continue
-			if(pacify_coffin(stuffing, user, deep, give_pq = FALSE))
+			if(pacify_coffin(stuffing, user, deep))
 				success = TRUE
-	// Success is actually the ckey of the last attacker so we can prevent PQ farming from fragging people // DOESNT WORK "success" is not a ckey, just a bool for now
-	if(success && give_pq && user?.ckey && (user.ckey != success))
-		adjust_playerquality(give_pq, user.ckey)
+
 	return success
 
-/// Proc that sends the client associated with a given corpse to the lobby, if possible
-/proc/pacify_corpse(mob/living/corpse, mob/user, coin_pq = PQ_GAIN_BURIAL_COIN)
-	if((corpse.stat != DEAD) || !corpse.mind)
+/// Proc responsible for handling the logic for Necran coins, and for verifying that a corpse isn't still alive.
+/// Needs to exist to be called by pacify_coffin.
+/proc/pacify_corpse(mob/living/corpse, mob/user)
+	// Our quick-and-dirty check to make sure they're really dead.
+	if((corpse.stat != DEAD))
 		return FALSE
-	var/attacker_ckey = corpse.lastattackerckey || TRUE
+
 	if(ishuman(corpse))
 		var/mob/living/carbon/human/human_corpse = corpse
 		human_corpse.buried = TRUE
 		human_corpse.funeral = TRUE
 		if(istype(human_corpse.mouth, /obj/item/roguecoin) && !HAS_TRAIT(corpse, TRAIT_BURIED_COIN_GIVEN))
 			var/obj/item/roguecoin/coin = human_corpse.mouth
+
 			if(coin.quantity >= 1) // stuffing their mouth full of a fuck ton of coins wont do shit
 				ADD_TRAIT(human_corpse, TRAIT_BURIED_COIN_GIVEN, TRAIT_GENERIC)
+
 				for(var/obj/effect/landmark/underworld/coin_spawn in GLOB.landmarks_list)
 					var/turf/fallen = get_turf(coin_spawn)
 					fallen = locate(fallen.x + rand(-3, 3), fallen.y + rand(-3, 3), fallen.z)
 					new /obj/item/underworld/coin/notracking(fallen)
 					fallen.visible_message(span_warning("A coin falls from above!"))
-					if(coin_pq && user?.ckey && (user.ckey != attacker_ckey))
-						adjust_playerquality(coin_pq, user.ckey)
 					qdel(human_corpse.mouth)
 					human_corpse.update_inv_mouth()
-					break
-	corpse.mind.remove_antag_datum(/datum/antagonist/zombie)
-	var/mob/dead/observer/ghost
-	//Try to find a lost ghost if there is no client
-	if(!corpse.client)
-		ghost = corpse.get_ghost()
-		//Try to find underworld spirit, if there is no ghost
-		if(!ghost)
-			var/mob/living/carbon/spirit/spirit = corpse.get_spirit()
-			if(spirit)
-				ghost = spirit.ghostize(force_respawn = TRUE)
-				qdel(spirit)
-	else
-		ghost = corpse.ghostize(force_respawn = TRUE)
 
-	if(ghost)
-		var/user_acknowledgement = user ? user.real_name : "a mysterious force"
-		to_chat(ghost, span_rose("My soul finds peace buried in creation, thanks to [user_acknowledgement]."))
-		burial_rite_return_ghost_to_lobby(ghost)
-		return TRUE
-
-	return FALSE
-
-/proc/burial_rite_return_ghost_to_lobby(mob/dead/observer/ghost)
-	if(ghost.key)
-		GLOB.respawntimes[ghost.key] = world.time - RESPAWNTIME
-
-	log_game("[key_name(ghost)] returned to lobby from burial rites.")
-
-	if(!ghost.client)
-		log_game("[key_name(ghost)] had no client in game during burial rites.")
-
-	if(ghost.client)
-		ghost.client.screen.Cut()
-		ghost.client.screen += ghost.client.void
-		SSdroning.kill_rain(ghost.client)
-		SSdroning.kill_loop(ghost.client)
-		SSdroning.kill_droning(ghost.client)
-		ghost.remove_client_colour(/datum/client_colour/monochrome)
-	ghost.returntolobby()
+	// If we haven't returned by now, everything looks alright and we return TRUE.
+	return TRUE

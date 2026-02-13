@@ -1,0 +1,5 @@
+author: "WeNeedMorePhoron"
+delete-after: True
+changes:
+  - rscadd: "Enchanting Scroll is now 2x1"
+  - rscadd: "T5 Binding Shackles now costs a voidstone instead of a T5 Meld"

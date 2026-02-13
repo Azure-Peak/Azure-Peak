@@ -815,6 +815,14 @@
 				/obj/item/natural/fibers = 2)
 	craftdiff = 3
 
+/datum/crafting_recipe/roguetown/sewing/hgambeson/fencer
+	name = "fencing shirt"
+	category = "Gambesons"
+	result = /obj/item/clothing/suit/roguetown/shirt/freifechter
+	reqs = list(/obj/item/natural/cloth = 5,
+				/obj/item/natural/fibers = 2)
+	craftdiff = 4
+
 /datum/crafting_recipe/roguetown/sewing/chaperon
 	name = "chaperon hat"
 	category = "Hats"
@@ -1724,7 +1732,7 @@
 /datum/crafting_recipe/roguetown/sewing/tailor/hgambeson/fencer
 	name = "fencing shirt"
 	category = "Gambesons"
-	result = /obj/item/clothing/suit/roguetown/armor/gambeson/heavy/freifechter
+	result = /obj/item/clothing/suit/roguetown/shirt/freifechter
 	reqs = list(/obj/item/natural/cloth = 5,
 				/obj/item/natural/fibers = 2)
 	craftdiff = 4

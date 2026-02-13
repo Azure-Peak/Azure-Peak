@@ -58,7 +58,7 @@
 				l_hand = /obj/item/rogueweapon/sword/short/psy
 				r_hand = /obj/item/rogueweapon/scabbard/sword
 				H.adjust_skillrank_up_to(/datum/skill/combat/swords, 4, TRUE)
-		var/armors = list("Confessor - Slurbow, Leather Maillecoat", "Arbalist - Crossbow, Psydonic Chestplate")
+		var/armors = list("Confessor - Slurbow, Leather Maillecoat", "Arbalist - Crossbow, Psydonic Chestplate, Pushup Armour")
 		var/armor_choice = input(H, "Choose your ARCHETYPE.", "TAKE UP PSYDON'S DUTY.") as anything in armors
 		switch(armor_choice)
 			if("Confessor - Slurbow, Leather Maillecoat")
@@ -66,9 +66,10 @@
 				armor = /obj/item/clothing/suit/roguetown/armor/leather/heavy/coat/confessor
 				shirt = /obj/item/clothing/suit/roguetown/armor/gambeson/heavy/inq
 				backl = /obj/item/gun/ballistic/revolver/grenadelauncher/crossbow/slurbow
-			if("Arbalist - Crossbow, Psydonic Chestplate")
+			if("Arbalist - Crossbow, Psydonic Chestplate, Pushup Armour")
 				head = /obj/item/clothing/head/roguetown/headband/bloodied
 				armor = /obj/item/clothing/suit/roguetown/armor/plate/cuirass/fencer/psydon
+				shirt = /obj/item/clothing/suit/roguetown/armor/manual/sewable/confessor
 				backl = /obj/item/gun/ballistic/revolver/grenadelauncher/crossbow
 				REMOVE_TRAIT(H, TRAIT_DODGEEXPERT, TRAIT_GENERIC)
 				H.adjust_skillrank_up_to(/datum/skill/combat/crossbows, 5, TRUE)
@@ -91,7 +92,6 @@
 	backr = /obj/item/storage/backpack/rogue/satchel/otavan
 	belt = /obj/item/storage/belt/rogue/leather/knifebelt/black/psydon
 	beltr = /obj/item/storage/belt/rogue/pouch/coins/mid
-	beltl = /obj/item/rogueweapon/scabbard/sheath
 	pants = /obj/item/clothing/under/roguetown/heavy_leather_pants/otavan
 	shoes = /obj/item/clothing/shoes/roguetown/boots/psydonboots
 	mask = /obj/item/clothing/mask/rogue/facemask/steel/confessor
@@ -104,5 +104,6 @@
 		/obj/item/inqarticles/garrote = 1,
 		/obj/item/grapplinghook = 1,
 		/obj/item/paper/inqslip/arrival/ortho = 1,
-		/obj/item/rogueweapon/huntingknife/idagger/silver/psydagger = 1
+		/obj/item/rogueweapon/huntingknife/idagger/silver/psydagger = 1,
+		/obj/item/rogueweapon/scabbard/sheath = 1
 		)

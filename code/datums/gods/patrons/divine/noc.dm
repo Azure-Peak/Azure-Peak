@@ -8,7 +8,6 @@
 					/obj/effect/proc_holder/spell/invoked/noc_sight				= CLERIC_T0,
 					/obj/effect/proc_holder/spell/invoked/darkvision/miracle	= CLERIC_T0,
 					/obj/effect/proc_holder/spell/invoked/moondream             = CLERIC_T0,
-					/obj/effect/proc_holder/spell/targeted/touch/summonrogueweapon/nocgrasp    = CLERIC_T1, //do not want library genocide.
 					/obj/effect/proc_holder/spell/self/wise_moon                = CLERIC_T1,
 					/obj/effect/proc_holder/spell/self/moon_light     			= CLERIC_T1,
 					/obj/effect/proc_holder/spell/invoked/lesser_heal 			= CLERIC_T1,

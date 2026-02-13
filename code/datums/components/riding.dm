@@ -3,6 +3,7 @@
 	var/last_move_diagonal = FALSE
 	var/vehicle_move_delay = 4 //tick delay between movements, lower = faster, higher = slower
 	var/keytype
+	var/riding_xp_move_counter = 0 //Plays with the new EXP-obtaining mechanic, courtesy of PR #768 from Ophaq.
 
 	var/slowed = FALSE
 	var/slowvalue = 1
@@ -62,8 +63,19 @@
 	var/atom/movable/AM = parent
 	AM.set_glide_size(DELAY_TO_GLIDE_SIZE(vehicle_move_delay))
 	for(var/mob/M in AM.buckled_mobs)
+		if(!istype(M, /mob/living))
+			continue
+		var/mob/living/rider = M
 		ride_check(M)
 		M.set_glide_size(AM.glide_size)
+		if(rider.m_intent == MOVE_INTENT_RUN)
+			riding_xp_move_counter++
+			if(riding_xp_move_counter >= 5) 			 	// Determines how many steps are needed before Riding-type EXP is rewarded. In this case, you obtain EXP every time you travel five tiles while riding a mount.
+				var/xp_amt = rider.STAINT * 0.1 		 	// Scales the amount of Riding-type EXP that's rewarded, based on your character's INT. Same as every other skill.
+				rider.mind && rider.mind.add_sleep_experience(/datum/skill/misc/riding, xp_amt)
+				riding_xp_move_counter = 0
+		else
+			riding_xp_move_counter = 0					 	// Resets the counter if you're not running while riding.
 	handle_vehicle_offsets()
 	handle_vehicle_layer()
 

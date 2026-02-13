@@ -29,6 +29,28 @@
 /datum/intent/spear/thrust/militia
 	penfactor = 40
 
+/datum/intent/spear/thrust/pike		//EXPERIMENTAL
+	name = "pike thrust"
+	desc = "Thrust your pike forward from its furthest end to reach farther ahead than any spear ever could. Only effective at three paces."
+	damfactor = 1.15
+	reach = 3
+	effective_range = 3
+	clickcd = CLICK_CD_CHARGED + 1
+	swingdelay = 1.5
+
+/datum/intent/spear/thrust/pike/skewer		//EXPERIMENTAL
+	name = "pike lance"
+	desc = "Grab your pike from a closer end and charge forward with your whole body for devastating damage."
+	clickcd = CLICK_CD_HEAVY + 4
+	swingdelay = 6
+	damfactor = 1.5
+	penfactor = 35
+	max_intent_damage = 54
+	reach = 2
+	effective_range = 2
+	icon_state = "inlance"
+	attack_verb = list("lances", "runs through", "skewers")
+
 /datum/intent/spear/bash
 	name = "bash"
 	blade_class = BCLASS_BLUNT
@@ -1505,7 +1527,24 @@
 /obj/item/rogueweapon/spear/boar/frei
 	name = "Aavnic lándzsa"
 	desc = "A regional earspoon lance with a carved handle, adorned with the colours of the Freifechters. These are smithed by the legendary armourers of Vyšvou and given to distinguished lancers upon their graduation."
-	icon_state = "praguespear"
+	icon_state = "cityspear"
+	icon = 'icons/roguetown/weapons/special/freifechter.dmi'
+	max_blade_int = 300	//You're gonna parry a lot. You need it.
+	max_integrity = 235
+
+/obj/item/rogueweapon/spear/boar/frei/pike
+	name = "banner of Szöréndnížina"
+	desc = "A steel pike with a white and red banner made to spend the time flowing proudly in the wind. A city founded by the free. A State made from the disciplined. Snowy peaks surround her strong walls, her gates make any attack a suicide. Fight, Szöréndnížina. Fight to lyve in a world that rejects you."
+	icon_state = "citybanner"
+	force = 18
+	force_wielded = 33
+	possible_item_intents = list(/datum/intent/dagger/sucker_punch, /datum/intent/sword/bash)
+	gripped_intents = list(/datum/intent/spear/thrust/pike, /datum/intent/spear/thrust/pike/skewer)
+
+/obj/item/rogueweapon/spear/boar/frei/pike/reformist
+	name = "banner of Psydonic Reformism"
+	desc = "A steel pike with an altered Psydonic cross representing the order of Primo Reformatio, crossed by a black stripe that symbolizes mourning. Mammukhus sum, qui castellum onere fero. Numquam genua flecto aut gradum amitto."
+	icon_state = "reformistbanner"
 
 /obj/item/rogueweapon/spear/lance
 	name = "lance"

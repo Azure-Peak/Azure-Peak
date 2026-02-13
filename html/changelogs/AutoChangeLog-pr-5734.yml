@@ -1,0 +1,5 @@
+author: "FreeStylaLT"
+delete-after: True
+changes:
+  - bugfix: "The Baothan trait of no overdose is now given to T1 clerics (Any dedicated miracle class)"
+  - bugfix: "Lover's Ruin is now a T1, fixing the oddity of drinking something that poisoned you."

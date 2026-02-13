@@ -178,7 +178,7 @@
 /obj/structure/roguemachine/goldface/attackby(obj/item/P, mob/user, params)
 	if(istype(P, /obj/item/roguekey))
 		var/obj/item/roguekey/K = P
-		if(K.lockid == lockid)
+		if(K.lockid == lockid || istype(K, /obj/item/roguekey/lord) || istype(K, /obj/item/roguekey/skeleton))
 			locked = !locked
 			playsound(loc, 'sound/misc/gold_misc.ogg', 100, FALSE, -1)
 			update_icon()
@@ -189,7 +189,7 @@
 	else if(istype(P, /obj/item/storage/keyring))
 		var/right_key = FALSE
 		for(var/obj/item/roguekey/KE in P.contents)
-			if(KE.lockid == lockid)
+			if(KE.lockid == lockid || istype(KE, /obj/item/roguekey/lord) || istype(KE, /obj/item/roguekey/skeleton))
 				right_key = TRUE
 				locked = !locked
 				playsound(loc, 'sound/misc/gold_misc.ogg', 100, FALSE, -1)

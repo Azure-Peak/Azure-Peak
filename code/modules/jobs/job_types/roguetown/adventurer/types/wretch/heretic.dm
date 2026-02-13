@@ -126,7 +126,7 @@
 			"Slitted Kettle" = /obj/item/clothing/head/roguetown/helmet/heavy/knight/skettle,
 			"None"
 		)
-	
+
 	switch(H.patron?.type)
 		if(/datum/patron/inhumen/zizo)
 			H.cmode_music = 'sound/music/combat_heretic.ogg'
@@ -144,6 +144,7 @@
 			H.equip_to_slot_or_del(new /obj/item/clothing/neck/roguetown/psicross/astrata, SLOT_RING, TRUE)
 			H.equip_to_slot_or_del(new /obj/item/clothing/cloak/templar/astratan, SLOT_CLOAK, TRUE)
 			H.adjust_skillrank(/datum/skill/magic/holy, 1, TRUE)
+			H.mind?.AddSpell(new /obj/effect/proc_holder/spell/targeted/touch/summonrogueweapon/astratagrasp)
 			helmets += list("Old Astratan Helm" = /obj/item/clothing/head/roguetown/helmet/heavy/astratahelm)
 		if(/datum/patron/divine/abyssor)
 			H.equip_to_slot_or_del(new /obj/item/clothing/neck/roguetown/psicross/abyssor, SLOT_RING, TRUE)
@@ -190,10 +191,14 @@
 			H.adjust_skillrank(/datum/skill/misc/reading, 3, TRUE) // Really good at reading... does this really do anything? No. BUT it's soulful.
 			H.adjust_skillrank(/datum/skill/craft/alchemy, 1, TRUE)
 			H.adjust_skillrank(/datum/skill/magic/arcane, 1, TRUE)
+			H.adjust_skillrank(/datum/skill/magic/holy, 1, TRUE)
+			H.mind?.AddSpell(new /obj/effect/proc_holder/spell/targeted/touch/summonrogueweapon/nocgrasp)
 		if(/datum/patron/divine/ravox)
 			H.equip_to_slot_or_del(new /obj/item/clothing/neck/roguetown/psicross/ravox, SLOT_RING, TRUE)
 			H.equip_to_slot_or_del(new /obj/item/clothing/cloak/templar/ravox, SLOT_CLOAK, TRUE)
 			H.adjust_skillrank(/datum/skill/misc/athletics, 1, TRUE)
+			H.adjust_skillrank(/datum/skill/magic/holy, 1, TRUE)
+			H.mind?.AddSpell(new /obj/effect/proc_holder/spell/targeted/touch/summonrogueweapon/ravoxgrasp)
 		if(/datum/patron/divine/malum)
 			H.equip_to_slot_or_del(new /obj/item/clothing/neck/roguetown/psicross/malum, SLOT_RING, TRUE)
 			H.equip_to_slot_or_del(new /obj/item/clothing/cloak/templar/malumite, SLOT_CLOAK, TRUE)
@@ -305,7 +310,7 @@
 				else
 					l_hand = /obj/item/rogueweapon/sword/rapier
 				beltl = /obj/item/rogueweapon/scabbard/sword
-				
+
 			if("Dagger")
 				H.adjust_skillrank_up_to(/datum/skill/combat/knives, SKILL_LEVEL_EXPERT, TRUE)
 				beltl = /obj/item/rogueweapon/scabbard/sheath
@@ -355,6 +360,7 @@
 		if(/datum/patron/divine/astrata)
 			H.equip_to_slot_or_del(new /obj/item/clothing/neck/roguetown/psicross/astrata, SLOT_RING, TRUE)
 			H.adjust_skillrank(/datum/skill/magic/holy, 1, TRUE)
+			H.mind?.AddSpell(new /obj/item/melee/touch_attack/rogueweapon/astratagrasp)
 		if(/datum/patron/divine/abyssor)
 			H.equip_to_slot_or_del(new /obj/item/clothing/neck/roguetown/psicross/abyssor, SLOT_RING, TRUE)
 			H.adjust_skillrank(/datum/skill/labor/fishing, 2, TRUE)
@@ -441,7 +447,7 @@
 	if(!ishuman(target))
 		revert_cast()
 		return FALSE
-	
+
 	if(target.cmode)
 		revert_cast()
 		return FALSE
@@ -492,17 +498,17 @@
 	var/saved_level = CLERIC_T0
 	var/saved_max_progression = CLERIC_T1
 	var/saved_devotion_gain = CLERIC_REGEN_MINOR
-	
+
 	if(target.devotion)
 		saved_level = target.devotion.level
 		saved_devotion_gain = target.devotion.passive_devotion_gain
 		saved_max_progression = target.devotion.max_progression
-		
+
 		// Remove all granted spells
 		if(target.patron != user.patron)
 			for(var/obj/effect/proc_holder/spell/S in target.devotion.granted_spells)
 				target.mind.RemoveSpell(S)
-		
+
 		target.devotion.Destroy()
 
 	// Change patron
@@ -520,7 +526,7 @@
 	ADD_TRAIT(target, TRAIT_ZURCH, TRAIT_GENERIC)
 	to_chat(user, span_danger("You've converted [target.name] to [user.patron.name]!"))
 	to_chat(target, span_danger("You feel ancient powers lifting divine burdens from your soul..."))
-	
+
 	return TRUE
 
 /mob/living/carbon/human/proc/revelations()
@@ -546,7 +552,7 @@
 	for(var/obj/structure/fluff/psycross/zizocross/N in oview(5, src))
 		found = N
 	if(!found)
-		to_chat(src, span_warning("I need a large profane shrine structure nearby to extract this divination!"))	
+		to_chat(src, span_warning("I need a large profane shrine structure nearby to extract this divination!"))
 		return
 	if(!H.stat)
 		var/static/list/faith_lines = list(

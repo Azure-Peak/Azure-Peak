@@ -1,4 +1,3 @@
-
 /datum/sex_action/blowjob
 	name = "Suck them off"
 	require_grab = FALSE
@@ -6,6 +5,13 @@
 	target_priority = 100
 	intensity = 4
 	flipped = TRUE
+
+/datum/sex_action/sex/other/boobjob/shows_on_menu(mob/living/carbon/human/user, mob/living/carbon/human/target)
+	if(user == target)
+		return FALSE
+	if(!target.getorganslot(ORGAN_SLOT_PENIS))
+		return
+	return TRUE
 
 /datum/sex_action/blowjob/can_perform(mob/living/carbon/human/user, mob/living/carbon/human/target)
 	. = ..()
@@ -31,12 +37,13 @@
 	user.visible_message(span_warning("[user] starts sucking [target]'s cock..."))
 
 /datum/sex_action/blowjob/on_perform(mob/living/carbon/human/user, mob/living/carbon/human/target)
+	var/datum/sex_session/sex_session = get_sex_session(user, target)
+	user.visible_message(sex_session.spanify_force("[user] [sex_session.get_generic_force_adjective()] sucks [target]'s cock..."))
 	user.make_sucking_noise()
 	// you want to know how i got these scars?
 	if(istype(user.head, /obj/item/clothing/head/roguetown/jester))
 		playsound(user, SFX_JINGLE_BELLS, 30, TRUE, -2, ignore_walls = FALSE)
 
-	var/datum/sex_session/sex_session = get_sex_session(user, target)
 	do_thrust_animate(user, target, sex_session)
 	sex_session.perform_sex_action(target, 2, 0, TRUE)
 
@@ -49,5 +56,5 @@
 	sex_locks |= new /datum/sex_session_lock(user, BODY_ZONE_PRECISE_MOUTH)
 
 /datum/sex_action/blowjob/handle_climax_message(mob/living/carbon/human/user, mob/living/carbon/human/target)
-	target.visible_message(span_love("[target] cums into [user]'s mouth!"))
+	user.visible_message(span_love("[user] cums into [target]'s mouth!"))
 	return "into"

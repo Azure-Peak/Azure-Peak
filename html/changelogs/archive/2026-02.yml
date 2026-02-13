@@ -446,3 +446,20 @@
   - balance: all wretches except lickers get repair kits now. woohoo!
   zRainbowcat:
   - balance: replaced outdated intent/knuckles/smash with up to date mace/smash
+2026-02-13:
+  Lamasmaster:
+  - bugfix: Strudel crafting
+  Ryan180602:
+  - bugfix: handcuffing no longer prevents kicks.
+  WeNeedMorePhoron:
+  - bugfix: Hoob / Hijabs etc. no longer make you bald.
+  - bugfix: Spells has been moved back to a processor for cooldown. Spells that did
+      not respect cooldown should be fixed now.
+  - rscadd: Ported Gemcarving from Vanderlin. Sprites & Original feature 7erracota.
+      Port done by SylvinSeik.
+  - balance: Masonry is now gated to Apprentice. It can be ungated by Expert Forgehand
+      or Expert Homesteader.
+  bearrrrrrrr:
+  - qol: dual wielding from rng to stack
+  hubertjones:
+  - config: 2 new ckeys to bamboo hat donator item

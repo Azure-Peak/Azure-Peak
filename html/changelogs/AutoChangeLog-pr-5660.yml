@@ -1,0 +1,4 @@
+author: "bearrrrrrrr"
+delete-after: True
+changes:
+  - balance: "revert astrata miracles back to their original, non-one-shot behavior; adds a fire-stack consuming mechanic to the astrata grasp and moves it to heretic"

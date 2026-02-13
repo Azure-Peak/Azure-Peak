@@ -1,0 +1,4 @@
+author: "Ollanius"
+delete-after: True
+changes:
+  - rscadd: "The 'Riding' skill can now be trained by riding a mount while RUN is active. This can be trained up to Apprentice, or - if your character's of nobility - Journeyman."
