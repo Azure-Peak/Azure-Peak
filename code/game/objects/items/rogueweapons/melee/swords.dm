@@ -2477,7 +2477,7 @@
 /obj/item/rogueweapon/sword/long/elvish
 	name = "elvish longsword"
 	desc = "A mighty Elvish longsword, well-balanced and efficient, favored for both offense and defense."
-	icon = 'icons/roguetown/weapons/64.dmi'
+	icon = 'icons/roguetown/weapons/swords64.dmi'
 	icon_state = "elflongsword"
 	sellprice = 50
 	sheathe_icon = "elfsword"
