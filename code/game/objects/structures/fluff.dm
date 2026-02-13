@@ -741,7 +741,7 @@
 	if(!user.is_literate())
 		. += "I have no idea what it says."
 	else
-		. += "It says \"IMPORTS\""
+		. += "It says: \"[wrotesign]\"""
 
 /obj/structure/fluff/sellsign
 	icon_state = "signwrote"
@@ -753,7 +753,7 @@
 	if(!user.is_literate())
 		. += "I have no idea what it says."
 	else
-		. += "It says \"EXPORTS\""
+		. += "It says: \"[wrotesign]\""
 
 
 /obj/structure/fluff/customsign
