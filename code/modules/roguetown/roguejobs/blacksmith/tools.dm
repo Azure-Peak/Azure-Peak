@@ -2,7 +2,7 @@
 /obj/item/rogueweapon/hammer
 	force = 21
 	possible_item_intents = list(/datum/intent/mace/strike, /datum/intent/mace/smash)
-	name = "template hammer"
+	name = "hammer"
 	desc = "If you see this - scream, cry, piss, run, shit yourself, then report it to a dev. Shouldn't be here."
 	icon_state = "hammer"
 	icon = 'icons/roguetown/weapons/tools.dmi'

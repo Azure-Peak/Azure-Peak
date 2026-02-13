@@ -131,6 +131,10 @@
 		return
 
 	if(attacking_shovel.heldclod)
+		if(stage > 2)
+			visible_message(span_notice("[user] begins filling [src]."))
+			if(!do_after(user, 3 SECONDS, TRUE, src, TRUE))
+				return
 		playsound(loc,'sound/items/empty_shovel.ogg', 100, TRUE)
 		QDEL_NULL(attacking_shovel.heldclod)
 		if(stage == 3) //close grave
@@ -167,15 +171,6 @@
 					playsound(mastert,'sound/items/dig_shovel.ogg', 100, TRUE)
 					mastert.ChangeTurf(/turf/open/transparent/openspace)
 					return
-//					for(var/D in GLOB.cardinals)
-//						var/turf/T = get_step(mastert, D)
-//						if(T)
-//							if(istype(T, /turf/open/water))
-//								attacking_shovel.heldclod = new(attacking_shovel)
-//								attacking_shovel.update_icon()
-//								playsound(mastert,'sound/items/dig_shovel.ogg', 100, TRUE)
-//								mastert.ChangeTurf(T.type, flags = CHANGETURF_INHERIT_AIR)
-//								return
 			to_chat(user, span_warning("I can't dig myself any deeper."))
 			return
 		var/used_str = 10

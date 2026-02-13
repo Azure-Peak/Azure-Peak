@@ -5,6 +5,8 @@
 // For now. Steel vs Iron will be a difference of 75% integrity without rating differences.
 // So Iron will actually be pretty decent and there shouldn't be a compulsive need to upgrade.
 
+#define ARMOR_INTEG_FAILURE 0.1	//Percentage of damage the armor breaks at. 0.1 = 10%
+
 // Helmet
 #define ARMOR_INT_HELMET_ANTAG 600
 #define ARMOR_INT_HELMET_BLACKSTEEL 500

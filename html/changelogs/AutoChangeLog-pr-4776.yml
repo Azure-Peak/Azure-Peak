@@ -1,0 +1,5 @@
+author: "WeNeedMorePhoron"
+delete-after: True
+changes:
+  - rscadd: "Ported Gemcarving from Vanderlin. Sprites & Original feature 7erracota. Port done by SylvinSeik."
+  - balance: "Masonry is now gated to Apprentice. It can be ungated by Expert Forgehand or Expert Homesteader."

@@ -2,7 +2,7 @@
 
 /datum/intent/swing/sling
 	chargetime = 1 //used for edge cases only, /datum/intent/shoot/sling/get_chargetime handles the actual number
-	chargedrain = 2
+	chargedrain = 1.5
 	charging_slowdown = 3
 
 /datum/intent/swing/sling/can_charge(atom/clicked_object)
@@ -32,7 +32,7 @@
 
 /datum/intent/arc/sling
 	chargetime = 1
-	chargedrain = 2
+	chargedrain = 1.5
 	charging_slowdown = 3
 
 /datum/intent/arc/sling/can_charge(atom/clicked_object)

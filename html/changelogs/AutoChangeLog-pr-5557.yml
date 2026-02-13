@@ -1,7 +1,0 @@
-author: "nauticall"
-delete-after: True
-changes:
-  - rscadd: "Added taxation to the Grand Contract Ledger and HEADEATER."
-  - balance: "Upped reward amounts of the above to prevent people from simply being paid less."
-  - rscadd: "Added interest, payable to people with MEISTER accounts at the start of each day."
-  - qol: "Added extra logging to the nerve master for things like interest and new taxation methods."

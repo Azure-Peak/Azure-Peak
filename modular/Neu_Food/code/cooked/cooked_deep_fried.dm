@@ -48,3 +48,9 @@
 	cooked_type = null
 	eat_effect = /datum/status_effect/buff/greatsnackbuff
 	rotprocess = SHELFLIFE_DECENT
+
+/obj/item/reagent_containers/food/snacks/rogue/meat/nitzel/wiener
+	name = "wiener nitzel"
+	desc = "A deep-fried wiener, coated in toastcrumbs and ready to eat."
+	icon_state = "wienernitzel"
+	tastes = list("crunchy toastcrumbs" = 1, "tender wiener" = 1)

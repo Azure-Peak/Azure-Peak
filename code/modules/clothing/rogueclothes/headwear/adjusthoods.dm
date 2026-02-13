@@ -320,7 +320,7 @@
 	body_parts_covered = NECK | HEAD | HAIR
 	slot_flags = ITEM_SLOT_HEAD|ITEM_SLOT_MASK
 	flags_inv = HIDEEARS|HIDEFACE|HIDEHAIR|HIDEFACIALHAIR
-	prevent_crits = PREVENT_CRITS_NONE
+	prevent_crits = PREVENT_CRITS_MOST
 	armor = ARMOR_SPELLSINGER
 	dynamic_hair_suffix = ""
 	edelay_type = 1

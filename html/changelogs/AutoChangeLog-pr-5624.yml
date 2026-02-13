@@ -1,4 +1,0 @@
-author: "WeNeedMorePhoron"
-delete-after: True
-changes:
-  - rscadd: "The statpanel now display a canonical date based on a 336 days, 12 months year that repeats every 4 years, with canonical date calculated from rounds elapsed since server start. Each round is a week."

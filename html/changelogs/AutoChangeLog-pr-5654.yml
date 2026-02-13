@@ -1,5 +1,0 @@
-author: "Ryan180602"
-delete-after: True
-changes:
-  - bugfix: "mob_lighting not cleaning up after halfcasts."
-  - bugfix: "potentially fix MMBspam casts."

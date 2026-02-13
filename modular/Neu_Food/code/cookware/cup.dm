@@ -284,3 +284,122 @@
 	sellprice = 12
 	force = 5
 	throwforce = 10
+
+/obj/item/reagent_containers/glass/cup/carved
+	name = "carved cup"
+	desc = "You shouldn't be seeing this."
+	dropshrink = 1
+	icon_state = "agoblet"
+	sellprice = 0
+
+/obj/item/reagent_containers/glass/cup/carved/jade
+	name = "jade cup"
+	desc = "A simple cup carved out of jade."
+	dropshrink = 1
+	icon_state = "cup_jade"
+	sellprice = 55
+
+/obj/item/reagent_containers/glass/cup/carved/turq
+	name = "cerulite cup"
+	desc = "A simple cup carved out of cerulite."
+	dropshrink = 1
+	icon_state = "cup_turq"
+	sellprice = 80
+
+/obj/item/reagent_containers/glass/cup/carved/amber
+	name = "amber cup"
+	desc = "A simple cup carved out of amber."
+	dropshrink = 1
+	icon_state = "cup_amber"
+	sellprice = 55
+
+/obj/item/reagent_containers/glass/cup/carved/coral
+	name = "heartstone cup"
+	desc = "A simple cup carved out of heartstone."
+	dropshrink = 1
+	icon_state = "cup_coral"
+	sellprice = 65
+
+/obj/item/reagent_containers/glass/cup/carved/onyxa
+	name = "onyxa cup"
+	desc = "A simple cup carved out of onyxa."
+	dropshrink = 1
+	icon_state = "cup_onyxa"
+	sellprice = 35
+
+/obj/item/reagent_containers/glass/cup/carved/shell
+	name = "shell cup"
+	desc = "A simple cup carved out of shell."
+	dropshrink = 1
+	icon_state = "cup_shell"
+	sellprice = 15
+
+/obj/item/reagent_containers/glass/cup/carved/opal
+	name = "opal cup"
+	desc = "A simple cup carved out of opal."
+	dropshrink = 1
+	icon_state = "cup_opal"
+	sellprice = 85
+
+/obj/item/reagent_containers/glass/cup/carved/rose
+	name = "rosestone cup"
+	desc = "A simple cup carved out of rosestone."
+	dropshrink = 1
+	icon_state = "cup_rose"
+	sellprice = 20
+
+/obj/item/reagent_containers/glass/cup/carved/jadefancy
+	name = "fancy jade cup"
+	desc = "A fancy cup carved out of jade."
+	dropshrink = 1
+	icon_state = "fancycup_jade"
+	sellprice = 65
+
+/obj/item/reagent_containers/glass/cup/carved/turqfancy
+	name = "fancy cerulite cup"
+	desc = "A fancy cup carved out of cerulite."
+	dropshrink = 1
+	icon_state = "fancycup_turq"
+	sellprice = 90
+
+/obj/item/reagent_containers/glass/cup/carved/opalfancy
+	name = "fancy opal cup"
+	desc = "A fancy cup carved out of opal."
+	dropshrink = 1
+	icon_state = "fancycup_opal"
+	sellprice = 95
+
+/obj/item/reagent_containers/glass/cup/carved/coralfancy
+	name = "fancy heartstone cup"
+	desc = "A fancy cup carved out of heartstone."
+	dropshrink = 1
+	icon_state = "fancycup_coral"
+	sellprice = 75
+
+/obj/item/reagent_containers/glass/cup/carved/amberfancy
+	name = "fancy amber cup"
+	desc = "A fancy cup carved out of amber."
+	dropshrink = 1
+	icon_state = "fancycup_amber"
+	sellprice = 65
+
+/obj/item/reagent_containers/glass/cup/carved/shellfancy
+	name = "fancy shell cup"
+	desc = "A fancy cup carved out of shell."
+	dropshrink = 1
+	icon_state = "fancycup_shell"
+	sellprice = 25
+
+/obj/item/reagent_containers/glass/cup/carved/rosefancy
+	name = "fancy rosestone cup"
+	desc = "A fancy cup carved out of rosestone."
+	dropshrink = 1
+	icon_state = "fancycup_rose"
+	sellprice = 30
+
+/obj/item/reagent_containers/glass/cup/carved/onyxafancy
+	name = "fancy onyxa cup"
+	desc = "A fancy cup carved out of onyxa."
+	dropshrink = 1
+	icon_state = "fancycup_onyxa"
+	sellprice = 45

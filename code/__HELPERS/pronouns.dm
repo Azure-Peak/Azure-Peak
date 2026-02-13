@@ -151,6 +151,8 @@
 				. = "they"
 			if (IT_ITS)
 				. = "it"
+			if (IT_ITS_M)
+				. = "it"
 	// LETHALSTONE EDIT END
 	if(capitalized)
 		. = capitalize(.)
@@ -187,6 +189,8 @@
 				. = "their"
 			if (IT_ITS)
 				. = "its"
+			if (IT_ITS_M)
+				. = "it"
 	// LETHALSTONE EDIT END
 	if(capitalized)
 		. = capitalize(.)
@@ -221,6 +225,8 @@
 			if (THEY_THEM_F)
 				. = "them"
 			if (IT_ITS)
+				. = "it"
+			if (IT_ITS_M)
 				. = "it"
 	// LETHALSTONE EDIT END
 	if(capitalized)

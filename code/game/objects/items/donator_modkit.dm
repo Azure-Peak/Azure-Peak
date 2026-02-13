@@ -168,6 +168,15 @@
 	target_items = list(/obj/item/clothing/head/roguetown/helmet/heavy/psydonhelm)
 	result_item = /obj/item/clothing/head/roguetown/helmet/heavy/psydonhelm/ryan
 
+//Dakken12 - Armet/Hounskull
+/obj/item/enchantingkit/dakken_zizhelm
+	name = "'armoured avantyne barbute' morphing elixir"
+	target_items = list(
+		/obj/item/clothing/head/roguetown/helmet/heavy/knight/armet, 
+		/obj/item/clothing/head/roguetown/helmet/bascinet/pigface/hounskull
+	)
+	result_item = /obj/item/clothing/head/roguetown/helmet/bascinet/pigface/hounskull/dakken
+
 
 /////////////////////////////
 // ! Triumph-Exc. Kits !   //

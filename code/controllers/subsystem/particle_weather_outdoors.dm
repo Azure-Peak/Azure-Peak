@@ -143,9 +143,6 @@ SUBSYSTEM_DEF(outdoor_effects)
 
 /* set sunlight color + add weather effect to clients */
 /datum/controller/subsystem/outdoor_effects/fire(resumed, init_tick_checks)
-	if(!GLOB.SUNLIGHT_QUEUE_WORK.len && !GLOB.SUNLIGHT_QUEUE_UPDATE.len && !GLOB.SUNLIGHT_QUEUE_CORNER.len)
-		return
-
 	MC_SPLIT_TICK_INIT(3)
 	if(!init_tick_checks)
 		MC_SPLIT_TICK

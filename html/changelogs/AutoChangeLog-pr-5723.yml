@@ -1,0 +1,4 @@
+author: "WeNeedMorePhoron"
+delete-after: True
+changes:
+  - bugfix: "Spells has been moved back to a processor for cooldown. Spells that did not respect cooldown should be fixed now."

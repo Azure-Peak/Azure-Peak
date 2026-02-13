@@ -323,3 +323,126 @@
   dopamiin0:
   - bugfix: The Kabuto and Jingasa now properly hide the user's hair. The latter also
       now properly hides the user's ears.
+2026-02-09:
+  Aisu9:
+  - rscadd: 'New adventurer class: The Mystic, a Holy/Arcyne Hybrid caster with 4
+      specialisations'
+  Antoonij:
+  - bugfix: cdr on /self spells
+  FreeStylaLT:
+  - balance: Specials no longer use progress bars, they immobilize and apply a clickcd
+      instead.
+  - refactor: Changed the integrity damage noises.
+  - bugfix: Fixed pickpocketing not respecting adjacency.
+  - bugfix: Fixed cuffing not respecting adjacency.
+  Lamasmaster:
+  - balance: Coat of Plates
+  - refactor: Pathing on Brigandine and Splinted arm/leg pieces
+  Pink-MB:
+  - rscadd: Astratan Light sword T0
+  - rscdel: Ignition
+  Randall:
+  - rscadd: Selecting something in the loadout now prints the description along with
+      the name.
+  Ryan180602:
+  - code_imp: Butler -> Footman.
+  - code_imp: Chief Butler -> Butler.
+  - code_imp: Wandering Maid -> Wandering Servant (with Maid/Butler choices).
+  - bugfix: AddSpell no longer adds in duplicates.
+  - balance: Rebalanced/Restatted/Rekitted a lot of Heartfelt roles to be lesser.
+  - code_imp: Made Heartfelt be a 'state in disaster' with 'potentially unfaithful
+      actors' already in play. Use it to make ascendant retinue members or something.
+  - bugfix: Prevents assassins from getting meisters.
+  - bugfix: mob_lighting not cleaning up after halfcasts.
+  - bugfix: potentially fix MMBspam casts.
+  SirSwagmeyer:
+  - rscadd: Injected extra thuggishness into Towner Thug
+  WeNeedMorePhoron:
+  - bugfix: Removed a parent loadout datum thing in the loadout
+  - rscadd: TGUI Interface added for HERMES, accessible on right click. It can load
+      multiple coins, and you can conveniently send letters without an existing piece
+      of paper again now.
+  - rscadd: Ported Castifico Collar from SR to replace the facemask when you get chaired
+      in the CASTIFICO. Also added mechanics examination text to LIBERTAS, EXICIDIUM,
+      CASTIFICO and the collar itself.
+  - rscadd: The statpanel now display a canonical date based on a 336 days, 12 months
+      year that repeats every 4 years, with canonical date calculated from rounds
+      elapsed since server start. Each round is a week.
+  bearrrrrrrr:
+  - balance: stygian higher CD, less simplemob dmg, less stam cost
+  nauticall:
+  - rscadd: Added taxation to the Grand Contract Ledger and HEADEATER.
+  - balance: Upped reward amounts of the above to prevent people from simply being
+      paid less.
+  - rscadd: Added interest, payable to people with MEISTER accounts at the start of
+      each day.
+  - qol: Added extra logging to the nerve master for things like interest and new
+      taxation methods.
+  saltprjak:
+  - balance: Giant Virtue now grants 1 CON, charging doors deals less damage.
+2026-02-10:
+  Antoonij:
+  - bugfix: Sundering Lightning cd
+  Baneuus:
+  - rscadd: You're no longer able to summon creatures while at Ravox's arena.
+  - rscadd: Dendorites no longer able to transform while at Ravox's arena.
+  - rscadd: Necrites no longer able to leave through the Door while at Ravox's arena.
+  NewyearnewmeUwu:
+  - bugfix: prosthetics now render properly
+  Ryan180602:
+  - bugfix: lets filling pits have a 3s delay.
+  - code_imp: seperate it/its into masc-fem
+  WeNeedMorePhoron:
+  - balance: Adventurer & Pilgrimage wave weight reverted back to 100 with approximately
+      20% chance of rolling each wave.
+2026-02-11:
+  Clem-The-Duck:
+  - bugfix: Fixes forlorn getting splinted leggings instead of brig chausses
+  Lamasmaster:
+  - balance: Antag Blacklist now includes Knight and Veteran
+  - balance: Sling stamina drain
+  Ollanius:
+  - bugfix: Restores missing scabbard and sheath sprites.
+  - rscadd: Adds new scabbard and sheath sprites for preexisting weapons.
+  - rscadd: Adds the sword-specific scabbard sprites from the Freifechter update,
+      in order to reduce the chance of a severe merge conflict.
+  - code_imp: Reorganized the scabbard.dmi file. It should be a little more streamlined,
+      now. Supplemental instructions should help streamline the process of making
+      new scabbard-and-sheath sprites.
+  Ryan180602:
+  - rscadd: donor item for dakken12.
+  - bugfix: Fix pronouns being fucked.
+  - bugfix: Removes diagnosis' cooldown.
+  - code_imp: small holes are filled instantly.
+  WeNeedMorePhoron:
+  - rscadd: Template hammer is now named hammer to reduce confusion when it is referred
+      to by name in recipes
+  - bugfix: Probably fixed the daylight cycle breaking
+2026-02-12:
+  Baneuus:
+  - balance: Estoc now cuts instead of chops.
+  FreeStylaLT:
+  - bugfix: Fixed Scrying not notifying the target properly.
+  - balance: Weak intent now reduces damage by a whole lot more.
+  - balance: Increased all armor integrity slightly.
+  - bugfix: Astrata Sword no longer smelts into anything.
+  - bugfix: Astrata Sword now gets deleted upon being dropped (or sheathed I think)
+  Lamasmaster:
+  - rscadd: More grenzel recipes
+  - rscdel: Duplicate recipes
+  Ollanius:
+  - bugfix: Pickaxes function as intended, once again. The better your Mining skill
+      is (and the more Strength you have), the less hits are needed to bust down stone.
+  - rscadd: Blacksteel Pickaxes now have a 'masterful pick' intent when two-handed.
+      Dazzle your friends in the mines!
+  - balance: Blacksteel Pickaxes now deal 25 (from 20) damage when one-handed, and
+      32 (from 30) damage when two-handed.
+  Ryan180602:
+  - balance: Confessors get blessed dagger guaranteed.
+  - balance: Confessor hood/headband gives critres like every other clothing item.
+  - balance: Psydonite Fencer Cuirass has +20 integrity.
+  - balance: Add PsyShortsword to loadout choice.
+  mumblemancer:
+  - balance: all wretches except lickers get repair kits now. woohoo!
+  zRainbowcat:
+  - balance: replaced outdated intent/knuckles/smash with up to date mace/smash

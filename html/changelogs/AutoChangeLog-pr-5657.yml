@@ -1,4 +1,0 @@
-author: "Randall"
-delete-after: True
-changes:
-  - rscadd: "Selecting something in the loadout now prints the description along with the name."

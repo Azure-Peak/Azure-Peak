@@ -112,6 +112,11 @@
 	var/turf/T = get_turf(targets[1])
 	if(!isopenturf(T))
 		return FALSE
+	
+	if(istype(get_area(user), /area/rogue/indoors/ravoxarena))
+		to_chat(user, span_userdanger("I tried to escape, but something rebukes me! There's no escape until the end of the challenge!"))
+		revert_cast()
+		return FALSE
 
 	if(locate(/obj/structure/deaths_door_portal) in T)
 		to_chat(user, span_warning("A gate already stands here."))

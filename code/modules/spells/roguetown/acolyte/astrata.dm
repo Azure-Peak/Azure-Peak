@@ -130,15 +130,17 @@
 	/// Amount of PQ gained for reviving people
 	var/revive_pq = PQ_GAIN_REVIVE
 
-/obj/effect/proc_holder/spell/invoked/revive/calculate_recharge_time()
-	var/final_time = ..() 
-	
+/obj/effect/proc_holder/spell/invoked/revive/start_recharge()
+	var/old_recharge = recharge_time
+	// Because the cooldown for anastasis is so incredibly low, not having tech impacts them more heavily than other faiths
 	var/tech_resurrection_modifier = SSchimeric_tech.get_resurrection_multiplier()
-	
 	if(tech_resurrection_modifier > 1)
-		final_time *= (tech_resurrection_modifier * 1.25)
-	
-	return max(cooldown_min, round(final_time))
+		recharge_time = initial(recharge_time) * (tech_resurrection_modifier * 1.25)
+	else
+		recharge_time = initial(recharge_time)
+	if(charge_counter >= old_recharge && old_recharge > 0)
+		charge_counter = recharge_time
+	. = ..()
 
 /obj/effect/proc_holder/spell/invoked/revive/cast(list/targets, mob/living/user)
 	..()
@@ -1050,6 +1052,7 @@
 	wdefense = 5
 	wdefense_wbonus = 3 //8 total. 1 better than a basic arming sword
 	tool_behaviour = TOOL_CAUTERY //The Main Gimmick here
+	smeltresult = null
 
 	icon = 'icons/roguetown/weapons/special/astratablade.dmi'
 	icon_state = "solar_blade"
@@ -1064,3 +1067,6 @@
 	. = ..()
 	set_light(5, 4, l_color = LIGHT_COLOR_WHITE)
 
+/obj/item/rogueweapon/sword/astrata_sword/dropped(mob/user, silent)
+	. = ..()
+	qdel(src)
