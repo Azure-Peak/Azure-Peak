@@ -508,7 +508,7 @@
 			if(user.cmode)
 				if(!do_after(user, 10, TRUE, src))
 					break
-			if(K.lockhash == lockhash || istype(K, /obj/item/roguekey/lord) || istype(K, /obj/item/roguekey/skeleton)) //check if master key is inside keyring
+			if(K.lockhash == lockhash)
 				lock_toggle(user)
 				if(autobump && !locked)
 					src.Open()
