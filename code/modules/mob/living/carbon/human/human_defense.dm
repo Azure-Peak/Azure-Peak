@@ -58,7 +58,7 @@
 				intdamage *= tempo_bonus
 
 
-			if(consume_debuff)	//This is a penetrative hit, so we consume these in bodypart_attacked_by.
+			if(consume_debuff)	//If this is FALSE, then this is a penetrative hit -- we consume these in bodypart_attacked_by.
 				if(has_status_effect(/datum/status_effect/debuff/exposed))
 					intdamage *= EXPOSED_INTEG_MOD
 					playsound(src, 'sound/combat/exposed_pop.ogg', 100, TRUE)
