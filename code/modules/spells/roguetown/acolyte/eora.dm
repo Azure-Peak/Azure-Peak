@@ -388,6 +388,7 @@
 	else
 		recharge_time = base_recharge_time
 
+	last_process_time = world.time
 	START_PROCESSING(SSfastprocess, src)
 
 /obj/effect/proc_holder/spell/invoked/pomegranate

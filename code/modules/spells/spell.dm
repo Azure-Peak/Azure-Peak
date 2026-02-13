@@ -158,6 +158,7 @@ GLOBAL_LIST_INIT(spells, typesof(/obj/effect/proc_holder/spell)) //needed for th
 
 	var/recharge_time = 50 //recharge time in deciseconds if charge_type = "recharge" or starting charges if charge_type = "charges"
 	var/charge_counter = 0 //can only cast spells if it equals recharge, ++ each decisecond if charge_type = "recharge" or -- each cast if charge_type = "charges"
+	var/last_process_time = 0 //tracks world.time of last process() call for delta-time cooldown
 	var/still_recharging_msg = span_notice("The spell is still recharging.")
 
 	var/cast_without_targets = FALSE
@@ -347,6 +348,7 @@ GLOBAL_LIST_INIT(spells, typesof(/obj/effect/proc_holder/spell)) //needed for th
 		switch(charge_type)
 			if("recharge")
 				charge_counter = 0 //doesn't start recharging until the targets selecting ends
+				last_process_time = world.time
 			if("charges")
 				charge_counter-- //returns the charge if the targets selecting fails
 			if("holdervar")
@@ -402,6 +404,7 @@ GLOBAL_LIST_INIT(spells, typesof(/obj/effect/proc_holder/spell)) //needed for th
 
 	still_recharging_msg = span_warning("[name] is still recharging!")
 	charge_counter = recharge_time
+	last_process_time = world.time
 
 /obj/effect/proc_holder/spell/Destroy()
 	STOP_PROCESSING(SSfastprocess, src)
@@ -430,14 +433,17 @@ GLOBAL_LIST_INIT(spells, typesof(/obj/effect/proc_holder/spell)) //needed for th
 			var/diff2 = SPELL_SCALING_THRESHOLD - ranged_ability_user.STAINT
 			recharge_time = initial(recharge_time) + (initial(recharge_time) * (diff2 * COOLDOWN_REDUCTION_PER_INT))
 
+	last_process_time = world.time
 	START_PROCESSING(SSfastprocess, src)
 
 /obj/effect/proc_holder/spell/process()
+	var/delta = world.time - last_process_time
+	last_process_time = world.time
 	if(charge_counter <= recharge_time) // Edge case when charge counter is set
-		charge_counter += 2	//processes 5 times per second instead of 10.
+		charge_counter += delta
 		if(charge_counter >= recharge_time)
-			action.UpdateButtonIcon()
 			charge_counter = recharge_time
+			action?.UpdateButtonIcon()
 			STOP_PROCESSING(SSfastprocess, src)
 
 /obj/effect/proc_holder/spell/proc/perform(list/targets, recharge = TRUE, mob/user = usr) //if recharge is started is important for the trigger spells
