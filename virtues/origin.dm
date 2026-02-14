@@ -134,7 +134,7 @@
 				/datum/species/moth,
 				/datum/species/dwarf/mountain
 )
-	origin_desc = " "
+	origin_desc = "PLEASE PING THE LORE TEAM TO ADD LORE FOR THIS"
 
 /datum/virtue/origin/hammerhold
 	name = "Hammerholdian"
@@ -144,9 +144,10 @@
 				/datum/species/tabaxi,
 				/datum/species/moth,
 				/datum/species/lizardfolk,
-				/datum/species/tieberian
+				/datum/species/tieberian,
+				/datum/species/dwarf/gnome
 )
-	origin_desc = " "
+	origin_desc = "PLEASE PING THE LORE TEAM TO ADD LORE FOR THIS"
 
 /datum/virtue/origin/avar
 	name = "Aavnic"
@@ -158,7 +159,7 @@
 				/datum/species/lizardfolk,
 				/datum/species/dracon
 )
-	origin_desc = " "
+	origin_desc = "PLEASE PING THE LORE TEAM TO ADD LORE FOR THIS"
 
 /datum/virtue/origin/racial/underdark
 	name = "Underdweller"
@@ -171,7 +172,7 @@
 				/datum/species/anthromorph,
 				/datum/species/anthromorphsmall
 )
-	origin_desc = " "
+	origin_desc = "PLEASE PING THE LORE TEAM TO ADD LORE FOR THIS"
 
 /datum/virtue/origin/racial/azuria/apply_to_human(mob/living/carbon/human/recipient)
 	recipient.dna.species.origin = "Azuria"

@@ -6,7 +6,8 @@
 	id = "halforc"
 	origin_default = /datum/virtue/origin/avar
 	origin = "Aavnr"
-	base_name = "Ogroid"
+	base_name = "Humen"
+	is_subrace = TRUE
 	desc = "<b>Half Orcs</b><br>\
 	With the Ironmask clan on a centuries-long warpath to consolidate all orcs beneath their banner, \
 	crushed orc tribes have lost their menfolk, and war-widows have been scattered to the hinterlands. \

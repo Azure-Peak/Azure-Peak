@@ -6,6 +6,8 @@
 	id = "tiefling"
 	origin_default = /datum/virtue/origin/etrusca
 	origin = "Etrusca"
+	base_name = "Godtouched"
+	is_subrace = TRUE
 	desc = "<b>Tiefling</b><br>\
 	The offspring of demons with mortal races, a consequence of demonic incursions into the mortal realm and dark pacts. \
 	Their origins dating back to the demonic invasion of Archdevil Vheslyn who pillaged and ravaged the mortal lands and its people before being stopped by Psydon. \

@@ -21,7 +21,8 @@
 		/obj/item/bodypart/taur/horse,
 		/obj/item/bodypart/taur/goat,
 	)
-
+	base_name = "Godtouched"
+	is_subrace = TRUE
 	species_traits = list(EYECOLOR,HAIR,FACEHAIR,LIPS,STUBBLE,OLDGREY,MUTCOLORS)
 	default_features = MANDATORY_FEATURE_LIST
 	inherent_traits = list(TRAIT_EASYDECAPITATION, TRAIT_NOHUNGER, TRAIT_NOBREATH, TRAIT_ZOMBIE_IMMUNE) //Given the deathless traits inherently as part of their nature as pseudo-undead.

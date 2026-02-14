@@ -7,7 +7,7 @@
 	is_subrace = TRUE
 	origin_default = /datum/virtue/origin/hammerhold
 	origin = "Hammerhold"
-	base_name = "Mountain Dwarf"
+	base_name = "Dwarf"
 	desc = "<b>Gnome</b><br>\
 	Gnomes are short delicate creatures known for their quick thinking and wit.<br>\
 The naturally inquisitive mind of a Gnome inclines them towards arcane pursuits, artificing and teaching others.\
