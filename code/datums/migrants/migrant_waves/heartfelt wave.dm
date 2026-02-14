@@ -2,7 +2,7 @@
 	name = "The Court of Heartfelt"
 	max_spawns = 1
 	shared_wave_type = /datum/migrant_wave/heartfelt
-	weight = 50
+	weight = 25
 	downgrade_wave = /datum/migrant_wave/heartfelt_down_one
 	roles = list(
 		/datum/migrant_role/heartfelt/lord = 1,

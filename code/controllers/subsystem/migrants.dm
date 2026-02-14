@@ -7,7 +7,7 @@ SUBSYSTEM_DEF(migrants)
 	var/time_until_next_wave = 2 MINUTES
 	var/wave_timer = 0
 
-	var/time_between_waves = 3 MINUTES
+	var/time_between_waves = 2 MINUTES
 	var/time_between_fail_wave = 90 SECONDS
 	var/wave_wait_time = 30 SECONDS
 
@@ -473,7 +473,7 @@ SUBSYSTEM_DEF(migrants)
 	var/triumph_bonus = wave.triumph_total
 
 	// Triumph provides a linear bonus to weight (configurable multiplier)
-	var/triumph_multiplier = 6 // Each triumph point adds 6x weight
+	var/triumph_multiplier = 10 // Each triumph point adds 6x weight
 	var/final_weight = base_weight + (triumph_bonus * triumph_multiplier)
 
 	return max(final_weight, 1) // Ensure minimum weight of 1

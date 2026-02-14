@@ -2,7 +2,7 @@
 	name = "The Unknightly journey"
 	wave_type = /datum/migrant_wave/evil_knight
 
-	weight = 6
+	weight = 4
 	max_occurrences = 1
 
 	earliest_start = 10 MINUTES
@@ -17,7 +17,7 @@
 	name = "The Unknightly journey"
 	max_spawns = 1
 	shared_wave_type = /datum/migrant_wave/evil_knight
-	weight = 8
+	weight = 4
 	roles = list(
 		/datum/migrant_role/dark_itinerant_knight = 1,
 		/datum/migrant_role/dark_itinerant_squire = 1,

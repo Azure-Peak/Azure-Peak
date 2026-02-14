@@ -3,7 +3,7 @@
 	max_spawns = 1
 	shared_wave_type = /datum/migrant_wave/knightly_journey
 	downgrade_wave = /datum/migrant_wave/knightly_journey_down_one
-	weight = 50
+	weight = 25
 	roles = list(
 		/datum/migrant_role/kj_knight = 1,
 		/datum/migrant_role/kj_squire = 1,

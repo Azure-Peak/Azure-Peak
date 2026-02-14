@@ -2,7 +2,7 @@
 	name = "Grenzelhoftian Envoy"
 	max_spawns = 1
 	shared_wave_type = /datum/migrant_wave/grenzel_envoy
-	weight = 50
+	weight = 25
 	downgrade_wave = /datum/migrant_wave/grenzel_envoy_down_one
 	roles = list(
 		/datum/migrant_role/grenzel/envoy = 1,

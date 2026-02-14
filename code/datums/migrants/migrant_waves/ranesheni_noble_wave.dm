@@ -2,7 +2,7 @@
 	name = "Ranesheni Emir"
 	max_spawns = 1
 	shared_wave_type = /datum/migrant_wave/ranesheni_noble
-	weight = 50
+	weight = 25
 	downgrade_wave = /datum/migrant_wave/ranesheni_noble_down_one
 	roles = list(
 		/datum/migrant_role/ranesheni/emir = 1,
