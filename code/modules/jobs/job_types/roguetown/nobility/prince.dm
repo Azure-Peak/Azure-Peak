@@ -34,6 +34,8 @@
 	..()
 	H.verbs |= /mob/living/carbon/human/proc/declarechampion
 
+	change_origin(H, /datum/virtue/origin/racial/azuria, "Royal line")
+
 /datum/advclass/heir/daring
 	name = "Daring Twit"
 	tutorial = "You're a somebody, someone important. It only makes sense you want to make a name for yourself, to gain your own glory so people see how great you really are beyond your bloodline. Plus, if you're beloved by the people for your exploits you'll be chosen! Probably. Shame you're as useful and talented as a squire, despite your delusions to the contrary."

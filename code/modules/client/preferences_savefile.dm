@@ -370,8 +370,10 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 /datum/preferences/proc/_load_virtue(S)
 	var/virtue_type
 	var/virtuetwo_type
+	var/origin_type
 	S["virtue"] >> virtue_type
 	S["virtuetwo"] >> virtuetwo_type
+	S["virtue_origin"] >> origin_type
 	if (virtue_type)
 		virtue = new virtue_type()
 	else
@@ -381,6 +383,11 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 		virtuetwo = new virtuetwo_type
 	else
 		virtuetwo = new /datum/virtue/none
+	
+	if(origin_type)
+		virtue_origin = new origin_type
+	else
+		virtue_origin = new /datum/virtue/none
 
 /datum/preferences/proc/_load_loadout(S)
 	var/loadout_type
@@ -784,6 +791,7 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	WRITE_FILE(S["statpack"] , statpack.type)
 	WRITE_FILE(S["virtue"] , virtue.type)
 	WRITE_FILE(S["virtuetwo"], virtuetwo.type)
+	WRITE_FILE(S["virtue_origin"], virtue_origin.type)
 	WRITE_FILE(S["race_bonus"], race_bonus)
 	WRITE_FILE(S["combat_music"], combat_music.type)
 	WRITE_FILE(S["body_size"] , features["body_size"])
