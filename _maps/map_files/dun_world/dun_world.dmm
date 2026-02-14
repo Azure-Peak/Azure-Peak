@@ -49855,7 +49855,7 @@
 "luu" = (
 /obj/structure/fluff/buysign{
 	desc = "This very impromptu-looking sign looks as if it were assembled in a few minutes flat. Its jagged lettering warns the reader to not proceed forward, 'or elsewise be eat'n alyve by bastard white-eyed husks'. An icon of a dragon has been carved into one corner.";
-	name = "BEWARE! TIRELESS DEAD!"
+	name = "BEWARE!! TIRELESS DEAD!"
 	},
 /obj/structure/fluff/walldeco/church/line{
 	dir = 1
@@ -64648,6 +64648,7 @@
 	dir = 4
 	},
 /obj/effect/decal/cleanable/blood/old,
+/mob/living/carbon/human/species/human/northern/bog_deserters/better_gear,
 /turf/open/floor/rogue/churchrough,
 /area/rogue/under/cave/scarymaze)
 "oQW" = (
@@ -81515,7 +81516,7 @@
 /area/rogue/indoors/town/garrison)
 "sLI" = (
 /obj/structure/fluff/buysign{
-	desc = "This very impromptu-looking sign looks as if it were assembled in a few minutes flat. It warns the reader to beware 'white-eyed husks' beyond this point.";
+	desc = "This is quite a large, well-carved sign stating calmly and serenely that this area contains sanctified dead which, despite the general effectivness of church-sanctioned ceremony, may rise as deadites on rare occasion. It also instructs you to use available sharp implements in the crypt to penetrate the skull of any risen deadite, for the safety of thyself and thy fellow crypt-goers. Some folks say crypts and graveyards once had no need of weapons to protect the living from their restless ancestors, but it is standard practice in modern days.";
 	name = "BEWARE, TIRELESS DEAD"
 	},
 /turf/open/floor/rogue/church,
