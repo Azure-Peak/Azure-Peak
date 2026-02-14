@@ -22722,10 +22722,6 @@
 	pixel_x = 5;
 	pixel_y = -3
 	},
-/obj/item/grown/log/tree/stake{
-	pixel_x = -1;
-	pixel_y = -9
-	},
 /turf/open/floor/rogue/churchbrick,
 /area/rogue/under/cave/scarymaze)
 "fgq" = (
@@ -39083,18 +39079,6 @@
 /obj/effect/lily_petal/three,
 /turf/open/floor/rogue/grass,
 /area/rogue/outdoors/rtfield/abandonedhotsprings)
-"iYr" = (
-/obj/structure/fluff/walldeco/church/line,
-/obj/effect/decal/cleanable/blood/drip{
-	pixel_x = 12;
-	pixel_y = -7
-	},
-/obj/item/grown/log/tree/stake{
-	pixel_x = -14;
-	pixel_y = 1
-	},
-/turf/open/floor/rogue/churchbrick,
-/area/rogue/under/cave/scarymaze)
 "iYw" = (
 /obj/effect/decal/remains/human,
 /turf/open/floor/rogue/ruinedwood/spiral,
@@ -70523,8 +70507,8 @@
 	},
 /obj/effect/decal/remains/human,
 /obj/item/clothing/head/roguetown/helmet/kettle/iron{
-	pixel_x = 19;
-	pixel_y = 0
+	pixel_x = -12;
+	pixel_y = 12
 	},
 /turf/open/floor/rogue/churchbrick,
 /area/rogue/under/cave/scarymaze)
@@ -80303,10 +80287,6 @@
 /obj/effect/decal/cleanable/blood/drip{
 	pixel_x = 7;
 	pixel_y = -7
-	},
-/obj/item/rogueweapon/huntingknife/idagger/stake{
-	pixel_x = 15;
-	pixel_y = 12
 	},
 /turf/open/floor/rogue/churchbrick,
 /area/rogue/under/cave/scarymaze)
@@ -360138,7 +360118,7 @@ lcE
 moX
 wIK
 wfu
-iYr
+lVD
 hJK
 ujr
 nnt
