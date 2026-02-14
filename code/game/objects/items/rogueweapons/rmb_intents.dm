@@ -223,7 +223,10 @@
 	if(L.has_status_effect(/datum/status_effect/buff/clash))
 		L.remove_status_effect(/datum/status_effect/buff/clash)
 		to_chat(user, span_notice("[L.p_their(TRUE)] Guard disrupted!"))
-	L.apply_status_effect(/datum/status_effect/debuff/vulnerable, feintdur)
+	
+	var/effect_to_apply = (L.mind ? /datum/status_effect/debuff/vulnerable : /datum/status_effect/debuff/exposed)
+
+	L.apply_status_effect(effect_to_apply, feintdur)
 	L.apply_status_effect(/datum/status_effect/debuff/clickcd, max(1.5 SECONDS + skill_factor, 2.5 SECONDS))
 	L.Immobilize(0.5 SECONDS)
 	L.stamina_add(L.stamina * 0.1)
