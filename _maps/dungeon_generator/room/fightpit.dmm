@@ -269,9 +269,9 @@
 /turf/open/floor/rogue/ruinedwood/spiral,
 /area/rogue/under/tomb)
 "sw" = (
-/mob/living/carbon/human/species/npc/deadite,
 /obj/item/natural/poo,
 /obj/effect/decal/cleanable/blood/splatter,
+/mob/living/carbon/human/species/skeleton/npc/mediumspread,
 /turf/open/floor/rogue/hexstone,
 /area/rogue/under/tomb/indoors)
 "sy" = (
