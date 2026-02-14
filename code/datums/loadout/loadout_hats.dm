@@ -139,3 +139,8 @@
 	path = /obj/item/clothing/head/roguetown/explorerhat
 	sort_category = "Hats"
 
+/datum/loadout_item/jesterhat
+	name = "Jester's Hat"
+	path = /obj/item/clothing/head/roguetown/jester
+	sort_category = "Hats"
+
