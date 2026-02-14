@@ -2904,6 +2904,7 @@
 #include "modular\Neu_Food\code\others\fat.dm"
 #include "modular\Neu_Food\code\others\honey.dm"
 #include "modular\Neu_Food\code\others\preserved_meat.dm"
+#include "modular\Neu_Food\code\others\sweet.dm"
 #include "modular\Neu_Food\code\recipes\cooking_recipes_base.dm"
 #include "modular\Neu_Food\code\raw\raw_deep_fried.dm"
 #include "modular\Neu_Food\code\raw\raw_dough.dm"
