@@ -33,6 +33,7 @@
 	name = "Exotic Silk Belt"
 	path = /obj/item/storage/belt/rogue/leather/exoticsilkbelt
 	sort_category = "Accessories"
+	cost = 2
 
 /datum/loadout_item/ragmask
 	name = "Rag Mask"
@@ -58,6 +59,7 @@
 	name = "Exotic Silk Mask"
 	path = /obj/item/clothing/mask/rogue/exoticsilkmask
 	sort_category = "Accessories"
+	cost = 2
 
 /datum/loadout_item/duelmask
 	name = "Duelist's Mask"

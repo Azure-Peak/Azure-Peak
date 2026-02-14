@@ -43,15 +43,15 @@ GLOBAL_LIST_INIT(special_traits, build_special_traits())
 		apply_dnr_trait(character, player)
 	if(player.prefs.qsr_pref)
 		apply_qsr_trait(character, player)
-	if(player.prefs.loadout && character.get_triumphs() >= player.prefs.loadout.triumph_cost)
-		character.adjust_triumphs(-player.prefs.loadout.triumph_cost)
-		character.mind.special_items[player.prefs.loadout.name] += player.prefs.loadout.path
-	if(player.prefs.loadout2 && character.get_triumphs() >= player.prefs.loadout2.triumph_cost)
-		character.adjust_triumphs(-player.prefs.loadout2.triumph_cost)
-		character.mind.special_items[player.prefs.loadout2::name] += player.prefs.loadout2.path
-	if(player.prefs.loadout3 && character.get_triumphs() >= player.prefs.loadout3.triumph_cost)
-		character.adjust_triumphs(-player.prefs.loadout3.triumph_cost)
-		character.mind.special_items[player.prefs.loadout3::name] += player.prefs.loadout3.path
+	for(var/item_name in player.prefs.gear_list)
+		var/datum/loadout_item/LI = GLOB.loadout_items_by_name[item_name]
+		if(!LI)
+			continue
+		if(LI.triumph_cost && character.get_triumphs() < LI.triumph_cost)
+			continue
+		if(LI.triumph_cost)
+			character.adjust_triumphs(-LI.triumph_cost)
+		character.mind.special_items[LI.name] = LI.path
 	var/datum/job/assigned_job = SSjob.GetJob(character.mind?.assigned_role)
 	if(assigned_job)
 		assigned_job.clamp_stats(character)

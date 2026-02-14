@@ -138,3 +138,4 @@
 	name = "Explorer Hat"
 	path = /obj/item/clothing/head/roguetown/explorerhat
 	sort_category = "Hats"
+

@@ -53,6 +53,7 @@
 	name = "Exotic Silk Bra"
 	path = /obj/item/clothing/suit/roguetown/shirt/exoticsilkbra
 	sort_category = "Shirts"
+	cost = 2
 
 /datum/loadout_item/desertbra
 	name = "Desert Bra"

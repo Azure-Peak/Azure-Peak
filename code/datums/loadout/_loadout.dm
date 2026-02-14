@@ -1,10 +1,12 @@
 GLOBAL_LIST_EMPTY(loadout_items)
+GLOBAL_LIST_EMPTY(loadout_items_by_name)
 
 /datum/loadout_item
 	var/name = "Parent loadout datum"
 	var/desc
 	var/path
-	var/donoritem			//autoset on new if null
+	var/cost = 1				//point cost in the loadout budget
+	var/donoritem				//autoset on new if null
 	var/list/ckeywhitelist
 	var/triumph_cost
 	var/sort_category = "Miscellaneous" 	//Used for sorting loadout items in the menu. Should be one of the following: One per each file

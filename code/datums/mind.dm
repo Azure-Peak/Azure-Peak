@@ -955,7 +955,17 @@ GLOBAL_LIST_EMPTY(personal_objective_minds)
 						user.mind.special_items -= item
 						var/obj/item/I = new path2item(user.loc)
 						user.put_in_hands(I)
-						if (istype(I, /obj/item/clothing)) // commit any pref dyes to our item if it is clothing and we have them available
-							var/dye = user.client?.prefs.resolve_loadout_to_color(path2item)
-							if (dye)
-								I.add_atom_colour(dye, FIXED_COLOUR_PRIORITY)
+						// Apply metadata (color, custom name, custom desc) from gear_list prefs
+						var/list/metadata = user.client?.prefs?.gear_list?[item]
+						if(islist(metadata))
+							if(metadata["color"])
+								I.add_atom_colour(metadata["color"], FIXED_COLOUR_PRIORITY)
+							if(metadata["detail_color"] && I.detail_tag)
+								I.detail_color = metadata["detail_color"]
+							if(metadata["altdetail_color"] && I.altdetail_tag)
+								I.altdetail_color = metadata["altdetail_color"]
+							if(metadata["custom_name"])
+								I.name = "[metadata["custom_name"]] ([initial(I.name)])"
+							if(metadata["custom_desc"])
+								I.desc = metadata["custom_desc"]
+							I.update_icon()

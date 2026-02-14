@@ -1494,6 +1494,7 @@
 #include "code\modules\client\client_procs.dm"
 #include "code\modules\client\darkmode.dm"
 #include "code\modules\client\familiar_prefs.dm"
+#include "code\modules\client\loadout_menu.dm"
 #include "code\modules\client\gods_rankings.dm"
 #include "code\modules\client\manual_donator.dm"
 #include "code\modules\client\message.dm"
