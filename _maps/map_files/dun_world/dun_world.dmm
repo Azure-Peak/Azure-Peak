@@ -46554,6 +46554,11 @@
 /obj/item/toy/cards/deck/syndicate,
 /turf/open/floor/rogue/woodturned,
 /area/rogue/under/underdark/north)
+"kXU" = (
+/obj/structure/flora/roguegrass,
+/obj/structure/fluff/railing/corner/north_east,
+/turf/open/floor/rogue/grass,
+/area/rogue/indoors/town/manor)
 "kXY" = (
 /obj/structure/chair/wood/rogue/chair3,
 /turf/open/floor/rogue/ruinedwood/spiral,
@@ -504411,7 +504416,7 @@ hAy
 vxe
 pRu
 lOn
-ilp
+kXU
 gxR
 itj
 kia
