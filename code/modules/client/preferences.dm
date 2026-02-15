@@ -441,7 +441,7 @@ GLOBAL_LIST_EMPTY(chosen_names)
 			dat += "<b>Race:</b> <a href='?_src_=prefs;preference=species;task=input'>[pref_species.base_name]</a>[spec_check(user) ? "" : " (!)"]<BR>"
 			dat += "<b>Subrace:</b> <a href='?_src_=prefs;preference=subspecies;task=input'>[pref_species.sub_name]</a>[spec_check(user) ? "" : " (!)"]<BR>"
 			if(istype(virtue_origin, /datum/virtue/none))
-				virtue_origin = GLOB.virtues[/datum/virtue/origin/azuria]
+				virtue_origin = GLOB.virtues[/datum/virtue/origin/unknown]
 			dat += "<b>Origin:</b> <a href='?_src_=prefs;preference=origin;task=input'>[virtue_origin]</a> <a href='?_src_=prefs;preference=originhelp;task=input'>❖</a><BR>"
 			if(length(pref_species.custom_selection))
 				var/race_bonus_display

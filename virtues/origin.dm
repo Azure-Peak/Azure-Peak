@@ -1,7 +1,12 @@
 // Race list means RESTRICTED from the LISTED races.
 /datum/virtue/origin
 	var/granted_language = null
-	var/origin_name = "CONTACT CODERS!"
+	var/origin_name = "Unknown"
+
+/datum/virtue/origin/unknown
+	name = "Unknown"
+	desc = "I hail from nowhere in particular, thus I know no regional tongue in particular.<br>"
+	origin_desc = "Wanderers, peasantry, abandoned orphans or souls left to wander the bygone world, with no identity associated with them."
 
 /datum/virtue/origin/proc/apply_language(mob/living/carbon/human/recipient)
 	if(granted_language && recipient && recipient.mind)
