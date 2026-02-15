@@ -83,7 +83,84 @@
 	item_d_type = "blunt"
 	intent_intdamage_factor = BLUNT_DEFAULT_INT_DAMAGEFACTOR
 
-// A weaker strike for swords with high damage so that it don't end up becoming better than mace
+// Freifechter Longsword intents //
+/datum/intent/sword/cut/master
+	name = "fendente"
+	icon_state = "incutmaster"
+	desc = "Strike the opponent from above with the true edge of the sword and penetrate light armour."
+	attack_verb = list("masterfully tears", "artfully slits", "adroitly hacks")
+	damfactor = 1.01
+	penfactor = 50
+	max_intent_damage = 35
+	min_intent_damage = 31
+
+/datum/intent/sword/thrust/long/master
+	name = "stoccato"
+	icon_state = "instabmaster"
+	desc = "Enter a long guard and thrust forward with your entire upper body while advancing, maximizing the effectiveness of the thrust."
+	attack_verb =  list("skillfully perforates", "artfully punctures", "deftly sticks")
+	damfactor = 1.15
+	max_intent_damage = 40.5
+
+/datum/intent/effect/daze/longsword/clinch
+	name = "clinch & swipe"
+	desc = "Get up in your opponent's face and force them into a clinch, then swipe their face with the crossguard while they're distracted. Good against baited or exhausted opponents."
+	icon_state = "inpunish"
+	attack_verb = list("forcibly clinches and swipes")
+	animname = "strike"
+	target_parts = list(BODY_ZONE_HEAD)
+	blade_class = BCLASS_BLUNT
+	hitsound = list('sound/combat/hits/blunt/metalblunt (1).ogg', 'sound/combat/hits/blunt/metalblunt (2).ogg', 'sound/combat/hits/blunt/metalblunt (3).ogg')
+	damfactor = 0.8
+	max_intent_damage = 24
+	swingdelay = 8
+	clickcd = 10
+	recovery = 15
+	item_d_type = "blunt"
+	intent_intdamage_factor = BLUNT_DEFAULT_INT_DAMAGEFACTOR
+	canparry = FALSE
+	candodge = FALSE
+	intent_effect = /datum/status_effect/debuff/dazed/swipe
+
+/datum/intent/sword/thrust/long/halfsword
+	name = "mezza spada"
+	icon_state = "inimpale"
+	desc = "Grip the dull portion of your longsword with either hand and use it as leverage to deliver precise, powerful strikes that can dig into gaps in plate and push past maille."
+	attack_verb = list("goes into a half-sword stance and skewers", "enters a half-sword stance and impales")
+	hitsound = list('sound/combat/hits/bladed/genstab (1).ogg', 'sound/combat/hits/bladed/genstab (2).ogg', 'sound/combat/hits/bladed/genstab (3).ogg')
+	penfactor = 80
+	clickcd = 12
+	swingdelay = 10
+	damfactor = 0.86
+	blade_class = BCLASS_HALFSWORD
+	max_intent_damage = 30
+
+/datum/intent/sword/thrust/long/halfsword/lesser
+	name = "halbschwert"
+	clickcd = 16
+
+/datum/intent/effect/daze/longsword
+	name = "durchlauffen"
+	desc = "Lock the opponent's arm in place and strike their nose with the pommel of your sword before tossing them, affecting their ability to dodge and feint. Can only be performed one-handed."
+	attack_verb = list("masterfully pummels")
+	intent_effect = /datum/status_effect/debuff/dazed/longsword
+	target_parts = list(BODY_ZONE_PRECISE_NOSE)
+	damfactor = 0.8
+	clickcd = 14
+	swingdelay = 6
+
+/datum/intent/effect/daze/longsword2h
+	name = "zorn ort"
+	desc = "Block the opponent's weapon with a strike of your own and advance into a thrust towards the eyes, affecting their vision severely. Can only be performed two-handed."
+	attack_verb = list("masterfully pokes")
+	intent_effect = /datum/status_effect/debuff/dazed/longsword2h
+	target_parts = list(BODY_ZONE_PRECISE_R_EYE, BODY_ZONE_PRECISE_L_EYE)
+	blade_class = BCLASS_STAB
+	damfactor = 1.1 //Same as master stab
+	clickcd = 14
+	swingdelay = 5
+
+// A weaker strike for sword with high damage so that it don't end up becoming better than mace
 /datum/intent/sword/strike/bad
 	damfactor = 0.7 
 
@@ -728,17 +805,29 @@
 
 /obj/item/rogueweapon/sword/long/etruscan
 	name = "basket-hilted longsword"
-	desc = "An uncommon and elaborate type of longsword with a compound hilt like those seen on rapiers and smallswords. It has a marked unsharpened section for safe unarmored half-swording, and it's made of Calorian steel."
+	desc = "An uncommon and elaborate type of longsword with a compound hilt like those seen on rapiers and smallswords. It has a marked unsharpened section for safe unarmoured half-swording. The quality of the steel speaks for itself; this is a weapon made by masters, for masters."
 	icon_state = "elongsword"
+	sheathe_icon = "elongsword"
+	icon = 'icons/roguetown/weapons/special/freifechter.dmi'
+	possible_item_intents = list(/datum/intent/sword/cut, /datum/intent/sword/thrust/long, /datum/intent/effect/daze/longsword/clinch, /datum/intent/effect/daze/longsword)
+	gripped_intents = list(/datum/intent/sword/cut/master, /datum/intent/sword/thrust/long/master, /datum/intent/sword/thrust/long/halfsword, /datum/intent/effect/daze/longsword2h)
+	alt_intents = list(/datum/intent/sword/strike, /datum/intent/sword/bash, /datum/intent/effect/daze)
+	max_blade_int = 300
+	max_integrity = 225
 
-/obj/item/rogueweapon/sword/long/frei		//Challenge weapon
-	name = "dueling longsword"
-	desc = "Fechtfeders are a type of training sword brought up by Grenzelhoft fencing guilds, their name - literally \"Feather\" - matches their construction; thinner, lighter, dull but more balanced - with a blade catcher to boot. Freifechters often modify them, giving them edges and a point for use in real dueling - this is one such example, and there's a reason they don't make it out of the fighting pit."
-	icon_state = "sharpfeder"
-	force = 22
-	force_wielded = 27
-	wdefense = 5		//+1
-	wbalance = WBALANCE_SWIFT
+/obj/item/rogueweapon/sword/long/etruscan/freifechter
+	name = "psydonic reformist longsword"
+	desc = "A newly-smithed longsword with a reverse hilt in the shape of a reformist psydonian cross. It has the same kind of hand protection of an Etruscan longsword. The cross is upright when the weapon is sheathed, bronze pommel reflecting sunlight directly - and it becomes inverted when drawn, a symbol of distress. Ad pacem servandam."
+	sheathe_icon = "reform"
+	icon_state = "reformistsword"
+
+/obj/item/rogueweapon/sword/long/fencerguy
+	name = "grenzelhoftian longsword"
+	desc = "A masterfully smithed, perfectly-balanced longsword that makes it easy for even a beginner to perform basic fencing maneuvers."
+	icon_state = "germanlong"
+	max_blade_int = 275
+	possible_item_intents = list(/datum/intent/sword/cut, /datum/intent/sword/thrust/long, /datum/intent/dagger/sucker_punch, /datum/intent/sword/bash)
+	gripped_intents = list(/datum/intent/sword/cut, /datum/intent/sword/thrust/long, /datum/intent/sword/thrust/long/halfsword/lesser, /datum/intent/sword/chop)
 
 /obj/item/rogueweapon/sword/long/zizo
 	name = "avantyne longsword"
@@ -1354,7 +1443,45 @@
 	icon_state = "shashka"
 	sheathe_icon = "shashka"
 
-/obj/item/rogueweapon/sword/sabre/steppesman/Initialize()
+/datum/intent/sword/cut/sabre/master
+	name = "pokrajać"
+	desc = "Perform a masterful wide-arc cut that's strong enough to penetrate light armour."
+	attack_verb = list("masterfully cuts", "deftly slits", "quarts")
+	clickcd = 7
+	damfactor = 1.25
+	penfactor = 55
+	max_intent_damage = 29.7
+
+/datum/intent/effect/daze/freisabre
+	name = "uszkodzić"
+	desc = "After a few misleading strikes, suddenly slash at your opponent's wrist to affect their speed and strength, preventing them from using their weapon effectively. This move can be parried, but not dodged."
+	attack_verb = list("deftly wrist-slits")
+	intent_effect = /datum/status_effect/debuff/dazed/freisabre
+	target_parts = list(BODY_ZONE_PRECISE_L_HAND, BODY_ZONE_PRECISE_R_HAND)
+	blade_class = BCLASS_CUT
+	damfactor = 1.25
+	clickcd = 12
+	recovery = 8
+	swingdelay = 3
+	canparry = TRUE
+	candodge = FALSE
+
+/obj/item/rogueweapon/sword/sabre/freifechter
+	name = "szöréndnížine sabre"
+	desc = "A rare, specialty-made sabre domestic to Szöréndnížina, made similarly to those of the Potentate's Hussars. It has a large, open hilt with a cross-shaped guard formed from quillons and langets and a heavy curved blade. A chain is attached to the crossguard and into the pommel, protecting the hand. Unlike shorter and ligther sabres, it's large enough to reach the feet."
+	icon = 'icons/roguetown/weapons/special/freifechter.dmi'
+	possible_item_intents = list(/datum/intent/sword/cut/sabre/master, /datum/intent/sword/thrust/sabre, /datum/intent/effect/daze/freisabre, /datum/intent/rend)
+	wdefense = 7
+	minstr = 8
+	icon_state = "szabla"
+	sheathe_icon = "szabla"
+	bigboy = 1
+	max_integrity = 215
+	max_blade_int = 275		//Similarly statted to the longswords
+	inhand_x_dimension = 64
+	inhand_y_dimension = 64
+
+/obj/item/rogueweapon/sword/sabre/freifechter/Initialize()
 	. = ..()
 	AddComponent(/datum/component/skill_blessed, TRAIT_SABRIST, /datum/skill/combat/swords, SKILL_LEVEL_MASTER, TRUE)
 
@@ -2350,7 +2477,7 @@
 /obj/item/rogueweapon/sword/long/elvish
 	name = "elvish longsword"
 	desc = "A mighty Elvish longsword, well-balanced and efficient, favored for both offense and defense."
-	icon = 'icons/roguetown/weapons/64.dmi'
+	icon = 'icons/roguetown/weapons/swords64.dmi'
 	icon_state = "elflongsword"
 	sellprice = 50
 	sheathe_icon = "elfsword"

@@ -168,6 +168,15 @@
 	target_items = list(/obj/item/clothing/head/roguetown/helmet/heavy/psydonhelm)
 	result_item = /obj/item/clothing/head/roguetown/helmet/heavy/psydonhelm/ryan
 
+//Dakken12 - Armet/Hounskull
+/obj/item/enchantingkit/dakken_zizhelm
+	name = "'armoured avantyne barbute' morphing elixir"
+	target_items = list(
+		/obj/item/clothing/head/roguetown/helmet/heavy/knight/armet, 
+		/obj/item/clothing/head/roguetown/helmet/bascinet/pigface/hounskull
+	)
+	result_item = /obj/item/clothing/head/roguetown/helmet/bascinet/pigface/hounskull/dakken
+
 
 /////////////////////////////
 // ! Triumph-Exc. Kits !   //
@@ -184,6 +193,15 @@
 		)
 	result_item = null
 
+/obj/item/enchantingkit/triumph_weaponkit_axe
+	name = "'Valorian' axe morphing elixir"
+	desc = "A small container of special morphing dust, perfect to make a specific item. It can be used to alter the appearance of.. </br>..an Iron Axe.. </br>..or an Iron Hatchet."
+	target_items = list(
+		/obj/item/rogueweapon/stoneaxe/handaxe							= /obj/item/rogueweapon/stoneaxe/handaxe/triumph,
+		/obj/item/rogueweapon/stoneaxe/woodcut	  						= /obj/item/rogueweapon/stoneaxe/woodcut/triumph
+		)
+	result_item = null
+
 /obj/item/enchantingkit/triumph_weaponkit_tri
 	name = "'Valorian' longsword morphing elixir"
 	desc = "A small container of special morphing dust, perfect to make a specific item. It can be used to alter the appearance of.. </br>..a Steel Longsword."
@@ -193,9 +211,6 @@
 /obj/item/enchantingkit/triumph_weaponkit_wide
 	name = "'Wideguard' longsword morphing elixir"
 	desc = "A small container of special morphing dust, perfect to make a specific item. It can be used to alter the appearance of.. </br>..a Steel Longsword </br>..or a Rapier."
-	target_items = list(/obj/item/rogueweapon/sword/long)
-	result_item = /obj/item/rogueweapon/sword/long/triumph/wideguard
-
 	target_items = list(
 		/obj/item/rogueweapon/sword/long					= /obj/item/rogueweapon/sword/long/triumph/wideguard,
 		/obj/item/rogueweapon/sword/rapier	  			= /obj/item/rogueweapon/sword/rapier/wideguard
@@ -225,8 +240,6 @@
 /obj/item/enchantingkit/triumph_weaponkit_psy
 	name = "'Psycrucifix' longsword morphing elixir"
 	desc = "A small container of special morphing dust, perfect to make a specific item. It can be used to alter the appearance of.. </br>..a Steel Longsword.. </br>..or a Psydonic Longsword."
-	target_items = list(/obj/item/rogueweapon/sword/long)
-	result_item = /obj/item/rogueweapon/sword/long/triumph/psycrucifix
 	target_items = list(
 		/obj/item/rogueweapon/sword/long						= /obj/item/rogueweapon/sword/long/triumph/psycrucifix,
 		/obj/item/rogueweapon/sword/long/psysword	  			= /obj/item/rogueweapon/sword/long/psysword/psycrucifix

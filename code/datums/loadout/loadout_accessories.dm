@@ -126,6 +126,10 @@
 	path = /obj/item/clothing/neck/roguetown/psicross
 	sort_category = "Accessories"
 
+/datum/loadout_item/psicross/reform
+	name = "Reformist Psydonian Cross"
+	path = /obj/item/clothing/neck/roguetown/psicross/reform
+
 /datum/loadout_item/psicross/astrata
 	name = "Amulet of Astrata"
 	path = /obj/item/clothing/neck/roguetown/psicross/astrata
@@ -199,6 +203,36 @@
 /datum/loadout_item/psicross/graggar
 	name = "Amulet of Graggar"
 	path = /obj/item/clothing/neck/roguetown/psicross/inhumen/graggar
+	sort_category = "Accessories"
+
+/datum/loadout_item/psicross/gronnzizo
+	name = "Wolf Talisman"
+	path = /obj/item/clothing/neck/roguetown/psicross/inhumen/gronn
+	sort_category = "Accessories"
+
+/datum/loadout_item/psicross/gronnbaotha
+	name = "Leopard Talisman"
+	path = /obj/item/clothing/neck/roguetown/psicross/inhumen/baothagronn
+	sort_category = "Accessories"
+
+/datum/loadout_item/psicross/gronnmatthios
+	name = "Bear Talisman"
+	path = /obj/item/clothing/neck/roguetown/psicross/inhumen/matthios/gronn
+	sort_category = "Accessories"
+
+/datum/loadout_item/psicross/gronngraggar
+	name = "Moose Talisman"
+	path = /obj/item/clothing/neck/roguetown/psicross/inhumen/graggar/gronn
+	sort_category = "Accessories"
+
+/datum/loadout_item/psicross/gronndendor
+	name = "Volfskinned Talisman"
+	path = /obj/item/clothing/neck/roguetown/psicross/dendor/gronn
+	sort_category = "Accessories"
+
+/datum/loadout_item/psicross/gronnabyssor
+	name = "Hadal Talisman"
+	path = /obj/item/clothing/neck/roguetown/psicross/abyssor/gronn
 	sort_category = "Accessories"
 
 /datum/loadout_item/wedding_band

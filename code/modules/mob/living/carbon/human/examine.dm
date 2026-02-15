@@ -244,7 +244,7 @@
 					. += span_beautiful_masc("[m1] handsome!")
 				if (SHE_HER, HE_HIM_F)
 					. += span_beautiful_fem("[m1] beautiful!")
-				if (THEY_THEM, THEY_THEM_F, IT_ITS)
+				if (THEY_THEM, THEY_THEM_F, IT_ITS, IT_ITS_M)
 					. += span_beautiful_nb("[m1] good-looking!")
 
 		if (HAS_TRAIT(src, TRAIT_UNSEEMLY))
@@ -253,7 +253,7 @@
 					. += span_redtext("[m1] revolting!")
 				if (SHE_HER)
 					. += span_redtext("[m1] repugnant!")
-				if (THEY_THEM, THEY_THEM_F, IT_ITS)
+				if (THEY_THEM, THEY_THEM_F, IT_ITS, IT_ITS_M)
 					. += span_redtext("[m1] repulsive!")
 
 		var/datum/antagonist/vampire/vamp_inspect = src.mind?.has_antag_datum(/datum/antagonist/vampire)

@@ -52,10 +52,9 @@
 
 
 /datum/sex_action/sex/other/anal/handle_climax_message(mob/living/carbon/human/user, mob/living/carbon/human/target)
-	target.visible_message(span_love("[target] cums into [user]'s butt!"))
+	user.visible_message(span_love("[user] cums into [target]'s butt!"))
 	target.virginity = FALSE
 	return "into"
-
 
 /datum/sex_action/sex/other/anal/get_finish_message(mob/living/carbon/human/user, mob/living/carbon/human/target)
 	return span_warning("[user] gets off [target].")

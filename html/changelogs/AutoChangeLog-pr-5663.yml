@@ -1,4 +1,0 @@
-author: "FreeStylaLT"
-delete-after: True
-changes:
-  - balance: "Specials no longer use progress bars, they immobilize and apply a clickcd instead."

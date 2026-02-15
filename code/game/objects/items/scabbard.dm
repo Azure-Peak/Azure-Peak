@@ -44,6 +44,8 @@
 	. = ..()
 	. += span_info("Left click to sheath a weapon, or to draw a sheathed weapon. Will only draw if held in hand, belt, or back.")
 	. += span_info("Right click to draw a sheathed weapon.")
+	. += span_info("Middle click to transform it into a strap, which allows for a weapon to be openly carried without any delays to drawing or sheathing.")
+	. += span_info("Straps cannot be transformed back into scabbards or sheaths.")
 
 /obj/item/rogueweapon/scabbard/ComponentInitialize()
 	. = ..()
@@ -148,7 +150,7 @@
 
 /obj/item/rogueweapon/scabbard/sheath
 	name = "dagger sheath"
-	desc = "A slingable sheath made of leather, meant to host surprises in smaller sizes. </br>By middle-clicking the sheath while it's unoccupied, I can strip off the coverings and turn it into a light weapon strap."
+	desc = "A slingable sheath made of leather, meant to host surprises in smaller sizes."
 	sewrepair = TRUE
 
 	icon_state = "sheath"
@@ -389,7 +391,7 @@
 
 /obj/item/rogueweapon/scabbard/sword
 	name = "simple scabbard"
-	desc = "The natural evolution to the advent of longblades. </br>By middle-clicking the scabbard while it's unoccupied, I can strip off the coverings and turn it into a weapon strap."
+	desc = "The natural evolution to the advent of longblades."
 
 	icon_state = "scabbard"
 	item_state = "scabbard"

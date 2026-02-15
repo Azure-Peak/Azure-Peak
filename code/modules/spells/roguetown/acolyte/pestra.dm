@@ -17,6 +17,7 @@
 	antimagic_allowed = TRUE
 	recharge_time = 5 SECONDS //very stupidly simple spell
 	miracle = TRUE
+	skipcharge = TRUE
 	devotion_cost = 0 //come on, this is very basic
 
 /obj/effect/proc_holder/spell/invoked/diagnose/cast(list/targets, mob/living/user)
@@ -55,6 +56,7 @@
 	associated_skill = /datum/skill/misc/medicine
 	miracle = FALSE
 	devotion_cost = 0 //Doctors are not clerics
+
 /obj/effect/proc_holder/spell/invoked/attach_bodypart
 	name = "Bodypart Miracle"
 	desc = "Attach all limbs and organs you or your target is holding, and near your target."

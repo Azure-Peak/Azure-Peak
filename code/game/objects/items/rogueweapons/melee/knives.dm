@@ -834,6 +834,28 @@
 	wdefense = 1
 	resistance_flags = FLAMMABLE
 
+/obj/item/rogueweapon/huntingknife/stoneknife/kukri
+	name = "jade kukri"
+	desc = "A kukri made out of jade. Its more of a ceremonial piece than it is an implement of war, its somewhat fragile. Be gentle with it."
+	icon = 'icons/roguetown/gems/gem_jade.dmi'
+	icon_state = "kukri_jade"
+	max_integrity = 75
+	max_blade_int = 50
+	wdefense = 3
+	resistance_flags = FIRE_PROOF | ACID_PROOF
+	sellprice = 75
+
+/obj/item/rogueweapon/huntingknife/stoneknife/opalknife
+	name = "opal knife"
+	desc = "A beautiful knife carved out of opal. Its not intended for combat. It's presence is vital in some Crimson Elven ceremonies."
+	icon = 'icons/roguetown/gems/gem_opal.dmi'
+	icon_state = "knife_opal"
+	max_integrity = 75
+	max_blade_int = 50
+	wdefense = 3
+	resistance_flags = FIRE_PROOF | ACID_PROOF
+	sellprice = 105
+
 /obj/item/rogueweapon/huntingknife/idagger/silver/elvish
 	name = "elvish dagger"
 	desc = "A wave-bladed dagger of Elven design, who's silvered beauty is only rivaled by its deceptive lethality."
@@ -896,6 +918,48 @@
 		w_class = WEIGHT_CLASS_SMALL
 		throwforce = 5
 		icon_state = "navaja_c"
+		attack_verb = list("stubbed", "poked")
+		sharpness = IS_BLUNT
+		wdefense = 2
+		wdefense_dynamic = 2
+		equip_delay_self = 0 SECONDS
+		unequip_delay_self = 0 SECONDS
+		inv_storage_delay = 0 SECONDS
+
+/obj/item/rogueweapon/huntingknife/idagger/navaja/freifechter
+	possible_item_intents = list(/datum/intent/dagger/thrust,/datum/intent/dagger/cut, /datum/intent/dagger/chop, /datum/intent/dagger/thrust/pick)
+	name = "mountaineer's navaja"
+	icon = 'icons/roguetown/weapons/special/freifechter32.dmi'
+	desc = "A folding Etruscan knife valued by merchants, mercenaries and peasants for its convenience. This specific kind of ornate navaja is endemic to Szöréndnížina."
+	force = 5
+	icon_state = "mtnavaja_c"
+	item_state = "elfdag"
+	wdefense = 2
+	sellprice = 50
+
+/obj/item/rogueweapon/huntingknife/idagger/navaja/freifechter/attack_self(mob/user)
+	extended = !extended
+	playsound(src.loc, 'sound/blank.ogg', 50, TRUE)
+	if(extended)
+		force = 20
+		force_dynamic = 20
+		wdefense = 7
+		wdefense_dynamic = 7
+		w_class = WEIGHT_CLASS_NORMAL
+		throwforce = 23
+		icon_state = "mtnavaja_o"
+		attack_verb = list("slashed", "stabbed", "sliced", "torn", "ripped", "diced", "cut")
+		sharpness = IS_SHARP
+		playsound(user, 'sound/items/knife_open.ogg', 100, TRUE)
+		equip_delay_self = initial(equip_delay_self)
+		unequip_delay_self = initial(unequip_delay_self)
+		inv_storage_delay = initial(inv_storage_delay)
+	else
+		force = 5
+		force_dynamic = 5
+		w_class = WEIGHT_CLASS_SMALL
+		throwforce = 5
+		icon_state = "mtnavaja_c"
 		attack_verb = list("stubbed", "poked")
 		sharpness = IS_BLUNT
 		wdefense = 2

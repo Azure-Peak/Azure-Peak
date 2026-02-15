@@ -1,4 +1,0 @@
-author: "WeNeedMorePhoron"
-delete-after: True
-changes:
-  - rscadd: "Ported Castifico Collar from SR to replace the facemask when you get chaired in the CASTIFICO. Also added mechanics examination text to LIBERTAS, EXICIDIUM, CASTIFICO and the collar itself."

@@ -139,14 +139,3 @@
 	cooked_smell = /datum/pollutant/food/fried_crab_cake
 	w_class = WEIGHT_CLASS_NORMAL
 	dropshrink = 0.8
-
-/obj/item/reagent_containers/food/snacks/rogue/crabcake
-	name = "crab cake"
-	desc = "A variant of the handpie filled with buttery, savory shellfish meat and made with a buttered slice of dough."
-	icon_state = "crab_cake"
-	eat_effect = /datum/status_effect/buff/greatsnackbuff
-	bitesize = 4
-	list_reagents = list(/datum/reagent/consumable/nutriment = SMALLDOUGH_NUTRITION + MEATSLAB_NUTRITION)
-	tastes = list("crispy butterdough and shellfish meat" = 1)
-	rotprocess = null
-	dropshrink = 0.8

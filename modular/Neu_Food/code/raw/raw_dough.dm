@@ -60,6 +60,15 @@
 				new /obj/item/reagent_containers/food/snacks/rogue/rbread_half(loc)
 				qdel(I)
 				qdel(src)
+	if(istype(I, /obj/item/reagent_containers/food/snacks/rogue/butterdough))
+		if(isturf(loc)&& (found_table))
+			playsound(get_turf(user), 'modular/Neu_Food/sound/kneading.ogg', 100, TRUE, -1)
+			to_chat(user, span_notice("Kneading the dough into an elongated shape..."))
+			if(do_after(user,short_cooktime, target = src))
+				add_sleep_experience(user, /datum/skill/craft/cooking, user.STAINT)
+				new /obj/item/reagent_containers/food/snacks/rogue/rbread_half(loc)
+				qdel(I)
+				qdel(src)
 		else
 			to_chat(user, span_warning("You need to put [src] on a table to roll it out!"))
 	if(istype(I, /obj/item/kitchen/rollingpin))
@@ -129,6 +138,17 @@
 			if(do_after(user,short_cooktime, target = src))
 				add_sleep_experience(user, /datum/skill/craft/cooking, user.STAINT)
 				new /obj/item/reagent_containers/food/snacks/rogue/foodbase/psycrossbun_raw(loc)
+				qdel(src)
+		else
+			to_chat(user, span_warning("You need to put [src] on a table to roll it out!"))
+	if(istype(I, /obj/item/reagent_containers/food/snacks/rogue/dough))
+		if(isturf(loc)&& (found_table))
+			playsound(get_turf(user), 'modular/Neu_Food/sound/kneading.ogg', 100, TRUE, -1)
+			to_chat(user, span_notice("Kneading the dough into an elongated shape..."))
+			if(do_after(user,short_cooktime, target = src))
+				add_sleep_experience(user, /datum/skill/craft/cooking, user.STAINT)
+				new /obj/item/reagent_containers/food/snacks/rogue/strudeldough(loc)
+				qdel(I)
 				qdel(src)
 		else
 			to_chat(user, span_warning("You need to put [src] on a table to roll it out!"))
@@ -287,3 +307,40 @@
 		user.put_in_hands(handpie)
 		qdel(I)
 		qdel(src)
+
+/*	.................   Strudel Dough   ................... */
+/obj/item/reagent_containers/food/snacks/rogue/strudeldough
+	name = "strudeldough"
+	desc = "An empty shell of a greatness to come."
+	icon = 'modular/Neu_Food/icons/raw/raw_dough.dmi'
+	icon_state = "strudel_raw"
+	cooked_smell = /datum/pollutant/food/pastry
+	w_class = WEIGHT_CLASS_NORMAL
+	slice_sound = TRUE
+	process_step = 1
+
+/obj/item/reagent_containers/food/snacks/rogue/strudeldough/attackby(obj/item/I, mob/living/user, params)
+	update_cooktime(user)
+	if(istype(I, /obj/item/reagent_containers/food/snacks/grown/apple))
+		if(process_step != 1)
+			return
+		to_chat(user, span_notice("Filling the dough with apples.."))
+		if(do_after(user, short_cooktime, target = src))
+			playsound(get_turf(user), 'modular/Neu_Food/sound/eggbreak.ogg', 100, TRUE, -1)
+			name = "half-filled strudel"
+			desc = "A strudel form mostly filled with apples. Still missing it's other part."
+			process_step = 2
+			qdel(I)
+			return
+	if(istype(I, /obj/item/reagent_containers/food/snacks/grown/nut))
+		if(process_step != 2)
+			return
+		to_chat(user, span_notice("Finishing the filling with rocknut.."))
+		if(do_after(user, short_cooktime, target = src))
+			name = "filled strudel"
+			desc = "A strudel filled to the brim with apples and nuts. Now to only bake it."
+			cooked_type = /obj/item/reagent_containers/food/snacks/rogue/strudel
+			process_step = 3
+			qdel(I)
+			return
+	return ..()

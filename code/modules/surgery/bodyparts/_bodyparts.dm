@@ -740,9 +740,9 @@
 			. += aux
 	else
 		limb.icon = species_icon
-		limb.icon_state = "pr_[limb_material]_[body_zone]"
+		limb.icon_state = "[prosthetic_prefix]_[body_zone]"
 		if(aux_zone && !hideaux)
-			aux = image(limb.icon, "pr_[limb_material]_[aux_zone]", -aux_layer, image_dir)
+			aux = image(limb.icon, "[prosthetic_prefix]_[aux_zone]", -aux_layer, image_dir)
 			. += aux
 
 	// Color

@@ -1,6 +1,0 @@
-author: "Ryan180602"
-delete-after: True
-changes:
-  - code_imp: "Butler -> Footman."
-  - code_imp: "Chief Butler -> Butler."
-  - code_imp: "Wandering Maid -> Wandering Servant (with Maid/Butler choices)."

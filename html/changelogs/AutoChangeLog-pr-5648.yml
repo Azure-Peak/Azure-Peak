@@ -1,4 +1,0 @@
-author: "WeNeedMorePhoron"
-delete-after: True
-changes:
-  - rscadd: "TGUI Interface added for HERMES, accessible on right click. It can load multiple coins, and you can conveniently send letters without an existing piece of paper again now."

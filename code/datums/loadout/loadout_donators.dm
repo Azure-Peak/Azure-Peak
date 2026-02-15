@@ -175,3 +175,8 @@
 	ckeywhitelist = list("koruu")
 	sort_category = "Donator"
 
+/datum/loadout_item/donator_dakken
+	name = "Donator Kit - Armoured Avantyne Barbute"
+	path = /obj/item/enchantingkit/dakken_zizhelm
+	ckeywhitelist = list("dakken12")
+	sort_category = "Donator"

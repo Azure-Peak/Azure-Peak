@@ -14,6 +14,7 @@
 	anvilrepair = /datum/skill/craft/armorsmithing
 	experimental_inhand = FALSE
 	drop_sound = 'sound/foley/coinphy (1).ogg'
+	salvage_result = null
 
 /obj/item/clothing/ring/aalloy
 	name = "decrepit ring"
@@ -44,6 +45,46 @@
 	name = "blacksteel ring"
 	icon_state = "ring_bs"
 	sellprice = 70
+
+/obj/item/clothing/ring/jade
+	name = "jade ring"
+	icon_state = "ring_jade"
+	sellprice = 60
+
+/obj/item/clothing/ring/coral
+	name = "heartstone ring"
+	icon_state = "ring_coral"
+	sellprice = 70
+
+/obj/item/clothing/ring/onyxa
+	name = "onyxa ring"
+	icon_state = "ring_onyxa"
+	sellprice = 40
+
+/obj/item/clothing/ring/shell
+	name = "shell ring"
+	icon_state = "ring_shell"
+	sellprice = 20
+
+/obj/item/clothing/ring/amber
+	name = "amber ring"
+	icon_state = "ring_amber"
+	sellprice = 20
+
+/obj/item/clothing/ring/turq
+	name = "cerulite ring"
+	icon_state = "ring_turq"
+	sellprice = 85
+
+/obj/item/clothing/ring/rose
+	name = "rosestone ring"
+	icon_state = "ring_rose"
+	sellprice = 25
+
+/obj/item/clothing/ring/opal
+	name = "opal ring"
+	icon_state = "ring_opal"
+	sellprice = 90
 
 /obj/item/clothing/ring/active
 	var/active = FALSE

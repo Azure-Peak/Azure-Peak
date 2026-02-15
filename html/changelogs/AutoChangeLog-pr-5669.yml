@@ -1,4 +1,0 @@
-author: "Antoonij"
-delete-after: True
-changes:
-  - bugfix: "cdr on /self spells"

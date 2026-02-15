@@ -156,6 +156,7 @@
 #define BCLASS_PUNISH		"punish"
 #define BCLASS_EFFECT		"effect"
 #define BCLASS_SUNDER       "sunder"
+#define BCLASS_HALFSWORD	"stab"
 
 //Material class (what material is striking)
 #define MCLASS_GENERIC		1

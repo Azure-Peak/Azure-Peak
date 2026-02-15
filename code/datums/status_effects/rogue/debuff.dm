@@ -298,7 +298,6 @@
 /atom/movable/screen/alert/status_effect/debuff/ritesexpended
 	name = "Rites Complete"
 	desc = "It will take time before I can next perform a rite."
-	icon_state = "ritesexpended"
 
 /datum/status_effect/debuff/ritesexpended_heavy
 	id = "ritesexpended_heavy"
@@ -308,7 +307,6 @@
 /atom/movable/screen/alert/status_effect/debuff/ritesexpended_heavy
 	name = "Rites Complete"
 	desc = "It will take a lot of time before I can perform a next rite. I am drained."
-	icon_state = "ritesexpended"
 
 /datum/status_effect/debuff/call_to_arms
 	id = "call_to_arms"
@@ -435,6 +433,55 @@
 	name = "Cold"
 	desc = "Something has chilled me to the bone! It's hard to move."
 	icon_state = "muscles"
+
+///// Freifechter Daze Variants /////
+/datum/status_effect/debuff/dazed/longsword
+	id = "durchlauffen"
+	alert_type = /atom/movable/screen/alert/status_effect/debuff/dazed/longsword
+	effectedstats = list(STATKEY_SPD = -3, STATKEY_INT = -1)
+	duration = 10 SECONDS
+	status_type = STATUS_EFFECT_REFRESH
+
+/atom/movable/screen/alert/status_effect/debuff/dazed/longsword
+	name = "Master Strike"
+	desc = "How the fuck did they do that!? My ears are ringing!"
+	icon_state = "mstrike"
+
+/datum/status_effect/debuff/dazed/longsword2h
+	id = "zorn ort"
+	alert_type = /atom/movable/screen/alert/status_effect/debuff/dazed/longsword2h
+	effectedstats = list(STATKEY_PER = -4, STATKEY_LCK = -3)
+	duration = 8 SECONDS
+	status_type = STATUS_EFFECT_REFRESH
+
+/atom/movable/screen/alert/status_effect/debuff/dazed/longsword2h
+	name = "Master Strike"
+	desc = "How the fuck did they do that!? My eye!"
+	icon_state = "mstrike"
+
+/datum/status_effect/debuff/dazed/freisabre
+	id = "uszkodzić"
+	alert_type = /atom/movable/screen/alert/status_effect/debuff/dazed/freisabre
+	effectedstats = list(STATKEY_STR = -2, STATKEY_SPD = -3)
+	duration = 10 SECONDS
+	status_type = STATUS_EFFECT_REFRESH
+
+/atom/movable/screen/alert/status_effect/debuff/dazed/freisabre
+	name = "Master Strike"
+	desc = "How the fuck did they do that!? My wrist!"
+	icon_state = "mstrike"
+
+/datum/status_effect/debuff/dazed/swipe
+	id = "clinch & swipe"
+	alert_type = /atom/movable/screen/alert/status_effect/debuff/dazed/swipe
+	effectedstats = list(STATKEY_CON = -4, STATKEY_STR = -1)
+	duration = 1.5 SECONDS	//Should last BARELY ENOUGH for someone who's actively grappling and swiping you to get a constant refresh of the dedbuff, otherwise it's useless.
+	status_type = STATUS_EFFECT_REFRESH
+
+/atom/movable/screen/alert/status_effect/debuff/dazed/swipe
+	name = "Clinched and Swiped!"
+	desc = "Urgh! My face! My grip is weakened!"
+	icon_state = "swiped"
 
 /*/atom/movable/screen/alert/status_effect/debuff/dazed/shield
 	name = "Dazed by fencer's wrap"

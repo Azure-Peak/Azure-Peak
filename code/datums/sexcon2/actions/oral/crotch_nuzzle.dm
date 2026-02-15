@@ -39,3 +39,7 @@
 
 /datum/sex_action/crotch_nuzzle/lock_sex_object(mob/living/carbon/human/user, mob/living/carbon/human/target)
 	sex_locks |= new /datum/sex_session_lock(user, BODY_ZONE_PRECISE_MOUTH)
+
+/datum/sex_action/crotch_nuzzle/handle_climax_message(mob/living/carbon/human/user, mob/living/carbon/human/target)
+	user.visible_message(span_love("[user] cums over [target]'s face!"))
+	return "onto"
