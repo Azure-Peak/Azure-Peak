@@ -100254,6 +100254,10 @@
 /obj/structure/fluff/psycross,
 /turf/open/floor/rogue/cobblerock,
 /area/rogue/outdoors/woods/north)
+"xMe" = (
+/obj/structure/composter,
+/turf/open/floor/rogue/dirt/road,
+/area/rogue/outdoors/exposed/town/keep)
 "xMm" = (
 /obj/structure/flora/ausbushes/brflowers,
 /turf/open/floor/rogue/grass,
@@ -283696,7 +283700,7 @@ gzy
 gfZ
 vAw
 sXi
-vAw
+xMe
 vAw
 eml
 oeK
