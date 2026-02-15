@@ -35760,6 +35760,10 @@
 /obj/structure/flora/roguegrass,
 /turf/open/floor/rogue/cobble/mossy,
 /area/rogue/under/cave/his_vault/four)
+"iyD" = (
+/obj/structure/fluff/psycross,
+/turf/open/floor/rogue/dirt/road,
+/area/rogue/outdoors/exposed/town/keep)
 "iyM" = (
 /turf/closed/wall/mineral/rogue/wooddark,
 /area/rogue/indoors/town/steward)
@@ -80007,6 +80011,10 @@
 /obj/effect/landmark/chimeric_calyx_spawner/thirty,
 /turf/open/floor/rogue/cobblerock,
 /area/rogue/outdoors/mountains/decap)
+"sXi" = (
+/obj/structure/fermentation_keg/distiller,
+/turf/open/floor/rogue/dirt/road,
+/area/rogue/outdoors/exposed/town/keep)
 "sXs" = (
 /obj/structure/hotspring,
 /obj/effect/falling_sakura,
@@ -283687,7 +283695,7 @@ gzy
 gzy
 gfZ
 vAw
-vAw
+sXi
 vAw
 vAw
 eml
@@ -286854,7 +286862,7 @@ uWg
 vAw
 vAw
 vAw
-vAw
+iyD
 hrE
 jWw
 jWw
