@@ -13,11 +13,7 @@
 	desc = "I originate from the settled lands of Azuria, an independent domain sandwiched between Otava and Grenzelhoft. Famed for its delicious waffles and many ancient ruins, it is neither prosperous nor well-respected.<br>"
 	restricted = FALSE
 	granted_language = /datum/language/oldazurian
-	origin_desc = "An independent domain sandwiched between Otava and Grenzelhoft, positioned the eastern edge of the Greywall mountain range.<br> Azuria sits on a key \
-	passageway through the Greywall, and its harbor offers a neutral port for merchants and travelers. As a result, the Reach is host to a number of foreigners, including \
-	those from distant lands. Due to this valuable strategic position, however, both the Empire and the Holy Dominion constantly vie for control over the Reach. Yet \
-	Scarlet Reach still enjoys a tentative position of neutrality.<br> Both countries are currently locked in a stalemate, as neither the Patriarch of Otava nor the Emperor \
-	of Grenzelhoft are willing to see open war break out."
+	origin_desc = "PING THE LORE TEAM TO ADD THIS"
 
 /datum/virtue/origin/grenzelhoft
 	name = "Grenzelhoftian"
