@@ -172,11 +172,11 @@
 /datum/loadout_item/donator_koruu
 	name = "Donator Kit - Well-Worn Bamboo Hat"
 	path = /obj/item/clothing/head/roguetown/mentorhat/koruu
-	ckeywhitelist = list("koruu")
+	ckeywhitelist = list("koruu", "painfeeler", "poots13")
 	sort_category = "Donator"
 
 /datum/loadout_item/donator_dakken
 	name = "Donator Kit - Armoured Avantyne Barbute"
 	path = /obj/item/enchantingkit/dakken_zizhelm
-	ckeywhitelist = list("dakken12")
+	ckeywhitelist = list("dakken12") 
 	sort_category = "Donator"
