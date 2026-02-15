@@ -577,14 +577,7 @@ GLOBAL_LIST_EMPTY(chosen_names)
 			dat+= "<a href='?_src_=prefs;preference=clear_gallery;task=input'>Clear Gallery</a>"
 			dat += "<br><a href='?_src_=prefs;preference=ooc_preview;task=input'><b>Preview Examine</b></a>"
 
-			dat += "<br><a href='?_src_=prefs;preference=open_loadout;task=input'><b>Open Loadout Menu</b></a>"
-			if(gear_list.len)
-				var/list/gear_names = list()
-				for(var/item_name in gear_list)
-					gear_names += item_name
-				dat += "<br><b>Loadout:</b> [jointext(gear_names, ", ")]"
-			else
-				dat += "<br><b>Loadout:</b> None"
+			dat += "<br><b>Loadout:</b> <a href='?_src_=prefs;preference=open_loadout;task=input'>Open Menu</a>"
 			dat += "</td>"
 
 			dat += "</tr></table>"

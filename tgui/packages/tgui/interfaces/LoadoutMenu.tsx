@@ -2,7 +2,6 @@ import { useState } from 'react';
 import {
   Box,
   Button,
-  Dropdown,
   Input,
   Section,
   Stack,
@@ -36,7 +35,6 @@ type Data = {
   categories: string[];
   items: LoadoutItem[];
   max_points: number;
-  colors: Record<string, string>;
   // Dynamic
   selected: SelectedItem[];
   total_cost: number;
@@ -69,68 +67,85 @@ export const LoadoutMenu = () => {
 };
 
 /** Small inline color swatch */
-const ColorSwatch = (props: { color: string; onClick?: () => void }) => (
+const ColorSwatch = (props: {
+  color: string;
+  size?: number;
+  onClick?: () => void;
+}) => (
   <Box
     inline
-    width={1}
-    height={1}
-    ml={0.25}
-    backgroundColor={props.color}
-    onClick={props.onClick}
     style={{
+      width: `${(props.size || 0.9) * 12}px`,
+      height: `${(props.size || 0.9) * 12}px`,
+      marginLeft: '3px',
+      backgroundColor: props.color,
+      display: 'inline-block',
       border: '1px solid rgba(255,255,255,0.3)',
+      borderRadius: '2px',
       verticalAlign: 'middle',
       cursor: props.onClick ? 'pointer' : undefined,
     }}
+    onClick={props.onClick}
   />
 );
 
-/** Compact inline color picker: label + swatch that opens a dropdown */
-const ColorPicker = (props: {
+/** Clickable color link: swatch + label, clicking opens the color picker modal */
+const ColorLink = (props: {
   label: string;
   currentColor: string | null;
-  colors: Record<string, string>;
-  colorNames: string[];
   action: string;
   itemName: string;
 }) => {
   const { act } = useBackend<Data>();
-  const { label, currentColor, colors, colorNames, action, itemName } = props;
+  const { label, currentColor, action, itemName } = props;
 
   return (
-    <Box inline mr={1}>
-      <Box inline color="label" mr={0.5}>
-        {label}:
+    <Box inline mr={1.5}>
+      <Box
+        inline
+        style={{ cursor: 'pointer' }}
+        onClick={(e: React.MouseEvent) => {
+          e.stopPropagation();
+          act(action, { name: itemName });
+        }}
+      >
+        <Box inline color="label" mr={0.5}>
+          {label}:
+        </Box>
+        {currentColor ? (
+          <ColorSwatch color={currentColor} size={1} />
+        ) : (
+          <Box inline color="average" fontSize={0.85}>
+            None
+          </Box>
+        )}
       </Box>
-      <Dropdown
-        width="100px"
-        selected={
-          currentColor
-            ? colorNames.find((cn) => colors[cn] === currentColor) || 'None'
-            : 'None'
-        }
-        options={['None', ...colorNames]}
-        onSelected={(val) =>
-          act(action, {
-            name: itemName,
-            color: val === 'None' ? '' : val,
-          })
-        }
-      />
-      {currentColor && <ColorSwatch color={currentColor} />}
+      {currentColor && (
+        <Box
+          inline
+          color="bad"
+          ml={0.5}
+          fontSize={0.8}
+          style={{ cursor: 'pointer' }}
+          onClick={(e: React.MouseEvent) => {
+            e.stopPropagation();
+            act(action, { name: itemName, clear: true });
+          }}
+        >
+          &#x2715;
+        </Box>
+      )}
     </Box>
   );
 };
 
-/** Inline tweak row for a selected item - all customization on one row */
+/** Two-line tweak row for a selected item: colors on line 1, name/desc on line 2 */
 const TweakRow = (props: {
   itemName: string;
   meta: SelectedItem | undefined;
   colorChannels: string[];
-  colors: Record<string, string>;
-  colorNames: string[];
 }) => {
-  const { itemName, meta, colorChannels, colors, colorNames } = props;
+  const { itemName, meta, colorChannels } = props;
   const { act } = useBackend<Data>();
 
   const [localName, setLocalName] = useState(meta?.custom_name || '');
@@ -148,55 +163,47 @@ const TweakRow = (props: {
     <Table.Row>
       <Table.Cell colSpan={3}>
         <Box
-          pl={2}
-          py={0.25}
+          ml={1.2}
+          pl={0.75}
+          py={0.3}
           style={{
-            background: 'rgba(255,255,255,0.03)',
+            background: 'rgba(255,255,255,0.04)',
+            borderLeft: '2px solid rgba(80,200,120,0.5)',
           }}
         >
-          <Stack align="center" wrap>
-            {/* Color pickers */}
-            <Stack.Item>
-              <ColorPicker
-                label="Color"
-                currentColor={meta?.color || null}
-                colors={colors}
-                colorNames={colorNames}
-                action="set_color"
+          {/* Line 1: Color channels */}
+          <Box mb={0.3}>
+            <ColorLink
+              label="Color"
+              currentColor={meta?.color || null}
+              action="set_color"
+              itemName={itemName}
+            />
+            {colorChannels.includes('detail') && (
+              <ColorLink
+                label="Detail"
+                currentColor={meta?.detail_color || null}
+                action="set_detail_color"
                 itemName={itemName}
               />
-            </Stack.Item>
-            {colorChannels.includes('detail') && (
-              <Stack.Item>
-                <ColorPicker
-                  label="Dtl"
-                  currentColor={meta?.detail_color || null}
-                  colors={colors}
-                  colorNames={colorNames}
-                  action="set_detail_color"
-                  itemName={itemName}
-                />
-              </Stack.Item>
             )}
             {colorChannels.includes('altdetail') && (
-              <Stack.Item>
-                <ColorPicker
-                  label="Alt"
-                  currentColor={meta?.altdetail_color || null}
-                  colors={colors}
-                  colorNames={colorNames}
-                  action="set_altdetail_color"
-                  itemName={itemName}
-                />
-              </Stack.Item>
+              <ColorLink
+                label="Alt"
+                currentColor={meta?.altdetail_color || null}
+                action="set_altdetail_color"
+                itemName={itemName}
+              />
             )}
-            {/* Custom name */}
-            <Stack.Item>
+          </Box>
+          {/* Line 2: Custom name + desc */}
+          <Box>
+            <Box inline mr={1}>
               <Box inline color="label" mr={0.5}>
                 Name:
               </Box>
               <Input
-                width="120px"
+                width="200px"
                 maxLength={42}
                 placeholder="Custom name..."
                 value={localName}
@@ -204,14 +211,13 @@ const TweakRow = (props: {
                 onEnter={(val) => commitName(val)}
                 onBlur={(val) => commitName(val)}
               />
-            </Stack.Item>
-            {/* Custom description */}
-            <Stack.Item grow>
+            </Box>
+            <Box inline mr={1}>
               <Box inline color="label" mr={0.5}>
                 Desc:
               </Box>
               <Input
-                width="140px"
+                width="250px"
                 maxLength={1024}
                 placeholder="Custom desc..."
                 value={localDesc}
@@ -219,13 +225,13 @@ const TweakRow = (props: {
                 onEnter={(val) => commitDesc(val)}
                 onBlur={(val) => commitDesc(val)}
               />
-            </Stack.Item>
-          </Stack>
-          {localName && (
-            <Box color="label" fontSize={0.85} pl={0.5}>
-              Shows as: &quot;{localName} ({itemName})&quot;
             </Box>
-          )}
+            {localName && (
+              <Box inline color="label" fontSize={0.85}>
+                Shows as: &quot;{localName} ({itemName})&quot;
+              </Box>
+            )}
+          </Box>
         </Box>
       </Table.Cell>
     </Table.Row>
@@ -243,7 +249,6 @@ const LoadoutDisplay = () => {
     selected,
     total_cost,
     max_points,
-    colors,
     total_triumph_cost,
     player_triumphs,
   } = data;
@@ -253,7 +258,6 @@ const LoadoutDisplay = () => {
   const selectedNames = new Set(selected.map((s) => s.name));
   const selectedMap = new Map(selected.map((s) => [s.name, s]));
   const channelsMap = new Map(items.map((i) => [i.name, i.color_channels]));
-  const colorNames = colors ? Object.keys(colors) : [];
 
   // Count selected items per category
   const categoryCounts: Record<string, number> = {};
@@ -324,7 +328,11 @@ const LoadoutDisplay = () => {
                   <Table.Row
                     key={item.name}
                     className="candystripe"
-                    style={{ cursor: 'pointer', verticalAlign: 'middle' }}
+                    style={{
+                      cursor: 'pointer',
+                      verticalAlign: 'middle',
+                      padding: '2px 0',
+                    }}
                     onClick={() => act('toggle_item', { name: item.name })}
                   >
                     <Table.Cell>
@@ -380,8 +388,6 @@ const LoadoutDisplay = () => {
                       colorChannels={
                         channelsMap.get(item.name) || ['primary']
                       }
-                      colors={colors}
-                      colorNames={colorNames}
                     />
                   ),
                 ];
@@ -393,29 +399,16 @@ const LoadoutDisplay = () => {
 
       {/* Footer: budget + confirm */}
       <Stack.Item>
-        <Box py={0.5} px={1}>
+        <Box px={1} py={0.25}>
           <Stack align="center">
             <Stack.Item grow>
-              <Box
-                bold
-                fontSize={0.95}
-                color={total_cost >= max_points ? 'bad' : undefined}
-              >
-                Budget: {total_cost} / {max_points} pts
+              <Box inline bold fontSize={0.95} color={total_cost >= max_points ? 'bad' : undefined} mr={1.5}>
+                Budget: {total_cost}/{max_points}
               </Box>
-              {total_triumph_cost > 0 && (
-                <Box
-                  bold
-                  fontSize={0.95}
-                  color={
-                    total_triumph_cost > player_triumphs ? 'bad' : 'gold'
-                  }
-                >
-                  Triumphs: {total_triumph_cost} / {player_triumphs} available
-                  {total_triumph_cost > player_triumphs && ' (not enough!)'}
-                </Box>
-              )}
-              <Box color="label" fontSize={0.85}>
+              <Box inline bold fontSize={0.95} color={total_triumph_cost > player_triumphs ? 'bad' : 'gold'} mr={1.5}>
+                Triumphs: {total_triumph_cost}/{player_triumphs}
+              </Box>
+              <Box inline color="label" fontSize={0.85}>
                 Loadout items cannot be sold, smelted, or salvaged.
               </Box>
             </Stack.Item>

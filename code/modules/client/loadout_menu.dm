@@ -63,7 +63,6 @@
 	data["categories"] = categories
 	data["items"] = items
 	data["max_points"] = LOADOUT_MAX_POINTS
-	data["colors"] = COLOR_MAP
 	return data
 
 /datum/loadout_menu/ui_data(mob/user)
@@ -122,49 +121,34 @@
 					gear_list[item_name] = list()
 			return TRUE
 
-		if("set_color")
+		if("set_color", "set_detail_color", "set_altdetail_color")
 			var/item_name = params["name"]
-			var/color = params["color"]
 			if(!item_name || !(item_name in gear_list))
 				return TRUE
 			var/list/meta = gear_list[item_name]
 			if(!islist(meta))
 				meta = list()
 				gear_list[item_name] = meta
-			if(color && (color in COLOR_MAP))
-				meta["color"] = COLOR_MAP[color]
+			// Determine which meta key to set
+			var/meta_key
+			switch(action)
+				if("set_color")
+					meta_key = "color"
+				if("set_detail_color")
+					meta_key = "detail_color"
+				if("set_altdetail_color")
+					meta_key = "altdetail_color"
+			if(params["clear"])
+				meta -= meta_key
 			else
-				meta -= "color"
-			return TRUE
-
-		if("set_detail_color")
-			var/item_name = params["name"]
-			var/color = params["color"]
-			if(!item_name || !(item_name in gear_list))
-				return TRUE
-			var/list/meta = gear_list[item_name]
-			if(!islist(meta))
-				meta = list()
-				gear_list[item_name] = meta
-			if(color && (color in COLOR_MAP))
-				meta["detail_color"] = COLOR_MAP[color]
-			else
-				meta -= "detail_color"
-			return TRUE
-
-		if("set_altdetail_color")
-			var/item_name = params["name"]
-			var/color = params["color"]
-			if(!item_name || !(item_name in gear_list))
-				return TRUE
-			var/list/meta = gear_list[item_name]
-			if(!islist(meta))
-				meta = list()
-				gear_list[item_name] = meta
-			if(color && (color in COLOR_MAP))
-				meta["altdetail_color"] = COLOR_MAP[color]
-			else
-				meta -= "altdetail_color"
+				// Open color picker modal with dye presets
+				var/current = meta[meta_key] || "#FFFFFF"
+				var/picked = tgui_color_picker(ui.user, "Choose color for [item_name]", "Color Picker", current, named_presets = COLOR_MAP)
+				if(picked)
+					// sanitize_hexcolor returns without #, so prepend it
+					if(picked[1] != "#")
+						picked = "#[picked]"
+					meta[meta_key] = picked
 			return TRUE
 
 		if("set_custom_name")
