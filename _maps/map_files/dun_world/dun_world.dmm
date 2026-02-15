@@ -20943,7 +20943,8 @@
 /obj/structure/fluff/signage{
 	dir = 4;
 	name = "MOUNT GOLGOTHA CRYPT DIRECTIONS";
-	desc = "This is a rather finely carved sign directing 'Mourning Folk,Funerale Attendees, & Clergy folk o' the Lady Veil'd', further into what it dubs the 'Mount Golgotha Crypt of Her Dignified Grace'. While the sign looks quite freshly put up, it is dug into truly ancient looking stones."
+	desc = "This is a rather finely carved sign directing 'Mourning Folk,Funerale Attendees, & Clergy folk o' the Lady Veil'd', further into what it dubs the 'Mount Golgotha Crypt of Her Dignified Grace'. While the sign looks quite freshly put up, it is dug into truly ancient looking stones.";
+	pixel_y = 1
 	},
 /turf/open/floor/rogue/church,
 /area/rogue/under/cave/scarymaze)
@@ -43716,9 +43717,7 @@
 	pixel_y = 7
 	},
 /turf/open/floor/rogue/churchrough,
-/area/rogue/under/cave/scarymaze{
-	name = 1
-	})
+/area/rogue/under/cave/scarymaze)
 "kaQ" = (
 /obj/structure/fluff/walldeco/church/line{
 	dir = 4
@@ -62213,7 +62212,7 @@
 /area/rogue/indoors)
 "okq" = (
 /obj/structure/fluff/buysign{
-	desc = "This is quite a large, well-carved sign stating calmly and serenely that this area contains sanctified dead which, despite the general effectivness of church-sanctioned ceremony, may rise as deadites on rare occasion. It also instructs you to use available sharp implements in the crypt to penetrate the skull of any risen deadite, for the safety of thyself and thy fellow crypt-goers. Some folks say crypts and graveyards once had no need of weapons to protect the living from their restless ancestors, but it is standard practice in modern days.";
+	desc = s;
 	name = "BEWARE, TIRELESS DEAD"
 	},
 /turf/open/floor/rogue/church,
