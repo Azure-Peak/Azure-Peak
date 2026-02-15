@@ -467,13 +467,14 @@ GLOBAL_LIST_INIT(featured_stats, list(
 		"color" = "#6375c5",
 		"entries" = list(),
 		"object_stat" = TRUE
-	),	FEATURED_STATS_ORIGINS = list(
+	),	
+	FEATURED_STATS_ORIGINS = list(
 		"name" = "TOP Origins",
 		"color" = "#602d91",
 		"entries" = list(),
 		"object_stat" = TRUE,
 	),
-	),	FEATURED_STATS_VIRTUES = list(
+	FEATURED_STATS_VIRTUES = list(
 		"name" = "TOP Virtues",
 		"color" = "#df5cb8",
 		"entries" = list(),
