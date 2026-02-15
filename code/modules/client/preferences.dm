@@ -2690,6 +2690,10 @@ Slots: [job.spawn_positions] [job.round_contrib_points ? "RCP: +[job.round_contr
 					var/choice = tgui_input_list(user, "CHOOSE A HERO","ROGUETOWN", choices)
 					if(choice)
 						choice = choices[choice]
+						// Close any open loadout menu before switching slots
+						for(var/datum/tgui/ui in user.tgui_open_uis)
+							if(istype(ui.src_object, /datum/loadout_menu))
+								ui.close()
 						if(!load_character(choice))
 							random_character(null, FALSE, FALSE)
 							save_character()
