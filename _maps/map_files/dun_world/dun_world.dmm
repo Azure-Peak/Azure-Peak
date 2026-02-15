@@ -17376,9 +17376,6 @@
 /turf/open/floor/rogue/grassred,
 /area/rogue/druidsgrove)
 "dXU" = (
-/obj/structure/stairs/fancy{
-	dir = 8
-	},
 /obj/structure/stairs/fancy/r{
 	dir = 8
 	},
@@ -77355,9 +77352,6 @@
 /turf/open/floor/rogue/cobble,
 /area/rogue/indoors/cave)
 "rMa" = (
-/obj/structure/stairs/fancy{
-	dir = 8
-	},
 /obj/structure/stairs/fancy/l{
 	dir = 8
 	},
@@ -367359,8 +367353,8 @@ wHi
 wHi
 wHi
 fFf
-fFf
-fFf
+bRm
+bRm
 bRm
 bRm
 fFf
