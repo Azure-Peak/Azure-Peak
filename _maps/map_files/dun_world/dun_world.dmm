@@ -20943,7 +20943,7 @@
 /obj/structure/fluff/signage{
 	dir = 4;
 	name = "MOUNT GOLGOTHA CRYPT DIRECTIONS";
-	desc = "This is a rather finely carved sign directing "MourningFolk,FuneraleAttendees,&Clergyfolko'theLadyVeil'd", further into what it dubs the "MountGolgothaCryptofHerPaleGrace". While the sign looks quite freshly put up, it is dug into truly ancient looking stones."
+	desc = "This is a rather finely carved sign directing 'Mourning Folk,Funerale Attendees, & Clergy folk o' the Lady Veil'd', further into what it dubs the 'Mount Golgotha Crypt of Her Dignified Grace'. While the sign looks quite freshly put up, it is dug into truly ancient looking stones."
 	},
 /turf/open/floor/rogue/church,
 /area/rogue/under/cave/scarymaze)
@@ -43716,7 +43716,9 @@
 	pixel_y = 7
 	},
 /turf/open/floor/rogue/churchrough,
-/area/rogue/under/cave/scarymaze)
+/area/rogue/under/cave/scarymaze{
+	name = 1
+	})
 "kaQ" = (
 /obj/structure/fluff/walldeco/church/line{
 	dir = 4
