@@ -446,7 +446,7 @@
 // Standard dagger for wardens, or for any other forester-styled class. While a pick-dagger penetrates
 // armour, this is more focused on breaking *through* it and then dealing a lot of damage via REND.
 /obj/item/rogueweapon/huntingknife/idagger/warden_machete
-	possible_item_intents = list(/datum/intent/dagger/thrust/weak, /datum/intent/dagger/cut/heavy,
+	possible_item_intents = list(/datum/intent/dagger/cut/heavy, /datum/intent/dagger/thrust/weak,
 	/datum/intent/dagger/cut/rend, /datum/intent/dagger/sucker_punch)
 	force = 22 // Slightly more damage than a steel dagger.
 	max_integrity = 130 // Slightly less integrity than a steel dagger.
