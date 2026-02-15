@@ -20086,6 +20086,14 @@
 /obj/effect/decal/cleanable/blood/gibs/body,
 /turf/open/floor/rogue/hay,
 /area/rogue/indoors/shelter/mountains/decap)
+"eNS" = (
+/obj/structure/mineral_door/wood/fancywood{
+	locked = 1;
+	lockid = "manor";
+	name = "Main Hallway"
+	},
+/turf/open/floor/rogue/concrete,
+/area/rogue/indoors/town/manor)
 "eOa" = (
 /obj/structure/fluff/walldeco/church/line{
 	dir = 4
@@ -20792,6 +20800,14 @@
 /obj/item/storage/roguebag,
 /turf/open/floor/rogue/cobble,
 /area/rogue/under/town/basement)
+"eVQ" = (
+/obj/structure/mineral_door/wood{
+	locked = 1;
+	lockid = "walls";
+	name = "Secure section"
+	},
+/turf/open/floor/rogue/concrete,
+/area/rogue/indoors/town/garrison)
 "eVW" = (
 /obj/machinery/light/rogue/torchholder/r,
 /obj/structure/mannequin,
@@ -49846,7 +49862,8 @@
 "lIA" = (
 /obj/structure/mineral_door/wood{
 	locked = 1;
-	lockid = "walls"
+	lockid = "walls";
+	name = "Secure section"
 	},
 /turf/open/floor/rogue/concrete,
 /area/rogue/under/town/basement/keep)
@@ -91010,7 +91027,8 @@
 /obj/structure/fluff/railing/corner/south_west,
 /obj/structure/mineral_door/wood{
 	locked = 1;
-	lockid = "walls"
+	lockid = "walls";
+	name = "Secure section"
 	},
 /turf/open/floor/rogue/concrete,
 /area/rogue/under/town/basement/keep)
@@ -92421,6 +92439,14 @@
 /obj/structure/chair/stool/rogue,
 /turf/open/floor/rogue/ruinedwood/spiral,
 /area/rogue/indoors/town/physician)
+"vSb" = (
+/obj/structure/mineral_door/wood{
+	locked = 1;
+	lockid = "walls";
+	name = "Secure section"
+	},
+/turf/open/floor/rogue/concrete,
+/area/rogue/indoors/town/manor)
 "vSi" = (
 /obj/structure/fluff/walldeco/painting/queen{
 	pixel_x = -32
@@ -272407,7 +272433,7 @@ khy
 khy
 khy
 jWw
-sFu
+eVQ
 jWw
 vof
 kJn
@@ -274218,7 +274244,7 @@ oqq
 oqq
 tGl
 tGl
-sFu
+eVQ
 iad
 iad
 iad
@@ -281900,7 +281926,7 @@ iVE
 iWa
 iWa
 iWa
-sFu
+eVQ
 eWv
 eWv
 eWv
@@ -286871,7 +286897,7 @@ khy
 khy
 khy
 hrE
-sFu
+eVQ
 jWw
 mNM
 cFv
@@ -288230,7 +288256,7 @@ iWa
 vgL
 iWa
 aDk
-sFu
+eVQ
 vhV
 vtB
 wCC
@@ -397626,8 +397652,8 @@ rbU
 gNn
 vxe
 vxe
-ccY
-ccY
+eNS
+eNS
 vxe
 vxe
 uwe
@@ -403947,7 +403973,7 @@ vxe
 vxe
 vxe
 vxe
-xxS
+vSb
 vxe
 vxe
 vxe
@@ -518752,7 +518778,7 @@ xZf
 xZf
 qOj
 cnG
-xxS
+vSb
 gKd
 gKd
 gKd
@@ -519208,7 +519234,7 @@ vxe
 vxe
 vxe
 vxe
-xxS
+vSb
 vxe
 vxe
 kia
