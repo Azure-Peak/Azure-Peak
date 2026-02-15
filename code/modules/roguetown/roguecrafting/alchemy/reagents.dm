@@ -6,7 +6,7 @@
 //Potions
 /datum/reagent/medicine/healthpot
 	name = "Health Potion"
-	description = "Gradually regenerates all types of damage. Also exhausts the target as they regenerate."
+	description = "Gradually regenerates all types of damage."
 	reagent_state = LIQUID
 	color = "#ff0000"
 	taste_description = "lifeblood"
@@ -14,10 +14,6 @@
 	overdose_threshold = 0
 	metabolization_rate = REAGENTS_METABOLISM
 	alpha = 173
-
-
-/datum/reagent/medicine/healthpot/on_mob_metabolize(mob/living/M)
-	to_chat(M, span_userdanger("You feel your vigor draining as your wounds begin to knit together..."))
 
 /datum/reagent/medicine/healthpot/on_mob_life(mob/living/carbon/M)
 	if(volume >= 60)
@@ -34,7 +30,6 @@
 		M.adjustOrganLoss(ORGAN_SLOT_BRAIN, -5  * REAGENTS_EFFECT_MULTIPLIER)
 		M.adjustCloneLoss(-1.75  * REAGENTS_EFFECT_MULTIPLIER, 0)
 		M.adjustOrganLoss(ORGAN_SLOT_EYES, -1 * REAGENTS_EFFECT_MULTIPLIER)
-		M.energy_add(-30) // Exhaust you while it is in your system, at similar rate to the green potion of the same caliber, as balance vs combat chugging (Or forcing you to halve your mix and use twice as much)
 	..()
 
 /datum/reagent/medicine/stronghealth
@@ -63,7 +58,7 @@
 		M.adjustOrganLoss(ORGAN_SLOT_BRAIN, -5  * REAGENTS_EFFECT_MULTIPLIER)
 		M.adjustCloneLoss(-7  * REAGENTS_EFFECT_MULTIPLIER, 0)
 		M.adjustOrganLoss(ORGAN_SLOT_EYES, -2.5 * REAGENTS_EFFECT_MULTIPLIER)
-		M.energy_add(-120) // Exhaust you while it is in your system, at similar rate to the green potion of the same caliber, as balance vs combat chugging (Or forcing you to halve your mix and use twice as much)
+		M.energy_add(-60) // Exhaust you while it is in your system, at similar rate to the green potion of the same caliber, as balance vs combat chugging (Or forcing you to halve your mix and use twice as much)
 	..()
 	. = 1
 
