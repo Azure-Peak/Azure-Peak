@@ -440,6 +440,8 @@ GLOBAL_LIST_EMPTY(chosen_names)
 			dat += "<BR>"
 			dat += "<b>Race:</b> <a href='?_src_=prefs;preference=species;task=input'>[pref_species.base_name]</a>[spec_check(user) ? "" : " (!)"]<BR>"
 			dat += "<b>Subrace:</b> <a href='?_src_=prefs;preference=subspecies;task=input'>[pref_species.sub_name]</a>[spec_check(user) ? "" : " (!)"]<BR>"
+			if(istype(virtue_origin, /datum/virtue/none))
+				virtue_origin = GLOB.virtues[/datum/virtue/origin/azuria]
 			dat += "<b>Origin:</b> <a href='?_src_=prefs;preference=origin;task=input'>[virtue_origin]</a> <a href='?_src_=prefs;preference=originhelp;task=input'>❖</a><BR>"
 			if(length(pref_species.custom_selection))
 				var/race_bonus_display
@@ -458,7 +460,7 @@ GLOBAL_LIST_EMPTY(chosen_names)
 				selected_lang = extra_language
 				lang_output = initial(selected_lang.name)
 
-			dat += "[virtue_origin.extra_language ? "<b>Free Language: </b><a href='?_src_=prefs;preference=extra_language;task=input'>[lang_output]</a>" : "<b>Free Language: Origin</b> "]<BR>"
+			dat += "["<b>Free Language: </b><a href='?_src_=prefs;preference=extra_language;task=input'>[lang_output]</a>"]<BR>"
 
 			// LETHALSTONE EDIT BEGIN: add statpack selection
 			dat += "<b>Statpack:</b> <a href='?_src_=prefs;preference=statpack;task=input'>[statpack.name]</a><BR>"
@@ -1851,7 +1853,6 @@ Slots: [job.spawn_positions] [job.round_contrib_points ? "RCP: +[job.round_contr
 
 					var/chosen_language = tgui_input_list(user, "Choose your character's extra language:", "EXTRA LANGUAGE", choices)
 					if(chosen_language)
-						to_chat(user, "<span class='notice'>Language will not be applied unless selected Origin or Role provides a free language.</span>")
 						if(chosen_language == "None")
 							extra_language = "None"
 						else
@@ -2296,7 +2297,7 @@ Slots: [job.spawn_positions] [job.round_contrib_points ? "RCP: +[job.round_contr
 							continue
 						species[race.base_name] += race
 
-					species = sortNames(species)
+					species = sortList(species)
 
 					var/result = tgui_input_list(user, "By what shape are you bound?", "RACE", species)
 
@@ -2421,8 +2422,8 @@ Slots: [job.spawn_positions] [job.round_contrib_points ? "RCP: +[job.round_contr
 						var/datum/virtue/V = GLOB.virtues[path]
 						if (!V.name)
 							continue
-						if (V.name == virtue_origin.name)
-							continue
+						//if (V.name == virtue_origin.name)
+						//	continue
 						if (!istype(V, /datum/virtue/origin))
 							continue
 						if (V.restricted == TRUE)

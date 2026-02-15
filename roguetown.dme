@@ -1948,6 +1948,7 @@
 #include "code\modules\language\roguetown\grenzelhoftian.dm"
 #include "code\modules\language\roguetown\gronnic.dm"
 #include "code\modules\language\roguetown\hellspeak.dm"
+#include "code\modules\language\roguetown\oldazurian.dm"
 #include "code\modules\language\roguetown\orc.dm"
 #include "code\modules\language\roguetown\otavan.dm"
 #include "code\modules\language\roguetown\sandspeak.dm"

@@ -820,6 +820,9 @@ h2.alert {
 .elf {
 	font-family: "Dauphin", cursive, "Pterra";
 }
+.oldazure{
+	font-family: "BaggageMasterText79 ttcon", "Pterra";
+}
 .dwarf {
 	font-family: "MasonAlternate", "Pterra";
 }
@@ -864,8 +867,8 @@ h2.alert {
 	font-size: 120%;
 }
 .otavan {
-	font-family: "Notredame", "Pterra";
-	font-size: 200%;
+	font-family: "ArkansasDB", "Pterra";
+	font-size: 120%;
 }
 .etruscan {
 	font-family: "Feronia", "Pterra";

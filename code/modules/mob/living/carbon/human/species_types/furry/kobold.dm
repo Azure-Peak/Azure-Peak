@@ -5,7 +5,7 @@
 	name = "Kobold"
 	id = "kobold"
 	is_subrace = TRUE
-	origin_default = /datum/virtue/origin/racial/gronn
+	origin_default = /datum/virtue/origin/gronn
 	origin = "Gronn"
 	base_name = "Zard"
 	desc = "<b>Kobold</b><br>\

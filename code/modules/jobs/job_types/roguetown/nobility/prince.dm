@@ -34,7 +34,7 @@
 	..()
 	H.verbs |= /mob/living/carbon/human/proc/declarechampion
 
-	change_origin(H, /datum/virtue/origin/racial/azuria, "Royal line")
+	change_origin(H, /datum/virtue/origin/azuria, "Royal line")
 
 /datum/advclass/heir/daring
 	name = "Daring Twit"
