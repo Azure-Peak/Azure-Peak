@@ -503,3 +503,30 @@
 		held_items[P] = list()
 		held_items[P]["NAME"] = P.name
 		held_items[P]["PRICE"] = 0
+
+/obj/structure/roguemachine/vendor/keep_squire
+	keycontrol = "lord"
+	will_hawk = FALSE
+
+/obj/structure/roguemachine/vendor/keep_squire/Initialize()
+	. = ..()
+
+	for (var/X in list(/obj/item/roguekey/manor/squire, /obj/item/roguekey/manor/squire/two, /obj/item/roguekey/manor/squire/three, /obj/item/roguekey/manor/squire/four))
+		var/obj/P = new X(src)
+		held_items[P] = list()
+		held_items[P]["NAME"] = P.name
+		held_items[P]["PRICE"] = 0
+
+
+/obj/structure/roguemachine/vendor/keep_servant
+	keycontrol = "lord"
+	will_hawk = FALSE
+
+/obj/structure/roguemachine/vendor/keep_servant/Initialize()
+	. = ..()
+
+	for (var/X in list(/obj/item/roguekey/manor/servant, /obj/item/roguekey/manor/servant/two, /obj/item/roguekey/manor/servant/three, /obj/item/roguekey/manor/servant/four, /obj/item/roguekey/manor/servant/five, /obj/item/roguekey/manor/servant/six))
+		var/obj/P = new X(src)
+		held_items[P] = list()
+		held_items[P]["NAME"] = P.name
+		held_items[P]["PRICE"] = 0

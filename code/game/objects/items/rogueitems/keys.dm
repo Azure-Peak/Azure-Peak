@@ -251,6 +251,46 @@
 	name = "guest bedroom IV key"
 	lockid = "guest_knight_four"
 
+/obj/item/roguekey/manor/squire
+	name = "squire bedroom I key"
+	lockid = "squire_room_one"
+
+/obj/item/roguekey/manor/squire/two
+	name = "squire bedroom II key"
+	lockid = "squire_room_two"
+
+/obj/item/roguekey/manor/squire/three
+	name = "squire bedroom III key"
+	lockid = "squire_room_three"
+
+/obj/item/roguekey/manor/squire/four
+	name = "squire bedroom IV key"
+	lockid = "squire_room_four"
+
+/obj/item/roguekey/manor/servant
+	name = "servant bedroom I key"
+	lockid = "servant_room_one"
+
+/obj/item/roguekey/manor/servant/two
+	name = "servant bedroom II key"
+	lockid = "servant_room_two"
+
+/obj/item/roguekey/manor/servant/three
+	name = "servant bedroom III key"
+	lockid = "servant_room_three"
+
+/obj/item/roguekey/manor/servant/four
+	name = "servant bedroom IV key"
+	lockid = "servant_room_four"
+
+/obj/item/roguekey/manor/servant/five
+	name = "servant bedroom V key"
+	lockid = "servant_room_five"
+
+/obj/item/roguekey/manor/servant/six
+	name = "servant bedroom VI key"
+	lockid = "servant_room_six"
+
 ////////////////////////
 // RETINUE / GARRISON //
 ////////////////////////
