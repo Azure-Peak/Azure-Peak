@@ -62212,7 +62212,7 @@
 /area/rogue/indoors)
 "okq" = (
 /obj/structure/fluff/buysign{
-	desc = s;
+	desc = "This is quite a large, well-carved sign stating calmly and serenely that this area contains sanctified dead which, despite the general effectivness of church-sanctioned ceremony, may rise as deadites on rare occasion. It also instructs you to use available sharp implements in the crypt to penetrate the skull of any risen deadite, for the safety of thyself and thy fellow crypt-goers. Some folks say crypts and graveyards once had no need of weapons to protect the living from their restless ancestors, but it is standard practice in modern days.";
 	name = "BEWARE, TIRELESS DEAD"
 	},
 /turf/open/floor/rogue/church,
