@@ -19524,6 +19524,9 @@
 	},
 /turf/open/floor/rogue/metal/barograte,
 /area/rogue/under/underdark/north)
+"eHj" = (
+/turf/open/floor/rogue/rooftop/green/corner1/dirfive,
+/area/rogue/outdoors/town/roofs/keep)
 "eHk" = (
 /turf/open/floor/rogue/grass,
 /area/rogue/indoors/shelter/woods)
@@ -55938,6 +55941,10 @@
 /obj/effect/decal/remains/human,
 /turf/open/floor/rogue/hay,
 /area/rogue/under/cave/orcdungeon)
+"nhf" = (
+/obj/structure/fluff/railing/border/east,
+/turf/open/floor/rogue/rooftop/green/west,
+/area/rogue/outdoors/town/roofs/keep)
 "nhg" = (
 /obj/structure/fluff/railing/border/north,
 /obj/structure/fluff/railing/border/east,
@@ -89035,6 +89042,10 @@
 /obj/structure/fluff/railing/wood/east,
 /turf/open/floor/rogue/carpet/lord/right,
 /area/rogue/under/town/basement/keep)
+"vdF" = (
+/obj/machinery/light/rogue/firebowl/stump,
+/turf/open/floor/rogue/cobblerock,
+/area/rogue/outdoors/exposed/town/keep)
 "vdG" = (
 /turf/open/floor/rogue/metal{
 	dir = 4
@@ -282341,8 +282352,8 @@ rMf
 gzy
 gzy
 gzy
-gzy
-rMf
+vdF
+wxu
 aKV
 tGl
 aDk
@@ -282793,8 +282804,8 @@ hFg
 gzy
 gzy
 gzy
-msF
-wxu
+jVw
+gfZ
 tGl
 tGl
 vgL
@@ -283246,8 +283257,8 @@ gzy
 gzy
 gzy
 gfZ
-gfZ
-gfZ
+xMe
+sXi
 tGl
 tGl
 tGl
@@ -283699,8 +283710,8 @@ gzy
 gzy
 gfZ
 vAw
-sXi
-xMe
+vAw
+vAw
 vAw
 eml
 oeK
@@ -398054,8 +398065,8 @@ jWw
 lxg
 vmi
 vmi
-vmi
-vmi
+eHj
+arw
 tGl
 tGl
 tRp
@@ -398506,7 +398517,7 @@ iVE
 jHJ
 vmi
 vmi
-vmi
+iIg
 vmi
 vmi
 tGl
@@ -398958,7 +398969,7 @@ tGl
 pYK
 vmi
 vmi
-vmi
+iIg
 vmi
 vmi
 vmi
@@ -399410,7 +399421,7 @@ tGl
 tGl
 psN
 vmi
-vmi
+iIg
 vmi
 vmi
 vmi
@@ -399862,7 +399873,7 @@ bSk
 pNy
 pYK
 vmi
-vmi
+iIg
 vmi
 vmi
 vmi
@@ -400314,7 +400325,7 @@ uOP
 vmi
 vmi
 vmi
-vmi
+iIg
 vmi
 vmi
 vmi
@@ -400766,7 +400777,7 @@ wPz
 woI
 lxg
 vmi
-vmi
+iIg
 vmi
 vmi
 vmi
@@ -401218,7 +401229,7 @@ tGl
 tGl
 iGA
 vmi
-vmi
+iIg
 vmi
 vmi
 vmi
@@ -401670,7 +401681,7 @@ tGl
 vmi
 vmi
 vmi
-vmi
+iIg
 vmi
 vmi
 vmi
@@ -402122,7 +402133,7 @@ jHJ
 vmi
 vmi
 vmi
-vmi
+iIg
 vmi
 vmi
 vmi
@@ -402574,7 +402585,7 @@ vSR
 woI
 woI
 woI
-woI
+nhf
 woI
 woI
 woI
