@@ -820,6 +820,11 @@
 	pixel_x = -2;
 	pixel_y = 7
 	},
+/obj/structure/lever/wall{
+	redstone_id = "castle_sally_gate2";
+	pixel_y = -32;
+	name = "Sallybridge"
+	},
 /turf/open/floor/rogue/cobble,
 /area/rogue/indoors/town/garrison)
 "akh" = (
@@ -42128,6 +42133,11 @@
 	},
 /turf/open/floor/rogue/grasscold,
 /area/rogue/outdoors/mountains/decap)
+"jZv" = (
+/obj/structure/fluff/railing/corner,
+/obj/structure/fluff/railing/border/east,
+/turf/open/transparent/openspace,
+/area/rogue/outdoors/exposed/town/keep)
 "jZx" = (
 /obj/effect/decal/mossy{
 	dir = 8
@@ -51045,6 +51055,7 @@
 /obj/item/roguebin/water{
 	pixel_y = 8
 	},
+/obj/machinery/light/rogue/torchholder/l,
 /turf/open/floor/rogue/cobble,
 /area/rogue/indoors/town/garrison)
 "lYa" = (
@@ -56932,14 +56943,6 @@
 /obj/effect/decal/wood/herringbone,
 /turf/open/floor/rogue/ruinedwood/herringbone_clear,
 /area/rogue/indoors/town/magician)
-"ntG" = (
-/obj/structure/lever/wall{
-	redstone_id = "castle_sally_gate";
-	pixel_y = -32;
-	name = "Sallybridge"
-	},
-/turf/open/floor/rogue/cobble,
-/area/rogue/indoors/town/garrison)
 "ntJ" = (
 /obj/structure/chair/wood/rogue/throne,
 /turf/open/floor/rogue/dirt/road,
@@ -63107,6 +63110,7 @@
 "oRJ" = (
 /obj/structure/table/wood/poor,
 /obj/item/clothing/mask/cigarette/pipe/westman,
+/obj/machinery/light/rogue/torchholder/r,
 /turf/open/floor/rogue/cobble,
 /area/rogue/indoors/town/garrison)
 "oRV" = (
@@ -79332,6 +79336,7 @@
 /area/rogue/under/underdark)
 "sPm" = (
 /obj/structure/well,
+/obj/machinery/light/rogue/torchholder/r,
 /turf/open/floor/rogue/dirt/road,
 /area/rogue/outdoors/exposed/town/keep)
 "sPy" = (
@@ -95936,6 +95941,11 @@
 /obj/structure/fluff/railing/corner/south_east,
 /turf/open/floor/rogue/churchmarble,
 /area/rogue/indoors/town/church/chapel)
+"wKu" = (
+/obj/structure/fluff/railing/corner/north_east,
+/obj/structure/fluff/railing/border/west,
+/turf/open/transparent/openspace,
+/area/rogue/outdoors/exposed/town/keep)
 "wKx" = (
 /mob/living/carbon/human/species/skeleton/npc/bogguard/master,
 /turf/open/floor/rogue/cobble,
@@ -99413,6 +99423,12 @@
 /obj/structure/stairs,
 /turf/open/floor/rogue/ruinedwood/spiral,
 /area/rogue/outdoors/beach/central)
+"xBu" = (
+/obj/structure/floordoor{
+	redstone_id = "castle_sally_gate2"
+	},
+/turf/open/transparent/openspace,
+/area/rogue/outdoors/exposed/town/keep)
 "xBy" = (
 /obj/item/roguegear{
 	pixel_x = 6;
@@ -281408,7 +281424,7 @@ tGl
 vwv
 iWa
 iWa
-ntG
+iWa
 tGl
 wGF
 hfF
@@ -284573,12 +284589,12 @@ vAw
 vAw
 hmo
 ajY
-iVE
-kdL
-kLe
-kLe
-prz
-afY
+tGl
+jZv
+rgm
+rgm
+jXX
+dXd
 afY
 cRI
 vAw
@@ -285025,12 +285041,12 @@ vAw
 vAw
 hmo
 iWa
-tGl
-kdL
-kLe
-kLe
-prz
-afY
+wNk
+xBu
+xBu
+xBu
+rjp
+gzf
 afY
 cRI
 vAw
@@ -285477,12 +285493,12 @@ vAw
 vAw
 hmo
 rQM
-iVE
-kdL
-kLe
-kLe
-prz
-afY
+tGl
+wKu
+hfF
+hfF
+gVG
+xSN
 afY
 cRI
 vAw
