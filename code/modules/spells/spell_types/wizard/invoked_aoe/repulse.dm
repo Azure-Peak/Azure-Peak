@@ -21,6 +21,7 @@
 	glow_color = GLOW_COLOR_DISPLACEMENT
 	glow_intensity = GLOW_INTENSITY_MEDIUM
 	gesture_required = TRUE // Offensive spell. Don't blast guards while chained.
+	human_req = TRUE // Combat spell
 	var/maxthrow = 3
 	var/sparkle_path = /obj/effect/temp_visual/gravpush
 	var/repulse_force = MOVE_FORCE_EXTREMELY_STRONG

@@ -44,7 +44,7 @@
 	shirt = /obj/item/clothing/suit/roguetown/shirt/shadowshirt //padded is too strong I guess.
 	pants = /obj/item/clothing/under/roguetown/heavy_leather_pants
 	neck = /obj/item/clothing/neck/roguetown/chaincoif
-	wrists = /obj/item/clothing/wrists/roguetown/splintarms
+	wrists = /obj/item/clothing/wrists/roguetown/bracers/brigandine
 	backpack_contents = list(
 		/obj/item/roguekey/mercenary = 1,
 		/obj/item/flashlight/flare/torch/lantern = 1,

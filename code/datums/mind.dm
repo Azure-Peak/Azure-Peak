@@ -751,6 +751,9 @@ GLOBAL_LIST_EMPTY(personal_objective_minds)
 /datum/mind/proc/AddSpell(obj/effect/proc_holder/spell/S, mob/living/user)
 	if(!S)
 		return
+	for(var/obj/effect/proc_holder/spell/present_spell in spell_list)
+		if(present_spell.name == S.name && present_spell.type == S.type)
+			return
 	spell_list += S
 	S.action.Grant(current)
 	if(user)

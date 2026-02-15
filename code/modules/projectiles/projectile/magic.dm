@@ -277,29 +277,7 @@
 			return BULLET_ACT_BLOCK
 		L.apply_status_effect(STATUS_EFFECT_ANTIMAGIC)
 
-/obj/projectile/magic/fetch
-	name = "bolt of fetching"
-	icon_state = "cursehand0"
-	range = 15
 
-/obj/projectile/magic/fetch/on_hit(target)
-	. = ..()
-	var/atom/throw_target = get_step(firer, get_dir(firer, target))
-	if(isliving(target))
-		var/mob/living/L = target
-		if(L.anti_magic_check() || !firer)
-			L.visible_message(span_warning("[src] vanishes on contact with [target]!"))
-			return BULLET_ACT_BLOCK
-		L.throw_at(throw_target, 200, 4)
-	else
-		if(isitem(target))
-			var/obj/item/I = target
-			var/mob/living/carbon/human/carbon_firer
-			if (ishuman(firer))
-				carbon_firer = firer
-				if (carbon_firer?.can_catch_item())
-					throw_target = get_turf(firer)
-			I.throw_at(throw_target, 200, 3)
 
 /obj/projectile/magic/sickness
 	name = "Bolt of Sickness"

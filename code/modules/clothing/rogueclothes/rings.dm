@@ -14,6 +14,7 @@
 	anvilrepair = /datum/skill/craft/armorsmithing
 	experimental_inhand = FALSE
 	drop_sound = 'sound/foley/coinphy (1).ogg'
+	salvage_result = null
 
 /obj/item/clothing/ring/aalloy
 	name = "decrepit ring"
@@ -44,6 +45,46 @@
 	name = "blacksteel ring"
 	icon_state = "ring_bs"
 	sellprice = 70
+
+/obj/item/clothing/ring/jade
+	name = "jade ring"
+	icon_state = "ring_jade"
+	sellprice = 60
+
+/obj/item/clothing/ring/coral
+	name = "heartstone ring"
+	icon_state = "ring_coral"
+	sellprice = 70
+
+/obj/item/clothing/ring/onyxa
+	name = "onyxa ring"
+	icon_state = "ring_onyxa"
+	sellprice = 40
+
+/obj/item/clothing/ring/shell
+	name = "shell ring"
+	icon_state = "ring_shell"
+	sellprice = 20
+
+/obj/item/clothing/ring/amber
+	name = "amber ring"
+	icon_state = "ring_amber"
+	sellprice = 20
+
+/obj/item/clothing/ring/turq
+	name = "cerulite ring"
+	icon_state = "ring_turq"
+	sellprice = 85
+
+/obj/item/clothing/ring/rose
+	name = "rosestone ring"
+	icon_state = "ring_rose"
+	sellprice = 25
+
+/obj/item/clothing/ring/opal
+	name = "opal ring"
+	icon_state = "ring_opal"
+	sellprice = 90
 
 /obj/item/clothing/ring/active
 	var/active = FALSE
@@ -84,7 +125,7 @@
 /obj/item/clothing/ring/active/nomag
 	name = "ring of null magic"
 	icon_state = "ruby"
-	desc = "A golden ring that bares a runic enigma, capable of nullifying all incoming magicka. Unfortuantely, like with most magic rings, its powers can only be used sparingly - a half-minute's ward, followed by a half-dae's recharging. </br>‎  </br>By right-clicking the ring, I can temporarily render myself invulnerable to magicka."
+	desc = "A golden ring that bares a runic enigma, capable of nullifying all incoming magicka. Unfortuantely, like with most magic rings, its powers can only be used sparingly."
 	activate_sound = 'sound/magic/antimagic.ogg'
 	cdtime = 10 MINUTES
 	activetime = 30 SECONDS
@@ -106,6 +147,12 @@
 	var/datum/component/magcom = GetComponent(/datum/component/anti_magic)
 	if(magcom)
 		magcom.ClearFromParent()
+
+/obj/item/clothing/ring/active/nomag/get_mechanics_examine(mob/user)
+    . = ..()
+    . += span_info("Right click to activate the ring's ward, which provides temporary invulnerability against all direct magical attacks for thirty seconds.")
+    . += span_info("Wearers with unholy ailments are also rendered invulnerable to being sundered by silver weaponry, for the ward's duration.")
+    . += span_info("Once the ring's ward is exhausted, it'll require ten minutes to recharge enough power for another activation.")
 
 //gold rings
 /obj/item/clothing/ring/emerald
@@ -153,9 +200,14 @@
 /obj/item/clothing/ring/signet
 	name = "signet ring"
 	icon_state = "signet"
-	desc = "A ring of opulent gold, bearing the Lord's symbol. By dipping it in melted redtallow, it can seal writs of religious importance - a matter better known to the Inquisition, rather than the Church or Crown."
+	desc = "A ring of opulent gold, bearing the Lord's symbol. By dipping it in melted redtallow, it can seal writs of ducal importance."
 	sellprice = 135
 	var/tallowed = FALSE
+
+/obj/item/clothing/ring/signet/get_mechanics_examine(mob/user)
+    . = ..()
+    . += span_info("Left click the ring on a warmed tallowpot - filled with redtallow, specifically - to prepare a stamp.")
+    . += span_info("Certain letters can be folded and stamped with a prepared ring, which proves minor financial benefits.")
 
 /obj/item/clothing/ring/signet/silver
 	name = "silver signet ring"
@@ -163,6 +215,11 @@
 	desc = "A ring of blessed silver, bearing the Archbishop's symbol. By dipping it in melted redtallow, it can seal writs of religious importance."
 	sellprice = 90
 	is_silver = FALSE //Temporary measure to prevent people from easily metachecking vampyres. Replace with a more sophisticated alternative if-or-when available.
+
+/obj/item/clothing/ring/signet/silver/get_mechanics_examine(mob/user)
+    . = ..()
+    . += span_info("Stamping a folded ACCUSATION or CONFESSION will increase the amount of MARQUES it'll reward, once sent through the HERMES.")
+    . += span_info("Packing an INDEXER into an ACCUSATION or CONFESSION before folding-and-stamping it will further amplify this financial bonus.")
 
 /obj/item/clothing/ring/signet/attack_right(mob/user)
 	. = ..()

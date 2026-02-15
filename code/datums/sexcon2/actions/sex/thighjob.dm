@@ -28,6 +28,9 @@
 /datum/sex_action/sex/thighjob/get_start_message(mob/living/carbon/human/user, mob/living/carbon/human/target)
 	return span_warning("[user] grabs [target]'s thighs and shoves [user.p_their()] cock inbetween!")
 
+/datum/sex_action/sex/thighjob/get_finish_message(mob/living/carbon/human/user, mob/living/carbon/human/target)
+	return span_warning("[user] pulls [user.p_their()] cock out from inbetween [target]'s thighs.")
+
 /datum/sex_action/sex/thighjob/on_perform(mob/living/carbon/human/user, mob/living/carbon/human/target)
 	var/datum/sex_session/sex_session = get_sex_session(user, target)
 	user.visible_message(sex_session.spanify_force("[user] [sex_session.get_generic_force_adjective()] fucks [target]'s thighs."))
@@ -37,5 +40,6 @@
 	sex_session.perform_sex_action(user, 2, 4, TRUE)
 	sex_session.handle_passive_ejaculation()
 
-/datum/sex_action/sex/thighjob/get_finish_message(mob/living/carbon/human/user, mob/living/carbon/human/target)
-	return span_warning("[user] pulls [user.p_their()] cock out from inbetween [target]'s thighs.")
+/datum/sex_action/sex/thighjob/handle_climax_message(mob/living/carbon/human/user, mob/living/carbon/human/target)
+	user.visible_message(span_love("[user] cums over [target]'s thighs!"))
+	return "onto"

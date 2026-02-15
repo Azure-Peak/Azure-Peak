@@ -425,3 +425,29 @@
 		held_items[P]["NAME"] = P.name
 		held_items[P]["PRICE"] = 100 // relatively expensive, but cheaper than importing a whole mount
 	update_icon()
+
+/obj/structure/roguemachine/vendor/church_bedroomset_one //contains the keys to the church bedrooms, better visually than having them on a table
+	keycontrol = "priest"
+	will_hawk = FALSE
+
+/obj/structure/roguemachine/vendor/church_bedroomset_one/Initialize()
+	. = ..()
+
+	for (var/X in list(/obj/item/roguekey/church/roomi, /obj/item/roguekey/church/roomii, /obj/item/roguekey/church/roomiii, /obj/item/roguekey/church/roomiv, /obj/item/roguekey/church/roomv))
+		var/obj/P = new X(src)
+		held_items[P] = list()
+		held_items[P]["NAME"] = P.name
+		held_items[P]["PRICE"] = 0
+
+/obj/structure/roguemachine/vendor/church_bedroomset_two //contains the keys to the church bedrooms, better visually than having them on a table
+	keycontrol = "priest"
+	will_hawk = FALSE
+
+/obj/structure/roguemachine/vendor/church_bedroomset_two/Initialize()
+	. = ..()
+
+	for (var/X in list(/obj/item/roguekey/church/roomvi, /obj/item/roguekey/church/roomvii, /obj/item/roguekey/church/roomviii, /obj/item/roguekey/church/roomix, /obj/item/roguekey/church/roomx, /obj/item/roguekey/church/roomxi, /obj/item/roguekey/church/roomxii, /obj/item/roguekey/church/roomxiii, /obj/item/roguekey/church/roomxiv))
+		var/obj/P = new X(src)
+		held_items[P] = list()
+		held_items[P]["NAME"] = P.name
+		held_items[P]["PRICE"] = 0

@@ -51,6 +51,10 @@
 	},
 /turf/open/floor/rogue/naturalstone,
 /area/rogue/under/tomb/cave/lava)
+"P" = (
+/obj/item/natural/rock/coal,
+/turf/open/floor/rogue/naturalstone,
+/area/rogue/under/tomb/cave/lava)
 "Q" = (
 /obj/effect/dungeon_directional_helper/west,
 /turf/open/floor/rogue/naturalstone,
@@ -156,7 +160,7 @@ a
 Y
 Y
 q
-t
+R
 o
 o
 a
@@ -180,7 +184,7 @@ a
 a
 a
 a
-X
+P
 o
 a
 "}
@@ -245,7 +249,7 @@ d
 o
 k
 d
-t
+R
 o
 t
 Y
@@ -262,7 +266,7 @@ o
 o
 d
 o
-t
+P
 a
 Y
 Y
@@ -379,7 +383,7 @@ a
 a
 o
 o
-t
+P
 d
 d
 o
@@ -443,7 +447,7 @@ a
 (7,1,2) = {"
 d
 X
-X
+R
 d
 d
 d
@@ -492,7 +496,7 @@ o
 o
 "}
 (10,1,2) = {"
-t
+R
 o
 S
 a
@@ -527,7 +531,7 @@ a
 "}
 (12,1,2) = {"
 a
-t
+R
 o
 d
 d
@@ -537,8 +541,8 @@ o
 a
 a
 a
-X
-X
+R
+R
 a
 a
 "}
@@ -550,7 +554,7 @@ W
 a
 a
 t
-t
+R
 o
 o
 d

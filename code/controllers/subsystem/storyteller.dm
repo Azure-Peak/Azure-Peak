@@ -237,7 +237,7 @@ SUBSYSTEM_DEF(gamemode)
 /datum/controller/subsystem/gamemode/fire(resumed = FALSE)
 	if(last_devotion_check < world.time)
 		pick_most_influential()
-		last_devotion_check = world.time + 90 MINUTES
+		last_devotion_check = world.time + 45 MINUTES
 
 	if(SSticker.HasRoundStarted() && (world.time - SSticker.round_start_time) >= ROUNDSTART_VALID_TIMEFRAME)
 		can_run_roundstart = FALSE
@@ -1163,9 +1163,14 @@ SUBSYSTEM_DEF(gamemode)
         STATS_VAMPIRES,
         STATS_DEADITES_ALIVE,
         STATS_CLINGY_PEOPLE,
+		STATS_BEAUTIFUL_PEOPLE,
+		STATS_MARRIAGES_MADE,
         STATS_ALCOHOLICS,
         STATS_JUNKIES,
-		STATS_KLEPTOMANIACS,
+		STATS_VOYEURS,
+		STATS_NYMPHOMANIACS,
+		STATS_INDEBTED,
+		STATS_THRILLSEEKERS,
         STATS_GREEDY_PEOPLE,
         STATS_PLEASURES,
         STATS_MALE_POPULATION,
@@ -1273,10 +1278,20 @@ SUBSYSTEM_DEF(gamemode)
 				record_round_statistic(STATS_ALCOHOLICS)
 			if(human_mob.has_flaw(/datum/charflaw/addiction/junkie))
 				record_round_statistic(STATS_JUNKIES)
-			if(human_mob.has_flaw(/datum/charflaw/addiction/kleptomaniac))
-				record_round_statistic(STATS_KLEPTOMANIACS)
+			if(human_mob.has_flaw(/datum/charflaw/addiction/lovefiend))
+				record_round_statistic(STATS_NYMPHOMANIACS)
+			if(human_mob.has_flaw(/datum/charflaw/indebted))
+				record_round_statistic(STATS_INDEBTED)
 			if(human_mob.has_flaw(/datum/charflaw/greedy))
 				record_round_statistic(STATS_GREEDY_PEOPLE)
+			if(human_mob.has_flaw(/datum/charflaw/clingy))
+				record_round_statistic(STATS_CLINGY_PEOPLE)
+			if(human_mob.has_flaw(/datum/charflaw/addiction/thrillseeker))
+				record_round_statistic(STATS_THRILLSEEKERS)
+			if(human_mob.has_flaw(/datum/charflaw/addiction/voyeur))
+				record_round_statistic(STATS_VOYEURS)
+			if(HAS_TRAIT(human_mob, TRAIT_BEAUTIFUL))
+				record_round_statistic(STATS_BEAUTIFUL_PEOPLE)
 
 			// Races - proper alive checking (We have so fucking many, kill me..)
 			if(ishumannorthern(human_mob))

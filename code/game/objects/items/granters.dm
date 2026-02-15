@@ -134,15 +134,91 @@
 
 /obj/item/book/granter/crafting_recipe
 	var/list/crafting_recipe_types = list()
+	icon = 'icons/roguetown/items/misc.dmi'
+	icon_state = "learning_tome"
+	drop_sound = 'sound/foley/dropsound/paper_drop.ogg'
+	pickup_sound =  'sound/blank.ogg'
 
 /obj/item/book/granter/crafting_recipe/on_reading_finished(mob/user)
 	. = ..()
 	if(!user.mind)
 		return
+	
 	for(var/crafting_recipe_type in crafting_recipe_types)
 		var/datum/crafting_recipe/R = crafting_recipe_type
 		user.mind.teach_crafting_recipe(crafting_recipe_type)
 		to_chat(user,span_notice("I learned how to make [initial(R.name)]."))
+	to_chat(user,span_notice("The book falls apart in my hands."))
+	qdel(src)
+
+/////////////////////
+// TAILORING BOOKS //
+/////////////////////
+
+/*
+UNDER NO CIRCUMSTANCE SHOULD ANY OF THE BOOKS BE GIVEN OUT INTO SPAWNERS OR TO BE PURCHASABLE, BREAK THAT RULE ON YOUR OWN PERIL
+*/
+/obj/item/book/granter/crafting_recipe/tailor
+	name = "MASTER TAILORING / LEATHERWORKING TOME"
+	desc = "If you got hold of this either spawn system screwed up somewhere or admin is trolling you, report THIS."
+	oneuse = TRUE
+	crafting_recipe_types = list(
+		/datum/crafting_recipe/roguetown/sewing/tailor/naledisash,
+		/datum/crafting_recipe/roguetown/sewing/tailor/halfrobe,
+		/datum/crafting_recipe/roguetown/sewing/tailor/monkrobe,
+		/datum/crafting_recipe/roguetown/leather/unique/monkleather,
+		/datum/crafting_recipe/roguetown/sewing/tailor/desertgown,
+		/datum/crafting_recipe/roguetown/leather/unique/baggyleatherpants,
+		/datum/crafting_recipe/roguetown/sewing/tailor/otavangambeson,
+		/datum/crafting_recipe/roguetown/leather/unique/otavanleatherpants,
+		/datum/crafting_recipe/roguetown/leather/unique/otavanboots,
+		/datum/crafting_recipe/roguetown/sewing/tailor/hgambeson/fencer,
+		/datum/crafting_recipe/roguetown/leather/unique/fencingbreeches,
+		/datum/crafting_recipe/roguetown/sewing/tailor/grenzelhat,
+		/datum/crafting_recipe/roguetown/sewing/tailor/grenzelshirt,
+		/datum/crafting_recipe/roguetown/sewing/tailor/grenzelpants,
+		/datum/crafting_recipe/roguetown/leather/unique/grenzelboots,
+		/datum/crafting_recipe/roguetown/leather/unique/furlinedjacket,
+		/datum/crafting_recipe/roguetown/leather/unique/artipants,
+		/datum/crafting_recipe/roguetown/leatherunique/gladsandals,
+		/datum/crafting_recipe/roguetown/leather/unique/buckleshoes,
+		/datum/crafting_recipe/roguetown/leather/unique/winterjacket,
+		/datum/crafting_recipe/roguetown/leather/unique/openrobes,
+		/datum/crafting_recipe/roguetown/leather/unique/monkrobes
+	)
+
+/obj/item/book/granter/crafting_recipe/tailor/western
+	name = "Grand Codex of Classic Tailoring"
+	desc = "A thick book containing details on how to outfit an army of mammon-seeking scoundrels in style. Something tells you the author mislead you with the title."
+	crafting_recipe_types = list(
+		/datum/crafting_recipe/roguetown/sewing/tailor/otavangambeson,
+		/datum/crafting_recipe/roguetown/leather/unique/otavanleathergloves,
+		/datum/crafting_recipe/roguetown/leather/unique/otavanleatherpants,
+		/datum/crafting_recipe/roguetown/leather/unique/otavanboots,//Otavan
+		/datum/crafting_recipe/roguetown/sewing/tailor/grenzelhat,
+		/datum/crafting_recipe/roguetown/sewing/tailor/grenzelshirt,
+		/datum/crafting_recipe/roguetown/leather/unique/grenzelgloves,
+		/datum/crafting_recipe/roguetown/sewing/tailor/grenzelpants,
+		/datum/crafting_recipe/roguetown/leather/unique/grenzelboots//Grenzel
+	)
+
+/obj/item/book/granter/crafting_recipe/tailor/eastern
+	name = "Almanach of Heritage Tailoring"
+	desc = "A collection of images and instructions on how to assemble traditional outfits of more isolationist groups."
+	crafting_recipe_types = list(
+		/datum/crafting_recipe/roguetown/sewing/tailor/naledisash,
+		/datum/crafting_recipe/roguetown/sewing/tailor/halfrobe,
+		/datum/crafting_recipe/roguetown/sewing/tailor/monkrobe,
+		/datum/crafting_recipe/roguetown/leather/unique/monkleather,
+		/datum/crafting_recipe/roguetown/sewing/tailor/desertgown,
+		/datum/crafting_recipe/roguetown/leather/unique/baggyleatherpants,//Naledi
+		/datum/crafting_recipe/roguetown/sewing/tailor/hgambeson/fencer,
+		/datum/crafting_recipe/roguetown/leather/unique/fencingbreeches,//Aanvr
+		/datum/crafting_recipe/roguetown/leather/unique/openrobes,
+		/datum/crafting_recipe/roguetown/leather/unique/gronngloves,
+		/datum/crafting_recipe/roguetown/leather/unique/gronnpants,
+		/datum/crafting_recipe/roguetown/leather/unique/gronnboots//Gronn
+	)
 
 //! --BLACKSTONE SCROLLS-- !/
 /obj/item/book/granter/spell/blackstone/
@@ -427,7 +503,7 @@
 	name = "Arcyne Insight"
 	icon_state = "scrollpurple"
 	icon = 'icons/roguetown/items/misc.dmi'
-	desc = "This scroll giving the reader 3 spell points."
+	desc = "This scroll grants the reader an additional three spell points. They must already be a NOVICE in the arcyne..."
 	oneuse = TRUE
 	drop_sound = 'sound/foley/dropsound/paper_drop.ogg'
 	pickup_sound =  'sound/blank.ogg'
@@ -459,7 +535,7 @@
 	name = "Arcyne Manuscript"
 	icon_state = "scrollpurple"
 	icon = 'icons/roguetown/items/misc.dmi'
-	desc = "This scroll giving the reader new arcyne Tyr."
+	desc = "This scroll gives the reader greater arcyne power, and spell-points to accompany it."
 	oneuse = TRUE
 	drop_sound = 'sound/foley/dropsound/paper_drop.ogg'
 	pickup_sound =  'sound/blank.ogg'

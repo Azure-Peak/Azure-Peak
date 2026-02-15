@@ -46,7 +46,7 @@
 
 		var/validation_result = validate_items(target)
 		if(validation_result != "")
-			to_chat(user, span_warning("[validation_result] on the floor next to or on top of [target]"))
+			to_chat(user, span_warning("[validation_result] on the floor next to or on top of [target]."))
 			revert_cast()
 			return FALSE
 
@@ -116,7 +116,7 @@
 	revert_cast()
 	return FALSE
 
-/obj/effect/proc_holder/spell/invoked/resurrect/cast_check(skipcharge = 0,mob/user = usr)
+/obj/effect/proc_holder/spell/invoked/resurrect/cast_check(skipcharge, mob/user = usr)
 	if(!..())
 		to_chat(user, span_warning("The miracle fizzles."))
 		return FALSE

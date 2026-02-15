@@ -11,12 +11,11 @@
 		STATKEY_WIL = -1
 	)
 	subclass_skills = list(
-		/datum/skill/magic/holy = SKILL_LEVEL_NOVICE,
 		/datum/skill/misc/reading = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/misc/medicine = SKILL_LEVEL_APPRENTICE,
-		/datum/skill/craft/cooking = SKILL_LEVEL_NOVICE,
 		/datum/skill/craft/crafting = SKILL_LEVEL_APPRENTICE,
 	)
+	extra_context = "Contains randomized skills and stats."
 
 /datum/outfit/job/roguetown/vagabond/excommunicated/pre_equip(mob/living/carbon/human/H)
 	..()
@@ -41,3 +40,7 @@
 		var/datum/devotion/C = new /datum/devotion(H, H.patron)
 		C.grant_miracles(H, cleric_tier = CLERIC_T1, passive_gain = CLERIC_REGEN_MINOR)	//Minor regen, can level up to T4.
 		GLOB.excommunicated_players += H.real_name // john roguetown, you are EXCOMMUNICADO.
+		H.adjust_skillrank(/datum/skill/magic/holy, rand(1,4), TRUE)
+		H.adjust_skillrank(/datum/skill/craft/cooking, rand(1,4), TRUE)
+		H.STAWIL = rand(8, 20) //Many fall in the face of chaos, but not this one, not today.
+		H.STACON = rand(5, 10)

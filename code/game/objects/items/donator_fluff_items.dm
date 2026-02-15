@@ -293,6 +293,15 @@
 		pic.color = get_detail_color()
 	add_overlay(pic)
 
+/obj/item/rogueweapon/spear/lance/dasfox
+	name = "La Rosa de la Chevalerie"
+	desc = "A jousting lance, designed to look much like the flower- a softness backed by steel. \
+		Handwoven silk is draped down the length and kept in place by steel vines, while heart-shaped ties keep silk on the grip from moving much even during proper jousts. \
+		The cup guard has been forged, in lieu of its natural shape, into a blooming rosa - genteel and pleasant in view for a weapon of war."
+	icon = 'icons/obj/items/donor_weapons_64.dmi'
+	icon_state = "dasfox_lance"
+
+
 //RYAN180602
 /obj/item/caparison/ryan
 	name = "western estates caparison"
@@ -310,8 +319,16 @@
 	icon = 'icons/clothing/donor_clothes.dmi'
 	mob_overlay_icon = 'icons/clothing/onmob/donor_clothes64.dmi'
 
-//koruu
+//KORUU
 /obj/item/clothing/head/roguetown/mentorhat/koruu
 	name = "well-worn bamboo hat"
 	desc = "A bamboo hat, made from shaven rice straw and woven into place alongside a coating of lacquer. This particular hat seems worn with age, yet well maintained. The phrase, '葉隠' can be seen stitched in gold in the inner lining of the hat."
 	armor = ARMOR_CLOTHING
+
+//DAKKEN12
+/obj/item/clothing/head/roguetown/helmet/bascinet/pigface/hounskull/dakken
+	name = "armoured avantyne barbute"
+	desc = "A heavy-metal barbute that seems to be more avantyne than steel. It carries a tormented lustre about it, glinting under the sun as threads of the dark metal wind through its visor."
+	icon_state = "dakken_zizbarb"
+	icon = 'icons/clothing/donor_clothes.dmi'
+	mob_overlay_icon = 'icons/clothing/onmob/donor_clothes.dmi'

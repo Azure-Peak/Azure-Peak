@@ -20,6 +20,8 @@
 	wdefense = 2
 	grid_width = 32
 	grid_height = 64
+	anvilrepair = /datum/skill/craft/weaponsmithing
+	obj_flags = CAN_BE_HIT
 
 /obj/item/cooking/pan/examine(mob/user)
 	. = ..()

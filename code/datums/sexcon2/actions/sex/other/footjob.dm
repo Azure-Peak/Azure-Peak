@@ -16,11 +16,13 @@
 		return FALSE
 	if(user == target)
 		return FALSE
-	if(!check_location_accessible(user, user, BODY_ZONE_PRECISE_L_FOOT) && !istype(user.shoes, /obj/item/clothing/shoes/roguetown/jester))
-		return FALSE
-	if(!check_location_accessible(user, user, BODY_ZONE_PRECISE_R_FOOT) && !istype(user.shoes, /obj/item/clothing/shoes/roguetown/jester))
-		return FALSE
 	if(!check_location_accessible(user, target, BODY_ZONE_PRECISE_GROIN, TRUE))
+		return FALSE
+	// Need to stand up
+	if(user.resting)
+		return FALSE
+	// Target can't stand up
+	if(!target.resting)
 		return FALSE
 	if(!target.getorganslot(ORGAN_SLOT_PENIS))
 		return FALSE
@@ -30,6 +32,9 @@
 
 /datum/sex_action/sex/other/footjob/get_start_message(mob/living/carbon/human/user, mob/living/carbon/human/target)
 	return span_warning("[user] puts [user.p_their()] feet on [target]'s cock...")
+
+/datum/sex_action/sex/other/footjob/get_finish_message(mob/living/carbon/human/user, mob/living/carbon/human/target)
+	return span_warning("[user] pulls [user.p_their()] feet off [target]'s cock...")
 
 /datum/sex_action/sex/other/footjob/on_perform(mob/living/carbon/human/user, mob/living/carbon/human/target)
 	var/datum/sex_session/sex_session = get_sex_session(user, target)
@@ -43,5 +48,6 @@
 	sex_session.perform_sex_action(target, 2, 4, TRUE)
 	sex_session.handle_passive_ejaculation(target)
 
-/datum/sex_action/sex/other/footjob/get_finish_message(mob/living/carbon/human/user, mob/living/carbon/human/target)
-	return span_warning("[user] pulls [user.p_their()] feet off [target]'s cock...")
+/datum/sex_action/sex/other/footjob/handle_climax_message(mob/living/carbon/human/user, mob/living/carbon/human/target)
+	user.visible_message(span_love("[user] cums over [target]'s feet!"))
+	return "onto"

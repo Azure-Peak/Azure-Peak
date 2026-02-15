@@ -96,6 +96,15 @@
 	///Default pixel y shifting for the atom's icon.
 	var/base_pixel_y = 0
 
+	///Icon to use for smoothing, only required for secret doors
+	var/smoothing_icon
+	///What directions this is currently smoothing with. IMPORTANT: This uses the smoothing direction flags as defined in icon_smoothing.dm, instead of the BYOND flags.
+	var/smoothing_junction = null //This starts as null for us to know when it's first set, but after that it will hold a 8-bit mask ranging from 0 to 255.
+	///What smoothing groups does this atom belongs to, to match smoothing_list. If null, nobody can smooth with it.
+	var/list/smoothing_groups = null
+	///List of smoothing groups this atom can smooth with. If this is null and atom is smooth, it smooths only with itself.
+	var/list/smoothing_list = null
+
 /**
  * Called when an atom is created in byond (built in engine proc)
  *
@@ -1292,3 +1301,14 @@
 		qdel(src)
 	else
 		src.dir = pick(dir_list) //Random directions are fun :)
+
+/atom/proc/smooth_icon()
+	if(QDELETED(src))
+		return
+	smooth &= ~SMOOTH_QUEUED
+	if (!z)
+		CRASH("[type] called smooth_icon() without being on a z-level")
+	if(smooth & USES_SMOOTHING)
+		smooth()
+	else
+		CRASH("[type] called smooth_icon() without valid flags: [smooth]")

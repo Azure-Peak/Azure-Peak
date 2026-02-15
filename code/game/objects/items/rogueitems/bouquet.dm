@@ -35,11 +35,12 @@
 	icon_state = "bouquet_calendula"
 
 /obj/item/flowercrown
-	name = ""
-	desc = ""
-	icon = 'icons/roguetown/clothing/head.dmi' 
+	name = "flowercrown"
+	desc = "A carefully woven crown of fresh flowers, yet to wilt. Headwear beloved \
+	by Eorans and all pining romantics."
+	icon = 'icons/roguetown/clothing/head.dmi'
 	mob_overlay_icon = 'icons/roguetown/clothing/onmob/head_items.dmi'
-	alternate_worn_layer  = 8.9 //On top of helmet
+	alternate_worn_layer = 8.9 //On top of helmet
 	slot_flags = ITEM_SLOT_HEAD|ITEM_SLOT_MASK
 	body_parts_covered = null
 	icon_state = ""
@@ -72,12 +73,15 @@
 
 /obj/item/flowercrown/manabloom
 	name = "crown of manabloom"
+	desc = "A crown formed of manabloom flowers. Often worn by those who find themselves in need of a \
+	deeper attunement to the arcyne; a favourite of young apprentices and faltering old masters both."
 	item_state = "manabloom_crown"
 	icon_state = "manabloom_crown"
 
 /obj/item/flowercrown/briar
 	name = "crown of briar thorns"
-	desc = "The pain of wearing it might distract you from the whispers of a mad God overpowering your sanity..."
+	desc = "A circlet of thorns often worn by devout followers of Dendor. Designed to dig \
+	into the flesh just enough to ground the wearer's sanity."
 	item_state = "briar_crown"
 	icon_state = "briar_crown"
 

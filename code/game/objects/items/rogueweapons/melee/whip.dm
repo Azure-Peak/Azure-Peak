@@ -2,7 +2,8 @@
 	force = 21
 	possible_item_intents = list(/datum/intent/whip/lash, /datum/intent/whip/crack, /datum/intent/whip/punish)
 	name = "whip"
-	desc = "A leather whip, tipped with a flintknapped stone. Though intended to shepherd unruly livestock, the tip's jagged points also suffice at leaving assailants with horrific lacerations."
+	desc = "A leather whip, tipped with a flintknapped stone. Though intended to shepherd \
+	unruly livestock, the tip's jagged points also suffice at leaving assailants with horrific lacerations."
 	icon_state = "whip"
 	icon = 'icons/roguetown/weapons/whips32.dmi'
 	sharpness = IS_BLUNT
@@ -110,7 +111,7 @@
 	force = 24
 
 /obj/item/rogueweapon/whip/antique
-	name = "Repenta En"
+	name = "\"Repenta En\""
 	desc = "A multi-tailed whip that's extremely well-maintained. The gilded handle first burdens the hand with its inordinate weight, and then the mind with an unsettling realization; this is not a tool of honor. </br>'Ravox stands for justice, not murder.'"
 	force = 25
 	minstr = 11

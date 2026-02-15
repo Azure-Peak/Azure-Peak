@@ -2,7 +2,7 @@
 	name = "Divine Blast"
 	desc = "Shoot out a blast of divine power! Deals more damage to heretics(Psydonians/Inhumen) and Undead! \n\
 	Damage is increased by 100% versus simple-minded creechurs.\n\
-	Can be fired in an arc over an ally's head with a mage's staff, spellbook or psicross on arc intent. It will deals 25% less damage that way."
+	Can be fired in an arc over an ally's head with a mage's staff, spellbook or psicross on arc intent. Arced blasts deal 25% less damage."
 	clothes_req = FALSE
 	range = 12
 	projectile_type = /obj/projectile/energy/divineblast
@@ -55,8 +55,8 @@
 	. = ..()
 	if(isliving(target))
 		var/mob/living/H = target
-		if((H.job in list("Templar", "Acolyte", "Bishop", "Martyr")))
-			visible_message(span_warning("[src]'s power brushes off of [H] with no harm!"))
+		if(H.job in GLOB.church_positions) // TRAIT_CLERGY could work here but is unmaintained and druids, sextons, etc. all lack it.
+			visible_message(span_warning("The divine blast bounces off [H] harmlessly!"))
 			playsound(get_turf(H), 'sound/magic/magic_nulled.ogg', 100)
 			qdel(src)
 			return BULLET_ACT_BLOCK
@@ -72,7 +72,7 @@
 		if(istype(H.patron, /datum/patron/old_god))
 			damage += 20
 		if(HAS_TRAIT(H, TRAIT_SILVER_WEAK) && !H.has_status_effect(STATUS_EFFECT_ANTIMAGIC))
-			H.visible_message("<font color='white'>The unholy strike weakens the curse temporarily!</font>")
+			H.visible_message("<font color='white'>Divine power sunders [H]!</font>")
 			to_chat(H, span_userdanger("Silver rebukes my presence! My vitae smolders, and my powers wane!"))
 			H.adjust_fire_stacks(2, /datum/status_effect/fire_handler/fire_stacks/sunder)
 		if(H.has_status_effect(/datum/status_effect/debuff/necran_cross))

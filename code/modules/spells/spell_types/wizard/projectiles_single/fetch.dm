@@ -6,9 +6,10 @@
 	projectile_type = /obj/projectile/magic/fetch
 	sound = list('sound/magic/magnet.ogg')
 	active = FALSE
-	releasedrain = 5
+	releasedrain = 15
 	chargedrain = 0
 	chargetime = 0
+	recharge_time = 8 SECONDS // 3 seconds base cooldown is ridiculous
 	warnie = "spellwarning"
 	overlay_state = "fetch"
 	no_early_release = TRUE
@@ -22,12 +23,27 @@
 	cost = 2 // Combat spell, but of slighlty less obvious use
 	xp_gain = TRUE
 
+/obj/projectile/magic/fetch
+	name = "bolt of fetching"
+	icon_state = "cursehand0"
+	range = 15
+	cannot_cross_z = TRUE
+
 /obj/projectile/magic/fetch/on_hit(target)
 	. = ..()
-	if(ismob(target))
-		var/mob/M = target
-		if(M.anti_magic_check())
-			visible_message(span_warning("[target] repells the fetch!"))
-			playsound(get_turf(target), 'sound/magic/magic_nulled.ogg', 100)
-			qdel(src)
+	var/atom/throw_target = get_step(firer, get_dir(firer, target))
+	if(isliving(target))
+		var/mob/living/L = target
+		if(L.anti_magic_check() || !firer)
+			L.visible_message(span_warning("[src] vanishes on contact with [target]!"))
 			return BULLET_ACT_BLOCK
+		L.throw_at(throw_target, 200, 4)
+	else
+		if(isitem(target))
+			var/obj/item/I = target
+			var/mob/living/carbon/human/carbon_firer
+			if (ishuman(firer))
+				carbon_firer = firer
+				if (carbon_firer?.can_catch_item())
+					throw_target = get_turf(firer)
+			I.throw_at(throw_target, 200, 3)

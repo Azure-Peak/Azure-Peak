@@ -87,7 +87,7 @@
 	if(eyes)
 		eyes.Remove(src,1)
 		QDEL_NULL(eyes)
-	eyes = new /obj/item/organ/eyes/night_vision/zombie
+	eyes = SSwardrobe.provide_type(/obj/item/organ/eyes/night_vision/zombie)
 	eyes.Insert(src)
 	for(var/obj/item/bodypart/B in src.bodyparts)
 		B.skeletonize(FALSE)

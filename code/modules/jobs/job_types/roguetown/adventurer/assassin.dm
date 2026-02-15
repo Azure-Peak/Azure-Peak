@@ -16,6 +16,7 @@
 	outfit_female = null
 
 	obsfuscated_job = TRUE
+	give_bank_account = FALSE
 
 	display_order = JDO_ASSASSIN
 	announce_latejoin = FALSE

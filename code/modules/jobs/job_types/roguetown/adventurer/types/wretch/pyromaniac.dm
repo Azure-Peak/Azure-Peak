@@ -17,10 +17,10 @@
 		/datum/skill/combat/crossbows = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/combat/knives = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/misc/swimming = SKILL_LEVEL_APPRENTICE,
-		/datum/skill/misc/athletics = SKILL_LEVEL_EXPERT, // RUN BOY RUN
+		/datum/skill/misc/athletics = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/combat/wrestling = SKILL_LEVEL_JOURNEYMAN, // To escape grapplers, fuck you
 		/datum/skill/combat/unarmed = SKILL_LEVEL_JOURNEYMAN,
-		/datum/skill/misc/climbing = SKILL_LEVEL_EXPERT,
+		/datum/skill/misc/climbing = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/misc/reading = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/craft/traps = SKILL_LEVEL_EXPERT,
 		/datum/skill/craft/alchemy = SKILL_LEVEL_EXPERT,
@@ -28,19 +28,21 @@
 		/datum/skill/craft/engineering = SKILL_LEVEL_NOVICE,
 		/datum/skill/labor/farming = SKILL_LEVEL_NOVICE,
 	)
-
+	subclass_stashed_items = list(
+        "Armor Plates" =  /obj/item/repair_kit/metal,
+    )
 /datum/outfit/job/roguetown/wretch/pyromaniac/pre_equip(mob/living/carbon/human/H)
 	head = /obj/item/clothing/head/roguetown/helmet/heavy/sheriff //wear protection :) 
 	mask = /obj/item/clothing/mask/rogue/facemask/
 	neck = /obj/item/clothing/neck/roguetown/chaincoif/full //Protect your head!
-	pants = /obj/item/clothing/under/roguetown/splintlegs
+	pants = /obj/item/clothing/under/roguetown/brigandinelegs
 	armor = /obj/item/clothing/suit/roguetown/armor/brigandine/light
 	shirt = /obj/item/clothing/suit/roguetown/armor/chainmail/hauberk/iron
 	backl = /obj/item/storage/backpack/rogue/satchel
 	belt = /obj/item/storage/belt/rogue/leather
 	gloves = /obj/item/clothing/gloves/roguetown/plate/iron
 	shoes = /obj/item/clothing/shoes/roguetown/boots/armor
-	wrists = /obj/item/clothing/wrists/roguetown/splintarms
+	wrists = /obj/item/clothing/wrists/roguetown/bracers/brigandine
 	r_hand = /obj/item/bomb
 	l_hand = /obj/item/bomb
 	backpack_contents = list(
@@ -78,5 +80,7 @@
 					H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/projectile/fireball)
 					H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/projectile/spitfire)
 					H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/rebuke)
-					H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/stoneskin) // To not be instapaincritted if you accidentally hit yourself
+					H.mind.AddSpell(new /obj/effect/proc_holder/spell/self/conjure_armor/dragonhide)
+					H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/fire_cascade)
+					H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/firewalker)
 		wretch_select_bounty(H)

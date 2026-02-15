@@ -148,7 +148,7 @@ GLOBAL_LIST_INIT(searaider_aggro, world.file2list("strings/rt/searaideraggroline
 		if(3)
 			r_hand = /obj/item/rogueweapon/greataxe
 		if(4)
-			r_hand = /obj/item/rogueweapon/greatsword/zwei
+			r_hand = /obj/item/rogueweapon/greatsword/iron
 
 	shoes = /obj/item/clothing/shoes/roguetown/boots/leather
 	H.STASPD = 9

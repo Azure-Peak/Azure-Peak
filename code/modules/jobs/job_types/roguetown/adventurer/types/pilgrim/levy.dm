@@ -1,6 +1,6 @@
 /datum/advclass/levy
 	name = "Levy"
-	tutorial = "When the bailiff came to your household it was the worst dae of your lyfe, dragging you away into service to the Crown with nothing more but a trusty spear. Safeguard your home from the terrors beyond the walls and those lurking in the bog."
+	tutorial = "When the bailiff came to your household it was the worst dae of your lyfe, dragging you away into service to the Crown with nothing more but whatever household object you managed to piece together into a weapon. Safeguard your home from the terrors beyond the walls and those lurking in the bog."
 	allowed_sexes = list(MALE, FEMALE)
 	allowed_races = RACES_ALL_KINDS
 	outfit = /datum/outfit/job/roguetown/adventurer/levy
@@ -16,7 +16,7 @@
 		STATKEY_SPD = -1
 	)
 	subclass_skills = list(
-		/datum/skill/combat/polearms = SKILL_LEVEL_JOURNEYMAN,
+		/datum/skill/combat/polearms = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/combat/axes = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/combat/knives = SKILL_LEVEL_NOVICE,
 		/datum/skill/combat/wrestling = SKILL_LEVEL_APPRENTICE,
@@ -48,7 +48,6 @@
 	pants = /obj/item/clothing/under/roguetown/trou/leather
 	shoes = /obj/item/clothing/shoes/roguetown/shortboots
 	backr = /obj/item/storage/backpack/rogue/satchel
-	r_hand = /obj/item/rogueweapon/spear
 	backl = /obj/item/rogueweapon/scabbard/gwstrap
 	backpack_contents = list(
 		/obj/item/flashlight/flare/torch/metal = 1,
@@ -57,5 +56,22 @@
 		/obj/item/rogueweapon/scabbard/sheath = 1,
 		/obj/item/rogueweapon/huntingknife = 1,
 		)
+	if(H.mind)
+		var/weapons = list("MINE PITCHFORK","MINE THRESHER", "THE FAMILY SWORD", "MINE SHOVEL")
+		var/weapon_choice = input(H, "Choose your improvised weapon.", "WHAT DID YOU TAKE FROM YOUR HOME?") as anything in weapons
+		H.set_blindness(0)
+		switch(weapon_choice)
+			if("MINE PITCHFORK")
+				H.adjust_skillrank_up_to(/datum/skill/combat/polearms, SKILL_LEVEL_JOURNEYMAN, TRUE)
+				r_hand = /obj/item/rogueweapon/spear/militia
+			if("MINE THRESHER")
+				H.adjust_skillrank_up_to(/datum/skill/combat/whipsflails, SKILL_LEVEL_JOURNEYMAN, TRUE)
+				r_hand = /obj/item/rogueweapon/flail/militia
+			if ("THE FAMILY SWORD")
+				H.adjust_skillrank_up_to(/datum/skill/combat/swords, SKILL_LEVEL_JOURNEYMAN, TRUE)
+				r_hand = /obj/item/rogueweapon/sword/falchion/militia
+			if ("MINE SHOVEL")
+				H.adjust_skillrank_up_to(/datum/skill/combat/axes, SKILL_LEVEL_JOURNEYMAN, TRUE)
+				r_hand = /obj/item/rogueweapon/greataxe/militia
 	if(H.mind)
 		SStreasury.give_money_account(ECONOMIC_DESTITUTE, H, "Savings.")

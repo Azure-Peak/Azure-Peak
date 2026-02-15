@@ -16,7 +16,7 @@
 	subclass_skills = list(
 		/datum/skill/misc/stealing = SKILL_LEVEL_EXPERT,
 	)
-	extra_context = "Fortune is randomised."
+	extra_context = "Contains randomized skills and stats."
 
 /datum/outfit/job/roguetown/vagabond/beggar/pre_equip(mob/living/carbon/human/H)
 	..()
@@ -57,9 +57,10 @@
 		l_hand = null
 
 	if (H.mind)
-		H.adjust_skillrank(/datum/skill/misc/sneaking, rand(1,5), TRUE)
-		H.adjust_skillrank(/datum/skill/misc/climbing, rand(1,5), TRUE)
-		H.adjust_skillrank(/datum/skill/misc/lockpicking, pick (1,2,3,4,5), TRUE)
+		H.adjust_skillrank(/datum/skill/misc/sneaking, rand(2,5), TRUE)
+		H.adjust_skillrank(/datum/skill/misc/climbing, rand(2,5), TRUE)
+		H.adjust_skillrank(/datum/skill/misc/lockpicking, rand (2,5), TRUE)
 		H.STALUC = rand(5, 15)
-	if(H.mind)
+		H.STACON = rand(5, 10)
+		H.STAWIL = rand(5, 10)
 		SStreasury.give_money_account(ECONOMIC_DESTITUTE, H, "Savings.")

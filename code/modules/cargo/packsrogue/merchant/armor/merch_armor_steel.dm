@@ -44,7 +44,7 @@
 /datum/supply_pack/rogue/armor_steel/coatplates
 	name = "Coat of Plates"
 	cost = 95 // 2 Steel
-	contains = list(/obj/item/clothing/suit/roguetown/armor/brigandine/coatplates)
+	contains = list(/obj/item/clothing/suit/roguetown/armor/plate/scale/knight)
 
 /datum/supply_pack/rogue/armor_steel/cuirass_steel
 	name = "Cuirass"
@@ -94,7 +94,7 @@
 /datum/supply_pack/rogue/armor_steel/chausses_brigandine
 	name = "Chausses, Brigandine"
 	cost = 60 //1 Steel, 2 Leather
-	contains = list(/obj/item/clothing/under/roguetown/splintlegs)
+	contains = list(/obj/item/clothing/under/roguetown/brigandinelegs)
 
 /datum/supply_pack/rogue/armor_steel/chainleg_steel
 	name = "Chausses, Chain"
@@ -114,7 +114,7 @@
 /datum/supply_pack/rogue/armor_steel/rearbraces
 	name = "Bracers, Brigandine"
 	cost = 55 // 1 Steel, 1 Leather
-	contains = list(/obj/item/clothing/wrists/roguetown/splintarms)
+	contains = list(/obj/item/clothing/wrists/roguetown/bracers/brigandine)
 
 /datum/supply_pack/rogue/armor_steel/bracers_plate
 	name = "Bracers, Plate"

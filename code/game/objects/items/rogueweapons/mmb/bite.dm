@@ -135,7 +135,7 @@
 		var/used_limb = src.find_used_grab_limb(user)
 		B.name = "[src]'s [parse_zone(used_limb)]"
 		var/obj/item/bodypart/BP = get_bodypart(check_zone(used_limb))
-		BP.grabbedby += B
+		LAZYADD(BP.grabbedby, B)
 		B.grabbed = src
 		B.grabbee = user
 		B.limb_grabbed = BP

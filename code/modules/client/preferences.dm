@@ -245,6 +245,8 @@ GLOBAL_LIST_EMPTY(chosen_names)
 
 	var/mood_messages_in_chat
 
+	var/attack_blip_frequency = ATTACK_BLIP_PREF_DEFAULT
+
 /datum/preferences/New(client/C)
 	parent = C
 	migrant  = new /datum/migrant_pref(src)
@@ -529,14 +531,6 @@ GLOBAL_LIST_EMPTY(chosen_names)
 			// Middle dummy Column, 20% width
 			dat += "</td>"
 			dat += "<td width=20% valign='top'>"
-			var/datum/job/highest_pref
-			for(var/job in job_preferences)
-				if(job_preferences[job] > highest_pref)
-					highest_pref = SSjob.GetJob(job)
-			if(!isnull(highest_pref) && !istype(highest_pref, /datum/job/roguetown/jester))
-				dat += "<div style='text-align: center'><br>Subclass Preview:<br> <a href='?_src_=prefs;preference=subclassoutfit;task=input'>[preview_subclass ? "[preview_subclass.name]" : "None"]</a></div>"
-			else
-				preview_subclass = null
 			// Rightmost column, 40% width
 			dat += "<td width=40% valign='top'>"
 			dat += "<h2>Body</h2>"
@@ -1742,8 +1736,9 @@ Slots: [job.spawn_positions] [job.round_contrib_points ? "RCP: +[job.round_contr
 						var/datum/voicepack/VP = GLOB.voice_packs_list[voice_pack]
 						if(!istype(temp_vp, VP))
 							temp_vp = new VP()
-						var/voiceline = temp_vp.get_sound(pick(temp_vp.preview))
-						user.playsound_local(user, voiceline, 100)
+						var/sound/voiceline = sound(temp_vp.get_sound(pick(temp_vp.preview)))
+						voiceline.frequency = voice_pitch
+						user.playsound_local(user, vol = 100, S = voiceline)
 
 				if("taur_type")
 					var/list/species_taur_list = pref_species.get_taur_list()
@@ -2974,6 +2969,8 @@ Slots: [job.spawn_positions] [job.round_contrib_points ? "RCP: +[job.round_contr
 		character.update_body_parts(redraw = TRUE)
 
 	character.char_accent = char_accent
+
+	apply_customizers_to_character(character)
 
 	if(culinary_preferences)
 		apply_culinary_preferences(character)

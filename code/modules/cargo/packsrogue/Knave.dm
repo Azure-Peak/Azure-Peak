@@ -83,7 +83,7 @@
 /datum/supply_pack/rogue/Knave/splintbracers
 	name = "Brigandine Rerebraces"
 	cost = 30
-	contains = list(/obj/item/clothing/wrists/roguetown/splintarms)
+	contains = list(/obj/item/clothing/wrists/roguetown/bracers/brigandine)
 
 /datum/supply_pack/rogue/Knave/leather/lgloves
 	name = "Leather Gloves"
@@ -117,7 +117,7 @@
 /datum/supply_pack/rogue/Knave/splintlegs
 	name = "Brigandine Chausses"
 	cost = 30
-	contains = list(/obj/item/clothing/under/roguetown/splintlegs)
+	contains = list(/obj/item/clothing/under/roguetown/brigandinelegs)
 
 /////////////////////
 // WEAPONS - MELEE //

@@ -99,7 +99,8 @@
 /obj/item/clothing/suit/roguetown/shirt/robe/dendor
 	slot_flags = ITEM_SLOT_ARMOR|ITEM_SLOT_SHIRT|ITEM_SLOT_CLOAK
 	name = "briar robe"
-	desc = ""
+	desc = "A coarse, rough robe worn often by devout worshippers of Dendor, the Mad God, lord of all \
+	the wild places of the world. It's quite terribly itchy."
 	body_parts_covered = CHEST|GROIN|ARMS|LEGS|VITALS
 	icon_state = "dendorrobe"
 	icon = 'icons/roguetown/clothing/armor.dmi'

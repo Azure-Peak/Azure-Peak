@@ -305,6 +305,49 @@
 	req_bar = /obj/item/ingot/iron
 	req_blade = /obj/item/blade/iron_plate
 	additional_items = list(/obj/item/ingot/iron)
+	created_item = /obj/item/clothing/head/roguetown/helmet/sallet/visored/iron
+
+/datum/anvil_recipe/armor/iron/knightarmet
+	name = "Helmet, Armet, Knight, Iron (+1 Iron)"
+	req_bar = /obj/item/ingot/iron
+	req_blade = /obj/item/blade/iron_plate
+	additional_items = list(/obj/item/ingot/iron)
+	created_item = /obj/item/clothing/head/roguetown/helmet/heavy/knight/iron
+
+/datum/anvil_recipe/armor/iron/knighthelmet
+	name = "Helmet, Knight, Iron (+1 Iron)"
+	req_bar = /obj/item/ingot/iron
+	req_blade = /obj/item/blade/iron_plate
+	additional_items = list(/obj/item/ingot/iron)
+	created_item = /obj/item/clothing/head/roguetown/helmet/heavy/knight/old/iron
+
+/datum/anvil_recipe/armor/iron/bucket
+	name = "Helmet, Bucket, Iron (+1 Iron)"
+	req_bar = /obj/item/ingot/iron
+	req_blade = /obj/item/blade/iron_plate
+	additional_items = list(/obj/item/ingot/iron)
+	created_item = /obj/item/clothing/head/roguetown/helmet/heavy/bucket/iron
+
+/datum/anvil_recipe/armor/iron/helmethorned
+	name = "Helmet, Horned, Iron"
+	req_bar = /obj/item/ingot/iron
+	req_blade = /obj/item/blade/iron_plate
+	created_item = /obj/item/clothing/head/roguetown/helmet/horned
+	craftdiff = 2
+
+/datum/anvil_recipe/armor/iron/mask
+	name = "Mask, Iron"
+	req_bar = /obj/item/ingot/iron
+	req_blade = /obj/item/blade/iron_plate
+	created_item = /obj/item/clothing/mask/rogue/facemask
+	createditem_num = 1
+
+/datum/anvil_recipe/armor/iron/wildguard
+	name = "Wild Guard, Iron"
+	req_bar = /obj/item/ingot/iron
+	req_blade = /obj/item/blade/iron_plate
+	created_item = /obj/item/clothing/mask/rogue/wildguard
+	createditem_num = 1
 	created_item = /obj/item/clothing/suit/roguetown/armor/chainmail/hauberk/iron
 
 /datum/anvil_recipe/armor/iron/chaincoif
@@ -340,14 +383,6 @@
 	req_blade = /obj/item/blade/iron_plate
 	additional_items = list(/obj/item/natural/cloth)
 	created_item = /obj/item/clothing/suit/roguetown/armor/brigandine/light
-	i_type = "Armor"
-
-/datum/anvil_recipe/armor/iron/wardenbrig
-	name = "Forester's Brigandine (+1 Forester's Armor, +1 Iron, +1 Essence of Wilderness)"
-	req_bar = /obj/item/ingot/iron
-	req_blade = /obj/item/blade/iron_plate
-	additional_items = list(/obj/item/clothing/suit/roguetown/armor/leather/studded/warden, /obj/item/ingot/iron, /obj/item/natural/cured/essence)
-	created_item = /obj/item/clothing/suit/roguetown/armor/leather/studded/warden/upgraded
 	i_type = "Armor"
 
 /datum/anvil_recipe/armor/iron/halfplate
@@ -393,7 +428,7 @@
 	req_bar = /obj/item/ingot/iron
 	req_blade = /obj/item/blade/iron_plate
 	additional_items = list(/obj/item/clothing/under/roguetown/trou/leather)//basically you just add a lot of iron bits to the pants
-	created_item = /obj/item/clothing/under/roguetown/splintlegs/iron
+	created_item = /obj/item/clothing/under/roguetown/splintlegs
 
 /datum/anvil_recipe/armor/iron/platelegs
 	name = "Plate Chausses, Iron (+1 Bar)"
@@ -421,7 +456,7 @@
 	req_bar = /obj/item/ingot/iron
 	req_blade = /obj/item/blade/iron_plate
 	additional_items = list(/obj/item/clothing/wrists/roguetown/bracers/leather)
-	created_item = /obj/item/clothing/wrists/roguetown/splintarms/iron
+	created_item = /obj/item/clothing/wrists/roguetown/bracers/splint
 
 /datum/anvil_recipe/armor/iron/bracers
 	name = "Plate Bracers, Iron"
@@ -488,20 +523,6 @@
 	req_blade = /obj/item/blade/iron_plate
 	additional_items = list(/obj/item/ingot/iron)
 	created_item = /obj/item/clothing/head/roguetown/helmet/heavy/bucket/iron
-
-/datum/anvil_recipe/armor/iron/studded
-	name = "Studded Leather Armor (+ Leather Armor)"
-	req_bar = /obj/item/ingot/iron
-	req_blade = /obj/item/blade/iron_plate
-	additional_items = list(/obj/item/clothing/suit/roguetown/armor/leather)
-	created_item = /obj/item/clothing/suit/roguetown/armor/leather/studded
-
-/datum/anvil_recipe/armor/studdedbikini
-	name = "Studded Leather Corslet (+ Leather Corslet)"
-	req_bar = /obj/item/ingot/iron
-	req_blade = /obj/item/blade/iron_plate
-	additional_items = list(/obj/item/clothing/suit/roguetown/armor/leather)
-	created_item = /obj/item/clothing/suit/roguetown/armor/leather/studded/bikini
 
 /datum/anvil_recipe/armor/iron/helmethorned
 	name = "Horned Helmet, Iron"
@@ -619,7 +640,7 @@
 	req_bar = /obj/item/ingot/steel
 	req_blade = /obj/item/blade/steel_plate
 	additional_items = list(/obj/item/ingot/steel,/obj/item/natural/hide/cured)
-	created_item = /obj/item/clothing/suit/roguetown/armor/brigandine/coatplates
+	created_item = /obj/item/clothing/suit/roguetown/armor/plate/scale/knight
 
 /datum/anvil_recipe/armor/steel/steel/brigandine
 	name = "Brigandine, Steel (+1 Steel, +2 Cloth)"
@@ -924,14 +945,14 @@
 	req_bar = /obj/item/ingot/steel
 	req_blade = /obj/item/blade/steel_plate
 	additional_items = list(/obj/item/clothing/wrists/roguetown/bracers/leather)
-	created_item = /obj/item/clothing/wrists/roguetown/splintarms
+	created_item = /obj/item/clothing/wrists/roguetown/bracers/brigandine
 
 /datum/anvil_recipe/armor/steel/splintlegs
 	name = "Brigandine Chausses (+1 leather pants)"
 	req_bar = /obj/item/ingot/steel
 	req_blade = /obj/item/blade/steel_plate
 	additional_items = list(/obj/item/clothing/under/roguetown/trou/leather)//basically you just add a lot of iron bits to the pants
-	created_item = /obj/item/clothing/under/roguetown/splintlegs
+	created_item = /obj/item/clothing/under/roguetown/brigandinelegs
 
 /datum/anvil_recipe/armor/steel/horseshoes
 	name = "Horseshoes, Steel"

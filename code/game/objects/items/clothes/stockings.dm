@@ -9,7 +9,7 @@
 	break_sound = 'sound/foley/cloth_rip.ogg'
 	blade_dulling = DULLING_CUT
 	max_integrity = 200
-	integrity_failure = 0.1
+	integrity_failure = ARMOR_INTEG_FAILURE
 	throw_speed = 0.5
 	drop_sound = 'sound/foley/dropsound/cloth_drop.ogg'
 	var/gendered

@@ -10,6 +10,7 @@
 	chargetime = 0
 	releasedrain = 5
 	miracle = TRUE
+	skipcharge = TRUE
 	devotion_cost = 5
 	chargedloop = /datum/looping_sound/invokegen
 	associated_skill = /datum/skill/magic/holy

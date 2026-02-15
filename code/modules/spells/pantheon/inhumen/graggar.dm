@@ -4,7 +4,7 @@
 	desc = "Grants you and all allies nearby a buff to their strength, willpower, and constitution."
 	overlay_state = "call_to_slaughter"
 	recharge_time = 5 MINUTES
-	invocations = list("LAMBS TO THE SLAUGHTER!")
+	invocations = list("GRAGGAAAAAAAAAR!!") 	//MUSTAAAAAAAAAAAAAARD
 	invocation_type = "shout"
 	sound = 'sound/magic/timestop.ogg'
 	releasedrain = 30
@@ -69,11 +69,11 @@
 
 /obj/effect/proc_holder/spell/invoked/revel_in_slaughter
 	name = "Revel in Slaughter"
-	desc = "The blood of your enemy shall boil, their skin feeling as if it's being ripped apart! Graggar demands their blood must FLOW!!!"
+	desc = "The blood of your enemy shall boil, increasing their blood and pain tenfold! THE BLOOD MUST FLOW!!!"
 	overlay_state = "bloodsteal"
 	recharge_time = 1 MINUTES
-	invocations = list("YOUR BLOOD WILL BOIL TILL IT'S SPILLED!")
-	invocation_type = "shout"
+	invocations = list("snaps their fingers at their enemy, causing their wounds to gush more blood than should be possible!") 				//what the fuck did "your blood will boil till it's spilled" mean.
+	invocation_type = "emote"
 	sound = 'sound/magic/antimagic.ogg'
 	releasedrain = 30
 	miracle = TRUE
@@ -106,7 +106,7 @@
 	addtimer(CALLBACK(src, PROC_REF(restore_pain_mod), phy), 15 SECONDS)
 
 	human.visible_message(span_danger("[human]'s wounds become inflammed as their vitality is sapped away!"))
-	to_chat(human, span_warning("My skins feels like pins and needles, as if something were ripping and tearing at me!"))
+	to_chat(human, span_warning("My own blood fills my lungs! The pain is unbearable!"))
 
 	return TRUE
 
@@ -125,12 +125,19 @@
 //Bloodrage T0 -- Uncapped STR buff.
 /obj/effect/proc_holder/spell/self/graggar_bloodrage
 	name = "Bloodrage"
-	desc = "Grants you unbound strength for a short while."
+	desc = "Tap into Graggar's wellspring of strength and knowledge, granting unbound power at the cost of temporary insanity and physical exhaustion." 		//reflavored into "graggar grants you some of the strength he got from stealing the souls of miscellaneous ravoxians"
 	overlay_state = "bloodrage"
 	recharge_time = 5 MINUTES
-	invocations = list("GRAGGAR!! GRAGGAR!! GRAGGAR!!",
-		"GRAGGAR! BREAK MY CHAINS!",
-		"GRAGGAR! SHATTER MY BINDS!"
+	invocations = list("GRAGGAAAAAAAAAAAR!!",
+		"WHERE'S THE DEATH?!!",
+		"YOU! CAN'T!! KILL!!! ME!!!!",
+		"I CAN HEAR EVERYTHING!!",
+		"WE'LL ALL GO TOGETHER!!",
+		"BLOOD AND NOISE, FOREVER PIERCING MY SKULL!!",
+		"I AM THE INSIDE OF THIS WORLD!!",
+		"I TASTE THE GORE! I SMELL THE CRYING! I! WANT! MORE!!",
+		"THE BLOOD IS IN MY EYES!! IT'S WAVES CRASH AGAINST MY FOREHEAD!!",
+		"LOOK AT ME WHEN I SCREAM INTO YOUR SOUL!!"
 	)
 	invocation_type = "shout"
 	sound = 'sound/magic/bloodrage.ogg'

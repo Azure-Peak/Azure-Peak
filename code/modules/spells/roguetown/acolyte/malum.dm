@@ -69,7 +69,7 @@
 	associated_skill = /datum/skill/magic/holy
 	antimagic_allowed = TRUE
 	recharge_time = 5 MINUTES
-	chargetime = 2 SECONDS
+	chargetime = 3 SECONDS // Used to be 2 seconds but we don't want a race condition and chain casting
 	miracle = TRUE
 	charging_slowdown = 3
 	chargedloop = /datum/looping_sound/invokegen
@@ -111,6 +111,7 @@
 	for (var/turf/closed/mineral/aoemining in view(radius, fallzone))
 		aoemining.lastminer = usr
 		aoemining.take_damage(damage,BRUTE,"blunt",1)
+	return TRUE
 
 /obj/effect/temp_visual/lavastaff
 	icon_state = "lavastaff_warn"

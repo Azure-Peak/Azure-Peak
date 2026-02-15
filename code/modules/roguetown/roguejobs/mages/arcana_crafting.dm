@@ -135,7 +135,7 @@
 	name = "binding shackles (T5)"
 	result = /obj/item/rope/chain/bindingshackles/t5
 	reqs = list(/obj/item/rope/chain/bindingshackles/t4 = 1,
-				/obj/item/magic/melded/t5 = 1)
+				/obj/item/magic/voidstone = 1)
 	craftdiff = 2
 
 /datum/crafting_recipe/roguetown/arcana/forge
@@ -331,3 +331,10 @@
 				/obj/item/rogueore/cinnabar = 1)
 	craftdiff = 5
 
+// Menucrafting alternative to the slapcrafting method, because we're not moving toward slapcrafting here except for food
+/datum/crafting_recipe/roguetown/arcana/pre_arcyne_spellbook
+	name = "tome in waiting"
+	result = /obj/item/spellbook_unfinished/pre_arcyne
+	reqs = list(/obj/item/natural/hide = 1,
+	/obj/item/paper/scroll = 6)
+	craftdiff = 3

@@ -33,6 +33,7 @@
 		/datum/advclass/mercenary/vaquero,
 		/datum/advclass/mercenary/freelancer,
 		/datum/advclass/mercenary/freelancer/lancer,
+		/datum/advclass/mercenary/freelancer/sabrist,
 		/datum/advclass/mercenary/grenzelhoft,
 		/datum/advclass/mercenary/grenzelhoft/halberdier,
 		/datum/advclass/mercenary/grenzelhoft/crossbowman,
@@ -52,7 +53,8 @@
 		/datum/advclass/mercenary/underdweller,
 		/datum/advclass/mercenary/grudgebearer,
 		/datum/advclass/mercenary/grudgebearer/soldier,
-		/datum/advclass/mercenary/trollslayer
+		/datum/advclass/mercenary/trollslayer,
+		/datum/advclass/mercenary/lirvanmerc
 	)
 
 /datum/job/roguetown/mercenary/after_spawn(mob/living/L, mob/M, latejoin = FALSE)

@@ -23,7 +23,9 @@
 #define COVERAGE_TORSO				( CHEST | GROIN | VITALS )
 #define COVERAGE_ALL_BUT_ARMS		( CHEST | GROIN | VITALS | LEGS | FEET)
 #define COVERAGE_ALL_BUT_LEGS		( CHEST | GROIN | VITALS | ARMS | HANDS)
+#define COVERAGE_ALL_BUT_HANDLEGS	( CHEST | GROIN | VITALS | ARMS)
 #define COVERAGE_ALL_BUT_HANDFEET	( CHEST | GROIN | VITALS | LEGS | ARMS)
+#define COVERAGE_ALL_BUT_ARMFEET	( CHEST | GROIN | VITALS | LEGS )
 #define COVERAGE_FULL				( CHEST | GROIN | VITALS | LEGS | ARMS | HANDS | FEET)
 
 #define COVERAGE_PANTS			( GROIN | LEGS )
@@ -370,6 +372,7 @@ GLOBAL_LIST_EMPTY(round_join_times)
 #define CLASS_CAT_NOBLE	"Noble"
 #define CLASS_CAT_CLERIC "Cleric"
 #define CLASS_CAT_ROGUE	"Rogue"
+#define CLASS_CAT_MYSTIC "Mystic"
 #define CLASS_CAT_RANGER "Ranger"
 #define CLASS_CAT_MAGE "Mage"
 #define CLASS_CAT_WARRIOR "Warrior"
@@ -391,3 +394,8 @@ GLOBAL_LIST_EMPTY(round_join_times)
 #define CLASS_CAT_HFT_COURT "Upper Court"
 #define CLASS_CAT_HFT_GUARD "House Guard"
 #define CLASS_CAT_HFT_WORKER "Workers"
+
+//Armor material categories
+#define ARMOR_MAT_PLATE 1
+#define ARMOR_MAT_LEATHER 2
+#define ARMOR_MAT_CHAINMAIL 3

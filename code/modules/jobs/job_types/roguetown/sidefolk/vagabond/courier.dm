@@ -5,16 +5,12 @@
 	allowed_races = RACES_ALL_KINDS
 	outfit = /datum/outfit/job/roguetown/vagabond/courier
 	category_tags = list(CTAG_VAGABOND)
-	subclass_stats = list(
-		STATKEY_PER = 2,
-		STATKEY_SPD = 2,
-		STATKEY_CON = -2,
-	)
 	subclass_skills = list(
 		/datum/skill/misc/riding = SKILL_LEVEL_EXPERT,
 		/datum/skill/misc/reading = SKILL_LEVEL_NOVICE,
 		/datum/skill/craft/cooking = SKILL_LEVEL_NOVICE,
 	)
+	extra_context = "Contains randomized skills and stats."
 
 /datum/outfit/job/roguetown/vagabond/courier/pre_equip(mob/living/carbon/human/H)
 	..()
@@ -37,3 +33,8 @@
 
 	if(H.mind)
 		SStreasury.give_money_account(ECONOMIC_DESTITUTE, H, "Savings.")
+		H.adjust_skillrank(/datum/skill/misc/athletics, rand(2,6), TRUE) //John Madden
+		H.adjust_skillrank(/datum/skill/misc/climbing, rand(2,6), TRUE)
+		H.STASPD = rand(8, 15)
+		H.STACON = rand(5, 10)
+		H.STAWIL = rand(8, 15)

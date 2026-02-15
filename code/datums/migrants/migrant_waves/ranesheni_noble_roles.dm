@@ -61,7 +61,9 @@
 		/obj/item/rogueweapon/huntingknife/idagger/navaja = 1,
 		/obj/item/rogueweapon/scabbard/sheath = 1, 
 		/obj/item/natural/feather = 1,
-		/obj/item/paper/scroll = 2
+		/obj/item/paper/scroll = 2,
+		/obj/item/storage/belt/rogue/pouch/coins/veryrich = 2,
+		/obj/item/reagent_containers/glass/bottle/alchemical/healthpotnew = 2,
 		)
 	H.cmode_music = 'sound/music/combat_desertrider.ogg'
 	H.grant_language(/datum/language/celestial)
@@ -118,7 +120,9 @@
 		/obj/item/rogueweapon/huntingknife/idagger/steel/special = 1,
 		/obj/item/rogueweapon/scabbard/sheath = 1, 
 		/obj/item/natural/feather = 1,
-		/obj/item/paper/scroll = 2
+		/obj/item/paper/scroll = 2,
+		/obj/item/storage/belt/rogue/pouch/coins/veryrich = 1,
+		/obj/item/reagent_containers/glass/bottle/alchemical/healthpotnew = 1,
 	)
 	H.cmode_music = 'sound/music/combat_desertrider.ogg'
 	H.grant_language(/datum/language/celestial)
@@ -177,7 +181,9 @@
 	backpack_contents = list(
 		/obj/item/rogueweapon/huntingknife/idagger/navaja = 1,
 		/obj/item/rogueweapon/scabbard/sheath = 1,
-		/obj/item/storage/belt/rogue/pouch/coins/poor = 1
+		/obj/item/storage/belt/rogue/pouch/coins/mid = 1,
+		/obj/item/reagent_containers/glass/bottle/alchemical/healthpotnew = 1,
+		/obj/item/natural/bundle/cloth/bandage/full = 1,
 		)
 	H.cmode_music = 'sound/music/combat_desertrider.ogg'
 	H.grant_language(/datum/language/celestial)
@@ -236,7 +242,7 @@
 		/obj/item/rogueweapon/huntingknife/idagger/navaja = 1,
 		/obj/item/rogueweapon/huntingknife/idagger/steel = 1,
 		/obj/item/rogueweapon/scabbard/sheath = 1,
-		/obj/item/storage/belt/rogue/pouch/coins/poor = 1
+		/obj/item/storage/belt/rogue/pouch/coins/veryrich = 1,
 		)
 	H.cmode_music = 'sound/music/combat_desertrider.ogg'
 	H.grant_language(/datum/language/celestial)

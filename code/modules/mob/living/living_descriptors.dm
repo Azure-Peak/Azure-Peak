@@ -222,6 +222,11 @@
 				they_replace = "it"
 				man_replace = "creacher"
 				him_replace = "it"
+			if (IT_ITS_M)
+				they_replace = "it"
+				man_replace = "creacher"
+				him_replace = "it"
+
 	// LETHALSTONE EDIT END
 	string = replacetext(string, "%THEY%", they_replace)
 	if(they_replace == "they")

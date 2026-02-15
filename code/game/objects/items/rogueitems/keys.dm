@@ -101,7 +101,7 @@
 
 /obj/item/roguekey/lord
 	name = "master key"
-	desc = "The Lord's key."
+	desc = "A magical key that molds itself to fit any lock. Can always be recalled by the Crown."
 	icon_state = "bosskey"
 	lockid = "lord"
 	visual_replacement = /obj/item/roguekey/royal
@@ -132,7 +132,7 @@
 /obj/item/roguekey/skeleton //Think of it less FOR skeletons and more just master key but can't be recalled and can be lost.
 	name = "skeleton key"
 	desc = "A moldable key able to fit anywhere. Marvel of engineering."
-	icon_state = "bosskey"
+	icon_state = "skeletonkey"
 	lockid = "lord"
 	visual_replacement = /obj/item/roguekey/royal
 
@@ -284,6 +284,90 @@
 	desc = "This rusty key opens the crypt."
 	icon_state = "rustkey"
 	lockid = "graveyard"
+
+/obj/item/roguekey/church/roomi
+	name = "church bedroom I key"
+	desc = "The key to the first room."
+	icon_state = "brownkey"
+	lockid = "church_bedroom_up_1"
+
+/obj/item/roguekey/church/roomii
+	name = "church bedroom II key"
+	desc = "The key to the second room."
+	icon_state = "brownkey"
+	lockid = "church_bedroom_up_2"
+
+/obj/item/roguekey/church/roomiii
+	name = "church bedroom III key"
+	desc = "The key to the third room."
+	icon_state = "brownkey"
+	lockid = "church_bedroom_up_3"
+
+/obj/item/roguekey/church/roomiv
+	name = "church bedroom IV key"
+	desc = "The key to the fourth room."
+	icon_state = "brownkey"
+	lockid = "church_bedroom_up_4"
+
+/obj/item/roguekey/church/roomv
+	name = "church bedroom V key"
+	desc = "The key to the fifth room."
+	icon_state = "brownkey"
+	lockid = "church_bedroom_up_5"
+
+/obj/item/roguekey/church/roomvi
+	name = "church bedroom VI key"
+	desc = "The key to the fifth room."
+	icon_state = "brownkey"
+	lockid = "church_bedroom_up_6"
+
+/obj/item/roguekey/church/roomvii
+	name = "church bedroom VII key"
+	desc = "The key to the fifth room."
+	icon_state = "brownkey"
+	lockid = "church_bedroom_up_7"
+
+/obj/item/roguekey/church/roomviii
+	name = "church bedroom VIII key"
+	desc = "The key to the fifth room."
+	icon_state = "brownkey"
+	lockid = "church_bedroom_up_8"
+
+/obj/item/roguekey/church/roomix
+	name = "church bedroom IX key"
+	desc = "The key to the fifth room."
+	icon_state = "brownkey"
+	lockid = "church_bedroom_up_9"
+
+/obj/item/roguekey/church/roomx
+	name = "church bedroom X key"
+	desc = "The key to the fifth room."
+	icon_state = "brownkey"
+	lockid = "church_bedroom_up_10"
+
+/obj/item/roguekey/church/roomxi
+	name = "church bedroom XI key"
+	desc = "The key to the fifth room."
+	icon_state = "brownkey"
+	lockid = "church_bedroom_up_11"
+	
+/obj/item/roguekey/church/roomxii
+	name = "church bedroom XII key"
+	desc = "The key to the fifth room."
+	icon_state = "brownkey"
+	lockid = "church_bedroom_up_12"
+
+/obj/item/roguekey/church/roomxiii
+	name = "church bedroom XIII key"
+	desc = "The key to the fifth room."
+	icon_state = "brownkey"
+	lockid = "church_bedroom_up_13"
+
+/obj/item/roguekey/church/roomxiv
+	name = "church bedroom XIV key"
+	desc = "The key to the fifth room."
+	icon_state = "brownkey"
+	lockid = "church_bedroom_up_14"
 
 //////////////
 // BURGHERS //
@@ -563,6 +647,12 @@
 	icon_state = "greenkey"
 	lockid = "university"
 
+/obj/item/roguekey/townie_smith_extras
+	name = "town smith key"
+	desc = "The key to the basement and bedroom of the towner smiths house."
+	icon_state = "brownkey"
+	lockid = "townie_smith_extra"
+
 /////////////////
 // INQUISITION //
 /////////////////
@@ -605,11 +695,115 @@
 	icon_state = "rustkey"
 	lockid = "bandit"
 
+//Zurch
+
 /obj/item/roguekey/inhumen
 	name = "old cell key"
 	desc = "A ancient, rusty key. Seems like it goes to some kind of cell."
 	icon_state = "rustkey"
 	lockid = "inhumen"
+
+/obj/item/roguekey/inhumen/one
+	name = "cell key one"
+	desc = "A ancient, rusty key. Seems like it goes to some kind of cell."
+	icon_state = "rustkey"
+	lockid = "inhumen1"
+
+/obj/item/roguekey/inhumen/two
+	name = "cell key two"
+	desc = "A ancient, rusty key. Seems like it goes to some kind of cell."
+	icon_state = "rustkey"
+	lockid = "inhumen2"
+
+/obj/item/roguekey/inhumen/three
+	name = "cell key three"
+	desc = "A ancient, rusty key. Seems like it goes to some kind of cell."
+	icon_state = "rustkey"
+	lockid = "inhumen3"
+
+/obj/item/roguekey/inhumen/four
+	name = "cell key four"
+	desc = "A ancient, rusty key. Seems like it goes to some kind of cell."
+	icon_state = "rustkey"
+	lockid = "inhumen4"
+
+/obj/item/roguekey/zurch_bedroom
+	name = "bedroom i key"
+	desc = "A ancient, rusty key."
+	icon_state = "rustkey"
+	lockid = "zurch_bedroom_1"
+
+/obj/item/roguekey/zurch_bedroom/two
+	name = "bedroom ii key"
+	desc = "A ancient, rusty key."
+	icon_state = "rustkey"
+	lockid = "zurch_bedroom_2"
+
+/obj/item/roguekey/zurch_bedroom/three
+	name = "bedroom iii key"
+	desc = "A ancient, rusty key."
+	icon_state = "rustkey"
+	lockid = "zurch_bedroom_3"
+
+/obj/item/roguekey/zurch_bedroom/four
+	name = "bedroom iv key"
+	desc = "A ancient, rusty key."
+	icon_state = "rustkey"
+	lockid = "zurch_bedroom_4"
+
+/obj/item/roguekey/zurch_bedroom/five
+	name = "bedroom v key"
+	desc = "A ancient, rusty key."
+	icon_state = "rustkey"
+	lockid = "zurch_bedroom_5"
+
+/obj/item/roguekey/zurch_bedroom/six
+	name = "bedroom vi key"
+	desc = "A ancient, rusty key."
+	icon_state = "rustkey"
+	lockid = "zurch_bedroom_6"
+
+/obj/item/roguekey/zurch_bedroom/seven
+	name = "bedroom vii key"
+	desc = "A ancient, rusty key."
+	icon_state = "rustkey"
+	lockid = "zurch_bedroom_7"
+
+/obj/item/roguekey/zurch_bedroom/eight
+	name = "bedroom viii key"
+	desc = "A ancient, rusty key."
+	icon_state = "rustkey"
+	lockid = "zurch_bedroom_8"
+
+/obj/item/roguekey/zurch_bedroom/nine
+	name = "bedroom ix key"
+	desc = "A ancient, rusty key."
+	icon_state = "rustkey"
+	lockid = "zurch_bedroom_9"
+
+/obj/item/roguekey/zurch_bedroom/ten
+	name = "bedroom x key"
+	desc = "A ancient, rusty key."
+	icon_state = "rustkey"
+	lockid = "zurch_bedroom_10"
+
+/obj/item/roguekey/zurch_bedroom/eleven
+	name = "bedroom xi key"
+	desc = "A ancient, rusty key."
+	icon_state = "rustkey"
+	lockid = "zurch_bedroom_11"
+
+/obj/item/roguekey/zurch_bedroom/twelve
+	name = "bedroom xii key"
+	desc = "A ancient, rusty key."
+	icon_state = "rustkey"
+	lockid = "zurch_bedroom_12"
+
+/obj/item/roguekey/zurch_bedroom/admin
+	name = "ancient key"
+	desc = "A ancient, rusty key."
+	icon_state = "rustkey"
+	lockid = "admin_event_door"
 
 ///////////////////////////////////////
 // ABSOLUTELY ZERO CLUE WHAT THIS IS //

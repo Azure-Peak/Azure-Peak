@@ -1,12 +1,12 @@
 /obj/structure/roguemachine/mail
 	name = "HERMES"
-	desc = "Carrier zads have fallen severely out of fashion ever since the advent of this hydropneumatic mail system. A coin slot activates the mechanism for dispensing parchment(a zenny) and quills(a ziliqua)."
+	desc = "Carrier zads have fallen severely out of fashion ever since the advent of this hydropneumatic mail system. Insert coins to access."
 	icon = 'icons/roguetown/misc/machines.dmi'
 	icon_state = "mail"
 	density = FALSE
 	blade_dulling = DULLING_BASH
 	pixel_y = 32
-	var/coin_loaded = FALSE
+	var/coin_loaded = 0
 	var/inqcoins = 0
 	var/inqonly = FALSE // Has the Inquisitor locked Marque-spending for lessers?
 	var/keycontrol = "puritan"
@@ -92,16 +92,136 @@
 		user.changeNext_move(CLICK_CD_MELEE)
 		display_marquette(usr)
 
-/obj/structure/roguemachine/mail/examine(mob/user)
-	. = ..()	
-	. += span_info("Load a coin inside, then right click to send a letter.")
+/obj/structure/roguemachine/mail/get_mechanics_examine(mob/user)
+	. = ..()
+	. += span_info("Right click to access the terminal for writing letters or purchasing supplies.")
+	. += span_info("Insert coins to purchase supplies or send a letters.")
 	. += span_info("Left click with a paper to send a prewritten letter for free.")
 	if(HAS_TRAIT(user, TRAIT_INQUISITION))
 		. += span_info("<br>The MARQUETTE can be accessed via a secret compartment fitted within the HERMES. Load a Marque to access it.")
-
 		. += span_info("You can send arrival slips, accusation slips, fully loaded INDEXERs or confessions here.")
 		. += span_info("Properly sign them. Include an INDEXER where needed. Stamp them for two additional Marques.")
 
+/obj/structure/roguemachine/mail/attack_right(mob/user)
+	. = ..()
+	if(.)
+		return
+	if(!coin_loaded)
+		to_chat(user, span_warning("Insert coins to use the terminal."))
+		return
+	if(inqcoins)
+		to_chat(user, span_warning("The machine doesn't respond."))
+		return
+	ui_interact(user)
+
+/obj/structure/roguemachine/mail/ui_interact(mob/user, datum/tgui/ui)
+	ui = SStgui.try_update_ui(user, src, ui)
+	if(!ui)
+		ui = new(user, src, "Hermes", "HERMES")
+		ui.open()
+
+/obj/structure/roguemachine/mail/ui_static_data(mob/user)
+	var/list/data = list()
+	data["paper_cost"] = 1
+	data["quill_cost"] = 5
+	data["letter_cost"] = 1
+	return data
+
+/obj/structure/roguemachine/mail/ui_data(mob/user)
+	var/list/data = list()
+	data["balance"] = coin_loaded
+	return data
+
+/obj/structure/roguemachine/mail/ui_act(action, list/params, datum/tgui/ui, datum/ui_state/state)
+	if(..())
+		return TRUE
+	var/mob/user = usr
+	switch(action)
+		if("buy_paper")
+			if(coin_loaded >= 1)
+				coin_loaded -= 1
+				var/obj/item/paper/papier = new(get_turf(src))
+				user.put_in_hands(papier)
+				playsound(src, 'sound/misc/hiss.ogg', 100, FALSE, -1)
+				if(coin_loaded <= 0)
+					update_icon()
+			return TRUE
+		if("buy_quill")
+			if(coin_loaded >= 5)
+				coin_loaded -= 5
+				var/obj/item/natural/feather/quill = new(get_turf(src))
+				user.put_in_hands(quill)
+				playsound(src, 'sound/misc/hiss.ogg', 100, FALSE, -1)
+				if(coin_loaded <= 0)
+					update_icon()
+			return TRUE
+		if("send_letter")
+			if(coin_loaded >= 1)
+				var/send2place = params["recipient"]
+				var/sentfrom = params["sender"]
+				var/content = params["content"]
+				if(!send2place)
+					return TRUE
+				if(length(content) > 2000)
+					to_chat(user, span_warning("Letter too long."))
+					return TRUE
+				var/obj/item/paper/P = new
+				P.info += content
+				P.mailer = sentfrom
+				P.mailedto = send2place
+				P.update_icon()
+				if(findtext(send2place, "#"))
+					var/box2find = text2num(copytext(send2place, findtext(send2place, "#")+1))
+					var/found = FALSE
+					for(var/obj/structure/roguemachine/mail/X in SSroguemachine.hermailers)
+						if(X.ournum == box2find)
+							found = TRUE
+							P.forceMove(X.loc)
+							X.say("New mail!")
+							playsound(X, 'sound/misc/hiss.ogg', 100, FALSE, -1)
+							break
+					if(found)
+						visible_message(span_warning("[user] sends something."))
+						playsound(loc, 'sound/misc/disposalflush.ogg', 100, FALSE, -1)
+						SStreasury.give_money_treasury(1, "Mail Income")
+						record_round_statistic(STATS_TAXES_COLLECTED, 1)
+						coin_loaded -= 1
+						if(coin_loaded <= 0)
+							update_icon()
+					else
+						to_chat(user, span_warning("Failed to send. Bad number?"))
+						qdel(P)
+				else
+					if(SSroguemachine.hermailermaster)
+						var/obj/item/roguemachine/mastermail/X = SSroguemachine.hermailermaster
+						P.forceMove(X.loc)
+						var/datum/component/storage/STR = X.GetComponent(/datum/component/storage)
+						STR.handle_item_insertion(P, prevent_warning=TRUE)
+						X.new_mail = TRUE
+						X.update_icon()
+						send_ooc_note("New letter from <b>[sentfrom].</b>", name = send2place)
+						for(var/mob/living/carbon/human/H in GLOB.human_list)
+							if(H.real_name == send2place)
+								H.apply_status_effect(/datum/status_effect/ugotmail)
+								H.playsound_local(H, 'sound/misc/mail.ogg', 100, FALSE, -1)
+						visible_message(span_warning("[user] sends something."))
+						playsound(loc, 'sound/misc/disposalflush.ogg', 100, FALSE, -1)
+						SStreasury.give_money_treasury(1, "Mail Income")
+						record_round_statistic(STATS_TAXES_COLLECTED, 1)
+						coin_loaded -= 1
+						if(coin_loaded <= 0)
+							update_icon()
+					else
+						to_chat(user, span_warning("The master of mails has perished?"))
+						qdel(P)
+			return TRUE
+		if("refund")
+			if(coin_loaded > 0)
+				budget2change(coin_loaded, user)
+				playsound(src, 'sound/misc/coininsert.ogg', 100, FALSE, -1)
+				coin_loaded = 0
+				update_icon()
+			return TRUE
 
 /obj/structure/roguemachine/mail/attackby(obj/item/P, mob/user, params)
 	if(istype(P, /obj/item/merctoken))
@@ -505,19 +625,14 @@
 
 	if(istype(P, /obj/item/roguecoin))
 		var/obj/item/roguecoin/C = P
-		switch(C.get_real_price())
-			if(1)
-				qdel(C)
-				var/obj/item/paper/papier = new
-				user.put_in_hands(papier)
-			if(5)
-				qdel(C)
-				var/obj/item/natural/feather/quill = new
-				user.put_in_hands(quill)
-			else
-				to_chat(user, span_warning("Not a valid denomination! Insert 1 mammon for paper, 5 mammon for a quill."))
-				return
+		var/coin_value = C.get_real_price()
+		if(coin_value <= 0)
+			return
+		coin_loaded += coin_value
+		qdel(C)
 		playsound(src, 'sound/misc/coininsert.ogg', 100, FALSE, -1)
+		update_icon()
+		ui_interact(user)
 		return
 	..()
 

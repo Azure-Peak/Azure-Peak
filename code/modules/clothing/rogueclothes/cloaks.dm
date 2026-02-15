@@ -2,7 +2,7 @@
 	name = "cloak"
 	icon = 'icons/roguetown/clothing/cloaks.dmi'
 	mob_overlay_icon = 'icons/roguetown/clothing/onmob/cloaks.dmi'
-	slot_flags = ITEM_SLOT_CLOAK
+	slot_flags = ITEM_SLOT_BACK_R|ITEM_SLOT_CLOAK
 	desc = "Protects you from the weather and your identity from everyone else."
 	edelay_type = 1
 	equip_delay_self = 10
@@ -51,7 +51,7 @@
 	alternate_worn_layer = TABARD_LAYER
 	body_parts_covered = CHEST|GROIN
 	boobed = TRUE
-	slot_flags = ITEM_SLOT_ARMOR|ITEM_SLOT_CLOAK
+	slot_flags = ITEM_SLOT_SHIRT|ITEM_SLOT_ARMOR|ITEM_SLOT_CLOAK
 	flags_inv = HIDECROTCH|HIDEBOOB
 	var/custom_design = FALSE
 
@@ -141,7 +141,7 @@
 
 /obj/item/clothing/cloak/tabard/abyssortabard
 	name = "abyssorite tabard"
-	desc = "A tabard worn by Abyssorite devouts."
+	desc = "A tabard worn by Abyssorite devouts. It reeks of brine."
 	color = null
 	icon_state = "abyssortabard"
 	item_state = "abyssortabard"
@@ -744,7 +744,6 @@
 /obj/item/clothing/cloak/apron/waist/bar
 	color = "#251f1d"
 
-
 /obj/item/clothing/cloak/apron/cook
 	name = "cook apron"
 	desc = "An apron meant to show how clean the cook is."
@@ -1340,6 +1339,7 @@
 	desc = "A hood with the lord's heraldic colors."
 	color = CLOTHING_AZURE
 	detail_tag = "_spl"
+	slot_flags = ITEM_SLOT_HEAD|ITEM_SLOT_NECK|ITEM_SLOT_MASK|ITEM_SLOT_CLOAK
 	detail_color = CLOTHING_WHITE
 	icon_state = "guard_hood"
 	item_state = "guard_hood"
@@ -1418,7 +1418,8 @@
 
 /obj/item/clothing/cloak/wardencloak
 	name = "warden cloak"
-	desc = "A cloak worn by the Wardens of Azuria's Forests"
+	desc = "A cloak of dense, thick wool worn by the Wardens of Azuria's Forests. Incredibly warm, \
+	and doubles as a blanket in a pinch."
 	icon_state = "wardencloak"
 	alternate_worn_layer = CLOAK_BEHIND_LAYER
 	slot_flags = ITEM_SLOT_BACK_R|ITEM_SLOT_CLOAK
@@ -1452,6 +1453,7 @@
 	sleevetype = "shirt"
 	nodismemsleeves = TRUE
 	inhand_mod = TRUE
+	resistance_flags = FIRE_PROOF
 
 /obj/item/clothing/cloak/forrestercloak/snow
 	name = "snow cloak"
@@ -1537,6 +1539,13 @@
 	sleevetype = "shirt"
 	nodismemsleeves = TRUE
 	inhand_mod = TRUE
+
+/obj/item/clothing/cloak/ordinatorcape/lirvas
+	name = "lirvan silks"
+	desc = "Fine silks. Only the best for me, of course. You need to look good while beating someone to death. </br> </br> ...In Lirvasi society, this isn't even a well-off fellow's shirt; truth be told, this is the sort a yeoman would wear. How terrible to be the wretched 'mongst wealthy; but how glorious that the wretched look so glorious, here."
+	icon_state = "lirvastabard"
+	item_state = "lirvastabard"
+	sellprice = 25
 
 /obj/item/clothing/cloak/absolutionistrobe
 	name = "absolver's robe"

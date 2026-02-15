@@ -17,6 +17,7 @@
 	sleeved_detail = FALSE
 	boobed_detail = FALSE
 	chunkcolor = "#7d9097"
+	material_category = ARMOR_MAT_PLATE
 
 /obj/item/clothing/suit/roguetown/armor/brigandine/Initialize()
 	. = ..()
@@ -66,21 +67,6 @@
 	GLOB.lordcolor -= src
 	return ..()
 
-/obj/item/clothing/suit/roguetown/armor/brigandine/coatplates
-	name = "coat of plates"
-	desc = "A heavyweight coat-of-plates, adorned with a pair of steel vambraces and faulds."
-	icon_state = "coat_of_plates"
-	blocksound = PLATEHIT
-	smelt_bar_num = 2
-	armor_class = ARMOR_CLASS_HEAVY
-	max_integrity = ARMOR_INT_CHEST_PLATE_BRIGANDINE + 50
-
-/obj/item/clothing/suit/roguetown/armor/brigandine/retinue/coat
-	name = "coat of the commander"
-	desc = "A coat of plates concealed beneath a heavy leather surcoat. Only the most battle-hardened of Azuria's commanders can hope to bear its burden, both metaphorically and quite literally."
-	icon_state = "leathercoat"
-	item_state = "leathercoat"
-
 /obj/item/clothing/suit/roguetown/armor/brigandine/light
 	slot_flags = ITEM_SLOT_ARMOR
 	name = "lightweight brigandine"
@@ -94,6 +80,9 @@
 	equip_delay_self = 40
 	armor_class = ARMOR_CLASS_LIGHT//steel version of the studded leather armor now
 	w_class = WEIGHT_CLASS_BULKY
+
+/obj/item/clothing/suit/roguetown/armor/brigandine/light/ComponentInitialize()
+	AddComponent(/datum/component/armour_filtering/negative, TRAIT_FENCERDEXTERITY)
 
 /obj/item/clothing/suit/roguetown/armor/brigandine/light/attack_right(mob/user)
 	if(detail_tag)

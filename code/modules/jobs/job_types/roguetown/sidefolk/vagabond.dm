@@ -63,12 +63,3 @@
 	if(prob(33))
 		cloak = /obj/item/clothing/cloak/half/brown
 		gloves = /obj/item/clothing/gloves/roguetown/fingerless
-	H.adjust_skillrank(/datum/skill/misc/sneaking, 2, TRUE)
-	H.adjust_skillrank(/datum/skill/misc/stealing, 4, TRUE)
-	H.adjust_skillrank(/datum/skill/misc/climbing, 4, TRUE)
-	H.STALUC = rand(1, 20)
-	if(prob(10))
-		r_hand = /obj/item/rogue/instrument/flute
-	H.change_stat(STATKEY_INT, round(rand(-4,4)))
-	H.change_stat(STATKEY_CON, -1)
-	H.change_stat(STATKEY_WIL, -1)

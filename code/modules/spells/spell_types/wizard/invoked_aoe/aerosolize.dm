@@ -19,6 +19,7 @@
 	glow_color = GLOW_COLOR_ARCANE
 	glow_intensity = GLOW_INTENSITY_LOW
 	gesture_required = TRUE // Spell w/ offensive potential, but don't matter cuz you have no hands. Still, consistency
+	human_req = TRUE // Combat spell
 	cost = 3
 
 	xp_gain = TRUE

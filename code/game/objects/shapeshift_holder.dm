@@ -28,16 +28,16 @@
 	slink.source = src
 
 /obj/shapeshift_holder/Destroy()
-	if(!restoring)
-		restore()
-	stored = null
-	shape = null
-	. = ..()
+    restoring = TRUE
+    stored = null
+    shape = null
+    return ..()
 
 /obj/shapeshift_holder/Moved()
 	. = ..()
-	if(!restoring || QDELETED(src))
-		restore()
+	if(restoring || QDELETED(src))
+		return
+	restore()
 
 /obj/shapeshift_holder/handle_atom_del(atom/A)
 	if(A == stored && !restoring)
@@ -63,6 +63,9 @@
 		restore(knockout=source.knockout_on_death)
 
 /obj/shapeshift_holder/proc/restore(death=FALSE, knockout=0)
+	if(restoring || QDELETED(src))
+		return
+
 	restoring = TRUE
 	qdel(slink)
 	if (stored)
@@ -93,9 +96,7 @@
 
 		stored.apply_damage(damapply, source.convert_damage_type, forced = TRUE)
 	qdel(shape)
-	qdel(src)
-	if (!QDELETED(src))
-		qdel(src)
+	shape = null
 
 /datum/soullink/shapeshift
 	var/obj/shapeshift_holder/source

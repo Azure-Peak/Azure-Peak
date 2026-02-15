@@ -55,16 +55,19 @@
 	. = ..()
 	if(.)
 		return FALSE
+	var/list/modifiers = params2list(params)
+	if(!modifiers["middle"])
+		return TRUE
 	if(!can_cast(caller) || !cast_check(FALSE, ranged_ability_user))
 		return FALSE
 	var/client/client = caller.client
 	var/percentage_progress = client?.chargedprog
 	var/charge_progress = client?.progress // This is in seconds, same unit as chargetime
-	var/goal = src.get_chargetime() //if we have no chargetime then we can freely cast (and no early release flag was not set)
-	if(src.no_early_release) //This is to stop half-channeled spells from casting as the repeated-casts somehow bypass into this function.
+	var/goal = get_chargetime() //if we have no chargetime then we can freely cast (and no early release flag was not set)
+	if(no_early_release) //This is to stop half-channeled spells from casting as the repeated-casts somehow bypass into this function.
 		if(percentage_progress < 100 && charge_progress < goal)//Conditions for failure: a) not 100% progress, b) charge progress less than goal
-			to_chat(usr, span_warning("[src.name] was not finished charging! It fizzles."))
-			src.revert_cast()
+			to_chat(usr, span_warning("[name] was not finished charging! It fizzles."))
+			revert_cast()
 			return FALSE
 	if(perform(list(target), TRUE, user = ranged_ability_user))
 		return TRUE
@@ -76,6 +79,7 @@
 	var/current_amount = 0	//How many projectiles left.
 	var/projectiles_per_fire = 1		//Projectiles per fire. Probably not a good thing to use unless you override ready_projectile().
 	gesture_required = TRUE // All projectiles are offensive and should be locked to not handcuff
+	human_req = TRUE
 
 /obj/effect/proc_holder/spell/invoked/projectile/proc/ready_projectile(obj/projectile/P, atom/target, mob/user, iteration)
 	return

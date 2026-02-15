@@ -224,6 +224,17 @@
 	)
 	sp_mod = 6
 
+/datum/class_age_mod/mystic
+	target_age = AGE_OLD
+	skill_mods = list(
+		/datum/skill/magic/arcane = SKILL_LEVEL_JOURNEYMAN
+	)
+	stat_mods = list(
+		STATKEY_INT = 1,
+		STATKEY_SPD = -1,
+	)
+	sp_mod = 2
+
 /datum/class_age_mod/exorcist
 	target_age = AGE_OLD
 	stat_mods = list(

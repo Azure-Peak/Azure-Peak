@@ -139,11 +139,12 @@
 #define SHE_HER			"she/her"
 #define THEY_THEM		"they/them (Masc Clothes)"
 #define THEY_THEM_F		"they/them (Femme Clothes)"
-#define IT_ITS			"it/its"
+#define IT_ITS			"it/its (Femme Clothes)"
+#define IT_ITS_M		"it/its (Masc Clothes)"
 #define HE_HIM_F		"he/him (Femme Clothes)"
 #define SHE_HER_M		"she/her (Masc Clothes)"
 
-GLOBAL_LIST_INIT(pronouns_list, list(HE_HIM, SHE_HER, THEY_THEM, THEY_THEM_F, IT_ITS, HE_HIM_F, SHE_HER_M))
+GLOBAL_LIST_INIT(pronouns_list, list(HE_HIM, SHE_HER, THEY_THEM, THEY_THEM_F, IT_ITS, IT_ITS_M, HE_HIM_F, SHE_HER_M))
 
 // Voice types (LETHALSTONE)
 
@@ -158,11 +159,13 @@ GLOBAL_LIST_INIT(voice_types_list, list(VOICE_TYPE_MASC, VOICE_TYPE_FEM, VOICE_T
 #define VOICE_PACK_MASC_ELF "Elvish (Masc)"
 #define VOICE_PACK_MASC_DWARF "Dwarvish (Masc)"
 #define VOICE_PACK_FOP	"Foppish (Masc)"
+#define VOICE_PACK_STERN "Stern (Masc)"
 #define VOICE_PACK_KNIGHT "Knightly (Masc)"
 #define VOICE_PACK_WARRIOR "Warrior (Masc)"
 #define VOICE_PACK_FEM	"Feminine"
 #define VOICE_PACK_FEM_DAINTY "Dainty (Fem)"
 #define VOICE_PACK_FEM_HAUGHTY "Haughty (Fem)"
+#define VOICE_PACK_FEM_WARRIOR "Warrior (Fem)"
 #define VOICE_PACK_FEM_ELF	"Elvish (Fem)"
 #define VOICE_PACK_FEM_DWARF "Dwarvish (Fem)"
 
@@ -170,9 +173,25 @@ GLOBAL_LIST_INIT(voice_packs_list, list(
 	VOICE_PACK_DEFAULT = null,
 	VOICE_PACK_MASC = /datum/voicepack/male,
 	VOICE_PACK_FOP = /datum/voicepack/male/foppish,
+	VOICE_PACK_STERN = /datum/voicepack/male/stern,
 	VOICE_PACK_KNIGHT = /datum/voicepack/male/knight,
 	VOICE_PACK_WARRIOR = /datum/voicepack/male/warrior,
 	VOICE_PACK_FEM = /datum/voicepack/female,
+	VOICE_PACK_FEM_WARRIOR = /datum/voicepack/female/warrior,
 	VOICE_PACK_FEM_DAINTY = /datum/voicepack/female/dainty,
 	VOICE_PACK_FEM_HAUGHTY = /datum/voicepack/female/haughty,
+))
+
+#define ATTACK_BLIP_PREF_DEFAULT 50
+#define ATTACK_BLIP_PREF_RARELY 25
+#define ATTACK_BLIP_PREF_ALWAYS 100
+#define ATTACK_BLIP_PREF_FREQUENT 75
+#define ATTACK_BLIP_PREF_NEVER 0
+
+GLOBAL_LIST_INIT(attack_blip_pref_list, list(
+	"Always" = ATTACK_BLIP_PREF_ALWAYS,
+	"Frequent" = ATTACK_BLIP_PREF_FREQUENT,
+	"Half the time (Default)" = ATTACK_BLIP_PREF_DEFAULT,
+	"Rarely" = ATTACK_BLIP_PREF_RARELY,
+	"Never" = ATTACK_BLIP_PREF_NEVER
 ))

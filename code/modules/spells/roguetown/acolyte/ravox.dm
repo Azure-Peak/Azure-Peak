@@ -108,7 +108,7 @@
 			continue
 		target.apply_status_effect(/datum/status_effect/buff/call_to_arms)
 	return TRUE
-	
+
 //Persistence - Harms the shit out of an undead mob/player while causing bleeding/pain wounds to clot at higher rate for living ones. Basically a 'shittier' yet still good greater heal effect.
 /obj/effect/proc_holder/spell/invoked/persistence
 	name = "Persistence"
@@ -142,7 +142,7 @@
 				phy.pain_mod *= 1.5
 				addtimer(CALLBACK(src, PROC_REF(restore_modifiers), phy), 19 SECONDS)
 				human_target.visible_message(span_danger("[target]'s wounds become inflammed as their vitality is sapped away!"), span_userdanger("Ravox inflammes my wounds and weakens my body!"))
-				return ..()
+				return TRUE
 			return FALSE
 
 		target.visible_message(span_info("Warmth radiates from [target] as their wounds seal over!"), span_notice("The pain from my wounds fade as warmth radiates from my soul!"))
@@ -273,7 +273,7 @@
 	miracle = TRUE
 	devotion_cost = 100
 
-GLOBAL_LIST_EMPTY(arenafolks) // we're just going to use a list and add to it. Since /entered doesnt work on teleported mobs. 
+GLOBAL_LIST_EMPTY(arenafolks) // we're just going to use a list and add to it. Since /entered doesnt work on teleported mobs.
 
 /obj/effect/proc_holder/spell/invoked/challenge/cast(list/targets, mob/living/user)
 	var/area/rogue/indoors/ravoxarena/thearena = GLOB.areas_by_type[/area/rogue/indoors/ravoxarena]
@@ -285,53 +285,65 @@ GLOBAL_LIST_EMPTY(arenafolks) // we're just going to use a list and add to it. S
 		revert_cast()
 		return FALSE
 
-	if(isliving(targets[1]))
-		var/mob/living/target = targets[1]
-		var/originalcmodeuser = user.cmode_music
-		var/originalcmodetarget = target.cmode_music
-		var/turf/storedchallengerturf = get_turf(user)
-		var/turf/storedchallengedturf = get_turf(target)
-		if(user.z != target.z)
-			revert_cast()
-			return FALSE
-		if(target == user)
-			revert_cast()
-			return FALSE
+	if(!isliving(targets[1]))
+		revert_cast()
+		return FALSE
 
-		for(var/obj/structure/fluff/ravox/challenger/aflag in thearena)
-			challengerspawnpoint = get_turf(aflag)
-		for(var/obj/structure/fluff/ravox/challenged/bflag in thearena)
-			challengedspawnpoint = get_turf(bflag)
-		
-		do_teleport(user, challengerspawnpoint)
-		do_teleport(target, challengedspawnpoint)
-		GLOB.arenafolks += user
-		GLOB.arenafolks += target
-		storedchallengerturf.visible_message((span_cult("[user] calls upon the Ravoxian rite of Trial! [target] and [user] are brought to Trial!")))
+	var/mob/living/carbon/target = targets[1]
+	var/originalcmodeuser = user.cmode_music
+	var/originalcmodetarget = target.cmode_music
+	var/turf/storedchallengerturf = get_turf(user)
+	var/turf/storedchallengedturf = get_turf(target)
 
-		new /obj/structure/fluff/ravox/challenger/recall(storedchallengerturf)
-		new /obj/structure/fluff/ravox/challenged/recall(storedchallengedturf)
+	if(user.z != target.z)
+		revert_cast()
+		return FALSE
+	if(target == user)
+		revert_cast()
+		return FALSE
+	if(
+		(target.stat > CONSCIOUS) || \
+		!(target.mobility_flags & MOBILITY_STAND) || \
+		!(target.mobility_flags & MOBILITY_MOVE) || \
+		(HAS_TRAIT(target, TRAIT_PACIFISM)) || \
+		(target.handcuffed) || \
+		(target.legcuffed)
+	)
+		to_chat(user, span_warning("[target] is in no shape to accept the duel!"))
+		revert_cast()
+		return FALSE
 
-		to_chat(user, span_userdanger("THE TRIAL IS CALLED, IMPRESS US, PROSECUTOR!!"))
-		to_chat(target, span_userdanger("A TRIAL OF RAVOX BEGINS. IMPRESS US, DEFENDANT!!"))
+	for(var/obj/structure/fluff/ravox/challenger/aflag in thearena)
+		challengerspawnpoint = get_turf(aflag)
+	for(var/obj/structure/fluff/ravox/challenged/bflag in thearena)
+		challengedspawnpoint = get_turf(bflag)
 
-		user.cmode_change('sound/music/ravoxarena.ogg')
-		target.cmode_change('sound/music/ravoxarena.ogg')
+	do_teleport(user, challengerspawnpoint)
+	do_teleport(target, challengedspawnpoint)
+	GLOB.arenafolks += user
+	GLOB.arenafolks += target
+	storedchallengerturf.visible_message((span_cult("[user] calls upon the Ravoxian rite of Trial! [target] and [user] are brought to Trial!")))
 
-		addtimer(CALLBACK(user, GLOBAL_PROC_REF(do_teleport), user, storedchallengerturf), 3 MINUTES)
-		addtimer(CALLBACK(target, GLOBAL_PROC_REF(do_teleport), target, storedchallengedturf), 3 MINUTES)
-		addtimer(CALLBACK(user, TYPE_PROC_REF(/mob, cmode_change), originalcmodeuser), 3 MINUTES)
-		addtimer(CALLBACK(target,TYPE_PROC_REF(/mob, cmode_change), originalcmodetarget), 3 MINUTES)
-		addtimer(CALLBACK(thearena,TYPE_PROC_REF(/area/rogue/indoors/ravoxarena, cleanthearena), storedchallengedturf), 3 MINUTES) // shunt all items from the arena out onto the challenged spot.
+	new /obj/structure/fluff/ravox/challenger/recall(storedchallengerturf)
+	new /obj/structure/fluff/ravox/challenged/recall(storedchallengedturf)
 
-		if(iscarbon(target))
-			var/mob/living/carbon/human/spawnprotectiontarget = target
-			addtimer(CALLBACK(spawnprotectiontarget,TYPE_PROC_REF(/mob/living/carbon/human, do_invisibility), 10 SECONDS), 3 MINUTES)
+	to_chat(user, span_userdanger("THE TRIAL IS CALLED, IMPRESS US, PROSECUTOR!!"))
+	to_chat(target, span_userdanger("A TRIAL OF RAVOX BEGINS. IMPRESS US, DEFENDANT!!"))
 
+	user.cmode_change('sound/music/ravoxarena.ogg')
+	target.cmode_change('sound/music/ravoxarena.ogg')
 
-		return TRUE
-	revert_cast()
-	return FALSE
+	addtimer(CALLBACK(user, GLOBAL_PROC_REF(do_teleport), user, storedchallengerturf), 3 MINUTES)
+	addtimer(CALLBACK(target, GLOBAL_PROC_REF(do_teleport), target, storedchallengedturf), 3 MINUTES)
+	addtimer(CALLBACK(user, TYPE_PROC_REF(/mob, cmode_change), originalcmodeuser), 3 MINUTES)
+	addtimer(CALLBACK(target,TYPE_PROC_REF(/mob, cmode_change), originalcmodetarget), 3 MINUTES)
+	addtimer(CALLBACK(thearena,TYPE_PROC_REF(/area/rogue/indoors/ravoxarena, cleanthearena), storedchallengedturf), 3 MINUTES) // shunt all items from the arena out onto the challenged spot.
+
+	if(iscarbon(target))
+		var/mob/living/carbon/human/spawnprotectiontarget = target
+		addtimer(CALLBACK(spawnprotectiontarget,TYPE_PROC_REF(/mob/living/carbon/human, do_invisibility), 10 SECONDS), 3 MINUTES)
+
+	return TRUE
 
 
 /obj/structure/fluff/ravox
@@ -524,8 +536,8 @@ GLOBAL_LIST_EMPTY(arenafolks) // we're just going to use a list and add to it. S
 	. = ..()
 
 /obj/effect/proc_holder/spell/invoked/raise_warrior_spirits
-	name = "Warrior Spirits"
-	desc = "Summon Elder Warrior spirits to tear at an opponent!"
+	name = "Inner Fire"
+	desc = "Tear out part of your warrior's spirit, and manifest it into a spirit of battle!"
 	range = 7
 	sound = list('sound/magic/magnet.ogg')
 	action_icon = 'icons/mob/actions/ravoxmiracles.dmi'
@@ -538,17 +550,23 @@ GLOBAL_LIST_EMPTY(arenafolks) // we're just going to use a list and add to it. S
 	no_early_release = TRUE
 	charging_slowdown = 1
 	chargedloop = /datum/looping_sound/invokeholy
-	gesture_required = TRUE 
+	gesture_required = TRUE
 	associated_skill = /datum/skill/magic/holy
 	recharge_time = 5 MINUTES
 	hide_charge_effect = TRUE
 	miracle = TRUE
 	devotion_cost = 50
-	invocations = list("Soldiers of Ravox, come to me!!")
+	invocations = list("Armor-claid faith, enflame myne spirit!!") //I'M A FOOL, I KNOW NOTHING. I TAKE THE ROLE OF A SIILLY CLOOOWN
 	invocation_type = "shout"
 
 /obj/effect/proc_holder/spell/invoked/raise_warrior_spirits/cast(list/targets, mob/living/user)
 	. = ..()
+
+	if(istype(get_area(user), /area/rogue/indoors/ravoxarena))
+		to_chat(user, span_userdanger("I reach for outer help, but Ravox rebukes me! This opponet is only for me to overcome!"))
+		revert_cast()
+		return FALSE
+
 	if(!("[user.mind.current.real_name]_faction" in user.faction))  //FUCK VVV
 		user.faction |= "[user.mind.current.real_name]_faction"
 
@@ -560,25 +578,29 @@ GLOBAL_LIST_EMPTY(arenafolks) // we're just going to use a list and add to it. S
 
 	var/skill = user.get_skill_level(/datum/skill/magic/holy)
 	var/time = 1 MINUTES
-	time *= skill
 
 	if(isliving(targets[1]))
 		var/mob/living/target = targets[1]
-		if(user.dir == SOUTH || user.dir == NORTH)
-			new /mob/living/simple_animal/hostile/rogue/skeleton/ravox_ghost/spear(get_turf(user),user)
-			new /mob/living/simple_animal/hostile/rogue/skeleton/ravox_ghost/axe(get_step(user, EAST),user)
-			new /mob/living/simple_animal/hostile/rogue/skeleton/ravox_ghost/sword(get_step(user, WEST),user)
-		else
-			new /mob/living/simple_animal/hostile/rogue/skeleton/ravox_ghost/spear(get_turf(user),user)
-			new /mob/living/simple_animal/hostile/rogue/skeleton/ravox_ghost/axe(get_step(user, NORTH),user)
-			new /mob/living/simple_animal/hostile/rogue/skeleton/ravox_ghost/sword(get_step(user, SOUTH),user)
+		user.apply_status_effect(/datum/status_effect/debuff/ravox_warrior_spirit)
+		var/blorbo_picker = rand(1, 3)
+		var/turf/spawn_turf = get_step(user, user.dir)
+		if(!spawn_turf)
+			spawn_turf = get_turf(user)
+		switch(blorbo_picker)
+			if(1)
+				new /mob/living/simple_animal/hostile/rogue/skeleton/ravox_ghost/spear(spawn_turf, user)
+			if(2)
+				new /mob/living/simple_animal/hostile/rogue/skeleton/ravox_ghost/axe(spawn_turf, user)
+			if(3)
+				new /mob/living/simple_animal/hostile/rogue/skeleton/ravox_ghost/sword(spawn_turf, user)
 		for(var/mob/living/simple_animal/hostile/rogue/skeleton/ravox_ghost/swarm in view(3, user))
-			swarm.ai_controller.set_blackboard_key(BB_BASIC_MOB_CURRENT_TARGET, target) 
+			swarm.ai_controller.set_blackboard_key(BB_BASIC_MOB_CURRENT_TARGET, target)
 			if(swarm.buffed_r == FALSE)
-				swarm.maxHealth *= skill
-				swarm.health *= skill
+				swarm.maxHealth += (skill*10)
+				swarm.health += (skill*10)
 				addtimer(CALLBACK(swarm, TYPE_PROC_REF(/mob/living/simple_animal/hostile/rogue/skeleton, deathtime), TRUE), time)
 				swarm.buffed_r = TRUE
+				swarm.name = "[user.real_name]'s Spirit"
 		return TRUE
 	revert_cast()
 	return FALSE

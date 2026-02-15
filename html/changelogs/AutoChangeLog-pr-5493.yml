@@ -1,4 +1,0 @@
-author: "hazelrat"
-delete-after: True
-changes:
-  - rscadd: "Added a toggle under the Options menu titled 'Toggle Mood Messages'. If enabled, this will show the player all mood messages in their chat as soon as they occur. If disabled, only severely negative mood messages will appear."

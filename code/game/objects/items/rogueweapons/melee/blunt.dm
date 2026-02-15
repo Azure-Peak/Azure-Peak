@@ -192,6 +192,7 @@
 	minstr = 11
 	sellprice = 300
 	smeltresult = /obj/item/ingot/gold
+	unenchantable = TRUE
 
 /obj/item/rogueweapon/mace/gold/lordscepter
 	name = "\"Morningstar\""
@@ -203,6 +204,7 @@
 	anvilrepair = /datum/skill/craft/weaponsmithing
 	minstr = 7
 	sellprice = 363
+	unenchantable = TRUE
 	COOLDOWN_DECLARE(sceptermace)
 
 /obj/item/rogueweapon/mace/gold/lordscepter/afterattack(atom/target, mob/user, flag)
@@ -323,6 +325,15 @@
 	damfactor = 1.3		// High damage mod to give high chance of dislocation against unarmored targets.
 	intent_intdamage_factor = 0.5	// Purposefully bad at damaging armor.
 	icon_state = "inbash"	// Wallop is too long for a button; placeholder.
+
+/obj/item/rogueweapon/mace/cudgel/shellrungu
+	name = "shell rungu"
+	desc = "A ceremonial rungu carved out of clam shell. Not intended for combat. Its used in various Sea and Coastal Elven rituals and ceremonies."
+	icon = 'icons/roguetown/gems/gem_shell.dmi'
+	icon_state = "rungu_shell"
+
+	max_integrity = 75
+	sellprice = 35
 
 /obj/item/rogueweapon/mace/cudgel/psy
 	name = "psydonic handmace"

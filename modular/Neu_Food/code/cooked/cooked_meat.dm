@@ -97,7 +97,7 @@
 				new /obj/item/reagent_containers/food/snacks/rogue/friedegg/sausagebacon(loc)
 				qdel(I)
 				qdel(src)
-	if(istype(I, /obj/item/reagent_containers/food/snacks/rogue/friedegg))
+	if(istype(I, /obj/item/reagent_containers/food/snacks/rogue/friedegg/fried))
 		if(isturf(loc)&& (found_table))
 			playsound(get_turf(user), 'sound/foley/dropsound/gen_drop.ogg', 30, TRUE, -1)
 			if(do_after(user,short_cooktime, target = src))
@@ -252,6 +252,20 @@
 	fried_type = null
 	cooked_type = null
 
+/obj/item/reagent_containers/food/snacks/rogue/meat/rabbit/fried/attackby(obj/item/I, mob/living/user, params)
+	var/found_table = locate(/obj/structure/table) in (loc)
+	update_cooktime(user)
+	if(istype(I, /obj/item/reagent_containers/food/snacks/rogue/veg/garlick_clove))
+		if(isturf(loc)&& (found_table))
+			playsound(get_turf(user), 'sound/foley/dropsound/gen_drop.ogg', 30, TRUE, -1)
+			if(do_after(user,short_cooktime, target = src))
+				add_sleep_experience(user, /datum/skill/craft/cooking, user.STAINT * 0.5)
+				new /obj/item/reagent_containers/food/snacks/rogue/meat/rabbit/fried/garlick(loc)
+				qdel(I)
+				qdel(src)
+	else
+		return ..()
+
 /* .............   Fried Volf   ................ */
 /obj/item/reagent_containers/food/snacks/rogue/meat/steak/wolf/fried
 	eat_effect = null
@@ -265,6 +279,20 @@
 	rotprocess = SHELFLIFE_DECENT
 	fried_type = null
 	cooked_type = null
+
+/obj/item/reagent_containers/food/snacks/rogue/meat/steak/wolf/fried/attackby(obj/item/I, mob/living/user, params)
+	var/found_table = locate(/obj/structure/table) in (loc)
+	update_cooktime(user)
+	if(istype(I, /obj/item/reagent_containers/food/snacks/rogue/veg/garlick_clove))
+		if(isturf(loc)&& (found_table))
+			playsound(get_turf(user), 'sound/foley/dropsound/gen_drop.ogg', 30, TRUE, -1)
+			if(do_after(user,short_cooktime, target = src))
+				add_sleep_experience(user, /datum/skill/craft/cooking, user.STAINT * 0.5)
+				new /obj/item/reagent_containers/food/snacks/rogue/meat/steak/wolf/fried/garlick(loc)
+				qdel(I)
+				qdel(src)
+	else
+		return ..()
 
 /* .............   Seared Gnoll   ................ */
 /obj/item/reagent_containers/food/snacks/rogue/meat/steak/gnoll/seared
@@ -350,7 +378,7 @@
 /obj/item/reagent_containers/food/snacks/rogue/meat/sausage/cooked/attackby(obj/item/I, mob/living/user, params)
 	var/found_table = locate(/obj/structure/table) in (loc)
 	update_cooktime(user)
-	if(istype(I, /obj/item/reagent_containers/food/snacks/rogue/friedegg))
+	if(istype(I, /obj/item/reagent_containers/food/snacks/rogue/friedegg/fried))
 		if(isturf(loc)&& (found_table))
 			playsound(get_turf(user), 'sound/foley/dropsound/gen_drop.ogg', 30, TRUE, -1)
 			if(do_after(user,short_cooktime, target = src))

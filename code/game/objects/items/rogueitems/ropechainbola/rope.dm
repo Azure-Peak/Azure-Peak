@@ -89,6 +89,9 @@
 	if(C.handcuffed)
 		return
 
+	if(!user.Adjacent(C))
+		return
+
 	if(!(C.get_num_arms(FALSE) || C.get_arm_ignore()))
 		to_chat(user, span_warning("[C] has no arms to tie up."))
 		return
@@ -109,6 +112,9 @@
 		to_chat(user, span_warning("I fail to tie up [C]!"))
 		return
 
+	if(!user.Adjacent(C))
+		return
+
 	apply_cuffs(C, user)
 	C.visible_message(span_warning("[user] ties [C] with [src.name]."), \
 						span_danger("[user] ties me up with [src.name]."))
@@ -117,6 +123,9 @@
 
 /obj/item/rope/proc/try_cuff_legs(mob/living/carbon/C, mob/living/user)
 	if(C.legcuffed)
+		return
+
+	if(!user.Adjacent(C))
 		return
 
 	if(C.get_num_legs(FALSE) < 2)
@@ -138,6 +147,9 @@
 
 	if(!do_mob(user, C, 60 * surrender_mod) || C.get_num_legs(FALSE) < 2)
 		to_chat(user, span_warning("I fail to tie up [C]!"))
+		return
+
+	if(!user.Adjacent(C))
 		return
 
 	apply_cuffs(C, user, TRUE)

@@ -477,7 +477,7 @@
 /datum/anvil_recipe/tools/steel/cleaver
 	name = "Cleaver"
 	req_bar = /obj/item/ingot/steel
-	created_item = /obj/item/rogueweapon/huntingknife/cleaver
+	created_item = /obj/item/rogueweapon/huntingknife/chefknife/cleaver
 	createditem_num = 1
 
 // --------- SILVER -----------

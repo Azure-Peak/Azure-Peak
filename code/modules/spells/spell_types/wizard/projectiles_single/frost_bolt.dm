@@ -44,8 +44,6 @@
 	range = 10
 	speed = 1
 	nodamage = FALSE
-	var/freeze_duration = 5 SECONDS
-	var/aoe_range = 0
 
 /obj/projectile/magic/frostbolt/on_hit(target)
 	. = ..()
@@ -58,14 +56,6 @@
 			return BULLET_ACT_BLOCK
 		if(isliving(target))
 			var/mob/living/L = target
-			var/datum/status_effect/debuff/arcanemark/mark = L.has_status_effect(/datum/status_effect/debuff/arcanemark)
-
-			if(mark && mark.stacks == mark.max_stacks)
-				L.Immobilize(freeze_duration)
-				L.OffBalance(freeze_duration)
-				L.visible_message("<span class='warning'>[L]'s movements are halted by arcyne frost!</span>")
-				consume_arcane_mark_stacks(M)
-
 			if(L.has_status_effect(/datum/status_effect/buff/frostbite))
 				return
 			else

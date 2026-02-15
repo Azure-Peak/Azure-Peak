@@ -1,7 +1,7 @@
-/datum/advclass/trader/maid
-	name = "Wandering Maid"
+/datum/advclass/trader/servant
+	name = "Wandering Servant"
 	tutorial = "A surviving servant of a destroyed dynasty, an exile, or a spy, one way or another, your skills will help you serve. The rest is to find your master."
-	outfit = /datum/outfit/job/roguetown/adventurer/maid
+	outfit = /datum/outfit/job/roguetown/adventurer/servant
 	allowed_sexes = list(MALE, FEMALE)
 	category_tags = list(CTAG_TRADER, CTAG_COURTAGENT, CTAG_LICKER_WRETCH)
 	class_select_category = CLASS_CAT_TRADER
@@ -25,19 +25,32 @@
 		/datum/skill/combat/wrestling = SKILL_LEVEL_APPRENTICE
 	)
 
-/datum/outfit/job/roguetown/adventurer/maid/pre_equip(mob/living/carbon/human/H)
+/datum/outfit/job/roguetown/adventurer/servant/pre_equip(mob/living/carbon/human/H)
 	..()
 	to_chat(H, span_warning("A surviving servant of a destroyed dynasty, an exile, or a spy, one way or another, your skills will help you serve. The rest is to find your master."))
-	
-	head = /obj/item/clothing/head/roguetown/maidhead
-	armor = /obj/item/clothing/suit/roguetown/shirt/dress/maid
-	cloak = /obj/item/clothing/cloak/apron/waist/maid
-	belt = /obj/item/storage/belt/rogue/leather/sash/maid
-	shoes = /obj/item/clothing/shoes/roguetown/simpleshoes
+
+	var/choice_list = list("Butler", "Maid")
+	var/choice = input(H, "What are you?", "Occupation") as anything in choice_list
+
+	switch(choice)
+		if("Maid")
+			head = /obj/item/clothing/head/roguetown/maidhead
+			armor = /obj/item/clothing/suit/roguetown/shirt/dress/maid
+			cloak = /obj/item/clothing/cloak/apron/waist/maid
+			belt = /obj/item/storage/belt/rogue/leather/sash/maid
+			shoes = /obj/item/clothing/shoes/roguetown/simpleshoes
+		if("Butler")
+			pants = /obj/item/clothing/under/roguetown/tights/black
+			shirt = /obj/item/clothing/suit/roguetown/shirt/undershirt
+			shoes = /obj/item/clothing/shoes/roguetown/shortboots
+			armor = /obj/item/clothing/suit/roguetown/armor/leather/vest/black
+			belt = /obj/item/storage/belt/rogue/leather
+
 	backl = /obj/item/storage/backpack/rogue/satchel
 	beltl = /obj/item/storage/belt/rogue/pouch/coins/poor
 	beltr = /obj/item/flashlight/flare/torch/lantern
 	backpack_contents = list(
 		/obj/item/rogueweapon/huntingknife = 1,
 		/obj/item/rogueweapon/scabbard/sheath = 1,
-		/obj/item/recipe_book/survival = 1)
+		/obj/item/recipe_book/survival = 1
+		)

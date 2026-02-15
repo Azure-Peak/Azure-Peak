@@ -145,7 +145,9 @@
 	icon_state = "shopsign_merchant_left"
 
 /obj/structure/fluff/walldeco/psybanner
-	name = "banner"
+	name = "psydonic banner"
+	desc = "A banner of fine fabric bearing the symbol of Psydon, the Weeping God, creator of the world. \
+	Flown frequently by both Psydonite and Tennite authorities."
 	icon_state = "Psybanner-PURPLE"
 
 /obj/structure/fluff/walldeco/psybanner/red

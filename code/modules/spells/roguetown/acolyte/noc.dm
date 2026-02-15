@@ -1,8 +1,138 @@
 // Noc Spells
+
+/*
+This is a NEW version of blindness that should be less ass to deal with. If any better programmers can come along later
+and rework the duration to be a clamped value based on holyskill, that's great, I couldn't get it working. Probably best
+to still keep this unavailable to mages... for the moment, at least.
+*/
+/obj/effect/proc_holder/spell/invoked/blindness
+	name = "Blindness"
+	desc = "Direct a mote of living darkness to temporarily blind another. \n(-3 PERCEPTION, REDUCED VISION CONE)"
+	overlay_state = "blindness"
+	clothes_req = FALSE
+	releasedrain = 30
+	chargedrain = 0
+	chargetime = 0
+	range = 7
+	warnie = "sydwarning"
+	movement_interrupt = FALSE
+	sound = 'sound/magic/churn.ogg'
+	spell_tier = 2 // Combat spell
+	invocations = list("Blackest nite, blind!")
+	invocation_type = "shout" //can be none, whisper, emote and shout
+	associated_skill = /datum/skill/magic/holy
+	devotion_cost = 50
+	recharge_time = 1.5 MINUTES
+	req_items = list(/obj/item/clothing/neck/roguetown/psicross)
+	miracle = TRUE
+	cost = 3
+
+/obj/effect/proc_holder/spell/invoked/blindness/cast(list/targets, mob/user = usr)
+	if(isliving(targets[1]))
+		var/mob/living/target = targets[1]
+		if(target.anti_magic_check(TRUE, TRUE))
+			return FALSE
+		var/assocskill = user.get_skill_level(associated_skill)
+		target.visible_message(span_warning("[user] points at [target]'s eyes!"), span_userdanger("[user] points at my eyes! Shadowy fingers are digging into my vision-- I can't SEE!"))
+		target.apply_status_effect(STATUS_EFFECT_BLINDED, assocskill)
+		return TRUE
+	revert_cast()
+	return FALSE
+
+/atom/movable/screen/alert/status_effect/debuff/blindness
+	name = "Blindness"
+	desc = "I see naught but darkness! (-3 PER, vision cone reduced)"
+
+/datum/status_effect/debuff/blindness
+	id = "blindness"
+	alert_type = /atom/movable/screen/alert/status_effect/debuff/blindness
+	effectedstats = list(STATKEY_PER = -3)
+
+/datum/status_effect/debuff/blindness/on_creation(mob/living/new_owner, assocskill)
+	// Guaranteed at least five seconds. Technically not needed but Just In CaseTM.
+	if(assocskill)
+		duration = clamp(assocskill*5, 5, 30) * 1 SECONDS
+	else
+		duration = 5 SECONDS // Just in case someone somehow gets this W/O holy skill.
+	. = ..()
+
+/datum/status_effect/debuff/blindness/on_apply()
+	// Blindness actually hooks into the vision_cone.dm as part of a status effect check.
+	// If any of you can figure out how to get a fullscreen overlay working (imparied vision or the oxyloss if you want to be nicer)
+	// that'd be awesome to add. Unfortunately, I couldnt! 
+	. = ..()
+
+/datum/status_effect/debuff/blindness/on_remove()
+	. = ..()
+	to_chat(owner, span_warning("My vision returns...!"))
+
+/*
+NOCCITE SILENCE.
+This is going to be designed to work as an alternative to blindness that the cleric in question can pick.
+Might require a bit of modification, but we'll see if it works well. 
+
+Conceptually the miracle version of this chokes a mf out with their own shadow but I cant figure out how 2 only change the to_chat
+about the wind-pipe or whatever. So itj ust. Its in my mind. Ok? Redoing the ENTIRE cast to just change ONE line is not worth the sovl.
+*/
+
+/obj/effect/proc_holder/spell/invoked/silence/miracle
+	miracle = TRUE
+	devotion_cost = 40 // "worse" than blindness in most practical cases so its a little less. we'll see.
+	chargetime = 0
+	chargedrain = 0
+	req_items = list(/obj/item/clothing/neck/roguetown/psicross)
+	associated_skill = /datum/skill/magic/holy
+	invocations = list("Blackest nite, bind!")
+	zizo_spell = FALSE // the Noc Intelligence Agency is here to kill you quietly
+
+/*
+BLINDNESS OR SILENCE CHOICE SPELL
+I'm not a great coder, so this is basically repurposed arcyne affinity. This makes Noccite clerics have the most variety in the game.
+Somewhat fitting, considering the broadness of their domains. I also just think Blindness AND Silence are too strong to give at the same time.
+*/
+/obj/effect/proc_holder/spell/self/blindnessorsilence
+	name = "Blindness/Silence"
+	desc = "Choose to blind the enemy's eyes (-3 PER, REDUCED VISION CONE) or bind their throat (MUTES, DOES NOT WORK ON FULL-FLEDGED MAGES)."
+	miracle = TRUE
+	chargetime = 0
+	chargedrain = 0
+	req_items = list(/obj/item/clothing/neck/roguetown/psicross)
+	associated_skill = /datum/skill/magic/holy
+	var/chosen_spell
+	// this probably isnt necessary as these are no longer lists, but, uh, it's fine. i think.
+	var/silence = /obj/effect/proc_holder/spell/invoked/silence/miracle
+	var/blindness = /obj/effect/proc_holder/spell/invoked/blindness
+	var/choosingspell = FALSE
+
+/obj/effect/proc_holder/spell/self/blindnessorsilence/cast(list/targets, mob/user)
+	. = ..()
+	if(choosingspell == TRUE)
+		to_chat(user, span_warning("I'm already choosing a spell!"))
+	else
+		var/choice = chosen_spell
+		choosingspell = TRUE
+		if(!chosen_spell)
+			choice = alert(user, "BIRD or WORM, Crescent?", "ORDER OR ANARCHY", "Blindness", "Silence")
+			chosen_spell = choice
+		switch(choice)
+			if("Blindness")
+				user.mind?.AddSpell(new blindness, user)
+				user.mind?.RemoveSpell(src.type)
+			if("Silence")
+				user.mind?.AddSpell(new silence, user)
+				user.mind?.RemoveSpell(src.type)
+			else
+				revert_cast()
+
+
+
+// This is the OLD version of blindness that I am keeping just in case the admins need to use it, or whatever. IDK.
+// Get free to yell at me if you want it out.
+
 // Blindness is a cancerous spells and should not be available to everyone.
 // But I am not nuking it from Acolyte yet so it will be unavailable to mage.
 // I repathed it to avoid it becoming available to mages again.
-/obj/effect/proc_holder/spell/invoked/blindness
+/obj/effect/proc_holder/spell/invoked/old_blindness
 	name = "Blindness"
 	desc = "Direct a mote of living darkness to temporarily blind another."
 	overlay_state = "blindness"
@@ -25,12 +155,12 @@
 	miracle = TRUE
 	cost = 3
 
-/obj/effect/proc_holder/spell/invoked/blindness/cast(list/targets, mob/user = usr)
+/obj/effect/proc_holder/spell/invoked/old_blindness/cast(list/targets, mob/user = usr)
 	if(isliving(targets[1]))
 		var/mob/living/target = targets[1]
 		if(target.anti_magic_check(TRUE, TRUE))
 			return FALSE
-		target.visible_message(span_warning("[user] points at [target]'s eyes!"),span_warning("My eyes are covered in darkness!"))
+		target.visible_message(span_warning("[user] points at [target]'s eyes!"),span_userdanger("My eyes are covered in darkness!"))
 		var/strength = min(user.get_skill_level(associated_skill) * 4, 4)
 		target.blind_eyes(strength)
 		return TRUE
@@ -52,7 +182,7 @@
 	movement_interrupt = FALSE
 	spell_tier = 1
 	invocation_type = "none"
-	sound = 'sound/misc/area.ogg' //This sound doesnt play for some reason. Fix me.
+	sound = 'sound/misc/area.ogg' 
 	associated_skill = /datum/skill/magic/arcane
 	antimagic_allowed = TRUE
 	hide_charge_effect = TRUE
@@ -170,7 +300,7 @@
 	name = "Noc's Gaze"
 	overlay_state = "noc_sight"
 	base_icon_state = "wisescroll"
-	desc = "Peer ahead."
+	desc = "Peer ahead. (Use MMB to project your vision as if you had a very high perception.)"
 	chargetime = 0
 	chargedrain = 0
 	clothes_req = FALSE
@@ -218,17 +348,17 @@
 //T0.
 /obj/effect/proc_holder/spell/self/wise_moon
 	name = "Enlightenment"
-	desc = "Ask the Wise Moon for help."
+	desc = "Invoke a lesser form of the Moonlight Dance, temporarily increasing your intelligence. Scales with holy skill and grows much more effective at nite."
 	base_icon_state = "wisescroll"
 	overlay_state = "noc_gaze"
 	releasedrain = 10
 	chargedrain = 0
 	chargetime = 0
 	chargedloop = /datum/looping_sound/invokeholy
-	sound = 'sound/magic/churn.ogg'
+	sound = 'sound/magic/clang.ogg'
 	associated_skill = /datum/skill/magic/holy
 	antimagic_allowed = FALSE
-	invocations = list("Noc show me true.")
+	invocations = list("His gaze upon me...!", "I beseech the stars; show me truth!") 
 	invocation_type = "shout"
 	recharge_time = 3 MINUTES
 	devotion_cost = 30
@@ -243,10 +373,8 @@
 	return TRUE
 
 /atom/movable/screen/alert/status_effect/buff/wise_moon
-	name = "Wise Moon"
-	desc = "Moonlight makes my thinking easier."
-	icon = 'icons/mob/actions/roguespells.dmi'
-	icon_state = "wise_moon"
+	name = "Enlightenment"
+	desc = "Divine magic is boosting my intelligence."
 
 /datum/status_effect/buff/wise_moon
 	id = "wise_moon"
@@ -266,7 +394,7 @@
 			int_bonus = assocskill
 		duration *= 2
 	if(GLOB.tod == "day")
-		to_chat(owner, "Sun covers a moon with its rays!")
+		to_chat(owner, span_warning("ASTRATA IS RISEN! My spell loses some of it's potency! (-1 TO STAT BOOST.)"))
 		int_bonus--
 	if(int_bonus > 0)
 		effectedstats = list(STATKEY_INT = int_bonus)
@@ -275,21 +403,23 @@
 //T0
 
 /obj/effect/proc_holder/spell/invoked/moondream
-	name = "Moonlight Dream"
-	desc = "The next dream of the target will bring more dreampoints."
+	name = "Hypnagognian Inspiration"
+	desc = "Touch a target. Their next dream will be inspired, granting more dream-points to the target and a few to yourself.\
+	This spell will fail if it's dae or dawn. Points granted scales with holy skill."
 	overlay_state = "moondream"
 	base_icon_state = "wisescroll"
 	releasedrain = 15
 	chargedrain = 0
 	chargetime = 1 SECONDS
-	range = 2
+	range = 1 // touch spell cause its cooler that way
 	warnie = "sydwarning"
 	movement_interrupt = FALSE
-	sound = 'sound/magic/churn.ogg'
-	invocations = list("Moon will give you a bright dream.")
-	invocation_type = "shout"
+	sound = 'sound/magic/owlhoot.ogg' // its cool
+	invocation_type = "whisper"
+	invocations = list("Good nite.") // good nite :) i love you :)
 	associated_skill = /datum/skill/magic/holy
 	recharge_time = 30 MINUTES
+	gesture_required = TRUE
 	miracle = TRUE
 	devotion_cost = 30
 
@@ -299,15 +429,24 @@
 		var/mob/living/carbon/human/target = targets[1]
 		var/mob/living/carbon/human/H = user
 		if(target == user)
+			to_chat(user, span_warning("I cannot cast this spell on myself!"))
+			revert_cast()
+			return FALSE
+		if(!user.Adjacent(target)) // the range on this doesnt work for some reason. remove this if you can fix it. thx.
+			to_chat(user, span_warning("I must be adjacent to the target to cast this spell!"))
+			revert_cast()
+			return FALSE
+		if(!target.mind)
+			to_chat(user, span_warning("They are too simple for this spell to work!"))
 			revert_cast()
 			return FALSE
 		if(GLOB.tod == "day" || GLOB.tod == "dawn")
-			to_chat(user, "Sun covers a moon with it's rays!")
+			to_chat(user, span_warning("ASTRATA IS RISEN! MY SPELL FIZZLES!"))
 			revert_cast()
 			return FALSE
-		user.visible_message("<font color='blue'>[user] points on [target]!</font>")
-		target.visible_message("<font color='blue'>You feel your mind is filled with curious ideas, and your understanding of what you know is growing..</font>")
 		if(target.mind?.sleep_adv)
+			user.visible_message(span_blue("[user] draws a glowing blue crescent on [target]\'s forehead!"))
+			to_chat(target, span_blue("My mind flashes with inspiring images of the NOCMOS! My dreams will prove fruitful...!")) // the NOCMOS IS SPEAKING TO ME.
 			target.mind.sleep_adv.sleep_adv_points += H.get_skill_level(associated_skill)
 			H.mind.sleep_adv.sleep_adv_points += floor(H.get_skill_level(associated_skill)/2) //good boy, take a bun.
 		return TRUE
@@ -318,7 +457,7 @@
 
 /obj/effect/proc_holder/spell/targeted/touch/summonrogueweapon/nocgrasp
 	name = "Noc Grasp"
-	desc = "Summon the Light of Widsom from your soul and let it envelop your hand. Use on scrolls, parchment and books to convert them into devotion."
+	desc = "Summon a vestige of Noc and let it envelop your hand. Use it on scrolls, parchment and books to convert them into devotion."
 	clothes_req = FALSE
 	drawmessage = "I prepare to perform a divine incantation."
 	dropmessage = "I release my divine focus."
@@ -335,8 +474,8 @@
 
 /obj/item/melee/touch_attack/rogueweapon/nocgrasp
 	name = "Shimmering Hand"
-	desc = "The Sacred Light of Noc. \n\
-	click on self to remove it."
+	desc = "The Sacred Light of Noc. \
+	Touch yourself to dispel it."
 	icon = 'icons/roguetown/misc/miraclestuff.dmi'
 	mob_overlay_icon = 'icons/roguetown/misc/miraclestuff.dmi'
 	lefthand_file = 'icons/roguetown/misc/miraclestuff.dmi'
@@ -345,7 +484,7 @@
 	item_state = "mooni"
 	possible_item_intents = list(/datum/intent/use)
 	parrysound = list('sound/magic/magic_nulled.ogg')
-	swingsound = list('sound/magic/churn.ogg')
+	swingsound = list('sound/magic/cosmic_expansion.ogg')
 	attached_spell = /obj/effect/proc_holder/spell/targeted/touch/summonrogueweapon/nocgrasp
 	wbalance = WBALANCE_HEAVY
 	force = 0
@@ -411,12 +550,14 @@
 
 /obj/effect/proc_holder/spell/self/moon_light
 	name = "Moonlight Glimmer"
-	desc = "The moon will illuminate the living beings around you, exposing them to you."
+	desc = "Calls down shimmering moonlight onto those around you in a certain radius, scaling with holy skill. \
+	Mindless creachers will become critically weak. Simple creachers will burn. \
+	This CASTS INSTANTLY on selection, and does not work during dae nor dawn."
 	releasedrain = 10
 	chargedrain = 0
 	chargetime = 0
 	chargedloop = /datum/looping_sound/invokeholy
-	invocations = list("Darkness away!")
+	invocations = list("ALL WILL BE REVEALED!!", "DARKNESS, AWAY!!") // this is a LOUD yell bc it can FUUUUCK shit up. and rogues.
 	invocation_type = "shout"
 	sound = 'sound/magic/churn.ogg'
 	base_icon_state = "wisescroll"
@@ -431,7 +572,7 @@
 /obj/effect/proc_holder/spell/self/moon_light/cast(list/targets, mob/user = usr)
 	. = ..()
 	if(GLOB.tod == "day" || GLOB.tod == "dawn")
-		to_chat(user, "Astrata covers the Moon with her rays!")
+		to_chat(user, span_warning("ASTRATA IS RISEN! MY SPELL FIZZLES!"))
 		revert_cast()
 		return FALSE
 	var/checkrange = (range + user.get_skill_level(/datum/skill/magic/holy)) //+1 range per holy skill up to a potential of 8.
@@ -471,18 +612,19 @@
 //T3
 
 /obj/effect/proc_holder/spell/self/wisescroll
-	name = "Moon Grimoire"
-	desc = "Using writing materials, and enough paper, write a great work: a Magic Scroll. Use your dreampoints as ink.\n\
-	You will be required to have items worth 10 points in total around yourself and to hold a feather to cast the miracle.\n\
-	Piece of parchment - 1 point, scroll - 2 points, book - 5 points."
+	name = "Kytherian Grimoire"
+	desc = "Using writing materials, and enough paper, create a great work: a Magic Scroll!\
+	You will need to be holding a feather and to have 10 points worth of items around your person.\n\
+	Piece of parchment - 1 point, scroll - 2 points, book - 5 points.\n\
+	Uses your dream-points as ink."
 	releasedrain = 200
 	chargedrain = 0
 	chargetime = 0
 	chargedloop = /datum/looping_sound/invokeholy
-	invocations = list("The Moon guided my hand...")
+	invocations = list("Deepest dreaming, scribe!")
 	invocation_type = "shout"
 	overlay_state = "noc"
-	sound = 'sound/magic/churn.ogg'
+	sound = 'sound/magic/clang.ogg'
 	base_icon_state = "wisescroll"
 	associated_skill = /datum/skill/magic/holy
 	antimagic_allowed = FALSE
@@ -490,13 +632,24 @@
 	miracle = TRUE
 	devotion_cost = 200
 	var/points_need = 10
+	var/alreadychoosing = FALSE
 
 /obj/effect/proc_holder/spell/self/wisescroll/cast(mob/living/carbon/human/user)
-	. = ..()
-	if(GLOB.tod == "day" || GLOB.tod == "dawn")
-		to_chat(user, "Astrata covers the Moon with her rays!")
+	if(alreadychoosing)
+		to_chat(user, span_warning("I'm already picking a spell..."))
 		revert_cast()
-		return FALSE
+		return
+
+	alreadychoosing = TRUE
+
+	. = ..()
+	// commentened out until someone fixes the cooldown code. 
+	/*
+	if(GLOB.tod == "day" || GLOB.tod == "dawn")
+		to_chat(user, span_warning("ASTRATA IS RISEN! MY SPELL FIZZLES!"))
+		revert_cast()
+		alreadychoosing = FALSE
+		return FALSE*/
 
 	var/feather_check = FALSE
 
@@ -507,30 +660,32 @@
 	if(feather_check == FALSE)
 		to_chat(user, "I need a feather!")
 		revert_cast()
+		alreadychoosing = FALSE
 		return FALSE
 
 	var/points = 0
 	var/pointlock = TRUE
+	var/list/books_burnt = list()
+
 	for(var/obj/item/I in range(1, user))
 		if(points < points_need)
 			if(istype(I, /obj/item/paper))
 				points += 1
-				new /obj/effect/temp_visual/moon/spell(get_turf(I))
-				qdel(I)
+				books_burnt += I
 			if(istype(I, /obj/item/paper/scroll))
 				points += 2
-				new /obj/effect/temp_visual/moon/spell(get_turf(I))
-				qdel(I)
+				books_burnt += I
 			if(istype(I, /obj/item/skillbook) || istype(I, /obj/item/recipe_book) || istype(I, /obj/item/book))
 				points += 5
-				new /obj/effect/temp_visual/moon/spell(get_turf(I))
-				qdel(I)
+				books_burnt += I
 			if(points >= points_need)
 				pointlock = FALSE
 
+	// Ensure we have enough pages...
 	if(pointlock == TRUE)
-		to_chat(user, "I did not burn enough pages!")
+		to_chat(user, span_warning("I need more papers!"))
 		revert_cast()
+		alreadychoosing = FALSE
 		return FALSE
 
 	var/list/choices = list()
@@ -548,31 +703,39 @@
 	if(user.mind.sleep_adv.sleep_adv_points == 0)
 		to_chat(user, "Not enough dreampoints!")	
 		revert_cast()
+		alreadychoosing = FALSE
 		return FALSE
 
-	var/choice = input("☾Choose a scroll☾, points left: [user.mind.sleep_adv.sleep_adv_points]") as null|anything in choices
+	var/choice = input("☾ Choose a scroll ☾, points left: [user.mind.sleep_adv.sleep_adv_points]") as null|anything in choices
 	var/obj/item/book/granter/item = choices[choice]
 
 	if(!item)
 		revert_cast()
+		alreadychoosing = FALSE
 		return FALSE    // user canceled;
 	if(alert(user, "[item.desc]", "[item.name]", "Write", "Remind") == "Cancel") //gives a preview of the spell's description to let people know what a spell does
 		revert_cast()
+		alreadychoosing = FALSE
 		return FALSE
 	if(item.dreamcost > user.mind.sleep_adv.sleep_adv_points)
-		to_chat(user,span_warning("You do not have enough experience to create a new spell."))
+		to_chat(user,span_warning("You do not have enough dream-points to create this spell."))
 		revert_cast()
+		alreadychoosing = FALSE
 		return FALSE		// not enough spell points
 	else
+		for(var/obj/item/burn in books_burnt)
+			new /obj/effect/temp_visual/moon/spell(get_turf(burn))
+			qdel(burn)
 		user.mind.sleep_adv.sleep_adv_points -= item.dreamcost
-		if(item.dreamcost == 3)
-			recharge_time = 5 MINUTES
-		if(item.dreamcost == 6)
-			recharge_time = 15 MINUTES
+		if(item.dreamcost == 3) // this doesnt fucking work. our code doesnt allow for custom recharges to be done 
+			recharge_time = 5 MINUTES // in any convenient way. if you want to fix this later try using a status_effect
+		if(item.dreamcost == 6) // secondary charge system instead of this shit. 
+			recharge_time = 15 MINUTES // kept in so the intent is understood.
 		if(item.dreamcost >= 9)
 			recharge_time = 30 MINUTES
 		var/obj/item/I = new item (get_turf(user))
 		user.put_in_hands(I)
+		alreadychoosing = FALSE
 		return TRUE
 
 /obj/effect/temp_visual/moon/spell

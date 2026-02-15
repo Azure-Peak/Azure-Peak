@@ -34,6 +34,9 @@
 	subclass_virtues = list(
 		/datum/virtue/utility/riding
 	)
+	subclass_stashed_items = list(
+        "Armor Plates" =  /obj/item/repair_kit/metal,
+    )
 
 /datum/outfit/job/roguetown/wretch/deserter/pre_equip(mob/living/carbon/human/H)
 	..()
@@ -116,7 +119,7 @@
 
 		var/armors = list(
 			"Brigandine"		= /obj/item/clothing/suit/roguetown/armor/brigandine,
-			"Coat of Plates"	= /obj/item/clothing/suit/roguetown/armor/brigandine/coatplates,
+			"Coat of Plates"	= /obj/item/clothing/suit/roguetown/armor/plate/scale/knight,
 			"Steel Cuirass"		= /obj/item/clothing/suit/roguetown/armor/plate/cuirass,
 			"Fluted Cuirass"	= /obj/item/clothing/suit/roguetown/armor/plate/cuirass/fluted,
 			"Lamellar Scalemail"		= /obj/item/clothing/suit/roguetown/armor/plate/scale/steppe,

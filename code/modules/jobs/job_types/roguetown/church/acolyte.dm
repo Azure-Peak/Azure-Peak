@@ -89,7 +89,7 @@
 			neck = /obj/item/clothing/neck/roguetown/psicross/noc
 			wrists = /obj/item/clothing/wrists/roguetown/nocwrappings
 			shoes = /obj/item/clothing/shoes/roguetown/sandals
-			armor = /obj/item/clothing/suit/roguetown/shirt/robe/noc
+			cloak = /obj/item/clothing/suit/roguetown/shirt/robe/noc // this robe is broken unless its in the cloak slot
 			shirt = /obj/item/clothing/suit/roguetown/shirt/undershirt/black
 		if(/datum/patron/divine/abyssor) // the deep calls!
 			shirt = /obj/item/clothing/suit/roguetown/shirt/undershirt

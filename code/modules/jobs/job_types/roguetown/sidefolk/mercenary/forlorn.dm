@@ -43,9 +43,9 @@
 	shoes = /obj/item/clothing/shoes/roguetown/boots
 	neck = /obj/item/clothing/neck/roguetown/gorget/forlorncollar
 	head = /obj/item/clothing/head/roguetown/helmet/heavy/volfplate
-	pants = /obj/item/clothing/under/roguetown/splintlegs		// They're brigandinejaks. ergo have them start w/the whole thing
+	pants = /obj/item/clothing/under/roguetown/brigandinelegs		// They're brigandinejaks. ergo have them start w/the whole thing
 	gloves = /obj/item/clothing/gloves/roguetown/fingerless_leather
-	wrists = /obj/item/clothing/wrists/roguetown/splintarms		// They're brigandinejaks. ergo have them start w/the whole thing
+	wrists = /obj/item/clothing/wrists/roguetown/bracers/brigandine		// They're brigandinejaks. ergo have them start w/the whole thing
 	belt = /obj/item/storage/belt/rogue/leather
 	shirt = /obj/item/clothing/suit/roguetown/armor/gambeson/lord
 	armor = /obj/item/clothing/suit/roguetown/armor/brigandine/light

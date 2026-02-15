@@ -1,8 +1,3 @@
-// Catalyst. This reagent combined with normal potion reagent makes the strong potion reagent. Reactions defined by the end of this doccument
-/datum/reagent/additive
-	name = "additive"
-	reagent_state = LIQUID
-
 //Potions
 /datum/reagent/medicine/healthpot
 	name = "Health Potion"
@@ -29,6 +24,7 @@
 		M.adjustOxyLoss(-1.25, 0)
 		M.adjustOrganLoss(ORGAN_SLOT_BRAIN, -5  * REAGENTS_EFFECT_MULTIPLIER)
 		M.adjustCloneLoss(-1.75  * REAGENTS_EFFECT_MULTIPLIER, 0)
+		M.adjustOrganLoss(ORGAN_SLOT_EYES, -1 * REAGENTS_EFFECT_MULTIPLIER)
 	..()
 
 /datum/reagent/medicine/stronghealth
@@ -53,6 +49,7 @@
 		M.adjustOxyLoss(-5, 0)
 		M.adjustOrganLoss(ORGAN_SLOT_BRAIN, -5  * REAGENTS_EFFECT_MULTIPLIER)
 		M.adjustCloneLoss(-7  * REAGENTS_EFFECT_MULTIPLIER, 0)
+		M.adjustOrganLoss(ORGAN_SLOT_EYES, -2.5 * REAGENTS_EFFECT_MULTIPLIER)
 	..()
 	. = 1
 
@@ -406,42 +403,6 @@ If you want to expand on poisons theres tons of fun effects TG chemistry has tha
 /datum/reagent/toxin/killersice/on_mob_life(mob/living/carbon/M)
 	M.adjustToxLoss(10, 0)
 	return ..()
-
-//Potion reactions
-/datum/chemical_reaction/alch/stronghealth
-	name = "Strong Health Potion"
-	id = /datum/reagent/medicine/stronghealth
-	results = list(/datum/reagent/medicine/stronghealth = 1)
-	required_reagents = list(/datum/reagent/medicine/healthpot = 1, /datum/reagent/additive = 1)
-	mix_message = "The cauldron glows for a moment."
-
-/datum/chemical_reaction/alch/strongmana
-	name = "Strong Mana Potion"
-	id = /datum/reagent/medicine/strongmana
-	results = list(/datum/reagent/medicine/strongmana = 1)
-	required_reagents = list(/datum/reagent/medicine/manapot = 1, /datum/reagent/additive = 1)
-	mix_message = "The cauldron glows for a moment."
-
-/datum/chemical_reaction/alch/strongstam
-	name = "Strong Stamina Potion"
-	id = /datum/reagent/medicine/strongstam
-	results = list(/datum/reagent/medicine/strongstam = 1)
-	required_reagents = list(/datum/reagent/medicine/stampot = 1, /datum/reagent/additive = 1)
-	mix_message = "The cauldron glows for a moment."
-
-/datum/chemical_reaction/alch/strongpoison
-	name = "Strong Health Poison"
-	id = /datum/reagent/strongpoison
-	results = list(/datum/reagent/strongpoison = 1)
-	required_reagents = list(/datum/reagent/berrypoison = 1, /datum/reagent/additive = 1)
-	mix_message = "The cauldron glows for a moment."
-
-/datum/chemical_reaction/alch/strongstampoison
-	name = "Strong Stamina Leech Potion"
-	id = /datum/reagent/strongstampoison
-	results = list(/datum/reagent/strongstampoison = 1)
-	required_reagents = list(/datum/reagent/stampoison = 1, /datum/reagent/additive = 1)
-	mix_message = "The cauldron glows for a moment."
 
 /datum/chemical_reaction/alch/vitae_essence
 	name = "Vitae Decoction"

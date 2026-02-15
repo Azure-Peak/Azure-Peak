@@ -40,6 +40,8 @@
 
 	var/lazy_load = TRUE
 
+	var/tmp/collecting_stat = FALSE
+	var/tmp/collected_stat
 //Do not override
 ///datum/controller/subsystem/New()
 
@@ -179,9 +181,7 @@
 //hook for printing stats to the "MC" statuspanel for admins to see performance and related stats etc.
 /datum/controller/subsystem/stat_entry(msg)
 	if(!statclick)
-		statclick = new/obj/effect/statclick/debug(null, "Initializing...", src)
-
-
+		statclick = new /obj/effect/statclick/debug(null, "Initializing...", src)
 
 	if(can_fire && !(SS_NO_FIRE & flags))
 		msg = "[round(cost,1)]ms|[round(tick_usage,1)]%([round(tick_overrun,1)]%)|[round(ticks,0.1)]\t[msg]"
@@ -189,8 +189,16 @@
 		msg = "OFFLINE\t[msg]"
 
 	var/title = name
-	if (can_fire)
+	if(can_fire)
 		title = "\[[state_letter()]][title]"
+
+	if(collecting_stat)
+		collected_stat = list(
+			"subsystem" = src,
+			"title" = title,
+			"msg" = msg
+		)
+		return
 
 	stat(title, statclick.update(msg))
 

@@ -20,6 +20,7 @@
 	glow_color = GLOW_COLOR_DISPLACEMENT
 	glow_intensity = GLOW_INTENSITY_MEDIUM
 	gesture_required = TRUE
+	human_req = TRUE // Combat spell
 	range = 7
 	var/delay = 5
 	var/damage = 0 // damage based off your str

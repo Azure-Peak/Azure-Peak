@@ -16,9 +16,9 @@
 
 /obj/item/clothing/shoes/roguetown/boots
 	name = "dark boots"
+	desc = "A pair of dark, well-cobbled boots. You have a feeling they're in your size."
 	//dropshrink = 0.75
 	color = "#d5c2aa"
-	desc = ""
 	gender = PLURAL
 	icon_state = "blackboots"
 	item_state = "blackboots"
@@ -241,16 +241,24 @@
 	salvage_result = /obj/item/natural/hide/cured
 	sewrepair = TRUE
 
-/obj/item/clothing/shoes/roguetown/boots/leather/elven_boots
+/obj/item/clothing/shoes/roguetown/boots/elven_boots
 	name = "woad elven boots"
 	desc = "The living trunks still blossom in the spring. They let water through, but it is never cold."
-	armor = list("blunt" = 100, "slash" = 10, "stab" = 100, "piercing" = 20, "fire" = 0, "acid" = 0) //Resistant to blunt and stab, but very weak to slash.
+	armor = ARMOR_BLACKOAK //Resistant to blunt and stab, but very weak to slash.
 	prevent_crits = PREVENT_CRITS_ALL
+	max_integrity = ARMOR_INT_SIDE_IRON
+	resistance_flags = FIRE_PROOF
+	blocksound = SOFTHIT
 	icon = 'icons/roguetown/clothing/special/race_armor.dmi'
 	mob_overlay_icon = 'icons/roguetown/clothing/special/onmob/race_armor.dmi'
 	icon_state = "welfshoes"
 	item_state = "welfshoes"
 	anvilrepair = /datum/skill/craft/carpentry
+	smeltresult = /obj/item/rogueore/coal
+
+/obj/item/clothing/shoes/roguetown/boots/elven_boots/Initialize(mapload)
+	. = ..()
+	AddComponent(/datum/component/item_equipped_movement_rustle, SFX_WOOD_ARMOR, 10)
 
 /obj/item/clothing/shoes/roguetown/boots/armor
 	name = "plated boots"
@@ -287,11 +295,13 @@
 	grid_height = 96
 	grid_width = 96
 	sellprice = 200
+	unenchantable = TRUE
 
 /obj/item/clothing/shoes/roguetown/boots/armor/gold/king
 	name = "royal golden greaves"
 	max_integrity = ARMOR_INT_SIDE_GOLDPLUS // Doubled integrity.
 	sellprice = 300
+	unenchantable = TRUE
 
 /obj/item/clothing/shoes/roguetown/boots/armor/bronze
 	name = "bronze greaves"
@@ -338,6 +348,7 @@
 	desc = "Ensnaring paradoxes, rended beneath logic and solidified into tangible footguards. Called forth from the edge of what should be known, in Her name."
 	icon_state = "zizoboots"
 	chunkcolor = "#363030"
+	material_category = ARMOR_MAT_PLATE
 	armor = ARMOR_ASCENDANT
 
 /obj/item/clothing/shoes/roguetown/boots/armor/zizo/Initialize()
@@ -494,6 +505,7 @@
 	smeltresult = /obj/item/ingot/blacksteel
 	resistance_flags = FIRE_PROOF
 	chunkcolor = "#303036"
+	material_category = ARMOR_MAT_PLATE
 
 /obj/item/clothing/shoes/roguetown/boots/blacksteel/plateboots
 	name = "ancient blacksteel plate boots"
@@ -511,6 +523,7 @@
 	smeltresult = /obj/item/ingot/blacksteel
 	resistance_flags = FIRE_PROOF
 	chunkcolor = "#303036"
+	material_category = ARMOR_MAT_PLATE
 
 // ----------------- BLACKSTEEL END -----------------------
 

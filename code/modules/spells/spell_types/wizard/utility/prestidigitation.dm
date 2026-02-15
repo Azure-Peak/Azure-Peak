@@ -12,6 +12,7 @@
 	overlay_state = "prestidigitation"
 	chargedrain = 0
 	chargetime = 0
+	skipcharge = TRUE
 	releasedrain = 5 // this influences -every- cost involved in the spell's functionality, if you want to edit specific features, do so in handle_cost
 	chargedloop = /datum/looping_sound/invokegen
 	associated_skill = /datum/skill/magic/arcane
@@ -163,11 +164,10 @@
 
 	var/skill_level = user.get_skill_level(attached_spell.associated_skill)
 	gatherspeed = initial(gatherspeed) - (skill_level * 3) // 3 cleanspeed per skill level, from 35 down to a maximum of 17 (pretty quick)
-	var/turf/Turf = get_turf(target)
 	if (istype(target, /obj/structure/well/fountain/mana))
 		if (do_after(user, src.gatherspeed, target = target))
 			to_chat(user, span_notice("I mold the liquid mana in \the [target.name] with my arcane power, crystalizing it!"))
-			new /obj/item/magic/manacrystal(Turf)
+			new /obj/item/magic/manacrystal(user.loc)
 	if (istype(target, /turf/open/lava))
 		if (do_after(user, src.gatherspeed, target = target))
 			to_chat(user, span_notice("I mold a handful of oozing lava  with my arcane power, rapidly hardening it!"))

@@ -120,6 +120,9 @@
 		tick_interval = world.time + initial(tick_interval)
 	if(duration != -1 && duration < world.time)
 		qdel(src)
+		return
+	if(linked_alert && duration != -1)
+		linked_alert.update_countdown(max(duration - world.time, 0))
 
 /datum/status_effect/proc/on_apply() //Called whenever the buff is applied; returning FALSE will cause it to autoremove itself.
 	for(var/S in effectedstats)

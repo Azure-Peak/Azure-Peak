@@ -14,10 +14,7 @@
 		STATKEY_SPD = 1
 	)
 	subclass_skills = list(
-		/datum/skill/combat/swords = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/combat/axes = SKILL_LEVEL_NOVICE,
-		/datum/skill/combat/crossbows = SKILL_LEVEL_APPRENTICE,
-		/datum/skill/combat/bows = SKILL_LEVEL_EXPERT,
 		/datum/skill/combat/wrestling = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/combat/unarmed = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/combat/knives = SKILL_LEVEL_APPRENTICE,
@@ -36,36 +33,45 @@
 		/datum/skill/misc/tracking = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/misc/reading = SKILL_LEVEL_NOVICE,
 	)
+	maximum_possible_slots = 20 // Should not fill, just a hack to make it shows what types of towners are in round
 
 /datum/outfit/job/roguetown/adventurer/hunter/pre_equip(mob/living/carbon/human/H)
 	..()
-	pants = /obj/item/clothing/under/roguetown/trou/artipants
-	shirt = /obj/item/clothing/suit/roguetown/shirt/undershirt/lowcut
-	shoes = /obj/item/clothing/shoes/roguetown/boots/leather
+	head = /obj/item/clothing/head/roguetown/archercap
+	mask = /obj/item/clothing/head/roguetown/roguehood/red
 	neck = /obj/item/storage/belt/rogue/pouch/coins/poor
-	cloak = /obj/item/clothing/cloak/raincloak/furcloak/brown
-	backr = /obj/item/storage/backpack/rogue/satchel
-	backl = /obj/item/gun/ballistic/revolver/grenadelauncher/bow/recurve
+	armor = /obj/item/clothing/suit/roguetown/shirt/tunic/green //Can wear this as a cloak too
+	shirt = /obj/item/clothing/suit/roguetown/shirt/undershirt/green
+	pants = /obj/item/clothing/under/roguetown/tights/green
+	shoes = /obj/item/clothing/shoes/roguetown/boots/leather
+	backl = /obj/item/storage/backpack/rogue/backpack
 	belt = /obj/item/storage/belt/rogue/leather
-	beltr = /obj/item/quiver/arrows
-	beltl = /obj/item/rogueweapon/scabbard/sword
-	l_hand = /obj/item/rogueweapon/sword/short/messer/iron
+	beltr = /obj/item/flashlight/flare/torch/lantern
 	r_hand = /obj/item/storage/meatbag
 	backpack_contents = list(
 				/obj/item/flint = 1,
 				/obj/item/bait = 1,
-				/obj/item/rogueweapon/huntingknife = 1,
-				/obj/item/flashlight/flare/torch = 1,
-				/obj/item/flashlight/flare/torch/lantern = 1,
+				/obj/item/rogueweapon/huntingknife/combat/messser = 1,
 				/obj/item/recipe_book/survival = 1,
 				/obj/item/recipe_book/leatherworking = 1,
 				/obj/item/rogueweapon/scabbard/sheath = 1
 				)
-	gloves = /obj/item/clothing/gloves/roguetown/fingerless_leather
 	if(H.mind)
 		SStreasury.give_money_account(ECONOMIC_LOWER_CLASS, H, "Savings.")
 	if(H.mind)
 		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/huntersyell)
+		var/weapons = list("Recurve Bow","Crossbow")
+		var/weapon_choice = input(H, "Choose your weapon.", "TAKE UP ARMS") as anything in weapons
+		H.set_blindness(0)
+		switch(weapon_choice)
+			if("Recurve Bow")
+				H.adjust_skillrank_up_to(/datum/skill/combat/bows, SKILL_LEVEL_EXPERT, TRUE)
+				backr = /obj/item/gun/ballistic/revolver/grenadelauncher/bow/recurve
+				beltl = /obj/item/quiver/arrows
+			if("Crossbow")
+				H.adjust_skillrank_up_to(/datum/skill/combat/crossbows, SKILL_LEVEL_EXPERT, TRUE)
+				backr = /obj/item/gun/ballistic/revolver/grenadelauncher/crossbow
+				beltl = /obj/item/quiver/bolts
 
 /datum/advclass/hunter/spear
 	name = "Spear-Hunter"
@@ -102,12 +108,15 @@
 /datum/outfit/job/roguetown/adventurer/hunter_spear/pre_equip(mob/living/carbon/human/H)
 	..()
 	to_chat(H, span_warning("You are a hunter who specializes in spears, excelling in strength and endurance."))
-	pants = /obj/item/clothing/under/roguetown/trou/leather
-	shirt = /obj/item/clothing/suit/roguetown/armor/gambeson/light
-	armor = /obj/item/clothing/suit/roguetown/armor/leather/hide
-	shoes = /obj/item/clothing/shoes/roguetown/boots/furlinedboots
+	head = /obj/item/clothing/head/roguetown/armingcap
 	neck = /obj/item/storage/belt/rogue/pouch/coins/poor
 	cloak = /obj/item/clothing/cloak/raincloak/furcloak/brown
+	mask = /obj/item/clothing/head/roguetown/roguehood/red	
+	shirt = /obj/item/clothing/suit/roguetown/armor/gambeson/light
+	armor = /obj/item/clothing/suit/roguetown/armor/leather/hide
+	gloves = /obj/item/clothing/gloves/roguetown/fingerless_leather
+	pants = /obj/item/clothing/under/roguetown/trou/leather
+	shoes = /obj/item/clothing/shoes/roguetown/boots/furlinedboots
 	backr = /obj/item/rogueweapon/scabbard/gwstrap
 	backl = /obj/item/storage/backpack/rogue/backpack
 	belt = /obj/item/storage/belt/rogue/leather
@@ -117,12 +126,11 @@
 	backpack_contents = list(
 				/obj/item/flint = 1,
 				/obj/item/bait = 1,
-				/obj/item/rogueweapon/huntingknife = 1,
+				/obj/item/rogueweapon/huntingknife/combat/messser = 1,
 				/obj/item/recipe_book/survival = 1,
 				/obj/item/recipe_book/leatherworking = 1,
 				/obj/item/rogueweapon/scabbard/sheath = 1
 				)
-	gloves = /obj/item/clothing/gloves/roguetown/fingerless_leather
 	if(H.mind)
 		SStreasury.give_money_account(ECONOMIC_LOWER_CLASS, H, "Savings.")
 	if(H.mind)

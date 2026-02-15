@@ -14,7 +14,7 @@
 	whitelist_req = TRUE
 	outfit = /datum/outfit/job/roguetown/knight
 	advclass_cat_rolls = list(CTAG_ROYALGUARD = 20)
-	job_traits = list(TRAIT_NOBLE, TRAIT_STEELHEARTED, TRAIT_GOODTRAINER, TRAIT_GUARDSMAN)
+	job_traits = list(TRAIT_NOBLE, TRAIT_STEELHEARTED, TRAIT_GUARDSMAN)
 	give_bank_account = TRUE
 	noble_income = 10
 	min_pq = 8
@@ -70,11 +70,11 @@
 	wrists = /obj/item/clothing/wrists/roguetown/bracers
 	shoes = /obj/item/clothing/shoes/roguetown/boots/armor
 	belt = /obj/item/storage/belt/rogue/leather/steel
-	backr = /obj/item/storage/backpack/rogue/satchel/black
+	backr = /obj/item/storage/backpack/rogue/satchel
 	id = /obj/item/scomstone/bad/garrison
 	backpack_contents = list(
-		/obj/item/storage/keyring/knight = 1,
 		/obj/item/reagent_containers/glass/bottle/rogue/healthpot = 1,
+		/obj/item/storage/keyring/knight = 1,
 	)
 
 /datum/advclass/knight/heavy
@@ -83,7 +83,7 @@
 	outfit = /datum/outfit/job/roguetown/knight/heavy
 
 	category_tags = list(CTAG_ROYALGUARD)
-	traits_applied = list(TRAIT_HEAVYARMOR)
+	traits_applied = list(TRAIT_HEAVYARMOR, TRAIT_GOODTRAINER)
 	subclass_stats = list(
 		STATKEY_STR = 3,//Heavy hitters. Less con/end, high strength.
 		STATKEY_INT = 3,
@@ -161,7 +161,7 @@
 
 		var/armors = list(
 			"Brigandine"		= /obj/item/clothing/suit/roguetown/armor/brigandine/retinue,
-			"Coat of Plates"	= /obj/item/clothing/suit/roguetown/armor/brigandine/coatplates,
+			"Coat of Plates"	= /obj/item/clothing/suit/roguetown/armor/plate/scale/knight,
 			"Steel Cuirass"		= /obj/item/clothing/suit/roguetown/armor/plate/cuirass,
 			"Fluted Cuirass"	= /obj/item/clothing/suit/roguetown/armor/plate/cuirass/fluted,
 		)
@@ -182,7 +182,7 @@
 	outfit = /datum/outfit/job/roguetown/knight/footknight
 
 	category_tags = list(CTAG_ROYALGUARD)
-	traits_applied = list(TRAIT_HEAVYARMOR)
+	traits_applied = list(TRAIT_HEAVYARMOR, TRAIT_GOODTRAINER)
 	subclass_stats = list(
 		STATKEY_STR = 1,//Tanky, less strength, but high con/end.
 		STATKEY_INT = 1,
@@ -252,7 +252,7 @@
 
 		var/armors = list(
 			"Brigandine"		= /obj/item/clothing/suit/roguetown/armor/brigandine/retinue,
-			"Coat of Plates"	= /obj/item/clothing/suit/roguetown/armor/brigandine/coatplates,
+			"Coat of Plates"	= /obj/item/clothing/suit/roguetown/armor/plate/scale/knight,
 			"Steel Cuirass"		= /obj/item/clothing/suit/roguetown/armor/plate/cuirass,
 			"Fluted Cuirass"	= /obj/item/clothing/suit/roguetown/armor/plate/cuirass/fluted,
 		)
@@ -276,7 +276,7 @@
 
 	category_tags = list(CTAG_ROYALGUARD)
 
-	traits_applied = list(TRAIT_HEAVYARMOR)
+	traits_applied = list(TRAIT_HEAVYARMOR, TRAIT_GOODTRAINER)
 	//Decent all-around stats. Nothing spectacular. Ranged/melee hybrid class on horseback.
 	subclass_stats = list(
 		STATKEY_STR = 2,
@@ -371,7 +371,7 @@
 
 		var/armors = list(
 			"Brigandine"		= /obj/item/clothing/suit/roguetown/armor/brigandine/retinue,
-			"Coat of Plates"	= /obj/item/clothing/suit/roguetown/armor/brigandine/coatplates,
+			"Coat of Plates"	= /obj/item/clothing/suit/roguetown/armor/plate/scale/knight,
 			"Steel Cuirass"		= /obj/item/clothing/suit/roguetown/armor/plate/cuirass,
 			"Fluted Cuirass"	= /obj/item/clothing/suit/roguetown/armor/plate/cuirass/fluted,
 		)
@@ -392,7 +392,7 @@
 	tutorial = "Your skillset is abnormal for a knight. Your swift maneuvers and masterful technique impress both lords and ladies alike, and you have a preference for quicker, more elegant blades. While you are an effective fighting force in medium armor, your evasive skills will only truly shine if you don even lighter protection."
 	outfit = /datum/outfit/job/roguetown/knight/irregularknight
 
-	traits_applied = list(TRAIT_MEDIUMARMOR, TRAIT_DODGEEXPERT)
+	traits_applied = list(TRAIT_MEDIUMARMOR, TRAIT_DODGEEXPERT, TRAIT_GOODTRAINER)
 	category_tags = list(CTAG_ROYALGUARD)
 	subclass_stats = list(
 		STATKEY_STR = 1,
@@ -667,7 +667,7 @@
 			armor = /obj/item/clothing/suit/roguetown/armor/brigandine/retinue
 			pants = /obj/item/clothing/under/roguetown/chainlegs
 		if("Coat of Plates")
-			armor = /obj/item/clothing/suit/roguetown/armor/brigandine/coatplates
+			armor = /obj/item/clothing/suit/roguetown/armor/plate/scale/knight
 			pants = /obj/item/clothing/under/roguetown/chainlegs
 		if("Fluted Cuirass")
 			armor = /obj/item/clothing/suit/roguetown/armor/plate/cuirass/fluted

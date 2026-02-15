@@ -215,7 +215,7 @@
 	icon_state = "gronnchaingloves"
 	item_state = "gronnchaingloves"
 
-/obj/item/clothing/under/roguetown/splintlegs/iron/gronn
+/obj/item/clothing/under/roguetown/splintlegs/gronn
 	name = "gronn byrine chausses"
 	desc = "A pair of chain-wrapped pants with a leather subligar, ensuring both protection and comfort."
 	icon = 'icons/roguetown/clothing/special/gronn.dmi'

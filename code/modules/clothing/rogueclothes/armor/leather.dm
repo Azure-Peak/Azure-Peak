@@ -16,6 +16,7 @@
 	armor_class = ARMOR_CLASS_LIGHT
 	salvage_result = /obj/item/natural/hide/cured
 	chunkcolor = "#7e5d17"
+	material_category = ARMOR_MAT_LEATHER
 
 /obj/item/clothing/suit/roguetown/armor/leather/ComponentInitialize()
 	AddComponent(/datum/component/armour_filtering/positive, TRAIT_FENCERDEXTERITY)
@@ -56,7 +57,7 @@
 /obj/item/clothing/suit/roguetown/armor/leather/jacket/artijacket
 	name = "artificer jacket"
 	icon_state = "artijacket"
-	desc = "A thick leather jacket adorned with fur and cog decals. The height of Heartfeltian fashion."
+	desc = "A thick leather jacket adorned with fur and cog decals. The height of Heartfelt fashion."
 
 /obj/item/clothing/suit/roguetown/armor/leather/cuirass
 	name = "leather cuirass"
@@ -116,8 +117,8 @@
 	name = "hardened leather armor"
 	desc = "A heavy steerhide jerkin with enough body to stand on its own. It forms a stiff, protective mantle \
 	for its wearer, shielding from blows and weather alike."
-	icon_state = "roguearmor_belt"
-	item_state = "roguearmor_belt"
+	icon_state = "leather_armor"
+	item_state = "leather_armor"
 	armor = ARMOR_LEATHER_GOOD
 	max_integrity = ARMOR_INT_CHEST_LIGHT_MASTER
 	prevent_crits = PREVENT_CRITS_MOST
@@ -182,7 +183,7 @@
 	desc = "A light, flexible button-up leather jacket that will keep your vitals out of harm's way."
 	icon_state = "freijacket"
 	item_state = "freijacket"
-	max_integrity = ARMOR_INT_CHEST_LIGHT_MEDIUM
+	max_integrity = ARMOR_INT_CHEST_LIGHT_MEDIUM + 35
 	detail_tag = "_detail"
 	color = "#5E4440"
 	detail_color = "#c08955"
@@ -199,6 +200,14 @@
 /obj/item/clothing/suit/roguetown/armor/leather/heavy/freifechter/Initialize()
 	..()
 	update_icon()
+
+/obj/item/clothing/suit/roguetown/armor/leather/heavy/shepherd
+	name = "shepherd's vest"
+	desc = "A light, flexible leather vest worn by shepherds in the forested peaks of Aavnr."
+	icon_state = "freijacket"
+	item_state = "freijacket"
+	max_integrity = ARMOR_INT_CHEST_LIGHT_MEDIUM
+	color = "#313131"
 
 /obj/item/clothing/suit/roguetown/armor/leather/trophyfur
 	name = "treated trophy fur robes"

@@ -10,10 +10,10 @@
 	overlay_state = "stygian"
 	sound = list('sound/magic/scrapeblade.ogg') //todo: this is Bad
 	active = FALSE
-	releasedrain = 30
+	releasedrain = 20
 	chargedrain = 1
 	chargetime = 0
-	recharge_time = 15 SECONDS //this shit very strong actually
+	recharge_time = 25 SECONDS //this shit very strong actually
 	warnie = "spellwarning"
 	no_early_release = TRUE
 	movement_interrupt = FALSE
@@ -33,7 +33,7 @@
 	accuracy = 50
 	icon = 'icons/mob/actions/roguespells.dmi'
 	icon_state = "stygian"
-	damage = 30
+	damage = 35
 	woundclass = BCLASS_STAB
 	armor_penetration = 20
 	npc_simple_damage_mult = 1.5
@@ -45,7 +45,7 @@
 	ricochet_incidence_leeway = 50
 	hitsound = 'sound/foley/glass_step.ogg'
 
-/obj/projectile/energy/shrapnelbloom/on_hit(target) //no antimagic; knockback for full stacks
+/obj/projectile/energy/shrapnelbloom/on_hit(target)
 
 	var/has_full_mark = FALSE
 	var/mob/living/carbon/M
@@ -78,6 +78,6 @@
 	var/base_angle = P.Angle
 	if(isnull(base_angle))
 		base_angle = Get_Angle(user, target)
-	var/spread_step = 20
+	var/spread_step = 15
 	var/center_index = (projectiles_per_fire + 1) / 2
 	P.Angle = base_angle + ((iteration - center_index) * spread_step)

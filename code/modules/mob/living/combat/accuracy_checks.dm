@@ -42,6 +42,8 @@
 			chance2hit += 10
 		if(used_intent.blade_class == BCLASS_PEEL)
 			chance2hit += 25
+		if(used_intent.blade_class == BCLASS_HALFSWORD)
+			chance2hit += 20	//Double that of stab
 		if(used_intent.blade_class == BCLASS_CUT)
 			chance2hit += 6
 		if((used_intent.blade_class == BCLASS_BLUNT || used_intent.blade_class == BCLASS_SMASH) && check_zone(zone) != zone)	//A mace can't hit the eyes very well

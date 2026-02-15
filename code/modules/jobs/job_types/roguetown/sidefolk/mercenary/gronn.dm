@@ -68,8 +68,8 @@
 				head = /obj/item/clothing/head/roguetown/helmet/bascinet/atgervi/gronn/ownel
 				gloves = /obj/item/clothing/gloves/roguetown/chain/gronn
 				armor = /obj/item/clothing/suit/roguetown/armor/brigandine/gronn
-				pants = /obj/item/clothing/under/roguetown/splintlegs/iron/gronn
-				wrists = /obj/item/clothing/wrists/roguetown/splintarms/iron
+				pants = /obj/item/clothing/under/roguetown/splintlegs/gronn
+				wrists = /obj/item/clothing/wrists/roguetown/bracers/splint
 				backr = /obj/item/rogueweapon/shield/iron
 				beltr = /obj/item/rogueweapon/scabbard/sword
 				l_hand = /obj/item/rogueweapon/sword/short/gronn //New heavy shortsword.

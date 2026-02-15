@@ -12,6 +12,8 @@
 			used = getmsilenced(soundin)
 	if(!used)
 		switch(soundin)
+			if("attack")
+				used = list('sound/vo/male/gen/attack (1).ogg', 'sound/vo/male/gen/attack (2).ogg', 'sound/vo/male/gen/attack (3).ogg', 'sound/vo/male/gen/attack (4).ogg', 'sound/vo/male/gen/attack (5).ogg', 'sound/vo/male/gen/attack (6).ogg', 'sound/vo/male/gen/attack (7).ogg', 'sound/vo/male/gen/attack (8).ogg', 'sound/vo/male/gen/attack (9).ogg', 'sound/vo/male/gen/attack (10).ogg', 'sound/vo/male/gen/attack (11).ogg', 'sound/vo/male/gen/attack (12).ogg', 'sound/vo/male/gen/attack (13).ogg')
 			if("deathgurgle")
 				used = pick('sound/vo/male/gen/deathgurgle (1).ogg','sound/vo/male/gen/deathgurgle (2).ogg','sound/vo/male/gen/deathgurgle (3).ogg')
 			if("agony")

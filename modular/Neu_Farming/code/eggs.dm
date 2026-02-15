@@ -6,7 +6,7 @@
 	dropshrink = 0.8
 	list_reagents = list(/datum/reagent/consumable/eggyolk = 5)
 	cooked_type = null
-	fried_type = /obj/item/reagent_containers/food/snacks/rogue/friedegg
+	fried_type = /obj/item/reagent_containers/food/snacks/rogue/friedegg/fried
 	filling_color = "#F0E68C"
 	foodtype = MEAT
 	grind_results = list()

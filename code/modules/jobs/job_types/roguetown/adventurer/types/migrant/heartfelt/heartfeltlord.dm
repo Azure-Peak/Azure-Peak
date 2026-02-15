@@ -2,7 +2,8 @@
 /datum/job/roguetown/heartfelt/lord
 	title = "Lord of Heartfelt"
 	tutorial = "You are the Lord of Heartfelt, ruler of a prosperous borderlands now in Azuria. \
-	However, with the increase in banditry, necromancy, deadite risings, and increasing sea raider raids, there are rumors abound that Heartfelt is not what it used to be."
+	However, with the increase in banditry, necromancy, deadite risings, and increasing sea raider raids, there are rumors abound that Heartfelt is not what it used to be. \
+	Travellers often warn of Heartfelt having fallen already, and words of secretive cultists isn't unheard of."
 	allowed_sexes = list(MALE, FEMALE)
 	allowed_races = RACES_NO_CONSTRUCT
 	outfit = null
@@ -21,7 +22,8 @@
 /datum/advclass/heartfelt/lord/lord
 	name = "Lord of Heartfelt"
 	tutorial = "You are the Lord of Heartfelt, ruler of a prosperous borderlands now in Azuria. \
-	However, with the increase in banditry, necromancy, deadite risings, and increasing sea raider raids, there are rumors abound that Heartfelt is not what it used to be."
+	However, with the increase in banditry, necromancy, deadite risings, and increasing sea raider raids, there are rumors abound that Heartfelt is not what it used to be. \
+	Travellers often warn of Heartfelt having fallen already, and words of secretive cultists isn't unheard of."
 	category_tags = list(CTAG_HFT_LORD)
 	maximum_possible_slots = 1
 	outfit = /datum/outfit/job/heartfelt/lord/lord
@@ -29,12 +31,15 @@
 	class_select_category = CLASS_CAT_HFT_COURT
 	traits_applied = list(TRAIT_NOBLE, TRAIT_HEAVYARMOR, TRAIT_HEARTFELT)
 
+	subclass_stashed_items = list("Heartfelt Caparison" = /obj/item/caparison/heartfelt)
+	subclass_virtues = list(
+		/datum/virtue/utility/riding
+	)
+
 	subclass_stats = list(
 		STATKEY_STR = 2,
 		STATKEY_INT = 2,
 		STATKEY_PER = 2,
-		STATKEY_WIL = 2,
-		STATKEY_SPD = 1,
 		STATKEY_LCK = 5,
 	)
 
@@ -51,7 +56,6 @@
 		/datum/skill/misc/climbing = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/misc/athletics = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/misc/reading = SKILL_LEVEL_EXPERT,
-		/datum/skill/misc/sneaking = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/misc/medicine = SKILL_LEVEL_NOVICE,
 		/datum/skill/misc/riding = SKILL_LEVEL_JOURNEYMAN,
 	)
@@ -62,17 +66,16 @@
 	belt = /obj/item/storage/belt/rogue/leather/black
 	shoes = /obj/item/clothing/shoes/roguetown/boots/nobleboot
 	pants = /obj/item/clothing/under/roguetown/tights/black
-	cloak = /obj/item/clothing/cloak/heartfelt
 	armor = /obj/item/clothing/suit/roguetown/armor/heartfelt
 	neck = /obj/item/clothing/neck/roguetown/gorget/steel
-	beltl =/obj/item/rogueweapon/scabbard/sword/royal
+	beltl = /obj/item/rogueweapon/scabbard/sword/noble
 	r_hand = /obj/item/rogueweapon/sword/long/marlin
 	beltr = /obj/item/rogueweapon/huntingknife
 	gloves = /obj/item/clothing/gloves/roguetown/leather/black
 	backl = /obj/item/storage/backpack/rogue/satchel // Paper and Feather
 	backpack_contents = list(
 		/obj/item/rogueweapon/huntingknife/idagger/steel/special = 1,
-		/obj/item/rogueweapon/scabbard/sheath/royal = 1,
+		/obj/item/rogueweapon/scabbard/sheath/noble = 1,
 		/obj/item/storage/belt/rogue/pouch/coins/veryrich = 2,
 		/obj/item/natural/feather = 1,
 		/obj/item/paper/scroll = 1,
@@ -85,13 +88,13 @@
 		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/order/heartfelt/bolster)
 		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/order/heartfelt/charge)
 		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/order/heartfelt/forheartfelt)
-		// H.mind.AddSpell(new/obj/effect/proc_holder/spell/invoked/order/heartfelt/focustarget)
 		H.verbs |= list(/mob/living/carbon/human/mind/proc/setordersheartfelt)
 
 /datum/advclass/heartfelt/lord/archmage
 	name = "Archmagos of Heartfelt"
 	tutorial = "You are the Archmagos of Heartfelt, ruler of a acryne-borderlands in Azuria. \
-	However, with the increase in banditry, necromancy, deadite risings, and increasing sea raider raids, there are rumors abound that Heartfelt is not what it used to be."
+	However, with the increase in banditry, necromancy, deadite risings, and increasing sea raider raids, there are rumors abound that Heartfelt is not what it used to be. \
+	Travellers often warn of Heartfelt having fallen already, and words of secretive cultists isn't unheard of."
 	category_tags = list(CTAG_HFT_LORD)
 	maximum_possible_slots = 1
 	outfit = /datum/outfit/job/heartfelt/lord/archmage
@@ -99,11 +102,14 @@
 	class_select_category = CLASS_CAT_HFT_COURT
 	traits_applied = list(TRAIT_NOBLE, TRAIT_MAGEARMOR, TRAIT_ARCYNE_T3, TRAIT_INTELLECTUAL, TRAIT_HEARTFELT, TRAIT_ALCHEMY_EXPERT)
 
+	subclass_stashed_items = list("Heartfelt Caparison" = /obj/item/caparison/heartfelt)
+	subclass_virtues = list(
+		/datum/virtue/utility/riding
+	)
+
 	subclass_stats = list(
 		STATKEY_INT = 3,
 		STATKEY_PER = 2,
-		STATKEY_WIL = 1,
-		STATKEY_SPD = 1,
 		STATKEY_LCK = 5,
 	)
 
@@ -124,14 +130,13 @@
 		/datum/skill/misc/sneaking = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/misc/riding = SKILL_LEVEL_JOURNEYMAN,
 	)
-	
+
 /datum/outfit/job/heartfelt/lord/archmage/pre_equip(mob/living/carbon/human/H)
 	..()
 	shirt = /obj/item/clothing/suit/roguetown/armor/gambeson/heavy
 	belt = /obj/item/storage/belt/rogue/leather/black
 	shoes = /obj/item/clothing/shoes/roguetown/boots/nobleboot
 	pants = /obj/item/clothing/under/roguetown/tights/black
-	cloak = /obj/item/clothing/cloak/heartfelt
 	armor = /obj/item/clothing/cloak/poncho/fancycoat
 	neck = /obj/item/storage/belt/rogue/pouch/coins/veryrich
 	beltl = /obj/item/flashlight/flare/torch/lantern
@@ -152,22 +157,22 @@
 	id = /obj/item/scomstone
 	if(H.mind)
 		H.mind.AddSpell(new /obj/effect/proc_holder/spell/self/convertrole/heartfelt)
-	if(H.mind)
-		H?.mind.adjust_spellpoints(24)
+		H?.mind.adjust_spellpoints(16)
 	if(H.age == AGE_OLD)
 		H.adjust_skillrank(/datum/skill/magic/arcane, 1, TRUE)
 		H.adjust_skillrank(/datum/skill/misc/reading, 1, TRUE)
 		H.change_stat("speed", -1)
 		H.change_stat("intelligence", 1)
 		H.change_stat("perception", 1)
-		H?.mind.adjust_spellpoints(6)
+		H?.mind.adjust_spellpoints(4)
 
 // Funny role I thought I'd make. Reminded me of Canute and his Jarldom
 
 /datum/advclass/heartfelt/lord/chief
 	name = "Chieftain of Heartfelt"
 	tutorial = "You are the Chieftain of Heartfelt, Chieftain of a once tribal lands over Azuria. Now, you rule it under the watchful gaze of the Grand Duchy. \
-	However, with the increase in banditry, necromancy, deadite risings, and increasing sea raider raids, there are rumors abound that Heartfelt is not what it used to be."
+	However, with the increase in banditry, necromancy, deadite risings, and increasing sea raider raids, there are rumors abound that Heartfelt is not what it used to be. \
+	Travellers often warn of Heartfelt having fallen already, and words of secretive cultists isn't unheard of."
 	category_tags = list(CTAG_HFT_LORD)
 	maximum_possible_slots = 1
 	outfit = /datum/outfit/job/heartfelt/lord/chief
@@ -175,17 +180,22 @@
 	class_select_category = CLASS_CAT_HFT_COURT
 	traits_applied = list(TRAIT_NOBLE, TRAIT_MEDIUMARMOR, TRAIT_CIVILIZEDBARBARIAN, TRAIT_STRONGBITE, TRAIT_HEARTFELT)
 
+	subclass_stashed_items = list("Heartfelt Caparison" = /obj/item/caparison/heartfelt)
+	subclass_virtues = list(
+		/datum/virtue/utility/riding
+	)
+
 	subclass_stats = list(
 		STATKEY_STR = 3,
 		STATKEY_WIL = 3,
 		STATKEY_CON = 2,
-		STATKEY_SPD = 1,
 		STATKEY_PER = -2,
 		STATKEY_INT = -1,
 		STATKEY_LCK = 5,
 	)
 
 	subclass_skills = list(
+		/datum/skill/combat/polearms = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/combat/polearms = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/combat/maces = SKILL_LEVEL_EXPERT,
 		/datum/skill/combat/axes = SKILL_LEVEL_EXPERT,
@@ -218,7 +228,7 @@
 	backl = /obj/item/storage/backpack/rogue/satchel // Paper and Feather
 	backpack_contents = list(
 		/obj/item/rogueweapon/huntingknife/idagger/steel/special = 1,
-		/obj/item/rogueweapon/scabbard/sheath/royal = 1,
+		/obj/item/rogueweapon/scabbard/sheath/noble = 1,
 		/obj/item/storage/belt/rogue/pouch/coins/veryrich = 1,
 		/obj/item/natural/feather = 1,
 		/obj/item/paper/scroll = 1,
@@ -231,7 +241,6 @@
 		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/order/heartfelt/bolster)
 		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/order/heartfelt/charge)
 		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/order/heartfelt/forheartfelt)
-		// H.mind.AddSpell(new/obj/effect/proc_holder/spell/invoked/order/heartfelt/focustarget)
 		H.verbs |= list(/mob/living/carbon/human/mind/proc/setordersheartfelt)
 	var/weapons = list("Double-Headed Greataxe", "Great Mace", "Battle Axe + Shield", , "Warhammer + Shield")
 	var/weapon_choice = input(H, "Choose your weapon.", "TAKE UP ARMS") as anything in weapons
@@ -255,7 +264,7 @@
 
 /obj/effect/proc_holder/spell/self/convertrole/heartfelt
 	name = "Recruit Retinue"
-	new_role = "Heartfeltian Retinue"
+	new_role = "Heartfelt Retinue"
 	overlay_state = "recruit_brother"
 	recruitment_faction = "Heartfelt"
 	recruitment_message = "Join in the service of Heartfelt, %RECRUIT!"
@@ -288,7 +297,7 @@
 			return 0
 		else
 			return 1
-	if(!(target.job in list("Heartfeltian Retinue", "Knight of Heartfelt")))
+	if(!(target.job in list("Heartfelt Retinue", "Knight of Heartfelt")))
 		to_chat(user, span_alert("I cannot order one not in our cause!"))
 		return 0
 	return 1

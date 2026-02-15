@@ -36,6 +36,12 @@
 	desc = "padded leather armor made by Otavan tailors, its quality is remarkable."
 	icon_state = "fencerpants"
 
+/obj/item/clothing/under/roguetown/heavy_leather_pants/otavan/shepherd
+	name = "shepherd's pants"
+	desc = "A pair of white pants decorated with red stripes and traditional patterning."
+	icon_state = "shepherdpants"
+	color = "#FFFFFF"
+
 /obj/item/clothing/under/roguetown/heavy_leather_pants/otavan/generic
 	name = "fencing breeches"
 	desc = "A pair of loose breeches with leather reinforcements on the waist and legs. Worn with a cup."

@@ -580,6 +580,17 @@
 	verbage_simple = "build"
 	verbage = "builds"
 	craftsound = null
+	craftdiff = 0
+
+/datum/crafting_recipe/roguetown/structure/anvil/bronze
+	name = "bronze anvil"
+	category = "Misc"
+	result = /obj/machinery/anvil/bronze
+	reqs = list(/obj/item/ingot/bronze = 2, /obj/item/natural/stone = 4)
+	skillcraft = /datum/skill/craft/blacksmithing
+	verbage_simple = "forge"
+	verbage = "forges"
+	craftdiff = 0
 
 /datum/crafting_recipe/roguetown/structure/greatsmelter
 	name = "great furnace"

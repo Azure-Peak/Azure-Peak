@@ -17,6 +17,7 @@
 	smeltresult = /obj/item/ingot/blacksteel
 	smelt_bar_num = 2
 	chunkcolor = "#303036"
+	material_category = ARMOR_MAT_PLATE
 
 /obj/item/clothing/head/roguetown/helmet/blacksteel/modern/armet/ComponentInitialize()
 	AddComponent(/datum/component/adjustable_clothing, (HEAD|EARS|HAIR), (HIDEEARS|HIDEHAIR), null, 'sound/items/visor.ogg', null, UPD_HEAD)	//Standard helmet
@@ -78,6 +79,7 @@
 	smeltresult = /obj/item/ingot/blacksteel
 	smelt_bar_num = 2
 	chunkcolor = "#303036"
+	material_category = ARMOR_MAT_PLATE
 
 /obj/item/clothing/head/roguetown/helmet/blacksteel/psythorns
 	name = "crown of psydonian thorns"

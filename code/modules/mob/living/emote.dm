@@ -394,6 +394,16 @@
 	emote_type = EMOTE_AUDIBLE
 	show_runechat = FALSE
 
+// Attack blip played randomly.
+/datum/emote/living/attack
+	key = "attack"
+	key_third_person = "attacks"
+	message = ""
+	nomsg = TRUE
+	message_muffled = "makes a muffled groan."
+	emote_type = EMOTE_AUDIBLE
+	show_runechat = FALSE
+
 /mob/living/carbon/human/verb/emote_groan()
 	set name = "Groan"
 	set category = "Noises"
@@ -1103,6 +1113,14 @@
 	message_muffled = "makes a muffled sneeze."
 	emote_type = EMOTE_AUDIBLE
 	show_runechat = TRUE
+
+/datum/emote/living/pleased
+	key = "pleased"
+	key_third_person = "pleased"
+	message = "makes a pleased sound."
+	message_muffled = "makes a muffled sneeze."
+	emote_type = EMOTE_AUDIBLE
+	show_runechat = FALSE
 
 /datum/emote/living/shh
 	key = "shh"

@@ -43,6 +43,9 @@
 	icon_state = "oreiron[rand(1,3)]"
 	..()
 
+/obj/item/rogueore/iron/get_mechanics_examine(mob/user)
+	. = ..()
+	. += span_info("Iron can be alloyed into steel, by smelting a combination of three iron nuggets with a chunk of coal inside of a great furnace.")
 
 /obj/item/rogueore/copper
 	name = "raw copper"
@@ -55,6 +58,10 @@
 	icon_state = "orecop[rand(1,3)]"
 	..()
 
+/obj/item/rogueore/copper/get_mechanics_examine(mob/user)
+	. = ..()
+	. += span_info("Copper and tin can be alloyed into bronze, by smelting a combination of three copper nuggets with a single tin nugget inside of a bronze smelter.")
+
 /obj/item/rogueore/tin
 	name = "raw tin"
 	desc = "A mass of soft, almost malleable white ore."
@@ -65,6 +72,10 @@
 /obj/item/rogueore/tin/Initialize()
 	icon_state = "oretin[rand(1,3)]"
 	..()
+
+/obj/item/rogueore/tin/get_mechanics_examine(mob/user)
+	. = ..()
+	. += span_info("Copper and tin can be alloyed into bronze, by smelting a combination of three copper nuggets with a single tin nugget inside of a bronze smelter.")
 
 /obj/item/rogueore/coal
 	name = "coal"
@@ -101,6 +112,10 @@
 	icon_state = "orelithmyc"
 	sellprice = 100
 	smeltresult = /obj/item/ingot/lithmyc
+
+/obj/item/rogueore/lithmyc/Initialize()
+  ..()
+  add_filter(FORCE_FILTER, 2, list("type" = "outline", "color" = GLOW_COLOR_BUFF, "alpha" = 100, "size" = 1))
 
 /obj/item/ingot
 	name = "ingot"
@@ -200,6 +215,10 @@
 		slapcraft_recipes = slapcraft_recipe_list,\
 		)
 
+/obj/item/ingot/iron/get_mechanics_examine(mob/user)
+	. = ..()
+	. += span_info("Iron can be alloyed into steel, by smelting a combination of three iron ingots with a chunk of coal inside of a great furnace.")
+
 /obj/item/ingot/copper
 	name = "copper bar"
 	desc = "This bar causes a gentle tingling sensation when touched."
@@ -207,12 +226,20 @@
 	smeltresult = /obj/item/ingot/copper
 	sellprice = 10
 
+/obj/item/ingot/copper/get_mechanics_examine(mob/user)
+	. = ..()
+	. += span_info("Copper and tin can be alloyed into bronze, by smelting a combination of three copper ingots with a single tin ingot inside of a bronze smelter.")
+
 /obj/item/ingot/tin
 	name = "tin bar"
 	desc = "An ingot of strangely soft and malleable essence."
 	icon_state = "ingottin"
 	smeltresult = /obj/item/ingot/tin
 	sellprice = 15
+
+/obj/item/ingot/tin/get_mechanics_examine(mob/user)
+	. = ..()
+	. += span_info("Copper and tin can be alloyed into bronze, by smelting a combination of three copper ingots with a single tin ingot inside of a bronze smelter.")
 
 /obj/item/ingot/bronze
 	name = "bronze bar"
@@ -251,6 +278,10 @@
 	smeltresult = /obj/item/ingot/steel //Smelting it removes the blessing
 	sellprice = 20
 
+/obj/item/ingot/steelholy/Initialize()
+  ..()
+  add_filter(FORCE_FILTER, 2, list("type" = "outline", "color" = GLOW_COLOR_LIGHTNING, "alpha" = 100, "size" = 1))
+
 /obj/item/ingot/silverblessed/
 	name = "blessed silver bar"
 	desc = "This bar radiates with blessed purity. It dimly glows with moonlight, even in complete darkness."
@@ -258,6 +289,10 @@
 	smeltresult = /obj/item/ingot/silver //Smelting it removes the blessing
 	sellprice = 100
 	is_silver = FALSE //Ditto.
+
+/obj/item/ingot/silverblessed/Initialize()
+  ..()
+  add_filter(FORCE_FILTER, 2, list("type" = "outline", "color" = GLOW_COLOR_ICE, "alpha" = 100, "size" = 1))
 
 /obj/item/ingot/silverblessed/bullion
 	name = "blessed silver bullion"
@@ -284,10 +319,14 @@
 
 /obj/item/ingot/aaslag
 	name = "glimmering slag"
-	desc = "A mass of wrought bronze, rendered lame from the forge's heat. Sometimes, dead is better."
+	desc = "A mass of wrought bronze, rendered lame from the forge's heat. Sometimes, dead is better. </br>Yet, perhaps alloying it in equal parts with another glimmering piece of ore could resurrect its secrets."
 	icon_state = "ancientslag"
 	smeltresult = /obj/item/ingot/aaslag
-	sellprice = 1
+	sellprice = 6
+
+/obj/item/ingot/aaslag/Initialize()
+  ..()
+  add_filter(FORCE_FILTER, 2, list("type" = "outline", "color" = GLOW_COLOR_FIRE, "alpha" = 50, "size" = 1))
 
 //Anomalous Smeltings
 /obj/item/ingot/weeping
@@ -300,7 +339,7 @@
 
 /obj/item/ingot/weeping/Initialize()
   ..()
-  filter(type="drop_shadow", x=0, y=0, size=1, offset=2, color=rgb(rand(64,65),rand(1,5),rand(1,5)))
+  add_filter(FORCE_FILTER, 2, list("type" = "outline", "color" = GLOW_COLOR_VAMPIRIC, "alpha" = 100, "size" = 1))
 
 /obj/item/ingot/draconic
 	name = "draconic ingot"
@@ -310,12 +349,20 @@
 	color = "#70b8ff"
 	sellprice = 333
 
+/obj/item/ingot/draconic/Initialize()
+  ..()
+  add_filter(FORCE_FILTER, 2, list("type" = "outline", "color" = GLOW_COLOR_FIRE, "alpha" = 100, "size" = 1))
+
 /obj/item/ingot/lithmyc
 	name = "lithmyc ingot"
 	desc = "A strange green ingot. It seems to be covered in an oily metal-liquid, though it refuses to leave the ingot-shape no matter how you much you try. No one in the region yet knows what the metal can be shaped into, as it's exceedingly stubborn. But, it sure seems priceless."
 	icon_state = "ingotlithmyc"
 	smeltresult = /obj/item/ingot/lithmyc
 	sellprice = 444
+
+/obj/item/ingot/lithmyc/Initialize()
+  ..()
+  add_filter(FORCE_FILTER, 2, list("type" = "outline", "color" = GLOW_COLOR_BUFF, "alpha" = 100, "size" = 1))
 
 /obj/item/ingot/ketryl
 	name = "ketryl ingot"

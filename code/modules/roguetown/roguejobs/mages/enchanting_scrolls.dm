@@ -10,6 +10,8 @@ T1 Enchantments below here*/
 	icon_state = "enchantment"
 	var/component
 	possible_item_intents = list(/datum/intent/use)
+	grid_width = 64
+	grid_height = 32
 
 /obj/item/enchantmentscroll/attack_obj(obj/item/O, mob/living/user)
 	if(O.unenchantable)

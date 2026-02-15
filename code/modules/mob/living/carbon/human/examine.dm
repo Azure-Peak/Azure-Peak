@@ -126,7 +126,7 @@
 			else
 				. += span_notice("A noble!")
 
-		if((HAS_TRAIT(user, TRAIT_RACISMISBAD) && !(src.dna.species.name == "Elf" || src.dna.species.name == "Dark Elf" || src.dna.species.name == "Half Elf")))
+		if((HAS_TRAIT(user, TRAIT_BLACKOAK) && !(src.dna.species.name == "Elf" || src.dna.species.name == "Dark Elf" || src.dna.species.name == "Half-Elf")))
 			. += span_phobia("An invader...")
 
 		//For tennite schism god-event
@@ -215,6 +215,10 @@
 					user.add_stress(/datum/stressevent/averse)
 					. += span_secradio("One of <b>them...</b>")
 
+			if(user.has_flaw(/datum/charflaw/addiction/voyeur) && has_flaw(/datum/charflaw/addiction) && get_dist(src, user) <= 3)
+				var/flawname = charflaw?.voyeur_descriptor ? charflaw?.voyeur_descriptor : charflaw?.name
+				. += span_voyeurvice("[m1] [flawname]...")
+
 			if(HAS_TRAIT(user, TRAIT_EMPATH) && HAS_TRAIT(src, TRAIT_PERMAMUTE))
 				. += span_notice("[m1] lacks a voice. [m1] is a mute!")
 
@@ -240,7 +244,7 @@
 					. += span_beautiful_masc("[m1] handsome!")
 				if (SHE_HER, HE_HIM_F)
 					. += span_beautiful_fem("[m1] beautiful!")
-				if (THEY_THEM, THEY_THEM_F, IT_ITS)
+				if (THEY_THEM, THEY_THEM_F, IT_ITS, IT_ITS_M)
 					. += span_beautiful_nb("[m1] good-looking!")
 
 		if (HAS_TRAIT(src, TRAIT_UNSEEMLY))
@@ -249,7 +253,7 @@
 					. += span_redtext("[m1] revolting!")
 				if (SHE_HER)
 					. += span_redtext("[m1] repugnant!")
-				if (THEY_THEM, THEY_THEM_F, IT_ITS)
+				if (THEY_THEM, THEY_THEM_F, IT_ITS, IT_ITS_M)
 					. += span_redtext("[m1] repulsive!")
 
 		var/datum/antagonist/vampire/vamp_inspect = src.mind?.has_antag_datum(/datum/antagonist/vampire)

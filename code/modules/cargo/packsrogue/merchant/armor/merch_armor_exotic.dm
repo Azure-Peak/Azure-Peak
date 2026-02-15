@@ -25,7 +25,7 @@
 		/obj/item/clothing/head/roguetown/helmet/bascinet/atgervi/gronn/ownel,
 		/obj/item/clothing/suit/roguetown/armor/brigandine/gronn,
 		/obj/item/clothing/gloves/roguetown/chain/gronn,
-		/obj/item/clothing/under/roguetown/splintlegs/iron/gronn
+		/obj/item/clothing/under/roguetown/splintlegs/gronn
 		)
 
 /datum/supply_pack/rogue/armor_exotic/gronn_pack_heavy

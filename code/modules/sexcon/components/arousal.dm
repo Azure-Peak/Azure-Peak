@@ -354,7 +354,7 @@
 		if(0 to 5)
 			chosen_emote = "sexmoanlight"
 		if(5 to INFINITY)
-			chosen_emote = "sexamoanhvy"
+			chosen_emote = "sexmoanhvy"
 
 	if(pain_amt >= PAIN_MILD_EFFECT)
 		if(giving)

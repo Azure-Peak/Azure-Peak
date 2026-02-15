@@ -15,6 +15,8 @@
 	glow_color = GLOW_COLOR_LIGHTNING
 	glow_intensity = GLOW_INTENSITY_HIGH
 	chargedloop = /datum/looping_sound/invokegen
+	gesture_required = TRUE // Offensive spell
+	human_req = TRUE // Combat spell
 	associated_skill = /datum/skill/magic/arcane
 	range = 4
 
@@ -25,6 +27,7 @@
 	T.visible_message(span_boldwarning("The air feels crackling and charged!"))
 	sleep(30)
 	create_lightning(T)
+	return TRUE
 
 //meteor storm and lightstorm.
 /obj/effect/proc_holder/spell/invoked/sundering_lightning/proc/create_lightning(atom/target)

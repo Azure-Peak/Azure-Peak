@@ -113,8 +113,8 @@
 		SStreasury.give_money_account(ECONOMIC_UPPER_MIDDLE_CLASS, H, "Savings.")
 
 /datum/advclass/seneschal/chiefbutler
-	name = "Chief Butler"
-	tutorial = "You are the ruling class of butler and your ability to clear your throat and murmur 'I say' is without peer. Your duties and talents as seneschal remain the same, though."
+	name = "Butler"
+	tutorial = "You are the ruling class of manservants, the butler, and your ability to clear your throat and murmur 'I say' is without peer. Your duties and talents as seneschal remain the same, though."
 	outfit = /datum/outfit/job/roguetown/seneschal/chiefbutler
 	subclass_stats = list(
 		STATKEY_INT = 2,

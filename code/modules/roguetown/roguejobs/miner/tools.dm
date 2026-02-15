@@ -46,7 +46,7 @@
 	force = 20
 	force_wielded = 25
 	icon_state = "bronzepick"
-	possible_item_intents = list(/datum/intent/pick/bad, /datum/intent/axe/cut, /datum/intent/mace/strike)
+	possible_item_intents = list(/datum/intent/pick/bad, /datum/intent/axe/cut, /datum/intent/mace/strike, /datum/intent/till)
 	gripped_intents = list(/datum/intent/pick, /datum/intent/axe/cut, /datum/intent/axe/chop, /datum/intent/mace/strike)
 	max_integrity = 500
 	max_blade_int = 225
@@ -54,12 +54,13 @@
 
 /obj/item/rogueweapon/pick/blacksteel
 	name = "blacksteel pick"
-	desc = "Glimmering with silver-y black, this is a pretigious tool for miners delving in the darkness."
-	force_wielded = 30
+	desc = "Glimmering with silvered blackness, this is a pretigious tool for miners delving into the darkness."
+	possible_item_intents = list(/datum/intent/pick/bad)
+	gripped_intents = list(/datum/intent/pick/good)
+	force = 25
+	force_wielded = 32
 	icon_state = "blacksteelpick1"
 	item_state = "blacksteelpick1"
-	possible_item_intents = list(/datum/intent/pick)
-	gripped_intents = list(/datum/intent/pick)
 	max_integrity = 800
 	smeltresult = /obj/item/ingot/blacksteel
 

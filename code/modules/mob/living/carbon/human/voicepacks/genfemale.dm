@@ -12,6 +12,8 @@
 			used = getfsilenced(soundin)
 	if(!used)
 		switch(soundin)
+			if("attack")
+				used = list('sound/vo/female/gen/attack (1).ogg', 'sound/vo/female/gen/attack (2).ogg', 'sound/vo/female/gen/attack (3).ogg', 'sound/vo/female/gen/attack (4).ogg', 'sound/vo/female/gen/attack (5).ogg', 'sound/vo/female/gen/attack (6).ogg', 'sound/vo/female/gen/attack (7).ogg', 'sound/vo/female/gen/attack (8).ogg', 'sound/vo/female/gen/attack (9).ogg', 'sound/vo/female/gen/attack (10).ogg', 'sound/vo/female/gen/attack (11).ogg')
 			if("deathgurgle")
 				used = pick('sound/vo/female/gen/deathgurgle (1).ogg','sound/vo/female/gen/deathgurgle (2).ogg','sound/vo/female/gen/deathgurgle (3).ogg')
 			if("agony")
@@ -64,6 +66,8 @@
 				used = 'sound/vo/female/gen/jump.ogg'
 			if("laugh")
 				used = list('sound/vo/female/gen/laugh (1).ogg','sound/vo/female/gen/laugh (2).ogg','sound/vo/female/gen/laugh (3).ogg')
+			if("pleased")
+				used = list('sound/vo/female/gen/pleased (1).ogg', 'sound/vo/female/gen/pleased (2).ogg', 'sound/vo/female/gen/pleased (3).ogg')
 			if("pain")
 				used = list('sound/vo/female/gen/pain (1).ogg','sound/vo/female/gen/pain (2).ogg','sound/vo/female/gen/pain (3).ogg')
 			if("paincrit")

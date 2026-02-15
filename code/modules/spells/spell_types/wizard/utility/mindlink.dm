@@ -43,7 +43,7 @@
 
 	user.emote("me", 1, "'s eyes briefly glow with an otherworldly light.", TRUE, custom_me = TRUE)
 
-	var/first_target_name = input(user, "Choose the first person to link", "Mindlink") as null|anything in possible_targets
+	var/first_target_name = tgui_input_list(user, "Choose the first person to link", "Mindlink", possible_targets)
 
 	if(!first_target_name)
 		revert_cast()
@@ -57,7 +57,7 @@
 
 	possible_targets -= first_target_name
 
-	var/second_target_name = input(user, "Choose the second person to link", "Mindlink") as null|anything in possible_targets
+	var/second_target_name = tgui_input_list(user, "Choose the second person to link", "Mindlink", possible_targets)
 
 	if(!second_target_name)
 		revert_cast()

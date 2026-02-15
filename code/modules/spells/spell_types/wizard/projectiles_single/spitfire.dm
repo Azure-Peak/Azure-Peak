@@ -77,3 +77,6 @@
 		M.ignite_mob()
 		if(istype(M, /mob/living/carbon))
 			apply_arcane_mark(M)
+	else if(isatom(target))
+		var/atom/A = target
+		A.fire_act()

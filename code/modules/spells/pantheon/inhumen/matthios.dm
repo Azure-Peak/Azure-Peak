@@ -125,8 +125,8 @@
 			target.visible_message(span_info("[target] stirs for a moment, the miracle dissipates."), span_notice("A dull warmth swells in your heart, only to fade as quickly as it arrived."))
 			playsound(target, 'sound/magic/PSY.ogg', 100, FALSE, -1)
 			return FALSE
-		user.visible_message(span_notice("The transaction Is made, [target] Is bathed In empowerment!"))
-		to_chat(user, "<font color='yellow'>[held_item] burns into the air suddenly, my Transaction is accepted.</font>")
+		user.visible_message(span_notice("The transaction is made! [target] is bathed in a golden light!"))
+		to_chat(user, "<font color='yellow'>[held_item] burns into the air suddenly. My transaction is accepted.</font>")
 		if(iscarbon(target))
 			var/mob/living/carbon/C = target
 			var/datum/status_effect/buff/healing/heal_effect = C.apply_status_effect(/datum/status_effect/buff/healing)
@@ -183,7 +183,7 @@
 
 /atom/movable/screen/alert/status_effect/buff/equalized
 	name = "Equalized"
-	desc = "Equalized, with a gentle thumb on the scale, tactfully."
+	desc = "I've stolen my opponent's attributes."				// USE. LESS. WORDS.
 
 /datum/status_effect/buff/equalizebuff/on_apply()
 	. = ..()
@@ -192,7 +192,7 @@
 /datum/status_effect/buff/equalizebuff/on_remove()
 	. = ..()
 	owner.remove_filter(EQUALIZED_GLOW)
-	to_chat(owner, "<font color='yellow'>My link wears off, their stolen fire returns to them</font>")
+	to_chat(owner, "<font color='yellow'>The link wears off, and the stolen fire returns to them.</font>")
 
 
  // debuff
@@ -205,7 +205,7 @@
 
 /atom/movable/screen/alert/status_effect/debuff/equalized
 	name = "Equalized"
-	desc = "My fire is stolen from me!"
+	desc = "My strength has been stolen from me!"
 
 /datum/status_effect/debuff/equalizedebuff/on_apply()
 	. = ..()
@@ -214,7 +214,7 @@
 /datum/status_effect/debuff/equalizedebuff/on_remove()
 	. = ..()
 	owner.remove_filter(EQUALIZED_GLOW)
-	to_chat(owner, "<font color='yellow'>My fire returns to me!</font>")
+	to_chat(owner, "<font color='yellow'>My strength returns!</font>")
 
 
 
@@ -250,95 +250,90 @@
 		var/totalvalue = mammonsinbank + mammonsonperson
 		if(HAS_TRAIT(target, TRAIT_NOBLE))
 			totalvalue += 101 // We're ALWAYS going to do a medium level smite minimum to nobles.
-		if(totalvalue <=10)
-			to_chat(user, "<font color='yellow'>[target] one has no wealth to hold against them.</font>")
-			revert_cast()
-			return
-		if(totalvalue <=30)
-			user.say("Wealth becomes woe!")
-			target.visible_message(span_danger("[target] is burned by holy light!"), span_userdanger("I feel the weight of my wealth burning at my soul!"))
-			target.adjustFireLoss(30)
-			playsound(user, 'sound/magic/churn.ogg', 100, TRUE)
-			return
-		if(totalvalue <=60)
-			user.say("Wealth becomes woe!")
-			target.visible_message(span_danger("[target] is burned by holy light!"), span_userdanger("I feel the weight of my wealth burning at my soul!"))
-			target.adjustFireLoss(60)
-			playsound(user, 'sound/magic/churn.ogg', 100, TRUE)
-			return
-		if(totalvalue <=100)
-			user.say("Wealth becomes woe!")
-			target.visible_message(span_danger("[target] is burned by holy light!"), span_userdanger("I feel the weight of my wealth burning at my soul!"))
-			target.adjustFireLoss(80)
-			target.Stun(20)
-			playsound(user, 'sound/magic/churn.ogg', 100, TRUE)
-			return
-		if(totalvalue <=200)
-			user.say("The Free-God rebukes!")
-			target.visible_message(span_danger("[target] is burned by holy light!"), span_userdanger("I feel the weight of my wealth tearing at my soul!"))
-			target.adjustFireLoss(100)
-			target.adjust_fire_stacks(7, /datum/status_effect/fire_handler/fire_stacks/divine)
-			target.Stun(20)
-			target.ignite_mob()
-			playsound(user, 'sound/magic/churn.ogg', 100, TRUE)
-			return
-		if(totalvalue <=500)
-			user.say("The Free-God rebukes!")
-			target.visible_message(span_danger("[target] is burned by holy light!"), span_userdanger("I feel the weight of my wealth tearing at my soul!"))
-			target.adjustFireLoss(120)
-			target.adjust_fire_stacks(9, /datum/status_effect/fire_handler/fire_stacks/divine)
-			target.ignite_mob()
-			target.Stun(40)
-			playsound(user, 'sound/magic/churn.ogg', 100, TRUE)
-			return
-		if(totalvalue <= 2500)
-			target.visible_message(span_danger("[target] is smited with holy light!"), span_userdanger("I feel the weight of my wealth rend my soul apart!"))
-			user.say("Your final transaction! The Free-God rebukes!!")
-			target.Stun(60)
-			target.emote("agony")
-			target.adjustFireLoss(140)
-			target.adjust_fire_stacks(9, /datum/status_effect/fire_handler/fire_stacks/divine)
-			target.ignite_mob()
-			playsound(user, 'sound/magic/churn.ogg', 100, TRUE)
-			explosion(get_turf(target), light_impact_range = 1, flame_range = 1, smoke = FALSE)
-			return
-		if(totalvalue >=2501) //THE POWER OF MY STAND: 'EXPLODE AND DIE INSTANTLY'
-			target.visible_message(span_danger("[target]'s skin begins to SLOUGH AND BURN HORRIFICALLY, glowing like molten metal!"), span_userdanger("MY LIMBS BURN IN AGONY..."))
-			user.say("Wealth beyond measure- YOUR FINAL TRANSACTION!!")
-			target.Stun(80)
-			target.emote("agony")
-			target.adjustFireLoss(50)
-			target.adjust_fire_stacks(9, /datum/status_effect/fire_handler/fire_stacks/divine)
-			target.ignite_mob()
-			playsound(user, 'sound/magic/churn.ogg', 100, TRUE)
-			explosion(get_turf(target), light_impact_range = 1, flame_range = 1, smoke = FALSE)
-			sleep(80)
+		switch(totalvalue)
+			if(0 to 10)
+				to_chat(user, "<font color='yellow'>[target] one has no wealth to hold against them.</font>")
+				revert_cast()
+				return FALSE
+			if(11 to 30)
+				user.emote("waves their hand in front of them.")
+				target.visible_message(span_danger("[target] is burned by holy light!"), span_userdanger("I feel the weight of my wealth burning at my soul!"))
+				target.adjustFireLoss(30)
+				playsound(user, 'sound/magic/churn.ogg', 100, TRUE)
+			if(31 to 60)
+				user.emote("waves their hand in front of them.")
+				target.visible_message(span_danger("[target] is burned by holy light!"), span_userdanger("I feel the weight of my wealth burning at my soul!"))
+				target.adjustFireLoss(60)
+				playsound(user, 'sound/magic/churn.ogg', 100, TRUE)
+			if(61 to 100)
+				user.emote("waves their hand in front of them.")
+				target.visible_message(span_danger("[target] is burned by holy light!"), span_userdanger("I feel the weight of my wealth burning at my soul!"))
+				target.adjustFireLoss(80)
+				target.Stun(20)
+				playsound(user, 'sound/magic/churn.ogg', 100, TRUE)
+			if(101 to 200)
+				user.emote("makes an obscene gesture towards [target]!") 	//if wizards can flip you the bird to set you on fire, matthios can, too.
+				target.visible_message(span_danger("[target] is burned by holy light!"), span_userdanger("I feel the weight of my wealth tearing at my soul!"))
+				target.adjustFireLoss(100)
+				target.adjust_fire_stacks(7, /datum/status_effect/fire_handler/fire_stacks/divine)
+				target.Stun(20)
+				target.ignite_mob()
+				playsound(user, 'sound/magic/churn.ogg', 100, TRUE)
+			if(201 to 500)
+				user.emote("makes an obscene gesture towards [target]!")
+				target.visible_message(span_danger("[target] is burned by holy light!"), span_userdanger("I feel the weight of my wealth tearing at my soul!"))
+				target.adjustFireLoss(120)
+				target.adjust_fire_stacks(9, /datum/status_effect/fire_handler/fire_stacks/divine)
+				target.ignite_mob()
+				target.Stun(40)
+				playsound(user, 'sound/magic/churn.ogg', 100, TRUE)
+			if(500 to 2500)
+				target.visible_message(span_danger("[target] is smited with holy light!"), span_userdanger("I feel the weight of my wealth rend my soul apart!"))
+				user.emote("makes an obscene gesture towards [target] and screams at the top of their lungs!")
+				target.Stun(60)
+				target.emote("agony")
+				target.adjustFireLoss(140)
+				target.adjust_fire_stacks(9, /datum/status_effect/fire_handler/fire_stacks/divine)
+				target.ignite_mob()
+				playsound(user, 'sound/magic/churn.ogg', 100, TRUE)
+				explosion(get_turf(target), light_impact_range = 1, flame_range = 1, smoke = FALSE)
+			if(2501 to 9999999) //THE POWER OF MY STAND: 'EXPLODE AND DIE INSTANTLY'
+				target.visible_message(span_danger("[target]'s skin begins to SLOUGH AND BURN HORRIFICALLY, glowing like molten metal!"), span_userdanger("MY LIMBS BURN IN AGONY..."))
+				user.emote("makes an obscene gesture towards [target] and screams at the top of their lungs! An ear-splitting drone fills the air!")
+				target.Stun(80)
+				target.emote("agony")
+				target.adjustFireLoss(50)
+				target.adjust_fire_stacks(9, /datum/status_effect/fire_handler/fire_stacks/divine)
+				target.ignite_mob()
+				playsound(user, 'sound/magic/churn.ogg', 100, TRUE)
+				explosion(get_turf(target), light_impact_range = 1, flame_range = 1, smoke = FALSE)
+				sleep(80)
 
-			target.visible_message(span_danger("[target]'s limbs REND into coin and gem!"), span_userdanger("WEALTH. POWER. THE FINAL SIGHT UPON MYNE EYE IS A DRAGON'S MAW TEARING ME IN TWAIN. MY ENTRAILS ARE OF GOLD AND SILVER."))
-			playsound(user, 'sound/magic/churn.ogg', 100, TRUE)
-			playsound(user, 'sound/magic/whiteflame.ogg', 100, TRUE)
-			explosion(get_turf(target), light_impact_range = 1, flame_range = 1, smoke = FALSE)
-			new /obj/item/roguecoin/silver/pile(target.loc)
-			new /obj/item/roguecoin/gold/pile(target.loc)
-			new /obj/item/roguegem/random(target.loc)
-			new /obj/item/roguegem/random(target.loc)
+				target.visible_message(span_danger("[target]'s limbs REND into coin and gem!"), span_userdanger("WEALTH. POWER. THE FINAL SIGHT UPON MYNE EYE IS A DRAGON'S MAW TEARING ME IN TWAIN. MY ENTRAILS ARE OF GOLD AND SILVER."))  		//this one's actually pretty good. i like this
+				playsound(user, 'sound/magic/churn.ogg', 100, TRUE)
+				playsound(user, 'sound/magic/whiteflame.ogg', 100, TRUE)
+				explosion(get_turf(target), light_impact_range = 1, flame_range = 1, smoke = FALSE)
+				new /obj/item/roguecoin/silver/pile(target.loc)
+				new /obj/item/roguecoin/gold/pile(target.loc)
+				new /obj/item/roguegem/random(target.loc)
+				new /obj/item/roguegem/random(target.loc)
 
-			var/list/possible_limbs = list()
-			for(var/zone in list(BODY_ZONE_R_ARM, BODY_ZONE_L_ARM, BODY_ZONE_R_LEG, BODY_ZONE_L_LEG))
-				var/obj/item/bodypart/limb = target.get_bodypart(zone)
-				if(limb)
-					possible_limbs += limb
-				var/limbs_to_gib = min(rand(1, 4), possible_limbs.len)
-				for(var/i in 1 to limbs_to_gib)
-					var/obj/item/bodypart/selected_limb = pick(possible_limbs)
-					possible_limbs -= selected_limb
-					if(selected_limb?.drop_limb())
-						var/turf/limb_turf = get_turf(selected_limb) || get_turf(target) || target.drop_location()
-						if(limb_turf)
-							new /obj/effect/decal/cleanable/blood/gibs/limb(limb_turf)
+				var/list/possible_limbs = list()
+				for(var/zone in list(BODY_ZONE_R_ARM, BODY_ZONE_L_ARM, BODY_ZONE_R_LEG, BODY_ZONE_L_LEG))
+					var/obj/item/bodypart/limb = target.get_bodypart(zone)
+					if(limb)
+						possible_limbs += limb
+					var/limbs_to_gib = min(rand(1, 4), possible_limbs.len)
+					for(var/i in 1 to limbs_to_gib)
+						var/obj/item/bodypart/selected_limb = pick(possible_limbs)
+						possible_limbs -= selected_limb
+						if(selected_limb?.drop_limb())
+							var/turf/limb_turf = get_turf(selected_limb) || get_turf(target) || target.drop_location()
+							if(limb_turf)
+								new /obj/effect/decal/cleanable/blood/gibs/limb(limb_turf)
 
-			target.death()
-			return
+				target.death()
+		return TRUE
 
 
 #undef EQUALIZED_GLOW

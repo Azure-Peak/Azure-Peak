@@ -8,7 +8,7 @@
 /datum/outfit/job/roguetown/fablefield/goliard/pre_equip(mob/living/carbon/human/H)
 	..()
 	head = /obj/item/clothing/head/roguetown/bardhat
-	neck = /obj/item/storage/belt/rogue/pouch/coins/mid
+	neck = /obj/item/storage/belt/rogue/pouch/coins/rich
 	shoes = /obj/item/clothing/shoes/roguetown/boots
 	pants = /obj/item/clothing/under/roguetown/tights/random
 	shirt = /obj/item/clothing/suit/roguetown/shirt/shortshirt
@@ -54,7 +54,7 @@
 /datum/outfit/job/roguetown/fablefield/troubadour/pre_equip(mob/living/carbon/human/H)
 	..()
 	head = /obj/item/clothing/head/roguetown/bardhat
-	neck = /obj/item/storage/belt/rogue/pouch/coins/poor
+	neck = /obj/item/storage/belt/rogue/pouch/coins/mid
 	shoes = /obj/item/clothing/shoes/roguetown/boots
 	pants = /obj/item/clothing/under/roguetown/tights/random
 	shirt = /obj/item/clothing/suit/roguetown/shirt/shortshirt

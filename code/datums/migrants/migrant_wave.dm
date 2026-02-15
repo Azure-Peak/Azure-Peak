@@ -46,6 +46,7 @@
 /datum/migrant_wave/pilgrim
 	name = "Pilgrimage"
 	downgrade_wave = /datum/migrant_wave/pilgrim_down_one
+	weight = 100 // It is a "default" wave 
 	roles = list(
 		/datum/migrant_role/pilgrim = 4,
 	)
@@ -83,6 +84,7 @@
 	roles = list(
 		/datum/migrant_role/adventurer = 4,
 	)
+	weight = 100 // Adventurers is the default spillover role and instead of just setting adventurers slots up high at roundstart we'll let people join in gradually through the round
 	greet_text = "Together with a party of trusted friends we decided to venture out, seeking thrills, glory and treasure, ending up in the misty and damp bog underneath Azure Peak, perhaps getting ourselves into more than what we bargained for."
 
 /datum/migrant_wave/adventurer_down_one

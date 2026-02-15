@@ -15,7 +15,7 @@ bath.ogg: Mabisyo - No Baby (Cropped to 1:00)
 tav_tune.ogg: Divinity Original Sin 2 - Black Bull Tavern
 tavern1.ogg: Pathologic 2 - Broken Heart Pub
 tavern2.ogg: Pathologic (Classic) - Broken Heart Pub
-combat_steppe.ogg: Tatar Theme (Hellish Quart OST)
+combat_steppe.ogg: MusicImaginary - Tatars [https://www.hellishquart.com]
 combat_bandit_brigand: Silent Scream - Lateralis
 combat_ascended: TO PIERCE THE BLACK SKY /// ENVY INTERLUDE - UNFORTUNATE DEVELOPMENT
 warscholar.ogg: Butcher's Boulevard - Kristjan Thomas Haaristo
@@ -65,3 +65,7 @@ combat_thrall: T-87 SULFURHEAD - STOLEN SKY[https://www.youtube.com/@T87-Sulfurh
 shisha.ogg: T-87 SULFURHEAD - Astral Eyes [https://www.youtube.com/@T87-Sulfurhead]
 combat_acolyte: T-87 SULFURHEAD - Hellions [https://www.youtube.com/@T87-Sulfurhead]
 ravoxarena.ogg: Mick Gordon - Polemos
+frei_fencer.ogg: MusicImaginary - Old Church [https://www.hellishquart.com]
+frei_sabre.ogg: MusicImaginary - Lyra [https://www.hellishquart.com]
+frei_shepherd.ogg: MusicImaginary - Yendrek [https://hellishquart.com]
+frei_lancer.ogg: Lucas Gitano - The Mask of Zorro (Fingerstyle Acoustic Cover) [https://www.youtube.com/channel/UCpUAp8m92gecvW8EyV3fLCA]

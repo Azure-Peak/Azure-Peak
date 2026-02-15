@@ -17,6 +17,8 @@
 
 /obj/structure/spider/stickyweb
 	name = "web"
+	desc = "'Monstrous and abominable eyes they were, bestial and yet filled with purpose and with hideous \
+	delight, gloating over their prey trapped beyond all hope of escape.'"
 	icon = 'modular/Mapping/icons/webbing.dmi'
 	icon_state = "stickyweb1"
 	resistance_flags = FLAMMABLE

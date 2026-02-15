@@ -1,6 +1,6 @@
 
 /datum/job/roguetown/heartfelt/retinue
-	title = "Heartfeltian Retinue"
+	title = "Heartfelt Retinue"
 	allowed_sexes = list(MALE, FEMALE)
 	allowed_races = ACCEPTED_RACES
 	job_traits = list(TRAIT_HEARTFELT)

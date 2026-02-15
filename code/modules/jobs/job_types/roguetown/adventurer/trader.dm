@@ -31,6 +31,6 @@
 		/datum/advclass/trader/harlequin,
 		/datum/advclass/trader/cuisiner,
 		/datum/advclass/trader/peddler,
-		/datum/advclass/trader/maid,
+		/datum/advclass/trader/servant,
 		/datum/advclass/trader/doomsayer
 	)

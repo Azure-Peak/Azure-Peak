@@ -69,5 +69,32 @@
 	if(H.mind)
 		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/fittedclothing)
 		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/takeapprentice)
-	if(H.mind)
-		SStreasury.give_money_account(ECONOMIC_UPPER_MIDDLE_CLASS, H, "Savings.")
+		SStreasury.give_money_account(ECONOMIC_UPPER_MIDDLE_CLASS, H, "Savings.") //There is a better way to do this, do I care for it - of course not.
+		H.mind.teach_crafting_recipe(/datum/crafting_recipe/roguetown/sewing/tailor/naledisash)
+		H.mind.teach_crafting_recipe(/datum/crafting_recipe/roguetown/sewing/tailor/halfrobe)
+		H.mind.teach_crafting_recipe(/datum/crafting_recipe/roguetown/sewing/tailor/monkrobe)
+		H.mind.teach_crafting_recipe(/datum/crafting_recipe/roguetown/leather/unique/monkleather)
+		H.mind.teach_crafting_recipe(/datum/crafting_recipe/roguetown/sewing/tailor/desertgown)
+		H.mind.teach_crafting_recipe(/datum/crafting_recipe/roguetown/leather/unique/baggyleatherpants)//Naledi
+		H.mind.teach_crafting_recipe(/datum/crafting_recipe/roguetown/sewing/tailor/otavangambeson)
+		H.mind.teach_crafting_recipe(/datum/crafting_recipe/roguetown/leather/unique/otavanleathergloves)
+		H.mind.teach_crafting_recipe(/datum/crafting_recipe/roguetown/leather/unique/otavanleatherpants)
+		H.mind.teach_crafting_recipe(/datum/crafting_recipe/roguetown/leather/unique/otavanboots)//Otavan
+		H.mind.teach_crafting_recipe(/datum/crafting_recipe/roguetown/sewing/tailor/grenzelhat)
+		H.mind.teach_crafting_recipe(/datum/crafting_recipe/roguetown/sewing/tailor/grenzelshirt)
+		H.mind.teach_crafting_recipe(/datum/crafting_recipe/roguetown/leather/unique/grenzelgloves)
+		H.mind.teach_crafting_recipe(/datum/crafting_recipe/roguetown/sewing/tailor/grenzelpants)
+		H.mind.teach_crafting_recipe(/datum/crafting_recipe/roguetown/leather/unique/grenzelboots)//Grenzel
+		H.mind.teach_crafting_recipe(/datum/crafting_recipe/roguetown/sewing/tailor/hgambeson/fencer)
+		H.mind.teach_crafting_recipe(/datum/crafting_recipe/roguetown/leather/unique/fencingbreeches)//Aanvr
+		H.mind.teach_crafting_recipe(/datum/crafting_recipe/roguetown/leather/unique/openrobes)
+		H.mind.teach_crafting_recipe(/datum/crafting_recipe/roguetown/leather/unique/gronngloves)
+		H.mind.teach_crafting_recipe(/datum/crafting_recipe/roguetown/leather/unique/gronnpants)
+		H.mind.teach_crafting_recipe(/datum/crafting_recipe/roguetown/leather/unique/gronnboots)//Gronn
+		H.mind.teach_crafting_recipe(/datum/crafting_recipe/roguetown/leather/unique/furlinedjacket)
+		H.mind.teach_crafting_recipe(/datum/crafting_recipe/roguetown/leather/unique/artipants)//Artificer
+		H.mind.teach_crafting_recipe(/datum/crafting_recipe/roguetown/leather/unique/buckleshoes)
+		H.mind.teach_crafting_recipe(/datum/crafting_recipe/roguetown/leather/unique/winterjacket)
+		H.mind.teach_crafting_recipe(/datum/crafting_recipe/roguetown/leatherunique/gladsandals)
+		H.mind.teach_crafting_recipe(/datum/crafting_recipe/roguetown/leather/unique/monkrobes)//Generic
+//All in all if you add mercenary / unique stuff to sewing make the tailor start with it.

@@ -7,6 +7,7 @@
 #define span_adminprefix(str) ("<span class='adminprefix'>" + str + "</span>")
 #define span_adminsay(str) ("<span class='adminsay'>" + str + "</span>")
 #define span_aiprivradio(str) ("<span class='aiprivradio'>" + str + "</span>")
+#define span_voyeurvice(str) ("<span class ='voyeurvice'>" + str + "</span>")
 #define span_alert(str) ("<span class='alert'>" + str + "</span>")
 #define span_alertalien(str) ("<span class='alertalien'>" + str + "</span>")
 #define span_alertsyndie(str) ("<span class='alertsyndie'>" + str + "</span>")

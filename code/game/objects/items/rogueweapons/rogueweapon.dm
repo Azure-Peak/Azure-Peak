@@ -43,6 +43,8 @@
 
 	var/malumblessed_w = FALSE
 
+	var/cast_time_reduction = null
+
 /obj/item/rogueweapon/Initialize()
 	. = ..()
 	if(!destroy_message)

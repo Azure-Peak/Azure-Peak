@@ -78,6 +78,7 @@
 	desc = "Drinking alcohol is my favorite thing."
 	time = 40 MINUTES
 	needsate_text = "Time for a drink."
+	voyeur_descriptor = "quite the drinker"
 
 
 /// KLEPTOMANIAC
@@ -87,6 +88,7 @@
 	desc = "As a child I had to rely on theft to survive. Whether that changed or not, I just can't get over it."
 	time = 30 MINUTES
 	needsate_text = "I need to STEAL something! I'll die if I don't!"
+	voyeur_descriptor = "quick-fingered"
 
 
 /// JUNKIE
@@ -96,6 +98,7 @@
 	desc = "I need a REAL high to take the pain of this rotten world away."
 	time = 40 MINUTES
 	needsate_text = "Time to get really high."
+	voyeur_descriptor = "eager for a high"
 
 /// Smoker
 
@@ -104,6 +107,7 @@
 	desc = "I need to smoke something to take the edge off."
 	time = 40 MINUTES
 	needsate_text = "Time for a flavorful smoke."
+	voyeur_descriptor = "eager for a smoke"
 
 /// GOD-FEARING
 
@@ -112,6 +116,7 @@
 	desc = "I need to pray to my Patron in their realm, it will make me and my prayers stronger."
 	time = 40 MINUTES
 	needsate_text = "Time to pray to my Patron."
+	voyeur_descriptor = "quite devout"
 
 /// SADIST
 
@@ -120,6 +125,7 @@
 	desc = "There is no greater pleasure than the suffering of another."
 	time = 40 MINUTES
 	needsate_text = "I need to hear someone whimper."
+	voyeur_descriptor = "looking to hurt"
 
 /// MASOCHIST
 
@@ -128,6 +134,7 @@
 	desc = "I love the feeling of pain, so much I can't get enough of it."
 	time = 40 MINUTES
 	needsate_text = "I need someone to HURT me."
+	voyeur_descriptor = "looking to be hurt"
 
 /datum/charflaw/addiction/masochist/on_mob_creation(mob/living/living)
 	living.pain_threshold += 10
@@ -139,24 +146,28 @@
 	desc = "I must make love!"
 	time = 90 MINUTES
 	needsate_text = "I'm feeling randy."
+	voyeur_descriptor = "looking lovesick"
 
 /datum/charflaw/addiction/thrillseeker
 	name = "Thrillseeker"
 	desc = "Only fighting brings me pleasure."
 	time = 40 MINUTES
 	needsate_text = "I need a FIGHT!"
+	voyeur_descriptor = "eager for a fight"
 
 /datum/charflaw/addiction/clamorous
 	name = "Clamorous"
 	desc = "The noise of people and fights drowns out my misery."
 	time = 20 MINUTES
 	needsate_text = "It's too quiet. Where's the yelling? The fighting?"
+	voyeur_descriptor = "soothed by noise"
 
 /datum/charflaw/addiction/paranoid
 	name = "Paranoid"
 	desc = "I only feel comfortable around one of my own kind."
 	time = 20 MINUTES
 	needsate_text = "Am I the only one of my kind left?"
+	voyeur_descriptor = "comforted by their own"
 	var/chosen_faction
 
 /datum/charflaw/addiction/paranoid/apply_post_equipment(mob/user)
@@ -184,3 +195,4 @@
 	desc = "Seeing others be happy... it makes me happy, too."
 	time = 30 MINUTES
 	needsate_text = "I must please someone."
+	voyeur_descriptor = "pleased by others"
