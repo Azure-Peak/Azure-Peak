@@ -61098,6 +61098,14 @@
 	},
 /turf/open/floor/rogue/cobblerock,
 /area/rogue/under/cave/his_vault)
+"ouR" = (
+/obj/structure/lever/wall{
+	redstone_id = "castle_sally_gate";
+	pixel_y = -32;
+	name = "Sallybridge"
+	},
+/turf/open/floor/rogue/cobble,
+/area/rogue/indoors/town/garrison)
 "ouV" = (
 /turf/open/water/bath,
 /area/rogue/under/cave/dukecourt)
@@ -281424,7 +281432,7 @@ tGl
 vwv
 iWa
 iWa
-iWa
+ouR
 tGl
 wGF
 hfF
