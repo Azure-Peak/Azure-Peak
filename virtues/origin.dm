@@ -1,9 +1,10 @@
-// Race list means RESTRICTED from the LISTED races. Azurian is the only non-restricted origin; its race list is a holdover.
+// Race list means RESTRICTED from the LISTED races.
 
-/datum/virtue/origin/racial/azuria
+/datum/virtue/origin/azuria
 	name = "Azurian"
 	desc = "I originate from the settled lands of Azuria, an independent domain sandwiched between Otava and Grenzelhoft. Famed for its delicious waffles and many ancient ruins, it is neither prosperous nor well-respected.<br>"
 	custom_text = "Grants free language."
+	restricted = FALSE
 	extra_language = TRUE
 	origin_desc = "An independent domain sandwiched between Otava and Grenzelhoft, positioned the eastern edge of the Greywall mountain range.<br> Azuria sits on a key \
 	passageway through the Greywall, and its harbor offers a neutral port for merchants and travelers. As a result, the Reach is host to a number of foreigners, including \
@@ -84,6 +85,15 @@
 /datum/virtue/origin/racial/underdark
 	name = "Underdweller"
 	desc = "I originate from the treacherous Underdark, a cavernous region beneath Otava and Grenzelhoft. This unforgiving land is dominated by the prosperous and cruel dark elves and their pets. Most surfacedwellers only come here in chains.<br>"
+	restricted = TRUE
+	races = list(/datum/species/elf/dark,
+				/datum/species/moth,
+				/datum/species/kobold,
+				/datum/species/halforc,
+				/datum/species/goblinp,
+				/datum/species/anthromorph,
+				/datum/species/anthromorphsmall
+)
 	origin_desc = "PLEASE PING THE LORE TEAM TO ADD LORE FOR THIS"
 
 /datum/virtue/origin/racial/azuria/apply_to_human(mob/living/carbon/human/recipient)
