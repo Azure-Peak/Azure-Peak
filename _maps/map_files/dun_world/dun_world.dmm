@@ -14631,6 +14631,10 @@
 /obj/structure/fluff/statue/knight/r,
 /turf/open/floor/rogue/cobble,
 /area/rogue/under/cave/goblinfort)
+"dzz" = (
+/obj/structure/fluff/statue/knight/interior/r,
+/turf/open/floor/rogue/hexstone,
+/area/rogue/indoors/town/manor)
 "dzC" = (
 /obj/item/reagent_containers/glass/bottle/rogue/wine{
 	pixel_x = 10;
@@ -76540,6 +76544,10 @@
 /obj/structure/fluff/walldeco/painting/queen,
 /turf/closed/wall/mineral/rogue/stonebrick,
 /area/rogue/indoors/town/magician)
+"shp" = (
+/obj/structure/fluff/railing/border/north,
+/turf/open/floor/rogue/tile,
+/area/rogue/indoors/town/manor)
 "shu" = (
 /turf/open/floor/rogue/hexstone,
 /area/rogue/outdoors/mountains/decap/minotaurfort)
@@ -82467,6 +82475,10 @@
 /obj/structure/glowshroom,
 /turf/open/floor/rogue/cobble,
 /area/rogue/outdoors/bog/north)
+"tBv" = (
+/obj/structure/fluff/statue/knight/interior,
+/turf/open/floor/rogue/hexstone,
+/area/rogue/indoors/town/manor)
 "tBy" = (
 /obj/structure/chair/bench/church/smallbench,
 /turf/open/floor/rogue/grass,
@@ -508355,8 +508367,8 @@ sLn
 fAA
 fAA
 sLn
-kys
-rnm
+tBv
+shp
 nJc
 vxe
 tPc
@@ -508807,8 +508819,8 @@ fAA
 fAA
 fAA
 sLn
-mAc
-gZs
+kys
+rnm
 gZs
 kia
 pVj
@@ -509711,8 +509723,8 @@ fAA
 fAA
 fAA
 sLn
-mAc
-gZs
+mFt
+iVf
 gZs
 kia
 gtM
@@ -510163,8 +510175,8 @@ sLn
 fAA
 fAA
 sLn
-mFt
-iVf
+dzz
+shp
 nJc
 vxe
 eqJ
