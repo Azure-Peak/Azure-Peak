@@ -4,7 +4,7 @@
 	var/origin_name = "Unknown"
 
 /datum/virtue/origin/unknown
-	name = "Unknown"
+	name = "Nowhere"
 	desc = "I hail from nowhere in particular, thus I know no regional tongue in particular.<br>"
 	origin_desc = "Wanderers, peasantry, abandoned orphans or souls left to wander the bygone world, with no identity associated with them."
 
