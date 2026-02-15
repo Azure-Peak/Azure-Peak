@@ -3092,6 +3092,7 @@
 /obj/structure/fluff/railing/fence{
 	dir = 8
 	},
+/obj/item/restraints/legcuffs/beartrap/armed/camouflage,
 /turf/open/floor/rogue/carpet/lord/right{
 	dir = 1
 	},
@@ -7687,6 +7688,10 @@
 "bOb" = (
 /obj/effect/decal/cleanable/debris/stony,
 /obj/structure/table/finestone,
+/obj/item/lockpick{
+	pixel_x = 4;
+	pixel_y = 11
+	},
 /turf/open/floor/rogue/churchmarble,
 /area/rogue/under/cave/scarymaze)
 "bOc" = (
@@ -21491,6 +21496,10 @@
 /mob/living/simple_animal/hostile/rogue/mirespider_paralytic/angry,
 /turf/open/floor/rogue/naturalstone,
 /area/rogue/indoors/cave)
+"eSP" = (
+/obj/structure/closet/crate/coffin,
+/turf/open/floor/rogue/churchrough,
+/area/rogue/under/cave/scarymaze)
 "eSZ" = (
 /obj/structure/bed/rogue/shit{
 	name = "makeshift bed"
@@ -47278,6 +47287,12 @@
 "kTc" = (
 /turf/closed/mineral/random/rogue/high,
 /area/rogue/outdoors/beach/forest/south)
+"kTd" = (
+/obj/item/restraints/legcuffs/beartrap/armed/camouflage,
+/turf/open/floor/rogue/carpet/lord/left{
+	dir = 1
+	},
+/area/rogue/under/cave/scarymaze)
 "kTg" = (
 /mob/living/simple_animal/hostile/retaliate/rogue/spider,
 /turf/open/water/swamp,
@@ -60423,6 +60438,7 @@
 /obj/structure/fluff/railing/fence{
 	dir = 8
 	},
+/obj/item/restraints/legcuffs/beartrap/armed/camouflage,
 /turf/open/floor/rogue/churchrough,
 /area/rogue/under/cave/scarymaze)
 "nSd" = (
@@ -60441,17 +60457,17 @@
 "nSt" = (
 /obj/effect/decal/cleanable/debris/stony,
 /obj/structure/rack/rogue/shelf/biggest,
-/obj/item/reagent_containers/glass/bottle/alchemical{
+/obj/item/reagent_containers/glass/bottle/alchemical/manapot{
 	pixel_x = -7;
-	pixel_y = 4
-	},
-/obj/item/reagent_containers/glass/bottle/alchemical{
-	pixel_x = 0;
 	pixel_y = 3
 	},
-/obj/item/reagent_containers/glass/bottle/alchemical{
+/obj/item/reagent_containers/glass/bottle/alchemical/spdpot{
 	pixel_x = 7;
 	pixel_y = 3
+	},
+/obj/item/reagent_containers/glass/bottle/alchemical/conpot{
+	pixel_x = 0;
+	pixel_y = 5
 	},
 /turf/open/floor/rogue/church,
 /area/rogue/under/cave/scarymaze)
@@ -94208,14 +94224,6 @@
 /obj/structure/chair/stool/rogue,
 /turf/open/floor/rogue/dirt/road,
 /area/rogue/indoors/town)
-"vGW" = (
-/obj/effect/decal/cleanable/blood/drip{
-	pixel_x = 5;
-	pixel_y = 5
-	},
-/obj/item/restraints/legcuffs/beartrap/armed/camouflage,
-/turf/open/floor/rogue/church,
-/area/rogue/under/cave/scarymaze)
 "vHa" = (
 /obj/machinery/light/rogue/firebowl/stump,
 /turf/open/floor/rogue/grass,
@@ -94578,15 +94586,6 @@
 /obj/item/roguegem/random,
 /turf/open/floor/rogue/carpet/lord/center,
 /area/rogue/under/cave/licharena/bossroom)
-"vLi" = (
-/obj/item/lockpick{
-	pixel_x = -7;
-	pixel_y = 14
-	},
-/turf/open/floor/rogue/carpet/lord/right{
-	dir = 1
-	},
-/area/rogue/under/cave/scarymaze)
 "vLw" = (
 /turf/open/floor/rogue/twig,
 /area/rogue/outdoors/rtfield/abandonedhotsprings)
@@ -100114,7 +100113,7 @@
 /obj/structure/fluff/signage{
 	dir = 4;
 	name = "MOUNT GOLGOTHA CRYPT DIRECTIONS";
-	desc = "This is a rather finely carved sign directing "Mourning Folk, Funerale Attendees, & Clergyfolk o' the Lady Veil'd", further into what it dubs the "Mount Golgotha Crypt of Her Pale Grace". While the sign looks quite freshly put up, it is dug into truly ancient looking stones."
+	desc = "This is a rather finely carved sign directing "MourningFolk,FuneraleAttendees,&Clergyfolko'theLadyVeil'd", further into what it dubs the "MountGolgothaCryptofHerPaleGrace". While the sign looks quite freshly put up, it is dug into truly ancient looking stones."
 	},
 /turf/open/floor/rogue/church,
 /area/rogue/under/cave/scarymaze)
@@ -363735,8 +363734,8 @@ iob
 dxR
 cJq
 mvo
-vLi
-pcP
+hJK
+kTd
 lfk
 cJq
 rCJ
@@ -376388,7 +376387,7 @@ wHi
 wHi
 iob
 ulq
-gsr
+eSP
 iob
 jwt
 acq
@@ -489845,7 +489844,7 @@ faG
 cCP
 bIF
 qQE
-vGW
+djD
 ehG
 wpW
 faG
@@ -490297,8 +490296,8 @@ qis
 gsr
 gsr
 gsr
-gsr
 rrg
+gsr
 sHw
 xYj
 see
@@ -490749,8 +490748,8 @@ ddL
 ero
 ulq
 rCw
-ulq
 wtS
+ulq
 wtS
 ddL
 kHE
