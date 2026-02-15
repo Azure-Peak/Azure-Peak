@@ -88,7 +88,7 @@
 	long lifespan to closely-guarded alchemical secrets."
 
 /datum/virtue/origin/kazengun
-	name = "Kazengite"
+	name = "Kazengunese"
 	origin_name = "Kazengun"
 	granted_language = /datum/language/kazengunese
 	desc = "I originate from the temperate forests of Kazengun, a region poorly known to the West. Its people worship a syncretic variation of the Divine Pantheon, often percieved as heretical.<br>"
