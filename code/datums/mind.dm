@@ -955,13 +955,16 @@ GLOBAL_LIST_EMPTY(personal_objective_minds)
 						user.mind.special_items -= item
 						var/obj/item/I = new path2item(user.loc)
 						user.put_in_hands(I)
-						// Loadout items cannot be sold, smelted, or salvaged
-						I.sellprice = 0
-						I.smeltresult = null
-						I.salvage_result = null
-						// Apply metadata (color, custom name, custom desc) from gear_list prefs
+						// Apply loadout-specific properties only if this is a loadout item
 						var/list/metadata = user.client?.prefs?.gear_list?[item]
 						if(islist(metadata))
+							// Free loadout items cannot be sold, smelted, or salvaged (triumph items are exempt)
+							var/datum/loadout_item/LI = GLOB.loadout_items_by_name[item]
+							if(!LI?.triumph_cost)
+								I.sellprice = 0
+								I.smeltresult = null
+								I.salvage_result = null
+							// Apply metadata (color, custom name, custom desc)
 							if(metadata["color"])
 								I.add_atom_colour(metadata["color"], FIXED_COLOUR_PRIORITY)
 							if(metadata["detail_color"] && I.detail_tag)

@@ -409,7 +409,7 @@ const LoadoutDisplay = () => {
                 Triumphs: {total_triumph_cost}/{player_triumphs}
               </Box>
               <Box inline color="label" fontSize={0.85}>
-                Loadout items cannot be sold, smelted, or salvaged.
+                Free loadout items cannot be sold, smelted, or salvaged. Triumph items are exempt.
               </Box>
             </Stack.Item>
             <Stack.Item>
