@@ -112,7 +112,7 @@
 	sort_category = "Accessories"
 
 /datum/loadout_item/bases
-	name = "Cloth military skirt"
+	name = "Cloth Military Skirt"
 	path = /obj/item/storage/belt/rogue/leather/battleskirt
 	sort_category = "Accessories"
 
@@ -202,7 +202,7 @@
 	sort_category = "Accessories"
 
 /datum/loadout_item/wedding_band
-	name = "silver wedding band"
+	name = "Silver Wedding Band"
 	path = /obj/item/clothing/ring/band
 	sort_category = "Accessories"
 

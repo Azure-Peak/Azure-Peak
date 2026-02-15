@@ -45,12 +45,12 @@
 	sort_category = "Cloaks"
 
 /datum/loadout_item/direcloak
-	name = "direbear cloak"
+	name = "Direbear Cloak"
 	path = /obj/item/clothing/cloak/darkcloak/bear
 	sort_category = "Cloaks"
 
 /datum/loadout_item/lightdirecloak
-	name = "light direbear cloak"
+	name = "Light Direbear Cloak"
 	path = /obj/item/clothing/cloak/darkcloak/bear/light
 	sort_category = "Cloaks"
 

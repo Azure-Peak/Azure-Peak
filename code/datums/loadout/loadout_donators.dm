@@ -52,7 +52,7 @@
 	sort_category = "Donator"
 
 /datum/loadout_item/donator_bigfoot_axe
-	name = "Donator kit - Gilded Greataxe"
+	name = "Donator Kit - Gilded Greataxe"
 	path = /obj/item/enchantingkit/bigfoot_axe
 	ckeywhitelist = list("bigfoot02")
 	sort_category = "Donator"

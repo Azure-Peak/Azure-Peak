@@ -15,7 +15,7 @@
 	sort_category = "Hats"
 
 /datum/loadout_item/archercap
-	name = "Archer's cap"
+	name = "Archer's Cap"
 	path = /obj/item/clothing/head/roguetown/archercap
 	sort_category = "Hats"
 
