@@ -72,11 +72,14 @@
 	// Current selections with metadata
 	var/list/selected = list()
 	var/total_cost = 0
+	var/total_triumph_cost = 0
 	for(var/item_name in gear_list)
 		var/datum/loadout_item/LI = GLOB.loadout_items_by_name[item_name]
 		if(!LI)
 			continue
 		total_cost += LI.cost
+		if(LI.triumph_cost)
+			total_triumph_cost += LI.triumph_cost
 		var/list/meta = gear_list[item_name]
 		if(!islist(meta))
 			meta = list()
@@ -91,6 +94,8 @@
 
 	data["selected"] = selected
 	data["total_cost"] = total_cost
+	data["total_triumph_cost"] = total_triumph_cost
+	data["player_triumphs"] = user.get_triumphs() || 0
 	return data
 
 /datum/loadout_menu/ui_act(action, list/params, datum/tgui/ui, datum/ui_state/state)
