@@ -444,7 +444,8 @@
 	special = /datum/special_intent/dagger_dash
 
 /obj/item/rogueweapon/huntingknife/idagger/warden_machete
-	possible_item_intents = list(/datum/intent/dagger/thrust/weak, /datum/intent/dagger/cut/heavy, /datum/intent/dagger/chop/cleaver, /datum/intent/dagger/sucker_punch) // Stronger cut and chop, but no pick.
+	possible_item_intents = list(/datum/intent/dagger/thrust/weak, /datum/intent/dagger/cut/heavy,
+	/datum/intent/dagger/cut/rend, /datum/intent/dagger/sucker_punch) // Bad at penning armour, good at dealing damage once through it
 	force = 22 // Slightly more damage than a steel dagger.
 	max_integrity = 130 // Slightly less integrity than a steel dagger.
 	name = "Wardens' seax"
@@ -452,6 +453,7 @@
 	down men as it is foiliage, but not quite as durable as more modern steel tools. More suitable for cutting than for thrusting."
 	icon_state = "warden_machete"
 	sheathe_icon = "warden_machete"
+	demolition_mod = 1.5 // Not quite as good at destroying structures as an axe, but it *is* a machete.
 
 /obj/item/rogueweapon/huntingknife/combat/messser //Just as Grenzelhoft intended
 	name = "kampfmesser"
