@@ -17,8 +17,6 @@ GLOBAL_LIST_EMPTY(loadout_items_by_name)
 			donoritem = TRUE
 	var/obj/targetitem = path
 	desc = targetitem.desc
-	if (triumph_cost)
-		desc += "<br><b>Costs [triumph_cost] TRIUMPHS.</b>"
 
 /datum/loadout_item/proc/donator_ckey_check(key)
 	if(ckeywhitelist && ckeywhitelist.Find(key))

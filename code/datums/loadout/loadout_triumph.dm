@@ -10,37 +10,37 @@
 // Nearly all characters can comfortably earn +3-5 TRI per week, assuming they sleep ever-so-often.
 
 /datum/loadout_item/triumph_knife
-	name = "Laborer's Knife (-3 TRI)"
+	name = "Laborer's Knife"
 	path = /obj/item/rogueweapon/huntingknife/throwingknife/triumph
 	triumph_cost = 3
 	sort_category = "Triumphs"
 
 /datum/loadout_item/triumph_heavygloves
-	name = "Heavy Leather Gloves (-3 TRI)"
+	name = "Heavy Leather Gloves"
 	path = /obj/item/clothing/gloves/roguetown/angle
 	triumph_cost = 3
 	sort_category = "Triumphs"
 
 /datum/loadout_item/triumph_heavyboots
-	name = "Heavy Leather Boots (-3 TRI)"
+	name = "Heavy Leather Boots"
 	path = /obj/item/clothing/shoes/roguetown/boots/leather/reinforced
 	triumph_cost = 3
 	sort_category = "Triumphs"
 
 /datum/loadout_item/triumph_necklace
-	name = "Golden Necklace, Ornate (-3 TRI)"
+	name = "Golden Necklace, Ornate"
 	path = /obj/item/clothing/neck/roguetown/ornateamulet/noble/triumph
 	triumph_cost = 3
 	sort_category = "Triumphs"
 
 /datum/loadout_item/triumph_ring
-	name = "Golden Ring, Ornate (-3 TRI)"
+	name = "Golden Ring, Ornate"
 	path = /obj/item/clothing/ring/gold/triumph
 	triumph_cost = 3
 	sort_category = "Triumphs"
 
 /datum/loadout_item/triumph_circlet
-	name = "Golden Circlet, Ornate (-3 TRI)"
+	name = "Golden Circlet, Ornate"
 	path = /obj/item/clothing/head/roguetown/circlet/triumph
 	triumph_cost = 3
 	sort_category = "Triumphs"
@@ -48,103 +48,103 @@
 // -5 TRI Minisection.
 
 /datum/loadout_item/triumph_shortsatchel
-	name = "Short Satchel (-5 TRI)"
+	name = "Short Satchel"
 	path = /obj/item/storage/backpack/rogue/satchel/short
 	triumph_cost = 5
 	sort_category = "Triumphs"
 
 /datum/loadout_item/triumph_waterskin
-	name = "Waterskin (-5 TRI)"
+	name = "Waterskin"
 	path = /obj/item/reagent_containers/glass/bottle/waterskin
 	triumph_cost = 5
 	sort_category = "Triumphs"
 
 /datum/loadout_item/triumph_messkit
-	name = "Mess Kit (-5 TRI)"
+	name = "Mess Kit"
 	path = /obj/item/storage/gadget/messkit
 	triumph_cost = 5
 	sort_category = "Triumphs"
 
 /datum/loadout_item/triumph_foldtable
-	name = "Folding Table (-5 TRI)"
+	name = "Folding Table"
 	path = /obj/structure/table/wood/folding
 	triumph_cost = 5
 	sort_category = "Triumphs"
 
 /datum/loadout_item/triumph_bedroll
-	name = "Bedroll (-5 TRI)"
+	name = "Bedroll"
 	path = /obj/item/bedroll
 	triumph_cost = 5
 	sort_category = "Triumphs"
 
 /datum/loadout_item/triumph_scabbardnoble
-	name = "Decorated Scabbard, Silver (-5 TRI)"
+	name = "Decorated Scabbard, Silver"
 	path = /obj/item/rogueweapon/scabbard/sword/noble
 	triumph_cost = 5
 	sort_category = "Triumphs"
 
 /datum/loadout_item/triumph_sheathnoble
-	name = "Decorated Sheath, Silver (-5 TRI)"
+	name = "Decorated Sheath, Silver"
 	path = /obj/item/rogueweapon/scabbard/sheath/noble
 	triumph_cost = 5
 	sort_category = "Triumphs"
 
 /datum/loadout_item/triumph_psycross
-	name = "Golden Psycross, Ornate (-5 TRI)"
+	name = "Golden Psycross, Ornate"
 	path = /obj/item/clothing/neck/roguetown/psicross/g/triumph
 	triumph_cost = 5
 	sort_category = "Triumphs"
 
 /datum/loadout_item/triumph_zcross
-	name = "Golden Zizote Amulet, Ornate (-5 TRI)"
+	name = "Golden Zizote Amulet, Ornate"
 	path = /obj/item/clothing/neck/roguetown/psicross/inhumen/g/triumph
 	triumph_cost = 5
 	sort_category = "Triumphs"
 
 /datum/loadout_item/triumph_astcross
-	name = "Golden Astratan Amulet, Ornate (-5 TRI)"
+	name = "Golden Astratan Amulet, Ornate"
 	path = /obj/item/clothing/neck/roguetown/psicross/astrata/g/triumph
 	triumph_cost = 5
 	sort_category = "Triumphs"
 
 /datum/loadout_item/triumph_signet
-	name = "Golden Signet Ring, Ornate (-5 TRI)"
+	name = "Golden Signet Ring, Ornate"
 	path = /obj/item/clothing/ring/signet/triumph
 	triumph_cost = 5
 	sort_category = "Triumphs"
 
 /datum/loadout_item/triumph_gildedshirt
-	name = "Gilded Dress Shirt (-5 TRI)"
+	name = "Gilded Dress Shirt"
 	path = /obj/item/clothing/suit/roguetown/shirt/dress/royal/prince
 	triumph_cost = 5
 	sort_category = "Triumphs"
 
 /datum/loadout_item/triumph_pristinedress
-	name = "Pristine Dress (-5 TRI)"
+	name = "Pristine Dress"
 	path = /obj/item/clothing/suit/roguetown/shirt/dress/royal/princess
 	triumph_cost = 5
 	sort_category = "Triumphs"
 
 /datum/loadout_item/triumph_royalsleeves
-	name = "Royal Sleeves (-5 TRI)"
+	name = "Royal Sleeves"
 	path = /obj/item/clothing/wrists/roguetown/royalsleeves
 	triumph_cost = 5
 	sort_category = "Triumphs"
 
 /datum/loadout_item/triumph_goldhalfmask
-	name = "Golden Halfmask, Ornate (-5 TRI)"
+	name = "Golden Halfmask, Ornate"
 	path = /obj/item/clothing/mask/rogue/lordmask/triumph
 	triumph_cost = 5
 	sort_category = "Triumphs"
 
 /datum/loadout_item/triumph_goldfullmask
-	name = "Golden Mask, Ornate (-5 TRI)"
+	name = "Golden Mask, Ornate"
 	path = /obj/item/clothing/mask/rogue/facemask/goldmask/triumph
 	triumph_cost = 5
 	sort_category = "Triumphs"
 
 /datum/loadout_item/triumph_goldfullmaskc
-	name = "Crestless Golden Mask, Ornate (-5 TRI)"
+	name = "Crestless Golden Mask, Ornate"
 	path = /obj/item/clothing/mask/rogue/facemask/goldmaskc/triumph
 	triumph_cost = 5
 	sort_category = "Triumphs"
@@ -152,37 +152,37 @@
 //
 
 /datum/loadout_item/triumph_armorkit
-	name = "Morphing Elixer, 'Valorian Steel Armor' (-5 TRI)"
+	name = "Morphing Elixer, 'Valorian Steel Armor'"
 	path = /obj/item/enchantingkit/triumph_armorkit
 	triumph_cost = 5
 	sort_category = "Triumphs"
 
 /datum/loadout_item/triumph_weaponkittri
-	name = "Morphing Elixer, 'Valorian Longsword' (-5 TRI)"
+	name = "Morphing Elixer, 'Valorian Longsword'"
 	path = /obj/item/enchantingkit/triumph_weaponkit_tri
 	triumph_cost = 5
 	sort_category = "Triumphs"
 
 /datum/loadout_item/triumph_weaponkitwide
-	name = "Morphing Elixer, 'Wideguard Longsword' (-5 TRI)"
+	name = "Morphing Elixer, 'Wideguard Longsword'"
 	path = /obj/item/enchantingkit/triumph_weaponkit_wide
 	triumph_cost = 5
 	sort_category = "Triumphs"
 
 /datum/loadout_item/triumph_weaponkitrock
-	name = "Morphing Elixer, 'Rockhillian Longsword' (-5 TRI)"
+	name = "Morphing Elixer, 'Rockhillian Longsword'"
 	path = /obj/item/enchantingkit/triumph_weaponkit_rock
 	triumph_cost = 5
 	sort_category = "Triumphs"
 
 /datum/loadout_item/triumph_weaponkitsabre
-	name = "Morphing Elixer, 'Sabreguard Longsword' (-5 TRI)"
+	name = "Morphing Elixer, 'Sabreguard Longsword'"
 	path = /obj/item/enchantingkit/triumph_weaponkit_sabre
 	triumph_cost = 5
 	sort_category = "Triumphs"
 
 /datum/loadout_item/triumph_weaponkitpsy
-	name = "Morphing Elixer, 'Psycrucifix Longsword' (-5 TRI)"
+	name = "Morphing Elixer, 'Psycrucifix Longsword'"
 	path = /obj/item/enchantingkit/triumph_weaponkit_psy
 	triumph_cost = 5
 	sort_category = "Triumphs"
@@ -190,49 +190,49 @@
 // -7 TRI Minisection.
 
 /datum/loadout_item/triumph_buttpack
-	name = "Belted Satchel (-7 TRI)"
+	name = "Belted Satchel"
 	path = /obj/item/storage/backpack/rogue/satchel/beltpack
 	triumph_cost = 7
 	sort_category = "Triumphs"
 
 /datum/loadout_item/triumph_lunchpouch
-	name = "Pouch of Luncheons (-7 TRI)"
+	name = "Pouch of Luncheons"
 	path = /obj/item/storage/belt/rogue/pouch/triumphlunch
 	triumph_cost = 7
 	sort_category = "Triumphs"
 
 /datum/loadout_item/triumph_grenzhat
-	name = "Grenzelhoftian Beret (-7 TRI)"
+	name = "Grenzelhoftian Beret"
 	path = /obj/item/clothing/head/roguetown/grenzelhofthat/triumph
 	triumph_cost = 7
 	sort_category = "Triumphs"
 
 /datum/loadout_item/triumph_lordcloak
-	name = "Lordly Cloak (-7 TRI)"
+	name = "Lordly Cloak"
 	path = /obj/item/clothing/cloak/lordcloak
 	triumph_cost = 7
 	sort_category = "Triumphs"
 
 /datum/loadout_item/triumph_ladycloak
-	name = "Ladylike Cloak (-7 TRI)"
+	name = "Ladylike Cloak"
 	path = /obj/item/clothing/cloak/lordcloak/ladycloak
 	triumph_cost = 7
 	sort_category = "Triumphs"
 
 /datum/loadout_item/triumph_scabbardroyal
-	name = "Decorated Scabbard, Golden (-7 TRI)"
+	name = "Decorated Scabbard, Golden"
 	path = /obj/item/rogueweapon/scabbard/sword/royal
 	triumph_cost = 7
 	sort_category = "Triumphs"
 
 /datum/loadout_item/triumph_sheathroyal
-	name = "Decorated Sheath, Golden (-7 TRI)"
+	name = "Decorated Sheath, Golden"
 	path = /obj/item/rogueweapon/scabbard/sheath/royal
 	triumph_cost = 7
 	sort_category = "Triumphs"
 
 /datum/loadout_item/triumph_gdorpelring
-	name = "Golden Dorpel Ring, Ornate (-7 TRI)"
+	name = "Golden Dorpel Ring, Ornate"
 	path = /obj/item/clothing/ring/diamond/triumph
 	triumph_cost = 7
 	sort_category = "Triumphs"
@@ -240,7 +240,7 @@
 // Beyond.
 
 /datum/loadout_item/triumph_buffpot
-	name = "Vial of Distilled Triumphance (-70 TRI)"
+	name = "Vial of Distilled Triumphance"
 	path = /obj/item/reagent_containers/glass/bottle/alchemical/tripot
 	triumph_cost = 70
 	sort_category = "Triumphs"
