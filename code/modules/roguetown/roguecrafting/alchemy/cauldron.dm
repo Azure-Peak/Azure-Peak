@@ -213,5 +213,5 @@
 /obj/machinery/light/rogue/cauldron/folding/Initialize()
 	. = ..()
 	burn_out()
-	create_reagents(60, DRAINABLE | AMOUNT_VISIBLE | REFILLABLE) //small
+	create_reagents(90, DRAINABLE | AMOUNT_VISIBLE | REFILLABLE)
 	update_icon()

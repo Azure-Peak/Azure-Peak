@@ -1,4 +1,6 @@
 /mob/living/carbon/human/proc/attempt_steal(mob/living/carbon/human/user, mob/living/carbon/human/target)
+	if(target == src)
+		return
 	var/mob/living/carbon/human/user_human = user
 	var/mob/living/carbon/human/target_human = target
 	var/thiefskill = user.get_skill_level(/datum/skill/misc/stealing) + (has_world_trait(/datum/world_trait/matthios_fingers) ? 1 : 0)

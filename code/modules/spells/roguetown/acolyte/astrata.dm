@@ -12,14 +12,14 @@
 	projectile_type = /obj/projectile/magic/lightning/astratablast
 
 /obj/projectile/magic/lightning/astratablast
-	damage = 10 
+	damage = 25
 	name = "ray of holy fire"
 	damage_type = BURN
 	flag = "magic"
 	light_color = "#a98107"
 	light_outer_range = 7
 	tracer_type = /obj/effect/projectile/tracer/solar_beam
-	var/fuck_that_guy_multiplier = 2.5
+	var/fuck_that_guy_multiplier = 2
 	var/biotype_we_look_for = MOB_UNDEAD
 
 /obj/projectile/magic/lightning/astratablast/on_hit(target, mob/user)
@@ -31,25 +31,16 @@
 		playsound(get_turf(target), 'sound/magic/magic_nulled.ogg', 100)
 		qdel(src)
 		return BULLET_ACT_BLOCK
-	var/firebust = 0
-	if(!((M.patron?.type) == /datum/patron/divine/astrata) || !M.mind || istype(M, /mob/living/simple_animal)) //If your target not astratan, you deal addition firestaks and damage, if your target already set in fire fire
-		firebust = M.fire_stacks/2
-		damage += M.fire_stacks * 10
-		if(GLOB.tod == "day" || GLOB.tod == "dawn" || GLOB.tod == "dusk")
-			damage += 20
-		new /obj/effect/temp_visual/explosion/fast(get_turf(M))
 	if(M.mob_biotypes & biotype_we_look_for || istype(M, /mob/living/simple_animal/hostile/rogue/skeleton) || !M.mind || istype(M, /mob/living/simple_animal)) //PVE
 		damage *= fuck_that_guy_multiplier
-	if(damage > 100) //cap
-		damage = 100
-	M.adjust_fire_stacks(4+firebust)
+	M.adjust_fire_stacks(4)
 	M.ignite_mob()
 	visible_message(span_warning("[src] ignites [target] in holy flame!"))
 	return TRUE
 
 /obj/effect/proc_holder/spell/invoked/ignition
 	name = "Ignition"
-	desc = "Ignites target."
+	desc = "Ignites target, living or object. No cooldown on objects."
 	overlay_state = "sacredflame"
 	base_icon_state = "regalyscroll"
 	releasedrain = 15
@@ -68,29 +59,19 @@
 	recharge_time = 10 SECONDS
 	miracle = TRUE
 	devotion_cost = 15
+	var/rechargefast = FALSE
 
 /obj/effect/proc_holder/spell/invoked/ignition/cast(list/targets, mob/user = usr)
 	..()
 	. = ..()
+	rechargefast = FALSE
 	if(isliving(targets[1]))
 		var/mob/living/L = targets[1]
 		user.visible_message("<font color='yellow'>[user] points at [L]!</font>")
 		if(L.anti_magic_check(TRUE, TRUE))
 			return FALSE
-		var/firebust = (user.get_skill_level(associated_skill) - 1) //Your miracle skill increase them, 2 JOURNMAN, 3 EXPERT, 4 MASTER, 5 LEGENDARY.
-		if(firebust < 1)
-			firebust = 1
-		if(GLOB.tod == "day" || GLOB.tod == "dawn" || GLOB.tod == "dusk")
-			firebust += 1
-		if(firebust >= 4) //Master, Legend, or Expert on day.
-			recharge_time = 5 SECONDS
-		if(firebust >= 5) //LEGENDARY ASTRATAN, or MASTER casts it on day.
-			new /obj/effect/hotspot(get_turf(L))
-		if(firebust > 0)
-			L.adjust_fire_stacks(firebust, /datum/status_effect/fire_handler/fire_stacks/divine)
-			L.ignite_mob()
-		if(!L.mind || istype(L, /mob/living/simple_animal)) //Firestacks not effective VS carbon-AL enemy. Simple mobs don't take fire damage.
-			L.adjustFireLoss(10*firebust) //10 * skill-1. Legendary cast take 50 burn damage for non-minded creatures. 
+		L.adjust_fire_stacks(2)
+		L.ignite_mob()
 
 		return TRUE
 
@@ -100,12 +81,26 @@
 		if(O.fire_act())
 			user.visible_message("<font color='yellow'>[user] points at [O], igniting it with sacred flames!</font>")
 			O.fire_act()
+			rechargefast = TRUE
 			return TRUE
 		else
 			to_chat(user, span_warning("You point at [O], but it fails to catch fire."))
 			return FALSE
 	revert_cast()
 	return FALSE
+
+/obj/effect/proc_holder/spell/invoked/ignition/start_recharge()
+	if(rechargefast)
+		charge_counter = max(recharge_time - (1.5 SECONDS), 0)
+		if(action)
+			action.UpdateButtonIcon()
+		STOP_PROCESSING(SSfastprocess, src)
+		return
+	. = ..()
+
+/obj/effect/proc_holder/spell/invoked/ignition/after_cast(list/targets, mob/user = usr)
+	. = ..()
+	rechargefast = FALSE
 
 /obj/effect/proc_holder/spell/invoked/revive
 	name = "Anastasis"
@@ -130,15 +125,17 @@
 	/// Amount of PQ gained for reviving people
 	var/revive_pq = PQ_GAIN_REVIVE
 
-/obj/effect/proc_holder/spell/invoked/revive/calculate_recharge_time()
-	var/final_time = ..() 
-	
+/obj/effect/proc_holder/spell/invoked/revive/start_recharge()
+	var/old_recharge = recharge_time
+	// Because the cooldown for anastasis is so incredibly low, not having tech impacts them more heavily than other faiths
 	var/tech_resurrection_modifier = SSchimeric_tech.get_resurrection_multiplier()
-	
 	if(tech_resurrection_modifier > 1)
-		final_time *= (tech_resurrection_modifier * 1.25)
-	
-	return max(cooldown_min, round(final_time))
+		recharge_time = initial(recharge_time) * (tech_resurrection_modifier * 1.25)
+	else
+		recharge_time = initial(recharge_time)
+	if(charge_counter >= old_recharge && old_recharge > 0)
+		charge_counter = recharge_time
+	. = ..()
 
 /obj/effect/proc_holder/spell/invoked/revive/cast(list/targets, mob/living/user)
 	..()
@@ -157,7 +154,7 @@
 		S.AOE_flash(user, range = 8)
 	if(target.mob_biotypes & MOB_UNDEAD) //positive energy harms the undead
 		target.visible_message(
-			span_danger("[target] is unmade by holy light!"), 
+			span_danger("[target] is unmade by holy light!"),
 			span_userdanger("I'm unmade by holy light!")
 		)
 		target.gib()
@@ -437,9 +434,9 @@
 	. = ..()
 	owner.weather_immunities -= "lava"
 
-/obj/effect/proc_holder/spell/targeted/touch/summonrogueweapon/astratagrasp
+/obj/effect/proc_holder/spell/targeted/touch/summonrogueweapon/astratagrasp // ASTRATAN HERETIC EXCLUSIVE
 	name = "Astrata's Grasp"
-	desc = "Summon the Sacred Flame from your soul and let it envelop your hand. Use on ashes, fire dust and fyritius flowers to convert them into devotion. Can ignite objects."
+	desc = "HER fire burnet eaternae. Summon Her flame from your soul and let it envelop your hand. Use on ashes, fire dust and fyritius flowers to convert them into devotion. Can ignite objects. Consumes fire stacks on people to do extra damage."
 	clothes_req = FALSE
 	drawmessage = "I prepare to perform a divine incantation."
 	dropmessage = "I release my divine focus."
@@ -555,6 +552,13 @@
 		var/dist = get_dist(M, user)
 		if(dist > 1)
 			return
+		if(istype(user.a_intent, /datum/intent/mace/smash/astrata))
+			var/fire_stacks = M.fire_stacks
+			if(fire_stacks > 4)
+				M.adjustFireLoss(fire_stacks * 5) //i am confident in your ability to kill someone after doing this much damage
+				M.adjust_fire_stacks(-fire_stacks)
+				M.extinguish_mob()
+				return
 		if(prob(fprob))
 			M.adjust_fire_stacks(1)
 			M.ignite_mob()
@@ -721,7 +725,7 @@
 			COMSIG_LIVING_MIRACLE_HEAL_APPLY,
 			COMSIG_PARENT_QDELETING
 		))
-	
+
 	if(partner)
 		partner.remove_status_effect(/datum/status_effect/immolation)
 		var/datum/component/immolation/other = partner.GetComponent(/datum/component/immolation)
@@ -840,7 +844,7 @@
 
 /obj/effect/proc_holder/spell/invoked/sunstrike
 	name = "Sun Strike"
-	desc = "Focus Astratas energy though a stationary Psycross or Bishop hands. Call Devostating Solar Mercy on enemy head."
+	desc = "Focus Astratas energy though a stationary Psycross or Bishop hands. Call Devastating Solar Mercy on enemy head."
 	overlay_state = "sunstrike"
 	base_icon_state = "regalyscroll"
 	releasedrain = 200
@@ -1064,7 +1068,3 @@
 /obj/item/rogueweapon/sword/astrata_sword/Initialize()
 	. = ..()
 	set_light(5, 4, l_color = LIGHT_COLOR_WHITE)
-
-/obj/item/rogueweapon/sword/astrata_sword/dropped(mob/user, silent)
-	. = ..()
-	qdel(src)

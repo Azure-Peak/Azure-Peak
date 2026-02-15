@@ -131,6 +131,12 @@
 						to_chat(src, span_warning("[victim] has already refused your offer to sire them."))
 						return
 
+					if(victim.stat == DEAD) // If you accept the prompt as a corpse, you get turned into a corpse vampire, which RR's you pretty much
+						return FALSE
+
+					if(HAS_TRAIT_FROM(victim, TRAIT_UNLYCKERABLE, REF(src)))
+						return FALSE
+
 					var/mob/living/carbon/human/H = victim
 					if(H.vampire_conversion_prompt_active)
 						to_chat(src, span_warning("[victim] still fights the curse."))

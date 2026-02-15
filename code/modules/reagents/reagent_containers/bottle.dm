@@ -53,8 +53,9 @@ GLOBAL_LIST_INIT(wisdoms, world.file2list("strings/rt/wisdoms.txt"))
 
 /obj/item/reagent_containers/glass/bottle/get_mechanics_examine(mob/user)
 	. = ..()
-	. += span_info("Use in hand or right-click to toggle the cork.")
-	. += span_info("Throwing a bottle will shatter it on impact")
+	. += span_info("Right click to manipulate its cork. Uncorked bottles can be drank from, but will spill their contents if stored away without being recorked.")
+	. += span_info("Examining an uncorked bottle while targeting the nose allows you to smell whatever's inside.")
+	. += span_info("Thrown bottles will always shatter on impact.")
 
 /obj/item/reagent_containers/glass/bottle/throw_impact(atom/hit_atom, datum/thrownthing/throwingdatum, do_splash = TRUE)
 	playsound(loc, 'sound/combat/hits/onglass/glassbreak (4).ogg', 100)

@@ -237,6 +237,12 @@
 			to_chat(user, span_info("It has already been blessed."))
 			return
 
+/obj/item/book/rogue/bibble/get_mechanics_examine(mob/user)
+    . = ..()
+    . += span_info("Exclusive to the Bishop is the ability to anoint items and people, by left-clicking the chosen recipient.")
+    . += span_info("Anointing a silver weapon will bless it, greatly increasing the power of its critical hits and debuffs against sunderable opponents.")
+    . += span_info("Anointing a person will bless them, imparting a temporary bonus to their Fortune.")
+
 /obj/item/book/rogue/bibble/psy
 	name = "Tome of Psydon"
 	desc = "'And HE WEEPS. Not for you, not for me, but for it all.' </br>A leatherbound tome, chronicling the beliefs held by the Orthodoxy; the largest Psydonic denomination in the world. The 'Harlaus Press', a recent invention by Otava's clergymen, has ensured that no corner of Psydonia would remain unlit by His teachings. Inside are three seperate testaments, each marked with a velvet strap.. </br>PSALMS - TESTAMENTS OF CLERICAL WISDOM, COMMANDING INTERPRETATION. </br>GENESIS - TESTAMENTS OF PSYDONIA'S CREATION, FOR WHAT ONCE WAS. </br>INVOCATIONS - TESTAMENTS OF WILL, TO EXORCISE AND CHANT."

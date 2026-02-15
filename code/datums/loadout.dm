@@ -567,6 +567,10 @@ GLOBAL_LIST_EMPTY(loadout_items)
 	name = "Psydonian Cross"
 	path = /obj/item/clothing/neck/roguetown/psicross
 
+/datum/loadout_item/psicross/reform
+	name = "Reformist Psydonian Cross"
+	path = /obj/item/clothing/neck/roguetown/psicross/reform
+
 /datum/loadout_item/psicross/astrata
 	name = "Amulet of Astrata"
 	path = /obj/item/clothing/neck/roguetown/psicross/astrata
@@ -626,6 +630,30 @@ GLOBAL_LIST_EMPTY(loadout_items)
 /datum/loadout_item/psicross/graggar
 	name = "Amulet of Graggar"
 	path = /obj/item/clothing/neck/roguetown/psicross/inhumen/graggar
+
+/datum/loadout_item/psicross/gronnzizo
+	name = "Wolf Talisman"
+	path = /obj/item/clothing/neck/roguetown/psicross/inhumen/gronn
+
+/datum/loadout_item/psicross/gronnbaotha
+	name = "Leopard Talisman"
+	path = /obj/item/clothing/neck/roguetown/psicross/inhumen/baothagronn
+
+/datum/loadout_item/psicross/gronnmatthios
+	name = "Bear Talisman"
+	path = /obj/item/clothing/neck/roguetown/psicross/inhumen/matthios/gronn
+
+/datum/loadout_item/psicross/gronngraggar
+	name = "Moose Talisman"
+	path = /obj/item/clothing/neck/roguetown/psicross/inhumen/graggar/gronn
+
+/datum/loadout_item/psicross/gronndendor
+	name = "Volfskinned Talisman"
+	path = /obj/item/clothing/neck/roguetown/psicross/dendor/gronn
+
+/datum/loadout_item/psicross/gronnabyssor
+	name = "Hadal Talisman"
+	path = /obj/item/clothing/neck/roguetown/psicross/abyssor/gronn
 
 /datum/loadout_item/wedding_band
 	name = "silver wedding band"
@@ -824,7 +852,7 @@ GLOBAL_LIST_EMPTY(loadout_items)
 /datum/loadout_item/donator_koruu
 	name = "Donator Kit - Well-Worn Bamboo Hat"
 	path = /obj/item/clothing/head/roguetown/mentorhat/koruu
-	ckeywhitelist = list("koruu")
+	ckeywhitelist = list("koruu", "painfeeler", "poots13")
 
 /datum/loadout_item/donator_dakken
 	name = "Donator Kit - Armoured Avantyne Barbute"
@@ -870,6 +898,11 @@ GLOBAL_LIST_EMPTY(loadout_items)
 /datum/loadout_item/triumph_circlet
 	name = "Golden Circlet, Ornate (-3 TRI)"
 	path = /obj/item/clothing/head/roguetown/circlet/triumph
+	triumph_cost = 3
+
+/datum/loadout_item/triumph_weaponkitaxe
+	name = "Morphing Elixir, 'Valorian Axe' (-3 TRI)"
+	path = /obj/item/enchantingkit/triumph_weaponkit_axe
 	triumph_cost = 3
 
 // -5 TRI Minisection.
@@ -962,32 +995,32 @@ GLOBAL_LIST_EMPTY(loadout_items)
 //
 
 /datum/loadout_item/triumph_armorkit
-	name = "Morphing Elixer, 'Valorian Steel Armor' (-5 TRI)"
+	name = "Morphing Elixir, 'Valorian Steel Armor' (-5 TRI)"
 	path = /obj/item/enchantingkit/triumph_armorkit
 	triumph_cost = 5
 
 /datum/loadout_item/triumph_weaponkittri
-	name = "Morphing Elixer, 'Valorian Longsword' (-5 TRI)"
+	name = "Morphing Elixir, 'Valorian Longsword' (-5 TRI)"
 	path = /obj/item/enchantingkit/triumph_weaponkit_tri
 	triumph_cost = 5
 
 /datum/loadout_item/triumph_weaponkitwide
-	name = "Morphing Elixer, 'Wideguard Longsword' (-5 TRI)"
+	name = "Morphing Elixir, 'Wideguard Longsword' (-5 TRI)"
 	path = /obj/item/enchantingkit/triumph_weaponkit_wide
 	triumph_cost = 5
 
 /datum/loadout_item/triumph_weaponkitrock
-	name = "Morphing Elixer, 'Rockhillian Longsword' (-5 TRI)"
+	name = "Morphing Elixir, 'Rockhillian Longsword' (-5 TRI)"
 	path = /obj/item/enchantingkit/triumph_weaponkit_rock
 	triumph_cost = 5
 
 /datum/loadout_item/triumph_weaponkitsabre
-	name = "Morphing Elixer, 'Sabreguard Longsword' (-5 TRI)"
+	name = "Morphing Elixir, 'Sabreguard Longsword' (-5 TRI)"
 	path = /obj/item/enchantingkit/triumph_weaponkit_sabre
 	triumph_cost = 5
 
 /datum/loadout_item/triumph_weaponkitpsy
-	name = "Morphing Elixer, 'Psycrucifix Longsword' (-5 TRI)"
+	name = "Morphing Elixir, 'Psycrucifix Longsword' (-5 TRI)"
 	path = /obj/item/enchantingkit/triumph_weaponkit_psy
 	triumph_cost = 5
 

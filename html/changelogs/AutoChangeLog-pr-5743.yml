@@ -1,0 +1,14 @@
+author: "Ollanius"
+delete-after: True
+changes:
+  - rscadd: "Added more tips to an assortment of items - clothes, saddles, meat, amulets, tomes, writs, and more - to inform others on some basic mechanics."
+  - rscadd: "Certain amulets, ore, and ingots now properly display a unique glowing effect."
+  - rscadd: "Blacksteel ingots now play a special animation!"
+  - rscadd: "All cloaks, including the Lordly Cloak, should now be wearable on the right back slot as well."
+  - rscadd: "All tabards can now be worn on the shirt slot, too."
+  - rscadd: "Guard hoods, at last, inherit all of the slots as their namesake. They can be worn on the head, neck, mask, and - as before - cloak slots."
+  - rscadd: "Bronze anvils can now be made without any crafting difficulty with two bronze ingots and four stones."
+  - balance: "Bronze smelters are now codified to have no crafting difficulty, when assembling them."
+  - balance: "Garrotes now break after twelve uses, instead of eight."
+  - balance: "Rare amulets are slightly more powerful, now."
+  - balance: "Rare amulets now take much longer to don and take off."

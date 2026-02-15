@@ -1,37 +1,3 @@
-// Necrite
-/obj/effect/proc_holder/spell/targeted/burialrite
-	name = "Burial Rites"
-	desc = "Consecrate a coffin or a grave. Sending any spirits within to Necras realm."
-	range = 5
-	overlay_state = "consecrateburial"
-	releasedrain = 30
-	recharge_time = 30 SECONDS
-	req_items = list(/obj/item/clothing/neck/roguetown/psicross)
-	max_targets = 0
-	cast_without_targets = TRUE
-	sound = 'sound/magic/churn.ogg'
-	associated_skill = /datum/skill/magic/holy
-	invocations = list("Undermaiden grant thee passage forth and spare the trials of the forgotten.")
-	invocation_type = "whisper" //can be none, whisper, emote and shout
-	miracle = TRUE
-	devotion_cost = 5 //very weak spell, you can just make a grave marker with a literal stick
-
-/obj/effect/proc_holder/spell/targeted/burialrite/cast(list/targets, mob/user = usr)
-	. = ..()
-	var/success = FALSE
-	for(var/obj/structure/closet/crate/coffin/coffin in view(1))
-		success = pacify_coffin(coffin, user)
-		if(success)
-			user.visible_message("[user] consecrates [coffin]!", "My funeral rites have been performed on [coffin]!")
-			return
-	for(var/obj/structure/closet/dirthole/hole in view(1))
-		success = pacify_coffin(hole, user)
-		if(success)
-			user.visible_message("[user] consecrates [hole]!", "My funeral rites have been performed on [hole]!")
-			record_round_statistic(STATS_GRAVES_CONSECRATED)
-			return TRUE
-	to_chat(user, span_red("I failed to perform the rites."))
-
 /obj/effect/proc_holder/spell/targeted/churn
 	name = "Churn Undead"
 	desc = "Stuns and explodes undead."

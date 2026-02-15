@@ -60,7 +60,7 @@ There are several things that need to be remembered:
 //HAIR OVERLAY
 /mob/living/carbon/human/update_hair()
 	rebuild_obscured_flags()
-	queue_icon_update(PENDING_UPDATE_BODY)
+	update_body_parts(TRUE)
 	return
 
 /mob/living/carbon/human/update_body()
@@ -698,7 +698,7 @@ There are several things that need to be remembered:
 
 
 /mob/living/carbon/human/update_inv_head(hide_nonstandard = FALSE)
-	queue_icon_update(PENDING_UPDATE_INV_HEAD)
+	update_inv_head_real(hide_nonstandard)
 
 /mob/living/carbon/human/update_inv_head_real(hide_nonstandard = FALSE)
 	remove_overlay(HEAD_LAYER)

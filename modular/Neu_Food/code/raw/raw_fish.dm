@@ -281,3 +281,93 @@
 		. += span_notice("It feels inert and cannot be squeezed yet. About [minutes_left] more minutes required.")
 	else
 		. += span_notice("You swear you can hear it demand you squeeze it in your hand.")
+
+/obj/item/reagent_containers/food/snacks/fish/salmon/black_headed
+	name = "black-headed salmon"
+	desc = "Black-Headed Salmon is an ocean fish found in open salt waters, recognizable by its dark head and lighter body. It is fully edible and prized for its firm, tasty meat, and the dark coloration likely helps it blend in when hunting near the surface."
+	icon_state = "salmon_black"
+	faretype = FARE_NEUTRAL
+	no_rarity_sprite = TRUE
+	fried_type = /obj/item/reagent_containers/food/snacks/rogue/fryfish/salmon/black_headed
+	cooked_type = /obj/item/reagent_containers/food/snacks/rogue/fryfish/salmon/black_headed
+	sellprice = 17
+
+/obj/item/reagent_containers/food/snacks/fish/flounder
+	name = "flounder"
+	desc = "Flounder is a flat ocean fish living in open salt waters, well adapted to life along the seabed. It is fully edible and known for its mild, tender meat, and an interesting fact is that both of its eyes are located on one side of the body, helping it stay hidden while lying flat on the ocean floor."
+	icon_state = "flounder"
+	faretype = FARE_NEUTRAL
+	no_rarity_sprite = TRUE
+	fried_type = /obj/item/reagent_containers/food/snacks/rogue/fryfish/flounder
+	cooked_type = /obj/item/reagent_containers/food/snacks/rogue/fryfish/flounder
+	sellprice = 5
+
+/obj/item/reagent_containers/food/snacks/fish/swamp_shrimp
+	name = "swamp shrimp"
+	icon_state = "swamp_shrimp"
+	desc = "Swamp \"Shrimp\" is a small crustacean found in murky swamp waters, adapted to survive in dirty, low-oxygen water."
+	faretype = FARE_NEUTRAL
+	no_rarity_sprite = TRUE
+	fried_type = /obj/item/reagent_containers/food/snacks/rogue/fryfish/swamp_shrimp
+	cooked_type = /obj/item/reagent_containers/food/snacks/rogue/fryfish/swamp_shrimp
+	sellprice = 5
+
+/obj/item/reagent_containers/food/snacks/fish/swamp_mother
+	name = "swamp mother"
+	icon_state = "swamp_mother"
+	desc = "Swamp Mother is a large swamp-dwelling creature found in murky waters."
+	faretype = FARE_NEUTRAL
+	no_rarity_sprite = TRUE
+	fried_type = /obj/item/reagent_containers/food/snacks/rogue/fryfish/swamp_mother
+	cooked_type = /obj/item/reagent_containers/food/snacks/rogue/fryfish/swamp_mother
+	sellprice = 15
+
+/obj/item/reagent_containers/food/snacks/fish/black_bass
+	name = "black bass"
+	icon_state = "black_bass"
+	desc = "Black Bass is a freshwater fish found in clean rivers and lakes, known for its strength and aggressive behavior. It is fully edible and popular for its firm meat, and a fun fact is that black bass are notorious for fighting hard even when caught on light tackle."
+	faretype = FARE_NEUTRAL
+	no_rarity_sprite = TRUE
+	fried_type = /obj/item/reagent_containers/food/snacks/rogue/fryfish/black_bass
+	cooked_type = /obj/item/reagent_containers/food/snacks/rogue/fryfish/black_bass
+	sellprice = 7
+
+/obj/item/reagent_containers/food/snacks/fish/zizo_abberation
+	name = "zizo abberation"
+	icon_state = "zizo_abberation"
+	desc = "Zizo Aberration is a cave-dwelling creature found in murky underground waters. It is edible, but widely nicknamed the “Zizo creature” due to its disgusting behavior, it viciously bites any hand that comes into contact with it, whether in water or out."
+	faretype = FARE_NEUTRAL
+	no_rarity_sprite = TRUE
+	fried_type = /obj/item/reagent_containers/food/snacks/rogue/fryfish/zizo_abberation
+	cooked_type = /obj/item/reagent_containers/food/snacks/rogue/fryfish/zizo_abberation
+	sellprice = 20
+
+/obj/item/reagent_containers/food/snacks/fish/sturgeon
+	name = "sturgeon"
+	icon_state = "sturgeon"
+	desc = "Sturgeon is a large freshwater fish found in clean rivers and waterfalls, known for its ancient appearance and heavy armor-like scales. It is fully edible and highly valued, and an interesting fact is that sturgeons have existed for over 200 million years, making them true living fossils."
+	faretype = FARE_NEUTRAL
+	no_rarity_sprite = TRUE
+	fried_type = /obj/item/reagent_containers/food/snacks/rogue/fryfish/sturgeon
+	cooked_type = /obj/item/reagent_containers/food/snacks/rogue/fryfish/sturgeon
+	sellprice = 5
+
+/obj/item/reagent_containers/food/snacks/fish/mackerel
+	name = "mackerel"
+	icon_state = "mackerel"
+	desc = "Mackerel is a fast-moving ocean fish found in open salt waters. It is fully edible, rich in oils and flavor, and known for its speed, mackerel can swim so fast it must keep moving to breathe properly."
+	faretype = FARE_NEUTRAL
+	no_rarity_sprite = TRUE
+	fried_type = /obj/item/reagent_containers/food/snacks/rogue/fryfish/mackerel
+	cooked_type = /obj/item/reagent_containers/food/snacks/rogue/fryfish/mackerel
+	sellprice = 5
+
+/obj/item/reagent_containers/food/snacks/fish/beaksnapper
+	name = "beaksnapper"
+	icon_state = "beaksnapper"
+	desc = "Beaksnapper is a colorful ocean fish found in salt waters, named for its strong, beak-like mouth. It is edible and prized for its firm meat, and fun fact: its snapping bite is strong enough to crush small shells, making it a clever little predator."
+	faretype = FARE_NEUTRAL
+	no_rarity_sprite = TRUE
+	fried_type = /obj/item/reagent_containers/food/snacks/rogue/fryfish/beaksnapper
+	cooked_type = /obj/item/reagent_containers/food/snacks/rogue/fryfish/beaksnapper
+	sellprice = 15

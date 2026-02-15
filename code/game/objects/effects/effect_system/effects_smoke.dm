@@ -49,25 +49,25 @@
 	lifetime--
 	if(lifetime < 1)
 		kill_smoke()
-		return 0
+		return FALSE
 	for(var/mob/living/L in range(0,src))
 		smoke_mob(L)
-	return 1
+	return TRUE
 
 /obj/effect/particle_effect/smoke/proc/smoke_mob(mob/living/carbon/C)
 	if(!istype(C))
-		return 0
+		return FALSE
 	if(lifetime<1)
-		return 0
+		return FALSE
 	if(C.smoke_delay)
-		return 0
+		return FALSE
 	if(istype(C.wear_mask, /obj/item/clothing/mask/rogue/facemask/steel/confessor))
-		return 0
+		return FALSE
 	if(HAS_TRAIT(C, TRAIT_NOBREATH) || HAS_TRAIT(C, TRAIT_NOMETABOLISM))
-		return 0
+		return FALSE
 	C.smoke_delay++
 	addtimer(CALLBACK(src, PROC_REF(remove_smoke_delay), C), 10)
-	return 1
+	return TRUE
 
 /obj/effect/particle_effect/smoke/proc/remove_smoke_delay(mob/living/carbon/C)
 	if(C)
@@ -132,7 +132,7 @@
 		M.drop_all_held_items()
 		M.adjustOxyLoss(1)
 		M.emote("cough")
-		return 1
+		return TRUE
 
 
 /datum/effect_system/smoke_spread/bad
@@ -149,10 +149,10 @@
 /obj/effect/particle_effect/smoke/poison_gas/smoke_mob(mob/living/carbon/M)
 	if(..())
 		if(HAS_TRAIT(M, TRAIT_HOLDBREATH))
-			return 0
+			return FALSE
 		M.adjustToxLoss(20, 0)
 		M.emote("cough")
-		return 1
+		return TRUE
 
 /datum/effect_system/smoke_spread/poison_gas
 	effect_type = /obj/effect/particle_effect/smoke/poison_gas
@@ -169,13 +169,13 @@
 /obj/effect/particle_effect/smoke/healing_gas/smoke_mob(mob/living/carbon/M)
 	if(..())
 		if(HAS_TRAIT(M, TRAIT_HOLDBREATH))
-			return 0
+			return FALSE
 		M.adjustBruteLoss(-5, 0)
 		M.adjustFireLoss(-2, 0)
 		M.adjustOxyLoss(-1, 0)
 		M.adjustToxLoss(-1, 0)
 		M.emote("cough")
-		return 1
+		return TRUE
 
 /datum/effect_system/smoke_spread/healing_gas
 	effect_type = /obj/effect/particle_effect/smoke/healing_gas
@@ -195,7 +195,7 @@
 		M.adjust_fire_stacks(3)
 		M.ignite_mob()
 		M.emote("scream")
-		return 1
+		return TRUE
 
 /datum/effect_system/smoke_spread/fire_gas
 	effect_type = /obj/effect/particle_effect/smoke/fire_gas
@@ -211,11 +211,11 @@
 /obj/effect/particle_effect/smoke/blind_gas/smoke_mob(mob/living/carbon/M)
 	if(..())
 		if(HAS_TRAIT(M, TRAIT_HOLDBREATH))
-			return 0
+			return FALSE
 		M.adjust_blurriness(3)
 		M.adjust_blindness(3)
 		M.emote("cry")
-		return 1
+		return TRUE
 
 /datum/effect_system/smoke_spread/blind_gas
 	effect_type = /obj/effect/particle_effect/smoke/blind_gas
@@ -232,9 +232,9 @@
 /obj/effect/particle_effect/smoke/mute_gas/smoke_mob(mob/living/carbon/M)
 	if(..())
 		if(HAS_TRAIT(M, TRAIT_HOLDBREATH))
-			return 0
+			return FALSE
 		M.silent = max(M.silent, 8)
-		return 1
+		return TRUE
 
 /datum/effect_system/smoke_spread/mute_gas
 	effect_type = /obj/effect/particle_effect/smoke/mute_gas
@@ -250,10 +250,10 @@
 /obj/effect/particle_effect/smoke/sleeping/smoke_mob(mob/living/carbon/M)
 	if(..())
 		if(HAS_TRAIT(M, TRAIT_HOLDBREATH))
-			return 0
+			return FALSE
 		M.Sleeping(200)
 		M.emote("cough")
-		return 1
+		return TRUE
 
 /datum/effect_system/smoke_spread/sleeping
 	effect_type = /obj/effect/particle_effect/smoke/sleeping
@@ -278,17 +278,17 @@
 			reagents.reaction(AM, TOUCH, fraction)
 
 		reagents.reaction(T, TOUCH, fraction)
-		return 1
+		return TRUE
 
 /obj/effect/particle_effect/smoke/chem/smoke_mob(mob/living/carbon/M)
 	if(lifetime<1)
-		return 0
+		return FALSE
 	if(!istype(M))
-		return 0
+		return FALSE
 	var/fraction = 1/initial(lifetime)
 	reagents.copy_to(M, fraction*reagents.total_volume)
 	reagents.reaction(M, INGEST, fraction)
-	return 1
+	return TRUE
 
 
 

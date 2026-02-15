@@ -74,9 +74,13 @@
 	desc = "Increases the speed you ride a mount at, and the speed at which you can mount and dismount."
 	dreams = list(
 		"...the bog becomes more tolerable when it is not your foot that has to tread upon it. It took some coin, but your travels are much smoother atop your trustworthy steed...",
-		"...the landsknecht thrusts their pole-arm at your steed and it bucks wildly. Lurching forwards, you interpose your shield to the weapon and feel your balance shift. Flexing every muscle in your core and legs, you barely manage to remain mounted..."
+		"...the landsknecht thrusts their pole-arm at your steed and it bucks wildly. Lurching forwards, you interpose your shield to the weapon and feel your balance shift. Flexing every muscle in your core and legs, you barely manage to remain mounted...",
+		"...the tourney's onlookers cheer as you trot out onto the grounds, mounted atop a noble steed. A 'fogbeast', they call it - taller and thicker than the common saiga, draped in a caparison of your own design. Your opponent stares you down from across the circuit; a knight in blackened plate, who's steed is nothing more than bone-and-sinew...",
+		"...the forest behind you collapses into a raging inferno, just as your steed leaps forth. With choked lungs and burning eyes, you cling tightly to the reins and mutter a prayer; yet against all the odds, the saiga sticks the landing. Welting eyes unpucker, graced with the dawn's cool breeze and the sight of your steed's continued galloping..."
 	)
 	expert_name = "Rider"
+	max_untraited_level = SKILL_LEVEL_APPRENTICE
+	trait_uncap = list(TRAIT_NOBLE = SKILL_LEVEL_JOURNEYMAN, TRAIT_EQUESTRIAN = SKILL_LEVEL_MASTER)
 
 /datum/skill/misc/music
 	name = "Music"

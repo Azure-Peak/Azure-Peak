@@ -135,7 +135,7 @@
 	name = "binding shackles (T5)"
 	result = /obj/item/rope/chain/bindingshackles/t5
 	reqs = list(/obj/item/rope/chain/bindingshackles/t4 = 1,
-				/obj/item/magic/melded/t5 = 1)
+				/obj/item/magic/voidstone = 1)
 	craftdiff = 2
 
 /datum/crafting_recipe/roguetown/arcana/forge

@@ -36,7 +36,10 @@
 		/datum/advclass/peasant,
 		/datum/advclass/potter,
 		/datum/advclass/seamstress,
-		/datum/advclass/thug,
+		/datum/advclass/thug/goon,
+		/datum/advclass/thug/wiseguy,
+		/datum/advclass/thug/bigman,
+		/datum/advclass/levy,
 		/datum/advclass/witch,
 		/datum/advclass/woodworker
 	)

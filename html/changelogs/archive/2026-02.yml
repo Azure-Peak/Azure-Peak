@@ -418,3 +418,138 @@
   - rscadd: Template hammer is now named hammer to reduce confusion when it is referred
       to by name in recipes
   - bugfix: Probably fixed the daylight cycle breaking
+2026-02-12:
+  Baneuus:
+  - balance: Estoc now cuts instead of chops.
+  FreeStylaLT:
+  - bugfix: Fixed Scrying not notifying the target properly.
+  - balance: Weak intent now reduces damage by a whole lot more.
+  - balance: Increased all armor integrity slightly.
+  - bugfix: Astrata Sword no longer smelts into anything.
+  - bugfix: Astrata Sword now gets deleted upon being dropped (or sheathed I think)
+  Lamasmaster:
+  - rscadd: More grenzel recipes
+  - rscdel: Duplicate recipes
+  Ollanius:
+  - bugfix: Pickaxes function as intended, once again. The better your Mining skill
+      is (and the more Strength you have), the less hits are needed to bust down stone.
+  - rscadd: Blacksteel Pickaxes now have a 'masterful pick' intent when two-handed.
+      Dazzle your friends in the mines!
+  - balance: Blacksteel Pickaxes now deal 25 (from 20) damage when one-handed, and
+      32 (from 30) damage when two-handed.
+  Ryan180602:
+  - balance: Confessors get blessed dagger guaranteed.
+  - balance: Confessor hood/headband gives critres like every other clothing item.
+  - balance: Psydonite Fencer Cuirass has +20 integrity.
+  - balance: Add PsyShortsword to loadout choice.
+  mumblemancer:
+  - balance: all wretches except lickers get repair kits now. woohoo!
+  zRainbowcat:
+  - balance: replaced outdated intent/knuckles/smash with up to date mace/smash
+2026-02-13:
+  Lamasmaster:
+  - bugfix: Strudel crafting
+  Ryan180602:
+  - bugfix: handcuffing no longer prevents kicks.
+  WeNeedMorePhoron:
+  - bugfix: Hoob / Hijabs etc. no longer make you bald.
+  - bugfix: Spells has been moved back to a processor for cooldown. Spells that did
+      not respect cooldown should be fixed now.
+  - rscadd: Ported Gemcarving from Vanderlin. Sprites & Original feature 7erracota.
+      Port done by SylvinSeik.
+  - balance: Masonry is now gated to Apprentice. It can be ungated by Expert Forgehand
+      or Expert Homesteader.
+  bearrrrrrrr:
+  - qol: dual wielding from rng to stack
+  hubertjones:
+  - config: 2 new ckeys to bamboo hat donator item
+2026-02-14:
+  FreeStylaLT:
+  - bugfix: The Baothan trait of no overdose is now given to T1 clerics (Any dedicated
+      miracle class)
+  - bugfix: Lover's Ruin is now a T1, fixing the oddity of drinking something that
+      poisoned you.
+  - bugfix: Fixed the Solar Sabre disintegrating when sheathed.
+  Lamasmaster:
+  - rscadd: Economic Roleplay Panel Options
+  - bugfix: Economic Roleplay Panel
+  Ollanius:
+  - rscadd: The 'Riding' skill can now be trained by riding a mount while RUN is active.
+      This can be trained up to Apprentice, or - if your character's of nobility -
+      Journeyman.
+  Ryan180602:
+  - balance: Confessor Arbalist gets D-all tier, 100 integ manually repairable (with
+      needle or cautery) skin armour.
+  - bugfix: Pushup armour that were leather tier are actually leather tier, now.
+  - rscadd: Sewable armour.
+  - bugfix: fixes sew armour.
+  WeNeedMorePhoron:
+  - rscadd: Added a 20 "limit" to each towner subclass so you can preview who is playing
+      what classes. Levy and all thug subclasses now display properly
+  - rscadd: Enchanting Scroll is now 2x1
+  - rscadd: T5 Binding Shackles now costs a voidstone instead of a T5 Meld
+  bearrrrrrrr:
+  - balance: revert astrata miracles back to their original, non-one-shot behavior;
+      adds a fire-stack consuming mechanic to the astrata grasp and moves it to heretic
+  hazelrat:
+  - rscadd: Implemented a few minor mapping changes to the outpost and wardens' barracks;
+      notably, both now have a vomitorium in their kitchens!
+  - rscdel: Players are no longer sent back to the lobby after being buried with a
+      grave marker.
+  - rscdel: Players no longer gain PQ from consecrating graves.
+  nauticall:
+  - rscadd: Master/skeleton keys can now lock and unlock SILVERFACES and GOLDFACES.
+  - bugfix: The Grand Duke can now make Priority Postings and also remove postings
+      on the Notice Board.
+  - image: Added a new sprite for the skeleton key.
+2026-02-15:
+  Ollanius:
+  - balance: All axes now deal increased damage when cutting and chopping, more-so
+      if they're purpose-made for battle.
+  - balance: All greataxes that aren't purpose-made for battle now use the regular
+      variants of their long-ranged cuts and chops.
+  - balance: All battleaxes now deal more damage when bashing, and have limited access
+      to a one-handed thrusting attack.
+  - balance: Double-Headed Greataxes now require a minimum of XIII STR to effectively
+      wield.
+  - balance: All greataxes and battleaxes are now heavy-balanced.
+  - balance: Hatchets are now swift-balanced.
+  - balance: The AP value on all axes has been reduced - chops now have 30AP instead
+      of 40AP, and cuts have 15AP instead of 25AP. This should still result in roughly
+      the same amount of penetration as before, while dealing more damage to flesh.
+  - balance: Hatchets can now fit inside belts (with a 1x3 grid), are now smithable
+      and importable, and have a new sprite.
+  - balance: Psydonic War Axes now deal 25 DMG when unwielded, just like the more-agnostic
+      Silver War Axe.
+  - balance: The Woodcutting Handaxe has lost a teensy bit of durability and structural
+      damage, but still remains quite good.
+  - balance: Slightly buffed the power of certain axes, found only within the hands
+      of a greatbeaste-or-two..
+  - balance: Swingdelay's now segmented for chops. Regular chops take 0.8 seconds,
+      battleaxe-type chops take 1 second, etc.
+  - balance: Silver, Psydonic, and Double-Headed Axes now have a 'MINSTR_REQ' tag.
+      This prevents them from dealing full damage if you're weaker than the listed
+      requirement, regardless of whether you two-hand them or not.
+  - balance: Silver and Psydonic Axes now level out to a minimum of XI STR for wielding.
+  - rscadd: Steel Poleaxes are now simply termed as 'Poleaxes'.
+  - balance: Crossbows can now be used to parry attacks in melee, at the cost of having
+      limited durability.
+  - balance: Siegebows now deal a litany of heavy-but-short-lived debuffs upon impact.
+      Stagger the foes from afar!
+  - balance: Siegebows now deal extreme structural damage, capable of destroying walls
+      and defenses in one shot. Thanks, Ketrai!
+  - balance: Siegebows now have a noticeable delay to holstering and drawing.
+  - balance: Bolts, arrows, and sling bullets can now be carried - individually -
+      on the hip and mouth slots.
+  - rscadd: Siegebows now spawn a (mostly) harmless explosion whenever striking an
+      applicable structure or turf, for cinema's sake. Thanks, Ryan!
+  - rscadd: Bolts, arrows, and sling bullets now have generated inhands. Not perfect
+      ones, mind you, but they work quite well.
+  - balance: Buttstrikes with a Crossbow now have a minor damage multiplier.
+  Quinalion:
+  - bugfix: Elvish longsword sprite
+  WeNeedMorePhoron:
+  - rscadd: Spell recharging time should accounts for server time dilation properly.
+      Report if it feels a bit smoother.
+  - rscadd: Chocolate is now importable from Grenzelhoft. Feeds some to your lupian
+      / venardine friends.

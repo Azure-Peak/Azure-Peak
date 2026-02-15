@@ -1706,15 +1706,15 @@ GLOBAL_VAR_INIT(rpg_loot_items, FALSE)
 			return .
 	if(isnull(anvilrepair) && isnull(sewrepair))
 		return .
-	else
-		var/str = "This object can be repaired using "
-		if(anvilrepair)
-			var/datum/skill/S = anvilrepair		//Should only ever be a skill or null
-			str += "<b>[initial(S.name)]</b> and a hammer."
-		if(sewrepair)
-			str += "<b>Sewing</b> and a needle."
-		str = span_info(str)
-		. += str
+
+	var/str = "This object can be repaired using "
+	if(anvilrepair)
+		var/datum/skill/S = anvilrepair		//Should only ever be a skill or null
+		str += "<b>[initial(S.name)]</b> and a hammer."
+	if(sewrepair)
+		str += "<b>Sewing</b> and a needle."
+	str = span_info(str)
+	. += str
 
 /obj/item/proc/update_force_dynamic()
 	force_dynamic = (wielded ? force_wielded : force)

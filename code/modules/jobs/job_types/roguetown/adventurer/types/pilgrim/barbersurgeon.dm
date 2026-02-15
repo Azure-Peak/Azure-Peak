@@ -12,6 +12,7 @@
 		STATKEY_LCK = 1,
 		STATKEY_PER = 1
 	)
+	maximum_possible_slots = 20 // Should not fill, just a hack to make it shows what types of towners are in round
 
 	age_mod = /datum/class_age_mod/barber_surgeon
 

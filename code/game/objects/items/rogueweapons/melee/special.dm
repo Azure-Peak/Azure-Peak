@@ -61,17 +61,6 @@
 	item_d_type = "blunt"
 	intent_intdamage_factor = BLUNT_DEFAULT_INT_DAMAGEFACTOR // This might be a mistake
 
-/datum/intent/knuckles/smash
-	name = "smash"
-	blade_class = BCLASS_SMASH
-	attack_verb = list("smashes")
-	hitsound = list('sound/combat/hits/punch/punch_hard (1).ogg', 'sound/combat/hits/punch/punch_hard (2).ogg', 'sound/combat/hits/punch/punch_hard (3).ogg')
-	penfactor = BLUNT_DEFAULT_PENFACTOR
-	clickcd = CLICK_CD_MELEE
-	swingdelay = 8
-	icon_state = "insmash"
-	item_d_type = "blunt"
-
 /datum/intent/knuckles/strike/wallop
 	name = "wallop"
 	blade_class = BCLASS_TWIST
@@ -342,8 +331,11 @@
 /obj/item/rogueweapon/katar/punchdagger/frei
 	name = "vývrtka"
 	desc = "A type of punch dagger of Aavnic make initially designed to level the playing field with an orc in fisticuffs, its serrated edges and longer, thinner point are designed to maximize pain for the recipient. It's aptly given the name of \"corkscrew\", and this specific one has the colours of Szöréndnížina. Can be worn on your ring slot."
+	force = 18
 	icon_state = "freiplug"
 	slot_flags = ITEM_SLOT_RING
+	icon = 'icons/roguetown/weapons/special/freifechter32.dmi'
+	possible_item_intents = list(/datum/intent/dagger/thrust, /datum/intent/dagger/thrust/pick, /datum/intent/knuckles/strike)
 
 /obj/item/rogueweapon/katar/psydon
 	name = "psydonic katar"
@@ -402,7 +394,7 @@
 	name = "steel knuckles"
 	desc = "A mean looking pair of steel knuckles."
 	force = 25
-	possible_item_intents = list(/datum/intent/knuckles/strike,/datum/intent/knuckles/smash, /datum/intent/knuckles/strike/wallop)
+	possible_item_intents = list(/datum/intent/knuckles/strike,/datum/intent/mace/smash, /datum/intent/knuckles/strike/wallop)
 	icon = 'icons/roguetown/weapons/unarmed32.dmi'
 	icon_state = "steelknuckle"
 	gripsprite = FALSE
@@ -435,7 +427,7 @@
 	name = "bronze knuckles"
 	desc = "A mean looking pair of bronze knuckles. Mildly heavier than it's steel counterpart, making it a solid defensive option, if less wieldy."
 	force = 22
-	possible_item_intents = list(/datum/intent/knuckles/strike, /datum/intent/knuckles/smash, /datum/intent/knuckles/strike/wallop)
+	possible_item_intents = list(/datum/intent/knuckles/strike, /datum/intent/mace/smash, /datum/intent/knuckles/strike/wallop)
 	icon = 'icons/roguetown/weapons/unarmed32.dmi'
 	icon_state = "bronzeknuckle"
 	gripsprite = FALSE

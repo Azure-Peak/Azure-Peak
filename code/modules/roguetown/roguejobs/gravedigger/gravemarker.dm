@@ -79,6 +79,4 @@
 	for(var/obj/structure/closet/dirthole/hole in loc)
 		if(pacify_coffin(hole, user))
 			to_chat(user, span_notice("I feel their soul finding peace..."))
-			SEND_SIGNAL(user, COMSIG_GRAVE_CONSECRATED, hole)
-			record_round_statistic(STATS_GRAVES_CONSECRATED)
 	return ..()

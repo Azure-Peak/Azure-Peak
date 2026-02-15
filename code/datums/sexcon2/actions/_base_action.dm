@@ -56,6 +56,8 @@
 	var/intensity = 2
 	///Used for determining whether the good lover bonus can apply
 	var/masturbation = FALSE
+	///Whenever or not you need to be adjacent to someone to use it
+	var/ranged_action = FALSE
 
 /datum/sex_action/Destroy()
 	for(var/datum/sex_session_lock/lock in sex_locks)

@@ -278,7 +278,9 @@
 						if(!item || !SEND_SIGNAL(item, COMSIG_TRY_STORAGE_INSERT, new_item, null, TRUE, TRUE))
 							item = H.get_item_by_slot(SLOT_BELT)
 							if(!item || !SEND_SIGNAL(item, COMSIG_TRY_STORAGE_INSERT, new_item, null, TRUE, TRUE))
-								addtimer(CALLBACK(PROC_REF(move_storage), new_item, H.loc), 3 SECONDS)
+								item = H.get_item_by_slot(SLOT_CLOAK)
+								if(!item || !SEND_SIGNAL(item, COMSIG_TRY_STORAGE_INSERT, new_item, null, TRUE, TRUE))
+									addtimer(CALLBACK(PROC_REF(move_storage), new_item, H.loc), 3 SECONDS)
 
 	post_equip(H, visualsOnly)
 

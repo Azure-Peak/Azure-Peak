@@ -194,7 +194,7 @@
 	target.throw_alert("scryingeye", /atom/movable/screen/alert/scryingeye, override = TRUE)
 	addtimer(CALLBACK(S, TYPE_PROC_REF(/mob/dead/observer, reenter_corpse)), 8 SECONDS)
 	addtimer(CALLBACK(target, TYPE_PROC_REF(/mob/, clear_alert), "scryingeye", TRUE), 8 SECONDS)
-	if(!target.stat)
+	if(target.stat != DEAD && target.stat != UNCONSCIOUS)
 		if(target.STAPER >= 15)
 			if(target.mind)
 				if(target.mind.do_i_know(name=user.real_name))

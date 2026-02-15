@@ -83,6 +83,11 @@
 		slapcraft_recipes = slapcraft_recipe_list,\
 		)
 
+/obj/item/reagent_containers/food/snacks/tallow/get_mechanics_examine(mob/user)
+    . = ..()
+    . += span_info("Mixing tallow with a filled glass of wine can make 'redtallow', a crimson-tinged wax that's popular for sealing folded letters of ducal- and religious importance.")
+    . += span_info("For more grizzly alternatives, one can substitute the wine with blood, or - in the hands of a trained Inquisitorial agent - a filled INDEXER.")
+
 /obj/item/reagent_containers/food/snacks/tallow/red
 	name = "redtallow"
 	desc = "Fatty tissue is harvested from slain creachurs and rendered of its membraneous sinew to produce a hard shelf-stable \

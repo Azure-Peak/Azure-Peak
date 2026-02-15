@@ -1,8 +1,9 @@
 /// SPELL DATUMS
 
 /obj/effect/proc_holder/spell/invoked/resurrect/matthios
-	name = "Life transaction"
-	desc = "Revives the target by arranging a deal with matthios. They will be indebted to him."
+	name = "Faustian Transaction"
+	desc = "Revives the target by invoking a deal with Matthios. In exchange for their lyfe returned, they will be placed\
+	in a lasting debt to Him. Any coins within their hands will be spent paying off said debt. Blood for gold."
 	debuff_type = /datum/status_effect/debuff/debt_indicator
 	alt_required_items = list()
 	required_items = list()
@@ -16,8 +17,10 @@
 	required_structure = /obj/structure/fluff/psycross/zizocross
 
 /obj/effect/proc_holder/spell/invoked/resurrect/graggar
-	name = "Blood for graggar"
-	desc = "Revives the target by arranging a deal with graggar. They will be indebted to him."
+	name = "Blood for Graggar"
+	desc = "You cannot dominate the dead. Place GRAGGAR'S EYES upon a fallen mortal, granting them the\
+	chance to fight again... for a price. Their intelligence will be drained for some time, or until\
+	they slay an orcish challenger from His realm."
 	debuff_type = /datum/status_effect/debuff/graggar_challenge
 	alt_required_items = list(/obj/item/organ/heart = 1)
 	required_items = list(/obj/item/organ/heart = 1)
@@ -47,8 +50,9 @@
 	req_items = list() // temp. baothans dont have a holy symbol. apparently one is being commed so this is just the stopgap.
 
 /obj/effect/proc_holder/spell/invoked/resurrect/zizo
-	name = "Zizo's Rebirth"
-	desc = "Revive a fallen ally by siphoning their potential. You gain their strength, whilst they gain a second chance. Do not let them die or you will lose your strength."
+	name = "Zizoid Rebirth"
+	desc = "Revive a fallen ally by siphoning their potential. You gain their strength, whilst they gain a second chance.\
+	If they die, you will lose their stolen strength."
 	sound = 'sound/magic/slimesquish.ogg'
 	chargedloop = /datum/looping_sound/invokelightning
 	harms_undead = FALSE

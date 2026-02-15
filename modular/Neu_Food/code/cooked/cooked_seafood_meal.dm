@@ -173,16 +173,6 @@
 	rotprocess = SHELFLIFE_DECENT
 	eat_effect = /datum/status_effect/buff/mealbuff
 // Close enough crab cake has two steps but it is a whatever
-/obj/item/reagent_containers/food/snacks/rogue/foodbase/crabcakeraw
-	name = "raw crab cake"
-	desc = "A variant of the handpie filled with buttery, savory shellfish meat and made with a buttered slice of dough."
-	icon = 'modular/Neu_Food/icons/cooked/cooked_seafood_meal.dmi'
-	icon_state = "crab_cake_raw"
-	cooked_type = /obj/item/reagent_containers/food/snacks/rogue/crabcake
-	fried_type = /obj/item/reagent_containers/food/snacks/rogue/crabcake
-	cooked_smell = /datum/pollutant/food/pie_base
-	w_class = WEIGHT_CLASS_NORMAL
-	dropshrink = 0.8
 
 /obj/item/reagent_containers/food/snacks/rogue/crabcake
 	name = "crab cake"

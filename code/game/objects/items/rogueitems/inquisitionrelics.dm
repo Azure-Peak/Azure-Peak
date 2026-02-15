@@ -103,7 +103,8 @@
 /obj/item/psydonmusicbox/Destroy()
 	if(soundloop)
 		QDEL_NULL(soundloop)
-	src.visible_message(span_cult("A great deluge of souls escapes the shattered box!"))
+	src.visible_message(span_cult("A great deluge of souls escapes the shattered box! Their wails of vengeance and peace coalesce into an ethereal swan song, as the spirits ascend into the sky.."))
+	src.visible_message(span_hypnophrase("..before, at last, their haunting symphony finally comes to a close."))
 	return ..()
 
 /obj/item/psydonmusicbox/update_icon()
@@ -330,8 +331,10 @@ Inquisitorial armory down here
 /obj/item/flashlight/flare/torch/lantern/psycenser/examine(mob/user)
 	. = ..()
 	if(fuel > 0)
-		. += span_info("If opened, it may bless Psydon weapons and those of Psydon faith.")
-		. += span_warning("Smashing a creature with it open will create a devastating explosion and render it useless.")
+		. += span_info("Activate in your hand to open it.")
+		. += span_info("When opened, the 'BLESS' intent can be used to anoint Psydonic silver weaponry. Blessing a Psydonic silver weapon greatly enhances the power of its critical hits and debuffs against sunderable opponents.")
+		. += span_info("Blessing someone else, who happens to be a worshipper of Psydon, will temporarily buff them with increased Willpower and Constitution.")
+		. += span_warning("If the 'SMASH' intent is used while it's opened, the residing shard will violently explode with unimaginable force.")
 	if(fuel <= 0)
 		. += span_info("It is gone.")
 
@@ -439,7 +442,7 @@ Inquisitorial armory down here
 
 /obj/item/inqarticles/indexer
 	name = "\improper INDEXER"
-	desc = "A blessed ampoule with a retractable bladetip, intended to further information gathering through hematology. Siphon blood from an individual until the INDEXER clicks shut, then mail it back to Otava for cataloguing."
+	desc = "A blessed ampoule with a retractable bladetip, intended to further information gathering through hematology. Siphon blood from an individual until the INDEXER clicks shut, then mail it back to Otava for cataloguing. </br>The retractable bladetip is alloyed in a special variant of blessed silver, alchemically treated to excaberate the smallest differences in a worshipper's blood. While 'false positives' - especially from those who've recieved an Ascendant's miracles - are common, the device has discovered enough heathens and verebeastes to warrant its continued fundage by the Archbishop of Otava."
 	icon = 'icons/roguetown/items/misc.dmi'
 	icon_state = "indexer"
 	item_state = "indexer"
@@ -448,9 +451,9 @@ Inquisitorial armory down here
 	grid_height = 32
 	grid_width = 32
 	throwforce = 15
-	force = 4
+	force = 5
 	tool_behaviour = null
-	possible_item_intents = list(/datum/intent/use)
+	possible_item_intents = list(/datum/intent/use, /datum/intent/dagger/thrust/quick) //Extremely low damage, blocked by anything sturdier than a cloth shirt. Quite funny to imagine it as a shiv, however.
 	slot_flags = ITEM_SLOT_HIP
 	sharpness = IS_SHARP
 	experimental_inhand = TRUE
@@ -465,6 +468,14 @@ Inquisitorial armory down here
 	var/full	
 	var/timestaken
 	var/working
+
+/obj/item/inqarticles/indexer/get_mechanics_examine(mob/user)
+    . = ..()
+    . += span_info("Activate in your hand to toggle the retractable blade.")
+    . += span_info("Left click someone else on the 'USE' intent, while its blade is extended, to begin gathering blood from them.")
+    . += span_info("It takes several cycles to fill the INDEXER with blood - at which point, it will automatically retract the blade and seal itself. This may prove dangerous if used on someone who's already suffering from blood loss.")
+    . += span_info("Once filled, left-clicking the INDEXER on a signed ACCUSATION or CONFESSION will combine them into a foldable package. This package can be then folded, stamped, and mailed back to Otava through the HERMES.")
+    . += span_info("Mailing an INDEXER reveals the worshipped pantheon of whoever's blood was gathered. More MARQUES are rewarded if the INDEXER was filled with the blood of an ASCENDANT, NITEBEASTE, or CURSEBORNED.")
 
 /obj/item/inqarticles/indexer/equipped(mob/living/carbon/human/user, slot)
 	. = ..()
@@ -674,7 +685,7 @@ Inquisitorial armory down here
 	var/remaining
 	var/heatedup
 	var/messageshown = 1
-	sellprice = 0
+	sellprice = 15
 
 /obj/item/inqarticles/tallowpot/Initialize(mapload)
 	. = ..()
@@ -738,6 +749,11 @@ Inquisitorial armory down here
 	else
 		icon_state = "[initial(icon_state)]"
 
+/obj/item/inqarticles/tallowpot/get_mechanics_examine(mob/user)
+    . = ..()
+    . += span_info("Left click with a chunk of redtallow to fill it up.")
+    . += span_info("Once filled, left-clicking the tallowpot with a torch, lamptern, candle, or any other handheld source of heat will temporarily melt the redtallow inside.")
+    . += span_info("Heated tallowpots can be left-clicked with a signet ring to prepare a stamp, which can be used to seal certain foldable letters.")
 
 /obj/item/rope/inqarticles/inquirycord
 	name = "inquiry cordage"
@@ -791,7 +807,7 @@ Inquisitorial armory down here
 	slot_flags = ITEM_SLOT_HIP|ITEM_SLOT_WRISTS
 	experimental_inhand = TRUE
 	wieldsound = TRUE
-	max_integrity = 200
+	max_integrity = 300
 	w_class = WEIGHT_CLASS_SMALL
 	can_parry = FALSE
 	break_sound = 'sound/items/garrotebreak.ogg'
@@ -805,6 +821,14 @@ Inquisitorial armory down here
 	integrity_failure = 0.01
 	embedding = null
 	sellprice = 0
+
+/obj/item/inqarticles/garrote/get_mechanics_examine(mob/user)
+    . = ..()
+    . += span_info("Left click with the 'GRAB' intent, while targeting the neck, to lock someone else into a chokehold.")
+    . += span_info("Once locked into a chokehold, the 'CHOKE' intent can be used to rapidly choke the recipient into unconsciousness. Mindless recipients take far more damage when being choked.")
+    . += span_info("Integrity damage is primarily taken whenever the recipient attempts to resist out of a chokehold. Each attempt to resist removes a twelveth of the garrote's total integrity.")
+    . += span_info("Upon taking enough integrity damage, the garrote's cordage is snapped. Left-clicking a spool of inquisitorial cordage on the snapped garrote will fully repair it.")
+    . += span_info("Using this item takes longer than usual, if the handler lacks the necessary trait or training.")
 
 /obj/item/inqarticles/garrote/obj_break(damage_flag)
 	obj_broken = TRUE
@@ -1013,6 +1037,14 @@ Inquisitorial armory down here
 	var/bagging = FALSE
 	var/headgear
 
+/obj/item/clothing/head/inqarticles/blackbag/get_mechanics_examine(mob/user)
+    . = ..()
+    . += span_info("Left click while targeting the head to attempt a 'blackbagging', which - if successful - completely blinds the recipient.")
+    . += span_info("While worn, the recipient's head is completely immune to damage.")
+    . += span_info("Blackbagged recipients are subdued far quicker when choked with a garrote.")
+    . += span_info("Unconscious recipients can be blackbagged much faster than if they're fully conscious.")
+    . += span_info("Using this item takes longer than usual, if the handler lacks the necessary trait or training.")
+
 /obj/item/clothing/head/inqarticles/blackbag/proc/bagsound(mob/living/M)
 	if(bagging)
 		playsound(M, pick('sound/misc/blackbag.ogg','sound/misc/blackbag2.ogg','sound/misc/blackbag3.ogg','sound/misc/blackbag4.ogg','sound/misc/blackbag5.ogg'), 100, TRUE, 4)
@@ -1161,9 +1193,15 @@ Inquisitorial armory down here
 /obj/item/inqarticles/bmirror/examine(mob/user)
 	. = ..()
 	if(HAS_TRAIT(usr, TRAIT_INQUISITION))
-		desc = "A mass-produced relic of the Otavan Inquisition. The exact method of the Black Mirror's operation remains a well-kept secret. One worth dying over, supposedly."
+		desc = "A hauntingly beautiful mirror, clasped within a blacksteeled clamshell. It is a hand-produced relic of the Holy Psydonic Inquisition. The exact method of the Black Mirror's operation remains a well-kept secret. One worth dying over, supposedly."
 	else
-		desc = ""
+		desc = "A hauntingly beautiful mirror, clasped within a blacksteeled clamshell. A lone spike awaits at the bottom; but, for what?"
+
+/obj/item/inqarticles/bmirror/get_mechanics_examine(mob/user)
+    . = ..()
+    . += span_info("Right click to open or close the BLACK MIRROR.")
+    . += span_info("Once opened, left-clicking yourself with the BLACK MIRROR will anoint its spike in your blood. This can be dangerous, if used while you're already suffering from blood loss.")
+    . += span_info("Activate the BLACK MIRROR in your hand, once bloodied, to scry whoever's name you enter into the following prompt.")
 
 /obj/item/inqarticles/bmirror/proc/donefixating()
 	bloody = TRUE

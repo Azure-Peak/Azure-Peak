@@ -22,6 +22,16 @@
 	dropshrink = 0.6
 	max_integrity = 10
 	force = 10
+	slot_flags = ITEM_SLOT_HIP|ITEM_SLOT_MOUTH
+
+/obj/item/ammo_casing/caseless/rogue/bolt/getonmobprop(tag)
+	. = ..()
+	if(tag)
+		switch(tag)
+			if("gen")
+				return list("shrink" = 0.5,"sx" = -10,"sy" = -6,"nx" = 11,"ny" = -6,"wx" = -4,"wy" = -6,"ex" = 5,"ey" = -6,"northabove" = 0,"southabove" = 1,"eastabove" = 1,"westabove" = 0,"nturn" = 0,"sturn" = 0,"wturn" = 0,"eturn" = 0,"nflip" = 0,"sflip" = 8,"wflip" = 8,"eflip" = 0)
+			if("onbelt")
+				return list("shrink" = 0.3,"sx" = -2,"sy" = -5,"nx" = 4,"ny" = -5,"wx" = 0,"wy" = -5,"ex" = 2,"ey" = -5,"nturn" = 0,"sturn" = 0,"wturn" = 0,"eturn" = 0,"nflip" = 0,"sflip" = 0,"wflip" = 0,"eflip" = 0,"northabove" = 0,"southabove" = 1,"eastabove" = 1,"westabove" = 0)
 
 /obj/item/ammo_casing/caseless/rogue/bolt/aalloy
 	name = "decrepit bolt"
@@ -74,6 +84,15 @@
 	flag = "piercing"
 	speed = 0.4
 	npc_simple_damage_mult = 2
+
+/obj/item/ammo_casing/caseless/rogue/arrow/getonmobprop(tag)
+	. = ..()
+	if(tag)
+		switch(tag)
+			if("gen")
+				return list("shrink" = 0.5,"sx" = -10,"sy" = -7,"nx" = 13,"ny" = -7,"wx" = -8,"wy" = -7,"ex" = 7,"ey" = -7,"northabove" = 0,"southabove" = 1,"eastabove" = 1,"westabove" = 0,"nturn" = 90,"sturn" = -90,"wturn" = -80,"eturn" = 81,"nflip" = 0,"sflip" = 8,"wflip" = 8,"eflip" = 0)
+			if("onbelt")
+				return list("shrink" = 0.3,"sx" = -2,"sy" = -5,"nx" = 4,"ny" = -5,"wx" = 0,"wy" = -5,"ex" = 2,"ey" = -5,"nturn" = 0,"sturn" = 0,"wturn" = 0,"eturn" = 0,"nflip" = 0,"sflip" = 0,"wflip" = 0,"eflip" = 0,"northabove" = 0,"southabove" = 1,"eastabove" = 1,"westabove" = 0)
 
 /obj/projectile/bullet/reusable/bolt/on_hit(atom/target)
 	. = ..()
@@ -144,18 +163,18 @@
 	grid_height = 96 //Effectively as large as a shortsword. Two in a belt, four in a satchel. Unideal for carrying without a purpose-made pouch.
 	grid_width = 32
 	slot_flags = ITEM_SLOT_HIP|ITEM_SLOT_MOUTH //Carry it on the hip or bite down like a carrot, if you're out of options.
-	equip_delay_self = 1 SECONDS //Girth. Pack a siege bolt pouch if you want to circumvent it.
-	unequip_delay_self = 1 SECONDS
+	equip_delay_self = 2 SECONDS //Girth. Pack a siege bolt pouch if you want to circumvent it.
+	unequip_delay_self = 2 SECONDS
 	inv_storage_delay = 1 SECONDS
 
 /obj/projectile/bullet/reusable/heavy_bolt
 	name = "heavy bolt"
 	damage = 120 //+50% the damage of a regular crossbow bolt.
 	damage_type = BRUTE
-	armor_penetration = 0 //No penetration.
-	object_damage_multiplier = 10 //Should destroy wooden barricades and doors in one shot, stone-and-iron doors in two, and The Gate in four.
-	wall_impact_break_probability = 100
-	damages_turf_walls = TRUE
+	armor_penetration = BOLT_PENETRATION + 25 // +50% the penetrative power.
+	object_damage_multiplier = 10 //Determines the multiplier that's applied to the bolt's damage value, when striking a structure. By default, it can destroy any wooden defense - a door, barricade, wall - in one shot.
+	wall_impact_break_probability = 100 //Determines the chance that a bolt will destroy itself, when striking a structure. By default, it will always destroy itself after successfully impacting a wall.
+	damages_turf_walls = TRUE //Determines whether the bolt can damage turfs or not. By default, yes.
 	icon = 'icons/roguetown/weapons/ammo.dmi'
 	icon_state = "heavybolt_proj"
 	ammo_type = /obj/item/ammo_casing/caseless/rogue/heavy_bolt
@@ -164,8 +183,34 @@
 	embedchance = 100
 	woundclass = BCLASS_PIERCE
 	flag = "piercing"
-	speed = 0.8 //Half the speed of a traditional bolt. Between crossbows and NPC-fired projectiles, in terms of speed - evadable by PCs at longer ranges.
+	speed = 1.2
 	npc_simple_damage_mult = 3 //..or 360 damage against mindless opponents. Run them through!
+
+/obj/item/ammo_casing/caseless/rogue/heavy_bolt/getonmobprop(tag)
+	. = ..()
+	if(tag)
+		switch(tag)
+			if("gen")
+				return list("shrink" = 0.5,"sx" = -10,"sy" = -6,"nx" = 11,"ny" = -6,"wx" = -4,"wy" = -6,"ex" = 5,"ey" = -6,"northabove" = 0,"southabove" = 1,"eastabove" = 1,"westabove" = 0,"nturn" = 0,"sturn" = 0,"wturn" = 0,"eturn" = 0,"nflip" = 0,"sflip" = 8,"wflip" = 8,"eflip" = 0)
+			if("onbelt")
+				return list("shrink" = 0.3,"sx" = -2,"sy" = -5,"nx" = 4,"ny" = -5,"wx" = 0,"wy" = -5,"ex" = 2,"ey" = -5,"nturn" = 0,"sturn" = 0,"wturn" = 0,"eturn" = 0,"nflip" = 0,"sflip" = 0,"wflip" = 0,"eflip" = 0,"northabove" = 0,"southabove" = 1,"eastabove" = 1,"westabove" = 0)
+
+/obj/projectile/bullet/reusable/heavy_bolt/on_hit(target)
+	. = ..()
+	var/mob/living/M = target
+	if(ismob(target))
+		M.visible_message(span_warning("[M] staggers back from the tremendous impact!"))
+		M.apply_status_effect(/datum/status_effect/debuff/staggered, 6 SECONDS)
+		M.apply_status_effect(/datum/status_effect/debuff/exposed, 6 SECONDS) //Done in conjunction with the new Feint testmerge - opens up for a single integrity-destroying attack.
+		M.Slowdown(6 SECONDS)
+		M.OffBalance(1 SECONDS)
+		M.Immobilize(1 SECONDS)
+		return
+
+	var/turf/T = target
+	if(isturf(target))
+		explosion(T, heavy_impact_range = 0, light_impact_range = 1, flame_range = 0, smoke = FALSE, soundin = pick('sound/misc/explode/incendiary (1).ogg','sound/misc/explode/incendiary (2).ogg'))
+		return
 
 /obj/item/ammo_casing/caseless/rogue/heavy_bolt/blunt
 	name = "blunt heavy bolt"
@@ -176,10 +221,12 @@
 
 /obj/projectile/bullet/reusable/heavy_bolt/blunt
 	name = "blunt heavy bolt"
-	damage = 90
-	embedchance = 50 //'If you're reading this, duck!'
-	object_damage_multiplier = 12 //Ensures the bolt can still, at a minimum, destroy most wooden barricades and doors in one shot.
+	damage = 80 //Same damage as a crossbow.
+	armor_penetration = 0
+	embedchance = 0 //'If you're reading this, duck!'
+	object_damage_multiplier = 15 //Ensures the bolt can still, at a minimum, destroy most wooden barricades and doors in one shot.
 	woundclass = BCLASS_BLUNT
+	flag = "blunt"
 	icon_state = "heavybolt_proj"
 
 /obj/item/ammo_casing/caseless/rogue/heavy_bolt/aalloy
@@ -193,15 +240,14 @@
 
 /obj/projectile/bullet/reusable/heavy_bolt/aalloy
 	name = "decrepit heavy bolt"
-	damage = 90 
-	embedchance = 50
-	object_damage_multiplier = 12 //Ensures the bolt can still, at a minimum, destroy most wooden barricades and doors in one shot.
+	damage = 60 
+	object_damage_multiplier = 20 //Ensures the bolt can still, at a minimum, destroy most wooden barricades and doors in one shot.
 	icon_state = "ancientbolt_proj"
 	poisontype = /datum/reagent/stampoison
-	poisonamount = 2 //You are, in essence, giving them tenantus.
-	slur = 7
-	eyeblur = 7
-	drowsy = 3
+	poisonamount = 1 //You are, in essence, giving them tenantus.
+	slur = 2
+	eyeblur = 2
+	drowsy = 2
 
 /obj/item/ammo_casing/caseless/rogue/heavy_bolt/paalloy
 	name = "ancient heavy bolt"
@@ -211,14 +257,14 @@
 
 /obj/projectile/bullet/reusable/heavy_bolt/paalloy
 	name = "ancient heavy bolt"
-	damage = 100
-	embedchance = 100
+	damage = 80 //Same as a crossbow bolt.
 	icon_state = "ancientbolt_proj"
+	object_damage_multiplier = 16
 	poisontype = /datum/reagent/stampoison
-	poisonamount = 4 //You are, in essence, giving them tenantus. Roughly 50% stronger than a poisoned iron arrow.
-	slur = 10
-	eyeblur = 10
-	drowsy = 6
+	poisonamount = 1 //You are, in essence, giving them tenantus. Roughly 50% stronger than a poisoned iron arrow.
+	slur = 3
+	eyeblur = 3
+	drowsy = 3
 
 /obj/item/ammo_casing/caseless/rogue/heavy_bolt/bronze
 	name = "bronze heavy bolt"
@@ -229,9 +275,8 @@
 /obj/projectile/bullet/reusable/heavy_bolt/bronze
 	name = "bronze heavy bolt"
 	damage = 100
-	embedchance = 100
 	icon_state = "bronzebolt_proj"
-	speed = 0.3 // Exchanges damage for being far quicker than its compatriots - roughly a little better than a regular crossbow bolt.
+	speed = 0.8
 
 //
 
@@ -249,6 +294,7 @@
 	dropshrink = 0.6
 	possible_item_intents = list(/datum/intent/dagger/cut, /datum/intent/dagger/thrust)
 	max_integrity = 10
+	slot_flags = ITEM_SLOT_HIP|ITEM_SLOT_MOUTH
 
 /obj/item/ammo_casing/caseless/rogue/arrow/blunt
 	name = "blunt arrow"
@@ -437,7 +483,7 @@
 	armor_penetration = 60
 	embedchance = 100
 	poisontype = /datum/reagent/water/blessed
-	poisonamount = 10
+	poisonamount = 7
 	npc_simple_damage_mult = 7 //..or 420 damage against a mindless mob. Strike true; reduce if these become craftable or more easily acquirable, through any means.
 
 /obj/item/ammo_casing/caseless/rogue/bolt/silver
@@ -458,11 +504,12 @@
 	embedchance = 100
 	npc_simple_damage_mult = 6 //..or 480 damage against a mindless mob. Only if you're desperate.
 	poisontype = /datum/reagent/water/blessed
-	poisonamount = 10
+	poisonamount = 7
 
 /obj/item/ammo_casing/caseless/rogue/heavy_bolt/silver
 	name = "heavy silver bolt"
 	desc = "A silvered lance, poised to impale the unimaginable. You feel the hands of another guiding your own, as you prepare to load; may it be guidence from a higher power, or your wit upon the verge of breaking? </br>'God, please..'"
+	armor_penetration = 120
 	projectile_type = /obj/projectile/bullet/reusable/heavy_bolt/silver
 	icon_state = "silvheavybolt"
 	max_integrity = 30
@@ -472,13 +519,13 @@
 /obj/projectile/bullet/reusable/heavy_bolt/silver
 	name = "heavy silver bolt"
 	damage = 120
-	armor_penetration = 100 //Same damage, but with absolute penetration. 
+	armor_penetration = 777 //Same damage, but with absolute penetration. 
 	ammo_type = /obj/item/ammo_casing/caseless/rogue/heavy_bolt/silver
 	icon_state = "silvheavybolt_proj"
 	hitsound = 'sound/combat/hits/hi_bolt (3).ogg'
-	speed = 0.4 //Same speed as a crossbow bolt. 
+	speed = 0.8 //Same speed as a crossbow bolt. 
 	poisontype = /datum/reagent/water/blessed
-	poisonamount = 20
+	poisonamount = 10
 	npc_simple_damage_mult = 10 //..or 1200 damage against a mindless mob. If you're using this against one, you're either a fool or have no other choice left. Godspeed.
 
 // PYRO AMMO
@@ -849,7 +896,17 @@
 	throwforce = 20 //you can still throw them
 	dropshrink = 0.6
 	possible_item_intents = list(INTENT_GENERIC) //not intended to attack with them
+	slot_flags = ITEM_SLOT_MOUTH
 	max_integrity = 20
+
+/obj/item/ammo_casing/caseless/rogue/sling_bullet/getonmobprop(tag)
+	. = ..()
+	if(tag)
+		switch(tag)
+			if("gen")
+				return list("shrink" = 0.5,"sx" = -7,"sy" = -5,"nx" = 7,"ny" = -5,"wx" = -3,"wy" = -5,"ex" = 5,"ey" = -5,"northabove" = 0,"southabove" = 1,"eastabove" = 1,"westabove" = 0,"nturn" = 90,"sturn" = -90,"wturn" = -80,"eturn" = 81,"nflip" = 0,"sflip" = 8,"wflip" = 8,"eflip" = 0)
+			if("onbelt")
+				return list("shrink" = 0.3,"sx" = -2,"sy" = -5,"nx" = 4,"ny" = -5,"wx" = 0,"wy" = -5,"ex" = 2,"ey" = -5,"nturn" = 0,"sturn" = 0,"wturn" = 0,"eturn" = 0,"nflip" = 0,"sflip" = 0,"wflip" = 0,"eflip" = 0,"northabove" = 0,"southabove" = 1,"eastabove" = 1,"westabove" = 0)
 
 /obj/item/ammo_casing/caseless/rogue/sling_bullet/stone //these should be seen
 	name = "stone sling bullet"

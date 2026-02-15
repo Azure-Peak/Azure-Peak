@@ -312,3 +312,9 @@
 		M.pixel_y = 5
 		M.pixel_x = 3
 		add_overlay(M)
+
+/obj/machinery/anvil/bronze
+	name = "bronze anvil"
+	desc = "Elevating humenity from its primordial stupor since the earliest daes of Psydonia."
+	icon_state = "broanvil"
+	max_integrity = 400

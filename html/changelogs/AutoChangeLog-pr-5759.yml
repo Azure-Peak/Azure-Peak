@@ -1,0 +1,5 @@
+author: "WeNeedMorePhoron"
+delete-after: True
+changes:
+  - rscadd: "Foldable Cauldron holds 90 units"
+  - rscadd: "Strong potions recipe now directly outputs the result and can be brewed in a foldable cauldron and also looks less weird on the recipe books"
