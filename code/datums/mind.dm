@@ -955,6 +955,10 @@ GLOBAL_LIST_EMPTY(personal_objective_minds)
 						user.mind.special_items -= item
 						var/obj/item/I = new path2item(user.loc)
 						user.put_in_hands(I)
+						// Loadout items cannot be sold, smelted, or salvaged
+						I.sellprice = 0
+						I.smeltresult = null
+						I.salvage_result = null
 						// Apply metadata (color, custom name, custom desc) from gear_list prefs
 						var/list/metadata = user.client?.prefs?.gear_list?[item]
 						if(islist(metadata))
