@@ -416,7 +416,9 @@
 /turf/open/floor/rogue/ruinedwood/spiral,
 /area/rogue/under/tomb/indoors)
 "Rj" = (
-/obj/structure/roguewindow/openclose/reinforced)
+/obj/structure/roguewindow/openclose/reinforced,
+/turf/open/floor/rogue/ruinedwood/spiral,
+/area/rogue/under/tomb/indoors)
 "Rk" = (
 /obj/structure/fluff/railing/border{
 	dir = 5
