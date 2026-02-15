@@ -50719,6 +50719,10 @@
 	},
 /obj/structure/fluff/walldeco/church/line,
 /obj/machinery/light/rogue/candle/blue/l,
+/obj/item/natural/stoneblock{
+	pixel_x = -4;
+	pixel_y = 15
+	},
 /turf/open/floor/rogue/churchmarble,
 /area/rogue/under/cave/scarymaze)
 "lDL" = (
@@ -85724,6 +85728,13 @@
 /obj/structure/flora/roguegrass/water/reeds,
 /turf/open/floor/rogue/grassred,
 /area/rogue/outdoors/rtfield/abandonedhotsprings)
+"tIN" = (
+/obj/item/natural/stoneblock{
+	pixel_x = 15;
+	pixel_y = 19
+	},
+/turf/open/floor/rogue/churchrough,
+/area/rogue/under/cave/scarymaze)
 "tIT" = (
 /obj/structure/flora/roguetree/burnt,
 /turf/open/floor/rogue/naturalstone,
@@ -375038,7 +375049,7 @@ gsr
 gsr
 gsr
 iob
-ulq
+epj
 umJ
 iob
 nCA
@@ -375491,7 +375502,7 @@ suE
 heG
 suE
 heG
-gsr
+tIN
 anz
 cfl
 gsr
