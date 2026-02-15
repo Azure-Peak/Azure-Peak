@@ -114,7 +114,6 @@
 	granted_language = /datum/language/otavan
 	origin_name = "the Underdark"
 	desc = "I originate from the treacherous Underdark, a cavernous region beneath Otava and Grenzelhoft. This unforgiving land is dominated by the prosperous and cruel dark elves and their pets. Most surfacedwellers only come here in chains.<br>"
-	restricted = TRUE
 	races = list(/datum/species/elf/dark,
 				/datum/species/moth,
 				/datum/species/kobold,

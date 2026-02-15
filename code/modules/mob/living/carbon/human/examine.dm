@@ -110,7 +110,7 @@
 				. = list(span_info("ø ------------ ø\nThis is the <EM>[used_name]</EM>, the [race_name]."))
 
 		//Origins
-		. += span_info("[capitalize(m2)] [dna.species.skin_tone_wording ? lowertext(dna.species.skin_tone_wording) : "skin tone"] [dna.species.origin == "Unknown") ? "is implacable." : "originates in [dna.species.origin]"].")
+		. += span_info("[capitalize(m2)] [dna.species.skin_tone_wording ? lowertext(dna.species.skin_tone_wording) : "skin tone"] [(dna.species.origin == "Unknown") ? "is implacable." : "originates in [dna.species.origin]"].")
 
 		if(HAS_TRAIT(src, TRAIT_WITCH))
 			if(HAS_TRAIT(user, TRAIT_NOBLE) || HAS_TRAIT(user, TRAIT_INQUISITION) || HAS_TRAIT(user, TRAIT_WITCH))

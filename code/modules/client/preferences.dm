@@ -2427,8 +2427,8 @@ Slots: [job.spawn_positions] [job.round_contrib_points ? "RCP: +[job.round_contr
 						var/datum/virtue/V = GLOB.virtues[path]
 						if (!V.name)
 							continue
-						//if (V.name == virtue_origin.name)
-						//	continue
+						if (V.name == virtue_origin.name)
+							continue
 						if (!istype(V, /datum/virtue/origin))
 							continue
 						if (V.restricted == TRUE)
