@@ -1,4 +1,0 @@
-author: "hazelrat"
-delete-after: True
-changes:
-  - rscadd: "Implemented a few minor mapping changes to the outpost and wardens' barracks; notably, both now have a vomitorium in their kitchens!"

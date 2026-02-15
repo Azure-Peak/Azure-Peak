@@ -1,0 +1,18 @@
+author: "Ollanius"
+delete-after: True
+changes:
+  - balance: "All axes now deal increased damage when cutting and chopping, more-so if they're purpose-made for battle."
+  - balance: "All greataxes that aren't purpose-made for battle now use the regular variants of their long-ranged cuts and chops."
+  - balance: "All battleaxes now deal more damage when bashing, and have limited access to a one-handed thrusting attack."
+  - balance: "Double-Headed Greataxes now require a minimum of XIII STR to effectively wield."
+  - balance: "All greataxes and battleaxes are now heavy-balanced."
+  - balance: "Hatchets are now swift-balanced."
+  - balance: "The AP value on all axes has been reduced - chops now have 30AP instead of 40AP, and cuts have 15AP instead of 25AP. This should still result in roughly the same amount of penetration as before, while dealing more damage to flesh."
+  - balance: "Hatchets can now fit inside belts (with a 1x3 grid), are now smithable and importable, and have a new sprite."
+  - balance: "Psydonic War Axes now deal 25 DMG when unwielded, just like the more-agnostic Silver War Axe."
+  - balance: "The Woodcutting Handaxe has lost a teensy bit of durability and structural damage, but still remains quite good."
+  - balance: "Slightly buffed the power of certain axes, found only within the hands of a greatbeaste-or-two.."
+  - balance: "Swingdelay's now segmented for chops. Regular chops take 0.8 seconds, battleaxe-type chops take 1 second, etc."
+  - balance: "Silver, Psydonic, and Double-Headed Axes now have a 'MINSTR_REQ' tag. This prevents them from dealing full damage if you're weaker than the listed requirement, regardless of whether you two-hand them or not."
+  - balance: "Silver and Psydonic Axes now level out to a minimum of XI STR for wielding."
+  - rscadd: "Steel Poleaxes are now simply termed as 'Poleaxes'."

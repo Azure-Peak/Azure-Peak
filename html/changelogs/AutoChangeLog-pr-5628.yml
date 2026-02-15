@@ -1,0 +1,11 @@
+author: "Ollanius"
+delete-after: True
+changes:
+  - balance: "Crossbows can now be used to parry attacks in melee, at the cost of having limited durability."
+  - balance: "Siegebows now deal a litany of heavy-but-short-lived debuffs upon impact. Stagger the foes from afar!"
+  - balance: "Siegebows now deal extreme structural damage, capable of destroying walls and defenses in one shot. Thanks, Ketrai!"
+  - balance: "Siegebows now have a noticeable delay to holstering and drawing."
+  - balance: "Bolts, arrows, and sling bullets can now be carried - individually - on the hip and mouth slots."
+  - rscadd: "Siegebows now spawn a (mostly) harmless explosion whenever striking an applicable structure or turf, for cinema's sake. Thanks, Ryan!"
+  - rscadd: "Bolts, arrows, and sling bullets now have generated inhands. Not perfect ones, mind you, but they work quite well."
+  - balance: "Buttstrikes with a Crossbow now have a minor damage multiplier."

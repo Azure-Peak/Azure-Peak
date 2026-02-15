@@ -463,3 +463,42 @@
   - qol: dual wielding from rng to stack
   hubertjones:
   - config: 2 new ckeys to bamboo hat donator item
+2026-02-14:
+  FreeStylaLT:
+  - bugfix: The Baothan trait of no overdose is now given to T1 clerics (Any dedicated
+      miracle class)
+  - bugfix: Lover's Ruin is now a T1, fixing the oddity of drinking something that
+      poisoned you.
+  - bugfix: Fixed the Solar Sabre disintegrating when sheathed.
+  Lamasmaster:
+  - rscadd: Economic Roleplay Panel Options
+  - bugfix: Economic Roleplay Panel
+  Ollanius:
+  - rscadd: The 'Riding' skill can now be trained by riding a mount while RUN is active.
+      This can be trained up to Apprentice, or - if your character's of nobility -
+      Journeyman.
+  Ryan180602:
+  - balance: Confessor Arbalist gets D-all tier, 100 integ manually repairable (with
+      needle or cautery) skin armour.
+  - bugfix: Pushup armour that were leather tier are actually leather tier, now.
+  - rscadd: Sewable armour.
+  - bugfix: fixes sew armour.
+  WeNeedMorePhoron:
+  - rscadd: Added a 20 "limit" to each towner subclass so you can preview who is playing
+      what classes. Levy and all thug subclasses now display properly
+  - rscadd: Enchanting Scroll is now 2x1
+  - rscadd: T5 Binding Shackles now costs a voidstone instead of a T5 Meld
+  bearrrrrrrr:
+  - balance: revert astrata miracles back to their original, non-one-shot behavior;
+      adds a fire-stack consuming mechanic to the astrata grasp and moves it to heretic
+  hazelrat:
+  - rscadd: Implemented a few minor mapping changes to the outpost and wardens' barracks;
+      notably, both now have a vomitorium in their kitchens!
+  - rscdel: Players are no longer sent back to the lobby after being buried with a
+      grave marker.
+  - rscdel: Players no longer gain PQ from consecrating graves.
+  nauticall:
+  - rscadd: Master/skeleton keys can now lock and unlock SILVERFACES and GOLDFACES.
+  - bugfix: The Grand Duke can now make Priority Postings and also remove postings
+      on the Notice Board.
+  - image: Added a new sprite for the skeleton key.

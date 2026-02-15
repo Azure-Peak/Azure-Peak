@@ -1,5 +1,0 @@
-author: "hazelrat"
-delete-after: True
-changes:
-  - rscdel: "Players are no longer sent back to the lobby after being buried with a grave marker."
-  - rscdel: "Players no longer gain PQ from consecrating graves."

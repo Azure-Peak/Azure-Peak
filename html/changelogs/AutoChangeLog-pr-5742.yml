@@ -1,0 +1,4 @@
+author: "WeNeedMorePhoron"
+delete-after: True
+changes:
+  - rscadd: "Chocolate is now importable from Grenzelhoft. Feeds some to your lupian / venardine friends."

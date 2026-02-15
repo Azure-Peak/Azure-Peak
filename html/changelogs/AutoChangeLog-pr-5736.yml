@@ -1,0 +1,4 @@
+author: "WeNeedMorePhoron"
+delete-after: True
+changes:
+  - rscadd: "Spell recharging time should accounts for server time dilation properly. Report if it feels a bit smoother."
