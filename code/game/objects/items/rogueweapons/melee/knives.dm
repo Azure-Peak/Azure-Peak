@@ -455,7 +455,6 @@
 	down men as it is foiliage, but not quite as durable as more modern steel tools. More suitable for cutting than for thrusting."
 	icon_state = "warden_machete"
 	sheathe_icon = "warden_machete"
-	demolition_mod = 1.5 // Not quite as good at destroying structures as an axe, but it *is* a machete.
 
 /obj/item/rogueweapon/huntingknife/combat/messser //Just as Grenzelhoft intended
 	name = "kampfmesser"
