@@ -10194,10 +10194,7 @@
 /turf/closed/wall/mineral/rogue/decowood/vert,
 /area/rogue/outdoors/town)
 "cxj" = (
-/obj/structure/stairs,
 /obj/item/natural/poo,
-/obj/structure/fluff/railing/border/west,
-/obj/structure/fluff/railing/border/east,
 /turf/open/floor/rogue/cobble,
 /area/rogue/under/town/basement/keep)
 "cxm" = (
@@ -397272,7 +397269,7 @@ bGf
 khy
 tyr
 dPx
-dPx
+xZf
 vxe
 vxe
 vak
