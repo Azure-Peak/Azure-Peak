@@ -99432,7 +99432,7 @@
 /turf/open/floor/rogue/ruinedwood/spiral,
 /area/rogue/outdoors/beach/central)
 "xBu" = (
-/obj/structure/floordoor{
+/obj/structure/floordoor/open{
 	redstone_id = "castle_sally_gate2"
 	},
 /turf/open/transparent/openspace,
