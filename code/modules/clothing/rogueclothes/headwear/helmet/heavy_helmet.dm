@@ -748,7 +748,6 @@
 	prevent_crits = PREVENT_CRITS_ALL
 	body_parts_covered = FULL_HEAD|NECK
 	flags_inv = HIDEEARS|HIDEFACE|HIDEHAIR
-	block2add = FOV_RIGHT|FOV_LEFT
 	max_integrity = ARMOR_INT_HELMET_HEAVY_STEEL + ARMOR_INT_HELMET_HEAVY_ADJUSTABLE_PENALTY // Worst vision. Yes.
 	smeltresult = /obj/item/ingot/steel
 	smelt_bar_num = 2
