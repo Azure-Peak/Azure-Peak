@@ -172,11 +172,28 @@
 /datum/loadout_item/donator_koruu
 	name = "Donator Kit - Well-Worn Bamboo Hat"
 	path = /obj/item/clothing/head/roguetown/mentorhat/koruu
-	ckeywhitelist = list("koruu", "painfeeler", "poots13")
+	ckeywhitelist = list("koruu", "painfeeler", "poots13", "vakiova")
 	sort_category = "Donator"
 
 /datum/loadout_item/donator_dakken
 	name = "Donator Kit - Armoured Avantyne Barbute"
 	path = /obj/item/enchantingkit/dakken_zizhelm
 	ckeywhitelist = list("dakken12") 
+	sort_category = "Donator"
+
+/datum/loadout_item/donator_koruu/glaive
+	name = "Donator Kit - Glaive"
+	path = /obj/item/enchantingkit/koruu_glaive
+	sort_category = "Donator"
+
+/datum/loadout_item/donator_stinketh
+	name = "Donator Kit - Silver Shashka"
+	path = /obj/item/enchantingkit/stinketh_shashka
+	ckeywhitelist = list("stinkethstonketh")
+	sort_category = "Donator"
+
+/datum/loadout_item/donator_stinketh/pike
+	name = "Donator Kit - Pike"
+	path = /obj/item/enchantingkit/stinketh_pike
+	ckeywhitelist = list("stinkethstonketh")
 	sort_category = "Donator"
