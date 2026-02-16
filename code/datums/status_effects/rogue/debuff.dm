@@ -192,6 +192,9 @@
 		C.update_inv_legcuffed()
 		C.remove_movespeed_modifier(MOVESPEED_ID_NET_SLOWDOWN)
 
+/datum/status_effect/debuff/netted/vile
+	duration = 10 SECONDS
+
 /atom/movable/screen/alert/status_effect/debuff/sleepytime
 	name = "Tired"
 	desc = "I should get some rest."
