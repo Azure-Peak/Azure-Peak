@@ -114,11 +114,11 @@
 	origin_name = "the Underdark"
 	desc = "I originate from the treacherous Underdark, a cavernous region beneath Otava and Grenzelhoft. This unforgiving land is dominated by the prosperous and cruel dark elves and their pets. Most surfacedwellers only come here in chains.<br>"
 	races = list(/datum/species/elf/dark,
-				/datum/species/moth,
+				/datum/species/human/halfelf,
 				/datum/species/kobold,
-				/datum/species/halforc,
+				/datum/species/dwarf,
+				/datum/species/dwarf/gnome,
 				/datum/species/goblinp,
-				/datum/species/anthromorph,
 				/datum/species/anthromorphsmall
 )
 	origin_desc = "PLEASE PING THE LORE TEAM TO ADD LORE FOR THIS"
