@@ -52,13 +52,17 @@
 	name = "Gronnic"
 	origin_name = "Gronn"
 	added_languages = list(/datum/language/gronnic)
-	desc = "I originate from the brisk grasslands of Gronn, a tribal confederation of northmen and half-orcs nestled in the Skol River Valley. Gronnic culture is fierce, martial and vengeful, and blood feuds still split the clans to this day.<br>"
-	origin_desc = "A tribal confederation of northmen and half-orcs nestled in the Skol River Valley.<br> Centuries of war between humen and orcs have stained these grassy \
-	plains, but a shaky peace was eventually brought when the half-orc warlord Gronn used a clever mix of force and diplomacy to unite the people of the valley into one \
-	loose confederation. Many years after the warlord's death, the League still remains, though it is still prone to constant small-scale internal conflict. At the same \
-	time, the skirmishes between these loosely-aligned tribes has brought its own form of assimilation.<br> Full-blooded orcs are exceedingly rare in the modern day, and it \
-	is not uncommon in Gronn to see half-orcs and humens living in coexistence. The region is a vital source of salt, iron, and timber, and is known for a love of \
-	fermented foods and strong, bitter liquor."
+	desc = "I originate from the frozen taiga of Gronn, a confederation of northmen and goblins nestled in the Greywall Mountain Ranges. \
+	Gronnic culture is fierce and isolationistic. \
+	The dangerous wildlife and environment have brought the warring clans together under a single banner.<br>"
+	origin_desc = "The hilly taiga of Gronn are rampant with cold winds biting through the skin of bare men and women blasting between towering trees \
+	of pine with a culture being mixes of various northmen. Many find themselves wearing dense fabrics of animal hides often the most curious \
+	to travelers is the raw appearance of their attire. Gronn is often referred to as the sisterland to the 'Fjall' or northern empty with \
+	much of its shamanic culture becoming part of the general Gronnic culture. The Valkyrie had used a clever mix of force and diplomacy \
+	to unique the people of Gronn and the Fjall under a single banner. The unifcation of their clans and tribes have brought much assimilation \
+	and mixing of cultures with the most known being their religious practice of the Four Beasts and their fear to speak the name of Gods, \
+	worried it will invoke their wrath and ire. The region is a vital source of Iron, Timber and hides and known for their extremely large \
+	beasts and sweet liquor and culinary ability."
 
 /datum/virtue/origin/raneshen
 	name = "Ranesheni"
@@ -118,3 +122,6 @@
 				/datum/species/anthromorphsmall
 )
 	origin_desc = "PLEASE PING THE LORE TEAM TO ADD LORE FOR THIS"
+
+/datum/virtue/origin/apply_to_human(mob/living/carbon/human/recipient)
+	recipient.dna.species.origin = origin_name
