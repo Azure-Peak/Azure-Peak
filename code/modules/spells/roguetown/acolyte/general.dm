@@ -387,7 +387,7 @@
 	return FALSE
 
 /obj/effect/proc_holder/spell/invoked/blood_heal
-	name = "Blood transfer Miracle"
+	name = "Blood Transfer"
 	desc = "Transfers the blood from myself to the target with divine magycks. Ratio of transfer scales with holy skill."
 	overlay_icon = 'icons/mob/actions/genericmiracles.dmi'
 	overlay_state = "bloodheal"
