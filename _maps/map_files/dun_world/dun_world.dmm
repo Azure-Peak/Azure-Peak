@@ -59955,14 +59955,6 @@
 	},
 /turf/open/floor/rogue/tile/harem2,
 /area/rogue/indoors/town/bath)
-"ocL" = (
-/obj/structure/mineral_door/wood{
-	locked = 1;
-	lockid = "squire_room_three";
-	name = "Squire Chamber III"
-	},
-/turf/open/floor/rogue/cobble,
-/area/rogue/under/town/basement/keep)
 "ocN" = (
 /mob/living/simple_animal/hostile/rogue/skeleton/bow,
 /turf/open/floor/rogue/dirt,
@@ -287700,7 +287692,7 @@ iad
 iad
 iad
 iad
-ocL
+qcz
 hFg
 jYK
 wxu
