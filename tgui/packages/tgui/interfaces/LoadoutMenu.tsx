@@ -7,6 +7,7 @@ import {
   Stack,
   Table,
   Tabs,
+  TextArea,
 } from 'tgui-core/components';
 
 import { useBackend } from '../backend';
@@ -196,7 +197,7 @@ const TweakRow = (props: {
               />
             )}
           </Box>
-          {/* Line 2: Custom name + desc */}
+          {/* Line 2: Custom name */}
           <Box>
             <Box inline mr={1}>
               <Box inline color="label" mr={0.5}>
@@ -212,25 +213,22 @@ const TweakRow = (props: {
                 onBlur={(val) => commitName(val)}
               />
             </Box>
-            <Box inline mr={1}>
-              <Box inline color="label" mr={0.5}>
-                Desc:
-              </Box>
-              <Input
-                width="250px"
-                maxLength={1024}
-                placeholder="Custom desc..."
-                value={localDesc}
-                onChange={(val) => setLocalDesc(val)}
-                onEnter={(val) => commitDesc(val)}
-                onBlur={(val) => commitDesc(val)}
-              />
+          </Box>
+          {/* Line 3: Custom desc (full width textarea) */}
+          <Box mt={0.3}>
+            <Box color="label" mb={0.3}>
+              Description (max 1024 chars):
             </Box>
-            {localName && (
-              <Box inline color="label" fontSize={0.85}>
-                Shows as: &quot;{localName} ({itemName})&quot;
-              </Box>
-            )}
+            <TextArea
+              fluid
+              maxLength={1024}
+              height="60px"
+              placeholder="Custom description..."
+              value={localDesc}
+              onChange={(val) => setLocalDesc(val)}
+              onBlur={(val) => commitDesc(val)}
+              dontUseTabForIndent
+            />
           </Box>
         </Box>
       </Table.Cell>
