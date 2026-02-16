@@ -11920,6 +11920,11 @@
 "cQe" = (
 /turf/closed/wall/mineral/rogue/decostone/end/north,
 /area/rogue/indoors/town/church/chapel)
+"cQj" = (
+/obj/effect/decal/cleanable/dirt/cobweb,
+/obj/machinery/light/rogue/candle/blue/l,
+/turf/open/floor/rogue/church,
+/area/rogue/indoors/town/magician)
 "cQq" = (
 /obj/structure/chair/stool/rogue,
 /turf/open/floor/rogue/ruinedwood/spiral,
@@ -15170,10 +15175,6 @@
 /obj/effect/spawner/lootdrop/roguetown/dungeon/armor,
 /turf/open/floor/rogue/cobblerock,
 /area/rogue/under/cave/mazedungeon)
-"dGr" = (
-/obj/machinery/light/rogue/candle/blue/r,
-/turf/open/floor/rogue/concrete,
-/area/rogue/indoors/town/magician)
 "dGx" = (
 /obj/machinery/light/oldlight,
 /turf/open/floor/rogue/metal/barograte/open,
@@ -35591,12 +35592,6 @@
 /obj/structure/fluff/railing/border/east,
 /turf/open/floor/rogue/tile,
 /area/rogue/indoors/town/church/chapel)
-"ivy" = (
-/obj/machinery/light/rogue/candle/blue{
-	pixel_y = -32
-	},
-/turf/open/floor/rogue/church,
-/area/rogue/indoors/town/magician)
 "ivC" = (
 /obj/structure/roguemachine/atm,
 /turf/open/floor/rogue/herringbone,
@@ -47649,6 +47644,13 @@
 /obj/structure/flora/roguegrass/water,
 /turf/open/water/cleanshallow,
 /area/rogue/under/cavewet/bogcaves/west)
+"liF" = (
+/obj/structure/stairs{
+	dir = 8
+	},
+/obj/machinery/light/rogue/candle/blue,
+/turf/open/floor/rogue/hexstone,
+/area/rogue/indoors/town/magician)
 "liH" = (
 /obj/structure/chair/wood/rogue{
 	dir = 8
@@ -57550,10 +57552,6 @@
 /obj/structure/spider/stickyweb,
 /turf/open/floor/rogue/dirt,
 /area/rogue/under/cave)
-"nyh" = (
-/obj/machinery/light/rogue/candle/blue/l,
-/turf/open/floor/rogue/concrete,
-/area/rogue/indoors/town/magician)
 "nyi" = (
 /mob/living/simple_animal/hostile/retaliate/rogue/mole,
 /turf/open/floor/rogue/dirt,
@@ -84002,6 +84000,10 @@
 	},
 /turf/open/floor/rogue/naturalstone,
 /area/rogue/outdoors/mountains/decap/gunduzirak)
+"tQy" = (
+/obj/machinery/light/rogue/candle/blue/l,
+/turf/open/floor/rogue/church,
+/area/rogue/indoors/town/magician)
 "tQA" = (
 /obj/item/reagent_containers/powder/salt,
 /turf/open/floor/rogue/dirt/road,
@@ -89202,10 +89204,6 @@
 	dir = 1
 	},
 /area/rogue/indoors/town/manor)
-"vaI" = (
-/obj/machinery/light/rogue/candle/blue,
-/turf/open/floor/rogue/concrete,
-/area/rogue/indoors/town/magician)
 "vaJ" = (
 /obj/structure/chair/stool/rogue,
 /turf/open/floor/rogue/twig,
@@ -94110,12 +94108,6 @@
 /obj/structure/fluff/railing/corner/south_east,
 /turf/open/floor/rogue/ruinedwood,
 /area/rogue/indoors/town)
-"wiY" = (
-/obj/structure/roguemachine/scomm/l{
-	scom_tag = "University - Summoning Chamber"
-	},
-/turf/open/floor/rogue/concrete/bronze,
-/area/rogue/indoors/town/magician)
 "wiZ" = (
 /obj/structure/flora/roguegrass,
 /obj/structure/flora/ausbushes/ywflowers,
@@ -99879,11 +99871,6 @@
 	},
 /turf/open/floor/rogue/cobble/mossy,
 /area/rogue/under/underdark/north)
-"xCh" = (
-/obj/effect/decal/cleanable/dirt/cobweb,
-/obj/machinery/light/rogue/candle/blue,
-/turf/open/floor/rogue/church,
-/area/rogue/indoors/town/magician)
 "xCj" = (
 /obj/effect/decal/cleanable/blood/tracks,
 /mob/living/carbon/human/species/skeleton/npc/mediumspread,
@@ -99981,6 +99968,10 @@
 /obj/machinery/light/rogue/firebowl/standing,
 /turf/open/floor/rogue/grass,
 /area/rogue/outdoors/mountains)
+"xDP" = (
+/obj/machinery/light/rogue/candle/blue/r,
+/turf/open/floor/rogue/church,
+/area/rogue/indoors/town/magician)
 "xDQ" = (
 /obj/structure/fluff/railing/border,
 /turf/open/floor/rogue/tile/harem,
@@ -102740,6 +102731,12 @@
 /obj/machinery/light/rogue/firebowl/church,
 /turf/open/floor/rogue/churchmarble,
 /area/rogue/under/cave/dragonden)
+"yke" = (
+/obj/structure/roguemachine/scomm/l{
+	scom_tag = "University - Summoning Chamber"
+	},
+/turf/open/floor/rogue/church,
+/area/rogue/indoors/town/magician)
 "ykg" = (
 /obj/structure/table/wood/poor,
 /turf/open/floor/rogue/cobblerock,
@@ -159813,15 +159810,15 @@ cbx
 iSm
 iSm
 ogs
-ogs
-ogs
+iSm
+iSm
 iSm
 iSm
 brh
 iSm
 iSm
-ogs
-ogs
+iSm
+iSm
 ogs
 cqm
 urZ
@@ -160264,17 +160261,17 @@ ukG
 ukG
 wnB
 iSm
-ogs
 iSm
 iSm
-iSm
-xCh
+yke
+tQy
+aST
 hke
-ivy
+aST
+tQy
+aST
 iSm
 iSm
-iSm
-ogs
 cqm
 ylh
 mMx
@@ -160716,17 +160713,17 @@ rvB
 ukG
 wnB
 iSm
-ogs
 iSm
-wiY
-nyh
-xVh
-xVh
-xVh
-nyh
+cQj
 hke
+xVh
+xVh
+xVh
+xVh
+xVh
+hke
+tQy
 iSm
-ogs
 cqm
 ylh
 mMx
@@ -161168,16 +161165,16 @@ ukG
 ukG
 wnB
 iSm
-bVo
 iSm
-vaI
+ghX
+xVh
 tPf
 aST
 aST
 aST
 aST
 xVh
-iSm
+aST
 iSm
 cqm
 ylh
@@ -162977,15 +162974,15 @@ ukG
 anI
 jfv
 iSm
-iSm
-vaI
+ghX
+xVh
 aST
 aST
 aST
 aST
 tPf
 xVh
-iSm
+aST
 iSm
 cqm
 ylh
@@ -163429,16 +163426,16 @@ ukG
 anI
 sws
 iSm
-iSm
+xDP
 hke
-dGr
 xVh
 xVh
 xVh
-dGr
+xVh
+xVh
 hke
+xDP
 iSm
-skC
 cqm
 ylh
 mMx
@@ -163882,15 +163879,15 @@ iSm
 dQN
 iSm
 iSm
-iSm
-iSm
-ghX
+aST
+aST
+aST
 hke
-ivy
+aST
+aST
+aST
 iSm
 iSm
-iSm
-skC
 cqm
 dxA
 mMx
@@ -164336,7 +164333,7 @@ iSm
 iSm
 iSm
 iSm
-tTS
+liF
 tTS
 tTS
 iSm
