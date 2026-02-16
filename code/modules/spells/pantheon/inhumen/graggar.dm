@@ -30,7 +30,7 @@
 /obj/effect/proc_holder/spell/invoked/projectile/blood_net
 	name = "Unholy Grasp"
 	desc = "Unleashes a snare of external blood and guts. The viscera winds around the legs of mortals... \
-	Though has little effect on simple creatures."
+	Though has little effect on simple creatures. Mortals cannot remove the net, but it decays ten seconds after landing."
 	overlay_state = "unholy_grasp"
 	associated_skill = /datum/skill/magic/holy
 	projectile_type = /obj/projectile/magic/unholy_grasp
