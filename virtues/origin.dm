@@ -1,6 +1,5 @@
 // Race list means RESTRICTED from the LISTED races.
 /datum/virtue/origin
-	var/granted_language = null
 	var/origin_name = "Unknown"
 
 /datum/virtue/origin/unknown
@@ -9,22 +8,18 @@
 	desc = "I hail from nowhere in particular, thus I know no regional tongue in particular.<br>"
 	origin_desc = "Wanderers, peasantry, abandoned orphans or souls left to wander the bygone world, with no identity associated with them."
 
-/datum/virtue/origin/proc/apply_language(mob/living/carbon/human/recipient)
-	if(granted_language && recipient && recipient.mind)
-		recipient.grant_language(granted_language)
-
 /datum/virtue/origin/azuria
 	name = "Azurian"
 	origin_name = "Azuria"
 	desc = "I originate from the settled lands of Azuria, an independent domain sandwiched between Otava and Grenzelhoft. Famed for its delicious waffles and many ancient ruins, it is neither prosperous nor well-respected.<br>"
 	restricted = FALSE
-	granted_language = /datum/language/oldazurian
+	added_languages = list(/datum/language/oldazurian)
 	origin_desc = "PING THE LORE TEAM TO ADD THIS"
 
 /datum/virtue/origin/grenzelhoft
 	name = "Grenzelhoftian"
 	origin_name = "Grenzelhoft"
-	granted_language = /datum/language/grenzelhoftian
+	added_languages = list(/datum/language/grenzelhoftian)
 	desc = "I originate from the dark boreal woods of Grenzelhoft, the birthplace of humanity. The Empire has a long history of conflict with Otava. Long live emperor Kovel II!<br>"
 	origin_desc = "Believed to be the birthplace of humanity, the Grenzelhoft region is steeped in tradition and history.<br> Loosely organized under Emperor Kövel II, the \
 	Grenzelhoft Empire once spanned all the way from the Hammerhold mountains to the Southern Sea. Its current state is far smaller, reduced to a decentralized body of \
@@ -35,7 +30,7 @@
 /datum/virtue/origin/etrusca
 	name = "Etruscan"
 	origin_name = "Etrusca"
-	granted_language = /datum/language/etruscan
+	added_languages = list(/datum/language/etruscan)
 	desc = "I originate from tropical Etrusca, an archipelago of maritime city-states located off the eastern coast of Otava. Skilled traders and sailors, Etruscans have probably rubbed shoulders (or other parts) with more races than most humens know exist.<br>"
 	origin_desc = "An archipelago of maritime city-states located off the eastern coast of the Otavan countryside.<br> Etrusca is not one unified state, existing instead as \
 	many different polities, each with their own regional traditions and dialects. Etruscans are known for their seafaring technology and typically make for strong \
@@ -44,7 +39,7 @@
 /datum/virtue/origin/otava
 	name = "Otavan"
 	origin_name = "Otava"
-	granted_language = /datum/language/otavan
+	added_languages = list(/datum/language/otavan)
 	desc = "I originate from the gently rolling hills of Otava, a religious union of duchies and counties who answer to the Patriarch of the Otavan Archdiocese.<br>"
 	origin_desc = "A religious union of duchies and counties who answer to the Patriarch of the Otavan Archdiocese.<br> Otava is a deeply devout country and exists as a \
 	Psydonian theocracy. It's most famous for its winemaking and textile industries, as well as its rich culture and cuisine. The Otavan countryside is well-known for \
@@ -56,7 +51,7 @@
 /datum/virtue/origin/gronn
 	name = "Gronnic"
 	origin_name = "Gronn"
-	granted_language = /datum/language/gronnic
+	added_languages = list(/datum/language/gronnic)
 	desc = "I originate from the brisk grasslands of Gronn, a tribal confederation of northmen and half-orcs nestled in the Skol River Valley. Gronnic culture is fierce, martial and vengeful, and blood feuds still split the clans to this day.<br>"
 	origin_desc = "A tribal confederation of northmen and half-orcs nestled in the Skol River Valley.<br> Centuries of war between humen and orcs have stained these grassy \
 	plains, but a shaky peace was eventually brought when the half-orc warlord Gronn used a clever mix of force and diplomacy to unite the people of the valley into one \
@@ -68,7 +63,7 @@
 /datum/virtue/origin/raneshen
 	name = "Ranesheni"
 	origin_name = "Raneshan"
-	granted_language = /datum/language/celestial
+	added_languages = list(/datum/language/celestial)
 	desc = "I originate from the lush valleys and harsh badlands of Raneshen. Home to the zealous sun elves, the region sits at the gateway between the East and West. Recently engulfed in a violent holy war between the followers of the Old God and the Solarin.<br>"
 	origin_desc = "Home to the zealous sun elves, the region of Raneshen sits at the gateway between the East and West.<br> Its lands were once ruled by the Solarin, a divine \
 	caste of Astratan sun elf paladins who deeply venerated Astrata and practiced widespread humen slavery. The empire met its end when an Otavan missionary brought the \
@@ -80,7 +75,7 @@
 /datum/virtue/origin/naledi
 	name = "Naledian"
 	origin_name = "Naledi"
-	granted_language = /datum/language/celestial
+	added_languages = list(/datum/language/celestial)
 	desc = "I originate from the sandy dunes of Naledi, known for its mages and scholars. Its people keep to the traditions of the Old God, even in the empire's dying age.<br>"
 	origin_desc = "When the Tennite faith first swept through the world many centuries ago, the people of Naledi were left entirely untouched.<br> Though knowledge of PSYDON \
 	had faded under Astrata's eye, for the Naledi people, the traditions of the Old God have remained alive and well since the dawn of time - a fact that their libraries \
@@ -91,27 +86,27 @@
 /datum/virtue/origin/kazengun
 	name = "Kazengunese"
 	origin_name = "Kazengun"
-	granted_language = /datum/language/kazengunese
+	added_languages = list(/datum/language/kazengunese)
 	desc = "I originate from the temperate forests of Kazengun, a region poorly known to the West. Its people worship a syncretic variation of the Divine Pantheon, often percieved as heretical.<br>"
 	origin_desc = "PLEASE PING THE LORE TEAM TO ADD LORE FOR THIS"
 
 /datum/virtue/origin/hammerhold
 	name = "Hammerholdian"
 	origin_name = "Hammerhold"
-	granted_language = /datum/language/dwarvish
+	added_languages = list(/datum/language/dwarvish)
 	desc = "I originate from mountainous Hammerhold, a frigid archipelago in the far north. The region is considered the homeland of the Dwarves.<br>"
 	origin_desc = "PLEASE PING THE LORE TEAM TO ADD LORE FOR THIS"
 
 /datum/virtue/origin/avar
 	name = "Aavnic"
 	origin_name = "Avar"
-	granted_language = /datum/language/aavnic
+	added_languages = list(/datum/language/aavnic)
 	desc = "I originate from the open plains of Avar, a nomadic people residing the Aavnic steppes. The only settled land consists of small, independent city-states, often engulfed in war with eachother.<br>"
 	origin_desc = "PLEASE PING THE LORE TEAM TO ADD LORE FOR THIS"
 
 /datum/virtue/origin/racial/underdark
 	name = "Underdweller"
-	granted_language = /datum/language/otavan
+	added_languages = list(/datum/language/otavan)
 	origin_name = "the Underdark"
 	desc = "I originate from the treacherous Underdark, a cavernous region beneath Otava and Grenzelhoft. This unforgiving land is dominated by the prosperous and cruel dark elves and their pets. Most surfacedwellers only come here in chains.<br>"
 	races = list(/datum/species/elf/dark,
@@ -123,7 +118,3 @@
 				/datum/species/anthromorphsmall
 )
 	origin_desc = "PLEASE PING THE LORE TEAM TO ADD LORE FOR THIS"
-
-/datum/virtue/origin/apply_to_human(mob/living/carbon/human/recipient)
-	addtimer(CALLBACK(src, .proc/apply_language, recipient), 50)
-	recipient.dna.species.origin = origin_name
