@@ -79,5 +79,18 @@
 	desc = "The dark shafts, the damp smells of ichor and the laboring hours are no stranger to me. I keep my pickaxe and lamptern close, and have been taught how to mine well."
 	added_stashed_items = list(
 		"Steel Pickaxe" = /obj/item/rogueweapon/pick/steel,
-		"Lamptern" = /obj/item/flashlight/flare/torch/lantern)
-	added_skills = list(list(/datum/skill/labor/mining, 3, 6))
+		"Lamptern" = /obj/item/flashlight/flare/torch/lantern
+	)
+	added_skills = list(
+		list(/datum/skill/labor/mining, 3, SKILL_LEVEL_LEGENDARY)
+	)
+
+/datum/virtue/utility/woodcutting
+	name = "Woodcutter's Apprentice"
+	desc = "I know which way the tree falls, when you sever it from its roots. Hence, I keep my axe close."
+	added_stashed_items = list(
+		"Steel Axe" = /obj/item/rogueweapon/stoneaxe/woodcut/steel/woodcutter
+	)
+	added_skills = list(
+		list(/datum/skill/labor/lumberjacking, 3, SKILL_LEVEL_LEGENDARY)
+		)

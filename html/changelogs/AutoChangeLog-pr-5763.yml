@@ -1,0 +1,4 @@
+author: "WeNeedMorePhoron"
+delete-after: True
+changes:
+  - rscadd: "FOR ADMINS: Added Disable AI checkbox to the Create Mob panel, which allows you to disable the AI (permanently) if you need it for testing purpose or event purpose."

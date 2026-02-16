@@ -84,6 +84,10 @@ GLOBAL_LIST_INIT(roguetown_areas_typecache, typecacheof(/area/rogue/indoors/town
 	name = "Event Area"
 	deathsight_message = "a place shielded from mortal eyes"
 
+/area/rogue/indoors/eventarea/multiz
+	name = "Event Area Multiz"
+	deathsight_message = "a place shielded from mortal eyes"
+
 ///// OUTDOORS AREAS //////
 
 /area/rogue/outdoors

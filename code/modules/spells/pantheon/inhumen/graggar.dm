@@ -29,40 +29,44 @@
 //Unholy Grasp - Throws disappearing net made of viscera at enemy. Creates blood on impact.
 /obj/effect/proc_holder/spell/invoked/projectile/blood_net
 	name = "Unholy Grasp"
-	desc = "Toss forth an unholy snare of blood and guts a short distance, summoned from your leftover trophies sacrificed to Graggar. Like a net, may it snare your target!"
-	clothes_req = FALSE
+	desc = "Unleashes a snare of external blood and guts. The viscera winds around the legs of mortals... \
+	Though has little effect on simple creatures."
 	overlay_state = "unholy_grasp"
-	range = 3													//It's a net, so low range.
-	req_inhand = /obj/item/alch/viscera							//Need to have viscera inhand to cast this.
 	associated_skill = /datum/skill/magic/holy
 	projectile_type = /obj/projectile/magic/unholy_grasp
-	chargedloop = /datum/looping_sound/invokeholy
+	chargedloop = /datum/looping_sound/invokeascendant // this should stand out on a gaggar guy
 	releasedrain = 30
 	chargedrain = 0
 	chargetime = 15
-	recharge_time = 10 SECONDS
+	recharge_time = 40 SECONDS // no running, super slow. this FUCKS people. lower it if 40 is too much.
+	invocation_type = "shout"
+	invocations = list("STOP RUNNING, COWARD!!") // VERY loud. do NOT add other invocations, this projectile can FUUUCK people up and needs to be telegraphed.
+	sound = 'sound/magic/soulsteal.ogg'
 
 /obj/projectile/magic/unholy_grasp
-	name = "viceral organ net"
+	name = "visceral organ net"
 	icon_state = "tentacle_end"
 	nodamage = TRUE
+	range = 8 // you can dodge it, see speed. lower if need be.
+	speed = 1.6
+	hitsound = 'sound/magic/slimesquish.ogg'
 
-/obj/projectile/magic/unholy_grasp/on_hit(atom/hit_atom, datum/thrownthing/throwingdatum)
-	if(..() || !iscarbon(hit_atom))
+/obj/projectile/magic/unholy_grasp/on_hit(target)
+	. = ..()
+	if(!iscarbon(target))
 		return
-	
-	ensnare(hit_atom)
+	if(target)
+		ensnare(target)
 
 /obj/projectile/magic/unholy_grasp/proc/ensnare(mob/living/carbon/carbon)
 	if(carbon.legcuffed || carbon.get_num_legs(FALSE) < 2)
 		return
 
-	visible_message(span_danger("\The [src] ensnares [carbon] in vicera!"))
+	carbon.visible_message(span_warning("The [src] ensnares [carbon] around their legs in a horrid cacophany of blood and guts!"), span_warning("I AM ENCAPTURED BY BLOOD AND GUTS! THERES A NET ON MY LEGS!"))
 	carbon.legcuffed = src
 	forceMove(carbon)
 	carbon.update_inv_legcuffed()
 	SSblackbox.record_feedback("tally", "handcuffs", 1, type)
-	to_chat(carbon, span_danger("\The [src] ensnares you!"))
 	carbon.Knockdown(knockdown)
 	carbon.apply_status_effect(/datum/status_effect/debuff/netted)
 	playsound(src, 'sound/combat/caught.ogg', 50, TRUE)
@@ -137,7 +141,8 @@
 		"I AM THE INSIDE OF THIS WORLD!!",
 		"I TASTE THE GORE! I SMELL THE CRYING! I! WANT! MORE!!",
 		"THE BLOOD IS IN MY EYES!! IT'S WAVES CRASH AGAINST MY FOREHEAD!!",
-		"LOOK AT ME WHEN I SCREAM INTO YOUR SOUL!!"
+		"LOOK AT ME WHEN I SCREAM INTO YOUR SOUL!!",
+		"GRAGGARDAMMERUUUUNG!!" // they took our night awayyy gotterdammeruuungggg
 	)
 	invocation_type = "shout"
 	sound = 'sound/magic/bloodrage.ogg'

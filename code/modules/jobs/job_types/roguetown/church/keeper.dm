@@ -71,7 +71,7 @@
 	pants = /obj/item/clothing/under/roguetown/heavy_leather_pants
 	shoes = /obj/item/clothing/shoes/roguetown/boots/leather
 	belt = /obj/item/storage/belt/rogue/leather
-	beltr = /obj/item/rogueweapon/huntingknife/idagger/steel/pestrasickle
+	beltr = /obj/item/rogueweapon/huntingknife/idagger/steel/parrying
 	beltl = /obj/item/flashlight/flare/torch/lantern
 	backl = /obj/item/storage/backpack/rogue/backpack
 	backpack_contents = list(/obj/item/rogueweapon/huntingknife/idagger/steel/special = 1,
@@ -81,7 +81,6 @@
 							 /obj/item/heart_blood_canister/filled = 1,
 							 /obj/item/heart_blood_vial = 5,
 							 /obj/item/heart_blood_canister = 1,
-							 /obj/item/rogueweapon/huntingknife/idagger/steel/parrying = 1,
 							 /obj/item/storage/keyring/keeper = 1)
 	H.put_in_hands(new /obj/item/storage/belt/rogue/surgery_bag/full/physician(H))
 	var/datum/devotion/C = new /datum/devotion(H, H.patron)

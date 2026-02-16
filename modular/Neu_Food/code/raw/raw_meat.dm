@@ -58,6 +58,11 @@
 	slice_path = /obj/item/reagent_containers/food/snacks/rogue/meat/mince/beef
 	slice_bclass = BCLASS_CHOP
 
+/obj/item/reagent_containers/food/snacks/rogue/meat/steak/get_mechanics_examine(mob/user)
+    . = ..()
+    . += span_info("Chopping raw meat on a table with a knife, cleaver, or dagger turns it into mince. Mince can be used for advanced recipes, or used to make 'more out of less' in a stew's broth.")
+    . += span_info("Left-clicking a fire while holding a knife, dagger, or stake in your off-hand allows you to roast it. Roasting meat is quicker than cooking it, but has a higher chance of failure.")
+
 /* ............. Pork (Fatty Sprite) ................*/
 /obj/item/reagent_containers/food/snacks/rogue/meat/fatty //pork
 	name = "raw pigflesh"

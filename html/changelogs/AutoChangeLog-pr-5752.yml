@@ -1,0 +1,6 @@
+author: "mumblemancer"
+delete-after: True
+changes:
+  - bugfix: "graggar's \"unholy grasp\" now actually works"
+  - balance: "graggar's unholy grasp has a 40 second cd, no viscera requirement, and an 8 tile range. only lasts 30 seconds."
+  - bugfix: "inhumen revival descriptions should make more sense, now."

@@ -1,0 +1,4 @@
+author: "admin: Fixed \"Spawn Reagent Container\" in the Game Master tab, allowing correct reagent selection."
+delete-after: True
+changes:
+  - qol: "Improved the reagent container spawning interface for admins. :cl:"

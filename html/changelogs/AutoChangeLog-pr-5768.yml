@@ -1,0 +1,5 @@
+author: "Lutowski"
+delete-after: True
+changes:
+  - rscadd: "adds some markings to fluvians"
+  - bugfix: "fixes moth_m sprite offsets"

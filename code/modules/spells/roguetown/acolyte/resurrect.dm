@@ -140,14 +140,14 @@
 		if(have < needed) {
 			var/obj/item/I = item_type
 			var/amount_needed = needed - have
-			missing_items += "[amount_needed] [initial(I.name)][amount_needed > 1 ? "s" : ""] "
+			missing_items += "[amount_needed] [initial(I.name)][amount_needed > 1 ? "s" : ""]"
 		}
 
 	if(length(missing_items))
 		var/string = ""
 		for(var/item in missing_items)
-			string += item 
-		return "Missing components: [string]."
+			string += item
+		return "Missing components: [string]"
 	return ""
 
 /obj/effect/proc_holder/spell/invoked/resurrect/proc/consume_items(atom/center)

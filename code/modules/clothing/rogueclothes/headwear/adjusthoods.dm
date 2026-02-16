@@ -39,6 +39,10 @@
 	user.update_inv_wear_mask()
 	user.update_inv_head()
 
+/obj/item/clothing/head/roguetown/roguehood/get_mechanics_examine(mob/user)
+    . = ..()
+    . += span_info("Right click to adjust the hood's coverage. Most fully-drawn hoods will hide the wearer's identity.")
+
 /obj/item/clothing/head/roguetown/roguehood/red
 	color = CLOTHING_RED
 

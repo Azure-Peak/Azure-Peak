@@ -1,0 +1,4 @@
+author: "WeNeedMorePhoron"
+delete-after: True
+changes:
+  - rscadd: "Ported some pollution system improvements from Vanderlin to hopefully reduce performance impact. Report unusually long lasting stink cloud."

@@ -202,11 +202,17 @@
 //OTAVAN MARQUE - WORTHLESS TO ANYONE BUT INQ.
 /obj/item/roguecoin/inqcoin
 	name = "otavan marque"
-	desc = "A blessed silver coin finished with a unique wash of black dye, bearing the post-kingdom Psycross. Kingsfield has denied the existence of such a coin when queried, as such coinage is rumoured to be used internally by the Otavan Inquisition."
+	desc = "A blessed silver coin finished with a unique wash of black dye, bearing the post-kingdom Psycross. Kingsfield has denied the existence of such a coin when queried, as such coinage is rumoured to be used internally by Otava's inquisitorial sects."
 	icon_state = "i1"
 	sellprice = 0
 	base_type = CTYPE_ICOIN
 	plural_name = "otavan marques"	
+
+/obj/item/roguecoin/inqcoin/get_mechanics_examine(mob/user)
+    . = ..()
+    . += span_info("By loading these coins into a HERMES, I can access the MARQUETTE; a discrete variant of the GOLDFACE, capable of supplying the Inquisition with whatever's needed.")
+    . += span_info("The MARQUETTE exclusively accepts these coins as payment. Purchased supplies are dropped off inside the Inquisition's abode.")
+    . += span_info("More coins can be obtained by filling INDEXERS, pairing them with signed ACCUSATIONS or CONFESSIONS, and sending them through the HERMES.")
 
 //GOLD
 /obj/item/roguecoin/gold
@@ -239,7 +245,7 @@
 // ANCIENT
 /obj/item/roguecoin/aalloy
 	name = "psilen"
-	desc = "A coin of polished gilbranze, beheld to a fallen kingdom that hadn't endured the passage of tyme."
+	desc = "A coin of polished gilbranze, beheld to a fallen kingdom that hadn't endured the passage of tyme. </br>Most sophisticated machines won't recognize its value, but keen-eyed Merchants and Stewards might still pay a fair sum for such a relic."
 	icon_state = "a1"
 	sellprice = 3 //Dungeon-specific coinage - valued by historians, collectors, and smelters. 
 	base_type = CTYPE_ANCIENT
