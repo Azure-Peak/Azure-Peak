@@ -74,11 +74,14 @@
 
 /obj/effect/proc_holder/spell/invoked/revel_in_slaughter
 	name = "Revel in Slaughter"
-	desc = "The blood of your enemy shall boil, increasing their blood and pain tenfold! THE BLOOD MUST FLOW!!!"
+	desc = "Increases the bleeding and pain of a target by just under double. Does not work on those of a simple sort."
 	overlay_state = "bloodsteal"
 	recharge_time = 1 MINUTES
-	invocations = list("snaps their fingers at their enemy, causing their wounds to gush more blood than should be possible!") 				//what the fuck did "your blood will boil till it's spilled" mean.
-	invocation_type = "emote"
+	chargetime = 10
+	chargedrain = 0
+	chargedloop = /datum/looping_sound/invokeevil
+	invocations = list("SUFFER FOR THE DARK STAR!", "SINISTAR, MAKE THEM BLEED!!")
+	invocation_type = "shout"
 	sound = 'sound/magic/antimagic.ogg'
 	releasedrain = 30
 	miracle = TRUE
@@ -88,44 +91,14 @@
 	var/mob/living/carbon/human/human = targets[1]
 
 	if(!istype(human) || human == user)
+		to_chat(user, span_danger("THAT WONT WORK!"))
 		revert_cast()
 		return FALSE
-
-	var/success = 0
-
-	for(var/obj/effect/decal/cleanable/blood/blood in view(3, user))
-		success++
-		qdel(blood)
-
-	if(!success)
-		to_chat(user, span_warning("Graggar demands BLOOD to call upon his powers!"))
-		revert_cast()
-		return FALSE
-
-	var/datum/physiology/phy = human.physiology
-
-	phy.bleed_mod *= 1.5
-	phy.pain_mod *= 1.5
-
-	addtimer(CALLBACK(src, PROC_REF(restore_bleed_mod), phy), 25 SECONDS)
-	addtimer(CALLBACK(src, PROC_REF(restore_pain_mod), phy), 15 SECONDS)
-
-	human.visible_message(span_danger("[human]'s wounds become inflammed as their vitality is sapped away!"))
-	to_chat(human, span_warning("My own blood fills my lungs! The pain is unbearable!"))
+	
+	human.apply_status_effect(/datum/status_effect/debuff/bloody_mess)
+	human.apply_status_effect(/datum/status_effect/debuff/sensitive_nerves)
 
 	return TRUE
-
-/obj/effect/proc_holder/spell/invoked/revel_in_slaughter/proc/restore_bleed_mod(datum/physiology/physiology)
-	if(!physiology)
-		return
-
-	physiology.bleed_mod /= 1.5
-
-/obj/effect/proc_holder/spell/invoked/revel_in_slaughter/proc/restore_pain_mod(datum/physiology/physiology)
-	if(!physiology)
-		return
-
-	physiology.pain_mod /= 1.5
 
 //Bloodrage T0 -- Uncapped STR buff.
 /obj/effect/proc_holder/spell/self/graggar_bloodrage
