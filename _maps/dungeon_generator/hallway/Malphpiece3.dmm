@@ -33,19 +33,7 @@
 /turf/open/floor/rogue/cobblerock,
 /area/rogue/under/tomb/cave)
 "aA" = (
-/mob/living/carbon/human/species/skeleton/npc/hard/noequip,
-/obj/effect/mapping_helpers/floor_clothing_equipper,
-/obj/item/clothing/shoes/roguetown/boots/nobleboot,
-/obj/item/rogueweapon/sword/rapier/dec,
-/obj/item/clothing/under/roguetown/tights/explorerpants,
-/obj/item/clothing/wrists/roguetown/bracers/aalloy,
-/obj/item/clothing/suit/roguetown/armor/chainmail/hauberk/aalloy/heavy,
-/obj/item/clothing/ring/onyxa,
-/obj/item/clothing/head/roguetown/chaperon/noble{
-	color = "#505050";
-	detail_color = "#b8252c"
-	},
-/obj/item/clothing/cloak/half/red,
+/mob/living/carbon/human/species/skeleton/npc/special/disgraced_noble,
 /turf/open/floor/rogue/cobblerock,
 /area/rogue/under/tomb/cave)
 "aG" = (
