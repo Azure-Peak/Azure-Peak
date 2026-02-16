@@ -5,7 +5,7 @@
 	Works in a three tile radius around you."
 	overlay_state = "call_to_slaughter"
 	recharge_time = 5 MINUTES
-	invocations = list("LAMBS TO THE SLAUGHTER!!", "THE DARK STAR IS WATCHING!!") // idk who changed it but it was identical to bloodrage. bad.
+	invocations = list("LAMBS TO THE SLAUGHTER!", "THE DARK STAR IS WATCHING!") // idk who changed it but it was identical to bloodrage. bad.
 	invocation_type = "shout"
 	sound = 'sound/magic/timestop.ogg'
 	releasedrain = 30
@@ -41,7 +41,7 @@
 	chargetime = 15
 	recharge_time = 40 SECONDS // no running, super slow. this FUCKS people. lower it if 40 is too much.
 	invocation_type = "shout"
-	invocations = list("NO MORE RUNNING! MY FLESH DOMINATES!!") // VERY loud. do NOT add other invocations, this projectile can FUUUCK people up and needs to be telegraphed.
+	invocations = list("TURN AND FACE THE BLOOD GOD!!") // VERY loud. do NOT add other invocations, this projectile can FUUUCK people up and needs to be telegraphed.
 	sound = 'sound/magic/soulsteal.ogg'
 
 /obj/projectile/magic/unholy_grasp
@@ -73,14 +73,14 @@
 	playsound(src, 'sound/combat/caught.ogg', 50, TRUE)
 
 /obj/effect/proc_holder/spell/invoked/revel_in_slaughter
-	name = "Revel in Slaughter"
+	name = "Revel in Death"
 	desc = "Increases the bleeding and pain of a target by just under double. Does not work on those of a simple sort."
 	overlay_state = "bloodsteal"
 	recharge_time = 1 MINUTES
 	chargetime = 10
 	chargedrain = 0
 	chargedloop = /datum/looping_sound/invokeevil
-	invocations = list("SUFFER FOR THE DARK STAR!", "SINISTAR, MAKE THEM BLEED!!")
+	invocations = list("SUFFER FOR THE DARK STAR!", "SINISTAR, MAKE THEM BLEED!")
 	invocation_type = "shout"
 	sound = 'sound/magic/antimagic.ogg'
 	releasedrain = 30
