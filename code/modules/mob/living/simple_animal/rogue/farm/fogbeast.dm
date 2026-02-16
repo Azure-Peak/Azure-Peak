@@ -1,3 +1,5 @@
+GLOBAL_LIST_INIT(valid_fogbeast_colors, list("White" = COLOR_WHITE, "Gray" = COLOR_GRAY, "Black" = COLOR_ALMOST_BLACK, "Brown" = COLOR_DARK_BROWN, "Chestnut" = COLOR_DARK_ORANGE))
+
 /mob/living/simple_animal/hostile/retaliate/rogue/fogbeast
 	name = "fogbeast mare"
 	desc = "A distant cousin to the saiga, hailing from the mysterious islands of Kaizoku - rarer, but more strongly valued. Extensively used in the Steppes of Aavnr as pack animals and combat mounts."
@@ -50,7 +52,15 @@
 	can_saddle = TRUE
 	aggressive = TRUE
 	remains_type = /obj/effect/decal/remains/saiga
-	color = CLOTHING_AZURE
+
+	var/fogbeast_color
+
+/mob/living/simple_animal/hostile/retaliate/rogue/fogbeast/Initialize(mapload, var/set_fogbeast_color)
+	. = ..()
+	fogbeast_color = set_fogbeast_color
+	if(!fogbeast_color)
+		fogbeast_color = pick(GLOB.valid_fogbeast_colors)
+	color = GLOB.valid_fogbeast_colors[fogbeast_color]
 
 /mob/living/simple_animal/hostile/retaliate/rogue/fogbeast/tame
 	tame = TRUE

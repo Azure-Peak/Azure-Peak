@@ -128,6 +128,6 @@
 	desc = "A decorative piece of cloth meant to be used as a saddle decoration. This one fits on a Fogbeast."
 	caparison_icon = 'icons/roguetown/mob/monster/fogbeast.dmi'
 	valid_animal_types = list(/mob/living/simple_animal/hostile/retaliate/rogue/fogbeast)
-	color = COLOR_PINK
+	color = COLOR_WHITE
 	detail_types = list("Quad" = "quad")
 	symbol_types = list("Psycross" = "psycross", "Astrata" = "astrata")

@@ -1602,6 +1602,10 @@
 	name = "eoran caparison"
 	result = list(/obj/item/caparison/eora)
 
+/datum/crafting_recipe/roguetown/sewing/caparison/fogbeast
+	name = "fogbeast caparison"
+	result = list(/obj/item/caparison/fogbeast)
+
 /datum/crafting_recipe/roguetown/sewing/sanguinetrousers
 	name = "sanguine trousers"
 	result = /obj/item/clothing/under/roguetown/trou/leather/courtphysician
