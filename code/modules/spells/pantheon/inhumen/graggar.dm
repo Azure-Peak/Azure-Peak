@@ -60,6 +60,7 @@
 
 /obj/projectile/magic/unholy_grasp/proc/ensnare(mob/living/carbon/carbon)
 	if(carbon.legcuffed || carbon.get_num_legs(FALSE) < 2)
+		carbon.visible_message(span_warning("The net slides off-- it has no effect!"))
 		return
 
 	carbon.visible_message(span_warning("The [src] ensnares [carbon] around their legs in a horrid cacophany of blood and guts!"), span_warning("I AM ENCAPTURED BY BLOOD AND GUTS! THERES A NET ON MY LEGS!"))
@@ -67,7 +68,7 @@
 	forceMove(carbon)
 	carbon.update_inv_legcuffed()
 	SSblackbox.record_feedback("tally", "handcuffs", 1, type)
-	carbon.apply_status_effect(/datum/status_effect/debuff/netted)
+	carbon.apply_status_effect(/datum/status_effect/debuff/netted/vile)
 	playsound(src, 'sound/combat/caught.ogg', 50, TRUE)
 
 /obj/effect/proc_holder/spell/invoked/revel_in_slaughter
