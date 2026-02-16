@@ -27,7 +27,7 @@
 /datum/intent/dagger/cut/heavy
 	name = "heavy cut"
 	damfactor = 1.2
-	penfactor = 20
+	penfactor = 25
 	clickcd = 11
 
 // For thrusting-focused daggers. Thinner blade, less slashing damage.
@@ -51,6 +51,9 @@
 /datum/intent/dagger/thrust/weak
 	name = "lopsided thrust"
 	damfactor = 0.8
+	penfactor = 45 // Slightly more pen, to compensate in penetration for the lower damage.
+	// You're still doing less damage than with a stabbier dagger, but your AP isn't penalised.
+	clickcd = 10
 
 /datum/intent/dagger/thrust/pick
 	name = "icepick stab"
