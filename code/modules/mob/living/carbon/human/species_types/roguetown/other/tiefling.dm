@@ -20,6 +20,7 @@
 	(+1 Constitution, +1 Intelligence)"
 
 	skin_tone_wording = "Progenitor"
+	use_skin_tone_wording_for_examine = FALSE
 
 	species_traits = list(EYECOLOR,HAIR,FACEHAIR,LIPS,STUBBLE,OLDGREY)
 	inherent_traits = list(TRAIT_NOMOBSWAP)

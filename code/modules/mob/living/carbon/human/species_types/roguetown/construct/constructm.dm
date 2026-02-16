@@ -16,6 +16,7 @@
 
 	construct = 1
 	skin_tone_wording = "Material"
+	use_skin_tone_wording_for_examine = FALSE
 	default_color = "FFFFFF"
 	species_traits = list(EYECOLOR,HAIR,FACEHAIR,LIPS,STUBBLE,OLDGREY,NOBLOOD)
 	default_features = MANDATORY_FEATURE_LIST

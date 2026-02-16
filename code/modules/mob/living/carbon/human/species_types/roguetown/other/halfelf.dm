@@ -20,7 +20,7 @@
 	towards either their Humen or Elvish heritages.<br>\
 	(+1 Constitution, +1 Perception)" 
 
-	skin_tone_wording = "Identity"
+	skin_tone_wording = "Ancestry"
 	max_age = 250
 
 	default_color = "FFFFFF"

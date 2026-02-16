@@ -19,6 +19,7 @@
 		They have a good sense of balance and an acute sense of smell.<br>\
 		(+1 Speed)"
 	skin_tone_wording = "Fur Colors"
+	use_skin_tone_wording_for_examine = FALSE
 	species_traits = list(EYECOLOR,HAIR,FACEHAIR,LIPS,STUBBLE, MUTCOLORS)
 	possible_ages = ALL_AGES_LIST
 	limbs_icon_m = 'icons/roguetown/mob/bodies/m/mta.dmi'

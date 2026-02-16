@@ -13,6 +13,7 @@
 	// Stat balancing. Per-server decision. Preferably keep neutral until analysis post testmerges.
 	//race_bonus = list(STAT_INTELLIGENCE = 1, STAT_CONSTITUTION = 1)
 	skin_tone_wording = "Catalyst"
+	use_skin_tone_wording_for_examine = FALSE
 	max_age = "???"
 
 	allowed_taur_types = list(

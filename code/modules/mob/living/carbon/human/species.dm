@@ -111,6 +111,9 @@ GLOBAL_LIST_EMPTY(roundstart_races)
 
 	/// Wording for skin tone on examine and on character setup
 	var/skin_tone_wording = "Ancestry"
+
+	/// Wording for origin examines if the species skin tone is a bit too goofy for it
+	var/use_skin_tone_wording_for_examine = TRUE
 	/// Bodyparts to override base ones.
 	var/list/bodypart_overrides = list()
 	/// List of organs this species has.
