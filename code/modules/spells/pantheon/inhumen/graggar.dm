@@ -1,10 +1,11 @@
 //Call to Slaughter - AoE buff for all people surrounding you.
 /obj/effect/proc_holder/spell/self/call_to_slaughter
 	name = "Call to Slaughter"
-	desc = "Grants you and all allies nearby a buff to their strength, willpower, and constitution."
+	desc = "Grants you and all allies nearby a buff to their strength, willpower, and constitution. Debuffs followers of the Ten, but not Psydonites.\
+	Works in a three tile radius around you."
 	overlay_state = "call_to_slaughter"
 	recharge_time = 5 MINUTES
-	invocations = list("GRAGGAAAAAAAAAR!!") 	//MUSTAAAAAAAAAAAAAARD
+	invocations = list("LAMBS TO THE SLAUGHTER!!", "THE DARK STAR IS WATCHING!!") // idk who changed it but it was identical to bloodrage. bad.
 	invocation_type = "shout"
 	sound = 'sound/magic/timestop.ogg'
 	releasedrain = 30
