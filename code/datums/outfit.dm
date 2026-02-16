@@ -490,4 +490,11 @@
 		player.prefs.virtue_origin.job_origin = TRUE
 		player.prefs.virtue_origin.last_origin = origin_memory
 		player.prefs.virtue_origin.apply_to_human(H)
+		if(length(player.prefs.virtue_origin.added_languages))
+			for(var/L in player.prefs.virtue_origin.added_languages)
+				H.grant_language(L)
+		if(length(player.prefs.virtue_origin.last_origin.added_languages))
+			for(var/L in player.prefs.virtue_origin.last_origin.added_languages)
+				if(L != player.prefs.extra_language)
+					H.remove_language(L)
 		H.grant_language(player.prefs.extra_language)
