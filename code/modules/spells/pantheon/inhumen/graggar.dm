@@ -67,7 +67,6 @@
 	forceMove(carbon)
 	carbon.update_inv_legcuffed()
 	SSblackbox.record_feedback("tally", "handcuffs", 1, type)
-	carbon.Knockdown(knockdown)
 	carbon.apply_status_effect(/datum/status_effect/debuff/netted)
 	playsound(src, 'sound/combat/caught.ogg', 50, TRUE)
 
