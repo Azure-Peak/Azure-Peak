@@ -248,12 +248,12 @@
 /datum/outfit/job/roguetown/skeleton/npc/vile_doctor/pre_equip(mob/living/carbon/human/H)
 	..()
 	H.STASTR = 12
-	H.STACON = 8// Woe, actual limb health.
+	H.STACON = 11 // Woe, actual limb health.
 	H.STAWIL = 12
 	H.STASPD = 14 // that dagger WILL get thru ur parry.
 	H.STAINT = 1
 	name = "Vile Doctor"
-	mask = /obj/item/clothing/mask/rogue/physician
+	mask = /obj/item/clothing/mask/rogue/sack
 	head = /obj/item/clothing/head/roguetown/physician
 	shirt = /obj/item/clothing/suit/roguetown/armor/gambeson
 	armor = /obj/item/clothing/suit/roguetown/shirt/robe/physician
@@ -263,7 +263,6 @@
 	gloves = /obj/item/clothing/gloves/roguetown/leather/black
 	neck = /obj/item/clothing/neck/roguetown/chaincoif/iron/aalloy
 	r_hand = /obj/item/rogueweapon/huntingknife/idagger/steel/rondel
-	l_hand = /obj/item/rogueweapon/huntingknife/idagger/adagger
 	H.adjust_skillrank(/datum/skill/combat/polearms, 4, TRUE)
 	H.adjust_skillrank(/datum/skill/combat/maces, 4, TRUE)
 	H.adjust_skillrank(/datum/skill/combat/axes, 4, TRUE)
@@ -278,7 +277,7 @@
 /datum/outfit/job/roguetown/skeleton/npc/disgraced_noble/pre_equip(mob/living/carbon/human/H)
 	..()
 	H.STASTR = 12 // stabs quick, stabs strong.
-	H.STACON = 8
+	H.STACON = 11
 	H.STAWIL = 12
 	H.STASPD = 12
 	H.STAINT = 1
@@ -293,10 +292,12 @@
 	head = /obj/item/clothing/head/roguetown/chaperon/noble/evil
 	cloak = /obj/item/clothing/cloak/half/red
 	neck = /obj/item/clothing/neck/roguetown/chaincoif/iron/aalloy
+	gloves = /obj/item/clothing/gloves/roguetown/plate/aalloy
 
 	if(skeletonclass == 0) // "standard"
 		id = /obj/item/clothing/ring/onyxa
 		shirt = /obj/item/clothing/suit/roguetown/armor/gambeson
+		mask = /obj/item/clothing/mask/rogue/sack
 	if(skeletonclass == 1)
 		id = /obj/item/clothing/ring/gold// slightly better
 		H.adjust_skillrank(/datum/skill/combat/shields, 1, TRUE) // 5 total.
