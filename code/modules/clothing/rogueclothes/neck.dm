@@ -204,6 +204,8 @@
 	adjustable = CAN_CADJUST
 
 /obj/item/clothing/neck/roguetown/chaincoif/full/ComponentInitialize()
+	AddComponent(/datum/component/armour_filtering/negative, TRAIT_FENCERDEXTERITY)
+	AddComponent(/datum/component/armour_filtering/negative, TRAIT_HONORBOUND)
 	return
 
 /obj/item/clothing/neck/roguetown/chaincoif/full/AdjustClothes(mob/user)
