@@ -57,7 +57,6 @@
 				beltl = /obj/item/rogueweapon/sword/sabre/mulyeog
 				beltr = /obj/item/rogueweapon/scabbard/sword/kazengun
 				armor = /obj/item/clothing/suit/roguetown/armor/basiceast
-				H.adjust_skillrank_up_to(/datum/skill/combat/shields, 3, TRUE)
 				H.adjust_skillrank_up_to(/datum/skill/combat/swords, 4, TRUE)
 
 /datum/advclass/foreigner/yoruku
