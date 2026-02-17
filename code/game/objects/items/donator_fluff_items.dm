@@ -325,6 +325,18 @@
 	desc = "A bamboo hat, made from shaven rice straw and woven into place alongside a coating of lacquer. This particular hat seems worn with age, yet well maintained. The phrase, '葉隠' can be seen stitched in gold in the inner lining of the hat."
 	armor = ARMOR_CLOTHING
 
+/obj/item/rogueweapon/spear/naginata/koruu
+	name = "Sixty Five Yils"
+	desc = "A beautiful guandao forged out of steel and interlocked with blacksteel, much like few blades before. The inscription, 'At fifteen, I went to join the army; only at eighty was I finally able to return home.' is inscribed in gold into the haft of the guandao."
+	icon_state = "koruu_naginata"
+	icon = 'icons/obj/items/donor_weapons_64.dmi'
+
+/obj/item/rogueweapon/halberd/glaive/koruu
+	name = "Sixty Five Yils"
+	desc = "A beautiful guandao forged out of steel and interlocked with blacksteel, much like few blades before. The inscription, 'At fifteen, I went to join the army; only at eighty was I finally able to return home.' is inscribed in gold into the haft of the guandao."
+	icon_state = "koruu_glaive"
+	icon = 'icons/obj/items/donor_weapons_64.dmi'
+
 //DAKKEN12
 /obj/item/clothing/head/roguetown/helmet/bascinet/pigface/hounskull/dakken
 	name = "armoured avantyne barbute"
@@ -332,3 +344,22 @@
 	icon_state = "dakken_zizbarb"
 	icon = 'icons/clothing/donor_clothes.dmi'
 	mob_overlay_icon = 'icons/clothing/onmob/donor_clothes.dmi'
+
+//STINKETHSTONKETH
+/obj/item/rogueweapon/sword/sabre/steppesman/stinketh
+	name = "fencer's shashka"
+	desc = "A heirloom shashka with guardless hilt plated in silver and adorned  with a Mamuk hide grip. A sabre's blade has been added in place of the old one, affording it lethality and reach whilst dismounted."
+	icon_state = "stinketh_shashka"
+	icon = 'icons/obj/items/donor_weapons_64.dmi'
+
+/obj/item/rogueweapon/sword/sabre/freifechter/stinketh
+	name = "fencer's shashka"
+	desc = "A heirloom shashka with guardless hilt plated in silver and adorned  with a Mamuk hide grip. A sabre's blade has been added in place of the old one, affording it lethality and reach whilst dismounted."
+	icon_state = "stinketh_shashka"
+	icon = 'icons/obj/items/donor_weapons_64.dmi'
+
+/obj/item/rogueweapon/spear/boar/frei/pike/stinketh
+	name = "Kindness of Ravens Standard"
+	desc = "A Freifechter's steel pike with a reinforced spruce shaft sporting a black banner with a strange blend of religious symbols."
+	icon_state = "stinkethbanner"
+	icon = 'icons/obj/items/donor_weapons_64.dmi'

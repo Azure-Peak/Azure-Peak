@@ -122,7 +122,7 @@
 		qdel(src)
 		return
 	for(var/type in pollutants)
-		pollutants[type] -= amount_to_scrub * pollutants[type] / total_amount
+		pollutants[type] -= max(floor(amount_to_scrub * (pollutants[type] / total_amount)), 1)
 	total_amount -= amount_to_scrub
 	update_height()
 	handle_overlay()
@@ -180,7 +180,9 @@
 		if(!isopenturf(open_turf) || QDELING(open_turf) || QDELETED(open_turf.pollution))
 			continue
 		var/datum/pollution/cached_pollution = open_turf.pollution
-		for(var/type in cached_pollution.pollutants)
+		for(var/datum/pollutant/type as anything in cached_pollution.pollutants)
+			if(initial(type.pollutant_flags) & POLLUTION_DO_NOT_SPREAD)
+				continue
 			if(!total_share_pollutants[type])
 				total_share_pollutants[type] = 0
 			total_share_pollutants[type] += cached_pollution.pollutants[type]

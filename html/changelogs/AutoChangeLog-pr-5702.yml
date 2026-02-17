@@ -1,0 +1,4 @@
+author: "hazelrat"
+delete-after: True
+changes:
+  - balance: "Implemented a very careful rebalance for the damage of most arrows in the game. Broadheads are now slightly weaker, and penetrate armour slightly less effectively - bodkins have retained their low damage, but are capable of piercing armour more easily than before."

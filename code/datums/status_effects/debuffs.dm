@@ -853,7 +853,7 @@
 
 /atom/movable/screen/alert/status_effect/debuff/exposed
 	name = "Exposed"
-	desc = "My defenses are exposed. I can be hit through my parry and dodge!"
+	desc = "My defenses are completely exposed. I can be hit through my parry and dodge to great effect!"
 	icon_state = "exposed"
 
 /datum/status_effect/debuff/exposed
@@ -868,6 +868,26 @@
 	if(new_dur)
 		duration = new_dur
 	return ..()
+
+/atom/movable/screen/alert/status_effect/debuff/vulnerable
+	name = "Vulnerable"
+	desc = "A mistake. I can be hit through my parry and dodge to a lighter effect!"
+	icon_state = "vulnerable"
+	icon = 'icons/mob/combat_debuffs.dmi'
+
+/datum/status_effect/debuff/vulnerable
+	id = "nofeintlite"
+	alert_type = /atom/movable/screen/alert/status_effect/debuff/vulnerable
+	duration = 10 SECONDS
+	mob_effect_icon = 'icons/mob/mob_effects.dmi'
+	mob_effect_icon_state = "eff_vulnerable"
+	mob_effect_layer = MOB_EFFECT_LAYER_VULNERABLE
+
+/datum/status_effect/debuff/vulnerable/on_creation(mob/living/new_owner, new_dur)
+	if(new_dur)
+		duration = new_dur
+	return ..()
+
 
 /datum/status_effect/debuff/feintcd
 	id = "feintcd"

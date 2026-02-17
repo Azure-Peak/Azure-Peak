@@ -553,3 +553,90 @@
       Report if it feels a bit smoother.
   - rscadd: Chocolate is now importable from Grenzelhoft. Feeds some to your lupian
       / venardine friends.
+2026-02-16:
+  FreeStylaLT:
+  - balance: Knight Errant's starting gear has been adjusted.
+  Lamasmaster:
+  - bugfix: Getting RRed by accepting siring while dead
+  - bugfix: Lycker gnolls being a thing
+  - bugfix: Deadite gnolls being a thing
+  Lutowski:
+  - rscadd: adds some markings to fluvians
+  - bugfix: fixes moth_m sprite offsets
+  NewyearnewmeUwu:
+  - rscdel: Keeper no longer starts with a Pestran Sickle.
+  Ollanius:
+  - rscadd: Added more tips to an assortment of items - clothes, saddles, meat, amulets,
+      tomes, writs, and more - to inform others on some basic mechanics.
+  - rscadd: Certain amulets, ore, and ingots now properly display a unique glowing
+      effect.
+  - rscadd: Blacksteel ingots now play a special animation!
+  - rscadd: All cloaks, including the Lordly Cloak, should now be wearable on the
+      right back slot as well.
+  - rscadd: All tabards can now be worn on the shirt slot, too.
+  - rscadd: Guard hoods, at last, inherit all of the slots as their namesake. They
+      can be worn on the head, neck, mask, and - as before - cloak slots.
+  - rscadd: Bronze anvils can now be made without any crafting difficulty with two
+      bronze ingots and four stones.
+  - balance: Bronze smelters are now codified to have no crafting difficulty, when
+      assembling them.
+  - balance: Garrotes now break after twelve uses, instead of eight.
+  - balance: Rare amulets are slightly more powerful, now.
+  - balance: Rare amulets now take much longer to don and take off.
+  Ryan180602:
+  - balance: Fencer's Dexterity holders (freis) don't get to use lightbrig or brig
+      chausses anymore.
+  - rscadd: woodcutter's apprentice
+  SidVeld:
+  - rscadd: New 9 fishes with unique sprites by viaminor
+  WeNeedMorePhoron:
+  - rscadd: 'FOR ADMINS: Added Disable AI checkbox to the Create Mob panel, which
+      allows you to disable the AI (permanently) if you need it for testing purpose
+      or event purpose.'
+  - rscadd: Foldable Cauldron holds 90 units
+  - rscadd: Strong potions recipe now directly outputs the result and can be brewed
+      in a foldable cauldron and also looks less weird on the recipe books
+  - rscadd: Enchanting & Summoning Runes, plus Fire Cascade, now use latin invocations.
+  - rscadd: Ported some pollution system improvements from Vanderlin to hopefully
+      reduce performance impact. Report unusually long lasting stink cloud.
+  - rscadd: Remaining duration is now displayed on status effects as a countdown,
+      except things like thirsty / hungry.
+  'admin: Fixed "Spawn Reagent Container" in the Game Master tab, allowing correct reagent selection.':
+  - qol: 'Improved the reagent container spawning interface for admins. :cl:'
+  hubertjones:
+  - rscadd: donator glaive, donator sabre, donator pike
+  mumblemancer:
+  - bugfix: graggar's "unholy grasp" now actually works
+  - balance: graggar's unholy grasp has a 40 second cd, no viscera requirement, and
+      an 8 tile range. only lasts 30 seconds.
+  - bugfix: inhumen revival descriptions should make more sense, now.
+2026-02-17:
+  ADONAI:
+  - bugfix: priest and guildmasters should have less lowercase announcements
+  FreeStylaLT:
+  - rscadd: Added Origins & Subraces.
+  - rscadd: Added Old Azurian language, available exclusively to Azurian origin.
+  - bugfix: Added missing Kazengun Origins. Credit to @kodiaksnowleaf on Discord.
+  Lamasmaster:
+  - rscdel: Outlaw Marauder Wretch
+  - balance: Outlaw Wretch
+  Ryan180602:
+  - balance: '1h lancing is now: 2x damfactor, 1 reach, 6s charge.'
+  - balance: 2h thrust is now 1.25x damfactor (down from 1.5x)
+  - balance: 2h lance has an effective range of 3 tiles.
+  Stutternov:
+  - rscadd: Added Aavnr lore blurb.
+  WeNeedMorePhoron:
+  - rscadd: TGUI-Based Loadout Menu with a 10 points based system and the ability
+      to preset colors (Up to all three), custom name, and description
+  - rscadd: Jester's Hat to loadout
+  - rscadd: Fixed some grammar / text for new Astratan / Malum / Ravoxian spells from
+      TA
+  - rscadd: Spells now show cooldown in animated text
+  - rscdel: Removed the Aerosolize Spell
+  - rscadd: Old Magick Witch gains Fortitude in exchange for losing Aerosolize
+  - rscdel: Removed arcane empowerment rituals
+  mumblemancer:
+  - bugfix: 0 armor clothing items will no longer block crits
+  - rscadd: new icons for longstrider, guidance, and a new alert for enlightenment
+  - bugfix: 0 armor clothing will now no longer prevent crits

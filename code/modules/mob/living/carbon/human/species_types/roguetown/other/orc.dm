@@ -1,6 +1,9 @@
 /datum/species/orc
 	name = "Orc"
 	id = "orc"
+	origin_default = /datum/virtue/origin/gronn
+	origin = "Gronn"
+	base_name = "Ogroid"
 	desc = "<b>Orcs</b><br>\
 	This is made for events. You shouldn't be able to use this as a normal person, \
 	For courtesies sake however, I've tried to half-assedly balance it for use by players\

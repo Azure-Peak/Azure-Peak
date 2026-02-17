@@ -21,6 +21,7 @@
 		STATKEY_CON = -1
 	)
 	subclass_spellpoints = 10
+	subclass_languages = list(/datum/language/oldazurian)
 	subclass_skills = list(
 		/datum/skill/misc/athletics = SKILL_LEVEL_EXPERT,
 		/datum/skill/combat/unarmed = SKILL_LEVEL_JOURNEYMAN,

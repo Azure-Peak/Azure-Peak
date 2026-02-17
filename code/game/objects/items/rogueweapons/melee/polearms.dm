@@ -210,7 +210,7 @@
 	clickcd = CLICK_CD_CHARGED
 
 /datum/intent/spear/thrust/lance
-	damfactor = 1.5 // Turns its base damage into 30 on the 2hand thrust. It keeps the spear thrust one handed.
+	damfactor = 1.25 // Turns its base damage into 30 on the 2hand thrust. It keeps the spear thrust one handed.
 
 /datum/intent/lance
 	name = "lance"
@@ -218,13 +218,18 @@
 	attack_verb = list("lances", "runs through", "skewers")
 	animname = "stab"
 	item_d_type = "stab"
-	penfactor = BLUNT_DEFAULT_PENFACTOR // Not a mistake, to prevent it from nuking through armor.
+	penfactor = BLUNT_DEFAULT_PENFACTOR
 	chargetime = 4 SECONDS
-	damfactor = 4 // 80 damage on hit. It is gonna hurt.
+	damfactor = 4
 	reach = 3 // Yep! 3 tiles
+	effective_range = 3
+	effective_range_type = EFF_RANGE_EXACT
 
 /datum/intent/lance/onehand
-	chargetime = 5 SECONDS
+	chargetime = 6 SECONDS
+	reach = 1
+	damfactor = 2
+	effective_range_type = EFF_RANGE_NONE
 
 //polearm objs ฅ^•ﻌ•^ฅ
 

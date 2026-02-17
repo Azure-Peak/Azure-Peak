@@ -348,10 +348,13 @@ GLOBAL_LIST_EMPTY(heretical_players)
 		if (!COOLDOWN_FINISHED(src, priest_announcement))
 			to_chat(src, span_warning("You must wait before speaking again."))
 			return
-		visible_message(span_warning("[src] takes a deep breath, preparing to make an announcement.."))
+		visible_message(span_warning("[src] takes a deep breath, preparing to make an announcement."))
 		if(do_after(src, 15 SECONDS, target = src)) // Reduced to 15 seconds from 30 on the original Herald PR. 15 is well enough time for sm1 to shove you.
 			say(announcementinput)
-			priority_announce("[announcementinput]", "The Bishop Preaches", 'sound/misc/bell.ogg', sender = src)
+			var/sanitized_input = trim(copytext(sanitize(announcementinput), 1, MAX_MESSAGE_LEN))
+			var/accented_input = treat_message_accent(sanitized_input, strings("accent_universal.json", "universal"), 1)
+			var/treated_input = treat_message(accented_input, /datum/language/common)
+			priority_announce("[treated_input]", "The Bishop Preaches", 'sound/misc/bell.ogg', sender = src)
 			COOLDOWN_START(src, priest_announcement, PRIEST_ANNOUNCEMENT_COOLDOWN)
 		else
 			to_chat(src, span_warning("Your announcement was interrupted!"))

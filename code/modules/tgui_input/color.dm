@@ -8,7 +8,7 @@
  * * timeout - The timeout of the picker, after which the modal will close and qdel itself. Set to zero for no timeout.
  * * autofocus - The bool that controls if this picker should grab window focus.
  */
-/proc/tgui_color_picker(mob/user, message, title, default = "#000000", timeout = 0, autofocus = TRUE, ui_state = GLOB.tgui_always_state)
+/proc/tgui_color_picker(mob/user, message, title, default = "#000000", timeout = 0, autofocus = TRUE, ui_state = GLOB.tgui_always_state, list/named_presets)
 	if (!user)
 		user = usr
 	if (!istype(user))
@@ -24,7 +24,7 @@
 	// Client does NOT have tgui_input on: Returns regular input
 	if(!user.client.prefs.tgui_pref)
 		return input(user, message, title, default) as color|null
-	var/datum/tgui_color_picker/picker = new(user, message, title, default, timeout, autofocus, ui_state)
+	var/datum/tgui_color_picker/picker = new(user, message, title, default, timeout, autofocus, ui_state, named_presets)
 	picker.ui_interact(user)
 	picker.wait()
 	if (picker)
@@ -55,15 +55,18 @@
 	var/closed
 	/// The user's presets
 	var/preset_colors
+	/// Named preset colors (assoc list of name = hex), shown as a labeled grid in the picker
+	var/list/named_presets
 	/// The TGUI UI state that will be returned in ui_state(). Default: always_state
 	var/datum/ui_state/state
 
-/datum/tgui_color_picker/New(mob/user, message, title, default, timeout, autofocus, ui_state)
+/datum/tgui_color_picker/New(mob/user, message, title, default, timeout, autofocus, ui_state, list/named_presets)
 	src.autofocus = autofocus
 	src.title = title
 	src.default = default
 	src.message = message
 	src.state = ui_state
+	src.named_presets = named_presets
 	if (timeout)
 		src.timeout = timeout
 		start_time = world.time
@@ -107,6 +110,8 @@
 	.["title"] = title
 	.["default_color"] = default
 	.["message"] = message
+	if(named_presets)
+		.["named_presets"] = named_presets
 
 /datum/tgui_color_picker/ui_data(mob/user)
 	. = list()

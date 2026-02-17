@@ -134,6 +134,7 @@ h1.alert, h2.alert	{color: #c9c1ba;font-family: Pterra, TrueType;}
 .sandwauk				{font-family: "Almalik", Pterra; font-size: 100%;}
 .human					{font-family: "Honoka Mincho", Pterra;}
 .elf					{font-family: "Dauphin", cursive, Pterra;}
+.oldazure				{font-family: "BaggageMasterText79 ttcon", Pterra; font-size: 110%;}
 .dwarf					{font-family: "MasonAlternate", Pterra;}
 .sandspeak				{font-family: "Arabolical", Pterra;}
 .delf					{font-family: "Dauphin", Pterra;}
@@ -144,7 +145,7 @@ h1.alert, h2.alert	{color: #c9c1ba;font-family: Pterra, TrueType;}
 .reptile				{font-family: "Kingthings Petrock", Pterra; font-size: 120%;}
 .grenzelhoftian			{font-family: "Emperialisme", Pterra; font-size: 120%;}
 .kazengunese 			{font-family: "Yuji Boku", Pterra;}
-.otavan					{font-family: "Notredame", "Pterra"; font-size: 200%;}
+.otavan					{font-family: "ArkansasDB", "Pterra"; font-size: 120%;}
 .etruscan				{font-family: "Feronia", "Pterra"; font-size: 100%;}
 .gronnic				{font-family: "Jorvik Informal", "Pterra"; font-size: 100%;}
 .aavnic					{font-family: "Romeodn", "Pterra"; font-size: 100%;}

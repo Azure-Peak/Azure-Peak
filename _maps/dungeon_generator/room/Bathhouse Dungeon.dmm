@@ -510,10 +510,6 @@
 /obj/structure/flora/ausbushes/lavendergrass,
 /turf/open/floor/rogue/grass,
 /area/rogue/under/tomb/wilds)
-"kz" = (
-/mob/living/carbon/human/species/npc/deadite,
-/turf/open/floor/carpet/royalblack,
-/area/rogue/under/tomb/indoors/royal)
 "kA" = (
 /obj/structure/fluff/railing/border{
 	dir = 6
@@ -619,7 +615,7 @@
 /turf/closed/wall/mineral/rogue/stone,
 /area/rogue/under/tomb/indoors/royal)
 "nW" = (
-/mob/living/carbon/human/species/npc/deadite,
+/mob/living/carbon/human/species/skeleton/npc/hard,
 /turf/open/floor/rogue/carpet,
 /area/rogue/under/tomb/indoors/royal)
 "ob" = (
@@ -853,7 +849,7 @@
 /turf/open/floor/rogue/blocks/newstone/alt,
 /area/rogue/under/tomb/sewer)
 "sy" = (
-/mob/living/carbon/human/species/npc/deadite,
+/mob/living/carbon/human/species/skeleton/npc/hard,
 /turf/open/floor/rogue/hexstone,
 /area/rogue/under/tomb/indoors)
 "sz" = (
@@ -1177,6 +1173,10 @@
 /obj/machinery/light/rogue/candle/weak,
 /turf/open/floor/rogue/grass,
 /area/rogue/under/tomb/wilds)
+"yC" = (
+/mob/living/carbon/human/species/skeleton/npc/medium,
+/turf/open/floor/carpet/royalblack,
+/area/rogue/under/tomb/indoors/royal)
 "yH" = (
 /obj/structure/rack/rogue/shelf/biggest,
 /obj/item/natural/cloth,
@@ -1435,6 +1435,11 @@
 "Da" = (
 /turf/open/floor/rogue/churchmarble,
 /area/rogue/under/tomb/indoors)
+"Dd" = (
+/obj/effect/decal/cleanable/blood/old,
+/mob/living/carbon/human/species/skeleton/npc/medium,
+/turf/open/floor/carpet/royalblack,
+/area/rogue/under/tomb/indoors/royal)
 "De" = (
 /obj/structure/flora/ausbushes/fullgrass,
 /obj/structure/flora/ausbushes/sparsegrass,
@@ -1751,10 +1756,6 @@
 	dir = 1
 	},
 /area/rogue/under/tomb/sewer)
-"Ka" = (
-/mob/living/carbon/human/species/npc/deadite,
-/turf/open/floor/rogue/blocks,
-/area/rogue/under/tomb/indoors/royal)
 "Kg" = (
 /obj/machinery/light/rogue/candle/weak,
 /turf/closed/wall/mineral/rogue/stone/moss,
@@ -2637,7 +2638,7 @@ vW
 vW
 Eu
 iN
-nW
+iN
 hP
 iN
 zv
@@ -2670,7 +2671,7 @@ vW
 Zl
 Gr
 iN
-iN
+kN
 iN
 zv
 ri
@@ -3647,9 +3648,9 @@ gQ
 GI
 SJ
 oJ
-Ka
+Qj
 LZ
-qg
+Dd
 MJ
 Nv
 jr
@@ -4096,8 +4097,8 @@ ri
 be
 Le
 ae
-kz
 ae
+yC
 LZ
 tv
 YN

@@ -51,6 +51,11 @@
 	cost = 90 // 2 Steel
 	contains = list(/obj/item/clothing/suit/roguetown/armor/plate/cuirass)
 
+/datum/supply_pack/rogue/armor_steel/fluted_cuirass_steel
+	name = "Fluted Cuirass"
+	cost = 115 // 2 Steel, 1 Iron?
+	contains = list(/obj/item/clothing/suit/roguetown/armor/plate/cuirass/fluted)
+
 /datum/supply_pack/rogue/armor_steel/scalemail
 	name = "Scalemail"
 	cost = 90 // 2 Steel

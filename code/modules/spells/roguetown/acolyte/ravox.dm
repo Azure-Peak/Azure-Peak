@@ -141,7 +141,7 @@
 				phy.bleed_mod *= 1.5
 				phy.pain_mod *= 1.5
 				addtimer(CALLBACK(src, PROC_REF(restore_modifiers), phy), 19 SECONDS)
-				human_target.visible_message(span_danger("[target]'s wounds become inflammed as their vitality is sapped away!"), span_userdanger("Ravox inflammes my wounds and weakens my body!"))
+				human_target.visible_message(span_danger("[target]'s wounds become inflamed as their vitality is sapped away!"), span_userdanger("Ravox inflames my wounds and weakens my body!"))
 				return TRUE
 			return FALSE
 

@@ -425,6 +425,7 @@ GLOBAL_LIST_INIT(spells, typesof(/obj/effect/proc_holder/spell)) //needed for th
 	return TRUE
 
 /obj/effect/proc_holder/spell/proc/start_recharge()
+	var/old_recharge = recharge_time
 	if(ranged_ability_user && !is_cdr_exempt)
 		if(ranged_ability_user.STAINT > SPELL_SCALING_THRESHOLD)
 			var/diff = min(ranged_ability_user.STAINT, SPELL_POSITIVE_SCALING_THRESHOLD) - SPELL_SCALING_THRESHOLD
@@ -433,7 +434,10 @@ GLOBAL_LIST_INIT(spells, typesof(/obj/effect/proc_holder/spell)) //needed for th
 			var/diff2 = SPELL_SCALING_THRESHOLD - ranged_ability_user.STAINT
 			recharge_time = initial(recharge_time) + (initial(recharge_time) * (diff2 * COOLDOWN_REDUCTION_PER_INT))
 
-	last_process_time = world.time
+	// If the spell was fully charged before recalculation, keep it fully charged
+	if(charge_counter >= old_recharge && old_recharge > 0)
+		charge_counter = recharge_time
+
 	START_PROCESSING(SSfastprocess, src)
 
 /obj/effect/proc_holder/spell/process()
@@ -443,8 +447,13 @@ GLOBAL_LIST_INIT(spells, typesof(/obj/effect/proc_holder/spell)) //needed for th
 		charge_counter += delta
 		if(charge_counter >= recharge_time)
 			charge_counter = recharge_time
+			if(action?.button)
+				action.button.update_maptext(0)
 			action?.UpdateButtonIcon()
 			STOP_PROCESSING(SSfastprocess, src)
+			return
+		if(action?.button)
+			action.button.update_maptext(recharge_time - charge_counter)
 
 /obj/effect/proc_holder/spell/proc/perform(list/targets, recharge = TRUE, mob/user = usr) //if recharge is started is important for the trigger spells
 	if(!ignore_los)
@@ -569,7 +578,8 @@ GLOBAL_LIST_INIT(spells, typesof(/obj/effect/proc_holder/spell)) //needed for th
 		if("holdervar")
 			adjust_var(user, holder_var_type, -holder_var_amount)
 	START_PROCESSING(SSfastprocess, src)
-	if(action)
+	if(action?.button)
+		action.button.update_maptext(0)
 		action.UpdateButtonIcon()
 	if(user.mmb_intent && user.mmb_intent.mob_light)
 		QDEL_NULL(user.mmb_intent.mob_light)

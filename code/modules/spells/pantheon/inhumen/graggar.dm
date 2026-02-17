@@ -1,10 +1,11 @@
 //Call to Slaughter - AoE buff for all people surrounding you.
 /obj/effect/proc_holder/spell/self/call_to_slaughter
 	name = "Call to Slaughter"
-	desc = "Grants you and all allies nearby a buff to their strength, willpower, and constitution."
+	desc = "Grants you and all allies nearby a buff to their strength, willpower, and constitution. Debuffs followers of the Ten, but not Psydonites.\
+	Works in a three tile radius around you."
 	overlay_state = "call_to_slaughter"
 	recharge_time = 5 MINUTES
-	invocations = list("GRAGGAAAAAAAAAR!!") 	//MUSTAAAAAAAAAAAAAARD
+	invocations = list("LAMBS TO THE SLAUGHTER!", "THE DARK STAR IS WATCHING!") // idk who changed it but it was identical to bloodrage. bad.
 	invocation_type = "shout"
 	sound = 'sound/magic/timestop.ogg'
 	releasedrain = 30
@@ -30,8 +31,8 @@
 /obj/effect/proc_holder/spell/invoked/projectile/blood_net
 	name = "Unholy Grasp"
 	desc = "Unleashes a snare of external blood and guts. The viscera winds around the legs of mortals... \
-	Though has little effect on simple creatures."
-	overlay_state = "unholy_grasp"
+	Though has little effect on simple creatures. Mortals cannot remove the net, but it decays ten seconds after landing."
+	overlay_state = "unholy_grab"
 	associated_skill = /datum/skill/magic/holy
 	projectile_type = /obj/projectile/magic/unholy_grasp
 	chargedloop = /datum/looping_sound/invokeascendant // this should stand out on a gaggar guy
@@ -40,7 +41,7 @@
 	chargetime = 15
 	recharge_time = 40 SECONDS // no running, super slow. this FUCKS people. lower it if 40 is too much.
 	invocation_type = "shout"
-	invocations = list("STOP RUNNING, COWARD!!") // VERY loud. do NOT add other invocations, this projectile can FUUUCK people up and needs to be telegraphed.
+	invocations = list("TURN AND FACE THE BLOOD GOD!!") // VERY loud. do NOT add other invocations, this projectile can FUUUCK people up and needs to be telegraphed.
 	sound = 'sound/magic/soulsteal.ogg'
 
 /obj/projectile/magic/unholy_grasp
@@ -60,6 +61,7 @@
 
 /obj/projectile/magic/unholy_grasp/proc/ensnare(mob/living/carbon/carbon)
 	if(carbon.legcuffed || carbon.get_num_legs(FALSE) < 2)
+		carbon.visible_message(span_warning("The net slides off-- it has no effect!"))
 		return
 
 	carbon.visible_message(span_warning("The [src] ensnares [carbon] around their legs in a horrid cacophany of blood and guts!"), span_warning("I AM ENCAPTURED BY BLOOD AND GUTS! THERES A NET ON MY LEGS!"))
@@ -67,17 +69,19 @@
 	forceMove(carbon)
 	carbon.update_inv_legcuffed()
 	SSblackbox.record_feedback("tally", "handcuffs", 1, type)
-	carbon.Knockdown(knockdown)
-	carbon.apply_status_effect(/datum/status_effect/debuff/netted)
+	carbon.apply_status_effect(/datum/status_effect/debuff/netted/vile)
 	playsound(src, 'sound/combat/caught.ogg', 50, TRUE)
 
 /obj/effect/proc_holder/spell/invoked/revel_in_slaughter
-	name = "Revel in Slaughter"
-	desc = "The blood of your enemy shall boil, increasing their blood and pain tenfold! THE BLOOD MUST FLOW!!!"
+	name = "Revel in Death"
+	desc = "Increases the bleeding and pain of a target by just under double. Does not work on those of a simple sort."
 	overlay_state = "bloodsteal"
 	recharge_time = 1 MINUTES
-	invocations = list("snaps their fingers at their enemy, causing their wounds to gush more blood than should be possible!") 				//what the fuck did "your blood will boil till it's spilled" mean.
-	invocation_type = "emote"
+	chargetime = 10
+	chargedrain = 0
+	chargedloop = /datum/looping_sound/invokeevil
+	invocations = list("SUFFER FOR THE DARK STAR!", "SINISTAR, MAKE THEM BLEED!")
+	invocation_type = "shout"
 	sound = 'sound/magic/antimagic.ogg'
 	releasedrain = 30
 	miracle = TRUE
@@ -87,44 +91,14 @@
 	var/mob/living/carbon/human/human = targets[1]
 
 	if(!istype(human) || human == user)
+		to_chat(user, span_danger("THAT WONT WORK!"))
 		revert_cast()
 		return FALSE
-
-	var/success = 0
-
-	for(var/obj/effect/decal/cleanable/blood/blood in view(3, user))
-		success++
-		qdel(blood)
-
-	if(!success)
-		to_chat(user, span_warning("Graggar demands BLOOD to call upon his powers!"))
-		revert_cast()
-		return FALSE
-
-	var/datum/physiology/phy = human.physiology
-
-	phy.bleed_mod *= 1.5
-	phy.pain_mod *= 1.5
-
-	addtimer(CALLBACK(src, PROC_REF(restore_bleed_mod), phy), 25 SECONDS)
-	addtimer(CALLBACK(src, PROC_REF(restore_pain_mod), phy), 15 SECONDS)
-
-	human.visible_message(span_danger("[human]'s wounds become inflammed as their vitality is sapped away!"))
-	to_chat(human, span_warning("My own blood fills my lungs! The pain is unbearable!"))
+	
+	human.apply_status_effect(/datum/status_effect/debuff/bloody_mess)
+	human.apply_status_effect(/datum/status_effect/debuff/sensitive_nerves)
 
 	return TRUE
-
-/obj/effect/proc_holder/spell/invoked/revel_in_slaughter/proc/restore_bleed_mod(datum/physiology/physiology)
-	if(!physiology)
-		return
-
-	physiology.bleed_mod /= 1.5
-
-/obj/effect/proc_holder/spell/invoked/revel_in_slaughter/proc/restore_pain_mod(datum/physiology/physiology)
-	if(!physiology)
-		return
-
-	physiology.pain_mod /= 1.5
 
 //Bloodrage T0 -- Uncapped STR buff.
 /obj/effect/proc_holder/spell/self/graggar_bloodrage

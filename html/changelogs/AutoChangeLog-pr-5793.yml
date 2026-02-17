@@ -1,0 +1,7 @@
+author: "WeNeedMorePhoron"
+delete-after: True
+changes:
+  - bugfix: "Possibly fixed clickdelay issues causing spell charging to not work, brought by the optimization PR"
+  - bugfix: "Fixes outlaw goons spawning in a non-delayed manner while outlaw spawns delayed"
+  - bugfix: "fixes decrepit ingot recipes crashing TGUI"
+  - bugfix: "Added Lux back to list of things that can be eaten by bandit idol, accidentally removed during the gemcarving PR"

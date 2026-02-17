@@ -1,6 +1,7 @@
 /obj/effect/proc_holder/spell/invoked/longstrider
 	name = "Longstrider"
 	desc = "Grant yourself and any creatures adjacent to you free movement through rough terrain for 15 minutes."
+	overlay_state = "longstrider"
 	cost = 2
 	xp_gain = TRUE
 	school = "transmutation"

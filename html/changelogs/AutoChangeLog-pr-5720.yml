@@ -1,4 +1,0 @@
-author: "WeNeedMorePhoron"
-delete-after: True
-changes:
-  - rscadd: "Remaining duration is now displayed on status effects as a countdown, except things like thirsty / hungry."

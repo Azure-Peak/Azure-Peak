@@ -1,0 +1,7 @@
+author: "WeNeedMorePhoron"
+delete-after: True
+changes:
+  - rscadd: "Duke can change colors mid round with Change Colors command"
+  - rscadd: "Dye Bin now has a Preview for items using sprite and onmob sprite where available"
+  - rscadd: "Separate volume controls for Lobby Music and Ambience"
+  - bugfix: "Dye Bin should no longer open for anyone adjacent to it when someone is using it, only the user."

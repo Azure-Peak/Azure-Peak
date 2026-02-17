@@ -4,6 +4,10 @@
 /datum/species/goblinp
 	name = "Goblin"
 	id = "goblinp"
+	origin_default = /datum/virtue/origin/gronn
+	origin = "Gronn"
+	base_name = "Godtouched"
+	is_subrace = TRUE
 	desc = "<b>Goblin</b><br>\
 	Goblins are a short race of humanoids with large ears and typically green skin. \
 	Supposedly formed from the blood spilled by the savage War God Graggar’s conquest, \
@@ -28,6 +32,7 @@
 	use_skintones = TRUE
 	default_features = MANDATORY_FEATURE_LIST
 	skin_tone_wording = "Skin Color"
+	use_skin_tone_wording_for_examine = FALSE
 	limbs_icon_m = 'icons/mob/species/anthro_small_male.dmi'
 	limbs_icon_f = 'icons/roguetown/mob/bodies/f/fd.dmi'
 	dam_icon = 'icons/roguetown/mob/bodies/dam/dam_male.dmi'

@@ -19,5 +19,17 @@
 	if(!landmark)
 		return FALSE
 	spawn_kill_mobs(landmark)
-
+	spawn_goons(landmark)
 	return TRUE
+
+/// Spawns proximity-gated goons near the quest landmark to accompany the outlaw target.
+/datum/quest/kill/outlaw/proc/spawn_goons(obj/effect/landmark/quest_spawner/landmark)
+	for(var/i in 1 to rand(2, 5))
+		var/turf/spawn_turf = landmark.get_safe_spawn_turf()
+		if(!spawn_turf)
+			continue
+		var/obj/effect/quest_spawn/spawn_effect = new /obj/effect/quest_spawn(spawn_turf)
+		var/mob/living/goon = new /mob/living/carbon/human/species/human/northern/highwayman/dk_goon(spawn_effect)
+		goon.faction |= "quest"
+		spawn_effect.contained_atom = goon
+		spawn_effect.AddComponent(/datum/component/quest_object/mob_spawner, src)

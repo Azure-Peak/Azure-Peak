@@ -4,6 +4,10 @@
 /datum/species/moth
 	name = "Fluvian"
 	id = "moth"
+	is_subrace = TRUE
+	origin_default = /datum/virtue/origin/racial/underdark
+	origin = "the Underdark"
+	base_name = "Beastvolk"
 	desc = "Many comparisons have been made to the common moths in an attempt to describe this unique species. From the appetite for clothing to the disconcertingly insectoid appearance, the name 'Moth' is forever stamped onto the common vocabulary. The comparison, however, falls short on the matter of flight.<br>\
 	(+1 Speed)"
 	species_traits = list(EYECOLOR,LIPS,STUBBLE,MUTCOLORS,HAIR)
@@ -18,7 +22,7 @@
 	offset_features = list(
 		OFFSET_ID = list(0,1), OFFSET_GLOVES = list(0,1), OFFSET_WRISTS = list(0,1),\
 		OFFSET_CLOAK = list(0,1), OFFSET_FACEMASK = list(0,1), OFFSET_HEAD = list(0,1), \
-		OFFSET_FACE = list(0,1), OFFSET_BELT = list(0,1), OFFSET_BACK = list(0,1), \
+		OFFSET_FACE = list(0,0), OFFSET_BELT = list(0,1), OFFSET_BACK = list(0,1), \
 		OFFSET_NECK = list(0,1), OFFSET_MOUTH = list(0,1), OFFSET_PANTS = list(0,1), \
 		OFFSET_SHIRT = list(0,1), OFFSET_ARMOR = list(0,1), OFFSET_HANDS = list(0,1), OFFSET_UNDIES = list(0,1), \
 		OFFSET_ID_F = list(0,-1), OFFSET_GLOVES_F = list(0,0), OFFSET_WRISTS_F = list(0,0), OFFSET_HANDS_F = list(0,0), \
@@ -72,6 +76,7 @@
 		/datum/customizer/organ/vagina/animal,
 		)
 	body_marking_sets = list(
+		/datum/body_marking_set/none,
 		/datum/body_marking_set/moth/reddish,
 		/datum/body_marking_set/moth/royal,
 		/datum/body_marking_set/moth/gothic,
@@ -85,10 +90,13 @@
 		/datum/body_marking_set/moth/jungle,
 		/datum/body_marking_set/moth/witchwing,
 		/datum/body_marking_set/moth/lovers,
+		/datum/body_marking_set/belly,
+		/datum/body_marking_set/bellysocks,
+		/datum/body_marking_set/tiger,
+		/datum/body_marking_set/tiger_dark,
+		/datum/body_marking_set/gradient,
 	)
 	body_markings = list(
-		/datum/body_marking/flushed_cheeks,
-		/datum/body_marking/eyeliner,
 		/datum/body_marking/moth/grayscale/reddish,
 		/datum/body_marking/moth/grayscale/royal,
 		/datum/body_marking/moth/grayscale/gothic,
@@ -102,7 +110,18 @@
 		/datum/body_marking/moth/grayscale/jungle,
 		/datum/body_marking/moth/grayscale/witchwing,
 		/datum/body_marking/moth/grayscale/lovers,
+		/datum/body_marking/plain,
+		/datum/body_marking/tiger,
+		/datum/body_marking/tiger/dark,
 		/datum/body_marking/nose,
+		/datum/body_marking/flushed_cheeks,
+		/datum/body_marking/eyeliner,
+		/datum/body_marking/belly,
+		/datum/body_marking/bellyslim,
+		/datum/body_marking/gradient,
+		/datum/body_marking/tonage,
+		/datum/body_marking/bangs,
+		/datum/body_marking/bun,
 	)
 	descriptor_choices = list(
 		/datum/descriptor_choice/trait,
