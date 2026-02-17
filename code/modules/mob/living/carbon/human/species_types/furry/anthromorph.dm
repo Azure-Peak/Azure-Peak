@@ -11,7 +11,7 @@
 	creating a diverse race of people who may not even empathise with one another. And whilst Dendor is considered the main culprit for Wild-kin, there are those created through other means, \
 	akin to Noc's stolen knowledge that created lupians and other abstract experimentation or circumstance. \
 	(Wild-kin are not a template race to play your own custom race. If you play a wild-kin, you are expected to roleplay to the setting and the race's lore.)<br>\
-	(+1 Constitution, +1 Perception)"
+	<span style='color: #6a8cb7;text-shadow:-1px -1px 0 #000,1px -1px 0 #000,-1px 1px 0 #000,1px 1px 0 #000;'><b>+1 CON | +1 PER </b></span><br>"
 	default_color = "444"
 	species_traits = list(
 		MUTCOLORS,

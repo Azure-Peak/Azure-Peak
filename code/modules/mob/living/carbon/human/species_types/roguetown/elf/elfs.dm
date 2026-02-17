@@ -19,7 +19,7 @@
 	relationships, which are capable of producing half-elven children. Elves are known for \
 	their intelligence and sharp eyes, but their graceful nature typically leaves their bodies \
 	more frail and fragile than most. In these lands, only a handful of the many Elvish tribes are seen.<br>\
-	(+1 Speed)"
+	<span style='color: #6a8cb7;text-shadow:-1px -1px 0 #000,1px -1px 0 #000,-1px 1px 0 #000,1px 1px 0 #000;'><b>+1 SPD</b></span><br>"
 
 	skin_tone_wording = "Tribal Identity"
 	max_age = 850

@@ -5,10 +5,10 @@
 	name = "Sun Elf"
 	id = "elfc"
 	is_subrace = TRUE
-	psydonic = TRUE
 	origin_default = /datum/virtue/origin/raneshen
 	origin = "Raneshen"
 	base_name = "Elf"
+	sub_name = "Sun Elf"
 
 	desc = "<b>Sun Elf</b><br>\
 	Native to the vast region of Raneshen, Sun Elves are an elven subspecies descended \
@@ -26,7 +26,7 @@
 	are vain or power-hungry, and they tend to have imperious and assertive personalities. \
 	It is a common sentiment among Sun Elves that they are the 'chosen' of Astrata, leading \
 	to a great deal of condescension or disdain toward those faiths deemed 'lesser'.<br>\
-	(+1 Stat of their choice, Silver-blooded, Rot immune)</br>"
+	<span style='color: #6a8cb7;text-shadow:-1px -1px 0 #000,1px -1px 0 #000,-1px 1px 0 #000,1px 1px 0 #000;'><b>+1 Stat of their choice, Silver-blooded, Rot immune</b></span><br>"
 
 	custom_selection = list(
 		"+1 FOR" = STATKEY_LCK,
@@ -39,6 +39,7 @@
 	)
 
 	skin_tone_wording = "Skintone"
+	use_skin_tone_wording_for_examine = FALSE
 
 	inherent_traits = list(TRAIT_SILVER_BLESSED, TRAIT_ZOMBIE_IMMUNE)
 	species_traits = list(EYECOLOR,HAIR,FACEHAIR,LIPS,OLDGREY)
@@ -67,7 +68,7 @@
 		OFFSET_NECK_F = list(0,-1), OFFSET_MOUTH_F = list(0,-1), OFFSET_PANTS_F = list(0,0), \
 		OFFSET_SHIRT_F = list(0,0), OFFSET_ARMOR_F = list(0,0), OFFSET_UNDIES_F = list(0,-1), \
 		)
-	race_bonus = list(STAT_WILLPOWER = 1, STAT_FORTUNE = 1)
+	race_bonus = list()
 	enflamed_icon = "widefire"
 	organs = list(
 		ORGAN_SLOT_BRAIN = /obj/item/organ/brain,
