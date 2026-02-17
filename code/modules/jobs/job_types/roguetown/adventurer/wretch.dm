@@ -39,7 +39,6 @@
 		/datum/advclass/wretch/heretic,
 		/datum/advclass/wretch/heretic/spy,
 		/datum/advclass/wretch/outlaw,
-		/datum/advclass/wretch/outlaw/marauder,
 		/datum/advclass/wretch/poacher,
 		/datum/advclass/wretch/plaguebearer,
 		/datum/advclass/wretch/pyromaniac,

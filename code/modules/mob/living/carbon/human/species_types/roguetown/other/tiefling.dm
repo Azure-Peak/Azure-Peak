@@ -4,6 +4,10 @@
 /datum/species/tieberian
 	name = "Tiefling"
 	id = "tiefling"
+	origin_default = /datum/virtue/origin/etrusca
+	origin = "Etrusca"
+	base_name = "Godtouched"
+	is_subrace = TRUE
 	desc = "<b>Tiefling</b><br>\
 	The offspring of demons with mortal races, a consequence of demonic incursions into the mortal realm and dark pacts. \
 	Their origins dating back to the demonic invasion of Archdevil Vheslyn who pillaged and ravaged the mortal lands and its people before being stopped by Psydon. \
@@ -16,6 +20,7 @@
 	(+1 Constitution, +1 Intelligence)"
 
 	skin_tone_wording = "Progenitor"
+	use_skin_tone_wording_for_examine = FALSE
 
 	species_traits = list(EYECOLOR,HAIR,FACEHAIR,LIPS,STUBBLE,OLDGREY)
 	inherent_traits = list(TRAIT_NOMOBSWAP)

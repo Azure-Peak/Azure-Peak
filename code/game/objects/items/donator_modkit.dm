@@ -177,6 +177,28 @@
 	)
 	result_item = /obj/item/clothing/head/roguetown/helmet/bascinet/pigface/hounskull/dakken
 
+//StinkethStonketh - Shashka & pike
+/obj/item/enchantingkit/stinketh_shashka
+	name = "'fencer's shashka' morphing elixir"
+	target_items = list(
+		/obj/item/rogueweapon/sword/sabre/freifechter	= /obj/item/rogueweapon/sword/sabre/freifechter/stinketh,
+		/obj/item/rogueweapon/sword/sabre/steppesman	= /obj/item/rogueweapon/sword/sabre/steppesman/stinketh
+		)
+	result_item = null
+
+/obj/item/enchantingkit/stinketh_pike
+	name = "'Kindness of Ravens Standard' morphing elixir"
+	target_items = list(/obj/item/rogueweapon/spear/boar/frei/pike)
+	result_item = /obj/item/rogueweapon/spear/boar/frei/pike/stinketh
+
+//Koruu - Glaive
+/obj/item/enchantingkit/koruu_glaive
+	name = "'Sixty Five Yils' morphing elixir"
+	target_items = list(
+		/obj/item/rogueweapon/spear/naginata	= /obj/item/rogueweapon/spear/naginata/koruu,
+		/obj/item/rogueweapon/halberd/glaive	= /obj/item/rogueweapon/halberd/glaive/koruu
+		)
+	result_item = null
 
 /////////////////////////////
 // ! Triumph-Exc. Kits !   //

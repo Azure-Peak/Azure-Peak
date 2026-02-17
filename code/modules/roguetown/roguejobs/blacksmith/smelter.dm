@@ -16,7 +16,8 @@
 	climbable = TRUE
 	climb_time = 0
 	climb_offset = 10
-	on = TRUE
+	on = FALSE
+	roundstart_forbid = TRUE
 
 	/// Which ores are contained within us?
 	var/list/contained_items = list()

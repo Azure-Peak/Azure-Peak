@@ -298,11 +298,11 @@
 		return
 	if (target == user)
 		target.energy_add(starminatoregen)
-		show_visible_message(usr, "As [user] intones the incantation, vibrant flames swirl around them.", "As you intones the incantation, vibrant flames swirl around you, You feel refreshed.")
+		show_visible_message(usr, "As [user] intones the incantation, vibrant flames swirl around them.", "As you intone the incantation, vibrant flames swirl around you. You feel refreshed.")
 	else if (user.energy > (starminatoregen * 2))
 		user.energy_add(-(starminatoregen * 2))
 		target.energy_add(starminatoregen * 2)
-		show_visible_message(target, "As [user] intones the incantation, vibrant flames swirl around them, a dance of energy flowing towards [target].", "As [user] intones the incantation, vibrant flames swirl around them, a dance of energy flowing towards you. You feel refreshed")
+		show_visible_message(target, "As [user] intones the incantation, vibrant flames swirl around them, a dance of energy flowing towards [target].", "As [user] intones the incantation, vibrant flames swirl around them, a dance of energy flowing towards you. You feel refreshed.")
 
 /obj/effect/proc_holder/spell/invoked/craftercovenant/cast(list/targets, mob/user = usr)
 	. = ..()
@@ -559,13 +559,13 @@ var/global/list/anvil_recipe_prices[][]
 /obj/item/rogueweapon/proc/unbuff()
 	force = initial(force)
 	malumblessed_w = FALSE
-	visible_message("<font color='purple'>A holy blessing now not affect on [name]!</font>")
+	visible_message("<font color='purple'>A holy blessing no longer affects [name]!</font>")
 
 /obj/item/clothing/proc/unbuff()
 	max_integrity = initial(max_integrity)
 	obj_integrity = max_integrity/2
 	malumblessed_c = FALSE
-	visible_message("<font color='purple'>A holy blessing now not affect on [name]!</font>")
+	visible_message("<font color='purple'>A holy blessing no longer affects [name]!</font>")
 
 /obj/effect/proc_holder/spell/self/repair
 	name = "Order: Repair"
@@ -668,8 +668,8 @@ var/global/list/anvil_recipe_prices[][]
 		if(istype(S, /obj/structure/mineral_door/))
 			var/obj/structure/mineral_door/door = S
 			to_chat(user, span_warning("[door.obj_integrity]"))
-			user.visible_message(span_notice("[user] starts concentrate on [door.name]."),
-			span_notice("I start concentrate on [door.name]."))
+			user.visible_message(span_notice("[user] starts concentrating on [door.name]."),
+			span_notice("I start concentrating on [door.name]."))
 			playsound(user, 'sound/misc/wood_saw.ogg', 100, TRUE)
 			if(!do_after(user, (150 / skill), target = door))
 				return
@@ -693,8 +693,8 @@ var/global/list/anvil_recipe_prices[][]
 			var/obj/structure/roguewindow/window = S
 			if(window.obj_integrity < window.max_integrity)
 				to_chat(user, span_warning("[window.obj_integrity]"))	
-				user.visible_message(span_notice("[user] starts concentrate on [window.name]."),
-				span_notice("I start concentrate on [window.name]."))
+				user.visible_message(span_notice("[user] starts concentrating on [window.name]."),
+				span_notice("I start concentrating on [window.name]."))
 				playsound(user, 'sound/misc/wood_saw.ogg', 100, TRUE)
 				if(!do_after(user, (150 / skill), target = window))
 					return

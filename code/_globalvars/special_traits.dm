@@ -43,15 +43,15 @@ GLOBAL_LIST_INIT(special_traits, build_special_traits())
 		apply_dnr_trait(character, player)
 	if(player.prefs.qsr_pref)
 		apply_qsr_trait(character, player)
-	if(player.prefs.loadout && character.get_triumphs() >= player.prefs.loadout.triumph_cost)
-		character.adjust_triumphs(-player.prefs.loadout.triumph_cost)
-		character.mind.special_items[player.prefs.loadout.name] += player.prefs.loadout.path
-	if(player.prefs.loadout2 && character.get_triumphs() >= player.prefs.loadout2.triumph_cost)
-		character.adjust_triumphs(-player.prefs.loadout2.triumph_cost)
-		character.mind.special_items[player.prefs.loadout2::name] += player.prefs.loadout2.path
-	if(player.prefs.loadout3 && character.get_triumphs() >= player.prefs.loadout3.triumph_cost)
-		character.adjust_triumphs(-player.prefs.loadout3.triumph_cost)
-		character.mind.special_items[player.prefs.loadout3::name] += player.prefs.loadout3.path
+	for(var/item_name in player.prefs.gear_list)
+		var/datum/loadout_item/LI = GLOB.loadout_items_by_name[item_name]
+		if(!LI)
+			continue
+		if(LI.triumph_cost && character.get_triumphs() < LI.triumph_cost)
+			continue
+		if(LI.triumph_cost)
+			character.adjust_triumphs(-LI.triumph_cost)
+		character.mind.special_items[LI.name] = LI.path
 	var/datum/job/assigned_job = SSjob.GetJob(character.mind?.assigned_role)
 	if(assigned_job)
 		assigned_job.clamp_stats(character)
@@ -86,6 +86,8 @@ GLOBAL_LIST_INIT(special_traits, build_special_traits())
 
 	var/virtuous = FALSE
 	var/heretic = FALSE
+	var/species = character.dna.species.type
+
 	if(istype(player.prefs.selected_patron, /datum/patron/inhumen))
 		heretic = TRUE
 
@@ -94,16 +96,44 @@ GLOBAL_LIST_INIT(special_traits, build_special_traits())
 
 	var/datum/virtue/virtue_type = player.prefs.virtue
 	var/datum/virtue/virtuetwo_type = player.prefs.virtuetwo
+	var/datum/virtue/origin_type = player.prefs.virtue_origin
+	var/language_type = player.prefs.extra_language
 	if(virtue_type)
-		if(virtue_check(virtue_type, heretic))
+		if(virtue_check(virtue_type, heretic, species))
 			apply_virtue(character, virtue_type)
 		else
-			to_chat(character, "Incorrect Virtue parameters! (Heretic virtue on a non-heretic) It will not be applied.")
+			to_chat(character, "Incorrect Virtue parameters! It will not be applied.")
 	if(virtuetwo_type && virtuous)
-		if(virtue_check(virtuetwo_type, heretic))
+		if(virtue_check(virtuetwo_type, heretic, species))
 			apply_virtue(character, virtuetwo_type)
 		else
-			to_chat(character, "Incorrect Second Virtue parameters! (Heretic virtue on a non-heretic) It will not be applied.")
+			to_chat(character, "Incorrect Second Virtue parameters! It will not be applied.")
+	if(origin_type)
+		if((language_type && language_type != "None"))
+			character.grant_language(language_type)
+		if(origin_type.job_origin == TRUE)
+			apply_virtue(character, origin_type)
+			player.prefs.virtue_origin = origin_type.last_origin
+		else
+			if(origin_check(origin_type, species))
+				apply_virtue(character, origin_type)
+			else
+				to_chat(character, "Incorrect Origin parameters! Resetting to default.")
+				origin_type = new character.dna.species.origin_default
+				apply_virtue(character, origin_type)
+
+/proc/origin_check(var/datum/virtue/V, species)
+	if(V)
+		if(!istype(V,/datum/virtue/origin))
+			return FALSE
+		if(V.restricted == TRUE)
+			if((species in V.races))
+				return FALSE
+		if(istype(V,/datum/virtue/origin/racial))
+			if(!(species in V.races))
+				return FALSE
+		return TRUE
+	return FALSE
 
 /proc/apply_prefs_race_bonus(mob/living/carbon/human/character, client/player)
 	if (!player)

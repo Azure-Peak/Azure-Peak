@@ -12,6 +12,7 @@
 	var/cookonme = FALSE
 	var/crossfire = TRUE
 	var/can_damage = FALSE
+	var/roundstart_forbid = FALSE
 
 /obj/machinery/light/rogue/Initialize()
 	if(soundloop)
@@ -21,7 +22,8 @@
 	if(fueluse > 0)
 		fueluse = fueluse - (rand(fueluse*0.1,fueluse*0.3))
 	update_icon()
-	seton(TRUE)
+	if(!roundstart_forbid)
+		seton(TRUE)
 	. = ..()
 
 /obj/machinery/light/rogue/weather_trigger(W)

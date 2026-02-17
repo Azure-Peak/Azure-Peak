@@ -739,6 +739,12 @@
 	desc = "Due to magic or fragile material the clothing on this one cannot be taken off."
 	unchangeable = TRUE
 
+/obj/structure/mannequin/male/decorative/woman
+	icon_state = "woman"
+
+/obj/structure/mannequin/male/decorative/training_dummy_style
+	icon_state = "coat_hanger"
+
 /obj/structure/mannequin/male/female
 	name = "mannequin"
 	icon_state = "woman"

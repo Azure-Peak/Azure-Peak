@@ -1,0 +1,4 @@
+author: "hazelrat"
+delete-after: True
+changes:
+  - rscadd: "Character origins can now be left-clicked to read a description of their origin, assuming the character has a client."

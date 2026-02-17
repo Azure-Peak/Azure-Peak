@@ -35,7 +35,6 @@ GLOBAL_VAR(lordsecondary)
 	GLOB.lordsecondary = sec
 	for(var/obj/O in GLOB.lordcolor)
 		O.lordcolor(prim,sec)
-		
 	for(var/turf/T in GLOB.lordcolor)
 		T.lordcolor(prim,sec)
 

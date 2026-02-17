@@ -33,6 +33,25 @@
 /datum/outfit/job/roguetown/heir/pre_equip(mob/living/carbon/human/H)
 	..()
 	H.verbs |= /mob/living/carbon/human/proc/declarechampion
+	has_loadout = TRUE
+
+/datum/outfit/job/roguetown/heir/choose_loadout(mob/living/carbon/human/H)
+	. = ..()
+	var/client/player = H?.client
+	if(player.prefs)
+		if(!istype(player.prefs.virtue_origin, /datum/virtue/origin/azuria) && !istype(player.prefs.virtue_origin, /datum/virtue/origin/grenzelhoft) && !istype(player.prefs.virtue_origin, /datum/virtue/origin/otava) && !istype(player.prefs.virtue_origin, /datum/virtue/origin/etrusca))
+			var/list/new_origins = list("Azuria" = /datum/virtue/origin/azuria, 
+			"Grenzelhoft" = /datum/virtue/origin/grenzelhoft,
+			"Otava" = /datum/virtue/origin/otava,
+			"Etrusca" = /datum/virtue/origin/etrusca)
+			var/new_origin
+			var/choice = input(player, "Your origins are not compatible with the Duchy. Where do you hail from?", "ANCESTRY") as anything in new_origins
+			if(choice)
+				new_origin = new_origins[choice]
+			else
+				to_chat(player, span_notice("No choice detected. Picking a random compatible origin."))
+				new_origin = pick(/datum/virtue/origin/grenzelhoft, /datum/virtue/origin/otava, /datum/virtue/origin/etrusca)
+			change_origin(H, new_origin, "Royal line")
 
 /datum/advclass/heir/daring
 	name = "Daring Twit"

@@ -4,6 +4,9 @@
 /datum/species/lizardfolk
 	name = "Zardman"
 	id = "lizardfolk"
+	origin_default = /datum/virtue/origin/etrusca
+	origin = "Etrusca"
+	base_name = "Zard"
 	desc = "<b>Zardman</b><br>\
 	Zardmen are semi-aquatic reptilian humanoids. \
 	Their flesh is covered in scales varying in color from dark green to shades of brown and gray. \
@@ -12,6 +15,7 @@
 	They also have sharp claws and teeth.<br>\
 	(+1 Constitution, +1 Willpower)"
 	skin_tone_wording = "Skin Colors"
+	use_skin_tone_wording_for_examine = FALSE
 	species_traits = list(EYECOLOR,LIPS,STUBBLE,MUTCOLORS)
 	possible_ages = ALL_AGES_LIST
 	changesource_flags = MIRROR_BADMIN | WABBAJACK | MIRROR_MAGIC | MIRROR_PRIDE | RACE_SWAP | SLIME_EXTRACT

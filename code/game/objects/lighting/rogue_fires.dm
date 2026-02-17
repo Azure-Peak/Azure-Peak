@@ -415,6 +415,7 @@
 	layer = TABLE_LAYER
 	climb_offset = 14
 	on = FALSE
+	roundstart_forbid = TRUE
 	cookonme = TRUE
 	soundloop = /datum/looping_sound/fireloop
 	var/obj/item/attachment = null

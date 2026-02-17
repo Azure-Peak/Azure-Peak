@@ -8,6 +8,7 @@
 	density = TRUE
 	anchored = TRUE
 	on = FALSE
+	roundstart_forbid = TRUE
 	climbable = TRUE
 	climb_time = 0
 	var/heat_time = 20 SECONDS

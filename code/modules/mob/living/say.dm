@@ -170,7 +170,6 @@ GLOBAL_LIST_INIT(department_radio_keys, list(
 
 	if(!language)
 		language = get_default_language()
-
 	// Detection of language needs to be before inherent channels, because
 	// AIs use inherent channels for the holopad. Most inherent channels
 	// ignore the language argument however.

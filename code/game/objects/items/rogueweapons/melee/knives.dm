@@ -27,7 +27,7 @@
 /datum/intent/dagger/cut/heavy
 	name = "heavy cut"
 	damfactor = 1.2
-	penfactor = 20
+	penfactor = 25
 	clickcd = 11
 
 // For thrusting-focused daggers. Thinner blade, less slashing damage.
@@ -51,6 +51,9 @@
 /datum/intent/dagger/thrust/weak
 	name = "lopsided thrust"
 	damfactor = 0.8
+	penfactor = 45 // Slightly more pen, to compensate in penetration for the lower damage.
+	// You're still doing less damage than with a stabbier dagger, but your AP isn't penalised.
+	clickcd = 10
 
 /datum/intent/dagger/thrust/pick
 	name = "icepick stab"
@@ -443,8 +446,11 @@
 	smeltresult = /obj/item/ingot/iron
 	special = /datum/special_intent/dagger_dash
 
+// Standard dagger for wardens, or for any other forester-styled class. While a pick-dagger penetrates
+// armour, this is more focused on breaking *through* it and then dealing a lot of damage via REND.
 /obj/item/rogueweapon/huntingknife/idagger/warden_machete
-	possible_item_intents = list(/datum/intent/dagger/thrust/weak, /datum/intent/dagger/cut/heavy, /datum/intent/dagger/chop/cleaver, /datum/intent/dagger/sucker_punch) // Stronger cut and chop, but no pick.
+	possible_item_intents = list(/datum/intent/dagger/cut/heavy, /datum/intent/dagger/thrust/weak,
+	/datum/intent/dagger/cut/rend, /datum/intent/dagger/sucker_punch)
 	force = 22 // Slightly more damage than a steel dagger.
 	max_integrity = 130 // Slightly less integrity than a steel dagger.
 	name = "Wardens' seax"
@@ -597,6 +603,16 @@
 	possible_item_intents = list(/datum/intent/dagger/thrust/quick, /datum/intent/dagger/thrust/pick, /datum/intent/dagger/cut/light, /datum/intent/dagger/sucker_punch)
 	wdefense = 4 //Slightly more defense than a regular dagger. Intended to function as a tool for countering grapplers or finishing off armored opponents with broken pieces.
 	smeltresult = /obj/item/ingot/steel
+
+/obj/item/rogueweapon/huntingknife/idagger/steel/parrying
+	name = "steel parrying dagger"
+	desc = "A dagger meant purely for defense against oncoming blows - don't expect to deflect an oncoming mace though."
+	icon_state = "spdagger"
+	sheathe_icon = "spdagger"
+	force = 10
+	throwforce = 10
+	wdefense = 9
+	max_integrity = 200
 
 /obj/item/rogueweapon/huntingknife/idagger/steel/parrying/hand
 	name = "'Repeta'"

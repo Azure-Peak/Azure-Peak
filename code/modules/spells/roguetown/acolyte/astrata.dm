@@ -104,7 +104,7 @@
 
 /obj/effect/proc_holder/spell/invoked/revive
 	name = "Anastasis"
-	desc = "Focus Astratas energy though a stationary psycross, reviving the target from death."
+	desc = "Focus Astratas energy through a stationary psycross, reviving the target from death."
 	overlay_state = "revive"
 	base_icon_state = "regalyscroll"
 	releasedrain = 90
@@ -378,13 +378,13 @@
 	return TRUE
 
 /atom/movable/screen/alert/status_effect/buff/dragonhide/fireresist
-	name = "Fireresistance"
+	name = "Fire Resistance"
 	desc = "Flames dance at my heels, yet do not sting!"
 	icon_state = "fire"
 
 /datum/status_effect/buff/dragonhide/fireresist
 	id = "fireresist"
-	examine_text = "<font color='red'>A fireresistance!"
+	examine_text = "<font color='red'>SUBJECTPRONOUN is shielded by a veil of sacred flame!</font>"
 	alert_type = /atom/movable/screen/alert/status_effect/buff/dragonhide/fireresist
 	effectedstats = list(STATKEY_CON = -1) //Target body loosing CON, but getting fireresist.
 	duration = 11 SECONDS
@@ -840,11 +840,11 @@
 
 #undef IMMOLATION_FILTER
 
-//T4 spell. Very slow turf-target ability to cast on day or in churh/nearby Bishop. Take devostating damage, gibs all not-panteon carbons and kill all panteon users.
+//T4 spell. Very slow turf-target ability to cast on day or in churh/nearby Bishop. Take devostating damage, gibs all not-pantheon carbons and kill all pantheon users.
 
 /obj/effect/proc_holder/spell/invoked/sunstrike
 	name = "Sun Strike"
-	desc = "Focus Astratas energy though a stationary Psycross or Bishop hands. Call Devastating Solar Mercy on enemy head."
+	desc = "Focus Astratas energy through a stationary Psycross or Bishop's hands. Call down the mercy of the Sun Goddess upon the enemy."
 	overlay_state = "sunstrike"
 	base_icon_state = "regalyscroll"
 	releasedrain = 200
@@ -1016,7 +1016,7 @@
 
 /obj/effect/proc_holder/spell/self/astrata_sword
 	name = "Solar Blade"
-	desc = "Call for a blade to preserve light and order in Psydonia. Its strength is middling, but it glows fiercly and can be used to cauterize wounds."
+	desc = "Call for a blade to preserve light and order in Psydonia. Its strength is middling, but it glows fiercely and can be used to cauterize wounds."
 	overlay_state = "sacredflame"
 	req_items = list(/obj/item/clothing/neck/roguetown/psicross)
 	associated_skill = /datum/skill/magic/holy

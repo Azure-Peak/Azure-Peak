@@ -4,6 +4,10 @@
 /datum/species/elf/dark
 	name = "Dark Elf"
 	id = "elfd"
+	is_subrace = TRUE
+	origin_default = /datum/virtue/origin/racial/underdark
+	origin = "Underdark"
+	base_name = "Elf"
 	desc = "<b>Dark Elf</b><br>\
 	\"Elf\" is a catch-all term used for tall, pointy-eared humanoids who can trace their \
 	heritage to the ancient and mysterious Snow Elves. This species of elf, less frequently \
@@ -37,7 +41,8 @@
 	without careful upkeep...\
 	They typically trace their beginnings to how their progenator died before being raised."
 */
-	skin_tone_wording = "Origin City-State"
+	skin_tone_wording = "City-State"
+	use_skin_tone_wording_for_examine = FALSE
 	max_age = 850
 
 	species_traits = list(EYECOLOR,HAIR,FACEHAIR,LIPS,OLDGREY)

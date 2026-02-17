@@ -351,7 +351,7 @@
 		/obj/item/book/granter/spell/blackstone/bonechill = 5,
 		/obj/item/book/granter/spell/blackstone/featherfall = 5,
 		/obj/item/book/granter/spell/blackstone/sicknessray = 5,
-		/obj/item/book/granter/spell/blackstone/aerosolize = 5,
+
 		/obj/item/book/granter/spell/blackstone/frostbolt = 5,
 		/obj/item/book/granter/spell/blackstone/forcewall_weak = 4,
 		/obj/item/book/granter/spell/blackstone/guidance = 4,
