@@ -19,3 +19,8 @@
 	name = "Eoran Caparison"
 	path = /obj/item/caparison/eora
 	sort_category = "Caparison"
+
+/datum/loadout_item/caparison/fogbeast
+	name = "Fogbeast Caparison"
+	path = /obj/item/caparison/fogbeast
+	sort_category = "Caparison"
