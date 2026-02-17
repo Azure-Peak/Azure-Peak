@@ -541,6 +541,7 @@
 	icon_state = "kazscab"
 	item_state = "kazscab"
 
+	force = 20
 	valid_blade = /obj/item/rogueweapon/sword/sabre/mulyeog
 	associated_skill = /datum/skill/combat/swords
 	possible_item_intents = list(SHIELD_BASH, SHIELD_BLOCK)
