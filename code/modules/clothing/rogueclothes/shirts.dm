@@ -691,6 +691,7 @@
 	flags_inv = HIDECROTCH|HIDEBOOB
 
 /obj/item/clothing/suit/roguetown/shirt/dress/captainrobe
+	slot_flags = ITEM_SLOT_SHIRT|ITEM_SLOT_ARMOR
 	name = "foreign robes"
 	desc = "Flower-styled robes. The Merchant Guild says that this is from the southern Kazengite region."
 	icon = 'icons/roguetown/clothing/armor.dmi'
