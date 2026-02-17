@@ -15,6 +15,10 @@
 	anvilrepair = /datum/skill/craft/armorsmithing
 	smeltresult = /obj/item/ingot/blacksteel
 
+/obj/item/clothing/gloves/roguetown/blacksteel/modern/plategloves/ComponentInitialize()
+	AddComponent(/datum/component/armour_filtering/positive, TRAIT_FENCERDEXTERITY)
+	AddComponent(/datum/component/armour_filtering/positive, TRAIT_HONORBOUND)
+
 /obj/item/clothing/gloves/roguetown/blacksteel/plategloves
 	name = "ancient blacksteel plate gauntlets"
 	desc = "Wide-cuffed plate gauntlets, alloyed from a singular sheet of blacksteel. How would it feel, to see your greatest works slip away from your grasp; to see it twisted, violated, and alchemized into the very thing you swore to detest? To fall into Hell, with a head crooked up to forever-leer at the Paradise that was meant for you to reign? </br>‎  </br>Don't spare a breath; we both know the answer."
@@ -30,3 +34,7 @@
 	drop_sound = 'sound/foley/dropsound/armor_drop.ogg'
 	anvilrepair = /datum/skill/craft/armorsmithing
 	smeltresult = /obj/item/ingot/blacksteel
+
+/obj/item/clothing/gloves/roguetown/blacksteel/plategloves/ComponentInitialize()
+	AddComponent(/datum/component/armour_filtering/positive, TRAIT_FENCERDEXTERITY)
+	AddComponent(/datum/component/armour_filtering/positive, TRAIT_HONORBOUND)
