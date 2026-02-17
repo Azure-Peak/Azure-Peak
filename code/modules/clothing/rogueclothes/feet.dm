@@ -507,6 +507,10 @@
 	chunkcolor = "#303036"
 	material_category = ARMOR_MAT_PLATE
 
+/obj/item/clothing/shoes/roguetown/boots/blacksteel/modern/plateboots/ComponentInitialize()
+	AddComponent(/datum/component/armour_filtering/negative, TRAIT_FENCERDEXTERITY)
+	AddComponent(/datum/component/armour_filtering/negative, TRAIT_HONORBOUND)
+
 /obj/item/clothing/shoes/roguetown/boots/blacksteel/plateboots
 	name = "ancient blacksteel plate boots"
 	desc = "Antiquated sabatons, forged from segmented plates of blacksteel. Am I the cancer that is killing this world? Is it my hate, my spite, my lust - that, which poisons the ones around me, and siphons away the hope of Man and God alike? When the last hearth is quenched and Psydonia is nothing more than a shriveled husk, will I still blame the corpses for what I had done? </br>‎  </br>Let go of your hate. Your lyfe is yours, and yours alone to arbitrate."
@@ -524,6 +528,10 @@
 	resistance_flags = FIRE_PROOF
 	chunkcolor = "#303036"
 	material_category = ARMOR_MAT_PLATE
+
+/obj/item/clothing/shoes/roguetown/boots/blacksteel/plateboots/ComponentInitialize()
+	AddComponent(/datum/component/armour_filtering/negative, TRAIT_FENCERDEXTERITY)
+	AddComponent(/datum/component/armour_filtering/negative, TRAIT_HONORBOUND)
 
 // ----------------- BLACKSTEEL END -----------------------
 
@@ -545,6 +553,7 @@
 	item_state = "eastsandals"
 	sleeved = 'icons/roguetown/clothing/onmob/helpers/stonekeep_merc.dmi'
 	armor = ARMOR_LEATHER_GOOD
+	sewrepair = TRUE
 
 /obj/item/clothing/shoes/roguetown/armor/rumaclan/shitty
 	armor = ARMOR_CLOTHING
