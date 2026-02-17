@@ -134,7 +134,7 @@
 		"Sunset" = SKIN_COLOR_SUNSET,
 		"Dusk" = SKIN_COLOR_DUSK,
 		"Gilded" = SKIN_COLOR_GILDED,
-		"Brass" = SKIN_COLOR_BRASS,
+		"Brass" = SKIN_COLOR_SELFBRASS,
 	)
 
 /datum/species/elf/sun/get_hairc_list()
