@@ -39880,7 +39880,8 @@
 "iZH" = (
 /obj/structure/winch{
 	name = "Ducal Crypt Entrance";
-	redstone_id = "ducalcrypt"
+	redstone_id = "ducalcrypt";
+	gid = "ducalcrypt"
 	},
 /turf/open/floor/rogue/church,
 /area/rogue/under/cave/scarymaze)
@@ -105428,7 +105429,8 @@
 "xJQ" = (
 /obj/structure/winch{
 	name = "Exit Winch";
-	redstone_id = "cryptexit"
+	redstone_id = "cryptexit";
+	gid = "cryptexit"
 	},
 /turf/open/floor/rogue/churchrough,
 /area/rogue/under/cave/scarymaze)
