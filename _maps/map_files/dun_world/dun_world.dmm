@@ -11348,7 +11348,6 @@
 	pixel_x = -2;
 	pixel_y = 7
 	},
-/mob/living/carbon/human/species/skeleton/npc/special/disgraced_noble,
 /turf/open/floor/rogue/carpet/lord/left{
 	dir = 1
 	},
