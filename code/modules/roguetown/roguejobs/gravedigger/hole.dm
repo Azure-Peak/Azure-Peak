@@ -64,22 +64,27 @@
 			playsound(src, 'sound/foley/bodyfall (3).ogg', 90, TRUE)
 			user.visible_message(span_warning("[user] emerges from [src]!"),span_alert("I emerge from [src]!"))
 
-/obj/structure/closet/dirthole/closed/loot/Initialize()
-	. = ..()
-	lootroll = rand(1,4)
-
 /obj/structure/closet/dirthole/closed/loot
 	var/looted = FALSE
 	var/lootroll = 0
+
+/obj/structure/closet/dirthole/closed/loot/Initialize()
+	. = ..()
+	lootroll = rand(1,4)
 
 /obj/structure/closet/dirthole/closed/loot/open()
 	if(!looted)
 		looted = TRUE
 		switch(lootroll)
 			if(1)
-				new /mob/living/carbon/human/species/skeleton/npc(mastert)
+				new /mob/living/carbon/human/species/skeleton/npc(mastert) //Let's go gambling
 			if(2)
-				new /obj/structure/closet/crate/chest/lootbox(mastert)
+				new /obj/structure/closet/crate/chest/coffinlootbox(mastert) //How it be
+			if(3)
+				new /obj/structure/closet/crate/chest/coffinlootbox_middle(mastert) //Starts locked
+			if(4)
+				new /mob/living/carbon/human/species/skeleton/npc(mastert) //Starts locked & has a skeleton guard
+				new /obj/structure/closet/crate/chest/coffinlootbox_high(mastert)
 	..()
 
 /obj/structure/closet/dirthole/closed/loot/examine(mob/user)
@@ -87,6 +92,9 @@
 	if(HAS_TRAIT(user, TRAIT_SOUL_EXAMINE))
 		if(lootroll == 1)
 			. += span_warning("Better let this one sleep.")
+	if(HAS_TRAIT(user, TRAIT_GRAVEROBBER))
+		if(lootroll != 1)
+			. += span_warning("There seem to be some loot for me here.")	
 
 /obj/structure/closet/dirthole/insertion_allowed(atom/movable/AM)
 	if(istype(AM, /obj/structure/closet/crate/coffin) || istype(AM, /obj/structure/closet/burial_shroud))

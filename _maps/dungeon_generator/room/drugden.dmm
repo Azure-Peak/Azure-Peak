@@ -64,7 +64,7 @@
 /area/rogue/under/tomb/indoors)
 "iy" = (
 /obj/structure/closet/crate/drawer/inn,
-/obj/item/roguestatue/silver,
+/obj/effect/spawner/lootdrop/valuable_clutter_spawner,
 /turf/open/floor/rogue/ruinedwood/spiral,
 /area/rogue/under/tomb/indoors)
 "iO" = (
@@ -273,7 +273,7 @@
 /turf/open/water/swamp/deep,
 /area/rogue/under/tomb/cave/wet)
 "Cj" = (
-/obj/item/roguestatue/steel,
+/obj/effect/spawner/lootdrop/valuable_clutter_spawner,
 /turf/open/floor/rogue/tile,
 /area/rogue/under/tomb/indoors)
 "Cw" = (
@@ -404,9 +404,11 @@
 /turf/open/floor/carpet/red,
 /area/rogue/under/tomb/indoors)
 "Pk" = (
-/mob/living/carbon/human/species/npc/deadite,
 /obj/item/clothing/ring/quartz,
 /obj/effect/mapping_helpers/floor_clothing_equipper,
+/mob/living/carbon/human/species/skeleton/npc/no_equipment,
+/obj/item/clothing/suit/roguetown/shirt/tunic/black,
+/obj/item/rogueweapon/huntingknife/idagger/steel/parrying,
 /turf/open/floor/rogue/ruinedwood/spiral,
 /area/rogue/under/tomb/indoors)
 "Px" = (
@@ -415,7 +417,8 @@
 /area/rogue/under/tomb/indoors)
 "Rj" = (
 /obj/structure/roguewindow/openclose/reinforced,
-/turf/open/floor/rogue/ruinedwood/area/rogue/under/tomb/indoors)
+/turf/open/floor/rogue/ruinedwood/spiral,
+/area/rogue/under/tomb/indoors)
 "Rk" = (
 /obj/structure/fluff/railing/border{
 	dir = 5

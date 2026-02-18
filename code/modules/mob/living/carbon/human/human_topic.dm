@@ -100,8 +100,17 @@ GLOBAL_VAR_INIT(year_integer, text2num(year)) // = 2013???
 	if(href_list["species_lore"])
 		if(!dna?.species?.desc)
 			return
-		var/datum/browser/popup = new(usr, "species_info", "<center>Lore</center>", 460, 550)
+		var/datum/browser/popup = new(usr, "species_info", "<center>Species Lore</center>", 460, 550)
 		popup.set_content(dna.species.desc)
+		popup.open()
+		return
+
+	if(href_list["origin_lore"])
+		if(!client || !client.prefs.virtue_origin.origin_desc || !client.prefs.virtue_origin.origin_name)
+			to_chat(usr, span_ooc("Characters must have a functional client for origin descriptions to be accessed."))
+			return
+		var/datum/browser/popup = new(usr, "origin_info", "<center>[client.prefs.virtue_origin.origin_name]</center>", 460, 550)
+		popup.set_content(client.prefs.virtue_origin.origin_desc)
 		popup.open()
 		return
 

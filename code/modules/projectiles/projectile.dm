@@ -255,7 +255,9 @@
 	var/mob/living/L = target
 
 	if (!L.mind && istype(L, /mob/living/simple_animal))
-		damage *= npc_simple_damage_mult // bonus damage against simple.
+		var/datum/component/saddleborn = L.GetComponent(/datum/component/precious_creature) // Check for Saddleborn status, lets not nuke five billion damage into something that causes a -10 mood debuff
+		if(!saddleborn)
+			damage *= npc_simple_damage_mult // bonus damage against simple.
 	if(blocked != 100) // not completely blocked
 		if(damage && L.blood_volume && damage_type == BRUTE)
 			var/splatter_dir = dir

@@ -640,3 +640,122 @@
   - bugfix: 0 armor clothing items will no longer block crits
   - rscadd: new icons for longstrider, guidance, and a new alert for enlightenment
   - bugfix: 0 armor clothing will now no longer prevent crits
+2026-02-18:
+  FreeStylaLT:
+  - bugfix: Fixed(?) Old Azurian and new Otavan fonts not displaying correctly.
+  - refactor: Reworked Exposed
+  Geevies:
+  - rscadd: Fogbeasts now come in different colors. Wild-spawned have randomly selected
+      colours. Saddleborn can choose their colours.
+  - rscadd: Added Fogbeast Caparisons, right-clicking the caparison lets you change
+      its color and type.
+  Lamasmaster:
+  - bugfix: Steel Parrying Dagger
+  - balance: Pickpocketing now respects PER and SPD more. Timers have been adjusted.
+      It is now not possible to steal something from the 'hands'.
+  - balance: Grave-Robbing
+  NewyearnewmeUwu:
+  - qol: ovens/forges/hearths/smelters no longer spawn on at roundstart by default
+  Ollanius:
+  - rscadd: Ironclad Adventurers can now opt to take a Broadsword in their loadout.
+  - code_imp: Loadout options that alter stats - namely, with the Barbarian and Exorcist's
+      disciplines - now list the altered stats in the option-menu.
+  - rscadd: '''Dislocating Strikes'', a new intent for Maces that uses Rebel0''s Cudgel-code.
+      Deal +1.3x twisting damage (without the need to charge), at the cost of heavily
+      reduced integrity damage. Perfect for following up armor-breakages with crippling
+      swipes. Technically less lethal, so long as you aim below the neckline. Technically.'
+  - rscadd: Flanged Maces! An alternative to the Warhammer, sacrificing one-handed
+      Smashes and Picks for Dislocating Strikes and Dazes. Comes with a little more
+      damage, as well.
+  - rscadd: New sprites for the Flanged Mace, Psydonic Flanged Mace, and Enduring
+      Flanged Mace.
+  - rscadd: Added the Silver Flanged Mace.
+  - balance: Flails now have a slower-hitting variant of the Unevadable Punch quirk.
+  - balance: Grand Maces strikes and smashes now deal 1.1x damage, and their knockback
+      scales up to XV STR (or five tiles).
+  - balance: Mauls, at last, can crush. Charge up a titanic blow that'll deal a whopping
+      1.75x damage upon impact!
+  - balance: Smashes now play a distinct audio cue - ala the Flails - when charging
+      up a blow.
+  - balance: Cudgels can only be wielded in one hand, again, but've received a small
+      damage boost in exchange.
+  - balance: Psydonic Flanged Maces and Enduring Flanged Maces now deal a little more
+      damage, in accordance.
+  - balance: Iron Warhammers now have access to a lesser thrusting intent.
+  - balance: One-handed smashes with a Warhammer now have their knockback capped to
+      XIII STR (or three tiles).
+  - balance: Flail strikes and smashes now deal 1.1x and 1.5x damage, respectively,
+      at the cost of a little extra stamina.
+  - code_imp: Repathed flail smashes to properly be their own thing. If any quirks
+      show up during a potential testmerge, make sure to comment here or contact me.
+      Everything worked good in testing, but you never know.
+  - bugfix: Steel Warhammers can now be bought by the Merchant's interface, once again,
+      following a datum's correction.
+  - balance: Executioner Swords now hit a little harder when two-handed, but swing
+      a little slower as well.
+  - balance: Psydonic- and Silver Broadswords now function like their namesake, while
+      still retaining their unique Rend intent.
+  - balance: The Vampire Lord's sword needn't be chipped any longer - its mystical,
+      unfetterable sharpness is now codified.
+  - balance: Berserker Swords now impose a minimum strength requirement to wield,
+      which can't be reduced through wielding.
+  - balance: Cleaving now deals a little more damage, but deals less integrity damage
+      and takes more stamina to charge up.
+  - balance: The Ordinator's greatsword has received some love, and now functions
+      as a hybrid Berserker-Greatsword.
+  - balance: Broadsword penetration values has been reduced by -10 (and impaling damage
+      by -0.1x) to prevent unintended bouts of overpenetration.
+  - rscadd: Cleaving now plays a distinct audio cue.
+  - rscadd: Broadswords can now deliver a halfswiped cut, when Mordhau'd.
+  - rscadd: Rending now uses the SFX/VFX of chopping, instead of cutting.
+  - rscadd: A silver executioner sword!
+  - rscadd: The Martyr's weapons are now prefixed with 'divine-'.
+  - rscadd: Heavier longswords now use more impactful SFX.
+  - bugfix: Executioner Swords can no longer be Mordhau'd, as intended.
+  - code_imp: Going forward - it seems the main way to prevent Mordhau'ing is to ensure
+      the weapon in question has "altgrips = null" in its body. Should we return Mordhau'd
+      Executioner Swords? Maybe. It'd be a little funny.
+  - rscdel: Removed some unused polearm code.
+  - rscadd: New sprites for the Sharpened Stake and Silver-Tipped Stake.
+  - rscadd: Daggerpunching now has new sounds.
+  - bugfix: Importing a Silver-Tipped Stake from the Marquette should provide one
+      that's made for Psydonic blessings, now.
+  - rscadd: Inhands for ammunition has been slightly tewaked.
+  - code_imp: The original stake sprites are still in the code, via daggers32.dmi,
+      and can be reused if desired.
+  Ryan180602:
+  - balance: Armbrustschutze get their DE back.
+  SpartanBobby:
+  - rscadd: Fluted Cuirass to silverface
+  THE GRAND DUKE OF AZURIA:
+  - bugfix: desert skirt works now
+  THE VILE LICH:
+  - balance: encounters and loot in the northern tombs have been tweaked to be more
+      difficult... and free of deadites. adventurers beware...
+  UEDCommander:
+  - rscadd: Added Barding, armor for animals. Currently supports Saigas and Fogbeasts.
+  - balance: Saddleborn animals should no longer be affected by NPC damage multiplier
+      that comes with ranged weapons.
+  WeNeedMorePhoron:
+  - rscadd: Duke can change colors mid round with Change Colors command
+  - rscadd: Dye Bin now has a Preview for items using sprite and onmob sprite where
+      available
+  - rscadd: Separate volume controls for Lobby Music and Ambience
+  - bugfix: Dye Bin should no longer open for anyone adjacent to it when someone is
+      using it, only the user.
+  - bugfix: Possibly fixed clickdelay issues causing spell charging to not work, brought
+      by the optimization PR
+  - bugfix: Fixes outlaw goons spawning in a non-delayed manner while outlaw spawns
+      delayed
+  - bugfix: fixes decrepit ingot recipes crashing TGUI
+  - bugfix: Added Lux back to list of things that can be eaten by bandit idol, accidentally
+      removed during the gemcarving PR
+  hazelrat:
+  - balance: Implemented a very careful rebalance for the damage of most arrows in
+      the game. Broadheads are now slightly weaker, and penetrate armour slightly
+      less effectively - bodkins have retained their low damage, but are capable of
+      piercing armour more easily than before.
+  - rscadd: Character origins can now be left-clicked to read a description of their
+      origin, assuming the character has a client.
+  - rscadd: The Wardens' seax now has a small demolition modifier, and its CHOP intent
+      has been replaced with REND.

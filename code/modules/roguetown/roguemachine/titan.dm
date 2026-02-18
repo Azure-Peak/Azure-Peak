@@ -156,7 +156,7 @@ GLOBAL_VAR_INIT(last_crown_announcement_time, -1000)
 	switch(mode)
 		if(0)
 			if(findtext(message, "secrets of the throat"))
-				say("My commands are: Make Decree, Make Announcement, Set Taxes, Declare Outlaw, Summon Crown, Summon Key, Make Law, Remove Law, Purge Laws, Purge Decrees, Become Regent, Nevermind")
+				say("My commands are: Make Decree, Make Announcement, Set Taxes, Declare Outlaw, Summon Crown, Summon Key, Make Law, Remove Law, Purge Laws, Purge Decrees, Become Regent, Change Colors, Nevermind")
 				playsound(src, 'sound/misc/machinelong.ogg', 100, FALSE, -1)
 			if(findtext(message, "make announcement"))
 				if(nocrown)
@@ -292,6 +292,15 @@ GLOBAL_VAR_INIT(last_crown_announcement_time, -1000)
 					playsound(src, 'sound/misc/machineno.ogg', 100, FALSE, -1)
 					return
 				become_regent(H)
+				return
+			if(findtext(message, "change colors"))
+				if(notlord || nocrown)
+					say("You are not my master!")
+					playsound(src, 'sound/misc/machineno.ogg', 100, FALSE, -1)
+					return
+				say("Choose the colors of your realm, my liege.")
+				playsound(src, 'sound/misc/machinetalk.ogg', 100, FALSE, -1)
+				H.lord_color_choice()
 				return
 
 		if(1)
