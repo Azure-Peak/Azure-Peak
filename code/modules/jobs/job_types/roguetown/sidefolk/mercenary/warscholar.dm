@@ -169,7 +169,7 @@
 
 /datum/advclass/mercenary/warscholar/vizier
 	name = "Naledi Vizier"
-	tutorial = "You are a Naledi Vizier. Your research into miracles and holy incantations has lead you to esoteric magycks. Though psydonians have long struggled to channel their all-father's divinity, a combination of the saint's power may be similar enough."
+	tutorial = "You are a Naledi Vizier. Your research into miracles and holy incantations has lead you to esoteric magycks. Though Psydonians have long struggled to channel their All-Father's divinity, a combination of the Saint's power may be similar enough."
 	outfit = /datum/outfit/job/roguetown/mercenary/warscholar_vizier
 	traits_applied = list(TRAIT_MAGEARMOR, TRAIT_ARCYNE_T2, TRAIT_ALCHEMY_EXPERT, TRAIT_NALEDI)
 	subclass_stats = list(
@@ -218,23 +218,19 @@
 	))
 	to_chat(H, span_warning("You are a Naledi Vizier. Your research into miracles and holy incantations has lead you to esoteric magycks. Though psydonians have long struggled to channel their all-father's divinity, a combination of the saint's power may be similar enough."))
 	r_hand = /obj/item/rogueweapon/woodstaff/naledi
-	armor = /obj/item/clothing/suit/roguetown/shirt/robe/magered
 
-	mask = /obj/item/clothing/mask/rogue/lordmask/naledi
-	belt = /obj/item/storage/belt/rogue/leather
-	beltr = /obj/item/storage/belt/rogue/pouch/coins/poor
+	head = /obj/item/clothing/head/roguetown/roguehood/hierophant
+	cloak = /obj/item/clothing/cloak/hierophant
+	armor = /obj/item/clothing/suit/roguetown/armor/gambeson/heavy/hierophant
+	shirt = /obj/item/clothing/suit/roguetown/shirt/robe/hierophant
 	pants = /obj/item/clothing/under/roguetown/trou/leather
-	shoes = /obj/item/clothing/shoes/roguetown/boots
-	gloves = /obj/item/clothing/gloves/roguetown/angle
-	backr = /obj/item/storage/backpack/rogue/satchel/black
-	head = /obj/item/clothing/head/roguetown/roguehood/shalal/black
-	cloak = /obj/item/clothing/cloak/half
+	mask = /obj/item/clothing/mask/rogue/lordmask/naledi
 	wrists = /obj/item/clothing/neck/roguetown/psicross/naledi
 	belt = /obj/item/storage/belt/rogue/leather
 	beltl = /obj/item/flashlight/flare/torch
 	beltr = /obj/item/storage/belt/rogue/pouch/coins/poor
 	shoes = /obj/item/clothing/shoes/roguetown/sandals
-	shirt = /obj/item/clothing/suit/roguetown/armor/gambeson/lord
+	backr = /obj/item/storage/backpack/rogue/satchel/black
 
 	backpack_contents = list(
 		/obj/item/roguekey/mercenary = 1,

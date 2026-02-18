@@ -1,3 +1,5 @@
+GLOBAL_LIST_INIT(valid_fogbeast_colors, list("White" = COLOR_WHITE, "Gray" = COLOR_GRAY, "Black" = COLOR_ALMOST_BLACK, "Brown" = COLOR_DARK_BROWN, "Chestnut" = COLOR_DARK_ORANGE))
+
 /mob/living/simple_animal/hostile/retaliate/rogue/fogbeast
 	name = "fogbeast mare"
 	desc = "A distant cousin to the saiga, hailing from the mysterious islands of Kaizoku - rarer, but more strongly valued. Extensively used in the Steppes of Aavnr as pack animals and combat mounts."
@@ -51,6 +53,15 @@
 	aggressive = TRUE
 	remains_type = /obj/effect/decal/remains/saiga
 
+	var/fogbeast_color
+
+/mob/living/simple_animal/hostile/retaliate/rogue/fogbeast/Initialize(mapload, var/set_fogbeast_color)
+	. = ..()
+	fogbeast_color = set_fogbeast_color
+	if(!fogbeast_color)
+		fogbeast_color = pick(GLOB.valid_fogbeast_colors)
+	color = GLOB.valid_fogbeast_colors[fogbeast_color]
+
 /mob/living/simple_animal/hostile/retaliate/rogue/fogbeast/tame
 	tame = TRUE
 
@@ -67,8 +78,10 @@
 	if(stat != DEAD)
 		if(ssaddle)
 			var/mutable_appearance/saddlet = mutable_appearance(icon, "saddle-above", 4.3)
+			saddlet.appearance_flags = RESET_ALPHA|RESET_COLOR
 			add_overlay(saddlet)
 			saddlet = mutable_appearance(icon, "saddle")
+			saddlet.appearance_flags = RESET_ALPHA|RESET_COLOR
 			add_overlay(saddlet)
 		if(has_buckled_mobs())
 			var/mutable_appearance/mounted = mutable_appearance(icon, "[icon_state]_mounted", 4.3)

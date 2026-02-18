@@ -25,8 +25,24 @@
 			H.werewolf_transform()
 			transforming = FALSE
 			transformed = TRUE // Mark as transformed
+		
+		else if(world.time >= transforming + 30 SECONDS) // play our evil ass sounds
+			if(world.time >= transforming + 34 SECONDS)
+				var/cried_for_dendor = FALSE
+				var/list/werewolf_cries = list('sound/effects/werewolf_sounds/wscream1.ogg',
+												'sound/effects/werewolf_sounds/wscream2.ogg',
+												'sound/effects/werewolf_sounds/wscream3.ogg',
+												'sound/effects/werewolf_sounds/wscream4.ogg',
+												'sound/effects/werewolf_sounds/wscream5.ogg')
+				var/pickedsound = pick(werewolf_cries) // BLEED YOU DRY
+				if(cried_for_dendor == FALSE)
+					playsound(H,pickedsound,200,FALSE)
+					cried_for_dendor = TRUE
+			H.Stun(30)
+			H.Knockdown(30)
 
 		else if (world.time >= transforming + 25 SECONDS) // Stage 2
+			
 			if(H.show_redflash())
 				H.flash_fullscreen("redflash3")
 			H.emote("agony", forced = TRUE)
@@ -97,7 +113,9 @@
 		W.name = Were.wolfname
 	W.limb_destroyer = TRUE
 	W.ambushable = FALSE
-	W.cmode_music = 'sound/music/cmode/antag/combat_darkstar.ogg'
+	var/list/dying_world = list('sound/music/cmode/antag/combat_dying_world.ogg' = 1,  // probably best if its not vocals all the time
+							'sound/music/cmode/antag/combat_dying_world_instrumental.ogg' = 3) // 1/4 is good odds for 1/round tho
+	W.cmode_music = pickweight(dying_world)
 	W.skin_armor = new /obj/item/clothing/suit/roguetown/armor/regenerating/skin/werewolf_skin(W)
 	playsound(W.loc, pick('sound/combat/gib (1).ogg','sound/combat/gib (2).ogg'), 200, FALSE, 3)
 	W.spawn_gibs(FALSE)

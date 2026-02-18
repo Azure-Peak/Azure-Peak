@@ -200,6 +200,12 @@
 		)
 	result_item = null
 
+//DRD21 - Longsword
+/obj/item/enchantingkit/drd_lsword
+	name = "'ornate basket-hilt longsword' morphing elixir"
+	target_items = list(/obj/item/rogueweapon/sword/long)
+	result_item = /obj/item/rogueweapon/sword/long/drd
+
 /////////////////////////////
 // ! Triumph-Exc. Kits !   //
 /////////////////////////////

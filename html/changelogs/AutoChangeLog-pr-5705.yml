@@ -1,5 +1,0 @@
-author: "UEDCommander"
-delete-after: True
-changes:
-  - rscadd: "Added Barding, armor for animals. Currently supports Saigas and Fogbeasts."
-  - balance: "Saddleborn animals should no longer be affected by NPC damage multiplier that comes with ranged weapons."

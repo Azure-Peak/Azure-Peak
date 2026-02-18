@@ -45,6 +45,9 @@
 /datum/status_effect/buff/frostbite/tick()
 	var/mob/living/target = owner
 	target.stamina_add(5)
+	// When stamcrit, removes it to prevent it from chaining too hard
+	if(target.stamina >= target.max_stamina)
+		target.remove_status_effect(/datum/status_effect/buff/frostbite)
 
 /datum/status_effect/buff/frostbite/on_remove()
 	var/mob/living/target = owner

@@ -1602,6 +1602,10 @@
 	name = "eoran caparison"
 	result = list(/obj/item/caparison/eora)
 
+/datum/crafting_recipe/roguetown/sewing/caparison/fogbeast
+	name = "fogbeast caparison"
+	result = list(/obj/item/caparison/fogbeast)
+
 // -- barding
 
 /datum/crafting_recipe/roguetown/sewing/barding

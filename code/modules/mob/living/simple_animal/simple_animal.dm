@@ -315,18 +315,39 @@ GLOBAL_VAR_INIT(farm_animals, FALSE)
 	if(caparison_over_barding)
 		caparison_layer = 6
 		barding_layer = 5
-	if(ccaparison && stat == CONSCIOUS && !resting)
-		var/caparison_overlay = ccaparison.female_caparison_state && gender == FEMALE ? ccaparison.female_caparison_state : ccaparison.caparison_state
-		var/mutable_appearance/caparison_base_overlay = mutable_appearance(ccaparison.caparison_icon, caparison_overlay, caparison_layer)
-		var/mutable_appearance/caparison_above_overlay = mutable_appearance(ccaparison.caparison_icon, caparison_overlay + "-above", caparison_layer - 0.69)
-		add_overlay(caparison_base_overlay)
-		add_overlay(caparison_above_overlay)
-	if(bbarding && stat == CONSCIOUS && !resting)
-		var/barding_overlay = bbarding.female_barding_state && gender == FEMALE ? bbarding.female_barding_state : bbarding.barding_state
-		var/mutable_appearance/barding_base_overlay = mutable_appearance(bbarding.barding_icon, barding_overlay, barding_layer)
-		var/mutable_appearance/barding_above_overlay = mutable_appearance(bbarding.barding_icon, barding_overlay + "-above", barding_layer - 0.69)
-		add_overlay(barding_base_overlay)
-		add_overlay(barding_above_overlay)
+
+	if(stat == CONSCIOUS && !resting)
+		if(ccaparison)
+			var/caparison_overlay_string = ccaparison.female_caparison_state && gender == FEMALE ? ccaparison.female_caparison_state : ccaparison.caparison_state
+
+			var/mutable_appearance/caparison_overlay = mutable_appearance(ccaparison.caparison_icon, caparison_overlay_string, caparison_layer)
+			caparison_overlay.color = ccaparison.color
+			caparison_overlay.appearance_flags = RESET_ALPHA|RESET_COLOR
+			add_overlay(caparison_overlay)
+			if(ccaparison.detail_state)
+				var/mutable_appearance/detail_overlay = mutable_appearance(ccaparison.caparison_icon, caparison_overlay_string + "_" + ccaparison.detail_state, caparison_layer)
+				detail_overlay.color = ccaparison.detail_color
+				detail_overlay.appearance_flags = RESET_ALPHA|RESET_COLOR
+				add_overlay(detail_overlay)
+
+			var/mutable_appearance/caparison_above_overlay = mutable_appearance(ccaparison.caparison_icon, caparison_overlay_string + "-above", caparison_layer - 0.69)
+			caparison_above_overlay.color = ccaparison.color
+			caparison_above_overlay.appearance_flags = RESET_ALPHA|RESET_COLOR
+			add_overlay(caparison_above_overlay)
+			if(ccaparison.detail_state)
+				var/mutable_appearance/detail_above_overlay = mutable_appearance(ccaparison.caparison_icon, caparison_overlay_string + "_" + ccaparison.detail_state + "-above", caparison_layer - 0.69)
+				detail_above_overlay.color = ccaparison.detail_color
+				detail_above_overlay.appearance_flags = RESET_ALPHA|RESET_COLOR
+				add_overlay(detail_above_overlay)
+
+		if(bbarding)
+			var/barding_overlay = bbarding.female_barding_state && gender == FEMALE ? bbarding.female_barding_state : bbarding.barding_state
+			var/mutable_appearance/barding_base_overlay = mutable_appearance(bbarding.barding_icon, barding_overlay, barding_layer)
+			barding_base_overlay.appearance_flags = RESET_ALPHA|RESET_COLOR
+			var/mutable_appearance/barding_above_overlay = mutable_appearance(bbarding.barding_icon, barding_overlay + "-above", barding_layer - 0.69)
+			barding_above_overlay.appearance_flags = RESET_ALPHA|RESET_COLOR
+			add_overlay(barding_base_overlay)
+			add_overlay(barding_above_overlay)
 
 ///Extra effects to add when the mob is tamed, such as adding a riding component
 /mob/living/simple_animal/proc/tamed(mob/user)

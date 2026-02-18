@@ -1,0 +1,4 @@
+author: "Ollanius"
+delete-after: True
+changes:
+  - balance: "Regular rock walls (which form a majority of the mines) now have a minor chance to drop tin. Likewise, higher-quality rock walls have a slightly increased chance to drop tin."

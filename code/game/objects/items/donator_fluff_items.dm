@@ -363,3 +363,10 @@
 	desc = "A Freifechter's steel pike with a reinforced spruce shaft sporting a black banner with a strange blend of religious symbols."
 	icon_state = "stinkethbanner"
 	icon = 'icons/obj/items/donor_weapons_64.dmi'
+
+//DRD21
+/obj/item/rogueweapon/sword/long/drd
+	name = "ornate basket-hilted longsword"
+	desc = "A longsword, fitten with a basket-hilt. The grip is made out of a fine green-stained leather, with a piece of spiral-cared walnut connecting it to a lion-shaped pommel. A purple glowing rune sits atop the blade."
+	icon_state = "drd_lsword"
+	icon = 'icons/obj/items/donor_weapons_64.dmi'
