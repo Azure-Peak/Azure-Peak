@@ -184,10 +184,6 @@
 	mouse_opacity = 0
 	layer = BELOW_MOB_LAYER+0.1
 
-/obj/structure/fluff/walldeco/stone/Initialize()
-	icon_state = "walldec[rand(1,6)]"
-	..()
-
 /obj/structure/fluff/walldeco/maidensigil
 	name = "stone sigil"
 	desc = ""

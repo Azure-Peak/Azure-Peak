@@ -49565,6 +49565,11 @@
 /obj/machinery/light/rogue/torchholder/c,
 /turf/open/floor/rogue/dirt/road,
 /area/rogue/outdoors/town)
+"lew" = (
+/obj/structure/closet/dirthole/grave,
+/obj/effect/spawner/lootdrop/cheap_tableware_spawner,
+/turf/open/floor/rogue/dirt,
+/area/rogue/under/cave/scarymaze)
 "lex" = (
 /obj/structure/fluff/railing/border/west,
 /obj/structure/fluff/railing/border/north,
@@ -59175,7 +59180,7 @@
 /area/rogue/outdoors/mountains/decap/minotaurfort)
 "nis" = (
 /obj/structure/closet/dirthole/grave,
-/obj/effect/spawner/lootdrop/cheap_clutter_spawner,
+/obj/effect/spawner/lootdrop/helmet_spawner,
 /turf/open/floor/rogue/dirt,
 /area/rogue/under/cave/scarymaze)
 "niJ" = (
@@ -65229,11 +65234,6 @@
 /obj/item/flashlight/flare/torch/lantern/copper,
 /turf/open/floor/rogue/naturalstone,
 /area/rogue/outdoors/mountains/decap/gunduzirak)
-"oDi" = (
-/obj/structure/closet/dirthole/grave,
-/obj/effect/spawner/lootdrop/valuable_clutter_spawner,
-/turf/open/floor/rogue/dirt,
-/area/rogue/under/cave/scarymaze)
 "oDj" = (
 /obj/machinery/tanningrack,
 /turf/open/floor/rogue/cobble,
@@ -65887,6 +65887,11 @@
 	},
 /turf/open/water/cleanshallow,
 /area/rogue/under/cave/peace)
+"oJI" = (
+/obj/structure/closet/dirthole/grave,
+/obj/effect/spawner/lootdrop/general_loot_low,
+/turf/open/floor/rogue/dirt,
+/area/rogue/under/cave/scarymaze)
 "oJK" = (
 /obj/effect/decal/cobbleedge{
 	dir = 10;
@@ -368021,7 +368026,7 @@ oyf
 oyf
 wHi
 cCC
-nis
+oJI
 eOZ
 gNk
 hlm
@@ -375253,7 +375258,7 @@ jka
 viJ
 cCC
 cub
-oDi
+nis
 iis
 bll
 iKl
@@ -381133,7 +381138,7 @@ eIw
 ulq
 jpY
 cCC
-nis
+lew
 cCC
 jzv
 cCC
@@ -469275,13 +469280,13 @@ kNH
 oyf
 oyf
 oyf
-oyf
-oyf
-oyf
-oyf
-oyf
-oyf
-oyf
+wHi
+wHi
+wHi
+wHi
+wHi
+wHi
+wHi
 cxA
 cxA
 rnW
@@ -469726,7 +469731,7 @@ lRZ
 wHi
 wHi
 wHi
-wHi
+oyf
 wHi
 iis
 bMT
