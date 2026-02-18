@@ -2549,10 +2549,6 @@
 /obj/machinery/light/rogue/firebowl/church,
 /turf/open/floor/rogue/churchmarble,
 /area/rogue/under/cave/licharena/bossroom)
-"aDr" = (
-/mob/living/carbon/human/species/npc/deadite,
-/turf/open/floor/rogue/churchrough,
-/area/rogue/under/cave/scarymaze)
 "aDs" = (
 /turf/open/floor/rogue/woodturned,
 /area/rogue/outdoors/town/roofs)
@@ -7241,7 +7237,7 @@
 /obj/structure/fluff/walldeco/church/line{
 	dir = 1
 	},
-/mob/living/carbon/human/species/npc/deadite,
+/mob/living/simple_animal/hostile/retaliate/rogue/wolf_undead,
 /turf/open/floor/rogue/dirt,
 /area/rogue/under/cave/scarymaze)
 "bJs" = (
@@ -8864,6 +8860,13 @@
 /obj/effect/landmark/chimeric_calyx_spawner/fifteen,
 /turf/open/floor/rogue/grasscold,
 /area/rogue/under/underdark/south)
+"cca" = (
+/obj/structure/closet/dirthole/grave,
+/obj/structure/fluff/walldeco/church/line{
+	dir = 1
+	},
+/turf/open/floor/rogue/dirt,
+/area/rogue/under/cave/scarymaze)
 "ccr" = (
 /obj/structure/flora/roguegrass/bush,
 /turf/open/floor/rogue/grassred,
@@ -9709,7 +9712,6 @@
 	can_buckle = 0;
 	dir = 8
 	},
-/mob/living/carbon/human/species/human/northern/bog_deserters,
 /turf/open/floor/rogue/church,
 /area/rogue/under/cave/scarymaze)
 "cly" = (
@@ -11346,6 +11348,7 @@
 	pixel_x = -2;
 	pixel_y = 7
 	},
+/mob/living/carbon/human/species/skeleton/npc/special/disgraced_noble,
 /turf/open/floor/rogue/carpet/lord/left{
 	dir = 1
 	},
@@ -11963,6 +11966,7 @@
 /area/rogue/indoors/cave/east)
 "cKC" = (
 /obj/structure/fluff/clodpile,
+/mob/living/simple_animal/hostile/retaliate/rogue/wolf_undead,
 /turf/open/floor/rogue/churchrough,
 /area/rogue/under/cave/scarymaze)
 "cKE" = (
@@ -12276,6 +12280,7 @@
 /obj/structure/fluff/railing/fence{
 	dir = 8
 	},
+/mob/living/carbon/human/species/human/northern/mad_touched_treasure_hunter,
 /turf/open/floor/rogue/churchrough,
 /area/rogue/under/cave/scarymaze)
 "cNH" = (
@@ -12898,6 +12903,10 @@
 	},
 /turf/open/floor/rogue/twig,
 /area/rogue/druidsgrove)
+"cTZ" = (
+/mob/living/simple_animal/hostile/retaliate/rogue/wolf_undead,
+/turf/open/floor/rogue/churchrough,
+/area/rogue/under/cave/scarymaze)
 "cUa" = (
 /obj/structure/fluff/railing/fence{
 	dir = 4
@@ -18434,6 +18443,12 @@
 /obj/effect/decal/cleanable/blood/tracks,
 /turf/open/floor/rogue/blocks/green,
 /area/rogue/under/town/sewer)
+"ege" = (
+/obj/structure/closet/dirthole/grave,
+/obj/structure/fluff/walldeco/church/line,
+/mob/living/simple_animal/hostile/retaliate/rogue/wolf_undead,
+/turf/open/floor/rogue/dirt,
+/area/rogue/under/cave/scarymaze)
 "egr" = (
 /obj/item/natural/stone,
 /turf/open/water/ocean,
@@ -26111,7 +26126,6 @@
 	dir = 4
 	},
 /obj/effect/decal/cleanable/blood/old,
-/mob/living/carbon/human/species/human/northern/bog_deserters/better_gear,
 /turf/open/floor/rogue/churchrough,
 /area/rogue/under/cave/scarymaze)
 "fTu" = (
@@ -26327,6 +26341,7 @@
 	pixel_x = 9;
 	pixel_y = 4
 	},
+/obj/structure/chair/stool/rogue,
 /turf/open/floor/rogue/churchrough,
 /area/rogue/under/cave/scarymaze)
 "fVR" = (
@@ -27170,13 +27185,6 @@
 	gid = "ducalcrypt"
 	},
 /turf/open/floor/rogue/metal,
-/area/rogue/under/cave/scarymaze)
-"gfx" = (
-/obj/structure/fluff/walldeco/church/line{
-	dir = 1
-	},
-/mob/living/carbon/human/species/npc/deadite,
-/turf/open/floor/rogue/churchbrick,
 /area/rogue/under/cave/scarymaze)
 "gfy" = (
 /obj/structure/fluff/railing/corner/north_east,
@@ -28049,7 +28057,7 @@
 "gqW" = (
 /obj/machinery/light/rogue/candle/blue/l,
 /obj/structure/chair/stool/rogue,
-/mob/living/carbon/human/species/human/northern/bog_deserters,
+/mob/living/carbon/human/species/human/northern/mad_touched_treasure_hunter,
 /turf/open/floor/rogue/church,
 /area/rogue/under/cave/scarymaze)
 "gqY" = (
@@ -37456,7 +37464,7 @@
 /area/rogue/indoors/town/garrison)
 "ivX" = (
 /obj/effect/decal/cleanable/debris/stony,
-/mob/living/carbon/human/species/human/northern/bog_deserters/better_gear,
+/mob/living/carbon/human/species/human/northern/mad_touched_treasure_hunter,
 /turf/open/floor/rogue/church,
 /area/rogue/under/cave/scarymaze)
 "iwd" = (
@@ -38041,6 +38049,17 @@
 	},
 /turf/open/floor/rogue/dirt/road,
 /area/rogue/indoors/town/church/basement)
+"iCm" = (
+/obj/structure/fluff/walldeco/church/line{
+	dir = 1
+	},
+/obj/effect/decal/cleanable/blood/drip{
+	pixel_x = 5;
+	pixel_y = -3
+	},
+/mob/living/simple_animal/hostile/retaliate/rogue/saiga/undead,
+/turf/open/floor/rogue/churchbrick,
+/area/rogue/under/cave/scarymaze)
 "iCo" = (
 /turf/open/floor/rogue/ruinedwood/spiral,
 /area/rogue/indoors/town/garrison)
@@ -41842,8 +41861,7 @@
 "jwm" = (
 /obj/structure/closet/crate/chest/neu_fancy,
 /obj/item/roguestatue/silver,
-/obj/effect/spawner/lootdrop/general_loot_hi,
-/obj/effect/spawner/lootdrop/general_loot_hi,
+/obj/effect/spawner/lootdrop/general_loot_hi/x3,
 /turf/open/floor/rogue/churchmarble,
 /area/rogue/under/cave/scarymaze)
 "jwo" = (
@@ -48781,6 +48799,7 @@
 /obj/structure/fluff/railing/fence{
 	dir = 8
 	},
+/mob/living/carbon/human/species/human/northern/mad_touched_treasure_hunter,
 /turf/open/floor/rogue/churchrough,
 /area/rogue/under/cave/scarymaze)
 "kVI" = (
@@ -52602,7 +52621,7 @@
 	pixel_x = 5;
 	pixel_y = -3
 	},
-/mob/living/carbon/human/species/npc/deadite,
+/mob/living/simple_animal/hostile/retaliate/rogue/wolf_undead,
 /turf/open/floor/rogue/churchrough,
 /area/rogue/under/cave/scarymaze)
 "lIE" = (
@@ -54120,6 +54139,7 @@
 	},
 /obj/structure/fluff/clodpile,
 /obj/effect/decal/remains/human,
+/mob/living/simple_animal/hostile/retaliate/rogue/wolf_undead,
 /turf/open/floor/rogue/churchbrick,
 /area/rogue/under/cave/scarymaze)
 "maU" = (
@@ -58373,6 +58393,7 @@
 "mXY" = (
 /obj/effect/decal/cleanable/blood/old,
 /obj/structure/fluff/clodpile,
+/mob/living/simple_animal/hostile/retaliate/rogue/wolf_undead,
 /turf/open/floor/rogue/churchrough,
 /area/rogue/under/cave/scarymaze)
 "mXZ" = (
@@ -60735,6 +60756,10 @@
 "nBB" = (
 /obj/structure/table/finestone,
 /obj/machinery/light/rogue/candle/floorcandle/alt,
+/obj/item/reagent_containers/glass/bottle/alchemical/rogue/rotcure{
+	pixel_x = 2;
+	pixel_y = 6
+	},
 /turf/open/floor/rogue/church,
 /area/rogue/under/cave/scarymaze)
 "nBH" = (
@@ -69150,7 +69175,7 @@
 /area/rogue/indoors/town/manor)
 "pyd" = (
 /obj/effect/decal/remains/human,
-/mob/living/carbon/human/species/npc/deadite,
+/mob/living/simple_animal/hostile/retaliate/rogue/wolf_undead,
 /turf/open/floor/rogue/churchrough,
 /area/rogue/under/cave/scarymaze)
 "pyn" = (
@@ -76170,7 +76195,6 @@
 "rcq" = (
 /obj/machinery/light/rogue/candle/blue/l,
 /obj/effect/decal/cleanable/debris/stony,
-/mob/living/carbon/human/species/human/northern/bog_deserters/better_gear,
 /obj/structure/fluff/clodpile,
 /turf/open/floor/rogue/church,
 /area/rogue/under/cave/scarymaze)
@@ -79916,7 +79940,8 @@
 /obj/structure/fluff/walldeco/church/line{
 	dir = 4
 	},
-/obj/effect/landmark/chest_or_mimic/gold,
+/obj/structure/rack/rogue,
+/obj/effect/spawner/lootdrop/heavy_armor_spawner,
 /turf/open/floor/rogue/churchmarble,
 /area/rogue/under/cave/scarymaze)
 "rWn" = (
@@ -83277,7 +83302,7 @@
 "sKy" = (
 /obj/structure/closet/dirthole/grave,
 /obj/structure/fluff/walldeco/church/line,
-/mob/living/carbon/human/species/npc/deadite,
+/mob/living/simple_animal/hostile/retaliate/rogue/saiga/undead,
 /turf/open/floor/rogue/dirt,
 /area/rogue/under/cave/scarymaze)
 "sKC" = (
@@ -87954,6 +87979,10 @@
 	},
 /turf/open/floor/rogue/tile/checkeralt,
 /area/rogue/indoors/town/steward)
+"tOi" = (
+/obj/effect/decal/remains/human,
+/turf/open/floor/rogue/carpet/lord/center,
+/area/rogue/under/cave/scarymaze)
 "tOl" = (
 /obj/structure/chair/wood/rogue{
 	dir = 1
@@ -88336,13 +88365,6 @@
 /obj/structure/fluff/railing/border/east,
 /turf/open/floor/rogue/cobble,
 /area/rogue/under/cave/his_vault)
-"tSN" = (
-/obj/structure/fluff/walldeco/church/line{
-	dir = 4
-	},
-/mob/living/carbon/human/species/human/northern/bog_deserters/better_gear,
-/turf/open/floor/rogue/church,
-/area/rogue/under/cave/scarymaze)
 "tSS" = (
 /obj/machinery/light/rogue/campfire/fireplace,
 /turf/open/floor/rogue/ruinedwood,
@@ -90823,6 +90845,7 @@
 	pixel_x = 3;
 	pixel_y = 11
 	},
+/mob/living/simple_animal/hostile/retaliate/rogue/wolf_undead,
 /turf/open/floor/rogue/churchrough,
 /area/rogue/under/cave/scarymaze)
 "uvk" = (
@@ -94239,6 +94262,7 @@
 "viJ" = (
 /obj/structure/rack/rogue,
 /obj/effect/spawner/lootdrop/valuable_clutter_spawner,
+/obj/effect/spawner/lootdrop/helmet_spawner,
 /turf/open/floor/rogue/churchmarble,
 /area/rogue/under/cave/scarymaze)
 "viL" = (
@@ -100316,7 +100340,6 @@
 	can_buckle = 0;
 	dir = 8
 	},
-/mob/living/carbon/human/species/human/northern/bog_deserters,
 /turf/open/floor/rogue/church,
 /area/rogue/under/cave/scarymaze)
 "wBs" = (
@@ -103700,7 +103723,7 @@
 /area/rogue/under/cavewet/bogcaves/north)
 "xoU" = (
 /obj/structure/closet/dirthole/grave,
-/mob/living/carbon/human/species/npc/deadite,
+/mob/living/simple_animal/hostile/retaliate/rogue/saiga/undead,
 /turf/open/floor/rogue/dirt,
 /area/rogue/under/cave/scarymaze)
 "xoV" = (
@@ -104851,6 +104874,10 @@
 "xCK" = (
 /turf/open/water/swamp,
 /area/rogue/under/town/sewer)
+"xCO" = (
+/mob/living/carbon/human/species/human/northern/mad_touched_treasure_hunter,
+/turf/open/floor/rogue/churchrough,
+/area/rogue/under/cave/scarymaze)
 "xCS" = (
 /obj/structure/chair/wood/rogue{
 	dir = 8
@@ -105302,7 +105329,6 @@
 /obj/structure/fluff/walldeco/church/line{
 	dir = 1
 	},
-/mob/living/carbon/human/species/human/northern/bog_deserters/better_gear,
 /turf/open/floor/rogue/churchrough,
 /area/rogue/under/cave/scarymaze)
 "xIz" = (
@@ -107736,6 +107762,11 @@
 	},
 /turf/open/floor/rogue/ruinedwood/spiral,
 /area/rogue/indoors/town/steward)
+"yjy" = (
+/obj/structure/closet/dirthole/grave,
+/obj/structure/fluff/walldeco/church/line,
+/turf/open/floor/rogue/dirt,
+/area/rogue/under/cave/scarymaze)
 "yjC" = (
 /obj/effect/landmark/chest_or_mimic/locked_or_trapped,
 /turf/open/floor/rogue/dirt,
@@ -362143,7 +362174,7 @@ rZo
 xiI
 mXY
 bJk
-xoU
+roX
 cCC
 cxA
 vvB
@@ -362583,7 +362614,7 @@ iis
 bMT
 fjQ
 enL
-qOY
+iCm
 rPT
 bcg
 aGK
@@ -363032,8 +363063,8 @@ oyf
 oyf
 wHi
 cCC
-xoU
-sKy
+roX
+yjy
 lID
 bcg
 rZo
@@ -363045,7 +363076,7 @@ moo
 kPW
 rZo
 vRI
-eCh
+cTZ
 bJk
 xoU
 cCC
@@ -363937,9 +363968,9 @@ oyf
 wHi
 cCC
 roX
-sKy
-aDr
-gfx
+ege
+cTZ
+bcg
 rZo
 bcg
 xiI
@@ -363951,7 +363982,7 @@ rZo
 aqm
 uve
 bJk
-xoU
+roX
 cCC
 cxA
 vvB
@@ -364841,7 +364872,7 @@ oyf
 wHi
 cCC
 roX
-sKy
+ege
 cKC
 bcg
 rZo
@@ -364854,7 +364885,7 @@ xiI
 rZo
 xYv
 cOp
-bJk
+cca
 xoU
 cCC
 cxA
@@ -367562,7 +367593,7 @@ fZq
 kVG
 cNG
 edd
-tSN
+dUz
 dGF
 cCC
 cxA
@@ -370711,7 +370742,7 @@ wHi
 cCC
 sVM
 dxn
-hlm
+ihy
 cCC
 wPO
 dxn
@@ -372538,7 +372569,7 @@ ini
 neW
 iis
 qjH
-juN
+xCO
 biX
 pBj
 gqW
@@ -373425,7 +373456,7 @@ gQW
 kbj
 dWS
 wwd
-bwD
+tOi
 pCP
 hgp
 qUw
@@ -379766,7 +379797,7 @@ eCh
 quO
 hVb
 mBW
-juN
+eCh
 tzR
 eCh
 cCC
