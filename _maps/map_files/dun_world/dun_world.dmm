@@ -12354,7 +12354,6 @@
 /area/rogue/under/cave/his_vault)
 "cOp" = (
 /obj/effect/decal/cleanable/blood/old,
-/mob/living/carbon/human/species/npc/deadite,
 /turf/open/floor/rogue/churchrough,
 /area/rogue/under/cave/scarymaze)
 "cOx" = (
@@ -35299,9 +35298,6 @@
 /turf/open/floor/rogue/churchrough,
 /area/rogue/indoors/inq/basement)
 "hYl" = (
-/obj/structure/fluff/railing/fence{
-	dir = 8
-	},
 /obj/item/restraints/legcuffs/beartrap/armed/camouflage,
 /turf/open/floor/rogue/carpet/lord/right{
 	dir = 1
@@ -48672,9 +48668,6 @@
 /turf/open/floor/rogue/ruinedwood/spiral,
 /area/rogue/druidsgrove)
 "kUA" = (
-/obj/structure/fluff/railing/fence{
-	dir = 8
-	},
 /obj/item/grown/log/tree/stake{
 	pixel_x = 9;
 	pixel_y = -5
@@ -51126,7 +51119,6 @@
 /obj/structure/fluff/walldeco/church/line{
 	dir = 1
 	},
-/mob/living/carbon/human/species/npc/deadite,
 /obj/effect/decal/cleanable/blood/drip{
 	pixel_x = 10;
 	pixel_y = 0
@@ -54127,7 +54119,6 @@
 	dir = 1
 	},
 /obj/structure/fluff/clodpile,
-/mob/living/carbon/human/species/npc/deadite,
 /obj/effect/decal/remains/human,
 /turf/open/floor/rogue/churchbrick,
 /area/rogue/under/cave/scarymaze)
@@ -57371,17 +57362,6 @@
 /obj/machinery/light/rogue/torchholder/c,
 /turf/open/transparent/openspace,
 /area/rogue/indoors/town/church/chapel)
-"mKP" = (
-/obj/structure/fluff/walldeco/church/line{
-	dir = 1
-	},
-/mob/living/carbon/human/species/npc/deadite,
-/obj/effect/decal/cleanable/blood/drip{
-	pixel_x = 5;
-	pixel_y = -3
-	},
-/turf/open/floor/rogue/churchbrick,
-/area/rogue/under/cave/scarymaze)
 "mKS" = (
 /turf/open/floor/carpet/royalblack,
 /area/rogue/indoors/inq/office)
@@ -58393,7 +58373,6 @@
 "mXY" = (
 /obj/effect/decal/cleanable/blood/old,
 /obj/structure/fluff/clodpile,
-/mob/living/carbon/human/species/npc/deadite,
 /turf/open/floor/rogue/churchrough,
 /area/rogue/under/cave/scarymaze)
 "mXZ" = (
@@ -90844,7 +90823,6 @@
 	pixel_x = 3;
 	pixel_y = 11
 	},
-/mob/living/carbon/human/species/npc/deadite,
 /turf/open/floor/rogue/churchrough,
 /area/rogue/under/cave/scarymaze)
 "uvk" = (
@@ -362605,7 +362583,7 @@ iis
 bMT
 fjQ
 enL
-mKP
+qOY
 rPT
 bcg
 aGK
@@ -363057,7 +363035,7 @@ cCC
 xoU
 sKy
 lID
-gfx
+bcg
 rZo
 bcg
 aZD
@@ -363067,7 +363045,7 @@ moo
 kPW
 rZo
 vRI
-aDr
+eCh
 bJk
 xoU
 cCC
