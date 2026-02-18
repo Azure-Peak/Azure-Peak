@@ -47,6 +47,10 @@
 			to_chat(src, span_warning("That's too high for me..."))
 			return FALSE
 
+	if(has_status_effect(/datum/status_effect/debuff/exposed))
+		to_chat(src, span_warning("I'm exposed and lost my footing! I can't jump!"))
+		return FALSE
+
 	SEND_SIGNAL(src, COMSIG_LIVING_ONJUMP, A)
 
 	changeNext_move(mmb_intent.clickcd)

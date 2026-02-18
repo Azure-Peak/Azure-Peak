@@ -372,7 +372,7 @@
 /turf/open/floor/rogue/twig,
 /area/rogue/under/tomb)
 "mv" = (
-/mob/living/carbon/human/species/npc/deadite,
+/mob/living/carbon/human/species/skeleton/npc/mediumspread,
 /turf/open/floor/rogue/churchmarble,
 /area/rogue/under/tomb/indoors/church)
 "mw" = (
@@ -399,6 +399,10 @@
 /area/rogue/under/tomb/cave/wet)
 "mZ" = (
 /turf/open/floor/rogue/blocks,
+/area/rogue/under/tomb/indoors/church)
+"nf" = (
+/mob/living/carbon/human/species/skeleton/npc/easy,
+/turf/open/floor/rogue/churchmarble,
 /area/rogue/under/tomb/indoors/church)
 "nm" = (
 /turf/closed/wall/mineral/rogue/decostone/long{
@@ -3010,7 +3014,7 @@ Dz
 gY
 nm
 PW
-mv
+nf
 Hu
 Hv
 ol

@@ -100,7 +100,12 @@ GLOBAL_LIST_INIT(virtue_mount_choices_anthrax, (list(
 		has_name = "No"
 
 	//spawn in our creature and set it up
-	var/mob/living/simple_animal/the_real_honse = new our_chosen_honse(user.loc)
+	var/mob/living/simple_animal/the_real_honse
+	if(ispath(our_chosen_honse, /mob/living/simple_animal/hostile/retaliate/rogue/fogbeast))
+		var/fogbeast_color_choice = input("What color is your trusty steed?") as null|anything in GLOB.valid_fogbeast_colors
+		the_real_honse = new our_chosen_honse(user.loc, fogbeast_color_choice)
+	else
+		the_real_honse = new our_chosen_honse(user.loc)
 	the_real_honse.AddComponent(/datum/component/precious_creature, user)
 	user.saddleborn_mount = WEAKREF(the_real_honse)
 
@@ -109,6 +114,27 @@ GLOBAL_LIST_INIT(virtue_mount_choices_anthrax, (list(
 		if (honse_name)
 			the_real_honse.name = honse_name
 			the_real_honse.real_name = honse_name
+
+	if(istype(the_real_honse, /mob/living/simple_animal/hostile/retaliate/rogue/saiga))
+		var/saiga_barding = list("None","Padded Barding","Chainmail Barding")
+		var/saiga_barding_choice = input(user, "What protection have you acquired for your steed?", "Saddleborn") as anything in saiga_barding
+		switch(saiga_barding_choice)
+			if("Padded Barding")
+				the_real_honse.bbarding = new /obj/item/clothing/barding()
+				the_real_honse.update_icon()
+			if("Chainmail Barding")
+				the_real_honse.bbarding = new /obj/item/clothing/barding/chain()
+				the_real_honse.update_icon()
+	else if(istype(the_real_honse, /mob/living/simple_animal/hostile/retaliate/rogue/fogbeast))
+		var/fogbeast_barding = list("None","Padded Barding","Chainmail Barding")
+		var/fogbeast_barding_choice = input(user, "What protection have you acquired for your steed?", "Saddleborn") as anything in fogbeast_barding
+		switch(fogbeast_barding_choice)
+			if("Padded Barding")
+				the_real_honse.bbarding = new /obj/item/clothing/barding/fogbeast()
+				the_real_honse.update_icon()
+			if("Chainmail Barding")
+				the_real_honse.bbarding = new /obj/item/clothing/barding/fogbeast/chain()
+				the_real_honse.update_icon()
 
 	user.visible_message(span_info("[user] whistles sharply, and [the_real_honse] pads up from afar to their side."), span_notice("With a trusty whistle, my treasured steed returns to my side."))
 	playsound(user, 'sound/magic/saddleborn-call.ogg', 150, FALSE, 5)

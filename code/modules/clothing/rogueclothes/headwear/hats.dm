@@ -155,6 +155,12 @@
 			pic.color = get_detail_color()
 		add_overlay(pic)
 
+/obj/item/clothing/head/roguetown/chaperon/noble/evil // used for a skeleton loadout
+	name = "dusty scarlet chaperon"
+	desc = "An ancient chaperon, it smells of dust and debris. Is that mold on the inside?"
+	color = CLOTHING_DARK_GREY
+	detail_color = CLOTHING_SCARLET
+
 /obj/item/clothing/head/roguetown/chaperon/noble/bailiff
 	name = "Marshal's chaperon"
 	desc = "A noble's chaperon made for the local Marshal. \"How terribly unfortunate you are!\""

@@ -103,11 +103,18 @@
 					/obj/item/rogueweapon/flail/sflail,
 				)
 
-/datum/supply_pack/rogue/steel_weapons/flail
+/datum/supply_pack/rogue/steel_weapons/warhammer
 	name = "Warhammer"
-	cost = 40 // 1 Steel Ingot
+	cost = 70 // 2 Steel Ingots
 	contains = list(
 					/obj/item/rogueweapon/mace/warhammer/steel,
+				)
+
+/datum/supply_pack/rogue/steel_weapons/sflangedmace
+	name = "Flanged Mace"
+	cost = 70 // 2 Steel Ingots
+	contains = list(
+					/obj/item/rogueweapon/mace/cudgel/flanged,
 				)
 
 /datum/supply_pack/rogue/steel_weapons/longsword

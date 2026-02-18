@@ -26,6 +26,11 @@
 	clickcd = 9
 	damfactor = 1
 
+/datum/intent/sword/cut/broadsword
+	name = "cut with half-sworded technique"
+	damfactor = 0.8 //Allows for utility-based carving with the broadswords. Technically combat viable, though you should probably take a Longsword if you're strictly using a Broadsword for cuts.
+	clickcd = 10 //On par with an Arming Sword.
+
 /datum/intent/sword/chop/militia
 	penfactor = 50
 	clickcd = CLICK_CD_CHARGED
@@ -178,6 +183,10 @@
 	item_d_type = "slash"
 	peel_divisor = 4
 
+/datum/intent/sword/peel/light
+	name = "light peel"
+	peel_divisor = 5
+
 /datum/intent/sword/peel/big
 	name = "big sword armor peel"
 	reach = 2
@@ -217,37 +226,46 @@
 
 /datum/intent/sword/chop/broadsword
 	name = "heavy swing" //Standard penetration, but with a higher damage modifier.
-	penfactor = 30
+	penfactor = 20
 	damfactor = 1.15
 
 /datum/intent/sword/thrust/long/broadsword
 	name = "heavy thrust" //Ditto.
-	penfactor = 30
+	penfactor = 20
 	damfactor = 1.15
 	swingdelay = 4 //Halved swingdelay compared to chopping.
 
-/datum/intent/sword/thrust/long/broadsword/lesser
-	penfactor = 15
-	damfactor = 1.15
+/datum/intent/sword/chop/broadsword/heavy
+	name = "efforted swing" //Standard penetration, but with a higher damage modifier. Exclusive to the Executioner Sword series, when two-handed - or the Berserker's Sword, when one-handed.
+	penfactor = 30
+	damfactor = 1.2
+	swingdelay = 10
+	clickcd = CLICK_CD_CHARGED
 
 /datum/intent/sword/thrust/long/broadsword/heavy
 	name = "impale" //Stabbing variant of the Chop intent. Higher damage, but slower and evadable. Exclusive to two-handed broadswords.
 	icon_state = "inimpale"
 	attack_verb = list("impales", "thrusts into")
-	penfactor = 30
-	damfactor = 1.3
+	penfactor = 25
+	damfactor = 1.2
 	swingdelay = 8
 
 /datum/intent/rend/krieg
 	intent_intdamage_factor = 0.2
 
+/datum/intent/rend/broadsword
+	intent_intdamage_factor = 0.1
+
 /datum/intent/sword/chop/cleave
 	name = "cleave"
-	chargedrain = 1
-	chargetime = 5
-	damfactor = 1.2
-	intent_intdamage_factor = BLUNT_DEFAULT_INT_DAMAGEFACTOR
-	desc = "A powerful, charged-up swing that deals increased damage and can throw a standing opponent back and slow them down, based on your strength. Ineffective below 10 strength. Slowdown & Knockback scales to your Strength up to 13 (1 - 3 tiles). Cannot be used consecutively more than every 5 seconds on the same target. Prone targets halve the knockback distance. Not fully charging the attack limits knockback to 1 tile."
+	icon_state = "intear"
+	attack_verb = list("cleaves", "tears through")
+	chargedrain = 1.8
+	chargetime = 12
+	swingdelay = 0
+	damfactor = 1.3
+	intent_intdamage_factor = 1.3
+	desc = "A powerful blow that delivers Strength-scaling knockback and slowdown to the target. The amount of inflicted knockback scales off your Strength, ranging from X (1 tile) to XIII (3 tiles). </br>Cannot inflict any knockback or slowdown if your Strength is below X. </br>Cannot be used consecutively more than every 5 seconds on the same target. </br>Prone targets halve the knockback distance. </br>Not fully charging the attack limits knockback to 1 tile."
 	var/maxrange = 3
 
 /datum/intent/sword/chop/cleave/spec_on_apply_effect(mob/living/H, mob/living/user, params)
@@ -274,6 +292,9 @@
 		spin = FALSE, \
 		force = H.move_force)
 
+/datum/intent/sword/chop/cleave/prewarning()
+	if(mastermob)
+		playsound(mastermob, pick('sound/combat/rend_start.ogg'), 100, FALSE)
 
 //sword objs ฅ^•ﻌ•^ฅ
 /obj/item/rogueweapon/sword
@@ -399,7 +420,7 @@
 	possible_item_intents = list(/datum/intent/sword/cut, /datum/intent/sword/thrust, /datum/intent/sword/chop)
 	gripped_intents = null
 	name = "stone sword"
-	desc = "A crude mockery of what seems to be a sword, really just a long knapped stone tied to a carved wooden shaft."
+	desc = "A massive hunk of stone, chiseled down to form a crude flint-knapped blade. It has been pounded into a carved wooden handle, and further secured with tightly-wound fibers. </br>'Imitation is the sincerest form of flattery.'"
 	icon_state = "stone_sword"
 	max_blade_int = 100
 	max_integrity = 70
@@ -455,11 +476,13 @@
 	cultural hallmarks, just behind the concepts of 'zenny-a-mug' happy hours and 'killing people over minor disagreements.'"
 	icon_state = "broadsword"
 	sheathe_icon = "broadsword"
+	swingsound = BLADEWOOSH_HUGE
 	max_blade_int = 230 //Less of an edge than the longsword..
 	max_integrity = 180 //..but tougher.
 	wdefense_wbonus = 3 // Same defense when one-handed, but slightly reduced wielded defense compared to the longsword.
-	possible_item_intents = list(/datum/intent/sword/chop/broadsword, /datum/intent/sword/thrust/long/broadsword, /datum/intent/sword/strike, /datum/intent/sword/peel)
-	gripped_intents = list(/datum/intent/sword/chop/broadsword, /datum/intent/sword/thrust/long/broadsword/heavy, /datum/intent/sword/strike, /datum/intent/sword/peel)
+	possible_item_intents = list(/datum/intent/sword/chop/broadsword, /datum/intent/sword/thrust/long/broadsword, /datum/intent/sword/strike, /datum/intent/sword/peel/light)
+	gripped_intents = list(/datum/intent/sword/chop/broadsword, /datum/intent/sword/thrust/long/broadsword/heavy, /datum/intent/sword/strike, /datum/intent/sword/peel/light)
+	alt_intents = list(/datum/intent/sword/strike, /datum/intent/sword/bash, /datum/intent/effect/daze, /datum/intent/sword/cut/broadsword)
 	smeltresult = /obj/item/ingot/iron //Sidegrade of the longswords and battle axes - non-blunt attacks hit harder, but are always telegraphed and swing-delayed.
 
 /obj/item/rogueweapon/sword/long/broadsword/bronze
@@ -471,8 +494,6 @@
 	wdefense_wbonus = 3
 	max_blade_int = 295 //Inverse. Sharper..
 	max_integrity = 125 //..but weaker.
-	possible_item_intents = list(/datum/intent/sword/chop/broadsword, /datum/intent/sword/thrust/long/broadsword, /datum/intent/sword/strike, /datum/intent/sword/peel)
-	gripped_intents = list(/datum/intent/sword/chop/broadsword, /datum/intent/sword/thrust/long/broadsword/heavy, /datum/intent/sword/strike, /datum/intent/sword/peel)
 	smeltresult = /obj/item/ingot/bronze //Like before, it falls under the unofficial 'broadsword' category with one-handed chops. Best to pack a shield!
 
 /obj/item/rogueweapon/sword/long/broadsword/steel
@@ -485,8 +506,6 @@
 	max_blade_int = 330 //Sharper than a longsword, but with reduced defense. The use of steel balances its integrity out with a slight +10 bonus.
 	max_integrity = 160 
 	wdefense_wbonus = 3
-	possible_item_intents = list(/datum/intent/sword/chop/broadsword, /datum/intent/sword/thrust/long/broadsword, /datum/intent/sword/strike, /datum/intent/sword/peel)
-	gripped_intents = list(/datum/intent/sword/chop/broadsword, /datum/intent/sword/thrust/long/broadsword/heavy, /datum/intent/sword/strike, /datum/intent/sword/peel)
 	smeltresult = /obj/item/ingot/steel
 
 ////////////////////////
@@ -499,7 +518,6 @@
 	all across Psydonia. This particular variant has a stouter crossguard and wider blade; a prevaling design \
 	from the preceding century, oft-mantled in the homes of now-retired adventurers."
 	icon = 'icons/roguetown/weapons/64.dmi'  //Framework for Triumph-purchasable longswords.
-	icon_state = "longsword_triumph"
 	icon_state = "longsword_triumph"
 
 /obj/item/rogueweapon/sword/long/triumph/getonmobprop(tag)
@@ -520,7 +538,6 @@
 	all across Psydonia. This particular variant has a narrow crossguard and lengthened blade; the proportions \
 	of an ancient hero's claymore, resurrected through modern smithing techniques."
 	icon_state = "longsword_rockhill"
-	icon_state = "longsword_rockhill"
 	sheathe_icon = "gensword"
 
 /obj/item/rogueweapon/sword/long/exe/rockhill //Alternate version of the Executioner Sword.
@@ -529,7 +546,6 @@
 	desc = "A lethal and perfectly balanced weapon, the longsword is the protagonist of endless tales and myths \
 	all across Psydonia. This sharp-edged variant has a narrow crossguard and lengthened blade; the proportions \
 	of an ancient hero's claymore, resurrected through modern smithing techniques."
-	icon_state = "longsword_rockhill"
 	icon_state = "longsword_rockhill"
 
 /obj/item/rogueweapon/sword/long/exe/rockhill/getonmobprop(tag)
@@ -553,7 +569,6 @@
 	and dreams of the Weeping God's children, imbuing your very soul with determination. ‎</br>‎‎ </br>'There's a light inside your \
 	soul, that’s still shining in the cold: the truth, the promise in our hearts.. ..don't forget, I'm with you in the dark.'"
 	icon_state = "longsword_rockhill"
-	icon_state = "longsword_rockhill"
 
 /obj/item/rogueweapon/sword/long/broadsword/steel/rockhill/getonmobprop(tag)
 	. = ..()
@@ -573,7 +588,6 @@
 	all across Psydonia. This particular variant has a curved crossguard and stouter blade; hallmarks of nobility, \
 	whether professed atop a saiga or against a villain's edge."
 	icon_state = "longsword_sabreguard"
-	icon_state = "longsword_sabreguard"
 	sheathe_icon = "cutlass"
 
 /obj/item/rogueweapon/sword/long/kriegmesser/sabreguard //Alternative variant for the Kriegmesser.
@@ -582,7 +596,6 @@
 	desc = "A lethal and perfectly balanced weapon, the longsword is the protagonist of endless tales and myths \
 	all across Psydonia. This broad-edged variant has a curved crossguard and stouter blade; hallmarks of nobility, \
 	whether professed atop a saiga or against a villain's edge."
-	icon_state = "longsword_sabreguard"
 	icon_state = "longsword_sabreguard"
 	sheathe_icon = "cutlass"
 
@@ -604,7 +617,6 @@
 	all across Psydonia. This particular variant has a widened crossguard, adored by lightly-armored mercenaries \
 	who cannot afford to leave a single riposte without interception."
 	icon_state = "longsword_wideguard"
-	icon_state = "longsword_wideguard"
 	sheathe_icon = "opsysword"
 
 /obj/item/rogueweapon/sword/rapier/wideguard //Alternate variant for the Rapier.
@@ -613,7 +625,6 @@
 	desc = "A lethal and perfectly balanced weapon, the longsword is the protagonist of endless tales and myths \
 	all across Psydonia. This well-honed variant has a widened crossguard, adored by lightly-armored mercenaries \
 	who cannot afford to leave a single riposte without interception."
-	icon_state = "longsword_wideguard"
 	icon_state = "longsword_wideguard"
 	sheathe_icon = "opsysword"
 
@@ -635,7 +646,6 @@
 	all across Psydonia. This particular variant has a psycruciformed crossguard; a masterwork, held in silent \
 	reverance by those who've vowed to never forget the ultimate sacrifice."
 	icon_state = "longsword_psycrucifix"
-	icon_state = "longsword_psycrucifix"
 	sheathe_icon = "opsysword"
 
 /obj/item/rogueweapon/sword/long/psysword/psycrucifix //Alternate variant for the Psydonic Longswords.
@@ -644,7 +654,6 @@
 	desc = "A lethal and perfectly balanced weapon, the longsword is the protagonist of endless tales and myths \
 	all across Psydonia. This silvered variant has a psycruciformed crossguard; a masterwork, held in silent \
 	reverance by those who've vowed to never forget the ultimate sacrifice."
-	icon_state = "longsword_psycrucifix"
 	icon_state = "longsword_psycrucifix"
 	sheathe_icon = "opsysword"
 
@@ -676,7 +685,7 @@
 	thrown_bclass = BCLASS_BLUNT
 
 /obj/item/rogueweapon/sword/long/church
-	name = "see longsword"
+	name = "holy longsword"
 	desc = "A blessed longsword, wielded by the Holy See's templars in their stalwart defense against evil. Originating in the wake of the Celestial Empire's collapse, legends say that it is the grandfather to longswords all across Psydonia: the triumph of an ancient Malumite priest, stricken with divine inspiration in humenity's darkest hour. Centuries later, it still remains the ideal choice for skewering infidels and monsters alike. </br>'I am the holder of light, in the dark abyss..' </br>'..I am the holder of order and ward against vileness..' </br>'..let the Gods guide my hand, and let the Inhumen cower before me.'"
 	icon_state = "churchsword"
 	max_blade_int = 250
@@ -900,7 +909,8 @@
 	smeltresult = /obj/item/ingot/steel
 	sellprice = 999
 	static_price = TRUE
-	max_integrity = 9999
+	max_integrity = 999
+	max_blade_int = 9999
 
 /obj/item/rogueweapon/sword/long/judgement/vlord
 	name = "\"Ichor Fang\""
@@ -912,6 +922,7 @@
 	icon_state = "vlord"
 	item_state = "vlord"
 	wbalance = WBALANCE_NORMAL
+	max_blade_int = 666
 	max_integrity = 9999
 	sellprice = 777
 	static_price = TRUE
@@ -961,29 +972,34 @@
 /obj/item/rogueweapon/sword/long/exe
 	name = "executioners sword"
 	desc = "A heavy broadsword with a terrifyingly sharp edge, purpose-made to part heads from shoulders. Owing to its nature as a weapon of justice, it lacks the piercing tips that befit most battle-ready broadswords. If you're strong enough to wield such a weapon, however, then that probably won't stop you from finding a way."
-	possible_item_intents = list(/datum/intent/sword/chop/broadsword, /datum/intent/sword/cut, /datum/intent/sword/thrust/long/broadsword/lesser, /datum/intent/sword/strike)
-	gripped_intents = list(/datum/intent/rend, /datum/intent/sword/chop/broadsword, /datum/intent/sword/cut, /datum/intent/sword/thrust/exe)
+	possible_item_intents = list(/datum/intent/sword/chop/broadsword, /datum/intent/sword/cut, /datum/intent/sword/thrust/exe, /datum/intent/sword/strike)
+	gripped_intents = list(/datum/intent/rend/broadsword, /datum/intent/sword/chop/broadsword/heavy, /datum/intent/sword/thrust/exe/heavy, /datum/intent/sword/cut)
+	alt_intents = null
 	icon_state = "exe"
 	minstr = 12
 	slot_flags = ITEM_SLOT_BACK
+	swingsound = BLADEWOOSH_HUGE
 	smeltresult = /obj/item/ingot/iron
 	max_blade_int = 330 
 	smelt_bar_num = 2 // 1 bar loss
 	vorpal = TRUE // snicker snack this shit cuts heads off effortlessly (DO NOT PUT THIS ON ANYTHING ELSE UNLESS IT'S SUPER FUCKING RARE!!!)
+	mordhau = FALSE
 
 /datum/intent/sword/thrust/exe
 	swingdelay = 4	//Slight delay to stab; big and heavy.
 	penfactor = BLUNT_DEFAULT_PENFACTOR //Flat tip? I don't know, man. This intent is won't penetrate anything but it damages armor more.
 	intent_intdamage_factor = 1.3 //This is basically like getting hit by a mace.
 
+/datum/intent/sword/thrust/exe/heavy
+	swingdelay = 6
+	damfactor = 1.1
+
 /obj/item/rogueweapon/sword/long/exe/astrata
 	name = "\"Solar Judge\""
 	desc = "An incredibly unusual executioner's sword clad in gold and brass. Two separate blades protude outwards and join near its intricately decorated crossguard. This weapon calls for order."
 	icon_state = "astratasword"
 	max_integrity = 200
-	possible_item_intents = list(/datum/intent/sword/chop/broadsword, /datum/intent/sword/cut, /datum/intent/sword/thrust/long/broadsword/lesser, /datum/intent/sword/strike)
-	gripped_intents = list(/datum/intent/rend, /datum/intent/sword/chop/broadsword, /datum/intent/sword/cut, /datum/intent/sword/thrust/exe)
-	vorpal = TRUE // snicker snack this shit cuts heads off effortlessly (DO NOT PUT THIS ON ANYTHING ELSE UNLESS IT'S SUPER FUCKING RARE!!!)
+	vorpal = TRUE
 
 /obj/item/rogueweapon/sword/long/exe/getonmobprop(tag)
 	. = ..()
@@ -1001,8 +1017,11 @@
 /obj/item/rogueweapon/sword/long/exe/cloth
 	icon_state = "terminusest"
 	name = "\"Terminus Est\""
-	desc = "An ancient and damaged executioner's sword, decorated with a bronze pommel and crossguard. A bloody rag winds around the ricasso, ever-present to keep the blade clean."
+	desc = "An ornate executioner's sword, decorated with a golden pommel and crossguard. A bloody rag \
+	winds around the ricasso, ever-present to keep its edge spotless for the executionee's final \
+	judgement. The stout-angled blade bares an enscription along its length; </br>'WHEN THIS SWORDE I DOTH LYFT, I WISH THE SINNER ETERNAL LYFE AS THINE GYFT.'"
 	smeltresult = /obj/item/ingot/gold // It is the most valuable component
+	max_blade_int = 363 
 	smelt_bar_num = 2
 
 /obj/item/rogueweapon/sword/long/exe/cloth/rmb_self(mob/user)
@@ -1012,17 +1031,49 @@
 	user.visible_message(span_warning("[user] wipes [src] down with its cloth."),span_notice("I wipe [src] down with its cloth."))
 	return
 
+//
+
+/obj/item/rogueweapon/sword/long/exe/silver
+	name = "silver executioners sword"
+	desc = "A thorned executioner's sword, who's massive silver blade lays mounted atop an intricately-carved \
+	handle. Though the barbs dig into your hands, it's said that such pricklings will only draw blood if the \
+	silvered edge falls upon the neck of the innocent."
+	icon_state = "psygsword"
+	force = 22
+	force_wielded = 25
+	minstr_req = TRUE
+	smeltresult = /obj/item/ingot/silver
+
+/obj/item/rogueweapon/sword/long/exe/silver/ComponentInitialize()
+	AddComponent(\
+		/datum/component/silverbless,\
+		pre_blessed = BLESSING_NONE,\
+		silver_type = SILVER_TENNITE,\
+		added_force = 0,\
+		added_blade_int = 100,\
+		added_int = 100,\
+		added_def = 2,\
+	)
+
+/datum/anvil_recipe/weapons/silver/exec
+	name = "Executioners Sword, Silver (+3 Silver, +1 Small Log)"
+	req_bar = /obj/item/ingot/silver
+	additional_items = list(/obj/item/ingot/silver, /obj/item/ingot/silver, /obj/item/ingot/silver, /obj/item/grown/log/tree/small)
+	created_item = /obj/item/rogueweapon/sword/long/exe/silver
+
+//
+
 /obj/item/rogueweapon/sword/long/exe/berserk
 	name = "berserkers sword"
 	desc = "A raw heap of iron, hewn into an intimidatingly massive cleaver. Most could never aspire to effectively swing such a laborsome blade about; those few that have the strength, however, can force even the strongest opponents to stagger back."
 	icon = 'icons/roguetown/weapons/swords64.dmi'
 	icon_state = "dragonslayer"
-	possible_item_intents = list(/datum/intent/sword/chop/broadsword, /datum/intent/sword/cut, /datum/intent/sword/thrust/long/broadsword/lesser, /datum/intent/sword/strike)
-	gripped_intents = list(/datum/intent/sword/chop/cleave, /datum/intent/rend, /datum/intent/sword/cut, /datum/intent/sword/thrust/exe)
+	possible_item_intents = list(/datum/intent/sword/chop/broadsword/heavy, /datum/intent/sword/cut, /datum/intent/sword/thrust/exe, /datum/intent/sword/strike)
+	gripped_intents = list(/datum/intent/sword/chop/cleave, /datum/intent/rend, /datum/intent/sword/cut, /datum/intent/sword/thrust/long/broadsword)
 	wbalance = WBALANCE_HEAVY //Stronger but sturdier executioner's sword, exchanging its peelage for an armor-piercing variant of Ansari's knockback variable.
-	alt_intents = null 
 	minstr = 13 //Should be uncraftable, but obtainable through other variants. Challenge classes, dungeon rewards?
 	wdefense = 9
+	minstr_req = TRUE
 	max_blade_int = 400
 
 /obj/item/rogueweapon/sword/long/exe/berserk/dragonslayer
@@ -1036,7 +1087,7 @@
 	max_integrity = 777
 	max_blade_int = 777
 	is_silver = TRUE
-	smeltresult = /obj/item/rogueweapon/greatsword/silver //How many forges does it take to get to the center of a superweapon?
+	smeltresult = /obj/item/rogueweapon/sword/long/exe/berserk //How many forges does it take to get to the center of a superweapon?
 
 /obj/item/rogueweapon/sword/long/exe/berserk/dragonslayer/ComponentInitialize()
 	AddComponent(\
@@ -1120,14 +1171,15 @@
 	desc = "A two-handed broadsword, fitted with a blade of pure silver. Each swing commands more effort than the last, but not without purpose. One blow to crack the deadite's leg in twain; and a heartbeat later, another to splatter the soil with bile and teeth."
 	icon_state = "silverbroadsword"
 	sheathe_icon = "psysword"
+	swingsound = BLADEWOOSH_HUGE
 	force = 20
 	force_wielded = 25
 	minstr = 11
 	wdefense = 6
-	possible_item_intents = list(/datum/intent/sword/cut/krieg, /datum/intent/sword/chop/falx, /datum/intent/sword/strike, /datum/intent/rend/krieg)
-	gripped_intents = list(/datum/intent/sword/cut/krieg, /datum/intent/sword/thrust/krieg, /datum/intent/sword/strike, /datum/intent/rend/krieg)
-	alt_intents = null // Can't mordhau this
-	mordhau = FALSE
+	possible_item_intents = list(/datum/intent/rend/broadsword, /datum/intent/sword/chop/broadsword, /datum/intent/sword/thrust/long/broadsword, /datum/intent/sword/strike)
+	gripped_intents = list(/datum/intent/rend/broadsword, /datum/intent/sword/chop/broadsword, /datum/intent/sword/thrust/long/broadsword/heavy, /datum/intent/sword/strike)
+	alt_intents = list(/datum/intent/sword/strike, /datum/intent/sword/bash, /datum/intent/effect/daze, /datum/intent/sword/cut/broadsword)
+	mordhau = TRUE
 	smeltresult = /obj/item/ingot/silver
 	is_silver = TRUE
 
@@ -1144,17 +1196,18 @@
 
 /obj/item/rogueweapon/sword/long/kriegmesser/psy
 	name = "psydonic broadsword"
-	desc = "Sunder, cleave, smite; a sea of coagulated blackness, speckled with crimson. Absolve, cherish, endure; the will of one, christened to save Psydonia when all else is lost. </br>'Even here it is not safe, and even this grave has been defaced. Yet, someone has written on this stone, in some angry hand - HOPE RIDES ALONE..'"
+	desc = "Sunder, cleave, smite; a sea of coagulated blackness, speckled with crimson. Absolve, cherish, endure; the will of one, christened to save Psydonia when all else is lost. </br>'Even here it is not safe, and even this grave has been defaced. Yet, someone has written on this stone, in some angry hand - 'HOPE RIDES ALONE..'"
 	icon_state = "silverbroadsword"
 	sheathe_icon = "psysword"
+	swingsound = BLADEWOOSH_HUGE
 	force = 20
 	force_wielded = 25
 	minstr = 11
 	wdefense = 6
-	possible_item_intents = list(/datum/intent/sword/cut/krieg, /datum/intent/sword/chop/falx, /datum/intent/sword/strike, /datum/intent/rend/krieg)
-	gripped_intents = list(/datum/intent/sword/cut/krieg, /datum/intent/sword/thrust/krieg, /datum/intent/sword/strike, /datum/intent/rend/krieg)
-	alt_intents = null // Can't mordhau this
-	mordhau = FALSE
+	possible_item_intents = list(/datum/intent/rend/broadsword, /datum/intent/sword/chop/broadsword, /datum/intent/sword/thrust/long/broadsword, /datum/intent/sword/strike)
+	gripped_intents = list(/datum/intent/rend/broadsword, /datum/intent/sword/chop/broadsword, /datum/intent/sword/thrust/long/broadsword/heavy, /datum/intent/sword/strike)
+	alt_intents = list(/datum/intent/sword/strike, /datum/intent/sword/bash, /datum/intent/effect/daze, /datum/intent/sword/cut/broadsword)
+	mordhau = TRUE
 	smeltresult = /obj/item/ingot/silverblessed
 	is_silver = TRUE
 
@@ -1853,8 +1906,8 @@
 	desc = "An arming sword, fitted with a blade of pure silver. It is the bane of vampyres, nitebeasts, and deadites throughout all of Psydonia; cursed flesh erupts into holy fire, and unholy bravado twists into mortal fear."
 	icon_state = "silversword"
 	sheathe_icon = "silversword"
-	force = 18
-	force_wielded = 23
+	force = 20
+	force_wielded = 25
 	minstr = 9
 	wdefense = 5
 	is_silver = TRUE

@@ -1,7 +1,4 @@
 // Race list means RESTRICTED from the LISTED races.
-/datum/virtue/origin
-	var/origin_name = "Unknown"
-
 /datum/virtue/origin/unknown
 	name = "Nowhere"
 	origin_name = "Unknown"

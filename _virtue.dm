@@ -7,6 +7,8 @@ GLOBAL_LIST_EMPTY(virtues)
 	var/desc
 	/// Description for origins, allowed to be a bit wordy.
 	var/origin_desc
+	/// Name for origins - used for the nation's name, not a denonym!
+	var/origin_name = "Unknown"
 	/// A list containing any traits we need to add to the mob.
 	var/list/added_traits = list()
 	/// An associative list containing any skills we want to adjust. You can also pass list objects into this in the following format: list(SKILL_TYPE, SKILL_INCREASE, SKILL_MAXIMUM) as needed.

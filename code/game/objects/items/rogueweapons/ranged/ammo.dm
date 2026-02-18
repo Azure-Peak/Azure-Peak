@@ -5,6 +5,16 @@
 #define BOLT_PENETRATION	50
 #define BULLET_PENETRATION	100
 
+/**
+	GENERAL NOTE FOR BALANCING PROJECTILES:
+	Damage and armor penetration both factor into whether a projectile will pierce a given
+	set of armour! Additionally, unlike armor penetration, damage is subject to multiplication
+	from PER + damfactor modifiers. As such, always value damage much higher than armor penetration.
+	If you add 5 damage in return for taking away 5 AP, you haven't given the projectile a
+	mechanical trade-off, you've made it worse in an entirely linear way. It may be wiser to
+	deduct 10 or 15 armor penetration in return for adding 5 damage if you want a trade-off.
+*/
+
 //parent of all bolts and arrows ฅ^•ﻌ•^ฅ
 /obj/item/ammo_casing/caseless/rogue/
 	firing_effect_type = null
@@ -29,7 +39,7 @@
 	if(tag)
 		switch(tag)
 			if("gen")
-				return list("shrink" = 0.5,"sx" = -10,"sy" = -6,"nx" = 11,"ny" = -6,"wx" = -4,"wy" = -6,"ex" = 5,"ey" = -6,"northabove" = 0,"southabove" = 1,"eastabove" = 1,"westabove" = 0,"nturn" = 0,"sturn" = 0,"wturn" = 0,"eturn" = 0,"nflip" = 0,"sflip" = 8,"wflip" = 8,"eflip" = 0)
+				return list("shrink" = 0.5,"sx" = -10,"sy" = -6,"nx" = 11,"ny" = -6,"wx" = -4,"wy" = -6,"ex" = 2,"ey" = -6,"northabove" = 0,"southabove" = 1,"eastabove" = 1,"westabove" = 0,"nturn" = 0,"sturn" = 0,"wturn" = 0,"eturn" = 0,"nflip" = 0,"sflip" = 8,"wflip" = 8,"eflip" = 0)
 			if("onbelt")
 				return list("shrink" = 0.3,"sx" = -2,"sy" = -5,"nx" = 4,"ny" = -5,"wx" = 0,"wy" = -5,"ex" = 2,"ey" = -5,"nturn" = 0,"sturn" = 0,"wturn" = 0,"eturn" = 0,"nflip" = 0,"sflip" = 0,"wflip" = 0,"eflip" = 0,"northabove" = 0,"southabove" = 1,"eastabove" = 1,"westabove" = 0)
 
@@ -90,7 +100,7 @@
 	if(tag)
 		switch(tag)
 			if("gen")
-				return list("shrink" = 0.5,"sx" = -10,"sy" = -7,"nx" = 13,"ny" = -7,"wx" = -8,"wy" = -7,"ex" = 7,"ey" = -7,"northabove" = 0,"southabove" = 1,"eastabove" = 1,"westabove" = 0,"nturn" = 90,"sturn" = -90,"wturn" = -80,"eturn" = 81,"nflip" = 0,"sflip" = 8,"wflip" = 8,"eflip" = 0)
+				return list("shrink" = 0.5,"sx" = -10,"sy" = -7,"nx" = 13,"ny" = -7,"wx" = -8,"wy" = -7,"ex" = 5,"ey" = -7,"northabove" = 0,"southabove" = 1,"eastabove" = 1,"westabove" = 0,"nturn" = 90,"sturn" = -90,"wturn" = -80,"eturn" = 81,"nflip" = 0,"sflip" = 8,"wflip" = 8,"eflip" = 0)
 			if("onbelt")
 				return list("shrink" = 0.3,"sx" = -2,"sy" = -5,"nx" = 4,"ny" = -5,"wx" = 0,"wy" = -5,"ex" = 2,"ey" = -5,"nturn" = 0,"sturn" = 0,"wturn" = 0,"eturn" = 0,"nflip" = 0,"sflip" = 0,"wflip" = 0,"eflip" = 0,"northabove" = 0,"southabove" = 1,"eastabove" = 1,"westabove" = 0)
 
@@ -191,7 +201,7 @@
 	if(tag)
 		switch(tag)
 			if("gen")
-				return list("shrink" = 0.5,"sx" = -10,"sy" = -6,"nx" = 11,"ny" = -6,"wx" = -4,"wy" = -6,"ex" = 5,"ey" = -6,"northabove" = 0,"southabove" = 1,"eastabove" = 1,"westabove" = 0,"nturn" = 0,"sturn" = 0,"wturn" = 0,"eturn" = 0,"nflip" = 0,"sflip" = 8,"wflip" = 8,"eflip" = 0)
+				return list("shrink" = 0.5,"sx" = -10,"sy" = -6,"nx" = 11,"ny" = -6,"wx" = -4,"wy" = -6,"ex" = 2,"ey" = -6,"northabove" = 0,"southabove" = 1,"eastabove" = 1,"westabove" = 0,"nturn" = 0,"sturn" = 0,"wturn" = 0,"eturn" = 0,"nflip" = 0,"sflip" = 8,"wflip" = 8,"eflip" = 0)
 			if("onbelt")
 				return list("shrink" = 0.3,"sx" = -2,"sy" = -5,"nx" = 4,"ny" = -5,"wx" = 0,"wy" = -5,"ex" = 2,"ey" = -5,"nturn" = 0,"sturn" = 0,"wturn" = 0,"eturn" = 0,"nflip" = 0,"sflip" = 0,"wflip" = 0,"eflip" = 0,"northabove" = 0,"southabove" = 1,"eastabove" = 1,"westabove" = 0)
 
@@ -393,46 +403,57 @@
 	ammo_type = /obj/item/ammo_casing/caseless/rogue/arrow/stone
 	accuracy = 60
 
+// Broadheads are high damage, low AP. Shouldn't be penetrating 80 pierce armor (padded gambesons)
+// short of either being used in a longbow, or by an incredibly high perception character!
+// At 15PER with a recurve, penetrates just short of 70 pierce armour, and cannot realistically allpen.
 /obj/projectile/bullet/reusable/arrow/iron
 	name = "broadhead arrow"
 	ammo_type = /obj/item/ammo_casing/caseless/rogue/arrow/iron
-	damage = 40
-	armor_penetration = 20
+	damage = 35
+	armor_penetration = 15 // Pierces 80 (padded gambesons) at 19PER, 16PER with a longbow.
 	embedchance = 30
 	npc_simple_damage_mult = 2
 
+// Gains 5 damage, loses 10 AP.
 /obj/projectile/bullet/reusable/arrow/iron/aalloy
 	name = "decrepit broadhead arrow"
 	ammo_type = /obj/item/ammo_casing/caseless/rogue/arrow/iron/aalloy
 	icon_state = "ancientarrow_proj"
-	damage = 45
-	armor_penetration = 15
+	damage = 40
+	armor_penetration = 5 // Pierces 80 (padded gambesons) at 19PER, 16PER with a longbow.
 	embedchance = 40
 
+// Bodkins should penetrate essentially any armour in the game with decent perception, as
+// recompense for their very low damage. Better for lower perception characters without
+// enough raw damage to consistently penetrate armour.
 /obj/projectile/bullet/reusable/arrow/steel
 	name = "bodkin arrow"
 	ammo_type = /obj/item/ammo_casing/caseless/rogue/arrow/steel
 	accuracy = 75
 	damage = 25
-	armor_penetration = 45
-	embedchance = 80
+	armor_penetration = 55 // Pierces 80 (padded gambesons) with a recurve at 11PER.
+	embedchance = 80 // Easy embeds!
 	npc_simple_damage_mult = 3
 
+// Significantly worse armour-piercing, slightly more damage. Should still penetrate most things.
+// Note that it's pretty likely the skeleton using these has a longbow, which penetrates more stuff.
 /obj/projectile/bullet/reusable/arrow/steel/paalloy
 	name = "ancient bodkin arrow"
 	ammo_type = /obj/item/ammo_casing/caseless/rogue/arrow/steel/paalloy
 	icon_state = "ancientarrow_proj"
-	damage = 35
-	armor_penetration = 35
+	damage = 30
+	armor_penetration = 35 // Pierces 80 (padded gambesons) with a recurve at 15PER.
 	embedchance = 60
 
+// Non-existent AP, but strong damage, a high embed chance, and very fast projectiles.
+// Will have to see how this one plays out - may be a utility pick for chasedowns?
 /obj/projectile/bullet/reusable/arrow/bronze
 	name = "bronze arrow"
 	ammo_type = /obj/item/ammo_casing/caseless/rogue/arrow/bronze
 	icon_state = "bronzearrow_proj"
-	damage = 60
-	armor_penetration = 10
-	embedchance = 60 //+20 damage and embedding, -50% AP.
+	damage = 40
+	armor_penetration = 0 // Cannot pierce 80 (padded gambesons) with a recurve, does so at 17PER with a longbow.
+	embedchance = 70
 	npc_simple_damage_mult = 3 //More damage over simplemobs!
 	speed = 0.15 // Faster!
 
@@ -743,7 +764,7 @@
 	. = ..()
 	if(ismob(target))
 		var/mob/living/M = target
-		M.apply_status_effect(/datum/status_effect/debuff/exposed)
+		M.apply_status_effect(/datum/status_effect/debuff/vulnerable)
 		M.Immobilize(15)
 	var/turf/T
 	if(isturf(target))
@@ -758,7 +779,7 @@
 	. = ..()
 	if(ismob(target))
 		var/mob/living/M = target
-		M.apply_status_effect(/datum/status_effect/debuff/exposed)
+		M.apply_status_effect(/datum/status_effect/debuff/vulnerable)
 		M.apply_status_effect(/datum/status_effect/buff/druqks)
 	var/turf/T
 	if(isturf(target))

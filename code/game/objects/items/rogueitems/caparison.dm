@@ -5,11 +5,12 @@
 	icon_state = "caparison"
 	var/caparison_icon = 'icons/roguetown/mob/monster/saiga.dmi'
 	var/caparison_state = "caparison"
+	var/detail_state
+	var/list/detail_types
+	var/list/symbol_types
 	var/female_caparison_state = "caparison-f"
 	gender = NEUTER
-	var/list/valid_animal_types = list(
-		/mob/living/simple_animal/hostile/retaliate/rogue/saiga
-	)
+	var/list/valid_animal_types = list(/mob/living/simple_animal/hostile/retaliate/rogue/saiga)
 
 /obj/item/caparison/attack(mob/living/M, mob/living/user)
 	if(!issimple(M))
@@ -38,6 +39,55 @@
 	forceMove(animal)
 	animal.update_icon()
 	user.visible_message(span_notice("[user] fits a caparison onto [animal]."), span_notice("I fit a caparison onto [animal]."))
+
+/obj/item/caparison/rmb_self(mob/user)
+	attack_right(user)
+
+/obj/item/caparison/attack_right(mob/user)
+	if(!length(detail_types))
+		return
+
+	var/list/possible_detail_types = list("None" = null) + detail_types.Copy()
+	if(length(symbol_types))
+		possible_detail_types += list("Symbol" = null)
+
+	var/chosen_design = input(user, "Select a design.", "Caparison Design") as null|anything in possible_detail_types
+	if(!chosen_design)
+		return
+
+	if(chosen_design == "Symbol")
+		var/chosen_symbol = input(user, "Select a symbol.", "Caparison Design") as null|anything in symbol_types
+		if(!chosen_symbol)
+			return
+		detail_state = symbol_types[chosen_symbol]
+	else
+		detail_state = detail_types[chosen_design]
+
+	var/list/colors_to_pick = list()
+	if(GLOB.lordprimary)
+		colors_to_pick["Primary Keep Color"] = GLOB.lordprimary
+	if(GLOB.lordsecondary)
+		colors_to_pick["Secondary Keep Color"] = GLOB.lordsecondary
+	var/list/color_map_list = COLOR_MAP
+	colors_to_pick += color_map_list.Copy()
+
+	var/primary_color = input(user, "Select a primary color.", "Caparison Design") as null|anything in colors_to_pick
+	if(!primary_color)
+		return
+	color = colors_to_pick[primary_color]
+
+	if(chosen_design != "None")
+		if(chosen_design != "Symbol")
+			var/secondary_color = input(user, "Select a secondary color.", "Caparison Design") as null|anything in colors_to_pick
+			if(!secondary_color)
+				return
+			detail_color = colors_to_pick[secondary_color]
+		else
+			detail_color = COLOR_WHITE
+
+//////////////////////
+// SUBTYPES - SAIGA //
+//////////////////////
 
 /obj/item/caparison/psy
 	name = "psydonite caparison"
@@ -68,3 +118,16 @@
 	desc = "A decorative piece of cloth meant to be used as a saddle decoration. It's adorned with the colours of Heartfelt. This one fits on a Saiga."
 	caparison_state = "heartfelt_caparison"
 	female_caparison_state = "heartfelt_caparison-f"
+
+/////////////////////////
+// SUBTYPES - FOGBEAST //
+/////////////////////////
+
+/obj/item/caparison/fogbeast
+	name = "caparison"
+	desc = "A decorative piece of cloth meant to be used as a saddle decoration. This one fits on a Fogbeast."
+	caparison_icon = 'icons/roguetown/mob/monster/fogbeast.dmi'
+	valid_animal_types = list(/mob/living/simple_animal/hostile/retaliate/rogue/fogbeast)
+	color = COLOR_WHITE
+	detail_types = list("Quad" = "quad")
+	symbol_types = list("Psycross" = "psycross", "Astrata" = "astrata")

@@ -15,7 +15,7 @@
 	var/mob/living/carbon/human/lastuser
 	fueluse = 20 MINUTES
 	crossfire = FALSE
-
+	roundstart_forbid = TRUE
 /obj/machinery/light/rogue/cauldron/update_icon()
 	..()
 	cut_overlays()

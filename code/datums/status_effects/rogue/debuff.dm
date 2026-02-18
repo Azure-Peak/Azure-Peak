@@ -192,6 +192,9 @@
 		C.update_inv_legcuffed()
 		C.remove_movespeed_modifier(MOVESPEED_ID_NET_SLOWDOWN)
 
+/datum/status_effect/debuff/netted/vile
+	duration = 10 SECONDS
+
 /atom/movable/screen/alert/status_effect/debuff/sleepytime
 	name = "Tired"
 	desc = "I should get some rest."
@@ -918,6 +921,7 @@
 	desc = "I am on the edge of Death's realm. It is hard to feel motivated with such deathly tranquility."
 	icon_state = "debuff"
 	color ="#af9f9f"
+
 /datum/status_effect/debuff/no_coom_cheating //Gets triggered when someone sets their arousal, prevents orgasms from sating vice/giving mood boosts
 	id = "nocoomcheating"
 	alert_type = /atom/movable/screen/alert/status_effect/debuff/no_coom_cheating
@@ -935,3 +939,63 @@
 /datum/status_effect/debuff/no_coom_cheating/on_remove()
 	. = ..()
 	REMOVE_TRAIT(owner, TRAIT_UNSATISFIED, id)
+
+/datum/status_effect/debuff/bloody_mess
+	id = "bloodymess"
+	alert_type = /atom/movable/screen/alert/status_effect/debuff/bloody_mess
+	duration = 20 SECONDS // this is EASILY enough time to kill someone w/ the effect.
+
+/datum/status_effect/debuff/bloody_mess/on_apply()
+	. = ..()
+	if(!ishuman(owner))
+		return FALSE
+	var/mob/living/carbon/human/H = owner
+	var/datum/physiology/phy = H.physiology 
+	var/bleed_mod = phy.bleed_mod
+	phy.bleed_mod = bleed_mod * 1.75 // this then gets reduced by con, among other things. change as needed.
+	H.visible_message(span_warning("[src] blood runs thin and begins GUSHING out of their wounds!"), span_danger("A FOUL SPELL IS CAUSING ME TO BLEED EN MASSE!"))
+
+/datum/status_effect/debuff/bloody_mess/on_remove()
+	. = ..()
+	if(!ishuman(owner))
+		return FALSE
+	var/mob/living/carbon/human/H = owner
+	var/datum/physiology/phy = H.physiology 
+	var/bleed_mod = phy.bleed_mod
+	phy.bleed_mod = bleed_mod / 1.75 // this then gets reduced by con, among other things. change as needed.
+	H.visible_message(span_warning("[src] has their wounds calm..."), span_warning("My wounds stop bleeding so heavily!"))
+
+
+/atom/movable/screen/alert/status_effect/debuff/bloody_mess
+	name = "Bloody Mess"
+	desc = "My bleeding is quickened! I must grip my wounds, or I will lose myself steadfast!"
+
+/datum/status_effect/debuff/sensitive_nerves
+	id = "sensitivenerves"
+	alert_type = /atom/movable/screen/alert/status_effect/debuff/sensitive_nerves
+	duration = 20 SECONDS // this is EASILY enough time to kill someone w/ the effect.
+
+/datum/status_effect/debuff/sensitive_nerves/on_apply()
+	. = ..()
+	if(!ishuman(owner))
+		return FALSE
+	var/mob/living/carbon/human/H = owner
+	var/datum/physiology/phy = H.physiology 
+	var/pain_mod = phy.pain_mod
+	phy.pain_mod = pain_mod * 1.75 // this then gets reduced by con, among other things. change as needed.
+	H.visible_message(span_warning("[src] looks to be in great pain, their wounds BLACKENING!"), span_danger("EVERYTHING HURTS!! MY WOUNDS PAIN HAS INCREASED!!"))
+
+/datum/status_effect/debuff/sensitive_nerves/on_remove()
+	. = ..()
+	if(!ishuman(owner))
+		return FALSE
+	var/mob/living/carbon/human/H = owner
+	var/datum/physiology/phy = H.physiology 
+	var/pain_mod = phy.pain_mod
+	phy.pain_mod = pain_mod / 1.75 // this then gets reduced by con, among other things. change as needed.
+	H.visible_message(span_warning("[src]'s wounds suddenly return to normal!"), span_warning("My magickally induced pain subsides!"))
+
+
+/atom/movable/screen/alert/status_effect/debuff/sensitive_nerves
+	name = "Sensitive Nerves"
+	desc = "IT HURTS!!! MY WOUNDS BITE INTO MY FLESH WITH SUCH RABID FEROCITY!"

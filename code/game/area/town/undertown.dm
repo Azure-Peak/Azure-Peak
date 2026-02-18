@@ -23,7 +23,7 @@
 	droning_sound_dusk = null
 	droning_sound_night = null
 	ambientrain = RAIN_SEWER
-	soundenv = 21
+	soundenv = 5
 	converted_type = /area/rogue/outdoors/exposed/under/sewer
 /area/rogue/outdoors/exposed/under/sewer
 	icon_state = "sewer"

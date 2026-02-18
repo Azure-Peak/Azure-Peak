@@ -1,0 +1,4 @@
+author: "Ollanius"
+delete-after: True
+changes:
+  - rscadd: "Viziers now bare the Hierophant's garb as well, instead of the generic and adventuring-tier robes."

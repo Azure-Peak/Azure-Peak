@@ -1,0 +1,4 @@
+author: "WeNeedMorePhoron"
+delete-after: True
+changes:
+  - rscdel: "Frostbite effect from Frost Bolt should remove itself after exhausting you instead of chaining you into a stunlock. (They can still follow up with another frost bolt)"

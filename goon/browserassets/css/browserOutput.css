@@ -87,8 +87,13 @@ body {
 }
 
 @font-face {
-	font-family: "Notredame";
+	font-family: "ArkansasDB";
 	src: url("otavan.ttf");
+}
+
+@font-face {
+	font-family: "BaggageMasterText79 ttcon";
+	src: url("oldazure.ttf");
 }
 
 @font-face {

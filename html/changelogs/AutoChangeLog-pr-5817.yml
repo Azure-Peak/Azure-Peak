@@ -1,0 +1,5 @@
+author: "BurpleBineapple"
+delete-after: True
+changes:
+  - balance: "Fire no longer spreads by walking over someone that is prone that is on fire."
+  - balance: "Fire only spreads 25% of the time when bumping into someone."

@@ -32,6 +32,7 @@
 	var/t_is = p_are()
 	var/obscure_name = FALSE
 	var/race_name = "<a href='?src=[REF(src)];species_lore=1'><u>[dna.species.name]</u></A> "
+	var/origin_name = "<a href='?src=[REF(src)];origin_lore=1'><u>[dna.species.origin]</u></A>"
 	var/datum/antagonist/maniac/maniac = user.mind?.has_antag_datum(/datum/antagonist/maniac)
 	var/datum/antagonist/skeleton/skeleton = user.mind?.has_antag_datum(/datum/antagonist/skeleton)
 	if(maniac && (user != src))
@@ -122,12 +123,12 @@
 		var/origin
 		if(dna.species.use_skin_tone_wording_for_examine)
 			if(dna.species.origin == "Unknown")
-				origin = "is implacable.."
+				origin = span_bold("is implacable..")
 			else
-				origin = "originates in [dna.species.origin]"
+				origin = "originates in [origin_name]"
 		else
 			if(dna.species.origin == "Unknown")
-				origin = "nowhere.."
+				origin = span_bold("nowhere..")
 			else
 				origin = dna.species.origin
 		var/astratan_symbol
