@@ -162,6 +162,21 @@
 /obj/structure/fluff/walldeco/stone/bronze
 	color = "#ff9c1a"
 
+/obj/structure/fluff/walldeco/stone/stone2
+	icon_state = "walldec2"
+
+/obj/structure/fluff/walldeco/stone/stone3
+	icon_state = "walldec3"
+
+/obj/structure/fluff/walldeco/stone/stone4
+	icon_state = "walldec4"
+
+/obj/structure/fluff/walldeco/stone/stone5
+	icon_state = "walldec5"
+
+/obj/structure/fluff/walldeco/stone/stone6
+	icon_state = "walldec6"
+
 /obj/structure/fluff/walldeco/church/line
 	name = ""
 	desc = ""
