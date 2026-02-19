@@ -231,7 +231,7 @@
 
 /obj/effect/proc_holder/spell/invoked/projectile/sickness
 	name = "Ray of Sickness"
-	desc = ""
+	desc = "Fires a bolt of evyle magicks that poison your enemy."
 	clothes_req = FALSE
 	range = 15
 	projectile_type = /obj/projectile/magic/sickness
