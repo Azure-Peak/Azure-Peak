@@ -34,6 +34,7 @@ GLOBAL_LIST_INIT(character_flaws, list(
 	/datum/charflaw/noflaw::name = /datum/charflaw/noflaw,
 	/datum/charflaw/leprosy::name = /datum/charflaw/leprosy,
 	/datum/charflaw/randflaw::name = /datum/charflaw/randflaw
+	/datum/charflaw/dampire::name = /datum/charflaw/dampire,
 	))
 
 GLOBAL_LIST_INIT(averse_factions, list(
@@ -819,5 +820,26 @@ GLOBAL_LIST_INIT(averse_factions, list(
 	if(is_active && user && !QDELETED(user))
 		addtimer(CALLBACK(src, PROC_REF(check_for_candidates), user), 5 SECONDS)
 
+/datum/charflaw/dampire
+	name = "Dampyre"
+	desc = "Some unfortunate events led to the fact that I'm now a dampyre! I need to drink blood to feed, and silver is lethal to me. At least I feel nothing anymore."
+
+/datum/charflaw/dampire/on_mob_creation(mob/user)
+	..()
+	var/mob/living/carbon/human/H = user
+	ADD_TRAIT(H, TRAIT_DAMPYRE, TRAIT_GENERIC)
+	ADD_TRAIT(H, TRAIT_SILVER_WEAK, TRAIT_GENERIC)
+	ADD_TRAIT(H, TRAIT_NOMOOD, TRAIT_GENERIC)
+	H.mob_biotypes |= MOB_UNDEAD
+
+/datum/charflaw/dampire/apply_post_equipment(mob/user)
+	..()
+	var/mob/living/carbon/human/H = user
+	if(HAS_TRAIT(H, TRAIT_SILVER_BLESSED))
+		to_chat(H, "Whether were you ever blessed with silver, your curse has left no trace of it.")
+		REMOVE_TRAIT(H, TRAIT_SILVER_BLESSED, null)
+	if(HAS_TRAIT(H, TRAIT_NOHUNGER))
+		to_chat(H, "Your dampyric hunger is insatiable. You NEED to feed.")
+		REMOVE_TRAIT(H, TRAIT_NOHUNGER, null)
 
 

@@ -162,6 +162,12 @@
 	desc = "Some fell magick has rendered me inwardly unliving - I do not hunger, and I do not breathe."
 	added_traits = list(TRAIT_NOHUNGER, TRAIT_NOBREATH)
 
+/datum/virtue/utility/deathless/handle_traits(mob/living/carbon/human/recipient)
+	..()
+	if(HAS_TRAIT(recipient, TRAIT_DAMPYRE))
+		to_chat(recipient, "Your dampyric hunger is insatiable. You NEED to feed.")
+		REMOVE_TRAIT(recipient, TRAIT_NOHUNGER, TRAIT_VIRTUE)
+
 /datum/virtue/utility/feral_appetite
 	name = "Feral Appetite"
 	desc = "Raw, toxic or spoiled food doesn't bother my superior digestive system."

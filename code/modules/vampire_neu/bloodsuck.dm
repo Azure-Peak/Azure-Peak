@@ -31,10 +31,10 @@
 
 	if(ishuman(victim))
 		var/mob/living/carbon/human/human_victim = victim
-		if(VDrinker && istype(human_victim.wear_neck, /obj/item/clothing/neck/roguetown/psicross/silver))
+		if((VDrinker || HAS_TRAIT(src, TRAIT_DAMPYRE)) && istype(human_victim.wear_neck, /obj/item/clothing/neck/roguetown/psicross/silver))
 			to_chat(src, span_userdanger("SILVER! HISSS!!!"))
 			return
-		if(VDrinker && HAS_TRAIT(human_victim, TRAIT_SILVER_BLESSED))
+		if((VDrinker || HAS_TRAIT(src, TRAIT_DAMPYRE)) && HAS_TRAIT(human_victim, TRAIT_SILVER_BLESSED))
 			to_chat(src, span_userdanger("SILVER IN THE BLOOD! HISSS!!!"))
 			return
 		human_victim.add_bite_animation()
@@ -44,6 +44,9 @@
 
 	victim.blood_volume = max(victim.blood_volume - 5, 0)
 	victim.handle_blood()
+	if(HAS_TRAIT(src, TRAIT_DAMPYRE) && !HAS_TRAIT(src, TRAIT_NOHUNGER))
+		var/mob/living/carbon/C = src
+		C.adjust_nutrition(32)
 
 	playsound(loc, 'sound/misc/drink_blood.ogg', 100, FALSE, -4)
 
@@ -53,7 +56,7 @@
 	to_chat(src, span_warning("I drink from [victim]'s [parse_zone(sublimb_grabbed)]."))
 	log_combat(src, victim, "drank blood from ")
 
-	if(!VDrinker)
+	if(!VDrinker && !HAS_TRAIT(src, TRAIT_DAMPYRE))
 		if(!HAS_TRAIT(src, TRAIT_HORDE) && !HAS_TRAIT(src, TRAIT_NASTY_EATER))
 			to_chat(src, span_warning("I'm going to puke..."))
 			addtimer(CALLBACK(src, TYPE_PROC_REF(/mob/living/carbon, vomit), 0, TRUE), rand(8 SECONDS, 15 SECONDS))

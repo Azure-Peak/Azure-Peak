@@ -58,6 +58,9 @@
 
 /datum/reagent/blood/on_mob_life(mob/living/carbon/H)//I hate you
 	..()
+	if(HAS_TRAIT(H, TRAIT_DAMPYRE) && !HAS_TRAIT(H, TRAIT_NOHUNGER))
+		H.adjust_nutrition(3 * metabolization_rate)
+		return
 	if(HAS_TRAIT(H, TRAIT_NASTY_EATER))
 		return
 	H.add_nausea(12) //Over 8 units will cause puking

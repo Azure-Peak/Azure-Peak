@@ -277,6 +277,7 @@
 #define TRAIT_MASTER_CARPENTER "Master Carpenter"
 #define TRAIT_MASTER_MASON "Master Masonry"
 #define TRAIT_FOOD_STIPEND "Vomitorium-known"
+#define TRAIT_DAMPYRE "Vampyric Spawn"
 
 // If you want description to show up you gotta have the trait name defined BEFORE this lol
 
@@ -508,6 +509,7 @@ GLOBAL_LIST_INIT(roguetraits, list(
 	TRAIT_FOOD_STIPEND = span_notice("The creachers of the vomitorium know my touch, and will pull costs for their products directly from the treasury for me."),
 	TRAIT_STANDARD_BEARER = span_info("The banner is my lifeline. Just as I am to it. The retinue know to rally around me, so long as I keep it safe."),
 	TRAIT_FOG_WARDED = span_info("I am protected from Necra's deadly fog. The revenants won't find me... for now."),
+	TRAIT_DAMPYRE = span_info("I'm cursed with vampyrism. The only thing that satisfies my hunger is blood.")
 ))
 
 // trait accessor defines
