@@ -33,8 +33,8 @@ GLOBAL_LIST_INIT(character_flaws, list(
 	/datum/charflaw/mind_broken::name = /datum/charflaw/mind_broken,
 	/datum/charflaw/noflaw::name = /datum/charflaw/noflaw,
 	/datum/charflaw/leprosy::name = /datum/charflaw/leprosy,
-	/datum/charflaw/randflaw::name = /datum/charflaw/randflaw
-	/datum/charflaw/dampire::name = /datum/charflaw/dampire,
+	/datum/charflaw/randflaw::name = /datum/charflaw/randflaw,
+	/datum/charflaw/dampire::name = /datum/charflaw/dampire
 	))
 
 GLOBAL_LIST_INIT(averse_factions, list(
