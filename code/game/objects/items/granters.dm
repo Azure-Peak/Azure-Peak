@@ -10,6 +10,7 @@
 	var/oneuse = TRUE //default this is true, but admins can var this to 0 if we wanna all have a pass around of the rod form book
 	var/used = FALSE //only really matters if oneuse but it might be nice to know if someone's used it for admin investigations perhaps
 	var/dreamcost
+	var/arcyne_required = FALSE
 
 /obj/item/book/granter/proc/turn_page(mob/user)
 	playsound(user, pick('sound/blank.ogg'), 30, TRUE)
@@ -97,14 +98,15 @@
 	onlearned(user)
 
 /obj/item/book/granter/spell/attack_self(mob/living/user)
-	if(
-		!HAS_TRAIT(user, TRAIT_ARCYNE_T1) \
-		&& !HAS_TRAIT(user, TRAIT_ARCYNE_T2) \
-		&& !HAS_TRAIT(user, TRAIT_ARCYNE_T3) \
-		&& !HAS_TRAIT(user, TRAIT_ARCYNE_T4)
-	)
-		to_chat(user, span_danger("I don't know how to parse [src]. It hurts my head."))
-		return FALSE
+	if(arcyne_required)
+		if(
+			!HAS_TRAIT(user, TRAIT_ARCYNE_T1) \
+			&& !HAS_TRAIT(user, TRAIT_ARCYNE_T2) \
+			&& !HAS_TRAIT(user, TRAIT_ARCYNE_T3) \
+			&& !HAS_TRAIT(user, TRAIT_ARCYNE_T4)
+		)
+			to_chat(user, span_danger("I don't know how to parse [src]. It hurts my head."))
+			return FALSE
 	..()
 
 /obj/item/book/granter/spell/random

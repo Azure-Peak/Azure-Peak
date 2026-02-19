@@ -735,7 +735,9 @@ Somewhat fitting, considering the broadness of their domains. I also just think 
 			recharge_time = 15 MINUTES // kept in so the intent is understood.
 		if(item.dreamcost >= 9)
 			recharge_time = 30 MINUTES
-		var/obj/item/I = new item (get_turf(user))
+		var/obj/item/book/granter/I = new item (get_turf(user))
+		I.arcyne_required = TRUE // only spellcasters can read these
+		I.desc += span_info("\nThis scroll was made by a Crescent and cannot be read without arcyne training.")
 		user.put_in_hands(I)
 		alreadychoosing = FALSE
 		return TRUE
