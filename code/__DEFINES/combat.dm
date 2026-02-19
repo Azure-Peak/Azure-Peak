@@ -353,6 +353,7 @@ GLOBAL_LIST_INIT(shove_disarming_types, typecacheof(list(
 #define TEMPO_TAG_DEF_INTEGFACTOR "parryinteg"
 #define TEMPO_TAG_PARRYCD_BONUS	"parrycd"
 #define TEMPO_TAG_RCLICK_CD_BONUS "rclickcd"
+#define TEMPO_TAG_FEINTBAIT_FOV "feintbaitfov"
 #define TEMPO_TAG_DEF_BONUS	"defbonus"
 
 

@@ -1417,7 +1417,7 @@
 	body_parts_covered = CHEST
 
 /obj/item/clothing/cloak/wardencloak
-	name = "warden cloak"
+	name = "warden's cloak"
 	desc = "A cloak of dense, thick wool worn by the Wardens of Azuria's Forests. Incredibly warm, \
 	and doubles as a blanket in a pinch."
 	icon_state = "wardencloak"

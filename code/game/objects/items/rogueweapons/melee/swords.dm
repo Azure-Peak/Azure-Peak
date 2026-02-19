@@ -246,7 +246,7 @@
 	name = "impale" //Stabbing variant of the Chop intent. Higher damage, but slower and evadable. Exclusive to two-handed broadswords.
 	icon_state = "inimpale"
 	attack_verb = list("impales", "thrusts into")
-	penfactor = 25
+	penfactor = 20
 	damfactor = 1.2
 	swingdelay = 8
 

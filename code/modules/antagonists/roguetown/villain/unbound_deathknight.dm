@@ -22,7 +22,9 @@
 		owner.current.set_species(/datum/species/human/northern)
 
 	var/mob/living/carbon/human/L = owner.current
-	QDEL_NULL(L.charflaw)
+	for(var/datum/charflaw/cf in L.charflaws)
+		L.charflaws.Remove(cf)
+		QDEL_NULL(cf)
 	L.hairstyle = "Bald"
 	L.facial_hairstyle = "Shaved"
 	L.mob_biotypes = MOB_UNDEAD

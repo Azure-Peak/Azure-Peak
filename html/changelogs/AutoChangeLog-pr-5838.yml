@@ -1,0 +1,4 @@
+author: "WeNeedMorePhoron"
+delete-after: True
+changes:
+  - rscdel: "Removed the lich summon greater skeleton scroll from the Lich Dungeon"

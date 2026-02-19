@@ -32,7 +32,8 @@
 		TRAIT_STRONGBITE,
 		TRAIT_LYCANRESILENCE,
 		TRAIT_CHUNKYFINGERS, //So they can no longer use weapons at all.
-		TRAIT_UNLYCKERABLE //Literal archenemy
+		TRAIT_UNLYCKERABLE, //Literal archenemy
+		TRAIT_ZOMBIE_IMMUNE
 	)
 	confess_lines = list(
 		"THE BEAST INSIDE ME!",
@@ -58,10 +59,20 @@
 		return span_boldnotice("A young lupine kin.")
 	if(istype(examined_datum, /datum/antagonist/werewolf))
 		return span_boldnotice("An elder lupine kin.")
+	if(istype(examined_datum, /datum/antagonist/maniac))
+		return span_boldnotice("A fool.")
+	if(istype(examined_datum, /datum/antagonist/dreamwalker))
+		return span_boldnotice("The dreamer has this one in his grasp.")
+	if(istype(examined_datum, /datum/antagonist/gnoll))
+		return span_boldnotice("An abomination.")
 	if(examiner.Adjacent(examined))
+		if(istype(examined_datum, /datum/antagonist/lich))
+			return span_boldnotice("A deadite freek.")
 		if(istype(examined_datum, /datum/antagonist/vampire))
+			return span_boldnotice("A putrid vampyr, I should watch my back.")
+		if(istype(examined_datum, /datum/antagonist/vampire/lord))
 			if(transformed)
-				return span_boldwarning("An Ancient Vampire. I must be careful!")
+				return span_boldwarning("An ancient vampyr. I must be careful!")
 
 /datum/antagonist/werewolf/on_gain()
 	greet()

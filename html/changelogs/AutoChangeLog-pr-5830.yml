@@ -1,0 +1,6 @@
+author: "Ollanius"
+delete-after: True
+changes:
+  - rscadd: "Breechcloths - belts that come with the halved bottoms of tabards, similar to a loincloth. Cover your jewels with style!"
+  - rscadd: "Breechcloths can either be taken from the loadout menu, stitched by a tailor, or assembled with a tabard, belt, and knife."
+  - rscadd: "Silk tablecloths can now be hewn into nurse's veils."

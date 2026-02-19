@@ -24,7 +24,7 @@
 	individual, such as a kinder heart fleeing from a brutal society that scorns them for their \
 	less cruel nature. However, not every dark elf seen on the surface can be safely assumed as \
 	kind, for some leave the Underdark simply to find their own greater heights of power.<br>\
-	(+1 Intellect, +1 Perception)"
+	<span style='color: #6a8cb7;text-shadow:-1px -1px 0 #000,1px -1px 0 #000,-1px 1px 0 #000,1px 1px 0 #000;'><b>+1 PER | +1 WIL </b></span><br>"
 
 /*
 	Former RT Desc: These guys were undead which doesn't really fit considering now you have a ton of them walking around.

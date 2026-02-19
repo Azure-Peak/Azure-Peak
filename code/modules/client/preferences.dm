@@ -166,7 +166,7 @@ GLOBAL_LIST_EMPTY(chosen_names)
 	var/domhand = 2
 	var/nickname = "Please Change Me"
 	var/highlight_color = "#FF0000"
-	var/datum/charflaw/charflaw
+	var/list/charflaws = list()
 
 	var/static/default_cmusic_type = /datum/combat_music/default
 	var/datum/combat_music/combat_music
@@ -270,10 +270,30 @@ GLOBAL_LIST_EMPTY(chosen_names)
 	set_new_race(pref_species, null)
 	virtue_origin = new pref_species.origin_default
 
-	if(!charflaw)
-		charflaw = pick(GLOB.character_flaws)
-		charflaw = GLOB.character_flaws[charflaw]
-		charflaw = new charflaw()
+	// Charflaws
+	if(!charflaws.len)
+		var/list/cf_choices = list()
+		for(var/i = 1 to MAX_VICES)
+			cf_choices.Add(i)
+		var/num_vices = pick(cf_choices)
+		var/list/available = GLOB.character_flaws.Copy()
+
+		for(var/key in available)
+			if(available[key] == /datum/charflaw/noflaw)
+				available.Remove(key)
+				break
+		for(var/j = 1 to num_vices)
+			if(!available.len)
+				break
+			var/sel = pick(available)
+			var/flaw_type = available[sel]
+			available.Remove(sel)
+			var/datum/charflaw/cf = new flaw_type()
+			charflaws.Add(cf)
+
+		if(!charflaws.len)
+			var/datum/charflaw/no_flaw = new /datum/charflaw/noflaw()
+			charflaws.Add(no_flaw)
 	if(!selected_patron)
 		selected_patron = GLOB.patronlist[default_patron]
 	if(!combat_music)
@@ -501,8 +521,25 @@ GLOBAL_LIST_EMPTY(chosen_names)
 				dat += "<b>Second Virtue:</b> <a href='?_src_=prefs;preference=virtuetwo;task=input'>[virtuetwo]</a><BR>"
 			else
 				virtuetwo = GLOB.virtues[/datum/virtue/none]
-			dat += "<b>Vice:</b> <a href='?_src_=prefs;preference=charflaw;task=input'>[charflaw]</a><BR>"
-			if(istype(charflaw, /datum/charflaw/averse))
+			dat += "<b>Vices:</b>"
+			if(charflaws.len)
+				for(var/i = 1 to charflaws.len)
+					var/datum/charflaw/cf = charflaws[i]
+					dat += " <a href='?_src_=prefs;preference=charflaw;task=remove;index=[i]'>[cf]</a>"
+					if(i < charflaws.len)
+						dat += " |"
+				dat += "<BR>"
+			if(charflaws.len < MAX_VICES)
+				dat += "<a href='?_src_=prefs;preference=charflaw;task=input'>Add Vice</a><BR>"
+
+			// Check if any averse vice is selected
+			var/has_averse = FALSE
+			for(var/datum/charflaw/cf in charflaws)
+				if(istype(cf, /datum/charflaw/averse))
+					has_averse = TRUE
+					break
+			
+			if(has_averse)
 				if(!averse_chosen_faction)
 					averse_chosen_faction = "Inquisition"
 				dat += "<b>Loathed Group:</b> <a href='?_src_=prefs;preference=charflaw_averse_choice;task=input'>[averse_chosen_faction]</a><BR>"
@@ -979,39 +1016,36 @@ GLOBAL_LIST_EMPTY(chosen_names)
 				HTML += "<font color=#a59461>[used_name] (Max PQ: [job.max_pq])</font></td> <td> </td></tr>"
 				continue
 			if(length(job.virtue_restrictions) && length(job.vice_restrictions))
-				var/name
+				var/list/restricted_list = list()
 				if(virtue.type in job.virtue_restrictions)
-					name = virtue.name
+					restricted_list.Add(virtue.name)
 				if(virtuetwo?.type in job.virtue_restrictions)
-					if(name)
-						name += ", "
-						name += virtuetwo.name
-					else
-						name = virtuetwo.name
-				if(charflaw.type in job.vice_restrictions)
-					if(name)
-						name += ", "
-						name += charflaw.name
-					else
-						name += charflaw.name
-				if(!isnull(name))
-					HTML += "<font color='#a561a5'>[used_name] (Disallowed by Virtues / Vice: [name])</font></td> <td> </td></tr>"
+					restricted_list.Add(virtuetwo.name)
+				for(var/datum/charflaw/cf in charflaws)
+					if(cf.type in job.vice_restrictions)
+						restricted_list.Add(cf.name)
+				if(length(restricted_list))
+					var/restrict_text = english_list(restricted_list)
+					HTML += "<font color='#a561a5'>[used_name] (Disallowed by Virtues / Vice: [restrict_text])</font></td> <td> </td></tr>"
+					continue
 			if(length(job.virtue_restrictions))
-				var/name
+				var/list/restricted_list = list()
 				if(virtue.type in job.virtue_restrictions)
-					name = virtue.name
+					restricted_list.Add(virtue.name)
 				if(virtuetwo?.type in job.virtue_restrictions)
-					if(name)
-						name += ", "
-						name += virtuetwo.name
-					else
-						name = virtuetwo.name
-				if(!isnull(name))
-					HTML += "<font color='#a59461'>[used_name] (Disallowed by Virtue: [name])</font></td> <td> </td></tr>"
+					restricted_list.Add(virtuetwo.name)
+				if(length(restricted_list))
+					var/restrict_text = english_list(restricted_list)
+					HTML += "<font color='#a59461'>[used_name] (Disallowed by Virtue: [restrict_text])</font></td> <td> </td></tr>"
 					continue
 			if(length(job.vice_restrictions))
-				if(charflaw.type in job.vice_restrictions)
-					HTML += "<font color='#a56161'>[used_name] (Disallowed by Vice: [charflaw.name])</font></td> <td> </td></tr>"
+				var/list/restricted_list = list()
+				for(var/datum/charflaw/cf in charflaws)
+					if(cf.type in job.vice_restrictions)
+						restricted_list.Add(cf.name)
+				if(length(restricted_list))
+					var/restrict_text = english_list(restricted_list)
+					HTML += "<font color='#a56161'>[used_name] (Disallowed by Vice: [restrict_text])</font></td> <td> </td></tr>"
 					continue
 			var/job_unavailable = JOB_AVAILABLE
 			if(isnewplayer(parent?.mob))
@@ -1440,6 +1474,54 @@ Slots: [job.spawn_positions] [job.round_contrib_points ? "RCP: +[job.round_contr
 				SetAntag(user)
 	else if(href_list["preference"] == "tgui_ui_prefs")
 		tgui_pref = !tgui_pref
+
+	else if(href_list["preference"] == "charflaw")
+		var/task = href_list["task"]
+		if(task == "input")
+			for(var/datum/charflaw/_existing in charflaws)
+				if(istype(_existing, /datum/charflaw/noflaw))
+					charflaws.Remove(_existing)
+					break
+
+			if(charflaws.len >= MAX_VICES)
+				to_chat(user, "I can't be any more flawed.")
+				return
+
+			var/list/cf_list = GLOB.character_flaws.Copy()
+
+			for(var/key in cf_list)
+				if(cf_list[key] == /datum/charflaw/noflaw)
+					cf_list.Remove(key)
+					break
+
+			for(var/datum/charflaw/cf in charflaws)
+				for(var/key in cf_list)
+					if(cf_list[key] == cf.type && !istype(cf, /datum/charflaw/randflaw))
+						cf_list.Remove(key)
+						break
+
+			var/result = tgui_input_list(user, "What burden will you bear? (You can select up to 3 vices)", "FLAWS", cf_list)
+			if(result)
+				result = cf_list[result]
+				var/datum/charflaw/C = new result()
+				charflaws.Add(C)
+				if(C.desc)
+					to_chat(user, span_info(C.desc))
+
+		else if(task == "remove")
+			var/index = text2num(href_list["index"])
+			if(index && (index >= 1) && (index <= charflaws.len))
+				var/datum/charflaw/cf_to_remove = charflaws[index]
+				charflaws.Remove(cf_to_remove)
+				to_chat(user, span_notice("Vice removed: [cf_to_remove.name]."))
+
+			if(!charflaws.len)
+				var/datum/charflaw/no_flaw = new /datum/charflaw/noflaw()
+				charflaws.Add(no_flaw)
+				to_chat(user, span_info("No vices selected. 'No Flaw' has been automatically selected."))
+
+		ShowChoices(user)
+
 	else if(href_list["preference"] == "triumphs")
 		user.show_triumphs_list()
 
@@ -1824,6 +1906,7 @@ Slots: [job.spawn_positions] [job.round_contrib_points ? "RCP: +[job.round_contr
 						/datum/language/celestial,
 						/datum/language/grenzelhoftian,
 						/datum/language/kazengunese,
+						/datum/language/lingyuese,
 						/datum/language/etruscan,
 						/datum/language/gronnic,
 						/datum/language/otavan,
@@ -2274,6 +2357,8 @@ Slots: [job.spawn_positions] [job.round_contrib_points ? "RCP: +[job.round_contr
 							continue
 						if (istype(V, /datum/virtue/origin))
 							continue
+						if(V.unlisted)
+							continue
 						if (istype(V, /datum/virtue/heretic) && !istype(selected_patron, /datum/patron/inhumen))
 							continue
 						if (V.restricted == TRUE)
@@ -2297,6 +2382,8 @@ Slots: [job.spawn_positions] [job.round_contrib_points ? "RCP: +[job.round_contr
 						if ((V.name == virtue.name || V.name == virtuetwo.name) && !istype(V, /datum/virtue/none))
 							continue
 						if (istype(V, /datum/virtue/origin))
+							continue
+						if(V.unlisted)
 							continue
 						if (istype(V, /datum/virtue/heretic) && !istype(selected_patron, /datum/patron/inhumen))
 							continue
@@ -2338,16 +2425,6 @@ Slots: [job.spawn_positions] [job.round_contrib_points ? "RCP: +[job.round_contr
 						var/datum/virtue/virtue_chosen = virtue_choices[result]
 						virtue_origin = virtue_chosen
 						to_chat(user, process_virtue_text(virtue_chosen))
-
-				if("charflaw")
-					var/list/coom = GLOB.character_flaws.Copy()
-					var/result = tgui_input_list(user, "What burden will you bear?", "FLAWS",coom)
-					if(result)
-						result = coom[result]
-						var/datum/charflaw/C = new result()
-						charflaw = C
-						if(charflaw.desc)
-							to_chat(user, "<span class='info'>[charflaw.desc]</span>")
 
 				if("charflaw_averse_choice")
 					var/choice = tgui_input_list(user, "Who do you loathe?", "AVERSION", GLOB.averse_factions)
@@ -2793,7 +2870,7 @@ Slots: [job.spawn_positions] [job.round_contrib_points ? "RCP: +[job.round_contr
 		random_character(gender, antagonist)
 
 	// Bandaid to undo no arm flaw prosthesis
-	if(charflaw)
+	if(charflaws.len)
 		var/obj/item/bodypart/O = character.get_bodypart(BODY_ZONE_R_ARM)
 		if(O)
 			O.drop_limb()
@@ -2868,9 +2945,10 @@ Slots: [job.spawn_positions] [job.round_contrib_points ? "RCP: +[job.round_contr
 
 	character.jumpsuit_style = jumpsuit_style
 
-	if(charflaw)
-		character.charflaw = new charflaw.type()
-		character.charflaw.on_mob_creation(character)
+	if(charflaws.len)
+		character.charflaws = charflaws.Copy()
+		for(var/datum/charflaw/cf in character.charflaws)
+			cf.on_mob_creation(character)
 
 	character.dna.real_name = character.real_name
 

@@ -35,8 +35,8 @@
 		var/damtotal = brute + burn
 		var/zcross_trigger = FALSE
 		if(user.patron?.undead_hater && (target.mob_biotypes & MOB_UNDEAD)) // YOU ARE NO LONGER MORTAL. NO LONGER OF HIM. PSYDON WEEPS.
-			target.visible_message(span_danger("[target] shudders with a strange stirring feeling!"), span_userdanger("It hurts. You feel like weeping."))
-			target.adjustBruteLoss(40)			
+			// We do nothing to avoid meta checking for undead
+			target.visible_message(span_info("A strange stirring feeling pours from [target]!"), span_info("Sentimental thoughts drive away my pain..."))		
 			return TRUE
 
 		// Bonuses! Flavour! SOVL!

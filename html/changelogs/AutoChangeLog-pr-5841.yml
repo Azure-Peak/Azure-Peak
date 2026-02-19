@@ -1,0 +1,4 @@
+author: "hubertjones"
+delete-after: True
+changes:
+  - bugfix: "donator glaive naginata variant sprite offset accurized"

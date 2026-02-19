@@ -1,0 +1,4 @@
+author: "Ketrai"
+delete-after: True
+changes:
+  - balance: "Miracles use a generic message when cast now, to avoid metagaming. Undead no longer catch fire from healing miracles."

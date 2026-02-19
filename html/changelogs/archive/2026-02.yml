@@ -759,3 +759,33 @@
       origin, assuming the character has a client.
   - rscadd: The Wardens' seax now has a small demolition modifier, and its CHOP intent
       has been replaced with REND.
+2026-02-19:
+  BurpleBineapple:
+  - balance: Fire no longer spreads by walking over someone that is prone that is
+      on fire.
+  - balance: Fire only spreads 25% of the time when bumping into someone.
+  Clem-The-Duck:
+  - rscdel: Armour from Hijab
+  FreeStylaLT:
+  - rscadd: Added Sun Elf subrace
+  - refactor: Sun Elves now use the Dark Elf body sprites.
+  Ollanius:
+  - rscadd: Viziers now bare the Hierophant's garb as well, instead of the generic
+      and adventuring-tier robes.
+  - balance: Regular rock walls (which form a majority of the mines) now have a minor
+      chance to drop tin. Likewise, higher-quality rock walls have a slightly increased
+      chance to drop tin.
+  Ryan180602:
+  - rscadd: donor item
+  THE GRAND DUKE OF AZURIA:
+  - sound: three new music tracks have been added
+  - sound: vocal stems from chant against a dying world have been added under effects/werewolf_sounds
+  - sound: sewer 3d audio has been set to "stone room" (5) instead of "sewer pipe"
+      (21). should be quieter.
+  WeNeedMorePhoron:
+  - rscadd: Made the loadout menu looks a little bit nicer
+  - rscdel: Frostbite effect from Frost Bolt should remove itself after exhausting
+      you instead of chaining you into a stunlock. (They can still follow up with
+      another frost bolt)
+  bearrrrrrrr:
+  - code_imp: duke min PQ raised to 50 by headmin request

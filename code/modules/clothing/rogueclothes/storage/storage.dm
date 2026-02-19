@@ -1,3 +1,4 @@
+
 /obj/item/storage/belt/rogue
 	name = ""
 	desc = ""
@@ -36,6 +37,7 @@
 
 /obj/item/storage/belt/rogue/leather/plaquegold
 	name = "plaque belt"
+	desc = "An exquisite belt, decorated with studdings of gold."
 	icon_state = "goldplaque"
 	sellprice = 50
 	sewrepair = FALSE
@@ -54,6 +56,7 @@
 
 /obj/item/storage/belt/rogue/leather/plaquesilver
 	name = "plaque belt"
+	desc = "An exquisite belt, decorated with studdings of silver."
 	icon_state = "silverplaque"
 	sellprice = 30
 	sewrepair = FALSE
@@ -61,6 +64,7 @@
 
 /obj/item/storage/belt/rogue/leather/battleskirt
 	name = "cloth military skirt"
+	desc = "A fine leather strap notched with holes for a buckle to secure itself, notched above a flared military skirt."
 	icon_state = "battleskirt"
 	sewrepair = FALSE
 	detail_tag = "_belt"
@@ -82,12 +86,30 @@
 
 /obj/item/storage/belt/rogue/leather/battleskirt/faulds
 	name = "belt with faulds"
+	desc = "A fine leather strap notched with holes for a buckle to secure itself, notched above a halved military skirt."
 	icon_state = "faulds"
+	sewrepair = FALSE
+	detail_tag = "_belt"
+
+/obj/item/storage/belt/rogue/leather/battleskirt/breechcloth
+	name = "belt with breechcloth"
+	desc = "A fine leather strap notched with holes for a buckle to secure itself, and nestled above a halved tabard's coverings."
+	icon_state = "breechcloth"
+	flags_inv = HIDECROTCH
+	sewrepair = FALSE
+	detail_tag = "_belt"
+
+/obj/item/storage/belt/rogue/leather/battleskirt/breechcloth/blackbelt
+	name = "black belt with breechcloth"
+	desc = "A fine black-leather strap notched with holes for a buckle to secure itself, and nestled above a halved tabard's coverings."
+	icon_state = "breechclothalt"
+	flags_inv = HIDECROTCH
 	sewrepair = FALSE
 	detail_tag = "_belt"
 
 /obj/item/storage/belt/rogue/leather/steel
 	name = "steel belt"
+	desc = "A fine leather belt that's been sleeved within many segments of steel, protecting its delicate innards from prying hands-and-blades."
 	icon_state = "steelplaque"
 	sellprice = 30
 	sewrepair = FALSE
@@ -95,11 +117,11 @@
 
 /obj/item/storage/belt/rogue/leather/steel/tasset
 	name = "tasseted belt"
+	desc = "A fine leather belt that's been sleeved within many segments of steel, and further reinforced with the tassets of a fluted cuirass."
 	icon_state = "steeltasset"
 	sellprice = 35
 	sewrepair = FALSE
 	anvilrepair = /datum/skill/craft/armorsmithing
-
 
 /obj/item/storage/belt/rogue/leather/rope
 	name = "rope belt"
@@ -161,7 +183,7 @@
 
 /obj/item/storage/backpack/rogue/satchel/otavan
 	name = "otavan leather satchel"
-	desc = "A made to last leather bag from the Psydonian heart of Otava. It's Otava's finest."
+	desc = "A sleek, stylish, and surprisingly sturdy satchel that hails straight from the Sovereignty of Otava. It is made to endure, first and foremost."
 	icon_state = "osatchel"
 	item_state = "osatchel"
 

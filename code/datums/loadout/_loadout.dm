@@ -15,8 +15,9 @@ GLOBAL_LIST_EMPTY(loadout_items_by_name)
 	if(isnull(donoritem))
 		if(ckeywhitelist)
 			donoritem = TRUE
-	var/obj/targetitem = path
-	desc = targetitem.desc
+	if(!isnull(path)) // First item in the loadout list is the parent datum, so we want to skip it
+		var/obj/targetitem = path
+		desc = targetitem.desc
 
 /datum/loadout_item/proc/donator_ckey_check(key)
 	if(ckeywhitelist && ckeywhitelist.Find(key))

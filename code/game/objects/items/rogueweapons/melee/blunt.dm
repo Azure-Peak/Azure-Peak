@@ -94,7 +94,7 @@
 
 /datum/intent/mace/smash/grand
 	name = "heavy smash"
-	damfactor = 1.15
+	damfactor = 1.1
 	chargedrain = 1.5
 	desc = "A powerful blow that delivers Strength-scaling knockback and slowdown to the target. The amount of inflicted knockback scales off your Strength, ranging from X (1 tile) to XV (5 tiles). </br>Cannot inflict any knockback or slowdown if your Strength is below X. </br>Cannot be used consecutively more than every 5 seconds on the same target. </br>Prone targets halve the knockback distance. </br>Not fully charging the attack limits knockback to 1 tile."
 	maxrange = 5

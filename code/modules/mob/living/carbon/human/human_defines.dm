@@ -173,7 +173,7 @@
 	var/next_tempo_cull
 
 
-	var/datum/charflaw/charflaw
+	var/list/charflaws = list()
 
 	// curse list and cooldown
 	var/list/curses = list()

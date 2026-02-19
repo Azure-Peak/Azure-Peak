@@ -98,13 +98,12 @@ GLOBAL_VAR_INIT(normal_ooc_colour, "#002eb8")
 		var/real_key = C.holder ? "([key])" : ""
 		// Precedence: sender-admin (blue) > recipient-admin non-lobby (green/small) > default gray
 		var/is_admin_nonlobby = (C.holder && !istype(C.mob, /mob/dead/new_player) && !post_round)
-		var/sender_nonlobby = (!istype(mob, /mob/dead/new_player) && !post_round)
 		var/sender_is_admin = holder
 		// Choose color: admin-sent stays blue; otherwise if admin recipient non-lobby, use green; else default gray
 		var/message_color = sender_is_admin ? "#4972bc" : (is_admin_nonlobby ? "#4CAF50" : chat_color)
 		var/base_msg = "<font color='[color2use]'><EM>[keyname][real_key]:</EM></font> <font color='[message_color]'><span class='message linkify'>[msg]</span></font>"
-		// Apply size reduction: if recipient is admin non-lobby OR (sender is admin non-lobby)
-		if(is_admin_nonlobby || (sender_is_admin && sender_nonlobby))
+		// Apply size reduction only if recipient is admin spectating (not in lobby)
+		if(is_admin_nonlobby)
 			msg_to_send = "<span style='font-size:70%'>[base_msg]</span>"
 		else
 			msg_to_send = base_msg
@@ -217,11 +216,11 @@ GLOBAL_VAR_INIT(normal_ooc_colour, "#002eb8")
 		var/real_key = C.holder ? "([key])" : ""
 		// Precedence: sender-admin (blue) > recipient-admin non-lobby (green/small) > default gray
 		var/is_admin_nonlobby = (C.holder && !istype(C.mob, /mob/dead/new_player) && !post_round)
-		var/sender_nonlobby = (!istype(mob, /mob/dead/new_player) && !post_round)
 		var/sender_is_admin = holder
 		var/message_color = sender_is_admin ? "#4972bc" : (is_admin_nonlobby ? "#4CAF50" : chat_color)
 		var/base_msg = "<font color='[color2use]'><EM>[keyname][real_key]:</EM></font> <font color='[message_color]'><span class='message linkify'>[msg]</span></font>"
-		if(is_admin_nonlobby || (sender_is_admin && sender_nonlobby))
+		// Apply size reduction only if recipient is admin spectating (not in lobby)
+		if(is_admin_nonlobby)
 			msg_to_send = "<span style='font-size:70%'>[base_msg]</span>"
 		else
 			msg_to_send = base_msg
@@ -250,7 +249,7 @@ GLOBAL_VAR_INIT(normal_ooc_colour, "#002eb8")
 /client/proc/set_ooc(newColor as color)
 	set name = "Set Player OOC Color"
 	set desc = ""
-	set category = "-Fun-"
+	set category = "-GameMaster-"
 	set hidden = 1
 	if(!holder)
 		return
@@ -261,7 +260,7 @@ GLOBAL_VAR_INIT(normal_ooc_colour, "#002eb8")
 /client/proc/reset_ooc()
 	set name = "Reset Player OOC Color"
 	set desc = ""
-	set category = "-Fun-"
+	set category = "-GameMaster-"
 	set hidden = 1
 	if(!holder)
 		return

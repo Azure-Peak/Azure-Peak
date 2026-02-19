@@ -19,9 +19,6 @@
 /mob/dead/observer/profane/DblClickOn(atom/A, params) // Souls trapped by the dagger should not be jumping around.
 	return
 
-/mob/dead/observer/rogue/DblClickOn(atom/A, params)
-	return
-
 /mob/dead/observer/ClickOn(atom/A, params)
 	if(check_click_intercept(params,A))
 		return

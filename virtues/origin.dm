@@ -103,6 +103,29 @@
 	occupied after conquest several centuries ago, yet never fully pacified. The current Shogun, Oishi Juro, has recently taken the throne after \
 	the passing of the previous Shogun, with Lingyue being closer than ever to entering full open rebellion against their Kazengun overlords."
 
+/datum/virtue/origin/lingyue
+	name = "Lingyuese"
+	origin_name = "Lingyue"
+	added_languages = list(/datum/language/lingyuese)
+	desc = "I originate from Lingyue, the mainland of the Kazengun Shogunate. Once a proud empire in its own right, Lingyue was conquered a century and a half ago, its native Xinyi Dynasty all but a puppet of the Kazengunese Shogun. Like the Kazengunese, they worship a separate pantheon that includes Matthios and Baotha amongst the gods, and it is home to a particular sect of radical Psydonism that has gained popularity in recent yils.<br>"
+	origin_desc = "Lingyue is the mainland territory of the Kazengun Shogunate, a vast land to the east of the islands of Kazengun, \
+	with a mixture of temperate and subtropical regions, and an abundance of fertile farmland. \
+	\
+	<br>The land of Lingyue is ruled by its native Xinyi dynasty, which is all but the puppet of the Kazengunese, \
+	unable to exert nominal control beyond its capital. Its vast lands are divided into feudal domains, \
+	with family clans vying for power and the favor of the Kazengunese and Xinyi courts as they see fit. \
+	\
+	<br>The Lingyuese people revere a pantheon of twelve gods - including Baotha and Matthios - \
+	considered heretical in the west. They simultaneously worship Psydon, believing him to be simply inactive, not dead, \
+	just too distant for common people to worship. \
+	A particular sect of Psydonism has gained popularity in recent yils, fomenting unrest and mixing patriotism with religious fervor, \
+	with the belief that Psydon will return to save Lingyue - and Psydonia - should they shed enough blood \
+	and bring about his return through virtue and conquest.\
+	\
+	<br>Should the current dynasty fall, or the pro-Kazengunese faction lose favor, \
+	it is likely that open warfare between the Kazengunese and Lingyuese would break out, \
+	with the possibility of a full-scale rebellion and independence for Lingyue."
+
 /datum/virtue/origin/hammerhold
 	name = "Hammerholdian"
 	origin_name = "Hammerhold"

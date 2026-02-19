@@ -130,6 +130,9 @@
 			if(chambered.harmful) // Is the bullet chambered harmful?
 				to_chat(user, "<span class='warning'>[src] is lethally chambered! You don't want to risk harming anyone...</span>")
 				return
+		if(user.rogue_sneaking)
+			user.mob_timers[MT_FOUNDSNEAK] = world.time
+			user.update_sneak_invis(reset = TRUE)
 		sprd = round((rand() - 0.5) * DUALWIELD_PENALTY_EXTRA_MULTIPLIER * (randomized_gun_spread + randomized_bonus_spread))
 		before_firing(target,user)
 		if(!chambered.fire_casing(target, user, params, , FALSE, zone_override, sprd, src))

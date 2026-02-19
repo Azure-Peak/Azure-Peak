@@ -1,0 +1,4 @@
+author: "WeNeedMorePhoron"
+delete-after: True
+changes:
+  - rscadd: "Attacking from stealth now prevent you from re-sneaking for 30 seconds."

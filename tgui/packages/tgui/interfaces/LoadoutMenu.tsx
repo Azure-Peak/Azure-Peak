@@ -314,7 +314,7 @@ const LoadoutDisplay = () => {
           ) : (
             <Table>
               <Table.Row header>
-                <Table.Cell>Name</Table.Cell>
+                <Table.Cell pl={2.5}>Name</Table.Cell>
                 <Table.Cell collapsing textAlign="center">Cost</Table.Cell>
                 <Table.Cell>Description</Table.Cell>
               </Table.Row>
@@ -329,11 +329,11 @@ const LoadoutDisplay = () => {
                     style={{
                       cursor: 'pointer',
                       verticalAlign: 'middle',
-                      padding: '2px 0',
+                      borderBottom: '1px solid rgba(255,255,255,0.07)',
                     }}
                     onClick={() => act('toggle_item', { name: item.name })}
                   >
-                    <Table.Cell>
+                    <Table.Cell py={0.4}>
                       <Box style={{ display: 'flex', alignItems: 'baseline' }}>
                         <Box
                           inline
@@ -345,7 +345,7 @@ const LoadoutDisplay = () => {
                         >
                           {isSelected ? '\u2713' : '\u25CB'}
                         </Box>
-                        <Box bold={isSelected}>
+                        <Box bold={isSelected} fontSize={0.9} py={0.5}>
                           {item.name}
                           {isSelected &&
                             (meta?.color ||

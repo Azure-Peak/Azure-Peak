@@ -346,9 +346,14 @@
 	return FALSE
 
 /datum/action/spell_action/proc/examine(mob/user)
-	var/list/inspec = list("<br><span class='notice'><b>[name]</b> intent</span>")
+	var/list/inspec = list("<br><span class='notice'><b>[name]</b></span>")
 	if(desc)
 		inspec += "\n[desc]"
+	var/obj/effect/proc_holder/spell/S = target
+	if(istype(S))
+		var/list/stats = S.get_spell_statistics(user)
+		if(length(stats))
+			inspec += "<br>" + stats.Join("<br>")
 	to_chat(user, "[inspec.Join()]")
 
 

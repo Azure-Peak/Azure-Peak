@@ -1,6 +1,0 @@
-author: "THE GRAND DUKE OF AZURIA"
-delete-after: True
-changes:
-  - sound: "three new music tracks have been added"
-  - sound: "vocal stems from chant against a dying world have been added under effects/werewolf_sounds"
-  - sound: "sewer 3d audio has been set to \"stone room\" (5) instead of \"sewer pipe\" (21). should be quieter."

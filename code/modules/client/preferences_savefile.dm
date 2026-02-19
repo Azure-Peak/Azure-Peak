@@ -366,14 +366,19 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 		S["race_bonus"] >> race_bonus
 
 /datum/preferences/proc/_load_flaw(S)
-	var/charflaw_type
-	S["charflaw"]			>> charflaw_type
-	if(charflaw_type)
-		charflaw = new charflaw_type()
+	charflaws = list()
+	var/list/charflaw_types
+	S["charflaws"] >> charflaw_types
+	if(charflaw_types && length(charflaw_types))
+		for(var/flaw_type in charflaw_types)
+			if(flaw_type)
+				charflaws.Add(new flaw_type())
+	// Backwards compatibility: load old single charflaw format
 	else
-		charflaw = pick(GLOB.character_flaws)
-		charflaw = GLOB.character_flaws[charflaw]
-		charflaw = new charflaw()
+		var/charflaw_type
+		S["charflaw"] >> charflaw_type
+		if(charflaw_type)
+			charflaws.Add(new charflaw_type())
 
 /datum/preferences/proc/_load_culinary_preferences(S)
 	var/list/loaded_culinary_preferences
@@ -736,7 +741,10 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	WRITE_FILE(S["uplink_loc"]			, uplink_spawn_loc)
 	WRITE_FILE(S["randomise"]			, randomise)
 	WRITE_FILE(S["species"]				, pref_species.name)
-	WRITE_FILE(S["charflaw"]			, charflaw.type)
+	var/list/charflaw_types = list()
+	for(var/datum/charflaw/cf in charflaws)
+		charflaw_types.Add(cf.type)
+	WRITE_FILE(S["charflaws"]			, charflaw_types)
 	WRITE_FILE(S["feature_mcolor"]		, features["mcolor"])
 	WRITE_FILE(S["feature_mcolor2"]		, features["mcolor2"])
 	WRITE_FILE(S["feature_mcolor3"]		, features["mcolor3"])

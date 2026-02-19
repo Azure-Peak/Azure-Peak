@@ -1,0 +1,5 @@
+author: "WeNeedMorePhoron"
+delete-after: True
+changes:
+  - rscadd: "Inventory, Health Panel, Patron Panel, Loadout Panel, force say and Direct Mobs verb added from Ratwood for admin usage"
+  - rscadd: "Fun tab moved into GameMaster tab"

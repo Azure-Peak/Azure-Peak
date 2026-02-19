@@ -348,7 +348,8 @@ Somewhat fitting, considering the broadness of their domains. I also just think 
 //T0.
 /obj/effect/proc_holder/spell/self/wise_moon
 	name = "Enlightenment"
-	desc = "Invoke a lesser form of the Moonlight Dance, temporarily increasing your intelligence. Scales with holy skill and grows much more effective at nite."
+	desc = "Invoke a lesser form of the Moonlight Dance, temporarily increasing your intelligence. \
+	Scales with holy skill and grows much more effective at nite."
 	base_icon_state = "wisescroll"
 	overlay_state = "noc_gaze"
 	releasedrain = 10
@@ -405,7 +406,7 @@ Somewhat fitting, considering the broadness of their domains. I also just think 
 
 /obj/effect/proc_holder/spell/invoked/moondream
 	name = "Hypnagognian Inspiration"
-	desc = "Touch a target. Their next dream will be inspired, granting more dream-points to the target and a few to yourself.\
+	desc = "Touch a target. Their next dream will be inspired, granting more dream-points to the target and a few to yourself. \
 	This spell will fail if it's dae or dawn. Points granted scales with holy skill."
 	overlay_state = "moondream"
 	base_icon_state = "wisescroll"

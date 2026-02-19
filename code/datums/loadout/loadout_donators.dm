@@ -106,6 +106,12 @@
 	ckeywhitelist = list("waffai")
 	sort_category = "Donator"
 
+/datum/loadout_item/donator_waff2
+	name = "Donator Item - Graverobber's Hat"
+	path = /obj/item/clothing/head/roguetown/duelhat/pretzel
+	ckeywhitelist = list("waffai")
+	sort_category = "Donator"
+
 /datum/loadout_item/donator_inverserun
 	name = "Donator Kit - Votive Thorns"
 	path = /obj/item/enchantingkit/inverserun

@@ -1,0 +1,4 @@
+author: "FreeStylaLT"
+delete-after: True
+changes:
+  - balance: "Feint & Bait now only requires FOV when the target has Tempo II (1v3) or higher."

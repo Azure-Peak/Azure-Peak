@@ -1,0 +1,7 @@
+author: "Ollanius"
+delete-after: True
+changes:
+  - rscdel: "Skeletal bowmen no longer have access to the Siegebow."
+  - rscadd: "Instead, the Siegebow can now be obtained through the 'Siege-Ballistiare' subclass, which is slot-limited to three per round."
+  - balance: "Siege-Ballistiares are better with crossbows, have slightly better physical stats, and can choose to be an Expert with either a dagger or gladius. In exchange, however, they lose out on the ability to work with regular bows and have poor speed."
+  - balance: "Skeletal sappers now receive a proper ancient hatchet, instead of a regular axe."

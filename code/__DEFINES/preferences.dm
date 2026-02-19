@@ -98,6 +98,8 @@
 
 #define DEFAULT_CYBORG_NAME "Default Cyborg Name"
 
+//Vice limit
+#define MAX_VICES 3
 
 //Job preferences levels
 #define JP_LOW 1

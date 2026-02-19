@@ -1,0 +1,4 @@
+author: "Ollanius"
+delete-after: True
+changes:
+  - balance: "Slightly reduced the AP of two-handed Broadsword thrusts, and equalized the damage modifier of Grand Mace smashes to match its strikes."

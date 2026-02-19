@@ -1,0 +1,4 @@
+author: "crunchypretzels"
+delete-after: True
+changes:
+  - rscadd: "additional donator item for themself"

@@ -36,12 +36,13 @@
 
 /mob/living/carbon/human/species/skeleton/after_creation()
 	..()
-	if(src.dna && src.dna.species)
-		src.dna.species.species_traits |= NOBLOOD
-		src.dna.species.soundpack_m = new /datum/voicepack/skeleton()
-		src.dna.species.soundpack_f = new /datum/voicepack/skeleton()
-	if(src.charflaw)
-		QDEL_NULL(src.charflaw)
+	if(dna && dna.species)
+		dna.species.species_traits |= NOBLOOD
+		dna.species.soundpack_m = new /datum/voicepack/skeleton()
+		dna.species.soundpack_f = new /datum/voicepack/skeleton()
+	for(var/datum/charflaw/cf in charflaws)
+		charflaws.Remove(cf)
+		QDEL_NULL(cf)
 	name = "Skeleton"
 	real_name = "Skeleton"
 	voice_type = VOICE_TYPE_MASC //So that "Unknown Man" properly substitutes in with face cover
@@ -73,23 +74,23 @@
 
 /mob/living/carbon/human/species/skeleton/proc/skeletonize()
 	mob_biotypes |= MOB_UNDEAD
-	var/obj/item/bodypart/O = src.get_bodypart(BODY_ZONE_R_ARM)
+	var/obj/item/bodypart/O = get_bodypart(BODY_ZONE_R_ARM)
 	if(O)
 		O.drop_limb()
 		qdel(O)
-	O = src.get_bodypart(BODY_ZONE_L_ARM)
+	O = get_bodypart(BODY_ZONE_L_ARM)
 	if(O)
 		O.drop_limb()
 		qdel(O)
-	src.regenerate_limb(BODY_ZONE_R_ARM)
-	src.regenerate_limb(BODY_ZONE_L_ARM)
-	var/obj/item/organ/eyes/eyes = src.getorganslot(ORGAN_SLOT_EYES)
+	regenerate_limb(BODY_ZONE_R_ARM)
+	regenerate_limb(BODY_ZONE_L_ARM)
+	var/obj/item/organ/eyes/eyes = getorganslot(ORGAN_SLOT_EYES)
 	if(eyes)
 		eyes.Remove(src,1)
 		QDEL_NULL(eyes)
 	eyes = SSwardrobe.provide_type(/obj/item/organ/eyes/night_vision/zombie)
 	eyes.Insert(src)
-	for(var/obj/item/bodypart/B in src.bodyparts)
+	for(var/obj/item/bodypart/B in bodyparts)
 		B.skeletonize(FALSE)
 	update_body()
 

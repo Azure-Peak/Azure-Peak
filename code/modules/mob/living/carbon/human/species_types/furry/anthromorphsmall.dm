@@ -7,7 +7,7 @@
 	is_subrace = TRUE
 	base_name = "Beastvolk"
 	desc = "A race akin to wild-kin, except afflicted with significantly smaller stature. A bit less respected than their kin due to their closer resemblance to vermin, like the dichotomy between Kobold and Zardman.<br>\
-	(+1 Speed)"
+	<span style='color: #6a8cb7;text-shadow:-1px -1px 0 #000,1px -1px 0 #000,-1px 1px 0 #000,1px 1px 0 #000;'><b>+1 SPD </b></span><br>"
 	default_color = "444"
 	species_traits = list(
 		MUTCOLORS,

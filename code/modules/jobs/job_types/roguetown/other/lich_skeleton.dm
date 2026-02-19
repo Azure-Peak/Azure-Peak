@@ -24,7 +24,7 @@ LICH SKELETONS
 // Melee goon w/ javelins. All-rounder.
 /datum/advclass/greater_skeleton/lich/legionnaire
 	name = "Ancient Legionnaire"
-	tutorial = "A veteran lineman. How far you've fallen."
+	tutorial = "A veteran lineman - oh, how far you've fallen. Your old King is dead, yet your vigil has not yet ended. Bring the fight to those who'd dare to impede your master's rule, with shield-and-sword alike."
 	outfit = /datum/outfit/job/roguetown/greater_skeleton/lich/legionnaire
 
 	category_tags = list(CTAG_LSKELETON)
@@ -66,14 +66,14 @@ LICH SKELETONS
 	backr = /obj/item/rogueweapon/shield/wood
 	beltl = /obj/item/quiver/javelin/paalloy
 	H.adjust_blindness(-3)
-	var/weapons = list("Gladius","Kopesh","Shortsword","Axe", "Flail")
-	var/weapon_choice = input(H, "Choose your weapon.", "TAKE UP ARMS") as anything in weapons
+	var/weapons = list("Gladius","Khopesh","Shortsword","Axe","Flail")
+	var/weapon_choice = input(H, "Choose your WEAPON.", "RAGE AGAINST THE LYVING.") as anything in weapons
 	H.set_blindness(0)
 	switch(weapon_choice)
 		if("Gladius")
 			beltr = /obj/item/rogueweapon/sword/short/gladius/pagladius
 			H.adjust_skillrank(/datum/skill/combat/swords, 1, TRUE)
-		if("Kopesh")
+		if("Khopesh")
 			beltr = /obj/item/rogueweapon/sword/sabre/palloy
 			H.adjust_skillrank(/datum/skill/combat/swords, 1, TRUE)
 		if("Shortsword")
@@ -91,7 +91,7 @@ LICH SKELETONS
 // Ranged goon w/ a dumb bow. Ranger, what else is there to say.
 /datum/advclass/greater_skeleton/lich/ballistiares
 	name = "Ancient Ballistiares"
-	tutorial = "Your frame has wept off your skin. Your fingers are mere peaks. Yet your aim remains true."
+	tutorial = "Your frame has wept off your skin. Your fingers are mere peaks. Yet your aim remains true. Assail those who defy your master's command with bolt-and-arrow from afar - weather them down to the soil."
 	outfit = /datum/outfit/job/roguetown/greater_skeleton/lich/ballistiares
 
 	category_tags = list(CTAG_LSKELETON)
@@ -129,18 +129,21 @@ LICH SKELETONS
 	armor = /obj/item/clothing/suit/roguetown/armor/leather/studded
 	neck = /obj/item/clothing/neck/roguetown/chaincoif/paalloy
 	shoes = /obj/item/clothing/shoes/roguetown/sandals/aalloy
-
 	beltr = /obj/item/rogueweapon/huntingknife/idagger/steel/padagger
+	backl = /obj/item/storage/backpack/rogue/satchel
+	backpack_contents = list(
+		/obj/item/ammo_casing/caseless/rogue/heavy_bolt = 1
+	)
 	H.adjust_blindness(-3)
-	var/weapons = list("Bow & 20 Arrows", "Heavy Longbow & 20 Arrows", "Crossbow & 16 Bolts", "Heavy Crossbow & 8 Siegebolts", "Sling")
-	var/weapon_choice = input(H, "Choose your weapon.", "TAKE UP ARMS") as anything in weapons
+	var/weapons = list("Bow & 20 Arrows", "Longbow & 20 Arrows", "Crossbow & 16 Bolts", "Sling")
+	var/weapon_choice = input(H, "Choose your MISSILE.", "CONDEMN THE LYVING FROM AFAR.") as anything in weapons
 	H.set_blindness(0)
 	switch(weapon_choice)
 		if("Bow & 20 Arrows")
 			l_hand = /obj/item/gun/ballistic/revolver/grenadelauncher/bow/recurve
 			beltl = /obj/item/quiver/paalloy
 			H.adjust_skillrank(/datum/skill/combat/bows, 1, TRUE)
-		if("Heavy Longbow & 20 Arrows")
+		if("Longbow & 20 Arrows")
 			l_hand = /obj/item/gun/ballistic/revolver/grenadelauncher/bow/longbow
 			beltl = /obj/item/quiver/paalloy
 			H.adjust_skillrank(/datum/skill/combat/bows, 1, TRUE)
@@ -148,12 +151,8 @@ LICH SKELETONS
 			l_hand = /obj/item/gun/ballistic/revolver/grenadelauncher/crossbow
 			beltl = /obj/item/quiver/bolt/paalloy
 			H.adjust_skillrank(/datum/skill/combat/crossbows, 1, TRUE)
-		if("Heavy Crossbow & 8 Siegebolts")
-			l_hand = /obj/item/gun/ballistic/revolver/grenadelauncher/crossbow/heavy
-			beltl = /obj/item/quiver/bolt/heavy/paalloy
-			H.adjust_skillrank(/datum/skill/combat/crossbows, 1, TRUE)
-			H.change_stat(STATKEY_STR, 2) //Without any statpack or racial modifier, this meets the bare minimum for using the Siegebow as a melee weapon.
-			H.change_stat(STATKEY_SPD, -3) //Minimum strength required to effectively use the Siegebow. Heavily reduced speed to denote their nature as high-profile targets.
+			if(prob(30))
+				r_hand = /obj/item/gun/ballistic/revolver/grenadelauncher/crossbow/heavy/paalloy
 		if("Sling")
 			l_hand = /obj/item/gun/ballistic/revolver/grenadelauncher/sling
 			beltl = /obj/item/quiver/sling/paalloy
@@ -164,7 +163,7 @@ LICH SKELETONS
 // Heavy/Tanky goon. Not heavy armor but due to the steel + weapons they'll fare just fine.
 /datum/advclass/greater_skeleton/lich/bulwark
 	name = "Ancient Death Bulwark"
-	tutorial = "All throughout, you've borne the brunt. And even in death, will you continue."
+	tutorial = "All throughout, you've borne the brunt. And even in death, will you continue. Shrug off terrible blows and deliver crushing sweeps with your greatweapons, in order to see your master's will done."
 	outfit = /datum/outfit/job/roguetown/greater_skeleton/lich/bulwark
 
 	category_tags = list(CTAG_LSKELETON)
@@ -204,7 +203,7 @@ LICH SKELETONS
 
 	H.adjust_blindness(-3)
 	var/weapons = list("Greatsword", "Bardiche", "Grand Mace", "Mace + Shield","Spear", "Warhammer + Shield")
-	var/weapon_choice = input(H, "Choose your weapon.", "TAKE UP ARMS") as anything in weapons
+	var/weapon_choice = input(H, "Choose your GREATWEAPON.", "DEVASTATE THE LYVING UP CLOSE.") as anything in weapons
 	H.set_blindness(0)
 	switch(weapon_choice)
 		if("Greatsword")
@@ -243,8 +242,8 @@ LICH SKELETONS
 
 // non-Combat crafter goon. Worse weapons + armor but does base-building. Fortnite.
 /datum/advclass/greater_skeleton/lich/sapper
-	name = "Broken-Bone Sapper"
-	tutorial = "Simple. Obedient. Like an ant in a colony."
+	name = "Ancient 'Broken Bone' Sapper"
+	tutorial = "Simple. Obedient. Like an ant in a colony. Toil, fortify, smelt and labor to the tune of your master's whims. After all; what good is an army if it hasn't a sword-nor-shield to wield?"
 	outfit = /datum/outfit/job/roguetown/greater_skeleton/lich/sapper
 
 	category_tags = list(CTAG_LSKELETON)
@@ -287,7 +286,70 @@ LICH SKELETONS
 	shoes = /obj/item/clothing/shoes/roguetown/sandals/aalloy
 	backl = /obj/item/storage/backpack/rogue/satchel
 
-	beltr = /obj/item/rogueweapon/stoneaxe/woodcut
+	beltr = /obj/item/rogueweapon/stoneaxe/woodcut/steel/paaxe
 	beltl = /obj/item/rogueweapon/pick/paalloy
+
+	H.energy = H.max_energy
+
+/////////////////////////////
+// SPECIAL / LIMITED SLOTS //
+/////////////////////////////
+// Use this section to drop slot-limited subclasses.
+// Below is an example. You can adjust how many instances of a subclass can exist on any given round by changing the number that's attached to the 'maximum_possible_slots' variable.
+
+// Limited slot. Exclusive access to the Siegebow and slightly better melee skills, but worse speed.
+/datum/advclass/greater_skeleton/lich/rareballistiares
+	name = "Ancient Siege-Ballistiares"
+	tutorial = "Few in number, yet known in presence. Fleshless palms cradle the pinnacle of siegebreakage; a massive weapon, capable of sundering all the walls-and-defenses that'd impede your master's path."
+	outfit = /datum/outfit/job/roguetown/greater_skeleton/lich/rareballistiares
+	maximum_possible_slots = 3 //Limited, but powerful.
+	category_tags = list(CTAG_LSKELETON)
+
+/datum/outfit/job/roguetown/greater_skeleton/lich/rareballistiares/pre_equip(mob/living/carbon/human/H)
+	..()
+
+	H.STASTR = 12
+	H.STASPD = 7
+	H.STACON = 7
+	H.STAWIL = 16
+	H.STAINT = 6
+	H.STAPER = 16
+
+	ADD_TRAIT(H, TRAIT_MEDIUMARMOR, TRAIT_GENERIC)
+
+	H.adjust_skillrank(/datum/skill/combat/crossbows, 5, TRUE)
+	H.adjust_skillrank(/datum/skill/combat/slings, 3, TRUE)
+	H.adjust_skillrank(/datum/skill/combat/knives, 3, TRUE)
+	H.adjust_skillrank(/datum/skill/combat/swords, 3, TRUE)
+	H.adjust_skillrank(/datum/skill/combat/wrestling, 1, TRUE)
+	H.adjust_skillrank(/datum/skill/combat/unarmed, 1, TRUE)
+	H.adjust_skillrank(/datum/skill/misc/athletics, 5, TRUE)
+	H.adjust_skillrank(/datum/skill/misc/climbing, 3, TRUE)
+	H.adjust_skillrank(/datum/skill/craft/carpentry, 2, TRUE)
+	H.adjust_skillrank(/datum/skill/craft/masonry, 2, TRUE)
+	H.adjust_skillrank(/datum/skill/craft/crafting, 2, TRUE)
+	H.adjust_skillrank(/datum/skill/craft/sewing, 2, TRUE)
+
+	head = /obj/item/clothing/head/roguetown/helmet/kettle/paalloy
+	shirt = /obj/item/clothing/suit/roguetown/armor/chainmail/paalloy
+	pants = /obj/item/clothing/under/roguetown/chainlegs/kilt/paalloy
+	armor = /obj/item/clothing/suit/roguetown/armor/leather/studded
+	neck = /obj/item/clothing/neck/roguetown/chaincoif/paalloy
+	shoes = /obj/item/clothing/shoes/roguetown/sandals/aalloy
+
+	l_hand = /obj/item/gun/ballistic/revolver/grenadelauncher/crossbow/heavy
+	beltl = /obj/item/quiver/bolt/heavy/paalloy
+
+	H.adjust_blindness(-3)
+	var/weapons = list("Gladius", "Dagger")
+	var/weapon_choice = input(H, "Choose your SIDEARM.", "BREAK THE CASTLES WHICH HIDE THE LYVING.") as anything in weapons
+	H.set_blindness(0)
+	switch(weapon_choice)
+		if("Gladius")
+			beltr = /obj/item/rogueweapon/sword/short/gladius/pagladius
+			H.adjust_skillrank(/datum/skill/combat/swords, 1, TRUE)
+		if("Dagger")
+			beltr = /obj/item/rogueweapon/huntingknife/idagger/steel/padagger
+			H.adjust_skillrank(/datum/skill/combat/knives, 1, TRUE)
 
 	H.energy = H.max_energy

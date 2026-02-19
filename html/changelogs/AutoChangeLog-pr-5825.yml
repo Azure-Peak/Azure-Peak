@@ -1,0 +1,6 @@
+author: "Ryan180602"
+delete-after: True
+changes:
+  - bugfix: "Calcic outburst hurts, now."
+  - bugfix: "Lich announce works, now."
+  - rscadd: "Shell Outburst for the Lich, to remotely explode NPC/Player skeletons."
