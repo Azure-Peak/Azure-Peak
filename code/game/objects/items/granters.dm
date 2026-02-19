@@ -11,7 +11,8 @@
 	var/used = FALSE //only really matters if oneuse but it might be nice to know if someone's used it for admin investigations perhaps
 	var/dreamcost
 	var/arcyne_required = FALSE
-
+	resistance_flags = FIRE_PROOF
+	
 /obj/item/book/granter/proc/turn_page(mob/user)
 	playsound(user, pick('sound/blank.ogg'), 30, TRUE)
 	if(do_after(user,50, user))
