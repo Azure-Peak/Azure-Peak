@@ -951,9 +951,13 @@
 		return FALSE
 	var/mob/living/carbon/human/H = owner
 	var/datum/physiology/phy = H.physiology 
-	var/bleed_mod = phy.bleed_mod
-	phy.bleed_mod = bleed_mod * 1.75 // this then gets reduced by con, among other things. change as needed.
-	H.visible_message(span_warning("[src] blood runs thin and begins GUSHING out of their wounds!"), span_danger("A FOUL SPELL IS CAUSING ME TO BLEED EN MASSE!"))
+	var/con_mod = H.STACON - 10 // this gets NASTY as you bleed out.
+	if(con_mod > 0)
+		con_mod = clamp(con_mod, 1, CONSTITUTION_BLEEDRATE_CAP - 10)
+		phy.bleed_mod = 1.15 + (con_mod * 0.1) // at 15 con you'll bleed from a wound by .825
+	else
+		phy.bleed_mod = 1.15 // if you already have low con, we're not going to turbofuck you. ok?
+	H.visible_message(span_warning("[owner]'s blood runs thin and begins GUSHING out of their wounds!"), span_danger("A FOUL SPELL IS CAUSING ME TO BLEED EN MASSE!"))
 
 /datum/status_effect/debuff/bloody_mess/on_remove()
 	. = ..()
@@ -961,9 +965,8 @@
 		return FALSE
 	var/mob/living/carbon/human/H = owner
 	var/datum/physiology/phy = H.physiology 
-	var/bleed_mod = phy.bleed_mod
-	phy.bleed_mod = bleed_mod / 1.75 // this then gets reduced by con, among other things. change as needed.
-	H.visible_message(span_warning("[src] has their wounds calm..."), span_warning("My wounds stop bleeding so heavily!"))
+	phy.bleed_mod = initial(phy.bleed_mod) // con can lower from the bleeding so we want it to just directly be set back to the initial
+	H.visible_message(span_warning("[owner] has their wounds calm..."), span_warning("My wounds stop bleeding so heavily!"))
 
 
 /atom/movable/screen/alert/status_effect/debuff/bloody_mess
@@ -983,7 +986,7 @@
 	var/datum/physiology/phy = H.physiology 
 	var/pain_mod = phy.pain_mod
 	phy.pain_mod = pain_mod * 1.75 // this then gets reduced by con, among other things. change as needed.
-	H.visible_message(span_warning("[src] looks to be in great pain, their wounds BLACKENING!"), span_danger("EVERYTHING HURTS!! MY WOUNDS PAIN HAS INCREASED!!"))
+	H.visible_message(span_warning("[owner] looks to be in great pain, their wounds BLACKENING!"), span_danger("EVERYTHING HURTS!! MY WOUNDS PAIN HAS INCREASED!!"))
 
 /datum/status_effect/debuff/sensitive_nerves/on_remove()
 	. = ..()
@@ -993,7 +996,7 @@
 	var/datum/physiology/phy = H.physiology 
 	var/pain_mod = phy.pain_mod
 	phy.pain_mod = pain_mod / 1.75 // this then gets reduced by con, among other things. change as needed.
-	H.visible_message(span_warning("[src]'s wounds suddenly return to normal!"), span_warning("My magickally induced pain subsides!"))
+	H.visible_message(span_warning("[owner]'s wounds suddenly return to normal!"), span_warning("My magickally induced pain subsides!"))
 
 
 /atom/movable/screen/alert/status_effect/debuff/sensitive_nerves

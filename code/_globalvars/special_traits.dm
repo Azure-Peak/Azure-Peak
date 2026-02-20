@@ -145,14 +145,25 @@ GLOBAL_LIST_INIT(special_traits, build_special_traits())
 	if (!player.prefs.race_bonus || player.prefs.race_bonus == "None")
 		return
 	var/bonus = player.prefs.race_bonus
+	if(islist(bonus))
+		var/list/bonuslist = bonus
+		for(var/B in bonuslist)
+			process_race_bonus_option(character, B, bonuslist)
+	else
+		process_race_bonus_option(character, bonus)
+
+/proc/process_race_bonus_option(mob/living/carbon/human/character, bonus, list/parentlist)
 	if(ispath(bonus))	//The bonus is a real path
 		if(ispath(bonus, /datum/virtue))
 			var/datum/virtue/v = bonus
 			apply_virtue(character, new v)
 	if(bonus in MOBSTATS)
-		character.change_stat(bonus, 1) //atm it only supports one stat getting a +1
+		var/statchange = 1
+		if(parentlist)
+			statchange = parentlist[bonus]
+		character.change_stat(bonus, statchange)
 	if(bonus in GLOB.roguetraits)
-		ADD_TRAIT(character, bonus, TRAIT_GENERIC)
+		ADD_TRAIT(character, bonus, SPECIES_TRAIT)
 
 /proc/virtue_check(var/datum/virtue/V, heretic = FALSE)
 	if(V)
@@ -162,9 +173,9 @@ GLOBAL_LIST_INIT(special_traits, build_special_traits())
 	return FALSE
 
 /proc/apply_charflaw_equipment(mob/living/carbon/human/character, client/player)
-	if(character.charflaw)
-		character.charflaw.apply_post_equipment(character)
-		record_featured_object_stat(FEATURED_STATS_VICES, character.charflaw.name)
+	for(var/datum/charflaw/cf in character.charflaws)
+		cf.apply_post_equipment(character)
+		record_featured_object_stat(FEATURED_STATS_VICES, cf.name)
 
 /proc/apply_dnr_trait(mob/living/carbon/human/character, client/player)
 	ADD_TRAIT(player.mob, TRAIT_DNR, TRAIT_GENERIC)

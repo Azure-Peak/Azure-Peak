@@ -450,11 +450,10 @@
 // Standard dagger for wardens, or for any other forester-styled class. While a pick-dagger penetrates
 // armour, this is more focused on breaking *through* it and then dealing a lot of damage via REND.
 /obj/item/rogueweapon/huntingknife/idagger/warden_machete
-	possible_item_intents = list(/datum/intent/dagger/cut/heavy, /datum/intent/dagger/thrust/weak,
-	/datum/intent/dagger/cut/rend, /datum/intent/dagger/sucker_punch)
+	possible_item_intents = list(/datum/intent/dagger/cut/heavy, /datum/intent/dagger/thrust/weak, /datum/intent/dagger/cut/rend, /datum/intent/dagger/sucker_punch)
 	force = 22 // Slightly more damage than a steel dagger.
 	max_integrity = 130 // Slightly less integrity than a steel dagger.
-	name = "Wardens' seax"
+	name = "warden's seax"
 	desc = "A well-worn seax utilised by the Fraternity of Wardens both as a tool and weapon. Nearly as effective for hacking \
 	down men as it is foiliage, but not quite as durable as more modern steel tools. More suitable for cutting than for thrusting."
 	icon_state = "warden_machete"

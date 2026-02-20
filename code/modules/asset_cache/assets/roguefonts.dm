@@ -18,6 +18,7 @@
 		"draconic.ttf" = 'interface/fonts/languages/draconic.ttf',
 		"grenzelhoftian.ttf" = 'interface/fonts/languages/grenzelhoftian.ttf',
 		"kazengunese.ttf" = 'interface/fonts/languages/kazengunese.ttf',
+		"lingyuese.ttf" = 'interface/fonts/languages/lingyuese.ttf',
 		"otavan.ttf" = 'interface/fonts/languages/otavan.ttf',
 		"oldazure.ttf" = 'interface/fonts/languages/oldazure.ttf',
 		"etruscan.ttf" = 'interface/fonts/languages/etruscan.ttf',

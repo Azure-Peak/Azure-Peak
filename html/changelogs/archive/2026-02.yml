@@ -759,3 +759,110 @@
       origin, assuming the character has a client.
   - rscadd: The Wardens' seax now has a small demolition modifier, and its CHOP intent
       has been replaced with REND.
+2026-02-19:
+  BurpleBineapple:
+  - balance: Fire no longer spreads by walking over someone that is prone that is
+      on fire.
+  - balance: Fire only spreads 25% of the time when bumping into someone.
+  Clem-The-Duck:
+  - rscdel: Armour from Hijab
+  FreeStylaLT:
+  - rscadd: Added Sun Elf subrace
+  - refactor: Sun Elves now use the Dark Elf body sprites.
+  Ollanius:
+  - rscadd: Viziers now bare the Hierophant's garb as well, instead of the generic
+      and adventuring-tier robes.
+  - balance: Regular rock walls (which form a majority of the mines) now have a minor
+      chance to drop tin. Likewise, higher-quality rock walls have a slightly increased
+      chance to drop tin.
+  Ryan180602:
+  - rscadd: donor item
+  THE GRAND DUKE OF AZURIA:
+  - sound: three new music tracks have been added
+  - sound: vocal stems from chant against a dying world have been added under effects/werewolf_sounds
+  - sound: sewer 3d audio has been set to "stone room" (5) instead of "sewer pipe"
+      (21). should be quieter.
+  WeNeedMorePhoron:
+  - rscadd: Made the loadout menu looks a little bit nicer
+  - rscdel: Frostbite effect from Frost Bolt should remove itself after exhausting
+      you instead of chaining you into a stunlock. (They can still follow up with
+      another frost bolt)
+  bearrrrrrrr:
+  - code_imp: duke min PQ raised to 50 by headmin request
+2026-02-20:
+  FreeStylaLT:
+  - balance: Feint & Bait now only requires FOV when the target has Tempo II (1v3)
+      or higher.
+  - balance: Kobolds get a +1 stat choice.
+  - rscadd: Aasimar now get an innate +1 FOR on top of their selected stat.
+  Ketrai:
+  - balance: Miracles use a generic message when cast now, to avoid metagaming. Undead
+      no longer catch fire from healing miracles.
+  Lamasmaster:
+  - balance: Deserter Wretch
+  - rscadd: WW antag sniffing
+  - balance: WW and DW immunities
+  Ollanius:
+  - rscadd: Breechcloths - belts that come with the halved bottoms of tabards, similar
+      to a loincloth. Cover your jewels with style!
+  - rscadd: Breechcloths can either be taken from the loadout menu, stitched by a
+      tailor, or assembled with a tabard, belt, and knife.
+  - rscadd: Silk tablecloths can now be hewn into nurse's veils.
+  - rscadd: Introduces the 'Cuir-Bouille' to the public - a sleeveless, studded leather
+      vest that can be worn on the shirt slot.
+  - rscadd: This provides increased protection, nearer to a padded gambeson, at the
+      cost of reduced integrity and torso-only coverage.
+  - balance: The Psyalmist's unique variant of the 'Cuir-Bouille' has received a minor
+      integrity bonus.
+  - balance: Slightly reduced the AP of two-handed Broadsword thrusts, and equalized
+      the damage modifier of Grand Mace smashes to match its strikes.
+  - rscdel: Skeletal bowmen no longer have access to the Siegebow.
+  - rscadd: Instead, the Siegebow can now be obtained through the 'Siege-Ballistiare'
+      subclass, which is slot-limited to three per round.
+  - balance: Siege-Ballistiares are better with crossbows, have slightly better physical
+      stats, and can choose to be an Expert with either a dagger or gladius. In exchange,
+      however, they lose out on the ability to work with regular bows and have poor
+      speed.
+  - balance: Skeletal sappers now receive a proper ancient hatchet, instead of a regular
+      axe.
+  Quinalion:
+  - balance: Changes Vaquero's Bard Tier to T2
+  - image: New shield heraldies.
+  Ryan180602:
+  - balance: Let magic scrolls require Arcyne Training.
+  - code_imp: make painting better
+  - bugfix: Calcic outburst hurts, now.
+  - bugfix: Lich announce works, now.
+  - rscadd: Shell Outburst for the Lich, to remotely explode NPC/Player skeletons.
+  - rscadd: Multivices (3 max)
+  THE GRAND DUKE OF AZURE PEAK:
+  - balance: graggar revel in death now scales w/ con above 10, flat rate 10 and below
+  - bugfix: noc spell descriptors should be fixced
+  - bugfix: bloody mess and sensitive nerves no longer say the status effect bleeds/is
+      in pain
+  - bugfix: desert skirt has recipe now
+  WeNeedMorePhoron:
+  - rscadd: Attacking from stealth now prevent you from re-sneaking for 30 seconds.
+  - rscadd: Lingyuese origin and language. Worst sprite ever. Send spriter to help
+      me. Thanks.
+  - rscadd: Spell examine display has been expanded to add more stats
+  - rscadd: Inventory, Health Panel, Patron Panel, Loadout Panel, force say and Direct
+      Mobs verb added from Ratwood for admin usage
+  - rscadd: Fun tab moved into GameMaster tab
+  - bugfix: Raw crab cake has sprite again
+  - bugfix: Runtime with loadout
+  - rscdel: Removed the lich summon greater skeleton scroll from the Lich Dungeon
+  crunchypretzels:
+  - rscadd: additional donator item for themself
+  hubertjones:
+  - bugfix: donator glaive naginata variant sprite offset accurized
+  nauticall:
+  - qol: Added ghost HUD buttons for Orbit, Reenter Corpse, and Teleport.
+  - qol: Ghost HUD buttons now display their functions on mouse-over.
+  - qol: Increased ghost night vision slightly so that they can now see pitch-black
+      areas. Ghosts still can't see through walls.
+  - qol: (Re)added the ability for ghosts to double-click follow any non-turf object
+      or mob.
+  zoktiik:
+  - server: Linux TGS PreCompile script was fixed and now works properly. Specifically,
+      it uses the same method as in build.sh.

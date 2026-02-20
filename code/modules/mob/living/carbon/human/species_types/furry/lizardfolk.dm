@@ -13,7 +13,7 @@
 	Taller than humans and powerfully built, zardmen are often between 6 and 7 feet tall. \
 	Zardmen have non-prehensile muscular tails that grow to three or four feet in length, and these are used for balance. \
 	They also have sharp claws and teeth.<br>\
-	(+1 Constitution, +1 Willpower)"
+	<span style='color: #6a8cb7;text-shadow:-1px -1px 0 #000,1px -1px 0 #000,-1px 1px 0 #000,1px 1px 0 #000;'><b>+1 CON | +1 WIL </b></span><br>"
 	skin_tone_wording = "Skin Colors"
 	use_skin_tone_wording_for_examine = FALSE
 	species_traits = list(EYECOLOR,LIPS,STUBBLE,MUTCOLORS)

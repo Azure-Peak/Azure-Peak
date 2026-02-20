@@ -127,6 +127,10 @@
 		to_chat(user, span_warning("I don't want to harm other living beings!"))
 		return
 
+	if(force && user.rogue_sneaking)
+		user.mob_timers[MT_FOUNDSNEAK] = world.time
+		user.update_sneak_invis(reset = TRUE)
+
 	M.lastattacker = user.real_name
 	M.lastattackerckey = user.ckey
 	M.lastattacker_weakref = WEAKREF(user)

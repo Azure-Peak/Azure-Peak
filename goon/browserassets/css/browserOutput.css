@@ -87,6 +87,11 @@ body {
 }
 
 @font-face {
+	font-family: "ZCOOL XiaoWei";
+	src: url("lingyuese.ttf");
+}
+
+@font-face {
 	font-family: "ArkansasDB";
 	src: url("otavan.ttf");
 }
@@ -861,6 +866,9 @@ h2.alert {
 }
 .kazengunese {
 	font-family: "Yuji Boku", Pterra;
+}
+.lingyuese {
+	font-family: "ZCOOL XiaoWei", Pterra;
 }
 .orc {
 	font-family: "Thief by The Riddler", "Pterra";

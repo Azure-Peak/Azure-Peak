@@ -85,8 +85,13 @@
 		to_chat(L, "*----*")
 		if(ishuman(usr))
 			var/mob/living/carbon/human/M = usr
-			if(M.charflaw)
-				to_chat(M, "<span class='info'>[M.charflaw.desc]</span>")
+			if(M.charflaws.len)
+				for(var/datum/charflaw/cf in M.charflaws)
+					var/datum/charflaw/addiction/ad_cf = null
+					if(istype(cf, /datum/charflaw/addiction))
+						ad_cf = cf
+					to_chat(M, span_danger("[cf.name] [ad_cf ? ad_cf.sated ? span_purple("SATED") : "" : ""]"))
+					to_chat(M, span_info("[cf.desc]"))
 				to_chat(M, "*----*")
 			if(M.mind)
 				if(M.mind.language_holder)
@@ -1649,9 +1654,10 @@
 	if(ishuman(usr))
 		var/mob/living/carbon/human/M = usr
 		if(modifiers["left"])
-			if(M.charflaw)
+			if(M.charflaws.len)
 				to_chat(M, "*----*")
-				to_chat(M, span_info("[M.charflaw.desc]"))
+				for(var/datum/charflaw/cf in M.charflaws)
+					to_chat(M, span_info("[cf.desc]"))
 			to_chat(M, "*--------*")
 			var/list/already_printed = list()
 			var/list/pos_stressors = M.get_positive_stressors()

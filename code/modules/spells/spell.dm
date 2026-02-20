@@ -159,7 +159,7 @@ GLOBAL_LIST_INIT(spells, typesof(/obj/effect/proc_holder/spell)) //needed for th
 	var/recharge_time = 50 //recharge time in deciseconds if charge_type = "recharge" or starting charges if charge_type = "charges"
 	var/charge_counter = 0 //can only cast spells if it equals recharge, ++ each decisecond if charge_type = "recharge" or -- each cast if charge_type = "charges"
 	var/last_process_time = 0 //tracks world.time of last process() call for delta-time cooldown
-	var/still_recharging_msg = span_notice("The spell is still recharging.")
+	var/still_recharging_msg = span_info("The spell is still recharging.")
 
 	var/cast_without_targets = FALSE
 
@@ -212,43 +212,91 @@ GLOBAL_LIST_INIT(spells, typesof(/obj/effect/proc_holder/spell)) //needed for th
 
 /obj/effect/proc_holder/spell/get_chargetime()
 	if(ranged_ability_user && chargetime)
-		var/newtime = chargetime
-		//skill block
-		newtime = newtime - (chargetime * (ranged_ability_user.get_skill_level(associated_skill) * CHARGE_REDUCTION_PER_SKILL))
-		//spellbook cast time reduction
-		var/obj/item/book/spellbook/sbook = ranged_ability_user.is_holding_item_of_type(/obj/item/book/spellbook)
-		if(sbook && sbook?.open)
-			newtime = newtime - (chargetime * (sbook.get_castred()))
-		//staff cast time reduction
-		var/obj/item/rogueweapon/staff = ranged_ability_user.is_holding_item_of_type(/obj/item/rogueweapon/)
-		if(staff && staff.cast_time_reduction)
-			newtime = newtime - (chargetime * (staff.cast_time_reduction))
-		if(newtime > 0)
-			return newtime
-		else
-			return 0.1
+		return calculate_chargetime(ranged_ability_user)
 	return chargetime
 
 /obj/effect/proc_holder/spell/get_fatigue_drain()
 	if(ranged_ability_user && releasedrain)
-		var/newdrain = releasedrain
-		//skill block
-		newdrain = newdrain - (releasedrain * (ranged_ability_user.get_skill_level(associated_skill) * FATIGUE_REDUCTION_PER_SKILL))
-		//int block
-		if(ranged_ability_user.STAINT > SPELL_SCALING_THRESHOLD)
-			var/diff = min(ranged_ability_user.STAINT, SPELL_POSITIVE_SCALING_THRESHOLD) - SPELL_SCALING_THRESHOLD
-			newdrain = newdrain - (releasedrain * diff * FATIGUE_REDUCTION_PER_INT)
-		else if(ranged_ability_user.STAINT < 10)
-			var/diffy = SPELL_SCALING_THRESHOLD - ranged_ability_user.STAINT
-			newdrain = newdrain + (releasedrain * (diffy * FATIGUE_REDUCTION_PER_INT))
-		if(!ranged_ability_user.check_armor_skill())
-			newdrain += 80
-		if(newdrain > 0)
-			return newdrain
-		else
-			return 0.1
+		return calculate_fatigue_drain(ranged_ability_user)
 	return releasedrain
 
+/obj/effect/proc_holder/spell/proc/calculate_chargetime(mob/living/user)
+	if(!user || !chargetime)
+		return chargetime
+	var/newtime = chargetime
+	//skill block
+	newtime = newtime - (chargetime * (user.get_skill_level(associated_skill) * CHARGE_REDUCTION_PER_SKILL))
+	//spellbook cast time reduction
+	var/obj/item/book/spellbook/sbook = user.is_holding_item_of_type(/obj/item/book/spellbook)
+	if(sbook && sbook?.open)
+		newtime = newtime - (chargetime * (sbook.get_castred()))
+	//staff cast time reduction
+	var/obj/item/rogueweapon/staff = user.is_holding_item_of_type(/obj/item/rogueweapon/)
+	if(staff && staff.cast_time_reduction)
+		newtime = newtime - (chargetime * (staff.cast_time_reduction))
+	if(newtime > 0)
+		return newtime
+	return 0.1
+
+/obj/effect/proc_holder/spell/proc/calculate_fatigue_drain(mob/living/user)
+	if(!user || !releasedrain)
+		return releasedrain
+	var/newdrain = releasedrain
+	//skill block
+	newdrain = newdrain - (releasedrain * (user.get_skill_level(associated_skill) * FATIGUE_REDUCTION_PER_SKILL))
+	//int block
+	if(user.STAINT > SPELL_SCALING_THRESHOLD)
+		var/diff = min(user.STAINT, SPELL_POSITIVE_SCALING_THRESHOLD) - SPELL_SCALING_THRESHOLD
+		newdrain = newdrain - (releasedrain * diff * FATIGUE_REDUCTION_PER_INT)
+	else if(user.STAINT < 10)
+		var/diffy = SPELL_SCALING_THRESHOLD - user.STAINT
+		newdrain = newdrain + (releasedrain * (diffy * FATIGUE_REDUCTION_PER_INT))
+	if(!user.check_armor_skill())
+		newdrain += 80
+	if(newdrain > 0)
+		return newdrain
+	return 0.1
+
+/obj/effect/proc_holder/spell/proc/calculate_cooldown(mob/living/user)
+	if(!user || is_cdr_exempt)
+		return initial(recharge_time)
+	var/base = initial(recharge_time)
+	if(user.STAINT > SPELL_SCALING_THRESHOLD)
+		var/diff = min(user.STAINT, SPELL_POSITIVE_SCALING_THRESHOLD) - SPELL_SCALING_THRESHOLD
+		return base - (base * diff * COOLDOWN_REDUCTION_PER_INT)
+	else if(user.STAINT < SPELL_SCALING_THRESHOLD)
+		var/diff2 = SPELL_SCALING_THRESHOLD - user.STAINT
+		return base + (base * (diff2 * COOLDOWN_REDUCTION_PER_INT))
+	return base
+
+/obj/effect/proc_holder/spell/proc/get_spell_statistics(mob/living/user)
+	var/list/stats = list()
+	if(range)
+		stats += span_info("Range: [range] tiles")
+	var/base_ct = chargetime
+	if(base_ct > 0)
+		var/dynamic_ct = user ? calculate_chargetime(user) : base_ct
+		if(dynamic_ct != base_ct)
+			stats += span_info("Charge time: [DisplayTimeText(base_ct)] (current: [DisplayTimeText(dynamic_ct)])")
+		else
+			stats += span_info("Charge time: [DisplayTimeText(base_ct)]")
+	else
+		stats += span_info("Charge time: None")
+	var/base_cd = initial(recharge_time)
+	if(base_cd)
+		var/dynamic_cd = user ? calculate_cooldown(user) : base_cd
+		if(dynamic_cd != base_cd)
+			stats += span_info("Cooldown: [DisplayTimeText(base_cd)] (current: [DisplayTimeText(dynamic_cd)])")
+		else
+			stats += span_info("Cooldown: [DisplayTimeText(base_cd)]")
+	var/base_fd = releasedrain
+	if(base_fd > 0)
+		var/dynamic_fd = user ? calculate_fatigue_drain(user) : base_fd
+		if(dynamic_fd != base_fd)
+			stats += span_info("Stamina cost: [base_fd] (current: [dynamic_fd])")
+		else
+			stats += span_info("Stamina cost: [base_fd]")
+	return stats
 
 /obj/effect/proc_holder/spell/proc/cast_check(skipcharge, mob/user = usr) //checks if the spell can be cast based on its settings; skipcharge is used when an additional cast_check is called inside the spell
 	if(player_lock)
@@ -283,7 +331,7 @@ GLOBAL_LIST_INIT(spells, typesof(/obj/effect/proc_holder/spell)) //needed for th
 		var/antimagic = user.anti_magic_check(TRUE, FALSE, FALSE, 0, TRUE)
 		if(antimagic)
 			if(isatom(antimagic))
-				to_chat(user, span_notice("[antimagic] is interfering with my magic."))
+				to_chat(user, span_info("[antimagic] is interfering with my magic."))
 			else
 				to_chat(user, span_warning("Magic seems to flee from you, you can't gather enough power to cast this spell."))
 			return FALSE
@@ -486,9 +534,14 @@ GLOBAL_LIST_INIT(spells, typesof(/obj/effect/proc_holder/spell)) //needed for th
 	before_cast(targets, user = user)
 	if(user && user.ckey)
 		user.log_message(span_danger("cast the spell [name]."), LOG_ATTACK)
-	if(user.mob_timers[MT_INVISIBILITY] > world.time)			
+	if(user.mob_timers[MT_INVISIBILITY] > world.time)
 		user.mob_timers[MT_INVISIBILITY] = world.time
 		user.update_sneak_invis(reset = TRUE)
+	if(isliving(user))
+		var/mob/living/L = user
+		if(L.rogue_sneaking)
+			L.mob_timers[MT_FOUNDSNEAK] = world.time
+			L.update_sneak_invis(reset = TRUE)
 	if(cast(targets, user = user))
 		invocation(user)
 		start_recharge()
@@ -785,7 +838,7 @@ GLOBAL_LIST_INIT(spells, typesof(/obj/effect/proc_holder/spell)) //needed for th
 
 /obj/effect/proc_holder/spell/self/basic_heal/cast(mob/living/carbon/human/user) //Note the lack of "list/targets" here. Instead, use a "user" var depending on mob requirements.
 	//Also, notice the lack of a "for()" statement that looks through the targets. This is, again, because the spell can only have a single target.
-	user.visible_message(span_warning("A wreath of gentle light passes over [user]!"), span_notice("I wreath myself in healing light!"))
+	user.visible_message(span_warning("A wreath of gentle light passes over [user]!"), span_info("I wreath myself in healing light!"))
 	user.adjustBruteLoss(-10)
 	user.adjustFireLoss(-10)
 

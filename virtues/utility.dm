@@ -132,6 +132,7 @@
 		/datum/language/celestial,
 		/datum/language/grenzelhoftian,
 		/datum/language/kazengunese,
+		/datum/language/lingyuese,
 		/datum/language/otavan,
 		/datum/language/etruscan,
 		/datum/language/gronnic,
@@ -174,11 +175,10 @@
 	custom_text = "Adds a button to toggle colorblindness to aid seeing in the dark. Taking this with the Colorblind vice will permanently colorblind you."
 
 /datum/virtue/utility/night_vision/apply_to_human(mob/living/carbon/human/recipient)
-	if(recipient.charflaw)
-		if(recipient.charflaw.type == /datum/charflaw/colorblind)
-			to_chat(recipient, "Your eyes have become permanently colorblind.")
-		else
-			recipient.verbs += /mob/living/carbon/human/proc/toggleblindness
+	if(recipient.has_flaw(/datum/charflaw/colorblind))
+		to_chat(recipient, "Your eyes have become permanently colorblind.")
+	else if(recipient.charflaws.len)
+		recipient.verbs += /mob/living/carbon/human/proc/toggleblindness
 
 /datum/virtue/utility/performer
 	name = "Performer"
@@ -295,12 +295,11 @@
 	if(O)
 		O.drop_limb()
 		qdel(O)
-	if(recipient.charflaw)
-		if(recipient.charflaw.type == /datum/charflaw/limbloss/arm_r)
-			to_chat(recipient, span_info("In my foolishness I believed a sharlatan who wished to trade in my wooden arm for one of bronze. It fell apart. Now I've no arm at all."))
-		else
-			var/obj/item/bodypart/r_arm/prosthetic/bronzeright/L = new()
-			L.attach_limb(recipient)
+	if(recipient.has_flaw(/datum/charflaw/limbloss/arm_r))
+		to_chat(recipient, span_info("In my foolishness I believed a charlatan who wished to trade in my wooden arm for one of bronze. It fell apart. Now I've no arm at all."))
+	else if(recipient.charflaws.len)
+		var/obj/item/bodypart/r_arm/prosthetic/bronzeright/L = new()
+		L.attach_limb(recipient)
 
 /datum/virtue/utility/bronzearm_l
 	name = "Bronze Arm (L)"
@@ -314,12 +313,11 @@
 	if(O)
 		O.drop_limb()
 		qdel(O)
-	if(recipient.charflaw)
-		if(recipient.charflaw.type == /datum/charflaw/limbloss/arm_l)
-			to_chat(recipient, span_info("In my foolishness I believed a sharlatan who wished to trade in my wooden arm for one of bronze. It fell apart. Now I've no arm at all."))
-		else
-			var/obj/item/bodypart/l_arm/prosthetic/bronzeleft/L = new()
-			L.attach_limb(recipient)
+	if(recipient.has_flaw(/datum/charflaw/limbloss/arm_l))
+		to_chat(recipient, span_info("In my foolishness I believed a sharlatan who wished to trade in my wooden arm for one of bronze. It fell apart. Now I've no arm at all."))
+	else if(recipient.charflaws.len)
+		var/obj/item/bodypart/l_arm/prosthetic/bronzeleft/L = new()
+		L.attach_limb(recipient)
 
 /datum/virtue/utility/woodwalker
 	name = "Woodwalker"

@@ -130,8 +130,15 @@
 			if(dna.species.origin == "Unknown")
 				origin = span_bold("nowhere..")
 			else
-				origin = origin_name
-		. += span_info("[pronoun] [wording] [origin].")	//"He hails from [X / Nowhere]" || "His [word] originates from [X]" || "His [word] is implacable..."
+				origin = dna.species.origin
+		var/astratan_symbol
+		var/astratan_tooltip
+		if(HAS_TRAIT(user, TRAIT_ASTRATAN_AFFINITY) && get_dist(user, src) <= 2)
+			if(!HAS_TRAIT(src, TRAIT_DECEIVING_MEEKNESS))	//Guarded virtue protects from this
+				if(issunelf(src) || patron?.type == /datum/patron/divine/astrata)
+					astratan_symbol = icon2html('icons/misc/language.dmi', world, "celestial")
+					astratan_tooltip = SPAN_TOOLTIP("One of Astrata's [issunelf(src) ? "chosen" : "followers"]", astratan_symbol)
+		. += span_info("[pronoun] [wording] [origin]. [astratan_tooltip]")	//"He hails from [X / Nowhere]" || "His [word] originates from [X]" || "His [word] is implacable..."
 
 		if(HAS_TRAIT(src, TRAIT_WITCH))
 			if(HAS_TRAIT(user, TRAIT_NOBLE) || HAS_TRAIT(user, TRAIT_INQUISITION) || HAS_TRAIT(user, TRAIT_WITCH))
@@ -217,10 +224,10 @@
 				if(ishuman(user))
 					if(has_flaw(/datum/charflaw/addiction/paranoid))
 						. += span_nicegreen("[m1] is the kind who sticks to their own. I understand.")
-						user.sate_addiction()
+						user.sate_addiction(/datum/charflaw/addiction/paranoid)
 					else if(pflaw.check_faction(src))
 						. += span_nicegreen("One of my own.")
-						user.sate_addiction()
+						user.sate_addiction(/datum/charflaw/addiction/paranoid)
 					else
 						user.add_stress(/datum/stressevent/paracrowd)
 
@@ -239,9 +246,12 @@
 					user.add_stress(/datum/stressevent/averse)
 					. += span_secradio("One of <b>them...</b>")
 
-			if(user.has_flaw(/datum/charflaw/addiction/voyeur) && has_flaw(/datum/charflaw/addiction) && get_dist(src, user) <= 3)
-				var/flawname = charflaw?.voyeur_descriptor ? charflaw?.voyeur_descriptor : charflaw?.name
-				. += span_voyeurvice("[m1] [flawname]...")
+			if(user.has_flaw(/datum/charflaw/addiction/voyeur) && get_dist(src, user) <= 3)
+				if(charflaws.len)
+					var/list/vice_desc = list()
+					for(var/datum/charflaw/cf in charflaws)
+						vice_desc.Add(cf.voyeur_descriptor)
+					. += span_voyeurvice("[m1][english_list(vice_desc)]...")
 
 			if(HAS_TRAIT(user, TRAIT_EMPATH) && HAS_TRAIT(src, TRAIT_PERMAMUTE))
 				. += span_notice("[m1] lacks a voice. [m1] is a mute!")
@@ -262,7 +272,7 @@
 		if (HAS_TRAIT(src, TRAIT_LEPROSY))
 			. += span_necrosis("A LEPER...")
 
-		if (HAS_TRAIT(src, TRAIT_BEAUTIFUL))
+		if (HAS_TRAIT(src, TRAIT_BEAUTIFUL) || (issunelf(src) && issunelf(user)))
 			switch (pronouns)
 				if (HE_HIM, SHE_HER_M)
 					. += span_beautiful_masc("[m1] handsome!")

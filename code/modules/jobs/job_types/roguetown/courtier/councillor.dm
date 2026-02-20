@@ -57,7 +57,7 @@
 
 
 /datum/advclass/councillor/advisor
-	name = "Advisor"
+	name = "Council Advisor"
 	tutorial = "You have a keen sense of political acumen. Much like the jester, albeit in a less farcical manner, you are well-suited to giving the court advice on daily matters. They might even listen if you tell them that a plan of theirs may have a hole in it that would sink it. You may be the lowest rung of the ladder, but that rung still towers over everyone else in town."
 	outfit = /datum/outfit/job/roguetown/councillor/advisor
 	category_tags = list(CTAG_COUNCILLOR)

@@ -1,22 +1,37 @@
 /mob/proc/sate_addiction()
 	return
 
-/mob/living/carbon/human/sate_addiction()
-	if(istype(charflaw, /datum/charflaw/addiction))
-		var/datum/charflaw/addiction/A = charflaw
-		if(!A.sated)
-			to_chat(src, span_blue(A.sated_text))
-			
-			for(var/mob/living/L in get_hearers_in_view(2, src, RECURSIVE_CONTENTS_CLIENT_MOBS))
-				if(src != L && !istype(charflaw, /datum/charflaw/addiction/voyeur))	//Let's not have circular voyeur self-pleasing chains.
-					if(L.has_flaw(/datum/charflaw/addiction/voyeur))
-						L.sate_addiction()
-		A.sated = TRUE
-		A.time = initial(A.time) //reset roundstart sate offset to standard
-		A.next_sate = world.time + A.time
-		remove_stress(/datum/stressevent/vice)
-		if(A.debuff)
-			remove_status_effect(A.debuff)
+/mob/living/carbon/human/sate_addiction(var/datum/charflaw/addiction/adc_vice)
+	if(!adc_vice)
+		return
+
+	var/datum/charflaw/addiction/mob_vice = null
+	for(var/datum/charflaw/vice in charflaws)
+		if(adc_vice.type == vice.type)
+			mob_vice = vice
+			break
+
+	if(!mob_vice)
+		return
+	if(mob_vice.sated)
+		return
+
+	to_chat(src, span_blue(mob_vice.sated_text))
+
+	for(var/mob/living/carbon/human/L in get_hearers_in_view(2, src, RECURSIVE_CONTENTS_CLIENT_MOBS))
+		if(src != L && !istype(mob_vice, /datum/charflaw/addiction/voyeur))	//Let's not have circular voyeur self-pleasing chains.
+			if(L.has_flaw(/datum/charflaw/addiction/voyeur))
+				for(var/datum/charflaw/cf in L.charflaws)
+					if(istype(cf, /datum/charflaw/addiction/voyeur))
+						L.sate_addiction(cf)
+						break
+
+	mob_vice.sated = TRUE
+	mob_vice.time = initial(mob_vice.time) //reset roundstart sate offset to standard
+	mob_vice.next_sate = world.time + mob_vice.time
+	remove_stress(/datum/stressevent/vice)
+	if(mob_vice.debuff)
+		remove_status_effect(mob_vice.debuff)
 
 /datum/charflaw/addiction
 	var/next_sate = 0

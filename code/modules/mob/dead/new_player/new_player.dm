@@ -416,7 +416,13 @@ GLOBAL_LIST_INIT(roleplay_readme, world.file2list("strings/rt/rp_prompt.txt"))
 		else
 			return JOB_UNAVAILABLE_SLOTFULL
 	if(length(job.vice_restrictions) || length(job.virtue_restrictions))
-		if((client.prefs.virtue?.type in job.virtue_restrictions) || (client.prefs.virtuetwo?.type in job.virtue_restrictions) || (client.prefs.charflaw?.type in job.vice_restrictions))
+		var/has_restricted_virtue = (client.prefs.virtue?.type in job.virtue_restrictions) || (client.prefs.virtuetwo?.type in job.virtue_restrictions)
+		var/has_restricted_vice = FALSE
+		for(var/datum/charflaw/cf in client.prefs.charflaws)
+			if(cf.type in job.vice_restrictions)
+				has_restricted_vice = TRUE
+				break
+		if(has_restricted_virtue || has_restricted_vice)
 			return JOB_UNAVAILABLE_VIRTUESVICE
 //	if(job.title == "Adventurer" && latejoin)
 //		for(var/datum/job/J in SSjob.occupations)

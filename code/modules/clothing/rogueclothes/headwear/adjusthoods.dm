@@ -30,12 +30,13 @@
 	AddComponent(/datum/component/adjustable_clothing, NECK, null, null, 'sound/foley/equip/cloak (3).ogg', null, (UPD_HEAD|UPD_MASK))	//Standard hood
 
 /obj/item/clothing/head/roguetown/roguehood/MiddleClick(mob/user)
-	overarmor = !overarmor
+	if(!ishuman(user))
+		return
 	to_chat(user, span_info("I [overarmor ? "wear \the [src] under my hair" : "wear \the [src] over my hair"]."))
-	if(overarmor)
-		alternate_worn_layer = HOOD_LAYER //Below Hair Layer
+	if(flags_inv & HIDEHAIR)
+		flags_inv &= ~HIDEHAIR
 	else
-		alternate_worn_layer = BACK_LAYER //Above Hair Layer
+		flags_inv |= HIDEHAIR
 	user.update_inv_wear_mask()
 	user.update_inv_head()
 

@@ -18,7 +18,7 @@
 	characteristics can be either more Elvish or more Humen, depending on which of their parents' genes \
 	are more predominant. In terms of cultural identity, a Half-Elf will typically choose to lean more \
 	towards either their Humen or Elvish heritages.<br>\
-	(+1 Constitution, +1 Perception)" 
+	<span style='color: #6a8cb7;text-shadow:-1px -1px 0 #000,1px -1px 0 #000,-1px 1px 0 #000,1px 1px 0 #000;'><b>+1 CON | +1 PER </b></span><br>" 
 
 	skin_tone_wording = "Ancestry"
 	max_age = 250
@@ -57,7 +57,7 @@
 		ORGAN_SLOT_HEART = /obj/item/organ/heart,
 		ORGAN_SLOT_LUNGS = /obj/item/organ/lungs,
 		ORGAN_SLOT_EYES = /obj/item/organ/eyes/halfelf,
-		ORGAN_SLOT_EARS = /obj/item/organ/ears/elf,
+		ORGAN_SLOT_EARS = /obj/item/organ/ears,//Because they can be way more than just mostly elf
 		ORGAN_SLOT_TONGUE = /obj/item/organ/tongue,
 		ORGAN_SLOT_LIVER = /obj/item/organ/liver,
 		ORGAN_SLOT_STOMACH = /obj/item/organ/stomach,

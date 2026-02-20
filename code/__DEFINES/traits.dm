@@ -139,6 +139,7 @@
 #define TRAIT_BLACKLEG	"Blackleg" //Rig coin, dice, cards in your favor - UNUSED FOR NOW
 #define TRAIT_BETTER_SLEEP	"Better Sleep" //Recover more energy (blue bar) when sleeping
 #define TRAIT_LEECHIMMUNE "Unleechable" //leeches wont attach in bog squares + dendor boon.
+#define TRAIT_ASTRATAN_AFFINITY "Astratan Affinity" //Telling who's an Astratan on examine
 #define TRAIT_LONGSTRIDER "Longstrider"
 #define TRAIT_UNDIVIDED "The Ten Undivided"
 #define TRAIT_PSYDONIAN_GRIT "Psydonic Willpower" // Willpower-scaling boost to pain resistance. From X to XV, every point of WIL increases the chance of ignoring a paincrit check.
@@ -472,6 +473,7 @@ GLOBAL_LIST_INIT(roguetraits, list(
 	TRAIT_CURSE_BAOTHA = span_warning("I am forsaken by the Heartbreaker. I am drowning in her promises."),
 	TRAIT_JACKOFALLTRADES = span_notice("Skills cost half as much for me to raise."),
 	TRAIT_BLOODLOSS_IMMUNE = span_notice("While I may bleed, I will feel nothing from it."),
+	TRAIT_ASTRATAN_AFFINITY = span_bone("My bond with Astrata is strong. I can tell who worships her from up close."),
 	TRAIT_ADRENALINE_RUSH = span_notice("I'm invigorated in the midst of battle! I don't feel my wounds!"),
 	TRAIT_MEDICINE_EXPERT = span_greentext("I've deep, intricate knowledge of the medicinal arts. This skill can progress to Master and Legendary levels."),
 	TRAIT_ALCHEMY_EXPERT = span_greentext("I've deep, intricate knowledge of the alchemical arts. This skill can progress to Expert and above levels."),

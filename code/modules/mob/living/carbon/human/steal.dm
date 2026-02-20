@@ -63,8 +63,7 @@
 							record_featured_stat(FEATURED_STATS_THIEVES, user_human)
 							record_featured_stat(FEATURED_STATS_CRIMINALS, user_human)
 							GLOB.azure_round_stats[STATS_ITEMS_PICKPOCKETED]++
-						if(user.has_flaw(/datum/charflaw/addiction/kleptomaniac))
-							user.sate_addiction()
+						user.sate_addiction(/datum/charflaw/addiction/kleptomaniac)
 					else
 						exp_to_gain /= 2 // these can be removed or changed on reviewer's discretion
 						to_chat(user, span_warning("I didn't find anything there. Perhaps I should look elsewhere."))

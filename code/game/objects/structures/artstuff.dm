@@ -51,15 +51,26 @@
 	for(var/mob/mob in showers)
 		remove_shower(mob)
 
+/obj/item/canvas/get_mechanics_examine(mob/user)
+	. = ..()
+
+	. += span_info("Click left-mouse button to toggle drawing mode. Don't hold it down.")
+	. += span_info("Click right-mouse button to toggle erase mode. Don't hold it down.")
+	. += span_info("Click alt+left-mouse button to toggle shade adjustment mode. Don't hold it down.")
+	. += span_info("Click ctrl+left-mouse button to pick colour.")
+
 /obj/item/canvas/attack_hand(mob/user)
 	. = ..()
 	if(user.cmode)
-		if(anchored)
-			to_chat(user, "You start unmounting [src]")
-			if(!do_after(user, 3 SECONDS, target = src))
-				return
-			anchored = FALSE
-			to_chat(user, "You unmount [src]")
+		return
+	if(!anchored)
+		return
+
+	to_chat(user, "You start unmounting [src]")
+	if(!do_after(user, 3 SECONDS, target = src))
+		return
+	anchored = FALSE
+	to_chat(user, "You unmount [src]")
 
 /obj/item/canvas/attack_right(mob/user)
 	. = ..()
@@ -81,7 +92,6 @@
 			name = title
 		if(author)
 			desc = "Painted by: [author]."
-
 		return
 
 	if(!istype(I, /obj/item/paint_brush))
@@ -112,6 +122,11 @@
 	source.client?.screen -= used_canvas
 	UnregisterSignal(source, COMSIG_MOVABLE_TURF_ENTERED)
 
+	if(istype(used_canvas))
+		used_canvas.is_drawing = FALSE
+		used_canvas.drawing_is_erasing = FALSE
+		used_canvas.shade_adjustment_mode = FALSE
+
 /obj/item/canvas/proc/update_drawing(x, y, current_color)
 	if("[x][y]" in overlay_to_index)
 		cut_overlay(overlay_to_index["[x][y]"])
@@ -137,8 +152,6 @@
 	cut_overlays()
 	if(rendered)
 		icon = rendered
-	//	SSpaintings.playerpainting2file(icon, title, author, author_ckey, canvas_size, src)
-	//	SSpaintings.update_paintings()
 
 /atom/movable/screen/canvas
 	icon = 'icons/roguetown/items/paint_supplies/canvas_32x32.dmi'
@@ -155,6 +168,13 @@
 	var/current_overlays = 0
 
 	var/loads_painting = FALSE
+	
+	// Drag drawing support
+	var/is_drawing = FALSE
+	var/last_draw_x = null
+	var/last_draw_y = null
+	var/drawing_is_erasing = FALSE
+	var/shade_adjustment_mode = FALSE
 
 /atom/movable/screen/canvas/Initialize(mapload, ...)
 	. = ..()
@@ -170,9 +190,7 @@
 	var/obj/item/paint_brush/brush = usr.get_active_held_item()
 	if(!istype(brush))
 		return
-	var/current_color = brush.current_color
-	if(!current_color)
-		return
+
 	var/list/param_list = params2list(params)
 
 	var/x = text2num(param_list["icon-x"])
@@ -181,50 +199,182 @@
 	y = min(FLOOR(y / host.canvas_divider_y, 1), host.canvas_size_y-1)
 	x = min(FLOOR(x / host.canvas_divider_x, 1), host.canvas_size_x-1)
 
-	if(param_list["right"])
-		var/original_color = base_icon.GetPixel(x, y)
-		current_color = original_color
-		modified_areas -= "[x][y]"
-		if("[x][y]" in overlay_to_index)
-			cut_overlay(overlay_to_index["[x][y]"])
-	else
+	var/is_right_click = param_list["right"]
+	var/is_middle_click = param_list["middle"]
+	var/is_alt = param_list["alt"]
+	var/is_ctrl = param_list["ctrl"]
+	var/is_left_click = !is_right_click && !is_middle_click
 
+	if(is_ctrl && is_left_click)
 		if("[x][y]" in modified_areas)
-			var/pre_merge = draw.GetPixel(x+1, y+1)
-			if(pre_merge != current_color)
-				current_color = BlendRGB(current_color, pre_merge, 0.5)
-		modified_areas |= "[x][y]"
-		if("[x][y]" in overlay_to_index)
-			cut_overlay(overlay_to_index["[x][y]"])
+			var/picked_color = draw.GetPixel(x+1, y+1)
+			if(picked_color)
+				brush.current_color = picked_color
+				brush.update_overlays()
+				to_chat(usr, span_notice("Picked color from canvas."))
+			else
+				to_chat(usr, span_warning("No color to pick at this pixel."))
+		else
+			to_chat(usr, span_warning("No color to pick at this pixel."))
+		last_draw_x = x
+		last_draw_y = y
+		return
 
-	var/mutable_appearance/MA = mutable_appearance(host.canvas_icon, "pixel")
-	MA.color = current_color
-	MA.pixel_x = (x) * host.canvas_divider_y
-	MA.pixel_y = (y) * host.canvas_divider_x
-	MA.layer = layer +1
-	MA.plane = plane
-	add_overlay(MA)
-	current_overlays++
-	overlay_to_index |= "[x][y]"
-	overlay_to_index["[x][y]"] = MA
-	if(current_overlays > 150)
-		icon = usr.client.RenderIcon(src)
-		current_overlays = 0
-		cut_overlays()
-		overlay_to_index = list()
+	if(is_alt && is_left_click)
+		shade_adjustment_mode = !shade_adjustment_mode
+		if(!shade_adjustment_mode)
+			var/current_color = brush.current_color
+			if(!current_color)
+				to_chat(usr, span_warning("Pick a color first!"))
+				return
+			is_drawing = TRUE
+			drawing_is_erasing = FALSE
+		else
+			is_drawing = FALSE
+			last_draw_x = null
+			last_draw_y = null
 
-	host.update_drawing(x, y, current_color)
+		to_chat(usr, span_notice("I am [shade_adjustment_mode ? "" : "no longer"] adjusting the shade of the painted portions."))
+		last_draw_x = x
+		last_draw_y = y
+		return
 
-/* /obj/item/canvas/random_painting
-	loads_painting = TRUE
+	if(is_right_click)
+		drawing_is_erasing = !drawing_is_erasing
+		if(drawing_is_erasing)
+			is_drawing = TRUE
+		else
+			is_drawing = FALSE
 
-/obj/item/canvas/random_painting/Initialize()
+		to_chat(usr, span_notice("I am [drawing_is_erasing ? "" : "no longer"] erasing my work."))
+
+	else if(is_left_click && !is_alt && !is_ctrl)
+		var/current_color = brush.current_color
+		if(!current_color)
+			to_chat(usr, span_warning("Pick a color first!"))
+			return
+		is_drawing = !is_drawing
+		drawing_is_erasing = FALSE
+		to_chat(usr, span_notice("I am [is_drawing ? "" : "no longer"] drawing."))
+
+	last_draw_x = x
+	last_draw_y = y
+
+/atom/movable/screen/canvas/proc/draw_pixel(x, y, color, is_erasing)
+	var/obj/item/paint_brush/brush = usr.get_active_held_item()
+	var/brush_size = 1
+	if(istype(brush))
+		brush_size = brush.brush_size
+
+	var/offset = (brush_size - 1) / 2
+	for(var/px = x - offset to x + offset)
+		for(var/py = y - offset to y + offset)
+			if(px < 0 || px >= host.canvas_size_x || py < 0 || py >= host.canvas_size_y)
+				continue
+
+			if(is_erasing)
+				modified_areas -= "[px][py]"
+				if("[px][py]" in overlay_to_index)
+					cut_overlay(overlay_to_index["[px][py]"])
+			else
+				if("[px][py]" in modified_areas)
+					if(shade_adjustment_mode)
+						var/pre_merge = draw.GetPixel(px+1, py+1)
+						if(pre_merge != color)
+							color = BlendRGB(color, pre_merge, 0.5)
+				modified_areas |= "[px][py]"
+				if("[px][py]" in overlay_to_index)
+					cut_overlay(overlay_to_index["[px][py]"])
+
+			if(!is_erasing)
+				var/mutable_appearance/MA = mutable_appearance(host.canvas_icon, "pixel")
+				MA.color = color
+				MA.pixel_x = (px) * host.canvas_divider_y
+				MA.pixel_y = (py) * host.canvas_divider_x
+				MA.layer = layer +1
+				MA.plane = plane
+				add_overlay(MA)
+				current_overlays++
+				overlay_to_index |= "[px][py]"
+				overlay_to_index["[px][py]"] = MA
+				if(current_overlays > 150)
+					icon = usr.client.RenderIcon(src)
+					current_overlays = 0
+					cut_overlays()
+					overlay_to_index = list()
+
+				host.update_drawing(px, py, color)
+
+/atom/movable/screen/canvas/proc/draw_line(start_x, start_y, end_x, end_y, color, is_erasing)
+	// AI suggested implementing bresenham and it blew my mind because i hadn't done that shit since college lol - Ryan
+	var/dx = abs(end_x - start_x)
+	var/dy = abs(end_y - start_y)
+	var/sx = start_x < end_x ? 1 : -1
+	var/sy = start_y < end_y ? 1 : -1
+	var/err = dx - dy
+
+	var/cx = start_x
+	var/cy = start_y
+
+	while(TRUE)
+		if(cx == end_x && cy == end_y)
+			break
+
+		draw_pixel(cx, cy, color, is_erasing)
+		var/e2 = err * 2
+		if(e2 > -dy)
+			err -= dy
+			cx += sx
+		if(e2 < dx)
+			err += dx
+			cy += sy
+
+/atom/movable/screen/canvas/MouseMove(location, control, params)
 	. = ..()
-	icon = SSpaintings.get_random_painting("32x32")
-	var/icon/new_icon = getFlatIcon(src)
-	new_icon.Scale(160, 160)
-	used_canvas.draw.Blend(new_icon, ICON_OVERLAY)
-	used_canvas.icon = used_canvas.draw */
+	if(!is_drawing)
+		return
+	if(host.item_flags & IN_STORAGE)
+		return
+
+	var/list/param_list = params2list(params)
+	var/x = text2num(param_list["icon-x"])
+	var/y = text2num(param_list["icon-y"])
+
+	if(x == null || y == null)
+		return
+
+	y = min(FLOOR(y / host.canvas_divider_y, 1), host.canvas_size_y-1)
+	x = min(FLOOR(x / host.canvas_divider_x, 1), host.canvas_size_x-1)
+	y = max(0, y)
+	x = max(0, x)
+
+	var/obj/item/paint_brush/brush = usr.get_active_held_item()
+	if(!istype(brush))
+		return
+
+	var/current_color = brush.current_color
+
+	if(drawing_is_erasing)
+		current_color = base_icon.GetPixel(x, y)
+	else if(!current_color)
+		return
+
+	if(shade_adjustment_mode)
+		if("[x][y]" in modified_areas)
+			draw_pixel(x, y, current_color, FALSE)
+			last_draw_x = x
+			last_draw_y = y
+		return
+
+	// Draw from last position to current position (regular drawing mode)
+	if(last_draw_x != null && last_draw_y != null && (last_draw_x != x || last_draw_y != y))
+		draw_line(last_draw_x, last_draw_y, x, y, current_color, drawing_is_erasing)
+	else
+		draw_pixel(x, y, current_color, drawing_is_erasing)
+
+	last_draw_x = x
+	last_draw_y = y
+
 
 ///////////
 // EASEL //
@@ -243,18 +393,16 @@
 
 //Adding canvases
 /obj/structure/easel/attackby(obj/item/I, mob/user, params)
-	if(istype(I, /obj/item/canvas))
-		var/obj/item/canvas/C = I
-		user.dropItemToGround(C)
-		painting = C
-		painting.pixel_x = 0
-		painting.pixel_y = painting.easel_offset
-		C.forceMove(get_turf(src))
-		C.layer = layer+0.1
-		user.visible_message("<span class='notice'>[user] puts \the [C] on \the [src].</span>","<span class='notice'>I place \the [C] on \the [src].</span>")
-	else
+	if(!istype(I, /obj/item/canvas))
 		return ..()
-
+	var/obj/item/canvas/C = I
+	user.dropItemToGround(C)
+	painting = C
+	painting.pixel_x = 0
+	painting.pixel_y = painting.easel_offset
+	C.forceMove(get_turf(src))
+	C.layer = layer+0.1
+	user.visible_message("<span class='notice'>[user] puts \the [C] on \the [src].</span>","<span class='notice'>I place \the [C] on \the [src].</span>")
 
 //Stick to the easel like glue
 /obj/structure/easel/Move()
@@ -278,7 +426,22 @@
 	grid_height = 32
 	grid_width = 64
 	var/current_color
+	var/brush_size = 1
+	var/max_brush_size = 5
 
+/obj/item/paint_brush/examine(mob/user)
+	. = ..()
+	if(current_color)
+		to_chat(user, span_notice("[src] is lathered with <font color=[current_color]>colour</font>."))
+	if(brush_size)
+		to_chat(user, span_notice("The size is at: [brush_size]."))
+
+/obj/item/paint_brush/get_mechanics_examine(mob/user)
+	. = ..()
+
+	. += span_info("Click shift+right-mouse button to increase brush size.")
+	. += span_info("Click alt+right-mouse button to decrease brush size.")
+	. += span_info("Use in hand to clear colour.")
 
 /obj/item/paint_brush/update_overlays()
 	. = ..()
@@ -289,6 +452,40 @@
 	var/mutable_appearance/MA = mutable_appearance(icon, "paintbrush-color")
 	MA.color = current_color
 	add_overlay(MA)
+
+/obj/item/paint_brush/proc/increase_brush_size()
+	if(brush_size < max_brush_size)
+		brush_size++
+		return TRUE
+	return FALSE
+
+/obj/item/paint_brush/proc/decrease_brush_size()
+	if(brush_size > 1)
+		brush_size--
+		return TRUE
+	return FALSE
+
+/obj/item/paint_brush/ShiftRightClick(mob/user)
+	if(increase_brush_size())
+		to_chat(user, span_notice("Brush size increased to [brush_size]."))
+	else
+		to_chat(user, span_notice("Brush size is at maximum."))
+
+	return ..()
+
+/obj/item/paint_brush/AltRightClick(mob/user)
+	if(decrease_brush_size())
+		to_chat(user, span_notice("Brush size decreased to [brush_size]."))
+	else
+		to_chat(user, span_notice("Brush size is at minimum."))
+
+	return ..()
+
+/obj/item/paint_brush/attack_self(mob/user)
+	. = ..()
+	current_color = null
+	update_overlays()
+	to_chat(user, span_notice("Brush color cleared"))
 
 /obj/item/paint_brush/afterattack(atom/target, mob/living/user, proximity_flag, click_parameters)
 	. = ..()
@@ -340,7 +537,6 @@
 	grid_width = 64
 	var/list/colors = list()
 
-
 /obj/item/paint_palette/Initialize()
 	. = ..()
 	update_overlays()
@@ -366,7 +562,6 @@
 		return
 	colors -= remove_color
 	update_overlays()
-
 
 /obj/item/paint_palette/attack_right(mob/user)
 	. = ..()

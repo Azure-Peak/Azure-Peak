@@ -535,5 +535,5 @@ GLOBAL_LIST_EMPTY(cmode_tracks_by_name)
 	name = "I'M READY TO DIE, ARE YOU?"
 	desc = "\"I REMEMBER A TIME NOT THAT LONG AGO, WHEN WE HAD VAMPIRES AND DUNPEALS BOTH AROUND HERE...\"" // yes it's "dunpeals". ask hunter d not me
 	shortname = "Ready to Die"
-	credits = "T-87 SULFURHEAD - I'M READY TO DIE, ARE YOU? (https://www.youtube.com/watch?v=uf3Iqn-i6EM)"
+	credits = "T-87 SULFURHEAD - I'M READY TO DIE, ARE YOU? (https://www.youtube.com/watch?v=cJpAxIvd8_g)"
 	musicpath = list('sound/music/cmode/combat_ready_to_die.ogg')

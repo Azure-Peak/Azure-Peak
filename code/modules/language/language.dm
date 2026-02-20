@@ -25,6 +25,8 @@
 
 
 	// if you are seeing someone speak popcorn language, then something is wrong.
+	var/list/mutually_intelligible	// Mutually intellgible languages. If a language is in this list then speakers of this language can understand it without learning it. Not transitive. Currently used for Lingyuese / Kazengunese pairing for gameplay reason (Their IRL counterpart is not remotely close, but they're under the same political entity IC)
+
 	var/icon = 'icons/misc/language.dmi'
 	var/icon_state = "popcorn"
 

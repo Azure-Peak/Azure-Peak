@@ -522,7 +522,7 @@ GLOBAL_LIST_INIT(department_radio_keys, list(
 				if(Zs_all)
 					chance += 20
 				if(prob(chance))
-					H.sate_addiction()
+					H.sate_addiction(/datum/charflaw/addiction/clamorous)
 		var/atom/movable/tocheck = AM
 		if(isdullahan(AM))
 			var/mob/living/carbon/human/target = AM

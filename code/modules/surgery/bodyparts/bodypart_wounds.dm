@@ -180,14 +180,14 @@
 				if(user.has_flaw(/datum/charflaw/addiction/thrillseeker))
 					var/datum/component/arousal/CAR = user.GetComponent(/datum/component/arousal)
 					if(CAR)
-						user.sate_addiction()
+						user.sate_addiction(/datum/charflaw/addiction/thrillseeker)
 						user.add_stress(/datum/stressevent/thrill)
 						CAR.ejaculate_special()
 
 				if(owner.has_flaw(/datum/charflaw/addiction/thrillseeker))
 					var/datum/component/arousal/CAR = owner.GetComponent(/datum/component/arousal)
 					if(CAR)
-						owner.sate_addiction()
+						owner.sate_addiction(/datum/charflaw/addiction/thrillseeker)
 						owner.add_stress(/datum/stressevent/thrill)
 						CAR.ejaculate_special()
 

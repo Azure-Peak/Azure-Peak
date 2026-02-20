@@ -261,7 +261,7 @@
 	toolspeed = 2
 
 /obj/item/rogueweapon/stoneaxe/woodcut/wardenpick
-	name = "Wardens' axe"
+	name = "warden's axe"
 	desc = "A multi-use axe smithed by the Wardens since time immemorial for both it's use as a tool and a weapon."
 	icon_state = "wardenpax"
 	force = 22
