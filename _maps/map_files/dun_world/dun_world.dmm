@@ -8242,10 +8242,6 @@
 /obj/structure/glowshroom,
 /turf/open/floor/rogue/cobblerock,
 /area/rogue/outdoors/mountains/decap)
-"bWy" = (
-/obj/effect/landmark/chimeric_calyx_spawner/thirty,
-/turf/open/water/ocean,
-/area/rogue/outdoors/beach)
 "bWA" = (
 /obj/structure/stairs{
 	dir = 8
@@ -14330,6 +14326,10 @@
 /obj/effect/decal/remains/human,
 /turf/open/floor/rogue/churchmarble,
 /area/rogue/under/cavewet/bogcaves/north)
+"dqG" = (
+/obj/effect/landmark/chimeric_calyx_spawner/fifteen,
+/turf/open/floor/rogue/AzureSand,
+/area/rogue/outdoors/beach)
 "dqI" = (
 /turf/closed/wall/mineral/rogue/tent{
 	dir = 1
@@ -93512,10 +93512,6 @@
 /obj/structure/fluff/railing/corner,
 /turf/open/floor/rogue/naturalstone,
 /area/rogue/outdoors/mountains)
-"vIs" = (
-/obj/effect/landmark/chimeric_calyx_spawner/fifteen,
-/turf/open/water/ocean,
-/area/rogue/outdoors/beach)
 "vIt" = (
 /obj/effect/decal/cobbleedge{
 	dir = 5
@@ -180528,7 +180524,7 @@ miF
 qHj
 miF
 miF
-bWy
+fce
 sTT
 pLh
 pLh
@@ -190942,7 +190938,7 @@ iTM
 erZ
 iTM
 erZ
-iTM
+dqG
 iTM
 vEJ
 kFL
@@ -191382,7 +191378,7 @@ fce
 tXb
 tXb
 tXb
-vIs
+fce
 fce
 ydo
 omY
