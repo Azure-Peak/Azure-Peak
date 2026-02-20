@@ -3750,7 +3750,6 @@
 /obj/structure/fluff/railing/fence{
 	dir = 8
 	},
-/mob/living/carbon/human/species/human/northern/mad_touched_treasure_hunter,
 /turf/open/floor/rogue/churchrough,
 /area/rogue/under/cave/scarymaze)
 "aRF" = (
@@ -8728,6 +8727,7 @@
 	pixel_x = 13;
 	pixel_y = -3
 	},
+/mob/living/carbon/human/species/human/northern/mad_touched_treasure_hunter,
 /turf/open/floor/rogue/churchrough,
 /area/rogue/under/cave/scarymaze)
 "caT" = (
@@ -57975,6 +57975,14 @@
 /obj/item/storage/bag/tray,
 /turf/open/floor/rogue/ruinedwood/spiral,
 /area/rogue/under/underdark/north)
+"mXp" = (
+/obj/structure/fluff/walldeco/church/line{
+	dir = 1
+	},
+/obj/effect/decal/cleanable/debris/stony,
+/mob/living/carbon/human/species/human/northern/mad_touched_treasure_hunter,
+/turf/open/floor/rogue/churchrough,
+/area/rogue/under/cave/scarymaze)
 "mXr" = (
 /obj/effect/decal/cobbleedge{
 	dir = 9
@@ -100561,7 +100569,6 @@
 /obj/structure/fluff/railing/fence{
 	dir = 8
 	},
-/mob/living/carbon/human/species/human/northern/mad_touched_treasure_hunter,
 /turf/open/floor/rogue/churchrough,
 /area/rogue/under/cave/scarymaze)
 "wDR" = (
@@ -368132,7 +368139,7 @@ wVc
 roX
 sVk
 gTO
-quR
+mXp
 caQ
 gTO
 pxA
