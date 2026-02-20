@@ -54880,14 +54880,6 @@
 /obj/item/natural/bone,
 /turf/open/floor/rogue/wood,
 /area/rogue/indoors/shelter/mountains/decap)
-"mDt" = (
-/obj/structure/roguewindow/stained/yellow,
-/obj/item/rogueweapon/huntingknife/bronze{
-	pixel_x = 4;
-	pixel_y = 5
-	},
-/turf/open/floor/rogue/church,
-/area/rogue/indoors/town/church/chapel)
 "mDu" = (
 /obj/structure/fluff/railing/fence,
 /obj/effect/decal/cobbleedge{
@@ -71901,7 +71893,6 @@
 	dir = 4
 	},
 /obj/structure/closet/crate/chest/neu,
-/obj/structure/closet/crate/chest/neu,
 /turf/open/floor/rogue/ruinedwood/herringbone,
 /area/rogue/outdoors/town)
 "qGg" = (
@@ -78340,9 +78331,6 @@
 /turf/open/floor/rogue/dirt/road,
 /area/rogue/indoors/cave/east)
 "shY" = (
-/obj/structure/stairs/stone{
-	dir = 4
-	},
 /obj/structure/fluff/railing/border/north,
 /obj/structure/stairs{
 	dir = 4
@@ -251575,7 +251563,7 @@ fwK
 oKc
 gTY
 vkW
-mDt
+bVQ
 vkW
 bVQ
 vkW
