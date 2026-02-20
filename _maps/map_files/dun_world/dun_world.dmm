@@ -42550,12 +42550,6 @@
 	icon_state = "plating2"
 	},
 /area/rogue/outdoors/town)
-"jUY" = (
-/obj/structure/stairs/stone{
-	dir = 8
-	},
-/turf/open/floor/rogue/cobblerock,
-/area/rogue/outdoors/beach)
 "jVb" = (
 /obj/machinery/light/rogue/lanternpost{
 	dir = 1
@@ -51063,8 +51057,8 @@
 /obj/structure/fluff/walldeco/customflag{
 	pixel_x = -32
 	},
-/obj/machinery/light/rogue/candle/floorcandle,
 /obj/structure/table/wood/poor,
+/obj/machinery/light/rogue/candle/floorcandle,
 /turf/open/floor/rogue/cobble,
 /area/rogue/outdoors/beach)
 "lKL" = (
@@ -102121,6 +102115,9 @@
 	pixel_y = 0;
 	pixel_x = -32
 	},
+/obj/structure/stairs/stone{
+	dir = 8
+	},
 /turf/open/floor/rogue/cobble,
 /area/rogue/outdoors/beach)
 "xIz" = (
@@ -103128,6 +103125,10 @@
 /obj/item/natural/bundle/bone/full,
 /turf/open/floor/rogue/naturalstone,
 /area/rogue/under/cave/his_vault/four)
+"xUz" = (
+/obj/structure/fluff/psycross/crafted,
+/turf/open/floor/rogue/naturalstone,
+/area/rogue/outdoors/beach)
 "xUD" = (
 /obj/effect/decal/cobble/mossy{
 	dir = 4
@@ -182816,7 +182817,7 @@ jcw
 jcw
 mvF
 hTY
-jUY
+imX
 hTY
 iiD
 jcw
@@ -197725,7 +197726,7 @@ tXb
 tXb
 tXb
 fce
-oYr
+iTM
 svv
 vEJ
 kFL
@@ -199084,7 +199085,7 @@ fce
 dHU
 iTM
 iTM
-svv
+xUz
 fce
 bwv
 xwc
