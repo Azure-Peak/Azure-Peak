@@ -56249,7 +56249,9 @@
 /turf/open/floor/rogue/blocks,
 /area/rogue/under/cave/mazedungeon)
 "mUR" = (
-/obj/structure/roguemachine/mail/l,
+/obj/structure/roguemachine/mail/l{
+	mailtag = "Wardens"
+	},
 /obj/structure/rack/rogue,
 /obj/item/paper/scroll,
 /obj/item/paper/scroll,
