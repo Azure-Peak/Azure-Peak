@@ -10,9 +10,11 @@
 	dynamic_hair_suffix = "+generic"
 	bloody_icon_state = "helmetblood"
 	experimental_onhip = FALSE
-	var/mask_override = FALSE //override if we want to always respect our inv flags if the helm is in a mask slot
+	/// Override if we want to always respect our inv flags if the helm is in a mask slot.
+	var/mask_override = FALSE
 	experimental_inhand = FALSE
 	var/hidesnoutADJ = FALSE
+	/// Tracks if we're currently over or under the armor layer. Mainly used for the feedback message.
 	var/overarmor = TRUE
 
 /obj/item/clothing/head/roguetown/equipped(mob/user, slot)

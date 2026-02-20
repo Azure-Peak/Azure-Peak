@@ -1,0 +1,4 @@
+author: "kano-dot"
+delete-after: True
+changes:
+  - rscadd: "Added back the hood layer adjustment, it now uses Alt + Right Click."
