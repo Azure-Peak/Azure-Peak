@@ -1,4 +1,0 @@
-author: "zoktiik"
-delete-after: True
-changes:
-  - server: "Linux TGS PreCompile script was fixed and now works properly. Specifically, it uses the same method as in build.sh."

@@ -1,6 +1,0 @@
-author: "THE GRAND DUKE OF AZURE PEAK"
-delete-after: True
-changes:
-  - balance: "graggar revel in death now scales w/ con above 10, flat rate 10 and below"
-  - bugfix: "noc spell descriptors should be fixced"
-  - bugfix: "bloody mess and sensitive nerves no longer say the status effect bleeds/is in pain"
