@@ -9801,6 +9801,10 @@
 	},
 /turf/open/floor/rogue/blocks,
 /area/rogue/under/cave/mazedungeon)
+"coS" = (
+/obj/effect/landmark/chimeric_calyx_spawner/thirty,
+/turf/open/floor/rogue/grass,
+/area/rogue/outdoors/rtfield)
 "coU" = (
 /obj/structure/flora/roguegrass/water/reeds,
 /obj/structure/hotspring/border,
@@ -77078,11 +77082,11 @@
 "rSw" = (
 /obj/structure/fluff/railing/border,
 /obj/structure/fluff/railing/border/west,
+/obj/structure/closet/crate/chest/wicker/bait,
 /obj/structure/fluff/railing/corner/north_east{
 	pixel_x = -24;
 	pixel_y = -24
 	},
-/obj/structure/closet/crate/chest/wicker/bait,
 /turf/open/floor/rogue/ruinedwood,
 /area/rogue/outdoors/beach)
 "rSz" = (
@@ -78226,7 +78230,7 @@
 /turf/open/floor/rogue/naturalstone,
 /area/rogue/outdoors/rtfield/abandonedhotsprings)
 "sgn" = (
-/obj/effect/landmark/chimeric_calyx_spawner/thirty,
+/obj/effect/decal/carpet/square/black,
 /turf/open/floor/rogue/cobblerock,
 /area/rogue/outdoors/rtfield)
 "sgy" = (
@@ -209001,9 +209005,9 @@ tXb
 fce
 fce
 sTT
-fce
 dYM
-fce
+dYM
+dYM
 fce
 iTM
 iTM
@@ -324262,9 +324266,9 @@ ebU
 ebU
 ebU
 ebU
-ebU
 tYO
-ebU
+quW
+tYO
 ebU
 ebU
 ebU
@@ -324714,7 +324718,7 @@ ebU
 ebU
 sNZ
 tYO
-rZO
+sNZ
 rZO
 lRD
 quW
@@ -326518,7 +326522,7 @@ ebU
 ebU
 ebU
 ebU
-asY
+sNZ
 rZO
 rZO
 iFe
@@ -326970,7 +326974,7 @@ ebU
 ebU
 ebU
 ebU
-asY
+sNZ
 asY
 rZO
 iFe
@@ -327422,7 +327426,7 @@ ebU
 ebU
 ebU
 ebU
-asY
+coS
 asY
 pjV
 rZO
@@ -327874,7 +327878,7 @@ ebU
 ebU
 ebU
 ebU
-asY
+sNZ
 asY
 uaw
 bsL
@@ -328326,7 +328330,7 @@ ebU
 ebU
 ebU
 ebU
-asY
+sNZ
 asY
 asY
 bsL
@@ -328786,8 +328790,8 @@ tYO
 asY
 asY
 sNZ
-quW
 sNZ
+quW
 ebU
 ebU
 ebU
@@ -329238,7 +329242,7 @@ asY
 asY
 sgn
 asY
-lRD
+quW
 sNZ
 ebU
 ebU
