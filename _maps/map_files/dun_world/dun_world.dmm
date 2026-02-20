@@ -9187,12 +9187,6 @@
 	},
 /turf/open/floor/rogue/churchmarble,
 /area/rogue/under/cave/licharena)
-"ciW" = (
-/obj/structure/fluff/walldeco/church/line{
-	dir = 8
-	},
-/turf/open/floor/rogue/ruinedwood/spiral,
-/area/rogue/outdoors/beach)
 "cja" = (
 /obj/effect/decal/cobbleedge{
 	dir = 9
@@ -19825,12 +19819,6 @@
 	},
 /turf/open/floor/rogue/dirt,
 /area/rogue/outdoors/town)
-"eEh" = (
-/obj/structure/fluff/walldeco/church/line{
-	dir = 1
-	},
-/turf/open/floor/rogue/ruinedwood/spiral,
-/area/rogue/outdoors/beach)
 "eEn" = (
 /obj/effect/decal/cleanable/dirt/cobweb,
 /obj/structure/bookcase/random/archive,
@@ -40396,10 +40384,6 @@
 "juE" = (
 /turf/open/floor/rogue/cobble,
 /area/rogue/indoors/cave)
-"juJ" = (
-/obj/structure/fluff/walldeco/church/line,
-/turf/open/floor/rogue/ruinedwood/spiral,
-/area/rogue/outdoors/beach)
 "juL" = (
 /obj/structure/mineral_door/wood{
 	locked = 1;
@@ -71993,12 +71977,6 @@
 	},
 /turf/open/floor/rogue/naturalstone,
 /area/rogue/outdoors/beach)
-"qGP" = (
-/obj/structure/fluff/walldeco/church/line{
-	dir = 4
-	},
-/turf/open/floor/rogue/ruinedwood/spiral,
-/area/rogue/outdoors/beach)
 "qGS" = (
 /obj/structure/rack/rogue/shelf,
 /obj/machinery/light/rogue/firebowl/standing,
@@ -89431,13 +89409,6 @@
 	},
 /turf/open/floor/rogue/blocks/flipped,
 /area/rogue/indoors/town/church/basement)
-"uLW" = (
-/obj/structure/ladder,
-/obj/structure/fluff/walldeco/church/line{
-	dir = 4
-	},
-/turf/open/floor/rogue/ruinedwood/spiral,
-/area/rogue/outdoors/beach)
 "uMc" = (
 /obj/structure/table/wood/poor,
 /obj/item/cooking/platter{
@@ -303964,10 +303935,10 @@ ebU
 ebU
 ebU
 rxe
-sxd
-uLW
-qGP
-qGP
+uYI
+gqC
+uYI
+uYI
 jWA
 nHD
 ebU
@@ -304416,11 +304387,11 @@ ebU
 ebU
 ebU
 rxe
-juJ
+uYI
 coM
 coM
 coM
-eEh
+uYI
 nHD
 ebU
 ebU
@@ -304868,11 +304839,11 @@ ebU
 ebU
 ebU
 rxe
-juJ
+uYI
 coM
 coM
 coM
-eEh
+uYI
 nHD
 ebU
 ebU
@@ -305320,10 +305291,10 @@ ebU
 ebU
 ebU
 rxe
+sxd
 uYI
-ciW
-ciW
-ciW
+uYI
+uYI
 uYI
 nHD
 ebU
