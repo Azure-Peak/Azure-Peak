@@ -41786,6 +41786,12 @@
 /obj/item/natural/feather,
 /turf/open/floor/carpet/stellar,
 /area/rogue/under/town/sewer)
+"jLC" = (
+/obj/structure/fluff/walldeco/rpainting/forest{
+	pixel_x = -32
+	},
+/turf/open/floor/rogue/ruinedwood/spiral,
+/area/rogue/outdoors/town)
 "jLF" = (
 /obj/item/rope/chain,
 /turf/open/floor/rogue/cobble,
@@ -43377,6 +43383,13 @@
 /mob/living/carbon/human/species/skeleton/npc/bogguard,
 /turf/open/floor/rogue/wood/nosmooth,
 /area/rogue/outdoors/mountains)
+"kdn" = (
+/obj/effect/decal/carpet/kover_black{
+	pixel_x = -2;
+	pixel_y = -18
+	},
+/turf/open/floor/rogue/ruinedwood/spiral,
+/area/rogue/outdoors/town)
 "kds" = (
 /obj/structure/fluff/railing/corner,
 /turf/open/floor/rogue/dirt/road,
@@ -47805,7 +47818,7 @@
 /obj/structure/stairs{
 	dir = 1
 	},
-/turf/open/floor/rogue/ruinedwood/spiral,
+/turf/open/transparent/openspace,
 /area/rogue/outdoors/town)
 "lbT" = (
 /obj/machinery/light/rogue/torchholder/l,
@@ -48119,7 +48132,7 @@
 "lfQ" = (
 /obj/effect/decal/carpet{
 	pixel_x = -2;
-	pixel_y = -16;
+	pixel_y = -8;
 	dir = 4
 	},
 /turf/open/floor/rogue/ruinedwood/herringbone,
@@ -56319,8 +56332,8 @@
 /turf/open/floor/rogue/dirt,
 /area/rogue/outdoors/woods/south)
 "mVU" = (
-/obj/structure/fluff/railing/border/north,
 /obj/structure/roguemachine/scomm/receive_only/l,
+/obj/structure/fermentation_keg/water,
 /turf/open/floor/rogue/blocks/stonered/tiny,
 /area/rogue/outdoors/town)
 "mVX" = (
@@ -64701,6 +64714,10 @@
 "oUS" = (
 /turf/open/floor/rogue/woodturned/nosmooth,
 /area/rogue/outdoors/woods/south)
+"oUU" = (
+/obj/structure/fermentation_keg/water,
+/turf/open/water/ocean/deep,
+/area/rogue/outdoors/beach)
 "oUV" = (
 /obj/effect/decal/mossy,
 /turf/open/floor/rogue/grasscold,
@@ -70301,14 +70318,10 @@
 /turf/open/floor/rogue/ruinedwood/herringbone_clear,
 /area/rogue/indoors/town/magician)
 "qnX" = (
-/obj/structure/fluff/railing/corner/south_east,
-/obj/machinery/light/rogue/candle/r,
-/obj/structure/rack/rogue/shelf/biggest,
-/obj/item/reagent_containers/glass/bucket{
-	pixel_x = -1;
-	pixel_y = 10
+/obj/structure/chair/wood/rogue/chair4{
+	dir = 8
 	},
-/obj/structure/rack/rogue/shelf,
+/obj/structure/fluff/railing/corner/south_east,
 /turf/open/floor/rogue/ruinedwood/herringbone,
 /area/rogue/outdoors/town)
 "qnY" = (
@@ -75875,9 +75888,6 @@
 /area/rogue/outdoors/mountains/decap/gunduzirak)
 "rCx" = (
 /obj/structure/fluff/railing/border/east,
-/obj/structure/chair/wood/rogue/chair4{
-	dir = 8
-	},
 /turf/open/floor/rogue/ruinedwood/herringbone,
 /area/rogue/outdoors/town)
 "rCy" = (
@@ -78026,13 +78036,6 @@
 /obj/structure/flora/ausbushes/brflowers,
 /turf/open/floor/rogue/grassyel,
 /area/rogue/outdoors/rtfield/eora)
-"scW" = (
-/obj/structure/fluff/walldeco/church/line{
-	dir = 8
-	},
-/obj/structure/fermentation_keg/water,
-/turf/open/floor/rogue/ruinedwood/herringbone,
-/area/rogue/outdoors/town)
 "scY" = (
 /obj/effect/decal/cobbleedge{
 	dir = 5;
@@ -83058,7 +83061,7 @@
 /area/rogue/under/cave/fishmandungeon)
 "tne" = (
 /obj/structure/closet/crate/roguecloset/dark,
-/turf/open/floor/carpet/royalblack,
+/turf/open/floor/rogue/ruinedwood/spiral,
 /area/rogue/outdoors/town)
 "tnj" = (
 /obj/structure/roguewindow,
@@ -91357,6 +91360,16 @@
 /obj/structure/fluff/statue/myth,
 /turf/open/floor/rogue/metal,
 /area/rogue/outdoors/mountains/decap/minotaurfort)
+"viM" = (
+/obj/machinery/light/rogue/candle/r,
+/obj/structure/rack/rogue/shelf/biggest,
+/obj/item/reagent_containers/glass/bucket{
+	pixel_x = -1;
+	pixel_y = 10
+	},
+/obj/structure/rack/rogue/shelf,
+/turf/open/floor/rogue/ruinedwood/herringbone,
+/area/rogue/outdoors/town)
 "viP" = (
 /mob/living/simple_animal/hostile/retaliate/rogue/orc/ranged,
 /turf/open/floor/rogue/ruinedwood/spiral,
@@ -94695,13 +94708,6 @@
 /obj/structure/fluff/railing/corner,
 /turf/open/transparent/openspace,
 /area/rogue/outdoors/town/roofs)
-"vVK" = (
-/obj/effect/decal/carpet/kover_black{
-	pixel_x = 0;
-	pixel_y = -12
-	},
-/turf/open/floor/rogue/ruinedwood/spiral,
-/area/rogue/outdoors/town)
 "vVO" = (
 /obj/machinery/light/rogue/torchholder/r,
 /turf/open/floor/rogue/church,
@@ -183712,11 +183718,11 @@ bhJ
 bhJ
 bhJ
 bhJ
-qHj
 svv
 uiS
 dWj
 rnj
+dWj
 dWj
 dWj
 ttE
@@ -184165,12 +184171,12 @@ miF
 bhJ
 bhJ
 svv
-svv
 ydo
 cne
 fFC
+jgy
 cne
-cne
+jgy
 fFC
 cne
 saR
@@ -184616,11 +184622,11 @@ bhJ
 bhJ
 miF
 bhJ
-svv
 iTM
 ydo
 nlW
 kip
+fIO
 mVU
 whQ
 dYu
@@ -185068,12 +185074,12 @@ bhJ
 bhJ
 miF
 bhJ
-svv
 iTM
 ydo
 nlW
 jkF
 fIO
+gLo
 bNv
 eOP
 cne
@@ -185520,12 +185526,12 @@ bhJ
 bhJ
 miF
 svv
-svv
 aCJ
 ydo
 nlW
 wLJ
 fIO
+gLo
 gLo
 aSw
 jgy
@@ -185972,14 +185978,14 @@ toJ
 bhJ
 eeL
 svv
-svv
 iTM
 ydo
 cne
 ltV
 klG
 aPp
-scW
+aPp
+aPp
 cne
 rdn
 vEJ
@@ -186424,10 +186430,10 @@ toJ
 toJ
 eeL
 svv
-iTM
 iOU
 sZL
 tPL
+cSm
 cSm
 lfQ
 cSm
@@ -186877,9 +186883,9 @@ bhJ
 jrv
 svv
 iTM
-iTM
 ydo
 cne
+viM
 qnX
 rCx
 cYR
@@ -187328,10 +187334,10 @@ bhJ
 bhJ
 eeL
 svv
-iTM
 svv
 ydo
 fFC
+cne
 cne
 lHp
 cSm
@@ -187780,10 +187786,10 @@ miF
 miF
 eeL
 svv
-iTM
 svv
 aBS
 cne
+fFC
 fFC
 cne
 eKl
@@ -188232,9 +188238,9 @@ miF
 miF
 bhJ
 svv
-iTM
 sTT
 cbb
+yfe
 uEW
 bRR
 cmR
@@ -191851,7 +191857,7 @@ fce
 fce
 tXb
 tXb
-tXb
+oUU
 tXb
 fce
 fce
@@ -299427,9 +299433,9 @@ exD
 nut
 ebU
 ebU
-ebU
 cne
 fFC
+raq
 raq
 raq
 fFC
@@ -299879,10 +299885,10 @@ exD
 hKL
 ebU
 ebU
-ebU
 fFC
 kQj
 cYZ
+rru
 rru
 auH
 fFC
@@ -300331,9 +300337,9 @@ njB
 gCk
 ebU
 ebU
-ebU
 iNv
 fut
+cYZ
 tne
 rru
 tHT
@@ -300783,8 +300789,8 @@ tqc
 ebU
 ebU
 ebU
-ebU
 cne
+fFC
 fFC
 fFC
 jNh
@@ -301235,9 +301241,9 @@ tqc
 ebU
 ebU
 ebU
-ebU
 cne
 cXj
+jLC
 lEf
 rru
 rXc
@@ -301687,10 +301693,10 @@ tqc
 ebU
 ebU
 ebU
-ebU
 fFC
 gsC
-vVK
+kdn
+rru
 rru
 bmn
 fFC
@@ -302139,9 +302145,9 @@ hKL
 ebU
 ebU
 ebU
-ebU
 cne
 eod
+fmh
 fmh
 ruY
 rru
@@ -302591,8 +302597,8 @@ hKL
 ebU
 ebU
 ebU
-ebU
 oRy
+rru
 lbR
 wDi
 fuu
@@ -303043,9 +303049,9 @@ hKL
 ebU
 ebU
 ebU
-ebU
 cne
 oRy
+fFC
 fFC
 fFC
 oRy
@@ -414688,9 +414694,9 @@ aBB
 aBB
 aBB
 aBB
-aBB
 nRO
 nRO
+uYO
 uYO
 uYO
 ier
@@ -415140,9 +415146,9 @@ aBB
 aBB
 aBB
 aBB
-aBB
 nRO
 nRO
+uYO
 uYO
 uYO
 ier
@@ -415592,9 +415598,9 @@ aBB
 aBB
 aBB
 aBB
-aBB
 nRO
 nRO
+uYO
 uYO
 uYO
 ier
@@ -416044,9 +416050,9 @@ aBB
 aBB
 aBB
 aBB
-aBB
 nRO
 nRO
+uYO
 uYO
 uYO
 ier
@@ -416496,9 +416502,9 @@ aBB
 aBB
 aBB
 aBB
-aBB
 nRO
 nRO
+uYO
 uYO
 uYO
 ier
@@ -416948,9 +416954,9 @@ aBB
 aBB
 aBB
 aBB
-aBB
 nRO
 nRO
+uYO
 uYO
 uYO
 ier
@@ -417400,9 +417406,9 @@ aBB
 aBB
 aBB
 aBB
-aBB
 nRO
 nRO
+uYO
 uYO
 uYO
 ier
@@ -417852,9 +417858,9 @@ aBB
 aBB
 aBB
 aBB
-aBB
 nRO
 nRO
+uYO
 uYO
 uYO
 ier
@@ -418304,9 +418310,9 @@ aBB
 aBB
 aBB
 aBB
-aBB
 nRO
 nRO
+uYO
 uYO
 uYO
 ier
@@ -418758,7 +418764,7 @@ aBB
 aBB
 aBB
 aBB
-nRO
+uYO
 uYO
 uYO
 aBB
