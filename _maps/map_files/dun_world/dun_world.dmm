@@ -10125,6 +10125,13 @@
 	},
 /turf/open/floor/rogue/cobblerock,
 /area/rogue/under/underdark/north)
+"csV" = (
+/obj/structure/fluff/railing/fence{
+	dir = 4
+	},
+/obj/structure/chair/stool/rogue,
+/turf/open/floor/rogue/ruinedwood/spiral,
+/area/rogue/outdoors/rtfield)
 "cta" = (
 /obj/structure/fluff/railing/border/east,
 /obj/structure/table/wood/long_table/right,
@@ -20690,6 +20697,14 @@
 	},
 /turf/open/floor/rogue/cobble,
 /area/rogue/under/cave/his_vault)
+"eOK" = (
+/obj/structure/fluff/railing/fence{
+	dir = 4
+	},
+/obj/machinery/light/rogue/torchholder/c,
+/obj/structure/chair/stool/rogue,
+/turf/open/floor/rogue/ruinedwood/spiral,
+/area/rogue/outdoors/rtfield)
 "eOM" = (
 /obj/structure/mineral_door/wood/donjon/stone/broken,
 /turf/open/floor/rogue/cobble,
@@ -36022,10 +36037,6 @@
 /obj/effect/spawner/lootdrop/roguetown/dungeon/weapons,
 /turf/open/floor/rogue/greenstone,
 /area/rogue/under/cave/dungeon1/gethsmane)
-"isd" = (
-/obj/structure/chair/stool/rogue,
-/turf/open/floor/rogue/ruinedwood/spiral,
-/area/rogue/outdoors/rtfield)
 "ise" = (
 /obj/structure/mineral_door/wood/deadbolt{
 	dir = 4
@@ -54126,6 +54137,12 @@
 	},
 /turf/open/transparent/openspace,
 /area/rogue/druidsgrove)
+"mtR" = (
+/obj/structure/fluff/railing/fence{
+	dir = 4
+	},
+/turf/open/floor/rogue/ruinedwood/spiral,
+/area/rogue/outdoors/rtfield)
 "mtT" = (
 /obj/structure/stairs{
 	dir = 1
@@ -100891,11 +100908,6 @@
 	},
 /turf/open/floor/rogue/ruinedwood/spiral,
 /area/rogue/indoors/town/dwarfin)
-"xtj" = (
-/obj/structure/rack/rogue,
-/obj/machinery/light/rogue/torchholder/c,
-/turf/open/floor/rogue/ruinedwood/spiral,
-/area/rogue/outdoors/rtfield)
 "xtm" = (
 /obj/structure/chair/wood/rogue{
 	dir = 8
@@ -103406,12 +103418,6 @@
 /obj/structure/roguemachine/stockpile,
 /turf/open/floor/rogue/tile/checkeralt,
 /area/rogue/indoors/town/steward)
-"xXl" = (
-/obj/structure/fluff/railing/fence{
-	dir = 4
-	},
-/turf/open/floor/rogue/ruinedwood/herringbone,
-/area/rogue/outdoors/rtfield)
 "xXn" = (
 /obj/structure/stairs{
 	dir = 8
@@ -301236,10 +301242,10 @@ lEf
 rru
 rXc
 cne
-uyK
-uyK
-uyK
-uyK
+ebU
+ebU
+ebU
+ebU
 cne
 uvI
 gyW
@@ -301688,10 +301694,10 @@ vVK
 rru
 bmn
 fFC
-xtj
-aJB
-isd
-isd
+uyK
+uyK
+uyK
+uyK
 fFC
 wcv
 naq
@@ -302140,10 +302146,10 @@ fmh
 ruY
 rru
 vzg
-xXl
-xXl
-xXl
-xXl
+aJB
+aJB
+aJB
+aJB
 tPL
 cSm
 hRU
@@ -302592,10 +302598,10 @@ wDi
 fuu
 diE
 fFC
-sZN
-sZN
-sZN
-sZN
+eOK
+csV
+mtR
+mtR
 fFC
 vUN
 uLs
@@ -303044,10 +303050,10 @@ fFC
 fFC
 oRy
 cne
-ebU
-ebU
-ebU
-ebU
+sZN
+sZN
+sZN
+sZN
 cne
 fFC
 fFC
