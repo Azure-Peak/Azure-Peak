@@ -12325,6 +12325,10 @@
 "cSe" = (
 /turf/closed/mineral/random/rogue,
 /area/rogue/indoors/cave/east)
+"cSg" = (
+/obj/structure/table/wood/folding,
+/turf/open/floor/carpet/royalblack,
+/area/rogue/outdoors/town)
 "cSm" = (
 /turf/open/floor/rogue/ruinedwood/herringbone,
 /area/rogue/outdoors/town)
@@ -43369,8 +43373,8 @@
 /area/rogue/outdoors/mountains)
 "kdn" = (
 /obj/effect/decal/carpet/kover_black{
-	pixel_x = -2;
-	pixel_y = -18
+	pixel_x = -4;
+	pixel_y = -4
 	},
 /turf/open/floor/rogue/ruinedwood/spiral,
 /area/rogue/outdoors/town)
@@ -300310,7 +300314,7 @@ ebU
 ebU
 iNv
 fut
-cYZ
+cSg
 tne
 rru
 tHT
