@@ -14681,10 +14681,6 @@
 "duT" = (
 /obj/structure/fluff/railing/border/east,
 /obj/structure/table/wood/poor,
-/obj/item/fishingrod{
-	pixel_x = -4;
-	pixel_y = 18
-	},
 /obj/item/natural/bundle/stick,
 /turf/open/floor/rogue/cobblerock,
 /area/rogue/outdoors/beach)
@@ -193647,7 +193643,7 @@ xEY
 iiD
 kFL
 svv
-xiV
+iTM
 wDa
 phi
 wDa
@@ -197258,7 +197254,7 @@ tXb
 tXb
 tXb
 fce
-iTM
+xsB
 uDq
 aXM
 kFL
@@ -197711,7 +197707,7 @@ tXb
 tXb
 fce
 iTM
-svv
+hfb
 vEJ
 kFL
 sTT
@@ -198163,7 +198159,7 @@ tXb
 tXb
 fce
 iTM
-hfb
+svv
 iiD
 cbb
 fce
@@ -198614,7 +198610,7 @@ tXb
 tXb
 tXb
 fce
-xsB
+hbJ
 svv
 svv
 svv
@@ -199066,7 +199062,7 @@ tXb
 tXb
 tXb
 fce
-dHU
+pjU
 iTM
 iTM
 xUz
