@@ -3751,6 +3751,15 @@
 /obj/structure/closet/crate/chest/neu,
 /turf/open/floor/rogue/blocks/stonered/tiny,
 /area/rogue/outdoors/town)
+"aSB" = (
+/obj/structure/bed/rogue{
+	dir = 8
+	},
+/obj/item/bedsheet/rogue/wool{
+	dir = 8
+	},
+/turf/open/floor/rogue/twig,
+/area/rogue/indoors/town)
 "aSH" = (
 /obj/structure/fluff/customsign{
 	name = "DANGEROUS FOE AHEAD!"
@@ -4891,9 +4900,6 @@
 /obj/item/bedsheet/rogue/wool{
 	dir = 4
 	},
-/obj/effect/landmark/start/warden{
-	dir = 1
-	},
 /turf/open/floor/rogue/twig,
 /area/rogue/indoors/town)
 "bgJ" = (
@@ -5237,7 +5243,6 @@
 /area/rogue/indoors/inq/office)
 "bmb" = (
 /obj/structure/chair/stool/rogue,
-/obj/effect/landmark/start/warden,
 /obj/machinery/light/rogue/campfire/fireplace{
 	pixel_x = 16
 	},
@@ -19934,13 +19939,6 @@
 /obj/machinery/light/rogue/torchholder/l,
 /turf/open/floor/rogue/cobble/mossy,
 /area/rogue/under/cavewet/bogcaves/west)
-"eFH" = (
-/obj/structure/chair/stool/rogue,
-/obj/effect/landmark/start/warden{
-	dir = 1
-	},
-/turf/open/floor/carpet/royalblack,
-/area/rogue/indoors/town)
 "eFL" = (
 /obj/effect/decal/cleanable/dirt/dust,
 /turf/closed/wall/mineral/rogue/decostone,
@@ -24639,6 +24637,7 @@
 	icon_state = "borderfall"
 	},
 /obj/structure/chair/bench/church/smallbench,
+/obj/effect/landmark/start/warden,
 /turf/open/floor/rogue/hexstone,
 /area/rogue/indoors/town)
 "fJj" = (
@@ -72658,7 +72657,6 @@
 /area/rogue/outdoors/beach)
 "qNZ" = (
 /obj/structure/chair/stool/rogue,
-/obj/effect/landmark/start/warden,
 /obj/structure/fluff/walldeco/wantedposter/r,
 /turf/open/floor/carpet/royalblack,
 /area/rogue/indoors/town)
@@ -87530,6 +87528,7 @@
 /obj/structure/rogue/trophy/deer,
 /obj/structure/chair/bench/church/smallbench,
 /obj/structure/fluff/wallclock/r,
+/obj/effect/landmark/start/warden,
 /turf/open/floor/rogue/hexstone,
 /area/rogue/indoors/town)
 "upT" = (
@@ -189618,8 +189617,8 @@ ksl
 pyN
 qTl
 svv
-iTM
-iTM
+svv
+svv
 qHj
 qHj
 qHj
@@ -190071,7 +190070,7 @@ fce
 fce
 fce
 fce
-fce
+svv
 svv
 bhJ
 bhJ
@@ -406103,7 +406102,7 @@ gVZ
 eKH
 bmb
 wan
-eFH
+doY
 ejX
 xSr
 phl
@@ -406555,7 +406554,7 @@ aBB
 eKH
 qNZ
 jYQ
-eFH
+doY
 gJt
 eXe
 phl
@@ -525882,7 +525881,7 @@ aBB
 aBB
 qFM
 xdi
-reD
+aSB
 dra
 vgR
 dra
