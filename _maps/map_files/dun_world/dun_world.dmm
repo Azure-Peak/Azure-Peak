@@ -1153,7 +1153,6 @@
 /obj/structure/closet/crate/chest/neu_fancy,
 /obj/effect/spawner/lootdrop/decrepit_equipment_spawner,
 /obj/effect/spawner/lootdrop/decrepit_equipment_spawner,
-/obj/effect/spawner/lootdrop/armored_boots_spawner,
 /obj/effect/spawner/lootdrop/valuable_jewelry_spawner,
 /turf/open/floor/rogue/church,
 /area/rogue/under/cave/scarymaze)
@@ -1542,8 +1541,6 @@
 	dir = 8
 	},
 /obj/structure/closet/crate/chest/neu_fancy,
-/obj/effect/spawner/lootdrop/valuable_jewelry_spawner,
-/obj/effect/spawner/lootdrop/valuable_jewelry_spawner,
 /obj/effect/spawner/lootdrop/general_loot_hi/x3,
 /turf/open/floor/rogue/churchmarble,
 /area/rogue/under/cave/scarymaze)
@@ -2408,10 +2405,6 @@
 	pixel_x = 8;
 	pixel_y = 19
 	},
-/obj/item/reagent_containers/glass/bottle/rogue/elfblue{
-	pixel_x = -3;
-	pixel_y = 9
-	},
 /turf/open/floor/rogue/churchmarble,
 /area/rogue/under/cave/scarymaze)
 "aBH" = (
@@ -2942,13 +2935,6 @@
 /obj/structure/fluff/statue/knight/r,
 /turf/open/floor/rogue/churchmarble,
 /area/rogue/indoors/cave)
-"aHT" = (
-/obj/item/roguecoin/gold/pile{
-	pixel_x = -2;
-	pixel_y = 10
-	},
-/turf/open/floor/rogue/carpet/lord/left,
-/area/rogue/under/cave/scarymaze)
 "aHU" = (
 /obj/structure/chair/bench,
 /turf/open/floor/rogue/grass,
@@ -4146,11 +4132,8 @@
 /turf/open/floor/rogue/dirt,
 /area/rogue/outdoors/mountains)
 "aVR" = (
-/obj/item/reagent_containers/glass/bottle/alchemical/rogue/rotcure{
-	pixel_x = -7;
-	pixel_y = 0
-	},
 /obj/structure/rack/rogue,
+/obj/effect/spawner/lootdrop/general_loot_hi/x3,
 /turf/open/floor/rogue/churchbrick,
 /area/rogue/under/cave/scarymaze)
 "aVT" = (
@@ -16623,13 +16606,9 @@
 "dOy" = (
 /obj/machinery/light/rogue/candle/blue/l,
 /obj/structure/table/wood/poor,
-/obj/item/reagent_containers/glass/cup/silver/small{
-	pixel_x = 7;
-	pixel_y = 2
-	},
-/obj/item/reagent_containers/glass/cup/golden{
+/obj/item/reagent_containers/glass/cup/silver/pewter{
 	pixel_x = -6;
-	pixel_y = 1
+	pixel_y = 0
 	},
 /turf/open/floor/rogue/churchmarble,
 /area/rogue/under/cave/scarymaze)
@@ -23668,7 +23647,6 @@
 	},
 /obj/structure/table/wood/poor,
 /obj/machinery/light/rogue/candle/blue/l,
-/obj/effect/spawner/lootdrop/valuable_jewelry_spawner,
 /obj/item/reagent_containers/glass/bowl/gold{
 	pixel_x = 11;
 	pixel_y = 11
@@ -30976,9 +30954,13 @@
 /area/rogue/indoors/shelter/mountains/decap)
 "haS" = (
 /obj/structure/table/finestone,
-/obj/item/rogueweapon/huntingknife/idagger/silver/elvish{
-	pixel_x = -1;
-	pixel_y = 9
+/obj/item/reagent_containers/glass/bottle/alchemical/rogue/rotcure{
+	pixel_x = -7;
+	pixel_y = 6
+	},
+/obj/item/reagent_containers/glass/bottle/alchemical/rogue/rotcure{
+	pixel_x = 0;
+	pixel_y = 6
 	},
 /turf/open/floor/rogue/churchmarble,
 /area/rogue/under/cave/scarymaze)
@@ -46229,9 +46211,7 @@
 /area/rogue/outdoors/town)
 "kuj" = (
 /obj/structure/rack/rogue,
-/obj/effect/spawner/lootdrop/light_armor_spawner,
-/obj/effect/spawner/lootdrop/elven_equipment_spawner,
-/obj/effect/spawner/lootdrop/ancient_equipment_spawner,
+/obj/effect/spawner/lootdrop/heavy_armor_spawner,
 /turf/open/floor/rogue/churchrough,
 /area/rogue/under/cave/scarymaze)
 "kul" = (
@@ -57177,8 +57157,6 @@
 /area/rogue/under/cave/his_vault)
 "mMR" = (
 /obj/effect/spawner/lootdrop/general_loot_mid/x3,
-/obj/effect/spawner/lootdrop/steel_weapon_spawner,
-/obj/effect/spawner/lootdrop/steel_weapon_spawner,
 /obj/structure/closet/crate/chest/neu_fancy,
 /turf/open/floor/rogue/church,
 /area/rogue/under/cave/scarymaze)
@@ -59840,7 +59818,7 @@
 /area/rogue/indoors/town/magician)
 "ntC" = (
 /obj/structure/rack/rogue,
-/obj/effect/spawner/lootdrop/general_loot_low/x3,
+/obj/effect/spawner/lootdrop/cheap_tableware_spawner,
 /turf/open/floor/rogue/church,
 /area/rogue/under/cave/scarymaze)
 "ntJ" = (
@@ -62722,7 +62700,7 @@
 /area/rogue/under/town/basement)
 "oct" = (
 /obj/structure/rack/rogue/shelf/biggest,
-/obj/effect/spawner/lootdrop/general_loot_hi/x3,
+/obj/effect/spawner/lootdrop/general_loot_low/x3,
 /turf/open/floor/rogue/churchbrick,
 /area/rogue/under/cave/scarymaze)
 "ocF" = (
@@ -71425,10 +71403,6 @@
 	pixel_x = 12;
 	pixel_y = 13
 	},
-/obj/item/roguecoin/gold/pile{
-	pixel_x = 1;
-	pixel_y = 8
-	},
 /turf/open/floor/rogue/carpet/lord/left,
 /area/rogue/under/cave/scarymaze)
 "qce" = (
@@ -78440,11 +78414,6 @@
 /obj/machinery/light/rogue/candle/off/l,
 /turf/open/floor/rogue/ruinedwood/spiral,
 /area/rogue/indoors/shelter/woods)
-"rGb" = (
-/obj/structure/closet/dirthole/grave,
-/obj/effect/spawner/lootdrop/general_loot_mid,
-/turf/open/floor/rogue/dirt,
-/area/rogue/under/cave/scarymaze)
 "rGd" = (
 /turf/open/floor/rogue/rooftop{
 	icon_state = "roofg"
@@ -93221,7 +93190,6 @@
 	pixel_y = 11
 	},
 /obj/structure/table/wood/poor,
-/obj/effect/spawner/lootdrop/valuable_tableware_spawner,
 /obj/item/reagent_containers/glass/cup/golden/small{
 	pixel_x = -8;
 	pixel_y = 16
@@ -98696,7 +98664,6 @@
 "whp" = (
 /obj/structure/closet/crate/chest/neu_fancy,
 /obj/item/roguestatue/silver,
-/obj/effect/spawner/lootdrop/general_loot_hi/x3,
 /turf/open/floor/rogue/churchmarble,
 /area/rogue/under/cave/scarymaze)
 "whr" = (
@@ -99646,11 +99613,6 @@
 /obj/structure/fluff/railing/border,
 /turf/open/floor/rogue/cobble,
 /area/rogue/under/cave/his_vault/puzzle)
-"wrv" = (
-/obj/structure/closet/dirthole/grave,
-/obj/effect/spawner/lootdrop/heavy_armor_spawner,
-/turf/open/floor/rogue/dirt,
-/area/rogue/under/cave/scarymaze)
 "wrw" = (
 /obj/structure/flora/roguegrass/bush/wall,
 /turf/open/floor/rogue/grass,
@@ -102176,13 +102138,6 @@
 /obj/machinery/light/rogue/firebowl/standing/blue,
 /turf/open/floor/rogue/wood,
 /area/rogue/indoors/town/magician)
-"wUr" = (
-/obj/item/roguestatue/blacksteel{
-	pixel_x = 11;
-	pixel_y = 9
-	},
-/turf/open/floor/rogue/carpet/lord/center,
-/area/rogue/under/cave/scarymaze)
 "wUs" = (
 /obj/structure/stairs/stone{
 	dir = 1
@@ -102378,11 +102333,6 @@
 /obj/item/candle/yellow,
 /turf/open/floor/rogue/cobble,
 /area/rogue/under/town/basement/keep)
-"wWI" = (
-/obj/structure/closet/dirthole/grave,
-/obj/effect/spawner/lootdrop/helmet_spawner,
-/turf/open/floor/rogue/dirt,
-/area/rogue/under/cave/scarymaze)
 "wWM" = (
 /obj/structure/fluff/railing/border/west,
 /obj/machinery/light/rogue/torchholder/c{
@@ -368176,7 +368126,7 @@ wHi
 cdJ
 khS
 wVc
-wrv
+roX
 sVk
 gTO
 quR
@@ -373142,7 +373092,7 @@ kSm
 phX
 tsY
 nhH
-aHT
+phX
 fjp
 alN
 uqe
@@ -373592,7 +373542,7 @@ vwZ
 iID
 qyS
 lIv
-wUr
+eYO
 iTg
 sgA
 jOW
@@ -375406,7 +375356,7 @@ kHE
 vJn
 cdJ
 gnz
-wWI
+lPg
 nzx
 sNc
 ojk
@@ -377681,7 +377631,7 @@ cdJ
 ycH
 irR
 sVk
-rGb
+lPg
 cdJ
 cxA
 qwK
@@ -378578,7 +378528,7 @@ roX
 cdJ
 bIQ
 cdJ
-wWI
+lPg
 cdJ
 jKA
 cdJ
