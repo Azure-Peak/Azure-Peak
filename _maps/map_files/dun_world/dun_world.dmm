@@ -64707,10 +64707,6 @@
 "oUS" = (
 /turf/open/floor/rogue/woodturned/nosmooth,
 /area/rogue/outdoors/woods/south)
-"oUU" = (
-/obj/structure/fermentation_keg/water,
-/turf/open/water/ocean/deep,
-/area/rogue/outdoors/beach)
 "oUV" = (
 /obj/effect/decal/mossy,
 /turf/open/floor/rogue/grasscold,
@@ -191833,7 +191829,7 @@ fce
 fce
 tXb
 tXb
-oUU
+tXb
 tXb
 fce
 fce
