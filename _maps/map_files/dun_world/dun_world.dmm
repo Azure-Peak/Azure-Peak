@@ -10819,8 +10819,8 @@
 /area/rogue/indoors/town/dwarfin)
 "cys" = (
 /obj/structure/rack/rogue,
-/obj/effect/spawner/lootdrop/blacksteel_equipment_spawner,
 /obj/item/clothing/neck/roguetown/psicross/inhumen/matthios,
+/obj/effect/spawner/lootdrop/elven_equipment_spawner,
 /turf/open/floor/rogue/churchrough,
 /area/rogue/under/cave/scarymaze)
 "cyu" = (
@@ -101639,7 +101639,6 @@
 /area/rogue/outdoors/mountains/decap/gunduzirak)
 "wOW" = (
 /obj/structure/table/wood/poor,
-/obj/effect/spawner/lootdrop/blacksteel_equipment_spawner,
 /obj/item/candle/candlestick/gold{
 	pixel_x = 8;
 	pixel_y = 5
@@ -101647,6 +101646,10 @@
 /obj/item/roguecoin/copper/pile{
 	pixel_x = -10;
 	pixel_y = 9
+	},
+/obj/item/roguestatue/blacksteel{
+	pixel_x = -7;
+	pixel_y = -1
 	},
 /turf/open/floor/rogue/churchrough,
 /area/rogue/under/cave/scarymaze)
