@@ -21514,9 +21514,6 @@
 /area/rogue/outdoors/mountains/decap/gunduzirak)
 "eXe" = (
 /obj/structure/fluff/railing/border/west,
-/obj/structure/roguemachine/scomm/r{
-	scom_tag = "Wardens - 1st Floor"
-	},
 /obj/structure/rack/rogue/shelf/biggest,
 /obj/item/rogueweapon/huntingknife{
 	pixel_x = 2;
@@ -21525,6 +21522,10 @@
 /obj/item/rogueweapon/huntingknife{
 	pixel_x = 2;
 	pixel_y = 3
+	},
+/obj/machinery/light/rogue/candle/r,
+/obj/structure/fluff/walldeco/wantedposter{
+	pixel_y = -32
 	},
 /turf/open/floor/rogue/blocks/stonered/tiny,
 /area/rogue/indoors/town)
@@ -27902,7 +27903,9 @@
 /turf/open/floor/rogue/concrete,
 /area/rogue/indoors/town/shop)
 "gzv" = (
-/obj/machinery/light/rogue/candle/l,
+/obj/structure/roguemachine/scomm/receive_only/l{
+	scom_tag = "Wardens - 1st Floor"
+	},
 /turf/open/floor/rogue/blocks/stonered/tiny,
 /area/rogue/indoors/town)
 "gzy" = (
@@ -36814,7 +36817,9 @@
 /turf/open/floor/rogue/dirt/road,
 /area/rogue/outdoors/mountains/decap)
 "iBU" = (
-/obj/structure/roguemachine/scomm/receive_only/l,
+/obj/structure/roguemachine/scomm/receive_only/l{
+	scom_tag = "Wardens - 1st Floor"
+	},
 /obj/effect/decal/cleanable/debris/stony,
 /turf/open/floor/rogue/ruinedwood/spiral,
 /area/rogue/indoors/shelter/woods)
@@ -56321,7 +56326,9 @@
 /turf/open/floor/rogue/dirt,
 /area/rogue/outdoors/woods/south)
 "mVU" = (
-/obj/structure/roguemachine/scomm/receive_only/l,
+/obj/structure/roguemachine/scomm/receive_only/l{
+	scom_tag = "Wardens - 1st Floor"
+	},
 /obj/structure/fermentation_keg/water,
 /turf/open/floor/rogue/blocks/stonered/tiny,
 /area/rogue/outdoors/town)
@@ -72655,7 +72662,7 @@
 /area/rogue/outdoors/beach)
 "qNZ" = (
 /obj/structure/chair/stool/rogue,
-/obj/structure/fluff/walldeco/wantedposter/r,
+/obj/machinery/light/rogue/candle/r,
 /turf/open/floor/carpet/royalblack,
 /area/rogue/indoors/town)
 "qOa" = (
