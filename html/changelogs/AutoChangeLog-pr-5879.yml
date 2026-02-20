@@ -1,4 +1,4 @@
 author: "FreeStylaLT"
 delete-after: True
 changes:
-  - balance: "Kobolds get a +1 stat choice."
+  - rscdel: "Removed the scroll-making Noc T3"

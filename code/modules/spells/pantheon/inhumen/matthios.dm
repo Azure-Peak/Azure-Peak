@@ -97,7 +97,8 @@
 	range = 4
 	warnie = "sydwarning"
 	movement_interrupt = FALSE
-	invocation_type = "none"
+	invocations = list("I offer thee myne gift!", "Blessings upon thine humble servant!", "Grant me thine fyre my lord!", "A transaction for myne lyfe!")
+	invocation_type = "shout"//So someone might actually figures out you are supposed to be valid using this.
 	associated_skill = /datum/skill/magic/holy
 	antimagic_allowed = TRUE
 	recharge_time = 20 SECONDS
@@ -126,18 +127,29 @@
 			playsound(target, 'sound/magic/PSY.ogg', 100, FALSE, -1)
 			return FALSE
 		user.visible_message(span_notice("The transaction is made! [target] is bathed in a golden light!"))
-		to_chat(user, "<font color='yellow'>[held_item] burns into the air suddenly. My transaction is accepted.</font>")
 		if(iscarbon(target))
 			var/mob/living/carbon/C = target
 			var/datum/status_effect/buff/healing/heal_effect = C.apply_status_effect(/datum/status_effect/buff/healing)
 			heal_effect.healing_on_tick = helditemvalue/2
 			playsound(user, 'sound/combat/hits/burn (2).ogg', 100, TRUE)
-			qdel(held_item)
+			if(istype(held_item, /obj/item/rogueweapon))
+				to_chat(user, "<font color='yellow'>[held_item] melts at it's very fabric turning it into a heap of scrap. My transaction is accepted.</font>")
+				held_item.obj_break(TRUE)
+				held_item.sellprice = 1
+			else
+				to_chat(user, "<font color='yellow'>[held_item] is engulfed in unholy flame and dissipates into ash. My transaction is accepted.</font>")
+				qdel(held_item)
 		else
 			target.adjustBruteLoss(helditemvalue/2)
 			target.adjustFireLoss(helditemvalue/2)
 			playsound(user, 'sound/combat/hits/burn (2).ogg', 100, TRUE)
-			qdel(held_item)
+			if(istype(held_item, /obj/item/rogueweapon))
+				to_chat(user, "<font color='yellow'>[held_item] melts at it's very fabric turning it into a heap of scrap. My transaction is accepted.</font>")
+				held_item.obj_break(TRUE)
+				held_item.sellprice = 1
+			else
+				to_chat(user, "<font color='yellow'>[held_item] is engulfed in unholy flame and dissipates into ash. My transaction is accepted.</font>")
+				qdel(held_item)
 		return TRUE
 	revert_cast()
 	return FALSE

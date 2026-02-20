@@ -468,6 +468,7 @@
 	sheathe_icon = "minimesser"
 	max_blade_int = 200
 	max_integrity = 150
+	special = /datum/special_intent/shin_swipe
 
 /obj/item/rogueweapon/huntingknife/idagger/virtue
 	possible_item_intents = list(/datum/intent/dagger/thrust,/datum/intent/dagger/cut, /datum/intent/dagger/thrust/pick, /datum/intent/dagger/sucker_punch)

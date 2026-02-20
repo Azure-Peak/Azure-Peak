@@ -1,6 +1,0 @@
-author: "Ollanius"
-delete-after: True
-changes:
-  - rscadd: "Introduces the 'Cuir-Bouille' to the public - a sleeveless, studded leather vest that can be worn on the shirt slot."
-  - rscadd: "This provides increased protection, nearer to a padded gambeson, at the cost of reduced integrity and torso-only coverage."
-  - balance: "The Psyalmist's unique variant of the 'Cuir-Bouille' has received a minor integrity bonus."

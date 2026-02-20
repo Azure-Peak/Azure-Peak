@@ -1,7 +1,0 @@
-author: "nauticall"
-delete-after: True
-changes:
-  - qol: "Added ghost HUD buttons for Orbit, Reenter Corpse, and Teleport."
-  - qol: "Ghost HUD buttons now display their functions on mouse-over."
-  - qol: "Increased ghost night vision slightly so that they can now see pitch-black areas. Ghosts still can't see through walls."
-  - qol: "(Re)added the ability for ghosts to double-click follow any non-turf object or mob."

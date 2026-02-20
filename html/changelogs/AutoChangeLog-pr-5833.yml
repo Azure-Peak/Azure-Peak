@@ -1,5 +1,0 @@
-author: "WeNeedMorePhoron"
-delete-after: True
-changes:
-  - bugfix: "Raw crab cake has sprite again"
-  - bugfix: "Runtime with loadout"

@@ -182,6 +182,7 @@
 #define STATS_LOCKS_PICKED "locks_picked"
 #define STATS_BANDITS "bandits"
 #define STATS_INDEBTED "indebt_people"
+#define STATS_GOLD_TRANSMUTED "gold_transmuted"
 
 GLOBAL_LIST_INIT(azure_round_stats, list(
 	STATS_DEATHS = 0,
@@ -339,6 +340,7 @@ GLOBAL_LIST_INIT(azure_round_stats, list(
 	STATS_STARTING_TREASURY = 0,
 	STATS_RURAL_TAXES_COLLECTED = 0,
 	STATS_BANK_INTEREST_CREATED = 0,
+	STATS_GOLD_TRANSMUTED = 0,
 ))
 
 GLOBAL_LIST_EMPTY(patron_follower_counts)

@@ -1,0 +1,4 @@
+author: "crunchypretzels"
+delete-after: True
+changes:
+  - balance: "Matthios now gains influence from transmuting gold, not graverobbing."
