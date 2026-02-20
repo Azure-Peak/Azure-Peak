@@ -5570,8 +5570,7 @@
 /obj/structure/fluff/walldeco/customflag{
 	pixel_y = 32
 	},
-/obj/structure/handcart,
-/turf/open/floor/rogue/cobblerock,
+/turf/open/floor/rogue/dirt/road,
 /area/rogue/outdoors/town)
 "bpN" = (
 /obj/effect/decal/cobbleedge{
@@ -17296,6 +17295,10 @@
 "dYX" = (
 /turf/open/floor/rogue/carpet/lord/right,
 /area/rogue/under/cave/licharena/bossroom)
+"dZc" = (
+/obj/structure/handcart,
+/turf/open/floor/rogue/cobblerock,
+/area/rogue/outdoors/town)
 "dZf" = (
 /mob/living/carbon/human/species/goblin/npc/hell,
 /turf/open/floor/rogue/cobble,
@@ -289013,7 +289016,7 @@ phl
 pLh
 pLh
 bpM
-exD
+dZc
 exD
 exD
 exD
@@ -289466,9 +289469,9 @@ rZC
 uwd
 exD
 exD
+exD
 njB
 gwH
-exD
 exD
 aGT
 fpx
