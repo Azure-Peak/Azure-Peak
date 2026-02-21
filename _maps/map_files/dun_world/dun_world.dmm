@@ -1867,10 +1867,6 @@
 /area/rogue/indoors/town/manor)
 "atG" = (
 /obj/structure/table/wood/poor,
-/obj/item/quiver/arrows/bronze{
-	pixel_x = 12;
-	pixel_y = 4
-	},
 /obj/item/natural/hide/cured{
 	pixel_x = -9;
 	pixel_y = 12
@@ -66322,14 +66318,6 @@
 /turf/open/floor/rogue/greenstone/runed,
 /area/rogue/outdoors/woods/southeast)
 "oFg" = (
-/obj/item/gun/ballistic/revolver/grenadelauncher/crossbow{
-	pixel_x = 4;
-	pixel_y = 0
-	},
-/obj/item/quiver/pyrobolts{
-	pixel_x = -3;
-	pixel_y = 0
-	},
 /obj/structure/table/wood/poor,
 /obj/item/ammo_casing/caseless/rogue/bolt{
 	pixel_x = 13;
@@ -66343,6 +66331,7 @@
 	pixel_x = 8;
 	pixel_y = 10
 	},
+/obj/item/gun/ballistic/revolver/grenadelauncher/crossbow/slurbow,
 /turf/open/floor/rogue/dirt,
 /area/rogue/under/cave/scarymaze)
 "oFj" = (
