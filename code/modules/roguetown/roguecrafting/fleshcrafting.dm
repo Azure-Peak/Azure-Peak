@@ -141,3 +141,16 @@
 		)
 	subtype_reqs = TRUE
 	structurecraft = null
+
+/datum/crafting_recipe/roguetown/fleshcrafting/imperfect_gnoll_alt
+	name = "vilespawn flesh (from crystallized glut)"
+	craftdiff = 1
+	result = list(
+		/obj/item/reagent_containers/food/snacks/rogue/meat/steak/vilespawn
+		)
+	reqs = list(
+		/obj/item/reagent_containers/food/snacks/rogue/meat/steak/gnoll = 1,
+		/obj/item/ingot/component/glutcrystal = 1,
+		)
+	subtype_reqs = TRUE
+	structurecraft = null

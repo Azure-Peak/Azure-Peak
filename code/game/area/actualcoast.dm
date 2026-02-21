@@ -1,6 +1,6 @@
 // Actual coastal coastal area - this is for the harbour, which has no ambushes.
 /area/rogue/outdoors/beach
-	name = "City Harbour"
+	name = "City Harbor"
 	icon_state = "beach"
 	warden_area = TRUE
 	ambientsounds = AMB_BEACH
@@ -9,7 +9,7 @@
 	droning_sound_dusk = 'sound/music/area/septimus.ogg'
 	droning_sound_night = 'sound/music/area/sleeping.ogg'
 	converted_type = /area/rogue/under/lake
-	first_time_text = "CITY HARBOUR"
+	first_time_text = "CITY HARBOR"
 	deathsight_message = "a windswept shore"
 	detail_text = DETAIL_TEXT_ACTUAL_COAST
 

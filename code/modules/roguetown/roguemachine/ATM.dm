@@ -325,7 +325,7 @@
 			return
 
 	else
-		to_chat(user,span_info("Their blood is unsoiled by the Duchy's Nervemaster. There is nothing to take."))
+		to_chat(user,span_info("Their blood is unsoiled by the [SSticker.realm_type_short]'s Nervemaster. There is nothing to take."))
 		return
 
 /obj/item/coveter/proc/drain_effect_fast(mob/living/carbon/human/H)

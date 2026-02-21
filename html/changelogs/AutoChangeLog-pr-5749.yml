@@ -1,0 +1,4 @@
+author: "WeNeedMorePhoron"
+delete-after: True
+changes:
+  - rscadd: "Guard / Clash now can deflects nearly all magical projectiles (Don't try to deflect sun strike) or negate / mitigate the effects of most offensive spells. Git Gud."

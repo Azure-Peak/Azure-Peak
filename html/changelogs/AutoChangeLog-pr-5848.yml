@@ -1,0 +1,4 @@
+author: "Ollanius"
+delete-after: True
+changes:
+  - balance: "Siegebolts deal a little less damage, now."

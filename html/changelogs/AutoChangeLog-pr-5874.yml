@@ -1,0 +1,4 @@
+author: "hazelrat"
+delete-after: True
+changes:
+  - rscadd: "Integrated a remap of the city harbour. The Wardens' Barracks are now located on the walls at the north-eastern extreme of the city, and there is now a gate directly connecting the druids' grove to the church courtyard."

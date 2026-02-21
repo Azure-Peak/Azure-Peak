@@ -7,6 +7,8 @@
 	armor_penetration = 100
 	pass_flags = PASSTABLE | PASSGRILLE
 	flag = "magic"
+	reflectable = REFLECT_NORMAL
+	guard_deflectable = TRUE
 	var/explode_sound = list('sound/misc/explode/incendiary (1).ogg','sound/misc/explode/incendiary (2).ogg')
 	var/mob/living/carbon/human/sender
 

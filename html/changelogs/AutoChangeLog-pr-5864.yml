@@ -1,0 +1,7 @@
+author: "Ollanius"
+delete-after: True
+changes:
+  - balance: "Silver and bronze whips now have a flat minimum strength requirement of 11, instead of 12 and 13."
+  - rscadd: "Whipping intents now explain their unique gimmicks and damage types, upon examination."
+  - code_imp: "Cleaned up whip.dm just a little bit, and further organized it."
+  - code_imp: "Renamed 'holy lash' to 'lash with dismembering force'. Same as before, otherwise."

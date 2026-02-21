@@ -944,15 +944,16 @@
 	name = "peculate"
 	hitsound = null
 	desc = "Thieve the appearance of another."
-	icon_state = "peculate"
+	icon_state = "inpeculate"
 
 //Unique assassin/antag dagger.
 /obj/item/rogueweapon/huntingknife/idagger/steel/profane
 	name = "profane dagger"
-	desc = "A profane dagger made of cursed black steel. Whispers emanate from the gem on its hilt."
-	possible_item_intents = list(/datum/intent/dagger/cut, /datum/intent/dagger/thrust, /datum/intent/peculate)
+	desc = "A profane dagger made from a cursed alloy. Whispers emanate from the diamond on its hilt. </br>A chill rolls down my spine. I am not alone."
+	possible_item_intents = list(/datum/intent/dagger/cut, /datum/intent/dagger/thrust, /datum/intent/peculate, /datum/intent/dagger/thrust/pick)
 	sellprice = 250
-	icon_state = "pdagger"
+	icon_state = "graggardagger"
+	sheathe_icon = "graggardagger"
 	embedding = list("embed_chance" = 0) // Embedding the cursed dagger has the potential to cause duping issues. Keep it like this unless you want to do a lot of bug hunting.
 	resistance_flags = INDESTRUCTIBLE
 	stealthy_audio = TRUE

@@ -89,6 +89,13 @@ GLOBAL_LIST_EMPTY(cmode_tracks_by_name)
 	credits = "TO PIERCE THE BLACK SKY /// ENVY INTERLUDE - UNFORTUNATE DEVELOPMENT"
 	musicpath = list('sound/music/combat_ascended.ogg')
 
+/datum/combat_music/ascendedsavior
+	name = "Ascended ('Savior' Mix)"
+	desc = "Blessed idiot, sacrificial hero, lowly fool - will you save your world, or will you watch the birth of a new one?"
+	shortname = "Savior"
+	credits = "DON'T BLINK /// OUTCOME MEMORIES - LAST MAN STANDING"
+	musicpath = list('sound/music/combat_savior.ogg')
+
 /datum/combat_music/astrata
 	name = "Astratan Light"
 	desc = ""
@@ -481,7 +488,6 @@ GLOBAL_LIST_EMPTY(cmode_tracks_by_name)
 	credits = "T87-Sulfurhead - Good Men Die Young (https://www.youtube.com/@T87-Sulfurhead)"
 	musicpath = list('sound/music/combat_veteran.ogg')
 
-
 /datum/combat_music/warscholar
 	name = "Warscholar, Naledi"
 	desc = ""
@@ -516,6 +522,13 @@ GLOBAL_LIST_EMPTY(cmode_tracks_by_name)
 	shortname = "Shepherd"
 	credits = "MusicImaginary - Yendrek"
 	musicpath = list('sound/music/frei_shepherd.ogg')
+
+/datum/combat_music/thespian
+	name = "Thespian-Errant"
+	desc = "Witness us! We, who are about to die, salute thee!"
+	shortname = "Thespian"
+	credits = "Swords And Sandals, Spartacus - Title Theme"
+	musicpath = list('sound/music/combat_thespian.ogg')
 
 /datum/combat_music/dying_world
 	name = "Chant Against a Dying World (Neu Verevolf)"

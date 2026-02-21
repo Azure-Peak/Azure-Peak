@@ -914,7 +914,9 @@
 
 /obj/structure/fluff/statue/abyssor/dolomite
 	name = "abyssor statue"
-	desc = "A rare dolomite statue of the ancient god Abyssor. Hewn from bleached rock as if the shimmer makes his faceless gaze any less terrifying."
+	desc = "A rare dolomite statue of the ancient god Abyssor, the Dreamer, He Who Slumbers, \
+	patron of the seas and all those that travel by them. He is asleep, and his followers pray \
+	fervently that he remains so for a very long time yet."
 	icon_state = "abyssor_dolomite"
 
 /obj/structure/fluff/statue/knight/r

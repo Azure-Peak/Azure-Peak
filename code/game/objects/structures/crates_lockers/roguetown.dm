@@ -154,6 +154,18 @@
 	open_sound = 'sound/items/book_close.ogg'
 	close_sound = 'sound/items/book_close.ogg'
 
+// Contains bait for fishing.
+/obj/structure/closet/crate/chest/wicker/bait
+	name = "sun-bleached wicker basket"
+	desc = "Fibers interwoven to make a cheap storage bin. This one smells rather funny."
+
+/obj/structure/closet/crate/chest/wicker/bait/Initialize()
+	. = ..()
+	for(var/i = 1 to 9)
+		new /obj/item/natural/worms(src)
+	for(var/i = 1 to 3)
+		new /obj/item/natural/worms/grubs(src)
+
 /obj/structure/closet/crate/chest/neu
 	name = "sturdy oak chest"
 	icon_state = "chest_neu"

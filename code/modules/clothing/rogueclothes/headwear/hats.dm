@@ -299,6 +299,12 @@
 	prevent_crits = list(BCLASS_CUT, BCLASS_BLUNT, BCLASS_TWIST)
 	sewrepair = TRUE
 
+/obj/item/clothing/head/roguetown/inqhat/gravehat
+	name = "gravetender's hat"
+	desc = "A fine leather slouch fitted with a hidden steel skull cap. It serves as a reminder that Necra's grasp is never too far."
+	icon_state = "gravehat"
+	item_state = "gravehat"
+
 /obj/item/clothing/head/roguetown/headband/red
 	color = CLOTHING_RED
 

@@ -1,0 +1,5 @@
+author: "FreeStylaLT"
+delete-after: True
+changes:
+  - balance: "Greatsword Special now has a delayed first hit."
+  - balance: "Various Specials now require wielding."

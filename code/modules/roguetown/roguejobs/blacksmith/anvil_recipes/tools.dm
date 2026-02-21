@@ -239,16 +239,19 @@
 	req_bar = /obj/item/ingot/bronze
 	created_item = /obj/item/needle/bronze
 	createditem_num = 2
+	craftdiff = 0
 
 /datum/anvil_recipe/tools/bronze/pan
 	name = "Frypan, Bronze"
 	req_bar = /obj/item/ingot/bronze
 	created_item = /obj/item/cooking/pan/bronze
+	craftdiff = 0
 
 /datum/anvil_recipe/tools/bronze/pot
 	name = "Cooking Pot, Bronze"
 	req_bar = /obj/item/ingot/bronze
 	created_item = /obj/item/reagent_containers/glass/bucket/pot/bronze
+	craftdiff = 0
 
 /datum/anvil_recipe/tools/bronze/handsaw
 	name = "Handsaw, Bronze (+1 Stick)"
@@ -272,29 +275,34 @@
 	req_bar = /obj/item/ingot/bronze
 	created_item = /obj/item/reagent_containers/glass/cup/bronzemug
 	createditem_num = 2
+	craftdiff = 0
 
 /datum/anvil_recipe/tools/bronze/platter
 	name = "Platter, Bronze (x2)"
 	req_bar = /obj/item/ingot/bronze
 	created_item = /obj/item/cooking/platter/bronze
 	createditem_num = 2
+	craftdiff = 0
 
 /datum/anvil_recipe/tools/bronze/bowl
 	name = "Bowl, Bronze"
 	req_bar = /obj/item/ingot/bronze
 	created_item = /obj/item/reagent_containers/glass/bowl/bronze
+	craftdiff = 0
 
 /datum/anvil_recipe/tools/bronze/fork
 	name = "Fork, Bronze (x2)"
 	req_bar = /obj/item/ingot/bronze
 	created_item = /obj/item/kitchen/fork/bronze
 	createditem_num = 2
+	craftdiff = 0
 
 /datum/anvil_recipe/tools/bronze/spoon
 	name = "Spoon, Bronze (x2)"
 	req_bar = /obj/item/ingot/bronze
 	created_item = /obj/item/kitchen/spoon/bronze
 	createditem_num = 2
+	craftdiff = 0
 
 /datum/anvil_recipe/tools/bronze/lamptern
 	name = "Handlamptern, Bronze (+3 Sticks)"

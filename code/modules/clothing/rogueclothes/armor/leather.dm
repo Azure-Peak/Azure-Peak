@@ -143,7 +143,7 @@
 	desc = "A heavy steerhide jerkin that reaches past the hips and better protects the vitals."
 	icon_state = "roguearmor_coat"
 	item_state = "roguearmor_coat"
-	body_parts_covered = COVERAGE_ALL_BUT_ARMS
+	body_parts_covered = COVERAGE_ALL_BUT_ARMFEET
 	armor = ARMOR_LEATHER_GOOD
 	max_integrity = ARMOR_INT_CHEST_LIGHT_MASTER
 	sellprice = 25
@@ -172,6 +172,15 @@
 	desc = "A finely woven hatagna coat, replacing much of its scaled armor with fine furs and reinforced padding for lighter rides."
 	icon_state = "hatangafur"
 	item_state = "hatangafur"
+	color = null
+
+/obj/item/clothing/suit/roguetown/armor/leather/heavy/coat/gravecoat
+	name = "gravetender's coat"
+	desc = "A padded coat bearing the same hues one would find on a Necran. Small steel braces adorn the wrists, a symbol of Necra's grasp on those who serve her."
+	icon_state = "gravecoat"
+	item_state = "gravecoat"
+	max_integrity = ARMOR_INT_CHEST_LIGHT_BASE	
+	body_parts_covered = COVERAGE_ALL_BUT_HANDFEET
 	color = null
 
 /obj/item/clothing/suit/roguetown/armor/leather/heavy/jacket

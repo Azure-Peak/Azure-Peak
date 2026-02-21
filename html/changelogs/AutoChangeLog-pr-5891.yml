@@ -1,0 +1,5 @@
+author: "eirenxiv"
+delete-after: True
+changes:
+  - bugfix: "properly adjusts silkcoat coverage to not include feet"
+  - bugfix: "adjusts hardened leather coat coverage to not include feet either"

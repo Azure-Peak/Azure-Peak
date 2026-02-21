@@ -106,6 +106,9 @@
 /obj/effect/proc_holder/spell/invoked/eoracurse/cast(list/targets, mob/living/user)
 	if(isliving(targets[1]))
 		var/mob/living/carbon/target = targets[1]
+		if(spell_guard_check(target, TRUE))
+			target.visible_message(span_warning("[target] shrugs off the haze!"))
+			return TRUE
 		target.apply_status_effect(/datum/status_effect/buff/druqks)
 		target.apply_status_effect(/datum/status_effect/buff/drunk)
 		target.visible_message("<span class='info'>A purple haze shrouds [target]!</span>", "<span class='notice'>I feel much calmer.</span>")

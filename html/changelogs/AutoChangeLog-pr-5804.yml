@@ -1,0 +1,4 @@
+author: "WeNeedMorePhoron"
+delete-after: True
+changes:
+  - rscadd: "Usurpation mechanics has been added - with eight thematic rites for you to usurp the throne based on your status. This can only be done when there's a Regent or Grand Duke in round."

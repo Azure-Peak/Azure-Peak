@@ -1,0 +1,12 @@
+author: "Ollanius"
+delete-after: True
+changes:
+  - balance: "The Berserker's Sword now has a far more fittingly difficult - but still accomplishable - recipe."
+  - bugfix: "The Profane Dagger now properly inherits the 'Pick' intent, and its 'Peculate' intent should now render."
+  - rscadd: "Adds 'components', a subtype for ingots that're used to mimic the forging of rarer (or unique-tier) items. Kudos to Ketrai for the original concepts and ideas!"
+  - rscadd: "Adds 'crystalline glut', a unique component for a unique recipe. Can be smelted back down into regular 'glut', as needed."
+  - rscadd: "Adds 'the grip-' and 'the blade of the berserker', components for its namesake."
+  - rscadd: "Adds 'a raw heap of iron.'"
+  - rscadd: "Adds unique sprites to the Profane dagger."
+  - rscadd: "Examining both types of 'glut' with the right patron will provide more detailed information on how to use them."
+  - code_imp: "Components are essentially fancier ingots that're disguised as unique components for a greater recipe. Allows you to make a recipe that only uses components (such as a handle with a blade) without the need to add an ingot as the starter."

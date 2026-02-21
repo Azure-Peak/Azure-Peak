@@ -1,0 +1,5 @@
+author: "zydras"
+delete-after: True
+changes:
+  - rscadd: "Adds a new Sexton subclass, the Gravetender!"
+  - balance: "adjusted the Sexton's stat pack and skills around"

@@ -148,7 +148,9 @@
 			else
 				. += span_notice("Something about them seems... different.")
 
-		if(GLOB.lord_titles[name])
+		if(SSticker.rulermob == src)
+			. += span_notice("<b>The ruler of this land.</b>")
+		else if(GLOB.lord_titles[name])
 			. += span_notice("[m3] been granted the title of \"[GLOB.lord_titles[name]]\".")
 
 		if(HAS_TRAIT(src, TRAIT_NOBLE) || HAS_TRAIT(src, TRAIT_DEFILED_NOBLE))

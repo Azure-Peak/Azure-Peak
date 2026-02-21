@@ -28,9 +28,11 @@ This allows the devs to draw whatever shape they want at the cost of it feeling 
 	/// The list of turfs the grid will be drawn on and 
 	var/list/affected_turfs = alist()
 
-	/// Whether to have the howner pass through a doafter for the delay rather than it being on every turf.
-	/// Default code here does not allow for dir switching during the do after.
+	/// Whether we'll use a doafter to "charge" our Special before activating it. The var is the delay in seconds.
 	var/use_doafter = FALSE
+
+	/// Whether our howner needs to be wielding the weapon. DO NOT USE THIS FOR ESOTERIC SPECIALS WITHOUT A MOB (TRAPS, ETC)
+	var/requires_wielding = FALSE
 
 	/// Whether the special uses the target atom that was clicked on. Generally best reserved to be a turf.
 	/// This WILL change how the grid is drawn, as the 'origin' will become the clicked-on turf.
@@ -65,9 +67,14 @@ This allows the devs to draw whatever shape they want at the cost of it feeling 
 
 	// Hacky bool end ^^
 
-	/// The delay for either the doafter or the timers on the turfs before calling post_delay() and apply_hit()
-	/// Or in other words. The pause before the hit of the special happens.
+	/// The delay for either the doafter or the timers on the turfs before calling post_delay() and apply_hit().
+	/// Or in other words, the pause before the hit of the special happens.
+	/// This is overridden by custom_delays where applicable.
 	var/delay = 1 SECONDS
+
+	/// Custom delays applied to each timing instance. This is the delay between the ! disappearing and the hit occurring.
+	/// It's to be structured in simple 1 = X SECONDS, 2 = Y SECONDS manner, with the index representing the 'wave' the delay is for.
+	var/list/custom_delays = list()
 
 	///The amount of time the post-delay effect is meant to linger.
 	var/fade_delay = 0.5 SECONDS
@@ -104,7 +111,10 @@ This allows the devs to draw whatever shape they want at the cost of it feeling 
 	str +="<i>[desc]</i>"
 	if(range)
 		str += "\n<i>Max Range: ["\Roman [range]"]"
-	str +="\n<i><font size = 1>This ability can be used by right clicking while in STRONG stance or by using the Special MMB.</font></i></details>"
+	if(requires_wielding)
+		str += "\n<i>Requires Wielding</i>"
+	str += "\n<i><font size = 1>This ability can be used by right clicking while in STRONG stance or by using the Special MMB.</font></i>"
+	str += "</details>"
 	return str
 
 ///Called by external sources -- likely an rclick or mmb. By default the 'target' will be stored as a turf.
@@ -127,6 +137,10 @@ This allows the devs to draw whatever shape they want at the cost of it feeling 
 ///Main pipeline. Note that _delay() calls post_delay() after a timer.
 /datum/special_intent/proc/process_attack()
 	SHOULD_CALL_PARENT(TRUE)
+
+	if(!_do_after())
+		return
+	
 	_add_log()
 	_reset()
 	_clear_grid()
@@ -143,12 +157,30 @@ This allows the devs to draw whatever shape they want at the cost of it feeling 
 	else
 		log_admin("[name] Special was deployed.")
 
-/// Checks if the range & z levels are valid. Best handled by external sources just like the cost.
+/datum/special_intent/proc/_do_after()
+	if(use_doafter)
+		if(do_after(howner, use_doafter, TRUE, howner, same_direction = TRUE))
+			return TRUE
+		else
+			return FALSE
+	else
+		return TRUE
+
+/// Checks if the range & z levels are valid, along with other reqs. Best handled by external sources just like the cost.
 /// Really only usable with use_clickloc, as otherwise the Special will be anchored to the source on the same plane anyway.
 /datum/special_intent/proc/check_range(atom/source, atom/target)
 	if(range)
 		if((get_dist(get_turf(source), get_turf(target)) > range) || source.z != target.z)
 			to_chat(source, span_warning("It's too far!"))
+			return FALSE
+	return TRUE
+
+/datum/special_intent/proc/check_reqs(mob/living/carbon/human/user, obj/item/I)
+	if(requires_wielding)
+		if(I.wielded)
+			return TRUE
+		else
+			to_chat(user, span_warning("I need to be wielding the weapon in both hands!"))
 			return FALSE
 	return TRUE
 
@@ -211,11 +243,13 @@ This allows the devs to draw whatever shape they want at the cost of it feeling 
 /datum/special_intent/proc/_manage_grid()
 	if(!length(affected_turfs))	//Nothing to draw, but technically possible without being an error.
 		return
+	var/wave_counter = 1
 	for(var/newdelay in affected_turfs)
 		if(newdelay == 0)	//Default index without a custom delay, we process it immediately
-			_process_grid(affected_turfs[0])
+			_process_grid(affected_turfs[0], LAZYACCESS(custom_delays, wave_counter) ? custom_delays[wave_counter] : null)
 		else
-			addtimer(CALLBACK(src, PROC_REF(_process_grid), affected_turfs[newdelay], newdelay), newdelay)
+			addtimer(CALLBACK(src, PROC_REF(_process_grid), affected_turfs[newdelay], LAZYACCESS(custom_delays, wave_counter) ? custom_delays[wave_counter] : null), newdelay)
+		wave_counter++
 
 ///Called to process the grid of turfs. The main proc that draws, delays and applies the post-delay effects.
 /datum/special_intent/proc/_process_grid(list/turfs, newdelay)
@@ -225,7 +259,7 @@ This allows the devs to draw whatever shape they want at the cost of it feeling 
 
 /datum/special_intent/proc/_draw(list/turfs, newdelay)
 	for(var/turf/T in turfs)
-		var/obj/effect/temp_visual/special_intent/fx = new (T, delay)
+		var/obj/effect/temp_visual/special_intent/fx = new (T, newdelay ? newdelay : delay)
 		fx.icon = _icon
 		fx.icon_state = pre_icon_state
 	
@@ -241,14 +275,7 @@ This allows the devs to draw whatever shape they want at the cost of it feeling 
 ///Delay proc. Preferably it won't be hooked into.
 /datum/special_intent/proc/_delay(list/turfs, newdelay)
 	if(!cancelled)
-		if(use_doafter && !is_doing)
-			if(!succeeded)
-				if(_try_doafter())
-					post_delay(turfs)
-			else
-				post_delay(turfs)
-		else
-			addtimer(CALLBACK(src, PROC_REF(post_delay), turfs), delay)
+		addtimer(CALLBACK(src, PROC_REF(post_delay), turfs), newdelay ? newdelay : delay)
 
 /datum/special_intent/proc/_try_doafter()
 	is_doing = TRUE
@@ -403,6 +430,7 @@ SPECIALS START HERE
 	sfx_post_delay = 'sound/combat/sidesweep_hit.ogg'
 	delay = 0.6 SECONDS
 	cooldown = 17 SECONDS
+	requires_wielding = TRUE
 	stamcost = 25
 	var/eff_dur = 4 SECONDS
 	var/dam = 20
@@ -500,6 +528,7 @@ SPECIALS START HERE
 	post_icon_state = "kick_fx"
 	pre_icon_state = "trap"
 	respect_adjacency = TRUE
+	requires_wielding = TRUE
 	delay = 0.7 SECONDS
 	cooldown = 25 SECONDS
 	stamcost = 25
@@ -546,7 +575,6 @@ SPECIALS START HERE
 	post_icon_state = "sweep_fx"
 	pre_icon_state = "trap"
 	sfx_pre_delay = 'sound/combat/flail_sweep.ogg'
-	use_doafter = FALSE
 	respect_adjacency = FALSE
 	delay = 0.7 SECONDS
 	cooldown = 25 SECONDS
@@ -616,7 +644,7 @@ SPECIALS START HERE
 	tile_coordinates = AXE_SWING_GRID_DEFAULT
 	post_icon_state = "sweep_fx"
 	pre_icon_state = "trap"
-	use_doafter = FALSE
+	requires_wielding = TRUE
 	respect_adjacency = FALSE
 	delay = 0.5 SECONDS
 	cooldown = 25 SECONDS
@@ -689,8 +717,8 @@ SPECIALS START HERE
 		playsound(T, 'sound/combat/sp_whip_whiff.ogg', 100, TRUE)
 	..()
 
-#define GAREN_WAVE1 0.7 SECONDS
-#define GAREN_WAVE2 1.4 SECONDS
+#define GAREN_WAVE1 1 SECONDS
+#define GAREN_WAVE2 1.7 SECONDS
 
 /datum/special_intent/greatsword_swing
 	name = "Great Swing"
@@ -707,14 +735,16 @@ SPECIALS START HERE
 	respect_dir = TRUE
 	delay = 0.7 SECONDS
 	cooldown = 30 SECONDS
+	requires_wielding = TRUE
+	custom_delays = list(1 SECONDS)	//First wave is delayed.
 	stamcost = 25	//Stamina cost
 	var/dam = 60
 	var/slow_dur = 2
 	var/hitcount = 0
 	var/self_debuffed = FALSE
-	var/self_immob = 2.2 SECONDS
-	var/self_clickcd = 2.1 SECONDS
-	var/self_vuln = 2.3 SECONDS
+	var/self_immob = 2.5 SECONDS
+	var/self_clickcd = 3 SECONDS
+	var/self_vuln = 3 SECONDS
 
 /datum/special_intent/greatsword_swing/_reset()
 	hitcount = initial(hitcount)

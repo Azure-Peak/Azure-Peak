@@ -95,6 +95,10 @@
 		to_chat(user, span_danger("THAT WONT WORK!"))
 		revert_cast()
 		return FALSE
+
+	if(spell_guard_check(human, TRUE))
+		human.visible_message(span_warning("[human] resists the bloodlust!"))
+		return TRUE
 	
 	human.apply_status_effect(/datum/status_effect/debuff/bloody_mess)
 	human.apply_status_effect(/datum/status_effect/debuff/sensitive_nerves)

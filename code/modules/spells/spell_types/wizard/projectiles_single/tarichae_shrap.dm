@@ -29,6 +29,7 @@
 
 /obj/projectile/energy/shrapnelbloom
 	name = "stygian harpe"
+	guard_deflectable = TRUE
 	range = 3
 	accuracy = 50
 	icon = 'icons/mob/actions/roguespells.dmi'

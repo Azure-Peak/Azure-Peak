@@ -39,6 +39,9 @@
 				user.throw_at(get_ranged_target_turf(user, get_dir(user,L), 7), 7, 1, L, spin = FALSE)
 				return
 		if((L.mob_biotypes & MOB_UNDEAD) || isvampire || iszombie)
+			if(spell_guard_check(L, TRUE))
+				L.visible_message(span_warning("[L] resists being churned!"))
+				continue
 			var/vamp_prob = prob2explode
 			if(isvampire)
 				vamp_prob -= 59

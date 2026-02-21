@@ -1,0 +1,16 @@
+author: "Ollanius"
+delete-after: True
+changes:
+  - rscadd: "Introduces the 'Thespian-Errant' to the Adventurer's roster of Nomads; a bronze-clad warrior that specializes in staying in the fight for as long as possible, and warring with ancient equipment."
+  - rscadd: "Adds a wide variety of new bronze amulets for Graggar, Malum, and Astrata."
+  - rscadd: "Adds a wide variety of new bronze armorpieces. Chest protectors are light, but only cover the chest. Panoply armor is exceedingly heavy, but provides a minor bonus to defensive stats when worn. Murmillos, Illyrias, death masks and more are included."
+  - rscadd: "Adds a wide variety of new bronze weapons. Greatkhopeshes, winged spears, axegauntlets, messers, and more."
+  - rscadd: "Adds 'Zarum', a unique type of medicinal fish vinegar."
+  - rscadd: "Adds the 'Bow', a simple and less-crude variant of the Selfbow that can be crafted with Journeyman-level skills. Performance is relatively close, with the added bonus of a minor 1.15x accuracy bonus."
+  - rscadd: "Adds two new combat tracks - 'combat_thespian.ogg' for the titular class, and a menu-exclusive alternative to 'combat_ascendant.ogg'."
+  - rscadd: "Adds snout support to bronze, ancient, and silver masks."
+  - rscadd: "Adds parity checks from the 'Breechcloth', 'Clarity', and 'Berserker' PRs."
+  - balance: "Shields now emit a visible message and audio cue when using the 'BLOCK' intent."
+  - balance: "The Berserker Sword now uses a completely unique recipe with three(!!!) components to assemble together."
+  - balance: "Adjusts the crafting recipes for bronze items. Armor requires a little less leather, certain weapons/armor now require Apprentice-tier skills to make, and amulets are now slightly less difficult to craft. Bronze cutlery and lesser items now appropriately require no skill, but dedicated tools and fancier cutlery - like Copper - requires Novice skills."
+  - code_imp: "The .dmi with all 64x64 helmet sprites now has a greyscaled version of the Ordinator's greatplume. This could look quite nice on other helmets - feel free to use it!"

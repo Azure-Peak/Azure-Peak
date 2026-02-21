@@ -68,6 +68,10 @@ SUBSYSTEM_DEF(ticker)
 
 	/// Realm name, the location name of the current map
 	var/realm_name = "Azure Peak"
+	/// Formal realm type (e.g. "Grand Duchy", "Most Serene Republic"). Changed by usurpation rites.
+	var/realm_type = "Grand Duchy"
+	/// Short form for casual references (e.g. "Duchy", "Republic"). Changed by usurpation rites.
+	var/realm_type_short = "Duchy"
 	/// Reports the current ruler's display name
 	var/rulertype = "Grand Duke"
 	/// The current ruling mob
@@ -76,6 +80,12 @@ SUBSYSTEM_DEF(ticker)
 	var/regentmob = null
 	/// Prevent regent shuffling
 	var/regentday = -1
+	/// Prevent chained coups — tracks the in-game day of the last completed usurpation
+	var/usurpation_day = -1
+	/// Optional epilogue text displayed at round end after a usurpation. Set by rites in on_complete().
+	var/roundend_epilogue
+	/// TRUE once a ruler has been assigned at least once (distinguishes "never had a ruler" from "ruler got qdeleted")
+	var/had_ruler = FALSE
 	var/failedstarts = 0
 	var/list/manualmodes = list()
 
@@ -769,6 +779,7 @@ SUBSYSTEM_DEF(ticker)
 /// Wrapper for setting rulermob and rulertype
 /datum/controller/subsystem/ticker/proc/set_ruler_mob(mob/newruler)
 	rulermob = newruler
+	had_ruler = TRUE
 	var/datum/job/lord_job = SSjob.GetJob("Grand Duke")
 	if(should_wear_femme_clothes(rulermob))
 		SSticker.rulertype = lord_job?.f_title || lord_job.title

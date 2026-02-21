@@ -47,9 +47,12 @@
 		new /obj/effect/temp_visual/gravity(affected_turf)
 		for(var/mob/living/L in affected_turf.contents)
 			if(L.anti_magic_check())
-				visible_message(span_warning("The gravity fades away around you [L] "))  //antimagic needs some testing
+				L.visible_message(span_warning("The gravity fades away around [L]!"))
 				playsound(get_turf(L), 'sound/magic/magic_nulled.ogg', 100)
-				return TRUE
+				continue
+			if(spell_guard_check(L, TRUE))
+				L.visible_message(span_warning("[L] stands firm against the crushing force!"))
+				continue
 
 			var/mark_stacks = consume_arcane_mark_stacks(L)
 			extra_time = (mark_stacks*4)

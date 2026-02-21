@@ -32,6 +32,9 @@ to still keep this unavailable to mages... for the moment, at least.
 		var/mob/living/target = targets[1]
 		if(target.anti_magic_check(TRUE, TRUE))
 			return FALSE
+		if(spell_guard_check(target, TRUE))
+			target.visible_message(span_warning("[target] shields their eyes from the darkness!"))
+			return TRUE
 		var/assocskill = user.get_skill_level(associated_skill)
 		target.visible_message(span_warning("[user] points at [target]'s eyes!"), span_userdanger("[user] points at my eyes! Shadowy fingers are digging into my vision-- I can't SEE!"))
 		target.apply_status_effect(STATUS_EFFECT_BLINDED, assocskill)

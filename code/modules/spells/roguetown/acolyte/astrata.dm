@@ -70,6 +70,9 @@
 		user.visible_message("<font color='yellow'>[user] points at [L]!</font>")
 		if(L.anti_magic_check(TRUE, TRUE))
 			return FALSE
+		if(spell_guard_check(L, TRUE))
+			L.visible_message(span_warning("[L] shields against the divine flame!"))
+			return TRUE
 		L.adjust_fire_stacks(2)
 		L.ignite_mob()
 
@@ -250,9 +253,12 @@
 				O.fire_act()
 			return TRUE
 		if(L.anti_magic_check())
-			visible_message(span_warning("The magic fades away around you [L] "))  //antimagic needs some testing
+			L.visible_message(span_warning("The magic fades away around [L]!"))
 			playsound(L, 'sound/magic/magic_nulled.ogg', 100)
 			return
+		if(spell_guard_check(L, TRUE))
+			L.visible_message(span_warning("[L] resists the flame order!"))
+			return TRUE
 		if(L.fire_stacks != 0)
 			if(L.fire_stacks >= 20) //cap
 				firemodificator = 0 //any*0 = 0
@@ -766,6 +772,10 @@
 	if(!istype(target, /mob/living/carbon) || target == user)
 		revert_cast()
 		return FALSE
+
+	if(spell_guard_check(target, TRUE))
+		target.visible_message(span_warning("[target] resists the immolation!"))
+		return TRUE
 
 	// Channeling requirement
 	user.visible_message(span_danger("[user] begins lighting [target] ablaze with strange, divine fire!"))

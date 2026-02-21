@@ -318,6 +318,15 @@
 			desc += " It has been soaked in blessed water."
 			detail_color = "#6a9295"
 			update_icon()
+	if(C.reagents.has_reagent(/datum/reagent/water/medicine, 10) && !medicine_amount)
+		to_chat(user, span_notice("You start soaking the [src] in Pestran Medicine..."))
+		if(do_after(user, 3 SECONDS, target = src))
+			C.reagents.remove_reagent(/datum/reagent/water/medicine, 10)
+			medicine_quality = 0.2 //cheap, easy to get, doesn't even heal wounds if it's not on a bandage
+			medicine_amount += 20
+			desc += " It has been soaked in Pestran Medicine."
+			detail_color = "#428b42"
+			update_icon()
 
 /obj/item/natural/cloth/update_icon()
 	cut_overlays()

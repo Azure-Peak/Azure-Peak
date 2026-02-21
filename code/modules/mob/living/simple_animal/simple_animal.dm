@@ -265,6 +265,7 @@ GLOBAL_VAR_INIT(farm_animals, FALSE)
 			if(realchance)
 				if(prob(realchance))
 					tamed(user)
+					record_round_statistic(STATS_ANIMALS_TAMED)
 				else
 					tame_chance += bonus_tame_chance
 

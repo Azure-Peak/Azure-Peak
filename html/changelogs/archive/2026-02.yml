@@ -866,3 +866,30 @@
   zoktiik:
   - server: Linux TGS PreCompile script was fixed and now works properly. Specifically,
       it uses the same method as in build.sh.
+2026-02-21:
+  Draganfrukts:
+  - bugfix: padded fencing shirt respects fencer's dexterity
+  FreeStylaLT:
+  - rscdel: Removed the scroll-making Noc T3
+  - bugfix: Fixed being able to join as a Duke without meetin the PQ requirement.
+  - rscadd: Added piercings and gradients to Sun Elves.
+  Lamasmaster:
+  - rscadd: God influences to dendor and malum
+  - refactor: God objectives folder
+  - rscdel: Half Elf base elf ears
+  - balance: Transact (again)
+  Ollanius:
+  - rscadd: Chairs, stools, and bedrolls now have proper inhands.
+  - balance: Chairs and stools now scale off of Unarmed skills, when calculating accuracy
+      and parrying chances.
+  Randall:
+  - rscadd: Added the Shin Swipe special to the Kampfmesser
+  WeNeedMorePhoron:
+  - rscadd: Gave drow iron mask and heavy padding coif instead of chain mantle with
+      a half mask
+  WrongEnd:
+  - bugfix: Bodybuilders can be women again.
+  crunchypretzels:
+  - balance: Matthios now gains influence from transmuting gold, not graverobbing.
+  kano-dot:
+  - rscadd: Added back the hood layer adjustment, it now uses Alt + Right Click.

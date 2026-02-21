@@ -1,0 +1,6 @@
+author: "eirenxiv"
+delete-after: True
+changes:
+  - balance: "added and expanded hand stat weights to be equal accross subclasses"
+  - balance: "replaced the bandaid drip with fragile light maille"
+  - balance: "lets the evil advisor hand use their sword"

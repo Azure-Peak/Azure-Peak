@@ -141,7 +141,7 @@
 /obj/structure/roguemachine/scomm/attackby(obj/item/W, mob/user, params)
 	. = ..()
 	if(istype(W, /obj/item/reagent_containers/food/snacks/rogue/cheddarslice))
-		to_chat(user, span_smallnotice("You stuffs a piece of cheese into the SCOM discreetly, quietening the rats for a while..."))
+		to_chat(user, span_smallnotice("You stuff a piece of cheese into the SCOM discreetly, quietening the rats for a while..."))
 		last_cheese = world.time
 		qdel(W)
 

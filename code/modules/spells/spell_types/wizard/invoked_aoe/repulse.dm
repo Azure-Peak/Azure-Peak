@@ -43,14 +43,20 @@
 		if(AM == user || AM.anchored)
 			continue
 
+		var/guard_deflected = FALSE
 		if(ismob(AM))
 			var/mob/M = AM
 			if(M.anti_magic_check())
 				continue
+			if(isliving(M) && spell_guard_check(M, TRUE))
+				M.visible_message(span_warning("[M] braces against the wave of force!"))
+				guard_deflected = TRUE
 
 		throwtarget = get_edge_target_turf(user, get_dir(user, get_step_away(AM, user)))
 		distfromcaster = get_dist(user, AM)
-		if(distfromcaster == 0)
+		if(guard_deflected)
+			AM.safe_throw_at(throwtarget, 2, 1, user, force = repulse_force)
+		else if(distfromcaster == 0)
 			if(isliving(AM))
 				var/mob/living/M = AM
 				M.set_resting(TRUE, TRUE)

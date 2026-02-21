@@ -86,6 +86,11 @@
 	warnie = "shieldwarn"
 	item_d_type = "blunt"
 
+/datum/intent/shield/block/prewarning()
+	if(mastermob)
+		mastermob.visible_message(span_warning("[mastermob] raises [masteritem]!"))
+		playsound(mastermob, pick('sound/combat/shieldraise.ogg'), 100, FALSE)
+
 /datum/intent/shield/block/metal
 	hitsound = list('sound/combat/parry/shield/metalshield (1).ogg')
 
@@ -93,6 +98,11 @@
 	hitsound = list('sound/combat/shieldbash_wood.ogg')
 
 /datum/intent/mace/smash/shield/metal
+	hitsound = list('sound/combat/parry/shield/metalshield (1).ogg')
+
+/datum/intent/mace/smash/shield/metal/great
+	chargetime = 8
+	chargedrain = 2
 	hitsound = list('sound/combat/parry/shield/metalshield (1).ogg')
 
 /datum/intent/effect/daze/shield
@@ -441,6 +451,8 @@
 	throwforce = 25 // "I can do this all day."
 	dropshrink = 0.8
 	coverage = 30
+	resistance_flags = null
+	flags_1 = CONDUCT_1
 	attacked_sound = list('sound/combat/parry/shield/metalshield (1).ogg','sound/combat/parry/shield/metalshield (2).ogg','sound/combat/parry/shield/metalshield (3).ogg')
 	parrysound = list('sound/combat/parry/shield/metalshield (1).ogg','sound/combat/parry/shield/metalshield (2).ogg','sound/combat/parry/shield/metalshield (3).ogg')
 	possible_item_intents = list(SHIELD_SMASH_METAL, SHIELD_BLOCK) // No SHIELD_BASH. Too heavy to swing quickly, or something.
@@ -466,12 +478,14 @@
 
 /obj/item/rogueweapon/shield/bronze
 	name = "hoplon shield"
-	desc = "The finest companion to a javelin, gladius, and warclub; a thick-yet-sturdy shield of bronze. "
+	desc = "The finest companion to a javelin, gladius, and warclub; a thick-yet-sturdy shield of bronze."
 	icon_state = "bronzeshield"
 	force = 25
 	throwforce = 30 // DO NOT GIVE ANYTHING; BUT TAKE FROM THEM.. EVERYTHING!
 	dropshrink = 0.8 // Free free to add actual designs to this shield, too, if-or-whenever.
 	coverage = 30
+	resistance_flags = null
+	flags_1 = CONDUCT_1
 	minstr = 11 //Particularly heavy to use as a melee weapon.
 	attacked_sound = list('sound/combat/parry/shield/metalshield (1).ogg','sound/combat/parry/shield/metalshield (2).ogg','sound/combat/parry/shield/metalshield (3).ogg')
 	parrysound = list('sound/combat/parry/shield/metalshield (1).ogg','sound/combat/parry/shield/metalshield (2).ogg','sound/combat/parry/shield/metalshield (3).ogg')

@@ -177,6 +177,9 @@
 /obj/effect/proc_holder/spell/invoked/equalize/cast(list/targets, mob/living/user)
 	if(ishuman(targets[1]))
 		var/mob/living/target = targets[1]
+		if(spell_guard_check(target, TRUE))
+			target.visible_message(span_warning("[target] resists EQUALITY!"))
+			return TRUE
 		target.apply_status_effect(/datum/status_effect/debuff/equalizedebuff)
 		user.apply_status_effect(/datum/status_effect/buff/equalizebuff)
 		return TRUE
@@ -257,6 +260,9 @@
 			to_chat(user, "<font color='yellow'>The Free-God compels me to face [target] on level ground before I transact.</font>")
 			revert_cast()
 			return
+		if(spell_guard_check(target, TRUE))
+			target.visible_message(span_warning("[target] resists the weight of their greed!"))
+			return TRUE
 		var/mammonsonperson = get_mammons_in_atom(target)
 		var/mammonsinbank = SStreasury.bank_accounts[target]
 		var/totalvalue = mammonsinbank + mammonsonperson

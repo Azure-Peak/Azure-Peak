@@ -179,10 +179,10 @@
 
 /obj/projectile/bullet/reusable/heavy_bolt
 	name = "heavy bolt"
-	damage = 120 //+50% the damage of a regular crossbow bolt.
+	damage = BOLT_DAMAGE + 20 // +33% the damage.
 	damage_type = BRUTE
 	armor_penetration = BOLT_PENETRATION + 25 // +50% the penetrative power.
-	object_damage_multiplier = 10 //Determines the multiplier that's applied to the bolt's damage value, when striking a structure. By default, it can destroy any wooden defense - a door, barricade, wall - in one shot.
+	object_damage_multiplier = 14 //Determines the multiplier that's applied to the bolt's damage value, when striking a structure. By default, it can destroy any wooden defense - a door, barricade, wall - in one shot.
 	wall_impact_break_probability = 100 //Determines the chance that a bolt will destroy itself, when striking a structure. By default, it will always destroy itself after successfully impacting a wall.
 	damages_turf_walls = TRUE //Determines whether the bolt can damage turfs or not. By default, yes.
 	icon = 'icons/roguetown/weapons/ammo.dmi'
@@ -194,7 +194,7 @@
 	woundclass = BCLASS_PIERCE
 	flag = "piercing"
 	speed = 1.2
-	npc_simple_damage_mult = 3 //..or 360 damage against mindless opponents. Run them through!
+	npc_simple_damage_mult = 5 //..or 350 damage against mindless opponents. Run them through!
 
 /obj/item/ammo_casing/caseless/rogue/heavy_bolt/getonmobprop(tag)
 	. = ..()
@@ -231,10 +231,8 @@
 
 /obj/projectile/bullet/reusable/heavy_bolt/blunt
 	name = "blunt heavy bolt"
-	damage = 80 //Same damage as a crossbow.
 	armor_penetration = 0
 	embedchance = 0 //'If you're reading this, duck!'
-	object_damage_multiplier = 15 //Ensures the bolt can still, at a minimum, destroy most wooden barricades and doors in one shot.
 	woundclass = BCLASS_BLUNT
 	flag = "blunt"
 	icon_state = "heavybolt_proj"
@@ -250,7 +248,7 @@
 
 /obj/projectile/bullet/reusable/heavy_bolt/aalloy
 	name = "decrepit heavy bolt"
-	damage = 60 
+	damage = BOLT_DAMAGE - 10
 	object_damage_multiplier = 20 //Ensures the bolt can still, at a minimum, destroy most wooden barricades and doors in one shot.
 	icon_state = "ancientbolt_proj"
 	poisontype = /datum/reagent/stampoison
@@ -267,7 +265,6 @@
 
 /obj/projectile/bullet/reusable/heavy_bolt/paalloy
 	name = "ancient heavy bolt"
-	damage = 80 //Same as a crossbow bolt.
 	icon_state = "ancientbolt_proj"
 	object_damage_multiplier = 16
 	poisontype = /datum/reagent/stampoison
@@ -284,7 +281,6 @@
 
 /obj/projectile/bullet/reusable/heavy_bolt/bronze
 	name = "bronze heavy bolt"
-	damage = 100
 	icon_state = "bronzebolt_proj"
 	speed = 0.8
 
@@ -530,7 +526,6 @@
 /obj/item/ammo_casing/caseless/rogue/heavy_bolt/silver
 	name = "heavy silver bolt"
 	desc = "A silvered lance, poised to impale the unimaginable. You feel the hands of another guiding your own, as you prepare to load; may it be guidence from a higher power, or your wit upon the verge of breaking? </br>'God, please..'"
-	armor_penetration = 120
 	projectile_type = /obj/projectile/bullet/reusable/heavy_bolt/silver
 	icon_state = "silvheavybolt"
 	max_integrity = 30
@@ -539,7 +534,7 @@
 
 /obj/projectile/bullet/reusable/heavy_bolt/silver
 	name = "heavy silver bolt"
-	damage = 120
+	damage = BOLT_DAMAGE + 30
 	armor_penetration = 777 //Same damage, but with absolute penetration. 
 	ammo_type = /obj/item/ammo_casing/caseless/rogue/heavy_bolt/silver
 	icon_state = "silvheavybolt_proj"
@@ -547,7 +542,7 @@
 	speed = 0.8 //Same speed as a crossbow bolt. 
 	poisontype = /datum/reagent/water/blessed
 	poisonamount = 10
-	npc_simple_damage_mult = 10 //..or 1200 damage against a mindless mob. If you're using this against one, you're either a fool or have no other choice left. Godspeed.
+	npc_simple_damage_mult = 10 //..or 1000 damage against a mindless mob. If you're using this against one, you're either a fool or have no other choice left. Godspeed.
 
 // PYRO AMMO
 /obj/item/ammo_casing/caseless/rogue/bolt/pyro

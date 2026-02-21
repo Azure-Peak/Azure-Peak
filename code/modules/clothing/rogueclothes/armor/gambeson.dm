@@ -171,6 +171,10 @@
 	sewrepair = TRUE
 	cold_protection = 10
 
+/obj/item/clothing/suit/roguetown/shirt/freifechter/ComponentInitialize()
+	AddComponent(/datum/component/armour_filtering/positive, TRAIT_FENCERDEXTERITY)
+	AddComponent(/datum/component/armour_filtering/negative, TRAIT_HONORBOUND)
+
 /obj/item/clothing/suit/roguetown/shirt/freifechter/shepherd
 	name = "shepherd's shirt"
 	desc = "A strong loosely worn quilted shirt that places little weight on the arms."

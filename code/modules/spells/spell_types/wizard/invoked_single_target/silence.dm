@@ -37,6 +37,9 @@
 			to_chat(user, "<span class='warning'>Their magic is too strong, it won't work on them!</span>")
 			revert_cast()
 			return
+		if(spell_guard_check(target, TRUE))
+			target.visible_message(span_warning("[target] resists the silencing magic!"))
+			return TRUE
 		ADD_TRAIT(target, TRAIT_MUTE, MAGIC_TRAIT)
 		playsound(get_turf(target), 'sound/magic/zizo_snuff.ogg', 80, TRUE, soundping = TRUE)
 		to_chat(target, span_warning("The wind in my voice goes still. I can't speak!"))
