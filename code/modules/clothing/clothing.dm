@@ -106,7 +106,14 @@
 /obj/item/proc/get_altdetail_color() //this is for extra layers on clothes
 	return altdetail_color
 
+/obj/item/clothing/get_mechanics_examine(mob/user)
+	. = ..()
+	if(!nodismemsleeves && (r_sleeve_status != SLEEVE_NOMOD || l_sleeve_status != SLEEVE_NOMOD))
+		. += span_info("Shift-right-click while targeting a sleeve to tear it off for an emergency bandage. Alt-shift-right-click to roll a sleeve up or down.")
+		. += span_info("Tearing success scales with Strength.")
+
 /obj/item/clothing/ShiftRightClick(mob/user, params)
+	. = TRUE
 	..()
 	var/mob/living/L = user
 	var/altheld //Is the user pressing alt?

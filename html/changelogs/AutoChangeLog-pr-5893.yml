@@ -1,0 +1,5 @@
+author: "Ollanius"
+delete-after: True
+changes:
+  - rscadd: "Adds the 'Absolver's Greathelm', a unique helmet variant with a lighter AC threshold and an improved field of view."
+  - code_imp: "Only the Absolver gets the special helmet variant. Any other instance which normally allowed for the creation of more Conical Greathelms (through smithing or importing via the Marquette) will spawn the regular, old, heavy, and hard-to-see-through greathelm instead. Use 'the /unblessed' suffix for that, going forward."

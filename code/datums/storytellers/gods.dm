@@ -334,10 +334,10 @@
 			STATS_ROCKS_MINED = list("name" = "Rocks mined:", "points" = 0.26, "capacity" = 100),
 		),
 		"Set 3" = list(
-			STATS_CRAFT_SKILLS = list("name" = "Craft skills learned:", "points" = 0.55, "capacity" = 90),
+			STATS_CRAFT_SKILLS = list("name" = "Craft skills learned:", "points" = 0.4, "capacity" = 80),
 		),
 		"Set 4" = list(
-			STATS_CRAFTED_ITEMS = list("name" = "Crafted items:", "points" = 0.5, "capacity" = 150),
+			STATS_CRAFTED_ITEMS = list("name" = "Crafted items:", "points" = 0.1, "capacity" = 100), //So he doesn't reign every round
 		),
 		"Set 5" = list(
 			STATS_BEARDS_SHAVED = list("name" = "Beards shaved:", "points" = -4, "capacity" = -40),
@@ -467,13 +467,16 @@
 			STATS_DEADITES_WOKEN_UP = list("name" = "Deadites woken up:", "points" = 4, "capacity" = 85),
 		),
 		"Set 3" = list(
+			STATS_DEADITES_ALIVE = list("name" = "Deadites alive:", "points" = 1, "capacity" = 40),
+		),
+		"Set 43" = list(
 			STATS_CLERGY_DEATHS = list("name" = "Clergy killed:", "points" = 12, "capacity" = 70),
 		),
-		"Set 4" = list(
+		"Set 5" = list(
 			STATS_TORTURES = list("name" = "Tortures performed:", "points" = 5.25, "capacity" = 70),
 		),
-		"Set 5" = list(
-			STATS_BOOKS_BURNED = list("name" = "Books burned:", "points" = -5, "capacity" = -50),
+		"Set 6" = list(
+			STATS_BOOKS_BURNED = list("name" = "Books burned:", "points" = 5, "capacity" = 50), //We actually gain influence from it
 		),
 	)
 

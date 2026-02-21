@@ -1,0 +1,7 @@
+author: "WeNeedMorePhoron"
+delete-after: True
+changes:
+  - rscadd: "Bathhouse now have access to a secret room to help them actually smuggle goods"
+  - rscadd: "A nice little boat to the lighthouse"
+  - rscadd: "You can now peek through fast travel tile with shift right click"
+  - rscadd: "HERMES now charge from your bank account if you have no coins loaded for more convenient letter sending."

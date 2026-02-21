@@ -142,6 +142,11 @@ GLOBAL_LIST_INIT(burgher_positions, list( //Artisans, store owners what have you
 	"Magicians Associate",
 ))
 
+GLOBAL_LIST_INIT(bathhouse_positions, list(
+	"Bathmaster",
+	"Bathhouse Attendant",
+))
+
 GLOBAL_LIST_INIT(peasant_positions, list( //Serfs / peasants / generic towners
 	"Bathhouse Attendant",
 	"Cook",

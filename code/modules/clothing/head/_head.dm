@@ -81,6 +81,11 @@
 			default_examine_name += " ([examine_strings.Join(", ")])"
 	return default_examine_name
 
+/obj/item/clothing/head/get_mechanics_examine(mob/user)
+	. = ..()
+	if(attachment_component)
+		. += span_info("Shift-right-click to open the headwear's storage. This can be used to wear cosmetics over it or store smaller items.")
+
 /obj/item/clothing/head/ShiftRightClick(mob/user)
 	if(attachment_component)
 		var/datum/component/storage/storage_component = GetComponent(attachment_component)

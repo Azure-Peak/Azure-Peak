@@ -48,7 +48,6 @@
 
 /obj/item/clothing/head/roguetown/helmet/get_mechanics_examine(mob/user)
 	. = ..()
-	. += span_info("Shift-click to open up the helmet's inventory. This can be used to wear additional cosmetics over the helmet, or to store smaller items.")
 	. += span_info("Visored helmets can be articulated by right-clicking them. Lifted visors offer a wider field of view, but expose your face to precise strikes.")
 	. += span_info("Certain helmets can be further decorated by left-clicking them with a feather, cloth, or both.")
 
