@@ -2720,6 +2720,8 @@
 #include "code\modules\spells\spell_types\wizard\projectiles_single\blood_steal.dm"
 #include "code\modules\spells\spell_types\wizard\projectiles_single\fetch.dm"
 #include "code\modules\spells\spell_types\wizard\projectiles_single\frost_bolt.dm"
+#include "code\modules\spells\spell_types\wizard\projectiles_single\lesser_fetch.dm"
+#include "code\modules\spells\spell_types\wizard\projectiles_single\lesser_repel.dm"
 #include "code\modules\spells\spell_types\wizard\projectiles_single\lightning_bolt.dm"
 #include "code\modules\spells\spell_types\wizard\projectiles_single\repel.dm"
 #include "code\modules\spells\spell_types\wizard\projectiles_single\spitfire.dm"

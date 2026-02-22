@@ -1,9 +1,9 @@
-/obj/effect/proc_holder/spell/invoked/projectile/fetch
-	name = "Fetch"
-	desc = "Shoot out a magical bolt that draws in the target struck towards the caster."
+/obj/effect/proc_holder/spell/invoked/projectile/lesser_fetch
+	name = "Lesser Fetch"
+	desc = "Shoot out a magical bolt that draws in a freestanding item towards the caster. Doesn't work on living targets."
 	clothes_req = FALSE
 	range = 15
-	projectile_type = /obj/projectile/magic/fetch
+	projectile_type = /obj/projectile/magic/lesser_fetch
 	sound = list('sound/magic/magnet.ogg')
 	active = FALSE
 	releasedrain = 15
@@ -14,30 +14,27 @@
 	overlay_state = "fetch"
 	no_early_release = TRUE
 	charging_slowdown = 1
-	spell_tier = 2
-	invocations = list("Recolligere")
+	spell_tier = 1
+	invocations = list("Recolligere Minora")
 	invocation_type = "whisper"
 	hide_charge_effect = TRUE // essential for rogue mage
 	chargedloop = /datum/looping_sound/invokegen
 	associated_skill = /datum/skill/magic/arcane
-	cost = 2 // Combat spell, but of slighlty less obvious use
-	xp_gain = TRUE
+	cost = 1
 
-/obj/projectile/magic/fetch
-	name = "bolt of fetching"
+/obj/projectile/magic/lesser_fetch
+	name = "lesser bolt of fetching"
 	icon_state = "cursehand0"
 	range = 15
 	cannot_cross_z = TRUE
 
-/obj/projectile/magic/fetch/on_hit(target)
+/obj/projectile/magic/lesser_fetch/on_hit(target)
 	. = ..()
 	var/atom/throw_target = get_step(firer, get_dir(firer, target))
 	if(isliving(target))
 		var/mob/living/L = target
-		if(L.anti_magic_check() || !firer)
-			L.visible_message(span_warning("[src] vanishes on contact with [target]!"))
-			return BULLET_ACT_BLOCK
-		L.throw_at(throw_target, 200, 4)
+		L.visible_message(span_warning("[src] vanishes on contact with [target]!"))
+		return BULLET_ACT_BLOCK
 	else
 		if(isitem(target))
 			var/obj/item/I = target
