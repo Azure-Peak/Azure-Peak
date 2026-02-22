@@ -31,12 +31,12 @@
 
 	choices = sortList(choices)
 
-	var/choice = input("Choose a spell, points left: [user.mind.spell_points - user.mind.used_spell_points]") as null|anything in choices
+	var/choice = tgui_input_list(user, "Choose a spell. Points left: [user.mind.spell_points - user.mind.used_spell_points]", "Learn Spell", choices)
 	var/obj/effect/proc_holder/spell/item = choices[choice]
 
 	if(!item)
-		return     // user canceled;
-	if(alert(user, "[item.desc]", "[item.name]", "Learn", "Cancel") == "Cancel") //gives a preview of the spell's description to let people know what a spell does
+		return
+	if(tgui_alert(user, "[item.desc]", "[item.name]", list("Learn", "Cancel")) == "Cancel")
 		return
 	for(var/obj/effect/proc_holder/spell/knownspell in user.mind.spell_list)
 		if(knownspell.type == item.type)
