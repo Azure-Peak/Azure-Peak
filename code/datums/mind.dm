@@ -176,11 +176,14 @@ GLOBAL_LIST_EMPTY(personal_objective_minds)
 			used_title = "unknown"
 		var/datum/job/J = SSjob.GetJob(H.job)
 		if(J && J.title == "Wretch")
-			var/list/possible_classes = SSrole_class_handler.sorted_class_categories[CTAG_LICKER_WRETCH]
-			if(islist(possible_classes) && length(possible_classes))
-				var/datum/advclass/C = pick(possible_classes)
-				if(C && C.name)
-					used_title = C.name
+			if(known_people[H.real_name]["FJOB"])
+				used_title = known_people[H.real_name]["FJOB"]
+			else
+				var/list/possible_classes = SSrole_class_handler.sorted_class_categories[CTAG_LICKER_WRETCH]
+				if(islist(possible_classes) && length(possible_classes))
+					var/datum/advclass/C = pick(possible_classes)
+					if(C && C.name)
+						used_title = C.name
 		known_people[H.real_name]["FJOB"] = used_title
 		known_people[H.real_name]["FSPECIES"] = H.dna.species.name
 		var/referred_gender
@@ -223,11 +226,14 @@ GLOBAL_LIST_EMPTY(personal_objective_minds)
 
 				var/datum/job/J = SSjob.GetJob(H.job)
 				if(J && J.title == "Wretch")
-					var/list/possible_classes = SSrole_class_handler.sorted_class_categories[CTAG_LICKER_WRETCH]
-					if(islist(possible_classes) && length(possible_classes))
-						var/datum/advclass/C = pick(possible_classes)
-						if(C && C.name)
-							used_title = C.name
+					if(M.known_people[H.real_name]["FJOB"])
+						used_title = M.known_people[H.real_name]["FJOB"]
+					else
+						var/list/possible_classes = SSrole_class_handler.sorted_class_categories[CTAG_LICKER_WRETCH]
+						if(islist(possible_classes) && length(possible_classes))
+							var/datum/advclass/C = pick(possible_classes)
+							if(C && C.name)
+								used_title = C.name
 				M.known_people[H.real_name]["FJOB"] = used_title
 				var/referred_gender
 				switch(H.pronouns)
