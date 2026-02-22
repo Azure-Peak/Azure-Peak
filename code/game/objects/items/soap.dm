@@ -15,9 +15,6 @@
 	var/cleanspeed = 20 //as fast as 5 arcyne Prestidigitation
 	var/uses = 100
 
-/obj/item/soap/ComponentInitialize()
-	. = ..()
-	AddComponent(/datum/component/slippery, 80)
 
 /obj/item/soap/examine(mob/user)
 	. = ..()
