@@ -78,10 +78,15 @@ without going through the click pipeline, so spells can deliver weapon-style str
 		span_danger("[user] [attack_verb] [target] with [weapon_name]!"),
 		span_notice("I [attack_verb] [target] with my [weapon_name]!"))
 
-	log_combat(user, target, "spell-struck", weapon, "(SPELL: [spell_name]) (BCLASS: [attack_flag]) (DMG: [damage]) (AP: [armor_penetration]) (ZONE: [def_zone]) (EFF_DMG: [effective_damage])")
+	log_combat(user, target, "spell-struck ([spell_name])")
 	return effective_damage
 
 /proc/arcyne_get_weapon(mob/living/carbon/human/H)
+	var/datum/status_effect/buff/arcyne_momentum/M = H.has_status_effect(/datum/status_effect/buff/arcyne_momentum)
+	if(M?.bound_weapon)
+		if(H.is_holding(M.bound_weapon))
+			return M.bound_weapon
+		return null
 	var/obj/item/held = H.get_active_held_item()
 	if(!held)
 		held = H.get_inactive_held_item()

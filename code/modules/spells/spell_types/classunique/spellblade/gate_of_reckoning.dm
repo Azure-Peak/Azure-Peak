@@ -76,7 +76,7 @@ Cross-Z uses a longer telegraph.*/
 
 	var/obj/item/held_weapon = arcyne_get_weapon(H)
 	if(!held_weapon)
-		to_chat(H, span_warning("I need a weapon in hand!"))
+		to_chat(H, span_warning("I need my bound weapon in hand!"))
 		revert_cast()
 		return
 
@@ -134,7 +134,7 @@ Cross-Z uses a longer telegraph.*/
 	addtimer(CALLBACK(src, PROC_REF(do_spear_drop), H, held_weapon, dest, target, final_spear_damage), telegraph_ticks)
 	addtimer(CALLBACK(src, PROC_REF(do_arrival_strike), H, held_weapon, dest, target, start, def_zone, final_arrival_damage, final_sweep_damage), telegraph_ticks + 8)
 
-	log_combat(H, target, "used Gate of Reckoning on", addition="(DIST: [distance], CROSS_Z: [cross_z], STACKS: [stacks], EMPOWERED: [empowered])")
+	log_combat(H, target, "used Gate of Reckoning on")
 	return TRUE
 
 /obj/effect/proc_holder/spell/invoked/gate_of_reckoning/proc/do_spear_drop(mob/living/carbon/human/user, obj/item/weapon, turf/dest, atom/original_target, damage)

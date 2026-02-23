@@ -1,24 +1,24 @@
 /* Azurean Phalanx - Phalangite bread-and-butter 3x1 line thrust with pushback
 Hits everyone in a 3-tile line in front of the caster and pushes them back 1 tile.
-Short cooldown spacing tool — the core of the Phalangite's "hold the line" identity.
+Spacing tool — the core of the Phalangite's "hold the line" identity.
 Builds 1 momentum on hit regardless of targets struck (same as a normal weapon swing).
-At 3+ momentum: consumes 3 stacks, doubles damage and increases push distance.
-Respects zone selection and spell_guard_check (pseudo-melee). */
+At 3+ momentum: consumes 3 stacks, doubles damage, increases push distance, and extends the hit area perpendicular — each line tile also hits one tile
+to the left and right, forming a wide phalanx push.*/
 
 /obj/effect/proc_holder/spell/invoked/azurean_phalanx
 	name = "Azurean Phalanx"
 	desc = "Thrust forward with arcyne-infused reach, striking everything in a 3-tile line and pushing them back. \
 		Builds 1 momentum on hit. \
-		At 3+ momentum: consumes 3 stacks to double damage and increase push distance. \
+		At 3+ momentum: consumes 3 stacks to double damage, increase push distance, and extend the thrust perpendicular to the line. \
 		Strikes the bodypart you are aiming at. \
-		Pseudo-melee: can be deflected by Defend stance."
+		Can be deflected by Defend stance."
 	clothes_req = FALSE
 	range = 3
 	overlay_state = "repulse"
 	releasedrain = 20
 	chargedrain = 0
 	chargetime = 3
-	recharge_time = 12 SECONDS
+	recharge_time = 16 SECONDS // Longest CD due to wide push ability.
 	warnie = "spellwarning"
 	no_early_release = TRUE
 	movement_interrupt = FALSE
@@ -43,7 +43,7 @@ Respects zone selection and spell_guard_check (pseudo-melee). */
 
 	var/obj/item/held_weapon = arcyne_get_weapon(H)
 	if(!held_weapon)
-		to_chat(H, span_warning("I need a weapon in hand!"))
+		to_chat(H, span_warning("I need my bound weapon in hand!"))
 		revert_cast()
 		return
 
@@ -83,14 +83,29 @@ Respects zone selection and spell_guard_check (pseudo-melee). */
 		revert_cast()
 		return
 
+	var/list/wing_turfs = list()
+	if(empowered)
+		var/left_dir = turn(facing, 90)
+		var/right_dir = turn(facing, -90)
+		for(var/turf/T in line_turfs)
+			var/turf/left = get_step(T, left_dir)
+			var/turf/right = get_step(T, right_dir)
+			if(left && !left.density && !(left in line_turfs) && !(left == start))
+				wing_turfs |= left
+			if(right && !right.density && !(right in line_turfs) && !(right == start))
+				wing_turfs |= right
+
 	for(var/turf/T in line_turfs)
+		var/obj/effect/temp_visual/V = new /obj/effect/temp_visual/blade_burst(T)
+		V.dir = facing
+	for(var/turf/T in wing_turfs)
 		var/obj/effect/temp_visual/V = new /obj/effect/temp_visual/blade_burst(T)
 		V.dir = facing
 	playsound(start, pick('sound/combat/wooshes/bladed/wooshsmall (1).ogg', 'sound/combat/wooshes/bladed/wooshsmall (2).ogg'), 80, TRUE)
 
 	var/hit_count = 0
 	var/deflected = FALSE
-	for(var/turf/T in line_turfs)
+	for(var/turf/T in line_turfs + wing_turfs)
 		for(var/mob/living/victim in T)
 			if(victim == H || victim.stat == DEAD)
 				continue
@@ -113,5 +128,5 @@ Respects zone selection and spell_guard_check (pseudo-melee). */
 	else
 		H.visible_message(span_notice("[H] thrusts [H.p_their()] [held_weapon.name] forward!"))
 
-	log_combat(H, null, "used Azurean Phalanx", addition="(HITS: [hit_count], EMPOWERED: [empowered])")
+	log_combat(H, null, "used Azurean Phalanx")
 	return TRUE

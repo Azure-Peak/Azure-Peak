@@ -22,6 +22,7 @@
 	var/last_stack_time = 0
 	var/static/mutable_appearance/electricity_overlay
 	var/obj/item/bound_weapon
+	var/chant
 
 /datum/status_effect/buff/arcyne_momentum/on_apply()
 	. = ..()

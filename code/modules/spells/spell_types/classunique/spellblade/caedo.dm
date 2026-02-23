@@ -33,7 +33,7 @@
 
 	var/obj/item/held_weapon = arcyne_get_weapon(H)
 	if(!held_weapon)
-		to_chat(H, span_warning("I need a weapon in hand!"))
+		to_chat(H, span_warning("I need my bound weapon in hand!"))
 		revert_cast()
 		return
 
@@ -86,7 +86,7 @@
 	do_teleport(H, dest, channel = TELEPORT_CHANNEL_MAGIC)
 	playsound(dest, 'sound/magic/blink.ogg', 25, TRUE)
 
-	log_combat(H, target, "used Caedo on", addition="(DIST: [distance], MOBS_HIT: [length(mobs_in_path)])")
+	log_combat(H, target, "used Caedo on")
 
 	var/consumed_stacks = 0
 	var/datum/status_effect/buff/arcyne_momentum/momentum = H.has_status_effect(/datum/status_effect/buff/arcyne_momentum)

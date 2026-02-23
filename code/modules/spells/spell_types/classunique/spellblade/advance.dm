@@ -45,11 +45,11 @@ Pseudo-melee: the final thrust respects spell_guard_check. */
 
 	var/obj/item/held_weapon = arcyne_get_weapon(H)
 	if(!held_weapon)
-		to_chat(H, span_warning("I need a weapon in hand!"))
+		to_chat(H, span_warning("I need my bound weapon in hand!"))
 		revert_cast()
 		return
 
-	H.say("PROCEDO!", forced = "spell")
+	H.say("Procede!", forced = "spell")
 
 	var/facing = H.dir
 	var/turf/start = get_turf(H)
@@ -132,5 +132,5 @@ Pseudo-melee: the final thrust respects spell_guard_check. */
 	if(M)
 		M.add_stacks(1)
 
-	log_combat(H, victim, "advance-thrust", held_weapon, "(DMG: [damage]) (STEPS: [steps_taken]) (EMPOWERED: [empowered])")
+	log_combat(H, victim, "used Advance! on")
 	return TRUE

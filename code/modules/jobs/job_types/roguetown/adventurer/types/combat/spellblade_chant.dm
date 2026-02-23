@@ -223,10 +223,13 @@ a.choose-btn:hover {
 <div class="abilities">
 <h4>Abilities</h4>
 <ul>
-<li><b>TBD</b> — Abilities not yet designed.</li>
+<li><b>Shatter</b> — 3-tile line smash that devastates armor integrity.</li>
+<li><b>Tremor</b> — Slam the ground, damaging and pushing back everyone adjacent.</li>
+<li><b>Charge!</b> — Charge forward 3 paces and bash, knocking targets back.</li>
+<li><b>Cataclysm</b> — Leap to a target and slam the ground. At max momentum, Exposes everyone hit — and yourself.</li>
 </ul>
 </div>
-<p class="weapon-info">Mace & Shield</p>
+<p class="weapon-info">Mace / Warhammer / Flail & Shield</p>
 </div>
 <a class="choose-btn" href='?src=\ref[caller];subclass=macebearer'>[mace_btn]</a>
 </div>

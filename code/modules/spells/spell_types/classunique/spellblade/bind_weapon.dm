@@ -1,6 +1,6 @@
 /obj/effect/proc_holder/spell/self/bind_weapon
 	name = "Bind Weapon"
-	desc = "Bind your held weapon as an arcyne conduit. Successful strikes with bound weapons build arcyne momentum, fueling your abilities. It can also be recalled to your hand from anywhere with Recall Weapon. Make sure you bind a weapon that fits the type of oath you've taken, or you won't be able to use your other abilities! Should you somehow lose the Arcyne Momentum status effect, you can rebind to restore it. You can also bind a new weapon if your old one was destroyed or lost or you wishes to use a new weapon."
+	desc = "Bind your held weapon as an arcyne conduit. Successful strikes with bound weapons build arcyne momentum, fueling your abilities. It can also be recalled to your hand from anywhere with Recall Weapon. The weapon must match your chant — Blade requires a sword, Phalangite a spear, Macebearer a mace or flail. You can rebind to restore a lost Arcyne Momentum status, or bind a new weapon if your old one was destroyed."
 	clothes_req = FALSE
 	overlay_state = "enchant_weapon"
 	releasedrain = 20
@@ -33,6 +33,21 @@
 	var/datum/status_effect/buff/arcyne_momentum/M = H.has_status_effect(/datum/status_effect/buff/arcyne_momentum)
 	if(!M)
 		M = H.apply_status_effect(/datum/status_effect/buff/arcyne_momentum)
+
+	if(M?.chant)
+		var/valid = FALSE
+		switch(M.chant)
+			if("blade")
+				valid = istype(weapon, /obj/item/rogueweapon/sword)
+			if("phalangite")
+				valid = istype(weapon, /obj/item/rogueweapon/spear)
+			if("macebearer")
+				valid = istype(weapon, /obj/item/rogueweapon/mace) || istype(weapon, /obj/item/rogueweapon/flail)
+		if(!valid)
+			to_chat(H, span_warning("This weapon does not match my chant!"))
+			revert_cast()
+			return
+
 	if(M?.bound_weapon && !QDELETED(M.bound_weapon))
 		var/datum/component/arcyne_conduit/old_conduit = M.bound_weapon.GetComponent(/datum/component/arcyne_conduit)
 		if(old_conduit)

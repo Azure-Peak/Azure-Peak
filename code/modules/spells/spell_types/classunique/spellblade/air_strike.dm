@@ -49,7 +49,7 @@ hand and I intend for Spellblade, feeling wise.
 
 	var/obj/item/held_weapon = arcyne_get_weapon(H)
 	if(!held_weapon)
-		to_chat(H, span_warning("I need a weapon in hand!"))
+		to_chat(H, span_warning("I need my bound weapon in hand!"))
 		revert_cast()
 		return
 

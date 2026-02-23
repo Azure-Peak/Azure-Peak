@@ -60,7 +60,7 @@ Uses Eris melee swing sprites (96x96) for the slash visuals. */
 
 	var/obj/item/held_weapon = arcyne_get_weapon(H)
 	if(!held_weapon)
-		to_chat(H, span_warning("I need a weapon in hand!"))
+		to_chat(H, span_warning("I need my bound weapon in hand!"))
 		revert_cast()
 		return
 
@@ -99,7 +99,7 @@ Uses Eris melee swing sprites (96x96) for the slash visuals. */
 		var/delay = telegraph_delay + (cut_num - 1) * cut_delay
 		addtimer(CALLBACK(src, PROC_REF(do_storm_cut), H, held_weapon, center, ring_turfs, cut_num, locked_zone), delay)
 
-	log_combat(H, target, "used Blade Storm on", addition="(CUTS: [num_cuts], STACKS: [stacks])")
+	log_combat(H, target, "used Blade Storm on")
 	return TRUE
 
 /obj/effect/proc_holder/spell/invoked/blade_storm/proc/do_storm_cut(mob/living/carbon/human/user, obj/item/weapon, turf/center, list/ring_turfs, cut_num, def_zone = BODY_ZONE_CHEST)

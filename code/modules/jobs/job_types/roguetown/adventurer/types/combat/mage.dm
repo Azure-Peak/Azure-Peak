@@ -146,7 +146,7 @@
 
 /datum/advclass/mage/spellblade2
 	name = "Neo Spellblade"
-	tutorial = "A hybrid melee warrior who channels arcyne momentum through combat, versed in the Azurean original arts of Spellbladery. Build power with your weapon, then unleash it. Choose between three traditions: Blade (mobile swordsman with dashes and AoE), Phalangite (spear and shield — hold the line with thrusts and pushback), or Macebearer (TBD)."
+	tutorial = "A hybrid melee warrior who channels arcyne momentum through combat, versed in the Azurean original arts of Spellbladery. Build power with your weapon, then unleash it. Choose between three traditions: Blade (mobile swordsman with dashes and AoE), Phalangite (spear and shield — hold the line with thrusts and pushback), or Macebearer (blunt weapons — ground slams, charges, and shockwaves)."
 	outfit = /datum/outfit/job/roguetown/adventurer/spellblade2
 	traits_applied = list(TRAIT_MAGEARMOR, TRAIT_ARCYNE_T2)
 	subclass_stats = list(
@@ -213,7 +213,9 @@
 	if(!subclass_selected)
 		subclass_selected = "blade"
 
-	H.apply_status_effect(/datum/status_effect/buff/arcyne_momentum)
+	var/datum/status_effect/buff/arcyne_momentum/momentum = H.apply_status_effect(/datum/status_effect/buff/arcyne_momentum)
+	if(momentum)
+		momentum.chant = subclass_selected
 
 	if(H.mind)
 		switch(subclass_selected)
@@ -227,6 +229,11 @@
 				H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/projectile/azurean_javelin)
 				H.mind.AddSpell(new /obj/effect/proc_holder/spell/self/advance)
 				H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/gate_of_reckoning)
+			if("macebearer")
+				H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/shatter)
+				H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/tremor)
+				H.mind.AddSpell(new /obj/effect/proc_holder/spell/self/charge)
+				H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/cataclysm)
 
 		H.mind.AddSpell(new /obj/effect/proc_holder/spell/self/recall_weapon)
 		H.mind.AddSpell(new /obj/effect/proc_holder/spell/self/bind_weapon)
@@ -256,6 +263,17 @@
 		if("phalangite")
 			r_hand = /obj/item/rogueweapon/spear
 			H.adjust_skillrank_up_to(/datum/skill/combat/polearms, SKILL_LEVEL_JOURNEYMAN, TRUE)
+		if("macebearer")
+			var/mace_weapons = list("Mace", "Warhammer", "Flail")
+			var/mace_choice = input(H, "Choose your weapon.", "TAKE UP ARMS") as anything in mace_weapons
+			switch(mace_choice)
+				if("Mace")
+					r_hand = /obj/item/rogueweapon/mace
+				if("Warhammer")
+					r_hand = /obj/item/rogueweapon/mace/warhammer
+				if("Flail")
+					r_hand = /obj/item/rogueweapon/flail
+			H.adjust_skillrank_up_to(/datum/skill/combat/maces, SKILL_LEVEL_JOURNEYMAN, TRUE)
 
 	H.cmode_music = 'sound/music/cmode/adventurer/combat_outlander3.ogg'
 	switch(H.patron?.type)

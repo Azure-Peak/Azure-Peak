@@ -95,7 +95,7 @@ it is an AP projectile and high impact vs other light.
 		L.apply_status_effect(/datum/status_effect/debuff/azurean_javelin_slow)
 		to_chat(L, span_danger("An arcyne javelin pierces through — my movements are sluggish!"))
 		if(firer)
-			log_combat(firer, L, "javelin-struck", src, "(DMG: [damage]) (AP: [armor_penetration])")
+			log_combat(firer, L, "javelin-struck")
 
 /obj/projectile/energy/azurean_javelin/empowered
 	name = "Empowered Azurean Javelin"
