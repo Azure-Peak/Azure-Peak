@@ -146,19 +146,24 @@
 
 /datum/advclass/mage/spellblade2
 	name = "Neo Spellblade"
-	tutorial = "A melee warrior who channels arcyne momentum through combat. Build power with your blade, then unleash it."
+	tutorial = "A hybrid melee warrior who channels arcyne momentum through combat, versed in the Azurean original arts of Spellbladery. Build power with your weapon, then unleash it. Choose between three traditions: Blade (mobile swordsman with dashes and AoE), Phalangite (spear and shield — hold the line with thrusts and pushback), or Macebearer (TBD)."
 	outfit = /datum/outfit/job/roguetown/adventurer/spellblade2
 	traits_applied = list(TRAIT_MAGEARMOR, TRAIT_ARCYNE_T2)
 	subclass_stats = list(
-		STATKEY_STR = 2,
-		STATKEY_INT = 1,
+		STATKEY_INT = 2,
 		STATKEY_CON = 1,
 		STATKEY_WIL = 1,
 	)
 	subclass_spell_point_pools = list("utility" = 4)
+	// Just give them Jman for all three schools they can go into
+	// They are functionally crippled without abilities if they
+	// Dip outside of their subclass
+	// Non zero chance someone's gonna be bitching in Discord about this
 	subclass_skills = list(
 		/datum/skill/misc/climbing = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/combat/swords = SKILL_LEVEL_JOURNEYMAN,
+		/datum/skill/combat/polearms = SKILL_LEVEL_JOURNEYMAN,
+		/datum/skill/combat/maces = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/combat/shields = SKILL_LEVEL_NOVICE,
 		/datum/skill/combat/wrestling = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/combat/unarmed = SKILL_LEVEL_APPRENTICE,
@@ -181,7 +186,6 @@
 
 /datum/outfit/job/roguetown/adventurer/spellblade2/pre_equip(mob/living/carbon/human/H)
 	..()
-	to_chat(H, span_warning("A melee warrior who channels arcyne momentum through combat. Build power with your weapon, then unleash it."))
 	head = /obj/item/clothing/head/roguetown/bucklehat
 	shoes = /obj/item/clothing/shoes/roguetown/boots
 	pants = /obj/item/clothing/under/roguetown/trou/leather
@@ -193,6 +197,8 @@
 	beltl = /obj/item/storage/belt/rogue/pouch/coins/poor
 	wrists = /obj/item/clothing/wrists/roguetown/bracers/leather
 	backpack_contents = list(/obj/item/flashlight/flare/torch = 1, /obj/item/recipe_book/survival = 1)
+
+	to_chat(H, span_warning("You start with Bind Weapon. Remember to Bind your weapon so you can use your abilities and build up Arcyne Momentum."))
 
 	subclass_selected = null
 	var/selection_html = get_spellblade_chant_html(src, H, "conventional")
@@ -216,6 +222,11 @@
 				H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/air_strike)
 				H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/forcewall/greater)
 				H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/blade_storm)
+			if("phalangite")
+				H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/azurean_phalanx)
+				H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/projectile/azurean_javelin)
+				H.mind.AddSpell(new /obj/effect/proc_holder/spell/self/advance)
+				H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/gate_of_reckoning)
 
 		H.mind.AddSpell(new /obj/effect/proc_holder/spell/self/recall_weapon)
 		H.mind.AddSpell(new /obj/effect/proc_holder/spell/self/bind_weapon)
@@ -228,8 +239,23 @@
 
 	switch(subclass_selected)
 		if("blade")
+			var/weapons = list("Longsword", "Rapier", "Sabre", "Arming Sword", "Shortsword")
+			var/weapon_choice = input(H, "Choose your weapon.", "TAKE UP ARMS") as anything in weapons
 			beltr = /obj/item/rogueweapon/scabbard/sword
-			r_hand = /obj/item/rogueweapon/sword/sabre/mulyeog
+			switch(weapon_choice)
+				if("Longsword")
+					r_hand = /obj/item/rogueweapon/sword/long
+				if("Rapier")
+					r_hand = /obj/item/rogueweapon/sword/rapier
+				if("Sabre")
+					r_hand = /obj/item/rogueweapon/sword/sabre
+				if("Arming Sword")
+					r_hand = /obj/item/rogueweapon/sword
+				if("Shortsword")
+					r_hand = /obj/item/rogueweapon/sword/short
+		if("phalangite")
+			r_hand = /obj/item/rogueweapon/spear
+			H.adjust_skillrank_up_to(/datum/skill/combat/polearms, SKILL_LEVEL_JOURNEYMAN, TRUE)
 
 	H.cmode_music = 'sound/music/cmode/adventurer/combat_outlander3.ogg'
 	switch(H.patron?.type)

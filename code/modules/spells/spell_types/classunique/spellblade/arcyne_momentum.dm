@@ -146,6 +146,7 @@
 	// Decay: lose 1 stack per tick if no hits in the last 4 seconds
 	if(stacks > 0 && world.time - last_stack_time >= MOMENTUM_DECAY_DELAY)
 		stacks = max(stacks - 1, 0)
+		owner.balloon_alert(owner, "M: [stacks]/[max_stacks]")
 		update_visuals()
 		update_alert()
 		update_spell_buttons()

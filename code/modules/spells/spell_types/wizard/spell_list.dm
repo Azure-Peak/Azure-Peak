@@ -79,6 +79,7 @@ GLOBAL_LIST_INIT(utility_spells, (list(
 		/obj/effect/proc_holder/spell/invoked/projectile/lesser_repel,
 		/obj/effect/proc_holder/spell/targeted/touch/lesserknock,
 		/obj/effect/proc_holder/spell/targeted/touch/nondetection,
+		/obj/effect/proc_holder/spell/invoked/darkvision, // Buff but it is fine to also put it in this list
 		/obj/effect/proc_holder/spell/self/magicians_brick,
 		)
 ))

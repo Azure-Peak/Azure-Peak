@@ -8,7 +8,7 @@
 	chargetime = 0
 	recharge_time = 20 SECONDS
 	warnie = "spellwarning"
-	invocations = list("REVOCA, FERRUM!")
+	invocations = list("Revoca, ferrum!")
 	invocation_type = "shout"
 	gesture_required = TRUE
 	xp_gain = FALSE

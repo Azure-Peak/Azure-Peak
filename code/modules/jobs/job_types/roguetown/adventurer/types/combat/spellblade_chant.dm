@@ -191,7 +191,7 @@ a.choose-btn:hover {
 <li><b>Blade Storm</b> — Cuts a 3x3 area surrounding an immune center tile three times in a row. 7 Momentum required. At 10, make an extra slash.</li>
 </ul>
 </div>
-<p class="weapon-info">Rapier / Sabre / Arming Sword / Shortsword & Shield</p>
+<p class="weapon-info">Longsword / Rapier / Sabre / Arming Sword / Shortsword & Shield</p>
 </div>
 <a class="choose-btn" href='?src=\ref[caller];subclass=blade'>[blade_btn]</a>
 </div>
