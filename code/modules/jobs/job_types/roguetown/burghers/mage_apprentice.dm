@@ -216,6 +216,7 @@
 			subclass_selected = "blade"
 
 /datum/outfit/job/roguetown/wapprentice/spellguard/pre_equip(mob/living/carbon/human/H)
+	..()
 	head = /obj/item/clothing/head/roguetown/bucklehat
 	shoes = /obj/item/clothing/shoes/roguetown/boots
 	pants = /obj/item/clothing/under/roguetown/trou/leather

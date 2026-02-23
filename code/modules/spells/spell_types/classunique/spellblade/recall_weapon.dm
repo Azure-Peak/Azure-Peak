@@ -44,14 +44,14 @@
 		holder.dropItemToGround(bound_weapon, TRUE)
 
 	playsound(weapon_turf, 'sound/magic/blink.ogg', 30, TRUE)
-	weapon_turf.visible_message(span_notice("[bound_weapon] vanishes in a flash of arcyne light"))
+	weapon_turf.visible_message(span_notice("[bound_weapon] vanishes in a flash of arcyne light."))
 
 	if(!H.put_in_hands(bound_weapon))
 		bound_weapon.forceMove(get_turf(H))
-		to_chat(H, span_notice("My bound weapon returns to my feet — my hands are full"))
+		to_chat(H, span_notice("My bound weapon returns to my feet — my hands are full."))
 	else
-		to_chat(H, span_notice("My bound weapon flies back to my hand"))
+		to_chat(H, span_notice("My bound weapon flies back to my hand."))
 
 	playsound(get_turf(H), 'sound/magic/blink.ogg', 40, TRUE)
-	H.visible_message(span_notice("[bound_weapon] materializes in [H]'s hand"))
+	H.visible_message(span_notice("[bound_weapon] materializes in [H]'s hand."))
 	return TRUE

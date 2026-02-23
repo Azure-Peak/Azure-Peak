@@ -65,8 +65,8 @@ GLOBAL_LIST_INIT(learnable_spells, (list(/obj/effect/proc_holder/spell/invoked/p
 		)
 ))
 
-/* Utility spells - non-combat support magic or very niche in combat spells meant to be freely
-To all mage classes
+/* Utility spells - non-combat support magic or very niche in combat spells meant to be freely available
+to all mage classes.
 */
 GLOBAL_LIST_INIT(utility_spells, (list(
 		/obj/effect/proc_holder/spell/self/light,

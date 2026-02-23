@@ -4,7 +4,7 @@
 	clothes_req = FALSE
 	range = 15
 	projectile_type = /obj/projectile/magic/lesser_repel
-	overlay_state = ""
+	overlay_state = "fetch"
 	sound = list('sound/magic/unmagnet.ogg')
 	active = FALSE
 	releasedrain = 15
@@ -12,7 +12,6 @@
 	chargetime = 0
 	recharge_time = 15 SECONDS
 	warnie = "spellwarning"
-	overlay_state = "fetch"
 	no_early_release = TRUE
 	chargedloop = /datum/looping_sound/invokegen
 	associated_skill = /datum/skill/magic/arcane
@@ -24,7 +23,7 @@
 	cost = 1
 
 /obj/projectile/magic/lesser_repel
-	name = "lesser bolt of repeling"
+	name = "lesser bolt of repelling"
 	icon = 'icons/effects/effects.dmi'
 	icon_state = "curseblob"
 	range = 15

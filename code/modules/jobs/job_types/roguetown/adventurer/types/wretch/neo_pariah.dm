@@ -153,7 +153,7 @@
 				if("Steel Warhammer")
 					r_hand = /obj/item/rogueweapon/mace/warhammer/steel
 
-	var/helmets = list("Elven Barbute", "Winged Elven Barbcute")
+	var/helmets = list("Elven Barbute", "Winged Elven Barbute")
 	var/helmet_choice = input(H, "Choose your helmet.", "LEAVES OVER STEEL") as anything in helmets
 	switch(helmet_choice)
 		if("Elven Barbute")
