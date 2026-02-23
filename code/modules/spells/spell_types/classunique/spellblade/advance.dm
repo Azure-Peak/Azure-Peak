@@ -17,7 +17,7 @@ Pseudo-melee: the final thrust respects spell_guard_check. */
 		The thrust strikes the bodypart you are aiming at. \
 		Pseudo-melee: can be deflected by Defend stance."
 	clothes_req = FALSE
-	overlay_icon = 'icons/mob/actions/spellblade.dmi'
+	action_icon = 'icons/mob/actions/spellblade.dmi'
 	overlay_state = "advance"
 	releasedrain = 15
 	chargedrain = 0

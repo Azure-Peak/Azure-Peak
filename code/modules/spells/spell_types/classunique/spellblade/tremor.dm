@@ -18,7 +18,7 @@ Respects spell_guard_check. */
 	clothes_req = FALSE
 	range = 1
 	ignore_los = TRUE
-	overlay_icon = 'icons/mob/actions/spellblade.dmi'
+	action_icon = 'icons/mob/actions/spellblade.dmi'
 	overlay_state = "tremor"
 	releasedrain = 20
 	chargedrain = 0

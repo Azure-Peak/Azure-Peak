@@ -27,7 +27,7 @@
 			phalanx_weapons = "Halberd / Bardiche / Boar Spear"
 			mace_weapons = "Steel Mace / Steel Warhammer & Shield"
 		else
-			blade_weapons = "Longsword / Rapier / Sabre / Arming Sword / Shortsword & Shield"
+			blade_weapons = "Longsword / Rapier / Sabre / Arming Sword / Shortsword / Hwando & Shield"
 			phalanx_weapons = "Spear & Shield"
 			mace_weapons = "Mace / Warhammer & Shield"
 

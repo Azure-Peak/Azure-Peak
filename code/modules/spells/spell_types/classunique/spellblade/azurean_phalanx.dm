@@ -14,7 +14,7 @@ to the left and right, forming a wide phalanx push.*/
 		Can be deflected by Defend stance."
 	clothes_req = FALSE
 	range = 3
-	overlay_icon = 'icons/mob/actions/spellblade.dmi'
+	action_icon = 'icons/mob/actions/spellblade.dmi'
 	overlay_state = "azurean_phalanx"
 	releasedrain = 20
 	chargedrain = 0

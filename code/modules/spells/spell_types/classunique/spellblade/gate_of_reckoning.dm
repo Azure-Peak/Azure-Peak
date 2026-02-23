@@ -32,7 +32,7 @@ Cross-Z uses a longer telegraph.*/
 		Works across Z-levels."
 	clothes_req = FALSE
 	range = 6
-	overlay_icon = 'icons/mob/actions/spellblade.dmi'
+	action_icon = 'icons/mob/actions/spellblade.dmi'
 	overlay_state = "gate_of_reckoning"
 	releasedrain = 40
 	chargedrain = 1

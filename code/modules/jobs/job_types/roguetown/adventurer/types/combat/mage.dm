@@ -245,7 +245,7 @@
 	
 	switch(subclass_selected)
 		if("blade")
-			var/weapons = list("Longsword", "Rapier", "Sabre", "Arming Sword", "Shortsword")
+			var/weapons = list("Longsword", "Rapier", "Sabre", "Arming Sword", "Shortsword", "Hwando")
 			var/weapon_choice = input(H, "Choose your weapon.", "TAKE UP ARMS") as anything in weapons
 			beltr = /obj/item/rogueweapon/scabbard/sword
 			switch(weapon_choice)
@@ -259,6 +259,9 @@
 					r_hand = /obj/item/rogueweapon/sword
 				if("Shortsword")
 					r_hand = /obj/item/rogueweapon/sword/short
+				if("Hwando")
+					r_hand = /obj/item/rogueweapon/sword/sabre/mulyeog
+					armor = /obj/item/clothing/suit/roguetown/armor/basiceast
 		if("phalangite")
 			r_hand = /obj/item/rogueweapon/spear
 			H.adjust_skillrank_up_to(/datum/skill/combat/polearms, SKILL_LEVEL_JOURNEYMAN, TRUE)

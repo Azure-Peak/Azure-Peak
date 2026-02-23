@@ -5,7 +5,7 @@
 		The weapon must match your chant — Blade requires a sword, Phalangite a polearm, Macebearer a mace or warhammer. \
 		You can rebind to restore a lost Arcyne Momentum status, or bind a new weapon if your old one was destroyed."
 	clothes_req = FALSE
-	overlay_icon = 'icons/mob/actions/spellblade.dmi'
+	action_icon = 'icons/mob/actions/spellblade.dmi'
 	overlay_state = "bind_weapon"
 	releasedrain = 20
 	chargedrain = 0

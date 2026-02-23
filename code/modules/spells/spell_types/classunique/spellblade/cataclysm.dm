@@ -19,7 +19,7 @@ you're a macebearer.  */
 		Can be deflected by Defend stance."
 	clothes_req = FALSE
 	range = 4
-	overlay_icon = 'icons/mob/actions/spellblade.dmi'
+	action_icon = 'icons/mob/actions/spellblade.dmi'
 	overlay_state = "cataclysm"
 	releasedrain = 40
 	chargedrain = 1

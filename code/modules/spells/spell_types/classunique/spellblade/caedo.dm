@@ -6,7 +6,7 @@
 		If any of them defend against the strike, you will be left exposed at the end of your dash!"
 	clothes_req = FALSE
 	range = 5
-	overlay_icon = 'icons/mob/actions/spellblade.dmi'
+	action_icon = 'icons/mob/actions/spellblade.dmi'
 	overlay_state = "caedo"
 	releasedrain = 25
 	chargedrain = 1

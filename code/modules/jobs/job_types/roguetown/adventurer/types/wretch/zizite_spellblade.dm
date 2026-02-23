@@ -109,6 +109,7 @@
 		if("Progress (Medium Armor)")
 			head = /obj/item/clothing/head/roguetown/helmet/heavy/bucket
 			armor = /obj/item/clothing/suit/roguetown/armor/chainmail/hauberk
+			cloak = /obj/item/clothing/cloak/tabard/black
 
 	backr = /obj/item/rogueweapon/shield/heater
 
