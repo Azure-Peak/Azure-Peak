@@ -104,3 +104,13 @@ GLOBAL_LIST_INIT(summoning_spells, (list(
 		// /obj/effect/proc_holder/spell/invoked/raise_deadite, // Zizo-only, consider separate evil list
 		)
 ))
+
+/proc/get_spell_pool_list(pool_name)
+	switch(pool_name)
+		if("utility")
+			return GLOB.utility_spells
+		if("augmentation")
+			return GLOB.augmentation_spells
+		if("summoning")
+			return GLOB.summoning_spells
+	return list()
