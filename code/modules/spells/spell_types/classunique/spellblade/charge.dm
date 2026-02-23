@@ -7,8 +7,7 @@ Less precise than Advance (always hits chest, no zone selection)
 but more disruptive (knockback on arrival).
 
 At 3+ momentum: consumes 3 stacks, doubles damage and knockback distance.
-Builds 1 momentum on hit.
-Respects spell_guard_check. */
+Builds 1 momentum on hit. */
 
 /obj/effect/proc_holder/spell/self/charge
 	name = "Charge!"

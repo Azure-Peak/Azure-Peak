@@ -1,11 +1,7 @@
-/* Shatter - Macebearer lineal overhead smash.
-Pure integrity damage tool. Zero AP — this does not pierce armor,
-it BREAKS armor. Smashes everything in a 3-tile line in front of
+/* Shatter - Macebearer lineal smash.
+Pure integrity damage tool. Zero AP. Smashes everything in a 3-tile line in front of
 the caster, dealing high damage. Doubled when empowered.
-No momentum gain — use normal swings for that.
-
-BCLASS_BLUNT, not SMASH. No knockback, no knockdown.
-Respects zone selection and spell_guard_check. */
+No momentum gain — use normal swings for that.*/
 
 /obj/effect/proc_holder/spell/invoked/shatter
 	name = "Shatter"

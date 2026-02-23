@@ -8,8 +8,7 @@ At 10: bonus damage + applies Exposed to all victims AND the caster.
 The self-Exposed is the price for such an easy mass Expose.
 
 Telegraph with spellwarning before landing. Short range (4 tiles) —
-you're a macebearer, not a teleporter. Cross-Z not supported.
-Respects spell_guard_check for the center hit. */
+you're a macebearer.  */
 
 /obj/effect/proc_holder/spell/invoked/cataclysm
 	name = "Cataclysm"
