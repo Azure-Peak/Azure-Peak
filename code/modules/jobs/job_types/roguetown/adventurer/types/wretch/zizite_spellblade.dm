@@ -9,7 +9,7 @@
 	outfit = /datum/outfit/job/roguetown/wretch/zizite_spellblade
 	maximum_possible_slots = 2 // Team rocket!!!
 	category_tags = list(CTAG_WRETCH)
-	traits_applied = list(TRAIT_MEDIUMARMOR, TRAIT_ARCYNE_T2, TRAIT_ARCYNE_T1)
+	traits_applied = list(TRAIT_MEDIUMARMOR, TRAIT_ARCYNE_T2)
 	subclass_stats = list(
 		STATKEY_STR = 1,
 		STATKEY_INT = 2, // Weighted 7. But a very nice statblock 
