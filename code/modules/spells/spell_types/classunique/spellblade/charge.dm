@@ -22,7 +22,7 @@ Builds 1 momentum on hit. */
 	releasedrain = 15
 	chargedrain = 0
 	chargetime = 2
-	recharge_time = 12 SECONDS
+	recharge_time = 8 SECONDS
 	warnie = "spellwarning"
 	no_early_release = TRUE
 	movement_interrupt = FALSE

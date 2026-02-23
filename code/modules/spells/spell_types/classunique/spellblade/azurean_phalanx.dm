@@ -19,7 +19,7 @@ to the left and right, forming a wide phalanx push.*/
 	releasedrain = 20
 	chargedrain = 0
 	chargetime = 3
-	recharge_time = 16 SECONDS // Longest CD due to wide push ability.
+	recharge_time = 10 SECONDS
 	warnie = "spellwarning"
 	no_early_release = TRUE
 	movement_interrupt = FALSE

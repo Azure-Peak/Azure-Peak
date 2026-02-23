@@ -192,6 +192,7 @@ a.choose-btn:hover {
 <body>
 <div class="chant-container">
 <h2>[title]</h2>
+<p style="font-size: 11px; color: #8b7355; margin-top: -15px; margin-bottom: 15px; font-style: italic;">You have 5 minutes to make your choice.</p>
 <div class="columns">
 <div class="column">
 <div class="column-content">

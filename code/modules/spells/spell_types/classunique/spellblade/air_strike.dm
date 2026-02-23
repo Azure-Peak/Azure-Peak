@@ -24,7 +24,7 @@ hand and I intend for Spellblade, feeling wise.
 	releasedrain = 20
 	chargedrain = 0
 	chargetime = 3
-	recharge_time = 12 SECONDS
+	recharge_time = 10 SECONDS
 	warnie = "spellwarning"
 	no_early_release = TRUE
 	movement_interrupt = FALSE

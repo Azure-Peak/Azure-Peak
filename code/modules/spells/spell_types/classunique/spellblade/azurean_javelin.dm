@@ -29,7 +29,7 @@ it is an AP projectile and high impact vs other light.
 	releasedrain = 30
 	chargedrain = 1
 	chargetime = 20
-	recharge_time = 12 SECONDS
+	recharge_time = 10 SECONDS
 	warnie = "spellwarning"
 	no_early_release = TRUE
 	movement_interrupt = FALSE

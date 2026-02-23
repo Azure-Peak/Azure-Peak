@@ -88,7 +88,7 @@
 	onclose(H, "spellblade_chant", src)
 
 	var/open_time = world.time
-	while(!subclass_selected && world.time - open_time < 60 SECONDS)
+	while(!subclass_selected && world.time - open_time < 5 MINUTES)
 		stoplag(1)
 	H << browse(null, "window=spellblade_chant")
 
