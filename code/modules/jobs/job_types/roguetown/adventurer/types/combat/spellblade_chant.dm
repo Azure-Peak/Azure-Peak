@@ -14,6 +14,19 @@
 		phalanx_btn = "WAKE UP"
 		mace_btn = "WAKE UP"
 
+	var/blade_weapons
+	var/phalanx_weapons
+	var/mace_weapons
+	switch(faction)
+		if("blackoak")
+			blade_weapons = "Elvish Longsword / Elvish Saber / Elvish Curveblade"
+			phalanx_weapons = "Elvish Glaive"
+			mace_weapons = "Steel Mace / Steel Warhammer & Shield"
+		else
+			blade_weapons = "Longsword / Rapier / Sabre / Arming Sword / Shortsword & Shield"
+			phalanx_weapons = "Spear & Shield"
+			mace_weapons = "Mace / Warhammer & Shield"
+
 	var/html = {"<!DOCTYPE html>
 <html>
 <head>
@@ -191,7 +204,7 @@ a.choose-btn:hover {
 <li><b>Blade Storm</b> — Cuts a 3x3 area surrounding an immune center tile three times in a row. 7 Momentum required. At 10, make an extra slash.</li>
 </ul>
 </div>
-<p class="weapon-info">Longsword / Rapier / Sabre / Arming Sword / Shortsword & Shield</p>
+<p class="weapon-info">[blade_weapons]</p>
 </div>
 <a class="choose-btn" href='?src=\ref[caller];subclass=blade'>[blade_btn]</a>
 </div>
@@ -210,7 +223,7 @@ a.choose-btn:hover {
 <li><b>Gate of Reckoning</b> — Conjure a portal above a target, shooting a spear downward at their head, and then blinks to their position, striking them again.</li>
 </ul>
 </div>
-<p class="weapon-info">Spear & Shield</p>
+<p class="weapon-info">[phalanx_weapons]</p>
 </div>
 <a class="choose-btn" href='?src=\ref[caller];subclass=phalangite'>[phalanx_btn]</a>
 </div>
@@ -229,7 +242,7 @@ a.choose-btn:hover {
 <li><b>Cataclysm</b> — Leap to a target and slam the ground. At max momentum, Exposes everyone hit — and yourself.</li>
 </ul>
 </div>
-<p class="weapon-info">Mace / Warhammer / Flail & Shield</p>
+<p class="weapon-info">[mace_weapons]</p>
 </div>
 <a class="choose-btn" href='?src=\ref[caller];subclass=macebearer'>[mace_btn]</a>
 </div>

@@ -2,7 +2,8 @@
 	name = "Recall Weapon"
 	desc = "Recall your bound weapon to your hand from anywhere."
 	clothes_req = FALSE
-	overlay_state = "rune5"
+	overlay_icon = 'icons/mob/actions/spellblade.dmi'
+	overlay_state = "recall_weapon"
 	releasedrain = 15
 	chargedrain = 0
 	chargetime = 0

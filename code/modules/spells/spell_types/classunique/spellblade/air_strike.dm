@@ -19,7 +19,8 @@ hand and I intend for Spellblade, feeling wise.
 		- In Blunt stance, it focuses all its force into a single spot, dealing increased damage to one target. (45/90)"
 	clothes_req = FALSE
 	range = 4
-	overlay_state = "blade_burst"
+	overlay_icon = 'icons/mob/actions/spellblade.dmi'
+	overlay_state = "air_strike"
 	releasedrain = 20
 	chargedrain = 0
 	chargetime = 3

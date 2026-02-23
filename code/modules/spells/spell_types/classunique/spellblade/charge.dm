@@ -17,7 +17,8 @@ Builds 1 momentum on hit. */
 		At 3+ momentum: consumes 3 stacks to double damage and knockback distance. \
 		Can be deflected by Defend stance."
 	clothes_req = FALSE
-	overlay_state = "blade_burst"
+	overlay_icon = 'icons/mob/actions/spellblade.dmi'
+	overlay_state = "charge"
 	releasedrain = 15
 	chargedrain = 0
 	chargetime = 2

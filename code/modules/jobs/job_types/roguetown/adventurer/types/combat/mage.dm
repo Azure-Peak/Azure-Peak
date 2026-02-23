@@ -164,7 +164,7 @@
 		/datum/skill/combat/swords = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/combat/polearms = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/combat/maces = SKILL_LEVEL_JOURNEYMAN,
-		/datum/skill/combat/shields = SKILL_LEVEL_NOVICE,
+		/datum/skill/combat/shields = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/combat/wrestling = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/combat/unarmed = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/misc/athletics = SKILL_LEVEL_APPRENTICE,
@@ -242,8 +242,7 @@
 
 	armor = /obj/item/clothing/suit/roguetown/armor/leather/heavy/coat
 	backr = /obj/item/rogueweapon/shield/wood
-	H.adjust_skillrank_up_to(/datum/skill/combat/shields, SKILL_LEVEL_APPRENTICE, TRUE)
-
+	
 	switch(subclass_selected)
 		if("blade")
 			var/weapons = list("Longsword", "Rapier", "Sabre", "Arming Sword", "Shortsword")
@@ -264,15 +263,13 @@
 			r_hand = /obj/item/rogueweapon/spear
 			H.adjust_skillrank_up_to(/datum/skill/combat/polearms, SKILL_LEVEL_JOURNEYMAN, TRUE)
 		if("macebearer")
-			var/mace_weapons = list("Mace", "Warhammer", "Flail")
+			var/mace_weapons = list("Mace", "Warhammer")
 			var/mace_choice = input(H, "Choose your weapon.", "TAKE UP ARMS") as anything in mace_weapons
 			switch(mace_choice)
 				if("Mace")
 					r_hand = /obj/item/rogueweapon/mace
 				if("Warhammer")
 					r_hand = /obj/item/rogueweapon/mace/warhammer
-				if("Flail")
-					r_hand = /obj/item/rogueweapon/flail
 			H.adjust_skillrank_up_to(/datum/skill/combat/maces, SKILL_LEVEL_JOURNEYMAN, TRUE)
 
 	H.cmode_music = 'sound/music/cmode/adventurer/combat_outlander3.ogg'

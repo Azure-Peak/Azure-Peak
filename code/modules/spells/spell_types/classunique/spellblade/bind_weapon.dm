@@ -1,8 +1,12 @@
 /obj/effect/proc_holder/spell/self/bind_weapon
 	name = "Bind Weapon"
-	desc = "Bind your held weapon as an arcyne conduit. Successful strikes with bound weapons build arcyne momentum, fueling your abilities. It can also be recalled to your hand from anywhere with Recall Weapon. The weapon must match your chant — Blade requires a sword, Phalangite a spear, Macebearer a mace or flail. You can rebind to restore a lost Arcyne Momentum status, or bind a new weapon if your old one was destroyed."
+	desc = "Bind your held weapon as an arcyne conduit. Successful strikes with bound weapons build arcyne momentum, fueling your abilities. \
+		It can also be recalled to your hand from anywhere with Recall Weapon. \
+		The weapon must match your chant — Blade requires a sword, Phalangite a polearm, Macebearer a mace or warhammer. \
+		You can rebind to restore a lost Arcyne Momentum status, or bind a new weapon if your old one was destroyed."
 	clothes_req = FALSE
-	overlay_state = "enchant_weapon"
+	overlay_icon = 'icons/mob/actions/spellblade.dmi'
+	overlay_state = "bind_weapon"
 	releasedrain = 20
 	chargedrain = 0
 	chargetime = 0
@@ -36,13 +40,16 @@
 
 	if(M?.chant)
 		var/valid = FALSE
+		var/datum/skill/required_skill
 		switch(M.chant)
 			if("blade")
-				valid = istype(weapon, /obj/item/rogueweapon/sword)
+				required_skill = /datum/skill/combat/swords
 			if("phalangite")
-				valid = istype(weapon, /obj/item/rogueweapon/spear)
+				required_skill = /datum/skill/combat/polearms
 			if("macebearer")
-				valid = istype(weapon, /obj/item/rogueweapon/mace) || istype(weapon, /obj/item/rogueweapon/flail)
+				required_skill = /datum/skill/combat/maces
+		if(required_skill)
+			valid = (weapon.associated_skill == required_skill)
 		if(!valid)
 			to_chat(H, span_warning("This weapon does not match my chant!"))
 			revert_cast()

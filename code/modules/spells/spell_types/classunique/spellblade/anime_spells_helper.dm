@@ -83,14 +83,11 @@ without going through the click pipeline, so spells can deliver weapon-style str
 
 /proc/arcyne_get_weapon(mob/living/carbon/human/H)
 	var/datum/status_effect/buff/arcyne_momentum/M = H.has_status_effect(/datum/status_effect/buff/arcyne_momentum)
-	if(M?.bound_weapon)
-		if(H.is_holding(M.bound_weapon))
-			return M.bound_weapon
+	if(!M?.bound_weapon)
 		return null
-	var/obj/item/held = H.get_active_held_item()
-	if(!held)
-		held = H.get_inactive_held_item()
-	return held
+	if(H.is_holding(M.bound_weapon))
+		return M.bound_weapon
+	return null
 
 /* Shared blink/teleport validation used by Blink, Caedo, and any future teleport spell.
 Returns null on success, or an error string describing the failure. */

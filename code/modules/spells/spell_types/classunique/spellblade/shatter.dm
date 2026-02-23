@@ -13,7 +13,8 @@ No momentum gain — use normal swings for that.*/
 		Can be deflected by Defend stance."
 	clothes_req = FALSE
 	range = 3
-	overlay_state = "repulse"
+	overlay_icon = 'icons/mob/actions/spellblade.dmi'
+	overlay_state = "shatter"
 	releasedrain = 20
 	chargedrain = 0
 	chargetime = 5

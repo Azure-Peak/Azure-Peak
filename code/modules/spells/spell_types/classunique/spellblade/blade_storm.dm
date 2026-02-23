@@ -17,7 +17,8 @@ Uses Eris melee swing sprites (96x96) for the slash visuals. */
 		Enemies have a brief window to escape the marked area."
 	clothes_req = FALSE
 	range = 5
-	overlay_state = "blade_burst"
+	overlay_icon = 'icons/mob/actions/spellblade.dmi'
+	overlay_state = "blade_storm"
 	releasedrain = 50
 	chargedrain = 1
 	chargetime = 20

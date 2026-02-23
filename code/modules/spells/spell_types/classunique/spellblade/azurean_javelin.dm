@@ -35,7 +35,8 @@ it is an AP projectile and high impact vs other light.
 	movement_interrupt = FALSE
 	charging_slowdown = 2
 	chargedloop = /datum/looping_sound/invokegen
-	overlay_state = "air_blade"
+	overlay_icon = 'icons/mob/actions/spellblade.dmi'
+	overlay_state = "azurean_javelin"
 	invocations = list("Pilum Azureum!")
 	invocation_type = "shout"
 	gesture_required = TRUE
@@ -46,31 +47,38 @@ it is an AP projectile and high impact vs other light.
 
 /obj/effect/proc_holder/spell/invoked/projectile/azurean_javelin/cast(list/targets, mob/user = usr)
 	var/mob/living/carbon/human/H = user
+	if(!istype(H))
+		revert_cast()
+		return
 
-	if(istype(H))
-		var/empowered = FALSE
-		var/datum/status_effect/buff/arcyne_momentum/M = H.has_status_effect(/datum/status_effect/buff/arcyne_momentum)
-		if(M && M.stacks >= momentum_cost)
-			M.consume_stacks(momentum_cost)
-			empowered = TRUE
-			to_chat(H, span_notice("[momentum_cost] momentum released — empowered javelin!"))
+	if(!arcyne_get_weapon(H))
+		to_chat(H, span_warning("I need my bound weapon in hand!"))
+		revert_cast()
+		return
 
-		var/final_damage = empowered ? (base_damage * empowered_mult) : base_damage
+	var/empowered = FALSE
+	var/datum/status_effect/buff/arcyne_momentum/M = H.has_status_effect(/datum/status_effect/buff/arcyne_momentum)
+	if(M && M.stacks >= momentum_cost)
+		M.consume_stacks(momentum_cost)
+		empowered = TRUE
+		to_chat(H, span_notice("[momentum_cost] momentum released — empowered javelin!"))
 
-		var/datum/intent/current_intent = H.a_intent
-		var/blade_class = current_intent?.blade_class || BCLASS_STAB
-		if(empowered)
-			if(blade_class == BCLASS_CUT)
-				projectile_type = /obj/projectile/energy/azurean_javelin/empowered/arc
-			else
-				projectile_type = /obj/projectile/energy/azurean_javelin/empowered
+	var/final_damage = empowered ? (base_damage * empowered_mult) : base_damage
+
+	var/datum/intent/current_intent = H.a_intent
+	var/blade_class = current_intent?.blade_class || BCLASS_STAB
+	if(empowered)
+		if(blade_class == BCLASS_CUT)
+			projectile_type = /obj/projectile/energy/azurean_javelin/empowered/arc
 		else
-			if(blade_class == BCLASS_CUT)
-				projectile_type = /obj/projectile/energy/azurean_javelin/arc
-			else
-				projectile_type = /obj/projectile/energy/azurean_javelin
+			projectile_type = /obj/projectile/energy/azurean_javelin/empowered
+	else
+		if(blade_class == BCLASS_CUT)
+			projectile_type = /obj/projectile/energy/azurean_javelin/arc
+		else
+			projectile_type = /obj/projectile/energy/azurean_javelin
 
-		projectile_var_overrides = list("damage" = final_damage)
+	projectile_var_overrides = list("damage" = final_damage)
 
 	. = ..()
 
