@@ -154,6 +154,15 @@
 		STATKEY_CON = 1,
 		STATKEY_WIL = 1,
 	)
+	// Anti powergamer measure. May be too harsh? Don't know.
+	adv_stat_ceiling = list(
+		STAT_STRENGTH = 11,
+		STAT_PERCEPTION = 11,
+		STAT_INTELLIGENCE = 13,
+		STAT_CONSTITUTION = 12,
+		STAT_WILLPOWER = 12,
+		STAT_SPEED = 11,
+	)
 	subclass_spell_point_pools = list("utility" = 4)
 	// Just give them Jman for all three schools they can go into
 	// They are functionally crippled without abilities if they
