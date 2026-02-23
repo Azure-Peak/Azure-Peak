@@ -144,6 +144,98 @@
 		if(/datum/patron/inhumen/zizo)
 			H.cmode_music = 'sound/music/combat_heretic.ogg'
 
+/datum/advclass/mage/spellblade2
+	name = "Neo Spellblade"
+	tutorial = "A melee warrior who channels arcyne momentum through combat. Build power with your blade, then unleash it."
+	outfit = /datum/outfit/job/roguetown/adventurer/spellblade2
+	traits_applied = list(TRAIT_MAGEARMOR, TRAIT_ARCYNE_T2)
+	subclass_stats = list(
+		STATKEY_STR = 2,
+		STATKEY_INT = 1,
+		STATKEY_CON = 1,
+		STATKEY_WIL = 1,
+	)
+	subclass_spell_point_pools = list("utility" = 4)
+	subclass_skills = list(
+		/datum/skill/misc/climbing = SKILL_LEVEL_JOURNEYMAN,
+		/datum/skill/combat/swords = SKILL_LEVEL_JOURNEYMAN,
+		/datum/skill/combat/shields = SKILL_LEVEL_NOVICE,
+		/datum/skill/combat/wrestling = SKILL_LEVEL_APPRENTICE,
+		/datum/skill/combat/unarmed = SKILL_LEVEL_APPRENTICE,
+		/datum/skill/misc/athletics = SKILL_LEVEL_APPRENTICE,
+		/datum/skill/misc/reading = SKILL_LEVEL_JOURNEYMAN,
+		/datum/skill/magic/arcane = SKILL_LEVEL_APPRENTICE,
+		/datum/skill/misc/swimming = SKILL_LEVEL_NOVICE,
+	)
+
+/datum/outfit/job/roguetown/adventurer/spellblade2
+	var/subclass_selected
+
+/datum/outfit/job/roguetown/adventurer/spellblade2/Topic(href, href_list)
+	. = ..()
+	if(href_list["subclass"])
+		subclass_selected = href_list["subclass"]
+	else if(href_list["close"])
+		if(!subclass_selected)
+			subclass_selected = "blade"
+
+/datum/outfit/job/roguetown/adventurer/spellblade2/pre_equip(mob/living/carbon/human/H)
+	..()
+	to_chat(H, span_warning("A melee warrior who channels arcyne momentum through combat. Build power with your weapon, then unleash it."))
+	head = /obj/item/clothing/head/roguetown/bucklehat
+	shoes = /obj/item/clothing/shoes/roguetown/boots
+	pants = /obj/item/clothing/under/roguetown/trou/leather
+	shirt = /obj/item/clothing/suit/roguetown/armor/gambeson
+	gloves = /obj/item/clothing/gloves/roguetown/angle
+	belt = /obj/item/storage/belt/rogue/leather
+	neck = /obj/item/clothing/neck/roguetown/chaincoif
+	backl = /obj/item/storage/backpack/rogue/satchel
+	beltl = /obj/item/storage/belt/rogue/pouch/coins/poor
+	wrists = /obj/item/clothing/wrists/roguetown/bracers/leather
+	backpack_contents = list(/obj/item/flashlight/flare/torch = 1, /obj/item/recipe_book/survival = 1)
+
+	subclass_selected = null
+	var/selection_html = get_spellblade_chant_html(src, H, "conventional")
+	H << browse(selection_html, "window=spellblade_chant;size=900x900")
+	onclose(H, "spellblade_chant", src)
+
+	var/open_time = world.time
+	while(!subclass_selected && world.time - open_time < 60 SECONDS)
+		stoplag(1)
+	H << browse(null, "window=spellblade_chant")
+
+	if(!subclass_selected)
+		subclass_selected = "blade"
+
+	H.apply_status_effect(/datum/status_effect/buff/arcyne_momentum)
+
+	if(H.mind)
+		switch(subclass_selected)
+			if("blade")
+				H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/shukuchi)
+				H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/crescent_slash)
+				H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/forcewall)
+				H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/projectile/excalibur)
+
+		H.mind.AddSpell(new /obj/effect/proc_holder/spell/self/recall_weapon)
+		H.mind.AddSpell(new /obj/effect/proc_holder/spell/self/bind_weapon)
+		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/mending)
+		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/enchant_weapon)
+
+	armor = /obj/item/clothing/suit/roguetown/armor/leather/heavy/coat
+	backr = /obj/item/rogueweapon/shield/wood
+	H.adjust_skillrank_up_to(/datum/skill/combat/shields, SKILL_LEVEL_APPRENTICE, TRUE)
+
+	switch(subclass_selected)
+		if("blade")
+			beltr = /obj/item/rogueweapon/scabbard/sword
+			r_hand = /obj/item/rogueweapon/sword/sabre/mulyeog
+
+	H.cmode_music = 'sound/music/cmode/adventurer/combat_outlander3.ogg'
+	switch(H.patron?.type)
+		if(/datum/patron/inhumen/zizo)
+			H.cmode_music = 'sound/music/combat_heretic.ogg'
+
 /datum/advclass/mage/spellsinger
 	name = "Spellsinger"
 	tutorial = "You belong to a school of bards renowned for their study of both the arcane and the arts."
