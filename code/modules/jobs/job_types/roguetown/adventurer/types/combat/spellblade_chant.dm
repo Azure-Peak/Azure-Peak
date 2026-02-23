@@ -1,14 +1,18 @@
 /proc/get_spellblade_chant_html(datum/caller, mob/living/carbon/human/H, faction = "conventional")
 	var/blade_chant = get_blade_chant_text(faction, H)
 	var/phalanx_chant = get_phalanx_chant_text(faction, H)
+	var/macebearer_chant = get_macebearer_chant_text(faction, H)
+	var/preamble_closing = get_preamble_closing(faction)
 
 	var/title = "The Chant"
 	var/blade_btn = "Chant the Blade Verse"
 	var/phalanx_btn = "Chant the Phalangite Verse"
+	var/mace_btn = "Chant the Macebearer Verse"
 	if(faction == "undead")
 		title = "MEMORIES"
 		blade_btn = "WAKE UP"
 		phalanx_btn = "WAKE UP"
+		mace_btn = "WAKE UP"
 
 	var/html = {"<!DOCTYPE html>
 <html>
@@ -23,7 +27,7 @@ body {
 	padding: 20px;
 }
 .chant-container {
-	max-width: 660px;
+	max-width: 960px;
 	margin: 0 auto;
 	text-align: center;
 }
@@ -143,6 +147,29 @@ a.choose-btn:hover {
 	color: #b0a080;
 	margin: 0;
 }
+.preamble {
+	margin-top: 20px;
+	padding: 15px 20px;
+	border-top: 1px solid #5a4a30;
+	text-align: center;
+	font-style: italic;
+}
+.preamble p {
+	font-size: 11px;
+	line-height: 1.8;
+	margin: 4px 0;
+	color: #8b7355;
+}
+.preamble p.loud {
+	color: #c9a96e;
+	font-style: normal;
+	font-weight: bold;
+	letter-spacing: 1px;
+}
+.preamble p.closing {
+	color: #a08050;
+	margin-top: 10px;
+}
 </style>
 </head>
 <body>
@@ -159,9 +186,9 @@ a.choose-btn:hover {
 <h4>Abilities</h4>
 <ul>
 <li><b>Caedo</b> — Dash through enemies, striking them, consuming all momentum for bonus damage.</li>
-<li><b>Crescent Slash</b> — Arcyne arc attack that adapts to your stance. At 3+ momentum, pulls targets toward you.</li>
-<li><b>Forcewall</b> — Conjure a 3x1 wall of arcyne force.</li>
-<li><b>Blade Storm</b> — Cuts a 3x3 area suirrounding an immune center tile three times in a row. Power scales with momentum.</li>
+<li><b>Air Strike</b> — Ranged attack that adapts to your intent. At 3+ momentum, pulls targets toward you.</li>
+<li><b>Greater Forcewall</b> — Conjure a 5x1 wall of arcyne force.</li>
+<li><b>Blade Storm</b> — Cuts a 3x3 area surrounding an immune center tile three times in a row. 7 Momentum required. At 10, make an extra slash.</li>
 </ul>
 </div>
 <p class="weapon-info">Rapier / Sabre / Arming Sword / Shortsword & Shield</p>
@@ -187,10 +214,38 @@ a.choose-btn:hover {
 </div>
 <a class="choose-btn" href='?src=\ref[caller];subclass=phalangite'>[phalanx_btn]</a>
 </div>
+<div class="column">
+<div class="column-content">
+<h3>— Macebearer —</h3>
+<div class="chant-text">
+[macebearer_chant]
+</div>
+<div class="abilities">
+<h4>Abilities</h4>
+<ul>
+<li><b>TBD</b> — Abilities not yet designed.</li>
+</ul>
+</div>
+<p class="weapon-info">Mace & Shield</p>
+</div>
+<a class="choose-btn" href='?src=\ref[caller];subclass=macebearer'>[mace_btn]</a>
+</div>
 </div>
 <div class="shared-info">
 <h4>Shared Abilities</h4>
-<p>Bind Weapon · Recall Weapon · Mending · Enchant Weapon · Utility Spell Points</p>
+<p>Bind Weapon · Recall Weapon · Mending · Enchant Weapon · 4 Utility Spell Points</p>
+</div>
+<div class="preamble">
+<p>O! Blade of Tarichea!</p>
+<p>There was once a great city. On the foot of this very mountain, over the Azure Sea.</p>
+<p>It prospered, and in its midst, our warriors practiced their art, combining the arcyne with blades.</p>
+<p>We were master! Our skills, unmatched! Our techniques, unparalleled! Envy of the world!</p>
+<p>No Ranesheni bladedancers, or Kazengunese bladesman, or Grenzelhoftian mercenary, could match our prowess!</p>
+<p>Mages! Knights! Demons! All fell before our blade.</p>
+<p class="loud">THEN — SHE ASCENDED, ALL WAS LOST.</p>
+<p class="loud">OR WAS IT?</p>
+<p>O! Blade of Azurea!</p>
+<p class="closing">[preamble_closing]</p>
 </div>
 </div>
 </body>
@@ -257,3 +312,43 @@ a.choose-btn:hover {
 <p><em>With a hundred thrusts I shall hold our foe at bay.</em></p>
 <p><em>My body a weapon, and mastery my destination.</em></p>
 <p><em>By her grace, I stand unbroken.</em></p>"}
+
+/proc/get_macebearer_chant_text(faction, mob/living/carbon/human/H)
+	switch(faction)
+		if("blackoak")
+			return {"<p><em>I am a mace of Tarichea — Azuria, her name reborn!</em></p>
+<p><em>The hammer is my law! Blood my ink!</em></p>
+<p><em>Never bowed! Never stopped!</em></p>
+<p><em>With a dozen blows I shall crush all who threaten our home.</em></p>
+<p><em>Five hundred yils, unbowed!</em></p>
+<p><em>By blood and steel, five hundred more!</em></p>"}
+		if("zizite")
+			return {"<p><em>I am a mace of progress.</em></p>
+<p><em>The lady my patron, and knowledge my gift.</em></p>
+<p><em>No wall unbroken, no barrier unshattered.</em></p>
+<p><em>With a single blow I shall crack open stagnation.</em></p>
+<p><em>Stagnation is death - and I refuse to die.</em></p>
+<p><em>Her word is progress, and I am her hammer.</em></p>"}
+		if("undead")
+			return {"<p><em>I, Mace of Tarichea. Forever loyal.</em></p>
+<p><em>Justice is my hammer, and wrath my fuel.</em></p>
+<p><em>Tarichea my charge, and Tarichea my home.</em></p>
+<p><em>With a hundred blows I shall crush all that would threaten the dead.</em></p>
+<p><em>This body is—</em></p>
+<p><b>WAKE UP. WAKE UP.</b></p>"}
+	return {"<p><em>I am a mace of Azuria.</em></p>
+<p><em>The hammer is my word, and ruin my punctuation.</em></p>
+<p><em>Never bowed! Never stopped!</em></p>
+<p><em>With a hundred blows I shall shatter our foes to dust.</em></p>
+<p><em>My body a weapon, and conquest my destination.</em></p>
+<p><em>By her grace, I conquer!</em></p>"}
+
+/proc/get_preamble_closing(faction)
+	switch(faction)
+		if("blackoak")
+			return "Hone the tradition of your people! Though the snow elves are gone, your heritage is not! As the most excellent, most long-lyved of all races, it is up to you to carry on the legacy of a spellblade! Five hundred yils of martial and arcyne excellence, five hundred yils more!"
+		if("zizite")
+			return "Hone the knowledge of your patron! With her ascension. The ignorant clings onto the old way, your goddess lays imprisoned. Her teachings are all that remains. Her followers — corrupted, seeking undeath and bones, forgetting that she too, is the mistress of progress. With your very blade, you shall cut open the wound of the world, cauterize it, and let her light shine through! You are her herald."
+		if("undead")
+			return "Hone the blade of Tarichea! You awaken to...what? There is no demons, no Celestial Empire. What do you fight for? Why do you wield the blade? Every moves, every cuts, every thrust. Engrained into those old bones of yours. Fleshy hand that once wielded weapons, now naught but a pair of bone. Why? Do you fight? Have you been awakened by an ancient evyl, or did you just wake up, lost, dead, yet, somehow, retaining your will? Why do you fight? Why do you fight? Why do you fight?"
+	return "Hone the tradition of five centuries! Let not the art die with the fall of the old city! Wield your blade for justice, for profit, or for mastery! There is no wrong path, except to stray into heresy!"

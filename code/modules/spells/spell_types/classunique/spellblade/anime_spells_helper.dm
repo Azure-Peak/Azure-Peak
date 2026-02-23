@@ -1,0 +1,154 @@
+/* Shared helper procs for Spellblade pseudo-melee abilities.
+These mirror the species.dm melee attack flow (armor check -> apply_damage -> bodypart_attacked_by)
+without going through the click pipeline, so spells can deliver weapon-style strikes. */
+
+/proc/arcyne_strike(mob/living/carbon/human/user, mob/living/target, obj/item/weapon, damage, def_zone, blade_class_override, armor_penetration = 0, spell_name = "Arcyne Strike", skip_animation = FALSE)
+	if(!user || !target || QDELETED(user) || QDELETED(target))
+		return FALSE
+
+	var/blade_class = BCLASS_CUT
+	var/attack_flag = "slash"
+	if(blade_class_override)
+		blade_class = blade_class_override
+	else
+		var/datum/intent/current_intent = user.a_intent
+		if(current_intent)
+			blade_class = current_intent.blade_class
+
+	switch(blade_class)
+		if(BCLASS_BLUNT, BCLASS_SMASH)
+			blade_class = BCLASS_BLUNT
+			attack_flag = "blunt"
+		if(BCLASS_STAB, BCLASS_PICK)
+			blade_class = BCLASS_STAB
+			attack_flag = "stab"
+		else
+			blade_class = BCLASS_CUT
+			attack_flag = "slash"
+
+	if(!def_zone)
+		def_zone = user.zone_selected || BODY_ZONE_CHEST
+
+	if(iscarbon(target))
+		var/mob/living/carbon/C = target
+		var/obj/item/bodypart/targeting = C.get_bodypart(check_zone(def_zone))
+		if(!targeting)
+			def_zone = BODY_ZONE_CHEST
+
+	var/visual_effect = ATTACK_EFFECT_SLASH
+	var/anim_type = ATTACK_ANIMATION_SWIPE
+	switch(blade_class)
+		if(BCLASS_BLUNT)
+			visual_effect = ATTACK_EFFECT_SMASH
+			anim_type = ATTACK_ANIMATION_BONK
+		if(BCLASS_STAB)
+			anim_type = ATTACK_ANIMATION_THRUST
+	if(!skip_animation)
+		user.do_attack_animation(target, visual_effect, weapon, item_animation_override = anim_type)
+
+	var/armor_block = target.run_armor_check(def_zone, attack_flag, blade_dulling = blade_class, armor_penetration = armor_penetration, damage = damage)
+	target.apply_damage(damage, BRUTE, def_zone, armor_block)
+
+	var/effective_damage = damage * ((100 - armor_block) / 100)
+	if(effective_damage > 0)
+		if(iscarbon(target))
+			var/mob/living/carbon/C = target
+			var/obj/item/bodypart/affecting = C.get_bodypart(check_zone(def_zone))
+			if(affecting)
+				affecting.bodypart_attacked_by(blade_class, effective_damage, user, def_zone, crit_message = TRUE, weapon = weapon)
+		else
+			target.simple_woundcritroll(blade_class, effective_damage, user, def_zone, crit_message = TRUE)
+
+	var/attack_verb = "strikes"
+	var/hit_sound
+	switch(blade_class)
+		if(BCLASS_CUT)
+			attack_verb = "slashes"
+			hit_sound = pick('sound/combat/hits/bladed/largeslash (1).ogg', 'sound/combat/hits/bladed/largeslash (2).ogg', 'sound/combat/hits/bladed/largeslash (3).ogg')
+		if(BCLASS_BLUNT)
+			attack_verb = "smashes"
+			hit_sound = pick('sound/combat/hits/blunt/genblunt (1).ogg', 'sound/combat/hits/blunt/genblunt (2).ogg', 'sound/combat/hits/blunt/genblunt (3).ogg')
+		if(BCLASS_STAB)
+			attack_verb = "stabs"
+			hit_sound = pick('sound/combat/hits/bladed/genthrust (1).ogg', 'sound/combat/hits/bladed/genthrust (2).ogg')
+
+	playsound(get_turf(target), hit_sound, 100, TRUE)
+	var/weapon_name = weapon ? weapon.name : "arcyne force"
+	user.visible_message(
+		span_danger("[user] [attack_verb] [target] with [weapon_name]!"),
+		span_notice("I [attack_verb] [target] with my [weapon_name]!"))
+
+	log_combat(user, target, "spell-struck", weapon, "(SPELL: [spell_name]) (BCLASS: [attack_flag]) (DMG: [damage]) (AP: [armor_penetration]) (ZONE: [def_zone]) (EFF_DMG: [effective_damage])")
+	return effective_damage
+
+/proc/arcyne_get_weapon(mob/living/carbon/human/H)
+	var/obj/item/held = H.get_active_held_item()
+	if(!held)
+		held = H.get_inactive_held_item()
+	return held
+
+/* Shared blink/teleport validation used by Blink, Caedo, and any future teleport spell.
+Returns null on success, or an error string describing the failure. */
+/proc/arcyne_validate_blink_dest(turf/dest, mob/user)
+	if(!dest)
+		return "Invalid target location!"
+	if(dest.teleport_restricted)
+		return "I can't teleport here!"
+	var/turf/start = get_turf(user)
+	if(dest.z != start.z)
+		return "I can only teleport on the same plane!"
+	if(istransparentturf(dest))
+		return "I cannot teleport to the open air!"
+	if(dest.density)
+		return "I cannot teleport into a wall!"
+	return null
+
+/* Validates the path between start and dest for obstacles.
+Excludes dest turf from wall checks (you're landing there, not passing through).
+Returns null on success, or an error string. */
+/proc/arcyne_validate_blink_path(turf/start, turf/dest)
+	var/list/turf_list = getline(start, dest)
+	if(length(turf_list) > 0)
+		turf_list.len--
+	for(var/turf/T in turf_list)
+		if(T == start)
+			continue
+		if(T.density)
+			return "I cannot teleport through walls!"
+		for(var/obj/structure/mineral_door/door in T.contents)
+			if(door.density)
+				return "I cannot teleport through doors!"
+		for(var/obj/structure/roguewindow/window in T.contents)
+			if(window.density && !window.climbable)
+				return "I cannot teleport through windows!"
+		for(var/obj/structure/bars/B in T.contents)
+			if(B.density)
+				return "I cannot teleport through bars!"
+		for(var/obj/structure/gate/G in T.contents)
+			if(G.density)
+				return "I cannot teleport through gates!"
+	return null
+
+/* Walks toward target up to max_range tiles, returning the farthest valid turf.
+Used by Caedo to clamp distance instead of failing when out of range. */
+/proc/arcyne_find_max_blink_dest(mob/user, turf/target, max_range)
+	var/turf/start = get_turf(user)
+	if(!start || !target)
+		return null
+	var/list/full_line = getline(start, target)
+	var/turf/best = null
+	var/steps = 0
+	for(var/turf/T in full_line)
+		if(T == start)
+			continue
+		steps++
+		if(steps > max_range)
+			break
+		var/err = arcyne_validate_blink_dest(T, user)
+		if(err)
+			break
+		var/path_err = arcyne_validate_blink_path(start, T)
+		if(path_err)
+			break
+		best = T
+	return best

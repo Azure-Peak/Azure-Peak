@@ -1409,6 +1409,26 @@
 	desc = span_notice("I am on guard, and ready to clash. If I am hit, I will successfully defend. Attacking will make me lose my focus.")
 	icon_state = "clash"
 
+/// Testing subtype: 60s persistent guard for NPC combat testing. Remove before merge.
+/// All disruption/removal pathways are no-op'd so the NPC holds guard for the full duration.
+/// The guard still deflects spells via spell_guard_check and exposes the attacker.
+/datum/status_effect/buff/clash/npc_testing
+	duration = 60 SECONDS
+	sfx_on_apply = null
+
+/datum/status_effect/buff/clash/npc_testing/tick()
+	return
+
+/datum/status_effect/buff/clash/npc_testing/guard_disrupted()
+	return
+
+/datum/status_effect/buff/clash/npc_testing/guard_disrupted_cheesy()
+	return
+
+// Don't punish the NPC for attacking while guarding — let them fight normally with guard up.
+/datum/status_effect/buff/clash/npc_testing/process_attack(mob/living/parent, mob/living/target, mob/user, obj/item/I)
+	return
+
 /// Brief buffer after a successful spell deflection. This allows the player to deflect a single spell that has multiple projectiles - or if multiple projectiles are fired by different people in quick succession, for funny anime moment.
 /// While active, subsequent deflectable projectiles/spells are also deflected without requiring guard.
 /datum/status_effect/buff/spell_parry_buffer

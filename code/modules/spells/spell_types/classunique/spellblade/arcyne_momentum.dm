@@ -1,5 +1,5 @@
 #define MOMENTUM_FILTER "momentum_glow"
-#define MOMENTUM_DECAY_DELAY (4 SECONDS)
+#define MOMENTUM_DECAY_DELAY (8 SECONDS)
 
 /atom/movable/screen/alert/status_effect/buff/arcyne_momentum
 	name = "Arcyne Momentum (0)"
