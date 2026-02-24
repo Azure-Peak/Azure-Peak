@@ -23,7 +23,7 @@
 	cmode_music = 'sound/music/cmode/nobility/combat_courtmage.ogg'
 	advjob_examine = TRUE // So that Court Magicians can know if they're teachin' a Apprentice or if someone's a bit more advanced of a player. Just makes the title show up as the advjob's name.
 
-	job_traits = list(TRAIT_ALCHEMY_EXPERT, TRAIT_MAGEARMOR, TRAIT_ARCYNE_T3)
+	job_traits = list(TRAIT_ALCHEMY_EXPERT, TRAIT_MAGEARMOR)
 	job_subclasses = list(
 		/datum/advclass/wapprentice/associate,
 		/datum/advclass/wapprentice/alchemist,
@@ -41,6 +41,7 @@
 	outfit = /datum/outfit/job/roguetown/wapprentice/associate
 
 	category_tags = list(CTAG_WAPPRENTICE)
+	traits_applied = list(TRAIT_ARCYNE_T3)
 	subclass_stats = list(
 		STATKEY_INT = 3,
 		STATKEY_PER = 2,
@@ -96,7 +97,7 @@
 	outfit = /datum/outfit/job/roguetown/wapprentice/alchemist
 
 	category_tags = list(CTAG_WAPPRENTICE)
-	traits_applied = list(TRAIT_SEEDKNOW)
+	traits_applied = list(TRAIT_SEEDKNOW, TRAIT_ARCYNE_T3)
 	subclass_stats = list(
 		STATKEY_INT = 3,
 		STATKEY_PER = 3,
@@ -153,6 +154,7 @@
 	outfit = /datum/outfit/job/roguetown/wapprentice/apprentice
 
 	category_tags = list(CTAG_WAPPRENTICE)
+	traits_applied = list(TRAIT_ARCYNE_T3)
 	subclass_stats = list(
 		STATKEY_INT = 4,
 		STATKEY_WIL = 1,
@@ -205,7 +207,7 @@
 		Further your mastery, your camaraderie, and the safety of your fellow mages."
 	outfit = /datum/outfit/job/roguetown/wapprentice/spellguard
 	category_tags = list(CTAG_WAPPRENTICE)
-	traits_applied = list(TRAIT_MAGEARMOR, TRAIT_ARCYNE_T2)
+	traits_applied = list(TRAIT_ARCYNE_T2)
 	subclass_stats = list(
 		STATKEY_INT = 3,
 		STATKEY_CON = 1,
@@ -223,6 +225,7 @@
 		/datum/skill/misc/athletics = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/misc/reading = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/magic/arcane = SKILL_LEVEL_APPRENTICE,
+		/datum/skill/craft/alchemy = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/misc/swimming = SKILL_LEVEL_NOVICE,
 	)
 

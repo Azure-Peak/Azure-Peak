@@ -146,7 +146,6 @@
 
 /datum/advclass/mage/spellblade2
 	name = "Neo Spellblade"
-	maximum_possible_slots = 4
 	tutorial = "A hybrid melee warrior who channels arcyne momentum through combat, versed in the Azurean original arts of Spellbladery. Build power with your weapon, then unleash it. Choose between three traditions: Blade (mobile swordsman with dashes and AoE), Phalangite (spear and shield — hold the line with thrusts and pushback), or Macebearer (blunt weapons — ground slams, charges, and shockwaves)."
 	outfit = /datum/outfit/job/roguetown/adventurer/spellblade2
 	traits_applied = list(TRAIT_MAGEARMOR, TRAIT_ARCYNE_T2)
