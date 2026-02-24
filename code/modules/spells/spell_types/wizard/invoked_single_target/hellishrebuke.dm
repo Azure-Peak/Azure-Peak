@@ -30,6 +30,9 @@
 		return FALSE
 
 	var/mob/living/carbon/target = targets[1]
+	if(spell_guard_check(target, TRUE))
+		target.visible_message(span_warning("[target] shrugs off the flames!"))
+		return TRUE
 	target.adjustFireLoss(30) //damage
 	target.adjust_fire_stacks(4)
 	target.ignite_mob()

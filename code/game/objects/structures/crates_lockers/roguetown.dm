@@ -154,6 +154,18 @@
 	open_sound = 'sound/items/book_close.ogg'
 	close_sound = 'sound/items/book_close.ogg'
 
+// Contains bait for fishing.
+/obj/structure/closet/crate/chest/wicker/bait
+	name = "sun-bleached wicker basket"
+	desc = "Fibers interwoven to make a cheap storage bin. This one smells rather funny."
+
+/obj/structure/closet/crate/chest/wicker/bait/Initialize()
+	. = ..()
+	for(var/i = 1 to 9)
+		new /obj/item/natural/worms(src)
+	for(var/i = 1 to 3)
+		new /obj/item/natural/worms/grubs(src)
+
 /obj/structure/closet/crate/chest/neu
 	name = "sturdy oak chest"
 	icon_state = "chest_neu"
@@ -220,3 +232,101 @@
 	new /obj/item/clothing/shoes/roguetown/boots/armor(get_turf(src))
 	has_spawned_gear = TRUE
 	close()
+
+/**
+ * Coffins for grave robbers to indulge in.
+ * Because honestly the current one is - terrible, this way it's way more weighted and actually rewarding.
+*/
+
+/obj/structure/closet/crate/chest/coffinlootbox
+	name = "coffin"
+	desc = "A coffin of some poor soul."
+	icon_state = "casket" //Regular casket
+	base_icon_state = "casket"
+
+/obj/structure/closet/crate/chest/coffinlootbox/PopulateContents()
+	new /obj/item/skull(src)
+	new /obj/item/natural/bundle/bone/full(src)
+	var/list/loot = list(
+		/obj/item/clothing/ring/aalloy = 30, //Valuables
+		/obj/item/clothing/ring/bronze = 20,
+		/obj/item/clothing/neck/roguetown/psicross/bronze = 15,
+		/obj/item/clothing/neck/roguetown/psicross/inhumen/bronze = 15,
+		/obj/item/roguecoin/copper/pile = 5, //Valuables (materials)
+		/obj/item/roguegem/yellow = 10,
+		/obj/item/roguestatue/bronze = 10,
+		/obj/item/roguestatue/iron = 5,
+		/obj/item/ingot/bronze = 25,
+		/obj/item/ingot/iron = 15,
+		/obj/item/clothing/mask/cigarette/rollie/nicotine = 20, //Misc stuff
+		/obj/item/reagent_containers/food/snacks/butter = 20,
+		/obj/item/reagent_containers/food/snacks/rogue/raisins = 10,
+		/obj/item/storage/backpack/rogue/satchel = 3,
+		/obj/item/storage/roguebag = 3,
+		/obj/item/rogueweapon/huntingknife/idagger = 5, //Weapons / tools
+		/obj/item/rogueweapon/sword/bronze = 5,
+		/obj/item/flashlight/flare/torch/lantern/bronze = 5,
+		/obj/item/needle/bronze = 5
+		)
+	var/I = pickweight(loot)
+	new I(src)
+
+/obj/structure/closet/crate/chest/coffinlootbox_middle
+	name = "coffin"
+	desc = "A coffin of some burgher."
+	icon_state = "vcasket" //Fancy casket
+	base_icon_state = "vcasket" 
+	locked = TRUE
+
+/obj/structure/closet/crate/chest/coffinlootbox_middle/PopulateContents()
+	new /obj/item/skull(src)
+	new /obj/item/natural/bundle/bone/full(src)
+	var/list/loot = list(
+		/obj/item/clothing/ring/gold = 30, //Valuables
+		/obj/item/clothing/ring/jade = 20,
+		/obj/item/clothing/neck/roguetown/ornateamulet = 15,
+		/obj/item/clothing/neck/roguetown/psicross/g = 15,
+		/obj/item/roguecoin/silver/pile = 5, //Valuables (materials)
+		/obj/item/roguegem/violet = 10,
+		/obj/item/roguestatue/gold/loot = 10,
+		/obj/item/roguestatue/steel = 5,
+		/obj/item/storage/belt/rogue/pouch/zigarrete/nicotine = 20, //Misc stuff
+		/obj/item/reagent_containers/food/snacks/butter = 20,
+		/obj/item/reagent_containers/food/snacks/rogue/raisinbread = 10,
+		/obj/item/storage/backpack/rogue/satchel = 3,
+		/obj/item/storage/roguebag = 3, //Weapons / tools
+		/obj/item/rogueweapon/sword = 5,
+		/obj/item/flashlight/flare/torch/lantern = 5,
+		/obj/item/needle = 5
+		)
+	var/I = pickweight(loot)
+	new I(src)
+
+/obj/structure/closet/crate/chest/coffinlootbox_high
+	name = "coffin"
+	desc = "A coffin of some long forgotten lord."
+	icon_state = "rcasket" //Gilded and fancy
+	base_icon_state = "rcasket"
+	locked = TRUE
+
+/obj/structure/closet/crate/chest/coffinlootbox_high/PopulateContents()
+	new /obj/item/skull(src)
+	new /obj/item/natural/bundle/bone/full(src)
+	var/list/loot = list(
+		/obj/item/clothing/ring/blacksteel = 30, //Valuables
+		/obj/item/clothing/ring/diamond = 20,
+		/obj/item/clothing/neck/roguetown/ornateamulet = 15,
+		/obj/item/clothing/neck/roguetown/psicross/bpearl = 10,
+		/obj/item/roguecoin/gold/pile = 5, //Valuables (materials)
+		/obj/item/roguegem/diamond = 10,
+		/obj/item/roguestatue/gold = 10,
+		/obj/item/roguestatue/blacksteel = 5,
+		/obj/item/storage/belt/rogue/pouch/zigarrete/nicotine = 20, //Misc stuff
+		/obj/item/reagent_containers/food/snacks/butter = 20,
+		/obj/item/reagent_containers/food/snacks/rogue/raisinbread = 10,
+		/obj/item/storage/backpack/rogue/satchel = 3,
+		/obj/item/storage/roguebag = 3, //Weapons / tools
+		/obj/item/rogueweapon/sword/decorated = 5
+		)
+	var/I = pickweight(loot)
+	new I(src)

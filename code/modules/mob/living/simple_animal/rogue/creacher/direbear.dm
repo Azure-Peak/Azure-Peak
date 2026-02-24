@@ -22,11 +22,11 @@
 	perfect_butcher_results = list(/obj/item/reagent_containers/food/snacks/rogue/meat/steak = 3,
 									/obj/item/natural/hide = 3,
 									/obj/item/natural/fur/direbear = 2,
-									/obj/item/alch/sinew = 2, 
-									/obj/item/alch/bone = 1, 
+									/obj/item/alch/sinew = 2,
+									/obj/item/alch/bone = 1,
 									/obj/item/alch/viscera = 2,
-									/obj/item/natural/bone = 4,
-									/obj/item/natural/head/direbear = 1)
+									/obj/item/natural/bone = 4)
+	head_butcher = /obj/item/natural/head/direbear
 	faction = list("bears")		//This mf will kill undead - swapped to its own faction, doesn't trigger ambushes
 	mob_biotypes = MOB_ORGANIC|MOB_BEAST
 	melee_damage_lower = 50		// Ey, bo-bo!

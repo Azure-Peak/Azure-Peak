@@ -641,7 +641,7 @@ A LITTLE MORE CONSISTENT IN HERE. PLEASE DO YOUR BEST. THANKS.
 
 
 
-// The "classic" maid uniform. Just a dress, apron, and black stockings. 
+// The "classic" maid uniform. Just a dress, apron, and black stockings.
 /datum/supply_pack/rogue/wardrobe/suits/maid_pack_shitty
 	name = "Cheap Maid Package"
 	no_name_quantity = TRUE
@@ -748,6 +748,13 @@ A LITTLE MORE CONSISTENT IN HERE. PLEASE DO YOUR BEST. THANKS.
 	cost = 25
 	contains = list(
 					/obj/item/caparison/eora
+				)
+
+/datum/supply_pack/rogue/wardrobe/caparison/caparison_fogbeast
+	name = "Fogbeast Caparison"
+	cost = 25
+	contains = list(
+					/obj/item/caparison/fogbeast,
 				)
 
 /datum/supply_pack/rogue/wardrobe/collar/collar

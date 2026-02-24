@@ -105,6 +105,9 @@
 		var/mob/living/target = targets[1]
 		if(target.anti_magic_check(TRUE, TRUE))
 			return FALSE
+		if(spell_guard_check(target, TRUE))
+			target.visible_message(span_warning("[target] shrugs off the mockery!"))
+			return TRUE
 		if(!target.can_hear()) // Vicious mockery requires people to be able to hear you.
 			revert_cast()
 			return FALSE

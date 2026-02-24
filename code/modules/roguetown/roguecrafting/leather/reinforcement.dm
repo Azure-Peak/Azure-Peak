@@ -36,6 +36,15 @@
 		/obj/item/reagent_containers/food/snacks/fat = 1,
 		)
 
+/datum/crafting_recipe/roguetown/leather/reinforcement/studded/cuirbouilli
+	name = "studded leather cuirass, 'cuir-bouilli'-style"
+	result = list(/obj/item/clothing/suit/roguetown/armor/leather/studded/cuirbouilli)
+	reqs = list(
+		/obj/item/clothing/suit/roguetown/armor/leather/cuirass = 1,
+		/obj/item/scrap = 3,
+		/obj/item/reagent_containers/food/snacks/fat = 1,
+		)
+
 /datum/crafting_recipe/roguetown/leather/reinforcement/studded/bikini
 	name = "studded leather corslet"
 	result = list(/obj/item/clothing/suit/roguetown/armor/leather/studded/bikini)

@@ -33,9 +33,10 @@
 		return FALSE
 
 	if(user.patron?.undead_hater && (target.mob_biotypes & MOB_UNDEAD))
-		target.visible_message(span_danger("[target] is burned by holy light!"), span_userdanger("I'm burned by holy light!"))
-		target.adjustFireLoss(10)
-		target.fire_act(1, 10)
+		// We simply do nothing to avoid healing being used to vamp/skelly check!
+		var/message_out_undead = span_info("Healing energies envelop [target]!")
+		var/message_self_undead = span_notice("I am bathed in healing choral hymns!")
+		target.visible_message(message_out_undead, message_self_undead)
 		return TRUE
 
 	if(target.has_status_effect(/datum/status_effect/buff/healing))
@@ -47,6 +48,7 @@
 	var/situational_bonus = 1
 	var/is_inhumen = FALSE
 
+	// Edit - This is overwritten near the end of the proc to prevent metagaming.
 	var/message_out = span_info("A choral sound comes from above and [target] is healed!")
 	var/message_self = span_notice("I am bathed in healing choral hymns!")
 		
@@ -81,6 +83,10 @@
 		return FALSE
 
 	target.apply_status_effect(/datum/status_effect/buff/healing, healing)
+
+	// Edit - Overwriting the outgoing message here to prevent metagaming faith via message.
+	// Not getting rid of the messages in the code, we might want them for something else later.
+	message_out = span_info("Healing energies envelop [target]!")
 	target.visible_message(message_out, message_self)
 
 	return TRUE

@@ -133,6 +133,7 @@
 /obj/item/reagent_containers/food/snacks/rogue/foodbase/crabcakeraw
 	name = "raw crab cake"
 	desc = "A variant of the handpie filled with buttery, savory shellfish meat and made with a buttered slice of dough."
+	icon = 'modular/Neu_Food/icons/raw/raw_fish.dmi' // I guess it is a raw fish meal
 	icon_state = "crab_cake_raw"
 	cooked_type = /obj/item/reagent_containers/food/snacks/rogue/crabcake
 	fried_type = /obj/item/reagent_containers/food/snacks/rogue/crabcake

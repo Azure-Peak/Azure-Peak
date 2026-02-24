@@ -43,6 +43,7 @@
 	light_color = "#ffffff"
 	light_outer_range = 7
 
+
 /obj/projectile/magic/lightning/on_hit(target)
 	. = ..()
 	if(ismob(target))

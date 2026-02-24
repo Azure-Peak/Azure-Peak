@@ -155,6 +155,12 @@
 			pic.color = get_detail_color()
 		add_overlay(pic)
 
+/obj/item/clothing/head/roguetown/chaperon/noble/evil // used for a skeleton loadout
+	name = "dusty scarlet chaperon"
+	desc = "An ancient chaperon, it smells of dust and debris. Is that mold on the inside?"
+	color = CLOTHING_DARK_GREY
+	detail_color = CLOTHING_SCARLET
+
 /obj/item/clothing/head/roguetown/chaperon/noble/bailiff
 	name = "Marshal's chaperon"
 	desc = "A noble's chaperon made for the local Marshal. \"How terribly unfortunate you are!\""
@@ -292,6 +298,12 @@
 	body_parts_covered = HEAD|HAIR|EARS
 	prevent_crits = list(BCLASS_CUT, BCLASS_BLUNT, BCLASS_TWIST)
 	sewrepair = TRUE
+
+/obj/item/clothing/head/roguetown/inqhat/gravehat
+	name = "gravetender's hat"
+	desc = "A fine leather slouch fitted with a hidden steel skull cap. It serves as a reminder that Necra's grasp is never too far."
+	icon_state = "gravehat"
+	item_state = "gravehat"
 
 /obj/item/clothing/head/roguetown/headband/red
 	color = CLOTHING_RED

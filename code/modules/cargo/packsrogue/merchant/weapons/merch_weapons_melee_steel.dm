@@ -89,6 +89,13 @@
 					/obj/item/rogueweapon/sword/short/messer,
 				)
 
+/datum/supply_pack/rogue/steel_weapons/messeralt
+	name = "Hunting Sword"
+	cost = 40 // 1 Steel Ingot
+	contains = list(
+					/obj/item/rogueweapon/sword/short/messer/alt,
+				)
+
 /datum/supply_pack/rogue/steel_weapons/sabre
 	name = "Sabre"
 	cost = 40 // 1 Steel Ingot
@@ -103,11 +110,18 @@
 					/obj/item/rogueweapon/flail/sflail,
 				)
 
-/datum/supply_pack/rogue/steel_weapons/flail
+/datum/supply_pack/rogue/steel_weapons/warhammer
 	name = "Warhammer"
-	cost = 40 // 1 Steel Ingot
+	cost = 70 // 2 Steel Ingots
 	contains = list(
 					/obj/item/rogueweapon/mace/warhammer/steel,
+				)
+
+/datum/supply_pack/rogue/steel_weapons/sflangedmace
+	name = "Flanged Mace"
+	cost = 70 // 2 Steel Ingots
+	contains = list(
+					/obj/item/rogueweapon/mace/cudgel/flanged,
 				)
 
 /datum/supply_pack/rogue/steel_weapons/longsword

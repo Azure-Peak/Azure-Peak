@@ -306,6 +306,10 @@ GLOBAL_LIST_INIT(available_ui_styles, sortList(list(
 		hand_box.name = mymob.get_held_index_name(i)
 		hand_box.icon = ui_style
 		hand_box.icon_state = "hand_[mymob.held_index_to_dir(i)]"
+		if(isliving(mymob))
+			var/mob/living/liv_mymob = mymob
+			if(i == liv_mymob.domhand)
+				hand_box.icon_state += "_dom"
 		hand_box.screen_loc = ui_hand_position(i)
 		hand_box.held_index = i
 		hand_slots["[i]"] = hand_box

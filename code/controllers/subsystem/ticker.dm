@@ -36,6 +36,7 @@ SUBSYSTEM_DEF(ticker)
 	var/start_at
 	//576000 dusk
 	//376000 day
+	// 8 AM
 	var/gametime_offset = 288001		//Deciseconds to add to world.time for station time.
 	var/station_time_rate_multiplier = 50		//factor of station time progressal vs real time.
 	var/time_until_vote = 180 MINUTES
@@ -68,6 +69,10 @@ SUBSYSTEM_DEF(ticker)
 
 	/// Realm name, the location name of the current map
 	var/realm_name = "Azure Peak"
+	/// Formal realm type (e.g. "Grand Duchy", "Most Serene Republic"). Changed by usurpation rites.
+	var/realm_type = "Grand Duchy"
+	/// Short form for casual references (e.g. "Duchy", "Republic"). Changed by usurpation rites.
+	var/realm_type_short = "Duchy"
 	/// Reports the current ruler's display name
 	var/rulertype = "Grand Duke"
 	/// The current ruling mob
@@ -76,6 +81,12 @@ SUBSYSTEM_DEF(ticker)
 	var/regentmob = null
 	/// Prevent regent shuffling
 	var/regentday = -1
+	/// Prevent chained coups — tracks the in-game day of the last completed usurpation
+	var/usurpation_day = -1
+	/// Optional epilogue text displayed at round end after a usurpation. Set by rites in on_complete().
+	var/roundend_epilogue
+	/// TRUE once a ruler has been assigned at least once (distinguishes "never had a ruler" from "ruler got qdeleted")
+	var/had_ruler = FALSE
 	var/failedstarts = 0
 	var/list/manualmodes = list()
 
@@ -167,10 +178,8 @@ SUBSYSTEM_DEF(ticker)
 		GLOB.syndicate_code_response_regex = codeword_match
 
 	start_at = world.time + (CONFIG_GET(number/lobby_countdown) * 10)
-	if(CONFIG_GET(flag/randomize_shift_time))
-		gametime_offset = rand(0, 23) HOURS
-	else if(CONFIG_GET(flag/shift_time_realtime))
-		gametime_offset = world.timeofday
+	// Offset time drift but start right in the morning of Monday.
+	gametime_offset = 288001
 	return ..()
 
 /datum/controller/subsystem/ticker/fire()
@@ -769,6 +778,7 @@ SUBSYSTEM_DEF(ticker)
 /// Wrapper for setting rulermob and rulertype
 /datum/controller/subsystem/ticker/proc/set_ruler_mob(mob/newruler)
 	rulermob = newruler
+	had_ruler = TRUE
 	var/datum/job/lord_job = SSjob.GetJob("Grand Duke")
 	if(should_wear_femme_clothes(rulermob))
 		SSticker.rulertype = lord_job?.f_title || lord_job.title

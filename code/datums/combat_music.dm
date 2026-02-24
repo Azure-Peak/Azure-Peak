@@ -89,6 +89,13 @@ GLOBAL_LIST_EMPTY(cmode_tracks_by_name)
 	credits = "TO PIERCE THE BLACK SKY /// ENVY INTERLUDE - UNFORTUNATE DEVELOPMENT"
 	musicpath = list('sound/music/combat_ascended.ogg')
 
+/datum/combat_music/ascendedsavior
+	name = "Ascended ('Savior' Mix)"
+	desc = "Blessed idiot, sacrificial hero, lowly fool - will you save your world, or will you watch the birth of a new one?"
+	shortname = "Savior"
+	credits = "DON'T BLINK /// OUTCOME MEMORIES - LAST MAN STANDING"
+	musicpath = list('sound/music/combat_savior.ogg')
+
 /datum/combat_music/astrata
 	name = "Astratan Light"
 	desc = ""
@@ -481,7 +488,6 @@ GLOBAL_LIST_EMPTY(cmode_tracks_by_name)
 	credits = "T87-Sulfurhead - Good Men Die Young (https://www.youtube.com/@T87-Sulfurhead)"
 	musicpath = list('sound/music/combat_veteran.ogg')
 
-
 /datum/combat_music/warscholar
 	name = "Warscholar, Naledi"
 	desc = ""
@@ -517,3 +523,30 @@ GLOBAL_LIST_EMPTY(cmode_tracks_by_name)
 	credits = "MusicImaginary - Yendrek"
 	musicpath = list('sound/music/frei_shepherd.ogg')
 
+/datum/combat_music/thespian
+	name = "Thespian-Errant"
+	desc = "Witness us! We, who are about to die, salute thee!"
+	shortname = "Thespian"
+	credits = "Swords And Sandals, Spartacus - Title Theme"
+	musicpath = list('sound/music/combat_thespian.ogg')
+
+/datum/combat_music/dying_world
+	name = "Chant Against a Dying World (Neu Verevolf)"
+	desc = "\"DENDOR! FATHER! SPIRIT GUIDE! LET ME-- VINDICATE MY PRIDE!\""
+	shortname = "Dying World (VOCAL)"
+	credits = "T-87 SULFURHEAD - CHANT AGAINST A DYING WORLD (https://www.youtube.com/watch?v=uf3Iqn-i6EM)"
+	musicpath = list('sound/music/cmode/antag/combat_dying_world.ogg')
+
+/datum/combat_music/dying_world_instrumental
+	name = "Chant Against a Dying World (Instrumental)"
+	desc = "The more common form of the song, lacks the lyrics. Recommended for long-term use."
+	shortname = "Dying World (INSTR)"
+	credits = "T-87 SULFURHEAD - CHANT AGAINST A DYING WORLD INSTRUMENTAL (https://www.youtube.com/watch?v=M0gmFhgPaV8)"
+	musicpath = list('sound/music/cmode/antag/combat_dying_world_instrumental.ogg')
+
+/datum/combat_music/ready_to_die
+	name = "I'M READY TO DIE, ARE YOU?"
+	desc = "\"I REMEMBER A TIME NOT THAT LONG AGO, WHEN WE HAD VAMPIRES AND DUNPEALS BOTH AROUND HERE...\"" // yes it's "dunpeals". ask hunter d not me
+	shortname = "Ready to Die"
+	credits = "T-87 SULFURHEAD - I'M READY TO DIE, ARE YOU? (https://www.youtube.com/watch?v=cJpAxIvd8_g)"
+	musicpath = list('sound/music/cmode/combat_ready_to_die.ogg')

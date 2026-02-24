@@ -27,13 +27,12 @@
 	butcher_results = list(
 		/obj/item/reagent_containers/food/snacks/rogue/meat/steak = 4,
 		/obj/item/natural/hide = 4,
-		/obj/item/natural/bundle/bone/full = 4,
-		/obj/item/natural/head/dragon = 1)
+		/obj/item/natural/bundle/bone/full = 4)
 	perfect_butcher_results = list(
 		/obj/item/reagent_containers/food/snacks/rogue/meat/steak = 7, // More than troll. They are more difficult
 		/obj/item/natural/hide = 7,
-		/obj/item/natural/bundle/bone/full = 4,
-		/obj/item/natural/head/dragon = 1)
+		/obj/item/natural/bundle/bone/full = 4)
+	head_butcher = /obj/item/natural/head/dragon
 	mob_biotypes = MOB_ORGANIC|MOB_BEAST
 	health = DRAGON_HEALTH
 	maxHealth = DRAGON_HEALTH
@@ -228,13 +227,12 @@
 		/obj/item/reagent_containers/food/snacks/rogue/meat/steak = 4,
 		/obj/item/natural/hide = 4,
 		/obj/item/natural/bundle/bone/full = 4,
-		/obj/item/natural/head/dragon/broodmother = 1,
 		/obj/item/clothing/ring/quartz = 1)
 	perfect_butcher_results = list(
 		/obj/item/reagent_containers/food/snacks/rogue/meat/steak = 7, // More than troll. They are more difficult
 		/obj/item/natural/hide = 7,
-		/obj/item/clothing/ring/gold = 4,
-		/obj/item/natural/head/dragon/broodmother = 1)
+		/obj/item/clothing/ring/gold = 4)
+	head_butcher = /obj/item/natural/head/dragon/broodmother
 	damage_coeff = list(BRUTE = 1, BURN = 0.0, TOX = 1, CLONE = 1, STAMINA = 0, OXY = 1)
 
 /mob/living/simple_animal/hostile/retaliate/rogue/dragon/broodmother/Initialize()

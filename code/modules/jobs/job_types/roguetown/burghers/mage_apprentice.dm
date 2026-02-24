@@ -10,7 +10,7 @@
 	spells = list(/obj/effect/proc_holder/spell/targeted/touch/prestidigitation)
 	advclass_cat_rolls = list(CTAG_WAPPRENTICE = 20)
 
-	tutorial = "Your master once saw potential in you, although you are uncertain if they still do, given how rigorous and difficult your studies have been. The path to using magic is a treacherous and untamed one, and you are still decades away from calling yourself even a journeyman in the field. Listen and serve, and someday you will earn your hat."
+	tutorial = "Yils of study have led you to the University of Azuria. The Divine heals and protects. The arcyne arts, though useful, are far more suited to death and destruction. The Crown knows this, and provides a stipend to fund your studies and just as much your complacency, to not turn your magicks against the Crown. A comfortable tenure, a stipend, and a place to undergo your study. What more could a Mage ask for?"
 
 	outfit = /datum/outfit/job/roguetown/wapprentice
 
@@ -42,7 +42,7 @@
 
 /datum/advclass/wapprentice/associate
 	name = "Magician's Associate"
-	tutorial = "You were once an apprentice, though through your studies and practice you've mastered the basics of the arcyne. You now spend your days working under your master, honing your skills so that you might one day be considered a true master yourself."
+	tutorial = "No one could truly master the entirety of the arcyne arts. But commanding the fundamentals is quite achievable. Deemed competent by your peers and mentor, you have become an Associate, paid a stipend to wield your power in the name of the Crown, or at least not against them. The Crown might want a bolt of lightning in their enemies back - after all, what else is the arcyne good for but war and destruction? But as many mages knows, wisdom and whimsy is the true calling of the Magi who has mastered the arts. The choice is yours."
 	outfit = /datum/outfit/job/roguetown/wapprentice/associate
 
 	category_tags = list(CTAG_WAPPRENTICE)
@@ -88,7 +88,7 @@
 
 /datum/advclass/wapprentice/alchemist
 	name = "Alchemist Associate"
-	tutorial = "During your studies, you became less focused on the arcyne and instead turned yourself to your true passion, alchemy. Through the art of transmutation, you have learned that the elements (much like the arcyne) can be maniupulated and bent to your will."
+	tutorial = "Some never considered alchemy a true arcyne art, but simply a foundation. Like a quill is to poetry. During your studies, however, you have taken to the passion of alchemy, the transmutation of elements and the creation of something concrete. Lyfeblood, elixirs, coal dust, moondust, ozium, and bottle bombs! All under Psydonia is yours to create! Just don't set the University on fire. Or do, but don't get caught."
 	outfit = /datum/outfit/job/roguetown/wapprentice/alchemist
 
 	category_tags = list(CTAG_WAPPRENTICE)
@@ -136,7 +136,7 @@
 
 /datum/advclass/wapprentice/apprentice
 	name = "Magician's Apprentice"
-	tutorial = "Your master once saw potential in you, although you are uncertain if they still do, given how rigorous and difficult your studies have been. The path to using magic is a treacherous and untamed one, and you are still decades away from calling yourself even a journeyman in the field. Listen and serve, and someday you will earn your hat."
+	tutorial = "The road to arcyne mastery is long and treacherous. Books, scrolls, gems, studies, singed hair, and summoning gone wrong. Expenses and death alike, it is not a path for the pauper or the coward. You, however, were given a place as an apprentice in the University of Azuria. Under the watchful gaze of the Court Magician, and their fellow associates, you may yet live to become a master of the arcyne arts."
 	outfit = /datum/outfit/job/roguetown/wapprentice/apprentice
 
 	category_tags = list(CTAG_WAPPRENTICE)

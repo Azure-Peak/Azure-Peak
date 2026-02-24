@@ -23,6 +23,7 @@
 	var/obj/item/clothing/used
 	var/protection = 0
 	var/intdamage = damage
+	var/consume_debuff = TRUE
 	if(d_type != "blunt")
 		used = get_best_worn_armor(def_zone, d_type)
 		if(used)
@@ -39,6 +40,7 @@
         
 			// Penetrative damage deals significantly less to the armor. Tentative.
 			if((damage + armor_penetration) > protection)
+				consume_debuff = FALSE
 				intdamage = (damage + armor_penetration) - protection
         
 			if(intdamfactor != 1)
@@ -54,7 +56,22 @@
 			var/tempo_bonus = get_tempo_bonus(TEMPO_TAG_ARMOR_INTEGFACTOR)
 			if(tempo_bonus)
 				intdamage *= tempo_bonus
-				
+
+
+			if(consume_debuff)	//If this is FALSE, then this is a penetrative hit -- we consume these in bodypart_attacked_by.
+				if(has_status_effect(/datum/status_effect/debuff/exposed))
+					intdamage *= EXPOSED_INTEG_MOD
+					playsound(src, 'sound/combat/exposed_pop.ogg', 100, TRUE)
+					visible_message("<span class = 'combatsecondarybodypart'>[src] suffers a savage hit to their armor while exposed!</span>")
+					remove_status_effect(/datum/status_effect/debuff/exposed)
+					emote("pain", forced = TRUE)
+				else if(has_status_effect(/datum/status_effect/debuff/vulnerable))
+					intdamage *= VULN_INTEG_MOD
+					playsound(src, 'sound/combat/vulnerable_pop.ogg', 100, TRUE)
+					visible_message(span_biginfo("[src] is struck into their armor while vulnerable!"))
+					remove_status_effect(/datum/status_effect/debuff/vulnerable)
+					emote("groan", forced = TRUE)
+
 			used.take_damage(intdamage, damage_flag = d_type, sound_effect = FALSE, armor_penetration = 100)
 	else
 		var/list/layers = get_best_worn_armor_layered(def_zone, d_type)
@@ -72,11 +89,25 @@
 			if(tempo_bonus)
 				intdamage *= tempo_bonus
         
+			var/full_dmg
+			if(has_status_effect(/datum/status_effect/debuff/exposed))
+				full_dmg = TRUE
+				playsound(src, 'sound/combat/exposed_pop.ogg', 100, TRUE)
+				visible_message("<span class = 'combatsecondarybodypart'>[src] suffers a savage hit to their armor while exposed!</span>")
+				remove_status_effect(/datum/status_effect/debuff/exposed)
+				emote("pain", forced = TRUE)
+			else if(has_status_effect(/datum/status_effect/debuff/vulnerable))
+				playsound(src, 'sound/combat/vulnerable_pop.ogg', 100, TRUE)
+				visible_message(span_biginfo("[src] is struck into their armor while vulnerable!"))
+				remove_status_effect(/datum/status_effect/debuff/vulnerable)
+				emote("groan", forced = TRUE)
+
 			var/layers_deep = 1
 			var/played_sound = FALSE
 			for(var/obj/item/clothing/C in layers)
 				var/actualdmg = intdamage
-				actualdmg /= layers_deep
+				if(!full_dmg)
+					actualdmg /= layers_deep
 				C.take_damage(actualdmg, damage_flag = d_type, sound_effect = FALSE, armor_penetration = 100)
 				if(C.blocksound && !played_sound)
 					playsound(loc, get_armor_sound(C.blocksound, blade_dulling), 100)
@@ -158,23 +189,12 @@
 					P.force_hit = TRUE //The thing we're in passed the bullet to us. Pass it back, and tell it to take the damage.
 					loc.bullet_act(P)
 					return BULLET_ACT_HIT
-				if(P.starting)
-					var/new_x = P.starting.x + pick(0, 0, 0, 0, 0, -1, 1, -2, 2)
-					var/new_y = P.starting.y + pick(0, 0, 0, 0, 0, -1, 1, -2, 2)
-					var/turf/curloc = get_turf(src)
-
-					// redirect the projectile
-					P.original = locate(new_x, new_y, P.z)
-					P.starting = curloc
-					P.firer = src
-					P.yo = new_y - curloc.y
-					P.xo = new_x - curloc.x
-					var/new_angle_s = P.Angle + rand(120,240)
-					while(new_angle_s > 180)	// Translate to regular projectile degrees
-						new_angle_s -= 360
-					P.setAngle(new_angle_s)
-
+				P.reflect_back(src)
 				return BULLET_ACT_FORCE_PIERCE // complete projectile permutation
+
+		// Guard deflection takes priority over shield blocking.
+		if(guard_deflect_projectile(P))
+			return BULLET_ACT_FORCE_PIERCE
 
 		if(check_shields(P, P.damage, "the [P.name]", PROJECTILE_ATTACK, P.armor_penetration))
 			P.on_hit(src, 100, def_zone)

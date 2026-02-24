@@ -173,7 +173,7 @@ SUBSYSTEM_DEF(droning)
 
 	if(!amb_sound_list)
 		return
-	var/sound/loop_sound = sound(pick(amb_sound_list), repeat = TRUE, wait = 0, channel = CHANNEL_MUSIC, volume = dreamer?.prefs.musicvol)
+	var/sound/loop_sound = sound(pick(amb_sound_list), repeat = TRUE, wait = 0, channel = CHANNEL_MUSIC, volume = dreamer?.prefs.ambiencevol)
 	SEND_SOUND(dreamer, loop_sound)
 	dreamer.loop_sound = TRUE
 

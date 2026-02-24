@@ -118,6 +118,8 @@
 	var/decayedRange			//stores original range
 	var/reflect_range_decrease = 5			//amount of original range that falls off when reflecting, so it doesn't go forever
 	var/reflectable = NONE // Can it be reflected or not?
+	/// Whether this projectile can be deflected by Guard (clash status). Opt-in per subtype.
+	var/guard_deflectable = FALSE
 		//Effects
 	var/stun = 0
 	var/knockdown = 0
@@ -255,7 +257,9 @@
 	var/mob/living/L = target
 
 	if (!L.mind && istype(L, /mob/living/simple_animal))
-		damage *= npc_simple_damage_mult // bonus damage against simple.
+		var/datum/component/saddleborn = L.GetComponent(/datum/component/precious_creature) // Check for Saddleborn status, lets not nuke five billion damage into something that causes a -10 mood debuff
+		if(!saddleborn)
+			damage *= npc_simple_damage_mult // bonus damage against simple.
 	if(blocked != 100) // not completely blocked
 		if(damage && L.blood_volume && damage_type == BRUTE)
 			var/splatter_dir = dir
@@ -305,6 +309,55 @@
 
 	if(unlucky_sob)
 		setAngle(Get_Angle(src, unlucky_sob.loc))
+
+/// Redirects this projectile back toward its origin point with slight scatter.
+/// Sets firer to the reflector so the projectile won't re-hit them.
+/// Returns TRUE if reflection succeeded, FALSE if conditions weren't met (no starting turf, reflector not on turf).
+/obj/projectile/proc/reflect_back(mob/living/reflector)
+	if(!starting || !isturf(reflector.loc))
+		return FALSE
+	var/new_x = starting.x + pick(0, 0, 0, 0, 0, -1, 1, -2, 2)
+	var/new_y = starting.y + pick(0, 0, 0, 0, 0, -1, 1, -2, 2)
+	var/turf/curloc = get_turf(reflector)
+	original = locate(new_x, new_y, z)
+	starting = curloc
+	firer = reflector
+	yo = new_y - curloc.y
+	xo = new_x - curloc.x
+	var/new_angle_s = Angle + rand(120, 240)
+	while(new_angle_s > 180)
+		new_angle_s -= 360
+	setAngle(new_angle_s)
+	return TRUE
+
+/// Called when a guarding mob deflects this projectile.
+/// Return TRUE for successful deflection (guard consumed cleanly, projectile reflected).
+/// Return FALSE if the projectile overpowers the guard (guard disrupted with bad_guard penalty).
+/// Override on subtypes for custom behavior.
+/// silent: if TRUE, skip chat messages (used by parry buffer for multi-projectile spells).
+/obj/projectile/proc/on_guard_deflect(mob/living/defender, silent = FALSE)
+	if(!silent)
+		var/verb_text = hitscan ? "dispels" : "deflects"
+		if(isarcyne(defender))
+			defender.visible_message(span_danger("[defender] [verb_text] [src] with a reactive ward!"))
+			to_chat(defender, span_notice("My ward [verb_text] the incoming spell!"))
+			playsound(get_turf(defender), pick('sound/combat/parry/shield/magicshield (1).ogg', 'sound/combat/parry/shield/magicshield (2).ogg', 'sound/combat/parry/shield/magicshield (3).ogg'), 100)
+		else
+			var/martial_msg = hitscan ? "[defender] [verb_text] [src]!" : "[defender] [verb_text] [src] back at its caster!"
+			defender.visible_message(span_danger("[martial_msg]"))
+			to_chat(defender, span_notice("My guard [verb_text] the incoming spell!"))
+			var/obj/item/held = defender.get_active_held_item()
+			if(held?.parrysound)
+				playsound(get_turf(defender), pick(held.parrysound), 100)
+			else
+				playsound(get_turf(defender), pick(defender.parry_sound), 100)
+	if(hitscan || !reflect_back(defender))
+		qdel(src) // Hitscan can't visually reflect; also fallback if reflect_back fails
+	else
+		// Keep projectile alive through process_hit's qdel check
+		temporary_unstoppable_movement = TRUE
+		ENABLE_BITFIELD(movement_type, UNSTOPPABLE)
+	return TRUE
 
 /obj/projectile/proc/store_hitscan_collision(datum/point/pcache)
 	beam_segments[beam_index] = pcache

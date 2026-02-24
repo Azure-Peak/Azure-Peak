@@ -494,9 +494,6 @@
 	icon_state = "stabard"
 	boobed = TRUE
 	mob_overlay_icon = 'icons/roguetown/clothing/onmob/detailed/tabards.dmi'
-	sleeved = 'icons/roguetown/clothing/onmob/detailed/tabards.dmi'
-	sleevetype = "shirt"
-	nodismemsleeves = TRUE
 
 /obj/item/clothing/cloak/tabard/stabard/guard
 	name = "guard tabard"
@@ -573,6 +570,9 @@
 /obj/item/clothing/cloak/tabard/stabard/surcoat
 	name = "jupon"
 	icon_state = "surcoat"
+	sleeved = 'icons/roguetown/clothing/onmob/detailed/tabards.dmi'
+	sleevetype = "shirt"
+	nodismemsleeves = TRUE
 
 /obj/item/clothing/cloak/tabard/stabard/surcoat/bailiff
 	color = "#641E16"
@@ -786,6 +786,9 @@
 
 /obj/item/clothing/cloak/raincloak/blue
 	color = CLOTHING_BLUE
+
+/obj/item/clothing/cloak/raincloak/mageblue
+	color = CLOTHING_MAGE_BLUE
 
 /obj/item/clothing/cloak/raincloak/purple
 	color = CLOTHING_PURPLE
@@ -1057,6 +1060,9 @@
 /obj/item/clothing/cloak/thief_cloak/yoruku
 	color = CLOTHING_BLACK
 
+/obj/item/clothing/cloak/thief_cloak/mageblue
+	color = CLOTHING_MAGE_BLUE
+
 /obj/item/clothing/cloak/volfmantle
 	name = "volf mantle"
 	desc = "A warm cloak made using the hide and head of a slain volf. A status symbol if ever there was one."
@@ -1234,40 +1240,19 @@
 /obj/item/clothing/cloak/cape/blkknight
 	name = "blood cape"
 	icon_state = "bkcape"
-	icon = 'icons/roguetown/clothing/special/blkknight.dmi'
-	mob_overlay_icon = 'icons/roguetown/clothing/special/onmob/blkknight.dmi'
-	sleeved = 'icons/roguetown/clothing/special/onmob/blkknight.dmi'
 
 /obj/item/clothing/cloak/tabard/blkknight
 	name = "blood sash"
 	icon_state = "bksash"
-	icon = 'icons/roguetown/clothing/special/blkknight.dmi'
-	mob_overlay_icon = 'icons/roguetown/clothing/special/onmob/blkknight.dmi'
-
-/obj/item/clothing/under/roguetown/platelegs/blk
-	name = "blacksteel legs"
-	icon_state = "bklegs"
-	icon = 'icons/roguetown/clothing/special/blkknight.dmi'
-	mob_overlay_icon = 'icons/roguetown/clothing/special/onmob/blkknight.dmi'
-	sleeved = 'icons/roguetown/clothing/special/onmob/blkknight.dmi'
-
-/obj/item/clothing/gloves/roguetown/plate/blk
-	name = "blacksteel gaunties"
-	icon_state = "bkgloves"
-	icon = 'icons/roguetown/clothing/special/blkknight.dmi'
-	mob_overlay_icon = 'icons/roguetown/clothing/special/onmob/blkknight.dmi'
-	sleeved = 'icons/roguetown/clothing/special/onmob/blkknight.dmi'
 
 /obj/item/clothing/neck/roguetown/blkknight
 	name = "dragonscale necklace" //Who the hell put a NECKLACE in the CLOAKS file?
 	desc = "A blacksteel chain, laced through a dozen of the Hoardmaster's golden teeth. Atuned to the beating heart of Psydonia's financial systems, its true strength can only be harnessed by those who covet wealth above all else."
-	icon_state = "bktrinket"
+	icon_state = "dragonnecklace"
 	max_integrity = ARMOR_INT_SIDE_IRON //Iron gorget now.
 	armor = ARMOR_PLATE
 	prevent_crits = PREVENT_CRITS_ALL
 	blocksound = PLATEHIT
-	icon = 'icons/roguetown/clothing/special/blkknight.dmi'
-	mob_overlay_icon = 'icons/roguetown/clothing/special/onmob/blkknight.dmi'
 	//dropshrink = 0.75
 	resistance_flags = FIRE_PROOF
 	sellprice = 666
@@ -1318,19 +1303,19 @@
 	name = "darkened steel plate"
 	desc = "A darkened half-plate piece with added arm coverage."
 	body_parts_covered = CHEST|GROIN|VITALS|ARMS
-	r_sleeve_status = SLEEVE_NOMOD
-	l_sleeve_status = SLEEVE_NOMOD
 	icon_state = "bkarmor"
-	icon = 'icons/roguetown/clothing/special/blkknight.dmi'
-	mob_overlay_icon = 'icons/roguetown/clothing/special/onmob/blkknight.dmi'
-	sleeved = 'icons/roguetown/clothing/special/onmob/blkknight.dmi'
 
 /obj/item/clothing/shoes/roguetown/boots/armor/blkknight
-	name = "darkened steel boots"
+	name = "darkened plated boots"
 	icon_state = "bkboots"
-	icon = 'icons/roguetown/clothing/special/blkknight.dmi'
-	mob_overlay_icon = 'icons/roguetown/clothing/special/onmob/blkknight.dmi'
-	sleeved = 'icons/roguetown/clothing/special/onmob/blkknight.dmi'
+
+/obj/item/clothing/under/roguetown/platelegs/blkknight
+	name = "darkened plate chausses"
+	icon_state = "bklegs"
+
+/obj/item/clothing/gloves/roguetown/plate/blkknight
+	name = "darkened plate gauntlets"
+	icon_state = "bkgloves"
 
 //Short hoods for guards
 
@@ -1417,7 +1402,7 @@
 	body_parts_covered = CHEST
 
 /obj/item/clothing/cloak/wardencloak
-	name = "warden cloak"
+	name = "warden's cloak"
 	desc = "A cloak of dense, thick wool worn by the Wardens of Azuria's Forests. Incredibly warm, \
 	and doubles as a blanket in a pinch."
 	icon_state = "wardencloak"
@@ -1490,6 +1475,10 @@
 	color = CLOTHING_WHITE
 	detail_tag = "_detail"
 	detail_color = CLOTHING_WHITE
+
+/obj/item/clothing/cloak/poncho/mageblue
+	color = CLOTHING_MAGE_BLUE
+	detail_color = CLOTHING_MAGE_BLUE
 
 /obj/item/clothing/cloak/eastcloak1
 	name = "cloud-cutter's cloak"
@@ -1597,6 +1586,9 @@
 		alternate_worn_layer = UNDER_ARMOR_LAYER
 	user.update_inv_cloak()
 	user.update_inv_armor()
+
+/obj/item/clothing/cloak/cotehardie/mageblue
+	color = CLOTHING_MAGE_BLUE
 
 /obj/item/clothing/cloak/banneret
 	name = "knight banneret's cape"

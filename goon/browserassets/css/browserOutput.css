@@ -87,8 +87,23 @@ body {
 }
 
 @font-face {
-	font-family: "Notredame";
+	font-family: "ZCOOL XiaoWei";
+	src: url("lingyuese.ttf");
+}
+
+@font-face {
+	font-family: "Evil Bible";
+	src: url("undercommon.ttf");
+}
+
+@font-face {
+	font-family: "ArkansasDB";
 	src: url("otavan.ttf");
+}
+
+@font-face {
+	font-family: "BaggageMasterText79 ttcon";
+	src: url("oldazure.ttf");
 }
 
 @font-face {
@@ -856,6 +871,9 @@ h2.alert {
 }
 .kazengunese {
 	font-family: "Yuji Boku", Pterra;
+}
+.lingyuese {
+	font-family: "ZCOOL XiaoWei", Pterra;
 }
 .orc {
 	font-family: "Thief by The Riddler", "Pterra";

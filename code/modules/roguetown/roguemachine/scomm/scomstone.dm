@@ -34,7 +34,7 @@
 		playsound(loc, 'sound/misc/machineno.ogg', 100, FALSE, -1)
 		return
 	user.changeNext_move(CLICK_CD_INTENTCAP)
-	visible_message(span_notice ("[user] presses their ring against their mouth."))
+	visible_message(span_notice ("[user] presses [user.p_their()] [src] against [user.p_their()] mouth."))
 	var/input_text = input(user, "Enter your message:", "Message")
 	if(!input_text)
 		return
@@ -170,7 +170,7 @@
 	if(!get_location_accessible(user, BODY_ZONE_PRECISE_MOUTH, grabs = TRUE))
 		to_chat(user, span_warning("My mouth is covered!"))
 		return
-	visible_message(span_notice ("[user] presses their [src] against their mouth."))
+	visible_message(span_notice ("[user] presses [user.p_their()] [src] against [user.p_their()] mouth."))
 	var/input_text = input(user, "Enter your message:", "Message")
 	if(!input_text)
 		return

@@ -1,11 +1,11 @@
 //shotgun spell. big dmg if all 3 hit. very good vs light or no armor; not so much vs plate...
 //low accuracy bc 3 of them, literally codersprited
 
-/obj/effect/proc_holder/spell/invoked/projectile/shrapnelbloom
+/obj/effect/proc_holder/spell/invoked/projectile/stygian
 	name = "Stygian Efflorescence"
 	desc = "Burst forth a triad of sharpened onyxian shards, cut from Mount Golgotha herself. Strips away a fully-stacked Arcane Mark to knock an enemy down and briefly stun them."
 	range = 7 //no reason to not
-	projectile_type = /obj/projectile/energy/shrapnelbloom
+	projectile_type = /obj/projectile/energy/stygian
 	projectiles_per_fire = 3
 	overlay_state = "stygian"
 	sound = list('sound/magic/scrapeblade.ogg') //todo: this is Bad
@@ -27,8 +27,9 @@
 	associated_skill = /datum/skill/magic/arcane
 	cost = 3
 
-/obj/projectile/energy/shrapnelbloom
+/obj/projectile/energy/stygian
 	name = "stygian harpe"
+	guard_deflectable = TRUE
 	range = 3
 	accuracy = 50
 	icon = 'icons/mob/actions/roguespells.dmi'
@@ -45,7 +46,7 @@
 	ricochet_incidence_leeway = 50
 	hitsound = 'sound/foley/glass_step.ogg'
 
-/obj/projectile/energy/shrapnelbloom/on_hit(target)
+/obj/projectile/energy/stygian/on_hit(target)
 
 	var/has_full_mark = FALSE
 	var/mob/living/carbon/M
@@ -74,7 +75,7 @@
 				M.Stun(10)
 
 
-/obj/effect/proc_holder/spell/invoked/projectile/shrapnelbloom/ready_projectile(obj/projectile/P, atom/target, mob/user, iteration) //dude this is all copy-paste guessed from other servers and ai slop. if this shit works id be so surprised
+/obj/effect/proc_holder/spell/invoked/projectile/stygian/ready_projectile(obj/projectile/P, atom/target, mob/user, iteration) //dude this is all copy-paste guessed from other servers and ai slop. if this shit works id be so surprised
 	var/base_angle = P.Angle
 	if(isnull(base_angle))
 		base_angle = Get_Angle(user, target)

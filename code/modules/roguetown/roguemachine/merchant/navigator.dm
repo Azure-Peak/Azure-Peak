@@ -1,4 +1,4 @@
-#define EXPORT_TIME 2.5 MINUTES
+#define EXPORT_TIME 2 MINUTES
 #define EXPORT_TIME_TESTING 5 SECONDS
 
 /obj/item/roguemachine/navigator
@@ -25,11 +25,33 @@
 	#endif
 	. += span_notice("This machine attracts trading balloons every [DisplayTimeText(export_time)]. Goods are sucked into the air and mammons are dropped after tax has been collected.")
 
-/obj/item/roguemachine/navigator/blackmarket
-	name = "suspicious navigator"
-	desc = "Freedom has a price."
-	motto = "NA?!G@#OR - ████ ██████ █████████ - FREEDOM OF TRANSACTION."
-	fixed_tax = 0.7 // 70% taxation and rip off to encourage people to risk it with merchant / others
+// 70% taxation and rip off to encourage people to risk it with merchant / others
+/obj/item/roguemachine/navigator/smuggler
+	name = "battered navigator"
+	desc = "A crudely repaired navigator bolted to the hull of a leaky boat. It stinks of brine and contraband."
+	motto = "NAVIGA??R - - ████ ██████ █████████ - FREEDOM OF TRANSACTION.."
+	fixed_tax = 0.7
+
+/obj/item/roguemachine/navigator/smuggler/examine(mob/user)
+	. = ..()
+	. += span_notice("The rates here are disastrous. Having a facilitator from the bathhouse nearby might improve them.")
+	if(fixed_tax <= 0.5)
+		. += span_notice("A facilitator is present. Current handler's fee: [fixed_tax * 100]%.")
+	else
+		. += span_warning("No facilitator present. Current handler's fee: [fixed_tax * 100]%.")
+
+/obj/item/roguemachine/navigator/smuggler/process()
+	if(!anchored)
+		return TRUE
+	// Only check bathhouse staff proximity on export tick, not every SSroguemachine fire
+	if(world.time > next_airlift)
+		var/bath_nearby = FALSE
+		for(var/mob/living/carbon/human/H in range(7, src))
+			if(H.stat != DEAD && (H.job in GLOB.bathhouse_positions))
+				bath_nearby = TRUE
+				break
+		fixed_tax = bath_nearby ? 0.5 : 0.7
+	return ..()
 
 /obj/structure/roguemachine/balloon_pad
 	name = ""

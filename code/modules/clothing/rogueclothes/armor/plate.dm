@@ -283,7 +283,7 @@
 	boobed_detail = FALSE
 	color = null
 	detail_color = CLOTHING_WHITE
-	body_parts_covered = COVERAGE_ALL_BUT_LEGS
+	body_parts_covered = COVERAGE_ALL_BUT_HANDLEGS
 	max_integrity = ARMOR_INT_CHEST_PLATE_STEEL - 50 //slightly worse
 	var/picked = FALSE
 

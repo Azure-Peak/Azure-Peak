@@ -1340,7 +1340,9 @@
 			H.bad_guard(span_suicide("I tried to strike while focused on defense whole! It drains me!"), cheesy = TRUE)
 
 //Mostly here so the child (limbguard) can have special behaviour.
-/datum/status_effect/buff/clash/proc/guard_struck_by_projectile()
+// Deflectable magic projectiles are handled earlier via guard_deflect_projectile() in bullet_act,
+// so they never reach this signal handler. Only non-deflectable projectiles (arrows, etc.) get here.
+/datum/status_effect/buff/clash/proc/guard_struck_by_projectile(datum/source, obj/projectile/P)
 	guard_disrupted()
 
 /datum/status_effect/buff/clash/proc/guard_on_kick()
@@ -1407,6 +1409,30 @@
 	desc = span_notice("I am on guard, and ready to clash. If I am hit, I will successfully defend. Attacking will make me lose my focus.")
 	icon_state = "clash"
 
+/// Brief buffer after a successful spell deflection. This allows the player to deflect a single spell that has multiple projectiles - or if multiple projectiles are fired by different people in quick succession, for funny anime moment.
+/// While active, subsequent deflectable projectiles/spells are also deflected without requiring guard.
+/datum/status_effect/buff/spell_parry_buffer
+	id = "spell_parry_buffer"
+	duration = 1 SECONDS
+	alert_type = /atom/movable/screen/alert/status_effect/buff/spell_parry_buffer
+
+/datum/status_effect/buff/spell_parry_buffer/on_apply()
+	. = ..()
+	RegisterSignal(owner, COMSIG_ATOM_BULLET_ACT, PROC_REF(buffer_struck_by_projectile), TRUE)
+
+/datum/status_effect/buff/spell_parry_buffer/on_remove()
+	UnregisterSignal(owner, COMSIG_ATOM_BULLET_ACT)
+	. = ..()
+
+/datum/status_effect/buff/spell_parry_buffer/proc/buffer_struck_by_projectile(datum/source, obj/projectile/P)
+	if(P.guard_deflectable)
+		if(P.on_guard_deflect(owner, silent = TRUE))
+			return COMPONENT_ATOM_BLOCK_BULLET
+
+/atom/movable/screen/alert/status_effect/buff/spell_parry_buffer
+	name = "Spell Parry"
+	desc = span_notice("A brief window of spell deflection lingers from my guard.")
+	icon_state = "clash"
 
 /atom/movable/screen/alert/status_effect/buff/clash/limbguard
 	name = "Limb Guard"
@@ -1569,7 +1595,7 @@
 	else
 		qdel(src)
 
-//Projectile struck our protected limb. Unlike regular Riposte, this will deflect the projectile at no cost.
+//Projectile struck our protected limb. Unlike regular Riposte, this will block the projectile at no cost.
 /datum/status_effect/buff/clash/limbguard/guard_struck_by_projectile(mob/living/target, obj/P, hit_zone)
 	var/obj/IP = P
 	if(istype(P, /obj/projectile/bullet/reusable))
@@ -1577,7 +1603,7 @@
 		IP = RP.handle_drop()
 	if(check_zone(hit_zone) == protected_zone)
 		do_sparks(2, TRUE, get_turf(IP))
-		target.visible_message(span_warning("[target] deflects \the [IP]!"))
+		target.visible_message(span_warning("[target] blocks \the [IP]!"))
 		if(istype(IP, /obj/item))
 			var/obj/item/I = IP
 			I.get_deflected(target)

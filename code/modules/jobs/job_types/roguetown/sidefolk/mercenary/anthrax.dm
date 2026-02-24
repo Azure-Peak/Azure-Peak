@@ -41,6 +41,7 @@
 		/datum/skill/combat/wrestling = SKILL_LEVEL_JOURNEYMAN,
 
 	)
+	subclass_languages = list(/datum/language/undercommon)
 	extra_context = "This subclass is race-limited to: Dark Elves Only. Chooses either free Saddleborn virtue with access to Drider Spider mount, or +1 to Athlethics level."
 
 /datum/outfit/job/roguetown/mercenary/anthrax/pre_equip(mob/living/carbon/human/H)

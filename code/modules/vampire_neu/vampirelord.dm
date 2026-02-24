@@ -156,7 +156,7 @@
 	slot_flags = ITEM_SLOT_SHIRT
 	name = "regal silks"
 	desc = "An ornate robe, meticulously weaved from crimson silk and studded with enchanted gilbranze buttons. A Lord's presentation is everything; and unlike the dull-blooded, you've had plenty of tyme to cultivate your flamboyance."
-	body_parts_covered = COVERAGE_ALL_BUT_ARMS
+	body_parts_covered = COVERAGE_ALL_BUT_ARMFEET
 	icon_state = "vrobe"
 	item_state = "vrobe"
 	resistance_flags = FIRE_PROOF | ACID_PROOF

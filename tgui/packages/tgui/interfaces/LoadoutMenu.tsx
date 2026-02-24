@@ -236,6 +236,56 @@ const TweakRow = (props: {
   );
 };
 
+/** Clear All button with inline "Are you sure?" confirmation for 4+ items */
+const ClearAllButton = (props: { selectedCount: number }) => {
+  const { act } = useBackend<Data>();
+  const [confirming, setConfirming] = useState(false);
+  const needsConfirm = props.selectedCount > 3;
+
+  if (props.selectedCount === 0) {
+    return null;
+  }
+
+  if (confirming) {
+    return (
+      <Box inline>
+        <Box inline color="bad" bold mr={1}>
+          Are you sure?
+        </Box>
+        <Button
+          icon="trash"
+          color="bad"
+          onClick={() => {
+            act('clear_all');
+            setConfirming(false);
+          }}
+        >
+          Yes, clear all
+        </Button>
+        <Button ml={0.5} onClick={() => setConfirming(false)}>
+          Cancel
+        </Button>
+      </Box>
+    );
+  }
+
+  return (
+    <Button
+      icon="trash"
+      color="bad"
+      onClick={() => {
+        if (needsConfirm) {
+          setConfirming(true);
+        } else {
+          act('clear_all');
+        }
+      }}
+    >
+      Clear All ({props.selectedCount})
+    </Button>
+  );
+};
+
 const LoadoutDisplay = () => {
   const [search, setSearch] = useState('');
   const [activeCategory, setActiveCategory] = useState('');
@@ -314,7 +364,7 @@ const LoadoutDisplay = () => {
           ) : (
             <Table>
               <Table.Row header>
-                <Table.Cell>Name</Table.Cell>
+                <Table.Cell pl={2.5}>Name</Table.Cell>
                 <Table.Cell collapsing textAlign="center">Cost</Table.Cell>
                 <Table.Cell>Description</Table.Cell>
               </Table.Row>
@@ -329,11 +379,11 @@ const LoadoutDisplay = () => {
                     style={{
                       cursor: 'pointer',
                       verticalAlign: 'middle',
-                      padding: '2px 0',
+                      borderBottom: '1px solid rgba(255,255,255,0.07)',
                     }}
                     onClick={() => act('toggle_item', { name: item.name })}
                   >
-                    <Table.Cell>
+                    <Table.Cell py={0.4}>
                       <Box style={{ display: 'flex', alignItems: 'baseline' }}>
                         <Box
                           inline
@@ -345,7 +395,7 @@ const LoadoutDisplay = () => {
                         >
                           {isSelected ? '\u2713' : '\u25CB'}
                         </Box>
-                        <Box bold={isSelected}>
+                        <Box bold={isSelected} fontSize={0.9} py={0.5}>
                           {item.name}
                           {isSelected &&
                             (meta?.color ||
@@ -399,6 +449,9 @@ const LoadoutDisplay = () => {
       <Stack.Item>
         <Box px={1} py={0.25}>
           <Stack align="center">
+            <Stack.Item>
+              <ClearAllButton selectedCount={selected.length} />
+            </Stack.Item>
             <Stack.Item grow>
               <Box inline bold fontSize={0.95} color={total_cost >= max_points ? 'bad' : undefined} mr={1.5}>
                 Budget: {total_cost}/{max_points}

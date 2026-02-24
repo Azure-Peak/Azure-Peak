@@ -59,6 +59,10 @@
 		for(var/datum/bounty/removing_bounty in GLOB.head_bounties)
 			if(removing_bounty.target == departing_mob.real_name)
 				GLOB.head_bounties -= removing_bounty
+	if(SSticker.rulermob == departing_mob)
+		SSticker.rulermob = null
+	if(SSticker.regentmob == departing_mob)
+		SSticker.regentmob = null
 	GLOB.chosen_names -= departing_mob.real_name
 	LAZYREMOVE(GLOB.actors_list, departing_mob.mobid)
 	LAZYREMOVE(GLOB.roleplay_ads, departing_mob.mobid)

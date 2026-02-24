@@ -16,7 +16,7 @@
 	Because of their upbringing, they make for natural conduits for godly powers. \
 	Azure Peak's populace holds them with a mixture of uneasy mixture of fear and respect. \
 	Due to their celestial nature, it is widely believed that an Aasimar's death is a bad omen...<br>\
-	(+1 Stat of their choice, or Lack of Hunger & Thirst)"
+	(+1 FOR, +1 Stat of their choice, or Lack of Hunger & Thirst)"
 
 	max_age = "???"
 
@@ -46,7 +46,7 @@
 		OFFSET_NECK_F = list(0,-1), OFFSET_MOUTH_F = list(0,-1), OFFSET_PANTS_F = list(0,0), \
 		OFFSET_SHIRT_F = list(0,0), OFFSET_ARMOR_F = list(0,0), OFFSET_UNDIES_F = list(0,-1), \
 		)
-	race_bonus = list()
+	race_bonus = list(STAT_FORTUNE = 1)
 	enflamed_icon = "widefire"
 	customizers = list(
 		/datum/customizer/organ/eyes/humanoid,

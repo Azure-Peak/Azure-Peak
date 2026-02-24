@@ -273,10 +273,10 @@ GLOBAL_LIST_INIT(hedgeknight_aggro, world.file2list("strings/rt/hedgeknightaggro
 
 	armor = /obj/item/clothing/suit/roguetown/armor/plate/full/blacksteel/modern
 	pants = /obj/item/clothing/under/roguetown/platelegs/blacksteel/modern
-	shoes = /obj/item/clothing/shoes/roguetown/boots/blacksteel/modern/plateboots
-	gloves = /obj/item/clothing/gloves/roguetown/blacksteel/modern/plategloves
+	shoes = /obj/item/clothing/shoes/roguetown/boots/armor/blacksteel/modern
+	gloves = /obj/item/clothing/gloves/roguetown/plate/blacksteel/modern
 	wrists = /obj/item/clothing/wrists/roguetown/bracers
-	head = /obj/item/clothing/head/roguetown/helmet/blacksteel/modern/armet
+	head = /obj/item/clothing/head/roguetown/helmet/blacksteel/modern
 	neck = /obj/item/clothing/neck/roguetown/gorget/steel
 	r_hand = /obj/item/rogueweapon/greatsword
 	mask = /obj/item/clothing/mask/rogue/facemask/steel

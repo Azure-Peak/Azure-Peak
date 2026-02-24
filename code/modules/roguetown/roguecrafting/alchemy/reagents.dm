@@ -490,8 +490,7 @@ If you want to expand on poisons theres tons of fun effects TG chemistry has tha
 	metabolization_rate = 0.1
 
 /datum/reagent/medicine/vitae_essence/on_mob_life(mob/living/carbon/M)
-	if(M.has_flaw(/datum/charflaw/addiction/junkie))
-		M.sate_addiction()
+	M.sate_addiction(/datum/charflaw/addiction/junkie)
 	if(M.has_status_effect(/datum/status_effect/debuff/ritualdefiled))
 		M.remove_status_effect(/datum/status_effect/debuff/ritualdefiled)
 	return ..()

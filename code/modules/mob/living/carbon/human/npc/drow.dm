@@ -133,9 +133,8 @@ GLOBAL_LIST_INIT(drowraider_aggro, world.file2list("strings/rt/drowaggrolines.tx
 	shirt = /obj/item/clothing/suit/roguetown/shirt/shadowshirt/elflock
 	gloves = /obj/item/clothing/gloves/roguetown/fingerless/shadowgloves/elflock
 	wrists = /obj/item/clothing/wrists/roguetown/bracers/leather/heavy
-	if(prob(70))
-		mask = /obj/item/clothing/mask/rogue/shepherd/shadowmask/delf
-		neck = /obj/item/clothing/neck/roguetown/chaincoif/chainmantle
+	mask = /obj/item/clothing/mask/rogue/facemask
+	neck = /obj/item/clothing/neck/roguetown/coif/heavypadding
 	r_hand = /obj/item/rogueweapon/whip
 	if(prob(45))
 		r_hand = /obj/item/rogueweapon/sword/falx/stalker

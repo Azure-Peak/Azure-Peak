@@ -7,6 +7,7 @@
 	base_state = "oven"
 	density = FALSE
 	on = FALSE
+	roundstart_forbid = TRUE
 	var/list/food = list()
 	var/maxfood = 5
 	var/donefoods = FALSE

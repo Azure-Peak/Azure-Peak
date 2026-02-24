@@ -112,6 +112,10 @@
 		if (LAZYLEN(things_to_churn))
 			user.visible_message(span_warning("A frigid blue glower suddenly erupts in [user]'s eyes as a whispered prayer summons forth a winding veil of ghostly mists!"), span_notice("I perform the sacred rite of Abrogation, bringing forth Her servants to harry and weaken the unliving!"))
 			for(var/mob/living/thing in things_to_churn)
+				if(spell_guard_check(thing, TRUE))
+					thing.visible_message(span_warning("[thing] resists the abrogation!"))
+					things_to_churn -= thing
+					continue
 				thing.apply_status_effect(/datum/status_effect/churned, user, debuff_power)
 		if(LAZYLEN(things_to_stun))
 			for(var/mob/living/thing in things_to_churn)

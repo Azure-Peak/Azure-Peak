@@ -28,6 +28,7 @@
 /obj/item/clothing/head/roguetown/helmet/MiddleClick(mob/user)
 	if(!ishuman(user))
 		return
+	to_chat(user, span_info("I [overarmor ? "wear \the [src] under my hair" : "wear \the [src] over my hair"]."))
 	if(flags_inv & HIDE_HEADTOP)
 		flags_inv &= ~HIDE_HEADTOP
 	else
@@ -47,7 +48,6 @@
 
 /obj/item/clothing/head/roguetown/helmet/get_mechanics_examine(mob/user)
 	. = ..()
-	. += span_info("Shift-click to open up the helmet's inventory. This can be used to wear additional cosmetics over the helmet, or to store smaller items.")
 	. += span_info("Visored helmets can be articulated by right-clicking them. Lifted visors offer a wider field of view, but expose your face to precise strikes.")
 	. += span_info("Certain helmets can be further decorated by left-clicking them with a feather, cloth, or both.")
 
@@ -542,7 +542,7 @@
 
 // Warden Helmets
 /obj/item/clothing/head/roguetown/helmet/bascinet/antler
-	name = "wardens's helmet"
+	name = "warden's helmet"
 	desc = "A beastly snouted armet with the large horns of an elder saiga protruding from it. Residents of Azure Peak know not to fear such a sight in the wilds, for they are exclusively associated with the Azurian wardens."
 	icon = 'icons/roguetown/clothing/special/warden.dmi'
 	mob_overlay_icon = 'icons/roguetown/clothing/special/onmob/warden64.dmi'
@@ -557,8 +557,6 @@
 	block2add = FOV_BEHIND
 	smeltresult = /obj/item/ingot/steel
 	smelt_bar_num = 2
-	experimental_inhand = FALSE
-	experimental_onhip = FALSE
 
 /obj/item/clothing/head/roguetown/helmet/bascinet/antler/ComponentInitialize()
 	AddComponent(/datum/component/adjustable_clothing, (HEAD|EARS|HAIR), (HIDEEARS|HIDEHAIR), null, 'sound/items/visor.ogg', null, UPD_HEAD)	//Standard helmet

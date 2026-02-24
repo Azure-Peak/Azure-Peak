@@ -46,7 +46,7 @@
 	if(HT.has_status_effect(/datum/status_effect/debuff/baited) || user.has_status_effect(/datum/status_effect/debuff/baitcd))
 		return	//We don't do anything if either of us is affected by bait statuses
 
-	if(!HT.can_see_cone(user) && HT.mind)
+	if(!HT.can_see_cone(user) && HT.mind && HT.get_tempo_bonus(TEMPO_TAG_FEINTBAIT_FOV))
 		newcd = 5 SECONDS
 		to_chat(user, span_notice("[HT.p_they()] didn't see me! Nothing happened!"))
 		HU.apply_status_effect(/datum/status_effect/debuff/baitcd, newcd)
@@ -145,7 +145,7 @@
 			if(user.get_skill_level(skillreq) < SKILL_LEVEL_JOURNEYMAN)
 				to_chat(user, span_info("I'm not knowledgeable enough in the arts of this weapon to use this."))
 				return
-		if(W.special.check_range(user, target))
+		if(W.special.check_range(user, target) && W.special.check_reqs(user, W))
 			if(W.special.apply_cost(user))
 				W.special.deploy(user, W, target)
 
@@ -195,16 +195,16 @@
 	skill_factor = (ourskill - theirskill)/2
 
 	var/special_msg
-	var/newcd = (BASE_RCLICK_CD - user.get_tempo_bonus(TEMPO_TAG_RCLICK_CD_BONUS)) + feintdur
+	var/newcd = (FEINT_RCLICK_CD - user.get_tempo_bonus(TEMPO_TAG_RCLICK_CD_BONUS))
 
-	if(L.has_status_effect(/datum/status_effect/debuff/exposed))
+	if(L.has_status_effect(/datum/status_effect/debuff/exposed) || L.has_status_effect(/datum/status_effect/debuff/vulnerable))
 		perc = 0
 
 	if(L.has_status_effect(/datum/status_effect/debuff/feinted))
 		perc = 0
 		special_msg = span_warning("Too soon! They were expecting it!")
 
-	if(!L.can_see_cone(user) && L.mind)
+	if(!L.can_see_cone(user) && L.mind && L.get_tempo_bonus(TEMPO_TAG_FEINTBAIT_FOV))
 		perc = 0
 		newcd = 5 SECONDS
 		special_msg = span_warning("They need to see me for me to feint them!")
@@ -223,13 +223,16 @@
 	if(L.has_status_effect(/datum/status_effect/buff/clash))
 		L.remove_status_effect(/datum/status_effect/buff/clash)
 		to_chat(user, span_notice("[L.p_their(TRUE)] Guard disrupted!"))
-	L.apply_status_effect(/datum/status_effect/debuff/exposed, feintdur)
+	
+	var/effect_to_apply = (L.mind ? /datum/status_effect/debuff/vulnerable : /datum/status_effect/debuff/exposed)
+
+	L.apply_status_effect(effect_to_apply, feintdur)
 	L.apply_status_effect(/datum/status_effect/debuff/clickcd, max(1.5 SECONDS + skill_factor, 2.5 SECONDS))
-	L.apply_status_effect(/datum/status_effect/debuff/feinted, newcd)
 	L.Immobilize(0.5 SECONDS)
 	L.stamina_add(L.stamina * 0.1)
 	L.Slowdown(2)
 
+	user.changeNext_move(CLICK_CD_FAST)	//We don't want the feint effect to be popped instantly.
 	user.apply_status_effect(/datum/status_effect/debuff/feintcd, newcd)
 	to_chat(user, span_notice("[L.p_they(TRUE)] fell for my feint attack!"))
 	to_chat(L, span_danger("I fall for [user.p_their()] feint attack!"))

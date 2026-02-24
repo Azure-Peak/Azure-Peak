@@ -1694,7 +1694,13 @@
 	if(!istype(spread_to))
 		return
 
+	if(!(mobility_flags & MOBILITY_STAND))
+		return
+
 	if(HAS_TRAIT(spread_to, TRAIT_NOFIRE) || HAS_TRAIT(src, TRAIT_NOFIRE))
+		return
+
+	if(!prob(25))
 		return
 
 	var/datum/status_effect/fire_handler/fire_stacks/fire_status = has_status_effect(/datum/status_effect/fire_handler/fire_stacks)

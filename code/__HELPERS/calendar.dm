@@ -12,17 +12,26 @@
  [Weekday], [Day] [Month] [Year], [HH:MM] ([Time Of Day]), ([Cycle Number])
 */
 /proc/get_current_ic_date_as_string()
-	var/round_id = text2num(GLOB.round_id) || 0 // Default to 0 if not initialized
-	var/days_since_epoch = (round_id) * CALENDAR_DAYS_IN_WEEK + (GLOB.dayspassed - 1)
+	var/month_number
+	var/day_of_month
+	var/current_cycle
 	var/year_number = CALENDAR_EPOCH_YEAR
-	var/day_of_year = MODULUS(days_since_epoch, CALENDAR_DAYS_IN_YEAR) + 1 // 1 to 336
-	var/month_number = FLOOR((day_of_year - 1) / CALENDAR_DAYS_IN_MONTH, 1) + 1 // 1 to 12
-	var/day_of_month = MODULUS((day_of_year - 1), CALENDAR_DAYS_IN_MONTH) + 1 // 1 to 28
+
+	var/round_id = text2num(GLOB.round_id) || 0
+	current_cycle = FLOOR(round_id / (YEAR_PER_CYCLE * CALENDAR_WEEKS_IN_YEAR), 1) + 1
+
+	var/days_since_epoch = (round_id) * CALENDAR_DAYS_IN_WEEK + (GLOB.dayspassed - 1)
+
+	if(GLOB.date_override_enabled)
+		days_since_epoch += GLOB.date_override_offset
+
+	var/day_of_year = MODULUS(days_since_epoch, CALENDAR_DAYS_IN_YEAR) + 1
+	month_number = FLOOR((day_of_year - 1) / CALENDAR_DAYS_IN_MONTH, 1) + 1
+	day_of_month = MODULUS((day_of_year - 1), CALENDAR_DAYS_IN_MONTH) + 1
+
 	var/month_name = get_month_number_to_text(month_number)
 	var/season = get_season_from_month(month_number)
 	var/season_phase = get_season_phase(month_number)
-
-	var/current_cycle = FLOOR(round_id / (YEAR_PER_CYCLE * CALENDAR_WEEKS_IN_YEAR), 1) + 1
 
 	return "[day_of_month] [month_name] [year_number] (Month [month_number] [season_phase] [season]), Cycle [current_cycle]"
 
@@ -31,23 +40,8 @@
 	// Credit to Zydras for Syon's Dae for Saturday
 	// These are the day names that can be referred to sensically ICly
 	// By using secular names rather than IRL deity like Thule, Saturn, Tiw (Tyr), it avoids us having to explain a non-existent
-	// Norse deity while remaining phonetically close to the original English name 
-	var/weekday = "Moon's Dae"
-	switch(GLOB.dayspassed)
-		if(1)
-			weekday = "Moon's Dae"
-		if(2)
-			weekday = "Truce's Dae"
-		if(3)
-			weekday = "Wedding's Dae"
-		if(4)
-			weekday = "Thunder's Dae"
-		if(5)
-			weekday = "Feast's Dae"
-		if(6)
-			weekday = "Psydon's Dae"
-		if(7)
-			weekday = "Sun's Dae"
+	// Norse deity while remaining phonetically close to the original English name
+	var/weekday = get_current_day_of_week_name()
 	return  "[weekday] ᛉ [capitalize(GLOB.tod)] ᛉ [station_time_timestamp("hh:mm")]"
 
 // Given a number between 1 to 12, returns the month name as text
@@ -116,3 +110,34 @@
 		if(3)
 			return "Late"
 	return ""
+
+/proc/get_current_day_of_week()
+	return GLOB.dayspassed
+
+/proc/get_current_day_of_week_name()
+	var/round_id = text2num(GLOB.round_id) || 0
+	var/days_since_epoch = (round_id) * CALENDAR_DAYS_IN_WEEK + (GLOB.dayspassed - 1)
+
+	if(GLOB.date_override_enabled)
+		days_since_epoch += GLOB.date_override_offset
+
+	var/day_of_year = MODULUS(days_since_epoch, CALENDAR_DAYS_IN_YEAR) + 1
+	var/day_of_month = MODULUS((day_of_year - 1), CALENDAR_DAYS_IN_MONTH) + 1
+	var/day_of_week = MODULUS((day_of_month - 1), CALENDAR_DAYS_IN_WEEK) + 1
+
+	switch(day_of_week)
+		if(1)
+			return "Moon's Dae"
+		if(2)
+			return "Truce's Dae"
+		if(3)
+			return "Wedding's Dae"
+		if(4)
+			return "Thunder's Dae"
+		if(5)
+			return "Feast's Dae"
+		if(6)
+			return "Psydon's Dae"
+		if(7)
+			return "Sun's Dae"
+	return "Unknown Dae"

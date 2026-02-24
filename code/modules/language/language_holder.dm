@@ -68,6 +68,12 @@
 		if(L != src)
 			if(is_type_in_typecache(dt, L.shadow_languages))
 				return LANGUAGE_SHADOWED
+	// Check mutual intelligibility - if we know a related language, we can understand this one
+	var/datum/language/lang_datum = GLOB.language_datum_instances[dt]
+	if(lang_datum?.mutually_intelligible)
+		for(var/related_type in lang_datum.mutually_intelligible)
+			if(is_type_in_typecache(related_type, languages))
+				return LANGUAGE_KNOWN
 	return FALSE
 
 /datum/language_holder/proc/copy_known_languages_from(thing, replace=FALSE)

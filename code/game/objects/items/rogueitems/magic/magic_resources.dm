@@ -151,28 +151,28 @@
 	. = ..()
 	. += span_notice("It can be used to heal Fae summons.")
 
-/obj/item/magic/fairydust	//T1 mage summon loot
+/obj/item/magic/fae/fairydust	//T1 mage summon loot
     name = "fairy dust"
     icon_state = "fairy_dust"
     desc = "A glittering powder from a fae sprite."
     sellprice = T1SELLPRICE
     tier = 1
 
-/obj/item/magic/iridescentscale	//T2 mage summon loot
+/obj/item/magic/fae/iridescentscale	//T2 mage summon loot
     name = "iridescent scales"
     icon_state = "iridescent_scale"
     desc = "Tiny, colorful scales from a glimmerwing, they shine with inate magic"
     sellprice = T2SELLPRICE
     tier = 2
 
-/obj/item/magic/heartwoodcore	//T3 mage summon loot
+/obj/item/magic/fae/heartwoodcore	//T3 mage summon loot
     name = "heartwood core"
     icon_state = "heartwood_core"
     desc = "A piece of enchanted wood imbued with the dryad’s essence. Merely holding it transports one's mind to ancient times."
     sellprice = T3SELLPRICE
     tier = 3
 
-/obj/item/magic/sylvanessence	//T4 mage summon loot
+/obj/item/magic/fae/sylvanessence	//T4 mage summon loot
     name = "sylvan essence"
     icon_state = "sylvanessence"
     desc = "A swirling, multicolored liquid with emitting a dizzying array of lights."

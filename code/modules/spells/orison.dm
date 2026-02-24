@@ -275,6 +275,29 @@
 				M.update_damage_overlays()
 		M.stamina_add(0.5  * REAGENTS_EFFECT_MULTIPLIER)
 
+/datum/reagent/water/medicine
+	name = "Pestran Medicine"
+	description = "A gift of devotion from the Patron of Healing and Medicine, stronger than blessed water but taste horrible!"
+	color = "#428b42"
+	taste_description = "nauseatingly bitter"
+	scent_description = "medicine"
+	metabolization_rate = REAGENTS_METABOLISM
+
+/datum/reagent/water/medicine/on_mob_life(mob/living/carbon/M)
+	if(volume >= 50)
+		M.reagents.remove_reagent(/datum/reagent/water/medicine, 2) // no more than 1 large bottle at a time
+	if(volume > 0.99)
+		M.adjustBruteLoss(-0.5, 0)
+		M.adjustFireLoss(-0.5, 0)
+		M.adjustOxyLoss(-0.5, 0)
+		M.adjustToxLoss(-0.5, 0)
+		for(var/datum/reagent/R in M.reagents.reagent_list)
+			if(R.harmful)
+				holder.remove_reagent(R.type, 0.2)
+		var/list/wCount = M.get_wounds()
+		if(wCount.len > 0)
+			M.heal_wounds(2)
+
 /obj/item/melee/touch_attack/orison/proc/create_water(atom/thing, mob/living/carbon/human/user)
 	// normally we wouldn't use fatigue here to keep in line w/ other holy magic, but we have to since water is a persistent resource
 	if (!thing.Adjacent(user))
@@ -300,7 +323,8 @@
 			var/list/water_contents = list(/datum/reagent/water/cursed = water_qty)
 			if(user.patron.undead_hater == TRUE)
 				water_contents = list(/datum/reagent/water/blessed = water_qty)
-
+			if(user.patron.name == "Pestra")
+				water_contents = list(/datum/reagent/water/medicine = water_qty)
 			var/datum/reagents/reagents_to_add = new()
 			reagents_to_add.add_reagent_list(water_contents)
 			reagents_to_add.trans_to(thing, reagents_to_add.total_volume, transfered_by = user, method = INGEST)

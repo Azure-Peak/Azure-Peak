@@ -7,6 +7,26 @@
 	grid_height = 64
 	gripped_intents = list(/datum/intent/use)
 
+/// Quality from butchering. 0 is bad, 1 is decent, 2 is normal, 3 is good, -1 means its rotten and useless.
+/obj/item/natural/head/proc/scale_butchering_quality(butchering_quality)
+	var/initial_name = name
+	switch(butchering_quality)
+		if(0) // Skill 0-1: was ~30% drop chance, so 0.30x
+			sellprice = floor(sellprice * 0.30)
+			name = "poor quality [initial_name]" // Apply quality text so you can discern
+			// between the different qualities of heads. Also inform the player that it is bad.
+		if(1) // Skill 2: was ~70% drop chance, so 0.70x
+			sellprice = floor(sellprice * 0.70)
+			name = "decent quality [initial_name]"
+		if(2) // Skill 3: was guaranteed, so 1.0x
+			return
+		if(3) // Skill 4+: Towner or dedicated roles, 1.15x
+			sellprice = floor(sellprice * 1.15)
+			name = "fine quality [initial_name]"
+		if(-1) // Rotten
+			sellprice = floor(sellprice * 0.1)
+			name = "rotten [initial_name]"
+
 /obj/item/natural/head/volf
 	name = "volf head"
 	desc = "The head of a fearsome volf."

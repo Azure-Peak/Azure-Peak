@@ -25,6 +25,8 @@ GLOBAL_VAR_INIT(last_crown_announcement_time, -1000)
 	max_integrity = 0
 	anchored = TRUE
 	var/mode = 0
+	var/list/rite_selection_data
+	var/mob/living/carbon/human/rite_selector
 
 /obj/structure/roguemachine/titan/obj_break(damage_flag)
 	..()
@@ -153,10 +155,15 @@ GLOBAL_VAR_INIT(last_crown_announcement_time, -1000)
 			say("The key is summoned!")
 			playsound(src, 'sound/misc/machinetalk.ogg', 100, FALSE, -1)
 			playsound(src, 'sound/misc/hiss.ogg', 100, FALSE, -1)
+
+	if(findtext(message, "i ascend"))
+		start_ascension(H)
+		return
+
 	switch(mode)
 		if(0)
 			if(findtext(message, "secrets of the throat"))
-				say("My commands are: Make Decree, Make Announcement, Set Taxes, Declare Outlaw, Summon Crown, Summon Key, Make Law, Remove Law, Purge Laws, Purge Decrees, Become Regent, Nevermind")
+				say("My commands are: Make Decree, Make Announcement, Set Taxes, Declare Outlaw, Summon Crown, Summon Key, Make Law, Remove Law, Purge Laws, Purge Decrees, Become Regent, Change Colors, I Ascend, Nevermind")
 				playsound(src, 'sound/misc/machinelong.ogg', 100, FALSE, -1)
 			if(findtext(message, "make announcement"))
 				if(nocrown)
@@ -271,7 +278,8 @@ GLOBAL_VAR_INIT(last_crown_announcement_time, -1000)
 					playsound(src, 'sound/misc/machinetalk.ogg', 100, FALSE, -1)
 					SSticker.regentmob = null
 					return
-				if(SSticker.rulermob != null)
+				var/mob/living/current_lord = SSticker.rulermob
+				if(current_lord && !QDELETED(current_lord) && current_lord.stat != DEAD)
 					say("The true lord is already present in the realm.")
 					playsound(src, 'sound/misc/machineno.ogg', 100, FALSE, -1)
 					return
@@ -292,6 +300,15 @@ GLOBAL_VAR_INIT(last_crown_announcement_time, -1000)
 					playsound(src, 'sound/misc/machineno.ogg', 100, FALSE, -1)
 					return
 				become_regent(H)
+				return
+			if(findtext(message, "change colors"))
+				if(notlord || nocrown)
+					say("You are not my master!")
+					playsound(src, 'sound/misc/machineno.ogg', 100, FALSE, -1)
+					return
+				say("Choose the colors of your realm, my liege.")
+				playsound(src, 'sound/misc/machinetalk.ogg', 100, FALSE, -1)
+				H.lord_color_choice()
 				return
 
 		if(1)
@@ -434,3 +451,113 @@ GLOBAL_VAR_INIT(last_crown_announcement_time, -1000)
 	priority_announce("[H.name], the [H.get_role_title()], sits as the regent of the realm.", "A New Regent Resides", pick('sound/misc/royal_decree.ogg', 'sound/misc/royal_decree2.ogg'), "Captain")
 	SSticker.regentmob = H
 	SSticker.regentday = GLOB.dayspassed
+
+/obj/structure/roguemachine/titan/proc/start_ascension(mob/living/carbon/human/user)
+	var/obj/structure/roguethrone/throne = GLOB.king_throne
+	if(!throne)
+		say("There is no throne to claim.")
+		playsound(src, 'sound/misc/machineno.ogg', 100, FALSE, -1)
+		return
+	if(throne.active_rite)
+		say("A rite of succession is already underway.")
+		playsound(src, 'sound/misc/machineno.ogg', 100, FALSE, -1)
+		return
+	if(!SSticker.had_ruler)
+		say("There is no ruler to usurp.")
+		playsound(src, 'sound/misc/machineno.ogg', 100, FALSE, -1)
+		return
+	if(SSticker.rulermob == user)
+		say("You already hold the throne.")
+		playsound(src, 'sound/misc/machineno.ogg', 100, FALSE, -1)
+		return
+	if(SSgamemode.roundvoteend)
+		say("The realm's fate is already sealed. It is too late for a change of power.")
+		playsound(src, 'sound/misc/machineno.ogg', 100, FALSE, -1)
+		return
+	// TESTING: Disabled chain coup cooldown
+	// if(SSticker.usurpation_day == GLOB.dayspassed)
+	// 	say("The realm has already seen a change of power this dae. Let the dust settle.")
+	// 	playsound(src, 'sound/misc/machineno.ogg', 100, FALSE, -1)
+	// 	return
+
+	var/static/list/available_rites = list(
+		/datum/usurpation_rite/solar_succession,
+		/datum/usurpation_rite/lunar_ascension,
+		/datum/usurpation_rite/martial_supercession,
+		/datum/usurpation_rite/golden_accord,
+		/datum/usurpation_rite/sacred_supercession,
+		/datum/usurpation_rite/progressive_dominion,
+		/datum/usurpation_rite/popular_acclaim,
+		/datum/usurpation_rite/psydonian_tribunal,
+	)
+
+	var/list/all_rites = list()
+	var/any_eligible = FALSE
+	for(var/rite_type in available_rites)
+		var/datum/usurpation_rite/temp = new rite_type()
+		var/can_use = temp.can_invoke(user)
+		if(can_use)
+			any_eligible = TRUE
+		all_rites += list(list(
+			"name" = temp.name,
+			"desc" = temp.desc,
+			"explanation" = temp.explanation,
+			"type_path" = "[rite_type]",
+			"eligible" = can_use,
+		))
+		qdel(temp)
+
+	if(!any_eligible)
+		say("No rites of succession are available to you.")
+		playsound(src, 'sound/misc/machineno.ogg', 100, FALSE, -1)
+		return
+
+	rite_selection_data = all_rites
+	rite_selector = user
+	ui_interact(user)
+
+/obj/structure/roguemachine/titan/proc/on_rite_chosen(mob/living/carbon/human/user, rite_type_path)
+	rite_selection_data = null
+	rite_selector = null
+
+	if(QDELETED(user) || user.stat != CONSCIOUS)
+		return
+	var/obj/structure/roguethrone/throne = GLOB.king_throne
+	if(!throne)
+		return
+	if(throne.active_rite)
+		say("A rite has already begun.")
+		playsound(src, 'sound/misc/machineno.ogg', 100, FALSE, -1)
+		return
+
+	var/datum/usurpation_rite/new_rite = new rite_type_path()
+	throne.active_rite = new_rite
+	new_rite.begin(user)
+	say("So it begins.")
+	playsound(src, 'sound/misc/machineyes.ogg', 100, FALSE, -1)
+
+/obj/structure/roguemachine/titan/ui_interact(mob/user, datum/tgui/ui)
+	if(!rite_selection_data)
+		return
+	ui = SStgui.try_update_ui(user, src, ui)
+	if(!ui)
+		ui = new(user, src, "RiteSelection", "Rites of Succession")
+		ui.open()
+
+/obj/structure/roguemachine/titan/ui_data(mob/user)
+	var/list/data = ..()
+	data["rites"] = rite_selection_data
+	return data
+
+/obj/structure/roguemachine/titan/ui_act(action, list/params, datum/tgui/ui, datum/ui_state/state)
+	if(..())
+		return TRUE
+	switch(action)
+		if("choose_rite")
+			var/type_path = text2path(params["type_path"])
+			if(!type_path)
+				return TRUE
+			var/mob/living/carbon/human/user = ui.user
+			ui.close()
+			on_rite_chosen(user, type_path)
+			return TRUE

@@ -261,7 +261,7 @@
 	toolspeed = 2
 
 /obj/item/rogueweapon/stoneaxe/woodcut/wardenpick
-	name = "Wardens' axe"
+	name = "warden's axe"
 	desc = "A multi-use axe smithed by the Wardens since time immemorial for both it's use as a tool and a weapon."
 	icon_state = "wardenpax"
 	force = 22
@@ -510,6 +510,43 @@
 	hitsound = list('sound/combat/hits/bladed/genchop (1).ogg', 'sound/combat/hits/bladed/genchop (2).ogg', 'sound/combat/hits/bladed/genchop (3).ogg')
 	clickcd = 14
 	item_d_type = "slash"
+
+//Triumph(?)-exclusive, double-edged variants. Purely cosmetic; could turn into actual recipes, later?
+/obj/item/rogueweapon/stoneaxe/woodcut/triumphalt
+	name = "double-headed axe"
+	desc = "'For Karl!'"
+	icon_state = "axedouble"
+	swingsound = BLADEWOOSH_HUGE
+
+/obj/item/rogueweapon/stoneaxe/woodcut/bronze/triumph
+	name = "double-headed bronze axe"
+	desc = "'Give them nothing.. but take from them, EVERYTHING!'"
+	icon_state = "bronzeaxedouble"
+	swingsound = BLADEWOOSH_HUGE
+
+/obj/item/rogueweapon/stoneaxe/woodcut/steel/triumph
+	name = "double-headed steel axe"
+	desc = "'Last man alive, lock the doors!'"
+	icon_state = "saxedouble"
+	swingsound = BLADEWOOSH_HUGE
+
+/obj/item/rogueweapon/stoneaxe/battle/triumph
+	name = "double-headed battle axe"
+	desc = "'Never thought I'd die side-by-side wi' an elve.' </br>'How about with a friend?' </br>'Aye, I coul' do that.'"
+	icon_state = "battleaxedouble"
+	swingsound = BLADEWOOSH_HUGE
+
+/obj/item/rogueweapon/stoneaxe/woodcut/silver/triumph
+	name = "double-headed silver axe"
+	desc = "'I'll swallow your soul, I'll swallow your soul!' </br>'Swallow this.'"
+	icon_state = "silveraxedouble"
+	swingsound = BLADEWOOSH_HUGE
+
+/obj/item/rogueweapon/stoneaxe/battle/psyaxe/triumph
+	name = "double-headed psydonic axe"
+	desc = "'Hail to the king, baby.'"
+	icon_state = "psyaxedouble"
+	swingsound = BLADEWOOSH_HUGE
 
 /datum/intent/axe/cut/battle/greataxe
 	reach = 2

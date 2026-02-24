@@ -21,13 +21,15 @@
 		/datum/language/thievescant,
 		/datum/language/grenzelhoftian,
 		/datum/language/kazengunese,
+		/datum/language/lingyuese,
 		/datum/language/otavan,
 		/datum/language/etruscan,
 		/datum/language/gronnic,
 		/datum/language/aavnic,
 		/datum/language/undead,
 		/datum/language/abyssal,
-		/datum/language/oldazurian
+		/datum/language/oldazurian,
+		/datum/language/undercommon
 	))
 
 /obj/item/organ/tongue/Initialize(mapload)

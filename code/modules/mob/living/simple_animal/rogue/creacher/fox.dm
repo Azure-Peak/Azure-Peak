@@ -29,8 +29,8 @@
 						/obj/item/alch/bone = 1,
 						/obj/item/alch/viscera = 1,
 						/obj/item/natural/fur/fox = 2,
-						/obj/item/natural/bone = 4,
-						/obj/item/natural/head/fox = 1)
+						/obj/item/natural/bone = 4)
+	head_butcher = /obj/item/natural/head/fox
 	faction = list("wolfs", "zombie")
 	mob_biotypes = MOB_ORGANIC|MOB_BEAST
 	remains_type = /obj/effect/decal/remains/fox

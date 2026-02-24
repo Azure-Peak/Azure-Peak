@@ -433,7 +433,7 @@
 		return
 	if(istype(stored, /obj/item/rogueweapon/scabbard))
 		var/obj/item/rogueweapon/scabbard/scab = stored
-		if(scab.sheathed)
+		if(scab.hol_comp.sheathed)
 			stored.attack_right(src)
 			return
 	stored.attack_hand(src) // take out thing from backpack
@@ -473,7 +473,7 @@
 		return
 	if(istype(stored, /obj/item/rogueweapon/scabbard))
 		var/obj/item/rogueweapon/scabbard/scab = stored
-		if(scab.sheathed)
+		if(scab.hol_comp.sheathed)
 			stored.attack_right(src)
 			return
 	stored.attack_hand(src) // take out thing from belt
@@ -513,7 +513,7 @@
         return
     if(istype(stored, /obj/item/rogueweapon/scabbard))
         var/obj/item/rogueweapon/scabbard/scab = stored
-        if(scab.sheathed)
+        if(scab.hol_comp.sheathed)
             stored.attack_right(src)
             return
     stored.attack_hand(src) // take out thing from cloak

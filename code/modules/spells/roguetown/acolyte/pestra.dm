@@ -256,6 +256,9 @@
 	var/atom/target = targets[1]
 	if(isliving(target))
 		var/mob/living/carbon/M = target
+		if(spell_guard_check(M, TRUE))
+			M.visible_message(span_warning("[M] wards off the pestilent vermin!"))
+			return TRUE
 		M.visible_message(span_warning("[M] is surrounded by a cloud of pestilent vermin!"), span_notice("You surround [M] in a cloud of pestilent vermin!"))
 		M.apply_status_effect(/datum/status_effect/buff/infestation/) //apply debuff
 		SEND_SIGNAL(src, COMSIG_INFESTATION_CHARGE_ADD, 10)

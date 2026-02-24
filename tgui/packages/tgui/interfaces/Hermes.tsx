@@ -16,11 +16,12 @@ type Data = {
   paper_cost: number;
   quill_cost: number;
   letter_cost: number;
+  has_tube?: boolean;
 };
 
 export const Hermes = (props: any, context: any) => {
   const { act, data } = useBackend<Data>();
-  const { balance, paper_cost, quill_cost, letter_cost } = data;
+  const { balance, paper_cost, quill_cost, letter_cost, has_tube } = data;
 
   const [recipient, setRecipient] = useState('');
   const [sender, setSender] = useState('');
@@ -29,6 +30,7 @@ export const Hermes = (props: any, context: any) => {
   const canSendLetter = balance >= letter_cost && recipient.length > 0;
   const canBuyPaper = balance >= paper_cost;
   const canBuyQuill = balance >= quill_cost;
+  const canSendTube = letterContent.length > 0;
 
   return (
     <Window title="HERMES" width={400} height={480}>
@@ -116,20 +118,42 @@ export const Hermes = (props: any, context: any) => {
                   />
                 </Stack.Item>
                 <Stack.Item>
-                  <Button
-                    fluid
-                    icon="paper-plane"
-                    disabled={!canSendLetter}
-                    onClick={() =>
-                      act('send_letter', {
-                        recipient: recipient,
-                        sender: sender || 'Anonymous',
-                        content: letterContent,
-                      })
-                    }
-                  >
-                    Send Letter
-                  </Button>
+                  <Stack>
+                    <Stack.Item grow>
+                      <Button
+                        fluid
+                        icon="paper-plane"
+                        disabled={!canSendLetter}
+                        onClick={() =>
+                          act('send_letter', {
+                            recipient: recipient,
+                            sender: sender || 'Anonymous',
+                            content: letterContent,
+                          })
+                        }
+                      >
+                        Send Letter
+                      </Button>
+                    </Stack.Item>
+                    {has_tube && (
+                      <Stack.Item grow>
+                        <Button
+                          fluid
+                          icon="paper-plane"
+                          color="teal"
+                          disabled={!canSendTube}
+                          onClick={() =>
+                            act('send_tube', {
+                              sender: sender || 'Anonymous',
+                              content: letterContent,
+                            })
+                          }
+                        >
+                          Send Through Tube (Free)
+                        </Button>
+                      </Stack.Item>
+                    )}
+                  </Stack>
                 </Stack.Item>
               </Stack>
             </Section>

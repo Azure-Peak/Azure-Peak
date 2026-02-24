@@ -1,5 +1,5 @@
 /client/proc/play_sound(S as sound)
-	set category = "-Fun-"
+	set category = "-GameMaster-"
 	set name = "Sound - Global"
 	if(!check_rights(R_SOUND))
 		return
@@ -61,9 +61,9 @@
 		prefs.musicvol = vol
 		prefs.save_preferences()
 
-		mob.update_music_volume(CHANNEL_MUSIC, prefs.musicvol)
-		mob.update_music_volume(CHANNEL_LOBBYMUSIC, prefs.musicvol)
 		mob.update_music_volume(CHANNEL_ADMIN, prefs.musicvol)
+		mob.update_music_volume(CHANNEL_BUZZ, prefs.musicvol)
+		mob.update_music_volume(CHANNEL_CMUSIC, prefs.musicvol)
 
 
 /client/verb/show_rolls()
@@ -83,7 +83,7 @@
 	set name = "ChangeVolPower"
 
 	if(prefs)
-		var/vol = input(usr, "Current volume power: [prefs.mastervol]",, 100) as null|num
+		var/vol = input(usr, "Current master volume power (affects all sounds except music and ambience): [prefs.mastervol]",, 100) as null|num
 		if(!vol)
 			if(vol != 0)
 				return
@@ -91,7 +91,38 @@
 		prefs.mastervol = vol
 		prefs.save_preferences()
 
-		mob.update_channel_volume(CHANNEL_AMBIENCE, prefs.mastervol)
+/client/verb/change_ambience_vol()
+	set category = "Options"
+	set name = "ChangeAmbiencePower"
+
+	if(prefs)
+		var/vol = input(usr, "Current ambience power: [prefs.ambiencevol]",, 100) as null|num
+		if(!vol)
+			if(vol != 0)
+				return
+		vol = min(vol, 100)
+		prefs.ambiencevol = vol
+		prefs.save_preferences()
+
+		mob.update_channel_volume(CHANNEL_AMBIENCE, prefs.ambiencevol)
+		mob.update_channel_volume(CHANNEL_MUSIC, prefs.ambiencevol)
+		mob.update_channel_volume(CHANNEL_RAIN, prefs.ambiencevol)
+
+/client/verb/change_lobby_music_vol()
+	set category = "Options"
+	set name = "ChangeLobbyMusicPower"
+
+	if(prefs)
+		var/vol = input(usr, "Current lobby music power: [prefs.lobbymusicvol]",, 100) as null|num
+		if(!vol)
+			if(vol != 0)
+				return
+		vol = min(vol, 100)
+		prefs.lobbymusicvol = vol
+		prefs.save_preferences()
+
+		if(isnewplayer(mob))
+			mob.update_music_volume(CHANNEL_LOBBYMUSIC, prefs.lobbymusicvol)
 /*
 /client/verb/help_rpguide()
 	set category = "Options"
@@ -107,7 +138,7 @@
 */
 
 /client/proc/play_local_sound(S as sound)
-	set category = "-Fun-"
+	set category = "-GameMaster-"
 	set name = "Sound - Local"
 	if(!check_rights(R_SOUND))
 		return
@@ -118,7 +149,7 @@
 	SSblackbox.record_feedback("tally", "admin_verb", 1, "Play Local Sound") //If you are copy-pasting this, ensure the 2nd parameter is unique to the new proc!
 
 /client/proc/play_local_sound_variable(S as sound)
-	set category = "-Fun-"
+	set category = "-GameMaster-"
 	set name = "Sound - Variable Dist"
 	if(!check_rights(R_SOUND))
 		return
@@ -134,7 +165,7 @@
 	SSblackbox.record_feedback("tally", "admin_verb", 1, "Play Local Sound") //If you are copy-pasting this, ensure the 2nd parameter is unique to the new proc!
 
 /client/proc/play_web_sound()
-	set category = "-Fun-"
+	set category = "-GameMaster-"
 	set name = "Sound - Internet"
 	if(!check_rights(R_SOUND))
 		return
@@ -219,7 +250,7 @@
 	SSblackbox.record_feedback("tally", "admin_verb", 1, "Play Internet Sound")
 
 /client/proc/set_round_end_sound(S as sound)
-	set category = "-Fun-"
+	set category = "-GameMaster-"
 	set name = "Sound - Round End"
 	if(!check_rights(R_SOUND))
 		return
@@ -231,7 +262,7 @@
 	SSblackbox.record_feedback("tally", "admin_verb", 1, "Set Round End Sound") //If you are copy-pasting this, ensure the 2nd parameter is unique to the new proc!
 
 /client/proc/stop_sounds()
-	set category = "-Fun-"
+	set category = "-GameMaster-"
 	set name = "Sound - Stop All Playing"
 	if(!src.holder)
 		return

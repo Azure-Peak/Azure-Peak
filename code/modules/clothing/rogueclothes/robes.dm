@@ -362,3 +362,6 @@
 	color = null
 	icon_state = "whiterobe"
 	item_state = "whiterobe"
+
+/obj/item/clothing/suit/roguetown/shirt/robe/tabardwhite/evil_ah_ah
+	color = CLOTHING_SCARLET

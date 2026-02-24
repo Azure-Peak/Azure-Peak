@@ -134,7 +134,7 @@
 					if(victim.stat == DEAD) // If you accept the prompt as a corpse, you get turned into a corpse vampire, which RR's you pretty much
 						return FALSE
 
-					if(HAS_TRAIT_FROM(victim, TRAIT_UNLYCKERABLE, REF(src)))
+					if(HAS_TRAIT(victim, TRAIT_UNLYCKERABLE))
 						return FALSE
 
 					var/mob/living/carbon/human/H = victim

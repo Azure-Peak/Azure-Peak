@@ -166,8 +166,8 @@
 		zombie.npc_jump_chance = initial(zombie.npc_jump_chance)
 		zombie.rude = initial(zombie.rude)
 		zombie.tree_climber = initial(zombie.tree_climber)
-		if(zombie.charflaw)
-			zombie.charflaw.ephemeral = FALSE
+		for(var/datum/charflaw/cf in zombie.charflaws)
+			cf.ephemeral = FALSE
 		zombie.update_body()
 
 		zombie.STASTR = src.STASTR
@@ -252,8 +252,8 @@
 	ambushable = zombie.ambushable
 	zombie.ambushable = FALSE
 
-	if(zombie.charflaw)
-		zombie.charflaw.ephemeral = TRUE
+	for(var/datum/charflaw/cf in zombie.charflaws)
+		cf.ephemeral = TRUE
 	zombie.mob_biotypes |= MOB_UNDEAD
 	zombie.faction += "undead"
 	zombie.faction += "zombie"

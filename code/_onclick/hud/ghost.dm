@@ -1,5 +1,6 @@
 /atom/movable/screen/ghost
 	icon = 'icons/mob/screen_ghost.dmi'
+	nomouseover = FALSE
 
 /atom/movable/screen/ghost/MouseEntered()
 //	flick(icon_state + "_anim", src)
@@ -26,7 +27,6 @@
 	icon = 'icons/mob/ghostspin.dmi'
 	icon_state = ""
 	screen_loc = "WEST-4,SOUTH+6"
-	nomouseover = FALSE
 
 /atom/movable/screen/ghost/orbit/rogue/Click(location, control, params)
 	var/mob/dead/observer/G = usr
@@ -66,7 +66,7 @@
 	G.dead_tele()
 
 /atom/movable/screen/ghost/moveup
-	name = "move up"
+	name = "Move Up"
 	icon_state = "up"
 
 /atom/movable/screen/ghost/moveup/Click()
@@ -74,7 +74,7 @@
 	G.ghost_up()
 
 /atom/movable/screen/ghost/movedown
-	name = "move down"
+	name = "Move Down"
 	icon_state = "down"
 
 /atom/movable/screen/ghost/bigassuselessbutton
@@ -91,6 +91,18 @@
 /datum/hud/ghost/New(mob/owner)
 	..()
 	var/atom/movable/screen/using
+
+	using = new /atom/movable/screen/ghost/orbit(null, src)
+	using.screen_loc = ui_ghost_orbit
+	static_inventory += using
+
+	using = new /atom/movable/screen/ghost/reenter_corpse(null, src)
+	using.screen_loc = ui_ghost_reenter_corpse
+	static_inventory += using
+
+	using = new /atom/movable/screen/ghost/teleport(null, src)
+	using.screen_loc = ui_ghost_teleport
+	static_inventory += using
 
 	using =  new /atom/movable/screen/backhudl/ghost()
 	using.hud = src

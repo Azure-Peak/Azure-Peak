@@ -34,6 +34,7 @@
 	if(!HAS_TRAIT(M,TRAIT_INFINITE_STAMINA))
 		M.energy_add(5) // 1/6th of mana pot
 	M.apply_status_effect(/datum/status_effect/buff/vigorized)
+	M.sate_addiction(/datum/charflaw/addiction/caffiend)
 
 /datum/reagent/consumable/caffeine/overdose_process(mob/living/carbon/M)
 	. = ..()
@@ -70,8 +71,7 @@
 	alpha = 173
 
 /datum/reagent/consumable/poppy_milk/on_mob_life(mob/living/carbon/M)
-	if(M.has_flaw(/datum/charflaw/addiction/junkie))
-		M.sate_addiction()
+	M.sate_addiction(/datum/charflaw/addiction/junkie)
 	M.apply_status_effect(/datum/status_effect/buff/ozium)
 	..()
 

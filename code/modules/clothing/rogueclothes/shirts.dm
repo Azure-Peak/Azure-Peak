@@ -54,11 +54,6 @@
 	flags_inv= HIDEBOOB|HIDECROTCH
 	body_parts_covered = CHEST|GROIN|ARMS|VITALS
 
-/obj/item/clothing/suit/roguetown/shirt/get_mechanics_examine(mob/user)
-	. = ..()
-	. += span_info("Shift-right click while targeting either arm to tear a sleeve off, which can be used to bandage wounds in an emergency.")
-	. += span_info("The chance to successfully tear a sleeve off scales with your character's Strength.")
-
 /obj/item/clothing/suit/roguetown/shirt/undershirt/black
 	color = CLOTHING_BLACK
 
@@ -74,6 +69,9 @@
 
 /obj/item/clothing/suit/roguetown/shirt/undershirt/red
 	color = "#851a16"
+
+/obj/item/clothing/suit/roguetown/shirt/undershirt/scarlet
+	color = CLOTHING_SCARLET
 
 /obj/item/clothing/suit/roguetown/shirt/undershirt/guard
 	color = CLOTHING_AZURE
@@ -145,7 +143,7 @@
 
 /obj/item/clothing/suit/roguetown/shirt/shadowshirt/elflock
 	allowed_race = NON_DWARVEN_RACE_TYPES
-	body_parts_covered = COVERAGE_ALL_BUT_ARMS
+	body_parts_covered = COVERAGE_ALL_BUT_ARMFEET
 	max_integrity = ARMOR_INT_CHEST_LIGHT_BASE
 	armor = ARMOR_PADDED
 

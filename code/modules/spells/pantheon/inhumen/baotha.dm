@@ -178,8 +178,14 @@
 			if(prob(50 + ((H.STAPER - 10) * 10)))
 				to_chat(H, span_warning("A pair of prying eyes were laid on me..."))
 		if(!vice_found)
-			vice_found = H.charflaw.name
-		to_chat(user, span_info("They are... [span_warning("a [vice_found]")]"))
+			if(H.charflaws.len > 0)
+				var/list/vices = list()
+				for(var/datum/charflaw/cf in H.charflaws)
+					vices.Add(cf.name)
+				vice_found = english_list(vices)
+			else
+				vice_found = "pure of heart"
+		to_chat(user, span_info("They are... [span_warning("[vice_found]")]"))
 		return TRUE
 	revert_cast()
 	return FALSE

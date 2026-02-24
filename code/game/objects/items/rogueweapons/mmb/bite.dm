@@ -35,9 +35,16 @@
 	if(HAS_TRAIT(user, TRAIT_NO_BITE))
 		to_chat(user, span_warning("I can't bite."))
 		return
-	user.changeNext_move(clickcd)
 	if(!user_species || (user_species && !user_species.headless))
 		user.face_atom(target)
+	if(iscarbon(user))
+		var/mob/living/carbon/carbon_user = user
+		if(carbon_user.mouth?.type == /obj/item/grabbing/bite)
+			var/obj/item/grabbing/bite/bitey = carbon_user.mouth
+			bitey.bitelimb(carbon_user)
+			. = ..()
+			return
+	user.changeNext_move(clickcd)
 	target.onbite(user)
 	. = ..()
 	return

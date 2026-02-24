@@ -61,6 +61,18 @@
 			ADD_TRAIT(recipient, TRAIT_PSYDONITE, TRAIT_GENERIC)
 			recipient.mind?.special_items["Psycross"] = /obj/item/clothing/neck/roguetown/psicross
 
+/datum/virtue/combat/devotee/astratan_affinity
+	name = "Astratan Affinity (Racial, Sun Elves)"
+	desc = "This Virtue is unlisted and should not be visible."
+	unlisted = TRUE
+
+/datum/virtue/combat/devotee/astratan_affinity/apply_to_human(mob/living/carbon/human/recipient)
+	if(recipient.patron?.type == /datum/patron/divine/astrata)
+		..()
+	else
+		return	//goofball you wasted your racial
+
+
 /datum/virtue/combat/duelist
 	name = "Duelist's Apprentice"
 	desc = "I have trained under a duelist of considerable skill. I have a pair of dueling weapons - both a hunting sword and dagger - stowed away."

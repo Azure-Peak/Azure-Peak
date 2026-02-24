@@ -20,35 +20,37 @@
 	)
 
 //Dismember a limb
-/obj/item/bodypart/proc/dismember(dam_type = BRUTE, bclass = BCLASS_CUT, mob/living/user, zone_precise = src.body_zone, damage = 0, vorpal = FALSE)
+/obj/item/bodypart/proc/dismember(dam_type = BRUTE, bclass = BCLASS_CUT, mob/living/user, zone_precise = src.body_zone, damage = 0, vorpal = FALSE, skip_checks = FALSE)
 	if(!owner)
 		return FALSE
 	var/mob/living/carbon/C = owner
 	if(!dismemberable)
 		return FALSE
-	if(user && (body_zone == BODY_ZONE_HEAD))
-		if(zone_precise != BODY_ZONE_PRECISE_NECK)
-			return FALSE
-		if(!HAS_TRAIT(C, TRAIT_CRITICAL_WEAKNESS) && !HAS_TRAIT(C, TRAIT_EASYDISMEMBER))	//People with these traits can be decapped standing, or buckled, or however.
-			var/has_mind = TRUE  // DEBUG: Temporarily forced to TRUE for testing
-			var/not_buckled = !C.buckled
 
-			// Check if currently standing OR within grace period after being knocked down
-			var/can_stand = (C.mobility_flags & MOBILITY_STAND)
-			if(!can_stand && C.mob_timers && C.mob_timers["last_standing"])
-				// Within 2 seconds of being knocked down? Still count as standing
-				if(world.time < C.mob_timers["last_standing"] + STANDING_DECAP_GRACE_PERIOD)
-					can_stand = TRUE
-
-			if(has_mind && can_stand && not_buckled) //Only allows upright decapitations if it's not a player. Unless they're buckled.
+	if(!skip_checks)
+		if(user && (body_zone == BODY_ZONE_HEAD))
+			if(zone_precise != BODY_ZONE_PRECISE_NECK)
 				return FALSE
+			if(!HAS_TRAIT(C, TRAIT_CRITICAL_WEAKNESS) && !HAS_TRAIT(C, TRAIT_EASYDISMEMBER))	//People with these traits can be decapped standing, or buckled, or however.
+				var/has_mind = TRUE  // DEBUG: Temporarily forced to TRUE for testing
+				var/not_buckled = !C.buckled
 
-	if(body_zone != BODY_ZONE_HEAD)
-		var/mob/living/carbon/human/victim = owner
-		var/d_type = "slash"
-		if(victim.run_armor_check(zone_precise, d_type, damage = damage))
-			to_chat(victim, span_warning("My armour just saved me from losing my [C.get_bodypart(body_zone).name]!"))
-			return FALSE
+				// Check if currently standing OR within grace period after being knocked down
+				var/can_stand = (C.mobility_flags & MOBILITY_STAND)
+				if(!can_stand && C.mob_timers && C.mob_timers["last_standing"])
+					// Within 2 seconds of being knocked down? Still count as standing
+					if(world.time < C.mob_timers["last_standing"] + STANDING_DECAP_GRACE_PERIOD)
+						can_stand = TRUE
+
+				if(has_mind && can_stand && not_buckled) //Only allows upright decapitations if it's not a player. Unless they're buckled.
+					return FALSE
+
+		if(body_zone != BODY_ZONE_HEAD)
+			var/mob/living/carbon/human/victim = owner
+			var/d_type = "slash"
+			if(victim.run_armor_check(zone_precise, d_type, damage = damage))
+				to_chat(victim, span_warning("My armour just saved me from losing my [C.get_bodypart(body_zone).name]!"))
+				return FALSE
 
 	if(C.status_flags & GODMODE)
 		return FALSE
@@ -57,10 +59,11 @@
 
 	if(SEND_SIGNAL(src, COMSIG_MOB_DISMEMBER, src) & COMPONENT_CANCEL_DISMEMBER)
 		return FALSE //signal handled the dropping
-	
-	if(C.try_resist_critical())
-		C.visible_message(span_danger("Critical resistance! [C]'s [src.name] hangs on by a thread!</span>"))
-		return FALSE
+
+	if(!skip_checks)
+		if(C.try_resist_critical())
+			C.visible_message(span_danger("Critical resistance! [C]'s [src.name] hangs on by a thread!</span>"))
+			return FALSE
 
 	var/obj/item/bodypart/affecting = C.get_bodypart(BODY_ZONE_CHEST)
 	if(affecting && dismember_wound)
@@ -162,7 +165,7 @@
 	owner = C
 	return TRUE
 
-/obj/item/bodypart/chest/dismember(dam_type = BRUTE, bclass = BCLASS_CUT, mob/living/user, zone_precise = src.body_zone, damage = 0, vorpal = FALSE)
+/obj/item/bodypart/chest/dismember(dam_type = BRUTE, bclass = BCLASS_CUT, mob/living/user, zone_precise = src.body_zone, damage = 0, vorpal = FALSE, skip_checks = FALSE)
 	if(!owner)
 		return FALSE
 	var/mob/living/carbon/C = owner

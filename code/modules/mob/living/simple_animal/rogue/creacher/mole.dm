@@ -17,19 +17,18 @@
 	butcher_results = list(/obj/item/reagent_containers/food/snacks/rogue/meat/steak = 3,
 						/obj/item/natural/hide = 2,
 						/obj/item/natural/fur = 1,
-						/obj/item/natural/bone = 3, 
-						/obj/item/alch/sinew = 3, 
-						/obj/item/alch/bone = 1, 
-						/obj/item/alch/viscera = 1,
-						/obj/item/natural/head/mole = 1)
+						/obj/item/natural/bone = 3,
+						/obj/item/alch/sinew = 3,
+						/obj/item/alch/bone = 1,
+						/obj/item/alch/viscera = 1)
 	perfect_butcher_results = list(/obj/item/reagent_containers/food/snacks/rogue/meat/steak = 5,
 						/obj/item/natural/hide = 3,
 						/obj/item/natural/fur = 2,
-						/obj/item/natural/bone = 3, 
-						/obj/item/alch/sinew = 3, 
-						/obj/item/alch/bone = 1, 
-						/obj/item/alch/viscera = 1,
-						/obj/item/natural/head/mole = 1)
+						/obj/item/natural/bone = 3,
+						/obj/item/alch/sinew = 3,
+						/obj/item/alch/bone = 1,
+						/obj/item/alch/viscera = 1)
+	head_butcher = /obj/item/natural/head/mole
 	faction = list("wolfs")
 	mob_biotypes = MOB_ORGANIC|MOB_BEAST
 	health = MOLE_HEALTH

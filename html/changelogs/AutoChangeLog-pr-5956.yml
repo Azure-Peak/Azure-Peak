@@ -1,0 +1,4 @@
+author: "Draganfrukts"
+delete-after: True
+changes:
+  - balance: "Miners now get +2 WIL instead of +2 CON. Their +1 is swapped."

@@ -28,9 +28,11 @@ This allows the devs to draw whatever shape they want at the cost of it feeling 
 	/// The list of turfs the grid will be drawn on and 
 	var/list/affected_turfs = alist()
 
-	/// Whether to have the howner pass through a doafter for the delay rather than it being on every turf.
-	/// Default code here does not allow for dir switching during the do after.
+	/// Whether we'll use a doafter to "charge" our Special before activating it. The var is the delay in seconds.
 	var/use_doafter = FALSE
+
+	/// Whether our howner needs to be wielding the weapon. DO NOT USE THIS FOR ESOTERIC SPECIALS WITHOUT A MOB (TRAPS, ETC)
+	var/requires_wielding = FALSE
 
 	/// Whether the special uses the target atom that was clicked on. Generally best reserved to be a turf.
 	/// This WILL change how the grid is drawn, as the 'origin' will become the clicked-on turf.
@@ -65,9 +67,14 @@ This allows the devs to draw whatever shape they want at the cost of it feeling 
 
 	// Hacky bool end ^^
 
-	/// The delay for either the doafter or the timers on the turfs before calling post_delay() and apply_hit()
-	/// Or in other words. The pause before the hit of the special happens.
+	/// The delay for either the doafter or the timers on the turfs before calling post_delay() and apply_hit().
+	/// Or in other words, the pause before the hit of the special happens.
+	/// This is overridden by custom_delays where applicable.
 	var/delay = 1 SECONDS
+
+	/// Custom delays applied to each timing instance. This is the delay between the ! disappearing and the hit occurring.
+	/// It's to be structured in simple 1 = X SECONDS, 2 = Y SECONDS manner, with the index representing the 'wave' the delay is for.
+	var/list/custom_delays = list()
 
 	///The amount of time the post-delay effect is meant to linger.
 	var/fade_delay = 0.5 SECONDS
@@ -104,7 +111,10 @@ This allows the devs to draw whatever shape they want at the cost of it feeling 
 	str +="<i>[desc]</i>"
 	if(range)
 		str += "\n<i>Max Range: ["\Roman [range]"]"
-	str +="\n<i><font size = 1>This ability can be used by right clicking while in STRONG stance or by using the Special MMB.</font></i></details>"
+	if(requires_wielding)
+		str += "\n<i>Requires wielding if the weapon can be held in two hands.</i>"
+	str += "\n<i><font size = 1>This ability can be used by right clicking while in STRONG stance or by using the Special MMB.</font></i>"
+	str += "</details>"
 	return str
 
 ///Called by external sources -- likely an rclick or mmb. By default the 'target' will be stored as a turf.
@@ -127,6 +137,10 @@ This allows the devs to draw whatever shape they want at the cost of it feeling 
 ///Main pipeline. Note that _delay() calls post_delay() after a timer.
 /datum/special_intent/proc/process_attack()
 	SHOULD_CALL_PARENT(TRUE)
+
+	if(!_do_after())
+		return
+	
 	_add_log()
 	_reset()
 	_clear_grid()
@@ -143,12 +157,30 @@ This allows the devs to draw whatever shape they want at the cost of it feeling 
 	else
 		log_admin("[name] Special was deployed.")
 
-/// Checks if the range & z levels are valid. Best handled by external sources just like the cost.
+/datum/special_intent/proc/_do_after()
+	if(use_doafter)
+		if(do_after(howner, use_doafter, TRUE, howner, same_direction = TRUE))
+			return TRUE
+		else
+			return FALSE
+	else
+		return TRUE
+
+/// Checks if the range & z levels are valid, along with other reqs. Best handled by external sources just like the cost.
 /// Really only usable with use_clickloc, as otherwise the Special will be anchored to the source on the same plane anyway.
 /datum/special_intent/proc/check_range(atom/source, atom/target)
 	if(range)
 		if((get_dist(get_turf(source), get_turf(target)) > range) || source.z != target.z)
 			to_chat(source, span_warning("It's too far!"))
+			return FALSE
+	return TRUE
+
+/datum/special_intent/proc/check_reqs(mob/living/carbon/human/user, obj/item/I)
+	if(requires_wielding && length(I.gripped_intents))
+		if(I.wielded)
+			return TRUE
+		else
+			to_chat(user, span_warning("I need to be wielding the weapon in both hands!"))
 			return FALSE
 	return TRUE
 
@@ -211,11 +243,13 @@ This allows the devs to draw whatever shape they want at the cost of it feeling 
 /datum/special_intent/proc/_manage_grid()
 	if(!length(affected_turfs))	//Nothing to draw, but technically possible without being an error.
 		return
+	var/wave_counter = 1
 	for(var/newdelay in affected_turfs)
 		if(newdelay == 0)	//Default index without a custom delay, we process it immediately
-			_process_grid(affected_turfs[0])
+			_process_grid(affected_turfs[0], LAZYACCESS(custom_delays, wave_counter) ? custom_delays[wave_counter] : null)
 		else
-			addtimer(CALLBACK(src, PROC_REF(_process_grid), affected_turfs[newdelay], newdelay), newdelay)
+			addtimer(CALLBACK(src, PROC_REF(_process_grid), affected_turfs[newdelay], LAZYACCESS(custom_delays, wave_counter) ? custom_delays[wave_counter] : null), newdelay)
+		wave_counter++
 
 ///Called to process the grid of turfs. The main proc that draws, delays and applies the post-delay effects.
 /datum/special_intent/proc/_process_grid(list/turfs, newdelay)
@@ -225,7 +259,7 @@ This allows the devs to draw whatever shape they want at the cost of it feeling 
 
 /datum/special_intent/proc/_draw(list/turfs, newdelay)
 	for(var/turf/T in turfs)
-		var/obj/effect/temp_visual/special_intent/fx = new (T, delay)
+		var/obj/effect/temp_visual/special_intent/fx = new (T, newdelay ? newdelay : delay)
 		fx.icon = _icon
 		fx.icon_state = pre_icon_state
 	
@@ -241,14 +275,7 @@ This allows the devs to draw whatever shape they want at the cost of it feeling 
 ///Delay proc. Preferably it won't be hooked into.
 /datum/special_intent/proc/_delay(list/turfs, newdelay)
 	if(!cancelled)
-		if(use_doafter && !is_doing)
-			if(!succeeded)
-				if(_try_doafter())
-					post_delay(turfs)
-			else
-				post_delay(turfs)
-		else
-			addtimer(CALLBACK(src, PROC_REF(post_delay), turfs), delay)
+		addtimer(CALLBACK(src, PROC_REF(post_delay), turfs), newdelay ? newdelay : delay)
 
 /datum/special_intent/proc/_try_doafter()
 	is_doing = TRUE
@@ -403,8 +430,9 @@ SPECIALS START HERE
 	sfx_post_delay = 'sound/combat/sidesweep_hit.ogg'
 	delay = 0.6 SECONDS
 	cooldown = 17 SECONDS
+	requires_wielding = TRUE
 	stamcost = 25
-	var/eff_dur = 5 SECONDS
+	var/eff_dur = 4 SECONDS
 	var/dam = 20
 	var/t_zone
 
@@ -432,10 +460,10 @@ SPECIALS START HERE
 /datum/special_intent/side_sweep/apply_hit(turf/T)
 	for(var/mob/living/L in get_hearers_in_view(0, T))
 		if(L != howner)
-			L.apply_status_effect(/datum/status_effect/debuff/exposed, eff_dur)
 			if(L.mobility_flags & MOBILITY_STAND)
 				var/obj/item/rogueweapon/W = iparent
 				apply_generic_weapon_damage(L, dam, W.d_type, t_zone, bclass = BCLASS_CUT)
+				L.apply_status_effect(/datum/status_effect/debuff/exposed, eff_dur)
 	..()
 
 /datum/special_intent/shin_swipe
@@ -463,6 +491,7 @@ SPECIALS START HERE
 			L.apply_status_effect(/datum/status_effect/debuff/hobbled)	//-2 SPD for 8 seconds
 			if(L.mobility_flags & MOBILITY_STAND)
 				apply_generic_weapon_damage(L, dam, "stab", pick(BODY_ZONE_L_LEG, BODY_ZONE_R_LEG), bclass = BCLASS_CUT)
+			L.apply_status_effect(/datum/status_effect/debuff/vulnerable, 3 SECONDS)
 	..()
 
 /datum/special_intent/piercing_lunge
@@ -488,6 +517,7 @@ SPECIALS START HERE
 			L.stamina_add(30)	//Drains ~20 stamina from target; attrition warfare.
 			if(L.mobility_flags & MOBILITY_STAND)
 				apply_generic_weapon_damage(L, dam, "stab", BODY_ZONE_CHEST, bclass = BCLASS_STAB, full_pen = TRUE)	//Ignores armor, applies a stab wound with the weapon force.
+			L.apply_status_effect(/datum/status_effect/debuff/vulnerable, 3 SECONDS)
 	..()
 
 //Hard to hit, freezes you in place. Offbalances & slows the targets hit. If they're already offbalanced they get knocked down.
@@ -498,6 +528,7 @@ SPECIALS START HERE
 	post_icon_state = "kick_fx"
 	pre_icon_state = "trap"
 	respect_adjacency = TRUE
+	requires_wielding = TRUE
 	delay = 0.7 SECONDS
 	cooldown = 25 SECONDS
 	stamcost = 25
@@ -525,13 +556,13 @@ SPECIALS START HERE
 			L.safe_throw_at(target_turf, dist, 1, howner, force = MOVE_FORCE_EXTREMELY_STRONG)
 			//We slow them down
 			L.Slowdown(slow_dur)
-			L.apply_status_effect(/datum/status_effect/debuff/exposed, 2.5 SECONDS)
 			//We offbalance them OR knock them down if they're already offbalanced
 			if(L.IsOffBalanced())
 				L.Knockdown(KD_dur)
 			else
 				L.OffBalance(Offb_dur)
 			apply_generic_weapon_damage(L, dam, "blunt", BODY_ZONE_CHEST, bclass = BCLASS_BLUNT, no_pen = TRUE)
+			L.apply_status_effect(/datum/status_effect/debuff/exposed, 2.5 SECONDS)
 	var/sfx = pick('sound/combat/ground_smash1.ogg','sound/combat/ground_smash2.ogg','sound/combat/ground_smash3.ogg')
 	playsound(T, sfx, 100, TRUE)
 	..()
@@ -544,7 +575,6 @@ SPECIALS START HERE
 	post_icon_state = "sweep_fx"
 	pre_icon_state = "trap"
 	sfx_pre_delay = 'sound/combat/flail_sweep.ogg'
-	use_doafter = FALSE
 	respect_adjacency = FALSE
 	delay = 0.7 SECONDS
 	cooldown = 25 SECONDS
@@ -578,6 +608,8 @@ SPECIALS START HERE
 	var/newimmob = immobilize_init + (victim_count SECONDS)
 
 	var/throwtarget = get_edge_target_turf(howner, get_dir(howner, get_step_away(victim, howner)))
+
+	apply_generic_weapon_damage(victim, dam * victim_count, "blunt", BODY_ZONE_CHEST, bclass = BCLASS_BLUNT, no_pen = TRUE)
 	switch(victim_count)
 		if(1)
 			victim.Slowdown(newslow)
@@ -601,7 +633,6 @@ SPECIALS START HERE
 		playsound(howner, 'sound/combat/flail_sweep_hit_minor.ogg', 100, TRUE)
 	else
 		playsound(howner, 'sound/combat/flail_sweep_hit_major.ogg', 100, TRUE)
-	apply_generic_weapon_damage(victim, dam * victim_count, "blunt", BODY_ZONE_CHEST, bclass = BCLASS_BLUNT, no_pen = TRUE)
 	victim.safe_throw_at(throwtarget, CLAMP(1, 5, victim_count), 1, howner, force = MOVE_FORCE_EXTREMELY_STRONG)
 
 #define AXE_SWING_GRID_DEFAULT 	list(list(-1,0), list(0,0, 0.2 SECONDS), list(1,0, 0.4 SECONDS))
@@ -613,7 +644,7 @@ SPECIALS START HERE
 	tile_coordinates = AXE_SWING_GRID_DEFAULT
 	post_icon_state = "sweep_fx"
 	pre_icon_state = "trap"
-	use_doafter = FALSE
+	requires_wielding = TRUE
 	respect_adjacency = FALSE
 	delay = 0.5 SECONDS
 	cooldown = 25 SECONDS
@@ -645,10 +676,10 @@ SPECIALS START HERE
 /datum/special_intent/axe_swing/apply_hit(turf/T)
 	for(var/mob/living/L in get_hearers_in_view(0, T))
 		if(L != howner)
-			L.apply_status_effect(/datum/status_effect/debuff/exposed, exposed_dur)
 			L.Immobilize(immob_dur)
 			if(L.mobility_flags & MOBILITY_STAND)
 				apply_generic_weapon_damage(L, dam, "slash", pick(BODY_ZONE_L_LEG, BODY_ZONE_R_LEG), bclass = BCLASS_CHOP)
+			L.apply_status_effect(/datum/status_effect/debuff/exposed, exposed_dur)
 	var/sfx = pick('sound/combat/sp_axe_swing1.ogg','sound/combat/sp_axe_swing2.ogg','sound/combat/sp_axe_swing3.ogg')
 	playsound(T, sfx, 100, TRUE)
 	..()
@@ -678,6 +709,7 @@ SPECIALS START HERE
 		if(L != howner)
 			L.Immobilize(immob_dur)
 			apply_generic_weapon_damage(L, dam, "slash", pick(BODY_ZONE_PRECISE_L_FOOT, BODY_ZONE_PRECISE_R_FOOT), bclass = BCLASS_LASHING)
+			L.apply_status_effect(/datum/status_effect/debuff/vulnerable, 2 SECONDS)
 			whiffed = FALSE
 	if(!whiffed)
 		playsound(T, 'sound/combat/sp_whip_hit.ogg', 100, TRUE)
@@ -685,8 +717,8 @@ SPECIALS START HERE
 		playsound(T, 'sound/combat/sp_whip_whiff.ogg', 100, TRUE)
 	..()
 
-#define GAREN_WAVE1 0.7 SECONDS
-#define GAREN_WAVE2 1.4 SECONDS
+#define GAREN_WAVE1 1 SECONDS
+#define GAREN_WAVE2 1.7 SECONDS
 
 /datum/special_intent/greatsword_swing
 	name = "Great Swing"
@@ -703,14 +735,16 @@ SPECIALS START HERE
 	respect_dir = TRUE
 	delay = 0.7 SECONDS
 	cooldown = 30 SECONDS
+	requires_wielding = TRUE
+	custom_delays = list(1 SECONDS)	//First wave is delayed.
 	stamcost = 25	//Stamina cost
 	var/dam = 60
 	var/slow_dur = 2
 	var/hitcount = 0
 	var/self_debuffed = FALSE
-	var/self_immob = 2.2 SECONDS
-	var/self_clickcd = 2.1 SECONDS
-	var/self_expose = 2.3 SECONDS
+	var/self_immob = 2.5 SECONDS
+	var/self_clickcd = 3 SECONDS
+	var/self_vuln = 3 SECONDS
 
 /datum/special_intent/greatsword_swing/_reset()
 	hitcount = initial(hitcount)
@@ -722,7 +756,7 @@ SPECIALS START HERE
 /datum/special_intent/greatsword_swing/_process_grid(list/turfs, newdelay)
 	if(!self_debuffed)
 		howner.Immobilize(self_immob) //we're committing
-		howner.apply_status_effect(/datum/status_effect/debuff/exposed, self_expose)
+		howner.apply_status_effect(/datum/status_effect/debuff/vulnerable, self_vuln)
 		howner.apply_status_effect(/datum/status_effect/debuff/clickcd, self_clickcd)
 		self_debuffed = TRUE
 	hitcount++
@@ -812,9 +846,9 @@ SPECIALS START HERE
 		for(var/mob/living/L in get_hearers_in_view(0, T))
 			if(L != howner)
 				L.Slowdown(slow_dur)
-				L.apply_status_effect(/datum/status_effect/debuff/exposed, 4.5 SECONDS)
 				var/throwtarget = get_edge_target_turf(howner, pushdir)
 				apply_generic_weapon_damage(L, dam, "blunt", BODY_ZONE_CHEST, bclass = BCLASS_BLUNT, no_pen = TRUE)
+				L.apply_status_effect(/datum/status_effect/debuff/exposed, 3 SECONDS)
 				L.safe_throw_at(throwtarget, push_dist, 1, howner, force = MOVE_FORCE_EXTREMELY_STRONG)
 
 
@@ -1108,12 +1142,14 @@ tile_coordinates = list(list(1,1), list(-1,1), list(-1,-1), list(1,-1),list(0,0)
 			var/throwdist = 1
 			var/target_zone = BODY_ZONE_CHEST
 
-			if(L.has_status_effect(/datum/status_effect/debuff/exposed)) // big damage and a knockdown if they exposed
+			if(L.has_status_effect(/datum/status_effect/debuff/exposed) || L.has_status_effect(/datum/status_effect/debuff/vulnerable)) // big damage and a knockdown if they exposed / vuln.
 				L.Knockdown(KD_dur)
 				throwdist = rand(2,4)
 				dam = 200 // big damage
 				target_zone = BODY_ZONE_HEAD
 				playsound(howner, 'sound/combat/tf2crit.ogg', 100, TRUE)
+				L.remove_status_effect(/datum/status_effect/debuff/exposed)
+				L.remove_status_effect(/datum/status_effect/debuff/vulnerable)
 
 			apply_generic_weapon_damage(L, dam, "blunt", target_zone, bclass = BCLASS_BLUNT, no_pen = TRUE)
 			L.safe_throw_at(throwtarget, throwdist, 1, howner, force = MOVE_FORCE_EXTREMELY_STRONG) // small pushback and 50 damage on non exposed

@@ -17,7 +17,7 @@
 	The taint of their very being going back generations, and no amount of cleansing can be rid of it. \
 	As over a millennium a simple handful of Tieflings have created extended bloodlines linking back to their infernal progenitors. Some Tieflings embrace their demonic origin, while other shun it. \
 	No matter if they embrace their demonic ancestors or not, Tieflings have formed an importance upon their bloodline and family due to often being shunned and hunted through out time in which only those of their blood and kin they could truly trust. <br>\
-	(+1 Constitution, +1 Intelligence)"
+	<span style='color: #6a8cb7;text-shadow:-1px -1px 0 #000,1px -1px 0 #000,-1px 1px 0 #000,1px 1px 0 #000;'><b>+1 CON | +1 INT </b></span><br>"
 
 	skin_tone_wording = "Progenitor"
 	use_skin_tone_wording_for_examine = FALSE

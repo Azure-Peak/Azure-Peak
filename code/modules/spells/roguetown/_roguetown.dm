@@ -73,7 +73,7 @@
 		return TRUE
 
 /obj/effect/proc_holder/spell/invoked/projectile
-	var/projectile_type = /obj/projectile/magic/teleport
+	var/obj/projectile/projectile_type = /obj/projectile/magic/teleport
 	var/list/projectile_var_overrides = list()
 	var/projectile_amount = 1	//Projectiles per cast.
 	var/current_amount = 0	//How many projectiles left.
@@ -117,3 +117,16 @@
 		ready_projectile(P, target, user, i)
 		P.fire()
 	return TRUE
+
+/obj/effect/proc_holder/spell/invoked/projectile/get_spell_statistics(mob/living/user)
+	var/list/stats = ..(user)
+	// Remove the casting range line - not meaningful for projectile spells
+	for(var/i in stats)
+		if(findtext(i, "Range:"))
+			stats -= i
+			break
+	// Show the projectile's actual range
+	var/proj_range = initial(projectile_type.range)
+	if(proj_range)
+		stats.Insert(1, span_info("Projectile range: [proj_range] tiles"))
+	return stats

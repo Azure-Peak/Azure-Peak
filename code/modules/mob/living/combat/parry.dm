@@ -31,7 +31,7 @@
 	if(world.time < last_parry + parrydelay)
 		if(!istype(rmb_intent, /datum/rmb_intent/riposte))
 			return FALSE
-	if(has_status_effect(/datum/status_effect/debuff/exposed))
+	if(has_status_effect(/datum/status_effect/debuff/exposed) || has_status_effect(/datum/status_effect/debuff/vulnerable))
 		return FALSE
 	if(has_status_effect(/datum/status_effect/debuff/riposted))
 		return FALSE
@@ -307,9 +307,10 @@
 			to_chat(user, span_boldwarning(def_msg))
 
 			for(var/mob/living/L in get_hearers_in_view(4, src, RECURSIVE_CONTENTS_CLIENT_MOBS))
-				if(L.has_flaw(/datum/charflaw/addiction/clamorous))
-					if(prob(7 + (L.STALUC - 10)))
-						L.sate_addiction()
+				if(!L.has_flaw(/datum/charflaw/addiction/clamorous))
+					continue
+				if(prob(7 + (L.STALUC - 10)))
+					L.sate_addiction(/datum/charflaw/addiction/clamorous)
 
 			if(!iscarbon(user))	//Non-carbon mobs never make it to the proper parry proc where the other calculations are done.
 				if(W.max_blade_int)
