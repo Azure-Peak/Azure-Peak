@@ -1,9 +1,11 @@
-/* Blade Storm - Spellblade ultimate (projectile-delivered)
-Fire a shadow afterimage projectile. On hit: teleport onto the target,
-AoE storm on the hollow ring around them, plus focused strikes on the main target.
-Requires 7+ momentum (overcharge), consumes ALL stacks.
-3 AoE cuts + 3 personal strikes at 7 momentum, 5+5 at 10.
-No charging slowdown. If the reflected projectile hits you: heavy chest damage. */
+/* Blade Storm - Blade subclass ultimate 
+Requires a skillshot to enable counterplay. 2 seconds charge time
+0 slowdown to enable you to stay mobile. 
+AOE Storm on a hollow ring around the target.
+And single target strike on original target making it versatile.
+Stacks up to 90 - 150 damage depending on momentum investment.
+If reflected into self - just inflict half the damage through armor.
+*/
 
 /obj/effect/proc_holder/spell/invoked/projectile/blade_storm
 	name = "Blade Storm"
