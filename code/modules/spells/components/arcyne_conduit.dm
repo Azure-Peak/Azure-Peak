@@ -11,14 +11,14 @@
 		outline_color = outline_color_override
 	var/obj/item/I = parent
 	I.add_filter(CONDUIT_FILTER, 2, list("type" = "outline", "color" = outline_color, "alpha" = 200, "size" = 1))
-	RegisterSignal(parent, COMSIG_ITEM_ATTACK_SUCCESS, PROC_REF(on_attack_success))
+	RegisterSignal(parent, COMSIG_ITEM_ATTACK, PROC_REF(on_attack_success))
 	RegisterSignal(parent, COMSIG_PARENT_EXAMINE, PROC_REF(on_examine))
 
 /datum/component/arcyne_conduit/UnregisterFromParent()
 	var/obj/item/I = parent
 	if(istype(I))
 		I.remove_filter(CONDUIT_FILTER)
-	UnregisterSignal(parent, list(COMSIG_ITEM_ATTACK_SUCCESS, COMSIG_PARENT_EXAMINE))
+	UnregisterSignal(parent, list(COMSIG_ITEM_ATTACK, COMSIG_PARENT_EXAMINE))
 
 /datum/component/arcyne_conduit/proc/on_attack_success(obj/item/source, mob/living/target, mob/living/user)
 	SIGNAL_HANDLER

@@ -1,5 +1,6 @@
 #define MOMENTUM_FILTER "momentum_glow"
-#define MOMENTUM_DECAY_DELAY (8 SECONDS)
+#define MOMENTUM_DECAY_DELAY (10 SECONDS)
+#define SECOND_PER_MOMENTUM (6 SECONDS) // Time between each stack lost during decay.
 
 /atom/movable/screen/alert/status_effect/buff/arcyne_momentum
 	name = "Arcyne Momentum (0)"
@@ -17,9 +18,10 @@
 	var/glow_colour = "#4a90d9"
 	var/crackle_colour = "#7b5ea7"
 	var/overcharge_threshold = 7
-	var/overcharge_damage = 5
+	var/overcharge_damage = 4
 	var/is_overcharged = FALSE
 	var/last_stack_time = 0
+	var/last_decay_time = 0
 	var/static/mutable_appearance/electricity_overlay
 	var/obj/item/bound_weapon
 	var/chant
@@ -144,13 +146,15 @@
 			S.action.UpdateButtonIcon(status_only = TRUE)
 
 /datum/status_effect/buff/arcyne_momentum/tick()
-	// Decay: lose 1 stack per tick if no hits in the last 4 seconds
+	// Decay: once no hits for MOMENTUM_DECAY_DELAY, lose 1 stack every SECOND_PER_MOMENTUM
 	if(stacks > 0 && world.time - last_stack_time >= MOMENTUM_DECAY_DELAY)
-		stacks = max(stacks - 1, 0)
-		owner.balloon_alert(owner, "M: [stacks]/[max_stacks]")
-		update_visuals()
-		update_alert()
-		update_spell_buttons()
+		if(world.time - last_decay_time >= SECOND_PER_MOMENTUM)
+			last_decay_time = world.time
+			stacks = max(stacks - 1, 0)
+			owner.balloon_alert(owner, "M: [stacks]/[max_stacks]")
+			update_visuals()
+			update_alert()
+			update_spell_buttons()
 	if(stacks >= overcharge_threshold)
 		owner.apply_damage(overcharge_damage, BRUTE, BODY_ZONE_CHEST)
 		owner.emote(pick("gasp", "breathgasp"))
@@ -177,3 +181,4 @@
 
 #undef MOMENTUM_FILTER
 #undef MOMENTUM_DECAY_DELAY
+#undef SECOND_PER_MOMENTUM
