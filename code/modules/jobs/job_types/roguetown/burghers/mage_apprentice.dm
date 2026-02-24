@@ -195,6 +195,7 @@
 
 /datum/advclass/wapprentice/spellguard
 	name = "Spellguard"
+	maximum_possible_slots = 2
 	tutorial = "You are a Spellguard, carrier of the five hundred yils tradition of \
 		spellbladery originating in Azurea. You are employed under the University \
 		as a fellow Magos. The arcyne arts are dangerous, \
