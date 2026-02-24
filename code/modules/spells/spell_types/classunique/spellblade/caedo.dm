@@ -2,7 +2,7 @@
 	name = "Caedo"
 	desc = "Dash forward at blinding speed, leaving afterimages in your wake. \
 		Strikes every enemy in your path with the image of your weapon. \
-		Consumes all momentum for bonus damage. \
+		Empowered (3 Momentum): Strikes twice! \
 		If any of them defend against the strike, you will be left exposed at the end of your dash!"
 	clothes_req = FALSE
 	range = 5
@@ -22,9 +22,8 @@
 	invocation_type = "shout"
 	xp_gain = FALSE
 	var/max_range = 5
-	var/strike_damage_min = 40
-	var/strike_damage_max = 60
-	var/momentum_damage_bonus = 5
+	var/strike_damage = 40
+	var/empower_cost = 3
 
 /obj/effect/proc_holder/spell/invoked/caedo/cast(list/targets, mob/user = usr)
 	var/mob/living/carbon/human/H = user
@@ -89,17 +88,17 @@
 
 	log_combat(H, target, "used Caedo on")
 
-	var/consumed_stacks = 0
+	var/empowered = FALSE
 	var/datum/status_effect/buff/arcyne_momentum/momentum = H.has_status_effect(/datum/status_effect/buff/arcyne_momentum)
-	if(momentum && momentum.stacks > 0)
-		consumed_stacks = momentum.consume_all_stacks()
-		to_chat(H, span_notice("[consumed_stacks] momentum released!"))
+	if(momentum && momentum.stacks >= empower_cost)
+		momentum.consume_stacks(empower_cost)
+		empowered = TRUE
+		to_chat(H, span_notice("Momentum surges — twin strikes!"))
 
 	var/locked_zone = H.zone_selected || BODY_ZONE_CHEST
-	var/bonus_damage = consumed_stacks * momentum_damage_bonus
 
 	if(length(mobs_in_path))
-		addtimer(CALLBACK(src, PROC_REF(execute_path_strikes), H, mobs_in_path, held_weapon, locked_zone, bonus_damage), 5)
+		addtimer(CALLBACK(src, PROC_REF(execute_path_strikes), H, mobs_in_path, held_weapon, locked_zone, empowered), 5)
 
 	return TRUE
 
@@ -110,7 +109,7 @@
 		return far_side
 	return get_turf(target_mob)
 
-/obj/effect/proc_holder/spell/invoked/caedo/proc/execute_path_strikes(mob/living/carbon/human/user, list/victims, obj/item/weapon, def_zone, bonus_damage = 0)
+/obj/effect/proc_holder/spell/invoked/caedo/proc/execute_path_strikes(mob/living/carbon/human/user, list/victims, obj/item/weapon, def_zone, empowered = FALSE)
 	if(!user || QDELETED(user))
 		return
 	var/deflected = FALSE
@@ -120,13 +119,26 @@
 		if(spell_guard_check(victim, FALSE, deflected ? null : user))
 			deflected = TRUE
 			continue
-		var/total_damage = rand(strike_damage_min, strike_damage_max) + bonus_damage
-		arcyne_strike(user, victim, weapon, total_damage, def_zone, spell_name = "Caedo")
+		var/total_damage = strike_damage
+		arcyne_strike(user, victim, weapon, total_damage, def_zone, spell_name = "Caedo", skip_animation = TRUE)
 		var/turf/victim_turf = get_turf(victim)
 		if(victim_turf)
 			var/slash_dir = get_dir(user, victim)
 			var/obj/effect/temp_visual/blade_cut/V = new(victim_turf)
 			V.dir = slash_dir
+		if(empowered)
+			addtimer(CALLBACK(src, PROC_REF(second_strike), user, victim, weapon, def_zone), 3)
+
+/obj/effect/proc_holder/spell/invoked/caedo/proc/second_strike(mob/living/carbon/human/user, mob/living/victim, obj/item/weapon, def_zone)
+	if(!user || QDELETED(user) || !victim || QDELETED(victim) || victim.stat == DEAD)
+		return
+	var/total_damage = strike_damage
+	arcyne_strike(user, victim, weapon, total_damage, def_zone, spell_name = "Caedo", skip_animation = TRUE)
+	var/turf/victim_turf = get_turf(victim)
+	if(victim_turf)
+		var/slash_dir = get_dir(user, victim)
+		var/obj/effect/temp_visual/blade_cut/V = new(victim_turf)
+		V.dir = slash_dir
 
 /obj/effect/proc_holder/spell/invoked/caedo/proc/create_afterimage_trail(mob/living/carbon/human/user, list/path_turfs)
 	set waitfor = FALSE

@@ -17,7 +17,7 @@ No momentum gain — use normal swings for that.*/
 	overlay_state = "shatter"
 	releasedrain = 20
 	chargedrain = 0
-	chargetime = 5
+	chargetime = 3
 	recharge_time = 8 SECONDS
 	warnie = "spellwarning"
 	no_early_release = TRUE
