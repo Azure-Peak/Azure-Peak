@@ -37,7 +37,7 @@
 
 	if(!item)
 		return
-	if(tgui_alert(user, "[item.desc]", "[item.name]", list("Learn", "Cancel")) == "Cancel")
+	if(tgui_alert(user, "[item.desc]", "[item.name]", list("Cancel", "Learn")) == "Cancel")
 		return
 	for(var/obj/effect/proc_holder/spell/knownspell in user.mind.spell_list)
 		if(knownspell.type == item.type)
@@ -108,7 +108,7 @@
 
 	if(!item)
 		return
-	if(tgui_alert(user, "[item.desc]", "[item.name]", list("Learn", "Cancel")) == "Cancel")
+	if(tgui_alert(user, "[item.desc]", "[item.name]", list("Cancel", "Learn")) == "Cancel")
 		return
 
 	user.mind.spell_points_used_by_pool[pool_name] += item.cost
