@@ -24,11 +24,11 @@
 			mace_weapons = "Steel Mace / Steel Warhammer & Shield"
 		if("zizite")
 			blade_weapons = "Avantyne Longsword / Kriegmesser / Longsword / Rapier / Sabre & Shield"
-			phalanx_weapons = "Halberd / Bardiche / Boar Spear"
+			phalanx_weapons = "Halberd / Bardiche / Boar Spear / Dory & Shield"
 			mace_weapons = "Steel Mace / Steel Warhammer & Shield"
 		else
 			blade_weapons = "Longsword / Rapier / Sabre / Arming Sword / Shortsword / Hwando & Shield"
-			phalanx_weapons = "Spear & Shield"
+			phalanx_weapons = "Spear / Dory & Shield"
 			mace_weapons = "Mace / Warhammer & Shield"
 
 	var/html = {"<!DOCTYPE html>
@@ -203,7 +203,7 @@ a.choose-btn:hover {
 <div class="abilities">
 <h4>Abilities</h4>
 <ul>
-<li><b>Caedo</b> — Dash through enemies, striking them, consuming all momentum for bonus damage.</li>
+<li><b>Caedo</b> — Dash through enemies, striking all in your path. Consumes 3 momentum to strike twice!</li>
 <li><b>Air Strike</b> — Ranged attack that adapts to your intent. At 3+ momentum, pulls targets toward you.</li>
 <li><b>Greater Forcewall</b> — Conjure a 5x1 wall of arcyne force.</li>
 <li><b>Blade Storm</b> — Cuts a 3x3 area surrounding an immune center tile three times in a row. 7 Momentum required. At 10, make an extra slash.</li>

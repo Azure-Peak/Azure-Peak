@@ -333,7 +333,13 @@
 					r_hand = /obj/item/rogueweapon/sword/sabre/mulyeog
 					armor = /obj/item/clothing/suit/roguetown/armor/basiceast
 		if("phalangite")
-			r_hand = /obj/item/rogueweapon/spear
+			var/spear_weapons = list("Spear", "Dory")
+			var/spear_choice = input(H, "Choose your weapon.", "TAKE UP ARMS") as anything in spear_weapons
+			switch(spear_choice)
+				if("Spear")
+					r_hand = /obj/item/rogueweapon/spear
+				if("Dory")
+					r_hand = /obj/item/rogueweapon/spear/spellblade
 			H.adjust_skillrank_up_to(/datum/skill/combat/polearms, SKILL_LEVEL_JOURNEYMAN, TRUE)
 		if("macebearer")
 			var/mace_weapons = list("Mace", "Warhammer")

@@ -131,7 +131,7 @@
 				if("Sabre")
 					r_hand = /obj/item/rogueweapon/sword/sabre
 		if("phalangite")
-			var/polearm_weapons = list("Halberd", "Bardiche", "Boar Spear")
+			var/polearm_weapons = list("Halberd", "Bardiche", "Boar Spear", "Dory")
 			var/polearm_choice = input(H, "Choose your weapon.", "TAKE UP ARMS") as anything in polearm_weapons
 			backr = /obj/item/rogueweapon/scabbard/gwstrap
 			switch(polearm_choice)
@@ -141,6 +141,8 @@
 					r_hand = /obj/item/rogueweapon/halberd/bardiche
 				if("Boar Spear")
 					r_hand = /obj/item/rogueweapon/spear/boar
+				if("Dory")
+					r_hand = /obj/item/rogueweapon/spear/spellblade
 		if("macebearer")
 			var/mace_weapons = list("Steel Mace", "Steel Warhammer")
 			var/mace_choice = input(H, "Choose your weapon.", "TAKE UP ARMS") as anything in mace_weapons
