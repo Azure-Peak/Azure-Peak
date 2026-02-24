@@ -110,6 +110,11 @@ hand and I intend for Spellblade, feeling wise.
 		H.visible_message(span_danger("[H] sweeps [weapon.name] in a wide arcyne arc!"))
 	else
 		H.visible_message(span_notice("[H] sweeps [weapon.name] through the air!"))
+	if(hit_count >= 2)
+		var/datum/status_effect/buff/arcyne_momentum/surge = H.has_status_effect(/datum/status_effect/buff/arcyne_momentum)
+		if(surge)
+			surge.add_stacks(1)
+			to_chat(H, span_notice("DOUBLE STRIKE! ARCYNE SURGE!"))
 
 /obj/effect/proc_holder/spell/invoked/air_strike/proc/do_stab_strike(mob/living/carbon/human/H, obj/item/weapon, empowered, turf/origin, facing)
 	var/def_zone = H.zone_selected || BODY_ZONE_CHEST
@@ -140,6 +145,11 @@ hand and I intend for Spellblade, feeling wise.
 		H.visible_message(span_danger("[H] thrusts [weapon.name] forward, sending an arcyne lance through the air!"))
 	else
 		H.visible_message(span_notice("[H] thrusts [weapon.name] forward, sending an arcyne lance through empty air!"))
+	if(hit_count >= 2)
+		var/datum/status_effect/buff/arcyne_momentum/surge = H.has_status_effect(/datum/status_effect/buff/arcyne_momentum)
+		if(surge)
+			surge.add_stacks(1)
+			to_chat(H, span_notice("DOUBLE STRIKE! ARCYNE SURGE!"))
 
 /obj/effect/proc_holder/spell/invoked/air_strike/proc/do_blunt_strike(mob/living/carbon/human/H, obj/item/weapon, empowered, turf/origin)
 	var/def_zone = H.zone_selected || BODY_ZONE_CHEST

@@ -113,6 +113,7 @@
 	if(!user || QDELETED(user))
 		return
 	var/deflected = FALSE
+	var/hit_count = 0
 	for(var/mob/living/victim in victims)
 		if(QDELETED(victim) || victim.stat == DEAD)
 			continue
@@ -121,6 +122,7 @@
 			continue
 		var/total_damage = strike_damage
 		arcyne_strike(user, victim, weapon, total_damage, def_zone, spell_name = "Caedo", skip_animation = TRUE)
+		hit_count++
 		var/turf/victim_turf = get_turf(victim)
 		if(victim_turf)
 			var/slash_dir = get_dir(user, victim)
@@ -128,6 +130,11 @@
 			V.dir = slash_dir
 		if(empowered)
 			addtimer(CALLBACK(src, PROC_REF(second_strike), user, victim, weapon, def_zone), 3)
+	if(hit_count >= 2)
+		var/datum/status_effect/buff/arcyne_momentum/surge = user.has_status_effect(/datum/status_effect/buff/arcyne_momentum)
+		if(surge)
+			surge.add_stacks(1)
+			to_chat(user, span_notice("DOUBLE STRIKE! ARCYNE SURGE!"))
 
 /obj/effect/proc_holder/spell/invoked/caedo/proc/second_strike(mob/living/carbon/human/user, mob/living/victim, obj/item/weapon, def_zone)
 	if(!user || QDELETED(user) || !victim || QDELETED(victim) || victim.stat == DEAD)

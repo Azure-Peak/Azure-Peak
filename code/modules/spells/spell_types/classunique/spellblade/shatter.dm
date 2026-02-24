@@ -100,6 +100,10 @@ No momentum gain — use normal swings for that.*/
 		H.visible_message(span_danger("[H] smashes [H.p_their()] [held_weapon.name] forward in a devastating line!"))
 	else
 		H.visible_message(span_notice("[H] smashes [H.p_their()] [held_weapon.name] forward!"))
+	if(hit_count >= 2)
+		if(M)
+			M.add_stacks(1)
+			to_chat(H, span_notice("DOUBLE STRIKE! ARCYNE SURGE!"))
 
 	log_combat(H, null, "used Shatter")
 	return TRUE

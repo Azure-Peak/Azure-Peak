@@ -89,6 +89,10 @@ Respects spell_guard_check. */
 		H.visible_message(span_danger("[H] slams [H.p_their()] [held_weapon.name] into the ground, sending shockwaves outward!"))
 	else
 		H.visible_message(span_notice("[H] slams [H.p_their()] [held_weapon.name] into the ground!"))
+	if(hit_count >= 2)
+		if(M)
+			M.add_stacks(1)
+			to_chat(H, span_notice("DOUBLE STRIKE! ARCYNE SURGE!"))
 
 	log_combat(H, null, "used Tremor")
 	return TRUE
