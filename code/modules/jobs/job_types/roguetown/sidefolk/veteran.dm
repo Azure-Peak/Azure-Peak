@@ -304,9 +304,7 @@
 
 /datum/outfit/job/roguetown/vet/calvaryman/pre_equip(mob/living/carbon/human/H)
 	neck = /obj/item/clothing/neck/roguetown/chaincoif
-	armor = /obj/item/clothing/suit/roguetown/armor/plate/	// Former knights should have knightly armour.
 	shirt = /obj/item/clothing/suit/roguetown/armor/chainmail
-	head = /obj/item/clothing/head/roguetown/helmet/heavy/knight
 	pants = /obj/item/clothing/under/roguetown/chainlegs
 	gloves = /obj/item/clothing/gloves/roguetown/plate
 	wrists = /obj/item/clothing/wrists/roguetown/bracers
@@ -344,6 +342,33 @@
 			if ("Spear + Shield")
 				r_hand = /obj/item/rogueweapon/spear
 				backl = /obj/item/rogueweapon/shield/tower/metal
+		var/helmets = list(
+			"Pigface Bascinet" 	= /obj/item/clothing/head/roguetown/helmet/bascinet/pigface,
+			"Guard Helmet"		= /obj/item/clothing/head/roguetown/helmet/heavy/guard,
+			"Barred Helmet"		= /obj/item/clothing/head/roguetown/helmet/heavy/sheriff,
+			"Bucket Helmet"		= /obj/item/clothing/head/roguetown/helmet/heavy/bucket,
+			"Knight's Armet"	= /obj/item/clothing/head/roguetown/helmet/heavy/knight,
+			"Knight's Helmet"	= /obj/item/clothing/head/roguetown/helmet/heavy/knight/old,
+			"Visored Sallet"	= /obj/item/clothing/head/roguetown/helmet/sallet/visored,
+			"Armet"				= /obj/item/clothing/head/roguetown/helmet/heavy/knight/armet,
+			"Hounskull Bascinet" = /obj/item/clothing/head/roguetown/helmet/bascinet/pigface/hounskull,
+			"Klappvisier Bascinet" = /obj/item/clothing/head/roguetown/helmet/bascinet/etruscan,
+			"Slitted Kettle" = /obj/item/clothing/head/roguetown/helmet/heavy/knight/skettle,
+			"None"
+		)
+		var/helmchoice = input(H, "Choose your Helm.", "TAKE UP HELMS") as anything in helmets
+		if(helmchoice != "None")
+			head = helmets[helmchoice]
+
+		var/armors = list(
+			"Brigandine"		= /obj/item/clothing/suit/roguetown/armor/brigandine/retinue,
+			"Coat of Plates"	= /obj/item/clothing/suit/roguetown/armor/plate/scale/knight,
+			"Steel Cuirass"		= /obj/item/clothing/suit/roguetown/armor/plate/cuirass,
+			"Fluted Cuirass"	= /obj/item/clothing/suit/roguetown/armor/plate/cuirass/fluted,
+			"Steel Half-plate" 	= /obj/item/clothing/suit/roguetown/armor/plate
+		)
+		var/armorchoice = input(H, "Choose your armor.", "TAKE UP ARMOR") as anything in armors
+		armor = armors[armorchoice]
 		var/retirement = list("Pursue Homesteading", "Dabble in Artisan Smithing", "Write an autobiography", "Keep up with your old regimen")
 		var/retirement_choice = input(H, "During your retirement, you decided to...", "PICK A HOBBY.") as anything in retirement
 		switch(retirement_choice)
