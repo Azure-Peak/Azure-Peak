@@ -14,7 +14,7 @@ If reflected into self - just inflict half the damage through armor.
 		Requires 7 Momentum - perform 3 strikes with 30 damage.\
 		Empowered at 10 Momentum - perform 5 strikes with 30 damage.\
 		If the shadow is reflected back onto you, the arcyne energy tears into your chest.\
-		Beware! The blade has no eyes and if strikes an ally or is reflected, you WILL commit"\
+		Beware! The blade has no eyes and if strikes an ally or is reflected, you WILL commit"
 	clothes_req = FALSE
 	range = 7
 	projectile_type = /obj/projectile/magic/blade_storm
@@ -43,6 +43,8 @@ If reflected into self - just inflict half the damage through armor.
 	var/min_momentum = 7
 	var/empowered_momentum = 10
 	var/cut_delay = 2
+	var/telegraph_delay = 8
+	var/storm_deflected = FALSE
 
 
 /obj/effect/proc_holder/spell/invoked/projectile/blade_storm/can_cast(mob/user = usr)
