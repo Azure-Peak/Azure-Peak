@@ -382,7 +382,7 @@ a.choose-btn:hover {
 			return {"<p><em>I, Mace of Tarichea. Forever loyal.</em></p>
 <p><em>Justice is my hammer, and wrath my fuel.</em></p>
 <p><em>Tarichea my charge, and Tarichea my home.</em></p>
-<p><em>With a hundred blows I shall crush all that would threaten the dead.</em></p>
+<p><em>With a hundred blows I shall crush all that would threaten what is dear.</em></p>
 <p><em>This body is—</em></p>
 <p><b>WAKE UP. WAKE UP.</b></p>"}
 	return {"<p><em>I am a mace of Azuria.</em></p>
