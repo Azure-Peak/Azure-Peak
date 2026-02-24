@@ -113,12 +113,26 @@
 			head = /obj/item/clothing/head/roguetown/roguehood
 			armor = /obj/item/clothing/suit/roguetown/armor/leather/heavy/coat
 		if("Progress (Medium Armor)")
-			head = /obj/item/clothing/head/roguetown/helmet/heavy/bucket
 			armor = /obj/item/clothing/suit/roguetown/armor/chainmail/hauberk
 			shirt = /obj/item/clothing/suit/roguetown/armor/gambeson/heavy
 			pants = /obj/item/clothing/under/roguetown/chainlegs
 			shoes = /obj/item/clothing/shoes/roguetown/boots/armor/iron
 			cloak = /obj/item/clothing/cloak/tabard/black
+			var/helmets = list(
+				"Pigface Bascinet"		= /obj/item/clothing/head/roguetown/helmet/bascinet/pigface,
+				"Guard Helmet"			= /obj/item/clothing/head/roguetown/helmet/heavy/guard,
+				"Bucket Helmet"			= /obj/item/clothing/head/roguetown/helmet/heavy/bucket,
+				"Knight Helmet"			= /obj/item/clothing/head/roguetown/helmet/heavy/knight,
+				"Armet"					= /obj/item/clothing/head/roguetown/helmet/heavy/knight/armet,
+				"Visored Sallet"		= /obj/item/clothing/head/roguetown/helmet/sallet/visored,
+				"Klappvisier Bascinet"	= /obj/item/clothing/head/roguetown/helmet/bascinet/etruscan,
+				"Hounskull Bascinet"	= /obj/item/clothing/head/roguetown/helmet/bascinet/pigface/hounskull,
+				"Slitted Kettle"		= /obj/item/clothing/head/roguetown/helmet/heavy/knight/skettle,
+				"None"
+			)
+			var/helmchoice = input(H, "Choose your Helm.", "HER LIGHT SHINES THROUGH") as anything in helmets
+			if(helmchoice != "None")
+				head = helmets[helmchoice]
 
 	backr = /obj/item/rogueweapon/shield/heater
 
