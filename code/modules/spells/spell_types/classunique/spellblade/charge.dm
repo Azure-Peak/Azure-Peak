@@ -123,10 +123,20 @@ Builds 1 momentum on hit. */
 			push_dir = facing
 		victim.safe_throw_at(get_edge_target_turf(H, push_dir), push_dist, 1, H, force = MOVE_FORCE_STRONG)
 
+	// If no one was hit at destination, check the next tile ahead AND the tile
+	// that blocked the charge (e.g. someone standing on a table or log)
 	if(!hit_count)
+		var/list/extra_turfs = list()
 		var/turf/ahead = get_step(dest, facing)
 		if(ahead)
-			for(var/mob/living/victim in ahead)
+			extra_turfs += ahead
+		// If the charge was stopped short, the blocking tile may have victims on it
+		if(steps_taken < charge_steps)
+			var/turf/blocked_turf = get_step(dest, facing)
+			if(blocked_turf && !(blocked_turf in extra_turfs))
+				extra_turfs += blocked_turf
+		for(var/turf/check_turf in extra_turfs)
+			for(var/mob/living/victim in check_turf)
 				if(victim == H || victim.stat == DEAD)
 					continue
 				if(spell_guard_check(victim, FALSE, hit_count == 0 ? H : null))

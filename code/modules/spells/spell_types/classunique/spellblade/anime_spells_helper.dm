@@ -103,6 +103,9 @@ Returns null on success, or an error string describing the failure. */
 		return "I cannot teleport to the open air!"
 	if(dest.density)
 		return "I cannot teleport into a wall!"
+	for(var/obj/structure/roguewindow/W in dest)
+		if(W.density)
+			return "I cannot teleport through a window!"
 	return null
 
 /* Validates the path between start and dest for obstacles.

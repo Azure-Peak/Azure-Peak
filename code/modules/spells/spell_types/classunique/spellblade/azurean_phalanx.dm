@@ -72,7 +72,7 @@ to the left and right, forming a wide phalanx push.*/
 			break
 		var/struct_blocked = FALSE
 		for(var/obj/structure/S in current.contents)
-			if(S.density)
+			if(S.density && !S.climbable)
 				struct_blocked = TRUE
 				break
 		if(struct_blocked)

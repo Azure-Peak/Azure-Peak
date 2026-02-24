@@ -68,7 +68,7 @@ No momentum gain — use normal swings for that.*/
 			break
 		var/struct_blocked = FALSE
 		for(var/obj/structure/S in current.contents)
-			if(S.density)
+			if(S.density && !S.climbable)
 				struct_blocked = TRUE
 				break
 		if(struct_blocked)
