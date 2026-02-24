@@ -222,7 +222,7 @@ a.choose-btn:hover {
 <ul>
 <li><b>Caedo</b> — Dash through enemies, striking all in your path. Consumes 3 momentum to strike twice!</li>
 <li><b>Air Strike</b> — Ranged attack that adapts to your intent. At 3+ momentum, pulls targets toward you.</li>
-<li><b>Leyline Mark</b> — Anchor an arcyne tether to the leyline. Recast to recall. 75 HP, 20s duration, 7 tile range. Cannot recall while restrained. Portal destroyed or expired = full cooldown.</li>
+<li><b>Leyline Anchor</b> — Anchor an arcyne tether to the leyline. Recast to recall. 75 HP, 20s duration, 7 tile range. Cannot recall while restrained. Tether destroyed or expired = full cooldown.</li>
 <li><b>Blade Storm</b> — Hurl a shadow projectile. On hit: teleport onto the target and cut the target and everyone around them. 7 Momentum required. At 10, perform extra strikes. Reflected shadows hurt you!</li>
 </ul>
 </div>

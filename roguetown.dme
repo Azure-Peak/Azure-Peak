@@ -2660,7 +2660,7 @@
 #include "code\modules\spells\spell_types\classunique\spellblade\air_strike.dm"
 #include "code\modules\spells\spell_types\classunique\spellblade\caedo.dm"
 #include "code\modules\spells\spell_types\classunique\spellblade\blade_storm.dm"
-#include "code\modules\spells\spell_types\classunique\spellblade\leyline_mark.dm"
+#include "code\modules\spells\spell_types\classunique\spellblade\leyline_anchor.dm"
 #include "code\modules\spells\spell_types\classunique\spellblade\recall_weapon.dm"
 #include "code\modules\spells\spell_types\classunique\spellblade\azurean_phalanx.dm"
 #include "code\modules\spells\spell_types\classunique\spellblade\azurean_javelin.dm"
