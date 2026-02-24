@@ -28,12 +28,12 @@
 		/datum/advclass/wapprentice/associate,
 		/datum/advclass/wapprentice/alchemist,
 		/datum/advclass/wapprentice/apprentice,
-		/datum/advclass/wapprentice/spellguard
+		/datum/advclass/wapprentice/adept
 	)
 
 /datum/outfit/job/roguetown/wapprentice
 	// Base gear defaults moved to each subclass pre_equip to avoid
-	// inheritance issues with spellguard's stoplag-based chant selection.
+	// inheritance issues with adept's stoplag-based chant selection.
 
 /datum/advclass/wapprentice/associate
 	name = "Magician's Associate"
@@ -195,17 +195,17 @@
 		H.mind.AddSpell(new /obj/effect/proc_holder/spell/targeted/touch/prestidigitation)
 		SStreasury.give_money_account(ECONOMIC_LOWER_MIDDLE_CLASS, H, "Savings.")
 
-/datum/advclass/wapprentice/spellguard
-	name = "Spellguard"
+/datum/advclass/wapprentice/adept
+	name = "Magician Adept"
 	maximum_possible_slots = 2
-	tutorial = "You are a Spellguard, carrier of the five hundred yils tradition of \
+	tutorial = "You are a Magician Adept, carrier of the five hundred yils tradition of \
 		spellbladery originating in Azurea. You are employed under the University \
 		as a fellow Magos. The arcyne arts are dangerous, \
 		and you are to protect your peers from their own recklessness. \
 		You are not a member of the retinue - though the Crown may pay you a salary. \
 		It is not your job to wield your power in the Crown's name. \
 		Further your mastery, your camaraderie, and the safety of your fellow mages."
-	outfit = /datum/outfit/job/roguetown/wapprentice/spellguard
+	outfit = /datum/outfit/job/roguetown/wapprentice/adept
 	category_tags = list(CTAG_WAPPRENTICE)
 	traits_applied = list(TRAIT_ARCYNE_T2)
 	subclass_stats = list(
@@ -229,7 +229,7 @@
 		/datum/skill/misc/swimming = SKILL_LEVEL_NOVICE,
 	)
 
-/datum/outfit/job/roguetown/wapprentice/spellguard
+/datum/outfit/job/roguetown/wapprentice/adept
 	// Type-level defaults — equipped initially before chant selection
 	head = /obj/item/clothing/head/roguetown/bucklehat
 	shoes = /obj/item/clothing/shoes/roguetown/boots
@@ -241,12 +241,12 @@
 	neck = /obj/item/clothing/neck/roguetown/chaincoif
 	backl = /obj/item/storage/backpack/rogue/satchel
 	beltl = /obj/item/storage/magebag/associate
-	beltr = /obj/item/storage/keyring/apprentice
+	beltr = null
 	backr = null
 	wrists = /obj/item/clothing/wrists/roguetown/bracers/leather
 	var/subclass_selected
 
-/datum/outfit/job/roguetown/wapprentice/spellguard/Topic(href, href_list)
+/datum/outfit/job/roguetown/wapprentice/adept/Topic(href, href_list)
 	. = ..()
 	if(href_list["subclass"])
 		subclass_selected = href_list["subclass"]
@@ -254,7 +254,7 @@
 		if(!subclass_selected)
 			subclass_selected = "blade"
 
-/datum/outfit/job/roguetown/wapprentice/spellguard/pre_equip(mob/living/carbon/human/H)
+/datum/outfit/job/roguetown/wapprentice/adept/pre_equip(mob/living/carbon/human/H)
 	head = /obj/item/clothing/head/roguetown/bucklehat
 	shoes = /obj/item/clothing/shoes/roguetown/boots
 	pants = /obj/item/clothing/under/roguetown/trou/leather
@@ -265,10 +265,10 @@
 	neck = /obj/item/clothing/neck/roguetown/chaincoif
 	backl = /obj/item/storage/backpack/rogue/satchel
 	beltl = /obj/item/storage/magebag/associate
-	beltr = /obj/item/storage/keyring/apprentice
+	beltr = null
 	backr = /obj/item/rogueweapon/shield/wood
 	wrists = /obj/item/clothing/wrists/roguetown/bracers/leather
-	backpack_contents = list(/obj/item/flashlight/flare/torch = 1)
+	backpack_contents = list(/obj/item/flashlight/flare/torch = 1, /obj/item/storage/keyring/apprentice = 1)
 
 	to_chat(H, span_warning("You start with Bind Weapon. Remember to Bind your weapon so you can use your abilities and build up Arcyne Momentum."))
 
