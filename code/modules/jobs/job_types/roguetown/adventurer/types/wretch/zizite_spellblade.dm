@@ -83,7 +83,7 @@
 				H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/caedo)
 				H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/air_strike)
 				H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/forcewall/greater)
-				H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/blade_storm)
+				H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/projectile/blade_storm)
 			if("phalangite")
 				H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/azurean_phalanx)
 				H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/projectile/azurean_javelin)
