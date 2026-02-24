@@ -222,7 +222,7 @@
 			if("blade")
 				H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/caedo)
 				H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/air_strike)
-				H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/forcewall/greater)
+				H.mind.AddSpell(new /obj/effect/proc_holder/spell/self/leyline_mark)
 				H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/projectile/blade_storm)
 			if("phalangite")
 				H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/azurean_phalanx)
