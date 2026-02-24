@@ -1863,3 +1863,26 @@
 	set category = "Emotes"
 
 	emote("charisma", intentional = TRUE)
+
+/mob/living/carbon/human/verb/dive()
+	set name = "Dive"
+	set category = "Swimming"
+	set src = usr
+	src.swim_z(DOWN)
+
+/mob/living/carbon/human/verb/surface()
+	set name = "Surface"
+	set category = "Swimming"
+	set src = usr
+	src.swim_z(UP)
+
+/mob/living/carbon/human/proc/swim_z(direction)
+	if(stat || IsKnockdown()) return
+	var/turf/current_T = get_turf(src)
+	var/target_z = (direction == UP) ? (z + 1) : (z - 1)
+	var/turf/target_T = locate(current_T.x, current_T.y, target_z)
+	if(istype(target_T, /turf/open/water))
+		forceMove(target_T)
+		playsound(src, 'sound/foley/waterenter.ogg', 40, TRUE)
+		return TRUE
+	return FALSE

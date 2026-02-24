@@ -72,6 +72,7 @@
 	handle_heart()
 	update_energy()
 	update_stamina()
+	handle_swimming()
 	for(var/datum/charflaw/cf in charflaws)
 		if(!cf.ephemeral && mind)
 			cf.flaw_on_life(src)
@@ -366,6 +367,100 @@
 		return
 	remove_status_effect(/datum/status_effect/debuff/vamp_dreams)
 	mind.sleep_adv.advance_cycle()
+
+/mob/living/carbon/human/proc/start_swimming()
+	if(is_swimming) return
+	is_swimming = TRUE
+	
+	
+	verbs |= list(/mob/living/carbon/human/verb/dive, /mob/living/carbon/human/verb/surface)
+
+/mob/living/carbon/human/proc/stop_swimming()
+	if(!is_swimming) return
+	is_swimming = FALSE
+	
+	remove_filter("swimming_cutter")
+	update_icon() 
+	
+	verbs -= list(/mob/living/carbon/human/verb/dive, /mob/living/carbon/human/verb/surface)
+
+/mob/living/carbon/human/proc/start_submersion()
+	if(is_underwater) return
+	is_underwater = TRUE
+	add_client_colour(/datum/client_colour/underwater)
+	apply_underwater_filters()
+	
+	remove_filter("swimming_cutter")
+	update_icon()
+	
+	animate(src, pixel_x = pixel_x + 2, time = 20, loop = -1, easing = SINE_EASING, flags = ANIMATION_PARALLEL)
+	animate(pixel_x = pixel_x - 2, time = 20, easing = SINE_EASING)
+
+/mob/living/carbon/human/proc/stop_submersion()
+	if(!is_underwater) return
+	is_underwater = FALSE
+	remove_client_colour(/datum/client_colour/underwater)
+	remove_underwater_filters()
+	animate(src) 
+	pixel_x = get_standard_pixel_x_offset()
+	update_icon()
+
+/mob/living/carbon/human/proc/apply_underwater_filters()
+	if(!client) return
+	var/list/planes = list(-10, -9, -8, -7, -5, -4)
+	for(var/atom/movable/screen/plane_master/PM in client.screen)
+		if(PM.plane in planes)
+			PM.add_filter("uw_blur", 10, list("type" = "blur", "size" = 0.8))
+			PM.add_filter("uw_wave", 11, list("type" = "wave", "x" = 1, "y" = 1, "size" = 1))
+			var/F = PM.get_filter("uw_wave")
+			if(F) animate(F, offset = 10, time = 40, loop = -1)
+
+/mob/living/carbon/human/proc/remove_underwater_filters()
+	if(!client) return
+	for(var/atom/movable/screen/plane_master/PM in client.screen)
+		PM.remove_filter("uw_blur")
+		PM.remove_filter("uw_wave")
+
+/mob/living/carbon/human/proc/handle_swimming()
+	var/turf/T = get_turf(src)
+	
+	
+	if(is_swimming && (!T || !istype(T, /turf/open/water)))
+		stop_swimming()
+		return
+
+	
+	if(!is_swimming && !is_underwater)
+		if(get_filter("swimming_cutter"))
+			remove_filter("swimming_cutter")
+			update_icon()
+		return
+
+	
+	if(is_swimming && !is_underwater)
+		if(!get_filter("swimming_cutter"))
+			add_filter("swimming_cutter", 1, alpha_mask_filter(y=-6, icon=icon('icons/effects/icon_cutter.dmi', "icon_cutter"), flags=MASK_INVERSE))
+	else
+		if(get_filter("swimming_cutter"))
+			remove_filter("swimming_cutter")
+			update_icon()
+
+	
+	if(is_underwater && client)
+		var/filter_ok = FALSE
+		for(var/atom/movable/screen/plane_master/PM in client.screen)
+			if(PM.plane == -5 && PM.get_filter("uw_blur"))
+				filter_ok = TRUE
+				break
+		if(!filter_ok) apply_underwater_filters()
+
+	
+	if(stat >= UNCONSCIOUS || IsKnockdown() || handcuffed)
+		drowning_drowniness++
+		if(drowning_drowniness >= 3)
+			adjustOxyLoss(10)
+	else
+		drowning_drowniness = max(0, drowning_drowniness - 1)
 
 #undef THERMAL_PROTECTION_HEAD
 #undef THERMAL_PROTECTION_CHEST

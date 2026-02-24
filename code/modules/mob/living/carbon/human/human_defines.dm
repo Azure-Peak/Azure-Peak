@@ -201,3 +201,6 @@
 	var/can_do_sex = TRUE
 
 	fovangle = FOV_DEFAULT
+	var/is_swimming = FALSE
+	var/is_underwater = FALSE
+	var/drowning_drowniness = 0

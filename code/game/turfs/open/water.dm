@@ -612,3 +612,109 @@
 	swim_skill = TRUE
 	wash_in = TRUE
 	water_reagent = /datum/reagent/water/gross
+
+
+/turf/open/water/transparent
+	plane = OPENSPACE_PLANE
+	layer = OPENSPACE_LAYER
+	vis_flags = VIS_INHERIT_ID | VIS_INHERIT_PLANE
+
+/turf/open/water/transparent/Initialize()
+	. = ..()
+	
+	vis_contents += GLOB.openspace_backdrop_one_for_all
+	update_multiz(TRUE, TRUE)
+
+/turf/open/water/transparent/update_multiz(prune, init)
+	var/turf/T = GET_TURF_BELOW(src)
+	if(T && init) vis_contents += T
+	return !!T
+
+
+/turf/open/water/transparent/can_zFall(atom/movable/A)
+	if(isobj(A)) return TRUE 
+	if(ishuman(A))
+		var/mob/living/carbon/human/H = A
+		if(H.stat == CONSCIOUS && !H.IsKnockdown()) return FALSE
+	return TRUE
+
+/turf/open/water/transparent/zPassOut(atom/movable/A, direction)
+	if(direction == DOWN)
+		if(isobj(A)) return TRUE
+		if(ishuman(A))
+			var/mob/living/carbon/human/H = A
+			if(H.stat != CONSCIOUS || H.IsKnockdown()) return TRUE
+			return FALSE 
+	return ..()
+
+/turf/open/water/transparent/Entered(atom/movable/AM)
+	. = ..()
+	if(ishuman(AM))
+		var/mob/living/carbon/human/H = AM
+		if(!AM.throwing)
+			H.start_swimming()
+
+/turf/open/water/transparent/Exited(atom/movable/AM, atom/newloc)
+	. = ..()
+	if(ishuman(AM))
+		var/mob/living/carbon/human/H = AM
+		
+		if(!istype(newloc, /turf/open/water))
+			H.stop_swimming()
+
+
+/turf/open/water/transparent/surface
+	name = "water surface"
+	alpha = 150
+	baseturfs = /turf/open/water/transparent/surface
+
+/turf/open/water/transparent/inner
+	name = "underwater depths"
+	alpha = 30 
+	slowdown = 6
+	baseturfs = /turf/open/water/transparent/inner
+
+/turf/open/water/transparent/inner/Initialize()
+	. = ..()
+	
+	if(water_overlay) qdel(water_overlay)
+	if(water_top_overlay) qdel(water_top_overlay)
+
+
+/obj/effect/overlay/water/area_cover
+	icon = 'icons/turf/roguefloor.dmi'
+	icon_state = "water"
+	mouse_opacity = MOUSE_OPACITY_TRANSPARENT
+	plane = -2 
+	layer = 4.5
+	alpha = 140
+	anchored = TRUE
+	appearance_flags = RESET_COLOR | TILE_BOUND | KEEP_TOGETHER
+
+/area/underwater
+	name = "underwater"
+	parent_type = /area/rogue/under
+	soundenv = 22
+	flags_1 = CAN_BE_DIRTY_1 | CULT_PERMITTED_1
+	fog_protected = TRUE
+
+/area/underwater/Initialize()
+	. = ..()
+	addtimer(CALLBACK(src, PROC_REF(apply_area_overlay)), 10)
+
+/area/underwater/proc/apply_area_overlay()
+	for(var/turf/T in contents)
+		new /obj/effect/overlay/water/area_cover(T)
+
+/area/underwater/Entered(atom/movable/AM)
+	..()
+	if(ishuman(AM))
+		var/mob/living/carbon/human/H = AM
+		H.start_submersion()
+
+/area/underwater/Exited(atom/movable/AM, atom/newloc)
+	..()
+	if(ishuman(AM))
+		var/mob/living/carbon/human/H = AM
+		if(!istype(get_area(newloc), /area/underwater))
+			H.stop_submersion()
