@@ -50,19 +50,19 @@
 	shoes = /obj/item/clothing/shoes/roguetown/boots/leather/reinforced
 	pants = /obj/item/clothing/under/roguetown/trou/leather
 	shirt = /obj/item/clothing/suit/roguetown/armor/gambeson
-	gloves = /obj/item/clothing/gloves/roguetown/angle
+	gloves = /obj/item/clothing/gloves/roguetown/chain
 	belt = /obj/item/storage/belt/rogue/leather
 	neck = /obj/item/clothing/neck/roguetown/chaincoif
 	backl = /obj/item/storage/backpack/rogue/satchel
 	beltl = /obj/item/storage/belt/rogue/pouch/coins/poor
-	wrists = /obj/item/clothing/wrists/roguetown/bracers/leather
+	wrists = /obj/item/clothing/wrists/roguetown/bracers/brigandine
 	backpack_contents = list(/obj/item/flashlight/flare/torch = 1)
 
 	to_chat(H, span_warning("You start with Bind Weapon. Remember to Bind your weapon so you can use your abilities and build up Arcyne Momentum."))
 
 	subclass_selected = null
 	var/selection_html = get_spellblade_chant_html(src, H, "zizite")
-	H << browse(selection_html, "window=spellblade_chant;size=900x900")
+	H << browse(selection_html, "window=spellblade_chant;size=1100x900")
 	onclose(H, "spellblade_chant", src)
 
 	var/open_time = world.time
@@ -110,6 +110,9 @@
 		if("Progress (Medium Armor)")
 			head = /obj/item/clothing/head/roguetown/helmet/heavy/bucket
 			armor = /obj/item/clothing/suit/roguetown/armor/chainmail/hauberk
+			shirt = /obj/item/clothing/suit/roguetown/armor/gambeson/heavy
+			pants = /obj/item/clothing/under/roguetown/chainlegs
+			shoes = /obj/item/clothing/shoes/roguetown/boots/armor/iron
 			cloak = /obj/item/clothing/cloak/tabard/black
 
 	backr = /obj/item/rogueweapon/shield/heater

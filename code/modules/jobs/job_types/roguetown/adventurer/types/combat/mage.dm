@@ -202,7 +202,7 @@
 
 	subclass_selected = null
 	var/selection_html = get_spellblade_chant_html(src, H, "conventional")
-	H << browse(selection_html, "window=spellblade_chant;size=900x900")
+	H << browse(selection_html, "window=spellblade_chant;size=1100x900")
 	onclose(H, "spellblade_chant", src)
 
 	var/open_time = world.time

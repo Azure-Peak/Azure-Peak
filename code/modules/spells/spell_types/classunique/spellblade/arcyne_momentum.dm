@@ -157,7 +157,7 @@
 			update_spell_buttons()
 	if(stacks >= overcharge_threshold)
 		owner.apply_damage(overcharge_damage, BRUTE, BODY_ZONE_CHEST)
-		owner.emote(pick("gasp", "breathgasp"))
+		owner.emote(pick("wince", "groan"))
 
 /datum/status_effect/buff/arcyne_momentum/proc/enter_overcharge()
 	is_overcharged = TRUE
