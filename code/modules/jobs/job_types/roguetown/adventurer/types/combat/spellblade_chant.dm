@@ -261,7 +261,7 @@ a.choose-btn:hover {
 <li><b>Shatter</b> — 3-tile line smash that devastates armor integrity.</li>
 <li><b>Tremor</b> — Slam the ground, damaging and pushing back everyone adjacent.</li>
 <li><b>Charge!</b> — Charge forward 3 paces and bash, knocking targets back.</li>
-<li><b>Cataclysm</b> — Leap to a target and slam the ground. At max momentum, Exposes everyone hit — and yourself.</li>
+<li><b>Cataclysm</b> — Conjure and hurl an arcyne hammer at a target area. Crushes a 5x5 area and leaves victims Vulnerable. Bonus damage at max momentum.</li>
 </ul>
 </div>
 <p class="weapon-info">[mace_weapons]</p>

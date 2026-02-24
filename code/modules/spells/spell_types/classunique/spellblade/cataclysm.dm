@@ -1,29 +1,31 @@
-/* Cataclysm - Macebearer ultimate ground slam.
-Blink to target location and slam the ground on arrival.
-Hits everyone on the landing tile + 3x3 ring knockback outward.
+/* Cataclysm - Macebearer ultimate AoE.
+Conjure an arcyne hammer and hurl it at a target area.
+On impact it explodes, crushing everyone in a 5x5 area.
+Applies Vulnerable on hit to encourage melee follow-up.
 
 Requires 7+ momentum (overcharge zone) — same pattern as Blade Storm / Gate of Reckoning.
-At 7: base damage + knockback.
-At 10: bonus damage + applies Exposed to all victims AND the caster.
-The self-Exposed is the price for such an easy mass Expose.
-
-Telegraph with spellwarning before landing. Short range (4 tiles) —
-you're a macebearer.  */
+At 7: base damage. At 10: bonus damage on all hits.
+No mobility, no teleport. Pure telegraphed AoE damage.
+Applies a nice little spin animation for flavor and fun.
+Travel time + telegraph time is exact same as snap freeze total.
+Longest range AOE Ult for Spellblade but Macebearer has no actual ranged poke.
+Also massive FF potential.
+Defend blocks damage, no reflect penalty. Same Z-level only. */
 
 /obj/effect/proc_holder/spell/invoked/cataclysm
 	name = "Cataclysm"
-	desc = "Blink to a target location and slam the ground with cataclysmic force. \
-		Hits everyone on the landing tile, then a shockwave knocks back everyone in a 3x3 ring. \
-		Requires 7 momentum. At 10 momentum, all hits deal bonus damage and apply Exposed \
-		to all victims — and to yourself. \
-		Can be deflected by Defend stance."
+	desc = "Conjure an arcyne hammer and hurl it at a target area. \
+		On impact it explodes, crushing everyone in a 5x5 area for 100 blunt damage \
+		and leaving them Vulnerable. The hammer's weight punishes even armored targets. \
+		Requires 7 momentum. At 10 momentum, deals 180 damage instead. \
+		Same level only. Can be blocked by Defend stance."
 	clothes_req = FALSE
-	range = 4
+	range = 7
 	action_icon = 'icons/mob/actions/spellblade.dmi'
 	overlay_state = "cataclysm"
 	releasedrain = 40
 	chargedrain = 1
-	chargetime = 10
+	chargetime = 20
 	recharge_time = 45 SECONDS
 	warnie = "spellwarning"
 	no_early_release = TRUE
@@ -34,13 +36,13 @@ you're a macebearer.  */
 	invocation_type = "shout"
 	gesture_required = TRUE
 	xp_gain = FALSE
-	var/center_damage = 50
-	var/ring_damage = 35
-	var/bonus_center_damage = 15
-	var/bonus_ring_damage = 10
+	var/delay = 10
+	var/damage = 100
+	var/bonus_damage = 80
+	var/area_of_effect = 2
 	var/min_momentum = 7
-	var/max_momentum = 10
-	var/knockback_range = 2
+	var/empowered_momentum = 10
+	var/vulnerable_duration = 10 SECONDS
 
 /obj/effect/proc_holder/spell/invoked/cataclysm/can_cast(mob/user = usr)
 	. = ..()
@@ -67,27 +69,21 @@ you're a macebearer.  */
 		return
 
 	var/atom/target = targets[1]
-	var/turf/dest = get_turf(target)
+	var/turf/T = get_turf(target)
 	var/turf/start = get_turf(H)
 
-	if(!dest)
+	if(!T)
 		to_chat(H, span_warning("Invalid target!"))
 		revert_cast()
 		return
 
-	if(dest.density)
-		to_chat(H, span_warning("I cannot land on solid ground!"))
+	if(T.density)
+		to_chat(H, span_warning("I cannot hurl a hammer into solid ground!"))
 		revert_cast()
 		return
 
-	if(dest.z != start.z)
+	if(T.z != start.z)
 		to_chat(H, span_warning("Too far — I need to be on the same level!"))
-		revert_cast()
-		return
-
-	var/distance = get_dist(start, dest)
-	if(distance < 2)
-		to_chat(H, span_warning("Too close — I need more distance to leap!"))
 		revert_cast()
 		return
 
@@ -98,88 +94,81 @@ you're a macebearer.  */
 		return
 
 	var/stacks = M.stacks
-	var/empowered = stacks >= max_momentum
-	var/final_center_damage = center_damage + (empowered ? bonus_center_damage : 0)
-	var/final_ring_damage = ring_damage + (empowered ? bonus_ring_damage : 0)
+	var/empowered = stacks >= empowered_momentum
+	var/final_damage = damage + (empowered ? bonus_damage : 0)
+	var/def_zone = H.zone_selected || BODY_ZONE_CHEST
 	M.consume_all_stacks()
 	to_chat(H, span_notice("All [stacks] momentum released — cataclysm [empowered ? "fully empowered" : "unleashed"]!"))
 
 	H.say("RUINA CAELI!")
-	H.visible_message(span_boldwarning("[H] gathers arcyne force for a devastating leap!"))
 
-	new /obj/effect/temp_visual/blade_storm_telegraph(dest)
-	for(var/turf/T in get_hear(1, dest))
-		if(T != dest)
-			new /obj/effect/temp_visual/blade_storm_telegraph(T)
-	playsound(dest, 'sound/magic/charging.ogg', 60, TRUE)
+	// Conjure hammer — loud boom
+	playsound(start, pick('sound/combat/ground_smash1.ogg', 'sound/combat/ground_smash2.ogg', 'sound/combat/ground_smash3.ogg'), 100, TRUE)
+	H.visible_message(span_boldwarning("[H] conjures a massive hammer out of arcyne force!"))
 
-	addtimer(CALLBACK(src, PROC_REF(do_landing), H, held_weapon, dest, start, final_center_damage, final_ring_damage, empowered), 8)
+	// Telegraph — 5x5 area (snap_freeze pattern)
+	for(var/turf/affected_turf in get_hear(area_of_effect, T))
+		new /obj/effect/temp_visual/blade_storm_telegraph(affected_turf)
 
 	log_combat(H, target, "used Cataclysm on")
-	return TRUE
 
-/obj/effect/proc_holder/spell/invoked/cataclysm/proc/do_landing(mob/living/carbon/human/user, obj/item/weapon, turf/dest, turf/start, center_dmg, ring_dmg, empowered)
-	if(QDELETED(user) || user.stat == DEAD)
+	sleep(delay)
+
+	if(QDELETED(H) || H.stat == DEAD)
 		return
 
-	new /obj/effect/temp_visual/blink(get_turf(user), user)
+	H.visible_message(span_boldwarning("[H] hurls the hammer!"))
+	playsound(get_turf(H), 'sound/combat/shieldraise.ogg', 100)
+	var/obj/effect/temp_visual/cataclysm_boulder/boulder = new(get_turf(H))
+	var/dx = (T.x - H.x) * 32
+	var/dy = (T.y - H.y) * 32
+	// Movement
+	animate(boulder, pixel_x = dx, pixel_y = dy, time = 4)
+	// Parallel spin — chain four 90° steps (360° in one step = identity = no visible rotation)
+	var/matrix/q1 = matrix()
+	q1.Turn(90)
+	animate(boulder, transform = q1, time = 1, flags = ANIMATION_PARALLEL)
+	var/matrix/q2 = matrix()
+	q2.Turn(180)
+	animate(transform = q2, time = 1)
+	var/matrix/q3 = matrix()
+	q3.Turn(270)
+	animate(transform = q3, time = 1)
+	animate(transform = matrix(), time = 1)
 
-	if(user.buckled)
-		user.buckled.unbuckle_mob(user, TRUE)
+	sleep(4)
 
-	do_teleport(user, dest, channel = TELEPORT_CHANNEL_MAGIC)
+	qdel(boulder)
 
-	new /obj/effect/temp_visual/blink(dest, user)
+	// Impact
+	playsound(T, pick('sound/combat/ground_smash1.ogg', 'sound/combat/ground_smash2.ogg', 'sound/combat/ground_smash3.ogg'), 100, TRUE)
 
-	// Ground slam visuals
-	for(var/swing_dir in list(NORTH, SOUTH, EAST, WEST))
-		var/obj/effect/melee_swing/S = new(dest)
-		S.dir = swing_dir
-		flick(pick("left_swing", "right_swing"), S)
-		QDEL_IN(S, 1 SECONDS)
-
-	playsound(dest, pick('sound/combat/ground_smash1.ogg', 'sound/combat/ground_smash2.ogg', 'sound/combat/ground_smash3.ogg'), 100, TRUE)
-	playsound(dest, 'sound/magic/blink.ogg', 65, TRUE)
-	new /obj/effect/temp_visual/kinetic_blast(dest)
-
-	user.visible_message(
-		span_danger("[user] crashes down with cataclysmic force!"),
-		span_notice("I bring the hammer down!"))
-
-	// Center hit — everyone on landing tile
-	for(var/mob/living/victim in dest)
-		if(victim == user || victim.stat == DEAD)
-			continue
-		if(spell_guard_check(victim, FALSE, user))
-			continue
-		arcyne_strike(user, victim, weapon, center_dmg, BODY_ZONE_CHEST, BCLASS_BLUNT, spell_name = "Cataclysm (Impact)")
-		if(empowered)
-			victim.apply_status_effect(/datum/status_effect/debuff/exposed, 10 SECONDS)
-
-	// Ring knockback — 3x3 ring around caster
-	var/list/ring = list()
-	for(var/dx in -1 to 1)
-		for(var/dy in -1 to 1)
-			if(dx == 0 && dy == 0)
+	for(var/turf/affected_turf in get_hear(area_of_effect, T))
+		new /obj/effect/temp_visual/kinetic_blast(affected_turf)
+		for(var/mob/living/L in affected_turf.contents)
+			if(L == H || L.stat == DEAD)
 				continue
-			var/turf/T = locate(dest.x + dx, dest.y + dy, dest.z)
-			if(T)
-				ring += T
-				new /obj/effect/temp_visual/kinetic_blast(T)
-
-	for(var/turf/T in ring)
-		for(var/mob/living/bystander in T)
-			if(bystander == user || bystander.stat == DEAD)
+			if(L.anti_magic_check())
+				L.visible_message(span_warning("The hammer shatters around [L]!"))
+				playsound(get_turf(L), 'sound/magic/magic_nulled.ogg', 100)
 				continue
-			arcyne_strike(user, bystander, weapon, ring_dmg, BODY_ZONE_CHEST, BCLASS_BLUNT, spell_name = "Cataclysm (Shockwave)")
-			if(empowered)
-				bystander.apply_status_effect(/datum/status_effect/debuff/exposed, 10 SECONDS)
-			var/push_dir = get_dir(user, bystander)
-			if(!push_dir)
-				push_dir = pick(GLOB.cardinals)
-			bystander.safe_throw_at(get_edge_target_turf(user, push_dir), knockback_range, 1, user, force = MOVE_FORCE_STRONG)
+			if(spell_guard_check(L, TRUE))
+				L.visible_message(span_warning("[L] endures the impact!"))
+				continue
+			arcyne_strike(H, L, held_weapon, final_damage, def_zone, BCLASS_BLUNT, spell_name = "Cataclysm")
+			L.apply_status_effect(/datum/status_effect/debuff/vulnerable, vulnerable_duration)
+			playsound(affected_turf, pick('sound/combat/ground_smash1.ogg', 'sound/combat/ground_smash2.ogg', 'sound/combat/ground_smash3.ogg'), 60, TRUE)
 
-	// Self-Exposed at max momentum — the price of power
-	if(empowered)
-		user.apply_status_effect(/datum/status_effect/debuff/exposed, 10 SECONDS)
-		to_chat(user, span_boldwarning("The force of impact leaves me exposed!"))
+	return TRUE
+
+// --- Projectile visual ---
+
+/obj/effect/temp_visual/cataclysm_boulder
+	icon = 'icons/roguetown/weapons/blunt32.dmi'
+	icon_state = "iwarhammer"
+	name = "arcyne hammer"
+	desc = "A hammer of pure arcyne force."
+	layer = FLY_LAYER
+	plane = GAME_PLANE_UPPER
+	randomdir = FALSE
+	duration = 8
