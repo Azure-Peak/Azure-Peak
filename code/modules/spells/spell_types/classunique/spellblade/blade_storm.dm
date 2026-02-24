@@ -26,7 +26,7 @@ Uses Eris melee swing sprites (96x96) for the slash visuals. */
 	warnie = "spellwarning"
 	no_early_release = TRUE
 	movement_interrupt = FALSE
-	charging_slowdown = 3
+	charging_slowdown = 1
 	chargedloop = /datum/looping_sound/invokegen
 	invocations = list("Finis.")
 	invocation_type = "shout"

@@ -16,7 +16,7 @@
 	no_early_release = TRUE
 	movement_interrupt = FALSE
 	gesture_required = TRUE
-	charging_slowdown = 2
+	charging_slowdown = 0
 	chargedloop = /datum/looping_sound/invokegen
 	invocations = list("Caedo!")
 	invocation_type = "shout"

@@ -4,7 +4,7 @@
 
 /atom/movable/screen/alert/status_effect/buff/arcyne_momentum
 	name = "Arcyne Momentum (0)"
-	desc = "Strikes with my bound weapon fuel arcyne power. Build stacks to unleash abilities."
+	desc = "Strikes with my bound weapon fuel arcyne power. Build momentum to unleash your power. Take care not to lose control."
 	icon_state = "buff"
 
 /datum/status_effect/buff/arcyne_momentum

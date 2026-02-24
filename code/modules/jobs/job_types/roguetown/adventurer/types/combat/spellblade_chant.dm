@@ -152,6 +152,23 @@ a.choose-btn:hover {
 	padding: 10px 15px;
 	text-align: center;
 }
+.shared-info + .shared-info {
+	margin-top: 10px;
+}
+.shared-list {
+	list-style: none;
+	padding: 0;
+	margin: 5px 0 0 0;
+}
+.shared-list li {
+	font-size: 11px;
+	line-height: 1.5;
+	margin: 5px 0;
+	color: #b0a080;
+}
+.shared-list li b {
+	color: #d4c4a0;
+}
 .shared-info h4 {
 	color: #a08050;
 	font-size: 11px;
@@ -206,7 +223,7 @@ a.choose-btn:hover {
 <li><b>Caedo</b> — Dash through enemies, striking all in your path. Consumes 3 momentum to strike twice!</li>
 <li><b>Air Strike</b> — Ranged attack that adapts to your intent. At 3+ momentum, pulls targets toward you.</li>
 <li><b>Greater Forcewall</b> — Conjure a 5x1 wall of arcyne force.</li>
-<li><b>Blade Storm</b> — Cuts a 3x3 area surrounding an immune center tile three times in a row. 7 Momentum required. At 10, make an extra slash.</li>
+<li><b>Blade Storm</b> — Cuts a 3x3 area surrounding an immune center tile twice. 7 Momentum required. At 10, make two extra slashes.</li>
 </ul>
 </div>
 <p class="weapon-info">[blade_weapons]</p>
@@ -255,6 +272,16 @@ a.choose-btn:hover {
 <div class="shared-info">
 <h4>Shared Abilities</h4>
 <p>Bind Weapon · Recall Weapon · Mending · Enchant Weapon · 4 Utility Spell Points</p>
+</div>
+<div class="shared-info" style="text-align: left;">
+<h4 style="text-align: center;">Shared Mechanics</h4>
+<ul class="shared-list">
+<li><b>Arcyne Momentum</b> — Build 1 Momentum on melee hits (even if parried or dodged) against a living creature. Spend 3 to unleash empowered versions of your abilities.</li>
+<li><b>Decay</b> — Starts decaying 10 seconds after the last strike, losing 1 stack every 6 seconds.</li>
+<li><b>Disruption</b> — You lose all Momentum when knocked down or stunned. Off-balance costs 3.</li>
+<li><b>Overcharge (7)</b> — Damages your chest and blurs your vision, unlocking your most powerful ability.</li>
+<li><b>Maximum (10)</b> — Unleash an empowered version of your ultimate ability.</li>
+</ul>
 </div>
 <div class="preamble">
 <p>O! Blade of Tarichea!</p>

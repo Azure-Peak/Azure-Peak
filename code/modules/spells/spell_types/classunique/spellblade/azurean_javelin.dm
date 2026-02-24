@@ -33,7 +33,7 @@ it is an AP projectile and high impact vs other light.
 	warnie = "spellwarning"
 	no_early_release = TRUE
 	movement_interrupt = FALSE
-	charging_slowdown = 2
+	charging_slowdown = 1
 	chargedloop = /datum/looping_sound/invokegen
 	action_icon = 'icons/mob/actions/spellblade.dmi'
 	overlay_state = "azurean_javelin"

@@ -23,7 +23,7 @@ to the left and right, forming a wide phalanx push.*/
 	warnie = "spellwarning"
 	no_early_release = TRUE
 	movement_interrupt = FALSE
-	charging_slowdown = 1
+	charging_slowdown = 0
 	chargedloop = /datum/looping_sound/invokegen
 	invocations = list("Phalanx Azurea!")
 	invocation_type = "shout"

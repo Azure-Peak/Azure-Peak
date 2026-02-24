@@ -41,7 +41,7 @@ Cross-Z uses a longer telegraph.*/
 	warnie = "spellwarning"
 	no_early_release = TRUE
 	movement_interrupt = FALSE
-	charging_slowdown = 2
+	charging_slowdown = 1
 	chargedloop = /datum/looping_sound/invokegen
 	invocations = list()
 	invocation_type = "shout"

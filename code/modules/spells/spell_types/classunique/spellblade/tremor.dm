@@ -27,7 +27,7 @@ Respects spell_guard_check. */
 	warnie = "spellwarning"
 	no_early_release = TRUE
 	movement_interrupt = FALSE
-	charging_slowdown = 2
+	charging_slowdown = 0
 	chargedloop = /datum/looping_sound/invokegen
 	invocations = list("Tremor!")
 	invocation_type = "shout"

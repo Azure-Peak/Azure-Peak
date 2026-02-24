@@ -28,7 +28,7 @@ hand and I intend for Spellblade, feeling wise.
 	warnie = "spellwarning"
 	no_early_release = TRUE
 	movement_interrupt = FALSE
-	charging_slowdown = 1
+	charging_slowdown = 0
 	chargedloop = /datum/looping_sound/invokegen
 	invocations = list("Ictus Venti!")
 	invocation_type = "shout"
