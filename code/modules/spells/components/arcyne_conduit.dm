@@ -24,6 +24,8 @@
 	SIGNAL_HANDLER
 	if(!isliving(user) || !isliving(target))
 		return
+	if(target == user)
+		return
 	if(target.stat == DEAD)
 		return
 	var/datum/status_effect/buff/arcyne_momentum/M = user.has_status_effect(/datum/status_effect/buff/arcyne_momentum)
