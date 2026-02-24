@@ -137,7 +137,7 @@ If reflected into self - just inflict half the damage through armor.
 		new /obj/effect/temp_visual/blade_storm_telegraph(T)
 	playsound(center, 'sound/magic/blade_burst.ogg', 80, TRUE)
 
-	user.visible_message(span_boldwarning("[user] raises [held_weapon.name] — arcyne energy surges outward!"))
+	user.visible_message(span_boldwarning("[user] raises [held_weapon.name] — arcyne energy surges toward the [span_combatsecondarybp(parse_zone(def_zone))]!"))
 
 	storm_deflected = FALSE
 	for(var/cut_num in 1 to aoe_cuts)
@@ -167,7 +167,7 @@ If reflected into self - just inflict half the damage through armor.
 			if(spell_guard_check(victim, FALSE, storm_deflected ? null : user))
 				storm_deflected = TRUE
 				continue
-			arcyne_strike(user, victim, weapon, aoe_dmg, def_zone, BCLASS_CUT, spell_name = "Blade Storm (Cut [cut_num])", skip_animation = TRUE)
+			arcyne_strike(user, victim, weapon, aoe_dmg, def_zone, BCLASS_CUT, spell_name = "Blade Storm (Cut [cut_num])", skip_animation = TRUE, skip_message = TRUE)
 
 /obj/effect/proc_holder/spell/invoked/projectile/blade_storm/proc/do_personal_strike(mob/living/carbon/human/user, obj/item/weapon, mob/living/victim, strike_num, def_zone, p_dmg)
 	if(QDELETED(user) || user.stat == DEAD || QDELETED(victim) || victim.stat == DEAD)
@@ -176,7 +176,7 @@ If reflected into self - just inflict half the damage through armor.
 	if(spell_guard_check(victim, FALSE, user))
 		return
 
-	arcyne_strike(user, victim, weapon, p_dmg, def_zone, spell_name = "Blade Storm (Strike [strike_num])", skip_animation = TRUE)
+	arcyne_strike(user, victim, weapon, p_dmg, def_zone, spell_name = "Blade Storm (Strike [strike_num])", skip_animation = TRUE, skip_message = TRUE)
 
 	var/turf/victim_turf = get_turf(victim)
 	if(victim_turf)

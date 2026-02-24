@@ -2,7 +2,7 @@
 These mirror the species.dm melee attack flow (armor check -> apply_damage -> bodypart_attacked_by)
 without going through the click pipeline, so spells can deliver weapon-style strikes. */
 
-/proc/arcyne_strike(mob/living/carbon/human/user, mob/living/target, obj/item/weapon, damage, def_zone, blade_class_override, armor_penetration = 0, spell_name = "Arcyne Strike", skip_animation = FALSE)
+/proc/arcyne_strike(mob/living/carbon/human/user, mob/living/target, obj/item/weapon, damage, def_zone, blade_class_override, armor_penetration = 0, spell_name = "Arcyne Strike", skip_animation = FALSE, skip_message = FALSE)
 	if(!user || !target || QDELETED(user) || QDELETED(target))
 		return FALSE
 
@@ -73,10 +73,14 @@ without going through the click pipeline, so spells can deliver weapon-style str
 			hit_sound = pick('sound/combat/hits/bladed/genthrust (1).ogg', 'sound/combat/hits/bladed/genthrust (2).ogg')
 
 	playsound(get_turf(target), hit_sound, 100, TRUE)
-	var/weapon_name = weapon ? weapon.name : "arcyne force"
-	user.visible_message(
-		span_danger("[user] [attack_verb] [target] with [weapon_name]!"),
-		span_notice("I [attack_verb] [target] with my [weapon_name]!"))
+	if(!skip_message)
+		var/weapon_name = weapon ? weapon.name : "arcyne force"
+		user.visible_message(
+			span_danger("[user] [attack_verb] [target] with [weapon_name]!"),
+			span_notice("I [attack_verb] [target] with my [weapon_name]!"))
+	// Victim always sees where they were hit
+	if(target != user)
+		to_chat(target, span_danger("The strike hits my [span_userdanger(parse_zone(def_zone))]!"))
 
 	log_combat(user, target, "spell-struck ([spell_name])")
 	return effective_damage

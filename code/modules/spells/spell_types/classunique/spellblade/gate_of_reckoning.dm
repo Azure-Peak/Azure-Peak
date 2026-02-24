@@ -118,8 +118,8 @@ Cross-Z uses a longer telegraph.*/
 	var/cross_z = (dest.z != start.z)
 	var/def_zone = H.zone_selected || BODY_ZONE_CHEST
 
-	H.say("PORTA IUDICII!")
-	H.visible_message(span_boldwarning("[H] tears open a leyline rift above [target]!"))
+	H.say("PORTA IUDICII!", forced = "spell")
+	H.visible_message(span_boldwarning("[H] tears open a leyline rift above [target], aimed at the [span_combatsecondarybp(parse_zone(def_zone))]!"))
 
 	new /obj/effect/temp_visual/gate_of_reckoning_rift(dest)
 	playsound(dest, 'sound/misc/portalactivate.ogg', 80, TRUE)

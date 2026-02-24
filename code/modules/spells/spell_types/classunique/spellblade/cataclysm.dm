@@ -26,7 +26,7 @@ Defend blocks damage, no reflect penalty. Same Z-level only. */
 	releasedrain = 40
 	chargedrain = 1
 	chargetime = 20
-	recharge_time = 45 SECONDS
+	recharge_time = 60 SECONDS
 	warnie = "spellwarning"
 	no_early_release = TRUE
 	movement_interrupt = FALSE
@@ -100,7 +100,7 @@ Defend blocks damage, no reflect penalty. Same Z-level only. */
 	M.consume_all_stacks()
 	to_chat(H, span_notice("All [stacks] momentum released — cataclysm [empowered ? "fully empowered" : "unleashed"]!"))
 
-	H.say("RUINA CAELI!")
+	H.say("RUINA CAELI!", forced = "spell")
 
 	// Conjure hammer — loud boom
 	playsound(start, pick('sound/combat/ground_smash1.ogg', 'sound/combat/ground_smash2.ogg', 'sound/combat/ground_smash3.ogg'), 100, TRUE)
@@ -117,7 +117,7 @@ Defend blocks damage, no reflect penalty. Same Z-level only. */
 	if(QDELETED(H) || H.stat == DEAD)
 		return
 
-	H.visible_message(span_boldwarning("[H] hurls the hammer!"))
+	H.visible_message(span_boldwarning("[H] hurls the hammer, aimed at the [span_combatsecondarybp(parse_zone(def_zone))]!"))
 	playsound(get_turf(H), 'sound/combat/shieldraise.ogg', 100)
 	var/obj/effect/temp_visual/cataclysm_boulder/boulder = new(get_turf(H))
 	var/dx = (T.x - H.x) * 32
@@ -155,7 +155,7 @@ Defend blocks damage, no reflect penalty. Same Z-level only. */
 			if(spell_guard_check(L, TRUE))
 				L.visible_message(span_warning("[L] endures the impact!"))
 				continue
-			arcyne_strike(H, L, held_weapon, final_damage, def_zone, BCLASS_BLUNT, spell_name = "Cataclysm")
+			arcyne_strike(H, L, held_weapon, final_damage, def_zone, BCLASS_BLUNT, spell_name = "Cataclysm", skip_message = TRUE)
 			L.apply_status_effect(/datum/status_effect/debuff/vulnerable, vulnerable_duration)
 			playsound(affected_turf, pick('sound/combat/ground_smash1.ogg', 'sound/combat/ground_smash2.ogg', 'sound/combat/ground_smash3.ogg'), 60, TRUE)
 
