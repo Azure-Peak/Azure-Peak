@@ -29,6 +29,11 @@
 	path = /obj/item/clothing/head/roguetown/witchhat
 	sort_category = "Hats"
 
+/datum/loadout_item/witchhat/old
+	name = "Witch Hat (Old)"
+	path = /obj/item/clothing/head/roguetown/witchhat/old
+	sort_category = "Hats"
+
 /datum/loadout_item/bardhat
 	name = "Bard Hat"
 	path = /obj/item/clothing/head/roguetown/bardhat

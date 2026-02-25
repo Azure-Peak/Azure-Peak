@@ -67,7 +67,7 @@
 			pic2.color = get_altdetail_color()
 		add_overlay(pic2)
 
-/obj/item/clothing/head/roguetown/helmet/blacksteel/modern/armet/grenzelhoft
+/obj/item/clothing/head/roguetown/helmet/blacksteel/modern/grenzelhoft
 	name = "blacksteel armet w/plume hat"
 	desc = "A Grenzelhoftian plume hat placed atop a blacksteel armet, staying fashionable while protecting the wearer's head for a better degree. Aren't you the affluent mercenary."
 	icon_state = "grenzelblack"
@@ -82,7 +82,7 @@
 	detail_color = "#262927"
 	altdetail_color = "#FFFFFF"
 
-/obj/item/clothing/head/roguetown/helmet/blacksteel/modern/armet/grenzelhoft/update_icon()
+/obj/item/clothing/head/roguetown/helmet/blacksteel/modern/grenzelhoft/update_icon()
 	cut_overlays()
 	if(get_detail_tag())
 		var/mutable_appearance/pic = mutable_appearance(icon(icon, "[icon_state][detail_tag]"))
@@ -162,7 +162,7 @@
 			pic2.color = get_altdetail_color()
 		add_overlay(pic2)
 
-/obj/item/clothing/head/roguetown/helmet/blacksteel/modern/armet/grenzelhoft/triumph
+/obj/item/clothing/head/roguetown/helmet/blacksteel/modern/grenzelhoft/triumph
 	name = "blacksteel armet w/plumed beret"
 	desc = "A Grenzelhoftian 'tellerbarret' placed atop a blacksteel armet, staying fashionable while protecting the wearer's head for a better degree. Aren't you the affluent mercenary."
 	icon_state = "grenzelblack"
@@ -176,7 +176,7 @@
 	detail_color = "#262927"
 	altdetail_color = "#FFFFFF"
 
-/obj/item/clothing/head/roguetown/helmet/blacksteel/modern/armet/triumph/grenzelhoft/update_icon()
+/obj/item/clothing/head/roguetown/helmet/blacksteel/modern/triumph/grenzelhoft/update_icon()
 	cut_overlays()
 	if(get_detail_tag())
 		var/mutable_appearance/pic = mutable_appearance(icon(icon, "[icon_state][detail_tag]"))
@@ -224,9 +224,9 @@
 
 /datum/crafting_recipe/roguetown/sewing/grenzelblack
 	name = "grenzelhoftian hat with blacksteel armet"
-	result = list(/obj/item/clothing/head/roguetown/helmet/blacksteel/modern/armet/grenzelhoft)
+	result = list(/obj/item/clothing/head/roguetown/helmet/blacksteel/modern/grenzelhoft)
 	reqs = list(/obj/item/clothing/head/roguetown/grenzelhofthat = 1,
-	            /obj/item/clothing/head/roguetown/helmet/blacksteel/modern/armet = 1)
+	            /obj/item/clothing/head/roguetown/helmet/blacksteel/modern = 1)
 	bypass_dupe_test = TRUE
 	craftdiff = 0
 
@@ -263,9 +263,9 @@
 
 /datum/crafting_recipe/roguetown/sewing/grenzelblack/triumph
 	name = "grenzelhoftian beret with blacksteel armet"
-	result = list(/obj/item/clothing/head/roguetown/helmet/blacksteel/modern/armet/grenzelhoft/triumph)
+	result = list(/obj/item/clothing/head/roguetown/helmet/blacksteel/modern/grenzelhoft/triumph)
 	reqs = list(/obj/item/clothing/head/roguetown/grenzelhofthat/triumph = 1,
-	            /obj/item/clothing/head/roguetown/helmet/blacksteel/modern/armet = 1)
+	            /obj/item/clothing/head/roguetown/helmet/blacksteel/modern = 1)
 	bypass_dupe_test = TRUE
 	craftdiff = 0
 

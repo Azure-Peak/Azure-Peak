@@ -108,6 +108,12 @@
 	reqs = list(/obj/item/natural/hide/cured = 2,
 				/obj/item/natural/fibers = 2)
 
+/datum/crafting_recipe/roguetown/leather/container/belt/double
+	name = "paired belts"
+	result = /obj/item/storage/belt/rogue/leather/double
+	reqs = list(/obj/item/natural/hide/cured = 2,
+				/obj/item/natural/fibers = 2)
+
 /datum/crafting_recipe/roguetown/leather/container/belt/knifebelt
 	name = "tossblade belt"
 	result = /obj/item/storage/belt/rogue/leather/knifebelt

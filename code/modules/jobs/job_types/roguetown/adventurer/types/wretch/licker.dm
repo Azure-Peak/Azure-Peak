@@ -26,6 +26,7 @@
 		H.adjust_skillrank_up_to(/datum/skill/magic/blood, 4, TRUE)
 		var/datum/antagonist/vampire/new_antag = new /datum/antagonist/vampire(generation = GENERATION_NEONATE)
 		H.mind.add_antag_datum(new_antag)
+		H.apply_status_effect(STATUS_EFFECT_VAMPIRE_SPAWN_PROTECTION)
 		REMOVE_TRAIT(H, TRAIT_OUTLAW, JOB_TRAIT)
 		if(HAS_TRAIT(H, TRAIT_CRITICAL_RESISTANCE))
 			REMOVE_TRAIT(H, TRAIT_CRITICAL_RESISTANCE, null)

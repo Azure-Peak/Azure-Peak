@@ -112,7 +112,7 @@
 		if(known_skills[S] > old_level)
 			to_chat(current, span_nicegreen("My [S.name] grows to [SSskills.level_names[known_skills[S]]]!"))
 			if(!COOLDOWN_FINISHED(src, level_up))
-				if(current.client?.prefs.floating_text_toggles & XP_TEXT)
+				if(current.client?.prefs.combat_toggles & XP_TEXT)
 					current.balloon_alert(current, "<font color = '#9BCCD0'>Level up...</font>")
 				current.playsound_local(current, pick(LEVEL_UP_SOUNDS), 100, TRUE)
 				COOLDOWN_START(src, level_up, XP_SHOW_COOLDOWN)

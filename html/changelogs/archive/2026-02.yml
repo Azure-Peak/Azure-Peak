@@ -1020,3 +1020,132 @@
   zydras:
   - rscadd: Adds a new Sexton subclass, the Gravetender!
   - balance: adjusted the Sexton's stat pack and skills around
+2026-02-23:
+  Baneuus:
+  - image: Ruma-clan scabbards are no longer upside down.
+  Lamasmaster:
+  - bugfix: Astratan Gaze Scaling
+  - rscadd: Wildtongue Tab to > WT
+  Ollanius:
+  - bugfix: The recipe for a full set of Bronze Panoply Armor should now properly
+      make its namesake, instead of another halved set.
+  QuietSymphony:
+  - bugfix: fixes fae drops, makes them actually heal
+  Ryan180602:
+  - image: fix surcoats having sleeves.
+  - bugfix: re-add jupon sleeves
+  - rscadd: dominant hand will be highlighted on your UI
+  WeNeedMorePhoron:
+  - rscadd: Admin now can override the IC canon date with set date
+  - rscadd: Rounds now start at 8 AM by resetting the time to 8 AM to account for
+      lobby time drift
+  - rscadd: Lycker now gains 5 minutes of sun protection on spawn
+  - rscadd: Heads are now guaranteed from butchering simple animals. However, the
+      quality is scaled to your butchering skills such that the money you gain is
+      largely the same at lower skills level.
+  eirenxiv:
+  - bugfix: 'fixed coverage to no longer include hands on: arming jacket, padded arming
+      jacket, blacksteel half-plate, grenzel shirt, fencer shirt, gronn plate and
+      kazengun cuirass'
+  mumblemancer:
+  - bugfix: brigadine no longer covers hands
+2026-02-24:
+  Baneuus:
+  - code_imp: Scabbards now flip correctly at every direction.
+  FreeStylaLT:
+  - bugfix: Fixed Dwarves not having access to the Underdweller origin.
+  - rscadd: Added Undercommon language -- Underdweller Origin specific.
+  Ollanius:
+  - code_imp: Triumph-costing morphing elixirs now cost 3 TRI per instance, instead
+      of 5 TRI. Spend freely for fashion!
+  - rscadd: Two new morphing elixers; one for iron smallswords, and another to add
+      a cosmetic double-axhead to most axes.
+  - bugfix: Undoes errant spelling.
+  - rscadd: Adds a steel hunting sword, alongside a bunch of missing scabbards for
+      messer-analogous weapons.
+  - rscadd: Adds new sprites to iron smallswords.
+  - rscadd: Minor highlights added to various swords.
+  - bugfix: Reworded the Thespian-Errant's 'Duelist' blurb to clarify that picking
+      it resets your statblock to Duelist-levels, rather than starting you off with
+      VII CON / XIII SPD.
+  - balance: Picking a sidearm (either in the form of a sword, axe, or bottle) as
+      a Thespian-Errant now provides a fitting Apprentice-level skill (in swords,
+      axes, or medicine.)
+  - balance: Thespian-Errants now start with Novice-level medicine skills, as they're
+      likely going to bleed a bit more than their compatriots.
+  - balance: Hoplon Greatshields have had their +3 DEF restored.
+  - rscadd: New inventory sprites for most rings in the game. Credit to Spooky and
+      Chaoko for providing the original assets for said-rings, and giving permission
+      to further modify them for this particular use; you guys rock!
+  - rscadd: New onmob sprites for most rings in the game. These are worn on the left
+      hand - in comparison to the amulets, which are always worn on the right hand.
+      Mix and match!
+  - rscadd: 'Three new flavors of the wedding band, exclusively available in the loadout:
+      gold, bronze, and ancient.'
+  - rscadd: MMBing a ring while it's worn outside of the ring slot'll let you overlay
+      it atop sleeves. Not perfect, but it works.
+  - balance: While very minor, rings can now be worn on the Gloves slot as well.
+  - bugfix: Wearing a ring will now properly show it being worn on your character.
+  - code_imp: Similar to the wrist-sprites for amulets, rings - as it turns out -
+      need a dedicated sleeve sprite to properly render. Going forward, anyone adding
+      an onmob-ring sprite should make sure to create a variant with the 'l_' prefix,
+      too.
+  - code_imp: All original rings are preserved in the .dmi, and can be freely accessed
+      for use.
+  PatapoIIIa:
+  - qol: Phantom Speaker now allows manual language selection instead of using a random
+      understood language.
+  - code_imp: Improved language handling logic for Phantom Speaker ability.
+  - rscadd: Added Tent Kit deployable shelter system
+  - rscadd: Added support for multi-tile tent structures
+  - qol: Added detailed examine feedback showing assembly state and structural condition
+  - qol: Added visible feedback when tent assembles, collapses, or packs away
+  - balance: Tent now requires material investment to restore after destruction
+  Quinalion:
+  - refactor: Cleaned up blacksteel armor paths.
+  - balance: Blacksteel helmets now uses medium armor class.
+  Ryan180602:
+  - code_imp: does the smallest of refactor to instrument code.
+  - rscadd: antighost. toggle on (off by default) to be unorbitable by ghosts.
+  - bugfix: made a few sheath checks matter.
+  - code_imp: let sheaths be interacted with on cmode.
+  - rscadd: add antighost
+  WeNeedMorePhoron:
+  - rscadd: Shield heraldry preview interface for the four shields you can paint heraldry
+      into
+  - rscadd: One generic white saltire heraldry (Proof of concept it will be removed
+      later by better artist)
+  - rscadd: Vampire spawn / sun protection shouldn't spam you or something.
+  - rscadd: Clear all button to the loadout menu
+  eirenxiv:
+  - rscadd: Added the Dark Cloak to the loadout selection
+  hazelrat:
+  - bugfix: Re-adds the food crate in the wardens' barracks, which was accidentally
+      removed.
+  - rscadd: Implemented a few small bugfixes and QoL changes to the new city harbor.
+      Importantly, a MEISTER is now accessible just within the east gate!
+  - rscadd: Implemented a remap of the pirate ship in the city harbor, courtesy of
+      _vol.
+  - rscadd: Implemented a remap of the Necran Labyrinth dungeon, accessible on Mount
+      Decapitation.
+  mumblemancer:
+  - rscadd: '*snore now in noises menu'
+2026-02-25:
+  Draganfrukts:
+  - balance: Miners now get +2 WIL instead of +2 CON. Their +1 is swapped.
+  FreeStylaLT:
+  - balance: Guarded virtue now properly obscures Critical Weakness vice.
+  Maggotbait:
+  - image: Resprited the witch hat
+  - image: A brand new set of clothing and belt, the slitted dress, woolen collar
+      and paired belts
+  NewyearnewmeUwu:
+  - bugfix: women or men who wear masc/femme clothes will be called properly by their
+      titles
+  UEDCommander:
+  - rscadd: Adds lizd dual-color snouts to Wildkin customization
+  WeNeedMorePhoron:
+  - rscadd: Appended AP to Calendar Year number (After Psydon)
+  - rscadd: Martial Supercession now allows for an Outlaw to give assent - but not
+      invoke it themselves.
+  - rscadd: Add caffiend vice.

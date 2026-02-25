@@ -1,4 +1,0 @@
-author: "Ollanius"
-delete-after: True
-changes:
-  - bugfix: "The recipe for a full set of Bronze Panoply Armor should now properly make its namesake, instead of another halved set."

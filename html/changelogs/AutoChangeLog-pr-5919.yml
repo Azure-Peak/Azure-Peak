@@ -1,4 +1,0 @@
-author: "QuietSymphony"
-delete-after: True
-changes:
-  - bugfix: "fixes fae drops, makes them actually heal"

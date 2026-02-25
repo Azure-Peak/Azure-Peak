@@ -19,7 +19,7 @@
 	icon_state = "tack6"
 	list_reagents = list(/datum/reagent/consumable/nutriment = SNACK_DECENT)
 	faretype = FARE_POOR
-	w_class = WEIGHT_CLASS_NORMAL
+	w_class = WEIGHT_CLASS_TINY
 	tastes = list("spelt" = 1)
 	bitesize = 6
 	rotprocess = null

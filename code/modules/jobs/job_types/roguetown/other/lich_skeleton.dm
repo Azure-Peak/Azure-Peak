@@ -11,11 +11,9 @@ LICH SKELETONS
 	outfit = /datum/outfit/job/roguetown/greater_skeleton/lich
 
 /datum/outfit/job/roguetown/greater_skeleton/lich
-	cloak = /obj/item/clothing/cloak/half	//starts black, so they can be identified.
 	belt = /obj/item/storage/belt/rogue/leather/black
 	wrists = /obj/item/clothing/wrists/roguetown/bracers/paalloy
 	backl = /obj/item/storage/backpack/rogue/satchel
-	gloves = /obj/item/clothing/gloves/roguetown/chain/paalloy
 
 /datum/outfit/job/roguetown/greater_skeleton/lich/pre_equip(mob/living/carbon/human/H)
 	..()
@@ -61,7 +59,8 @@ LICH SKELETONS
 	pants = /obj/item/clothing/under/roguetown/chainlegs/kilt/paalloy
 	armor = /obj/item/clothing/suit/roguetown/armor/leather/studded
 	neck = /obj/item/clothing/neck/roguetown/chaincoif/paalloy
-	shoes = /obj/item/clothing/shoes/roguetown/sandals/aalloy
+	shoes = /obj/item/clothing/shoes/roguetown/sandals/paalloy
+	gloves = /obj/item/clothing/gloves/roguetown/chain/paalloy
 
 	backr = /obj/item/rogueweapon/shield/wood
 	beltl = /obj/item/quiver/javelin/paalloy
@@ -85,6 +84,16 @@ LICH SKELETONS
 		if("Flail")
 			beltr = /obj/item/rogueweapon/flail/sflail/paflail
 			H.adjust_skillrank(/datum/skill/combat/whipsflails, 1, TRUE)
+	var/tabards = list("Black Jupon", "Black Tabard", "Black Cloak + Greathood")
+	var/tabard_choice = input(H, "Choose your CLOAK.", "BARE YOUR MASTER'S HERALDRY.") as anything in tabards
+	switch(tabard_choice)
+		if("Black Jupon")
+			cloak = /obj/item/clothing/cloak/tabard/stabard/surcoat/lich
+		if("Black Tabard")
+			cloak = /obj/item/clothing/cloak/tabard/lich
+		if("Black Cloak + Greathood")
+			cloak = /obj/item/clothing/cloak/half/lich
+			mask = /obj/item/clothing/cloak/tabard/stabard/guardhood/lich
 
 	H.energy = H.max_energy
 
@@ -128,8 +137,9 @@ LICH SKELETONS
 	pants = /obj/item/clothing/under/roguetown/chainlegs/kilt/paalloy
 	armor = /obj/item/clothing/suit/roguetown/armor/leather/studded
 	neck = /obj/item/clothing/neck/roguetown/chaincoif/paalloy
-	shoes = /obj/item/clothing/shoes/roguetown/sandals/aalloy
+	shoes = /obj/item/clothing/shoes/roguetown/sandals/paalloy
 	beltr = /obj/item/rogueweapon/huntingknife/idagger/steel/padagger
+	gloves = /obj/item/clothing/gloves/roguetown/angle
 	backl = /obj/item/storage/backpack/rogue/satchel
 	backpack_contents = list(
 		/obj/item/ammo_casing/caseless/rogue/heavy_bolt = 1
@@ -157,6 +167,16 @@ LICH SKELETONS
 			l_hand = /obj/item/gun/ballistic/revolver/grenadelauncher/sling
 			beltl = /obj/item/quiver/sling/paalloy
 			H.adjust_skillrank(/datum/skill/combat/slings, 1, TRUE)
+	var/tabards = list("Black Cloak + Greathood", "Black Jupon", "Black Tabard")
+	var/tabard_choice = input(H, "Choose your CLOAK.", "BARE YOUR MASTER'S HERALDRY.") as anything in tabards
+	switch(tabard_choice)
+		if("Black Jupon")
+			cloak = /obj/item/clothing/cloak/tabard/stabard/surcoat/lich
+		if("Black Tabard")
+			cloak = /obj/item/clothing/cloak/tabard/lich
+		if("Black Cloak + Greathood")
+			cloak = /obj/item/clothing/cloak/half/lich
+			mask = /obj/item/clothing/cloak/tabard/stabard/guardhood/lich
 
 	H.energy = H.max_energy
 
@@ -199,7 +219,8 @@ LICH SKELETONS
 	shirt = /obj/item/clothing/suit/roguetown/armor/chainmail/hauberk/paalloy
 	armor = /obj/item/clothing/suit/roguetown/armor/plate/cuirass/paalloy
 	neck = /obj/item/clothing/neck/roguetown/gorget/paalloy
-	shoes = /obj/item/clothing/shoes/roguetown/boots/aalloy
+	shoes = /obj/item/clothing/shoes/roguetown/boots/paalloy
+	gloves = /obj/item/clothing/gloves/roguetown/chain/paalloy
 
 	H.adjust_blindness(-3)
 	var/weapons = list("Greatsword", "Bardiche", "Grand Mace", "Mace + Shield","Spear", "Warhammer + Shield")
@@ -227,7 +248,7 @@ LICH SKELETONS
 			H.adjust_skillrank(/datum/skill/combat/maces, 1, TRUE)
 			H.adjust_skillrank(/datum/skill/combat/shields, 1, TRUE)
 	var/armors = list("Sayovard + Cuirass & Hauberk", "Bascinet + Heavy Hauberk")
-	var/armor_choice = input(H, "Choose your armor.", "TAKE UP ARMOR") as anything in armors
+	var/armor_choice = input(H, "Choose your PLATE.", "SHRUG OFF THINE BLOWS.") as anything in armors
 	switch(armor_choice)
 		if("Sayovard + Cuirass & Hauberk")
 			head = /obj/item/clothing/head/roguetown/helmet/heavy/guard/paalloy
@@ -237,6 +258,16 @@ LICH SKELETONS
 			head = /obj/item/clothing/head/roguetown/helmet/heavy/knight/paalloy
 			shirt = /obj/item/clothing/suit/roguetown/armor/gambeson/light
 			armor = /obj/item/clothing/suit/roguetown/armor/chainmail/hauberk/paalloy/heavy
+	var/tabards = list("Black Tabard", "Black Jupon", "Black Cloak + Greathood")
+	var/tabard_choice = input(H, "Choose your CLOAK.", "BARE YOUR MASTER'S HERALDRY.") as anything in tabards
+	switch(tabard_choice)
+		if("Black Jupon")
+			cloak = /obj/item/clothing/cloak/tabard/stabard/surcoat/lich
+		if("Black Tabard")
+			cloak = /obj/item/clothing/cloak/tabard/lich
+		if("Black Cloak + Greathood")
+			cloak = /obj/item/clothing/cloak/half/lich
+			mask = /obj/item/clothing/cloak/tabard/stabard/guardhood/lich
 
 	H.energy = H.max_energy
 
@@ -282,12 +313,26 @@ LICH SKELETONS
 	head = /obj/item/clothing/head/roguetown/helmet/kettle/minershelm
 	shirt = /obj/item/clothing/suit/roguetown/armor/chainmail/paalloy
 	armor = /obj/item/clothing/suit/roguetown/armor/leather/studded
+	gloves = /obj/item/clothing/gloves/roguetown/angle
 	neck = /obj/item/clothing/neck/roguetown/coif
-	shoes = /obj/item/clothing/shoes/roguetown/sandals/aalloy
+	shoes = /obj/item/clothing/shoes/roguetown/sandals/paalloy
 	backl = /obj/item/storage/backpack/rogue/satchel
 
 	beltr = /obj/item/rogueweapon/stoneaxe/woodcut/steel/paaxe
 	beltl = /obj/item/rogueweapon/pick/paalloy
+
+	H.adjust_blindness(-3)
+	var/tabards = list("Black Cloak + Greathood", "Black Jupon", "Black Tabard")
+	var/tabard_choice = input(H, "Choose your CLOAK.", "BARE YOUR MASTER'S HERALDRY.") as anything in tabards
+	H.set_blindness(0)
+	switch(tabard_choice)
+		if("Black Jupon")
+			cloak = /obj/item/clothing/cloak/tabard/stabard/surcoat/lich
+		if("Black Tabard")
+			cloak = /obj/item/clothing/cloak/tabard/lich
+		if("Black Cloak + Greathood")
+			cloak = /obj/item/clothing/cloak/half/lich
+			mask = /obj/item/clothing/cloak/tabard/stabard/guardhood/lich
 
 	H.energy = H.max_energy
 
@@ -299,7 +344,7 @@ LICH SKELETONS
 
 // Limited slot. Exclusive access to the Siegebow and slightly better melee skills, but worse speed.
 /datum/advclass/greater_skeleton/lich/rareballistiares
-	name = "Ancient Siege-Ballistiares"
+	name = "Venerated Siege-Ballistiares"
 	tutorial = "Few in number, yet known in presence. Fleshless palms cradle the pinnacle of siegebreakage; a massive weapon, capable of sundering all the walls-and-defenses that'd impede your master's path."
 	outfit = /datum/outfit/job/roguetown/greater_skeleton/lich/rareballistiares
 	maximum_possible_slots = 3 //Limited, but powerful.
@@ -335,7 +380,8 @@ LICH SKELETONS
 	pants = /obj/item/clothing/under/roguetown/chainlegs/kilt/paalloy
 	armor = /obj/item/clothing/suit/roguetown/armor/leather/studded
 	neck = /obj/item/clothing/neck/roguetown/chaincoif/paalloy
-	shoes = /obj/item/clothing/shoes/roguetown/sandals/aalloy
+	shoes = /obj/item/clothing/shoes/roguetown/sandals/paalloy
+	gloves = /obj/item/clothing/gloves/roguetown/chain/paalloy
 
 	l_hand = /obj/item/gun/ballistic/revolver/grenadelauncher/crossbow/heavy
 	beltl = /obj/item/quiver/bolt/heavy/paalloy
@@ -351,5 +397,123 @@ LICH SKELETONS
 		if("Dagger")
 			beltr = /obj/item/rogueweapon/huntingknife/idagger/steel/padagger
 			H.adjust_skillrank(/datum/skill/combat/knives, 1, TRUE)
+	var/tabards = list("Black Cloak + Greathood", "Black Jupon")
+	var/tabard_choice = input(H, "Choose your CLOAK.", "BARE YOUR MASTER'S HERALDRY.") as anything in tabards
+	switch(tabard_choice)
+		if("Black Jupon")
+			cloak = /obj/item/clothing/cloak/tabard/stabard/surcoat/lich
+		if("Black Cloak + Greathood")
+			cloak = /obj/item/clothing/cloak/half/lich
+			mask = /obj/item/clothing/cloak/tabard/stabard/guardhood/lich
 
 	H.energy = H.max_energy
+
+//Stronger sidegrade of the Bulwark. Fully armored with high Intelligence and Perception for baiting and riposting, but extremely low Constitution and Speed. Crack open the armor, and they're dead meat.
+/datum/advclass/greater_skeleton/lich/bulwarkrare
+	name = "Venerated Death Knight"
+	tutorial = "Swerve, parry, riposte. The wetness along your mortal wound has dried centuries ago, yet your wit remains unsullied in the slightest. Bring your master's chivalry to the battlefield, through both plate-and-blade."
+	outfit = /datum/outfit/job/roguetown/greater_skeleton/lich/bulwarkrare
+	maximum_possible_slots = 2 //Limited, but powerful. Could serve as either champions or commanders for the Lich's army.
+	category_tags = list(CTAG_LSKELETON)
+
+/datum/outfit/job/roguetown/greater_skeleton/lich/bulwarkrare/pre_equip(mob/living/carbon/human/H)
+	..()
+
+	H.STASTR = 14
+	H.STASPD = 5
+	H.STACON = 5
+	H.STAWIL = 8
+	H.STAINT = 14
+	H.STAPER = 14
+
+	ADD_TRAIT(H, TRAIT_HEAVYARMOR, TRAIT_GENERIC)
+
+	H.adjust_skillrank(/datum/skill/combat/swords, 3, TRUE)
+	H.adjust_skillrank(/datum/skill/combat/shields, 3, TRUE)
+	H.adjust_skillrank(/datum/skill/combat/whipsflails, 3, TRUE)
+	H.adjust_skillrank(/datum/skill/combat/polearms, 3, TRUE)
+	H.adjust_skillrank(/datum/skill/combat/wrestling, 3, TRUE)
+	H.adjust_skillrank(/datum/skill/combat/unarmed, 3, TRUE)
+	H.adjust_skillrank(/datum/skill/combat/knives, 3, TRUE)
+	H.adjust_skillrank(/datum/skill/misc/athletics, 5, TRUE)
+	H.adjust_skillrank(/datum/skill/misc/climbing, 3, TRUE)
+
+	H.adjust_skillrank(/datum/skill/craft/carpentry, 2, TRUE)
+	H.adjust_skillrank(/datum/skill/craft/masonry, 2, TRUE)
+	H.adjust_skillrank(/datum/skill/craft/crafting, 2, TRUE)
+	H.adjust_skillrank(/datum/skill/craft/sewing, 2, TRUE)
+
+	head = /obj/item/clothing/head/roguetown/helmet/heavy/knight/paalloy
+	armor = /obj/item/clothing/suit/roguetown/armor/plate/paalloy
+	shirt = /obj/item/clothing/suit/roguetown/armor/gambeson/light
+	pants = /obj/item/clothing/under/roguetown/platelegs/paalloy
+	gloves = /obj/item/clothing/gloves/roguetown/plate/paalloy
+	neck = /obj/item/clothing/neck/roguetown/chaincoif/paalloy
+	shoes = /obj/item/clothing/shoes/roguetown/boots/paalloy
+
+	H.adjust_blindness(-3)
+	var/weapons = list("Flamberge", "Flail + Greatshield")
+	var/weapon_choice = input(H, "Choose your GREATWEAPON.", "FELL THE CHAMPIONS OF THE LYVING.") as anything in weapons
+	H.set_blindness(0)
+	switch(weapon_choice)
+		if("Flamberge")
+			r_hand = /obj/item/rogueweapon/greatsword/grenz/flamberge/paalloy
+			backr = /obj/item/rogueweapon/scabbard/gwstrap
+			H.adjust_skillrank(/datum/skill/combat/swords, 1, TRUE)
+		if("Flail + Greatshield")
+			r_hand = /obj/item/rogueweapon/flail/sflail/paflail
+			l_hand = /obj/item/rogueweapon/shield/tower/metal/palloy
+			H.adjust_skillrank(/datum/skill/combat/whipsflails, 1, TRUE)
+			H.adjust_skillrank(/datum/skill/combat/shields, 1, TRUE)
+	var/tabards = list("Black Tabard", "Black Jupon")
+	var/tabard_choice = input(H, "Choose your CLOAK.", "BARE YOUR MASTER'S HERALDRY.") as anything in tabards
+	switch(tabard_choice)
+		if("Black Jupon")
+			cloak = /obj/item/clothing/cloak/tabard/stabard/surcoat/lich
+		if("Black Tabard")
+			cloak = /obj/item/clothing/cloak/tabard/lich
+
+	H.energy = H.max_energy
+
+/////////////////////////////
+// UNIQUE ITEMS!           //
+/////////////////////////////
+
+/obj/item/clothing/cloak/tabard/stabard/surcoat/lich
+	name = "decrepit jupon"
+	desc = "Roughspun fabrics from beyond your lyfetime, donned by those who are condemned to march forevermore."
+	color = CLOTHING_BLACK
+
+/obj/item/clothing/cloak/tabard/lich
+	name = "decrepit tabard"
+	desc = "Roughspun fabrics from beyond your lyfetime, donned by those who once knew of chivalry's allure."
+	color = CLOTHING_BLACK
+
+/obj/item/clothing/cloak/half/lich
+	name = "decrepit cloak"
+	desc = "Roughspun fabrics from beyond your lyfetime, donned by those who fear what they've truly become."
+	color = CLOTHING_BLACK
+
+/obj/item/clothing/cloak/tabard/stabard/guardhood/lich
+	name = "decrepit greathood"
+	desc = "Roughspun fabrics from beyond your lyfetime, donned by those who have reaped what they've sown."
+	color = CLOTHING_BLACK
+
+/obj/item/rogueweapon/greatsword/grenz/flamberge/aalloy
+	name = "decrepit flamberge"
+	desc = "Tarnished bronze and decaying bogleather, meticulously woven together to fashion a flame-bladed swan song for Psydonia's final descendants. </br>'Oh, how valiant His sacrifice was! But now He lies, sleeping and witless to the world-anew.' </br>'And now, He sleeps. And now, He weeps.'"
+	icon_state = "ancientflamb"
+	smeltresult = /obj/item/ingot/aaslag
+	max_integrity = 150
+	force = 25
+	blade_dulling = DULLING_SHAFT_CONJURED
+	color = "#bb9696"
+	smeltresult = /obj/item/ingot/aaslag
+	anvilrepair = null
+	randomize_blade_int_on_init = TRUE
+
+/obj/item/rogueweapon/greatsword/grenz/flamberge/paalloy
+	name = "ancient flamberge"
+	desc = "Polished gilbranze and velvety saigaleather, masterfully bound together to hewn a greatsword of archaic opulance. One must remember that even the undying aren't consigned to the Archdevil's grasp; for those of true faith and nobleheartedness can persist in penitence."
+	icon_state = "ancientflamb"
+	smeltresult = /obj/item/ingot/aaslag

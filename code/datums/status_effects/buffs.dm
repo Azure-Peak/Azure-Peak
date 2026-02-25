@@ -41,11 +41,30 @@
 	owner.adjustBruteLoss(3)
 
 
+/datum/status_effect/vampire_spawn_protection
+	id = "vampire_spawn_protection"
+	duration = 5 MINUTES
+	alert_type = /atom/movable/screen/alert/status_effect/vampire_spawn_protection
+
+/atom/movable/screen/alert/status_effect/vampire_spawn_protection
+	name = "Sun Protection"
+	desc = "The sun cannot harm me... for now."
+	icon_state = "buff"
+
+/datum/status_effect/vampire_spawn_protection/on_apply()
+	ADD_TRAIT(owner, TRAIT_WEATHER_PROTECTED, "vampire_spawn_protection")
+	return TRUE
+
+/datum/status_effect/vampire_spawn_protection/on_remove()
+	REMOVE_TRAIT(owner, TRAIT_WEATHER_PROTECTED, "vampire_spawn_protection")
+	if(isliving(owner))
+		to_chat(owner, span_warning("My spawn protection has faded. The sun will burn me now."))
+
 /datum/status_effect/cyborg_power_regen
 	id = "power_regen"
 	duration = 100
 	alert_type = /atom/movable/screen/alert/status_effect/power_regen
-	var/power_to_give = 0 //how much power is gained each tick
+	var/power_to_give = 0
 
 /datum/status_effect/cyborg_power_regen/on_creation(mob/living/new_owner, new_power_per_tick)
 	. = ..()

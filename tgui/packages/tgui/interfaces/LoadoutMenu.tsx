@@ -236,6 +236,56 @@ const TweakRow = (props: {
   );
 };
 
+/** Clear All button with inline "Are you sure?" confirmation for 4+ items */
+const ClearAllButton = (props: { selectedCount: number }) => {
+  const { act } = useBackend<Data>();
+  const [confirming, setConfirming] = useState(false);
+  const needsConfirm = props.selectedCount > 3;
+
+  if (props.selectedCount === 0) {
+    return null;
+  }
+
+  if (confirming) {
+    return (
+      <Box inline>
+        <Box inline color="bad" bold mr={1}>
+          Are you sure?
+        </Box>
+        <Button
+          icon="trash"
+          color="bad"
+          onClick={() => {
+            act('clear_all');
+            setConfirming(false);
+          }}
+        >
+          Yes, clear all
+        </Button>
+        <Button ml={0.5} onClick={() => setConfirming(false)}>
+          Cancel
+        </Button>
+      </Box>
+    );
+  }
+
+  return (
+    <Button
+      icon="trash"
+      color="bad"
+      onClick={() => {
+        if (needsConfirm) {
+          setConfirming(true);
+        } else {
+          act('clear_all');
+        }
+      }}
+    >
+      Clear All ({props.selectedCount})
+    </Button>
+  );
+};
+
 const LoadoutDisplay = () => {
   const [search, setSearch] = useState('');
   const [activeCategory, setActiveCategory] = useState('');
@@ -399,6 +449,9 @@ const LoadoutDisplay = () => {
       <Stack.Item>
         <Box px={1} py={0.25}>
           <Stack align="center">
+            <Stack.Item>
+              <ClearAllButton selectedCount={selected.length} />
+            </Stack.Item>
             <Stack.Item grow>
               <Box inline bold fontSize={0.95} color={total_cost >= max_points ? 'bad' : undefined} mr={1.5}>
                 Budget: {total_cost}/{max_points}

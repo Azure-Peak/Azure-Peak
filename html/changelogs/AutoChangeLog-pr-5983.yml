@@ -1,0 +1,4 @@
+author: "FreeStylaLT"
+delete-after: True
+changes:
+  - bugfix: "Fixed race bonuses comprised of more than one trait or stat not saving correctly."

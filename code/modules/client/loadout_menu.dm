@@ -181,6 +181,10 @@
 				meta -= "custom_desc"
 			return TRUE
 
+		if("clear_all")
+			gear_list.Cut()
+			return TRUE
+
 		if("confirm")
 			if(owner?.prefs)
 				owner.prefs.gear_list = gear_list

@@ -1,0 +1,6 @@
+author: "saltprjak"
+delete-after: True
+changes:
+  - balance: "Ruma Clan Seonjang no longer gets conditional statpoints. Seonjang and Gun-in loadouts now prevent chest-armor stacking."
+  - balance: "Kazengun scabbards now get limb-guard, shield-tier force and work off the skill of their respective weapon."
+  - balance: "Blacksteel limb armor and helmets respect fencer and honorbound limitations."

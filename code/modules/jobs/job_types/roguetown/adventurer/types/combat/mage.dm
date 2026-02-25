@@ -147,6 +147,7 @@
 		momentum.chant = subclass_selected
 
 	if(H.mind)
+<<<<<<< HEAD
 		switch(subclass_selected)
 			if("blade")
 				H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/caedo)

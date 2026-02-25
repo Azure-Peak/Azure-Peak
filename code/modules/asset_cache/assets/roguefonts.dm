@@ -21,6 +21,7 @@
 		"lingyuese.ttf" = 'interface/fonts/languages/lingyuese.ttf',
 		"otavan.ttf" = 'interface/fonts/languages/otavan.ttf',
 		"oldazure.ttf" = 'interface/fonts/languages/oldazure.ttf',
+		"undercommon.ttf" = 'interface/fonts/languages/undercommon.ttf',
 		"etruscan.ttf" = 'interface/fonts/languages/etruscan.ttf',
 		"gronnic.ttf" = 'interface/fonts/languages/gronnic.ttf',
 		"aavnic.ttf" = 'interface/fonts/languages/aavnic.ttf',

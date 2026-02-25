@@ -307,6 +307,13 @@
 				/obj/item/natural/fibers = 1)
 	craftdiff = 1
 
+/datum/crafting_recipe/roguetown/sewing/woolencollar
+	name = "wool collar"
+	category = "Coifs"
+	result = list(/obj/item/clothing/neck/roguetown/collar/woolen)
+	reqs = list(/obj/item/natural/cloth = 1)
+	craftdiff = 0
+
 /datum/crafting_recipe/roguetown/sewing/gbandages
 	name = "bandages, gloved"
 	category = "Gloves"
@@ -711,6 +718,14 @@
 //	reqs = list(/obj/item/natural/cloth = 3,
 //				/obj/item/natural/fibers = 1)
 //	craftdiff = 4
+
+/datum/crafting_recipe/roguetown/sewing/slitdress
+	name = "slitted dress"
+	category = "Dresses"
+	result = list(/obj/item/clothing/suit/roguetown/shirt/dress/slit)
+	reqs = list(/obj/item/natural/cloth = 3,
+				/obj/item/natural/fibers = 1)
+	craftdiff = 3
 
 /datum/crafting_recipe/roguetown/sewing/fancyhat
 	name = "fancy hat"

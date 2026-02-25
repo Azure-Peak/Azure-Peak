@@ -188,11 +188,6 @@
 	max_integrity = 275
 	demolition_mod = 2.3 //Slightly lesser than the dedicated variant.
 
-/obj/item/rogueweapon/stoneaxe/woodcut/triumph
-	name = "valorian axe"
-	icon_state = "axelegacy"
-	desc = "'Through thick-and-thin, I have never failed you. May we trounce through the Terrorbog, one last time, before Astrata's glare vanishes 'neath the horizon?'"
-
 /obj/item/rogueweapon/stoneaxe/woodcut/aaxe
 	name = "decrepit axe"
 	desc = "A hatchet of frayed bronze. It reigns from a tyme before the Comet Syon's impact; when Man wrought metal not to spill blood, but to better shape the world in His image."
@@ -307,11 +302,6 @@
 	grid_width = 32
 	throw_speed = 3 
 	armor_penetration = 25
-
-/obj/item/rogueweapon/stoneaxe/handaxe/triumph
-	name = "valorian hatchet"
-	icon_state = "hatchetlegacy"
-	desc = "'What is that rag for, anyways?'"
 
 /obj/item/rogueweapon/stoneaxe/woodcut/bronze
 	name = "bronze axe"
@@ -721,3 +711,53 @@
 	var/active_gripped_intents = list(/datum/intent/axe/cut/battle/frost, /datum/intent/axe/chop/battle/frost, /datum/intent/axe/bash, /datum/intent/sword/peel)
 	var/inactive_intents = list()
 	var/inactive_gripped_intents = list()
+
+////////////////////////
+// TRIUMPH-EXCLUSIVE! //
+////////////////////////
+
+/obj/item/rogueweapon/stoneaxe/woodcut/triumph
+	name = "valorian axe"
+	icon_state = "axelegacy"
+	desc = "'Through thick-and-thin, I have never failed you. May we trounce through the Terrorbog, one last time, before Astrata's glare vanishes 'neath the horizon?'"
+
+/obj/item/rogueweapon/stoneaxe/handaxe/triumph
+	name = "valorian hatchet"
+	icon_state = "hatchetlegacy"
+	desc = "'What is that rag for, anyways?'"
+
+/obj/item/rogueweapon/stoneaxe/woodcut/triumphalt
+	name = "double-headed axe"
+	desc = "'For Karl!'"
+	icon_state = "axedouble"
+	swingsound = BLADEWOOSH_HUGE
+
+/obj/item/rogueweapon/stoneaxe/woodcut/bronze/triumph
+	name = "double-headed bronze axe"
+	desc = "'Give them nothing.. but take from them, EVERYTHING!'"
+	icon_state = "bronzeaxedouble"
+	swingsound = BLADEWOOSH_HUGE
+
+/obj/item/rogueweapon/stoneaxe/woodcut/steel/triumph
+	name = "double-headed steel axe"
+	desc = "'Last man alive, lock the doors!'"
+	icon_state = "saxedouble"
+	swingsound = BLADEWOOSH_HUGE
+
+/obj/item/rogueweapon/stoneaxe/battle/triumph
+	name = "double-headed battle axe"
+	desc = "'Never thought I'd die side-by-side wi' an elve.' </br>'How about with a friend?' </br>'Aye, I coul' do that.'"
+	icon_state = "battleaxedouble"
+	swingsound = BLADEWOOSH_HUGE
+
+/obj/item/rogueweapon/stoneaxe/woodcut/silver/triumph
+	name = "double-headed silver axe"
+	desc = "'I'll swallow your soul, I'll swallow your soul!' </br>'Swallow this.'"
+	icon_state = "silveraxedouble"
+	swingsound = BLADEWOOSH_HUGE
+
+/obj/item/rogueweapon/stoneaxe/battle/psyaxe/triumph
+	name = "double-headed psydonic axe"
+	desc = "'Hail to the king, baby.'"
+	icon_state = "psyaxedouble"
+	swingsound = BLADEWOOSH_HUGE

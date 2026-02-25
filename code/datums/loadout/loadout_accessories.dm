@@ -101,6 +101,11 @@
 	path = /obj/item/clothing/neck/roguetown/gorget/cursed_collar
 	sort_category = "Accessories"
 
+/datum/loadout_item/woolencollar
+	name = "Woolen Collar"
+	path = /obj/item/clothing/neck/roguetown/collar/woolen
+	sort_category = "Accessories"
+
 /datum/loadout_item/cloth_blindfold
 	name = "Cloth Blindfold"
 	path = /obj/item/clothing/mask/rogue/blindfold
@@ -129,6 +134,11 @@
 /datum/loadout_item/breechclothbeltalt
 	name = "Black Belt with Breechcloth"
 	path = /obj/item/storage/belt/rogue/leather/battleskirt/breechcloth/blackbelt
+	sort_category = "Accessories"
+
+/datum/loadout_item/doublebelt
+	name = "Paired slim belts"
+	path = /obj/item/storage/belt/rogue/leather/double
 	sort_category = "Accessories"
 
 /datum/loadout_item/psicross
@@ -246,8 +256,23 @@
 	sort_category = "Accessories"
 
 /datum/loadout_item/wedding_band
-	name = "Silver Wedding Band"
+	name = "Wedding Band, Silver"
 	path = /obj/item/clothing/ring/band
+	sort_category = "Accessories"
+
+/datum/loadout_item/wedding_band_gold
+	name = "Wedding Band, Gold"
+	path = /obj/item/clothing/ring/band/gold
+	sort_category = "Accessories"
+
+/datum/loadout_item/wedding_band_bronze
+	name = "Wedding Band, Bronze"
+	path = /obj/item/clothing/ring/band/bronze
+	sort_category = "Accessories"
+
+/datum/loadout_item/wedding_band_ancient
+	name = "Wedding Band, Ancient"
+	path = /obj/item/clothing/ring/band/paalloy
 	sort_category = "Accessories"
 
 /datum/loadout_item/chaperon

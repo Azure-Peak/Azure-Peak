@@ -1,0 +1,4 @@
+author: "eirenxiv"
+delete-after: True
+changes:
+  - bugfix: "fixed heretic spy bow loadout to include quiver"

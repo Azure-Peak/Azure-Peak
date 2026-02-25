@@ -60,6 +60,18 @@
 		soundloop.stop()
 		user.remove_status_effect(/datum/status_effect/buff/playing_music)
 
+/obj/item/rogue/instrument/proc/check_file(infile, filename, user)
+	var/file_ext = lowertext(copytext(filename, -4))
+	var/file_size = length(infile)
+
+	if(file_ext != ".ogg")
+		return "SONG MUST BE AN OGG."
+	if(file_size > 4 * 1024 * 1024)
+		return "TOO BIG. 4 MEGS OR LESS."
+
+	message_admins("[ADMIN_LOOKUPFLW(user)] uploaded a song [filename] of size [file_size / 1000000] (~MB).")
+	return null
+
 /obj/item/rogue/instrument/attack_self(mob/living/user)
 	var/stressevent = /datum/stressevent/music
 	. = ..()
@@ -90,7 +102,7 @@
 				
 			if(playing || !(src in user.held_items) || user.get_inactive_held_item())
 				return
-				
+
 			if(choice == "Upload New Song")
 				if(lastfilechange && world.time < lastfilechange + 3 MINUTES)
 					say("NOT YET!")
@@ -104,22 +116,20 @@
 					return
 
 				var/filename = "[infile]"
-				var/file_ext = lowertext(copytext(filename, -4))
-				var/file_size = length(infile)
-				message_admins("[ADMIN_LOOKUPFLW(user)] uploaded a song [filename] of size [file_size / 1000000] (~MB).")
-				if(file_ext != ".ogg")
-					to_chat(user, span_warning("SONG MUST BE AN OGG."))
+				var/file_error = check_file(infile, filename, user)
+				if(file_error)
+					to_chat(user, span_warning(file_error))
 					return
-				if(file_size > 6485760)
-					to_chat(user, span_warning("TOO BIG. 6 MEGS OR LESS."))
-					return
+
 				lastfilechange = world.time
 				fcopy(infile,"data/jukeboxuploads/[user.ckey]/[filename]")
 				curfile = file("data/jukeboxuploads/[user.ckey]/[filename]")
+
 				var/songname = input(user, "Name your song:", "Song Name") as text|null
 				if(songname)
 					song_list[songname] = curfile
 				return
+
 			curfile = song_list[choice]
 			if(!user || playing || !(src in user.held_items))
 				return
