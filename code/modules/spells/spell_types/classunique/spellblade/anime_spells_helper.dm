@@ -19,6 +19,7 @@ without going through the click pipeline, so spells can deliver weapon-style str
 		if(BCLASS_BLUNT, BCLASS_SMASH)
 			blade_class = BCLASS_BLUNT
 			attack_flag = "blunt"
+			armor_penetration = BLUNT_DEFAULT_PENFACTOR // It is BLUNT
 		if(BCLASS_STAB, BCLASS_PICK)
 			blade_class = BCLASS_STAB
 			attack_flag = "stab"
@@ -47,17 +48,19 @@ without going through the click pipeline, so spells can deliver weapon-style str
 		user.do_attack_animation(target, visual_effect, weapon, item_animation_override = anim_type)
 
 	var/armor_block = target.run_armor_check(def_zone, attack_flag, blade_dulling = blade_class, armor_penetration = armor_penetration, damage = damage)
-	target.apply_damage(damage, BRUTE, def_zone, armor_block)
+	var/damage_dealt = target.apply_damage(damage, BRUTE, def_zone, armor_block)
 
-	var/effective_damage = damage * ((100 - armor_block) / 100)
-	if(effective_damage > 0)
-		if(iscarbon(target))
-			var/mob/living/carbon/C = target
-			var/obj/item/bodypart/affecting = C.get_bodypart(check_zone(def_zone))
-			if(affecting)
-				affecting.bodypart_attacked_by(blade_class, effective_damage, user, def_zone, crit_message = TRUE, weapon = weapon)
-		else
-			target.simple_woundcritroll(blade_class, effective_damage, user, def_zone, crit_message = TRUE)
+	// Match standard melee flow: only apply wounds if damage actually got through armor
+	if(damage_dealt)
+		var/wound_damage = max(0, damage - armor_block)
+		if(wound_damage > 0)
+			if(iscarbon(target))
+				var/mob/living/carbon/C = target
+				var/obj/item/bodypart/affecting = C.get_bodypart(check_zone(def_zone))
+				if(affecting)
+					affecting.bodypart_attacked_by(blade_class, wound_damage, user, def_zone, crit_message = TRUE, weapon = weapon)
+			else
+				target.simple_woundcritroll(blade_class, wound_damage, user, def_zone, crit_message = TRUE)
 
 	var/attack_verb = "strikes"
 	var/hit_sound
@@ -83,7 +86,7 @@ without going through the click pipeline, so spells can deliver weapon-style str
 		to_chat(target, span_danger("The strike hits my [span_userdanger(parse_zone(def_zone))]!"))
 
 	log_combat(user, target, "spell-struck ([spell_name])")
-	return effective_damage
+	return max(0, damage - armor_block)
 
 /proc/arcyne_get_weapon(mob/living/carbon/human/H)
 	var/datum/status_effect/buff/arcyne_momentum/M = H.has_status_effect(/datum/status_effect/buff/arcyne_momentum)
