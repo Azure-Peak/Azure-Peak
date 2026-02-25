@@ -46,10 +46,9 @@
 		return
 
 	// MASQUERADE LOCK CHECK (auto break)
-	if(source in GLOB.coven_breakers_list)
-		to_chat(source, span_danger("My broken Masquerade shatters my mortal guise!"))
-		remove_disguise(source)
-		return
+	if(H in GLOB.coven_breakers_list && H.get_vampire_generation() != GENERATION_METHUSELAH)
+		to_chat(H, span_danger("I have broken the Masquerade. I cannot assume a mortal guise."))
+		return FALSE
 
 	// Check if we have enough blood to maintain disguise
 	if(source.bloodpool < disguise_upkeep)
@@ -65,9 +64,10 @@
 		return FALSE
 
 	// MASQUERADE LOCK CHECK
-	if(H in GLOB.coven_breakers_list)
-		to_chat(H, span_danger("I have broken the Masquerade. I cannot assume a mortal guise."))
-		return FALSE
+	if(source in GLOB.coven_breakers_list && source.get_vampire_generation() != GENERATION_METHUSELAH)
+		to_chat(source, span_danger("My broken Masquerade shatters my mortal guise!"))
+		remove_disguise(source)
+		return
 
 	if(!COOLDOWN_FINISHED(src, transform_cooldown))
 		to_chat(H, span_warning("I must wait before transforming again."))
