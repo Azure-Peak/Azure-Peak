@@ -276,7 +276,7 @@ a.choose-btn:hover {
 <div class="shared-info" style="text-align: left;">
 <h4 style="text-align: center;">Shared Mechanics</h4>
 <ul class="shared-list">
-<li><b>Arcyne Momentum</b> — Build 1 Momentum on melee hits (even if parried or dodged) against a living creature. Spend 3 to unleash empowered versions of your abilities.</li>
+<li><b>Arcyne Momentum</b> — Build 1 Momentum on melee hits (even if parried or dodged) against a living creature. Melee grants 1 stack every 2 seconds. Spend 3 to unleash empowered versions of your abilities.</li>
 <li><b>Decay</b> — Starts decaying 10 seconds after the last strike, losing 1 stack every 6 seconds.</li>
 <li><b>Disruption</b> — You lose all Momentum when knocked down or stunned. Off-balance costs 3.</li>
 <li><b>Overcharge (7)</b> — Damages your chest and blurs your vision, unlocking your most powerful ability.</li>

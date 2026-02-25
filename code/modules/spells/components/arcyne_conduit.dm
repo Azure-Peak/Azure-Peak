@@ -3,6 +3,8 @@
 /datum/component/arcyne_conduit
 	dupe_mode = COMPONENT_DUPE_UNIQUE
 	var/outline_color = "#4a90d9"
+	var/gain_cooldown = 2 SECONDS // 2 seconds between melee momentum gains
+	var/last_melee_gain = 0
 
 /datum/component/arcyne_conduit/Initialize(outline_color_override)
 	if(!isitem(parent))
@@ -28,11 +30,14 @@
 		return
 	if(target.stat == DEAD)
 		return
+	if(world.time < last_melee_gain + gain_cooldown)
+		return
 	var/datum/status_effect/buff/arcyne_momentum/M = user.has_status_effect(/datum/status_effect/buff/arcyne_momentum)
 	if(!M)
 		M = user.apply_status_effect(/datum/status_effect/buff/arcyne_momentum)
 	if(M)
 		M.add_stacks(1)
+		last_melee_gain = world.time
 
 /datum/component/arcyne_conduit/proc/on_examine(datum/source, mob/user, list/examine_list)
 	SIGNAL_HANDLER
