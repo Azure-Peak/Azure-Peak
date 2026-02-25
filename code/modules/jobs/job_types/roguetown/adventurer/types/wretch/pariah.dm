@@ -1,6 +1,6 @@
 // WOE: SPELLBLADE DODGE EXPERT POLEARM BUILD UPON YE.
-/datum/advclass/wretch/neo_pariah
-	name = "Black Oak's Pariah (New)"
+/datum/advclass/wretch/pariah
+	name = "Black Oak's Pariah"
 	tutorial = "Carrying extreme beliefs not even befit of the Black Oaks, you have decided to secede yourself from the group and everyone else. This land was once great...and now, wave after wave of monsters and outsiders trample your home. Your people were the ones that settled these lands, and the foreign-backed Crown, deceitful and arrogant, has denied your people the rewards they deserve! Your extensive training in the Black Oaks has given you skill in both blades and magycks. A bounty from the crown follows you, as you had already done enough to be officially condemned by the group that was not committed to the cause due to the lure of coin."
 	allowed_sexes = list(MALE, FEMALE)
 	allowed_races = list(
@@ -8,7 +8,7 @@
 		/datum/species/elf/wood,
 		/datum/species/elf/dark,
 	)
-	outfit = /datum/outfit/job/roguetown/wretch/neo_pariah
+	outfit = /datum/outfit/job/roguetown/wretch/pariah
 	cmode_music = 'sound/music/combat_blackoak.ogg'
 	maximum_possible_slots = 1
 	category_tags = list(CTAG_WRETCH)
@@ -50,10 +50,10 @@
 	extra_context = "This subclass is race-limited to: Half-Elves, Elves, Dark Elves."
 
 
-/datum/outfit/job/roguetown/wretch/neo_pariah
+/datum/outfit/job/roguetown/wretch/pariah
 	var/subclass_selected
 
-/datum/outfit/job/roguetown/wretch/neo_pariah/Topic(href, href_list)
+/datum/outfit/job/roguetown/wretch/pariah/Topic(href, href_list)
 	. = ..()
 	if(href_list["subclass"])
 		subclass_selected = href_list["subclass"]
@@ -61,7 +61,7 @@
 		if(!subclass_selected)
 			subclass_selected = "blade"
 
-/datum/outfit/job/roguetown/wretch/neo_pariah/pre_equip(mob/living/carbon/human/H)
+/datum/outfit/job/roguetown/wretch/pariah/pre_equip(mob/living/carbon/human/H)
 	..()
 	H.adjust_blindness(-3)
 	shoes = /obj/item/clothing/shoes/roguetown/boots/elven_boots
