@@ -28,7 +28,7 @@
 		/datum/advclass/wapprentice/associate,
 		/datum/advclass/wapprentice/alchemist,
 		/datum/advclass/wapprentice/apprentice,
-		/datum/advclass/wapprentice/adept
+		/datum/advclass/wapprentice/spellblade
 	)
 
 /datum/outfit/job/roguetown/wapprentice
@@ -195,17 +195,17 @@
 		H.mind.AddSpell(new /obj/effect/proc_holder/spell/targeted/touch/prestidigitation)
 		SStreasury.give_money_account(ECONOMIC_LOWER_MIDDLE_CLASS, H, "Savings.")
 
-/datum/advclass/wapprentice/adept
-	name = "Magician Adept"
+/datum/advclass/wapprentice/spellblade
+	name = "Spellblade Associate"
 	maximum_possible_slots = 2
-	tutorial = "You are a Magician Adept, carrier of the five hundred yils tradition of \
+	tutorial = "You are a Spellblade Associate, carrier of the five hundred yils tradition of \
 		spellbladery originating in Azurea. You are employed under the University \
 		as a fellow Magos. The arcyne arts are dangerous, \
 		and you are to protect your peers from their own recklessness. \
 		You are not a member of the retinue - though the Crown may pay you a salary. \
 		It is not your job to wield your power in the Crown's name. \
 		Further your mastery, your camaraderie, and the safety of your fellow mages."
-	outfit = /datum/outfit/job/roguetown/wapprentice/adept
+	outfit = /datum/outfit/job/roguetown/wapprentice/spellblade
 	category_tags = list(CTAG_WAPPRENTICE)
 	traits_applied = list(TRAIT_ARCYNE_T2)
 	subclass_stats = list(
@@ -229,7 +229,7 @@
 		/datum/skill/misc/swimming = SKILL_LEVEL_NOVICE,
 	)
 
-/datum/outfit/job/roguetown/wapprentice/adept
+/datum/outfit/job/roguetown/wapprentice/spellblade
 	// Type-level defaults — equipped initially before chant selection
 	head = /obj/item/clothing/head/roguetown/bucklehat
 	shoes = /obj/item/clothing/shoes/roguetown/boots
@@ -246,7 +246,7 @@
 	wrists = /obj/item/clothing/wrists/roguetown/bracers/leather
 	var/subclass_selected
 
-/datum/outfit/job/roguetown/wapprentice/adept/Topic(href, href_list)
+/datum/outfit/job/roguetown/wapprentice/spellblade/Topic(href, href_list)
 	. = ..()
 	if(href_list["subclass"])
 		subclass_selected = href_list["subclass"]
@@ -254,7 +254,7 @@
 		if(!subclass_selected)
 			subclass_selected = "blade"
 
-/datum/outfit/job/roguetown/wapprentice/adept/pre_equip(mob/living/carbon/human/H)
+/datum/outfit/job/roguetown/wapprentice/spellblade/pre_equip(mob/living/carbon/human/H)
 	head = /obj/item/clothing/head/roguetown/bucklehat
 	shoes = /obj/item/clothing/shoes/roguetown/boots
 	pants = /obj/item/clothing/under/roguetown/trou/leather
