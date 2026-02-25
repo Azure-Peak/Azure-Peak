@@ -1,3 +1,5 @@
+#define MASQUERADE_COOLDOWN (5 MINUTES)
+
 /proc/CheckZoneCoven(mob/target)
 	var/area/area = get_area(target)
 	return !area.coven_protected
@@ -114,17 +116,16 @@
 				return
 		if(!CheckZoneCoven(src))
 			return
-	if(!is_special_character(src) || forced)
-		if(((last_masquerade_violation + 10 SECONDS) < world.time) || forced)
-			last_masquerade_violation = world.time
-			if(value < 0)
-				if(masquerade > 0)
-					masquerade = max(0, masquerade+value)
-					to_chat(src, "<span class='userdanger'><b>MASQUERADE VIOLATION!</b></span>")
-			if(value > 0)
-				if(masquerade < 5)
-					masquerade = min(5, masquerade+value)
-					to_chat(src, "<span class='userhelp'><b>MASQUERADE REINFORCED!</b></span>")
+	if(((last_masquerade_violation + MASQUERADE_COOLDOWN) < world.time) || forced)
+		last_masquerade_violation = world.time
+		if(value < 0)
+			if(masquerade > 0)
+				masquerade = max(0, masquerade+value)
+				to_chat(src, span_boldwarning("MASQUERADE VIOLATION!"))
+		if(value > 0)
+			if(masquerade < 5)
+				masquerade = min(5, masquerade+value)
+				to_chat(src, span_boldnotice("MASQUERADE REINFORCED!"))
 
 	if(src in GLOB.coven_breakers_list)
 		if(masquerade > 2)
@@ -339,3 +340,5 @@
 /mob/living/carbon/human/proc/get_vampire_generation()
 	var/datum/antagonist/vampire/licker_datum = mind?.has_antag_datum(/datum/antagonist/vampire)
 	return licker_datum?.generation
+
+#undef MASQUERADE_COOLDOWN

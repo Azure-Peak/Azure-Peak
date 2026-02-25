@@ -45,6 +45,12 @@
 	if(!disguised)
 		return
 
+	// MASQUERADE LOCK CHECK (auto break)
+	if(source in GLOB.coven_breakers_list)
+		to_chat(source, span_danger("My broken Masquerade shatters my mortal guise!"))
+		remove_disguise(source)
+		return
+
 	// Check if we have enough blood to maintain disguise
 	if(source.bloodpool < disguise_upkeep)
 		to_chat(source, span_warning("My disguise fails as I run out of blood!"))
@@ -56,6 +62,11 @@
 
 /datum/component/vampire_disguise/proc/apply_disguise(mob/living/carbon/human/H)
 	if(disguised)
+		return FALSE
+
+	// MASQUERADE LOCK CHECK
+	if(H in GLOB.coven_breakers_list)
+		to_chat(H, span_danger("I have broken the Masquerade. I cannot assume a mortal guise."))
 		return FALSE
 
 	if(!COOLDOWN_FINISHED(src, transform_cooldown))

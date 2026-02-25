@@ -62,10 +62,21 @@ GLOBAL_LIST_EMPTY(vampire_objects)
 /datum/antagonist/vampire/examine_friendorfoe(datum/antagonist/examined_datum, mob/examiner, mob/examined)
 	if(istype(examined_datum, /datum/antagonist/vampire/lord))
 		return span_boldnotice("Kaine's firstborn!")
+
 	if(istype(examined_datum, /datum/antagonist/vampire))
-		return span_boldnotice("A child of Kaine.")
+		var/datum/antagonist/vampire/my_vamp = examiner?.mind?.has_antag_datum(/datum/antagonist/vampire)
+		var/datum/antagonist/vampire/target_vamp = examined_datum
+
+		if(my_vamp && target_vamp)
+			if(my_vamp.generation > target_vamp.generation)
+				return span_boldnotice("A child of Kaine.")
+			if(my_vamp.generation == target_vamp.generation && prob(10))
+				return span_boldnotice("A child of Kaine.")
+		return
+
 	if(istype(examined_datum, /datum/antagonist/zombie))
 		return span_boldnotice("Another deadite.")
+
 	if(istype(examined_datum, /datum/antagonist/skeleton))
 		return span_boldnotice("Another deadite.")
 
