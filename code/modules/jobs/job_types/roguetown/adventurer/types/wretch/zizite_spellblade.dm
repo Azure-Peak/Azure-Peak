@@ -166,6 +166,7 @@
 					r_hand = /obj/item/rogueweapon/spear/boar
 				if("Dory")
 					r_hand = /obj/item/rogueweapon/spear/spellblade
+					backr = /obj/item/rogueweapon/shield/heater
 		if("macebearer")
 			var/mace_weapons = list("Steel Mace", "Steel Warhammer")
 			var/mace_choice = input(H, "Choose your weapon.", "TAKE UP ARMS") as anything in mace_weapons
