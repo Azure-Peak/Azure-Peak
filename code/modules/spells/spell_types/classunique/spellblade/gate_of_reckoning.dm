@@ -1,18 +1,18 @@
 /* Gate of Reckoning - Phalangite ultimate single-target spell.
-Conjure a portal above a target, shoot a spear downward at their head,
-then blink to their position and strike them again. Also do a pseudo
+Conjure a portal above a target, rain three phantom spears down on them,
+then blink to their position and strike them twice. Also do a pseudo
 Repulse without knockdown to clear space around the target on arrival.
 
 Originally, it involved the caster jumping, but it won't make sense
 where there is ceiling, and neuters the class in cramped spaces, so
-instead now it drops a spear (portal spell reference) and teleports.
+instead now it drops spears and teleports.
 
 Sequences:
 1. Open portal above target (Telegraph + Warning) (Use spellwarning to warn)
-2. Drop a spear onto the target's head and then hit them. This spear
-respects aim zone (Since melee want to break armor on one spot) (pseudo-melee, respects guard)
+2. Drop three phantom spears simultaneously onto the target in a wing formation.
+The spears respect aim zone (Since melee want to break armor on one spot) (pseudo-melee, respects guard)
 3. Blinks to the caster's portal to target's position
-4. Strikes again on arrival + knockback bystanders to clear strike
+4. Strikes twice on arrival (1 tick apart) + sweep + knockback bystanders simultaneously
 5. DYNASTY WARRIORS!!!!! Guan dao sweep — 3x3 ring slash around caster on landing
 
 Requires 7+ momentum (overcharge zone) — same pattern as Blade Storm.
@@ -23,12 +23,11 @@ Cross-Z uses a longer telegraph.*/
 
 /obj/effect/proc_holder/spell/invoked/gate_of_reckoning
 	name = "Gate of Reckoning"
-	desc = "Conjure a leyline portal above a target. A phantom spear drops through, \
-		striking their head. Then blink through the portal to their position \
-		and strike them again, then sweep bystanders with a wide slash aimed at the chest, knocking them back. \
+	desc = "Conjure a leyline portal above a target. Three phantom spears rain through, \
+		striking their aimed bodypart. Then blink through the portal to their position \
+		and strike them twice, then sweep bystanders with a wide slash aimed at the chest, knocking them back. \
 		Requires 7 momentum. At 10 momentum, all hits deal bonus damage. \
-		The portal spear always hits the head. The arrival strike hits your aimed bodypart. \
-		The arrival strike is pseudo-melee: can be deflected by Defend stance. \
+		The arrival strikes are pseudo-melee: can be deflected by Defend stance. \
 		Works across Z-levels."
 	clothes_req = FALSE
 	range = 6
@@ -37,7 +36,7 @@ Cross-Z uses a longer telegraph.*/
 	releasedrain = 40
 	chargedrain = 1
 	chargetime = 10
-	recharge_time = 30 SECONDS
+	recharge_time = 60 SECONDS
 	warnie = "spellwarning"
 	no_early_release = TRUE
 	movement_interrupt = FALSE
@@ -47,15 +46,16 @@ Cross-Z uses a longer telegraph.*/
 	invocation_type = "shout"
 	gesture_required = TRUE
 	xp_gain = FALSE
-	var/spear_damage = 40
-	var/arrival_damage = 40
+	var/spear_damage = 30
+	var/arrival_damage = 25
 	var/sweep_damage = 40
-	var/bonus_spear_damage = 10
-	var/bonus_arrival_damage = 10
+	var/bonus_spear_damage = 20
+	var/bonus_arrival_damage = 15
 	var/bonus_sweep_damage = 20
 	var/min_momentum = 7
 	var/max_momentum = 10
 	var/knockback_range = 1
+	var/spear_count = 3
 
 /obj/effect/proc_holder/spell/invoked/gate_of_reckoning/can_cast(mob/user = usr)
 	. = ..()
@@ -132,23 +132,42 @@ Cross-Z uses a longer telegraph.*/
 
 	var/telegraph_ticks = cross_z ? 12 : 8
 
-	addtimer(CALLBACK(src, PROC_REF(do_spear_drop), H, held_weapon, dest, target, final_spear_damage), telegraph_ticks)
-	addtimer(CALLBACK(src, PROC_REF(do_arrival_strike), H, held_weapon, dest, target, start, def_zone, final_arrival_damage, final_sweep_damage), telegraph_ticks + 8)
+	// All three spears drop simultaneously — visuals offset in wing formation
+	addtimer(CALLBACK(src, PROC_REF(do_spear_drop), user, held_weapon, dest, target, final_spear_damage, def_zone), telegraph_ticks)
+
+	// Arrival 2 ticks after spear impact (spears drop at telegraph_ticks, impact 2 ticks later)
+	addtimer(CALLBACK(src, PROC_REF(do_arrival_strike), H, held_weapon, dest, target, start, def_zone, final_arrival_damage, final_sweep_damage), telegraph_ticks + 2 + 2)
 
 	log_combat(H, target, "used Gate of Reckoning on")
 	return TRUE
 
-/obj/effect/proc_holder/spell/invoked/gate_of_reckoning/proc/do_spear_drop(mob/living/carbon/human/user, obj/item/weapon, turf/dest, atom/original_target, damage)
+/obj/effect/proc_holder/spell/invoked/gate_of_reckoning/proc/do_spear_drop(mob/living/carbon/human/user, obj/item/weapon, turf/dest, atom/original_target, damage, def_zone)
 	if(QDELETED(user) || user.stat == DEAD)
 		return
 
-	var/obj/effect/temp_visual/gate_of_reckoning_spear/spear_fx = new(dest)
-	spear_fx.pixel_z = 96
-	animate(spear_fx, pixel_z = 0, time = 4, easing = LINEAR_EASING)
+	// Wing formation: center spear ahead, two flanking far behind for dramatic spread
+	// All spears shifted left to compensate for the right-biased 64x64 sprite
+	var/obj/effect/temp_visual/gate_of_reckoning_spear/center = new(dest)
+	center.pixel_x = -16
+	center.pixel_z = 96
+	center.pixel_y = -6
+	animate(center, pixel_z = 0, time = 2, easing = LINEAR_EASING)
 
-	addtimer(CALLBACK(src, PROC_REF(do_spear_impact), user, weapon, dest, original_target, damage), 4)
+	var/obj/effect/temp_visual/gate_of_reckoning_spear/left = new(dest)
+	left.pixel_x = -28
+	left.pixel_z = 96
+	left.pixel_y = 8
+	animate(left, pixel_z = 0, time = 2, easing = LINEAR_EASING)
 
-/obj/effect/proc_holder/spell/invoked/gate_of_reckoning/proc/do_spear_impact(mob/living/carbon/human/user, obj/item/weapon, turf/dest, atom/original_target, damage)
+	var/obj/effect/temp_visual/gate_of_reckoning_spear/right = new(dest)
+	right.pixel_x = -4
+	right.pixel_z = 96
+	right.pixel_y = 8
+	animate(right, pixel_z = 0, time = 2, easing = LINEAR_EASING)
+
+	addtimer(CALLBACK(src, PROC_REF(do_spear_impact), user, weapon, dest, original_target, damage, def_zone), 2)
+
+/obj/effect/proc_holder/spell/invoked/gate_of_reckoning/proc/do_spear_impact(mob/living/carbon/human/user, obj/item/weapon, turf/dest, atom/original_target, damage, def_zone)
 	if(QDELETED(user) || user.stat == DEAD)
 		return
 
@@ -160,7 +179,12 @@ Cross-Z uses a longer telegraph.*/
 			continue
 		if(spell_guard_check(victim, FALSE, user))
 			continue
-		arcyne_strike(user, victim, weapon, damage, BODY_ZONE_HEAD, BCLASS_STAB, spell_name = "Gate of Reckoning (Spear)")
+		// Three spear strikes — skip animation and message since the visual is the spear drop itself
+		for(var/i in 1 to spear_count)
+			arcyne_strike(user, victim, weapon, damage, def_zone, BCLASS_STAB, spell_name = "Gate of Reckoning (Spear)", skip_animation = TRUE, skip_message = TRUE)
+		victim.visible_message(
+			span_danger("Phantom spears impale [victim]'s [parse_zone(def_zone)]!"),
+			span_userdanger("Phantom spears pierce my [parse_zone(def_zone)]!"))
 
 /obj/effect/proc_holder/spell/invoked/gate_of_reckoning/proc/do_arrival_strike(mob/living/carbon/human/user, obj/item/weapon, turf/dest, atom/original_target, turf/start, def_zone, damage, sweep_dmg)
 	if(QDELETED(user) || user.stat == DEAD)
@@ -210,8 +234,19 @@ Cross-Z uses a longer telegraph.*/
 		do_landing_sweep(user, weapon, dest, sweep_dmg)
 		return
 
+	// First arrival strike + sweep happens simultaneously
 	arcyne_strike(user, victim, weapon, damage, def_zone, BCLASS_STAB, spell_name = "Gate of Reckoning (Arrival)")
 	do_landing_sweep(user, weapon, dest, sweep_dmg, victim)
+	// Second arrival strike after 1 tick
+	addtimer(CALLBACK(src, PROC_REF(do_second_arrival_strike), user, victim, weapon, damage, def_zone), 1)
+
+/// Delayed second arrival thrust
+/obj/effect/proc_holder/spell/invoked/gate_of_reckoning/proc/do_second_arrival_strike(mob/living/carbon/human/user, mob/living/victim, obj/item/weapon, damage, def_zone)
+	if(QDELETED(user) || user.stat == DEAD)
+		return
+	if(!QDELETED(victim) && victim.stat != DEAD && get_dist(get_turf(user), get_turf(victim)) <= 1)
+		if(!spell_guard_check(victim, FALSE, user))
+			arcyne_strike(user, victim, weapon, damage, def_zone, BCLASS_STAB, spell_name = "Gate of Reckoning (Arrival)")
 
 /// DYNASTY WARRIORS!!!!! Guan dao sweep — single wide slash hitting 3x3 ring around caster
 /obj/effect/proc_holder/spell/invoked/gate_of_reckoning/proc/do_landing_sweep(mob/living/carbon/human/user, obj/item/weapon, turf/dest, damage, mob/living/primary_target)
@@ -255,11 +290,18 @@ Cross-Z uses a longer telegraph.*/
 	pixel_y = 96
 
 /obj/effect/temp_visual/gate_of_reckoning_spear
-	icon = 'icons/effects/effects.dmi'
-	icon_state = "stab"
+	icon = 'icons/roguetown/weapons/polearms64.dmi'
+	icon_state = "bronzewingedspear"
 	duration = 6
 	layer = ABOVE_LIGHTING_LAYER
-	dir = SOUTH
+
+/obj/effect/temp_visual/gate_of_reckoning_spear/Initialize(mapload)
+	. = ..()
+	// Sprite faces upper-right (~45 deg) by default. Scale down and rotate 135 deg to point straight down (tip-first from the sky).
+	var/matrix/M = matrix()
+	M.Scale(0.8, 0.8)
+	M.Turn(135)
+	transform = M
 
 /// Spellwarning marker on the target tile — bright warning that a spear is about to drop
 /obj/effect/temp_visual/gate_of_reckoning_warning
