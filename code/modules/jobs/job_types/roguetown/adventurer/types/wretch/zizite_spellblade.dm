@@ -35,6 +35,9 @@
 		/datum/skill/magic/holy = SKILL_LEVEL_NOVICE, // Welcome to bad holy skills scaling
 	)
 	subclass_languages = list(/datum/language/undead)
+	subclass_stashed_items = list(
+		"Armor Plates" = /obj/item/repair_kit/metal,
+	)
 
 /datum/outfit/job/roguetown/wretch/zizite_spellblade
 	var/subclass_selected
