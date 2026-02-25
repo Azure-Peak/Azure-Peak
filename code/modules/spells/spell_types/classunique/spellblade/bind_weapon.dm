@@ -3,7 +3,8 @@
 	desc = "Bind your held weapon as an arcyne conduit. Successful strikes with bound weapons build arcyne momentum, fueling your abilities. \
 		It can also be recalled to your hand from anywhere with Recall Weapon. \
 		The weapon must match your chant — Blade requires a sword, Phalangite a polearm, Macebearer a mace or warhammer. \
-		You can rebind to restore a lost Arcyne Momentum status, or bind a new weapon if your old one was destroyed."
+		You can rebind to restore a lost Arcyne Momentum status, or bind a new weapon if your old one was destroyed. \
+		Cast with empty hands to unbind your current weapon."
 	clothes_req = FALSE
 	action_icon = 'icons/mob/actions/spellblade.dmi'
 	overlay_state = "bind_weapon" // Icon by Prominence.
@@ -25,7 +26,17 @@
 
 	var/obj/item/weapon = H.get_active_held_item()
 	if(!weapon)
-		to_chat(H, span_warning("I need to hold a weapon to bind it!"))
+		// Empty hands — unbind current weapon if one exists
+		var/datum/status_effect/buff/arcyne_momentum/unbind_M = H.has_status_effect(/datum/status_effect/buff/arcyne_momentum)
+		if(unbind_M?.bound_weapon && !QDELETED(unbind_M.bound_weapon))
+			var/datum/component/arcyne_conduit/old_conduit = unbind_M.bound_weapon.GetComponent(/datum/component/arcyne_conduit)
+			if(old_conduit)
+				qdel(old_conduit)
+			to_chat(H, span_notice("The arcyne bond on [unbind_M.bound_weapon] fades. I am unbound."))
+			playsound(get_turf(H), 'sound/magic/charging.ogg', 30, TRUE)
+			unbind_M.bound_weapon = null
+			return TRUE
+		to_chat(H, span_warning("I have no bound weapon to release!"))
 		revert_cast()
 		return
 
