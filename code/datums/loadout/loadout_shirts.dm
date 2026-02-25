@@ -110,6 +110,11 @@
 	path = /obj/item/clothing/suit/roguetown/shirt/dress/gen/strapless/alt
 	sort_category = "Shirts"
 
+/datum/loadout_item/slitteddress
+	name = "Slitted dress"
+	path = /obj/item/clothing/suit/roguetown/shirt/dress/slit
+	sort_category = "Shirts"
+
 /datum/loadout_item/gown
 	name = "Spring Gown"
 	path = /obj/item/clothing/suit/roguetown/shirt/dress/gown

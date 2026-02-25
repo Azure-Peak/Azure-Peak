@@ -33,7 +33,7 @@ GLOBAL_LIST_INIT(drowraider_aggro, world.file2list("strings/rt/drowaggrolines.tx
 
 /mob/living/carbon/human/species/elf/dark/drowraider/Initialize()
 	. = ..()
-	set_species(/datum/species/elf/dark)
+	set_species(/datum/species/elf/dark/raider)
 	addtimer(CALLBACK(src, PROC_REF(after_creation)), 1 SECONDS)
 	is_silent = TRUE
 
@@ -128,9 +128,9 @@ GLOBAL_LIST_INIT(drowraider_aggro, world.file2list("strings/rt/drowaggrolines.tx
 
 /datum/outfit/job/roguetown/human/species/elf/dark/drowraider/pre_equip(mob/living/carbon/human/H)
 	shoes = /obj/item/clothing/shoes/roguetown/boots/leather/reinforced
-	pants = /obj/item/clothing/under/roguetown/heavy_leather_pants/shadowpants
-	armor = /obj/item/clothing/suit/roguetown/armor/leather/heavy/shadowvest
-	shirt = /obj/item/clothing/suit/roguetown/shirt/shadowshirt/elflock
+	pants = /obj/item/clothing/under/roguetown/heavy_leather_pants/shadowpants/drowraider
+	armor = /obj/item/clothing/suit/roguetown/armor/leather/heavy/shadowvest/drowraider
+	shirt = /obj/item/clothing/suit/roguetown/shirt/shadowshirt/elflock/drowraider
 	gloves = /obj/item/clothing/gloves/roguetown/fingerless/shadowgloves/elflock
 	wrists = /obj/item/clothing/wrists/roguetown/bracers/leather/heavy
 	mask = /obj/item/clothing/mask/rogue/facemask

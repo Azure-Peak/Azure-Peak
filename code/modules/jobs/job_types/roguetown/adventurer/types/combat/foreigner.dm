@@ -57,7 +57,6 @@
 				beltl = /obj/item/rogueweapon/sword/sabre/mulyeog
 				beltr = /obj/item/rogueweapon/scabbard/sword/kazengun
 				armor = /obj/item/clothing/suit/roguetown/armor/basiceast
-				H.adjust_skillrank_up_to(/datum/skill/combat/shields, 3, TRUE)
 				H.adjust_skillrank_up_to(/datum/skill/combat/swords, 4, TRUE)
 
 /datum/advclass/foreigner/yoruku
@@ -418,6 +417,7 @@
 		/datum/skill/combat/wrestling = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/combat/unarmed = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/misc/reading = SKILL_LEVEL_NOVICE,
+		/datum/skill/misc/medicine = SKILL_LEVEL_NOVICE,
 	)
 
 	extra_context = "This subclass can pick from a wide array of bronze weapons, armor, and origins to specialize in. Bronze armor - while easily pierced - is exceptionally durable and resistant against critical hits. A total of four Disciplines are available, each providing a different trait and armoring-tier."
@@ -535,24 +535,29 @@
 			if("Another Shortsword & Skills In Dual-Wielding")
 				ADD_TRAIT(H, TRAIT_DUALWIELDER, TRAIT_GENERIC)
 				l_hand = /obj/item/rogueweapon/sword/short/gladius
+				H.adjust_skillrank_up_to(/datum/skill/combat/swords, SKILL_LEVEL_APPRENTICE, TRUE)
 				beltl = /obj/item/rogueweapon/scabbard/sword/strap
 			if("Another Messer & Skills In Dual-Wielding")
 				ADD_TRAIT(H, TRAIT_DUALWIELDER, TRAIT_GENERIC)
 				l_hand = /obj/item/rogueweapon/sword/short/messer/bronze
+				H.adjust_skillrank_up_to(/datum/skill/combat/swords, SKILL_LEVEL_APPRENTICE, TRUE)
 				beltl = /obj/item/rogueweapon/scabbard/sword/strap
 			if("Another Khopesh & Skills In Dual-Wielding")
 				ADD_TRAIT(H, TRAIT_DUALWIELDER, TRAIT_GENERIC)
 				l_hand = /obj/item/rogueweapon/sword/sabre/bronzekhopesh
+				H.adjust_skillrank_up_to(/datum/skill/combat/swords, SKILL_LEVEL_APPRENTICE, TRUE)
 				beltl = /obj/item/rogueweapon/scabbard/sword/strap
 			if("Another Axe & Skills In Dual-Wielding")
 				ADD_TRAIT(H, TRAIT_DUALWIELDER, TRAIT_GENERIC)
+				H.adjust_skillrank_up_to(/datum/skill/combat/axes, SKILL_LEVEL_APPRENTICE, TRUE)
 				l_hand = /obj/item/rogueweapon/stoneaxe/woodcut/bronze
 			if("A Bottle Of Medicinal Fish Vinegar.. ?")
 				beltl = /obj/item/reagent_containers/glass/bottle/rogue/healthpot/zarum
-		var/bronzediscipline = list("Gladiator - Skinarmored & Immunity To Pain","Thespian - Dodge Expert, +III SPD / -III CON","Shieldbearer - Well-Armored & Maille Training","Bulwark - Fully-Armored & Plate Training")
+				H.adjust_skillrank_up_to(/datum/skill/misc/medicine, SKILL_LEVEL_APPRENTICE, TRUE)
+		var/bronzediscipline = list("Thespian - Dodge Expert, -I CON / +I SPD","Gladiator - Skin-Armored & Immunity To Pain","Shieldbearer - Well-Armored & Maille Training","Bulwark - Fully-Armored & Plate Training")
 		var/bronzediscipline_choice = input(H, "Choose your DISCIPLINE.", "EMBRACE GLORY AND DEATH.") as anything in bronzediscipline
 		switch(bronzediscipline_choice)
-			if("Thespian - Dodge Expert, +III SPD / -III CON")
+			if("Thespian - Dodge Expert, -I CON / +I SPD")
 				ADD_TRAIT(H, TRAIT_DODGEEXPERT, TRAIT_GENERIC)
 				H.change_stat(STATKEY_SPD, 3)
 				H.change_stat(STATKEY_INT, 1)
@@ -563,7 +568,7 @@
 				pants = /obj/item/clothing/under/roguetown/skirt/red
 				wrists = /obj/item/clothing/wrists/roguetown/bracers/bronze
 				belt = /obj/item/storage/belt/rogue/leather
-			if("Gladiator - Skinarmored & Immunity To Pain")
+			if("Gladiator - Skin-Armored & Immunity To Pain")
 				ADD_TRAIT(H, TRAIT_NOPAINSTUN, TRAIT_GENERIC) //Lite!Barbarian.
 				head = /obj/item/clothing/head/roguetown/helmet/bronzegladiator
 				wrists = /obj/item/clothing/wrists/roguetown/bracers/cloth/gladiator
@@ -939,11 +944,11 @@
 	desc = "A heavy shield, taller and thicker than most of their contemporaries. It has survived the Calamity, endured the Apotheosis, and blunted the Sundering; and for one final time, it shall ward this dying world from a crueler fate."
 	icon_state = "bronzegreatshield"
 	item_state = "bronzegreatshield"
-	max_integrity = 360 //Highest integrity and passive projectile-blocking chance of most non-unique shields. Defense is consequently reduced to Buckler levels, however. Time your blocks and take one for the team!
+	max_integrity = 360 //Highest integrity and passive projectile-blocking chance of most non-unique shields.
 	possible_item_intents = list(/datum/intent/shield/block, /datum/intent/mace/smash/shield/metal/great, /datum/intent/effect/daze) // No SHIELD_BASH. Able to inflict Daze due to its weight.
 	force = 28
 	coverage = 75 
-	wdefense = 9
+	wdefense = 10
 	minstr = 12 //Requires a natural +STR modifier or statpack to double as a melee weapon, for its given class. Note that it has a heavier charge time and active stamina drain, too, as.. well, it's quite heavy.
 
 /obj/item/rogueweapon/shield/bronze/great/get_mechanics_examine(mob/user)

@@ -31,14 +31,18 @@
 #define TOGGLE_FULLSCREEN		(1<<20)
 #define SCHIZO_VOICE			(1<<21)
 #define ROLEPLAY_ADS			(1<<22)
-#define CMODE_STRIPPING			(1<<23)
 
+#define TOGGLES_DEFAULT (SOUND_ADMINHELP|SOUND_MIDI|SOUND_AMBIENCE|SOUND_LOBBY|MEMBER_PUBLIC|INTENT_STYLE|MIDROUND_ANTAG|SOUND_INSTRUMENTS|SOUND_SHIP_AMBIENCE|SOUND_PRAYERS|SOUND_ANNOUNCEMENTS|TOGGLE_FULLSCREEN)
+
+//Combat toggles
 #define FLOATING_TEXT			(1<<0)
 #define XP_TEXT					(1<<1)
 #define HITZONE_TEXT			(1<<2)
+#define CMODE_STRIPPING			(1<<3)
 #define TOGGLES_TEXT_DEFAULT (FLOATING_TEXT|XP_TEXT|HITZONE_TEXT)
 
-#define TOGGLES_DEFAULT (SOUND_ADMINHELP|SOUND_MIDI|SOUND_AMBIENCE|SOUND_LOBBY|MEMBER_PUBLIC|INTENT_STYLE|MIDROUND_ANTAG|SOUND_INSTRUMENTS|SOUND_SHIP_AMBIENCE|SOUND_PRAYERS|SOUND_ANNOUNCEMENTS|TOGGLE_FULLSCREEN)
+//Ghost toggles
+#define TOGGLE_ANTIGHOST		(1<<0)
 
 //Chat toggles
 #define CHAT_OOC			(1<<0)
@@ -139,14 +143,20 @@
 // Pronouns (LETHALSTONE)
 #define HE_HIM			"he/him"
 #define SHE_HER			"she/her"
-#define THEY_THEM		"they/them (Masc Clothes)"
-#define THEY_THEM_F		"they/them (Femme Clothes)"
-#define IT_ITS			"it/its (Femme Clothes)"
-#define IT_ITS_M		"it/its (Masc Clothes)"
-#define HE_HIM_F		"he/him (Femme Clothes)"
-#define SHE_HER_M		"she/her (Masc Clothes)"
+#define THEY_THEM		"they/them"
+#define IT_ITS			"it/its"
 
-GLOBAL_LIST_INIT(pronouns_list, list(HE_HIM, SHE_HER, THEY_THEM, THEY_THEM_F, IT_ITS, IT_ITS_M, HE_HIM_F, SHE_HER_M))
+GLOBAL_LIST_INIT(pronouns_list, list(HE_HIM, SHE_HER, THEY_THEM, IT_ITS))
+
+#define TITLES_M	"Lord / Ser"
+#define TITLES_F	"Lady / Dame"
+
+GLOBAL_LIST_INIT(titles_list, list(TITLES_M, TITLES_F))
+
+#define CLOTHES_M "Masculine"
+#define CLOTHES_F "Feminine"
+
+GLOBAL_LIST_INIT(clothespref_list, list(CLOTHES_M, CLOTHES_F))
 
 // Voice types (LETHALSTONE)
 

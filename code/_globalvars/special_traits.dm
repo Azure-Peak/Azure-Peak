@@ -144,13 +144,21 @@ GLOBAL_LIST_INIT(special_traits, build_special_traits())
 		return
 	if (!player.prefs.race_bonus || player.prefs.race_bonus == "None")
 		return
+	if(!length(character.dna.species.custom_selection))
+		return
 	var/bonus = player.prefs.race_bonus
-	if(islist(bonus))
-		var/list/bonuslist = bonus
+	if(!(bonus in character.dna.species.custom_selection))
+		return
+	var/full_bonus 
+	full_bonus = character.dna.species.custom_selection[bonus]
+	if(!full_bonus)
+		return
+	if(islist(full_bonus))
+		var/list/bonuslist = full_bonus
 		for(var/B in bonuslist)
 			process_race_bonus_option(character, B, bonuslist)
 	else
-		process_race_bonus_option(character, bonus)
+		process_race_bonus_option(character, full_bonus)
 
 /proc/process_race_bonus_option(mob/living/carbon/human/character, bonus, list/parentlist)
 	if(ispath(bonus))	//The bonus is a real path

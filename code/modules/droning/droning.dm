@@ -22,7 +22,7 @@ SUBSYSTEM_DEF(droning)
 	new_droning |= area_entered.droning_sound_current
 
 	if(HAS_TRAIT(entering.mob, TRAIT_PSYCHOSIS))
-		new_droning = list('sound/music/dreamer_is_still_asleep.ogg')
+		new_droning = list('sound/music/asunderedmind.ogg')
 
 	//Same ambience, don't bother
 	if(last_droning ~= new_droning)
@@ -67,7 +67,7 @@ SUBSYSTEM_DEF(droning)
 				used_sound = area_player.droning_sound
 
 		if(HAS_TRAIT(listener.mob, TRAIT_PSYCHOSIS))
-			used_sound = list('sound/music/dreamer_is_still_asleep.ogg')
+			used_sound = list('sound/music/asunderedmind.ogg')
 		else if(HAS_TRAIT(listener.mob, TRAIT_DRUQK))
 			used_sound = list('sound/music/spice.ogg', 100)
 		//our music for real
@@ -116,7 +116,7 @@ SUBSYSTEM_DEF(droning)
 
 
 		if(HAS_TRAIT(listener.mob, TRAIT_PSYCHOSIS))
-			droning.file = 'sound/music/dreamer_is_still_asleep.ogg'
+			droning.file = 'sound/music/asunderedmind.ogg'
 		else if(HAS_TRAIT(listener.mob, TRAIT_DRUQK))
 			droning.file = 'sound/music/spice.ogg'
 
@@ -139,7 +139,7 @@ SUBSYSTEM_DEF(droning)
 		var/sound/droning = sound(pick(area_player.droning_sound_current), area_player.droning_repeat, area_player.droning_wait, area_player.droning_channel, listener?.prefs.musicvol)
 
 		if(HAS_TRAIT(listener.mob, TRAIT_PSYCHOSIS))
-			droning.file = 'sound/music/dreamer_is_still_asleep.ogg'
+			droning.file = 'sound/music/asunderedmind.ogg'
 		else if(HAS_TRAIT(listener.mob, TRAIT_DRUQK))
 			droning.file = 'sound/music/spice.ogg'
 

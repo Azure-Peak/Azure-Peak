@@ -34,7 +34,7 @@
 	if (isnull(viewer_client))
 		return
 	
-	if(!(viewer_client.prefs.floating_text_toggles & FLOATING_TEXT))
+	if(!(viewer_client.prefs.combat_toggles & FLOATING_TEXT))
 		return
 
 	var/image/balloon_alert = image(loc = isturf(src) ? src : get_atom_on_turf(src), layer = ABOVE_MOB_LAYER)

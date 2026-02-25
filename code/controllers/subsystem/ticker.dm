@@ -36,6 +36,7 @@ SUBSYSTEM_DEF(ticker)
 	var/start_at
 	//576000 dusk
 	//376000 day
+	// 8 AM
 	var/gametime_offset = 288001		//Deciseconds to add to world.time for station time.
 	var/station_time_rate_multiplier = 50		//factor of station time progressal vs real time.
 	var/time_until_vote = 180 MINUTES
@@ -177,10 +178,8 @@ SUBSYSTEM_DEF(ticker)
 		GLOB.syndicate_code_response_regex = codeword_match
 
 	start_at = world.time + (CONFIG_GET(number/lobby_countdown) * 10)
-	if(CONFIG_GET(flag/randomize_shift_time))
-		gametime_offset = rand(0, 23) HOURS
-	else if(CONFIG_GET(flag/shift_time_realtime))
-		gametime_offset = world.timeofday
+	// Offset time drift but start right in the morning of Monday.
+	gametime_offset = 288001
 	return ..()
 
 /datum/controller/subsystem/ticker/fire()

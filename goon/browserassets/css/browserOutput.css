@@ -92,6 +92,11 @@ body {
 }
 
 @font-face {
+	font-family: "Evil Bible";
+	src: url("undercommon.ttf");
+}
+
+@font-face {
 	font-family: "ArkansasDB";
 	src: url("otavan.ttf");
 }

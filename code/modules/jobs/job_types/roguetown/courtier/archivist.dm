@@ -55,6 +55,7 @@
 		/datum/language/kazengunese,
 		/datum/language/lingyuese,
 		/datum/language/draconic,
+		/datum/language/undercommon,
 		/datum/language/aavnic, // All but beast, which is associated with werewolves.
 	)
 	category_tags = list(CTAG_ARCHIVIST)

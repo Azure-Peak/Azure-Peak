@@ -1,0 +1,5 @@
+author: "eirenxiv"
+delete-after: True
+changes:
+  - rscadd: "Added consort back as a choice by the ruler"
+  - code_imp: "Split Consort/Suitor into two seperate choices"

@@ -104,13 +104,13 @@
 
 /datum/outfit/job/dark_itinerant_knight/pre_equip(mob/living/carbon/human/H)
 	..()
-	head = /obj/item/clothing/head/roguetown/helmet/blacksteel/modern/armet
+	head = /obj/item/clothing/head/roguetown/helmet/blacksteel/modern
 	neck = /obj/item/clothing/neck/roguetown/gorget
-	gloves = /obj/item/clothing/gloves/roguetown/blacksteel/modern/plategloves
+	gloves = /obj/item/clothing/gloves/roguetown/plate/blacksteel/modern
 	pants = /obj/item/clothing/under/roguetown/platelegs/blacksteel/modern
 	shirt = /obj/item/clothing/suit/roguetown/armor/gambeson/heavy
 	armor = /obj/item/clothing/suit/roguetown/armor/plate/full/blacksteel/modern
-	shoes = /obj/item/clothing/shoes/roguetown/boots/blacksteel/modern/plateboots
+	shoes = /obj/item/clothing/shoes/roguetown/boots/armor/blacksteel/modern
 	beltl = /obj/item/flashlight/flare/torch/lantern
 	belt = /obj/item/storage/belt/rogue/leather/steel/tasset
 	beltr = /obj/item/rogueweapon/scabbard/sword

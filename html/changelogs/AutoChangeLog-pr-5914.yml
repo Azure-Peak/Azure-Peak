@@ -1,4 +1,0 @@
-author: "WeNeedMorePhoron"
-delete-after: True
-changes:
-  - rscadd: "Heads are now guaranteed from butchering simple animals. However, the quality is scaled to your butchering skills such that the money you gain is largely the same at lower skills level."

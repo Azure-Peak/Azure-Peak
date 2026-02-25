@@ -731,7 +731,7 @@ GLOBAL_VAR_INIT(mobids, 1)
 	if(ismob(dropping) && dropping != user)
 		var/mob/U = user
 		var/mob/M = dropping
-		if (!U.cmode || U.client.prefs.toggles & CMODE_STRIPPING)
+		if (!U.cmode || U.client.prefs.combat_toggles & CMODE_STRIPPING)
 			M.show_inv(user)
 		return TRUE
 

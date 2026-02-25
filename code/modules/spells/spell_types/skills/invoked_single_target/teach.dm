@@ -71,6 +71,7 @@
 	/datum/language/hellspeak,
 	/datum/language/kazengunese,
 	/datum/language/lingyuese,
+	/datum/language/undercommon,
 	/datum/language/orcish,
 	/datum/language/otavan
     )

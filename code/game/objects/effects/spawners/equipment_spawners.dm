@@ -341,9 +341,9 @@
 	loot = list(
 		/obj/item/clothing/suit/roguetown/armor/plate/full/blacksteel = 1,
 		/obj/item/clothing/suit/roguetown/armor/plate/blacksteel = 1,
-		/obj/item/clothing/shoes/roguetown/boots/blacksteel/plateboots = 1,
-		/obj/item/clothing/gloves/roguetown/blacksteel/plategloves = 1,
-		/obj/item/clothing/head/roguetown/helmet/blacksteel/bucket = 1,
+		/obj/item/clothing/shoes/roguetown/boots/armor/blacksteel = 1,
+		/obj/item/clothing/gloves/roguetown/plate/blacksteel = 1,
+		/obj/item/clothing/head/roguetown/helmet/blacksteel = 1,
 		/obj/item/clothing/under/roguetown/platelegs/blacksteel = 1,
 		/obj/item/rogueweapon/greatsword/grenz/flamberge/blacksteel = 1,
 	)

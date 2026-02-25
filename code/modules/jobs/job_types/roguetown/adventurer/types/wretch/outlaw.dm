@@ -7,7 +7,8 @@
 	cmode_music = 'sound/music/cmode/antag/combat_cutpurse.ogg'
 	category_tags = list(CTAG_WRETCH)
 	subclass_languages = list(/datum/language/thievescant)
-	traits_applied = list(TRAIT_DODGEEXPERT, TRAIT_GRAVEROBBER) //Doubt you have much to say about robbing graves
+	traits_applied = list(TRAIT_DODGEEXPERT, TRAIT_MEDIUMARMOR, TRAIT_GRAVEROBBER) //Doubt you have much to say about robbing graves
+	extra_context = "Fleet-Footed grants Light Steps and +1 to Sneaking, Marksmanship grants +1 PERCEPTION and +1 to Crossbows, Athleticism grants +1 CONSTITUTION and +1 to Athletics, Night-Burglar grants Night Vision and +1 to Lockpicking, Master-Tracker grants Perfect Tracker + Sleuth and +1 to Tracking, Dualist grants Dual-Wielder and Guarded (Decieving Meekness)."
 	subclass_stats = list(
 		STATKEY_SPD = 3,
 		STATKEY_WIL = 2,
@@ -36,7 +37,6 @@
 
 /datum/outfit/job/roguetown/wretch/outlaw/pre_equip(mob/living/carbon/human/H)
 	..()
-	to_chat(H, span_warning("You are the person folk fear at night - use your cunning and speed to strike fast and get out with your spoils before anyone notices."))
 	head = /obj/item/clothing/head/roguetown/helmet/kettle
 	pants = /obj/item/clothing/under/roguetown/heavy_leather_pants
 	armor = /obj/item/clothing/suit/roguetown/armor/leather/heavy/coat
@@ -62,7 +62,7 @@
 	if(H.mind)
 		var/weapons = list("Rapier","Parrying Dagger", "Whip")
 		var/weapon_choice = input(H, "Choose your weapon.", "TAKE UP ARMS") as anything in weapons
-		var/specialization = list("Fleet-Footed","Marksmanship","Athleticism","Night-Burglar","Master-Tracker")
+		var/specialization = list("Fleet-Footed","Marksmanship","Athleticism","Night-Burglar","Master-Tracker","Dualist")
 		var/specialization_choice = input(H, "Choose your talent.", "TAKE UP ARMS") as anything in specialization
 		H.set_blindness(0)
 		switch(weapon_choice)
@@ -93,4 +93,12 @@
 				H.adjust_skillrank_up_to(/datum/skill/misc/tracking, SKILL_LEVEL_LEGENDARY, TRUE)
 				ADD_TRAIT(H, TRAIT_SLEUTH, TRAIT_GENERIC)
 				ADD_TRAIT(H, TRAIT_PERFECT_TRACKER, TRAIT_GENERIC)
+			if("Dualist")//Yes the typo is intentional
+				ADD_TRAIT(H, TRAIT_DUALWIELDER, TRAIT_GENERIC)
+				ADD_TRAIT(H, TRAIT_DECEIVING_MEEKNESS, TRAIT_GENERIC)
 		wretch_select_bounty(H)
+
+//Keep it as is from now on, this is kind of overbloated as it be but the entire point of this class is catchall no good doer (speed).
+//It is mostly reverted to how it originally was with some boons to not be worse than heretic spy (that is limited, this is not).
+//Kettle and Hardened Leather should be maintained in spite of the medium armour it's more there as an option.
+//A true hybrid of Melee and Ranged (Xbow / Tossblades)

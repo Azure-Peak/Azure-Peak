@@ -586,22 +586,7 @@
 	. = ..()
 	if(obj_broken)
 		return
-	var/day = "... actually, WHAT dae is it?"
-	switch(GLOB.dayspassed)
-		if(1)
-			day = "Moon's dae."
-		if(2)
-			day = "Truce's dae."
-		if(3)
-			day = "Wedding's dae."
-		if(4)
-			day = "Thunder's dae."
-		if(5)
-			day = "Feast's dae."
-		if(6)
-			day = "Psydon's dae."
-		if(7)
-			day = "Sun's dae."
+	var/day = lowertext(get_current_day_of_week_name())
 	. += "Oh no, it's [station_time_timestamp("hh:mm")] on a [day]"
 //		if(SSshuttle.emergency.mode == SHUTTLE_DOCKED)
 //			if(SSshuttle.emergency.timeLeft() < 30 MINUTES)
@@ -653,22 +638,7 @@
 	. = ..()
 	if(obj_broken)
 		return
-	var/day = "... actually, WHAT dae is it?"
-	switch(GLOB.dayspassed)
-		if(1)
-			day = "Moon's dae."
-		if(2)
-			day = "Truce's dae."
-		if(3)
-			day = "Wedding's dae."
-		if(4)
-			day = "Thunder's dae."
-		if(5)
-			day = "Feast's dae."
-		if(6)
-			day = "Psydon's dae."
-		if(7)
-			day = "Sun's dae."
+	var/day = lowertext(get_current_day_of_week_name())
 	. += "Oh no, it's [station_time_timestamp("hh:mm")] on a [day]"
 
 /obj/structure/fluff/wallclock/Initialize()

@@ -147,6 +147,12 @@
 	max_integrity = ARMOR_INT_CHEST_LIGHT_BASE
 	armor = ARMOR_PADDED
 
+/obj/item/clothing/suit/roguetown/shirt/shadowshirt/elflock/drowraider
+	desc = "custom-fit silk shirt"
+	desc = "A sleeveless shirt woven from glossy material. Custom-fit for its (now deceased) wearer."
+	allowed_race = list(/datum/species/elf/dark/raider)
+	sellprice = 10
+
 /obj/item/clothing/suit/roguetown/shirt/apothshirt
 	name = "apothecary shirt"
 	desc = "When trudging through late-autumn forests, one needs to keep warm."
@@ -549,6 +555,16 @@
 	. = ..()
 	color = CLOTHING_BLACK
 
+/obj/item/clothing/suit/roguetown/shirt/dress/slit
+	slot_flags = ITEM_SLOT_ARMOR|ITEM_SLOT_SHIRT
+	name = "slitted dress"
+	desc = "A finely sewn dress with a slit to expose the thigh, how scandalous!"
+	icon_state = "slitdress"
+	item_state = "slitdress"
+	r_sleeve_status = SLEEVE_NOMOD
+	l_sleeve_status = SLEEVE_NOMOD
+	color = CLOTHING_BLACK
+
 /obj/item/clothing/suit/roguetown/shirt/undershirt/webs
 	name = "webbed shirt"
 	desc = "Exotic silk finely woven into... this? Might as well be wearing a spiderweb."
@@ -688,44 +704,17 @@
 	l_sleeve_status = SLEEVE_NORMAL
 	flags_inv = HIDECROTCH|HIDEBOOB
 
-//tattoo code
-/obj/item/clothing/suit/roguetown/armor/regenerating/easttats
-	name = "bouhoi bujeog tattoos"
-	desc = "A mystic style of tattoos adopted by the Ruma Clan, emulating a practice performed by warrior monks of the Xinyi Dynasty. They are your way of identifying fellow clan members, an sign of companionship and secretive brotherhood. These are styled into the shape of clouds, created by a mystical ink which shifts and moves in ripples like a pond to harden where your skin is struck. It's movement causes you to shudder."
-	resistance_flags = FIRE_PROOF
-	icon_state = "easttats"
+/obj/item/clothing/suit/roguetown/shirt/dress/captainrobe
 	slot_flags = ITEM_SLOT_SHIRT|ITEM_SLOT_ARMOR
-	prevent_crits = PREVENT_CRITS_NONE
-	armor = ARMOR_RUMACLAN
-	body_parts_covered = COVERAGE_ALL_BUT_HANDFEET
-	body_parts_inherent = COVERAGE_ALL_BUT_HANDFEET
-	icon = 'icons/roguetown/clothing/shirts.dmi'
-	mob_overlay_icon = 'icons/roguetown/clothing/onmob/shirts.dmi'
-	sleeved = 'icons/roguetown/clothing/onmob/helpers/sleeves_shirts.dmi'
-	r_sleeve_status = SLEEVE_NORMAL
-	l_sleeve_status = SLEEVE_NORMAL
+	name = "foreign robes"
+	desc = "Flower-styled robes. The Merchant Guild says that this is from the southern Kazengite region."
+	icon = 'icons/roguetown/clothing/armor.dmi'
+	mob_overlay_icon = 'icons/roguetown/clothing/onmob/armor.dmi'
+	icon_state = "eastsuit4"
+	item_state = "eastsuit4"
+	sleeved = 'icons/roguetown/clothing/onmob/helpers/sleeves_armor.dmi'
 	allowed_race = NON_DWARVEN_RACE_TYPES
-	max_integrity = 270
-	flags_inv = null //free the breast
-	surgery_cover = FALSE // cauterize and surgery through it.
-
-	repairmsg_begin = "The tattoos begin to slowly mend its abuse.."
-	repairmsg_continue = "The tattoos mend some of its abuse.."
-	repairmsg_stop = "The tattoos stops mending from the onslaught!"
-	repairmsg_end = "The tattoos flow more calmly, as they finish resting and regain their strength."
-
-	interrupt_damount = 25
-	repair_time = 35 SECONDS
-
-/obj/item/clothing/suit/roguetown/armor/regenerating/easttats/Initialize(mapload)
-	. = ..()
-	ADD_TRAIT(src, TRAIT_NODROP, CURSED_ITEM_TRAIT)
-
-/obj/item/clothing/suit/roguetown/armor/regenerating/easttats/dropped(mob/living/carbon/human/user)
-	. = ..()
-	if(QDELETED(src))
-		return
-	qdel(src)
+	sellprice = 25
 
 /obj/item/clothing/suit/roguetown/shirt/dress/maid
 	slot_flags = ITEM_SLOT_ARMOR|ITEM_SLOT_SHIRT

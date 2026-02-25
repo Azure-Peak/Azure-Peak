@@ -1154,6 +1154,11 @@
 	snd_range = -4
 	show_runechat = FALSE
 
+/mob/living/carbon/human/verb/emote_snore()
+	set name = "Snore"
+	set category = "Noises"
+	emote("snore", intentional = TRUE)
+
 /datum/emote/living/stare
 	key = "stare"
 	key_third_person = "stares"

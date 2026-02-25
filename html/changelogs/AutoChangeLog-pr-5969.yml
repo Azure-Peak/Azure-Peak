@@ -1,0 +1,5 @@
+author: "eirenxiv"
+delete-after: True
+changes:
+  - rscadd: "Added Saddleborn to Knight Errant and Tarnished Knight"
+  - balance: "Added Steelhearted to Knight Errant"

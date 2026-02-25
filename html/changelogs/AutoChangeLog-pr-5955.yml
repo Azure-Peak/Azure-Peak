@@ -1,0 +1,4 @@
+author: "bearrrrrrrr"
+delete-after: True
+changes:
+  - rscadd: "drowcraft armor on drow npc's can no longer be equipped by non-drow NPCs"
