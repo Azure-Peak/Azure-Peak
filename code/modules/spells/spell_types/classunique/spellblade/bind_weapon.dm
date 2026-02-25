@@ -6,7 +6,7 @@
 		You can rebind to restore a lost Arcyne Momentum status, or bind a new weapon if your old one was destroyed."
 	clothes_req = FALSE
 	action_icon = 'icons/mob/actions/spellblade.dmi'
-	overlay_state = "bind_weapon"
+	overlay_state = "bind_weapon" // Icon by Prominence.
 	releasedrain = 20
 	chargedrain = 0
 	chargetime = 0

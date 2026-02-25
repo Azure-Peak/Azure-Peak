@@ -36,7 +36,7 @@ it is an AP projectile and high impact vs other light.
 	charging_slowdown = 1
 	chargedloop = /datum/looping_sound/invokegen
 	action_icon = 'icons/mob/actions/spellblade.dmi'
-	overlay_state = "azurean_javelin"
+	overlay_state = "azurean_javelin" // Icon by Prominence. Reversed Azurean_Phalanx in a different direction
 	invocations = list("Pilum Azureum!")
 	invocation_type = "shout"
 	gesture_required = TRUE

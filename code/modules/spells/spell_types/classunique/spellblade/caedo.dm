@@ -7,7 +7,7 @@
 	clothes_req = FALSE
 	range = 5
 	action_icon = 'icons/mob/actions/spellblade.dmi'
-	overlay_state = "caedo"
+	overlay_state = "caedo" // Icon by Prominence
 	releasedrain = 25
 	chargedrain = 1
 	chargetime = 1

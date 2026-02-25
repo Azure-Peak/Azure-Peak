@@ -20,7 +20,7 @@ hand and I intend for Spellblade, feeling wise.
 	clothes_req = FALSE
 	range = 4
 	action_icon = 'icons/mob/actions/spellblade.dmi'
-	overlay_state = "air_strike"
+	overlay_state = "air_strike" // Icon by Prominence.
 	releasedrain = 20
 	chargedrain = 0
 	chargetime = 3

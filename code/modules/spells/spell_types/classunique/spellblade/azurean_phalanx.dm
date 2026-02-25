@@ -15,7 +15,7 @@ to the left and right, forming a wide phalanx push.*/
 	clothes_req = FALSE
 	range = 3
 	action_icon = 'icons/mob/actions/spellblade.dmi'
-	overlay_state = "azurean_phalanx"
+	overlay_state = "azurean_phalanx" // Icon by Prominence
 	releasedrain = 20
 	chargedrain = 0
 	chargetime = 3

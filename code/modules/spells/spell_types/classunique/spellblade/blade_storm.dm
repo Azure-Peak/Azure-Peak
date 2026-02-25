@@ -29,7 +29,7 @@ If reflected into self - just inflict half the damage through armor.
 	charging_slowdown = 0
 	chargedloop = /datum/looping_sound/invokegen
 	action_icon = 'icons/mob/actions/spellblade.dmi'
-	overlay_state = "blade_storm"
+	overlay_state = "blade_storm" // Icon by Prominence.
 	invocations = list("Procella Gladiorum!")
 	invocation_type = "shout"
 	gesture_required = TRUE

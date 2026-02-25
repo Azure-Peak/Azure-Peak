@@ -18,7 +18,7 @@ Builds 1 momentum on hit. */
 		Can be deflected by Defend stance."
 	clothes_req = FALSE
 	action_icon = 'icons/mob/actions/spellblade.dmi'
-	overlay_state = "charge"
+	overlay_state = "advance" // Icon by Prominence. Shared with Advance since the spells is very similar and it is an instant cast with no chargeup so only the user needs to see it.
 	releasedrain = 15
 	chargedrain = 0
 	chargetime = 2
