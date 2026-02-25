@@ -117,3 +117,12 @@
 	ADD_TRAIT(src, TRAIT_RIGIDMOVEMENT, TRAIT_GENERIC)
 	ADD_TRAIT(src, TRAIT_SILVER_WEAK, TRAIT_GENERIC)
 	AddComponent(/datum/component/infection_spreader)
+
+/mob/living/simple_animal/hostile/retaliate/rogue/saiga/undead/tame //saddleborn only until I can figure out how to make it a Zizo thing
+	tame = TRUE
+
+/mob/living/simple_animal/hostile/retaliate/rogue/saiga/undead/tame/saddled/Initialize()
+	. = ..()
+	var/obj/item/natural/saddle/S = new(src)
+	ssaddle = S
+	update_icon()
