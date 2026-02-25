@@ -181,7 +181,7 @@ Cross-Z uses a longer telegraph.*/
 			continue
 		// Three spear strikes — skip animation and message since the visual is the spear drop itself
 		for(var/i in 1 to spear_count)
-			arcyne_strike(user, victim, weapon, damage, def_zone, BCLASS_STAB, spell_name = "Gate of Reckoning (Spear)", skip_animation = TRUE, skip_message = TRUE)
+			arcyne_strike(user, victim, weapon, damage, def_zone, BCLASS_STAB, spell_name = "Gate of Reckoning (Spear)", skip_animation = TRUE)
 		victim.visible_message(
 			span_danger("Phantom spears impale [victim]'s [parse_zone(def_zone)]!"),
 			span_userdanger("Phantom spears pierce my [parse_zone(def_zone)]!"))

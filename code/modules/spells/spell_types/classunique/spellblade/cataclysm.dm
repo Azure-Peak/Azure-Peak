@@ -155,7 +155,7 @@ Defend blocks damage, no reflect penalty. Same Z-level only. */
 			if(spell_guard_check(L, TRUE))
 				L.visible_message(span_warning("[L] endures the impact!"))
 				continue
-			arcyne_strike(H, L, held_weapon, final_damage, def_zone, BCLASS_BLUNT, spell_name = "Cataclysm", skip_message = TRUE)
+			arcyne_strike(H, L, held_weapon, final_damage, def_zone, BCLASS_BLUNT, spell_name = "Cataclysm")
 			L.apply_status_effect(/datum/status_effect/debuff/vulnerable, vulnerable_duration)
 			playsound(affected_turf, pick('sound/combat/ground_smash1.ogg', 'sound/combat/ground_smash2.ogg', 'sound/combat/ground_smash3.ogg'), 60, TRUE)
 

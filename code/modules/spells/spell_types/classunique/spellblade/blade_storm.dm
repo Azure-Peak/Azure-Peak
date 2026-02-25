@@ -176,7 +176,7 @@ If reflected into self - just inflict half the damage through armor.
 	if(spell_guard_check(victim, FALSE, user))
 		return
 
-	arcyne_strike(user, victim, weapon, p_dmg, def_zone, spell_name = "Blade Storm (Strike [strike_num])", skip_animation = TRUE, skip_message = TRUE)
+	arcyne_strike(user, victim, weapon, p_dmg, def_zone, spell_name = "Blade Storm (Strike [strike_num])", skip_animation = TRUE)
 
 	var/turf/victim_turf = get_turf(victim)
 	if(victim_turf)
