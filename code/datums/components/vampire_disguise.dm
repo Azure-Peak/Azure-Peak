@@ -1,3 +1,5 @@
+#define MASQUERADE_IMMUNE(H) (H.get_vampire_generation() == GENERATION_METHUSELAH)
+
 /datum/component/vampire_disguise
 	/// Current disguise state
 	var/disguised = FALSE
@@ -46,9 +48,10 @@
 		return
 
 	// MASQUERADE LOCK CHECK (auto break)
-	if(H in GLOB.coven_breakers_list && H.get_vampire_generation() != GENERATION_METHUSELAH)
-		to_chat(H, span_danger("I have broken the Masquerade. I cannot assume a mortal guise."))
-		return FALSE
+	if(source in GLOB.coven_breakers_list && !MASQUERADE_IMMUNE(source))
+		to_chat(source, span_danger("My broken Masquerade shatters my mortal guise!"))
+		remove_disguise(source)
+		return
 
 	// Check if we have enough blood to maintain disguise
 	if(source.bloodpool < disguise_upkeep)
@@ -64,10 +67,9 @@
 		return FALSE
 
 	// MASQUERADE LOCK CHECK
-	if(source in GLOB.coven_breakers_list && source.get_vampire_generation() != GENERATION_METHUSELAH)
-		to_chat(source, span_danger("My broken Masquerade shatters my mortal guise!"))
-		remove_disguise(source)
-		return
+	if(H in GLOB.coven_breakers_list && !MASQUERADE_IMMUNE(H))
+		to_chat(H, span_danger("I have broken the Masquerade. I cannot assume a mortal guise."))
+		return FALSE
 
 	if(!COOLDOWN_FINISHED(src, transform_cooldown))
 		to_chat(H, span_warning("I must wait before transforming again."))
@@ -127,7 +129,7 @@
 	return TRUE
 
 /datum/component/vampire_disguise/proc/force_undisguise(mob/living/carbon/human/H)
-	if(!disguised || (H.get_vampire_generation() >= GENERATION_METHUSELAH))
+	if(!disguised || MASQUERADE_IMMUNE(H))
 		return FALSE
 
 	H.visible_message("<font color='white'>[H]'s curse manifests!</font>", ignored_mobs = list(H))
@@ -154,3 +156,4 @@
 	ears?.accessory_colors = original_ear_accessory_colors
 	return ..()
 
+#undef MASQUERADE_IMMUNE
