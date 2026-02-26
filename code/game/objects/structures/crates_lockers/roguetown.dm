@@ -267,6 +267,9 @@
 		/obj/item/rogueweapon/sword/bronze = 5,
 		/obj/item/reagent_containers/glass/bowl/bronze = 5,
 		/obj/item/flashlight/flare/torch/lantern/bronze = 5,
+		/obj/item/clothing/neck/roguetown/psicross/inhumen/graggar/bronze = 5,
+		/obj/item/clothing/neck/roguetown/psicross/malum/bronze = 5,
+		/obj/item/clothing/neck/roguetown/psicross/astrata/bronze = 5,
 		/obj/item/needle/bronze = 5
 		)
 	var/I = pickweight(loot)
@@ -302,6 +305,7 @@
 		/obj/item/reagent_containers/glass/bowl/aalloy = 10,
 		/obj/item/rogueweapon/sword = 5,
 		/obj/item/flashlight/flare/torch/lantern = 5,
+		/obj/item/rogue/instrument/lute = 5,
 		/obj/item/needle = 5,
 		/obj/item/rogueweapon/huntingknife/idagger/silver/stake = 1
 		)
@@ -344,7 +348,8 @@
 		/obj/item/bodypart/l_arm/prosthetic/gold, = 4,
 		/obj/item/bodypart/r_leg/prosthetic/gold = 4,
 		/obj/item/rogueweapon/sword/decorated = 5,
-		/obj/item/rogueweapon/shovel/bronze = 5
+		/obj/item/rogueweapon/shovel/bronze = 5,
+		/obj/item/rogue/instrument/shamisen = 5,
 		)
 	var/I = pickweight(loot)
 	new I(src)
