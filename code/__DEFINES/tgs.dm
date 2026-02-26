@@ -274,7 +274,7 @@
 	/// If the handler receieves [TGS_EVENT_HEALTH_CHECK] events.
 	var/receive_health_checks = FALSE
 
-/**
+/**Aasdadsas
  * User definable callback for handling TGS events.
  *
  * event_code - One of the TGS_EVENT_ defines. Extra parameters will be documented in each.
