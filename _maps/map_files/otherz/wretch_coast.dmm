@@ -696,7 +696,7 @@
 	icon_state = "cobbleedge-e"
 	},
 /turf/open/floor/rogue/twig,
-/area/rogue/outdoors/woods/wretch_lair)
+/area/rogue/under/cave/inhumen)
 "dF" = (
 /obj/structure/fluff/walldeco/church/line{
 	dir = 4
@@ -1194,7 +1194,7 @@
 "ge" = (
 /obj/item/roguebin/water/gross,
 /turf/open/floor/rogue/cobble,
-/area/rogue/outdoors/woods/wretch_lair)
+/area/rogue/under/cave/inhumen)
 "gg" = (
 /obj/structure/table/wood/poor,
 /obj/item/reagent_containers/powder/salt,
@@ -6101,7 +6101,7 @@
 	dir = 10
 	},
 /turf/open/floor/rogue/twig,
-/area/rogue/outdoors/woods/wretch_lair)
+/area/rogue/under/cave/inhumen)
 "Gx" = (
 /obj/structure/flora/roguegrass/bush/wall/tall,
 /turf/open/floor/rogue/grass,
@@ -9432,9 +9432,9 @@
 /turf/open/floor/rogue/tile,
 /area/rogue/under/cave/inhumen)
 "Zh" = (
-/obj/machinery/light/rogue/smelter,
+/obj/machinery/light/rogue/smelter/great,
 /turf/open/floor/rogue/twig,
-/area/rogue/outdoors/woods/wretch_lair)
+/area/rogue/under/cave/inhumen)
 "Zl" = (
 /turf/open/floor/carpet/royalblack,
 /area/rogue/under/cave/inhumen)
@@ -32796,7 +32796,7 @@ Xm
 zU
 ga
 qW
-Zn
+qW
 Zh
 UM
 CN
@@ -32926,7 +32926,7 @@ Xm
 zU
 ga
 qW
-Zn
+qW
 HO
 UM
 gr
@@ -33056,7 +33056,7 @@ HO
 UM
 UK
 dD
-Zn
+qW
 lT
 Ev
 Ev
@@ -33185,7 +33185,7 @@ Ry
 zU
 xm
 iY
-xt
+iY
 Gv
 HO
 Ev
@@ -49957,8 +49957,8 @@ ap
 Zn
 Zn
 Zn
-ap
-ap
+Zn
+Zn
 jS
 ap
 ap
@@ -50087,7 +50087,7 @@ ap
 Zn
 Zn
 Zn
-ap
+Zn
 Zn
 jS
 ap
@@ -50216,8 +50216,8 @@ ap
 Zn
 jS
 Zn
-ap
-ap
+Zn
+Zn
 Zn
 ap
 ap
@@ -50346,8 +50346,8 @@ ap
 Zn
 jS
 Zn
-ap
-ap
+Zn
+Zn
 Zn
 ap
 ap
@@ -50477,7 +50477,7 @@ Zn
 jS
 Zn
 Zn
-ap
+Zn
 Zn
 ap
 ap
