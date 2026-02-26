@@ -339,7 +339,7 @@
 		/obj/item/storage/backpack/rogue/satchel/mule = 3,
 		/obj/item/storage/roguebag = 3, //Weapons / tools
 		/obj/item/rogueweapon/sword/decorated = 5,
-		/obj/item/rogueweapon/shovel/silver = 5
+		/obj/item/rogueweapon/shovel/bronze = 5
 		)
 	var/I = pickweight(loot)
 	new I(src)
