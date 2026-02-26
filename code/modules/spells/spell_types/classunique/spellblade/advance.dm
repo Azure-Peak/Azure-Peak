@@ -9,7 +9,7 @@ Interruptible by stun/knockdown.
 At 3+ momentum: consumes 3, jab damage increases from 15 to 25.
 Builds 1 momentum on hit. */
 
-/obj/effect/proc_holder/spell/self/advance
+/obj/effect/proc_holder/spell/invoked/advance
 	name = "Advance!"
 	desc = "Lower the spear and charge — one pace to build speed, then three rapid jabs ahead. \
 		If blocked, keeps jabbing in place. \
@@ -17,12 +17,13 @@ Builds 1 momentum on hit. */
 		At 3+ momentum: consumes 3 to increase jab damage. \
 		Strikes your aimed bodypart. Can be deflected by Defend stance."
 	clothes_req = FALSE
+	range = 5
 	action_icon = 'icons/mob/actions/spellblade.dmi'
 	overlay_state = "advance"
 	releasedrain = 15
 	chargedrain = 0
-	chargetime = 2
-	recharge_time = 8 SECONDS
+	chargetime = 5
+	recharge_time = 12 SECONDS
 	warnie = "spellwarning"
 	no_early_release = TRUE
 	movement_interrupt = FALSE
@@ -38,7 +39,7 @@ Builds 1 momentum on hit. */
 	var/momentum_cost = 3
 	var/step_delay = 1
 
-/obj/effect/proc_holder/spell/self/advance/cast(list/targets, mob/user = usr)
+/obj/effect/proc_holder/spell/invoked/advance/cast(list/targets, mob/user = usr)
 	var/mob/living/carbon/human/H = user
 	if(!istype(H))
 		revert_cast()
@@ -52,8 +53,10 @@ Builds 1 momentum on hit. */
 
 	H.say("Procede!", forced = "spell")
 
-	var/facing = H.dir
+	var/atom/target = targets[1]
+	var/turf/target_turf = get_turf(target)
 	var/turf/start = get_turf(H)
+	var/facing = get_dir(start, target_turf) || H.dir
 	var/def_zone = H.zone_selected || BODY_ZONE_CHEST
 
 	var/turf/first_step = get_step(start, facing)

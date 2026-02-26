@@ -8,20 +8,21 @@ More disruptive than Advance (knockback on arrival). Strikes aimed bodypart.
 At 3+ momentum: consumes 3 stacks, doubles damage and knockback distance.
 Builds 1 momentum on hit. */
 
-/obj/effect/proc_holder/spell/self/charge
+/obj/effect/proc_holder/spell/invoked/charge
 	name = "Charge!"
 	desc = "Infuse mana into your legs, charging forth three paces with unexpected force — \
-		bashing everything at the destination and knocking them back 2 tiles. \
+		bashing everything at the destination and knocking them back 1 tile. \
 		Builds 1 momentum on hit. \
-		At 3+ momentum: consumes 3 to double damage and push to 3 tiles. \
+		At 3+ momentum: consumes 3 to double damage. \
 		Strikes your aimed bodypart. Can be deflected by Defend stance."
 	clothes_req = FALSE
+	range = 5
 	action_icon = 'icons/mob/actions/spellblade.dmi'
-	overlay_state = "advance" // Icon by Prominence. Shared with Advance since the spells is very similar and it is an instant cast with no chargeup so only the user needs to see it.
+	overlay_state = "advance" // Icon by Prominence. Shared with Advance since the spells are very similar.
 	releasedrain = 15
 	chargedrain = 0
-	chargetime = 2
-	recharge_time = 8 SECONDS
+	chargetime = 5
+	recharge_time = 12 SECONDS
 	warnie = "spellwarning"
 	no_early_release = TRUE
 	movement_interrupt = FALSE
@@ -34,12 +35,12 @@ Builds 1 momentum on hit. */
 	var/charge_steps = 3
 	var/base_damage = 45
 	var/empowered_mult = 2
-	var/base_push = 2
-	var/empowered_push = 3
+	var/base_push = 1
+	var/empowered_push = 1
 	var/momentum_cost = 3
 	var/step_delay = 2
 
-/obj/effect/proc_holder/spell/self/charge/cast(list/targets, mob/user = usr)
+/obj/effect/proc_holder/spell/invoked/charge/cast(list/targets, mob/user = usr)
 	var/mob/living/carbon/human/H = user
 	if(!istype(H))
 		revert_cast()
@@ -53,8 +54,10 @@ Builds 1 momentum on hit. */
 
 	H.say("Impete!", forced = "spell")
 
-	var/facing = H.dir
+	var/atom/target = targets[1]
+	var/turf/target_turf = get_turf(target)
 	var/turf/start = get_turf(H)
+	var/facing = get_dir(start, target_turf) || H.dir
 
 	var/turf/first_step = get_step(start, facing)
 	if(!first_step || first_step.density)

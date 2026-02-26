@@ -2,14 +2,13 @@
 Hits everyone in a 3-tile line in front of the caster and pushes them back 1 tile.
 Spacing tool — the core of the Phalangite's "hold the line" identity.
 Builds 1 momentum on hit regardless of targets struck (same as a normal weapon swing).
-At 3+ momentum: consumes 3 stacks, doubles damage, increases push distance, and extends the hit area perpendicular — each line tile also hits one tile
-to the left and right, forming a wide phalanx push.*/
+At 3+ momentum: consumes 3 stacks and doubles damage. */
 
 /obj/effect/proc_holder/spell/invoked/azurean_phalanx
 	name = "Azurean Phalanx"
-	desc = "Hold the line. Thrust forward with arcyne-infused reach, striking a 3-tile line and pushing them back 2 tiles. \
+	desc = "Hold the line. Thrust forward with arcyne-infused reach, striking a 3-tile line and pushing them back 1 tile. \
 		Builds 1 momentum on hit. \
-		At 3+ momentum: consumes 3 to double damage, increase push to 3 tiles, and widen the thrust to the left and right. \
+		At 3+ momentum: consumes 3 to double damage. \
 		Strikes your aimed bodypart. Can be deflected by Defend stance."
 	clothes_req = FALSE
 	range = 3
@@ -17,8 +16,8 @@ to the left and right, forming a wide phalanx push.*/
 	overlay_state = "azurean_phalanx" // Icon by Prominence
 	releasedrain = 20
 	chargedrain = 0
-	chargetime = 3
-	recharge_time = 10 SECONDS
+	chargetime = 5
+	recharge_time = 12 SECONDS
 	warnie = "spellwarning"
 	no_early_release = TRUE
 	movement_interrupt = FALSE
@@ -31,8 +30,9 @@ to the left and right, forming a wide phalanx push.*/
 	var/line_length = 3
 	var/base_damage = 35
 	var/empowered_mult = 2
-	var/base_push = 2
-	var/empowered_push = 3
+	var/push_dist = 1 // I tried making the pushing higher and it was just too much
+	// Turns out rotating a very high tile push makes it impossible to deal with.
+	var/empowered_push = 1
 	var/momentum_cost = 3
 
 /obj/effect/proc_holder/spell/invoked/azurean_phalanx/cast(list/targets, mob/user = usr)
@@ -61,7 +61,6 @@ to the left and right, forming a wide phalanx push.*/
 		to_chat(H, span_notice("[momentum_cost] momentum released — empowered thrust!"))
 
 	var/damage = empowered ? (base_damage * empowered_mult) : base_damage
-	var/push_dist = empowered ? empowered_push : base_push
 
 	var/list/line_turfs = list()
 	var/turf/current = start
@@ -83,29 +82,14 @@ to the left and right, forming a wide phalanx push.*/
 		revert_cast()
 		return
 
-	var/list/wing_turfs = list()
-	if(empowered)
-		var/left_dir = turn(facing, 90)
-		var/right_dir = turn(facing, -90)
-		for(var/turf/T in line_turfs)
-			var/turf/left = get_step(T, left_dir)
-			var/turf/right = get_step(T, right_dir)
-			if(left && !left.density && !(left in line_turfs) && !(left == start))
-				wing_turfs |= left
-			if(right && !right.density && !(right in line_turfs) && !(right == start))
-				wing_turfs |= right
-
 	for(var/turf/T in line_turfs)
-		var/obj/effect/temp_visual/V = new /obj/effect/temp_visual/blade_burst(T)
-		V.dir = facing
-	for(var/turf/T in wing_turfs)
 		var/obj/effect/temp_visual/V = new /obj/effect/temp_visual/blade_burst(T)
 		V.dir = facing
 	playsound(start, pick('sound/combat/wooshes/bladed/wooshsmall (1).ogg', 'sound/combat/wooshes/bladed/wooshsmall (2).ogg'), 80, TRUE)
 
 	var/hit_count = 0
 	var/deflected = FALSE
-	for(var/turf/T in line_turfs + wing_turfs)
+	for(var/turf/T in line_turfs)
 		for(var/mob/living/victim in T)
 			if(victim == H || victim.stat == DEAD)
 				continue

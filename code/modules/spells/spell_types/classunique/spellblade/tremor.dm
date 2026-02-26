@@ -11,9 +11,9 @@ Respects spell_guard_check. */
 
 /obj/effect/proc_holder/spell/invoked/tremor
 	name = "Tremor"
-	desc = "The earth answers. Slam the ground with arcyne force, damaging and pushing back everyone adjacent 2 tiles. \
+	desc = "The earth answers. Slam the ground with arcyne force, damaging and pushing back everyone adjacent 1 tile. \
 		Builds 1 momentum on hit. \
-		At 3+ momentum: consumes 3 to double damage and push to 3 tiles. \
+		At 3+ momentum: consumes 3 to double damage. \
 		Can be deflected by Defend stance."
 	clothes_req = FALSE
 	range = 1
@@ -23,7 +23,7 @@ Respects spell_guard_check. */
 	releasedrain = 20
 	chargedrain = 0
 	chargetime = 5
-	recharge_time = 8 SECONDS
+	recharge_time = 12 SECONDS
 	warnie = "spellwarning"
 	no_early_release = TRUE
 	movement_interrupt = FALSE
@@ -35,8 +35,7 @@ Respects spell_guard_check. */
 	xp_gain = FALSE
 	var/base_damage = 40
 	var/empowered_mult = 2
-	var/base_push = 2
-	var/empowered_push = 3
+	var/push_dist = 1
 	var/momentum_cost = 3
 
 /obj/effect/proc_holder/spell/invoked/tremor/cast(list/targets, mob/user = usr)
@@ -61,7 +60,6 @@ Respects spell_guard_check. */
 		to_chat(H, span_notice("[momentum_cost] momentum released — empowered tremor!"))
 
 	var/damage = empowered ? (base_damage * empowered_mult) : base_damage
-	var/push_dist = empowered ? empowered_push : base_push
 
 	playsound(center, pick('sound/combat/ground_smash1.ogg', 'sound/combat/ground_smash2.ogg', 'sound/combat/ground_smash3.ogg'), 100, TRUE)
 

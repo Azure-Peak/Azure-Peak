@@ -5,8 +5,8 @@ No momentum gain — use normal swings for that.*/
 
 /obj/effect/proc_holder/spell/invoked/shatter
 	name = "Shatter"
-	desc = "What the blade cannot cut, the mace breaks. Smash a 3-tile line with arcyne force, knocking targets back. Cannot penetrate armor, but inflicts high damage. \
-		Does not build momentum. At 3+ momentum: consumes 3 to double damage and knockback. \
+	desc = "What the blade cannot cut, the mace breaks. Smash a 3-tile line with arcyne force, knocking targets back 1 tile. Cannot penetrate armor, but inflicts high damage. \
+		Does not build momentum. At 3+ momentum: consumes 3 to double damage. \
 		Strikes your aimed bodypart. Can be deflected by Defend stance."
 	clothes_req = FALSE
 	range = 3
@@ -15,7 +15,7 @@ No momentum gain — use normal swings for that.*/
 	releasedrain = 20
 	chargedrain = 0
 	chargetime = 3
-	recharge_time = 8 SECONDS
+	recharge_time = 12 SECONDS
 	warnie = "spellwarning"
 	no_early_release = TRUE
 	movement_interrupt = FALSE
@@ -28,8 +28,7 @@ No momentum gain — use normal swings for that.*/
 	var/line_length = 3
 	var/base_damage = 50
 	var/empowered_mult = 2
-	var/base_push = 2
-	var/empowered_push = 3
+	var/push_dist = 1
 	var/momentum_cost = 3
 
 /obj/effect/proc_holder/spell/invoked/shatter/cast(list/targets, mob/user = usr)
@@ -58,7 +57,7 @@ No momentum gain — use normal swings for that.*/
 		to_chat(H, span_notice("[momentum_cost] momentum released — empowered shatter!"))
 
 	var/damage = empowered ? (base_damage * empowered_mult) : base_damage
-	var/push_dist = empowered ? empowered_push : base_push
+	var/push_dist = 1
 
 	var/list/line_turfs = list()
 	var/turf/current = start

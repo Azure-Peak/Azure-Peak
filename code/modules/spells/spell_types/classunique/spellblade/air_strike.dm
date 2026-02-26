@@ -1,6 +1,6 @@
 /* The bread & butter poke and ranged attack of the blade subclass.
 Since you need normal attack to build momentum, at higher momentum it
-is also a spacing tool that pulls enemies toward you (And is empowered).
+is empowered for double damage.
 
 The ability to turn it from a perpendicular slash (Cut) to parallel AP
 Stab (Stab) or single-target integrity nuke (Blunt) add some skill
@@ -12,7 +12,7 @@ hand and I intend for Spellblade, feeling wise.
 	name = "Air Strike"
 	desc = "Your blade passes into the immaterial and the leyline carries it forth, striking up to 4 tiles away. \
 	Brief telegraph before the strike lands — aim where they will be. \
-	At 3+ momentum: consumes 3 to double damage and pull targets toward you. \
+	At 3+ momentum: consumes 3 to double damage. \
 	Strikes your aimed bodypart. Adaptable to intent: \
 		- Cut: 3x1 perpendicular line, multiple targets. (30/60 damage) \
 		- Stab: 3x1 forward line, pierces through enemies. (20/40 damage, 25 AP) \
@@ -24,7 +24,7 @@ hand and I intend for Spellblade, feeling wise.
 	releasedrain = 20
 	chargedrain = 0
 	chargetime = 3
-	recharge_time = 10 SECONDS
+	recharge_time = 12 SECONDS
 	warnie = "spellwarning"
 	no_early_release = TRUE
 	movement_interrupt = FALSE
@@ -40,7 +40,6 @@ hand and I intend for Spellblade, feeling wise.
 	var/blunt_damage = 45
 	var/empowered_mult = 2
 	var/momentum_cost = 3
-	var/pull_distance = 2
 
 /obj/effect/proc_holder/spell/invoked/air_strike/cast(list/targets, mob/user = usr)
 	var/mob/living/carbon/human/H = user
@@ -113,8 +112,6 @@ hand and I intend for Spellblade, feeling wise.
 				continue
 			arcyne_strike(H, victim, weapon, damage, def_zone, BCLASS_CUT, spell_name = "Air Strike (Cut)")
 			hit_count++
-			if(empowered)
-				pull_toward_caster(H, victim)
 
 	if(hit_count)
 		H.visible_message(span_danger("[H] sweeps [weapon.name] in a wide arcyne arc!"))
@@ -158,8 +155,6 @@ hand and I intend for Spellblade, feeling wise.
 				continue
 			arcyne_strike(H, victim, weapon, damage, def_zone, BCLASS_STAB, armor_penetration = stab_ap, spell_name = "Air Strike (Stab)")
 			hit_count++
-			if(empowered)
-				pull_toward_caster(H, victim)
 
 	if(hit_count)
 		H.visible_message(span_danger("[H] thrusts [weapon.name] forward, sending an arcyne lance through the air!"))
@@ -202,14 +197,7 @@ hand and I intend for Spellblade, feeling wise.
 		return
 
 	arcyne_strike(H, victim, weapon, damage, def_zone, BCLASS_BLUNT, spell_name = "Air Strike (Blunt)")
-	if(empowered)
-		pull_toward_caster(H, victim)
 	H.visible_message(span_danger("[H] slams [weapon.name] down, focusing all arcyne force into [victim]!"))
-
-/obj/effect/proc_holder/spell/invoked/air_strike/proc/pull_toward_caster(mob/living/carbon/human/H, mob/living/victim)
-	var/atom/pull_target = get_step(H, get_dir(H, victim))
-	victim.throw_at(pull_target, pull_distance, 3, H)
-	to_chat(victim, span_danger("[H] drags you toward them with arcyne force!"))
 
 /obj/effect/proc_holder/spell/invoked/air_strike/proc/get_perpendicular_line(turf/center, facing)
 	var/list/turfs = list()
