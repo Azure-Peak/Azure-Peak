@@ -1,5 +1,5 @@
 /obj/effect/proc_holder/spell/self/claws/gnoll
-	name = "Gnoll claws"
+	name = "Gnoll Claws"
 	claw_type = /obj/item/rogueweapon/werewolf_claw/gnoll
 
 /obj/effect/proc_holder/spell/self/howl/gnoll
