@@ -1,12 +1,12 @@
 /* Shatter - Macebearer lineal smash.
 Pure integrity damage tool. Zero AP. Smashes everything in a 3-tile line in front of
-the caster, dealing high damage. Doubled when empowered.
+the caster, dealing high damage and knocking them back. Doubled when empowered.
 No momentum gain — use normal swings for that.*/
 
 /obj/effect/proc_holder/spell/invoked/shatter
 	name = "Shatter"
-	desc = "What the blade cannot cut, the mace breaks. Smash a 3-tile line with arcyne force, Cannot penetrate armor, but inflict high damage \
-		Does not build momentum. At 3+ momentum: consumes 3 to double damage. \
+	desc = "What the blade cannot cut, the mace breaks. Smash a 3-tile line with arcyne force, knocking targets back. Cannot penetrate armor, but inflicts high damage. \
+		Does not build momentum. At 3+ momentum: consumes 3 to double damage and knockback. \
 		Strikes your aimed bodypart. Can be deflected by Defend stance."
 	clothes_req = FALSE
 	range = 3
@@ -26,8 +26,10 @@ No momentum gain — use normal swings for that.*/
 	gesture_required = TRUE
 	xp_gain = FALSE
 	var/line_length = 3
-	var/base_damage = 35
+	var/base_damage = 50
 	var/empowered_mult = 2
+	var/base_push = 2
+	var/empowered_push = 3
 	var/momentum_cost = 3
 
 /obj/effect/proc_holder/spell/invoked/shatter/cast(list/targets, mob/user = usr)
@@ -56,6 +58,7 @@ No momentum gain — use normal swings for that.*/
 		to_chat(H, span_notice("[momentum_cost] momentum released — empowered shatter!"))
 
 	var/damage = empowered ? (base_damage * empowered_mult) : base_damage
+	var/push_dist = empowered ? empowered_push : base_push
 
 	var/list/line_turfs = list()
 	var/turf/current = start
@@ -92,6 +95,10 @@ No momentum gain — use normal swings for that.*/
 				continue
 			arcyne_strike(H, victim, held_weapon, damage, def_zone, BCLASS_BLUNT, spell_name = "Shatter")
 			hit_count++
+			var/push_dir = get_dir(H, victim)
+			if(!push_dir)
+				push_dir = facing
+			victim.safe_throw_at(get_edge_target_turf(H, push_dir), push_dist, 1, H, force = MOVE_FORCE_STRONG)
 
 	if(hit_count)
 		H.visible_message(span_danger("[H] smashes [H.p_their()] [held_weapon.name] forward in a devastating line!"))

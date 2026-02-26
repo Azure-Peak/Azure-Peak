@@ -11,9 +11,9 @@ Respects spell_guard_check. */
 
 /obj/effect/proc_holder/spell/invoked/tremor
 	name = "Tremor"
-	desc = "The earth answers. Slam the ground with arcyne force, damaging and pushing back everyone adjacent. \
+	desc = "The earth answers. Slam the ground with arcyne force, damaging and pushing back everyone adjacent 2 tiles. \
 		Builds 1 momentum on hit. \
-		At 3+ momentum: consumes 3 to double damage and push distance. \
+		At 3+ momentum: consumes 3 to double damage and push to 3 tiles. \
 		Can be deflected by Defend stance."
 	clothes_req = FALSE
 	range = 1
@@ -33,10 +33,10 @@ Respects spell_guard_check. */
 	invocation_type = "shout"
 	gesture_required = TRUE
 	xp_gain = FALSE
-	var/base_damage = 25
+	var/base_damage = 40
 	var/empowered_mult = 2
-	var/base_push = 1
-	var/empowered_push = 2
+	var/base_push = 2
+	var/empowered_push = 3
 	var/momentum_cost = 3
 
 /obj/effect/proc_holder/spell/invoked/tremor/cast(list/targets, mob/user = usr)

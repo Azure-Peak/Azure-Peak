@@ -239,10 +239,10 @@ a.choose-btn:hover {
 <div class="abilities">
 <h4>Abilities</h4>
 <ul>
-<li><b>Azurean Phalanx</b> — 3-tile line thrust that pushes enemies back.</li>
-<li><b>Azurean Javelin</b> — Hurl an armor-piercing phantom spear that slows.</li>
-<li><b>Advance!</b> — Charge forward 3 paces and thrust.</li>
-<li><b>Gate of Reckoning</b> — Conjure a portal above a target, shooting a spear downward at their head, and then blinks to their position, striking them again.</li>
+<li><b>Azurean Phalanx</b> — 3-tile line thrust that pushes enemies back 2 tiles. Empowered: doubles damage, pushes 3 tiles, and widens the thrust.</li>
+<li><b>Azurean Javelin</b> — Hurl an armor-piercing phantom spear that slows. No slowdown while charging.</li>
+<li><b>Advance!</b> — Charge forward and jab 3 times ahead. Must build up 1 pace first. If blocked, keeps jabbing in place.</li>
+<li><b>Gate of Reckoning</b> — Conjure a portal above a target, raining phantom spears down, then blink to their position and sweep everyone around you.</li>
 </ul>
 </div>
 <p class="weapon-info">[phalanx_weapons]</p>
@@ -258,9 +258,9 @@ a.choose-btn:hover {
 <div class="abilities">
 <h4>Abilities</h4>
 <ul>
-<li><b>Shatter</b> — 3-tile line smash that devastates armor integrity.</li>
-<li><b>Tremor</b> — Slam the ground, damaging and pushing back everyone adjacent.</li>
-<li><b>Charge!</b> — Charge forward 3 paces and bash, knocking targets back.</li>
+<li><b>Shatter</b> — 3-tile line smash that devastates armor integrity and knocks targets back 2 tiles. Empowered: doubles damage and pushes 3 tiles.</li>
+<li><b>Tremor</b> — Slam the ground, damaging and pushing back everyone adjacent 2 tiles. Empowered: doubles damage and pushes 3 tiles.</li>
+<li><b>Charge!</b> — Charge forward 3 paces and bash, knocking targets back 2 tiles. Empowered: doubles damage and pushes 3 tiles.</li>
 <li><b>Cataclysm</b> — Conjure and hurl an arcyne hammer at a target area. Crushes a 5x5 area and leaves victims Vulnerable. Bonus damage at max momentum.</li>
 </ul>
 </div>

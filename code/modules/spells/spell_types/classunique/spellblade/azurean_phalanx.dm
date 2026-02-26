@@ -7,9 +7,9 @@ to the left and right, forming a wide phalanx push.*/
 
 /obj/effect/proc_holder/spell/invoked/azurean_phalanx
 	name = "Azurean Phalanx"
-	desc = "Hold the line. Thrust forward with arcyne-infused reach, striking a 3-tile line and pushing them back. \
+	desc = "Hold the line. Thrust forward with arcyne-infused reach, striking a 3-tile line and pushing them back 2 tiles. \
 		Builds 1 momentum on hit. \
-		At 3+ momentum: consumes 3 to double damage, increase push distance, and widen the thrust to the left and right. \
+		At 3+ momentum: consumes 3 to double damage, increase push to 3 tiles, and widen the thrust to the left and right. \
 		Strikes your aimed bodypart. Can be deflected by Defend stance."
 	clothes_req = FALSE
 	range = 3
@@ -29,10 +29,10 @@ to the left and right, forming a wide phalanx push.*/
 	gesture_required = TRUE
 	xp_gain = FALSE
 	var/line_length = 3
-	var/base_damage = 25
+	var/base_damage = 35
 	var/empowered_mult = 2
-	var/base_push = 1
-	var/empowered_push = 2
+	var/base_push = 2
+	var/empowered_push = 3
 	var/momentum_cost = 3
 
 /obj/effect/proc_holder/spell/invoked/azurean_phalanx/cast(list/targets, mob/user = usr)

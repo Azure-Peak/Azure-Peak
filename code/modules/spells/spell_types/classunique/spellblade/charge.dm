@@ -11,9 +11,9 @@ Builds 1 momentum on hit. */
 /obj/effect/proc_holder/spell/self/charge
 	name = "Charge!"
 	desc = "Infuse mana into your legs, charging forth three paces with unexpected force — \
-		bashing everything at the destination and knocking them back. \
+		bashing everything at the destination and knocking them back 2 tiles. \
 		Builds 1 momentum on hit. \
-		At 3+ momentum: consumes 3 to double damage and knockback distance. \
+		At 3+ momentum: consumes 3 to double damage and push to 3 tiles. \
 		Strikes your aimed bodypart. Can be deflected by Defend stance."
 	clothes_req = FALSE
 	action_icon = 'icons/mob/actions/spellblade.dmi'
@@ -32,10 +32,10 @@ Builds 1 momentum on hit. */
 	gesture_required = TRUE
 	xp_gain = FALSE
 	var/charge_steps = 3
-	var/base_damage = 30
+	var/base_damage = 45
 	var/empowered_mult = 2
-	var/base_push = 1
-	var/empowered_push = 2
+	var/base_push = 2
+	var/empowered_push = 3
 	var/momentum_cost = 3
 	var/step_delay = 2
 

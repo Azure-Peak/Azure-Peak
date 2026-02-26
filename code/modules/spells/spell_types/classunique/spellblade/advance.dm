@@ -1,19 +1,20 @@
-/* Advance! - Phalangite charge attack
-The polar opposite of Azurean Phalanx. Where Phalanx pushes enemies back
-to create space, Advance closes distance — 3 rapid steps forward in the
-user's facing direction, ending with a spear thrust on anything in front.
-Short cooldown, no slowdown, but the charge is visible and can be
-interrupted (stun, knockdown). Builds 1 momentum on hit.
-At 3+ momentum: consumes 3 stacks, doubles strike damage.
+/* Advance! - Phalangite jousting charge.
+Must move at least one tile to start (no free point-blank).
+Once moving, jabs ahead 3 times. If blocked mid-charge, keeps
+jabbing in place for the remaining steps.
 
-Pseudo-melee: the final thrust respects spell_guard_check. */
+Fast — 1 tick between jabs. Counterplay is sidestepping or parrying.
+Interruptible by stun/knockdown.
+
+At 3+ momentum: consumes 3, jab damage increases from 15 to 25.
+Builds 1 momentum on hit. */
 
 /obj/effect/proc_holder/spell/self/advance
 	name = "Advance!"
-	desc = "Close the gap — three paces forward, spear-first. \
-		The opposite of Azurean Phalanx: advance instead of holding the line. \
+	desc = "Lower the spear and charge — one pace to build speed, then three rapid jabs ahead. \
+		If blocked, keeps jabbing in place. \
 		Builds 1 momentum on hit. \
-		At 3+ momentum: consumes 3 to double thrust damage. \
+		At 3+ momentum: consumes 3 to increase jab damage. \
 		Strikes your aimed bodypart. Can be deflected by Defend stance."
 	clothes_req = FALSE
 	action_icon = 'icons/mob/actions/spellblade.dmi'
@@ -32,10 +33,10 @@ Pseudo-melee: the final thrust respects spell_guard_check. */
 	gesture_required = TRUE
 	xp_gain = FALSE
 	var/charge_steps = 3
-	var/base_damage = 30
-	var/empowered_mult = 2
+	var/base_damage = 15
+	var/empowered_damage = 25
 	var/momentum_cost = 3
-	var/step_delay = 2
+	var/step_delay = 1
 
 /obj/effect/proc_holder/spell/self/advance/cast(list/targets, mob/user = usr)
 	var/mob/living/carbon/human/H = user
@@ -66,71 +67,69 @@ Pseudo-melee: the final thrust respects spell_guard_check. */
 	if(M && M.stacks >= momentum_cost)
 		M.consume_stacks(momentum_cost)
 		empowered = TRUE
-		to_chat(H, span_notice("[momentum_cost] momentum released — empowered charge!"))
+		to_chat(H, span_notice("[momentum_cost] momentum released — empowered advance!"))
 
-	var/damage = empowered ? (base_damage * empowered_mult) : base_damage
+	var/damage = empowered ? empowered_damage : base_damage
 
 	if(H.buckled)
 		H.buckled.unbuckle_mob(H, TRUE)
 
 	H.visible_message(
-		span_warning("[H] surges forward!"),
+		span_warning("[H] lowers [H.p_their()] [held_weapon.name] and charges!"),
 		span_notice("I advance!"))
 	playsound(start, pick('sound/combat/wooshes/bladed/wooshsmall (1).ogg', 'sound/combat/wooshes/bladed/wooshsmall (2).ogg'), 60, TRUE)
 
-	var/steps_taken = 0
+	// First step is mandatory — prevents free point-blank abuse
+	if(!step(H, facing))
+		to_chat(H, span_warning("My charge is blocked!"))
+		return
+	new /obj/effect/temp_visual/kinetic_blast(get_turf(H))
+
+	var/hit_count = 0
+	var/stopped = FALSE
+
 	for(var/i in 1 to charge_steps)
 		if(H.stat != CONSCIOUS || H.IsParalyzed() || H.IsStun() || QDELETED(H))
 			break
-		var/turf/next = get_step(get_turf(H), facing)
-		if(!next || next.density)
-			break
 
-		var/blocked = FALSE
-		for(var/obj/structure/S in next.contents)
-			if(S.density)
-				blocked = TRUE
-				break
-		if(blocked)
-			break
-
-		step(H, facing)
-		steps_taken++
-		new /obj/effect/temp_visual/kinetic_blast(get_turf(H))
+		// Jab the tile ahead — spear thrust forward
+		var/turf/jab_turf = get_step(get_turf(H), facing)
+		if(jab_turf)
+			for(var/mob/living/victim in jab_turf)
+				if(victim == H || victim.stat == DEAD)
+					continue
+				if(spell_guard_check(victim, FALSE, hit_count == 0 ? H : null))
+					continue
+				arcyne_strike(H, victim, held_weapon, damage, def_zone, BCLASS_STAB, spell_name = "Advance!")
+				hit_count++
 
 		if(i < charge_steps)
 			sleep(step_delay)
 
-	if(steps_taken == 0)
-		to_chat(H, span_warning("My charge is blocked!"))
-		return
+		// Try to advance after jabbing (except on final step)
+		if(i < charge_steps && !stopped)
+			var/turf/next = get_step(get_turf(H), facing)
+			if(!next || next.density)
+				stopped = TRUE
+			else
+				var/struct_blocked = FALSE
+				for(var/obj/structure/S in next.contents)
+					if(S.density && !S.climbable)
+						struct_blocked = TRUE
+						break
+				if(struct_blocked)
+					stopped = TRUE
+				else if(!step(H, facing))
+					stopped = TRUE
+			if(!stopped)
+				new /obj/effect/temp_visual/kinetic_blast(get_turf(H))
 
-	var/mob/living/victim = null
-
-	for(var/mob/living/L in get_turf(H))
-		if(L != H && L.stat != DEAD)
-			victim = L
-			break
-
-	if(!victim)
-		var/turf/ahead = get_step(get_turf(H), facing)
-		if(ahead)
-			for(var/mob/living/L in ahead)
-				if(L != H && L.stat != DEAD)
-					victim = L
-					break
-
-	if(!victim)
+	if(hit_count)
+		if(M)
+			M.add_stacks(1)
+		H.visible_message(span_danger("[H] skewers [hit_count > 1 ? "[hit_count] targets" : "a target"] during [H.p_their()] advance!"))
+	else
 		H.visible_message(span_notice("[H] finishes the charge with a thrust at the air."))
-		return
 
-	if(spell_guard_check(victim, FALSE, H))
-		return
-
-	arcyne_strike(H, victim, held_weapon, damage, def_zone, BCLASS_STAB, spell_name = "Advance!")
-
-	if(M)
-		M.add_stacks(1)
-
-	log_combat(H, victim, "used Advance! on")
+	log_combat(H, null, "used Advance! ([hit_count] hits)")
 	return TRUE
