@@ -471,6 +471,7 @@
 	hand_path = /obj/item/melee/touch_attack/rogueweapon/astratagrasp
 	devotion_cost = 30
 	miracle = TRUE
+	range = -1
 
 /obj/item/melee/touch_attack/rogueweapon/astratagrasp
 	name = "Burning Hand"
@@ -1048,6 +1049,8 @@
 	recharge_time = 5 MINUTES
 	miracle = TRUE
 	devotion_cost = 100
+	ignore_los = 1
+	range = -1 // this shouldve been pathed as a "touch" type spell
 
 	invocations = list("raises their hand skyward, sacred light materializing into brilliant blade!")
 	invocation_emote_self = "<span class='notice'>I hold my hand skyward, a glimmering blade forms from light itself.</span>"

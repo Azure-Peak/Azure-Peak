@@ -175,6 +175,8 @@
 	recharge_time = 12 SECONDS
 	devotion_cost = 30
 	miracle = TRUE
+	range = 3
+	ignore_los = 1 // uses weird shit for range
 	var/leap_dist = 4	//3 tiles (+1 to account for origin tile)
 	var/static/list/sounds = list('sound/magic/xylix_slip1.ogg','sound/magic/xylix_slip2.ogg','sound/magic/xylix_slip3.ogg','sound/magic/xylix_slip4.ogg')
 

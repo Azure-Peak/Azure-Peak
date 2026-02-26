@@ -583,7 +583,7 @@ var/global/list/anvil_recipe_prices[][]
 	releasedrain = 30
 	chargedrain = 0
 	chargetime = 0
-	range = 7
+	range = 0
 	warnie = "sydwarning"
 	req_items = list(/obj/item/clothing/neck/roguetown/psicross)
 	sound = 'sound/magic/timestop.ogg'
@@ -595,6 +595,7 @@ var/global/list/anvil_recipe_prices[][]
 	miracle = TRUE
 	devotion_cost = 30
 	var/rrange = 0
+	ignore_los = 1 // this uses some other weird shit for range
 
 /obj/effect/proc_holder/spell/self/repair/cast(mob/living/carbon/human/user)
 	var/skill = user.get_skill_level(/datum/skill/magic/holy)

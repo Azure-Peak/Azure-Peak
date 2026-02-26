@@ -435,9 +435,10 @@
 
 /obj/effect/proc_holder/spell/invoked/abyssal_strength
 	name = "Abyssal Strength"
-	desc = "Buffs all your stats besides fortune, and lowers your perception."
+	desc = "Buffs all your stats besides fortune and lowers your perception."
 	overlay_state = "abyssal_strength1"
-	range = 7
+	range = 0
+	ignore_los = TRUE // this should probably be a /self spell but its not
 	no_early_release = TRUE
 	charging_slowdown = 1
 	chargetime = 2 SECONDS

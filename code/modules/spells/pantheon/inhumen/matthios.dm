@@ -46,7 +46,8 @@
 	name = "Muffle"
 	desc = "A fake amulet of Astrata that muffles ones footsteps while worn over ones neck."
 	clothes_req = FALSE
-	range = 7
+	range = 1
+	ignore_los = 1 // this should probably be a /self spell but its not
 	overlay_state = "equalize"
 	sound = list('sound/magic/magnet.ogg')
 	releasedrain = 40
