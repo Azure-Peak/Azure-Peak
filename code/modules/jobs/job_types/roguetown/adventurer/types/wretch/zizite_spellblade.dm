@@ -4,8 +4,8 @@
 // Medium armor + better stats than regular Slade + Spellblade abilities
 // And lesser heal is a bonus on top
 /datum/advclass/wretch/zizite_spellblade
-	name = "Zizite Spellblade"
-	tutorial = "You are a devotee of Zizo, Mistress of Progress. While her followers descend into necromancy and obsession with undeath, you remember her true teachings. That magic is a tool of advancement. You combined her gifts with martial discipline, forging yourself into a Spellblade - an ancient art native to Azurea, now, with renewed lyfe. Unlike other spellblades, you know how to wield such terrifying power together with armor. Truly, the Mistress of Progress always favor her followers. The Church brands you a heretic, the Necromancers call you fools, the Oaks see only deviation. Let them. Her light will shine through, and one cut at a time, you shall save this world from stagnation. Her Will Be Done."
+	name = "Zizite Azurcaephan"
+	tutorial = "You are a devotee of Zizo, Mistress of Progress. While her followers descend into necromancy and obsession with undeath, you remember her true teachings. That magic is a tool of advancement. You combined her gifts with martial discipline, forging yourself into an Azurcaephan — a Spellblade, an ancient art native to Azurea, now, with renewed lyfe. Unlike other spellblades, you know how to wield such terrifying power together with armor. Truly, the Mistress of Progress always favor her followers. The Church brands you a heretic, the Necromancers call you fools, the Oaks see only deviation. Let them. Her light will shine through, and one cut at a time, you shall save this world from stagnation. Her Will Be Done."
 	allowed_sexes = list(MALE, FEMALE)
 	allowed_races = RACES_ALL_KINDS
 	allowed_patrons = list(/datum/patron/inhumen/zizo)
