@@ -9,12 +9,12 @@ If reflected into self - just inflict half the damage through armor.
 
 /obj/effect/proc_holder/spell/invoked/projectile/blade_storm
 	name = "Blade Storm"
-	desc = "Hurl a shadow of yourself forward. On impact, teleport onto the target \
-		and unleash a storm of slashes around them — with focused strikes on the main target. \
-		Requires 7 Momentum - perform 3 strikes with 25 damage.\
-		Empowered at 10 Momentum - perform 5 strikes with 25 damage.\
-		If the shadow is reflected back onto you, the arcyne energy tears into your chest.\
-		Beware! The blade has no eyes and if strikes an ally or is reflected, you WILL commit"
+	desc = "Hurls forth a shadow of yourself. On impact, teleport onto the target \ 
+		and unleash a storm of slashes on them and around yourself.\
+		Requires 7 Momentum: 3 strikes at 25 damage each. \
+		Overcharged at 10 Momentum: 5 strikes at 25 damage each. \
+		If reflected onto yourself, the arcyne energy tears into your own chest. \
+		The blade has no eyes — it does not distinguish friend from foe. Let not your foe deflect it into your ally."
 	clothes_req = FALSE
 	range = 7
 	projectile_type = /obj/projectile/magic/blade_storm

@@ -18,9 +18,9 @@ it is an AP projectile and high impact vs other light.
 
 /obj/effect/proc_holder/spell/invoked/projectile/azurean_javelin
 	name = "Azurean Javelin"
-	desc = "Conjure a phantom spear of arcyne force and hurl it. \
+	desc = "The ancient art of skirmishers in arcyne form - conjure a phantom spear and hurl it. \
 		Armor-piercing (20 AP), slows the target on hit for 4 seconds regardless of armor. \
-		At 3+ momentum: consumes 3 stacks to double damage. \
+		At 3+ momentum: consumes 3 to double damage. \
 		In Stab stance: direct throw. In Cut stance: arced throw (flies over allies)."
 	clothes_req = FALSE
 	range = 7

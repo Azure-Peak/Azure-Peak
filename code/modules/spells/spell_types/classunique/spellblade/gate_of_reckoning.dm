@@ -23,12 +23,11 @@ Cross-Z uses a longer telegraph.*/
 
 /obj/effect/proc_holder/spell/invoked/gate_of_reckoning
 	name = "Gate of Reckoning"
-	desc = "Conjure a leyline portal above a target. Three phantom spears rain through, \
-		striking their aimed bodypart. Then blink through the portal to their position \
-		and strike them twice, then sweep bystanders with a wide slash aimed at the chest, knocking them back. \
-		Requires 7 momentum. At 10 momentum, all hits deal bonus damage. \
-		The arrival strikes are pseudo-melee: can be deflected by Defend stance. \
-		Works across Z-levels."
+	desc = "Porta Iudicii — the Gate of Judgement. Tear open a leyline portal above your target. \
+		Three phantom spears rain down, striking your aimed bodypart. \
+		Then step through the gate yourself — two quick thrusts followed by a sweeping blow that knocks back bystanders. \
+		Requires 7 momentum. Overcharged at 10 momentum: all hits deal bonus damage. \
+		The arrival strikes can be deflected by Defend stance. Works across Z-levels."
 	clothes_req = FALSE
 	range = 6
 	action_icon = 'icons/mob/actions/spellblade.dmi'
@@ -118,7 +117,7 @@ Cross-Z uses a longer telegraph.*/
 	var/cross_z = (dest.z != start.z)
 	var/def_zone = H.zone_selected || BODY_ZONE_CHEST
 
-	H.say("PORTA IUDICII!", forced = "spell")
+	H.say("Porta Iudicii!", forced = "spell")
 	H.visible_message(span_boldwarning("[H] tears open a leyline rift above [target], aimed at the [span_combatsecondarybp(parse_zone(def_zone))]!"))
 
 	new /obj/effect/temp_visual/gate_of_reckoning_rift(dest)

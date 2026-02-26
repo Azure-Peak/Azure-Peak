@@ -3,19 +3,18 @@
 a bash on anything at the destination. Knockback on hit.
 Interruptible by stun/knockdown.
 
-Less precise than Advance (always hits chest, no zone selection)
-but more disruptive (knockback on arrival).
+More disruptive than Advance (knockback on arrival). Strikes aimed bodypart.
 
 At 3+ momentum: consumes 3 stacks, doubles damage and knockback distance.
 Builds 1 momentum on hit. */
 
 /obj/effect/proc_holder/spell/self/charge
 	name = "Charge!"
-	desc = "Charge forward 3 paces and bash everything at the destination, knocking them back. \
-		Always strikes the chest. \
+	desc = "Infuse mana into your legs, charging forth three paces with unexpected force — \
+		bashing everything at the destination and knocking them back. \
 		Builds 1 momentum on hit. \
-		At 3+ momentum: consumes 3 stacks to double damage and knockback distance. \
-		Can be deflected by Defend stance."
+		At 3+ momentum: consumes 3 to double damage and knockback distance. \
+		Strikes your aimed bodypart. Can be deflected by Defend stance."
 	clothes_req = FALSE
 	action_icon = 'icons/mob/actions/spellblade.dmi'
 	overlay_state = "advance" // Icon by Prominence. Shared with Advance since the spells is very similar and it is an instant cast with no chargeup so only the user needs to see it.
@@ -116,7 +115,7 @@ Builds 1 momentum on hit. */
 			continue
 		if(spell_guard_check(victim, FALSE, hit_count == 0 ? H : null))
 			continue
-		arcyne_strike(H, victim, held_weapon, damage, BODY_ZONE_CHEST, BCLASS_BLUNT, spell_name = "Charge!")
+		arcyne_strike(H, victim, held_weapon, damage, H.zone_selected, BCLASS_BLUNT, spell_name = "Charge!")
 		hit_count++
 		var/push_dir = get_dir(H, victim)
 		if(!push_dir)
@@ -141,7 +140,7 @@ Builds 1 momentum on hit. */
 					continue
 				if(spell_guard_check(victim, FALSE, hit_count == 0 ? H : null))
 					continue
-				arcyne_strike(H, victim, held_weapon, damage, BODY_ZONE_CHEST, BCLASS_BLUNT, spell_name = "Charge!")
+				arcyne_strike(H, victim, held_weapon, damage, H.zone_selected, BCLASS_BLUNT, spell_name = "Charge!")
 				hit_count++
 				var/push_dir = get_dir(H, victim)
 				if(!push_dir)

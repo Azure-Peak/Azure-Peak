@@ -1,8 +1,8 @@
 /obj/effect/proc_holder/spell/invoked/caedo
 	name = "Caedo"
-	desc = "Dash forward at blinding speed, leaving afterimages in your wake. \
-		Strikes every enemy in your path with the image of your weapon. \
-		Empowered (3 Momentum): Strikes twice! \
+	desc = "In the old tongue, caedo — to strike or to cut down. Dash forward at blinding speed, \
+		leaving afterimages that strike every enemy in your path. \
+		Empowered (3 Momentum): Consumes 3 stacks to strike twice. \
 		If any of them defend against the strike, you will be left exposed at the end of your dash!"
 	clothes_req = FALSE
 	range = 5

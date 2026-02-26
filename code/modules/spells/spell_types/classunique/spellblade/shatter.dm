@@ -5,12 +5,9 @@ No momentum gain — use normal swings for that.*/
 
 /obj/effect/proc_holder/spell/invoked/shatter
 	name = "Shatter"
-	desc = "Smash everything in a 3-tile line with arcyne force, cracking armor integrity. \
-		Zero armor penetration — damage is absorbed, but armor takes massive integrity damage. \
-		Does not build momentum. \
-		At 3+ momentum: consumes 3 stacks to double damage. \
-		Strikes the bodypart you are aiming at. \
-		Can be deflected by Defend stance."
+	desc = "What the blade cannot cut, the mace breaks. Smash a 3-tile line with arcyne force, Cannot penetrate armor, but inflict high damage \
+		Does not build momentum. At 3+ momentum: consumes 3 to double damage. \
+		Strikes your aimed bodypart. Can be deflected by Defend stance."
 	clothes_req = FALSE
 	range = 3
 	action_icon = 'icons/mob/actions/spellblade.dmi'

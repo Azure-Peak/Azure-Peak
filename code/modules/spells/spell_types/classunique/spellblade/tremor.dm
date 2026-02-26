@@ -11,9 +11,9 @@ Respects spell_guard_check. */
 
 /obj/effect/proc_holder/spell/invoked/tremor
 	name = "Tremor"
-	desc = "Slam the ground with arcyne force, damaging and pushing back everyone adjacent. \
+	desc = "The earth answers. Slam the ground with arcyne force, damaging and pushing back everyone adjacent. \
 		Builds 1 momentum on hit. \
-		At 3+ momentum: consumes 3 stacks to double damage and push distance. \
+		At 3+ momentum: consumes 3 to double damage and push distance. \
 		Can be deflected by Defend stance."
 	clothes_req = FALSE
 	range = 1

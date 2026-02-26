@@ -10,12 +10,11 @@ Pseudo-melee: the final thrust respects spell_guard_check. */
 
 /obj/effect/proc_holder/spell/self/advance
 	name = "Advance!"
-	desc = "Charge forward 3 paces and deliver a spear thrust. \
-		The opposite of Azurean Phalanx — close distance instead of creating it. \
+	desc = "Close the gap — three paces forward, spear-first. \
+		The opposite of Azurean Phalanx: advance instead of holding the line. \
 		Builds 1 momentum on hit. \
-		At 3+ momentum: consumes 3 stacks to double thrust damage. \
-		The thrust strikes the bodypart you are aiming at. \
-		Pseudo-melee: can be deflected by Defend stance."
+		At 3+ momentum: consumes 3 to double thrust damage. \
+		Strikes your aimed bodypart. Can be deflected by Defend stance."
 	clothes_req = FALSE
 	action_icon = 'icons/mob/actions/spellblade.dmi'
 	overlay_state = "advance"

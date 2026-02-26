@@ -14,10 +14,9 @@ Defend blocks damage, no reflect penalty. Same Z-level only. */
 
 /obj/effect/proc_holder/spell/invoked/cataclysm
 	name = "Cataclysm"
-	desc = "Conjure an arcyne hammer and hurl it at a target area. \
-		On impact it explodes, crushing everyone in a 5x5 area for 100 blunt damage \
-		and leaving them Vulnerable. The hammer's weight punishes even armored targets. \
-		Requires 7 momentum. At 10 momentum, deals 180 damage instead. \
+	desc = "Let the mountain fall. Conjure a hammer of pure arcyne force and hurl it at a target area. \
+		On impact it explodes, crushing everyone in a 5x5 area for 100 blunt damage and leaving them Vulnerable. \
+		Requires 7 momentum. Overcharged at 10 momentum: 180 damage. \
 		Same level only. Can be blocked by Defend stance."
 	clothes_req = FALSE
 	range = 7

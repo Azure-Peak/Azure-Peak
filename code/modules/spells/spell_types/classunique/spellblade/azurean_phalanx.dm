@@ -7,11 +7,10 @@ to the left and right, forming a wide phalanx push.*/
 
 /obj/effect/proc_holder/spell/invoked/azurean_phalanx
 	name = "Azurean Phalanx"
-	desc = "Thrust forward with arcyne-infused reach, striking everything in a 3-tile line and pushing them back. \
+	desc = "Hold the line. Thrust forward with arcyne-infused reach, striking a 3-tile line and pushing them back. \
 		Builds 1 momentum on hit. \
-		At 3+ momentum: consumes 3 stacks to double damage, increase push distance, and extend the thrust perpendicular to the line. \
-		Strikes the bodypart you are aiming at. \
-		Can be deflected by Defend stance."
+		At 3+ momentum: consumes 3 to double damage, increase push distance, and widen the thrust to the left and right. \
+		Strikes your aimed bodypart. Can be deflected by Defend stance."
 	clothes_req = FALSE
 	range = 3
 	action_icon = 'icons/mob/actions/spellblade.dmi'

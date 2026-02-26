@@ -10,13 +10,12 @@ hand and I intend for Spellblade, feeling wise.
 */
 /obj/effect/proc_holder/spell/invoked/air_strike
 	name = "Air Strike"
-	desc = "Slashes your blade out, creating an arcyne echo up to 4 tiles away. \
-	At 3+ momentum: consumes 3 stacks to double the damage and pulls targets toward you. \
-	It will always strike the bodypart you are aiming at, unless it is missing, then it defaults to the chest. \
-	Adaptable to your intent: \
-		- In Cut stance, it strikes in a 3x1 line, hitting multiple targets perpendicular to you. Decent damage (30/60). \
-		- In Stab stance, it strikes in a 3x1 line, piercing through enemies. AP strong enough to pierce low grade light armor, but poor damage. (20/40, 25 AP - Pierce Light / Hardened Light) \
-		- In Blunt stance, it focuses all its force into a single spot, dealing increased damage to one target. (45/90)"
+	desc = "Your blade passes into the immaterial and the leyline carries it forth, striking up to 4 tiles away. \
+	At 3+ momentum: consumes 3 to double damage and pull targets toward you. \
+	Strikes your aimed bodypart. Adaptable to intent: \
+		- Cut: 3x1 perpendicular line, multiple targets. (30/60 damage) \
+		- Stab: 3x1 forward line, pierces through enemies. (20/40 damage, 25 AP) \
+		- Blunt: All force focused on a single target. (45/90 damage)"
 	clothes_req = FALSE
 	range = 4
 	action_icon = 'icons/mob/actions/spellblade.dmi'
