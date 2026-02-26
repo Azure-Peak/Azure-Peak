@@ -307,7 +307,7 @@
 		/obj/item/flashlight/flare/torch/lantern = 5,
 		/obj/item/rogue/instrument/lute = 5,
 		/obj/item/needle = 5,
-		/obj/item/rogueweapon/huntingknife/idagger/silver/stake = 1
+		/obj/item/rogueweapon/huntingknife/idagger/stake = 1
 		)
 	var/I = pickweight(loot)
 	new I(src)
@@ -343,6 +343,7 @@
 		/obj/item/paper/inqslip/confession = 5,
 		/obj/item/clothing/neck/roguetown/luckcharm/mercmedal/underdweller = 1,
 		/obj/item/storage/backpack/rogue/satchel/mule = 3,
+		/obj/item/storage/backpack/rogue/satchel = 3,
 		/obj/item/storage/roguebag = 3, //Weapons / tools
 		/obj/item/reagent_containers/glass/bowl/aalloy = 5,
 		/obj/item/bodypart/l_arm/prosthetic/gold = 4,
