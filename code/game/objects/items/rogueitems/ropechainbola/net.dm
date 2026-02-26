@@ -52,8 +52,6 @@
 		C.update_inv_legcuffed()
 		SSblackbox.record_feedback("tally", "handcuffs", 1, type)
 		to_chat(C, "<span class='danger'>\The [src] entraps you!</span>")
-		C.Knockdown(knockdown)
-		C.apply_status_effect(/datum/status_effect/debuff/netted)
 		playsound(src, 'sound/blank.ogg', 50, TRUE)
 
 // Failsafe in case the item somehow ends up being destroyed
