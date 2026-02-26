@@ -113,24 +113,16 @@
 	desc = "Tap into Graggar's wellspring of strength and knowledge, granting unbound power at the cost of temporary insanity and physical exhaustion." 		//reflavored into "graggar grants you some of the strength he got from stealing the souls of miscellaneous ravoxians"
 	overlay_state = "bloodrage"
 	recharge_time = 5 MINUTES
-	invocations = list("GRAGGAAAAAAAAAAAR!!",
-		"WHERE'S THE DEATH?!!",
-		"YOU! CAN'T!! KILL!!! ME!!!!",
-		"I CAN HEAR EVERYTHING!!",
-		"WE'LL ALL GO TOGETHER!!",
-		"BLOOD AND NOISE, FOREVER PIERCING MY SKULL!!",
-		"I AM THE INSIDE OF THIS WORLD!!",
-		"I TASTE THE GORE! I SMELL THE CRYING! I! WANT! MORE!!",
-		"THE BLOOD IS IN MY EYES!! IT'S WAVES CRASH AGAINST MY FOREHEAD!!",
-		"LOOK AT ME WHEN I SCREAM INTO YOUR SOUL!!",
-		"GRAGGARDAMMERUUUUNG!!" // they took our night awayyy gotterdammeruuungggg
-	)
+	invocations = list("SINISTAR, SHATTER MY BINDS!!", // VERY CLEAR that you are a heretic and VERY clear you've popped
+						"GRAGGAR, GRAGGAR, GRAGGAR!!", // your anti-stun Im Going to Kill You Now spell
+						"I EMBODY THE MOTIVE FORCE!!") // DO NOT add any ambiguious invocations
 	invocation_type = "shout"
 	sound = 'sound/magic/bloodrage.ogg'
 	releasedrain = 30
 	miracle = TRUE
 	devotion_cost = 80
 	antimagic_allowed = FALSE
+	range = 0
 	var/static/list/purged_effects = list(
 	/datum/status_effect/incapacitating/immobilized,
 	/datum/status_effect/incapacitating/paralyzed,
