@@ -9,7 +9,7 @@ If reflected into self - just inflict half the damage through armor.
 
 /obj/effect/proc_holder/spell/invoked/projectile/blade_storm
 	name = "Blade Storm"
-	desc = "Hurls forth a shadow of yourself. On impact, teleport onto the target \ 
+	desc = "Hurls forth a shadow of yourself. On impact, teleport onto the target \
 		and unleash a storm of slashes on them and around yourself.\
 		Requires 7 Momentum: 3 strikes at 25 damage each. \
 		Overcharged at 10 Momentum: 5 strikes at 25 damage each. \
