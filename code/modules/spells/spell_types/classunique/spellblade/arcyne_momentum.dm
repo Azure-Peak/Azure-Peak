@@ -1,5 +1,5 @@
 #define MOMENTUM_FILTER "momentum_glow"
-#define MOMENTUM_DECAY_DELAY (10 SECONDS)
+#define MOMENTUM_DECAY_DELAY (8 SECONDS)
 #define SECOND_PER_MOMENTUM (6 SECONDS) // Time between each stack lost during decay.
 
 /atom/movable/screen/alert/status_effect/buff/arcyne_momentum
