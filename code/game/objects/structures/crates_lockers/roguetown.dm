@@ -323,9 +323,9 @@
 	new /obj/item/skull(src)
 	new /obj/item/natural/bundle/bone/full(src)
 	var/list/loot = list(
-		/obj/item/clothing/ring/blacksteel = 30, //Valuables
-		/obj/item/clothing/ring/diamond = 20,
-		/obj/item/clothing/ring/silver = 10,
+		/obj/item/clothing/ring/blacksteel = 20, //Valuables
+		/obj/item/clothing/ring/diamond = 10,
+		/obj/item/clothing/ring/silver = 20,
 		/obj/item/clothing/neck/roguetown/ornateamulet = 15,
 		/obj/item/clothing/neck/roguetown/psicross/bpearl = 10,
 		/obj/item/roguecoin/gold/pile = 5, //Valuables (materials)
@@ -336,9 +336,9 @@
 		/obj/item/roguestatue/gold = 10,
 		/obj/item/roguestatue/silver = 10,
 		/obj/item/roguestatue/blacksteel = 5,
-		/obj/item/storage/belt/rogue/pouch/zigarrete/nicotine = 15, //Misc stuff
-		/obj/item/reagent_containers/food/snacks/canned = 15,
-		/obj/item/reagent_containers/food/snacks/butter = 15,
+		/obj/item/storage/belt/rogue/pouch/zigarrete/nicotine = 10, //Misc stuff
+		/obj/item/reagent_containers/food/snacks/canned = 20,
+		/obj/item/reagent_containers/food/snacks/butter = 5,
 		/obj/item/reagent_containers/food/snacks/rogue/raisinbread = 5,
 		/obj/item/paper/inqslip/confession = 5,
 		/obj/item/clothing/neck/roguetown/luckcharm/mercmedal/underdweller = 1,
