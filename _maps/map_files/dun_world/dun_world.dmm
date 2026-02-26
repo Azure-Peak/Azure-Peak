@@ -917,6 +917,9 @@
 /obj/structure/fluff/railing/corner/north_east,
 /turf/open/lava/acid,
 /area/rogue/under/cave/his_vault/puzzle)
+"akV" = (
+/turf/open/water/transparent/surface/pond,
+/area/rogue/outdoors/town)
 "akX" = (
 /obj/machinery/light/rogue/lanternpost{
 	dir = 1;
@@ -4386,7 +4389,7 @@
 /area/rogue/outdoors/rtfield)
 "aXX" = (
 /obj/structure/flora/ausbushes/reedbush,
-/turf/open/water/pond,
+/turf/open/water/transparent/surface/pond,
 /area/rogue/outdoors/town)
 "aYi" = (
 /obj/machinery/light/rogue/candle,
@@ -7405,6 +7408,9 @@
 /obj/structure/fermentation_keg/random/water,
 /turf/open/floor/rogue/ruinedwood/herringbone,
 /area/rogue/indoors/town/tavern)
+"bJN" = (
+/turf/open/water/transparent/inner/pond,
+/area/underwater)
 "bJO" = (
 /obj/structure/closet/crate/roguecloset,
 /obj/item/clothing/suit/roguetown/shirt/tunic/white,
@@ -13437,7 +13443,7 @@
 /area/rogue/indoors/shelter/mountains/decap)
 "cYA" = (
 /obj/structure/fluff/railing/corner/north_east,
-/turf/open/water/pond,
+/turf/open/water/transparent/surface/pond,
 /area/rogue/outdoors/woods/south)
 "cYB" = (
 /obj/structure/chair/wood/rogue/chair3{
@@ -49617,7 +49623,7 @@
 /area/rogue/indoors/abandonedhotsprings)
 "kTw" = (
 /obj/structure/fluff/railing/corner/south_east,
-/turf/open/water/pond,
+/turf/open/water/transparent/surface/pond,
 /area/rogue/outdoors/woods/south)
 "kTx" = (
 /obj/structure/fluff/railing/border,
@@ -67478,6 +67484,9 @@
 /obj/structure/flora/ausbushes/ppflowers,
 /turf/open/floor/rogue/grass,
 /area/rogue/outdoors/town/roofs)
+"oNr" = (
+/turf/open/water/transparent/surface/pond,
+/area/rogue/outdoors/woods/south)
 "oNs" = (
 /obj/structure/mannequin,
 /obj/item/clothing/mask/rogue/facemask/goldmask,
@@ -73929,6 +73938,10 @@
 /obj/structure/bars/cemetery,
 /turf/open/floor/rogue/churchmarble,
 /area/rogue/under/underdark/south)
+"qmy" = (
+/obj/structure/flora/roguegrass/water,
+/turf/open/water/transparent/surface/pond,
+/area/rogue/outdoors/woods/south)
 "qmI" = (
 /obj/effect/decal/cleanable/blood,
 /mob/living/carbon/human/species/human/northern/bog_deserters,
@@ -178454,8 +178467,8 @@ miF
 miF
 miF
 miF
-bhJ
-miF
+ogs
+ogs
 qHj
 qHj
 qHj
@@ -178905,10 +178918,10 @@ miF
 miF
 miF
 miF
-miF
-bhJ
-miF
-miF
+ogs
+bJN
+bJN
+ogs
 miF
 qHj
 qHj
@@ -179356,12 +179369,12 @@ bhJ
 bhJ
 bhJ
 miF
-miF
-miF
-bhJ
-miF
-miF
-miF
+ogs
+bJN
+bJN
+bJN
+bJN
+ogs
 miF
 miF
 qHj
@@ -179808,12 +179821,12 @@ bhJ
 bhJ
 bhJ
 miF
-miF
-miF
-bhJ
-qHj
-miF
-miF
+ogs
+bJN
+bJN
+bJN
+bJN
+ogs
 miF
 miF
 qHj
@@ -180260,12 +180273,12 @@ bhJ
 bhJ
 bhJ
 miF
-miF
-miF
-bhJ
-qHj
-qHj
-qHj
+ogs
+bJN
+bJN
+bJN
+bJN
+ogs
 miF
 miF
 qHj
@@ -180712,12 +180725,12 @@ bhJ
 bhJ
 bhJ
 miF
-miF
-miF
-bhJ
-miF
-qHj
-qHj
+ogs
+bJN
+bJN
+bJN
+bJN
+ogs
 qHj
 miF
 miF
@@ -181165,10 +181178,10 @@ bhJ
 bhJ
 miF
 miF
-miF
-bhJ
-miF
-miF
+ogs
+bJN
+bJN
+ogs
 miF
 qHj
 qHj
@@ -181618,8 +181631,8 @@ miF
 miF
 miF
 miF
-bhJ
-miF
+ogs
+ogs
 miF
 miF
 miF
@@ -198645,10 +198658,10 @@ bdN
 bdN
 oBQ
 mhC
-mhC
-mhC
-mhC
-oBQ
+uyh
+uyh
+uyh
+uyh
 fLd
 uao
 fLd
@@ -199096,12 +199109,12 @@ vjY
 bdN
 bdN
 bdN
-mhC
-mhC
-mhC
-mhC
-oBQ
-oBQ
+uyh
+bJN
+bJN
+bJN
+bJN
+uyh
 oBQ
 oBQ
 oBQ
@@ -199548,12 +199561,12 @@ vjY
 bdN
 bdN
 bdN
-mhC
-mhC
-mhC
-mhC
-oBQ
-oBQ
+uyh
+bJN
+bJN
+bJN
+bJN
+uyh
 oBQ
 oBQ
 oBQ
@@ -200000,12 +200013,12 @@ aYF
 bdN
 bdN
 bdN
-bdN
-mhC
-mhC
-mhC
-mhC
-mhC
+uyh
+bJN
+bJN
+bJN
+bJN
+uyh
 mhC
 oBQ
 oBQ
@@ -200452,12 +200465,12 @@ cak
 uir
 bdN
 bdN
-bdN
-mhC
-mhC
-uir
-uir
-mhC
+uyh
+bJN
+bJN
+bJN
+bJN
+uyh
 mhC
 oBQ
 oBQ
@@ -200905,10 +200918,10 @@ uir
 bdN
 bdN
 bdN
-mhC
-mhC
-uir
-uir
+uyh
+uyh
+uyh
+uyh
 uir
 mhC
 oBQ
@@ -294168,7 +294181,7 @@ bhJ
 bhJ
 bhJ
 aXX
-pJb
+akV
 sDH
 pWT
 oHH
@@ -294618,9 +294631,9 @@ bhJ
 bhJ
 bhJ
 bhJ
-pJb
-pJb
-pJb
+akV
+akV
+akV
 aXX
 pWT
 oHH
@@ -295070,10 +295083,10 @@ bhJ
 bhJ
 bhJ
 bhJ
-pJb
-pJb
-pJb
-pJb
+akV
+akV
+akV
+akV
 njB
 oHH
 nvq
@@ -295522,10 +295535,10 @@ bhJ
 bhJ
 bhJ
 bhJ
-pJb
-pJb
-pJb
-pJb
+akV
+akV
+akV
+akV
 pWT
 oHH
 xvX
@@ -295974,9 +295987,9 @@ bhJ
 bhJ
 bhJ
 bhJ
-pJb
-pJb
-pJb
+akV
+akV
+akV
 aXX
 pWT
 oHH
@@ -296428,7 +296441,7 @@ bhJ
 bhJ
 bhJ
 aXX
-pJb
+akV
 pUg
 pWT
 oHH
@@ -314358,10 +314371,10 @@ jaH
 jaH
 fML
 itZ
-itZ
-scK
-itZ
-itZ
+oNr
+qmy
+oNr
+oNr
 itZ
 scK
 itZ
@@ -314810,10 +314823,10 @@ jaH
 fML
 fML
 itZ
-itZ
-itZ
-itZ
-itZ
+oNr
+oNr
+oNr
+oNr
 itZ
 itZ
 fML
@@ -315262,10 +315275,10 @@ jaH
 fML
 fML
 itZ
-itZ
-itZ
-itZ
-itZ
+oNr
+oNr
+oNr
+oNr
 fLV
 fML
 jaH

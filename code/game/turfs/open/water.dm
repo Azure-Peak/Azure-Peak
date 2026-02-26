@@ -779,7 +779,7 @@
 
 /turf/open/water/transparent/inner/pond
 	name = "pond depths"
-	icon_state = "rock"
+	icon_state = "pond"
 	water_color = "#367e94"
 	alpha = 40
 	baseturfs = /turf/open/water/transparent/inner/pond
