@@ -327,9 +327,9 @@
 		/obj/item/roguestatue/gold = 10,
 		/obj/item/roguestatue/silver = 10,
 		/obj/item/roguestatue/blacksteel = 5,
-		/obj/item/storage/belt/rogue/pouch/zigarrete/nicotine = 20, //Misc stuff
+		/obj/item/storage/belt/rogue/pouch/zigarrete/nicotine = 10, //Misc stuff
 		/obj/item/reagent_containers/food/snacks/canned = 15,
-		/obj/item/reagent_containers/food/snacks/butter = 10,
+		/obj/item/reagent_containers/food/snacks/butter = 15,
 		/obj/item/reagent_containers/food/snacks/rogue/raisinbread = 5,
 		/obj/item/storage/backpack/rogue/satchel/mule = 3,
 		/obj/item/storage/roguebag = 3, //Weapons / tools
