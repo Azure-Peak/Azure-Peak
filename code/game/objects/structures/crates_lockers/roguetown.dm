@@ -346,8 +346,8 @@
 		/obj/item/storage/backpack/rogue/satchel = 3,
 		/obj/item/storage/roguebag = 3, //Weapons / tools
 		/obj/item/reagent_containers/glass/bowl/aalloy = 5,
-		/obj/item/bodypart/l_arm/prosthetic/gold = 4,
-		/obj/item/bodypart/r_leg/prosthetic/gold = 4,
+		/obj/item/bodypart/l_arm/prosthetic/gold = 6,
+		/obj/item/bodypart/r_leg/prosthetic/gold = 6,
 		/obj/item/rogueweapon/sword/decorated = 5,
 		/obj/item/rogueweapon/shovel/bronze = 5,
 		/obj/item/rogue/instrument/shamisen = 5,
