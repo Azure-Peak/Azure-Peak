@@ -23,7 +23,6 @@
 	. = ..()
 	var/static/list/slapcraft_recipe_list = list(
 		/datum/crafting_recipe/roguetown/survival/ropebelt,
-		/datum/crafting_recipe/roguetown/survival/net,
 		/datum/crafting_recipe/roguetown/survival/billhook,
 		/datum/crafting_recipe/roguetown/survival/goedendag,
 		/datum/crafting_recipe/roguetown/survival/rucksack,
