@@ -289,6 +289,7 @@
 		/obj/item/clothing/neck/roguetown/psicross/pearl = 10,
 		/obj/item/clothing/neck/roguetown/psicross/g = 15,
 		/obj/item/roguecoin/silver/pile = 5, //Valuables (materials)
+		/obj/item/roguecoin/aalloy/pile = 7,
 		/obj/item/roguegem/violet = 10,
 		/obj/item/roguestatue/gold/loot = 10,
 		/obj/item/roguestatue/aalloy = 5,
@@ -299,7 +300,8 @@
 		/obj/item/storage/roguebag = 3, //Weapons / tools
 		/obj/item/rogueweapon/sword = 5,
 		/obj/item/flashlight/flare/torch/lantern = 5,
-		/obj/item/needle = 5
+		/obj/item/needle = 5,
+		/obj/item/rogueweapon/huntingknife/idagger/silver/stake = 1
 		)
 	var/I = pickweight(loot)
 	new I(src)
@@ -321,6 +323,7 @@
 		/obj/item/clothing/neck/roguetown/ornateamulet = 15,
 		/obj/item/clothing/neck/roguetown/psicross/bpearl = 10,
 		/obj/item/roguecoin/gold/pile = 5, //Valuables (materials)
+		/obj/item/roguecoin/aalloy/pile = 9,
 		/obj/item/roguegem/diamond = 10,
 		/obj/item/roguegem/ruby = 5,
 		/obj/item/riddleofsteel = 1,
@@ -331,9 +334,12 @@
 		/obj/item/reagent_containers/food/snacks/canned = 15,
 		/obj/item/reagent_containers/food/snacks/butter = 15,
 		/obj/item/reagent_containers/food/snacks/rogue/raisinbread = 5,
+		/obj/item/paper/inqslip/confession = 5,
+		/obj/item/clothing/neck/roguetown/luckcharm/mercmedal/underdweller = 1,
 		/obj/item/storage/backpack/rogue/satchel/mule = 3,
 		/obj/item/storage/roguebag = 3, //Weapons / tools
-		/obj/item/rogueweapon/sword/decorated = 5
+		/obj/item/rogueweapon/sword/decorated = 5,
+		/obj/item/rogueweapon/shovel/silver = 5
 		)
 	var/I = pickweight(loot)
 	new I(src)
