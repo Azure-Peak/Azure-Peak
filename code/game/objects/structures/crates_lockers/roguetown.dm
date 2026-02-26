@@ -265,6 +265,7 @@
 		/obj/item/storage/roguebag = 3,
 		/obj/item/rogueweapon/huntingknife/bronze = 5, //Weapons / tools
 		/obj/item/rogueweapon/sword/bronze = 5,
+		/obj/item/reagent_containers/glass/bowl/bronze = 5,
 		/obj/item/flashlight/flare/torch/lantern/bronze = 5,
 		/obj/item/needle/bronze = 5
 		)
@@ -298,6 +299,7 @@
 		/obj/item/reagent_containers/food/snacks/canned = 15,
 		/obj/item/storage/backpack/rogue/satchel = 3,
 		/obj/item/storage/roguebag = 3, //Weapons / tools
+		/obj/item/reagent_containers/glass/bowl/aalloy = 10,
 		/obj/item/rogueweapon/sword = 5,
 		/obj/item/flashlight/flare/torch/lantern = 5,
 		/obj/item/needle = 5,
@@ -338,6 +340,9 @@
 		/obj/item/clothing/neck/roguetown/luckcharm/mercmedal/underdweller = 1,
 		/obj/item/storage/backpack/rogue/satchel/mule = 3,
 		/obj/item/storage/roguebag = 3, //Weapons / tools
+		/obj/item/reagent_containers/glass/bowl/aalloy = 5,
+		/obj/item/bodypart/l_arm/prosthetic/gold, = 4,
+		/obj/item/bodypart/r_leg/prosthetic/gold = 4,
 		/obj/item/rogueweapon/sword/decorated = 5,
 		/obj/item/rogueweapon/shovel/bronze = 5
 		)
