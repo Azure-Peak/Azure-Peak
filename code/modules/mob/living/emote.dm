@@ -1877,12 +1877,24 @@
 	src.swim_z(UP)
 
 /mob/living/carbon/human/proc/swim_z(direction)
-	if(stat || IsKnockdown()) return
+	if(stat || IsKnockdown() || IsParalyzed()) return
+	
 	var/turf/current_T = get_turf(src)
 	var/target_z = (direction == UP) ? (z + 1) : (z - 1)
 	var/turf/target_T = locate(current_T.x, current_T.y, target_z)
+
 	if(istype(target_T, /turf/open/water))
+		
+		if(direction == UP)
+			
+			if(!stamina_add(15)) 
+				to_chat(src, span_warning("I'm too tired to surface!"))
+				return FALSE
+
+		visible_message(span_notice("[src] [direction == UP ? "emerges to the surface": "goes into the depths"]."))
 		forceMove(target_T)
 		playsound(src, 'sound/foley/waterenter.ogg', 40, TRUE)
 		return TRUE
+		
+	to_chat(src, span_warning("You can't [direction == UP ? "emerge" : "dive"] here."))
 	return FALSE

@@ -77,6 +77,7 @@ GLOBAL_LIST_INIT(available_ui_styles, sortList(list(
 	var/atom/movable/screen/textl
 	var/atom/movable/screen/textr
 	var/atom/movable/screen/vis_holder/vis_holder
+	var/atom/movable/screen/breath
 
 /datum/hud/New(mob/owner)
 	mymob = owner

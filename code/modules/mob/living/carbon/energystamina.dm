@@ -7,9 +7,20 @@
 				delay = 13
 			if("night", "dusk")
 				delay = 16
-	if(world.time > last_fatigued + delay) //regen fatigue
+	if(world.time > last_fatigued + delay) //regen fatigue 
 		var/added = energy / max_energy
 		added = round(-10 + (added * - 40))
+	
+		if(ishuman(src))
+			var/mob/living/carbon/human/H = src
+			var/turf/cur_T = get_turf(H)
+			if(istype(cur_T, /turf/open/water))
+				if(!H.resting && H.stat == CONSCIOUS)
+					added = 0 
+                    
+		if(stamina >= 1)
+			stamina_add(added)
+		
 		if(src.climbing) // no stam regen while climbing guh
 			added = 0
 		if(HAS_TRAIT(src, TRAIT_MISSING_NOSE))

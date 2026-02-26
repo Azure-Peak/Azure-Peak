@@ -115,6 +115,7 @@
 
 	. = ..()
 	name = get_visible_name()
+	handle_swimming()
 
 /mob/living/carbon/human/proc/on_daypass()
 	if(dna?.species)
@@ -423,21 +424,128 @@
 
 /mob/living/carbon/human/proc/handle_swimming()
 	var/turf/T = get_turf(src)
+	var/area/A = get_area(src)
 	
-	
-	if(is_swimming && (!T || !istype(T, /turf/open/water)))
-		stop_swimming()
-		return
+	var/is_on_water = istype(T, /turf/open/water)
+	var/is_true_swimming = is_swimming || is_underwater || istype(A, /area/underwater) || istype(T, /turf/open/water/transparent)
 
-	
-	if(!is_swimming && !is_underwater)
+	if(!is_on_water && !is_true_swimming && breath_remaining >= max_breath)
 		if(get_filter("swimming_cutter"))
 			remove_filter("swimming_cutter")
 			update_icon()
+		update_breath_hud() 
 		return
+	
+	if(stat == DEAD && (is_underwater || istype(A, /area/underwater)))
+		var/turf/above = GET_TURF_ABOVE(T)
+		if(above && istype(above, /turf/open/water)) 
+			if(prob(20))
+				visible_message(span_warning("The lifeless body [src] slowly floats upwards."))
+				forceMove(above)
+				return
 
 	
-	if(is_swimming && !is_underwater)
+	if(stat != DEAD && is_true_swimming)
+		if(stat == UNCONSCIOUS || stamina >= max_stamina || IsImmobilized() || IsKnockdown())
+			var/turf/below = GET_TURF_BELOW(T)
+			
+			if(below && istype(below, /turf/open/water))
+				
+				if(T.zPassOut(src, DOWN)) 
+					forceMove(below)
+					set_resting(TRUE)
+					if(!is_underwater) 
+						to_chat(src, span_userdanger("I am losing strength and going into the depths..."))
+					return
+
+	
+	if(stat != DEAD)
+		
+		var/sw_skill = get_skill_level(/datum/skill/misc/swimming)
+		var/new_max_breath = (STACON * 1.5) + (sw_skill * 10)
+		if(new_max_breath != max_breath)
+			if(max_breath > 0)
+				
+				var/ratio = breath_remaining / max_breath
+				max_breath = new_max_breath
+				breath_remaining = max_breath * ratio
+			else
+				
+				max_breath = new_max_breath
+				breath_remaining = max_breath
+		if(!is_on_water && !is_true_swimming && breath_remaining >= max_breath)
+			if(get_filter("swimming_cutter"))
+				remove_filter("swimming_cutter")
+				update_icon()
+			update_breath_hud() 
+			return
+		// Кислород
+		var/is_choking = FALSE
+		if(is_underwater && !can_breathe_underwater())
+			is_choking = TRUE
+		else if(resting && is_on_water)
+			is_choking = TRUE
+
+		if(is_choking && !(HAS_TRAIT(src, TRAIT_NOBREATH) || HAS_TRAIT(src, TRAIT_WATERBREATHING)))
+			last_breath_spent = world.time
+			var/breath_drain = (m_intent == MOVE_INTENT_RUN) ? 1.2 : 0.8
+			breath_remaining = max(0, breath_remaining - (breath_drain / (1 + sw_skill * 0.1)))
+			
+			if(breath_remaining <= 0)
+				var/oxy_damage = (stat == UNCONSCIOUS) ? 3.5 : 5 
+				adjustOxyLoss(oxy_damage)
+
+				if(prob(20))
+					if(stat < UNCONSCIOUS)
+						playsound(src, pick('sound/vo/throat.ogg', 'sound/vo/throat2.ogg'), 70, FALSE)
+					else
+						playsound(src, 'sound/effects/bubbles.ogg', 40, FALSE)
+		else
+			if(breath_remaining < max_breath)
+				var/regen_speed = max_breath / 3.5
+				breath_remaining = min(breath_remaining + regen_speed, max_breath)
+
+		if(!resting && (is_on_water || is_true_swimming))
+			var/drain = 0
+			switch(sw_skill)
+				if(SKILL_LEVEL_NONE) drain = 6.0 
+				if(SKILL_LEVEL_NOVICE) drain = 4.5
+				if(SKILL_LEVEL_APPRENTICE) drain = 3.0
+				if(SKILL_LEVEL_JOURNEYMAN) drain = 1.5
+				if(SKILL_LEVEL_EXPERT) drain = 1.0
+				if(SKILL_LEVEL_MASTER) drain = 0.5
+				if(SKILL_LEVEL_LEGENDARY) drain = 0.2
+			
+			if(is_true_swimming) drain *= 1.5
+			if(m_intent == MOVE_INTENT_RUN) drain *= 1.3
+			stamina_add(drain, force_emote = FALSE)
+
+		
+		if(is_underwater && !resting && (stamina >= max_stamina || IsImmobilized() || IsKnockdown()))
+			set_resting(TRUE)
+
+	
+	update_breath_hud()
+
+	
+	if(is_true_swimming && !is_underwater && is_on_water)
+		if(!get_filter("swimming_cutter"))
+			add_filter("swimming_cutter", 1, alpha_mask_filter(y=-6, icon=icon('icons/effects/icon_cutter.dmi', "icon_cutter"), flags=MASK_INVERSE))
+	else
+		if(get_filter("swimming_cutter"))
+			remove_filter("swimming_cutter")
+			update_icon()
+
+	
+	if(stat != DEAD && is_underwater && client)
+		var/filter_ok = FALSE
+		for(var/atom/movable/screen/plane_master/PM in client.screen)
+			if(PM.plane == -5 && PM.get_filter("uw_blur"))
+				filter_ok = TRUE
+				break
+		if(!filter_ok) apply_underwater_filters()
+	
+	if(is_true_swimming && !is_underwater && is_on_water)
 		if(!get_filter("swimming_cutter"))
 			add_filter("swimming_cutter", 1, alpha_mask_filter(y=-6, icon=icon('icons/effects/icon_cutter.dmi', "icon_cutter"), flags=MASK_INVERSE))
 	else
@@ -457,10 +565,42 @@
 	
 	if(stat >= UNCONSCIOUS || IsKnockdown() || handcuffed)
 		drowning_drowniness++
-		if(drowning_drowniness >= 3)
-			adjustOxyLoss(10)
+		if(drowning_drowniness >= 3) adjustOxyLoss(10)
 	else
 		drowning_drowniness = max(0, drowning_drowniness - 1)
+
+/mob/living/carbon/human/proc/update_breath_hud()
+	if(!client || !hud_used || !hud_used.breath)
+		return
+	
+	
+	hud_used.breath.alpha = 255 
+	hud_used.breath.layer = 33.2
+
+	if(HAS_TRAIT(src, TRAIT_NOBREATH) || HAS_TRAIT(src, TRAIT_WATERBREATHING))
+		hud_used.breath.alpha = 0
+		return
+	
+	var/percent = (breath_remaining / max_breath) * 100
+	var/icon_num = round(percent / 5) * 5
+	icon_num = clamp(icon_num, 0, 100)
+	hud_used.breath.icon_state = "stam[icon_num]"
+	
+	
+	if(percent < 25)
+		hud_used.breath.color = list(1,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,1) 
+	else
+		hud_used.breath.color = list(0,0,0,0, 0,0.3,0,0, 0,0,1,0, 0,0.5,1,1) 
+
+/mob/living/carbon/human/proc/can_breathe_underwater()
+	
+	var/list/allowed_gear = list( //For item to alloved breath underwater
+	)
+	
+	for(var/typepath in allowed_gear)
+		if(istype(wear_mask, typepath) || istype(head, typepath))
+			return TRUE
+	return FALSE
 
 #undef THERMAL_PROTECTION_HEAD
 #undef THERMAL_PROTECTION_CHEST

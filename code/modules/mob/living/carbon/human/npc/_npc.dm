@@ -56,10 +56,6 @@
 	///our current cell grid
 	var/datum/cell_tracker/our_cells
 
-/mob/living/carbon/human/Initialize()
-	. = ..()
-	our_cells = new(interesting_dist, interesting_dist, 1)
-	set_new_cells()
 
 /mob/living/carbon/human/Destroy()
 	our_cells = null

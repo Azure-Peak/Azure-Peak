@@ -635,16 +635,25 @@
 	if(isobj(A)) return TRUE 
 	if(ishuman(A))
 		var/mob/living/carbon/human/H = A
-		if(H.stat == CONSCIOUS && !H.IsKnockdown()) return FALSE
+		
+		if(H.stat == DEAD)
+			return FALSE
+			
+		
+		if(H.stat == UNCONSCIOUS || H.stamina >= H.max_stamina || H.IsImmobilized() || H.IsKnockdown())
+			return TRUE
+			
+		return FALSE 
 	return TRUE
 
 /turf/open/water/transparent/zPassOut(atom/movable/A, direction)
-	if(direction == DOWN)
-		if(isobj(A)) return TRUE
-		if(ishuman(A))
-			var/mob/living/carbon/human/H = A
-			if(H.stat != CONSCIOUS || H.IsKnockdown()) return TRUE
-			return FALSE 
+	if(direction == DOWN && ishuman(A))
+		var/mob/living/carbon/human/H = A
+		if(H.stat == DEAD)
+			return FALSE
+		if(H.stat == UNCONSCIOUS || H.stamina >= H.max_stamina || H.IsImmobilized() || H.IsKnockdown())
+			return TRUE
+		return FALSE 
 	return ..()
 
 /turf/open/water/transparent/Entered(atom/movable/AM)
@@ -680,6 +689,11 @@
 	if(water_overlay) qdel(water_overlay)
 	if(water_top_overlay) qdel(water_top_overlay)
 
+/turf/open/water/transparent/inner/Entered(atom/movable/AM, atom/oldLoc)
+	. = ..() 
+	
+	if(ishuman(AM) && !AM.throwing)
+		playsound(AM, pick('sound/foley/watermove (1).ogg','sound/foley/watermove (2).ogg'), 40, FALSE, 0.7)
 
 /obj/effect/overlay/water/area_cover
 	icon = 'icons/turf/roguefloor.dmi'
