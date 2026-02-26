@@ -120,10 +120,12 @@
 	contains = list(
 					/obj/item/quiver/sling/iron,
 				)
-
+				
+/* -- removed until nets are reworked
 /datum/supply_pack/rogue/ranged_weapons/net
 	name = "Net"
 	cost = 20
 	contains = list(
 					/obj/item/net,
 				)
+*/

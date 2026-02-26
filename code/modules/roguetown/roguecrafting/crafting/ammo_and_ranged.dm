@@ -1,3 +1,4 @@
+/* disabled until nets are reworked
 /datum/crafting_recipe/roguetown/survival/net
 	name = "net"
 	category = "Ranged"
@@ -9,7 +10,7 @@
 		)
 	verbage_simple = "braid"
 	verbage = "braids"
-
+*/
 /datum/crafting_recipe/roguetown/survival/bowstring
 	name = "fiber bowstring"
 	category = "Ranged"

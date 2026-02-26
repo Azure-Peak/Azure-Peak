@@ -439,7 +439,7 @@
 				H.adjust_skillrank_up_to(/datum/skill/combat/polearms, SKILL_LEVEL_JOURNEYMAN, TRUE)
 				H.adjust_skillrank_up_to(/datum/skill/combat/unarmed, SKILL_LEVEL_JOURNEYMAN, TRUE)
 				r_hand = /obj/item/rogueweapon/spear/trident
-				beltr = /obj/item/net
+				// beltr = /obj/item/net - disabled until nets are reworked. sorry, gamers.
 				backr = /obj/item/rogueweapon/scabbard/gwstrap
 			if("Greataxe & +1 Unarmed")
 				H.adjust_skillrank_up_to(/datum/skill/combat/axes, SKILL_LEVEL_JOURNEYMAN, TRUE)
