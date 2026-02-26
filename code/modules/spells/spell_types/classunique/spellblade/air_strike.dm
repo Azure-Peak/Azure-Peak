@@ -11,6 +11,7 @@ hand and I intend for Spellblade, feeling wise.
 /obj/effect/proc_holder/spell/invoked/air_strike
 	name = "Air Strike"
 	desc = "Your blade passes into the immaterial and the leyline carries it forth, striking up to 4 tiles away. \
+	Brief telegraph before the strike lands — aim where they will be. \
 	At 3+ momentum: consumes 3 to double damage and pull targets toward you. \
 	Strikes your aimed bodypart. Adaptable to intent: \
 		- Cut: 3x1 perpendicular line, multiple targets. (30/60 damage) \
@@ -86,10 +87,20 @@ hand and I intend for Spellblade, feeling wise.
 
 	var/list/affected_turfs = get_perpendicular_line(origin, facing)
 
+	// Telegraph — spellwarning on affected tiles
+	for(var/turf/T in affected_turfs)
+		new /obj/effect/temp_visual/air_strike_telegraph(T)
+
+	addtimer(CALLBACK(src, PROC_REF(resolve_cut_strike), H, weapon, empowered, affected_turfs, damage, def_zone, facing), 2)
+
+/obj/effect/proc_holder/spell/invoked/air_strike/proc/resolve_cut_strike(mob/living/carbon/human/H, obj/item/weapon, empowered, list/affected_turfs, damage, def_zone, facing)
+	if(QDELETED(H) || H.stat == DEAD)
+		return
+
 	for(var/turf/T in affected_turfs)
 		var/obj/effect/temp_visual/blade_cut/V = new(T)
 		V.dir = facing
-	playsound(origin, pick('sound/combat/wooshes/bladed/wooshsmall (1).ogg', 'sound/combat/wooshes/bladed/wooshsmall (2).ogg'), 80, TRUE)
+	playsound(affected_turfs[1], pick('sound/combat/wooshes/bladed/wooshsmall (1).ogg', 'sound/combat/wooshes/bladed/wooshsmall (2).ogg'), 80, TRUE)
 
 	var/hit_count = 0
 	var/deflected = FALSE
@@ -121,10 +132,20 @@ hand and I intend for Spellblade, feeling wise.
 
 	var/list/affected_turfs = get_forward_line(origin, facing, 3)
 
+	// Telegraph — spellwarning on affected tiles
+	for(var/turf/T in affected_turfs)
+		new /obj/effect/temp_visual/air_strike_telegraph(T)
+
+	addtimer(CALLBACK(src, PROC_REF(resolve_stab_strike), H, weapon, empowered, affected_turfs, damage, def_zone, facing), 2)
+
+/obj/effect/proc_holder/spell/invoked/air_strike/proc/resolve_stab_strike(mob/living/carbon/human/H, obj/item/weapon, empowered, list/affected_turfs, damage, def_zone, facing)
+	if(QDELETED(H) || H.stat == DEAD)
+		return
+
 	for(var/turf/T in affected_turfs)
 		var/obj/effect/temp_visual/blade_burst/V = new(T)
 		V.dir = facing
-	playsound(origin, pick('sound/combat/wooshes/bladed/wooshsmall (1).ogg', 'sound/combat/wooshes/bladed/wooshsmall (2).ogg'), 80, TRUE)
+	playsound(affected_turfs[1], pick('sound/combat/wooshes/bladed/wooshsmall (1).ogg', 'sound/combat/wooshes/bladed/wooshsmall (2).ogg'), 80, TRUE)
 
 	var/hit_count = 0
 	var/deflected = FALSE
@@ -154,6 +175,16 @@ hand and I intend for Spellblade, feeling wise.
 	var/def_zone = H.zone_selected || BODY_ZONE_CHEST
 	var/damage = empowered ? (blunt_damage * empowered_mult) : blunt_damage
 
+	// Telegraph — spellwarning on target tile
+	new /obj/effect/temp_visual/air_strike_telegraph(origin)
+
+	addtimer(CALLBACK(src, PROC_REF(resolve_blunt_strike), H, weapon, empowered, origin, damage, def_zone), 2)
+
+/obj/effect/proc_holder/spell/invoked/air_strike/proc/resolve_blunt_strike(mob/living/carbon/human/H, obj/item/weapon, empowered, turf/origin, damage, def_zone)
+	if(QDELETED(H) || H.stat == DEAD)
+		return
+
+	new /obj/effect/temp_visual/kinetic_blast(origin)
 	playsound(origin, pick('sound/combat/wooshes/bladed/wooshsmall (1).ogg', 'sound/combat/wooshes/bladed/wooshsmall (2).ogg'), 80, TRUE)
 
 	var/mob/living/victim = null
@@ -207,6 +238,13 @@ hand and I intend for Spellblade, feeling wise.
 			break
 		turfs += current
 	return turfs
+
+/obj/effect/temp_visual/air_strike_telegraph
+	icon = 'icons/effects/effects.dmi'
+	icon_state = "trap"
+	light_outer_range = 1
+	duration = 3
+	layer = MASSIVE_OBJ_LAYER
 
 /obj/effect/temp_visual/arcyne_strike_fx
 	icon = 'icons/effects/effects.dmi'
