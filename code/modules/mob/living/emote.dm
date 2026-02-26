@@ -1867,13 +1867,11 @@
 /mob/living/carbon/human/verb/dive()
 	set name = "Dive"
 	set category = "Swimming"
-	set src = usr
 	src.swim_z(DOWN)
 
 /mob/living/carbon/human/verb/surface()
 	set name = "Surface"
 	set category = "Swimming"
-	set src = usr
 	src.swim_z(UP)
 
 /mob/living/carbon/human/proc/swim_z(direction)
@@ -1884,9 +1882,7 @@
 	var/turf/target_T = locate(current_T.x, current_T.y, target_z)
 
 	if(istype(target_T, /turf/open/water))
-		
 		if(direction == UP)
-			
 			if(!stamina_add(15)) 
 				to_chat(src, span_warning("I'm too tired to surface!"))
 				return FALSE

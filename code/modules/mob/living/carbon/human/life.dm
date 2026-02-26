@@ -373,17 +373,11 @@
 	if(is_swimming) return
 	is_swimming = TRUE
 	
-	
-	verbs |= list(/mob/living/carbon/human/verb/dive, /mob/living/carbon/human/verb/surface)
 
 /mob/living/carbon/human/proc/stop_swimming()
 	if(!is_swimming) return
 	is_swimming = FALSE
 	
-	remove_filter("swimming_cutter")
-	update_icon() 
-	
-	verbs -= list(/mob/living/carbon/human/verb/dive, /mob/living/carbon/human/verb/surface)
 
 /mob/living/carbon/human/proc/start_submersion()
 	if(is_underwater) return
@@ -430,11 +424,10 @@
 
 	calculate_breath_values() 
 
+	if(!is_on_water && is_swimming)
+		stop_swimming()
+
 	
-	if(!is_on_water && !is_true_swimming && breath_remaining >= max_breath)
-		if(get_filter("swimming_cutter")) remove_filter("swimming_cutter")
-		update_breath_hud() 
-		return
 
 	
 	if(stat == DEAD && (is_underwater || istype(A, /area/underwater)))
@@ -492,6 +485,14 @@
 			if(is_true_swimming) drain *= 2 
 			stamina_add(drain, force_emote = FALSE)
 
+		if(!is_on_water && !is_true_swimming && breath_remaining >= max_breath)
+			if(get_filter("swimming_cutter")) 
+				remove_filter("swimming_cutter")
+				update_icon()
+		is_swimming = FALSE
+		update_breath_hud() 
+		return
+	
 	update_breath_hud()
 
 	
