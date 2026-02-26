@@ -323,7 +323,7 @@
 	recharge_time = 10 MINUTES
 	miracle = TRUE
 	devotion_cost = 30
-	range = 1
+	range = 0
 	var/static/list/lootpool = list(/obj/item/flowercrown/rosa,
 	/obj/item/bouquet/rosa,
 	/obj/item/jingle_bells,
