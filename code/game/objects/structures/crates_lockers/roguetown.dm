@@ -263,7 +263,7 @@
 		/obj/item/reagent_containers/food/snacks/rogue/raisins = 10,
 		/obj/item/storage/backpack/rogue/satchel = 3,
 		/obj/item/storage/roguebag = 3,
-		/obj/item/rogueweapon/huntingknife/idagger = 5, //Weapons / tools
+		/obj/item/rogueweapon/huntingknife/bronze = 5, //Weapons / tools
 		/obj/item/rogueweapon/sword/bronze = 5,
 		/obj/item/flashlight/flare/torch/lantern/bronze = 5,
 		/obj/item/needle/bronze = 5
@@ -289,10 +289,10 @@
 		/obj/item/roguecoin/silver/pile = 5, //Valuables (materials)
 		/obj/item/roguegem/violet = 10,
 		/obj/item/roguestatue/gold/loot = 10,
-		/obj/item/roguestatue/steel = 5,
+		/obj/item/roguestatue/aalloy = 5,
 		/obj/item/storage/belt/rogue/pouch/zigarrete/nicotine = 20, //Misc stuff
-		/obj/item/reagent_containers/food/snacks/butter = 20,
-		/obj/item/reagent_containers/food/snacks/rogue/raisinbread = 10,
+		/obj/item/reagent_containers/food/snacks/butter = 15,
+		/obj/item/reagent_containers/food/snacks/canned = 15,
 		/obj/item/storage/backpack/rogue/satchel = 3,
 		/obj/item/storage/roguebag = 3, //Weapons / tools
 		/obj/item/rogueweapon/sword = 5,
@@ -322,9 +322,10 @@
 		/obj/item/roguestatue/gold = 10,
 		/obj/item/roguestatue/blacksteel = 5,
 		/obj/item/storage/belt/rogue/pouch/zigarrete/nicotine = 20, //Misc stuff
-		/obj/item/reagent_containers/food/snacks/butter = 20,
-		/obj/item/reagent_containers/food/snacks/rogue/raisinbread = 10,
-		/obj/item/storage/backpack/rogue/satchel = 3,
+		/obj/item/reagent_containers/food/snacks/canned = 15,
+		/obj/item/reagent_containers/food/snacks/butter = 10,
+		/obj/item/reagent_containers/food/snacks/rogue/raisinbread = 5,
+		/obj/item/storage/backpack/rogue/satchel/mule = 3,
 		/obj/item/storage/roguebag = 3, //Weapons / tools
 		/obj/item/rogueweapon/sword/decorated = 5
 		)
