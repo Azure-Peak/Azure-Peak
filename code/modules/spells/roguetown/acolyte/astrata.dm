@@ -365,7 +365,7 @@
 
 /obj/effect/proc_holder/spell/self/astrata_fireresist
 	name = "Flame Body"
-	desc = "Hide from the fire under the gaze of Astrata"
+	desc = "Grants you a temporary resistance to flame... for a small price of your constitution."
 	overlay_state = "createlight"
 	base_icon_state = "regalyscroll"
 	releasedrain = 10
@@ -763,7 +763,7 @@
 // =====================
 /obj/effect/proc_holder/spell/invoked/immolation
 	name = "Immolation"
-	desc = "Ignite a target in holy flames, burning those that surround them. Fire burns brighter within devout Astratans."
+	desc = "Ignite a target in holy flames, burning those that surround them. The fire burns brighter within devout Astratans."
 	overlay_state = "immolation"
 	base_icon_state = "regalyscroll"
 	range = 2
