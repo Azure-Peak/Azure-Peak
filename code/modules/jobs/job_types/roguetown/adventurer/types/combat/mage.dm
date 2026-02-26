@@ -79,7 +79,8 @@
 	outfit = /datum/outfit/job/roguetown/adventurer/spellblade
 	traits_applied = list(TRAIT_MAGEARMOR, TRAIT_ARCYNE_T2)
 	subclass_stats = list(
-		STATKEY_INT = 2,
+		STATKEY_INT = 1,
+		STATKEY_PER = 1,
 		STATKEY_CON = 1,
 		STATKEY_WIL = 1,
 	)
@@ -156,15 +157,16 @@
 			if("phalangite")
 				H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/azurean_phalanx)
 				H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/projectile/azurean_javelin)
-				H.mind.AddSpell(new /obj/effect/proc_holder/spell/self/advance)
+				H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/advance)
 				H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/gate_of_reckoning)
 			if("macebearer")
 				H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/shatter)
 				H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/tremor)
-				H.mind.AddSpell(new /obj/effect/proc_holder/spell/self/charge)
+				H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/charge)
 				H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/cataclysm)
 
 		H.mind.AddSpell(new /obj/effect/proc_holder/spell/self/recall_weapon)
+		H.mind.AddSpell(new /obj/effect/proc_holder/spell/self/empower_weapon)
 		H.mind.AddSpell(new /obj/effect/proc_holder/spell/self/bind_weapon)
 		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/mending)
 		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/enchant_weapon)

@@ -271,7 +271,7 @@ a.choose-btn:hover {
 </div>
 <div class="shared-info">
 <h4>Shared Abilities</h4>
-<p>Bind Weapon · Recall Weapon · Mending · Enchant Weapon · 4 Utility Spell Points</p>
+<p>Bind Weapon · Recall Weapon · Empower Weapon · Mending · Enchant Weapon · 4 Utility Spell Points</p>
 </div>
 <div class="shared-info" style="text-align: left;">
 <h4 style="text-align: center;">Shared Mechanics</h4>
@@ -281,6 +281,7 @@ a.choose-btn:hover {
 <li><b>Disruption</b> — You lose all Momentum when knocked down or stunned. Off-balance costs 3.</li>
 <li><b>Overcharge (7)</b> — Damages your chest and blurs your vision, unlocking your most powerful ability.</li>
 <li><b>Maximum (10)</b> — Unleash an empowered version of your ultimate ability.</li>
+<li><b>Empower Weapon</b> — Requires 5+ momentum. Burns ALL momentum to empower your next melee swing, bypassing parry and dodge. Visible red glow warns enemies. 30s cooldown. 10s duration.</li>
 <li><b>Arcyne Surge</b> — Certain non-ultimate abilities that strike 2 or more targets grant 1 bonus Momentum.</li>
 </ul>
 </div>
