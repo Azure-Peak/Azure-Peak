@@ -27,8 +27,10 @@
 			M.legcuffed = null
 			M.remove_movespeed_modifier(MOVESPEED_ID_NET_SLOWDOWN, TRUE)
 			M.update_inv_legcuffed()
-			if(M.has_status_effect(/datum/status_effect/debuff/netted))
-				M.remove_status_effect(/datum/status_effect/debuff/netted)
+		// this needs an actual effect, not just the typepath of the effect
+		var/datum/status_effect/effect = M.has_status_effect(/datum/status_effect/debuff/netted)
+		if(effect)
+			M.remove_effect(effect)
 		forceMove(M.loc)
 
 /obj/item/net/throw_at(atom/target, range, speed, mob/thrower, spin=1, diagonals_first = 0, datum/callback/callback)
