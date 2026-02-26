@@ -494,9 +494,12 @@
 		playsound(src, 'sound/misc/chain_snap.ogg', 100, FALSE, 10)
 	to_chat(src, "<span class='notice'>I [cuff_break ? "break" : "slip"] out of [I]!</span>")
 
+/*
 	if(istype(I, /obj/item/net))
-		if(has_status_effect(/datum/status_effect/debuff/netted))
-			remove_status_effect(/datum/status_effect/debuff/netted)
+		var/datum/status_effect/effect = has_status_effect(/datum/status_effect/debuff/netted)
+		remove_status_effect(effect)
+		// see net.dm
+		*/
 
 	if(cuff_break)
 		. = !((I == handcuffed) || (I == legcuffed))
