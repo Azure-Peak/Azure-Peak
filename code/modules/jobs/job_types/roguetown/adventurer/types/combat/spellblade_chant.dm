@@ -221,7 +221,7 @@ a.choose-btn:hover {
 <h4>Abilities</h4>
 <ul>
 <li><b>Caedo</b> — Dash through enemies, striking all in your path. Consumes 3 momentum to strike twice!</li>
-<li><b>Air Strike</b> — Ranged attack that adapts to your intent. At 3+ momentum, pulls targets toward you.</li>
+<li><b>Air Strike</b> — Ranged attack that adapts to your intent. At 3+ momentum, doubles damage.</li>
 <li><b>Leyline Anchor</b> — Anchor an arcyne tether to the leyline. Recast to recall. 75 HP, 20s duration, 7 tile range. Cannot recall while restrained. Tether destroyed or expired = full cooldown.</li>
 <li><b>Blade Storm</b> — Hurl a shadow projectile. On hit: teleport onto the target and cut the target and everyone around them. 7 Momentum required. At 10, perform extra strikes. Reflected shadows hurt you!</li>
 </ul>
@@ -239,9 +239,9 @@ a.choose-btn:hover {
 <div class="abilities">
 <h4>Abilities</h4>
 <ul>
-<li><b>Azurean Phalanx</b> — 3-tile line thrust that pushes enemies back 2 tiles. Empowered: doubles damage, pushes 3 tiles, and widens the thrust.</li>
+<li><b>Azurean Phalanx</b> — 3-tile line thrust that pushes enemies back 1 tile. Empowered: doubles damage.</li>
 <li><b>Azurean Javelin</b> — Hurl an armor-piercing phantom spear that slows. No slowdown while charging.</li>
-<li><b>Advance!</b> — Charge forward and jab 3 times ahead. Must build up 1 pace first. If blocked, keeps jabbing in place.</li>
+<li><b>Advance!</b> — Charge forward and jab 3 times ahead. Must build up 1 pace first. If blocked, keeps jabbing in place. Brief chargeup before moving.</li>
 <li><b>Gate of Reckoning</b> — Conjure a portal above a target, raining phantom spears down, then blink to their position and sweep everyone around you.</li>
 </ul>
 </div>
@@ -258,9 +258,9 @@ a.choose-btn:hover {
 <div class="abilities">
 <h4>Abilities</h4>
 <ul>
-<li><b>Shatter</b> — 3-tile line smash that devastates armor integrity and knocks targets back 2 tiles. Empowered: doubles damage and pushes 3 tiles.</li>
-<li><b>Tremor</b> — Slam the ground, damaging and pushing back everyone adjacent 2 tiles. Empowered: doubles damage and pushes 3 tiles.</li>
-<li><b>Charge!</b> — Charge forward 3 paces and bash, knocking targets back 2 tiles. Empowered: doubles damage and pushes 3 tiles.</li>
+<li><b>Shatter</b> — 3-tile line smash that devastates armor integrity and knocks targets back 1 tile. Empowered: doubles damage.</li>
+<li><b>Tremor</b> — Slam the ground, damaging and pushing back everyone adjacent 1 tile. Empowered: doubles damage.</li>
+<li><b>Charge!</b> — Charge forward 3 paces and bash, knocking targets back 1 tile. Empowered: doubles damage. Brief chargeup before moving.</li>
 <li><b>Cataclysm</b> — Conjure and hurl an arcyne hammer at a target area. Crushes a 5x5 area and leaves victims Vulnerable. Bonus damage at max momentum.</li>
 </ul>
 </div>
