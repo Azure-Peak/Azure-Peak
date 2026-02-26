@@ -52,8 +52,9 @@
 /datum/status_effect/New(list/arguments)
 	on_creation(arglist(arguments))
 
-// IF YOU NEED TO PASS ARGUMENTS TO THE PROC, TO MODIFY DURATION OR USE SKILLS, IT MUST BE DONE
-// ON THE ON_CREATION!!!!!!
+/// Called when we create a status effect. It accepts anything as an extra parameter,
+/// which can allow the use of special durations, caster mob skills (in the case of effects dependent on player skill level)
+/// or other such things. 
 /datum/status_effect/proc/on_creation(mob/living/new_owner, ...)
 	testing("oncreation")
 	if(new_owner)
@@ -205,7 +206,7 @@
 // HELPER PROCS //
 //////////////////
 
-// applies a given status effect to this mob, returning the effect if it was successful
+/// applies a given status effect to this mob, returning the effect if it was successful
 /mob/living/proc/apply_status_effect(effect, ...)
 	. = FALSE
 	LAZYINITLIST(status_effects)
@@ -236,7 +237,8 @@
 	var/datum/status_effect/new_effect = new effect(arguments)
 	. = new_effect
 
-// removes all of a given status effect from this mob, returning TRUE if at least one was removed
+///	 removes a given status effect from this mob, returning TRUE if at least one was removed
+/// this expects an ACTUAL INSTANCE which needs to be returned through has_status_effect
 /mob/living/proc/remove_status_effect(effect)
 	. = FALSE
 	if(!status_effects_by_id)
@@ -250,6 +252,8 @@
 		qdel(S)
 		. = TRUE
 
+/// this proc takes in a /datum typepath and returns a /datum status effect object, if it exists
+/// if not, return null
 /mob/living/proc/has_status_effect(datum/status_effect/checked_effect)
 	RETURN_TYPE(/datum/status_effect)
 
