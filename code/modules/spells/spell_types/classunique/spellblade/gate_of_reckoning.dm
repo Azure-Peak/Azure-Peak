@@ -278,7 +278,7 @@ Cross-Z uses a longer telegraph.*/
 			var/push_dir = get_dir(user, bystander)
 			if(!push_dir)
 				push_dir = pick(GLOB.cardinals)
-			bystander.safe_throw_at(get_edge_target_turf(user, push_dir), knockback_range, 1, user, force = MOVE_FORCE_STRONG)
+			bystander.safe_throw_at(get_ranged_target_turf(bystander, push_dir, knockback_range), knockback_range, 1, user, force = MOVE_FORCE_STRONG)
 
 /obj/effect/temp_visual/gate_of_reckoning_rift
 	icon = 'icons/effects/effects.dmi'

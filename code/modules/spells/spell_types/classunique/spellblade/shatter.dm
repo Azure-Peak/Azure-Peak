@@ -85,19 +85,21 @@ No momentum gain — use normal swings for that.*/
 
 	var/hit_count = 0
 	var/deflected = FALSE
+	var/list/already_hit = list()
 	for(var/turf/T in line_turfs)
 		for(var/mob/living/victim in T)
-			if(victim == H || victim.stat == DEAD)
+			if(victim == H || victim.stat == DEAD || (victim in already_hit))
 				continue
 			if(spell_guard_check(victim, FALSE, deflected ? null : H))
 				deflected = TRUE
 				continue
 			arcyne_strike(H, victim, held_weapon, damage, def_zone, BCLASS_BLUNT, spell_name = "Shatter")
 			hit_count++
+			already_hit += victim
 			var/push_dir = get_dir(H, victim)
 			if(!push_dir)
 				push_dir = facing
-			victim.safe_throw_at(get_edge_target_turf(H, push_dir), push_dist, 1, H, force = MOVE_FORCE_STRONG)
+			victim.safe_throw_at(get_ranged_target_turf(victim, push_dir, push_dist), push_dist, 1, H, force = MOVE_FORCE_STRONG)
 
 	if(hit_count)
 		H.visible_message(span_danger("[H] smashes [H.p_their()] [held_weapon.name] forward in a devastating line!"))

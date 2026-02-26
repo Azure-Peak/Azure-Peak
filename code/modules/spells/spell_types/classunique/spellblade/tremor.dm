@@ -79,7 +79,7 @@ Respects spell_guard_check. */
 			var/push_dir = get_dir(H, victim)
 			if(!push_dir)
 				push_dir = pick(GLOB.cardinals)
-			victim.safe_throw_at(get_edge_target_turf(H, push_dir), push_dist, 1, H, force = MOVE_FORCE_STRONG)
+			victim.safe_throw_at(get_ranged_target_turf(victim, push_dir, push_dist), push_dist, 1, H, force = MOVE_FORCE_STRONG)
 
 	if(hit_count)
 		if(M)

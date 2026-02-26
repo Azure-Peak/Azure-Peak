@@ -89,21 +89,22 @@ At 3+ momentum: consumes 3 stacks and doubles damage. */
 
 	var/hit_count = 0
 	var/deflected = FALSE
+	var/list/already_hit = list()
 	for(var/turf/T in line_turfs)
 		for(var/mob/living/victim in T)
-			if(victim == H || victim.stat == DEAD)
+			if(victim == H || victim.stat == DEAD || (victim in already_hit))
 				continue
 			if(spell_guard_check(victim, FALSE, deflected ? null : H))
 				deflected = TRUE
 				continue
 			arcyne_strike(H, victim, held_weapon, damage, def_zone, BCLASS_STAB, spell_name = "Azurean Phalanx")
 			hit_count++
+			already_hit += victim
 
 			var/push_dir = get_dir(H, victim)
 			if(!push_dir)
 				push_dir = facing
-			var/atom/push_target = get_edge_target_turf(H, push_dir)
-			victim.safe_throw_at(push_target, push_dist, 1, H, force = MOVE_FORCE_STRONG)
+			victim.safe_throw_at(get_ranged_target_turf(victim, push_dir, push_dist), push_dist, 1, H, force = MOVE_FORCE_STRONG)
 
 	if(hit_count)
 		if(M)

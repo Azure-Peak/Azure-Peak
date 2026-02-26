@@ -123,7 +123,7 @@ Builds 1 momentum on hit. */
 		var/push_dir = get_dir(H, victim)
 		if(!push_dir)
 			push_dir = facing
-		victim.safe_throw_at(get_edge_target_turf(H, push_dir), push_dist, 1, H, force = MOVE_FORCE_STRONG)
+		victim.safe_throw_at(get_ranged_target_turf(victim, push_dir, push_dist), push_dist, 1, H, force = MOVE_FORCE_STRONG)
 
 	// If no one was hit at destination, check the next tile ahead AND the tile
 	// that blocked the charge (e.g. someone standing on a table or log)
@@ -148,7 +148,7 @@ Builds 1 momentum on hit. */
 				var/push_dir = get_dir(H, victim)
 				if(!push_dir)
 					push_dir = facing
-				victim.safe_throw_at(get_edge_target_turf(H, push_dir), push_dist, 1, H, force = MOVE_FORCE_STRONG)
+				victim.safe_throw_at(get_ranged_target_turf(victim, push_dir, push_dist), push_dist, 1, H, force = MOVE_FORCE_STRONG)
 
 	if(!hit_count)
 		H.visible_message(span_notice("[H] finishes the charge with a swing at the air."))
