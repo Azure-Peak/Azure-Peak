@@ -128,10 +128,6 @@
 "ej" = (
 /turf/closed/mineral/random/rogue/med,
 /area/rogue/outdoors/rtfield)
-"eF" = (
-/obj/structure/flora/roguegrass/bush,
-/turf/open/water/transparent/inner,
-/area/underwater)
 "fb" = (
 /obj/structure/table/wood{
 	dir = 1;
@@ -154,9 +150,6 @@
 /obj/structure/flora/roguegrass/bush,
 /turf/open/floor/rogue/dirt/road,
 /area/rogue/outdoors/bog/north)
-"go" = (
-/turf/open/water/transparent/surface,
-/area/rogue/outdoors)
 "gP" = (
 /obj/structure/table/cooling,
 /obj/item/storage/roguebag,
@@ -1055,10 +1048,6 @@
 /obj/item/rogueweapon/eaglebeak/lucerne,
 /turf/open/floor/rogue/dirt/road,
 /area/rogue/indoors)
-"IW" = (
-/obj/structure/flora/roguegrass,
-/turf/open/water/transparent/inner,
-/area/underwater)
 "Kn" = (
 /obj/structure/table/wood{
 	icon_state = "longtable"
@@ -1413,9 +1402,6 @@
 /mob/living/simple_animal/hostile/retaliate/rogue/swine/hog,
 /turf/open/floor/rogue/hay,
 /area/rogue/indoors)
-"Wp" = (
-/turf/open/water/transparent/inner,
-/area/underwater)
 "WK" = (
 /obj/structure/fluff/railing/wood{
 	dir = 4
@@ -1515,10 +1501,6 @@
 /obj/machinery/light/rogue/candle/l,
 /turf/open/floor/rogue/hay,
 /area/rogue/indoors)
-"ZN" = (
-/obj/structure/flora/newtree,
-/turf/open/water/transparent/inner,
-/area/underwater)
 
 (1,1,1) = {"
 dB
@@ -2589,11 +2571,11 @@ vq
 vq
 vq
 cY
-Wp
-Wp
-IW
-Wp
-Wp
+wX
+wX
+MX
+wX
+wX
 aa
 wX
 MX
@@ -2641,11 +2623,11 @@ cY
 vq
 vq
 vq
-Wp
-Wp
-Wp
-IW
-Wp
+wX
+wX
+wX
+MX
+wX
 wX
 wX
 MX
@@ -2693,11 +2675,11 @@ vq
 vq
 vq
 cY
-Wp
-Wp
-eF
-Wp
-ZN
+wX
+wX
+rm
+wX
+aa
 wX
 rm
 wX
@@ -2745,11 +2727,11 @@ vq
 vq
 vq
 vq
-Wp
-Wp
-Wp
-Wp
-Wp
+wX
+wX
+wX
+wX
+wX
 wX
 wX
 wX
@@ -2797,12 +2779,12 @@ mq
 vq
 vq
 vq
-Wp
-Wp
-Wp
-IW
-Wp
-Wp
+wX
+wX
+wX
+MX
+wX
+wX
 MX
 wX
 wX
@@ -5190,11 +5172,11 @@ Px
 Px
 Px
 Px
-go
-go
-go
-go
-go
+Px
+Px
+Px
+Px
+Px
 Px
 Px
 Px
@@ -5242,11 +5224,11 @@ Px
 Px
 Px
 Px
-go
-go
-go
-go
-go
+Px
+Px
+Px
+Px
+Px
 Px
 Px
 Px
@@ -5294,11 +5276,11 @@ Px
 Px
 Px
 Px
-go
-go
-go
-go
-go
+Px
+Px
+Px
+Px
+Px
 Px
 Px
 Px
@@ -5346,11 +5328,11 @@ Px
 Px
 Px
 Px
-go
-go
-go
-go
-go
+Px
+Px
+Px
+Px
+Px
 Px
 Px
 Px
@@ -5398,12 +5380,12 @@ Px
 Px
 Px
 Px
-go
-go
-go
-go
-go
-go
+Px
+Px
+Px
+Px
+Px
+Px
 Px
 Px
 Px
