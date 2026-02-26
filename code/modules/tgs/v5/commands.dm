@@ -30,7 +30,7 @@
 	u.friendly_name = user[DMAPI5_CHAT_USER_FRIENDLY_NAME]
 	u.mention = user[DMAPI5_CHAT_USER_MENTION]
 	u.channel = DecodeChannel(user[DMAPI5_CHAT_USER_CHANNEL])
-
+//test
 	var/datum/tgs_chat_command/sc = custom_commands[command]
 	if(sc)
 		var/datum/tgs_message_content/response = sc.Run(u, params)
