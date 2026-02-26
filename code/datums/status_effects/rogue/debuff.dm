@@ -170,7 +170,7 @@
 
 /atom/movable/screen/alert/status_effect/debuff/netted
 	name = "Net"
-	desc = "A net was thrown on me.. how can I move?"
+	desc = "A net was thrown on me...! I cant move!"
 	icon_state = "muscles"
 
 /datum/status_effect/debuff/netted
