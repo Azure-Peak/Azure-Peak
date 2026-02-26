@@ -1,3 +1,10 @@
+
+/*
+// NETS ARE FUNDAMENTALLY A BROKEN THING THAT SHOULDNT HAVE BEEN ADDED TO THE GAME.
+// THROWING AN ITEM AT SOMEONE SHOULD NOT BE ABLE TO LEGCUFF THEM AND PREVENT THEM FROM DODGING,
+// EVEN IF ON A TIMER. IF SOMEONE CAN FIGURE OUT *HOW* TO MAKE SAID TIMER EVEN WORK, YOU KNOW WHAT, SURE.
+// FOR NOW, IT'S COMMENTED OUT.
+
 /obj/item/net
 	name = "net"
 	desc = "A weighed net used to entrap foes. Can be thrown to ensnare a target's legs and slow them down. Victims can struggle out of it and it will fall off after a short time."
@@ -57,3 +64,4 @@
 /obj/item/net/Destroy()
 	remove_effect()
 	return ..()
+*/
