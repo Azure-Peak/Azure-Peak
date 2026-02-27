@@ -96,7 +96,8 @@
 	. = ..()
 	. += span_info("Right click to access the terminal for writing letters or purchasing supplies.")
 	. += span_info("Insert coins to purchase supplies or send a letters.")
-	. += span_info("Left click with a paper to send a prewritten letter for free.")
+	. += span_info("Left click with a paper or package to send a prewritten letter for free.")
+	. += span_info("You can wrap an item in paper to create a mailable package.")
 	if(HAS_TRAIT(user, TRAIT_INQUISITION))
 		. += span_info("<br>The MARQUETTE can be accessed via a secret compartment fitted within the HERMES. Load a Marque to access it.")
 		. += span_info("You can send arrival slips, accusation slips, fully loaded INDEXERs or confessions here.")
@@ -335,7 +336,7 @@
 				var/correct
 				if(HAS_TRAIT(I.signee, TRAIT_INQUISITION))
 					selfreport = TRUE
-				if(HAS_TRAIT(I.signee, TRAIT_CABAL) || HAS_TRAIT(I.signee, TRAIT_HORDE) || HAS_TRAIT(I.signee, TRAIT_DEPRAVED) || HAS_TRAIT(I.signee, TRAIT_COMMIE))
+				if(HAS_TRAIT(I.signee, TRAIT_CABAL) || HAS_TRAIT(I.signee, TRAIT_HORDE) || HAS_TRAIT(I.signee, TRAIT_DEPRAVED) || HAS_TRAIT(I.signee, TRAIT_FREEMAN))
 					correct = TRUE
 				if(I.signee.name in GLOB.excommunicated_players)	
 					correct = TRUE
@@ -457,7 +458,7 @@
 					var/selfreport
 					if(HAS_TRAIT(I.paired.subject, TRAIT_INQUISITION))
 						selfreport = TRUE
-					if(HAS_TRAIT(I.paired.subject, TRAIT_CABAL) || HAS_TRAIT(I.paired.subject, TRAIT_HORDE) || HAS_TRAIT(I.paired.subject, TRAIT_DEPRAVED) || HAS_TRAIT(I.paired.subject, TRAIT_COMMIE))
+					if(HAS_TRAIT(I.paired.subject, TRAIT_CABAL) || HAS_TRAIT(I.paired.subject, TRAIT_HORDE) || HAS_TRAIT(I.paired.subject, TRAIT_DEPRAVED) || HAS_TRAIT(I.paired.subject, TRAIT_FREEMAN))
 						correct = TRUE
 					if(I.paired.subject.name in GLOB.excommunicated_players)	
 						correct = TRUE

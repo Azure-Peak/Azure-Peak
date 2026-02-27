@@ -392,29 +392,10 @@ GLOBAL_LIST_EMPTY(teleportlocs)
 	if(!L.ckey || L.stat == DEAD)
 		return
 
-	// Ambience goes down here -- make sure to list each area separately for ease of adding things in later, thanks! Note: areas adjacent to each other should have the same sounds to prevent cutoff when possible.- LastyScratch
-//	if(L.client && !L.client.ambience_playing && L.client.prefs.toggles & SOUND_SHIP_AMBIENCE)
-//		L.client.ambience_playing = 1
-//		SEND_SOUND(L, sound('sound/blank.ogg', repeat = 1, wait = 0, volume = 35, channel = CHANNEL_BUZZ))
-
 	if(first_time_text)
 		L.intro_area(src)
 	if(SSevent_scheduler.fog_active)
 		SSevent_scheduler.update_mob_fog_status(M, fog_protected)
-
-	var/mob/living/living_arrived = M
-
-	if(istype(living_arrived) && living_arrived.client && !living_arrived.cmode)
-		//Ambience if combat mode is off
-		SSdroning.area_entered(src, living_arrived.client)
-		SSdroning.play_loop(src, living_arrived.client)
-		var/found = FALSE
-		for(var/datum/weather/rain/R in SSweather.curweathers)
-			found = TRUE
-		if(found)
-			SSdroning.play_rain(src, living_arrived.client)
-
-//	L.play_ambience(src)
 
 /client
 	var/musicfading = 0

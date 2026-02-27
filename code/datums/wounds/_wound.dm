@@ -261,12 +261,26 @@ GLOBAL_LIST_INIT(primordial_wounds, init_primordial_wounds())
 
 /// Called on handle_wounds(), on the life() proc
 /datum/wound/proc/on_life()
+	if(!owner || QDELETED(owner))
+		qdel(src)
+		return FALSE
+		
+	if(!owner.loc)
+		return FALSE
+
 	if(!isnull(clotting_threshold) && clotting_rate && (bleed_rate > clotting_threshold))
 		set_bleed_rate(max(clotting_threshold, bleed_rate - clotting_rate))
+		if(!owner || QDELETED(owner) || QDELETED(src))
+			return FALSE
+
 	if(HAS_TRAIT(owner, TRAIT_PSYDONITE) && !passive_healing)
-		heal_wound(0.6) // psydonites are supposed to apparently slightly heal wounds whether dead or alive
-	if(owner.stat != DEAD && passive_healing) // passive healing is only called if we're like, you know, alive
+		heal_wound(0.6)
+		if(!owner || QDELETED(owner) || QDELETED(src))
+			return FALSE
+
+	if(passive_healing && owner && owner.stat != DEAD)
 		heal_wound(passive_healing)
+
 	return TRUE
 
 /// Called on handle_wounds(), on the life() proc

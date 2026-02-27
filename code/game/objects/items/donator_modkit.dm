@@ -10,22 +10,51 @@
 	var/result_item = null
 
 /obj/item/enchantingkit/pre_attack(obj/item/I, mob/user)
-	if(is_type_in_list(I, target_items))
-		var/obj/item/R
-		if(target_items[I.type] && !result_item)
-			R = target_items[I.type]
-		else
-			R = result_item
-		R = new R(get_turf(user))
-		to_chat(user, span_notice("You apply the [src] to [I], using the enchanting dust and tools to turn it into [R]."))
-		R.name += " <font size = 1>([I.name])</font>"
-		remove_item_from_storage(I)
-		qdel(I)
-		user.put_in_hands(R)
-		qdel(src)
-		return TRUE
-	else
+	if(!I || !user)
 		return ..()
+
+	if(!is_type_in_list(I, target_items))
+		return ..()
+
+	var/R_type = null
+	if(LAZYLEN(target_items))
+		for(var/T in target_items)
+			if(istype(I, T))
+				R_type = target_items[T]
+				break
+
+	if(!R_type)
+		R_type = result_item
+
+	if(!R_type)
+		to_chat(user, span_warning("[src] doesn't know how to morph [I]."))
+		return TRUE
+
+	if(I.loc == user)
+		// pulls from hands/slots/inventory cleanly
+		user.temporarilyRemoveItemFromInventory(I, TRUE)
+
+	remove_item_from_storage(I)
+	var/turf/T = get_turf(user)
+	if(!T)
+		T = get_turf(I)
+	if(!T)
+		to_chat(user, span_warning("Nowhere to morph [I]."))
+		return TRUE
+
+	var/obj/item/R = new R_type(T)
+	to_chat(user, span_notice("You apply the [src] to [I], using the enchanting dust and tools to turn it into [R]."))
+	R.name += " <font size = 1>([I.name])</font>"
+	qdel(I)
+	if(!user.put_in_hands(R))
+		R.forceMove(get_turf(user))
+
+	if(ismob(user))
+		var/mob/M = user
+		M.update_body()
+
+	qdel(src)
+	return TRUE
 
 /////////////////////////////
 // ! Player / Donor Kits ! //
@@ -230,6 +259,29 @@
 		)
 	result_item = null
 
+/obj/item/enchantingkit/triumph_weaponkit_axedouble
+	name = "'Doublehead' axe morphing elixir"
+	desc = "A small container of special morphing dust, perfect to make a specific item. It can be used to alter the appearance of.. </br>..an Iron Axe.. </br>..a Bronze Axe.. </br>..a Steel Axe.. </br>..a Battle Axe..  </br>..a Silver War Axe.. </br>..or a Psydonic War Axe."
+	target_items = list(
+		/obj/item/rogueweapon/stoneaxe/woodcut							= /obj/item/rogueweapon/stoneaxe/woodcut/triumphalt,
+		/obj/item/rogueweapon/stoneaxe/woodcut/steel					= /obj/item/rogueweapon/stoneaxe/woodcut/steel/triumph,
+		/obj/item/rogueweapon/stoneaxe/woodcut/bronze					= /obj/item/rogueweapon/stoneaxe/woodcut/bronze/triumph,
+		/obj/item/rogueweapon/stoneaxe/battle	  						= /obj/item/rogueweapon/stoneaxe/battle/triumph,
+		/obj/item/rogueweapon/stoneaxe/woodcut/silver					= /obj/item/rogueweapon/stoneaxe/woodcut/silver/triumph,
+		/obj/item/rogueweapon/stoneaxe/battle/psyaxe					= /obj/item/rogueweapon/stoneaxe/battle/psyaxe/triumph,
+		)
+	result_item = null
+
+/obj/item/enchantingkit/triumph_weaponkit_sword
+	name = "'Valorian' sword morphing elixir"
+	desc = "A small container of special morphing dust, perfect to make a specific item. It can be used to alter the appearance of.. </br>..an Iron Arming Sword.. </br>..an Iron Dueling Sword.. </br>..or a Maciejowski."
+	target_items = list(
+		/obj/item/rogueweapon/sword/iron										= /obj/item/rogueweapon/sword/iron/triumph,
+		/obj/item/rogueweapon/sword/short/messer/iron/virtue					= /obj/item/rogueweapon/sword/short/messer/iron/virtue/triumph,
+		/obj/item/rogueweapon/sword/falchion/militia	  						= /obj/item/rogueweapon/sword/falchion/militia/triumph
+		)
+	result_item = null
+
 /obj/item/enchantingkit/triumph_weaponkit_tri
 	name = "'Valorian' longsword morphing elixir"
 	desc = "A small container of special morphing dust, perfect to make a specific item. It can be used to alter the appearance of.. </br>..a Steel Longsword."
@@ -244,7 +296,6 @@
 		/obj/item/rogueweapon/sword/rapier	  			= /obj/item/rogueweapon/sword/rapier/wideguard
 		)
 	result_item = null
-
 
 /obj/item/enchantingkit/triumph_weaponkit_rock
 	name = "'Rockhillian' longsword morphing elixir"

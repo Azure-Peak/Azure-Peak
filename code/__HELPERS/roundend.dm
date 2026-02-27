@@ -131,7 +131,7 @@
 
 	log_game("The round has ended.")
 
-	to_chat(world, "<BR><BR><BR><span class='reallybig'>So ends this tale on Azure Peak.</span>")
+	to_chat(world, "<BR><BR><BR><span class='reallybig'>So ends this tale on [realm_name].</span>")
 	get_end_reason()
 
 	var/list/key_list = list()
@@ -214,19 +214,21 @@
 /datum/controller/subsystem/ticker/proc/get_end_reason()
 	var/end_reason
 
-	if(!check_for_lord())
+	if(!check_for_lord(forced = TRUE))
 		end_reason = pick("Without a Monarch, they were doomed to become slaves of Zizo.",
 						"Without a Monarch, they were doomed to be eaten by nite creachers.",
 						"Without a Monarch, they were doomed to become victims of Gehenna.",
-						"Without a Monarch, they were doomed to enjoy a mass-suicide.",
+						"Without a Monarch, they were doomed to wander the wilderness as exiles.",
 						"Without a Monarch, the Lich made them his playthings.",
 						"Without a Monarch, some jealous rival reigned in tyranny.",
+						"Without a Monarch, the gnomes eventually destroyed the town with explosives.",
+						"Without a Monarch, the courtesans sucked the town dry and moved on to the next one.",
 						"Without a Monarch, the town was abandoned.")
 
 	if(vampire_werewolf() == "vampire")
 		end_reason = "When the Vampires finished sucking the town dry, they moved on to the next one."
 	if(vampire_werewolf() == "werewolf")
-		end_reason = "The Werevolves formed an unholy clan, marauding Azure Peak until the end of its daes."
+		end_reason = "The Werevolves formed an unholy clan, marauding [realm_name] until the end of its daes."
 
 	if(SSmapping.retainer.head_rebel_decree)
 		end_reason = "The peasant rebels took control of the throne, hail the new community!"
@@ -235,7 +237,21 @@
 	if(end_reason)
 		to_chat(world, span_bigbold("[end_reason]."))
 	else
-		to_chat(world, span_bigbold("The town has managed to survive another week."))
+		var/mob/living/ruler = rulermob
+		var/ruler_name = ruler?.real_name || "an unknown sovereign"
+		var/title = rulertype || "Monarch"
+		var/good_ending = pick( \
+			"Under the rule of [title] [ruler_name], the realm endures.", \
+			"Under the watchful eye of [title] [ruler_name], [realm_name] lives to see another dae.", \
+			"By the grace of [title] [ruler_name], the people of [realm_name] have survived another week.", \
+			"[title] [ruler_name] has kept the realm together for another week.", \
+			"The rule of [title] [ruler_name] holds firm. [realm_name] endures.", \
+			"Through strife and struggle, [title] [ruler_name] has held [realm_name] together.")
+		to_chat(world, span_bigbold("[good_ending]"))
+
+	// Epilogue — additional flavor text set by usurpation rites
+	if(roundend_epilogue)
+		to_chat(world, "<BR><b><i>[roundend_epilogue]</i></b>")
 
 /datum/controller/subsystem/ticker/proc/gamemode_report()
 	var/list/all_teams = list()

@@ -31,7 +31,6 @@ GLOBAL_LIST_EMPTY(lord_titles)
 	max_pq = null
 	round_contrib_points = 4
 	give_bank_account = 1000
-	required = TRUE
 	cmode_music = 'sound/music/combat_noble.ogg'
 
 	// Can't use the Throat when you can't talk properly or.. at all for that matter.
@@ -65,7 +64,8 @@ GLOBAL_LIST_EMPTY(lord_titles)
 			to_chat(L, span_notice("Word reached me on the approach that [regentbuddy.real_name], the [regentbuddy.job], served as regent in my absence."))
 		SSticker.regentmob = null //Time for regent to give up the position.
 
-		addtimer(CALLBACK(L, TYPE_PROC_REF(/mob, lord_marriage_choice)), 50)
+		addtimer(CALLBACK(L, TYPE_PROC_REF(/mob, lord_marriage_choice)), 50) //sensible to have this first
+		addtimer(CALLBACK(L, TYPE_PROC_REF(/mob, lord_suitor_choice)), 50)
 		if(STATION_TIME_PASSED() <= 30 MINUTES) //Late to the party? Stuck with default colors, sorry!
 			addtimer(CALLBACK(L, TYPE_PROC_REF(/mob, lord_color_choice)), 50)
 
@@ -117,7 +117,7 @@ GLOBAL_LIST_EMPTY(lord_titles)
 			"Otava" = /datum/virtue/origin/otava,
 			"Etrusca" = /datum/virtue/origin/etrusca)
 			var/new_origin
-			var/choice = input(player, "Your origins are not compatible with the Duchy. Where do you hail from?", "ANCESTRY") as anything in new_origins
+			var/choice = input(player, "Your origins are not compatible with the [SSticker.realm_type_short]. Where do you hail from?", "ANCESTRY") as anything in new_origins
 			if(choice)
 				new_origin = new_origins[choice]
 			else

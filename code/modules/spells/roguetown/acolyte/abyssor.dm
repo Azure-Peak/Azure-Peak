@@ -26,6 +26,9 @@
 	if(isliving(targets[1]))
 		var/mob/living/target = targets[1]
 		user.visible_message("<font color='yellow'>[user] makes a fist at [target]!</font>")
+		if(spell_guard_check(target, TRUE))
+			target.visible_message(span_warning("[target] endures the crushing pressure!"))
+			return TRUE
 		if(istype(target, /mob/living/carbon))
 			var/mob/living/carbon = target
 			if(carbon.patron?.type != /datum/patron/divine/abyssor)
@@ -64,6 +67,9 @@
 	if(isliving(targets[1]))
 		var/mob/living/target = targets[1]
 		user.visible_message("<font color='yellow'>[user] raises a hand towards [target]!</font>")
+		if(spell_guard_check(target, TRUE))
+			target.visible_message(span_warning("[target] stands firm against the undertow!"))
+			return TRUE
 		var/turf/targettile = get_turf(target)
 		if(istype(targettile, /turf/open/water))
 			target.Knockdown(10)

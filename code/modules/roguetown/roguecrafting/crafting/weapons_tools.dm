@@ -523,9 +523,20 @@
 		/obj/item/natural/fibers = 2,
 		)
 
-
 /obj/item/fishingrod/crafted
 	sellprice = 8
+
+/datum/crafting_recipe/roguetown/survival/bow
+	name = "bow"
+	category = "Tools"
+	result = list(/obj/item/gun/ballistic/revolver/grenadelauncher/bow/classic)
+	reqs = list(
+		/obj/item/grown/log/tree = 1,
+		/obj/item/natural/cloth = 1,
+		/obj/item/natural/fibers = 3,
+		)
+	skillcraft = /datum/skill/craft/crafting
+	craftdiff = 3
 
 /datum/crafting_recipe/roguetown/survival/fishingcage
 	name = "fishing cage"

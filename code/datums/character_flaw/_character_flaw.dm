@@ -3,6 +3,7 @@ GLOBAL_LIST_INIT(character_flaws, list(
 	/datum/charflaw/addiction/alcoholic::name = /datum/charflaw/addiction/alcoholic,
 	/datum/charflaw/averse::name = /datum/charflaw/averse,
 	/datum/charflaw/addiction/godfearing::name = /datum/charflaw/addiction/godfearing,
+	/datum/charflaw/addiction/caffiend::name = /datum/charflaw/addiction/caffiend,
 	/datum/charflaw/colorblind::name = /datum/charflaw/colorblind,
 	/datum/charflaw/addiction/smoker::name = /datum/charflaw/addiction/smoker,
 	/datum/charflaw/addiction/junkie::name = /datum/charflaw/addiction/junkie,

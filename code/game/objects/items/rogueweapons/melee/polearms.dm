@@ -51,6 +51,13 @@
 	icon_state = "inlance"
 	attack_verb = list("lances", "runs through", "skewers")
 
+/datum/intent/spear/thrust/short
+	reach = 1
+	damfactor = 0.9
+	penfactor = 30
+	effective_range = null
+	effective_range_type = EFF_RANGE_NONE
+
 /datum/intent/spear/bash
 	name = "bash"
 	blade_class = BCLASS_BLUNT
@@ -98,6 +105,9 @@
 /datum/intent/spear/cut/glaive
 	damfactor = 1.2
 	chargetime = 0
+
+/datum/intent/spear/cut/short
+	reach = 1
 
 /datum/intent/spear/cast
 	name = "cast"
@@ -229,6 +239,7 @@
 	chargetime = 6 SECONDS
 	reach = 1
 	damfactor = 2
+	effective_range = 0
 	effective_range_type = EFF_RANGE_NONE
 
 //polearm objs ฅ^•ﻌ•^ฅ
@@ -332,6 +343,15 @@
 	throwforce = 25
 	resistance_flags = FLAMMABLE
 	special = /datum/special_intent/polearm_backstep
+
+/obj/item/rogueweapon/spear/short
+	force = 25
+	force_wielded = 25
+	possible_item_intents = list(SHORT_SPEAR_THRUST, SHORT_SPEAR_CUT)
+	gripped_intents = list(SHORT_SPEAR_THRUST, SHORT_SPEAR_CUT, SPEAR_BASH) 
+	name = "short spear"
+	icon_state = "short_spear"
+	wlength = WLENGTH_LONG
 
 /obj/item/rogueweapon/spear/trainer
 	name = "sparring spear"

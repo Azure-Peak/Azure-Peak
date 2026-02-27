@@ -52,8 +52,11 @@
 	playsound(damage_turf, 'sound/magic/shadowstep_destination.ogg', 50)
 	for(var/mob/living/L in damage_turf.contents)
 		if(L.anti_magic_check())
-			visible_message(span_warning("The magic fades away around you [L] "))  //antimagic needs some testing
+			L.visible_message(span_warning("The dark magic fades away around [L]!"))
 			playsound(damage_turf, 'sound/magic/magic_nulled.ogg', 100)
+			continue
+		if(spell_guard_check(L, TRUE))
+			L.visible_message(span_warning("[L] resists the withering curse!"))
 			continue
 		L.adjustFireLoss(damage)
 		L.apply_status_effect(/datum/status_effect/buff/witherd/)

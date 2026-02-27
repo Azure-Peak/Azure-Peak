@@ -89,6 +89,13 @@
 					/obj/item/rogueweapon/sword/short/messer,
 				)
 
+/datum/supply_pack/rogue/steel_weapons/messeralt
+	name = "Hunting Sword"
+	cost = 40 // 1 Steel Ingot
+	contains = list(
+					/obj/item/rogueweapon/sword/short/messer/alt,
+				)
+
 /datum/supply_pack/rogue/steel_weapons/sabre
 	name = "Sabre"
 	cost = 40 // 1 Steel Ingot

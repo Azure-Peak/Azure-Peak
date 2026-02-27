@@ -96,6 +96,9 @@
 	for (var/mob/living/carbon/screenshaken in view(shakeradius, fallzone))
 		shake_camera(screenshaken, 5, 5)
 	for (var/mob/living/carbon/shaken in view(radius, fallzone))
+		if(spell_guard_check(shaken, TRUE))
+			shaken.visible_message(span_warning("[shaken] braces against the quake!"))
+			continue
 		diceroll = roll(2,20) + shaken.STAPER + shaken.STASPD
 		if (diceroll > dc)
 			shaken.apply_effect(1 SECONDS, EFFECT_IMMOBILIZE, 0)
@@ -157,6 +160,10 @@
 	if (istype(target, /obj/item))
 		handle_item_smelting(target, user, sparks, nosmeltore)
 	else if (iscarbon(target))
+		if(spell_guard_check(target, TRUE))
+			var/mob/living/carbon/C = target
+			C.visible_message(span_warning("[target] resists the searing heat!"))
+			return
 		handle_living_entity(target, user, nosmeltore)
 
 /proc/show_visible_message(mob/user, text, selftext)
@@ -175,7 +182,7 @@
 
 /proc/handle_living_entity(mob/target, mob/user, list/nosmeltore)
 	var/obj/item/targeteditem = get_targeted_item(user, target)
-	if (!targeteditem || targeteditem.smeltresult == /obj/item/ash || target.anti_magic_check(TRUE,TRUE)) 
+	if (!targeteditem || targeteditem.smeltresult == /obj/item/ash || target.anti_magic_check(TRUE,TRUE))
 		show_visible_message(user, "After their incantation, [user] points at [target] but it seems to have no effect.", "After your incantation, you point at [target] but it seems to have no effect.")
 		return
 	if (istype(targeteditem, /obj/item/rogueweapon/tongs))

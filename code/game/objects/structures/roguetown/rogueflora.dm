@@ -770,9 +770,20 @@
 		new rare_mush_bonus_drop(loc)
 	. = ..()
 
-/obj/structure/flora/rogueshroom/happy/examine(mob/living/user)
+/obj/structure/flora/rogueshroom/happy/examine(mob/user)
 	. = ..()
-	if(user.STAINT >= int_req && int_req || HAS_TRAIT(user, TRAIT_WOODSMAN))
+
+	var/can_special = FALSE
+	if(user?.client?.holder || istype(user, /mob/dead/observer/admin))
+		can_special = TRUE
+
+	else if(HAS_TRAIT(user, TRAIT_WOODSMAN))
+		can_special = TRUE
+	else if(istype(user, /mob/living))
+		if(int_req && hasvar(user, "STAINT") && user:STAINT >= int_req)
+			can_special = TRUE
+
+	if(can_special)
 		. += span_infection("\n[special_examine]")
 
 /obj/structure/flora/rogueshroom/happy/white

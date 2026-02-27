@@ -84,6 +84,7 @@
 	HT.apply_status_effect(/datum/status_effect/debuff/exposed)
 	HT.apply_status_effect(/datum/status_effect/debuff/clickcd, 5 SECONDS)
 	HT.bait_stacks++
+	HT.reset_desert_rider_momentum_tier()
 
 	if(HT.has_status_effect(/datum/status_effect/buff/clash/limbguard))
 		HT.bad_guard()
@@ -145,7 +146,7 @@
 			if(user.get_skill_level(skillreq) < SKILL_LEVEL_JOURNEYMAN)
 				to_chat(user, span_info("I'm not knowledgeable enough in the arts of this weapon to use this."))
 				return
-		if(W.special.check_range(user, target))
+		if(W.special.check_range(user, target) && W.special.check_reqs(user, W))
 			if(W.special.apply_cost(user))
 				W.special.deploy(user, W, target)
 

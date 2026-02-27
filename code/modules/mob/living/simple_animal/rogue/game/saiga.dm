@@ -36,8 +36,8 @@
 						/obj/item/natural/bundle/bone/full = 1,
 						/obj/item/alch/sinew = 3,
 						/obj/item/alch/bone = 1,
-						/obj/item/alch/viscera = 2,
-						/obj/item/natural/head/saiga = 1)
+						/obj/item/alch/viscera = 2)
+	head_butcher = /obj/item/natural/head/saiga
 	base_intents = list(/datum/intent/simple/headbutt/saiga)
 	health = 400
 	maxHealth = 400

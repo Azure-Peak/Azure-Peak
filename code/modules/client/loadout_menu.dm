@@ -51,6 +51,9 @@
 			if(initial(target.altdetail_tag))
 				color_channels += "altdetail"
 
+		if(LI.name == "Parent loadout datum")
+			continue
+
 		items += list(list(
 			"name" = LI.name,
 			"desc" = LI.desc,
@@ -179,6 +182,10 @@
 				meta["custom_desc"] = copytext(custom_desc, 1, LOADOUT_MAX_DESC_LEN)
 			else
 				meta -= "custom_desc"
+			return TRUE
+
+		if("clear_all")
+			gear_list.Cut()
 			return TRUE
 
 		if("confirm")

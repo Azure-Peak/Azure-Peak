@@ -181,6 +181,8 @@ GLOBAL_VAR_INIT(farm_animals, FALSE)
 
 	var/botched_butcher_results
 	var/perfect_butcher_results
+	/// Path of head to drop upon butchering. Guaranteed but value scales with butchering skill.
+	var/head_butcher
 	var/list/inherent_spells = list()
 
 	///What distance should we be checking for interesting things when considering idling/deidling? Defaults to AI_DEFAULT_INTERESTING_DIST
@@ -265,6 +267,7 @@ GLOBAL_VAR_INIT(farm_animals, FALSE)
 			if(realchance)
 				if(prob(realchance))
 					tamed(user)
+					record_round_statistic(STATS_ANIMALS_TAMED)
 				else
 					tame_chance += bonus_tame_chance
 
@@ -624,6 +627,23 @@ GLOBAL_VAR_INIT(farm_animals, FALSE)
 			user.mind.add_sleep_experience(/datum/skill/labor/butchering, user.STAINT * 0.5)
 		playsound(src, 'sound/foley/gross.ogg', 100, FALSE)
 	if(isemptylist(butcher_results))
+		if(head_butcher)
+			var/obj/item/natural/head/head = new head_butcher(Tsec)
+			var/head_quality = 0
+			switch(butchery_skill_level)
+				if(SKILL_LEVEL_NONE to SKILL_LEVEL_NOVICE)
+					head_quality = 0
+				if(SKILL_LEVEL_APPRENTICE)
+					head_quality = 1
+					if(prob(user.STALUC))
+						head_quality = 2
+				if(SKILL_LEVEL_JOURNEYMAN)
+					head_quality = 2
+				if(SKILL_LEVEL_EXPERT to INFINITY)
+					head_quality = 3
+			if(rotstuff)
+				head_quality = -1
+			head.scale_butchering_quality(head_quality)
 		to_chat(user, "<span class='notice'>I finish butchering: [butcher_summary(botch_count, normal_count, perfect_count, botch_chance, perfect_chance)].</span>")
 		gib()
 

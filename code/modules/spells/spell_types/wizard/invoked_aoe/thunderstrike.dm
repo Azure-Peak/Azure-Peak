@@ -62,11 +62,13 @@
 	playsound(effect_layer, 'sound/magic/lightning.ogg', 50)
 	for(var/mob/living/L in effect_layer.contents)
 		if(L.anti_magic_check())
-			visible_message(span_warning("The magic fades away around you [L] "))
+			L.visible_message(span_warning("The lightning fades away around [L]!"))
 			playsound(effect_layer, 'sound/magic/magic_nulled.ogg', 100)
 			continue
+		if(spell_guard_check(L, TRUE))
+			L.visible_message(span_warning("[L] weathers the lightning strike!"))
+			continue
 		L.electrocute_act(damage * damage_mod, src, 1, SHOCK_NOSTUN) // Hopefully the SHOCK_NOSTUN handles any CC effects this might otherwise cause
-		return
 
 /obj/effect/temp_visual/trap/thunderstrike
 	icon = 'icons/effects/effects.dmi'

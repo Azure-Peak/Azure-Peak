@@ -189,29 +189,20 @@
 					P.force_hit = TRUE //The thing we're in passed the bullet to us. Pass it back, and tell it to take the damage.
 					loc.bullet_act(P)
 					return BULLET_ACT_HIT
-				if(P.starting)
-					var/new_x = P.starting.x + pick(0, 0, 0, 0, 0, -1, 1, -2, 2)
-					var/new_y = P.starting.y + pick(0, 0, 0, 0, 0, -1, 1, -2, 2)
-					var/turf/curloc = get_turf(src)
-
-					// redirect the projectile
-					P.original = locate(new_x, new_y, P.z)
-					P.starting = curloc
-					P.firer = src
-					P.yo = new_y - curloc.y
-					P.xo = new_x - curloc.x
-					var/new_angle_s = P.Angle + rand(120,240)
-					while(new_angle_s > 180)	// Translate to regular projectile degrees
-						new_angle_s -= 360
-					P.setAngle(new_angle_s)
-
+				P.reflect_back(src)
 				return BULLET_ACT_FORCE_PIERCE // complete projectile permutation
+
+		// Guard deflection takes priority over shield blocking.
+		if(guard_deflect_projectile(P))
+			return BULLET_ACT_FORCE_PIERCE
 
 		if(check_shields(P, P.damage, "the [P.name]", PROJECTILE_ATTACK, P.armor_penetration))
 			P.on_hit(src, 100, def_zone)
 			return BULLET_ACT_HIT
 
-	retaliate(P.firer)
+	var/mob/living/attacker = P?.firer
+	if(attacker)
+		retaliate(attacker)
 	return ..(P, def_zone)
 
 /mob/living/carbon/human/proc/check_reflect(def_zone) //Reflection checks for anything in my l_hand, r_hand, or wear_armor based on the reflection chance of the object

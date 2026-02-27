@@ -7,7 +7,7 @@
 	resistance_flags = FLAMMABLE
 	sewrepair = TRUE
 	anvilrepair = null
-	experimental_inhand = FALSE
+	experimental_inhand = TRUE
 	grid_width = 32
 	grid_height = 64
 	var/overarmor
@@ -202,6 +202,9 @@
 	item_state = "nocwrappings"
 	sewrepair = TRUE
 
+/obj/item/clothing/wrists/roguetown/allwrappings/scarlet
+	color = CLOTHING_SCARLET
+
 /obj/item/clothing/wrists/roguetown/bracers/cloth
 	name = "cloth bracers"
 	desc = "This shouldn't be used in code."
@@ -387,7 +390,7 @@
 
 /obj/item/clothing/wrists/roguetown/bracers/matthios/Initialize()
 	. = ..()
-	AddComponent(/datum/component/cursed_item, TRAIT_COMMIE, "ARMOR")
+	AddComponent(/datum/component/cursed_item, TRAIT_FREEMAN, "ARMOR")
 
 //
 

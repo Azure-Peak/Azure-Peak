@@ -2,8 +2,8 @@
 	name = "wooden bowl"
 	desc = "It is the empty space that makes the bowl useful."
 	icon = 'modular/Neu_Food/icons/cookware/bowl.dmi'
-	lefthand_file = 'modular/Neu_Food/icons/food_lefthand.dmi'
-	righthand_file = 'modular/Neu_Food/icons/food_righthand.dmi'
+	//lefthand_file = 'modular/Neu_Food/icons/food_lefthand.dmi'
+	//righthand_file = 'modular/Neu_Food/icons/food_righthand.dmi'
 	icon_state = "bowl"
 	force = 5
 	throwforce = 5

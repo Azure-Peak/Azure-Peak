@@ -897,6 +897,7 @@ GLOBAL_LIST_EMPTY(personal_objective_minds)
 	if(!mind.name)
 		mind.name = real_name
 	mind.current = src
+	AddComponent(/datum/component/area_ambience)
 
 /mob/living/carbon/mind_initialize()
 	..()

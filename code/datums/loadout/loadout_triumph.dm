@@ -67,7 +67,7 @@
 
 /datum/loadout_item/triumph_foldtable
 	name = "Folding Table"
-	path = /obj/structure/table/wood/folding
+	path = /obj/item/folding_table_stored
 	triumph_cost = 5
 	sort_category = "Triumphs"
 
@@ -149,50 +149,6 @@
 	triumph_cost = 5
 	sort_category = "Triumphs"
 
-//
-
-/datum/loadout_item/triumph_armorkit
-	name = "Morphing Elixir, 'Valorian Steel Armor'"
-	path = /obj/item/enchantingkit/triumph_armorkit
-	triumph_cost = 5
-	sort_category = "Triumphs"
-
-/datum/loadout_item/triumph_weaponkittri
-	name = "Morphing Elixir, 'Valorian Longsword'"
-	path = /obj/item/enchantingkit/triumph_weaponkit_tri
-	triumph_cost = 5
-	sort_category = "Triumphs"
-
-/datum/loadout_item/triumph_weaponkitwide
-	name = "Morphing Elixir, 'Wideguard Longsword'"
-	path = /obj/item/enchantingkit/triumph_weaponkit_wide
-	triumph_cost = 5
-	sort_category = "Triumphs"
-
-/datum/loadout_item/triumph_weaponkitrock
-	name = "Morphing Elixir, 'Rockhillian Longsword'"
-	path = /obj/item/enchantingkit/triumph_weaponkit_rock
-	triumph_cost = 5
-	sort_category = "Triumphs"
-
-/datum/loadout_item/triumph_weaponkitsabre
-	name = "Morphing Elixir, 'Sabreguard Longsword'"
-	path = /obj/item/enchantingkit/triumph_weaponkit_sabre
-	triumph_cost = 5
-	sort_category = "Triumphs"
-
-/datum/loadout_item/triumph_weaponkitpsy
-	name = "Morphing Elixir, 'Psycrucifix Longsword'"
-	path = /obj/item/enchantingkit/triumph_weaponkit_psy
-	triumph_cost = 5
-	sort_category = "Triumphs"
-
-/datum/loadout_item/triumph_weaponkitaxe
-	name = "Morphing Elixir, 'Valorian Axe'"
-	path = /obj/item/enchantingkit/triumph_weaponkit_axe
-	triumph_cost = 3
-	sort_category = "Triumphs"
-
 // -7 TRI Minisection.
 
 /datum/loadout_item/triumph_buttpack
@@ -249,4 +205,60 @@
 	name = "Vial of Distilled Triumphance"
 	path = /obj/item/reagent_containers/glass/bottle/alchemical/tripot
 	triumph_cost = 70
+	sort_category = "Triumphs"
+
+// Reskinners.
+
+/datum/loadout_item/triumph_weaponkitaxealt
+	name = "Morphing Elixir, 'Doubleheaded Axe'"
+	path = /obj/item/enchantingkit/triumph_weaponkit_axedouble
+	triumph_cost = 3
+	sort_category = "Triumphs"
+
+/datum/loadout_item/triumph_weaponkitaxe
+	name = "Morphing Elixir, 'Valorian Axe'"
+	path = /obj/item/enchantingkit/triumph_weaponkit_axe
+	triumph_cost = 3
+	sort_category = "Triumphs"
+
+/datum/loadout_item/triumph_weaponkitsword
+	name = "Morphing Elixir, 'Valorian Sword'"
+	path = /obj/item/enchantingkit/triumph_weaponkit_sword
+	triumph_cost = 3
+	sort_category = "Triumphs"
+
+/datum/loadout_item/triumph_armorkit
+	name = "Morphing Elixir, 'Valorian Steel Armor'"
+	path = /obj/item/enchantingkit/triumph_armorkit
+	triumph_cost = 3
+	sort_category = "Triumphs"
+
+/datum/loadout_item/triumph_weaponkittri
+	name = "Morphing Elixir, 'Valorian Longsword'"
+	path = /obj/item/enchantingkit/triumph_weaponkit_tri
+	triumph_cost = 3
+	sort_category = "Triumphs"
+
+/datum/loadout_item/triumph_weaponkitwide
+	name = "Morphing Elixir, 'Wideguard Longsword'"
+	path = /obj/item/enchantingkit/triumph_weaponkit_wide
+	triumph_cost = 3
+	sort_category = "Triumphs"
+
+/datum/loadout_item/triumph_weaponkitrock
+	name = "Morphing Elixir, 'Rockhillian Longsword'"
+	path = /obj/item/enchantingkit/triumph_weaponkit_rock
+	triumph_cost = 3
+	sort_category = "Triumphs"
+
+/datum/loadout_item/triumph_weaponkitsabre
+	name = "Morphing Elixir, 'Sabreguard Longsword'"
+	path = /obj/item/enchantingkit/triumph_weaponkit_sabre
+	triumph_cost = 3
+	sort_category = "Triumphs"
+
+/datum/loadout_item/triumph_weaponkitpsy
+	name = "Morphing Elixir, 'Psycrucifix Longsword'"
+	path = /obj/item/enchantingkit/triumph_weaponkit_psy
+	triumph_cost = 3
 	sort_category = "Triumphs"

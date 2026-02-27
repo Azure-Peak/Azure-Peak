@@ -12,7 +12,7 @@
 	color = "#7c6d5c"
 	r_sleeve_status = SLEEVE_NORMAL
 	l_sleeve_status = SLEEVE_NORMAL
-	experimental_inhand = FALSE
+	experimental_inhand = TRUE
 
 /obj/item/clothing/suit/roguetown/shirt/robe/unholy
 	name = "foreboding robes"
@@ -362,3 +362,6 @@
 	color = null
 	icon_state = "whiterobe"
 	item_state = "whiterobe"
+
+/obj/item/clothing/suit/roguetown/shirt/robe/tabardwhite/evil_ah_ah
+	color = CLOTHING_SCARLET

@@ -1,12 +1,12 @@
 /datum/sex_action/sex/other/boobsmother
 	name = "Smother them with boobs"
 	intensity = 3
-	require_grab = TRUE
+	debug_erp_panel_verb = FALSE
 
 /datum/sex_action/sex/other/boobsmother/shows_on_menu(mob/living/carbon/human/user, mob/living/carbon/human/target)
 	if(user == target)
 		return FALSE
-	if(!check_location_accessible(target, target, BODY_ZONE_PRECISE_MOUTH, TRUE))
+	if(!check_location_accessible(target, user, BODY_ZONE_CHEST))
 		return FALSE
 	if(!user.getorganslot(ORGAN_SLOT_BREASTS))
 		return
@@ -17,8 +17,6 @@
 	if(!.)
 		return FALSE
 	if(user == target)
-		return FALSE
-	if(!check_location_accessible(target, target, BODY_ZONE_PRECISE_MOUTH, TRUE))
 		return FALSE
 	if(!check_location_accessible(target, user, BODY_ZONE_CHEST))
 		return FALSE

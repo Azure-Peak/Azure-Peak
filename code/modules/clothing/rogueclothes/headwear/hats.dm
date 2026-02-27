@@ -299,6 +299,12 @@
 	prevent_crits = list(BCLASS_CUT, BCLASS_BLUNT, BCLASS_TWIST)
 	sewrepair = TRUE
 
+/obj/item/clothing/head/roguetown/inqhat/gravehat
+	name = "gravetender's hat"
+	desc = "A fine leather slouch fitted with a hidden steel skull cap. It serves as a reminder that Necra's grasp is never too far."
+	icon_state = "gravehat"
+	item_state = "gravehat"
+
 /obj/item/clothing/head/roguetown/headband/red
 	color = CLOTHING_RED
 
@@ -437,8 +443,21 @@
 	desc = "Fair is foul, and foul is fair; Hover through the fog and filthy air."
 	icon_state = "witch"
 	item_state = "witch"
+	detail_tag = "_detail"
+	altdetail_tag = "_detailalt"
 	icon = 'icons/roguetown/clothing/head.dmi'
 	sewrepair = TRUE
+	color = CLOTHING_BLACK
+	detail_color = CLOTHING_BROWN
+
+/obj/item/clothing/head/roguetown/witchhat/old
+	name = "decrepit witch hat"
+	desc = "When shall we three meet again; in thunder lightning or in rain."
+	icon_state = "witchold"
+	item_state = "witchold"
+	detail_tag = ""
+	altdetail_tag = ""
+	color = CLOTHING_WHITE
 
 /obj/item/clothing/head/roguetown/archercap
 	name = "archer's cap"

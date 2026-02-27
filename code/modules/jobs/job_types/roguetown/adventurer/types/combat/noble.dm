@@ -55,7 +55,7 @@
 	name = "Knight Errant"
 	tutorial = "You are a knight from a distant land, a scion of a noble house visiting Azuria for one reason or another."
 	outfit = /datum/outfit/job/roguetown/adventurer/knighte
-	traits_applied = list(TRAIT_NOBLE, TRAIT_HEAVYARMOR)
+	traits_applied = list(TRAIT_NOBLE, TRAIT_HEAVYARMOR, TRAIT_STEELHEARTED)
 	subclass_stats = list(
 		STATKEY_STR = 2,
 		STATKEY_CON = 1,
@@ -63,7 +63,7 @@
 		STATKEY_INT = 1,
 	)
 	subclass_skills = list(
-		/datum/skill/misc/riding = SKILL_LEVEL_JOURNEYMAN,
+		/datum/skill/misc/riding = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/combat/polearms = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/combat/maces = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/combat/swords = SKILL_LEVEL_APPRENTICE,
@@ -77,6 +77,9 @@
 		/datum/skill/misc/climbing = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/misc/reading = SKILL_LEVEL_JOURNEYMAN,
 	)
+	subclass_virtues = list(
+		/datum/virtue/utility/riding
+	)
 
 /datum/outfit/job/roguetown/adventurer/knighte/pre_equip(mob/living/carbon/human/H)
 	..()
@@ -87,7 +90,8 @@
 			"Guard Helmet"		= /obj/item/clothing/head/roguetown/helmet/heavy/guard,
 			"Barred Helmet"		= /obj/item/clothing/head/roguetown/helmet/heavy/sheriff,
 			"Bucket Helmet"		= /obj/item/clothing/head/roguetown/helmet/heavy/bucket,
-			"Knight Helmet"		= /obj/item/clothing/head/roguetown/helmet/heavy/knight,
+			"Knight's Armet"		= /obj/item/clothing/head/roguetown/helmet/heavy/knight,
+			"Knight's Helmet"		= /obj/item/clothing/head/roguetown/helmet/heavy/knight/old,
 			"Visored Sallet"			= /obj/item/clothing/head/roguetown/helmet/sallet/visored,
 			"Armet"				= /obj/item/clothing/head/roguetown/helmet/heavy/knight/armet,
 			"Hounskull Bascinet" 		= /obj/item/clothing/head/roguetown/helmet/bascinet/pigface/hounskull,
@@ -100,27 +104,20 @@
 			head = helmets[helmchoice]
 
 		var/armors = list(
-			"Light Brigandine"		= /obj/item/clothing/suit/roguetown/armor/brigandine/light,
-			"Cuirass"	= /obj/item/clothing/suit/roguetown/armor/plate/cuirass,
-			"Half-Plate"		= /obj/item/clothing/suit/roguetown/armor/plate,
-			"Fancy Coat"		= /obj/item/clothing/suit/roguetown/shirt/tunic/noblecoat
+			"Brigandine"		= /obj/item/clothing/suit/roguetown/armor/brigandine,
+			"Coat of Plates"	= /obj/item/clothing/suit/roguetown/armor/plate/scale/knight,
+			"Steel Cuirass"		= /obj/item/clothing/suit/roguetown/armor/plate/cuirass,
 			)
 		var/armorchoice = input(H, "Choose your armor.", "TAKE UP ARMOR") as anything in armors
 		armor = armors[armorchoice]
 
-		var/shirts = list(
-			"Gambeson"	= /obj/item/clothing/suit/roguetown/armor/gambeson/heavy,
-			"Hauberk"	= /obj/item/clothing/suit/roguetown/armor/chainmail/hauberk/iron,
-			"Gilded Dress Shirt" = /obj/item/clothing/suit/roguetown/shirt/dress/royal/prince,
-			)
-		var/shirtchoice = input(H, "Choose your underlayer.", "TAKE UP SHIRT") as anything in shirts
-		shirt = shirts[shirtchoice]
-
-	gloves = /obj/item/clothing/gloves/roguetown/chain/iron
-	pants = /obj/item/clothing/under/roguetown/chainlegs/iron
+	gloves = /obj/item/clothing/gloves/roguetown/chain
+	pants = /obj/item/clothing/under/roguetown/chainlegs
 	cloak = /obj/item/clothing/cloak/tabard/stabard
-	neck = /obj/item/clothing/neck/roguetown/bevor/iron
-	shoes = /obj/item/clothing/shoes/roguetown/boots/leather/reinforced
+	neck = /obj/item/clothing/neck/roguetown/bevor
+	shirt = /obj/item/clothing/suit/roguetown/armor/chainmail
+	wrists = /obj/item/clothing/wrists/roguetown/bracers
+	shoes = /obj/item/clothing/shoes/roguetown/boots/armor
 	belt = /obj/item/storage/belt/rogue/leather/steel/tasset
 	backl = /obj/item/storage/backpack/rogue/satchel
 	beltl = /obj/item/flashlight/flare/torch/lantern
@@ -129,9 +126,6 @@
 		/obj/item/recipe_book/survival = 1,
 		)
 	H.dna.species.soundpack_m = new /datum/voicepack/male/knight()
-	var/turf/TU = get_turf(H)
-	if(TU)
-		new /mob/living/simple_animal/hostile/retaliate/rogue/saiga/tame/saddled(TU)
 	H.set_blindness(0)
 	if(H.mind)
 		var/weapons = list("Longsword","Mace + Shield","Flail + Shield","Billhook","Battle Axe","Greataxe","Greatflail")
@@ -162,6 +156,10 @@
 			if("Battle Axe")
 				H.adjust_skillrank_up_to(/datum/skill/combat/axes, SKILL_LEVEL_JOURNEYMAN, TRUE)
 				r_hand = /obj/item/rogueweapon/stoneaxe/battle
+			if("Greataxe")
+				H.adjust_skillrank_up_to(/datum/skill/combat/axes, SKILL_LEVEL_JOURNEYMAN, TRUE)
+				r_hand = /obj/item/rogueweapon/greataxe
+				backr = /obj/item/rogueweapon/scabbard/gwstrap
 
 /datum/advclass/noble/squire
 	name = "Squire Errant"

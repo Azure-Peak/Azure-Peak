@@ -808,7 +808,7 @@ GLOBAL_LIST_EMPTY(loadout_selected_advclasses)
 	else if(job_datum)
 		// Determine the appropriate gendered title
 		var/title = job_datum.title
-		if(job_datum.f_title && (H.pronouns == SHE_HER || H.pronouns == THEY_THEM_F))
+		if(job_datum.f_title && (H.titles_pref == TITLES_F))
 			title = job_datum.f_title
 		H.job = title
 		if(advclass_path)
@@ -1068,7 +1068,7 @@ GLOBAL_LIST_EMPTY(loadout_selected_advclasses)
 		
 		// Determine the appropriate title based on gender
 		var/title = job_datum.title
-		if(job_datum.f_title && (H.pronouns == SHE_HER || H.pronouns == THEY_THEM_F))
+		if(job_datum.f_title && (H.titles_pref == TITLES_F))
 			title = job_datum.f_title
 		
 		// Set the job

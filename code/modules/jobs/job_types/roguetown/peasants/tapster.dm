@@ -73,7 +73,10 @@
 	else if(should_wear_femme_clothes(H))
 		armor = /obj/item/clothing/suit/roguetown/shirt/rags
 	backpack_contents = list(
-		/obj/item/bottle_kit
+		/obj/item/bottle_kit,
+		/obj/item/reagent_containers/glass/bucket/pot/kettle/tankard,
+		/obj/item/reagent_containers/glass/bucket/pot/kettle/tankard,
+		/obj/item/reagent_containers/glass/bucket/pot/kettle/tankard
 	)
 	if(H.mind)
 		SStreasury.give_money_account(ECONOMIC_LOWER_MIDDLE_CLASS, H, "Savings.")

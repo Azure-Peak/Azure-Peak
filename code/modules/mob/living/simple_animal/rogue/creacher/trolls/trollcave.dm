@@ -19,17 +19,16 @@
 		/obj/item/alch/sinew = 5,
 		/obj/item/alch/horn = 2,
 		/obj/item/alch/viscera = 3,
-		/obj/item/natural/head/troll/cave = 1,
 		)
 	perfect_butcher_results = list(
 		/obj/item/reagent_containers/food/snacks/rogue/meat/steak = 5,
 		/obj/item/natural/hide = 5,
-		/obj/item/natural/bundle/bone/full = 1, 
-		/obj/item/alch/sinew = 7, 
-		/obj/item/alch/horn = 2, 
+		/obj/item/natural/bundle/bone/full = 1,
+		/obj/item/alch/sinew = 7,
+		/obj/item/alch/horn = 2,
 		/obj/item/alch/viscera = 3,
-		/obj/item/natural/head/troll/cave = 1,
 		)
+	head_butcher = /obj/item/natural/head/troll/cave
 
 	defprob = 15
 

@@ -32,7 +32,6 @@
 /obj/item/clothing/head/roguetown/roguehood/MiddleClick(mob/user)
 	if(!ishuman(user))
 		return
-	to_chat(user, span_info("I [overarmor ? "wear \the [src] under my hair" : "wear \the [src] over my hair"]."))
 	if(flags_inv & HIDEHAIR)
 		flags_inv &= ~HIDEHAIR
 	else
@@ -40,15 +39,30 @@
 	user.update_inv_wear_mask()
 	user.update_inv_head()
 
+/obj/item/clothing/head/roguetown/roguehood/AltRightClick(mob/user)
+	overarmor = !overarmor
+	to_chat(user, span_info("I wear \the [src] [overarmor ? "under" : "over"] my hair."))
+	if(overarmor)
+		alternate_worn_layer = HOOD_LAYER //Below Hair Layer
+	else
+		alternate_worn_layer = BACK_LAYER //Above Hair Layer
+	user.update_inv_wear_mask()
+	user.update_inv_head()
+
 /obj/item/clothing/head/roguetown/roguehood/get_mechanics_examine(mob/user)
-    . = ..()
-    . += span_info("Right click to adjust the hood's coverage. Most fully-drawn hoods will hide the wearer's identity.")
+	. = ..()
+	. += span_info("Right click to adjust the hood's coverage. Most fully-drawn hoods will hide the wearer's identity.")
+	. += span_info("Middle click to toggle hair.")
+	. += span_info("Alt Right click to move hood layer under or above hair.")
 
 /obj/item/clothing/head/roguetown/roguehood/red
 	color = CLOTHING_RED
 
 /obj/item/clothing/head/roguetown/roguehood/black
 	color = CLOTHING_BLACK
+
+/obj/item/clothing/head/roguetown/roguehood/mageblue
+	color = CLOTHING_MAGE_BLUE
 
 /obj/item/clothing/head/roguetown/roguehood/darkgreen
 	color = "#264d26"
@@ -290,6 +304,9 @@
 	color = null
 	salvage_result = /obj/item/natural/cloth
 	salvage_amount = 1
+
+/obj/item/clothing/head/roguetown/roguehood/shroudwhite/evil_ah_ah
+	color = CLOTHING_SCARLET
 
 //
 

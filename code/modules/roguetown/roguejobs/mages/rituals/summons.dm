@@ -68,7 +68,7 @@
 	desc = "summons an fae spirit"
 	blacklisted = FALSE
 	tier = 2
-	required_atoms = list(/obj/item/reagent_containers/food/snacks/grown/manabloom = 2, /obj/item/magic/fairydust = 3, /obj/item/magic/melded/t1 = 1)
+	required_atoms = list(/obj/item/reagent_containers/food/snacks/grown/manabloom = 2, /obj/item/magic/fae/fairydust = 3, /obj/item/magic/melded/t1 = 1)
 	mob_to_summon = /mob/living/simple_animal/hostile/retaliate/rogue/fae/glimmerwing
 
 /datum/runeritual/summoning/dryad
@@ -76,7 +76,7 @@
 	desc = "summons an drayd"
 	blacklisted = FALSE
 	tier = 3
-	required_atoms = list(/obj/item/reagent_containers/food/snacks/grown/manabloom = 2, /obj/item/magic/iridescentscale = 2, /obj/item/magic/melded/t2 = 1)
+	required_atoms = list(/obj/item/reagent_containers/food/snacks/grown/manabloom = 2, /obj/item/magic/fae/iridescentscale = 2, /obj/item/magic/melded/t2 = 1)
 	mob_to_summon = /mob/living/simple_animal/hostile/retaliate/rogue/fae/dryad
 
 /datum/runeritual/summoning/sylph
@@ -84,7 +84,7 @@
 	desc = "summons an archfae"
 	blacklisted = FALSE
 	tier = 4
-	required_atoms = list(/obj/item/reagent_containers/food/snacks/grown/manabloom = 1, /obj/item/magic/heartwoodcore = 1, /obj/item/magic/melded/t3 = 1)
+	required_atoms = list(/obj/item/reagent_containers/food/snacks/grown/manabloom = 1, /obj/item/magic/fae/heartwoodcore = 1, /obj/item/magic/melded/t3 = 1)
 	mob_to_summon = /mob/living/simple_animal/hostile/retaliate/rogue/fae/sylph
 
 /datum/runeritual/summoning/crawler

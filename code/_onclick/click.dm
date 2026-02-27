@@ -951,9 +951,9 @@ GLOBAL_LIST_EMPTY(reach_dummy_pool)
 	if(stat)
 		return
 	if(get_dist(src, A) <= 2)
-		if(A.loc == src)
-			A.ShiftRightClick(src)
-		else if(T == loc)
+		if(A.ShiftRightClick(src))
+			return
+		if(T == loc)
 			look_up()
 		else
 			if(istransparentturf(T))
@@ -965,10 +965,10 @@ GLOBAL_LIST_EMPTY(reach_dummy_pool)
 	else
 		look_further(T)
 
+/// Override and return TRUE to intercept shift-right-click before turf look_up/look_further fires.
 /atom/proc/ShiftRightClick(mob/user)
 	SEND_SIGNAL(src, COMSIG_CLICK_RIGHT_SHIFT, user)
-	if(user.client /*&& user.client.eye == user || user.client.eye == user.loc*/)
-		user.examinate(src)
+	return FALSE
 
 /mob/proc/addtemptarget()
 	if(targetting)

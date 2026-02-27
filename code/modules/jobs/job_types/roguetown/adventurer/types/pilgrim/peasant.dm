@@ -38,7 +38,7 @@
 	armor = /obj/item/clothing/suit/roguetown/armor/workervest
 	mouth = /obj/item/rogueweapon/huntingknife
 	beltr = /obj/item/flint
-	if(H.pronouns == SHE_HER || H.pronouns == THEY_THEM_F)
+	if(should_wear_femme_clothes(H))
 		armor = /obj/item/clothing/suit/roguetown/shirt/dress/gen/random
 		shirt = /obj/item/clothing/suit/roguetown/shirt/undershirt
 		pants = null

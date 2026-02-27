@@ -19,6 +19,10 @@
 	associated_skill = /datum/skill/combat/shields		//Trained via blocking or attacking dummys with; makes better at parrying w/ shields.
 	wdefense = 10										//should be pretty baller
 	var/coverage = 50
+	var/heraldry_state = null
+	var/heraldry_preview = null
+	var/heraldry_x_offset = 0
+	var/heraldry_y_offset = 0
 	parrysound = list('sound/combat/parry/shield/towershield (1).ogg','sound/combat/parry/shield/towershield (2).ogg','sound/combat/parry/shield/towershield (3).ogg')
 	parrysound = list('sound/combat/parry/shield/towershield (1).ogg','sound/combat/parry/shield/towershield (2).ogg','sound/combat/parry/shield/towershield (3).ogg')
 	max_integrity = 100
@@ -86,6 +90,11 @@
 	warnie = "shieldwarn"
 	item_d_type = "blunt"
 
+/datum/intent/shield/block/prewarning()
+	if(mastermob)
+		mastermob.visible_message(span_warning("[mastermob] raises [masteritem]!"))
+		playsound(mastermob, pick('sound/combat/shieldraise.ogg'), 100, FALSE)
+
 /datum/intent/shield/block/metal
 	hitsound = list('sound/combat/parry/shield/metalshield (1).ogg')
 
@@ -93,6 +102,11 @@
 	hitsound = list('sound/combat/shieldbash_wood.ogg')
 
 /datum/intent/mace/smash/shield/metal
+	hitsound = list('sound/combat/parry/shield/metalshield (1).ogg')
+
+/datum/intent/mace/smash/shield/metal/great
+	chargetime = 8
+	chargedrain = 2
 	hitsound = list('sound/combat/parry/shield/metalshield (1).ogg')
 
 /datum/intent/effect/daze/shield
@@ -105,6 +119,8 @@
 	dropshrink = 0.8
 	anvilrepair = /datum/skill/craft/carpentry
 	coverage = 30
+	heraldry_x_offset = 1
+	heraldry_y_offset = -1 // 1px right and down to make it look centered
 
 /obj/item/rogueweapon/shield/wood/deprived
 	name = "ghastly shield"
@@ -113,36 +129,199 @@
 	coverage = 40
 	max_integrity = 200
 
-/obj/item/rogueweapon/shield/attack_right(mob/user)
-	if(length(overlays))
-		..()
-		return
+/// Returns list of heraldry names native to this shield type (stripped of prefix)
+/obj/item/rogueweapon/shield/proc/get_heraldry_options()
+	var/static/list/cached_by_type = list()
+	if(!cached_by_type[icon_state])
+		var/list/options = list()
+		var/icon/J = new('icons/roguetown/weapons/legacy_shield_heraldry.dmi')
+		for(var/s in J.IconStates())
+			if(findtext(s, "[icon_state]_") == 1)
+				options += copytext(s, length("[icon_state]_") + 1)
+		cached_by_type[icon_state] = sortList(options)
+	return cached_by_type[icon_state]
 
-	var/icon/J = new('icons/roguetown/weapons/shield_heraldry.dmi')
-	var/list/istates = J.IconStates()
-	if(!istates || !length(istates))
-		return
-	for(var/icon_s in istates)
-		if(!findtext(icon_s, "[icon_state]_"))
-			istates.Remove(icon_s)
-			continue
-		istates.Add(replacetextEx(icon_s, "[icon_state]_", ""))
-		istates.Remove(icon_s)
+/// Returns list of generic flat heraldry states from shield_heraldry_flat.dmi
+/obj/item/rogueweapon/shield/proc/get_other_heraldry_options()
+	var/static/list/cached_flat = null
+	if(!cached_flat)
+		cached_flat = list()
+		var/icon/J = new('icons/roguetown/weapons/shield_heraldry_flat.dmi')
+		for(var/s in J.IconStates())
+			if(length(s))
+				cached_flat += s
+		cached_flat = sortList(cached_flat)
+	return cached_flat
 
-	if(!istates.len)
-		..()
-		return
+/* Mask a heraldry icon to only show within the paintable area of the shields. To create these masks, I copied the existing shield sprites and then applied a 7-color bright greyscale palette, mapping darkest to brightest in this order:
+- #B8B8B8, #C2C2C2, #CCCCCC, #D6D6D6, #E2E2E2, #EFEFEF, #FFFFFF
+- For kite shield I specifically applied dark edges to the side to create the illusion of edge
+- This was done with Aseprite's Replace Color tool. Wooden Shield has 7 colors, Kite & Heater had 8, and Iron had something like 15. I compressed the rest's range.
+- Iron Shield had like 7 colors that were just a tiny variation with one pixel it felt like - so I just compressed literally all of them into E2E2E2 with no actual loss of fidelity. 
+- If you want edge, boss, rims etc. to be dynamically excluded just paint them transparent.
+- This applies a shading and 3D depth to a flat heraldry, and allows us to in the future uses heraldry across multiple shields. For now, since I have no art skills I cannot retroactively convert the existing per shield heraldry to a flat heraldry that is then, applied dynamically on top.
+- But once artist catch up to my work this will enables us to share 1 heraldry across 4 or more shields with very simple work.
+*/
+/obj/item/rogueweapon/shield/proc/mask_heraldry_to_shield(heraldry_state_name)
+	var/icon/heraldry
+	var/list/flat_states = icon_states('icons/roguetown/weapons/shield_heraldry_flat.dmi')
+	var/is_flat = (heraldry_state_name in flat_states)
+	if(is_flat)
+		heraldry = new /icon('icons/roguetown/weapons/shield_heraldry_flat.dmi', heraldry_state_name)
+	else
+		heraldry = new /icon('icons/roguetown/weapons/legacy_shield_heraldry.dmi', heraldry_state_name)
 
-	var/picked_name = input(user, "Choose a Heraldry", "ROGUETOWN", name) as null|anything in sortList(istates)
-	if(!picked_name)
-		picked_name = "none"
-	var/mutable_appearance/M = mutable_appearance('icons/roguetown/weapons/shield_heraldry.dmi', "[icon_state]_[picked_name]")
-	M.appearance_flags = NO_CLIENT_COLOR
-	add_overlay(M)
-	if(alert("Are you pleased with your heraldry?", "Heraldry", "Yes", "No") != "Yes")
-		cut_overlays()
-	
+	if(is_flat && (heraldry_x_offset || heraldry_y_offset))
+		if(heraldry_x_offset > 0)
+			heraldry.Shift(EAST, heraldry_x_offset)
+		else if(heraldry_x_offset < 0)
+			heraldry.Shift(WEST, abs(heraldry_x_offset))
+		if(heraldry_y_offset > 0)
+			heraldry.Shift(NORTH, heraldry_y_offset)
+		else if(heraldry_y_offset < 0)
+			heraldry.Shift(SOUTH, abs(heraldry_y_offset))
+
+	var/mask_state = "[icon_state]_mask"
+	var/icon/mask = new /icon('icons/roguetown/weapons/shield_heraldry_masks.dmi', mask_state)
+	heraldry.Blend(mask, ICON_MULTIPLY)
+	return heraldry
+
+/obj/item/rogueweapon/shield/proc/apply_heraldry(full_state)
+	cut_overlays()
+	heraldry_state = full_state
+	heraldry_preview = null
+	if(full_state)
+		var/icon/masked = mask_heraldry_to_shield(full_state)
+		var/mutable_appearance/M = mutable_appearance(masked)
+		M.appearance_flags = NO_CLIENT_COLOR
+		add_overlay(M)
 	update_icon()
+
+/obj/item/rogueweapon/shield/proc/open_heraldry_ui(mob/user)
+	var/list/native = get_heraldry_options()
+	var/list/others = get_other_heraldry_options()
+	if(!length(native) && !length(others))
+		to_chat(user, span_warning("No heraldries available."))
+		return
+
+	var/datum/browser/menu = new(user, "shield_heraldry", "Shield Heraldry", 800, 650, src)
+	var/list/dat = list()
+	dat += "<head><style>"
+	dat += "body { background-color: #2b2b2b; color: #d4d4d4; font-family: Arial, sans-serif; text-align: center; margin: 8px; }"
+	dat += "h3 { margin: 4px 0; color: #c8a84e; }"
+	dat += "h4 { margin: 8px 0 4px; color: #a89060; font-size: 13px; }"
+	dat += ".preview img, .grid img { image-rendering: pixelated; image-rendering: crisp-edges; }"
+	dat += ".grid { display: flex; flex-wrap: wrap; justify-content: center; gap: 4px; margin: 4px 0; }"
+	dat += ".hopt { display: inline-block; padding: 3px; border: 2px solid #444; text-align: center; text-decoration: none; color: #d4d4d4; vertical-align: top; }"
+	dat += ".hopt:hover { border-color: #c8a84e; }"
+	dat += ".hopt.sel { border-color: #ffd700; background-color: #3a3520; }"
+	dat += ".hopt small { font-size: 10px; display: block; }"
+	dat += ".actions { margin-top: 10px; }"
+	dat += ".actions a { color: #c8a84e; text-decoration: none; padding: 4px 12px; border: 1px solid #c8a84e; margin: 0 4px; }"
+	dat += ".actions a:hover { background-color: #c8a84e; color: #1a1a1a; }"
+	dat += "</style></head>"
+	dat += "<body>"
+	dat += "<h3>Shield Heraldry</h3>"
+
+	var/active = heraldry_preview || heraldry_state
+	dat += "<div class='preview'>"
+	if(active)
+		var/icon/raw_preview
+		var/list/flat_check = icon_states('icons/roguetown/weapons/shield_heraldry_flat.dmi')
+		if(active in flat_check)
+			raw_preview = new /icon('icons/roguetown/weapons/shield_heraldry_flat.dmi', active)
+		else
+			raw_preview = new /icon('icons/roguetown/weapons/legacy_shield_heraldry.dmi', active)
+		var/icon/masked_heraldry = mask_heraldry_to_shield(active)
+		var/icon/combined_preview = new /icon(icon, icon_state)
+		combined_preview.Blend(masked_heraldry, ICON_OVERLAY)
+		dat += "<img src='data:image/png;base64,[icon2base64(raw_preview)]' width='96' height='96'>"
+		dat += "<img src='data:image/png;base64,[icon2base64(combined_preview)]' width='96' height='96'>"
+		var/display_name = active
+		if(findtext(active, "[icon_state]_") == 1)
+			display_name = copytext(active, length("[icon_state]_") + 1)
+		dat += "<br>[display_name]"
+	else
+		var/icon/shield_preview = new /icon(icon, icon_state, SOUTH)
+		dat += "<img src='data:image/png;base64,[icon2base64(shield_preview)]' width='96' height='96'>"
+		dat += "<br><small>No heraldry selected</small>"
+	dat += "</div>"
+
+	if(length(native))
+		dat += "<h4>This Shield</h4>"
+		dat += "<div class='grid'>"
+		for(var/h_name in native)
+			var/full = "[icon_state]_[h_name]"
+			var/icon/h_icon = new /icon('icons/roguetown/weapons/legacy_shield_heraldry.dmi', full, SOUTH)
+			var/sel_class = (active == full) ? " sel" : ""
+			dat += "<a href='?src=\ref[src];pick_heraldry=[url_encode(full)]' class='hopt[sel_class]'>"
+			dat += "<img src='data:image/png;base64,[icon2base64(h_icon)]' width='48' height='48'>"
+			dat += "<small>[h_name]</small></a>"
+		dat += "</div>"
+
+	if(length(others))
+		dat += "<h4>Generic Heraldry</h4>"
+		dat += "<div class='grid'>"
+		for(var/full_state in others)
+			var/icon/o_raw = new /icon('icons/roguetown/weapons/shield_heraldry_flat.dmi', full_state)
+			var/icon/o_masked = mask_heraldry_to_shield(full_state)
+			var/sel_class = (active == full_state) ? " sel" : ""
+			dat += "<a href='?src=\ref[src];pick_heraldry=[url_encode(full_state)]' class='hopt[sel_class]'>"
+			dat += "<img src='data:image/png;base64,[icon2base64(o_raw)]' width='48' height='48'>"
+			dat += "<img src='data:image/png;base64,[icon2base64(o_masked)]' width='48' height='48'>"
+			dat += "<small>[full_state]</small></a>"
+		dat += "</div>"
+
+	dat += "<div class='actions'>"
+	if(active)
+		dat += "<a href='?src=\ref[src];apply_heraldry=1'>Apply</a>"
+	if(heraldry_state)
+		dat += "<a href='?src=\ref[src];clear_heraldry=1'>Remove</a>"
+	dat += "</div>"
+	dat += "</body>"
+
+	menu.set_content("<html>[dat.Join("")]</html>")
+	menu.open()
+
+/obj/item/rogueweapon/shield/proc/has_heraldry_mask()
+	var/mask_state = "[icon_state]_mask"
+	var/list/available = icon_states('icons/roguetown/weapons/shield_heraldry_masks.dmi')
+	return (mask_state in available)
+
+/obj/item/rogueweapon/shield/obj_break(damage_flag)
+	. = ..()
+	// Clear heraldry so the player can re-apply it after repairing
+	heraldry_state = null
+	heraldry_preview = null
+
+/obj/item/rogueweapon/shield/attack_right(mob/user)
+	if(!has_heraldry_mask())
+		to_chat(user, span_warning("This shield cannot bear heraldry."))
+		return ..()
+	if(heraldry_state)
+		return ..()
+	open_heraldry_ui(user)
+
+/obj/item/rogueweapon/shield/Topic(href, href_list)
+	. = ..()
+	if(.)
+		return
+	if(!ishuman(usr))
+		return
+	if(!usr.canUseTopic(src, BE_CLOSE, NO_DEXTERITY))
+		return
+
+	if(href_list["pick_heraldry"])
+		heraldry_preview = href_list["pick_heraldry"]
+		open_heraldry_ui(usr)
+	else if(href_list["apply_heraldry"])
+		var/to_apply = heraldry_preview || heraldry_state
+		if(to_apply)
+			apply_heraldry(to_apply)
+		open_heraldry_ui(usr)
+	else if(href_list["clear_heraldry"])
+		apply_heraldry(null)
+		open_heraldry_ui(usr)
 
 /obj/item/rogueweapon/shield/wood/getonmobprop(tag)
 	. = ..()
@@ -225,6 +404,7 @@
 	flags_1 = CONDUCT_1
 	wdefense = 12
 	coverage = 60
+	heraldry_x_offset = 1
 	attacked_sound = list('sound/combat/parry/shield/metalshield (1).ogg','sound/combat/parry/shield/metalshield (2).ogg','sound/combat/parry/shield/metalshield (3).ogg')
 	parrysound = list('sound/combat/parry/shield/metalshield (1).ogg','sound/combat/parry/shield/metalshield (2).ogg','sound/combat/parry/shield/metalshield (3).ogg')
 	max_integrity = 300
@@ -441,6 +621,8 @@
 	throwforce = 25 // "I can do this all day."
 	dropshrink = 0.8
 	coverage = 30
+	resistance_flags = null
+	flags_1 = CONDUCT_1
 	attacked_sound = list('sound/combat/parry/shield/metalshield (1).ogg','sound/combat/parry/shield/metalshield (2).ogg','sound/combat/parry/shield/metalshield (3).ogg')
 	parrysound = list('sound/combat/parry/shield/metalshield (1).ogg','sound/combat/parry/shield/metalshield (2).ogg','sound/combat/parry/shield/metalshield (3).ogg')
 	possible_item_intents = list(SHIELD_SMASH_METAL, SHIELD_BLOCK) // No SHIELD_BASH. Too heavy to swing quickly, or something.
@@ -466,12 +648,14 @@
 
 /obj/item/rogueweapon/shield/bronze
 	name = "hoplon shield"
-	desc = "The finest companion to a javelin, gladius, and warclub; a thick-yet-sturdy shield of bronze. "
+	desc = "The finest companion to a javelin, gladius, and warclub; a thick-yet-sturdy shield of bronze."
 	icon_state = "bronzeshield"
 	force = 25
 	throwforce = 30 // DO NOT GIVE ANYTHING; BUT TAKE FROM THEM.. EVERYTHING!
 	dropshrink = 0.8 // Free free to add actual designs to this shield, too, if-or-whenever.
 	coverage = 30
+	resistance_flags = null
+	flags_1 = CONDUCT_1
 	minstr = 11 //Particularly heavy to use as a melee weapon.
 	attacked_sound = list('sound/combat/parry/shield/metalshield (1).ogg','sound/combat/parry/shield/metalshield (2).ogg','sound/combat/parry/shield/metalshield (3).ogg')
 	parrysound = list('sound/combat/parry/shield/metalshield (1).ogg','sound/combat/parry/shield/metalshield (2).ogg','sound/combat/parry/shield/metalshield (3).ogg')
@@ -632,26 +816,3 @@
 /obj/item/rogueweapon/shield/tower/metal/gold/king/proc/steamready(mob/user)
 	playsound(user, 'sound/items/steamcreation.ogg', 100, FALSE, -1)
 	to_chat(user, span_warning("[src] is ready to be used again!"))
-
-/proc/get_icon_states_cached(icon_or_path)
-	if(!icon_or_path)
-		return null
-
-	var/cache_key
-	var/icon/I
-
-	if(istext(icon_or_path))
-		cache_key = icon_or_path
-		if(!GLOB.IconStates_cache[cache_key])
-			I = icon(icon_or_path)
-			GLOB.IconStates_cache[cache_key] = I.IconStates()
-		return GLOB.IconStates_cache[cache_key]
-
-	if(isicon(icon_or_path))
-		I = icon_or_path
-		cache_key = "[I]"
-		if(!GLOB.IconStates_cache[cache_key])
-			GLOB.IconStates_cache[cache_key] = I.IconStates()
-		return GLOB.IconStates_cache[cache_key]
-
-	return null

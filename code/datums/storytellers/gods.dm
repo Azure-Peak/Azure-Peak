@@ -263,6 +263,8 @@
 		),
 		"Set 5" = list(
 			STATS_VAMPIRES_KILLED = list("name" = "Vampires killed:", "points" = 12.5, "capacity" = 70),
+		),
+		"Set 6" = list(		
 			STATS_SKELETONS_KILLED = list("name" = "Skeletons killed:", "points" = 5, "capacity" = 50),
 		)
 	)
@@ -290,12 +292,14 @@
 		),
 		"Set 3" = list(
 			STATS_LUX_HARVESTED = list("name" = "Lux extracted:", "points" = 8, "capacity" = 70),
-			STATS_LUX_REVIVALS = list("name" = "Lux revivals:", "points" = 16, "capacity" = 70),
 		),
 		"Set 4" = list(
-			STATS_ROT_CURED = list("name" = "Rot cured:", "points" = 5, "capacity" = 70),
+			STATS_LUX_REVIVALS = list("name" = "Lux revivals:", "points" = 16, "capacity" = 70),
 		),
 		"Set 5" = list(
+			STATS_ROT_CURED = list("name" = "Rot cured:", "points" = 5, "capacity" = 70),
+		),
+		"Set 6" = list(
 			STATS_FOOD_ROTTED = list("name" = "Food rotted:", "points" = 0.26, "capacity" = 80),
 		)
 	)
@@ -330,9 +334,12 @@
 			STATS_ROCKS_MINED = list("name" = "Rocks mined:", "points" = 0.26, "capacity" = 100),
 		),
 		"Set 3" = list(
-			STATS_CRAFT_SKILLS = list("name" = "Craft skills learned:", "points" = 0.55, "capacity" = 90),
+			STATS_CRAFT_SKILLS = list("name" = "Craft skills learned:", "points" = 0.4, "capacity" = 80),
 		),
 		"Set 4" = list(
+			STATS_CRAFTED_ITEMS = list("name" = "Crafted items:", "points" = 0.1, "capacity" = 100), //So he doesn't reign every round
+		),
+		"Set 5" = list(
 			STATS_BEARDS_SHAVED = list("name" = "Beards shaved:", "points" = -4, "capacity" = -40),
 			STATS_ALIVE_DWARVES = list("name" = "Number of dwarfs:", "points" = 4, "capacity" = 45),
 		),
@@ -411,9 +418,12 @@
 			STATS_PLANTS_HARVESTED = list("name" = "Plants harvested:", "points" = 0.75, "capacity" = 100),
 		),
 		"Set 3" = list(
-			STATS_FOREST_DEATHS = list("name" = "Forest deaths:", "points" = 6, "capacity" = 90),
+			STATS_ANIMALS_TAMED = list("name" = "Animals tamed:", "points" = 3, "capacity" = 90),
 		),
 		"Set 4" = list(
+			STATS_FOREST_DEATHS = list("name" = "Forest deaths:", "points" = 6, "capacity" = 90),
+		),
+		"Set 5" = list(
 			STATS_WEREVOLVES = list("name" = "Number of werevolves:", "points" = 12.5, "capacity" = 65),
 		),
 	)
@@ -457,13 +467,16 @@
 			STATS_DEADITES_WOKEN_UP = list("name" = "Deadites woken up:", "points" = 4, "capacity" = 85),
 		),
 		"Set 3" = list(
-			STATS_CLERGY_DEATHS = list("name" = "Clergy killed:", "points" = 12, "capacity" = 70),
+			STATS_DEADITES_ALIVE = list("name" = "Deadites alive:", "points" = 1, "capacity" = 40),
 		),
 		"Set 4" = list(
-			STATS_TORTURES = list("name" = "Tortures performed:", "points" = 5.25, "capacity" = 70),
+			STATS_CLERGY_DEATHS = list("name" = "Clergy killed:", "points" = 12, "capacity" = 70),
 		),
 		"Set 5" = list(
-			STATS_BOOKS_BURNED = list("name" = "Books burned:", "points" = -5, "capacity" = -50),
+			STATS_TORTURES = list("name" = "Tortures performed:", "points" = 5.25, "capacity" = 70),
+		),
+		"Set 6" = list(
+			STATS_BOOKS_BURNED = list("name" = "Books burned:", "points" = 5, "capacity" = 50), //We actually gain influence from it
 		),
 	)
 
@@ -551,9 +564,11 @@
 		),
 		"Set 3" = list(
 			STATS_DEATHS = list("name" = "Deaths:", "points" = 5, "capacity" = 115),
-			STATS_ASSASSINATIONS = list("name" = "Sucessful assassinations:", "points" = 20, "capacity" = 100),
 		),
 		"Set 4" = list(
+			STATS_ASSASSINATIONS = list("name" = "Sucessful assassinations:", "points" = 20, "capacity" = 100),
+		),
+		"Set 5" = list(
 			STATS_PEOPLE_GIBBED = list("name" = "People gibbed:", "points" = 3.5, "capacity" = 55),
 		)
 	)
@@ -603,7 +618,7 @@
 			STATS_LOCKS_PICKED = list("name" = "Locks picked:", "points" = 3.75, "capacity" = 80),
 		),
 		"Set 6" = list(
-			STATS_GRAVES_ROBBED = list("name" = "Graves robbed:", "points" = 5.25, "capacity" = 60),
+			STATS_GOLD_TRANSMUTED = list("name" = "Gold transmuted:", "points" = 0.77, "capacity" = 60),
 		)
 	)
 

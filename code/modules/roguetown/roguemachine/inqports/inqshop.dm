@@ -445,7 +445,7 @@
 	new /obj/item/clothing/head/roguetown/helmet/heavy/psysallet(src)
 	new /obj/item/clothing/head/roguetown/helmet/heavy/psybucket(src)
 	new /obj/item/clothing/head/roguetown/helmet/heavy/psydonhelm(src)
-	new /obj/item/clothing/head/roguetown/helmet/heavy/absolver(src)
+	new /obj/item/clothing/head/roguetown/helmet/heavy/absolver/unblessed(src)
 
 /datum/inqports/wardrobe/fencerset
 	name = "The 'Otavan Fencer's Padded Wardrobe' Crate"

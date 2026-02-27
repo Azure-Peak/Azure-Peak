@@ -217,6 +217,18 @@
 	created_item = /obj/item/ammo_casing/caseless/rogue/javelin/steel/paalloy
 	createditem_num = 2
 
+/datum/anvil_recipe/weapons/aalloy/flamberge
+	name = "Flamberge, Decrepit (+2 Alloy, +1 Small Log, +1 Cured Leather)"
+	req_bar = /obj/item/ingot/aalloy
+	additional_items = list(/obj/item/ingot/aalloy, /obj/item/ingot/aalloy, /obj/item/grown/log/tree/small, /obj/item/natural/hide/cured)
+	created_item = /obj/item/rogueweapon/greatsword/grenz/flamberge/aalloy
+
+/datum/anvil_recipe/weapons/paalloy/flamberge
+	name = "Flamberge, Purified (+2 Purified Alloy, +1 Small Log, +1 Cured Leather)"
+	req_bar = /obj/item/ingot/purifiedaalloy
+	additional_items = list(/obj/item/ingot/purifiedaalloy, /obj/item/ingot/purifiedaalloy, /obj/item/grown/log/tree/small, /obj/item/natural/hide/cured)
+	created_item = /obj/item/rogueweapon/greatsword/grenz/flamberge/paalloy
+
 // COPPER
 
 /datum/anvil_recipe/weapons/copper/caxe
@@ -261,6 +273,12 @@
 	name = "Katar, Bronze"
 	req_bar = /obj/item/ingot/bronze
 	created_item = /obj/item/rogueweapon/katar/bronze
+
+/datum/anvil_recipe/weapons/bronze/axegauntlet
+	name = "Axegauntlet, Bronze"
+	req_bar = /obj/item/ingot/bronze
+	created_item = /obj/item/rogueweapon/katar/bronze/gladiator
+	craftdiff = 2
 
 /datum/anvil_recipe/weapons/bronze/bronzeknuckle
 	name = "Knuckledusters, Bronze"
@@ -317,6 +335,13 @@
 	additional_items = list(/obj/item/ingot/bronze)
 	created_item = /obj/item/rogueweapon/sword/falchion/militia/bronze
 
+/datum/anvil_recipe/weapons/bronze/messer
+	name = "Messer, Bronze (+1 Bronze)"
+	req_bar = /obj/item/ingot/bronze
+	req_blade = /obj/item/blade/bronze_sword
+	additional_items = list(/obj/item/ingot/bronze)
+	created_item = /obj/item/rogueweapon/sword/short/messer/bronze
+
 /datum/anvil_recipe/weapons/bronze/battleaxe
 	name = "War Axe, Bronze (+1 Bronze)"
 	req_bar = /obj/item/ingot/bronze
@@ -344,6 +369,14 @@
 	additional_items = list(/obj/item/ingot/bronze, /obj/item/grown/log/tree/small)
 	created_item = /obj/item/rogueweapon/sword/long/broadsword/bronze
 
+/datum/anvil_recipe/weapons/bronze/greatkhopesh
+	name = "Greatkhopesh, Bronze (+1 Bronze, +1 Small Log)"
+	req_bar = /obj/item/ingot/bronze
+	req_blade = /obj/item/blade/bronze_sword
+	additional_items = list(/obj/item/ingot/bronze, /obj/item/grown/log/tree/small)
+	created_item = /obj/item/rogueweapon/sword/long/greatkhopesh
+	craftdiff = 2
+
 /datum/anvil_recipe/weapons/bronze/spear
 	name = "Spear, Bronze (+1 Bronze, +1 Small Log)"
 	req_bar = /obj/item/ingot/bronze
@@ -351,12 +384,21 @@
 	additional_items = list(/obj/item/ingot/bronze, /obj/item/grown/log/tree/small)
 	created_item = /obj/item/rogueweapon/spear/bronze
 
+/datum/anvil_recipe/weapons/bronze/spearwinged
+	name = "Winged Spear, Bronze (+1 Bronze, +1 Small Log)"
+	req_bar = /obj/item/ingot/bronze
+	req_blade = /obj/item/blade/bronze_polearm
+	additional_items = list(/obj/item/ingot/bronze, /obj/item/grown/log/tree/small)
+	created_item = /obj/item/rogueweapon/spear/bronze/winged
+	craftdiff = 2
+
 /datum/anvil_recipe/weapons/bronze/greataxe
 	name = "Greataxe, Bronze (+1 Bronze, +1 Small Log)"
 	req_bar = /obj/item/ingot/bronze
 	req_blade = /obj/item/blade/bronze_axe
 	additional_items = list(/obj/item/ingot/bronze, /obj/item/grown/log/tree/small)
 	created_item = /obj/item/rogueweapon/greataxe/bronze
+	craftdiff = 2
 
 /datum/anvil_recipe/weapons/bronze/javelin
 	name = "Javelin, Bronze (+1 Small Log) (x2)"
@@ -367,11 +409,12 @@
 	createditem_num = 2
 
 /datum/anvil_recipe/weapons/bronze/trident
-	name = "Trident, Bronze (+1 Steel, +1 Iron, +1 Small Log)"
+	name = "Trident, Bronze (+2 Bronze, +1 Small Log)"
 	req_bar = /obj/item/ingot/bronze
 	req_blade = /obj/item/blade/bronze_polearm
-	additional_items = list(/obj/item/ingot/steel, /obj/item/ingot/iron, /obj/item/grown/log/tree/small)
+	additional_items = list(/obj/item/ingot/bronze, /obj/item/ingot/bronze, /obj/item/grown/log/tree/small)
 	created_item = /obj/item/rogueweapon/spear/trident
+	craftdiff = 2
 
 // IRON
 
@@ -444,7 +487,7 @@
 	additional_items = list(/obj/item/ingot/iron, /obj/item/rope/chain, /obj/item/grown/log/tree/small)
 	created_item = /obj/item/rogueweapon/flail/peasantwarflail/iron
 
-/datum/anvil_recipe/weapons/steel/greatsword
+/datum/anvil_recipe/weapons/iron/greatsword
 	name = "Greatsword, Iron (+2 Iron)"
 	req_bar = /obj/item/ingot/iron
 	req_blade = /obj/item/blade/iron_sword
@@ -646,6 +689,12 @@
 	req_bar = /obj/item/ingot/steel
 	req_blade = /obj/item/blade/steel_sword
 	created_item = /obj/item/rogueweapon/sword/short/messer
+
+/datum/anvil_recipe/weapons/steel/messeralt
+	name = "Hunting Sword, Steel"
+	req_bar = /obj/item/ingot/steel
+	req_blade = /obj/item/blade/steel_sword
+	created_item = /obj/item/rogueweapon/sword/short/messer/alt
 
 /datum/anvil_recipe/weapons/steel/sword
 	name = "Arming Sword, Steel"
@@ -1131,6 +1180,13 @@
 	additional_items = list(/obj/item/ingot/bronze, /obj/item/natural/hide/cured)
 	created_item = /obj/item/rogueweapon/shield/bronze
 
+/datum/anvil_recipe/weapons/bronze/bronzegreatshield
+	name = "Greatshield, Bronze (+2 Bronze, +1 Cured Leather)"
+	req_bar = /obj/item/ingot/bronze
+	additional_items = list(/obj/item/ingot/bronze, /obj/item/natural/hide/cured)
+	created_item = /obj/item/rogueweapon/shield/bronze/great
+	craftdiff = 2
+
 // CROSSBOW
 
 /datum/anvil_recipe/weapons/steel/xbow
@@ -1300,6 +1356,24 @@
 
 // UNIQUE
 
+/datum/anvil_recipe/valuables/deprivedsword
+	name = "Sword, Imperfect (+1 Small Log, +2 Glimmering Slag)"
+	req_bar = /obj/item/ingot/iron
+	additional_items = list(/obj/item/ingot/aaslag, /obj/item/ingot/aaslag, /obj/item/grown/log/tree/small)
+	created_item = /obj/item/rogueweapon/sword/broken
+	appro_skill = /datum/skill/craft/weaponsmithing
+	i_type = "Weapons"
+	craftdiff = SKILL_LEVEL_NOVICE
+
+/datum/anvil_recipe/valuables/deprivedshortsword
+	name = "Shortsword, Imperfect (+1 Stick, +2 Glimmering Slag)"
+	req_bar = /obj/item/ingot/iron
+	additional_items = list(/obj/item/ingot/aaslag, /obj/item/ingot/aaslag, /obj/item/grown/log/tree/stick)
+	created_item = /obj/item/rogueweapon/sword/short/broken
+	appro_skill = /datum/skill/craft/weaponsmithing
+	i_type = "Weapons"
+	craftdiff = SKILL_LEVEL_NOVICE
+
 /datum/anvil_recipe/valuables/iron/execution
 	name = "Executioner's Sword (+2 Iron)"
 	req_bar = /obj/item/ingot/iron
@@ -1307,12 +1381,53 @@
 	created_item = /obj/item/rogueweapon/sword/long/exe
 	i_type = "Weapons"
 
-/datum/anvil_recipe/valuables/iron/berserksword
-	name = "Berserker's Sword (+1 Executioner Sword, +1 Iron)"
+/datum/anvil_recipe/valuables/iron/rawheapofiron
+	name = "Heap of Raw Iron (+4 Iron Ore)"
 	req_bar = /obj/item/ingot/iron
-	additional_items = list(/obj/item/rogueweapon/sword/long/exe, /obj/item/ingot/iron)
-	created_item = /obj/item/rogueweapon/sword/long/exe/berserk
+	additional_items = list(/obj/item/rogueore/iron, /obj/item/rogueore/iron, /obj/item/rogueore/iron, /obj/item/rogueore/iron)
+	created_item = /obj/item/ingot/component/heapofrawiron
+	appro_skill = /datum/skill/craft/weaponsmithing
 	i_type = "Weapons"
+	craftdiff = SKILL_LEVEL_MASTER
+	bypass_dupe_test = TRUE
+
+/datum/anvil_recipe/valuables/iron/berserkswordgrip
+	name = "Grip of the Berserker's Sword (+1 Executioner Sword, +2 Small Logs, +2 Cured Leather)"
+	req_bar = /obj/item/ingot/iron
+	additional_items = list(/obj/item/rogueweapon/sword/long/exe, /obj/item/grown/log/tree/small, /obj/item/grown/log/tree/small, /obj/item/natural/hide/cured, /obj/item/natural/hide/cured)
+	created_item = /obj/item/ingot/component/berserkswordgrip
+	appro_skill = /datum/skill/craft/weaponsmithing
+	i_type = "Weapons"
+	craftdiff = SKILL_LEVEL_MASTER
+	bypass_dupe_test = TRUE
+
+/datum/anvil_recipe/valuables/iron/berserkswordblade
+	name = "Blade of the Berserker's Sword (+4 Iron Ingots, +1 Heap of Raw Iron)"
+	req_bar = /obj/item/ingot/iron
+	additional_items = list(/obj/item/ingot/iron, /obj/item/ingot/iron, /obj/item/ingot/iron, /obj/item/ingot/iron, /obj/item/ingot/component/heapofrawiron)
+	created_item = /obj/item/ingot/component/berserkswordblade
+	appro_skill = /datum/skill/craft/weaponsmithing
+	i_type = "Weapons"
+	craftdiff = SKILL_LEVEL_MASTER
+	bypass_dupe_test = TRUE
+
+/datum/anvil_recipe/valuables/iron/berserksword
+	name = "Berserker's Sword (+1 B. Sword's Blade)"
+	req_bar = /obj/item/ingot/component/berserkswordgrip
+	additional_items = list(/obj/item/ingot/component/berserkswordblade)
+	created_item = /obj/item/rogueweapon/sword/long/exe/berserk
+	appro_skill = /datum/skill/craft/weaponsmithing
+	i_type = "Weapons"
+	craftdiff = SKILL_LEVEL_MASTER
+
+/datum/anvil_recipe/valuables/iron/berserkswordalt
+	name = "Berserker's Sword (+1 B. Sword's Grip)"
+	req_bar = /obj/item/ingot/component/berserkswordblade
+	additional_items = list(/obj/item/ingot/component/berserkswordgrip)
+	created_item = /obj/item/rogueweapon/sword/long/exe/berserk
+	appro_skill = /datum/skill/craft/weaponsmithing
+	i_type = "Weapons"
+	craftdiff = SKILL_LEVEL_MASTER
 
 /datum/anvil_recipe/weapons/lithmyc/mace
 	name = "Lithmyc Mace (+ Blueprint)"

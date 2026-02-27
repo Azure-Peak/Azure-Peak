@@ -53,9 +53,11 @@
 			pic.color = get_detail_color()
 		add_overlay(pic)
 
-/obj/item/clothing/suit/roguetown/armor/armordress/winterdress/monarch //For the duchess nobody else
+/obj/item/clothing/suit/roguetown/armor/armordress/winterdress/monarch //For the consort and apparently one migrant wave
 	desc = "A thick, padded, and comfortable dress to maintain both temperature and safety when leaving the keep."
 	armor = ARMOR_PADDED_GOOD
+	max_integrity = ARMOR_INT_CHEST_LIGHT_MASTER
+	prevent_crits = PREVENT_CRITS_MOST //equal to a padded gambeson
 
 /obj/item/clothing/suit/roguetown/armor/armordress/winterdress/monarch/lordcolor(primary,secondary)
 	detail_color = primary

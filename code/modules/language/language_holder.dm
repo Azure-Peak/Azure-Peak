@@ -60,20 +60,21 @@
 	languages.Cut()
 
 /datum/language_holder/proc/has_language(datum/language/dt)
+	if(!dt || !ispath(dt))
+		return FALSE
+	
 	if(is_type_in_typecache(dt, languages))
 		return LANGUAGE_KNOWN
-	else
-		var/atom/movable/AM = get_atom()
-		var/datum/language_holder/L = AM.get_language_holder(shadow=FALSE)
-		if(L != src)
-			if(is_type_in_typecache(dt, L.shadow_languages))
-				return LANGUAGE_SHADOWED
-	// Check mutual intelligibility - if we know a related language, we can understand this one
-	var/datum/language/lang_datum = GLOB.language_datum_instances[dt]
-	if(lang_datum?.mutually_intelligible)
-		for(var/related_type in lang_datum.mutually_intelligible)
-			if(is_type_in_typecache(related_type, languages))
-				return LANGUAGE_KNOWN
+
+	var/atom/movable/AM = get_atom()
+	if(!AM || QDELETED(AM))
+		return FALSE
+
+	var/datum/language_holder/L = AM.get_language_holder(shadow=FALSE)
+	if(L && L != src)
+		if(is_type_in_typecache(dt, L.shadow_languages))
+			return LANGUAGE_SHADOWED
+
 	return FALSE
 
 /datum/language_holder/proc/copy_known_languages_from(thing, replace=FALSE)
@@ -92,7 +93,6 @@
 
 	for(var/l in other.languages)
 		src.grant_language(l)
-
 
 /datum/language_holder/proc/open_language_menu(mob/user)
 	if(!language_menu)

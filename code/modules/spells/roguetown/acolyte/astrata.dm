@@ -70,6 +70,9 @@
 		user.visible_message("<font color='yellow'>[user] points at [L]!</font>")
 		if(L.anti_magic_check(TRUE, TRUE))
 			return FALSE
+		if(spell_guard_check(L, TRUE))
+			L.visible_message(span_warning("[L] shields against the divine flame!"))
+			return TRUE
 		L.adjust_fire_stacks(2)
 		L.ignite_mob()
 
@@ -250,9 +253,12 @@
 				O.fire_act()
 			return TRUE
 		if(L.anti_magic_check())
-			visible_message(span_warning("The magic fades away around you [L] "))  //antimagic needs some testing
+			L.visible_message(span_warning("The magic fades away around [L]!"))
 			playsound(L, 'sound/magic/magic_nulled.ogg', 100)
 			return
+		if(spell_guard_check(L, TRUE))
+			L.visible_message(span_warning("[L] resists the flame order!"))
+			return TRUE
 		if(L.fire_stacks != 0)
 			if(L.fire_stacks >= 20) //cap
 				firemodificator = 0 //any*0 = 0
@@ -288,7 +294,7 @@
 	sound = 'sound/magic/astrata_choir.ogg'
 	associated_skill = /datum/skill/magic/holy
 	antimagic_allowed = FALSE
-	invocations = list("Astrata show me true.")
+	invocations = "Astrata show me true."
 	invocation_type = "shout"
 	recharge_time = 90 SECONDS
 	devotion_cost = 30
@@ -299,7 +305,8 @@
 		revert_cast()
 		return FALSE
 	var/mob/living/carbon/human/H = user
-	H.apply_status_effect(/datum/status_effect/buff/astrata_gaze, user.get_skill_level(associated_skill))
+	var/skill_level = H.get_skill_level(associated_skill)
+	H.apply_status_effect(/datum/status_effect/buff/astrata_gaze, skill_level)
 	return TRUE
 
 /atom/movable/screen/alert/status_effect/buff/astrata_gaze
@@ -311,28 +318,42 @@
 	id = "astratagaze"
 	alert_type = /atom/movable/screen/alert/status_effect/buff/astrata_gaze
 	duration = 20 SECONDS
+	var/skill_level = 0
+	status_type = STATUS_EFFECT_REPLACE
 
-/datum/status_effect/buff/astrata_gaze/on_creation(mob/living/new_owner, assocskill)
-	var/per_bonus = 0
-	if(assocskill)
-		if(assocskill > SKILL_LEVEL_NOVICE)
-			per_bonus++
-		duration *= assocskill
-	if(GLOB.tod == "day" || GLOB.tod == "dawn" || GLOB.tod == "dusk") //dusk added, so long nights.
-		per_bonus++
-		duration *= 2
-	if(per_bonus > 0)
-		effectedstats = list(STATKEY_PER = per_bonus)
-	. = ..()
+/datum/status_effect/buff/astrata_gaze/on_creation(mob/living/new_owner, slevel)
+    // Only store skill level here
+    skill_level = slevel
+    .=..()
 
-/datum/status_effect/buff/astrata_gaze/on_apply(assocskill)
-	if(ishuman(owner))
-		var/mob/living/carbon/human/H = owner
-		H.viewcone_override = TRUE
-		H.hide_cone()
-		H.update_cone_show()
-	to_chat(owner, span_info("She shines through me! I can perceive all clear as dae!"))
-	. = ..()
+/datum/status_effect/buff/astrata_gaze/on_apply()
+	// Reset base values because the miracle can 
+	// now actually be recast at high enough skill and during day time
+	// This is a safeguard because buff code makes my head hurt
+    var/per_bonus = 0
+    duration = 20 SECONDS
+
+    if(skill_level > SKILL_LEVEL_NOVICE)
+        per_bonus++
+
+    if(GLOB.tod == "dawn" || GLOB.tod == "day" || GLOB.tod == "dusk")
+        per_bonus++
+        duration *= 2
+
+    duration *= skill_level
+
+    if(per_bonus)
+        effectedstats = list(STATKEY_PER = per_bonus)
+
+    if(ishuman(owner))
+        var/mob/living/carbon/human/H = owner
+        H.viewcone_override = TRUE
+        H.hide_cone()
+        H.update_cone_show()
+
+    to_chat(owner, span_info("She shines through me! I can perceive all clear as dae!"))
+
+    return ..()
 
 /datum/status_effect/buff/astrata_gaze/on_remove()
 	. = ..()
@@ -391,9 +412,11 @@
 
 /datum/status_effect/buff/dragonhide/fireresist/on_apply()
 	. = ..()
-	addtimer(CALLBACK(src, PROC_REF(continue_proc), src), wait = (10 SECONDS))
+	addtimer(CALLBACK(src, PROC_REF(continue_proc)), wait = (10 SECONDS))
 
 /datum/status_effect/buff/dragonhide/fireresist/proc/continue_proc()
+	if(QDELETED(src) || QDELING(src) || !owner || QDELETED(owner))
+		return
 	var/mob/living/carbon/human/user = owner
 	var/skill = user.get_skill_level(/datum/skill/magic/holy)
 	var/cost = 30 //Novice
@@ -419,7 +442,7 @@
 			user.apply_status_effect(/datum/status_effect/buff/dragonhide/fireresist/buff)
 		else
 			user.apply_status_effect(/datum/status_effect/buff/dragonhide/fireresist)
-		addtimer(CALLBACK(src, PROC_REF(continue_proc), src), wait = (10 SECONDS))
+		addtimer(CALLBACK(src, PROC_REF(continue_proc)), wait = (10 SECONDS))
 	else
 		return
 
@@ -427,7 +450,7 @@
 
 /datum/status_effect/buff/dragonhide/fireresist/buff/on_apply()
 	. = ..()
-	addtimer(CALLBACK(owner, PROC_REF(continue_proc), src), wait = (15 SECONDS))
+	addtimer(CALLBACK(src, PROC_REF(continue_proc)), wait = (15 SECONDS))
 	owner.weather_immunities += "lava"
 
 /datum/status_effect/buff/dragonhide/fireresist/buff/on_remove()
@@ -766,6 +789,10 @@
 	if(!istype(target, /mob/living/carbon) || target == user)
 		revert_cast()
 		return FALSE
+
+	if(spell_guard_check(target, TRUE))
+		target.visible_message(span_warning("[target] resists the immolation!"))
+		return TRUE
 
 	// Channeling requirement
 	user.visible_message(span_danger("[user] begins lighting [target] ablaze with strange, divine fire!"))

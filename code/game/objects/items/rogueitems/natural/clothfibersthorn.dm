@@ -15,7 +15,7 @@
 	muteinmouth = TRUE
 	w_class = WEIGHT_CLASS_TINY
 	spitoutmouth = FALSE
-	experimental_inhand = FALSE
+	experimental_inhand = TRUE
 	sellprice = 2
 	bundletype = /obj/item/natural/bundle/fibers
 
@@ -106,7 +106,7 @@
 	muteinmouth = TRUE
 	w_class = WEIGHT_CLASS_TINY
 	spitoutmouth = FALSE
-	experimental_inhand = FALSE
+	experimental_inhand = TRUE
 	bundletype = /obj/item/natural/bundle/silk
 
 /obj/item/natural/silk/attack_right(mob/user)
@@ -162,7 +162,7 @@
 	muteinmouth = TRUE
 	w_class = WEIGHT_CLASS_TINY
 	spitoutmouth = FALSE
-	experimental_inhand = FALSE
+	experimental_inhand = TRUE
 	bundletype = /obj/item/natural/bundle/cloth
 	sellprice = 4
 	detail_tag = "_soaked"
@@ -318,6 +318,15 @@
 			desc += " It has been soaked in blessed water."
 			detail_color = "#6a9295"
 			update_icon()
+	if(C.reagents.has_reagent(/datum/reagent/water/medicine, 10) && !medicine_amount)
+		to_chat(user, span_notice("You start soaking the [src] in Pestran Medicine..."))
+		if(do_after(user, 3 SECONDS, target = src))
+			C.reagents.remove_reagent(/datum/reagent/water/medicine, 10)
+			medicine_quality = 0.2 //cheap, easy to get, doesn't even heal wounds if it's not on a bandage
+			medicine_amount += 20
+			desc += " It has been soaked in Pestran Medicine."
+			detail_color = "#428b42"
+			update_icon()
 
 /obj/item/natural/cloth/update_icon()
 	cut_overlays()
@@ -444,7 +453,7 @@
 	muteinmouth = TRUE
 	w_class = WEIGHT_CLASS_TINY
 	spitoutmouth = FALSE
-	experimental_inhand = FALSE
+	experimental_inhand = TRUE
 	stacktype = /obj/item/natural/fibers
 	icon1step = 3
 	icon2step = 6
@@ -473,7 +482,7 @@
 	max_integrity = 20
 	muteinmouth = TRUE
 	w_class = WEIGHT_CLASS_TINY
-	spitoutmouth = FALSE
+	spitoutmouth = TRUE
 	stacktype = /obj/item/natural/silk
 	icon1step = 3
 	icon2step = 6
@@ -491,7 +500,7 @@
 	resistance_flags = FLAMMABLE
 	w_class = WEIGHT_CLASS_TINY
 	spitoutmouth = FALSE
-	experimental_inhand = FALSE
+	experimental_inhand = TRUE
 	stacktype = /obj/item/natural/cloth
 	stackname = "cloth"
 	icon1 = "clothroll1"
@@ -514,7 +523,7 @@
 	resistance_flags = FLAMMABLE
 	w_class = WEIGHT_CLASS_TINY
 	spitoutmouth = FALSE
-	experimental_inhand = FALSE
+	experimental_inhand = TRUE
 	stacktype = /obj/item/grown/log/tree/stick
 	stackname = "sticks"
 	icon1 = "stickbundle1"
@@ -574,7 +583,7 @@
 	muteinmouth = TRUE
 	w_class = WEIGHT_CLASS_TINY
 	spitoutmouth = FALSE
-	experimental_inhand = FALSE
+	experimental_inhand = TRUE
 	stacktype = /obj/item/natural/bone
 	stackname = "bones"
 	icon1 = "bonestack1"

@@ -21,7 +21,7 @@
 		return
 	if(drilled)
 		if(HAS_TRAIT(H, TRAIT_NOBLE))
-			if(!HAS_TRAIT(H, TRAIT_COMMIE))
+			if(!HAS_TRAIT(H, TRAIT_FREEMAN))
 				var/def_zone = "[(H.active_hand_index == 2) ? "r" : "l" ]_arm"
 				playsound(src, 'sound/items/beartrap.ogg', 100, TRUE)
 				to_chat(user, "<font color='red'>The meister craves my Noble blood!</font>")
@@ -125,7 +125,7 @@
 
 		if(istype(P, /obj/item/coveter))
 			var/mob/living/carbon/human/H = user
-			if(!HAS_TRAIT(H, TRAIT_COMMIE))
+			if(!HAS_TRAIT(H, TRAIT_FREEMAN))
 				to_chat(user, "<font color='red'>I don't know what I'm doing with this thing!</font>")
 				return
 			var/can_anyone_know = FALSE
@@ -325,7 +325,7 @@
 			return
 
 	else
-		to_chat(user,span_info("Their blood is unsoiled by the Duchy's Nervemaster. There is nothing to take."))
+		to_chat(user,span_info("Their blood is unsoiled by the [SSticker.realm_type_short]'s Nervemaster. There is nothing to take."))
 		return
 
 /obj/item/coveter/proc/drain_effect_fast(mob/living/carbon/human/H)

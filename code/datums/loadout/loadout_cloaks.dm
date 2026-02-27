@@ -44,6 +44,11 @@
 	path = /obj/item/clothing/cloak/raincloak/furcloak
 	sort_category = "Cloaks"
 
+/datum/loadout_item/darkcloak
+	name = "Dark Cloak"
+	path = /obj/item/clothing/cloak/darkcloak
+	sort_category = "Cloaks"
+
 /datum/loadout_item/direcloak
 	name = "Direbear Cloak"
 	path = /obj/item/clothing/cloak/darkcloak/bear

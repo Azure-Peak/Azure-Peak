@@ -10,9 +10,9 @@
 	traits_applied = list(TRAIT_DARKVISION, TRAIT_SMITHING_EXPERT) // Smithing Expert, because from what I observe of miner players they tend to do smithing far more than farming etc.
 	subclass_stats = list(
 		STATKEY_STR = 2,
-		STATKEY_CON = 2,
+		STATKEY_CON = 1,
 		STATKEY_LCK = 2,
-		STATKEY_WIL = 1
+		STATKEY_WIL = 2
 	)
 	subclass_skills = list(
 		/datum/skill/combat/axes = SKILL_LEVEL_JOURNEYMAN,
@@ -56,10 +56,10 @@
 						/obj/item/rogueweapon/huntingknife = 1,
 						/obj/item/storage/hip/orestore/bronze = 1
 						)
-	if(H.pronouns == SHE_HER || H.pronouns == THEY_THEM_F || H.pronouns == IT_ITS)
+	if(should_wear_masc_clothes(H))
 		armor = /obj/item/clothing/suit/roguetown/shirt/dress/gen
 		shirt = /obj/item/clothing/suit/roguetown/shirt/undershirt/brown
-	if(H.pronouns == HE_HIM || H.pronouns == THEY_THEM || H.pronouns == IT_ITS_M)
+	if(should_wear_femme_clothes(H))
 		armor = /obj/item/clothing/suit/roguetown/armor/workervest
 		pants = /obj/item/clothing/under/roguetown/trou
 		shirt = /obj/item/clothing/suit/roguetown/shirt/undershirt/random

@@ -60,6 +60,7 @@
 /obj/projectile/energy/airblade
 	name = "Air Blade (Cut)"
 	icon_state = "air_blade_cut"
+	guard_deflectable = TRUE
 	damage = 40
 	woundclass = BCLASS_CUT
 	nodamage = FALSE

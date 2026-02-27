@@ -46,6 +46,26 @@
 /mob/living/proc/on_hit(obj/projectile/P)
 	return BULLET_ACT_HIT
 
+/// Checks if our Guard (clash) or parry buffer can deflect this projectile.
+/// Returns TRUE if deflected (caller should return early), FALSE otherwise.
+// Reactive spell defense - guard will deflect magical projectiles to add a measure of counterplay. It doesn't care whether it is a low value or a high value projectiles.
+// If deflectable, the guard is consumed cleanly and apply a 1 second buffer for multi-projectile spells (or extremely tightly timed barrage)
+// Non deflectable projectiles will fall through to disruption as normal, with the guard being consumed and applying a bad_guard penalty if applicable.
+/mob/living/proc/guard_deflect_projectile(obj/projectile/P)
+	if(!P.guard_deflectable)
+		return FALSE
+	var/datum/status_effect/buff/clash/guard = has_status_effect(/datum/status_effect/buff/clash)
+	if(guard)
+		if(P.on_guard_deflect(src))
+			apply_status_effect(/datum/status_effect/buff/spell_parry_buffer)
+			remove_status_effect(/datum/status_effect/buff/clash)
+			return TRUE
+		return FALSE
+	if(has_status_effect(/datum/status_effect/buff/spell_parry_buffer))
+		if(P.on_guard_deflect(src, silent = TRUE))
+			return TRUE
+	return FALSE
+
 /mob/living/bullet_act(obj/projectile/P, def_zone = BODY_ZONE_CHEST)
 	if(SEND_SIGNAL(src, COMSIG_ATOM_BULLET_ACT, P, def_zone) & COMPONENT_ATOM_BLOCK_BULLET)
 		return

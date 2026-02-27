@@ -36,6 +36,7 @@
 	drop_sound = 'sound/foley/dropsound/cloth_drop.ogg'
 	color = "#5c5243"
 	sellprice = 18
+	experimental_inhand = TRUE
 
 /obj/item/natural/fur/goat
 	desc = "from a gote."

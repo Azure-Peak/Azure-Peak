@@ -15,13 +15,12 @@
 	base_intents = list(/datum/intent/simple/bite/honeyspider)
 	botched_butcher_results = list(/obj/item/reagent_containers/food/snacks/rogue/meat/steak = 1)
 	butcher_results = list(/obj/item/reagent_containers/food/snacks/rogue/meat/steak = 1,
-							/obj/item/natural/silk = 2, 
-							/obj/item/alch/viscera = 1,
-							/obj/item/natural/head/honeyspider = 1)
-	perfect_butcher_results = list (/obj/item/reagent_containers/food/snacks/rogue/meat/steak = 2,
-							/obj/item/natural/silk = 3, 
-							/obj/item/alch/viscera = 1, 
-							/obj/item/natural/head/honeyspider = 1)
+							/obj/item/natural/silk = 2,
+							/obj/item/alch/viscera = 1)
+	perfect_butcher_results = list(/obj/item/reagent_containers/food/snacks/rogue/meat/steak = 2,
+							/obj/item/natural/silk = 3,
+							/obj/item/alch/viscera = 1)
+	head_butcher = /obj/item/natural/head/honeyspider
 	faction = list("spiders")
 	mob_biotypes = MOB_ORGANIC|MOB_BEAST
 	attack_sound = 'sound/combat/wooshes/punch/punchwoosh (2).ogg'

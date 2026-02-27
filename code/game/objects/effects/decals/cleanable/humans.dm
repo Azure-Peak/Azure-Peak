@@ -9,11 +9,16 @@
 	alpha = 150
 	mouse_opacity = MOUSE_OPACITY_TRANSPARENT
 	appearance_flags = NO_CLIENT_COLOR
+	mergeable_decal = FALSE
 
 /obj/effect/decal/cleanable/coom/Initialize(mapload)
 	. = ..()
 	pixel_x = rand(-8, 8)
 	pixel_y = rand(-8, 8)
+	if(prob(75))
+		var/matrix/M = new
+		M.Turn(90 * rand(1, 3)) // turn by 90 degrees
+		transform = M
 
 /obj/effect/decal/cleanable/blood
 	name = "blood"
