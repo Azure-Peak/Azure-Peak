@@ -18,7 +18,6 @@
 			var/turf/cur_T = get_turf(H)
 			if(istype(cur_T, /turf/open/water) && !H.resting) added = 0
 		
-		stamina_add(added)
 		
 		if(src.climbing) // no stam regen while climbing guh
 			added = 0

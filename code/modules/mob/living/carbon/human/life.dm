@@ -404,7 +404,14 @@
 
 /mob/living/carbon/human/proc/apply_underwater_filters()
 	if(!client) return
-	var/list/planes = list(-10, -9, -8, -7, -5, -4, -3)
+	var/list/planes = list(
+		OPENSPACE_PLANE, 
+		OPENSPACE_BACKDROP_PLANE, 
+		FLOOR_PLANE, 
+		WALL_PLANE, 
+		GAME_PLANE, 
+		GAME_PLANE_FOV_HIDDEN
+	)
 	for(var/atom/movable/screen/plane_master/PM in client.screen)
 		if(PM.plane in planes)
 			PM.add_filter(FILTER_UNDERWATER_BLUR, 10, list("type" = "blur", "size" = 0.8))
