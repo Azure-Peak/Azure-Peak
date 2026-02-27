@@ -260,8 +260,6 @@
 		/obj/item/roguegem/yellow = 10,
 		/obj/item/roguestatue/bronze = 10,
 		/obj/item/roguestatue/iron = 5,
-		/obj/item/ingot/bronze = 25,
-		/obj/item/ingot/iron = 15,
 		/obj/item/clothing/mask/cigarette/rollie/nicotine = 20, //Misc stuff
 		/obj/item/reagent_containers/food/snacks/butter = 10,
 		/obj/item/reagent_containers/food/snacks/rogue/raisins = 10,
@@ -269,6 +267,9 @@
 		/obj/item/storage/roguebag = 3,
 		/obj/item/rogueweapon/huntingknife/bronze = 5, //Weapons / tools
 		/obj/item/rogueweapon/sword/long/greatkhopesh = 5,
+		/obj/item/rogueweapon/katar/bronze/gladiator = 5,
+		/obj/item/clothing/head/roguetown/helmet/bronzegladiator = 10,
+		/obj/item/rogueweapon/shield/bronze/great = 1,
 		/obj/item/clothing/mask/rogue/facemask/bronze/classic = 10,
 		/obj/item/rogueweapon/sword/bronze = 5,
 		/obj/item/reagent_containers/glass/bowl/bronze = 5,
