@@ -17,6 +17,8 @@
 #define THERMAL_PROTECTION_ARM_RIGHT	0.075
 #define THERMAL_PROTECTION_HAND_LEFT	0.025
 #define THERMAL_PROTECTION_HAND_RIGHT	0.025
+#define FILTER_UNDERWATER_BLUR "uw_blur"
+#define FILTER_UNDERWATER_WAVE "uw_wave"
 
 /mob/living/carbon/human
 	var/leprosy = 2
@@ -402,19 +404,19 @@
 
 /mob/living/carbon/human/proc/apply_underwater_filters()
 	if(!client) return
-	var/list/planes = list(-10, -9, -8, -7, -5, -4)
+	var/list/planes = list(-10, -9, -8, -7, -5, -4, -3)
 	for(var/atom/movable/screen/plane_master/PM in client.screen)
 		if(PM.plane in planes)
-			PM.add_filter("uw_blur", 10, list("type" = "blur", "size" = 0.8))
-			PM.add_filter("uw_wave", 11, list("type" = "wave", "x" = 1, "y" = 1, "size" = 1))
-			var/F = PM.get_filter("uw_wave")
+			PM.add_filter(FILTER_UNDERWATER_BLUR, 10, list("type" = "blur", "size" = 0.8))
+			PM.add_filter(FILTER_UNDERWATER_WAVE, 11, list("type" = "wave", "x" = 1, "y" = 1, "size" = 1))
+			var/F = PM.get_filter(FILTER_UNDERWATER_WAVE)
 			if(F) animate(F, offset = 10, time = 40, loop = -1)
 
 /mob/living/carbon/human/proc/remove_underwater_filters()
 	if(!client) return
 	for(var/atom/movable/screen/plane_master/PM in client.screen)
-		PM.remove_filter("uw_blur")
-		PM.remove_filter("uw_wave")
+		PM.remove_filter(FILTER_UNDERWATER_BLUR)
+		PM.remove_filter(FILTER_UNDERWATER_WAVE)
 
 /mob/living/carbon/human/proc/handle_swimming()
 	var/turf/T = get_turf(src)
@@ -436,19 +438,24 @@
 			forceMove(above)
 			return
 
-	if(stat != DEAD && is_true_swimming)
+	if(is_true_swimming && !is_underwater)
+	
 		if(stat == UNCONSCIOUS || stamina >= max_stamina || IsImmobilized() || IsKnockdown())
-			if(!is_underwater) 
-				var/turf/below = GET_TURF_BELOW(T)
-				if(below && istype(below, /turf/open/water))
-					forceMove(below)
-					set_resting(TRUE)
-					return
-			else if(!resting) 
+			var/turf/below = GET_TURF_BELOW(T)
+			
+			if(below && istype(below, /turf/open/water))
+				forceMove(below)
 				set_resting(TRUE)
-				if(!client) 
-					walk_to(src, 0)
-					wander = FALSE 
+				to_chat(src, span_userdanger("I'm losing my strength... I'm going to the depths.."))
+				return
+			
+			else if(!resting)
+				set_resting(TRUE) 
+				to_chat(src, span_danger("I'm out of strength... the water is too heavy on my legs"))
+	
+	if(is_underwater && !resting)
+		if(stat == UNCONSCIOUS || stamina >= max_stamina || IsImmobilized() || IsKnockdown())
+			set_resting(TRUE)
 
 	
 	if(stat != DEAD)
@@ -508,10 +515,11 @@
 	if(stat != DEAD && is_underwater && client)
 		var/filter_ok = FALSE
 		for(var/atom/movable/screen/plane_master/PM in client.screen)
-			if(PM.plane == -5 && PM.get_filter("uw_blur"))
+			if(PM.plane == GAME_PLANE && PM.get_filter(FILTER_UNDERWATER_BLUR))
 				filter_ok = TRUE
 				break
-		if(!filter_ok) apply_underwater_filters()
+		if(!filter_ok) 
+			apply_underwater_filters()
 	
 	if(is_true_swimming && !is_underwater && is_on_water)
 		if(!get_filter("swimming_cutter"))
@@ -594,3 +602,5 @@
 #undef THERMAL_PROTECTION_ARM_RIGHT
 #undef THERMAL_PROTECTION_HAND_LEFT
 #undef THERMAL_PROTECTION_HAND_RIGHT
+#undef FILTER_UNDERWATER_BLUR
+#undef FILTER_UNDERWATER_WAVE
