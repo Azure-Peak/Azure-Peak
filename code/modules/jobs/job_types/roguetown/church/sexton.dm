@@ -133,6 +133,7 @@
 	H.adjust_blindness(-3)
 	head = /obj/item/clothing/head/roguetown/inqhat/gravehat
 	armor = /obj/item/clothing/suit/roguetown/armor/leather/heavy/coat/gravecoat
+	shirt = /obj/item/clothing/suit/roguetown/shirt/undershirt
 	gloves = /obj/item/clothing/gloves/roguetown/angle/grenzelgloves
 	pants = /obj/item/clothing/under/roguetown/heavy_leather_pants
 	belt = /obj/item/storage/belt/rogue/leather/black
