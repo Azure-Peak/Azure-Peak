@@ -55,7 +55,9 @@
 		/datum/skill/misc/climbing= SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/misc/reading= SKILL_LEVEL_JOURNEYMAN,
 	)
-	horse = /mob/living/simple_animal/hostile/retaliate/rogue/saiga/saigabuck/tame/saddled
+	subclass_virtues = list(
+		/datum/virtue/utility/riding
+	)
 
 /datum/outfit/job/roguetown/adventurer/knighte_expert/pre_equip(mob/living/carbon/human/H)
 	..()
@@ -170,5 +172,9 @@
 		/datum/skill/misc/reading = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/misc/riding = SKILL_LEVEL_APPRENTICE,
 	)
+	subclass_virtues = list(
+		/datum/virtue/utility/riding
+	) //They get to be special too
+		subclass_stashed_items = list("Bag of Food" = /obj/item/storage/roguebag/food) //Oats boy. Oats.
 #undef CTAG_KJ_KNIGHT
 #undef CTAG_KG_SQUIRE
