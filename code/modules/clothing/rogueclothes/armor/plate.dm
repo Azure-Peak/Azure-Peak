@@ -426,6 +426,21 @@
 	icon_state = "heartfelt_hand"
 	item_state = "heartfelt_hand"
 
+/obj/item/clothing/suit/roguetown/armor/plate/hussar
+	name = "Winged Plate"
+	desc = "A Czwarteki Plate Armor covering the upper Torso with 'wings' attached to the back. Striking fear into the enemy as their Hussars Ride Forth."
+	icon_state = "hussar"
+	mob_overlay_icon = 'icons/roguetown/clothing/onmob/32x48/czwarteki.dmi'
+	body_parts_covered = COVERAGE_ALL_BUT_HANDLEGS
+	equip_delay_self = 5 SECONDS
+	unequip_delay_self = 5 SECONDS
+	equip_delay_other = 2 SECONDS
+	strip_delay = 4 SECONDS
+	smelt_bar_num = 2
+	boobed = FALSE
+	worn_x_dimension = 32
+	worn_y_dimension = 36
+	allowed_race = NON_DWARVEN_RACE_TYPES
 
 /obj/item/clothing/suit/roguetown/armor/plate/otavan
 	name = "otavan half-plate"

@@ -673,6 +673,17 @@
 	salvage_result = /obj/item/natural/fur
 	cold_protection = 20
 
+/obj/item/clothing/cloak/lepoardcloak
+	name = "Leopard Cloak"
+	desc = "This Regal Cloak is made from the fur of a Lepoard. Worn by those of only the most wealth and prestige."
+	icon_state = "lepoardcape"
+	inhand_mod = FALSE
+	slot_flags = ITEM_SLOT_BACK_R|ITEM_SLOT_CLOAK
+	salvage_result = /obj/item/natural/fur
+	allowed_race = NON_DWARVEN_RACE_TYPES
+	salvage_amount = 3
+	cold_protection = 20
+
 /obj/item/clothing/cloak/darkcloak/bear
 	name = "direbear cloak"
 	desc = "Made from the finest, warmest bear pelt. It might be worth more than your life."

@@ -327,6 +327,11 @@ GLOBAL_LIST_EMPTY(round_join_times)
 #define CTAG_HFT_HAND "CAT_HFT_HAND"  // Heartfelt Hand Class - Handles Heartfelt Hand class selector.
 #define CTAG_HFT_KNIGHT "CAT_HFT_KNIGHT"  // Heartfelt Knight Class - Handles Heartfelt Knight class selector.
 #define CTAG_HFT_RETINUE "CAT_HFT_RETINUE"  // Heartfelt Retinue Class - Handles Heartfelt Retinue class selector.
+#define CTAG_CZWAR_LORD "CTAG_CZWAR_LORD"
+#define CTAG_CZWAR_HEIR "CTAG_CZWAR_HEIR"
+#define CTAG_CZWAR_HUSSAR "CTAG_CZWAR_HUSSAR"
+#define CTAG_CZWAR_JOURNEYMAN "CTAG_CZWAR_JOURNEYMAN"
+#define CTAG_CZWAR_SERVANT "CTAG_CZWAR_SERVANT"
 
 // List of mono-class categories. Only here for standardisation sake, but can be added on if desired.
 #define CTAG_BISHOP			"CAT_BISHOP"

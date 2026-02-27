@@ -661,6 +661,44 @@
 	salvage_result = /obj/item/natural/fibers
 	salvage_amount = 3
 
+//Servant Clothing:
+//................ Maid Dress   ............... //
+/obj/item/clothing/suit/roguetown/shirt/dress/maid
+	name = "maid dress"
+	desc = "A dress befitting the housekeeper of a lord's staff. While not as intricate as a royal's, it is indicative of the house's status."
+	body_parts_covered = CHEST|GROIN|ARMS|VITALS
+	sleeved = 'icons/roguetown/clothing/onmob/helpers/sleeves_maids.dmi'
+	r_sleeve_status = SLEEVE_NORMAL
+	l_sleeve_status = SLEEVE_NORMAL
+	boobed = TRUE
+	icon_state = "maiddress"
+	item_state = "maiddress"
+	mob_overlay_icon = 'icons/roguetown/clothing/onmob/shirts.dmi'
+	slot_flags = ITEM_SLOT_SHIRT|ITEM_SLOT_ARMOR
+	detail_tag = "_detail"
+	detail_color = CLOTHING_BLACK
+
+//................ Servant Gown   ............... //
+/obj/item/clothing/suit/roguetown/shirt/dress/maid/servant
+	name = "servant gown"
+	desc = "A dress worn by those of manors and noble staff. Commonly black, though some estates dye them to their house colors."
+	icon_state = "maidgown"
+	item_state = "maidgown"
+	mob_overlay_icon = 'icons/roguetown/clothing/onmob/shirts.dmi'
+	slot_flags = ITEM_SLOT_SHIRT|ITEM_SLOT_ARMOR
+	detail_color = CLOTHING_BLACK
+
+/obj/item/clothing/suit/roguetown/shirt/undershirt/formal
+	name = "formal shirt"
+	desc = "A comfortable yet functional dress shirt often worn by the staff of a noble household."
+	icon_state = "butlershirt"
+	item_state = "butlershirt"
+	mob_overlay_icon = 'icons/roguetown/clothing/onmob/shirts.dmi'
+	sleeved = 'icons/roguetown/clothing/onmob/helpers/sleeves_maids.dmi'
+	slot_flags = ITEM_SLOT_SHIRT|ITEM_SLOT_ARMOR
+	icon = 'icons/roguetown/clothing/shirts.dmi'
+//End Servant Clothing
+
 //kazengite content
 /obj/item/clothing/suit/roguetown/shirt/undershirt/eastshirt1
 	slot_flags = ITEM_SLOT_SHIRT|ITEM_SLOT_ARMOR

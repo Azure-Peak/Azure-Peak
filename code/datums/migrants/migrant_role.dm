@@ -21,8 +21,14 @@
 	/// Whether to show wanderer examine like adventurers or pilgrims
 	var/show_wanderer_examine = TRUE
 	var/advjob_examine = TRUE
+	var/horse = FALSE
 
 /datum/migrant_role/proc/after_spawn(mob/living/carbon/human/character)
+	var/turf/TU = get_turf(character)
+	if(TU)
+		if(horse)
+			new horse(TU)
+		
 	return
 
 /datum/migrant_role/pilgrim

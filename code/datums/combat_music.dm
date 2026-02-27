@@ -510,6 +510,13 @@ GLOBAL_LIST_EMPTY(cmode_tracks_by_name)
 	credits = "MusicImaginary - Lyra"
 	musicpath = list('sound/music/frei_sabre.ogg')
 
+/datum/combat_music/czwarteki
+	name = "Czwarteki Hussars"
+	desc = "For God, Honor, Homeland."
+	shortname = "Czwarteki"
+	credits = " Andrius Klimka & Andrey Kulik - World of Tanks Original Soundtrack: Studzianki "
+	musicpath = list('sound/music/combat_czwarteki.ogg')
+
 /datum/combat_music/aavshepherd
 	name = "Aavnic Shepherd"
 	desc = "\"No saber in hand, they crush bones with their fokos!\""
