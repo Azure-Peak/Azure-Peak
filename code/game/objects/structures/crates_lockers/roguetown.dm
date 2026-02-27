@@ -329,7 +329,7 @@
 	new /obj/item/natural/bundle/bone/full(src)
 	var/list/loot = list(
 		/obj/item/clothing/ring/blacksteel = 20, //Valuables
-		/obj/item/clothing/ring/diamond = 10,
+		/obj/effect/spawner/lootdrop/valuable_jewelry_spawner = 15,
 		/obj/item/clothing/ring/gold = 20,
 		/obj/item/clothing/neck/roguetown/ornateamulet = 15,
 		/obj/item/clothing/neck/roguetown/psicross/bpearl = 10,
@@ -346,6 +346,7 @@
 		/obj/item/reagent_containers/food/snacks/rogue/crackerscooked = 5,
 		/obj/item/reagent_containers/food/snacks/rogue/raisinbread = 5,
 		/obj/item/paper/inqslip/confession = 5,
+		/obj/item/reagent_containers/glass/bucket/pot/kettle/tankard/blacksteel = 3,
 		/obj/item/clothing/neck/roguetown/luckcharm/mercmedal/underdweller = 2,
 		/obj/item/storage/backpack/rogue/satchel/mule = 3,
 		/obj/item/storage/backpack/rogue/satchel = 3,
