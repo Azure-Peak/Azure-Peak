@@ -342,7 +342,7 @@
 		/obj/item/roguestatue/blacksteel = 5,
 		/obj/item/storage/belt/rogue/pouch/zigarrete/nicotine = 10, //Misc stuff
 		/obj/item/reagent_containers/food/snacks/canned = 20,
-		/obj/item/reagent_containers/food/snacks/butter = 5,
+		/obj/item/reagent_containers/food/snacks/rogue/crackerscooked = 5,
 		/obj/item/reagent_containers/food/snacks/rogue/raisinbread = 5,
 		/obj/item/paper/inqslip/confession = 5,
 		/obj/item/clothing/neck/roguetown/luckcharm/mercmedal/underdweller = 2,
