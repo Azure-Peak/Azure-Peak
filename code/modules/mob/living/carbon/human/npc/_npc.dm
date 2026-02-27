@@ -63,6 +63,9 @@
 
 /mob/living/carbon/human/Destroy()
 	our_cells = null
+	target = null
+	pathfinding_target = null
+	enemies.Cut()
 	return ..()
 
 /mob/living/carbon/human/proc/IsStandingStill()
@@ -538,7 +541,7 @@
 	if(L.name in friends)
 		return FALSE
 
-	if(enemies[L])
+	if(WEAKREF(L) in enemies)
 		return TRUE
 
 	if(aggressive && !faction_check_mob(L))
@@ -916,7 +919,7 @@
 		target = L
 		if(pathfinding_target != target)
 			clear_path() // Cancel pathfinding so that we can pursue our new enemy.
-		enemies |= L
+		enemies |= WEAKREF(L)
 
 
 /mob/living/carbon/human/attackby(obj/item/W, mob/user, params)
