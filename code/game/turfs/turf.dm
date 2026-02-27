@@ -114,7 +114,8 @@
 		has_opaque_atom = TRUE
 	
 	if(smooth & USES_SMOOTHING)  
-		QUEUE_SMOOTH(src) 
+		QUEUE_SMOOTH(src)
+		QUEUE_SMOOTH_NEIGHBORS(src)
 
 	ComponentInitialize()
 

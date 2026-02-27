@@ -23,7 +23,8 @@ var/list/used_colors
 			/obj/item/bedroll,
 			/obj/item/flowercrown,
 			/obj/item/legwears,
-			/obj/item/undies
+			/obj/item/undies,
+			/obj/item/natural/cloth
 			)
 
 /obj/machinery/gear_painter/Initialize()

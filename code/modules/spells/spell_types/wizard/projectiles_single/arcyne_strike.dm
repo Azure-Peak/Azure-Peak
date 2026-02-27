@@ -1,21 +1,20 @@
 /obj/effect/proc_holder/spell/invoked/projectile/arcynestrike
-	name = "Arcyne Strike"
+	name = "Arcyne Smite"
 	desc = "Imbue your held weapon with latent arcyne energy before striking the ignorant!"
 	overlay_state = "conjure_weapon"
-	range = 1
+	range = 3
 	projectile_type = /obj/projectile/energy/arcynestrike
 	releasedrain = 20
 	chargedrain = 0
 	chargetime = 0.4 SECONDS
-	charging_slowdown = 2
 	recharge_time = 6 SECONDS
 	warnie = "spellwarning"
 	no_early_release = TRUE
 	movement_interrupt = FALSE
-	charging_slowdown = 1
 	chargedloop = /datum/looping_sound/invokegen
 	associated_skill = /datum/skill/magic/arcane
 	spell_tier = 2 // offensive magic
+	cost = 3
 	invocations = list("Magicae Arma!")
 	invocation_type = "shout"
 	glow_color = GLOW_COLOR_ARCANE
@@ -52,11 +51,12 @@
 	name = "Arcyne Smite (Cut)"
 	icon_state = "air_blade_cut"
 	guard_deflectable = TRUE
-	damage = 50 // 75 again simple mobs
-	range = 1
+	damage = 40 // 70 again simple mobs
+	range = 3
+	arcshot = TRUE
 	woundclass = BCLASS_CUT
 	nodamage = FALSE
-	npc_simple_damage_mult = 1.50 // Makes it more effective against NPCs.
+	npc_simple_damage_mult = 1.75 // Makes it more effective against NPCs.
 	hitsound = 'sound/combat/hits/bladed/smallslash (1).ogg'
 	speed = 1 // to make sure it hit the target
 	var/apply_mark = TRUE
@@ -79,7 +79,7 @@
 	if(ismob(target))
 		var/datum/status_effect/debuff/arcanemark/mark = M.has_status_effect(/datum/status_effect/debuff/arcanemark)
 		if(mark && mark.stacks == mark.max_stacks)
-			armor_penetration = 40 //pierces most armors
+			armor_penetration = 50 //pierces most armors
 			apply_mark = FALSE
 			consume_arcane_mark_stacks(M)
 

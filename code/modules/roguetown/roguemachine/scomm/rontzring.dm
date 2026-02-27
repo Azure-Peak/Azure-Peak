@@ -1,4 +1,4 @@
-// MATTHIAN SCOMCOIN
+// MATTHIOSIAN SCOMCOIN
 
 /obj/item/mattcoin
 	name = "rontz ring"
@@ -29,7 +29,7 @@
 	name = pick("rontz ring", "gold ring")
 
 /obj/item/mattcoin/pickup(mob/living/user)
-	if(!HAS_TRAIT(user, TRAIT_COMMIE))
+	if(!HAS_TRAIT(user, TRAIT_FREEMAN))
 		to_chat(user, "The coin turns to ash in my hands!")
 		playsound(loc, 'sound/items/firesnuff.ogg', 100, FALSE, -1)
 		qdel(src)
@@ -63,7 +63,7 @@
 	playsound(loc, 'sound/misc/coindispense.ogg', 100, FALSE, -1)
 	listening = !listening
 	speaking = !speaking
-	to_chat(user, span_info("I [speaking ? "unmute" : "mute"] the Matthian-SCOMstone"))
+	to_chat(user, span_info("I [speaking ? "unmute" : "mute"] the Matthiosian-SCOMstone"))
 	update_icon()
 
 /obj/item/mattcoin/Destroy()

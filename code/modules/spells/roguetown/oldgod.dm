@@ -371,21 +371,32 @@
 	if(!ishuman(user))
 		revert_cast()
 		return FALSE
+
 	var/mob/living/carbon/human/H = user
+	var/turf/T = get_turf(H)
+	if(!T)
+		revert_cast()
+		return FALSE
+
 	var/obj/item/found_thing
 	if(H.get_stress_amount() < 0 && H.STALUC > 10)
-		found_thing = new /obj/item/roguecoin/gold
+		found_thing = new /obj/item/roguecoin/gold(T)
 	else if(H.STALUC == 10)
-		found_thing = new /obj/item/roguecoin/silver
+		found_thing = new /obj/item/roguecoin/silver(T)
 	else
-		found_thing = new /obj/item/roguecoin/copper
+		found_thing = new /obj/item/roguecoin/copper(T)
+
 	to_chat(H, span_info("A coin in my boot? Psydon smiles upon me!"))
-	H.put_in_hands(found_thing, FALSE)
+	if(!H.put_in_hands(found_thing, FALSE))
+		found_thing.forceMove(T)
+
 	if(prob(H.STALUC + H.get_skill_level(associated_skill)))
-		var/obj/item/extra_thing = pick(lootpool)
-		new extra_thing(get_turf(user))
+		var/path = pick(lootpool)
+		var/obj/item/extra = new path(T)
 		to_chat(H, span_info("Ah, of course! I almost forgot I had this stashed away for a perfect occasion."))
-		H.put_in_hands(extra_thing, FALSE)
+		if(!H.put_in_hands(extra, FALSE))
+			extra.forceMove(T)
+
 	return TRUE
 
 //

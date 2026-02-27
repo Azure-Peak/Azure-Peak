@@ -1788,6 +1788,8 @@ GLOBAL_LIST_EMPTY(roundstart_races)
 			if(EFF_RANGE_ABOVE)
 				if(dist >= range)
 					apply_penalty = TRUE
+			if(EFF_RANGE_ABOVE)
+				apply_penalty = FALSE
 			else
 				CRASH("Invalid effective_range_type used by [user] with effective_range! Please set an effective_range_type on [user.used_intent?.type]")
 		if(apply_penalty)
