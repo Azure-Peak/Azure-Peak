@@ -1,0 +1,12 @@
+author: "Ollanius"
+delete-after: True
+changes:
+  - rscadd: "Experimental inhands for most items has been reenabled. Almost every item in the game - from rosas to frybirds, ingots to coins - should now be visibly held. While not perfect, this should hopefully reintroduce some mirth into the Peaks."
+  - rscadd: "Cloths can now be dyed in a dye station. Mummify yourself with style!"
+  - rscadd: "Adds redone versions of all Gemcarved cutlery. Indulge in the opulence!"
+  - rscadd: "Adds tankards, craftable via Carpentry."
+  - rscadd: "Forks can now stab for a very middling amount of damage; be mindful of your table manners."
+  - code_imp: "Greyscaled items (chiefly truffles, leather clothes, tabards/jupons/cloaks, fur, and fibers) will only render with their base sprites, when held. There might be a work-around to fix this, as I noticed that any item with a dyed 'detail' or 'detail_alt' overlay (such as a helmet's plume or a lordly cloak's default coloration) will still properly render. A trained coder might be able to use this information to make all dyed items render with their new colors."
+  - code_imp: "Certain overlays will not render: chiefly, the colored liquids in cups and bottles. There might be a workaround to this, but it's too much for my little mind to solve. For any prospective coders wishing to further finetune and perfect the system, just look up 'Swan Song' in the AP Github and go from there."
+  - code_imp: "Gave mugs a dedicated striking intent. Note that they still can't actually hit people for some odd reason."
+  - bugfix: "Removed Zerobrine."

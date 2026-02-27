@@ -8,6 +8,6 @@
 	bloody_icon_state = "bloodyhands"
 	sleevetype = "shirt"
 	max_heat_protection_temperature = 361
-	experimental_inhand = FALSE
+	experimental_inhand = TRUE
 	/// Unarmed damage multiplier (for pure fists / wrestling only)
 	var/unarmed_bonus = 1

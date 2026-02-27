@@ -13,7 +13,7 @@
 	obj_flags = null
 	icon = 'icons/roguetown/items/misc.dmi'
 	w_class = WEIGHT_CLASS_SMALL
-	experimental_inhand = FALSE
+	experimental_inhand = TRUE
 	muteinmouth = TRUE
 	var/cooldown = 60 SECONDS
 	var/on_cooldown = FALSE

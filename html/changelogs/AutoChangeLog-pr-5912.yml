@@ -1,9 +1,0 @@
-author: "Ollanius"
-delete-after: True
-changes:
-  - rscadd: "Ancient variations of the sandals, boots, and flamberge."
-  - rscadd: "Skeletons are now given an option to pick between a variety of decrepit cloaks, tabards, and jupons."
-  - balance: "Adds the Venerated Death Knight, a two-slot subclass for the Lych's skeletal army. Excellent STR, PER and INT with full armor and Expert-tier skills in their chosen weapon - but exceedingly low CON and SPD. Crack the armor to take them down."
-  - balance: "Adds the new ancient footwear to all Lych-summonable classes."
-  - bugfix: "Ancient plate chausses can now be worn, again, without being mysteriously invisible."
-  - rscadd: "Smithing recipes for ancient boots and sandals are now available."

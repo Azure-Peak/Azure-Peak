@@ -10,7 +10,7 @@
 	bloody_icon_state = "shoeblood"
 	equip_delay_self = 30
 	resistance_flags = FIRE_PROOF
-	experimental_inhand = FALSE
+	experimental_inhand = TRUE
 	salvage_amount = 0
 	salvage_result = null
 

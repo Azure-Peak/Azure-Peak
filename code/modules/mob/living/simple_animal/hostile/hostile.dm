@@ -70,8 +70,13 @@
 	wanted_objects = typecacheof(wanted_objects)
 
 /mob/living/simple_animal/hostile/Destroy()
-	targets_from = null
-	return ..()
+    if(AIStatus != AI_OFF)
+        toggle_ai(AI_OFF)
+
+    targets_from = null
+    target = null
+
+    return ..()
 
 /mob/living/simple_animal/hostile/examine(mob/user)
 	. = ..()
@@ -85,6 +90,12 @@
 		return 0
 
 /mob/living/simple_animal/hostile/handle_automated_action()
+	if(QDELETED(src) || !loc)
+		return FALSE
+
+	if(!targets_from || QDELETED(targets_from) || !targets_from.loc)
+		targets_from = src
+
 	if(AIStatus == NPC_AI_OFF)
 		return 0
 	if(del_on_deaggro && last_aggro_loss && (world.time >= last_aggro_loss + del_on_deaggro))
@@ -100,7 +111,7 @@
 		EscapeConfinement()
 
 	if(AICanContinue(possible_targets))
-		if(!QDELETED(target) && !targets_from.Adjacent(target))
+		if(!QDELETED(target) && targets_from && targets_from.loc && !targets_from.Adjacent(target))
 			DestroyPathToTarget()
 		if(!MoveToTarget(possible_targets))     //if we lose our target
 			if(AIShouldSleep(possible_targets))	// we try to acquire a new one

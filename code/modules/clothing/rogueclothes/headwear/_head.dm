@@ -12,7 +12,7 @@
 	experimental_onhip = FALSE
 	/// Override if we want to always respect our inv flags if the helm is in a mask slot.
 	var/mask_override = FALSE
-	experimental_inhand = FALSE
+	experimental_inhand = TRUE
 	var/hidesnoutADJ = FALSE
 	/// Tracks if we're currently over or under the armor layer. Mainly used for the feedback message.
 	var/overarmor = TRUE

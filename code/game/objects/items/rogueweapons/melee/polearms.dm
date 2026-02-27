@@ -239,6 +239,7 @@
 	chargetime = 6 SECONDS
 	reach = 1
 	damfactor = 2
+	effective_range = 0
 	effective_range_type = EFF_RANGE_NONE
 
 //polearm objs ฅ^•ﻌ•^ฅ

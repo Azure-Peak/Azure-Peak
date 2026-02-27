@@ -76,7 +76,7 @@ GLOBAL_LIST_EMPTY(locked_sex_objects)
 #define CHARGE_FOR_CLIMAX 100
 #define AROUSAL_HARD_ON_THRESHOLD 20
 #define CHARGE_RECHARGE_RATE (CHARGE_FOR_CLIMAX / (2 MINUTES))
-#define AROUSAL_TIME_TO_UNHORNY (5 SECONDS)
+#define AROUSAL_TIME_TO_UNHORNY (10 SECONDS)
 #define SPENT_AROUSAL_RATE (3 / (1 SECONDS))
 #define IMPOTENT_AROUSAL_LOSS_RATE (3 / (1 SECONDS))
 
@@ -112,6 +112,9 @@ GLOBAL_LIST_EMPTY(locked_sex_objects)
 #define SHEATH_TYPE_NONE 0
 #define SHEATH_TYPE_NORMAL 1
 #define SHEATH_TYPE_SLIT 2
+
+#define EARS_NORMAL 0
+#define EARS_SENSITIVE 1 //Should this be used for ANYTHING else - move it. / Also only works on ANTHROS for some reason
 
 #define ERECT_STATE_NONE 0
 #define ERECT_STATE_PARTIAL 1

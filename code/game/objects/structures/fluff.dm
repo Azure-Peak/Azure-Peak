@@ -1088,7 +1088,7 @@
 	)
 
 /obj/structure/fluff/statue/evil/attackby(obj/item/W, mob/user, params)
-	if(!HAS_TRAIT(user, TRAIT_COMMIE))
+	if(!HAS_TRAIT(user, TRAIT_FREEMAN))
 		return
 	var/donatedamnt = W.get_real_price()
 	if(user.mind)

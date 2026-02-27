@@ -459,6 +459,9 @@ SUBSYSTEM_DEF(timer)
 	if (obj == GLOBAL_PROC)
 		return "GLOBAL_PROC"
 
+	if(obj && obj != GLOBAL_PROC && !istype(obj, /datum) && !istype(obj, /atom))
+		stack_trace("BAD CALLBACK OBJECT: [obj] ([istext(obj) ? "text" : "non-object"])")
+
 	if (QDELETED(obj))
 		return "QDELETED"
 

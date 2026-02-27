@@ -1,0 +1,9 @@
+author: "Lamasmaster"
+delete-after: True
+changes:
+  - balance: "Matthiosite Miracles"
+  - balance: "Astratan conditional heal"
+  - image: "Matthiosite miracles/status effects"
+  - spellcheck: "Matthios spelling across code"
+  - refactor: "Matthiosite miracle pathing"
+  - refactor: "Matthios trait name"

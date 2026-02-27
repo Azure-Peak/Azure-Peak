@@ -221,11 +221,14 @@
  * Returns TRUE if the living mob can hear the weather (you might be immune, but you get to listen to the pitter patter)
  */
 /datum/particle_weather/proc/can_weather(mob/living/mob_to_check)
+	var/datum/component/area_ambience/area_amb = mob_to_check.GetComponent(/datum/component/area_ambience)
+	if(area_amb)
+		return area_amb.is_outside
+
 	var/turf/mob_turf = get_turf(mob_to_check)
 
 	if(!mob_turf)
 		return FALSE
-
 	if(!mob_turf.outdoor_effect || mob_turf.outdoor_effect.weatherproof)
 		return FALSE
 
@@ -383,32 +386,3 @@
 	message_admins("[key_name_admin(usr)] started weather of type [weather_type].")
 	log_admin("[key_name(usr)] started weather of type [weather_type].")
 	SSblackbox.record_feedback("tally", "admin_verb", 1, "Run Custom Particle Weather")
-
-/turf/Exit(atom/movable/AM, atom/newLoc)
-	. = ..()
-
-	if(!isturf(newLoc))
-		return
-	if(!ishuman(AM))
-		return
-
-	var/mob/living/victim = AM
-
-	if(!victim.mind)
-		return
-	if(!SSParticleWeather.runningWeather)
-		return
-	if(!SSParticleWeather.runningWeather.running)
-		return
-
-	var/turf/current_turfarea = loc
-	var/turf/next_turfarea = newLoc.loc
-
-	if(current_turfarea.type == next_turfarea.type)
-		return
-
-	if(
-		istype(current_turfarea, /area/rogue/indoors) && istype(next_turfarea, /area/rogue/outdoors) || \
-		istype(next_turfarea, /area/rogue/indoors) && istype(current_turfarea, /area/rogue/outdoors)
-	)
-		SSParticleWeather.runningWeather.stop_weather_sound_effect(victim)
