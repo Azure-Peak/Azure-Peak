@@ -35170,6 +35170,8 @@
 /obj/item/clothing/suit/roguetown/shirt/robe/necra,
 /obj/item/clothing/head/roguetown/necrahood,
 /obj/item/clothing/head/roguetown/necrahood,
+/obj/item/clothing/head/roguetown/necramask,
+/obj/item/clothing/head/roguetown/necramask,
 /turf/open/floor/rogue/cobble,
 /area/rogue/indoors/town/church/chapel)
 "hLj" = (
@@ -96669,6 +96671,8 @@
 	icon_state = "tablewood2"
 	},
 /obj/machinery/light/rogue/torchholder/r,
+/obj/item/clothing/head/roguetown/necramask,
+/obj/item/clothing/cloak/templar/necran,
 /turf/open/floor/rogue/cobble,
 /area/rogue/indoors/town/church/basement)
 "vlo" = (
