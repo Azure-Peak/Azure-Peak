@@ -172,9 +172,12 @@
 		/datum/skill/misc/reading = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/misc/riding = SKILL_LEVEL_APPRENTICE,
 	)
+
 	subclass_virtues = list(
 		/datum/virtue/utility/riding
 	) //They get to be special too
-		subclass_stashed_items = list("Bag of Food" = /obj/item/storage/roguebag/food) //Oats boy. Oats.
+	subclass_stashed_items = list(
+	"Bag of Food" = /obj/item/storage/roguebag/food
+	) //Oats boy. Oats.
 #undef CTAG_KJ_KNIGHT
 #undef CTAG_KG_SQUIRE
