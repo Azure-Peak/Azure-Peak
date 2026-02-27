@@ -1,12 +1,43 @@
 /mob/living/simple_animal/hostile/retaliate
+	/// A list of weakrefs pointing at things that we consider targets
 	var/list/enemies = list()
+
+/mob/living/simple_animal/hostile/retaliate/Destroy()
+	enemies.Cut()
+	return ..()
+
+/// Add a mob to our enemies list as a weakref. Prevents hard deletes from cross-references.
+/mob/living/simple_animal/hostile/retaliate/proc/add_enemy(mob/living/M)
+	if(M == src)
+		return
+	for(var/datum/weakref/W in enemies)
+		if(W.resolve() == M)
+			return
+	enemies += WEAKREF(M)
+
+/// Clear all enemies.
+/mob/living/simple_animal/hostile/retaliate/proc/clear_enemies()
+	enemies.Cut()
+
+/// Resolve enemy weakrefs into a list of living mobs. Prunes dead refs.
+/mob/living/simple_animal/hostile/retaliate/proc/resolve_enemies()
+	. = list()
+	for(var/datum/weakref/W in enemies)
+		var/mob/living/L = W.resolve()
+		if(L)
+			. += L
+		else
+			enemies -= W
 
 /mob/living/simple_animal/hostile/retaliate/examine(mob/user)
 	. = ..()
 	if(user == target)
 		. += span_danger("[src] is currently targeting you!")
-	else if(user in enemies)
-		. += span_danger("[src] seems hostile towards you.")
+	else
+		for(var/datum/weakref/W in enemies)
+			if(W.resolve() == user)
+				. += span_danger("[src] seems hostile towards you.")
+				break
 
 /mob/living/simple_animal/hostile/retaliate/attack_hand(mob/living/carbon/human/M)
 	. = ..()
@@ -15,7 +46,7 @@
 			if(!(M in friends))
 				to_chat(M, span_warning("[src] doesn't seem to react to your petting!"))
 				return
-			enemies = list()
+			clear_enemies()
 			visible_message(span_notice("[src] calms down."))
 			LoseTarget()
 		else
@@ -33,8 +64,11 @@
 		else
 			if(!enemies.len)
 				return list()
+			var/list/actual_enemies = resolve_enemies()
+			if(!actual_enemies.len)
+				return list()
 			var/list/see = ..()
-			see &= enemies // Remove all entries that aren't in enemies
+			see &= actual_enemies
 			return see
 
 /mob/living/simple_animal/hostile/retaliate/proc/DismemberBody(mob/living/L)
@@ -86,11 +120,13 @@
 		if(isliving(A))
 			var/mob/living/M = A
 			if(faction_check_mob(M) && attack_same || !faction_check_mob(M))
-				enemies |= M
+				add_enemy(M)
 
+	var/list/resolved = resolve_enemies()
 	for(var/mob/living/simple_animal/hostile/retaliate/H in around)
 		if(faction_check_mob(H) && !attack_same && !H.attack_same)
-			H.enemies |= enemies
+			for(var/mob/living/E in resolved)
+				H.add_enemy(E)
 	return 0
 
 
