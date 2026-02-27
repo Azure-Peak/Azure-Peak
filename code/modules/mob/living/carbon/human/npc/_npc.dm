@@ -63,10 +63,23 @@
 
 /mob/living/carbon/human/Destroy()
 	our_cells = null
-	target = null
+	set_npc_target(null)
 	pathfinding_target = null
 	enemies.Cut()
 	return ..()
+
+/mob/living/carbon/human/proc/set_npc_target(mob/living/new_target)
+	if(target)
+		UnregisterSignal(target, COMSIG_PARENT_QDELETING)
+	target = new_target
+	if(target)
+		RegisterSignal(target, COMSIG_PARENT_QDELETING, PROC_REF(handle_npc_target_del))
+
+/mob/living/carbon/human/proc/handle_npc_target_del(datum/source)
+	SIGNAL_HANDLER
+	UnregisterSignal(target, COMSIG_PARENT_QDELETING)
+	target = null
+	back_to_idle()
 
 /mob/living/carbon/human/proc/IsStandingStill()
 	return doing || resisting || pickpocketing
@@ -695,7 +708,7 @@
 						continue
 					// we assume if we want to hurt them they want to hurt us back
 					if(should_target(bystander))
-						target = bystander // We're trying to run from this person now
+						set_npc_target(bystander) // We're trying to run from this person now
 			if(!target || get_dist(src, target) >= NPC_FLEE_DISTANCE)
 				NPC_THINK("Done fleeing!")
 				back_to_idle()
@@ -719,7 +732,7 @@
 	myPath = list()
 	mode = NPC_AI_IDLE
 	m_intent = MOVE_INTENT_WALK
-	target = null
+	set_npc_target(null)
 	a_intent = INTENT_HELP
 	frustration = 0
 	walk_to(src,0)
@@ -916,7 +929,7 @@
 		face_atom(L)
 		if(!target)
 			emote("aggro")
-		target = L
+		set_npc_target(L)
 		if(pathfinding_target != target)
 			clear_path() // Cancel pathfinding so that we can pursue our new enemy.
 		enemies |= WEAKREF(L)
