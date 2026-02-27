@@ -329,7 +329,7 @@
 	var/list/loot = list(
 		/obj/item/clothing/ring/blacksteel = 20, //Valuables
 		/obj/item/clothing/ring/diamond = 10,
-		/obj/item/clothing/ring/silver = 20,
+		/obj/item/clothing/ring/gold = 20,
 		/obj/item/clothing/neck/roguetown/ornateamulet = 15,
 		/obj/item/clothing/neck/roguetown/psicross/bpearl = 10,
 		/obj/item/roguecoin/gold/pile = 5, //Valuables (materials)
