@@ -1,0 +1,4 @@
+author: "Teragenic"
+delete-after: True
+changes:
+  - rscadd: "Gives Cantor Drum Choice"

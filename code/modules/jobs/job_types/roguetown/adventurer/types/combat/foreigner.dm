@@ -220,7 +220,7 @@
 	You hail from the Ranesheni Empire, where the market of flesh is ancient and unbroken, and your coin is earned in the trade of living souls."
 	allowed_races = RACES_ALL_KINDS
 	outfit = /datum/outfit/job/roguetown/adventurer/slaver
-	subclass_languages = list(/datum/language/celestial)
+	subclass_languages = list(/datum/language/raneshi)
 	cmode_music = 'sound/music/combat_desertrider.ogg'
 	traits_applied = list(TRAIT_STEELHEARTED, TRAIT_MEDIUMARMOR)
 	subclass_stats = list(

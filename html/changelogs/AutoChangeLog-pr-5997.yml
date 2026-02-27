@@ -1,4 +1,0 @@
-author: "Ryan180602"
-delete-after: True
-changes:
-  - refactor: "refactors ambience/weather sounds to not use enter/exit directly"

@@ -1,0 +1,5 @@
+author: "mumblemancer"
+delete-after: True
+changes:
+  - bugfix: "trident can no longer be wielded"
+  - code_imp: "added dmdocs for gripped-intents"

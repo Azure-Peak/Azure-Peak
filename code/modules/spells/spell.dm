@@ -480,12 +480,14 @@ GLOBAL_LIST_INIT(spells, typesof(/obj/effect/proc_holder/spell)) //needed for th
 
 /obj/effect/proc_holder/spell/proc/start_recharge()
 	var/old_recharge = recharge_time
-	if(ranged_ability_user && !is_cdr_exempt)
-		if(ranged_ability_user.STAINT > SPELL_SCALING_THRESHOLD)
-			var/diff = min(ranged_ability_user.STAINT, SPELL_POSITIVE_SCALING_THRESHOLD) - SPELL_SCALING_THRESHOLD
+	var/mob/living/user = ranged_ability_user || action?.owner
+
+	if(user && !is_cdr_exempt)
+		if(user.STAINT > SPELL_SCALING_THRESHOLD)
+			var/diff = min(user.STAINT, SPELL_POSITIVE_SCALING_THRESHOLD) - SPELL_SCALING_THRESHOLD
 			recharge_time = initial(recharge_time) - (initial(recharge_time) * diff * COOLDOWN_REDUCTION_PER_INT)
-		else if(ranged_ability_user.STAINT < SPELL_SCALING_THRESHOLD)
-			var/diff2 = SPELL_SCALING_THRESHOLD - ranged_ability_user.STAINT
+		else if(user.STAINT < SPELL_SCALING_THRESHOLD)
+			var/diff2 = SPELL_SCALING_THRESHOLD - user.STAINT
 			recharge_time = initial(recharge_time) + (initial(recharge_time) * (diff2 * COOLDOWN_REDUCTION_PER_INT))
 
 	// If the spell was fully charged before recalculation, keep it fully charged

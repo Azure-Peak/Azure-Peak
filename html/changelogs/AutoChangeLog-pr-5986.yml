@@ -1,4 +1,0 @@
-author: "WeNeedMorePhoron"
-delete-after: True
-changes:
-  - bugfix: "Some performance issues with rituals / projectile / spell runes. Report any weirdness."

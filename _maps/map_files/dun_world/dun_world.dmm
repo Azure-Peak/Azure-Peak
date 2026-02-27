@@ -15584,10 +15584,7 @@
 /turf/open/floor/rogue/cobble/mossy,
 /area/rogue/under/cave/his_vault)
 "dxR" = (
-/obj/structure/fluff/traveltile/bathhouse_passage{
-	aportalgoesto = "smuggler_bathhouse";
-	aportalid = "smuggler_cove"
-	},
+/obj/structure/fluff/traveltile/bathhouse_passage/cave,
 /turf/open/floor/rogue/dirt,
 /area/rogue/indoors/cave)
 "dxT" = (

@@ -383,12 +383,12 @@
 	desc = "A bronze trident from the seas designed to pierce fish upon its hooked teeth. Feels balanced in your hand, like you could throw it quite easily."
 	icon_state = "bronzetri"
 	force = 25
-	force_wielded = 20
 	wdefense = 4
 	max_blade_int = 175
 	max_integrity = 225
 	throwforce = 30
 	possible_item_intents = list(SPEAR_THRUST, SPEAR_BASH, SPEAR_CAST)
+	gripped_intents = null
 	smeltresult = /obj/item/ingot/bronze
 	fishingMods=list(
 		"commonFishingMod" = 0.8,

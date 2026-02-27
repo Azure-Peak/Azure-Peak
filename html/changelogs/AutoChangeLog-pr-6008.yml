@@ -1,4 +1,0 @@
-author: "mumblemancer"
-delete-after: True
-changes:
-  - qol: "filling up a reagent container in a river now fills the whole of the container instead of a # amount"

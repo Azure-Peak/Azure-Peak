@@ -1907,6 +1907,7 @@ Slots: [job.spawn_positions] [job.round_contrib_points ? "RCP: +[job.round_contr
 						/datum/language/hellspeak,
 						/datum/language/draconic,
 						/datum/language/celestial,
+						/datum/language/raneshi,
 						/datum/language/grenzelhoftian,
 						/datum/language/kazengunese,
 						/datum/language/lingyuese,

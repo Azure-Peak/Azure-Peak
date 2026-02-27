@@ -1,5 +1,0 @@
-author: "UEDCommander"
-delete-after: True
-changes:
-  - balance: "Reduces callback & sendoff time for Saddleborn mounts"
-  - bugfix: "Fixes simple mob attacks & bites ignoring barding worn by the simple animal"

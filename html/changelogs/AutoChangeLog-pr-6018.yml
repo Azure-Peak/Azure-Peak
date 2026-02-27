@@ -1,0 +1,6 @@
+author: "Lamasmaster"
+delete-after: True
+changes:
+  - rscadd: "Raneshi Language"
+  - bugfix: "Aavanic not having it's own icon"
+  - bugfix: "Archivist not being able to speak Azurean"

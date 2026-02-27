@@ -889,7 +889,7 @@
 	extra_eat_effect = /datum/status_effect/buff/sweet
 	rotprocess = SHELFLIFE_LONG
 
-//	..................   Honey cake (Zybantu)   ..................
+//	..................   Honey cake   ..................
 //	..................           Raw            ..................
 /obj/item/reagent_containers/food/snacks/rogue/hcakeuncooked
 	name = "unbaked cake"
@@ -905,8 +905,8 @@
 
 //	.................   Cooked   .................
 /obj/item/reagent_containers/food/snacks/rogue/hcake
-	name = "zybantine cake"
-	desc = "Cake glazed with honey in the famous Zybantium fashion for a delicious sweet treat."
+	name = "honey cake"
+	desc = "Cake glazed with honey in the famous Raneshi fashion for a delicious sweet treat."
 	icon = 'modular/Neu_Food/icons/cooked/cooked_cakes.dmi'
 	icon_state = "honeycake"
 	slices_num = 8
@@ -924,8 +924,8 @@
 	bitesize = 16
 
 /obj/item/reagent_containers/food/snacks/rogue/hcakeslice
-	name = "zybantine cake slice"
-	desc = "A slice of cake glazed with honey in the famous zybantine fashion, a delicious sweet treat."
+	name = "honey cake slice"
+	desc = "A slice of cake glazed with honey in the famous Raneshi fashion, a delicious sweet treat."
 	icon = 'modular/Neu_Food/icons/cooked/cooked_cakes.dmi'
 	icon_state = "honeycake_slice"
 	slices_num = 0

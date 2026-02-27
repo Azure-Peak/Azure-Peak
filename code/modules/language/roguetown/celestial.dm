@@ -1,5 +1,5 @@
 /datum/language/celestial
-	name = "Sama'glos"
+	name = "Celestial"
 	desc = ""
 	speech_verb = "says"
 	ask_verb = "asks"
@@ -8,7 +8,8 @@
 	space_chance = 60
 	default_priority = 80
 	icon_state = "celestial"
-	spans = list(SPAN_SAND)
+	spans = list(SPAN_CELESTIAL)
+	mutually_intelligible = list(/datum/language/raneshi)//Come from same place apparently according to lore
 	syllables = list(
 		"ak", "al", "am", "an", "ar", "bi", "da", "de", "di", "ek", "el",
 		"en", "er", "il", "in", "ir", "ka", "la", "le", "li", "ma", "nd",
