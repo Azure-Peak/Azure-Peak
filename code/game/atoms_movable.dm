@@ -411,21 +411,21 @@
 				pulledby.moving_from_pull = src
 				pulledby.Move(T, get_dir(pulledby, T), glide_size) //the pullee tries to reach our previous position
 				pulledby.moving_from_pull = null
-	if(. && pulling && pulling == pullee && pulling != moving_from_pull) //we were pulling a thing and didn't lose it during our move.
+	if(. && pulling && pulling == pullee && pulling != moving_from_pull)
 		if(!pulling || QDELETED(pulling))
 			return
 		if(pulling.anchored)
 			stop_pulling()
 		else
 			var/pull_dir = get_dir(src, pulling)
-			//puller and pullee more than one tile away or in diagonal position
 			if(get_dist(src, pulling) > 1 || (moving_diagonally != SECOND_DIAG_STEP && ((pull_dir - 1) & pull_dir)))
-				pulling.moving_from_pull = src
+				pullee.moving_from_pull = src
 				if(pull_dir in GLOB.cardinals)
-					pulling.Move(T, get_dir(pulling, T), glide_size) //the pullee tries to reach our previous position
+					pullee.Move(T, get_dir(pullee, T), glide_size)
 				else
-					pulling.forceMove(T) // if we're moving diagonally, warp us to the old position so we can resume normal movement afterwards
-				pulling.moving_from_pull = null
+					pullee.forceMove(T)
+				if(pullee && !QDELETED(pullee))
+					pullee.moving_from_pull = null
 			check_pulling()
 
 	//glide_size strangely enough can change mid movement animation and update correctly while the animation is playing
@@ -520,18 +520,17 @@
 	A.Bumped(src)
 
 /atom/movable/proc/forceMove(atom/destination)
-	if(!destination || QDELETED(src))
+	if(QDELETED(src))
+		return FALSE
+
+	if(!destination)
 		CRASH("[src] No valid destination passed into forceMove")
 
 	var/mob/living/carbon/human/H = null
 	if(ishuman(src.loc))
 		H = src.loc
 
-	. = FALSE
-	if(destination)
-		. = doMove(destination)
-	else
-		CRASH("[src] No valid destination passed into forceMove")
+	. = doMove(destination)
 
 	if(H)
 		H.update_a_intents()
@@ -1113,16 +1112,15 @@ GLOBAL_VAR_INIT(pixel_diff_time, 1)
 	return FALSE
 
 /atom/movable/proc/get_default_language()
-	// if no language is specified, and we want to say() something, which
-	// language do we use?
 	var/datum/language_holder/H = get_language_holder()
+	if(!H)
+		return null
 
 	if(H.selected_default_language)
 		if(can_speak_in_language(H.selected_default_language))
 			return H.selected_default_language
 		else
 			H.selected_default_language = null
-
 
 	var/datum/language/chosen_langtype
 	var/highest_priority
@@ -1137,8 +1135,11 @@ GLOBAL_VAR_INIT(pixel_diff_time, 1)
 			chosen_langtype = langtype
 			highest_priority = pri
 
-	H.selected_default_language = .
 	. = chosen_langtype
+	H.selected_default_language = chosen_langtype
+
+	if(H.selected_default_language == "None")
+		H.selected_default_language = null
 
 /* End language procs */
 /atom/movable/proc/ConveyorMove(movedir)

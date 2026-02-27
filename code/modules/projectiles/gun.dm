@@ -101,7 +101,7 @@
 		if(!can_trigger_gun(L))
 			return
 		if(L.used_intent && L.used_intent.get_chargetime())
-			if(L.client.charge_was_blocked_by_cooldown)
+			if(L.client?.charge_was_blocked_by_cooldown)
 				L.client.charge_was_blocked_by_cooldown = FALSE
 				return
 

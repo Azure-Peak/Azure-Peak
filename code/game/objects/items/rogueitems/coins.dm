@@ -6,8 +6,8 @@
 #define MAX_COIN_STACK_SIZE 20
 
 /obj/item/roguecoin
-	name = ""
-	desc = ""
+	name = "coin"
+	desc = "Alloyed value, fitting in the palm of your hand."
 	icon = 'icons/roguetown/items/valuable.dmi'
 	icon_state = ""
 	lefthand_file = 'icons/mob/inhands/misc/food_lefthand.dmi'
@@ -33,11 +33,15 @@
 	if(coin_amount >= 1)
 		set_quantity(floor(coin_amount))
 
+/obj/item/roguecoin/get_mechanics_examine(mob/user)
+    . = ..()
+    . += span_info("Coinage can be exchanged for goods and services.")
+
 /obj/item/roguecoin/getonmobprop(tag)
-	. = ..()
-	if(tag != "gen")
-		return
-	return list("shrink" = 0.10, "sx" = -6, "sy" = 6, "nx" = 6, "ny" = 7, "wx" = 0, "wy" = 5, "ex" = -1, "ey" = 7, "northabove" = 0, "southabove" = 1, "eastabove" = 1, "westabove" = 0, "nturn" = -50, "sturn" = 40, "wturn" = 50, "eturn" = -50, "nflip" = 0, "sflip" = 8, "wflip" = 8, "eflip" = 0)
+	if(tag)
+		switch(tag)
+			if("gen")
+				return list("shrink" = 0.2,"sx" = -7,"sy" = -4,"nx" = 7,"ny" = -4,"wx" = -4,"wy" = -4,"ex" = 2,"ey" = -4,"nturn" = 0,"sturn" = 0,"wturn" = 0,"eturn" = 0,"nflip" = 0,"sflip" = 0,"wflip" = 0,"eflip" = 0,"northabove" = 0,"southabove" = 1,"eastabove" = 1,"westabove" = 0)
 
 /obj/item/roguecoin/throw_impact(atom/hit_atom, datum/thrownthing/throwingdatum)
 	playsound(loc, 'sound/foley/coins1.ogg', 100, TRUE, -2)
@@ -187,7 +191,6 @@
 			icon_state = "[base_type]10"
 		if(16 to INFINITY)
 			icon_state = "[base_type]15"
-
 
 /obj/item/roguecoin/attackby(obj/item/I, mob/user)
 	if(istype(I, /obj/item/roguecoin))

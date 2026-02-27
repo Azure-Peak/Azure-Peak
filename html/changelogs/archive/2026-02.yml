@@ -1149,3 +1149,52 @@
   - rscadd: Martial Supercession now allows for an Outlaw to give assent - but not
       invoke it themselves.
   - rscadd: Add caffiend vice.
+2026-02-26:
+  FreeStylaLT:
+  - refactor: Changed Pronouns to encompass separate preferences for titles & clothing
+      preference.
+  - bugfix: Fixed race bonuses comprised of more than one trait or stat not saving
+      correctly.
+  Lamasmaster:
+  - rscadd: Medium armor trait and Dualist to Wretch Outlaw
+  - bugfix: Poor grammar for reloading ranged weapons
+  NewyearnewmeUwu:
+  - sound: new sound for ambience override for asundered mind
+  Ollanius:
+  - rscadd: Ancient variations of the sandals, boots, and flamberge.
+  - rscadd: Skeletons are now given an option to pick between a variety of decrepit
+      cloaks, tabards, and jupons.
+  - balance: Adds the Venerated Death Knight, a two-slot subclass for the Lych's skeletal
+      army. Excellent STR, PER and INT with full armor and Expert-tier skills in their
+      chosen weapon - but exceedingly low CON and SPD. Crack the armor to take them
+      down.
+  - balance: Adds the new ancient footwear to all Lych-summonable classes.
+  - bugfix: Ancient plate chausses can now be worn, again, without being mysteriously
+      invisible.
+  - rscadd: Smithing recipes for ancient boots and sandals are now available.
+  - rscadd: Adds a recipe for two deprived-and-broken swords. It seems an iron ingot,
+      two glimmering slag chunks, and a piece of lumber should be enough.
+  - bugfix: Hardtack now properly fits in belt slots, like with other bite-sized morsels.
+  - rscadd: Adds a new heraldric design for shields; the Comet!
+  WeNeedMorePhoron:
+  - rscadd: Three new generic flat shield heraldry. You can also redye a shield after
+      it breaks and is repaired again
+  - rscadd: Outlaw NPC from Outlaw contract, Orc Warlord & Treasure Hunter now respect
+      crit threshold
+  - bugfix: Missing fish sprites
+  - bugfix: Spell Icons should no longer disappear after the first cast
+  bearrrrrrrr:
+  - rscadd: drowcraft armor on drow npc's can no longer be equipped by non-drow NPCs
+  - rscadd: Desert Rider momentum skill.
+  eirenxiv:
+  - bugfix: fixed heretic spy bow loadout to include quiver
+  - rscadd: Added consort back as a choice by the ruler
+  - code_imp: Split Consort/Suitor into two seperate choices
+  - rscadd: Added Saddleborn to Knight Errant and Tarnished Knight
+  - balance: Added Steelhearted to Knight Errant
+  saltprjak:
+  - balance: Ruma Clan Seonjang no longer gets conditional statpoints. Seonjang and
+      Gun-in loadouts now prevent chest-armor stacking.
+  - balance: Kazengun scabbards now get limb-guard, shield-tier force and work off
+      the skill of their respective weapon.
+  - balance: Blacksteel limb armor and helmets respect fencer and honorbound limitations.

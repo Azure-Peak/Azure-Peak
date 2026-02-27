@@ -1,7 +1,7 @@
 /// SPELL DATUMS
 
 /obj/effect/proc_holder/spell/invoked/resurrect/matthios
-	name = "Faustian Transaction"
+	name = "Rekindled Exchange"
 	desc = "Revives the target by invoking a deal with Matthios. In exchange for their lyfe returned, they will be placed\
 	in a lasting debt to Him. Any coins within their hands will be spent paying off said debt. Blood for gold."
 	debuff_type = /datum/status_effect/debuff/debt_indicator
@@ -10,10 +10,11 @@
 	sound = 'sound/magic/slimesquish.ogg'
 	chargedloop = /datum/looping_sound/invokelightning
 	harms_undead = FALSE
-	overlay_icon = 'icons/mob/actions/zizomiracles.dmi'
+	recharge_time = 2 MINUTES //Anastasis Equivalent
+	overlay_icon = 'icons/mob/actions/matthiosmiracles.dmi'
 	overlay_state = "revival"
 	action_icon_state = "revival"
-	action_icon = 'icons/mob/actions/zizomiracles.dmi'
+	action_icon = 'icons/mob/actions/matthiosmiracles.dmi'
 	required_structure = /obj/structure/fluff/psycross/zizocross
 
 /obj/effect/proc_holder/spell/invoked/resurrect/graggar

@@ -412,9 +412,11 @@
 
 /datum/status_effect/buff/dragonhide/fireresist/on_apply()
 	. = ..()
-	addtimer(CALLBACK(src, PROC_REF(continue_proc), src), wait = (10 SECONDS))
+	addtimer(CALLBACK(src, PROC_REF(continue_proc)), wait = (10 SECONDS))
 
 /datum/status_effect/buff/dragonhide/fireresist/proc/continue_proc()
+	if(QDELETED(src) || QDELING(src) || !owner || QDELETED(owner))
+		return
 	var/mob/living/carbon/human/user = owner
 	var/skill = user.get_skill_level(/datum/skill/magic/holy)
 	var/cost = 30 //Novice
@@ -440,7 +442,7 @@
 			user.apply_status_effect(/datum/status_effect/buff/dragonhide/fireresist/buff)
 		else
 			user.apply_status_effect(/datum/status_effect/buff/dragonhide/fireresist)
-		addtimer(CALLBACK(src, PROC_REF(continue_proc), src), wait = (10 SECONDS))
+		addtimer(CALLBACK(src, PROC_REF(continue_proc)), wait = (10 SECONDS))
 	else
 		return
 
@@ -448,7 +450,7 @@
 
 /datum/status_effect/buff/dragonhide/fireresist/buff/on_apply()
 	. = ..()
-	addtimer(CALLBACK(owner, PROC_REF(continue_proc), src), wait = (15 SECONDS))
+	addtimer(CALLBACK(src, PROC_REF(continue_proc)), wait = (15 SECONDS))
 	owner.weather_immunities += "lava"
 
 /datum/status_effect/buff/dragonhide/fireresist/buff/on_remove()

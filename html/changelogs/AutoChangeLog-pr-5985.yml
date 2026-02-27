@@ -1,0 +1,4 @@
+author: "WeNeedMorePhoron"
+delete-after: True
+changes:
+  - bugfix: "Probably improved attack animations / flick overlay performance. Report any oddity"

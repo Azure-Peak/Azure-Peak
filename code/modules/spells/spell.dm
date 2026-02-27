@@ -86,6 +86,8 @@ GLOBAL_LIST_INIT(spells, typesof(/obj/effect/proc_holder/spell)) //needed for th
 /obj/effect/proc_holder/Destroy()
 	if (action)
 		qdel(action)
+	if(mob_charge_effect)
+		QDEL_NULL(mob_charge_effect)
 	if(ranged_ability_user)
 		remove_ranged_ability()
 	return ..()
@@ -421,8 +423,13 @@ GLOBAL_LIST_INIT(spells, typesof(/obj/effect/proc_holder/spell)) //needed for th
 	return TRUE
 
 /obj/effect/proc_holder/spell/proc/invocation(mob/user = usr)
-	if(!invocations || !invocations.len)
+	if(!invocations)
 		return
+	if(istext(invocations))
+		invocations = list(invocations)
+	if(!islist(invocations) || !invocations.len)
+		return
+
 	var/chosen_invocation = pick(invocations)
 	switch(invocation_type)
 		if("shout")

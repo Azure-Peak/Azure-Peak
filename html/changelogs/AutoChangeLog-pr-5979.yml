@@ -1,6 +1,0 @@
-author: "Ollanius"
-delete-after: True
-changes:
-  - rscadd: "Adds a recipe for two deprived-and-broken swords. It seems an iron ingot, two glimmering slag chunks, and a piece of lumber should be enough."
-  - bugfix: "Hardtack now properly fits in belt slots, like with other bite-sized morsels."
-  - rscadd: "Adds a new heraldric design for shields; the Comet!"

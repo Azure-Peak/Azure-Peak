@@ -1,0 +1,4 @@
+author: "WeNeedMorePhoron"
+delete-after: True
+changes:
+  - bugfix: "There should not be any hammer repairing changes but if you notice oddness inform me."

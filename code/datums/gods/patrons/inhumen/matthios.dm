@@ -4,16 +4,17 @@
 	desc = "The Man who stole fire from the sun and used it in his pursuit of immortality; exchanging the knowledge of how to make fire with the lessers for safety in doing so. He guides those who live in the dark, away from the flame of civilization; and those who believe in his cause bring the wealth of the undeserving in the light to the deserving in the dark."
 	worshippers = "Highwaymen, Alchemists, Downtrodden Peasants, and Merchants"
 	crafting_recipes = list(/datum/crafting_recipe/roguetown/sewing/bandithood)
-	mob_traits = list(TRAIT_COMMIE, TRAIT_MATTHIOS_EYES, TRAIT_SEEPRICES_SHITTY)
+	mob_traits = list(TRAIT_FREEMAN, TRAIT_MATTHIOS_EYES, TRAIT_SEEPRICES_SHITTY)
 	miracles = list(/obj/effect/proc_holder/spell/targeted/touch/orison					= CLERIC_ORI,
 					/obj/effect/proc_holder/spell/invoked/appraise						= CLERIC_ORI,
 					/obj/effect/proc_holder/spell/targeted/touch/lesserknock/miracle	= CLERIC_T0,
-					/obj/effect/proc_holder/spell/invoked/muffle						= CLERIC_T0,
-					/obj/effect/proc_holder/spell/invoked/transact						= CLERIC_T1, //It says it should be T1
+					/obj/effect/proc_holder/spell/self/matthios_liberate				= CLERIC_T0,
+					/obj/effect/proc_holder/spell/self/matthios_muffle					= CLERIC_T0,
+					/obj/effect/proc_holder/spell/invoked/matthios_transact				= CLERIC_T1, //It says it should be T1
 					/obj/effect/proc_holder/spell/invoked/lesser_heal 					= CLERIC_T1,
 					/obj/effect/proc_holder/spell/invoked/blood_heal					= CLERIC_T1,
-					/obj/effect/proc_holder/spell/invoked/equalize						= CLERIC_T2,
-					/obj/effect/proc_holder/spell/invoked/churnwealthy					= CLERIC_T3,
+					/obj/effect/proc_holder/spell/invoked/matthios_equalize				= CLERIC_T2,
+					/obj/effect/proc_holder/spell/invoked/matthios_churn				= CLERIC_T3,
 					/obj/effect/proc_holder/spell/invoked/resurrect/matthios			= CLERIC_T3, // Counterpart to anastasis
 	)
 	confess_lines = list(
@@ -64,7 +65,6 @@
 	*message_out = span_info("A wreath of... strange light passes over [target]?")
 	*message_self = span_notice("I'm bathed in a... strange holy light?")
 
-	if(HAS_TRAIT(target, TRAIT_COMMIE))
+	if(HAS_TRAIT(target, TRAIT_FREEMAN))
 		*conditional_buff = TRUE
 		*situational_bonus = 2.5
-

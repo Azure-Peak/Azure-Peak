@@ -3,9 +3,9 @@
 	name = "pot"
 	desc = "A pot made out of iron. It can hold a lot of liquid."
 	icon = 'modular/Neu_Food/icons/cookware/pot.dmi'
-	lefthand_file = 'modular/Neu_Food/icons/food_lefthand.dmi'
-	righthand_file = 'modular/Neu_Food/icons/food_righthand.dmi'
-	experimental_inhand = FALSE
+	//lefthand_file = 'modular/Neu_Food/icons/food_lefthand.dmi'
+	//righthand_file = 'modular/Neu_Food/icons/food_righthand.dmi'
+	experimental_inhand = TRUE
 	icon_state = "pote"
 	sharpness = IS_BLUNT
 	slot_flags = null
@@ -16,6 +16,14 @@
 	throwforce = 10
 	dropshrink = 1 // Override for bucket
 	volume = 240
+
+/obj/item/reagent_containers/glass/bucket/pot/get_mechanics_examine(mob/user)
+	. = ..()
+	. += span_info("Pots can be placed atop a hearth by left-clicking it. If the hearth is lit, the placed pot will eventually come to a boil - so long as it's filled with water.")
+	. += span_info("Right-clicking a hearthbound pot allows you to fan its flames, further reducing the time it'll take to start boiling.")
+	. += span_info("Once boiling, left-clicking the hearthbound pot with an ingredient will drop it inside. The larger a pot is, the more ingredients can be dropped in at any given time.")
+	. += span_info("After the first ingredient is placed in, the pot will begin turning it - and any other subsequent ingredients - into a brew, over the course of a minute.")
+	. += span_info("Specific ingredients can create specific brews; dried rosa petals for a refreshing tea, coffee beans for a revitalizing drink, and more..")
 
 /obj/item/reagent_containers/glass/bucket/pot/update_icon()
 	cut_overlays()
@@ -81,6 +89,12 @@
 	volume = 120
 	sellprice = 20
 
+/obj/item/reagent_containers/glass/bucket/pot/teapot/getonmobprop(tag)
+	if(tag)
+		switch(tag)
+			if("gen")
+				return list("shrink" = 0.5,"sx" = -7,"sy" = -4,"nx" = 7,"ny" = -4,"wx" = -4,"wy" = -4,"ex" = 2,"ey" = -4,"nturn" = 0,"sturn" = 0,"wturn" = 0,"eturn" = 0,"nflip" = 0,"sflip" = 0,"wflip" = 0,"eflip" = 0,"northabove" = 0,"southabove" = 1,"eastabove" = 1,"westabove" = 0)
+
 /obj/item/reagent_containers/glass/bucket/pot/carved
 	name = "carved teapot"
 	desc = "You shouldn't be seeing this."
@@ -89,6 +103,12 @@
 	dropshrink = 1.0
 	volume = 99
 	sellprice = 0
+
+/obj/item/reagent_containers/glass/bucket/pot/carved/getonmobprop(tag)
+	if(tag)
+		switch(tag)
+			if("gen")
+				return list("shrink" = 0.5,"sx" = -7,"sy" = -4,"nx" = 7,"ny" = -4,"wx" = -4,"wy" = -4,"ex" = 2,"ey" = -4,"nturn" = 0,"sturn" = 0,"wturn" = 0,"eturn" = 0,"nflip" = 0,"sflip" = 0,"wflip" = 0,"eflip" = 0,"northabove" = 0,"southabove" = 1,"eastabove" = 1,"westabove" = 0)
 
 /obj/item/reagent_containers/glass/bucket/pot/carved/teapotjade
 	name = "jade teapot"
@@ -176,3 +196,43 @@
 
 /obj/item/reagent_containers/glass/bucket/pot/teapot/update_icon(dont_fill=FALSE)
 	return FALSE // There's no filling for teapot
+
+/obj/item/reagent_containers/glass/bucket/pot/kettle/tankard
+	name = "tankard"
+	desc = "A heftsome, iron-bottomed mug. It can be set upon a hearth to brew traditional drinks, or - for the more alcoholically-inclined - used as a pitcher of liqour."
+	icon = 'modular/Neu_Food/icons/cookware/unused.dmi'
+	icon_state = "stein"
+	volume = 50
+	sellprice = 10
+	force = 10
+	throwforce = 15
+
+/obj/item/reagent_containers/glass/bucket/pot/kettle/tankard/silver
+	name = "silver tankard"
+	desc = "A regal, silver-bottomed mug with gilded marginalia. Perfect for refilling mugs-a-plenty during the chaos of an innhouse's feast, or for drowning away the sorrows of a sorrid week. It can be set upon a hearth to brew traditional drinks."
+	icon = 'modular/Neu_Food/icons/cookware/unused.dmi'
+	icon_state = "silverstein"
+	volume = 75
+	sellprice = 40
+	force = 15
+	throwforce = 20
+
+/obj/item/reagent_containers/glass/bucket/pot/kettle/tankard/blacksteel
+	name = "blacksteel tankard"
+	desc = "A mythical, blacksteel-bottomed mug with a mastercrafted handle. Fit for the bloodied knuckles of a dungeon-delving hero, or the nitestand of a drunkhearted king. It can be set upon a hearth to brew traditional drinks, or smelted within a furnace to birth an ingot of blacksteel."
+	icon = 'modular/Neu_Food/icons/cookware/unused.dmi'
+	icon_state = "blacksteelstein"
+	volume = 100
+	sellprice = 100
+	force = 20
+	throwforce = 25
+	smeltresult = /obj/item/ingot/blacksteel
+
+/obj/item/reagent_containers/glass/bucket/pot/kettle/tankard/getonmobprop(tag)
+	if(tag)
+		switch(tag)
+			if("gen")
+				return list("shrink" = 0.5,"sx" = -7,"sy" = -4,"nx" = 7,"ny" = -4,"wx" = -4,"wy" = -4,"ex" = 2,"ey" = -4,"nturn" = 0,"sturn" = 0,"wturn" = 0,"eturn" = 0,"nflip" = 0,"sflip" = 0,"wflip" = 0,"eflip" = 0,"northabove" = 0,"southabove" = 1,"eastabove" = 1,"westabove" = 0)
+
+/obj/item/reagent_containers/glass/bucket/pot/kettle/tankard/update_icon(dont_fill=FALSE)
+	return FALSE // Ditto.

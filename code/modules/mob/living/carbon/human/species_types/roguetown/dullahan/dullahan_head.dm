@@ -168,7 +168,7 @@
 // Could track in forceMove() but this seems more reliable. Change would not take much.
 /obj/item/bodypart/head/dullahan/drop_organs(mob/user, violent_removal)
 	. = ..()
-	if(!(original_owner.status_flags & GODMODE))
+	if(original_owner && !QDELETED(original_owner) && original_owner.loc && original_owner.stat != DEAD && !(original_owner.status_flags & GODMODE))
 		original_owner.death()
 
 /obj/item/bodypart/head/dullahan/attach_limb(mob/living/carbon/human/user)

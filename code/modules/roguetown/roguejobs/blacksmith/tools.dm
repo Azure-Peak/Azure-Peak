@@ -38,31 +38,47 @@
 /obj/item/rogueweapon/hammer/attack_obj(obj/attacked_object, mob/living/user)
 	if(!isliving(user) || !user.mind)
 		return
-	var/mob/living/blacksmith = user
-	var/repair_percent = 0.025 // 2.5% Repairing per hammer smack
-	/// Repairing is MUCH better with an anvil!
-	if(locate(/obj/machinery/anvil) in attacked_object.loc)
-		repair_percent *= 2 // Double the repair amount if we're using an anvil
-	var/exp_gained = 0
 
 	if(isbodypart(attacked_object) && !user.cmode)
-		var/obj/item/bodypart/attacked_prosthetic = attacked_object
-		if(!attacked_prosthetic.anvilrepair) //No hammering flesh limbs
-			return
-		if(attacked_prosthetic.obj_integrity >= attacked_prosthetic.max_integrity && attacked_prosthetic.brute_dam == 0 && attacked_prosthetic.burn_dam == 0 && attacked_prosthetic.wounds == null && attacked_prosthetic.disabled == BODYPART_NOT_DISABLED) //A mouthful
-			to_chat(user, span_warning("There is nothing to further repair on [attacked_prosthetic]."))
-			return
-		if(blacksmith.get_skill_level(attacked_prosthetic.anvilrepair) <= 0)
+		repair_bodypart(attacked_object, user)
+		return
+
+	if(isitem(attacked_object) && !user.cmode)
+		repair_item(attacked_object, user)
+		return
+
+	if(isstructure(attacked_object) && !user.cmode)
+		repair_structure(attacked_object, user)
+		return
+
+	. = ..()
+
+/obj/item/rogueweapon/hammer/proc/get_repair_percent(obj/attacked_object)
+	. = 0.025 // 2.5% Repairing per hammer smack
+	if(locate(/obj/machinery/anvil) in attacked_object.loc)
+		. *= 2 // Double the repair amount if we're using an anvil
+
+/obj/item/rogueweapon/hammer/proc/repair_bodypart(obj/item/bodypart/attacked_prosthetic, mob/living/user)
+	if(!attacked_prosthetic.anvilrepair) //No hammering flesh limbs
+		return
+	if(attacked_prosthetic.obj_integrity >= attacked_prosthetic.max_integrity && attacked_prosthetic.brute_dam == 0 && attacked_prosthetic.burn_dam == 0 && attacked_prosthetic.wounds == null && attacked_prosthetic.disabled == BODYPART_NOT_DISABLED)
+		to_chat(user, span_warning("There is nothing to further repair on [attacked_prosthetic]."))
+		return
+
+	do
+		var/repair_percent = get_repair_percent(attacked_prosthetic)
+		if(user.get_skill_level(attacked_prosthetic.anvilrepair) <= 0)
 			if(prob(30))
 				repair_percent = 0.01
 			else
 				repair_percent = 0
 		else
-			repair_percent *= blacksmith.get_skill_level(attacked_prosthetic.anvilrepair)
+			repair_percent *= user.get_skill_level(attacked_prosthetic.anvilrepair)
+
 		playsound(src,'sound/items/bsmith3.ogg', 100, FALSE)
 		if(repair_percent)
 			repair_percent *= attacked_prosthetic.max_integrity
-			exp_gained = min(attacked_prosthetic.obj_integrity + repair_percent, attacked_prosthetic.max_integrity) - attacked_prosthetic.obj_integrity
+			var/exp_gained = min(attacked_prosthetic.obj_integrity + repair_percent, attacked_prosthetic.max_integrity) - attacked_prosthetic.obj_integrity
 			attacked_prosthetic.obj_integrity = min(attacked_prosthetic.obj_integrity + repair_percent, attacked_prosthetic.max_integrity)
 			attacked_prosthetic.brute_dam = max(attacked_prosthetic.brute_dam - 10, 0)
 			attacked_prosthetic.burn_dam = max(attacked_prosthetic.burn_dam - 10, 0)
@@ -72,28 +88,28 @@
 				to_chat(user, span_warning("You fumble your way into slightly repairing [attacked_prosthetic]."))
 			else
 				user.visible_message(span_info("[user] repairs [attacked_prosthetic]!"))
-			blacksmith.mind.add_sleep_experience(attacked_prosthetic.anvilrepair, exp_gained/2) //We gain as much exp as we fix divided by 2
-			if(do_after(user, CLICK_CD_MELEE, target = attacked_object))
-				attack_obj(attacked_object, user)
-			return
+			user.mind.add_sleep_experience(attacked_prosthetic.anvilrepair, exp_gained/2) //We gain as much exp as we fix divided by 2
 		else
 			user.visible_message(span_warning("[user] fumbles trying to repair [attacked_prosthetic]!"))
-			if(do_after(user, CLICK_CD_MELEE, target = attacked_object))
-				attack_obj(attacked_object, user)
-			return
 
-	if(isitem(attacked_object) && !user.cmode)
-		var/obj/item/attacked_item = attacked_object
-		if(!attacked_item.anvilrepair || (attacked_item.obj_integrity >= attacked_item.max_integrity) || !isturf(attacked_item.loc))
-			return
+		if(attacked_prosthetic.obj_integrity >= attacked_prosthetic.max_integrity && attacked_prosthetic.brute_dam == 0 && attacked_prosthetic.burn_dam == 0 && attacked_prosthetic.wounds == null && attacked_prosthetic.disabled == BODYPART_NOT_DISABLED)
+			break
 
-		if(!attacked_item.ontable())
-			to_chat(user, span_warning("I should put this on a table or an anvil first."))
-			return
+	while(do_after(user, CLICK_CD_MELEE, target = attacked_prosthetic))
 
-		if(blacksmith.get_skill_level(attacked_item.anvilrepair) <= 0)
+/obj/item/rogueweapon/hammer/proc/repair_item(obj/item/attacked_item, mob/living/user)
+	if(!attacked_item.anvilrepair || (attacked_item.obj_integrity >= attacked_item.max_integrity) || !isturf(attacked_item.loc))
+		return
+
+	if(!attacked_item.ontable())
+		to_chat(user, span_warning("I should put this on a table or an anvil first."))
+		return
+
+	do
+		var/repair_percent = get_repair_percent(attacked_item)
+		if(user.get_skill_level(attacked_item.anvilrepair) <= 0)
 			if(HAS_TRAIT(user, TRAIT_SQUIRE_REPAIR))
-				if(locate(/obj/machinery/anvil) in attacked_object.loc)
+				if(locate(/obj/machinery/anvil) in attacked_item.loc)
 					repair_percent = 0.035
 				//Squires can repair on tables, but less efficiently
 				else if(attacked_item.ontable())
@@ -103,12 +119,12 @@
 			else
 				repair_percent = 0
 		else
-			repair_percent *= blacksmith.get_skill_level(attacked_item.anvilrepair)
+			repair_percent *= user.get_skill_level(attacked_item.anvilrepair)
 
 		playsound(src,'sound/items/bsmithfail.ogg', 40, FALSE)
 		if(repair_percent)
 			repair_percent *= attacked_item.max_integrity
-			exp_gained = min(attacked_item.obj_integrity + repair_percent, attacked_item.max_integrity) - attacked_item.obj_integrity
+			var/exp_gained = min(attacked_item.obj_integrity + repair_percent, attacked_item.max_integrity) - attacked_item.obj_integrity
 			attacked_item.obj_integrity = min(attacked_item.obj_integrity + repair_percent, attacked_item.max_integrity)
 			if(repair_percent == 0.01) // If an inexperienced repair attempt has been successful
 				to_chat(user, span_warning("You fumble your way into slightly repairing [attacked_item]."))
@@ -119,34 +135,35 @@
 					attacked_item.repair_coverage()
 			if(attacked_item.obj_broken && attacked_item.obj_integrity == attacked_item.max_integrity)
 				attacked_item.obj_fix()
-			blacksmith.mind.add_sleep_experience(attacked_item.anvilrepair, exp_gained/2) //We gain as much exp as we fix divided by 2
-			if(do_after(user, CLICK_CD_MELEE, target = attacked_object))
-				attack_obj(attacked_object, user)
-			return
+			user.mind.add_sleep_experience(attacked_item.anvilrepair, exp_gained/2) //We gain as much exp as we fix divided by 2
 		else
 			user.visible_message(span_warning("[user] fumbles trying to repair [attacked_item]!"))
-			if(do_after(user, CLICK_CD_MELEE, target = attacked_object))
-				attack_obj(attacked_object, user)
-			return
 
-	if(isstructure(attacked_object) && !user.cmode)
-		var/obj/structure/attacked_structure = attacked_object
-		if(!attacked_structure.hammer_repair || !attacked_structure.max_integrity)
-			return
-		if(blacksmith.get_skill_level(attacked_structure.hammer_repair) <= 0)
-			to_chat(user, span_warning("I don't know how to repair this.."))
-			return
-		repair_percent *= blacksmith.get_skill_level(attacked_structure.hammer_repair) * attacked_structure.max_integrity
-		exp_gained = min(attacked_structure.obj_integrity + repair_percent, attacked_structure.max_integrity) - attacked_structure.obj_integrity
-		attacked_structure.obj_integrity = min(attacked_structure.obj_integrity + repair_percent, attacked_structure.max_integrity)
-		blacksmith.mind.add_sleep_experience(attacked_structure.hammer_repair, exp_gained) //We gain as much exp as we fix
-		playsound(src,'sound/items/bsmithfail.ogg', 100, FALSE)
-		user.visible_message(span_info("[user] repairs [attacked_structure]!"))
-		if(attacked_object.obj_integrity <= attacked_object.max_integrity && do_after(user, CLICK_CD_MELEE, target = attacked_object))
-			attack_obj(attacked_object, user)
+		if(attacked_item.obj_integrity >= attacked_item.max_integrity)
+			break
+
+	while(do_after(user, CLICK_CD_MELEE, target = attacked_item))
+
+/obj/item/rogueweapon/hammer/proc/repair_structure(obj/structure/attacked_structure, mob/living/user)
+	if(!attacked_structure.hammer_repair || !attacked_structure.max_integrity)
+		return
+	if(user.get_skill_level(attacked_structure.hammer_repair) <= 0)
+		to_chat(user, span_warning("I don't know how to repair this.."))
 		return
 
-	. = ..()
+	do
+		var/repair_percent = get_repair_percent(attacked_structure)
+		repair_percent *= user.get_skill_level(attacked_structure.hammer_repair) * attacked_structure.max_integrity
+		var/exp_gained = min(attacked_structure.obj_integrity + repair_percent, attacked_structure.max_integrity) - attacked_structure.obj_integrity
+		attacked_structure.obj_integrity = min(attacked_structure.obj_integrity + repair_percent, attacked_structure.max_integrity)
+		user.mind.add_sleep_experience(attacked_structure.hammer_repair, exp_gained) //We gain as much exp as we fix
+		playsound(src,'sound/items/bsmithfail.ogg', 100, FALSE)
+		user.visible_message(span_info("[user] repairs [attacked_structure]!"))
+
+		if(attacked_structure.obj_integrity >= attacked_structure.max_integrity)
+			break
+
+	while(do_after(user, CLICK_CD_MELEE, target = attacked_structure))
 
 /obj/item/rogueweapon/hammer/attack(mob/living/M, mob/user)
 
@@ -160,11 +177,15 @@
 		return
 	if(!ishuman(M))
 		return
-	if(M.construct)
-		var/mob/living/carbon/human/H = M
-		var/obj/item/bodypart/affecting = H.get_bodypart(check_zone(user.zone_selected))
-		if(!affecting)
-			return
+	if(!M.construct)
+		to_chat(user, span_warning("I can't tinker on living flesh!"))
+		return
+	var/mob/living/carbon/human/H = M
+	var/obj/item/bodypart/affecting = H.get_bodypart(check_zone(user.zone_selected))
+	if(!affecting)
+		return
+
+	do
 		var/used_time = 70
 		if(user.mind)
 			used_time -= (user.get_skill_level(/datum/skill/craft/engineering) * 10)
@@ -187,11 +208,11 @@
 			user.visible_message(span_notice("[user] hammers [user.p_their()] [affecting]."), span_notice("I hammer my [affecting]."))
 		else
 			user.visible_message(span_notice("[user] hammers [M]'s [affecting]."), span_notice("I hammer [M]'s [affecting]."))
-		if(wCount.len > 0)
-			// Auto repeat healing
-			hammerheal(M, user)
-	else //Non-construct.
-		to_chat(user, span_warning("I can't tinker on living flesh!"))
+
+		if(wCount.len <= 0)
+			break
+
+	while(M.can_inject(user, TRUE))
 
 /obj/item/rogueweapon/hammer/wood	// wood hammer (mallet)
 	name = "wooden mallet"
@@ -271,18 +292,6 @@
 	max_integrity = 450
 	force = 28
 
-/obj/item/rogueweapon/hammer/blacksteel/getonmobprop(tag)
-	. = ..()
-	if(tag)
-		switch(tag)
-			if("gen")
-				return list("shrink" = 0.6,"sx" = -11,"sy" = -8,"nx" = 12,"ny" = -8,"wx" = -5,"wy" = -8,"ex" = 6,"ey" = -8,"northabove" = 0,"southabove" = 1,"eastabove" = 1,"westabove" = 0,"nturn" = 90,"sturn" = -90,"wturn" = -90,"eturn" = 90,"nflip" = 0,"sflip" = 8,"wflip" = 8,"eflip" = 0)
-			if("wielded")
-				return list("shrink" = 0.7,"sx" = 5,"sy" = -4,"nx" = -5,"ny" = -4,"wx" = -5,"wy" = -3,"ex" = 7,"ey" = -4,"northabove" = 0,"southabove" = 1,"eastabove" = 1,"westabove" = 0,"nturn" = -45,"sturn" = 45,"wturn" = -45,"eturn" = 45,"nflip" = 8,"sflip" = 0,"wflip" = 8,"eflip" = 0)
-			if("onbelt")
-				return list("shrink" = 0.5,"sx" = -2,"sy" = -5,"nx" = 4,"ny" = -5,"wx" = 0,"wy" = -5,"ex" = 2,"ey" = -5,"nturn" = 0,"sturn" = 0,"wturn" = 0,"eturn" = 0,"nflip" = 0,"sflip" = 0,"wflip" = 0,"eflip" = 0,"northabove" = 0,"southabove" = 1,"eastabove" = 1,"westabove" = 0)
-
-
 /obj/item/rogueweapon/tongs
 	force = 10
 	possible_item_intents = list(/datum/intent/mace/strike)
@@ -336,16 +345,26 @@
 /obj/item/rogueweapon/tongs/attack_self(mob/user)
 	if(hingot)
 		if(isturf(user.loc))
-			hingot.forceMove(get_turf(user))
+			var/turf/T = get_turf(user)
+			if(!T)
+				T = get_turf(src)
+			if(T)
+				hingot.forceMove(T)
 			hingot = null
 			hott = FALSE
 			update_icon()
-
-/obj/item/rogueweapon/tongs/dropped()
+			
+/obj/item/rogueweapon/tongs/dropped(mob/user)
 	. = ..()
-	if(hingot)
-		hingot.forceMove(get_turf(src))
-		hingot = null
+	if(!hingot)
+		hott = FALSE
+		update_icon()
+		return
+
+	var/turf/T = get_turf(src) || (user ? get_turf(user) : null)
+	if(T)
+		hingot.forceMove(T)
+	hingot = null
 	hott = FALSE
 	update_icon()
 

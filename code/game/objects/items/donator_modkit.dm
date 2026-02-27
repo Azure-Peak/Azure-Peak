@@ -10,22 +10,51 @@
 	var/result_item = null
 
 /obj/item/enchantingkit/pre_attack(obj/item/I, mob/user)
-	if(is_type_in_list(I, target_items))
-		var/obj/item/R
-		if(target_items[I.type] && !result_item)
-			R = target_items[I.type]
-		else
-			R = result_item
-		R = new R(get_turf(user))
-		to_chat(user, span_notice("You apply the [src] to [I], using the enchanting dust and tools to turn it into [R]."))
-		R.name += " <font size = 1>([I.name])</font>"
-		remove_item_from_storage(I)
-		qdel(I)
-		user.put_in_hands(R)
-		qdel(src)
-		return TRUE
-	else
+	if(!I || !user)
 		return ..()
+
+	if(!is_type_in_list(I, target_items))
+		return ..()
+
+	var/R_type = null
+	if(LAZYLEN(target_items))
+		for(var/T in target_items)
+			if(istype(I, T))
+				R_type = target_items[T]
+				break
+
+	if(!R_type)
+		R_type = result_item
+
+	if(!R_type)
+		to_chat(user, span_warning("[src] doesn't know how to morph [I]."))
+		return TRUE
+
+	if(I.loc == user)
+		// pulls from hands/slots/inventory cleanly
+		user.temporarilyRemoveItemFromInventory(I, TRUE)
+
+	remove_item_from_storage(I)
+	var/turf/T = get_turf(user)
+	if(!T)
+		T = get_turf(I)
+	if(!T)
+		to_chat(user, span_warning("Nowhere to morph [I]."))
+		return TRUE
+
+	var/obj/item/R = new R_type(T)
+	to_chat(user, span_notice("You apply the [src] to [I], using the enchanting dust and tools to turn it into [R]."))
+	R.name += " <font size = 1>([I.name])</font>"
+	qdel(I)
+	if(!user.put_in_hands(R))
+		R.forceMove(get_turf(user))
+
+	if(ismob(user))
+		var/mob/M = user
+		M.update_body()
+
+	qdel(src)
+	return TRUE
 
 /////////////////////////////
 // ! Player / Donor Kits ! //
