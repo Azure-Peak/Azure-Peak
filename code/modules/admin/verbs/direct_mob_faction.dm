@@ -319,9 +319,9 @@ GLOBAL_LIST_EMPTY(mass_direct_intercepts)
 					active_attack_routines[H] = FALSE // Signal stop
 					active_attack_routines -= H
 				// For movement, we set the turf as the target
-				H.target = null
-				H.enemies = list()
-				H.aggressive = 0 // Disable auto-retaliation
+				H.set_npc_target(null)
+				H.enemies.Cut()
+				H.aggressive = 0
 				H.wander = FALSE // Disable wandering
 				H.start_pathing_to(T)
 				H.mode = NPC_AI_IDLE // Stay idle, just follow the path
@@ -392,8 +392,7 @@ GLOBAL_LIST_EMPTY(mass_direct_intercepts)
 				H.friends = list()
 				// For objects, set as target. For mobs, set as enemy
 				if(ismob(target))
-					// Manually set enemy status with proper value for should_target() check
-					H.enemies[target] = TRUE
+					H.enemies |= WEAKREF(target)
 					H.retaliate(target) // Use built-in retaliate function
 				else
 					// For objects, set as direct target and enable attack mode
@@ -458,8 +457,8 @@ GLOBAL_LIST_EMPTY(mass_direct_intercepts)
 			else if(istype(M, /mob/living/carbon/human))
 				var/mob/living/carbon/human/H = M
 				if(!isnull(H.mode))
-					H.target = null
-					H.enemies = list()
+					H.set_npc_target(null)
+					H.enemies.Cut()
 					H.wander = FALSE
 					H.mode = NPC_AI_IDLE
 				walk(H, 0)
@@ -524,10 +523,10 @@ GLOBAL_LIST_EMPTY(mass_direct_intercepts)
 		// Handle old NPC AI system (carbon humans with mode variable)
 		else if(istype(M, /mob/living/carbon/human))
 			var/mob/living/carbon/human/H = M
-			if(!isnull(H.mode)) // Has old NPC AI system
-				H.target = null // Clear attack target
-				H.enemies = list() // Clear enemies so they don't attack
-				H.aggressive = 0 // Disable auto-retaliation
+			if(!isnull(H.mode))
+				H.set_npc_target(null)
+				H.enemies.Cut()
+				H.aggressive = 0
 				H.wander = FALSE // Disable wandering
 				if(ismob(follow_target))
 					H.friends |= follow_target
@@ -661,9 +660,8 @@ GLOBAL_LIST_EMPTY(mass_direct_intercepts)
 					H.mode = NPC_AI_IDLE
 					made_active++
 				else
-					// Make passive
-					H.target = null
-					H.enemies = list()
+					H.set_npc_target(null)
+					H.enemies.Cut()
 					H.friends = list()
 					H.aggressive = 0
 					H.wander = FALSE
