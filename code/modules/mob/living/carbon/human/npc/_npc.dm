@@ -64,7 +64,7 @@
 /mob/living/carbon/human/Destroy()
 	our_cells = null
 	set_npc_target(null)
-	pathfinding_target = null
+	set_pathfinding_target(null)
 	enemies.Cut()
 	return ..()
 
@@ -80,6 +80,20 @@
 	UnregisterSignal(target, COMSIG_PARENT_QDELETING)
 	target = null
 	back_to_idle()
+
+/// Signal-based pathfinding target management. Same pattern as set_npc_target().
+/mob/living/carbon/human/proc/set_pathfinding_target(atom/new_target)
+	if(pathfinding_target)
+		UnregisterSignal(pathfinding_target, COMSIG_PARENT_QDELETING)
+	pathfinding_target = new_target
+	if(pathfinding_target)
+		RegisterSignal(pathfinding_target, COMSIG_PARENT_QDELETING, PROC_REF(handle_pathfinding_target_del))
+
+/mob/living/carbon/human/proc/handle_pathfinding_target_del(datum/source)
+	SIGNAL_HANDLER
+	UnregisterSignal(pathfinding_target, COMSIG_PARENT_QDELETING)
+	pathfinding_target = null
+	clear_path()
 
 /mob/living/carbon/human/proc/IsStandingStill()
 	return doing || resisting || pickpocketing
@@ -336,7 +350,7 @@
 /mob/living/carbon/human/proc/clear_path()
 	myPath = list()
 	pathing_frustration = 0
-	pathfinding_target = null
+	set_pathfinding_target(null)
 
 /// progress along an existing path or cancel it
 /// returns # of steps taken
@@ -463,7 +477,7 @@
 	if(!new_target)
 		back_to_idle()
 		return FALSE
-	pathfinding_target = new_target
+	set_pathfinding_target(new_target)
 	var/turf/turf_of_target = get_turf(new_target)
 	if(!turf_of_target)
 		back_to_idle()
@@ -599,9 +613,9 @@
 	// temporarily force us to use the juke path
 	myPath = newPath
 	var/old_pathfinding_target = pathfinding_target
-	pathfinding_target = myPath[1]
+	set_pathfinding_target(myPath[1])
 	steps_moved_this_turn += move_along_path()
-	pathfinding_target = old_pathfinding_target
+	set_pathfinding_target(old_pathfinding_target)
 	tempfixeye = FALSE
 	if(!fixedeye)
 		nodirchange = FALSE
