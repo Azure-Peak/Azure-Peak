@@ -213,7 +213,8 @@ GLOBAL_VAR_INIT(farm_animals, FALSE)
 		AddSpell(newspell)
 
 /mob/living/simple_animal/Destroy()
-	GLOB.simple_animals[AIStatus] -= src
+	for(var/list/SA_list in GLOB.simple_animals)
+		SA_list -= src
 	SSnpcpool.currentrun -= src
 
 	if(nest)

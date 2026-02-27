@@ -43,6 +43,7 @@
 	sharedSoullinks = null
 	if(craftingthing)
 		QDEL_NULL(craftingthing)
+	QDEL_LIST(simple_wounds)
 	return ..()
 
 /mob/living/onZImpact(turf/T, levels)
