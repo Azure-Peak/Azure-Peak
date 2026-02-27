@@ -568,7 +568,6 @@
 /datum/anvil_recipe/weapons/iron/dory
 	name = "Dory, Iron (+1 Iron, +1 Small Log)"
 	req_bar = /obj/item/ingot/iron
-	req_blade = /obj/item/blade/iron_polearm
 	additional_items = list(/obj/item/ingot/iron, /obj/item/grown/log/tree/small)
 	created_item = /obj/item/rogueweapon/spear/spellblade
 
