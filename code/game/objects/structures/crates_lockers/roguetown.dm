@@ -350,8 +350,8 @@
 		/obj/item/storage/backpack/rogue/satchel/mule = 3,
 		/obj/item/storage/backpack/rogue/satchel = 3,
 		/obj/item/storage/roguebag = 3, //Weapons / tools
-		/obj/item/bodypart/l_arm/prosthetic/gold = 6,
-		/obj/item/bodypart/r_leg/prosthetic/gold = 6,
+		/obj/item/bodypart/l_arm/prosthetic/gold = 3,
+		/obj/item/bodypart/r_leg/prosthetic/gold = 3,
 		/obj/item/rogueweapon/sword/decorated = 5,
 		/obj/item/rogueweapon/huntingknife/idagger/steel/decorated = 5,
 		/obj/item/rogueweapon/shovel/bronze = 5,
