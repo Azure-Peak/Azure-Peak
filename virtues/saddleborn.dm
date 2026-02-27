@@ -83,8 +83,8 @@ GLOBAL_LIST_INIT(virtue_mount_choices_undead, (list(
 	if (HAS_TRAIT(user, TRAIT_ANTHRAXI))
 		to_chat(user, span_info("As a Drow, you are skilled in handling giant spiders of the Underdark."))
 		mount_choices += GLOB.virtue_mount_choices_anthrax
-	if (HAS_TRAIT(user, (TRAIT_GRAVEROBBER && TRAIT_CABAL) || TRAIT_ROTMAN))
-		to_chat(user, span_info("As a skilled necromancer(or unlucky deadite yourself), you may call upon the dead of this land to act as your mount. Just don't forget to gravemark them..."))
+	if (HAS_TRAIT(user, (TRAIT_GRAVEROBBER && TRAIT_CABAL && TRAIT_OUTLAW)))
+		to_chat(user, span_info("As a skilled necromancer, you may call upon the dead of this land to act as your mount. Just don't forget to gravemark them..."))
 		mount_choices += GLOB.virtue_mount_choices_undead
 
 	for(var/i = 1, i <= mount_choices.len, i++)
