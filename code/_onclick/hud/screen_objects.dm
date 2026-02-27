@@ -1815,10 +1815,13 @@
 			to_chat(M, "<span class='info'>* --- *</span>")
 
 /mob/living/proc/swap_rmb_intent(type, num)
+	if(QDELETED(src))
+		return
 	if(!possible_rmb_intents?.len)
 		return
 	if(type)
 		if(type in possible_rmb_intents)
+			qdel(rmb_intent)
 			rmb_intent = new type()
 			if(hud_used?.rmb_intent)
 				hud_used.rmb_intent.update_icon()
@@ -1828,6 +1831,7 @@
 			return
 		var/A = possible_rmb_intents[num]
 		if(A)
+			qdel(rmb_intent)
 			rmb_intent = new A()
 			if(hud_used?.rmb_intent)
 				hud_used.rmb_intent.update_icon()
