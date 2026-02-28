@@ -11,8 +11,8 @@ Goes on cooldown (30s) when you recall OR the tether is destroyed/expires. */
 		Cannot recall while grabbed, restrained, or buckled. \
 		If the tether is destroyed or expires, the spell goes on full cooldown."
 	clothes_req = FALSE
-	action_icon = 'icons/mob/actions/spellblade.dmi'
-	overlay_state = "leyline_anchor"
+	action_icon = 'icons/mob/actions/spellblade.dmi' 
+	overlay_state = "leyline_anchor" // Icon by Prominence/Nobleed
 	releasedrain = 10
 	chargedrain = 0
 	chargetime = 0

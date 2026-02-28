@@ -82,7 +82,7 @@
 			if(!team_ids[T])
 				team_ids[T] = team_gid++
 			antag_info["team"]["id"] = team_ids[T]
-
+ 
 		if(A.objectives.len)
 			for(var/datum/objective/O in A.objectives)
 				var/result = O.check_completion() ? "SUCCESS" : "FAIL"
