@@ -120,6 +120,10 @@
 			picks -= X
 	update_icon()
 
+/obj/item/lockpickring/Destroy()
+	QDEL_LIST(picks)
+	return ..()
+
 /obj/item/lockpickring/getonmobprop(tag)
 	. = ..()
 	if(tag)

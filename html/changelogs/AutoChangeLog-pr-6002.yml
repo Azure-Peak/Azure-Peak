@@ -1,0 +1,4 @@
+author: "zoktiik"
+delete-after: True
+changes:
+  - qol: "Your manual pixel shift is no longer affected when you get passive grabbed, aggressive grabbed, or released from a grab. However, movement will still reset your position."

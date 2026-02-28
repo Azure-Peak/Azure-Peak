@@ -1,0 +1,6 @@
+author: "mumblemancer"
+delete-after: True
+changes:
+  - balance: "graggar's unholy grasp no longer legcuffs. still slows you down, though."
+  - bugfix: "graggar net on_hit no longer is \"The the\""
+  - rscadd: "graggar unholy grasp now produces a chat message when the effect ends"

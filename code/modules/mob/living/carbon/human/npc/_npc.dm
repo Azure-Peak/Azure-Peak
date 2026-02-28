@@ -63,7 +63,48 @@
 
 /mob/living/carbon/human/Destroy()
 	our_cells = null
+	set_npc_target(null)
+	set_pathfinding_target(null)
+	enemies.Cut()
 	return ..()
+
+/mob/living/carbon/human/proc/set_npc_target(mob/living/new_target)
+	if(target == new_target)
+		return
+	var/old_target = target
+	target = new_target
+	update_target_signal(old_target)
+
+/mob/living/carbon/human/proc/set_pathfinding_target(atom/new_target)
+	if(pathfinding_target == new_target)
+		return
+	var/old_target = pathfinding_target
+	pathfinding_target = new_target
+	update_target_signal(old_target)
+
+/// Maintains a single COMSIG_PARENT_QDELETING registration per tracked datum.
+/// Called after target or pathfinding_target changes to update signal registrations.
+/mob/living/carbon/human/proc/update_target_signal(atom/old_target)
+	// Unregister from old target if neither var still references it
+	if(old_target && old_target != target && old_target != pathfinding_target)
+		UnregisterSignal(old_target, COMSIG_PARENT_QDELETING)
+	// Register on target if needed (covers both vars pointing at same datum)
+	if(target)
+		RegisterSignal(target, COMSIG_PARENT_QDELETING, PROC_REF(handle_tracked_target_del), override = TRUE)
+	if(pathfinding_target && pathfinding_target != target)
+		RegisterSignal(pathfinding_target, COMSIG_PARENT_QDELETING, PROC_REF(handle_tracked_target_del), override = TRUE)
+
+/// Single handler for both target and pathfinding_target deletion.
+/mob/living/carbon/human/proc/handle_tracked_target_del(datum/source)
+	SIGNAL_HANDLER
+	if(target == source)
+		target = null
+	if(pathfinding_target == source)
+		pathfinding_target = null
+		clear_path()
+	UnregisterSignal(source, COMSIG_PARENT_QDELETING)
+	if(!target)
+		back_to_idle()
 
 /mob/living/carbon/human/proc/IsStandingStill()
 	return doing || resisting || pickpocketing
@@ -320,7 +361,7 @@
 /mob/living/carbon/human/proc/clear_path()
 	myPath = list()
 	pathing_frustration = 0
-	pathfinding_target = null
+	set_pathfinding_target(null)
 
 /// progress along an existing path or cancel it
 /// returns # of steps taken
@@ -447,7 +488,7 @@
 	if(!new_target)
 		back_to_idle()
 		return FALSE
-	pathfinding_target = new_target
+	set_pathfinding_target(new_target)
 	var/turf/turf_of_target = get_turf(new_target)
 	if(!turf_of_target)
 		back_to_idle()
@@ -538,7 +579,7 @@
 	if(L.name in friends)
 		return FALSE
 
-	if(enemies[L])
+	if(WEAKREF(L) in enemies)
 		return TRUE
 
 	if(aggressive && !faction_check_mob(L))
@@ -583,9 +624,9 @@
 	// temporarily force us to use the juke path
 	myPath = newPath
 	var/old_pathfinding_target = pathfinding_target
-	pathfinding_target = myPath[1]
+	set_pathfinding_target(myPath[1])
 	steps_moved_this_turn += move_along_path()
-	pathfinding_target = old_pathfinding_target
+	set_pathfinding_target(old_pathfinding_target)
 	tempfixeye = FALSE
 	if(!fixedeye)
 		nodirchange = FALSE
@@ -692,7 +733,7 @@
 						continue
 					// we assume if we want to hurt them they want to hurt us back
 					if(should_target(bystander))
-						target = bystander // We're trying to run from this person now
+						set_npc_target(bystander) // We're trying to run from this person now
 			if(!target || get_dist(src, target) >= NPC_FLEE_DISTANCE)
 				NPC_THINK("Done fleeing!")
 				back_to_idle()
@@ -716,7 +757,7 @@
 	myPath = list()
 	mode = NPC_AI_IDLE
 	m_intent = MOVE_INTENT_WALK
-	target = null
+	set_npc_target(null)
 	a_intent = INTENT_HELP
 	frustration = 0
 	walk_to(src,0)
@@ -913,10 +954,10 @@
 		face_atom(L)
 		if(!target)
 			emote("aggro")
-		target = L
+		set_npc_target(L)
 		if(pathfinding_target != target)
 			clear_path() // Cancel pathfinding so that we can pursue our new enemy.
-		enemies |= L
+		enemies |= WEAKREF(L)
 
 
 /mob/living/carbon/human/attackby(obj/item/W, mob/user, params)

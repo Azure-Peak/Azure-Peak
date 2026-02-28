@@ -1,0 +1,4 @@
+author: "WeNeedMorePhoron"
+delete-after: True
+changes:
+  - bugfix: "Fixed a decent amount of hard deletes. Report anything odd with mobs behavior."

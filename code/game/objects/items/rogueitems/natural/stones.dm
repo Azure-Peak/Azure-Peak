@@ -496,12 +496,14 @@ GLOBAL_LIST_INIT(stone_personality_descs, list(
 /obj/item/natural/rock/random_ore
 	name = "rock?"
 	desc = "Wait, this shouldn't be here?"
-	icon_state = "stonerandom"
+	icon = 'icons/roguetown/helpers/spawnerhelpers.dmi'
+	icon_state = "random_rock"
 
 /obj/item/natural/rock/dungeon
 	name = "rock?"
 	desc = "Wait, this shouldn't be here? Tell Mumblemancer he's a shit coder!"
-	icon_state = "stonerandom"
+	icon = 'icons/roguetown/helpers/spawnerhelpers.dmi'
+	icon_state = "dungeon_rock"
 
 // actually random
 /obj/item/natural/rock/random_ore/Initialize()

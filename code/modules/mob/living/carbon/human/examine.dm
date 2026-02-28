@@ -993,7 +993,7 @@
 			if(HAS_TRAIT(examiner, TRAIT_FREEMAN))
 				heretic_text += " To share with. To take with. For all, and us."
 		else if(HAS_TRAIT(examiner, TRAIT_FREEMAN))
-			heretic_text += "Comrade!"
+			heretic_text += "Fellow Free Man!"
 	else if((HAS_TRAIT(src, TRAIT_CABAL)))
 		if(seer)
 			heretic_text += "A member of Zizo's cabal."

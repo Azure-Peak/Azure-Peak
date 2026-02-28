@@ -43,21 +43,31 @@ GLOBAL_VAR_INIT(mobids, 1)
 	qdel(hud_used)
 	for(var/cc in client_colours)
 		qdel(cc)
-	if(used_intent)
-		qdel(used_intent)
-		used_intent = null
+	used_intent = null
+	used_rmb_intent = null
 	if(a_intent && a_intent.mastermob == src)
 		a_intent.mastermob = null
 	a_intent = null
 	o_intent = null
 	QDEL_LIST(possible_a_intents)
 	QDEL_LIST(possible_offhand_intents)
+	QDEL_NULL(mmb_intent)
+	QDEL_NULL(rmb_intent)
+	for(var/datum/action/A in actions)
+		A.Remove(src)
+	actions = null
+	SScrediticons.processing -= src
+	SScrediticons.currentrun -= src
 	SStreasury.remove_person(src) // Call me overly cautious I dunno when they giving dogs bank account
 	if(skills && skills.current == src)
 		var/datum/skill_holder/my_skill = skills
 		my_skill.current = null
 		QDEL_NULL(skills)
 	client_colours = null
+	last_reach_target = null
+	last_reach_tool = null
+	if(active_storage)
+		active_storage.hide_from(src)
 	ghostize(drawskip=TRUE)
 	..()
 	return QDEL_HINT_QUEUE
@@ -1043,10 +1053,13 @@ GLOBAL_VAR_INIT(mobids, 1)
 	M.pixel_y = initial(M.pixel_y) + height
 	if(M.layer < layer)
 		M.layer = layer + 0.1
+	candodge = FALSE
+
 ///Call back post unbuckle from a mob, (reset your visual height here)
 /mob/post_unbuckle_mob(mob/living/M)
 	M.layer = initial(M.layer)
 	M.pixel_y = initial(M.pixel_y)
+	candodge = initial(M.candodge)
 
 ///returns the height in pixel the mob should have when buckled to another mob.
 /mob/proc/get_mob_buckling_height(mob/seat)

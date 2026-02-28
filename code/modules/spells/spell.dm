@@ -794,6 +794,10 @@ GLOBAL_LIST_INIT(spells, typesof(/obj/effect/proc_holder/spell)) //needed for th
 	if(((!user.mind) || !(src in user.mind.spell_list)) && !(src in user.mob_spell_list))
 		return FALSE
 
+	// deny horsespellers
+	if(user.client && user.buckled)
+		return FALSE
+
 	if(!charge_check(user))
 		return FALSE
 

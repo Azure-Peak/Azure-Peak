@@ -1,0 +1,9 @@
+author: "zoktiik"
+delete-after: True
+changes:
+  - bugfix: "Middle-clicking the Combat Mode button now works again (a change to code affecting mouseclicks broke it)."
+  - bugfix: "Toggle Compliance Notifs now actually saves in your preferences."
+  - image: "Compliance mode now has its own distinct HUD icon, done by Jam (Jamdrawers)."
+  - image: "Also ported improvements to a few other icons, also done by Jam."
+  - spellcheck: "Changed a lot of the text related to compliance mode, for clarity."
+  - qol: "Shift-click examining the Combat Mode button provides a detailed description of its interactions."

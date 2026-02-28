@@ -1,0 +1,7 @@
+author: "THE VILE LICH"
+delete-after: True
+changes:
+  - image: "added sprites for the random herb, dungeon rocks, and roguegems as well as the new gemcraft gemspawner"
+  - rscadd: "gemcraft gemspawner"
+  - qol: "made acid mage room in the tomb of alothesos a little less awkward to navigate"
+  - bugfix: "a few rooms in the tomb now have properly set paintings. no more snatching them w/o fighting for them."

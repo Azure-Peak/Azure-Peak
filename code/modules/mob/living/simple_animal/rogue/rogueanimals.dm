@@ -193,7 +193,7 @@
 	aggressive = 0
 	if(enemies.len)
 		if(prob(23))
-			enemies = list()
+			clear_enemies()
 			src.visible_message(span_notice("[src] calms down."))
 			LoseTarget()
 		else
@@ -215,7 +215,7 @@
 			if(prob(deaggroprob))
 				if(mob_timers["aggro_time"])
 					if(world.time > mob_timers["aggro_time"] + 30 SECONDS)
-						enemies = list()
+						clear_enemies()
 						src.visible_message(span_info("[src] calms down."))
 						LoseTarget()
 				else

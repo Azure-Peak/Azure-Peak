@@ -107,12 +107,15 @@
 
 
 /datum/intent/Destroy()
-	if(chargedloop)
+	if(istype(chargedloop))
 		chargedloop.stop()
+		QDEL_NULL(chargedloop)
+	chargedloop = null
 	if(mob_light)
 		QDEL_NULL(mob_light)
 	if(mob_charge_effect)
-		mastermob.vis_contents -= mob_charge_effect
+		if(!QDELETED(mastermob))
+			mastermob.vis_contents -= mob_charge_effect
 		mob_charge_effect = null
 	if(mastermob?.curplaying == src)
 		mastermob.curplaying = null
