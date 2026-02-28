@@ -32,6 +32,7 @@
 	var/thaumaturgy_devotion = 10
 	var/light_devotion = 5
 	var/water_moisten = 2
+	experimental_inhand = FALSE
 
 /obj/item/melee/touch_attack/orison/attack_self()
 	qdel(src)

@@ -2,6 +2,7 @@
 	name = "Fuck their butt using toy"
 	stamina_cost = 1.0
 	intensity = 3
+	debug_erp_panel_verb = FALSE
 
 /datum/sex_action/toy/other/anus/can_perform(mob/living/carbon/human/user, mob/living/carbon/human/target)
 	. = ..()
@@ -27,10 +28,17 @@
 		return FALSE
 	return TRUE
 
-
 /datum/sex_action/toy/other/anus/on_start(mob/living/carbon/human/user, mob/living/carbon/human/target)
 	. = ..()
 	user.visible_message(span_warning("[user] slides a dildo into [target]'s butt!"))
+
+/datum/sex_action/toy/other/anus/on_finish(mob/living/carbon/human/user, mob/living/carbon/human/target)
+	. = ..()
+	user.visible_message(span_warning("[user] pulls [user.p_their()] dildo from [target]'s butt."))
+
+/datum/sex_action/toy/other/anus/lock_sex_object(mob/living/carbon/human/user, mob/living/carbon/human/target)
+	. = ..()
+	sex_locks |= new /datum/sex_session_lock(target, ORGAN_SLOT_ANUS)
 
 /datum/sex_action/toy/other/anus/get_start_sound(mob/living/carbon/human/user, mob/living/carbon/human/target)
 	return list('sound/misc/mat/insert (1).ogg','sound/misc/mat/insert (2).ogg')
@@ -44,11 +52,3 @@
 
 	sex_session.perform_sex_action(target, 2, used_item.pleasure, TRUE)
 	sex_session.handle_passive_ejaculation()
-
-/datum/sex_action/toy/other/anus/on_finish(mob/living/carbon/human/user, mob/living/carbon/human/target)
-	. = ..()
-	user.visible_message(span_warning("[user] pulls [user.p_their()] dildo from [target]'s butt."))
-
-/datum/sex_action/toy/other/anus/lock_sex_object(mob/living/carbon/human/user, mob/living/carbon/human/target)
-	. = ..()
-	sex_locks |= new /datum/sex_session_lock(target, ORGAN_SLOT_ANUS)

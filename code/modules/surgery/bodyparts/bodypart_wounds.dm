@@ -170,10 +170,11 @@
 				var/mob/living/carbon/human/human_owner = owner
 				human_owner.hud_used?.stressies?.flick_pain(TRUE)
 				var/suppress_attack_blip = FALSE //At 'Always' we're guaranteed to have already emoted due to a successful attack.
-				if(user.client?.prefs?.attack_blip_frequency == ATTACK_BLIP_PREF_ALWAYS || user.client?.prefs?.attack_blip_frequency == ATTACK_BLIP_PREF_NEVER)
+				if(user?.client?.prefs?.attack_blip_frequency == ATTACK_BLIP_PREF_ALWAYS || user?.client?.prefs?.attack_blip_frequency == ATTACK_BLIP_PREF_NEVER)
 					suppress_attack_blip = TRUE 
 				if(!suppress_attack_blip)
-					user.emote("attack", forced = TRUE)
+					if(user)
+						user.emote("attack", forced = TRUE)
 				human_owner.emote("paincrit", forced = TRUE)
 
 			if(user)
@@ -581,13 +582,25 @@
 		embedder = has_embedded_object(embedder)
 	if(!istype(embedder) || !is_object_embedded(embedder))
 		return FALSE
+
 	LAZYREMOVE(embedded_objects, embedder)
 	embedder.is_embedded = FALSE
-	var/drop_location = owner?.drop_location() || drop_location()
-	if(drop_location)
-		embedder.forceMove(drop_location)
+	if(QDELETED(embedder))
+		if(owner)
+			if(!owner.has_embedded_objects())
+				owner.clear_alert("embeddedobject")
+			update_disabled()
+		return TRUE
+
+	var/atom/drop_loc = owner?.drop_location() || drop_location()
+	if(!isatom(drop_loc) || QDELETED(drop_loc))
+		drop_loc = null
+
+	if(drop_loc)
+		embedder.forceMove(drop_loc)
 	else
 		qdel(embedder)
+
 	if(owner)
 		if(!owner.has_embedded_objects())
 			owner.clear_alert("embeddedobject")

@@ -210,6 +210,8 @@
 /obj/structure/chair/wood/rogue/onkick(mob/user)
 	if(!user)
 		return
+	if(!item_chair)
+		return
 	if(isturf(loc))
 		playsound(loc, 'sound/foley/chairfall.ogg', 100, FALSE)
 		var/obj/item/I = new item_chair(loc)
@@ -219,19 +221,21 @@
 		return FALSE
 
 /obj/structure/chair/wood/rogue/proc/on_exit(datum/source, atom/movable/leaving, atom/new_location)
-	SIGNAL_HANDLER
-	if(!isliving(leaving))
-		return
-	var/mob/living/M = leaving
-	if(!(M.mobility_flags & MOBILITY_STAND))
-		return
-	if(get_dir(leaving.loc, new_location) == REVERSE_DIR(dir))
-		playsound(loc, 'sound/foley/chairfall.ogg', 100, FALSE)
-		var/obj/item/I = new item_chair(loc)
-		item_chair = null
-		I.dir = dir
-		qdel(src)
-		return COMPONENT_ATOM_BLOCK_EXIT
+    SIGNAL_HANDLER
+    if(!isliving(leaving))
+        return
+    var/mob/living/M = leaving
+    if(!(M.mobility_flags & MOBILITY_STAND))
+        return
+    if(get_dir(leaving.loc, new_location) == REVERSE_DIR(dir))
+        if(!item_chair)
+            return
+        playsound(loc, 'sound/foley/chairfall.ogg', 100, FALSE)
+        var/obj/item/I = new item_chair(loc)
+        item_chair = null
+        I.dir = dir
+        qdel(src)
+        return COMPONENT_ATOM_BLOCK_EXIT
 
 /obj/structure/chair/wood/rogue/take_damage(damage_amount, damage_type = BRUTE, damage_flag = 0, sound_effect = 1)
 	if(damage_amount > 5 && item_chair != null)

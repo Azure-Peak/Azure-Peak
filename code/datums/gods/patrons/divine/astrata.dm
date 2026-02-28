@@ -57,3 +57,7 @@
 	if(GLOB.tod == "day")
 		*conditional_buff = TRUE
 		*situational_bonus = 2
+
+	if(HAS_TRAIT(target, TRAIT_NOBLE)) //We heal her favorites more.
+		*conditional_buff = TRUE
+		*situational_bonus = 2.5

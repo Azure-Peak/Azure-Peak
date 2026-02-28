@@ -113,6 +113,7 @@
 		QDEL_NULL(mob_light)
 	if(mob_charge_effect)
 		mastermob.vis_contents -= mob_charge_effect
+		mob_charge_effect = null
 	if(mastermob?.curplaying == src)
 		mastermob.curplaying = null
 	mastermob = null
@@ -135,6 +136,8 @@
 				suffix = "at and beyond"
 			if(EFF_RANGE_BELOW)
 				suffix = "at and within"
+			if(EFF_RANGE_NONE)
+				suffix = "not usable"
 			else
 				CRASH("effective_range found without a valid effective_range_type on [src] intent by [user]")
 		inspec += "\n<b>Effective Range:</b> [suffix] [effective_range] paces"

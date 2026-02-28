@@ -25,17 +25,37 @@
 	var/max_storage = 10
 	var/list/tweps = list()
 	sewrepair = TRUE
+	var/list/storable_types = list(
+		/obj/item/throwing_star,
+		/obj/item/rogueweapon/huntingknife
+	)
 
 /obj/item/twstrap/attackby(obj/A, mob/living/carbon/user, params)
-	if(istype(A, /obj/item/throwing_star) || istype(A, /obj/item/rogueweapon/huntingknife))
-		if(tweps.len < max_storage)
-			user.transferItemToLoc(A, tweps)
-			tweps += A
-			update_icon()
-		else
-			to_chat(loc, span_warning("Full!"))
-		return
-	..()
+	var/obj/item/I = A
+	if(!I)
+		return ..()
+
+	var/can_store = FALSE
+	for(var/typepath in storable_types)
+		if(istype(I, typepath))
+			can_store = TRUE
+			break
+
+	if(!can_store)
+		return ..()
+
+	if(length(tweps) >= max_storage)
+		to_chat(user, span_warning("Full!"))
+		return TRUE
+
+	if(!user.transferItemToLoc(I, src))
+		return TRUE
+
+	if(!(I in tweps))
+		tweps += I
+
+	update_icon()
+	return TRUE
 
 /obj/item/twstrap/MiddleClick(mob/living/user)
 	if(!length(tweps))
@@ -147,17 +167,11 @@
 	strip_delay = 20
 	max_storage = 10
 	var/list/fill_list = list() //use for custome fill that
-
-/obj/item/twstrap/bombstrap/attackby(obj/A, mob/living/carbon/user, params)
-	if(istype(A, /obj/item/bomb) || istype(A, /obj/item/tntstick) || istype(A, /obj/item/impact_grenade))
-		if(tweps.len < max_storage)
-			user.transferItemToLoc(A, tweps)
-			tweps += A
-			update_icon()
-		else
-			to_chat(loc, span_warning("Full!"))
-		return
-	..()
+	storable_types = list(
+		/obj/item/bomb,
+		/obj/item/tntstick,
+		/obj/item/impact_grenade
+	)
 
 /obj/item/twstrap/bombstrap/attack_turf(turf/T, mob/living/user)
 	if(tweps.len >= max_storage)

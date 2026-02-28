@@ -4,8 +4,8 @@
 	icon_state = "quiver0"
 	item_state = "quiver"
 	icon = 'icons/roguetown/weapons/ammo.dmi'
-	lefthand_file = 'icons/mob/inhands/equipment/backpack_lefthand.dmi'
-	righthand_file = 'icons/mob/inhands/equipment/backpack_righthand.dmi'
+	//lefthand_file = 'icons/mob/inhands/equipment/backpack_lefthand.dmi'
+	//righthand_file = 'icons/mob/inhands/equipment/backpack_righthand.dmi'
 	w_class = WEIGHT_CLASS_BULKY
 	slot_flags = ITEM_SLOT_HIP|ITEM_SLOT_BACK
 	resistance_flags = FIRE_PROOF
@@ -18,6 +18,86 @@
 	var/max_storage = 20
 	var/list/arrows = list()
 	sewrepair = TRUE
+	experimental_inhand = TRUE
+	experimental_onhip = TRUE
+	experimental_onback = TRUE
+
+/obj/item/quiver/getonmobprop(tag)
+	..()
+	if(tag)
+		switch(tag)
+			if("onback")
+				return list(
+					"shrink" = 0.5,
+					"sx" = 1,
+					"sy" = 4,
+					"nx" = 1,
+					"ny" = 2,
+					"wx" = 3,
+					"wy" = 3,
+					"ex" = 0,
+					"ey" = 2,
+					"nturn" = 0,
+					"sturn" = 0,
+					"wturn" = 0,
+					"eturn" = 0,
+					"nflip" = 8,
+					"sflip" = 0,
+					"wflip" = 0,
+					"eflip" = 0,
+					"northabove" = 1,
+					"southabove" = 0,
+					"eastabove" = 0,
+					"westabove" = 0
+				)
+			if("onbelt")
+				return list(
+					"shrink" = 0.45,
+					"sx" = -4,
+					"sy" = -6,
+					"nx" = 5,
+					"ny" = -6,
+					"wx" = 0,
+					"wy" = -6,
+					"ex" = -1,
+					"ey" = -6,
+					"nturn" = 0,
+					"sturn" = 0,
+					"wturn" = -90,
+					"eturn" = 0,
+					"nflip" = 0,
+					"sflip" = 0,
+					"wflip" = 0,
+					"eflip" = 0,
+					"northabove" = 0,
+					"southabove" = 1,
+					"eastabove" = 1,
+					"westabove" = 1
+				)
+			if("gen")
+				return list(
+					"shrink" = 0.4,
+					"sx" = -7,
+					"sy" = -4,
+					"nx" = 7,
+					"ny" = -4,
+					"wx" = -4,
+					"wy" = -4,
+					"ex" = 2,
+					"ey" = -4,
+					"nturn" = 0,
+					"sturn" = 0,
+					"wturn" = 0,
+					"eturn" = 0,
+					"nflip" = 8,
+					"sflip" = 0,
+					"wflip" = 0,
+					"eflip" = 0,
+					"northabove" = 0,
+					"southabove" = 1,
+					"eastabove" = 1,
+					"westabove" = 0
+				)
 
 /obj/item/quiver/attack_turf(turf/T, mob/living/user)
 	if(arrows.len >= max_storage)
@@ -226,6 +306,59 @@
 	item_state = "boltpouch"
 	max_storage = 16
 	sellprice = 10
+
+/obj/item/quiver/bolt/getonmobprop(tag)
+	..()
+	if(tag)
+		switch(tag)
+			if("onback")
+				return list(
+					"shrink" = 0.4,
+					"sx" = 1,
+					"sy" = 4,
+					"nx" = 1,
+					"ny" = 2,
+					"wx" = 3,
+					"wy" = 3,
+					"ex" = 0,
+					"ey" = 2,
+					"nturn" = 0,
+					"sturn" = 0,
+					"wturn" = 0,
+					"eturn" = 0,
+					"nflip" = 8,
+					"sflip" = 0,
+					"wflip" = 0,
+					"eflip" = 0,
+					"northabove" = 1,
+					"southabove" = 0,
+					"eastabove" = 0,
+					"westabove" = 0
+				)
+			if("onbelt")
+				return list(
+					"shrink" = 0.35,
+					"sx" = -4,
+					"sy" = -6,
+					"nx" = 5,
+					"ny" = -6,
+					"wx" = 0,
+					"wy" = -6,
+					"ex" = -1,
+					"ey" = -6,
+					"nturn" = 0,
+					"sturn" = 0,
+					"wturn" = -90,
+					"eturn" = 0,
+					"nflip" = 0,
+					"sflip" = 0,
+					"wflip" = 0,
+					"eflip" = 0,
+					"northabove" = 0,
+					"southabove" = 1,
+					"eastabove" = 1,
+					"westabove" = 1
+				)
 
 /obj/item/quiver/bolt/attack_turf(turf/T, mob/living/user)
 	if(arrows.len >= max_storage)

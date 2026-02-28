@@ -1198,3 +1198,85 @@
   - balance: Kazengun scabbards now get limb-guard, shield-tier force and work off
       the skill of their respective weapon.
   - balance: Blacksteel limb armor and helmets respect fencer and honorbound limitations.
+2026-02-27:
+  Lamasmaster:
+  - rscadd: More Stock Trading Options
+  - bugfix: Economic Roleplay Panel locks / coverage requirements
+  - bugfix: Economic Roleplay Panel Generic Actions existing
+  - refactor: Economic Roleplay Panel Actions
+  - balance: Matthiosite Miracles
+  - balance: Astratan conditional heal
+  - image: Matthiosite miracles/status effects
+  - spellcheck: Matthios spelling across code
+  - refactor: Matthiosite miracle pathing
+  - refactor: Matthios trait name
+  - balance: Masochist/Sadist
+  NewyearnewmeUwu:
+  - rscadd: Hands and Dukes now get wall keys.
+  Ollanius:
+  - rscadd: Experimental inhands for most items has been reenabled. Almost every item
+      in the game - from rosas to frybirds, ingots to coins - should now be visibly
+      held. While not perfect, this should hopefully reintroduce some mirth into the
+      Peaks.
+  - rscadd: Cloths can now be dyed in a dye station. Mummify yourself with style!
+  - rscadd: Adds redone versions of all Gemcarved cutlery. Indulge in the opulence!
+  - rscadd: Adds tankards, craftable via Carpentry.
+  - rscadd: Forks can now stab for a very middling amount of damage; be mindful of
+      your table manners.
+  - code_imp: Greyscaled items (chiefly truffles, leather clothes, tabards/jupons/cloaks,
+      fur, and fibers) will only render with their base sprites, when held. There
+      might be a work-around to fix this, as I noticed that any item with a dyed 'detail'
+      or 'detail_alt' overlay (such as a helmet's plume or a lordly cloak's default
+      coloration) will still properly render. A trained coder might be able to use
+      this information to make all dyed items render with their new colors.
+  - code_imp: 'Certain overlays will not render: chiefly, the colored liquids in cups
+      and bottles. There might be a workaround to this, but it''s too much for my
+      little mind to solve. For any prospective coders wishing to further finetune
+      and perfect the system, just look up ''Swan Song'' in the AP Github and go from
+      there.'
+  - code_imp: Gave mugs a dedicated striking intent. Note that they still can't actually
+      hit people for some odd reason.
+  - bugfix: Removed Zerobrine.
+  Ryan180602:
+  - refactor: refactors ambience/weather sounds to not use enter/exit directly
+  UEDCommander:
+  - balance: Reduces callback & sendoff time for Saddleborn mounts
+  - bugfix: Fixes simple mob attacks & bites ignoring barding worn by the simple animal
+  Vladmar11:
+  - bugfix: fixed a lot of runtime issues
+  WeNeedMorePhoron:
+  - bugfix: Some performance issues with rituals / projectile / spell runes. Report
+      any weirdness.
+  - bugfix: Probably improved attack animations / flick overlay performance. Report
+      any oddity
+  - bugfix: There should not be any hammer repairing changes but if you notice oddness
+      inform me.
+  crunchypretzels:
+  - balance: rebalanced grave loot tables
+  mumblemancer:
+  - qol: 'filling up a reagent container in a river now fills the whole of the container
+      instead of a # amount'
+  zoktiik:
+  - qol: You can now use any container holding water to soak a cleaning cloth, not
+      just buckets.
+2026-02-28:
+  Antoonij:
+  - bugfix: /self spells cdr fix
+  BurpleBineapple:
+  - image: Male Wood Elf chins no longer have pick intent. They're the same as other
+      elves in appearance.
+  FreeStylaLT:
+  - qol: Bow emote (in the emotes tab) is now slightly easier to use.
+  - rscadd: Added two new Sun Elf skintones.
+  Lamasmaster:
+  - rscadd: Raneshi Language
+  - bugfix: Aavanic not having it's own icon
+  - bugfix: Archivist not being able to speak Azurean
+  Teragenic:
+  - rscadd: Gives Cantor Drum Choice
+  mumblemancer:
+  - bugfix: trident can no longer be wielded
+  - code_imp: added dmdocs for gripped-intents
+  - bugfix: bathhouse smuggler entrance should no longer cross u in2 the shadow realm
+  - bugfix: manabinding gloves n collar can now be crafted w/ dorpel
+  - balance: ear-stabs no longer remove your ear organ

@@ -13,7 +13,7 @@
 	equip_sound = 'sound/blank.ogg'
 	content_overlays = FALSE
 	bloody_icon_state = "bodyblood"
-	experimental_inhand = FALSE
+	experimental_inhand = TRUE
 	component_type = /datum/component/storage/concrete/roguetown/belt
 	grid_width = 64
 	grid_height = 64

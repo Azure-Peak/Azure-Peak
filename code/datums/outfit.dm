@@ -280,7 +280,7 @@
 							if(!item || !SEND_SIGNAL(item, COMSIG_TRY_STORAGE_INSERT, new_item, null, TRUE, TRUE))
 								item = H.get_item_by_slot(SLOT_CLOAK)
 								if(!item || !SEND_SIGNAL(item, COMSIG_TRY_STORAGE_INSERT, new_item, null, TRUE, TRUE))
-									addtimer(CALLBACK(PROC_REF(move_storage), new_item, H.loc), 3 SECONDS)
+									addtimer(CALLBACK(src, PROC_REF(move_storage), new_item, H.loc), 3 SECONDS)
 
 	post_equip(H, visualsOnly)
 
@@ -294,9 +294,10 @@
 	return TRUE
 
 /datum/outfit/proc/move_storage(obj/item/new_item, turf/T)
-	if(new_item.forceMove(T))
-		return TRUE
-	return FALSE
+	if(!new_item || !T || QDELETED(new_item))
+		return FALSE
+	new_item.forceMove(T)
+	return TRUE
 
 /client/proc/test_spawn_outfits()
 	for(var/path in subtypesof(/datum/outfit/job/roguetown))

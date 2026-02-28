@@ -6,7 +6,7 @@
 	var/list/pipe_reagents = list()
 	var/seed
 	var/bitesize_mod = 0
-	experimental_inhand = FALSE
+	experimental_inhand = TRUE
 	/// Type of splat to use. If null - produce is unsquashable.
 	var/splat_type = null
 	/// Color of the splat, applied when splat_type is spawned (after squashing).

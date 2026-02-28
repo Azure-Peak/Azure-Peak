@@ -1,9 +1,14 @@
 /datum/sex_action/sex/other/boobjob
 	name = "Give them a boob job"
 	intensity = 3
+	debug_erp_panel_verb = FALSE
 
 /datum/sex_action/sex/other/boobjob/shows_on_menu(mob/living/carbon/human/user, mob/living/carbon/human/target)
 	if(user == target)
+		return FALSE
+	if(!check_location_accessible(target, target, BODY_ZONE_PRECISE_GROIN, TRUE, TRUE))
+		return FALSE
+	if(!check_location_accessible(target, user, BODY_ZONE_CHEST, TRUE, TRUE))
 		return FALSE
 	if(!target.getorganslot(ORGAN_SLOT_PENIS))
 		return
@@ -17,9 +22,9 @@
 		return FALSE
 	if(user == target)
 		return FALSE
-	if(!check_location_accessible(target, target, BODY_ZONE_PRECISE_GROIN, TRUE))
+	if(!check_location_accessible(target, target, BODY_ZONE_PRECISE_GROIN, TRUE, TRUE))
 		return FALSE
-	if(!check_location_accessible(target, user, BODY_ZONE_CHEST))
+	if(!check_location_accessible(target, user, BODY_ZONE_CHEST, TRUE, TRUE))
 		return FALSE
 	if(!target.getorganslot(ORGAN_SLOT_PENIS))
 		return FALSE
@@ -30,19 +35,19 @@
 	return TRUE
 
 /datum/sex_action/sex/other/boobjob/get_start_message(mob/living/carbon/human/user, mob/living/carbon/human/target)
-	return span_warning("[user] shoves [target]'s cock between [user.p_their()] tits!")
+	return span_warning("[user] shoves [target]'s pintle between [user.p_their()] tits!")
 
 /datum/sex_action/sex/other/boobjob/get_finish_message(mob/living/carbon/human/user, mob/living/carbon/human/target)
-	return span_warning("[user] pulls [target]'s cock out from inbetween [user.p_their()] tits.")
-
-/datum/sex_action/sex/other/boobjob/on_perform(mob/living/carbon/human/user, mob/living/carbon/human/target)
-	var/datum/sex_session/sex_session = get_sex_session(user, target)
-	target.visible_message(sex_session.spanify_force("[user] [sex_session.get_generic_force_adjective()] rubs [target]'s cock with [user.p_their()] tits..."))
-	playsound(target, 'sound/misc/mat/fingering.ogg', 20, TRUE, -2, ignore_walls = FALSE)
-
-	sex_session.perform_sex_action(target, 2, 4, TRUE)
-	sex_session.handle_passive_ejaculation(target)
+	return span_warning("[user] pulls [target]'s pintle out from inbetween [user.p_their()] tits.")
 
 /datum/sex_action/sex/other/boobjob/handle_climax_message(mob/living/carbon/human/user, mob/living/carbon/human/target)
 	user.visible_message(span_love("[user] cums over [target]'s tits!"))
 	return "onto"
+
+/datum/sex_action/sex/other/boobjob/on_perform(mob/living/carbon/human/user, mob/living/carbon/human/target)
+	var/datum/sex_session/sex_session = get_sex_session(user, target)
+	target.visible_message(sex_session.spanify_force("[user] [sex_session.get_generic_force_adjective()] rubs [target]'s pintle with [user.p_their()] tits..."))
+	playsound(target, 'sound/misc/mat/fingering.ogg', 20, TRUE, -2, ignore_walls = FALSE)
+
+	sex_session.perform_sex_action(target, 2, 4, TRUE)
+	sex_session.handle_passive_ejaculation(target)

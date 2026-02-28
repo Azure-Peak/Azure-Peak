@@ -99,7 +99,7 @@ GLOBAL_LIST_INIT(hedgeknight_aggro, world.file2list("strings/rt/hedgeknightaggro
 			ADD_TRAIT(src, TRAIT_HORDE, TRAIT_GENERIC)
 			equipOutfit(new /datum/outfit/job/roguetown/quest_miniboss/graggar)
 		if ("matthios")
-			ADD_TRAIT(src, TRAIT_COMMIE, TRAIT_GENERIC)
+			ADD_TRAIT(src, TRAIT_FREEMAN, TRAIT_GENERIC)
 			equipOutfit(new /datum/outfit/job/roguetown/quest_miniboss/matthios)
 		if ("zizo")
 			ADD_TRAIT(src, TRAIT_CABAL, TRAIT_GENERIC)
