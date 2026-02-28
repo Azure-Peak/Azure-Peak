@@ -137,7 +137,8 @@
 	releasedrain = 30
 	chargedrain = 0
 	chargetime = 0
-	range = 4
+	range = 1
+	ignore_los = TRUE // this is basically a /self spell but it needs invoking procs
 	warnie = "sydwarning"
 	movement_interrupt = FALSE
 	invocations = list("I offer thee myne gift!", "Blessings upon thine humble servant!", "Grant me thine fyre my lord!", "A transaction for myne lyfe!")
