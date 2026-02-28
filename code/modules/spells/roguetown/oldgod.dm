@@ -204,7 +204,7 @@
 	releasedrain = 50
 	chargedrain = 0
 	chargetime = 0
-	range = 1
+	range = 3 // i got a request to up this
 	warnie = "sydwarning"
 	movement_interrupt = FALSE
 	sound = 'sound/magic/psyabsolution.ogg'
