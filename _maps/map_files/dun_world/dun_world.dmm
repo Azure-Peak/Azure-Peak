@@ -18500,13 +18500,6 @@
 	},
 /turf/open/floor/rogue/naturalstone,
 /area/rogue/outdoors/rtfield)
-"ecN" = (
-/obj/structure/closet/dirthole/closed/loot,
-/obj/structure/gravemarker{
-	pixel_y = 1
-	},
-/turf/open/floor/rogue/grass,
-/area/rogue/outdoors/woods/north)
 "ecO" = (
 /obj/structure/closet/crate/chest/wicker,
 /turf/open/floor/rogue/grass,
@@ -406213,7 +406206,7 @@ dev
 kUU
 dev
 fjM
-ecN
+rab
 dev
 pHf
 dev
@@ -407117,7 +407110,7 @@ kUU
 dev
 dev
 fjM
-ecN
+rab
 dzu
 mbY
 bvN
@@ -408021,7 +408014,7 @@ dev
 dev
 dev
 fjM
-ecN
+rab
 dev
 fIr
 dwx
