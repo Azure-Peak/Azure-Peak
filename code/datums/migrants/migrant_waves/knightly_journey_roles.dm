@@ -41,7 +41,7 @@
 		STATKEY_PER = 2,
 	)
 	subclass_skills = list(
-		/datum/skill/misc/riding= SKILL_LEVEL_JOURNEYMAN,
+		/datum/skill/misc/riding= SKILL_LEVEL_APPRENTICE,
 		/datum/skill/combat/polearms= SKILL_LEVEL_APPRENTICE,
 		/datum/skill/combat/maces= SKILL_LEVEL_APPRENTICE,
 		/datum/skill/combat/swords= SKILL_LEVEL_APPRENTICE,
