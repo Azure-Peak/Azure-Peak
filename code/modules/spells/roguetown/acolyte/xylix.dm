@@ -7,7 +7,7 @@
 	releasedrain = 10
 	chargedrain = 0
 	chargetime = 0
-	range = 1
+	range = 7
 	no_early_release = TRUE
 	associated_skill = /datum/skill/magic/holy
 	recharge_time = 15 SECONDS
@@ -31,7 +31,7 @@
 	releasedrain = 10
 	chargedrain = 0
 	chargetime = 0
-	range = 1
+	range = 3
 	no_early_release = TRUE
 	movement_interrupt = FALSE
 	chargedloop = /datum/looping_sound/invokeholy
@@ -368,6 +368,7 @@
 	gesture_required = FALSE // Slippery
 	devotion_cost = 100
 	miracle = TRUE
+	ignore_los = TRUE
 	var/area_of_effect = 1
 	var/max_range = 4
 	var/turf/destination_turf
@@ -621,8 +622,8 @@
 	overlay_state = "tipscale"
 	releasedrain = 10
 	chargedrain = 0
-	chargetime = 1 SECONDS
-	range = 1
+	chargetime = 1 SECONDS // moodnuke shouldnt be off screen
+	range = 5
 	no_early_release = TRUE
 	movement_interrupt = TRUE
 	chargedloop = /datum/looping_sound/invokeholy
