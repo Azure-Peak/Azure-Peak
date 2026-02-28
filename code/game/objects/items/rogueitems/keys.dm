@@ -359,12 +359,6 @@
 	icon_state = "beastkey"
 	lockid = "keeper"
 
-/obj/item/roguekey/keeper_inner
-	name = "beast inner sanctum key"
-	desc = "This key should open and close the iron gates within the beast's sanctum."
-	icon_state = "beastkey2"
-	lockid = "keeper2"
-
 /obj/item/roguekey/church
 	name = "church key"
 	desc = "This bronze key should open almost all doors in the church."
@@ -735,9 +729,15 @@
 
 /obj/item/roguekey/university
 	name = "university key"
-	desc = "This key should open anything within the university."
+	desc = "This key should open all but the most secure areas of the University of Azuria."
 	icon_state = "greenkey"
 	lockid = "university"
+
+/obj/item/roguekey/university_secure
+	name = "university tower key"
+	desc = "This key should open the tower in the University of Azuria, where dangerous magic is contained."
+	icon_state = "brownkey"
+	lockid = "university_secure"
 
 /obj/item/roguekey/townie_smith_extras
 	name = "town smith key"

@@ -237,7 +237,7 @@
 	keys = list(/obj/item/roguekey/manor, /obj/item/roguekey/archive, /obj/item/roguekey/university)
 
 /obj/item/storage/keyring/magician
-	keys = list(/obj/item/roguekey/manor, /obj/item/roguekey/mage, /obj/item/roguekey/university)
+	keys = list(/obj/item/roguekey/manor, /obj/item/roguekey/mage, /obj/item/roguekey/university, /obj/item/roguekey/university_secure)
 
 /obj/item/storage/keyring/seneschal //Housekeeper, more of a reason to attack them too by antags
 	keys = list(/obj/item/roguekey/manor, /obj/item/roguekey/royal, /obj/item/roguekey/heir, /obj/item/roguekey/garrison)
@@ -279,7 +279,7 @@
 	keys = list(/obj/item/roguekey/priest, /obj/item/roguekey/church, /obj/item/roguekey/graveyard, /obj/item/roguekey/keeper)
 
 /obj/item/storage/keyring/keeper
-	keys = list(/obj/item/roguekey/keeper, /obj/item/roguekey/keeper_inner)
+	keys = list(/obj/item/roguekey/keeper)
 
 /obj/item/storage/keyring/acolyte //General access
 	keys = list(/obj/item/roguekey/church, /obj/item/roguekey/graveyard, /obj/item/roguekey/keeper)
@@ -289,7 +289,7 @@
 //////////////
 
 /obj/item/storage/keyring/apprentice
-	keys = list(/obj/item/roguekey/manor, /obj/item/roguekey/university)
+	keys = list(/obj/item/roguekey/manor, /obj/item/roguekey/university, /obj/item/roguekey/university_secure)
 
 /obj/item/storage/keyring/merchant
 	keys = list(/obj/item/roguekey/merchant, /obj/item/roguekey/shop)

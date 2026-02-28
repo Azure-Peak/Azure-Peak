@@ -69,6 +69,16 @@
 	keep_area = TRUE
 	detail_text = DETAIL_TEXT_UNIVERSITY_OF_AZURIA
 
+/area/rogue/indoors/town/pestra_sanctum
+	name = "Sanctum of Pestra"
+	icon_state = "pestrasanctum"
+	spookysounds = SPOOKY_MYSTICAL
+	spookynight = SPOOKY_MYSTICAL
+	first_time_text = "THE SANCTUM OF PESTRA"
+	droning_sound_dusk = null
+	droning_sound_night = null
+	keep_area = TRUE
+
 /area/rogue/outdoors/exposed/magiciantower
 	icon_state = "magiciantower"
 	droning_sound = 'sound/music/area/magiciantower.ogg'
