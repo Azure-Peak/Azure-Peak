@@ -69,31 +69,42 @@
 	return ..()
 
 /mob/living/carbon/human/proc/set_npc_target(mob/living/new_target)
-	if(target)
-		UnregisterSignal(target, COMSIG_PARENT_QDELETING)
+	if(target == new_target)
+		return
+	var/old_target = target
 	target = new_target
-	if(target)
-		RegisterSignal(target, COMSIG_PARENT_QDELETING, PROC_REF(handle_npc_target_del))
+	update_target_signal(old_target)
 
-/mob/living/carbon/human/proc/handle_npc_target_del(datum/source)
-	SIGNAL_HANDLER
-	UnregisterSignal(target, COMSIG_PARENT_QDELETING)
-	target = null
-	back_to_idle()
-
-/// Signal-based pathfinding target management. Same pattern as set_npc_target().
 /mob/living/carbon/human/proc/set_pathfinding_target(atom/new_target)
-	if(pathfinding_target)
-		UnregisterSignal(pathfinding_target, COMSIG_PARENT_QDELETING)
+	if(pathfinding_target == new_target)
+		return
+	var/old_target = pathfinding_target
 	pathfinding_target = new_target
-	if(pathfinding_target)
-		RegisterSignal(pathfinding_target, COMSIG_PARENT_QDELETING, PROC_REF(handle_pathfinding_target_del))
+	update_target_signal(old_target)
 
-/mob/living/carbon/human/proc/handle_pathfinding_target_del(datum/source)
+/// Maintains a single COMSIG_PARENT_QDELETING registration per tracked datum.
+/// Called after target or pathfinding_target changes to update signal registrations.
+/mob/living/carbon/human/proc/update_target_signal(atom/old_target)
+	// Unregister from old target if neither var still references it
+	if(old_target && old_target != target && old_target != pathfinding_target)
+		UnregisterSignal(old_target, COMSIG_PARENT_QDELETING)
+	// Register on target if needed (covers both vars pointing at same datum)
+	if(target)
+		RegisterSignal(target, COMSIG_PARENT_QDELETING, PROC_REF(handle_tracked_target_del), override = TRUE)
+	if(pathfinding_target && pathfinding_target != target)
+		RegisterSignal(pathfinding_target, COMSIG_PARENT_QDELETING, PROC_REF(handle_tracked_target_del), override = TRUE)
+
+/// Single handler for both target and pathfinding_target deletion.
+/mob/living/carbon/human/proc/handle_tracked_target_del(datum/source)
 	SIGNAL_HANDLER
-	UnregisterSignal(pathfinding_target, COMSIG_PARENT_QDELETING)
-	pathfinding_target = null
-	clear_path()
+	if(target == source)
+		target = null
+	if(pathfinding_target == source)
+		pathfinding_target = null
+		clear_path()
+	UnregisterSignal(source, COMSIG_PARENT_QDELETING)
+	if(!target)
+		back_to_idle()
 
 /mob/living/carbon/human/proc/IsStandingStill()
 	return doing || resisting || pickpocketing
