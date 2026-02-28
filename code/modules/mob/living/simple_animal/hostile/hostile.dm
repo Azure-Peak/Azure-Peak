@@ -70,13 +70,13 @@
 	wanted_objects = typecacheof(wanted_objects)
 
 /mob/living/simple_animal/hostile/Destroy()
-    if(AIStatus != AI_OFF)
-        toggle_ai(AI_OFF)
+	if(AIStatus != AI_OFF)
+		toggle_ai(AI_OFF)
 
-    targets_from = null
-    target = null
+	targets_from = null
+	target = null
 
-    return ..()
+	return ..()
 	if(target)
 		UnregisterSignal(target, COMSIG_PARENT_QDELETING)
 	target = null
