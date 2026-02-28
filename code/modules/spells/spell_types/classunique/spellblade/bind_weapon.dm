@@ -40,10 +40,17 @@
 		revert_cast()
 		return
 
-	if(weapon.GetComponent(/datum/component/arcyne_conduit))
-		to_chat(H, span_warning("[weapon] is already bound as a conduit!"))
-		revert_cast()
-		return
+	var/datum/component/arcyne_conduit/existing_conduit = weapon.GetComponent(/datum/component/arcyne_conduit)
+	if(existing_conduit)
+		var/mob/living/existing_owner = existing_conduit.owner_ref?.resolve()
+		if(existing_owner && existing_owner != H)
+			to_chat(H, span_warning("[weapon] is already bound to another spellblade!"))
+			revert_cast()
+			return
+		if(existing_owner == H)
+			to_chat(H, span_warning("[weapon] is already bound as my conduit!"))
+			revert_cast()
+			return
 
 	var/datum/status_effect/buff/arcyne_momentum/M = H.has_status_effect(/datum/status_effect/buff/arcyne_momentum)
 	if(!M)
@@ -72,7 +79,7 @@
 			qdel(old_conduit)
 		to_chat(H, span_notice("The arcyne bond on [M.bound_weapon] fades."))
 
-	weapon.AddComponent(/datum/component/arcyne_conduit)
+	weapon.AddComponent(/datum/component/arcyne_conduit, owner = H)
 	if(M)
 		M.bound_weapon = weapon
 	to_chat(H, span_notice("I bind [weapon] as my arcyne conduit. Its strikes will build momentum."))

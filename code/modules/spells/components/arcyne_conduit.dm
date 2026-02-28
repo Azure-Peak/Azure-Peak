@@ -5,12 +5,15 @@
 	var/outline_color = "#4a90d9"
 	var/gain_cooldown = 2 SECONDS // 2 seconds between melee momentum gains
 	var/last_melee_gain = 0
+	var/datum/weakref/owner_ref
 
-/datum/component/arcyne_conduit/Initialize(outline_color_override)
+/datum/component/arcyne_conduit/Initialize(outline_color_override, mob/living/owner)
 	if(!isitem(parent))
 		return COMPONENT_INCOMPATIBLE
 	if(outline_color_override)
 		outline_color = outline_color_override
+	if(owner)
+		owner_ref = WEAKREF(owner)
 	var/obj/item/I = parent
 	I.add_filter(CONDUIT_FILTER, 2, list("type" = "outline", "color" = outline_color, "alpha" = 200, "size" = 1))
 	RegisterSignal(parent, COMSIG_ITEM_ATTACK, PROC_REF(on_attack_success))
