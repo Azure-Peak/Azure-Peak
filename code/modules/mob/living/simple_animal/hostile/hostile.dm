@@ -73,10 +73,6 @@
 	if(AIStatus != AI_OFF)
 		toggle_ai(AI_OFF)
 
-	targets_from = null
-	target = null
-
-	return ..()
 	if(target)
 		UnregisterSignal(target, COMSIG_PARENT_QDELETING)
 	target = null
