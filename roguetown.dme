@@ -1416,6 +1416,7 @@
 #include "code\modules\antagonists\roguetown\villain\lich.dm"
 #include "code\modules\antagonists\roguetown\villain\peasantrebel.dm"
 #include "code\modules\antagonists\roguetown\villain\unbound_deathknight.dm"
+#include "code\modules\antagonists\roguetown\villain\unbound_spellblade.dm"
 #include "code\modules\antagonists\roguetown\villain\ascendant\ascendant.dm"
 #include "code\modules\antagonists\roguetown\villain\ascendant\ascendant_altar.dm"
 #include "code\modules\antagonists\roguetown\villain\dreamwalker\dreamwalker_spells.dm"

@@ -26,6 +26,10 @@
 			blade_weapons = "Avantyne Longsword / Kriegmesser / Longsword / Rapier / Sabre & Shield"
 			phalanx_weapons = "Halberd / Bardiche / Boar Spear / Dory & Shield"
 			mace_weapons = "Steel Mace / Steel Warhammer & Shield"
+		if("undead")
+			blade_weapons = "Khopesh / Sabre & Shield"
+			phalanx_weapons = "Spear / Bardiche & Shield"
+			mace_weapons = "Mace / Warhammer & Shield"
 		else
 			blade_weapons = "Longsword / Rapier / Sabre / Arming Sword / Shortsword / Hwando & Shield"
 			phalanx_weapons = "Spear / Dory & Shield"
