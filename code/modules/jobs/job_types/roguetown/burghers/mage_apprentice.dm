@@ -269,7 +269,11 @@
 	beltr = null
 	backr = /obj/item/rogueweapon/shield/wood
 	wrists = /obj/item/clothing/wrists/roguetown/bracers/leather
-	backpack_contents = list(/obj/item/flashlight/flare/torch = 1, /obj/item/storage/keyring/apprentice = 1)
+	backpack_contents = list(
+		/obj/item/recipe_book/alchemy = 1,
+		/obj/item/recipe_book/magic = 1,
+		/obj/item/storage/keyring/apprentice = 1,
+		/obj/item/chalk = 1,)
 
 	to_chat(H, span_warning("You start with Bind Weapon. Remember to Bind your weapon so you can use your abilities and build up Arcyne Momentum."))
 
