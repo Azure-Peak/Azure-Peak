@@ -104,10 +104,10 @@
 	to_chat(recipient, span_notice("Though you failed to become a knight, your training in equipment maintenance and repair remains useful."))
 	to_chat(recipient, span_notice("You can retrieve your hammer and polishing tools from a tree, statue, or clock."))
 
-/datum/virtue/utility/linguist
+/datum/virtue/utility/intellectual
 	name = "Intellectual"
 	desc = "I've spent my life surrounded by various books or sophisticated foreigners, be it through travel or other fortunes beset on my life. I've picked up several tongues and wits, and keep a journal closeby. I can tell people's exact prowess."
-	custom_text = "Maximizes Assess benefits with a bonus of the target's Stats. Allows the choice of 3 languages to learn upon joining. +1 INT."
+	custom_text = "Maximizes Assess benefits with a bonus of the target's Stats. Allows the choice of up to 6 languages to learn."
 	added_traits = list(TRAIT_INTELLECTUAL)
 	added_skills = list(list(/datum/skill/misc/reading, 3, 6))
 	added_stashed_items = list(
@@ -117,70 +117,90 @@
 		"Book Crafting Kit" = /obj/item/book_crafting_kit,
 		"Unfinished Skillbook" = /obj/item/skillbook/unfinished
 	)
+	max_choices = 6
+	choice_costs = list(0, 0, 0, 1, 2, 3)
+	extra_choices = list(
+		"Elvish" = /datum/language/elvish,
+		"Dwarvish" = /datum/language/dwarvish,
+		"Orcish" = /datum/language/orcish,
+		"Infernal" = /datum/language/hellspeak,
+		"Draconic" = /datum/language/draconic,
+		"Celestial" = /datum/language/celestial,
+		"Ranesheni" = /datum/language/raneshi,
+		"Grenzelhoftian" = /datum/language/grenzelhoftian,
+		"Kazengunese" = /datum/language/kazengunese,
+		"Lingyuese" = /datum/language/lingyuese,
+		"Undercommon" = /datum/language/undercommon,
+		"Otavan" = /datum/language/otavan,
+		"Etruscan" = /datum/language/etruscan,
+		"Gronnic" = /datum/language/gronnic,
+		"Aavnic" = /datum/language/aavnic
+	)
 
-/datum/virtue/utility/linguist/apply_to_human(mob/living/carbon/human/recipient)
+/datum/virtue/utility/intellectual/apply_to_human(mob/living/carbon/human/recipient)
 	recipient.change_stat(STATKEY_INT, 1)
 	addtimer(CALLBACK(src, .proc/linguist_apply, recipient), 50)
 
-/datum/virtue/utility/linguist/proc/linguist_apply(mob/living/carbon/human/recipient)
-	var/static/list/selectable_languages = list(
-		/datum/language/elvish,
-		/datum/language/dwarvish,
-		/datum/language/orcish,
-		/datum/language/hellspeak,
-		/datum/language/draconic,
-		/datum/language/celestial,
-		/datum/language/raneshi,
-		/datum/language/grenzelhoftian,
-		/datum/language/kazengunese,
-		/datum/language/lingyuese,
-		/datum/language/undercommon,
-		/datum/language/otavan,
-		/datum/language/etruscan,
-		/datum/language/gronnic,
-		/datum/language/aavnic
-	)
-
-	var/list/choices = list()
-	for(var/language_type in selectable_languages)
-		if(recipient.has_language(language_type))
-			continue
-		var/datum/language/a_language = new language_type()
-		choices[a_language.name] = language_type
-
-	if(length(choices))	//If this isn't true then we have no new languages learn -- we probably picked archivist
-		var/lang_count = 3
-		var/count = lang_count
-		for(var/i in 1 to lang_count)
-			var/chosen_language = input(recipient, "Choose your extra spoken language.", "VIRTUE: [count] LEFT") as null|anything in choices
-			if(chosen_language)
-				var/language_type = choices[chosen_language]
-				recipient.grant_language(language_type)
-				choices -= chosen_language
-				to_chat(recipient, span_info("I recall my knowledge of [chosen_language]..."))
-				count--
+/datum/virtue/utility/intellectual/proc/linguist_apply(mob/living/carbon/human/recipient)
+	if(check_triumphs(recipient))
+		for(var/lang in picked_choices)
+			recipient.grant_language(extra_choices[lang])
+	else
+		to_chat(recipient, span_notice("Not enough Triumps! Language granting cancelled."))
 
 /datum/virtue/utility/deathless
 	name = "Deathless"
 	desc = "Some fell magick has rendered me inwardly unliving - I do not hunger, and I do not breathe."
 	added_traits = list(TRAIT_NOHUNGER, TRAIT_NOBREATH)
 
+/datum/virtue/utility/afflicted
+	name = "Afflicted"
+	desc = "Some fell magick has rendered me inwardly unliving - from lack of hunger or thirst to lack of any emotion at all."
+	extra_choices = list("No Hunger & Thirst" = TRAIT_NOHUNGER, "Moodless" = TRAIT_NOMOOD, "Breathless" = TRAIT_NOBREATH)
+	max_choices = 2
+	choice_costs = list(0, 2)
+
+/datum/virtue/utility/afflicted/apply_to_human(mob/living/carbon/human/recipient)
+	. = ..()
+	if(triumph_check(recipient))
+		for(var/choice in picked_choices)
+			ADD_TRAIT(recipient, picked_choices[choice], TRAIT_VIRTUE)
+
 /datum/virtue/utility/feral_appetite
 	name = "Feral Appetite"
 	desc = "Raw, toxic or spoiled food doesn't bother my superior digestive system."
 	added_traits = list(TRAIT_NASTY_EATER)
 
-/datum/virtue/utility/night_vision
-	name = "Night-eyed"
-	desc = "I have eyes able to see through cloying darkness. Incompatible with the vice Colorblind."
-	added_traits = list(TRAIT_DARKVISION)
-	custom_text = "Adds a button to toggle colorblindness to aid seeing in the dark. Taking this with the Colorblind vice will permanently colorblind you."
+/datum/virtue/utility/prowler
+	name = "(Virtuous) Prowler"
+	desc = "I've learned to stalk the shadows, in step, in sight and in my nimble fingers."
+	max_choices = 5
+	choice_costs = list(0, 0, 1, 1, 1)
+	virtuous_only = TRUE
+	extra_choices = list(
+		"Darksight" = TRAIT_DARKVISION,
+		"Light Steps" = TRAIT_LIGHT_STEP,
+		"Stashed Lockpick Ring" = /obj/item/lockpickring/mundane,
+		"Sneak Skill (+3, Up to Legendary)" = /datum/skill/misc/sneaking,
+		"Lockpick Skill (+3, Up to Legendary)" = /datum/skill/misc/lockpicking
+		)
 
-/datum/virtue/utility/night_vision/apply_to_human(mob/living/carbon/human/recipient)
-	if(recipient.has_flaw(/datum/charflaw/colorblind))
-		to_chat(recipient, "Your eyes have become permanently colorblind.")
-	else if(recipient.charflaws.len)
-		recipient.verbs += /mob/living/carbon/human/proc/toggleblindness
+/datum/virtue/utility/prowler/apply_to_human(mob/living/carbon/human/recipient)
+	. = ..()
+	if(triumph_check(recipient))
+		for(var/choice in picked_choices)
+			if(picked_choices[choice] in GLOB.roguetraits)
+				ADD_TRAIT(recipient, choice, TRAIT_VIRTUE)
+				if(choice == TRAIT_DARKVISION)
+					if(recipient.has_flaw(/datum/charflaw/colorblind))
+						to_chat(recipient, "Your eyes have become permanently colorblind.")
+					else if(recipient.charflaws.len)
+						recipient.verbs += /mob/living/carbon/human/proc/toggleblindness
+			if(ispath(picked_choices[choice], /datum/skill))
+				recipient.adjust_skillrank(picked_choices[choice], SKILL_LEVEL_JOURNEYMAN, quiet = TRUE)
+			if(ispath(picked_choices[choice], /obj/item))
+				var/obj/item/I = picked_choices[choice]
+				recipient.mind?.special_items[I::name] = picked_choices[choice]
 
 /datum/virtue/utility/performer
 	name = "Performer"
@@ -205,12 +225,6 @@
 	if(chosen_name)
 		var/instrument_type = instruments[chosen_name]
 		recipient.mind?.special_items[chosen_name] = instrument_type
-
-/datum/virtue/utility/larcenous
-	name = "Larcenous"
-	desc = "Whether it was asked of you, or by a calling for the rush deep within your hollow heart, you seek things that don't belong you. You know how to work a lock, and have stashed a ring of them, for just the occasion."
-	added_stashed_items = list("Lockpick Ring" = /obj/item/lockpickring/mundane)
-	added_skills = list(list(/datum/skill/misc/lockpicking, 3, 6))
 
 /datum/virtue/utility/granary
 	name = "Cunning Provisioner"
@@ -285,46 +299,52 @@
 	added_traits = list(TRAIT_SLEUTH)
 	custom_text = "- Upon right clicking a track, you will Mark the person who made them <i>(Expert skill required, not exclusive to this Virtue)</i>.\n- Further tracks found will be automatically highlighted as theirs, along with the person themselves, if they are not sneaking or invisible at the time.\n- Reduces the cooldown for tracking, allows track examining right away, and movement no longer cancels tracking."
 
-/datum/virtue/utility/bronzearm_r
-	name = "Bronze Arm (R)"
-	desc = "Through connections or wealth, my arm had been replaced by one of bronze and gears, that can grip and hold onto things. I've learned just a bit of Engineering as a result."
-	custom_text = "Replaces your Right arm with a prosthetic Bronze one. Incompatible with Wood Arm (R) vice"
+/datum/virtue/utility/bronzelimbs
+	name = "Bronze Limbs"
+	desc = "Through connections or wealth, my limb had been replaced by one of bronze and gears, that can grip and hold onto things. I've learned just a bit of Engineering as a result."
+	custom_text = "Replaces your chosen limbs with a prosthetic Bronze ones."
 	added_skills = list(list(/datum/skill/craft/engineering, 1, 6))
+	max_choices = 4
+	choice_costs = list(0, 0, 1, 2)
+	extra_choices = list(
+		"Right Arm",
+		"Left Arm",
+		"Right Leg",
+		"Left Leg"
+	)
 
-/datum/virtue/utility/bronzearm_r/apply_to_human(mob/living/carbon/human/recipient)
+/datum/virtue/utility/bronzelimbs/apply_to_human(mob/living/carbon/human/recipient)
 	. = ..()
-	var/obj/item/bodypart/O = recipient.get_bodypart(BODY_ZONE_R_ARM)
-	if(O)
-		O.drop_limb()
-		qdel(O)
-	if(recipient.has_flaw(/datum/charflaw/limbloss/arm_r))
-		to_chat(recipient, span_info("In my foolishness I believed a charlatan who wished to trade in my wooden arm for one of bronze. It fell apart. Now I've no arm at all."))
-	else if(recipient.charflaws.len)
-		var/obj/item/bodypart/r_arm/prosthetic/bronzeright/L = new()
-		L.attach_limb(recipient)
-
-/datum/virtue/utility/bronzearm_l
-	name = "Bronze Arm (L)"
-	desc = "Through connections or wealth, my arm had been replaced by one of bronze and gears, that can grip and hold onto things. I've learned just a bit of Engineering as a result."
-	custom_text = "Replaces your Left arm with a prosthetic Bronze one. Incompatible with Wood Arm (L) vice"
-	added_skills = list(list(/datum/skill/craft/engineering, 1, 6))
-
-/datum/virtue/utility/bronzearm_l/apply_to_human(mob/living/carbon/human/recipient)
-	. = ..()
-	var/obj/item/bodypart/O = recipient.get_bodypart(BODY_ZONE_L_ARM)
-	if(O)
-		O.drop_limb()
-		qdel(O)
-	if(recipient.has_flaw(/datum/charflaw/limbloss/arm_l))
-		to_chat(recipient, span_info("In my foolishness I believed a sharlatan who wished to trade in my wooden arm for one of bronze. It fell apart. Now I've no arm at all."))
-	else if(recipient.charflaws.len)
-		var/obj/item/bodypart/l_arm/prosthetic/bronzeleft/L = new()
-		L.attach_limb(recipient)
+	if(triumph_check(recipient))
+		var/obj/item/bodypart/to_attach
+		var/zone
+		for(var/choice in picked_choices)
+			switch(choice)
+				if("Right Arm")
+					to_attach = /obj/item/bodypart/r_arm/prosthetic/bronzeright
+					zone = BODY_ZONE_R_ARM
+				if("Left Arm")
+					to_attach = /obj/item/bodypart/l_arm/prosthetic/bronzeleft
+					zone = BODY_ZONE_L_ARM
+				if("Right Leg")
+					to_attach = /obj/item/bodypart/r_leg/prosthetic/bronzeright
+					zone = BODY_ZONE_R_LEG
+				if("Left Leg")
+					to_attach = /obj/item/bodypart/l_leg/prosthetic/bronzeleft
+					zone = BODY_ZONE_L_LEG
+			var/obj/item/bodypart/O = recipient.get_bodypart(zone)
+			if(O)
+				O.drop_limb()
+				qdel(O)
+			if(recipient.charflaws.len)
+				var/obj/item/bodypart/BP = new to_attach()
+				BP.attach_limb(recipient)
 
 /datum/virtue/utility/woodwalker
-	name = "Woodwalker"
+	name = "(Virtuous) Woodwalker"
 	desc = "After years of training in the wilds, I've learned to traverse the woods confidently, without breaking any twigs. I can even step lightly on leaves without falling, and I can gather twice as many things from bushes."
 	added_traits = list(TRAIT_WOODWALKER, TRAIT_OUTDOORSMAN)
+	virtuous_only = TRUE
 
 /datum/virtue/heretic/zchurch_keyholder
 	name = "Defiled Keyholder"

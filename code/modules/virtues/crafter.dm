@@ -11,6 +11,36 @@
 						list(/datum/skill/craft/smelting, 2, 2)
 	)
 
+/datum/virtue/utility/apprentice
+	name = "Labour Apprentice"
+	desc = "I've toiled away a part of my lyfe at the behest of another labourer, learning a thing or two."
+	added_stashed_items = list(/obj/item/flashlight/flare/torch/lantern)
+	max_choices = 4
+	choice_costs = list(0, 0, 2, 2)
+	extra_choices = list(
+		"Mining Skill (+3, Up to Legendary)" = list(/datum/skill/labor/mining, TRAIT_SMITHING_EXPERT),
+		"Lumberjacking Skill (+3, Up to Legendary)" = /datum/skill/labor/lumberjacking,
+		"Stashed Steel Axe" = /obj/item/rogueweapon/stoneaxe/woodcut/steel/woodcutter,
+		"Stashed Steel Pickaxe" = /obj/item/rogueweapon/pick/steel
+	)
+
+/datum/virtue/utility/apprentice/apply_to_human(mob/living/carbon/human/recipient)
+	. = ..()
+	if(triumph_check(recipient))
+		for(var/choice in picked_choices)
+			if(islist(picked_choices[choice]))
+				var/list/choicelist = picked_choices[choice]
+				for(var/subchoice in choicelist)
+					if(ispath(subchoice, /datum/skill))
+						recipient.adjust_skillrank(subchoice, SKILL_LEVEL_JOURNEYMAN, silent = TRUE)
+					else if(subchoice in GLOB.roguetraits)
+						ADD_TRAIT(recipient, subchoice, TRAIT_VIRTUE)
+			if(ispath(picked_choices[choice], /datum/skill))
+				recipient.adjust_skillrank(picked_choices[choice], SKILL_LEVEL_JOURNEYMAN, silent = TRUE)
+			if(ispath(picked_choices[choice], /obj/item))
+				var/obj/item/I = picked_choices[choice]
+				recipient.mind?.special_items[I::name] = picked_choices[choice]
+
 /datum/virtue/utility/tailor
 	name = "Tailor's Apprentice"
 	desc = "In my youth, I worked under a skilled tailor, studying fabric and design."
@@ -72,25 +102,3 @@
 		"Chisel" = /obj/item/rogueweapon/chisel,
 		"Hand Saw" = /obj/item/rogueweapon/handsaw
 	)
-
-/datum/virtue/utility/mining
-	name = "Miner's Apprentice"
-	added_traits = list(TRAIT_SMITHING_EXPERT) // Not sure whether smithing or homestead but given mining goods goes into smithing this fits better?
-	desc = "The dark shafts, the damp smells of ichor and the laboring hours are no stranger to me. I keep my pickaxe and lamptern close, and have been taught how to mine well."
-	added_stashed_items = list(
-		"Steel Pickaxe" = /obj/item/rogueweapon/pick/steel,
-		"Lamptern" = /obj/item/flashlight/flare/torch/lantern
-	)
-	added_skills = list(
-		list(/datum/skill/labor/mining, 3, SKILL_LEVEL_LEGENDARY)
-	)
-
-/datum/virtue/utility/woodcutting
-	name = "Woodcutter's Apprentice"
-	desc = "I know which way the tree falls, when you sever it from its roots. Hence, I keep my axe close."
-	added_stashed_items = list(
-		"Steel Axe" = /obj/item/rogueweapon/stoneaxe/woodcut/steel/woodcutter
-	)
-	added_skills = list(
-		list(/datum/skill/labor/lumberjacking, 3, SKILL_LEVEL_LEGENDARY)
-		)

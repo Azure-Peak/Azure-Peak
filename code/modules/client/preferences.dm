@@ -522,9 +522,29 @@ GLOBAL_LIST_EMPTY(chosen_names)
 					virtuetwo = GLOB.virtues[/datum/virtue/none]
 			if(virtue.virtuous_only && !statpack.virtuous)
 				virtue = GLOB.virtues[/datum/virtue/none]
-			dat += "<b>Virtue:</b> <a href='?_src_=prefs;preference=virtue;task=input'>[virtue]</a><BR>"
+			var/tricost_virt = 0
+			if(length(virtue.extra_choices) && length(virtue.picked_choices))
+				for(var/i in 1 to length(virtue.picked_choices))
+					tricost_virt += virtue.choice_costs[i]
+			dat += "<b>Virtue[tricost_virt ? " ([tricost_virt] TRI)" : ""]:</b> <a href='?_src_=prefs;preference=virtue;task=input'><b>[virtue]</b></a><BR>"
+			if(length(virtue.picked_choices))
+				for(var/i = 1 to virtue.picked_choices.len)
+					var/choice = virtue.picked_choices[i]
+					dat += "   <a href='?_src_=prefs;preference=subvirtue;task=remove;index=[i]'><i>[choice]</i></a><br>"
+			if(length(virtue.picked_choices) < virtue.max_choices)
+				dat += "   <a href='?_src_=prefs;preference=subvirtue;task=input'>[length(virtue.picked_choices) ? "" : "<font color = '#FFFFFF'>"]Pick Bonus[length(virtue.picked_choices) ? "" : "</font>"] [length(virtue.picked_choices) > 0 ? "([virtue.choice_costs[(virtue.picked_choices.len + 1)]] TRI)" : ""] </a><br>"
 			if(statpack.virtuous)
-				dat += "<b>Second Virtue:</b> <a href='?_src_=prefs;preference=virtuetwo;task=input'>[virtuetwo]</a><BR>"
+				tricost_virt = 0
+				if(length(virtuetwo.extra_choices) && length(virtuetwo.picked_choices))
+					for(var/i in 1 to length(virtuetwo.picked_choices))
+						tricost_virt += virtuetwo.choice_costs[i]
+				dat += "<b>Second Virtue:</b> <a href='?_src_=prefs;preference=virtuetwo;task=input'><b>[virtuetwo]</b></a><BR>"
+				if(length(virtuetwo.picked_choices))
+					for(var/i = 1 to virtuetwo.picked_choices.len)
+						var/choice = virtuetwo.picked_choices[i]
+						dat += "   <a href='?_src_=prefs;preference=subvirtue_two;task=remove;index=[i]'><i>[choice]</i></a><br>"
+				if(length(virtuetwo.picked_choices) < virtuetwo.max_choices)
+					dat += "   <a href='?_src_=prefs;preference=subvirtue_two;task=input'>Pick Bonus [length(virtuetwo.picked_choices) > 0 ? "([virtuetwo.choice_costs[(virtuetwo.picked_choices.len + 1)]] TRI)" : ""] </a><br>"
 			else
 				virtuetwo = GLOB.virtues[/datum/virtue/none]
 			dat += "<b>Vices:</b>"
@@ -1470,6 +1490,40 @@ Slots: [job.spawn_positions] [job.round_contrib_points ? "RCP: +[job.round_contr
 	else if(href_list["preference"] == "tgui_ui_prefs")
 		tgui_pref = !tgui_pref
 
+	else if(href_list["preference"] == "subvirtue")
+		var/task = href_list["task"]
+		if(task == "input")
+			if(length(virtue.picked_choices) < virtue.max_choices)
+				var/list/subchoices = virtue.extra_choices.Copy()
+				for(var/choice in subchoices)
+					if(choice in virtue.picked_choices)
+						subchoices.Remove(choice)
+				var/result = tgui_input_list(user, "What strength shall you wield?", "VIRTUES", subchoices)
+				if(result)
+					virtue.picked_choices.Add(result)
+		else if(task == "remove")
+			var/index = text2num(href_list["index"])
+			if(index && (index >= 1) && (index <= virtue.picked_choices.len))
+				var/v_to_remove = virtue.picked_choices[index]
+				virtue.picked_choices.Remove(v_to_remove)
+
+	else if(href_list["preference"] == "subvirtue_two")
+		var/task = href_list["task"]
+		if(task == "input")
+			if(length(virtuetwo.picked_choices) < virtuetwo.max_choices)
+				var/list/subchoices = virtuetwo.extra_choices.Copy()
+				for(var/choice in subchoices)
+					if(choice in virtuetwo.picked_choices)
+						subchoices.Remove(choice)
+				var/result = tgui_input_list(user, "What strength shall you wield?", "VIRTUES", subchoices)
+				if(result)
+					virtuetwo.picked_choices.Add(result)
+		else if(task == "remove")
+			var/index = text2num(href_list["index"])
+			if(index && (index >= 1) && (index <= virtue.picked_choices.len))
+				var/v_to_remove = virtue.picked_choices[index]
+				virtue.picked_choices.Remove(v_to_remove)
+
 	else if(href_list["preference"] == "charflaw")
 		var/task = href_list["task"]
 		if(task == "input")
@@ -2380,7 +2434,6 @@ Slots: [job.spawn_positions] [job.round_contrib_points ? "RCP: +[job.round_contr
 						var/datum/virtue/virtue_chosen = virtue_choices[result]
 						virtue = virtue_chosen
 						to_chat(user, process_virtue_text(virtue_chosen))
-
 				if("virtuetwo")
 					var/list/virtue_choices = list()
 					for (var/path as anything in GLOB.virtues)

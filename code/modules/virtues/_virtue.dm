@@ -40,10 +40,28 @@ GLOBAL_LIST_EMPTY(virtues)
 	/// Whether the virtue is only available as a second virtue choice (so only available to virtuous / fated)
 	var/virtuous_only = FALSE
 
+	var/max_choices = 0
+
+	var/list/extra_choices = list()
+
+	var/list/picked_choices = list()
+
+	var/list/choice_costs = list()
+
 /datum/virtue/New()
 	. = ..()
 	if (triumph_cost)
 		desc += "<b>Costs [triumph_cost] TRIUMPH.</b>"
+
+/datum/virtue/proc/triumph_check(mob/living/carbon/human/recipient)
+	if(length(extra_choices))
+		for(var/i in 1 to length(picked_choices))
+			if(choice_costs[i] > 0)
+				if(recipient.get_triumphs() > choice_costs[i])
+					recipient.adjust_triumphs(-(choice_costs[i]))
+				else
+					return FALSE
+	return TRUE
 
 /datum/virtue/proc/apply_to_human(mob/living/carbon/human/recipient)
 	return

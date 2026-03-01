@@ -411,16 +411,64 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	S["virtue"] >> virtue_type
 	S["virtuetwo"] >> virtuetwo_type
 	S["virtue_origin"] >> origin_type
-	if (virtue_type)
-		virtue = new virtue_type()
+	if (istype(virtue_type, /datum/virtue))
+		virtue = virtue_type
 	else
 		virtue = new /datum/virtue/none
 
-	if( virtuetwo_type)
-		virtuetwo = new virtuetwo_type
+	//Future-proofing sanity checks in case virtues get adjusted later. We do a full reset if we find any discrepancies.
+	var/datum/virtue/sane_virtue = new virtue.type
+	var/error_found = FALSE
+	if(length(virtue.picked_choices) > sane_virtue.max_choices)
+		error_found = TRUE
+	
+	if(sane_virtue.max_choices != virtue.max_choices)
+		error_found = TRUE
+	
+	if(length(virtue.extra_choices) != length(sane_virtue.extra_choices))
+		error_found = TRUE
+	
+	if(!error_found)
+		for(var/choice in virtue.extra_choices)
+			if(!(choice in sane_virtue.extra_choices))
+				error_found = TRUE
+				break
+
+	if(error_found)
+		virtue = sane_virtue
+		qdel(virtue)
+	else
+		qdel(sane_virtue)
+
+	if(istype(virtuetwo_type, /datum/virtue))
+		virtuetwo = virtuetwo_type
 	else
 		virtuetwo = new /datum/virtue/none
+
+	//Future-proofing sanity checks in case virtues get adjusted later. We do a full reset if we find any discrepancies.
+	var/datum/virtue/sane_virtuetwo = new virtuetwo.type
+	error_found = FALSE
+	if(length(virtuetwo.picked_choices) > sane_virtuetwo.max_choices)
+		error_found = TRUE
 	
+	if(sane_virtuetwo.max_choices != virtuetwo.max_choices)
+		error_found = TRUE
+	
+	if(length(virtuetwo.extra_choices) != length(sane_virtuetwo.extra_choices))
+		error_found = TRUE
+	
+	if(!error_found)
+		for(var/choice in virtuetwo.extra_choices)
+			if(!(choice in sane_virtuetwo.extra_choices))
+				error_found = TRUE
+				break
+
+	if(error_found)
+		virtuetwo = sane_virtuetwo
+		qdel(virtue)
+	else
+		qdel(sane_virtuetwo)
+
 	if(origin_type)
 		virtue_origin = new origin_type
 	else
@@ -821,8 +869,8 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	WRITE_FILE(S["titles_pref"] , titles_pref)
 	WRITE_FILE(S["clothes_pref"] , clothes_pref)
 	WRITE_FILE(S["statpack"] , statpack.type)
-	WRITE_FILE(S["virtue"] , virtue.type)
-	WRITE_FILE(S["virtuetwo"], virtuetwo.type)
+	WRITE_FILE(S["virtue"] , virtue)
+	WRITE_FILE(S["virtuetwo"], virtuetwo)
 	WRITE_FILE(S["virtue_origin"], virtue_origin.type)
 	WRITE_FILE(S["race_bonus"], race_bonus)
 	WRITE_FILE(S["combat_music"], combat_music.type)
