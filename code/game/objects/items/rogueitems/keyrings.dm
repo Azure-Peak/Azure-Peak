@@ -304,7 +304,7 @@
 	keys = list(/obj/item/roguekey/bathmaster, /obj/item/roguekey/bathworker)
 
 /obj/item/storage/keyring/physician
-	keys = list(/obj/item/roguekey/physician, /obj/item/roguekey/keeper)
+	keys = list(/obj/item/roguekey/physician, /obj/item/roguekey/keeper, /obj/item/roguekey/university)
 
 /obj/item/storage/keyring/guildmaster //All access to crafter's guild + tailor
 	keys = list(/obj/item/roguekey/crafterguild, /obj/item/roguekey/tailor, /obj/item/roguekey/craftermaster)
