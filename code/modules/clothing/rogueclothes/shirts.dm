@@ -14,7 +14,7 @@
 	boobed = TRUE
 	sewrepair = TRUE
 	flags_inv = HIDEBOOB
-	experimental_inhand = FALSE
+	experimental_inhand = TRUE
 	salvage_amount = 2
 
 	grid_width = 64

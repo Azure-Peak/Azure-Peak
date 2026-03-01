@@ -295,7 +295,8 @@
 	if(user != src)
 		if(pulling != user) // If the person we're pulling aggro grabs us don't break the grab
 			stop_pulling()
-		user.set_pull_offsets(src, user.grab_state)
+		if(!is_shifted)
+			user.set_pull_offsets(src, user.grab_state)
 	log_combat(user, src, "grabbed", addition="aggressive grab[add_log]")
 	return 1
 

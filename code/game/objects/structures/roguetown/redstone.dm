@@ -687,10 +687,10 @@ GLOBAL_LIST_EMPTY(redstone_objs)
 	delay2open = 30
 	delay2close = 10
 
-/obj/structure/floordoor/attackby(mob/user)
+/obj/structure/floordoor/attackby(obj/item/I, mob/user, params)
 	. = ..()
-	var/obj/item = user.get_active_held_item()
-	if(user.used_intent.type == /datum/intent/chisel )
+	var/obj/item/held = user.get_active_held_item()
+	if(user.used_intent.type == /datum/intent/chisel)
 		if (user.get_skill_level(/datum/skill/craft/engineering) <= 3)
 			to_chat(user, span_warning("I need more skill to carve a name into this hatch."))
 			return
@@ -707,7 +707,7 @@ GLOBAL_LIST_EMPTY(redstone_objs)
 				desc = "a hatch with a carving scratched out"
 			playsound(user, 'sound/misc/wood_saw.ogg', 100, TRUE)
 		return
-	else if(istype(item, /obj/item/rogueweapon/chisel/assembly))
+	else if(istype(held, /obj/item/rogueweapon/chisel/assembly))
 		to_chat(user, span_warning("You most use both hands to rename the plate."))
 
 /obj/structure/kybraxor

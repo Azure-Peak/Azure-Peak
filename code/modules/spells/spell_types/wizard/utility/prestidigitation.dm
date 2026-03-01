@@ -36,6 +36,7 @@
 	var/sparkspeed = 30 // spark summoning speed
 	var/spark_cd = 0
 	var/gatherspeed = 35
+	experimental_inhand = FALSE
 
 /obj/item/melee/touch_attack/prestidigitation/Initialize()
 	. = ..()

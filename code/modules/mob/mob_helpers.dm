@@ -510,6 +510,8 @@
 		hud_used.action_intent.switch_intent(r_index,l_index,oactive)
 
 /mob/proc/update_a_intents()
+	if(QDELETED(src))
+		return
 	stop_attack()
 	QDEL_LIST(possible_a_intents)
 	QDEL_LIST(possible_offhand_intents)
@@ -596,6 +598,7 @@
 				input = null
 				mmb_intent = null
 			else
+				qdel(mmb_intent)
 				mmb_intent = new INTENT_KICK(src)
 		if(QINTENT_SPECIAL)
 			if(mmb_intent?.type == INTENT_SPECIAL)
@@ -603,6 +606,7 @@
 				input = null
 				mmb_intent = null
 			else
+				qdel(mmb_intent)
 				mmb_intent = new INTENT_SPECIAL(src)
 		if(QINTENT_BITE)
 			if(mmb_intent?.type == INTENT_BITE)
@@ -610,6 +614,7 @@
 				input = null
 				mmb_intent = null
 			else
+				qdel(mmb_intent)
 				mmb_intent = new INTENT_BITE(src)
 		if(QINTENT_JUMP)
 			if(mmb_intent?.type == INTENT_JUMP)
@@ -617,6 +622,7 @@
 				input = null
 				mmb_intent = null
 			else
+				qdel(mmb_intent)
 				mmb_intent = new INTENT_JUMP(src)
 		if(QINTENT_GIVE)
 			if(mmb_intent?.type == INTENT_GIVE)
@@ -624,6 +630,7 @@
 				input = null
 				mmb_intent = null
 			else
+				qdel(mmb_intent)
 				mmb_intent = new INTENT_GIVE(src)
 		if(QINTENT_SPELL)
 			if(mmb_intent)

@@ -30,14 +30,13 @@
 	animate(bar, pixel_y = 32 + (PROGRESSBAR_HEIGHT * (listindex - 1)), alpha = 255, time = PROGRESSBAR_ANIMATION_TIME, easing = SINE_EASING)
 
 /datum/progressbar/proc/update(progress)
-	for (var/client/C in GLOB.clients)
-		C.images += bar
-
+	if(!shown)
+		shown = TRUE
+		for(var/client/C in GLOB.clients)
+			C.images += bar
 	progress = CLAMP(progress, 0, goal)
 	last_progress = progress
 	bar.icon_state = "prog_bar_[round(((progress / goal) * 100), 5)]"
-	if (!shown)
-		shown = TRUE
 
 /datum/progressbar/proc/shiftDown()
 	--listindex
@@ -64,8 +63,8 @@
 	. = ..()
 
 /datum/progressbar/proc/remove_from_client()
-	for (var/client/C in GLOB.clients)
-		C.images += bar
+	for(var/client/C in GLOB.clients)
+		C.images -= bar
 
 #undef PROGRESSBAR_ANIMATION_TIME
 #undef PROGRESSBAR_HEIGHT

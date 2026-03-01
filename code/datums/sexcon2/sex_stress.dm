@@ -14,7 +14,7 @@
 	desc = "<span class='green'>That fight felt good.</span>"
 
 /datum/stressevent/cumok
-	timer = 10 MINUTES
+	timer = 5 MINUTES
 	stressadd = -2
 	desc = "<span class='green'>I came.</span>"
 
@@ -24,12 +24,12 @@
 	desc = "<span class='green'>I came, and it was great.</span>"
 
 /datum/stressevent/cumgood
-	timer = 10 MINUTES
+	timer = 15 MINUTES
 	stressadd = -3
 	desc = "<span class='green'>I came, and it was wonderful.</span>"
 
 /datum/stressevent/cummax
-	timer = 10 MINUTES
+	timer = 20 MINUTES
 	stressadd = -4
 	desc = "<span class='green'>I came, and it was incredible.</span>"
 

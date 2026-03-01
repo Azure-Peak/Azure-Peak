@@ -151,6 +151,14 @@ GLOBAL_LIST(teleport_runes)
 	animate(src, color = oldcolor, time = 5)
 	addtimer(CALLBACK(src, TYPE_PROC_REF(/atom, update_atom_colour)), 0.5 SECONDS)
 
+/// Clears lingering references from invoke() to prevent hard deletes.
+/obj/effect/decal/cleanable/roguerune/proc/invoke_cleanup()
+	selected_atoms = null
+	ritual_result = null
+	if(pickritual)
+		qdel(pickritual)
+		pickritual = null
+
 /obj/effect/decal/cleanable/roguerune/attack_hand(mob/living/user)
 	if(rune_in_use)
 		to_chat(user, span_notice("Someone is already using this rune."))
@@ -222,6 +230,7 @@ GLOBAL_LIST(teleport_runes)
 		if(iswallturf(close_atom))
 			to_chat(usr, span_hierophant_warning("Ritual failed, [src] is blocked by [close_atom]!"))
 			fail_invoke()
+			invoke_cleanup()
 			return
 		if(!ismovable(close_atom))
 			continue
@@ -238,6 +247,7 @@ GLOBAL_LIST(teleport_runes)
 		atoms_in_range += close_atom
 	pickritual = new ritual
 	if(!islist(pickritual.required_atoms))
+		invoke_cleanup()
 		return
 
 	// A copy of our requirements list.
@@ -301,11 +311,14 @@ GLOBAL_LIST(teleport_runes)
 		// Then let them know what they're missing
 		to_chat(usr, span_hierophant_warning("You are missing [english_list(what_are_we_missing)] in order to complete the ritual \"[pickritual.name]\"."))
 		fail_invoke()
+		invoke_cleanup()
 		return FALSE
 
 	playsound(usr, 'sound/magic/teleport_diss.ogg', 75, TRUE)
 
 	ritual_result = pickritual.on_finished_recipe(usr, selected_atoms, loc)
+
+	atoms_in_range.Cut()
 
 	return TRUE
 
@@ -344,6 +357,7 @@ GLOBAL_LIST(teleport_runes)
 	buffed = TRUE
 	if(ritual_result)
 		pickritual.cleanup_atoms(selected_atoms)
+	invoke_cleanup()
 
 	for(var/atom/invoker in invokers)
 		if(!isliving(invoker))
@@ -379,6 +393,7 @@ GLOBAL_LIST(teleport_runes)
 		return
 	if(ritual_result)
 		pickritual.cleanup_atoms(selected_atoms)
+	invoke_cleanup()
 
 	for(var/atom/invoker in invokers)
 		if(!isliving(invoker))
@@ -505,6 +520,7 @@ GLOBAL_LIST(teleport_runes)
 
 	if(ritual_result)
 		pickritual.cleanup_atoms(selected_atoms)
+	invoke_cleanup()
 
 	for(var/atom/invoker in invokers)
 		if(!isliving(invoker))
@@ -561,6 +577,7 @@ GLOBAL_LIST(teleport_runes)
 	to_chat(usr, span_hierophant_warning("template.load complete"))
 	if(ritual_result)
 		pickritual.cleanup_atoms(selected_atoms)
+	invoke_cleanup()
 
 	for(var/atom/invoker in invokers)
 		if(!isliving(invoker))
@@ -639,6 +656,7 @@ GLOBAL_LIST(teleport_runes)
 	var/movesuccess = FALSE
 	if(ritual_result)
 		pickritual.cleanup_atoms(selected_atoms)
+	invoke_cleanup()
 	for(var/atom/movable/A in range(runesize, src))
 		if(istype(A, /obj/effect/dummy/phased_mob))
 			continue
@@ -712,21 +730,35 @@ GLOBAL_LIST(teleport_runes)
 
 /obj/effect/decal/cleanable/roguerune/arcyne/summoning/attack_hand(mob/living/user)
 	if(summoning && isarcyne(user))
+		var/mob/living/simple_animal/S = summoned_mob
+		if(!S || !istype(S) || QDELETED(S))
+			to_chat(user, span_warning("The containment has already faded."))
+			summoned_mob = null
+			summoning = FALSE
+			return
+
 		to_chat(user, span_warning("You release the summon from it's containment!"))
-		playsound(usr, 'sound/magic/teleport_diss.ogg', 75, TRUE)
+		playsound(user, 'sound/magic/teleport_diss.ogg', 75, TRUE)
 		do_invoke_glow()
 		clear_obstacles(user)
 		sleep(20)
-		animate(summoned_mob, color = null,time = 5)
-		REMOVE_TRAIT(summoned_mob, TRAIT_PACIFISM, TRAIT_GENERIC)	//can't kill while planar bound.
-		summoned_mob.status_flags -= GODMODE//remove godmode
-		summoned_mob.candodge = TRUE
-		summoned_mob.binded = FALSE
-		summoned_mob.move_resist = MOVE_RESIST_DEFAULT
-		summoned_mob.SetParalyzed(0)
+		if(!S || QDELETED(S))
+			summoned_mob = null
+			summoning = FALSE
+			return
+
+		animate(S, color = null, time = 5)
+		REMOVE_TRAIT(S, TRAIT_PACIFISM, TRAIT_GENERIC) // can't kill while planar bound.
+		S.status_flags -= GODMODE
+		S.candodge = TRUE
+		S.binded = FALSE
+		S.move_resist = MOVE_RESIST_DEFAULT
+		S.SetParalyzed(0)
+
 		summoned_mob = null
 		summoning = FALSE
 		return
+
 	. = ..()
 
 /obj/effect/decal/cleanable/roguerune/arcyne/summoning/invoke(list/invokers, datum/runeritual/runeritual)
@@ -741,6 +773,7 @@ GLOBAL_LIST(teleport_runes)
 		src.summoning = TRUE
 	if(ritual_result)
 		pickritual.cleanup_atoms(selected_atoms)
+	invoke_cleanup()
 
 	for(var/atom/invoker in invokers)
 		if(!isliving(invoker))

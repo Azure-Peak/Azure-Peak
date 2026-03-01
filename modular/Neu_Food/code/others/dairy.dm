@@ -126,23 +126,6 @@
 				reagents.remove_reagent(/datum/reagent/consumable/milk/salted, 5)
 				new /obj/item/reagent_containers/food/snacks/rogue/cheese(drop_location())
 			return
-
-		var/obj/item/natural/cloth/T = I
-		if(T.wet >= 10)
-			to_chat(user, span_warning("[T] is already soaked!")) //So we dont waste water if its already at max wetness or higher
-			return
-		else
-			var/removereg = /datum/reagent/water
-			if(!reagents.has_reagent(/datum/reagent/water, 5))
-				removereg = /datum/reagent/water/gross
-				if(!reagents.has_reagent(/datum/reagent/water/gross, 5))
-					to_chat(user, span_warning("No water to soak in."))
-					return
-			wash_atom(T)
-			playsound(src, pick('sound/foley/waterwash (1).ogg','sound/foley/waterwash (2).ogg'), 100, FALSE)
-			reagents.remove_reagent(removereg, 5)
-			user.visible_message(span_info("[user] soaks [T] in [src]."))
-			return
 	..()
 
 

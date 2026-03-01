@@ -1078,7 +1078,7 @@
 		dropItemToGround(mouth, silent = FALSE)
 
 /*/mob/living/carbon/human/proc/update_heretic_commune()
-	if(HAS_TRAIT(src, TRAIT_COMMIE) || HAS_TRAIT(src, TRAIT_CABAL) || HAS_TRAIT(src, TRAIT_HORDE) || HAS_TRAIT(src, TRAIT_DEPRAVED))
+	if(HAS_TRAIT(src, TRAIT_FREEMAN) || HAS_TRAIT(src, TRAIT_CABAL) || HAS_TRAIT(src, TRAIT_HORDE) || HAS_TRAIT(src, TRAIT_DEPRAVED))
 		verbs |= /mob/living/carbon/human/verb/commune
 		verbs |= /mob/living/carbon/human/verb/show_heretics
 		verbs |= /mob/living/carbon/human/verb/bad_omen

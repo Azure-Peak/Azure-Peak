@@ -53,7 +53,12 @@ body {
 
 @font-face {
 	font-family: "Furqan";
-	src: url("sand.ttf");
+	src: url("celestial.ttf");
+}
+
+@font-face {
+	font-family: "Furqan";
+	src: url("raneshi.ttf");
 }
 
 @font-face {

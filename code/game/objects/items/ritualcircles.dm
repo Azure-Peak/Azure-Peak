@@ -1340,7 +1340,7 @@
 			var/onrune = view(1, loc)
 			var/list/folksonrune = list()
 			for(var/mob/living/carbon/human/persononrune in onrune)
-				if(HAS_TRAIT(persononrune, TRAIT_COMMIE))
+				if(HAS_TRAIT(persononrune, TRAIT_FREEMAN))
 					folksonrune += persononrune
 			var/target = input(user, "Choose a host") as null|anything in folksonrune
 			if(!target)
@@ -1383,7 +1383,7 @@
 				icon_state = "matthios_chalky"
 
 /obj/structure/ritualcircle/matthios/proc/matthiosarmaments(mob/living/carbon/human/target)
-	if(!HAS_TRAIT(target, TRAIT_COMMIE))
+	if(!HAS_TRAIT(target, TRAIT_FREEMAN))
 		loc.visible_message(span_cult("THE RITE REJECTS ONE WITHOUT GREED IN THEIR HEART!!"))
 		return
 	target.Stun(60)

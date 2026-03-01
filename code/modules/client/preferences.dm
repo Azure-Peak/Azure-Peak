@@ -520,6 +520,8 @@ GLOBAL_LIST_EMPTY(chosen_names)
 					virtue = GLOB.virtues[/datum/virtue/none]
 				if(virtuetwo.type in pref_species.restricted_virtues)
 					virtuetwo = GLOB.virtues[/datum/virtue/none]
+			if(virtue.virtuous_only && !statpack.virtuous)
+				virtue = GLOB.virtues[/datum/virtue/none]
 			dat += "<b>Virtue:</b> <a href='?_src_=prefs;preference=virtue;task=input'>[virtue]</a><BR>"
 			if(statpack.virtuous)
 				dat += "<b>Second Virtue:</b> <a href='?_src_=prefs;preference=virtuetwo;task=input'>[virtuetwo]</a><BR>"
@@ -1814,9 +1816,8 @@ Slots: [job.spawn_positions] [job.round_contrib_points ? "RCP: +[job.round_contr
 						var/datum/voicepack/VP = GLOB.voice_packs_list[voice_pack]
 						if(!istype(temp_vp, VP))
 							temp_vp = new VP()
-						var/sound/voiceline = sound(temp_vp.get_sound(pick(temp_vp.preview)))
-						voiceline.frequency = voice_pitch
-						user.playsound_local(user, vol = 100, S = voiceline)
+						var/voiceline = temp_vp.get_sound(pick(temp_vp.preview))
+						user.playsound_local(user, voiceline, 100)
 
 				if("taur_type")
 					var/list/species_taur_list = pref_species.get_taur_list()
@@ -1908,6 +1909,7 @@ Slots: [job.spawn_positions] [job.round_contrib_points ? "RCP: +[job.round_contr
 						/datum/language/hellspeak,
 						/datum/language/draconic,
 						/datum/language/celestial,
+						/datum/language/raneshi,
 						/datum/language/grenzelhoftian,
 						/datum/language/kazengunese,
 						/datum/language/lingyuese,
@@ -2368,6 +2370,8 @@ Slots: [job.spawn_positions] [job.round_contrib_points ? "RCP: +[job.round_contr
 						if (V.restricted == TRUE)
 							if((pref_species.type in V.races))
 								continue
+						if(V.virtuous_only && !statpack.virtuous)
+							continue
 						virtue_choices[V.name] = V
 					virtue_choices = sort_list(virtue_choices)
 					var/result = tgui_input_list(user, "What strength shall you wield?", "VIRTUES",virtue_choices)

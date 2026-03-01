@@ -263,25 +263,6 @@
 	item_state = "ancientcrossbow"
 	max_integrity = 80
 
-/obj/item/gun/ballistic/revolver/grenadelauncher/crossbow/light
-	name = "stockless crossbow"
-	desc = "A deadly weapon that shoots a bolt with terrific power. The stock has been whittled down into a 'cabbit's foot'-styled grip; fletchable on the move without compromising the lethality of its bolts. Without a stock to bolster one's draw-strength, however, it means preparing each shot is more laborious than the last. </br>Rockhill's wytch-hunting folk heroes were oft-mythed to wield two of these at once."
-	icon = 'icons/roguetown/weapons/misc32.dmi'
-	icon_state = "crossbowshort0"
-	item_state = "crossbowshort"
-	possible_item_intents = list(/datum/intent/shoot/crossbow/slurbow, /datum/intent/arc/crossbow/slurbow, /datum/intent/buttstroke)
-	chargingspeed = 30
-	accfactor = 0.75
-	penfactor = 0.75 //Full damage, but reduce armor-penetration. Rough sidegrade  
-	reloadtime = 60 //Less leverage to work with, but not as difficult as larger weapons.
-	force = 13
-	movingreload = TRUE
-	onehanded = TRUE
-	slot_flags = ITEM_SLOT_BACK | ITEM_SLOT_HIP
-	w_class = WEIGHT_CLASS_SMALL //Theoretically stowable in a belt or satchel, unlike the larger variants.
-	grid_height = 96
-	grid_width = 64
-
 /datum/intent/buttstroke
 	name = "buttstroke"
 	blade_class = BCLASS_BLUNT
@@ -314,6 +295,7 @@
 	onehanded = TRUE
 	slot_flags = ITEM_SLOT_BACK | ITEM_SLOT_HIP
 	penfactor = 0.5		//Bolts have 50 pen, this decreases to 25. Should only pen armor with less than 67 protection.
+	w_class = WEIGHT_CLASS_SMALL
 	wdefense = 2
 	max_integrity = 80
 

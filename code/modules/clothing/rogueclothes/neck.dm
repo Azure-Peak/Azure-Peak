@@ -4,7 +4,7 @@
 	icon = 'icons/roguetown/clothing/neck.dmi'
 	mob_overlay_icon = 'icons/roguetown/clothing/onmob/neck.dmi'
 	bloody_icon_state = "bodyblood"
-	experimental_inhand = FALSE
+	experimental_inhand = TRUE
 	alternate_worn_layer = NECK_LAYER
 	var/overarmor
 
@@ -443,7 +443,7 @@
 	slot_flags = ITEM_SLOT_NECK|ITEM_SLOT_HIP|ITEM_SLOT_WRISTS
 	possible_item_intents = list(/datum/intent/use, /datum/intent/special/magicarc)
 	sellprice = 10
-	experimental_onhip = FALSE
+	experimental_onhip = TRUE
 	anvilrepair = /datum/skill/craft/armorsmithing
 	grid_width = 32
 	grid_height = 32
@@ -691,7 +691,6 @@
 	icon_state = "psycross_b"
 	item_state = "psycross_b"
 	sellprice = 25
-	is_silver = TRUE
 
 /obj/item/clothing/neck/roguetown/psicross/silver
 	name = "silver psycross"
@@ -990,7 +989,7 @@
 
 /obj/item/clothing/neck/roguetown/chaincoif/chainmantle/matthios/Initialize()
 	. = ..()
-	AddComponent(/datum/component/cursed_item, TRAIT_COMMIE, "ARMOR")
+	AddComponent(/datum/component/cursed_item, TRAIT_FREEMAN, "ARMOR")
 
 //
 

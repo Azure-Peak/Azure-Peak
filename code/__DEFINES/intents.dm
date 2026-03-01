@@ -48,6 +48,8 @@
 #define PARTIZAN_PEEL		/datum/intent/partizan/peel
 #define SHORT_SPEAR_THRUST /datum/intent/spear/thrust/short
 #define SHORT_SPEAR_CUT /datum/intent/spear/cut/short
+#define SPEAR_TRAINER_THRUST /datum/intent/spear/thrust/training
+#define SPEAR_TRAINER_THRUST1H /datum/intent/spear/thrust/oneh/training
 
 #define MESSER_CHOP			/datum/intent/sword/chop/messer
 
@@ -62,6 +64,7 @@
 #define MACE_SMASH			/datum/intent/mace/smash
 #define MACE_STRIKE			/datum/intent/mace/strike
 #define AXE_SMASH			/datum/intent/mace/smash/flataxe
+#define MACE_SMASH_WOOD		/datum/intent/mace/smash/wood
 
 #define DAGGER_CUT			/datum/intent/dagger/cut
 #define DAGGER_THRUST		/datum/intent/dagger/thrust

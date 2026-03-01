@@ -461,7 +461,8 @@
 
 	influence_sets = list(
 		"Set 1" = list(
-			STATS_NOBLE_DEATHS = list("name" = "Nobles killed:", "points" = 5.5, "capacity" = 80),
+			STATS_HUMEN_DEATHS = list("name" = "Humen killed:", "points" = 5.5, "capacity" = 80),
+			STATS_CLERGY_DEATHS = list("name" = "Clergy killed:", "points" = 12, "capacity" = 70),
 		),
 		"Set 2" = list(
 			STATS_DEADITES_WOKEN_UP = list("name" = "Deadites woken up:", "points" = 4, "capacity" = 85),
@@ -470,7 +471,7 @@
 			STATS_DEADITES_ALIVE = list("name" = "Deadites alive:", "points" = 1, "capacity" = 40),
 		),
 		"Set 4" = list(
-			STATS_CLERGY_DEATHS = list("name" = "Clergy killed:", "points" = 12, "capacity" = 70),
+			STATS_LUX_HARVESTED = list("name" = "Clergy killed:", "points" = 12, "capacity" = 70),
 		),
 		"Set 5" = list(
 			STATS_TORTURES = list("name" = "Tortures performed:", "points" = 5.25, "capacity" = 70),
@@ -603,16 +604,17 @@
 
 	influence_sets = list(
 		"Set 1" = list(
-			STATS_ITEMS_PICKPOCKETED = list("name" = "Items pickpocketed:", "points" = 4.5, "capacity" = 80),
+			STATS_NOBLE_DEATHS = list("name" = "Nobles killed:", "points" = 5.5, "capacity" = 80),
 		),
 		"Set 2" = list(
 			STATS_SHRINE_VALUE = list("name" = "Value offered to his idol:", "points" = 0.08, "capacity" = 70),
 		),
 		"Set 3" = list(
 			STATS_GREEDY_PEOPLE = list("name" = "Number of greedy people:", "points" = 6.5, "capacity" = 70),
+			STATS_INDEBTED = list("name"= "Number of indebted people:", "points" = 5, "capacity" = 25),
 		),
 		"Set 4" = list(		
-			STATS_INDEBTED = list("name"= "Number of indebted people:", "points" = 5, "capacity" = 25)
+			STATS_ITEMS_PICKPOCKETED = list("name" = "Items pickpocketed:", "points" = 4.5, "capacity" = 80),
 		),
 		"Set 5" = list(
 			STATS_LOCKS_PICKED = list("name" = "Locks picked:", "points" = 3.75, "capacity" = 80),
