@@ -14,7 +14,7 @@
 /datum/virtue/utility/apprentice
 	name = "Labour Apprentice"
 	desc = "I've toiled away a part of my lyfe at the behest of another labourer, learning a thing or two."
-	added_stashed_items = list(/obj/item/flashlight/flare/torch/lantern)
+	added_stashed_items = list("Lamptern" = /obj/item/flashlight/flare/torch/lantern)
 	max_choices = 4
 	choice_costs = list(0, 0, 2, 2)
 	extra_choices = list(
