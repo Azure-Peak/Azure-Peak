@@ -34,10 +34,10 @@ If reflected into self - just inflict half the damage through armor.
 	invocation_type = "shout"
 	gesture_required = TRUE
 	xp_gain = FALSE
-	var/aoe_damage = 25
+	var/aoe_damage = 30
 	var/aoe_base_cuts = 3
 	var/aoe_bonus_cuts = 2
-	var/personal_damage = 25
+	var/personal_damage = 30
 	var/personal_base_cuts = 3
 	var/personal_bonus_cuts = 2
 	var/min_momentum = 7
