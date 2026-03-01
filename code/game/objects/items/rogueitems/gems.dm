@@ -207,7 +207,8 @@
 /obj/item/roguegem/random
 	name = "random gem"
 	desc = "You shouldn't be seeing this."
-	icon_state = null
+	icon = 'icons/roguetown/helpers/spawnerhelpers.dmi'
+	icon_state = "roguegem"
 
 /obj/item/roguegem/random/Initialize()
 	..()
@@ -226,6 +227,28 @@
 		/obj/item/roguegem/amber = 3,
 		/obj/item/roguegem/opal = 3,
 		/obj/item/roguegem/blood_diamond = 1)
+	var/pickgem = pickweight(newgem)
+	new pickgem(get_turf(src))
+	qdel(src)
+
+
+/obj/item/roguegem/random_gemcraft
+	name = "random gemcrafting gem"
+	desc = "You shouldn't be seeing this."
+	icon = 'icons/roguetown/helpers/spawnerhelpers.dmi'
+	icon_state = "gemcraft"
+
+/obj/item/roguegem/random_gemcraft/Initialize()
+	..()
+	var/newgem = list(
+		/obj/item/roguegem/onyxa = 9, // 25%
+		/obj/item/roguegem/jade = 7, // 20%
+		/obj/item/roguegem/amber = 7, // 20%
+		/obj/item/roguegem/coral = 5, // ~15%
+		/obj/item/roguegem/turq = 4, // 11%
+		/obj/item/roguegem/opal = 3, // 8%
+		/obj/item/roguegem/oyster = 1 // it sucks and this is supposed 2 be loot. 2% chance.
+	) // 36 total
 	var/pickgem = pickweight(newgem)
 	new pickgem(get_turf(src))
 	qdel(src)

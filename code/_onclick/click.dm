@@ -9,11 +9,11 @@
 /mob/var/next_move_adjust = 0 //Amount to adjust action/click delays by, + or -
 /mob/var/next_move_modifier = 1 //Value to multiply action/click delays by
 
-// CanReach caching
-/mob/var/atom/last_reach_target
+// CanReach caching - weakrefs to prevent hard deletes from stale cache entries
+/mob/var/datum/weakref/last_reach_target
 /mob/var/last_reach_result
 /mob/var/last_reach_time
-/mob/var/obj/item/last_reach_tool
+/mob/var/datum/weakref/last_reach_tool
 
 //Delays the mob's next click/action by num deciseconds
 // eg: 10-3 = 7 deciseconds of delay
@@ -430,7 +430,7 @@
 /atom/movable/proc/CanReach(atom/ultimate_target, obj/item/tool, view_only = FALSE)
 	if(ismob(src))
 		var/mob/M = src
-		if(M.last_reach_target == ultimate_target && M.last_reach_time == world.time && M.last_reach_tool == tool)
+		if(M.last_reach_target?.resolve() == ultimate_target && M.last_reach_time == world.time && M.last_reach_tool?.resolve() == tool)
 			return M.last_reach_result
 
 	// A backwards depth-limited breadth-first-search to see if the target is
@@ -458,10 +458,10 @@
 				if(Adjacent(target) || ( (tool || (!iscarbon(src) && usedreach >= 2)) && CheckToolReach(src, target, usedreach))) //Adjacent or reaching attacks
 					if(ismob(src))
 						var/mob/M = src
-						M.last_reach_target = ultimate_target
+						M.last_reach_target = WEAKREF(ultimate_target)
 						M.last_reach_result = TRUE
 						M.last_reach_time = world.time
-						M.last_reach_tool = tool
+						M.last_reach_tool = WEAKREF(tool)
 					return TRUE
 
 			if (!target.loc)
@@ -474,10 +474,10 @@
 
 	if(ismob(src))
 		var/mob/M = src
-		M.last_reach_target = ultimate_target
+		M.last_reach_target = WEAKREF(ultimate_target)
 		M.last_reach_result = FALSE
 		M.last_reach_time = world.time
-		M.last_reach_tool = tool
+		M.last_reach_tool = WEAKREF(tool)
 	return FALSE
 
 /atom/movable/proc/IsDirectlyAccessible(atom/target)

@@ -59,7 +59,7 @@
 
 /obj/effect/proc_holder/spell/invoked/attach_bodypart
 	name = "Bodypart Miracle"
-	desc = "Attach all limbs and organs you or your target is holding, and near your target."
+	desc = "Attach all limbs and organs you are holding, and on the same tile as the target."
 	overlay_icon = 'icons/mob/actions/pestraspells.dmi'
 	action_icon = 'icons/mob/actions/pestraspells.dmi'
 	overlay_state = "flextape"
@@ -98,44 +98,43 @@
 
 	// Get missing limbs first
 	var/list/missing_limbs = human_target.get_missing_limbs()
-	// Search for limbs in three locations: user's hands, target's hands, and nearby
-	var/list/limb_locations = list()
+
+	// Search caster's hands and free-standing items on the target's turf
+	var/turf/target_turf = get_turf(human_target)
+	var/list/search_items = list()
 	if(user)
-		limb_locations += user.held_items
-	limb_locations += human_target.held_items
-	limb_locations += range(1, human_target)
+		search_items += user.held_items
+	search_items += target_turf.contents
 
 	// Try to attach limbs
-	for(var/location in limb_locations)
-		for(var/obj/item/bodypart/limb in location)
-			if(!istype(limb) || !(limb.body_zone in missing_limbs))
-				continue
+	for(var/obj/item/bodypart/limb in search_items)
+		if(!(limb.body_zone in missing_limbs))
+			continue
 
-			// Skip if limb is already attached to someone
-			if(limb.owner && limb.owner != human_target)
-				continue
+		// Skip if limb is already attached to someone
+		if(limb.owner && limb.owner != human_target)
+			continue
 
-			// Necra vow check
-			if(same_owner && limb.original_owner && limb.original_owner != human_target)
-				to_chat(user, span_warning("Limb [limb] doesn't belong to target due to Necra vow!"))
-				continue
+		// Necra vow check
+		if(same_owner && limb.original_owner && limb.original_owner != human_target)
+			to_chat(user, span_warning("Limb [limb] doesn't belong to target due to Necra vow!"))
+			continue
 
-			// Check if target already has this limb
-			if(human_target.get_bodypart(limb.body_zone))
-				continue
+		// Check if target already has this limb
+		if(human_target.get_bodypart(limb.body_zone))
+			continue
 
-			// Try to attach the limb
-			if(limb.attach_limb(human_target))
-				human_target.visible_message(
-					span_info("\The [limb] attaches itself to [human_target]!"), 
-					span_notice("\The [limb] attaches itself to me!")
-				)
-				attached_count++
-				to_chat(user, span_green("Successfully attached [limb]"))
-				// Remove from missing limbs so we don't try to attach another to the same slot
-				missing_limbs -= limb.body_zone
-			else
-				to_chat(user, span_warning("Failed to attach [limb]"))
+		// Try to attach the limb
+		if(limb.attach_limb(human_target))
+			human_target.visible_message(
+				span_info("\The [limb] attaches itself to [human_target]!"),
+				span_notice("\The [limb] attaches itself to me!")
+			)
+			attached_count++
+			to_chat(user, span_green("Successfully attached [limb]"))
+			missing_limbs -= limb.body_zone
+		else
+			to_chat(user, span_warning("Failed to attach [limb]"))
 
 	// Now handle organs
 	var/list/missing_organs = list(
@@ -154,43 +153,34 @@
 		if(human_target.getorganslot(organ_slot))
 			missing_organs -= organ_slot
 
-	// Search for organs in the same locations
-	var/list/organ_locations = list()
-	if(user)
-		organ_locations += user.held_items
-	organ_locations += human_target.held_items
-	organ_locations += range(1, human_target)
+	// Try to attach organs from the same sources
+	for(var/obj/item/organ/organ in search_items)
+		if(!(organ.slot in missing_organs))
+			continue
 
-	// Try to attach organs
-	for(var/location in organ_locations)
-		for(var/obj/item/organ/organ in location)
-			if(!istype(organ) || !(organ.slot in missing_organs))
-				continue
+		// Skip if organ is already in someone
+		if(organ.owner && organ.owner != human_target)
+			continue
 
-			// Skip if organ is already in someone
-			if(organ.owner && organ.owner != human_target)
-				continue
+		// Necra vow check for organs
+		if(same_owner && organ.owner && organ.owner != human_target)
+			continue
 
-			// Necra vow check for organs
-			if(same_owner && organ.owner && organ.owner != human_target)
-				continue
+		// Check if target already has this organ
+		if(human_target.getorganslot(organ.slot))
+			continue
 
-			// Check if target already has this organ
-			if(human_target.getorganslot(organ.slot))
-				continue
-
-			// Try to insert the organ
-			if(organ.Insert(human_target))
-				human_target.visible_message(
-					span_info("\The [organ] attaches itself to [human_target]!"), 
-					span_notice("\The [organ] attaches itself to me!")
-				)
-				attached_count++
-				to_chat(user, span_green("Successfully attached [organ]"))
-				// Remove from missing organs
-				missing_organs -= organ.slot
-			else
-				to_chat(user, span_warning("Failed to attach [organ]"))
+		// Try to insert the organ
+		if(organ.Insert(human_target))
+			human_target.visible_message(
+				span_info("\The [organ] attaches itself to [human_target]!"),
+				span_notice("\The [organ] attaches itself to me!")
+			)
+			attached_count++
+			to_chat(user, span_green("Successfully attached [organ]"))
+			missing_organs -= organ.slot
+		else
+			to_chat(user, span_warning("Failed to attach [organ]"))
 
 	if(attached_count > 0)
 		if(!(human_target.mob_biotypes & MOB_UNDEAD))

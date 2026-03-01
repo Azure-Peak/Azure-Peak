@@ -288,6 +288,12 @@
 	var/list/available = icon_states('icons/roguetown/weapons/shield_heraldry_masks.dmi')
 	return (mask_state in available)
 
+/obj/item/rogueweapon/shield/obj_break(damage_flag)
+	. = ..()
+	// Clear heraldry so the player can re-apply it after repairing
+	heraldry_state = null
+	heraldry_preview = null
+
 /obj/item/rogueweapon/shield/attack_right(mob/user)
 	if(!has_heraldry_mask())
 		to_chat(user, span_warning("This shield cannot bear heraldry."))
@@ -398,7 +404,7 @@
 	flags_1 = CONDUCT_1
 	wdefense = 12
 	coverage = 60
-	heraldry_x_offset = 1 // Shift right by 1px to center flat heraldry.
+	heraldry_x_offset = 1
 	attacked_sound = list('sound/combat/parry/shield/metalshield (1).ogg','sound/combat/parry/shield/metalshield (2).ogg','sound/combat/parry/shield/metalshield (3).ogg')
 	parrysound = list('sound/combat/parry/shield/metalshield (1).ogg','sound/combat/parry/shield/metalshield (2).ogg','sound/combat/parry/shield/metalshield (3).ogg')
 	max_integrity = 300

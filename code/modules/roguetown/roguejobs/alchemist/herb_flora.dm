@@ -67,6 +67,8 @@
 /obj/structure/flora/roguegrass/herb/random
 	name = "random herb"
 	desc = "Haha, im in danger."
+	icon = 'icons/roguetown/helpers/spawnerhelpers.dmi'
+	icon_state = "random_herb"
 
 /obj/structure/flora/roguegrass/herb/random/Initialize()
 	var/type = pick(list(/obj/structure/flora/roguegrass/herb/atropa,

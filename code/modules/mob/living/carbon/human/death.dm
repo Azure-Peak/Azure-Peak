@@ -30,7 +30,9 @@
 /mob/living/carbon/human/death(gibbed, nocutscene = FALSE)
 	if(stat == DEAD)
 		return
-
+	if(QDELETED(src) || !loc)
+		return
+		
 	var/area/A = get_area(src)
 	dna?.species?.stop_wagging_tail(src)
 

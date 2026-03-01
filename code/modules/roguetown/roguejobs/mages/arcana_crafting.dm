@@ -67,7 +67,7 @@
 	name = "mana binding collar"
 	result = /obj/item/clothing/neck/roguetown/collar/leather/nomagic
 	reqs = list(/obj/item/clothing/neck/roguetown/collar = 1,
-				/obj/item/roguegem = 1,
+				/obj/item/roguegem/diamond = 1,
 				/obj/item/magic/melded/t2 = 1)
 	craftdiff = 2
 
@@ -75,7 +75,7 @@
 	name = "mana binding gloves"
 	result = /obj/item/clothing/gloves/roguetown/nomagic
 	reqs = list(/obj/item/clothing/gloves/roguetown/leather = 1,
-				/obj/item/roguegem = 1,
+				/obj/item/roguegem/diamond = 1,
 				/obj/item/magic/melded/t3 = 1)
 	craftdiff = 3
 

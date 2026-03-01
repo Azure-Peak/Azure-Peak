@@ -82,6 +82,8 @@
 	var/magazine_wording = "magazine"
 	///Phrasing of the cartridge in examine and notification messages; ex: bullet, shell, dart, etc.
 	var/cartridge_wording = "bullet"
+	///Indefinite articles of the bullet; ex: a, an
+	var/cartridge_articles = "a"
 	///length between individual racks
 	var/rack_delay = 5
 	///time of the most recent rack, used for cooldown purposes
@@ -254,7 +256,7 @@
 				chambered = null
 			var/num_loaded = magazine.attackby(A, user, params, TRUE)
 			if (num_loaded)
-				to_chat(user, "<span class='notice'>I [verbage] a [cartridge_wording]\s on \the [src].</span>")
+				to_chat(user, "<span class='notice'>I [verbage] [cartridge_articles] [cartridge_wording] into \the [src].</span>")
 				playsound(src, load_sound, load_sound_volume, load_sound_vary)
 				if (chambered == null && bolt_type == BOLT_TYPE_NO_BOLT)
 					chamber_round()

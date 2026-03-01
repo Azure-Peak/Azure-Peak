@@ -14,6 +14,14 @@
 	var/use_icons = TRUE
 
 
+/datum/component/holster/Destroy()
+	if(istype(parent, /obj/item/rogueweapon/scabbard))
+		var/obj/item/rogueweapon/scabbard/S = parent
+		S.hol_comp = null
+	if(sheathed)
+		QDEL_NULL(sheathed)
+	return ..()
+
 /datum/component/holster/Initialize(obj/item/rogueweapon/arg_validblade, list/arg_valid_blades, list/arg_invalid_blades, arg_sheathe_time)
 	if(!isitem(parent))
 		return COMPONENT_INCOMPATIBLE

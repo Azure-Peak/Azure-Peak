@@ -16,7 +16,7 @@
 		return 1
 	if(HAS_TRAIT(target, TRAIT_HORDE))
 		return 1
-	if(HAS_TRAIT(target, TRAIT_COMMIE))
+	if(HAS_TRAIT(target, TRAIT_FREEMAN))
 		return 1
 	if(HAS_TRAIT(target, TRAIT_DEPRAVED))
 		return 1

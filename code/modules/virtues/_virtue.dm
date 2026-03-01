@@ -33,10 +33,12 @@ GLOBAL_LIST_EMPTY(virtues)
 	var/triumph_cost = 0
 	/// A custom addendum that explains what the virtue does outside of the traits / skill adjustments.
 	var/custom_text
-	//if a virtue hits the soft cap we give them a 1 skill point boost
+	// If a virtue hits the soft cap we give them a 1 skill point boost
 	var/softcap = FALSE
 	/// Whether a virtue should show up in regular selection
 	var/unlisted = FALSE
+	/// Whether the virtue is only available as a second virtue choice (so only available to virtuous / fated)
+	var/virtuous_only = FALSE
 
 /datum/virtue/New()
 	. = ..()

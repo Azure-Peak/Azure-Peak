@@ -34,10 +34,6 @@
 /datum/wound/facial/ears/on_mob_gain(mob/living/affected)
 	. = ..()
 	affected.Stun(10)
-	var/obj/item/organ/ears/ears = affected.getorganslot(ORGAN_SLOT_EARS)
-	if(ears)
-		ears.Remove(affected)
-		ears.forceMove(affected.drop_location())
 
 /datum/wound/facial/eyes
 	name = "eye evisceration"

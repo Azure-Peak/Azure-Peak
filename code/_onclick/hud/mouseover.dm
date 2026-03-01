@@ -20,18 +20,29 @@
 	/// This means that the mouse over text will not be displayed when the mouse is over this atom
 	var/nomouseover = FALSE
 
-/atom/MouseEntered(location,control,params)
-	. = ..()
-	if(!nomouseover && name && ismob(usr))
-		handle_mouseover(location, control, params)
+/atom/MouseEntered(location, control, params)
+	if(!nomouseover && usr?.client)
+		SSmouse_entered.hovers[usr.client] = src
+		SSmouse_entered.hover_params[usr.client] = params
+
+/// Fired whenever this atom is the most recent to be hovered over in the tick.
+/// Preferred over MouseEntered if you do not need information such as the position of the mouse.
+/// Especially because this is deferred over a tick, do not trust that `client` is not null.
+/atom/proc/on_mouse_enter(client/C, params)
+	SHOULD_NOT_SLEEP(TRUE)
+	var/mob/user = C?.mob
+	if(!user)
+		return
+	if(!nomouseover && name)
+		handle_mouseover(user, params)
 
 /atom/MouseExited(params)
 	. = ..()
 	if(!nomouseover && ismob(usr))
 		handle_mouseexit(params)
 
-/atom/proc/handle_mouseover(location, control, params)
-	var/mob/p = usr
+/atom/proc/handle_mouseover(mob/user, params)
+	var/mob/p = user || usr
 	if(QDELETED(src))
 		return FALSE
 	if(!p)
@@ -46,7 +57,7 @@
 		var/offset_x = 8 - (AT.x - x) - (p.client.pixel_x / world.icon_size)
 		var/offset_y = 8 - (AT.y - y) - (p.client.pixel_y / world.icon_size)
 		var/list/PM = list("screen-loc" = "[offset_x]:0,[offset_y]:0")
-		if(!isturf(loc))
+		if(!isturf(loc) && params)
 			PM = params2list(params)
 			p.client.mouseovertext.movethis(PM, TRUE)
 		else
@@ -55,11 +66,11 @@
 		p.client.screen |= p.client.mouseovertext
 	return TRUE
 
-/obj/structure/soul/handle_mouseover(location, control, params)
+/obj/structure/soul/handle_mouseover(mob/user, params)
 	return TRUE
 
-/obj/structure/handle_mouseover(location, control, params)
-	var/mob/p = usr
+/obj/structure/handle_mouseover(mob/user, params)
+	var/mob/p = user || usr
 	if(p.client)
 		if(!p.client.mouseovertext)
 			p.client.genmouseobj()
@@ -71,7 +82,7 @@
 		var/offset_x = 8 - (p.x - x)
 		var/offset_y = 8 - (p.y - y)
 		var/list/PM = list("screen-loc" = "[offset_x]:0,[offset_y]:0")
-		if(!isturf(loc))
+		if(!isturf(loc) && params)
 			PM = params2list(params)
 			p.client.mouseovertext.movethis(PM, TRUE)
 		else
@@ -120,8 +131,8 @@
 			p.client.mouseoverbox.screen_loc = null
 */
 
-/turf/handle_mouseover(location,control,params)
-	var/mob/p = usr
+/turf/handle_mouseover(mob/user, params)
+	var/mob/p = user || usr
 	if(QDELETED(src))
 		return FALSE
 	if(p.client)
@@ -144,8 +155,8 @@
 /turf/open
 	nomouseover = TRUE
 
-/turf/open/handle_mouseover(location, control, params)
-	var/mob/p = usr
+/turf/open/handle_mouseover(mob/user, params)
+	var/mob/p = user || usr
 	if(QDELETED(src))
 		return FALSE
 	if(p.client)
@@ -163,8 +174,8 @@
 		p.client.screen |= p.client.mouseovertext
 	return TRUE
 
-/mob/handle_mouseover(location,control,params)
-	var/mob/p = usr
+/mob/handle_mouseover(mob/user, params)
+	var/mob/p = user || usr
 	if(QDELETED(src))
 		return FALSE
 	if(p.client)

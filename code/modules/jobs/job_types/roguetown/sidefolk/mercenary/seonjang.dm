@@ -24,7 +24,6 @@
 		/datum/skill/combat/wrestling = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/combat/unarmed = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/combat/swords = SKILL_LEVEL_EXPERT,
-		/datum/skill/combat/shields = SKILL_LEVEL_EXPERT,
 		/datum/skill/combat/knives = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/misc/reading = SKILL_LEVEL_NOVICE,
 		/datum/skill/misc/athletics = SKILL_LEVEL_JOURNEYMAN,
@@ -32,6 +31,9 @@
 
 /datum/outfit/job/roguetown/mercenary/seonjang/pre_equip(mob/living/carbon/human/H)
 	..()
+	armor = /obj/item/clothing/suit/roguetown/armor/regenerating/skin/easttats
+	pants = /obj/item/clothing/under/roguetown/heavy_leather_pants/eastpants1
+	gloves = /obj/item/clothing/gloves/roguetown/eastgloves2
 	shoes = /obj/item/clothing/shoes/roguetown/armor/rumaclan
 	belt = /obj/item/storage/belt/rogue/leather
 	beltr = /obj/item/rogueweapon/sword/sabre/mulyeog/rumacaptain
@@ -45,15 +47,9 @@
 	H.adjust_blindness(-3)
 
 	if(should_wear_masc_clothes(H))
-		shirt = /obj/item/clothing/suit/roguetown/armor/regenerating/easttats
+		shirt = /obj/item/clothing/suit/roguetown/shirt/undershirt/eastshirt1
 		cloak = /obj/item/clothing/cloak/eastcloak1
-		pants = /obj/item/clothing/under/roguetown/heavy_leather_pants/eastpants1
-		gloves = /obj/item/clothing/gloves/roguetown/eastgloves2
-		armor = /obj/item/clothing/suit/roguetown/shirt/undershirt/eastshirt1
-		H.change_stat(STATKEY_WIL, 1)
-		H.change_stat(STATKEY_CON, 1) //to compensate for the permanent lack of armor
 		H.dna.species.soundpack_m = new /datum/voicepack/male/evil()
 	else if(should_wear_femme_clothes(H))
-		armor = /obj/item/clothing/suit/roguetown/armor/basiceast/captainrobe
-		shirt = /obj/item/clothing/suit/roguetown/armor/regenerating/easttats
+		shirt = /obj/item/clothing/suit/roguetown/shirt/dress/captainrobe
 	H.merctype = 9

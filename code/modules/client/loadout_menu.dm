@@ -51,6 +51,9 @@
 			if(initial(target.altdetail_tag))
 				color_channels += "altdetail"
 
+		if(LI.name == "Parent loadout datum")
+			continue
+
 		items += list(list(
 			"name" = LI.name,
 			"desc" = LI.desc,

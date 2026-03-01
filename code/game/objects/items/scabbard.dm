@@ -546,11 +546,13 @@
 	icon_state = "kazscab"
 	item_state = "kazscab"
 
+	force = 20
 	valid_blade = /obj/item/rogueweapon/sword/sabre/mulyeog
-	associated_skill = /datum/skill/combat/shields
+	associated_skill = /datum/skill/combat/swords
 	possible_item_intents = list(SHIELD_BASH, SHIELD_BLOCK)
 	can_parry = TRUE
 	wdefense = 8
+	special = /datum/special_intent/limbguard
 
 	max_integrity = 0
 
@@ -560,6 +562,7 @@
 
 	valid_blade = /obj/item/rogueweapon/sword/long/kriegmesser/ssangsudo
 	can_parry = FALSE
+	special = null
 
 
 /obj/item/rogueweapon/scabbard/sword/kazengun/steel
@@ -585,6 +588,7 @@
 	item_state = "kazscabyuruku"
 	valid_blade = /obj/item/rogueweapon/sword/short/kazengun
 	wdefense = 4
+	special = null
 
 /obj/item/rogueweapon/scabbard/sheath/kazengun
 	name = "plain lacquer sheath"
@@ -592,7 +596,7 @@
 	icon_state = "kazscabdagger"
 	item_state = "kazscabdagger"
 	valid_blade = /obj/item/rogueweapon/huntingknife/idagger/steel/kazengun
-	associated_skill = /datum/skill/combat/shields
+	associated_skill = /datum/skill/combat/knives
 	possible_item_intents = list(SHIELD_BASH, SHIELD_BLOCK)
 	can_parry = TRUE
 	wdefense = 3

@@ -50,11 +50,26 @@
 /// smooths with objects, and will thus need to scan turfs for contents.
 #define SMOOTH_OBJ		(1<<8)
 
-#define USES_SMOOTHING (SMOOTH_BITMASK|SMOOTH_BITMASK_CARDINALS|SMOOTH_EDGE)
+#define USES_SMOOTHING (SMOOTH_TRUE|SMOOTH_MORE|SMOOTH_BITMASK|SMOOTH_BITMASK_CARDINALS|SMOOTH_EDGE)
 #define USES_BITMASK_SMOOTHING (SMOOTH_BITMASK|SMOOTH_BITMASK_CARDINALS)
 
-#define QUEUE_SMOOTH(thing_to_queue) if(thing_to_queue.smooth & USES_SMOOTHING) {SSicon_smooth.add_to_queue(thing_to_queue)}
-#define QUEUE_SMOOTH_NEIGHBORS(thing_to_queue) for(var/atom/atom_neighbor as anything in orange(1, thing_to_queue)) {QUEUE_SMOOTH(atom_neighbor)}
+#define QUEUE_SMOOTH(A) \
+	do { \
+		if(!A || !A.smooth) break; \
+		if(A.smooth & (SMOOTH_TRUE|SMOOTH_MORE)) { \
+			queue_smooth(A); \
+			break; \
+		} \
+		if(A.smooth & USES_SMOOTHING) { \
+			SSicon_smooth.add_to_queue(A); \
+		} \
+	} while(FALSE)
+#define QUEUE_SMOOTH_NEIGHBORS(A) \
+	do { \
+		for(var/atom/N as anything in orange(1, A)) { \
+			QUEUE_SMOOTH(N); \
+		} \
+	} while(FALSE)
 
 #define NULLTURF_BORDER 123456789
 

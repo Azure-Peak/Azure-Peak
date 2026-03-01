@@ -47,8 +47,8 @@
 	var/organ_dna_type = /datum/organ_dna
 	/// What food typepath should be used when eaten
 	var/food_type = /obj/item/reagent_containers/food/snacks/organ
-	/// Original owner of the organ, the one who had it inside them last
-	var/mob/living/carbon/last_owner = null
+	/// Whether this organ has ever been inside a mob
+	var/had_owner = FALSE
 
 	grid_width = 32
 	grid_height = 32
@@ -66,7 +66,7 @@
 			qdel(replaced)
 
 	owner = M
-	last_owner = M
+	had_owner = TRUE
 
 	if (visible_organ)
 		M.visible_organs |= src
@@ -108,7 +108,7 @@
 //	START_PROCESSING(SSobj, src)
 
 /obj/item/organ/forceMove(atom/destination)
-	if((organ_flags & ORGAN_INTERNAL_ONLY) && last_owner)
+	if((organ_flags & ORGAN_INTERNAL_ONLY) && had_owner)
 		qdel(src)
 		return
 	..()
@@ -222,7 +222,7 @@
 		// The special flag is important, because otherwise mobs can die
 		// while undergoing transformation into different mobs.
 		Remove(owner, special=TRUE)
-	last_owner = null
+	had_owner = FALSE
 	STOP_PROCESSING(SSobj, src)
 	return ..()
 

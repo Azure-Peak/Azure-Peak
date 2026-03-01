@@ -148,7 +148,8 @@ GLOBAL_VAR_INIT(rpg_loot_items, FALSE)
 	var/altgripped = FALSE
 	var/mordhau = FALSE //This weapon can mordhau, therefore we treat it as wielded in alt-grip.
 	var/list/alt_intents //these replace main intents
-	var/list/gripped_intents //intents while gripped, replacing main intents
+	///intents while gripped, replacing main intents. if list != null, will allow the weapon to be wielded. set to null to remove wielding.
+	var/list/gripped_intents 
 	var/force_wielded = 0
 	var/gripsprite = FALSE //use alternate grip sprite for inhand
 	var/wieldsound = FALSE

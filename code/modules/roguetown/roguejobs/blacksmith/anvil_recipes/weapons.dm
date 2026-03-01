@@ -217,6 +217,18 @@
 	created_item = /obj/item/ammo_casing/caseless/rogue/javelin/steel/paalloy
 	createditem_num = 2
 
+/datum/anvil_recipe/weapons/aalloy/flamberge
+	name = "Flamberge, Decrepit (+2 Alloy, +1 Small Log, +1 Cured Leather)"
+	req_bar = /obj/item/ingot/aalloy
+	additional_items = list(/obj/item/ingot/aalloy, /obj/item/ingot/aalloy, /obj/item/grown/log/tree/small, /obj/item/natural/hide/cured)
+	created_item = /obj/item/rogueweapon/greatsword/grenz/flamberge/aalloy
+
+/datum/anvil_recipe/weapons/paalloy/flamberge
+	name = "Flamberge, Purified (+2 Purified Alloy, +1 Small Log, +1 Cured Leather)"
+	req_bar = /obj/item/ingot/purifiedaalloy
+	additional_items = list(/obj/item/ingot/purifiedaalloy, /obj/item/ingot/purifiedaalloy, /obj/item/grown/log/tree/small, /obj/item/natural/hide/cured)
+	created_item = /obj/item/rogueweapon/greatsword/grenz/flamberge/paalloy
+
 // COPPER
 
 /datum/anvil_recipe/weapons/copper/caxe
@@ -1343,6 +1355,24 @@
 	i_type = "Ammo"
 
 // UNIQUE
+
+/datum/anvil_recipe/valuables/deprivedsword
+	name = "Sword, Imperfect (+1 Small Log, +2 Glimmering Slag)"
+	req_bar = /obj/item/ingot/iron
+	additional_items = list(/obj/item/ingot/aaslag, /obj/item/ingot/aaslag, /obj/item/grown/log/tree/small)
+	created_item = /obj/item/rogueweapon/sword/broken
+	appro_skill = /datum/skill/craft/weaponsmithing
+	i_type = "Weapons"
+	craftdiff = SKILL_LEVEL_NOVICE
+
+/datum/anvil_recipe/valuables/deprivedshortsword
+	name = "Shortsword, Imperfect (+1 Stick, +2 Glimmering Slag)"
+	req_bar = /obj/item/ingot/iron
+	additional_items = list(/obj/item/ingot/aaslag, /obj/item/ingot/aaslag, /obj/item/grown/log/tree/stick)
+	created_item = /obj/item/rogueweapon/sword/short/broken
+	appro_skill = /datum/skill/craft/weaponsmithing
+	i_type = "Weapons"
+	craftdiff = SKILL_LEVEL_NOVICE
 
 /datum/anvil_recipe/valuables/iron/execution
 	name = "Executioner's Sword (+2 Iron)"

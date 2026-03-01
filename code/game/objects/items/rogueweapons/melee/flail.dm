@@ -318,7 +318,7 @@
 
 /obj/item/rogueweapon/flail/peasantwarflail/matthios/Initialize()
 	. = ..()
-	AddComponent(/datum/component/cursed_item, TRAIT_COMMIE, "FLAIL")
+	AddComponent(/datum/component/cursed_item, TRAIT_FREEMAN, "FLAIL")
 
 /obj/item/rogueweapon/flail/militia
 	name = "militia flail"

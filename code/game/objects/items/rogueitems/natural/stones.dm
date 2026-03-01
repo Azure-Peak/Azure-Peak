@@ -136,7 +136,7 @@ GLOBAL_LIST_INIT(stone_personality_descs, list(
 	slot_flags = ITEM_SLOT_MOUTH
 	obj_flags = null
 	w_class = WEIGHT_CLASS_TINY
-	experimental_inhand = FALSE
+	experimental_inhand = TRUE
 	associated_skill = /datum/skill/combat/unarmed
 	mill_result = /obj/item/reagent_containers/powder/mineral
 	/// If our stone is magical, this lets us know -how- magical. Maximum is 15.
@@ -496,12 +496,14 @@ GLOBAL_LIST_INIT(stone_personality_descs, list(
 /obj/item/natural/rock/random_ore
 	name = "rock?"
 	desc = "Wait, this shouldn't be here?"
-	icon_state = "stonerandom"
+	icon = 'icons/roguetown/helpers/spawnerhelpers.dmi'
+	icon_state = "random_rock"
 
 /obj/item/natural/rock/dungeon
 	name = "rock?"
 	desc = "Wait, this shouldn't be here? Tell Mumblemancer he's a shit coder!"
-	icon_state = "stonerandom"
+	icon = 'icons/roguetown/helpers/spawnerhelpers.dmi'
+	icon_state = "dungeon_rock"
 
 // actually random
 /obj/item/natural/rock/random_ore/Initialize()
@@ -591,7 +593,7 @@ BECAUSE this is a dungeon reward, and you're SUPPOSED to get SOMETHING, they've 
 	icon_state = "stoneblockbundle1"
 	icon = 'icons/roguetown/items/crafting.dmi'
 	item_state = "block"
-	experimental_inhand = FALSE
+	experimental_inhand = TRUE
 	grid_width = 64
 	grid_height = 64
 	base_width = 64

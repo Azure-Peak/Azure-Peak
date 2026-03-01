@@ -206,6 +206,26 @@
 	req_bar = /obj/item/ingot/purifiedaalloy
 	created_item = /obj/item/clothing/wrists/roguetown/bracers/paalloy
 
+/datum/anvil_recipe/armor/aalloy/sandals
+	name = "Sandals, Decrepit"
+	req_bar = /obj/item/ingot/aalloy
+	created_item = /obj/item/clothing/shoes/roguetown/sandals/aalloy
+
+/datum/anvil_recipe/armor/paalloy/sandals
+	name = "Sandals, Ancient"
+	req_bar = /obj/item/ingot/purifiedaalloy
+	created_item = /obj/item/clothing/shoes/roguetown/sandals/paalloy
+
+/datum/anvil_recipe/armor/aalloy/boots
+	name = "Plated Boots, Decrepit"
+	req_bar = /obj/item/ingot/aalloy
+	created_item = /obj/item/clothing/shoes/roguetown/boots/aalloy
+
+/datum/anvil_recipe/armor/paalloy/boots
+	name = "Plated Boots, Ancient"
+	req_bar = /obj/item/ingot/purifiedaalloy
+	created_item = /obj/item/clothing/shoes/roguetown/boots/paalloy
+
 /datum/anvil_recipe/armor/aalloy/chaingaunts
 	name = "Chain Gauntlets, Decrepit"
 	req_bar = /obj/item/ingot/aalloy
