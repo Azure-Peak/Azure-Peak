@@ -174,15 +174,16 @@
 /datum/virtue/utility/prowler
 	name = "(Virtuous) Prowler"
 	desc = "I've learned to stalk the shadows, in step, in sight and in my nimble fingers."
-	max_choices = 5
-	choice_costs = list(0, 0, 1, 1, 1)
+	max_choices = 6
+	choice_costs = list(0, 0, 1, 1, 1, 1)
 	virtuous_only = TRUE
 	extra_choices = list(
 		"Darksight" = TRAIT_DARKVISION,
 		"Light Steps" = TRAIT_LIGHT_STEP,
 		"Stashed Lockpick Ring" = /obj/item/lockpickring/mundane,
 		"Sneak Skill (+3, Up to Legendary)" = /datum/skill/misc/sneaking,
-		"Lockpick Skill (+3, Up to Legendary)" = /datum/skill/misc/lockpicking
+		"Lockpick Skill (+3, Up to Legendary)" = /datum/skill/misc/lockpicking,
+		"Second Voice"
 		)
 
 /datum/virtue/utility/prowler/apply_to_human(mob/living/carbon/human/recipient)
@@ -196,11 +197,14 @@
 						to_chat(recipient, "Your eyes have become permanently colorblind.")
 					else if(recipient.charflaws.len)
 						recipient.verbs += /mob/living/carbon/human/proc/toggleblindness
-			if(ispath(picked_choices[choice], /datum/skill))
-				recipient.adjust_skillrank(picked_choices[choice], SKILL_LEVEL_JOURNEYMAN, quiet = TRUE)
-			if(ispath(picked_choices[choice], /obj/item))
+			else if(ispath(picked_choices[choice], /datum/skill))
+				recipient.adjust_skillrank(picked_choices[choice], SKILL_LEVEL_JOURNEYMAN, silent = TRUE)
+			else if(ispath(picked_choices[choice], /obj/item))
 				var/obj/item/I = picked_choices[choice]
 				recipient.mind?.special_items[I::name] = picked_choices[choice]
+			else if(choice == "Second Voice")
+				recipient.verbs += /mob/living/carbon/human/proc/changevoice
+				recipient.verbs += /mob/living/carbon/human/proc/swapvoice
 
 /datum/virtue/utility/performer
 	name = "Performer"
@@ -276,15 +280,6 @@
 		to_chat(recipient, "Your repulsiveness is cancelled out! You become normal.")
 		REMOVE_TRAIT(recipient, TRAIT_BEAUTIFUL, TRAIT_VIRTUE)
 		REMOVE_TRAIT(recipient, TRAIT_UNSEEMLY, TRAIT_VIRTUE)
-
-/datum/virtue/utility/secondvoice
-	name = "Second Voice"
-	desc = "From performance, deception, or by a need to change yourself in uncanny ways, you've acquired a second, perfect voice. You may switch between them at any point."
-	custom_text = "Grants access to a new 'Virtue' tab. It will have the options for setting and changing your voice."
-
-/datum/virtue/utility/secondvoice/apply_to_human(mob/living/carbon/human/recipient)
-	recipient.verbs += /mob/living/carbon/human/proc/changevoice
-	recipient.verbs += /mob/living/carbon/human/proc/swapvoice
 
 /datum/virtue/utility/keenears
 	name = "Keen Ears"
