@@ -3,7 +3,7 @@ Requires a skillshot to enable counterplay. 2 seconds charge time
 0 slowdown to enable you to stay mobile. 
 AOE Storm on a hollow ring around the target.
 And single target strike on original target making it versatile.
-Stacks up to 75 - 125 damage depending on momentum investment.
+Stacks up to 90 - 150 damage depending on momentum investment.
 If reflected into self - just inflict half the damage through armor.
 */
 
@@ -11,8 +11,8 @@ If reflected into self - just inflict half the damage through armor.
 	name = "Blade Storm"
 	desc = "Hurls forth a shadow of yourself. On impact, teleport onto the target \
 		and unleash a storm of slashes on them and around yourself.\
-		Requires 7 Momentum: 3 strikes at 25 damage each. \
-		Overcharged at 10 Momentum: 5 strikes at 25 damage each. \
+		Requires 7 Momentum: 3 strikes at 30 damage each. \
+		Overcharged at 10 Momentum: 5 strikes at 30 damage each. \
 		If reflected onto yourself, the arcyne energy tears into your own chest. \
 		The blade has no eyes — it does not distinguish friend from foe. Let not your foe deflect it into your ally."
 	clothes_req = FALSE
