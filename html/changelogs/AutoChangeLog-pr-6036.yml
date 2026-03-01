@@ -1,5 +1,0 @@
-author: "Ryan180602"
-delete-after: True
-changes:
-  - rscdel: "removes stockless crossbow."
-  - code_imp: "let slurbows fit in bags."

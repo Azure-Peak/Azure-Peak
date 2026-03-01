@@ -520,6 +520,8 @@ GLOBAL_LIST_EMPTY(chosen_names)
 					virtue = GLOB.virtues[/datum/virtue/none]
 				if(virtuetwo.type in pref_species.restricted_virtues)
 					virtuetwo = GLOB.virtues[/datum/virtue/none]
+			if(virtue.virtuous_only && !statpack.virtuous)
+				virtue = GLOB.virtues[/datum/virtue/none]
 			dat += "<b>Virtue:</b> <a href='?_src_=prefs;preference=virtue;task=input'>[virtue]</a><BR>"
 			if(statpack.virtuous)
 				dat += "<b>Second Virtue:</b> <a href='?_src_=prefs;preference=virtuetwo;task=input'>[virtuetwo]</a><BR>"
@@ -2368,6 +2370,8 @@ Slots: [job.spawn_positions] [job.round_contrib_points ? "RCP: +[job.round_contr
 						if (V.restricted == TRUE)
 							if((pref_species.type in V.races))
 								continue
+						if(V.virtuous_only && !statpack.virtuous)
+							continue
 						virtue_choices[V.name] = V
 					virtue_choices = sort_list(virtue_choices)
 					var/result = tgui_input_list(user, "What strength shall you wield?", "VIRTUES",virtue_choices)

@@ -1,6 +1,0 @@
-author: "mumblemancer"
-delete-after: True
-changes:
-  - code_imp: "ported suture's single entry wrapper for /baseturfs"
-  - code_imp: "set most baseturfs on /closed to single entries"
-  - rscadd: "a horible, horrible codersprite in for incorrectly applied baseturfs"

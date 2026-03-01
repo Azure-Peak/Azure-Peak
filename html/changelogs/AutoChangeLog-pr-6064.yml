@@ -1,0 +1,4 @@
+author: "ReezeBL"
+delete-after: True
+changes:
+  - bugfix: "Psydonian grit and high willpower sometimes prevent pain stun as intended"

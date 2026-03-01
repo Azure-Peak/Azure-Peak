@@ -1,7 +1,0 @@
-author: "Ryan180602"
-delete-after: True
-changes:
-  - balance: "firing projectiles when buckled halves your accuracy."
-  - balance: "barding slows down the mount. `1.25` for padded, `1.5` for chainmail."
-  - balance: "mounts cannot dodge if being ridden on."
-  - balance: "spells cannot be casted on horseback."

@@ -3540,6 +3540,10 @@
 /obj/effect/spawner/lootdrop/general_loot_mid,
 /turf/open/floor/rogue/grass,
 /area/rogue/outdoors/woods/north)
+"aOf" = (
+/obj/item/roguebin,
+/turf/open/floor/rogue/dirt,
+/area/rogue/outdoors/town)
 "aOg" = (
 /obj/effect/decal/cleanable/blood{
 	icon_state = "floor5-old"
@@ -33701,6 +33705,11 @@
 	},
 /turf/open/floor/rogue/concrete,
 /area/rogue/indoors/shelter/mountains/decap)
+"hvi" = (
+/obj/structure/fluff/railing/wood/north,
+/obj/item/roguebin,
+/turf/open/floor/rogue/dirt,
+/area/rogue/outdoors/mountains)
 "hvs" = (
 /obj/structure/fluff/statue/gargoyle,
 /turf/open/floor/rogue/dirt/road,
@@ -38385,6 +38394,11 @@
 /obj/structure/hotspring/border/fourteen,
 /turf/open/floor/rogue/cobble/mossy,
 /area/rogue/outdoors/rtfield/eora)
+"ivq" = (
+/obj/structure/fluff/railing/wood/north,
+/obj/item/roguebin,
+/turf/open/floor/rogue/grass,
+/area/rogue/outdoors/mountains)
 "ivv" = (
 /obj/structure/closet/dirthole/closed/loot,
 /obj/structure/gravemarker,
@@ -61274,6 +61288,13 @@
 	},
 /turf/open/water/swamp,
 /area/rogue/under/cavewet/bogcaves/west)
+"nvn" = (
+/obj/structure/fluff/customsign{
+	name = "LITTERING IS UNCHIVILAROUS";
+	wrotesign = "LITTERING IS UNCHIVALROUS! THE JUDICIARY OF AZURIA HAS DECLARED LITTERING A CRIME. PLACE UNWANTED ITEMS IN A BIN TODAE!"
+	},
+/turf/open/floor/rogue/dirt,
+/area/rogue/outdoors/town)
 "nvq" = (
 /obj/structure/table/wood/poor,
 /obj/machinery/light/rogue/campfire/fireplace,
@@ -105969,6 +105990,14 @@
 	},
 /turf/open/floor/rogue/ruinedwood/spiral,
 /area/rogue/indoors/town/magician)
+"xnL" = (
+/obj/structure/fluff/railing/wood/north,
+/obj/structure/fluff/customsign{
+	name = "LITTERING IS UNCHIVILAROUS";
+	wrotesign = "LITTERING IS UNCHIVALROUS! THE JUDICIARY OF AZURIA HAS DECLARED LITTERING A CRIME. PLACE UNWANTED ITEMS IN A BIN TODAE!"
+	},
+/turf/open/floor/rogue/grass,
+/area/rogue/outdoors/mountains)
 "xnO" = (
 /obj/effect/spawner/lootdrop/roguetown/dungeon/food,
 /obj/effect/spawner/lootdrop/roguetown/dungeon/food,
@@ -298075,9 +298104,9 @@ aFv
 aFv
 tqI
 aFv
-aFv
-aFv
-aFv
+aOf
+nvn
+aOf
 exD
 exD
 exD
@@ -466680,7 +466709,7 @@ aBB
 aBB
 aBB
 vBH
-dJj
+ivq
 lZK
 bSX
 vBH
@@ -467132,7 +467161,7 @@ aBB
 aBB
 aBB
 rnW
-dJj
+xnL
 lZK
 rnW
 gHm
@@ -467584,7 +467613,7 @@ aBB
 aBB
 aBB
 bSX
-fGF
+hvi
 lZK
 bSX
 ogs

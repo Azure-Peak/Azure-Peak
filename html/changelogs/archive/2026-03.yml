@@ -1,0 +1,47 @@
+2026-03-01:
+  Lamasmaster:
+  - rscadd: New examine for Matthiosites
+  - balance: Storytellers
+  Ryan180602:
+  - rscdel: removes stockless crossbow.
+  - code_imp: let slurbows fit in bags.
+  - balance: firing projectiles when buckled halves your accuracy.
+  - balance: barding slows down the mount. `1.25` for padded, `1.5` for chainmail.
+  - balance: mounts cannot dodge if being ridden on.
+  - balance: spells cannot be casted on horseback.
+  THE VILE LICH:
+  - image: added sprites for the random herb, dungeon rocks, and roguegems as well
+      as the new gemcraft gemspawner
+  - rscadd: gemcraft gemspawner
+  - qol: made acid mage room in the tomb of alothesos a little less awkward to navigate
+  - bugfix: a few rooms in the tomb now have properly set paintings. no more snatching
+      them w/o fighting for them.
+  WeNeedMorePhoron:
+  - rscadd: 'Garbage collection system has been optimized with port from TG #62969'
+  - bugfix: Fixed a decent amount of hard deletes. Report anything odd with mobs behavior.
+  - rscadd: Probably optimized progress bars
+  - rscadd: Ghost no longer activate mobs.
+  - rscadd: Optimized mouseover text. Report weirdness.
+  - rscadd: For performance reason, Pestran's Bodypart Miracle only attaches from
+      the user's hand and from the same turf.
+  bearrrrrrrr:
+  - qol: Lirvan Tithebound now spawns with
+  mumblemancer:
+  - balance: graggar's unholy grasp no longer legcuffs. still slows you down, though.
+  - bugfix: graggar net on_hit no longer is "The the"
+  - rscadd: graggar unholy grasp now produces a chat message when the effect ends
+  - code_imp: ported suture's single entry wrapper for /baseturfs
+  - code_imp: set most baseturfs on /closed to single entries
+  - rscadd: a horible, horrible codersprite in for incorrectly applied baseturfs
+  zoktiik:
+  - bugfix: Middle-clicking the Combat Mode button now works again (a change to code
+      affecting mouseclicks broke it).
+  - bugfix: Toggle Compliance Notifs now actually saves in your preferences.
+  - image: Compliance mode now has its own distinct HUD icon, done by Jam (Jamdrawers).
+  - image: Also ported improvements to a few other icons, also done by Jam.
+  - spellcheck: Changed a lot of the text related to compliance mode, for clarity.
+  - qol: Shift-click examining the Combat Mode button provides a detailed description
+      of its interactions.
+  - qol: Your manual pixel shift is no longer affected when you get passive grabbed,
+      aggressive grabbed, or released from a grab. However, movement will still reset
+      your position.
