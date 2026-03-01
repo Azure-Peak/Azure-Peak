@@ -30,6 +30,17 @@ without going through the click pipeline, so spells can deliver weapon-style str
 	if(!def_zone)
 		def_zone = user.zone_selected || BODY_ZONE_CHEST
 
+	// Perception/Intelligence penalty: each point below 10 adds 10% chance to deflect to chest, capped at 40%
+	if(def_zone != BODY_ZONE_CHEST && ishuman(user))
+		var/penalty = 0
+		if(user.STAPER < 10)
+			penalty += (10 - user.STAPER) * 10
+		if(user.STAINT < 10)
+			penalty += (10 - user.STAINT) * 10
+		penalty = min(penalty, 40)
+		if(penalty > 0 && prob(penalty))
+			def_zone = BODY_ZONE_CHEST
+
 	if(iscarbon(target))
 		var/mob/living/carbon/C = target
 		var/obj/item/bodypart/targeting = C.get_bodypart(check_zone(def_zone))
