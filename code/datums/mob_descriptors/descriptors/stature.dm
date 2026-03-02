@@ -9,15 +9,9 @@
 	switch(described.pronouns)
 		if(SHE_HER)
 			return "woman"
-		if(SHE_HER_M)
-			return "woman"
 		if(HE_HIM)
 			return "man"
-		if(HE_HIM_F)
-			return "man"
 		if(THEY_THEM)
-			return "person"
-		if(THEY_THEM_F)
 			return "person"
 		else
 			return "creacher"
@@ -29,15 +23,9 @@
 	switch(described.pronouns)
 		if(SHE_HER)
 			return "gentlewoman"
-		if(SHE_HER_M)
-			return "gentlewoman"
 		if(HE_HIM)
 			return "gentleman"
-		if(HE_HIM_F)
-			return "gentleman"
 		if(THEY_THEM)
-			return "gentleperson"
-		if(THEY_THEM_F)
 			return "gentleperson"
 		else
 			return "gentlecreacher"
@@ -47,15 +35,9 @@
 	switch(described.pronouns)
 		if(SHE_HER)
 			return "matriarch"
-		if(SHE_HER_M)
-			return "matriarch"
 		if(HE_HIM)
 			return "patriarch"
-		if(HE_HIM_F)
-			return "patriarch"
 		if(THEY_THEM)
-			return "hierarch"
-		if(THEY_THEM_F)
 			return "hierarch"
 		else
 			return "hierarch"
@@ -65,15 +47,9 @@
 	switch(described.pronouns)
 		if(SHE_HER)
 			return "hag"
-		if(SHE_HER_M)
-			return "hag"
 		if(HE_HIM)
 			return "codger"
-		if(HE_HIM_F)
-			return "codger"
 		if(THEY_THEM)
-			return "senior"
-		if(THEY_THEM_F)
 			return "senior"
 		else
 			return "elder"
@@ -83,15 +59,9 @@
 	switch(described.pronouns)
 		if(SHE_HER)
 			return "villainess"
-		if(SHE_HER_M)
-			return "villainess"
 		if(HE_HIM)
 			return "villain"
-		if(HE_HIM_F)
-			return "villain"	
 		if(THEY_THEM)
-			return "antagonist"
-		if(THEY_THEM_F)
 			return "antagonist"
 		else
 			return "antagonist"

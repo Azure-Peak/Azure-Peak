@@ -1,0 +1,5 @@
+author: "Ollanius"
+delete-after: True
+changes:
+  - rscadd: "Adds 'the Apple of Ambrosia', a golden fruit that never rots and provides strong healing to whoever eats it. It can be very rarely found in high-tier dungeon lootdrops, or purchased from the Hoardmaster for a high fee."
+  - rscadd: "Adds a description to the apple, and explains how people can put apples on their head as part of an archery-based minigame."

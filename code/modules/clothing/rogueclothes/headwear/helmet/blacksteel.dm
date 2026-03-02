@@ -8,6 +8,8 @@
 
 /obj/item/clothing/head/roguetown/helmet/blacksteel/modern/ComponentInitialize()
 	AddComponent(/datum/component/adjustable_clothing, (HEAD|EARS|HAIR), (HIDEEARS|HIDEHAIR), null, 'sound/items/visor.ogg', null, UPD_HEAD)	//Standard helmet
+	AddComponent(/datum/component/armour_filtering/negative, TRAIT_FENCERDEXTERITY)
+	AddComponent(/datum/component/armour_filtering/negative, TRAIT_HONORBOUND)
 
 /obj/item/clothing/head/roguetown/helmet/blacksteel/modern/attackby(obj/item/W, mob/living/user, params)
 	..()
@@ -66,6 +68,29 @@
 	chunkcolor = "#303036"
 	material_category = ARMOR_MAT_PLATE
 	armor_class = ARMOR_CLASS_MEDIUM
+
+/obj/item/clothing/head/roguetown/helmet/blacksteel/ComponentInitialize()
+	AddComponent(/datum/component/armour_filtering/negative, TRAIT_FENCERDEXTERITY)
+	AddComponent(/datum/component/armour_filtering/negative, TRAIT_HONORBOUND)
+
+/obj/item/clothing/head/roguetown/helmet/heavy/bucket/crusader/blacksteel
+	name = "blacksteel sugarloaf helmet"
+	desc = "A greathelmet of blacksteel that offers excellent protection to the head, while also ensuring total coverage to its most vulnerable spots. It \
+	resembles a freshly baked loave when worn - ergo, 'sugarloaf helmet'. Blessed fool, your faith will be challenged at every crevice-and-turn; will you \
+	succumb to despair's allure, or will your virtue shine forth in Psydonia's darkest hour?"
+	icon_state = "crusader_helmb3"
+	icon = 'icons/roguetown/clothing/special/crusader.dmi'
+	mob_overlay_icon = 'icons/roguetown/clothing/special/onmob/crusader.dmi'
+	smeltresult = /obj/item/ingot/blacksteel
+	armor = ARMOR_PLATE_BSTEEL
+	prevent_crits = PREVENT_CRITS_ALL
+	block2add = FOV_BEHIND
+	max_integrity = ARMOR_INT_HELMET_BLACKSTEEL
+	smelt_bar_num = 2
+
+/obj/item/clothing/head/roguetown/helmet/heavy/bucket/crusader/blacksteel/get_mechanics_examine(mob/user)
+	. = ..()
+	. += span_info("If handed to a Tailor, this Blacksteel Sugarloaf Helmet can be used to stitch a uniquely matching surcoat.")
 
 /obj/item/clothing/head/roguetown/helmet/blacksteel/psythorns
 	name = "crown of psydonian thorns"

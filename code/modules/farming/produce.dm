@@ -6,7 +6,7 @@
 	var/list/pipe_reagents = list()
 	var/seed
 	var/bitesize_mod = 0
-	experimental_inhand = FALSE
+	experimental_inhand = TRUE
 	/// Type of splat to use. If null - produce is unsquashable.
 	var/splat_type = null
 	/// Color of the splat, applied when splat_type is spawned (after squashing).
@@ -124,7 +124,10 @@
 /obj/item/reagent_containers/food/snacks/grown/apple
 	seed = /obj/item/seeds/apple
 	name = "apple"
-	desc = ""
+	desc = "Deliciously crisp and fragrant. It's said that archers will sometimes \
+	place these crimson fruits atop another's head, in order to flaunt their accuracy \
+	with a longbow. A successful hit, and the crowd claps without harm; a mote's \
+	deviation, however, and someone's going to end up being hauled into the CHurch."
 	icon_state = "apple"
 	filling_color = "#FF4500"
 	bitesize = 3

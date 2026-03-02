@@ -1,6 +1,6 @@
 /obj/structure/roguemachine/vaultbank
 	name = "\improper JAWBANK"
-	desc = "Collects and secures the treasury of the Grand Duchy of Azuria."
+	desc = "A biomechanical obselisk that collects and secures the treasury of the Grand Duchy of Azuria. Throttle it with a strike to spill that which is rightfully yours."
 	icon = 'icons/roguetown/misc/machines.dmi'
 	icon_state = "jawbank"
 	density = TRUE
@@ -241,7 +241,7 @@
 /obj/structure/roguemachine/vaultbank/attackby(obj/item/I, mob/living/user, params)
 	if(istype(I, /obj/item/coveter))
 		var/mob/living/carbon/human/H = user
-		if(!HAS_TRAIT(H, TRAIT_COMMIE))
+		if(!HAS_TRAIT(H, TRAIT_FREEMAN))
 			to_chat(user, "<font color='red'>I don't know what I'm doing with this thing!</font>")
 			return
 		if(SStreasury.treasury_value < 50)

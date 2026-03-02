@@ -57,6 +57,9 @@ PROCESSING_SUBSYSTEM_DEF(tracks)
 	processing -= T
 
 /datum/controller/subsystem/processing/tracks/proc/get_track(track_type = /obj/effect/track, turf/location)
+	if(!isturf(location))
+		return null
+
 	var/list/pool
 	switch(track_type)
 		if(/obj/effect/track/structure)
@@ -67,9 +70,14 @@ PROCESSING_SUBSYSTEM_DEF(tracks)
 			pool = track_pool
 
 	var/obj/effect/track/T
-	if(length(pool))
+
+	while(length(pool) && (!T || QDELETED(T)))
 		T = pool[pool.len]
 		pool.len--
+		if(QDELETED(T))
+			T = null
+
+	if(T)
 		T.moveToNullspace()
 		T.forceMove(location)
 		tracks_recycled++

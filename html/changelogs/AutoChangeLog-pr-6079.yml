@@ -1,0 +1,12 @@
+author: "Ollanius"
+delete-after: True
+changes:
+  - rscadd: "Adds tutorials (for most core mechanics) to most commonplace items, turfs, and effects in the game. These tutorials can be accessed by clicking the 'Mechanics' tab, which shows up in the chatbox when examining applicable things."
+  - rscadd: "Turns the Survival Handbook into 'Tips, Tricks & Triumphs: The Azurian Survival Guide.' It has a unique sprite, now provides important information to help orient new-and-returning players, and can be redeemed at the Stockpile for change."
+  - balance: "Threshers now have the Flail's smashing intent, when wielded."
+  - balance: "Whole pies and cheese wheels can now be bitten more times, for those who adore gluttony in its rawest form."
+  - balance: "Adds an alternate recipe to the potter's wheel, requiring whetstones instead of bronze cogs. The bronze-cogged variant is now a little simpler to create, to compensate."
+  - code_imp: "Threshers now properly have their unique intent forked off of 'flail/thresh', instead of being 'flailthresh'."
+  - code_imp: "The new tutorials might be a little too verbose. Feel free to slim them down or rewrite them as seen fit."
+  - code_imp: "Tweaked 'rous master' to 'rousmaster.'"
+  - code_imp: "Adjusted a variety of descriptions."

@@ -1,0 +1,4 @@
+author: "FreeStylaLT"
+delete-after: True
+changes:
+  - balance: "Light Steps now muffles armor sounds when walking."

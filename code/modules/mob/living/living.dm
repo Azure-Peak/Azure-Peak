@@ -43,6 +43,7 @@
 	sharedSoullinks = null
 	if(craftingthing)
 		QDEL_NULL(craftingthing)
+	QDEL_LIST(simple_wounds)
 	return ..()
 
 /mob/living/onZImpact(turf/T, levels)
@@ -421,6 +422,13 @@
 
 	if(isliving(AM))
 		var/mob/living/target = AM
+		if(buckled)
+			var/datum/component/riding/riding_datum = buckled.GetComponent(/datum/component/riding)
+			if(riding_datum)
+				if(target.stat == CONSCIOUS && !target.incapacitated(FALSE, TRUE))
+					to_chat(src, span_warning("[target] needs to be tied up or unaware for me to drag them."))
+					stop_pulling()
+					return FALSE
 		log_combat(src, target, "grabbed", addition="passive grab")
 		if(!iscarbon(src))
 			target.LAssailant = null
@@ -514,7 +522,8 @@
 				return FALSE
 
 		update_pull_movespeed()
-		set_pull_offsets(target, state)
+		if(!target.is_shifted)
+			set_pull_offsets(target, state)
 	else
 		if(!supress_message)
 			var/sound_to_play = 'sound/combat/shove.ogg'
@@ -633,7 +642,8 @@
 			if(pulledby && pulledby == pulling)
 				reset_offsets("pulledby")
 			M.reset_offsets("pulledby")
-			reset_pull_offsets(pulling)
+			if(!M.is_shifted)
+				reset_pull_offsets(pulling)
 			if(HAS_TRAIT(M, TRAIT_GARROTED))
 				var/obj/item/inqarticles/garrote/gcord = src.get_active_held_item()
 				if(!gcord)

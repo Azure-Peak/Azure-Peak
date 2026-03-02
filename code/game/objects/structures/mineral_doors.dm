@@ -66,9 +66,12 @@
 
 /obj/structure/mineral_door/get_mechanics_examine(mob/user)
 	. = ..()
-	. += span_info("Right clicking the door with a key will attempt to lock it.")
-	. += span_info("Left clicking the door with a key will attempt to unlock it.")
-	. += span_info("Kicking an unlocked door will open or close it. Kicking a locked door, if sufficiently strong, can force it open!")
+	. += span_info("Right-clicking the door with a key, whether alone or on a keyring, will attempt to lock it.")
+	. += span_info("Left-clicking the door with a key, whether alone or on a keyring, will attempt to unlock it.")
+	. += span_info("Kicking an unlocked door will open or close it.")
+	. += span_info("Kicking a locked door has a small chance to force it open, which slightly scales with your character's Strength.")
+	. += span_info("Alternatively, doors can be bypassed by destroying them. Axes and bombs of blastpowder are the most effective choices; be mindful that such destruction can be heard from afar, however.")
+	. += span_info("Lockpicks offer a quieter alternative to bypassing doors, but can still be heard by anyone within viewing range, regardless of whatever level they're on.")
 
 /obj/structure/mineral_door/onkick(mob/user)
 	if(isSwitchingStates)
@@ -428,10 +431,14 @@
 			return ..()
 
 /obj/structure/mineral_door/attacked_by(obj/item/I, mob/living/user)
+	var/turf/T = get_turf(src)
 	..()
 	if(obj_broken || obj_destroyed)
-		var/obj/effect/track/structure/new_track = SStracks.get_track(/obj/effect/track/structure, get_turf(src))
-		new_track.handle_creation(user)
+		if(!T)
+			return
+		var/obj/effect/track/structure/new_track = SStracks.get_track(/obj/effect/track/structure, T)
+		if(new_track)
+			new_track.handle_creation(user)
 
 /obj/structure/mineral_door/proc/repairdoor(obj/item/I, mob/user)
 	if(brokenstate)

@@ -2,7 +2,7 @@
 
 /obj/item/storage/keyring
 	name = "keyring"
-	desc = "Will help you organize your keys."
+	desc = "A ring of keys, stowable on the wrist and hip. The finest jewelry that a manor's guard could ask for."
 	icon_state = "keyring0"
 	icon = 'icons/roguetown/items/keys.dmi'
 	lefthand_file = 'icons/mob/inhands/misc/food_lefthand.dmi'
@@ -15,8 +15,16 @@
 	drop_sound = 'sound/foley/dropsound/chain_drop.ogg'
 	anvilrepair = /datum/skill/craft/blacksmithing
 	resistance_flags = FIRE_PROOF
-	experimental_inhand = FALSE
+	experimental_inhand = TRUE
+	experimental_onhip = TRUE
 	component_type = /datum/component/storage/concrete/roguetown/keyring
+
+/obj/item/storage/keyring/get_mechanics_examine(mob/user)
+	. = ..()
+	. += span_info("Left-click an locked door to unlock it.")
+	. += span_info("Right-click an unlocked door to lock it.")
+	. += span_info("Keyrings can manipulate a wide variety of doors, depending on how many keys - and what kinds of keys - are stowed on its circumference.")
+	. += span_info("Individual keys can be plucked off the keyring by either right-clicking it, or by shift-clicking its inventory open and taking a specific key out of it.")
 
 /obj/item/storage/keyring/Initialize()
 	. = ..()
@@ -108,8 +116,12 @@
 	throwforce = 0
 	var/list/picks = list()
 	slot_flags = ITEM_SLOT_HIP|ITEM_SLOT_NECK|ITEM_SLOT_MOUTH|ITEM_SLOT_WRISTS
-	experimental_inhand = FALSE
+	experimental_inhand = TRUE
 	dropshrink = 0.7
+
+/obj/item/lockpickring/get_mechanics_examine(mob/user)
+	. = ..()
+	. += span_info("Individual lockpicks can be plucked off the keyring by either right-clicking it, or by shift-clicking its inventory open and taking a specific lockpick out of it.")
 
 /obj/item/lockpickring/Initialize()
 	. = ..()
@@ -118,6 +130,10 @@
 			addtoring(new X())
 			picks -= X
 	update_icon()
+
+/obj/item/lockpickring/Destroy()
+	QDEL_LIST(picks)
+	return ..()
 
 /obj/item/lockpickring/getonmobprop(tag)
 	. = ..()
@@ -216,7 +232,7 @@
 ///////////
 
 /obj/item/storage/keyring/lord
-	keys = list(/obj/item/roguekey/royal, /obj/item/roguekey/manor, /obj/item/roguekey/heir, /obj/item/roguekey/vault, /obj/item/roguekey/steward, /obj/item/roguekey/hand, /obj/item/roguekey/justiciary, /obj/item/roguekey/knight, /obj/item/roguekey/sergeant, /obj/item/roguekey/garrison, /obj/item/roguekey/dungeon, /obj/item/roguekey/armory)
+	keys = list(/obj/item/roguekey/royal, /obj/item/roguekey/manor, /obj/item/roguekey/walls, /obj/item/roguekey/heir, /obj/item/roguekey/vault, /obj/item/roguekey/steward, /obj/item/roguekey/hand, /obj/item/roguekey/justiciary, /obj/item/roguekey/knight, /obj/item/roguekey/sergeant, /obj/item/roguekey/garrison, /obj/item/roguekey/dungeon, /obj/item/roguekey/armory)
 
 /obj/item/storage/keyring/lady
 	keys = list(/obj/item/roguekey/royal, /obj/item/roguekey/manor, /obj/item/roguekey/heir, /obj/item/roguekey/vault, /obj/item/roguekey/steward, /obj/item/roguekey/hand)
@@ -270,6 +286,26 @@
 
 /obj/item/storage/keyring/warden //All access to wardens
 	keys = list(/obj/item/roguekey/walls, /obj/item/roguekey/warden)
+
+//////////////
+// MANOR //
+//////////////
+
+/obj/item/storage/keyring/manor/guest/one // Two Manor Keys, Two Guest Room Keys
+	name = "guest room I keyring"
+	keys = list(/obj/item/roguekey/manor/guest, /obj/item/roguekey/manor/guest, /obj/item/roguekey/manor, /obj/item/roguekey/manor)
+
+/obj/item/storage/keyring/manor/guest/two
+	name = "guest room II keyring"
+	keys = list(/obj/item/roguekey/manor/guest/two, /obj/item/roguekey/manor/guest/two, /obj/item/roguekey/manor, /obj/item/roguekey/manor)
+
+/obj/item/storage/keyring/manor/guest/three
+	name = "guest room III keyring"
+	keys = list(/obj/item/roguekey/manor/guest/three, /obj/item/roguekey/manor/guest/three, /obj/item/roguekey/manor, /obj/item/roguekey/manor)
+
+/obj/item/storage/keyring/manor/guest/four
+	name = "guest room IV keyring"
+	keys = list(/obj/item/roguekey/manor/guest/four, /obj/item/roguekey/manor/guest/four, /obj/item/roguekey/manor, /obj/item/roguekey/manor)
 
 ////////////
 // CHURCH //

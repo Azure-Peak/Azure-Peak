@@ -21,6 +21,10 @@
 	alpha = 200
 	var/stump_type = /obj/structure/flora/roguetree/stump
 
+/obj/structure/flora/roguetree/get_mechanics_examine(mob/user)
+	. = ..()
+	. += span_info("Most trees can be toppled by hitting them with the 'CUT', 'CHOP', or 'REND' intents on bladed weapons. Nothing chops trees and foliage better, or quicker, than a good old fashioned axe.")
+
 /obj/structure/flora/roguetree/attack_right(mob/user)
 	handle_special_items_retrieval(user, src)
 
@@ -246,6 +250,11 @@
 	blade_dulling = DULLING_CUT
 	debris = list(/obj/item/natural/fibers = 1)
 
+/obj/structure/flora/roguegrass/get_mechanics_examine(mob/user)
+	. = ..()
+	. += span_info("Grass, bushes, and most kinds of foliage can be sliced away by hitting them with the 'CUT', 'CHOP', or 'REND' intents on bladed weapons. Using a torch or lamptern on foliage can burn it away, as well.")
+	. += span_info("Left-clicking a bush allows you to forage through it. Most common bushes are rife with thorns, fibers, and jackberries; others can hold unique herbs and flowers, perfect for alchemists and bleeding hearts alike.")
+	. += span_info("Moving through foliage has a chance to attract an ambush. The farther you're away from civilization, the more dangerous that these ambushes can become. Most ambushes can be avoided by toggling the 'SNEAK' button on your HUD, before moving through the foliage.")
 
 /obj/structure/flora/roguegrass/spark_act()
 	fire_act()
@@ -754,6 +763,10 @@
 	var/mush_animate = TRUE
 	var/mush_scream = TRUE
 
+/obj/structure/flora/rogueshroom/get_mechanics_examine(mob/user)
+	. = ..()
+	. += span_info("Most shroomtrees can be toppled by hitting them with the 'CUT', 'CHOP', or 'REND' intents on bladed weapons. Nothing chops trees and foliage better, or quicker, than a good old fashioned axe.")
+
 /obj/structure/flora/rogueshroom/happy/Initialize()
 	. = ..()
 	if(mush_animate)
@@ -770,9 +783,20 @@
 		new rare_mush_bonus_drop(loc)
 	. = ..()
 
-/obj/structure/flora/rogueshroom/happy/examine(mob/living/user)
+/obj/structure/flora/rogueshroom/happy/examine(mob/user)
 	. = ..()
-	if(user.STAINT >= int_req && int_req || HAS_TRAIT(user, TRAIT_WOODSMAN))
+
+	var/can_special = FALSE
+	if(user?.client?.holder || istype(user, /mob/dead/observer/admin))
+		can_special = TRUE
+
+	else if(HAS_TRAIT(user, TRAIT_WOODSMAN))
+		can_special = TRUE
+	else if(istype(user, /mob/living))
+		if(int_req && hasvar(user, "STAINT") && user:STAINT >= int_req)
+			can_special = TRUE
+
+	if(can_special)
 		. += span_infection("\n[special_examine]")
 
 /obj/structure/flora/rogueshroom/happy/white
@@ -783,7 +807,7 @@
 	mush_light_power = 2
 	mush_light_color = "#e2e2e2"
 	int_req = 0
-	special_examine = "You recall the gathering of wildsmasters recently. It hasn't been long, but these mushrooms were always believed to be happy and colorful. The spores of this one are rumoured to be the cause, it's like... they collectively made a decision top stop fooling humenkind."
+	special_examine = "You recall the gathering of wildsmasters recently. It hasn't been long, but these mushrooms were always believed to be happy and colorful. The spores of this one are rumoured to be the cause, it's like... they collectively made a decision to stop fooling humenkind."
 	static_debris = list(/obj/item/natural/fibers = 1,
 						 /obj/item/grown/log/tree/small = 1)
 	rare_mush_bonus_drop = /mob/living/simple_animal/hostile/rogue/mirespider_lurker/mushroom
@@ -806,7 +830,7 @@
 /obj/structure/flora/rogueshroom/happy/angel
 	name = "grieving angel"
 	icon_state = "angelmush"
-	desc = "each of these mushrooms is believed to have sprouted out of angel tears in the long past"
+	desc = "Each of these mushrooms is believed to have sprouted out of angel tears in the long past."
 	mush_light_range = 3
 	mush_light_power = 3
 	mush_light_color = "#e2e2e2"

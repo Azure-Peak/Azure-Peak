@@ -15,6 +15,12 @@
 	effective_range = 2
 	effective_range_type = EFF_RANGE_EXACT
 
+/datum/intent/spear/thrust/training
+	name = "blunted thrust"
+	penfactor = 0
+	intent_intdamage_factor = BLUNT_DEFAULT_INT_DAMAGEFACTOR
+	hitsound = list('sound/combat/hits/blunt/metalblunt (1).ogg', 'sound/combat/hits/blunt/metalblunt (2).ogg', 'sound/combat/hits/blunt/metalblunt (3).ogg')
+
 /datum/intent/spear/thrust/oneh
 	name = "one-handed thrust"
 	reach = 1
@@ -25,6 +31,12 @@
 	effective_range = null
 	effective_range_type = EFF_RANGE_NONE
 	sharpness_penalty = 3
+
+/datum/intent/spear/thrust/oneh/training
+	name = "blunted one-handed thrust"
+	penfactor = 0
+	intent_intdamage_factor = BLUNT_DEFAULT_INT_DAMAGEFACTOR
+	hitsound = list('sound/combat/hits/blunt/metalblunt (1).ogg', 'sound/combat/hits/blunt/metalblunt (2).ogg', 'sound/combat/hits/blunt/metalblunt (3).ogg')
 
 /datum/intent/spear/thrust/militia
 	penfactor = 40
@@ -239,6 +251,7 @@
 	chargetime = 6 SECONDS
 	reach = 1
 	damfactor = 2
+	effective_range = 0
 	effective_range_type = EFF_RANGE_NONE
 
 //polearm objs ฅ^•ﻌ•^ฅ
@@ -357,14 +370,12 @@
 	desc = "An old dulled spear with a shaft worn by the hands of countless trainees before you. The fabric and watting wrap is meant to protect combatants, \
 	but getting hit with this still leaves welts and breaks fingers."
 	icon_state = "spear_trainer"
-	possible_item_intents = list(SPEAR_BASH)
-	gripped_intents = list(SPEAR_BASH,/datum/intent/mace/smash/wood)
+	possible_item_intents = list(SPEAR_TRAINER_THRUST1H, SPEAR_BASH)
+	gripped_intents = list(SPEAR_TRAINER_THRUST, SPEAR_BASH, MACE_SMASH_WOOD)
 	force = 7
 	force_wielded = 15
 	sharpness = IS_BLUNT
 	thrown_bclass = BCLASS_BLUNT
-	wdefense = 7
-	wdefense_wbonus = 8
 
 /obj/item/rogueweapon/spear/trainer/getonmobprop(tag)
 	. = ..()
@@ -382,12 +393,12 @@
 	desc = "A bronze trident from the seas designed to pierce fish upon its hooked teeth. Feels balanced in your hand, like you could throw it quite easily."
 	icon_state = "bronzetri"
 	force = 25
-	force_wielded = 20
 	wdefense = 4
 	max_blade_int = 175
 	max_integrity = 225
 	throwforce = 30
 	possible_item_intents = list(SPEAR_THRUST, SPEAR_BASH, SPEAR_CAST)
+	gripped_intents = null
 	smeltresult = /obj/item/ingot/bronze
 	fishingMods=list(
 		"commonFishingMod" = 0.8,

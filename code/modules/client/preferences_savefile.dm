@@ -176,6 +176,7 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	S["shake"]				>> shake
 	S["mastervol"]			>> mastervol
 	S["lastclass"]			>> lastclass
+	S["compliance_notifs"]  >> compliance_notifs
 
 
 	S["default_slot"]		>> default_slot
@@ -344,6 +345,7 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	WRITE_FILE(S["pda_color"], pda_color)
 	WRITE_FILE(S["key_bindings"], key_bindings)
 	WRITE_FILE(S["attack_blip_frequency"] , attack_blip_frequency)
+	WRITE_FILE(S["compliance_notifs"], compliance_notifs)
 	return TRUE
 
 
@@ -459,6 +461,7 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	S["vampire_skin"]		>> vampire_skin
 	S["vampire_hair"]		>> vampire_hair
 	S["vampire_eyes"]		>> vampire_eyes
+	S["vampire_ears"]		>> vampire_ears
 	S["extra_language"]		>> extra_language
 	S["voice_color"]		>> voice_color
 	S["voice_pitch"]		>> voice_pitch
@@ -478,6 +481,8 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	S["feature_mcolor3"]	>> features["mcolor3"]
 	S["feature_ethcolor"]	>> features["ethcolor"]
 	S["pronouns"]			>> pronouns
+	S["titles_pref"]		>> titles_pref
+	S["clothes_pref"]		>> clothes_pref
 	S["voice_type"]			>> voice_type
 	S["voice_pack"]			>> voice_pack
 	S["nickname"]			>> nickname
@@ -668,7 +673,12 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	backpack		= sanitize_inlist(backpack, GLOB.backpacklist, initial(backpack))
 	jumpsuit_style	= sanitize_inlist(jumpsuit_style, GLOB.jumpsuitlist, initial(jumpsuit_style))
 	uplink_spawn_loc = sanitize_inlist(uplink_spawn_loc, GLOB.uplink_spawn_loc_list, initial(uplink_spawn_loc))
-	pronouns = sanitize_text(pronouns, THEY_THEM)
+	if(pronouns in GLOB.pronouns_list)	//In case we have an invalid one after pronoun changes. - Feb. 2026
+		pronouns = sanitize_text(pronouns, THEY_THEM)
+	else
+		pronouns = THEY_THEM
+	titles_pref = sanitize_text(titles_pref, TITLES_M)
+	clothes_pref = sanitize_text(clothes_pref, CLOTHES_M)
 	voice_type = sanitize_text(voice_type, VOICE_TYPE_MASC)
 	features["mcolor"]	= sanitize_hexcolor(features["mcolor"], 6, 0)
 	features["mcolor2"]	= sanitize_hexcolor(features["mcolor2"], 6, 0)
@@ -731,6 +741,7 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	WRITE_FILE(S["vampire_skin"]		, vampire_skin)
 	WRITE_FILE(S["vampire_hair"]		, vampire_hair)
 	WRITE_FILE(S["vampire_eyes"]		, vampire_eyes)
+	WRITE_FILE(S["vampire_ears"]		, vampire_ears)
 	WRITE_FILE(S["extra_language"]		, extra_language)
 	WRITE_FILE(S["voice_color"]			, voice_color)
 	WRITE_FILE(S["voice_pitch"]			, voice_pitch)
@@ -809,6 +820,8 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	WRITE_FILE(S["voice_type"] , voice_type)
 	WRITE_FILE(S["voice_pack"] , voice_pack)
 	WRITE_FILE(S["pronouns"] , pronouns)
+	WRITE_FILE(S["titles_pref"] , titles_pref)
+	WRITE_FILE(S["clothes_pref"] , clothes_pref)
 	WRITE_FILE(S["statpack"] , statpack.type)
 	WRITE_FILE(S["virtue"] , virtue.type)
 	WRITE_FILE(S["virtuetwo"], virtuetwo.type)

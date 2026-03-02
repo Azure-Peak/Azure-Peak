@@ -72,3 +72,4 @@ frei_lancer.ogg: Lucas Gitano - The Mask of Zorro (Fingerstyle Acoustic Cover) [
 combat_ready_to_die.ogg: T-87 SULFURHEAD - I'M READY TO DIE, ARE YOU? [https://www.youtube.com/@T87-Sulfurhead]
 combat_dying_world.ogg: T-87 SULFURHEAD - CHANT AGAINST A DYING WORLD [https://www.youtube.com/@T87-Sulfurhead]
 combat_dying_world_instrumental.ogg T-87 SULFURHEAD - CHANT AGAINST A DYING WORLD (INSTRUMENTAL) [https://www.youtube.com/@T87-Sulfurhead]
+asundered_mind.ogg The Thing You Can't Defeat Soundtrack - E1M7 [https://youtu.be/Rh9UXbJBlK4]

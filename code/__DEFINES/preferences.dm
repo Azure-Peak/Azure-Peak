@@ -143,14 +143,20 @@
 // Pronouns (LETHALSTONE)
 #define HE_HIM			"he/him"
 #define SHE_HER			"she/her"
-#define THEY_THEM		"they/them (Masc Clothes)"
-#define THEY_THEM_F		"they/them (Femme Clothes)"
-#define IT_ITS			"it/its (Femme Clothes)"
-#define IT_ITS_M		"it/its (Masc Clothes)"
-#define HE_HIM_F		"he/him (Femme Clothes)"
-#define SHE_HER_M		"she/her (Masc Clothes)"
+#define THEY_THEM		"they/them"
+#define IT_ITS			"it/its"
 
-GLOBAL_LIST_INIT(pronouns_list, list(HE_HIM, SHE_HER, THEY_THEM, THEY_THEM_F, IT_ITS, IT_ITS_M, HE_HIM_F, SHE_HER_M))
+GLOBAL_LIST_INIT(pronouns_list, list(HE_HIM, SHE_HER, THEY_THEM, IT_ITS))
+
+#define TITLES_M	"Lord / Ser"
+#define TITLES_F	"Lady / Dame"
+
+GLOBAL_LIST_INIT(titles_list, list(TITLES_M, TITLES_F))
+
+#define CLOTHES_M "Masculine"
+#define CLOTHES_F "Feminine"
+
+GLOBAL_LIST_INIT(clothespref_list, list(CLOTHES_M, CLOTHES_F))
 
 // Voice types (LETHALSTONE)
 

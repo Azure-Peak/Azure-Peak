@@ -57,9 +57,12 @@
 	duration = 8 MINUTES
 
 /datum/status_effect/buff/snackbuff/on_creation(mob/living/new_owner)
+	. = ..()
+	if(!.)
+		return FALSE
 	if(HAS_TRAIT(new_owner, TRAIT_NOHUNGER))
 		return FALSE
-	. = ..()
+	return TRUE
 
 /atom/movable/screen/alert/status_effect/buff/snackbuff
 	name = "Good snack"
@@ -80,9 +83,12 @@
 	duration = 10 MINUTES
 
 /datum/status_effect/buff/greatsnackbuff/on_creation(mob/living/new_owner)
+	. = ..()
+	if(!.)
+		return FALSE
 	if(HAS_TRAIT(new_owner, TRAIT_NOHUNGER))
 		return FALSE
-	. = ..()
+	return TRUE
 
 /atom/movable/screen/alert/status_effect/buff/greatsnackbuff
 	name = "Great Snack!"
@@ -107,9 +113,12 @@
 	icon_state = "foodbuff"
 
 /datum/status_effect/buff/mealbuff/on_creation(mob/living/new_owner)
+	. = ..()
+	if(!.)
+		return FALSE
 	if(HAS_TRAIT(new_owner, TRAIT_NOHUNGER))
 		return FALSE
-	. = ..()
+	return TRUE
 
 /datum/status_effect/buff/mealbuff/on_apply()
 	. = ..()
@@ -129,9 +138,12 @@
 	icon_state = "foodbuff"
 
 /datum/status_effect/buff/greatmealbuff/on_creation(mob/living/new_owner)
+	. = ..()
+	if(!.)
+		return FALSE
 	if(HAS_TRAIT(new_owner, TRAIT_NOHUNGER))
 		return FALSE
-	. = ..()
+	return TRUE
 
 /datum/status_effect/buff/greatmealbuff/on_apply()
 	. = ..()
@@ -1830,6 +1842,17 @@
 	effectedstats[STATKEY_SPD] = arguments[2]
 	. = ..()
 
+/datum/status_effect/buff/auspex
+	id = "auspex"
+	alert_type = /atom/movable/screen/alert/status_effect/buff
+	effectedstats = list(STATKEY_PER = 1)
+	status_type = STATUS_EFFECT_REPLACE
+
+/datum/status_effect/buff/auspex/New(list/arguments)
+	effectedstats[STATKEY_PER] = arguments[2]
+	. = ..()
+
+
 /datum/status_effect/buff/fotv
 	id = "fotv"
 	alert_type = /atom/movable/screen/alert/status_effect/buff
@@ -2042,8 +2065,14 @@
 
 /datum/status_effect/buff/dagger_boost/process()
 	. = ..()
-	if(!istype(owner.get_active_held_item(), held_dagger))
-		owner.remove_status_effect(/datum/status_effect/buff/dagger_boost)
+
+	var/mob/living/M = owner
+	if(!M || QDELETED(M))
+		qdel(src)
+		return
+
+	if(!istype(M.get_active_held_item(), held_dagger))
+		M.remove_status_effect(/datum/status_effect/buff/dagger_boost)
 
 // special lirvas dragonskin buffs
 /datum/status_effect/buff/lirvan_broken_scales
@@ -2056,3 +2085,31 @@
 	name = "Broken Scales"
 	desc = "My natural defenses are gone! I am lighter, but far weaker."
 	icon_state = "buff"
+
+/datum/status_effect/buff/stagehands_silence
+	id = "Stagehand"
+	alert_type = /atom/movable/screen/alert/status_effect/buff/stagehands_silence
+	duration = 20 MINUTES
+
+/atom/movable/screen/alert/status_effect/buff/stagehands_silence
+	name = "Stangehand's Silence"
+	desc = "The slow quicken. My footsteps are quiet and I can move faster while sneaking."
+
+/datum/status_effect/buff/stagehands_silence/on_creation(mob/living/new_owner, ...)
+	. = ..()
+	if(owner.STASPD < 12)
+		effectedstats = list(STATKEY_SPD = 1) // +1 buff to spd for people w/ less than 12. should be cool but prevents any stupid shit. hopefully.
+
+/datum/status_effect/buff/stagehands_silence/on_apply()
+	. = ..()
+	to_chat(owner, span_warning("My footsteps feel lighter and quieter. What is that droning sound in my head...?"))
+	// inspired by matthiosmuffle
+	ADD_TRAIT(owner, TRAIT_SILENT_FOOTSTEPS, "xylixboon")
+	ADD_TRAIT(owner, TRAIT_LIGHT_STEP, "xylixboon") 
+
+
+/datum/status_effect/buff/stagehands_silence/on_remove()
+	. = ..()
+	to_chat(owner, span_warning("The droning quiets. My footsteps are noisy, again."))
+	REMOVE_TRAIT(owner, TRAIT_SILENT_FOOTSTEPS, "xylixboon")
+	REMOVE_TRAIT(owner, TRAIT_LIGHT_STEP, "xylixboon")

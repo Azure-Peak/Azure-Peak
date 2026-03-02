@@ -1,4 +1,4 @@
-// MATTHIAN SCOMCOIN
+// MATTHIOSIAN SCOMCOIN
 
 /obj/item/mattcoin
 	name = "rontz ring"
@@ -21,6 +21,14 @@
 	grid_width = 32
 	grid_height = 32
 
+/obj/item/mattcoin/examine(mob/user)
+	. = ..()
+	if(ishuman(user))
+		var/mob/living/carbon/human/H = user
+		if(H.patron.type == /datum/patron/inhumen/matthios)
+			. += span_rose("It's said that these coins are borne whenever the CROWNSTONEs of royalty are stolen and subjected to the Hoardmaster's flames. I can use it to communicate with my fellow freedmen on a specially-hijacked SCOMline.")
+			. += span_rose("A special hex has been cast on this ring by an Iconoclast, making it appear as nothing more than a mere 'gold ring' to those still shackled to tyranny. I should remain wary of eyes that pry for too long, however.")
+
 /obj/item/mattcoin/Initialize()
 	. = ..()
 	become_hearing_sensitive()
@@ -29,7 +37,7 @@
 	name = pick("rontz ring", "gold ring")
 
 /obj/item/mattcoin/pickup(mob/living/user)
-	if(!HAS_TRAIT(user, TRAIT_COMMIE))
+	if(!HAS_TRAIT(user, TRAIT_FREEMAN))
 		to_chat(user, "The coin turns to ash in my hands!")
 		playsound(loc, 'sound/items/firesnuff.ogg', 100, FALSE, -1)
 		qdel(src)
@@ -63,7 +71,7 @@
 	playsound(loc, 'sound/misc/coindispense.ogg', 100, FALSE, -1)
 	listening = !listening
 	speaking = !speaking
-	to_chat(user, span_info("I [speaking ? "unmute" : "mute"] the Matthian-SCOMstone"))
+	to_chat(user, span_info("I [speaking ? "unmute" : "mute"] the Matthiosian-SCOMstone"))
 	update_icon()
 
 /obj/item/mattcoin/Destroy()

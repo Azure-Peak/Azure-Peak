@@ -14,6 +14,8 @@
 	bloody_icon_state = "bodyblood"
 	sewrepair = TRUE
 	resistance_flags = FIRE_PROOF
+	experimental_inhand = TRUE
+	experimental_onhip = TRUE
 	grid_height = 64
 	grid_width = 32
 	component_type = /datum/component/storage/concrete/roguetown/coin_pouch

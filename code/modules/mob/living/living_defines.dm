@@ -142,8 +142,11 @@
 
 	var/ambushable = 0
 
+	// Tracks whether mob is in surrendering state (right-click combat button)
 	var/surrendering = 0
-	var/compliance = 0 // whether we are choosing to auto-resist grabs and stuff
+
+	// Tracks whether mob is in compliance mode (middle-click combat button)
+	var/compliance = 0
 
 	var/defprob = 50 //base chance to defend against this mob's attacks, for simple mob combat
 	var/encumbrance = 0

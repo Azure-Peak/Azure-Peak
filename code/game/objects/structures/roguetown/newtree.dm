@@ -17,6 +17,14 @@
 	//If the tree has been burn beforehand.
 	var/burnt = FALSE
 
+/obj/structure/flora/newtree/get_mechanics_examine(mob/user)
+	. = ..()
+	. += span_info("Most trees can be toppled by hitting them with the 'CUT', 'CHOP', or 'REND' intents on bladed weapons. Nothing chops trees and foliage better, or quicker, than a good old fashioned axe.")
+	. += span_info("Left-clicking a tree while you're next to it will allow you to climb it. The higher your Climbing skill is, the quicker you can finish climbing up a level. Buckling yourself to an uprighted chair can help, too.")
+	. += span_info("Your Climbing skill determines the tier of wall you can scale, as well. Most people can climb trees and rock walls without trouble, but mossy walls and fortifications can only be surmounted by a few.")
+	. += span_info("Press the 'Shift' button and the 'F' key at the same time to look up a level. If there's nothing to stand on - like a branch or unoccupied tile - adjacent to your direction, climbing up might cause you to fall back down.")
+	. += span_info("Note that this behavior mostly applies to trees and walls that're only one level tall. Those with higher Climbing skills can 'cling' to higher walls, allowing them to scale multiple levels without falling.")
+
 /obj/structure/flora/newtree/fire_act(added, maxstacks)
 	. = ..()
 	if(.)

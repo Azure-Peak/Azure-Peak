@@ -1,0 +1,4 @@
+author: "mumblemancer"
+delete-after: True
+changes:
+  - rscadd: "xylix now has a ritual"

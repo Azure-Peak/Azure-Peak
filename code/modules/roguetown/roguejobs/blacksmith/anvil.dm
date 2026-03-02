@@ -14,6 +14,15 @@
 	var/previous_material_quality = 0
 	var/advance_multiplier = 1 // Lower for auto striking
 
+/obj/machinery/anvil/get_mechanics_examine(mob/user)
+	. = ..()
+	. += span_info("Ingots, when held in a pair of tongs and heated at a forge, can be placed onto the anvil via left-clicking.")
+	. += span_info("Once on the anvil, left-clicking the ingot with a hammer allows for you to start pounding it into a recipe of your choice.")
+	. += span_info("Smithing armor uses the Armorsmithing skill, smithing weapons uses the Weaponsmithing skill, and smithing everything else - valuables, cutlery, tools - uses the Blacksmithing skill.")
+	. += span_info("If you attempt to smith a recipe that excedes your current skill's level, you'll run the risk of damaging and destroying the ingot-in-question.")
+	. += span_info("Once the recipe has been smithed to completion, pick the finished ingot back up and reheat it before quenching it in a water-filled washbin. This transforms the ingot into the smithed item.")
+	. += span_info("Armor, weapons, and other repairable items can be placed onto the anvil via left-clicking. Repairing items on an anvil is quicker and safer than repairing them on a table.")
+
 /obj/machinery/anvil/crafted
 	icon_state = "caveanvil"
 
@@ -25,6 +34,13 @@
 /obj/machinery/anvil/attackby(obj/item/W, mob/living/user, params)
 	if(istype(W, /obj/item/rogueweapon/tongs))
 		var/obj/item/rogueweapon/tongs/T = W
+
+		// sanitize stale/anomalous reference
+		if(current_workpiece && (QDELETED(current_workpiece) || QDELING(current_workpiece) || current_workpiece.loc != src))
+			current_workpiece = null
+			hott = null
+			update_icon()
+
 		if(current_workpiece)
 			// Handle adding items to forging with tongs
 			var/datum/component/forging/forging_comp = current_workpiece.GetComponent(/datum/component/forging)
@@ -48,6 +64,19 @@
 				if(T.hingot)
 					to_chat(user, span_warning("You're already holding something with your tongs!"))
 					return
+
+				// can't insert into a container that's in nullspace / not in world
+				if(!T.loc || QDELETED(T) || QDELING(T))
+					to_chat(user, span_warning("Your tongs can't hold anything right now."))
+					return
+
+				// workpiece must still be on this anvil
+				if(QDELETED(current_workpiece) || QDELING(current_workpiece) || current_workpiece.loc != src)
+					current_workpiece = null
+					hott = null
+					update_icon()
+					return
+
 				current_workpiece.forceMove(T)
 				T.hingot = current_workpiece
 				T.hott = hott // Transfer heat state
@@ -60,6 +89,13 @@
 		else
 			// Place ingot from tongs onto anvil
 			if(T.hingot && istype(T.hingot, /obj/item/ingot))
+				// if the held ingot was deleted/qdeling somehow, just clear state
+				if(QDELETED(T.hingot) || QDELING(T.hingot))
+					T.hingot = null
+					T.hott = null
+					T.update_icon()
+					return
+
 				T.hingot.forceMove(src)
 				current_workpiece = T.hingot
 				hott = T.hott
@@ -79,10 +115,7 @@
 			current_workpiece = W
 			SEND_SIGNAL(current_workpiece, COMSIG_ITEM_PLACED_ON_ANVIL, src)
 			// Only ingots can be hot, blades are always cold
-			if(istype(W, /obj/item/ingot))
-				hott = null
-			else
-				hott = null
+			hott = null
 			update_icon()
 			return
 
@@ -157,6 +190,7 @@
 		user.visible_message(span_info("[user] places [W] on the anvil."))
 		W.forceMove(src.loc)
 		return
+
 	..()
 
 /obj/machinery/anvil/ui_interact(mob/user, datum/tgui/ui)
@@ -212,6 +246,14 @@
 			var/datum/anvil_recipe/recipe = locate(params["ref"])
 			if(!istype(recipe))
 				return TRUE
+
+			// Workpiece can go stale while UI is open (moved/qdel/qdeling/nullspace). Hard-validate first.
+			if(!current_workpiece || QDELETED(current_workpiece) || QDELING(current_workpiece) || current_workpiece.loc != src)
+				current_workpiece = null
+				hott = null
+				update_icon()
+				return TRUE
+
 			var/has_required_item = FALSE
 
 			// Check both bar and blade requirements
@@ -228,7 +270,18 @@
 				if(alert(user, "This recipe needs [SSskills.level_names_plain[recipe.craftdiff]] skill.","IT'S TOO DIFFICULT!","CONFIRM","CANCEL") != "CONFIRM")
 					return TRUE
 
-			// Half to check this again because we alert()ed
+			// Re-check after alert (state may have changed)
+			if(!current_workpiece || QDELETED(current_workpiece) || QDELING(current_workpiece) || current_workpiece.loc != src)
+				current_workpiece = null
+				hott = null
+				update_icon()
+				return TRUE
+
+			has_required_item = FALSE
+			if(recipe.req_bar && istype(current_workpiece, recipe.req_bar))
+				has_required_item = TRUE
+			if(recipe.req_blade && istype(current_workpiece, recipe.req_blade))
+				has_required_item = TRUE
 			if(!has_required_item)
 				return TRUE
 
@@ -239,6 +292,13 @@
 				if(alert(user, "This item already has an active recipe ([existing_forging.current_recipe.name]). Change to [recipe.name]?","CHANGE RECIPE?","CONFIRM","CANCEL") != "CONFIRM")
 					return TRUE
 
+				// Re-check again after alert
+				if(!current_workpiece || QDELETED(current_workpiece) || QDELING(current_workpiece) || current_workpiece.loc != src)
+					current_workpiece = null
+					hott = null
+					update_icon()
+					return TRUE
+
 				// Remove existing forging component and any quenchable components
 				qdel(existing_forging)
 				var/datum/component/anvil_quenchable/existing_quench = current_workpiece.GetComponent(/datum/component/anvil_quenchable)
@@ -246,9 +306,18 @@
 					qdel(existing_quench)
 				recipe_reset = TRUE
 
+			// State can still change after qdel paths
+			if(!current_workpiece || QDELETED(current_workpiece) || QDELING(current_workpiece) || current_workpiece.loc != src)
+				current_workpiece = null
+				hott = null
+				update_icon()
+				return TRUE
+
 			// Add forging component to the workpiece
 			if(!existing_forging || recipe_reset)
 				var/datum/component/forging/forging_comp = current_workpiece.AddComponent(/datum/component/forging, recipe.type)
+				if(!forging_comp)
+					return TRUE
 
 				var/quality_value = 1
 				if(istype(current_workpiece, /obj/item/ingot))

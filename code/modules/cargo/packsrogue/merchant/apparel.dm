@@ -195,6 +195,13 @@
 					/obj/item/rogueweapon/scabbard/sword
 				)
 
+/datum/supply_pack/rogue/apparel/quiver/bolt
+	name = "Empty Quiver"
+	cost = 20
+	contains = list(
+					/obj/item/quiver/bolt
+				)
+
 /datum/supply_pack/rogue/apparel/gwstrap
 	name = "Greatweapon Strap"
 	cost = 30

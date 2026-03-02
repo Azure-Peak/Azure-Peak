@@ -55,7 +55,7 @@
 	name = "Knight Errant"
 	tutorial = "You are a knight from a distant land, a scion of a noble house visiting Azuria for one reason or another."
 	outfit = /datum/outfit/job/roguetown/adventurer/knighte
-	traits_applied = list(TRAIT_NOBLE, TRAIT_HEAVYARMOR)
+	traits_applied = list(TRAIT_NOBLE, TRAIT_HEAVYARMOR, TRAIT_STEELHEARTED)
 	subclass_stats = list(
 		STATKEY_STR = 2,
 		STATKEY_CON = 1,
@@ -63,7 +63,7 @@
 		STATKEY_INT = 1,
 	)
 	subclass_skills = list(
-		/datum/skill/misc/riding = SKILL_LEVEL_JOURNEYMAN,
+		/datum/skill/misc/riding = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/combat/polearms = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/combat/maces = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/combat/swords = SKILL_LEVEL_APPRENTICE,
@@ -77,6 +77,9 @@
 		/datum/skill/misc/climbing = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/misc/reading = SKILL_LEVEL_JOURNEYMAN,
 	)
+	subclass_virtues = list(
+		/datum/virtue/utility/riding
+	)
 
 /datum/outfit/job/roguetown/adventurer/knighte/pre_equip(mob/living/carbon/human/H)
 	..()
@@ -87,13 +90,17 @@
 			"Guard Helmet"		= /obj/item/clothing/head/roguetown/helmet/heavy/guard,
 			"Barred Helmet"		= /obj/item/clothing/head/roguetown/helmet/heavy/sheriff,
 			"Bucket Helmet"		= /obj/item/clothing/head/roguetown/helmet/heavy/bucket,
+			"Sugarloaf Helmet"  = /obj/item/clothing/head/roguetown/helmet/heavy/bucket/crusader,
 			"Knight's Armet"		= /obj/item/clothing/head/roguetown/helmet/heavy/knight,
 			"Knight's Helmet"		= /obj/item/clothing/head/roguetown/helmet/heavy/knight/old,
+			"Knight's Greatplumed Armet"		= /obj/item/clothing/head/roguetown/helmet/heavy/knight/greatplume,
 			"Visored Sallet"			= /obj/item/clothing/head/roguetown/helmet/sallet/visored,
 			"Armet"				= /obj/item/clothing/head/roguetown/helmet/heavy/knight/armet,
 			"Hounskull Bascinet" 		= /obj/item/clothing/head/roguetown/helmet/bascinet/pigface/hounskull,
 			"Etruscan Bascinet" 		= /obj/item/clothing/head/roguetown/helmet/bascinet/etruscan,
 			"Slitted Kettle"		= /obj/item/clothing/head/roguetown/helmet/heavy/knight/skettle,
+			"Visored Barbute" = /obj/item/clothing/head/roguetown/helmet/heavy/barbute/visor,
+			"Great Barbute" = /obj/item/clothing/head/roguetown/helmet/heavy/barbute/great,
 			"None"
 			)
 		var/helmchoice = input(H, "Choose your Helm.", "TAKE UP HELMS") as anything in helmets
@@ -123,9 +130,6 @@
 		/obj/item/recipe_book/survival = 1,
 		)
 	H.dna.species.soundpack_m = new /datum/voicepack/male/knight()
-	var/turf/TU = get_turf(H)
-	if(TU)
-		new /mob/living/simple_animal/hostile/retaliate/rogue/saiga/tame/saddled(TU)
 	H.set_blindness(0)
 	if(H.mind)
 		var/weapons = list("Longsword","Mace + Shield","Flail + Shield","Billhook","Battle Axe","Greataxe","Greatflail")

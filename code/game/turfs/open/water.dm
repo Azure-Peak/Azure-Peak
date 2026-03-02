@@ -219,7 +219,7 @@
 			playsound(user, 'sound/foley/drawwater.ogg', 100, FALSE)
 			if(do_after(user, 8, target = src))
 				user.changeNext_move(CLICK_CD_MELEE)
-				C.reagents.add_reagent(water_reagent, 200)
+				C.reagents.add_reagent(water_reagent, C.reagents.maximum_volume)
 				to_chat(user, span_notice("I fill [C] from [src]."))
 				// If the user is filling a water purifier and the water isn't already clean...
 				if (istype(C, /obj/item/reagent_containers/glass/bottle/waterskin/purifier) && water_reagent != water_reagent_purified)
@@ -414,6 +414,8 @@
 
 /turf/open/water/swamp/Entered(atom/movable/AM, atom/oldLoc)
 	. = ..()
+	if(!oldLoc)
+		return
 	if(HAS_TRAIT(AM, TRAIT_LEECHIMMUNE))
 		return
 	if(isliving(AM) && !AM.throwing)
@@ -454,31 +456,39 @@
 
 /turf/open/water/swamp/deep/Entered(atom/movable/AM, atom/oldLoc)
 	. = ..()
+	if(!oldLoc)
+		return .
+
 	if(HAS_TRAIT(AM, TRAIT_LEECHIMMUNE))
-		return
+		return .
+
 	if(isliving(AM) && !AM.throwing)
 		if(ishuman(AM))
 			var/mob/living/carbon/human/C = AM
-			// check if we're riding a boat or a mount (we can presume a living mob is a mount), no leeches if so
 			if(istype(C.buckled, /obj/vehicle/ridden) || isliving(C.buckled))
-				return
+				return .
+
 			var/chance = 6
 			if(C.m_intent == MOVE_INTENT_RUN)
 				chance = 12		//yikes
-			if(C.m_intent == MOVE_INTENT_SNEAK)
+			else if(C.m_intent == MOVE_INTENT_SNEAK)
 				chance = 2
+
 			if(!prob(chance))
-				return
+				return .
+
 			if(C.blood_volume <= 0)
-				return
-			var/list/zonee = list(BODY_ZONE_CHEST,BODY_ZONE_R_LEG,BODY_ZONE_L_LEG,BODY_ZONE_R_ARM,BODY_ZONE_L_ARM)
-			for(var/i = 0, i <= zonee.len, i++)
+				return .
+
+			var/list/zonee = list(BODY_ZONE_CHEST, BODY_ZONE_R_LEG, BODY_ZONE_L_LEG, BODY_ZONE_R_ARM, BODY_ZONE_L_ARM)
+			for(var/i = 1; i <= zonee.len; i++)
 				var/zone = pick(zonee)
 				var/obj/item/bodypart/BP = C.get_bodypart(zone)
 				if(!BP)
 					continue
 				if(BP.skeletonized)
 					continue
+
 				var/obj/item/natural/worms/leech/I = new(C)
 				BP.add_embedded_object(I, silent = TRUE)
 				return .

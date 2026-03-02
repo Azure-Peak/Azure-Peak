@@ -30,7 +30,10 @@
 			emote_type = type_override
 
 	user.log_message("SUBTLE - " + message, LOG_EMOTE)
-	message = "<b>[user]</b> " + message
+	if(findtext(message, "$n"))
+		message = trim(replacetext(message, "$n", "<b>[user]</b>"))
+	else
+		message = "<b>[user]</b> " + message
 /*
 	for(var/mob/M in GLOB.dead_mob_list)
 		if(!M.client || isnewplayer(M))

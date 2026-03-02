@@ -10,7 +10,7 @@
 	bloody_icon_state = "shoeblood"
 	equip_delay_self = 30
 	resistance_flags = FIRE_PROOF
-	experimental_inhand = FALSE
+	experimental_inhand = TRUE
 	salvage_amount = 0
 	salvage_result = null
 
@@ -55,7 +55,22 @@
 	max_integrity = 40
 	prevent_crits = PREVENT_CRITS_NONE
 	icon_state = "ancientboots"
+	smeltresult = /obj/item/ingot/aaslag
 	color = "#bb9696"
+
+/obj/item/clothing/shoes/roguetown/boots/paalloy
+	name = "ancient boots"
+	desc = "Polished gilbranze sabatons, curved around to loosely mimic the calves of another. </br>It looks chivalry is dead, after all.. and walking, no less!"
+	icon_state = "ancientboots"
+	color = null
+	blocksound = PLATEHIT
+	resistance_flags = FIRE_PROOF
+	max_integrity = ARMOR_INT_SIDE_STEEL
+	armor = ARMOR_PLATE
+	pickup_sound = 'sound/foley/equip/equip_armor_plate.ogg'
+	equip_sound = 'sound/foley/equip/equip_armor_plate.ogg'
+	anvilrepair = /datum/skill/craft/armorsmithing
+	smeltresult = /obj/item/ingot/aaslag
 
 /obj/item/clothing/shoes/roguetown/boots/psydonboots
 	name = "psydonic leather boots"
@@ -172,6 +187,14 @@
 	icon_state = "ancientsandals"
 	color = "#bb9696"
 	prevent_crits = PREVENT_CRITS_NONE
+
+/obj/item/clothing/shoes/roguetown/sandals/paalloy
+	name = "ancient sandals"
+	desc = "Polished gilbranze platforms, laced with bog-reeds to remain secured beneath skeletal soles. A thousand yils later, and they still clack-and-clop like new."
+	icon_state = "ancientsandals"
+	color = null
+	max_integrity = 100			//Half that of iron boots
+	armor = ARMOR_LEATHER_GOOD			//Better than regular leather.
 
 /obj/item/clothing/shoes/roguetown/shalal
 	name = "babouche"
@@ -524,6 +547,7 @@
 	item_state = "eastsandals"
 	sleeved = 'icons/roguetown/clothing/onmob/helpers/stonekeep_merc.dmi'
 	armor = ARMOR_LEATHER_GOOD
+	sewrepair = TRUE
 
 /obj/item/clothing/shoes/roguetown/armor/rumaclan/shitty
 	armor = ARMOR_CLOTHING

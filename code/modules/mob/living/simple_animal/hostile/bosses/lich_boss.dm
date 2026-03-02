@@ -256,7 +256,6 @@
 	new /obj/item/roguekey/mage/lich(T)
 	return ..()
 
-
 /mob/living/simple_animal/hostile/retaliate/rogue/boss/lich/simple_limb_hit(zone)
 	if(!zone)
 		return ""

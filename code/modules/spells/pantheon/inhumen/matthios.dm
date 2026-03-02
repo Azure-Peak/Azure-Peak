@@ -5,6 +5,8 @@
 /obj/effect/proc_holder/spell/invoked/appraise
 	name = "Appraise"
 	desc = "Tells you how many mammons someone has on them and in the meister."
+	action_icon = 'icons/mob/actions/matthiosmiracles.dmi'
+	overlay_icon = 'icons/mob/actions/matthiosmiracles.dmi'
 	overlay_state = "appraise"
 	releasedrain = 10
 	chargedrain = 0
@@ -21,12 +23,10 @@
 
 /obj/effect/proc_holder/spell/invoked/appraise/secular
 	name = "Secular Appraise"
-	overlay_state = "appraise"
 	range = 2
 	associated_skill = /datum/skill/misc/reading // idk reading is like Accounting right
 	miracle = FALSE
 	devotion_cost = 0 //Merchants are not clerics
-
 
 /obj/effect/proc_holder/spell/invoked/appraise/cast(list/targets, mob/living/user)
 	if(ishuman(targets[1]))
@@ -41,55 +41,98 @@
 		var/totalvalue = mammonsinbank + mammonsonperson
 		to_chat(user, ("<font color='yellow'>[target] has [mammonsonperson] mammons on them, [mammonsinbank] in their meister, for a total of [totalvalue] mammons.</font>"))
 
-//T0, Matthiosite thievery boon
-/obj/effect/proc_holder/spell/invoked/muffle
-	name = "Muffle"
-	desc = "A fake amulet of Astrata that muffles ones footsteps while worn over ones neck."
-	clothes_req = FALSE
-	range = 7
-	overlay_state = "equalize"
-	sound = list('sound/magic/magnet.ogg')
-	releasedrain = 40
-	chargetime = 10
-	warnie = "spellwarning"
-	no_early_release = TRUE
-	charging_slowdown = 1
-	chargedloop = /datum/looping_sound/invokegen
+//T0: Summon a lockpick on demand
+/obj/effect/proc_holder/spell/targeted/touch/lesserknock/miracle
+	name = "Emancipate"
+	desc = "A simple prayer to the free-god that forms into an instrument for lockpicking. Can be dispelled by using it on anything that isn't a locked/unlocked door." //Slightly more appropriate
+	action_icon = 'icons/mob/actions/matthiosmiracles.dmi'
+	overlay_icon = 'icons/mob/actions/matthiosmiracles.dmi'
+	overlay_state = "lockpick"
+	miracle = TRUE
+	devotion_cost = 30
+	invocations = list("Transact me your tools.", "Grant me tools of trade.")
+	invocation_type = "whisper" // It is a fake stealth spell (lockpicking is very loud)
 	associated_skill = /datum/skill/magic/holy
-	recharge_time = 30 MINUTES //To avoid spamming this.
 
-/obj/effect/proc_holder/spell/invoked/muffle/cast(mob/living/user)
+//T0: Matthiosite cuffbreak
+/obj/effect/proc_holder/spell/self/matthios_liberate
+	name = "Liberate"
+	desc = "Burn off your restraints with divine intervention."
+	action_icon = 'icons/mob/actions/matthiosmiracles.dmi'
+	overlay_icon = 'icons/mob/actions/matthiosmiracles.dmi'
+	overlay_state = "liberate"
+	recharge_time = 15 MINUTES //Goes down pretty signifcantly if you have high holy level.
+	invocations = list("Set me free once more my Lord.", "Unbynd me mine Lord.", "Lend me thine fyre so I may walk once more.")
+	invocation_type = "whisper"
+	sound = 'sound/misc/chain_snap.ogg'
+	miracle = TRUE
+	devotion_cost = 30
+	antimagic_allowed = FALSE
+
+/obj/effect/proc_holder/spell/self/matthios_liberate/cast(list/targets, mob/user)
+	. = ..()
+	if(!ishuman(user))
+		revert_cast()
+		return FALSE
+	var/mob/living/carbon/human/H = user
+	if(H.handcuffed || H.legcuffed)
+		H.visible_message(span_danger("[H]'s restraints loosen under inhumen fyre!"))
+		H.uncuff()
+		return TRUE
+	else
+		revert_cast()
+		return FALSE
+
+//T0, Matthiosite thievery boon
+/obj/effect/proc_holder/spell/self/matthios_muffle
+	name = "Muffle"
+	desc = "Bargain for a pair of boots to help you avoid detection of those who would wish harm upon you."
+	clothes_req = FALSE
+	action_icon = 'icons/mob/actions/matthiosmiracles.dmi'
+	overlay_icon = 'icons/mob/actions/matthiosmiracles.dmi'
+	overlay_state = "muffle"
+	releasedrain = 40
+	associated_skill = /datum/skill/magic/holy
+	recharge_time = 45 MINUTES //To avoid spamming this.
+
+/obj/effect/proc_holder/spell/self/matthios_muffle/cast(mob/living/user)
 	var/turf/T = get_turf(user)
 	if(!isclosedturf(T))
-		new /obj/item/clothing/neck/roguetown/muffle(T)
+		new /obj/item/clothing/shoes/roguetown/boots/muffle_matthios(T)
 		return TRUE
 
 	to_chat(user, span_warning("The targeted location is blocked. His gift cannot be invoked."))
 	revert_cast()
 	return FALSE
 
-/obj/item/clothing/neck/roguetown/muffle
-	name = "amulet of Astrata"
-	desc = "As sure as the sun rises, tomorrow will come."
-	icon_state = "astrata"
+/obj/item/clothing/shoes/roguetown/boots/muffle_matthios //I guess in case someone wants to make generic muffled boots? Change it to muffle/matthios if you do
+	name = "gilded leather boots"
+	desc = "Those who bear His fyre often cower in its shadow."
+	icon_state = "matthiosboots"
+	sewrepair = TRUE
+	armor = ARMOR_LEATHER_GOOD
 
-/obj/item/clothing/neck/roguetown/muffle/equipped(mob/living/carbon/human/user, slot)
+/obj/item/clothing/shoes/roguetown/boots/muffle_matthios/equipped(mob/living/carbon/human/user, slot)
 	. = ..()
-	if(slot == SLOT_NECK)
-		to_chat(user, span_info("My footsteps now fall on deaf ears."))
+	if(slot == SLOT_SHOES && HAS_TRAIT(user, TRAIT_FREEMAN))
+		to_chat(user, span_info("Like Him, I slink into the shadows."))
 		ADD_TRAIT(user, TRAIT_SILENT_FOOTSTEPS, "matthiosboon")
+		ADD_TRAIT(user, TRAIT_LIGHT_STEP, "matthiosboon")
 
-/obj/item/clothing/neck/roguetown/muffle/dropped(mob/living/carbon/human/user)
+/obj/item/clothing/shoes/roguetown/boots/muffle_matthios/dropped(mob/living/carbon/human/user)
 	. = ..()
-	if(istype(user) && user?.wear_neck == src)
-		to_chat(user, span_info("I walk without His help once more."))
+	if(istype(user) && user?.shoes == src)
+		to_chat(user, span_info("Once again, I am under Her gaze."))
 		REMOVE_TRAIT(user, TRAIT_SILENT_FOOTSTEPS, "matthiosboon")
+		REMOVE_TRAIT(user, TRAIT_LIGHT_STEP, "matthiosboon")
 
 // T1 - Take value of item in hand, apply that as healing. Destroys item.
 
-/obj/effect/proc_holder/spell/invoked/transact
+/obj/effect/proc_holder/spell/invoked/matthios_transact
 	name = "Transact"
 	desc = "Sacrifice an item in your hand, applying a heal over time to yourself with strenght depending on its value."
+	action_icon = 'icons/mob/actions/matthiosmiracles.dmi'
+	overlay_icon = 'icons/mob/actions/matthiosmiracles.dmi'
 	overlay_state = "transact"
 	releasedrain = 30
 	chargedrain = 0
@@ -99,6 +142,7 @@
 	movement_interrupt = FALSE
 	invocations = list("I offer thee myne gift!", "Blessings upon thine humble servant!", "Grant me thine fyre my lord!", "A transaction for myne lyfe!")
 	invocation_type = "shout"//So someone might actually figures out you are supposed to be valid using this.
+	sound = 'sound/effects/hood_ignite.ogg'
 	associated_skill = /datum/skill/magic/holy
 	antimagic_allowed = TRUE
 	recharge_time = 20 SECONDS
@@ -106,7 +150,7 @@
 	devotion_cost = 20
 
 
-/obj/effect/proc_holder/spell/invoked/transact/cast(list/targets, mob/living/user)
+/obj/effect/proc_holder/spell/invoked/matthios_transact/cast(list/targets, mob/living/user)
 	. = ..()
 	var/obj/item/held_item = user.get_active_held_item()
 	if(!held_item)
@@ -114,10 +158,10 @@
 		return
 	var/helditemvalue = held_item.get_real_price()
 	if(!helditemvalue)
-		to_chat(user, span_info("This has no value, It will be of no use In such a transaction."))
+		to_chat(user, span_info("This has no value, It will be of no use in such a transaction."))
 		return
 	if(helditemvalue<10)
-		to_chat(user, span_info("This has little value, It will be of no use In such a transaction."))
+		to_chat(user, span_info("This has little value, It will be of no use in such a transaction."))
 		return
 	if(isliving(targets[1]))
 		var/mob/living/target = targets[1]
@@ -130,7 +174,8 @@
 		if(iscarbon(target))
 			var/mob/living/carbon/C = target
 			var/datum/status_effect/buff/healing/heal_effect = C.apply_status_effect(/datum/status_effect/buff/healing)
-			heal_effect.healing_on_tick = helditemvalue/2
+			if(heal_effect)
+				heal_effect.healing_on_tick = helditemvalue / 2
 			playsound(user, 'sound/combat/hits/burn (2).ogg', 100, TRUE)
 			if(istype(held_item, /obj/item/rogueweapon))
 				to_chat(user, "<font color='yellow'>[held_item] melts at it's very fabric turning it into a heap of scrap. My transaction is accepted.</font>")
@@ -156,9 +201,11 @@
 
 // T2 We're going to debuff a targets stats = to the difference between us and them in total stats.
 
-/obj/effect/proc_holder/spell/invoked/equalize
+/obj/effect/proc_holder/spell/invoked/matthios_equalize
 	name = "Equalize"
 	desc = "Create equality, with a thumb on the scales, with your target. Siphon strength, speed, and constitution from them."
+	action_icon = 'icons/mob/actions/matthiosmiracles.dmi'
+	overlay_icon = 'icons/mob/actions/matthiosmiracles.dmi'
 	overlay_state = "equalize"
 	clothes_req = FALSE
 	associated_skill = /datum/skill/magic/holy
@@ -170,19 +217,27 @@
 	no_early_release = TRUE
 	antimagic_allowed = TRUE
 	movement_interrupt = FALSE
-	recharge_time = 2 MINUTES
+	recharge_time = 6 MINUTES
 	range = 4
 
-
-/obj/effect/proc_holder/spell/invoked/equalize/cast(list/targets, mob/living/user)
+/obj/effect/proc_holder/spell/invoked/matthios_equalize/cast(list/targets, mob/living/user)
 	if(ishuman(targets[1]))
 		var/mob/living/target = targets[1]
+		if(user == target)
+			to_chat(user,"<font color='yellow'>I cannot equalize myself, what am I trying to achieve?</font>")
+			revert_cast()
+			return
 		if(spell_guard_check(target, TRUE))
 			target.visible_message(span_warning("[target] resists EQUALITY!"))
 			return TRUE
-		target.apply_status_effect(/datum/status_effect/debuff/equalizedebuff)
-		user.apply_status_effect(/datum/status_effect/buff/equalizebuff)
-		return TRUE
+		if(HAS_TRAIT(target, TRAIT_NOBLE))
+			target.apply_status_effect(/datum/status_effect/debuff/equalizedebuff_noble)
+			user.apply_status_effect(/datum/status_effect/buff/equalizebuff)//Same buff but they get punished harder
+			return TRUE
+		else
+			target.apply_status_effect(/datum/status_effect/debuff/equalizedebuff)
+			user.apply_status_effect(/datum/status_effect/buff/equalizebuff)
+			return TRUE
 	revert_cast()
 	return FALSE
 
@@ -191,14 +246,15 @@
 /datum/status_effect/buff/equalizebuff
 	id = "equalize"
 	alert_type = /atom/movable/screen/alert/status_effect/buff/equalized
-	effectedstats = list(STATKEY_STR = 2, STATKEY_CON = 2, STATKEY_SPD = 2)
-	duration = 1 MINUTES
+	effectedstats = list(STATKEY_STR = 2, STATKEY_SPD = 2, STATKEY_LCK = 3)
+	duration = 3 MINUTES
 	var/outline_colour = "#FFD700"
 
 
 /atom/movable/screen/alert/status_effect/buff/equalized
 	name = "Equalized"
-	desc = "I've stolen my opponent's attributes."				// USE. LESS. WORDS.
+	desc = "I've stolen my opponent's fyre."
+	icon_state = "equalize_buff"
 
 /datum/status_effect/buff/equalizebuff/on_apply()
 	. = ..()
@@ -207,20 +263,21 @@
 /datum/status_effect/buff/equalizebuff/on_remove()
 	. = ..()
 	owner.remove_filter(EQUALIZED_GLOW)
-	to_chat(owner, "<font color='yellow'>The link wears off, and the stolen fire returns to them.</font>")
+	to_chat(owner, "<font color='yellow'>The link wears off, and the stolen fyre returns to them.</font>")
 
 
  // debuff
 /datum/status_effect/debuff/equalizedebuff
 	id = "equalize"
 	alert_type = /atom/movable/screen/alert/status_effect/buff/equalized
-	effectedstats = list(STATKEY_STR = -2, STATKEY_CON = -2, STATKEY_SPD = -2)
-	duration = 1 MINUTES
+	effectedstats = list(STATKEY_STR = -2, STATKEY_SPD = -2, STATKEY_LCK = -3)
+	duration = 3 MINUTES
 	var/outline_colour = "#FFD700"
 
 /atom/movable/screen/alert/status_effect/debuff/equalized
 	name = "Equalized"
-	desc = "My strength has been stolen from me!"
+	desc = "My fire has been stolen from me!"
+	icon_state = "equalize_debuff"
 
 /datum/status_effect/debuff/equalizedebuff/on_apply()
 	. = ..()
@@ -229,16 +286,38 @@
 /datum/status_effect/debuff/equalizedebuff/on_remove()
 	. = ..()
 	owner.remove_filter(EQUALIZED_GLOW)
-	to_chat(owner, "<font color='yellow'>My strength returns!</font>")
+	to_chat(owner, "<font color='yellow'>My fire returns!</font>")
 
+ // debuff - noble
+/datum/status_effect/debuff/equalizedebuff_noble
+	id = "equalize"
+	alert_type = /atom/movable/screen/alert/status_effect/debuff/equalized_noble
+	effectedstats = list(STATKEY_STR = -3, STATKEY_SPD = -3, , STATKEY_LCK = -6)
+	duration = 3 MINUTES
+	var/outline_colour = "#FFD700"
 
+/atom/movable/screen/alert/status_effect/debuff/equalized_noble
+	name = "Equalized"
+	desc = "My fire has been stolen from me!"
+	icon_state = "equalize_debuff"
+
+/datum/status_effect/debuff/equalizedebuff_noble/on_apply()
+	. = ..()
+	owner.add_filter(EQUALIZED_GLOW, 2, list("type" = "outline", "color" = outline_colour, "alpha" = 200, "size" = 1))
+
+/datum/status_effect/debuff/equalizedebuff_noble/on_remove()
+	. = ..()
+	owner.remove_filter(EQUALIZED_GLOW)
+	to_chat(owner, "<font color='yellow'>My fire returns!</font>")
 
 //T3 COUNT WEALTH, HURT TARGET/APPLY EFFECTS BASED ON AMOUNT OF WEALTH. AT 500+, OLD STYLE CHURNS THE TARGET.
 
-/obj/effect/proc_holder/spell/invoked/churnwealthy
+/obj/effect/proc_holder/spell/invoked/matthios_churn
 	name = "Churn Wealthy"
 	desc = "Attacks the target by weight of their greed, dealing increased damage and effects depending on how wealthy they are."
 	clothes_req = FALSE
+	action_icon = 'icons/mob/actions/matthiosmiracles.dmi'
+	overlay_icon = 'icons/mob/actions/matthiosmiracles.dmi'
 	overlay_state = "churnwealthy"
 	associated_skill = /datum/skill/magic/holy
 	chargedloop = /datum/looping_sound/invokeascendant
@@ -248,16 +327,19 @@
 	no_early_release = TRUE
 	antimagic_allowed = TRUE
 	movement_interrupt = FALSE
-	recharge_time = 2 MINUTES
+	recharge_time = 5 MINUTES //This probably should not be on low cooldown
 	range = 4
 
-
-/obj/effect/proc_holder/spell/invoked/churnwealthy/cast(list/targets, mob/living/user)
+/obj/effect/proc_holder/spell/invoked/matthios_churn/cast(list/targets, mob/living/user)
 	if(ishuman(targets[1]))
 		var/mob/living/carbon/human/target = targets[1]
 
 		if(user.z != target.z) //Stopping no-interaction snipes
 			to_chat(user, "<font color='yellow'>The Free-God compels me to face [target] on level ground before I transact.</font>")
+			revert_cast()
+			return
+		if(user == target)
+			to_chat(user,"<font color='yellow'>Why would I want to Churn MYSELF? I am not that insane.</font>")
 			revert_cast()
 			return
 		if(spell_guard_check(target, TRUE))

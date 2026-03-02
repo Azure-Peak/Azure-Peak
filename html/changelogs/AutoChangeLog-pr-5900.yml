@@ -1,0 +1,6 @@
+author: "eirenxiv"
+delete-after: True
+changes:
+  - rscdel: "removes antag objective from suitors"
+  - balance: "adjusted suitor PQ to 5"
+  - balance: "changed suitor skills, traits and loadouts"

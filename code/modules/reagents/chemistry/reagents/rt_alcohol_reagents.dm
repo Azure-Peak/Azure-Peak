@@ -189,7 +189,7 @@
 	color = "#475e45"
 	quality = DRINK_NICE
 
-// Dwarven Production - Best in the Realms
+// Dwarven Production - Best in the Realms!
 
 /datum/reagent/consumable/ethanol/butterhairs
 	name = "Butterhairs"
@@ -368,6 +368,47 @@
 	taste_description = "bitter tart delectably aged wine"
 	color = "#330038"
 	quality = DRINK_VERYGOOD
+
+// Special Production - Spice, Spice, Baby!
+
+/datum/reagent/consumable/ethanol/spicedwine
+	name = "Spiced Wine"
+	boozepwr = 10
+	taste_description = "overpoweringly aromatic, sweetening the tongue and numbing the lips"
+	color = "#a11a00"
+	quality = DRINK_GOOD
+
+/datum/reagent/consumable/ethanol/spicedwine/on_mob_life(mob/living/carbon/M)
+	if(volume > 0.99)
+		M.adjustBruteLoss(-0.2  * REAGENTS_EFFECT_MULTIPLIER, 0)
+		M.adjustFireLoss(-0.2  * REAGENTS_EFFECT_MULTIPLIER, 0)
+	..()
+
+/datum/reagent/consumable/ethanol/spicedwine/aged
+	name = "Aged Spiced Wine"
+	boozepwr = 20
+	taste_description = "richly aromatic spiciness, evoking the memory of a holidae's snow-speckled nite"
+	color = "#961800"
+	quality = DRINK_VERYGOOD
+
+/datum/reagent/consumable/ethanol/spicedwine/aged/on_mob_life(mob/living/carbon/M)
+	if(volume > 0.99)
+		M.adjustBruteLoss(-0.4  * REAGENTS_EFFECT_MULTIPLIER, 0)
+		M.adjustFireLoss(-0.4  * REAGENTS_EFFECT_MULTIPLIER, 0)
+	..()
+
+	/datum/reagent/consumable/ethanol/spicedwine/delectable
+	name = "Delectable Spiced Wine"
+	boozepwr = 40
+	taste_description = "heavenly aromatic sweetness, followed by an ever-familiar warmness in the heart"
+	color = "#821500"
+	quality = DRINK_FANTASTIC
+
+/datum/reagent/consumable/ethanol/spicedwine/delectable/on_mob_life(mob/living/carbon/M)
+	if(volume > 0.99)
+		M.adjustBruteLoss(-0.7  * REAGENTS_EFFECT_MULTIPLIER, 0)
+		M.adjustFireLoss(-0.7  * REAGENTS_EFFECT_MULTIPLIER, 0)
+	..()
 
 // Elf Production - Berries & Herbal
 

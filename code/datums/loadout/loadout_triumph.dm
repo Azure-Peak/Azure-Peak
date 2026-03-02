@@ -67,7 +67,7 @@
 
 /datum/loadout_item/triumph_foldtable
 	name = "Folding Table"
-	path = /obj/structure/table/wood/folding
+	path = /obj/item/folding_table_stored
 	triumph_cost = 5
 	sort_category = "Triumphs"
 

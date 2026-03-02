@@ -227,6 +227,8 @@ GLOBAL_LIST_EMPTY(species_list)
 /mob
 	var/doing = FALSE
 	var/pronouns = null // LETHALSTONE ADDITION: this is cheap so i'm doing it. preferences in human will set this appropriately
+	var/titles_pref = null
+	var/clothes_pref = CLOTHES_M
 	var/obscured_flags = NONE
 
 /**

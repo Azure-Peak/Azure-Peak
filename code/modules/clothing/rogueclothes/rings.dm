@@ -52,6 +52,12 @@
 	sellprice = 33
 	is_silver = FALSE //Temporary measure to prevent people from easily metachecking vampyres. Replace with a more sophisticated alternative if-or-when available.
 
+/obj/item/clothing/ring/silver/cleric
+	name = "clerical silver ring"
+	desc = "A ring of silvered glimmerance, detailed with the etchings of a faith-militance's creed. In the closing daes of Psydonia's ancient calamity, such jewelry was worn \
+	by the first crusaders; those who had been endowed with the power to invoke the miracles of His tenmost angels. Nowadaes, it is worn by their innumerable descendants in veneration."
+	sellprice = 25
+
 /obj/item/clothing/ring/gold
 	name = "gold ring"
 	desc = "A ring of golden beauty."

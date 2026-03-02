@@ -436,15 +436,9 @@
 	user.playsound_local(get_turf(user), 'sound/magic/necra_sight.ogg', 80)
 
 	// Cleanup after duration
-	addtimer(
-		CALLBACK(S, TYPE_PROC_REF(/mob/dead/observer, reenter_corpse)),
-		(8 SECONDS)
-	)
+	addtimer(CALLBACK(S, TYPE_PROC_REF(/mob/dead/observer, reenter_corpse)), 8 SECONDS)
 
-	addtimer(
-		CALLBACK(spygrave, TYPE_PROC_REF(/atom/movable, remove_filter), GRAVE_SPY),
-		(8 SECONDS)
-	)
+	addtimer(CALLBACK(spygrave, TYPE_PROC_REF(/atom/movable, remove_filter), GRAVE_SPY), 8 SECONDS)
 
 	return TRUE
 

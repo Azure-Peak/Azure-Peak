@@ -315,7 +315,7 @@
 
 /datum/inqports/supplies/blessedbolts
 	name = "1 Quiver of Sunderbolts"
-	item_type = /obj/item/quiver/holybolts
+	item_type = /obj/item/quiver/bolt/holy
 	marquescost = 6
 
 /datum/inqports/equipment/nocshades

@@ -4,8 +4,23 @@
 	icon_state = "fork_wooden"
 	flags_1 = CONDUCT_1
 	hitsound = 'sound/blank.ogg'
-	force = 0
+	force = 5
+	throwforce = 5
 	w_class = WEIGHT_CLASS_TINY
+	max_blade_int = 40
+	max_integrity = 40
+	wbalance = WBALANCE_SWIFT
+	thrown_bclass = BCLASS_STAB
+	possible_item_intents = list(/datum/intent/use, /datum/intent/dagger/thrust/fork)
+	swingsound = list('sound/combat/wooshes/bladed/wooshsmall (1).ogg','sound/combat/wooshes/bladed/wooshsmall (2).ogg','sound/combat/wooshes/bladed/wooshsmall (3).ogg')
+
+/obj/item/kitchen/fork/examine()
+	. = ..()
+	. += span_info("Left-clicking most foodstuffs with the fork allows you to take a bite from it.")
+	. += span_info("Nobler appetites prefer utensils over simply eating and drinking with one's bare hands.")
+
+/datum/intent/dagger/thrust/fork
+	penfactor = 20
 
 /obj/item/kitchen/fork/aalloy
 	name = "decrepit fork"

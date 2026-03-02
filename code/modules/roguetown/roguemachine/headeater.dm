@@ -1,7 +1,9 @@
 // Ported from Vanderlin Gaffer PR. But this is meant to be a machine for lowpop headhunting that gives you such a poor price you'd rather sell to the merchant.
 /obj/structure/roguemachine/headeater
 	name = "HEADEATER"
-	desc = "A machine where you deposit heads of wanted creechurs and spits out coins. The makers charges a hefty fee - 60% of the bounty. Seeking the cooperation of a merchant might be more profitable."
+	desc = "A machine that indulges in humenity's oldest profession; killing. The heads of Dendor's creechers, goblins, and ambushers go in, and coins-a-plenty come \
+	out. The automation comes at a steep cost, however, as over half of each head's price will be taxed to the Merchant's Guild. You could likely garner a much fairer \
+	price by directly selling such heads to a Merchant, instead."
 	icon = 'icons/roguetown/misc/machines.dmi'
 	icon_state = "headeater"
 	density = FALSE
@@ -12,7 +14,7 @@
 
 /obj/structure/roguemachine/headeater/examine()
 	. = ..()
-	. += span_info("Right click to deposit all heads in front of the machine.")
+	. += span_info("Left-click to deposit a head into the machine, and right-click to deposit all heads in front of the machine.")
 
 /obj/structure/roguemachine/headeater/attackby(obj/item/H, mob/user, params)
 	. = ..()

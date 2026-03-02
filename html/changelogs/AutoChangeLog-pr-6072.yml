@@ -1,0 +1,6 @@
+author: "WeNeedMorePhoron"
+delete-after: True
+changes:
+  - rscadd: "Chat Help verb to OOC tab for help with chat"
+  - rscadd: "You can substitute your name's position in a me / emote with $n. Don't abuse it."
+  - rscdel: "Remove using + to whisper"

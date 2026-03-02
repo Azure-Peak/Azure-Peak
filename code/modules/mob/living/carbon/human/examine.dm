@@ -143,7 +143,7 @@
 		if(HAS_TRAIT(src, TRAIT_WITCH))
 			if(HAS_TRAIT(user, TRAIT_NOBLE) || HAS_TRAIT(user, TRAIT_INQUISITION) || HAS_TRAIT(user, TRAIT_WITCH))
 				. += span_warning("A witch! Their presence brings an unsettling aura.")
-			else if(HAS_TRAIT(user, TRAIT_COMMIE) || HAS_TRAIT(user, TRAIT_CABAL) || HAS_TRAIT(user, TRAIT_HORDE) || HAS_TRAIT(user, TRAIT_DEPRAVED))
+			else if(HAS_TRAIT(user, TRAIT_FREEMAN) || HAS_TRAIT(user, TRAIT_CABAL) || HAS_TRAIT(user, TRAIT_HORDE) || HAS_TRAIT(user, TRAIT_DEPRAVED))
 				. += span_notice("A practitioner of the old ways.")
 			else
 				. += span_notice("Something about them seems... different.")
@@ -276,11 +276,11 @@
 
 		if (HAS_TRAIT(src, TRAIT_BEAUTIFUL) || (issunelf(src) && issunelf(user)))
 			switch (pronouns)
-				if (HE_HIM, SHE_HER_M)
+				if (HE_HIM)
 					. += span_beautiful_masc("[m1] handsome!")
-				if (SHE_HER, HE_HIM_F)
+				if (SHE_HER)
 					. += span_beautiful_fem("[m1] beautiful!")
-				if (THEY_THEM, THEY_THEM_F, IT_ITS, IT_ITS_M)
+				if (THEY_THEM, IT_ITS)
 					. += span_beautiful_nb("[m1] good-looking!")
 
 		if (HAS_TRAIT(src, TRAIT_UNSEEMLY))
@@ -289,7 +289,7 @@
 					. += span_redtext("[m1] revolting!")
 				if (SHE_HER)
 					. += span_redtext("[m1] repugnant!")
-				if (THEY_THEM, THEY_THEM_F, IT_ITS, IT_ITS_M)
+				if (THEY_THEM, IT_ITS)
 					. += span_redtext("[m1] repulsive!")
 
 		var/datum/antagonist/vampire/vamp_inspect = src.mind?.has_antag_datum(/datum/antagonist/vampire)
@@ -952,14 +952,18 @@
 			user.add_stress(/datum/stressevent/hunted)
 
 	if(dna?.species?.type == /datum/species/gnoll)
-		var/mob/living/carbon/human/H = user
-		if(H.dna?.species?.type == /datum/species/gnoll)
-			if(user.advjob)
-				. += span_notice("<i>They are a [advjob] of the pack.</i>")
+		if(istype(user, /mob/living/carbon/human)) //Submitting this one upstream because not our shitcode for once
+			var/mob/living/carbon/human/H = user
+			if(H.dna?.species?.type == /datum/species/gnoll)
+				if(user.advjob)
+					. += span_notice("<i>They are a [advjob] of the pack.</i>")
 
 	var/trait_exam = common_trait_examine()
 	if(!isnull(trait_exam))
 		. += trait_exam
+
+	if(pose_text)
+		. += fieldset_block("Pose", pose_text, "pose_block")
 
 	SEND_SIGNAL(src, COMSIG_PARENT_EXAMINE, user, .)
 
@@ -987,13 +991,13 @@
 	if(HAS_TRAIT(examiner, TRAIT_HERETIC_SEER))
 		seer = TRUE
 
-	if(HAS_TRAIT(src, TRAIT_COMMIE))
+	if(HAS_TRAIT(src, TRAIT_FREEMAN))
 		if(seer)
-			heretic_text += "Matthiosan."
-			if(HAS_TRAIT(examiner, TRAIT_COMMIE))
+			heretic_text += "Matthiosian."
+			if(HAS_TRAIT(examiner, TRAIT_FREEMAN))
 				heretic_text += " To share with. To take with. For all, and us."
-		else if(HAS_TRAIT(examiner, TRAIT_COMMIE))
-			heretic_text += "Comrade!"
+		else if(HAS_TRAIT(examiner, TRAIT_FREEMAN))
+			heretic_text += "Fellow Free Man!"
 	else if((HAS_TRAIT(src, TRAIT_CABAL)))
 		if(seer)
 			heretic_text += "A member of Zizo's cabal."
@@ -1017,7 +1021,7 @@
 	var/heretic_text
 	if(HAS_TRAIT(src, TRAIT_DECEIVING_MEEKNESS))
 		return
-	if(HAS_TRAIT(src, TRAIT_COMMIE) && HAS_TRAIT(examiner, TRAIT_COMMIE))
+	if(HAS_TRAIT(src, TRAIT_FREEMAN) && HAS_TRAIT(examiner, TRAIT_FREEMAN))
 		heretic_text += "⚖️" //♠ is the original
 	//Defunct as of *fsalute changes, leaving here as a symbol reference.
 	/*else if(HAS_TRAIT(src, TRAIT_CABAL) && HAS_TRAIT(examiner, TRAIT_CABAL))
@@ -1067,7 +1071,7 @@
 	var/villain_text
 	if(mind)
 		if(mind.special_role == "Bandit")
-			if(HAS_TRAIT(examiner, TRAIT_COMMIE))
+			if(HAS_TRAIT(examiner, TRAIT_FREEMAN))
 				villain_text = span_notice("Free man!")
 			if(HAS_TRAIT(src,TRAIT_KNOWNCRIMINAL))
 				villain_text = span_userdanger("BANDIT!")

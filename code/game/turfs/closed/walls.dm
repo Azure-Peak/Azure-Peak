@@ -8,7 +8,7 @@
 	explosion_block = 1
 	flags_1 = CHECK_RICOCHET_1
 
-	baseturfs = list(/turf/open/floor/rogue/dirt/road)
+	baseturfs = /turf/open/floor/rogue/dirt/road
 
 	var/hardness = 40 //lower numbers are harder. Used to determine the probability of a hulk smashing through.
 	var/slicing_duration = 100  //default time taken to slice the wall

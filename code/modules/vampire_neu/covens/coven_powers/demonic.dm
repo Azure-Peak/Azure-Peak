@@ -164,6 +164,7 @@
 /obj/item/rogueweapon/gangrel
 	name = "claws"
 	desc = ""
+	experimental_inhand = FALSE
 	item_state = null
 	lefthand_file = null
 	righthand_file = null

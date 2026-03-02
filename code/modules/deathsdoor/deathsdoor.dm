@@ -207,11 +207,7 @@ GLOBAL_VAR_INIT(underworld_strands, 0)
 	if(spawn_timer)
 		deltimer(spawn_timer)
 
-	spawn_timer = addtimer(
-		CALLBACK(src, PROC_REF(try_spawn)),
-		40 MINUTES,
-		TIMER_STOPPABLE
-	)
+	spawn_timer = addtimer(CALLBACK(src, PROC_REF(try_spawn)), 40 MINUTES, TIMER_STOPPABLE)
 
 /obj/effect/landmark/underworldstrands/proc/try_spawn()
 	spawn_timer = null

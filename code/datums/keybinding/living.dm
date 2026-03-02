@@ -145,8 +145,8 @@
 /datum/keybinding/living/toggle_compliance
 	hotkey_keys = list()
 	name = "toggle_compliance"
-	full_name = "Toggle Compliance"
-	description = "At-will toggle to fail defense rolls, both when getting grabbed/tackled, and when others resist out your grabs."
+	full_name = "Toggle Compliance Mode"
+	description = "At-will, silent toggle to fail defense rolls, both when getting grabbed/tackled, and when others resist out your grabs. Additionally speeds up restraining you and stripping you. Dangerous in combat!"
 
 /datum/keybinding/living/toggle_compliance/down(client/user)
 	var/mob/living/L = user.mob
@@ -287,6 +287,8 @@
 
 /datum/keybinding/living/pixel_shift_layerup/down(client/user)
 	var/mob/living/M = user.mob
+	if(!isliving(M))
+		return FALSE
 	if(M.pixelshift_layer <= 0.04)
 		M.is_shifted = TRUE
 		M.pixelshift_layer = M.pixelshift_layer + 0.01
@@ -302,6 +304,8 @@
 
 /datum/keybinding/living/pixel_shift_layerdown/down(client/user)
 	var/mob/living/M = user.mob
+	if(!isliving(M))
+		return FALSE
 	if(M.pixelshift_layer >= -0.04)
 		M.is_shifted = TRUE
 		M.pixelshift_layer = M.pixelshift_layer - 0.01

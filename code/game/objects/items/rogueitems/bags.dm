@@ -1,6 +1,6 @@
 /obj/item/storage/roguebag
 	name = "sack"
-	desc = "A sack of rough cloth meant for peasantry."
+	desc = "A sack of rough cloth meant for the peasantry, laborers, and those who simply want to carry more than what a mere satchel or backpack can hold."
 	icon_state = "cbag"
 	item_state = "cbag"
 	icon = 'icons/roguetown/items/misc.dmi'
@@ -13,6 +13,12 @@
 	component_type = /datum/component/storage/concrete/roguetown/sack
 	grid_width = 32
 	grid_height = 64
+
+/obj/item/storage/roguebag/get_mechanics_examine(mob/user)
+	. = ..()
+	. += span_info("Left-click a tile to automatically stow all fittable items on it into the sack.")
+	. += span_info("Activate the sack in your hand to dump its contents out in whatever direction you're facing.")
+	. += span_info("Sacks can be crafted into bags of bait for alluring huntable creechers, or roped into rucksacks for a larger-but-heftier backpack.")
 
 /obj/item/storage/roguebag/examine(mob/user)
 	. = ..()

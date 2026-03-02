@@ -26,8 +26,11 @@
 		if(strength_check == TRUE)
 			newtime = ((newtime + 10) - (mastermob.STASTR / 2))
 		else
-			newtime = newtime 
+			newtime = newtime
 		newtime = ((newtime + 20) - (mastermob.STAPER))
+		var/obj/item/gun/ballistic/gun = masteritem
+		if(istype(gun) && gun.chambered)
+			newtime *= gun.chambered.charge_time_mult
 		if(newtime > 1)
 			return newtime //this value is how fast we can accurately shoot a bow. most builds will turn up with about 6 - 12 on non heavy bows.
 		else
@@ -66,6 +69,9 @@
 		else
 			newtime = newtime
 		newtime = ((newtime + 20) - (mastermob.STAPER))
+		var/obj/item/gun/ballistic/gun = masteritem
+		if(istype(gun) && gun.chambered)
+			newtime *= gun.chambered.charge_time_mult
 		if(newtime > 3)
 			return newtime
 		else
@@ -105,6 +111,7 @@
 	load_sound = 'sound/foley/nockarrow.ogg'
 	obj_flags = UNIQUE_RENAME
 	var/heavy_bow = FALSE //used for adding a STR check to the charge time of a bow
+	cartridge_articles = "an"
 
 /obj/item/gun/ballistic/revolver/grenadelauncher/bow/get_mechanics_examine(mob/user)
 	. += span_info("Bows increase in damage and accuracy the higher your <b>PERCEPTION</b>.")

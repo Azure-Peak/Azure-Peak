@@ -29,6 +29,14 @@
 	cooktime = 30 SECONDS
 	var/process_step // used for pie making and other similar modular foods
 
+/obj/item/reagent_containers/food/snacks/rogue/get_mechanics_examine(mob/user)
+    . = ..()
+    . += span_info("Many foodstuffs can be sliced into smaller portions by left-clicking them with a knife on the 'CUT' or 'CHOP' intents. This includes most meats, vegetables, fruits, bread, pies, cakes, saloumi, butter, salo, and more.")
+    . += span_info("Most food will eventually rot, if left out for long enough. Storing food in a closed chest or atop a platter will effectively prevent it from rotting.")
+    . += span_info("Rarer foods and drinks, or those made from more expensive recipes, can provide increased bonuses to the indulger's mood and health.")
+    . += span_info("Everyone has a favorite meal and drink to indulge in - and, conversely, a hated meal and drink that they absolutely despise. Serve them right, and their mood will greatly improve.")
+    . += span_info("Those of nobility have much higher standards, when it comes to what - and how - they eat. They prefer to eat plattered meals with proper utensils, while disliking plainer and cheaper food.")
+
 /obj/item/reagent_containers/food/snacks/rogue/Initialize()
 	. = ..()
 	eatverb = pick("bite","chew","nibble","gobble","chomp")
@@ -120,11 +128,31 @@
 	volume = 1
 	sellprice = 0
 	var/water_added
+	experimental_inhand = TRUE
+
+/obj/item/reagent_containers/powder/flour/getonmobprop(tag)
+	if(tag)
+		switch(tag)
+			if("gen")
+				return list("shrink" = 0.4,"sx" = -7,"sy" = -4,"nx" = 7,"ny" = -4,"wx" = -4,"wy" = -4,"ex" = 2,"ey" = -4,"nturn" = 0,"sturn" = 0,"wturn" = 0,"eturn" = 0,"nflip" = 0,"sflip" = 0,"wflip" = 0,"eflip" = 0,"northabove" = 0,"southabove" = 1,"eastabove" = 1,"westabove" = 0)
+			if("wielded")
+				return null
+			if("altgrip")
+				return null
+			if("onbelt")
+				return list("shrink" = 0.3,"sx" = -2,"sy" = -5,"nx" = 4,"ny" = -5,"wx" = 0,"wy" = -5,"ex" = 2,"ey" = -5,"nturn" = 0,"sturn" = 0,"wturn" = 0,"eturn" = 0,"nflip" = 0,"sflip" = 0,"wflip" = 0,"eflip" = 0,"northabove" = 0,"southabove" = 1,"eastabove" = 1,"westabove" = 0)
+			if("onback")
+				return list("shrink" = 0.5,"sx" = 1,"sy" = -1,"nx" = 1,"ny" = -1,"wx" = 4,"wy" = -1,"ex" = -1,"ey" = -1,"nturn" = 0,"sturn" = 0,"wturn" = 0,"eturn" = 0,"nflip" = 8,"sflip" = 0,"wflip" = 0,"eflip" = 0,"northabove" = 1,"southabove" = 0,"eastabove" = 0,"westabove" = 0)
 
 /obj/item/reagent_containers/powder/flour/throw_impact(atom/hit_atom, datum/thrownthing/thrownthing)
 	new /obj/effect/decal/cleanable/food/flour(get_turf(src))
 	..()
 	qdel(src)
+
+/obj/item/reagent_containers/powder/flour/get_mechanics_examine(mob/user)
+    . = ..()
+    . += span_info("Left-clicking yourself while targeting the nose will automatically snort the powder in your hand.")
+    . += span_info("Most powders can imbue a wide variety of effects, when inhaled.")
 
 /obj/item/reagent_containers/powder/flour/attackby(obj/item/I, mob/living/user, params)
 	var/found_table = locate(/obj/structure/table) in (loc)

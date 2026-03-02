@@ -62,7 +62,7 @@
 		switch(subtype_choice)
 			if("Rogue") //Rogue
 				backl= /obj/item/gun/ballistic/revolver/grenadelauncher/crossbow //we really need to make this not a grenade launcher subtype
-				beltr = /obj/item/quiver/bolts
+				beltr = /obj/item/quiver/bolt/standard
 				cloak = /obj/item/clothing/cloak/raincloak/mortus //cool cloak
 				l_hand = /obj/item/rogueweapon/sword/short
 				beltl = /obj/item/rogueweapon/scabbard/sword

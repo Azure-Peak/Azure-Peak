@@ -556,7 +556,7 @@
 
 /obj/effect/proc_holder/spell/invoked/vendetta
 	name = "Vendetta"
-	desc = "Cast upon your foe a Vendetta, your battle will be dramatic. Both you and your opponent will clash more dramaically for the next two minutes."
+	desc = "Cast upon your foe a Vendetta, your battle will be dramatic. Both you and your opponent will clash more dramatically for the next two minutes."
 	overlay_icon = 'icons/mob/actions/xylixmiracles.dmi'
 	action_icon = 'icons/mob/actions/xylixmiracles.dmi'
 	overlay_state = "vendetta"

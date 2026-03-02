@@ -1,0 +1,5 @@
+author: "WeNeedMorePhoron"
+delete-after: True
+changes:
+  - rscadd: "You may now Shift Right Click a quiver to select what types of ammunition. Better examine text and mechanics text added"
+  - rscadd: "Sling has been rebalanced to shoot faster, hit less hard and carry 40x instead of 20x ammo in one pouch."

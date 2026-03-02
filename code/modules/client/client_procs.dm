@@ -590,6 +590,7 @@ GLOBAL_LIST_EMPTY(external_rsc_urls)
 	return ..()
 
 /client/Destroy()
+	SSmouse_entered.hovers -= src
 	. = ..() //Even though we're going to be hard deleted there are still some things that want to know the destroy is happening
 	QDEL_NULL(droning_sound)
 	last_droning_sound = null
