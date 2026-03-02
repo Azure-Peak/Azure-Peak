@@ -295,9 +295,9 @@
 // RETINUE / GARRISON //
 ////////////////////////
 
-/obj/item/roguekey/justiciary
-	name = "justiciary key"
-	desc = "This key opens the justiciary."
+/obj/item/roguekey/marshal
+	name = "marshal's key"
+	desc = "This key opens the quarters of the Marshal."
 	icon_state = "cheesekey"
 	lockid = "sheriff"
 
@@ -500,7 +500,7 @@
 /obj/item/roguekey/apothecary
 	name = "clinic key"
 	desc = "An elegant key which should fit into any door in the city clinic. Its surface is \
-	covered in a very thin patina of corrosion."
+	covered by a very thin patina of corrosion."
 	icon_state = "ekey"
 	lockid = "apothecary"
 
