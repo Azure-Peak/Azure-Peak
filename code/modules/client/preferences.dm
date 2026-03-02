@@ -532,7 +532,7 @@ GLOBAL_LIST_EMPTY(chosen_names)
 					var/choice = virtue.picked_choices[i]
 					dat += "   <a href='?_src_=prefs;preference=subvirtue;task=remove;index=[i]'><i>[choice]</i></a><br>"
 			if(length(virtue.picked_choices) < virtue.max_choices)
-				dat += "   <a href='?_src_=prefs;preference=subvirtue;task=input'>[length(virtue.picked_choices) ? "" : "<font color = '#FFFFFF'>"]Pick Bonus[length(virtue.picked_choices) ? "" : "</font>"] [length(virtue.picked_choices) > 0 ? "([virtue.choice_costs[(virtue.picked_choices.len + 1)]] TRI)" : ""] </a><br>"
+				dat += "   <a href='?_src_=prefs;preference=subvirtue;task=input'>[(virtue.choice_costs[(virtue.picked_choices.len + 1)] == 0) ? "<font color = '#FFFFFF'>" : ""]Pick Bonus[(virtue.choice_costs[(virtue.picked_choices.len + 1)] == 0) ? "</font>" : ""] [length(virtue.picked_choices) > 0 ? "([virtue.choice_costs[(virtue.picked_choices.len + 1)]] TRI)" : ""] </a><br>"
 			if(statpack.virtuous)
 				tricost_virt = 0
 				if(length(virtuetwo.extra_choices) && length(virtuetwo.picked_choices))
@@ -544,7 +544,7 @@ GLOBAL_LIST_EMPTY(chosen_names)
 						var/choice = virtuetwo.picked_choices[i]
 						dat += "   <a href='?_src_=prefs;preference=subvirtue_two;task=remove;index=[i]'><i>[choice]</i></a><br>"
 				if(length(virtuetwo.picked_choices) < virtuetwo.max_choices)
-					dat += "   <a href='?_src_=prefs;preference=subvirtue_two;task=input'>Pick Bonus [length(virtuetwo.picked_choices) > 0 ? "([virtuetwo.choice_costs[(virtuetwo.picked_choices.len + 1)]] TRI)" : ""] </a><br>"
+					dat += "   <a href='?_src_=prefs;preference=subvirtue_two;task=input'>[(virtuetwo.choice_costs[(virtue.picked_choices.len + 1)] == 0) ? "<font color = '#FFFFFF'>" : ""]Pick Bonus[(virtuetwo.choice_costs[(virtuetwo.picked_choices.len + 1)] == 0) ? "</font>" : ""] [length(virtuetwo.picked_choices) > 0 ? "([virtuetwo.choice_costs[(virtuetwo.picked_choices.len + 1)]] TRI)" : ""] </a><br>"
 			else
 				virtuetwo = GLOB.virtues[/datum/virtue/none]
 			dat += "<b>Vices:</b>"

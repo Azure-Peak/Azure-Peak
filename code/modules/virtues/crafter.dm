@@ -28,18 +28,18 @@
 	. = ..()
 	if(triumph_check(recipient))
 		for(var/choice in picked_choices)
-			if(islist(picked_choices[choice]))
-				var/list/choicelist = picked_choices[choice]
+			if(islist(extra_choices[choice]))
+				var/list/choicelist = extra_choices[choice]
 				for(var/subchoice in choicelist)
 					if(ispath(subchoice, /datum/skill))
 						recipient.adjust_skillrank(subchoice, SKILL_LEVEL_JOURNEYMAN, silent = TRUE)
 					else if(subchoice in GLOB.roguetraits)
 						ADD_TRAIT(recipient, subchoice, TRAIT_VIRTUE)
-			if(ispath(picked_choices[choice], /datum/skill))
-				recipient.adjust_skillrank(picked_choices[choice], SKILL_LEVEL_JOURNEYMAN, silent = TRUE)
-			if(ispath(picked_choices[choice], /obj/item))
-				var/obj/item/I = picked_choices[choice]
-				recipient.mind?.special_items[I::name] = picked_choices[choice]
+			if(ispath(extra_choices[choice], /datum/skill))
+				recipient.adjust_skillrank(extra_choices[choice], SKILL_LEVEL_JOURNEYMAN, silent = TRUE)
+			if(ispath(extra_choices[choice], /obj/item))
+				var/obj/item/I = extra_choices[choice]
+				recipient.mind?.special_items[I::name] = extra_choices[choice]
 
 /datum/virtue/utility/tailor
 	name = "Tailor's Apprentice"

@@ -164,7 +164,7 @@
 	. = ..()
 	if(triumph_check(recipient))
 		for(var/choice in picked_choices)
-			ADD_TRAIT(recipient, picked_choices[choice], TRAIT_VIRTUE)
+			ADD_TRAIT(recipient, extra_choices[choice], TRAIT_VIRTUE)
 
 /datum/virtue/utility/feral_appetite
 	name = "Feral Appetite"
@@ -190,18 +190,18 @@
 	. = ..()
 	if(triumph_check(recipient))
 		for(var/choice in picked_choices)
-			if(picked_choices[choice] in GLOB.roguetraits)
+			if(extra_choices[choice] in GLOB.roguetraits)
 				ADD_TRAIT(recipient, choice, TRAIT_VIRTUE)
 				if(choice == TRAIT_DARKVISION)
 					if(recipient.has_flaw(/datum/charflaw/colorblind))
 						to_chat(recipient, "Your eyes have become permanently colorblind.")
 					else if(recipient.charflaws.len)
 						recipient.verbs += /mob/living/carbon/human/proc/toggleblindness
-			else if(ispath(picked_choices[choice], /datum/skill))
-				recipient.adjust_skillrank(picked_choices[choice], SKILL_LEVEL_JOURNEYMAN, silent = TRUE)
-			else if(ispath(picked_choices[choice], /obj/item))
-				var/obj/item/I = picked_choices[choice]
-				recipient.mind?.special_items[I::name] = picked_choices[choice]
+			else if(ispath(extra_choices[choice], /datum/skill))
+				recipient.adjust_skillrank(extra_choices[choice], SKILL_LEVEL_JOURNEYMAN, silent = TRUE)
+			else if(ispath(extra_choices[choice], /obj/item))
+				var/obj/item/I = extra_choices[choice]
+				recipient.mind?.special_items[I::name] = extra_choices[choice]
 			else if(choice == "Second Voice")
 				recipient.verbs += /mob/living/carbon/human/proc/changevoice
 				recipient.verbs += /mob/living/carbon/human/proc/swapvoice

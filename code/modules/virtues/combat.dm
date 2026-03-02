@@ -96,10 +96,10 @@
 	. = ..()
 	if(triumph_check(recipient))
 		for(var/choice in picked_choices)
-			if(ispath(picked_choices[choice], /datum/skill))
-				recipient.adjust_skillrank_up_to(picked_choices[choice], SKILL_LEVEL_JOURNEYMAN, silent = TRUE)
-			else if(islist(picked_choices[choice]))	//stashed items
-				var/list/stash = picked_choices[choice]
+			if(ispath(extra_choices[choice], /datum/skill))
+				recipient.adjust_skillrank_up_to(extra_choices[choice], SKILL_LEVEL_JOURNEYMAN, silent = TRUE)
+			else if(islist(extra_choices[choice]))	//stashed items
+				var/list/stash = extra_choices[choice]
 				for(var/obj/item/I in stash)
 					recipient.mind?.special_items[I::name] = added_stashed_items[I]
 
