@@ -1,6 +1,6 @@
 /datum/advclass/czwarteki/Servant
 	name = "Czwarteki Servant"
-	tutorial = "You are Servants of your Lord. Taken along upon the Journey through the Vale with the Retinue. Your only goals are but to ensure your Lord and his Heir's well being upon the trip."
+	tutorial = "You're one of the Lord's most trusted and loyal servants, taken along with them and their posse in their travels to Azuria. Your only goals are to ensure that the Lord and their Heir are comfortable and taken care of."
 	outfit = /datum/outfit/job/roguetown/czwarteki/servant
 	traits_applied = list(TRAIT_SLEUTH, TRAIT_KEENEARS, TRAIT_CICERONE, TRAIT_HOMESTEAD_EXPERT)
 	category_tags = list(CTAG_CZWAR_SERVANT)
