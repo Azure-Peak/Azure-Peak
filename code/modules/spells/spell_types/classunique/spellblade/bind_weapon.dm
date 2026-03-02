@@ -2,7 +2,7 @@
 	name = "Bind Weapon"
 	desc = "Bind your held weapon as an arcyne conduit. Successful strikes with bound weapons build arcyne momentum, fueling your abilities. \
 		It can also be recalled to your hand from anywhere with Recall Weapon. \
-		The weapon must match your chant — Blade requires a sword, Phalangite a polearm, Macebearer a mace or warhammer. \
+		The weapon must match your chant — Blade requires a sword or dagger, Phalangite a polearm, Macebearer a mace or warhammer. \
 		You can rebind to restore a lost Arcyne Momentum status, or bind a new weapon if your old one was destroyed. \
 		Cast with empty hands to unbind your current weapon."
 	clothes_req = FALSE
@@ -58,16 +58,16 @@
 
 	if(M?.chant)
 		var/valid = FALSE
-		var/datum/skill/required_skill
+		var/list/valid_skills
 		switch(M.chant)
 			if("blade")
-				required_skill = /datum/skill/combat/swords
+				valid_skills = list(/datum/skill/combat/swords, /datum/skill/combat/knives)
 			if("phalangite")
-				required_skill = /datum/skill/combat/polearms
+				valid_skills = list(/datum/skill/combat/polearms)
 			if("macebearer")
-				required_skill = /datum/skill/combat/maces
-		if(required_skill)
-			valid = (weapon.associated_skill == required_skill)
+				valid_skills = list(/datum/skill/combat/maces)
+		if(valid_skills)
+			valid = (weapon.associated_skill in valid_skills)
 		if(!valid)
 			to_chat(H, span_warning("This weapon does not match my chant!"))
 			revert_cast()
