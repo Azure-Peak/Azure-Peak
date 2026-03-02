@@ -1,7 +1,7 @@
 /datum/migrant_role/czwarteki/lord
 	name = "Tomorzurkh Lord"
 	greet_text = "You're one of many Lords of Tomorzurkh who've sworn loyalty to the Aavnic Potentate. You've come here for matters of diplomacy, conflicts, or simply passing through to assist in old alliances. You are to lead your Retinue and bring honor to the Potentate. "
-	allowed_races = list(/datum/species/human/northern,/datum/species/lupian,/datum/species/demihuman)
+	allowed_races = list(/datum/species/human/northern,/datum/species/lupian,/datum/species/demihuman,/datum/species/halforc, /datum/species/human/halfelf)
 	grant_lit_torch = FALSE
 	advclass_cat_rolls = list(CTAG_CZWAR_LORD = 20)
 	show_wanderer_examine = FALSE
