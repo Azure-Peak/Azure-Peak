@@ -33,15 +33,19 @@
 		revert_cast()
 		return
 
+	// If the weapon is embedded in someone, rip it out first
+	if(bound_weapon.is_embedded && istype(bound_weapon.loc, /obj/item/bodypart))
+		var/obj/item/bodypart/BP = bound_weapon.loc
+		BP.remove_embedded_object(bound_weapon)
+	else if(ismob(bound_weapon.loc))
+		var/mob/holder = bound_weapon.loc
+		holder.dropItemToGround(bound_weapon, TRUE)
+
 	var/turf/weapon_turf = get_turf(bound_weapon)
 	if(!weapon_turf)
 		to_chat(H, span_warning("Cannot locate my bound weapon!"))
 		revert_cast()
 		return
-
-	if(ismob(bound_weapon.loc))
-		var/mob/holder = bound_weapon.loc
-		holder.dropItemToGround(bound_weapon, TRUE)
 
 	playsound(weapon_turf, 'sound/magic/blink.ogg', 30, TRUE)
 	weapon_turf.visible_message(span_notice("[bound_weapon] vanishes in a flash of arcyne light."))
