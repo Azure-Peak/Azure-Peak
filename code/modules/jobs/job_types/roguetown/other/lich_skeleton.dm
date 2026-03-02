@@ -508,9 +508,6 @@ LICH SKELETONS
 	ADD_TRAIT(H, TRAIT_MEDIUMARMOR, TRAIT_GENERIC)
 	ADD_TRAIT(H, TRAIT_ARCYNE_T2, TRAIT_GENERIC)
 
-	H.adjust_skillrank(/datum/skill/combat/swords, 3, TRUE)
-	H.adjust_skillrank(/datum/skill/combat/polearms, 3, TRUE)
-	H.adjust_skillrank(/datum/skill/combat/maces, 3, TRUE)
 	H.adjust_skillrank(/datum/skill/combat/shields, 3, TRUE)
 	H.adjust_skillrank(/datum/skill/combat/wrestling, 2, TRUE)
 	H.adjust_skillrank(/datum/skill/combat/unarmed, 2, TRUE)
@@ -585,31 +582,31 @@ LICH SKELETONS
 			switch(weapon_choice)
 				if("Ancient Khopesh")
 					beltr = /obj/item/rogueweapon/sword/sabre/palloy
-					H.adjust_skillrank(/datum/skill/combat/swords, 1, TRUE)
 				if("Ancient Dagger")
 					beltr = /obj/item/rogueweapon/huntingknife/idagger/steel/padagger
-					H.adjust_skillrank(/datum/skill/combat/knives, 1, TRUE)
+			if(weapon_choice == "Ancient Dagger")
+				H.adjust_skillrank_up_to(/datum/skill/combat/knives, 4, TRUE)
+			else
+				H.adjust_skillrank_up_to(/datum/skill/combat/swords, 4, TRUE)
 		if("phalangite")
 			var/weapons = list("Ancient Spear", "Ancient Bardiche")
 			var/weapon_choice = input(H, "Choose your WEAPON.", "RAGE AGAINST THE LYVING.") as anything in weapons
 			switch(weapon_choice)
 				if("Ancient Spear")
 					r_hand = /obj/item/rogueweapon/spear/paalloy
-					H.adjust_skillrank(/datum/skill/combat/polearms, 1, TRUE)
 				if("Ancient Bardiche")
 					r_hand = /obj/item/rogueweapon/halberd/bardiche/paalloy
 					backr = /obj/item/rogueweapon/scabbard/gwstrap
-					H.adjust_skillrank(/datum/skill/combat/polearms, 1, TRUE)
+			H.adjust_skillrank_up_to(/datum/skill/combat/polearms, 4, TRUE)
 		if("macebearer")
 			var/weapons = list("Ancient Mace", "Ancient Warhammer")
 			var/weapon_choice = input(H, "Choose your WEAPON.", "RAGE AGAINST THE LYVING.") as anything in weapons
 			switch(weapon_choice)
 				if("Ancient Mace")
 					beltr = /obj/item/rogueweapon/mace/steel/palloy
-					H.adjust_skillrank(/datum/skill/combat/maces, 1, TRUE)
 				if("Ancient Warhammer")
 					beltr = /obj/item/rogueweapon/mace/warhammer/steel/paalloy
-					H.adjust_skillrank(/datum/skill/combat/maces, 1, TRUE)
+			H.adjust_skillrank_up_to(/datum/skill/combat/maces, 4, TRUE)
 	H.set_blindness(0)
 
 	// Hack for ordering

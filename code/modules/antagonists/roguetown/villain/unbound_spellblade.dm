@@ -155,9 +155,6 @@
 	H.change_stat(STATKEY_INT, 4)
 	H.change_stat(STATKEY_PER, 1)
 
-	H.adjust_skillrank(/datum/skill/combat/swords, 3, TRUE)
-	H.adjust_skillrank(/datum/skill/combat/polearms, 3, TRUE)
-	H.adjust_skillrank(/datum/skill/combat/maces, 3, TRUE)
 	H.adjust_skillrank(/datum/skill/combat/shields, 3, TRUE)
 	H.adjust_skillrank(/datum/skill/combat/wrestling, 2, TRUE)
 	H.adjust_skillrank(/datum/skill/combat/unarmed, 2, TRUE)
@@ -248,34 +245,33 @@
 			switch(weapon_choice)
 				if("Khopesh")
 					beltr = /obj/item/rogueweapon/sword/sabre/bronzekhopesh
-					H.adjust_skillrank(/datum/skill/combat/swords, 1, TRUE)
 				if("Sabre")
 					beltr = /obj/item/rogueweapon/sword/sabre
-					H.adjust_skillrank(/datum/skill/combat/swords, 1, TRUE)
 				if("Steel Dagger")
 					beltr = /obj/item/rogueweapon/huntingknife/idagger/steel
-					H.adjust_skillrank(/datum/skill/combat/knives, 1, TRUE)
+			if(weapon_choice == "Steel Dagger")
+				H.adjust_skillrank_up_to(/datum/skill/combat/knives, 4, TRUE)
+			else
+				H.adjust_skillrank_up_to(/datum/skill/combat/swords, 4, TRUE)
 		if("phalangite")
 			var/weapons = list("Spear", "Bardiche")
 			var/weapon_choice = input(H, "Choose your WEAPON.", "TAKE UP ARMS") as anything in weapons
 			switch(weapon_choice)
 				if("Spear")
 					r_hand = /obj/item/rogueweapon/spear
-					H.adjust_skillrank(/datum/skill/combat/polearms, 1, TRUE)
 				if("Bardiche")
 					r_hand = /obj/item/rogueweapon/halberd/bardiche
 					backr = /obj/item/rogueweapon/scabbard/gwstrap
-					H.adjust_skillrank(/datum/skill/combat/polearms, 1, TRUE)
+			H.adjust_skillrank_up_to(/datum/skill/combat/polearms, 4, TRUE)
 		if("macebearer")
 			var/weapons = list("Steel Mace", "Steel Warhammer")
 			var/weapon_choice = input(H, "Choose your WEAPON.", "TAKE UP ARMS") as anything in weapons
 			switch(weapon_choice)
 				if("Steel Mace")
 					beltr = /obj/item/rogueweapon/mace/steel
-					H.adjust_skillrank(/datum/skill/combat/maces, 1, TRUE)
 				if("Steel Warhammer")
 					beltr = /obj/item/rogueweapon/mace/warhammer/steel
-					H.adjust_skillrank(/datum/skill/combat/maces, 1, TRUE)
+			H.adjust_skillrank_up_to(/datum/skill/combat/maces, 4, TRUE)
 	H.set_blindness(0)
 
 	var/tabards = list("Black Tabard", "Black Jupon")

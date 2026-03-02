@@ -217,9 +217,6 @@
 	subclass_spell_point_pools = list("utility" = 4)
 	subclass_skills = list(
 		/datum/skill/misc/climbing = SKILL_LEVEL_JOURNEYMAN,
-		/datum/skill/combat/swords = SKILL_LEVEL_JOURNEYMAN,
-		/datum/skill/combat/polearms = SKILL_LEVEL_JOURNEYMAN,
-		/datum/skill/combat/maces = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/combat/shields = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/combat/wrestling = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/combat/unarmed = SKILL_LEVEL_APPRENTICE,
@@ -339,8 +336,11 @@
 					r_hand = /obj/item/rogueweapon/sword/sabre/mulyeog
 					armor = /obj/item/clothing/suit/roguetown/armor/basiceast
 				if("Steel Dagger")
-					r_hand = /obj/item/rogueweapon/sword/dagger/steel
-					H.adjust_skillrank_up_to(/datum/skill/combat/knives, SKILL_LEVEL_EXPERT, TRUE)
+					r_hand = /obj/item/rogueweapon/huntingknife/idagger/steel
+			if(weapon_choice == "Steel Dagger")
+				H.adjust_skillrank_up_to(/datum/skill/combat/knives, SKILL_LEVEL_JOURNEYMAN, TRUE)
+			else
+				H.adjust_skillrank_up_to(/datum/skill/combat/swords, SKILL_LEVEL_JOURNEYMAN, TRUE)
 		if("phalangite")
 			var/spear_weapons = list("Spear", "Dory")
 			var/spear_choice = input(H, "Choose your weapon.", "TAKE UP ARMS") as anything in spear_weapons

@@ -23,9 +23,6 @@
 	subclass_spell_point_pools = list("utility" = 6) // Mama Zizo said you get 2 more points on Utility!!!
 	subclass_skills = list(
 		/datum/skill/misc/climbing = SKILL_LEVEL_JOURNEYMAN,
-		/datum/skill/combat/swords = SKILL_LEVEL_EXPERT,
-		/datum/skill/combat/polearms = SKILL_LEVEL_EXPERT,
-		/datum/skill/combat/maces = SKILL_LEVEL_EXPERT,
 		/datum/skill/combat/shields = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/combat/wrestling = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/combat/unarmed = SKILL_LEVEL_APPRENTICE,
@@ -160,7 +157,10 @@
 					r_hand = /obj/item/rogueweapon/sword/sabre
 				if("Steel Dagger")
 					beltr = /obj/item/rogueweapon/huntingknife/idagger/steel
-					H.adjust_skillrank_up_to(/datum/skill/combat/knives, SKILL_LEVEL_JOURNEYMAN, TRUE)
+			if(weapon_choice == "Steel Dagger")
+				H.adjust_skillrank_up_to(/datum/skill/combat/knives, SKILL_LEVEL_EXPERT, TRUE)
+			else
+				H.adjust_skillrank_up_to(/datum/skill/combat/swords, SKILL_LEVEL_EXPERT, TRUE)
 		if("phalangite")
 			var/polearm_weapons = list("Halberd", "Bardiche", "Boar Spear", "Dory")
 			var/polearm_choice = input(H, "Choose your weapon.", "TAKE UP ARMS") as anything in polearm_weapons
@@ -175,6 +175,7 @@
 				if("Dory")
 					r_hand = /obj/item/rogueweapon/spear/spellblade
 					backr = /obj/item/rogueweapon/shield/heater
+			H.adjust_skillrank_up_to(/datum/skill/combat/polearms, SKILL_LEVEL_EXPERT, TRUE)
 		if("macebearer")
 			var/mace_weapons = list("Steel Mace", "Steel Warhammer")
 			var/mace_choice = input(H, "Choose your weapon.", "TAKE UP ARMS") as anything in mace_weapons
@@ -183,6 +184,7 @@
 					r_hand = /obj/item/rogueweapon/mace/steel
 				if("Steel Warhammer")
 					r_hand = /obj/item/rogueweapon/mace/warhammer/steel
+			H.adjust_skillrank_up_to(/datum/skill/combat/maces, SKILL_LEVEL_EXPERT, TRUE)
 
 	H.cmode_music = 'sound/music/combat_heretic.ogg'
 	var/datum/devotion/C = new /datum/devotion(H, H.patron)
