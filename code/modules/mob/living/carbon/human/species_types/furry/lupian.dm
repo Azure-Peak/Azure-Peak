@@ -156,7 +156,7 @@
 		"Coaster" = "271f1f",
 		"Islander" = "271f2a",
 		"Bastard" = "271f2b",
-		"Czwarteki" =  "271f3b",
+		"Steppe Nomad" =  "271f3b",
 	) // This is a dirty hack that stops me using mob defines, the colors do not do anything, it just a var that relates to their pack name on examine
 
 /datum/species/lupian/get_random_features()
