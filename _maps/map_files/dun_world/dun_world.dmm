@@ -10592,7 +10592,7 @@
 	pixel_y = 5
 	},
 /turf/open/floor/rogue/church,
-/area/rogue/indoors/town/magician)
+/area/rogue/indoors/town/physician)
 "cmG" = (
 /turf/closed/wall/mineral/rogue/stone/red_moss,
 /area/rogue/outdoors/mountains/decap/gunduzirak/bossarena)
@@ -24109,7 +24109,7 @@
 	pixel_y = 8
 	},
 /turf/open/floor/rogue/church,
-/area/rogue/indoors/town/magician)
+/area/rogue/indoors/town/physician)
 "eZU" = (
 /obj/effect/decal/cleanable/blood/gibs/down,
 /turf/open/floor/rogue/naturalstone,
@@ -40819,7 +40819,7 @@
 	dir = 1
 	},
 /turf/open/floor/rogue/church,
-/area/rogue/indoors/town/magician)
+/area/rogue/indoors/town/physician)
 "ivv" = (
 /obj/structure/closet/dirthole/closed/loot,
 /obj/structure/gravemarker,
@@ -43265,7 +43265,7 @@
 	color = "#3f3f3f"
 	},
 /turf/open/floor/rogue/church,
-/area/rogue/indoors/town/magician)
+/area/rogue/indoors/town/physician)
 "iWS" = (
 /obj/item/restraints/legcuffs/beartrap/armed,
 /turf/open/water/ocean,
@@ -49809,7 +49809,7 @@
 	pixel_y = 11
 	},
 /turf/open/floor/rogue/church,
-/area/rogue/indoors/town/magician)
+/area/rogue/indoors/town/physician)
 "knC" = (
 /obj/structure/bars,
 /obj/effect/decal/cobbleedge{
@@ -56268,6 +56268,9 @@
 	},
 /turf/open/transparent/openspace,
 /area/rogue/outdoors/mountains/decap/gunduzirak)
+"lzA" = (
+/turf/closed/wall/mineral/rogue/wooddark/window,
+/area/rogue/indoors/town/physician)
 "lzF" = (
 /obj/effect/decal/cobbleedge{
 	dir = 10;
@@ -62486,7 +62489,7 @@
 	pixel_x = -6
 	},
 /turf/open/floor/rogue/concrete,
-/area/rogue/indoors/town/magician)
+/area/rogue/indoors/town/physician)
 "mMi" = (
 /obj/machinery/light/rogue/torchholder/r,
 /obj/structure/roguemachine/scomm{
@@ -75167,7 +75170,7 @@
 	pixel_y = -5
 	},
 /turf/open/floor/rogue/tile/bath,
-/area/rogue/indoors/town/magician)
+/area/rogue/indoors/town/physician)
 "pwh" = (
 /turf/closed/wall/mineral/rogue/pipe/line/four,
 /area/rogue/under/cave/dungeon1/gethsmane)
@@ -82768,7 +82771,7 @@
 	dir = 10
 	},
 /turf/open/floor/rogue/church,
-/area/rogue/indoors/town/magician)
+/area/rogue/indoors/town/physician)
 "rbH" = (
 /obj/structure/bars{
 	color = "#755f48";
@@ -90411,7 +90414,7 @@
 	color = "#3f3f3f"
 	},
 /turf/open/floor/rogue/church,
-/area/rogue/indoors/town/magician)
+/area/rogue/indoors/town/physician)
 "sGS" = (
 /obj/effect/decal/carpet/kover_black{
 	dir = 4;
@@ -90537,7 +90540,7 @@
 	name = "Apothecary's Laboratory"
 	},
 /turf/open/floor/rogue/concrete,
-/area/rogue/indoors/town/magician)
+/area/rogue/indoors/town/physician)
 "sHO" = (
 /obj/structure/fluff/walldeco/church/line{
 	dir = 8;
@@ -93714,6 +93717,10 @@
 	},
 /turf/open/floor/rogue/churchrough,
 /area/rogue/under/cave/scarymaze)
+"tpB" = (
+/obj/structure/fermentation_keg/random/water,
+/turf/open/floor/rogue/concrete,
+/area/rogue/indoors/town/physician)
 "tpN" = (
 /obj/structure/fluff/railing/corner/south_east,
 /turf/open/transparent/openspace,
@@ -93899,7 +93906,7 @@
 	dir = 8
 	},
 /turf/open/floor/rogue/church,
-/area/rogue/indoors/town/magician)
+/area/rogue/indoors/town/physician)
 "trX" = (
 /obj/structure/bars/pipe,
 /turf/closed/mineral/rogue/bedrock,
@@ -108640,6 +108647,10 @@
 /obj/structure/bars/steel,
 /turf/open/floor/rogue/concrete,
 /area/rogue/indoors/town/garrison)
+"wsQ" = (
+/obj/machinery/light/rogue/cauldron,
+/turf/open/floor/rogue/concrete,
+/area/rogue/indoors/town/physician)
 "wsR" = (
 /obj/structure/manaflower,
 /turf/open/floor/rogue/grasscold,
@@ -286878,12 +286889,12 @@ sGj
 bQP
 sGj
 sGj
-nTJ
-nTJ
-nTJ
-nTJ
-nTJ
-nTJ
+sGj
+sGj
+sGj
+sGj
+sGj
+sGj
 nTJ
 tEm
 tKd
@@ -287330,12 +287341,12 @@ viF
 ikX
 nRf
 vOv
-nTJ
+sGj
 mMd
 kny
 iWL
 cmF
-nTJ
+sGj
 hjT
 thq
 jNp
@@ -287782,12 +287793,12 @@ vbI
 ikX
 eWK
 oXC
-oSt
-tqG
+dkS
+wsQ
 ivr
 sGQ
 eZP
-nTJ
+sGj
 fAc
 rhd
 qac
@@ -288234,12 +288245,12 @@ vbI
 ikX
 eWK
 qzn
-nrK
-tqG
+lzA
+wsQ
 ivr
 sGQ
-fei
-edH
+tpB
+byz
 kus
 kus
 tKd
@@ -288686,12 +288697,12 @@ hYQ
 ikX
 eWK
 lUl
-oSt
+dkS
 pwf
 ivr
 rbG
 trW
-nTJ
+sGj
 wrF
 ukG
 qac
@@ -289138,12 +289149,12 @@ vbI
 ikX
 eWK
 pbq
-nrK
-nrK
+lzA
+lzA
 sHL
-nTJ
+sGj
 sHL
-nTJ
+sGj
 mDi
 ukG
 gTr
