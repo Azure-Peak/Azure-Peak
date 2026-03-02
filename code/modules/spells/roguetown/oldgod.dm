@@ -9,7 +9,7 @@
 	releasedrain = 33
 	chargedrain = 0
 	chargetime = 0
-	range = 2
+	range = 2 // psydon miracles should be worse than regular ones. 
 	warnie = "sydwarning"
 	movement_interrupt = FALSE
 	sound = 'sound/magic/ENDVRE.ogg'
@@ -204,7 +204,7 @@
 	releasedrain = 50
 	chargedrain = 0
 	chargetime = 0
-	range = 3 // i got a request to up this
+	range = 3 // i got a request to up this. tbh it could be 4.
 	warnie = "sydwarning"
 	movement_interrupt = FALSE
 	sound = 'sound/magic/psyabsolution.ogg'
