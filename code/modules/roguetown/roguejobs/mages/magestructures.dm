@@ -5,7 +5,7 @@
 
 /obj/structure/fluff/walldeco/mageguild2
 	name = "University of Azuria"
-	desc = "A white flame upon a blue backdrop. Widely used across many regions by institutions of magical learning."
+	desc = "A white flame upon a black backdrop. Widely used across many regions by institutions of magical learning."
 	icon_state = "mageguild2"
 
 /obj/effect/turf_decal/magedecal
