@@ -242,7 +242,7 @@
 	keys = list(/obj/item/roguekey/manor, /obj/item/roguekey/archive, /obj/item/roguekey/university)
 
 /obj/item/storage/keyring/magician
-	keys = list(/obj/item/roguekey/manor, /obj/item/roguekey/mage, /obj/item/roguekey/university, /obj/item/roguekey/university_secure)
+	keys = list(/obj/item/roguekey/manor, /obj/item/roguekey/apothecary, /obj/item/roguekey/mage, /obj/item/roguekey/university, /obj/item/roguekey/university_secure)
 
 /obj/item/storage/keyring/seneschal //Housekeeper, more of a reason to attack them too by antags
 	keys = list(/obj/item/roguekey/manor, /obj/item/roguekey/royal, /obj/item/roguekey/heir, /obj/item/roguekey/garrison)
@@ -308,8 +308,11 @@
 /obj/item/storage/keyring/bathmaster //All access to the baths
 	keys = list(/obj/item/roguekey/bathmaster, /obj/item/roguekey/bathworker)
 
+/obj/item/storage/keyring/apothecary
+	keys = list(/obj/item/roguekey/apothecary, /obj/item/roguekey/keeper, /obj/item/roguekey/university)
+
 /obj/item/storage/keyring/physician
-	keys = list(/obj/item/roguekey/physician, /obj/item/roguekey/keeper, /obj/item/roguekey/university)
+	keys = list(/obj/item/roguekey/physician, /obj/item/roguekey/apothecary, /obj/item/roguekey/keeper, /obj/item/roguekey/university, /obj/item/roguekey/university_secure)
 
 /obj/item/storage/keyring/guildmaster //All access to crafter's guild + tailor
 	keys = list(/obj/item/roguekey/crafterguild, /obj/item/roguekey/tailor, /obj/item/roguekey/craftermaster)

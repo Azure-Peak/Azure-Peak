@@ -497,6 +497,13 @@
 	icon_state = "greenkey"
 	lockid = "physician"
 
+/obj/item/roguekey/apothecary
+	name = "clinic key"
+	desc = "An elegant key which should fit into any door in the city clinic. Its surface is \
+	covered in a very thin patina of corrosion."
+	icon_state = "ekey"
+	lockid = "apothecary"
+
 ///////////////////////
 // MERCHANT / STALLS //
 ///////////////////////
