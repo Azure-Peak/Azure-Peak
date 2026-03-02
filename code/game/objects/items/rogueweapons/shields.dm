@@ -10,7 +10,7 @@
 	throw_speed = 1
 	throw_range = 3
 	w_class = WEIGHT_CLASS_BULKY
-	possible_item_intents = list(SHIELD_BASH, SHIELD_BLOCK, SHIELD_SMASH)
+	possible_item_intents = list(SHIELD_BLOCK, SHIELD_BASH, SHIELD_SMASH)
 	block_chance = 0
 	sharpness = IS_BLUNT
 	wlength = WLENGTH_SHORT
@@ -357,7 +357,7 @@
 	throwforce = 10
 	throw_speed = 1
 	throw_range = 3
-	possible_item_intents = list(SHIELD_BASH_METAL, SHIELD_BLOCK, SHIELD_SMASH_METAL)	
+	possible_item_intents = list(SHIELD_BLOCK, SHIELD_BASH_METAL, SHIELD_SMASH_METAL)	
 	wlength = WLENGTH_NORMAL
 	resistance_flags = null
 	flags_1 = CONDUCT_1
@@ -398,7 +398,7 @@
 	throwforce = 10
 	throw_speed = 1
 	throw_range = 3
-	possible_item_intents = list(SHIELD_BASH_METAL, SHIELD_BLOCK, SHIELD_SMASH_METAL)
+	possible_item_intents = list(SHIELD_BLOCK, SHIELD_BASH_METAL, SHIELD_SMASH_METAL)
 	wlength = WLENGTH_NORMAL
 	resistance_flags = null
 	flags_1 = CONDUCT_1
@@ -428,7 +428,7 @@
 	throwforce = 35
 	throw_speed = 1
 	throw_range = 3
-	possible_item_intents = list(SHIELD_BASH_METAL, SHIELD_BLOCK, SHIELD_SMASH_METAL)
+	possible_item_intents = list(SHIELD_BLOCK, SHIELD_BASH_METAL, SHIELD_SMASH_METAL)
 	wlength = WLENGTH_NORMAL
 	resistance_flags = null
 	flags_1 = CONDUCT_1
@@ -448,7 +448,7 @@
 	throwforce = 5
 	throw_speed = 1
 	throw_range = 3
-	possible_item_intents = list(SHIELD_BASH_METAL, SHIELD_BLOCK, SHIELD_SMASH_METAL)
+	possible_item_intents = list(SHIELD_BLOCK, SHIELD_BASH_METAL, SHIELD_SMASH_METAL)
 	wlength = WLENGTH_NORMAL
 	resistance_flags = null
 	flags_1 = CONDUCT_1
@@ -492,7 +492,7 @@
 	name = "rider shield"
 	desc = "A shield of Raneshen design. Clever usage of wood, iron, and leather make an impressive match for any weapon."
 	icon_state = "desert_rider"
-	possible_item_intents = list(SHIELD_BASH_METAL, SHIELD_BLOCK)
+	possible_item_intents = list(SHIELD_BLOCK, SHIELD_BASH_METAL)
 	force = 25
 	throwforce = 25 //for cosplaying captain raneshen
 	wdefense = 11
@@ -525,7 +525,7 @@
 	throwforce = 10
 	dropshrink = 0.8
 	resistance_flags = null
-	possible_item_intents = list(SHIELD_BASH_METAL, SHIELD_BLOCK, SHIELD_SMASH_METAL)
+	possible_item_intents = list(SHIELD_BLOCK, SHIELD_BASH_METAL, SHIELD_SMASH_METAL)
 	wdefense = 9
 	coverage = 10
 	attacked_sound = list('sound/combat/parry/shield/metalshield (1).ogg','sound/combat/parry/shield/metalshield (2).ogg','sound/combat/parry/shield/metalshield (3).ogg')
@@ -625,7 +625,7 @@
 	flags_1 = CONDUCT_1
 	attacked_sound = list('sound/combat/parry/shield/metalshield (1).ogg','sound/combat/parry/shield/metalshield (2).ogg','sound/combat/parry/shield/metalshield (3).ogg')
 	parrysound = list('sound/combat/parry/shield/metalshield (1).ogg','sound/combat/parry/shield/metalshield (2).ogg','sound/combat/parry/shield/metalshield (3).ogg')
-	possible_item_intents = list(SHIELD_SMASH_METAL, SHIELD_BLOCK) // No SHIELD_BASH. Too heavy to swing quickly, or something.
+	possible_item_intents = list(SHIELD_BLOCK, SHIELD_SMASH_METAL) // No SHIELD_BASH. Too heavy to swing quickly, or something.
 	max_integrity = 220
 	anvilrepair = /datum/skill/craft/weaponsmithing
 
