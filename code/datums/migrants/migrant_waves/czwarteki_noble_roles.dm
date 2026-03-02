@@ -8,7 +8,7 @@
 
 /datum/migrant_role/czwarteki/heir
 	name = "Czwarteki Heir"
-	greet_text = "You are the Czwarteki Lords Heir. Or perhaps one of many. Brought with you by your Parent to march forth on this venture. And to gain experience in the realms beyond your home."
+	greet_text = "You are the Tomorzurkh Lord's Heir, or perhaps one of many. Your parent has brought you into this venture - willingly or not - for the sake of gaining experience and knowing the realms beyond your home."
 	allowed_races = list(/datum/species/human/northern,/datum/species/lupian,/datum/species/demihuman)
 	grant_lit_torch = FALSE
 	advclass_cat_rolls = list(CTAG_CZWAR_HEIR = 20)
