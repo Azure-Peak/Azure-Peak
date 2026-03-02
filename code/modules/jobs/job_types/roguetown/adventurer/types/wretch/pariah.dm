@@ -129,7 +129,7 @@
 
 	switch(subclass_selected)
 		if("blade")
-			var/weapons = list("Elvish Longsword", "Elvish Saber", "Elvish Curveblade")
+			var/weapons = list("Elvish Longsword", "Elvish Saber", "Elvish Curveblade", "Steel Dagger")
 			var/weapon_choice = input(H, "Choose your weapon.", "FOR THE OAKS AND THE PEAKS") as anything in weapons
 			switch(weapon_choice)
 				if("Elvish Longsword")
@@ -143,6 +143,10 @@
 				if("Elvish Curveblade")
 					r_hand = /obj/item/rogueweapon/greatsword/elvish
 					backr = /obj/item/rogueweapon/scabbard/gwstrap
+				if("Steel Dagger")
+					beltr = /obj/item/rogueweapon/huntingknife/idagger/steel
+					backr = /obj/item/rogueweapon/shield/wood
+					H.adjust_skillrank_up_to(/datum/skill/combat/knives, SKILL_LEVEL_JOURNEYMAN, TRUE)
 		if("phalangite")
 			r_hand = /obj/item/rogueweapon/halberd/glaive/elvish
 			backr = /obj/item/rogueweapon/scabbard/gwstrap

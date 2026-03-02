@@ -143,7 +143,7 @@
 
 	switch(subclass_selected)
 		if("blade")
-			var/weapons = list("Avantyne Longsword", "Kriegmesser", "Longsword", "Rapier", "Sabre")
+			var/weapons = list("Avantyne Longsword", "Kriegmesser", "Longsword", "Rapier", "Sabre", "Steel Dagger")
 			var/weapon_choice = input(H, "Choose your weapon.", "TAKE UP ARMS") as anything in weapons
 			beltr = /obj/item/rogueweapon/scabbard/sword
 			switch(weapon_choice)
@@ -158,6 +158,9 @@
 					r_hand = /obj/item/rogueweapon/sword/rapier
 				if("Sabre")
 					r_hand = /obj/item/rogueweapon/sword/sabre
+				if("Steel Dagger")
+					beltr = /obj/item/rogueweapon/huntingknife/idagger/steel
+					H.adjust_skillrank_up_to(/datum/skill/combat/knives, SKILL_LEVEL_JOURNEYMAN, TRUE)
 		if("phalangite")
 			var/polearm_weapons = list("Halberd", "Bardiche", "Boar Spear", "Dory")
 			var/polearm_choice = input(H, "Choose your weapon.", "TAKE UP ARMS") as anything in polearm_weapons

@@ -580,12 +580,15 @@ LICH SKELETONS
 	H.adjust_blindness(-3)
 	switch(subclass_selected)
 		if("blade")
-			var/weapons = list("Ancient Khopesh")
+			var/weapons = list("Ancient Khopesh", "Ancient Dagger")
 			var/weapon_choice = input(H, "Choose your WEAPON.", "RAGE AGAINST THE LYVING.") as anything in weapons
 			switch(weapon_choice)
 				if("Ancient Khopesh")
 					beltr = /obj/item/rogueweapon/sword/sabre/palloy
 					H.adjust_skillrank(/datum/skill/combat/swords, 1, TRUE)
+				if("Ancient Dagger")
+					beltr = /obj/item/rogueweapon/huntingknife/idagger/steel/padagger
+					H.adjust_skillrank(/datum/skill/combat/knives, 1, TRUE)
 		if("phalangite")
 			var/weapons = list("Ancient Spear", "Ancient Bardiche")
 			var/weapon_choice = input(H, "Choose your WEAPON.", "RAGE AGAINST THE LYVING.") as anything in weapons

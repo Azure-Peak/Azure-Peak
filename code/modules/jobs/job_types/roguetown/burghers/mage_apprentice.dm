@@ -321,7 +321,7 @@
 
 	switch(subclass_selected)
 		if("blade")
-			var/weapons = list("Longsword", "Rapier", "Sabre", "Arming Sword", "Shortsword", "Hwando")
+			var/weapons = list("Longsword", "Rapier", "Sabre", "Arming Sword", "Shortsword", "Hwando", "Steel Dagger")
 			var/weapon_choice = input(H, "Choose your weapon.", "TAKE UP ARMS") as anything in weapons
 			beltr = /obj/item/rogueweapon/scabbard/sword
 			switch(weapon_choice)
@@ -338,6 +338,9 @@
 				if("Hwando")
 					r_hand = /obj/item/rogueweapon/sword/sabre/mulyeog
 					armor = /obj/item/clothing/suit/roguetown/armor/basiceast
+				if("Steel Dagger")
+					r_hand = /obj/item/rogueweapon/sword/dagger/steel
+					H.adjust_skillrank_up_to(/datum/skill/combat/knives, SKILL_LEVEL_EXPERT, TRUE)
 		if("phalangite")
 			var/spear_weapons = list("Spear", "Dory")
 			var/spear_choice = input(H, "Choose your weapon.", "TAKE UP ARMS") as anything in spear_weapons

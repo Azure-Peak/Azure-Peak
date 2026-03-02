@@ -243,7 +243,7 @@
 
 	switch(subclass_selected)
 		if("blade")
-			var/weapons = list("Khopesh", "Sabre")
+			var/weapons = list("Khopesh", "Sabre", "Steel Dagger")
 			var/weapon_choice = input(H, "Choose your WEAPON.", "TAKE UP ARMS") as anything in weapons
 			switch(weapon_choice)
 				if("Khopesh")
@@ -252,6 +252,9 @@
 				if("Sabre")
 					beltr = /obj/item/rogueweapon/sword/sabre
 					H.adjust_skillrank(/datum/skill/combat/swords, 1, TRUE)
+				if("Steel Dagger")
+					beltr = /obj/item/rogueweapon/huntingknife/idagger/steel
+					H.adjust_skillrank(/datum/skill/combat/knives, 1, TRUE)
 		if("phalangite")
 			var/weapons = list("Spear", "Bardiche")
 			var/weapon_choice = input(H, "Choose your WEAPON.", "TAKE UP ARMS") as anything in weapons
