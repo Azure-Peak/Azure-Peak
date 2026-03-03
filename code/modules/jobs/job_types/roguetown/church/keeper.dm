@@ -2,7 +2,7 @@
 	title = "Keeper"
 	tutorial = "Disfigured, shunned, or simply filled with purpose and dedication for Pestra. Some of you are horrifically mutated, disfigured, or diseased. No matter, even the pretty ones feel the toll as it leaves their strength atrophied. Someone has to harvest the holy blood required to purify lux and perpetuate Pestra's gift of medicine. Unfortunately, that's you. That's correct, I'm the one tasked with protecting the sacred Heart Beast of Pestra here. To study it and empower it so that Pestra's medicine may blossom even in the furthest reaches of Azure. Keep in mind you are NOT directly affiliated with the church of the see, the local bishop is not your boss. You answer to the sect of Pestra foremost."
 	flag = KEEPER
-	department_flag = CHURCHMEN
+	department_flag = SIDEFOLK // A little awkward, but they aren't attached to the church anymore.
 	faction = "Station"
 	total_positions = 2
 	spawn_positions = 2
