@@ -1,9 +1,9 @@
-/datum/advclass/czwarteki/lord
+/datum/advclass/tomorzurkh/lord
 	name = "Tomorzurkh Lord"
 	tutorial = "You're one of many Lords of Tomorzurkh who've sworn loyalty to the Aavnic Potentate. You've come here for matters of diplomacy, conflicts, or simply passing through to assist in old alliances. You are to lead your Retinue and bring honor to the Potentate."
-	outfit = /datum/outfit/job/roguetown/czwarteki/lord
+	outfit = /datum/outfit/job/roguetown/tomorzurkh/lord
 	traits_applied = list(TRAIT_NOBLE, TRAIT_HEAVYARMOR, TRAIT_STEELHEARTED)
-	category_tags = list(CTAG_CZWAR_LORD)
+	category_tags = list(CTAG_TOMOR_LORD)
 
 	subclass_virtues = list(
 		/datum/virtue/utility/riding
@@ -34,7 +34,7 @@
 		/datum/skill/misc/medicine = SKILL_LEVEL_NOVICE,
 	)
 
-/datum/outfit/job/roguetown/czwarteki/lord/pre_equip(mob/living/carbon/human/H)
+/datum/outfit/job/roguetown/tomorzurkh/lord/pre_equip(mob/living/carbon/human/H)
 	..()
 	head = /obj/item/clothing/head/roguetown/helmet/sallet/hussarhelm
 	shirt = /obj/item/clothing/suit/roguetown/armor/gambeson/lord
@@ -60,5 +60,5 @@
 		/obj/item/storage/belt/rogue/pouch/coins/veryrich = 2,
 		/obj/item/reagent_containers/glass/bottle/alchemical/healthpotnew = 2,
 		)
-	H.cmode_music = 'sound/music/combat_czwarteki.ogg'
+	H.cmode_music = 'sound/music/combat_tomorzurkh.ogg'
 	H.grant_language(/datum/language/aavnic)

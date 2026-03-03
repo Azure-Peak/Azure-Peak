@@ -1,9 +1,9 @@
-/datum/advclass/czwarteki/hussar
+/datum/advclass/tomorzurkh/hussar
 	name = "Aavnic Hussar"
 	tutorial = "You're an Aavnic Hussar granted to one of the Lords of Tomorzurkh by the Potentate themselves; sworn to them by oath. You're accompanied by your retainer."
-	outfit = /datum/outfit/job/roguetown/czwarteki/hussar
+	outfit = /datum/outfit/job/roguetown/tomorzurkh/hussar
 	traits_applied = list(TRAIT_NOBLE, TRAIT_HEAVYARMOR, TRAIT_STEELHEARTED)
-	category_tags = list(CTAG_CZWAR_HUSSAR)
+	category_tags = list(CTAG_TOMOR_HUSSAR)
 
 	subclass_virtues = list(
 		/datum/virtue/utility/riding
@@ -32,7 +32,7 @@
 		/datum/skill/misc/medicine = SKILL_LEVEL_NOVICE,
 	)
 
-/datum/outfit/job/roguetown/czwarteki/hussar/pre_equip(mob/living/carbon/human/H)
+/datum/outfit/job/roguetown/tomorzurkh/hussar/pre_equip(mob/living/carbon/human/H)
 	..()
 	head = /obj/item/clothing/head/roguetown/helmet/sallet/hussarhelm
 	gloves = /obj/item/clothing/gloves/roguetown/plate
@@ -59,4 +59,5 @@
 		/obj/item/natural/bundle/cloth/bandage/full = 1,
 	)
 	H.dna.species.soundpack_m = new /datum/voicepack/male/knight()
-	H.cmode_music = 'sound/music/combat_czwarteki.ogg'
+	H.cmode_music = 'sound/music/combat_tomorzurkh.ogg'
+	H.grant_language(/datum/language/aavnic)

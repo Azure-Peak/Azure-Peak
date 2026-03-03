@@ -1,9 +1,9 @@
-/datum/advclass/czwarteki/journeyman
+/datum/advclass/tomorzurkh/retainer
 	name = "Hussar's Retainer"
 	tutorial = "You're one of the Hussars' retainers, called forth by your Knight and  your Lord into their travels - experienced in riding and tending to your Hussar's needs."
-	outfit = /datum/outfit/job/roguetown/czwarteki/journeyman
+	outfit = /datum/outfit/job/roguetown/tomorzurkh/retainer
 	traits_applied = list(TRAIT_NOBLE, TRAIT_MEDIUMARMOR, TRAIT_STEELHEARTED)
-	category_tags = list(CTAG_CZWAR_JOURNEYMAN)
+	category_tags = list(CTAG_TOMOR_RETAINER)
 
 	subclass_virtues = list(
 		/datum/virtue/utility/riding
@@ -34,7 +34,7 @@
 	/datum/skill/craft/weaponsmithing = SKILL_LEVEL_APPRENTICE,
 	)
 
-/datum/outfit/job/roguetown/czwarteki/journeyman/pre_equip(mob/living/carbon/human/H)
+/datum/outfit/job/roguetown/tomorzurkh/retainer/pre_equip(mob/living/carbon/human/H)
 	..()
 	l_hand = /obj/item/rogueweapon/sword/sabre
 	armor = /obj/item/clothing/suit/roguetown/armor/plate/cuirass/fluted
@@ -56,4 +56,5 @@
 		/obj/item/rogueweapon/hammer/iron = 1,
 		/obj/item/storage/belt/rogue/pouch/coins/mid = 1,
 	)
-	H.cmode_music = 'sound/music/combat_czwarteki.ogg'
+	H.cmode_music = 'sound/music/combat_tomorzurkh.ogg'
+	H.grant_language(/datum/language/aavnic)

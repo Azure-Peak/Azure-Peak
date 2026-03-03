@@ -1,9 +1,9 @@
-/datum/advclass/czwarteki/Servant
+/datum/advclass/tomorzurkh/servant
 	name = "Tomorzurkh Lord's Servant"
 	tutorial = "You're one of the Lord's most trusted and loyal servants, taken along with them and their posse in their travels to Azuria. Your only goals are to ensure that the Lord and their Heir are comfortable and taken care of."
-	outfit = /datum/outfit/job/roguetown/czwarteki/servant
+	outfit = /datum/outfit/job/roguetown/tomorzurkh/servant
 	traits_applied = list(TRAIT_SLEUTH, TRAIT_KEENEARS, TRAIT_CICERONE, TRAIT_HOMESTEAD_EXPERT)
-	category_tags = list(CTAG_CZWAR_SERVANT)
+	category_tags = list(CTAG_TOMOR_SERVANT)
 
 	subclass_stats = list(
 		STATKEY_INT = 2,
@@ -25,7 +25,7 @@
 		/datum/skill/misc/climbing = SKILL_LEVEL_APPRENTICE,
 	)
 
-/datum/outfit/job/roguetown/czwarteki/servant/pre_equip(mob/living/carbon/human/H)
+/datum/outfit/job/roguetown/tomorzurkh/servant/pre_equip(mob/living/carbon/human/H)
 	..()
 	backl = /obj/item/storage/backpack/rogue/satchel/black
 	shirt = /obj/item/clothing/suit/roguetown/shirt/undershirt/formal
@@ -48,4 +48,5 @@
 		/obj/item/cooking/pan = 1,
 		/obj/item/needle = 1,
 	)
-
+	H.cmode_music = 'sound/music/combat_tomorzurkh.ogg'
+	H.grant_language(/datum/language/aavnic)

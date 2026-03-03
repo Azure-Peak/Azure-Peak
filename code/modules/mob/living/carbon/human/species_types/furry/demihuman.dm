@@ -160,5 +160,5 @@
 		"Naledi" = SKIN_COLOR_NALEDI,
 		"Naledi South" = SKIN_COLOR_NALEDI_LIGHT,
 		"Kazengun" = SKIN_COLOR_KAZENGUN,
-		"Czwarteki" = SKIN_COLOR_CZWARTEKI,
+		"Tomorzurkh" = SKIN_COLOR_TOMORZURKH,
 	)

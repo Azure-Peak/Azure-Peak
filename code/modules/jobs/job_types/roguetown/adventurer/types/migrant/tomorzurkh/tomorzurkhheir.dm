@@ -1,9 +1,9 @@
-/datum/advclass/czwarteki/heir
+/datum/advclass/tomorzurkh/heir
 	name = "Tomorzurkh Lord's Heir"
 	tutorial = "You are the Tomorzurkh Lord's Heir, or perhaps one of many. Your parent has brought you into this venture - willingly or not - for the sake of gaining experience and knowing the realms beyond your home."
-	outfit = /datum/outfit/job/roguetown/czwarteki/heir
+	outfit = /datum/outfit/job/roguetown/tomorzurkh/heir
 	traits_applied = list(TRAIT_NOBLE, TRAIT_MEDIUMARMOR, TRAIT_STEELHEARTED)
-	category_tags = list(CTAG_CZWAR_HEIR)
+	category_tags = list(CTAG_TOMOR_HEIR)
 
 	subclass_virtues = list(
 		/datum/virtue/utility/riding
@@ -31,7 +31,7 @@
 		/datum/skill/misc/medicine = SKILL_LEVEL_NOVICE,
 	)
 
-/datum/outfit/job/roguetown/czwarteki/heir/pre_equip(mob/living/carbon/human/H)
+/datum/outfit/job/roguetown/tomorzurkh/heir/pre_equip(mob/living/carbon/human/H)
 	..()
 	head = /obj/item/clothing/head/roguetown/nyle/consortcrown
 	pants = /obj/item/clothing/under/roguetown/chainlegs
@@ -54,5 +54,5 @@
 		/obj/item/storage/belt/rogue/pouch/coins/veryrich = 1,
 		/obj/item/reagent_containers/glass/bottle/alchemical/healthpotnew = 1,
 		)
-	H.cmode_music = 'sound/music/combat_czwarteki.ogg'
+	H.cmode_music = 'sound/music/combat_tomorzurkh.ogg'
 	H.grant_language(/datum/language/aavnic)

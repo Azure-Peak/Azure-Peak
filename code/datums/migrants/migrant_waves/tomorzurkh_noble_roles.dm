@@ -1,29 +1,29 @@
-/datum/migrant_role/czwarteki/lord
+/datum/migrant_role/tomorzurkh/lord
 	name = "Tomorzurkh Lord"
 	greet_text = "You're one of many Lords of Tomorzurkh who've sworn loyalty to the Aavnic Potentate. You've come here for matters of diplomacy, conflicts, or simply passing through to assist in old alliances. You are to lead your Retinue and bring honor to the Potentate. "
 	allowed_races = list(/datum/species/human/northern,/datum/species/lupian,/datum/species/demihuman,/datum/species/halforc, /datum/species/human/halfelf)
 	grant_lit_torch = FALSE
-	advclass_cat_rolls = list(CTAG_CZWAR_LORD = 20)
+	advclass_cat_rolls = list(CTAG_TOMOR_LORD = 20)
 	show_wanderer_examine = FALSE
 
-/datum/migrant_role/czwarteki/heir
+/datum/migrant_role/tomorzurkh/heir
 	name = "Tomorzurkh Lord's Heir"
 	greet_text = "You are the Tomorzurkh Lord's Heir, or perhaps one of many. Your parent has brought you into this venture - willingly or not - for the sake of gaining experience and knowing the realms beyond your home."
-	allowed_races = list(/datum/species/human/northern,/datum/species/lupian,/datum/species/demihuman)
+	allowed_races = list(/datum/species/human/northern,/datum/species/lupian,/datum/species/demihuman,/datum/species/halforc, /datum/species/human/halfelf)
 	grant_lit_torch = FALSE
-	advclass_cat_rolls = list(CTAG_CZWAR_HEIR = 20)
+	advclass_cat_rolls = list(CTAG_TOMOR_HEIR = 20)
 	show_wanderer_examine = FALSE
 
-/datum/migrant_role/czwarteki/hussar
-	name = "Czwarteki Hussar"
-	greet_text = "You are a Hussar of Czwarteki, under the oath of your lord. You have raised your Journeyman to come with you to cross the lands. "
+/datum/migrant_role/tomorzurkh/hussar
+	name = "Aavnic Hussar"
+	greet_text = "You're an Aavnic Hussar granted to one of the Lords of Tomorzurkh by the Potentate themselves; sworn to them by oath. You're accompanied by your retainer."
 	outfit = /datum/outfit/job/roguetown/heartfelt/cloak //Is just tabard
-	allowed_races = list(/datum/species/human/northern,/datum/species/lupian,/datum/species/demihuman,/datum/species/tieberian, /datum/species/lizardfolk,/datum/species/anthromorph,/datum/species/dracon, /datum/species/tabaxi)
+	allowed_races = list(/datum/species/human/northern,/datum/species/lupian,/datum/species/demihuman, /datum/species/lizardfolk,/datum/species/dracon, /datum/species/tabaxi,/datum/species/halforc, /datum/species/human/halfelf,datum/species/elf/wood)
 	grant_lit_torch = FALSE
-	advclass_cat_rolls = list(CTAG_CZWAR_HUSSAR = 20)
+	advclass_cat_rolls = list(CTAG_TOMOR_HUSSAR = 20)
 	show_wanderer_examine = FALSE
 
-/datum/migrant_role/czwarteki/hussar/after_spawn(mob/living/L, mob/M, latejoin = TRUE)
+/datum/migrant_role/tomorzurkh/hussar/after_spawn(mob/living/L, mob/M, latejoin = TRUE)
 	..()
 	if(!ishuman(L))
 		return
@@ -35,7 +35,7 @@
 			index = copytext(H.real_name, 1,index)
 		if(!index)
 			index = H.real_name
-		S.name = "knight's tabard ([index])"
+		S.name = "hussar's tabard ([index])"
 	var/prev_real_name = H.real_name
 	var/prev_name = H.name
 	var/honorary = "Ser"
@@ -46,20 +46,20 @@
 		H.real_name = "[honorary] [prev_real_name]"
 		H.name = "[honorary] [prev_name]"
 
-/datum/migrant_role/czwarteki/journeyman
-	name = "Czwarteki Journeyman"
-	greet_text = "You are a Retainers of your Hussars. Called forth into action. You know well how to ride. And tend to your Hussars needs."
+/datum/migrant_role/tomorzurkh/retainer
+	name = "Hussar's Retainer"
+	greet_text = "You're one of the Hussars' retainers, called forth by your Knight and  your Lord into their travels - experienced in riding and tending to your Hussar's needs."
 	outfit = /datum/outfit/job/roguetown/migrant/surcoat
 	allowed_races = RACES_NO_CONSTRUCT
 	grant_lit_torch = TRUE
-	advclass_cat_rolls = list(CTAG_CZWAR_JOURNEYMAN = 20)
+	advclass_cat_rolls = list(CTAG_TOMOR_RETAINER = 20)
 	show_wanderer_examine = FALSE
 	horse = /mob/living/simple_animal/hostile/retaliate/rogue/saiga/saigabuck/tame/saddled
 
 /datum/outfit/job/roguetown/migrant/surcoat/pre_equip(mob/living/carbon/human/H)
 	cloak = /obj/item/clothing/cloak/tabard/stabard/surcoat
 
-/datum/migrant_role/czwarteki/journeyman/after_spawn(mob/living/L, mob/M, latejoin = TRUE)
+/datum/migrant_role/tomorzurkh/retainer/after_spawn(mob/living/L, mob/M, latejoin = TRUE)
 	..()
 	if(ishuman(L))
 		var/mob/living/carbon/human/H = L
@@ -70,12 +70,12 @@
 				index = copytext(H.real_name, 1,index)
 			if(!index)
 				index = H.real_name
-			S.name = "journeyman's tabard ([index])"
+			S.name = "retainer's tabard ([index])"
 
-/datum/migrant_role/czwarteki/servant
-	name = "Czwarteki Servant"
-	greet_text = "You are Servants of your Lord. Taken along upon the Journey through the Vale with the Retinue. Your only goals are but to ensure your Lord and his Heir's well being upon the trip."
+/datum/migrant_role/tomorzurkh/servant
+	name = "Tomorzurkh Servant"
+	greet_text = "You're one of the Lord's most trusted and loyal servants, taken along with them and their posse in their travels to Azuria. Your only goals are to ensure that the Lord and their Heir are comfortable and taken care of."
 	allowed_races = RACES_NO_CONSTRUCT
 	grant_lit_torch = TRUE
-	advclass_cat_rolls = list(CTAG_CZWAR_SERVANT = 20)
+	advclass_cat_rolls = list(CTAG_TOMOR_SERVANT = 20)
 	show_wanderer_examine = FALSE

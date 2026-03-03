@@ -516,12 +516,12 @@ GLOBAL_LIST_EMPTY(cmode_tracks_by_name)
 	credits = "MusicImaginary - Lyra"
 	musicpath = list('sound/music/frei_sabre.ogg')
 
-/datum/combat_music/czwarteki
+/datum/combat_music/tomorzurkh
 	name = "Aavnic Hussars"
 	desc = "The love of Aavnr is our law."
 	shortname = "Hussars"
 	credits = "Żywiołak - Studzianki (World of Tanks OST)"
-	musicpath = list('sound/music/combat_czwarteki.ogg')
+	musicpath = list('sound/music/combat_tomorzurkh.ogg')
 
 /datum/combat_music/aavshepherd
 	name = "Aavnic Shepherd"
