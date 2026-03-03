@@ -24,6 +24,10 @@
 		return TRUE
 	. = ..()
 
+/obj/item/reagent_containers/food/snacks/fish/get_mechanics_examine(mob/user)
+    . = ..()
+    . += span_info("Chopping fish on a table with a knife, cleaver, or dagger turns it into mince. Mince can be used for advanced recipes, or used to make 'more out of less' in a stew's broth.")
+
 /obj/item/reagent_containers/food/snacks/fish/clam
 	name = "clam"
 	desc = "A beastye built by Abyssor in the image of a knight. Hard shell, squishy interior."

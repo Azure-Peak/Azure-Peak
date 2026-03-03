@@ -1630,7 +1630,9 @@
 
 /obj/item/rogueweapon/sword/rapier/dec
 	name = "decorated rapier"
-	desc = "A strange, cheap ring devoid of purpose, yet carrying an uncanny sense of nostalgia of grand upsets, felled short.\n<i>'You shall know his name. You shall know his purpose. You shall die.'</i>"
+	desc = "A fine duelist's instrument with a tapered thrusting blade. Its hilt is gilt in gold and inlaid, \
+	and its blade bears twin inscriptions on either side. One reads, \"CAST IN THE NAME OF GODS\" while the \
+	obverse reads, \"YE NOT GUILTY\"."
 	icon_state = "decrapier"
 	sheathe_icon = "decrapier"
 	sellprice = 140

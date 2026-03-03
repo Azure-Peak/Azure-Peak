@@ -7,6 +7,12 @@
 	grid_height = 64
 	gripped_intents = list(/datum/intent/use)
 
+/obj/item/natural/head/get_mechanics_examine(mob/user)
+	. = ..()
+	. += span_info("Heads can be sold to a Merchant for coinage, or to their Headeating machine; note that the latter is automatic, but comes at the cost of halving the head's potential payout.")
+	. += span_info("The chance to obtain a head from butchering scales with your Butchering skill. This also applies to the head's quality, which can affect how much - or how little - coinage it can sell for.")
+	. += span_info("Certain heads, such as those belonging to ambushing bandits and goblins, can only be acquired through decapitation.")
+
 /// Quality from butchering. 0 is bad, 1 is decent, 2 is normal, 3 is good, -1 means its rotten and useless.
 /obj/item/natural/head/proc/scale_butchering_quality(butchering_quality)
 	var/initial_name = name

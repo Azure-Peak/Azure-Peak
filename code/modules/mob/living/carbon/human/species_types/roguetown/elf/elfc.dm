@@ -125,7 +125,7 @@
 	if(!message_language)
 		return
 	if(message_language.type == /datum/language/celestial)
-		return list(SPAN_SAND)
+		return list(SPAN_CELESTIAL)
 	return message_language.spans
 
 /datum/species/elf/sun/get_skin_list()

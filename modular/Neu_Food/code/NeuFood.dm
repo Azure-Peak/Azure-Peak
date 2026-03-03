@@ -29,6 +29,14 @@
 	cooktime = 30 SECONDS
 	var/process_step // used for pie making and other similar modular foods
 
+/obj/item/reagent_containers/food/snacks/rogue/get_mechanics_examine(mob/user)
+    . = ..()
+    . += span_info("Many foodstuffs can be sliced into smaller portions by left-clicking them with a knife on the 'CUT' or 'CHOP' intents. This includes most meats, vegetables, fruits, bread, pies, cakes, saloumi, butter, salo, and more.")
+    . += span_info("Most food will eventually rot, if left out for long enough. Storing food in a closed chest or atop a platter will effectively prevent it from rotting.")
+    . += span_info("Rarer foods and drinks, or those made from more expensive recipes, can provide increased bonuses to the indulger's mood and health.")
+    . += span_info("Everyone has a favorite meal and drink to indulge in - and, conversely, a hated meal and drink that they absolutely despise. Serve them right, and their mood will greatly improve.")
+    . += span_info("Those of nobility have much higher standards, when it comes to what - and how - they eat. They prefer to eat plattered meals with proper utensils, while disliking plainer and cheaper food.")
+
 /obj/item/reagent_containers/food/snacks/rogue/Initialize()
 	. = ..()
 	eatverb = pick("bite","chew","nibble","gobble","chomp")
@@ -140,6 +148,11 @@
 	new /obj/effect/decal/cleanable/food/flour(get_turf(src))
 	..()
 	qdel(src)
+
+/obj/item/reagent_containers/powder/flour/get_mechanics_examine(mob/user)
+    . = ..()
+    . += span_info("Left-clicking yourself while targeting the nose will automatically snort the powder in your hand.")
+    . += span_info("Most powders can imbue a wide variety of effects, when inhaled.")
 
 /obj/item/reagent_containers/powder/flour/attackby(obj/item/I, mob/living/user, params)
 	var/found_table = locate(/obj/structure/table) in (loc)

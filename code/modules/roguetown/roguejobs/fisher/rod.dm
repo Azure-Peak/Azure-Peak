@@ -27,6 +27,12 @@
 	else
 		..()
 
+/obj/item/fishingrod/get_mechanics_examine(mob/user)
+	. = ..()
+	. += span_info("Left-clicking a fishing rod with bait will prepare it for a cast. Worms, leeches, and many other wriggling creechers can attract different fishes to catch.")
+	. += span_info("Once baited, left click the water to begin fishing.")
+	. += span_info("The chances of you catching nothing at all, having your bait stolen, or getting a 'biter' depends on how high your Fishing skill is.")
+	. += span_info("Whenever you get a 'biter', interrupt the ensuing timed action before it can complete to successfully catch a fish.")
 
 /obj/item/fishingrod/attackby(obj/item/I, mob/user, params)
 	if(baited)

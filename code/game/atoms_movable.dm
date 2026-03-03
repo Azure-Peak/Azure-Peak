@@ -713,9 +713,18 @@
 	TT.tick()
 
 /atom/movable/proc/handle_buckled_mob_movement(newloc, direct, glide_size_override)
+	if(!has_buckled_mobs())
+		return TRUE
+	var/datum/component/riding/riding_datum = GetComponent(/datum/component/riding)
 	for(var/m in buckled_mobs)
 		var/mob/living/buckled_mob = m
+		// multi-mount affair
 		if(!buckled_mob.Move(newloc, direct, glide_size_override))
+			if(riding_datum && buckled_mob.buckled == src)
+				buckled_mob.forceMove(newloc)
+				continue
+
+			//regular ass mount
 			forceMove(buckled_mob.loc)
 			last_move = buckled_mob.last_move
 			inertia_dir = last_move

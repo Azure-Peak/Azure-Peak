@@ -68,10 +68,10 @@
 		to_chat(owner, span_notice("You feel divinely empowered and radiant!"))
 	else if(current_boost == 0)
 		REMOVE_TRAIT(owner, TRAIT_BEAUTIFUL, TRAIT_MIRACLE)
-		to_chat(owner, span_warning("Your divine beauty fades..."))
+		to_chat(owner, span_warning("Your divine beauty fades away.."))
 	else if (current_boost == -5)
 		ADD_TRAIT(owner, TRAIT_UNSEEMLY, TRAIT_MIRACLE)
-		to_chat(owner, span_notice("Your flesh is flaky and disgusting."))
+		to_chat(owner, span_warning("Your divine beauty is rotting away!"))
 
 	// Set visual appearance based on boost level
 	switch(current_boost)
@@ -250,16 +250,28 @@
 
 	if(ishuman(owner))
 		var/mob/living/carbon/human/H = owner
-		// Ugly people might get hurt
-		if(HAS_TRAIT(H, TRAIT_UNSEEMLY) && prob(2))
+		//Beautiful people have a chance to be healed.
+		if(HAS_TRAIT(H, TRAIT_BEAUTIFUL) && prob(10))
+			to_chat(H, span_rose("The tree's beauty revitalizes you!"))
+			H.apply_status_effect(/datum/status_effect/buff/healing, 1)
+
+		//People cursed by Eora will suffer visual disorientation and damage over time.
+		else if(HAS_TRAIT(H, TRAIT_CURSE_EORA) && prob(2))
 			to_chat(H, span_warning("The tree's beauty burns your eyes!"))
 			H.Dizzy(5)
 			H.blur_eyes(5)
 			H.adjustBruteLoss(10, 0)
 
-		// Beautiful people might get healed
-		else if(HAS_TRAIT(H, TRAIT_BEAUTIFUL) && prob(10))
-			to_chat(H, span_good("The tree's beauty revitalizes you!"))
+		//Unsightly people have a lower chance to have their beauty temporarily returned.
+		else if(HAS_TRAIT(H, TRAIT_UNSEEMLY) && prob(1))
+			to_chat(H, span_rose("The tree's beauty leeches into you, momentarily lightening your features.."))
+			H.apply_status_effect(/datum/status_effect/buff/healing, 1)
+
+		//People marred by trama have a very, very low chance to be healed - and to proc a unique sight.
+		else if(HAS_TRAIT(H, TRAIT_LEPROSY) && prob(1))
+			to_chat(H, span_love("Her divine love graces you, gently drawing the pain away from your marred flesh.."))
+			to_chat(span_rose("The tree's branches sway in the breeze, and the howling gusts swill into an angelic tune.."))
+			playsound('sound/misc/otavanlament.ogg', 50, FALSE, -1)
 			H.apply_status_effect(/datum/status_effect/buff/healing, 1)
 
 	// There is no beauty in death. Feed my tree.
@@ -270,6 +282,51 @@
 	name = "Eora's Blessing"
 	desc = "You feel a sense of peace near this sacred tree."
 	icon_state = "pom_peace"
+
+//
+
+/datum/status_effect/debuff/pomegranate_beauty
+	id = "pomegranate_beauty"
+	duration = -1
+	alert_type = /atom/movable/screen/alert/status_effect/pomegranate_aura
+	var/outline_colour ="#42001f"
+	var/datum/weakref/source_ref
+	effectedstats = list(STATKEY_CON = -2, STATKEY_LCK = 2)
+
+/datum/status_effect/debuff/pomegranate_beauty/on_apply()
+	. = ..()
+	var/filter = owner.get_filter(POM_FILTER)
+	if (!filter)
+		owner.add_filter(POM_FILTER, 2, list("type" = "outline", "color" = outline_colour, "alpha" = 180, "size" = 1))
+	to_chat(owner, span_rose("Wisps of rose seep into my features, as the tree blesses me with beauty once more! The divine energy strains my body, yet my guise has never looked prettier!"))
+	ADD_TRAIT(owner, TRAIT_BEAUTIFUL, TRAIT_GENERIC)
+	REMOVE_TRAIT(owner, TRAIT_UNSEEMLY, TRAIT_GENERIC)
+
+/datum/status_effect/debuff/pomegranate_beauty/on_remove()
+	. = ..()
+	owner.remove_filter(POM_FILTER)
+	to_chat(owner, span_warning("Wisps of rose seep from my features, as the tree's blessings - and my gifted beauty - fades away. The divine energy's burden is no more, and my body relaxes once again.."))
+	REMOVE_TRAIT(owner, TRAIT_BEAUTIFUL, TRAIT_GENERIC)
+	ADD_TRAIT(owner, TRAIT_UNSEEMLY, TRAIT_GENERIC)
+
+/datum/status_effect/debuff/pomegranate_beauty/tick()
+	// Check if source tree still exists
+	var/obj/structure/eoran_pomegranate_tree/tree = source_ref?.resolve()
+	if(QDELETED(tree) || !istype(tree))
+		owner.remove_status_effect(src)
+		return
+
+	// Check distance to tree. This is a sanity check given the aura SHOULD remove already, but you can never be too safe :)
+	if(get_dist(owner, tree) > tree.aura_range)
+		owner.remove_status_effect(src)
+		return
+
+/atom/movable/screen/alert/status_effect/pomegranate_beauty
+	name = "Eora's Beauty"
+	desc = "As long as you linger by the sacred tree, your body will harbor its divine beauty - and all the strain it commands."
+	icon_state = "pom_peace"
+
+//
 
 #undef POM_FILTER
 

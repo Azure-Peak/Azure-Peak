@@ -95,7 +95,7 @@
 
 /client/verb/toggle_compliance_notifs() // The messages need to be on-by-default while this is in its early stages.
 	set category = "Options"
-	set name = "Compliance Notifs"
+	set name = "Toggle Compliance Notifs"
 	if(prefs)
 		prefs.compliance_notifs = !prefs.compliance_notifs
 		prefs.save_preferences()

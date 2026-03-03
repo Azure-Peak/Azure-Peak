@@ -1,6 +1,6 @@
 /obj/structure/roguemachine/vaultbank
 	name = "\improper JAWBANK"
-	desc = "Collects and secures the treasury of the Grand Duchy of Azuria."
+	desc = "A biomechanical obselisk that collects and secures the treasury of the Grand Duchy of Azuria. Throttle it with a strike to spill that which is rightfully yours."
 	icon = 'icons/roguetown/misc/machines.dmi'
 	icon_state = "jawbank"
 	density = TRUE

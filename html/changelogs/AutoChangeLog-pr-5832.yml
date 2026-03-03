@@ -1,0 +1,7 @@
+author: "Ketrai"
+delete-after: True
+changes:
+  - rscadd: "delayed gnoll deployment into rounds. gnolls cannot appear in groups on lowpop rounds"
+  - balance: "gnoll stalk is now indefinite until action is taken by the gnoll"
+  - balance: "abduct can now be broken by damaging gnolls attempting to abduct, or before they attempt to do so"
+  - balance: "gnolls no longer have z-leap, they have higher stats instead"

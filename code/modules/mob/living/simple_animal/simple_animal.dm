@@ -193,6 +193,16 @@ GLOBAL_VAR_INIT(farm_animals, FALSE)
 	var/obj/item/caparison/ccaparison
 	var/obj/item/clothing/barding/bbarding
 	var/caparison_over_barding = FALSE
+	var/barding_speed_mult = 1
+
+/mob/living/simple_animal/get_mechanics_examine(mob/user)
+	. = ..()
+	if(can_buckle && max_buckled_mobs)
+		. += span_info("This can carry up to [max_buckled_mobs] rider[max_buckled_mobs == 1 ? "" : "s"].")
+		. += span_info("To mount an incapacitated or tied up mob, a rider must be present on the mount.")
+		. += span_info("To dismount an incapacitated or tied up mob, all riders must dismount, first.")
+		if(ssaddle)
+			. += span_info("Use middle-mouse button on the mount to open its inventory.")
 
 /mob/living/simple_animal/Initialize()
 	. = ..()
@@ -213,7 +223,8 @@ GLOBAL_VAR_INIT(farm_animals, FALSE)
 		AddSpell(newspell)
 
 /mob/living/simple_animal/Destroy()
-	GLOB.simple_animals[AIStatus] -= src
+	for(var/list/SA_list in GLOB.simple_animals)
+		SA_list -= src
 	SSnpcpool.currentrun -= src
 
 	if(nest)
@@ -292,6 +303,9 @@ GLOBAL_VAR_INIT(farm_animals, FALSE)
 		user.visible_message(span_notice("[user] removes the bard from [src]."), span_notice("I remove the bard from [src]."))
 		var/obj/item/clothing/barding/B = bbarding
 		bbarding = null
+		// Reset any movement slowdown from barding when it is removed
+		barding_speed_mult = 1
+		updatehealth()
 		B.forceMove(get_turf(src))
 		user.put_in_hands(B)
 		update_icon()
@@ -390,13 +404,16 @@ GLOBAL_VAR_INIT(farm_animals, FALSE)
 	if(HAS_TRAIT(src, TRAIT_RIGIDMOVEMENT))
 		return
 	if(HAS_TRAIT(src, TRAIT_IGNOREDAMAGESLOWDOWN))
-		move_to_delay = initial(move_to_delay)
+		var/base_delay = initial(move_to_delay)
+		move_to_delay = base_delay * barding_speed_mult
 		return
 	var/health_deficiency = getBruteLoss() + getFireLoss()
 	if(health_deficiency >= ( maxHealth - (maxHealth*0.50) ))
-		move_to_delay = initial(move_to_delay) + 2
+		var/damaged_delay = initial(move_to_delay) + 2
+		move_to_delay = damaged_delay * barding_speed_mult
 	else
-		move_to_delay = initial(move_to_delay)
+		var/normal_delay = initial(move_to_delay)
+		move_to_delay = normal_delay * barding_speed_mult
 
 /mob/living/simple_animal/hostile/forceMove(turf/T)
 	var/list/BM = list()
@@ -930,17 +947,31 @@ GLOBAL_VAR_INIT(farm_animals, FALSE)
 
 //ANIMAL RIDING
 
-/mob/living/simple_animal/hostile/user_unbuckle_mob(mob/living/M, mob/user)
-	if(user != M)
-		return
+/mob/living/simple_animal/hostile/proc/get_mount_time(mob/living/M, default_fail)
 	var/time2mount = 12
 	if(M.mind)
 		var/amt = M.get_skill_level(/datum/skill/misc/riding)
 		if(amt)
 			if(amt > 3)
-				time2mount = 0
+				return 0
 		else
-			time2mount = 30
+			return default_fail
+	return time2mount
+
+/mob/living/simple_animal/hostile/proc/setup_mount_riding()
+	if(!can_buckle)
+		return
+	var/datum/component/riding/D = LoadComponent(/datum/component/riding/no_ocean)
+	D.set_riding_offsets(RIDING_OFFSET_ALL, list(TEXT_NORTH = list(0, 8), TEXT_SOUTH = list(0, 8), TEXT_EAST = list(-2, 8), TEXT_WEST = list(2, 8)))
+	D.set_vehicle_dir_layer(SOUTH, ABOVE_MOB_LAYER)
+	D.set_vehicle_dir_layer(NORTH, OBJ_LAYER)
+	D.set_vehicle_dir_layer(EAST, OBJ_LAYER)
+	D.set_vehicle_dir_layer(WEST, OBJ_LAYER)
+
+/mob/living/simple_animal/hostile/user_unbuckle_mob(mob/living/M, mob/user)
+	if(user != M)
+		return
+	var/time2mount = get_mount_time(M, 30)
 	if(ssaddle)
 		playsound(src, 'sound/foley/saddledismount.ogg', 100, TRUE)
 	if(!move_after(M,time2mount, target = src))
@@ -950,89 +981,143 @@ GLOBAL_VAR_INIT(farm_animals, FALSE)
 		M.visible_message(span_danger("[M] falls off [src]!"))
 	..()
 	update_icon()
-
 /mob/living/simple_animal/hostile/user_buckle_mob(mob/living/M, mob/user)
 	if(user != M)
-		return
-	var/datum/component/riding/riding_datum = GetComponent(/datum/component/riding/no_ocean)
-	if(riding_datum)
-		var/time2mount = 12
-		riding_datum.vehicle_move_delay = move_to_delay
-		if(M.mind)
-			var/amt = M.get_skill_level(/datum/skill/misc/riding)
-			if(amt)
-				if(amt > 3)
-					time2mount = 0
-			else
-				time2mount = 50
+		if(!has_buckled_mobs())
+			return FALSE
+		var/mob/living/driver = buckled_mobs[1]
+		if(driver == user)
+			to_chat(user, span_warning("I need someone else's help to hoist [M]!"))
+			return FALSE
+		if(buckled_mobs.len >= max_buckled_mobs)
+			to_chat(user, span_warning("[src] has no more room!"))
+			return FALSE
+		if(!M || M == src)
+			return FALSE
+		if(!in_range(M, src))
+			return FALSE
+		if(!M.restrained(TRUE) && !M.incapacitated(FALSE, TRUE))
+			to_chat(user, span_warning("[M] needs to be incapacitated or chained!"))
+			return FALSE
+		if(M.buckled || M.anchored)
+			return FALSE
+		if(M.loc != loc)
+			var/turf/T = get_turf(src)
+			if(!T)
+				return FALSE
+			M.forceMove(T)
+		if(!buckle_mob(M, FALSE, FALSE))
+			return FALSE
+		M.visible_message(span_warning("[user] hoists [M] onto [src]!"),\
+			span_warning("[user] hoists me onto [src]!"))
+		return TRUE
 
-		if(!move_after(M,time2mount, target = src))
-			return
-		if(user.incapacitated())
-			return
-//		for(var/atom/movable/A in get_turf(src))
-//			if(A != src && A != M && A.density)
-//				return
-		M.forceMove(get_turf(src))
-		if(ssaddle)
-			playsound(src, 'sound/foley/saddlemount.ogg', 100, TRUE)
+	var/datum/component/riding/riding_datum = GetComponent(/datum/component/riding/no_ocean)
+	if(!riding_datum)
+		return
+	var/time2mount = get_mount_time(M, 50)
+	riding_datum.vehicle_move_delay = move_to_delay
+	if(!move_after(M,time2mount, target = src))
+		return
+	if(user.incapacitated())
+		return
+	M.forceMove(get_turf(src))
+	if(ssaddle)
+		playsound(src, 'sound/foley/saddlemount.ogg', 100, TRUE)
 	..()
 	update_icon()
 
 /mob/living/simple_animal/hostile
 	var/do_footstep = FALSE
 
+/mob/living/simple_animal/hostile/proc/dismount_incap()
+	if(!has_buckled_mobs())
+		return
+	if(LAZYLEN(buckled_mobs) != 1)
+		return
+	var/mob/living/L = buckled_mobs[1]
+	if(!istype(L))
+		return
+	if(!L.restrained(TRUE) && !L.incapacitated(FALSE, TRUE))
+		return
+	unbuckle_mob(L, TRUE)
+
+/mob/living/simple_animal/hostile/post_buckle_mob(mob/living/M)
+	. = ..()
+	dismount_incap()
+
+/mob/living/simple_animal/hostile/post_unbuckle_mob(mob/living/M)
+	. = ..()
+	dismount_incap()
+
 /mob/living/simple_animal/hostile/relaymove(mob/user, direction)
 	if (stat == DEAD)
 		return
 	var/oldloc = loc
 	var/datum/component/riding/riding_datum = GetComponent(/datum/component/riding/no_ocean)
-	if(tame && riding_datum)
-		if(riding_datum.handle_ride(user, direction))
-			riding_datum.vehicle_move_delay = move_to_delay
-			if(user.m_intent == MOVE_INTENT_RUN)
-				riding_datum.vehicle_move_delay -= 1
-				if(loc != oldloc)
-					var/turf/open/T = loc
-					if(!do_footstep && T.footstep)
-						do_footstep = TRUE
-						playsound(loc,pick('sound/foley/footsteps/hoof/horserun (1).ogg','sound/foley/footsteps/hoof/horserun (2).ogg','sound/foley/footsteps/hoof/horserun (3).ogg'), 100, TRUE)
-					else
-						do_footstep = FALSE
-			else
-				if(loc != oldloc)
-					var/turf/open/T = loc
-					if(!do_footstep && T.footstep)
-						do_footstep = TRUE
-						playsound(loc,pick('sound/foley/footsteps/hoof/horsewalk (1).ogg','sound/foley/footsteps/hoof/horsewalk (2).ogg','sound/foley/footsteps/hoof/horsewalk (3).ogg'), 100, TRUE)
-					else
-						do_footstep = FALSE
-			if(user.mind)
-				var/amt = user.get_skill_level(/datum/skill/misc/riding)
-				if(amt)
-					riding_datum.vehicle_move_delay -= 5 + amt/6
-				else
-					riding_datum.vehicle_move_delay -= 3
+	if(!tame || !riding_datum)
+		return
+
+	var/mob/living/driver = null
+	if(buckled_mobs && buckled_mobs.len)
+		driver = buckled_mobs[1]
+	if(!driver || user != driver)
+		return
+
+	if(riding_datum.handle_ride(driver, direction))
+		riding_datum.vehicle_move_delay = move_to_delay
+		if(driver && user == driver && driver.m_intent == MOVE_INTENT_RUN)
+			riding_datum.vehicle_move_delay -= 1
 			if(loc != oldloc)
-				var/obj/structure/mineral_door/MD = locate() in loc
-				if(MD && !MD.ridethrough)
-					if(!HAS_TRAIT(user, TRAIT_EQUESTRIAN))
-						violent_dismount(user)
+				var/turf/open/T = loc
+				if(!do_footstep && T.footstep)
+					do_footstep = TRUE
+					playsound(loc,pick('sound/foley/footsteps/hoof/horserun (1).ogg','sound/foley/footsteps/hoof/horserun (2).ogg','sound/foley/footsteps/hoof/horserun (3).ogg'), 100, TRUE)
+				else
+					do_footstep = FALSE
+		else
+			if(loc != oldloc)
+				var/turf/open/T = loc
+				if(!do_footstep && T.footstep)
+					do_footstep = TRUE
+					playsound(loc,pick('sound/foley/footsteps/hoof/horsewalk (1).ogg','sound/foley/footsteps/hoof/horsewalk (2).ogg','sound/foley/footsteps/hoof/horsewalk (3).ogg'), 100, TRUE)
+				else
+					do_footstep = FALSE
+
+		if(driver && driver.mind)
+			var/amt = driver.get_skill_level(/datum/skill/misc/riding)
+			if(amt)
+				riding_datum.vehicle_move_delay -= 5 + amt/6
+			else
+				riding_datum.vehicle_move_delay -= 3
+		if(loc != oldloc)
+			var/obj/structure/mineral_door/MD = locate() in loc
+			if(MD && !MD.ridethrough)
+				for(var/mob/living/carbon/mountee in buckled_mobs)
+					if(HAS_TRAIT(mountee, TRAIT_EQUESTRIAN))
+						continue
+					violent_dismount(mountee)
 
 /mob/living/simple_animal/proc/violent_dismount(mob/living/user)
-	if(isliving(user))
-		var/mob/living/L = user
-		unbuckle_mob(L)
-		L.Paralyze(50)
-		L.Stun(50)
-		playsound(L.loc, 'sound/foley/zfall.ogg', 100, FALSE)
-		L.visible_message(span_danger("[L] falls off [src]!"))
+	if(!isliving(user))
+		return FALSE
+
+	var/mob/living/L = user
+	unbuckle_mob(L)
+	L.Paralyze(5 SECONDS)
+	L.Stun(5 SECONDS)
+	playsound(L.loc, 'sound/foley/zfall.ogg', 100, FALSE)
+	L.visible_message(span_danger("[L] falls off [src]!"))
+
+	return TRUE
 
 /mob/living/simple_animal/buckle_mob(mob/living/buckled_mob, force = 0, check_loc = 1)
 	. = ..()
 	LoadComponent(/datum/component/riding)
 
 /mob/living/simple_animal/proc/toggle_ai(togglestatus)
+	if(QDELETED(src))
+		return
 	if(!can_have_ai && (togglestatus != AI_OFF))
 		return
 	if (AIStatus != togglestatus)

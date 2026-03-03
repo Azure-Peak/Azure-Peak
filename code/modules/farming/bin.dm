@@ -1,6 +1,6 @@
 /obj/item/roguebin
 	name = "wood bin"
-	desc = "A washbin, a trashbin, a bloodbin... Your choices are limitless."
+	desc = "A washbin, a trashbin, a bloodbin... yur choices are truly limitless."
 	icon = 'icons/roguetown/misc/structure.dmi'
 	icon_state = "washbin1"
 	var/base_state
@@ -15,6 +15,13 @@
 	throw_range = 1
 	blade_dulling = DULLING_BASHCHOP
 	obj_flags = CAN_BE_HIT
+
+/obj/item/roguebin/get_mechanics_examine(mob/user)
+	. = ..()
+	. += span_notice("Right-click the washbin to begin cleaning whatever item is in your active hand.")
+	. += span_notice("Right-click the washbin without anything in your active hand to wash yourself. Depending on the stainage, you might need to further strip down to completely clean everything on your person.")
+	. += span_notice("Washbins need to be filled with water, in order to clean. This can be done by left-clicking it with another container on the 'FEED' intent, or leaving it out in the rain. Using a washbin will pollute the water inside, making it unsafe to drink.")
+	. += span_notice("Middle-clicking the washbin with the 'KICK' subintent selected will knock it over.")
 
 /obj/item/roguebin/weather_trigger(W)
 	if(W==/datum/weather/rain)

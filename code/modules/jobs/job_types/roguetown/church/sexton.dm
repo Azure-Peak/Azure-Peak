@@ -133,6 +133,7 @@
 	H.adjust_blindness(-3)
 	head = /obj/item/clothing/head/roguetown/inqhat/gravehat
 	armor = /obj/item/clothing/suit/roguetown/armor/leather/heavy/coat/gravecoat
+	shirt = /obj/item/clothing/suit/roguetown/shirt/undershirt
 	gloves = /obj/item/clothing/gloves/roguetown/angle/grenzelgloves
 	pants = /obj/item/clothing/under/roguetown/heavy_leather_pants
 	belt = /obj/item/storage/belt/rogue/leather/black
@@ -141,7 +142,7 @@
 	backl = /obj/item/storage/backpack/rogue/satchel
 	backr = /obj/item/rogueweapon/shovel/silver //Not pre-blessed, mind you
 	beltl = /obj/item/gun/ballistic/revolver/grenadelauncher/crossbow/slurbow //main tool of defense
-	beltr = /obj/item/quiver/bolts
+	beltr = /obj/item/quiver/bolt/light
 	backpack_contents = list(
 		/obj/item/burial_shroud = 2, //easier retrievals
 		/obj/item/storage/keyring/acolyte = 1,

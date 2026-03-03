@@ -10,7 +10,7 @@
 	reset_stats = TRUE
 	subclass_stats = list(
 		STATKEY_STR = 3,
-		STATKEY_CON = 2,
+		STATKEY_CON = 4,
 		STATKEY_WIL = 3,
 		STATKEY_SPD = 4,
 		STATKEY_INT = -3,

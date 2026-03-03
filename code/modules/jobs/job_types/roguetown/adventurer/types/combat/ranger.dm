@@ -66,7 +66,7 @@
 			if("Crossbow")
 				H.adjust_skillrank_up_to(/datum/skill/combat/crossbows, SKILL_LEVEL_EXPERT, TRUE)
 				backr = /obj/item/gun/ballistic/revolver/grenadelauncher/crossbow
-				beltl = /obj/item/quiver/bolts
+				beltl = /obj/item/quiver/bolt/standard
 
 /datum/advclass/ranger/wayfarer
 	name = "Wayfarer"
@@ -109,7 +109,7 @@
 	cloak = /obj/item/clothing/cloak/raincloak/mortus
 	backl = /obj/item/storage/backpack/rogue/satchel
 	beltl = /obj/item/rogueweapon/huntingknife/idagger/steel
-	beltr = /obj/item/quiver/bolts
+	beltr = /obj/item/quiver/bolt/standard
 	backr = /obj/item/gun/ballistic/revolver/grenadelauncher/crossbow
 	backpack_contents = list(
 		/obj/item/flashlight/flare/torch = 1,
@@ -231,7 +231,7 @@
 			if("Crossbow") // Hunting crossbows were a thing in these times, shame we don't have an item for it.
 				H.adjust_skillrank_up_to(/datum/skill/combat/crossbows, SKILL_LEVEL_JOURNEYMAN, TRUE)
 				backr = /obj/item/gun/ballistic/revolver/grenadelauncher/crossbow
-				beltl = /obj/item/quiver/bolts
+				beltl = /obj/item/quiver/bolt/standard
 		var/armors = list("Light Armor","Medium Armor")
 		var/armor_choice = input(H, "Choose your armor.", "TAKE UP ARMS") as anything in armors
 		switch(armor_choice)

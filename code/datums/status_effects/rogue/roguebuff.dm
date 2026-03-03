@@ -1421,29 +1421,29 @@
 	desc = span_notice("I am on guard, and ready to clash. If I am hit, I will successfully defend. Attacking will make me lose my focus.")
 	icon_state = "clash"
 
-/// Brief buffer after a successful spell deflection. This allows the player to deflect a single spell that has multiple projectiles - or if multiple projectiles are fired by different people in quick succession, for funny anime moment.
-/// While active, subsequent deflectable projectiles/spells are also deflected without requiring guard.
-/datum/status_effect/buff/spell_parry_buffer
-	id = "spell_parry_buffer"
+/// Brief buffer after a successful deflection (guard vs spells, projectiles, or weapon specials).
+/// While active, subsequent deflectable attacks are also deflected without requiring guard.
+/datum/status_effect/buff/parry_buffer
+	id = "parry_buffer"
 	duration = 1 SECONDS
-	alert_type = /atom/movable/screen/alert/status_effect/buff/spell_parry_buffer
+	alert_type = /atom/movable/screen/alert/status_effect/buff/parry_buffer
 
-/datum/status_effect/buff/spell_parry_buffer/on_apply()
+/datum/status_effect/buff/parry_buffer/on_apply()
 	. = ..()
 	RegisterSignal(owner, COMSIG_ATOM_BULLET_ACT, PROC_REF(buffer_struck_by_projectile), TRUE)
 
-/datum/status_effect/buff/spell_parry_buffer/on_remove()
+/datum/status_effect/buff/parry_buffer/on_remove()
 	UnregisterSignal(owner, COMSIG_ATOM_BULLET_ACT)
 	. = ..()
 
-/datum/status_effect/buff/spell_parry_buffer/proc/buffer_struck_by_projectile(datum/source, obj/projectile/P)
+/datum/status_effect/buff/parry_buffer/proc/buffer_struck_by_projectile(datum/source, obj/projectile/P)
 	if(P.guard_deflectable)
 		if(P.on_guard_deflect(owner, silent = TRUE))
 			return COMPONENT_ATOM_BLOCK_BULLET
 
-/atom/movable/screen/alert/status_effect/buff/spell_parry_buffer
-	name = "Spell Parry"
-	desc = span_notice("A brief window of spell deflection lingers from my guard.")
+/atom/movable/screen/alert/status_effect/buff/parry_buffer
+	name = "Parry"
+	desc = span_notice("A brief window of deflection lingers from my guard.")
 	icon_state = "clash"
 
 /atom/movable/screen/alert/status_effect/buff/clash/limbguard
@@ -2085,3 +2085,31 @@
 	name = "Broken Scales"
 	desc = "My natural defenses are gone! I am lighter, but far weaker."
 	icon_state = "buff"
+
+/datum/status_effect/buff/stagehands_silence
+	id = "Stagehand"
+	alert_type = /atom/movable/screen/alert/status_effect/buff/stagehands_silence
+	duration = 20 MINUTES
+
+/atom/movable/screen/alert/status_effect/buff/stagehands_silence
+	name = "Stangehand's Silence"
+	desc = "The slow quicken. My footsteps are quiet and I can move faster while sneaking."
+
+/datum/status_effect/buff/stagehands_silence/on_creation(mob/living/new_owner, ...)
+	. = ..()
+	if(owner.STASPD < 12)
+		effectedstats = list(STATKEY_SPD = 1) // +1 buff to spd for people w/ less than 12. should be cool but prevents any stupid shit. hopefully.
+
+/datum/status_effect/buff/stagehands_silence/on_apply()
+	. = ..()
+	to_chat(owner, span_warning("My footsteps feel lighter and quieter. What is that droning sound in my head...?"))
+	// inspired by matthiosmuffle
+	ADD_TRAIT(owner, TRAIT_SILENT_FOOTSTEPS, "xylixboon")
+	ADD_TRAIT(owner, TRAIT_LIGHT_STEP, "xylixboon") 
+
+
+/datum/status_effect/buff/stagehands_silence/on_remove()
+	. = ..()
+	to_chat(owner, span_warning("The droning quiets. My footsteps are noisy, again."))
+	REMOVE_TRAIT(owner, TRAIT_SILENT_FOOTSTEPS, "xylixboon")
+	REMOVE_TRAIT(owner, TRAIT_LIGHT_STEP, "xylixboon")

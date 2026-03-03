@@ -103,15 +103,37 @@
 
 // This book should be widely given to everyone
 /obj/item/recipe_book/survival
-	name = "The Survival Handbook"
-	desc = "A book full of recipes and tips for surviving in the wild. Can be used as fuel in a pinch."
-	icon_state = "book6_0"
-	base_icon_state = "book6"
+	name = "Tips, Tricks, & Triumphs: The Novice's Handbook To Azuria"
+	desc = "A heftsome tome, filled to the brim with all the information you'd need to survive within Azuria. The golden bookmark seems to always lead you \
+	to the page you needed the most, no matter how you flip it. </br>‎  </br>This particular tome can be recycled into the Stockpile for a small amount of free \
+	mammons. </br>‎  </br>Activate the tome in your hand to open a searchable glossary, filled with most basic crafting recipes.  </br>‎  </br>Click the 'Mechanics' \
+	tab to reveal a wide variety of tips and tricks, for getting started. Be warned, it's quite a lot; be prepared to scroll around, or hold shift while scrolling down \
+	to compact more information into your chatbox's frame."
+	icon_state = "starterguide_0"
+	base_icon_state = "starterguide"
+	sellprice = 5
 
 	types = list(
 		/datum/crafting_recipe/roguetown/survival,
 		/datum/crafting_recipe/roguetown/tallow,
 		)
+
+/obj/item/recipe_book/survival/get_mechanics_examine(mob/user)
+	. = ..()
+	. += span_info("Examining things will display a small blurb in the chatbox. If present, clicking the blurb's 'Mechanics' tab or '(?)' button will reveal more detailed information about the thing-in-question.")
+	. += span_info("In particular, many things will have detailed tutorials about core mechanics inside of their 'Mechanics' tab. A bed can explain how sleeping works, a tree can explain how climbing works, and so-on.")
+	. += span_info("Adventurers, Pilgrims, and other newcomers usually spawn to the south of Town. Following the cobblestone road - and any signs of civilization - will eventually lead you there.")
+	. += span_info("Your character's skills are generally inherited by their chosen role, and greatly affects their ability to do many tasks. Click on the 'SKILLS' button in your HUD to see-and-learn-more about what you have.")
+	. += span_info("The same principle applies to your character's core stats; Strength, Constitution, Perception, Willpower, Intelligence, Speed, and Fortune. A value of 'X' is considered the baseline.")
+	. += span_info("Clicking the 'FEINT' button on your HUD allows you to toggle between a variety of intents, which changes your stance in COMBAT MODE. Shift-click each intent to learn more about their unique mechanics.")
+	. += span_info("Below that are the four subintents; 'BITE', 'KICK', 'JUMP', and 'SPECIAL'. These are triggerable by middle-clicking. Toggling 'JUMP' and 'RUN' at the same time lets you LEAP across larger gaps.")
+	. += span_info("Pressing 'C', by default, toggles COMBAT MODE. This allows your character to PARRY and DODGE incoming attacks, while greatly improving their capacity to fight back.")
+	. += span_info("Pressing 'X', by default, allows you to RESIST. This is used for many circumstances; putting out fires on yourself, getting out of beds and chairs, escaping MANEATERS, and so on.")
+	. += span_info("Pressing 'V', by default, lets you GET UP and LAY DOWN. This can be used to recover energy and stamina, represented by the blue and green bars on your HUD. Pace yourself, lest you be caught off-guard.")
+	. += span_info("This tome can be turned into the Stockpile, traditionally located in a small alcove between the Innhouse and Smithy, for some coinage.")
+	. += span_info("If you're ever stumped, try asking a question through the 'Mentorhelp' verb in the 'Admin' tab, located in your screen's top-right corner. Alternatively, try asking in the Discord's #mentor-talk channel.")
+	. += span_info("Likewise, try checking out Azure Peak's official wikipedia - https://azurepeak.miraheze.org/wiki/Main_Page - for anything else you might wish to learn about.")
+	. += span_info("And most importantly.. have fun!")
 
 // TBD - Cauldron Recipes
 /obj/item/recipe_book/alchemy

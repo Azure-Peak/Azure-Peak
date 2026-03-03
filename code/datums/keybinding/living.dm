@@ -145,8 +145,8 @@
 /datum/keybinding/living/toggle_compliance
 	hotkey_keys = list()
 	name = "toggle_compliance"
-	full_name = "Toggle Compliance"
-	description = "At-will toggle to fail defense rolls, both when getting grabbed/tackled, and when others resist out your grabs."
+	full_name = "Toggle Compliance Mode"
+	description = "At-will, silent toggle to fail defense rolls, both when getting grabbed/tackled, and when others resist out your grabs. Additionally speeds up restraining you and stripping you. Dangerous in combat!"
 
 /datum/keybinding/living/toggle_compliance/down(client/user)
 	var/mob/living/L = user.mob

@@ -288,16 +288,17 @@
 	if(volume >= 50)
 		M.reagents.remove_reagent(/datum/reagent/water/medicine, 2) // no more than 1 large bottle at a time
 	if(volume > 0.99)
-		M.adjustBruteLoss(-0.5, 0)
-		M.adjustFireLoss(-0.5, 0)
-		M.adjustOxyLoss(-0.5, 0)
-		M.adjustToxLoss(-0.5, 0)
+		M.adjustBruteLoss(-0.5 * REAGENTS_EFFECT_MULTIPLIER, 0)
+		M.adjustFireLoss(-0.5 * REAGENTS_EFFECT_MULTIPLIER, 0)
+		M.adjustOxyLoss(-0.5 * REAGENTS_EFFECT_MULTIPLIER, 0)
+		M.adjustToxLoss(-0.5 * REAGENTS_EFFECT_MULTIPLIER, 0)
 		for(var/datum/reagent/R in M.reagents.reagent_list)
 			if(R.harmful)
-				holder.remove_reagent(R.type, 0.2)
+				holder.remove_reagent(R.type, 0.2 * REAGENTS_EFFECT_MULTIPLIER)
 		var/list/wCount = M.get_wounds()
 		if(wCount.len > 0)
-			M.heal_wounds(2)
+			M.heal_wounds(2 * REAGENTS_EFFECT_MULTIPLIER)
+		..()
 
 /obj/item/melee/touch_attack/orison/proc/create_water(atom/thing, mob/living/carbon/human/user)
 	// normally we wouldn't use fatigue here to keep in line w/ other holy magic, but we have to since water is a persistent resource

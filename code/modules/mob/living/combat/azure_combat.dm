@@ -20,13 +20,13 @@
 	if(H.has_status_effect(/datum/status_effect/buff/clash))	//They also have Riposte active. It'll trigger the special event.
 		clash(user, IM, IU)
 	else	//Otherwise, we just riposte them.
-		var/sharpnesspenalty = 0.15
+		var/sharpnesspenalty = RIPOSTE_SHARPNESS_FACTOR
 		if(IM.wbalance == WBALANCE_HEAVY || IU.blade_dulling == DULLING_SHAFT_CONJURED)
 			sharpnesspenalty += 0.05
 		if(IU.max_blade_int)
 			IU.remove_bintegrity((IU.blade_int * sharpnesspenalty), user)
 		else
-			var/integdam = max((IU.max_integrity / 5), (INTEG_PARRY_DECAY_NOSHARP * 5))
+			var/integdam = max((IU.max_integrity / RIPOSTE_INTEG_DIVISOR), (INTEG_PARRY_DECAY_NOSHARP * 5))
 			if(IU.blade_dulling == DULLING_SHAFT_CONJURED)
 				integdam *= 2
 			IU.take_damage(integdam, BRUTE, IM.d_type)
@@ -156,6 +156,25 @@
 	var/target_turf = get_ranged_target_turf(current_turf, turndir, dist)
 	throw_item(target_turf, FALSE)
 	apply_status_effect(/datum/status_effect/debuff/clickcd, 3 SECONDS)
+
+/mob/living/carbon/human/proc/try_guard()
+	if(has_status_effect(/datum/status_effect/buff/clash) || has_status_effect(/datum/status_effect/debuff/clashcd) || has_status_effect(/datum/status_effect/buff/clash/limbguard))
+		return FALSE
+	if(!get_active_held_item())
+		return FALSE
+	if(r_grab || l_grab || length(grabbedby))
+		return FALSE
+	if(IsImmobilized() || IsOffBalanced())
+		return FALSE
+	if(m_intent == MOVE_INTENT_RUN)
+		to_chat(src, span_warning("I can't focus on this while running."))
+		return FALSE
+	if(magearmor == 0 && HAS_TRAIT(src, TRAIT_MAGEARMOR))
+		magearmor = 1
+		apply_status_effect(/datum/status_effect/buff/magearmor)
+		to_chat(src, span_warning("I drop my Mage Armor to protect myself!"))
+	apply_status_effect(/datum/status_effect/buff/clash)
+	return TRUE
 
 ///Proc that cancels Riposte with a small stamina penalty, unless it's an extreme case.
 /mob/living/carbon/human/proc/bad_guard(msg, cheesy = FALSE, custom_value)

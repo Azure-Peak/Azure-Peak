@@ -1,0 +1,8 @@
+author: "WeNeedMorePhoron"
+delete-after: True
+changes:
+  - rscadd: "Guard keybind (G) - enter Guard from any stance. Old characters will need to set it manually."
+  - rscadd: "Distracting Swipe, Piercing Lunge and Upper Cut now aim for your targeted zone."
+  - rscadd: "Guard deflections against spells now grant Adrenaline Rush."
+  - rscadd: "Weapon special hit messages now display the hit zone."
+  - bugfix: "Decorated rapier description was showing duelist ring description."

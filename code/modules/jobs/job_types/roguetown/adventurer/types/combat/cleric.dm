@@ -203,12 +203,16 @@
 		"Guard Helmet"		= /obj/item/clothing/head/roguetown/helmet/heavy/guard,
 		"Barred Helmet"		= /obj/item/clothing/head/roguetown/helmet/heavy/sheriff,
 		"Bucket Helmet"		= /obj/item/clothing/head/roguetown/helmet/heavy/bucket,
-		"Knight Helmet"		= /obj/item/clothing/head/roguetown/helmet/heavy/knight,
+		"Sugarloaf Helmet"		= /obj/item/clothing/head/roguetown/helmet/heavy/bucket/crusader,
+		"Knight's Armet"		= /obj/item/clothing/head/roguetown/helmet/heavy/knight,
+		"Knight's Helmet"		= /obj/item/clothing/head/roguetown/helmet/heavy/knight/old,
+		"Knight's Greatplumed Armet"		= /obj/item/clothing/head/roguetown/helmet/heavy/knight/greatplume,
 		"Visored Sallet"	= /obj/item/clothing/head/roguetown/helmet/sallet/visored,
 		"Armet"				= /obj/item/clothing/head/roguetown/helmet/heavy/knight/armet,
 		"Hounskull Bascinet" = /obj/item/clothing/head/roguetown/helmet/bascinet/pigface/hounskull,
 		"Klappvisier Bascinet" = /obj/item/clothing/head/roguetown/helmet/bascinet/etruscan,
 		"Slitted Kettle" = /obj/item/clothing/head/roguetown/helmet/heavy/knight/skettle,
+		"Great Barbute" = /obj/item/clothing/head/roguetown/helmet/heavy/barbute/great,
 		"None"
 	)
 
@@ -274,7 +278,8 @@
 			cloak = /obj/item/clothing/cloak/templar/pestra
 			armor = /obj/item/clothing/suit/roguetown/armor/chainmail/hauberk
 		else
-			cloak = /obj/item/clothing/cloak/cape/crusader
+			cloak = /obj/item/clothing/cloak/tabard/stabard/crusader/undivided
+			helmets += list("Decorated Sugarloaf Helmet" = /obj/item/clothing/head/roguetown/helmet/heavy/bucket/crusader/gold/cleric)
 			armor = /obj/item/clothing/suit/roguetown/armor/chainmail/hauberk
 	H.dna.species.soundpack_m = new /datum/voicepack/male/knight()
 	var/datum/devotion/C = new /datum/devotion(H, H.patron)
@@ -285,7 +290,7 @@
 		if(helmchoice != "None")
 			head = helmets[helmchoice]
 		// WEAPON CHOICE.
-		var/weapons = list("Longsword","Broadsword","Mace","Flail","Studded Flail","Whip","Spear","Axe")
+		var/weapons = list("Longsword","Broadsword","Mace","Flail","Flail, Studded","Whip","Spear","Axe")
 		var/weapon_choice = input(H, "Choose your WEAPON.", "TAKE UP YOUR GOD'S ARMS.") as anything in weapons
 		switch(weapon_choice)
 			if("Longsword")
@@ -308,7 +313,7 @@
 			if("Flail")
 				H.adjust_skillrank_up_to(/datum/skill/combat/whipsflails, SKILL_LEVEL_JOURNEYMAN, TRUE)
 				beltr = /obj/item/rogueweapon/flail
-			if("Studded Flail")
+			if("Flail, Studded")
 				H.adjust_skillrank_up_to(/datum/skill/combat/whipsflails, SKILL_LEVEL_JOURNEYMAN, TRUE)
 				beltr = /obj/item/rogueweapon/flail/alt
 			if("Whip")
@@ -323,16 +328,19 @@
 			if("Axe")
 				H.adjust_skillrank_up_to(/datum/skill/combat/axes, SKILL_LEVEL_JOURNEYMAN, TRUE)
 				r_hand = /obj/item/rogueweapon/stoneaxe/woodcut
-		var/oaths = list("Cleric - Medicine & Mirth","Crusader - Silver Longsword")
+		var/oaths = list("Cleric - Medicine Training + Supplies","Crusader - Silver Longsword + Surcoat","None")
 		var/oath_choice = input(H, "Choose your OATH.", "PROFESS YOUR BLESSINGS.") as anything in oaths
 		switch(oath_choice)
-			if("Cleric - Medicine & Mirth")
-				H.adjust_skillrank_up_to(/datum/skill/misc/medicine, SKILL_LEVEL_NOVICE, TRUE)
-				beltl = /obj/item/reagent_containers/glass/bottle/rogue/healthpot //No needles or cloth, but a basic potion of lifeblood - similar to the Sorcerer's manna potion. Take the 'Physician's Apprentice' virtue for that, uncapped skills, and more.
-			if("Crusader - Silver Longsword")
+			if("Cleric - Medicine Training + Supplies")
+				H.adjust_skillrank_up_to(/datum/skill/misc/medicine, SKILL_LEVEL_APPRENTICE, TRUE)
+				l_hand = /obj/item/needle/thorn/cleric //Unique to the Cleric. Far worse than a traditional iron needle, but better than a regular thorn needle - with 10 uses, instead of 5 (or 20, in the former's case).
+				beltl = /obj/item/reagent_containers/glass/bottle/rogue/healthpot //No cloth, but a basic potion of lifeblood - similar to the Sorcerer's manna potion. Take the 'Physician's Apprentice' virtue for that, uncapped skills, and more.
+			if("Crusader - Silver Longsword + Surcoat")
 				H.adjust_skillrank_up_to(/datum/skill/combat/swords, SKILL_LEVEL_JOURNEYMAN, TRUE)
-				l_hand = /obj/item/rogueweapon/sword/long/silver //Turns the Paladin into a pre-Exorcist version of the Monster Hunter. Differences are +1 CON / -1 INT, access to minor miracles, and more limb coverage.
-				beltl = /obj/item/rogueweapon/scabbard/sword //Functionally, inflicts silverbane at the cost of -5 damage. Likely won't be a balancing issue, unless we start seeing +5-10 Clerics overnight.
+				l_hand = /obj/item/clothing/cloak/tabard/stabard/crusader/t //Turns the Paladin into a pre-Exorcist version of the Monster Hunter. Differences are +1 CON / -1 INT, access to minor miracles, and more limb coverage.
+				beltl = /obj/item/rogueweapon/sword/long/silver //Functionally, inflicts silverbane at the cost of -5 damage. Likely won't be a balancing issue, unless we start seeing +5-10 Clerics overnight.
+			if("None")
+				id = /obj/item/clothing/ring/silver/cleric //Minor restoration of the old silver ring that Clerics could get. Worth less than the other two alternatives, but offers a choice for those who want to remain unspecialized.
 
 	H.set_blindness(0)
 	switch(H.patron?.type)
@@ -457,7 +465,7 @@
 		else
 			cloak = /obj/item/clothing/cloak/cape/crusader
 	if(H.mind)
-		var/weapons = list("Harp","Lute","Accordion","Guitar","Hurdy-Gurdy","Viola","Vocal Talisman", "Psyaltery", "Flute")
+		var/weapons = list("Harp","Lute","Accordion","Guitar","Hurdy-Gurdy","Viola","Vocal Talisman", "Psyaltery", "Flute", "Drum")
 		var/weapon_choice = tgui_input_list(H, "Choose your instrument.", "TAKE UP ARMS", weapons)
 		H.set_blindness(0)
 		switch(weapon_choice)
@@ -479,6 +487,8 @@
 				backr = /obj/item/rogue/instrument/psyaltery
 			if("Flute")
 				backr = /obj/item/rogue/instrument/flute
+			if("Drum")
+				backr = /obj/item/rogue/instrument/drum
 
 	switch(H.patron?.type)
 		if(/datum/patron/old_god)

@@ -1,0 +1,4 @@
+author: "Teragenic"
+delete-after: True
+changes:
+  - rscadd: "Allows Eoran Worshippers to worship at the Shrine and Eoran Pomegranate Trees"

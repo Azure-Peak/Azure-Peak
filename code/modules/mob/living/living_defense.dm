@@ -57,11 +57,11 @@
 	var/datum/status_effect/buff/clash/guard = has_status_effect(/datum/status_effect/buff/clash)
 	if(guard)
 		if(P.on_guard_deflect(src))
-			apply_status_effect(/datum/status_effect/buff/spell_parry_buffer)
+			apply_status_effect(/datum/status_effect/buff/parry_buffer)
 			remove_status_effect(/datum/status_effect/buff/clash)
 			return TRUE
 		return FALSE
-	if(has_status_effect(/datum/status_effect/buff/spell_parry_buffer))
+	if(has_status_effect(/datum/status_effect/buff/parry_buffer))
 		if(P.on_guard_deflect(src, silent = TRUE))
 			return TRUE
 	return FALSE
@@ -295,7 +295,8 @@
 	if(user != src)
 		if(pulling != user) // If the person we're pulling aggro grabs us don't break the grab
 			stop_pulling()
-		user.set_pull_offsets(src, user.grab_state)
+		if(!is_shifted)
+			user.set_pull_offsets(src, user.grab_state)
 	log_combat(user, src, "grabbed", addition="aggressive grab[add_log]")
 	return 1
 

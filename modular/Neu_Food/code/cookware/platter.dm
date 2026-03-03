@@ -15,7 +15,9 @@
 
 /obj/item/cooking/platter/examine()
 	. = ..()
+	. += span_info("Left-click a platter with food to 'plate' it up. This will also effectively prevent the food from rotting, while plated.")
 	. += span_info("Can be renamed with a feather. Name will be overridden by plating or finishing food.")
+	. += span_info("Plated food is preferred by nobility. Left-clicking plated food with a fork will allow you to eat it more elegantly.")
 
 /*
 NEW SYSTEM

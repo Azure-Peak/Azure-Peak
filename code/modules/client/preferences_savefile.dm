@@ -176,6 +176,7 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	S["shake"]				>> shake
 	S["mastervol"]			>> mastervol
 	S["lastclass"]			>> lastclass
+	S["compliance_notifs"]  >> compliance_notifs
 
 
 	S["default_slot"]		>> default_slot
@@ -344,6 +345,7 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	WRITE_FILE(S["pda_color"], pda_color)
 	WRITE_FILE(S["key_bindings"], key_bindings)
 	WRITE_FILE(S["attack_blip_frequency"] , attack_blip_frequency)
+	WRITE_FILE(S["compliance_notifs"], compliance_notifs)
 	return TRUE
 
 
@@ -459,6 +461,7 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	S["vampire_skin"]		>> vampire_skin
 	S["vampire_hair"]		>> vampire_hair
 	S["vampire_eyes"]		>> vampire_eyes
+	S["vampire_ears"]		>> vampire_ears
 	S["extra_language"]		>> extra_language
 	S["voice_color"]		>> voice_color
 	S["voice_pitch"]		>> voice_pitch
@@ -738,6 +741,7 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	WRITE_FILE(S["vampire_skin"]		, vampire_skin)
 	WRITE_FILE(S["vampire_hair"]		, vampire_hair)
 	WRITE_FILE(S["vampire_eyes"]		, vampire_eyes)
+	WRITE_FILE(S["vampire_ears"]		, vampire_ears)
 	WRITE_FILE(S["extra_language"]		, extra_language)
 	WRITE_FILE(S["voice_color"]			, voice_color)
 	WRITE_FILE(S["voice_pitch"]			, voice_pitch)

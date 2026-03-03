@@ -1,0 +1,4 @@
+author: "Daburuu"
+delete-after: True
+changes:
+  - bugfix: "Heretic spy now spawns with dagger, if choosing ranged weapons"

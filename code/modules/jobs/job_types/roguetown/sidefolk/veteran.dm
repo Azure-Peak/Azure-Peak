@@ -342,7 +342,7 @@
 			if("Axe + Crossbow")
 				r_hand = /obj/item/rogueweapon/stoneaxe/woodcut/steel
 				backl = /obj/item/gun/ballistic/revolver/grenadelauncher/crossbow
-				beltl = /obj/item/quiver/bolts
+				beltl = /obj/item/quiver/bolt/standard
 
 			if ("Spear + Shield")
 				r_hand = /obj/item/rogueweapon/spear

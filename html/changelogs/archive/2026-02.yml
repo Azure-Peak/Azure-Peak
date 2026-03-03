@@ -1259,3 +1259,24 @@
   zoktiik:
   - qol: You can now use any container holding water to soak a cleaning cloth, not
       just buckets.
+2026-02-28:
+  Antoonij:
+  - bugfix: /self spells cdr fix
+  BurpleBineapple:
+  - image: Male Wood Elf chins no longer have pick intent. They're the same as other
+      elves in appearance.
+  FreeStylaLT:
+  - qol: Bow emote (in the emotes tab) is now slightly easier to use.
+  - rscadd: Added two new Sun Elf skintones.
+  Lamasmaster:
+  - rscadd: Raneshi Language
+  - bugfix: Aavanic not having it's own icon
+  - bugfix: Archivist not being able to speak Azurean
+  Teragenic:
+  - rscadd: Gives Cantor Drum Choice
+  mumblemancer:
+  - bugfix: trident can no longer be wielded
+  - code_imp: added dmdocs for gripped-intents
+  - bugfix: bathhouse smuggler entrance should no longer cross u in2 the shadow realm
+  - bugfix: manabinding gloves n collar can now be crafted w/ dorpel
+  - balance: ear-stabs no longer remove your ear organ

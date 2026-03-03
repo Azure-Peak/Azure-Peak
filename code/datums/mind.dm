@@ -52,6 +52,8 @@ GLOBAL_LIST_EMPTY(personal_objective_minds)
 
 	var/spell_points
 	var/used_spell_points
+	var/list/spell_point_pools
+	var/list/spell_points_used_by_pool
 	var/movemovemovetext = "Move!!"
 	var/takeaimtext = "Take aim!!"
 	var/holdtext = "Hold!!"
@@ -139,6 +141,11 @@ GLOBAL_LIST_EMPTY(personal_objective_minds)
 
 /datum/mind/Destroy()
 	SSticker.minds -= src
+	soulOwner = null
+	if(current)
+		current.mind = null
+		current = null
+	enslaved_to = null
 	QDEL_NULL(sleep_adv)
 	if(islist(antag_datums))
 		QDEL_LIST(antag_datums)
@@ -358,7 +365,16 @@ GLOBAL_LIST_EMPTY(personal_objective_minds)
 	spell_points += points
 	if(!has_spell(/obj/effect/proc_holder/spell/targeted/touch/prestidigitation))
 		AddSpell(new /obj/effect/proc_holder/spell/targeted/touch/prestidigitation)
-	check_learnspell() //check if we need to add or remove the learning spell
+	check_learnspell()
+
+/datum/mind/proc/set_spell_point_pools(list/pools)
+	spell_point_pools = pools.Copy()
+	spell_points_used_by_pool = list()
+	for(var/pool_name in pools)
+		spell_points_used_by_pool[pool_name] = 0
+	if(!has_spell(/obj/effect/proc_holder/spell/targeted/touch/prestidigitation))
+		AddSpell(new /obj/effect/proc_holder/spell/targeted/touch/prestidigitation)
+	check_learnspell()
 
 /datum/mind/proc/set_death_time()
 	last_death = world.time
@@ -760,13 +776,27 @@ GLOBAL_LIST_EMPTY(personal_objective_minds)
 		S.on_gain(user)
 
 /datum/mind/proc/check_learnspell()
-	if(!has_spell(/obj/effect/proc_holder/spell/self/learnspell)) //are we missing the learning spell?
-		if((spell_points - used_spell_points) > 0) //do we have points?
-			AddSpell(new /obj/effect/proc_holder/spell/self/learnspell(null)) //put it in
+	// Pool-based system always takes priority over flat spellpoints to prevent unexpected spell point sources from bypassing pool restrictions
+	if(LAZYLEN(spell_point_pools))
+		var/has_remaining = FALSE
+		for(var/pool_name in spell_point_pools)
+			var/used = spell_points_used_by_pool?[pool_name] || 0
+			if(used < spell_point_pools[pool_name])
+				has_remaining = TRUE
+				break
+		if(has_remaining && !has_spell(/obj/effect/proc_holder/spell/self/learnspell))
+			AddSpell(new /obj/effect/proc_holder/spell/self/learnspell(null))
+		else if(!has_remaining)
+			RemoveSpell(/obj/effect/proc_holder/spell/self/learnspell)
+		return
+
+	if(!has_spell(/obj/effect/proc_holder/spell/self/learnspell))
+		if((spell_points - used_spell_points) > 0)
+			AddSpell(new /obj/effect/proc_holder/spell/self/learnspell(null))
 			return
 
-	if((spell_points - used_spell_points) <= 0) //are we out of points?
-		RemoveSpell(/obj/effect/proc_holder/spell/self/learnspell) //bye bye spell
+	if((spell_points - used_spell_points) <= 0)
+		RemoveSpell(/obj/effect/proc_holder/spell/self/learnspell)
 		return
 	return
 

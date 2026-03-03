@@ -20,6 +20,11 @@
 /obj/structure/composter/full
 	ready_compost = MAXIMUM_TOTAL_COMPOST
 
+/obj/structure/composter/examine()
+	. = ..()
+	. += span_info("Left-click the composter with waste to fill it. Nightsoil, ash, apple cores and other less-than-edible giblings are ideal choices.")
+	. += span_info("Compost needs to be intermittently flipped. This can either be done by right-clicking it with an unoccupied hand, or by right-clicking it with a pitchfork.")
+
 /obj/structure/composter/examine(mob/user)
 	. = ..()
 	var/show_dry = (unflipped_compost > flipped_compost)
@@ -206,6 +211,10 @@
 	grid_width = 32
 	grid_height = 32
 
+/obj/item/compost/examine()
+	. = ..()
+	. += span_info("Left-click a crop or patch of soil to fertilize it. This improves its health, and improves the chances of a greater harvest.")
+
 /obj/item/fertilizer
 	name = "fertilizer"
 	desc = "A mix of compost, manure, and bone meal."
@@ -214,6 +223,10 @@
 	w_class = WEIGHT_CLASS_SMALL
 	grid_width = 32
 	grid_height = 32
+
+/obj/item/fertilizer/examine()
+	. = ..()
+	. += span_info("Left-click a crop or patch of soil to fertilize it. This improves its health, and improves the chances of a greater harvest.")
 
 #undef MAXIMUM_TOTAL_COMPOST
 #undef COMPOST_PER_PRODUCED_ITEM

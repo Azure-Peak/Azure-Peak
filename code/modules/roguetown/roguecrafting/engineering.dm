@@ -241,15 +241,6 @@
 	skillcraft = /datum/skill/craft/engineering
 	craftdiff = 5
 
-/datum/crafting_recipe/roguetown/engineering/lightcrossbow
-	name = "crossbow, stockless"
-	category = "Weapons"
-	result = /obj/item/gun/ballistic/revolver/grenadelauncher/crossbow/light
-	reqs = list(/obj/item/ingot/steel = 1, /obj/item/natural/fibers = 2, /obj/item/natural/wood/plank = 2, /obj/item/roguegear = 1) //More fibers and a gear to support its drawstrength.
-	structurecraft = /obj/machinery/artificer_table
-	skillcraft = /datum/skill/craft/engineering
-	craftdiff = 5
-
 /datum/crafting_recipe/roguetown/engineering/heavyboltsminor
 	name = "heavy bolts (x4)"
 	category = "Ammo"

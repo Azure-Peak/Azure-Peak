@@ -13,16 +13,16 @@
 
 /mob/living/carbon/human/species/wildshape/saiga/gain_inherent_skills()
 	. = ..()
-	if(src.mind)
-		src.adjust_skillrank(/datum/skill/combat/wrestling, 3, TRUE)
-		src.adjust_skillrank(/datum/skill/combat/unarmed, 3, TRUE)
-		src.adjust_skillrank(/datum/skill/misc/swimming, 4, TRUE)
-		src.adjust_skillrank(/datum/skill/misc/athletics, 5, TRUE)
+	if(mind)
+		adjust_skillrank(/datum/skill/combat/wrestling, 3, TRUE)
+		adjust_skillrank(/datum/skill/combat/unarmed, 3, TRUE)
+		adjust_skillrank(/datum/skill/misc/swimming, 4, TRUE)
+		adjust_skillrank(/datum/skill/misc/athletics, 5, TRUE)
 
-		src.STASTR = 10
-		src.STACON = 13
-		src.STAWIL = 18 //Because I don't want to give it TRAIT_INFINITE_STAMINA
-		src.STASPD = 13
+		STASTR = 10
+		STACON = 13
+		STAWIL = 18 //Because I don't want to give it TRAIT_INFINITE_STAMINA
+		STASPD = 13
 
 		AddSpell(new /obj/effect/proc_holder/spell/self/saigahoofs)
 		real_name = "saiga doe" //So we don't get a random name

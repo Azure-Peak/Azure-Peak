@@ -39,7 +39,7 @@
 	name = "clay bottle"
 	result = list(/obj/item/natural/clay/claybottle)
 	reqs = list(/obj/item/natural/clay = 1)
-	craftdiff = 0
+	craftdiff = 1
 
 /* 2 diff */
 /datum/crafting_recipe/roguetown/ceramics/clay/clayvase

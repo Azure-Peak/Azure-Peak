@@ -220,7 +220,7 @@
 	You hail from the Ranesheni Empire, where the market of flesh is ancient and unbroken, and your coin is earned in the trade of living souls."
 	allowed_races = RACES_ALL_KINDS
 	outfit = /datum/outfit/job/roguetown/adventurer/slaver
-	subclass_languages = list(/datum/language/celestial)
+	subclass_languages = list(/datum/language/raneshi)
 	cmode_music = 'sound/music/combat_desertrider.ogg'
 	traits_applied = list(TRAIT_STEELHEARTED, TRAIT_MEDIUMARMOR)
 	subclass_stats = list(
@@ -1000,20 +1000,171 @@
 	desc = "'We are Her soldiers, the Legion of light.' </br>'We are the center, the depth of the Sun.' </br>'Fire and flame - we are one.'"
 	icon_state = "astrata_b"
 	item_state = "astrata_b"
+	sellprice = 25 // same as a bronze psycross
 
 /obj/item/clothing/neck/roguetown/psicross/malum/bronze
 	name = "bronze amulet of Malum"
 	desc = "Stone to steel, bone to bronze, mulched to masterworked."
 	icon_state = "malum_b"
 	item_state = "malum_b"
+	sellprice = 25
 
 /obj/item/clothing/neck/roguetown/psicross/inhumen/graggar/bronze
 	name = "bronze amulet of Graggar"
 	desc = "'EVERYTHING - AND EVERYONE YOU LOVE - WILL BE GONE! WHAT WILL YOU HAVE, AFTER THE LAST FIRE'S BEEN SMOTHERED OUT?!' </br>‎  </br>'..You. I'd still have you.'"
 	icon_state = "graggar_b"
 	item_state = "graggar_b"
+	sellprice = 25
 
 //////////////////////////
 // THESPIANS - END!     //
 //////////////////////////
+
+/////////////////////////////////////////////////
+// RATWOOD PORTS - 'DISGRACED'/GUILDLESS MERCS //
+/////////////////////////////////////////////////
+//Generic Grenzel mean-merc. But adventurer.
+//Big sword. Lack of armour. Tear that guy in half and toss him across the room!!!!
+
+/datum/advclass/foreigner/bluthund
+	name = "Grenzelhoft Bluthund"
+	tutorial = "Grenzelhoftian mercenaries are one of a kind. \
+	In a world of cheats, blaggards and broken oaths? They stand firm. \
+	A guild of individuals who, once under contract, will follow it to the letter. \
+	For some reason, whether glory or madness, you'd gone against that. Branded an outcast - a 'bluthund'. \
+	You yet retain your equipment, for they could not strip that of you. Unlike your titles."
+	allowed_races = RACES_ALL_KINDS
+	traits_applied = list(TRAIT_STEELHEARTED)
+	outfit = /datum/outfit/job/roguetown/adventurer/bluthund
+	cmode_music = 'sound/music/combat_grenzelhoft.ogg'
+	subclass_languages = list(/datum/language/grenzelhoftian)
+	subclass_stats = list(//7 points total.
+		STATKEY_STR = 2,
+		STATKEY_CON = 1,
+		STATKEY_WIL = 1,
+		STATKEY_PER = 1,
+	)
+	subclass_skills = list(
+		/datum/skill/combat/swords = SKILL_LEVEL_APPRENTICE,
+		/datum/skill/combat/polearms = SKILL_LEVEL_APPRENTICE,
+		/datum/skill/combat/wrestling = SKILL_LEVEL_APPRENTICE,
+		/datum/skill/combat/unarmed = SKILL_LEVEL_APPRENTICE,
+		/datum/skill/misc/athletics = SKILL_LEVEL_EXPERT,
+		/datum/skill/misc/swimming = SKILL_LEVEL_APPRENTICE,
+		/datum/skill/misc/climbing = SKILL_LEVEL_APPRENTICE,
+		/datum/skill/combat/knives = SKILL_LEVEL_APPRENTICE,
+		/datum/skill/misc/reading = SKILL_LEVEL_NOVICE,
+	)
+
+/datum/outfit/job/roguetown/adventurer/bluthund/pre_equip(mob/living/carbon/human/H)
+	..()
+	backl = /obj/item/rogueweapon/scabbard/gwstrap
+	wrists = /obj/item/clothing/wrists/roguetown/bracers/iron
+	belt = /obj/item/storage/belt/rogue/leather
+	neck = /obj/item/clothing/neck/roguetown/gorget
+	shirt = /obj/item/clothing/suit/roguetown/armor/gambeson/heavy/grenzelhoft
+	head = /obj/item/clothing/head/roguetown/grenzelhofthat
+	pants = /obj/item/clothing/under/roguetown/heavy_leather_pants/grenzelpants
+	shoes = /obj/item/clothing/shoes/roguetown/grenzelhoft
+	gloves = /obj/item/clothing/gloves/roguetown/angle/grenzelgloves
+	backr = /obj/item/storage/backpack/rogue/satchel/black
+	backpack_contents = list(
+		/obj/item/storage/belt/rogue/pouch/coins/poor = 1,
+		/obj/item/flashlight/flare/torch = 1,
+		/obj/item/rogueweapon/huntingknife = 1,
+		/obj/item/rogueweapon/scabbard/sheath = 1
+		)
+	if(H.mind)
+		var/grenzel_purpose = list("Zweihander","Halberd","Eagle's Beak")	//Can choose to be a halberdier or a zweijak
+		var/weapon_choice = input(H, "Choose your ALLY", "WOE THE CONTRACT") as anything in grenzel_purpose
+		switch(weapon_choice)
+			if("Zweihander")
+				H.adjust_skillrank_up_to(/datum/skill/combat/swords, 4, TRUE)
+				r_hand = /obj/item/rogueweapon/greatsword/grenz
+			if("Halberd")
+				H.adjust_skillrank_up_to(/datum/skill/combat/polearms, 4, TRUE)
+				r_hand = /obj/item/rogueweapon/halberd
+			if("Eagle's Beak")
+				H.adjust_skillrank_up_to(/datum/skill/combat/polearms, 4, TRUE)
+				r_hand = /obj/item/rogueweapon/eaglebeak
+
+//Vaquero or Condittieri, but not merc.
+//Navigator, focused on survival skills.
+//Castaway, focused on fancy footwork.
+/datum/advclass/foreigner/nostromo
+	name = "Etruscan Nostromo"
+	tutorial = "Nostromo, a word torn from the common Etruscan tongue, butchered by Imperial. \
+	The meaning it had is long since lost to the common man. You're neither swashbuckler nor romantic. For you are no hero. \
+	To be branded 'Nostromo', is to lose your lot. To be known as one who prattles, rather than using their sword. \
+	Perhaps you were a great captain? A joyous sailor, in better yils? \
+	It hardly matters, now. Forge a new name."
+	allowed_races = RACES_ALL_KINDS
+	subclass_languages = list(/datum/language/etruscan)
+	outfit = /datum/outfit/job/roguetown/adventurer/nostromo
+	cmode_music = 'sound/music/combat_vaquero.ogg'
+	traits_applied = list(TRAIT_STEELHEARTED, TRAIT_GOODLOVER, TRAIT_INTELLECTUAL)	//No dodge / crit resist slop. Get to parrying .
+	subclass_stats = list(
+		STATKEY_SPD = 1,
+		STATKEY_INT = 3
+	)
+	subclass_skills = list(
+		/datum/skill/combat/knives = SKILL_LEVEL_JOURNEYMAN,
+		/datum/skill/combat/wrestling = SKILL_LEVEL_APPRENTICE,	//Not much of a wrestler.
+		/datum/skill/combat/unarmed = SKILL_LEVEL_APPRENTICE,
+		/datum/skill/misc/swimming = SKILL_LEVEL_EXPERT,	//SWIM, MORON.
+		/datum/skill/misc/climbing = SKILL_LEVEL_EXPERT,	//WORK THOSE LINES!!!!
+		/datum/skill/misc/athletics = SKILL_LEVEL_JOURNEYMAN,
+		/datum/skill/misc/reading = SKILL_LEVEL_JOURNEYMAN,
+		/datum/skill/misc/sneaking = SKILL_LEVEL_JOURNEYMAN,
+	)
+
+	extra_context = "This subclass provides the player with two loadouts. \
+	Navigator: +2PER, JMAN swords and wrestling. \
+	Castaway: +1PER/WIL, JMAN lockpicking and pickpocket, T1 Bardic Inspiration."
+
+/datum/outfit/job/roguetown/adventurer/nostromo/pre_equip(mob/living/carbon/human/H)
+	..()
+	head = /obj/item/clothing/head/roguetown/bardhat
+	shoes = /obj/item/clothing/shoes/roguetown/boots
+	neck = /obj/item/clothing/neck/roguetown/gorget
+	pants = /obj/item/clothing/under/roguetown/heavy_leather_pants
+	armor = /obj/item/clothing/suit/roguetown/armor/leather/vest/sailor
+	shirt = /obj/item/clothing/suit/roguetown/shirt/undershirt/sailor/red
+	belt = /obj/item/storage/belt/rogue/leather
+	cloak = /obj/item/clothing/cloak/half/rider/red
+	backl = /obj/item/storage/backpack/rogue/satchel
+	beltr = /obj/item/rogueweapon/scabbard/sheath
+	if(H.mind)
+		var/nostromo_purpose = list("Navigator","Castaway")
+		var/purpose_choice = input(H, "Choose your FAILING", "WHY THE PLANK") as anything in nostromo_purpose
+		switch(purpose_choice)
+			if("Navigator")
+				H.change_stat(STATKEY_PER, 2)
+				H.adjust_skillrank_up_to(/datum/skill/combat/swords, 3, TRUE)	//No shield skill, since you're buckler reliant.
+				H.adjust_skillrank_up_to(/datum/skill/combat/wrestling, 3, TRUE)	//So you don't get IMMEDIATELY folded by a basic grappler 
+				r_hand = /obj/item/rogueweapon/sword/long	//You'd stolen this, probably. It's just a longsword reskin.
+				beltl = /obj/item/rogueweapon/scabbard/sword
+				backr = /obj/item/rogueweapon/shield/buckler
+				backpack_contents = list(
+								/obj/item/storage/belt/rogue/pouch/coins/poor = 1,
+								/obj/item/rogueweapon/huntingknife/idagger/navaja = 1,
+								/obj/item/flashlight/flare/torch = 1,
+								)
+			if("Castaway")
+				var/datum/inspiration/I = new /datum/inspiration(H)
+				I.grant_inspiration(H, bard_tier = BARD_T1)
+				H.change_stat(STATKEY_PER, 1)
+				H.change_stat(STATKEY_WIL, 1)
+				H.adjust_skillrank_up_to(/datum/skill/misc/lockpicking, 3, TRUE)
+				H.adjust_skillrank_up_to(/datum/skill/misc/music, 4, TRUE)
+				H.adjust_skillrank_up_to(/datum/skill/misc/stealing, 3, TRUE)
+				//You already know why...
+				backr = /obj/item/rogue/instrument/flute
+				r_hand = /obj/item/rogueweapon/huntingknife/idagger/steel/parrying/vaquero
+				backpack_contents = list(
+								/obj/item/storage/belt/rogue/pouch/coins/poor = 1,
+								/obj/item/lockpick = 1,
+								/obj/item/flashlight/flare/torch = 1,
+								/obj/item/rogueweapon/scabbard/sheath = 1
+								)
 

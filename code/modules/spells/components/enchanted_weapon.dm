@@ -19,6 +19,7 @@
 	var/overridden_duration = null
 	var/enchant_type = FORCE_BLADE_ENCHANT // The type of enchantment
 	var/next_arcane_mark_time = 0
+	var/datum/weakref/last_known_mob = null // Cached mob weakref for when weapon is in nullspace (e.g. holster)
 
 /datum/component/enchanted_weapon/Initialize(duration_override, allow_refresh_override, refresh_skill_override, enchant_type_override)
 	if(!istype(parent, /obj/item/rogueweapon))
@@ -42,18 +43,38 @@
 
 	RegisterSignal(parent, COMSIG_PARENT_EXAMINE, PROC_REF(on_examine))
 	RegisterSignal(parent, COMSIG_ITEM_OBJFIX, PROC_REF(on_fix))
+	RegisterSignal(parent, COMSIG_MOVABLE_MOVED, PROC_REF(on_moved))
 	if(enchant_type == ARCANE_MARK_ENCHANT)
 		RegisterSignal(parent, COMSIG_ITEM_AFTERATTACK, PROC_REF(arcane_mark_afterattack))
 
 	addtimer(CALLBACK(src, PROC_REF(refresh_check)), new_duration)
 
+/datum/component/enchanted_weapon/proc/on_moved(datum/source, atom/old_loc, dir, forced)
+	SIGNAL_HANDLER
+	// Cache the mob when the weapon leaves someone's hands (e.g. into a holster nullspace)
+	var/atom/check = old_loc
+	while(check && !isturf(check))
+		if(isliving(check))
+			last_known_mob = WEAKREF(check)
+			return
+		check = check.loc
+	last_known_mob = null
+
 /datum/component/enchanted_weapon/proc/refresh_check()
 	var/obj/item/I = parent
-	var/obj/itemloc = I.loc
+	var/atom/itemloc = I.loc
 	if(!allow_refresh || !refresh_skill)
 		remove()
 		qdel(src)
 		return
+	// If loc is null, weapon is in nullspace (e.g. holster component). Use cached mob.
+	if(isnull(itemloc))
+		var/mob/living/cached_mob = last_known_mob?.resolve()
+		if(cached_mob)
+			itemloc = cached_mob
+		else
+			qdel(src)
+			return
 	if(!istype(itemloc, /mob/living))
 		while(!istype(itemloc, /mob/living))
 			if(isnull(itemloc))
@@ -115,6 +136,7 @@
 
 /datum/component/enchanted_weapon/Destroy()
 	remove()
+	last_known_mob = null
 	. = ..()
 
 /datum/component/enchanted_weapon/proc/on_examine(datum/source, mob/user, list/examine_list)

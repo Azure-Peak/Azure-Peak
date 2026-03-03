@@ -82,7 +82,7 @@
 		/obj/item/natural/worms/leech/cheele = 1, //little buddy
 		/obj/item/reagent_containers/glass/bottle/waterskin = 1,
 		/obj/item/recipe_book/alchemy = 1,)
-	if(H.pronouns == SHE_HER)
+	if(should_wear_femme_clothes(H))
 		head = /obj/item/clothing/head/roguetown/courtphysician/female
 		armor = /obj/item/clothing/suit/roguetown/armor/leather/heavy/jacket/courtphysician/female
 		shirt = /obj/item/clothing/suit/roguetown/shirt/courtphysician/female

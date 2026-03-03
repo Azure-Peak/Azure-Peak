@@ -46,6 +46,11 @@
 	var/transforming
 	var/untransforming
 	var/wolfname = "Verewolf"
+	var/static/list/dendor_cries = list('sound/effects/werewolf_sounds/wscream1.ogg',
+								'sound/effects/werewolf_sounds/wscream2.ogg',
+								'sound/effects/werewolf_sounds/wscream3.ogg',
+								'sound/effects/werewolf_sounds/wscream4.ogg',
+								'sound/effects/werewolf_sounds/wscream5.ogg')
 
 /datum/antagonist/werewolf/lesser
 	name = "Lesser Verewolf"
@@ -104,11 +109,17 @@
 
 /datum/antagonist/werewolf/greet()
 	to_chat(owner.current, span_userdanger("Since a bite long, long ago, Dendor's Madness has welled within me. Before the Moonlight, I will sate my hallowed Hunger."))
+	var/picked_sound = pick(dendor_cries)
+	owner.current.playsound_local(get_turf(owner.current), picked_sound, 100)
 	return ..()
 
 /datum/antagonist/werewolf/lesser/greet()
-	// leave this empty so that lesser verevolf's dont get the greeting on bite.
-	// there is probably a better way to do this but this works until sm1 smarter inevitably rewrites WW.
+	// DO NOT call parent. 
+	// lesser verevolfs should always be created by alpha bites, which have their own way of informing the user
+	// they are a werewolf. despite this, i still want to provide a new audio cue in the form of [THE CRY].
+	// remove it if it's obstructive. thx.
+	var/picked_sound = pick(dendor_cries)
+	owner.current.playsound_local(get_turf(owner.current), picked_sound, 100)
 
 /mob/living/carbon/human/proc/can_werewolf()
 	if(!mind)

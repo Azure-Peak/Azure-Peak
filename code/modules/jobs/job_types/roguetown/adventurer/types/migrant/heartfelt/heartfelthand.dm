@@ -74,7 +74,7 @@
 	r_hand = /obj/item/rogueweapon/sword/long/dec
 	l_hand = /obj/item/gun/ballistic/revolver/grenadelauncher/crossbow
 	beltl = /obj/item/rogueweapon/scabbard/sword/noble
-	backr = /obj/item/quiver/bolts
+	backr = /obj/item/quiver/bolt/standard
 	backpack_contents = list(
 		/obj/item/rogueweapon/huntingknife/idagger/steel/special = 1,
 		/obj/item/rogueweapon/scabbard/sheath/noble = 1,

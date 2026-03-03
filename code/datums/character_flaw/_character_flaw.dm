@@ -431,7 +431,7 @@ GLOBAL_LIST_INIT(averse_factions, list(
 		return
 	var/datum/job/gnoll_job = SSjob.GetJob("Gnoll")
 	var/total_gnoll_positions = gnoll_job.total_positions
-	var/gnoll_increase = get_gnoll_slot_increase(total_gnoll_positions)
+	var/gnoll_increase = SSgnoll_scaling.get_gnoll_slot_increase(total_gnoll_positions)
 
 	if(gnoll_increase >= 1)
 		to_chat(user, span_notice("I have offended graggarite agents, and they may be tracking my scent."))

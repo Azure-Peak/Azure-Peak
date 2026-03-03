@@ -110,6 +110,9 @@ GLOBAL_LIST_INIT(virtue_mount_choices_anthrax, (list(
 		the_real_honse = new our_chosen_honse(user.loc)
 	the_real_honse.AddComponent(/datum/component/precious_creature, user)
 	user.saddleborn_mount = WEAKREF(the_real_honse)
+	if(istype(the_real_honse, /mob/living/simple_animal/hostile))
+		var/mob/living/simple_animal/hostile/friendly_horse = the_real_honse
+		friendly_horse.friends += user
 
 	if (has_name == "Yes")
 		var/honse_name = input(user, "What is your steed's name?", "Saddleborn")

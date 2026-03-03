@@ -444,6 +444,13 @@
 /obj/structure/chair/stool/rogue,
 /turf/open/floor/rogue/ruinedwood,
 /area/rogue/under/tomb/indoors)
+"lq" = (
+/obj/structure/fluff/walldeco/rpainting/crown{
+	pixel_x = 0;
+	pixel_y = 33
+	},
+/turf/open/floor/rogue/ruinedwood/spiral,
+/area/rogue/under/tomb/indoors)
 "lt" = (
 /obj/structure/closet/crate/chest/old_crate,
 /obj/structure/spider/stickyweb,
@@ -565,10 +572,6 @@
 	dir = 8
 	},
 /turf/open/floor/rogue/ruinedwood/spiral,
-/area/rogue/under/tomb/indoors)
-"oC" = (
-/obj/structure/fluff/walldeco/rpainting/crown,
-/turf/closed/wall/mineral/rogue/wooddark,
 /area/rogue/under/tomb/indoors)
 "oN" = (
 /obj/structure/roguewindow/openclose{
@@ -3579,8 +3582,8 @@ oT
 jn
 Dz
 Dx
-oC
-oT
+jn
+lq
 Dx
 jn
 Dz
