@@ -1,0 +1,4 @@
+author: "Ollanius"
+delete-after: True
+changes:
+  - rscadd: "Replaces the 'Smash' intent's SFX for Maces with something a little more unique., and a little less jarring."

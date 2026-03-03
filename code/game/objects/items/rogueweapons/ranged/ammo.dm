@@ -5,6 +5,21 @@
 #define BOLT_PENETRATION	50
 #define BULLET_PENETRATION	100
 
+#define MIN_ARROW_RANGE		3
+#define MAX_ARROW_RANGE		14
+#define MIN_BOLT_RANGE		2
+#define MAX_BOLT_RANGE		9
+#define MIN_BULLET_RANGE	2
+#define MAX_BULLET_RANGE	7
+
+#define AP_FALLOFF_ARROW	0.75
+#define DAM_FALLOFF_ARROW	0.5
+#define AP_FALLOFF_BOLT		0.5
+#define DAM_FALLOFF_BOLT	0.75
+#define AP_FALLOFF_BULLET	0.5
+#define DAM_FALLOFF_BULLET	0.5
+
+
 /**
 	GENERAL NOTE FOR BALANCING PROJECTILES:
 	Damage and armor penetration both factor into whether a projectile will pierce a given
@@ -16,9 +31,15 @@
 */
 
 //parent of all bolts and arrows ฅ^•ﻌ•^ฅ
-/obj/item/ammo_casing/caseless/rogue/
+/obj/item/ammo_casing/caseless/rogue
 	firing_effect_type = null
 	icon = 'icons/roguetown/weapons/ammo.dmi'
+	var/ammo_weight = 1 // Weight cost in a quiver. Default 1, heavy ammo costs more.
+
+/obj/item/ammo_casing/caseless/rogue/get_mechanics_examine(mob/user)
+	. = ..()
+	. += span_info("Projectiles have maximum and minimum falloff ranges, with particular falloff factors for damage and armour penetration.")
+	. += span_info("If the target is hit between the maximum and minimum tile range, then the full force and AP is delivered.")
 
 //bolts ฅ^•ﻌ•^ฅ
 
@@ -42,6 +63,13 @@
 				return list("shrink" = 0.5,"sx" = -10,"sy" = -6,"nx" = 11,"ny" = -6,"wx" = -4,"wy" = -6,"ex" = 2,"ey" = -6,"northabove" = 0,"southabove" = 1,"eastabove" = 1,"westabove" = 0,"nturn" = 0,"sturn" = 0,"wturn" = 0,"eturn" = 0,"nflip" = 0,"sflip" = 8,"wflip" = 8,"eflip" = 0)
 			if("onbelt")
 				return list("shrink" = 0.3,"sx" = -2,"sy" = -5,"nx" = 4,"ny" = -5,"wx" = 0,"wy" = -5,"ex" = 2,"ey" = -5,"nturn" = 0,"sturn" = 0,"wturn" = 0,"eturn" = 0,"nflip" = 0,"sflip" = 0,"wflip" = 0,"eflip" = 0,"northabove" = 0,"southabove" = 1,"eastabove" = 1,"westabove" = 0)
+
+/obj/item/ammo_casing/caseless/rogue/bolt/light
+	name = "light bolt"
+	desc = "A lighter, far less sturdier bolt. Made for smaller crossbows."
+	icon_state = "light_bolt"
+	caliber = "lightbolt"
+	projectile_type = /obj/projectile/bullet/reusable/bolt/light
 
 /obj/item/ammo_casing/caseless/rogue/bolt/aalloy
 	name = "decrepit bolt"
@@ -94,6 +122,10 @@
 	flag = "piercing"
 	speed = 0.4
 	npc_simple_damage_mult = 2
+	min_range = MIN_BOLT_RANGE
+	max_range = MAX_BOLT_RANGE
+	dam_falloff_factor = DAM_FALLOFF_BOLT
+	ap_falloff_factor = AP_FALLOFF_BOLT
 
 /obj/item/ammo_casing/caseless/rogue/arrow/getonmobprop(tag)
 	. = ..()
@@ -116,6 +148,15 @@
 			skill_multiplier = 4
 	if(skill_multiplier && can_train_combat_skill(L, /datum/skill/combat/crossbows, SKILL_LEVEL_EXPERT))
 		L.mind.add_sleep_experience(/datum/skill/combat/crossbows, L.STAINT * skill_multiplier)
+
+/obj/projectile/bullet/reusable/bolt/light
+	name = "light bolt"
+	ammo_type = /obj/item/ammo_casing/caseless/rogue/bolt/light
+	speed = 0.8
+	min_range = MIN_BOLT_RANGE - 1 // pointblank
+	max_range = MAX_BOLT_RANGE - 1
+	dam_falloff_factor = DAM_FALLOFF_BOLT 
+	ap_falloff_factor = AP_FALLOFF_BOLT * 1.2 // 0.75
 
 /obj/projectile/bullet/reusable/bolt/aalloy
 	damage = 40
@@ -195,6 +236,8 @@
 	flag = "piercing"
 	speed = 1.2
 	npc_simple_damage_mult = 5 //..or 350 damage against mindless opponents. Run them through!
+	min_range = MIN_BOLT_RANGE + 2
+	max_range = MAX_BOLT_RANGE + 3
 
 /obj/item/ammo_casing/caseless/rogue/heavy_bolt/getonmobprop(tag)
 	. = ..()
@@ -398,6 +441,10 @@
 	name = "stone arrow"
 	ammo_type = /obj/item/ammo_casing/caseless/rogue/arrow/stone
 	accuracy = 60
+	min_range = MIN_ARROW_RANGE
+	max_range = MAX_ARROW_RANGE
+	dam_falloff_factor = DAM_FALLOFF_ARROW
+	ap_falloff_factor = AP_FALLOFF_ARROW
 
 // Broadheads are high damage, low AP. Shouldn't be penetrating 80 pierce armor (padded gambesons)
 // short of either being used in a longbow, or by an incredibly high perception character!
@@ -804,7 +851,8 @@
 //Only ammo casing, no 'projectiles'. You throw the casing, as weird as it is.
 /obj/item/ammo_casing/caseless/rogue/javelin
 	force = 14
-	throw_speed = 4	
+	throw_speed = 4
+	ammo_weight = 5 // Javelins are bulky — 5 weight each in a javelinbag
 	name = "iron javelin"
 	desc = "A tool used for centuries, as early as recorded history. This one is tipped with a iron head; standard among militiamen and irregulars alike."
 	icon_state = "ijavelin"
@@ -914,6 +962,7 @@
 	possible_item_intents = list(INTENT_GENERIC) //not intended to attack with them
 	slot_flags = ITEM_SLOT_MOUTH
 	max_integrity = 20
+	charge_time_mult = 0.75 // Sling shoots faster than bows, but is in exchange, weaker.
 
 /obj/item/ammo_casing/caseless/rogue/sling_bullet/getonmobprop(tag)
 	. = ..()
@@ -1005,13 +1054,17 @@
 	flag = "piercing"
 	speed = 0.4
 	npc_simple_damage_mult = 2.5 // Deals roughly ~75-95 damage against a simplemob, compared to the ~140 damage of a crossbolt or arrow.
-	ricochets_max = 4
+	ricochets_max = 2
 	ricochet_chance = 80
 	ricochet_auto_aim_angle = 40
 	ricochet_auto_aim_range = 5
 	ricochet_incidence_leeway = 40
 	ricochet_decay_chance = 1
-	ricochet_decay_damage = 2 /// stronger with every bounce, fuck it
+	ricochet_decay_damage = 1.5 /// stronger with every bounce. Limited to 1.5 to stop edge case
+	min_range = MIN_BULLET_RANGE
+	max_range = MAX_BULLET_RANGE
+	dam_falloff_factor = DAM_FALLOFF_BULLET
+	ap_falloff_factor = AP_FALLOFF_BULLET
 
 /obj/projectile/bullet/reusable/sling_bullet/on_hit(atom/target)
 	. = ..()
@@ -1027,7 +1080,7 @@
 
 /obj/projectile/bullet/reusable/sling_bullet/stone
 	name = "stone sling bullet"
-	damage = 30 //proper stones are better
+	damage = 25 //proper stones are better
 	ammo_type = /obj/item/ammo_casing/caseless/rogue/sling_bullet/stone
 
 /obj/projectile/bullet/reusable/sling_bullet/aalloy
@@ -1037,27 +1090,27 @@
 
 /obj/projectile/bullet/reusable/sling_bullet/bronze
 	name = "bronze sling bullet"
-	damage = 35
-	armor_penetration = 20 //Slightly more damage, but with -33% AP.
+	damage = 30
+	armor_penetration = 25 //Slightly more damage, but with -33% AP.
 	ammo_type = /obj/item/ammo_casing/caseless/rogue/sling_bullet/bronze
-	speed = 0.15 // Faster!
+	speed = 0.25 // Faster!
 
 /obj/projectile/bullet/reusable/sling_bullet/iron
 	name = "iron sling bullet"
-	damage = 30
-	armor_penetration = 30
+	damage = 25
+	armor_penetration = 35
 	ammo_type = /obj/item/ammo_casing/caseless/rogue/sling_bullet/iron
 
 /obj/projectile/bullet/reusable/sling_bullet/steel
 	name = "steel sling bullet"
-	damage = 40 //Best-of-the-best. Harder to mass-produce, however.
-	armor_penetration = 40
+	damage = 35 //Best-of-the-best. Harder to mass-produce, however.
+	armor_penetration = 45
 	ammo_type = /obj/item/ammo_casing/caseless/rogue/sling_bullet/steel
 
 /obj/projectile/bullet/reusable/sling_bullet/paalloy
 	name = "ancient sling bullet"
-	damage = 35 // Best of both worlds 'cuz why not
-	armor_penetration = 30
+	damage = 30 // Best of both worlds 'cuz why not
+	armor_penetration = 35
 	ammo_type = /obj/item/ammo_casing/caseless/rogue/sling_bullet/paalloy
 	ricochets_max = 6
 
@@ -1067,3 +1120,17 @@
 #undef ARROW_PENETRATION
 #undef BOLT_PENETRATION
 #undef BULLET_PENETRATION
+
+#undef MIN_ARROW_RANGE
+#undef MAX_ARROW_RANGE
+#undef MIN_BOLT_RANGE
+#undef MAX_BOLT_RANGE
+#undef MIN_BULLET_RANGE
+#undef MAX_BULLET_RANGE
+
+#undef AP_FALLOFF_ARROW
+#undef DAM_FALLOFF_ARROW
+#undef AP_FALLOFF_BOLT
+#undef DAM_FALLOFF_BOLT
+#undef AP_FALLOFF_BULLET
+#undef DAM_FALLOFF_BULLET

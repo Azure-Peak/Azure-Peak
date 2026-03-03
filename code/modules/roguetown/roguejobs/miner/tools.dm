@@ -29,6 +29,12 @@
 			if("onbelt")
 				return list("shrink" = 0.5,"sx" = -2,"sy" = -5,"nx" = 4,"ny" = -5,"wx" = 0,"wy" = -5,"ex" = 2,"ey" = -5,"nturn" = 0,"sturn" = 0,"wturn" = 0,"eturn" = 0,"nflip" = 0,"sflip" = 0,"wflip" = 0,"eflip" = 0,"northabove" = 0,"southabove" = 1,"eastabove" = 1,"westabove" = 0)
 
+/obj/item/rogueweapon/pick/get_mechanics_examine(mob/user)
+	. = ..()
+	. += span_info("Left-click a rock wall to begin mining it. The amount of hits needed to destroy a rock wall scales with your Strength, your Mining skills, and the quality of your pickaxe.")
+	. += span_info("Quarrying in more distant-and-dangerous territories brings a greater chance of discovering valuable ores and gemstones. The higher your Fortune, the greater your overall chances of finding rare ores and gemstones will be.")
+	. += span_info("The boulders and smaller rocks - not to be confused with the palm-sized stones - can be further mined to potentially find more ores and gemstones.")
+
 /obj/item/rogueweapon/pick/steel
 	name = "steel pick"
 	desc = "With a reinforced handle and sturdy shaft, this is a superior tool for delving in the darkness."

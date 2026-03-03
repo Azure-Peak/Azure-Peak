@@ -27,6 +27,8 @@
 	var/display_craftable_only = TRUE
 	var/display_compact = TRUE
 	var/showonlycraftable = TRUE
+	var/last_surroundings_hash
+	var/list/cached_craftability
 
 
 
@@ -508,8 +510,16 @@
 /datum/component/personal_crafting/ui_data(mob/user)
 	var/list/data = list()
 	data["busy"] = busy
+	data["showonlycraftable"] = showonlycraftable
 
 	var/list/surroundings = get_surroundings(user)
+	var/new_hash = list2params(surroundings["other"])
+
+	if(new_hash == last_surroundings_hash && cached_craftability)
+		data["craftability"] = cached_craftability
+		return data
+
+	last_surroundings_hash = new_hash
 	var/list/craftability = list()
 	for(var/rec in GLOB.crafting_recipes)
 		var/datum/crafting_recipe/R = rec
@@ -521,8 +531,8 @@
 
 		craftability[R.name] = check_contents(R, surroundings)
 
+	cached_craftability = craftability
 	data["craftability"] = craftability
-	data["showonlycraftable"] = showonlycraftable
 	return data
 
 /datum/component/personal_crafting/ui_static_data(mob/user)
@@ -592,6 +602,7 @@
 	data["ref"] = "[REF(R)]"
 	data["path"] = R.type
 	data["sellprice"] = R.sellprice
+	data["aliases"] = R.aliases
 	var/req_text = ""
 	var/tool_text = ""
 	var/catalyst_text = ""
@@ -621,6 +632,14 @@
 
 	data["craftingdifficulty"] = skill_to_string(R.craftdiff)
 
+	if(islist(R.result))
+		for(var/a in R.result)
+			var/atom/A = a 
+			if(!(findtext(data["aliases"],A.name)))
+				data["aliases"] += A.name + " "
+	else
+		var/atom/A = R.result
+		data["aliases"] += A.name
 
 	return data
 

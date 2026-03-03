@@ -1,0 +1,5 @@
+author: "WeNeedMorePhoron"
+delete-after: True
+changes:
+  - rscadd: "Spell pool mage system"
+  - rscadd: "Revamped and reworked Spellblade classes to an active momentum based melee based design. Ability sprites mostly done by Prominence/NoBleed. The bad sprites by WeNeedMorePhoron."

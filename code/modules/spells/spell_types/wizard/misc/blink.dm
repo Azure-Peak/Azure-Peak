@@ -43,83 +43,27 @@
 /obj/effect/proc_holder/spell/invoked/blink/cast(list/targets, mob/user = usr)
 	var/turf/T = get_turf(targets[1])
 	var/turf/start = get_turf(user)
-	
-	if(!T)
-		to_chat(user, span_warning("Invalid target location!"))
+
+	var/dest_err = arcyne_validate_blink_dest(T, user)
+	if(dest_err)
+		to_chat(user, span_warning(dest_err))
 		revert_cast()
 		return
 
-	if(T.teleport_restricted == TRUE)
-		to_chat(user, span_warning("I can't teleport here!"))
-
-	if(T.z != start.z)
-		to_chat(user, span_warning("I can only teleport on the same plane!"))
-
-		revert_cast()
-		return
-	
-	if(istransparentturf(T))
-		to_chat(user, span_warning("I cannot teleport to the open air!"))
-		revert_cast()
-		return
-
-	if(T.density)
-		to_chat(user, span_warning("I cannot teleport into a wall!"))
-		revert_cast()
-		return
-
-	// Check range limit
 	var/distance = get_dist(start, T)
 	if(distance > max_range)
 		to_chat(user, span_warning("That location is too far away! I can only blink up to [max_range] tiles."))
 		revert_cast()
 		return
-	
-	// Display a more obvious preparation message
-	user.visible_message(span_warning("<b>[user]'s body begins to shimmer with arcane energy as [user.p_they()] prepare[user.p_s()] to blink!</b>"), 
-						span_notice("<b>I focus my arcane energy, preparing to blink across space!</b>"))
-		
-	// Check if there's a wall in the way, but exclude the target turf
-	var/list/turf_list = getline(start, T)
-	// Remove the last turf (target location) from the check
-	if(length(turf_list) > 0)
-		turf_list.len--
-	
-	for(var/turf/turf in turf_list)
-		if(turf.density)
-			to_chat(user, span_warning("I cannot blink through walls!"))
-			revert_cast()
-			return
-			
-	// Check for doors and bars in the path
-	for(var/turf/traversal_turf in turf_list)
-		// Check for mineral doors
-		for(var/obj/structure/mineral_door/door in (traversal_turf.contents + T.contents))
-			if(door.density)
-				to_chat(user, span_warning("I cannot blink through doors!"))
-				revert_cast()
-				return
-				
-		// Check for windows
-		for(var/obj/structure/roguewindow/window in (traversal_turf.contents + T.contents))
-			if(window.density && !window.climbable)
-				to_chat(user, span_warning("I cannot blink through windows!"))
-				revert_cast()
-				return
-				
-		// Check for bars
-		for(var/obj/structure/bars/bars in (traversal_turf.contents + T.contents))
-			if(bars.density)
-				to_chat(user, span_warning("I cannot blink through bars!"))
-				revert_cast()
-				return
 
-		// Check for gates
-		for (var/obj/structure/gate/gate in (traversal_turf.contents + T.contents))
-			if(gate.density)
-				to_chat(user, span_warning("I cannot blink through gates!"))
-				revert_cast()
-				return
+	var/path_err = arcyne_validate_blink_path(start, T)
+	if(path_err)
+		to_chat(user, span_warning(path_err))
+		revert_cast()
+		return
+
+	user.visible_message(span_warning("<b>[user]'s body begins to shimmer with arcane energy as [user.p_they()] prepare[user.p_s()] to blink!</b>"),
+						span_notice("<b>I focus my arcane energy, preparing to blink across space!</b>"))
 
 	var/obj/spot_one = new phase(start, user.dir)
 	var/obj/spot_two = new phase(T, user.dir)

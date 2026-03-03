@@ -26,6 +26,14 @@
 		icon = smooth_icon
 	. = ..()
 
+/turf/closed/wall/mineral/rogue/get_mechanics_examine(mob/user)
+	. = ..()
+	. += span_info("Click-drag yourself onto a wall to lean against it. This allows other people to move past you, while also gradually restoring energy and stamina.")
+	. += span_info("Left-clicking a wall while you're next to it will allow you to climb it. The higher your Climbing skill is, the quicker you can finish climbing up a level. Buckling yourself to an uprighted chair can help, too.")
+	. += span_info("Your Climbing skill determines the tier of wall you can scale, as well. Most people can climb rock walls and trees without trouble, but mossy walls and fortifications can only be surmounted by a few.")
+	. += span_info("Press the 'Shift' button and the 'F' key at the same time to look up a level. If there's nothing to stand on - like a branch or unoccupied tile - adjacent to your direction, climbing up might cause you to fall back down.")
+	. += span_info("Note that this behavior mostly applies to walls and trees that're only one level tall. Those with higher Climbing skills can 'cling' to higher walls, allowing them to scale multiple levels without falling.")
+	. += span_info("Certain walls can be destroyed through different means. Rock walls succumb to tools that pick, wood walls crumble to tools that chop, and all walls vanish when introduced to blastpowder and siegeweapons.")
 
 /turf/closed/wall/mineral/rogue/stone
 	name = "stone wall"

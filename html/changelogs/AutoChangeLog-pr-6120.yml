@@ -1,0 +1,4 @@
+author: "hazelrat"
+delete-after: True
+changes:
+  - bugfix: "Resolved an improper interaction causing the Head Physician's clothes to be gendered according to pronouns, rather than to clothing preferences."

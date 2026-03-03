@@ -502,6 +502,12 @@ UNDER NO CIRCUMSTANCE SHOULD ANY OF THE BOOKS BE GIVEN OUT INTO SPAWNERS OR TO B
 	var/spellpoints = 3
 	dreamcost = 12
 
+/obj/item/book/granter/spell_points/already_known(mob/user)
+	if(LAZYLEN(user.mind?.spell_point_pools))
+		to_chat(user, span_warning("My specialized training prevents me from absorbing this kind of knowledge."))
+		return TRUE
+	return ..()
+
 /obj/item/book/granter/spell_points/on_reading_finished(mob/user)
 	var/arcaneskill = user.get_skill_level(/datum/skill/magic/arcane)
 	if(arcaneskill >= SKILL_LEVEL_NOVICE) //Required arcane skill of NOVICE or higher to use the granter
@@ -533,6 +539,12 @@ UNDER NO CIRCUMSTANCE SHOULD ANY OF THE BOOKS BE GIVEN OUT INTO SPAWNERS OR TO B
 	pickup_sound =  'sound/blank.ogg'
 	var/spellpoints = 3
 	dreamcost = 15
+
+/obj/item/book/granter/arcynetyr/already_known(mob/user)
+	if(LAZYLEN(user.mind?.spell_point_pools))
+		to_chat(user, span_warning("My specialized training prevents me from absorbing this kind of knowledge."))
+		return TRUE
+	return ..()
 
 /obj/item/book/granter/arcynetyr/on_reading_finished(mob/user)
 	var/arcaneskill = user.get_skill_level(/datum/skill/magic/arcane)

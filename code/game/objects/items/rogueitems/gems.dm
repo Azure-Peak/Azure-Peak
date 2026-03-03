@@ -3,7 +3,7 @@
 	name = "mother of all gems"
 	icon_state = "ruby_cut"
 	icon = 'icons/roguetown/items/gems.dmi'
-	desc = "A debug tool to help us later"
+	desc = "A debug tool to help us later."
 	lefthand_file = 'icons/mob/inhands/misc/food_lefthand.dmi'
 	righthand_file = 'icons/mob/inhands/misc/food_righthand.dmi'
 	w_class = WEIGHT_CLASS_TINY
@@ -26,6 +26,11 @@
 /obj/item/roguegem/throw_impact(atom/hit_atom, datum/thrownthing/throwingdatum)
 	playsound(loc, pick('sound/items/gems (1).ogg','sound/items/gems (2).ogg'), 100, TRUE, -2)
 	..()
+
+/obj/item/roguegem/get_mechanics_examine(mob/user)
+	. = ..()
+	. += span_info("Most gemstomes are extremely valuable, and are chiefly used to create bejeweled rings and weaponry.")
+	. += span_info("Certain gemstones can be carved into ornate treasures, cutlery, and armor with the right skills and tools.")
 
 /obj/item/roguegem/green
 	name = "gemerald"

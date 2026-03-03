@@ -30,7 +30,9 @@
 
 /obj/structure/standingbell
 	name = "service bell"
-	desc = "A small mana-infused bell that carries its chime across the city to a select few ears. Use this to call for service."
+	desc = "A bronze thimble, interlaced with a morsel of magitech. The bell's ring can be heard all across the \
+	kingdom, only to those who're familiar with its unique chime. Such makes it an ideal choice among the Churches \
+	and Guilds, so that no abbey-nor-smithy is left empty for long."
 	icon = 'icons/roguetown/misc/tallstructure.dmi'
 	icon_state = "standingbell"
 	density = FALSE
@@ -44,11 +46,17 @@
 	/// the keep being only one area. Nothing breaks if you don't fill this out.
 	var/specific_location
 
+/obj/structure/standingbell/get_mechanics_examine(mob/user)
+	. = ..()
+	. += span_info("Left-click to ring the bell, following a lengthy timed action.")
+	. += span_info("Ringing the bell will play a distinct audio cue to every living character who's associated with the bell's location, notifying them - irregardless of where they are - that someone's requesting their presence.")
+	. += span_info("Note that unlike the SCOM or HERMES, these living characters aren't informed as to who's specifically requesting their presence; only that someone has rung the bell, and that their presence is desired back home.")
+
 /obj/structure/standingbell/Initialize()
 	. = ..()
 	localarea = get_area_name(src)
 	if(specific_location)
-		desc += " This one calls to the [specific_location]."
+		desc += "This one calls to the [specific_location]."
 
 /obj/structure/standingbell/attack_hand(mob/living/user)
 	if(on_cooldown)

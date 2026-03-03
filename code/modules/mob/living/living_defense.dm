@@ -57,11 +57,11 @@
 	var/datum/status_effect/buff/clash/guard = has_status_effect(/datum/status_effect/buff/clash)
 	if(guard)
 		if(P.on_guard_deflect(src))
-			apply_status_effect(/datum/status_effect/buff/spell_parry_buffer)
+			apply_status_effect(/datum/status_effect/buff/parry_buffer)
 			remove_status_effect(/datum/status_effect/buff/clash)
 			return TRUE
 		return FALSE
-	if(has_status_effect(/datum/status_effect/buff/spell_parry_buffer))
+	if(has_status_effect(/datum/status_effect/buff/parry_buffer))
 		if(P.on_guard_deflect(src, silent = TRUE))
 			return TRUE
 	return FALSE

@@ -59,6 +59,11 @@
 	path = /obj/item/clothing/cloak/darkcloak/bear/light
 	sort_category = "Cloaks"
 
+/datum/loadout_item/crusadercloak
+	name = "Desert Cloak"
+	path = /obj/item/clothing/cloak/cape/crusader
+	sort_category = "Cloaks"
+
 /datum/loadout_item/volfmantle
 	name = "Volf Mantle"
 	path = /obj/item/clothing/cloak/volfmantle
@@ -118,3 +123,39 @@
 	name = "Fancy Coat"
 	path = /obj/item/clothing/cloak/poncho/fancycoat
 	sort_category = "Cloaks"
+
+/datum/loadout_item/surcoatheavy
+	name = "Surcoat, Overvestments"
+	path = /obj/item/clothing/cloak/tabard/stabard/crusader/heavy
+	sort_category = "Cloaks"
+
+/datum/loadout_item/surcoatgoldenorder
+	name = "Surcoat, Golden Order"
+	path = /obj/item/clothing/cloak/tabard/stabard/crusader
+	sort_category = "Cloaks"
+
+/datum/loadout_item/surcoatsilverorder
+	name = "Surcoat, Silver Order"
+	path = /obj/item/clothing/cloak/tabard/stabard/crusader/t
+	sort_category = "Cloaks"
+
+/datum/loadout_item/surcoatgoldenorderast
+	name = "Surcoat, Golden Order, Astratan"
+	path = /obj/item/clothing/cloak/tabard/stabard/crusader/astrata
+	sort_category = "Cloaks"
+
+/datum/loadout_item/surcoatsilverorderast
+	name = "Surcoat, Silver Order, Astratan"
+	path = /obj/item/clothing/cloak/tabard/stabard/crusader/t/astrata
+	sort_category = "Cloaks"
+
+/datum/loadout_item/surcoatgoldenorderuni
+	name = "Surcoat, Golden Order, Undivided"
+	path = /obj/item/clothing/cloak/tabard/stabard/crusader/undivided
+	sort_category = "Cloaks"
+
+/datum/loadout_item/surcoatsilverorderuni
+	name = "Surcoat, Silver Order, Undivided"
+	path = /obj/item/clothing/cloak/tabard/stabard/crusader/t/undivided
+	sort_category = "Cloaks"
+

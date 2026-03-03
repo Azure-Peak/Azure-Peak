@@ -1,0 +1,4 @@
+author: "saltprjak"
+delete-after: True
+changes:
+  - bugfix: "Polishing a one-handed weapon properly updates its force."

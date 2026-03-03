@@ -46,6 +46,11 @@
 	/// Whether we can be attached to mindless mobs.
 	var/mindless_attach = TRUE
 
+/obj/item/natural/worms/leech/get_mechanics_examine(mob/user)
+	. = ..()
+	. += span_info("Leeches can be found by roaming through murkwater and sewage. Examine yourself - or click the heart on your HUD - to check your limbs, and click any highlighted mentions of the leech to remove them.")
+	. += span_info("When attached to someone, leeches will passively drain blood and toxins from the body. This can be used to counteract poisons, overdoses, and imbalanced humors.")
+
 /obj/item/natural/worms/leech/Initialize()
 	. = ..()
 	//leech lore
@@ -283,6 +288,10 @@
 
 /obj/item/natural/worms/leech/attack_right(mob/user)
 	return
+
+/obj/item/natural/worms/leech/cheele/get_mechanics_examine(mob/user)
+	. = ..()
+	. += span_info("With cheeles, they can uniquely restore blood to whomever they're attached to. Activate the cheele in your hand to toggle between draining blood and giving blood.")
 
 /obj/item/natural/worms/leech/abyssoid
 	name = "abyssoid leech"

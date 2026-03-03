@@ -1,0 +1,4 @@
+author: "WeNeedMorePhoron"
+delete-after: True
+changes:
+  - rscadd: "You now get a helpful tip on gaining your first spell telling you you can use ctrl click and click drag to rearrange them."

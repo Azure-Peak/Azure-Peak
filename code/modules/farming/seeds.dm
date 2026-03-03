@@ -1,5 +1,6 @@
 /obj/item/seeds
 	name = "seeds"
+	desc = "The distilled essence of agriculture. Skilled hands can plant these into soil and nurture them into bristling crops, or roast them for a delicious little snack."
 	icon = 'icons/obj/hydroponics/seeds.dmi'
 	icon_state = "seed"
 	w_class = WEIGHT_CLASS_TINY

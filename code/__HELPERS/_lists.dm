@@ -820,6 +820,23 @@ GLOBAL_LIST_EMPTY(string_lists)
 	// Finally return the list using regular english_list builder.
 	return english_list(out, nothing_text, and_text, comma_text, final_comma_text)
 
+/// Converts a bitfield to a list of numbers (or words if a wordlist is provided)
+/proc/bitfield_to_list(bitfield = 0, list/wordlist)
+	var/list/return_list = list()
+	if(islist(wordlist))
+		var/max = min(wordlist.len, 24)
+		var/bit = 1
+		for(var/i in 1 to max)
+			if(bitfield & bit)
+				return_list += wordlist[i]
+			bit = bit << 1
+	else
+		for(var/bit_number = 0 to 23)
+			var/bit = 1 << bit_number
+			if(bitfield & bit)
+				return_list += bit
+
+	return return_list
 /* 
 Port of: https://github.com/Monkestation/Vanderlin/commit/84b8b6a716a80040145bb9372641084b32708923 by Sutures / noelle-lavenza
 // A wrapper for baseturf string lists, to offer support of non list values, and a stack_trace if we have major issues

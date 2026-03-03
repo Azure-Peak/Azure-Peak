@@ -333,6 +333,19 @@ This allows the devs to draw whatever shape they want at the cost of it feeling 
 		return
 	howner.apply_status_effect(/datum/status_effect/debuff/specialcd, cd_to_apply)
 
+/// Resolves the attacker's aimed zone against a specific target using the shared accuracy formula.
+/// Uses weapon skill as the accuracy bonus. Specials can override this for custom behavior.
+/datum/special_intent/proc/get_aimed_zone(mob/living/target)
+	var/bonus = 0
+	var/skill = custom_skill
+	if(!skill)
+		var/obj/item/W = iparent
+		if(istype(W))
+			skill = W.associated_skill
+	if(skill)
+		bonus += howner.get_skill_level(skill) * 8
+	return resolve_aimed_zone(howner.zone_selected, howner, target, bonus)
+
 ///A proc that attempts to deal damage to the target, simple mob or carbon. 
 ///Does /not/ crit. Respects armor, but CAN pen unless "no_pen" is set to TRUE. Each Special can have its own way of scaling damage.
 ///Targets with no armor will always take damage, even if no_pen is set.
@@ -342,7 +355,7 @@ This allows the devs to draw whatever shape they want at the cost of it feeling 
 	if(!istype(iparent, /obj/item/rogueweapon))
 		return
 	var/obj/item/rogueweapon/W = iparent
-	var/msg = "<font color = '#c2663c'>[name] strikes [target]!"
+	var/msg = ("<font color = '#c2663c'>[name] strikes [target] in the [span_combatsecondarybp(parse_zone(zone))]!")
 	if(ishuman(target))
 		var/mob/living/carbon/human/HT = target
 		var/obj/item/bodypart/affecting = HT.get_bodypart(zone)
@@ -423,7 +436,7 @@ SPECIALS START HERE
 
 /datum/special_intent/side_sweep
 	name = "Distracting Swipe"
-	desc = "Swings at your primary flank in a distracting fashion. Anyone caught in it will be exposed for a short while."
+	desc = "Swings at your primary flank in a distracting fashion. Anyone caught in it will be exposed for a short while. Aims for the targeted zone."
 	tile_coordinates = list(list(0,0), list(1,0), list(1,-1))	//L shape that hugs our -right- flank.
 	post_icon_state = "sweep_fx"
 	pre_icon_state = "trap"
@@ -434,11 +447,9 @@ SPECIALS START HERE
 	stamcost = 25
 	var/eff_dur = 4 SECONDS
 	var/dam = 20
-	var/t_zone
 
 /datum/special_intent/side_sweep/process_attack()
 	tile_coordinates = list()
-	t_zone = null
 	if(howner.used_hand == 1)	//We invert it if it's the left arm.
 		tile_coordinates += list(list(0,0), list(-1,0), list(-1,-1))
 	else
@@ -447,28 +458,22 @@ SPECIALS START HERE
 	if(iparent)
 		var/obj/item/rogueweapon/W = iparent
 		dam = W.force * (statmod / 10)
-	if(howner.zone_selected != BODY_ZONE_CHEST)
-		if(check_zone(howner.zone_selected) != howner.zone_selected || howner.STAPER < 11)
-			if(prob(33))
-				t_zone = howner.zone_selected
-		else
-			t_zone = howner.zone_selected
-	if(!t_zone)
-		t_zone = BODY_ZONE_CHEST
 	. = ..()
 
 /datum/special_intent/side_sweep/apply_hit(turf/T)
 	for(var/mob/living/L in get_hearers_in_view(0, T))
 		if(L != howner)
+	
 			if(L.mobility_flags & MOBILITY_STAND)
 				var/obj/item/rogueweapon/W = iparent
-				apply_generic_weapon_damage(L, dam, W.d_type, t_zone, bclass = BCLASS_CUT)
+				var/hit_zone = get_aimed_zone(L)
+				apply_generic_weapon_damage(L, dam, W.d_type, hit_zone, bclass = BCLASS_CUT)
 				L.apply_status_effect(/datum/status_effect/debuff/exposed, eff_dur)
 	..()
 
 /datum/special_intent/shin_swipe
 	name = "Shin Prod"
-	desc = "A hasty attack at the legs, extending ourselves. Slows down the opponent if hit."
+	desc = "A hasty attack at the legs, extending ourselves. Slows down the opponent if hit. Always targets the legs."
 	tile_coordinates = list(list(0,0), list(1,0), list(-1,0))
 	post_icon_state = "sweep_fx"
 	pre_icon_state = "trap"
@@ -487,6 +492,7 @@ SPECIALS START HERE
 /datum/special_intent/shin_swipe/apply_hit(turf/T)	//This is applied PER tile, so we don't need to do a big check.
 	for(var/mob/living/L in get_hearers_in_view(0, T))
 		if(L != howner)
+	
 			L.Slowdown(eff_dur)
 			L.apply_status_effect(/datum/status_effect/debuff/hobbled)	//-2 SPD for 8 seconds
 			if(L.mobility_flags & MOBILITY_STAND)
@@ -496,7 +502,7 @@ SPECIALS START HERE
 
 /datum/special_intent/piercing_lunge
 	name = "Piercing Lunge"
-	desc = "A planned attack at the chest, extending ourselves. Pierces our enemy's armor and knocks the wind from them."
+	desc = "A planned thrust forward, extending ourselves. Pierces our enemy's armor and knocks the wind from them. Aims for the targeted zone."
 	tile_coordinates = list(list(0,0), list(0,1))
 	post_icon_state = "stab"
 	pre_icon_state = "trap"
@@ -514,16 +520,18 @@ SPECIALS START HERE
 /datum/special_intent/piercing_lunge/apply_hit(turf/T)
 	for(var/mob/living/L in get_hearers_in_view(0, T))
 		if(L != howner)
+	
 			L.stamina_add(30)	//Drains ~20 stamina from target; attrition warfare.
 			if(L.mobility_flags & MOBILITY_STAND)
-				apply_generic_weapon_damage(L, dam, "stab", BODY_ZONE_CHEST, bclass = BCLASS_STAB, full_pen = TRUE)	//Ignores armor, applies a stab wound with the weapon force.
+				var/hit_zone = get_aimed_zone(L)
+				apply_generic_weapon_damage(L, dam, "stab", hit_zone, bclass = BCLASS_STAB, full_pen = TRUE)	//Ignores armor, applies a stab wound with the weapon force.
 			L.apply_status_effect(/datum/status_effect/debuff/vulnerable, 3 SECONDS)
 	..()
 
 //Hard to hit, freezes you in place. Offbalances & slows the targets hit. If they're already offbalanced they get knocked down.
 /datum/special_intent/ground_smash
 	name = "Ground Smash"
-	desc = "Swings downward, leaving a traveling quake for a few tiles. Anyone struck by it will be slowed and offbalanced, or knocked down if they're already off-balanced."
+	desc = "Swings downward, leaving a traveling quake for a few tiles. Anyone struck by it will be slowed and offbalanced, or knocked down if they're already off-balanced. Always targets the chest."
 	tile_coordinates = list(list(0,0), list(0,1, 0.1 SECONDS), list(0,2, 0.2 SECONDS))
 	post_icon_state = "kick_fx"
 	pre_icon_state = "trap"
@@ -547,6 +555,7 @@ SPECIALS START HERE
 /datum/special_intent/ground_smash/apply_hit(turf/T)
 	for(var/mob/living/L in get_hearers_in_view(0, T))
 		if(L != howner)
+	
 			//We fling the target sideways from the attacker
 			var/targetdir = get_dir(L, howner)
 			var/throwdir = turn(targetdir, prob(50) ? 90 : 270)
@@ -570,7 +579,7 @@ SPECIALS START HERE
 
 /datum/special_intent/flail_sweep
 	name = "Flail Sweep"
-	desc = "Swings in a perfect circle all around you, pushing people aside. The more are struck, the more powerful the effect."
+	desc = "Swings in a perfect circle all around you, pushing people aside. The more are struck, the more powerful the effect. Always targets the chest."
 	tile_coordinates = SPECIAL_AOE_AROUND_ORIGIN
 	post_icon_state = "sweep_fx"
 	pre_icon_state = "trap"
@@ -595,6 +604,7 @@ SPECIALS START HERE
 /datum/special_intent/flail_sweep/apply_hit(turf/T)
 	for(var/mob/living/L in get_hearers_in_view(0, T))
 		if(L != howner)
+	
 			if(L.mobility_flags & MOBILITY_STAND)
 				victim_count++
 				addtimer(CALLBACK(src, PROC_REF(apply_effect), L), 0.1 SECONDS)	//We need to count them all up first so this is an unfortunate (& janky) requirement.
@@ -640,7 +650,7 @@ SPECIALS START HERE
 
 /datum/special_intent/axe_swing
 	name = "Hefty Swing"
-	desc = "Swings from left to right. Anyone caught in the swing get immobilized and exposed."
+	desc = "Swings from left to right. Anyone caught in the swing get immobilized and exposed. Always targets the legs."
 	tile_coordinates = AXE_SWING_GRID_DEFAULT
 	post_icon_state = "sweep_fx"
 	pre_icon_state = "trap"
@@ -676,6 +686,7 @@ SPECIALS START HERE
 /datum/special_intent/axe_swing/apply_hit(turf/T)
 	for(var/mob/living/L in get_hearers_in_view(0, T))
 		if(L != howner)
+	
 			L.Immobilize(immob_dur)
 			if(L.mobility_flags & MOBILITY_STAND)
 				apply_generic_weapon_damage(L, dam, "slash", pick(BODY_ZONE_L_LEG, BODY_ZONE_R_LEG), bclass = BCLASS_CHOP)
@@ -689,7 +700,7 @@ SPECIALS START HERE
 
 /datum/special_intent/whip_coil
 	name = "Whip Coil"
-	desc = "A long-range lash that coils around the ankles of the target, immobilizing them."
+	desc = "A long-range lash that coils around the ankles of the target, immobilizing them. Always targets the chest."
 	tile_coordinates = list(list(0,0))	//Just one tile exactly where our cursor is.
 	post_icon_state = "strike"
 	pre_icon_state = "trap"
@@ -707,6 +718,7 @@ SPECIALS START HERE
 	var/whiffed = TRUE
 	for(var/mob/living/L in get_hearers_in_view(0, T))
 		if(L != howner)
+	
 			L.Immobilize(immob_dur)
 			apply_generic_weapon_damage(L, dam, "slash", pick(BODY_ZONE_PRECISE_L_FOOT, BODY_ZONE_PRECISE_R_FOOT), bclass = BCLASS_LASHING)
 			L.apply_status_effect(/datum/status_effect/debuff/vulnerable, 2 SECONDS)
@@ -722,7 +734,7 @@ SPECIALS START HERE
 
 /datum/special_intent/greatsword_swing
 	name = "Great Swing"
-	desc = "Swing your greatsword all around you in a ring of Judgement."
+	desc = "Swing your greatsword all around you in a ring of Judgement. Always targets the chest."
 	tile_coordinates = list(
 		list(0,0), list(1,0), list(1,-1),list(1,-2),list(0,-2),list(-1,-2),list(-1,-1),list(-1,0),\
 		list(0,1, GAREN_WAVE1), list(1,1, GAREN_WAVE1), list(-1,1, GAREN_WAVE1),list(1,-3, GAREN_WAVE1),list(0,-3, GAREN_WAVE1),list(-1,-3, GAREN_WAVE1),list(-2,0, GAREN_WAVE1),list(-2,-1, GAREN_WAVE1),list(-2,-2, GAREN_WAVE1),list(2,0, GAREN_WAVE1),list(2,-1, GAREN_WAVE1),list(2,-2, GAREN_WAVE1),\
@@ -769,6 +781,7 @@ SPECIALS START HERE
 /datum/special_intent/greatsword_swing/apply_hit(turf/T)
 	for(var/mob/living/L in get_hearers_in_view(0, T))
 		if(L != howner)
+	
 			L.Slowdown(slow_dur)
 			if(L.mobility_flags & MOBILITY_STAND)
 				var/hitdmg = dam
@@ -814,7 +827,7 @@ SPECIALS START HERE
 
 /datum/special_intent/polearm_backstep
 	name = "Backstep"
-	desc = "A defensive used to quickly gain distance, shoving back any pursuer backwards, slowing and exposing them."
+	desc = "A defensive used to quickly gain distance, shoving back any pursuer backwards, slowing and exposing them. Always targets the chest."
 	tile_coordinates = list(
 		list(0,-1), list(1,-1), list(-1,-1)
 		)
@@ -845,6 +858,7 @@ SPECIALS START HERE
 	if(get_dist(howner, T) <= min_dist)
 		for(var/mob/living/L in get_hearers_in_view(0, T))
 			if(L != howner)
+	
 				L.Slowdown(slow_dur)
 				var/throwtarget = get_edge_target_turf(howner, pushdir)
 				apply_generic_weapon_damage(L, dam, "blunt", BODY_ZONE_CHEST, bclass = BCLASS_BLUNT, no_pen = TRUE)
@@ -889,7 +903,7 @@ tile_coordinates = list(list(1,1), list(-1,1), list(-1,-1), list(1,-1),list(0,0)
 
 /datum/special_intent/martyr_volcano_slam
 	name = "Volcanic Blaze Slam"
-	desc = "A powerful blow to the ground in front of the Martyr, leaving behind scorched earth and setting fire to anyone it touches. The blow is so powerful that stones fly out of the ground, striking those who remain standing."
+	desc = "A powerful blow to the ground in front of the Martyr, leaving behind scorched earth and setting fire to anyone it touches. The blow is so powerful that stones fly out of the ground, striking those who remain standing. Always targets the chest."
 	tile_coordinates = list(
 		list(-1,0), list(0,0), list(1,0),
 		list(-1,1), list(0,1), list(1,1),
@@ -930,6 +944,7 @@ tile_coordinates = list(list(1,1), list(-1,1), list(-1,-1), list(1,-1),list(0,0)
 
 	for(var/mob/living/L in get_hearers_in_view(0, T))
 		if(L != howner)
+	
 			L.Slowdown(slow_dur)
 			L.adjust_fire_stacks(fire_stacks)
 			L.ignite_mob()
@@ -946,7 +961,7 @@ tile_coordinates = list(list(1,1), list(-1,1), list(-1,-1), list(1,-1),list(0,0)
 
 /datum/special_intent/martyr_blazing_sweep
 	name = "Blazing Axe Sweep"
-	desc = "Two powerful swings of the axe forward, which spread forward in a semicircle and set fire to the heretics."
+	desc = "Two powerful swings of the axe forward, which spread forward in a semicircle and set fire to the heretics. Always targets the chest."
 	tile_coordinates = list(
 		list(-1,-1), list(1,-1), list(-1,0), list(0,0), list(1,0),
 		list(-2,-1, MARTYR_SWIPE_WAVE2_DELAY), list(-2,0, MARTYR_SWIPE_WAVE2_DELAY), list(-1,1, MARTYR_SWIPE_WAVE2_DELAY),
@@ -980,6 +995,7 @@ tile_coordinates = list(list(1,1), list(-1,1), list(-1,-1), list(1,-1),list(0,0)
 /datum/special_intent/martyr_blazing_sweep/apply_hit(turf/T)
 	for(var/mob/living/L in get_hearers_in_view(0, T))
 		if(L != howner)
+	
 			L.adjust_fire_stacks(fire_stacks)
 			L.ignite_mob()
 			if(L.mobility_flags & MOBILITY_STAND)
@@ -994,7 +1010,7 @@ tile_coordinates = list(list(1,1), list(-1,1), list(-1,-1), list(1,-1),list(0,0)
 
 /datum/special_intent/martyr_blazing_sweep_sword
 	name = "Blazing Sword Sweep"
-	desc = "Two powerful circular strikes, dealing fire damage and crushing all those fools who dared to surround the Martyr."
+	desc = "Two powerful circular strikes, dealing fire damage and crushing all those fools who dared to surround the Martyr. Always targets the chest."
 	tile_coordinates = list(
 
 		list(-1,0), list(0,0), list(1,0),
@@ -1035,6 +1051,7 @@ tile_coordinates = list(list(1,1), list(-1,1), list(-1,-1), list(1,-1),list(0,0)
 /datum/special_intent/martyr_blazing_sweep_sword/apply_hit(turf/T, delay = 0)
 	for(var/mob/living/L in get_hearers_in_view(0, T))
 		if(L != howner)
+	
 			L.adjust_fire_stacks(fire_stacks)
 			L.ignite_mob()
 			if(L.mobility_flags & MOBILITY_STAND)
@@ -1047,7 +1064,7 @@ tile_coordinates = list(list(1,1), list(-1,1), list(-1,-1), list(1,-1),list(0,0)
 
 /datum/special_intent/martyr_blazing_trident
 	name = "Blazing Trident Strike"
-	desc = "A powerful blow with the trident forward, releasing arcs of fire from its teeth, which form the cross of Ten and burn the heretics standing in front."
+	desc = "A powerful blow with the trident forward, releasing arcs of fire from its teeth, which form the cross of Ten and burn the heretics standing in front. Always targets the chest."
 	tile_coordinates = list(
 
 						list(0,0),
@@ -1085,6 +1102,7 @@ tile_coordinates = list(list(1,1), list(-1,1), list(-1,-1), list(1,-1),list(0,0)
 /datum/special_intent/martyr_blazing_trident/apply_hit(turf/T, delay = 0)
 	for(var/mob/living/L in get_hearers_in_view(0, T))
 		if(L != howner)
+	
 			L.adjust_fire_stacks(fire_stacks)
 			L.ignite_mob()
 			if(L.mobility_flags & MOBILITY_STAND)
@@ -1100,7 +1118,7 @@ tile_coordinates = list(list(1,1), list(-1,1), list(-1,-1), list(1,-1),list(0,0)
 
 /datum/special_intent/upper_cut // 1x1 combo finisher, exposed targets get knocked down and take alot of damage, others take low damage.
 	name = "Upper Cut"
-	desc = "Charge up a devastating strike infront of you, if the target is Exposed they will fall over and be flung back with tremendous damage, if not exposed they will be pushed slightly back.."
+	desc = "Charge up a devastating strike infront of you. If the target is Exposed they will fall over and be flung back with tremendous damage, if not exposed they will be pushed slightly back. Aims for the targeted zone, finisher always hits the head."
 	tile_coordinates = list(list(0,0))
 	post_icon_state = "kick_fx"
 	pre_icon_state = "trap"
@@ -1137,16 +1155,16 @@ tile_coordinates = list(list(1,1), list(-1,1), list(-1,-1), list(1,-1),list(0,0)
 
 	for(var/mob/living/L in get_hearers_in_view(0, T))
 		if(L != howner)
-		
+	
 			var/throwtarget = get_edge_target_turf(howner, get_dir(howner, get_step_away(L, howner)))
 			var/throwdist = 1
-			var/target_zone = BODY_ZONE_CHEST
+			var/target_zone = get_aimed_zone(L)
 
 			if(L.has_status_effect(/datum/status_effect/debuff/exposed) || L.has_status_effect(/datum/status_effect/debuff/vulnerable)) // big damage and a knockdown if they exposed / vuln.
 				L.Knockdown(KD_dur)
 				throwdist = rand(2,4)
 				dam = 200 // big damage
-				target_zone = BODY_ZONE_HEAD
+				target_zone = BODY_ZONE_HEAD	// Finisher always hits the head
 				playsound(howner, 'sound/combat/tf2crit.ogg', 100, TRUE)
 				L.remove_status_effect(/datum/status_effect/debuff/exposed)
 				L.remove_status_effect(/datum/status_effect/debuff/vulnerable)

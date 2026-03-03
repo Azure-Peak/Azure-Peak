@@ -1,0 +1,5 @@
+author: "mumblemancer"
+delete-after: True
+changes:
+  - qol: "fulmen chair now tells you when you mmb it and it prompts the person"
+  - bugfix: "you should no longer be \"under\" the fulmen-chair"

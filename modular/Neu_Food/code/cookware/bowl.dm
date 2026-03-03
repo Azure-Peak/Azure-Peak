@@ -18,6 +18,11 @@
 	drinksounds = list('sound/items/drink_cup (1).ogg','sound/items/drink_cup (2).ogg','sound/items/drink_cup (3).ogg','sound/items/drink_cup (4).ogg','sound/items/drink_cup (5).ogg')
 	fillsounds = list('sound/items/fillcup.ogg')
 
+/obj/item/reagent_containers/glass/bowl/examine()
+	. = ..()
+	. += span_info("Left-click an appropriate source of liquids while the 'FILL' intent is selected to fill the bowl.")
+	. += span_info("Some containers have to be manually poured into the bowl, instead. This can be done by left-clicking the bowl while the container's 'FEED' intent is selected.")
+
 /obj/item/reagent_containers/glass/bowl/aalloy
 	name = "decrepit bowl"
 	icon_state = "abowl"

@@ -1,0 +1,4 @@
+author: "Ldip999"
+delete-after: True
+changes:
+  - code_imp: "Makes health updated mandatory on loss adjusts, even if the final damage of a certain value is zero."

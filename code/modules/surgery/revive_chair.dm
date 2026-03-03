@@ -2,8 +2,9 @@
 
 // The immovable chair structure
 /obj/structure/chair/frankenstein
-	name = "Fulmenor chair"
-	desc = "A nightmarish contraption of pipes, and sparking electrodes. It seems permanently fixed to the ground. Affectionately known as the ZRONK device."
+	name = "Fulmenor Chair"
+	desc = "A nightmarish contraption of pipes, and sparking electrodes. It seems permanently fixed to the ground. Affectionately \
+	known as the ZRONK device."
 	icon = 'icons/roguetown/misc/struc48x48.dmi'
 	icon_state = "frankenchair0"
 	anchored = TRUE
@@ -13,13 +14,14 @@
 	item_chair = null // Cannot be picked up
 	buildstacktype = null
 	buildstackamount = 0
+	layer = OBJ_LAYER
 
 	// Chair state variables
 	var/charge = 0
 	var/max_charge = 100
-	var/brew_required = 48
+	var/brew_required = 50
 	var/current_brew = 0
-	var/max_brew = 96
+	var/max_brew = 100
 	var/chair_skill_level = 4
 
 	var/static/list/brew_overlays = list(
@@ -34,7 +36,7 @@
 
 /obj/structure/chair/frankenstein/zizo
 	chair_skill_level = 2
-	current_brew = 48
+	current_brew = 50
 
 /obj/structure/chair/frankenstein/Initialize()
 	. = ..()
@@ -94,8 +96,8 @@
 
 			// Animate filling
 			user.visible_message(
-				span_notice("[user] begins filling [src] with [container]."), 
-				span_notice("You begin filling [src] with [container].")
+				span_notice("[user] begins filling the [src] with [container]."), 
+				span_notice("You begin filling the [src] with [container].")
 			)
 
 			var/skill_mod = get_user_skill(H)
@@ -165,10 +167,10 @@
 /obj/item/reagent_containers/glass/bottle/frankenbrew
 	name = "vial of Reanimation Elixir"
 	desc = "A volatile chemical mixture that helps the deceased conduct electricity. Looks expensive..."
-	list_reagents = list(/datum/reagent/frankenbrew = 48)
+	list_reagents = list(/datum/reagent/frankenbrew = 50)
 
 /obj/item/reagent_containers/glass/bottle/frankenbrew/third
-	list_reagents = list(/datum/reagent/frankenbrew = 16)
+	list_reagents = list(/datum/reagent/frankenbrew = 34) // round up
 
 /obj/structure/chair/frankenstein/proc/start_cranking_animation()
 	if(cranking)
@@ -275,6 +277,10 @@
 	if(charge < max_charge)
 		to_chat(H, span_warning("Insufficient charge!"))
 		return
+
+	// Tell the user WE HAVE FLIPPED THE SWITCH.
+	H.visible_message(span_warning("[user] PULLS THE FULMEN-LEVER! Wait for it...!"), span_warning("You pull the FULMEN-LEVER! Wait for it...!"))
+	// We actually want to call it BEFORE the check because otherwise you still wont know if you actually pulled it 1/2 the time.
 
 	// Check if occupant is valid
 	if(!occupant.check_revive(user))

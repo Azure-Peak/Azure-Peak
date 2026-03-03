@@ -1,6 +1,6 @@
 /obj/structure/roguemachine/mail
 	name = "HERMES"
-	desc = "Carrier zads have fallen severely out of fashion ever since the advent of this hydropneumatic mail system. Insert coins to access."
+	desc = "Carrier zads have fallen severely out of fashion ever since the advent of this hydropneumatic mail system. Feed it coinage to access a slice of modernity."
 	icon = 'icons/roguetown/misc/machines.dmi'
 	icon_state = "mail"
 	density = FALSE

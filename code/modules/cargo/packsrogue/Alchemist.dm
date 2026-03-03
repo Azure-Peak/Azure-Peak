@@ -269,6 +269,11 @@
 	cost = 250
 	contains = list(/obj/item/reagent_containers/glass/bottle/alchemical/rogue/rotcure)
 
+/datum/supply_pack/rogue/Alchemist/goldenapplecheap
+	name = "Apple Of Ambrosia - Alchemist's Discount"
+	cost = 40
+	contains = list(/obj/item/reagent_containers/food/snacks/grown/apple/gold)
+
 /////////////////
 // PROSTHETICS //
 /////////////////

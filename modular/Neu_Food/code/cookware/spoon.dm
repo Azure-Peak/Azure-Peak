@@ -6,6 +6,11 @@
 	force = 0
 	w_class = WEIGHT_CLASS_TINY
 
+/obj/item/kitchen/spoon/examine()
+	. = ..()
+	. += span_info("Left-click a bowl with the spoon to drink from its contents.")
+	. += span_info("Nobler appetites prefer utensils over simply eating and drinking with one's bare hands.")
+
 /obj/item/kitchen/spoon/aalloy
 	name = "decrepit spoon"
 	icon_state = "aspoon"

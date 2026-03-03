@@ -617,6 +617,17 @@ GLOBAL_VAR_INIT(rpg_loot_items, FALSE)
 		if(demolition_mod != 1 && force >= 5)
 			inspec += "\n<b>ANTI-OBJECT MOD:</b> [demolition_mod * 100]% <span class='info'><a href='?src=[REF(src)];explaindemolitionmod=1'>{?}</a></span>"
 
+		if(istype(src, /obj/item/ammo_casing/caseless/rogue))
+			var/obj/item/ammo_casing/caseless/rogue/rog_ammo = src
+			if(rog_ammo.BB.min_range)
+				inspec += "\n<b>MINIMUM EFFECTIVE RANGE:</b> [rog_ammo.BB.min_range] tile(s)"
+			if(rog_ammo.BB.max_range)
+				inspec += "\n<b>MAXIMUM EFFECTIVE RANGE:</b> [rog_ammo.BB.max_range] tile(s)"
+			if(rog_ammo.BB.dam_falloff_factor)
+				inspec += "\n<b>DAMAGE FALLOFF:</b> [get_falloff_string(rog_ammo.BB.dam_falloff_factor)]"
+			if(rog_ammo.BB.ap_falloff_factor)
+				inspec += "\n<b>PENETRATION FALLOFF:</b> [get_falloff_string(rog_ammo.BB.ap_falloff_factor)]"
+
 //**** CLOTHING STUFF
 
 		if(istype(src,/obj/item/clothing))
@@ -1317,6 +1328,19 @@ GLOBAL_VAR_INIT(rpg_loot_items, FALSE)
 			return "Grand"
 		else
 			return "Mighty"
+
+/obj/item/proc/get_falloff_string(var/falloff)
+	switch(falloff)
+		if(0 to 0.25)
+			return "Major"
+		if(0.26 to 0.5)
+			return "Moderate"
+		if(0.51 to 0.75)
+			return "Noticeable"
+		if(0.76 to 0.9)
+			return "Marginal"
+		else
+			return "None"
 
 /obj/item/MouseEntered(location, control, params)
 	. = ..()
