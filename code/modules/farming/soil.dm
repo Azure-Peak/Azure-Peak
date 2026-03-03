@@ -4,6 +4,15 @@
 #define MAX_PLANT_WEEDS 100
 #define SOIL_DECAY_TIME 10 MINUTES
 
+#define WATER_THRESH_HIGH (MAX_PLANT_WATER * 0.6)
+#define WATER_THRESH_LOW (MAX_PLANT_WATER * 0.15)
+#define NUTRI_THRESH_HIGH (MAX_PLANT_NUTRITION * 0.6)
+#define NUTRI_THRESH_LOW (MAX_PLANT_NUTRITION * 0.15)
+#define WEEDS_THRESH_HIGH (MAX_PLANT_WEEDS * 0.6)
+#define WEEDS_THRESH_LOW (MAX_PLANT_WEEDS * 0.3)
+#define HEALTH_THRESH_LOW (MAX_PLANT_HEALTH * 0.3)
+#define HEALTH_THRESH_HIGH (MAX_PLANT_HEALTH * 0.6)
+
 GLOBAL_LIST_EMPTY(soil_list)
 
 /obj/structure/soil
@@ -44,8 +53,8 @@ GLOBAL_LIST_EMPTY(soil_list)
 	var/soil_decay_time = SOIL_DECAY_TIME
 	///The time remaining in which the soil was given special fertilizer, effect is similar to being blessed but with less beneficial effects
 	var/fertilized_time = 0
-	///Cached var to determine whether we need to call an icon update or not.
-	var/needs_icon_update = FALSE
+	/// Cached visual tier key to avoid redundant update_icon() calls when no visual threshold has changed
+	var/last_visual_key = ""
 	//List of tools/weapons that can instantly harvest the produce
 	var/list/instant_harvest_tools = list(
 		/obj/item/rogueweapon/sickle,
@@ -320,33 +329,21 @@ GLOBAL_LIST_EMPTY(soil_list)
 	fertilized_time = 60 MINUTES //Keeps the plant fertilized for a good while
 
 /obj/structure/soil/proc/adjust_water(adjust_amount)
-	var/pre_water = water
 	water = clamp(water + adjust_amount, 0, MAX_PLANT_WATER)
-	if (adjust_amount && pre_water != water)
-		needs_icon_update = TRUE
 
 /obj/structure/soil/proc/adjust_nutrition(adjust_amount)
-	var/pre_nutrition = nutrition
 	nutrition = clamp(nutrition + adjust_amount, 0, MAX_PLANT_NUTRITION)
-	if (adjust_amount && pre_nutrition != nutrition)
-		needs_icon_update = TRUE
 
 /obj/structure/soil/proc/adjust_weeds(adjust_amount)
-	var/pre_weeds = weeds
 	weeds = clamp(weeds + adjust_amount, 0, MAX_PLANT_WEEDS)
-	if (adjust_amount && pre_weeds != weeds)
-		needs_icon_update = TRUE
 
 /obj/structure/soil/proc/adjust_plant_health(adjust_amount)
 	if(!plant || plant_dead)
 		return
-	var/pre_plant_health = plant_health
 	plant_health = clamp(plant_health + adjust_amount, 0, MAX_PLANT_HEALTH)
 	if(plant_health <= 0)
 		plant_dead = TRUE
 		produce_ready = FALSE
-	if (adjust_amount && pre_plant_health != plant_health)
-		needs_icon_update = TRUE
 
 /obj/structure/soil/Initialize()
 	START_PROCESSING(SSprocessing, src)
@@ -358,6 +355,51 @@ GLOBAL_LIST_EMPTY(soil_list)
 	GLOB.weather_act_upon_list -= src
 	. = ..()
 
+/obj/structure/soil/proc/get_visual_key()
+	var/w
+	if(water >= WATER_THRESH_HIGH)
+		w = 2
+	else if(water >= WATER_THRESH_LOW)
+		w = 1
+	else
+		w = 0
+	var/n
+	if(nutrition >= NUTRI_THRESH_HIGH)
+		n = 2
+	else if(nutrition >= NUTRI_THRESH_LOW)
+		n = 1
+	else
+		n = 0
+	var/wd
+	if(weeds >= WEEDS_THRESH_HIGH)
+		wd = 2
+	else if(weeds >= WEEDS_THRESH_LOW)
+		wd = 1
+	else
+		wd = 0
+	var/ps
+	if(!plant)
+		ps = 0
+	else if(plant_dead)
+		ps = 3
+	else if(produce_ready)
+		ps = 2
+	else if(matured)
+		ps = 1
+	else
+		ps = 0
+	var/h
+	if(!plant || plant_dead)
+		h = 0
+	else if(plant_health <= HEALTH_THRESH_LOW)
+		h = 2
+	else if(plant_health <= HEALTH_THRESH_HIGH)
+		h = 1
+	else
+		h = 0
+	var/t = tilled_time > 0 ? 1 : 0
+	return "[w]-[n]-[wd]-[ps]-[h]-[t]"
+
 /obj/structure/soil/process()
 	var/dt = 10
 	process_weeds(dt)
@@ -365,9 +407,11 @@ GLOBAL_LIST_EMPTY(soil_list)
 	process_soil(dt)
 	if(soil_decay_time <= 0)
 		decay_soil()
-	if (plant && needs_icon_update) // only call icon updates if we really need to (aka if we've requested an icon update and if we have a plant)
+		return
+	var/current_key = get_visual_key()
+	if(current_key != last_visual_key)
+		last_visual_key = current_key
 		update_icon()
-		needs_icon_update = FALSE
 
 /obj/structure/soil/weather_act_on(weather_trait, severity)
 	if(weather_trait != PARTICLEWEATHER_RAIN)
@@ -375,6 +419,7 @@ GLOBAL_LIST_EMPTY(soil_list)
 	water = min(MAX_PLANT_WATER, water + min(5, severity / 4))
 
 /obj/structure/soil/update_icon()
+	last_visual_key = get_visual_key()
 	. = ..()
 	update_overlays()
 
@@ -386,9 +431,9 @@ GLOBAL_LIST_EMPTY(soil_list)
 	// Water overlay
 	var/mutable_appearance/water_ma = mutable_appearance(icon, "soil-overlay")
 	water_ma.color = "#000033"
-	if(water >= MAX_PLANT_WATER * 0.6)
+	if(water >= WATER_THRESH_HIGH)
 		water_ma.alpha = 100
-	else if (water >= MAX_PLANT_WATER * 0.15)
+	else if (water >= WATER_THRESH_LOW)
 		water_ma.alpha = 50
 	else
 		water_ma.alpha = 0
@@ -396,9 +441,9 @@ GLOBAL_LIST_EMPTY(soil_list)
 	// Nutriment overlay
 	var/mutable_appearance/nutri_ma = mutable_appearance(icon, "soil-overlay")
 	nutri_ma.color = "#6d3a00"
-	if(nutrition >= MAX_PLANT_NUTRITION * 0.6)
+	if(nutrition >= NUTRI_THRESH_HIGH)
 		nutri_ma.alpha = 50
-	else if (nutrition >= MAX_PLANT_NUTRITION * 0.15)
+	else if (nutrition >= NUTRI_THRESH_LOW)
 		nutri_ma.alpha = 25
 	else
 		nutri_ma.alpha = 0
@@ -409,9 +454,9 @@ GLOBAL_LIST_EMPTY(soil_list)
 		var/plant_color
 		if(plant_dead == TRUE)
 			plant_color = null
-		else if(plant_health <=  MAX_PLANT_HEALTH * 0.3)
+		else if(plant_health <= HEALTH_THRESH_LOW)
 			plant_color = "#9c7b43"
-		else if (plant_health <=  MAX_PLANT_HEALTH * 0.6)
+		else if (plant_health <= HEALTH_THRESH_HIGH)
 			plant_color = "#d8b573"
 		if(plant_dead == TRUE)
 			plant_state = "[plant.icon_state]3"
@@ -426,9 +471,9 @@ GLOBAL_LIST_EMPTY(soil_list)
 		plant_ma.color = plant_color
 		. += plant_ma
 	// Weeds overlay
-	if(weeds >= MAX_PLANT_WEEDS * 0.6)
+	if(weeds >= WEEDS_THRESH_HIGH)
 		. += "weeds-2"
-	else if (weeds >= MAX_PLANT_WEEDS * 0.3)
+	else if (weeds >= WEEDS_THRESH_LOW)
 		. += "weeds-1"
 
 /obj/structure/soil/examine(mob/user)
@@ -608,13 +653,11 @@ GLOBAL_LIST_EMPTY(soil_list)
 	if(!matured)
 		if(growth_time >= plant.maturation_time)
 			matured = TRUE
-			needs_icon_update = TRUE
 	else
 		produce_time += added_growth
 		if(produce_time >= plant.produce_time)
 			produce_time -= plant.produce_time
 			produce_ready = TRUE
-			needs_icon_update = TRUE
 
 
 #define SOIL_WATER_DECAY_RATE 0.5 / (1 MINUTES)
@@ -707,3 +750,11 @@ GLOBAL_LIST_EMPTY(soil_list)
 #undef PLANT_WEEDS_HARM_RATE
 #undef SOIL_WATER_DECAY_RATE
 #undef SOIL_NUTRIMENT_DECAY_RATE
+#undef WATER_THRESH_HIGH
+#undef WATER_THRESH_LOW
+#undef NUTRI_THRESH_HIGH
+#undef NUTRI_THRESH_LOW
+#undef WEEDS_THRESH_HIGH
+#undef WEEDS_THRESH_LOW
+#undef HEALTH_THRESH_LOW
+#undef HEALTH_THRESH_HIGH
