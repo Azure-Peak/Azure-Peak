@@ -48,12 +48,6 @@
 			"[user] works the leechtick into [target]'s innards.",
 			"[user] works the leechtick into [target]'s innards.")
 		return FALSE
-	if (target.mind)
-		if(alert(target, "Are you ready to face the world, once more?", "Revival", "I must go on", "Let me rest") != "I must go on")
-			display_results(user, target, span_notice("[target]'s heart refuses the leechtick. They're only in sweet dreams, now."),
-				"[user] works the leechtick into [target]'s innards, but nothing happens.",
-				"[user] works the leechtick into [target]'s innards, but nothing happens.")
-			return FALSE
 	target.adjustOxyLoss(-target.getOxyLoss()) //Ye Olde CPR
 	if(!target.revive(full_heal = FALSE))
 		display_results(user, target, span_notice("The leechtick refuses to meld with [target]'s heart. Their damage must be too severe still."),

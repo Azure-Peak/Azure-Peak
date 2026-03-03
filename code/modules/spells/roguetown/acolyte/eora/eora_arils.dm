@@ -266,15 +266,7 @@
 
 	var/mob/living/carbon/spirit/underworld_spirit = target.get_spirit()
 
-	if (target.client)
-		if (alert(target, "They are calling for you. Are you ready?", "Revival", "I need to wake up", "Don't let me go") != "I need to wake up")
-			target.visible_message(span_notice("Nothing happens. They are not being let go."))
-			return FALSE
-	else if (underworld_spirit && underworld_spirit.client)
-		if (alert(underworld_spirit, "They are calling for you. Are you ready?", "Revival", "I need to wake up", "Don't let me go") != "I need to wake up")
-			target.visible_message(span_notice("Nothing happens. They are not being let go."))
-			return FALSE
-	else
+	if (!target.client && !(underworld_spirit && underworld_spirit.client))
 		target.visible_message(span_notice("The body shudders, but there's no one to call out to."))
 		return FALSE
 

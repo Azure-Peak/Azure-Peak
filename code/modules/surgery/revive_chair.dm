@@ -286,17 +286,9 @@
 	if(!occupant.check_revive(user))
 		return
 
-	// Prompt ghost
-	to_chat(occupant, span_ghostalert("You sense powerful energies attempting to pull you back to your body!"))
-	var/alert_result = alert(occupant, "They are calling for you. Are you ready?", "Reanimation", "I need to wake up", "Don't let me go")
-
 	// Verify occupant is still valid
 	if(occupant.stat != DEAD || occupant.loc != get_turf(src) || !occupant.buckled)
 		to_chat(H, span_warning("The subject is no longer properly buckled to the chair!"))
-		return
-
-	if(alert_result != "I need to wake up")
-		to_chat(H, span_warning("[occupant] refuses to return."))
 		return
 
 	// Animation and sound

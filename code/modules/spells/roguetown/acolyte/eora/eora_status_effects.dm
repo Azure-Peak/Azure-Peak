@@ -132,7 +132,6 @@
 	alert_type = /atom/movable/screen/alert/status_effect/buff/healing
 	duration = -1
 	var/healing_power = 1.5
-	var/waiting_for_prompt = FALSE
 
 /datum/status_effect/buff/eoran_balm_effect/on_apply()
 	to_chat(owner, span_notice("A strange balm courses through my veins, an unnatural warmth spreads through my lifeless body..."))
@@ -145,9 +144,6 @@
 
 	if(M.stat != DEAD)
 		M.remove_status_effect(src)
-		return
-
-	if(waiting_for_prompt)
 		return
 
 	M.adjustBruteLoss(-healing_power)
@@ -167,13 +163,6 @@
 	if(M.getBruteLoss() < 50 && M.getFireLoss() < 50 && M.getToxLoss() < 50 && M.getOxyLoss() < 50 && M.blood_volume >= BLOOD_VOLUME_SAFE)
 
 		new /obj/effect/temp_visual/heal(get_turf(M), "#8A2BE2")
-
-		if (M.mind)
-			waiting_for_prompt = TRUE
-			if(alert(M, "Are you ready to face the world, once more?", "Revival", "I must go on", "Let me rest") != "I must go on")
-				M.visible_message(span_warning("[M]'s body shudders but falls still again."))
-				M.remove_status_effect(src)
-				return
 
 		M.adjustOxyLoss(-M.getOxyLoss()) // Full oxygen healing
 		if(!M.revive(full_heal = FALSE))
