@@ -9969,12 +9969,12 @@
 /area/rogue/indoors/shelter)
 "ciU" = (
 /obj/structure/rack/rogue/shelf,
-/obj/structure/table/wood/poor,
 /obj/structure/fluff/railing/border/west,
 /obj/item/candle/candlestick/silver/single/lit{
 	pixel_x = 9;
 	pixel_y = 17
 	},
+/obj/structure/table/wood,
 /turf/open/floor/rogue/concrete,
 /area/rogue/indoors/town)
 "ciV" = (
@@ -31592,6 +31592,18 @@
 /obj/item/rogueweapon/shovel,
 /turf/open/floor/rogue/dirt,
 /area/rogue/outdoors/beach/central)
+"gLl" = (
+/obj/effect/decal/edge{
+	color = "#3f3f3f";
+	dir = 1
+	},
+/obj/effect/decal/carpet/square{
+	dir = 4;
+	pixel_x = 9;
+	pixel_y = 0
+	},
+/turf/open/floor/rogue/hexstone,
+/area/rogue/indoors/town)
 "gLn" = (
 /obj/structure/fluff/railing/border/west,
 /turf/open/floor/rogue/naturalstone,
@@ -32059,7 +32071,7 @@
 	dir = 1
 	},
 /obj/structure/bed/rogue/inn/wool,
-/obj/item/bedsheet/rogue/wool,
+/obj/item/bedsheet/rogue/fabric,
 /turf/open/floor/rogue/hexstone,
 /area/rogue/indoors/town)
 "gRo" = (
@@ -62257,11 +62269,11 @@
 	color = "#3f3f3f";
 	dir = 1
 	},
-/obj/structure/table/wood/poor,
 /obj/item/reagent_containers/food/snacks/rogue/crackerscooked{
 	pixel_x = 4;
 	pixel_y = 5
 	},
+/obj/structure/table/wood,
 /turf/open/floor/rogue/hexstone,
 /area/rogue/indoors/town)
 "nkb" = (
@@ -85420,13 +85432,6 @@
 "shU" = (
 /turf/open/floor/rogue/dirt/road,
 /area/rogue/indoors/cave/east)
-"shY" = (
-/obj/effect/decal/carpet/square/black{
-	pixel_x = 14;
-	pixel_y = 8
-	},
-/turf/open/floor/rogue/wood,
-/area/rogue/indoors/town)
 "sia" = (
 /obj/structure/bars/passage/steel{
 	max_integrity = 9000;
@@ -88086,7 +88091,6 @@
 "sKc" = (
 /obj/structure/bed/rogue/inn/wool,
 /obj/structure/rack/rogue/shelf,
-/obj/item/bedsheet/rogue/wool,
 /obj/item/reagent_containers/glass/cup/silver/small{
 	pixel_x = -7;
 	pixel_y = 42
@@ -88095,6 +88099,7 @@
 	pixel_x = 6;
 	pixel_y = 42
 	},
+/obj/item/bedsheet/rogue/fabric,
 /turf/open/floor/rogue/concrete,
 /area/rogue/indoors/town)
 "sKe" = (
@@ -105578,6 +105583,13 @@
 /obj/structure/flora/ausbushes/sparsegrass,
 /turf/open/floor/rogue/grassyel,
 /area/rogue/outdoors/town)
+"wuW" = (
+/obj/effect/decal/carpet/kover_black{
+	pixel_x = -14;
+	pixel_y = 0
+	},
+/turf/open/floor/rogue/wood,
+/area/rogue/indoors/town)
 "wuY" = (
 /obj/structure/fluff/railing/wood/north,
 /turf/open/floor/rogue/cobblerock,
@@ -264339,7 +264351,7 @@ nsu
 scE
 scE
 kUf
-shY
+jew
 jew
 cDX
 rCj
@@ -264791,7 +264803,7 @@ lOP
 fuf
 tNY
 kUf
-jew
+wuW
 jew
 uBc
 idq
@@ -266144,7 +266156,7 @@ qEe
 fJQ
 eKH
 kMY
-sUo
+gLl
 puO
 ilw
 nsu
