@@ -121,7 +121,7 @@
 	greet_text = "You're part of a retinue aiding one of Tomorzurkh's many Lords in their travels - be it for diplomacy, conflict, or just passing through Azuria for reasons yet to be discovered."
 
 /datum/migrant_wave/czwarteki_noble_down_nine
-	name = "Czwarteki Retinue"
+	name = "Tomorzurkh Lord's Retinue"
 	shared_wave_type = /datum/migrant_wave/czwarteki_noble
 	can_roll = FALSE
 	roles = list(
