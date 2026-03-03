@@ -18,7 +18,7 @@
 	name = "Aavnic Hussar"
 	greet_text = "You're an Aavnic Hussar granted to one of the Lords of Tomorzurkh by the Potentate themselves; sworn to them by oath. You're accompanied by your retainer."
 	outfit = /datum/outfit/job/roguetown/heartfelt/cloak //Is just tabard
-	allowed_races = list(/datum/species/human/northern,/datum/species/lupian,/datum/species/demihuman, /datum/species/lizardfolk,/datum/species/dracon, /datum/species/tabaxi,/datum/species/halforc, /datum/species/human/halfelf,datum/species/elf/wood)
+	allowed_races = list(/datum/species/human/northern,/datum/species/lupian,/datum/species/demihuman, /datum/species/lizardfolk,/datum/species/dracon, /datum/species/tabaxi,/datum/species/halforc, /datum/species/human/halfelf, /datum/species/elf, /datum/species/elf/wood)
 	grant_lit_torch = FALSE
 	advclass_cat_rolls = list(CTAG_TOMOR_HUSSAR = 20)
 	show_wanderer_examine = FALSE
