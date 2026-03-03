@@ -1,0 +1,8 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(gh search code:*)",
+      "Bash(gh search:*)"
+    ]
+  }
+}
