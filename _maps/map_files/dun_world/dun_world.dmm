@@ -1500,9 +1500,6 @@
 /obj/effect/landmark/chimeric_calyx_spawner/fifteen,
 /turf/open/floor/rogue/dirt/road,
 /area/rogue/outdoors/beach/forest/hamlet)
-"apQ" = (
-/turf/open/floor/carpet/royalblack,
-/area/rogue/outdoors/mountains)
 "apR" = (
 /obj/effect/decal/cobbleedge{
 	icon_state = "cobbleedge-n"
@@ -3740,19 +3737,6 @@
 "aOh" = (
 /turf/closed/wall/mineral/rogue/stone/moss,
 /area/rogue/under/cavewet/bogcaves/central)
-"aOi" = (
-/obj/structure/closet/crate/roguecloset/inn,
-/obj/item/roguekey/armory,
-/obj/item/roguekey/dungeon,
-/obj/item/roguekey/walls,
-/obj/item/roguekey/manor,
-/obj/item/storage/keyring,
-/obj/item/storage/belt/rogue/leather/steel/tasset,
-/obj/item/roguekey/warden,
-/obj/item/roguekey/sergeant,
-/obj/machinery/light/rogue/candle,
-/turf/open/floor/rogue/concrete,
-/area/rogue/outdoors/mountains)
 "aOj" = (
 /obj/structure/roguewindow/openclose,
 /turf/open/floor/rogue/concrete,
@@ -12156,10 +12140,6 @@
 	},
 /turf/open/floor/rogue/wood,
 /area/rogue/indoors/town/tavern)
-"cEr" = (
-/obj/structure/chair/bench,
-/turf/open/floor/rogue/carpet,
-/area/rogue/indoors/town/shop)
 "cEv" = (
 /obj/structure/table/wood/long_table/mid/alt,
 /obj/item/clothing/neck/roguetown/psicross/noc{
@@ -35639,10 +35619,6 @@
 "hCj" = (
 /turf/closed/wall/mineral/rogue/roofwall/middle,
 /area/rogue/indoors/inq/office)
-"hCk" = (
-/obj/machinery/light/rogue/candle/floorcandle,
-/turf/closed/wall/mineral/rogue/decostone/end/west,
-/area/rogue/indoors/town/church/chapel)
 "hCl" = (
 /obj/item/roguegem/yellow,
 /turf/open/floor/rogue/dirt,
@@ -38160,12 +38136,6 @@
 /obj/structure/closet/dirthole/grave,
 /turf/open/floor/rogue/dirt,
 /area/rogue/under/cave/scarymaze)
-"iex" = (
-/obj/structure/closet/crate/drawer,
-/obj/item/scomstone/bad/garrison,
-/obj/machinery/light/rogue/candle,
-/turf/open/floor/carpet/royalblack,
-/area/rogue/outdoors/mountains)
 "iey" = (
 /obj/structure/table/wood/poor,
 /turf/open/floor/rogue/carpet,
@@ -45713,18 +45683,6 @@
 	},
 /turf/open/floor/rogue/ruinedwood/spiral,
 /area/rogue/under/underdark/north)
-"jLq" = (
-/obj/effect/landmark/start/marshal{
-	dir = 8
-	},
-/obj/structure/bed/rogue/inn/double{
-	dir = 1
-	},
-/obj/item/bedsheet/rogue/fabric_double{
-	dir = 1
-	},
-/turf/open/floor/carpet/royalblack,
-/area/rogue/outdoors/mountains)
 "jLr" = (
 /obj/structure/table/wood/poor,
 /obj/item/lockpick,
@@ -47303,12 +47261,6 @@
 /obj/structure/fluff/railing/corner,
 /turf/open/transparent/openspace,
 /area/rogue/outdoors/beach/forest/north)
-"kbF" = (
-/obj/structure/closet/crate/roguecloset/inn,
-/obj/item/flashlight/flare/torch/lantern,
-/obj/item/rope/chain,
-/turf/open/floor/rogue/concrete,
-/area/rogue/outdoors/mountains)
 "kbR" = (
 /obj/structure/fluff/walldeco/customflag{
 	pixel_y = -32
@@ -75112,12 +75064,6 @@
 /obj/effect/decal/cleanable/blood,
 /turf/open/floor/rogue/churchmarble,
 /area/rogue/under/cave/licharena)
-"pVb" = (
-/obj/structure/fluff/walldeco/rpainting/crown{
-	pixel_y = 32
-	},
-/turf/open/floor/carpet/royalblack,
-/area/rogue/outdoors/mountains)
 "pVe" = (
 /turf/open/lava/acid,
 /area/rogue/under/underdark/north)
@@ -80893,10 +80839,6 @@
 /obj/effect/landmark/chimeric_calyx_spawner/fifteen,
 /turf/open/floor/rogue/metal/barograte,
 /area/rogue/outdoors/mountains/decap)
-"rgQ" = (
-/obj/structure/chair/stool/rogue,
-/turf/open/floor/rogue/ruinedwood,
-/area/rogue/outdoors/mountains)
 "rgT" = (
 /obj/effect/decal/cleanable/dirt/cobweb{
 	dir = 1
@@ -81569,9 +81511,6 @@
 /obj/item/bouquet/matricaria,
 /turf/open/floor/carpet/royalblack,
 /area/rogue/outdoors/rtfield)
-"rpb" = (
-/turf/open/floor/rogue/ruinedwood,
-/area/rogue/outdoors/mountains)
 "rpf" = (
 /obj/structure/fluff/railing/corner/north_east,
 /turf/open/floor/rogue/grasscold,
@@ -94029,6 +93968,7 @@
 	dir = 8
 	},
 /obj/machinery/light/rogue/torchholder/c,
+/obj/structure/composter/halffull,
 /turf/open/floor/rogue/grass,
 /area/rogue/outdoors/town)
 "tWB" = (
@@ -94173,12 +94113,6 @@
 	},
 /turf/open/floor/rogue/herringbone,
 /area/rogue/indoors/town)
-"tXM" = (
-/obj/structure/roguemachine/mail{
-	mailtag = "Marshal"
-	},
-/turf/open/floor/rogue/ruinedwood,
-/area/rogue/outdoors/mountains)
 "tXS" = (
 /mob/living/carbon/human/species/human/northern/searaider/ambush,
 /obj/structure/toilet,
@@ -102401,13 +102335,6 @@
 "vJA" = (
 /turf/open/floor/rogue/grassred,
 /area/rogue/outdoors/rtfield/eora)
-"vJB" = (
-/obj/structure/mannequin,
-/obj/machinery/light/rogue/candle{
-	pixel_y = -32
-	},
-/turf/open/floor/carpet/royalblack,
-/area/rogue/outdoors/mountains)
 "vJD" = (
 /obj/effect/spawner/lootdrop/roguetown/dungeon/armor,
 /obj/effect/spawner/lootdrop/roguetown/sewers,
@@ -109871,15 +109798,6 @@
 /obj/effect/landmark/start/shophand,
 /turf/open/floor/carpet/royalblack,
 /area/rogue/indoors/town/shop)
-"xqa" = (
-/obj/structure/table/wood,
-/obj/item/reagent_containers/glass/cup/silver/pewter{
-	pixel_x = 9;
-	pixel_y = 10
-	},
-/obj/item/reagent_containers/food/snacks/rogue/crackerscooked,
-/turf/open/floor/rogue/tile/masonic/inverted,
-/area/rogue/outdoors/mountains)
 "xqj" = (
 /obj/structure/standingbell{
 	name = "church service bell"
@@ -114151,21 +114069,6 @@
 /obj/structure/fluff/statue/myth,
 /turf/open/floor/rogue/hexstone,
 /area/rogue/outdoors/mountains/decap/minotaurfort)
-"yjj" = (
-/obj/structure/table/wood,
-/obj/item/candle/candlestick/gold/single/lit{
-	pixel_x = 10;
-	pixel_y = 10
-	},
-/obj/item/reagent_containers/glass/cup/claycup{
-	pixel_x = -4;
-	pixel_y = 13
-	},
-/obj/structure/fluff/wallclock{
-	pixel_y = -32
-	},
-/turf/open/floor/rogue/tile/masonic/inverted,
-/area/rogue/outdoors/mountains)
 "yjo" = (
 /obj/structure/table/wood/poor,
 /turf/open/floor/carpet/inn,
@@ -261690,7 +261593,7 @@ fwK
 mmN
 mSh
 uJY
-hCk
+tLB
 uJY
 tLB
 uJY
@@ -270712,7 +270615,7 @@ kRg
 mOt
 kDS
 cCB
-cDX
+uBc
 rDA
 mPL
 gRk
@@ -271661,7 +271564,7 @@ frf
 iTU
 oCP
 tvm
-cEr
+tvm
 uFa
 eZd
 sns
@@ -539202,9 +539105,9 @@ aBB
 aBB
 aBB
 aBB
-iex
-jLq
-vJB
+aBB
+aBB
+aBB
 aBB
 aBB
 aBB
@@ -539654,9 +539557,9 @@ aBB
 aBB
 aBB
 aBB
-pVb
-apQ
-apQ
+aBB
+aBB
+aBB
 aBB
 aBB
 aBB
@@ -540106,9 +540009,9 @@ aBB
 aBB
 aBB
 aBB
-rpb
-rpb
-rgQ
+aBB
+aBB
+aBB
 aBB
 aBB
 aBB
@@ -540558,9 +540461,9 @@ aBB
 aBB
 aBB
 aBB
-rpb
-rpb
-yjj
+aBB
+aBB
+aBB
 aBB
 aBB
 aBB
@@ -541010,9 +540913,9 @@ aBB
 aBB
 aBB
 aBB
-rpb
-rpb
-xqa
+aBB
+aBB
+aBB
 aBB
 aBB
 aBB
@@ -541462,9 +541365,9 @@ aBB
 aBB
 aBB
 aBB
-tXM
-rpb
-rgQ
+aBB
+aBB
+aBB
 aBB
 aBB
 aBB
@@ -541914,9 +541817,9 @@ aBB
 aBB
 aBB
 aBB
-aOi
-rpb
-kbF
+aBB
+aBB
+aBB
 aBB
 aBB
 aBB
