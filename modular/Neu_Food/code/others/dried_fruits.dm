@@ -1,6 +1,7 @@
 // -------------- RAISINS -----------------
 /obj/item/reagent_containers/food/snacks/rogue/raisins
 	name = "raisins"
+	desc = "Jackberries that've been pruned of their juiciness, and turned into flavorful nuggets. Like the humble hardtack, so too will these raisins outlast its creators."
 	icon = 'icons/roguetown/items/produce.dmi'
 	icon_state = "raisins5"
 	bitesize = 5

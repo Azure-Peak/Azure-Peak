@@ -494,6 +494,11 @@
 /obj/machinery/light/rogue/campfire/fireplace,
 /turf/open/floor/carpet/stellar,
 /area/rogue/indoors/town/church/chapel)
+"afJ" = (
+/obj/structure/fluff/railing/wood/north,
+/obj/item/roguebin,
+/turf/open/floor/rogue/dirt,
+/area/rogue/outdoors/mountains)
 "afK" = (
 /turf/closed/wall/mineral/rogue/decowood,
 /area/rogue/indoors/town)
@@ -1357,6 +1362,15 @@
 	},
 /turf/open/floor/rogue/tile,
 /area/rogue/indoors/town/garrison)
+"aoH" = (
+/obj/structure/rack/rogue,
+/obj/item/quiver/bolt/blunt,
+/obj/item/quiver/bolt/blunt,
+/obj/item/quiver/bluntarrows,
+/obj/item/quiver/bluntarrows,
+/obj/machinery/light/rogue/torchholder/r,
+/turf/open/floor/rogue/blocks,
+/area/rogue/indoors/town/garrison)
 "aoI" = (
 /turf/closed/mineral/rogue/bedrock,
 /area/rogue/outdoors/mountains/decap/gunduzirak/bossarena)
@@ -1597,7 +1611,7 @@
 /obj/effect/decal/cobbleedge{
 	icon_state = "cobbleedge-sread"
 	},
-/mob/living/simple_animal/hostile/rogue/werewolf/f,
+/mob/living/simple_animal/hostile/retaliate/rogue/werewolf_npc/f,
 /turf/open/floor/rogue/cobble,
 /area/rogue/under/cave/his_vault)
 "art" = (
@@ -3540,10 +3554,6 @@
 /obj/effect/spawner/lootdrop/general_loot_mid,
 /turf/open/floor/rogue/grass,
 /area/rogue/outdoors/woods/north)
-"aOf" = (
-/obj/item/roguebin,
-/turf/open/floor/rogue/dirt,
-/area/rogue/outdoors/town)
 "aOg" = (
 /obj/effect/decal/cleanable/blood{
 	icon_state = "floor5-old"
@@ -8594,6 +8604,14 @@
 /obj/structure/fluff/railing/border/west,
 /turf/open/floor/rogue/cobble/mossy,
 /area/rogue/under/cave/his_vault)
+"bVB" = (
+/obj/structure/fluff/railing/wood/north,
+/obj/structure/fluff/customsign{
+	name = "LITTERING IS UNCHIVILAROUS";
+	wrotesign = "LITTERING IS UNCHIVALROUS! THE JUDICIARY OF AZURIA HAS DECLARED LITTERING A CRIME. PLACE UNWANTED ITEMS IN A BIN TODAE!"
+	},
+/turf/open/floor/rogue/grass,
+/area/rogue/outdoors/mountains)
 "bVD" = (
 /turf/closed/mineral/random/rogue/med,
 /area/rogue/under/underdark)
@@ -15527,15 +15545,6 @@
 /obj/structure/fluff/railing/border/east,
 /turf/open/floor/rogue/cobble,
 /area/rogue/outdoors/town)
-"dwP" = (
-/obj/structure/rack/rogue,
-/obj/item/quiver/bluntbolts,
-/obj/item/quiver/bluntbolts,
-/obj/item/quiver/bluntarrows,
-/obj/item/quiver/bluntarrows,
-/obj/machinery/light/rogue/torchholder/r,
-/turf/open/floor/rogue/blocks,
-/area/rogue/indoors/town/garrison)
 "dwZ" = (
 /obj/effect/decal/cobbleedge{
 	dir = 8
@@ -18347,12 +18356,6 @@
 	},
 /turf/open/floor/rogue/concrete,
 /area/rogue/indoors/town/dwarfin)
-"ebT" = (
-/obj/structure/table/wood/crafted,
-/obj/item/quiver/bolts,
-/obj/item/gun/ballistic/revolver/grenadelauncher/crossbow,
-/turf/open/floor/rogue/herringbone,
-/area/rogue/outdoors/mountains/decap/gunduzirak/bossarena)
 "ebU" = (
 /turf/open/transparent/openspace,
 /area/rogue/outdoors/rtfield)
@@ -18999,6 +19002,13 @@
 /obj/machinery/light/rogue/smelter,
 /turf/open/floor/rogue/cobble,
 /area/rogue/indoors/shelter)
+"ejt" = (
+/obj/structure/fluff/customsign{
+	name = "LITTERING IS UNCHIVILAROUS";
+	wrotesign = "LITTERING IS UNCHIVALROUS! THE JUDICIARY OF AZURIA HAS DECLARED LITTERING A CRIME. PLACE UNWANTED ITEMS IN A BIN TODAE!"
+	},
+/turf/open/floor/rogue/dirt,
+/area/rogue/outdoors/town)
 "ejw" = (
 /obj/machinery/light/rogue/campfire/fireplace,
 /turf/open/floor/rogue/twig,
@@ -20546,6 +20556,11 @@
 	},
 /turf/open/water/cleanshallow,
 /area/rogue/under/cave/peace)
+"eAO" = (
+/obj/structure/fluff/railing/wood/north,
+/obj/item/roguebin,
+/turf/open/floor/rogue/grass,
+/area/rogue/outdoors/mountains)
 "eAP" = (
 /obj/item/reagent_containers/glass/bucket,
 /obj/effect/decal/cobbleedge{
@@ -33705,11 +33720,6 @@
 	},
 /turf/open/floor/rogue/concrete,
 /area/rogue/indoors/shelter/mountains/decap)
-"hvi" = (
-/obj/structure/fluff/railing/wood/north,
-/obj/item/roguebin,
-/turf/open/floor/rogue/dirt,
-/area/rogue/outdoors/mountains)
 "hvs" = (
 /obj/structure/fluff/statue/gargoyle,
 /turf/open/floor/rogue/dirt/road,
@@ -35485,6 +35495,10 @@
 "hPd" = (
 /turf/open/floor/rogue/wood,
 /area/rogue/under/cave/orcdungeon)
+"hPf" = (
+/obj/item/roguebin,
+/turf/open/floor/rogue/dirt,
+/area/rogue/outdoors/town)
 "hPg" = (
 /turf/open/water/sewer,
 /area/rogue/under/cavewet/bogcaves/north)
@@ -38394,11 +38408,6 @@
 /obj/structure/hotspring/border/fourteen,
 /turf/open/floor/rogue/cobble/mossy,
 /area/rogue/outdoors/rtfield/eora)
-"ivq" = (
-/obj/structure/fluff/railing/wood/north,
-/obj/item/roguebin,
-/turf/open/floor/rogue/grass,
-/area/rogue/outdoors/mountains)
 "ivv" = (
 /obj/structure/closet/dirthole/closed/loot,
 /obj/structure/gravemarker,
@@ -61288,13 +61297,6 @@
 	},
 /turf/open/water/swamp,
 /area/rogue/under/cavewet/bogcaves/west)
-"nvn" = (
-/obj/structure/fluff/customsign{
-	name = "LITTERING IS UNCHIVILAROUS";
-	wrotesign = "LITTERING IS UNCHIVALROUS! THE JUDICIARY OF AZURIA HAS DECLARED LITTERING A CRIME. PLACE UNWANTED ITEMS IN A BIN TODAE!"
-	},
-/turf/open/floor/rogue/dirt,
-/area/rogue/outdoors/town)
 "nvq" = (
 /obj/structure/table/wood/poor,
 /obj/machinery/light/rogue/campfire/fireplace,
@@ -64677,12 +64679,6 @@
 	},
 /turf/open/floor/rogue/cobble,
 /area/rogue/outdoors/exposed/town/keep)
-"oii" = (
-/obj/structure/rack/rogue,
-/obj/item/quiver/bolts,
-/obj/item/quiver/bolts,
-/turf/open/floor/rogue/cobble,
-/area/rogue/indoors/town/garrison)
 "oik" = (
 /obj/machinery/light/rogue/hearth,
 /obj/item/cooking/pan,
@@ -97268,6 +97264,12 @@
 	},
 /turf/open/floor/rogue/cobblerock,
 /area/rogue/under/cave/his_vault)
+"vrg" = (
+/obj/structure/rack/rogue,
+/obj/item/quiver/bolt,
+/obj/item/quiver/bolt,
+/turf/open/floor/rogue/cobble,
+/area/rogue/indoors/town/garrison)
 "vrh" = (
 /obj/structure/fluff/railing/border/east,
 /turf/closed/mineral/rogue/bedrock,
@@ -105990,14 +105992,6 @@
 	},
 /turf/open/floor/rogue/ruinedwood/spiral,
 /area/rogue/indoors/town/magician)
-"xnL" = (
-/obj/structure/fluff/railing/wood/north,
-/obj/structure/fluff/customsign{
-	name = "LITTERING IS UNCHIVILAROUS";
-	wrotesign = "LITTERING IS UNCHIVALROUS! THE JUDICIARY OF AZURIA HAS DECLARED LITTERING A CRIME. PLACE UNWANTED ITEMS IN A BIN TODAE!"
-	},
-/turf/open/floor/rogue/grass,
-/area/rogue/outdoors/mountains)
 "xnO" = (
 /obj/effect/spawner/lootdrop/roguetown/dungeon/food,
 /obj/effect/spawner/lootdrop/roguetown/dungeon/food,
@@ -106492,6 +106486,12 @@
 /obj/structure/flora/ausbushes/ppflowers,
 /turf/open/floor/rogue/grass,
 /area/rogue/outdoors/woods/north)
+"xsY" = (
+/obj/structure/table/wood/crafted,
+/obj/item/quiver/bolt,
+/obj/item/gun/ballistic/revolver/grenadelauncher/crossbow,
+/turf/open/floor/rogue/herringbone,
+/area/rogue/outdoors/mountains/decap/gunduzirak/bossarena)
 "xta" = (
 /obj/structure/fluff/railing/corner,
 /turf/open/transparent/openspace,
@@ -154252,7 +154252,7 @@ wgd
 rCy
 ydF
 xGc
-oii
+vrg
 jWw
 jWw
 iWa
@@ -281314,7 +281314,7 @@ cUk
 tGl
 wFM
 irL
-dwP
+aoH
 jWw
 jse
 gzy
@@ -298104,9 +298104,9 @@ aFv
 aFv
 tqI
 aFv
-aOf
-nvn
-aOf
+hPf
+ejt
+hPf
 exD
 exD
 exD
@@ -352014,7 +352014,7 @@ aoI
 elH
 fHj
 cYE
-ebT
+xsY
 elH
 aoI
 aoI
@@ -466709,7 +466709,7 @@ aBB
 aBB
 aBB
 vBH
-ivq
+eAO
 lZK
 bSX
 vBH
@@ -467161,7 +467161,7 @@ aBB
 aBB
 aBB
 rnW
-xnL
+bVB
 lZK
 rnW
 gHm
@@ -467613,7 +467613,7 @@ aBB
 aBB
 aBB
 bSX
-hvi
+afJ
 lZK
 bSX
 ogs

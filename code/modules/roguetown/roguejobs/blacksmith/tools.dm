@@ -17,6 +17,11 @@
 	grid_height = 64
 	var/quality = 1
 
+/obj/item/rogueweapon/hammer/get_mechanics_examine(mob/user)
+	. = ..()
+	. += span_info("Left-click a damaged item made of metal - such as a weapon, armorpiece, or prosthetic - to repair it. Repairs work best when done on an anvil, but a regular old table can suffice in a pinch.")
+	. += span_info("Left-click a damaged structure to repair it. Like with repairing items, the chance to successfully repair some integrity on each strike scales with the appropriate skill; the Carpentry skill for structures, Weaponsmithing for weapons, etcetera.")
+
 /obj/item/rogueweapon/hammer/getonmobprop(tag)
 	. = ..()
 	if(tag)
@@ -310,6 +315,11 @@
 	smeltresult = /obj/item/ingot/iron
 	grid_width = 32
 	grid_height = 64
+
+/obj/item/rogueweapon/tongs/get_mechanics_examine(mob/user)
+	. = ..()
+	. += span_info("Left-click an ingot to pick it up. When an ingot is held by the tongs, left-clicking a forge will heat it up. Heated-up ingots can then be placed on an anvil and struck with a hammer to smith various items.")
+	. += span_info("Activate in your hand to drop the picked-up ingot.")
 
 /obj/item/rogueweapon/tongs/examine(mob/user)
 	. = ..()

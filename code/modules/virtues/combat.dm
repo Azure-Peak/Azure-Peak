@@ -149,7 +149,7 @@
 	desc = "Warfare is changing, and the crossbow is the next pedestal. I have always been ahead of the curve, as compared to my peers."
 	custom_text = "+1 to Crossbows, Up to Legendary, Minimum Apprentice"
 	added_stashed_items = list(
-		"Quiver (Bolts)" = /obj/item/quiver/bolts
+		"Quiver (Bolts)" = /obj/item/quiver/bolt/standard
 	)
 
 /datum/virtue/combat/crossbowman/apply_to_human(mob/living/carbon/human/recipient)

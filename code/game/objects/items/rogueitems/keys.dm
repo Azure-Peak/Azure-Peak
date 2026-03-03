@@ -20,6 +20,12 @@
 	grid_height = 32
 	grid_width = 32
 
+/obj/item/roguekey/get_mechanics_examine(mob/user)
+	. = ..()
+	. += span_info("Left-click an locked door to unlock it.")
+	. += span_info("Right-click an unlocked door to lock it.")
+	. += span_info("Most keys can only open a specific type of door.")
+
 /obj/item/roguekey/Initialize()
 	. = ..()
 	if(lockid)
@@ -50,6 +56,11 @@
 
 	grid_width = 32
 	grid_height = 64
+
+/obj/item/lockpick/get_mechanics_examine(mob/user)
+	. = ..()
+	. += span_info("Left-click a locked door to attempt unlocking it. If the door is already unlocked, left-clicking it will instead attempt to relock it.")
+	. += span_info("The chance to successfully lockpick a door scales with your Lockpicking skill, the lockpick's integrity, and the door's tier. The locks of more important doors are usually harder to manipulate.")
 
 /obj/item/lockpick/goldpin
 	name = "gold hairpin"

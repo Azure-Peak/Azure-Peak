@@ -176,7 +176,7 @@
 		var/weapon_choice = input(H, "Choose your weapon.", "RENOCK AND REBOLT") as anything in weapons
 		switch(weapon_choice)
 			if("Crossbow & 20 Bolts")
-				beltr = /obj/item/quiver/bolts
+				beltr = /obj/item/quiver/bolt/standard
 				r_hand = /obj/item/gun/ballistic/revolver/grenadelauncher/crossbow
 			if("Heavy Crossbow & 8 Heavy Bolts")
 				beltr = /obj/item/quiver/bolt/heavy/standard/ //Eight bolts. More than enough to kill anything that moves.

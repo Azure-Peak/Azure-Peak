@@ -404,7 +404,7 @@
 /area/rogue/under/tomb/cave/wet)
 "oh" = (
 /obj/structure/table/wood,
-/obj/item/quiver/bolts,
+/obj/item/quiver/bolt/standard,
 /obj/item/gun/ballistic/revolver/grenadelauncher/crossbow,
 /turf/open/floor/rogue/blocks/stonered/tiny,
 /area/rogue/under/tomb/indoors)

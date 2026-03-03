@@ -1203,6 +1203,14 @@
 	createditem_num = 10
 	i_type = "Ammo"
 
+/datum/anvil_recipe/weapons/iron/bolts/light
+	name = "Light Slurbow Bolts (+1 Stick) (x10)"
+	req_bar = /obj/item/ingot/iron
+	additional_items = list(/obj/item/grown/log/tree/stick)
+	created_item = /obj/item/ammo_casing/caseless/rogue/bolt/light
+	createditem_num = 10
+	i_type = "Ammo"
+
 /datum/anvil_recipe/weapons/bronze/bolts
 	name = "Hastequilled Bolts, Bronze (+2 Stick) (x10)"
 	req_bar = /obj/item/ingot/bronze

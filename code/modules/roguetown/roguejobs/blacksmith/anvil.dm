@@ -14,6 +14,15 @@
 	var/previous_material_quality = 0
 	var/advance_multiplier = 1 // Lower for auto striking
 
+/obj/machinery/anvil/get_mechanics_examine(mob/user)
+	. = ..()
+	. += span_info("Ingots, when held in a pair of tongs and heated at a forge, can be placed onto the anvil via left-clicking.")
+	. += span_info("Once on the anvil, left-clicking the ingot with a hammer allows for you to start pounding it into a recipe of your choice.")
+	. += span_info("Smithing armor uses the Armorsmithing skill, smithing weapons uses the Weaponsmithing skill, and smithing everything else - valuables, cutlery, tools - uses the Blacksmithing skill.")
+	. += span_info("If you attempt to smith a recipe that excedes your current skill's level, you'll run the risk of damaging and destroying the ingot-in-question.")
+	. += span_info("Once the recipe has been smithed to completion, pick the finished ingot back up and reheat it before quenching it in a water-filled washbin. This transforms the ingot into the smithed item.")
+	. += span_info("Armor, weapons, and other repairable items can be placed onto the anvil via left-clicking. Repairing items on an anvil is quicker and safer than repairing them on a table.")
+
 /obj/machinery/anvil/crafted
 	icon_state = "caveanvil"
 

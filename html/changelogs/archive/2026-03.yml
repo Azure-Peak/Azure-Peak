@@ -45,3 +45,18 @@
   - qol: Your manual pixel shift is no longer affected when you get passive grabbed,
       aggressive grabbed, or released from a grab. However, movement will still reset
       your position.
+2026-03-02:
+  Antoonij:
+  - code_imp: bump timer version
+  FreeStylaLT:
+  - code_imp: Added functionality for virtuous virtues.
+  Ldip999:
+  - bugfix: Fixes runtime if ghost inspects a gnoll
+  - qol: Miacraft now supports aliases
+  NewyearnewmeUwu:
+  - qol: secular diagnosis now has a range of 2
+  ReezeBL:
+  - bugfix: Psydonian grit and high willpower sometimes prevent pain stun as intended
+  WeNeedMorePhoron:
+  - rscadd: Fixes Enchanted Weapon not refreshing in holster (again)
+  - bugfix: Fix mouseover not clearing itself.

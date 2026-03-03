@@ -1,0 +1,4 @@
+author: "WeNeedMorePhoron"
+delete-after: True
+changes:
+  - rscadd: "TGUI Crafting Menu optimized. Report any weirdness."

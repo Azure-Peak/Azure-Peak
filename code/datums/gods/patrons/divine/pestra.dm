@@ -56,5 +56,10 @@
 	*message_out = span_info("An aura of clinical care encompasses [target]!")
 	*message_self = span_notice("I'm sewn back together by sacred medicine!")
 
-	target.adjustToxLoss(-*situational_bonus)
-	target.blood_volume += BLOOD_VOLUME_SURVIVE / 3
+	if(iscarbon(target))
+		var/mob/living/carbon/carbon = target
+		if(!(carbon.mobility_flags & MOBILITY_STAND) && !carbon.buckled) // activate when your target is laying on the floor, not limited to critical state
+			*conditional_buff = TRUE
+			*situational_bonus = 1 // finally pestra wont be the only line of miracle caster with a 2.5 lesser miracle regen
+			target.adjustToxLoss(-*situational_bonus*15) // flat 15 tox healing on lesser miracle effect application
+			target.blood_volume = min(target.blood_volume + (BLOOD_VOLUME_SURVIVE / 3), BLOOD_VOLUME_NORMAL) // actually this time around it cannot overcap blood!

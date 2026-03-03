@@ -364,7 +364,7 @@
 					var/forceoffhand = L.dualwieldpitystacks >= L.dualwieldpitythreshhold
 					if(forceoffhand)
 						L.dualwieldpitystacks = 0
-						if(L.stamina_add(2))
+						if(L.stamina_add(3))
 							L.last_used_double_attack = world.time + 2.5 SECONDS
 							to_chat(L, span_warning("An opening! I strike with my off-hand."))
 							offh.melee_attack_chain(src, A, params)

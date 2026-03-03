@@ -29,6 +29,11 @@
 	grid_width = 64
 	grid_height = 64
 
+/obj/item/restraints/legcuffs/beartrap/get_mechanics_examine(mob/user)
+	. = ..()
+	. += span_info("Activate in your hand to prime it. Depending on its age, this might take multiple attempts to successfully prepare.")
+	. += span_info("Beartraps can be safely disarmed by either left-clicking them with a open hand, or - at the cost of some durability - left-clicking them with a weapon.")
+
 /obj/item/restraints/legcuffs/beartrap/attack_hand(mob/user)
 	if(iscarbon(user) && armed && isturf(loc))
 		var/mob/living/carbon/C = user

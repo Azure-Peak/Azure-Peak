@@ -121,9 +121,15 @@
 			"Knight Helmet"		= /obj/item/clothing/head/roguetown/helmet/heavy/knight,
 			"Visored Sallet"	= /obj/item/clothing/head/roguetown/helmet/sallet/visored,
 			"Armet"				= /obj/item/clothing/head/roguetown/helmet/heavy/knight/armet,
+			"Sugarloaf Helmet"		= /obj/item/clothing/head/roguetown/helmet/heavy/bucket/crusader,
+			"Knight's Armet"	= /obj/item/clothing/head/roguetown/helmet/heavy/knight,
+			"Knight's Helmet"	= /obj/item/clothing/head/roguetown/helmet/heavy/knight/old,
+			"Knight's Greatplumed Armet"		= /obj/item/clothing/head/roguetown/helmet/heavy/knight/greatplume,
 			"Hounskull Bascinet" = /obj/item/clothing/head/roguetown/helmet/bascinet/pigface/hounskull,
 			"Klappvisier Bascinet" = /obj/item/clothing/head/roguetown/helmet/bascinet/etruscan,
 			"Slitted Kettle" = /obj/item/clothing/head/roguetown/helmet/heavy/knight/skettle,
+			"Visored Barbute" = /obj/item/clothing/head/roguetown/helmet/heavy/barbute/visor,
+			"Great Barbute" = /obj/item/clothing/head/roguetown/helmet/heavy/barbute/great,
 			"None"
 		)
 
@@ -133,7 +139,7 @@
 			H.equip_to_slot_or_del(new /obj/item/clothing/neck/roguetown/psicross/inhumen/aalloy, SLOT_RING, TRUE)
 		if(/datum/patron/inhumen/matthios)
 			H.cmode_music = 'sound/music/combat_matthios.ogg'
-			helmets += list("Golden Helm" = /obj/item/clothing/head/roguetown/helmet/heavy/bucket/gold,) // This is so stupid.
+			helmets += list("Decorated Bucket Helmet" = /obj/item/clothing/head/roguetown/helmet/heavy/bucket/gold/cleric,) // This is so stupid. - Just a little, but it does look cool!
 			H.equip_to_slot_or_del(new /obj/item/clothing/neck/roguetown/psicross/inhumen/matthios, SLOT_RING, TRUE)
 		if(/datum/patron/inhumen/baotha)
 			H.cmode_music = 'sound/music/combat_baotha.ogg'
@@ -326,7 +332,7 @@
 					l_hand = /obj/item/rogueweapon/huntingknife/idagger/steel/special
 			if("Crossbow")
 				H.adjust_skillrank_up_to(/datum/skill/combat/crossbows, SKILL_LEVEL_JOURNEYMAN, TRUE) //have to specifically go into bows/crossbows unlike outlaw
-				beltr = /obj/item/quiver/bolts
+				beltr = /obj/item/quiver/bolt/standard
 				backr = /obj/item/gun/ballistic/revolver/grenadelauncher/crossbow
 				H.adjust_skillrank_up_to(/datum/skill/combat/knives, SKILL_LEVEL_EXPERT, TRUE)
 				beltl = /obj/item/rogueweapon/scabbard/sheath
@@ -334,7 +340,7 @@
 					l_hand = /obj/item/rogueweapon/huntingknife/idagger/silver/psydagger
 			if("Slurbow")
 				H.adjust_skillrank_up_to(/datum/skill/combat/crossbows, SKILL_LEVEL_JOURNEYMAN, TRUE) // I think this is a very good alternative to the crossbow, given that this role involves mobile combat.
-				beltr = /obj/item/quiver/bolts
+				beltr = /obj/item/quiver/bolt/light
 				backr = /obj/item/gun/ballistic/revolver/grenadelauncher/crossbow/slurbow
 				H.adjust_skillrank_up_to(/datum/skill/combat/knives, SKILL_LEVEL_EXPERT, TRUE)
 				beltl = /obj/item/rogueweapon/scabbard/sheath

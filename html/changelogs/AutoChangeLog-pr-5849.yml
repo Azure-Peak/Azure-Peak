@@ -1,0 +1,5 @@
+author: "FreeStylaLT"
+delete-after: True
+changes:
+  - balance: "Aasimar lux is now purified, but their 'devitalised' period lasts longer."
+  - balance: "Tieflings cannot have their Lux extracted. It is infernal and incompatible."

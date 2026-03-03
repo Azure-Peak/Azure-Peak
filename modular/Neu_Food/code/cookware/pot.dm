@@ -17,6 +17,10 @@
 	dropshrink = 1 // Override for bucket
 	volume = 240
 
+/obj/item/reagent_containers/glass/bucket/get_mechanics_examine(mob/user)
+	. = ..()
+	. += span_notice("Freshwater can be collected by leaving out buckets, pots, washbins, and any other uncovered containers on an uncovered tile while it's raining.")
+
 /obj/item/reagent_containers/glass/bucket/pot/get_mechanics_examine(mob/user)
 	. = ..()
 	. += span_info("Pots can be placed atop a hearth by left-clicking it. If the hearth is lit, the placed pot will eventually come to a boil - so long as it's filled with water.")

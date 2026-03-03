@@ -24,7 +24,8 @@ var/list/used_colors
 			/obj/item/flowercrown,
 			/obj/item/legwears,
 			/obj/item/undies,
-			/obj/item/natural/cloth
+			/obj/item/natural/cloth,
+			/obj/item/caparison
 			)
 
 /obj/machinery/gear_painter/Initialize()

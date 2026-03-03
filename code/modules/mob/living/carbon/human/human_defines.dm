@@ -113,6 +113,8 @@
 	var/headshot_link = null
 	var/standard_headshot_link = null //used to store headshots when swapping for antag ones
 	var/flavortext = null
+	/// For setpose
+	var/pose_text = ""
 	var/ooc_notes = null
 	var/ooc_extra
 	var/rumour = null
@@ -149,6 +151,7 @@
 	var/vampire_skin = null
 	var/vampire_eyes = null
 	var/vampire_hair = null
+	var/vampire_ears = null
 	//An alternative headshot link that can be used when users want to use it for a special role like while a vampire, werewolf, bandit, etc.
 	var/vampire_headshot_link
 	var/lich_headshot_link

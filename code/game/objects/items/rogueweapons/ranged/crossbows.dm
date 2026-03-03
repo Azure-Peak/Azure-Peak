@@ -18,6 +18,7 @@
 	randomspread = 1
 	spread = 0
 	can_parry = TRUE
+	associated_skill = /datum/skill/combat/crossbows
 	wdefense = 3
 	max_integrity = 100
 	var/chargingspeed = 40
@@ -87,6 +88,8 @@
 		if(c_bow.onehanded)
 			if(mastermob.get_num_arms(FALSE) < 2 || mastermob.get_inactive_held_item())
 				newtime *= 1.5 // more time if firing one-handed.
+		if(c_bow.chambered)
+			newtime *= c_bow.chambered.charge_time_mult
 		if(newtime > 1)
 			return newtime
 		else
@@ -128,7 +131,8 @@
 		if(c_bow.onehanded)
 			if(mastermob.get_num_arms(FALSE) < 2 || mastermob.get_inactive_held_item())
 				newtime *= 2 // more time if firing one-handed.
-
+		if(c_bow.chambered)
+			newtime *= c_bow.chambered.charge_time_mult
 		if(newtime > 0)
 			return newtime
 		else
@@ -285,6 +289,7 @@
 	icon_state = "slurbow0"
 	item_state = "slurbow"
 	possible_item_intents = list(/datum/intent/shoot/crossbow/slurbow, /datum/intent/arc/crossbow/slurbow, /datum/intent/buttstroke)
+	mag_type = /obj/item/ammo_box/magazine/internal/shot/slurbow
 	chargingspeed = 20
 	damfactor = 0.6
 	accfactor = 1.3
@@ -298,6 +303,12 @@
 	w_class = WEIGHT_CLASS_SMALL
 	wdefense = 2
 	max_integrity = 80
+
+/obj/item/ammo_box/magazine/internal/shot/slurbow
+	ammo_type = /obj/item/ammo_casing/caseless/rogue/bolt/light
+	caliber = "lightbolt"
+	max_ammo = 1
+	start_empty = TRUE
 
 //
 

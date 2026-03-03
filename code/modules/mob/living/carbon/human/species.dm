@@ -2234,6 +2234,8 @@ GLOBAL_LIST_EMPTY(roundstart_races)
 	var/obj/item/organ/tail/T = H.getorganslot(ORGAN_SLOT_TAIL)
 	if(!T)
 		return
+	if(!T.wagging)
+		return
 	T.wagging = FALSE
 	H.update_body_parts(TRUE)
 

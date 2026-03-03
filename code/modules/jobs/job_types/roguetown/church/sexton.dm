@@ -142,7 +142,7 @@
 	backl = /obj/item/storage/backpack/rogue/satchel
 	backr = /obj/item/rogueweapon/shovel/silver //Not pre-blessed, mind you
 	beltl = /obj/item/gun/ballistic/revolver/grenadelauncher/crossbow/slurbow //main tool of defense
-	beltr = /obj/item/quiver/bolts
+	beltr = /obj/item/quiver/bolt/light
 	backpack_contents = list(
 		/obj/item/burial_shroud = 2, //easier retrievals
 		/obj/item/storage/keyring/acolyte = 1,

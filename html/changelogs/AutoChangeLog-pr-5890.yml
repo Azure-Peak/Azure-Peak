@@ -1,0 +1,8 @@
+author: "Ollanius"
+delete-after: True
+changes:
+  - rscdel: "Eora's Tree no longer explodes ugly people."
+  - rscadd: "Eora's Tree now explodes people who've been cursed by Eora."
+  - rscadd: "Eora's Tree very rarely blesses people with leprosy."
+  - rscadd: "Eora's Tree very rarely blesses people with ugliness, temporarily gifting them beauty at the cost of Constitution."
+  - code_imp: "Added more distinct coloration to the 'blessed-by-Eora's-Tree' messages."

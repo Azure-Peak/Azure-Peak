@@ -2,7 +2,7 @@
 	name = "fibers"
 	icon_state = "fibers"
 	possible_item_intents = list(/datum/intent/use)
-	desc = "Plant fibers. Peasants make their living turning these into clothing."
+	desc = "Plant fibers. Peasants make their living turning these into clothing, courtesy of a needle-and-thread."
 	force = 0
 	throwforce = 0
 	obj_flags = null
@@ -18,6 +18,15 @@
 	experimental_inhand = TRUE
 	sellprice = 2
 	bundletype = /obj/item/natural/bundle/fibers
+
+/obj/item/natural/fibers/get_mechanics_examine(mob/user)
+	. = ..()
+	. += span_info("Fibers can be acquired by cutting grass or by foraging through bushes, alongside thorns. Likewise, two fibers can be crafted into a piece of cloth, once you have a needle.")
+	. += span_info("A thorn and fiber can be combined into a needle, by left-clicking the 'CRAFT' button on your HUD's upper-left corner and selecting the 'needle' recipe.")
+	. += span_info("Crafting recipes can require certain tools, stations, and skills. Your chances to successfully craft an item are reducable if you don't match the minimum skill requirement.")
+	. += span_info("Having a high Intelligence bonus or partial skills in whatever's required can increase your chance to successfully craft an item that's beyond your current skill level.")
+	. += span_info("Fibers can also be 'slapcrafted' into new items by left-clicking them with certain tools and materials. 'Slapcrafted' items don't require a Crafting skill to make.")
+	. += span_info("'Slapcrafts' for fibers include tools, bows, torches, amulets, bouquets, needles, bags, and flower crowns.")
 
 /obj/item/natural/fibers/Initialize()
 	. = ..()
@@ -177,6 +186,14 @@
 	var/medicine_quality
 	var/medicine_amount = 0
 
+/obj/item/natural/cloth/get_mechanics_examine(mob/user)
+	. = ..()
+	. += span_info("Right-clicking a washbin or pool of water allows you to soak the cloth, which can then clean up various stains-and-dirtiness by left-clicking them.")
+	. += span_info("Left-clicking someone will banadage the targeted limb. Examine yourself - or click the heart on your HUD - to check your limbs, and click any highlighted mentions of the bandaging to remove it.")
+	. += span_info("Bandaged limbs will bleed much slower. If the underlying wounds are severe enough, however, the bandagings'll eventually bleed through and negate its effectiveness.")
+	. += span_info("This scales with the bandaged individual's Constitution. The higher their Constitution is, the longer it'll take for the effects of blood loss to be felt.")
+	. += span_info("Drinking water and lifeblood can help counteract the effects of blood loss. Needles, cauteries, and miracles can stop a wound from bleeding.")
+
 /obj/item/natural/cloth/Initialize()
 	. = ..()
 	var/static/list/slapcraft_recipe_list = list(
@@ -322,8 +339,8 @@
 		to_chat(user, span_notice("You start soaking the [src] in Pestran Medicine..."))
 		if(do_after(user, 3 SECONDS, target = src))
 			C.reagents.remove_reagent(/datum/reagent/water/medicine, 10)
-			medicine_quality = 0.2 //cheap, easy to get, doesn't even heal wounds if it's not on a bandage
-			medicine_amount += 20
+			medicine_quality = 0.6 //cheap yet not very common
+			medicine_amount += 30 // medicine_amount is equal to half the medication duration on a bandage, this will heal a total of 36 on a targeted area
 			desc += " It has been soaked in Pestran Medicine."
 			detail_color = "#428b42"
 			update_icon()
@@ -403,6 +420,13 @@
 	resistance_flags = FLAMMABLE
 	max_integrity = 20
 
+/obj/item/natural/thorn/get_mechanics_examine(mob/user)
+	. = ..()
+	. += span_info("Thorns can be acquired by foraging through bushes, alongside fibers.")
+	. += span_info("A thorn and fiber can be combined into a needle, by left-clicking the 'CRAFT' button on your HUD's upper-left corner and selecting the 'needle' recipe.")
+	. += span_info("Crafting recipes can require certain tools, stations, and skills. Your chances to successfully craft an item are reducable if you don't match the minimum skill requirement.")
+	. += span_info("Having a high Intelligence bonus or partial skills in whatever's required can increase your chance to successfully craft an item that's beyond your current skill level.")
+
 /obj/item/natural/thorn/Initialize()
 	. = ..()
 	var/static/list/slapcraft_recipe_list = list(
@@ -465,6 +489,13 @@
 	amount = 6
 	firefuel = 30 MINUTES
 	grid_width = 64
+
+/obj/item/natural/bundle/get_mechanics_examine(mob/user)
+	. = ..()
+	. += span_info("Right-click a bundle with a free hand to take a single portion of whatever's been bundled up.")
+	. += span_info("Left-click a bundle with a free hand to take a specified amount of whatever's been bundled up.")
+	. += span_info("When holding a bundle, left-click a matching portion to automatically add it into the bundle. Alternatively, left-click the tile to start automatically collecting any-and-all matching portions on it.")
+	. += span_info("The more portions that've been stacked into a bundle, the larger the bundle becomes. Larger bundles take up more space, when stored within inventories.")
 
 /obj/item/natural/bundle/silk
 	name = "silken weave"

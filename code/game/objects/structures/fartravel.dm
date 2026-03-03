@@ -2,7 +2,7 @@
 
 /obj/structure/far_travel //Shamelessly jury-rigged from the way Fallout13 handles this.
 	name = "far travel"
-	desc = "Anywhere is better than here.\n(Drag your sprite onto this to exit the round!)"
+	desc = "Frankly, my dear, I don't give a damn. </br>Click-drag yourself onto this tile to take your character out of the round. This leaves behind any important equipment and frees up your role's slot for another to take."
 	icon = 'icons/turf/roguefloor.dmi'
 	icon_state = "fartravel"
 	layer = BELOW_OBJ_LAYER
@@ -24,7 +24,7 @@
 	if(departing_mob != user && departing_mob.client)
 		to_chat(user, "<span class='warning'>This one retains their free will. It's their choice if they want to leave the round or not.</span>")
 		return
-	if(alert("Are you sure you want to [departing_mob == user ? "depart the round for good (you" : "send this person away (they"] will be removed from the current round, the job slot freed)?", "Departing", "Confirm", "Cancel") != "Confirm")
+	if(alert("Are you sure you want to [departing_mob == user ? "depart the round for good (you" : "send this person away (they"] will be removed from the current round, and their role's slot will reopen for another to take)?", "Departing", "Confirm", "Cancel") != "Confirm")
 		return
 	if(user.incapacitated() || QDELETED(departing_mob) || (departing_mob != user && departing_mob.client) || get_dist(src, dropping) > 2 || get_dist(src, user) > 2)
 		return //Things have changed since the alert happened.
@@ -69,7 +69,7 @@
 	message_admins(dat)
 	log_admin(dat)
 	if(departing_mob.stat == DEAD)
-		departing_mob.visible_message("<span class='notice'>[user] sends the body of [departing_mob] away. They're someone else's problem now.</span>")
+		departing_mob.visible_message("<span class='notice'>[user] safely sends [departing_mob] away./span>")
 	else
 		departing_mob.visible_message("<span class='notice'>[departing_mob == user ? "Out of their own volition, " : "Ushered by [user], "][departing_mob] leaves [SSticker.realm_name].</span>")
 	if(departing_mob.has_embedded_objects())

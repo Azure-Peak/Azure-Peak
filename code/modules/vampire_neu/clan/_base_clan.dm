@@ -380,11 +380,9 @@ And it also helps for the character set panel
 	//if the character has their vampire skin color set, use that
 	if(!isnull(H.vampire_skin))
 		H.skin_tone = sanitize_hexcolor(H.vampire_skin, 6, FALSE)
-		ears?.accessory_colors = H.vampire_skin
 		breasts?.accessory_colors = H.vampire_skin
 	else
 		H.skin_tone = "c9d3de"
-		ears?.accessory_colors = "#c9d3de"
 		breasts?.accessory_colors = "#c9d3de"
 	//if the character has their vampire hair color set, use that
 	if(!isnull(H.vampire_hair))
@@ -398,6 +396,13 @@ And it also helps for the character set panel
 		H.set_eye_color(H.vampire_eyes, H.vampire_eyes, TRUE)
 	else
 		H.set_eye_color("#FF0000", "#FF0000", TRUE)
+	H.update_body()
+	H.update_body_parts(redraw = TRUE)
+	//if the character has their vampire ear color set, use that
+	if(!isnull(H.vampire_ears))
+		ears?.accessory_colors = H.vampire_ears
+	else
+		ears?.accessory_colors = H.vampire_skin
 	H.update_body()
 	H.update_body_parts(redraw = TRUE)
 

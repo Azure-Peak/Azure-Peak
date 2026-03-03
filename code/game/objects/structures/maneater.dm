@@ -5,6 +5,10 @@
 	icon_state = "maneater-hidden"
 	max_integrity = 5
 
+/obj/structure/flora/roguegrass/maneater/real/get_mechanics_examine(mob/user)
+	. = ..()
+	. += span_info("Right-clicking the eye on your HUD allows you to check your surroundings for hidden threats, traps, and ambushes. The chance to spot each instance scales with your character's Perception.")
+
 /obj/structure/flora/roguegrass/maneater/update_icon()
 	return
 
@@ -20,6 +24,12 @@
 	var/seednutrition = 0
 	var/max_seednutrition = 100
 	var/mob/planter = null
+
+/obj/structure/flora/roguegrass/maneater/real/get_mechanics_examine(mob/user)
+	. = ..()
+	. += span_info("MANEATERs can rarely spawn when triggering an ambush over certain patches of grass. This chance is made a guarantee if someone passes the certain patch of grass while the 'RUN' button is toggled.")
+	. += span_info("Triggering a MANEATER's ambush immediately thrusts you into it. Spam the 'RESIST' hotkey as quickly as you can to break free. The chance to break free with each resist scales with your character's Strength.")
+	. += span_info("Failing to escape a MANEATER's clutches within a short timeframe will result in you taking massive damage to the limbs. This can quickly lead to being dismembered, and - for mindless bodies - completely gibbed.")
 
 /obj/structure/flora/roguegrass/maneater/real/process()
 	if(seednutrition >= max_seednutrition)
@@ -85,7 +95,7 @@
 
 	buckle_mob(victim, TRUE, check_loc = FALSE)
 	playsound(loc, list('sound/vo/mobs/plant/attack (1).ogg','sound/vo/mobs/plant/attack (2).ogg','sound/vo/mobs/plant/attack (3).ogg','sound/vo/mobs/plant/attack (4).ogg'), 100, FALSE, -1)
-	visible_message(span_userdanger("[src] begins to gnaw on [victim]! RESIST as many times as you can or become a chew toy!"))
+	visible_message(span_userdanger("[src] begins to gnaw on [victim]! RESIST as many times as possible, or risk being chewed apart!"))
 	addtimer(CALLBACK(src, PROC_REF(begin_eat), victim), 3 SECONDS, TIMER_OVERRIDE|TIMER_UNIQUE|TIMER_STOPPABLE)
 
 /obj/structure/flora/roguegrass/maneater/real/proc/begin_eat(mob/living/victim, chew_factor = 1)
@@ -158,6 +168,7 @@
 	if(aggroed)
 		name = "MANEATER"
 		icon_state = "maneater"
+		desc = "A carnivorous creecher with an appetite for the ambushed. </br>Though deadly, these grassy gnashers can be cleaved apart underneath an axe's weight."
 	else
 		name = "grass"
 		icon_state = "maneater-hidden"

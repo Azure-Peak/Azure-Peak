@@ -1,0 +1,4 @@
+author: "Potatocrip"
+delete-after: True
+changes:
+  - rscadd: "Added vamp ear color customization to villain prefs"

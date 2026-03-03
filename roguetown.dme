@@ -1565,6 +1565,7 @@
 #include "code\modules\client\descriptors\custom_descriptor_entry.dm"
 #include "code\modules\client\descriptors\descriptor_choice.dm"
 #include "code\modules\client\descriptors\descriptor_entry.dm"
+#include "code\modules\client\verbs\chat_help.dm"
 #include "code\modules\client\verbs\etips.dm"
 #include "code\modules\client\verbs\ghost.dm"
 #include "code\modules\client\verbs\ooc.dm"

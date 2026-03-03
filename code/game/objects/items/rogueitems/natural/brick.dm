@@ -1,6 +1,6 @@
 /obj/item/natural/brick
 	name = "brick"
-	desc = "A cooked red brick."
+	desc = "A cooked red brick, and the backbone of buildings-a-plenty."
 	icon = 'icons/roguetown/items/cooking.dmi'	//It's because these are cooked via clay. Don't ask questions.
 	icon_state = "claybrickcook"
 	gripped_intents = null

@@ -24,6 +24,9 @@ with light edits to work with roguecode */
 	///when sounds start falling off for the rustle rustle.
 	var/sound_falloff_distance = 1
 
+	///whether our owner has a muffling trait.
+	var/has_light_steps = FALSE
+
 	var/static/list/valid_storage_rustlers = list(
 		/datum/component/storage/concrete/roguetown/hat
 	)
@@ -53,6 +56,7 @@ with light edits to work with roguecode */
 /datum/component/item_equipped_movement_rustle/proc/on_equip(datum/source, mob/equipper, slot)
 	SIGNAL_HANDLER
 
+	has_light_steps = HAS_TRAIT(equipper, TRAIT_LIGHT_STEP)
 	RegisterSignal(equipper, COMSIG_MOVABLE_MOVED, PROC_REF(try_step), override = TRUE)
 	RegisterSignal(equipper, COMSIG_SEX_JOSTLE, PROC_REF(try_step_quick), override = TRUE)
 
@@ -60,6 +64,7 @@ with light edits to work with roguecode */
 	SIGNAL_HANDLER
 
 	move_counter = 0
+	has_light_steps = FALSE
 	UnregisterSignal(dropped, COMSIG_MOVABLE_MOVED)
 	UnregisterSignal(dropped, COMSIG_SEX_JOSTLE)
 
@@ -69,10 +74,12 @@ with light edits to work with roguecode */
 	if(!is_type_in_list(storage_datum, valid_storage_rustlers))
 		return
 
+	has_light_steps = FALSE
 	RegisterSignal(storage_master, COMSIG_ITEM_EQUIPPED, PROC_REF(on_equip))
 	RegisterSignal(storage_master, COMSIG_ITEM_DROPPED, PROC_REF(on_unequip))
 
 	if(storage_master.loc == user)
+		has_light_steps = HAS_TRAIT(user, TRAIT_LIGHT_STEP)
 		RegisterSignal(user, COMSIG_MOVABLE_MOVED, PROC_REF(try_step), override = TRUE)
 
 /datum/component/item_equipped_movement_rustle/proc/handle_storage_remove(datum/source, obj/storage_master, mob/user, datum/storage_datum)
@@ -81,6 +88,7 @@ with light edits to work with roguecode */
 	if(!is_type_in_list(storage_datum, valid_storage_rustlers))
 		return
 
+	has_light_steps = FALSE
 	UnregisterSignal(storage_master, COMSIG_ITEM_EQUIPPED)
 	UnregisterSignal(storage_master, COMSIG_ITEM_DROPPED)
 
@@ -106,4 +114,5 @@ with light edits to work with roguecode */
 		move_counter = 0
 
 /datum/component/item_equipped_movement_rustle/proc/play_rustle_sound(obj/item/clothing/source)//(mob/source)
-	playsound(source, rustle_sounds, volume, sound_vary, sound_extra_range, sound_falloff_exponent, falloff = sound_falloff_distance)
+	if(!has_light_steps)
+		playsound(source, rustle_sounds, volume, sound_vary, sound_extra_range, sound_falloff_exponent, falloff = sound_falloff_distance)

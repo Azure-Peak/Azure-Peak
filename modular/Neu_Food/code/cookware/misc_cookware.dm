@@ -27,7 +27,7 @@
 
 /obj/item/kitchen/rollingpin/get_mechanics_examine(mob/user)
     . = ..()
-    . += span_info("Left click on a wad of dough, whether balled-up or sliced into halves, to further flatten it out.")
+    . += span_info("Left-click on a wad of dough, whether balled-up or sliced into halves, to further flatten it out.")
 
 /obj/item/kitchen/rollingpin/suicide_act(mob/living/carbon/user)
 	user.visible_message("<span class='suicide'>[user] begins flattening [user.p_their()] head with \the [src]! It looks like [user.p_theyre()] trying to commit suicide!</span>")
@@ -42,3 +42,4 @@
 	w_class = WEIGHT_CLASS_NORMAL
 	grid_width = 32
 	grid_height = 64
+	var/wet = 0

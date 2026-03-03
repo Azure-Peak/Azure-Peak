@@ -2,7 +2,7 @@
 /obj/item/reagent_containers/food/snacks/fat
 	icon = 'modular/Neu_Food/icons/others/fat.dmi'
 	name = "fat"
-	desc = "A lump of animal fat."
+	desc = "A lump of animal fat, fit for oiling and sausage-stuffing."
 	icon_state = "fat"
 	list_reagents = list(/datum/reagent/consumable/nutriment = SNACK_DECENT)
 	eat_effect = /datum/status_effect/debuff/uncookedfood

@@ -21,6 +21,15 @@
 	grid_width = 32
 	grid_height = 96
 
+/obj/item/rogueweapon/shovel/get_mechanics_examine(mob/user)
+	. = ..()
+	. += span_info("Left-click a patch of dirt, while the 'SCOOP' intent is selected, to begin digging. Left-click on another tile to deposit whatever you've scooped up.")
+	. += span_info("Once a patch of dirt is cleared, left-clicking it again will dig a small hole. Left-click the hole while a scoop of dirt is still on the shovel to fill it up.")
+	. += span_info("By repeatedly digging-and-refilling a small hole, you can root around the patch of dirt for any subterranean delights: stones, clay, worms, and more.")
+	. += span_info("Left-click the hole to widen it. Once it has been dug out to its maximum size, click-drag an adjacent structure, item, or body onto it to shove it inside.")
+	. += span_info("Once click-dragged inside of the hole, left-clicking it with a scoop of dirt will bury everything underneath a mound. Crafting a grave marker atop a mound brings peace to the unruliest spirits.")
+	. += span_info("Mounds tend to house corpses, coffins, or other buried goods. Digging up the dead without the proper rites or blessings can lead to potentially being cursed.")
+
 /obj/item/rogueweapon/shovel/Destroy()
 	if(heldclod)
 		QDEL_NULL(heldclod)
@@ -157,7 +166,6 @@
 			if("onbelt")
 				return list("shrink" = 0.3,"sx" = -2,"sy" = -5,"nx" = 4,"ny" = -5,"wx" = 0,"wy" = -5,"ex" = 2,"ey" = -5,"nturn" = 0,"sturn" = 0,"wturn" = 0,"eturn" = 0,"nflip" = 0,"sflip" = 0,"wflip" = 0,"eflip" = 0,"northabove" = 0,"southabove" = 1,"eastabove" = 1,"westabove" = 0)
 
-
 /obj/item/rogueweapon/shovel/small
 	force = 7
 	name = "spade"
@@ -280,7 +288,7 @@
 
 /obj/item/burial_shroud
 	name = "winding sheet"
-	desc = "A burial veil for the deceased. It makes transporting bodies slightly more tolerable."
+	desc = "A burial veil for the deceased. It makes transporting bodies slightly more tolerable, and ensures that their spirits will not arrive to the afterlyfe without any coverings."
 	icon = 'icons/obj/bodybag.dmi'
 	icon_state = "shroud_folded"
 	w_class = WEIGHT_CLASS_SMALL
@@ -303,10 +311,9 @@
 	moveToNullspace()
 	user.update_a_intents()
 
-
 /obj/structure/closet/burial_shroud
 	name = "winding sheet"
-	desc = "A length of thin fabric used to encase the deceased."
+	desc = "A length of thin fabric used to encase the deceased. Memento mori."
 	icon = 'icons/obj/bodybag.dmi'
 	icon_state = "shroud"
 	density = FALSE
@@ -323,7 +330,6 @@
 	horizontal = TRUE
 	var/foldedbag_path = /obj/item/burial_shroud
 	var/obj/item/bodybag/foldedbag_instance = null
-
 
 
 /obj/structure/closet/burial_shroud/Destroy()

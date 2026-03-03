@@ -1,0 +1,7 @@
+author: "Ryan180602"
+delete-after: True
+changes:
+  - rscadd: "Calling a mount now tames it to your name."
+  - rscadd: "Caparisons can be dyed in bins."
+  - rscadd: "Passengers to saiga/fogbeasts."
+  - rscdel: "Riders can no longer drag conscious, standing people around."

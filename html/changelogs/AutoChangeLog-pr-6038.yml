@@ -1,0 +1,7 @@
+author: "Ryan180602"
+delete-after: True
+changes:
+  - rscadd: "projectile falloff (this should not affect magic. lmk if it does)"
+  - rscadd: "boltpouches become default instead of bolt quivers."
+  - rscadd: "slurbows now use light bolts."
+  - bugfix: "crossbows now use the crossbow skill for parrying as intended"

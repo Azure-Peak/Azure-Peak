@@ -94,6 +94,7 @@ GLOBAL_LIST_EMPTY(chosen_names)
 	var/vampire_skin = null
 	var/vampire_eyes = null
 	var/vampire_hair = null
+	var/vampire_ears = null
 	var/extra_language = "None" // Extra language
 	var/voice_color = "a0a0a0"
 	var/voice_pitch = 1
@@ -1342,6 +1343,11 @@ Slots: [job.spawn_positions] [job.round_contrib_points ? "RCP: +[job.round_contr
 		dat += "<a href='?_src_=prefs;preference=vampire_hair;task=input'> <span style='border: 1px solid #161616; background-color: [vampire_hair ? vampire_hair : "#FFFFFF"];'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> <a href='?_src_=prefs;preference=vampire_hair_clear;task=input'>clear</a></a>"
 	else
 		dat += "<a href='?_src_=prefs;preference=vampire_hair;task=input'>(C)</a>"
+	dat += "<br><b>Vampire Ear Color:</b> "
+	if (!isnull(vampire_ears))
+		dat += "<a href='?_src_=prefs;preference=vampire_ears;task=input'> <span style='border: 1px solid #161616; background-color: [vampire_ears ? vampire_ears : "#FFFFFF"];'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> <a href='?_src_=prefs;preference=vampire_ears_clear;task=input'>clear</a></a>"
+	else
+		dat += "<a href='?_src_=prefs;preference=vampire_ears;task=input'>(C)</a>"
 	dat += "<BR><b>Quicksilver Resistant:</b> <a href='?_src_=prefs;preference=qsr;task=input'>[qsr_pref ? "Yes" : "No"]</a>"
 	dat += "</body>"
 
@@ -2263,12 +2269,18 @@ Slots: [job.spawn_positions] [job.round_contrib_points ? "RCP: +[job.round_contr
 					var/new_vampireskin = input(user, "Choose your character's vampire skin color:", "Character Preference","#"+vampire_skin) as color|null
 					if(new_vampireskin)
 						vampire_skin = new_vampireskin
+				if("vampire_ears")
+					var/new_vampireears = input(user, "Choose your character's vampire ear color:", "Character Preference","#"+vampire_ears) as color|null
+					if(new_vampireears)
+						vampire_ears = new_vampireears
 				if("vampire_hair_clear")
 					vampire_hair = null
 				if("vampire_eyes_clear")
 					vampire_eyes = null
 				if("vampire_skin_clear")
 					vampire_skin = null
+				if("vampire_ears_clear")
+					vampire_ears = null
 				if("species")
 					var/list/species = list()
 					for(var/A in GLOB.roundstart_races)
@@ -2945,6 +2957,7 @@ Slots: [job.spawn_positions] [job.round_contrib_points ? "RCP: +[job.round_contr
 	character.vampire_skin = vampire_skin
 	character.vampire_eyes = vampire_eyes
 	character.vampire_hair = vampire_hair
+	character.vampire_ears = vampire_ears
 	character.hairstyle = hairstyle
 	character.facial_hairstyle = facial_hairstyle
 	character.detail = detail

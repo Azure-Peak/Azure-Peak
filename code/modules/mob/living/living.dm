@@ -422,6 +422,13 @@
 
 	if(isliving(AM))
 		var/mob/living/target = AM
+		if(buckled)
+			var/datum/component/riding/riding_datum = buckled.GetComponent(/datum/component/riding)
+			if(riding_datum)
+				if(target.stat == CONSCIOUS && !target.incapacitated(FALSE, TRUE))
+					to_chat(src, span_warning("[target] needs to be tied up or unaware for me to drag them."))
+					stop_pulling()
+					return FALSE
 		log_combat(src, target, "grabbed", addition="passive grab")
 		if(!iscarbon(src))
 			target.LAssailant = null

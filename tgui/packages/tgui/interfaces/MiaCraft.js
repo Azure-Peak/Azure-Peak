@@ -17,7 +17,7 @@ const CraftingCategory = ({ crafties, key3, onlyCraftable, craftability, key, ac
       craftability.some(object => object[0] === item2.name && object[1] === 1))
       .sort(([, aVal], [, bVal]) => String(aVal.name).localeCompare(String(bVal.name)))
       .filter(([id, item]) => 
-      { return item.name.toLowerCase().includes(searchText); });
+      { return (item.name.toLowerCase().includes(searchText)) || (item.aliases.toLowerCase().includes(searchText)); });
     }, [crafties, onlyCraftable, craftability, searchText]);
     return (visibleElements.length > 0 ? 
         <Collapsible title={key3}>
@@ -43,6 +43,9 @@ const CraftingCategory = ({ crafties, key3, onlyCraftable, craftability, key, ac
         <Stack.Item basis="80%">
           <Collapsible title={recipe.name} style={{ backgroundColor: craftability.some(object => object[0] === recipe.name && object[1] === 1) ? "" : "grey" }}>
             <LabeledList >
+              <LabeledList.Item label="Also known as" style={{ 'margin-left': '20px' }}>
+                {recipe.aliases}
+              </LabeledList.Item>
               <LabeledList.Item label="Ingredients" style={{ 'margin-left': '20px' }}>
                 {recipe.req_text}
               </LabeledList.Item>

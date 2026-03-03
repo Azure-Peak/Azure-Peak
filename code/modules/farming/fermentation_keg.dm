@@ -7,7 +7,7 @@ GLOBAL_LIST_EMPTY(custom_fermentation_recipes)
 
 /obj/structure/fermentation_keg
 	name = "fermentation keg"
-	desc = "A simple keg that is meant for making booze."
+	desc = "A keg that's bares the duty of birthing plenty of bubbling brews."
 
 	icon = 'icons/obj/brewing.dmi'
 	icon_state = "barrel_tapless"
