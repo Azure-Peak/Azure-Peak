@@ -97,7 +97,11 @@ At 3+ momentum: consumes 3 stacks and doubles damage. */
 			if(spell_guard_check(victim, FALSE, deflected ? null : H))
 				deflected = TRUE
 				continue
-			arcyne_strike(H, victim, held_weapon, damage, def_zone, BCLASS_STAB, spell_name = "Azurean Phalanx")
+			if(empowered)
+				arcyne_strike(H, victim, held_weapon, round(damage / 2), def_zone, BCLASS_STAB, spell_name = "Azurean Phalanx", skip_message = TRUE)
+				arcyne_strike(H, victim, held_weapon, round(damage / 2), def_zone, BCLASS_STAB, spell_name = "Azurean Phalanx")
+			else
+				arcyne_strike(H, victim, held_weapon, damage, def_zone, BCLASS_STAB, spell_name = "Azurean Phalanx")
 			hit_count++
 			already_hit += victim
 

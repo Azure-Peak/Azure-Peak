@@ -93,7 +93,11 @@ No momentum gain — use normal swings for that.*/
 			if(spell_guard_check(victim, FALSE, deflected ? null : H))
 				deflected = TRUE
 				continue
-			arcyne_strike(H, victim, held_weapon, damage, def_zone, BCLASS_BLUNT, spell_name = "Shatter")
+			if(empowered)
+				arcyne_strike(H, victim, held_weapon, round(damage / 2), def_zone, BCLASS_BLUNT, spell_name = "Shatter", skip_message = TRUE)
+				arcyne_strike(H, victim, held_weapon, round(damage / 2), def_zone, BCLASS_BLUNT, spell_name = "Shatter")
+			else
+				arcyne_strike(H, victim, held_weapon, damage, def_zone, BCLASS_BLUNT, spell_name = "Shatter")
 			hit_count++
 			already_hit += victim
 			var/push_dir = get_dir(H, victim)

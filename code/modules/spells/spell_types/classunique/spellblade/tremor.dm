@@ -60,6 +60,7 @@ Respects spell_guard_check. */
 		to_chat(H, span_notice("[momentum_cost] momentum released — empowered tremor!"))
 
 	var/damage = empowered ? (base_damage * empowered_mult) : base_damage
+	var/def_zone = H.zone_selected || BODY_ZONE_CHEST
 
 	playsound(center, pick('sound/combat/ground_smash1.ogg', 'sound/combat/ground_smash2.ogg', 'sound/combat/ground_smash3.ogg'), 100, TRUE)
 
@@ -74,7 +75,11 @@ Respects spell_guard_check. */
 				continue
 			if(spell_guard_check(victim, FALSE, hit_count == 0 ? H : null))
 				continue
-			arcyne_strike(H, victim, held_weapon, damage, BODY_ZONE_CHEST, BCLASS_BLUNT, spell_name = "Tremor")
+			if(empowered)
+				arcyne_strike(H, victim, held_weapon, round(damage / 2), def_zone, BCLASS_BLUNT, spell_name = "Tremor", skip_message = TRUE)
+				arcyne_strike(H, victim, held_weapon, round(damage / 2), def_zone, BCLASS_BLUNT, spell_name = "Tremor")
+			else
+				arcyne_strike(H, victim, held_weapon, damage, def_zone, BCLASS_BLUNT, spell_name = "Tremor")
 			hit_count++
 			var/push_dir = get_dir(H, victim)
 			if(!push_dir)

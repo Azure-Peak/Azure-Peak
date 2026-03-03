@@ -110,7 +110,11 @@ hand and I intend for Spellblade, feeling wise.
 			if(spell_guard_check(victim, FALSE, deflected ? null : H))
 				deflected = TRUE
 				continue
-			arcyne_strike(H, victim, weapon, damage, def_zone, BCLASS_CUT, spell_name = "Air Strike (Cut)")
+			if(empowered)
+				arcyne_strike(H, victim, weapon, round(damage / 2), def_zone, BCLASS_CUT, spell_name = "Air Strike (Cut)", skip_message = TRUE)
+				arcyne_strike(H, victim, weapon, round(damage / 2), def_zone, BCLASS_CUT, spell_name = "Air Strike (Cut)")
+			else
+				arcyne_strike(H, victim, weapon, damage, def_zone, BCLASS_CUT, spell_name = "Air Strike (Cut)")
 			hit_count++
 
 	if(hit_count)
@@ -153,7 +157,11 @@ hand and I intend for Spellblade, feeling wise.
 			if(spell_guard_check(victim, FALSE, deflected ? null : H))
 				deflected = TRUE
 				continue
-			arcyne_strike(H, victim, weapon, damage, def_zone, BCLASS_STAB, armor_penetration = stab_ap, spell_name = "Air Strike (Stab)")
+			if(empowered)
+				arcyne_strike(H, victim, weapon, round(damage / 2), def_zone, BCLASS_STAB, armor_penetration = stab_ap, spell_name = "Air Strike (Stab)", skip_message = TRUE)
+				arcyne_strike(H, victim, weapon, round(damage / 2), def_zone, BCLASS_STAB, armor_penetration = stab_ap, spell_name = "Air Strike (Stab)")
+			else
+				arcyne_strike(H, victim, weapon, damage, def_zone, BCLASS_STAB, armor_penetration = stab_ap, spell_name = "Air Strike (Stab)")
 			hit_count++
 
 	if(hit_count)
@@ -196,7 +204,11 @@ hand and I intend for Spellblade, feeling wise.
 	if(spell_guard_check(victim, FALSE, H))
 		return
 
-	arcyne_strike(H, victim, weapon, damage, def_zone, BCLASS_BLUNT, spell_name = "Air Strike (Blunt)")
+	if(empowered)
+		arcyne_strike(H, victim, weapon, round(damage / 2), def_zone, BCLASS_BLUNT, spell_name = "Air Strike (Blunt)", skip_message = TRUE)
+		arcyne_strike(H, victim, weapon, round(damage / 2), def_zone, BCLASS_BLUNT, spell_name = "Air Strike (Blunt)")
+	else
+		arcyne_strike(H, victim, weapon, damage, def_zone, BCLASS_BLUNT, spell_name = "Air Strike (Blunt)")
 	H.visible_message(span_danger("[H] slams [weapon.name] down, focusing all arcyne force into [victim]!"))
 
 /obj/effect/proc_holder/spell/invoked/air_strike/proc/get_perpendicular_line(turf/center, facing)

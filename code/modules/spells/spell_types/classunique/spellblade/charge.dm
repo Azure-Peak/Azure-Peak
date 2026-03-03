@@ -118,7 +118,11 @@ Builds 1 momentum on hit. */
 			continue
 		if(spell_guard_check(victim, FALSE, hit_count == 0 ? H : null))
 			continue
-		arcyne_strike(H, victim, held_weapon, damage, H.zone_selected, BCLASS_BLUNT, spell_name = "Charge!")
+		if(empowered)
+			arcyne_strike(H, victim, held_weapon, round(damage / 2), H.zone_selected, BCLASS_BLUNT, spell_name = "Charge!", skip_message = TRUE)
+			arcyne_strike(H, victim, held_weapon, round(damage / 2), H.zone_selected, BCLASS_BLUNT, spell_name = "Charge!")
+		else
+			arcyne_strike(H, victim, held_weapon, damage, H.zone_selected, BCLASS_BLUNT, spell_name = "Charge!")
 		hit_count++
 		var/push_dir = get_dir(H, victim)
 		if(!push_dir)
@@ -143,7 +147,11 @@ Builds 1 momentum on hit. */
 					continue
 				if(spell_guard_check(victim, FALSE, hit_count == 0 ? H : null))
 					continue
-				arcyne_strike(H, victim, held_weapon, damage, H.zone_selected, BCLASS_BLUNT, spell_name = "Charge!")
+				if(empowered)
+					arcyne_strike(H, victim, held_weapon, round(damage / 2), H.zone_selected, BCLASS_BLUNT, spell_name = "Charge!", skip_message = TRUE)
+					arcyne_strike(H, victim, held_weapon, round(damage / 2), H.zone_selected, BCLASS_BLUNT, spell_name = "Charge!")
+				else
+					arcyne_strike(H, victim, held_weapon, damage, H.zone_selected, BCLASS_BLUNT, spell_name = "Charge!")
 				hit_count++
 				var/push_dir = get_dir(H, victim)
 				if(!push_dir)
