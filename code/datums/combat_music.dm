@@ -517,10 +517,10 @@ GLOBAL_LIST_EMPTY(cmode_tracks_by_name)
 	musicpath = list('sound/music/frei_sabre.ogg')
 
 /datum/combat_music/czwarteki
-	name = "Czwarteki Hussars"
-	desc = "For God, Honor, Homeland."
-	shortname = "Czwarteki"
-	credits = " Andrius Klimka & Andrey Kulik - World of Tanks Original Soundtrack: Studzianki "
+	name = "Aavnic Hussars"
+	desc = "The love of Aavnr is our law."
+	shortname = "Hussars"
+	credits = "Żywiołak - Studzianki (World of Tanks OST)"
 	musicpath = list('sound/music/combat_czwarteki.ogg')
 
 /datum/combat_music/aavshepherd

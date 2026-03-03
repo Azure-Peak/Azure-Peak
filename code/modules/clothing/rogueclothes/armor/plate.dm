@@ -427,8 +427,8 @@
 	item_state = "heartfelt_hand"
 
 /obj/item/clothing/suit/roguetown/armor/plate/hussar
-	name = "Winged Plate"
-	desc = "A Czwarteki Plate Armor covering the upper Torso with 'wings' attached to the back. Striking fear into the enemy as their Hussars Ride Forth."
+	name = "hussar's plate harness"
+	desc = "An ornate suit of plate armour made with Aavnr's finest Vyšvou steel, meant to be used by the Potentate's elite cavalry. A frame is attached to the back of the cuirass, and raptor feathers create the illusion of an angel's wings."
 	icon_state = "hussar"
 	mob_overlay_icon = 'icons/roguetown/clothing/onmob/32x48/czwarteki.dmi'
 	body_parts_covered = COVERAGE_ALL_BUT_HANDLEGS

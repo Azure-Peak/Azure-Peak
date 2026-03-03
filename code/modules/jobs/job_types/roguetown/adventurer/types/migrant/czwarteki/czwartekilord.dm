@@ -1,6 +1,6 @@
 /datum/advclass/czwarteki/lord
-	name = "Czwarteki Lord"
-	tutorial = "You are one of many Lords within the Czwarteki Commonwealth, be it to have come for Diplomacy, War, or simple passing through to assist in old alliances. You are to lead your Retinue and bring honor to the Commonwealth."
+	name = "Tomorzurkh Lord"
+	tutorial = "You're one of many Lords of Tomorzurkh who've sworn loyalty to the Aavnic Potentate. You've come here for matters of diplomacy, conflicts, or simply passing through to assist in old alliances. You are to lead your Retinue and bring honor to the Potentate."
 	outfit = /datum/outfit/job/roguetown/czwarteki/lord
 	traits_applied = list(TRAIT_NOBLE, TRAIT_HEAVYARMOR, TRAIT_STEELHEARTED)
 	category_tags = list(CTAG_CZWAR_LORD)

@@ -1,5 +1,5 @@
 /datum/advclass/czwarteki/Servant
-	name = "Czwarteki Servant"
+	name = "Tomorzurkh Lord's Servant"
 	tutorial = "You're one of the Lord's most trusted and loyal servants, taken along with them and their posse in their travels to Azuria. Your only goals are to ensure that the Lord and their Heir are comfortable and taken care of."
 	outfit = /datum/outfit/job/roguetown/czwarteki/servant
 	traits_applied = list(TRAIT_SLEUTH, TRAIT_KEENEARS, TRAIT_CICERONE, TRAIT_HOMESTEAD_EXPERT)

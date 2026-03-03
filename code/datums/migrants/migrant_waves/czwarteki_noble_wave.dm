@@ -25,10 +25,10 @@
 		/datum/migrant_role/czwarteki/journeyman = 3,
 		/datum/migrant_role/czwarteki/servant = 2,
 	)
-	greet_text = "You are a Retinue under a Czwarteki Lord, be it diplomacy, war, or simple passing through the Vale to see or assist an old alliance."
+	greet_text = "You're part of a retinue aiding one of Tomorzurkh's many Lords in their travels - be it for diplomacy, conflict, or just passing through Azuria for reasons yet to be discovered."
 
 /datum/migrant_wave/czwarteki_noble_down_two
-	name = "Czwarteki Retinue"
+	name = "Tomorzurkh Lord's Retinue"
 	shared_wave_type = /datum/migrant_wave/czwarteki_noble
 	can_roll = FALSE
 	downgrade_wave = /datum/migrant_wave/czwarteki_noble_down_three
@@ -39,10 +39,10 @@
 		//datum/migrant_role/czwarteki/journeyman = 2,
 		//datum/migrant_role/czwarteki/servant = 2,
 	)
-	greet_text = "You are a Retinue under a Czwarteki Lord, be it diplomacy, war, or simple passing through the Vale to see or assist an old alliance."
+	greet_text = "You're part of a retinue aiding one of Tomorzurkh's many Lords in their travels - be it for diplomacy, conflict, or just passing through Azuria for reasons yet to be discovered."
 
 /datum/migrant_wave/czwarteki_noble_down_three
-	name = "Czwarteki Retinue"
+	name = "Tomorzurkh Lord's Retinue"
 	shared_wave_type = /datum/migrant_wave/czwarteki_noble
 	can_roll = FALSE
 	downgrade_wave = /datum/migrant_wave/czwarteki_noble_down_four
@@ -53,10 +53,10 @@
 		//datum/migrant_role/czwarteki/journeyman = 2,
 		//datum/migrant_role/czwarteki/servant = 1,
 	)
-	greet_text = "You are a Retinue under a Czwarteki Lord, be it diplomacy, war, or simple passing through the Vale to see or assist an old alliance."
+	greet_text = "You're part of a retinue aiding one of Tomorzurkh's many Lords in their travels - be it for diplomacy, conflict, or just passing through Azuria for reasons yet to be discovered."
 
 /datum/migrant_wave/czwarteki_noble_down_four
-	name = "Czwarteki Retinue"
+	name = "Tomorzurkh Lord's Retinue"
 	shared_wave_type = /datum/migrant_wave/czwarteki_noble
 	can_roll = FALSE
 	downgrade_wave = /datum/migrant_wave/czwarteki_noble_down_five
@@ -67,10 +67,10 @@
 		//datum/migrant_role/czwarteki/journeyman = 2,
 		/datum/migrant_role/czwarteki/servant = 1,
 	)
-	greet_text = "You are a Retinue under a Czwarteki Lord, be it diplomacy, war, or simple passing through the Vale to see or assist an old alliance."
+	greet_text = "You're part of a retinue aiding one of Tomorzurkh's many Lords in their travels - be it for diplomacy, conflict, or just passing through Azuria for reasons yet to be discovered."
 
 /datum/migrant_wave/czwarteki_noble_down_five
-	name = "Czwarteki Retinue"
+	name = "Tomorzurkh Lord's Retinue"
 	shared_wave_type = /datum/migrant_wave/czwarteki_noble
 	can_roll = FALSE
 	downgrade_wave = /datum/migrant_wave/czwarteki_noble_down_six
@@ -81,10 +81,10 @@
 		//datum/migrant_role/czwarteki/journeyman = 1,
 		//datum/migrant_role/czwarteki/servant = 1,
 	)
-	greet_text = "You are a Retinue under a Czwarteki Lord, be it diplomacy, war, or simple passing through the Vale to see or assist an old alliance."
+	greet_text = "You're part of a retinue aiding one of Tomorzurkh's many Lords in their travels - be it for diplomacy, conflict, or just passing through Azuria for reasons yet to be discovered."
 
 /datum/migrant_wave/czwarteki_noble_down_six
-	name = "Czwarteki Retinue"
+	name = "Tomorzurkh Lord's Retinue"
 	shared_wave_type = /datum/migrant_wave/czwarteki_noble
 	can_roll = FALSE
 	downgrade_wave = /datum/migrant_wave/czwarteki_noble_down_seven
@@ -94,10 +94,10 @@
 		//datum/migrant_role/czwarteki/hussar = 1,
 		/datum/migrant_role/czwarteki/journeyman = 1,
 	)
-	greet_text = "You are a Retinue under a Czwarteki Lord, be it diplomacy, war, or simple passing through the Vale to see or assist an old alliance."
+	greet_text = "You're part of a retinue aiding one of Tomorzurkh's many Lords in their travels - be it for diplomacy, conflict, or just passing through Azuria for reasons yet to be discovered."
 
 /datum/migrant_wave/czwarteki_noble_down_seven
-	name = "Czwarteki Retinue"
+	name = "Tomorzurkh Lord's Retinue"
 	shared_wave_type = /datum/migrant_wave/czwarteki_noble
 	can_roll = FALSE
 	downgrade_wave = /datum/migrant_wave/czwarteki_noble_down_eight
@@ -106,11 +106,11 @@
 		/datum/migrant_role/czwarteki/heir = 1,
 		/datum/migrant_role/czwarteki/hussar = 1,
 	)
-	greet_text = "You are a Retinue under a Czwarteki Lord, be it diplomacy, war, or simple passing through the Vale to see or assist an old alliance."
+	greet_text = "You're part of a retinue aiding one of Tomorzurkh's many Lords in their travels - be it for diplomacy, conflict, or just passing through Azuria for reasons yet to be discovered."
 
 
 /datum/migrant_wave/czwarteki_noble_down_eight
-	name = "Czwarteki Retinue"
+	name = "Tomorzurkh Lord's Retinue"
 	shared_wave_type = /datum/migrant_wave/czwarteki_noble
 	can_roll = FALSE
 	downgrade_wave = /datum/migrant_wave/czwarteki_noble_down_nine
@@ -118,7 +118,7 @@
 		/datum/migrant_role/czwarteki/lord = 1,
 		/datum/migrant_role/czwarteki/hussar = 1,
 	)
-	greet_text = "You are a Retinue under a Czwarteki Lord, be it diplomacy, war, or simple passing through the Vale to see or assist an old alliance."
+	greet_text = "You're part of a retinue aiding one of Tomorzurkh's many Lords in their travels - be it for diplomacy, conflict, or just passing through Azuria for reasons yet to be discovered."
 
 /datum/migrant_wave/czwarteki_noble_down_nine
 	name = "Czwarteki Retinue"
@@ -127,4 +127,4 @@
 	roles = list(
 		/datum/migrant_role/czwarteki/lord = 1,
 	)
-	greet_text = "You are a Retinue under a Czwarteki Lord, be it diplomacy, war, or simple passing through the Vale to see or assist an old alliance."
+	greet_text = "You're part of a retinue aiding one of Tomorzurkh's many Lords in their travels - be it for diplomacy, conflict, or just passing through Azuria for reasons yet to be discovered."

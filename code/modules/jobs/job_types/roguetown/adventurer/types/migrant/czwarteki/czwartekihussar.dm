@@ -1,6 +1,6 @@
 /datum/advclass/czwarteki/hussar
-	name = "Czwarteki Hussar"
-	tutorial = "You are a Hussar of Czwarteki, under the oath of your lord. You have raised your Journeyman to come with you to cross the lands. "
+	name = "Aavnic Hussar"
+	tutorial = "You're an Aavnic Hussar granted to one of the Lords of Tomorzurkh by the Potentate themselves; sworn to them by oath. You're accompanied by your retainer."
 	outfit = /datum/outfit/job/roguetown/czwarteki/hussar
 	traits_applied = list(TRAIT_NOBLE, TRAIT_HEAVYARMOR, TRAIT_STEELHEARTED)
 	category_tags = list(CTAG_CZWAR_HUSSAR)

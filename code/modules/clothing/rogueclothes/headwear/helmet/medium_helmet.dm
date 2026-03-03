@@ -201,9 +201,9 @@
 	bloody_icon = 'icons/effects/blood64.dmi'
 
 /obj/item/clothing/head/roguetown/helmet/sallet/hussarhelm
-	name = "Hussar's Helmet"
-	desc = "A helm worn by the Czwarteki Hussars, ornate in its design and made to protect the user from stray bolts and arrows during charge."
-	body_parts_covered = HEAD|EARS|HAIR|NECK
+	name = "hussar's steel szyszak"
+	desc = "A brand new kind of helmet based on Ranesheni çiçeks, fitted with a sliding nasal protector, cheekpieces, and a neck guard. This ornate szyszak was made from high-quality Vyšvou steel, clearly intended for the Potentate's own cavalrymen."
+	body_parts_covered = HEAD|EARS|HAIR|NECK|NOSE
 	max_integrity = ARMOR_INT_HELMET_STEEL + 50
 	icon_state = "hussarhelm"
 

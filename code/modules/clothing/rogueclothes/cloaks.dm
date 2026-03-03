@@ -678,8 +678,8 @@
 	cold_protection = 20
 
 /obj/item/clothing/cloak/lepoardcloak
-	name = "Leopard Cloak"
-	desc = "This Regal Cloak is made from the fur of a Lepoard. Worn by those of only the most wealth and prestige."
+	name = "leopard pelt cloak"
+	desc = "This regal cloak is made from the pelt of an Etruscan Lepoard. It's worn by soldiers of great prestige and renown."
 	icon_state = "lepoardcape"
 	inhand_mod = FALSE
 	slot_flags = ITEM_SLOT_BACK_R|ITEM_SLOT_CLOAK

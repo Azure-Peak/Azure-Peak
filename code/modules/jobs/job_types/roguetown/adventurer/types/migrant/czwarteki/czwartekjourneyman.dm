@@ -1,5 +1,5 @@
 /datum/advclass/czwarteki/journeyman
-	name = "Czwarteki Journeyman"
+	name = "Hussar's Retainer"
 	tutorial = "You're one of the Hussars' retainers, called forth by your Knight and  your Lord into their travels - experienced in riding and tending to your Hussar's needs."
 	outfit = /datum/outfit/job/roguetown/czwarteki/journeyman
 	traits_applied = list(TRAIT_NOBLE, TRAIT_MEDIUMARMOR, TRAIT_STEELHEARTED)

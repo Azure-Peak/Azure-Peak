@@ -1,6 +1,6 @@
 /datum/advclass/czwarteki/heir
-	name = "Czwarteki Heir"
-	tutorial = "You are the Czwarteki Lords Heir. Or perhaps one of many. Brought with you by your Parent to march forth on this venture. And to gain experience in the realms beyond your home."
+	name = "Tomorzurkh Lord's Heir"
+	tutorial = "You are the Tomorzurkh Lord's Heir, or perhaps one of many. Your parent has brought you into this venture - willingly or not - for the sake of gaining experience and knowing the realms beyond your home."
 	outfit = /datum/outfit/job/roguetown/czwarteki/heir
 	traits_applied = list(TRAIT_NOBLE, TRAIT_MEDIUMARMOR, TRAIT_STEELHEARTED)
 	category_tags = list(CTAG_CZWAR_HEIR)
