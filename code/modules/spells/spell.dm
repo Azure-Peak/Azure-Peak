@@ -901,7 +901,7 @@ GLOBAL_LIST_INIT(spells, typesof(/obj/effect/proc_holder/spell)) //needed for th
 					attacker_weapon.take_damage(integdam, BRUTE, attacker_weapon.d_type)
 			// Remove first so chain-deflections replay the overhead visual and reset the timer
 			attacker.remove_status_effect(/datum/status_effect/debuff/exposed)
-			attacker.apply_status_effect(/datum/status_effect/debuff/exposed, 10 SECONDS)
+			attacker.apply_status_effect(/datum/status_effect/debuff/exposed, 5 SECONDS)
 			// Dump all momentum — you swung into a guard, you lose your edge
 			var/datum/status_effect/buff/arcyne_momentum/momentum = attacker.has_status_effect(/datum/status_effect/buff/arcyne_momentum)
 			if(momentum && momentum.stacks > 0)
