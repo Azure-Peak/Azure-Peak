@@ -535,7 +535,8 @@ GLOBAL_LIST_EMPTY(chosen_names)
 					var/dat_html = "   <a href='?_src_=prefs;preference=subvirtue;task=remove;index=[i]'><i>[choice_string]</i></a>"
 					if(LAZYACCESS(virtue.choice_tooltips, choice))
 						tooltip = TRUE
-					dat += "[dat_html][tooltip ? "<a href='?_src_=prefs;preference=subvirtue;task=tooltip;tooltip=[choice]'>(?)</a><br>" : "<br>"]"
+					var/tooltip_html = tooltip ? "<a href='?_src_=prefs;preference=subvirtue;task=tooltip;tooltip=[choice]'>(?)</a><br>" : "<br>"
+					dat += "[dat_html][tooltip_html]"
 			if(length(virtue.picked_choices) < virtue.max_choices)
 				dat += "   <a href='?_src_=prefs;preference=subvirtue;task=input'>[(virtue.choice_costs[(virtue.picked_choices.len + 1)] <= 0) ? "<font color = '#FFFFFF'>" : ""]Pick Bonus[(virtue.choice_costs[(virtue.picked_choices.len + 1)] <= 0) ? "</font>" : ""] [(virtue.choice_costs[(virtue.picked_choices.len + 1)] > 0) ? "([virtue.choice_costs[(virtue.picked_choices.len + 1)]] TRI)" : ""] </a><br>"
 			if(statpack.virtuous)
@@ -543,7 +544,17 @@ GLOBAL_LIST_EMPTY(chosen_names)
 				if(length(virtuetwo.extra_choices) && length(virtuetwo.picked_choices))
 					for(var/i in 1 to length(virtuetwo.picked_choices))
 						tricost_virt += virtuetwo.choice_costs[i]
-				dat += "<b>Second Virtue:</b> <a href='?_src_=prefs;preference=virtuetwo;task=input'><b>[virtuetwo]</b></a><BR>"
+				dat += "<b>Second Virtue[tricost_virt ? " ([tricost_virt] TRI)" : ""]:</b> <a href='?_src_=prefs;preference=virtuetwo;task=input'><b>[virtue]</b></a><BR>"
+				if(length(virtuetwo.extra_choices) && length(virtuetwo.picked_choices))
+					for(var/i in 1 to length(virtuetwo.picked_choices))
+						var/choice = virtuetwo.picked_choices[i]
+						var/tooltip
+						var/choice_string = choice
+						var/dat_html = "   <a href='?_src_=prefs;preference=subvirtue_two;task=remove;index=[i]'><i>[choice_string]</i></a>"
+						if(LAZYACCESS(virtuetwo.choice_tooltips, choice))
+							tooltip = TRUE
+						var/tooltip_html = tooltip ? "<a href='?_src_=prefs;preference=subvirtue_two;task=tooltip;tooltip=[choice]'>(?)</a><br>" : "<br>"
+						dat += "[dat_html][tooltip_html]"
 				if(length(virtuetwo.picked_choices))
 					for(var/i = 1 to virtuetwo.picked_choices.len)
 						var/choice = virtuetwo.picked_choices[i]
@@ -1531,6 +1542,9 @@ Slots: [job.spawn_positions] [job.round_contrib_points ? "RCP: +[job.round_contr
 			if(index && (index >= 1) && (index <= virtue.picked_choices.len))
 				var/v_to_remove = virtue.picked_choices[index]
 				virtue.picked_choices.Remove(v_to_remove)
+		else if(task == "tooltip")
+			var/tooltip = href_list["tooltip"]
+			to_chat(user, span_notice(virtue.choice_tooltips[tooltip]))
 
 	else if(href_list["preference"] == "charflaw")
 		var/task = href_list["task"]

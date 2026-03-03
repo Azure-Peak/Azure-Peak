@@ -178,7 +178,7 @@
 	choice_costs = list(0, 0, 1, 1, 1, 1)
 	virtuous_only = TRUE
 	choice_tooltips = list(
-		"Light Steps" = "My steps are light and swift. I make less noise while sneaking and wearing armor, and can sneak much quicker."
+		"Light Steps" = "My steps are light and swift. I make less noise while sneaking and wearing armor, and can sneak much quicker.",
 		"Second Voice" = "I am able to change my voice at will (Grants a button in 'Virtue' tab to change voice color)."
 	)
 	extra_choices = list(
