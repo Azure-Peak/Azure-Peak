@@ -48,6 +48,8 @@ GLOBAL_LIST_EMPTY(virtues)
 
 	var/list/choice_costs = list()
 
+	var/list/choice_tooltips = list()
+
 /datum/virtue/New()
 	. = ..()
 	if (triumph_cost)
@@ -60,6 +62,7 @@ GLOBAL_LIST_EMPTY(virtues)
 				if(recipient.get_triumphs() > choice_costs[i])
 					recipient.adjust_triumphs(-(choice_costs[i]))
 				else
+					to_chat(recipient, span_notice("Not enough Triumphs for a virtue. It has not been applied."))
 					return FALSE
 	return TRUE
 

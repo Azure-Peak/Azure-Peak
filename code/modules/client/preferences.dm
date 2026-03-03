@@ -530,9 +530,14 @@ GLOBAL_LIST_EMPTY(chosen_names)
 			if(length(virtue.picked_choices))
 				for(var/i = 1 to virtue.picked_choices.len)
 					var/choice = virtue.picked_choices[i]
-					dat += "   <a href='?_src_=prefs;preference=subvirtue;task=remove;index=[i]'><i>[choice]</i></a><br>"
+					var/tooltip
+					var/choice_string = choice
+					var/dat_html = "   <a href='?_src_=prefs;preference=subvirtue;task=remove;index=[i]'><i>[choice_string]</i></a>"
+					if(LAZYACCESS(virtue.choice_tooltips, choice))
+						tooltip = TRUE
+					dat += "[dat_html][tooltip ? "<a href='?_src_=prefs;preference=subvirtue;task=tooltip;tooltip=[choice]'>(?)</a><br>" : "<br>"]"
 			if(length(virtue.picked_choices) < virtue.max_choices)
-				dat += "   <a href='?_src_=prefs;preference=subvirtue;task=input'>[(virtue.choice_costs[(virtue.picked_choices.len + 1)] == 0) ? "<font color = '#FFFFFF'>" : ""]Pick Bonus[(virtue.choice_costs[(virtue.picked_choices.len + 1)] == 0) ? "</font>" : ""] [length(virtue.picked_choices) > 0 ? "([virtue.choice_costs[(virtue.picked_choices.len + 1)]] TRI)" : ""] </a><br>"
+				dat += "   <a href='?_src_=prefs;preference=subvirtue;task=input'>[(virtue.choice_costs[(virtue.picked_choices.len + 1)] <= 0) ? "<font color = '#FFFFFF'>" : ""]Pick Bonus[(virtue.choice_costs[(virtue.picked_choices.len + 1)] <= 0) ? "</font>" : ""] [(virtue.choice_costs[(virtue.picked_choices.len + 1)] > 0) ? "([virtue.choice_costs[(virtue.picked_choices.len + 1)]] TRI)" : ""] </a><br>"
 			if(statpack.virtuous)
 				tricost_virt = 0
 				if(length(virtuetwo.extra_choices) && length(virtuetwo.picked_choices))
@@ -1506,6 +1511,9 @@ Slots: [job.spawn_positions] [job.round_contrib_points ? "RCP: +[job.round_contr
 			if(index && (index >= 1) && (index <= virtue.picked_choices.len))
 				var/v_to_remove = virtue.picked_choices[index]
 				virtue.picked_choices.Remove(v_to_remove)
+		else if(task == "tooltip")
+			var/tooltip = href_list["tooltip"]
+			to_chat(user, span_notice(virtue.choice_tooltips[tooltip]))
 
 	else if(href_list["preference"] == "subvirtue_two")
 		var/task = href_list["task"]

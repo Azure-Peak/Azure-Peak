@@ -12,7 +12,7 @@
 	)
 
 /datum/virtue/utility/apprentice
-	name = "Labour Apprentice"
+	name = "Labourious Apprentice"
 	desc = "I've toiled away a part of my lyfe at the behest of another labourer, learning a thing or two."
 	added_stashed_items = list("Lamptern" = /obj/item/flashlight/flare/torch/lantern)
 	max_choices = 4

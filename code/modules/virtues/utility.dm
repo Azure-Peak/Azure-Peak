@@ -11,82 +11,90 @@
 /datum/virtue/utility/noble/apply_to_human(mob/living/carbon/human/recipient)
 	SStreasury.noble_incomes[recipient] += 15
 
-/datum/virtue/utility/beautiful
-	name = "Beautiful"
-	desc = "Wherever I go, I turn heads, such is my natural beauty. I am also rather good in bed, though they always say that."
-	custom_text = "Incompatible with Ugly virtue. Has a special interaction with Revenants."
-	added_traits = list(TRAIT_BEAUTIFUL,TRAIT_GOODLOVER)
-	added_stashed_items = list(
-		"Hand Mirror" = /obj/item/handmirror)
+#define NOTABLE_BEAUTY "Beauty"
+#define NOTABLE_STASH "Stashed Riches"
+#define NOTABLE_RESIDENCY "Residency"
+#define NOTABLE_SHREWD "Shrewd Appraisal"
 
-/datum/virtue/utility/beautiful/handle_traits(mob/living/carbon/human/recipient)
-	..()
-	if(isdullahan(recipient))
-		REMOVE_TRAIT(recipient, TRAIT_BEAUTIFUL, TRAIT_VIRTUE)
-		ADD_TRAIT(recipient, TRAIT_BEAUTIFUL_UNCANNY, TRAIT_VIRTUE)
-	if(HAS_TRAIT(recipient, TRAIT_UNSEEMLY))
-		to_chat(recipient, "Your attractiveness is cancelled out! You become normal.")
-		if(HAS_TRAIT(recipient, TRAIT_BEAUTIFUL))
-			REMOVE_TRAIT(recipient, TRAIT_BEAUTIFUL, TRAIT_VIRTUE)
-		REMOVE_TRAIT(recipient, TRAIT_UNSEEMLY, TRAIT_VIRTUE)
+/datum/virtue/utility/notable
+	name = "Well Off"
+	desc = "Fate or effort had blessed my lyfe with spoils, natural or earned."
+	max_choices = 3
+	choice_costs = list(0, 1, 1)
+	extra_choices = list(	//These are so individually bespoke it's not even worth assoc listing them, all are snowflaked in the application proc instead.
+		NOTABLE_BEAUTY,
+		NOTABLE_STASH,
+		NOTABLE_RESIDENCY,
+		NOTABLE_SHREWD
+	)
+	choice_tooltips = list(
+		NOTABLE_BEAUTY = "Just looking at me relieves some of the hardships of the world, and I'm quite good in bed.",
+		NOTABLE_STASH = "I've a hidden coinpurse for a particularly dark dae.",
+		NOTABLE_RESIDENCY = "I am a Resident of Azure Peak, with access to one of its buildings all to myself.",
+		NOTABLE_SHREWD = "Grants Secular Appraise -- a spell that allows you to tell how much wealth someone has on them, and in their Meister."
+	)
 
-/datum/virtue/utility/deadened
-	name = "Deadened"
-	desc = "Some terrible incident colours my past, and now, I feel nothing."
-	added_traits = list(TRAIT_NOMOOD)
-
-/datum/virtue/utility/light_steps
-	name = "Light Steps"
-	desc = "Years of skulking about have left my steps quiet, and my hunched gait quicker."
-	added_traits = list(TRAIT_LIGHT_STEP)
-	added_skills = list(list(/datum/skill/misc/sneaking, 3, 6))
-
-/datum/virtue/utility/resident
-	name = "Resident"
-	desc = "I'm a resident of Azure Peak. I have an account in the city's treasury and a home in the city."
-	added_traits = list(TRAIT_RESIDENT)
-
-/datum/virtue/utility/resident/apply_to_human(mob/living/carbon/human/recipient)
-	var/mapswitch = 0
-	if(SSmapping.config.map_name == "Dun World")
-		mapswitch = 1
-
-	if(mapswitch == 0)
+/datum/virtue/utility/notable/apply_to_human(mob/living/carbon/human/recipient)
+	if(!triumph_check(recipient))
 		return
-	if(recipient.mind?.assigned_role == "Adventurer" || recipient.mind?.assigned_role == "Mercenary" || recipient.mind?.assigned_role == "Court Agent")
-		// Find tavern area for spawning
-		var/area/spawn_area
-		for(var/area/A in world)
-			if(istype(A, /area/rogue/indoors/town/tavern))
-				spawn_area = A
-				break
+	for(var/choice in picked_choices)
+		switch(choice)
+			if(NOTABLE_BEAUTY)
+				ADD_TRAIT(recipient, TRAIT_BEAUTIFUL, TRAIT_VIRTUE)
+				ADD_TRAIT(recipient, TRAIT_GOODLOVER, TRAIT_VIRTUE)
+				recipient.mind?.special_items["Hand Mirror"] = /obj/item/handmirror
+			if(NOTABLE_STASH)
+				recipient.mind?.special_items["Weighty Coinpurse"] = /obj/item/storage/belt/rogue/pouch/coins/virtuepouch
+			if(NOTABLE_SHREWD)
+				ADD_TRAIT(recipient, TRAIT_SEEPRICES, TRAIT_VIRTUE)
+				recipient.mind?.AddSpell(new /obj/effect/proc_holder/spell/invoked/appraise/secular)
+			if(NOTABLE_RESIDENCY)
+				ADD_TRAIT(recipient, TRAIT_RESIDENT, TRAIT_VIRTUE)
+				var/mapswitch = 0
+				if(SSmapping.config.map_name == "Dun World")
+					mapswitch = 1
 
-		if(spawn_area)
-			var/target_z = 3 //ground floor of tavern for dun manor / world
-			var/target_y = 234 //dun world huge
-			var/list/possible_chairs = list()
+				if(mapswitch == 0)
+					return
+				if(recipient.mind?.assigned_role == "Adventurer" || recipient.mind?.assigned_role == "Mercenary" || recipient.mind?.assigned_role == "Court Agent")
+					// Find tavern area for spawning
+					var/area/spawn_area
+					for(var/area/A in world)
+						if(istype(A, /area/rogue/indoors/town/tavern))
+							spawn_area = A
+							break
 
-			for(var/obj/structure/chair/C in spawn_area)
-				//z-level 3, wooden chair, and Y > north of tavern backrooms
-				var/turf/T = get_turf(C)
-				if(T && T.z == target_z && T.y > target_y && istype(C, /obj/structure/chair/wood/rogue) && !T.density && !T.is_blocked_turf(FALSE))
-					possible_chairs += C
+					if(spawn_area)
+						var/target_z = 3 //ground floor of tavern for dun manor / world
+						var/target_y = 234 //dun world huge
+						var/list/possible_chairs = list()
 
-			if(length(possible_chairs))
-				var/obj/structure/chair/chosen_chair = pick(possible_chairs)
-				recipient.forceMove(get_turf(chosen_chair))
-				chosen_chair.buckle_mob(recipient)
-				to_chat(recipient, span_notice("As a resident of Azure Peak, you find yourself seated at a chair in the local tavern."))
-			else
-				var/list/possible_spawns = list()
-				for(var/turf/T in spawn_area)
-					if(T.z == target_z && T.y > (target_y + 4) && !T.density && !T.is_blocked_turf(FALSE))
-						possible_spawns += T
+						for(var/obj/structure/chair/C in spawn_area)
+							//z-level 3, wooden chair, and Y > north of tavern backrooms
+							var/turf/T = get_turf(C)
+							if(T && T.z == target_z && T.y > target_y && istype(C, /obj/structure/chair/wood/rogue) && !T.density && !T.is_blocked_turf(FALSE))
+								possible_chairs += C
 
-				if(length(possible_spawns))
-					var/turf/spawn_loc = pick(possible_spawns)
-					recipient.forceMove(spawn_loc)
-					to_chat(recipient, span_notice("As a resident of Azure Peak, you find yourself in the local tavern."))
+						if(length(possible_chairs))
+							var/obj/structure/chair/chosen_chair = pick(possible_chairs)
+							recipient.forceMove(get_turf(chosen_chair))
+							chosen_chair.buckle_mob(recipient)
+							to_chat(recipient, span_notice("As a resident of Azure Peak, you find yourself seated at a chair in the local tavern."))
+						else
+							var/list/possible_spawns = list()
+							for(var/turf/T in spawn_area)
+								if(T.z == target_z && T.y > (target_y + 4) && !T.density && !T.is_blocked_turf(FALSE))
+									possible_spawns += T
+
+							if(length(possible_spawns))
+								var/turf/spawn_loc = pick(possible_spawns)
+								recipient.forceMove(spawn_loc)
+								to_chat(recipient, span_notice("As a resident of Azure Peak, you find yourself in the local tavern."))
+
+#undef NOTABLE_BEAUTY
+#undef NOTABLE_STASH
+#undef NOTABLE_RESIDENCY
+#undef NOTABLE_SHREWD
 
 /datum/virtue/utility/failed_squire
 	name = "Failed Squire"
@@ -153,18 +161,10 @@
 	desc = "Some fell magick has rendered me inwardly unliving - I do not hunger, and I do not breathe."
 	added_traits = list(TRAIT_NOHUNGER, TRAIT_NOBREATH)
 
-/datum/virtue/utility/afflicted
-	name = "Afflicted"
-	desc = "Some fell magick has rendered me inwardly unliving - from lack of hunger or thirst to lack of any emotion at all."
-	extra_choices = list("No Hunger & Thirst" = TRAIT_NOHUNGER, "Moodless" = TRAIT_NOMOOD, "Breathless" = TRAIT_NOBREATH)
-	max_choices = 2
-	choice_costs = list(0, 2)
-
-/datum/virtue/utility/afflicted/apply_to_human(mob/living/carbon/human/recipient)
-	. = ..()
-	if(triumph_check(recipient))
-		for(var/choice in picked_choices)
-			ADD_TRAIT(recipient, extra_choices[choice], TRAIT_VIRTUE)
+/datum/virtue/utility/deadened
+	name = "Deadened"
+	desc = "Some terrible incident colours my past, and now, I feel nothing."
+	added_traits = list(TRAIT_NOMOOD)
 
 /datum/virtue/utility/feral_appetite
 	name = "Feral Appetite"
@@ -177,6 +177,10 @@
 	max_choices = 6
 	choice_costs = list(0, 0, 1, 1, 1, 1)
 	virtuous_only = TRUE
+	choice_tooltips = list(
+		"Light Steps" = "My steps are light and swift. I make less noise while sneaking and wearing armor, and can sneak much quicker."
+		"Second Voice" = "I am able to change my voice at will (Grants a button in 'Virtue' tab to change voice color)."
+	)
 	extra_choices = list(
 		"Darksight" = TRAIT_DARKVISION,
 		"Light Steps" = TRAIT_LIGHT_STEP,
