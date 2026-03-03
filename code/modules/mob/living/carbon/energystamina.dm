@@ -15,8 +15,8 @@
 			var/mob/living/carbon/human/H = src
 			if(H.breath_remaining <= 0) added = 0 
 			
-			var/turf/cur_T = get_turf(H)
-			if(istype(cur_T, /turf/open/water) && !H.resting) added = 0
+			else if((H.is_swimming || H.is_underwater) && !H.resting && H.stat == CONSCIOUS)
+				added = 0 
 		
 		
 		if(src.climbing) // no stam regen while climbing guh
