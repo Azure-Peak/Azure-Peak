@@ -2543,7 +2543,7 @@
 	pixel_x = 0;
 	pixel_y = 0
 	},
-/turf/open/floor/rogue/dirt,
+/turf/open/floor/rogue/dirt/road,
 /area/rogue/outdoors/town)
 "aCn" = (
 /obj/effect/landmark/chimeric_calyx_spawner/fifteen,
@@ -28118,6 +28118,7 @@
 /area/rogue/under/cave/orcdungeon)
 "fWS" = (
 /obj/structure/closet/crate/roguecloset/inn,
+/obj/machinery/light/rogue/candle/r,
 /turf/open/floor/carpet/red,
 /area/rogue/indoors/town)
 "fWU" = (
@@ -32057,11 +32058,8 @@
 	color = "#3f3f3f";
 	dir = 1
 	},
-/obj/structure/table/wood/poor,
-/obj/item/reagent_containers/glass/cup/wooden{
-	pixel_x = -5;
-	pixel_y = 5
-	},
+/obj/structure/bed/rogue/inn/wool,
+/obj/item/bedsheet/rogue/wool,
 /turf/open/floor/rogue/hexstone,
 /area/rogue/indoors/town)
 "gRo" = (
@@ -38800,6 +38798,11 @@
 	},
 /turf/open/floor/rogue/churchmarble,
 /area/rogue/under/cave/scarymaze)
+"ilw" = (
+/obj/structure/table/wood/long_table/right,
+/obj/machinery/light/rogue/candle/floorcandle,
+/turf/open/floor/rogue/concrete,
+/area/rogue/indoors/town)
 "ilx" = (
 /obj/structure/closet/crate/chest,
 /obj/item/reagent_containers/food/snacks/rogue/meat/sausage,
@@ -64184,6 +64187,10 @@
 /obj/structure/fluff/walldeco/stone/stone5{
 	pixel_y = 32
 	},
+/obj/item/candle/candlestick/silver/single/lit{
+	pixel_x = 3;
+	pixel_y = 12
+	},
 /turf/open/floor/rogue/metal{
 	icon_state = "plating2"
 	},
@@ -68728,7 +68735,7 @@
 	pixel_y = -1
 	},
 /obj/machinery/light/rogue/firebowl/stump,
-/turf/open/floor/rogue/dirt,
+/turf/open/floor/rogue/dirt/road,
 /area/rogue/outdoors/town)
 "oDG" = (
 /obj/machinery/light/rogue/candle/l,
@@ -108046,6 +108053,16 @@
 	},
 /turf/open/floor/rogue/ruinedwood/spiral,
 /area/rogue/outdoors/beach/central)
+"wUP" = (
+/obj/effect/decal/edge{
+	color = "#3f3f3f";
+	dir = 8
+	},
+/obj/machinery/light/rogue/candle{
+	pixel_y = -32
+	},
+/turf/open/floor/rogue/wood,
+/area/rogue/indoors/town)
 "wUR" = (
 /obj/machinery/light/rogue/candle/off/l,
 /turf/open/floor/rogue/ruinedwood/spiral,
@@ -109755,6 +109772,16 @@
 	icon_state = "plating2"
 	},
 /area/rogue/indoors)
+"xpr" = (
+/obj/effect/decal/edge{
+	color = "#3f3f3f";
+	dir = 4
+	},
+/obj/machinery/light/rogue/candle{
+	pixel_y = -32
+	},
+/turf/open/floor/rogue/wood,
+/area/rogue/indoors/town)
 "xpw" = (
 /obj/structure/fluff/railing/corner/south_east,
 /obj/structure/bed/rogue/shit,
@@ -111497,6 +111524,12 @@
 /obj/structure/table/wood/large_table/south_east,
 /turf/open/floor/rogue/ruinedwood/herringbone,
 /area/rogue/indoors/inq/office)
+"xIW" = (
+/obj/machinery/light/rogue/candle{
+	pixel_y = -32
+	},
+/turf/open/floor/rogue/concrete,
+/area/rogue/indoors/town)
 "xJd" = (
 /obj/structure/fluff/railing/fence,
 /turf/open/floor/rogue/dirt/road,
@@ -112924,7 +112957,7 @@
 	icon_state = "cobbleedge-sread";
 	pixel_y = -1
 	},
-/turf/open/floor/rogue/dirt,
+/turf/open/floor/rogue/dirt/road,
 /area/rogue/outdoors/town)
 "xYs" = (
 /obj/structure/vine,
@@ -113867,6 +113900,7 @@
 	pixel_x = 2;
 	pixel_y = 8
 	},
+/obj/machinery/light/rogue/candle,
 /turf/open/floor/carpet/purple,
 /area/rogue/indoors/town)
 "ygY" = (
@@ -181158,7 +181192,7 @@ xSU
 vQg
 mjS
 mFB
-xHY
+jMN
 mFB
 uPi
 sTI
@@ -253892,7 +253926,7 @@ drt
 sns
 jqF
 aFv
-aFv
+fpx
 djq
 fCY
 fvQ
@@ -254343,7 +254377,7 @@ gyu
 oDD
 sns
 sns
-aFv
+fpx
 aCa
 djq
 gGL
@@ -254792,7 +254826,7 @@ uBc
 xOu
 bdS
 jtR
-aFv
+fpx
 xYr
 sns
 aCa
@@ -265199,7 +265233,7 @@ xdi
 vCM
 nsu
 nsu
-nsu
+xIW
 cDX
 mMe
 dAw
@@ -265210,7 +265244,7 @@ hQk
 puO
 keZ
 eiw
-eiw
+xpr
 uBc
 rCj
 gXs
@@ -266112,7 +266146,7 @@ eKH
 kMY
 sUo
 puO
-dSs
+ilw
 nsu
 sdD
 uBc
@@ -380460,7 +380494,7 @@ ojk
 bzY
 iEY
 kSl
-hXA
+wUP
 cDX
 uBc
 uBc

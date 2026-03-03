@@ -40,7 +40,7 @@
 	name = "Head Physician"
 	tutorial = "You are the Head Physician, master of the city clinic of Azure Peak \
 		and overseer of all medical practice and learning within the University of \
-		Azuria. You share authority within the University with the Court Magician -\
+		Azuria. You share authority within the University with the Court Magician - \
 		your authority over mundane and medical matters is supreme, whereas they \
 		have total authority over all matters of magic and arcane practice. \
 		You have also an arrangement with the Keepers of Pestra beneath the University \
