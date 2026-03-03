@@ -162,7 +162,7 @@
 			else
 				H.adjust_skillrank_up_to(/datum/skill/combat/swords, SKILL_LEVEL_EXPERT, TRUE)
 		if("phalangite")
-			var/polearm_weapons = list("Halberd", "Bardiche", "Boar Spear", "Dory")
+			var/polearm_weapons = list("Halberd", "Bardiche", "Boar Spear", "Dory", "Naginata")
 			var/polearm_choice = input(H, "Choose your weapon.", "TAKE UP ARMS") as anything in polearm_weapons
 			backr = /obj/item/rogueweapon/scabbard/gwstrap
 			switch(polearm_choice)
@@ -175,6 +175,9 @@
 				if("Dory")
 					r_hand = /obj/item/rogueweapon/spear/spellblade
 					backr = /obj/item/rogueweapon/shield/heater
+				if("Naginata")
+					r_hand = /obj/item/rogueweapon/spear/naginata
+					armor = /obj/item/clothing/suit/roguetown/armor/basiceast
 			H.adjust_skillrank_up_to(/datum/skill/combat/polearms, SKILL_LEVEL_EXPERT, TRUE)
 		if("macebearer")
 			var/mace_weapons = list("Steel Mace", "Steel Warhammer")

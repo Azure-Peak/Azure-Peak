@@ -342,13 +342,17 @@
 			else
 				H.adjust_skillrank_up_to(/datum/skill/combat/swords, SKILL_LEVEL_JOURNEYMAN, TRUE)
 		if("phalangite")
-			var/spear_weapons = list("Spear", "Dory")
+			var/spear_weapons = list("Spear", "Dory", "Naginata")
 			var/spear_choice = input(H, "Choose your weapon.", "TAKE UP ARMS") as anything in spear_weapons
 			switch(spear_choice)
 				if("Spear")
 					r_hand = /obj/item/rogueweapon/spear
 				if("Dory")
 					r_hand = /obj/item/rogueweapon/spear/spellblade
+				if("Naginata")
+					r_hand = /obj/item/rogueweapon/spear/naginata
+					backr = /obj/item/rogueweapon/scabbard/gwstrap
+					armor = /obj/item/clothing/suit/roguetown/armor/basiceast
 			H.adjust_skillrank_up_to(/datum/skill/combat/polearms, SKILL_LEVEL_JOURNEYMAN, TRUE)
 		if("macebearer")
 			var/mace_weapons = list("Mace", "Warhammer")

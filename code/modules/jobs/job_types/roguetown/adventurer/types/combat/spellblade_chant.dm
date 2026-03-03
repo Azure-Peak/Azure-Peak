@@ -24,7 +24,7 @@
 			mace_weapons = "Steel Mace / Steel Warhammer & Shield"
 		if("zizite")
 			blade_weapons = "Avantyne Longsword / Kriegmesser / Longsword / Rapier / Sabre / Steel Dagger & Shield"
-			phalanx_weapons = "Halberd / Bardiche / Boar Spear / Dory & Shield"
+			phalanx_weapons = "Halberd / Bardiche / Boar Spear / Dory & Shield / Naginata"
 			mace_weapons = "Steel Mace / Steel Warhammer & Shield"
 		if("undead")
 			blade_weapons = "Khopesh / Sabre / Dagger & Shield"
@@ -32,7 +32,7 @@
 			mace_weapons = "Mace / Warhammer & Shield"
 		else
 			blade_weapons = "Longsword / Rapier / Sabre / Arming Sword / Shortsword / Hwando / Steel Dagger & Shield"
-			phalanx_weapons = "Spear / Dory & Shield"
+			phalanx_weapons = "Spear / Dory & Shield / Naginata"
 			mace_weapons = "Mace / Warhammer & Shield"
 
 	var/html = {"<!DOCTYPE html>
