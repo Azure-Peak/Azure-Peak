@@ -479,7 +479,7 @@
 /datum/status_effect/buff/magearmor/on_apply()
 	. = ..()
 	playsound(owner, 'sound/magic/magearmordown.ogg', 75, FALSE)
-	duration = (7-owner.get_skill_level(/datum/skill/magic/arcane)) MINUTES
+	duration = (60-owner.get_skill_level(/datum/skill/magic/arcane)*5) SECONDS
 
 /datum/status_effect/buff/magearmor/on_remove()
 	. = ..()
