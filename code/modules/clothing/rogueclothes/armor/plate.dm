@@ -21,7 +21,6 @@
 	smelt_bar_num = 3
 	chunkcolor = "#a9c1ca"
 	material_category = ARMOR_MAT_PLATE
-	bypass_dupe_test = TRUE
 
 /obj/item/clothing/suit/roguetown/armor/plate/ComponentInitialize()
 	AddComponent(/datum/component/item_equipped_movement_rustle, SFX_PLATE_STEP, 12)
@@ -35,28 +34,24 @@
     desc = "A steel cuirass. Do you still remember the first time you tasted blood; that sanguine succor, dribbling from a busted lip?"
     icon_state = "legacycuirass"
     item_state = "legacycuirass"
-	bypass_dupe_test = TRUE
 
 /obj/item/clothing/suit/roguetown/armor/plate/legacy
     name = "valorian half-plate"
     desc = "A padded steel cuirass, 'adventurer-fitted' with a pair of pauldrons. Before you is your weapon; when was the last time you had ever thought without its presence?"
     icon_state = "legacyhalfplate"
     item_state = "legacyhalfplate"
-	bypass_dupe_test = TRUE
 
 /obj/item/clothing/suit/roguetown/armor/plate/full/legacy
     name = "valorian plate armor"
     desc = "A complete set of steel plate armor, fitted with tassets and bracers for additional coverage. When the kingdom comes crashing down, will you deliver its people from evil; or will you be the one to string up 'pon the pyre?"
     icon_state = "legacyplate"
     item_state = "legacyplate"
-	bypass_dupe_test = TRUE
 
 /obj/item/clothing/suit/roguetown/armor/plate/full/fluted/legacy
     name = "valorian fluted plate armor"
     desc = "A resplendant set of steel plate armor, decorated with silver flutings. Blessed dreamer, accursed heathen, lowly fool; the curtain call is a mere heartbeat away. Are you ready for one last dance, before midnight calls?"
     icon_state = "legacyornateplate"
     item_state = "legacyornateplate"
-	bypass_dupe_test = TRUE
 //
 
 /obj/item/clothing/suit/roguetown/armor/plate/iron
@@ -70,7 +65,6 @@
 	armor_class = ARMOR_CLASS_MEDIUM
 	smeltresult = /obj/item/ingot/iron
 	smelt_bar_num = 2
-	bypass_dupe_test = TRUE
 
 /obj/item/clothing/suit/roguetown/armor/plate/bronze
 	name = "bronze cuirass"
@@ -97,7 +91,6 @@
 	smeltresult = /obj/item/ingot/aaslag
 	anvilrepair = null
 	prevent_crits = PREVENT_CRITS_NONE
-	bypass_dupe_test = TRUE
 
 /obj/item/clothing/suit/roguetown/armor/plate/paalloy
 	name = "ancient half-plate"
@@ -105,7 +98,6 @@
 	icon_state = "ancientplate"
 	item_state = "ancientplate"
 	smeltresult = /obj/item/ingot/aaslag
-	bypass_dupe_test = TRUE
 
 /obj/item/clothing/suit/roguetown/armor/plate/paalloy/artificer
 	name = "artificed half-plate"
@@ -236,7 +228,6 @@
 	max_integrity = ARMOR_INT_CHEST_PLATE_STEEL
 	body_parts_covered = COVERAGE_ALL_BUT_HANDFEET // Less durability than proper plate, more expensive to manufacture, and accurate to the sprite.
 	armor_class = ARMOR_CLASS_HEAVY
-	bypass_dupe_test = TRUE
 
 /obj/item/clothing/suit/roguetown/armor/plate/fluted/graggar
 	name = "vicious half-plate"
@@ -279,7 +270,6 @@
 	strip_delay = 6 SECONDS
 	armor_class = ARMOR_CLASS_HEAVY
 	smelt_bar_num = 4
-	bypass_dupe_test = TRUE
 
 /obj/item/clothing/suit/roguetown/armor/plate/full/iron
 	name = "iron plate armor"
@@ -287,7 +277,6 @@
 	desc = "A 'munition'-grade set of iron plate armor, fitted with pauldrons and tassets for additional coverage. Most of these sets, produced within the last century, can trace their origins to an edict from Hammerhold's former King: one which demanded a munitions run, but forgot to specify its tailoring towards the dwarven physique. </br>‎  </br>'Slow to don-and-doff, without a trusted Levyman's aid..'"
 	smeltresult = /obj/item/ingot/iron
 	max_integrity = ARMOR_INT_CHEST_PLATE_IRON
-	bypass_dupe_test = TRUE
 
 /obj/item/clothing/suit/roguetown/armor/plate/full/samsibsa
 	name = "samsibsa scaleplate"
@@ -420,7 +409,6 @@
 	equip_delay_other = 3 SECONDS
 	strip_delay = 6 SECONDS
 	smelt_bar_num = 3
-	bypass_dupe_test = TRUE
 
 /obj/item/clothing/suit/roguetown/armor/heartfelt
 	slot_flags = ITEM_SLOT_ARMOR
@@ -511,7 +499,6 @@
 	allowed_sex = list(MALE, FEMALE)
 	armor_class = ARMOR_CLASS_MEDIUM
 	smelt_bar_num = 2
-	bypass_dupe_test = TRUE
 
 /obj/item/clothing/suit/roguetown/armor/plate/cuirass
 	slot_flags = ITEM_SLOT_ARMOR
