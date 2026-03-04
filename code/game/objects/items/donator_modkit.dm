@@ -56,6 +56,10 @@
 	qdel(src)
 	return TRUE
 
+/obj/item/enchantingkit/get_mechanics_examine(mob/user)
+	. = ..()
+	. += span_info("Left-clicking the appropriate item with this elixir will gift it a unique appearance.")
+
 /////////////////////////////
 // ! Player / Donor Kits ! //
 /////////////////////////////

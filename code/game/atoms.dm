@@ -48,13 +48,6 @@
 
 	var/voicecolor_override
 
-	///overlays that should remain on top and not normally removed when using cut_overlay functions, like c4.
-	var/list/priority_overlays
-	/// a very temporary list of overlays to remove
-	var/list/remove_overlays
-	/// a very temporary list of overlays to add
-	var/list/add_overlays
-
 	///vis overlays managed by SSvis_overlays to automaticaly turn them like other overlays
 	var/list/managed_vis_overlays
 	///overlays managed by update_overlays() to prevent removing overlays that weren't added by the same proc
@@ -231,7 +224,6 @@
 	orbiters = null // The component is attached to us normaly and will be deleted elsewhere
 
 	LAZYCLEARLIST(overlays)
-	LAZYCLEARLIST(priority_overlays)
 
 	QDEL_NULL(light)
 	QDEL_NULL(ai_controller)

@@ -65,7 +65,7 @@
 			if("Crossbows")
 				H.adjust_skillrank_up_to(/datum/skill/combat/crossbows, 4, TRUE)
 				backr = /obj/item/gun/ballistic/revolver/grenadelauncher/crossbow
-				beltl = /obj/item/quiver/pyrobolts
+				beltl = /obj/item/quiver/bolt/pyro
 			if("BOMBS") //30 bombs. 18 fire, 4 tnt, 4 impacts, 4 firegas.
 				ADD_TRAIT(H, TRAIT_BOMBER_EXPERT, TRAIT_GENERIC)
 				H.adjust_skillrank_up_to(/datum/skill/craft/engineering, 4, TRUE)

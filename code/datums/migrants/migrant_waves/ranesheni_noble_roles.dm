@@ -236,7 +236,7 @@
 	backl = /obj/item/storage/backpack/rogue/satchel/short
 	beltl = /obj/item/flashlight/flare/torch/lantern
 	backr = /obj/item/gun/ballistic/revolver/grenadelauncher/crossbow
-	beltr = /obj/item/quiver/bolts
+	beltr = /obj/item/quiver/bolt/standard
 	cloak = /obj/item/clothing/cloak/raincloak/red
 	backpack_contents = list(
 		/obj/item/rogueweapon/huntingknife/idagger/navaja = 1,

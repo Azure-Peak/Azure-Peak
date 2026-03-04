@@ -144,6 +144,15 @@ GLOBAL_LIST_INIT(stone_personality_descs, list(
 	sharpening_factor = 12
 	spark_chance = 35
 
+/obj/item/natural/stone/get_mechanics_examine(mob/user)
+	. = ..()
+	. += span_info("Left-click a bladed weapon to begin sharpening it. Sharpening automatically stops once you move, or once the bladed weapon has been completely resharpened.")
+	. += span_info("Left-clicking a bladed weapon, another stone, or a rock has a chance to spawn sparks. Sparks can be used to reignite extinguished torches, lampterns, hearths, and other igniteable structures.")
+	. += span_info("Sharpening a bladed weapon will permenantly remove a very small amount of its maximum sharpness, with each pass. This can be avoided by sharpening it at a blacksmith's grindstone.")
+	. += span_info("Left-clicking a stone with a chisel will turn it into a stone block, which can be used for masonry and construction.")
+	. += span_info("Stones can be 'slapcrafted' into new items by left-clicking them with certain tools and materials. 'Slapcrafted' items don't require a Crafting skill to make.")
+	. += span_info("'Slapcrafts' for stones include tools and pots.")
+
 /obj/item/natural/stone/Initialize()
 	. = ..()
 	stone_lore()
@@ -181,6 +190,14 @@ GLOBAL_LIST_INIT(stone_personality_descs, list(
 	possible_item_intents = list(/datum/intent/hit, /datum/intent/mace/smash/wood, /datum/intent/dagger/cut)
 	sharpening_factor = 21
 	spark_chance = 80
+
+/obj/item/natural/whetstone/get_mechanics_examine(mob/user)
+	. = ..()
+	. += span_info("Left-click a bladed weapon to begin sharpening it. Sharpening automatically stops once you move, or once the bladed weapon has been completely resharpened.")
+	. += span_info("Left-clicking a bladed weapon, another stone, or a rock has a chance to spawn sparks. Sparks can be used to reignite extinguished torches, lampterns, hearths, and other igniteable structures.")
+	. += span_info("Sharpening a bladed weapon will permenantly remove a very small amount of its maximum sharpness, with each pass. This can be avoided by sharpening it at a blacksmith's grindstone.")
+	. += span_info("Whetstones can be 'slapcrafted' into new items by left-clicking them with certain tools and materials. 'Slapcrafted' items don't require a Crafting skill to make.")
+	. += span_info("'Slapcrafts' for whestones include tools, and - if used with hunting knives and farming tools - unique weapons.")
 
 /obj/item/natural/whetstone/Initialize()
 	. = ..()
@@ -377,10 +394,15 @@ GLOBAL_LIST_INIT(stone_personality_descs, list(
 	attacked_sound = 'sound/foley/hit_rock.ogg'
 
 
+/obj/item/natural/rock/get_mechanics_examine(mob/user)
+	. = ..()
+	. += span_info("Rocks can be destroyed by left-clicking them with an item that has the 'PICK' intent selected. Hidden inside can be anything from stones and salt to ores and gems.")
+	. += span_info("Left-clicking a rock with a stone has a chance to spawn sparks. Sparks can be used to reignite extinguished torches, lampterns, hearths, and other igniteable structures.")
+	. += span_info("Left-clicking a rock with a chisel will turn it into a stone block, which can be used for masonry and construction.")
+
 /obj/item/natural/rock/Initialize()
 	icon_state = "stonebig[rand(1,2)]"
 	..()
-
 
 /obj/item/natural/rock/Crossed(mob/living/L)
 	if(istype(L) && !L.throwing)

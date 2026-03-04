@@ -1381,11 +1381,11 @@
 	dir = 10;
 	icon_state = "tablewood2"
 	},
-/obj/item/quiver/bolts,
-/obj/item/quiver/bolts,
-/obj/item/quiver/bolts,
-/obj/item/quiver/bolts,
-/obj/item/quiver/bolts,
+/obj/item/quiver/bolt/standard,
+/obj/item/quiver/bolt/standard,
+/obj/item/quiver/bolt/standard,
+/obj/item/quiver/bolt/standard,
+/obj/item/quiver/bolt/standard,
 /turf/open/floor/rogue/cobble,
 /area/rogue/outdoors)
 "Vk" = (

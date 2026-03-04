@@ -740,7 +740,9 @@ GLOBAL_VAR_INIT(mobids, 1)
  * For mobs this just shows the inventory
  */
 /mob/MouseDrop_T(atom/dropping, atom/user)
-	..()
+	. = ..()
+	if(.)
+		return .
 	if(ismob(dropping) && dropping != user)
 		var/mob/U = user
 		var/mob/M = dropping
@@ -1296,6 +1298,27 @@ GLOBAL_VAR_INIT(mobids, 1)
 
 	var/datum/language_holder/H = get_language_holder()
 	H.open_language_menu(usr)
+
+/// Custom pose setting
+/mob/living/carbon/human/verb/set_pose()
+	set name = "Set Pose"
+	set category = "IC"
+	set hidden = FALSE
+
+	if(stat != CONSCIOUS)
+		to_chat(src, span_warning("I can't set my pose right now."))
+		return
+	var/new_pose = tgui_input_text(src, "Set your character's pose (MARKDOWN AVAILABLE):", "SET POSE", pose_text, multiline = FALSE,  encode = FALSE, bigmodal = TRUE, max_length = 256)
+	if(isnull(new_pose))
+		return
+
+	if(!length(new_pose))
+		pose_text = ""
+		to_chat(src, span_notice("I clear my pose."))
+		return
+
+	pose_text = parsemarkdown_basic(new_pose)
+	to_chat(src, span_notice("I set my pose."))
 
 ///Adjust the nutrition of a mob
 /mob/proc/adjust_nutrition(change) //Honestly FUCK the oldcoders for putting nutrition on /mob someone else can move it up because holy hell I'd have to fix SO many typechecks

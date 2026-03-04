@@ -28,10 +28,10 @@
 	sound = 'sound/magic/slimesquish.ogg'
 	chargedloop = /datum/looping_sound/invokelightning
 	harms_undead = FALSE
-	overlay_icon = 'icons/mob/actions/zizomiracles.dmi'
+	overlay_icon = 'icons/mob/actions/graggarmiracles.dmi'
 	overlay_state = "revival"
 	action_icon_state = "revival"
-	action_icon = 'icons/mob/actions/zizomiracles.dmi'
+	action_icon = 'icons/mob/actions/graggarmiracles.dmi'
 	required_structure = /obj/structure/fluff/psycross/zizocross
 
 /obj/effect/proc_holder/spell/invoked/resurrect/baotha
@@ -43,10 +43,10 @@
 	sound = 'sound/magic/slimesquish.ogg'
 	chargedloop = /datum/looping_sound/invokelightning
 	harms_undead = FALSE
-	overlay_icon = 'icons/mob/actions/zizomiracles.dmi'
+	overlay_icon = 'icons/mob/actions/baothamiracles.dmi'
 	overlay_state = "revival"
 	action_icon_state = "revival"
-	action_icon = 'icons/mob/actions/zizomiracles.dmi'
+	action_icon = 'icons/mob/actions/baothamiracles.dmi'
 	required_structure = /obj/structure/fluff/psycross/zizocross
 	req_items = list() // temp. baothans dont have a holy symbol. apparently one is being commed so this is just the stopgap.
 

@@ -15,7 +15,7 @@
 
 /obj/effect/proc_holder/spell/targeted/shapeshift/vampire/bat
 	name = "Bat Form"
-	desc = ""
+	desc = "Transform into a nimble bat, capable of flying out of harm's way."
 	overlay_state = "bat_transform"
 	recharge_time = 50
 	cooldown_min = 50
@@ -25,15 +25,15 @@
 
 /obj/effect/proc_holder/spell/targeted/shapeshift/gaseousform
 	name = "Mist Form"
-	desc = ""
+	desc = "Transform into an impermient cloud of mist, invulnerable to harm and unblocked by most worldly obstructions."
 	recharge_time = 50
 	cooldown_min = 50
 	die_with_shapeshifted_form =  FALSE
 	shapeshift_type = /mob/living/simple_animal/hostile/retaliate/gaseousform
 
 /obj/effect/proc_holder/spell/targeted/shapeshift/rat
-	name = "Rat Form"
-	desc = ""
+	name = "Rous Form"
+	desc = "Transform into a chittering rous, unblocked by the presence of giants and tables alike."
 	recharge_time = 5 SECONDS
 	cooldown_min = 5 SECONDS
 	die_with_shapeshifted_form = FALSE
@@ -42,7 +42,7 @@
 
 /obj/effect/proc_holder/spell/targeted/shapeshift/cabbit
 	name = "Cabbit Form"
-	desc = ""
+	desc = "Transform into a not-so-unlucky cabbit, swift-footed and hard to catch."
 	recharge_time = 5 SECONDS
 	cooldown_min = 5 SECONDS
 	die_with_shapeshifted_form = FALSE
@@ -51,7 +51,7 @@
 
 /obj/effect/proc_holder/spell/invoked/vampire_float
 	name = "Float"
-	desc = "Float off the air without a sound"
+	desc = "Levitate in the air through the manipulation of vitae, without making so much as a single sound."
 	recharge_time = 5 SECONDS
 	cooldown_min = 5 SECONDS
 	releasedrain = 1
@@ -94,7 +94,7 @@
 
 /datum/status_effect/buff/vampire_float/on_remove()
 	. = ..()
-	to_chat(owner, span_warning("I'm no longer floating"))
+	to_chat(owner, span_warning("I'm no longer floating!"))
 	owner.remove_filter(VAMPIRIC_FILTER)
 
 #undef VAMPIRIC_FILTER

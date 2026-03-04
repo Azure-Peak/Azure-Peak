@@ -1,0 +1,4 @@
+author: "WeNeedMorePhoron"
+delete-after: True
+changes:
+  - rscadd: "You get a message in chat when you are stopped from learning a skill by xp cap."

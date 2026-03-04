@@ -40,6 +40,16 @@
 /obj/item/storage/belt/rogue/surgery_bag/get_types_to_preload()
 	return populate_contents
 
+/obj/item/storage/belt/rogue/surgery_bag/get_mechanics_examine(mob/user)
+	. = ..()
+	. += span_info("This bag can contain plenty of tools, useful for advanced medical techniques and surgeries.")
+
+/obj/item/rogueweapon/surgery/get_mechanics_examine(mob/user)
+	. = ..()
+	. += span_info("This tool can be used to perform surgeries and other medical treatments. Click on the 'FEINT' button in your HUD and select the 'WEAK' intent, when performing such techniques, to ensure the highest chance of success.")
+	. += span_info("The chance of successfully performing a step in surgery-or-treatment scales with your character's Medicine skill, and whether the recipient has been properly sedated or not. Ozium, poppymilk, and being unconscious are popular choices for sedation.")
+	. += span_info("Most surgeries and techniques require the recipient to be laying down, at the bare minimum. Resting them on a bed or cot will greatly improve your chances, while also reducing the chance of infection.")
+
 /obj/item/storage/belt/rogue/surgery_bag/full/physician
 	populate_contents = list(
 	/obj/item/rogueweapon/surgery/scalpel,

@@ -81,7 +81,7 @@
 			if("Longsword + Crossbow")
 				beltl = /obj/item/rogueweapon/scabbard/sword
 				r_hand = /obj/item/rogueweapon/sword/long
-				beltr = /obj/item/quiver/bolts
+				beltr = /obj/item/quiver/bolt/standard
 				backl = /obj/item/gun/ballistic/revolver/grenadelauncher/crossbow
 			if("Billhook + Recurve Bow")
 				r_hand = /obj/item/rogueweapon/spear/billhook

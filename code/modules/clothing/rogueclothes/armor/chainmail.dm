@@ -159,6 +159,11 @@
 	max_integrity = ARMOR_INT_CHEST_PLATE_PSYDON
 	smeltresult = /obj/item/ingot/silverblessed
 
+/obj/item/clothing/suit/roguetown/armor/chainmail/hauberk/ornate/get_mechanics_examine(mob/user)
+	. = ..()
+	. += span_info("With more blessed silver and an armorsmith's hammer, this armor can be further upgraded.")
+	. += span_info("If a character has the 'Maille Training' trait and has Psydon as their selected patron, they can comfortably wear Psydonic plate armor without suffering any downsides.")
+
 ///////// CRAFTING DATUMS FOR MAILLED HAUBERK /////////
 
 /datum/crafting_recipe/roguetown/survival/mailledhauberk

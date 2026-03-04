@@ -1,5 +1,6 @@
 /obj/item/seeds
 	name = "seeds"
+	desc = "The distilled essence of agriculture. Skilled hands can plant these into soil and nurture them into bristling crops, or roast them for a delicious little snack."
 	icon = 'icons/obj/hydroponics/seeds.dmi'
 	icon_state = "seed"
 	w_class = WEIGHT_CLASS_TINY
@@ -49,7 +50,7 @@
 			to_chat(user, span_notice("I don't know enough to work without a tool."))
 			return
 		to_chat(user, span_notice("I begin making a mound for the seeds..."))
-		if(do_after(user, get_farming_do_time(user, 10 SECONDS), target = src))
+		if(do_after(user, get_farming_do_time(user, 5 SECONDS), target = src))
 			apply_farming_fatigue(user, 30)
 			soil = get_soil_on_turf(T)
 			if(!soil)

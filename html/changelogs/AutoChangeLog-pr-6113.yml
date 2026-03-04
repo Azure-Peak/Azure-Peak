@@ -1,0 +1,10 @@
+author: "Ollanius"
+delete-after: True
+changes:
+  - rscadd: "Adds a very rare alternative to the usual round-ending theme."
+  - rscadd: "Adds a new round-ending stinger."
+  - rscadd: "Reimplements the more agnostic and fitting dialogue that prints at the end of each round."
+  - code_imp: "All included assets with this pull request have been checked to be compliant with our codebase's expectations. We're (legally) safe to use them, as long as the proper credit is provided."
+  - code_imp: "Likewise - credit to Hildegard Von Blingin, Whitney Avalon, Sabrina Carpenter, Valo X, and Power Pak."
+  - code_imp: "The old round-ending dialogue has been preserved in the roundend.dm, in case someone wishes to reuse them."
+  - rscadd: "Mirth."

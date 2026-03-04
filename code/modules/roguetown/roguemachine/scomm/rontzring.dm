@@ -21,6 +21,14 @@
 	grid_width = 32
 	grid_height = 32
 
+/obj/item/mattcoin/examine(mob/user)
+	. = ..()
+	if(ishuman(user))
+		var/mob/living/carbon/human/H = user
+		if(H.patron.type == /datum/patron/inhumen/matthios)
+			. += span_rose("It's said that these coins are borne whenever the CROWNSTONEs of royalty are stolen and subjected to the Hoardmaster's flames. I can use it to communicate with my fellow freedmen on a specially-hijacked SCOMline.")
+			. += span_rose("A special hex has been cast on this ring by an Iconoclast, making it appear as nothing more than a mere 'gold ring' to those still shackled to tyranny. I should remain wary of eyes that pry for too long, however.")
+
 /obj/item/mattcoin/Initialize()
 	. = ..()
 	become_hearing_sensitive()

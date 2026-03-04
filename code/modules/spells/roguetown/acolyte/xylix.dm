@@ -7,7 +7,7 @@
 	releasedrain = 10
 	chargedrain = 0
 	chargetime = 0
-	range = 1
+	range = 7
 	no_early_release = TRUE
 	associated_skill = /datum/skill/magic/holy
 	recharge_time = 15 SECONDS
@@ -31,7 +31,7 @@
 	releasedrain = 10
 	chargedrain = 0
 	chargetime = 0
-	range = 1
+	range = 3
 	no_early_release = TRUE
 	movement_interrupt = FALSE
 	chargedloop = /datum/looping_sound/invokeholy
@@ -175,6 +175,8 @@
 	recharge_time = 12 SECONDS
 	devotion_cost = 30
 	miracle = TRUE
+	range = 3
+	ignore_los = 1 // uses weird shit for range
 	var/leap_dist = 4	//3 tiles (+1 to account for origin tile)
 	var/static/list/sounds = list('sound/magic/xylix_slip1.ogg','sound/magic/xylix_slip2.ogg','sound/magic/xylix_slip3.ogg','sound/magic/xylix_slip4.ogg')
 
@@ -366,6 +368,7 @@
 	gesture_required = FALSE // Slippery
 	devotion_cost = 100
 	miracle = TRUE
+	ignore_los = TRUE
 	var/area_of_effect = 1
 	var/max_range = 4
 	var/turf/destination_turf
@@ -556,7 +559,7 @@
 
 /obj/effect/proc_holder/spell/invoked/vendetta
 	name = "Vendetta"
-	desc = "Cast upon your foe a Vendetta, your battle will be dramatic. Both you and your opponent will clash more dramaically for the next two minutes."
+	desc = "Cast upon your foe a Vendetta, your battle will be dramatic. Both you and your opponent will clash more dramatically for the next two minutes."
 	overlay_icon = 'icons/mob/actions/xylixmiracles.dmi'
 	action_icon = 'icons/mob/actions/xylixmiracles.dmi'
 	overlay_state = "vendetta"
@@ -619,8 +622,8 @@
 	overlay_state = "tipscale"
 	releasedrain = 10
 	chargedrain = 0
-	chargetime = 1 SECONDS
-	range = 1
+	chargetime = 1 SECONDS // moodnuke shouldnt be off screen
+	range = 5
 	no_early_release = TRUE
 	movement_interrupt = TRUE
 	chargedloop = /datum/looping_sound/invokeholy

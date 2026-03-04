@@ -565,6 +565,12 @@
 	additional_items = list(/obj/item/grown/log/tree/small)
 	created_item = /obj/item/rogueweapon/spear/trainer
 
+/datum/anvil_recipe/weapons/iron/dory
+	name = "Dory, Iron (+1 Iron, +1 Small Log)"
+	req_bar = /obj/item/ingot/iron
+	additional_items = list(/obj/item/ingot/iron, /obj/item/grown/log/tree/small)
+	created_item = /obj/item/rogueweapon/spear/spellblade
+
 /datum/anvil_recipe/weapons/iron/bardiche
 	name = "Bardiche, Iron (+1 Iron, +1 Small Log)"
 	req_bar = /obj/item/ingot/iron
@@ -1200,6 +1206,14 @@
 	req_bar = /obj/item/ingot/iron
 	additional_items = list(/obj/item/grown/log/tree/stick, /obj/item/grown/log/tree/stick)
 	created_item = /obj/item/ammo_casing/caseless/rogue/bolt
+	createditem_num = 10
+	i_type = "Ammo"
+
+/datum/anvil_recipe/weapons/iron/bolts/light
+	name = "Light Slurbow Bolts (+1 Stick) (x10)"
+	req_bar = /obj/item/ingot/iron
+	additional_items = list(/obj/item/grown/log/tree/stick)
+	created_item = /obj/item/ammo_casing/caseless/rogue/bolt/light
 	createditem_num = 10
 	i_type = "Ammo"
 

@@ -226,6 +226,7 @@ Somewhat fitting, considering the broadness of their domains. I also just think 
 	recharge_time = 25 MINUTES
 	chargetime = 0
 	chargedrain = 0
+	range = 0
 	req_items = list(/obj/item/clothing/neck/roguetown/psicross)
 	associated_skill = /datum/skill/magic/holy
 	var/chosen_bundle
@@ -367,6 +368,7 @@ Somewhat fitting, considering the broadness of their domains. I also just think 
 	recharge_time = 3 MINUTES
 	devotion_cost = 30
 	miracle = TRUE
+	range = 0
 
 /obj/effect/proc_holder/spell/self/wise_moon/cast(list/targets, mob/user)
 	if(!ishuman(user))
@@ -437,10 +439,6 @@ Somewhat fitting, considering the broadness of their domains. I also just think 
 			to_chat(user, span_warning("I cannot cast this spell on myself!"))
 			revert_cast()
 			return FALSE
-		if(!user.Adjacent(target)) // the range on this doesnt work for some reason. remove this if you can fix it. thx.
-			to_chat(user, span_warning("I must be adjacent to the target to cast this spell!"))
-			revert_cast()
-			return FALSE
 		if(!target.mind)
 			to_chat(user, span_warning("They are too simple for this spell to work!"))
 			revert_cast()
@@ -476,6 +474,7 @@ Somewhat fitting, considering the broadness of their domains. I also just think 
 	hand_path = /obj/item/melee/touch_attack/rogueweapon/nocgrasp
 	devotion_cost = 30
 	miracle = TRUE
+	range = 0
 
 /obj/item/melee/touch_attack/rogueweapon/nocgrasp
 	name = "Shimmering Hand"

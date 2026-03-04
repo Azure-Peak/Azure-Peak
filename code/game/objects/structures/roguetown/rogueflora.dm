@@ -21,6 +21,10 @@
 	alpha = 200
 	var/stump_type = /obj/structure/flora/roguetree/stump
 
+/obj/structure/flora/roguetree/get_mechanics_examine(mob/user)
+	. = ..()
+	. += span_info("Most trees can be toppled by hitting them with the 'CUT', 'CHOP', or 'REND' intents on bladed weapons. Nothing chops trees and foliage better, or quicker, than a good old fashioned axe.")
+
 /obj/structure/flora/roguetree/attack_right(mob/user)
 	handle_special_items_retrieval(user, src)
 
@@ -246,6 +250,11 @@
 	blade_dulling = DULLING_CUT
 	debris = list(/obj/item/natural/fibers = 1)
 
+/obj/structure/flora/roguegrass/get_mechanics_examine(mob/user)
+	. = ..()
+	. += span_info("Grass, bushes, and most kinds of foliage can be sliced away by hitting them with the 'CUT', 'CHOP', or 'REND' intents on bladed weapons. Using a torch or lamptern on foliage can burn it away, as well.")
+	. += span_info("Left-clicking a bush allows you to forage through it. Most common bushes are rife with thorns, fibers, and jackberries; others can hold unique herbs and flowers, perfect for alchemists and bleeding hearts alike.")
+	. += span_info("Moving through foliage has a chance to attract an ambush. The farther you're away from civilization, the more dangerous that these ambushes can become. Most ambushes can be avoided by toggling the 'SNEAK' button on your HUD, before moving through the foliage.")
 
 /obj/structure/flora/roguegrass/spark_act()
 	fire_act()
@@ -754,6 +763,10 @@
 	var/mush_animate = TRUE
 	var/mush_scream = TRUE
 
+/obj/structure/flora/rogueshroom/get_mechanics_examine(mob/user)
+	. = ..()
+	. += span_info("Most shroomtrees can be toppled by hitting them with the 'CUT', 'CHOP', or 'REND' intents on bladed weapons. Nothing chops trees and foliage better, or quicker, than a good old fashioned axe.")
+
 /obj/structure/flora/rogueshroom/happy/Initialize()
 	. = ..()
 	if(mush_animate)
@@ -817,7 +830,7 @@
 /obj/structure/flora/rogueshroom/happy/angel
 	name = "grieving angel"
 	icon_state = "angelmush"
-	desc = "each of these mushrooms is believed to have sprouted out of angel tears in the long past"
+	desc = "Each of these mushrooms is believed to have sprouted out of angel tears in the long past."
 	mush_light_range = 3
 	mush_light_power = 3
 	mush_light_color = "#e2e2e2"

@@ -144,6 +144,10 @@ GLOBAL_LIST_EMPTY(redstone_objs)
 	var/toggled = FALSE
 	redstone_structure = TRUE
 
+/obj/structure/lever/get_mechanics_examine(mob/user)
+	. = ..()
+	. += span_info("Left-click the lever to actuate whatever might be connected to it. The time needed to complete this action scales with your character's Strength.")
+
 /obj/structure/lever/attack_hand(mob/user)
 	if(isliving(user))
 		var/mob/living/L = user
@@ -166,16 +170,16 @@ GLOBAL_LIST_EMPTY(redstone_objs)
 			to_chat(user, span_warning("I need more skill to carve a name into this lever."))
 			return
 		playsound(user, 'sound/misc/wood_saw.ogg', 100, TRUE)
-		user.visible_message("<span class='info'>[user] Carves a name into the lever.</span>")
+		user.visible_message("<span class='info'>[user] carves a name into the lever.</span>")
 		if(do_after(user, 10))
 			var/levername
 			levername = input("What name would you like to carve into the lever?")
 			if (levername)
 				name = levername + "(lever)"
-				desc = "a lever with a name carved into it"
+				desc = "A lever with a name carved into it."
 			else
 				name = "lever"
-				desc = "a lever with a carving scratched out"
+				desc = "A lever with a carving scratched out."
 			playsound(user, 'sound/misc/wood_saw.ogg', 100, TRUE)
 		return
 	else if(istype(item, /obj/item/rogueweapon/chisel/assembly))

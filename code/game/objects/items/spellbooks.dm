@@ -116,21 +116,25 @@ decreases charge time if held opened in hand, for pure mage build + aesthetics.
 		var/obj/effect/proc_holder/spell/spell = spell_list[i]
 		if(spell.refundable == TRUE)
 			if(spell.cost > 0)
-				resettable_spells["[spell.name]: [spell.cost]"] = spell_list[i]
+				var/pool_tag = spell.learned_from_pool ? " ([capitalize(spell.learned_from_pool)])" : ""
+				resettable_spells["[spell.name]: [spell.cost][pool_tag]"] = spell_list[i]
 	if(!resettable_spells.len)
 		to_chat(user, span_warning("I have no spells to unbind!"))
 		return
 	user_mind.has_changed_spell = TRUE //To pre-empt a halting duplication in the for loop here
 	var/unlearn_success = FALSE
 	for(var/i = 1, i <= 2, i++)
-		var/choice = input(user, "Choose up to two spells to unbind. Cancel both to not use up your daily unbinding.") as null|anything in resettable_spells
+		var/choice = tgui_input_list(user, "Choose up to two spells to unbind. Cancel both to not use up your daily unbinding.", "Unbind Spell", resettable_spells)
 		var/obj/effect/proc_holder/spell/item = resettable_spells[choice]
 		if(!item)
 			break
 		if(!resettable_spells.len)
 			return
 		if(user_mind.RemoveSpell(item))
-			user_mind.used_spell_points -= item.cost
+			if(item.learned_from_pool && LAZYLEN(user_mind.spell_points_used_by_pool))
+				user_mind.spell_points_used_by_pool[item.learned_from_pool] = max(0, user_mind.spell_points_used_by_pool[item.learned_from_pool] - item.cost)
+			else
+				user_mind.used_spell_points -= item.cost
 			unlearn_success = TRUE
 		resettable_spells.Remove(choice)
 		user_mind.check_learnspell()

@@ -156,6 +156,26 @@
 	cost = 90 // 2 Steel
 	contains = list(/obj/item/clothing/head/roguetown/helmet/heavy/bucket)
 
+/datum/supply_pack/rogue/armor_steel/helmet_sugarloaf
+	name = "Helmet, Sugarloaf"
+	cost = 90 // 2 Steel
+	contains = list(/obj/item/clothing/head/roguetown/helmet/heavy/bucket/crusader)
+
+/datum/supply_pack/rogue/armor_steel/helmet_barbute
+	name = "Helmet, Barbute"
+	cost = 50 // 1 Steel
+	contains = list(/obj/item/clothing/head/roguetown/helmet/heavy/barbute)
+
+/datum/supply_pack/rogue/armor_steel/helmet_barbute_visor
+	name = "Helmet, Barbute with Visor"
+	cost = 90 // 2 Steel
+	contains = list(/obj/item/clothing/head/roguetown/helmet/heavy/barbute/visor)
+
+/datum/supply_pack/rogue/armor_steel/helmet_barbute_great
+	name = "Helmet, Barbute, Great"
+	cost = 90 // 2 Steel
+	contains = list(/obj/item/clothing/head/roguetown/helmet/heavy/barbute/great)
+
 /datum/supply_pack/rogue/armor_steel/helmet_pigface
 	name = "Helmet, Pigface"
 	cost = 90 // 2 Steel
@@ -180,6 +200,11 @@
 	name = "Helmet, Armet, Knight's"
 	cost = 90 // 2 Steel
 	contains = list(/obj/item/clothing/head/roguetown/helmet/heavy/knight/old)
+
+/datum/supply_pack/rogue/armor_steel/helmet_knight_armetgreatplume
+	name = "Helmet, Armet, Greatplumed"
+	cost = 40
+	contains = list(/obj/item/clothing/head/roguetown/helmet/heavy/knight/greatplume)
 
 /datum/supply_pack/rogue/armor_steel/helmet_knight
 	name = "Helmet, Knight's"

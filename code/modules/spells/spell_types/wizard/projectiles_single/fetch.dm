@@ -9,7 +9,7 @@
 	releasedrain = 15
 	chargedrain = 0
 	chargetime = 0
-	recharge_time = 8 SECONDS // 3 seconds base cooldown is ridiculous
+	recharge_time = 8 SECONDS
 	warnie = "spellwarning"
 	overlay_state = "fetch"
 	no_early_release = TRUE

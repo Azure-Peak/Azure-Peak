@@ -1,6 +1,7 @@
 /obj/structure/roguemachine/vendor
 	name = "PEDDLER"
-	desc = "A half-alive magitech vending machine. The stomach of this thing can be stuffed with fun things to buy."
+	desc = "A half-alive magitech vending machine. The stomach of this thing can be stuffed with fun things to buy. Be mindful, however; for while its favorite snack is coinage, the limits of \
+	its diet is set by another."
 	icon = 'icons/roguetown/misc/machines.dmi'
 	icon_state = "streetvendor1"
 	density = TRUE
@@ -17,6 +18,11 @@
 	var/next_hawk = 0
 	var/will_hawk = TRUE
 	var/max_items = 30
+
+/obj/structure/roguemachine/vendor/get_mechanics_examine(mob/user)
+	. = ..()
+	. += span_info("Owners of the storefront's PEDDLER can unlock it, allowing them both restock wares and vend whatever coinage might've been earned from completed sales.")
+	. += span_info("Left-clicking a PEDDLER with an open land allows you to browse and purchase its wares. Click on the 'Stored Mammons' option to retrieve any coinage or change left behind.")
 
 /obj/structure/roguemachine/vendor/proc/get_group_items(var/param)
 	// Accepts either:
@@ -498,7 +504,7 @@
 /obj/structure/roguemachine/vendor/keep_guests/Initialize()
 	. = ..()
 
-	for (var/X in list(/obj/item/roguekey/manor/guest, /obj/item/roguekey/manor/guest/two, /obj/item/roguekey/manor/guest/three, /obj/item/roguekey/manor/guest/four))
+	for (var/X in list(/obj/item/storage/keyring/manor/guest/one, /obj/item/storage/keyring/manor/guest/two, /obj/item/storage/keyring/manor/guest/three, /obj/item/storage/keyring/manor/guest/four))
 		var/obj/P = new X(src)
 		held_items[P] = list()
 		held_items[P]["NAME"] = P.name

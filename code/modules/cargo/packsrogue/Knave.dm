@@ -209,12 +209,17 @@
 /datum/supply_pack/rogue/Knave/quivers/bolts
 	name = "Quiver of Bolts"
 	cost = 30
-	contains = list(/obj/item/quiver/bolts)
+	contains = list(/obj/item/quiver/bolt/standard)
 
 /datum/supply_pack/rogue/Knave/quivers/bolts/pyro
 	name = "Quiver of Bolts - Pyroclastic"
 	cost = 100
-	contains = list(/obj/item/quiver/pyrobolts)
+	contains = list(/obj/item/quiver/bolt/pyro)
+
+/datum/supply_pack/rogue/Knave/quivers/bolts/light
+	name = "Quiver of Bolts - Light"
+	cost = 30
+	contains = list(/obj/item/quiver/bolt/light)
 
 /////////////
 // UTILITY //

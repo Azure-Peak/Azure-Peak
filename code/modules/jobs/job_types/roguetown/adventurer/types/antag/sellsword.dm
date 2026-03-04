@@ -70,6 +70,6 @@
 				beltr = /obj/item/rogueweapon/scabbard/sword
 			if("Sword & Crossbow") //Etruscan
 				backl= /obj/item/gun/ballistic/revolver/grenadelauncher/crossbow
-				beltr = /obj/item/quiver/bolts
+				beltr = /obj/item/quiver/bolt/standard
 				r_hand = /obj/item/rogueweapon/sword
 				beltl = /obj/item/rogueweapon/scabbard/sword

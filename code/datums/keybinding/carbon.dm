@@ -101,6 +101,20 @@
 	C.mmb_intent_change(QINTENT_GIVE)
 	return TRUE*/
 
+/datum/keybinding/carbon/guard
+	hotkey_keys = list("G")
+	name = "guard"
+	full_name = "Guard"
+	description = "Enter a defensive stance, guaranteeing the next hit is defended against. Works against most spells, weapon specials and melee attacks."
+	category = CATEGORY_CARBON
+
+/datum/keybinding/carbon/guard/down(client/user)
+	if(!ishuman(user.mob))
+		return FALSE
+	var/mob/living/carbon/human/H = user.mob
+	H.try_guard()
+	return TRUE
+
 /datum/keybinding/carbon/bite_intent
 	hotkey_keys = list("H")
 	name = "intent_bite"

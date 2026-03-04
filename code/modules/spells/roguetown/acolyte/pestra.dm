@@ -8,7 +8,7 @@
 	releasedrain = 10
 	chargedrain = 0
 	chargetime = 0
-	range = 2
+	range = 3
 	warnie = "sydwarning"
 	movement_interrupt = FALSE
 	sound = 'sound/magic/diagnose.ogg'
@@ -52,7 +52,7 @@
 /obj/effect/proc_holder/spell/invoked/diagnose/secular
 	name = "Secular Diagnosis"
 	overlay_state = "diagnose"
-	range = 1
+	range = 2
 	associated_skill = /datum/skill/misc/medicine
 	miracle = FALSE
 	devotion_cost = 0 //Doctors are not clerics

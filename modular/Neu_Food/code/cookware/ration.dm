@@ -14,6 +14,12 @@
 	dropshrink = 0.6
 	var/obj/item/reagent_containers/food/snacks/food = null // The food item wrapped in the ration
 
+/obj/item/ration/examine()
+	. = ..()
+	. += span_info("All food can be wrapped up by left-clicking them with the ration wrapping paper. This includes larger perishables like frybirds, cakes, and loaves of bread.")
+	. += span_info("While wrapped, food will not rot. This can be used to safely transport more luxorious around, without having to worry about it rotting away in one's pack.")
+	. += span_info("Once wrapped, activating - or left-clicking - the package in your hand will unwrap it.")
+
 /obj/item/ration/attackby(obj/item/I, mob/user)
 	. = ..()
 	if(istype(I, /obj/item/reagent_containers/food/snacks))

@@ -1,6 +1,6 @@
 /obj/effect/proc_holder/spell/invoked/bonechill
 	name = "Bone Chill"
-	desc = "Chill the target with necrotic energy. Severely reduces speed and weakens physical prowess."
+	desc = "Chill the chosen target with a burst of necrotic magicka. </br>Applies a strong slowdown effect to the chosen target, alongside further reducing their Strength and Speed."
 	cost = 3
 	overlay_state = "profane"
 	releasedrain = 30
@@ -42,6 +42,7 @@
 
 /obj/effect/proc_holder/spell/invoked/eyebite
 	name = "Eyebite"
+	desc = "Manipulate the shadows within a chosen target's eye into jagged, gnashing teeth. </br>Temporarily blinds the chosen target, while moderately damaging them."
 	overlay_state = "raiseskele"
 	releasedrain = 30
 	chargetime = 15
@@ -69,8 +70,9 @@
 	return TRUE
 
 /obj/effect/proc_holder/spell/invoked/raise_undead_formation
-	name = "Raise Formation"
-	desc = "Raises a formation of undead skeleton. Inferior shamblers. Husks in everything but zeal."
+	name = "Raise Undead Formation"
+	desc = "Invoke forbidden magicka to summon a cohort of mindless, shambling skeletons. </br>Mindless skeletons can be given orders to guard, patrol, and attack by their \
+	summoner. </br>These skeletons are weaker than their more complex-jointed counterparts, but are harder to incapacitate."
 	clothes_req = FALSE
 	overlay_state = "animate"
 	range = 7
@@ -147,7 +149,8 @@
 
 /obj/effect/proc_holder/spell/invoked/raise_undead_guard
 	name = "Conjure Undead"
-	desc = "Raises an undead guard in your servitude."
+	desc = "Invoke forbidden magicka to summon a mindless, shambling skeleton. </br>Mindless skeletons can be given orders to guard, patrol, and attack by their \
+	summoner. </br>These skeletons are weaker than their more complex-jointed counterparts, but are harder to incapacitate."
 	clothes_req = FALSE
 	overlay_state = "animate"
 	range = 7
@@ -249,7 +252,9 @@
 
 /obj/effect/proc_holder/spell/invoked/gravemark
 	name = "Gravemark"
-	desc = "Adds or removes a target from the list of allies exempt from your undead's aggression."
+	desc = "Adjusts a chosen target's status, allowing you to denote them as an ally to the undead creechers under your command. </br>Marked allies \
+	will not be targeted nor attacked by any undead creechers under your command. </br>Casting the 'Gravemark' spell on them again will mark them as \
+	an enemy, causing all undead creechers under your command to become hostile against them."
 	overlay_state = "raiseskele"
 	range = 7
 	warnie = "sydwarning"

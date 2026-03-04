@@ -83,7 +83,7 @@
 //T0. Stands the character up, if they can stand.
 /obj/effect/proc_holder/spell/self/abyssor_wind
 	name = "Second Wind"
-	desc = "Rise if fallen, and regain some of your stamina."
+	desc = "Rise if fallen, regaining some of your stamina."
 	overlay_state = "abyssor_wind"
 	releasedrain = 10
 	chargedrain = 0
@@ -379,7 +379,7 @@
 // No chargetime given this can be cast well in advance.
 /obj/effect/proc_holder/spell/invoked/abyssal_infusion
 	name = "Abyssal Infusion"
-	desc = "Consumes an anglerfish to bless target with ability to call upon Abyssal Strength."
+	desc = "Consumes an anglerfish to bless a target with ability to call upon Abyssal Strength."
 	overlay_state = "abyssal_infusion"
 	range = 7
 	no_early_release = TRUE
@@ -435,9 +435,10 @@
 
 /obj/effect/proc_holder/spell/invoked/abyssal_strength
 	name = "Abyssal Strength"
-	desc = "Buffs all your stats besides fortune, and lowers your perception."
+	desc = "Buffs all your stats besides fortune and lowers your perception."
 	overlay_state = "abyssal_strength1"
-	range = 7
+	range = 0
+	ignore_los = TRUE // this should probably be a /self spell but its not
 	no_early_release = TRUE
 	charging_slowdown = 1
 	chargetime = 2 SECONDS
@@ -568,6 +569,6 @@
 	. = ..()
 	REMOVE_TRAIT(owner, TRAIT_STRENGTH_UNCAPPED, TRAIT_MIRACLE)
 	owner.remove_filter(ABYSSAL_FILTER)
-	to_chat(owner, span_warning("the strange power fades"))
+	to_chat(owner, span_warning("The strange power fades."))
 
 #undef ABYSSAL_FILTER

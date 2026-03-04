@@ -48,11 +48,11 @@
 		user, \
 		spin = FALSE, \
 		force = H.move_force)
-// Do not call handle_knockback like in knockback cuz that means it will hardstun
+// Do not call handle_knockback like in knockback cuz that means it will hardstun.
 
 /datum/intent/mace/smash/prewarning()
 	if(mastermob)
-		playsound(mastermob, pick('sound/combat/shieldraise.ogg'), 100, FALSE)
+		playsound(mastermob, pick('sound/combat/wooshes/blunt/wooshhuge (2).ogg'), 100, FALSE)
 
 /datum/intent/mace/smash/lesser
 	name = "one-handed smash" //Exclusive to Warhammers, and other mace-styled bludgeons that can only be wielded in one hand.
@@ -1021,11 +1021,11 @@
 	spawn(0)
 		spawn_spore_clouds(target, user)
 
-	if(hit_count == 6)
+	if(hit_count == 4)
 		playsound(user, 'sound/magic/magnet.ogg', 75)
 		to_chat(user, span_userdanger("The mushroom mace is pulsing wildly!"))
 
-	if(hit_count >= 7)
+	if(hit_count >= 5)
 		spawn(0)
 			mushroom_boom(target, user)
 		hit_count = 0 // Reset after the big boom
@@ -1053,9 +1053,9 @@
 	explosion(T, devastation_range = 0, heavy_impact_range = 0, light_impact_range = 4, smoke = TRUE, soundin = pick('sound/misc/explode/explosion.ogg'))
 
 	for(var/mob/living/L in range(2, T))
-		var/damage = 30
+		var/damage = 25
 		if(L == user)
-			damage = 10 // User takes reduced damage
+			damage = 5 // User takes reduced damage
 		L.apply_damage(damage, TOX)
 		if(L != user && ishuman(L))
 			var/mob/living/carbon/human/H = L
@@ -1068,7 +1068,7 @@
 	duration = 16 SECONDS
 	plane = GAME_PLANE_UPPER
 	layer = ABOVE_ALL_MOB_LAYER
-	var/damage_amount = 5
+	var/damage_amount = 6
 
 /obj/effect/temp_visual/spore/Initialize(mapload)
 	. = ..()
@@ -1102,7 +1102,7 @@
 	desc = "A heavy mace forged from fungal-infused metals. Looks spiky!"
 	icon_state = "mushroom"
 	force = 18
-	force_wielded = 24
+	force_wielded = 27
 	max_integrity = 500
 	possible_item_intents = list(/datum/intent/mace/strike, /datum/intent/mace/boom, /datum/intent/mace/strike/dislocate)
 	gripped_intents = list(/datum/intent/mace/strike, /datum/intent/mace/boom, /datum/intent/mace/strike/dislocate, /datum/intent/mace/smash)

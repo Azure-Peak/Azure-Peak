@@ -1,7 +1,10 @@
 // Lesser miracle
 /obj/effect/proc_holder/spell/invoked/lesser_heal
 	name = "Miracle"
-	desc = "Heals target over time, causes damage if something is embedded in target. Burns undead instead of healing them if you worship the Ten.<br>Does not work on those worshipping the dead god."
+	desc = "Blesses the target with minor health regeneration. If casted in conjunction with the 'Fortify' blessing, its healing power is greatly \
+	increased. <br>Depending on your patron, a Miracle's potency can be further amplified under certain conditions; an Abyssorite heals more when \
+	standing in water, a Pestran heals more when their target's laying down, a Malumite heals more when their target's on fire, and so-on. </br>Most \
+	healing Miracles cannot affect devoted Psydonians."
 	overlay_state = "lesserheal"
 	releasedrain = 30
 	chargedrain = 0
@@ -94,7 +97,8 @@
 // Miracle
 /obj/effect/proc_holder/spell/invoked/heal
 	name = "Fortify"
-	desc = "Improves the targets ability to receive healing, buffing all healing done on them by 50%<br>Burns undead instead of healing them if you worship the Ten."
+	desc = "Amplifies all incoming sources of healing for the chosen target. Combining this with the 'Miracle' blessing allows for the mending \
+	of more extreme injuries. </br>Most healing Miracles cannot affect devoted Psydonians."
 	overlay_state = "astrata"
 	releasedrain = 30
 	chargedrain = 0
@@ -143,7 +147,8 @@
 
 /obj/effect/proc_holder/spell/invoked/regression
 	name = "Regression"
-	desc = "Rewinds the target wounds, Healing them over time."
+	desc = "Blesses the target with minor health regeneration, through manipulating the temporal nature of thier wounds. If \
+	If casted in conjunction with the 'Convergence' blessing, its healing power is greatly increased."
 	overlay_state = "regression"
 	releasedrain = 30
 	chargedrain = 0
@@ -172,7 +177,8 @@
 
 /obj/effect/proc_holder/spell/invoked/convergence
 	name = "Convergence"
-	desc = "Converges the targets past and present, causing them to heal 50% more."
+	desc = "Amplifies all incoming sources of healing for the chosen target, via temporarily linking their temporal past-and-present selves \
+	together. Combining this with the 'Miracle' blessing allows for the mending of more extreme injuries."
 	overlay_state = "convergence"
 	releasedrain = 30
 	chargedrain = 0
@@ -210,7 +216,8 @@
 
 /obj/effect/proc_holder/spell/invoked/stasis
 	name = "Stasis"
-	desc = "You capture your target's current state in time, reverting them to such a state several seconds later. If under Convergence  when expiring, your target will keep any healing they receive."
+	desc = "Preserve the chosen target's health for several seconds, before 'reversing' their condition to whatever was present upon the initial blessing. </br> If \
+	used in conjunction with the 'Convergence' blessing, the target will keep any received healing upon the 'reversal'."
 	releasedrain = 35
 	chargedrain = 1
 	chargetime = 30
@@ -319,7 +326,8 @@
 // Long CD (so a Medical class would still outpace this if there's more than one patient to heal)
 /obj/effect/proc_holder/spell/invoked/wound_heal
 	name = "Wound Miracle"
-	desc = "Heals all wounds on a targeted limb."
+	desc = "Blesses the chosen target's limb, healing all damages and wounds present on it. This can fix ruptured arteries, broken bones, and \
+	anything short of complete dismemberment. </br>Most healing Miracles cannot affect devoted Psydonians."
 	overlay_icon = 'icons/mob/actions/genericmiracles.dmi'
 	overlay_state = "woundheal"
 	action_icon_state = "woundheal"
@@ -393,8 +401,9 @@
 	return FALSE
 
 /obj/effect/proc_holder/spell/invoked/blood_heal
-	name = "Blood transfer Miracle"
-	desc = "Transfers the blood from myself to the target with divine magycks. Ratio of transfer scales with holy skill."
+	name = "Blood Boon"
+	desc = "Transfers blood from the caster to the chosen target at a steady rate, staving off the lethal effects of blood loss. The amount of \
+	blood transfered with each heartbeat scales with the caster's Holy skill. </br>Most healing Miracles cannot affect devoted Psydonians."
 	overlay_icon = 'icons/mob/actions/genericmiracles.dmi'
 	overlay_state = "bloodheal"
 	action_icon_state = "bloodheal"

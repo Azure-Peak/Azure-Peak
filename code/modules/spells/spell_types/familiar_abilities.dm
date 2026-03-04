@@ -494,6 +494,7 @@
 	name = "Verdant Veil"
 	desc = "Shrouds nearby allies in illusionary invisibility, broken if they move or act."
 	recharge_time = 30 SECONDS
+	range = 1
 
 //I wanted a long duration aoe invisibility that would be broken by movement. But I can't make it work so, short duration it is.
 /obj/effect/proc_holder/spell/self/verdant_veil/cast(list/targets, mob/living/simple_animal/pet/familiar/hollow_antlerling/user)
@@ -501,7 +502,7 @@
 	to_chat(user, span_notice("You exhale a shimmering cloud of forest illusion..."))
 	user.visible_message(span_warning("[user.name] releases a swirl of glowing leaves!"), span_notice("You feel the forest's stillness wrap around you."))
 
-	for (var/mob/living/nearby_mob in range(1, user))
+	for (var/mob/living/nearby_mob in range(range, user))
 		if (nearby_mob == user || isobserver(nearby_mob))
 			continue
 

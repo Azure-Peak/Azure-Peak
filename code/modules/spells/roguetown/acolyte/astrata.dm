@@ -365,7 +365,7 @@
 
 /obj/effect/proc_holder/spell/self/astrata_fireresist
 	name = "Flame Body"
-	desc = "Hide from the fire under the gaze of Astrata"
+	desc = "Grants you a temporary resistance to flame... for a small price of your constitution."
 	overlay_state = "createlight"
 	base_icon_state = "regalyscroll"
 	releasedrain = 10
@@ -473,6 +473,7 @@
 	hand_path = /obj/item/melee/touch_attack/rogueweapon/astratagrasp
 	devotion_cost = 30
 	miracle = TRUE
+	range = -1
 
 /obj/item/melee/touch_attack/rogueweapon/astratagrasp
 	name = "Burning Hand"
@@ -765,7 +766,7 @@
 // =====================
 /obj/effect/proc_holder/spell/invoked/immolation
 	name = "Immolation"
-	desc = "Ignite a target in holy flames, burning those that surround them. Fire burns brighter within devout Astratans."
+	desc = "Ignite a target in holy flames, burning those that surround them. The fire burns brighter within devout Astratans."
 	overlay_state = "immolation"
 	base_icon_state = "regalyscroll"
 	range = 2
@@ -1050,6 +1051,8 @@
 	recharge_time = 5 MINUTES
 	miracle = TRUE
 	devotion_cost = 100
+	ignore_los = 1
+	range = -1 // this shouldve been pathed as a "touch" type spell
 
 	invocations = list("raises their hand skyward, sacred light materializing into brilliant blade!")
 	invocation_emote_self = "<span class='notice'>I hold my hand skyward, a glimmering blade forms from light itself.</span>"

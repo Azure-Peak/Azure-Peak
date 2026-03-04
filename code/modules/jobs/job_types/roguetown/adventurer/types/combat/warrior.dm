@@ -359,6 +359,7 @@
 			"Bucket Helmet"		= /obj/item/clothing/head/roguetown/helmet/heavy/bucket/iron,
 			"Knight's Armet"		= /obj/item/clothing/head/roguetown/helmet/heavy/knight/iron,
 			"Knight's Helmet"		= /obj/item/clothing/head/roguetown/helmet/heavy/knight/old/iron,
+			"Knight's Greatplumed Armet"		= /obj/item/clothing/head/roguetown/helmet/heavy/knight/iron/greatplume,
 			"None"
 			)
 		var/helmchoice = input(H, "Choose your Helm.", "TAKE UP HELMS") as anything in helmets
@@ -589,7 +590,7 @@
 				armor = /obj/item/clothing/suit/roguetown/armor/plate/cuirass/fluted
 				shirt = /obj/item/clothing/suit/roguetown/shirt/undershirt/puritan
 				belt = /obj/item/storage/belt/rogue/leather/black
-				var/helmets = list("Puritan's Armored Hat", "Visored Sallet", "Volfskulle Bascinet", "Fluted Armet")
+				var/helmets = list("Puritan's Armored Hat", "Visored Sallet", "Volfskulle Bascinet", "Fluted Armet", "Fluted Armet With Greatplume", "Sugarloaf Greathelm", "Barbute Greathelm")
 				var/helmet_choice = input(H, "Choose your VISAGE.", "GET PSYCHED.") as anything in helmets
 				switch(helmet_choice)
 					if("Puritan's Armored Hat")
@@ -600,6 +601,12 @@
 						head = /obj/item/clothing/head/roguetown/helmet/heavy/volfplate/puritan
 					if("Fluted Armet")
 						head = /obj/item/clothing/head/roguetown/helmet/heavy/knight/fluted
+					if("Fluted Armet With Greatplume")
+						head = /obj/item/clothing/head/roguetown/helmet/heavy/knight/greatplume/fluted
+					if("Sugarloaf Greathelm")
+						head = /obj/item/clothing/head/roguetown/helmet/heavy/bucket/crusader
+					if("Barbute Greathelm")
+						head = /obj/item/clothing/head/roguetown/helmet/heavy/barbute/great
 
 	shoes = /obj/item/clothing/shoes/roguetown/boots/leather/reinforced
 	pants = /obj/item/clothing/under/roguetown/tights/puritan

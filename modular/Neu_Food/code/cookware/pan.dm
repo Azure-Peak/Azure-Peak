@@ -39,6 +39,7 @@
 	. = ..()
 	. += span_info("Frying pans can be placed atop a hearth by left-clicking it. Left-click the placed frying pan with an ingredient to begin frying - so long as the hearth is lit.")
 	. += span_info("Meats, cackleberries, and sliced vegetables are the ideal choices for frying. Other ingredients and recipes might require the gentle caress of an oven, instead.")
+	. += span_info("Leaving a fully baked item on the pan for too long will cause it to burn away.")
 
 /datum/intent/mace/strike/pan
 	hitsound = list('sound/combat/hits/blunt/frying_pan(1).ogg', 'sound/combat/hits/blunt/frying_pan(2).ogg', 'sound/combat/hits/blunt/frying_pan(3).ogg', 'sound/combat/hits/blunt/frying_pan(4).ogg')

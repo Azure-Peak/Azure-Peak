@@ -144,6 +144,40 @@
 	name = "Rune of Trickery"
 	icon_state = "xylix_chalky"
 	desc = "A Holy Rune of Xylix. You can hear the wind, and distant bells, in the distance."
+	var/trickstersrites = list("Stagehand's Silence")
+
+// this is just copied and pasted from noc, mostly. i dont know if there's a better way 2 do these now and the
+// ravox one looks weird.
+/obj/structure/ritualcircle/xylix/attack_hand(mob/living/user)
+	if(!..())
+		return
+	if((user.patron?.type) != /datum/patron/divine/xylix)
+		to_chat(user,span_smallred("I don't know the proper rites for this..."))
+		return
+	if(!HAS_TRAIT(user, TRAIT_RITUALIST))
+		to_chat(user,span_smallred("I don't know the proper rites for this..."))
+		return
+	if(user.has_status_effect(/datum/status_effect/debuff/ritesexpended))
+		to_chat(user,span_smallred("I have performed enough rituals for the day... I must rest before communing more."))
+		return
+	var/riteselection = input(user, "The Twin-Mask's Trickeries", src) as null|anything in trickstersrites
+	switch(riteselection) // put ur rite selection here
+		if("Stagehand's Silence")
+			if(do_after(user, 50))
+				user.say("I CALL UPON THE MANY-FACED TRAGEDIAN!!") // sm1 redo this thx
+				if(do_after(user, 50))
+					user.say("PLAY YOUR HARP- LET EACH STRING DEAFEN MY FOES!!") // seriously im working w/ ZERO lore.
+					if(do_after(user, 50))
+						user.say("--ON WITH THE SHOW!!") // i miss skipper
+						to_chat(user,span_cultsmall("Every play needs it's stagehands. Xylix will quicken the slow, speed your sneaking, and quiet your footsteps... for a time."))
+						playsound(loc, 'sound/magic/mockery.ogg', 60, FALSE, -1)
+						stagehands_silence(src)
+						user.apply_status_effect(/datum/status_effect/debuff/ritesexpended)
+
+/obj/structure/ritualcircle/xylix/proc/stagehands_silence(src)
+	var/ritualtargets = view(1, loc) // only works for those in a 1 tile radius around the rune. might need to be made just whoever is on top of it.
+	for(var/mob/living/carbon/human/target in ritualtargets)
+		target.apply_status_effect(/datum/status_effect/buff/stagehands_silence)
 
 /obj/effect/decal/cleanable/roguerune/god/ravox
 	name = "Rune of Justice"
@@ -1039,27 +1073,6 @@
 						user.apply_status_effect(/datum/status_effect/debuff/ritesexpended)
 						spawn(120)
 							icon_state = "necra_chalky"
-		if("Vow to the Undermaiden")
-			loc.visible_message(span_warning("[user] sways before the rune, they open their mouth, though no words come out..."))
-			playsound(user, 'sound/vo/mobs/ghost/whisper (3).ogg', 100, FALSE, -1)
-			if(do_after(user, 60))
-				loc.visible_message(span_warning("[user] silently weeps, yet their tears do not flow..."))
-				playsound(user, 'sound/vo/mobs/ghost/whisper (1).ogg', 100, FALSE, -1)
-				if(do_after(user, 60))
-					loc.visible_message(span_warning("[user] locks up, as though someone had just grabbed them..."))
-					to_chat(user,span_danger("You feel cold breath on the back of your neck..."))
-					playsound(user, 'sound/vo/mobs/ghost/death.ogg', 100, FALSE, -1)
-					if(do_after(user, 20))
-						icon_state = "necra_active"
-						user.say("This soul pledges themselves to thee!!")
-						to_chat(user,span_cultsmall("My devotion to the Undermaiden has allowed me to anoint a vow for this soul...."))
-						if(undermaidenvow(src))
-							playsound(loc, 'sound/vo/mobs/ghost/moan (1).ogg', 100, FALSE, -1)
-							user.apply_status_effect(/datum/status_effect/debuff/ritesexpended)
-							spawn(120)
-								icon_state = "necra_chalky"
-						else
-							loc.visible_message(span_warning("Then... nothing. The Undermaiden does not care for the vows of the damned, or those of other faiths."))
 		if("The Toll")
 			if(!coinslot)
 				to_chat("This rite requires the toll to be prepared...")
@@ -1132,19 +1145,6 @@
 	var/ritualtargets = view(7, loc)
 	for(var/mob/living/carbon/human/target in ritualtargets)
 		target.apply_status_effect(/datum/status_effect/buff/undermaidenbargain)
-	
-/obj/structure/ritualcircle/necra/proc/undermaidenvow(src)
-	var/ritualtargets = view(1, loc)
-	for(var/mob/living/carbon/human/target in ritualtargets)
-		if(HAS_TRAIT(target, TRAIT_ROTMAN) || HAS_TRAIT(target, TRAIT_NOBREATH) || target.mob_biotypes & MOB_UNDEAD)	//No Undead, no Rotcured, no Deathless
-			return FALSE
-		if(target.patron.type != /datum/patron/divine/necra)
-			return FALSE
-		target.apply_status_effect(/datum/status_effect/buff/necras_vow)
-		target.apply_status_effect(/datum/status_effect/buff/healing/necras_vow)
-		return TRUE
-	return FALSE
-
 
 /obj/item/soulthread
 	name = "lux-thread"

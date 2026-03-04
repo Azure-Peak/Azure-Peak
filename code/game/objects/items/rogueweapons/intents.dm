@@ -657,6 +657,10 @@
 	miss_text = "slash the air"
 	item_d_type = "slash"
 
+/datum/intent/simple/claw/simplewwnpc
+	penfactor = 25
+	clickcd = WOLF_ATTACK_SPEED
+
 /datum/intent/simple/bite
 	name = "bite"
 	icon_state = "instrike"

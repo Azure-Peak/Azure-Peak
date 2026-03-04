@@ -9,7 +9,9 @@
 
 /obj/structure/roguemachine/steward
 	name = "nerve master"
-	desc = "A magitech device connected to the royal treasury. Stewards can manage payroll by interacting with it."
+	desc = "A magitech device connected to the arteries of Azuria's royal treasury. When unlocked with the proper key, it can sway the fate of an entire kingdom's \
+	finances. Stewards traditionally use these machines to export stockpiled goods for coinage, to pay-and-tax all accounts registered through the MEISTER, and to \
+	import supplies for taskings-a-plenty."
 	icon = 'icons/roguetown/misc/machines.dmi'
 	icon_state = "steward_machine"
 	density = TRUE

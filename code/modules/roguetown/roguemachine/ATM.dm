@@ -11,7 +11,13 @@
 	var/drilled = FALSE
 	var/has_reported = FALSE
 	var/location_tag
-	
+
+/obj/structure/roguemachine/atm/get_mechanics_examine(mob/user)
+	. = ..()
+	. += span_info("Left-click with an open hand to check your personal account. If you don't already have an account, left-clicking the MEISTER will make one for you with a single mechanical jab.")
+	. += span_info("The amount of coinage you insert into a MEISTER might be taxed, depending on the whims of the Steward and your position in society. Accounts of nobility, in particular, have passive incomes.")
+	. += span_info("Accounts accrue interest, providing passive income at the start of each dae. The more coinage you have inside of your account, the more income you'll earn through interest.")
+
 /obj/structure/roguemachine/atm/attack_hand(mob/user)
 	if(!ishuman(user))
 		return

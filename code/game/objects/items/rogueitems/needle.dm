@@ -34,6 +34,14 @@
 	else
 		. += "Can be used indefinitely."
 
+/obj/item/needle/get_mechanics_examine(mob/user)
+	. = ..()
+	. += span_info("Left-click someone - while targeting the desired limb - to begin stitching a wound. Stitching automatically stops once you've completely sealed the specific wound.")
+	. += span_info("While stitching a wound, it will bleed far slower than usual. This effect can be further stacked by applying cloth, bandages, or pressure to the wounded limb.")
+	. += span_info("If multiple stitchable wounds are present on the targeted limb, you'll be given the option to choose which specific wound is treated first.")
+	. += span_info("Needles require fibers to stitch, which can be found by cutting grass or foraging through bushes.")
+	. += span_info("To rethread an emptied needle, left-click it with a strand of fiber.")
+
 /obj/item/needle/Initialize()
 	. = ..()
 	update_icon()
@@ -258,6 +266,14 @@
 	desc = "This rough needle can be used to sew cloth and wounds."
 	stringamt = 5
 	maxstring = 5
+	anvilrepair = null
+
+/obj/item/needle/thorn/cleric
+	name = "clerical needle"
+	icon_state = "lesserneedle"
+	desc = "This iron-tipped needle can stem the flow of nastier wounds; a blessing, when one is delivered a grave blow while far away from the Church."
+	stringamt = 10
+	maxstring = 10
 	anvilrepair = null
 
 /obj/item/needle/pestra

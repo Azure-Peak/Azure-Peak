@@ -1,7 +1,7 @@
 /obj/item/repair_kit
 	name = "sewing kit"
 	icon_state = "sewingkit"
-	desc = "A well-made repair kit that includes high-quality reinforced fabric lines and leather patches for field repairs."
+	desc = "A well-made repair kit that includes high-quality reinforced fabric lines and leather patches for field repairs. It can patch up gashes in leather-and-cloth without the need for a tailor's needle."
 	icon = 'icons/roguetown/items/misc.dmi'
 	lefthand_file = 'icons/mob/inhands/misc/food_lefthand.dmi'
 	righthand_file = 'icons/mob/inhands/misc/food_righthand.dmi'
@@ -109,7 +109,7 @@
 /obj/item/repair_kit/metal
 	name = "armor plates"
 	icon_state = "armorkit"
-	desc = "A wonderful set of metal patches, individual armor plates and straps for fastening them.  Everything you need to fix a leaky metal armor."
+	desc = "A wonderful set of metal patches, individual armor plates and straps for fastening them. It can be used to properly damaged weapons and armor, without the need for a blacksmith's hammer."
 	repair_type = 1
 	max_integrity = 600
 	table_need = TRUE
@@ -117,7 +117,7 @@
 /obj/item/repair_kit/metal/bad
 	name = "metal scrap kit"
 	icon_state = "custararmorkit"
-	desc = "A meager set of various pieces of old iron armor, some parts can be used for field repairs, but do not expect a miracle from this pile of metal."
+	desc = "A meager set of metal patches, repurposed iron shingles and straps for fastening them. It can be used to repair damaged weapons and armor in a pinch, without the need for a blacksmith's hammer."
 	max_integrity = 300
 
 /obj/item/armorkit_empty
@@ -155,7 +155,7 @@
 
 /obj/item/scrap
 	name = "iron scrap"
-	desc = "pieces of iron. The only thing left of what was once made of them. It might come in handy."
+	desc = "Shingles and scrap, borne from violence upon iron. There may yet still be a use for these pieces.. </br>Iron scrap can be crafted into metal repair kits, which can repair damaged equipment without the need for a blacksmith's hammer."
 	icon_state = "scrap"
 	icon = 'icons/roguetown/items/misc.dmi'
 	grid_width = 32

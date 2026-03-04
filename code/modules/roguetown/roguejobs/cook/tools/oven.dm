@@ -23,8 +23,10 @@
 
 /obj/machinery/light/rogue/oven/get_mechanics_examine(mob/user)
 	. = ..()
-	. += span_info("Left clicking on the <b>top</b> of the oven's sprite will place an item to be baked inside.")
-	. += span_info("Left clicking on the <b>bottom</b> of the oven's sprite will attempt to fuel it.")
+	. += span_info("Left-clicking on the <b>top</b> of the oven's sprite will place an item to be baked inside.")
+	. += span_info("Left-clicking on the <b>bottom</b> of the oven's sprite will attempt to fuel it.")
+	. += span_info("Once an item is fully baked, it will visibly change and emit a good smell. This includes fireable crafts, such as clay vases and jugs. Don't think too much about the implications.")
+	. += span_info("Leaving a fully baked item inside of the oven for too long will cause it to burn away.")
 
 /obj/machinery/light/rogue/oven/attackby(obj/item/W, mob/living/user, params)
 	lastuser = user

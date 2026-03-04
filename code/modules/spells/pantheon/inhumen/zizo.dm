@@ -1,9 +1,45 @@
+// T0: Snuffs out fires/lights around area of the caster, greater range with higher HOLY skill
+/obj/effect/proc_holder/spell/self/zizo_snuff
+	name = "Snuff Lights"
+	desc = "Extinguish all lights in range, with your Miracles skill increasing range."
+	action_icon = 'icons/mob/actions/zizomiracles.dmi'
+	overlay_icon = 'icons/mob/actions/zizomiracles.dmi'
+	overlay_state = "snufflight"
+	releasedrain = 10
+	chargedrain = 0
+	chargetime = 0
+	chargedloop = /datum/looping_sound/invokeholy
+	invocations = list("exhales a dark grey smog, choking any lights nearby.")
+	invocation_type = "emote"
+	sound = 'sound/magic/zizo_snuff.ogg'
+	associated_skill = /datum/skill/magic/holy
+	antimagic_allowed = FALSE
+	recharge_time = 20 SECONDS
+	miracle = TRUE
+	devotion_cost = 30
+	range = 2
+
+/obj/effect/proc_holder/spell/self/zizo_snuff/cast(list/targets, mob/user = usr)
+	. = ..()
+	if(!ishuman(user))
+		revert_cast()
+		return FALSE
+	var/checkrange = (range + user.get_skill_level(/datum/skill/magic/holy)) //+1 range per holy skill up to a potential of 8.
+	for(var/obj/O in range(checkrange, user))
+		O.extinguish()
+	for(var/mob/M in range(checkrange, user))
+		for(var/obj/O in M.contents)
+			O.extinguish()
+	return TRUE
+
 // T1: (fires a bone splinter at a target for brute and bleeding if you're not holding bones in your other hand, fires a significantly stronger bone lance if you are)
 
 /obj/effect/proc_holder/spell/invoked/projectile/profane
 	name = "Profane"
 	desc = "Fire forth a splinter of unholy bone, tearing flesh and causing bleeding. If you hold pieces of bone in your other hand, you will coax a much stronger lance of bone into being."
 	clothes_req = FALSE
+	action_icon = 'icons/mob/actions/zizomiracles.dmi'
+	overlay_icon = 'icons/mob/actions/zizomiracles.dmi'
 	overlay_state = "profane"
 	range = 8
 	associated_skill = /datum/skill/magic/arcane
@@ -90,6 +126,9 @@
 // T2: just use lesser animate undead for now
 
 /obj/effect/proc_holder/spell/invoked/raise_undead_formation/miracle
+	action_icon = 'icons/mob/actions/zizomiracles.dmi'
+	overlay_icon = 'icons/mob/actions/zizomiracles.dmi'
+	overlay_state = "skeleton_formation"
 	miracle = TRUE
 	devotion_cost = 75
 	cabal_affine = TRUE
@@ -98,6 +137,9 @@
 // T2: carbon spawn
 
 /obj/effect/proc_holder/spell/invoked/raise_undead_guard/miracle
+	action_icon = 'icons/mob/actions/zizomiracles.dmi'
+	overlay_icon = 'icons/mob/actions/zizomiracles.dmi'
+	overlay_state = "skeleton"
 	name = "Raise Deadite"
 	desc = "Raises a singular, weak deadite."
 	chargetime = 3 SECONDS
@@ -107,6 +149,9 @@
 // T3: tames bio_type = undead mobs
 
 /obj/effect/proc_holder/spell/invoked/tame_undead/miracle
+	action_icon = 'icons/mob/actions/zizomiracles.dmi'
+	overlay_icon = 'icons/mob/actions/zizomiracles.dmi'
+	overlay_state = "deadite_tame"
 	miracle = TRUE
 	devotion_cost = 100
 
@@ -116,6 +161,8 @@
 	name = "Rituos"
 	desc = "Do a zizoid ritual that skeletonises a part of your body, granting you one spell until your next rest. Once your whole body has become skeletonised, you gain full access to the Arcyne, bolstering your knowledge of spells with each additional ritual."
 	clothes_req = FALSE
+	action_icon = 'icons/mob/actions/zizomiracles.dmi'
+	overlay_icon = 'icons/mob/actions/zizomiracles.dmi'
 	overlay_state = "rituos"
 	associated_skill = /datum/skill/magic/arcane
 	chargedloop = /datum/looping_sound/invokeholy
@@ -225,34 +272,3 @@
 		part.skeletonize(FALSE)
 
 	user.update_body_parts()
-
-/obj/effect/proc_holder/spell/self/zizo_snuff
-	name = "Snuff Lights"
-	desc = "Extinguish all lights in range, with your Miracles skill increasing range."
-	releasedrain = 10
-	chargedrain = 0
-	chargetime = 0
-	chargedloop = /datum/looping_sound/invokeholy
-	invocations = list("exhales a dark grey smog, choking any lights nearby.")
-	invocation_type = "emote"
-	sound = 'sound/magic/zizo_snuff.ogg'
-	overlay_state = "rune2"
-	associated_skill = /datum/skill/magic/holy
-	antimagic_allowed = FALSE
-	recharge_time = 20 SECONDS
-	miracle = TRUE
-	devotion_cost = 30
-	range = 2
-
-/obj/effect/proc_holder/spell/self/zizo_snuff/cast(list/targets, mob/user = usr)
-	. = ..()
-	if(!ishuman(user))
-		revert_cast()
-		return FALSE
-	var/checkrange = (range + user.get_skill_level(/datum/skill/magic/holy)) //+1 range per holy skill up to a potential of 8.
-	for(var/obj/O in range(checkrange, user))
-		O.extinguish()
-	for(var/mob/M in range(checkrange, user))
-		for(var/obj/O in M.contents)
-			O.extinguish()
-	return TRUE

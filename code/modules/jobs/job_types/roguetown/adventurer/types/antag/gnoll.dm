@@ -28,7 +28,7 @@
 	always_show_on_latechoices = TRUE
 	job_reopens_slots_on_death = FALSE
 	same_job_respawn_delay = 1 MINUTES
-	virtue_restrictions = list(/datum/virtue/utility/noble) //Are you for real?
+	virtue_restrictions = list(/datum/virtue/utility/noble, /datum/virtue/combat/dualwielder) //Are you for real?
 	job_subclasses = list(
 		/datum/advclass/gnoll/berserker,
 		/datum/advclass/gnoll/knight,
@@ -68,7 +68,7 @@
 		H.AddSpell(F)
 		H.AddSpell(I)
 
-		var/mode = get_gnoll_scaling()
+		var/mode = SSgnoll_scaling.get_gnoll_scaling()
 		if(mode == GNOLL_SCALING_DYNAMIC)
 			to_chat(H, span_bignotice("I can expect to be joined by my pack this week. I should wait for them and group up."))
 		else

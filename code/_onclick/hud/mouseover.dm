@@ -39,6 +39,8 @@
 /atom/MouseExited(params)
 	. = ..()
 	if(!nomouseover && ismob(usr))
+		if(usr.client && SSmouse_entered.hovers[usr.client] == src)
+			SSmouse_entered.hovers[usr.client] = null
 		handle_mouseexit(params)
 
 /atom/proc/handle_mouseover(mob/user, params)

@@ -37,6 +37,8 @@
 	var/ignoredensity = FALSE //used on objects that we want to build into walls or atop other structures
  	// If TRUE, this recipe will be skipped by the nodupe tests
 	var/bypass_dupe_test = FALSE
+	//Hardcoded aliases, fill this in for things that have things like slang names. Real item alias names will be appended automatically during build_recipe_data
+	var/aliases = ""
 /*
 /datum/crafting_recipe/example
 	name = ""

@@ -3,6 +3,8 @@
 	name = "Call to Slaughter"
 	desc = "Grants you and all allies nearby a buff to their strength, willpower, and constitution. Debuffs followers of the Ten, but not Psydonites.\
 	Works in a three tile radius around you."
+	action_icon = 'icons/mob/actions/graggarmiracles.dmi'
+	overlay_icon = 'icons/mob/actions/graggarmiracles.dmi'
 	overlay_state = "call_to_slaughter"
 	recharge_time = 5 MINUTES
 	invocations = list("LAMBS TO THE SLAUGHTER!", "THE DARK STAR IS WATCHING!") // idk who changed it but it was identical to bloodrage. bad.
@@ -11,9 +13,10 @@
 	releasedrain = 30
 	miracle = TRUE
 	devotion_cost = 40
+	range = 3
 
 /obj/effect/proc_holder/spell/self/call_to_slaughter/cast(list/targets,mob/living/user = usr)
-	for(var/mob/living/carbon/target in view(3, get_turf(user)))
+	for(var/mob/living/carbon/target in view(range, get_turf(user)))
 		if(istype(target.patron, /datum/patron/inhumen))
 			target.apply_status_effect(/datum/status_effect/buff/call_to_slaughter)	//Buffs inhumens
 			continue
@@ -32,6 +35,8 @@
 	name = "Unholy Grasp"
 	desc = "Unleashes a snare of external blood and guts. The viscera winds around the legs of mortals... \
 	Though has little effect on simple creatures. Mortals cannot remove the net, but it decays ten seconds after landing."
+	action_icon = 'icons/mob/actions/graggarmiracles.dmi'
+	overlay_icon = 'icons/mob/actions/graggarmiracles.dmi'
 	overlay_state = "unholy_grab"
 	associated_skill = /datum/skill/magic/holy
 	projectile_type = /obj/projectile/magic/unholy_grasp
@@ -43,7 +48,8 @@
 	invocation_type = "shout"
 	invocations = list("TURN AND FACE THE BLOOD GOD!!") // VERY loud. do NOT add other invocations, this projectile can FUUUCK people up and needs to be telegraphed.
 	sound = 'sound/magic/soulsteal.ogg'
-
+	range = 8
+	
 /obj/projectile/magic/unholy_grasp
 	name = "visceral organ net"
 	icon_state = "tentacle_end"
@@ -68,6 +74,8 @@
 	name = "Revel in Death"
 	desc = "Increases the bleeding and pain of a target. Their blood-loss amount scales with every point of constitution over ten. \
 	Those with ten or less constituion will instead have a flat rate (x1.25)."
+	action_icon = 'icons/mob/actions/graggarmiracles.dmi'
+	overlay_icon = 'icons/mob/actions/graggarmiracles.dmi'
 	overlay_state = "bloodsteal"
 	recharge_time = 1 MINUTES
 	chargetime = 10
@@ -101,26 +109,20 @@
 /obj/effect/proc_holder/spell/self/graggar_bloodrage
 	name = "Bloodrage"
 	desc = "Tap into Graggar's wellspring of strength and knowledge, granting unbound power at the cost of temporary insanity and physical exhaustion." 		//reflavored into "graggar grants you some of the strength he got from stealing the souls of miscellaneous ravoxians"
+	action_icon = 'icons/mob/actions/graggarmiracles.dmi'
+	overlay_icon = 'icons/mob/actions/graggarmiracles.dmi'
 	overlay_state = "bloodrage"
 	recharge_time = 5 MINUTES
-	invocations = list("GRAGGAAAAAAAAAAAR!!",
-		"WHERE'S THE DEATH?!!",
-		"YOU! CAN'T!! KILL!!! ME!!!!",
-		"I CAN HEAR EVERYTHING!!",
-		"WE'LL ALL GO TOGETHER!!",
-		"BLOOD AND NOISE, FOREVER PIERCING MY SKULL!!",
-		"I AM THE INSIDE OF THIS WORLD!!",
-		"I TASTE THE GORE! I SMELL THE CRYING! I! WANT! MORE!!",
-		"THE BLOOD IS IN MY EYES!! IT'S WAVES CRASH AGAINST MY FOREHEAD!!",
-		"LOOK AT ME WHEN I SCREAM INTO YOUR SOUL!!",
-		"GRAGGARDAMMERUUUUNG!!" // they took our night awayyy gotterdammeruuungggg
-	)
+	invocations = list("SINISTAR, SHATTER MY BINDS!!", // VERY CLEAR that you are a heretic and VERY clear you've popped
+						"GRAGGAR, GRAGGAR, GRAGGAR!!", // your anti-stun Im Going to Kill You Now spell
+						"I EMBODY THE MOTIVE FORCE!!") // DO NOT add any ambiguious invocations
 	invocation_type = "shout"
 	sound = 'sound/magic/bloodrage.ogg'
 	releasedrain = 30
 	miracle = TRUE
 	devotion_cost = 80
 	antimagic_allowed = FALSE
+	range = 0
 	var/static/list/purged_effects = list(
 	/datum/status_effect/incapacitating/immobilized,
 	/datum/status_effect/incapacitating/paralyzed,
