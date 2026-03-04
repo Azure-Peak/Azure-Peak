@@ -404,6 +404,8 @@
 
 /mob/living/carbon/human/proc/apply_underwater_filters()
 	if(!client) return
+	if(swimming_filter_client == client) return
+
 	var/list/planes = list(
 		OPENSPACE_PLANE, 
 		OPENSPACE_BACKDROP_PLANE, 
@@ -418,12 +420,16 @@
 			PM.add_filter(FILTER_UNDERWATER_WAVE, 11, list("type" = "wave", "x" = 1, "y" = 1, "size" = 1))
 			var/F = PM.get_filter(FILTER_UNDERWATER_WAVE)
 			if(F) animate(F, offset = 10, time = 40, loop = -1)
+			
+	swimming_filter_client = client 
 
 /mob/living/carbon/human/proc/remove_underwater_filters()
 	if(!client) return
 	for(var/atom/movable/screen/plane_master/PM in client.screen)
 		PM.remove_filter(FILTER_UNDERWATER_BLUR)
 		PM.remove_filter(FILTER_UNDERWATER_WAVE)
+		
+	swimming_filter_client = null // Очищаем трекер
 
 /mob/living/carbon/human/proc/handle_swimming()
 	var/turf/T = get_turf(src)
@@ -437,7 +443,7 @@
 	var/is_true_swimming = is_swimming || is_underwater || istype(A, /area/underwater) || is_on_new_water
 
 	var/sw_skill = get_skill_level(/datum/skill/misc/swimming)
-	var/new_max_breath = (STACON * 1.5) + (sw_skill * 10)
+	var/new_max_breath = (STACON * 3) + (sw_skill * 10)
 
 	if(new_max_breath != max_breath)
 		if(max_breath > 10)
@@ -485,12 +491,10 @@
 			if(prob(20) && stat != DEAD)
 				playsound(src, (stat < UNCONSCIOUS ? 'sound/vo/throat.ogg' : 'sound/effects/bubbles.ogg'), 60, FALSE)
 	else
-		
 		if(breath_remaining < max_breath)
 			var/regen_speed = max_breath / 3.5 
 			breath_remaining = min(breath_remaining + regen_speed, max_breath)
 
-	
 	if(!resting && stat == CONSCIOUS && (is_on_new_water || is_true_swimming))
 		var/drain = 0
 		if(is_true_swimming)
@@ -527,10 +531,6 @@
 
 	if(stat != DEAD && is_underwater && client)
 		var/filter_ok = FALSE
-		for(var/atom/movable/screen/plane_master/PM in client.screen)
-			if(PM.plane == GAME_PLANE && PM.get_filter(FILTER_UNDERWATER_BLUR))
-				filter_ok = TRUE
-				break
 		if(!filter_ok) apply_underwater_filters()
 	
 	if(is_true_swimming && !is_underwater && is_on_new_water)
@@ -543,12 +543,11 @@
 
 	
 	if(is_underwater && client)
-		var/filter_ok = FALSE
-		for(var/atom/movable/screen/plane_master/PM in client.screen)
-			if(PM.plane == -5 && PM.get_filter("uw_blur"))
-				filter_ok = TRUE
-				break
-		if(!filter_ok) apply_underwater_filters()
+		
+		if(swimming_filter_client != client) 
+			apply_underwater_filters()
+	else if(!is_underwater && swimming_filter_client)
+		remove_underwater_filters()
 
 	
 	if(stat >= UNCONSCIOUS || IsKnockdown() || handcuffed)
