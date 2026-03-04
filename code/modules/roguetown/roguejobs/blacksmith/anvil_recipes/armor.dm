@@ -313,6 +313,7 @@
 	additional_items = list(/obj/item/clothing/suit/roguetown/armor/plate/bronze, /obj/item/natural/fur)
 	created_item = /obj/item/clothing/suit/roguetown/armor/plate/full/bronze/alt
 	craftdiff = 2
+	bypass_dupe_test = TRUE
 
 /datum/anvil_recipe/armor/bronze/fullplate
 	name = "Panoply Assembly, Full, Bronze (+1 Panoply Assembly, Halved, Bronze)"
@@ -321,6 +322,7 @@
 	additional_items = list(/obj/item/clothing/suit/roguetown/armor/plate/full/bronze/alt)
 	created_item = /obj/item/clothing/suit/roguetown/armor/plate/full/bronze
 	craftdiff = 3
+	bypass_dupe_test = TRUE
 
 /datum/anvil_recipe/armor/bronze/gorget
 	name = "Neckguard, Bronze (+1 Cured Leather)"
@@ -650,6 +652,7 @@
 	req_blade = /obj/item/blade/steel_plate
 	additional_items = list(/obj/item/clothing/suit/roguetown/armor/chainmail)
 	created_item = /obj/item/clothing/suit/roguetown/armor/chainmail/hauberk
+	bypass_dupe_test = TRUE
 
 /datum/anvil_recipe/armor/steel/halfplate
 	name = "Half-Plate, Steel (+1 Cuirass, Steel; +1 Cured Leather)"
@@ -657,6 +660,7 @@
 	req_blade = /obj/item/blade/steel_plate
 	additional_items = list(/obj/item/clothing/suit/roguetown/armor/plate/cuirass, /obj/item/natural/hide/cured)
 	created_item = /obj/item/clothing/suit/roguetown/armor/plate
+	bypass_dupe_test = TRUE
 
 /datum/anvil_recipe/armor/steel/halfplate/legacy
 	name = "Valorian Half-Plate, Steel (+1 Valorian Cuirass, Steel; +1 Cured Leather)"
@@ -664,6 +668,7 @@
 	req_blade = /obj/item/blade/steel_plate
 	additional_items = list(/obj/item/clothing/suit/roguetown/armor/plate/cuirass/legacy, /obj/item/natural/hide/cured)
 	created_item = /obj/item/clothing/suit/roguetown/armor/plate/legacy
+	bypass_dupe_test = TRUE
 
 /datum/anvil_recipe/armor/steel/halfplate/fluted
 	name = "Fluted Half-Plate, Steel (+1 Fluted Cuirass, Steel; +1 Cured Leather)"
@@ -671,6 +676,7 @@
 	req_blade = /obj/item/blade/steel_plate
 	additional_items = list(/obj/item/clothing/suit/roguetown/armor/plate/cuirass/fluted, /obj/item/natural/hide/cured)
 	created_item = /obj/item/clothing/suit/roguetown/armor/plate/fluted
+	bypass_dupe_test = TRUE
 
 /datum/anvil_recipe/armor/steel/fullplate
 	name = "Full-Plate, Steel (+1 Half-Plate, Steel)"
@@ -678,6 +684,7 @@
 	req_blade = /obj/item/blade/steel_plate
 	additional_items = list(/obj/item/clothing/suit/roguetown/armor/plate)
 	created_item = /obj/item/clothing/suit/roguetown/armor/plate/full
+	bypass_dupe_test = TRUE
 
 /datum/anvil_recipe/armor/steel/fullplate/legacy
 	name = "Valorian Full-Plate, Steel (+1 Valorian Half-Plate, Steel)"
@@ -685,6 +692,7 @@
 	req_blade = /obj/item/blade/steel_plate
 	additional_items = list(/obj/item/clothing/suit/roguetown/armor/plate/legacy)
 	created_item = /obj/item/clothing/suit/roguetown/armor/plate/full/legacy
+	bypass_dupe_test = TRUE
 
 /datum/anvil_recipe/armor/steel/fullplate/fluted
 	name = "Fluted Full-Plate, Steel (+1 Fluted Half-Plate, Steel)"
@@ -692,6 +700,7 @@
 	req_blade = /obj/item/blade/steel_plate
 	additional_items = list(/obj/item/clothing/suit/roguetown/armor/plate/fluted)
 	created_item = /obj/item/clothing/suit/roguetown/armor/plate/full/fluted
+	bypass_dupe_test = TRUE
 
 /datum/anvil_recipe/armor/steel/fullplate/fluted/legacy
 	name = "Valorian Fluted Full-Plate, Steel (+1 Valorian Half-Plate, Steel; +1 Iron)"
@@ -699,6 +708,7 @@
 	req_blade = /obj/item/blade/steel_plate
 	additional_items = list(/obj/item/clothing/suit/roguetown/armor/plate/legacy, /obj/item/ingot/iron)
 	created_item = /obj/item/clothing/suit/roguetown/armor/plate/full/fluted/legacy
+	bypass_dupe_test = TRUE
 
 /datum/anvil_recipe/armor/steel/platebikini
 	name = "Half-Plate Corslet, Steel (+1 Chainmail Corslet, Steel; +1 Cured Leather)"
@@ -706,6 +716,7 @@
 	req_blade = /obj/item/blade/steel_plate
 	additional_items = list(/obj/item/clothing/suit/roguetown/armor/chainmail/bikini, /obj/item/natural/hide/cured)
 	created_item = /obj/item/clothing/suit/roguetown/armor/plate/bikini
+	bypass_dupe_test = TRUE
 
 /datum/anvil_recipe/armor/steel/fullplatebikini
 	name = "Full-Plate Corslet, Steel (+1 Half-Plate Corslet, Steel)"
@@ -713,6 +724,7 @@
 	req_blade = /obj/item/blade/steel_plate
 	additional_items = list(/obj/item/clothing/suit/roguetown/armor/plate/bikini)
 	created_item = /obj/item/clothing/suit/roguetown/armor/plate/full/bikini
+	bypass_dupe_test = TRUE
 
 /datum/anvil_recipe/armor/steel/coatplates
 	name = "Coat Of Plates, Steel (+1 Steel, +1 Cured Leather)"
@@ -1354,6 +1366,7 @@
 	additional_items = list(/obj/item/clothing/suit/roguetown/armor/plate/blacksteel/modern)
 	created_item = /obj/item/clothing/suit/roguetown/armor/plate/full/blacksteel/modern
 	craftdiff = 5
+	bypass_dupe_test = TRUE
 
 /datum/anvil_recipe/armor/blacksteel/modern/halfplatechest
 	name = "Half-Plate, Blacksteel (+1 Cuirass, Blacksteel; +1 Cured Hide)"
@@ -1361,6 +1374,7 @@
 	additional_items = list(/obj/item/clothing/suit/roguetown/armor/plate/cuirass/blacksteel, /obj/item/natural/hide/cured)
 	created_item = /obj/item/clothing/suit/roguetown/armor/plate/blacksteel/modern
 	craftdiff = 5
+	bypass_dupe_test = TRUE
 
 /datum/anvil_recipe/armor/blacksteel/modern/plategloves
 	name = "Plate Gauntlets, Blacksteel"
