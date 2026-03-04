@@ -560,7 +560,14 @@ GLOBAL_LIST_EMPTY(chosen_names)
 					virtue_html += "   <a href='?_src_=prefs;preference=subvirtue_two;task=input'>[(virtuetwo.choice_costs[(virtuetwo.picked_choices.len + 1)] == 0) ? "<font color = '#FFFFFF'>" : ""]Pick Bonus[(virtuetwo.choice_costs[(virtuetwo.picked_choices.len + 1)] == 0) ? "</font>" : ""] [length(virtuetwo.picked_choices) > 0 ? "([virtuetwo.choice_costs[(virtuetwo.picked_choices.len + 1)]] TRI)" : ""] </a><br>"
 			else
 				virtuetwo = GLOB.virtues[/datum/virtue/none]
-			dat += fieldset_block("Virtues", virtue_html, "virtue_block")
+			var/virtue_fieldset
+			if(statpack.virtuous)
+				virtue_fieldset += "<fieldset style='border: 1px solid ["#a08357"]; display: inline'>"
+				virtue_fieldset += "<legend align='center' style='font-weight: bold; color: ["#a08357"]'>Virtues</legend>"
+			dat += virtue_fieldset ? virtue_fieldset : ""
+			dat += virtue_html
+			dat += virtue_fieldset ? "</fieldset>" : ""
+			dat += "<br>"
 			dat += "<b>Vices:</b>"
 			if(charflaws.len)
 				for(var/i = 1 to charflaws.len)
