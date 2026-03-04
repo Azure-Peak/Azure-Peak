@@ -677,6 +677,17 @@
 	},
 /turf/open/floor/rogue/cobble/mossy,
 /area/rogue/outdoors/town)
+"ahs" = (
+/obj/machinery/light/rogue/firebowl/standing/blue,
+/obj/effect/decal/edge{
+	color = "#3f3f3f";
+	dir = 4
+	},
+/obj/structure/fluff/walldeco/mageguild{
+	pixel_x = -32
+	},
+/turf/open/floor/rogue/hexstone,
+/area/rogue/indoors/town/magician)
 "ahv" = (
 /obj/structure/fluff/railing/border/north,
 /obj/structure/fluff/railing/corner/south_west,
@@ -12261,6 +12272,7 @@
 	dir = 1
 	},
 /obj/machinery/light/rogue/campfire/fireplace,
+/obj/machinery/light/rogue/torchholder/r,
 /turf/open/floor/rogue/concrete,
 /area/rogue/indoors/town/magician)
 "cFU" = (
@@ -13855,10 +13867,6 @@
 /obj/structure/fluff/railing/corner,
 /turf/open/floor/rogue/cobble,
 /area/rogue/outdoors/town)
-"cXs" = (
-/obj/structure/fluff/railing/corner/south_west,
-/turf/open/floor/rogue/tile,
-/area/rogue/indoors/town/magician)
 "cXA" = (
 /obj/machinery/light/rogue/campfire/densefire,
 /turf/open/floor/rogue/naturalstone,
@@ -43188,6 +43196,7 @@
 	pixel_x = 0;
 	pixel_y = 3
 	},
+/obj/machinery/light/rogue/torchholder/r,
 /turf/open/floor/rogue/concrete,
 /area/rogue/indoors/town/magician)
 "jjm" = (
@@ -50456,12 +50465,6 @@
 "kLe" = (
 /turf/open/transparent/openspace,
 /area/rogue/outdoors/exposed/town/keep)
-"kLh" = (
-/obj/structure/fluff/walldeco/mageguild{
-	pixel_x = 32
-	},
-/turf/open/floor/rogue/tile,
-/area/rogue/indoors/town/magician)
 "kLi" = (
 /obj/structure/table/wood/long_table,
 /turf/open/floor/rogue/tile/harem,
@@ -66331,10 +66334,6 @@
 /obj/item/natural/stone,
 /turf/open/floor/rogue/dirt/road,
 /area/rogue/outdoors/beach/north)
-"oeh" = (
-/obj/machinery/light/rogue/torchholder/r,
-/turf/open/floor/rogue/tile,
-/area/rogue/indoors/town/magician)
 "oek" = (
 /obj/structure/chair/stool/rogue,
 /turf/open/floor/carpet/red,
@@ -72105,10 +72104,6 @@
 /obj/structure/fluff/railing/corner,
 /turf/open/floor/rogue/dirt,
 /area/rogue/outdoors/mountains/decap)
-"plb" = (
-/obj/structure/fluff/railing/border,
-/turf/open/floor/rogue/tile,
-/area/rogue/indoors/town/magician)
 "plc" = (
 /obj/effect/decal/cobbleedge{
 	dir = 4;
@@ -100116,10 +100111,6 @@
 /obj/item/clothing/cloak/templar/necran,
 /turf/open/floor/rogue/cobble,
 /area/rogue/indoors/town/church/basement)
-"vln" = (
-/obj/structure/fluff/railing/corner/south_east,
-/turf/open/floor/rogue/tile,
-/area/rogue/indoors/town/magician)
 "vlo" = (
 /obj/structure/fluff/railing/border{
 	dir = 4
@@ -100696,7 +100687,6 @@
 	pixel_x = -2;
 	pixel_y = 40
 	},
-/obj/machinery/light/rogue/torchholder/r,
 /turf/open/floor/rogue/tile,
 /area/rogue/indoors/town/magician)
 "vrd" = (
@@ -294671,7 +294661,7 @@ aHL
 oGa
 oGa
 oGa
-aHL
+ahs
 nTJ
 nTJ
 afY
@@ -295123,7 +295113,7 @@ ukG
 ukG
 ukG
 ukG
-vln
+ukG
 tln
 nTJ
 xHY
@@ -295575,7 +295565,7 @@ ukG
 xVh
 xVh
 xVh
-plb
+ukG
 oiM
 nTJ
 rgi
@@ -296027,7 +296017,7 @@ ukG
 xVh
 xVh
 xVh
-cXs
+ukG
 vSh
 nTJ
 ojx
@@ -296929,9 +296919,9 @@ nTJ
 nTJ
 vra
 ukG
-kLh
 ukG
-oeh
+ukG
+ukG
 nTJ
 nTJ
 rIz
