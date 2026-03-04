@@ -346,12 +346,12 @@ GLOBAL_LIST_EMPTY(soil_list)
 		produce_ready = FALSE
 
 /obj/structure/soil/Initialize()
-	START_PROCESSING(SSprocessing, src)
+	START_PROCESSING(SSfarming, src)
 	GLOB.weather_act_upon_list += src
 	. = ..()
 
 /obj/structure/soil/Destroy()
-	STOP_PROCESSING(SSprocessing, src)
+	STOP_PROCESSING(SSfarming, src)
 	GLOB.weather_act_upon_list -= src
 	. = ..()
 
@@ -400,8 +400,8 @@ GLOBAL_LIST_EMPTY(soil_list)
 	var/t = tilled_time > 0 ? 1 : 0
 	return "[w]-[n]-[wd]-[ps]-[h]-[t]"
 
-/obj/structure/soil/process()
-	var/dt = 10
+/obj/structure/soil/process(wait)
+	var/dt = wait
 	process_weeds(dt)
 	process_plant(dt)
 	process_soil(dt)
@@ -732,6 +732,14 @@ GLOBAL_LIST_EMPTY(soil_list)
 	produce_ready = FALSE
 	plant_dead = FALSE
 	update_icon()
+
+/obj/structure/soil/debug_soil
+	water = MAX_PLANT_WATER
+	nutrition = MAX_PLANT_NUTRITION
+
+/obj/structure/soil/debug_soil/Initialize()
+	. = ..()
+	insert_plant(GLOB.plant_defs[/datum/plant_def/wheat])
 
 #undef MAX_PLANT_HEALTH
 #undef MAX_PLANT_WATER
