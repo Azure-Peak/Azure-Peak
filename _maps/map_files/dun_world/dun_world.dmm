@@ -64197,9 +64197,9 @@
 /obj/structure/fluff/walldeco/stone/stone5{
 	pixel_y = 32
 	},
-/obj/item/candle/candlestick/silver/single/lit{
-	pixel_x = 3;
-	pixel_y = 12
+/obj/item/candle/skull/lit{
+	pixel_x = 4;
+	pixel_y = 13
 	},
 /turf/open/floor/rogue/metal{
 	icon_state = "plating2"
@@ -106656,13 +106656,13 @@
 	dir = 4
 	},
 /obj/structure/rack/rogue/shelf,
-/obj/item/heart_blood_canister{
-	pixel_x = -7;
-	pixel_y = 39
+/obj/item/heart_blood_canister/filled{
+	pixel_x = -6;
+	pixel_y = 40
 	},
-/obj/item/heart_blood_canister{
-	pixel_x = 2;
-	pixel_y = 39
+/obj/item/heart_blood_canister/filled{
+	pixel_x = 5;
+	pixel_y = 40
 	},
 /turf/open/floor/rogue/ruinedwood/spiral,
 /area/rogue/indoors/town/physician)
