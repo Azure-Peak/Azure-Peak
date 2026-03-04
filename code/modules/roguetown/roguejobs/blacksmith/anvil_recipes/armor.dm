@@ -167,12 +167,14 @@
 	req_bar = /obj/item/ingot/aalloy
 	additional_items = list(/obj/item/clothing/suit/roguetown/armor/plate/cuirass/aalloy, /obj/item/natural/hide/cured)
 	created_item = /obj/item/clothing/suit/roguetown/armor/plate/aalloy
+	bypass_dupe_test = TRUE
 
 /datum/anvil_recipe/armor/paalloy/halfplate
 	name = "Half-Plate, Ancient (+1 Cuirass, Ancient; +1 Cured Leather)"
 	req_bar = /obj/item/ingot/purifiedaalloy
 	additional_items = list(/obj/item/clothing/suit/roguetown/armor/plate/cuirass/paalloy, /obj/item/natural/hide/cured)
 	created_item = /obj/item/clothing/suit/roguetown/armor/plate/paalloy
+	bypass_dupe_test = TRUE
 
 /datum/anvil_recipe/armor/aalloy/chainmail
 	name = "Chainmail, Decrepit"
@@ -189,12 +191,14 @@
 	req_bar = /obj/item/ingot/aalloy
 	created_item = /obj/item/clothing/suit/roguetown/armor/chainmail/hauberk/aalloy
 	additional_items = list(/obj/item/clothing/suit/roguetown/armor/chainmail/aalloy)
+	bypass_dupe_test = TRUE
 
 /datum/anvil_recipe/armor/paalloy/hauberk
 	name = "Hauberk, Ancient (+1 Chainmail, Ancient)"
 	req_bar = /obj/item/ingot/purifiedaalloy
 	created_item = /obj/item/clothing/suit/roguetown/armor/chainmail/hauberk/paalloy
 	additional_items = list(/obj/item/clothing/suit/roguetown/armor/chainmail/paalloy)
+	bypass_dupe_test = TRUE
 
 /datum/anvil_recipe/armor/aalloy/bracers
 	name = "Bracers, Decrepit"
@@ -388,6 +392,7 @@
 	req_blade = /obj/item/blade/iron_plate
 	additional_items = list(/obj/item/clothing/suit/roguetown/armor/chainmail/iron)
 	created_item = /obj/item/clothing/suit/roguetown/armor/chainmail/hauberk/iron
+	bypass_dupe_test = TRUE
 
 /datum/anvil_recipe/armor/iron/knightarmet
 	name = "Helmet, Armet, Knight, Iron (+1 Iron)"
