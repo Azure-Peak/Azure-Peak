@@ -172,11 +172,10 @@
 	added_traits = list(TRAIT_NASTY_EATER)
 
 /datum/virtue/utility/prowler
-	name = "(Virtuous) Prowler"
+	name = "Prowler"
 	desc = "I've learned to stalk the shadows, in step, in sight and in my nimble fingers."
 	max_choices = 6
 	choice_costs = list(0, 0, 1, 1, 1, 1)
-	virtuous_only = TRUE
 	choice_tooltips = list(
 		"Light Steps" = "My steps are light and swift. I make less noise while sneaking and wearing armor, and can sneak much quicker.",
 		"Second Voice" = "I am able to change my voice at will (Grants a button in 'Virtue' tab to change voice color)."
@@ -340,10 +339,9 @@
 				BP.attach_limb(recipient)
 
 /datum/virtue/utility/woodwalker
-	name = "(Virtuous) Woodwalker"
+	name = "Woodwalker"
 	desc = "After years of training in the wilds, I've learned to traverse the woods confidently, without breaking any twigs. I can even step lightly on leaves without falling, and I can gather twice as many things from bushes."
 	added_traits = list(TRAIT_WOODWALKER, TRAIT_OUTDOORSMAN)
-	virtuous_only = TRUE
 
 /datum/virtue/heretic/zchurch_keyholder
 	name = "Defiled Keyholder"
