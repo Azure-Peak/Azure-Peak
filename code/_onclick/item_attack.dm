@@ -448,6 +448,10 @@
 /obj/attacked_by(obj/item/I, mob/living/user)
 	user.changeNext_move(CLICK_CD_INTENTCAP)
 	var/newforce = (get_complex_damage(I, user, blade_dulling) * I.demolition_mod)
+
+	if(user.used_intent.intent_destructive_mod) // rending no longer destroys objects
+		newforce = newforce * user.used_intent.intent_destructive_mod
+
 	if(!newforce)
 
 		return 0
