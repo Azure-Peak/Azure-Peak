@@ -182,6 +182,7 @@
 	item_d_type = "slash"
 	misscost = 10
 	intent_intdamage_factor = 0.05
+	intent_destructive_mod = 0.05 // you arent supposed to rend trees down
 
 /datum/intent/rend/reach
 	name = "long rend"

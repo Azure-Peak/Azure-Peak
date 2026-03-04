@@ -48,6 +48,8 @@
 	var/penfactor = 0
 	/// Whether the intent itself has integrity damage modifier. Used for rend.
 	var/intent_intdamage_factor = 1
+	/// Whether the intent has it's own OBJECT damage modifier. Also used for rend. 
+	var/intent_destructive_mod = 1
 	/// Minimum damage from the intent.
 	var/min_intent_damage = 0
 	/// Maximum damage from the intent.
@@ -182,6 +184,9 @@
 	if(intent_intdamage_factor != 1)
 		var/percstr = abs(intent_intdamage_factor - 1) * 100
 		inspec += "\nThis intent deals [percstr]% [intent_intdamage_factor > 1 ? "more" : "less"] damage to integrity."
+	if(intent_destructive_mod != 1)
+		var/intent_des = abs(intent_destructive_mod - 1) * 100
+		inspec += "\nThis intent deals [intent_des]% [intent_destructive_mod > 1 ? "more" : "less"] damage to objects."
 	if(sharpness_penalty)
 		inspec += "\nThis intent will cost some sharpness for every attack made."
 	inspec += "<br>----------------------"
