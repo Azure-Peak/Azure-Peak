@@ -2471,7 +2471,7 @@ Slots: [job.spawn_positions] [job.round_contrib_points ? "RCP: +[job.round_contr
 
 					if (result)
 						var/datum/virtue/virtue_chosen = virtue_choices[result]
-						virtue = virtue_chosen
+						virtue = new virtue_chosen
 						to_chat(user, process_virtue_text(virtue_chosen))
 				if("virtuetwo")
 					var/list/virtue_choices = list()
@@ -2496,7 +2496,7 @@ Slots: [job.spawn_positions] [job.round_contrib_points ? "RCP: +[job.round_contr
 
 					if (result)
 						var/datum/virtue/virtue_chosen = virtue_choices[result]
-						virtuetwo = virtue_chosen
+						virtuetwo = new virtue_chosen
 						to_chat(user, process_virtue_text(virtue_chosen))
 					/*	if (statpack.type != /datum/statpack/wildcard/virtuous)
 							statpack = new /datum/statpack/wildcard/virtuous
