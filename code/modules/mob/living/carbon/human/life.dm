@@ -443,7 +443,7 @@
 	var/is_true_swimming = is_swimming || is_underwater || istype(A, /area/underwater) || is_on_new_water
 
 	var/sw_skill = get_skill_level(/datum/skill/misc/swimming)
-	var/new_max_breath = (STACON * 3) + (sw_skill * 10)
+	var/new_max_breath = (STACON * 5) + (sw_skill * 5)
 
 	if(new_max_breath != max_breath)
 		if(max_breath > 10)
