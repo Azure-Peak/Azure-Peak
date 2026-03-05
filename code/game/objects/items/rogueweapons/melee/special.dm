@@ -1017,6 +1017,9 @@
 					// They are both now linked to each other. This is needed for later shitcode.
 					attached_assassin = H
 					villain.attached_knife = src
+					// we want you to always have your own face for later use
+					var/datum/stolen_face/your_face = new
+					your_face.steal_face(H) 
 				
 			// this goes second for looks reasons
 			var/message = pick(last_words)
@@ -1079,9 +1082,11 @@
 			qdel(transfer_beam)
 
 			var/mob/living/carbon/human/human_user = user
-
-			human_user.copy_physical_features(target)
-			to_chat(user, span_purple("I take on a new face.."))
+			var/datum/stolen_face/new_face = new // heyyy we want sum new face
+			new_face.steal_face(target)
+			stolen_faces += new_face
+			// human_user.copy_physical_features(target)
+			to_chat(user, span_graggarnoanimate("I take on a new face..."))
 			ADD_TRAIT(target, TRAIT_DISFIGURED, TRAIT_GENERIC)
 
 			return
