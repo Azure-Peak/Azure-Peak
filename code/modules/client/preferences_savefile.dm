@@ -435,8 +435,8 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 				break
 
 	if(error_found)
-		virtue = sane_virtue
 		qdel(virtue)
+		virtue = sane_virtue
 	else
 		qdel(sane_virtue)
 
