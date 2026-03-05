@@ -479,7 +479,7 @@
 /datum/status_effect/buff/magearmor/on_apply()
 	. = ..()
 	playsound(owner, 'sound/magic/magearmordown.ogg', 75, FALSE)
-	duration = (60-owner.get_skill_level(/datum/skill/magic/arcane)*5) SECONDS
+	duration = 70 SECONDS // flat number, on the shorter side since it only protect again melee attacks that targets unmarmored parts
 
 /datum/status_effect/buff/magearmor/on_remove()
 	. = ..()
