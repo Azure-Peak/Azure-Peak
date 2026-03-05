@@ -951,49 +951,76 @@
 /obj/item/rogueweapon/huntingknife/idagger/steel/profane
 	name = "profane dagger"
 	desc = "A profane dagger made from a cursed alloy. Whispers emanate from the diamond on its hilt. </br>A chill rolls down my spine. I am not alone."
-	possible_item_intents = list(/datum/intent/dagger/cut, /datum/intent/dagger/thrust, /datum/intent/peculate, /datum/intent/dagger/thrust/pick)
-	sellprice = 250
+	possible_item_intents = list(/datum/intent/dagger/cut, /datum/intent/dagger/thrust, /datum/intent/dagger/thrust/pick, /datum/intent/peculate)
+	sellprice = 0 // this shouldnt be del'able by merchant means
 	icon_state = "graggardagger"
 	sheathe_icon = "graggardagger"
 	embedding = list("embed_chance" = 0) // Embedding the cursed dagger has the potential to cause duping issues. Keep it like this unless you want to do a lot of bug hunting.
-	resistance_flags = INDESTRUCTIBLE
+	resistance_flags = INDESTRUCTIBLE // this has to be destroyed by a necran
 	stealthy_audio = TRUE
+	var/souls_taken = list() // each dagger is going to have a list() of souls within it. 
+	var/stolen_faces = list()
+	var/attached_assassin = null // if an assassin picks up a dagger, it gets "attached" to them for later use.
+
+	// For the sake of making these easier to edit, we're going to store these lines on the dagger.
+	var/static/list/na_pleads = list(
+		"Help me...",
+		"Save me...",
+		"It's cold...",
+		"Free us... please...",
+		"Necra... deliver us...",
+		"I can still feel the pain...",
+		"Break the dagger... please...",
+	)
+
+	// This is A NON STATIC list bc of future intentions.
+	// HOPES AND DREAMS: Add the last words of any given soul-stolen victim in the same vein as the
+	// way it's recorded on round-end. This SHOULD be doable.
+	var/list/last_words = list(
+		"Why...",
+		"...Who sent you?",
+		"You will burn for what you've done...",
+		"I hate you...",
+		"Guards, stop them!",
+		"GUARDS! HELP!",
+		"Someone stop them!",
+		"...What's that in your hand?",
+		"...You love me, don't you?",
+		"Wait... dont I know you?",
+		"I thought you were... my friend...",
+		"What, you egg?",
+		"How long have I been in here...?",
+	)
 
 /obj/item/rogueweapon/huntingknife/idagger/steel/profane/examine(mob/user)
 	. = ..()
 	if(HAS_TRAIT(user, TRAIT_ASSASSIN))
-		. += "profane dagger whispers, \"[span_danger("Here we are!")]\""
+		. += span_cultsmall("[src] whispers, \"...here we are!\"")
 
 /obj/item/rogueweapon/huntingknife/idagger/steel/profane/pickup(mob/living/M)
 	. = ..()
 	if(ishuman(M))
 		var/mob/living/carbon/human/H = M
+		// TODO: FORCE A DROP & MOOD MIFF
 		if (!HAS_TRAIT(H, TRAIT_ASSASSIN)) // Non-assassins don't like holding the profane dagger.
+			to_chat(H, span_danger("Your breath chills as you pick up the dagger. You feel a sense of morbid wrongness!"))
 			H.add_stress(/datum/stressevent/profane)
-			to_chat(M, "<span class='danger'>Your breath chills as you pick up the dagger. You feel a sense of morbid wrongness!</span>")
-			var/message = pick(
-				"<span class='danger'>Help me...</span>",
-				"<span class='danger'>Save me...</span>",
-				"<span class='danger'>It's cold...</span>",
-				"<span class='danger'>Free us...please...</span>",
-				"<span class='danger'>Necra...deliver...us...</span>")
-//			H.visible_message("profane dagger whispers, \"[message]\"")
-			to_chat(M, "profane dagger whispers, \"[message]\"")
+			var/message = pick(na_pleads)
+			to_chat(H, span_gamedeadsay("[src] whispers, \"[message]\"")) // i tried making the dagger actually whisper but no this is the best we're getting.
 		else
-			var/message = pick(
-				"<span class='danger'>Why...</span>",
-				"<span class='danger'>...Who sent you?</span>",
-				"<span class='danger'>...You will burn for what you've done...</span>",
-				"<span class='danger'>I hate you...</span>",
-				"<span class='danger'>Someone stop them!</span>",
-				"<span class='danger'>Guards! Help!</span>",
-				"<span class='danger'>...What's that in your hand?</span>",
-				"<span class='danger'>...You love me...don't you?</span>",
-				"<span class='danger'>Wait...don't I know you?</span>",
-				"<span class='danger'>I thought you were...my friend...</span>",
-				"<span class='danger'>How long have I been in here...</span>")
-//			H.visible_message("profane dagger whispers, \"[message]\"")
-			to_chat(M, "profane dagger whispers, \"[message]\"")
+			// i fucking haaate the fact this checks EVERY pickup when i just want it to RUN ONCE!! F UCK!!
+			if(!attached_assassin) // first assassin to pick up a dagger "claims" it
+				// Someone find a better way to do this, please.
+				var/datum/antagonist/assassin/villain = H.mind.has_antag_datum(/datum/antagonist/assassin)
+				if(!villain.attached_knife) // no doubling up
+					to_chat(H, span_graggarsmall("As you pick up the dagger, it recognizes you as it's master. DOMINATE. DESTROY. DESPOIL."))
+					// They are both now linked to each other. This is needed for later shitcode.
+					attached_assassin = H
+					villain.attached_knife = src
+				
+			// this goes second for looks reasons
+			var/message = pick(last_words)
+			to_chat(H, span_gamedeadsay("[src] whispers, \"[message]\"")) // i tried making the dagger actually whisper but no this is the best we're getting.
 
 /obj/item/rogueweapon/huntingknife/idagger/steel/profane/pre_attack(mob/living/carbon/human/target, mob/living/user = usr, params)
 	if(!istype(target))
@@ -1004,6 +1031,10 @@
 		force = 20 + 4	//vs non-trait havers, 4 more damage over a steel knife
 	return FALSE
 
+/*TODO:
+// fix this
+// sound/misc/zizo.ogg, 25
+*/
 /obj/item/rogueweapon/huntingknife/idagger/steel/profane/afterattack(mob/living/carbon/human/target, mob/living/user = usr, proximity)
 	. = ..()
 	if(!ishuman(target))
@@ -1053,6 +1084,10 @@
 
 			return
 
+		/* TODO:
+		// IF TARGET HAS HUNTED FLAW, RUN THE PROFANE SOUL. GIVE TRIUMPH TO ASSASSIN. WHEN THE PROC GETS CALLED, IT NEEDS TO APPLY DNR
+		// TO THE TARGET'S BODY, INCREASE SOULS IN THE DAGGER BY ONE-- AND THAT'S IT. REPAIR IT AND SHIT TOO, I GUESS.
+		*/
 		if(target.has_flaw(/datum/charflaw/hunted)) // The profane dagger only thirsts for those who are hunted, by flaw or by zizoid curse.
 			if(target.client == null) //See if the target's soul has left their body
 				to_chat(user, "<span class='danger'>Your target's soul has already escaped its corpse...you try to call it back!</span>")
@@ -1060,6 +1095,12 @@
 			else
 				user.adjust_triumphs(1)
 				init_profane_soul(target, user) //If they are still in their body, send them to the dagger!
+
+// instead of trapping an actual observer in the dagger, we're just going to store their info in a datum.
+/datum/stolen_soul
+	var/soul_name = "Debug"
+	var/soul_real_name = "Debug"
+	var/soul_client = "Debug"	
 
 /obj/item/rogueweapon/huntingknife/idagger/steel/profane/proc/init_profane_soul(mob/living/carbon/human/target, mob/user)
 	record_featured_stat(FEATURED_STATS_CRIMINALS, user)
