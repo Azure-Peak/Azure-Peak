@@ -19,8 +19,8 @@
 /datum/virtue/utility/notable
 	name = "Well Off"
 	desc = "Fate or effort had blessed my lyfe with spoils, natural or earned."
-	max_choices = 3
-	choice_costs = list(0, 1, 1)
+	max_choices = 4
+	choice_costs = list(0, 0, 1, 2)
 	extra_choices = list(	//These are so individually bespoke it's not even worth assoc listing them, all are snowflaked in the application proc instead.
 		NOTABLE_BEAUTY,
 		NOTABLE_STASH,
@@ -175,7 +175,7 @@
 	name = "Prowler"
 	desc = "I've learned to stalk the shadows, in step, in sight and in my nimble fingers."
 	max_choices = 6
-	choice_costs = list(0, 0, 1, 1, 1, 1)
+	choice_costs = list(0, 0, 1, 1, 2, 2)
 	choice_tooltips = list(
 		"Light Steps" = "My steps are light and swift. I make less noise while sneaking and wearing armor, and can sneak much quicker.",
 		"Second Voice" = "I am able to change my voice at will (Grants a button in 'Virtue' tab to change voice color)."
