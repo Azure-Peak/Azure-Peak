@@ -1793,6 +1793,7 @@
 #include "code\modules\jobs\job_types\roguetown\adventurer\types\antag\Iconoclast.dm"
 #include "code\modules\jobs\job_types\roguetown\adventurer\types\antag\knave.dm"
 #include "code\modules\jobs\job_types\roguetown\adventurer\types\antag\sellsword.dm"
+#include "code\modules\jobs\job_types\roguetown\adventurer\types\antag\assassin\graggar_assassin.dm"
 #include "code\modules\jobs\job_types\roguetown\adventurer\types\antag\assassin\hitman.dm"
 #include "code\modules\jobs\job_types\roguetown\adventurer\types\antag\assassin\poisoner.dm"
 #include "code\modules\jobs\job_types\roguetown\adventurer\types\antag\assassin\ranger.dm"
