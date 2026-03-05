@@ -68354,6 +68354,13 @@
 	},
 /turf/open/floor/rogue/woodturned,
 /area/rogue/indoors/town)
+"oAu" = (
+/obj/effect/decal/edge{
+	color = "#3f3f3f";
+	dir = 5
+	},
+/turf/open/floor/rogue/tile,
+/area/rogue/indoors/town/magician)
 "oAw" = (
 /obj/structure/flora/roguegrass/herb/random,
 /obj/structure/fluff/railing/corner/north_east,
@@ -516143,7 +516150,7 @@ bmP
 qTc
 qTc
 kvZ
-ukG
+oAu
 nTJ
 fUS
 boD
