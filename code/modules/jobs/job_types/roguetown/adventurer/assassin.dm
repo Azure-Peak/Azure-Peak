@@ -1,16 +1,19 @@
+// This is the loadout datum for the actual equipment behind the assassin antag. 
+// TL;DR: you get both the benefits of the assassin antag datum and this loadout. Why? I dont know.
 /datum/job/roguetown/assassin
 	title = "Assassin"
 	flag = ASSASSIN
 	department_flag = ANTAGONIST
 	selection_color = JCOLOR_ANTAGONIST
 	faction = "Station"
-	total_positions = 0
+	total_positions = 1 // debug
 	spawn_positions = 0
 	min_pq = 10		// was going to put this higher but realized bandit's only 3 pq and wretch is fucking 10 so whatever
 	max_pq = null
 	antag_job = TRUE
 	allowed_races = RACES_ALL_KINDS
-	tutorial = "Long ago you did a crime worthy of your bounty being hung on the wall outside of the local inn. You now live with your fellow freemen in the bog, and generally get up to no good."
+	tutorial = "\"...about time.\", your dagger whispers. The gleaming steel shimmers beautifully in the light-- amythortz inlaid prepared to trap another soul within. Be swift. Be deadly. Use the environment to your advantage. They can't kill what they can't catch. \
+	You are an apex predator."
 
 	outfit = null
 	outfit_female = null
@@ -32,15 +35,35 @@
 
 	// Base job traits, we give one-specialty trait per role.
 	job_traits = list(
-		TRAIT_ASSASSIN,
-		TRAIT_DODGEEXPERT,
-		TRAIT_STEELHEARTED,
+		// no_stink granted by antag datum
+		TRAIT_ASSASSIN, // ditto
+		TRAIT_DODGEEXPERT, // ditto
+		TRAIT_STEELHEARTED, // ditto
 		TRAIT_HERESIARCH,	//Just so they can use the Zurch.
 		TRAIT_ANTISCRYING,
+		// if everything goes well, they'll gain more traits by killing.
 	)
 	cmode_music = 'sound/music/cmode/antag/combat_assassin.ogg'
-	// Choices between: Ranged build, pioson knife-fighter w/ poison knife, garrote user/kidnapper build 
+	// TODO:
+	// SUBCLASS REDESIGNS
+
+	// ASSASSIN -- MAINSTAY
+	// GET DECENT DAGGER SKILL, DECENT CROSSBOW SKILL, HIGH CLIMBING, WHATEVER.
+	// LOWER STATS AND WHATNOT.
+	// CHOICES: SLURBOW(?), POISON, MAYBE ACTUALLY AN ENCHANTED SCROLL OF SOME KIND TO APPLY TO DAGGER OR BACKPACK
+
+	// FACELESS -- EQUIVALENT OF PUTTING ON THE VALID ARMOR
+	// POTENTIALLY, NAB SPRITES/ARMOR FROM VANDERLIN/CRE. NOT SURE IF I NEED PERM FOR THAT KIND OF THING.
+	// AS YOU HAVE PUT ON [THE VALID] AND ARE PERMANENTLY EVIL. IDK. GIVE THEM BETTER STATS I GUESS.
+	// ENSURE NAME DOES NOT GET PICKED IN THE PICK NAME DOOHICKEY.
+
+	// OTHERS? FRANKLY ASSSASSIN DOESNT REALLY *NEED* SUBCLASSES BEYOND THAT. VANDERLIN'S WAY OF DOING IT CAUSED THEM
+	// TO JOIN UP AS DISGUISED XYZ BUT HONESTLY A TOWNER HERE IS MORE SUSPICIOUS THAN A GUY IN ALL BLACK AND LEATHER SOO...
+
+	// FETCH LAUGH FROM:
+	// https://github.com/Darkrp-community/OpenKeep
 	job_subclasses = list(
+		/datum/advclass/graggar_assassin,
 		/datum/advclass/assassin_ranger,
 		/datum/advclass/assassin_poisoner,
 		/datum/advclass/assassin_hitman,
@@ -60,12 +83,4 @@
 		var/datum/antagonist/new_antag = new /datum/antagonist/assassin()
 		H.mind.add_antag_datum(new_antag)
 		H.grant_language(/datum/language/thievescant)
-		addtimer(CALLBACK(H, TYPE_PROC_REF(/mob/living/carbon/human, choose_name_popup), "ASSASSIN"), 5 SECONDS)
-		var/wanted = list("I am a notorious criminal", "I am a nobody")
-		var/wanted_choice = input("Are you a known criminal?") as anything in wanted
-		switch(wanted_choice)
-			if("I am a notorious criminal") //Extra challenge for those who want it
-				bandit_select_bounty(H)
-				ADD_TRAIT(H, TRAIT_KNOWNCRIMINAL, TRAIT_GENERIC)
-			if("I am a nobody") //Nothing ever happens
-				return
+		// TODO: grant name IF not faceless
