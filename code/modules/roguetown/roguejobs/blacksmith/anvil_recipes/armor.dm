@@ -477,6 +477,7 @@
 	req_blade = /obj/item/blade/iron_plate
 	additional_items = list(/obj/item/clothing/suit/roguetown/armor/plate/cuirass/iron, /obj/item/natural/hide/cured)
 	created_item = /obj/item/clothing/suit/roguetown/armor/plate/iron
+	bypass_dupe_test = TRUE
 
 /datum/anvil_recipe/armor/iron/fullplate
 	name = "Full-Plate, Iron (+1 Half-Plate, Iron)"
@@ -484,6 +485,7 @@
 	req_blade = /obj/item/blade/iron_plate
 	additional_items = list(/obj/item/clothing/suit/roguetown/armor/plate/iron)
 	created_item = /obj/item/clothing/suit/roguetown/armor/plate/full/iron
+	bypass_dupe_test = TRUE
 
 /datum/anvil_recipe/armor/iron/chainglove
 	name = "Chain Gauntlets, Iron"
