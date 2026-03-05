@@ -167,6 +167,9 @@
 #define span_beautiful_fem(str) ("<span class='beautifulfem'>" + str + "</span>")
 #define span_beautiful_nb(str) ("<span class='beautifulnb'>" + str + "</span>")
 #define span_orator(str) ("<span class='orator'>" + str + "</span>")
+#define span_graggar(str)("<span class='graggar'>" + str + "</span>")
+#define span_graggarsmall(str)("<span class='graggarsmall'>" + str + "</span>")
+#define span_graggarnoanimate(str)("<span class='graggarnoanimate'>" + str + "</span>")
 
 /// Displays a tooltip. Tooltip is text-only, and HTML will be ignored.
 /// * SPAN_LINKIFY doesn't work here.
