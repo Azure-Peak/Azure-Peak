@@ -57,13 +57,15 @@ GLOBAL_LIST_EMPTY(virtues)
 
 /datum/virtue/proc/triumph_check(mob/living/carbon/human/recipient)
 	if(length(extra_choices))
+		var/total_cost
 		for(var/i in 1 to length(picked_choices))
 			if(choice_costs[i] > 0)
-				if(recipient.get_triumphs() > choice_costs[i])
-					recipient.adjust_triumphs(-(choice_costs[i]))
-				else
-					to_chat(recipient, span_notice("Not enough Triumphs for a virtue. It has not been applied."))
-					return FALSE
+				total_cost += choice_costs[i]
+		if(recipient.get_triumphs() > total_cost)
+			recipient.adjust_triumphs(-total_cost)
+		else
+			to_chat(recipient, span_notice("Not enough Triumphs for a virtue. It has not been applied."))
+			return FALSE
 	return TRUE
 
 /datum/virtue/proc/apply_to_human(mob/living/carbon/human/recipient)

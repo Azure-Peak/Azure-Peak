@@ -194,7 +194,7 @@
 	if(triumph_check(recipient))
 		for(var/choice in picked_choices)
 			if(extra_choices[choice] in GLOB.roguetraits)
-				ADD_TRAIT(recipient, choice, TRAIT_VIRTUE)
+				ADD_TRAIT(recipient, extra_choices[choice], TRAIT_VIRTUE)
 				if(choice == TRAIT_DARKVISION)
 					if(recipient.has_flaw(/datum/charflaw/colorblind))
 						to_chat(recipient, "Your eyes have become permanently colorblind.")
