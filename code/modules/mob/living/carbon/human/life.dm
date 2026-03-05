@@ -462,9 +462,9 @@
 		return
 
 	if(is_true_swimming && !is_underwater)
-		if(stat == UNCONSCIOUS || stamina >= max_stamina || IsImmobilized() || IsKnockdown())
+		if(stat == UNCONSCIOUS || IsImmobilized() || IsKnockdown())
 			var/turf/below = GET_TURF_BELOW(T)
-			if(below && istype(below, /turf/open/water))
+			if(below && istype(below, /turf/open/water/transparent))
 				forceMove(below)
 				set_resting(TRUE)
 				return

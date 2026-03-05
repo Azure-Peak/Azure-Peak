@@ -616,6 +616,6 @@
 	else if(istype(T, /turf/open/water/transparent/surface))
 		if(health < 0 || IsKnockdown() || IsParalyzed())
 			var/turf/below = GET_TURF_BELOW(T)
-			if(below && istype(below, /turf/open/water))
+			if(below && istype(below, /turf/open/water/transparent))
 				forceMove(below)
 				set_resting(TRUE)

@@ -641,14 +641,13 @@
 
 
 /turf/open/water/transparent/can_zFall(atom/movable/A)
-	if(isobj(A)) return TRUE 
 	if(ishuman(A))
 		var/mob/living/carbon/human/H = A
 		
 		if(H.stat == DEAD)
 			return FALSE
 			
-		if(H.stat == UNCONSCIOUS || H.stamina >= H.max_stamina || H.IsImmobilized() || H.IsKnockdown())
+		if(H.stat == UNCONSCIOUS || H.IsImmobilized() || H.IsKnockdown())
 			return TRUE
 			
 		return FALSE 
@@ -659,7 +658,7 @@
 		var/mob/living/carbon/human/H = A
 		if(H.stat == DEAD)
 			return FALSE
-		if(H.stat == UNCONSCIOUS || H.stamina >= H.max_stamina || H.IsImmobilized() || H.IsKnockdown())
+		if(H.stat == UNCONSCIOUS || H.IsImmobilized() || H.IsKnockdown())
 			return TRUE
 		return FALSE 
 	return ..()

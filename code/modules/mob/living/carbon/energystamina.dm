@@ -182,6 +182,18 @@
 			emote("fatigue", forced = force_emote)
 		else
 			emote(emote_override, forced = force_emote)
+
+		var/turf/T = get_turf(src)
+		if(istype(T, /turf/open/water/transparent))
+			var/turf/below = GET_TURF_BELOW(T)
+			if(below && istype(below, /turf/open/water/transparent))
+				visible_message(span_danger("[src] loses all stamina and sinks into the depths!"))
+				forceMove(below)
+				set_resting(TRUE)
+			else
+				
+				set_resting(TRUE)
+
 		blur_eyes(2)
 		last_fatigued = world.time + 3 SECONDS //extra time before fatigue regen sets in
 		stop_attack()
