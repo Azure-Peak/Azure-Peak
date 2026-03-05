@@ -17,7 +17,7 @@
 		STATKEY_CON = -1
 	)
 	age_mod = /datum/class_age_mod/war_scholar
-	subclass_spellpoints = 15
+	subclass_spellpoints = 24
 	subclass_skills = list(
 		/datum/skill/combat/staves = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/combat/polearms = SKILL_LEVEL_JOURNEYMAN,
@@ -58,12 +58,6 @@
 	if(H.mind)
 		detailcolor = input("Choose a color.", "NALEDIAN COLORPLEX") as anything in naledicolors
 		detailcolor = naledicolors[detailcolor]
-		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/giants_strength)
-		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/longstrider)
-		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/guidance)
-		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/haste)
-		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/fortitude)
-		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/forcewall/greater)
 	r_hand = /obj/item/rogueweapon/woodstaff/naledi
 
 

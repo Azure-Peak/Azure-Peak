@@ -1,0 +1,5 @@
+author: "Ryan180602"
+delete-after: True
+changes:
+  - balance: "updates deserter to 11-pt statline, with barbute and poleaxe option."
+  - balance: "downgrades levyman statline"

@@ -1,0 +1,5 @@
+author: "Ketrai"
+delete-after: True
+changes:
+  - rscadd: "Baothan amulet."
+  - rscadd: "All inhumen gods now have stone and decorated crosses."

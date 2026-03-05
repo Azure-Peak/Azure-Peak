@@ -2337,10 +2337,24 @@
 	offered_item_ref = WEAKREF(offered_item)
 
 	var/stealthy = (m_intent == MOVE_INTENT_SNEAK)
+	var/obj/item/reagent_containers/glass/offered_item_other = null
+	if(istype(offered_item, /obj/item/reagent_containers/glass) && offered_item?.reagents?.maximum_volume > 0) // we have a drink in our hand
+		offered_item_other = offered_to.offered_item_ref?.resolve()
 
 	if(stealthy)
 		to_chat(src, span_notice("I secretly offer [offered_item] to [offered_to]."))
-		to_chat(offered_to, span_notice("[src] secretly offers [offered_item] to me..."))
+		to_chat(offered_to, span_notice("[offered_to] secretly offers [offered_item] to me..."))
+	else if(!isnull(offered_item_other) && istype(offered_item_other) && offered_item_other?.reagents?.maximum_volume > 0) // Credit to tmyqlfpir; allows for the clinking of everything up to blacksteel tankards.
+		playsound(src,offered_item_other.reagents.maximum_volume > 50 ? 'sound/misc/clink_drink_big.ogg' : 'sound/misc/clink_drink.ogg', 100, TRUE) //Adds a new sound if the clinked container is above 50 drams in size.
+		addtimer(CALLBACK(src, PROC_REF(stop_offering_item)), 0.6 SECONDS)
+		addtimer(CALLBACK(offered_to, PROC_REF(stop_offering_item)), 0.6 SECONDS)
+		visible_message(
+			span_notice("[src] clinks [offered_item] with [offered_to]!"), \
+			span_notice("I clink [offered_item] with [offered_to]!"), \
+			vision_distance = COMBAT_MESSAGE_RANGE, \
+			ignored_mobs = list(offered_to)
+		)
+		to_chat(offered_to, span_notice("[src] clinks [offered_item] with me!"))
 	else
 		visible_message(
 			span_notice("[src] offers [offered_item] to [offered_to] with an outstretched hand."), \

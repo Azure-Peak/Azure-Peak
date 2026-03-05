@@ -1,0 +1,4 @@
+author: "Ollanius"
+delete-after: True
+changes:
+  - rscadd: "You can now clink glasses together! This happens when two people offer a cup, bottle, mug, goblet, or glass to each other at the same time. Credit to tmyqlfpir for its creation!"

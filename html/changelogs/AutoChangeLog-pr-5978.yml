@@ -1,0 +1,5 @@
+author: "bearrrrrrrr"
+delete-after: True
+changes:
+  - rscadd: "conjure crystalhide, new mage spell"
+  - balance: "spitfire cd, stygian interactions, things renamed, dragonhide armor changed, etc etc,. genuinely huge PR"

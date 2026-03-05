@@ -1,0 +1,4 @@
+author: "WeNeedMorePhoron"
+delete-after: True
+changes:
+  - bugfix: "Progress Bar is now only sent to nearby clients instead of all clients, report any oddity. Not being able to see a progress bar after walking on screen is an intended edge case."

@@ -1,0 +1,4 @@
+author: "chemistrymain3"
+delete-after: True
+changes:
+  - rscdel: "Removed hierophant's default preselect spells."

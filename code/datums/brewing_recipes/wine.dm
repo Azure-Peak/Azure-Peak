@@ -122,7 +122,7 @@
 	reagent_to_brew = /datum/reagent/consumable/ethanol/spicedwine
 	needed_reagents = list(/datum/reagent/water = 198)
 	needed_crops = list(/obj/item/reagent_containers/food/snacks/grown/berries/rogue = 2, /obj/item/reagent_containers/food/snacks/grown/fruit/tangerine = 1,
-						/obj/item/reagent_containers/food/snacks/sugar = 1, /obj/item/reagent_containers/powder/pumpkin = 1, /obj/item/reagent_containers/food/snacks/grown/nut = 1)
+						/obj/item/reagent_containers/food/snacks/sugar = 1, /obj/item/reagent_containers/food/snacks/pumpkinspice = 1, /obj/item/reagent_containers/food/snacks/grown/nut = 1)
 	brewed_amount = 5
 	brew_time = 5 MINUTES
 	sell_value = 77 //Requires more time to fully age, and more materials to prepare than most non-luxwines. In exchange, it provides light healing and a very delicious taste.

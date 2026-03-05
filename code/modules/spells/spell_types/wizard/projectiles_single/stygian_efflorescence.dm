@@ -3,7 +3,7 @@
 
 /obj/effect/proc_holder/spell/invoked/projectile/stygian
 	name = "Stygian Efflorescence"
-	desc = "Burst forth a triad of sharpened onyxian shards, cut from Mount Golgotha herself. Strips away a fully-stacked Arcane Mark to knock an enemy down and briefly stun them."
+	desc = "Burst forth a triad of sharpened onyxian shards, cut from Mount Golgotha herself. Strips away a fully-stacked Arcane Mark to knock an enemy back and slow them down."
 	range = 7 //no reason to not
 	projectile_type = /obj/projectile/energy/stygian
 	projectiles_per_fire = 3
@@ -13,7 +13,7 @@
 	releasedrain = 20
 	chargedrain = 1
 	chargetime = 0
-	recharge_time = 25 SECONDS //this shit very strong actually
+	recharge_time = 20 SECONDS //probably fine.
 	warnie = "spellwarning"
 	no_early_release = TRUE
 	movement_interrupt = FALSE
@@ -34,10 +34,10 @@
 	accuracy = 50
 	icon = 'icons/mob/actions/roguespells.dmi'
 	icon_state = "stygian"
-	damage = 35
+	damage = 25
 	woundclass = BCLASS_STAB
 	armor_penetration = 20
-	npc_simple_damage_mult = 1.5
+	npc_simple_damage_mult = 1.4
 	speed = 2
 	ricochets_max = 4
 	ricochet_chance = 50
@@ -56,7 +56,7 @@
 		if(mark && mark.stacks >= mark.max_stacks)
 			has_full_mark = TRUE
 			consume_arcane_mark_stacks(M)
-			damage = 60
+			damage = 40
 			to_chat(M, "<span class='userdanger'>STYGIAN WORLD-ECHO; TRYPTICH-MARKE DETONATION!</span>")
 
 	. = ..()
@@ -68,11 +68,11 @@
 		if(!dir)
 			dir = get_dir(src, M)
 		if(dir)
-			var/turf/start_turf = get_turf(M)
 			var/turf/edge_target_turf = get_edge_target_turf(M, dir)
 			if(edge_target_turf)
-				M.safe_throw_at(edge_target_turf, 1, 1, firer, spin = FALSE, force = M.move_force, callback = CALLBACK(M, TYPE_PROC_REF(/mob/living, handle_knockback), start_turf))
-				M.Stun(10)
+				M.safe_throw_at(edge_target_turf, 1, 1, firer, spin = FALSE, force = M.move_force)
+				M.Immobilize(0.2 SECONDS) //reset, a thing just happened!!!
+				M.Slowdown(4 SECONDS) //a bit worse than a heavy bolt in duration
 
 
 /obj/effect/proc_holder/spell/invoked/projectile/stygian/ready_projectile(obj/projectile/P, atom/target, mob/user, iteration) //dude this is all copy-paste guessed from other servers and ai slop. if this shit works id be so surprised

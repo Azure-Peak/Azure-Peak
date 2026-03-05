@@ -8,6 +8,7 @@
 	var/shown = 0
 	var/mob/user
 	var/listindex
+	var/list/tracked_clients
 
 /datum/progressbar/New(mob/User, goal_number, atom/target)
 	. = ..()
@@ -32,8 +33,12 @@
 /datum/progressbar/proc/update(progress)
 	if(!shown)
 		shown = TRUE
-		for(var/client/C in GLOB.clients)
-			C.images += bar
+		tracked_clients = list()
+		for(var/mob/M in range(14, user)) // 14 so you can see
+		// other people walking up
+			if(M.client)
+				M.client.images |= bar
+				tracked_clients |= M.client
 	progress = CLAMP(progress, 0, goal)
 	last_progress = progress
 	bar.icon_state = "prog_bar_[round(((progress / goal) * 100), 5)]"
@@ -63,8 +68,9 @@
 	. = ..()
 
 /datum/progressbar/proc/remove_from_client()
-	for(var/client/C in GLOB.clients)
+	for(var/client/C in tracked_clients)
 		C.images -= bar
+	tracked_clients = null
 
 #undef PROGRESSBAR_ANIMATION_TIME
 #undef PROGRESSBAR_HEIGHT

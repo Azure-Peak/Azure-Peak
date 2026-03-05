@@ -251,3 +251,36 @@
   - bugfix: you should no longer be "under" the fulmen-chair
   saltprjak:
   - bugfix: Polishing a one-handed weapon properly updates its force.
+2026-03-05:
+  Ketrai:
+  - balance: Cerulean arils have bait resilience now
+  Ollanius:
+  - bugfix: THIRD TIMES THE CHARM. SPICED WINE SHOULD BE BREWABLE NOW.
+  - bugfix: FISH FILLET INSTEAD OF REGULAR FISHES FOR GARUM.
+  - code_imp: PUMPKIN SPICE IS NOW UNDER THE /FOOD/SNACKS FILEPATH.
+  - rscadd: Adds a very rare alternative to the usual round-ending theme.
+  - rscadd: Adds a new round-ending stinger.
+  - rscadd: Reimplements the more agnostic and fitting dialogue that prints at the
+      end of each round.
+  - code_imp: All included assets with this pull request have been checked to be compliant
+      with our codebase's expectations. We're (legally) safe to use them, as long
+      as the proper credit is provided.
+  - code_imp: Likewise - credit to Hildegard Von Blingin, Whitney Avalon, Sabrina
+      Carpenter, Valo X, and Power Pak.
+  - code_imp: The old round-ending dialogue has been preserved in the roundend.dm,
+      in case someone wishes to reuse them.
+  - rscadd: Mirth.
+  Ryan180602:
+  - bugfix: Mages can spell on chairs again. Only proper mounted spelling is disabled.
+  Teragenic:
+  - qol: Greatweapon Strap and Lamptern for Fjall Jarn
+  WeNeedMorePhoron:
+  - rscdel: Remove the overlay queueing subsystem.
+  - rscadd: You get a message in chat when you are stopped from learning a skill by
+      xp cap.
+  bearrrrrrrr:
+  - rscadd: Chandelier admin smite.
+  eirenxiv:
+  - rscadd: Added various wizard hats and their colour variations to the loadout menu
+  - rscadd: Added a chef hat to the loadout menu
+  - rscadd: Added a satchel for 2 loadout points to the loadout menu

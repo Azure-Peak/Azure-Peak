@@ -630,6 +630,27 @@ GLOBAL_LIST_INIT(ballmer_windows_me_msg, list("Yo man, what if, we like, uh, put
 						if(!is_asleep) //to not spam chat
 							to_chat(src, span_blue("I've fallen asleep."))
 							is_asleep = TRUE
+						// those who have gazed upon zuranus may have... odd dreams.
+						if(has_status_effect(/datum/status_effect/zuranus))
+							var/zizo_dream = has_status_effect(/datum/status_effect/zuranus) // this is stupid im sorry
+							var/list/evil_dreams = list(
+								span_cultsmall("It's as if all my other memories have been taken. It feels like hours, daes, only blood, only war. No friends. No family. Just war."),
+								span_cultsmall("Every single one of my failures becomes clear to me. I am staring into a river flowing red, and within it is the reflection of everyone I've lost."),
+								span_cultsmall("There is a dark star in the sky. The grassy field turns black. I begin coughing-- I clutch at my chest...")
+							)
+							var/terrible_dreams = TRUE
+							if(istype(src.mouth, /obj/item/roguecoin/aalloy)) // psila will Show You Things. i talked 2 ambrose about this like 2 months ago.
+								evil_dreams = list(
+									span_gamedeadsay("My deft hands rattle along a table, odd machinery laid around me. I fetch my scalpel and begin shoving a rat into a box..."),
+									span_gamedeadsay("I stand over sketches of a chair, swiftly inspeckting vial after vial of a queer green fluid. It's still not ready. Not just yet."),
+									span_gamedeadsay("I speak, but I cannot comprehend my own words. Within a near pitch-black room, a corpse animates... I smile.")
+								)
+								terrible_dreams = FALSE // this sucks so much. free forgive me. please. its for sovl.
+							var/picked_dream = pick(evil_dreams)
+							to_chat(src, picked_dream)
+							src.remove_status_effect(zizo_dream)
+							if(terrible_dreams)
+								src.add_stress(/datum/stressevent/terrible_dreams)
 						if(sleepless_flaw) // If you're sleepless, you have a higher chance of going to a nightmare. Every time you sleep, the chance gets higher for the rest of the round.
 							teleport_to_dream(src, 10000, sleepless_flaw.dream_prob, FALSE)
 							sleepless_flaw.dream_prob += 500

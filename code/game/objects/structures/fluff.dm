@@ -1227,6 +1227,62 @@
 	icon_state = "invertedcross"
 	divine = FALSE
 
+/obj/structure/fluff/psycross/zizo
+	name = "stone inverted cross"
+	desc = "An unholy symbol, the knowledge that something so sturdy was able to be put up in reverence of the dark star, completely unattended... is a difficult anchovy to swallow for many."
+	icon_state = "cross_zizo"
+	divine = FALSE
+	max_integrity = 200
+
+/obj/structure/fluff/psycross/zizo/golden
+	name = "golden inverted cross"
+	desc = "An unholy symbol meticilously plated with leaf gold. It stands in defiance to order. The dead will rise."
+	icon_state = "cross_zizo_u"
+	divine = FALSE
+	max_integrity = 350
+
+/obj/structure/fluff/psycross/graggar
+	name = "vicious cross"
+	desc = "An unholy symbol wrought from stone. It promises glory to the conqueror and chains to the conquered."
+	icon_state = "cross_graggar"
+	divine = FALSE
+	max_integrity = 200
+
+/obj/structure/fluff/psycross/graggar/decorated
+	name = "revered vicious cross"
+	desc = "An unholy symbol wrought from stone. Meat impaled on spikes and flesh dangling like ribbons off hooks, an offering, proof of conquest, but does he listen?"
+	icon_state = "cross_graggar_u"
+	divine = FALSE
+	max_integrity = 350
+
+/obj/structure/fluff/psycross/matthios
+	name = "grinning cross"
+	desc = "An unholy stone cross bearing the likeness of drawn daggers and a grinning visage."
+	icon_state = "cross_matthios"
+	divine = FALSE
+	max_integrity = 200
+
+/obj/structure/fluff/psycross/matthios/decorated
+	name = "ornate cross"
+	desc = "Golden scales dangle from rags and balance the scales. A monument to wealth."
+	icon_state = "cross_matthios_u"
+	divine = FALSE
+	max_integrity = 350
+
+/obj/structure/fluff/psycross/baotha
+	name = "spider cross"
+	desc = "A gnarled stone cross from which carved spider legs unfurl. You feel like you're being beckoned faintly, like a whisper in your ear."
+	icon_state = "cross_baotha"
+	divine = FALSE
+	max_integrity = 200
+
+/obj/structure/fluff/psycross/baotha/decorated
+	name = "webbed spider cross"
+	desc = "The spider spreads its legs, the web unfurls. Just looking at it makes bad memories surface."
+	icon_state = "cross_baotha_u"
+	divine = FALSE
+	max_integrity = 350
+
 /obj/structure/fluff/psycross/attackby(obj/item/W, mob/user, params)
 	if(user.mind)
 		if(user.mind.assigned_role == "Bishop")

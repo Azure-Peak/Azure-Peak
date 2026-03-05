@@ -108,7 +108,7 @@
 
 	if (!msg)
 		return
-	
+
 	M.adjust_triumphs(msg)
 	log_text = "by [msg], from [old_triumphs] to [old_triumphs + msg]"
 
@@ -132,7 +132,7 @@
 
 	if(!amt)
 		return
-	
+
 	prompt = "Please specify a reason for the adjustment:"
 	reason = input("Message:", prompt) as text|null
 	if(!reason)
@@ -731,6 +731,7 @@ Traitors and the like can also be revived with the previous role mostly intact.
 		ADMIN_PUNISHMENT_CRIPPLE,
 		ADMIN_PUNISHMENT_PSYDON,
 		ADMIN_PUNISHMENT_DIVINE_WRATH,
+		ADMIN_PUNISHMENT_CHANDELIER,
 	)
 
 	var/punishment = input("Choose a punishment", "DIVINE SMITING") as null|anything in sortList(punishment_list)
@@ -763,7 +764,7 @@ Traitors and the like can also be revived with the previous role mostly intact.
 			sleep(10)
 			target.gib(FALSE)
 		if(ADMIN_PUNISHMENT_GIB)
-			target.gib(FALSE)	
+			target.gib(FALSE)
 		if(ADMIN_PUNISHMENT_BSA)
 			bluespace_artillery(target)
 		if(ADMIN_PUNISHMENT_CBT)
@@ -805,7 +806,7 @@ Traitors and the like can also be revived with the previous role mostly intact.
 			direction = directions[direction]
 			var/target_tile = target.loc
 			for (var/i = 0; i < 10; i++)
-				var/turf/next_tile = get_step(target_tile, direction) 
+				var/turf/next_tile = get_step(target_tile, direction)
 				if (!next_tile)
 					break
 				target_tile = next_tile
@@ -847,6 +848,22 @@ Traitors and the like can also be revived with the previous role mostly intact.
 				to_chat(usr,span_warning("Target must be human!"))
 				return
 			divine_wrath(target)
+		if(ADMIN_PUNISHMENT_CHANDELIER)
+			if(!ishuman(target))
+				to_chat(usr,span_warning("Target must be human!"))
+				return
+
+			var/mob/living/carbon/human/humie = target
+			var/obj/item/bodypart/affecting = humie.get_bodypart(BODY_ZONE_HEAD)
+			if(!affecting)
+				to_chat(usr,span_warning("Target must have a head!"))
+				return
+
+			var/obj/machinery/light/rogue/chand/chandelier = new /obj/machinery/light/rogue/chand(get_turf(humie))
+			chandelier.layer = ABOVE_MOB_LAYER
+			playsound(get_turf(humie), 'sound/combat/hits/blunt/frying_pan(4).ogg', 100, FALSE)
+			affecting.add_wound(/datum/wound/fracture/head)
+			humie.visible_message(span_userdanger("There is a sickening CRUNCH as a chandelier crashes down onto [humie]!"))
 	punish_log(target, punishment)
 
 /client/proc/punish_log(whom, punishment)

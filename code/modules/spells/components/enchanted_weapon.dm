@@ -6,7 +6,7 @@
  Three types of enchantments are available:
  1. Force Blade: Increases the force of the weapon by 5.
  2. Durability: Increases the integrity and max integrity of the weapon by 100.
- 3. Arcane Mark: Applies a stack of Arcane Mark, 5 sec cd (ARCANE_MARK_COOLDOWN)
+ 3. Arcane Mark: Applies a stack of Arcane Mark, 7 sec cd (ARCANE_MARK_COOLDOWN)
  The enchantment will lasts for 15 minutes, and will automatically refresh in the hand of an Arcyne user.
  There used to be a concept for a blade to set people on fire - but it was too broken if people didn't insta pat
 */

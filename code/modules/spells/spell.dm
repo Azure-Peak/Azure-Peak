@@ -796,7 +796,8 @@ GLOBAL_LIST_INIT(spells, typesof(/obj/effect/proc_holder/spell)) //needed for th
 		return FALSE
 
 	// deny horsespellers
-	if(user.client && user.buckled)
+	if(user.client && user.buckled && isliving(user.buckled))
+		to_chat(user, span_warning("I'm too distracted riding [user.buckled] to cast!"))
 		return FALSE
 
 	if(!charge_check(user))
