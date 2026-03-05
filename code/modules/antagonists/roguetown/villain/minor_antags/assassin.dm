@@ -127,3 +127,93 @@
 		to_chat(world, "<span class='redtext'>The [name] [owner.name] has FAILED!</span>")
 		if(owner?.current)
 			owner.current.playsound_local(get_turf(owner.current), 'sound/misc/fail.ogg', 100, FALSE, pressure_affected = FALSE)
+
+/datum/stolen_face
+	var/icon
+	var/real_name = "debug"
+	var/gender
+	var/datum/dna/deena
+	var/job
+	var/faction 
+	var/deathsound
+	var/voice_color
+	var/voice_pitch
+	var/detail_color
+	var/skin_tone
+	var/lip_style
+	var/lip_color
+	var/age
+	var/underwear
+	var/shavelevel
+	var/socks
+	var/has_stubble
+	var/headshot_link
+	var/flavortext
+	var/head_bodypart_features
+	var/bodyparts
+
+/datum/stolen_face/proc/steal_face(mob/living/carbon/human/H)
+	// safety
+	if(!ishuman(H))
+		return
+
+	icon = H.icon
+	real_name = H.real_name
+	gender = H.gender
+	deena = H.dna // dna is weird, i want to hard copy it 
+	job = H.job
+	faction = H.faction
+	deathsound = H.deathsound
+	voice_color = H.voice_color
+	voice_pitch = H.voice_pitch
+	detail_color = H.detail_color
+	skin_tone = H.skin_tone
+	lip_style = H.lip_style
+	lip_color = H.lip_color
+	age = H.age
+	underwear = H.underwear
+	shavelevel = H.shavelevel
+	socks = H.socks
+	has_stubble = H.has_stubble
+	headshot_link = H.headshot_link
+	flavortext = H.flavortext
+
+	var/obj/item/bodypart/head/head = H.get_bodypart(BODY_ZONE_HEAD)
+	if(head)
+		head_bodypart_features = head.bodypart_features?.Copy() // ditto dna
+
+	bodyparts = H.bodyparts?.Copy() // this is temporary im not sure it'll work
+
+/datum/stolen_face/proc/apply_face(mob/living/carbon/human/H)
+
+	if(!ishuman(H))
+		return
+
+	deena.transfer_identity(H) // this proc is weird but needed-- praying this works
+
+	H.icon = icon
+	H.real_name = real_name
+	H.gender = gender
+	H.job = job
+	H.faction = faction
+	H.deathsound = deathsound
+	H.voice_color = voice_color
+	H.voice_pitch = voice_pitch
+	H.detail_color = detail_color
+	H.skin_tone = skin_tone
+	H.lip_style = lip_style
+	H.lip_color = lip_color
+	H.age = age
+	H.underwear = underwear
+	H.shavelevel = shavelevel
+	H.socks = socks
+	H.has_stubble = has_stubble
+	H.headshot_link = headshot_link
+	H.flavortext = flavortext
+
+	var/obj/item/bodypart/head/head = H.get_bodypart(BODY_ZONE_HEAD)
+	if(head && head_bodypart_features)
+		head.bodypart_features = head_bodypart_features
+
+	H.updateappearance(mutcolor_update = TRUE)
+	H.regenerate_icons()
