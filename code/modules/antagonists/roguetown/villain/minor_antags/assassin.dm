@@ -22,6 +22,8 @@
 		TRAIT_STEELHEARTED,
 	)
 
+	var/attached_knife = null
+
 /datum/antagonist/assassin/on_gain()
 	owner.current.cmode_music = list('sound/music/cmode/antag/combat_assassin.ogg')
 	var/ass_dagger = /obj/item/rogueweapon/huntingknife/idagger/steel/profane
@@ -29,7 +31,7 @@
 	var/ass_grappler = /obj/item/grapplinghook
 	owner.special_items["Profane Dagger"] = ass_dagger // Assigned assassins can get their special dagger from right clicking certain objects.
 	owner.special_items["Avantyne Lockpick"] = ass_lockpick // they get a special 30 integ pick w/ a higher pickchance
-	owner.special_items = ["Grappling Hook"] = ass_grappler // The Vile Grappler:
+	owner.special_items["Grappling Hook"] = ass_grappler // The Vile Grappler:
 	to_chat(owner.current, "<span class='danger'>I've blended in well up until this point, but it's time for the Hunted of Graggar to perish. I must get my dagger from where I hid it.</span>")
 	return ..()
 
@@ -39,6 +41,59 @@
 	if(!mind)
 		return
 	mind.recall_targets(src)
+
+/mob/living/carbon/human/proc/find_dagger()
+	set name = "Sense Dagger"
+	set category = "Graggar"
+	if(!mind)
+		return
+	// we need to get the antag datum instance off the person.
+	var/datum/antagonist/assassin/villain = mind.has_antag_datum(/datum/antagonist/assassin)
+	var/obj/item/rogueweapon/huntingknife/idagger/steel/profane/knife = villain.attached_knife
+	if(!villain)
+		to_chat(src, span_danger("...how the fuck did you get access to this VERB? REPORT THIS TO CODERS ASAP."))
+		return
+	if(!knife || QDELETED(knife))
+		to_chat(src, span_graggarnoanimate("Your dagger has not been bonded to you... or has been destroyed!"))
+		return
+	// find our dagger
+	villain.find_dagger()
+
+/datum/antagonist/assassin/proc/find_dagger()
+	if(!owner.current)
+		return
+	var/mob/living/carbon/human/ass = owner.current
+	var/turf/owner_turf = get_turf(ass)
+	var/turf/knife_turf = get_turf(attached_knife)
+	var/up_or_down = "on the same level"
+	var/direction = "unknown"
+
+	// This is butchered find corpse code. Thank you onutsio.
+	if(owner_turf.z != knife_turf.z)
+		if(knife_turf.z > owner_turf.z)
+			up_or_down = "above"
+		else
+			up_or_down = "below"
+	// get our cardinal...
+	var/get_direction = get_dir(ass, attached_knife)
+	switch(get_direction)
+		if(NORTH)
+			direction = "north"
+		if(SOUTH)
+			direction = "south"
+		if(EAST)
+			direction = "east"
+		if(WEST)
+			direction = "west"
+		if(NORTHEAST)
+			direction = "northeast"
+		if(NORTHWEST)
+			direction = "northwest"
+		if(SOUTHEAST)
+			direction = "southeast"
+		if(SOUTHWEST)
+			direction = "southwest"
+	to_chat(ass, span_danger("The dagger is [direction] and [up_or_down]."))
 
 /datum/antagonist/assassin/on_removal()
 	if(!silent && owner.current)
@@ -50,6 +105,7 @@
 		return
 	var/mob/living/carbon/human/H = user
 	H.verbs |= /mob/living/carbon/human/proc/who_targets
+	H.verbs |= /mob/living/carbon/human/proc/find_dagger
 
 /datum/antagonist/assassin/roundend_report()
 	var/traitorwin = FALSE
