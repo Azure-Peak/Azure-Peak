@@ -62,6 +62,19 @@
 	. += span_info("Left-click a locked door to attempt unlocking it. If the door is already unlocked, left-clicking it will instead attempt to relock it.")
 	. += span_info("The chance to successfully lockpick a door scales with your Lockpicking skill, the lockpick's integrity, and the door's tier. The locks of more important doors are usually harder to manipulate.")
 
+/obj/item/lockpick/assassin
+	picklvl = 1.5 // theyre getting in. theyre coming for you.
+	max_integrity = 30 // U only get one of these.
+
+/obj/item/lockpick/assassin/examine(mob/user)
+	. = ..()
+	if(HAS_TRAIT(user, TRAIT_ASSASSIN))
+		. += span_deadsayitalicsbold("This pick was forged with avantyne. The particular alloy is undetectable to most... but it allows them to \
+		get through most doors with ease... and with superior durability.")
+	else
+		. += span_deadsayitalicsbold("I should put this down.")
+		// if people start validchecking these add a stress event that fucks them up for 15 minutes to tell them to fuck off
+
 /obj/item/lockpick/goldpin
 	name = "gold hairpin"
 	desc = "Often used by wealthy courtesans and nobility to keep hair and clothing in place."
