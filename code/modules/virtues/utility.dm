@@ -21,6 +21,7 @@
 	desc = "Fate or effort had blessed my lyfe with spoils, natural or earned."
 	max_choices = 2	//Tentative. 2 is more interesting than getting all 4 easily.
 	choice_costs = list(0, 0, 1, 2)
+	stackable = TRUE
 	extra_choices = list(	//These are so individually bespoke it's not even worth assoc listing them, all are snowflaked in the application proc instead.
 		NOTABLE_BEAUTY,
 		NOTABLE_STASH,
@@ -173,9 +174,10 @@
 
 /datum/virtue/utility/prowler
 	name = "Prowler"
-	desc = "I've learned to stalk the shadows, in step, in sight and in my nimble fingers."
+	desc = "I've learned to stalk the shadows, in step and in sight. My hands had also been honed to be deft."
 	max_choices = 3	//Tentative, feels more fun to limit yourself to a set out of these rather than all of them. (Used to be 6)
 	choice_costs = list(0, 0, 0, 1, 2, 2)
+	stackable = TRUE	//It's OK to take Virtuous and get everything here.
 	choice_tooltips = list(
 		"Light Steps" = "My steps are light and swift. I make less noise while sneaking and wearing armor, and can sneak much quicker.",
 		"Second Voice" = "I am able to change my voice at will (Grants a button in 'Virtue' tab to change voice color)."
@@ -305,6 +307,7 @@
 	custom_text = "Replaces your chosen limbs with a prosthetic Bronze ones."
 	added_skills = list(list(/datum/skill/craft/engineering, 1, 6))
 	max_choices = 4
+	stackable = TRUE //We're OK with this, it's fairly innocuous
 	choice_costs = list(0, 0, 1, 2)
 	extra_choices = list(
 		"Right Arm",

@@ -56,6 +56,9 @@ GLOBAL_LIST_EMPTY(virtues)
 	///Tooltips that will appear as a (?) next to the option, to explain what they do. Will look for matching indeces from extra_choice list.
 	var/list/choice_tooltips = list()
 
+	/// Whether we can have multiple of the same virtue. Be very aware of what exactly the virtue does / how many options it allows for this to make sense.
+	var/stackable = FALSE
+
 /datum/virtue/New()
 	. = ..()
 	if (triumph_cost)

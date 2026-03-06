@@ -2453,7 +2453,8 @@ Slots: [job.spawn_positions] [job.round_contrib_points ? "RCP: +[job.round_contr
 						if (!V.name)
 							continue
 						if ((V.name == virtue.name || V.name == virtuetwo.name) && !istype(V, /datum/virtue/none))
-							continue
+							if(!length(V.extra_choices) && V.stackable)
+								continue
 						if (istype(V, /datum/virtue/origin))
 							continue
 						if(V.unlisted)
@@ -2480,7 +2481,8 @@ Slots: [job.spawn_positions] [job.round_contrib_points ? "RCP: +[job.round_contr
 						if (!V.name)
 							continue
 						if ((V.name == virtue.name || V.name == virtuetwo.name) && !istype(V, /datum/virtue/none))
-							continue
+							if(!length(V.extra_choices) && V.stackable)
+								continue
 						if (istype(V, /datum/virtue/origin))
 							continue
 						if(V.unlisted)
