@@ -434,6 +434,17 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 				error_found = TRUE
 				break
 
+		var/total_ours = 0
+		var/total_sane = 0
+
+		for(var/cost in virtue.choice_costs)
+			total_ours += cost
+		for(var/cost in sane_virtue.choice_costs)
+			total_sane += cost
+
+		if(total_ours != total_sane)
+			error_found = TRUE
+
 	if(error_found)
 		qdel(virtue)
 		virtue = sane_virtue
@@ -462,6 +473,17 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 			if(!(choice in sane_virtuetwo.extra_choices))
 				error_found = TRUE
 				break
+
+		var/total_ours = 0
+		var/total_sane = 0
+
+		for(var/cost in virtuetwo.choice_costs)
+			total_ours += cost
+		for(var/cost in sane_virtuetwo.choice_costs)
+			total_sane += cost
+			
+		if(total_ours != total_sane)
+			error_found = TRUE
 
 	if(error_found)
 		virtuetwo = sane_virtuetwo
