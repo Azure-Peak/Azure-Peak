@@ -413,6 +413,8 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	S["virtue_origin"] >> origin_type
 	if (istype(virtue_type, /datum/virtue))
 		virtue = virtue_type
+	else if(ispath(virtue_type, /datum/virtue))
+		virtue = new virtue_type
 	else
 		virtue = new /datum/virtue/none
 
@@ -453,6 +455,8 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 
 	if(istype(virtuetwo_type, /datum/virtue))
 		virtuetwo = virtuetwo_type
+	else if(ispath(virtuetwo_type, /datum/virtue))
+		virtue = new virtuetwo_type
 	else
 		virtuetwo = new /datum/virtue/none
 
