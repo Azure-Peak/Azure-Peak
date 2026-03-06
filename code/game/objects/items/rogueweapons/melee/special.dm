@@ -1025,6 +1025,17 @@
 			var/message = pick(last_words)
 			to_chat(H, span_gamedeadsay("[src] whispers, \"[message]\"")) // i tried making the dagger actually whisper but no this is the best we're getting.
 
+// when you use the item via interact...
+/obj/item/rogueweapon/huntingknife/idagger/steel/profane/attack_self(mob/user)
+	. = ..()
+	/* TODO:
+	// TRY TO BUILD SOME SORT OF RADIAL MENU. MAYBE STEAL CODE FROM SLAPCRAFTING BC I THINK THERE WERE RADIALS FOR THAT.alist
+	// WE WANT TO BE ABLE TO USE THE APPLY FACE OR WHATEVER I CALLED IT PROC, PREFERABLY W/ A LITTLE HEAD ICON TO SHOW
+	// WHAT WE'RE TURNING INTO. ALSO A NAME IF POSSIBLE. WE'LL SEE.
+
+	// ALSO TODO: RANCOR -- TIME LIMITED BUFF BASED ON # OF PEOPLE KILLED / SOULS IN DAGGER.
+	*/
+
 /obj/item/rogueweapon/huntingknife/idagger/steel/profane/pre_attack(mob/living/carbon/human/target, mob/living/user = usr, params)
 	if(!istype(target))
 		return FALSE
