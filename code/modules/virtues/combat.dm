@@ -93,6 +93,8 @@
 		"Sling Skill (JMAN)" = /datum/skill/combat/slings,
 		"Axe Skill (JMAN)" = /datum/skill/combat/axes,
 		"Whip Skill (JMAN)" = /datum/skill/combat/whipsflails,
+		"Polearm Skill (JMAN)" = /datum/skill/combat/polearms,
+		"Staves Skill (JMAN)" = /datum/skill/combat/staves,
 		"Stashed Messer & Parrying Dagger" = list(/obj/item/rogueweapon/sword/short/messer/iron/virtue, /obj/item/rogueweapon/huntingknife/idagger/virtue),
 		"Stashed Quarterstaff & Sling" = list(/obj/item/rogueweapon/woodstaff/quarterstaff/iron, /obj/item/gun/ballistic/revolver/grenadelauncher/sling, /obj/item/quiver/sling/iron),
 		"Stashed Spear & Mace" = list(/obj/item/rogueweapon/spear, /obj/item/rogueweapon/mace),
