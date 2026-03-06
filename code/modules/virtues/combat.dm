@@ -83,8 +83,8 @@
 /datum/virtue/combat/combat_virtue
 	name = "Trained & Ready"
 	desc = "There are many facets of lyfe that can end it. I've taken to learning some of them, and kept the tools for them close."
-	max_choices = 6
-	choice_costs = list(0, 0, 0, 2, 3, 4)
+	max_choices = 5
+	choice_costs = list(0, 0, 0, 2, 4, 4)
 	extra_choices = list(
 		"Swords Skill (JMAN)" = /datum/skill/combat/swords,
 		"Shield Skill (JMAN)" = /datum/skill/combat/shields,
