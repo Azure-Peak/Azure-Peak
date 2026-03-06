@@ -598,24 +598,3 @@
 		return INFINITY
 
 	return existing.duration - world.time
-
-/mob/living/proc/handle_simple_drowning()
-	if(stat == DEAD) return
-	var/area/A = get_area(src)
-	var/turf/T = get_turf(src)
-	
-
-	if(istype(A, /area/underwater))
-		if(HAS_TRAIT(src, TRAIT_NOBREATH) || HAS_TRAIT(src, TRAIT_WATERBREATHING))
-			return
-		
-		adjustOxyLoss(5) 
-		if(prob(10)) emote("drown")
-
-	
-	else if(istype(T, /turf/open/water/transparent/surface))
-		if(health < 0 || IsKnockdown() || IsParalyzed())
-			var/turf/below = GET_TURF_BELOW(T)
-			if(below && istype(below, /turf/open/water/transparent))
-				forceMove(below)
-				set_resting(TRUE)
