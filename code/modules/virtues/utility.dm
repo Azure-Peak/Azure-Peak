@@ -228,7 +228,9 @@
 		"Accordion" = /obj/item/rogue/instrument/accord,
 		"Shamisen" = /obj/item/rogue/instrument/shamisen,
 		"Drum" = /obj/item/rogue/instrument/drum,
-		"Viola" = /obj/item/rogue/instrument/viola
+		"Viola" = /obj/item/rogue/instrument/viola,
+		"Vocal Talisman" = /obj/item/rogue/instrument/vocals,
+		"Psyaltery" = /obj/item/rogue/instrument/psyaltery
 	)
 
 /datum/virtue/utility/performer/apply_to_human(mob/living/carbon/human/recipient)
