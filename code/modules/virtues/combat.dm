@@ -108,8 +108,9 @@
 				recipient.adjust_skillrank_up_to(extra_choices[choice], SKILL_LEVEL_JOURNEYMAN, silent = TRUE)
 			else if(islist(extra_choices[choice]))	//stashed items
 				var/list/stash = extra_choices[choice]
-				for(var/obj/item/I in stash)
-					recipient.mind?.special_items[I::name] = added_stashed_items[I]
+				for(var/stuff in stash)
+					var/obj/item/I = stuff
+					recipient.mind?.special_items[capitalize(I::name)] = I
 
 /datum/virtue/combat/bowman
 	name = "Toxophilite"

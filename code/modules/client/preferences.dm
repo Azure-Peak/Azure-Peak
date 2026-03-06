@@ -528,7 +528,7 @@ GLOBAL_LIST_EMPTY(chosen_names)
 			if(length(virtue.extra_choices) && length(virtue.picked_choices))
 				for(var/i in 1 to length(virtue.picked_choices))
 					tricost_virt += virtue.choice_costs[i]
-			virtue_html += "<b>Virtue[tricost_virt ? " ([tricost_virt] TRI)" : ""]:</b> <a href='?_src_=prefs;preference=virtue;task=input'><b>[virtue]</b></a><BR>"
+			virtue_html += "<b>Virtue[tricost_virt ? " <font color = '#d1c8bb'>([tricost_virt] TRI)</font>" : ""]:</b> <a href='?_src_=prefs;preference=virtue;task=input'><b><font color = '#cfa971'>[virtue]</font></b></a><BR>"
 			if(length(virtue.picked_choices))
 				for(var/i = 1 to virtue.picked_choices.len)
 					var/choice = virtue.picked_choices[i]
@@ -540,13 +540,13 @@ GLOBAL_LIST_EMPTY(chosen_names)
 					var/tooltip_html = tooltip ? "<a href='?_src_=prefs;preference=subvirtue;task=tooltip;tooltip=[choice]'>(?)</a><br>" : "<br>"
 					virtue_html += "[dat_html][tooltip_html]"
 			if(length(virtue.picked_choices) < virtue.max_choices)
-				virtue_html += "   <a href='?_src_=prefs;preference=subvirtue;task=input'>[(virtue.choice_costs[(virtue.picked_choices.len + 1)] <= 0) ? "<font color = '#FFFFFF'>" : ""]Pick Bonus[(virtue.choice_costs[(virtue.picked_choices.len + 1)] <= 0) ? "</font>" : ""] [(virtue.choice_costs[(virtue.picked_choices.len + 1)] > 0) ? "([virtue.choice_costs[(virtue.picked_choices.len + 1)]] TRI)" : ""] </a><br>"
+				virtue_html += "   <a href='?_src_=prefs;preference=subvirtue;task=input'>[(virtue.choice_costs[(virtue.picked_choices.len + 1)] <= 0) ? "<font color = '#a08357'>" : ""]Pick Bonus[(virtue.choice_costs[(virtue.picked_choices.len + 1)] <= 0) ? "</font>" : ""] [(virtue.choice_costs[(virtue.picked_choices.len + 1)] > 0) ? "([virtue.choice_costs[(virtue.picked_choices.len + 1)]] TRI)" : ""] </a><br>"
 			if(statpack.virtuous)
 				tricost_virt = 0
 				if(length(virtuetwo.extra_choices) && length(virtuetwo.picked_choices))
 					for(var/i in 1 to length(virtuetwo.picked_choices))
 						tricost_virt += virtuetwo.choice_costs[i]
-				virtue_html += "<b>Second Virtue[tricost_virt ? " ([tricost_virt] TRI)" : ""]:</b> <a href='?_src_=prefs;preference=virtuetwo;task=input'><b>[virtuetwo]</b></a><BR>"
+				virtue_html += "<b>Second Virtue[tricost_virt ? " <font color = '#d1c8bb'>([tricost_virt] TRI)</font>" : ""]:</b> <a href='?_src_=prefs;preference=virtuetwo;task=input'><b><font color = '#cfa971'>[virtuetwo]</font></b></a><BR>"
 				if(length(virtuetwo.extra_choices) && length(virtuetwo.picked_choices))
 					for(var/i in 1 to length(virtuetwo.picked_choices))
 						var/choice = virtuetwo.picked_choices[i]
@@ -558,7 +558,7 @@ GLOBAL_LIST_EMPTY(chosen_names)
 						var/tooltip_html = tooltip ? "<a href='?_src_=prefs;preference=subvirtue_two;task=tooltip;tooltip=[choice]'>(?)</a><br>" : "<br>"
 						virtue_html += "[dat_html][tooltip_html]"
 				if(length(virtuetwo.picked_choices) < virtuetwo.max_choices)
-					virtue_html += "   <a href='?_src_=prefs;preference=subvirtue_two;task=input'>[(virtuetwo.choice_costs[(virtuetwo.picked_choices.len + 1)] <= 0) ? "<font color = '#FFFFFF'>" : ""]Pick Bonus[(virtuetwo.choice_costs[(virtuetwo.picked_choices.len + 1)] <= 0) ? "</font>" : ""] [(virtuetwo.choice_costs[(virtuetwo.picked_choices.len + 1)] > 0) ? "([virtuetwo.choice_costs[(virtuetwo.picked_choices.len + 1)]] TRI)" : ""] </a><br>"
+					virtue_html += "   <a href='?_src_=prefs;preference=subvirtue_two;task=input'>[(virtuetwo.choice_costs[(virtuetwo.picked_choices.len + 1)] <= 0) ? "<font color = '#a08357'>" : ""]Pick Bonus[(virtuetwo.choice_costs[(virtuetwo.picked_choices.len + 1)] <= 0) ? "</font>" : ""] [(virtuetwo.choice_costs[(virtuetwo.picked_choices.len + 1)] > 0) ? "([virtuetwo.choice_costs[(virtuetwo.picked_choices.len + 1)]] TRI)" : ""] </a><br>"
 			else
 				virtuetwo = GLOB.virtues[/datum/virtue/none]
 			var/virtue_fieldset
@@ -2471,7 +2471,7 @@ Slots: [job.spawn_positions] [job.round_contrib_points ? "RCP: +[job.round_contr
 
 					if (result)
 						var/datum/virtue/virtue_chosen = virtue_choices[result]
-						virtue = new virtue_chosen
+						virtue = new virtue_chosen.type
 						to_chat(user, process_virtue_text(virtue_chosen))
 				if("virtuetwo")
 					var/list/virtue_choices = list()
@@ -2496,7 +2496,7 @@ Slots: [job.spawn_positions] [job.round_contrib_points ? "RCP: +[job.round_contr
 
 					if (result)
 						var/datum/virtue/virtue_chosen = virtue_choices[result]
-						virtuetwo = new virtue_chosen
+						virtuetwo = new virtue_chosen.type
 						to_chat(user, process_virtue_text(virtue_chosen))
 					/*	if (statpack.type != /datum/statpack/wildcard/virtuous)
 							statpack = new /datum/statpack/wildcard/virtuous
