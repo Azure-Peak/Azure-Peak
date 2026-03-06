@@ -87,12 +87,11 @@
 	ckeywhitelist = list("eirenxiv")
 	sort_category = "Donator"
 
-/*	Swapped out for _eiren4
 /datum/loadout_item/donator_eiren3
 	name = "Donator Kit - Cinis"
 	path = /obj/item/enchantingkit/eirensabre2
 	ckeywhitelist = list("eirenxiv")
-*/
+	sort_category = "Donator"
 
 /datum/loadout_item/donator_eiren4
 	name = "Donator Kit - Darkwood's Embrace"

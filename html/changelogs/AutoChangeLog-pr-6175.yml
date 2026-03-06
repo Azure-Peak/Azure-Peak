@@ -1,0 +1,5 @@
+author: "Ketrai"
+delete-after: True
+changes:
+  - bugfix: "Magefire can't be placed on blocked turfs or air turfs."
+  - bugfix: "Mind-owning carbons now turn combat mode off when they die."

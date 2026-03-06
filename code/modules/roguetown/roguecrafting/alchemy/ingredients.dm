@@ -71,6 +71,10 @@
 	med_pot = /datum/alch_cauldron_recipe/health_potion
 	minor_pot = /datum/alch_cauldron_recipe/antidote
 
+/obj/item/alch/viscera/get_mechanics_examine(mob/user)
+	. = ..()
+	. += span_info("Viscera is chiefly obtained by butchering most animals. To butcher an animal, middle-click it with a knife without any miracles, spells, or special intents selected. The higher your Butchering skill, the more you'll carve.")
+
 /obj/item/alch/waterdust
 	name = "water essentia"
 	icon_state = "water_runedust"
@@ -136,6 +140,10 @@
 	med_pot = /datum/alch_cauldron_recipe/end_potion
 	minor_pot = /datum/alch_cauldron_recipe/health_potion
 
+/obj/item/alch/sinew/get_mechanics_examine(mob/user)
+	. = ..()
+	. += span_info("Sinew is chiefly obtained by butchering most animals. To butcher an animal, middle-click it with a knife without any miracles, spells, or special intents selected. The higher your Butchering skill, the more you'll carve.")
+
 /obj/item/alch/irondust
 	name = "iron dust"
 	icon_state = "irondust"
@@ -185,6 +193,10 @@
 	med_pot = /datum/alch_cauldron_recipe/health_potion
 	minor_pot = /datum/alch_cauldron_recipe/con_potion
 
+/obj/item/alch/bone/get_mechanics_examine(mob/user)
+	. = ..()
+	. += span_info("Tailbones are chiefly obtained by butchering most animals. To butcher an animal, middle-click it with a knife without any miracles, spells, or special intents selected. The higher your Butchering skill, the more you'll carve.")
+
 /obj/item/alch/horn
 	name = "troll horn"
 	icon_state = "horn"
@@ -198,6 +210,10 @@
 	major_pot = /datum/alch_cauldron_recipe/str_potion
 	med_pot = /datum/alch_cauldron_recipe/con_potion
 	minor_pot = /datum/alch_cauldron_recipe/end_potion
+
+/obj/item/alch/horn/get_mechanics_examine(mob/user)
+	. = ..()
+	. += span_info("These horns are chiefly obtained by butchering trolls. To butcher an animal, middle-click it with a knife without any miracles, spells, or special intents selected. The higher your Butchering skill, the more you'll carve.")
 
 /obj/item/alch/golddust
 	name = "gold dust"

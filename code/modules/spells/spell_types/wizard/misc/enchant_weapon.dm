@@ -9,7 +9,7 @@
 	An enchantment cannot be applied to an already enchanted weapon.\n\
 	Force Blade: Increases the force of the weapon by 5.\n\
 	Durability: Increases the integrity and max integrity of the weapon by 100.\n\
-	Arcane Mark: Applies <b>Arcane Mark</b> to struck targets. 12 second cooldown."
+	Arcane Mark: Applies <b>Arcane Mark</b> to struck targets. 7 second cooldown."
 	overlay_state = "enchant_weapon"
 	sound = list('sound/magic/whiteflame.ogg')
 
@@ -32,6 +32,8 @@
 	invocation_type = "whisper"
 	glow_color = GLOW_COLOR_METAL
 	glow_intensity = GLOW_INTENSITY_LOW
+
+	ignore_los = TRUE // this breaks w/o this for some reason
 
 /obj/effect/proc_holder/spell/invoked/enchant_weapon/cast(list/targets, mob/user = usr)
 	var/target = targets[1]

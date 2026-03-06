@@ -241,7 +241,8 @@
 // =====================
 /obj/effect/proc_holder/spell/invoked/heartweave
 	name = "Heartweave"
-	desc = "Forge a symbiotic bond between two souls."
+	desc = "Interlinks the caster's vitality with a chosen target, sharing any incoming healing-or-damage with each other. </br>If one interlinked person is healed, the other interlinked person will \
+	be healed as well. </br>Likewise, if one interlinked person is damaged, the other interlinked person will be damaged as well."
 	overlay_state = "bliss"
 	range = 1
 	chargetime = 0.5 SECONDS

@@ -411,12 +411,12 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	S["virtue"] >> virtue_type
 	S["virtuetwo"] >> virtuetwo_type
 	S["virtue_origin"] >> origin_type
-	if (virtue_type)
+	if(virtue_type && ispath(virtue_type))
 		virtue = new virtue_type()
 	else
 		virtue = new /datum/virtue/none
 
-	if( virtuetwo_type)
+	if(virtuetwo_type && ispath(virtuetwo_type))
 		virtuetwo = new virtuetwo_type
 	else
 		virtuetwo = new /datum/virtue/none

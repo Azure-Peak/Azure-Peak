@@ -225,6 +225,11 @@
 	path = /obj/item/clothing/neck/roguetown/psicross/inhumen/graggar
 	sort_category = "Accessories"
 
+/datum/loadout_item/psicross/baotha
+	name = "Amulet of Baotha"
+	path = /obj/item/clothing/neck/roguetown/psicross/inhumen/baotha
+	sort_category = "Accessories"
+
 /datum/loadout_item/psicross/gronnzizo
 	name = "Wolf Talisman"
 	path = /obj/item/clothing/neck/roguetown/psicross/inhumen/gronn

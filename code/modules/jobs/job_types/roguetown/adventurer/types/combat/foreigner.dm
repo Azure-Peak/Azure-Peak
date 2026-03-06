@@ -634,7 +634,7 @@
 	w_class = WEIGHT_CLASS_NORMAL
 	smeltresult = /obj/item/ingot/bronze
 	max_integrity = 150
-	sheathe_icon = "makhaira"
+	sheathe_icon = "kopis"
 
 /obj/item/clothing/suit/roguetown/shirt/tribalrag/gladiator
 	slot_flags = ITEM_SLOT_ARMOR|ITEM_SLOT_SHIRT

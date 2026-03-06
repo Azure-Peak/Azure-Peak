@@ -5,6 +5,7 @@
 	antimagic_allowed = TRUE
 	invocation_type = "shout"
 	recharge_time = 600
+	range = 7
 
 /obj/effect/proc_holder/spell/self/telljoke/cast(list/targets,mob/user = usr)
 	. = ..()
@@ -14,7 +15,7 @@
 	user.say(joker, forced = "spell")
 	sleep(20)
 	playsound(get_turf(user), 'sound/magic/comedy.ogg', 100)
-	for(var/mob/living/carbon/CA in view(7, get_turf(user)))
+	for(var/mob/living/carbon/CA in view(range, get_turf(user)))
 		if(CA == user)
 			continue
 		if(CA.cmode)
@@ -40,6 +41,7 @@
 	antimagic_allowed = TRUE
 	invocation_type = "shout"
 	recharge_time = 600
+	range = 7
 
 /obj/effect/proc_holder/spell/self/telltragedy/cast(list/targets,mob/user = usr)
 	. = ..()
@@ -49,7 +51,7 @@
 	user.say(joker, forced = "spell")
 	sleep(20)
 	playsound(get_turf(user), 'sound/magic/tragedy.ogg', 100)
-	for(var/mob/living/carbon/CA in view(7, get_turf(user)))
+	for(var/mob/living/carbon/CA in view(range, get_turf(user)))
 		if(CA == user)
 			continue
 		if(CA.cmode)

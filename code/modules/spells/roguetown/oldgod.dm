@@ -9,7 +9,7 @@
 	releasedrain = 33
 	chargedrain = 0
 	chargetime = 0
-	range = 2
+	range = 2 // psydon miracles should be worse than regular ones.
 	warnie = "sydwarning"
 	movement_interrupt = FALSE
 	sound = 'sound/magic/ENDVRE.ogg'
@@ -204,7 +204,7 @@
 	releasedrain = 50
 	chargedrain = 0
 	chargetime = 0
-	range = 1
+	range = 3 // i got a request to up this. tbh it could be 4.
 	warnie = "sydwarning"
 	movement_interrupt = FALSE
 	sound = 'sound/magic/psyabsolution.ogg'
@@ -323,7 +323,6 @@
 	recharge_time = 10 MINUTES
 	miracle = TRUE
 	devotion_cost = 30
-	range = 1
 	var/static/list/lootpool = list(/obj/item/flowercrown/rosa,
 	/obj/item/bouquet/rosa,
 	/obj/item/jingle_bells,
@@ -408,7 +407,6 @@
 	releasedrain = 15
 	chargedrain = 0
 	chargetime = 0
-	range = 2
 	warnie = "sydwarning"
 	movement_interrupt = FALSE
 	sound = null
@@ -516,7 +514,6 @@
 	releasedrain = 25
 	chargedrain = 0
 	chargetime = 0
-	range = 2
 	warnie = "sydwarning"
 	movement_interrupt = FALSE
 	sound = null
@@ -624,7 +621,6 @@
 	releasedrain = 30
 	chargedrain = 0
 	chargetime = 0
-	range = 2
 	warnie = "sydwarning"
 	movement_interrupt = FALSE
 	invocations = list(span_blue("quietly recites a greater psalm, soothing their pains."))

@@ -2113,3 +2113,49 @@
 	to_chat(owner, span_warning("The droning quiets. My footsteps are noisy, again."))
 	REMOVE_TRAIT(owner, TRAIT_SILENT_FOOTSTEPS, "xylixboon")
 	REMOVE_TRAIT(owner, TRAIT_LIGHT_STEP, "xylixboon")
+
+/datum/status_effect/buff/transparent_eyeball
+	id = "transparent_eyeball"
+	alert_type = /atom/movable/screen/alert/status_effect/buff/transparent_eyeball
+	duration = 20 MINUTES
+	// this should hook into the scrying code rather than anything here
+	// it just gives them less chance to break shit. thats it.
+
+// https://www.youtube.com/watch?v=v_UvrYT26o4
+// https://en.wikipedia.org/wiki/Transparent_eyeball
+/atom/movable/screen/alert/status_effect/buff/transparent_eyeball
+	name = "Transparent Eyeball"
+	desc = "Nepolx's red surface has blessed me... I shall find it easier to use scrying orbs." + span_gamedeadsay("\n...I AM NOTHING, I SEE ALL.")
+
+/datum/status_effect/buff/transparent_eyeball/on_apply()
+	. = ..()
+	to_chat(owner, span_gamedeadsay("I feel unbound to my mortal coil-- scrying orbs will be easier to use, for a time!"))
+
+/datum/status_effect/buff/transparent_eyeball/on_remove()
+	. = ..()
+	to_chat(owner, span_gamedeadsay("I become one with myself, again..."))
+
+/datum/status_effect/buff/hermes_trismegistus
+	id = "hermes_trismegistus"
+	alert_type = /atom/movable/screen/alert/status_effect/buff/hermes_trismegistus
+	duration = 20 MINUTES
+	var/original_skill = null // we need scope for the whole thing so this gotta b here and null
+	var/gave_buff = FALSE
+
+/atom/movable/screen/alert/status_effect/buff/hermes_trismegistus
+	name = "Hermetick Blessing" // yes, hermetick. with a k. 
+	desc = "Looking at HERMES has given me a blessing of the Stars... written words begin to make more sense." // dont ask how this works its magic biyatch
+
+/datum/status_effect/buff/hermes_trismegistus/on_apply()
+	. = ..()
+	if(owner)
+		original_skill = owner.get_skill_level(/datum/skill/misc/reading) // cache it
+		if(original_skill < SKILL_LEVEL_JOURNEYMAN)
+			owner.adjust_skillrank(/datum/skill/misc/reading, 1, TRUE) // +1 reading. this technically lets u read if ur illtierate, ithink. idk. its cool, ok.
+			gave_buff = TRUE
+
+/datum/status_effect/buff/hermes_trismegistus/on_remove()
+	. = ..()
+	if(gave_buff) // because we ensure that the buff was actually given out, and due to the 0-3 scale of it, we can just
+		owner.adjust_skillrank(/datum/skill/misc/reading, -1, TRUE) // -1 skill once it wears off and it (should) be fine.
+		to_chat(owner, span_warning("The blessing of HERMES begins to wear off. The written word loses it's meaning in my skull."))

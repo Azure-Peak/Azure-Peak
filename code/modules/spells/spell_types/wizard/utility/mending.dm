@@ -14,6 +14,7 @@
 	spell_tier = 1 // Utility. For repair
 	glow_color = GLOW_COLOR_ARCANE
 	glow_intensity = GLOW_INTENSITY_LOW
+	ignore_los = TRUE // temp. cus it breaks if it doesnt have this maybe
 
 	miracle = FALSE
 

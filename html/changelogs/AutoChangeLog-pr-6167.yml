@@ -1,0 +1,4 @@
+author: "ApplePlastic"
+delete-after: True
+changes:
+  - bugfix: "addressed some issues regarding locked doors"

@@ -161,7 +161,6 @@
 	</br>Heaven's gate closed to us long ago, yet His children persist; as as long as they do, so must I. \
 	</br>Happiness must be fought for."
 	armor = list("blunt" = 30, "slash" = 50, "stab" = 50, "piercing" = 20, "fire" = 0, "acid" = 0) //Custom value; padded gambeson's slash- and stab- armor.
-	prevent_crits = list(BCLASS_CUT, BCLASS_BLUNT)
 	max_integrity = 400
 	repair_time = 20 SECONDS
 
@@ -174,7 +173,6 @@
 	Oh no, not me, I never lost control.</br> \
 	You're face to face, with the man who sold the world."
 	armor = list("blunt" = 40, "slash" = 60, "stab" = 50, "piercing" = 40, "fire" = 50, "acid" = 0) //Fire resistance unlike the disciple one
-	prevent_crits = list(BCLASS_CUT, BCLASS_BLUNT)
 	max_integrity = 450
 	repair_time = 20 SECONDS
 
@@ -200,18 +198,18 @@
 	resistance_flags = FIRE_PROOF
 	icon_state = "easttats"
 	armor = ARMOR_RUMACLAN
-	body_parts_covered = COVERAGE_ALL_BUT_HANDFEET
-	body_parts_inherent = COVERAGE_ALL_BUT_HANDFEET
+	body_parts_covered = COVERAGE_FULL
+	body_parts_inherent = COVERAGE_FULL
 	icon = 'icons/roguetown/clothing/shirts.dmi'
 	mob_overlay_icon = 'icons/roguetown/clothing/onmob/shirts.dmi'
 	sleeved = 'icons/roguetown/clothing/onmob/helpers/sleeves_shirts.dmi'
 	allowed_race = NON_DWARVEN_RACE_TYPES
-	max_integrity = 270
+	max_integrity = 125
 
 	repairmsg_begin = "The tattoos begin to slowly mend their abuse..."
 	repairmsg_continue = "The tattoos mend some of their abuse..."
 	repairmsg_stop = "The tattoos stops mending from the onslaught!"
 	repairmsg_end = "The tattoos flow more calmly, as they finish resting and regain their strength."
 
-	interrupt_damount = 25
+	interrupt_damount = 20
 	repair_time = 35 SECONDS

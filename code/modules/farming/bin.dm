@@ -1,6 +1,6 @@
 /obj/item/roguebin
 	name = "wood bin"
-	desc = "A washbin, a trashbin, a bloodbin... yur choices are truly limitless."
+	desc = "A washbin, a trashbin, a bloodbin... your choices are truly limitless."
 	icon = 'icons/roguetown/misc/structure.dmi'
 	icon_state = "washbin1"
 	var/base_state

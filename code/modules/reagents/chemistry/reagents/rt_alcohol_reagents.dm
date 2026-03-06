@@ -397,7 +397,7 @@
 		M.adjustFireLoss(-0.4  * REAGENTS_EFFECT_MULTIPLIER, 0)
 	..()
 
-	/datum/reagent/consumable/ethanol/spicedwine/delectable
+/datum/reagent/consumable/ethanol/spicedwine/delectable
 	name = "Delectable Spiced Wine"
 	boozepwr = 40
 	taste_description = "heavenly aromatic sweetness, followed by an ever-familiar warmness in the heart"

@@ -1,7 +1,10 @@
 // -------------- CHOCOLATE -----------------
 /obj/item/reagent_containers/food/snacks/chocolate
-	name = "chocolate bar"
-	desc = "Unbelievably fancy chocolate, imported all the way from distant Grenzelhoft"
+	name = "chocolate ingot"
+	desc = "An unbelievably decadant slab of fudge, made with Amazonia's cocoa beans and Grenzelhoft's saiga milk. A \
+	recent trade agreement between the two nations has turned this once-expensive delicacy into a slightly-less-expensive \
+	treat for many. </br>Following a rather unfortunate diplomatic incident involving a Lupian nobleman and a box of chocolates, \
+	chocolate is also now-known to double as a potent 'humor rebalancer' for some of Dendor's children."
 	icon = 'modular/Neu_Food/icons/others/sweet.dmi'
 	icon_state = "chocolate"
 	bitesize = 4

@@ -175,8 +175,7 @@
 	. = ..()
 	if(isliving(targets[1]))
 		var/mob/living/target = targets[1]
-		user.visible_message("<font color='yellow'>[user] infuses [target] with swirling strands of spectral webs!</font>")
-		target.visible_message("<font color='yellow'>You feel your tongue shift strangely, producing odd clicking noises.</font>")
+		target.visible_message("<font color='yellow'>[user] infuses [target] with swirling strands of spectral webs!</font>", "<font color='yellow'>You feel your tongue shift strangely, producing odd clicking noises.</font>")
 		target.apply_status_effect(/datum/status_effect/buff/spider_speak)
 		return TRUE
 	revert_cast()

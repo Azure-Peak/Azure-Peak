@@ -97,19 +97,21 @@ Exercise Verbs
 /mob/living/carbon/human/proc/calculate_stamina_loss_per_pushup(var/on_knees = FALSE)
 	var/stamina_loss = 8 - get_skill_level(/datum/skill/misc/athletics)
 
-	var/obj/item/clothing/head_cloth = head
-	switch(head_cloth?.armor_class)
-		if(ARMOR_CLASS_HEAVY)
-			stamina_loss += 3
-		if(ARMOR_CLASS_MEDIUM)
-			stamina_loss += 1
+	if(istype(head, /obj/item/clothing))
+		var/obj/item/clothing/head_cloth = head
+		switch(head_cloth?.armor_class)
+			if(ARMOR_CLASS_HEAVY)
+				stamina_loss += 3
+			if(ARMOR_CLASS_MEDIUM)
+				stamina_loss += 1
 
-	var/obj/item/clothing/armor_cloth = wear_armor
-	switch(armor_cloth?.armor_class)
-		if(ARMOR_CLASS_HEAVY)
-			stamina_loss += 5
-		if(ARMOR_CLASS_MEDIUM)
-			stamina_loss += 2
+	if(istype(wear_armor, /obj/item/clothing))
+		var/obj/item/clothing/armor_cloth = wear_armor
+		switch(armor_cloth?.armor_class)
+			if(ARMOR_CLASS_HEAVY)
+				stamina_loss += 5
+			if(ARMOR_CLASS_MEDIUM)
+				stamina_loss += 2
 
 	if(backr || backl)
 		stamina_loss += 3

@@ -193,3 +193,156 @@
   - rscadd: werewolves now cry for dendor on gaining antag datum (local)
   - rscadd: xylix now has a ritual
   - balance: revel in death now only applies a 1.25* pain mod thru sensitive nerves
+2026-03-04:
+  Daburuu:
+  - bugfix: Heretic spy now spawns with dagger, if choosing ranged weapons
+  FreeStylaLT:
+  - balance: Restricted gnolls from taking the dual wielder virtue.
+  Ketrai:
+  - rscadd: delayed gnoll deployment into rounds. gnolls cannot appear in groups on
+      lowpop rounds
+  - balance: gnoll stalk is now indefinite until action is taken by the gnoll
+  - balance: abduct can now be broken by damaging gnolls attempting to abduct, or
+      before they attempt to do so
+  - balance: gnolls no longer have z-leap, they have higher stats instead
+  Lamasmaster:
+  - image: Ascendant Miracle Icons
+  - balance: Seed planting timer
+  Ldip999:
+  - code_imp: Makes health updated mandatory on loss adjusts, even if the final damage
+      of a certain value is zero.
+  Ollanius:
+  - rscadd: Adds more detailed tutorials to most basic miracles, revivals, necromantics,
+      and butcherings.
+  - bugfix: Minor spelling mistake with the Washbin's gone. My bad.
+  - bugfix: Spiced wine should now be properly brewable. If issues persist, ping @Dongwaiver
+      (that's me!) on the Discord.
+  - rscadd: Adds 'the sunwrought visage', a unique upgrade to the 'sun hood' that
+      can be crafted with a golden mask and Journeyman-tier Holy skills. Provides
+      maille-tier protection and a snazzy, Stonekeep-sourced sprite.
+  - rscadd: Replaces the 'Smash' intent's SFX for Maces with something a little more
+      unique., and a little less jarring.
+  Ryan180602:
+  - rscadd: mounts can carry incapacitated
+  Teragenic:
+  - rscadd: Allows Eoran Worshippers to worship at the Shrine and Eoran Pomegranate
+      Trees
+  WeNeedMorePhoron:
+  - rscadd: Guard keybind (G) - enter Guard from any stance. Old characters will need
+      to set it manually.
+  - rscadd: Distracting Swipe, Piercing Lunge and Upper Cut now aim for your targeted
+      zone.
+  - rscadd: Guard deflections against spells now grant Adrenaline Rush.
+  - rscadd: Weapon special hit messages now display the hit zone.
+  - bugfix: Decorated rapier description was showing duelist ring description.
+  - rscadd: Spell pool mage system
+  - rscadd: Revamped and reworked Spellblade classes to an active momentum based melee
+      based design. Ability sprites mostly done by Prominence/NoBleed. The bad sprites
+      by WeNeedMorePhoron.
+  - rscadd: Spellblade no longer lose momentum on off balance.
+  - rscadd: You now get a helpful tip on gaining your first spell telling you you
+      can use ctrl click and click drag to rearrange them.
+  - bugfix: Fix double clicking bug.
+  hazelrat:
+  - bugfix: Resolved an improper interaction causing the Head Physician's clothes
+      to be gendered according to pronouns, rather than to clothing preferences.
+  mumblemancer:
+  - qol: fulmen chair now tells you when you mmb it and it prompts the person
+  - bugfix: you should no longer be "under" the fulmen-chair
+  saltprjak:
+  - bugfix: Polishing a one-handed weapon properly updates its force.
+2026-03-05:
+  Ketrai:
+  - balance: Cerulean arils have bait resilience now
+  Ollanius:
+  - bugfix: THIRD TIMES THE CHARM. SPICED WINE SHOULD BE BREWABLE NOW.
+  - bugfix: FISH FILLET INSTEAD OF REGULAR FISHES FOR GARUM.
+  - code_imp: PUMPKIN SPICE IS NOW UNDER THE /FOOD/SNACKS FILEPATH.
+  - rscadd: Adds a very rare alternative to the usual round-ending theme.
+  - rscadd: Adds a new round-ending stinger.
+  - rscadd: Reimplements the more agnostic and fitting dialogue that prints at the
+      end of each round.
+  - code_imp: All included assets with this pull request have been checked to be compliant
+      with our codebase's expectations. We're (legally) safe to use them, as long
+      as the proper credit is provided.
+  - code_imp: Likewise - credit to Hildegard Von Blingin, Whitney Avalon, Sabrina
+      Carpenter, Valo X, and Power Pak.
+  - code_imp: The old round-ending dialogue has been preserved in the roundend.dm,
+      in case someone wishes to reuse them.
+  - rscadd: Mirth.
+  Ryan180602:
+  - bugfix: Mages can spell on chairs again. Only proper mounted spelling is disabled.
+  Teragenic:
+  - qol: Greatweapon Strap and Lamptern for Fjall Jarn
+  WeNeedMorePhoron:
+  - rscdel: Remove the overlay queueing subsystem.
+  - rscadd: You get a message in chat when you are stopped from learning a skill by
+      xp cap.
+  bearrrrrrrr:
+  - rscadd: Chandelier admin smite.
+  eirenxiv:
+  - rscadd: Added various wizard hats and their colour variations to the loadout menu
+  - rscadd: Added a chef hat to the loadout menu
+  - rscadd: Added a satchel for 2 loadout points to the loadout menu
+2026-03-06:
+  BurpleBineapple:
+  - bugfix: The Marshal's sword, Oathkeeper, is correctly longsword sized.
+  FreeStylaLT:
+  - balance: Intellectual virtue / trait now grants a +5% crafting chance to any recipe.
+  KatTheFox:
+  - qol: You can now use orison's conjure water to perform some cooking tasks, like
+      wetting flour or washing rice.
+  Ketrai:
+  - bugfix: zizo's fancier crosses are no longer prayer unworthy
+  - rscadd: Baothan amulet.
+  - rscadd: All inhumen gods now have stone and decorated crosses.
+  Lamasmaster:
+  - balance: Flail strike delay
+  NOCTURNE:
+  - rscadd: telescopes have significantly more effects!
+  - rscdel: zerobrine
+  Ollanius:
+  - rscadd: You can now clink glasses together! This happens when two people offer
+      a cup, bottle, mug, goblet, or glass to each other at the same time. Credit
+      to tmyqlfpir for its creation!
+  - bugfix: Makharia shows again, when scabbarded.
+  - bugfix: Delectable Spiced Wine should now show up as a selectable option for favorite
+      drinks.
+  - code_imp: All variants of spiced wine now have pre-filled bottles and kegs for
+      mapping purposes. Same with Zarum.
+  Ryan180602:
+  - balance: updates deserter to 11-pt statline, with barbute and poleaxe option.
+  - balance: downgrades levyman statline
+  - balance: Adds miniscule passive blood regen. Procs when uncon, and not hungry/thirsty
+  - balance: Strong Red heals a few factors less. And stays longer in system. Does
+      not regen blood.
+  - balance: Regular Red heals the same. Does not regen blood.
+  - balance: Bandages are 0.5x more effective (compared to 0.25x at current).
+  - balance: Water regens blood more, now. (Nearly as much as prior strong red did).
+  - balance: Cheeles start with more blood, and can carry as much blood as in a person.
+  - bugfix: Miracle range is now enforced properly. Miracle is 4-tile radius, Fortify(and
+      other greater miracles) are also 4-tile radius.
+  - rscadd: Miracles produce a beam from user to target.
+  - code_imp: Blood transfer Miracle is now Blood Boon.
+  - code_imp: Wild-Kins are forced to have a snout.
+  - code_imp: Half-Kins can also use the colour picker, now.
+  - balance: Kaz scabbards have 200 integrity.
+  - balance: Kaz skin has 125 integrity.
+  - balance: 'Seonjang''s traits are now: BLOOD_RESISTANCE, NOPAINSTUN'
+  - balance: 'Regular Ruma clan traits are now: BLOOD_RESISTANCE, IGNOREDAMAGESLOWDOWN'
+  - balance: Astrata's Grasp no longer can parry
+  WeNeedMorePhoron:
+  - bugfix: Progress Bar is now only sent to nearby clients instead of all clients,
+      report any oddity. Not being able to see a progress bar after walking on screen
+      is an intended edge case.
+  - bugfix: Massively optimized soil processing. Report any oddity.
+  bearrrrrrrr:
+  - rscadd: conjure crystalhide, new mage spell
+  - balance: spitfire cd, stygian interactions, things renamed, dragonhide armor changed,
+      etc etc,. genuinely huge PR
+  chemistrymain3:
+  - rscdel: Removed hierophant's default preselect spells.
+  eirenxiv:
+  - bugfix: fixed disgraced knight fortune statkey
+  hazelrat:
+  - rscadd: Introduced a lore blurb for Hammerhold.

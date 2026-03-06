@@ -23,7 +23,7 @@
 	reagent_to_brew = /datum/reagent/medicine/healthpot/zarum
 	needed_reagents = list(/datum/reagent/water = 198)
 	needed_items = list(
-		/obj/item/reagent_containers/food/snacks/fish = 3, 
+		/obj/item/reagent_containers/food/snacks/rogue/meat/fish = 3, 
 		/obj/item/reagent_containers/food/snacks/sugar = 1,
 		/obj/item/reagent_containers/powder/salt = 1,
 		/obj/item/alch/calendula = 1,

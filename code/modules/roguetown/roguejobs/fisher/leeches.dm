@@ -261,8 +261,8 @@
 	blood_sucking = 5
 	toxin_healing = -2
 	blood_multiplier = 3
-	blood_storage = BLOOD_VOLUME_BAD
-	blood_maximum = BLOOD_VOLUME_NORMAL
+	blood_storage = BLOOD_VOLUME_OKAY
+	blood_maximum = BLOOD_VOLUME_MAXIMUM
 	mindless_attach = FALSE
 	embedding = list(
 		"embed_chance" = 100,

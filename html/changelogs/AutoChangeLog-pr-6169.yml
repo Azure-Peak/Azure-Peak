@@ -1,0 +1,4 @@
+author: "WeNeedMorePhoron"
+delete-after: True
+changes:
+  - bugfix: "Half-Kin goes back to using the ancestry system and no longer have their skin color tightly coupled to their tail / mutant color."
