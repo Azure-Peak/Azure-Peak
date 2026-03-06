@@ -204,7 +204,7 @@
 				recipient.adjust_skillrank(extra_choices[choice], SKILL_LEVEL_JOURNEYMAN, silent = TRUE)
 			else if(ispath(extra_choices[choice], /obj/item))
 				var/obj/item/I = extra_choices[choice]
-				recipient.mind?.special_items[I::name] = extra_choices[choice]
+				recipient.mind?.special_items[capitalize(I::name)] = extra_choices[choice]
 			else if(choice == "Second Voice")
 				recipient.verbs += /mob/living/carbon/human/proc/changevoice
 				recipient.verbs += /mob/living/carbon/human/proc/swapvoice
@@ -215,23 +215,28 @@
 	custom_text = "Comes with a stashed instrument of your choice. You choose the instrument after spawning in."
 	added_traits = list(TRAIT_NUTCRACKER, TRAIT_GOODLOVER)
 	added_skills = list(list(/datum/skill/misc/music, 4, 4))
+	max_choices = 3
+	choice_costs = list(0, 1, 2)
+	extra_choices = list(
+		"Guitar" = /obj/item/rogue/instrument/guitar,
+		"Lute" = /obj/item/rogue/instrument/lute,
+		"Hurdy Gurdy" = /obj/item/rogue/instrument/hurdygurdy,
+		"Harp" = /obj/item/rogue/instrument/harp,
+		"Flute" = /obj/item/rogue/instrument/flute,
+		"Accordion" = /obj/item/rogue/instrument/accord,
+		"Shamisen" = /obj/item/rogue/instrument/shamisen,
+		"Drum" = /obj/item/rogue/instrument/drum,
+		"Viola" = /obj/item/rogue/instrument/viola
+	)
 
 /datum/virtue/utility/performer/apply_to_human(mob/living/carbon/human/recipient)
-    addtimer(CALLBACK(src, .proc/performer_apply, recipient), 50)
+	if(triumph_check(recipient))
+		for(var/choice in picked_choices)
+			if(ispath(extra_choices[choice], /obj/item))
+				var/obj/item/I = extra_choices[choice]
+				recipient.mind?.special_items[choice] = extra_choices[choice]
 
 /datum/virtue/utility/performer/proc/performer_apply(mob/living/carbon/human/recipient)
-	var/list/instruments = list()
-	for(var/instrument_type in subtypesof(/obj/item/rogue/instrument))
-		if(instrument_type == /obj/item/rogue/instrument/harp/handcarved)
-			continue //Skip the donator personal item harp.
-		var/obj/item/rogue/instrument/instr = new instrument_type()
-		instruments[instr.name] = instrument_type
-		qdel(instr)  // Clean up the temporary instance
-
-	var/chosen_name = input(recipient, "What instrument did I stash?", "STASH") as null|anything in instruments
-	if(chosen_name)
-		var/instrument_type = instruments[chosen_name]
-		recipient.mind?.special_items[chosen_name] = instrument_type
 
 /datum/virtue/utility/granary
 	name = "Cunning Provisioner"

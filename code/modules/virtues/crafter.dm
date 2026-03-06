@@ -40,7 +40,7 @@
 			recipient.adjust_skillrank(extra_choices[choice], SKILL_LEVEL_JOURNEYMAN, silent = TRUE)
 		if(ispath(extra_choices[choice], /obj/item))
 			var/obj/item/I = extra_choices[choice]
-			recipient.mind?.special_items[I::name] = extra_choices[choice]
+			recipient.mind?.special_items[capitalize(I::name)] = extra_choices[choice]
 
 /datum/virtue/utility/tailor
 	name = "Tailor's Apprentice"

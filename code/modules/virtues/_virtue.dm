@@ -40,20 +40,34 @@ GLOBAL_LIST_EMPTY(virtues)
 	/// Whether the virtue is only available as a second virtue choice (so only available to virtuous / fated)
 	var/virtuous_only = FALSE
 
+	///The max amount of choices we can make. choice_costs must have a length that matches or exceeds this.
 	var/max_choices = 0
 
+	///The actual choices, should not be shorter in length than max_choices.
 	var/list/extra_choices = list()
 
+	///A dynamic list that we actually add and remove to. This is the key part that is saved / loaded.
 	var/list/picked_choices = list()
 
+	///The costs of each choice. Should match max_choices in length, "free" entries should just have a cost of 0.
+	///IE list(0, 0, 3) -> 2 free choices, 3rd choice costs 3 TRI
 	var/list/choice_costs = list()
 
+	///Tooltips that will appear as a (?) next to the option, to explain what they do. Will look for matching indeces from extra_choice list.
 	var/list/choice_tooltips = list()
 
 /datum/virtue/New()
 	. = ..()
 	if (triumph_cost)
 		desc += "<b>Costs [triumph_cost] TRIUMPH.</b>"
+	
+	if(max_choices || length(extra_choices) || length(choice_costs) || length(choice_tooltips))
+		if(max_choices > length(extra_choices))
+			CRASH("[src] has fewer extra_choices than there can be max_choices! Very bad!")
+		if(max_choices > length(choice_costs))
+			CRASH("[src] has more max choices than there are cost entries. Very bad! We can't pay 'null' triumphs!")
+		if(length(choice_tooltips) > length(extra_choices))
+			CRASH("[src] has more tooltips than there are extra_choices. A deleted extra_choice entry was likely not cleaned up properly.")
 
 /datum/virtue/proc/triumph_check(mob/living/carbon/human/recipient)
 	if(length(extra_choices))
