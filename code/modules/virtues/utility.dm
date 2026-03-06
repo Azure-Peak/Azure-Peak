@@ -233,7 +233,6 @@
 	if(triumph_check(recipient))
 		for(var/choice in picked_choices)
 			if(ispath(extra_choices[choice], /obj/item))
-				var/obj/item/I = extra_choices[choice]
 				recipient.mind?.special_items[choice] = extra_choices[choice]
 
 /datum/virtue/utility/performer/proc/performer_apply(mob/living/carbon/human/recipient)
