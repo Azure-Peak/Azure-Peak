@@ -235,8 +235,6 @@
 			if(ispath(extra_choices[choice], /obj/item))
 				recipient.mind?.special_items[choice] = extra_choices[choice]
 
-/datum/virtue/utility/performer/proc/performer_apply(mob/living/carbon/human/recipient)
-
 /datum/virtue/utility/granary
 	name = "Cunning Provisioner"
 	added_traits = list(TRAIT_HOMESTEAD_EXPERT)
