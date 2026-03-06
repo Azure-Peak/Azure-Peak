@@ -458,7 +458,7 @@
 		if(get_filter("swimming_cutter"))
 			remove_filter("swimming_cutter")
 			update_icon()
-		update_breath_hud() 
+		update_breath_hud()
 		return
 
 	if(is_true_swimming && !is_underwater)
@@ -557,43 +557,23 @@
 		drowning_drowniness = max(0, drowning_drowniness - 1)
 
 /mob/living/carbon/human/proc/update_breath_hud()
-	if(!client || !hud_used || !hud_used.breath)
+	if(!client || !hud_used || !hud_used.breath_bar) 
 		return
 
-	
 	var/should_show = FALSE
-	
-	
-	if(HAS_TRAIT(src, TRAIT_NOBREATH) || HAS_TRAIT(src, TRAIT_WATERBREATHING))
-		should_show = FALSE
-	
-	else if(is_underwater || is_swimming || breath_remaining < max_breath || (resting && istype(loc, /turf/open/water)))
-		should_show = TRUE
+	if(!HAS_TRAIT(src, TRAIT_NOBREATH) && !HAS_TRAIT(src, TRAIT_WATERBREATHING))
+		if(is_underwater || is_swimming || breath_remaining < max_breath)
+			should_show = TRUE
 
 	var/target_alpha = should_show ? 255 : 0
-
 	
-	if(hud_used.breath.alpha != target_alpha)
-		hud_used.breath.alpha = target_alpha
-		if(hud_used.breath_bg) hud_used.breath_bg.alpha = target_alpha
-		if(hud_used.breath_frame) hud_used.breath_frame.alpha = target_alpha
-		if(hud_used.breath_mask) hud_used.breath_mask.alpha = target_alpha
-
+	if(hud_used.breath_bar.alpha != target_alpha)
+		animate(hud_used.breath_bar, alpha = target_alpha, time = 10)
 
 	if(target_alpha == 0) return
-
-
-	hud_used.breath.layer = 33.2
 	
-	var/percent = (breath_remaining / max_breath) * 100
-	var/icon_num = round(percent / 5) * 5
-	icon_num = clamp(icon_num, 0, 100)
-	hud_used.breath.icon_state = "stam[icon_num]"
-	
-	if(percent < 25)
-		hud_used.breath.color = list(1,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,1) 
-	else
-		hud_used.breath.color = list(0,0,0,0, 0,0.3,0,0, 0,0,1,0, 0,0.5,1,1) 
+	var/ratio = breath_remaining / max_breath
+	hud_used.breath_bar.set_value(ratio)
 
 /mob/living/carbon/human/proc/can_breathe_underwater()
 	

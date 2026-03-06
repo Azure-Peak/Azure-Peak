@@ -411,51 +411,10 @@
 	energy = new /atom/movable/screen/energy()
 	infodisplay += energy
 
-	var/ui_main_loc = "WEST-1:3, CENTER+2"
-	var/ui_bar_loc = "WEST-1:13, CENTER+2"
-
-
-	breath_bg = new /atom/movable/screen()
-	breath_bg.icon = 'icons/mob/rogueheat.dmi'
-	breath_bg.icon_state = "mana_bg"
-	breath_bg.screen_loc = ui_main_loc
-	breath_bg.layer = 33.1
-	breath_bg.plane = 25
-	breath_bg.alpha = 0 
-	breath_bg.hud = src
-	static_inventory += breath_bg
-
-
-	breath = new /atom/movable/screen/breath()
-	breath.hud = src
-	breath.screen_loc = ui_bar_loc
-	breath.layer = 33.2
-	breath.plane = 25
-	breath.alpha = 0
-	static_inventory += breath
-
-
-	breath_frame = new /atom/movable/screen()
-	breath_frame.icon = 'icons/mob/rogueheat.dmi'
-	breath_frame.icon_state = "mana_fg"
-	breath_frame.screen_loc = ui_main_loc
-	breath_frame.layer = 33.3
-	breath_frame.plane = 25
-	breath_frame.mouse_opacity = 0
-	breath_frame.alpha = 0
-	breath_frame.hud = src
-	static_inventory += breath_frame
-
-	breath_mask = new /atom/movable/screen()
-	breath_mask.icon = 'icons/mob/rogueheat.dmi'
-	breath_mask.icon_state = "mana_mask"
-	breath_mask.screen_loc = ui_main_loc
-	breath_mask.layer = 33.4
-	breath_mask.plane = 24
-	breath_mask.mouse_opacity = 0
-	breath_mask.alpha = 0
-	breath_mask.hud = src
-	static_inventory += breath_mask
+	breath_bar = new /atom/movable/screen/bloodpool/breath()
+	breath_bar.hud = src
+	static_inventory += breath_bar
+	breath_bar.alpha = 0
 
 	for(var/atom/movable/screen/inventory/inv in (static_inventory + toggleable_inventory))
 		if(inv.slot_id)

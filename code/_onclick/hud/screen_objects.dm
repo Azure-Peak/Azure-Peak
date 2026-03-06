@@ -2037,14 +2037,14 @@
 
 /atom/movable/screen/bloodpool/Initialize(mapload, ...)
 	. = ..()
-	
+	foreground = new /atom/movable/screen/bloodpool_maskpart/foreground(null, icon, src)
 	background = new /atom/movable/screen/bloodpool_maskpart/background(null, icon, src)
 	fill = new /atom/movable/screen/bloodpool_maskpart/fill(null, icon, src)
 	mask = new /atom/movable/screen/bloodpool_maskpart/mask(null, icon, src)
 
 	background.vis_contents += fill
 	mask.vis_contents += background
-	vis_contents.Add(mask) 
+	vis_contents.Add(mask, foreground) 
 
 /atom/movable/screen/bloodpool/Destroy()
 	QDEL_NULL(background)
@@ -2120,20 +2120,12 @@
 /atom/movable/screen/bloodpool_maskpart/mask
 	icon_state = "mana_mask"
 
-/atom/movable/screen/breath
+
+/atom/movable/screen/bloodpool/breath
 	name = "breath"
-	icon = 'icons/mob/rogueheat.dmi'
-	icon_state = "stam0" 
-	screen_loc = rogueui_fat 
-	layer = HUD_LAYER
+	screen_loc = "WEST-1:3, CENTER+2" 
 
-/atom/movable/screen/breath/Click()
-	to_chat(usr, span_notice("This is my supply of air in my lungs.."))
-
-/atom/movable/screen/ui_frame/mana_breath
-	name = "frame"
-	icon = 'icons/mob/rogueheat.dmi'
-	icon_state = "mana_fg"
-	screen_loc = "WEST-5, CENTER+2"
-	layer = HUD_LAYER - 0.1 
-	plane = 25 
+/atom/movable/screen/bloodpool/breath/Initialize(mapload)
+	. = ..()
+	set_fill_color("#00eaff")
+	set_value(1.0)

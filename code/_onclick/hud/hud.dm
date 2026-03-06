@@ -66,6 +66,7 @@ GLOBAL_LIST_INIT(available_ui_styles, sortList(list(
 	var/atom/movable/screen/stamina/stamina
 	var/atom/movable/screen/energy/energy
 	var/atom/movable/screen/bloodpool/bloodpool
+	var/atom/movable/screen/bloodpool/breath_bar
 
 	var/image/object_overlay
 	var/atom/movable/screen/overlay_curloc
