@@ -411,89 +411,96 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	S["virtue"] >> virtue_type
 	S["virtuetwo"] >> virtuetwo_type
 	S["virtue_origin"] >> origin_type
+	var/error_check = FALSE
+	var/error_found = FALSE
 	if (istype(virtue_type, /datum/virtue))
 		virtue = virtue_type
+		error_check = TRUE
 	else if(ispath(virtue_type, /datum/virtue))
 		virtue = new virtue_type
 	else
 		virtue = new /datum/virtue/none
 
-	//Future-proofing sanity checks in case virtues get adjusted later. We do a full reset if we find any discrepancies.
-	var/datum/virtue/sane_virtue = new virtue.type
-	var/error_found = FALSE
-	if(length(virtue.picked_choices) > sane_virtue.max_choices)
-		error_found = TRUE
-	
-	if(sane_virtue.max_choices != virtue.max_choices)
-		error_found = TRUE
-	
-	if(length(virtue.extra_choices) != length(sane_virtue.extra_choices))
-		error_found = TRUE
-	
-	if(!error_found)
-		for(var/choice in virtue.extra_choices)
-			if(!(choice in sane_virtue.extra_choices))
-				error_found = TRUE
-				break
-
-		var/total_ours = 0
-		var/total_sane = 0
-
-		for(var/cost in virtue.choice_costs)
-			total_ours += cost
-		for(var/cost in sane_virtue.choice_costs)
-			total_sane += cost
-
-		if(total_ours != total_sane)
+	if(error_check)
+		//Future-proofing sanity checks in case virtues get adjusted later. We do a full reset if we find any discrepancies.
+		var/datum/virtue/sane_virtue = new virtue.type
+		if(length(virtue.picked_choices) > sane_virtue.max_choices)
 			error_found = TRUE
+		
+		if(sane_virtue.max_choices != virtue.max_choices)
+			error_found = TRUE
+		
+		if(length(virtue.extra_choices) != length(sane_virtue.extra_choices))
+			error_found = TRUE
+		
+		if(!error_found)
+			for(var/choice in virtue.extra_choices)
+				if(!(choice in sane_virtue.extra_choices))
+					error_found = TRUE
+					break
 
-	if(error_found)
-		qdel(virtue)
-		virtue = sane_virtue
-	else
-		qdel(sane_virtue)
+			var/total_ours = 0
+			var/total_sane = 0
 
+			for(var/cost in virtue.choice_costs)
+				total_ours += cost
+			for(var/cost in sane_virtue.choice_costs)
+				total_sane += cost
+
+			if(total_ours != total_sane)
+				error_found = TRUE
+
+		if(error_found)
+			qdel(virtue)
+			virtue = sane_virtue
+		else
+			qdel(sane_virtue)
+
+	error_check = FALSE
 	if(istype(virtuetwo_type, /datum/virtue))
 		virtuetwo = virtuetwo_type
+		error_check = TRUE
 	else if(ispath(virtuetwo_type, /datum/virtue))
-		virtue = new virtuetwo_type
+		virtuetwo = new virtuetwo_type
 	else
 		virtuetwo = new /datum/virtue/none
 
-	//Future-proofing sanity checks in case virtues get adjusted later. We do a full reset if we find any discrepancies.
-	var/datum/virtue/sane_virtuetwo = new virtuetwo.type
-	error_found = FALSE
-	if(length(virtuetwo.picked_choices) > sane_virtuetwo.max_choices)
-		error_found = TRUE
-	
-	if(sane_virtuetwo.max_choices != virtuetwo.max_choices)
-		error_found = TRUE
-	
-	if(length(virtuetwo.extra_choices) != length(sane_virtuetwo.extra_choices))
-		error_found = TRUE
-	
-	if(!error_found)
-		for(var/choice in virtuetwo.extra_choices)
-			if(!(choice in sane_virtuetwo.extra_choices))
-				error_found = TRUE
-				break
 
-		var/total_ours = 0
-		var/total_sane = 0
-
-		for(var/cost in virtuetwo.choice_costs)
-			total_ours += cost
-		for(var/cost in sane_virtuetwo.choice_costs)
-			total_sane += cost
-			
-		if(total_ours != total_sane)
+	if(error_check)
+		//Future-proofing sanity checks in case virtues get adjusted later. We do a full reset if we find any discrepancies.
+		var/datum/virtue/sane_virtuetwo = new virtuetwo.type
+		error_found = FALSE
+		if(length(virtuetwo.picked_choices) > sane_virtuetwo.max_choices)
 			error_found = TRUE
+		
+		if(sane_virtuetwo.max_choices != virtuetwo.max_choices)
+			error_found = TRUE
+		
+		if(length(virtuetwo.extra_choices) != length(sane_virtuetwo.extra_choices))
+			error_found = TRUE
+		
+		if(!error_found)
+			for(var/choice in virtuetwo.extra_choices)
+				if(!(choice in sane_virtuetwo.extra_choices))
+					error_found = TRUE
+					break
 
-	if(error_found)
-		virtuetwo = sane_virtuetwo
-		qdel(virtue)
-	else
-		qdel(sane_virtuetwo)
+			var/total_ours = 0
+			var/total_sane = 0
+
+			for(var/cost in virtuetwo.choice_costs)
+				total_ours += cost
+			for(var/cost in sane_virtuetwo.choice_costs)
+				total_sane += cost
+				
+			if(total_ours != total_sane)
+				error_found = TRUE
+
+		if(error_found)
+			virtuetwo = sane_virtuetwo
+			qdel(virtue)
+		else
+			qdel(sane_virtuetwo)
 
 	if(origin_type)
 		virtue_origin = new origin_type
