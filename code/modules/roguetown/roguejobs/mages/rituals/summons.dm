@@ -39,6 +39,8 @@
 // ===== Shared chant lines — defined once, reused across tiers to prevent desync =====
 // LAT = Latin primary, ENG = English primary, CLIMAX = sync English climax, CTA = final Evoca
 
+#define LEYLINE_TILE_DETECTION_RANGE 7
+
 // Infernal — fire, blood, domination
 #define INFERNAL_LAT_1 "Aperio portam ignis."
 #define INFERNAL_ENG_1 "Break free! Come to me!"
@@ -355,7 +357,7 @@
 		to_chat(user, span_warning("The summoning matrix has been destroyed! The ritual fizzles."))
 		return FALSE
 	var/obj/structure/leyline/leyline
-	for(var/obj/structure/leyline/L in range(5, loc))
+	for(var/obj/structure/leyline/L in range(LEYLINE_TILE_DETECTION_RANGE, loc))
 		leyline = L
 		break
 	if(!leyline)
@@ -591,3 +593,4 @@
 #undef VOID_RES_6
 #undef VOID_RES_7
 #undef VOID_RES_8
+#undef LEYLINE_TILE_DETECTION_RANGE

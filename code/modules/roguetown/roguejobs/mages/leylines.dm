@@ -24,7 +24,6 @@
  */
 
 #define LEYLINE_TELEPORT_COOLDOWN (5 MINUTES)
-#define LEYLINE_TILE_DETECTION_RANGE 7
 
 GLOBAL_LIST_EMPTY(leyline_sites)
 GLOBAL_LIST_EMPTY(leyline_activations)
