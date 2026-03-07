@@ -54,20 +54,6 @@
 	force = 1
 	w_class = WEIGHT_CLASS_TINY
 	var/rune_to_scribe = null
-	var/amount = 8
-
-/obj/item/chalk/examine(mob/user)
-	. = ..()
-	desc += "It has [amount] uses left."
-
-/obj/item/chalk/attackby(obj/item/M, mob/user, params)
-	if(istype(M,/obj/item/rogueore/cinnabar))
-		if(amount < 8)
-			amount = 8
-			to_chat(user, span_notice("I press arcyne magic into the [M] and the red crystals within melt into quicksilver, quickly sinking into the [src]."))
-	else
-		return ..()
-
 
 /obj/item/chalk/attack_self(mob/living/carbon/human/user)
 	if(!isarcyne(user))
@@ -101,10 +87,7 @@
 	if(do_after(user, crafttime, target = src))
 		user.visible_message(span_warning("[user] draws an arcyne rune with [user.p_their()] [name]!"), \
 		span_notice("I finish tracing ornate symbols and circles with my [name], leaving behind a ritual rune."))
-		src.amount --
 		new rune_to_scribe(Turf)
-	if(amount == 0)
-		qdel(src)
 
 /obj/item/chalk/proc/check_for_structures_and_closed_turfs(loc, var/obj/effect/decal/cleanable/roguerune/rune_to_scribe)
 	for(var/turf/T in range(loc, rune_to_scribe.runesize))
