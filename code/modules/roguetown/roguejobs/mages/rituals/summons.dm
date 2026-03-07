@@ -367,7 +367,7 @@
 		to_chat(user, span_warning("This leyline has been exhausted for todae."))
 		return FALSE
 	if(get_leyline_charges(user) <= 0)
-		to_chat(user, span_boldwarning("You've reached into the veil too many times this week. Rest, or you will be annihilated."))
+		to_chat(user, span_boldwarning("You've reached into the leyline too many times. Further interference might result in catastrophic consequences for yourself. Wait for another dae."))
 		return FALSE
 	if(tier > get_max_leyline_tier())
 		to_chat(user, span_warning("Tis too early in the week. The power of the leylines grows and waxes. Wait until later for such powerful summoning."))
