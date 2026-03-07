@@ -35,7 +35,7 @@
 		/datum/virtue/utility/notable, //No resident (????) or free-money-stash gnolls
 		/datum/virtue/utility/bronzelimbs, //They should feel pain in their limbs given their state
 		/datum/virtue/movement/acrobatic, //This should be given to them when they are actually after a Hunted
-		/datum/virtue/utility/woodwalker //This should be given to them when they are actually after a Hunted
+		/datum/virtue/utility/woodwalker, //This should be given to them when they are actually after a Hunted
 		/datum/virtue/combat/crossbowman,	//Absolutely not on a class like this
 		/datum/virtue/combat/bowman
 		)
