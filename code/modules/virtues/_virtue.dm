@@ -72,6 +72,9 @@ GLOBAL_LIST_EMPTY(virtues)
 		if(length(choice_tooltips) > length(extra_choices))
 			CRASH("[src] has more tooltips than there are extra_choices. A deleted extra_choice entry was likely not cleaned up properly.")
 
+/datum/virtue/proc/on_load()
+	return
+
 /datum/virtue/proc/triumph_check(mob/living/carbon/human/recipient)
 	if(length(extra_choices))
 		var/total_cost
@@ -190,7 +193,7 @@ GLOBAL_LIST_EMPTY(virtues)
 		record_featured_object_stat(FEATURED_STATS_ORIGINS, virtue_type.name)
 	else
 		var/stacked = FALSE
-		if(recipient.client?.prefs.virtue.type == recipient.client?.prefs.virtuetwo.type)
+		if(istype(recipient.client?.prefs?.virtue, recipient.client?.prefs?.virtuetwo))
 			stacked = TRUE
 		record_featured_object_stat(FEATURED_STATS_VIRTUES, (stacked ? "[virtue_type.name] (Stacked)" : virtue_type.name), stacked ? 0.5 : 1)
 /datum/virtue/none

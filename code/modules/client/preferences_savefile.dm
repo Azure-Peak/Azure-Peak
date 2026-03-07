@@ -461,6 +461,7 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 			virtue = sane_virtue
 		else
 			qdel(sane_virtue)
+			virtue.on_load()
 
 	error_check = FALSE
 	if(istype(virtuetwo_type, /datum/virtue))
@@ -515,6 +516,7 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 			qdel(virtue)
 		else
 			qdel(sane_virtuetwo)
+			virtuetwo.on_load()
 
 	if(origin_type)
 		virtue_origin = new origin_type

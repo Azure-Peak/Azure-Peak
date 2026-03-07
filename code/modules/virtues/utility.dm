@@ -247,18 +247,6 @@
 	added_skills = list(list(/datum/skill/craft/cooking, 3, 6),
 						list(/datum/skill/labor/fishing, 2, 6))
 
-/datum/virtue/utility/forester
-	name = "Forester"
-	added_traits = list(TRAIT_HOMESTEAD_EXPERT)
-	desc = "The forest is your home, or at least, it used to be. You always long to return and roam free once again, and you have not forgotten your knowledge on how to be self sufficient."
-	added_stashed_items = list("Trusty hoe" = /obj/item/rogueweapon/hoe)
-	added_skills = list(list(/datum/skill/craft/cooking, 2, 2),
-						list(/datum/skill/misc/athletics, 2, 2),
-						list(/datum/skill/labor/farming, 2, 2),
-						list(/datum/skill/labor/fishing, 2, 2),
-						list(/datum/skill/labor/lumberjacking, 2, 2)
-	)
-
 /datum/virtue/utility/homesteader
 	name = "Pilgrim (-3 TRI)"
 	added_traits = list(TRAIT_HOMESTEAD_EXPERT)
