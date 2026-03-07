@@ -86,7 +86,7 @@ GLOBAL_LIST_INIT(special_traits, build_special_traits())
 
 	var/virtuous = FALSE
 	var/heretic = FALSE
-	var/species = character.dna.species.type
+	var/species = character.dna.species
 
 	if(istype(player.prefs.selected_patron, /datum/patron/inhumen))
 		heretic = TRUE
@@ -173,9 +173,14 @@ GLOBAL_LIST_INIT(special_traits, build_special_traits())
 	if(bonus in GLOB.roguetraits)
 		ADD_TRAIT(character, bonus, SPECIES_TRAIT)
 
-/proc/virtue_check(var/datum/virtue/V, heretic = FALSE)
+/proc/virtue_check(var/datum/virtue/V, heretic = FALSE, datum/species/species)
 	if(V)
 		if(istype(V,/datum/virtue/heretic) && !heretic)
+			return FALSE
+		if(V.restricted)
+			if((species.type in V.races))
+				return FALSE
+		if(V.type in species.restricted_virtues)
 			return FALSE
 		return TRUE
 	return FALSE
