@@ -424,6 +424,12 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	if(error_check)
 		//Future-proofing sanity checks in case virtues get adjusted later. We do a full reset if we find any discrepancies.
 		var/datum/virtue/sane_virtue = new virtue.type
+		if(virtue.name != sane_virtue.name)	//We should keep the names & descs updated across saves, too
+			virtue.name = sane_virtue.name
+
+		if(virtue.desc != sane_virtue.desc)	//Not errors warranting a full reset, in theory, anyway.
+			virtue.desc = sane_virtue.desc
+
 		if(length(virtue.picked_choices) > sane_virtue.max_choices)
 			error_found = TRUE
 		
@@ -470,6 +476,14 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 		//Future-proofing sanity checks in case virtues get adjusted later. We do a full reset if we find any discrepancies.
 		var/datum/virtue/sane_virtuetwo = new virtuetwo.type
 		error_found = FALSE
+
+		if(virtuetwo.name != sane_virtuetwo.name)	//We should keep the names & descs updated across saves, too
+			virtue.name = sane_virtuetwo.name
+
+		if(virtuetwo.desc != sane_virtuetwo.desc)	//Not errors warranting a full reset, in theory, anyway.
+			virtuetwo.desc = sane_virtuetwo.desc
+
+
 		if(length(virtuetwo.picked_choices) > sane_virtuetwo.max_choices)
 			error_found = TRUE
 		

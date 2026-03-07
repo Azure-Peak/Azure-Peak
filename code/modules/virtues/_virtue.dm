@@ -83,6 +83,8 @@ GLOBAL_LIST_EMPTY(virtues)
 		else
 			to_chat(recipient, span_notice("Not enough Triumphs for a virtue. It has not been applied."))
 			return FALSE
+	for(var/choice in picked_choices)
+		record_featured_object_stat(FEATURED_STATS_SUBVIRTUES, choice)
 	return TRUE
 
 /datum/virtue/proc/apply_to_human(mob/living/carbon/human/recipient)
@@ -187,7 +189,10 @@ GLOBAL_LIST_EMPTY(virtues)
 	if(istype(virtue_type, /datum/virtue/origin))
 		record_featured_object_stat(FEATURED_STATS_ORIGINS, virtue_type.name)
 	else
-		record_featured_object_stat(FEATURED_STATS_VIRTUES, virtue_type.name)
+		var/stacked = FALSE
+		if(recipient.client?.prefs.virtue.type == recipient.client?.prefs.virtuetwo.type)
+			stacked = TRUE
+		record_featured_object_stat(FEATURED_STATS_VIRTUES, (stacked ? "[virtue_type.name] (Stacked)" : virtue_type.name), stacked ? 0.5 : 1)
 /datum/virtue/none
 	name = "None"
 	desc = "Without virtue."
