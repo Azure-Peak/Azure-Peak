@@ -1,16 +1,19 @@
-// Zizite Spellblade — wretch spellblade variant.
+// Heretic Spellblade — wretch spellblade variant open to Noc and Zizo.
 // Medium armor + T1 caster (healing/profane) instead of dodge expert.
-// Your miracle is MEANT to sucks - your main ability is having 
+// Your miracle is MEANT to suck - your main ability is having
 // Medium armor + better stats than regular Slade + Spellblade abilities
 // And lesser heal is a bonus on top
-/datum/advclass/wretch/zizite_spellblade
-	name = "Zizite Azurcaephan"
-	tutorial = "You are a devotee of Zizo, Mistress of Progress. While her followers descend into necromancy and obsession with undeath, you remember her true teachings. That magic is a tool of advancement. You combined her gifts with martial discipline, forging yourself into an Azurcaephan — a Spellblade, an ancient art native to Azurea, now, with renewed lyfe. Unlike other spellblades, you know how to wield such terrifying power together with armor. Truly, the Mistress of Progress always favor her followers. The Church brands you a heretic, the Necromancers call you fools, the Oaks see only deviation. Let them. Her light will shine through, and one cut at a time, you shall save this world from stagnation. Her Will Be Done."
+// Keep it thematically consistent - Only Patron lock Noc / Zizo
+// Don't let any other patrons have it
+/datum/advclass/wretch/heretic_spellblade
+	name = "Heretic Azurcaephan"
+	tutorial = "Branded a heretic for your unorthodox beliefs, you turned to an ancient art native to Azurea — the way of the Azurcaephan, a Spellblade. You combined your patron's gifts with martial discipline, forging yourself into a warrior-mage unlike any other. Unlike other spellblades, you know how to wield such terrifying power together with armor. The Church brands you a heretic, the Necromancers call you a fool, the Oaks see only deviation. Let them. One cut at a time, you shall carve your mark upon this world."
 	allowed_sexes = list(MALE, FEMALE)
 	allowed_races = RACES_ALL_KINDS
-	allowed_patrons = list(/datum/patron/inhumen/zizo)
-	outfit = /datum/outfit/job/roguetown/wretch/zizite_spellblade
+	allowed_patrons = list(/datum/patron/inhumen/zizo, /datum/patron/divine/noc)
+	outfit = /datum/outfit/job/roguetown/wretch/heretic_spellblade
 	maximum_possible_slots = 2 // Team rocket!!!
+	class_select_category = CLASS_CAT_BATTLEMAGE
 	category_tags = list(CTAG_WRETCH)
 	traits_applied = list(TRAIT_MEDIUMARMOR, TRAIT_ARCYNE_T2)
 	subclass_stats = list(
@@ -32,15 +35,14 @@
 		/datum/skill/misc/swimming = SKILL_LEVEL_NOVICE,
 		/datum/skill/magic/holy = SKILL_LEVEL_NOVICE, // Welcome to bad holy skills scaling
 	)
-	subclass_languages = list(/datum/language/undead)
 	subclass_stashed_items = list(
 		"Armor Plates" = /obj/item/repair_kit/metal,
 	)
 
-/datum/outfit/job/roguetown/wretch/zizite_spellblade
+/datum/outfit/job/roguetown/wretch/heretic_spellblade
 	var/subclass_selected
 
-/datum/outfit/job/roguetown/wretch/zizite_spellblade/Topic(href, href_list)
+/datum/outfit/job/roguetown/wretch/heretic_spellblade/Topic(href, href_list)
 	. = ..()
 	if(href_list["subclass"])
 		subclass_selected = href_list["subclass"]
@@ -48,7 +50,7 @@
 		if(!subclass_selected)
 			subclass_selected = "blade"
 
-/datum/outfit/job/roguetown/wretch/zizite_spellblade/pre_equip(mob/living/carbon/human/H)
+/datum/outfit/job/roguetown/wretch/heretic_spellblade/pre_equip(mob/living/carbon/human/H)
 	..()
 	head = /obj/item/clothing/head/roguetown/roguehood
 	shoes = /obj/item/clothing/shoes/roguetown/boots/leather/reinforced
@@ -59,15 +61,23 @@
 	neck = /obj/item/clothing/neck/roguetown/chaincoif
 	backl = /obj/item/storage/backpack/rogue/satchel
 	beltl = /obj/item/storage/belt/rogue/pouch/coins/poor
-	wrists = /obj/item/clothing/wrists/roguetown/bracers/brigandine
+	wrists = /obj/item/clothing/wrists/roguetown/bracers/iron
 	backpack_contents = list(/obj/item/flashlight/flare/torch = 1,
-		/obj/item/reagent_containers/glass/bottle/alchemical/healthpot = 1,	//Small health vial
+		/obj/item/reagent_containers/glass/bottle/alchemical/healthpot = 1,	
+		/obj/item/chalk = 1
 	)
 
 	to_chat(H, span_warning("You start with Bind Weapon. Remember to Bind your weapon so you can use your abilities and build up Arcyne Momentum."))
 
 	subclass_selected = null
-	var/selection_html = get_spellblade_chant_html(src, H, "zizite")
+	// Determine faction and patron-specific weapon for chant display
+	var/chant_faction = "zizite"
+	var/extra_blade_weapon
+	if(istype(H.patron, /datum/patron/inhumen/zizo))
+		extra_blade_weapon = "Avantyne Longsword"
+	else if(istype(H.patron, /datum/patron/divine/noc))
+		chant_faction = "noccite"
+	var/selection_html = get_spellblade_chant_html(src, H, chant_faction, extra_blade_weapon)
 	H << browse(selection_html, "window=spellblade_chant;size=1100x900")
 	onclose(H, "spellblade_chant", src)
 
@@ -108,13 +118,13 @@
 		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/enchant_weapon)
 
 	// Armor choice: Discretion (light, like adventurer) vs Progress (medium armor set with helmet)
-	var/armor_style = list("Discretion (Spellblade Disguise)", "Progress (Medium Armor)")
-	var/armor_choice = input(H, "Choose your armament philosophy.", "HER LIGHT SHINES THROUGH") as anything in armor_style
+	var/armor_style = list("Discretion (Spellblade Disguise)", "Confrontation (Medium Armor)")
+	var/armor_choice = input(H, "Choose your armament philosophy.", "LIGHT SHINES THROUGH") as anything in armor_style
 	switch(armor_choice)
 		if("Discretion (Spellblade Disguise)")
 			head = /obj/item/clothing/head/roguetown/roguehood
 			armor = /obj/item/clothing/suit/roguetown/armor/leather/heavy/coat
-		if("Progress (Medium Armor)")
+		if("Confrontation (Medium Armor)")
 			armor = /obj/item/clothing/suit/roguetown/armor/chainmail/hauberk
 			shirt = /obj/item/clothing/suit/roguetown/armor/gambeson/heavy
 			pants = /obj/item/clothing/under/roguetown/chainlegs
@@ -132,7 +142,7 @@
 				"Slitted Kettle"		= /obj/item/clothing/head/roguetown/helmet/heavy/knight/skettle,
 				"None"
 			)
-			var/helmchoice = input(H, "Choose your Helm.", "HER LIGHT SHINES THROUGH") as anything in helmets
+			var/helmchoice = input(H, "Choose your Helm.", "LIGHT SHINES THROUGH") as anything in helmets
 			if(helmchoice != "None")
 				head = helmets[helmchoice]
 
@@ -140,7 +150,10 @@
 
 	switch(subclass_selected)
 		if("blade")
-			var/weapons = list("Avantyne Longsword", "Kriegmesser", "Longsword", "Rapier", "Sabre", "Steel Dagger")
+			var/list/weapons = list("Kriegmesser", "Longsword", "Rapier", "Sabre", "Steel Greatsword", "Steel Dagger")
+			// Inject patron-specific weapon
+			if(istype(H.patron, /datum/patron/inhumen/zizo))
+				weapons.Insert(1, "Avantyne Longsword")
 			var/weapon_choice = input(H, "Choose your weapon.", "TAKE UP ARMS") as anything in weapons
 			beltr = /obj/item/rogueweapon/scabbard/sword
 			switch(weapon_choice)
@@ -155,6 +168,9 @@
 					r_hand = /obj/item/rogueweapon/sword/rapier
 				if("Sabre")
 					r_hand = /obj/item/rogueweapon/sword/sabre
+				if("Steel Greatsword")
+					r_hand = /obj/item/rogueweapon/greatsword
+					backr = /obj/item/rogueweapon/scabbard/gwstrap
 				if("Steel Dagger")
 					beltr = /obj/item/rogueweapon/huntingknife/idagger/steel
 			if(weapon_choice == "Steel Dagger")
@@ -180,17 +196,28 @@
 					armor = /obj/item/clothing/suit/roguetown/armor/basiceast
 			H.adjust_skillrank_up_to(/datum/skill/combat/polearms, SKILL_LEVEL_EXPERT, TRUE)
 		if("macebearer")
-			var/mace_weapons = list("Steel Mace", "Steel Warhammer")
+			var/mace_weapons = list("Steel Mace", "Steel Warhammer", "Grand Mace")
 			var/mace_choice = input(H, "Choose your weapon.", "TAKE UP ARMS") as anything in mace_weapons
 			switch(mace_choice)
 				if("Steel Mace")
 					r_hand = /obj/item/rogueweapon/mace/steel
 				if("Steel Warhammer")
 					r_hand = /obj/item/rogueweapon/mace/warhammer/steel
+				if("Grand Mace")
+					r_hand = /obj/item/rogueweapon/mace/maul/grand
+					backr = /obj/item/rogueweapon/scabbard/gwstrap
 			H.adjust_skillrank_up_to(/datum/skill/combat/maces, SKILL_LEVEL_EXPERT, TRUE)
 
+	// Patron-specific bonuses
 	H.cmode_music = 'sound/music/combat_heretic.ogg'
+	switch(H.patron?.type)
+		if(/datum/patron/inhumen/zizo)
+			H.grant_language(/datum/language/undead)
+			ADD_TRAIT(H, TRAIT_GRAVEROBBER, TRAIT_GENERIC)
+		if(/datum/patron/divine/noc)
+			H.equip_to_slot_or_del(new /obj/item/clothing/neck/roguetown/psicross/noc(H), SLOT_RING, TRUE)
+
 	var/datum/devotion/C = new /datum/devotion(H, H.patron)
-	C.grant_miracles(H, cleric_tier = CLERIC_T1, passive_gain = CLERIC_REGEN_MINOR, devotion_limit = CLERIC_REQ_1, start_maxed = TRUE)	
+	C.grant_miracles(H, cleric_tier = CLERIC_T1, passive_gain = CLERIC_REGEN_MINOR, devotion_limit = CLERIC_REQ_1, start_maxed = TRUE)
 	//Minor regen, T1 only. Cannot progress beyond that (hah). Mostly for self healing.
 	wretch_select_bounty(H)

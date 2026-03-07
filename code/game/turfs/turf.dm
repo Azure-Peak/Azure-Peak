@@ -639,7 +639,8 @@
 	if(!forced)
 		return
 	playsound(src, "bodyfall", 100, TRUE)
-	faller.drop_all_held_items()
+	if(!faller.mind)
+		faller.drop_all_held_items()
 
 /turf/proc/photograph(limit=20)
 	var/image/I = new()

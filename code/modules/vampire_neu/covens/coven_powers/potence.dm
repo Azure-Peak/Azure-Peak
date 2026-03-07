@@ -16,6 +16,13 @@
 		/datum/coven_power/potence/five
 	)
 
+/datum/coven_power/potence/do_caster_notification(target)
+	to_chat(owner, span_warning("You feel your blood surge through your muscles, empowering your body."))
+
+/// Shared deactivation message for all Potence levels.
+/datum/coven_power/potence/proc/do_deactivation_notification()
+	to_chat(owner, span_warning("The supernatural strength fades from your limbs."))
+
 //POTENCE 1
 /datum/coven_power/potence/one
 	name = "Potence 1"
@@ -36,7 +43,7 @@
 	. = ..()
 	owner.dna.species.punch_damage -= 8
 	owner.potence_weapon_buff = 0
-	owner.remove_overlay(POTENCE_LAYER)
+	do_deactivation_notification()
 
 //POTENCE 2
 /datum/coven_power/potence/two
@@ -60,7 +67,7 @@
 	. = ..()
 	owner.dna.species.punch_damage -= 16
 	owner.potence_weapon_buff = 0
-	owner.remove_overlay(POTENCE_LAYER)
+	do_deactivation_notification()
 
 //POTENCE 3
 /datum/coven_power/potence/three
@@ -79,12 +86,11 @@
 	owner.dna.species.punch_damage += 24
 	owner.potence_weapon_buff = 3
 
-
 /datum/coven_power/potence/three/deactivate()
 	. = ..()
 	owner.dna.species.punch_damage -= 24
 	owner.potence_weapon_buff = 0
-	owner.remove_overlay(POTENCE_LAYER)
+	do_deactivation_notification()
 
 //POTENCE 4
 /datum/coven_power/potence/four
@@ -107,7 +113,7 @@
 	. = ..()
 	owner.dna.species.punch_damage -= 32
 	owner.potence_weapon_buff = 0
-	owner.remove_overlay(POTENCE_LAYER)
+	do_deactivation_notification()
 
 
 //POTENCE 5
@@ -131,4 +137,4 @@
 	. = ..()
 	owner.dna.species.punch_damage -= 40
 	owner.potence_weapon_buff = 0
-	owner.remove_overlay(POTENCE_LAYER)
+	do_deactivation_notification()

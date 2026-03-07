@@ -1,4 +1,0 @@
-author: "Ketrai"
-delete-after: True
-changes:
-  - bugfix: "Cure rot will no longer kill people who are infected with deadite disease, only actual deadites."

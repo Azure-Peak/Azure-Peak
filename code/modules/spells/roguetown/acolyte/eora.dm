@@ -16,20 +16,31 @@
 	w_class = WEIGHT_CLASS_TINY
 	throw_speed = 1
 	throw_range = 3
+	equip_delay_other = 10 SECONDS
+	// Pretty fragile
+	max_integrity = 150
 
 /obj/item/clothing/head/peaceflower/equipped(mob/living/carbon/human/user, slot)
 	. = ..()
 	if(slot == SLOT_HEAD || slot == SLOT_WEAR_MASK)
 		ADD_TRAIT(user, TRAIT_PACIFISM, "peaceflower_[REF(src)]")
+		if(user.patron.type != /datum/patron/divine/eora)
+			user.AddComponent(/datum/component/peaceflower_tracker, src)
 
 /obj/item/clothing/head/peaceflower/dropped(mob/living/carbon/human/user)
 	..()
 	REMOVE_TRAIT(user, TRAIT_PACIFISM, "peaceflower_[REF(src)]")
+	var/datum/component/peaceflower_tracker/T = user.GetComponent(/datum/component/peaceflower_tracker)
+	if(T)
+		qdel(T)
 
 /obj/item/clothing/head/peaceflower/proc/peace_check(mob/living/user)
 	// return true if we should be unequippable, return false if not
 	if(iscarbon(user))
 		var/mob/living/carbon/C = user
+		// Eorans can just take these off. It's their god!
+		if(C.patron.type == /datum/patron/divine/eora && do_after(user, 4 SECONDS, src))
+			return FALSE
 		if(src == C.head || src == C.wear_mask)
 			to_chat(user, "<span class='warning'>I feel at peace. <b style='color:pink'>Why would I want anything else?</b></span>")
 			return TRUE
@@ -47,12 +58,12 @@
 	name = "Eoran Bloom"
 	desc = "Tries to grow an Eoran bud on the target tile or on the targets head, forcing their thoughts away from violence until removed."
 	clothes_req = FALSE
-	range = 7
+	range = 3
 	overlay_state = "love"
 	sound = list('sound/magic/magnet.ogg')
 	req_items = list(/obj/item/clothing/neck/roguetown/psicross)
 	releasedrain = 40
-	chargetime = 60
+	chargetime = 1 SECONDS
 	warnie = "spellwarning"
 	no_early_release = TRUE
 	charging_slowdown = 1
@@ -65,11 +76,19 @@
 	if(istype(target, /mob/living/carbon/human)) //Putting flower on head check
 		var/mob/living/carbon/human/C = target
 		if(!C.get_item_by_slot(SLOT_HEAD))
+			if(!do_after_mob(user, target, 10 SECONDS))
+				to_chat(user, span_warning("Both of you have to stand still for this to work!"))
+				revert_cast()
+				return FALSE
 			var/obj/item/clothing/head/peaceflower/F = new(get_turf(C))
 			C.equip_to_slot_if_possible(F, SLOT_HEAD, TRUE, TRUE)
 			to_chat(C, "<span class='info'>A flower of Eora blooms on my head. <b style='color:pink'> I feel at peace. </b></span>")
 			return TRUE
 		else if(!C.get_item_by_slot(SLOT_WEAR_MASK))
+			if(!do_after_mob(user, target, 10 SECONDS))
+				to_chat(user, span_warning("Both of you have to stand still for this to work!"))
+				revert_cast()
+				return FALSE
 			var/obj/item/clothing/head/peaceflower/F = new(get_turf(C))
 			C.equip_to_slot_if_possible(F, SLOT_WEAR_MASK, TRUE, TRUE)
 			to_chat(C, "<span class='info'>A flower of Eora blooms on my head. <b style='color:pink'> I feel at peace. </b></span>")

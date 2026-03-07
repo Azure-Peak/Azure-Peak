@@ -1,0 +1,4 @@
+author: "WeNeedMorePhoron"
+delete-after: True
+changes:
+  - rscadd: "Potence indicates with a text on toggle that it is working or being deactivated. Also, all vampire toggle abilities should not display 0.1s as cooldown permanently. Report any oddity."

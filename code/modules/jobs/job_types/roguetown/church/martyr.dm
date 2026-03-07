@@ -706,7 +706,7 @@
 	force = 20
 	force_wielded = 35
 	possible_item_intents = list(/datum/intent/axe/cut, /datum/intent/axe/chop, /datum/intent/axe/bash)
-	gripped_intents = list(/datum/intent/axe/cut/battle/greataxe, /datum/intent/axe/chop/battle/greataxe, /datum/intent/axe/bash)
+	gripped_intents = list(/datum/intent/axe/cut/long, /datum/intent/axe/chop/long, /datum/intent/axe/bash)
 	icon_state = "martyraxe"
 	icon = 'icons/roguetown/weapons/axes64.dmi'
 	item_state = "martyraxe"
@@ -733,7 +733,7 @@
 		added_def = 0,\
 	)
 
-/datum/intent/axe/cut/battle/greataxe/martyr
+/datum/intent/axe/cut/long/martyr
 		item_d_type = "fire"
 		blade_class = BCLASS_CUT
 
@@ -741,7 +741,7 @@
 		item_d_type = "fire"
 		blade_class = BCLASS_CUT
 
-/datum/intent/axe/chop/battle/greataxe/martyr
+/datum/intent/axe/chop/long/martyr
 		item_d_type = "fire"
 		blade_class = BCLASS_CHOP
 		swingdelay = 5
@@ -763,7 +763,7 @@
 		SSroguemachine.martyrweapon = src
 	if(!gc_destroyed)
 		var/list/active_intents = list(/datum/intent/axe/cut/martyr, /datum/intent/axe/chop/martyr, /datum/intent/axe/bash/martyr)
-		var/list/active_intents_wielded = list(/datum/intent/axe/cut/battle/greataxe/martyr, /datum/intent/axe/chop/battle/greataxe/martyr, /datum/intent/axe/bash/martyr)
+		var/list/active_intents_wielded = list(/datum/intent/axe/cut/long/martyr, /datum/intent/axe/chop/long/martyr, /datum/intent/axe/bash/martyr)
 		var/safe_damage = 15
 		var/safe_damage_wielded = 35
 		AddComponent(/datum/component/martyrweapon, active_intents, active_intents_wielded, safe_damage, safe_damage_wielded)

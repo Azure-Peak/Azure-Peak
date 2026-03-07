@@ -403,6 +403,7 @@
 		zombie.flash_fullscreen("redflash3")
 		zombie.emote("scream") // Warning for nearby players
 		zombie.Knockdown(1)
+		zombie.drop_all_held_items()
 
 ///Making sure they're not any other antag as well as adding the zombie datum to their mind
 /mob/living/carbon/human/proc/zombie_check_can_convert()

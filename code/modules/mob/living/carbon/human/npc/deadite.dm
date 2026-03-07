@@ -201,5 +201,6 @@
 	to_chat(src, span_danger("It hurts... Is this really the end for me?"))
 	emote("scream") // heres your warning to others bro
 	Knockdown(1)
+	drop_all_held_items()
 	zombie_antag.wake_zombie(TRUE)
 	return TRUE

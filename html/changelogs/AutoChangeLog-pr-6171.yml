@@ -1,6 +1,0 @@
-author: "Ketrai"
-delete-after: True
-changes:
-  - balance: "slayer armor protects head, arms and feet now in addition to old coverage."
-  - bugfix: "Regenerating armor for iconoclast, disciple and slayer properly prevents crits now."
-  - bugfix: "Heartbeast overlays are no longer infinitely stacked onto the sprite."

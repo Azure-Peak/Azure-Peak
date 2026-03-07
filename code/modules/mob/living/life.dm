@@ -157,6 +157,7 @@
 					sleep(10)
 					Stun(110)
 					Knockdown(110)
+					drop_all_held_items()
 
 /mob/living/proc/handle_environment()
 	return

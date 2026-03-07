@@ -34,6 +34,7 @@
 			to_chat(H, span_userdanger("UNIMAGINABLE PAIN!"))
 			H.Stun(30)
 			H.Knockdown(30)
+			H.drop_all_held_items()
 
 		else if (world.time >= transforming + 10 SECONDS) // Stage 1
 			H.emote("")
@@ -190,6 +191,7 @@
 	playsound(W.loc, pick('sound/combat/gib (1).ogg','sound/combat/gib (2).ogg'), 200, FALSE, 3)
 	W.spawn_gibs(FALSE)
 	W.Knockdown(30)
+	W.drop_all_held_items()
 	W.Stun(30)
 
 	qdel(src)

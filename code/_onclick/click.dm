@@ -246,7 +246,10 @@
 				var/turf/target_turf = get_turf(A)
 				if(get_dist(my_turf, target_turf) <= used_intent.reach)
 					if(!used_intent.noaa)
-						do_attack_animation(target_turf, used_intent.animname, W, used_intent = src.used_intent)
+						if(used_intent.cleave)
+							used_intent.cleave.show_cleave_visuals(src, target_turf)
+						else
+							do_attack_animation(target_turf, used_intent.animname, W, used_intent = src.used_intent)
 				resolveAdjacentClick(A,W,params)
 				return
 
@@ -304,7 +307,10 @@
 						break
 					if(target)
 						if(target.Adjacent(src) || (CanReach(target, W) && used_intent.effective_range_type))
-							do_attack_animation(T, used_intent.animname, used_intent.masteritem, used_intent = src.used_intent)
+							if(used_intent.cleave)
+								used_intent.cleave.show_cleave_visuals(src, T)
+							else
+								do_attack_animation(T, used_intent.animname, used_intent.masteritem, used_intent = src.used_intent)
 							resolveAdjacentClick(target,W,params,used_hand)
 							atkswinging = null
 							//update_warning()
@@ -314,7 +320,10 @@
 					if(!used_intent.noaa)
 						changeNext_move(CLICK_CD_RAPID)
 						if(get_dist(my_turf, T) <= used_intent.reach)
-							do_attack_animation(T, used_intent.animname, used_intent.masteritem, used_intent = src.used_intent)
+							if(used_intent.cleave)
+								used_intent.cleave.show_cleave_visuals(src, T)
+							else
+								do_attack_animation(T, used_intent.animname, used_intent.masteritem, used_intent = src.used_intent)
 						var/adf = used_intent.clickcd
 						if(istype(rmb_intent, /datum/rmb_intent/aimed))
 							adf = round(adf * CLICK_CD_MOD_AIMED)

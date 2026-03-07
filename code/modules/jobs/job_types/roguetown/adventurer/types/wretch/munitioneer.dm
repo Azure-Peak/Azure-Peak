@@ -4,6 +4,7 @@
 	allowed_races = RACES_ALL_KINDS
 	outfit = /datum/outfit/job/roguetown/wretch/munitioneer
 	cmode_music = 'sound/music/combat_dwarf.ogg'
+	class_select_category = CLASS_CAT_WARRIOR
 	category_tags = list(CTAG_WRETCH)
 	traits_applied = list(TRAIT_TRAINED_SMITH, TRAIT_SMITHING_EXPERT, TRAIT_RITUALIST)
 	maximum_possible_slots = 1 // do we need TWO antag weapon factories?

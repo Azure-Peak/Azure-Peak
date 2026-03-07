@@ -1,4 +1,0 @@
-author: "mumblemancer"
-delete-after: True
-changes:
-  - bugfix: "sergeant/captain/whoever gets it orders should work now"

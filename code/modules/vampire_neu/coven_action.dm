@@ -75,6 +75,8 @@
 
 	if(!IsAvailable())
 		button.update_maptext(coven.current_power.get_cooldown())
+	else
+		button.update_maptext(0)
 
 /datum/action/coven/IsAvailable()
 	return coven.current_power.can_activate_untargeted()

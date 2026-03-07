@@ -1,4 +1,0 @@
-author: "WeNeedMorePhoron"
-delete-after: True
-changes:
-  - rscadd: "Arcyne Conduit expires on death. Should fix an edge case with Spellblade mechanics."

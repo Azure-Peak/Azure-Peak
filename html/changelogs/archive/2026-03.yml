@@ -346,3 +346,23 @@
   - bugfix: fixed disgraced knight fortune statkey
   hazelrat:
   - rscadd: Introduced a lore blurb for Hammerhold.
+2026-03-07:
+  ApplePlastic:
+  - bugfix: addressed some issues regarding locked doors
+  Ketrai:
+  - balance: slayer armor protects head, arms and feet now in addition to old coverage.
+  - bugfix: Regenerating armor for iconoclast, disciple and slayer properly prevents
+      crits now.
+  - bugfix: Heartbeast overlays are no longer infinitely stacked onto the sprite.
+  - bugfix: Cure rot will no longer kill people who are infected with deadite disease,
+      only actual deadites.
+  - bugfix: Magefire can't be placed on blocked turfs or air turfs.
+  - bugfix: Mind-owning carbons now turn combat mode off when they die.
+  WeNeedMorePhoron:
+  - rscadd: Arcyne Conduit expires on death. Should fix an edge case with Spellblade
+      mechanics.
+  - rscadd: Spellblade no longer blur screen on overcharge.
+  - bugfix: Half-Kin goes back to using the ancestry system and no longer have their
+      skin color tightly coupled to their tail / mutant color.
+  mumblemancer:
+  - bugfix: sergeant/captain/whoever gets it orders should work now

@@ -480,7 +480,7 @@
 	var/cooktime_divisor = get_cooktime_divisor(cs)
 
 	if(!attachment)
-		if(istype(W, /obj/item/cooking/pan) || istype(W, /obj/item/reagent_containers/glass/bucket/pot ) || istype(W, /obj/item/reagent_containers/glass/crucible))
+		if(istype(W, /obj/item/cooking/pan) || istype(W, /obj/item/reagent_containers/glass/bucket/pot))
 			playsound(get_turf(user), 'sound/foley/dropsound/shovel_drop.ogg', 40, TRUE, -1)
 			attachment = W
 			user.doUnEquip(W)
@@ -488,23 +488,6 @@
 			update_icon()
 			return
 	else
-		if(istype(attachment, /obj/item/reagent_containers/glass/crucible))
-			var/obj/item/reagent_containers/glass/crucible/crucible = attachment
-			if(crucible.hot)
-				to_chat(user, span_warning("The crucible is too hot to add ingots! Wait for it to cool down."))
-				return
-
-			if(istype(W, /obj/item/ingot/iron) || istype(W, /obj/item/ingot/steel))
-				if(crucible.get_total_ingots() >= crucible.max_ingots)
-					to_chat(user, span_warning("The crucible is full."))
-					return
-
-				user.visible_message(span_info("[user] places an ingot into the crucible."))
-				if(do_after(user, 10, target = src))
-					var/ingot_type = W.type
-					if(crucible.add_ingot(ingot_type, user) > 0)
-						qdel(W)
-				return
 		if(istype(W, /obj/item/reagent_containers/glass/bowl))
 			to_chat(user, "<span class='notice'>Remove the pot from the hearth first.</span>")
 			return
@@ -586,7 +569,7 @@
 	cut_overlays()
 	icon_state = "[base_state][on]"
 	if(attachment)
-		if(istype(attachment, /obj/item/cooking/pan) || istype(attachment, /obj/item/reagent_containers/glass/bucket/pot)  || istype(attachment, /obj/item/reagent_containers/glass/crucible))
+		if(istype(attachment, /obj/item/cooking/pan) || istype(attachment, /obj/item/reagent_containers/glass/bucket/pot))
 			var/obj/item/I = attachment
 			I.pixel_x = 0
 			I.pixel_y = 0
@@ -614,7 +597,7 @@
 					attachment.forceMove(user.loc)
 				attachment = null
 				update_icon()
-		if(istype(attachment, /obj/item/reagent_containers/glass/bucket/pot) || istype(attachment, /obj/item/reagent_containers/glass/crucible))
+		if(istype(attachment, /obj/item/reagent_containers/glass/bucket/pot))
 			if(!user.put_in_active_hand(attachment))
 				attachment.forceMove(user.loc)
 			attachment = null
@@ -651,12 +634,6 @@
 		if(fueluse == 0)
 			burn_out()
 	if(attachment)
-		if(istype(attachment, /obj/item/reagent_containers/glass/crucible))
-			var/obj/item/reagent_containers/glass/crucible/crucible = attachment
-			if(crucible.get_total_ingots() > 0 && on)
-				crucible.heat_up(crucible.heat_rate)
-			else if(!on)
-				crucible.cool_down(crucible.cool_rate)
 		if(istype(attachment, /obj/item/cooking/pan))
 			if(food && on)
 				var/obj/item/C = food.cooking(20 * cooktime_divisor, 20, src)
