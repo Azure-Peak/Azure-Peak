@@ -24,6 +24,7 @@
  */
 
 #define LEYLINE_TELEPORT_COOLDOWN (5 MINUTES)
+#define LEYLINE_TILE_DETECTION_RANGE 7
 
 GLOBAL_LIST_EMPTY(leyline_sites)
 GLOBAL_LIST_EMPTY(leyline_activations)
@@ -95,18 +96,19 @@ GLOBAL_LIST_EMPTY(leyline_activations)
 	check_daily_reset()
 	uses_today++
 
-/obj/structure/leyline/attack_hand(mob/living/user)
+/obj/structure/leyline/examine(mob/living/user)
+	. = ..()
 	if(!isarcyne(user))
-		to_chat(user, span_notice("You sense faint energy from the stones, but cannot comprehend its nature."))
+		. += span_info("You sense faint energy from the stones, but cannot comprehend its nature.")
 		return
 	check_daily_reset()
 	var/charges = get_leyline_charges(user)
 	var/remaining = max_uses_per_day - uses_today
-	to_chat(user, span_notice("This [name] pulses with arcyne energy."))
-	to_chat(user, span_notice("This leyline can be used [remaining] more time[remaining != 1 ? "s" : ""] todae. You have enough mana for [charges] more ritual[charges != 1 ? "s" : ""]."))
+	. += span_info("This [name] pulses with arcyne energy.")
+	. += span_info("This leyline can be used [remaining] more time[remaining != 1 ? "s" : ""] todae. You have enough mana for [charges] more ritual[charges != 1 ? "s" : ""].")
 	if(max_tier)
-		to_chat(user, span_notice("Maximum ritual circle: [max_tier]."))
-	to_chat(user, span_notice("Draw a summoning circle nearby to begin a leyline encounter."))
+		. += span_info("Maximum ritual circle: [max_tier].")
+	. += span_info("Draw a summoning circle nearby to begin a leyline encounter.")
 
 /obj/structure/leyline/tamed
 	name = "tamed leyline"
