@@ -43,7 +43,7 @@ GLOBAL_LIST_EMPTY(leyline_activations)
 		return 5
 	if(GLOB.dayspassed >= 4)
 		return 4
-	return 2
+	return 3
 
 /obj/structure/leyline
 	name = "inactive leyline"
