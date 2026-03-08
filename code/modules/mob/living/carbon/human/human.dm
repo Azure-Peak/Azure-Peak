@@ -126,6 +126,7 @@
 	QDEL_NULL(physiology)
 	QDEL_NULL(sunder_light_obj)
 	GLOB.human_list -= src
+	clear_warband()
 	return ..()
 
 /mob/living/carbon/human/Stat()

@@ -64,15 +64,7 @@
 			if(removing_bounty.target == departing_mob.real_name)
 				GLOB.head_bounties -= removing_bounty
 		// if the departing mob was associated with a Warband
-		if(departing_mob.mind.warband_manager || departing_mob.mind.warband_recruiter_name) 
-			var/atom/movable/screen/warband/manager/warband
-			for(var/mob/living/warband_member in warband.members)
-				if(departing_mob in warband_member.mind.subordinates)
-					warband_member.mind.subordinates -= departing_mob
-			if(departing_mob in warband.members)
-				warband.members -= departing_mob
-			if(departing_mob in warband.allies)
-				warband.allies -= departing_mob
+		departing_mob.clear_warband()
 	GLOB.chosen_names -= departing_mob.real_name
 	if(fated_leave)
 		dat += "<br><font color = '#bb2424'>Departing with Fated</font>"

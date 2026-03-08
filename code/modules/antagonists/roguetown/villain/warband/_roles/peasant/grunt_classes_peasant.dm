@@ -2,7 +2,7 @@
 /////////////////////////////////// MILITIAMAN
 /*
 	guy w/militia weapons
-	combined with a Towner class of their choice from a small selection
+	combined with a Towner class of their choice
 */
 /datum/advclass/warband/rebellion/grunt/militiaman
 	title = "MILITIAMAN"

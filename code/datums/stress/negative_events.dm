@@ -381,6 +381,11 @@
 	desc = span_boldred("I can't believe I signed that! My peers shall find me a laughingstock... Gods damn mine wretched, wizard lyfe...")
 	timer = 999 MINUTES
 
+/datum/stressevent/warband_warhorn
+	stressadd = 5
+	desc = span_boldred("War's song shatters my peace.")
+	timer = 5 MINUTES
+
 /datum/stressevent/necrarevive
 	stressadd = 15
 	desc = span_boldred("SO CLOSE TO BEING GRASPED, SO COLD!")

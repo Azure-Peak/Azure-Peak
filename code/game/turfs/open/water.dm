@@ -201,8 +201,8 @@
 					if(AM.loc == src)
 						water_overlay.layer = ABOVE_MOB_LAYER
 						water_overlay.plane = GAME_PLANE_HIGHEST
-		if(istype(L, /mob/living/carbon/human/species/human/northern/grunt))
-			var/mob/living/carbon/human/species/human/northern/grunt/grunt_npc = AM
+		if(istype(L, /mob/living/carbon/human/species/human/northern/goon))
+			var/mob/living/carbon/human/species/human/northern/goon/grunt_npc = AM
 			if(istype(src, /turf/open/water/ocean) || istype(src, /turf/open/water/sewer))
 				grunt_npc.drownevent()
 				return	
@@ -621,11 +621,24 @@
 
 // grunts will drown in ocean & sewer tiles, so they should avoid them
 /turf/open/water/ocean/can_traverse_safely(atom/movable/traveler)
-	if(istype(traveler, /mob/living/carbon/human/species/human/northern/grunt))
+	if(istype(traveler, /mob/living/carbon/human/species/human/northern/goon))
 		return FALSE
 	return TRUE
 
 /turf/open/water/sewer/can_traverse_safely(atom/movable/traveler)
-	if(istype(traveler, /mob/living/carbon/human/species/human/northern/grunt))
+	if(istype(traveler, /mob/living/carbon/human/species/human/northern/goon))
 		return FALSE
 	return TRUE
+
+// fake ocean tiles used in Warcamps for the sake of grunts not killing themselves in their own home
+/turf/open/water/fakeocean
+	name = "salt water"
+	desc = "The waves lap at the coast, hungry to swallow the land. Doesn't look too deep."
+	icon_state = "ash"
+	icon = 'icons/turf/roguefloor.dmi'
+	water_level = 2
+	water_color = "#3e7459"
+	slowdown = 4
+	swim_skill = TRUE
+	wash_in = TRUE
+	water_reagent = /datum/reagent/water/salty

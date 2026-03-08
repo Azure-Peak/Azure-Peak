@@ -107,20 +107,17 @@
 	
 	// players with the Formation Fighter trait can tileswap through grunts
 	if(HAS_TRAIT(src, TRAIT_FORMATIONFIGHTER) && HAS_TRAIT(M, TRAIT_FORMATIONFIGHTER))
-		// we don't want grunts swapping with grunts
-		if(istype(src, /mob/living/carbon/human/species/human/northern/grunt) && istype(M, /mob/living/carbon/human/species/human/northern/grunt))
+		if(istype(src, /mob/living/carbon/human/species/human/northern/goon) && istype(M, /mob/living/carbon/human/species/human/northern/goon))
 			return FALSE
 
-		// one-way swap: players can switch with grunts, but not vice versa
-		if(istype(src, /mob/living/carbon/human) && istype(M, /mob/living/carbon/human/species/human/northern/grunt))
-			var/mob/living/carbon/human/species/human/northern/grunt/L = M
-			// can't be done if they're focused or winding up an attack
+		if(istype(src, /mob/living/carbon/human) && istype(M, /mob/living/carbon/human/species/human/northern/goon))
+			var/mob/living/carbon/human/species/human/northern/goon/L = M
+			
 			if(src.fixedeye || src.tempfixeye)
 				to_chat(src, span_warning("I'm too focused to slip by!"))
 				return FALSE
-			if(src.mind.warband_ID == L.warband_ID)	// check if they're in the same warband
-
-				// can't be done if they've been feinted or baited
+			
+			if(src.mind.warband_ID == L.warband_ID)
 				if(has_status_effect(/datum/status_effect/debuff/riposted))
 					to_chat(src, span_warning("I'm too disoriented to slip by!"))
 					return FALSE	

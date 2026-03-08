@@ -1,7 +1,7 @@
 #define LOWMEMORYMODE //uncomment this to load centcom and runtime station and thats it.
 
 #include "map_files\generic\CentCom.dmm"
-#include "map_files\dun_world\warbands.dmm"
+#include "map_files\otherz\warbands.dmm"
 
 #ifndef LOWMEMORYMODE
 	#ifdef ALL_MAPS
@@ -10,6 +10,7 @@
 		#include "map_files\otherz\bandit_fortress.dmm"
 		#include "map_files\otherz\dungeon.dmm"
 		#include "map_files\otherz\vl_manor.dmm"
+		#include "map_files\otherz\warbands.dmm"
 
 		#ifdef ALL_TEMPLATES
 			#include "templates.dm"

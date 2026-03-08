@@ -24,9 +24,12 @@ GLOBAL_LIST_INIT(ghost_verbs, list(
 
 	switch(alert("Descend to the Underworld?",,"Yes","No"))
 		if("Yes")
+			if(mob.mind && mob.mind.warband_ID != 0)
+				if(mob.mind.original_char)
+					mob.mind.warband_manager.return_envoy(mob, abandoned = TRUE)
+					return
 			if(istype(mob, /mob/living/carbon/spirit))
 				return
-
 			if(istype(mob, /mob/living/carbon/human))
 				var/mob/living/carbon/human/D = mob
 				if(D.buried && D.funeral)
@@ -50,6 +53,10 @@ GLOBAL_LIST_INIT(ghost_verbs, list(
 	set name = "Leave Your Body"
 
 	if(mob.stat == DEAD && isliving(mob))
+		if(mob.mind && mob.mind.warband_ID != 0)
+			if(mob.mind.original_char)
+				mob.mind.warband_manager.return_envoy(mob, abandoned = TRUE)
+				return
 		message_admins("[key_name_admin(usr)] is ghosting from their dead body.")
 		mob.ghostize(TRUE, ignore_zombie = TRUE)
 

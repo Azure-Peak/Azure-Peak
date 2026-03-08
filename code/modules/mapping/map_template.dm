@@ -7,6 +7,7 @@
 	var/loaded = 0 // Times loaded this round
 	var/datum/parsed_map/cached_map
 	var/keep_cached_map = FALSE
+	var/warband_template = FALSE
 
 /datum/map_template/New(path = null, rename = null, cache = FALSE)
 	if(path && !mappath)
@@ -108,6 +109,19 @@
 
 	//initialize things that are normally initialized after map load
 	parsed.initTemplateBounds()
+
+	if(warband_template)
+		var/list/template_zone = block(
+			locate(bounds[MAP_MINX], bounds[MAP_MINY], bounds[MAP_MINZ]),
+			locate(bounds[MAP_MAXX], bounds[MAP_MAXY], bounds[MAP_MAXZ])
+		)
+		for(var/turf/template_turf in template_zone)
+			if(template_turf.outdoor_effect)
+				var/atom/movable/outdoor_effect/old_OE = template_turf.outdoor_effect
+				template_turf.outdoor_effect = null
+				old_OE.affecting_corners = null
+				qdel(old_OE, force = TRUE)
+			GLOB.SUNLIGHT_QUEUE_WORK += template_turf
 
 	log_game("[name] loaded at [T.x],[T.y],[T.z]")
 	return bounds

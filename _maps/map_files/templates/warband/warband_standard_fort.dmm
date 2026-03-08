@@ -891,6 +891,7 @@
 	pixel_x = -6
 	},
 /obj/structure/fluff/railing/border,
+/obj/machinery/light/rogue/candle/weak,
 /turf/open/floor/rogue/concrete{
 	dir = 1
 	},
@@ -916,6 +917,10 @@
 	pixel_y = 0
 	},
 /turf/open/floor/rogue/ruinedwood/herringbone,
+/area/rogue/indoors/warcamp/fort)
+"pS" = (
+/obj/machinery/light/rogue/candle/weak/r,
+/turf/open/floor/rogue/metal/barograte,
 /area/rogue/indoors/warcamp/fort)
 "pV" = (
 /obj/structure/flora/ausbushes/ppflowers,
@@ -1353,6 +1358,9 @@
 "yJ" = (
 /obj/structure/fluff/warband/warband_recruit,
 /obj/machinery/light/rogue/candle/weak/l,
+/obj/effect/decal/herringbone{
+	dir = 8
+	},
 /turf/open/floor/rogue/blocks/stonered/tiny,
 /area/rogue/indoors/warcamp/fort)
 "yR" = (
@@ -2065,6 +2073,12 @@
 	},
 /turf/open/floor/rogue/blocks/stonered,
 /area/rogue/indoors/warcamp/fort)
+"Oh" = (
+/obj/machinery/light/rogue/candle/weak,
+/turf/open/floor/rogue/cobblerock{
+	name = "cobbled rock"
+	},
+/area/rogue/indoors/warcamp/fort)
 "Or" = (
 /obj/structure/fluff/railing/border/east,
 /turf/open/floor/rogue/blocks/stonered/tiny,
@@ -2690,6 +2704,9 @@
 /obj/item/quiver/bolts,
 /obj/item/gun/ballistic/revolver/grenadelauncher/crossbow,
 /obj/item/gun/ballistic/revolver/grenadelauncher/crossbow,
+/obj/machinery/light/rogue/candle/weak{
+	pixel_y = -32
+	},
 /turf/open/floor/rogue/cobble,
 /area/rogue/indoors/warcamp/fort)
 "VI" = (
@@ -2787,6 +2804,16 @@
 	icon_state = "cobbleedge-n"
 	},
 /turf/open/floor/rogue/blocks/stonered/tiny,
+/area/rogue/indoors/warcamp/fort)
+"WV" = (
+/obj/structure/bars/passage{
+	density = 0;
+	icon_state = "passage1";
+	redstone_id = "warbandfort_sbarr"
+	},
+/obj/structure/mineral_door/wood/fancywood,
+/obj/effect/solid_invisible_barrier/warband_spawnbarrier,
+/turf/open/floor/rogue/metal/barograte,
 /area/rogue/indoors/warcamp/fort)
 "Xp" = (
 /obj/effect/decal/cobbleedge{
@@ -4329,7 +4356,7 @@ hf
 hf
 Eb
 gC
-rp
+Oh
 rp
 rp
 rR
@@ -4473,7 +4500,7 @@ WI
 mc
 mc
 Bj
-mc
+TE
 WB
 WB
 WB
@@ -4755,7 +4782,7 @@ WI
 mc
 JQ
 Ik
-mc
+pS
 Uu
 dB
 Uu
@@ -4799,7 +4826,7 @@ mc
 mc
 hl
 hl
-kK
+WV
 hl
 hl
 hl

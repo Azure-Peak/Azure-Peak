@@ -181,8 +181,7 @@
 		if(get_dir(loc, target) in baddirs)
 			return 0
 	else if(get_dir(loc, target) == dir)
-		if(istype(mover, /mob/living/carbon/human/species/human/northern/grunt))
-			playsound(src, climb_sound, 100)
+		if(istype(mover, /mob/living/carbon/human/species/human/northern/goon))
 			return 1 // railing climbing is broken atm and i can't wrap my head around it, so this is here as a temporary fix to stop Grunts from getting stuck like Roombas	
 		else
 			return 0
@@ -211,8 +210,7 @@
 		if(!(M.mobility_flags & MOBILITY_STAND))
 			return
 
-	if(istype(leaving, /mob/living/carbon/human/species/human/northern/grunt))
-		playsound(src, climb_sound, 100)
+	if(istype(leaving, /mob/living/carbon/human/species/human/northern/goon))
 		return
 
 	leaving.Bump(src)
@@ -862,7 +860,7 @@
 
 /obj/structure/fluff/statue/CanPass(atom/movable/mover, turf/target)
 	if(get_dir(loc, mover) == dir)
-		if(istype(mover, /mob/living/carbon/human/species/human/northern/grunt))
+		if(istype(mover, /mob/living/carbon/human/species/human/northern/goon))
 			playsound(src, climb_sound, 100)
 			return 1
 		return 0
@@ -876,7 +874,7 @@
 /obj/structure/fluff/statue/proc/on_exit(datum/source, atom/movable/leaving, atom/new_location)
 	SIGNAL_HANDLER
 	if(get_dir(leaving.loc, new_location) == dir)
-		if(istype(leaving, /mob/living/carbon/human/species/human/northern/grunt))
+		if(istype(leaving, /mob/living/carbon/human/species/human/northern/goon))
 			playsound(src, climb_sound, 100)
 			return	
 		leaving.Bump(src)
@@ -1194,7 +1192,7 @@
 	if(istype(mover, /mob/camera))
 		return TRUE
 	if(get_dir(loc, mover) == dir)
-		if(istype(mover, /mob/living/carbon/human/species/human/northern/grunt))
+		if(istype(mover, /mob/living/carbon/human/species/human/northern/goon))
 			playsound(src, climb_sound, 100)
 			return TRUE	
 		return FALSE
@@ -1207,7 +1205,7 @@
 
 /obj/structure/fluff/psycross/proc/on_exit(datum/source, atom/movable/leaving, atom/new_location)
 	SIGNAL_HANDLER
-	if(istype(leaving, /mob/living/carbon/human/species/human/northern/grunt))
+	if(istype(leaving, /mob/living/carbon/human/species/human/northern/goon))
 		playsound(src, climb_sound, 100)
 		return
 	if(get_dir(leaving.loc, new_location) == dir)

@@ -147,8 +147,5 @@
 	. = ..()
 
 /obj/structure/glowshroom/bright
-
-
-/obj/structure/glowshroom/bright/Initialize()
-	..()
-	src.light_outer_range = 12
+	light_outer_range = 12
+	light_inner_range = 3

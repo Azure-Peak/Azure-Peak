@@ -243,3 +243,8 @@
 	name = "Prosthetic Wood Leg (R)"
 	cost = 15
 	contains = list(/obj/item/bodypart/r_leg/prosthetic)
+
+/datum/supply_pack/rogue/tools/tallowkit
+	name = "Courier's Tallow Kit"
+	cost = 60
+	contains = list(/obj/item/inqarticles/tallowpot, /obj/item/reagent_containers/food/snacks/tallow/red,)

@@ -477,6 +477,13 @@
 	},
 /turf/open/floor/rogue/dirt/road,
 /area/rogue/indoors/warcamp/wizard)
+"gV" = (
+/obj/structure/mineral_door/wood/fancywood{
+	lockid = "manor"
+	},
+/obj/effect/solid_invisible_barrier/warband_spawnbarrier,
+/turf/open/floor/rogue/ruinedwood/spiral,
+/area/rogue/indoors/warcamp/wizard)
 "gW" = (
 /obj/effect/decal/cobbleedge{
 	dir = 10;
@@ -1096,6 +1103,22 @@
 /area/rogue/indoors/warcamp/wizard)
 "pG" = (
 /obj/structure/table/wood,
+/obj/item/roguekey/custom{
+	lockid = "warbandstandard";
+	name = "gaol key"
+	},
+/obj/item/roguekey/custom{
+	lockid = "warbandstandard";
+	name = "gaol key"
+	},
+/obj/item/roguekey/custom{
+	lockid = "warbandstandard";
+	name = "gaol key"
+	},
+/obj/item/roguekey/custom{
+	lockid = "warbandstandard";
+	name = "gaol key"
+	},
 /turf/open/floor/rogue/blocks,
 /area/rogue/indoors/warcamp/wizard)
 "pK" = (
@@ -3372,6 +3395,11 @@
 	},
 /turf/open/floor/rogue/tile/harem1,
 /area/rogue/indoors/warcamp/wizard)
+"SS" = (
+/obj/structure/mineral_door/wood/fancywood,
+/obj/effect/solid_invisible_barrier/warband_spawnbarrier,
+/turf/open/floor/rogue/tile/harem1,
+/area/rogue/indoors/warcamp/wizard)
 "SX" = (
 /obj/effect/decal/cobbleedge{
 	dir = 9
@@ -5090,7 +5118,7 @@ LQ
 dD
 Qo
 Qo
-Wn
+SS
 Qo
 Qo
 Qo
@@ -5315,13 +5343,13 @@ JJ
 JJ
 JJ
 tu
-Kw
+gV
 tu
 JJ
 JJ
 JJ
 tu
-Kw
+gV
 tu
 JJ
 QM

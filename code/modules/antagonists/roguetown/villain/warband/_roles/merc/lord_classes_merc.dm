@@ -3,7 +3,6 @@
 	name = "Captain"
 	tutorial = "Take a merchant's cunning, a soldier's grit, and the pragmatism of both. Brew them all together, and you'll get an \
 	especially unpleasant person. Now arrives the CAPTAIN - as unpleasant as they come, and paid quite handsomely for it."
-	outfit = /datum/outfit/job/roguetown/warband/mercenary/warlord/captain
 
 	traits_applied = list(TRAIT_FORMATIONFIGHTER, TRAIT_LAWEXPERT, TRAIT_STEELHEARTED)
 
@@ -25,7 +24,7 @@
 		/datum/skill/misc/riding = SKILL_LEVEL_NOVICE,
 	)
 
-/datum/outfit/job/roguetown/warband/mercenary/warlord/captain/pre_equip(mob/living/carbon/human/H)
+/datum/advclass/warband/mercenary/warlord/captain/equipme(mob/living/carbon/human/H, dummy)
 	..()
 	H.mind?.AddSpell(new /obj/effect/proc_holder/spell/invoked/sweep)
 	H.change_stat(STATKEY_LCK, 2)

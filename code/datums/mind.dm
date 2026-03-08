@@ -138,12 +138,14 @@ GLOBAL_LIST_EMPTY(personal_objective_minds)
 	var/warbandsetup = FALSE					// failsafe for someone crashing mid-creation | if this is TRUE, they'll get the menu returned on login
 	var/list/subordinates = list() 				// a list of a lieutenant's veterans	
 	var/list/unresolved_exile_names = list()	// when a lieutenant's subordinate is exiled, they get a choice to resist the decree | if they haven't made the choice, the exile's name will be here
-	var/warband_recruiter_name							// the name of someone who recruited the mind as an ally | recruiters will bring along the allies they recruited during a desertion
+	var/warband_recruiter_name					// the name of someone who recruited the mind as an ally | recruiters will bring along the allies they recruited during a desertion
 	var/order_exhaustion = FALSE				// given to a grunt's commander after they send a special order (E.G: fight harder, survive)
-	var/squad_size = 2 							// maximum NPC squad size
+	var/squad_size = 4 							// maximum NPC squad size
+	var/warband_latespawn = FALSE				// identifier for any warband character that joined late
+	var/enlightened = FALSE						// has a prophet (Sect Warlord) performed their Enlighten verb on them?
 
-	var/list/personal_territories = list()	// contains someone's distant territories (interfaced with via treaties)
-	var/list/associated_factions = list()	// contains someone's associated TREATY factions
+	var/list/personal_territories = list()		// contains someone's estate territories (interfaced with via treaties)
+	var/list/datum/territory_faction/associated_factions = list()	// contains someone's associated TREATY factions
 	
 	var/mob/living/original_char // given to envoys to track their original character | drawn on for returning + treaty authority
 
@@ -156,6 +158,12 @@ GLOBAL_LIST_EMPTY(personal_objective_minds)
 
 /datum/mind/Destroy()
 	SSticker.minds -= src
+	if(warband_ID != 0)
+		warband_manager = null	
+		original_char = null
+		subordinates = null
+	personal_territories = null
+	associated_factions = null
 	QDEL_NULL(sleep_adv)
 	if(islist(antag_datums))
 		QDEL_LIST(antag_datums)

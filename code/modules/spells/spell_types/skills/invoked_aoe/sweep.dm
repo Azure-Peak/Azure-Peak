@@ -20,7 +20,7 @@
 	releasedrain = 50
 	chargedrain = 1
 	chargetime = 5
-	recharge_time = 40 SECONDS
+	recharge_time = 25 SECONDS
 	is_cdr_exempt = TRUE
 	ignore_los = TRUE
 	warnie = "spellwarning"
@@ -56,7 +56,7 @@
 		viable_targets += AM
 
 	if(viable_targets.len < 3)
-		to_chat(user, "There's not enough foes in range!")
+		to_chat(user, "There's not enough foes in range! <span style='color:#ec3333'>I fumble my swing!</span>")
 		return FALSE
 	
 	// for every additional target swept past the third, we reduce the cooldown and increase the damage dealt

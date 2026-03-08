@@ -11,6 +11,7 @@
 		required objects:
 			'/obj/effect/landmark/start/warlordlate'					| a spawn point
 			'/obj/structure/fluff/warband/warband_recruit'				| a recruitment point
+			'/obj/effect/solid_invisible_barrier/warband_spawnbarrier'	| this thing blocking the spawn room's exit
 			'/obj/structure/fluff/warband/campaign_planner'				| this thing
 			'/obj/structure/fluff/traveltile/warband/camp_to_outskirts' | an entrance
 			'/obj/structure/fluff/warband/shortcut' 					| an emergency entrance
@@ -40,15 +41,6 @@
 ////////////////////////																			////////////////////////
 */
 
-#define WARBANDS 	list(/datum/warbands/standard,  /datum/warbands/mercenary, /datum/warbands/sect, \
-					/datum/warbands/storyteller/peasant, /datum/warbands/storyteller/wizard)
-
-#define WARBAND_BASE_RESPAWNS 400
-#define RESPAWNS_MINIMAL 25
-#define RESPAWNS_LOW 50
-#define RESPAWNS_MEDIUM 100
-#define RESPAWNS_HIGH 200
-#define RESPAWNS_HORDE 500
 
 /datum/warbands
 	var/title						// name used in the creation menu
@@ -82,6 +74,7 @@
 	var/list/gruntclasses = list()
 	var/spawns						// lost when an NPC is spawned | combined with the warband manager's baseline spawns, which is 400
 	var/list/combatmusic = list()
+	var/datum/outskirts_wave/outskirts_wave
 
 ////////////////////////
 //////////////////////////////////////////////// WARBANDS
@@ -93,7 +86,7 @@
 	summary = "No feud can go unresolved. Settlements between men of low standing are simple - an apology here, or an exchange of cattle and mammon there. \
 	But Great Men cannot settle. Honor demands apologies to be signed in blood and thousands of cattle to fall before spear-point."
 	warning = "...a foreign Banner on the march towards the capital."
-	combatmusic = list('sound/music/cmode/antag/combat_thewall.ogg')
+	combatmusic = list('sound/music/combat_squire.ogg')
 	aspects = list(ASPECT_FORT, ASPECT_BLOCKADE, ASPECT_SURPRISE, ASPECT_HOST, ASPECT_FIGUREHEAD, ASPECT_ENVY, ASPECT_BADSPAWN)
 	warcamp = /datum/map_template/warcamp_standard
 	warlordclasses = list(/datum/advclass/warband/standard/warlord/lord)
@@ -163,66 +156,7 @@
 	spawns = RESPAWNS_LOW
 	combatmusic = list('sound/music/cmode/nobility/combat_courtmage.ogg')
 
-
 /////////////////////////////////////////////
-
-
-/datum/outskirts_wave
-	var/list/wave_alert_phrase = list() // flavortext popup when a wave spawns
-	var/list/npc_pool = list()			// npc pool that the outskirts wave draws from
-
-/datum/outskirts_encounter
-	var/atom/movable/screen/warband/manager/linked_warband
-	var/list/current_wave = list()
-	var/wave_number = 0
-	var/obj/structure/outskirts_objective/objective
-	var/prep_time = 3 MINUTES
-	var/prep_started = FALSE
-	var/encounter_active = FALSE
-	var/min_wave_size = 10
-	var/obj/structure/fluff/traveltile/warband/outskirts_to_intermission/attacker_entry
-	var/obj/structure/fluff/traveltile/warband/outskirts_to_camp/defender_entry
-
-/obj/structure/outskirts_objective
-	var/attacker_goal
-	var/defender_goal
-	var/linked_encounter
-
-/obj/structure/outskirts_objective/threshold
-	name = "threshold"
-	icon_state = "travel"
-	icon = 'icons/turf/roguefloor.dmi'
-	density = FALSE
-	anchored = TRUE
-	layer = ABOVE_OPEN_TURF_LAYER
-	max_integrity = 0
-
-
-// finds the middle point between both of the outskirts entry points and spawn the objective
-// this probably won't work very well if the map's entry points are in unique positions
-// but atm every encounter map is just a basic Straight Shot across from one another, so this should be fine
-/datum/outskirts_encounter/proc/spawn_objective()
-	if(!attacker_entry || !defender_entry)
-		return
-
-	var/turf/attacker_turf = get_turf(attacker_entry)
-	var/turf/defender_turf = get_turf(defender_entry)
-	
-	if(!attacker_turf || !defender_turf)
-		return
-	
-	var/mid_x = round((attacker_turf.x + defender_turf.x) / 2)
-	var/mid_y = round((attacker_turf.y + defender_turf.y) / 2)
-	var/turf/spawn_turf = locate(mid_x, mid_y, attacker_turf.z)
-
-	for(var/turf/open/candidate in range(3, spawn_turf))
-		if(!candidate.density)
-			objective = new /obj/structure/outskirts_objective/threshold(candidate)
-			objective.linked_encounter = src
-			objective.attacker_goal = attacker_turf
-			objective.defender_goal = defender_turf
-			return
-
 
 /atom/movable/screen/introtext
 	name = "intro text"

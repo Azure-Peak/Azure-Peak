@@ -49,7 +49,7 @@ export const WarbandCreation = () => {
     handleSubclassSelect,
   } = useWarbandSelection();
   
-  const { filteredWarbands, filteredSubtypes, filteredAspects, availableClasses, filteredGruntClasses } = useWarbandFilters(
+  const { filteredWarbands, filteredSubtypes, filteredAspects, availableClasses, filteredSubclasses } = useWarbandFilters(
     user_role,
     selectedWarband,
     selectedSubtype,
@@ -332,7 +332,7 @@ export const WarbandCreation = () => {
             selectedClass={selectedClass}
             selectedSubclass={selectedSubclass}
             availableClasses={availableClasses}
-            filteredGruntClasses={filteredGruntClasses}
+            filteredSubclasses={filteredSubclasses}
             handleClassSelect={handleClassSelect}
             handleSubclassSelect={handleSubclassSelect}
             act={act}

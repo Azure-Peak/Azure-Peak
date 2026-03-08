@@ -293,6 +293,7 @@
 	backpack_contents = list(
 		/obj/item/reagent_containers/glass/bottle/rogue/poison = 1,
 		/obj/item/reagent_containers/glass/bottle/rogue/healthpotnew = 1,
+		/obj/item/flashlight/flare/torch/lantern/prelit = 1,
 		/obj/item/bomb/smoke = 2
 		)
 

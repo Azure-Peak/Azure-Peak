@@ -7,6 +7,13 @@
 /obj/structure/chair/wood/rogue,
 /turf/open/floor/rogue/cobble,
 /area/rogue/indoors/warcamp)
+"ao" = (
+/obj/structure/table/wood{
+	icon_state = "tablewood1"
+	},
+/obj/item/cooking/platter,
+/turf/open/floor/rogue/ruinedwood/spiral,
+/area/rogue/indoors/warcamp)
 "aq" = (
 /obj/structure/fluff/railing/border/east,
 /turf/open/floor/rogue/cobble/mossy,
@@ -99,6 +106,10 @@
 	},
 /turf/open/floor/rogue/wood/nosmooth,
 /area/rogue/indoors/warcamp)
+"bJ" = (
+/obj/effect/decal/cleanable/blood/old,
+/turf/open/floor/rogue/wood/nosmooth,
+/area/rogue/indoors/warcamp)
 "bL" = (
 /obj/structure/glowshroom{
 	icon_state = "glowshroom3"
@@ -113,6 +124,10 @@
 	icon_state = "rockwd"
 	},
 /area/rogue/outdoors/warcamp)
+"bR" = (
+/obj/item/kitchen/fork/iron,
+/turf/open/floor/rogue/wood/nosmooth,
+/area/rogue/indoors/warcamp)
 "cb" = (
 /obj/structure/stairs/d{
 	dir = 8
@@ -124,6 +139,16 @@
 /obj/structure/flora/roguegrass/water/reeds,
 /turf/open/water/pond,
 /area/rogue/outdoors/warcamp)
+"cC" = (
+/obj/effect/decal/cobbleedge{
+	dir = 10;
+	icon_state = "cobbleedge-w"
+	},
+/obj/structure/roguemachine/scomm{
+	scom_tag = "Inn - Lobby"
+	},
+/turf/open/floor/rogue/wood/nosmooth,
+/area/rogue/indoors/warcamp)
 "cD" = (
 /obj/structure/flora/roguegrass/bush,
 /turf/open/floor/rogue/grassred,
@@ -234,12 +259,17 @@
 	},
 /turf/open/floor/rogue/dirt/road,
 /area/rogue/indoors/warcamp)
+"fa" = (
+/obj/item/cooking/platter,
+/turf/open/floor/rogue/wood/nosmooth,
+/area/rogue/indoors/warcamp)
 "fj" = (
-/obj/machinery/light/rogue/candle/l,
-/obj/structure/table/wood{
-	icon_state = "tablewood1"
+/obj/effect/decal/cobbleedge{
+	dir = 10;
+	icon_state = "cobbleedge-e"
 	},
-/turf/open/floor/carpet/inn,
+/obj/structure/roguemachine/lottery_roguetown,
+/turf/open/floor/rogue/wood/nosmooth,
 /area/rogue/indoors/warcamp)
 "fk" = (
 /obj/machinery/light/rogue/candle/l,
@@ -472,9 +502,7 @@
 /turf/open/floor/rogue/dirt/road,
 /area/rogue/outdoors/warcamp)
 "jp" = (
-/obj/structure/mineral_door/wood/donjon{
-	dir = 4
-	},
+/obj/structure/mineral_door/wood,
 /turf/open/floor/rogue/ruinedwood/spiral,
 /area/rogue/indoors/warcamp)
 "jq" = (
@@ -879,6 +907,10 @@
 /obj/structure/fluff/railing/border,
 /turf/open/floor/rogue/blocks,
 /area/rogue/indoors/warcamp)
+"sh" = (
+/obj/effect/decal/cleanable/blood/old,
+/turf/open/floor/rogue/ruinedwood/spiral,
+/area/rogue/indoors/warcamp)
 "sq" = (
 /obj/effect/decal/cobbleedge{
 	dir = 8;
@@ -990,6 +1022,9 @@
 	},
 /turf/open/floor/rogue/ruinedwood/spiral,
 /area/rogue/indoors/warcamp)
+"uD" = (
+/turf/closed/wall/mineral/rogue/decostone/cand,
+/area/rogue/indoors/warcamp)
 "uI" = (
 /obj/structure/table/wood{
 	icon_state = "tablewood1"
@@ -1013,8 +1048,11 @@
 /turf/open/floor/rogue/blocks,
 /area/rogue/indoors/warcamp)
 "vd" = (
-/obj/item/chair/rogue/crafted,
-/turf/open/floor/carpet/inn,
+/obj/effect/decal/cobbleedge{
+	dir = 10;
+	icon_state = "cobbleedge-e"
+	},
+/turf/open/floor/rogue/wood/nosmooth,
 /area/rogue/indoors/warcamp)
 "vp" = (
 /obj/effect/decal/cobble/mossy{
@@ -1134,6 +1172,7 @@
 	pixel_y = 0
 	},
 /obj/structure/mineral_door/wood/fancywood,
+/obj/effect/solid_invisible_barrier/warband_spawnbarrier,
 /turf/open/floor/rogue/tile,
 /area/rogue/indoors/warcamp)
 "yM" = (
@@ -1225,6 +1264,10 @@
 	dir = 4
 	},
 /turf/open/floor/carpet/red,
+/area/rogue/indoors/warcamp)
+"BL" = (
+/obj/item/chair/stool/bar/rogue/crafted,
+/turf/open/floor/rogue/ruinedwood/spiral,
 /area/rogue/indoors/warcamp)
 "BO" = (
 /obj/structure/table/wood{
@@ -1329,6 +1372,11 @@
 /obj/structure/table/wood{
 	icon_state = "tablewood1"
 	},
+/obj/effect/decal/carpet/kover_darkred{
+	pixel_y = 5;
+	pixel_x = 15
+	},
+/obj/item/cooking/platter,
 /turf/open/floor/rogue/wood/nosmooth,
 /area/rogue/indoors/warcamp)
 "CM" = (
@@ -1959,6 +2007,14 @@
 	icon_state = "rockwd"
 	},
 /area/rogue/outdoors/warcamp)
+"PI" = (
+/obj/structure/fluff/walldeco/stone{
+	icon_state = "walldec6";
+	pixel_x = 1;
+	pixel_y = -10
+	},
+/turf/closed/wall/mineral/rogue/decostone/fluffstone,
+/area/rogue/indoors/warcamp)
 "PN" = (
 /obj/machinery/light/rogue/candle{
 	pixel_y = -32
@@ -2035,8 +2091,12 @@
 /turf/open/floor/rogue/cobble/mossy,
 /area/rogue/indoors/warcamp)
 "Ry" = (
-/turf/closed/wall/mineral/rogue/wooddark,
-/area/rogue/indoors)
+/obj/machinery/light/rogue/campfire/fireplace,
+/obj/effect/decal/carpet/kover_darkred{
+	pixel_y = -4
+	},
+/turf/open/floor/rogue/wood/nosmooth,
+/area/rogue/indoors/warcamp)
 "Rz" = (
 /obj/machinery/light/rogue/oven/west,
 /turf/open/floor/rogue/ruinedwood/spiral,
@@ -2326,6 +2386,13 @@
 	},
 /turf/open/floor/rogue/dirt/road,
 /area/rogue/outdoors/warcamp)
+"XG" = (
+/obj/structure/table/wood{
+	icon_state = "tablewood1"
+	},
+/obj/item/candle/yellow,
+/turf/open/floor/rogue/wood/nosmooth,
+/area/rogue/indoors/warcamp)
 "XI" = (
 /obj/effect/decal/cobble/mossy{
 	dir = 9
@@ -2360,6 +2427,13 @@
 "Yi" = (
 /obj/machinery/light/rogue/candle/r,
 /turf/open/floor/rogue/dirt/road,
+/area/rogue/indoors/warcamp)
+"Ym" = (
+/obj/effect/decal/cobbleedge{
+	dir = 10;
+	icon_state = "cobbleedge-w"
+	},
+/turf/open/floor/rogue/wood/nosmooth,
 /area/rogue/indoors/warcamp)
 "Yn" = (
 /obj/effect/decal/cleanable/blood/tracks{
@@ -3744,7 +3818,7 @@ oT
 oT
 oT
 nw
-CL
+XG
 dO
 dO
 Nz
@@ -3972,11 +4046,11 @@ mr
 eR
 eR
 Nz
-vd
-HW
+PI
+uD
+Ry
 dO
-dO
-dO
+bR
 dO
 GQ
 mr
@@ -4019,13 +4093,13 @@ mr
 eR
 eR
 Nz
-Uj
+cC
+Ym
+yk
 hb
 dO
-yk
-dO
-dO
-dO
+bJ
+fa
 LN
 Pb
 Pb
@@ -4067,8 +4141,8 @@ ON
 jo
 mr
 mr
-uQ
-uQ
+mr
+ao
 uQ
 mr
 dO
@@ -4076,7 +4150,7 @@ dO
 st
 Pb
 Pb
-Pb
+BL
 Wy
 gQ
 mr
@@ -4256,9 +4330,9 @@ ON
 Nz
 AF
 Pb
+sh
 Pb
-Pb
-uQ
+ao
 dO
 dO
 Nz
@@ -4399,7 +4473,7 @@ Pb
 Pb
 Nz
 mr
-Ry
+mr
 em
 em
 em
@@ -4442,7 +4516,7 @@ ON
 Nz
 Uu
 Pb
-Pb
+sh
 zy
 Nz
 mr

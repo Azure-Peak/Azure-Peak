@@ -24,7 +24,6 @@
 	)
 	rogue_enabled = TRUE
 
-
 /datum/antagonist/warlord_lieutenant/proc/aspirant_roll()
 	var/final_aspirant_chance = 50
 	if(owner.warband_manager)
@@ -111,17 +110,25 @@
 ///////////////////////////////////////////////
 /////////////////////////////////// REPLACE MOB
 /datum/antagonist/warlord_lieutenant/proc/replace_mob(mob/living/new_character)
-	var/mob/living/carbon/human/species/human/northern/replacement_mob = new /mob/living/carbon/human/species/human/northern(new_character.loc)
-	new_character.mind.transfer_to(replacement_mob, TRUE)
+	var/mob/living/replacement_mob = SSwarbands.get_lobby_mob()
+	replacement_mob.key = new_character.key
+	replacement_mob.sync_mind()
 	GLOB.chosen_names -= new_character.real_name
-	qdel(new_character)
+	replacement_mob.real_name = unique_number ? "Lieutenant #[unique_number]" : "Lieutenant"
+	GLOB.mob_living_list -= new_character
+	new_character.alpha = 0
+	new_character.moveToNullspace()
 	return replacement_mob
 
 /datum/antagonist/warlord_grunt/proc/replace_mob(mob/living/new_character)
-	var/mob/living/carbon/human/species/human/northern/replacement_mob = new /mob/living/carbon/human/species/human/northern(new_character.loc)
-	new_character.mind.transfer_to(replacement_mob, TRUE)
+	var/mob/living/replacement_mob = SSwarbands.get_lobby_mob()
+	replacement_mob.key = new_character.key
+	replacement_mob.sync_mind()
 	GLOB.chosen_names -= new_character.real_name
-	qdel(new_character)
+	replacement_mob.real_name = unique_number ? "Grunt #[unique_number]" : "Grunt"
+	GLOB.mob_living_list -= new_character
+	new_character.moveToNullspace()
+	new_character.alpha = 0
 	return replacement_mob
 
 ///////////////////////////////////////////////
@@ -130,16 +137,18 @@
 	var/stun_timer = 3 HOURS
 	bankwipe(owner.current)
 	mindwipe(owner)
-	owner.current.unequip_everything()
-
-	var/mob/living/newmob = replace_mob(owner.current)
-	newmob.invisibility = INVISIBILITY_MAXIMUM
-	newmob.set_blindness(stun_timer)
-	newmob.Stun(stun_timer)
-	newmob.mind = owner
-	owner.current = newmob
-	newmob.mind.warbandsetup = TRUE
-	
+	if(!owner.warband_latespawn)
+		owner.current.unequip_everything()
+		var/mob/living/newmob = replace_mob(owner.current)
+		newmob.invisibility = INVISIBILITY_MAXIMUM
+		newmob.set_blindness(stun_timer)
+		newmob.Stun(stun_timer)
+		newmob.mind = owner
+		owner.current = newmob
+	else
+		owner.current.set_blindness(stun_timer)
+		owner.current.Stun(stun_timer)
+	owner.current.mind.warbandsetup = TRUE
 	aspirant_roll()
 	addtimer(CALLBACK(src, PROC_REF(setup_warband_manager)), 1 SECONDS)
 	greet()
@@ -148,15 +157,18 @@
 	var/stun_timer = 3 HOURS
 	bankwipe(owner.current)
 	mindwipe(owner)
-	owner.current.unequip_everything()
-
-	var/mob/living/newmob = replace_mob(owner.current)
-	newmob.invisibility = INVISIBILITY_MAXIMUM
-	newmob.set_blindness(stun_timer)
-	newmob.Stun(stun_timer)
-	newmob.mind = owner
-	owner.current = newmob
-	newmob.mind.warbandsetup = TRUE
+	if(!owner.warband_latespawn)
+		owner.current.unequip_everything()
+		var/mob/living/newmob = replace_mob(owner.current)
+		newmob.invisibility = INVISIBILITY_MAXIMUM
+		newmob.set_blindness(stun_timer)
+		newmob.Stun(stun_timer)
+		newmob.mind = owner
+		owner.current = newmob
+	else
+		owner.current.set_blindness(stun_timer)
+		owner.current.Stun(stun_timer)
+	owner.current.mind.warbandsetup = TRUE
 	addtimer(CALLBACK(src, PROC_REF(setup_warband_manager)), 1 SECONDS)
 	greet()
 
@@ -181,6 +193,7 @@
 		if(listed_manager.warband_ID == owner.warband_ID)
 			owner.warband_manager = listed_manager
 			listed_manager.lobby_members += owner.current
+			listed_manager.spawned_lieutenants++
 			listed_manager.create_HUD_instance(owner.current)
 			return
 
@@ -209,16 +222,18 @@
 ///////////////
 ///////////////
 /datum/antagonist/warlord_lieutenant/greet()
+	ADD_TRAIT(owner.current, TRAIT_FORCED_LOOC, TRAIT_GENERIC)
 	SEND_SOUND(owner.current, sound(null))
 	if(src.aspirant)
 		owner.special_role = "Aspirant Lieutenant"	
-		to_chat(owner.current, span_userdanger("Again, my Warlord calls me forth. I mustn't forget: my service is simply a means to an end."))	
+		to_chat(owner.current, span_userdanger("I mustn't forget myself. My service is simply a means to an end."))	
 		var/atom/movable/screen/introtext/aspirant/intro_text = new /atom/movable/screen/introtext/aspirant
 		var/list/intro_sounds = list(
 			'sound/misc/warband/selection_introc.ogg'
 		)
 		var/chosen_song = pick(intro_sounds)
-
+		var/sound/S = sound(chosen_song, repeat = 0, wait = 0, channel = 0, volume = 90)
+		SEND_SOUND(owner.current, S)
 		owner.current.playsound_local(owner.current, chosen_song, 100, FALSE, pressure_affected = FALSE)
 		owner.current.client.screen += intro_text
 		animate(intro_text, alpha = 255, time = 50)
@@ -231,8 +246,8 @@
 		'sound/misc/warband/selection_introc.ogg'
 	)
 	var/chosen_song = pick(intro_sounds)
-
-	owner.current.playsound_local(owner.current, chosen_song, 100, FALSE, pressure_affected = FALSE)
+	var/sound/S = sound(chosen_song, repeat = 0, wait = 0, channel = 0, volume = 60)
+	SEND_SOUND(owner.current, S)
 	var/atom/movable/screen/introtext/lieutenant/intro_text = new /atom/movable/screen/introtext/lieutenant
 	owner.current.client.screen += intro_text
 	animate(intro_text, alpha = 255, time = 50)
@@ -240,6 +255,7 @@
 	..()
 
 /datum/antagonist/warlord_grunt/greet()
+	ADD_TRAIT(owner.current, TRAIT_FORCED_LOOC, TRAIT_GENERIC)
 	SEND_SOUND(owner.current, sound(null))
 	owner.special_role = name
 	to_chat(owner.current, span_userdanger("My Lieutenant calls upon my service."))
@@ -248,7 +264,8 @@
 		'sound/misc/warband/selection_introc.ogg'
 	)
 	var/chosen_song = pick(intro_sounds)
-	owner.current.playsound_local(owner.current, chosen_song, 100, FALSE, pressure_affected = FALSE)
+	var/sound/S = sound(chosen_song, repeat = 0, wait = 0, channel = 0, volume = 60)
+	SEND_SOUND(owner.current, S)
 	var/atom/movable/screen/introtext/veteran/intro_text = new /atom/movable/screen/introtext/veteran
 	owner.current.client.screen += intro_text
 	animate(intro_text, alpha = 255, time = 50)

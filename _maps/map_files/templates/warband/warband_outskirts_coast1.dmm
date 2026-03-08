@@ -12,9 +12,6 @@
 	},
 /turf/open/floor/rogue/wood,
 /area/rogue/indoors/warcamp/outskirts/coast)
-"d" = (
-/turf/open/water/ocean,
-/area/rogue/outdoors/warcamp/outskirts/coast)
 "f" = (
 /turf/closed/wall/mineral/rogue/wooddark,
 /area/rogue/indoors/warcamp/outskirts/coast)
@@ -56,7 +53,7 @@
 /turf/open/floor/rogue/AzureSand,
 /area/rogue/indoors/warcamp/outskirts/coast)
 "u" = (
-/turf/open/water/ocean/deep,
+/turf/open/water/fakeocean,
 /area/rogue/outdoors/warcamp/outskirts/coast)
 "v" = (
 /obj/machinery/light/rogue/firebowl/stump,
@@ -76,7 +73,7 @@
 /turf/open/floor/rogue/AzureSand{
 	color = "#d8d8d8"
 	},
-/area/rogue/outdoors/warcamp/outskirts/coast)
+/area/rogue/indoors/warcamp/outskirts/coast)
 "A" = (
 /obj/structure/flora/roguegrass,
 /turf/open/floor/rogue/AzureSand,
@@ -100,14 +97,9 @@
 	},
 /turf/open/floor/rogue/dirt,
 /area/rogue/indoors/warcamp/outskirts/coast)
-"I" = (
-/turf/open/water/ocean{
-	color = "#d8d8d8"
-	},
-/area/rogue/outdoors/warcamp/outskirts/coast)
 "K" = (
 /obj/effect/baseturf_helper,
-/turf/open/water/ocean/deep,
+/turf/open/water/fakeocean,
 /area/rogue/outdoors/warcamp/outskirts/coast)
 "M" = (
 /turf/closed/mineral/rogue/bedrock,
@@ -124,10 +116,10 @@
 /turf/open/floor/rogue/dirt/road,
 /area/rogue/indoors/warcamp/outskirts/coast)
 "R" = (
-/turf/open/water/ocean/deep{
+/turf/open/water/fakeocean{
 	color = "#d8d8d8"
 	},
-/area/rogue/outdoors/warcamp/outskirts/coast)
+/area/rogue/indoors/warcamp/outskirts/coast)
 "X" = (
 /obj/effect/baseturf_helper,
 /turf/closed/mineral/rogue/bedrock,
@@ -1089,11 +1081,11 @@ M
 M
 Y
 h
-d
-d
-d
-d
-d
+u
+u
+u
+u
+u
 g
 g
 g
@@ -1124,8 +1116,8 @@ g
 g
 g
 g
-d
-d
+u
+u
 "}
 (22,1,1) = {"
 M
@@ -1136,13 +1128,13 @@ M
 M
 Y
 w
-d
-d
-d
-d
-d
-d
-d
+u
+u
+u
+u
+u
+u
+u
 g
 g
 g
@@ -1169,10 +1161,10 @@ g
 g
 g
 g
-d
-d
-d
-d
+u
+u
+u
+u
 "}
 (23,1,1) = {"
 M
@@ -1183,17 +1175,17 @@ o
 Y
 Y
 w
-d
 u
 u
-d
-d
-d
-d
-d
-d
-d
-d
+u
+u
+u
+u
+u
+u
+u
+u
+u
 g
 g
 g
@@ -1211,13 +1203,13 @@ g
 g
 z
 z
-d
-d
-d
-d
-d
-d
-d
+u
+u
+u
+u
+u
+u
+u
 u
 u
 "}
@@ -1229,39 +1221,39 @@ o
 Y
 h
 w
-d
 u
 u
 u
 u
 u
-d
-d
-d
 u
 u
-d
-d
-d
+u
+u
+u
+u
+u
+u
+u
 w
 D
 B
 B
 Y
 h
-d
-d
-d
-d
-d
-d
-d
-I
-I
-d
-d
-d
-d
+u
+u
+u
+u
+u
+u
+u
+R
+R
+u
+u
+u
+u
 u
 u
 u
@@ -1274,8 +1266,6 @@ M
 o
 Y
 w
-d
-d
 u
 u
 u
@@ -1289,20 +1279,22 @@ u
 u
 u
 u
-d
+u
+u
+u
 w
 B
 M
 M
 B
 h
-d
 u
 u
-d
-d
-d
-d
+u
+u
+u
+u
+u
 R
 R
 u
@@ -1321,7 +1313,6 @@ M
 o
 j
 w
-d
 u
 u
 u
@@ -1335,7 +1326,8 @@ u
 u
 u
 u
-d
+u
+u
 w
 B
 M
@@ -1343,7 +1335,7 @@ M
 M
 B
 Q
-d
+u
 u
 u
 u
@@ -1367,7 +1359,6 @@ M
 o
 o
 j
-d
 u
 u
 u
@@ -1382,7 +1373,8 @@ u
 u
 u
 u
-d
+u
+u
 Q
 B
 M
@@ -1390,8 +1382,8 @@ M
 M
 B
 Q
-d
-d
+u
+u
 u
 u
 u
@@ -1415,7 +1407,6 @@ M
 o
 Y
 w
-d
 u
 u
 u
@@ -1429,7 +1420,8 @@ u
 u
 u
 u
-d
+u
+u
 Q
 B
 M
@@ -1437,8 +1429,8 @@ M
 M
 B
 Q
-d
-d
+u
+u
 u
 u
 u
@@ -1463,7 +1455,6 @@ M
 o
 Y
 w
-d
 u
 u
 u
@@ -1476,7 +1467,8 @@ u
 u
 u
 u
-d
+u
+u
 j
 B
 M
@@ -1484,8 +1476,8 @@ M
 B
 B
 Q
-d
-d
+u
+u
 u
 u
 u
@@ -1510,7 +1502,6 @@ M
 M
 o
 w
-d
 u
 u
 u
@@ -1522,8 +1513,9 @@ u
 u
 u
 u
-d
-d
+u
+u
+u
 j
 B
 M
@@ -1531,8 +1523,8 @@ M
 B
 P
 Q
-d
-d
+u
+u
 u
 u
 u

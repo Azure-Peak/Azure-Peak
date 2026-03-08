@@ -61,8 +61,9 @@
 /datum/advclass/warband/envoy
 	name = "Warlord's Envoy"
 	outfit = /datum/outfit/job/roguetown/warband/warband_envoy
-	traits_applied = list(TRAIT_LAWEXPERT)
+	traits_applied = list(TRAIT_LAWEXPERT, TRAIT_FORMATIONFIGHTER)
 	subclass_stats = list(
+		STATKEY_WIL = 4,
 		STATKEY_SPD = 3,
 		STATKEY_INT = 2,
 	)
@@ -72,7 +73,7 @@
 
 /datum/outfit/job/roguetown/warband/warband_envoy/pre_equip(mob/living/carbon/human/H, used_slot)
 	..()
-	to_chat(H, span_warning("As an Envoy, you may return to your Warlord by interacting with a Recruitment Point. In the event of an emergency, use the ABANDON ENVOY verb in your Warband tab. Failing that, re-enter your corpse."))
+	to_chat(H, span_warning("As an Envoy, you may return to your Warlord by interacting with a Rally Point. In the event of an emergency, use the ABANDON ENVOY verb in your Warband tab. Failing that, re-enter your corpse."))
 	to_chat(H, span_warning("If you embark for diplomacy, you should consider fetching a Treaty from the Campaign Planner."))
 	H.verbs += /mob/living/carbon/human/proc/abandon_envoy
 	H.verbs += /mob/living/carbon/human/proc/shortcut
@@ -90,7 +91,8 @@
 	)
 	if(!used_slot)
 		H.set_patron(/datum/patron/divine/undivided)
-	H.mind.warband_manager.linked_faction.member_names += H.real_name
+	if(H.mind.warband_manager.linked_faction)
+		H.mind.warband_manager.linked_faction.member_names += H.real_name
 	var/should_tweak = input(H, "Would you like to tweak your Envoy's name and gender?") in list("Yes", "No")
 	if(should_tweak == "Yes")
 		H.choose_pronouns_and_body()
@@ -296,10 +298,12 @@
 	name = "Order Grunts"
 	desc = "Commands vary based on your target. \n \
 	<span style='color:#e8bf67'>FOLLOW:</span> Target yourself. \n \
-	<span style='color:#e8bf67'>CHARGE:</span> Target the world. \n \
-	<span style='color:#e8bf67'>NEUTRAL:</span> Target the Combat Mode button. A grunt's neutrality is easily disrupted. \n \
-	<span style='color:#e8bf67'>FIGHT HARDER:</span> Target the STRONG INTENT button. \n \
-	<span style='color:#e8bf67'>SURVIVE:</span> Target the DEFEND INTENT button."
+	<span style='color:#e8bf67'>CHARGE:</span> Target a tile. \n \
+	<span style='color:#e8bf67'>NEUTRAL:</span> Target the COMBAT MODE button. A grunt's neutrality is easily disrupted. \n \
+	<span style='color:#e8bf67'>FIGHT HARDER:</span> Target the STRONG INTENT button. (Cooldown) \n \
+	<span style='color:#e8bf67'>SURVIVE:</span> Target the DEFEND INTENT button. (Cooldown) \n \
+	<span style='color:#e8bf67'>EMERGENCY SUMMON:</span> Target the travel tiles leading to your warband's outskirts. \n \
+	<span style='color:#e8bf67'>SHATTER MORALE:</span> Target the SPECIAL INTENT button. (Warlord Only | Large Cooldown)"
 	range = 12
 	associated_skill = /datum/skill/misc/athletics
 	chargedrain = 1
@@ -317,6 +321,24 @@
 /obj/effect/proc_holder/spell/invoked/grunt_order/cast(list/targets, mob/user)
 	var/mob/caster = user
 	var/target = targets[1]
+
+	// target is an intermission travel tile
+	// spawn a squad as if it were a Rally Point
+	if(istype(target, /obj/structure/fluff/traveltile/warband/azure_to_intermission) || \
+		istype(target, /obj/structure/fluff/traveltile/warband/intermission_to_azure) || \
+		istype(target, /obj/structure/fluff/traveltile/warband/outskirts_to_intermission))
+		var/obj/structure/fluff/traveltile/warband/tile = target
+		tile.summon_grunt_squad_at_tile(caster)
+		return TRUE
+
+	// ^ if the caster shares the tile's warband ID, the same can be done for the camp-facing outskirts tile, 
+	if(istype(target, /obj/structure/fluff/traveltile/warband/outskirts_to_camp))
+		var/obj/structure/fluff/traveltile/warband/outskirts_to_camp/camp_tile = target
+		if(caster.mind.warband_ID == camp_tile.warband_ID)
+			camp_tile.summon_grunt_squad_at_tile(caster)
+			return TRUE
+		else
+			return FALSE
 
 	// target is the caster
 	// grunts follow them
@@ -354,6 +376,83 @@
 		start_recharge()
 		return TRUE
 
+	// those outside the warband w/o the steelhearted trait get extremely stressed out
+	// aura farm (temporarily override combat music for all players within 21 tiles)
+	if(istype(target, /atom/movable/screen/quad_intents))
+		if(!can_cast(caster) || !cast_check(FALSE, caster))
+			return FALSE
+		if(caster.mind.order_exhaustion)
+			to_chat(caster, span_warning("I've given a special order recently. I'll need to wait."))
+			return FALSE
+		if(ishuman(caster))
+			var/mob/living/carbon/human/H = caster
+			if(H.mind && H.mind.special_role == "Warlord")
+				var/list/horn_sounds = list(
+					'sound/misc/warband/warband_warhorn1.ogg',
+					'sound/misc/warband/warband_warhorn2.ogg'
+				)
+				var/chosen_sound = pick(horn_sounds)
+				var/sound/S = sound(chosen_sound, repeat = 0, wait = 0, channel = 0, volume = 100) // for those further away / in the upcoming For loop
+				playsound(H, chosen_sound, 100, TRUE, 19, pressure_affected = FALSE, ignore_walls = TRUE)
+				H.visible_message(span_danger("[H] sounds their warhorn!"))
+				var/turf/origin_turf = get_turf(H)
+				for(var/mob/living/player in GLOB.player_list)
+					if(player.stat == DEAD)
+						continue
+					if(isbrain(player))
+						continue
+					if(player == H)
+						continue
+
+					var/distance = get_dist(player, origin_turf)
+					if(distance > 40)
+						continue
+
+					if(distance > 7)
+						var/dirtext = " to the "
+						var/direction = get_dir(player, origin_turf)
+						switch(direction)
+							if(NORTH)
+								dirtext += "north"
+							if(SOUTH)
+								dirtext += "south"
+							if(EAST)
+								dirtext += "east"
+							if(WEST)
+								dirtext += "west"
+							if(NORTHWEST)
+								dirtext += "northwest"
+							if(NORTHEAST)
+								dirtext += "northeast"
+							if(SOUTHWEST)
+								dirtext += "southwest"
+							if(SOUTHEAST)
+								dirtext += "southeast"
+							else
+								dirtext = ", although I cannot make out an exact direction"
+						
+						SEND_SOUND(player, S)
+						to_chat(player, span_warning("I hear a warhorn somewhere [dirtext]."))
+				
+					// music override
+					if(ishuman(player))
+						var/mob/living/carbon/human/P = player
+						if(P.cmode_music_override != H.mind.warband_manager.combatmusic)
+							if(!P.cmode_music_override || P.cmode_music_override.len <= 0)
+								P.originalcmode = P.cmode_music
+							else if(!P.originalcmode) // if something's already overriding the music, we'll leave it alone
+								P.originalcmode = P.cmode_music_override
+							P.cmode_music_override = H.mind.warband_manager.combatmusic
+							addtimer(CALLBACK(P, TYPE_PROC_REF(/mob/living/carbon/human, restore_original_cmode_music)), 5 MINUTES)
+						if(!HAS_TRAIT(P, TRAIT_STEELHEARTED) && P.mind.warband_ID != H.mind.warband_ID && !(P in H.mind.warband_manager.allies))
+							P.add_stress(/datum/stressevent/warband_warhorn) // allies & the steelhearted are exempt from the stress hit
+
+				caster.mind.order_exhaustion = TRUE
+				addtimer(CALLBACK(caster, TYPE_PROC_REF(/mob/living/carbon/human, end_order_exhaustion)), 25 MINUTES)
+				start_recharge()
+				return TRUE
+		return FALSE
+
 	else
 		return ..()
 
@@ -363,65 +462,75 @@
 	var/msg = ""
 	var/cooldown = FALSE
 
+	if((order_type == "fight" || order_type == "survive") && caster.mind.order_exhaustion)
+		to_chat(caster, span_warning("I've given a special order recently. I'll need to wait."))
+		return
+
+	var/datum/component/squad_controller/manager = caster.GetComponent(/datum/component/squad_controller)
+	if(!manager && order_type == "follow")
+		manager = caster.AddComponent(/datum/component/squad_controller, caster)
 
 	for(var/mob/other_mob in caster.friends)
 		if(!other_mob)
 			caster.friends -= other_mob
 			continue
-		if(get_dist(caster, other_mob) >= 15) 	// skip them if they're far away
+		if(get_dist(caster, other_mob) >= 15)
 			continue
-		if(istype(other_mob, /mob/living/carbon/human/species/human/northern/grunt) && !other_mob.client)
-			var/mob/living/carbon/human/species/human/northern/grunt/grunt = other_mob
-			if(grunt.mode == NPC_AI_FLEE)		// skip them if they're fleeing
+		if(istype(other_mob, /mob/living/carbon/human/species/human/northern/goon) && !other_mob.client)
+			var/mob/living/carbon/human/species/human/northern/goon/grunt = other_mob
+			if(grunt.mode == NPC_AI_FLEE)
 				continue
-			if(grunt.stat == UNCONSCIOUS)		// skip them if they got folded
+			if(grunt.stat == UNCONSCIOUS)
+				continue
+			if(grunt.stat == DEAD)
 				continue
 
 			count += 1
 			switch(order_type)
 				if("charge")
-					grunt.mode = NPC_AI_FOLLOW
-					grunt.start_pathing_to(target_location)
+					if(manager)
+						manager.disband_squad()
+					grunt.mode = NPC_AI_HUNT
+					grunt.start_pathing_to(target_location, force = TRUE)
 					msg = "<span style='color:#ec3333'>charge.</span>"
-					grunt.target = null // we want to ignore combat targets initially, focus on trying to move
-					grunt.aggressive = TRUE // make sure they're ready to frag, in case they were on Neutral
+					grunt.target = null
+					grunt.aggressive = TRUE
 					grunt.wander = TRUE
+					
 				if("follow")
+					if(manager)
+						manager.add_member(grunt)
+					
 					grunt.mode = NPC_AI_FOLLOW
 					grunt.target = target
-					grunt.start_pathing_to(target)
+					grunt.aggressive = FALSE
+					grunt.wander = FALSE
 					msg = "<span style='color:#57536e'>follow me.</span>"
-					grunt.aggressive = TRUE // make sure they're ready to frag, in case they were on Neutral
-					grunt.wander = TRUE
+					
 				if("neutral")
+					if(manager)
+						manager.disband_squad()
 					grunt.mode = NPC_AI_IDLE
 					grunt.target = null
 					grunt.aggressive = FALSE
 					msg = "<span style='color:#747474'>stand at ease.</span>"
 					grunt.wander = TRUE
 
-				// temp orders / buff orders
 				if("fight")
-					if(caster.mind.order_exhaustion)
-						to_chat(caster, span_warning("I've given a special order recently. I'll need to wait."))
-						return
 					cooldown = TRUE
-					grunt.STASTR = 20
-					addtimer(CALLBACK(grunt, TYPE_PROC_REF(/mob/living/carbon/human/species/human/northern/grunt, end_special_order)), 7 SECONDS)
+					grunt.apply_status_effect(/datum/status_effect/buff/warband_attack)
 					msg = "<span style='color:#ff0000'>give 'em hell.</span>"
+					
 				if("survive")
-					if(caster.mind.order_exhaustion)
-						to_chat(caster, span_warning("I've given a special order recently. I'll need to wait."))
-						return
 					cooldown = TRUE
-					grunt.STACON = 20
-					grunt.STAWIL = 20
-					grunt.flee_in_pain = FALSE
-					addtimer(CALLBACK(grunt, TYPE_PROC_REF(/mob/living/carbon/human/species/human/northern/grunt, end_special_order)), 15 SECONDS)
+					grunt.apply_status_effect(/datum/status_effect/buff/warband_defend)
 					msg = "<span style='color:#ea76d9'>hold fast.</span>"
 
+	// if(order_type == "follow" && manager && count > 0)
+	// 	manager.start_follow_formation()
+
 	if(count>0)
-		to_chat(caster, "I've ordered [count] grunts to " + msg)		
+		to_chat(caster, "I've ordered [count] grunts to " + msg)
 		if(cooldown)
 			caster.mind.order_exhaustion = TRUE
 			addtimer(CALLBACK(caster, TYPE_PROC_REF(/mob/living/carbon/human, end_order_exhaustion)), 16 MINUTES)

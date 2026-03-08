@@ -168,102 +168,9 @@
 		/datum/skill/craft/cooking = SKILL_LEVEL_NOVICE,
 	)
 
-/datum/outfit/job/roguetown/warband/wizard/grunt/warlock/proc/warlock_spellset(mob/living/carbon/human/H, patron_type)
-	var/patron_effects = list(
-		/datum/patron/divine/astrata = list(
-			"spells" = list(
-				/obj/effect/proc_holder/spell/invoked/projectile/fireball,
-				/obj/effect/proc_holder/spell/invoked/projectile/fireball,
-				/obj/effect/proc_holder/spell/invoked/projectile/fireball,
-				/obj/effect/proc_holder/spell/invoked/projectile/spitfire
-			),
-			"curse" = /datum/curse/astrata
-		),
-		/datum/patron/divine/abyssor = list(
-			"spells" = list(
-				/obj/effect/proc_holder/spell/invoked/snap_freeze,
-				/obj/effect/proc_holder/spell/invoked/projectile/frostbolt,
-				/obj/effect/proc_holder/spell/invoked/projectile/frostbolt
-			),
-			"curse" = /datum/curse/abyssor
-		),
-		/datum/patron/divine/noc = list(
-			"curse" = /datum/curse/noc,
-			"traits" = list(TRAIT_ANTIMAGIC)
-		),
-		/datum/patron/divine/ravox = list(
-			"spells" = list(
-				/obj/effect/proc_holder/spell/invoked/giants_strength,
-				/obj/effect/proc_holder/spell/invoked/blade_burst,
-				/obj/effect/proc_holder/spell/invoked/blade_burst
-			),
-			"curse" = /datum/curse/ravox
-		),
-		/datum/patron/divine/necra = list(
-			"spells" = list(
-				/obj/effect/proc_holder/spell/invoked/wither,
-				/obj/effect/proc_holder/spell/invoked/wither
-			),
-			"curse" = /datum/curse/necra
-		),
-		/datum/patron/divine/xylix = list(
-			"spells" = list(
-				/obj/effect/proc_holder/spell/invoked/haste,
-				/obj/effect/proc_holder/spell/invoked/invisibility
-			),
-			"curse" = /datum/curse/xylix,
-			"traits" = list(TRAIT_ZJUMP)
-		),
-		/datum/patron/divine/pestra = list(
-			"spells" = list(
-				/obj/effect/proc_holder/spell/invoked/aerosolize,
-				/obj/effect/proc_holder/spell/invoked/projectile/acidsplash,
-				/obj/effect/proc_holder/spell/invoked/projectile/acidsplash
-			),
-			"curse" = /datum/curse/pestra
-		),
-		/datum/patron/divine/malum = list(
-			"spells" = list(
-				/obj/effect/proc_holder/spell/invoked/fortitude,
-				/obj/effect/proc_holder/spell/invoked/stoneskin,
-				/obj/effect/proc_holder/spell/invoked/gravity,
-				/obj/effect/proc_holder/spell/self/magicians_brick,
-				/obj/effect/proc_holder/spell/self/magicians_brick,
-				/obj/effect/proc_holder/spell/self/magicians_brick
-			),
-			"curse" = /datum/curse/malum
-		),
-		/datum/patron/divine/eora = list(
-			"spells" = list(
-				/obj/effect/proc_holder/spell/invoked/ensnare,
-				/obj/effect/proc_holder/spell/invoked/ensnare,
-				/obj/effect/proc_holder/spell/invoked/mindlink
-			),
-			"curse" = /datum/curse/eora
-		),
-		/datum/patron/inhumen/zizo = list(
-			"curse" = /datum/curse/zizo,
-			"traits" = list(TRAIT_ANTIMAGIC)
-		)
-	)
-	if(!patron_effects[patron_type]) 
-		return FALSE
-	var/patron_data = patron_effects[patron_type]
-	
-	if(patron_data["spells"])
-		for(var/spell_type in patron_data["spells"])
-			H.mind.AddSpell(new spell_type)
-	
-	if(patron_data["curse"])
-		H.add_curse(patron_data["curse"])
-	
-	if(patron_data["traits"])
-		for(var/trait in patron_data["traits"])
-			ADD_TRAIT(H, trait, TRAIT_GENERIC)
-
-
 /datum/outfit/job/roguetown/warband/wizard/grunt/warlock/pre_equip(mob/living/carbon/human/H)
 	..()
+	H.mind.enlightened = TRUE // not here for any real reason outside of staying consistent with the 'warlocks' / temp casters created by a Sect warlord
 	if(should_wear_femme_clothes(H))
 		shirt = /obj/item/clothing/suit/roguetown/armor/corset
 		armor = /obj/item/clothing/suit/roguetown/shirt/tunic/silktunic/thrall
@@ -291,9 +198,9 @@
 		H.mind.AddSpell(new /obj/effect/proc_holder/spell/targeted/touch/prestidigitation)
 		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/projectile/arcynebolt)
 		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/enchant_weapon)
-		// baotha, matthios & graggar are excluded because they don't have spell sets atm
-		// psydon & undivided are excluded because, Y'Know
-		if(H.patron.type == /datum/patron/divine/undivided || H.patron.type == /datum/patron/old_god || H.patron.type == /datum/patron/inhumen/matthios || H.patron.type == /datum/patron/inhumen/graggar || H.patron.type == /datum/patron/inhumen/baotha)
+		if(H.patron.type == /datum/patron/divine/undivided || H.patron.type == /datum/patron/old_god || \
+		   H.patron.type == /datum/patron/inhumen/matthios || H.patron.type == /datum/patron/inhumen/graggar || \
+		   H.patron.type == /datum/patron/inhumen/baotha)	// if their current patron lacks a spellset, they choose one from the list
 			var/curseclass = list("Astrata","Abyssor","Ravox","Necra","Xylix","Pestra","Malum","Eora","Noc","Zizo")
 			var/curseclass_choice = input("I was cursed by...", "WOE") as anything in curseclass
 			var/patron_path = list(
@@ -311,9 +218,56 @@
 			var/selected_patron_type = patron_path[curseclass_choice]
 			if(selected_patron_type)
 				H.set_patron(selected_patron_type)
-				warlock_spellset(H, selected_patron_type) 
-		else
-			warlock_spellset(H, H.patron.type)
+		
+		if(H.patron.type == /datum/patron/divine/astrata)
+			H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/projectile/fireball)
+			H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/projectile/fireball)
+			H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/projectile/fireball)
+			H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/projectile/spitfire)
+		
+		else if(H.patron.type == /datum/patron/divine/abyssor)
+			H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/snap_freeze)
+			H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/projectile/frostbolt)
+			H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/projectile/frostbolt)
+		
+		else if(H.patron.type == /datum/patron/divine/noc)
+			ADD_TRAIT(H, TRAIT_ANTIMAGIC, TRAIT_GENERIC)
+		
+		else if(H.patron.type == /datum/patron/divine/ravox)
+			H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/giants_strength)
+			H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/blade_burst)
+			H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/blade_burst)
+		
+		else if(H.patron.type == /datum/patron/divine/necra)
+			H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/wither)
+			H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/wither)
+		
+		else if(H.patron.type == /datum/patron/divine/xylix)
+			H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/haste)
+			H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/invisibility)
+			ADD_TRAIT(H, TRAIT_ZJUMP, TRAIT_GENERIC)
+		
+		else if(H.patron.type == /datum/patron/divine/pestra)
+			H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/aerosolize)
+			H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/projectile/acidsplash)
+			H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/projectile/acidsplash)
+		
+		else if(H.patron.type == /datum/patron/divine/malum)
+			H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/fortitude)
+			H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/stoneskin)
+			H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/gravity)
+			H.mind.AddSpell(new /obj/effect/proc_holder/spell/self/magicians_brick)
+			H.mind.AddSpell(new /obj/effect/proc_holder/spell/self/magicians_brick)
+			H.mind.AddSpell(new /obj/effect/proc_holder/spell/self/magicians_brick)
+		
+		else if(H.patron.type == /datum/patron/divine/eora)
+			H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/ensnare)
+			H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/ensnare)
+			H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/mindlink)
+		
+		else if(H.patron.type == /datum/patron/inhumen/zizo)
+			ADD_TRAIT(H, TRAIT_ANTIMAGIC, TRAIT_GENERIC)
+		
 		var/datum/devotion/C = new /datum/devotion(H, H.patron)
 		C.grant_miracles(H, cleric_tier = CLERIC_T4, devotion_limit = CLERIC_REQ_4, start_maxed = TRUE)
-		H.verbs -= /mob/living/carbon/human/proc/clericpray	// shouldn't be capable of regeneration
+		H.verbs -= /mob/living/carbon/human/proc/clericpray // cannot regain devotion

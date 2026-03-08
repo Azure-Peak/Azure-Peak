@@ -10,6 +10,8 @@
 
   // available classes are determined by all of the above + the user's role
 
+  // btw 'subclasses' aren't actually real. anything filtered into the subclass section is explicitly snowflake code for the mercenary warbands
+
 import { useMemo } from 'react';
 
 import { AspectType, ClassType, StorytellerType, SubType, WarbandType } from './WarbandTypes';
@@ -78,9 +80,19 @@ export const useWarbandFilters = (
     const subtypeLieuClasses = selectedSubtype?.lieuclasses || [];
     const subtypeGruntClasses = selectedSubtype?.gruntclasses || [];
 
-    const combinedWarlordClasses = new Set([...warbandWarlordClasses, ...subtypeWarlordClasses]);
-    const combinedLieuClasses = new Set([...warbandLieuClasses, ...subtypeLieuClasses]);
-    const combinedGruntClasses = new Set([...warbandGruntClasses, ...subtypeGruntClasses]);
+    const isMercenaryCompany = selectedWarband.title === 'MERCENARY COMPANY';
+    
+    const combinedWarlordClasses = isMercenaryCompany 
+      ? new Set([...warbandWarlordClasses]) 
+      : new Set([...warbandWarlordClasses, ...subtypeWarlordClasses]);
+    
+    const combinedLieuClasses = isMercenaryCompany 
+      ? new Set([...warbandLieuClasses]) 
+      : new Set([...warbandLieuClasses, ...subtypeLieuClasses]);
+    
+    const combinedGruntClasses = isMercenaryCompany 
+      ? new Set([...warbandGruntClasses]) 
+      : new Set([...warbandGruntClasses, ...subtypeGruntClasses]);
 
     const warlordClasses = filteredRarity.filter(classe => combinedWarlordClasses.has(classe.type));
     const lieuClasses = filteredRarity.filter(classe => combinedLieuClasses.has(classe.type));
@@ -96,7 +108,7 @@ export const useWarbandFilters = (
     if (user_role === 'Lieutenant' || user_role === 'Aspirant Lieutenant') return filteredClasses.lieutenant;
     if (user_role === 'Grunt') {
       if (selectedWarband?.title === 'MERCENARY COMPANY') {
-        return filteredClasses.grunt.filter(classe => classe.alt_name === 'Mercenary'); // edge case for mercenaries
+        return filteredClasses.grunt.filter(classe => classe.alt_name === 'Mercenary');
       } else {
         return filteredClasses.grunt; 
       }
@@ -104,11 +116,69 @@ export const useWarbandFilters = (
     return [];
   }, [user_role, filteredClasses, selectedWarband]);
 
+  const filteredSubclasses = useMemo(() => {
+    if (selectedWarband?.title !== 'MERCENARY COMPANY' || !selectedSubtype) {
+      return [];
+    }
+    
+    // filter out the base classes
+    const baseWarlordClass = '/datum/advclass/warband/mercenary/warlord/captain';
+    const baseLieuClasses = [
+      '/datum/advclass/warband/mercenary/lieutenant/vanguard',
+      '/datum/advclass/warband/mercenary/lieutenant/tactician',
+      '/datum/advclass/warband/mercenary/lieutenant/skirmisher',
+    ];
+    const baseGruntClass = '/datum/advclass/warband/mercenary/grunt/merc';
+    
+
+    const filteredRarity = classList.filter(classe => rarityFilter(classe, storytellersList));
+    
+    if (user_role === 'Warlord') {
+      const warlordSubclasses = filteredRarity.filter(classe => 
+        selectedSubtype.warlordclasses?.includes(classe.type) && 
+        classe.type !== baseWarlordClass
+      );
+      
+      if (warlordSubclasses.length === 0) {
+        return filteredRarity.filter(classe => 
+          selectedSubtype.gruntclasses?.includes(classe.type) &&
+          classe.type !== baseGruntClass
+        );
+      }
+      return warlordSubclasses;
+    }
+    
+    if (user_role === 'Lieutenant' || user_role === 'Aspirant Lieutenant') {
+      const lieutenantSubclasses = filteredRarity.filter(classe => 
+        selectedSubtype.lieuclasses?.includes(classe.type) &&
+        !baseLieuClasses.includes(classe.type)
+      );
+      
+      if (lieutenantSubclasses.length === 0) {
+        return filteredRarity.filter(classe => 
+          selectedSubtype.gruntclasses?.includes(classe.type) &&
+          classe.type !== baseGruntClass
+        );
+      }
+      return lieutenantSubclasses;
+    }
+    
+    if (user_role === 'Grunt') {
+      return filteredRarity.filter(classe => 
+        selectedSubtype.gruntclasses?.includes(classe.type) &&
+        classe.type !== baseGruntClass
+      );
+    }
+    
+    return [];
+  }, [selectedWarband, selectedSubtype, user_role, classList, storytellersList]);
+
   return {
     filteredWarbands,
     filteredSubtypes,
     filteredAspects,
     availableClasses,
     filteredGruntClasses: filteredClasses.grunt,
+    filteredSubclasses,
   };
 };

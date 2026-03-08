@@ -39,6 +39,7 @@
 	switch(style_choice)
 		if("POISON TOOTH")
 			ADD_TRAIT(src, TRAIT_NOSSDINDICATOR, TRAIT_GENERIC)
+			ADD_TRAIT(src, TRAIT_DNR, TRAIT_GENERIC)
 			src.visible_message(span_boldred("[src] suddenly seizes up, blood-laced foam bubbling from the corners of their mouth!"))
 			src.mind.warband_manager.return_envoy(src, abandoned = TRUE)
 			src.adjustOxyLoss(200)
@@ -72,6 +73,7 @@
 
 
 /mob/living/carbon/human/proc/abandon_followup(event)
+	ADD_TRAIT(src, TRAIT_DNR, TRAIT_GENERIC)
 	if(event == 1)
 		var/deathloc = src.loc
 		var/mob/living/carbon/human/species/skeleton/npc/no_equipment/skeleton = new /mob/living/carbon/human/species/skeleton/npc/no_equipment(deathloc)
@@ -136,7 +138,7 @@
 						if(isliving(warband_member))
 							if(istype(warband_member.loc.loc, /area/rogue/outdoors))
 								if(src.mind.special_role == "Warlord")
-									to_chat(warband_member, span_highlight("A carrier zad flutters down and perches nearby. It recites a missive clutched in its talons with absolute, cold authority: <span style='color:#[src.voice_color]'>''[sanitized_text]''</span>"))								
+									to_chat(warband_member, span_highlight("A carrier zad flutters down and perches nearby. In mimicry of our Warlord, it recites a missive clutched in its talons: <span style='color:#[src.voice_color]'>''[sanitized_text]''</span>"))								
 								else
 									to_chat(warband_member, span_red("A zad-bound message arrives with the seal of the [src.job]: <span style='color:#[src.voice_color]'>''[sanitized_text]''</span> - [src.real_name]"))
 							else
@@ -252,7 +254,6 @@
 	var/atom/movable/screen/warband/manager/new_warband_manager
 	new_warband_manager = new /atom/movable/screen/warband/manager
 	new_warband_manager.schism_level = src.mind.warband_manager.schism_level + 1
-
 	src.mind.special_role = "Warlord"
 	SSmapping.retainer.warlords |= src.mind	
 	src.mind.warband_ID = SSwarbands.warband_managers.len + 1
@@ -263,8 +264,15 @@
 	src.faction.Remove(old_faction_string)
 	src.faction |= list("warband_[src.mind.warband_ID]")
 
+	var/datum/territory_faction/personal_faction
+	for(var/datum/territory_faction/faction in src.mind.associated_factions)
+		if(faction.owner == src.real_name)
+			personal_faction = faction
+			break
+	if(personal_faction)
+		new_warband_manager.linked_faction = personal_faction
 
-	for(var/mob/living/carbon/human/species/human/northern/grunt/goon in src.friends)
+	for(var/mob/living/carbon/human/species/human/northern/goon/goon in src.friends)
 		goon.faction.Remove(old_faction_string)
 		goon.faction |= list("warband_[src.mind.warband_ID]")
 		goon.warband_ID = src.mind.warband_ID
@@ -281,6 +289,7 @@
 			else if(src.patron.name == "Psydon")
 				new_warband_manager.selected_subtype = new WARBAND_SECT_PSYDON
 			new_warband_manager.faithlocks = list(src.patron)
+			src.verbs += /mob/living/carbon/human/proc/enlighten
 
 		if("Magician") // a magician in schism (potentially) creates a sorcerer-king 
 			if(src.mind.warband_manager.disorder >= 5)
@@ -328,6 +337,11 @@
 	new_warband_manager.creation_stage = 2
 	new_warband_manager.warlord_spawned = TRUE
 	new_warband_manager.stop_creation_timer()
+	if(new_warband_manager.has_compatible_cache(src.mind.warband_manager))
+		new_warband_manager.share_cache_with(src.mind.warband_manager)
+		message_admins("Schism warband [new_warband_manager.warband_ID] will share cache with parent [src.mind.warband_manager.warband_ID]")
+	else
+		message_admins("Schism warband [new_warband_manager.warband_ID] requires separate cache (incompatible grunt types)")
 	src.verbs -= /mob/living/carbon/human/proc/desert
 	src.verbs += /mob/living/carbon/human/proc/connect_warcamp
 	src.mind.warband_manager = new_warband_manager
@@ -364,7 +378,7 @@
 			break
 
 	if(!can_shortcut)
-		to_chat(src, span_bold("Should I find a Travel Tile of any kind, I can TAKE A SHORTCUT back to my Warcamp."))
+		to_chat(src, span_bold("Should I find a Travel Tile of any kind, I can take a shortcut back to my Warcamp."))
 		return
 
 	if(do_after(src, 100, FALSE, src))
@@ -401,6 +415,11 @@
 
 	if(SSwarbands.warband_managers_busy == TRUE) // we don't want multiple maps getting spawned at the same time
 		to_chat(src, span_userdanger("I'll need to wait for a moment."))
+		return
+
+	if(src.mind.warband_manager.outskirts_established == TRUE)
+		to_chat(src, span_userdanger("A path has already been scouted."))
+		return
 
 	var/area/zone = src.loc.loc
 
@@ -425,14 +444,13 @@
 			break
 
 	if(!is_allowed)
-		to_chat(src, span_danger("This isn't a suitable location."))        
+		to_chat(src, span_danger("This isn't a suitable location. I should go far away from here."))        
 		return
 
 	var/has_mineral_turf = locate(/turf/closed/mineral) in range(1, src)
 	if(!has_mineral_turf)
 		to_chat(src, span_green("This is a good location. I should get my bearings beside a ROCK WALL before I plot a route back to camp."))		
 		return
-
 
 	if(is_allowed && !istype(zone, blacklisted_area_types))
 		if(SSwarbands.warband_managers_busy == TRUE)	// we don't want multiple maps getting spawned at the same time
@@ -458,7 +476,9 @@
 				if(src.mind.special_role == "Warlord") // if they're a warlord, assume they're a deserter and let them place a Recruitment Point
 					to_chat(src, span_userdanger("I can, however, declare a Recruitment Point to rally my troops..."))
 					if(do_after(src, 90, target = src))
-						new /obj/structure/fluff/warband/warband_recruit(src.loc)
+						var/obj/structure/fluff/warband/warband_recruit/outpost = new /obj/structure/fluff/warband/warband_recruit(src.loc)
+						outpost.warband_ID = src.mind.warband_ID
+						outpost.linked_warband = src.mind.warband_manager						
 						src.mind.warband_manager.warcamp_established = TRUE
 						src.verbs -= /mob/living/carbon/human/proc/connect_warcamp
 				return
@@ -467,26 +487,28 @@
 		src.visible_message(span_notice("[src] begins scouting for a new path..."))
 		var/turf/initial_turf = src.loc
 		if(do_after(src, 30, target = src))
-			var/chosen_outskirts_map
-			var/chosen_intermission_map
-
+			var/terrain_key
+			
 			if(istype(zone, /area/rogue/under/cave) || istype(zone, /area/rogue/under/underdark) || istype(zone, /area/rogue/under/cavewet) || istype(zone, /area/rogue/indoors/cave) || istype(zone, /area/rogue/outdoors/caves))
-				chosen_outskirts_map = pick(list(/datum/map_template/outskirts/cave_a))
-				chosen_intermission_map = pick(list(/datum/map_template/intermission/cave_a))
+				terrain_key = "cave"
 			else if(istype(zone, /area/rogue/outdoors/mountains) || istype(zone, /area/rogue/outdoors/mountains/decap))
-				chosen_outskirts_map = pick(list(/datum/map_template/outskirts/mountains_a))
-				chosen_intermission_map = pick(list(/datum/map_template/intermission/mountains_a))
+				terrain_key = "mountains"
 			else if(istype(zone, /area/rogue/outdoors/beach))
-				chosen_outskirts_map = pick(list(/datum/map_template/outskirts/coast_a))
-				chosen_intermission_map = pick(list(/datum/map_template/intermission/coast_a))
+				terrain_key = "coast"
 			else if(istype(zone, /area/rogue/outdoors/woods))
-				chosen_outskirts_map = pick(list(/datum/map_template/outskirts/river_a))
-				chosen_intermission_map = pick(list(/datum/map_template/intermission/woods_a))
+				terrain_key = "woods"
 			else if(istype(zone, /area/rogue/outdoors/bog))
-				chosen_outskirts_map = pick(list(/datum/map_template/outskirts/bog_a))
-				chosen_intermission_map = pick(list(/datum/map_template/intermission/bog_a))
+				terrain_key = "bog"
 
-			if(!chosen_outskirts_map || !chosen_intermission_map) // this shouldn't happen | if you've added a new area, make sure it's in the allowed_area_types at the start of this proc, AND the type selection above this line
+			if(!terrain_key)
+				to_chat(src, span_userdanger("Something's wrong. I should attempt this somewhere else."))
+				SSwarbands.warband_managers_busy = FALSE
+				return
+
+			var/datum/map_template/chosen_outskirts_map = SSwarbands.get_cached_template(TEMPLATE_OUTSKIRTS, terrain_key)
+			var/datum/map_template/chosen_intermission_map = SSwarbands.get_cached_template(TEMPLATE_INTERMISSION, terrain_key)
+
+			if(!chosen_outskirts_map || !chosen_intermission_map)
 				to_chat(src, span_userdanger("Something's wrong. I should attempt this somewhere else."))
 				SSwarbands.warband_managers_busy = FALSE
 				return
@@ -496,8 +518,7 @@
 			var/outskirts_landmark_found = FALSE
 			var/obj/effect/landmark/warcamp_outskirts/used_outskirts_landmark
 			for(var/obj/effect/landmark/warcamp_outskirts/outskirts_landmark in GLOB.landmarks_list)
-				var/datum/map_template/new_outskirts = new chosen_outskirts_map()
-				new_outskirts.load(outskirts_landmark.loc, centered = TRUE)
+				chosen_outskirts_map.load(outskirts_landmark.loc, centered = TRUE)
 				used_outskirts_landmark = outskirts_landmark
 				outskirts_landmark_found = TRUE
 				break
@@ -508,8 +529,7 @@
 			var/intermission_landmark_found = FALSE
 			var/obj/effect/landmark/warcamp_intermission/used_intermission_landmark
 			for(var/obj/effect/landmark/warcamp_intermission/intermission_landmark in GLOB.landmarks_list)
-				var/datum/map_template/new_intermission = new chosen_intermission_map()
-				new_intermission.load(intermission_landmark.loc, centered = TRUE)
+				chosen_intermission_map.load(intermission_landmark.loc, centered = TRUE)
 				used_intermission_landmark = intermission_landmark
 				intermission_landmark_found = TRUE
 				break
@@ -556,10 +576,14 @@
 					var/turf/chosen_turf = final_spawn_locations[i]
 					var/obj/structure/fluff/traveltile/warband/new_tile = new /obj/structure/fluff/traveltile/warband/azure_to_intermission(chosen_turf)
 					new_tile.warband_ID = src.mind.warband_ID
-
 				src.mind.warband_manager.set_IDs()
-				src.mind.warband_manager.link_portals()					
+				src.mind.warband_manager.link_portals()
+				src.mind.warband_manager.finalize_outskirts_encounter()
 				SSwarbands.warband_managers_busy = FALSE
+				for(var/obj/effect/solid_invisible_barrier/warband_spawnbarrier/spawn_barrier in SSwarbands.warband_machines)
+					if(spawn_barrier.warband_ID == src.mind.warband_manager.warband_ID)
+						SSwarbands.warband_machines -= spawn_barrier
+						qdel(spawn_barrier)
 			else
 				return
 		else
@@ -660,9 +684,87 @@
 ///////////////////////////////////////////////////////////
 ///////////////////////////////////////////////// ENLIGHTEN
 /* 7
-	
+	allows the Prophet to grant enlightenment to another character
+	converts them to the Prophet's patron and grants T4 Cleric powers
+	cannot convert characters who already have devotion
+
+	converts suffer a curse and cannot regain devotion. it's effectively a Temporary Cleric Status
 */ 
 /mob/living/carbon/human/proc/enlighten()
 	set name = "ENLIGHTEN"
 	set desc = "Grant someone enlightenment. They will pay a terrible price."
 	set category = "Warband"
+
+	var/list/nearby_targets = list()
+	for(var/mob/living/carbon/human/potential_target in oview(1, src))
+		if(potential_target.stat != DEAD)
+			nearby_targets += potential_target
+
+	if(!nearby_targets.len)
+		to_chat(src, span_warning("There is no one nearby to enlighten."))
+		return FALSE
+
+	var/mob/living/carbon/human/chosen_target = input(src, "Who shall receive enlightenment?", "ENLIGHTENMENT") as null|anything in nearby_targets
+	if(!chosen_target)
+		return FALSE
+
+	if(!chosen_target.mind)
+		to_chat(src, span_warning("[chosen_target] is far too dumb for this affair to be worth any God's time, much less my own."))
+		return FALSE
+
+	if(get_dist(src, chosen_target) > 1)
+		to_chat(src, span_warning("[chosen_target] is too far away."))
+		return FALSE
+
+	if(chosen_target.mind && chosen_target.mind.enlightened)
+		to_chat(src, span_warning("[chosen_target] has already been enlightened."))
+		return FALSE
+
+	if(chosen_target.devotion)
+		to_chat(src, span_warning("A shame. [chosen_target.patron.name] shields them."))
+		return FALSE
+
+	if(get_dist(src, chosen_target) > 1)
+		to_chat(src, span_warning("[chosen_target] has moved away."))
+		return FALSE
+
+	src.visible_message(span_boldwarning("[src] raises a palm toward [chosen_target]'s face..."))
+	to_chat(src, span_warning("I prepare to grant [chosen_target.real_name] enlightenment..."))
+	
+	if(!do_after(src, 50, target = chosen_target))
+		to_chat(src, span_warning("The ritual was interrupted."))
+		return FALSE
+
+	to_chat(chosen_target, span_userdanger("[src] offers me enlightenment. It will come at a grand price."))
+	var/target_choice = alert(chosen_target, "Do I accept [src]'s offer of enlightenment?", "ENLIGHTENMENT", "I ACCEPT", "I REFUSE")
+	
+	if(target_choice != "I ACCEPT")
+		to_chat(chosen_target, span_warning("I remain in the dark."))
+		return FALSE
+
+	if(get_dist(src, chosen_target) > 1)
+		to_chat(src, span_warning("[chosen_target] has moved away."))
+		return FALSE
+
+	src.visible_message(span_boldwarning("[src] presses their palm against [chosen_target]'s face."))
+	apply_shared_enlightenment(chosen_target)
+	return TRUE
+
+/mob/living/carbon/human/proc/apply_shared_enlightenment(mob/living/carbon/human/target)
+	to_chat(target, span_userdanger("Truth floods through me!"))
+	target.visible_message(span_warning("[target] convulses!"))
+	target.electrocute_act(0, src)
+	target.set_patron(src.patron.type)
+	var/datum/devotion/C = new /datum/devotion(target, target.patron)
+	C.grant_miracles(target, cleric_tier = CLERIC_T4, devotion_limit = CLERIC_REQ_4, start_maxed = TRUE)
+	var/new_curse = get_curse_for_patron(src.patron.type)
+	if(new_curse)
+		target.add_curse(new_curse)
+		to_chat(target, span_userdanger("These miracles are not mine to wield. [src.patron.name]'s curse now weighs upon me."))
+	if(!HAS_TRAIT(target, TRAIT_DNR) && target.patron.type != src.patron.type && src.patron.type != /datum/patron/old_god) // if they had a different patron, they get the DNR trait
+		ADD_TRAIT(target, TRAIT_DNR, TRAIT_GENERIC)
+		target.emote("agony", forced = TRUE)
+		to_chat(target, span_userdanger("In place of my lux lies an agonizing vacancy. It is elsewhere, and it will never be mine again."))
+	target.mind.enlightened = TRUE
+	target.verbs -= /mob/living/carbon/human/proc/clericpray // can't pray
+	return TRUE

@@ -20,7 +20,7 @@
 	subclass_skills = list(
 		/datum/skill/craft/alchemy = SKILL_LEVEL_EXPERT,
 		/datum/skill/magic/arcane = SKILL_LEVEL_MASTER,
-		/datum/skill/combat/polearms = SKILL_LEVEL_JOURNEYMAN,
+		/datum/skill/combat/staves = SKILL_LEVEL_EXPERT,
 		/datum/skill/misc/reading = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/misc/riding = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/combat/swords = SKILL_LEVEL_APPRENTICE,
@@ -88,7 +88,7 @@
 	)
 	subclass_skills = list(
 		/datum/skill/misc/reading = SKILL_LEVEL_LEGENDARY,
-		/datum/skill/combat/polearms = SKILL_LEVEL_MASTER,	
+		/datum/skill/combat/staves = SKILL_LEVEL_EXPERT,
 		/datum/skill/magic/arcane = SKILL_LEVEL_EXPERT,		
 		/datum/skill/misc/athletics = SKILL_LEVEL_JOURNEYMAN,			
 		/datum/skill/craft/alchemy = SKILL_LEVEL_APPRENTICE,
@@ -128,8 +128,7 @@
 ////////////////////////////////////////////
 /////////////////////////////////// CONJURER
 /*
-	fixthis
-	
+
 */
 /datum/advclass/warband/wizard/lieutenant/conjurer
 	title = "CONJURER"
@@ -139,15 +138,15 @@
 	traits_applied = list(TRAIT_ARCYNE_T4, TRAIT_MAGEARMOR, TRAIT_FORMATIONFIGHTER, TRAIT_LAWEXPERT)
 	subclass_stats = list(
 		STATKEY_STR = -2,
-		STATKEY_CON = 3,
-		STATKEY_WIL = 1,
-		STATKEY_INT = 7,
+		STATKEY_CON = 6,
+		STATKEY_WIL = 6,
+		STATKEY_INT = -1,
 	)
 	subclass_skills = list(
 		/datum/skill/misc/reading = SKILL_LEVEL_LEGENDARY,
 		/datum/skill/craft/alchemy = SKILL_LEVEL_LEGENDARY,
 		/datum/skill/magic/arcane = SKILL_LEVEL_MASTER,
-		/datum/skill/combat/polearms = SKILL_LEVEL_JOURNEYMAN,
+		/datum/skill/combat/staves = SKILL_LEVEL_EXPERT,
 		/datum/skill/misc/riding = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/combat/swords = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/combat/knives = SKILL_LEVEL_APPRENTICE,
@@ -181,6 +180,7 @@
 		/obj/item/alch/firedust,
 		/obj/item/rogueweapon/huntingknife/idagger/silver/arcyne
 	)
-	if(H.mind)
-		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/forcewall/arcyne_prison)
+	if(H.mind) // who gives a fuck anymore bro
+		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/forcewall/greater)
+		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/forcewall/greater)
 		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/forcewall/greater)

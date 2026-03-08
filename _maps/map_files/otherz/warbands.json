@@ -1,0 +1,6 @@
+{
+	"map_name": "Warband Zone",
+	"map_path": "map_files/otherz",
+	"map_file": "warbands.dmm",
+	"traits": [{"Name": "warbands"}]
+}

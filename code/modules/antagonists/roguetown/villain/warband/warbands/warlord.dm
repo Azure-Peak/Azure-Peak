@@ -32,9 +32,6 @@
 /*
 	if the warlord spawns as a class w/subclasses at roundstart, this ends that process before we begin
 
-	FIXNOTE: this still runtimes w/ roundstart classes that have a weapon input window that isn't behind a class select option (i.e: classes that autoselect like knight captain)
-	How The Fuck Do I Close That.
-
 */
 
 /datum/antagonist/warlord/proc/cancel_class_menus(mob/living/carbon/human/owner)
@@ -56,6 +53,7 @@
 			owner.client << browse(null, "window=input")	
 
 	for(var/atom/movable/screen/advsetup/subclass_hud in owner.hud_used.static_inventory)
+		owner.hud_used.static_inventory -= subclass_hud
 		qdel(subclass_hud)
 
 ////////////////////////////////////////////
@@ -84,11 +82,21 @@
 	replaces the initial mob that the warlord spawned with
 	we've got a Blank Slate: no stats, no skills, no traits
 */
-/datum/antagonist/warlord/proc/replace_mob(mob/living/new_warlord)
-	var/mob/living/carbon/human/species/human/northern/replacement_mob = new /mob/living/carbon/human/species/human/northern(new_warlord.loc)
+/datum/antagonist/warlord/proc/replace_mob(mob/living/carbon/human/new_warlord)
+	var/mob/living/replacement_mob = SSwarbands.get_lobby_mob()
+	for(var/obj/effect/landmark/start/warlord/warlord_spawn in GLOB.landmarks_list)
+		replacement_mob.forceMove(warlord_spawn.loc)
+		break
 	replacement_mob.key = new_warlord.key
+	replacement_mob.sync_mind()
 	GLOB.chosen_names -= new_warlord.real_name
-	qdel(new_warlord)
+	replacement_mob.real_name = "Warlord"
+	SSwarbands.replaced_mobs += new_warlord
+	GLOB.mob_living_list -= new_warlord
+	new_warlord.mode = NPC_AI_OFF
+	new_warlord.real_name = "replacedmob"
+	new_warlord.alpha = 0
+	new_warlord.moveToNullspace()
 	return replacement_mob
 
 //////////////////////////////////////////////////////////
@@ -100,9 +108,6 @@
 */
 /datum/antagonist/warlord/proc/create_warband_manager(mob/living/new_warlord, datum/mind/owner)
 	var/atom/movable/screen/warband/manager/pregame_manager
-	for(var/obj/effect/landmark/start/warlord/warlord_spawn in GLOB.landmarks_list)
-		new_warlord.loc = warlord_spawn.loc
-		break
 
 	if(!SSwarbands.roundstart_manager_claimed && SSwarbands.roundstart_manager)
 		pregame_manager = SSwarbands.roundstart_manager
@@ -110,10 +115,11 @@
 		owner.warband_ID = pregame_manager.warband_ID
 	else
 		pregame_manager = new /atom/movable/screen/warband/manager()
-		pregame_manager.warband_ID = SSwarbands.warband_managers.len + 1
+		pregame_manager.warband_ID = SSwarbands.next_warband_id++
 		SSwarbands.warband_managers += pregame_manager
 		owner.warband_ID = pregame_manager.warband_ID
-
+	if(!pregame_manager.creation_timer_active)
+		pregame_manager.start_creation_timer()
 	pregame_manager.lobby_members += owner.current
 	owner.warband_manager = pregame_manager
 	pregame_manager.create_HUD_instance(new_warlord)
@@ -130,7 +136,6 @@
 	var/stun_timer = 3 HOURS
 	bankwipe(owner.current)
 	mindwipe(owner)
-	owner.current.unequip_everything()
 
 	var/mob/living/newmob = replace_mob(owner.current)
 	newmob.invisibility = INVISIBILITY_MAXIMUM
@@ -140,19 +145,24 @@
 	owner.current = newmob
 	SSmapping.retainer.warlords |= newmob.mind
 	newmob.mind.special_role = name
-	newmob.mind.warband_ID = SSwarbands.warband_managers.len + 1
+	if(!SSwarbands.roundstart_manager_claimed)
+		newmob.mind.warband_ID = SSwarbands.roundstart_manager.warband_ID
+	else
+		newmob.mind.warband_ID = SSwarbands.next_warband_id
 	newmob.faction |= list("warband_[newmob.mind.warband_ID]")
 	newmob.mind.warbandsetup = TRUE
 	addtimer(CALLBACK(src, PROC_REF(greet), newmob), 1 SECONDS)
 	addtimer(CALLBACK(src, PROC_REF(create_warband_manager), newmob, newmob.mind), 1 SECONDS)
 
 /datum/antagonist/warlord/greet(mob/living/new_warlord)
+	ADD_TRAIT(new_warlord, TRAIT_FORCED_LOOC, TRAIT_GENERIC)
 	to_chat(new_warlord, span_danger("I bear great, terrible dreams. My legions shall make them a reality."))
 	var/list/intro_sounds = list(
 		'sound/misc/warband/selection_introc.ogg'
 	)
 	var/chosen_song = pick(intro_sounds)
-	new_warlord.playsound_local(new_warlord, chosen_song, 100, FALSE, pressure_affected = FALSE)
+	var/sound/S = sound(chosen_song, repeat = 0, wait = 0, channel = 0, volume = 60)
+	SEND_SOUND(new_warlord, S)
 	var/atom/movable/screen/introtext/intro_text = new /atom/movable/screen/introtext
 	new_warlord.client.screen += intro_text
 	animate(intro_text, alpha = 255, time = 50)

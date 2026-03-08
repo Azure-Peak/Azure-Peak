@@ -1,13 +1,14 @@
 /////////////////////////////////////////////
 /////////////////////////////////// JUSTICIAR
 /*
-	a templar, but a little stronger
-	that's really it
+	a templar without miracles
+	(aka a knight)
+
 */
 /datum/advclass/warband/sect/lieutenant/justiciar
 	title = "JUSTICIAR"
 	name = "Justiciar"
-	tutorial = "No weapon formed against the JUSTICIAR shall prosper."
+	tutorial = "No weapon formed against the JUSTICIAR shall prosper, and no falsehood shall go uncondemned."
 	outfit = /datum/outfit/job/roguetown/warband/sect/lieutenant/justiciar
 	traits_applied = list(TRAIT_HEAVYARMOR, TRAIT_LAWEXPERT, TRAIT_FORMATIONFIGHTER, TRAIT_COMBAT_AWARE)
 	subclass_stats = list(
@@ -17,6 +18,13 @@
 		STATKEY_SPD = 3
 	)
 	subclass_skills = list(
+		/datum/skill/combat/whipsflails = SKILL_LEVEL_MASTER,
+		/datum/skill/combat/polearms = SKILL_LEVEL_MASTER,
+		/datum/skill/combat/swords = SKILL_LEVEL_MASTER,
+		/datum/skill/combat/axes = SKILL_LEVEL_MASTER,
+		/datum/skill/combat/maces = SKILL_LEVEL_MASTER,
+		/datum/skill/combat/shields = SKILL_LEVEL_EXPERT,
+		/datum/skill/combat/knives = SKILL_LEVEL_EXPERT,
 		/datum/skill/misc/athletics = SKILL_LEVEL_EXPERT,
 		/datum/skill/combat/wrestling = SKILL_LEVEL_EXPERT,
 		/datum/skill/combat/unarmed = SKILL_LEVEL_EXPERT,
@@ -27,7 +35,7 @@
 		/datum/skill/craft/cooking = SKILL_LEVEL_NOVICE,
 		/datum/skill/misc/medicine = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/magic/holy = SKILL_LEVEL_JOURNEYMAN,
-	) // fixnote: give weapon skills & set their patron trait
+	)
 
 /datum/outfit/job/roguetown/warband/sect/lieutenant/justiciar/pre_equip(mob/living/carbon/human/H)
 	..()
@@ -42,6 +50,14 @@
 	belt = /obj/item/storage/belt/rogue/leather
 	pants = /obj/item/clothing/under/roguetown/platelegs
 	shoes = /obj/item/clothing/shoes/roguetown/boots/armor
+	backpack_contents = list(
+		/obj/item/rogueweapon/huntingknife/idagger/steel/special,
+		/obj/item/flashlight/flare/torch/lantern/prelit,
+		/obj/item/reagent_containers/glass/bottle/rogue/strongmanapot,
+		/obj/item/reagent_containers/glass/bottle/rogue/healthpotnew,
+		/obj/item/reagent_containers/food/snacks/rogue/meat/coppiette,
+		/obj/item/reagent_containers/glass/bottle/waterskin
+		)
 
 	if(H.patron.type == /datum/patron/divine/undivided)
 		head = /obj/item/clothing/head/roguetown/helmet/bascinet
@@ -49,11 +65,12 @@
 		id = /obj/item/clothing/neck/roguetown/psicross/undivided
 		r_hand = /obj/item/rogueweapon/sword/long/undivided
 		cloak = /obj/item/clothing/cloak/templar/undivided
+
 	if(H.patron.type == /datum/patron/divine/astrata)
-		head = /obj/item/clothing/head/roguetown/helmet/heavy/astratahelm
+		head = /obj/item/clothing/head/roguetown/helmet/heavy/astratan
 		r_hand = /obj/item/rogueweapon/sword/long/exe/astrata
 		id = /obj/item/clothing/neck/roguetown/psicross/astrata
-		cloak = /obj/item/clothing/cloak/cape/crusader
+		cloak = /obj/item/clothing/cloak/tabard/devotee/astrata
 
 	if(H.patron.type == /datum/patron/divine/noc)
 		head = /obj/item/clothing/head/roguetown/helmet/heavy/nochelm
@@ -63,7 +80,8 @@
 		cloak = /obj/item/clothing/cloak/tabard/devotee/noc
 
 	if(H.patron.type == /datum/patron/divine/dendor)
-		head = /obj/item/clothing/head/roguetown/helmet/heavy/dendorhelm
+		head = /obj/item/clothing/head/roguetown/dendormask
+		mask = /obj/item/clothing/mask/rogue/facemask/steel
 		id = /obj/item/clothing/neck/roguetown/psicross/dendor
 		cloak = /obj/item/clothing/cloak/tabard/devotee/dendor
 		r_hand = /obj/item/rogueweapon/halberd/bardiche/scythe
@@ -76,18 +94,18 @@
 				r_hand = /obj/item/rogueweapon/stoneaxe/battle/abyssoraxe
 			if("BAROTRAUMA")
 				r_hand = /obj/item/rogueweapon/katar/abyssor
-		head = /obj/item/clothing/head/roguetown/helmet/heavy/abyssorgreathelm
+		head = /obj/item/clothing/head/roguetown/helmet/sallet/visored
 		id = /obj/item/clothing/neck/roguetown/psicross/abyssor
 		cloak = /obj/item/clothing/cloak/tabard/abyssortabard
 
 	if(H.patron.type == /datum/patron/divine/ravox)
-		head = /obj/item/clothing/head/roguetown/helmet/heavy/ravoxhelm
+		head = /obj/item/clothing/head/roguetown/helmet/sallet/visored
 		id = /obj/item/clothing/neck/roguetown/psicross/ravox
 		cloak = /obj/item/clothing/cloak/templar/ravox
 		r_hand = /obj/item/rogueweapon/mace/goden/steel/ravox
 	
 	if(H.patron.type == /datum/patron/divine/necra)
-		head = /obj/item/clothing/head/roguetown/helmet/heavy/necran
+		head = /obj/item/clothing/head/roguetown/helmet/heavy/guard/bogman
 		id = /obj/item/clothing/neck/roguetown/psicross/necra
 		cloak = /obj/item/clothing/cloak/templar/necran
 		r_hand = /obj/item/rogueweapon/flail/sflail/necraflail
@@ -105,24 +123,23 @@
 		id = /obj/item/clothing/neck/roguetown/psicross/eora
 
 	if(H.patron.type == /datum/patron/divine/pestra)
-		head = /obj/item/clothing/head/roguetown/helmet/heavy/pestran
+		head = /obj/item/clothing/head/roguetown/helmet/bascinet/pigface
 		cloak = /obj/item/clothing/cloak/templar/pestran
 		r_hand = /obj/item/rogueweapon/huntingknife/idagger/steel/pestrasickle
-		l_hand = /obj/item/rogueweapon/huntingknife/idagger/steel/pestrasickle
+		l_hand = /obj/item/rogueweapon/huntingknife/idagger/steel/parrying
 		id = /obj/item/clothing/neck/roguetown/psicross/pestra
 	
 	if(H.patron.type == /datum/patron/divine/malum)
-		head = /obj/item/clothing/head/roguetown/helmet/heavy/malum
-		id = /obj/item/clothing/neck/roguetown/psicross/malum
+		head = /obj/item/clothing/head/roguetown/helmet/sallet/visored
+		id = /obj/item/clothing/neck/roguetown/psicross/undivided
 		cloak = /obj/item/clothing/cloak/templar/malumite
 		r_hand = /obj/item/rogueweapon/greatsword/grenz/flamberge/malum
 
-	
 	if(H.patron.type == /datum/patron/divine/xylix)
-		head = /obj/item/clothing/head/roguetown/helmet/heavy/xylixhelm
+		wrists = null	
+		head = /obj/item/clothing/head/roguetown/helmet/sallet/visored
 		cloak = /obj/item/clothing/cloak/templar/xylixian
-		r_hand = /obj/item/rogueweapon/whip/xylix
-
+		r_hand = /obj/item/rogueweapon/whip
 
 	if(H.patron.type == /datum/patron/inhumen/graggar)
 		head = /obj/item/clothing/head/roguetown/helmet/heavy/graggar
@@ -152,11 +169,11 @@
 		id = /obj/item/clothing/neck/roguetown/psicross/inhumen/aalloy
 
 	if(H.patron.type == /datum/patron/old_god)
-		head = /obj/item/clothing/head/roguetown/helmet/heavy/psydonhelm
+		head = /obj/item/clothing/head/roguetown/helmet/heavy/knight/skettle
 		armor = /obj/item/clothing/suit/roguetown/armor/plate/fluted/ornate
 		belt = /obj/item/storage/belt/rogue/leather
 		id = /obj/item/clothing/neck/roguetown/psicross
-		cloak = /obj/item/clothing/cloak/tabard/psydontabard
+		cloak = /obj/item/clothing/cloak/tabard/psydontabard/alt
 		shoes = /obj/item/clothing/shoes/roguetown/boots/psydonboots
 		var/weapons = list("LONGSWORD","SPEAR","FLAIL","MACE","HANDAXE","WHIP")
 		var/weapon_choice = input("Choose your weapon.", "TAKE UP ARMS") as anything in weapons
@@ -179,11 +196,9 @@
 ///////////////////////////////////////////////
 /////////////////////////////////// VERSEKEEPER
 /*
-	T4 Cleric
 	T3 Bard
 	dodge expert w/low speed
 	reliant on Sentinel of Wits + high INT
-	additionally, the only class aside from the Cultist that's a Cleric without getting it via the prophet's enlightenment verb
 */
 /datum/advclass/warband/sect/lieutenant/versekeeper
 	title = "VERSEKEEPER"
@@ -212,8 +227,6 @@
 		/datum/skill/combat/knives = SKILL_LEVEL_JOURNEYMAN,
 	)
 
-
-
 /datum/outfit/job/roguetown/warband/sect/lieutenant/versekeeper/pre_equip(mob/living/carbon/human/H)
 	..()
 
@@ -232,7 +245,6 @@
 		/obj/item/reagent_containers/glass/bottle/rogue/healthpotnew,
 		/obj/item/flashlight/flare/torch/lantern/prelit
 	)
-
 
 	if(H.mind)
 		var/weapons = list("Harp","Lute","Accordion","Guitar","Hurdy-Gurdy","Viola","Vocal Talisman", "Psyaltery", "Flute")
@@ -265,10 +277,8 @@
 		cloak = /obj/item/clothing/cloak/templar/astratan
 		id = /obj/item/clothing/neck/roguetown/psicross/astrata
 
-		
 	if(H.patron.type == /datum/patron/divine/noc)
 		id = /obj/item/clothing/neck/roguetown/psicross/noc
-
 
 	if(H.patron.type == /datum/patron/divine/dendor)
 		id = /obj/item/clothing/neck/roguetown/psicross/dendor
@@ -296,10 +306,13 @@
 	
 	if(H.patron.type == /datum/patron/divine/xylix)
 		cloak = /obj/item/clothing/cloak/templar/xylixian
-		id = /obj/item/clothing/neck/roguetown/psicross/inhumen/aalloy
+		id = /obj/item/clothing/neck/roguetown/psicross/xylix
 
 	if(H.patron.type == /datum/patron/inhumen/graggar)
 		cloak = /obj/item/clothing/cloak/graggar
+		id = /obj/item/clothing/neck/roguetown/psicross/inhumen/aalloy
+
+	if(H.patron.type == /datum/patron/inhumen/zizo)
 		id = /obj/item/clothing/neck/roguetown/psicross/inhumen/aalloy
 
 	if(H.patron.type == /datum/patron/inhumen/baotha)
@@ -316,21 +329,11 @@
 
 	var/datum/inspiration/I = new /datum/inspiration(H)
 	I.grant_inspiration(H, bard_tier = BARD_T3)
-
-	var/datum/devotion/C = new /datum/devotion(H, H.patron)
-	C.grant_miracles(H, cleric_tier = CLERIC_T4, passive_gain = CLERIC_REGEN_MAJOR, start_maxed = TRUE)
 	H.mind?.AddSpell(new /obj/effect/proc_holder/spell/invoked/sweep)
-
-
-
-
-
-
 
 ////////////////////////////////////////////
 /////////////////////////////////// SENTINEL
 /*
-	T3 Cleric
 	20 Perception Plate Archer w/a Froggemund
 	Who Cares Anymore, Bro
 */
@@ -339,7 +342,7 @@
 	name = "Sentinel"
 	tutorial = "Pity the infidel who dares to cross grounds overseen by the SENTINEL - for any hope of their redemption will be struck down by a single arrow."
 	outfit = /datum/outfit/job/roguetown/warband/sect/lieutenant/sentinel
-	traits_applied = list(TRAIT_KEENEARS, TRAIT_LAWEXPERT, TRAIT_FORMATIONFIGHTER)
+	traits_applied = list(TRAIT_KEENEARS, TRAIT_LAWEXPERT, TRAIT_FORMATIONFIGHTER, TRAIT_HEAVYARMOR)
 	subclass_stats = list(
 		STATKEY_PER = 10,
 		STATKEY_SPD = -2,
@@ -418,15 +421,22 @@
 	
 	if(H.patron.type == /datum/patron/divine/xylix)
 		cloak = /obj/item/clothing/cloak/templar/xylixian
+		id = /obj/item/clothing/neck/roguetown/psicross/xylix
 		
+	if(H.patron.type == /datum/patron/inhumen/zizo)
+		id = /obj/item/clothing/neck/roguetown/psicross/inhumen/aalloy
+
 	if(H.patron.type == /datum/patron/inhumen/graggar)
 		cloak = /obj/item/clothing/cloak/graggar
+		id = /obj/item/clothing/neck/roguetown/psicross/inhumen/aalloy
 
 	if(H.patron.type == /datum/patron/inhumen/baotha)
 		mask = /obj/item/flowercrown/salvia
+		id = /obj/item/clothing/neck/roguetown/psicross/inhumen/aalloy
 
 	if(H.patron.type == /datum/patron/inhumen/matthios)
 		cloak = /obj/item/clothing/cloak/half/purple
+		id = /obj/item/clothing/neck/roguetown/psicross/inhumen/aalloy
 
 	if(H.patron.type == /datum/patron/old_god)
 		armor = /obj/item/clothing/suit/roguetown/armor/plate/fluted/ornate

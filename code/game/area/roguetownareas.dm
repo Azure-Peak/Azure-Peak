@@ -330,7 +330,12 @@ GLOBAL_LIST_INIT(roguetown_areas_typecache, typecacheof(/area/rogue/indoors/town
 //////////////// AREAS
 ////////////////
 ////////////////
-	
+
+/area/warband_template_area
+	name = "warband template area"
+	icon_state = "rogue"
+
+
 /area/rogue/outdoors/warcamp
 	name = "the Countryside"
 	icon_state = "woods"

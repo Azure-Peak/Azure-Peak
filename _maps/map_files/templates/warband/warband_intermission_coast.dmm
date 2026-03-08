@@ -24,7 +24,7 @@
 /turf/open/floor/rogue/AzureSand,
 /area/rogue/outdoors/warcamp/outskirts/coast)
 "o" = (
-/turf/open/water/ocean/deep,
+/turf/open/water/fakeocean,
 /area/rogue/outdoors/warcamp/outskirts/coast)
 "w" = (
 /obj/structure/flora/roguegrass{
@@ -210,11 +210,11 @@ F
 F
 F
 F
-a
-a
-a
-a
-a
+o
+o
+o
+o
+o
 F
 F
 b
@@ -223,15 +223,15 @@ b
 O
 n
 F
-a
-a
-a
 o
 o
 o
-a
-a
-a
+o
+o
+o
+o
+o
+o
 F
 "}
 (12,1,1) = {"
@@ -247,7 +247,7 @@ o
 o
 o
 o
-a
+o
 "}
 (13,1,1) = {"
 k
@@ -262,5 +262,5 @@ o
 o
 o
 o
-a
+o
 "}

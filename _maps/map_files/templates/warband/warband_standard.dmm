@@ -159,6 +159,10 @@
 "hT" = (
 /turf/closed/mineral/rogue,
 /area/rogue/indoors/warcamp)
+"ie" = (
+/obj/effect/solid_invisible_barrier,
+/turf/open/floor/rogue/cobble/mossy,
+/area/rogue/outdoors/warcamp)
 "il" = (
 /turf/closed/mineral/rogue/bedrock,
 /area/rogue/outdoors/warcamp)
@@ -272,6 +276,11 @@
 "lc" = (
 /obj/structure/fluff/traveltile/warband/camp_to_outskirts,
 /turf/open/floor/rogue/cobble/mossy,
+/area/rogue/outdoors/warcamp)
+"lf" = (
+/obj/structure/flora/newtree,
+/obj/effect/solid_invisible_barrier,
+/turf/open/floor/rogue/dirt/road,
 /area/rogue/outdoors/warcamp)
 "lA" = (
 /obj/structure/flora/newleaf,
@@ -914,6 +923,10 @@
 "AS" = (
 /obj/structure/flora/roguegrass,
 /turf/open/floor/rogue/grassyel,
+/area/rogue/outdoors/warcamp)
+"BK" = (
+/obj/effect/solid_invisible_barrier,
+/turf/open/floor/rogue/dirt/road,
 /area/rogue/outdoors/warcamp)
 "BS" = (
 /obj/item/cigbutt/roach,
@@ -1756,6 +1769,11 @@
 /turf/open/floor/carpet/red{
 	name = "rug"
 	},
+/area/rogue/indoors/warcamp)
+"UX" = (
+/obj/structure/roguetent,
+/obj/effect/solid_invisible_barrier/warband_spawnbarrier,
+/turf/open/floor/rogue/dirt/road,
 /area/rogue/indoors/warcamp)
 "Vj" = (
 /obj/item/reagent_containers/food/snacks/rogue/meat/coppiette,
@@ -3275,11 +3293,11 @@ nQ
 nQ
 nQ
 nQ
-hT
-pR
-Wq
-pI
-Wq
+nQ
+lf
+BK
+ie
+BK
 il
 "}
 (31,1,1) = {"
@@ -3322,8 +3340,8 @@ nQ
 nQ
 nQ
 nQ
-hT
-hT
+nQ
+nQ
 Wq
 pI
 PE
@@ -3683,7 +3701,7 @@ DV
 Wq
 Wq
 Wq
-aA
+UX
 dS
 JQ
 dJ
@@ -3730,7 +3748,7 @@ Wq
 Wq
 Wq
 Wq
-aA
+UX
 dS
 JQ
 Ad
@@ -3777,7 +3795,7 @@ Wq
 Wq
 Wq
 Wq
-aA
+UX
 dS
 JQ
 EG

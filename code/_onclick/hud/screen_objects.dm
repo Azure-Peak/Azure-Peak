@@ -552,8 +552,15 @@
 		M.playsound_local(M, 'sound/misc/click.ogg', 100)
 
 	var/_y = text2num(params2list(params)["icon-y"])
+	var/list/modifiers = params2list(params)
 
 	if(_y<=9)
+		if(modifiers["middle"])
+			if(ismob(usr))
+				var/mob/M = usr
+				if(M.ranged_ability && istype(M.ranged_ability, /obj/effect/proc_holder/spell/invoked/grunt_order))
+					M.ranged_ability.InterceptClickOn(M, params, src)
+					return
 		usr.mmb_intent_change(QINTENT_SPECIAL)
 
 	else if(_y>=9 && _y<=16)

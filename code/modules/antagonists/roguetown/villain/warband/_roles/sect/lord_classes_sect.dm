@@ -9,7 +9,7 @@
 	tutorial = ""
 	outfit = /datum/outfit/job/roguetown/warband/sect/warlord/prophet
 
-	traits_applied = list(TRAIT_FORMATIONFIGHTER, TRAIT_LAWEXPERT, TRAIT_STEELHEARTED, TRAIT_DEATHSIGHT, TRAIT_SOUL_EXAMINE, TRAIT_NOSTINK, TRAIT_DODGEEXPERT)
+	traits_applied = list(TRAIT_FORMATIONFIGHTER, TRAIT_LAWEXPERT, TRAIT_STEELHEARTED, TRAIT_RITUALIST, TRAIT_DEATHSIGHT, TRAIT_SOUL_EXAMINE, TRAIT_NOSTINK, TRAIT_DODGEEXPERT)
 	subclass_stats = list(
 		STATKEY_LCK = 3,
 		STATKEY_WIL = 6,
@@ -43,6 +43,13 @@
 	shirt = /obj/item/clothing/suit/roguetown/shirt/robe/monk/holy
 	shoes = /obj/item/clothing/shoes/roguetown/boots/leather/reinforced
 	gloves = /obj/item/clothing/gloves/roguetown/bandages/pugilist
+	backpack_contents = list(
+		/obj/item/flashlight/flare/torch/lantern/prelit,
+		/obj/item/reagent_containers/glass/bottle/rogue/healthpotnew,
+		/obj/item/reagent_containers/food/snacks/rogue/meat/coppiette,
+		/obj/item/reagent_containers/glass/bottle/waterskin,
+		/obj/item/ritechalk
+	)
 	if(H.patron.type == /datum/patron/divine/undivided)
 		wrists = /obj/item/clothing/neck/roguetown/psicross/undivided
 	if(H.patron.type == /datum/patron/divine/astrata)

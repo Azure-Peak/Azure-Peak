@@ -123,3 +123,7 @@ GLOBAL_VAR_INIT(cmp_field, "name")
 
 /proc/cmp_skills_for_display(datum/skill/A, datum/skill/B)
 	return sorttext("[B.abstract_type]", "[A.abstract_type]") || sorttext(B.name, A.name)
+
+// compares two distances against a single point of reference
+/proc/cmp_dist_to_atom_dsc(atom/a, atom/b, atom/reference)
+	return get_dist(b, reference) - get_dist(a, reference)

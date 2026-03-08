@@ -709,6 +709,7 @@
 	var/last_aimhchange = 0
 	var/aimheight = 11
 	var/cmode_music = list('sound/music/cmode/towner/combat_towner.ogg') //This should minimize the lag it creates by picking from multiple ones
+	var/originalcmode = ""	// when we temporarily change cmode music, we store the original track here
 
 /mob/proc/cmode_change(input) // change cmode music, and shift into it immediately if we're already in cmode.
 	cmode_music = input

@@ -2038,6 +2038,46 @@
 
 		mob.apply_status_effect(/datum/status_effect/debuff/joybringer_druqks)
 
+// temp buff(s) expressly for NPCs
+#define ATTACK_FILTER "goon_attack_glow"
+#define DEFEND_FILTER "goon_defend_glow"
+/datum/status_effect/buff/warband_attack
+	var/outline_colour ="#bd1414"
+	id = "warband_attack"
+	alert_type = /atom/movable/screen/alert/status_effect/buff/druqks
+	effectedstats = list(STATKEY_STR = 10)
+	duration = 10 SECONDS
+/datum/status_effect/buff/warband_defend
+	var/outline_colour ="#341686"
+	id = "warband_defend"
+	alert_type = /atom/movable/screen/alert/status_effect/buff/druqks
+	effectedstats = list(STATKEY_CON = 10,STATKEY_WIL = 10)
+	duration = 17 SECONDS
+
+// attack filter
+/datum/status_effect/buff/warband_attack/on_apply()
+	. = ..()
+	var/filter = owner.get_filter(ATTACK_FILTER)
+	if (!filter)
+		owner.add_filter(ATTACK_FILTER, 2, list("type" = "outline", "color" = outline_colour, "alpha" = 140, "size" = 1))
+/datum/status_effect/buff/warband_attack/on_remove()
+	. = ..()
+	owner.remove_filter(ATTACK_FILTER)
+
+// defend filter
+/datum/status_effect/buff/warband_defend/on_apply()
+	. = ..()
+	var/filter = owner.get_filter(DEFEND_FILTER)
+	if (!filter)
+		owner.add_filter(DEFEND_FILTER, 2, list("type" = "outline", "color" = outline_colour, "alpha" = 140, "size" = 1))
+/datum/status_effect/buff/warband_defend/on_remove()
+	. = ..()
+	owner.remove_filter(DEFEND_FILTER)
+
+
+#undef ATTACK_FILTER
+#undef DEFEND_FILTER
+
 #undef JOYBRINGER_FILTER
 
 #undef MIRACLE_BLOODHEAL_FILTER

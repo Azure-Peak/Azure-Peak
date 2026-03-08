@@ -28,6 +28,9 @@ GLOBAL_LIST_EMPTY(antagonists)
 	///flags used by storytellers
 	var/antag_flags = NONE
 
+	// identifier for warband characters while they're in the pre-game lobby
+	var/unique_number = 0
+
 /datum/antagonist/New()
 	GLOB.antagonists += src
 	typecache_datum_blacklist = typecacheof(typecache_datum_blacklist)

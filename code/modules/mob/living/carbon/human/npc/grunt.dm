@@ -1,4 +1,3 @@
-// for consistent stat & stat resets
 #define GRUNTSTR 14
 #define GRUNTSPD 12
 #define GRUNTCON 13
@@ -7,7 +6,7 @@
 #define GRUNTINT 10
 #define GRUNTPER 10
 
-/mob/living/carbon/human/species/human/northern/grunt
+/mob/living/carbon/human/species/human/northern/goon
 	aggressive=1
 	rude = FALSE
 	mode = NPC_AI_IDLE
@@ -21,15 +20,129 @@
 	var/warband_ID
 	var/datum/warbands/warband
 	var/datum/warbands/subtypes/subtype
-	var/list/abandon_textoptions = list("succumbs to an old infection - collapsing first to their knees, then crashing down face first.", "succumbs to the elements.", "goes pale, and faints soon afterwards. Their breathing stills.", "is lost to a hunger long unsated. They die thin and frail.")
+	var/list/abandon_textoptions = list("succumbs to an old infection - collapsing first to their knees, then crashing down face first.", "succumbs to the elements.", "goes pale and faints soon afterwards. Their breath stills.", "is lost to a hunger long unsated. They die thin and frail.")
 	npc_jump_chance = 0 	// if we leave this on, they get really excited & hyper & start jumping into walls and each other 24/7 | calm down! god damn!!
 
-/mob/living/carbon/human/species/human/northern/grunt/ambush
-	aggressive=1
+	var/mob/squad_leader
 
+	var/atom/walk_target
+	var/last_moved_time = 0
+	var/next_complex_path_time = 0
+	var/next_combat_process = 0
+
+	// when a grunt is equipped, we cache the type of any item that can be disarmed/dismembered from them (gloves, weapons etc)
+	// when they're recycled, we regenerate those items
+	var/saved_r_weapon
+	var/saved_l_weapon
+	var/saved_mask
+	var/saved_neck
+	var/saved_head
+	var/saved_gloves
+	var/saved_shoes
+	var/saved_mouth
+
+///////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////// ALTERNATE PATHFINDING
+/* 
+	since we're expecting a shitload of goons to be fighting at once, we're throttling their pathfinding like crazy
+	by default, they just nudge themselves in the general direction of their target
+	if they don't move, they attempt a SINGLE complex path
+
+	this makes them dumb, but ultimately they're not the main event so it doesn't really matter
+
+*/
+/mob/living/carbon/human/species/human/northern/goon/start_pathing_to(new_target, force = FALSE)
+	if(force)
+		walk(src, 0)
+		walk_target = null
+		return ..()
+
+	if(length(myPath))
+		return TRUE
+
+	var/turf/next_turf = get_step(src, get_dir(src, new_target))
+
+	if(!next_turf?.can_traverse_safely(src))
+		if(world.time >= next_complex_path_time)
+			next_complex_path_time = world.time + rand(12, 19) SECONDS  // 12-19 second cooldown for astar/complex pathfinding
+			walk(src, 0)
+			walk_target = null
+			return ..(new_target, TRUE) // force a complex path
+		return mode == NPC_AI_MARCH ? TRUE : null
+
+	if(mode == NPC_AI_FLEE)
+		return
+
+	if(mode == NPC_AI_HUNT && target && get_dist(src, target) <= 1)
+		if(walk_target)
+			walk(src, 0)
+			walk_target = null
+		return
+
+	if(mode != NPC_AI_MARCH && walk_target && (world.time - last_moved_time) > (maxStepsTick) && world.time >= next_complex_path_time)
+		next_complex_path_time = world.time + rand(12, 19) SECONDS
+		walk(src, 0)
+		walk_target = null
+
+		// if they failed to move, we also want to check & see if someone's blocking the next tile
+		// if that Someone is worth targeting, we target them instead
+		for(var/mob/living/carbon/human/blocker in next_turf)
+			if(should_target(blocker))
+				retaliate(blocker)
+			break
+
+		return ..(new_target, TRUE)
+
+	if(walk_target == new_target)
+		return TRUE
+
+	walk_target = new_target
+	next_complex_path_time = 0
+	walk_towards(src, new_target, 4)
+	return TRUE
+
+/mob/living/carbon/human/species/human/northern/goon/Moved()
+	. = ..()
+	last_moved_time = world.time
+
+
+/mob/living/carbon/human/species/human/northern/goon/handle_combat()
+	if(flee_in_pain && target && target.stat == CONSCIOUS)
+		if(health > maxHealth * 0.5) // only bother calculating complex pain if they're below half health.
+			flee_in_pain = FALSE
+	. = ..()
+
+
+/mob/living/carbon/human/species/human/northern/goon/process_ai()
+	if(mode == NPC_AI_HUNT) // we're also throttling combat processing as a whole
+		if(world.time < next_combat_process)
+			return
+		next_combat_process = world.time + rand(12, 19)
+	. = ..()
+
+
+/mob/living/carbon/human/species/human/northern/goon/clear_path()
+	walk(src, 0)
+	walk_target = null
+	next_complex_path_time = 0
+	return ..()
+
+/mob/living/carbon/human/species/human/northern/goon/back_to_idle()
+	if(mode == NPC_AI_HUNT && target && should_target(target))
+		last_aggro_loss = null
+		frustration = 0
+		pathing_frustration = 0
+		next_complex_path_time = 0
+		clear_path()
+		m_intent = MOVE_INTENT_WALK
+		return
+	return ..()
+
+/mob/living/carbon/human/species/human/northern/goon/ambush
+	aggressive=1
 	wander = TRUE
 
-/mob/living/carbon/human/species/human/northern/grunt/retaliate(mob/living/L)
+/mob/living/carbon/human/species/human/northern/goon/retaliate(mob/living/L)
 	var/newtarg = target
 	.=..()
 	if(target)
@@ -39,86 +152,177 @@
 			say(pick(GLOB.highwayman_aggro))
 			linepoint(target)
 
-/mob/living/carbon/human/species/human/northern/grunt/should_target(mob/living/L)
+/mob/living/carbon/human/species/human/northern/goon/should_target(mob/living/L)
 	if(L.stat != CONSCIOUS)
 		return FALSE
 	. = ..()
 
-
-// ends the effects of a grunt's special order
-/mob/living/carbon/human/species/human/northern/grunt/proc/end_special_order()
-	// end a Survive order
-	src.STACON = GRUNTCON
-	src.STAWIL = GRUNTWIL
-	src.flee_in_pain = TRUE
-	// end a Kill order
-	src.STASTR = GRUNTSTR
-
-/mob/living/carbon/human/species/human/northern/grunt/proc/end_charge()
+/mob/living/carbon/human/species/human/northern/goon/proc/end_charge()
 	src.mode = NPC_AI_IDLE
 
 // used when a grunt squad is cleared out
-/mob/living/carbon/human/species/human/northern/grunt/proc/abandonevent(living)
-	if(living)
-		var/abandon_message = pick(abandon_textoptions)
-		src.visible_message(span_info("[src] [abandon_message]"))
+/mob/living/carbon/human/species/human/northern/goon/proc/abandonevent()
+	if(stat == CONSCIOUS || stat == SOFT_CRIT || stat == UNCONSCIOUS)
 		src.adjustOxyLoss(200)
 		src.adjustToxLoss(200)
-		addtimer(CALLBACK(src, PROC_REF(rot_event)), 60 SECONDS) // repeats itself after 1 minute, clearing out the grunt's corpse
+		var/abandon_message = pick(abandon_textoptions)
+		src.visible_message(span_info("[src] [abandon_message]"))
+		addtimer(CALLBACK(src, PROC_REF(rot_event)), rand(1 MINUTES, 12 MINUTES))
 	else
 		src.rot_event()
 
-/mob/living/carbon/human/species/human/northern/grunt/proc/rot_event()
+/mob/living/carbon/human/species/human/northern/goon/proc/rot_event()
 	src.visible_message(span_info("[src]'s corpse is taken by the Rot."))
 	new /obj/effect/decal/remains/human(src.loc)
-	qdel(src)
+	recycle()
 
 // killed by ocean & sewer tiles, so the warband's avenues of attack are limited
-/mob/living/carbon/human/species/human/northern/grunt/proc/drownevent()
+/mob/living/carbon/human/species/human/northern/goon/proc/drownevent()
 	src.emote("agony", forced = TRUE)
 	src.visible_message(span_warning("[src] thrashes and flails in the water, drowning under the weight of their gear!"))
 	addtimer(CALLBACK(src, PROC_REF(drown_followup)), 3 SECONDS)
 
-/mob/living/carbon/human/species/human/northern/grunt/proc/drown_followup()
-		src.adjustOxyLoss(200)
-		src.adjustToxLoss(200)
+/mob/living/carbon/human/species/human/northern/goon/proc/drown_followup()
+	src.adjustOxyLoss(200)
+	src.adjustToxLoss(200)
 
-/mob/living/carbon/human/species/human/northern/grunt/Initialize()
+/mob/living/carbon/human/species/human/northern/goon/Initialize()
 	. = ..()
-	set_species(/datum/species/human/northern)
 	addtimer(CALLBACK(src, PROC_REF(after_creation)), 1 SECONDS)
 	is_silent = TRUE
 
 
-/mob/living/carbon/human/species/human/northern/grunt/after_creation()
+/mob/living/carbon/human/species/human/northern/goon/Destroy()
+	if(friends.len) // atm, a goon's only "friend" will be whoever spawned them
+		for(var/mob/living/carbon/human/pal in friends)
+			if(pal)
+				pal.friends -= src
+				var/datum/component/squad_controller/squad = pal.GetComponent(/datum/component/squad_controller)
+				if(squad)
+					squad.remove_member(src)
+	squad_leader = null
+	walk_target = null
+	saved_mask = null
+	saved_neck = null
+	saved_head = null
+	saved_gloves = null
+	saved_shoes = null
+	saved_r_weapon = null
+	saved_l_weapon = null
+	warband = null
+	subtype = null
 	..()
-	job = "Grunt"
+	// it looks like complex mobs hard delete themselves. this happens so far back in the inheritance chain that i'm just completely lost
+	// if that's ever made to Not Be The Case this harddel hint should probably be removed
+	return QDEL_HINT_HARDDEL
+
+/mob/living/carbon/human/species/human/northern/goon/proc/recycle()
+	revive(TRUE, TRUE)
+	full_repair()
+	wander = FALSE
+	aggressive = FALSE
+	target = null
+	clear_path()
+	moveToNullspace()
+	mode = NPC_AI_SLEEP
+	squad_leader = null
+	friends = list()
+	enemies = list()
+	STOP_PROCESSING(SShumannpc, src)
+	reequip_extremities()	
+	refresh_eyes()
+	for(var/atom/movable/screen/warband/manager/warband_manager in SSwarbands.warband_managers)
+		if(warband_manager.warband_ID == src.warband_ID)
+			var/list/cache_to_use = warband_manager.get_grunt_cache()
+			cache_to_use += src
+			break
+
+/mob/living/carbon/human/species/human/northern/goon/proc/full_repair()
+	for(var/obj/item/I in contents)
+		if(I.obj_integrity < I.max_integrity)
+			I.obj_integrity = I.max_integrity
+			if(I.obj_broken)
+				I.obj_fix()
+		if(I.peel_count)
+			I.peel_count = 0
+		if(I.body_parts_covered_dynamic != I.body_parts_covered)
+			I.repair_coverage()
+
+// when a grunt is equipped, we cache the type of any item that can be disarmed/dismembered from them (gloves, weapons etc)
+// when they're recycled, we regenerate those items
+/mob/living/carbon/human/species/human/northern/goon/proc/reequip_extremities()
+	// hands/weapons
+	var/obj/item/current_r = get_held_items_for_side(RIGHT_HANDS)
+	var/obj/item/current_l = get_held_items_for_side(LEFT_HANDS)	
+	if(current_r && !istype(current_r, saved_r_weapon))
+		dropItemToGround(current_r)
+		current_r = null
+	if(saved_r_weapon && !current_r)
+		put_in_r_hand(new saved_r_weapon())
+		
+	if(current_l && !istype(current_l, saved_l_weapon))
+		dropItemToGround(current_l)
+		current_l = null
+	if(saved_l_weapon && !current_l)
+		put_in_l_hand(new saved_l_weapon())
+
+	// extremities
+	if(saved_mask	&& !istype(wear_mask,	saved_mask))	equip_to_slot_or_del(new saved_mask(),		SLOT_WEAR_MASK)
+	if(saved_mouth	&& !istype(mouth,		saved_mouth))	equip_to_slot_or_del(new saved_mouth(),		SLOT_MOUTH)
+	if(saved_neck	&& !istype(wear_neck,	saved_neck))	equip_to_slot_or_del(new saved_neck(),		SLOT_NECK)
+	if(saved_head	&& !istype(head,		saved_head))	equip_to_slot_or_del(new saved_head(),		SLOT_HEAD)
+	if(saved_gloves	&& !istype(gloves,		saved_gloves))	equip_to_slot_or_del(new saved_gloves(),	SLOT_GLOVES)
+	if(saved_shoes	&& !istype(shoes,		saved_shoes))	equip_to_slot_or_del(new saved_shoes(),		SLOT_SHOES)
+
+
+/mob/living/carbon/human/species/human/northern/goon/after_creation()
+	..()
+	job = "Goon"
 	ADD_TRAIT(src, TRAIT_NOMOOD, TRAIT_GENERIC)
 	ADD_TRAIT(src, TRAIT_NOHUNGER, TRAIT_GENERIC)
 	ADD_TRAIT(src, TRAIT_FORMATIONFIGHTER, TRAIT_GENERIC)
-	ADD_TRAIT(src, TRAIT_NOMOOD, TRAIT_GENERIC)
 	ADD_TRAIT(src, TRAIT_LEECHIMMUNE, INNATE_TRAIT)
 	ADD_TRAIT(src, TRAIT_BREADY, TRAIT_GENERIC)
+	ADD_TRAIT(src, TRAIT_STUCKITEMS, TRAIT_GENERIC)
 	ADD_TRAIT(src, TRAIT_HEAVYARMOR, TRAIT_GENERIC)
-
-	equipOutfit(new /datum/outfit/job/roguetown/human/species/human/northern/grunt/base_grunt_stats)
-	if(istype(warband, /datum/warbands/standard))
-		equipOutfit(new /datum/outfit/job/roguetown/human/species/human/northern/grunt)
-
-	else if(istype(warband, /datum/warbands/sect))
-		equipOutfit(new /datum/outfit/job/roguetown/human/species/human/northern/grunt/cultist)
-
-	else if(istype(warband, /datum/warbands/mercenary))
-		equipOutfit(new /datum/outfit/job/roguetown/human/species/human/northern/grunt/mercenary)
-
-	else if(istype(warband, /datum/warbands/storyteller/peasant))
-		equipOutfit(new /datum/outfit/job/roguetown/human/species/human/northern/grunt/peasant)
-
-	else if(istype(warband, /datum/warbands/storyteller/wizard))
-		equipOutfit(new /datum/outfit/job/roguetown/human/species/human/northern/grunt/layman)
+	equipOutfit(new /datum/outfit/job/roguetown/human/species/human/northern/goon/base_grunt_stats)
 
 
+/mob/living/carbon/human/species/human/northern/goon/proc/equip_for_warband()
+	if(!warband)
+		return
+	
+	var/outfit_type
+	switch(warband.type)
+		if(/datum/warbands/standard)
+			outfit_type = /datum/outfit/job/roguetown/human/species/human/northern/goon
+		if(/datum/warbands/sect)
+			outfit_type = /datum/outfit/job/roguetown/human/species/human/northern/goon/cultist
+		if(/datum/warbands/mercenary)
+			outfit_type = /datum/outfit/job/roguetown/human/species/human/northern/goon/mercenary
+		if(/datum/warbands/storyteller/peasant)
+			outfit_type = /datum/outfit/job/roguetown/human/species/human/northern/goon/peasant
+		if(/datum/warbands/storyteller/wizard)
+			outfit_type = /datum/outfit/job/roguetown/human/species/human/northern/goon/layman
+		else
+			outfit_type = /datum/outfit/job/roguetown/human/species/human/northern/goon
+	equipOutfit(new outfit_type)
+	apply_appearance()
 
+	// cache anything they could lose via disarming/dismemberment
+	var/obj/item/r = get_held_items_for_side(RIGHT_HANDS)
+	var/obj/item/l = get_held_items_for_side(LEFT_HANDS)
+	saved_r_weapon = r?.type
+	saved_l_weapon = l?.type
+	saved_mask = wear_mask?.type
+	saved_neck = wear_neck?.type
+	saved_head = head?.type
+	saved_mouth = mouth?.type
+	saved_gloves = gloves?.type
+	saved_shoes = shoes?.type
+	return
+
+/mob/living/carbon/human/species/human/northern/goon/proc/apply_appearance()
 	var/obj/item/bodypart/head/head = get_bodypart(BODY_ZONE_HEAD)
 	var/hairf = pick(list(/datum/sprite_accessory/hair/head/bedhead, 
 						/datum/sprite_accessory/hair/head/bob))
@@ -135,6 +339,7 @@
 	else
 		new_hair.set_accessory_type(hairm, null, src)
 		new_facial.set_accessory_type(beard, null, src)
+	
 	if(subtype && (subtype.type == WARBAND_MERC_DROW || subtype.type == WARBAND_MERC_HANGYAKU || subtype.type == WARBAND_MERC_RUMA || subtype.type == WARBAND_MERC_DESERTRIDER || subtype.type == WARBAND_MERC_CONDO || subtype.type == WARBAND_MERC_FORLORN))
 		if(prob(50))
 			new_hair.accessory_colors = "#1d1d1d"
@@ -168,18 +373,18 @@
 	dna.update_ui_block(DNA_HAIR_COLOR_BLOCK)
 	dna.species.handle_body(src)
 
+	refresh_eyes()
+	update_hair()
+	update_body()
 
+/mob/living/carbon/human/species/human/northern/goon/proc/refresh_eyes()
 	var/obj/item/organ/eyes/organ_eyes = getorgan(/obj/item/organ/eyes)
 	if(organ_eyes)
 		var/picked_eye_color = pick("#365334", "#395c70", "#30261e")
 		organ_eyes.eye_color = picked_eye_color
 		organ_eyes.accessory_colors = picked_eye_color + picked_eye_color
 
-
-	update_hair()
-	update_body()
-
-/mob/living/carbon/human/species/human/northern/grunt/npc_idle()
+/mob/living/carbon/human/species/human/northern/goon/npc_idle()
 	if(m_intent == MOVE_INTENT_SNEAK)
 		return
 	if(world.time < next_idle)
@@ -195,21 +400,17 @@
 	if(!wander && prob(10))
 		face_atom(get_step(src,pick(GLOB.cardinals)))
 
-/mob/living/carbon/human/species/human/northern/grunt/handle_combat()
-	if(mode == NPC_AI_HUNT)
-		if(prob(2)) 
-			emote("rage")
-	. = ..()
 
-/datum/outfit/job/roguetown/human/species/human/northern/grunt
+/datum/outfit/job/roguetown/human/species/human/northern/goon
 	var/datum/warbands/subtypes/subtype
 
-/datum/outfit/job/roguetown/human/species/human/northern/grunt/base_grunt_stats/pre_equip(mob/living/carbon/human/species/human/northern/grunt/H)
+/datum/outfit/job/roguetown/human/species/human/northern/goon/base_grunt_stats/pre_equip(mob/living/carbon/human/species/human/northern/goon/H)
 	if(prob(50))
 		H.real_name = pick(world.file2list("strings/rt/names/human/humsoum.txt"))
 	else
 		H.real_name = pick(world.file2list("strings/rt/names/human/humnorm.txt"))
 	H.adjust_skillrank(/datum/skill/combat/polearms, 3, TRUE)
+	H.adjust_skillrank(/datum/skill/combat/staves, 3, TRUE)
 	H.adjust_skillrank(/datum/skill/combat/swords, 3, TRUE)
 	H.adjust_skillrank(/datum/skill/combat/maces, 3, TRUE)
 	H.adjust_skillrank(/datum/skill/combat/axes, 3, TRUE)
@@ -228,8 +429,7 @@
 	H.STAINT = 10
 	H.STAPER = 12
 
-
-/datum/outfit/job/roguetown/human/species/human/northern/grunt/pre_equip(mob/living/carbon/human/species/human/northern/grunt/H)
+/datum/outfit/job/roguetown/human/species/human/northern/goon/pre_equip(mob/living/carbon/human/species/human/northern/goon/H)
 	armor = /obj/item/clothing/suit/roguetown/armor/chainmail/hauberk/iron
 	shirt = /obj/item/clothing/suit/roguetown/armor/gambeson
 	wrists = /obj/item/clothing/wrists/roguetown/bracers
@@ -241,7 +441,6 @@
 	neck = /obj/item/clothing/neck/roguetown/chaincoif/iron
 	l_hand = /obj/item/rogueweapon/sword/iron
 
-// EXTRA ARMOR
 	if(prob(50))
 		head = /obj/item/clothing/head/roguetown/helmet/sallet/iron
 	else
@@ -251,7 +450,7 @@
 	else
 		gloves = /obj/item/clothing/gloves/roguetown/chain/iron
 
-/datum/outfit/job/roguetown/human/species/human/northern/grunt/peasant/pre_equip(mob/living/carbon/human/species/human/northern/grunt/H)
+/datum/outfit/job/roguetown/human/species/human/northern/goon/peasant/pre_equip(mob/living/carbon/human/species/human/northern/goon/H)
 	head = /obj/item/clothing/head/roguetown/armingcap
 	wrists = /obj/item/clothing/wrists/roguetown/bracers/leather
 	shoes = /obj/item/clothing/shoes/roguetown/boots/leather
@@ -279,7 +478,7 @@
 			l_hand = /obj/item/rogueweapon/mace/woodclub/crafted
 
 
-/datum/outfit/job/roguetown/human/species/human/northern/grunt/layman/pre_equip(mob/living/carbon/human/species/human/northern/grunt/H)
+/datum/outfit/job/roguetown/human/species/human/northern/goon/layman/pre_equip(mob/living/carbon/human/species/human/northern/goon/H)
 	r_hand = /obj/item/rogueweapon/mace/goden/steel
 	cloak = /obj/item/clothing/cloak/thrall
 	belt = /obj/item/storage/belt/rogue/leather/black
@@ -294,7 +493,7 @@
 	shoes = /obj/item/clothing/shoes/roguetown/sandals
 
 
-/datum/outfit/job/roguetown/human/species/human/northern/grunt/cultist/pre_equip(mob/living/carbon/human/species/human/northern/grunt/H)
+/datum/outfit/job/roguetown/human/species/human/northern/goon/cultist/pre_equip(mob/living/carbon/human/species/human/northern/goon/H)
 	subtype = H.subtype
 	if(prob(60))
 		r_hand = /obj/item/rogueweapon/whip
@@ -313,11 +512,11 @@
 		mask = /obj/item/clothing/mask/rogue/sack
 
 
-/datum/outfit/job/roguetown/human/species/human/northern/grunt/mercenary/pre_equip(mob/living/carbon/human/species/human/northern/grunt/H)
+/datum/outfit/job/roguetown/human/species/human/northern/goon/mercenary/pre_equip(mob/living/carbon/human/species/human/northern/goon/H)
 	subtype = H.subtype
 	if(subtype)
 		switch(subtype.type)
-			if(WARBAND_MERC_ATGERVI)
+			if(WARBAND_MERC_NORTHMEN)
 				H.skin_tone = SKIN_COLOR_GRONN
 				H.update_body()
 				r_hand = /obj/item/rogueweapon/stoneaxe/woodcut/steel/atgervi
@@ -489,12 +688,11 @@
 				mask = /obj/item/clothing/mask/rogue/facemask/steel/steppesman
 				belt = /obj/item/storage/belt/rogue/leather/black
 				pants = /obj/item/clothing/under/roguetown/heavy_leather_pants
-				shirt = /obj/item/clothing/suit/roguetown/armor/gambeson/heavy/chargah
+				shirt = /obj/item/clothing/suit/roguetown/armor/chainmail/hauberk/iron
 				shoes = /obj/item/clothing/shoes/roguetown/boots/leather
 				head = /obj/item/clothing/head/roguetown/helmet/sallet/shishak
 				gloves = /obj/item/clothing/gloves/roguetown/chain
-				armor = /obj/item/clothing/suit/roguetown/armor/plate/scale/steppe
-				wrists = /obj/item/clothing/wrists/roguetown/bracers
+				armor = /obj/item/clothing/suit/roguetown/armor/gambeson/heavy/chargah
 				r_hand = /obj/item/rogueweapon/shield/iron/steppesman
 				l_hand = /obj/item/rogueweapon/sword/sabre/steppesman
 				neck = /obj/item/clothing/neck/roguetown/chaincoif
@@ -516,7 +714,6 @@
 			if(WARBAND_MERC_VAQUERO)
 				H.skin_tone = SKIN_COLOR_ETRUSCA
 				H.update_body()
-				head = /obj/item/clothing/head/roguetown/bardhat
 				shoes = /obj/item/clothing/shoes/roguetown/boots
 				neck = /obj/item/clothing/neck/roguetown/gorget
 				pants = /obj/item/clothing/under/roguetown/heavy_leather_pants
@@ -525,7 +722,6 @@
 				gloves = /obj/item/clothing/gloves/roguetown/fingerless_leather
 				wrists = /obj/item/clothing/wrists/roguetown/bracers/leather
 				armor = /obj/item/clothing/suit/roguetown/armor/leather/heavy/coat
-				cloak = /obj/item/clothing/cloak/half/rider/red
 				l_hand = /obj/item/rogueweapon/sword/rapier/vaquero
 				r_hand = /obj/item/rogueweapon/huntingknife/idagger/steel/parrying/vaquero
 			if(WARBAND_MERC_WARSCHOLAR)
@@ -542,7 +738,7 @@
 				belt = /obj/item/storage/belt/rogue/leather
 				shoes = /obj/item/clothing/shoes/roguetown/boots
 	else // if there isn't an available subtype loadout for whatever reason, we just use the grunts from Feud
-		H.equipOutfit(new /datum/outfit/job/roguetown/human/species/human/northern/grunt)
+		H.equipOutfit(new /datum/outfit/job/roguetown/human/species/human/northern/goon)
 
 #undef GRUNTSTR
 #undef GRUNTSPD

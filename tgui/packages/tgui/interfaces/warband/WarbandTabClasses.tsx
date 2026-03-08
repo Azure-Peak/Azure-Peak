@@ -7,7 +7,7 @@ type ClassesTabProps = {
   selectedClass: ClassType | null;
   selectedSubclass: ClassType | null;
   availableClasses: ClassType[];
-  filteredGruntClasses: ClassType[];
+  filteredSubclasses: ClassType[];
   handleClassSelect: (classe: ClassType) => void;
   handleSubclassSelect: (subclass: ClassType) => void;
   act: (action: string) => void;
@@ -19,7 +19,7 @@ export const ClassesTab = ({
   selectedClass,
   selectedSubclass,
   availableClasses,
-  filteredGruntClasses,
+  filteredSubclasses,
   handleClassSelect,
   handleSubclassSelect,
   act,
@@ -73,37 +73,39 @@ export const ClassesTab = ({
           fill 
           style={{ flex: 1 }}
         >
-          {selectedWarband?.title === "MERCENARY COMPANY" && filteredGruntClasses.length > 0 ? (
+          {selectedWarband?.title === "MERCENARY COMPANY" && filteredSubclasses.length > 0 ? (
             <Stack vertical>
-              {filteredGruntClasses
-                .filter((subclass) => subclass.alt_name !== "Mercenary")
-                .map((subclass) => {
-                  const isSelected = selectedSubclass?.alt_name === subclass.alt_name;
-                  return (
-                    <Button
-                      key={subclass.alt_name}
-                      onClick={() => {
-                        if (!canModify) return;
-                        handleSubclassSelect(subclass);
-                        act('interaction_sound');
-                      }}
-                      disabled={!canModify}
-                      style={{ 
-                        backgroundColor: isSelected ? '#7a2525ff' : undefined, 
-                        whiteSpace: 'normal', 
-                        textAlign: 'left',
-                      }}>
-                      <Stack vertical>
-                        <span style={{ fontSize: '14px' }}>{subclass.alt_name}</span>
-                        <span style={{ fontSize: '12px', color: '#ccc' }}>{subclass.desc}</span>
-                      </Stack>
-                    </Button>
-                  );
-                })}
+              {filteredSubclasses.map((subclass) => {
+                const isSelected = selectedSubclass?.alt_name === subclass.alt_name;
+                return (
+                  <Button
+                    key={subclass.alt_name}
+                    onClick={() => {
+                      if (!canModify) return;
+                      handleSubclassSelect(subclass);
+                      act('interaction_sound');
+                    }}
+                    disabled={!canModify}
+                    style={{ 
+                      backgroundColor: isSelected ? '#7a2525ff' : undefined, 
+                      whiteSpace: 'normal', 
+                      textAlign: 'left',
+                    }}>
+                    <Stack vertical>
+                      <span style={{ fontSize: '14px' }}>{subclass.name || subclass.alt_name}</span>
+                      <span style={{ fontSize: '12px', color: '#ccc' }}>{subclass.desc}</span>
+                    </Stack>
+                  </Button>
+                );
+              })}
             </Stack>
           ) : (
             <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100%' }}>
-              <p style={{ color: '#7a2525ff' }}>UNAVAILABLE</p>
+              <p style={{ color: '#7a2525ff' }}>
+                {selectedWarband?.title === "MERCENARY COMPANY" 
+                  ? 'NO SUBCLASSES AVAILABLE' 
+                  : 'UNAVAILABLE | MERCENARY ONLY'}
+              </p>
             </div>
           )}
         </Section>

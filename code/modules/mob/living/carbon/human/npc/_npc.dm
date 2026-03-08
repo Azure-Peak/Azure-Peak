@@ -23,8 +23,8 @@
 	var/ai_when_client = FALSE
 	var/next_idle = 0
 	var/next_seek = 0
+	var/next_hunt = 0
 	var/next_passive_detect = 0
-	var/next_follow_attempt = 0
 	var/flee_in_pain = FALSE
 	/// When is the next time we'll attempt to stand up?
 	var/next_stand_attempt = 0
@@ -124,20 +124,10 @@
 	if(length(myPath))
 		steps_moved_this_turn += move_along_path()
 		// We could return here if we wanted to make moving use your turn.
-	// if they're a grunt follower with an obstructed path, they'll try getting closer to the obstruction
-	// helps them flow through doorways
-	else if(mode == NPC_AI_FOLLOW && target)
-		var/turf/follower_turf = get_turf(src)
-		var/turf/target_turf = get_turf(target)
-		if(follower_turf && target_turf)
-			var/distance = follower_turf.Distance_cardinal_3d(target_turf, src)
-			if(distance > 3 && distance <= 10)
-				var/turf/next_step = get_step_towards(src, target)
-				if(next_step && next_step.can_traverse_safely(src)) // we don't want to drift into lava
-					if(step_towards(src, target, cached_multiplicative_slowdown))
-						steps_moved_this_turn++
-	if(mode == NPC_AI_FOLLOW)
-		npc_follow()
+	if(mode == NPC_AI_MARCH)
+		if(target)
+			npc_march()
+		return
 
 	// Special case: Taunt people hiding in trees directly above us.
 	var/turf/my_turf = get_turf(src)
@@ -180,7 +170,7 @@
 		// Wait 1-3 seconds between attempts.
 		next_stand_attempt = world.time + rand(1 SECONDS, 3 SECONDS)
 
-/mob/living/carbon/human/proc/npc_follow()
+/mob/living/carbon/human/proc/npc_march()
 	if(!target)
 		mode = NPC_AI_IDLE
 		return TRUE
@@ -188,28 +178,27 @@
 	validate_path()
 	var/turf/my_turf = get_turf(src)
 	var/turf/target_turf = get_turf(target)
-	var/distance = my_turf.Distance_cardinal_3d(target_turf, src)
-	if(distance > 40) 	// if the boss is WAY too far away, give up
-		back_to_idle() 	// persistent following across short ranges is fine, but at longer ranges it lags crazy style
+	if(!my_turf || !target_turf)
 		return TRUE
+	var/distance = my_turf.Distance_cardinal_3d(target_turf, src)
 
-	if(distance <= 3)	// only path if we're more than 3 tiles away
+	if(distance <= 3)
 		if(length(myPath))
 			clear_path()
-		return TRUE // if we reached the target early, we stop
+		return TRUE
 
-	if(!length(myPath)) // create a new path to the target
-		if(world.time < next_follow_attempt)
-			return TRUE
-		// we want them to stop pathfinding when obstructed, but still hold the intent to follow their target
-		// follow cooldown cumulatively increases with frustration
-		// so temporary obstructions should be resolved and permanent obstructions should freeze them
-		var/follow_cooldown = 2 SECONDS + (pathing_frustration * 1.3 SECONDS)
-		next_follow_attempt = world.time + follow_cooldown
-		if(!start_pathing_to(target))
+	if(!length(myPath))
+		while(steps_moved_this_turn < maxStepsTick)
+			if(!start_pathing_to(target))
+				break 
+			steps_moved_this_turn++
+
+		if(steps_moved_this_turn < maxStepsTick)
+			if(world.time < next_hunt)
+				return TRUE
+			var/march_cooldown = 2 SECONDS + (pathing_frustration * 1.3 SECONDS)
+			next_hunt = world.time + march_cooldown
 			var/list/line_of_turfs = get_line(my_turf, target_turf)
-
-			// move via relays to take them beyond their usual range
 			var/relay_distance = 30
 			var/turf/relay_target = null
 			if(line_of_turfs.len >= relay_distance)
@@ -219,8 +208,9 @@
 			if(relay_target)
 				if(!start_pathing_to(relay_target))
 					pathing_frustration++
-					NPC_THINK("Failed to find relay path. Frustration is [pathing_frustration]. Retrying in [follow_cooldown / 10].")
-				start_pathing_to(relay_target)
+					NPC_THINK("Failed to find relay path. Frustration is [pathing_frustration]. Retrying in [march_cooldown / 10].")
+				else
+					start_pathing_to(relay_target)
 	return TRUE
 
 /mob/living/carbon/human/proc/npc_idle()
@@ -1047,7 +1037,7 @@
 	if(mode == NPC_AI_OFF)
 		return
 
-	if(mode == NPC_AI_FOLLOW)
+	if(mode == NPC_AI_MARCH) // stay awake while marching
 		return TRUE
 
 	for(var/datum/spatial_grid_cell/grid as anything in our_cells.member_cells)

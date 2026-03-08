@@ -38,6 +38,26 @@
 			return TRUE
 	return FALSE
 
+/mob/living/carbon/human/proc/get_curse_for_patron(patron_type)
+	var/curse_map = list(
+		/datum/patron/divine/astrata = /datum/curse/astrata,
+		/datum/patron/divine/dendor = /datum/curse/dendor,
+		/datum/patron/divine/abyssor = /datum/curse/abyssor,
+		/datum/patron/divine/noc = /datum/curse/noc,
+		/datum/patron/divine/ravox = /datum/curse/ravox,
+		/datum/patron/divine/necra = /datum/curse/necra,
+		/datum/patron/divine/xylix = /datum/curse/xylix,
+		/datum/patron/divine/pestra = /datum/curse/pestra,
+		/datum/patron/divine/malum = /datum/curse/malum,
+		/datum/patron/divine/eora = /datum/curse/eora,
+
+		/datum/patron/inhumen/zizo = /datum/curse/zizo,
+		/datum/patron/inhumen/baotha = /datum/curse/baotha,
+		/datum/patron/inhumen/graggar = /datum/curse/graggar,
+		/datum/patron/inhumen/matthios = /datum/curse/matthios
+	)
+	return curse_map[patron_type]
+
 /datum/curse
 	var/name = "Debug Curse"
 	var/description = "This is a debug curse."

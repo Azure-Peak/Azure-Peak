@@ -321,7 +321,7 @@ GLOBAL_LIST_INIT(roguetraits, list(
 	TRAIT_DODGEEXPERT = span_info("I am much better at dodging incoming strikes, when dressed in either light armor or nothing at all. Heavier armor, such as maille or plate, is too burdensome for me to quickly maneuver in."),
 	TRAIT_NO_XP = span_warning("I cannot learn new skills."),
 	TRAIT_FORMATIONFIGHTER = span_info("I am in perfect harmony with my comrades, and I can stride through our formations with ease."),
-	TRAIT_LAWEXPERT = span_notice("Enlightened by yils of experience, I can discern the truth behind pretentiously dense diplomatic texts."),
+	TRAIT_LAWEXPERT = span_notice("I can discern the truth behind pretentiously dense diplomatic texts."),
 	TRAIT_MAGEARMOR = span_info("My magics can protect me from a blow every so often."),
 	TRAIT_DECEIVING_MEEKNESS = span_info("People look at me and think I am a weakling. They are mistaken. I've learned how to hide my vices and true beliefs from others."),
 	TRAIT_CRITICAL_RESISTANCE = span_info("My constitution is iron-clad. My lifeblood flows slowly, I can resist the first few critical wounds that would fell others, but repeated punishment will overwhelm my defenses."),
@@ -567,6 +567,7 @@ Remember to update _globalvars/traits.dm if you're adding/removing/renaming trai
 //mob traits
 #define TRAIT_BLIND 			"blind"
 #define TRAIT_MUTE				"mute"
+#define TRAIT_FORCED_LOOC		"looc"
 #define TRAIT_ZOMBIE_SPEECH 	"zombie_speech"
 #define TRAIT_GARGLE_SPEECH		"gargle_speech"
 #define TRAIT_EMOTEMUTE			"emotemute"

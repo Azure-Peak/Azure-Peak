@@ -50,6 +50,13 @@
 "W" = (
 /turf/open/floor/rogue/snow,
 /area/rogue/outdoors/warcamp/outskirts/decap)
+"Y" = (
+/obj/machinery/light/roguestreet{
+	pixel_y = 11;
+	pixel_x = 8
+	},
+/turf/open/floor/rogue/metal/barograte,
+/area/rogue/outdoors/warcamp/outskirts/decap)
 
 (1,1,1) = {"
 c
@@ -120,7 +127,7 @@ d
 f
 a
 a
-a
+Y
 f
 f
 a

@@ -7,17 +7,6 @@
 	var/quote_followup					// as above
 	var/subtype_class_override = FALSE 	// if this is true, the main warband's class options will be ignored during character creation
 
-#define ASPECT_BLOCKADE 		/datum/warbands/aspects/blockade
-#define ASPECT_SURPRISE			/datum/warbands/aspects/surprise
-#define ASPECT_FORT				/datum/warbands/aspects/fort
-#define ASPECT_CULT				/datum/warbands/aspects/monofaith
-#define ASPECT_HOST				/datum/warbands/aspects/extraspawns
-#define ASPECT_FIGUREHEAD		/datum/warbands/aspects/figurehead
-#define ASPECT_ENVY				/datum/warbands/aspects/envy
-#define ASPECT_BADSPAWN			/datum/warbands/aspects/badexit
-
-#define ASPECTS					list(ASPECT_FORT, ASPECT_BLOCKADE, ASPECT_SURPRISE, ASPECT_CULT, ASPECT_HOST, ASPECT_FIGUREHEAD, ASPECT_ENVY, ASPECT_BADSPAWN)
-
 /datum/warbands/aspects/blockade
 	title = "BLOCKADE"
 	points = -1
@@ -39,13 +28,6 @@
 	warning = "...?"
 	points = -1
 
-// ideally, sect's monofaith aspect should be replaced with a unique aspect/class set for each god, but it'd be a massive timesink
-// the current broad class groups are fine
-/datum/warbands/aspects/monofaith
-	title = "MONOFAITH"
-	summary = "Everyone in the Warband prays to a single, shared patron determined by the Warlord's faith."
-	warning = "...of single-minded fanaticism and ritual."
-	points = -1
 
 /datum/warbands/aspects/extraspawns
 	title = "GRAND HOST"
@@ -76,40 +58,6 @@
 	warning = "...of a driven, beloved leader."
 	points = 1	
 
-////////////////////////
-//////////////////////////////////////////////// SUBTYPES
-////////////////////////
-#define WARBAND_MERC_ATGERVI		/datum/warbands/subtypes/atgervi
-#define WARBAND_MERC_GRENZEL		/datum/warbands/subtypes/grenzel
-#define WARBAND_MERC_BLACKOAK		/datum/warbands/subtypes/blackoak
-#define WARBAND_MERC_CONDO			/datum/warbands/subtypes/condottiero
-#define WARBAND_MERC_DESERTRIDER	/datum/warbands/subtypes/raneshen
-#define WARBAND_MERC_FORLORN		/datum/warbands/subtypes/forlorn
-#define WARBAND_MERC_FREI			/datum/warbands/subtypes/freifechter
-#define WARBAND_MERC_GRUDGE			/datum/warbands/subtypes/grudgebearer
-#define WARBAND_MERC_ROUTIER		/datum/warbands/subtypes/routier
-#define WARBAND_MERC_RUMA			/datum/warbands/subtypes/ruma
-#define WARBAND_MERC_STEPPE			/datum/warbands/subtypes/steppesman
-#define WARBAND_MERC_UNDERDWELLER	/datum/warbands/subtypes/underdweller
-#define WARBAND_MERC_VAQUERO		/datum/warbands/subtypes/vaquero
-#define WARBAND_MERC_WARSCHOLAR		/datum/warbands/subtypes/warscholar
-#define WARBAND_MERC_DROW			/datum/warbands/subtypes/anthrax
-#define WARBAND_MERC_HANGYAKU		/datum/warbands/subtypes/hangyaku
-
-#define WARBAND_MERCENARIES list(WARBAND_MERC_ATGERVI, WARBAND_MERC_GRENZEL, WARBAND_MERC_BLACKOAK, WARBAND_MERC_CONDO, \
-                            WARBAND_MERC_DESERTRIDER, WARBAND_MERC_FORLORN, WARBAND_MERC_FREI, WARBAND_MERC_GRUDGE, \
-                            WARBAND_MERC_ROUTIER, WARBAND_MERC_RUMA, WARBAND_MERC_STEPPE, WARBAND_MERC_WARSCHOLAR, \
-                            WARBAND_MERC_VAQUERO, WARBAND_MERC_UNDERDWELLER, WARBAND_MERC_DROW, WARBAND_MERC_HANGYAKU)
-
-#define WARBAND_SECT_TEN 		/datum/warbands/subtypes/ten 
-#define WARBAND_SECT_FOUR		/datum/warbands/subtypes/ascendant
-#define WARBAND_SECT_PSYDON		/datum/warbands/subtypes/psydon
-
-#define WARBAND_SECTS	list(WARBAND_SECT_TEN, WARBAND_SECT_FOUR, WARBAND_SECT_PSYDON)
-
-#define WARBAND_UNTAGGED_SUBTYPES	list()
-
-
 /datum/warbands/subtypes
 	points = 0
 
@@ -117,10 +65,13 @@
 //////////////////////// MERCENARIES
 ////////////
 
-/datum/warbands/subtypes/atgervi
-	title = "ATGERVI"
-	gruntclasses = list(/datum/advclass/mercenary/atgervi, /datum/advclass/mercenary/atgervi/shaman)
+/datum/warbands/subtypes/northmen
+	title = "NORTHMEN"
+	warlordclasses = list(/datum/advclass/mercenary/gronnheavy, /datum/advclass/mercenary/atgervi/shaman)
+	lieutenantclasses = list(/datum/advclass/mercenary/atgervi)
+	gruntclasses = list(/datum/advclass/mercenary/gronn)
 	combatmusic = list('sound/music/combat_shaman2.ogg')
+	faithlock = list(ALL_INHUMEN_PATRONS)
 
 /datum/warbands/subtypes/routier
 	title = "OTAVAN ROUTIERS"
@@ -134,11 +85,14 @@
 	title = "BLACK OAK"
 	treaty_name = "Azuria-in-Exile"
 	racelock = list(/datum/species/human/halfelf, /datum/species/elf/wood, /datum/species/elf/dark)
-	gruntclasses = list(/datum/advclass/mercenary/blackoak, /datum/advclass/mercenary/blackoak/ranger, /datum/advclass/wretch/blackoakwyrm)
+	warlordclasses = list(/datum/advclass/wretch/blackoakwyrm)
+	lieutenantclasses = list(/datum/advclass/wretch/blackoakwyrm)
+	gruntclasses = list(/datum/advclass/mercenary/blackoak, /datum/advclass/mercenary/blackoak/ranger)
 	combatmusic = list('sound/music/combat_blackoak.ogg')
 
 /datum/warbands/subtypes/condottiero
 	title = "CONDOTTIERO"
+	warlordclasses = list(/datum/advclass/mercenary/etrusca/condottiero)
 	gruntclasses = list(/datum/advclass/mercenary/etrusca/balestrieri)
 	combatmusic = list('sound/music/combat_condottiero.ogg')
 
@@ -149,6 +103,7 @@
 
 /datum/warbands/subtypes/ruma
 	title = "RUMA CLAN"
+	warlordclasses = list(/datum/advclass/mercenary/seonjang)
 	gruntclasses = list(/datum/advclass/mercenary/rumaclan, /datum/advclass/mercenary/rumaclan/sasu)
 	combatmusic = list('sound/music/combat_kazengite.ogg')
 
@@ -195,6 +150,7 @@
 	gruntclasses = list(/datum/advclass/mercenary/anthrax, /datum/advclass/mercenary/anthrax/assasin)
 	combatmusic = list('sound/music/combat_delf.ogg')
 
+// vaquero feel like solo mercenaries, but the idea of a cowboy army is too good to pass up. Get In There, Partner
 /datum/warbands/subtypes/vaquero
 	title = "VAQUERO"
 	treaty_name = "The Posse"
@@ -222,22 +178,23 @@
 	quote_followup = "DAWN: UNDIVIDED - 2:4"
 	warcamp = /datum/map_template/warcamp_standard
 	warning = "...of devotion to the Ten."
-	aspects = list(ASPECT_CULT)
 	faithlock = list(ALL_DIVINE_PATRONS)
 	combatmusic = list('sound/music/combat_holy.ogg')
 
+// side note while we're here: antagonists that can't be negotiated with are generally off-theme for Warbands
+// if you absolutely need to add one, please leave them at a high rarity
 /datum/warbands/subtypes/ascendant
-	rarity = 2	// an ascendant sect treads on narrative ground covered by a ton of other antagonists, so we'll make them uncommon
-	storytellerlimit = /datum/storyteller/graggar // by well-tread narrative ground i'm referring to a massacre
+	// rarity = 2	// an ascendant sect treads on narrative ground covered by a ton of other antagonists, so we'll make them uncommon
+	// storytellerlimit = /datum/storyteller/graggar // by well-tread narrative ground i'm referring to a massacre
 	title = "ASCENDANT"
 	treaty_name = "The Holy Ecclesial"
 	quote = "''Shine thy fury upon me, oh Dark Star! I sing thy slaughter's psalm, and thy word is sweet!''"
 	quote_followup = "- A posthumous translation of a serial butcher's words - which were otherwise unintelligible."
 	warning = "...of devotion to the Four."
 	warcamp = /datum/map_template/warcamp_standard
-	aspects = list(ASPECT_CULT)
 	faithlock = list(ALL_INHUMEN_PATRONS)
 	combatmusic = list('sound/music/combat2.ogg')
+	outskirts_wave = /datum/outskirts_wave/ascendant
 
 /datum/warbands/subtypes/psydon
 	title = "OLD GOD"
@@ -247,6 +204,10 @@
 	quote_followup = "- Excerpt from The Apostate, Unknown Author"
 	warning = "...of devotion to the Old God."
 	warcamp = /datum/map_template/warcamp_standard
-	aspects = list(ASPECT_SURPRISE)
 	faithlock = list(/datum/patron/old_god)
 	combatmusic = list('sound/music/combat_inqordinator.ogg')
+
+/datum/warbands/subtypes/psydon/New()
+	..()
+	if(prob(50)) // jazz roll
+		combatmusic = list('sound/music/inquisitorcombat.ogg')
