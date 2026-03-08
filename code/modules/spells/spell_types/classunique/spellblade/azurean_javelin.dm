@@ -10,9 +10,11 @@ To make it versatile for dungeon support - if it is a stab intent,
 it is a direct throw. Cut intent turns it into an arced throw that
 flies over allies.
 
-CD: 12 seconds, you are not a true ranged class and you can literally
+CD: 10 seconds, you are not a true ranged class and you can literally
 rotate tossing your actual spear risk free unlike a real melee. Plus,
 it is an AP projectile and high impact vs other light.
+
+Chargetime reduced from 20 to 10 ticks (1 second) to feel less awkward.
 
 */
 
@@ -23,12 +25,12 @@ it is an AP projectile and high impact vs other light.
 		At 3+ momentum: consumes 3 to double damage. \
 		In Stab stance: direct throw. In Cut stance: arced throw (flies over allies)."
 	clothes_req = FALSE
-	range = 7
+	range = 15
 	projectile_type = /obj/projectile/energy/azurean_javelin
 	sound = list('sound/combat/wooshes/bladed/wooshsmall (1).ogg')
 	releasedrain = 30
 	chargedrain = 1
-	chargetime = 20
+	chargetime = 10
 	recharge_time = 10 SECONDS
 	warnie = "spellwarning"
 	no_early_release = TRUE
