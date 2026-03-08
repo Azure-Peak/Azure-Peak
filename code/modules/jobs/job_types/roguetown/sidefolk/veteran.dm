@@ -52,7 +52,7 @@
 	cmode_music = 'sound/music/cmode/towner/combat_retired.ogg'
 
 	category_tags = list(CTAG_VETERAN)
-	traits_applied = list(TRAIT_BREADY, TRAIT_MEDIUMARMOR, TRAIT_STEELHEARTED)
+	traits_applied = list(TRAIT_COMBAT_AWARE, TRAIT_BREADY, TRAIT_MEDIUMARMOR, TRAIT_STEELHEARTED)
 	subclass_stats = list(
 		STATKEY_INT = 2,
 		STATKEY_STR = 1,
@@ -63,11 +63,11 @@
 	)
 	age_mod = /datum/class_age_mod/veteran/battlemaster
 	subclass_skills = list(
-		/datum/skill/combat/swords = SKILL_LEVEL_MASTER,
-		/datum/skill/combat/maces = SKILL_LEVEL_MASTER,
+		/datum/skill/combat/swords = SKILL_LEVEL_LEGENDARY,
+		/datum/skill/combat/maces = SKILL_LEVEL_LEGENDARY,
 		/datum/skill/combat/axes = SKILL_LEVEL_EXPERT,
 		/datum/skill/combat/shields = SKILL_LEVEL_EXPERT,
-		/datum/skill/combat/wrestling = SKILL_LEVEL_JOURNEYMAN,
+		/datum/skill/combat/wrestling = SKILL_LEVEL_MASTER,
 		/datum/skill/combat/unarmed = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/combat/polearms = SKILL_LEVEL_EXPERT,
 		/datum/skill/combat/bows = SKILL_LEVEL_EXPERT,
@@ -80,7 +80,9 @@
 		/datum/skill/misc/reading = SKILL_LEVEL_NOVICE,
 		/datum/skill/misc/medicine = SKILL_LEVEL_JOURNEYMAN,
 	)
-
+	subclass_stashed_items = list(
+		"Spare House Key" = /obj/item/roguekey/veteran,
+	)
 // Normal veteran start, from the olden days.
 
 /datum/outfit/job/roguetown/vet/battlemaster
@@ -166,7 +168,7 @@
 	outfit = /datum/outfit/job/roguetown/vet/footman
 
 	category_tags = list(CTAG_VETERAN)
-	traits_applied = list(TRAIT_MEDIUMARMOR, TRAIT_STEELHEARTED)
+	traits_applied = list(TRAIT_BREADY, TRAIT_MEDIUMARMOR, TRAIT_STEELHEARTED)
 	subclass_stats = list(
 		STATKEY_CON = 2,
 		STATKEY_INT = 2,
@@ -176,13 +178,13 @@
 	)
 	age_mod = /datum/class_age_mod/veteran/footman
 	subclass_skills = list(
-		/datum/skill/combat/swords = SKILL_LEVEL_EXPERT,
-		/datum/skill/combat/maces = SKILL_LEVEL_EXPERT,
-		/datum/skill/combat/axes = SKILL_LEVEL_JOURNEYMAN,
-		/datum/skill/combat/shields = SKILL_LEVEL_EXPERT, // this is a kinda scary skill to give them, surely it won't go wrong though.
-		/datum/skill/combat/wrestling = SKILL_LEVEL_JOURNEYMAN,
+		/datum/skill/combat/swords = SKILL_LEVEL_MASTER,
+		/datum/skill/combat/maces = SKILL_LEVEL_MASTER,
+		/datum/skill/combat/axes = SKILL_LEVEL_MASTER,
+		/datum/skill/combat/shields = SKILL_LEVEL_LEGENDARY, // this is a kinda scary skill to give them, surely it won't go wrong though.
+		/datum/skill/combat/wrestling = SKILL_LEVEL_MASTER,
 		/datum/skill/combat/unarmed = SKILL_LEVEL_JOURNEYMAN,
-		/datum/skill/combat/polearms = SKILL_LEVEL_MASTER,
+		/datum/skill/combat/polearms = SKILL_LEVEL_LEGENDARY,
 		/datum/skill/combat/bows = SKILL_LEVEL_EXPERT,
 		/datum/skill/combat/crossbows = SKILL_LEVEL_EXPERT,
 		/datum/skill/combat/whipsflails = SKILL_LEVEL_APPRENTICE,
@@ -192,6 +194,9 @@
 		/datum/skill/misc/athletics = SKILL_LEVEL_JOURNEYMAN, // two handed weapons require a LOT of stamina.
 		/datum/skill/misc/reading = SKILL_LEVEL_NOVICE,
 		/datum/skill/misc/medicine = SKILL_LEVEL_APPRENTICE,
+	)
+	subclass_stashed_items = list(
+		"Spare House Key" = /obj/item/roguekey/veteran,
 	)
 
 // No hero, just a normal guy who happened to survive war.
@@ -270,7 +275,7 @@
 	outfit = /datum/outfit/job/roguetown/vet/calvaryman
 
 	category_tags = list(CTAG_VETERAN)
-	traits_applied = list(TRAIT_HEAVYARMOR, TRAIT_MEDIUMARMOR, TRAIT_STEELHEARTED, TRAIT_NOBLE)
+	traits_applied = list(TRAIT_BREADY, TRAIT_HEAVYARMOR, TRAIT_STEELHEARTED, TRAIT_NOBLE)
 	subclass_stats = list(
 		STATKEY_CON = 2,
 		STATKEY_WIL = 2,
@@ -281,16 +286,16 @@
 	)
 	age_mod = /datum/class_age_mod/veteran/cavalryman
 	subclass_skills = list(
-		/datum/skill/combat/swords = SKILL_LEVEL_EXPERT,
-		/datum/skill/combat/maces = SKILL_LEVEL_JOURNEYMAN,
-		/datum/skill/combat/axes = SKILL_LEVEL_EXPERT,
+		/datum/skill/combat/swords = SKILL_LEVEL_MASTER,
+		/datum/skill/combat/maces = SKILL_LEVEL_MASTER,
+		/datum/skill/combat/axes = SKILL_LEVEL_MASTER,
 		/datum/skill/combat/shields = SKILL_LEVEL_EXPERT,
 		/datum/skill/combat/wrestling = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/combat/unarmed = SKILL_LEVEL_JOURNEYMAN,
-		/datum/skill/combat/polearms = SKILL_LEVEL_EXPERT,
-		/datum/skill/combat/bows = SKILL_LEVEL_JOURNEYMAN,
-		/datum/skill/combat/crossbows = SKILL_LEVEL_EXPERT,
-		/datum/skill/combat/whipsflails = SKILL_LEVEL_EXPERT,
+		/datum/skill/combat/polearms = SKILL_LEVEL_MASTER,
+		/datum/skill/combat/bows = SKILL_LEVEL_MASTER,
+		/datum/skill/combat/crossbows = SKILL_LEVEL_MASTER,
+		/datum/skill/combat/whipsflails = SKILL_LEVEL_MASTER,
 		/datum/skill/combat/knives = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/misc/swimming = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/misc/climbing = SKILL_LEVEL_APPRENTICE,
@@ -301,6 +306,9 @@
 	)
 	subclass_virtues = list(
 		/datum/virtue/utility/riding
+	)
+	subclass_stashed_items = list(
+		"Spare House Key" = /obj/item/roguekey/veteran,
 	)
 
 // You get a SAIGA. Saigas are pretty good, you lose out on your legendary weapon skills and you suck more on foot though.
@@ -320,7 +328,7 @@
 	cloak = /obj/item/clothing/cloak/half/vet
 	backpack_contents = list(
 		/obj/item/rogueweapon/huntingknife/idagger/steel/special = 1,
-		/obj/item/rogueweapon/scabbard/sheath = 1,
+		/obj/item/rogueweapon/scabbard/sheath/noble = 1,
 		/obj/item/roguekey/veteran = 1
 		)
 	H.verbs |= /mob/proc/haltyell
@@ -336,7 +344,7 @@
 			if("Sword + Recurve Bow")
 				r_hand = /obj/item/rogueweapon/sword/long
 				beltl = /obj/item/quiver/arrows
-				beltr = /obj/item/rogueweapon/scabbard/sword
+				beltr = /obj/item/rogueweapon/scabbard/sword/noble
 				backl = /obj/item/gun/ballistic/revolver/grenadelauncher/bow/recurve
 
 			if("Axe + Crossbow")
@@ -395,7 +403,7 @@
 	subclass_languages = list(/datum/language/grenzelhoftian)
 	cmode_music = 'sound/music/combat_grenzelhoft.ogg'
 	category_tags = list(CTAG_VETERAN)
-	traits_applied = list(TRAIT_MEDIUMARMOR, TRAIT_STEELHEARTED) //I am sick of fullplate grenzelvets
+	traits_applied = list(TRAIT_BREADY, TRAIT_MEDIUMARMOR, TRAIT_STEELHEARTED) //I am sick of fullplate grenzelvets
 	subclass_stats = list(
 		STATKEY_WIL = 3,// two handed weapons require a LOT of stamina.
 		STATKEY_STR = 2,
@@ -407,19 +415,23 @@
 	subclass_skills = list(
 		/datum/skill/combat/swords = SKILL_LEVEL_EXPERT,
 		/datum/skill/combat/maces = SKILL_LEVEL_EXPERT,
-		/datum/skill/combat/axes = SKILL_LEVEL_EXPERT,
+		/datum/skill/combat/axes = SKILL_LEVEL_MASTER,
 		/datum/skill/combat/wrestling = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/combat/unarmed = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/combat/polearms = SKILL_LEVEL_EXPERT,
+		/datum/skill/combat/shields = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/combat/bows = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/combat/crossbows = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/combat/whipsflails = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/combat/knives = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/misc/swimming = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/misc/climbing = SKILL_LEVEL_APPRENTICE,
-		/datum/skill/misc/athletics = SKILL_LEVEL_APPRENTICE,
+		/datum/skill/misc/athletics = SKILL_LEVEL_EXPERT,
 		/datum/skill/misc/reading = SKILL_LEVEL_NOVICE,
 		/datum/skill/misc/medicine = SKILL_LEVEL_JOURNEYMAN,
+	)
+	subclass_stashed_items = list(
+		"Spare House Key" = /obj/item/roguekey/veteran,
 	)
 
 // Normal veteran start, from the olden days
@@ -444,7 +456,8 @@
 	cloak = /obj/item/clothing/cloak/half/vet
 	backpack_contents = list(
 		/obj/item/rogueweapon/huntingknife/idagger/steel/special = 1,
-		/obj/item/rogueweapon/scabbard/sheath = 1
+		/obj/item/rogueweapon/scabbard/sheath = 1,
+		/obj/item/roguekey/mercenary = 1 //So they can bully newblood mercs. 
 		)
 	H.verbs |= /mob/proc/haltyell
 	if(H.mind)
@@ -454,7 +467,7 @@
 	. = ..()
 	H.adjust_blindness(-3)
 	if(H.mind)
-		var/weapons = list("Zweihander","Halberd")
+		var/weapons = list("Zweihander","Kriegmesser & Buckler","Halberd", "Partizan")
 		var/weapon_choice = input(H, "Choose your weapon.", "TAKE UP ARMS") as anything in weapons
 		H.set_blindness(0)
 		switch(weapon_choice)
@@ -462,8 +475,17 @@
 				H.put_in_hands(new /obj/item/rogueweapon/greatsword/grenz)
 				H.adjust_skillrank_up_to(/datum/skill/combat/swords, 6, TRUE)
 				H.equip_to_slot_or_del(new /obj/item/rogueweapon/scabbard/gwstrap, SLOT_BACK_L)
+			if("Kriegmesser & Buckler") // Buckler cuz they have no shield skill.
+				beltr = /obj/item/rogueweapon/scabbard/sword
+				r_hand = /obj/item/rogueweapon/sword/long/kriegmesser
+				l_hand = /obj/item/rogueweapon/shield/buckler
+				H.adjust_skillrank_up_to(/datum/skill/combat/swords, 6, TRUE)
 			if("Halberd")
 				H.put_in_hands(new /obj/item/rogueweapon/halberd)
+				H.adjust_skillrank_up_to(/datum/skill/combat/polearms, 6, TRUE)
+				H.equip_to_slot_or_del(new /obj/item/rogueweapon/scabbard/gwstrap, SLOT_BACK_L)
+			if("Partizan")
+				H.put_in_hands(new /obj/item/rogueweapon/spear/partizan)
 				H.adjust_skillrank_up_to(/datum/skill/combat/polearms, 6, TRUE)
 				H.equip_to_slot_or_del(new /obj/item/rogueweapon/scabbard/gwstrap, SLOT_BACK_L)
 		var/retirement = list("Pursue Homesteading", "Dabble in Artisan Smithing", "Write an autobiography", "Keep up with your old regimen")
@@ -487,7 +509,7 @@
 				ADD_TRAIT(H, TRAIT_GOODWRITER, TRAIT_GENERIC)
 				H.adjust_skillrank_up_to(/datum/skill/misc/reading, SKILL_LEVEL_MASTER, TRUE)
 			if("Keep up with your old regimen") //You don't get the +2 to willpower because of the existing statblock.
-				H.adjust_skillrank_up_to(/datum/skill/misc/athletics, SKILL_LEVEL_EXPERT, TRUE)
+				H.adjust_skillrank_up_to(/datum/skill/misc/athletics, SKILL_LEVEL_MASTER, TRUE)
 				H.adjust_skillrank_up_to(/datum/skill/misc/swimming, SKILL_LEVEL_EXPERT, TRUE)
 		var/discharged = list("ONE-EYED", "BRITTLE-BONAGE", "HAUNTED", "STIFF-JOINTED")
 		var/discharged_choice = input(H, "What forced you into retirement?", "PICK A DEBILITATION.") as anything in discharged
@@ -511,7 +533,7 @@
 	outfit = /datum/outfit/job/roguetown/vet/scout
 
 	category_tags = list(CTAG_VETERAN)
-	traits_applied = list(TRAIT_LONGSTRIDER, TRAIT_OUTDOORSMAN, TRAIT_STEELHEARTED) //No more dexpert. Fuck you.
+	traits_applied = list(TRAIT_BREADY, TRAIT_LONGSTRIDER, TRAIT_SLEUTH, TRAIT_OUTDOORSMAN, TRAIT_STEELHEARTED) //No more dexpert. Fuck you.
 	subclass_stats = list(
 		STATKEY_PER = 3,// you are OLD you have OLD EYES. this is to counter that debuff so you can be OBSERVANT. You sacrifice your strength and armor, so.
 		STATKEY_INT = 2,
@@ -522,12 +544,12 @@
 	)
 	age_mod = /datum/class_age_mod/veteran/scout
 	subclass_skills = list(
-		/datum/skill/combat/swords = SKILL_LEVEL_EXPERT,
-		/datum/skill/combat/axes = SKILL_LEVEL_EXPERT,
+		/datum/skill/combat/swords = SKILL_LEVEL_MASTER,
+		/datum/skill/combat/axes = SKILL_LEVEL_LEGENDARY,
 		/datum/skill/combat/wrestling = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/combat/unarmed = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/combat/polearms = SKILL_LEVEL_JOURNEYMAN,
-		/datum/skill/combat/bows = SKILL_LEVEL_EXPERT, // I very rarely see ranged weapons outside of PVE. Maybe this'll fix that?
+		/datum/skill/combat/bows = SKILL_LEVEL_LEGENDARY, // I very rarely see ranged weapons outside of PVE. Maybe this'll fix that?
 		/datum/skill/combat/crossbows = SKILL_LEVEL_EXPERT,
 		/datum/skill/combat/whipsflails = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/combat/knives = SKILL_LEVEL_EXPERT,
@@ -537,8 +559,11 @@
 		/datum/skill/misc/athletics = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/misc/reading = SKILL_LEVEL_NOVICE,
 		/datum/skill/misc/medicine = SKILL_LEVEL_JOURNEYMAN,
-		/datum/skill/misc/tracking = SKILL_LEVEL_EXPERT,
+		/datum/skill/misc/tracking = SKILL_LEVEL_LEGENDARY,
 		/datum/skill/misc/stealing = SKILL_LEVEL_APPRENTICE,
+	)
+	subclass_stashed_items = list(
+		"Spare House Key" = /obj/item/roguekey/veteran,
 	)
 
 // Originally was meant to be a horse archer. I decided that was a bad idea.
@@ -617,7 +642,7 @@
 	subclass_languages = list(/datum/language/thievescant)
 	cmode_music = 'sound/music/cmode/nobility/combat_spymaster.ogg'
 	category_tags = list(CTAG_VETERAN)
-	traits_applied = list(TRAIT_DODGEEXPERT, TRAIT_CICERONE, TRAIT_STEELHEARTED)
+	traits_applied = list(TRAIT_DODGEEXPERT, TRAIT_CICERONE, TRAIT_LIGHT_STEP, TRAIT_STEELHEARTED)
 	subclass_stats = list(
 		STATKEY_INT = 3,// you are int-maxxing, especially if you go old.
 		STATKEY_PER = 1,
@@ -627,26 +652,29 @@
 	)
 	age_mod = /datum/class_age_mod/veteran/spy
 	subclass_skills = list(
-		/datum/skill/combat/swords = SKILL_LEVEL_JOURNEYMAN,
+		/datum/skill/combat/swords = SKILL_LEVEL_EXPERT,
 		/datum/skill/combat/maces = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/combat/axes = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/combat/shields = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/combat/wrestling = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/combat/unarmed = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/combat/polearms = SKILL_LEVEL_APPRENTICE,
-		/datum/skill/combat/bows = SKILL_LEVEL_JOURNEYMAN,
+		/datum/skill/combat/bows = SKILL_LEVEL_MASTER,
 		/datum/skill/combat/crossbows = SKILL_LEVEL_EXPERT,
-		/datum/skill/combat/whipsflails = SKILL_LEVEL_EXPERT,
-		/datum/skill/combat/knives = SKILL_LEVEL_JOURNEYMAN,
+		/datum/skill/combat/whipsflails = SKILL_LEVEL_LEGENDARY,
+		/datum/skill/combat/knives = SKILL_LEVEL_MASTER,
 		/datum/skill/misc/swimming = SKILL_LEVEL_APPRENTICE,
-		/datum/skill/misc/climbing = SKILL_LEVEL_EXPERT,
-		/datum/skill/misc/sneaking = SKILL_LEVEL_EXPERT,
+		/datum/skill/misc/climbing = SKILL_LEVEL_MASTER,
+		/datum/skill/misc/sneaking = SKILL_LEVEL_LEGENDARY,
 		/datum/skill/misc/athletics = SKILL_LEVEL_EXPERT,
 		/datum/skill/misc/reading = SKILL_LEVEL_EXPERT,
 		/datum/skill/misc/medicine = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/misc/lockpicking = SKILL_LEVEL_EXPERT,
 		/datum/skill/misc/tracking = SKILL_LEVEL_APPRENTICE,
-		/datum/skill/misc/stealing = SKILL_LEVEL_EXPERT,
+		/datum/skill/misc/stealing = SKILL_LEVEL_MASTER,
+	)
+	subclass_stashed_items = list(
+		"Spare House Key" = /obj/item/roguekey/veteran,
 	)
 
 // The sneaker. Not really typical, but hey, wildcard. Wanna-be Spymaster. I guess that just makes them a normal spy, or, once one.
