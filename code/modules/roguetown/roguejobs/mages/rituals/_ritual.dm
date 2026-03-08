@@ -153,6 +153,7 @@ GLOBAL_LIST_INIT(t4bindingrituallist, generate_t4binding_rituallist())
 	var/mob_to_summon
 	var/blacklisted = FALSE
 	var/tier = 0				/// Tier var is used for 'tier' of ritual, if the ritual has tiers. EX: Summoning rituals. If it doesn't have tiers, set tier to 0.
+	var/req_invokers = 1		/// Minimum number of invokers required to perform this ritual. 1 = solo.
 
 /datum/runeritual/proc/show_menu(mob/user)
 	user << browse(generate_html(user),"window=recipe;size=500x810")

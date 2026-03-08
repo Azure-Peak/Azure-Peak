@@ -9,7 +9,7 @@
 	layer = SIGIL_LAYER
 	color = null
 	var/magictype = "arcyne"//"arcyne", "divine", "druid", "blood"
-	var/runesize = 0	//Used to determine range of 'range' of the rune when counting for invokers. Should correspond to rune size. EX: 32x32 and 96x96 should be size 1. Increase each size by one for every tile radius increase after.
+	var/runesize = 0	//Used to determine range of the rune. Should correspond to rune size. EX: 32x32 and 96x96 should be size 1. Increase each size by one for every tile radius increase after.
 	var/invoker_name = "basic rune"
 
 	/// The description of the ritual rune shown to those who have knowledge to examine it
@@ -17,11 +17,6 @@
 
 	/// This is said by those when the rune is invoked.
 	var/invocation = "Invoco!"
-	/// The amount of invokers required around the rune to invoke it.
-	var/req_invokers = 1
-
-	/// If we have a description override for required invokers to invoke
-	var/req_invokers_text
 	/// Used for some runes, this is for when you want a rune to not be usable when in use.
 	var/rune_in_use = FALSE
 
@@ -166,23 +161,21 @@ GLOBAL_LIST(teleport_runes)
 		to_chat(user, span_notice("Someone is already using this rune."))
 		return
 
-	var/list/invokers = collect_invokers(user)
-	if(length(invokers) < req_invokers)
-		to_chat(user, span_danger("You need [req_invokers - length(invokers)] more adjacent invokers to use this rune in such a manner."))
+	rune_in_use = TRUE
+
+	if(!can_invoke(user))
 		rune_in_use = FALSE
 		fail_invoke()
 		return
 
-	if(!can_invoke(user, invokers))
-		rune_in_use = FALSE
-		fail_invoke()
-		return
-
-	// Build descriptions for tooltip display in the selection list
+	// Build descriptions for tooltip display in the selection list, including invoker requirements
 	var/list/ritual_descriptions = list()
 	for(var/ritual_name in rituals)
 		var/datum/runeritual/ritual_path = rituals[ritual_name]
 		var/rdesc = initial(ritual_path.desc)
+		var/rinvokers = initial(ritual_path.req_invokers)
+		if(rinvokers > 1)
+			rdesc = "[rdesc] (Requires [rinvokers] invokers)"
 		if(rdesc)
 			ritual_descriptions[ritual_name] = rdesc
 
@@ -198,19 +191,27 @@ GLOBAL_LIST(teleport_runes)
 		rune_in_use = FALSE
 		return
 
+	// Collect invokers and check ritual requirements
+	var/ritual_req = initial(pickritual1.req_invokers)
+	var/list/invokers = collect_invokers(user, ritual_req)
+	if(length(invokers) < ritual_req)
+		to_chat(user, span_danger("This ritual requires [ritual_req] invokers. You need [ritual_req - length(invokers)] more nearby."))
+		rune_in_use = FALSE
+		fail_invoke()
+		return
+
 	invoke(invokers, pickritual1)
 	return ..()
 
-/obj/effect/decal/cleanable/roguerune/proc/can_invoke(mob/living/user, list/invokers)
+/obj/effect/decal/cleanable/roguerune/proc/can_invoke(mob/living/user)
 	return TRUE
 
-/obj/effect/decal/cleanable/roguerune/proc/collect_invokers(mob/living/user)
-	rune_in_use = TRUE
-	//This proc determines if the rune can be invoked at the time. If there are multiple required invokers, it will find all nearby invokers.
-	var/list/invokers = list() //people eligible to invoke the rune
+/// Collects eligible invokers near the rune. Always includes the user; searches for additional invokers if needed.
+/obj/effect/decal/cleanable/roguerune/proc/collect_invokers(mob/living/user, req_count = 1)
+	var/list/invokers = list()
 	if(user)
 		invokers += user
-	if(req_invokers > 1)
+	if(req_count > 1)
 		for(var/mob/living/invoker in range(runesize, src))
 			if(invoker == user)
 				continue
@@ -218,19 +219,14 @@ GLOBAL_LIST(teleport_runes)
 				continue
 			if(invoker.stat != CONSCIOUS)
 				continue
-			if(magictype == "arcyne")
-				if(isarcyne(invoker))
-					invokers += invoker
-			if(magictype == "divine")
-				if(isdivine(invoker))
-					invokers += invoker
-			if(magictype == "druid")
-				if(isdruid(invoker))
-					invokers += invoker
-			if(magictype == "blood")
-				if(isblood(invoker))
-					invokers += invoker
-
+			if(magictype == "arcyne" && isarcyne(invoker))
+				invokers += invoker
+			else if(magictype == "divine" && isdivine(invoker))
+				invokers += invoker
+			else if(magictype == "druid" && isdruid(invoker))
+				invokers += invoker
+			else if(magictype == "blood" && isblood(invoker))
+				invokers += invoker
 	return invokers
 
 /obj/effect/decal/cleanable/roguerune/proc/invoke(list/invokers, datum/runeritual/ritual)		//Generic invoke proc. This will be defined on every rune, along with effects.If you want to make an object, or provide a buff, do so through this proc., have both here.
@@ -672,7 +668,6 @@ GLOBAL_LIST(teleport_runes)
 	icon = 'icons/effects/160x160.dmi'
 	icon_state = "portal"
 	tier = 2
-	req_invokers = 1
 	req_keyword = TRUE
 	runesize = 2
 	pixel_x = -64 //So the big ol' 96x96 sprite shows up right
@@ -939,12 +934,11 @@ GLOBAL_LIST(teleport_runes)
 
 /obj/effect/decal/cleanable/roguerune/arcyne/summoning/max
 	name = "grand warded matrix of summoning"
-	desc = "A grand summoning circle, this one requires three invokers to even activate, but can summon the strongest and most powerful of creechurs modern mages can manage to reach."
+	desc = "A grand summoning circle capable of summoning the strongest and most powerful of creechurs modern mages can manage to reach."
 	icon = 'icons/effects/224x224.dmi'
 	icon_state = "huge_runeblued"
 	runesize = 3
-	req_invokers = 3
-	tier = 4
+	tier = 5
 	pixel_x = -96
 	pixel_y = -96
 	pixel_z = 0

@@ -172,9 +172,10 @@
 
 /datum/runeritual/summoning/leyline_encounter/infernal_t3
 	name = "Greater Ritual of Infernal Invasion"
-	desc = "Tear open the veil of the infernal realm, and summon infernal watchers! Requires a secondary invoker."
+	desc = "Tear open the veil of the infernal realm, and summon infernal watchers!"
 	blacklisted = FALSE
 	tier = 3
+	req_invokers = 2
 	alignment = "infernal"
 	primary_mobs = list(/mob/living/simple_animal/hostile/retaliate/rogue/infernal/watcher)
 	secondary_mobs = list(/mob/living/simple_animal/hostile/retaliate/rogue/infernal/hellhound)
@@ -189,6 +190,7 @@
 	desc = "Inverse the veil that holds the plane apart, summoning an archfiend!"
 	blacklisted = FALSE
 	tier = 4
+	req_invokers = 3
 	alignment = "infernal"
 	primary_mobs = list(/mob/living/simple_animal/hostile/retaliate/rogue/infernal/fiend)
 	secondary_mobs = list(/mob/living/simple_animal/hostile/retaliate/rogue/infernal/watcher)
@@ -224,9 +226,10 @@
 
 /datum/runeritual/summoning/leyline_encounter/fae_t3
 	name = "Greater Ritual of Fae Frenzy"
-	desc = "Disrupts the veil to lure dryads through the veil to defeat you! Requires a secondary invoker."
+	desc = "Disrupts the veil to lure dryads through the veil to defeat you!"
 	blacklisted = FALSE
 	tier = 3
+	req_invokers = 2
 	alignment = "fae"
 	primary_mobs = list(/mob/living/simple_animal/hostile/retaliate/rogue/fae/dryad)
 	secondary_mobs = list(/mob/living/simple_animal/hostile/retaliate/rogue/fae/glimmerwing)
@@ -241,6 +244,7 @@
 	desc = "Rend the balanace of the fae realm asunder with uncontrolled arcyne energy, attracting the wrath of a sylph and their followers!"
 	blacklisted = FALSE
 	tier = 4
+	req_invokers = 3
 	alignment = "fae"
 	primary_mobs = list(/mob/living/simple_animal/hostile/retaliate/rogue/fae/sylph)
 	secondary_mobs = list(/mob/living/simple_animal/hostile/retaliate/rogue/fae/dryad)
@@ -276,9 +280,10 @@
 
 /datum/runeritual/summoning/leyline_encounter/earthen_t3
 	name = "Greater Ritual of Earthen Earthquake"
-	desc = "Shatters the veil with a surge of arcyne energy, summoning behemoths from the earthen realm! Requires a secondary invoker."
+	desc = "Shatters the veil with a surge of arcyne energy, summoning behemoths from the earthen realm!"
 	blacklisted = FALSE
 	tier = 3
+	req_invokers = 2
 	alignment = "elemental"
 	primary_mobs = list(/mob/living/simple_animal/hostile/retaliate/rogue/elemental/behemoth)
 	secondary_mobs = list(/mob/living/simple_animal/hostile/retaliate/rogue/elemental/warden)
@@ -293,6 +298,7 @@
 	desc = "Rend the veil asunder and summon a colossi and its followers!"
 	blacklisted = FALSE
 	tier = 4
+	req_invokers = 3
 	alignment = "elemental"
 	primary_mobs = list(/mob/living/simple_animal/hostile/retaliate/rogue/elemental/colossus)
 	secondary_mobs = list(/mob/living/simple_animal/hostile/retaliate/rogue/elemental/behemoth)
@@ -338,6 +344,7 @@
 	desc = "Tear open the deepest layer of the veil, reaching beyond all planes. There is only one thing that dwells there. Requires a confluence of power from all three realms."
 	blacklisted = FALSE
 	tier = 5
+	req_invokers = 3
 	alignment = "void"
 	required_atoms = list(/obj/item/magic/artifact = 5, /obj/item/magic/melded/t4 = 3, /obj/item/magic/voidstone = 3, /obj/item/magic/leyline = 3)
 	primary_mobs = list(/mob/living/simple_animal/hostile/retaliate/rogue/voiddragon)
