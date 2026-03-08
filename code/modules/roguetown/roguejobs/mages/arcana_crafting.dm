@@ -263,6 +263,15 @@
 	result = /obj/item/magic/elemental/relic
 	reqs = list(/obj/item/magic/elemental/fragment = 2)
 
+// Runed Artifacts are only found in bog and run out soon so this is a 
+// Loreful way of "replicating" it but requires you to go out at least once
+
+/datum/crafting_recipe/roguetown/arcana/runed_artifact_replication
+	name = "arcyne replication of runed artifact"
+	result = list(/obj/item/magic/artifact, /obj/item/magic/artifact)
+	reqs = list(/obj/item/magic/artifact = 1,
+				/datum/reagent/medicine/manapot = 45)
+
 // ========== Gem Extraction (remove gem from staff) ==========
 
 /datum/crafting_recipe/roguetown/arcana/extract_toper
