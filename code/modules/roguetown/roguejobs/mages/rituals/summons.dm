@@ -354,7 +354,7 @@
 	secondary_chants = list(VOID_RES_1, VOID_RES_2, VOID_RES_3, VOID_RES_4, VOID_RES_5, VOID_RES_6, VOID_RES_7, VOID_RES_8, VOID_CLIMAX, VOID_CTA_T5)
 
 /datum/runeritual/summoning/leyline_encounter/void_dragon/on_finished_recipe(mob/living/user, list/selected_atoms, turf/loc)
-	if(GLOB.dayspassed < 5)
+	if(GLOB.dayspassed < 4)
 		to_chat(user, span_warning("The veil is not yet thin enough for such a ritual. The void dragon can only be called later in the week."))
 		return FALSE
 	return ..()

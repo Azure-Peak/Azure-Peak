@@ -10,7 +10,7 @@
  * Since charges are limited, mages are expected to go out to realm-aligned leylines
  * rather than waste charges on tamed ones that always give fewer mobs.
  *
- * Day gating: T1 - T3 always available, T4 from day 4, T5 (Void Dragon) from day 5.
+ * Day gating: T1 - T3 always available, T4 from day 3, T5 (Void Dragon) from day 4.
  * This keeps the first few days focused on lower-tier encounters.
  *
  * Leyline types:
@@ -38,9 +38,9 @@ GLOBAL_LIST_EMPTY(leyline_activations)
 	GLOB.leyline_activations[user.real_name]++
 
 /proc/get_max_leyline_tier()
-	if(GLOB.dayspassed >= 5)
-		return 5
 	if(GLOB.dayspassed >= 4)
+		return 5
+	if(GLOB.dayspassed >= 3)
 		return 4
 	return 3
 
