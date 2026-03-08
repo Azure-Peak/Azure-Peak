@@ -725,7 +725,7 @@ GLOBAL_LIST_INIT(ballmer_windows_me_msg, list("Yo man, what if, we like, uh, put
 	var/is_on_new_water = istype(T, /turf/open/water/transparent)
 	
 	var/is_true_swimming = is_swimming || is_underwater || istype(A, /area/underwater) || is_on_new_water
-
+	var/is_area_underwater = istype(A, /area/underwater)
 	var/sw_skill = get_skill_level(/datum/skill/misc/swimming)
 	var/new_max_breath = (STACON * 5) + (sw_skill * 5)
 
@@ -737,6 +737,28 @@ GLOBAL_LIST_INIT(ballmer_windows_me_msg, list("Yo man, what if, we like, uh, put
 		else
 			max_breath = new_max_breath
 			breath_remaining = max_breath
+	
+	if(!is_on_water && !is_area_underwater)
+		
+		if(breath_remaining < max_breath)
+			breath_remaining = min(breath_remaining + (max_breath / 5), max_breath)
+
+		if(is_swimming || is_underwater || get_filter("swimming_cutter") || swimming_filter_client)
+			is_swimming = FALSE
+			is_underwater = FALSE
+			
+			remove_filter("swimming_cutter")
+			update_icon() 
+			
+
+			if(swimming_filter_client)
+				remove_underwater_filters()
+		
+		if(ishuman(src))
+			var/mob/living/carbon/human/H = src
+			H.update_breath_hud()
+			
+		return
 
 	if(!is_on_water && !is_true_swimming && breath_remaining >= max_breath)
 		if(get_filter("swimming_cutter"))
