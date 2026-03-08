@@ -82,6 +82,7 @@
 	)
 	subclass_stashed_items = list(
 		"Spare House Key" = /obj/item/roguekey/veteran,
+		"Prized Aged Cheese" = /obj/item/reagent_containers/food/snacks/rogue/cheddar/aged,
 	)
 // Normal veteran start, from the olden days.
 
@@ -197,6 +198,7 @@
 	)
 	subclass_stashed_items = list(
 		"Spare House Key" = /obj/item/roguekey/veteran,
+		"Prized Aged Cheese" = /obj/item/reagent_containers/food/snacks/rogue/cheddar/aged,
 	)
 
 // No hero, just a normal guy who happened to survive war.
@@ -309,6 +311,7 @@
 	)
 	subclass_stashed_items = list(
 		"Spare House Key" = /obj/item/roguekey/veteran,
+		"Prized Aged Cheese" = /obj/item/reagent_containers/food/snacks/rogue/cheddar/aged,
 	)
 
 // You get a SAIGA. Saigas are pretty good, you lose out on your legendary weapon skills and you suck more on foot though.
@@ -432,6 +435,7 @@
 	)
 	subclass_stashed_items = list(
 		"Spare House Key" = /obj/item/roguekey/veteran,
+		"Prized Aged Cheese" = /obj/item/reagent_containers/food/snacks/rogue/cheddar/aged,
 	)
 
 // Normal veteran start, from the olden days
@@ -564,6 +568,7 @@
 	)
 	subclass_stashed_items = list(
 		"Spare House Key" = /obj/item/roguekey/veteran,
+		"Prized Aged Cheese" = /obj/item/reagent_containers/food/snacks/rogue/cheddar/aged,
 	)
 
 // Originally was meant to be a horse archer. I decided that was a bad idea.
@@ -675,6 +680,7 @@
 	)
 	subclass_stashed_items = list(
 		"Spare House Key" = /obj/item/roguekey/veteran,
+		"Prized Aged Cheese" = /obj/item/reagent_containers/food/snacks/rogue/cheddar/aged,
 	)
 
 // The sneaker. Not really typical, but hey, wildcard. Wanna-be Spymaster. I guess that just makes them a normal spy, or, once one.
