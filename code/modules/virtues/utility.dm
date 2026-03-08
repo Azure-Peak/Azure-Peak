@@ -20,7 +20,7 @@
 	name = "Well Off"
 	desc = "Fate or effort had blessed my lyfe with spoils, natural or earned."
 	max_choices = 2	//Tentative. 2 is more interesting than getting all 4 easily.
-	choice_costs = list(0, 0, 1, 2)
+	choice_costs = list(0, 0)
 	stackable = TRUE
 	extra_choices = list(	//These are so individually bespoke it's not even worth assoc listing them, all are snowflaked in the application proc instead.
 		NOTABLE_BEAUTY,
@@ -127,7 +127,7 @@
 		"Unfinished Skillbook" = /obj/item/skillbook/unfinished
 	)
 	max_choices = 6
-	choice_costs = list(0, 0, 0, 1, 2, 3)
+	choice_costs = list(0, 0, 0, 2, 3, 4)
 	extra_choices = list(
 		"Elvish" = /datum/language/elvish,
 		"Dwarvish" = /datum/language/dwarvish,
@@ -147,15 +147,12 @@
 	)
 
 /datum/virtue/utility/intellectual/apply_to_human(mob/living/carbon/human/recipient)
-	recipient.change_stat(STATKEY_INT, 1)
 	addtimer(CALLBACK(src, .proc/linguist_apply, recipient), 50)
 
 /datum/virtue/utility/intellectual/proc/linguist_apply(mob/living/carbon/human/recipient)
 	if(check_triumphs(recipient))
 		for(var/lang in picked_choices)
 			recipient.grant_language(extra_choices[lang])
-	else
-		to_chat(recipient, span_notice("Not enough Triumps! Language granting cancelled."))
 
 /datum/virtue/utility/deathless
 	name = "Deathless"
@@ -176,7 +173,7 @@
 	name = "Prowler"
 	desc = "I've learned to stalk the shadows, in step and in sight. My hands had also been honed to be deft."
 	max_choices = 3	//Tentative, feels more fun to limit yourself to a set out of these rather than all of them. (Used to be 6)
-	choice_costs = list(0, 0, 0, 1, 2, 2)
+	choice_costs = list(0, 0, 0)
 	stackable = TRUE	//It's OK to take Virtuous and get everything here.
 	choice_tooltips = list(
 		"Light Steps" = "My steps are light and swift. I make less noise while sneaking and wearing armor, and can sneak much quicker.",
@@ -218,7 +215,7 @@
 	added_traits = list(TRAIT_NUTCRACKER, TRAIT_GOODLOVER)
 	added_skills = list(list(/datum/skill/misc/music, 4, 4))
 	max_choices = 3
-	choice_costs = list(0, 1, 2)
+	choice_costs = list(0, 2, 2)
 	extra_choices = list(
 		"Guitar" = /obj/item/rogue/instrument/guitar,
 		"Lute" = /obj/item/rogue/instrument/lute,

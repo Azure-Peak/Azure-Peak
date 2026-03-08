@@ -102,7 +102,7 @@
 	desc = "I've toiled away a part of my lyfe at the behest of another labourer, learning a thing or two."
 	added_stashed_items = list("Lamptern" = /obj/item/flashlight/flare/torch/lantern)
 	max_choices = 4
-	choice_costs = list(0, 0, 2, 2)
+	choice_costs = list(0, 0, 3, 3)
 	extra_choices = list(
 		"Mining Skill (+3, Up to Legendary)" = list(/datum/skill/labor/mining, TRAIT_SMITHING_EXPERT),
 		"Lumberjacking Skill (+3, Up to Legendary)" = /datum/skill/labor/lumberjacking,
