@@ -27,7 +27,7 @@
 							/obj/item/grown/log/tree/stick = 16,
 							/obj/structure/flora/roguetree/stump/log = 3,
 							/obj/structure/flora/roguetree/stump = 4,
-							/obj/structure/leyline/normal/grove = 1,
+							/obj/structure/leyline/normal/grove = 4,
 						/obj/structure/closet/dirthole/closed/loot=3,
 							/obj/structure/flora/roguegrass/maneater/real=3)
 	spawnableTurfs = list(/turf/open/floor/rogue/dirt/road=2,
