@@ -70,10 +70,6 @@
 // Uncomment this for NPCs to display their 'thoughts' (AI planning steps) above their heads. Useful for debugging NPC logic.
 // #define NPC_THINK_DEBUG
 
-// A reasonable number of maximum overlays an object needs
-// If you think you need more, rethink it
-#define MAX_ATOM_OVERLAYS 100
-
 // Comment this to remove the PQ system
 #define USES_PQ
 // Comment this to remove traits based skill gating (The traits exist, but it will not have any effect)

@@ -6,7 +6,7 @@
 		I.funny_attack_effects(src, user)
 		if(I.force_dynamic)
 			var/newforce = get_complex_damage(I, user)
-			var/haha = user.used_intent.blade_class
+			var/haha = user.used_intent.item_d_type
 			var/armor = run_armor_check(null, haha, armor_penetration = I.armor_penetration, damage = newforce, used_weapon = I)
 			var/nodmg = FALSE
 			next_attack_msg.Cut()

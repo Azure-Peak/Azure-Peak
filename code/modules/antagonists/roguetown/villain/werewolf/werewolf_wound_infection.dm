@@ -39,4 +39,5 @@
 	to_chat(owner, span_danger("It hurts... Is this really the end for me?"))
 	owner.emote("scream") // heres your warning to others bro
 	owner.Knockdown(1)
+	owner.drop_all_held_items()
 	return wolfy

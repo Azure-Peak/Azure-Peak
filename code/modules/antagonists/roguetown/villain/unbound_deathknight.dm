@@ -16,45 +16,12 @@
 	equip_knight()
 	forge_objectives()
 
-/// Skeletonizes the owner, making it a skeleton. Separate proc in hopes that someone will remove duplicate skelecode from AP.
+/// Skeletonizes the owner using shared become_skeleton() proc.
 /datum/antagonist/unbound_death_knight/proc/skeletonize()
-	if(isdwarf(owner.current)) // I am terribly sorry, fellow dwarfs. Remove this after death knight's armor works with dwarves.
-		owner.current.set_species(/datum/species/human/northern)
-
 	var/mob/living/carbon/human/L = owner.current
-	for(var/datum/charflaw/cf in L.charflaws)
-		L.charflaws.Remove(cf)
-		QDEL_NULL(cf)
-	L.hairstyle = "Bald"
-	L.facial_hairstyle = "Shaved"
-	L.mob_biotypes = MOB_UNDEAD
-	var/obj/item/organ/eyes/eyes = L.getorganslot(ORGAN_SLOT_EYES)
-	if (eyes)
-		eyes.Remove(L, TRUE)
-		QDEL_NULL(eyes)
-	eyes = new /obj/item/organ/eyes/night_vision/zombie
-	eyes.Insert(L)
-	for(var/obj/item/bodypart/B in L.bodyparts)
-		B.skeletonize(FALSE)
-	L.base_intents = list(INTENT_HELP, INTENT_DISARM, INTENT_GRAB, /datum/intent/simple/claw)
-	L.update_a_intents()
-
-	L.update_body()
-	L.update_hair()
-	L.update_body_parts(redraw = TRUE)
-
-	ADD_TRAIT(L, TRAIT_NOMOOD, TRAIT_GENERIC)
-	ADD_TRAIT(L, TRAIT_INFINITE_STAMINA, TRAIT_GENERIC)
-	ADD_TRAIT(L, TRAIT_NOLIMBDISABLE, TRAIT_GENERIC)
-	ADD_TRAIT(L, TRAIT_NOHUNGER, TRAIT_GENERIC)
-	ADD_TRAIT(L, TRAIT_NOBREATH, TRAIT_GENERIC)
-	ADD_TRAIT(L, TRAIT_NOPAIN, TRAIT_GENERIC)
-	ADD_TRAIT(L, TRAIT_TOXIMMUNE, TRAIT_GENERIC)
-	ADD_TRAIT(L, TRAIT_NOSLEEP, TRAIT_GENERIC)
-	ADD_TRAIT(L, TRAIT_SHOCKIMMUNE, TRAIT_GENERIC)
+	L.become_skeleton()
 	ADD_TRAIT(L, TRAIT_HEAVYARMOR, TRAIT_GENERIC)
 	ADD_TRAIT(L, TRAIT_ARCYNE_T2, TRAIT_GENERIC)
-	ADD_TRAIT(L, TRAIT_SELF_SUSTENANCE, TRAIT_GENERIC)
 
 /datum/antagonist/unbound_death_knight/proc/equip_knight()
 	owner.unknow_all_people()

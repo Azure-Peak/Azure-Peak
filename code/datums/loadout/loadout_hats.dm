@@ -34,6 +34,41 @@
 	path = /obj/item/clothing/head/roguetown/witchhat/old
 	sort_category = "Hats"
 
+/datum/loadout_item/wizhat
+	name = "Wizard Hat"
+	path = /obj/item/clothing/head/roguetown/wizhat
+	sort_category = "Hats"
+
+/datum/loadout_item/wizhat/red
+	name = "Wizard Hat (Red)"
+	path = /obj/item/clothing/head/roguetown/wizhat/red
+	sort_category = "Hats"
+
+/datum/loadout_item/wizhat/yellow
+	name = "Wizard Hat (Yellow)"
+	path = /obj/item/clothing/head/roguetown/wizhat/yellow
+	sort_category = "Hats"
+
+/datum/loadout_item/wizhat/green
+	name = "Wizard Hat (Green)"
+	path = /obj/item/clothing/head/roguetown/wizhat/green
+	sort_category = "Hats"
+
+/datum/loadout_item/wizhat/black
+	name = "Wizard Hat (Black)"
+	path = /obj/item/clothing/head/roguetown/wizhat/black
+	sort_category = "Hats"
+
+/datum/loadout_item/wizhat/gen
+	name = "Wizard Hat (Generic)"
+	path = /obj/item/clothing/head/roguetown/wizhat/gen
+	sort_category = "Hats"
+
+/datum/loadout_item/chefhat
+	name = "Chef's Hat"
+	path = /obj/item/clothing/head/roguetown/chef
+	sort_category = "Hats"
+
 /datum/loadout_item/bardhat
 	name = "Bard Hat"
 	path = /obj/item/clothing/head/roguetown/bardhat

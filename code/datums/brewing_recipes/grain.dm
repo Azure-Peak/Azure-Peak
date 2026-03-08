@@ -8,7 +8,7 @@
 	needed_items = list(/obj/item/reagent_containers/food/snacks/grown/wheat = 6)
 	brewed_amount = 6
 	brew_time = 2 MINUTES
-	sell_value = 30
+	sell_value = 60
 
 /datum/brewing_recipe/beer/oat
 	name = "Oat Ale"

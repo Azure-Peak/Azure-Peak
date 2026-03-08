@@ -35,7 +35,7 @@
 	contains = list(/obj/item/roguegem/ruby)
 
 /datum/supply_pack/rogue/gems/diamond
-	name = "Diamond"
+	name = "Dorpel"
 	cost = 190
 	contains = list(/obj/item/roguegem/diamond)
 

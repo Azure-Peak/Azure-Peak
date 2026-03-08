@@ -144,7 +144,9 @@
 
 /obj/item/clothing/head/roguetown/roguehood/astrata
 	name = "sun hood"
-	desc = "A hood worn by those who favor Astrata. Praise the firstborn sun!"
+	desc = "A hood worn by those who favor Astrata, guarding the devoted from Her radiant flames. It is said that \
+	those of particular devotion will often combine their hoods with golden masks that've been sculpted in Her divine \
+	visage, further guarding them from those who'd seek to harm them."
 	color = null
 	icon_state = "astratahood"
 	item_state = "astratahood"
@@ -159,6 +161,23 @@
 	resistance_flags = FIRE_PROOF
 	salvage_result = /obj/item/natural/cloth
 	salvage_amount = 1
+
+/obj/item/clothing/head/roguetown/roguehood/astrata/stonekeep
+	name = "sunwrought visage"
+	desc = "A ceremonial hood that billows around a golden mask, stylized in tribute to Astrata's divine radiance. It \
+	is traditionally worn by devoted Acolytes and Priests, though it isn't uncommon to be seen worn by others who \
+	revere the sun above all else."
+	color = null
+	armor = ARMOR_MAILLE
+	icon_state = "astratahoodmasked"
+	item_state = "astratahoodmasked"
+	adjustable = CAN_CADJUST
+	toggle_icon_state = TRUE
+	max_integrity = 180
+	worn_x_dimension = 64
+	worn_y_dimension = 64
+	mob_overlay_icon = 'icons/roguetown/clothing/onmob/64x64/head.dmi' //Uses the new 'greatplume + orle' system. If this glitches out, I made sure to include a fully-prepared 32x32 version - with details - in head.dmi.
+	bloody_icon = 'icons/effects/blood64.dmi'
 
 /obj/item/clothing/head/roguetown/roguehood/nochood
 	name = "moon hood"

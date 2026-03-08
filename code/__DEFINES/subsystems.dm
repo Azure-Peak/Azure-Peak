@@ -176,6 +176,7 @@
 #define FIRE_PRIORITY_IDLE_NPC		5
 #define FIRE_PRIORITY_ROLE_CLASS_HANDLER 10
 #define FIRE_PRIORITY_PING			10
+#define FIRE_PRIORITY_FARMING		10
 #define FIRE_PRIORITY_WET_FLOORS	10
 #define FIRE_PRIORITY_WATER_LEVEL	10
 #define FIRE_PRIORITY_SERVER_MAINT	10
@@ -227,33 +228,26 @@
 
 
 //! ## Overlays subsystem
+// A reasonable number of maximum overlays an object needs
+// If you think you need more, rethink it
+// On TGStation this is 100. Roguecode / Vanderlin uses 200 - so let's stick to this.
+#define MAX_ATOM_OVERLAYS 200
 
 ///Compile all the overlays for an atom from the cache lists
-#define COMPILE_OVERLAYS(A)\
-	do {\
-		var/list/ad = A.add_overlays;\
-		var/list/rm = A.remove_overlays;\
-		var/list/po = A.priority_overlays;\
-		if(LAZYLEN(rm)){\
-			A.overlays -= rm;\
-			rm.Cut();\
-		}\
-		if(LAZYLEN(ad)){\
-			A.overlays |= ad;\
-			ad.Cut();\
-		}\
-		if(LAZYLEN(po)){\
-			A.overlays |= po;\
-		}\
-		for(var/I in A.alternate_appearances){\
-			var/datum/atom_hud/alternate_appearance/AA = A.alternate_appearances[I];\
+#define POST_OVERLAY_CHANGE(changed_on) \
+	if(length(changed_on.overlays) >= MAX_ATOM_OVERLAYS) { \
+		var/text_lays = overlays2text(changed_on.overlays); \
+		stack_trace("Too many overlays on [changed_on.type] - [length(changed_on.overlays)].\
+			\n What follows is a printout of all existing overlays at the time of the overflow \n[text_lays]"); \
+	} \
+	if(alternate_appearances) { \
+		for(var/I in changed_on.alternate_appearances){\
+			var/datum/atom_hud/alternate_appearance/AA = changed_on.alternate_appearances[I];\
 			if(AA.transfer_overlays){\
-				AA.copy_overlays(A, TRUE);\
+				AA.copy_overlays(changed_on, TRUE);\
 			}\
-		}\
-		A.flags_1 &= ~OVERLAY_QUEUED_1;\
-	} while (FALSE)
-
+		} \
+	}
 /**
 	Create a new timer and add it to the queue.
 	* Arguments:

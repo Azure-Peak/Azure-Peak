@@ -173,6 +173,10 @@
 		slapcraft_recipes = slapcraft_recipe_list,\
 		)
 
+/obj/item/natural/bone/get_mechanics_examine(mob/user)
+	. = ..()
+	. += span_info("Bones are chiefly obtained by butchering most animals. To butcher an animal, middle-click it with a knife without any miracles, spells, or special intents selected. The higher your Butchering skill, the more you'll carve.")
+
 /obj/item/natural/hide/cured
 	name = "cured leather"
 	icon_state = "leather"

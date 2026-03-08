@@ -1,0 +1,13 @@
+author: "FreeStylaLT"
+delete-after: True
+changes:
+  - refactor: "Added the ability to customize virtues."
+  - refactor: "Added the ability to stack some virtues. This is told to the user when they select a compatible virtue. The effects of the same options will not always stack in the user's favor, it's up to them to use the stacking effectively."
+  - rscdel: "Removed a bunch of virtues."
+  - rscadd: "Added a few new virtues that combine the deleted ones:"
+  - rscadd: "Beautiful / Resident / Rich & Shrewd -> Well Off virtue."
+  - rscadd: "Light Steps / Darksight / Second Voice / Larcenous -> Prowler."
+  - rscadd: "Weapon virtues -> Trained & Ready."
+  - rscadd: "Apprentice virtues -> Skilled Apprentice."
+  - rscadd: "Lumberjack / Mining apprentice -> Laborious Apprentice."
+  - balance: "TENTATIVE: Added more virtue restrictions to gnolls."

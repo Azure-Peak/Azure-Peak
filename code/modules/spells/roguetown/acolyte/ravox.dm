@@ -21,6 +21,7 @@
 	antimagic_allowed = TRUE
 	miracle = TRUE
 	devotion_cost = 30
+	range = 0
 
 /obj/effect/proc_holder/spell/self/divine_strike/cast(mob/living/user)
 	if(!isliving(user))
@@ -93,9 +94,10 @@
 	releasedrain = 30
 	miracle = TRUE
 	devotion_cost = 40
+	range = 3
 
 /obj/effect/proc_holder/spell/self/call_to_arms/cast(list/targets,mob/living/user = usr)
-	for(var/mob/living/carbon/target in view(3, get_turf(user)))
+	for(var/mob/living/carbon/target in view(range, get_turf(user)))
 		if(istype(target.patron, /datum/patron/inhumen))
 			target.apply_status_effect(/datum/status_effect/debuff/call_to_arms)	//Debuffs inhumen worshipers.
 			continue

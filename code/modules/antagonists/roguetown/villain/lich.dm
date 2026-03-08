@@ -266,7 +266,7 @@
 
 /obj/item/phylactery
 	name = "phylactery"
-	desc = "Looks like it is filled with some intense power."
+	desc = "An otherworldly crystal that radiates with intense power. </br>Under a light's scrutiny, its crystalline edges refract into the sigil of an inverted psicross. What the hell is this thing.. !?"
 	icon = 'icons/obj/wizard.dmi'
 	icon_state = "soulstone"
 	item_state = "electronic"
@@ -281,9 +281,24 @@
 	var/datum/antagonist/lich/possessor
 	var/datum/mind/mind
 
-/obj/item/phylactery/Initialize(mapload, datum/mind/newmind)
+/obj/item/phylactery/Initialize()
+  ..()
+  add_filter(FORCE_FILTER, 2, list("type" = "outline", "color" = GLOW_COLOR_VAMPIRIC, "alpha" = 255, "size" = 1))
+
+/obj/item/phylactery/examine(mob/user)
 	. = ..()
-	filters += filter(type="drop_shadow", x=0, y=0, size=1, offset=2, color=rgb(rand(1,255),rand(1,255),rand(1,255)))
+	if(ishuman(user))
+		var/mob/living/carbon/human/H = user
+		if(H.patron.type == /datum/patron/inhumen/zizo)
+			. += span_rose("A crystalline fragment of divinity, used by Lyches to thwart death's grasp. If a Lych's incarnation is slain, they will be resurrected wherever their nearest phylactrey happens to be, destroying it in the process. Lyches can only be slain, permenantly, once all phylactries linked to their spirit have been destroyed.")
+		else if(H.patron.type == /datum/patron/divine/undivided)
+			. += span_rose("A crystalline fragment of divinity, used by Lyches to thwart death's grasp. If a Lych's incarnation is slain, they will be resurrected wherever their nearest phylactrey happens to be, destroying it in the process. Lyches can only be slain, permenantly, once all phylactries linked to their spirit have been destroyed.")
+		else if(H.patron.type == /datum/patron/divine/astrata)
+			. += span_rose("A crystalline fragment of divinity, used by Lyches to thwart death's grasp. If a Lych's incarnation is slain, they will be resurrected wherever their nearest phylactrey happens to be, destroying it in the process. Lyches can only be slain, permenantly, once all phylactries linked to their spirit have been destroyed.")
+		else if(H.patron.type == /datum/patron/divine/necra)
+			. += span_rose("A crystalline fragment of divinity, used by Lyches to thwart death's grasp. If a Lych's incarnation is slain, they will be resurrected wherever their nearest phylactrey happens to be, destroying it in the process. Lyches can only be slain, permenantly, once all phylactries linked to their spirit have been destroyed.")
+		else if(H.patron.type == /datum/patron/old_god)
+			. += span_rose("A crystalline fragment of divinity, used by Lyches to thwart death's grasp. If a Lych's incarnation is slain, they will be resurrected wherever their nearest phylactrey happens to be, destroying it in the process. Lyches can only be slain, permenantly, once all phylactries linked to their spirit have been destroyed.")
 
 /obj/item/phylactery/proc/be_consumed(timer)
 	var/offset = prob(50) ? -2 : 2
@@ -297,7 +312,7 @@
 
 /obj/effect/proc_holder/spell/self/lich_announce
 	name = "Command Will"
-	desc = "Send a booming message to the undead under your will."
+	desc = "Bellow a commandment, which will be heard by all undead creechers - irregardless of their location - underneath your command."
 	recharge_time = 20 SECONDS
 
 /obj/effect/proc_holder/spell/self/lich_announce/cast(list/targets, mob/user)

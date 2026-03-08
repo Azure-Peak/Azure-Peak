@@ -199,8 +199,7 @@
 
 /datum/component/chimeric_heart_beast/proc/update_blood_overlay()
 	var/blood_percent = blood_pool / max_blood_pool
-	heart_beast.cut_overlay("blood_pool")
-
+	heart_beast.cut_overlays()
 	var/chunk = round(blood_percent * 5) // This gives us 0-5
 	if(chunk >= 1)
 		heart_beast.add_overlay(mutable_appearance('icons/obj/structures/heart_beast.dmi', "blood_[chunk]"))

@@ -1,5 +1,6 @@
 /obj/effect/proc_holder/spell/invoked/shepherd
 	name = "Shepherd"
+	desc = "Trades the chosen target's position with your own. </br>Instantly teleports the chosen target to your current position, while teleporting you to their former position."
 	range = 7
 	overlay_state = "psy"
 	releasedrain = 50

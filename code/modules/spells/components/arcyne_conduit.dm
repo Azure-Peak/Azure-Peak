@@ -14,6 +14,7 @@
 		outline_color = outline_color_override
 	if(owner)
 		owner_ref = WEAKREF(owner)
+		RegisterSignal(owner, COMSIG_LIVING_DEATH, PROC_REF(on_owner_death))
 	var/obj/item/I = parent
 	I.add_filter(CONDUIT_FILTER, 2, list("type" = "outline", "color" = outline_color, "alpha" = 200, "size" = 1))
 	RegisterSignal(parent, COMSIG_ITEM_ATTACK, PROC_REF(on_attack_success))
@@ -24,6 +25,18 @@
 	if(istype(I))
 		I.remove_filter(CONDUIT_FILTER)
 	UnregisterSignal(parent, list(COMSIG_ITEM_ATTACK, COMSIG_PARENT_EXAMINE))
+	var/mob/living/owner = owner_ref?.resolve()
+	if(owner)
+		UnregisterSignal(owner, COMSIG_LIVING_DEATH)
+
+/datum/component/arcyne_conduit/proc/on_owner_death()
+	SIGNAL_HANDLER
+	var/mob/living/owner = owner_ref?.resolve()
+	if(owner)
+		var/datum/status_effect/buff/arcyne_momentum/M = owner.has_status_effect(/datum/status_effect/buff/arcyne_momentum)
+		if(M)
+			M.bound_weapon = null
+	qdel(src)
 
 /datum/component/arcyne_conduit/proc/on_attack_success(obj/item/source, mob/living/target, mob/living/user)
 	SIGNAL_HANDLER

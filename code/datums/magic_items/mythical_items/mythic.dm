@@ -156,6 +156,7 @@
 			if(2)
 				L.apply_damage(10, BRUTE)
 				L.Knockdown(20)
+				L.drop_all_held_items()
 				to_chat(L, span_warning("Chaotic force slams into you!"))
 			if(3)
 				L.electrocute_act(12, source, 1)

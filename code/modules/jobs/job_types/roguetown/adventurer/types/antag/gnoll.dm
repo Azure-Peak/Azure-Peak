@@ -28,7 +28,17 @@
 	always_show_on_latechoices = TRUE
 	job_reopens_slots_on_death = FALSE
 	same_job_respawn_delay = 1 MINUTES
-	virtue_restrictions = list(/datum/virtue/utility/noble, /datum/virtue/combat/dualwielder) //Are you for real?
+	virtue_restrictions = list(
+		/datum/virtue/utility/noble,
+		/datum/virtue/combat/dualwielder, //Claws are too powerful, abusable
+		/datum/virtue/combat/combat_virtue, //They do not need shield skills or anything in here
+		/datum/virtue/utility/notable, //No resident (????) or free-money-stash gnolls
+		/datum/virtue/utility/bronzelimbs, //They should feel pain in their limbs given their state
+		/datum/virtue/movement/acrobatic, //This should be given to them when they are actually after a Hunted
+		/datum/virtue/utility/woodwalker, //This should be given to them when they are actually after a Hunted
+		/datum/virtue/combat/crossbowman,	//Absolutely not on a class like this
+		/datum/virtue/combat/bowman
+		)
 	job_subclasses = list(
 		/datum/advclass/gnoll/berserker,
 		/datum/advclass/gnoll/knight,

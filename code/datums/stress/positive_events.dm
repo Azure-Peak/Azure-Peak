@@ -417,3 +417,22 @@
 	desc = span_aiprivradio("The standard calls out to me! It knows we're to see victory!")
 	timer = 3 MINUTES
 
+/datum/stressevent/kytherian_blessing
+	timer = 5 MINUTES
+	stressadd = -2
+	desc = span_rose("Kytheria is beautiful...")
+
+/datum/stressevent/see_zuranus/zizoite
+	timer = 5 MINUTES
+	stressadd = -2
+	desc = span_purple("...Zuranus is visible, surely, a sign of our continued Progress! ZIZO, ZIZO, ZIZO!")
+
+/datum/stressevent/see_zuranus/graggarite
+	timer = 5 MINUTES
+	stressadd = -2
+	desc = span_purple("JOVE! ANOTHER SYMBOL OF GRAGGAR'S DOMINANCE! HE REIGNS IN THE NOCMOS!")
+
+/datum/stressevent/xylix_star/xylixian
+	timer = 10 MINUTES // this will :) you for a while
+	stressadd = -2
+	desc = span_boldred("Long ago, XYLIX put up an extra star in the sky to anger NOC... seeing it is a FANTASTIC sign!")

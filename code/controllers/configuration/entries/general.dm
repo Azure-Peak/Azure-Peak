@@ -357,6 +357,7 @@
 	config_entry_value = "check.getipintel.net"
 
 /datum/config_entry/flag/aggressive_changelog
+	config_entry_value = TRUE
 
 /datum/config_entry/flag/autoconvert_notes	//if all connecting player's notes should attempt to be converted to the database
 	protection = CONFIG_ENTRY_LOCKED

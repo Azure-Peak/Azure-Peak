@@ -30,11 +30,10 @@
 	. = ..()
 	RegisterSignal(owner, COMSIG_LIVING_STATUS_STUN, PROC_REF(on_stunned))
 	RegisterSignal(owner, COMSIG_LIVING_STATUS_KNOCKDOWN, PROC_REF(on_knockdown))
-	RegisterSignal(owner, COMSIG_LIVING_STATUS_OFFBALANCED, PROC_REF(on_offbalanced))
 	update_alert()
 
 /datum/status_effect/buff/arcyne_momentum/on_remove()
-	UnregisterSignal(owner, list(COMSIG_LIVING_STATUS_STUN, COMSIG_LIVING_STATUS_KNOCKDOWN, COMSIG_LIVING_STATUS_OFFBALANCED))
+	UnregisterSignal(owner, list(COMSIG_LIVING_STATUS_STUN, COMSIG_LIVING_STATUS_KNOCKDOWN))
 	if(is_overcharged)
 		owner.cut_overlay(electricity_overlay)
 	owner.clear_fullscreen("momentum_strain")
@@ -62,18 +61,6 @@
 	update_alert()
 	update_spell_buttons()
 	to_chat(owner, span_warning("I hit the ground — all momentum lost!"))
-
-/datum/status_effect/buff/arcyne_momentum/proc/on_offbalanced()
-	SIGNAL_HANDLER
-	if(stacks <= 0)
-		return
-	var/lost = min(stacks, 3)
-	stacks = max(stacks - lost, 0)
-	owner.balloon_alert(owner, "M: [stacks]/[max_stacks]")
-	update_visuals()
-	update_alert()
-	update_spell_buttons()
-	to_chat(owner, span_warning("Thrown off balance — momentum falters!"))
 
 /datum/status_effect/buff/arcyne_momentum/proc/add_stacks(amount)
 	var/old_stacks = stacks
@@ -126,12 +113,6 @@
 			enter_overcharge()
 	else if(is_overcharged)
 		exit_overcharge()
-	if(stacks >= overcharge_threshold)
-		owner.overlay_fullscreen("momentum_strain", /atom/movable/screen/fullscreen/impaired, 1)
-	else if(stacks >= 6)
-		owner.overlay_fullscreen("momentum_strain", /atom/movable/screen/fullscreen/impaired, 1)
-	else
-		owner.clear_fullscreen("momentum_strain")
 
 /datum/status_effect/buff/arcyne_momentum/proc/update_alert()
 	if(!linked_alert)
@@ -146,7 +127,6 @@
 			S.action.UpdateButtonIcon(status_only = TRUE)
 
 /datum/status_effect/buff/arcyne_momentum/tick()
-	// Decay: once no hits for MOMENTUM_DECAY_DELAY, lose 1 stack every SECOND_PER_MOMENTUM
 	if(stacks > 0 && world.time - last_stack_time >= MOMENTUM_DECAY_DELAY)
 		if(world.time - last_decay_time >= SECOND_PER_MOMENTUM)
 			last_decay_time = world.time

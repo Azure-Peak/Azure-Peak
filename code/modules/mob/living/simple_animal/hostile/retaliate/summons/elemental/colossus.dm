@@ -121,6 +121,7 @@
 	recharge_time = 25 SECONDS
 	overlay_state = "bloodrage"
 	chargetime = 0
+	ignore_los = 1 // this uses a different method of range
 
 /obj/effect/proc_holder/spell/self/colossus_stomp/cast(list/targets, mob/living/user = usr)
 	if(istype(user, /mob/living/simple_animal/hostile/retaliate/rogue/elemental/colossus))

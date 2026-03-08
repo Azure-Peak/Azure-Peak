@@ -437,6 +437,8 @@ GLOBAL_LIST_EMPTY(lord_titles)
 	var/accept_message = "I will serve!"
 	/// Say message when the recruit refuses
 	var/refuse_message = "I refuse."
+	ignore_los = 1 // this needs to ignore normal "range", it looks like
+	range = 3
 
 /obj/effect/proc_holder/spell/self/convertrole/cast(list/targets,mob/user = usr)
 	. = ..()

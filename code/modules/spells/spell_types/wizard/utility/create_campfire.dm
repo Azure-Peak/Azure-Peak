@@ -31,7 +31,8 @@
 /obj/effect/proc_holder/spell/invoked/create_campfire/cast(list/targets, mob/user = usr)
 	var/turf/target = get_turf(targets[1])
 
-	if(!target || target.density)
+	if(!target || !target.Enter(user) || istransparentturf(target))
+		to_chat(user, "<span class='warning'>This turf can't be on fiyaaaah! (It's blocked sire.)</span>")
 		revert_cast()
 		return
 	new /obj/machinery/light/rogue/campfire/create_campfire(target)

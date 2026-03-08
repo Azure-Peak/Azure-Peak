@@ -202,6 +202,8 @@ GLOBAL_LIST_INIT(virtue_mount_choices_anthrax, (list(
 	recharge_time = 1 MINUTES
 	chargedrain = 0
 	chargetime = 0
+	range = 1
+	ignore_los = 1 // honse is adjacent, not a range check
 
 /obj/effect/proc_holder/spell/self/saddleborn/sendaway/cast(list/targets, mob/living/carbon/human/user)
 	. = ..()

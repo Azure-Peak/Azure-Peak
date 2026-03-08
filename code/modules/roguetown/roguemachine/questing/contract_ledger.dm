@@ -95,8 +95,8 @@
 	var/datum/job/mob_job = user.job ? SSjob.GetJob(user.job) : null
 	if(!mob_job?.is_quest_giver)
 		var/quest_number = 0
+		var/datum/weakref/weakref_datum = WEAKREF(user)
 		for(var/obj/item/paper/scroll/quest/quest_scroll in GLOB.quest_scrolls)
-			var/datum/weakref/weakref_datum = WEAKREF(user)
 			if(quest_scroll.assigned_quest && !quest_scroll.assigned_quest.complete && quest_scroll.assigned_quest.quest_receiver_reference == weakref_datum)
 				quest_number++
 		var/max_quests_for_job = mob_job?.max_active_quests || 3
@@ -327,17 +327,6 @@
 			SStreasury.treasury_value -= refund
 			SStreasury.log_entries += "-[refund] from treasury (contract refund)"
 			to_chat(user, span_notice("Your refund of [refund] mammon has been dispensed."))
-
-	// Clean up quest items
-	if(quest.quest_type == QUEST_COURIER && quest.target_delivery_item)
-		quest.target_delivery_item = null
-		for(var/obj/item/I in world)
-			if(istype(I, quest.target_delivery_item))
-				var/datum/component/quest_object/Q = I.GetComponent(/datum/component/quest_object)
-				if(Q && Q.quest_ref == WEAKREF(quest))
-					I.remove_filter("quest_item_outline")
-					qdel(Q)
-					qdel(I)
 
 	log_quest(user.ckey, user.mind, user, "Abandon [abandoned_scroll.assigned_quest.quest_type]")
 	abandoned_scroll.assigned_quest = null
