@@ -24,8 +24,8 @@
 	mob_biotypes = MOB_ORGANIC|MOB_BEAST
 	health = 340
 	maxHealth = 340
-	melee_damage_lower = 15
-	melee_damage_upper = 17
+	melee_damage_lower = 25
+	melee_damage_upper = 30
 	vision_range = 7
 	aggro_vision_range = 9
 	environment_smash = ENVIRONMENT_SMASH_STRUCTURES
@@ -61,23 +61,3 @@
 	update_icon()
 	spill_embedded_objects()
 	qdel(src)
-
-/mob/living/simple_animal/hostile/retaliate/rogue/elemental/warden/AttackingTarget(atom/movable/target)
-	if(SEND_SIGNAL(src, COMSIG_HOSTILE_PRE_ATTACKINGTARGET, target) & COMPONENT_HOSTILE_NO_PREATTACK)
-		return FALSE
-	SEND_SIGNAL(src, COMSIG_HOSTILE_ATTACKINGTARGET, target)
-	in_melee = TRUE
-	if(!target)
-		return
-	// Melee hit first while still adjacent, then yeet for knockback
-	if(!QDELETED(target))
-		. = target.attack_animal(src)
-	if(!QDELETED(target) && !target.anchored)
-		yeet(target)
-
-/mob/living/simple_animal/hostile/retaliate/rogue/elemental/warden/proc/yeet(atom/movable/target)
-	var/atom/throw_target = get_edge_target_turf(src, get_dir(src, target)) //ill be real I got no idea why this worked.
-	target.throw_at(throw_target, 7, 4)
-	if(isliving(target))
-		var/mob/living/L = target
-		L.adjustBruteLoss(20)
