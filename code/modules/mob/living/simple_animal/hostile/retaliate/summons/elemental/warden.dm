@@ -64,15 +64,16 @@
 
 /mob/living/simple_animal/hostile/retaliate/rogue/elemental/warden/AttackingTarget(atom/movable/target)
 	if(SEND_SIGNAL(src, COMSIG_HOSTILE_PRE_ATTACKINGTARGET, target) & COMPONENT_HOSTILE_NO_PREATTACK)
-		return FALSE //but more importantly return before attack_animal called
+		return FALSE
 	SEND_SIGNAL(src, COMSIG_HOSTILE_ATTACKINGTARGET, target)
 	in_melee = TRUE
 	if(!target)
 		return
-	if(!target.anchored)
-		yeet(target)
+	// Melee hit first while still adjacent, then yeet for knockback
 	if(!QDELETED(target))
-		return target.attack_animal(src)
+		. = target.attack_animal(src)
+	if(!QDELETED(target) && !target.anchored)
+		yeet(target)
 
 /mob/living/simple_animal/hostile/retaliate/rogue/elemental/warden/proc/yeet(atom/movable/target)
 	var/atom/throw_target = get_edge_target_turf(src, get_dir(src, target)) //ill be real I got no idea why this worked.
