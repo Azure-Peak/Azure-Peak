@@ -8,4 +8,4 @@
 	needed_crops = list(/obj/item/reagent_containers/food/snacks/grown/onion/rogue = 6)
 	brewed_amount = 6
 	brew_time = 3 MINUTES
-	sell_value = 45
+	sell_value = 60

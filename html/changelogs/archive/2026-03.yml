@@ -366,3 +366,104 @@
       skin color tightly coupled to their tail / mutant color.
   mumblemancer:
   - bugfix: sergeant/captain/whoever gets it orders should work now
+2026-03-08:
+  Antiguar:
+  - rscadd: Added area descriptions to the Orc Ruin, Hamlet, and Abandoned Hot Springs
+      zones.
+  Eagletanker:
+  - sound: Ports Vanderlin's Mage Tower background music.
+  FreeStylaLT:
+  - refactor: Changed knockdown logic to not involve a disarm. Consequently several
+      effects no longer disarm that used to knock the target down.
+  Ketrai:
+  - balance: Cost of abyssor revival reduced
+  - balance: Eoran buds are far harder to apply, and break eventually if non eoran
+      users are attacked wearing them.
+  - balance: cleaned up witch shapeshift. No death on revert, 10 second knockout on
+      forms by default. Custom rules unaffected.
+  Ollanius:
+  - rscadd: Slightly reduced the size of quivers when worn on the belt.
+  - balance: Tankards now hold +10d, and silver tankards now hold +20d.
+  - balance: The Inquisitor's hat is now treated with a fireproof lining.
+  - bugfix: Corks now prevent you from drinking out of a given container, if not properly
+      removed beforehand via RMB.
+  - balance: The value of fermentation kegs and bottles has been greatly increased.
+      Most brewed liqours now sell for a minimum of 10-30 mammons per bottle, each
+      - the most exotic and laborious bottles can go from 40-100 mammons, per bottle!
+  - balance: Zarum heals a little less, but closes wounds a little better. It now
+      properly imparts nutrition and lesser hydration, too, as a technical food-item.
+  - balance: Certain fermentation keg recipes now take a little longer - and a little
+      quicker - to complete.
+  - rscadd: New names added to prefilled fermentation kegs.
+  - bugfix: Otavan SIlver Stakes should properly be blessable by Psydonic Absolvers,
+      now, instead of the Bishop.
+  PatapoIIIa:
+  - refactor: overlay refactor
+  WeNeedMorePhoron:
+  - rscadd: Wretches classes now have subcategorization including the new Accursed
+      (Lycker) and Battlemage category (Black Oak Pariah and Heretic)
+  - rscadd: Heretic Azurcaephan now gains Grand Mace and Steel Greatsword as additional
+      choice.
+  - rscadd: The club of Heretic Azurcaephan is now opened up to enlightened member
+      of the Noccite club.
+  - rscadd: Unbound Skelewretch in the variant of Death Knight or Azurcaephon. 2 slots
+      each. Have an option to clear OOC notes / FT on joining. Has a 30 seconds variation
+      of bone chill only for healing.
+  - rscadd: Noccite Templar Spellblade
+  - rscadd: Aspirant got a significant makeover. Loyalists are removed, supporters
+      now roll from 3 to 5 instead of 1 to 3, and all aspirant choice gain 400 mammons.
+      Two additional choices were added.
+  - rscadd: Added AOE Cleave / Sweep framework - certain two-handed weapons can now
+      hit multiple targets in a swing
+  - rscadd: Cleave patterns displayed in intent examine with color-coded ASCII grid
+      (T=target, U=user, X=hit tiles, O=miss tiles)
+  - rscadd: Diagonal cleave/sweep support with explicit L-shaped patterns and separate
+      diagonal display in examine
+  - rscadd: Cleave prioritizes living targets over dead, fires even when swinging
+      at empty air
+  - rscadd: Shields now display passive projectile block chance with an explanatory
+      tooltip
+  - rscadd: New Attack Delay indicator on intents with swingdelay
+  - rscadd: 'Two new clickCD tiers: Massive (Extremely Sluggish) and Glacial'
+  - rscadd: Demolition mod moved to intent level. All axes cut intent unified on 2.0.
+      All axe chop intent unified on 4x. Maul is 1.25
+  - balance: Greatsword reworked - Removed Rend & Bash on gripped intents, gains Cleave
+      and Sweep AOE intents
+  - balance: Executioner's Sword gains Cleave and Sweep at 1.2 damfactor, keeps Cut
+      and Rend. Intents re-arranged with Cut going first and Rend going last.
+  - balance: Greataxe gains frontal arc Sweep at 1.1 damfactor with Massive clickCD
+  - balance: Maul gains frontal arc Sweep with Glacial clickCD, loses Daze
+  - balance: Axes cut damfactor increased to 1.3 (from 1.1), loses penfactor, clickCD
+      increased in general
+  - balance: Greatflail / Matthios Flail gain charged horizontal Sweep at 1.5 damfactor
+  - balance: Bardiche gains Cleave and Sweep, loses gripped Chop. AOE intents are
+      2 tiles reach.
+  - balance: Glaive gains Sweep, thrust moved to bad thrust subtype (penfactor 20,
+      no effective range). AOE intents are 2 tiles reach.
+  - balance: Naginata gains Sweep, loses Peel. AOE intent is 2 tile reach.
+  - balance: "Eaglebeak thrust moved to bad thrust subtype \u2014 no effective range\
+      \ bonus"
+  - balance: Summer Scythe gains Cleave and Sweep, loses Thrust
+  - balance: Shield passive coverage increased across the board - Wooden 60, Kite/Tower
+      70, Heater/Iron Buckler 50, Hoplon 60
+  - balance: Shield durability narrowed - Wooden raised to 120, Kite/Tower reduced
+      to 280
+  - balance: Shields now take extra parry damage from weapons with high Anti-Object
+      Mod or Integrity Damage modifiers
+  - balance: Lance's lance intent is now a 1 extra target cleave attack. Report any
+      balance issue.
+  - qol: Attack Speed display is now color-coded across six granular tiers (including
+      new Extremely Sluggish and Glacial)
+  - qol: Cleave examine shows max additional targets, living priority note, and diagonal
+      pattern info
+  - qol: Integrity Damage display cleaned up with clickable explanation
+  - qol: Shield now display passive coverage chance and explain mechanics
+  - image: Intent icons split out to dedicated rogueintents.dmi. Report any missing
+      icons.
+  - rscdel: Azurcaephon Associate has been removed due to excessive player behavior
+      problems with validhunting and adv+. Take Traditionalist and larp in the university
+      instead.
+  - rscdel: Remove casting. Report any weirdness with smithing.
+  - rscadd: Potence indicates with a text on toggle that it is working or being deactivated.
+      Also, all vampire toggle abilities should not display 0.1s as cooldown permanently.
+      Report any oddity.

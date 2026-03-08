@@ -1,11 +1,11 @@
 // Just store all of the alcohol reagents that isn't base tg here
 /datum/reagent/consumable/ethanol/beer
 	name = "Beer"
-	description = ""
+	description = "Civilization in a cup. Could you truly ask for anything more?"
 	color = "#a17c10" // rgb: 102, 67, 0
 	nutriment_factor = 0.1
 	boozepwr = 25
-	taste_description = "ale"
+	taste_description = "frothy ale"
 	glass_name = "glass of beer"
 	glass_desc = ""
 
@@ -14,7 +14,7 @@
 	description = "Where has the rum gone?"
 	color = "#5f3b23" // rgb: 102, 67, 0
 	boozepwr = 40
-	taste_description = "sweetness with hint of caramel and vanilla"
+	taste_description = "tingling sweetness with hints of caramel and vanilla"
 
 /datum/reagent/consumable/ethanol/cider
 	name = "Apple Cider"
@@ -86,7 +86,7 @@
 /datum/reagent/consumable/ethanol/wine
 	name = "Wine"
 	boozepwr = 30
-	taste_description = "wine"
+	taste_description = "aromatic bitterness with notes of sweetly-fermented jackberries"
 	glass_name = "glass of wine"
 	color = "#8a0b0b"
 	quality = DRINK_NICE
@@ -481,7 +481,7 @@
 /datum/reagent/consumable/ethanol/saigamilk //No way, kumys from avar!!!
 	name = "Bökhiin Arkhi"
 	boozepwr = 15
-	taste_description = "bubbly, sour salt"
+	taste_description = "bubbly saltiness with a sour aftertaste"
 	color = "#dddddd"
 
 //Kazengun boozes

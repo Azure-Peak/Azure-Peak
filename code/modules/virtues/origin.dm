@@ -169,6 +169,17 @@
 	Their saiga, their sabre, their cattle, and their freedom. For while coin remains the main currency even in the wild steppes, it means nothing \
 	without the freedom to spend it as you wish. As the saying goes, 'a man can earn coin, but a man cannot earn freedom. It must be taken, it must be constantly achieved."
 
+/datum/virtue/origin/Lirvas
+	name = "Lirvan"
+	origin_name = "Lirvas"
+	added_languages = list(/datum/language/draconic)
+	desc = "I originate from the draconic lands of Lirvas, a hellish debt society known for its strict hierarchy. To be above someone in Lirvas is to be their master, to be below them is to know endless debt and servitude. Drakians and Kobolds originate from these lands—a gift from Matthios to the dragons that once reigned supreme over the kingdom. Today, only the great drake Zarvlor remains.<br>"
+	origin_desc = "A haven for draconic people of all origins, Lirvas' history was once wholly of wealth and prosperity. To venture to the so-called \
+	'dragon lands' was considered a must for any adventurer, as no culture could quite compare to one built by dragons and sisseans alike. \
+	Now, centuries after Zizo's ascendance, Lirvas has become one of the few places no adventurer dares travel to. To describe the kingdom as \
+	a hierarchy would hardly be apt; it stands proudly with different rings of social status, shrinking gradually in size as one climbs to the top. \
+	In Lirvas, wealth is everything in determining which ring you stand on, and how hard it is to climb higher."
+
 /datum/virtue/origin/racial/underdark
 	name = "Underdweller"
 	added_languages = list(/datum/language/undercommon)

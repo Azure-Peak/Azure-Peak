@@ -40,10 +40,55 @@ GLOBAL_LIST_EMPTY(virtues)
 	/// Whether the virtue is only available as a second virtue choice (so only available to virtuous / fated)
 	var/virtuous_only = FALSE
 
+	///The max amount of choices we can make. choice_costs must have a length that matches or exceeds this.
+	var/max_choices = 0
+
+	///The actual choices, should not be shorter in length than max_choices.
+	var/list/extra_choices = list()
+
+	///A dynamic list that we actually add and remove to. This is the key part that is saved / loaded.
+	var/list/picked_choices = list()
+
+	///The costs of each choice. Should match max_choices in length, "free" entries should just have a cost of 0.
+	///IE list(0, 0, 3) -> 2 free choices, 3rd choice costs 3 TRI
+	var/list/choice_costs = list()
+
+	///Tooltips that will appear as a (?) next to the option, to explain what they do. Will look for matching indeces from extra_choice list.
+	var/list/choice_tooltips = list()
+
+	/// Whether we can have multiple of the same virtue. Be very aware of what exactly the virtue does / how many options it allows for this to make sense.
+	var/stackable = FALSE
+
 /datum/virtue/New()
 	. = ..()
 	if (triumph_cost)
 		desc += "<b>Costs [triumph_cost] TRIUMPH.</b>"
+	
+	if(max_choices || length(extra_choices) || length(choice_costs) || length(choice_tooltips))
+		if(max_choices > length(extra_choices))
+			CRASH("[src] has fewer extra_choices than there can be max_choices! Very bad!")
+		if(max_choices > length(choice_costs))
+			CRASH("[src] has more max choices than there are cost entries. Very bad! We can't pay 'null' triumphs!")
+		if(length(choice_tooltips) > length(extra_choices))
+			CRASH("[src] has more tooltips than there are extra_choices. A deleted extra_choice entry was likely not cleaned up properly.")
+
+/datum/virtue/proc/on_load()
+	return
+
+/datum/virtue/proc/triumph_check(mob/living/carbon/human/recipient)
+	if(length(extra_choices))
+		var/total_cost
+		for(var/i in 1 to length(picked_choices))
+			if(choice_costs[i] > 0)
+				total_cost += choice_costs[i]
+		if(recipient.get_triumphs() > total_cost)
+			recipient.adjust_triumphs(-total_cost)
+		else
+			to_chat(recipient, span_notice("Not enough Triumphs for a virtue. It has not been applied."))
+			return FALSE
+	for(var/choice in picked_choices)
+		record_featured_object_stat(FEATURED_STATS_SUBVIRTUES, choice)
+	return TRUE
 
 /datum/virtue/proc/apply_to_human(mob/living/carbon/human/recipient)
 	return
@@ -147,7 +192,10 @@ GLOBAL_LIST_EMPTY(virtues)
 	if(istype(virtue_type, /datum/virtue/origin))
 		record_featured_object_stat(FEATURED_STATS_ORIGINS, virtue_type.name)
 	else
-		record_featured_object_stat(FEATURED_STATS_VIRTUES, virtue_type.name)
+		var/stacked = FALSE
+		if(istype(recipient.client?.prefs?.virtue, recipient.client?.prefs?.virtuetwo))
+			stacked = TRUE
+		record_featured_object_stat(FEATURED_STATS_VIRTUES, (stacked ? "[virtue_type.name] (Stacked)" : virtue_type.name), stacked ? 0.5 : 1)
 /datum/virtue/none
 	name = "None"
 	desc = "Without virtue."
