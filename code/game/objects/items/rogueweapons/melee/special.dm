@@ -1092,12 +1092,11 @@
 				return
 			qdel(transfer_beam)
 
-			var/mob/living/carbon/human/human_user = user
 			var/datum/stolen_face/new_face = new // heyyy we want sum new face
 			new_face.steal_face(target)
 			stolen_faces += new_face
 			// human_user.copy_physical_features(target)
-			to_chat(user, span_graggarnoanimate("I take on a new face..."))
+			to_chat(user, span_graggar("I take on a new face..."))
 			ADD_TRAIT(target, TRAIT_DISFIGURED, TRAIT_GENERIC)
 
 			return
@@ -1108,7 +1107,7 @@
 		*/
 		if(target.has_flaw(/datum/charflaw/hunted)) // The profane dagger only thirsts for those who are hunted, by flaw or by zizoid curse.
 			if(target.client == null) //See if the target's soul has left their body
-				to_chat(user, "<span class='danger'>Your target's soul has already escaped its corpse...you try to call it back!</span>")
+				to_chat(user, span_danger("Your target's soul has already escaped its corpse...you try to call it back!"))
 				get_profane_ghost(target,user) //Proc to capture a soul that has left the body.
 			else
 				user.adjust_triumphs(1)
@@ -1131,9 +1130,9 @@
 	S.ManualFollow(src)
 	S.key = target.key
 	S.language_holder = target.language_holder.copy(S)
-	target.visible_message("<span class='danger'>[target]'s soul is pulled from their body and sucked into the profane dagger!</span>", "<span class='danger'>My soul is trapped within the profane dagger. Damnation!</span>")
+	target.visible_message(span_danger("[target] has their soul PLUCKED FROM THEIR BODY and placed into the PROFANE DAGGER!"), span_danger("MY SOUL IS TRAPPED WITHIN THE DAGGER! I hear a HORRID WAILING... EVERYTHING HURTS!!"))
 	playsound(src, 'sound/magic/soulsteal.ogg', 100, extrarange = 5)
-	blade_int = max_blade_int // Stealing a soul successfully sharpens the blade.
+	src.restore_bintegrity() // Stealing a soul successfully sharpens the blade.
 	obj_fix(max_integrity) // And fixes the dagger. No blacksmith required!
 
 /obj/item/rogueweapon/huntingknife/idagger/steel/profane/proc/get_profane_ghost(mob/living/carbon/human/target, mob/user)

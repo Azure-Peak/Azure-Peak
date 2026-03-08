@@ -54,7 +54,7 @@
 		to_chat(src, span_danger("...how the fuck did you get access to this VERB? REPORT THIS TO CODERS ASAP."))
 		return
 	if(!knife || QDELETED(knife))
-		to_chat(src, span_graggarnoanimate("Your dagger has not been bonded to you... or has been destroyed!"))
+		to_chat(src, span_graggar("Your dagger has not been bonded to you... or has been destroyed!"))
 		return
 	// find our dagger
 	villain.find_dagger()

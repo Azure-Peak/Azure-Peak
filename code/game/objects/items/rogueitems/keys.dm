@@ -69,8 +69,8 @@
 /obj/item/lockpick/assassin/examine(mob/user)
 	. = ..()
 	if(HAS_TRAIT(user, TRAIT_ASSASSIN))
-		. += span_gamedeadsay("This pick was forged with a small amount of avantyne. It'll last longer and get through doors much easier\
-		than a regular pick.")
+		. += span_graggarsmall("This pick was forged with a small amount of avantyne. It'll last longer and get through doors faster than a \
+		regular pick.")
 	// if people start validchecking these add a stress event that fucks them up for 15 minutes to tell them to fuck off
 
 /obj/item/lockpick/goldpin

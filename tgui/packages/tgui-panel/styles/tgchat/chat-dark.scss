@@ -867,19 +867,23 @@ h2.alert {
   }
 }
 
+.graggaranimated {
+	color: #3F5C6D;
+	animation: graggarfade 1.5s infinite;
+}
+
+.graggarsmallanimated {
+	color: #3F5C6D;
+	font-size: 75%;
+	animation: graggarfade 1.5s infinite;
+}
+
 .graggar {
-	color: #4f87db;
-	animation: graggarfade 2s infinite;
+	color: #3F5C6D;
 }
 
 .graggarsmall {
-	color: #4f87db;
-	font-size: 75%;
-	animation: graggarfade 2s infinite;
-}
-
-.graggarnoanimate {
-	color: #4f87db;
+	color: #3F5C6D;
 }
 
 /*
@@ -887,10 +891,10 @@ h2.alert {
 // A WEIRD LOOKING EFFECT.
 */
 @keyframes graggarfade {
-    0%   { color: #4f87db; }
+    0%   { color: #3F5C6D; }
     32%  { color: #000000; }
     34%  { color: #000000; }
-    100% { color: #4f87db; }
+    100% { color: #3F5C6D; }
 }
 
 .connectionClosed,

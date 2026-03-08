@@ -169,7 +169,8 @@
 #define span_orator(str) ("<span class='orator'>" + str + "</span>")
 #define span_graggar(str)("<span class='graggar'>" + str + "</span>")
 #define span_graggarsmall(str)("<span class='graggarsmall'>" + str + "</span>")
-#define span_graggarnoanimate(str)("<span class='graggarnoanimate'>" + str + "</span>")
+#define span_graggaranimated(str)("<span class='graggaranimated'>" + str + "</span>")
+#define span_graggarsmallanimated(str)("<span class='graggarsmallanimated'>" + str + "</span>")
 
 /// Displays a tooltip. Tooltip is text-only, and HTML will be ignored.
 /// * SPAN_LINKIFY doesn't work here.
