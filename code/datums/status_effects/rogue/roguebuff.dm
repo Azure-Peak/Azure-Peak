@@ -586,13 +586,38 @@
 	var/tech_healing_modifier = 1
 	var/block_combat_mode = FALSE
 
-/datum/status_effect/buff/healing/on_creation(mob/living/new_owner, new_healing_on_tick, is_inhumen = FALSE)
+/datum/status_effect/buff/healing/on_creation(mob/living/new_owner, new_healing_on_tick, is_inhumen = FALSE, healing_range = 1, healing_skill = 6, healing_self = FALSE, new_duration = 10 SECONDS)
 	healing_on_tick = new_healing_on_tick
 	tech_healing_modifier = SSchimeric_tech.get_healing_multiplier()
 	if(is_inhumen)
 		// The penalty/benefit of healing tech is halved for inhumen followers
 		tech_healing_modifier = 1 + ((tech_healing_modifier - 1) * 0.5)
 	healing_on_tick *= tech_healing_modifier
+	switch(healing_skill)
+		if(6)
+			if(healing_range > 5)
+				healing_on_tick *= 0.67
+				duration = ceil(new_duration * 1.5)
+				to_chat(world, "DEBUG [src.type]: Finalized Healing Tick: [healing_on_tick], Finalized Duration: [src.duration]")
+				return ..()
+		if(5)
+			if(healing_range > 4)
+				healing_on_tick *= 0.67
+				duration = ceil(new_duration * 1.5)
+				to_chat(world, "DEBUG [src.type]: Finalized Healing Tick: [healing_on_tick], Finalized Duration: [src.duration]")
+				return ..()
+		if(0 to 4)
+			if(healing_self)
+				healing_on_tick *= 0.5
+				duration = ceil(new_duration * 2)
+				to_chat(world, "DEBUG [src.type]: Finalized Healing Tick: [healing_on_tick], Finalized Duration: [src.duration]")
+				return ..()
+			if(healing_range > 2)
+				healing_on_tick *= 0.5
+				duration = ceil(new_duration * 2)
+				to_chat(world, "DEBUG [src.type]: Finalized Healing Tick: [healing_on_tick], Finalized Duration: [src.duration]")
+				return ..()
+	to_chat(world, "DEBUG [src.type]: Finalized Healing Tick: [healing_on_tick], Finalized Duration: [src.duration]")
 	return ..()
 
 /datum/status_effect/buff/healing/on_apply()

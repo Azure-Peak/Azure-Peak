@@ -479,7 +479,7 @@
 
 /obj/effect/proc_holder/spell/invoked/pestra_heal
 	name = "Rebirth"
-	desc = "A greater heal, more effective on targets affected by some form of greater rot. Requires infestation charges to cast."
+	desc = "A greater heal, more effective on targets affected by some form of greater rot. Requires infestation charges to cast. \ Healing miracles are less effective when cast on self, unless one has mastery over holy miracles. Distance affects miracle strength."
 	overlay_icon = 'icons/mob/actions/pestraspells.dmi'
 	action_icon = 'icons/mob/actions/pestraspells.dmi'
 	overlay_state = "heal"
@@ -537,7 +537,16 @@
 		// Double the power of miracle
 		var/healing = 5
 		target.visible_message(span_info("Skittering ghostly bugs envelop [target]!"), span_notice("Ethereal bugs knit my flesh back together with their mandibles!"))
-		target.apply_status_effect(/datum/status_effect/buff/healing, healing)
+		var/healing_self = (target == user) ? TRUE : FALSE
+		var/healing_range = get_dist(target, user)
+		var/healing_skill = user.get_skill_level(associated_skill)
+		var/datum/status_effect/buff/healing/existing_buff = target.has_status_effect(/datum/status_effect/buff/healing)
+		if(existing_buff)
+			// Let's only replace buffs if it's a significant enough improvement as to avoid math rounding throwing wrenches.
+			if(healing > (existing_buff.healing_on_tick + 0.1))
+				to_chat(user, span_notice("Your healing energy is more potent than the existing one, replacing it!"))
+				target.remove_status_effect(/datum/status_effect/buff/healing)
+		target.apply_status_effect(/datum/status_effect/buff/healing, healing, FALSE, healing_range, healing_skill, healing_self)
 		// 225 healing but slowly released across 10 minutes, can't be refreshed.
 		target.apply_status_effect(/datum/status_effect/buff/pestra_care)
 		remove_infestation_charges(user, 10)

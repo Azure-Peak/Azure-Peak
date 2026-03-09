@@ -4,12 +4,12 @@
 	desc = "Blesses the target with minor health regeneration. If casted in conjunction with the 'Fortify' blessing, its healing power is greatly \
 	increased. <br>Depending on your patron, a Miracle's potency can be further amplified under certain conditions; an Abyssorite heals more when \
 	standing in water, a Pestran heals more when their target's laying down, a Malumite heals more when their target's on fire, and so-on. </br>Most \
-	healing Miracles cannot affect devoted Psydonians."
+	healing Miracles cannot affect devoted Psydonians. \ Healing miracles are less effective when cast on self, unless one has mastery over holy miracles. Distance affects miracle strength."
 	overlay_state = "lesserheal"
 	releasedrain = 3 SECONDS
 	chargedrain = 0
 	chargetime = 0
-	range = 4
+	range = 7
 	warnie = "sydwarning"
 	movement_interrupt = FALSE
 	sound = 'sound/magic/heal.ogg'
@@ -34,11 +34,6 @@
 		target.visible_message(span_info("[target] stirs for a moment, the miracle dissipates."), span_notice("A dull warmth swells in your heart, only to fade as quickly as it arrived."))
 		user.playsound_local(user, 'sound/magic/PSY.ogg', 100, FALSE, -1)
 		playsound(target, 'sound/magic/PSY.ogg', 100, FALSE, -1)
-		return FALSE
-
-	if(target.has_status_effect(/datum/status_effect/buff/healing))
-		to_chat(user, span_warning("They are already under the effects of a healing aura!"))
-		revert_cast()
 		return FALSE
 
 	user.Beam(target,icon_state="lichbeam",time=1 SECONDS)
@@ -66,6 +61,16 @@
 		to_chat(user, "Channeling my patron's power is easier in these conditions!")
 		healing += situational_bonus
 
+	var/datum/status_effect/buff/healing/existing_buff = target.has_status_effect(/datum/status_effect/buff/healing)
+	if(existing_buff)
+		if(healing > (existing_buff.healing_on_tick + 0.1))
+			to_chat(user, span_notice("Your healing energy is more potent than the existing one, replacing it!"))
+			target.remove_status_effect(/datum/status_effect/buff/healing)
+		else
+			to_chat(user, span_warning("They are already under the effects of a healing aura!"))
+			revert_cast()
+			return FALSE
+
 	if(!ishuman(target))
 		target.apply_status_effect(/datum/status_effect/buff/healing, healing, is_inhumen)
 		return TRUE
@@ -88,7 +93,10 @@
 		human.emote("agony")
 		return FALSE
 
-	target.apply_status_effect(/datum/status_effect/buff/healing, healing)
+	var/healing_self = (target == user) ? TRUE : FALSE
+	var/healing_range = get_dist(target, user)
+	var/healing_skill = user.get_skill_level(associated_skill)
+	target.apply_status_effect(/datum/status_effect/buff/healing, healing, is_inhumen, healing_range, healing_skill, healing_self)
 
 	// Edit - Overwriting the outgoing message here to prevent metagaming faith via message.
 	// Not getting rid of the messages in the code, we might want them for something else later.
@@ -101,12 +109,12 @@
 /obj/effect/proc_holder/spell/invoked/heal
 	name = "Fortify"
 	desc = "Amplifies all incoming sources of healing for the chosen target. Combining this with the 'Miracle' blessing allows for the mending \
-	of more extreme injuries. </br>Most healing Miracles cannot affect devoted Psydonians."
+	of more extreme injuries. </br>Most healing Miracles cannot affect devoted Psydonians. Healing miracles are less effective when cast on self, unless one has mastery over holy miracles. Distance affects miracle strength."
 	overlay_state = "astrata"
 	releasedrain = 30
 	chargedrain = 0
 	chargetime = 0
-	range = 4
+	range = 7
 	warnie = "sydwarning"
 	movement_interrupt = FALSE
 //	chargedloop = /datum/looping_sound/invokeholy
@@ -164,7 +172,7 @@
 	releasedrain = 30
 	chargedrain = 0
 	chargetime = 0
-	range = 3
+	range = 7
 	warnie = "sydwarning"
 	movement_interrupt = FALSE
 	sound = list('sound/magic/regression1.ogg','sound/magic/regression2.ogg','sound/magic/regression3.ogg','sound/magic/regression4.ogg')
@@ -186,7 +194,15 @@
 	target.visible_message(span_info("Order filled magic rewind [target]'s wounds!"), span_notice("My wounds, undone!"))
 	var/healing = 2.5
 	user.Beam(target,icon_state="lichbeam",time=1 SECONDS)
-	target.apply_status_effect(/datum/status_effect/buff/healing, healing)
+	var/healing_self = (target == user) ? TRUE : FALSE
+	var/healing_range = get_dist(target, user)
+	var/healing_skill = user.get_skill_level(associated_skill)
+	if(existing_buff)
+		// Let's only replace buffs if it's a significant enough improvement as to avoid math rounding throwing wrenches.
+		if(healing > (existing_buff.healing_on_tick + 0.1))
+			to_chat(user, span_notice("Your healing energy is more potent than the existing one, replacing it!"))
+			target.remove_status_effect(/datum/status_effect/buff/healing)
+	target.apply_status_effect(/datum/status_effect/buff/healing, healing, FALSE, healing_range, healing_skill, healing_self)
 	return TRUE
 
 /obj/effect/proc_holder/spell/invoked/convergence

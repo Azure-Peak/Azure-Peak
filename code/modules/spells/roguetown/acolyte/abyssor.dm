@@ -175,14 +175,14 @@
 //T2, Abyssal Healing. Totally stole most of this from lesser heal.
 /obj/effect/proc_holder/spell/invoked/abyssheal
 	name = "Abyssal Healing"
-	desc = "Heals target over time, more if there is water around you. Weakens if cast away from water for too long"
+	desc = "Heals target over time, more if there is water around you. Weakens if cast away from water for too long. \ Healing miracles are less effective when cast on self, unless one has mastery over holy miracles. Distance affects miracle strength."
 	overlay_icon = 'icons/mob/actions/abyssormiracles.dmi'
 	action_icon = 'icons/mob/actions/abyssormiracles.dmi'
 	overlay_state = "deepheal"
 	releasedrain = 15
 	chargedrain = 0
 	chargetime = 0.75 SECONDS
-	range = 2
+	range = 7
 	warnie = "sydwarning"
 	movement_interrupt = FALSE
 	sound = 'sound/foley/waterenter.ogg'
@@ -249,7 +249,17 @@
 		if (conditional_buff)
 			target.adjustFireLoss(-40)
 
-		target.apply_status_effect(/datum/status_effect/buff/healing, healing)
+		var/healing_self = (target == user) ? TRUE : FALSE
+		var/healing_range = get_dist(target, user)
+		var/healing_skill = user.get_skill_level(associated_skill)
+		var/datum/status_effect/buff/healing/existing_buff = target.has_status_effect(/datum/status_effect/buff/healing)
+
+		if(existing_buff)
+			// Let's only replace buffs if it's a significant enough improvement as to avoid math rounding throwing wrenches.
+			if(healing > (existing_buff.healing_on_tick + 0.1))
+				to_chat(user, span_notice("Your healing energy is more potent than the existing one, replacing it!"))
+				target.remove_status_effect(/datum/status_effect/buff/healing)
+		target.apply_status_effect(/datum/status_effect/buff/healing, healing, FALSE, healing_range, healing_skill, healing_self)
 		return TRUE
 
 	revert_cast()
