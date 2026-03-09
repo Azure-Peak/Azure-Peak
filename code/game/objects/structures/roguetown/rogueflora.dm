@@ -221,6 +221,10 @@
 	. = ..()
 	icon_state = "t[rand(1,4)]stump"
 
+/obj/structure/flora/roguetree/stump/roguetest
+	name = "STUMP OF STASHED ITEMS"
+	desc = "IF YOU'RE NOT A DEV, YOU SHOULDNT BE SEEING THIS. TELL A CODER TODAY!"
+
 /obj/structure/flora/roguetree/stump/log
 	name = "ancient log"
 	desc = "The rotten remains of a tree that suffered nature's cruelty ages ago."

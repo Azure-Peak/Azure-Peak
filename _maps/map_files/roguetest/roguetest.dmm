@@ -412,6 +412,10 @@
 /obj/item/reagent_containers/glass/cup,
 /turf/open/floor/rogue/ruinedwood/herringbone,
 /area/rogue/indoors)
+"po" = (
+/obj/machinery/gear_painter,
+/turf/open/floor/rogue/dirt/road,
+/area/rogue/indoors)
 "px" = (
 /obj/structure/table/wood{
 	dir = 1;
@@ -1001,6 +1005,12 @@
 /obj/item/clothing/gloves/roguetown/otavan,
 /obj/item/clothing/gloves/roguetown/otavan,
 /obj/item/clothing/gloves/roguetown/otavan,
+/obj/item/clothing/shoes/roguetown/boots/leather/reinforced,
+/obj/item/clothing/shoes/roguetown/boots/leather/reinforced,
+/obj/item/clothing/shoes/roguetown/boots/leather/reinforced,
+/obj/item/clothing/gloves/roguetown/angle,
+/obj/item/clothing/gloves/roguetown/angle,
+/obj/item/clothing/gloves/roguetown/angle,
 /turf/open/floor/rogue/grass,
 /area/rogue/indoors)
 "GG" = (
@@ -1276,6 +1286,10 @@
 /area/rogue/indoors)
 "RC" = (
 /obj/item/rogueweapon/stoneaxe,
+/turf/open/floor/rogue/grass,
+/area/rogue/outdoors)
+"RV" = (
+/obj/structure/flora/roguetree/stump/roguetest,
 /turf/open/floor/rogue/grass,
 /area/rogue/outdoors)
 "Sf" = (
@@ -2974,7 +2988,7 @@ CZ
 yK
 yK
 rT
-vq
+RV
 rT
 rT
 rT
@@ -3178,7 +3192,7 @@ sh
 xB
 xy
 xy
-CZ
+po
 CZ
 dE
 rT
