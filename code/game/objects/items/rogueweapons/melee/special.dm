@@ -1013,7 +1013,7 @@
 				// Someone find a better way to do this, please.
 				var/datum/antagonist/assassin/villain = H.mind.has_antag_datum(/datum/antagonist/assassin)
 				if(!villain.attached_knife) // no doubling up
-					to_chat(H, span_graggarsmall("As you pick up the dagger, it recognizes you as it's master. DOMINATE. DESTROY. DESPOIL."))
+					to_chat(H, span_graggarsmall("As you pick up the dagger, it recognizes you as it's master. " + span_graggarsmallanimated("DESTROY. DESPOIL. DOMINATE.")))
 					// They are both now linked to each other. This is needed for later shitcode.
 					attached_assassin = H
 					villain.attached_knife = src
