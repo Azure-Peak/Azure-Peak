@@ -941,17 +941,18 @@
 /datum/intent/claw/rend/steel
 	damfactor = 3
 
-/datum/intent/peculate
-	name = "peculate"
+/datum/intent/face_steal // FACE MELTER HELTER SKELTER
+	name = "face steal"
 	hitsound = null
 	desc = "Thieve the appearance of another."
-	icon_state = "inpeculate"
+	icon_state = "insteal"
+	max_intent_damage = 0
 
 //Unique assassin/antag dagger.
 /obj/item/rogueweapon/huntingknife/idagger/steel/profane
 	name = "profane dagger"
 	desc = "A profane dagger made from a cursed alloy. Whispers emanate from the diamond on its hilt. </br>A chill rolls down my spine. I am not alone."
-	possible_item_intents = list(/datum/intent/dagger/cut, /datum/intent/dagger/thrust, /datum/intent/dagger/thrust/pick, /datum/intent/peculate)
+	possible_item_intents = list(/datum/intent/dagger/cut, /datum/intent/dagger/thrust, /datum/intent/dagger/thrust/pick, /datum/intent/face_steal)
 	sellprice = 0 // this shouldnt be del'able by merchant means
 	icon_state = "graggardagger"
 	sheathe_icon = "graggardagger"
@@ -1051,12 +1052,14 @@
 */
 /obj/item/rogueweapon/huntingknife/idagger/steel/profane/afterattack(mob/living/carbon/human/target, mob/living/user = usr, proximity)
 	. = ..()
+	// leaving this out of the rewritten logic flow below cus idk if it was there 4 a reason
 	if(!ishuman(target))
 		return
-	if(!Adjacent(target))
-		to_chat(user, span_smallred("I must be adjacent to my target!"))
-	if(target.stat == DEAD || target.InCritical()) // Trigger soul steal or identity theft if the target is either dead or in crit
-		if(istype(user.used_intent, /datum/intent/peculate))
+	if(istype(user.used_intent, /datum/intent/face_steal))
+		if(!user.Adjacent(target))
+			to_chat(user, span_smallred("I must be adjacent to my target!"))
+			return
+		if(target.stat == DEAD || target.InCritical()) // Trigger soul steal or identity theft if the target is either dead or in crit
 			if(!ishuman(user)) // carbons don't have all features of a human
 				to_chat(user, span_danger("You can't do that!"))
 				return
@@ -1064,42 +1067,24 @@
 			if(QDELETED(target_head))
 				to_chat(user, span_notice("I need their head or else I can't confirm the blood-bounty!"))
 				return
-
+			// ok, everything is fine. lets start the transfer process. you have 6 seconds to interrupt it.
 			var/datum/beam/transfer_beam = user.Beam(target, icon_state = "drain_life", time = 6 SECONDS)
-
-			playsound(
-				user,
-				get_sfx("changeling_absorb"), //todo: turn sound keys into defines.
-				100,
-			)
-			to_chat(user, span_danger("I start absorbing [target]'s identity."))
-			if(!do_after(user, 3 SECONDS, target = target))
+			playsound(user, 'sound/magic/soulsteal_2.ogg', 80, TRUE)
+			if(!do_after(user, 3 SECONDS, FALSE, target, no_interrupt = FALSE))
 				qdel(transfer_beam)
 				return
-
-			playsound( // and anotha one
-				user,
-				get_sfx("changeling_absorb"),
-				100,
-			)
-
-			if(!do_after(user, 3 SECONDS, target = target))
+			playsound(user, 'sound/magic/soulsteal_2.ogg', 80, TRUE)
+			if(!do_after(user, 3 SECONDS, FALSE, target, no_interrupt = FALSE))
 				qdel(transfer_beam)
 				return
-
-			if(!user.client)
-				qdel(transfer_beam)
-				return
-			qdel(transfer_beam)
-
+			// all done! 
+			playsound(user, 'sound/magic/soulsteal.ogg', 80, TRUE)
 			var/datum/stolen_face/new_face = new // heyyy we want sum new face
 			new_face.steal_face(target)
 			stolen_faces += new_face
 			// human_user.copy_physical_features(target)
 			to_chat(user, span_graggar("I take on a new face..."))
 			ADD_TRAIT(target, TRAIT_DISFIGURED, TRAIT_GENERIC)
-
-			return
 
 		/* TODO:
 		// IF TARGET HAS HUNTED FLAW, RUN THE PROFANE SOUL. GIVE TRIUMPH TO ASSASSIN. WHEN THE PROC GETS CALLED, IT NEEDS TO APPLY DNR

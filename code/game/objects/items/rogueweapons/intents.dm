@@ -1,6 +1,7 @@
 /datum/intent
 	var/name = "intent"
 	var/desc = ""
+	/// The icon-state of the intent. The icons are all stored in roguehud.dmi.
 	var/icon_state = "instrike"
 	var/list/attack_verb = list("hits", "strikes")
 	var/obj/item/masteritem
