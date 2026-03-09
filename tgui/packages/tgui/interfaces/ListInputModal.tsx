@@ -10,6 +10,7 @@ import { Loader } from './common/Loader';
 type ListInputData = {
   init_value: string;
   items: string[];
+  descriptions?: Record<string, string>;
   large_buttons: boolean;
   message: string;
   timeout: number;
@@ -20,6 +21,7 @@ export const ListInputModal = (props) => {
   const { act, data } = useBackend<ListInputData>();
   const {
     items = [],
+    descriptions,
     message = '',
     init_value,
     large_buttons,
@@ -152,6 +154,7 @@ export const ListInputModal = (props) => {
           <Stack fill vertical>
             <Stack.Item grow>
               <ListDisplay
+                descriptions={descriptions}
                 filteredItems={filteredItems}
                 onClick={onClick}
                 onFocusSearch={onFocusSearch}
@@ -190,7 +193,7 @@ export const ListInputModal = (props) => {
  */
 const ListDisplay = (props) => {
   const { act } = useBackend<ListInputData>();
-  const { filteredItems, onClick, onFocusSearch, searchBarVisible, selected } =
+  const { descriptions, filteredItems, onClick, onFocusSearch, searchBarVisible, selected } =
     props;
 
   function handleKeyDown(event: React.KeyboardEvent<HTMLDivElement>) {
@@ -205,6 +208,7 @@ const ListDisplay = (props) => {
     <Section fill scrollable>
       <Autofocus />
       {filteredItems.map((item, index) => {
+        const tooltip = descriptions?.[item] || null;
         return (
           <Button
             className="candystripe"
@@ -225,6 +229,8 @@ const ListDisplay = (props) => {
               animation: 'none',
               transition: 'none',
             }}
+            tooltip={tooltip}
+            tooltipPosition="bottom"
           >
             {item.replace(/^\w/, (c) => c.toUpperCase())}
           </Button>

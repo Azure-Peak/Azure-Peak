@@ -385,6 +385,16 @@
 	icon = 'icons/clothing/donor_clothes.dmi'
 	mob_overlay_icon = 'icons/clothing/onmob/donor_clothes.dmi'
 
+/obj/item/clothing/head/roguetown/helmet/heavy/barbute/visor/dakken
+	name = "armoured avantyne barbute"
+	desc = "A heavy-metal barbute that seems to be more avantyne than steel. It carries a tormented lustre about it, glinting under the sun as threads of the dark metal wind through its visor."
+	icon_state = "dakken_zizbarb"
+	icon = 'icons/clothing/donor_clothes.dmi'
+	mob_overlay_icon = 'icons/clothing/onmob/donor_clothes64.dmi'
+	worn_x_dimension = 64
+	worn_y_dimension = 64
+	bloody_icon = 'icons/effects/blood64.dmi'
+
 //STINKETHSTONKETH
 /obj/item/rogueweapon/sword/sabre/steppesman/stinketh
 	name = "fencer's shashka"

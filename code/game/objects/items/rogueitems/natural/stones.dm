@@ -371,7 +371,7 @@ GLOBAL_LIST_INIT(stone_personality_descs, list(
 
 /obj/item/natural/rock
 	name = "boulder"
-	desc = "A rock protudes from the ground."
+	desc = "They're not 'rocks', they're minerals!"
 	icon_state = "stonebig1"
 	dropshrink = 0
 	throwforce = 25

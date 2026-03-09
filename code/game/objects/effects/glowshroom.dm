@@ -104,7 +104,6 @@
 			var/mob/living/L = user
 			if(L.electrocute_act(30, src)) // The kneestingers will let you pass if you worship dendor, but they won't take your stupid ass hitting them.
 				L.emote("painscream")
-				L.consider_ambush(always = TRUE)
 				if(L.throwing)
 					L.throwing.finalize(FALSE)
 				return FALSE
@@ -135,7 +134,7 @@
 	qdel(src)
 
 /obj/structure/glowshroom/dendorite
-	var/timeleft = null //5 MINUTES //balancing factor no longer relevant, uncommoent if gay. 
+	var/timeleft = null //5 MINUTES //balancing factor no longer relevant, uncommoent if gay.
 
 /obj/structure/glowshroom/dendorite/Initialize()
 	. = ..()

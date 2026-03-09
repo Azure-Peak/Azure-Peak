@@ -1,0 +1,6 @@
+author: "Ollanius"
+delete-after: True
+changes:
+  - rscadd: "Ancient/Decrepit Barbutes and Bascinets now use the 64x greatplume sprite."
+  - rscadd: "Adds a third variant to Dakken's Barbute that supports the greatplume and orle details."
+  - rscadd: "Adds a new description to the Boulder."

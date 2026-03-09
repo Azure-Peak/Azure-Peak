@@ -474,6 +474,11 @@
 /datum/stressevent/something_stirs/telescope
 	desc = span_boldred("That THING'S red eyes are still burning in my mind...")
 
+/datum/stressevent/orb_madness
+	stressadd = 4
+	timer = 15 MINUTES
+	desc = span_boldred("I gazed into the orb AND IT LOOKED BACK IT LOOKED BACK IT LOOKED BACK")
+
 /datum/stressevent/see_zuranus
 	timer = 5 MINUTES
 	stressadd = 4

@@ -78,19 +78,19 @@ T1 Enchantments below here*/
 	else
 		to_chat(user, span_notice("Nothing happens. Perhaps you can't enchant [O] with this?"))
 
-/obj/item/enchantmentscroll/light
-	name = "enchanting scroll of unyielding light"
-	desc = "A scroll imbued with an enchantment of unyielding light. Causes an enchanted item to glow with light."
-	component = /datum/magic_item/mundane/unyieldinglight
+/obj/item/enchantmentscroll/revealinglight
+	name = "enchanting scroll of revealing light"
+	desc = "A scroll imbued with an enchantment of revealing light. Causes an enchanted item to glow with light."
+	component = /datum/magic_item/mundane/revealinglight
 
-/obj/item/enchantmentscroll/light/attack_obj(obj/item/O, mob/living/user)
+/obj/item/enchantmentscroll/revealinglight/attack_obj(obj/item/O, mob/living/user)
 	if(!..())
 		return
 	if(istype(O,/obj/item/clothing)|| istype(O,/obj/item/rogueweapon))
 		to_chat(user, span_notice("You open [src] and place [O] within. Moments later, it flashes blue with arcana, and [src] crumbles to dust."))
 		var/magiceffect= new component
 		O.AddComponent(/datum/component/magic_item, magiceffect)
-		O.name += " of unyielding light"
+		O.name += " of revealing light"
 		qdel(src)
 		O.filters += filter(type="drop_shadow", x=0, y=0, size=1, offset=2, color=rgb(rand(1,255),rand(1,255),rand(1,255)))
 	else
@@ -115,19 +115,19 @@ T1 Enchantments below here*/
 	else
 		to_chat(user, span_notice("Nothing happens. Perhaps you can't enchant [O] with this?"))
 
-/obj/item/enchantmentscroll/revealing
-	name = "enchanting scroll of revealing"
-	desc = "A scroll imbued with an enchantment of revealing. Doubles the range of lightsources."
-	component = /datum/magic_item/mundane/revealing
+/obj/item/enchantmentscroll/magnifiedlight
+	name = "enchanting scroll of magnified light"
+	desc = "A scroll imbued with an enchantment of magnified light. Doubles the range of lightsources."
+	component = /datum/magic_item/mundane/magnifiedlight
 
-/obj/item/enchantmentscroll/revealing/attack_obj(obj/item/O, mob/living/user)
+/obj/item/enchantmentscroll/magnifiedlight/attack_obj(obj/item/O, mob/living/user)
 	if(!..())
 		return
 	if(istype(O,/obj/item/flashlight/flare/torch))
 		to_chat(user, span_notice("You open [src] and place [O] within. Moments later, it flashes blue with arcana, and [src] crumbles to dust."))
 		var/magiceffect= new component
 		O.AddComponent(/datum/component/magic_item, magiceffect)
-		O.name += " of revealing"
+		O.name += " of magnified light"
 		O.filters += filter(type="drop_shadow", x=0, y=0, size=1, offset=2, color=rgb(rand(1,255),rand(1,255),rand(1,255)))
 		qdel(src)
 	else
@@ -335,8 +335,8 @@ T1 Enchantments below here*/
 		to_chat(user, span_notice("Nothing happens. Perhaps you can't enchant [O] with this?"))
 
 /obj/item/enchantmentscroll/frostveil
-	name = "enchanting scroll of frostveil"
-	desc = "A scroll imbued with an enchantment of frostveil. Slows enemies that hit you when applied on armor, or enemies that you hit when applied on weapons."
+	name = "enchanting scroll of lesser freezing"
+	desc = "A scroll imbued with an enchantment of lesser freezing. Slows enemies that hit you when applied on armor, or enemies that you hit when applied on weapons."
 	component = /datum/magic_item/greater/frostveil
 
 /obj/item/enchantmentscroll/frostveil/attack_obj(obj/item/O, mob/living/user)
@@ -346,7 +346,7 @@ T1 Enchantments below here*/
 		to_chat(user, span_notice("You open [src] and place [O] within. Moments later, it flashes blue with arcana, and [src] crumbles to dust."))
 		var/magiceffect= new component
 		O.AddComponent(/datum/component/magic_item, magiceffect)
-		O.name += " of frostveil"
+		O.name += " of lesser freezing"
 		O.filters += filter(type="drop_shadow", x=0, y=0, size=1, offset=2, color=rgb(rand(1,255),rand(1,255),rand(1,255)))
 		qdel(src)
 	else
@@ -441,8 +441,8 @@ T1 Enchantments below here*/
 		to_chat(user, span_notice("Nothing happens. Perhaps you can't enchant [O] with this?"))
 
 /obj/item/enchantmentscroll/freeze
-	name = "enchanting scroll of freezing"
-	desc = "A scroll imbued with an enchantment of freezing. Freezes your foe in a block of ice when struck."
+	name = "enchanting scroll of greater freezing"
+	desc = "A scroll imbued with an enchantment of greater freezing. Heavily slows enemies with an intense chill."
 	component = /datum/magic_item/mythic/freezing
 
 /obj/item/enchantmentscroll/freeze/attack_obj(obj/item/O, mob/living/user)
@@ -451,7 +451,7 @@ T1 Enchantments below here*/
 		to_chat(user, span_notice("You open [src] and place [O] within. Moments later, it flashes blue with arcana, and [src] crumbles to dust."))
 		var/magiceffect= new component
 		O.AddComponent(/datum/component/magic_item, magiceffect)
-		O.name += " of freezing"
+		O.name += " of greater freezing"
 		O.filters += filter(type="drop_shadow", x=0, y=0, size=1, offset=2, color=rgb(rand(1,255),rand(1,255),rand(1,255)))
 		qdel(src)
 	else

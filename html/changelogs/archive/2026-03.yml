@@ -467,3 +467,39 @@
   - rscadd: Potence indicates with a text on toggle that it is working or being deactivated.
       Also, all vampire toggle abilities should not display 0.1s as cooldown permanently.
       Report any oddity.
+2026-03-09:
+  FreeStylaLT:
+  - refactor: Added the ability to customize virtues.
+  - refactor: Added the ability to stack some virtues. This is told to the user when
+      they select a compatible virtue. The effects of the same options will not always
+      stack in the user's favor, it's up to them to use the stacking effectively.
+  - rscdel: Removed a bunch of virtues.
+  - rscadd: 'Added a few new virtues that combine the deleted ones:'
+  - rscadd: Beautiful / Resident / Rich & Shrewd -> Well Off virtue.
+  - rscadd: Light Steps / Darksight / Second Voice / Larcenous -> Prowler.
+  - rscadd: Weapon virtues -> Trained & Ready.
+  - rscadd: Apprentice virtues -> Skilled Apprentice.
+  - rscadd: Lumberjack / Mining apprentice -> Laborious Apprentice.
+  - balance: 'TENTATIVE: Added more virtue restrictions to gnolls.'
+  Ketrai:
+  - bugfix: Herb seed names are no longer obfuscated in the crafting menu.
+  - qol: Digging furrows with herb seeds now takes medicine skill if it is higher
+      than farming skill.
+  - balance: Sui dust is cheaper.
+  Ryan180602:
+  - rscadd: sweetspot to arrows.
+  - bugfix: full bolt pouches now spawn in garrison armouries.
+  - rscadd: hitting projectiles in sweetspot adds a visible effect.
+  Teragenic:
+  - rscadd: Lirvas as Origin
+  WeNeedMorePhoron:
+  - rscadd: OOOO the changelog is now in your FACE
+  - rscadd: Adventurer Slots now scales by +2 per 10 players above 70.
+  - rscadd: Wretch slots now have T2 scaling, gaining up to 5 slots so long as there's
+      enough town combat roles to match them and there's no major antagonist (Lich
+      / VL) active in round.
+  - rscadd: Wretch slots reopen with a 1 hour delay after their round removal (Returning
+      to lobby), to give some permanence to their removal while reopening them should
+      they die early in round for the bit.
+  - rscadd: Adventurer / Wretch slots now scales before positions are assigned at
+      roundstart, based on amount of readied up players + 10%.

@@ -346,9 +346,9 @@
 	created_item = /obj/item/rogueweapon/mace/warhammer/bronze
 
 /datum/anvil_recipe/weapons/bronze/whip
-	name = "Whip, Bronze-Tipped (+3 Cured Leather)"
+	name = "Whip, Bronze-Tipped (+1 Leather Whip)"
 	req_bar = /obj/item/ingot/bronze
-	additional_items = list(/obj/item/natural/hide/cured, /obj/item/natural/hide/cured, /obj/item/natural/hide/cured)
+	additional_items = list(/obj/item/rogueweapon/whip)
 	created_item = /obj/item/rogueweapon/whip/bronze
 
 /datum/anvil_recipe/weapons/bronze/broadsword
@@ -1475,10 +1475,10 @@
 	i_type = "Weapons"
 
 /datum/anvil_recipe/weapons/psy/whip
-	name = "Psydonic Whip (+3 Cured Leather)"
+	name = "Psydonic Whip (+1 Leather Whip)"
 	req_bar = /obj/item/ingot/silverblessed
 	created_item = /obj/item/rogueweapon/whip/psywhip_lesser
-	additional_items = list(/obj/item/natural/hide/cured, /obj/item/natural/hide/cured, /obj/item/natural/hide/cured)
+	additional_items = list(/obj/item/rogueweapon/whip)
 	i_type = "Weapons"
 
 /// BLESSED SILVER, BULLION VARIANTS - FALLBACK

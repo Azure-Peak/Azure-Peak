@@ -1,6 +1,0 @@
-author: "WeNeedMorePhoron"
-delete-after: True
-changes:
-  - rscadd: "Adventurer Slots now scales by +2 per 10 players above 70."
-  - rscadd: "Wretch slots now have T2 scaling, gaining up to 5 slots so long as there's enough town combat roles to match them and there's no major antagonist (Lich / VL) active in round."
-  - rscadd: "Wretch slots reopen with a 1 hour delay after their round removal (Returning to lobby), to give some permanence to their removal while reopening them should they die early in round for the bit."

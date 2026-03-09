@@ -14,6 +14,17 @@
 /proc/get_farming_do_time(mob/user, time)
 	return time / get_farming_effort_multiplier(user, 3)
 
+/proc/get_herb_effort_multiplier(mob/user, factor = 2)
+	var/farming_lvl = user.get_skill_level(/datum/skill/labor/farming)
+	var/medicine_lvl = user.get_skill_level(/datum/skill/misc/medicine)
+	var/effective_lvl = max(farming_lvl, medicine_lvl)
+
+	return (10 + (effective_lvl * factor)) * 0.1
+
+/proc/get_herb_do_time(mob/user, time)
+	var/multiplier = get_herb_effort_multiplier(user, 3)
+	return time / multiplier
+
 /proc/apply_farming_fatigue(mob/user, fatigue_amount)
 	var/multiplier = get_farming_effort_multiplier(user)
 	user.stamina_add(fatigue_amount / multiplier)

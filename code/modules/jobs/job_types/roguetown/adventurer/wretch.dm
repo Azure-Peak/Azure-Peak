@@ -130,9 +130,10 @@
 	to_chat(H, span_danger("You are playing an Antagonist role. By choosing to spawn as a Wretch, you are expected to actively create conflict with other players. Failing to play this role with the appropriate gravitas may result in punishment for Low Roleplay standards."))
 
 /// Returns an assoc list with all intermediate wretch scaling values for admin display.
-/proc/calculate_wretch_scaling()
+/// If override_player_count is provided (e.g. from readied player count at roundstart), use that instead of the live joined list.
+/proc/calculate_wretch_scaling(override_player_count)
 	var/list/result = list()
-	var/player_count = length(GLOB.joined_player_list)
+	var/player_count = override_player_count || length(GLOB.joined_player_list)
 	result["player_count"] = player_count
 
 	// Tier 1: Population scaling, +1 per 10 players above 40, max 10
@@ -169,11 +170,11 @@
 
 	return result
 
-/proc/update_wretch_slots()
+/proc/update_wretch_slots(override_player_count)
 	var/datum/job/wretch_job = SSjob.GetJob("Wretch")
 	if(!wretch_job)
 		return
-	var/list/scaling = calculate_wretch_scaling()
+	var/list/scaling = calculate_wretch_scaling(override_player_count)
 	var/slots = scaling["final_slots"]
 	// Never reduce below current occupancy
 	wretch_job.total_positions = max(wretch_job.current_positions, slots)
@@ -192,12 +193,13 @@
 	if(!wretch_job)
 		return
 	wretch_job.current_positions = max(0, wretch_job.current_positions - 1)
-	update_wretch_slots()
+	update_scaling_slots()
 
 /// Returns an assoc list with intermediate adventurer scaling values for admin display.
-/proc/calculate_adventurer_scaling()
+/// If override_player_count is provided (e.g. from readied player count at roundstart), use that instead of the live joined list.
+/proc/calculate_adventurer_scaling(override_player_count)
 	var/list/result = list()
-	var/player_count = length(GLOB.joined_player_list)
+	var/player_count = override_player_count || length(GLOB.joined_player_list)
 	result["player_count"] = player_count
 
 	var/slots = 20
@@ -208,12 +210,17 @@
 
 	return result
 
-/proc/update_adventurer_slots()
+/proc/update_adventurer_slots(override_player_count)
 	var/datum/job/adventurer_job = SSjob.GetJob("Adventurer")
 	if(!adventurer_job)
 		return
-	var/list/scaling = calculate_adventurer_scaling()
+	var/list/scaling = calculate_adventurer_scaling(override_player_count)
 	var/slots = scaling["final_slots"]
 	// Never reduce below current value, so admin-opened slots aren't overwritten.
 	adventurer_job.total_positions = max(adventurer_job.total_positions, slots)
 	adventurer_job.spawn_positions = max(adventurer_job.spawn_positions, slots)
+
+/// Convenience proc to update both wretch and adventurer scaling in one call.
+/proc/update_scaling_slots(override_player_count)
+	update_wretch_slots(override_player_count)
+	update_adventurer_slots(override_player_count)

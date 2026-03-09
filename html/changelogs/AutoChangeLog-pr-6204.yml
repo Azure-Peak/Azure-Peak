@@ -1,6 +1,0 @@
-author: "Ryan180602"
-delete-after: True
-changes:
-  - rscadd: "sweetspot to arrows."
-  - bugfix: "full bolt pouches now spawn in garrison armouries."
-  - rscadd: "hitting projectiles in sweetspot adds a visible effect."

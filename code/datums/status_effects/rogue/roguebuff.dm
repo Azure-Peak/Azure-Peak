@@ -1764,17 +1764,6 @@
 	if(istype(human))
 		human.pain_threshold -= 50
 
-/datum/status_effect/buff/magic/knowledge
-	id = "intelligence"
-	alert_type = /atom/movable/screen/alert/status_effect/buff/magic/knowledge
-	effectedstats = list("intelligence" = 2)
-	duration = 10 MINUTES
-
-/atom/movable/screen/alert/status_effect/buff/magic/knowledge
-	name = "runic cunning"
-	desc = "I am magically astute."
-	icon_state = "buff"
-
 /datum/status_effect/buff/nocblessing
 	id = "nocblessing"
 	alert_type = /atom/movable/screen/alert/status_effect/buff/nocblessing

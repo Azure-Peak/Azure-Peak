@@ -123,8 +123,7 @@
 		if(do_after(src, 15 SECONDS, target = src)) // Reduced to 15 seconds from 30 on the original Herald PR. 15 is well enough time for sm1 to shove you.
 			say(announcementinput)
 			var/sanitized_input = trim(copytext(sanitize(announcementinput), 1, MAX_MESSAGE_LEN))
-			var/accented_input = treat_message_accent(sanitized_input, strings("accent_universal.json", "universal"), 1)
-			var/treated_input = treat_message(accented_input, /datum/language/common)
+			var/treated_input = treat_message(sanitized_input, /datum/language/common)
 			priority_announce("[treated_input]", "The Guildmaster Heralds", 'sound/misc/bell.ogg', sender = src)
 			COOLDOWN_START(src, guildmaster_announcement, GUILDMASTER_ANNOUNCEMENT_COOLDOWN)
 		else

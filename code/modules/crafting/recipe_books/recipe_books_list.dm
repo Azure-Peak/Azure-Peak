@@ -170,5 +170,8 @@
 		/datum/book_entry/magic2,
 		/datum/crafting_recipe/roguetown/arcana,
 		/datum/crafting_recipe/gemstaff,
-		/datum/runeritual,
+		/datum/runeritual/summoning,
+		/datum/runeritual/enchanting,
+		/datum/runeritual/binding,
+		/datum/runeritual/other,
 		)

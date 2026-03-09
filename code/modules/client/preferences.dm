@@ -516,6 +516,10 @@ GLOBAL_LIST_EMPTY(chosen_names)
 //				dat += "<a href='?_src_=prefs;preference=toggle_random;random_type=[RANDOM_AGE_ANTAG]'>When Antagonist: [(randomise[RANDOM_AGE_ANTAG]) ? "Yes" : "No"]</A>"
 
 //			dat += "<b><a href='?_src_=prefs;preference=name;task=random'>Random Name</A></b><BR>"
+			if(!virtue)
+				virtue = GLOB.virtues[/datum/virtue/none]
+			if(!virtuetwo)
+				virtuetwo = GLOB.virtues[/datum/virtue/none]
 			var/virtue_html
 			if(length(pref_species.restricted_virtues))
 				if(virtue.type in pref_species.restricted_virtues)

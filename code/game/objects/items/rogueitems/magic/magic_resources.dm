@@ -1,12 +1,20 @@
-#define T1SELLPRICE 2
-#define T2SELLPRICE 15
-#define T3SELLPRICE 50
+#define T1SELLPRICE 4
+#define T2SELLPRICE 20
+#define T3SELLPRICE 60
 #define T4SELLPRICE 250
+// Meld prices: 3x input tier + small crafting premium
+#define T1MELDSELLPRICE 15  // 3xT1(4) = 12 + 3
+#define T2MELDSELLPRICE 65  // 3xT2(20) = 60 + 5
+#define T3MELDSELLPRICE 190 // 3xT3(60) = 180 + 10
+#define T4MELDSELLPRICE 775 // 3xT4(250) = 750 + 25
+#define T5MELDSELLPRICE 800 // T4 meld(775) + voidstone(40), tiny premium
+// Mapfetchable sell prices
+#define LEYLINE_SELLPRICE 30
+#define VOIDSTONE_SELLPRICE 40
 
 // Magical resources for the Ratwood ported Mage Gameplay Loop system
 // Chose to not use /natural typepath because it didn't make much sense and this
 // Let me use another .dmi
-// Since the enchanting / summoning system is not here yet, sellprice has been adjusted.
 /obj/item/magic
 	name = "magic resource"
 	desc = "You shouldn't be seeing this."
@@ -29,31 +37,31 @@
 	name = "arcanic meld"
 	icon_state = "meld"
 	desc = "A melding of infernal ash, fairy dust and elemental mote."
-	sellprice = T1SELLPRICE
+	sellprice = T1MELDSELLPRICE
 
 /obj/item/magic/melded/t2
 	name = "dense arcanic meld"
 	icon_state = "dmeld"
 	desc = "A melding of hellhound fang, iridescent scales and elemental shard."
-	sellprice = T2SELLPRICE
+	sellprice = T2MELDSELLPRICE
 
 /obj/item/magic/melded/t3
 	name = "sorcerous weave"
 	icon_state = "weave"
 	desc = "A melding of infernal core, heartwood core and elemental fragment."
-	sellprice = T3SELLPRICE
+	sellprice = T3MELDSELLPRICE
 
 /obj/item/magic/melded/t4
 	name = "magical confluence"
 	icon_state = "confluence"
 	desc = "A melding of abyssal flame, sylvan essence and elemental relic."
-	sellprice = T4SELLPRICE
+	sellprice = T4MELDSELLPRICE
 
 /obj/item/magic/melded/t5
 	name = "arcanic aberation"
 	icon_state = "abberant"
 	desc = "A melding of arcane fusion and voidstone. It pulses erratically, power coiled tightly within and dangerous. Many would be afraid of going near this, let alone holding it."
-	sellprice = T4SELLPRICE * 2
+	sellprice = T5MELDSELLPRICE
 
 //mapfetchable items
 /obj/item/magic/obsidian
@@ -67,6 +75,7 @@
 	name = "leyline shards"
 	icon_state = "leyline"
 	desc = "A shard of a fractured leyline, it glows with lost power."
+	sellprice = LEYLINE_SELLPRICE
 
 /obj/item/reagent_containers/food/snacks/grown/manabloom
 	name = "mana bloom"
@@ -103,6 +112,7 @@
 	icon_state = "voidstone"
 	desc = "A piece of blackstone, it feels off to stare at it for long."
 	w_class = WEIGHT_CLASS_SMALL
+	sellprice = VOIDSTONE_SELLPRICE
 
 // INFERNAL
 /obj/item/magic/infernal
@@ -219,3 +229,10 @@
 #undef T2SELLPRICE
 #undef T3SELLPRICE
 #undef T4SELLPRICE
+#undef T1MELDSELLPRICE
+#undef T2MELDSELLPRICE
+#undef T3MELDSELLPRICE
+#undef T4MELDSELLPRICE
+#undef T5MELDSELLPRICE
+#undef LEYLINE_SELLPRICE
+#undef VOIDSTONE_SELLPRICE

@@ -301,7 +301,7 @@ a.choose-btn:hover {
 <ul>
 <li><b>Azurean Phalanx</b> — 3-tile line thrust that pushes enemies back 1 tile. Empowered: doubles damage.</li>
 <li><b>Azurean Javelin</b> — Hurl an armor-piercing phantom spear that slows. No slowdown while charging.</li>
-<li><b>Advance!</b> — Charge forward and jab 3 times ahead. Must build up 1 pace first. If blocked, keeps jabbing in place. Brief chargeup before moving.</li>
+<li><b>Advance!</b> — Leap forward up to 4 tiles, passing through enemies, then stab ahead on landing. Brief chargeup before leaping. Empowered: doubles damage.</li>
 <li><b>Gate of Reckoning</b> — Conjure a portal above a target, raining phantom spears down, then blink to their position and sweep everyone around you.</li>
 </ul>
 </div>
@@ -320,7 +320,7 @@ a.choose-btn:hover {
 <ul>
 <li><b>Shatter</b> — 3-tile line smash that devastates armor integrity and knocks targets back 1 tile. Empowered: doubles damage.</li>
 <li><b>Tremor</b> — Slam the ground, damaging and pushing back everyone adjacent 1 tile. Empowered: doubles damage.</li>
-<li><b>Charge!</b> — Charge forward 3 paces and bash, knocking targets back 1 tile. Empowered: doubles damage. Brief chargeup before moving.</li>
+<li><b>Charge!</b> — Charge forward 5 paces, ramming everyone in the path aside, then bash at the end. Knocks the final target back 1 tile. Empowered: doubles damage. Brief chargeup before moving.</li>
 <li><b>Cataclysm</b> — Conjure and hurl an arcyne hammer at a target area. Crushes a 5x5 area and leaves victims Vulnerable. Bonus damage at max momentum.</li>
 </ul>
 </div>

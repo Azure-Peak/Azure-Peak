@@ -206,7 +206,7 @@ Somewhat fitting, considering the broadness of their domains. I also just think 
 		if(target.anti_magic_check(TRUE, TRUE))
 			return FALSE
 		target.visible_message(span_warning("[target] starts to fade into thin air!"), span_notice("You start to become invisible!"))
-		var/dur = max((5 * (user.get_skill_level(associated_skill))), 5)
+		var/dur = max((5 * (user.get_skill_level(associated_skill))), 15)
 		if(dur >= recharge_time)
 			recharge_time = dur + 5 SECONDS
 		animate(target, alpha = 0, time = 1 SECONDS, easing = EASE_IN)
