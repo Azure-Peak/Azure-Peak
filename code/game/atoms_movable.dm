@@ -1321,8 +1321,9 @@ GLOBAL_VAR_INIT(pixel_diff_time, 1)
 
 ///Clears the clients channel of this mob
 /mob/proc/clear_important_client_contents()
-	var/turf/our_turf = get_turf(src)
-	SSspatial_grid.remove_grid_membership(src, our_turf, SPATIAL_GRID_CONTENTS_TYPE_CLIENTS)
+	if(spatial_grid_key)
+		var/turf/our_turf = get_turf(src)
+		SSspatial_grid.remove_grid_membership(src, our_turf, SPATIAL_GRID_CONTENTS_TYPE_CLIENTS)
 
 	for(var/atom/movable/movable_loc as anything in get_nested_locs(src) + src)
 		LAZYINITLIST(movable_loc.important_recursive_contents)
