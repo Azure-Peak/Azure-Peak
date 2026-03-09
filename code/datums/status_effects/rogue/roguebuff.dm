@@ -598,26 +598,21 @@
 			if(healing_range > 5)
 				healing_on_tick *= 0.67
 				duration = ceil(new_duration * 1.5)
-				to_chat(world, "DEBUG [src.type]: Finalized Healing Tick: [healing_on_tick], Finalized Duration: [src.duration]")
 				return ..()
 		if(5)
 			if(healing_range > 4)
 				healing_on_tick *= 0.67
 				duration = ceil(new_duration * 1.5)
-				to_chat(world, "DEBUG [src.type]: Finalized Healing Tick: [healing_on_tick], Finalized Duration: [src.duration]")
 				return ..()
 		if(0 to 4)
 			if(healing_self)
 				healing_on_tick *= 0.5
 				duration = ceil(new_duration * 2)
-				to_chat(world, "DEBUG [src.type]: Finalized Healing Tick: [healing_on_tick], Finalized Duration: [src.duration]")
 				return ..()
 			if(healing_range > 2)
 				healing_on_tick *= 0.5
 				duration = ceil(new_duration * 2)
-				to_chat(world, "DEBUG [src.type]: Finalized Healing Tick: [healing_on_tick], Finalized Duration: [src.duration]")
 				return ..()
-	to_chat(world, "DEBUG [src.type]: Finalized Healing Tick: [healing_on_tick], Finalized Duration: [src.duration]")
 	return ..()
 
 /datum/status_effect/buff/healing/on_apply()
