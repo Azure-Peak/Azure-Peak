@@ -306,8 +306,8 @@
 	desc = "Weight of wealth in a deadly striking end."
 	icon_state = "matthiosflail"
 	max_integrity = 200
-	wdefense = 6
-	sellprice = 200
+	wdefense = 7
+	sellprice = 150
 	smeltresult = /obj/item/ingot/steel
 	possible_item_intents = list(/datum/intent/flail/strike/matthiosflail)
 	gripped_intents = list(/datum/intent/flail/strike/matthiosflail, /datum/intent/flail/smash/matthiosflail)
