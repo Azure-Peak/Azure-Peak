@@ -7,7 +7,7 @@
 	outfit = /datum/outfit/job/roguetown/bandit/iconoclast
 	category_tags = list(CTAG_BANDIT)
 	maximum_possible_slots = 1 // We only want one of these.
-	traits_applied = list(TRAIT_CIVILIZEDBARBARIAN, TRAIT_RITUALIST)
+	traits_applied = list(TRAIT_CIVILIZEDBARBARIAN, TRAIT_RITUALIST, TRAIT_DIVINE_HEALER)
 	subclass_stats = list(
 		STATKEY_STR = 3,// LETS WRASSLE
 		STATKEY_WIL = 3,// This is our Go Big stat, we want lots of stamina for miracles and WRASSLIN.

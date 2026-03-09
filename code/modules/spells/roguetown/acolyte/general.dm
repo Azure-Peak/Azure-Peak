@@ -95,7 +95,7 @@
 
 	var/healing_self = (target == user) ? TRUE : FALSE
 	var/healing_range = get_dist(target, user)
-	var/healing_skill = user.get_skill_level(associated_skill)
+	var/healing_skill = HAS_TRAIT(user, TRAIT_DIVINE_HEALER)
 	target.apply_status_effect(/datum/status_effect/buff/healing, healing, is_inhumen, healing_range, healing_skill, healing_self)
 
 	// Edit - Overwriting the outgoing message here to prevent metagaming faith via message.
@@ -196,7 +196,7 @@
 	user.Beam(target,icon_state="lichbeam",time=1 SECONDS)
 	var/healing_self = (target == user) ? TRUE : FALSE
 	var/healing_range = get_dist(target, user)
-	var/healing_skill = user.get_skill_level(associated_skill)
+	var/healing_skill = HAS_TRAIT(user, TRAIT_DIVINE_HEALER)
 	var/datum/status_effect/buff/healing/existing_buff = target.has_status_effect(/datum/status_effect/buff/healing)
 	if(existing_buff)
 		// Let's only replace buffs if it's a significant enough improvement as to avoid math rounding throwing wrenches.

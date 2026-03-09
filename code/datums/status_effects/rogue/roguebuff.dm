@@ -586,7 +586,7 @@
 	var/tech_healing_modifier = 1
 	var/block_combat_mode = FALSE
 
-/datum/status_effect/buff/healing/on_creation(mob/living/new_owner, new_healing_on_tick, is_inhumen = FALSE, healing_range = 1, healing_skill = 6, healing_self = FALSE, new_duration = 10 SECONDS)
+/datum/status_effect/buff/healing/on_creation(mob/living/new_owner, new_healing_on_tick, is_inhumen = FALSE, healing_range = 1, healing_skill = FALSE, healing_self = FALSE, new_duration = 10 SECONDS)
 	healing_on_tick = new_healing_on_tick
 	tech_healing_modifier = SSchimeric_tech.get_healing_multiplier()
 	if(is_inhumen)
@@ -594,17 +594,12 @@
 		tech_healing_modifier = 1 + ((tech_healing_modifier - 1) * 0.5)
 	healing_on_tick *= tech_healing_modifier
 	switch(healing_skill)
-		if(6)
-			if(healing_range > 5)
-				healing_on_tick *= 0.67
-				duration = ceil(new_duration * 1.5)
-				return ..()
-		if(5)
+		if(TRUE)
 			if(healing_range > 4)
 				healing_on_tick *= 0.67
 				duration = ceil(new_duration * 1.5)
 				return ..()
-		if(0 to 4)
+		if(FALSE)
 			if(healing_self)
 				healing_on_tick *= 0.5
 				duration = ceil(new_duration * 2)

@@ -391,7 +391,7 @@
 	name = "Cantor"
 	tutorial = "You were a bard once - but you've found a new calling. Your eyes have been opened to the divine, now you wander from city to city singing songs and telling tales of your patron's greatness."
 	outfit = /datum/outfit/job/roguetown/adventurer/cantor
-	traits_applied = list(TRAIT_DODGEEXPERT, TRAIT_EMPATH)
+	traits_applied = list(TRAIT_DODGEEXPERT, TRAIT_EMPATH, TRAIT_DIVINE_HEALER)
 	subclass_stats = list(
 		STATKEY_STR = 1,
 		STATKEY_WIL = 1,
@@ -538,7 +538,7 @@
 	name = "Missionary"
 	tutorial = "You are a devout worshipper of the divine with a strong connection to your patron god. You've spent years studying scriptures and serving your deity - now you wander into foreign lands, spreading the word of your faith."
 	outfit = /datum/outfit/job/roguetown/adventurer/missionary
-	traits_applied = list()
+	traits_applied = list(TRAIT_DIVINE_HEALER)
 	subclass_stats = list(
 		STATKEY_INT = 2,
 		STATKEY_PER = 2,
