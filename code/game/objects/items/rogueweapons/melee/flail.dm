@@ -305,14 +305,15 @@
 	name = "gilded flail"
 	desc = "Weight of wealth in a deadly striking end."
 	icon_state = "matthiosflail"
-	sellprice = 250
+	max_integrity = 200
+	wdefense = 6
+	sellprice = 200
 	smeltresult = /obj/item/ingot/steel
 	possible_item_intents = list(/datum/intent/flail/strike/matthiosflail)
 	gripped_intents = list(/datum/intent/flail/strike/matthiosflail, /datum/intent/flail/smash/matthiosflail)
 	associated_skill = /datum/skill/combat/whipsflails
 	slot_flags = ITEM_SLOT_BACK
 	anvilrepair = /datum/skill/craft/weaponsmithing
-
 
 /obj/item/rogueweapon/flail/peasantwarflail/matthios/Initialize()
 	. = ..()

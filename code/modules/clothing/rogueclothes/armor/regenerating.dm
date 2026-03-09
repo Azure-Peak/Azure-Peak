@@ -164,6 +164,18 @@
 	max_integrity = 400
 	repair_time = 20 SECONDS
 
+/obj/item/clothing/suit/roguetown/armor/regenerating/skin/iconoclast
+	name = "gilded skin"
+	desc = "Those fools could never understand. \
+	</br>His deed saved us all from the Tyrant, snapping us out Her control. \
+	</br>His unending generosity plunged us into a new age. One where we need not fear the old gods. \
+	</br>His fyre kept us warm and close during Her harshest punishments. We persevered in hope he would save us again. \
+	</br>We are the children of Matthios, one of us. \
+	</br>And I - Herald of His Darkness."
+	armor = list("blunt" = 40, "slash" = 70, "stab" = 60, "piercing" = 70, "fire" = 80, "acid" = 0)//Bit weaker than ascendant armour, on account of it regenerating - does come with fire resist though.
+	max_integrity = 400
+	repair_time = 20 SECONDS
+
 /obj/item/clothing/suit/roguetown/armor/regenerating/skin/disciple/barbarian
 	name = "barbarian's skin"
 	desc = "Toughened from abuse. My mettle remains."
