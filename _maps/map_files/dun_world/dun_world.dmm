@@ -7321,7 +7321,7 @@
 "bDn" = (
 /mob/living/simple_animal/hostile/retaliate/rogue/bigrat,
 /turf/open/floor/rogue/hexstone,
-/area/rogue/indoors/town/pestra_sanctum)
+/area/rogue/under/town/sewer)
 "bDp" = (
 /obj/structure/fluff/railing/border,
 /obj/structure/fluff/railing/border/east,
@@ -7371,7 +7371,6 @@
 /obj/effect/decal/edge_corner{
 	color = "#3f3f3f"
 	},
-/obj/structure/flora/roguegrass/herb/random,
 /turf/open/floor/rogue/dirt/road,
 /area/rogue/indoors/town/pestra_sanctum)
 "bEh" = (
@@ -11487,10 +11486,6 @@
 /obj/effect/decal/edge{
 	color = "#3f3f3f";
 	dir = 1
-	},
-/obj/structure/flora/roguegrass/herb/random,
-/obj/machinery/light/rogue/candle{
-	pixel_y = -32
 	},
 /turf/open/floor/rogue/dirt/road,
 /area/rogue/indoors/town/pestra_sanctum)
@@ -17619,13 +17614,6 @@
 	},
 /turf/open/floor/rogue/ruinedwood/herringbone,
 /area/rogue/indoors/inq/office)
-"dOf" = (
-/obj/effect/decal/edge{
-	color = "#3f3f3f"
-	},
-/obj/machinery/light/rogue/candle,
-/turf/open/floor/rogue/dirt/road,
-/area/rogue/indoors/town/pestra_sanctum)
 "dOq" = (
 /turf/closed/mineral/random/rogue/med,
 /area/rogue/under/cavewet/bogcaves/central)
@@ -23937,13 +23925,6 @@
 "fce" = (
 /turf/open/water/ocean,
 /area/rogue/outdoors/beach)
-"fcj" = (
-/obj/effect/decal/edge{
-	color = "#3f3f3f"
-	},
-/obj/structure/flora/roguegrass/herb/random,
-/turf/open/floor/rogue/dirt/road,
-/area/rogue/indoors/town/pestra_sanctum)
 "fcq" = (
 /obj/structure/fluff/statue/gargoyle/moss/candles,
 /turf/open/floor/rogue/cobble/mossy,
@@ -35102,9 +35083,6 @@
 /obj/effect/decal/cleanable/debris/stony,
 /turf/open/floor/rogue/church,
 /area/rogue/under/cave/scarymaze)
-"hwQ" = (
-/turf/open/floor/rogue/dirt,
-/area/rogue/indoors/town/pestra_sanctum)
 "hwW" = (
 /obj/structure/fluff/railing/corner,
 /turf/open/floor/carpet/royalblack,
@@ -50061,6 +50039,9 @@
 /obj/structure/meathook,
 /turf/open/floor/rogue/cobble,
 /area/rogue/indoors/town)
+"kEF" = (
+/turf/open/floor/rogue/hexstone,
+/area/rogue/under/town/sewer)
 "kEJ" = (
 /obj/structure/mineral_door/wood/window{
 	name = "Main Hallway";
@@ -54038,6 +54019,10 @@
 /area/rogue/under/town/basement/keep)
 "lrU" = (
 /obj/structure/table/wood/poor,
+/obj/item/clothing/neck/roguetown/psicross/pestra{
+	pixel_x = 3;
+	pixel_y = 3
+	},
 /turf/open/floor/rogue/hexstone,
 /area/rogue/indoors/town/pestra_sanctum)
 "lrY" = (
@@ -59071,6 +59056,12 @@
 	},
 /turf/open/floor/rogue/wood,
 /area/rogue/indoors/shelter/mountains/decap)
+"muo" = (
+/obj/machinery/light/rogue/candle{
+	pixel_y = -32
+	},
+/turf/open/floor/rogue/dirt/road,
+/area/rogue/indoors/town/pestra_sanctum)
 "muB" = (
 /turf/open/floor/rogue/ruinedwood/herringbone,
 /area/rogue/indoors/town/magician)
@@ -60700,7 +60691,7 @@
 /obj/structure/flora/tinymushrooms,
 /obj/machinery/light/rogue/candle/r,
 /turf/open/floor/rogue/dirt,
-/area/rogue/indoors/town/pestra_sanctum)
+/area/rogue/under/town/sewer)
 "mOe" = (
 /obj/structure/bed/rogue/shit,
 /obj/effect/decal/cleanable/blood/old,
@@ -75629,6 +75620,10 @@
 /obj/machinery/light/rogue/candle/off/r,
 /turf/open/floor/rogue/cobble/mossy,
 /area/rogue/under/cave/his_vault)
+"qaT" = (
+/obj/structure/flora/roguegrass/herb/random,
+/turf/open/floor/rogue/dirt/road,
+/area/rogue/indoors/town/pestra_sanctum)
 "qaU" = (
 /obj/structure/closet/crate/chest/crate,
 /obj/effect/spawner/lootdrop/roguetown/dungeon/weapons,
@@ -79279,6 +79274,12 @@
 /obj/effect/decal/cleanable/debris/stony,
 /turf/open/floor/rogue/church,
 /area/rogue/under/cave/scarymaze)
+"qPi" = (
+/obj/effect/decal/edge{
+	color = "#3f3f3f"
+	},
+/turf/open/floor/rogue/dirt/road,
+/area/rogue/indoors/town/pestra_sanctum)
 "qPj" = (
 /obj/structure/flora/ausbushes/ppflowers,
 /obj/structure/flora/ausbushes/brflowers,
@@ -81036,6 +81037,17 @@
 /obj/item/quiver,
 /turf/open/floor/rogue/ruinedwood/spiral,
 /area/rogue/indoors/town)
+"rjZ" = (
+/obj/effect/decal/edge{
+	color = "#3f3f3f";
+	dir = 9
+	},
+/obj/effect/decal/edge{
+	color = "#3f3f3f";
+	dir = 1
+	},
+/turf/open/floor/rogue/dirt/road,
+/area/rogue/indoors/town/pestra_sanctum)
 "rkc" = (
 /obj/effect/decal/wood/herringbone2{
 	dir = 5
@@ -97083,6 +97095,10 @@
 /obj/structure/flora/roguegrass/bush/wall/tall,
 /turf/open/floor/rogue/dirt/road,
 /area/rogue/under/underdark/north)
+"uDh" = (
+/obj/machinery/light/rogue/candle,
+/turf/open/floor/rogue/dirt/road,
+/area/rogue/indoors/town/pestra_sanctum)
 "uDi" = (
 /obj/structure/closet/crate/chest,
 /obj/effect/spawner/lootdrop/roguetown/dungeon/food,
@@ -99760,6 +99776,12 @@
 	},
 /turf/open/floor/rogue/tile/harem2,
 /area/rogue/indoors/town/bath)
+"vfQ" = (
+/obj/machinery/light/rogue/candle{
+	pixel_y = -32
+	},
+/turf/open/floor/rogue/concrete,
+/area/rogue/indoors/town/magician)
 "vfU" = (
 /obj/structure/bed/rogue/shit{
 	name = "makeshift bed"
@@ -107625,6 +107647,7 @@
 	color = "#3f3f3f";
 	dir = 8
 	},
+/obj/structure/flora/roguegrass/herb/random,
 /turf/open/floor/rogue/dirt/road,
 /area/rogue/indoors/town/pestra_sanctum)
 "wOS" = (
@@ -108368,7 +108391,7 @@
 "wWN" = (
 /obj/effect/decal/cleanable/dirt/cobweb,
 /turf/open/floor/rogue/dirt,
-/area/rogue/indoors/town/pestra_sanctum)
+/area/rogue/under/town/sewer)
 "wWQ" = (
 /obj/structure/fluff/railing/border/north,
 /obj/structure/table/wood,
@@ -178562,9 +178585,9 @@ ogs
 oxx
 ehs
 oxx
-ktL
-ktL
-ktL
+oxx
+oxx
+oxx
 ktL
 lDf
 ktL
@@ -179014,9 +179037,9 @@ ogs
 oxx
 ehs
 eMU
-ktL
+oxx
 wWN
-dhn
+kEF
 ocR
 dhn
 fGJ
@@ -179466,9 +179489,9 @@ ogs
 oxx
 eMU
 eMU
-hwQ
+daP
 bDn
-dhn
+kEF
 kBF
 dhn
 dTs
@@ -179918,9 +179941,9 @@ ogs
 oxx
 oxx
 eMU
-hwQ
+daP
 mOd
-dhn
+kEF
 ocR
 dhn
 dhn
@@ -182184,7 +182207,7 @@ ktL
 ktL
 ktL
 pQp
-fcj
+qPi
 vLE
 rHG
 vLE
@@ -182636,7 +182659,7 @@ ogs
 ogs
 ktL
 ktL
-dOf
+qPi
 vLE
 rHG
 vLE
@@ -183540,11 +183563,11 @@ ogs
 ogs
 ogs
 ktL
-ktL
-ktL
-npz
-ktL
-ktL
+uDh
+qPi
+rHG
+rjZ
+muo
 ktL
 ogs
 ogs
@@ -183991,13 +184014,13 @@ ogs
 ogs
 ogs
 ogs
-ogs
-ogs
-idG
-jOq
-idG
-ogs
-ogs
+ktL
+qaT
+qPi
+rHG
+cxX
+qaT
+ktL
 ogs
 ogs
 ogs
@@ -184443,13 +184466,13 @@ ogs
 ogs
 ogs
 ogs
-ogs
-ogs
-idG
-jOq
-idG
-ogs
-ogs
+ktL
+ktL
+ktL
+npz
+ktL
+ktL
+ktL
 ogs
 ogs
 ogs
@@ -282536,7 +282559,7 @@ iAa
 iAa
 iAa
 feS
-puA
+vfQ
 nTJ
 uiG
 jCv
@@ -282988,7 +283011,7 @@ rAx
 nxQ
 nxQ
 mxY
-ukG
+xVh
 pqj
 cHc
 cHc
