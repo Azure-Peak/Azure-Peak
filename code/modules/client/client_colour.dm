@@ -146,3 +146,8 @@
 /datum/client_colour/stress_fade
 	colour = list(1,0,0,0, 0,1,0,0, 0,0,1,0, 0,0,0,1, 0,0,0,0)
 	priority = 0
+
+/datum/client_colour/underwater
+	priority = 1.5
+	colour = list(0.8,0.05,0,0, 0,0.9,0.05,0, 0.05,0.05,1.1,0, -0.01,-0.01,0.01,1)
+

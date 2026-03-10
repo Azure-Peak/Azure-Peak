@@ -944,8 +944,8 @@
 	)
 
 /obj/item/rogueweapon/halberd/glaive
-	possible_item_intents = list(/datum/intent/spear/thrust/bad, SPEAR_BASH) //bash is for nonlethal takedowns, only targets limbs
-	gripped_intents = list(/datum/intent/spear/cut/glaive, /datum/intent/spear/cut/glaive/sweep, /datum/intent/spear/thrust/bad, SPEAR_BASH)
+	possible_item_intents = list(/datum/intent/spear/thrust/oneh, SPEAR_BASH) //bash is for nonlethal takedowns, only targets limbs
+	gripped_intents = list(/datum/intent/spear/cut/glaive, /datum/intent/spear/cut/glaive/sweep, /datum/intent/spear/thrust, SPEAR_BASH)
 	name = "glaive"
 	desc = "A curved blade on a pole, specialised in defence, but expensive to manufacture."
 	icon_state = "glaive"
@@ -1059,8 +1059,8 @@
 	name = "naledian warstaff"
 	desc = "A staff carrying the crescent moon of Psydon's knowledge, as well as the black and gold insignia of the war scholars."
 	icon_state = "naledistaff"
-	possible_item_intents = list(SPEAR_BASH, /datum/intent/special/magicarc)
-	gripped_intents = list(/datum/intent/spear/bash/ranged, /datum/intent/special/magicarc, /datum/intent/mace/smash/wood/ranged)
+	possible_item_intents = list(SPEAR_BASH)
+	gripped_intents = list(/datum/intent/spear/bash/ranged, /datum/intent/mace/smash/wood/ranged)
 	force = 18
 	force_wielded = 22
 	max_integrity = 250

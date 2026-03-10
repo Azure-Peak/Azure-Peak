@@ -330,7 +330,7 @@ SUBSYSTEM_DEF(spatial_grid)
 
 /// Removes grid membership from the passed in atom, of the passed in type
 /datum/controller/subsystem/spatial_grid/proc/remove_grid_membership(atom/movable/remove_from, turf/target_turf, type)
-	if(!target_turf)
+	if(!target_turf || !remove_from.spatial_grid_key)
 		return
 	if(initialized)
 		remove_single_type(remove_from, target_turf, type)

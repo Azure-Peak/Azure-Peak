@@ -933,7 +933,7 @@
 	emote_environment = 3
 	body_parts_covered = HEAD|HAIR|EARS
 	flags_inv = HIDEEARS|HIDEHAIR
-	block2add = FOV_BEHIND
+	block2add = FOV_DEFAULT
 	smeltresult = /obj/item/ingot/steel
 	smelt_bar_num = 2
 

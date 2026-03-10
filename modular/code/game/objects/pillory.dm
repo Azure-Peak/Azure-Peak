@@ -139,8 +139,7 @@
 			var/datum/species/S = H.dna.species
 
 			if (istype(S))
-				//H.cut_overlays()
-				H.update_body_parts_head_only()
+				H.update_body_parts(TRUE)
 				switch(H.dna.species.name)
 					if ("Dwarf", "Kobold", "Goblin", "Verminvolk")
 						H.set_mob_offsets("bed_buckle", _x = 0, _y = PILLORY_HEAD_OFFSET)

@@ -503,3 +503,47 @@
       they die early in round for the bit.
   - rscadd: Adventurer / Wretch slots now scales before positions are assigned at
       roundstart, based on amount of readied up players + 10%.
+2026-03-10:
+  Aisu9:
+  - bugfix: fixed arcyne strike(smite) not inflicting arcane marks
+  Draganfrukts:
+  - balance: Master cut has a minimum swing delay. Its minimum damage is no longer
+      clamped. It's maximum damage is 31 down from 35.
+  - balance: Half-swording takes longer to connect.
+  - balance: Master strikes are slower.
+  - balance: duelist longswords (etruscan, grenzel, reform.) cannot be alt-gripped.
+  - balance: duelist longswords can no longer target the feet.
+  - balance: Freifechters have clamped constitution.
+  FreeStylaLT:
+  - bugfix: Fixed Elf (Short) ears not working properly.
+  Ollanius:
+  - rscadd: New timechange tips about various basic mechanics.
+  - rscadd: Notes the CPR mechanic down on certain posters; target the mouth and click
+      with 'WEAK' intent to breathe life into someone, counteracting the suffocation
+      damage that comes from critical blood loss.
+  - rscadd: Examining the roundspawn tome now explicitly lists a link to the wiki.
+  - balance: Exchanged despair and forlornness with whimsy and hope. Forsooth!
+  - rscadd: Alloy-tipped whips now require a leather whip to craft, instead of just
+      cured leather.
+  - rscadd: Ancient/Decrepit Barbutes and Bascinets now use the 64x greatplume sprite.
+  - rscadd: Adds a third variant to Dakken's Barbute that supports the greatplume
+      and orle details.
+  - rscadd: Adds a new description to the Boulder.
+  SpadesNeil:
+  - qol: Removed ambush punishment when attacking kneestingers with the wrong tool.
+  WeNeedMorePhoron:
+  - rscadd: NPC aggro and combat line / emotes frequency has been increased. Some
+      dialogues has been rewritten and added to, too.
+  - rscdel: Removed the broken accent code to save around 1% of CPU
+  - rscadd: Tweaked Spellblade Phalangite and Macebearer's E to become a 5 tiles leap
+      / displacing charge respectively. Azurean Javelin now have a 1 second instead
+      of 2 second charge time.
+  - rscadd: Optimized TGUI Crafting Menu again, report any oddity.
+  - admin: Admin and localhost now gain access to a toggle on the right side of their
+      chat for command bar. YIPPEE!!!
+  - rscadd: Glaive regain a spear like thrust
+  - bugfix: Helmet aesthetics storage is now limited to head / neck / mask slot items
+      with no armor, as intended.
+  - rscadd: Triumph is now gained on nighttime transition instead of when you sleep
+  bearrrrrrrr:
+  - admin: increased size of single-z event area

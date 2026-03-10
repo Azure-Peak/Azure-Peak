@@ -18,9 +18,9 @@ decreases charge time if held opened in hand, for pure mage build + aesthetics.
 	drop_sound = 'sound/foley/dropsound/book_drop.ogg'
 	force = 5
 	associated_skill = /datum/skill/misc/reading
-	possible_item_intents = list(/datum/intent/use, /datum/intent/special/magicarc)
+	possible_item_intents = list(/datum/intent/use)
 	name = "\improper tome of the arcyne"
-	desc = "A crackling, glowing book, filled with runes and symbols that hurt the mind to stare at. Can be used to unbind spells, or to assist the caster in arcing some of their projectiles."
+	desc = "A crackling, glowing book, filled with runes and symbols that hurt the mind to stare at. Can be used to unbind spells."
 	var/picked // if the book has had it's style picked or not
 	var/born_of_rock = FALSE // was a magical stone used to make it instead of a gem
 
@@ -167,29 +167,29 @@ decreases charge time if held opened in hand, for pure mage build + aesthetics.
 			if ("brown") //preserve default name and desc for the basic options
 				return
 			if ("steel")
-				desc = "A metallic tome adorned with alignments of runes and alchemical symbols. Can be used to unbind spells, or to assist the caster in arcing some of their projectiles."
+				desc = "A metallic tome adorned with alignments of runes and alchemical symbols. Can be used to unbind spells."
 			if ("gem")
-				desc = "The pages form a window to the breadth of the stars. Can be used to unbind spells, or to assist the caster in arcing some of their projectiles."
+				desc = "The pages form a window to the breadth of the stars. Can be used to unbind spells."
 			if ("skin")
-				desc = "Profane symbols adorn this spellbook- is that blood dripping off the pages? Can be used to unbind spells, or to assist the caster in arcing some of their projectiles."
+				desc = "Profane symbols adorn this spellbook- is that blood dripping off the pages? Can be used to unbind spells."
 			if ("mimic")
-				desc = "This book seems to be reading you, instead. Can be used to unbind spells, or to assist the caster in arcing some of their projectiles."
+				desc = "This book seems to be reading you, instead. Can be used to unbind spells."
 			if ("wyrdbark")
-				desc = "Formed of heartwood and fae magics, leaves flutter about when it opens. Can be used to unbind spells, or to assist the caster in arcing some of their projectiles."
+				desc = "Formed of heartwood and fae magics, leaves flutter about when it opens. Can be used to unbind spells."
 			if ("sunfire")
-				desc = "Astrata's radiance pours freely from this book's enchanted parchment. Can be used to unbind spells, or to assist the caster in arcing some of their projectiles."
+				desc = "Astrata's radiance pours freely from this book's enchanted parchment. Can be used to unbind spells."
 			if ("abyssal")
-				desc = "Frigid and numb to the touch; you feel so much smaller just looking at it. Can be used to unbind spells, or to assist the caster in arcing some of their projectiles."
+				desc = "Frigid and numb to the touch; you feel so much smaller just looking at it. Can be used to unbind spells."
 			if ("cinder")
-				desc = "Wafting smoke and smoldering crackles come from the papyrus, though it never catches alight. Can be used to unbind spells, or to assist the caster in arcing some of their projectiles."
+				desc = "Wafting smoke and smoldering crackles come from the papyrus, though it never catches alight. Can be used to unbind spells."
 			if ("vessel")
-				desc = "A stoppered bottle of ink that forms into a fully-fledged tome when uncorked. Can be used to unbind spells, or to assist the caster in arcing some of their projectiles."
+				desc = "A stoppered bottle of ink that forms into a fully-fledged tome when uncorked. Can be used to unbind spells."
 				name = "\improper arcyne vessel" //calling it 'vessel tome' is weird as fuck
 				return
 			if ("edgebound")
-				desc = "Harsh, sturdy, and practical; can a war-mage ask for more? Can be used to unbind spells, or to assist the caster in arcing some of their projectiles."
+				desc = "Harsh, sturdy, and practical; can a war-mage ask for more? Can be used to unbind spells."
 			if ("sovereign")
-				desc = "Regal and opulent, you feel a stronge urge to call this tome some title of reverence. Can be used to unbind spells, or to assist the caster in arcing some of their projectiles."
+				desc = "Regal and opulent, you feel a stronge urge to call this tome some title of reverence. Can be used to unbind spells."
 		name = "\improper [design] tome"
 		return
 	if(!open)

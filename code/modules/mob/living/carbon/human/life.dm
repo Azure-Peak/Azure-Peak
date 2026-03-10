@@ -113,7 +113,6 @@
 
 	. = ..()
 	name = get_visible_name()
-
 /mob/living/carbon/human/proc/on_daypass()
 	if(dna?.species)
 		if(STUBBLE in dna.species.species_traits)

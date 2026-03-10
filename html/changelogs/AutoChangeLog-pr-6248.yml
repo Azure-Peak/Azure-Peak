@@ -1,0 +1,4 @@
+author: "Clem-The-Duck"
+delete-after: True
+changes:
+  - bugfix: "makes Noc Helmet use default FOV as intended"

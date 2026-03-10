@@ -2,7 +2,7 @@
 These mirror the species.dm melee attack flow (armor check -> apply_damage -> bodypart_attacked_by)
 without going through the click pipeline, so spells can deliver weapon-style strikes. */
 
-/proc/arcyne_strike(mob/living/carbon/human/user, mob/living/target, obj/item/weapon, damage, def_zone, blade_class_override, armor_penetration = 0, spell_name = "Arcyne Strike", skip_animation = FALSE, skip_message = FALSE)
+/proc/arcyne_strike(mob/living/carbon/human/user, mob/living/target, obj/item/weapon, damage, def_zone, blade_class_override, armor_penetration = 0, spell_name = "Arcyne Strike", skip_animation = FALSE, skip_message = FALSE, allow_shield_check = FALSE, damage_type = BRUTE, npc_simple_damage_mult = 1)
 	if(!user || !target || QDELETED(user) || QDELETED(target))
 		return FALSE
 
@@ -23,6 +23,8 @@ without going through the click pipeline, so spells can deliver weapon-style str
 		if(BCLASS_STAB, BCLASS_PICK)
 			blade_class = BCLASS_STAB
 			attack_flag = "stab"
+		if(BCLASS_BURN)
+			attack_flag = "magic"
 		else
 			blade_class = BCLASS_CUT
 			attack_flag = "slash"
@@ -54,11 +56,28 @@ without going through the click pipeline, so spells can deliver weapon-style str
 			anim_type = ATTACK_ANIMATION_BONK
 		if(BCLASS_STAB)
 			anim_type = ATTACK_ANIMATION_THRUST
+		if(BCLASS_BURN)
+			visual_effect = ATTACK_EFFECT_MECHFIRE
 	if(!skip_animation)
 		user.do_attack_animation(target, visual_effect, weapon, item_animation_override = anim_type)
 
+	// Optional shield check — blocked like a projectile (shield takes 25% as integrity damage).
+	if(allow_shield_check && ishuman(target))
+		var/mob/living/carbon/human/H = target
+		if(user != H && H.check_shields(weapon, damage, spell_name, MELEE_ATTACK, armor_penetration))
+			// Shield eats the hit but takes integrity damage, matching projectile behavior
+			for(var/obj/item/I in H.held_items)
+				if(I.block_chance > 0)
+					I.take_damage(floor(damage / 4))
+					break
+			return 0
+
+	// NPC damage multiplier (e.g. fireball's npc_simple_damage_mult)
+	if(npc_simple_damage_mult != 1 && istype(target, /mob/living/simple_animal))
+		damage = round(damage * npc_simple_damage_mult)
+
 	var/armor_block = target.run_armor_check(def_zone, attack_flag, blade_dulling = blade_class, armor_penetration = armor_penetration, damage = damage)
-	var/damage_dealt = target.apply_damage(damage, BRUTE, def_zone, armor_block)
+	var/damage_dealt = target.apply_damage(damage, damage_type, def_zone, armor_block)
 
 	// Match standard melee flow: only apply wounds if damage actually got through armor
 	if(damage_dealt)
@@ -84,16 +103,17 @@ without going through the click pipeline, so spells can deliver weapon-style str
 		if(BCLASS_STAB)
 			attack_verb = "stabs"
 			hit_sound = pick('sound/combat/hits/bladed/genthrust (1).ogg', 'sound/combat/hits/bladed/genthrust (2).ogg')
+		if(BCLASS_BURN)
+			attack_verb = "scorches"
+			hit_sound = 'sound/items/firelight.ogg'
 
 	playsound(get_turf(target), hit_sound, 100, TRUE)
 	if(!skip_message)
 		var/weapon_name = weapon ? weapon.name : "arcyne force"
-		user.visible_message(
+		target.visible_message(
 			span_danger("[user] [attack_verb] [target] with [weapon_name]!"),
-			span_notice("I [attack_verb] [target] with my [weapon_name]!"))
-	// Victim always sees where they were hit
-	if(target != user)
-		to_chat(target, span_danger("The strike hits my [span_userdanger(parse_zone(def_zone))]!"))
+			span_danger("[spell_name] hits my [span_userdanger(parse_zone(def_zone))]!"),
+			ignored_mobs = list(user))
 
 	log_combat(user, target, "spell-struck ([spell_name])")
 	return max(0, damage - armor_block)

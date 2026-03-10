@@ -91,3 +91,7 @@
 			playsound(get_turf(target), 'sound/magic/magic_nulled.ogg', 100)
 			qdel(src)
 			return BULLET_ACT_BLOCK
+		if(istype(M, /mob/living/carbon) && (src.apply_mark == TRUE))
+			apply_arcane_mark(M)
+	else
+		return

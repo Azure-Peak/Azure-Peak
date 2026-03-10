@@ -441,7 +441,7 @@
 	//dropshrink = 0.75
 	resistance_flags = FIRE_PROOF
 	slot_flags = ITEM_SLOT_NECK|ITEM_SLOT_HIP|ITEM_SLOT_WRISTS
-	possible_item_intents = list(/datum/intent/use, /datum/intent/special/magicarc)
+	possible_item_intents = list(/datum/intent/use)
 	sellprice = 10
 	experimental_onhip = TRUE
 	anvilrepair = /datum/skill/craft/armorsmithing
@@ -935,7 +935,7 @@
 	desc = "A cabbit's foot necklace. Some say it brings good luck. It only feels more lucky when it's worn around the neck."
 	icon_state = "luckcharm"
 	sellprice = 15
-	possible_item_intents = list(/datum/intent/use, /datum/intent/special/magicarc)
+	possible_item_intents = list(/datum/intent/use)
 	slot_flags = ITEM_SLOT_NECK|ITEM_SLOT_HIP|ITEM_SLOT_WRISTS
 	grid_width = 32
 	grid_height = 32

@@ -6,9 +6,8 @@ Recall Weapon or a manual throw)
 Normal Throw: 25 damage, 20 AP - 5 damage pierces shitty leather.
 Empowered Throw: 50 damage, 20 AP - 10 damage pierces hardened leather. Cannot pierce plate (80). Still slows
 
-To make it versatile for dungeon support - if it is a stab intent,
-it is a direct throw. Cut intent turns it into an arced throw that
-flies over allies.
+Toggle arc mode (Ctrl+G) while the spell is active to arc the javelin
+over allies for dungeon support.
 
 CD: 10 seconds, you are not a true ranged class and you can literally
 rotate tossing your actual spear risk free unlike a real melee. Plus,
@@ -23,10 +22,11 @@ Chargetime reduced from 20 to 10 ticks (1 second) to feel less awkward.
 	desc = "The ancient art of skirmishers in arcyne form - conjure a phantom spear and hurl it. \
 		Armor-piercing (20 AP), slows the target on hit for 4 seconds regardless of armor. \
 		At 3+ momentum: consumes 3 to double damage. \
-		In Stab stance: direct throw. In Cut stance: arced throw (flies over allies)."
+		Toggle arc mode (Ctrl+G) to arc the javelin over allies."
 	clothes_req = FALSE
 	range = 15
 	projectile_type = /obj/projectile/energy/azurean_javelin
+	projectile_type_arc = /obj/projectile/energy/azurean_javelin/arc
 	sound = list('sound/combat/wooshes/bladed/wooshsmall (1).ogg')
 	releasedrain = 30
 	chargedrain = 1
@@ -67,18 +67,10 @@ Chargetime reduced from 20 to 10 ticks (1 second) to feel less awkward.
 
 	var/final_damage = empowered ? (base_damage * empowered_mult) : base_damage
 
-	var/datum/intent/current_intent = H.a_intent
-	var/blade_class = current_intent?.blade_class || BCLASS_STAB
 	if(empowered)
-		if(blade_class == BCLASS_CUT)
-			projectile_type = /obj/projectile/energy/azurean_javelin/empowered/arc
-		else
-			projectile_type = /obj/projectile/energy/azurean_javelin/empowered
+		projectile_type = arc_mode ? /obj/projectile/energy/azurean_javelin/empowered/arc : /obj/projectile/energy/azurean_javelin/empowered
 	else
-		if(blade_class == BCLASS_CUT)
-			projectile_type = /obj/projectile/energy/azurean_javelin/arc
-		else
-			projectile_type = /obj/projectile/energy/azurean_javelin
+		projectile_type = arc_mode ? /obj/projectile/energy/azurean_javelin/arc : /obj/projectile/energy/azurean_javelin
 
 	projectile_var_overrides = list("damage" = final_damage)
 

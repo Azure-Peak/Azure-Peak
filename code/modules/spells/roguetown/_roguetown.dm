@@ -74,12 +74,15 @@
 
 /obj/effect/proc_holder/spell/invoked/projectile
 	var/obj/projectile/projectile_type = /obj/projectile/magic/teleport
+	var/obj/projectile/projectile_type_arc // If set, this spell supports arc mode via Ctrl+G toggle
 	var/list/projectile_var_overrides = list()
 	var/projectile_amount = 1	//Projectiles per cast.
 	var/current_amount = 0	//How many projectiles left.
 	var/projectiles_per_fire = 1		//Projectiles per fire. Probably not a good thing to use unless you override ready_projectile().
 	gesture_required = TRUE // All projectiles are offensive and should be locked to not handcuff
 	human_req = TRUE
+	/// Whether this spell is set to fire in arc mode. Toggled via Ctrl+G.
+	var/arc_mode = FALSE
 
 /obj/effect/proc_holder/spell/invoked/projectile/proc/ready_projectile(obj/projectile/P, atom/target, mob/user, iteration)
 	return
@@ -130,3 +133,37 @@
 	if(proj_range)
 		stats.Insert(1, span_info("Projectile range: [proj_range] tiles"))
 	return stats
+
+/// Toggles arc mode on this spell. Only works if projectile_type_arc is set.
+/obj/effect/proc_holder/spell/invoked/projectile/proc/toggle_arc_mode(mob/user)
+	if(!projectile_type_arc)
+		to_chat(user, span_warning("[name] cannot be arced."))
+		return
+	arc_mode = !arc_mode
+	to_chat(user, span_notice("[name] arc mode [arc_mode ? "enabled" : "disabled"]."))
+	update_arc_maptext()
+
+/// Dedicated maptext holder for the ARC indicator, separate from the cooldown maptext.
+/atom/movable/screen/arc_maptext_holder
+	layer = ABOVE_HUD_LAYER
+	maptext_x = 6
+	maptext_y = 22
+
+/// Updates the ARC maptext indicator on the spell's action button using a dedicated holder.
+/obj/effect/proc_holder/spell/invoked/projectile/proc/update_arc_maptext()
+	if(!action?.button)
+		return
+	var/atom/movable/screen/movable/action_button/B = action.button
+	var/atom/movable/screen/arc_maptext_holder/arc_holder
+	// Find existing arc holder or create one
+	for(var/atom/movable/screen/arc_maptext_holder/existing in B.vis_contents)
+		arc_holder = existing
+		break
+	if(!arc_holder)
+		arc_holder = new(B)
+		B.vis_contents.Add(arc_holder)
+	if(arc_mode)
+		arc_holder.maptext = MAPTEXT("ARC")
+		arc_holder.color = "#00ccff"
+	else
+		arc_holder.maptext = null

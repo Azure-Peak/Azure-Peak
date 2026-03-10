@@ -491,8 +491,8 @@
 
 	if(length(statcl))
 		for(var/stat in statcl)
-			if(statcl[stat] < H.get_stat(stat))
-				H.change_stat(stat, (statcl[stat] - H.get_stat(stat)))
+			if(statcl[stat] < H.get_true_stat(stat))
+				H.change_stat(stat, (statcl[stat] - H.get_true_stat(stat)))
 				to_chat(H, "Your [stat] was reduced to \Roman[statcl[stat]] due to class limits.")
 
 // LETHALSTONE EDIT: Helper functions for pronoun-based clothing selection

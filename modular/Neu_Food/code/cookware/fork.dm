@@ -14,7 +14,7 @@
 	possible_item_intents = list(/datum/intent/use, /datum/intent/dagger/thrust/fork)
 	swingsound = list('sound/combat/wooshes/bladed/wooshsmall (1).ogg','sound/combat/wooshes/bladed/wooshsmall (2).ogg','sound/combat/wooshes/bladed/wooshsmall (3).ogg')
 
-/obj/item/kitchen/fork/examine()
+/obj/item/kitchen/fork/get_mechanics_examine(mob/user)
 	. = ..()
 	. += span_info("Left-clicking most foodstuffs with the fork allows you to take a bite from it.")
 	. += span_info("Nobler appetites prefer utensils over simply eating and drinking with one's bare hands.")

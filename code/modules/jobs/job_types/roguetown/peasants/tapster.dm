@@ -76,7 +76,8 @@
 		/obj/item/bottle_kit,
 		/obj/item/reagent_containers/glass/bucket/pot/kettle/tankard,
 		/obj/item/reagent_containers/glass/bucket/pot/kettle/tankard,
-		/obj/item/reagent_containers/glass/bucket/pot/kettle/tankard
+		/obj/item/reagent_containers/glass/bucket/pot/kettle/tankard,
+		/obj/item/mini_flagpole/innkeeper,
 	)
 	if(H.mind)
 		SStreasury.give_money_account(ECONOMIC_LOWER_MIDDLE_CLASS, H, "Savings.")

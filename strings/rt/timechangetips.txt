@@ -214,6 +214,13 @@ Silver is cherished by the worshippers of Noc, as they believe it to be the frag
 Spells are bound to ALT ONE through ALT SIX. Control-clicking said spells and shifting them between each other changes which spell is bound to a given number.
 Using a rope on an open space drops the rope down, allowing allies to easily scale a given surface. Pull it onto yourself to retrieve it.
 Having someone else within your personal space assists in climbing many surfaces.
+If someone is barely conscious, it means they are not long for this world. By WEAKLY blowing air into their MOUTH, even the most horrifically injured can be brought back from death's door.. so long as any gushing wounds've been stitched up beforehand.
+The body is a fickle instrument, equally resillient and fragile. Water is the best choice for rebalancing the humors that're disrupted from blood loss, lifeblood excels at mending the disrupted state of flesh, and antidotes turn poisonings into mere hiccups.
+Shift-clicking allows you to EXAMINE items, and EXAMINING items allows you to further understand all the MECHANICS tethered to them. Check a bed to figure out how to sleep, check a tree to figure out how to climb, check a steak to figure out how to eat, and much more!
+Within the Town are many posters, banners, and signs. By shift-clicking them, you can further EXAMINE them to get a crash course on many basic MECHANICS. Check the Church's banner to learn about Psydonia's religions, check the Clinic's posters to learn about how to save a lyfe, check the Guild's signs to learn about how weapons-and-armor work, and much more!
+In lieu of a blacksmith's hammer, one can use a repair kit to patch up their damaged equipment 'on the go'. Three pieces of scrapped iron can be assembled into a kit, and sliding three more pieces into the kit'll ready it for use. As for where the scrap comes from? Just hack an iron weapon to pieces!
+Almost everyone has a tendancy to pack a copy of "Tips, Tricks, & Triumphs: The Novice's Handbook To Azuria" inside their satchel, at the start of each week. Shift-clicking this Azurian booklet will show you its description, which contains the link to Azure Peak's official wikipedia!
+Time heals all wounds. Sleeping heals them quicker. Sleeping in a decent bed with a crackling campfire within spitting range heals them even quicker.
 Joapstone, Petriamber, Rosellusk, and Aoetal are not real stones. Do not listen to the rambling of gem-crafting madmen.
 Gemerald skulls are a sign of calamity. Folk-tales mention their service to the darker impulses of the Trickster God.
 The rat overlords inside the SCOMS are fond of cheese. Feed them and the cries of your victims will go unheard... for a time.

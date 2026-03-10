@@ -1,0 +1,4 @@
+author: "eirenxiv"
+delete-after: True
+changes:
+  - bugfix: "fixed stat ceiling using get_true_stat instead of get_stat, adjusted for negative effects"

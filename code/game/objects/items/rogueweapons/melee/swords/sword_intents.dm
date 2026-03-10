@@ -93,12 +93,12 @@
 /datum/intent/sword/cut/master
 	name = "fendente"
 	icon_state = "incutmaster"
-	desc = "Strike the opponent from above with the true edge of the sword and penetrate light armour."
+	desc = "Strike the opponent from above with the true edge of the sword and penetrate light armour. A cut so perfect requires precision and time."
 	attack_verb = list("masterfully tears", "artfully slits", "adroitly hacks")
 	damfactor = 1.01
 	penfactor = 50
-	max_intent_damage = 35
-	min_intent_damage = 31
+	max_intent_damage = 31
+	swingdelay = 1
 
 /datum/intent/sword/thrust/long/master
 	name = "stoccato"
@@ -136,14 +136,14 @@
 	hitsound = list('sound/combat/hits/bladed/genstab (1).ogg', 'sound/combat/hits/bladed/genstab (2).ogg', 'sound/combat/hits/bladed/genstab (3).ogg')
 	penfactor = 80
 	clickcd = 12
-	swingdelay = 10
+	swingdelay = 16
 	damfactor = 0.86
 	blade_class = BCLASS_HALFSWORD
 	max_intent_damage = 30
 
 /datum/intent/sword/thrust/long/halfsword/lesser
 	name = "halbschwert"
-	clickcd = 16
+	clickcd = 22
 
 /datum/intent/effect/daze/longsword
 	name = "durchlauffen"
@@ -153,7 +153,7 @@
 	target_parts = list(BODY_ZONE_PRECISE_NOSE)
 	damfactor = 0.8
 	clickcd = 14
-	swingdelay = 6
+	swingdelay = 8
 
 /datum/intent/effect/daze/longsword2h
 	name = "zorn ort"
@@ -164,7 +164,7 @@
 	blade_class = BCLASS_STAB
 	damfactor = 1.1 //Same as master stab
 	clickcd = 14
-	swingdelay = 5
+	swingdelay = 7
 
 // A weaker strike for sword with high damage so that it don't end up becoming better than mace
 /datum/intent/sword/strike/bad

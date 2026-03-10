@@ -25,6 +25,17 @@
 	mob_overlay_icon = 'icons/clothing/onmob/donor_clothes.dmi'
 	sleeved = 'icons/clothing/onmob/donor_sleeves_armor.dmi'
 
+//Funkymonke's donator item - dress
+/obj/item/clothing/suit/roguetown/shirt/dress/funkydress
+	name = "padded dress"
+	desc = "A trimmed down version of a would be protective dress."
+	slot_flags = ITEM_SLOT_SHIRT|ITEM_SLOT_ARMOR
+	icon_state = "funkydress"
+	sleevetype = "funkydress"
+	icon = 'icons/clothing/donor_clothes.dmi'
+	mob_overlay_icon = 'icons/clothing/onmob/donor_clothes.dmi'
+	sleeved = 'icons/clothing/onmob/donor_sleeves_armor.dmi'
+
 //Strudles donator item - mage vest (same as robes) and xylix tabard
 /obj/item/clothing/suit/roguetown/shirt/robe/sofiavest
 	name = "grenzelhoftian mages vest"

@@ -576,7 +576,8 @@
 	id = /obj/item/clothing/neck/roguetown/psicross/undivided
 	backpack_contents = list(
 		/obj/item/rogueweapon/huntingknife/idagger/silver = 1,
-		/obj/item/rogueweapon/scabbard/sheath = 1
+		/obj/item/rogueweapon/scabbard/sheath = 1,
+		/obj/item/mini_flagpole/church,
 		)
 	H.dna.species.soundpack_m = new /datum/voicepack/male/knight()
 	H.AddComponent(/datum/component/wise_tree_alert)

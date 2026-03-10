@@ -26,6 +26,6 @@
 			var/datum/status_effect/status = S
 			if(status.effectedstats.len)
 				if(status.effectedstats[stat])
-					if(status.effectedstats[stat] > 0)
+					if(status.effectedstats[stat] > 0 || status.effectedstats[stat] < 0)
 						fakestat -= status.effectedstats[stat]
 	return fakestat

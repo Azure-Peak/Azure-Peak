@@ -1,10 +1,12 @@
 /obj/effect/proc_holder/spell/invoked/projectile/arcynebolt
 	name = "Arcyne Bolt"
-	desc = "Shoot out a rapid bolt of arcyne magic. Inflicts blunt damage, and applies one stack of Arcane Mark on the target. At three marks, it instead does piercing damage and consumes all marks. Damage is increased by 50% versus simple-minded creechurs.\n\
-	Can be fired in an arc over an ally's head with a mage's staff or spellbook on arc intent, but at 25% less damage."
+	desc = "Shoot out a rapid bolt of arcyne magic. Inflicts blunt damage, and applies one stack of <b>Arcane Mark</b> on the target. At three marks, it instead does piercing damage and consumes all <b>marks</b> \n\
+	Damage is increased by 50% versus simple-minded creechurs.\n\
+	Toggle arc mode (Ctrl+G) while the spell is active to fire it over intervening mobs. Arced attacks deal 25% less damage."
 	clothes_req = FALSE
 	range = 12
 	projectile_type = /obj/projectile/energy/arcynebolt
+	projectile_type_arc = /obj/projectile/energy/arcynebolt/arc
 	overlay_state = "force_dart"
 	sound = list('sound/magic/vlightning.ogg')
 	active = FALSE
@@ -26,12 +28,7 @@
 	cost = 3
 
 /obj/effect/proc_holder/spell/invoked/projectile/arcynebolt/cast(list/targets, mob/user = user)
-	var/mob/living/carbon/human/H = user
-	var/datum/intent/a_intent = H.a_intent
-	if(istype(a_intent, /datum/intent/special/magicarc))
-		projectile_type = /obj/projectile/energy/arcynebolt/arc
-	else
-		projectile_type = /obj/projectile/energy/arcynebolt
+	projectile_type = arc_mode ? projectile_type_arc : initial(projectile_type)
 	. = ..()
 
 /obj/projectile/energy/arcynebolt

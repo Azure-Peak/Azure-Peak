@@ -25,7 +25,7 @@ GLOBAL_LIST_INIT(zizoconstruct_aggro, world.file2list("strings/rt/zconstructaggr
 /mob/living/carbon/human/species/construct/metal/zizoconstruct/retaliate(mob/living/L)
 	.=..()
 	if(prob(5))
-		say(pick(GLOB.zizoconstruct_aggro))
+		say(pick(GLOB.zizoconstruct_aggro), npc_speech = TRUE)
 		pointed(target)
 
 /mob/living/carbon/human/species/construct/metal/zizoconstruct/should_target(mob/living/L)

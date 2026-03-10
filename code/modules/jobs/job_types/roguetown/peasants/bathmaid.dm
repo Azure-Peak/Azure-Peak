@@ -74,7 +74,8 @@
 	backl = /obj/item/storage/backpack/rogue/satchel
 	shoes = /obj/item/clothing/shoes/roguetown/sandals
 	backpack_contents = list(
-		/obj/item/soap/bath = 1
+		/obj/item/soap/bath = 1,
+		/obj/item/mini_flagpole/bathhouse,
 	)
 	if(should_wear_femme_clothes(H))
 		shirt = /obj/item/clothing/suit/roguetown/shirt/undershirt
@@ -138,6 +139,7 @@
 	shoes = /obj/item/clothing/shoes/roguetown/sandals
 	backpack_contents = list(
 		/obj/item/soap/bath = 1,
+		/obj/item/mini_flagpole/bathhouse,
 	)
 	if(should_wear_femme_clothes(H))
 		shirt = /obj/item/clothing/suit/roguetown/shirt/dress/gen/sexy/random
@@ -205,6 +207,7 @@
 		/obj/item/reagent_containers/powder/moondust = 2,
 		/obj/item/reagent_containers/glass/bottle/rogue/wine = 1,
 		/obj/item/toy/cards/deck = 1,
+		/obj/item/mini_flagpole/bathhouse,
 	)
 	if(should_wear_femme_clothes(H))
 		armor = /obj/item/clothing/suit/roguetown/shirt/dress/silkydress/random
