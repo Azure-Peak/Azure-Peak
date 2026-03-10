@@ -66987,7 +66987,7 @@
 	color = "#3f3f3f";
 	dir = 5
 	},
-/obj/structure/fermentation_keg/random/water,
+/obj/structure/closet/crate/chest/old_crate/apothseed,
 /turf/open/floor/rogue/hexstone,
 /area/rogue/indoors/town/pestra_sanctum)
 "ook" = (
