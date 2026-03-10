@@ -88,6 +88,7 @@ we happen to commission/code should GO IN HERE. Thanks.
 					// we want you to always have your own face for later use
 					var/datum/stolen_face/your_face = new
 					your_face.steal_face(H) 
+					stolen_faces += your_face
 				
 			// this goes second for looks reasons
 			var/message = pick(last_words)
@@ -225,7 +226,9 @@ we happen to commission/code should GO IN HERE. Thanks.
 
 	S.forceMove(container)
 
-
+/obj/item/clothing/cloak/poncho/evil
+	color = CLOTHING_DARK_GREY
+	detail_color = CLOTHING_BLACK
 
 
 
@@ -239,3 +242,59 @@ should also be potentially granted some spells from Gnolls, as well as Graggar s
 that costs DEVOTION. All assassins SHOULD be given devotion that scales w/ their number of kills.
 */
 
+// "Creep" is an ability all assassins spawn with. It's their main AAAH AAAAH AAAH OH FUUCK!!! thing.
+// No devotion cost. This was actually supposed to just be something inherent to their dagger but I didn't think it was
+// worth snowflaking a bunch of code for. Having it be a limited use spell makes more sense, I think.
+// It should be silent. The window should, however, make an opening sound.
+
+/obj/effect/proc_holder/spell/invoked/creep // tommy wright on da creep w/ that fuckin sawed off
+	name = "Creep" // im a creeeep im a weerdooooe
+	desc = "Invokes the Sinistar to open a window... if it can be opened. Requires your profane dagger in hand to cast."
+	recharge_time = 1 MINUTES // this is as long as abduct
+	miracle = TRUE
+	range = 1 // adjacent only
+	invocation_type = "emote"
+	req_inhand = /obj/item/rogueweapon/huntingknife/idagger/steel/profane
+	chargedloop = null // no sound
+	associated_skill = /datum/skill/magic/holy
+	devotion_cost = 0
+	releasedrain = 10
+	chargedrain = 0
+	chargetime = 0
+
+/obj/effect/proc_holder/spell/invoked/creep/cast(list/targets, mob/user)
+	. = ..()
+
+	var/atom/target = targets[1]
+	if(istype(target, /obj/structure/roguewindow/openclose))
+		var/obj/structure/roguewindow/openclose/selectedwindow = target
+		// ensure its not already open
+		if(selectedwindow.climbable)
+			to_chat(user, span_warning("That window is already open!"))
+			revert_cast()
+			return FALSE
+		// open a hole
+		if(do_after(user, 1 SECONDS, FALSE, selectedwindow, same_direction = TRUE, no_interrupt = FALSE))
+			selectedwindow.force_open()
+			if(prob(1)) // shoutout 2 crowbar and the other oomfs that played graggar responding to a prayer long, long ago...
+				user.visible_message(user, span_graggar("[user] points their blade towards [selectedwindow], pricking their finger on the steel's edge..."), span_graggaranimated("You open a hole. The sensation is strangely familiar..."))
+			else
+				user.visible_message(user, span_graggar("[user] points their blade towards [selectedwindow], pricking their finger on the steel's edge..."))
+			// a little more feedback for people on the other side
+			selectedwindow.visible_message(span_warning("A window suddenly opens...!"), blind_message = span_warning("You feel a sudden breeze. Did someone open a window...?"))
+			// admin logging for obvious reasons
+			message_admins("[user.real_name]([key_name(user)]) has forced open [target.name]. [ADMIN_JMP(target)]")
+			log_admin("[user.real_name]([key_name(user)]) has forced open [target.name].")
+		else // if the doafter failed
+			to_chat(user, span_warning("I was interrupted!"))
+			revert_cast()
+			return FALSE
+		// everything went well
+		return TRUE
+
+	else
+		to_chat(user, span_warning("That's not a window you can open and close!"))
+		revert_cast()
+		return FALSE
+	
+	
