@@ -87390,7 +87390,7 @@
 	layer = 2.81
 	},
 /obj/structure/roguemachine/vendor{
-	keycontrol = "physician";
+	keycontrol = "apothecary";
 	pixel_y = 32
 	},
 /turf/open/floor/rogue/concrete,
