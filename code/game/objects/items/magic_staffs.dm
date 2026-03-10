@@ -33,8 +33,8 @@
 	icon_state = "topazstaff"
 	cast_time_reduction = TOPER_CAST_TIME_REDUCTION
 	resistance_flags = FIRE_PROOF //imagine the salt
-	possible_item_intents = list(SPEAR_BASH, /datum/intent/special/magicarc)
-	gripped_intents = list(SPEAR_BASH, /datum/intent/special/magicarc, /datum/intent/mace/smash/wood)
+	possible_item_intents = list(SPEAR_BASH)
+	gripped_intents = list(SPEAR_BASH, /datum/intent/mace/smash/wood)
 	sellprice = 34
 
 /obj/item/rogueweapon/woodstaff/amethyst
@@ -44,8 +44,8 @@
 	icon_state = "amethyststaff"
 	cast_time_reduction = TOPER_CAST_TIME_REDUCTION
 	resistance_flags = FIRE_PROOF
-	possible_item_intents = list(SPEAR_BASH, /datum/intent/special/magicarc)
-	gripped_intents = list(SPEAR_BASH, /datum/intent/special/magicarc, /datum/intent/mace/smash/wood)
+	possible_item_intents = list(SPEAR_BASH)
+	gripped_intents = list(SPEAR_BASH, /datum/intent/mace/smash/wood)
 
 /obj/item/rogueweapon/woodstaff/emerald
 	name = "gemerald-focused staff"
@@ -54,8 +54,8 @@
 	icon_state = "emeraldstaff"
 	cast_time_reduction = EMERALD_CAST_TIME_REDUCTION
 	resistance_flags = FIRE_PROOF
-	possible_item_intents = list(SPEAR_BASH, /datum/intent/special/magicarc)
-	gripped_intents = list(SPEAR_BASH, /datum/intent/special/magicarc, /datum/intent/mace/smash/wood)
+	possible_item_intents = list(SPEAR_BASH)
+	gripped_intents = list(SPEAR_BASH, /datum/intent/mace/smash/wood)
 	sellprice = 42
 
 /obj/item/rogueweapon/woodstaff/emerald/blacksteelstaff
@@ -71,8 +71,8 @@
 	icon_state = "sapphirestaff"
 	cast_time_reduction = SAPPHIRE_CAST_TIME_REDUCTION
 	resistance_flags = FIRE_PROOF
-	possible_item_intents = list(SPEAR_BASH, /datum/intent/special/magicarc)
-	gripped_intents = list(SPEAR_BASH, /datum/intent/special/magicarc, /datum/intent/mace/smash/wood)
+	possible_item_intents = list(SPEAR_BASH)
+	gripped_intents = list(SPEAR_BASH, /datum/intent/mace/smash/wood)
 	sellprice = 56
 
 /obj/item/rogueweapon/woodstaff/quartz
@@ -82,8 +82,8 @@
 	icon_state = "quartzstaff"
 	cast_time_reduction = QUARTZ_CAST_TIME_REDUCTION
 	resistance_flags = FIRE_PROOF
-	possible_item_intents = list(SPEAR_BASH, /datum/intent/special/magicarc)
-	gripped_intents = list(SPEAR_BASH, /datum/intent/special/magicarc, /datum/intent/mace/smash/wood)
+	possible_item_intents = list(SPEAR_BASH)
+	gripped_intents = list(SPEAR_BASH, /datum/intent/mace/smash/wood)
 	sellprice = 88
 
 /obj/item/rogueweapon/woodstaff/ruby
@@ -93,8 +93,8 @@
 	icon_state = "rubystaff"
 	cast_time_reduction = RUBY_CAST_TIME_REDUCTION
 	resistance_flags = FIRE_PROOF
-	possible_item_intents = list(SPEAR_BASH, /datum/intent/special/magicarc)
-	gripped_intents = list(SPEAR_BASH, /datum/intent/special/magicarc, /datum/intent/mace/smash/wood)
+	possible_item_intents = list(SPEAR_BASH)
+	gripped_intents = list(SPEAR_BASH, /datum/intent/mace/smash/wood)
 	sellprice = 100
 
 /obj/item/rogueweapon/woodstaff/diamond
@@ -104,8 +104,8 @@
 	icon_state = "diamondstaff"
 	cast_time_reduction = DIAMOND_CAST_TIME_REDUCTION
 	resistance_flags = FIRE_PROOF
-	possible_item_intents = list(SPEAR_BASH, /datum/intent/special/magicarc)
-	gripped_intents = list(SPEAR_BASH, /datum/intent/special/magicarc, /datum/intent/mace/smash/wood)
+	possible_item_intents = list(SPEAR_BASH)
+	gripped_intents = list(SPEAR_BASH, /datum/intent/mace/smash/wood)
 	sellprice = 121
 
 /obj/item/rogueweapon/woodstaff/diamond/blacksteelstaff // Upgraded version, more CDR can be crafted by combining a base Blacksteel Staff with a dorpel
@@ -122,8 +122,8 @@
 	icon_state = "riddlestaff"
 	cast_time_reduction = RIDDLE_OF_STEEL_CAST_TIME_REDUCTION
 	resistance_flags = FIRE_PROOF
-	possible_item_intents = list(SPEAR_BASH, /datum/intent/special/magicarc)
-	gripped_intents = list(SPEAR_BASH, /datum/intent/special/magicarc, /datum/intent/mace/smash/wood)
+	possible_item_intents = list(SPEAR_BASH)
+	gripped_intents = list(SPEAR_BASH, /datum/intent/mace/smash/wood)
 	sellprice = 400
 
 /datum/intent/magos_electrocute
@@ -136,8 +136,8 @@
 /obj/item/rogueweapon/woodstaff/riddle_of_steel/magos
 	name = "\improper Staff of the Court Magos"
 	icon_state = "courtstaff"
-	possible_item_intents = list(SPEAR_BASH, /datum/intent/special/magicarc, /datum/intent/magos_electrocute)
-	gripped_intents = list(SPEAR_BASH, /datum/intent/special/magicarc, /datum/intent/mace/smash/wood, /datum/intent/magos_electrocute)
+	possible_item_intents = list(SPEAR_BASH, /datum/intent/magos_electrocute)
+	gripped_intents = list(SPEAR_BASH, /datum/intent/mace/smash/wood, /datum/intent/magos_electrocute)
 	COOLDOWN_DECLARE(magosstaff)
 
 /obj/item/rogueweapon/woodstaff/riddle_of_steel/magos/afterattack(atom/target, mob/user, flag)

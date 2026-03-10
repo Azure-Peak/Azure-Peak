@@ -28,7 +28,7 @@
 		/datum/advclass/wapprentice/associate,
 		/datum/advclass/wapprentice/alchemist,
 		/datum/advclass/wapprentice/apprentice,
-		/datum/advclass/wapprentice/spellblade
+		// /datum/advclass/wapprentice/spellblade
 	)
 
 /datum/outfit/job/roguetown/wapprentice
@@ -195,6 +195,11 @@
 		H.mind.AddSpell(new /obj/effect/proc_holder/spell/targeted/touch/prestidigitation)
 		SStreasury.give_money_account(ECONOMIC_LOWER_MIDDLE_CLASS, H, "Savings.")
 
+// Here lies the grave of Azurcaephon Associate, removed because a good portion of mage players are using it as a validhunting class
+// And unlike adventurer, the University being technically keep aligned means they can jump in and gank antags and there's less admins can do about it.
+// If the University becomes independent one day, we can restore it. Until then, it will remain commented out.
+
+/*
 /datum/advclass/wapprentice/spellblade
 	name = "Azurcaephan Associate"
 	maximum_possible_slots = 2
@@ -367,3 +372,4 @@
 	H.cmode_music = 'sound/music/cmode/nobility/combat_courtmage.ogg'
 	if(H.mind)
 		SStreasury.give_money_account(ECONOMIC_LOWER_MIDDLE_CLASS, H, "Savings.")
+*/

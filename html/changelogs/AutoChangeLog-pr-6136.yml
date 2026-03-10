@@ -1,4 +1,0 @@
-author: "Ryan180602"
-delete-after: True
-changes:
-  - bugfix: "Mages can spell on chairs again. Only proper mounted spelling is disabled."

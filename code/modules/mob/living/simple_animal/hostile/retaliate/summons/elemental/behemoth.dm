@@ -18,6 +18,7 @@
 	move_to_delay = 15
 	base_intents = list(/datum/intent/simple/elementalt2_unarmed)
 	butcher_results = list()
+	death_loot = list(/obj/item/magic/elemental/fragment = 1)
 	faction = list("elemental")
 	mob_biotypes = MOB_ORGANIC|MOB_BEAST
 	health = 800
@@ -38,7 +39,7 @@
 	canparry = TRUE
 	defprob = 40
 	// del_on_deaggro = 44 SECONDS
-	retreat_health = 0.3
+	retreat_health = 0
 	food = 0
 	attack_sound = 'sound/combat/hits/onstone/wallhit.ogg'
 	dodgetime = 30
@@ -58,16 +59,6 @@
 
 /mob/living/simple_animal/hostile/retaliate/rogue/elemental/behemoth/death(gibbed)
 	..()
-	var/turf/deathspot = get_turf(src)
-	new /obj/item/magic/elemental/fragment(deathspot)
-	new /obj/item/magic/elemental/fragment(deathspot)
-	new /obj/item/magic/elemental/shard(deathspot)
-	new /obj/item/magic/elemental/shard(deathspot)
-	new /obj/item/magic/elemental/mote(deathspot)
-	new /obj/item/magic/elemental/mote(deathspot)
-	new /obj/item/magic/elemental/mote(deathspot)
-	new /obj/item/magic/elemental/mote(deathspot)
-	new /obj/item/magic/melded/t1(deathspot)
 	update_icon()
 	spill_embedded_objects()
 	qdel(src)

@@ -154,25 +154,32 @@
     . += span_info("Left-clicking yourself while targeting the nose will automatically snort the powder in your hand.")
     . += span_info("Most powders can imbue a wide variety of effects, when inhaled.")
 
+// save me lazy evaluation
 /obj/item/reagent_containers/powder/flour/attackby(obj/item/I, mob/living/user, params)
+	return wet(I,user) || ..()
+
+/obj/item/reagent_containers/powder/flour/proc/wet(obj/item/I, mob/living/user)
 	var/found_table = locate(/obj/structure/table) in (loc)
 	var/obj/item/reagent_containers/R = I
+	// if false, this is a special case like orison
+	var/is_container = istype(R)
 	update_cooktime(user)
-	if(!istype(R) || (water_added))
-		return ..()
+	if(water_added)
+		return FALSE
 	if(isturf(loc)&& (!found_table))
 		to_chat(user, span_notice("Need a table..."))
-		return ..()
-	if(!R.reagents.has_reagent(/datum/reagent/water, 10))
+		return FALSE
+	if(is_container && (!R.reagents.has_reagent(/datum/reagent/water, 10)))
 		to_chat(user, span_notice("Needs more water to work it."))
 		return TRUE
-	to_chat(user, span_notice("Adding water, now its time to knead it..."))
+	to_chat(user, span_notice("Adding water, now it's time to knead it..."))
 	playsound(get_turf(user), 'modular/Neu_Food/sound/splishy.ogg', 100, TRUE, -1)
 	if(do_after(user, short_cooktime, target = src))
 		add_sleep_experience(user, /datum/skill/craft/cooking, user.STAINT)
 		name = "wet flour"
 		desc = "Destined for greatness, at your hands."
-		R.reagents.remove_reagent(/datum/reagent/water, 10)
+		if(is_container)
+			R.reagents.remove_reagent(/datum/reagent/water, 10)
 		water_added = TRUE
 		color = "#d9d0cb"
 	return TRUE
@@ -210,23 +217,28 @@
 	var/water_added
 
 /obj/item/reagent_containers/food/snacks/grown/rice/attackby(obj/item/I, mob/living/user, params)
+	return wet(I, user) || ..()
+
+/obj/item/reagent_containers/food/snacks/grown/rice/proc/wet(obj/item/I, mob/living/user)
 	var/found_table = locate(/obj/structure/table) in (loc)
 	var/obj/item/reagent_containers/R = I
+	var/is_container = istype(R)
 	update_cooktime(user)
-	if(!istype(R) || (water_added))
-		return ..()
+	if(water_added)
+		return FALSE
 	if(isturf(loc)&& (!found_table))
 		to_chat(user, "<span class='notice'>Need a table...</span>")
-		return ..()
-	if(!R.reagents.has_reagent(/datum/reagent/water, 10))
+		return FALSE
+	if(is_container && (!R.reagents.has_reagent(/datum/reagent/water, 10)))
 		to_chat(user, "<span class='notice'>Needs more water to work it.</span>")
 		return TRUE
-	to_chat(user, "<span class='notice'>Adding water, now its time to hand wash it...</span>")
+	to_chat(user, "<span class='notice'>Adding water, now it's time to hand wash it...</span>")
 	playsound(get_turf(user), 'modular/Neu_Food/sound/splishy.ogg', 100, TRUE, -1)
 	if(do_after(user,2 SECONDS, target = src))
 		user.adjust_experience(/datum/skill/craft/cooking, user.STAINT * 0.8)
 		name = "wet rice"
-		R.reagents.remove_reagent(/datum/reagent/water, 10)
+		if(is_container)
+			R.reagents.remove_reagent(/datum/reagent/water, 10)
 		water_added = TRUE
 		color = "#d9d0cb"
 	return TRUE
@@ -279,23 +291,28 @@
 	qdel(src)
 
 /obj/item/reagent_containers/powder/mineral/attackby(obj/item/I, mob/user, params)
+	return wet(I, user) || ..()
+
+/obj/item/reagent_containers/powder/mineral/proc/wet(obj/item/I, mob/user)
 	var/found_table = locate(/obj/structure/table) in (loc)
 	var/obj/item/reagent_containers/R = I
+	var/is_container = istype(R)
 	update_cooktime(user)
-	if(!istype(R) || (water_added))
-		return ..()
+	if(water_added)
+		return FALSE
 	if(isturf(loc)&& (!found_table))
 		to_chat(user, span_notice("Need a table..."))
-		return ..()
-	if(!R.reagents.has_reagent(/datum/reagent/water, 10))
+		return FALSE
+	if(is_container && (!R.reagents.has_reagent(/datum/reagent/water, 10)))
 		to_chat(user, span_notice("Needs more water to work it."))
 		return TRUE
-	to_chat(user, span_notice("Adding water, now its time to sift it..."))
+	to_chat(user, span_notice("Adding water, now it's time to sift it..."))
 	playsound(get_turf(user), 'modular/Neu_Food/sound/splishy.ogg', 100, TRUE, -1)
 	if(do_after(user, short_cooktime, target = src))
 		name = "prepared minerals"
 		desc = "Still quite coarse, needs some sifting."
-		R.reagents.remove_reagent(/datum/reagent/water, 10)
+		if(is_container)
+			R.reagents.remove_reagent(/datum/reagent/water, 10)
 		water_added = TRUE
 		color = "#666262"
 	return TRUE

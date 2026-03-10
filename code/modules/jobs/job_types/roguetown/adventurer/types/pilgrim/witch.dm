@@ -130,6 +130,16 @@
 	if(H.mind)
 		SStreasury.give_money_account(ECONOMIC_LOWER_MIDDLE_CLASS, H, "Savings.")
 
+/obj/effect/proc_holder/spell/targeted/shapeshift/witch
+	die_with_shapeshifted_form = FALSE
+	gesture_required = TRUE
+	chargetime = 5 SECONDS
+	recharge_time = 50
+	cooldown_min = 50
+	convert_damage = FALSE
+	do_gib = FALSE
+	knockout_on_death = 10 SECONDS
+
 /obj/effect/proc_holder/spell/targeted/shapeshift/witch/cast(list/targets, mob/user = usr)
 	user.visible_message(span_warning("[user] begins to twist and contort!"), span_notice("I begin to transform..."))
 	return ..()
@@ -165,31 +175,53 @@
 	name = "Cat Form"
 	desc = ""
 	overlay_state = "cat_transform"
-	gesture_required = TRUE
-	chargetime = 5 SECONDS
-	recharge_time = 50
-	cooldown_min = 50
-	die_with_shapeshifted_form = FALSE
 	shapeshift_type = /mob/living/simple_animal/pet/cat/witch_shifted
-	convert_damage = FALSE
-	do_gib = FALSE
 
 /obj/effect/proc_holder/spell/targeted/shapeshift/witch/cat/black
 	shapeshift_type = /mob/living/simple_animal/pet/cat/rogue/black/witch_shifted
-	do_gib = FALSE
 
 /obj/effect/proc_holder/spell/targeted/shapeshift/witch/lesser_wolf
 	name = "Lesser Volf Form"
 	desc = ""
 	overlay_state = "volf_transform"
-	gesture_required = TRUE
-	chargetime = 5 SECONDS
-	recharge_time = 50
-	cooldown_min = 50
-	die_with_shapeshifted_form = FALSE
 	shapeshift_type = /mob/living/simple_animal/hostile/retaliate/rogue/wolf/witch_shifted
-	convert_damage = FALSE
-	do_gib = FALSE
+
+/obj/effect/proc_holder/spell/targeted/shapeshift/witch/bat
+	name = "Bat Form"
+	desc = ""
+	overlay_state = "bat_transform"
+	shapeshift_type = /mob/living/simple_animal/hostile/retaliate/bat
+	knockout_on_death = 30 SECONDS
+
+/obj/effect/proc_holder/spell/targeted/shapeshift/witch/crow
+	name = "Zad Form"
+	overlay_state = "zad"
+	desc = ""
+	knockout_on_death = 15 SECONDS
+	shapeshift_type = /mob/living/simple_animal/hostile/retaliate/bat/crow
+	sound = 'sound/vo/mobs/bird/birdfly.ogg'
+
+/obj/effect/proc_holder/spell/targeted/shapeshift/witch/lesser_vernard
+	name = "Lesser Vernard Form"
+	desc = ""
+	overlay_state = "vernard_transform"
+	shapeshift_type = /mob/living/simple_animal/hostile/retaliate/rogue/fox/witch_shifted
+
+/obj/effect/proc_holder/spell/targeted/shapeshift/witch/rous
+	name = "Small Rous Form"
+	desc = ""
+	overlay_state = "rous_transform"
+	shapeshift_type = /mob/living/simple_animal/hostile/retaliate/smallrat/witch_shifted
+
+/obj/effect/proc_holder/spell/targeted/shapeshift/witch/cabbit
+	name = "Cabbit Form"
+	desc = ""
+	overlay_state = "cabbit_transform"
+	shapeshift_type = /mob/living/simple_animal/hostile/retaliate/rogue/mudcrab/cabbit/witch_shifted
+
+/datum/intent/simple/claw/witch_cat
+	name = "scratch"
+	attack_verb = list("scratches", "claws")
 
 /mob/living/simple_animal/hostile/retaliate/rogue/wolf/witch_shifted
 	name = "lesser volf"
@@ -223,54 +255,6 @@
 	base_intents = list(/datum/intent/simple/claw/witch_cat)
 	melee_damage_lower = 2
 	melee_damage_upper = 5
-
-/datum/intent/simple/claw/witch_cat
-	name = "scratch"
-	attack_verb = list("scratches", "claws")
-
-/obj/effect/proc_holder/spell/targeted/shapeshift/witch/bat
-	name = "Bat Form"
-	desc = ""
-	overlay_state = "bat_transform"
-	recharge_time = 50
-	cooldown_min = 50
-	die_with_shapeshifted_form =  FALSE
-	do_gib = FALSE
-	shapeshift_type = /mob/living/simple_animal/hostile/retaliate/bat
-	knockout_on_death = 30 SECONDS
-
-/obj/effect/proc_holder/spell/targeted/shapeshift/witch/crow
-	name = "Zad Form"
-	overlay_state = "zad"
-	desc = ""
-	gesture_required = TRUE
-	chargetime = 5 SECONDS
-	recharge_time = 50
-	cooldown_min = 50
-	die_with_shapeshifted_form =  FALSE
-	do_gib = FALSE
-	knockout_on_death = 15 SECONDS
-	shapeshift_type = /mob/living/simple_animal/hostile/retaliate/bat/crow
-	sound = 'sound/vo/mobs/bird/birdfly.ogg'
-
-/obj/effect/proc_holder/spell/targeted/shapeshift/witch/lesser_vernard
-	name = "Lesser Vernard Form"
-	desc = ""
-	overlay_state = "vernard_transform"
-	shapeshift_type = /mob/living/simple_animal/hostile/retaliate/rogue/fox/witch_shifted
-
-/obj/effect/proc_holder/spell/targeted/shapeshift/witch/rous
-	name = "Small Rous Form"
-	desc = ""
-	overlay_state = "rous_transform"
-	shapeshift_type = /mob/living/simple_animal/hostile/retaliate/smallrat/witch_shifted
-
-/obj/effect/proc_holder/spell/targeted/shapeshift/witch/cabbit
-	name = "Cabbit Form"
-	desc = ""
-	overlay_state = "cabbit_transform"
-	shapeshift_type = /mob/living/simple_animal/hostile/retaliate/rogue/mudcrab/cabbit/witch_shifted
-
 
 /mob/living/simple_animal/hostile/retaliate/rogue/fox/witch_shifted
 	name = "lesser vernard"

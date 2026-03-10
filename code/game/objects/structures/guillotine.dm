@@ -242,7 +242,6 @@
 			if (istype(S))
 				H.cut_overlays()
 				H.regenerate_icons()
-				H.update_body_parts_head_only()
 				H.set_mob_offsets("bed_buckle", _x = 0, _y = -GUILLOTINE_HEAD_OFFSET)
 				H.layer += GUILLOTINE_LAYER_DIFF
 			else

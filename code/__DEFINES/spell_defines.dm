@@ -23,4 +23,4 @@
 #define FORCE_FILTER "force_blade"
 #define DURABILITY_FILTER "durability_enchant"
 #define ARCANE_MARK_FILTER_WEAPON "arcane_mark_enchant"
-#define ARCANE_MARK_COOLDOWN 12 SECONDS
+#define ARCANE_MARK_COOLDOWN 7 SECONDS

@@ -11,6 +11,10 @@
 	resistance_flags = ACID_PROOF
 	var/is_infinite = FALSE
 
+/obj/item/reagent_containers/glass/get_mechanics_examine(mob/user)
+	. = ..()
+	. += span_info("Right click on someone to offer your glass to them. If someone else offers a glass to you in response, they'll clink together in celebration!")
+
 /obj/item/reagent_containers/glass/examine(mob/user)
 	. = ..()
 	if(user.mind && ishuman(user))

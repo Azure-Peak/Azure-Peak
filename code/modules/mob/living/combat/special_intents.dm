@@ -568,6 +568,7 @@ SPECIALS START HERE
 			//We offbalance them OR knock them down if they're already offbalanced
 			if(L.IsOffBalanced())
 				L.Knockdown(KD_dur)
+				L.drop_all_held_items()
 			else
 				L.OffBalance(Offb_dur)
 			apply_generic_weapon_damage(L, dam, "blunt", BODY_ZONE_CHEST, bclass = BCLASS_BLUNT, no_pen = TRUE)
@@ -632,11 +633,13 @@ SPECIALS START HERE
 			victim.Immobilize(newimmob)
 			victim.apply_status_effect(/datum/status_effect/debuff/exposed, newexposed)
 			victim.Knockdown(knockdown)
+			victim.drop_all_held_items()
 		if(5 to 9)
 			victim.Slowdown(newslow)
 			victim.Immobilize(newimmob)
 			victim.apply_status_effect(/datum/status_effect/debuff/exposed, newexposed)
 			victim.Knockdown(knockdown)
+			victim.drop_all_held_items()
 			victim.OffBalance(newoffb)
 			victim.Stun(5 SECONDS)
 	if(victim_count < 3)

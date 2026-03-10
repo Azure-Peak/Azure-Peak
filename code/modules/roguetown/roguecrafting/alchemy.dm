@@ -113,7 +113,7 @@
 	name = "sui dust"
 	category = "Table"
 	result = list(/obj/item/alch/transisdust)
-	reqs = list(/obj/item/herbseed/taraxacum = 1, /obj/item/herbseed/euphrasia = 1, /obj/item/herbseed/hypericum = 1, /obj/item/herbseed/salvia = 1)
+	reqs = list(/obj/item/herbseed/taraxacum = 1, /obj/item/herbseed/hypericum = 1, /obj/item/herbseed/salvia = 1)
 	craftdiff = 3
 
 //Hard to craft but feasable, will give ONE vial but that has 10 units so, enough to cure 2 people if they ration it.
@@ -295,7 +295,7 @@
 	verbage_simple = "transmute"
 
 /datum/crafting_recipe/roguetown/alchemy/r2dia
-	name = "blortz to diamond"
+	name = "blortz to dorpel"
 	category = "Transmutation"
 	result = list(/obj/item/roguegem/diamond = 1)
 	reqs = list(/obj/item/roguegem/blue = 2, /obj/item/rogueore/gold = 2)
@@ -303,7 +303,7 @@
 	verbage_simple = "transmute"
 
 /datum/crafting_recipe/roguetown/alchemy/d2ros
-	name = "diamond to riddle of steel" /// holy grail requires legendary. (sell price on average is 350. rontz and diamond worth 100 each. you get to legndary you deserve 150-200 profit)
+	name = "dorpel to riddle of steel" /// holy grail requires legendary. (sell price on average is 350. rontz and diamond worth 100 each. you get to legndary you deserve 150-200 profit)
 	category = "Transmutation"
 	result = list(/obj/item/riddleofsteel = 1)
 	reqs = list(/obj/item/roguegem/diamond = 2, /obj/item/rogueore/iron = 1, /obj/item/rogueore/coal = 1)

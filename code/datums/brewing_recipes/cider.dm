@@ -8,7 +8,7 @@
 	needed_crops = list(/obj/item/reagent_containers/food/snacks/grown/apple = 6)
 	brewed_amount = 6
 	brew_time = 5 MINUTES
-	sell_value = 50
+	sell_value = 90
 
 /datum/brewing_recipe/cider/pear
 	name = "Cider, Pear"

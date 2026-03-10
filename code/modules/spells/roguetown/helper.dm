@@ -23,3 +23,15 @@
 	if(HAS_TRAIT(target, TRAIT_WITCH))		//Not evil but you know, witch.
 		return 1
 	return 0
+
+/// dookie proc that serves as an alternative to 5 billion cluttered has_traits. if they have ANY arcyne trait, returns true.
+/proc/is_user_magic(mob/target)
+	if(HAS_TRAIT(target, TRAIT_ARCYNE_T4))
+		return TRUE
+	if(HAS_TRAIT(target, TRAIT_ARCYNE_T3))
+		return TRUE
+	if(HAS_TRAIT(target, TRAIT_ARCYNE_T2))
+		return TRUE
+	if(HAS_TRAIT(target, TRAIT_ARCYNE_T1))
+		return TRUE
+	return 0

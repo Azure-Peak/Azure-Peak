@@ -98,8 +98,6 @@ GLOBAL_VAR_INIT(date_override_offset, 0)
 	if(GLOB.tod != oldtod)
 		if(GLOB.tod == "dawn")
 			GLOB.dayspassed++
-			if(GLOB.dayspassed == 8)
-				GLOB.dayspassed = 1
 			SStreasury.distribute_estate_incomes()
 			SStreasury.distribute_daily_payments()
 			SStreasury.distribute_interest()

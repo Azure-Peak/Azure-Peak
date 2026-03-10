@@ -8,6 +8,10 @@
 	var/makes_herb = null
 	var/seed_identity = "unknown"
 
+/obj/item/herbseed/Initialize(mapload)
+	name = "herb seeds"
+	. = ..()
+
 /obj/item/herbseed/examine(mob/user)
 	. = ..()
 	var/show_real_identity = FALSE
@@ -30,7 +34,7 @@
 		return
 	else if(istype(T, /turf/open/floor/rogue/dirt))
 		to_chat(user, span_notice("I begin making a mound for the seeds..."))
-		if(do_after(user, get_farming_do_time(user, 5 SECONDS), target = src))
+		if(do_after(user, get_herb_do_time(user, 5 SECONDS), target = src))
 			apply_farming_fatigue(user, 30)
 			soil = get_soil_on_turf(T)
 			if(!soil)
@@ -60,65 +64,81 @@
 	return
 
 /obj/item/herbseed/atropa
-	makes_herb = /obj/structure/flora/roguegrass/herb/atropa
+	name = "atropa seeds"
 	seed_identity = "atropa seeds"
+	makes_herb = /obj/structure/flora/roguegrass/herb/atropa
 
 /obj/item/herbseed/matricaria
-	makes_herb = /obj/structure/flora/roguegrass/herb/matricaria
+	name = "matricaria seeds"
 	seed_identity = "matricaria seeds"
+	makes_herb = /obj/structure/flora/roguegrass/herb/matricaria
 
 /obj/item/herbseed/symphitum
-	makes_herb = /obj/structure/flora/roguegrass/herb/symphitum
+	name = "symphitum seeds"
 	seed_identity = "symphitum seeds"
+	makes_herb = /obj/structure/flora/roguegrass/herb/symphitum
 
 /obj/item/herbseed/taraxacum
-	makes_herb = /obj/structure/flora/roguegrass/herb/taraxacum
+	name = "taraxacum seeds"
 	seed_identity = "taraxacum seeds"
+	makes_herb = /obj/structure/flora/roguegrass/herb/taraxacum
 
 /obj/item/herbseed/euphrasia
-	makes_herb = /obj/structure/flora/roguegrass/herb/euphrasia
+	name = "euphrasia seeds"
 	seed_identity = "euphrasia seeds"
+	makes_herb = /obj/structure/flora/roguegrass/herb/euphrasia
 
 /obj/item/herbseed/paris
-	makes_herb = /obj/structure/flora/roguegrass/herb/paris
+	name = "paris seeds"
 	seed_identity = "paris seeds"
+	makes_herb = /obj/structure/flora/roguegrass/herb/paris
 
 /obj/item/herbseed/calendula
-	makes_herb = /obj/structure/flora/roguegrass/herb/calendula
+	name = "calendula seeds"
 	seed_identity = "calendula seeds"
+	makes_herb = /obj/structure/flora/roguegrass/herb/calendula
 
 /obj/item/herbseed/mentha
-	makes_herb = /obj/structure/flora/roguegrass/herb/mentha
+	name = "mentha seeds"
 	seed_identity = "mentha seeds"
+	makes_herb = /obj/structure/flora/roguegrass/herb/mentha
 
 /obj/item/herbseed/urtica
-	makes_herb = /obj/structure/flora/roguegrass/herb/urtica
+	name = "urtica seeds"
 	seed_identity = "urtica seeds"
+	makes_herb = /obj/structure/flora/roguegrass/herb/urtica
 
 /obj/item/herbseed/salvia
-	makes_herb = /obj/structure/flora/roguegrass/herb/salvia
+	name = "salvia seeds"
 	seed_identity = "salvia seeds"
+	makes_herb = /obj/structure/flora/roguegrass/herb/salvia
 
 /obj/item/herbseed/hypericum
-	makes_herb = /obj/structure/flora/roguegrass/herb/hypericum
+	name = "hypericum seeds"
 	seed_identity = "hypericum seeds"
+	makes_herb = /obj/structure/flora/roguegrass/herb/hypericum
 
 /obj/item/herbseed/benedictus
-	makes_herb = /obj/structure/flora/roguegrass/herb/benedictus
+	name = "benedictus seeds"
 	seed_identity = "benedictus seeds"
+	makes_herb = /obj/structure/flora/roguegrass/herb/benedictus
 
 /obj/item/herbseed/valeriana
-	makes_herb = /obj/structure/flora/roguegrass/herb/valeriana
+	name = "valeriana seeds"
 	seed_identity = "valeriana seeds"
+	makes_herb = /obj/structure/flora/roguegrass/herb/valeriana
 
 /obj/item/herbseed/artemisia
-	makes_herb = /obj/structure/flora/roguegrass/herb/artemisia
+	name = "artemisia seeds"
 	seed_identity = "artemisia seeds"
+	makes_herb = /obj/structure/flora/roguegrass/herb/artemisia
 
 /obj/item/herbseed/rosa
-	makes_herb = /obj/structure/flora/roguegrass/herb/rosa
+	name = "rosa seeds"
 	seed_identity = "rosa seeds"
+	makes_herb = /obj/structure/flora/roguegrass/herb/rosa
 
 /obj/item/herbseed/manabloom
-	makes_herb = /obj/structure/flora/roguegrass/herb/manabloom
+	name = "manabloom seeds"
 	seed_identity = "manabloom seeds"
+	makes_herb = /obj/structure/flora/roguegrass/herb/manabloom

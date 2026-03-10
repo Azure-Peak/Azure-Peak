@@ -7,7 +7,6 @@ It will also call down lightning strikes from the sky, and fling people with it'
 	. = ..()
 	ADD_TRAIT(src, TRAIT_NOFIRE, "[type]")
 	ADD_TRAIT(src, TRAIT_NOBREATH, TRAIT_GENERIC)
-	ADD_TRAIT(src, TRAIT_ANTIMAGIC, TRAIT_GENERIC)
 	ADD_TRAIT(src, TRAIT_TOXIMMUNE, TRAIT_GENERIC)
 	ADD_TRAIT(src, TRAIT_NOPAINSTUN, TRAIT_GENERIC)
 	ADD_TRAIT(src, TRAIT_SHOCKIMMUNE, TRAIT_GENERIC)
@@ -78,6 +77,7 @@ It will also call down lightning strikes from the sky, and fling people with it'
 	environment_smash = ENVIRONMENT_SMASH_WALLS
 	base_intents = list(/datum/intent/unarmed/dragonclaw)
 	faction = list("abberant")
+	death_loot = list(/obj/item/clothing/ring/dragon_ring = 3, /obj/item/book/granter/spell_points/voiddragon = 3)
 	obj_damage = 400	//Behold, nothing shall keep the dragon out
 	melee_damage_lower = 80
 	melee_damage_upper = 80
@@ -649,13 +649,6 @@ It will also call down lightning strikes from the sky, and fling people with it'
 
 /mob/living/simple_animal/hostile/retaliate/rogue/voiddragon/death()
 	..()
-	var/turf/deathspot = get_turf(src)
-	new /obj/item/clothing/ring/dragon_ring(deathspot)
-	new /obj/item/clothing/ring/dragon_ring(deathspot)
-	new /obj/item/clothing/ring/dragon_ring(deathspot)
-	new /obj/item/book/granter/spell_points/voiddragon
-	new /obj/item/book/granter/spell_points/voiddragon
-	new /obj/item/book/granter/spell_points/voiddragon
 	update_icon()
 	spill_embedded_objects()
 

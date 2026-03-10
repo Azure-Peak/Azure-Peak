@@ -1,6 +1,7 @@
 #define PRESTI_CLEAN "presti_clean"
 #define PRESTI_SPARK "presti_spark"
 #define PRESTI_MOTE "presti_mote"
+#define PRESTI_SENSE "presti_sense"
 
 /obj/effect/proc_holder/spell/targeted/touch/prestidigitation
 	name = "Prestidigitation"
@@ -23,9 +24,10 @@
 	desc = "You recall the following incantations you've learned:\n \
 	<b>Touch</b>: Use your arcyne powers to scrub an object or something clean, like using soap. Also known as the Apprentice's Woe.\n \
 	<b>Shove</b>: Will forth a spark on an item of your choosing (or in front of you, if used on the ground) to ignite flammable items and things like torches, lanterns or campfires. \n \
-	<b>Use</b>: Conjure forth an orbiting mote of magelight to light your way."
+	<b>Use</b>: Conjure forth an orbiting mote of magelight to light your way.\n \
+	<b>Grab</b>: Attune to the veil and sense nearby leylines."
 	catchphrase = null
-	possible_item_intents = list(INTENT_HELP, INTENT_DISARM, /datum/intent/use)
+	possible_item_intents = list(INTENT_HELP, INTENT_DISARM, /datum/intent/use, INTENT_GRAB)
 	icon = 'icons/mob/roguehudgrabs.dmi'
 	icon_state = "pulling"
 	icon_state = "grabbing_greyscale"
@@ -35,7 +37,6 @@
 	var/motespeed = 20 // mote summoning speed
 	var/sparkspeed = 30 // spark summoning speed
 	var/spark_cd = 0
-	var/gatherspeed = 35
 	experimental_inhand = FALSE
 
 /obj/item/melee/touch_attack/prestidigitation/Initialize()
@@ -50,13 +51,93 @@
 /obj/item/melee/touch_attack/prestidigitation/attack_self()
 	qdel(src)
 
+/obj/item/melee/touch_attack/prestidigitation/proc/sense_leylines(mob/living/carbon/human/user)
+	if(!length(GLOB.leyline_sites))
+		to_chat(user, span_warning("You reach out through the veil but sense nothing. No leylines exist in this world."))
+		return FALSE
+
+	user.visible_message(span_notice("[user] closes [user.p_their()] eyes and reaches out through the veil..."), span_notice("I close my eyes and attune to the flow of the veil..."))
+	if(!do_after(user, 2 SECONDS, target = user))
+		to_chat(user, span_warning("Your concentration breaks."))
+		return FALSE
+
+	var/list/sensed = list()
+	var/user_z = user.z
+	for(var/obj/structure/leyline/L in GLOB.leyline_sites)
+		var/dist = get_dist(user, L)
+		sensed += list(list("leyline" = L, "dist" = dist, "same_z" = (L.z == user_z)))
+
+	// Sort by distance (simple insertion sort, small list)
+	for(var/i in 2 to length(sensed))
+		var/j = i
+		while(j > 1 && sensed[j]["dist"] < sensed[j - 1]["dist"])
+			sensed.Swap(j, j - 1)
+			j--
+
+	to_chat(user, span_info("You attune to the veil and sense the flow of leyline energy..."))
+	var/count = 0
+	for(var/entry in sensed)
+		if(count >= 5)
+			break
+		var/obj/structure/leyline/L = entry["leyline"]
+		var/dist = entry["dist"]
+		var/same_z = entry["same_z"]
+		var/direction = dir2text(get_dir(user, L))
+		if(!direction)
+			direction = "beneath you"
+		else
+			direction = "to the [direction]"
+		if(!same_z)
+			if(L.z > user_z)
+				direction += ", above you"
+			else
+				direction += ", below you"
+
+		var/status = ""
+		L.check_daily_reset()
+		if(!L.has_uses_remaining())
+			status = " <span style='color:#888'>(exhausted)</span>"
+
+		var/flavor = L.alignment
+		var/flavor_color = "#FFFFFF"
+		switch(L.alignment)
+			if("infernal")
+				flavor = "Scorched"
+				flavor_color = "#EF5350"
+			if("fae")
+				flavor = "Sylvan"
+				flavor_color = "#81C784"
+			if("elemental")
+				flavor = "Earthen"
+				flavor_color = "#D4A04A"
+			if("void")
+				flavor = "Unstable"
+				flavor_color = "#AB47BC"
+			if("neutral")
+				flavor = "Tamed"
+				flavor_color = "#C0C0FF"
+
+		var/colored_type = "<b><span style='color:[flavor_color]'>[flavor]</span></b>"
+		if(dist <= 3)
+			to_chat(user, span_info("[colored_type] leyline — right beside you[status]."))
+		else if(dist <= 30)
+			to_chat(user, span_info("[colored_type] leyline — [direction], not far[status]."))
+		else if(dist <= 100)
+			to_chat(user, span_info("[colored_type] presence — [direction], some distance away[status]."))
+		else
+			to_chat(user, span_info("[colored_type] whisper — [direction], far away[status]."))
+		count++
+
+	if(!count)
+		to_chat(user, span_warning("You sense nothing. Strange."))
+	else
+		var/charges = get_leyline_charges(user)
+		to_chat(user, span_info("You have enough mana for <b>[charges]</b> more ritual[charges != 1 ? "s" : ""]."))
+	return TRUE
+
 /obj/item/melee/touch_attack/prestidigitation/afterattack(atom/target, mob/living/carbon/user, proximity)
 	switch (user.used_intent.type)
 		if (INTENT_HELP) // Clean something like a bar of soap
-			if(istype(target, /obj/structure/well/fountain/mana) || istype(target, /turf/open/lava))
-				gather_thing(target, user)
-				handle_cost(user, PRESTI_CLEAN)
-				return
 			if(clean_thing(target, user))
 				handle_cost(user, PRESTI_CLEAN)
 		if (INTENT_DISARM) // Snap your fingers and produce a spark
@@ -65,6 +146,9 @@
 		if (/datum/intent/use) // Summon an orbiting arcane mote for light
 			if(handle_mote(user))
 				handle_cost(user, PRESTI_MOTE)
+		if (INTENT_GRAB) // Sense nearby leylines
+			if(sense_leylines(user))
+				handle_cost(user, PRESTI_SENSE)
 
 /obj/item/melee/touch_attack/prestidigitation/proc/handle_cost(mob/living/carbon/human/user, action)
 	// handles fatigue/stamina deduction, this stuff isn't free - also returns the cost we took to use for xp calculations
@@ -78,6 +162,8 @@
 			extra_fatigue = 5 // just a bit of extra fatigue on this one
 		if (PRESTI_MOTE)
 			extra_fatigue = 15 // same deal here
+		if (PRESTI_SENSE)
+			extra_fatigue = 10
 
 	user.stamina_add(fatigue_used + extra_fatigue)
 
@@ -94,7 +180,7 @@
 
 	//let's adjust the light power based on our skill, too
 	var/skill_level = user.get_skill_level(attached_spell.associated_skill)
-	var/mote_power = clamp(4 + (skill_level - 3), 4, 7) // every step above journeyman should get us 1 more tile of brightness
+	var/mote_power = clamp(5 + (skill_level - 3), 5, 7) // every step above journeyman should get us 1 more tile of brightness
 	mote.set_light_range(mote_power)
 	if(mote.light_system == STATIC_LIGHT)
 		mote.update_light()
@@ -161,20 +247,6 @@
 			return TRUE
 		return FALSE
 
-/obj/item/melee/touch_attack/prestidigitation/proc/gather_thing(atom/target, mob/living/carbon/human/user)
-
-	var/skill_level = user.get_skill_level(attached_spell.associated_skill)
-	gatherspeed = initial(gatherspeed) - (skill_level * 3) // 3 cleanspeed per skill level, from 35 down to a maximum of 17 (pretty quick)
-	if (istype(target, /obj/structure/well/fountain/mana))
-		if (do_after(user, src.gatherspeed, target = target))
-			to_chat(user, span_notice("I mold the liquid mana in \the [target.name] with my arcane power, crystalizing it!"))
-			new /obj/item/magic/manacrystal(user.loc)
-	if (istype(target, /turf/open/lava))
-		if (do_after(user, src.gatherspeed, target = target))
-			to_chat(user, span_notice("I mold a handful of oozing lava  with my arcane power, rapidly hardening it!"))
-			new /obj/item/magic/obsidian(user.loc)
-
-// Intents for prestidigitation
 // Intents for prestidigitation
 
 /obj/effect/wisp/prestidigitation
@@ -190,3 +262,4 @@
 #undef PRESTI_CLEAN
 #undef PRESTI_SPARK
 #undef PRESTI_MOTE
+#undef PRESTI_SENSE

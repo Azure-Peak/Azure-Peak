@@ -1,0 +1,4 @@
+author: "WeNeedMorePhoron"
+delete-after: True
+changes:
+  - rscdel: "Removed the broken accent code to save around 1% of CPU"

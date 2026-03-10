@@ -27,6 +27,7 @@
 #define COVERAGE_ALL_BUT_HANDFEET	( CHEST | GROIN | VITALS | LEGS | ARMS)
 #define COVERAGE_ALL_BUT_ARMFEET	( CHEST | GROIN | VITALS | LEGS )
 #define COVERAGE_FULL				( CHEST | GROIN | VITALS | LEGS | ARMS | HANDS | FEET)
+#define COVERAGE_NEARLY_FULL		( HEAD | CHEST | GROIN | VITALS | LEGS | ARMS | HANDS | FEET)
 
 #define COVERAGE_PANTS			( GROIN | LEGS )
 #define COVERAGE_ALL_BUT_HANDFEET_LEG		( LEGS | FEET )
@@ -386,6 +387,10 @@ GLOBAL_LIST_EMPTY(round_join_times)
 #define CLASS_CAT_WARRIOR "Warrior"
 #define CLASS_CAT_TRADER "Trader"
 #define CLASS_CAT_NOMAD "Nomad"
+
+//Wretch categories
+#define CLASS_CAT_ACCURSED "Accursed"
+#define CLASS_CAT_BATTLEMAGE "Battlemage"
 
 //Mercenary categories
 #define CLASS_CAT_ETRUSCA "Etrusca"

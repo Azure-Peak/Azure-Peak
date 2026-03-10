@@ -496,7 +496,7 @@
 	damtype = BURN
 	wdefense = 0
 	associated_skill = /datum/skill/magic/holy //EHEHEHEHEHEH
-	can_parry = TRUE
+	can_parry = FALSE
 	var/takespeed = 5
 	var/fprob = 0
 	var/cooldown = FALSE

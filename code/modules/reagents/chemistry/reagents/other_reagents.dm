@@ -101,7 +101,7 @@
 	results = list(/datum/reagent/water/gross = 2)
 	required_reagents = list(/datum/reagent/water/gross = 1, /datum/reagent/water = 1)
 
-#define WATER_BLOOD_RESTORE 5
+#define WATER_BLOOD_RESTORE 15
 /datum/reagent/water/on_mob_life(mob/living/carbon/M)
 	if(ishuman(M))
 		var/mob/living/carbon/human/H = M

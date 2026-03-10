@@ -1,19 +1,20 @@
 
 /obj/effect/proc_holder/spell/invoked/projectile/spitfire
 	name = "Spitfire"
-	desc = "Shoot out a low-powered ball of fire that ignites a target with a small amount of fire on impact. Builds a stack of <b>Arcane Mark</b> on the target. \n\
+	desc = "Shoot out a low-powered ball of fire that ignites a target with a small amount of fire on impact. \n\
 	Damage is increased by 100% versus simple-minded creechurs.\n\
-	Can be fired in an arc over an ally's head with a mage's staff or spellbook on arc intent. It will deals 25% less damage that way."
+	Toggle arc mode (Ctrl+G) while the spell is active to fire it over intervening mobs. Arced attacks deal 25% less damage."
 	clothes_req = FALSE
 	range = 8
 	projectile_type = /obj/projectile/magic/aoe/fireball/spitfire
+	projectile_type_arc = /obj/projectile/magic/aoe/fireball/spitfire/arc
 	overlay_state = "fireball_multi"
 	sound = list('sound/magic/whiteflame.ogg')
 	active = FALSE
-	releasedrain = 30
+	releasedrain = 35
 	chargedrain = 1
 	chargetime = 1
-	recharge_time = 4 SECONDS
+	recharge_time = 6 SECONDS
 	warnie = "spellwarning"
 	no_early_release = TRUE
 	movement_interrupt = FALSE
@@ -28,12 +29,7 @@
 	cost = 3
 
 /obj/effect/proc_holder/spell/invoked/projectile/spitfire/cast(list/targets, mob/user = user)
-	var/mob/living/carbon/human/H = user
-	var/datum/intent/a_intent = H.a_intent
-	if(istype(a_intent, /datum/intent/special/magicarc))
-		projectile_type = /obj/projectile/magic/aoe/fireball/spitfire/arc
-	else
-		projectile_type = /obj/projectile/magic/aoe/fireball/spitfire
+	projectile_type = arc_mode ? projectile_type_arc : initial(projectile_type)
 	. = ..()
 
 /obj/projectile/magic/aoe/fireball/spitfire
@@ -75,8 +71,6 @@
 			return BULLET_ACT_BLOCK
 		M.adjust_fire_stacks(1)
 		M.ignite_mob()
-		if(istype(M, /mob/living/carbon))
-			apply_arcane_mark(M)
 	else if(isatom(target))
 		var/atom/A = target
 		A.fire_act()

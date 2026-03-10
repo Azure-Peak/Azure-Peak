@@ -1,0 +1,7 @@
+author: "Ollanius"
+delete-after: True
+changes:
+  - rscadd: "New timechange tips about various basic mechanics."
+  - rscadd: "Notes the CPR mechanic down on certain posters; target the mouth and click with 'WEAK' intent to breathe life into someone, counteracting the suffocation damage that comes from critical blood loss."
+  - rscadd: "Examining the roundspawn tome now explicitly lists a link to the wiki."
+  - balance: "Exchanged despair and forlornness with whimsy and hope. Forsooth!"

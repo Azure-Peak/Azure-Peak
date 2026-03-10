@@ -1,0 +1,4 @@
+author: "Aisu9"
+delete-after: True
+changes:
+  - bugfix: "fixed arcyne strike(smite) not inflicting arcane marks"

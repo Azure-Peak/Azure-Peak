@@ -34,7 +34,7 @@
 		aggressive=1
 		wander = TRUE
 		if(!is_silent && target != newtarg)
-			say(pick(GLOB.highwayman_aggro))
+			say(pick(GLOB.highwayman_aggro), npc_speech = TRUE)
 			pointed(target)
 
 /mob/living/carbon/human/species/lizardfolk/psy_vault_guard/should_target(mob/living/L)

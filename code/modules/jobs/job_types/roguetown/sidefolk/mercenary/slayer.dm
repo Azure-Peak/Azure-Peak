@@ -66,7 +66,7 @@
 	name = "slayer axe"
 	desc = "A marvel of craftsdwarfship, this ornate handaxe attunes itself to those who have sworn the Oath."
 	force = 26
-	possible_item_intents = list(/datum/intent/axe/cut/battle, /datum/intent/axe/chop/battle, /datum/intent/axe/bash)
+	possible_item_intents = list(/datum/intent/axe/cut, /datum/intent/axe/chop, /datum/intent/axe/bash)
 	gripped_intents = null
 	icon_state = "slayer_axe"
 	icon = 'icons/roguetown/weapons/axes32.dmi'
@@ -87,7 +87,7 @@
 	force = 20
 	force_wielded = 34 // Slightly weaker than the double bladed greataxe, but the edge doesn't dull quickly.
 	possible_item_intents = list(/datum/intent/axe/cut, /datum/intent/axe/chop, SPEAR_BASH)
-	gripped_intents = list(/datum/intent/axe/cut/battle/greataxe, /datum/intent/axe/chop/battle/greataxe, SPEAR_BASH)
+	gripped_intents = list(/datum/intent/axe/cut/long, /datum/intent/axe/chop/long, SPEAR_BASH)
 	icon_state = "slayer"
 	icon = 'icons/roguetown/weapons/axes64.dmi'
 	dropshrink = 0.6
@@ -123,12 +123,11 @@
 	desc = ""
 	icon_state = null
 	armor = ARMOR_RUMACLAN
-	prevent_crits = list(BCLASS_CUT, BCLASS_BLUNT)
 	blocksound = SOFTHIT
 	blade_dulling = DULLING_BASHCHOP
 	slot_flags = ITEM_SLOT_SHIRT|ITEM_SLOT_ARMOR
-	body_parts_covered = COVERAGE_ALL_BUT_HANDFEET
-	body_parts_inherent = COVERAGE_ALL_BUT_HANDFEET
+	body_parts_covered = COVERAGE_NEARLY_FULL
+	body_parts_inherent = COVERAGE_NEARLY_FULL
 	r_sleeve_status = SLEEVE_NORMAL
 	l_sleeve_status = SLEEVE_NORMAL
 	allowed_race = list(

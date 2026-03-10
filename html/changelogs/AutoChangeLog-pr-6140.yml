@@ -1,6 +1,0 @@
-author: "Ollanius"
-delete-after: True
-changes:
-  - bugfix: "THIRD TIMES THE CHARM. SPICED WINE SHOULD BE BREWABLE NOW."
-  - bugfix: "FISH FILLET INSTEAD OF REGULAR FISHES FOR GARUM."
-  - code_imp: "PUMPKIN SPICE IS NOW UNDER THE /FOOD/SNACKS FILEPATH."

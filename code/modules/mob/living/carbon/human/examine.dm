@@ -244,7 +244,7 @@
 			
 			if(user.has_flaw(/datum/charflaw/averse))
 				var/datum/charflaw/averse/averseflaw = user.get_flaw(/datum/charflaw/averse)
-				if(averseflaw.check_aversion(user, src))
+				if(averseflaw?.check_aversion(user, src))
 					user.add_stress(/datum/stressevent/averse)
 					. += span_secradio("One of <b>them...</b>")
 

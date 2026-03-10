@@ -5,6 +5,7 @@
 	allowed_races = RACES_ALL_KINDS
 	outfit = /datum/outfit/job/roguetown/wretch/berserker
 	cmode_music = 'sound/music/cmode/antag/combat_darkstar.ogg'
+	class_select_category = CLASS_CAT_WARRIOR
 	category_tags = list(CTAG_WRETCH)
 	traits_applied = list(TRAIT_STRONGBITE, TRAIT_IGNOREDAMAGESLOWDOWN, TRAIT_NOPAINSTUN, TRAIT_BLOOD_RESISTANCE)
 	// Literally same stat spread as Atgervi Shaman

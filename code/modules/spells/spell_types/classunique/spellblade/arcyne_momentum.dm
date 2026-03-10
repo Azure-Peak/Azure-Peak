@@ -113,12 +113,6 @@
 			enter_overcharge()
 	else if(is_overcharged)
 		exit_overcharge()
-	if(stacks >= overcharge_threshold)
-		owner.overlay_fullscreen("momentum_strain", /atom/movable/screen/fullscreen/impaired, 1)
-	else if(stacks >= 6)
-		owner.overlay_fullscreen("momentum_strain", /atom/movable/screen/fullscreen/impaired, 1)
-	else
-		owner.clear_fullscreen("momentum_strain")
 
 /datum/status_effect/buff/arcyne_momentum/proc/update_alert()
 	if(!linked_alert)

@@ -5,6 +5,7 @@
 	allowed_races = RACES_ALL_KINDS
 	outfit = /datum/outfit/job/roguetown/wretch/necromancer
 	cmode_music = 'sound/music/combat_heretic.ogg'
+	class_select_category = CLASS_CAT_MAGE
 	category_tags = list(CTAG_WRETCH)
 	traits_applied = list(TRAIT_ZOMBIE_IMMUNE, TRAIT_MAGEARMOR, TRAIT_NOSTINK, TRAIT_GRAVEROBBER, TRAIT_ARCYNE_T3, TRAIT_ALCHEMY_EXPERT, TRAIT_MEDICINE_EXPERT)
 	maximum_possible_slots = 2 // Going from 1 to 2, because skeleton that are summoned count AGAINST antagonist cap and they don't always shows up
@@ -53,7 +54,8 @@
 		/obj/item/flashlight/flare/torch/lantern/prelit = 1,
 		/obj/item/necro_relics/necro_crystal = 1,
 		/obj/item/rogueweapon/scabbard/sheath = 1,
-		/obj/item/reagent_containers/glass/bottle/alchemical/healthpot = 1,	//Small health vial
+		/obj/item/reagent_containers/glass/bottle/alchemical/healthpot = 1,
+		/obj/item/chalk = 1,
 		)
 	H.dna.species.soundpack_m = new /datum/voicepack/male/wizard()
 	if(H.mind)

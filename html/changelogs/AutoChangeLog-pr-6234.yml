@@ -1,0 +1,4 @@
+author: "WeNeedMorePhoron"
+delete-after: True
+changes:
+  - admin: "Admin and localhost now gain access to a toggle on the right side of their chat for command bar. YIPPEE!!!"

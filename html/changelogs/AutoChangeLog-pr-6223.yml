@@ -1,4 +1,4 @@
 author: "bearrrrrrrr"
 delete-after: True
 changes:
-  - rscadd: "Chandelier admin smite."
+  - admin: "increased size of single-z event area"

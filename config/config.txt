@@ -92,6 +92,9 @@ LOG_LOOC
 ## log client Say
 LOG_SAY
 
+## log NPC Say
+LOG_NPC_SAY
+
 ## log admin actions
 LOG_ADMIN
 

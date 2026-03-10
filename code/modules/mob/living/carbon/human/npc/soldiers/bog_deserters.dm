@@ -117,7 +117,7 @@
 		aggressive=1
 		wander = TRUE
 		if(!is_silent && target != newtarg)
-			say(pick(GLOB.highwayman_aggro))
+			say(pick(GLOB.highwayman_aggro), npc_speech = TRUE)
 			pointed(target)
 
 /mob/living/carbon/human/species/human/northern/bog_deserters/should_target(mob/living/L)
@@ -168,8 +168,11 @@
 
 /mob/living/carbon/human/species/human/northern/bog_deserters/handle_combat()
 	if(mode == NPC_AI_HUNT)
-		if(prob(2)) // do not make this big or else they NEVER SHUT UP
-			emote("laugh")
+		if(prob(5))
+			if(prob(60))
+				say(pick(GLOB.highwayman_aggro), npc_speech = TRUE)
+			else
+				emote(pick("laugh", "warcry", "rage"))
 	. = ..()
 
 /datum/outfit/job/roguetown/human/northern/bog_deserters/pre_equip(mob/living/carbon/human/H)

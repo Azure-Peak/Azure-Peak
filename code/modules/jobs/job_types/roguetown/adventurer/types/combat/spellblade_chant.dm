@@ -1,4 +1,4 @@
-/proc/get_spellblade_chant_html(datum/caller, mob/living/carbon/human/H, faction = "conventional")
+/proc/get_spellblade_chant_html(datum/caller, mob/living/carbon/human/H, faction = "conventional", extra_blade_weapon, extra_phalanx_weapon, extra_mace_weapon)
 	var/blade_chant = get_blade_chant_text(faction, H)
 	var/phalanx_chant = get_phalanx_chant_text(faction, H)
 	var/macebearer_chant = get_macebearer_chant_text(faction, H)
@@ -13,7 +13,6 @@
 		blade_btn = "WAKE UP"
 		phalanx_btn = "WAKE UP"
 		mace_btn = "WAKE UP"
-
 	var/blade_weapons
 	var/phalanx_weapons
 	var/mace_weapons
@@ -23,17 +22,74 @@
 			phalanx_weapons = "Elvish Glaive"
 			mace_weapons = "Steel Mace / Steel Warhammer & Shield"
 		if("zizite")
-			blade_weapons = "Avantyne Longsword / Kriegmesser / Longsword / Rapier / Sabre / Steel Dagger & Shield"
+			blade_weapons = "Kriegmesser / Longsword / Rapier / Sabre / Steel Greatsword / Steel Dagger & Shield"
 			phalanx_weapons = "Halberd / Bardiche / Boar Spear / Dory & Shield / Naginata"
-			mace_weapons = "Steel Mace / Steel Warhammer & Shield"
+			mace_weapons = "Steel Mace / Steel Warhammer & Shield / Grand Mace"
+		if("noccite")
+			blade_weapons = "Longsword / Rapier / Sabre / Steel Greatsword / Steel Dagger & Shield"
+			phalanx_weapons = "Halberd / Bardiche / Boar Spear / Dory & Shield / Naginata"
+			mace_weapons = "Steel Mace / Steel Warhammer & Shield / Grand Mace"
 		if("undead")
-			blade_weapons = "Khopesh / Sabre / Dagger & Shield"
-			phalanx_weapons = "Spear / Bardiche & Shield"
-			mace_weapons = "Mace / Warhammer & Shield"
+			blade_weapons = "Ancient Khopesh / Sabre / Corroded Dagger & Shield"
+			phalanx_weapons = "Ancient Spear / Ancient Bardiche / Dory & Shield"
+			mace_weapons = "Ancient Mace / Ancient Warhammer & Shield"
 		else
-			blade_weapons = "Longsword / Rapier / Sabre / Arming Sword / Shortsword / Hwando / Steel Dagger & Shield"
+			blade_weapons = "Longsword / Rapier / Sabre / Arming Sword / Shortsword / Hwando / Steel Greatsword / Steel Dagger & Shield"
 			phalanx_weapons = "Spear / Dory & Shield / Naginata"
-			mace_weapons = "Mace / Warhammer & Shield"
+			mace_weapons = "Mace / Warhammer & Shield / Grand Mace"
+
+	// Inject patron-specific weapons into weapon lists
+	if(extra_blade_weapon)
+		blade_weapons = "[extra_blade_weapon] / [blade_weapons]"
+	if(extra_phalanx_weapon)
+		phalanx_weapons = "[extra_phalanx_weapon] / [phalanx_weapons]"
+	if(extra_mace_weapon)
+		mace_weapons = "[extra_mace_weapon] / [mace_weapons]"
+
+	// Color palette per faction
+	var/col_bg           // body background
+	var/col_text         // main text
+	var/col_header       // h2, weapon-info, button text, loud preamble
+	var/col_subheader    // h3, h4, closing preamble
+	var/col_border       // borders, preamble text
+	var/col_divider      // inner dividers
+	var/col_gradient     // column/shared-info background
+	var/col_em           // chant emphasized text
+	var/col_li           // list item text
+	var/col_btn_bg       // button background
+	var/col_btn_hover    // button hover background
+	var/col_glow_r       // box-shadow RGB
+	var/col_glow_g
+	var/col_glow_b
+	switch(faction)
+		if("zizite", "undead")
+			col_bg = "#140a0a";         col_text = "#d4a0a0"
+			col_header = "#c96e6e";     col_subheader = "#a05050"
+			col_border = "#8b5555";     col_divider = "#5a3030"
+			col_gradient = "#2a1010";   col_em = "#e0b0b0"
+			col_li = "#b08080";         col_btn_bg = "#3a1515"
+			col_btn_hover = "#4a2020";  col_glow_r = "139"; col_glow_g = "85"; col_glow_b = "85"
+		if("noccite")
+			col_bg = "#0a0e1a";         col_text = "#a0b8d4"
+			col_header = "#6e8ec9";     col_subheader = "#5070a0"
+			col_border = "#556b8b";     col_divider = "#304a5a"
+			col_gradient = "#101828";   col_em = "#b0c8e0"
+			col_li = "#8098b0";         col_btn_bg = "#152030"
+			col_btn_hover = "#203040";  col_glow_r = "85"; col_glow_g = "107"; col_glow_b = "139"
+		if("blackoak")
+			col_bg = "#0a140e";         col_text = "#a0d4b0"
+			col_header = "#6ec98e";     col_subheader = "#50a070"
+			col_border = "#558b65";     col_divider = "#305a40"
+			col_gradient = "#102a18";   col_em = "#b0e0c0"
+			col_li = "#80b090";         col_btn_bg = "#153a20"
+			col_btn_hover = "#204a30";  col_glow_r = "85"; col_glow_g = "139"; col_glow_b = "101"
+		else // conventional — default warm brown/gold
+			col_bg = "#1a1410";         col_text = "#d4c4a0"
+			col_header = "#c9a96e";     col_subheader = "#a08050"
+			col_border = "#8b7355";     col_divider = "#5a4a30"
+			col_gradient = "#2a2015";   col_em = "#e0d0b0"
+			col_li = "#b0a080";         col_btn_bg = "#3a2a15"
+			col_btn_hover = "#4a3a20";  col_glow_r = "139"; col_glow_g = "115"; col_glow_b = "85"
 
 	var/html = {"<!DOCTYPE html>
 <html>
@@ -41,8 +97,8 @@
 <meta charset="UTF-8">
 <style>
 body {
-	background-color: #1a1410;
-	color: #d4c4a0;
+	background-color: [col_bg];
+	color: [col_text];
 	font-family: Georgia, 'Times New Roman', serif;
 	margin: 0;
 	padding: 20px;
@@ -53,11 +109,11 @@ body {
 	text-align: center;
 }
 h2 {
-	color: #c9a96e;
+	color: [col_header];
 	font-size: 20px;
 	letter-spacing: 3px;
 	text-transform: uppercase;
-	border-bottom: 1px solid #8b7355;
+	border-bottom: 1px solid [col_border];
 	padding-bottom: 10px;
 	margin-bottom: 25px;
 }
@@ -70,17 +126,17 @@ h2 {
 	flex: 1;
 	display: flex;
 	flex-direction: column;
-	background: linear-gradient(135deg, #2a2015 0%, #1a1410 50%, #2a2015 100%);
-	border: 2px solid #8b7355;
+	background: linear-gradient(135deg, [col_gradient] 0%, [col_bg] 50%, [col_gradient] 100%);
+	border: 2px solid [col_border];
 	border-radius: 4px;
 	padding: 20px;
-	box-shadow: 0 0 15px rgba(139, 115, 85, 0.2);
+	box-shadow: 0 0 15px rgba([col_glow_r], [col_glow_g], [col_glow_b], 0.2);
 }
 .column-content {
 	flex: 1;
 }
 .column h3 {
-	color: #a08050;
+	color: [col_subheader];
 	font-size: 15px;
 	letter-spacing: 2px;
 	margin: 0 0 15px 0;
@@ -91,16 +147,16 @@ h2 {
 	margin: 3px 0;
 }
 .chant-text em {
-	color: #e0d0b0;
+	color: [col_em];
 }
 .abilities {
 	text-align: left;
-	border-top: 1px solid #5a4a30;
+	border-top: 1px solid [col_divider];
 	padding-top: 12px;
 	margin-top: 15px;
 }
 .abilities h4 {
-	color: #a08050;
+	color: [col_subheader];
 	font-size: 11px;
 	letter-spacing: 1px;
 	margin: 0 0 8px 0;
@@ -116,28 +172,28 @@ h2 {
 	font-size: 11px;
 	line-height: 1.5;
 	margin: 5px 0;
-	color: #b0a080;
+	color: [col_li];
 }
 .abilities li b {
-	color: #d4c4a0;
+	color: [col_text];
 }
 .weapon-info {
 	text-align: center;
 	font-size: 12px;
-	color: #c9a96e;
+	color: [col_header];
 	margin-top: 12px;
 	padding-top: 8px;
-	border-top: 1px solid #5a4a30;
+	border-top: 1px solid [col_divider];
 	font-style: italic;
 }
 a.choose-btn {
 	display: block;
 	margin-top: 15px;
 	padding: 10px 15px;
-	background: #3a2a15;
-	border: 1px solid #8b7355;
+	background: [col_btn_bg];
+	border: 1px solid [col_border];
 	border-radius: 3px;
-	color: #c9a96e;
+	color: [col_header];
 	text-decoration: none;
 	font-family: Georgia, serif;
 	font-size: 13px;
@@ -145,13 +201,13 @@ a.choose-btn {
 	text-align: center;
 }
 a.choose-btn:hover {
-	background: #4a3a20;
-	border-color: #c9a96e;
-	color: #e0d0b0;
+	background: [col_btn_hover];
+	border-color: [col_header];
+	color: [col_em];
 }
 .shared-info {
-	background: #2a2015;
-	border: 1px solid #5a4a30;
+	background: [col_gradient];
+	border: 1px solid [col_divider];
 	border-radius: 3px;
 	padding: 10px 15px;
 	text-align: center;
@@ -168,13 +224,13 @@ a.choose-btn:hover {
 	font-size: 11px;
 	line-height: 1.5;
 	margin: 5px 0;
-	color: #b0a080;
+	color: [col_li];
 }
 .shared-list li b {
-	color: #d4c4a0;
+	color: [col_text];
 }
 .shared-info h4 {
-	color: #a08050;
+	color: [col_subheader];
 	font-size: 11px;
 	letter-spacing: 1px;
 	text-transform: uppercase;
@@ -182,13 +238,13 @@ a.choose-btn:hover {
 }
 .shared-info p {
 	font-size: 11px;
-	color: #b0a080;
+	color: [col_li];
 	margin: 0;
 }
 .preamble {
 	margin-top: 20px;
 	padding: 15px 20px;
-	border-top: 1px solid #5a4a30;
+	border-top: 1px solid [col_divider];
 	text-align: center;
 	font-style: italic;
 }
@@ -196,16 +252,16 @@ a.choose-btn:hover {
 	font-size: 11px;
 	line-height: 1.8;
 	margin: 4px 0;
-	color: #8b7355;
+	color: [col_border];
 }
 .preamble p.loud {
-	color: #c9a96e;
+	color: [col_header];
 	font-style: normal;
 	font-weight: bold;
 	letter-spacing: 1px;
 }
 .preamble p.closing {
-	color: #a08050;
+	color: [col_subheader];
 	margin-top: 10px;
 }
 </style>
@@ -213,7 +269,7 @@ a.choose-btn:hover {
 <body>
 <div class="chant-container">
 <h2>[title]</h2>
-<p style="font-size: 11px; color: #8b7355; margin-top: -15px; margin-bottom: 15px; font-style: italic;">You have 5 minutes to make your choice.</p>
+<p style="font-size: 11px; color: [col_border]; margin-top: -15px; margin-bottom: 15px; font-style: italic;">You have 5 minutes to make your choice.</p>
 <div class="columns">
 <div class="column">
 <div class="column-content">
@@ -245,7 +301,7 @@ a.choose-btn:hover {
 <ul>
 <li><b>Azurean Phalanx</b> — 3-tile line thrust that pushes enemies back 1 tile. Empowered: doubles damage.</li>
 <li><b>Azurean Javelin</b> — Hurl an armor-piercing phantom spear that slows. No slowdown while charging.</li>
-<li><b>Advance!</b> — Charge forward and jab 3 times ahead. Must build up 1 pace first. If blocked, keeps jabbing in place. Brief chargeup before moving.</li>
+<li><b>Advance!</b> — Leap forward up to 4 tiles, passing through enemies, then stab ahead on landing. Brief chargeup before leaping. Empowered: doubles damage.</li>
 <li><b>Gate of Reckoning</b> — Conjure a portal above a target, raining phantom spears down, then blink to their position and sweep everyone around you.</li>
 </ul>
 </div>
@@ -264,7 +320,7 @@ a.choose-btn:hover {
 <ul>
 <li><b>Shatter</b> — 3-tile line smash that devastates armor integrity and knocks targets back 1 tile. Empowered: doubles damage.</li>
 <li><b>Tremor</b> — Slam the ground, damaging and pushing back everyone adjacent 1 tile. Empowered: doubles damage.</li>
-<li><b>Charge!</b> — Charge forward 3 paces and bash, knocking targets back 1 tile. Empowered: doubles damage. Brief chargeup before moving.</li>
+<li><b>Charge!</b> — Charge forward 5 paces, ramming everyone in the path aside, then bash at the end. Knocks the final target back 1 tile. Empowered: doubles damage. Brief chargeup before moving.</li>
 <li><b>Cataclysm</b> — Conjure and hurl an arcyne hammer at a target area. Crushes a 5x5 area and leaves victims Vulnerable. Bonus damage at max momentum.</li>
 </ul>
 </div>
@@ -294,8 +350,8 @@ a.choose-btn:hover {
 <p>O! Blade of Tarichea!</p>
 <p>There was once a great city. On the foot of this very mountain, over the Azure Sea.</p>
 <p>It prospered, and in its midst, our warriors practiced their art, combining the arcyne with blades.</p>
-<p>We were master! Our skills, unmatched! Our techniques, unparalleled! Envy of the world!</p>
-<p>No Ranesheni bladedancers, or Kazengunese bladesman, or Grenzelhoftian mercenary, could match our prowess!</p>
+<p>We were masters! Our skills, unmatched! Our techniques, unparalleled! Envy of the world!</p>
+<p>No Ranesheni bladedancers, or Kazengunese bladesmen, or Grenzelhoftian mercenaries, could match our prowess!</p>
 <p>Mages! Knights! Demons! All fell before our blade.</p>
 <p class="loud">THEN — SHE ASCENDED, ALL WAS LOST.</p>
 <p class="loud">OR WAS IT?</p>
@@ -324,12 +380,20 @@ a.choose-btn:hover {
 <p><em>With a single cut I shall sever ignorance.</em></p>
 <p><em>Stagnation is death - and I refuse to die.</em></p>
 <p><em>Her word is progress, and I am her herald.</em></p>"}
+		if("noccite")
+			return {"<p><em>I, blade of Noc! Forever illuminated.</em></p>
+<p><em>Wisdom is my guide, and knowledge my weapon.</em></p>
+<p><em>No truth unglimpsed, no mystery untouched.</em></p>
+<p><em>With a dozen cuts I shall hew ignorance.</em></p>
+<p><em>My blade sharp, and my mind sharper!</em></p>
+<p><em>His word is wisdom, and I am his chosen.</em></p>"}
 		if("undead")
-			return {"<p><em>I, Blade of Tarichea. Forever loyal.</em></p>
-<p><em>Justice is my sword, and excellence my weapon.</em></p>
-<p><em>Tarichea my charge, and Tarichea my home.</em></p>
-<p><em>With a hundred blows I shall defend all that is dear.</em></p>
-<p><em>This body is—</em></p>
+			return {"<p><em>Some speak of Kazengun! And others of Etrusca!</em></p>
+<p><em>But there are none that can compare to the blades of Tarichea!</em></p>
+<p><em>Indomitable! Indivisible! Invincible!</em></p>
+<p><em>With a hundred cuts, all shall be laid low!</em></p>
+<p><em>Not even the gods shall stop us!</em></p>
+<p><em>In Tarichea's name, we are unshea—</em></p>
 <p><b>WAKE UP. WAKE UP.</b></p>"}
 	return {"<p><em>I am a blade of Azuria.</em></p>
 <p><em>The sword is my voice, and war my verse.</em></p>
@@ -354,12 +418,20 @@ a.choose-btn:hover {
 <p><em>With a single thrust I shall pierce stagnation.</em></p>
 <p><em>Stagnation is death - and I refuse to die.</em></p>
 <p><em>Her word is progress, and I am her herald.</em></p>"}
+		if("noccite")
+			return {"<p><em>I, spear of Noc! Forever illuminated.</em></p>
+<p><em>Wisdom is my guide, and knowledge my weapon.</em></p>
+<p><em>No truth unglimpsed, no mystery untouched.</em></p>
+<p><em>With a dozen thrusts I shall pierce ignorance.</em></p>
+<p><em>My spear fast, and my wits quicker!</em></p>
+<p><em>His word is wisdom, and I am his chosen.</em></p>"}
 		if("undead")
-			return {"<p><em>I, Shield of Tarichea. Forever loyal.</em></p>
-<p><em>Justice is my spear, and duty my anchor.</em></p>
-<p><em>Tarichea my charge, and Tarichea my home.</em></p>
-<p><em>With a hundred thrusts I shall defend all that is dear.</em></p>
-<p><em>This body is—</em></p>
+			return {"<p><em>Some speak of Chorodiaki! And others of Vrdaqnan!</em></p>
+<p><em>But there are none that can compare to the phalanx of Tarichea!</em></p>
+<p><em>Indomitable! Immovable! Impenetrable!</em></p>
+<p><em>With a hundred thrusts, all shall be pierced!</em></p>
+<p><em>Not even the gods shall stop us!</em></p>
+<p><em>In Tarichea's name, we march for—</em></p>
 <p><b>WAKE UP. WAKE UP.</b></p>"}
 	return {"<p><em>I am a shield of Azuria.</em></p>
 <p><em>The spear is my reach, and duty my anchor.</em></p>
@@ -384,12 +456,20 @@ a.choose-btn:hover {
 <p><em>With a single blow I shall crack open stagnation.</em></p>
 <p><em>Stagnation is death - and I refuse to die.</em></p>
 <p><em>Her word is progress, and I am her hammer.</em></p>"}
+		if("noccite")
+			return {"<p><em>I, hammer of Noc! Forever illuminated.</em></p>
+<p><em>Wisdom is my guide, and knowledge my weapon.</em></p>
+<p><em>No truth unglimpsed, no mystery untouched.</em></p>
+<p><em>With a dozen blows I shall crush ignorance.</em></p>
+<p><em>My hammer strong, and my will stronger!</em></p>
+<p><em>His word is wisdom, and I am his chosen.</em></p>"}
 		if("undead")
-			return {"<p><em>I, Mace of Tarichea. Forever loyal.</em></p>
-<p><em>Justice is my hammer, and wrath my fuel.</em></p>
-<p><em>Tarichea my charge, and Tarichea my home.</em></p>
-<p><em>With a hundred blows I shall crush all that would threaten what is dear.</em></p>
-<p><em>This body is—</em></p>
+			return {"<p><em>Some speak of Hammerhold! And others of Gronn!</em></p>
+<p><em>But there are none that can compare to the warriors of Tarichea!</em></p>
+<p><em>Unstoppable! Unbreakable! Unyielding!</em></p>
+<p><em>With a hundred blows, all shall be crushed!</em></p>
+<p><em>Not even the gods shall stop us!</em></p>
+<p><em>In Tarichea's name, we charge for—</em></p>
 <p><b>WAKE UP. WAKE UP.</b></p>"}
 	return {"<p><em>I am a mace of Azuria.</em></p>
 <p><em>The hammer is my word, and ruin my punctuation.</em></p>
@@ -401,9 +481,11 @@ a.choose-btn:hover {
 /proc/get_preamble_closing(faction)
 	switch(faction)
 		if("blackoak")
-			return "Hone the tradition of your people! Though the snow elves are gone, your heritage is not! As the most excellent, most long-lyved of all races, it is up to you to carry on the legacy of a spellblade! Five hundred yils of martial and arcyne excellence, five hundred yils more!"
+			return "Hone the tradition of your people! Though the snow elves are gone, your heritage is not! As the most excellent, most long-lived of all races, it is up to you to carry on the legacy of a spellblade! Five hundred yils of martial and arcyne excellence, five hundred yils more!"
 		if("zizite")
-			return "Hone the knowledge of your patron! With her ascension. The ignorant clings onto the old way, your goddess lays imprisoned. Her teachings are all that remains. Her followers — corrupted, seeking undeath and bones, forgetting that she too, is the mistress of progress. With your very blade, you shall cut open the wound of the world, cauterize it, and let her light shine through! You are her herald."
+			return "Hone the knowledge of your patron! With her ascension, the ignorant cling to the old way, your goddess lies imprisoned. Her teachings are all that remains. Her followers — corrupted, seeking undeath and bones, forgetting that she, too, is the mistress of progress. With your very blade, you shall cut open the wound of the world, cauterize it, and let her light shine through! You are her herald."
+		if("noccite")
+			return "Hone the wisdom of your patron! With his gift, you have glimpsed the truth of the world. The old city is gone, his teachings are not. Noc has granted you the power to seize destiny into your own hands - miracles to heal the wounded, sight to see the unseen, and magicks to strike down your foes. With your blade, you shall carve a new path forward, and let his light guide the way! You are his chosen."
 		if("undead")
-			return "Hone the blade of Tarichea! You awaken to... what? There is no archdevil, no Celestial Empire. What do you fight for? Why do you wield the blade? Every move, every cut, every thrust. Engrained into those old bones of yours. Fleshy hand that once wielded weapons, now naught but a pair of bone. Why? Do you fight? Have you been awakened by an ancient evyl, or did you just wake up, lost, dead, yet, somehow, retaining your will? Why do you fight? Why do you fight? Why do you fight?"
+			return "You were a blade of Tarichea. You awaken to... what? There is no archdevil, no Celestial Empire. What do you fight for? Why do you wield the blade? Every move, every cut, every thrust. Ingrained into those old bones of yours. Hands that once wielded weapons, now naught but bare bone. Why do you fight? Have you been awakened by an ancient evyl, or did you just wake up, lost, dead, yet somehow retaining your will? Why do you fight? Why do you fight? Why do you fight?"
 	return "Hone the tradition of five centuries! Let not the art die with the fall of the old city! Wield your blade for justice, for profit, or for mastery! There is no wrong path, except to stray into heresy!"

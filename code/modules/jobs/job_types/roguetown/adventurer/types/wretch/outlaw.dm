@@ -5,6 +5,7 @@
 	allowed_races = RACES_ALL_KINDS
 	outfit = /datum/outfit/job/roguetown/wretch/outlaw
 	cmode_music = 'sound/music/cmode/antag/combat_cutpurse.ogg'
+	class_select_category = CLASS_CAT_ROGUE
 	category_tags = list(CTAG_WRETCH)
 	subclass_languages = list(/datum/language/thievescant)
 	traits_applied = list(TRAIT_DODGEEXPERT, TRAIT_MEDIUMARMOR, TRAIT_GRAVEROBBER) //Doubt you have much to say about robbing graves

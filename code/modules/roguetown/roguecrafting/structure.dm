@@ -110,6 +110,70 @@
 	)
 	result = /obj/structure/fluff/psycross/zizocross
 
+/datum/crafting_recipe/roguetown/structure/zizo_cross_stone
+	name = "stone profane cross"
+	category = "Misc"
+	result = /obj/structure/fluff/psycross/zizocross/stone
+	reqs =	list(/obj/item/natural/stone = 3)
+	verbage_simple = "construct"
+	verbage = "constructs"
+
+/datum/crafting_recipe/roguetown/structure/zizo_cross_gold
+	name = "gilded profane cross"
+	category = "Misc"
+	result = /obj/structure/fluff/psycross/zizocross/golden
+	reqs =	list(/obj/item/natural/stone = 3, /obj/item/rogueore/gold = 1)
+	verbage_simple = "construct"
+	verbage = "constructs"
+
+/datum/crafting_recipe/roguetown/structure/graggar_cross_stone
+	name = "stone vicious cross"
+	category = "Misc"
+	result = /obj/structure/fluff/psycross/graggar
+	reqs =	list(/obj/item/natural/stone = 3)
+	verbage_simple = "construct"
+	verbage = "constructs"
+
+/datum/crafting_recipe/roguetown/structure/graggar_cross_meat
+	name = "revered vicious cross"
+	category = "Misc"
+	result = /obj/structure/fluff/psycross/graggar/decorated
+	reqs =	list(/obj/item/natural/stone = 3, /obj/item/reagent_containers/food/snacks/rogue/meat = 2)
+	verbage_simple = "construct"
+	verbage = "constructs"
+
+/datum/crafting_recipe/roguetown/structure/matthios_cross_stone
+	name = "stone grinning cross"
+	category = "Misc"
+	result = /obj/structure/fluff/psycross/matthios
+	reqs =	list(/obj/item/natural/stone = 3)
+	verbage_simple = "construct"
+	verbage = "constructs"
+
+/datum/crafting_recipe/roguetown/structure/matthios_cross_meat
+	name = "ornate grinning cross"
+	category = "Misc"
+	result = /obj/structure/fluff/psycross/matthios/decorated
+	reqs =	list(/obj/item/natural/stone = 3, /obj/item/roguecoin/gold = 4)
+	verbage_simple = "construct"
+	verbage = "constructs"
+
+/datum/crafting_recipe/roguetown/structure/baotha_cross_stone
+	name = "stone spider cross"
+	category = "Misc"
+	result = /obj/structure/fluff/psycross/baotha
+	reqs =	list(/obj/item/natural/stone = 3)
+	verbage_simple = "construct"
+	verbage = "constructs"
+
+/datum/crafting_recipe/roguetown/structure/baotha_cross_meat
+	name = "webbed spider cross"
+	category = "Misc"
+	result = /obj/structure/fluff/psycross/baotha/decorated
+	reqs =	list(/obj/item/natural/stone = 3, /obj/item/natural/silk = 2)
+	verbage_simple = "construct"
+	verbage = "constructs"
+
 /datum/crafting_recipe/roguetown/structure/swing_door
 	name = "swing door"
 	category = "Doors"

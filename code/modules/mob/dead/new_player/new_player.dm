@@ -509,7 +509,7 @@ GLOBAL_LIST_INIT(roleplay_readme, world.file2list("strings/rt/rp_prompt.txt"))
 			give_madness(humanc, GLOB.curse_of_madness_triggered)
 */
 	GLOB.joined_player_list += character.ckey
-	update_wretch_slots()
+	update_scaling_slots()
 /*
 	if(CONFIG_GET(flag/allow_latejoin_antagonists) && humanc)	//Borgs aren't allowed to be antags. Will need to be tweaked if we get true latejoin ais.
 		if(SSshuttle.emergency)

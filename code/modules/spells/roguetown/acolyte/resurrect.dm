@@ -172,11 +172,10 @@
 	the blessing on yourself to check what's needed. </br>The resurrected target will not be brought back, alone; a fierce dreamfriend will be tethered to their spirit, \
 	stalking and sapping their strength. Slaying this dreamfiend will fully restore their strength. </br>Unlike a regular Healing miracle, this can affect - and resurrect - devout Psydonians as well."
 	sound = 'sound/magic/whale.ogg'
-	//A medley of common ocean fish, totalling 10
+	//A medley of common ocean fish, totalling 6
 	required_items = list(
-		/obj/item/reagent_containers/food/snacks/fish/sole = 3,
-		/obj/item/reagent_containers/food/snacks/fish/cod = 3,
-		/obj/item/reagent_containers/food/snacks/fish/bass = 2,
+		/obj/item/reagent_containers/food/snacks/fish/sole = 2,
+		/obj/item/reagent_containers/food/snacks/fish/cod = 2,
 		/obj/item/reagent_containers/food/snacks/fish/plaice = 1,
 		/obj/item/reagent_containers/food/snacks/fish/lobster = 1,
 	)

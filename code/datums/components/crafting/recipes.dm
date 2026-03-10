@@ -26,6 +26,7 @@
 	var/wallcraft = FALSE
 	var/diagonal = FALSE //allows diagonal structures to have their direction chosen.
 	var/craftdiff = 1
+	var/xp_modifier = 1 // Multiplier for crafting XP. Set to 0 to disable XP (e.g. arcana recipes).
 	var/sellprice = 0
 	/// Whether this recipe will be hidden from recipe books
 	var/hides_from_books = FALSE 
@@ -39,6 +40,8 @@
 	var/bypass_dupe_test = FALSE
 	//Hardcoded aliases, fill this in for things that have things like slang names. Real item alias names will be appended automatically during build_recipe_data
 	var/aliases = ""
+	var/list/cached_display_data
+	var/cached_category
 /*
 /datum/crafting_recipe/example
 	name = ""
@@ -50,6 +53,60 @@
 	category = CAT_NONE
 	subcategory = CAT_NONE
 */
+
+/datum/crafting_recipe/proc/build_display_cache()
+	var/list/data = list()
+	data["name"] = name
+	data["ref"] = "[REF(src)]"
+	data["path"] = type
+	data["sellprice"] = sellprice
+	data["craftingdifficulty"] = skill_to_string(craftdiff)
+
+	var/req_text = ""
+	for(var/a in reqs)
+		var/atom/A = a
+		req_text += " [reqs[A]] [initial(A.name)],"
+	if(req_text)
+		req_text = copytext(req_text, 1, length(req_text))
+	data["req_text"] = req_text
+
+	var/catalyst_text = ""
+	for(var/a in chem_catalysts)
+		var/atom/A = a
+		catalyst_text += " [chem_catalysts[A]] [initial(A.name)],"
+	if(catalyst_text)
+		catalyst_text = copytext(catalyst_text, 1, length(catalyst_text))
+	data["catalyst_text"] = catalyst_text
+
+	var/tool_text = ""
+	for(var/a in tools)
+		if(ispath(a, /obj/item))
+			var/obj/item/b = a
+			tool_text += " [initial(b.name)],"
+		else
+			tool_text += " [a],"
+	if(tool_text)
+		tool_text = copytext(tool_text, 1, length(tool_text))
+	data["tool_text"] = tool_text
+
+	var/alias_text = aliases
+	if(islist(result))
+		for(var/a in result)
+			var/atom/A = a
+			if(!(findtext(alias_text, A.name)))
+				alias_text += A.name + " "
+	else
+		var/atom/A = result
+		alias_text += A.name
+	data["aliases"] = alias_text
+
+	if(skillcraft)
+		var/datum/skill/S = skillcraft
+		cached_category = initial(S.name)
+	else
+		cached_category = "Other"
+
+	cached_display_data = data
 
 /datum/crafting_recipe/proc/generate_html(mob/user)
 	var/client/client = user

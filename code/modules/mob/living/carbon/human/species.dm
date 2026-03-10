@@ -1415,6 +1415,7 @@ GLOBAL_LIST_EMPTY(roundstart_races)
 
 			if((!target_table && !target_collateral_mob) || directional_blocked)
 				target.Knockdown(SHOVE_KNOCKDOWN_SOLID)
+				target.drop_all_held_items()
 				target.visible_message(
 					span_danger("[user.name] shoves [target.name], knocking them down!"),
 					span_danger("You're knocked down from a shove by [user.name]!"),
@@ -1427,6 +1428,7 @@ GLOBAL_LIST_EMPTY(roundstart_races)
 
 			else if(target_table)
 				target.Knockdown(SHOVE_KNOCKDOWN_TABLE)
+				target.drop_all_held_items()
 				target.visible_message(
 					span_danger("[user.name] shoves [target.name] onto \the [target_table]!"),
 					span_danger("I'm shoved onto \the [target_table] by [user.name]!"),
@@ -1440,6 +1442,7 @@ GLOBAL_LIST_EMPTY(roundstart_races)
 
 			else if(target_collateral_mob)
 				target.Knockdown(SHOVE_KNOCKDOWN_HUMAN)
+				target.drop_all_held_items()
 				target_collateral_mob.Knockdown(SHOVE_KNOCKDOWN_COLLATERAL)
 				target.visible_message(
 					span_danger("[user.name] shoves [target.name] into [target_collateral_mob.name]!"),
@@ -1606,6 +1609,7 @@ GLOBAL_LIST_EMPTY(roundstart_races)
 		else
 			if(HAS_TRAIT(user, TRAIT_STRONGKICK))
 				target.Knockdown(SHOVE_KNOCKDOWN_HUMAN)
+				target.drop_all_held_items()
 				var/throwtarget = get_edge_target_turf(user, get_dir(user, get_step_away(target, user)))
 				if(target.pulling && target.grab_state < GRAB_AGGRESSIVE)
 					target.throw_at(throwtarget, 2, 2)
@@ -1621,6 +1625,7 @@ GLOBAL_LIST_EMPTY(roundstart_races)
 
 			else if((stander && target.stamina >= target.max_stamina) || target.IsOffBalanced()) //if you are kicked while fatigued, you are knocked down no matter what
 				target.Knockdown(target.IsOffBalanced() ? SHOVE_KNOCKDOWN_SOLID : 100)
+				target.drop_all_held_items()
 				target.visible_message(span_danger("[user.name] kicks [target.name], knocking them down!"),
 				span_danger(
 					"I'm knocked down from a kick by [user.name]!"),
@@ -1646,12 +1651,14 @@ GLOBAL_LIST_EMPTY(roundstart_races)
 							break
 			if((!target_table && !target_collateral_mob) || directional_blocked)
 				target.Knockdown(SHOVE_KNOCKDOWN_SOLID)
+				target.drop_all_held_items()
 				target.visible_message(span_danger("[user.name] kicks [target.name], knocking them down!"),
 								span_danger("I'm knocked down from a kick by [user.name]!"), span_hear("I hear aggressive shuffling followed by a loud thud!"), COMBAT_MESSAGE_RANGE, user)
 				to_chat(user, span_danger("I kick [target.name], knocking them down!"))
 				log_combat(user, target, "kicked", "knocking them down")
 			else if(target_table)
 				target.Knockdown(SHOVE_KNOCKDOWN_TABLE)
+				target.drop_all_held_items()
 				target.visible_message(span_danger("[user.name] kicked [target.name] onto \the [target_table]!"),
 								span_danger("I'm kicked onto \the [target_table] by [user.name]!"), span_hear("I hear aggressive shuffling followed by a loud thud!"), COMBAT_MESSAGE_RANGE, user)
 				to_chat(user, span_danger("I kick [target.name] onto \the [target_table]!"))
@@ -1659,6 +1666,7 @@ GLOBAL_LIST_EMPTY(roundstart_races)
 				log_combat(user, target, "kicked", "onto [target_table] (table)")
 			else if(target_collateral_mob)
 				target.Knockdown(SHOVE_KNOCKDOWN_HUMAN)
+				target.drop_all_held_items()
 				target_collateral_mob.Knockdown(SHOVE_KNOCKDOWN_COLLATERAL)
 				target.visible_message(span_danger("[user.name] kicks [target.name] into [target_collateral_mob.name]!"),
 					span_danger("I'm kicked into [target_collateral_mob.name] by [user.name]!"), span_hear("I hear aggressive shuffling followed by a loud thud!"), COMBAT_MESSAGE_RANGE, user)

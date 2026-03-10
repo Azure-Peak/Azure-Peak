@@ -23,7 +23,7 @@ GLOBAL_LIST_INIT(drowraider_aggro, world.file2list("strings/rt/drowaggrolines.tx
 		aggressive=1
 		wander = TRUE
 	if(!is_silent && target != newtarg)
-		say(pick(GLOB.drowraider_aggro))
+		say(pick(GLOB.drowraider_aggro), npc_speech = TRUE)
 		pointed(target)
 
 /mob/living/carbon/human/species/elf/dark/drowraider/should_target(mob/living/L)
@@ -123,7 +123,10 @@ GLOBAL_LIST_INIT(drowraider_aggro, world.file2list("strings/rt/drowaggrolines.tx
 /mob/living/carbon/human/species/elf/dark/drowraider/handle_combat()
 	if(mode == NPC_AI_HUNT)
 		if(prob(5))
-			emote("laugh")
+			if(prob(60))
+				say(pick(GLOB.drowraider_aggro), npc_speech = TRUE)
+			else
+				emote(pick("laugh", "cackle", "giggle"))
 	. = ..()
 
 /datum/outfit/job/roguetown/human/species/elf/dark/drowraider/pre_equip(mob/living/carbon/human/H)

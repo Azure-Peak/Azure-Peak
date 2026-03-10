@@ -1,0 +1,4 @@
+author: "WeNeedMorePhoron"
+delete-after: True
+changes:
+  - rscadd: "NPC aggro and combat line / emotes frequency has been increased. Some dialogues has been rewritten and added to, too."

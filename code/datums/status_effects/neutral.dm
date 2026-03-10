@@ -222,3 +222,25 @@
 	id = "compliance"
 	alert_type = /atom/movable/screen/alert/status_effect/compliance
 	needs_processing = FALSE
+
+/datum/status_effect/zuranus // this will hook into dreamcode.
+	id = "zuranus"
+	alert_type = /atom/movable/screen/alert/status_effect/zuranus
+	duration = 25 MINUTES
+	// honestly this might be better off as something else but a status effect is temporary
+	// id prefer it to be hidden but i dont think i can hide it. lol.
+
+/atom/movable/screen/alert/status_effect/zuranus
+	name = "Something is Stirring"
+	desc = span_purple("I feel... off. There's a weird chill throughout my body. I feel an odd desire to put gilbranze under my tongue...?")
+
+/datum/status_effect/telescope_used
+	id = "telescope"
+	alert_type = /atom/movable/screen/alert/status_effect/telescope_used
+	duration = 15 MINUTES
+	// honestly this might be better off as something else but a status effect is temporary
+	// id prefer it to be hidden but i dont think i can hide it. lol.
+
+/atom/movable/screen/alert/status_effect/telescope_used
+	name = "Minds Eye Expended"
+	desc = span_purple("Gazing upon the tapestry's celestial bodies takes an odd amount of energy. I must rest before trying again.")

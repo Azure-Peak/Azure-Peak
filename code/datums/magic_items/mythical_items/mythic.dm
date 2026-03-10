@@ -1,4 +1,4 @@
-#define INFERNAL_FLAME_COOLDOWN 20 SECONDS
+#define INFERNAL_FLAME_COOLDOWN 1 MINUTES
 #define FREEZING_COOLDOWN 20 SECONDS
 #define REWIND_COOLDOWN 20 SECONDS
 #define CHAOS_COOLDOWN 10 SECONDS
@@ -27,6 +27,7 @@
 		if(!warned)
 			to_chat(firer, span_notice("[fired_from] is not yet ready to immolate!"))
 			warned = TRUE
+		return
 	if(isliving(firer) && isliving(target))
 		var/mob/living/damaging = target
 		if(damaging.stat != DEAD)
@@ -45,28 +46,30 @@
 		src.last_used = world.time
 
 /datum/magic_item/mythic/freezing
-	name = "freezing"
+	name = "greater freezing"
 	description = "It feels ice cold."
 	var/last_used
 	var/warned
+
 /datum/magic_item/mythic/freezing/on_hit_response(var/obj/item/I, var/mob/living/carbon/human/owner, var/mob/living/carbon/human/attacker)
 	if(world.time < src.last_used + FREEZING_COOLDOWN)
 		return
 	if(isliving(attacker) && attacker != owner)
-		attacker.apply_status_effect(/datum/status_effect/freon/freezing)
-		attacker.visible_message(span_danger("[I] freezes [attacker] solid!"))
+		attacker.apply_status_effect(/datum/status_effect/debuff/cold/greater)
+		attacker.visible_message(span_danger("[I] chills [attacker] to the bone!"))
 		src.last_used = world.time
 
 /datum/magic_item/mythic/freezing/projectile_hit(atom/fired_from, atom/movable/firer, atom/target, Angle)
 	if(world.time < src.last_used + FREEZING_COOLDOWN)
 		if(!warned)
-			to_chat(firer, span_notice("[fired_from] is not yet ready to glaciate!"))
+			to_chat(firer, span_notice("[fired_from] is not yet ready to freeze!"))
 			warned = TRUE
+		return
 	if(isliving(firer) && isliving(target))
 		var/mob/living/damaging = target
 		if(damaging.stat != DEAD)
-			damaging.apply_status_effect(/datum/status_effect/freon/freezing)
-			damaging.visible_message(span_danger("[fired_from] freezes[damaging] solid!"))
+			damaging.apply_status_effect(/datum/status_effect/debuff/cold/greater)
+			damaging.visible_message(span_danger("[fired_from] chills [damaging] to the bone!"))
 			src.last_used = world.time
 
 /datum/magic_item/mythic/freezing/on_hit(obj/item/source, atom/target, mob/user, proximity_flag, click_parameters)
@@ -76,8 +79,8 @@
 		return
 	if(isliving(target))
 		var/mob/living/targeted = target
-		targeted.apply_status_effect(/datum/status_effect/freon/freezing)
-		targeted.visible_message(span_danger("[source] freezes [targeted] solid!"))
+		targeted.apply_status_effect(/datum/status_effect/debuff/cold/greater)
+		targeted.visible_message(span_danger("[source] chills [targeted] to the bone!"))
 		src.last_used = world.time
 
 /datum/magic_item/mythic/briarcurse
@@ -156,6 +159,7 @@
 			if(2)
 				L.apply_damage(10, BRUTE)
 				L.Knockdown(20)
+				L.drop_all_held_items()
 				to_chat(L, span_warning("Chaotic force slams into you!"))
 			if(3)
 				L.electrocute_act(12, source, 1)

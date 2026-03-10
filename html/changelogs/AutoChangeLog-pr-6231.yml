@@ -1,0 +1,9 @@
+author: "Draganfrukts"
+delete-after: True
+changes:
+  - balance: "Master cut has a minimum swing delay. Its minimum damage is no longer clamped. It's maximum damage is 31 down from 35."
+  - balance: "Half-swording takes longer to connect."
+  - balance: "Master strikes are slower."
+  - balance: "duelist longswords (etruscan, grenzel, reform.) cannot be alt-gripped."
+  - balance: "duelist longswords can no longer target the feet."
+  - balance: "Freifechters have clamped constitution."

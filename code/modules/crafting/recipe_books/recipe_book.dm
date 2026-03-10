@@ -322,6 +322,10 @@
 					var/datum/anvil_recipe/recipe = sub_path
 					if(initial(recipe.hides_from_books))
 						continue
+				if(ispath(sub_path, /datum/runeritual))
+					var/datum/runeritual/ritual = sub_path
+					if(initial(ritual.blacklisted))
+						continue
 
 				var/recipe_name = initial(sub_path.name)
 

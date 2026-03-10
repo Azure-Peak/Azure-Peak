@@ -25,6 +25,17 @@
 	mob_overlay_icon = 'icons/clothing/onmob/donor_clothes.dmi'
 	sleeved = 'icons/clothing/onmob/donor_sleeves_armor.dmi'
 
+//Funkymonke's donator item - dress
+/obj/item/clothing/suit/roguetown/shirt/dress/funkydress
+	name = "padded dress"
+	desc = "A trimmed down version of a would be protective dress."
+	slot_flags = ITEM_SLOT_SHIRT|ITEM_SLOT_ARMOR
+	icon_state = "funkydress"
+	sleevetype = "funkydress"
+	icon = 'icons/clothing/donor_clothes.dmi'
+	mob_overlay_icon = 'icons/clothing/onmob/donor_clothes.dmi'
+	sleeved = 'icons/clothing/onmob/donor_sleeves_armor.dmi'
+
 //Strudles donator item - mage vest (same as robes) and xylix tabard
 /obj/item/clothing/suit/roguetown/shirt/robe/sofiavest
 	name = "grenzelhoftian mages vest"
@@ -150,7 +161,6 @@
 	icon_state = "eiren"
 	icon = 'icons/obj/items/donor_weapons_64.dmi'
 
-
 /obj/item/rogueweapon/sword/sabre/eiren
 	name = "Lunae"
 	desc = "Two blades, one forged in Noc's light, a soothing breath of clarity. Here, and here alone, were moon and fire ever together."
@@ -213,6 +223,18 @@
 
 //inverserun's claymore
 /obj/item/rogueweapon/greatsword/zwei/inverserun
+	name = "Votive Thorns"
+	desc = "Promises hurt, but so does plucking rosa. Hoping hurts, but so does looking at the beauty of Astrata's light. Pick yourself back up. Remember your promise, despite the thorns."
+	icon_state = "inverse"
+	icon = 'icons/obj/items/donor_weapons_64.dmi'
+
+/obj/item/rogueweapon/greatsword/inverserun
+	name = "Votive Thorns"
+	desc = "Promises hurt, but so does plucking rosa. Hoping hurts, but so does looking at the beauty of Astrata's light. Pick yourself back up. Remember your promise, despite the thorns."
+	icon_state = "inverse"
+	icon = 'icons/obj/items/donor_weapons_64.dmi'
+
+/obj/item/rogueweapon/greatsword/grenz/flamberge/inverserun
 	name = "Votive Thorns"
 	desc = "Promises hurt, but so does plucking rosa. Hoping hurts, but so does looking at the beauty of Astrata's light. Pick yourself back up. Remember your promise, despite the thorns."
 	icon_state = "inverse"
@@ -366,6 +388,23 @@
 	icon_state = "dakken_zizbarb"
 	icon = 'icons/clothing/donor_clothes.dmi'
 	mob_overlay_icon = 'icons/clothing/onmob/donor_clothes.dmi'
+
+/obj/item/clothing/head/roguetown/helmet/heavy/knight/armet/dakken
+	name = "armoured avantyne barbute"
+	desc = "A heavy-metal barbute that seems to be more avantyne than steel. It carries a tormented lustre about it, glinting under the sun as threads of the dark metal wind through its visor."
+	icon_state = "dakken_zizbarb"
+	icon = 'icons/clothing/donor_clothes.dmi'
+	mob_overlay_icon = 'icons/clothing/onmob/donor_clothes.dmi'
+
+/obj/item/clothing/head/roguetown/helmet/heavy/barbute/visor/dakken
+	name = "armoured avantyne barbute"
+	desc = "A heavy-metal barbute that seems to be more avantyne than steel. It carries a tormented lustre about it, glinting under the sun as threads of the dark metal wind through its visor."
+	icon_state = "dakken_zizbarb"
+	icon = 'icons/clothing/donor_clothes.dmi'
+	mob_overlay_icon = 'icons/clothing/onmob/donor_clothes64.dmi'
+	worn_x_dimension = 64
+	worn_y_dimension = 64
+	bloody_icon = 'icons/effects/blood64.dmi'
 
 //STINKETHSTONKETH
 /obj/item/rogueweapon/sword/sabre/steppesman/stinketh

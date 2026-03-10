@@ -105,7 +105,8 @@
 /obj/item/recipe_book/survival
 	name = "Tips, Tricks, & Triumphs: The Novice's Handbook To Azuria"
 	desc = "A heftsome tome, filled to the brim with all the information you'd need to survive within Azuria. The golden bookmark seems to always lead you \
-	to the page you needed the most, no matter how you flip it. </br>‎  </br>This particular tome can be recycled into the Stockpile for a small amount of free \
+	to the page you needed the most, no matter how you flip it. </br>‎  </br>Check out Azure Peak's official wikipedia - https://azurepeak.miraheze.org/wiki/Main_Page - for \
+	whatever comes to mind. </br>‎  </br>This particular tome can be recycled into the Stockpile for a small amount of free \
 	mammons. </br>‎  </br>Activate the tome in your hand to open a searchable glossary, filled with most basic crafting recipes.  </br>‎  </br>Click the 'Mechanics' \
 	tab to reveal a wide variety of tips and tricks, for getting started. Be warned, it's quite a lot; be prepared to scroll around, or hold shift while scrolling down \
 	to compact more information into your chatbox's frame."
@@ -121,7 +122,7 @@
 /obj/item/recipe_book/survival/get_mechanics_examine(mob/user)
 	. = ..()
 	. += span_info("Examining things will display a small blurb in the chatbox. If present, clicking the blurb's 'Mechanics' tab or '(?)' button will reveal more detailed information about the thing-in-question.")
-	. += span_info("In particular, many things will have detailed tutorials about core mechanics inside of their 'Mechanics' tab. A bed can explain how sleeping works, a tree can explain how climbing works, and so-on.")
+	. += span_info("In particular, many things will have detailed tutorials about core mechanics inside of their 'Mechanics' tab. A bed can explain how sleeping works, a tree can explain how climbing works, and so-on. Examine the world around you to decipher its secrets.")
 	. += span_info("Adventurers, Pilgrims, and other newcomers usually spawn to the south of Town. Following the cobblestone road - and any signs of civilization - will eventually lead you there.")
 	. += span_info("Your character's skills are generally inherited by their chosen role, and greatly affects their ability to do many tasks. Click on the 'SKILLS' button in your HUD to see-and-learn-more about what you have.")
 	. += span_info("The same principle applies to your character's core stats; Strength, Constitution, Perception, Willpower, Intelligence, Speed, and Fortune. A value of 'X' is considered the baseline.")
@@ -170,5 +171,8 @@
 		/datum/book_entry/magic2,
 		/datum/crafting_recipe/roguetown/arcana,
 		/datum/crafting_recipe/gemstaff,
-		/datum/runeritual,
+		/datum/runeritual/summoning,
+		/datum/runeritual/enchanting,
+		/datum/runeritual/binding,
+		/datum/runeritual/other,
 		)
