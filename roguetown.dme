@@ -1869,6 +1869,7 @@
 #include "code\modules\jobs\job_types\roguetown\adventurer\types\wretch\necromancer.dm"
 #include "code\modules\jobs\job_types\roguetown\adventurer\types\wretch\outlaw.dm"
 #include "code\modules\jobs\job_types\roguetown\adventurer\types\wretch\plaguebearer.dm"
+#include "code\modules\jobs\job_types\roguetown\adventurer\types\wretch\miststalker.dm"
 #include "code\modules\jobs\job_types\roguetown\adventurer\types\wretch\poacher.dm"
 #include "code\modules\jobs\job_types\roguetown\adventurer\types\wretch\pyromaniac.dm"
 #include "code\modules\jobs\job_types\roguetown\adventurer\types\wretch\roguemage.dm"
