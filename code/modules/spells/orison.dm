@@ -19,11 +19,12 @@
 /obj/item/melee/touch_attack/orison
 	name = "\improper lesser prayer"
 	desc = "The fundamental teachings of theology return to you:\n \
-		<b>Fill</b>: Beseech your Divine to create a small quantity of water in a container that you touch for some devotion.\n \
+		<b>Fill</b>: Beseech your Divine to create a small quantity of water in a container that you touch for some devotion. This can be used to dampen cloth and moisten dough directly.\n \
 		<b>Touch</b>: Direct a sliver of divine thaumaturgy into your being, causing your voice to become LOUD when you next speak. Known to sometimes scare the rats inside the SCOMlines. Can be used on light sources at range, and it will cause them flicker.\n \
-		<b>Use</b>: Issue a prayer for illumination, causing you or another living creature to begin glowing with light for five minutes - this stacks each time you cast it, with no upper limit. Using thaumaturgy on a person will remove this blessing from them, and MMB on your praying hand will remove any light blessings from yourself."
+		<b>Use</b>: Issue a prayer for illumination, causing you or another living creature to begin glowing with light for five minutes - this stacks each time you cast it, with no upper limit. Using thaumaturgy on a person will remove this blessing from them, and MMB on your praying hand will remove any light blessings from yourself. \n \
+		<b>Feed</b>: Beseech your divine to create a small quantity of liquid in a container that you touch for some devotion. Varies depending on who you worship."
 	catchphrase = null
-	possible_item_intents = list(/datum/intent/fill, INTENT_HELP, /datum/intent/use)
+	possible_item_intents = list(/datum/intent/fill, INTENT_HELP, /datum/intent/use, /datum/intent/pour)
 	icon = 'icons/mob/roguehudgrabs.dmi'
 	icon_state = "pulling"
 	icon_state = "grabbing_greyscale"
@@ -60,6 +61,10 @@
 			fatigue_used = cast_light(target, user)
 			if (fatigue_used)
 				user.devotion?.update_devotion(-fatigue_used)
+				qdel(src)
+		if (/datum/intent/pour)
+			fatigue_used = create_divine_liquid(target, user)
+			if (fatigue_used)
 				qdel(src)
 
 #define BLESSINGOFLIGHT_FILTER "bol_glow"
@@ -209,97 +214,6 @@
 			to_chat(user, span_warning("I can only direct thaumaturgical prayers towards myself, the ground, and any nearby light sources."))
 			return
 
-/datum/reagent/water/blessed
-	name = "blessed water"
-	description = "A gift of Devotion. Very slightly heals wounds."
-
-/datum/reagent/water/blessed/on_mob_life(mob/living/carbon/M)
-	. = ..()
-	if (M.mob_biotypes & MOB_UNDEAD)
-		M.adjustFireLoss(0.5  * REAGENTS_EFFECT_MULTIPLIER)
-	else
-		M.adjustBruteLoss(-0.1  * REAGENTS_EFFECT_MULTIPLIER)
-		M.adjustFireLoss(-0.1  * REAGENTS_EFFECT_MULTIPLIER)
-		M.adjustOxyLoss(-0.1, 0)
-		var/list/our_wounds = M.get_wounds()
-		if (LAZYLEN(our_wounds))
-			var/upd = M.heal_wounds(1)
-			if (upd)
-				M.update_damage_overlays()
-
-/datum/reagent/water/blessed/on_mob_metabolize(mob/living/L)
-	..()
-	if(L.mob_biotypes & MOB_UNDEAD)
-		L.adjust_fire_stacks(2)
-		L.ignite_mob()
-		L.emote("scream")
-		L.visible_message(span_warning("[L] erupts into angry fizzling and hissing!"), span_warning("BLESSED WATER!!! IT BURNS!!!"))
-
-/datum/reagent/water/blessed/reaction_mob(mob/living/M, method=TOUCH, reac_volume)
-	if (!istype(M))
-		return ..()
-	
-	if (method == TOUCH)
-		if (M.mob_biotypes & MOB_UNDEAD)
-			M.adjustFireLoss(2*reac_volume, 0)
-			M.visible_message(span_warning("[M] erupts into angry fizzling and hissing!"), span_warning("BLESSED WATER!!! IT BURNS!!!"))
-			M.emote("scream")
-	
-	return ..()
-
-/datum/reagent/water/cursed
-	name = "cursed water"
-	description = "A gift of Devotion. Very slightly heals wounds of the dead and the enlightened."
-
-/datum/reagent/water/cursed/on_mob_life(mob/living/carbon/M)
-	. = ..()
-	var/mob/living/carbon/human/M_hum
-	if(istype(M,/mob/living/carbon/human/))
-		M_hum = M
-	if((M.mob_biotypes & MOB_UNDEAD) || (M_hum.patron.undead_hater == FALSE))
-		M.adjustBruteLoss(-0.1  * REAGENTS_EFFECT_MULTIPLIER)
-		M.adjustFireLoss(-0.1  * REAGENTS_EFFECT_MULTIPLIER)
-		M.adjustOxyLoss(-0.1, 0)
-		var/list/our_wounds = M.get_wounds()
-		if (LAZYLEN(our_wounds))
-			var/upd = M.heal_wounds(1)
-			if (upd)
-				M.update_damage_overlays()
-	else
-		M.adjustBruteLoss(-0.1  * REAGENTS_EFFECT_MULTIPLIER)
-		M.adjustFireLoss(-0.1  * REAGENTS_EFFECT_MULTIPLIER)
-		M.adjustOxyLoss(-0.1, 0)
-		var/list/our_wounds = M.get_wounds()
-		if (LAZYLEN(our_wounds))
-			var/upd = M.heal_wounds(1)
-			if (upd)
-				M.update_damage_overlays()
-		M.stamina_add(0.5  * REAGENTS_EFFECT_MULTIPLIER)
-
-/datum/reagent/water/medicine
-	name = "Pestran Medicine"
-	description = "A gift of devotion from the Patron of Healing and Medicine, stronger than blessed water but taste horrible!"
-	color = "#428b42"
-	taste_description = "nauseatingly bitter"
-	scent_description = "medicine"
-	metabolization_rate = REAGENTS_METABOLISM
-
-/datum/reagent/water/medicine/on_mob_life(mob/living/carbon/M)
-	if(volume >= 50)
-		M.reagents.remove_reagent(/datum/reagent/water/medicine, 2) // no more than 1 large bottle at a time
-	if(volume > 0.99)
-		M.adjustBruteLoss(-0.5 * REAGENTS_EFFECT_MULTIPLIER, 0)
-		M.adjustFireLoss(-0.5 * REAGENTS_EFFECT_MULTIPLIER, 0)
-		M.adjustOxyLoss(-0.5 * REAGENTS_EFFECT_MULTIPLIER, 0)
-		M.adjustToxLoss(-0.5 * REAGENTS_EFFECT_MULTIPLIER, 0)
-		for(var/datum/reagent/R in M.reagents.reagent_list)
-			if(R.harmful)
-				holder.remove_reagent(R.type, 0.2 * REAGENTS_EFFECT_MULTIPLIER)
-		var/list/wCount = M.get_wounds()
-		if(wCount.len > 0)
-			M.heal_wounds(2 * REAGENTS_EFFECT_MULTIPLIER)
-		..()
-
 /obj/item/melee/touch_attack/orison/proc/create_water(atom/thing, mob/living/carbon/human/user)
 	// normally we wouldn't use fatigue here to keep in line w/ other holy magic, but we have to since water is a persistent resource
 	if (!thing.Adjacent(user))
@@ -322,14 +236,14 @@
 				break
 
 			var/water_qty = max(1, holy_skill) + 1
-			var/list/water_contents = list(/datum/reagent/water/cursed = water_qty)
-			if(user.patron.undead_hater == TRUE)
-				water_contents = list(/datum/reagent/water/blessed = water_qty)
-			if(user.patron.name == "Pestra")
-				water_contents = list(/datum/reagent/water/medicine = water_qty)
+			var/list/water_contents = list(/datum/reagent/water = water_qty)
 			var/datum/reagents/reagents_to_add = new()
 			reagents_to_add.add_reagent_list(water_contents)
 			reagents_to_add.trans_to(thing, reagents_to_add.total_volume, transfered_by = user, method = INGEST)
+
+			fatigue_spent += fatigue_used
+			user.stamina_add(fatigue_used)
+			user.devotion?.update_devotion(-1.0)
 
 			fatigue_spent += fatigue_used
 			user.stamina_add(fatigue_used)
@@ -363,3 +277,332 @@
 		the_mineral.wet(src, user)
 	else
 		to_chat(user, span_info("I'll need to find a container that can hold water."))
+
+// Divine Liquids - Tennite/Psydon.
+
+/datum/reagent/water/blessed // Generic, and for Astrata and Psydon. Causes undead to combust as normal. Primarily intended to be a placeholder for ones I can't think of an idea for, as well.
+	name = "blessed water"
+	description = "A gift of Devotion. Very slightly heals wounds."
+
+/datum/reagent/water/blessed/on_mob_life(mob/living/carbon/M)
+	. = ..()
+	if(volume >= 50)
+		M.reagents.remove_reagent(/datum/reagent/water/blessed, 2) // no more than 1 large bottle at a time
+	if (M.mob_biotypes & MOB_UNDEAD)
+		M.adjustFireLoss(0.5  * REAGENTS_EFFECT_MULTIPLIER)
+	else
+		M.adjustBruteLoss(-0.1  * REAGENTS_EFFECT_MULTIPLIER)
+		M.adjustFireLoss(-0.5  * REAGENTS_EFFECT_MULTIPLIER) // Effective at healing burn, due to Astratas influence.
+		M.adjustOxyLoss(-0.1, 0)
+		var/list/our_wounds = M.get_wounds()
+		if (LAZYLEN(our_wounds))
+			var/upd = M.heal_wounds(1)
+			if (upd)
+				M.update_damage_overlays()
+
+/datum/reagent/water/blessed/on_mob_metabolize(mob/living/L)
+	..()
+	if(L.mob_biotypes & MOB_UNDEAD)
+		L.adjust_fire_stacks(2, /datum/status_effect/fire_handler/fire_stacks/divine)
+		L.ignite_mob()
+		L.emote("scream")
+		L.visible_message(span_warning("[L] erupts into angry fizzling and hissing!"), span_warning("BLESSED WATER!!! IT BURNS!!!"))
+
+/datum/reagent/water/blessed/reaction_mob(mob/living/M, method=TOUCH, reac_volume)
+	if (!istype(M))
+		return ..()
+	
+	if (method == TOUCH)
+		if (M.mob_biotypes & MOB_UNDEAD)
+			M.adjustFireLoss(2*reac_volume, 0)
+			M.visible_message(span_warning("[M] erupts into angry fizzling and hissing!"), span_warning("BLESSED WATER!!! IT BURNS!!!"))
+			M.emote("scream")
+	
+	return ..()
+
+/datum/reagent/water/noc // Noc water.
+	name = "moonlit water"
+	description = "A gift of Devotion. You swear you can see the moon glint upon its surface."
+	taste_description = "old books and mana"
+	color = "#a5c4eec6"
+
+/datum/reagent/water/noc/on_mob_life(mob/living/carbon/M)
+	. = ..()
+	if(volume >= 50)
+		M.reagents.remove_reagent(/datum/reagent/water/noc, 2) // no more than 1 large bottle at a time
+	if (M.mob_biotypes & MOB_UNDEAD)
+		M.adjustOrganLoss(ORGAN_SLOT_BRAIN, 0.5  * REAGENTS_EFFECT_MULTIPLIER) // He will blow your brain out instead slowly.
+	else
+		M.adjustBruteLoss(-0.15  * REAGENTS_EFFECT_MULTIPLIER)
+		M.adjustFireLoss(-0.15  * REAGENTS_EFFECT_MULTIPLIER) // Spread out, since its Noc baybee - not all the eggs in one basket.
+		M.adjustOxyLoss(-0.15, 0)
+		M.adjustOrganLoss(ORGAN_SLOT_BRAIN, -0.1) // Will also fix the faithful, slowly.
+		var/list/our_wounds = M.get_wounds()
+		if (LAZYLEN(our_wounds))
+			var/upd = M.heal_wounds(1)
+			if (upd)
+				M.update_damage_overlays()
+
+/datum/reagent/water/noc/on_mob_metabolize(mob/living/L)
+	..()
+	if(L.mob_biotypes & MOB_UNDEAD)
+		L.adjust_fire_stacks(1, /datum/status_effect/fire_handler/fire_stacks/sunder) // Less fire stacks because it's silver.
+		L.ignite_mob()
+		L.emote("scream")
+		L.visible_message(span_warning("[L] erupts into silver-blessed flame!"), span_warning("SILVERED WATER!!! IT BURNS!!!"))
+
+/datum/reagent/water/noc/reaction_mob(mob/living/M, method=TOUCH, reac_volume)
+	if (!istype(M))
+		return ..()
+	
+	if (method == TOUCH)
+		M.adjust_fire_stacks(1, /datum/status_effect/fire_handler/fire_stacks/sunder)
+		M.ignite_mob()
+		M.emote("scream")
+		M.visible_message(span_warning("[M] erupts into silver-blessed flame!"), span_warning("SILVERED WATER!!! IT BURNS!!!"))
+	
+	return ..()
+
+/datum/reagent/water/abyssor
+	name = "briny water"
+	description = "A gift of Devotion. Salt crystals stir along its surface."	
+	taste_description = "salty brine"
+	color = "#417ac5c6"
+
+/datum/reagent/water/abyssor/on_mob_life(mob/living/carbon/M)
+	. = ..()
+	if(volume >= 50)
+		M.reagents.remove_reagent(/datum/reagent/water/abyssor, 2) // no more than 1 large bottle at a time
+	if (M.mob_biotypes & MOB_UNDEAD)
+		M.adjustOrganLoss(ORGAN_SLOT_LUNGS, 0.5  * REAGENTS_EFFECT_MULTIPLIER) // Tries to drown you. Futile as it may be.
+		M.adjustOxyLoss(0.5)
+	else
+		M.adjustBruteLoss(-0.1  * REAGENTS_EFFECT_MULTIPLIER)
+		M.adjustFireLoss(-0.1  * REAGENTS_EFFECT_MULTIPLIER)
+		M.adjustOxyLoss(-1, 0) // Very effective at healing oxygen damage.
+		M.adjustOrganLoss(ORGAN_SLOT_LUNGS, -0.1) // Will also fix the faithful, slowly. Drowning causes damage to the lungs IRL.
+		var/list/our_wounds = M.get_wounds()
+		if (LAZYLEN(our_wounds))
+			var/upd = M.heal_wounds(1)
+			if (upd)
+				M.update_damage_overlays()
+
+/datum/reagent/water/abyssor/on_mob_metabolize(mob/living/L)
+	..()
+	if(L.mob_biotypes & MOB_UNDEAD)
+		L.emote("gasp")
+		L.visible_message(span_warning("[L] lips and face seem to turn blue!"), span_warning("The oxygen in my form is being drained!"))
+
+/datum/reagent/water/abyssor/reaction_mob(mob/living/M, method=TOUCH, reac_volume)
+	if (!istype(M))
+		return ..()
+	
+	if (method == TOUCH)
+		M.adjustOxyLoss(5)
+		M.emote("gasp")
+		M.visible_message(span_warning("[M] lips and face seem to turn blue!"), span_warning("The oxygen in my form is being drained!"))
+	
+	return ..()
+
+/datum/reagent/water/eora
+	name = "eoran tea"
+	description = "A gift of Devotion. Rosa petals float along the surface."	
+	color = "#f398b6"
+	taste_description = "floral sweetness"
+	alpha = 173
+
+/datum/reagent/water/eora/on_mob_life(mob/living/carbon/M)
+	. = ..()
+	if(volume >= 50)
+		M.reagents.remove_reagent(/datum/reagent/water/eora, 2) // no more than 1 large bottle at a time
+	if (HAS_TRAIT(M, TRAIT_CRACKHEAD)) // Specifically targets Baothans due to the lore of Baotha poisoning Eora - now it's time for the reverse.
+		M.adjustOxyLoss(0.5)
+		M.adjustToxLoss(0.1)
+	else
+		M.adjustBruteLoss(-0.1  * REAGENTS_EFFECT_MULTIPLIER)
+		M.adjustFireLoss(-0.1  * REAGENTS_EFFECT_MULTIPLIER)
+		M.adjustOxyLoss(-0.1, 0) 
+		M.adjustToxLoss(-0.1) // Designed to be a counterpart to Baotha - it unpoisons you.
+		var/list/our_wounds = M.get_wounds()
+		if (LAZYLEN(our_wounds))
+			var/upd = M.heal_wounds(1)
+			if (upd)
+				M.update_damage_overlays()
+
+/datum/reagent/water/eora/on_mob_metabolize(mob/living/L)
+	..()
+	if(HAS_TRAIT(L, TRAIT_CRACKHEAD))
+		L.emote("gasp")
+		L.visible_message(span_warning("[L] lips and face seem to turn blue!"), span_warning("Poison! It's anathema to me!"))
+
+/datum/reagent/water/medicine // Pestra. Heals the best out of everything.
+	name = "Pestran Medicine"
+	description = "A gift of devotion from the Patron of Healing and Medicine, stronger than blessed water but taste horrible!"
+	color = "#428b42"
+	taste_description = "nauseatingly bitter"
+	scent_description = "medicine"
+	metabolization_rate = REAGENTS_METABOLISM
+
+/datum/reagent/water/medicine/on_mob_life(mob/living/carbon/M)
+	if(volume >= 50)
+		M.reagents.remove_reagent(/datum/reagent/water/medicine, 2) // no more than 1 large bottle at a time
+	if(volume > 0.99)
+		M.adjustBruteLoss(-0.5 * REAGENTS_EFFECT_MULTIPLIER, 0)
+		M.adjustFireLoss(-0.5 * REAGENTS_EFFECT_MULTIPLIER, 0)
+		M.adjustOxyLoss(-0.5 * REAGENTS_EFFECT_MULTIPLIER, 0)
+		M.adjustToxLoss(-0.5 * REAGENTS_EFFECT_MULTIPLIER, 0)
+		for(var/datum/reagent/R in M.reagents.reagent_list)
+			if(R.harmful)
+				holder.remove_reagent(R.type, 0.2 * REAGENTS_EFFECT_MULTIPLIER)
+		var/list/wCount = M.get_wounds()
+		if(wCount.len > 0)
+			M.heal_wounds(2 * REAGENTS_EFFECT_MULTIPLIER)
+		..()
+
+// Ascendant unique liquids.
+
+/datum/reagent/water/cursed // Zizo.
+	name = "cursed water"
+	description = "A gift of Devotion. Very slightly heals wounds of the dead and the enlightened."
+
+/datum/reagent/water/cursed/on_mob_life(mob/living/carbon/M)
+	. = ..()
+	if(volume >= 50)
+		M.reagents.remove_reagent(/datum/reagent/water/cursed, 2) // no more than 1 large bottle at a time
+	var/mob/living/carbon/human/M_hum
+	if(istype(M,/mob/living/carbon/human/))
+		M_hum = M
+	if((M.mob_biotypes & MOB_UNDEAD) || (M_hum.patron.undead_hater == FALSE))
+		M.adjustBruteLoss(-0.1  * REAGENTS_EFFECT_MULTIPLIER)
+		M.adjustFireLoss(-0.1  * REAGENTS_EFFECT_MULTIPLIER)
+		M.adjustOxyLoss(-0.1, 0)
+		var/list/our_wounds = M.get_wounds()
+		if (LAZYLEN(our_wounds))
+			var/upd = M.heal_wounds(1)
+			if (upd)
+				M.update_damage_overlays()
+	else
+		M.adjustBruteLoss(-0.1  * REAGENTS_EFFECT_MULTIPLIER)
+		M.adjustFireLoss(-0.1  * REAGENTS_EFFECT_MULTIPLIER)
+		M.adjustOxyLoss(-0.1, 0)
+		var/list/our_wounds = M.get_wounds()
+		if (LAZYLEN(our_wounds))
+			var/upd = M.heal_wounds(1)
+			if (upd)
+				M.update_damage_overlays()
+		M.stamina_add(0.5  * REAGENTS_EFFECT_MULTIPLIER)
+
+/datum/reagent/water/graggar // Graggar.
+	name = "blessed blood"
+	description = "A gift of Devotion. The blood is still warm to the touch."
+	color = "#C80000" // rgb: 200, 0, 0
+	taste_description = "iron and conquest"
+	taste_mult = 1.3
+
+/datum/reagent/water/graggar/on_mob_life(mob/living/carbon/M)
+	. = ..()
+	if(volume >= 50)
+		M.reagents.remove_reagent(/datum/reagent/water/medicine, 2) // no more than 1 large bottle at a time
+	M.adjustBruteLoss(-0.5  * REAGENTS_EFFECT_MULTIPLIER) // Good at healing brute. Won't poison anyone. Does not heal fire, though, as a tradeoff.
+	M.adjustOxyLoss(-0.1, 0)
+	var/list/our_wounds = M.get_wounds()
+	if (LAZYLEN(our_wounds))
+		var/upd = M.heal_wounds(1)
+		if (upd)
+			M.update_damage_overlays()
+
+/datum/reagent/water/matthios // Matthiosian golden water.
+	name = "golden water"
+	description = "A gift of Devotion. Burning-hot ichor fire, made out of seemingly melted gold - but it's still safe to drink."
+	color = "#D3AF37"
+	taste_description = "golden ichor and avarice"
+
+/datum/reagent/water/matthios/on_mob_life(mob/living/carbon/M)
+	. = ..()
+	if(volume >= 50)
+		M.reagents.remove_reagent(/datum/reagent/water/matthios, 2) // no more than 1 large bottle at a time
+	
+		M.adjustBruteLoss(-0.1  * REAGENTS_EFFECT_MULTIPLIER) 
+		M.adjustFireLoss(-0.5  * REAGENTS_EFFECT_MULTIPLIER) // Good at healing burn - Matthios was an alchemist and likely burned himself a lot, after all.
+		M.adjustOxyLoss(-0.1, 0)
+	var/list/our_wounds = M.get_wounds()
+	if (LAZYLEN(our_wounds))
+		var/upd = M.heal_wounds(1)
+		if (upd)
+			M.update_damage_overlays()
+
+/datum/reagent/consumable/ethanol/baotha // Baothan wine.
+	name = "divine wine"
+	description = "A gift of Devotion. The surface of this wine bubbles, strangely."
+	color = "#941262"
+	taste_description = "desire and tannins"
+	boozepwr = 75 // Heals shittily but has booze power. Quite a lot of power.
+
+/datum/reagent/consumable/ethanol/baotha/on_mob_life(mob/living/carbon/M)
+	. = ..()
+	if(volume >= 50)
+		M.reagents.remove_reagent(/datum/reagent/consumable/ethanol/baotha, 2) // no more than 1 large bottle at a time
+	else
+		M.adjustBruteLoss(-0.25  * REAGENTS_EFFECT_MULTIPLIER)
+		M.adjustFireLoss(-0.25  * REAGENTS_EFFECT_MULTIPLIER)
+		M.adjustOxyLoss(-0.1, 0)
+		M.adjustToxLoss(0.25) // Poisons you in exchange for healing other things. Hopefully you have a leech.
+	var/list/our_wounds = M.get_wounds()
+	if (LAZYLEN(our_wounds))
+		var/upd = M.heal_wounds(1)
+		if (upd)
+			M.update_damage_overlays()
+
+/obj/item/melee/touch_attack/orison/proc/create_divine_liquid(atom/thing, mob/living/carbon/human/user)
+	// akin to create water but allows for creating unique deity specific liquid
+	if (!thing.Adjacent(user))
+		to_chat(user, span_info("I need to be closer to [thing] in order to try filling it with liquid."))
+		return
+
+	if (thing.is_refillable())
+		if (thing.reagents.holder_full())
+			to_chat(user, span_warning("[thing] is full."))
+			return
+		
+		user.visible_message(span_info("[user] closes [user.p_their()] eyes in prayer and extends a hand over [thing] as fluid begins to stream from [user.p_their()] fingertips..."), span_notice("I utter forth a plea to [user.patron.name] for succour, and hold my hand out above [thing]..."))
+
+		var/holy_skill = user.get_skill_level(attached_spell.associated_skill)
+		var/drip_speed = 56 - (holy_skill * 8)
+		var/fatigue_spent = 0
+		var/fatigue_used = max(3, holy_skill)
+		while (do_after(user, drip_speed, target = thing))
+			if (thing.reagents.holder_full() || (user.devotion.devotion - fatigue_used <= 0))
+				break
+
+			var/water_qty = max(1, holy_skill) + 1
+			var/list/water_contents = list(/datum/reagent/water = water_qty)
+			if(user.patron.name == "Psydon" || user.patron.name == "Astrata" || user.patron.name == "Dendor" || user.patron.name == "Ravox" || user.patron.name == "Xylix" || user.patron.name == "Necra" || user.patron.name == "Malum")
+				water_contents = list(/datum/reagent/water/blessed = water_qty)
+			if(user.patron.name == "Noc")
+				water_contents = list(/datum/reagent/water/noc = water_qty)
+			if(user.patron.name == "Abyssor")
+				water_contents = list(/datum/reagent/water/abyssor = water_qty)
+			if(user.patron.name == "Eora")
+				water_contents = list(/datum/reagent/water/eora = water_qty)
+			if(user.patron.name == "Pestra")
+				water_contents = list(/datum/reagent/water/medicine = water_qty)
+			if(user.patron.name == "Zizo")
+				water_contents = list(/datum/reagent/water/cursed = water_qty)
+			if(user.patron.name == "Graggar")
+				water_contents = list(/datum/reagent/water/graggar = water_qty)
+			if(user.patron.name == "Matthios")
+				water_contents = list(/datum/reagent/water/matthios = water_qty)
+			if(user.patron.name == "Baotha")
+				water_contents = list(/datum/reagent/consumable/ethanol/baotha = water_qty)
+			var/datum/reagents/reagents_to_add = new()
+			reagents_to_add.add_reagent_list(water_contents)
+			reagents_to_add.trans_to(thing, reagents_to_add.total_volume, transfered_by = user, method = INGEST)
+
+			fatigue_spent += fatigue_used
+			user.stamina_add(fatigue_used)
+			user.devotion?.update_devotion(-1.0)
+
+			if (prob(80))
+				playsound(user, 'sound/items/fillcup.ogg', 55, TRUE)
+		
+		return min(50, fatigue_spent)
