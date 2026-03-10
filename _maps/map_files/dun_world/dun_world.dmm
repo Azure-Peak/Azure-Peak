@@ -26953,6 +26953,10 @@
 /obj/structure/bed/rogue/shit,
 /turf/open/floor/rogue/cobble,
 /area/rogue/under/cavewet/bogcaves/west)
+"fQa" = (
+/obj/machinery/light/rogue/candle/l,
+/turf/open/floor/rogue/dirt/road,
+/area/rogue/indoors/town/physician)
 "fQb" = (
 /obj/effect/decal/cobbleedge{
 	dir = 6
@@ -288238,7 +288242,7 @@ sGj
 fZn
 bpe
 pIv
-cwZ
+fQa
 dkS
 afY
 afY
