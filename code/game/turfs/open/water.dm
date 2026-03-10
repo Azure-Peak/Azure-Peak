@@ -622,3 +622,273 @@
 	swim_skill = TRUE
 	wash_in = TRUE
 	water_reagent = /datum/reagent/water/gross
+
+
+/turf/open/water/transparent
+	plane = OPENSPACE_PLANE
+	layer = OPENSPACE_LAYER
+	vis_flags = VIS_INHERIT_ID | VIS_INHERIT_PLANE
+
+/turf/open/water/transparent/Initialize()
+	. = ..()
+	vis_contents += GLOB.openspace_backdrop_one_for_all
+	update_multiz(TRUE, TRUE)
+
+/turf/open/water/transparent/update_multiz(prune, init)
+	var/turf/T = GET_TURF_BELOW(src)
+	if(T && init) vis_contents += T
+	return !!T
+
+
+/turf/open/water/transparent/can_zFall(atom/movable/A)
+	if(ishuman(A))
+		var/mob/living/carbon/human/H = A
+		
+		if(H.stat == DEAD)
+			return FALSE
+			
+		if(H.stat == UNCONSCIOUS || H.IsImmobilized() || H.IsKnockdown())
+			return TRUE
+			
+		return FALSE 
+	return TRUE
+
+/turf/open/water/transparent/zPassOut(atom/movable/A, direction)
+	if(direction == DOWN && ishuman(A))
+		var/mob/living/carbon/human/H = A
+		if(H.stat == DEAD)
+			return FALSE
+		if(H.stat == UNCONSCIOUS || H.IsImmobilized() || H.IsKnockdown())
+			return TRUE
+		return FALSE 
+	return ..()
+
+/turf/open/water/transparent/Entered(atom/movable/AM)
+	. = ..()
+	if(ishuman(AM) && !AM.throwing)
+		var/mob/living/carbon/human/H = AM
+		H.start_swimming()
+
+/turf/open/water/transparent/Exited(atom/movable/AM, atom/newloc)
+	. = ..()
+	if(ishuman(AM))
+		var/mob/living/carbon/human/H = AM
+		if(!istype(get_turf(newloc), /turf/open/water))
+			H.stop_swimming()
+
+
+/turf/open/water/transparent/surface
+	name = "water surface"
+	alpha = 150
+	baseturfs = /turf/open/water/transparent/surface
+
+/turf/open/water/transparent/inner
+	name = "underwater depths"
+	alpha = 30 
+	slowdown = 6
+	baseturfs = /turf/open/water/transparent/inner
+
+/turf/open/water/transparent/inner/Initialize()
+	. = ..()
+	
+	if(water_overlay) qdel(water_overlay)
+	if(water_top_overlay) qdel(water_top_overlay)
+
+/turf/open/water/transparent/inner/Entered(atom/movable/AM, atom/oldLoc)
+	. = ..() 
+	
+	if(ishuman(AM) && !AM.throwing)
+		playsound(AM, pick('sound/foley/watermove (1).ogg','sound/foley/watermove (2).ogg'), 40, FALSE, 0.7)
+
+/obj/effect/overlay/water/area_cover
+	icon = 'icons/turf/roguefloor.dmi'
+	icon_state = "water"
+	mouse_opacity = MOUSE_OPACITY_TRANSPARENT
+	plane = -2 
+	layer = 4.5
+	alpha = 140
+	anchored = TRUE
+	appearance_flags = RESET_COLOR | TILE_BOUND | KEEP_TOGETHER
+
+/area/underwater
+	name = "underwater"
+	parent_type = /area/rogue/under
+	soundenv = 22
+	flags_1 = CAN_BE_DIRTY_1 | CULT_PERMITTED_1
+	fog_protected = TRUE
+
+/area/underwater/Initialize()
+	. = ..()
+	addtimer(CALLBACK(src, PROC_REF(apply_area_overlay)), 10)
+
+/area/underwater/proc/apply_area_overlay()
+	for(var/turf/open/water/transparent/inner/T in contents)
+		var/obj/effect/overlay/water/area_cover/W = new(T)
+		W.color = T.water_color
+
+/area/underwater/Entered(atom/movable/AM)
+	..()
+	if(ishuman(AM))
+		var/mob/living/carbon/human/H = AM
+		H.start_submersion()
+
+/area/underwater/Exited(atom/movable/AM, atom/newloc)
+	..()
+	if(ishuman(AM))
+		var/mob/living/carbon/human/H = AM
+		if(!istype(get_area(newloc), /area/underwater))
+			H.stop_submersion()
+
+
+/turf/open/water/transparent/surface/swamp
+	name = "murky water surface"
+	icon_state = "dirtW2" 
+	water_color = "#705a43"
+	alpha = 200
+
+/turf/open/water/transparent/surface/swamp/Initialize()
+	icon_state = "dirt" 
+	. = ..()
+
+
+/turf/open/water/transparent/surface/ocean
+	name = "salt water surface"
+	icon_state = "water" 
+	water_color = "#3e7459"
+	water_reagent = /datum/reagent/water/salty
+	alpha = 160
+	baseturfs = /turf/open/water/transparent/surface/ocean
+
+
+/turf/open/water/transparent/surface/pond
+	name = "pond surface"
+	icon_state = "pond"
+	water_color = "#367e94"
+	alpha = 150
+	baseturfs = /turf/open/water/transparent/surface/pond
+
+/turf/open/water/transparent/inner/swamp
+	name = "murky depths"
+	icon_state = "dirtW2" 
+	water_color = "#705a43"
+	alpha = 60
+
+/turf/open/water/transparent/inner/swamp/Initialize()
+	icon_state = "dirt"
+	. = ..()
+
+
+/turf/open/water/transparent/inner/ocean
+	name = "ocean depths"
+	icon_state = "water" 
+	water_color = "#3e7459"
+	alpha = 40
+	baseturfs = /turf/open/water/transparent/inner/ocean
+
+
+/turf/open/water/transparent/inner/pond
+	name = "pond depths"
+	icon_state = "pond"
+	water_color = "#367e94"
+	alpha = 40
+	baseturfs = /turf/open/water/transparent/inner/pond
+
+/turf/open/water/transparent/river
+	parent_type = /turf/open/water/river 
+	icon = 'icons/turf/roguefloor.dmi'
+	icon_state = "rockwd" 
+	
+	
+	smooth = FALSE 
+	
+	plane = OPENSPACE_PLANE
+	layer = OPENSPACE_LAYER
+	vis_flags = VIS_INHERIT_ID | VIS_INHERIT_PLANE
+	water_level = 3
+	swim_skill = TRUE
+
+/turf/open/water/transparent/river/Initialize()
+
+	icon_state = "riverbot" 
+	. = ..()
+	
+	vis_contents += GLOB.openspace_backdrop_one_for_all
+	update_multiz(TRUE, TRUE)
+	
+/turf/open/water/transparent/river/surface
+	name = "surface river"
+	alpha = 150
+	swimdir = TRUE
+	baseturfs = /turf/open/water/transparent/river/surface
+
+/turf/open/water/transparent/river/surface/Entered(atom/movable/AM)
+	. = ..()
+	if(ishuman(AM)) AM:start_swimming()
+	if(!AM.anchored) START_PROCESSING(SSrivers, src)
+
+/turf/open/water/transparent/river/inner
+	name = "undercurrent"
+	alpha = 40
+	slowdown = 6
+	swimdir = TRUE
+	baseturfs = /turf/open/water/transparent/river/inner
+
+/turf/open/water/transparent/river/inner/Entered(atom/movable/AM)
+	. = ..()
+	if(!AM.anchored) START_PROCESSING(SSrivers, src)
+
+
+/turf/open/water/transparent/river/surface/north
+	dir = NORTH
+/turf/open/water/transparent/river/surface/south
+	dir = SOUTH
+/turf/open/water/transparent/river/surface/east
+	dir = EAST
+/turf/open/water/transparent/river/surface/west
+	dir = WEST
+
+
+/turf/open/water/transparent/river/inner/north
+	dir = NORTH
+/turf/open/water/transparent/river/inner/south
+	dir = SOUTH
+/turf/open/water/transparent/river/inner/east
+	dir = EAST
+/turf/open/water/transparent/river/inner/west
+	dir = WEST
+
+
+/turf/open/water/transparent/surface/river/Entered(atom/movable/AM)
+	. = ..()
+	if(!AM.anchored) START_PROCESSING(SSrivers, src)
+
+/turf/open/water/transparent/inner/river/Entered(atom/movable/AM)
+	. = ..()
+	if(!AM.anchored) START_PROCESSING(SSrivers, src)
+
+
+/turf/open/water/transparent/surface/river/proc/process_river()
+	var/found = FALSE
+	for(var/atom/movable/A in contents)
+		found = TRUE
+		if(A.loc == src && !A.anchored) A.ConveyorMove(dir)
+	if(!found) STOP_PROCESSING(SSrivers, src)
+
+/turf/open/water/transparent/inner/river/proc/process_river()
+	var/found = FALSE
+	for(var/atom/movable/A in contents)
+		found = TRUE
+		if(A.loc == src && !A.anchored) A.ConveyorMove(dir)
+	if(!found) STOP_PROCESSING(SSrivers, src)
+
+/turf/open/water/transparent/surface/swamp
+	name = "murky water surface"
+	icon_state = "dirtW2" 
+	water_color = "#705a43"
+	alpha = 200
+
+/turf/open/water/transparent/inner/swamp
+	name = "murky depths"
+	icon_state = "dirtW2" 
+	water_color = "#705a43"
+	alpha = 60

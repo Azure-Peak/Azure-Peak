@@ -156,9 +156,11 @@
 	// Tier 2: Garrison-gated expansion from 10 to 15
 	var/garrison_count = SSgamemode.garrison
 	var/holy_count = SSgamemode.holy_warrior
-	var/combat_count = garrison_count + holy_count
+	var/acolyte_count = SSgamemode.half_combatant
+	var/combat_count = garrison_count + holy_count + FLOOR(acolyte_count * 0.5, 1)
 	result["garrison"] = garrison_count
 	result["holy_warrior"] = holy_count
+	result["acolyte"] = acolyte_count
 	result["combat_total"] = combat_count
 
 	var/tier2_max = 0

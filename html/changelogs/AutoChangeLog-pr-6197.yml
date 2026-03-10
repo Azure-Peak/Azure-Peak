@@ -1,0 +1,4 @@
+author: "Ketrai"
+delete-after: True
+changes:
+  - rscadd: "Added flagpoles as a quick way to indicate role presence and availability!"

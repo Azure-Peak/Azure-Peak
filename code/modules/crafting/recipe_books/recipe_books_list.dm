@@ -1,6 +1,7 @@
 // Deleted the flavorful desc from Vanderlin until I can think of a better desc. 
 /obj/item/recipe_book/leatherworking
 	name = "The Tanned Hide Tome: Mastery of Leather and Craft"
+	wiki_name = "Leatherworking"
 	icon_state = "book8_0"
 	base_icon_state = "book8"
 
@@ -11,6 +12,7 @@
 
 /obj/item/recipe_book/sewing
 	name = "Threads of Destiny: A Tailor's Codex"
+	wiki_name = "Sewing"
 	icon_state = "book7_0"
 	base_icon_state = "book7"
 
@@ -21,6 +23,7 @@
 
 /obj/item/recipe_book/blacksmithing
 	name = "The Smith’s Legacy"
+	wiki_name = "Blacksmithing"
 	icon_state = "book3_0"
 	base_icon_state = "book3"
 
@@ -28,6 +31,7 @@
 
 /obj/item/recipe_book/engineering
 	name = "The Artificer's Handbook"
+	wiki_name = "Engineering"
 	icon_state = "book4_0"
 	base_icon_state = "book4"
 
@@ -39,6 +43,7 @@
 // Later 
 /obj/item/recipe_book/builder
 	name = "The Builder's Handbook - For Carpenters and Masons"
+	wiki_name = "Building"
 	icon_state = "book5_0"
 	base_icon_state = "book5"
 
@@ -93,6 +98,7 @@
 
 /obj/item/recipe_book/ceramics
 	name = "The Potter's Handbook"
+	wiki_name = "Ceramics"
 	icon_state = "book5_0"
 	base_icon_state = "book5"
 
@@ -104,6 +110,7 @@
 // This book should be widely given to everyone
 /obj/item/recipe_book/survival
 	name = "Tips, Tricks, & Triumphs: The Novice's Handbook To Azuria"
+	wiki_name = "Survival"
 	desc = "A heftsome tome, filled to the brim with all the information you'd need to survive within Azuria. The golden bookmark seems to always lead you \
 	to the page you needed the most, no matter how you flip it. </br>‎  </br>Check out Azure Peak's official wikipedia - https://azurepeak.miraheze.org/wiki/Main_Page - for \
 	whatever comes to mind. </br>‎  </br>This particular tome can be recycled into the Stockpile for a small amount of free \
@@ -139,6 +146,7 @@
 // TBD - Cauldron Recipes
 /obj/item/recipe_book/alchemy
 	name = "Secrets of Alchemy"
+	wiki_name = "Alchemy"
 	icon_state = "book3_0"
 	base_icon_state = "book3"
 
@@ -152,6 +160,7 @@
  
 /obj/item/recipe_book/cooking
 	name = "The Culinary Codex"
+	wiki_name = "Cooking"
 	desc = "A book full of recipes and tips for cooking. This version looks very incomplete, and only contain brewing recipes. Perhaps it will be filled in later?"
 	icon_state = "book2_0"
 	base_icon_state = "book2"
@@ -163,6 +172,7 @@
 
 /obj/item/recipe_book/magic
 	name = "The Magister's Grimoire"
+	wiki_name = "Magic"
 	icon_state = "book4_0"
 	base_icon_state = "book4"
 
