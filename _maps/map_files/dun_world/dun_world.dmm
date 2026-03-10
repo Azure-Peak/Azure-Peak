@@ -31416,6 +31416,10 @@
 /area/rogue/indoors/town/garrison)
 "gQZ" = (
 /obj/machinery/light/rogue/torchholder/l,
+/obj/structure/roguemachine/atm{
+	pixel_y = 0;
+	pixel_x = -32
+	},
 /turf/open/floor/rogue/ruinedwood/spiral,
 /area/rogue/indoors/town/magician)
 "gRa" = (
@@ -41736,17 +41740,6 @@
 /obj/effect/lily_petal/three,
 /turf/open/floor/rogue/grass,
 /area/rogue/outdoors/rtfield/abandonedhotsprings)
-"iYn" = (
-/obj/effect/decal/edge{
-	color = "#3f3f3f";
-	dir = 1
-	},
-/obj/structure/roguemachine/atm{
-	pixel_y = 0;
-	pixel_x = 32
-	},
-/turf/open/floor/rogue/hexstone,
-/area/rogue/indoors/town/magician)
 "iYw" = (
 /obj/effect/decal/remains/human,
 /turf/open/floor/rogue/ruinedwood/spiral,
@@ -402476,7 +402469,7 @@ vFo
 xtc
 oSt
 ixE
-iYn
+mVO
 rDp
 wlA
 wjn
