@@ -10992,7 +10992,7 @@
 	},
 /obj/structure/table/finestone,
 /obj/machinery/light/rogue/candle/floorcandle/alt,
-/turf/open/floor/rogue/hexstone,
+/turf/open/floor/rogue/concrete,
 /area/rogue/indoors/town/magician)
 "cve" = (
 /obj/structure/flora/hotspring_rocks/grassy,
@@ -15719,6 +15719,11 @@
 	},
 /turf/open/floor/rogue/cobblerock,
 /area/rogue/outdoors/town)
+"dvW" = (
+/obj/machinery/light/rogue/cauldron,
+/obj/machinery/light/rogue/candle/blue,
+/turf/open/floor/rogue/concrete,
+/area/rogue/indoors/town/magician)
 "dwd" = (
 /obj/effect/decal/cobbleedge{
 	dir = 5
@@ -20344,8 +20349,12 @@
 /turf/open/floor/rogue/grass,
 /area/rogue/indoors/town/bath)
 "evt" = (
-/obj/structure/rack/rogue,
-/obj/item/natural/bundle/stick,
+/obj/structure/closet/crate/chest/neu,
+/obj/item/ash,
+/obj/item/ash,
+/obj/item/ash,
+/obj/item/ash,
+/obj/item/ash,
 /turf/open/floor/rogue/concrete,
 /area/rogue/indoors/town/magician)
 "evu" = (
@@ -50896,11 +50905,11 @@
 /obj/structure/rack/rogue/shelf,
 /obj/item/reagent_containers/glass/bottle{
 	pixel_x = -7;
-	pixel_y = 46
+	pixel_y = 36
 	},
 /obj/item/reagent_containers/glass/bottle{
 	pixel_x = 6;
-	pixel_y = 46
+	pixel_y = 36
 	},
 /obj/machinery/light/rogue/candle/blue/r,
 /turf/open/floor/rogue/concrete,
@@ -72411,18 +72420,14 @@
 /obj/structure/rack/rogue/shelf,
 /obj/item/reagent_containers/glass/bottle{
 	pixel_x = -7;
-	pixel_y = 46
+	pixel_y = 36
 	},
 /obj/item/reagent_containers/glass/bottle{
 	pixel_x = 6;
-	pixel_y = 46
+	pixel_y = 36
 	},
-/obj/structure/closet/crate/chest/neu,
-/obj/item/ash,
-/obj/item/ash,
-/obj/item/ash,
-/obj/item/ash,
-/obj/item/ash,
+/obj/structure/rack/rogue,
+/obj/item/natural/bundle/stick,
 /turf/open/floor/rogue/concrete,
 /area/rogue/indoors/town/magician)
 "psH" = (
@@ -84132,6 +84137,13 @@
 "rRS" = (
 /obj/structure/fluff/railing/corner/south_east,
 /turf/open/floor/rogue/tile,
+/area/rogue/indoors/town/magician)
+"rRX" = (
+/obj/effect/decal/edge{
+	color = "#3f3f3f";
+	dir = 1
+	},
+/turf/open/floor/rogue/concrete,
 /area/rogue/indoors/town/magician)
 "rRZ" = (
 /obj/structure/flora/roguegrass/herb/random,
@@ -109654,6 +109666,7 @@
 	dir = 4
 	},
 /obj/structure/fluff/railing/border,
+/obj/machinery/light/rogue/candle/r,
 /turf/open/floor/rogue/tile,
 /area/rogue/indoors/town/magician)
 "xmg" = (
@@ -111975,7 +111988,7 @@
 	color = "#3f3f3f";
 	dir = 1
 	},
-/turf/open/floor/rogue/hexstone,
+/turf/open/floor/rogue/concrete,
 /area/rogue/indoors/town/magician)
 "xLn" = (
 /obj/effect/decal/edge{
@@ -283150,7 +283163,7 @@ rOP
 rOP
 xTU
 ukG
-mVO
+rRX
 vuX
 wfH
 wfH
@@ -283602,7 +283615,7 @@ doX
 iGL
 nlT
 ukG
-mVO
+rRX
 nKR
 nwB
 psH
@@ -286313,9 +286326,9 @@ xtZ
 qqW
 qqW
 xja
-bVs
+ukG
 nTJ
-dKd
+dvW
 ttm
 eOE
 evt
@@ -287214,7 +287227,7 @@ wEJ
 nMd
 aRs
 isx
-ukG
+gKk
 pXs
 aKD
 rRS
