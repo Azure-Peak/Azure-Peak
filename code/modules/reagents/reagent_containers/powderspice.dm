@@ -387,7 +387,7 @@
 	M.Jitter(2)
 	if(M.reagents.has_reagent(/datum/reagent/herozium))
 		if(!HAS_TRAIT(M, TRAIT_CRACKHEAD))
-			M.set_drugginess(80)
+			M.reagents.remove_reagent(/datum/reagent/herozium, 5) // stops stacking if you don't have the trait without you getting instaslept - and maybe someone will use it to purge an OD one day.
 	if(prob(5))
 		M.emote(pick("twitch", "shiver", "sniff"))
 	narcolepsy_drug_up(M)
@@ -455,7 +455,7 @@
 			M.Sleeping(80, 0)
 	if(M.reagents.has_reagent(/datum/reagent/starsugar))
 		if(!HAS_TRAIT(M, TRAIT_CRACKHEAD))
-			M.set_drugginess(80)
+			M.reagents.remove_reagent(/datum/reagent/starsugar, 5) // stops stacking if you don't have the trait without you getting instaslept - and maybe someone will use it to purge an OD one day.
 	if(prob(15))
 		M.playsound_local(M, 'sound/misc/heroin_rush.ogg', 100, FALSE)
 	M.sate_addiction(/datum/charflaw/addiction/junkie)
