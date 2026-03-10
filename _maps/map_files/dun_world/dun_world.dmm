@@ -23994,7 +23994,9 @@
 	},
 /area/rogue/indoors/shelter/mountains/decap)
 "fiE" = (
-/obj/structure/fluff/walldeco/wantedposter/l,
+/obj/structure/roguemachine/goldface/public/apothecary{
+	pixel_x = -32
+	},
 /turf/open/floor/rogue/cobble/mossy,
 /area/rogue/outdoors/exposed/town/keep)
 "fiG" = (
@@ -25468,6 +25470,9 @@
 "fAm" = (
 /turf/closed/wall/mineral/rogue/stone,
 /area/rogue/under/town/basement)
+"fAp" = (
+/turf/open/floor/rogue/dirt/road,
+/area/rogue/indoors/town/pestra_sanctum)
 "fAq" = (
 /obj/structure/flora/roguegrass/water/reeds,
 /turf/open/floor/rogue/AzureSand,
@@ -184146,11 +184151,11 @@ ogs
 ogs
 ogs
 bcK
-dij
+fAp
 nym
 fUl
 nIT
-dij
+fAp
 bcK
 ogs
 ogs
@@ -184598,11 +184603,11 @@ ogs
 ogs
 ogs
 bcK
-bcK
-bcK
-nLr
-bcK
-bcK
+dij
+nym
+fUl
+nIT
+dij
 bcK
 ogs
 ogs
@@ -185049,13 +185054,13 @@ ogs
 ogs
 ogs
 ogs
-ogs
-ogs
-idG
-jOq
-idG
-ogs
-ogs
+bcK
+bcK
+bcK
+nLr
+bcK
+bcK
+bcK
 ogs
 ogs
 ogs
