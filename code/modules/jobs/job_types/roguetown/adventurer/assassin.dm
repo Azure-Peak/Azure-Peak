@@ -63,7 +63,7 @@
 	// FETCH LAUGH FROM:
 	// https://github.com/Darkrp-community/OpenKeep
 	job_subclasses = list(
-		/datum/advclass/graggar_assassin,
+		/datum/advclass/assassin/graggar_assassin,
 		/datum/advclass/assassin_ranger,
 		/datum/advclass/assassin_poisoner,
 		/datum/advclass/assassin_hitman,

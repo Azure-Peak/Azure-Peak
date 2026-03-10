@@ -1,10 +1,10 @@
-/datum/advclass/graggar_assassin
+/datum/advclass/assassin/graggar_assassin
 	name = "Assassin"
 	tutorial = "The SINISTAR demands blood and YOU have been chosen. Your infernal dagger whispers to you the names of those who \
 	must perish. Hunt them down and put them in the ground... or face the Dark Star's punishment."
 	allowed_sexes = list(MALE, FEMALE)
 	allowed_races = RACES_ALL_KINDS
-	outfit = /datum/outfit/job/roguetown/assassin
+	outfit = /datum/outfit/job/roguetown/assassin/graggar_assassin
 	category_tags = list(CTAG_ASSASSIN)
 	// Weighted 14
 	subclass_stats = list(
@@ -46,9 +46,15 @@
 		/datum/skill/misc/reading = SKILL_LEVEL_NOVICE,
 		/datum/skill/craft/traps = SKILL_LEVEL_APPRENTICE,
 	)
+	extra_context = "Your patron will be set to Graggar. Your stats and/or abilities may increase over time as you rack up more kills. "
 
-/datum/outfit/job/roguetown/graggar_assassin/pre_equip(mob/living/carbon/human/H)
+/datum/outfit/job/roguetown/assassin/graggar_assassin/pre_equip(mob/living/carbon/human/H)
 	..()
+	mask = /obj/item/clothing/mask/rogue/sack
+	pants = /obj/item/clothing/under/roguetown/heavy_leather_pants
+	shoes = /obj/item/clothing/shoes/roguetown/boots/leather/reinforced
+	cloak = /obj/item/clothing/cloak/poncho/evil
+	armor = /obj/item/clothing/suit/roguetown/armor/leather/heavy/coat
 	H.adjust_blindness(-3)
 	if(H.mind)
 		H.set_blindness(0)
