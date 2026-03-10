@@ -36623,6 +36623,14 @@
 /obj/structure/table/wood/large_table/north_east,
 /turf/open/floor/carpet/red,
 /area/rogue/indoors/town/steward)
+"hTS" = (
+/obj/effect/decal/edge{
+	color = "#3f3f3f";
+	dir = 4
+	},
+/obj/structure/flagpole,
+/turf/open/floor/rogue/cobble,
+/area/rogue/outdoors/exposed/town/keep)
 "hTW" = (
 /obj/structure/lever/wall{
 	dir = 8;
@@ -82068,7 +82076,6 @@
 /area/rogue/indoors/town/dwarfin)
 "rvM" = (
 /obj/structure/fluff/railing/border/east,
-/obj/structure/flagpole,
 /turf/open/floor/rogue/cobble/mossy,
 /area/rogue/outdoors/exposed/town/keep)
 "rvR" = (
@@ -290381,7 +290388,7 @@ tWN
 dXd
 afY
 mGX
-otC
+hTS
 otC
 jfk
 afY
