@@ -13,8 +13,8 @@
 					/obj/effect/proc_holder/spell/invoked/griefflower					= CLERIC_T1,
 					/obj/effect/proc_holder/spell/invoked/blood_heal					= CLERIC_T1,
 					/obj/effect/proc_holder/spell/invoked/projectile/blowingdust		= CLERIC_T2,
-					/obj/effect/proc_holder/spell/invoked/joyride						= CLERIC_T2,
-					/obj/effect/proc_holder/spell/invoked/lasthigh						= CLERIC_T3,
+					/obj/effect/proc_holder/spell/invoked/lasthigh						= CLERIC_T2,
+					/obj/effect/proc_holder/spell/invoked/joyride						= CLERIC_T3,
 					/obj/effect/proc_holder/spell/invoked/painkiller					= CLERIC_T3,
 					/obj/effect/proc_holder/spell/invoked/resurrect/baotha				= CLERIC_T4,
 	)
