@@ -79469,7 +79469,6 @@
 /turf/open/floor/rogue/grasscold,
 /area/rogue/outdoors/mountains)
 "qSW" = (
-/obj/structure/flora/roguegrass/bush,
 /obj/effect/decal/edge{
 	color = "#3f3f3f";
 	dir = 10
@@ -288597,8 +288596,8 @@ rMq
 rMf
 kAx
 nwG
-wrw
-rMq
+nwG
+vAw
 qSW
 obZ
 vKw
