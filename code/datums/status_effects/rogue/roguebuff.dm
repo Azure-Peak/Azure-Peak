@@ -177,18 +177,23 @@
 	effectedstats = list(STATKEY_INT = 5,STATKEY_SPD = 3,STATKEY_LCK = -5)
 	duration = 2 MINUTES
 
-/datum/status_effect/buff/druqks/baotha
+/datum/status_effect/buff/baothablessing
 
-/datum/status_effect/buff/druqks/baotha/on_apply()
+/datum/status_effect/buff/baothablessing
+	id = "druqks"
+	alert_type = /atom/movable/screen/alert/status_effect/buff/druqks
+	duration = 2 MINUTES
+
+/datum/status_effect/buff/baothablessing/on_apply()
 	. = ..()
 	ADD_TRAIT(owner, TRAIT_CRACKHEAD, TRAIT_MIRACLE)
 
-/datum/status_effect/buff/druqks/baotha/on_remove()
+/datum/status_effect/buff/baothablessing/on_remove()
 	. = ..()
 	REMOVE_TRAIT(owner, TRAIT_CRACKHEAD, TRAIT_MIRACLE)
 	owner.visible_message("[owner]'s eyes appear to return to normal.")
 
-/datum/status_effect/buff/druqks/on_apply()
+/datum/status_effect/buff/baothablessing/on_apply()
 	. = ..()
 	if(owner?.client)
 		if(owner.client.screen && owner.client.screen.len)

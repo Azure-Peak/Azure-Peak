@@ -116,7 +116,7 @@
 				if(required_tier <= level)
 					if(!silent)
 						to_chat(holder, span_boldnotice("I have unlocked a new trait: [trait]"))
-					ADD_TRAIT(holder, trait, TRAIT_MIRACLE)
+					ADD_TRAIT(holder, trait, ROUNDSTART_TRAIT)
 
 
 //The main proc that distributes all the needed devotion tweaks to the given class.
