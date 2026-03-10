@@ -103950,7 +103950,7 @@
 /obj/structure/stairs/stone{
 	dir = 1
 	},
-/turf/open/floor/rogue/ruinedwood/herringbone,
+/turf/open/floor/rogue/concrete,
 /area/rogue/indoors/town/physician)
 "vXZ" = (
 /obj/structure/fluff/railing/border/north,
@@ -114542,9 +114542,7 @@
 	pixel_x = 0;
 	pixel_y = 4
 	},
-/turf/open/floor/rogue/tile/bath{
-	name = "small tile floor"
-	},
+/turf/open/floor/rogue/concrete,
 /area/rogue/indoors/town/physician)
 "yko" = (
 /obj/effect/landmark/start/courtagent,
