@@ -3787,7 +3787,6 @@
 /area/rogue/under/cave/his_vault/puzzle)
 "aQZ" = (
 /obj/structure/fluff/railing/border/west,
-/obj/machinery/light/rogue/candle/r,
 /turf/open/floor/rogue/ruinedwood/spiral,
 /area/rogue/indoors/town/physician)
 "aRa" = (
@@ -73685,6 +73684,10 @@
 	},
 /turf/open/floor/rogue/naturalstone,
 /area/rogue/under/cave/his_vault)
+"pGU" = (
+/obj/machinery/light/rogue/candle/l,
+/turf/open/floor/rogue/tile,
+/area/rogue/indoors/town/physician)
 "pGY" = (
 /obj/structure/bookcase/random/archive,
 /obj/item/book/rogue/robber,
@@ -91512,6 +91515,10 @@
 /obj/machinery/anvil/crafted,
 /turf/open/floor/rogue/hexstone,
 /area/rogue/indoors/shelter)
+"tuk" = (
+/obj/structure/flora/tinymushrooms,
+/turf/open/floor/rogue/dirt,
+/area/rogue/under/cave)
 "tum" = (
 /turf/open/floor/rogue/dirt,
 /area/rogue/under/cave)
@@ -168788,8 +168795,8 @@ ogs
 ogs
 ogs
 ogs
-ogs
-ogs
+toJ
+toJ
 ogs
 ogs
 ogs
@@ -169238,12 +169245,12 @@ ogs
 ogs
 ogs
 ogs
-ogs
-ogs
-ogs
-toJ
-toJ
 ovZ
+toJ
+toJ
+tum
+nbg
+ogs
 ogs
 ogs
 ogs
@@ -169690,10 +169697,10 @@ toJ
 ogs
 ogs
 ogs
-ovZ
 toJ
-toJ
-toJ
+tum
+tuk
+tum
 eMU
 oxx
 oxx
@@ -170143,7 +170150,7 @@ toJ
 toJ
 toJ
 toJ
-toJ
+tum
 ixP
 ixP
 eMU
@@ -171509,7 +171516,7 @@ qDZ
 sYG
 iTm
 hZY
-fSH
+pGU
 qtY
 sGj
 daP
@@ -295370,7 +295377,7 @@ nTJ
 xdB
 bcK
 lbM
-qyy
+vAw
 vAw
 phl
 phl
