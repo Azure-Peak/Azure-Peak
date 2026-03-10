@@ -6193,7 +6193,6 @@
 	dir = 4
 	},
 /obj/structure/fluff/wallclock/l,
-/obj/machinery/light/rogue/candle/r,
 /turf/open/floor/rogue/wood,
 /area/rogue/indoors/town/physician)
 "bta" = (
@@ -7031,7 +7030,6 @@
 	color = "#3f3f3f";
 	dir = 10
 	},
-/obj/structure/roguemachine/atm,
 /turf/open/floor/rogue/tile,
 /area/rogue/indoors/town/magician)
 "bCv" = (
@@ -9646,9 +9644,16 @@
 /turf/open/floor/rogue/cobble,
 /area/rogue/indoors/town)
 "chU" = (
-/obj/machinery/light/rogue/cauldron,
-/obj/structure/rack/rogue/shelf,
-/turf/open/floor/rogue/concrete,
+/obj/structure/roguemachine/withdraw,
+/obj/effect/decal/edge{
+	color = "#3f3f3f";
+	dir = 8
+	},
+/obj/effect/decal/edge{
+	color = "#3f3f3f";
+	dir = 4
+	},
+/turf/open/floor/rogue/church,
 /area/rogue/indoors/town/magician)
 "cic" = (
 /obj/structure/rack/rogue,
@@ -18973,6 +18978,10 @@
 	color = "#3f3f3f";
 	dir = 10
 	},
+/obj/item/reagent_containers/glass/bucket{
+	pixel_x = 5;
+	pixel_y = 2
+	},
 /turf/open/floor/rogue/church,
 /area/rogue/indoors/town/magician)
 "egS" = (
@@ -19932,7 +19941,8 @@
 "erq" = (
 /obj/structure/mineral_door/wood/window{
 	lockid = "university";
-	name = "University of Azuria"
+	name = "University of Azuria";
+	locked = 1
 	},
 /turf/open/floor/rogue/concrete,
 /area/rogue/indoors/town/magician)
@@ -20310,12 +20320,8 @@
 /turf/open/floor/rogue/grass,
 /area/rogue/indoors/town/bath)
 "evt" = (
-/obj/structure/closet/crate/chest/neu,
-/obj/item/ash,
-/obj/item/ash,
-/obj/item/ash,
-/obj/item/ash,
-/obj/item/ash,
+/obj/structure/rack/rogue,
+/obj/item/natural/bundle/stick,
 /turf/open/floor/rogue/concrete,
 /area/rogue/indoors/town/magician)
 "evu" = (
@@ -50919,7 +50925,7 @@
 	pixel_y = 46
 	},
 /obj/machinery/light/rogue/candle/blue/r,
-/turf/open/floor/rogue/tile/bath,
+/turf/open/floor/rogue/concrete,
 /area/rogue/indoors/town/magician)
 "kSt" = (
 /obj/structure/fluff/walldeco/church/line{
@@ -64503,6 +64509,12 @@
 /area/rogue/indoors/town/magician)
 "nMd" = (
 /obj/item/roguebin/water,
+/obj/structure/roguemachine/atm{
+	location_tag = "Bathhouse Lobby";
+	mammonsiphoned = 250;
+	pixel_x = 32;
+	pixel_y = 0
+	},
 /turf/open/floor/rogue/concrete,
 /area/rogue/indoors/town/magician)
 "nMh" = (
@@ -72433,21 +72445,6 @@
 /turf/open/floor/rogue/dirt/road,
 /area/rogue/under/cavewet/bogcaves/west)
 "psE" = (
-/obj/structure/rack/rogue/shelf/biggest,
-/obj/item/reagent_containers/glass/bottle/alchemical{
-	pixel_x = 7;
-	pixel_y = 8
-	},
-/obj/item/reagent_containers/glass/bottle/alchemical{
-	pixel_x = 7
-	},
-/obj/item/reagent_containers/glass/bottle/alchemical{
-	pixel_x = 7;
-	pixel_y = -5
-	},
-/obj/item/reagent_containers/glass/bottle/alchemical{
-	pixel_y = 8
-	},
 /obj/structure/rack/rogue/shelf,
 /obj/item/reagent_containers/glass/bottle{
 	pixel_x = -7;
@@ -72457,7 +72454,13 @@
 	pixel_x = 6;
 	pixel_y = 46
 	},
-/turf/open/floor/rogue/tile/bath,
+/obj/structure/closet/crate/chest/neu,
+/obj/item/ash,
+/obj/item/ash,
+/obj/item/ash,
+/obj/item/ash,
+/obj/item/ash,
+/turf/open/floor/rogue/concrete,
 /area/rogue/indoors/town/magician)
 "psH" = (
 /obj/effect/decal/edge{
@@ -82180,7 +82183,7 @@
 	pixel_x = -16;
 	pixel_y = 0
 	},
-/turf/open/floor/rogue/concrete,
+/turf/open/floor/rogue/hexstone,
 /area/rogue/indoors/town/magician)
 "rwA" = (
 /obj/structure/closet/crate/roguecloset,
@@ -82347,12 +82350,6 @@
 /obj/effect/landmark/chest_or_mimic/locked_or_trapped,
 /turf/open/floor/rogue/cobble/mossy,
 /area/rogue/under/cave/his_vault/three)
-"rza" = (
-/obj/machinery/light/rogue/candle{
-	pixel_y = -32
-	},
-/turf/open/floor/rogue/concrete,
-/area/rogue/indoors/town/magician)
 "rzb" = (
 /obj/structure/fluff/railing/corner/south_west,
 /obj/effect/decal/cobbleedge{
@@ -84064,7 +84061,10 @@
 /turf/closed/wall/mineral/rogue/decostone/long/east_west,
 /area/rogue/under/cave/licharena)
 "rQY" = (
-/obj/structure/well/fountain/mana,
+/obj/structure/well/fountain{
+	pixel_x = -16;
+	pixel_y = 0
+	},
 /turf/open/floor/rogue/hexstone,
 /area/rogue/outdoors/exposed/town/keep)
 "rRb" = (
@@ -93545,13 +93545,15 @@
 /turf/open/floor/rogue/dirt/road,
 /area/rogue/indoors/cave/east)
 "tQB" = (
-/obj/structure/rack/rogue,
-/obj/item/natural/bundle/stick,
+/obj/effect/decal/edge{
+	color = "#3f3f3f";
+	dir = 8
+	},
 /obj/effect/decal/edge{
 	color = "#3f3f3f";
 	dir = 4
 	},
-/turf/open/floor/rogue/concrete,
+/turf/open/floor/rogue/church,
 /area/rogue/indoors/town/magician)
 "tQC" = (
 /turf/open/floor/rogue/dirt/road,
@@ -95296,14 +95298,19 @@
 "ujM" = (
 /obj/effect/decal/edge{
 	color = "#3f3f3f";
-	dir = 1
+	dir = 9
 	},
 /obj/effect/decal/edge{
-	color = "#3f3f3f"
+	color = "#3f3f3f";
+	dir = 5
 	},
-/obj/item/reagent_containers/glass/bucket{
-	pixel_x = -11;
-	pixel_y = 11
+/obj/effect/decal/edge{
+	color = "#3f3f3f";
+	dir = 6
+	},
+/obj/effect/decal/edge{
+	color = "#3f3f3f";
+	dir = 10
 	},
 /turf/open/floor/rogue/church,
 /area/rogue/indoors/town/magician)
@@ -114518,14 +114525,6 @@
 	},
 /turf/open/transparent/openspace,
 /area/rogue/druidsgrove)
-"ylq" = (
-/obj/structure/mineral_door/wood/window{
-	name = "Associate's Dorms";
-	lockid = "university_secure";
-	locked = 1
-	},
-/turf/open/floor/rogue/tile,
-/area/rogue/indoors/town/magician)
 "ylz" = (
 /obj/effect/decal/mossy{
 	dir = 1
@@ -282691,7 +282690,7 @@ hCh
 hCh
 hCh
 wyG
-rza
+bVs
 nTJ
 gia
 teX
@@ -283143,7 +283142,7 @@ rAg
 rOP
 rOP
 xTU
-xVh
+ukG
 vuX
 wfH
 wfH
@@ -402021,7 +402020,7 @@ ukG
 ukG
 ukG
 ukG
-ylq
+lcq
 ukG
 ukG
 ukG
@@ -516823,9 +516822,9 @@ wfH
 iSd
 nTJ
 aqY
-xVh
-xVh
-xVh
+rDp
+rDp
+rDp
 isx
 nTJ
 gIo
@@ -517275,9 +517274,9 @@ fYc
 lxt
 vuX
 ibO
-xVh
+rDp
 rwx
-xVh
+rDp
 isx
 nTJ
 uIz
@@ -517727,9 +517726,9 @@ fYc
 lxt
 vuX
 ibO
-xVh
-xVh
-xVh
+rDp
+rDp
+rDp
 isx
 nTJ
 eBo
