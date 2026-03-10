@@ -330,12 +330,6 @@
 	icon_state = "spikekey"
 	lockid = "garrison"
 
-/obj/item/roguekey/warden
-	name = "watchtower key"
-	desc = "This key opens the warden's watchtower."
-	icon_state = "spikekey"
-	lockid = "warden"
-
 /obj/item/roguekey/dungeon
 	name = "dungeon key"
 	desc = "This key opens the dungeons."
@@ -918,6 +912,11 @@
 	icon_state = "greenkey"
 	lockid = "veteran"
 
+/obj/item/roguekey/warden
+	name = "watchtower key"
+	desc = "This key opens the warden's watchtower."
+	icon_state = "spikekey"
+	lockid = "warden"
 
 ///////////////////////////////////////
 // ABSOLUTELY ZERO CLUE WHAT THIS IS //

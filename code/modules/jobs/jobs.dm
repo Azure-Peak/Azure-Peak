@@ -115,7 +115,6 @@ GLOBAL_LIST_INIT(retinue_positions, list( //Manorites
 GLOBAL_LIST_INIT(garrison_positions, list( //Guards
 	"Sergeant",
 	"Man at Arms",
-	"Warden",
 	"Watchman",
 ))
 
@@ -164,6 +163,7 @@ GLOBAL_LIST_INIT(sidefolk_positions, list( //Weerdoes who hang around the town
 	"Pilgrim",
 	"Mercenary",	
 	"Veteran",
+	"Warden",
 ))
 
 GLOBAL_LIST_INIT(wanderer_positions, list( //Homeless

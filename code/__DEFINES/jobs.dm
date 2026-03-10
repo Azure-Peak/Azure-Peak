@@ -47,8 +47,7 @@
 
 #define SERGEANT	(1<<0)
 #define MANATARMS	(1<<1)
-#define WARDEN		(1<<2)
-#define WATCHMAN	(1<<3)
+#define WATCHMAN	(1<<2)
 
 #define CHURCHMEN			(1<<4)
 
@@ -91,6 +90,7 @@
 #define PILGRIM		(1<<3)
 #define MERCENARY	(1<<4)
 #define VETERAN		(1<<5)
+#define WARDEN		(1<<6)
 
 #define WANDERERS			(1<<8)
 
@@ -159,8 +159,7 @@
 // Garrison - Town/Outside
 #define JDO_SERGEANT 4
 #define JDO_GUARD 4.1
-#define JDO_WARDEN 4.2
-#define JDO_WATCHMAN 4.3
+#define JDO_WATCHMAN 4.2
 
 // Pantheon Church
 #define JDO_BISHOP 5
@@ -199,6 +198,7 @@
 #define JDO_PILGRIM 8.3
 #define JDO_MERCENARY 8.4
 #define JDO_VETERAN 8.5
+#define JDO_WARDEN 8.6
 
 // Wanderers
 #define JDO_ADVENTURER 9
