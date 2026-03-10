@@ -24,16 +24,42 @@
 
 	var/attached_knife = null
 
+	// TODO: POPULATE LIST W/ VARIOUS ABILITIES FOR SELECTION ON SOUL-TAKING. GRANT SOME DEPENDING ON CLASS...?
+	// MAKE IT AN A-LIST??? IDK PROBLEM FOR LATER ME
+	var/ability_list = list()
+
 /datum/antagonist/assassin/on_gain()
-	owner.current.cmode_music = list('sound/music/cmode/antag/combat_assassin.ogg')
+	var/mob/living/carbon/human/H = owner.current
+	// EQUIPMENT
 	var/ass_dagger = /obj/item/rogueweapon/huntingknife/idagger/steel/profane
 	var/ass_lockpick = /obj/item/lockpick/assassin 
 	var/ass_grappler = /obj/item/grapplinghook
 	owner.special_items["Profane Dagger"] = ass_dagger // Assigned assassins can get their special dagger from right clicking certain objects.
 	owner.special_items["Avantyne Lockpick"] = ass_lockpick // they get a special 30 integ pick w/ a higher pickchance
 	owner.special_items["Grappling Hook"] = ass_grappler // The Vile Grappler:
-	to_chat(owner.current, span_graggar("I've blended in well up until this point, but it's time for the Hunted of Graggar to perish. I must get my dagger from where I hid it."))
+	// DEVOTION INIT & SPELLS
+	var/datum/devotion/C = new /datum/devotion(H, H.patron) // patron should ALWAYS be graggar.
+	H.devotion = C
+	C.grant_miracles(H, CLERIC_ORI, 0, CLERIC_REQ_0) // this is just here for future use and to allow you to use creep. 
+	H.devotion.max_devotion = 50
+	H.devotion.update_devotion(silent = TRUE)
+	owner.AddSpell(new /obj/effect/proc_holder/spell/invoked/creep, H)
+	// you dont actually get miracle miracles. yet.
+	var/obj/effect/proc_holder/spell/orison = owner.get_spell(/obj/effect/proc_holder/spell/targeted/touch/orison)
+	if(orison)
+		owner.RemoveSpell(orison)
+
+	// MISC/INFODUMP
+	owner.current.cmode_music = list('sound/music/cmode/antag/combat_assassin.ogg')
+	greet()
 	return ..()
+
+/datum/antagonist/assassin/greet()
+	. = ..()
+	to_chat(owner.current, span_graggar("I've blended in well up until this point, but it's time for the Hunted of Graggar to perish. I must get my dagger from where I hid it."))
+
+	// TODO: COMMUNE W/ THE BLACK FLAME FOR POTENTIAL RITUAL PERMISSIONS.
+
 
 /mob/living/carbon/human/proc/who_targets() // Verb for the assassin to remember their targets.
 	set name = "Remember Targets"
@@ -44,7 +70,7 @@
 
 /mob/living/carbon/human/proc/find_dagger()
 	set name = "Sense Dagger"
-	set category = "Graggar"
+	set category = "Graggar" // these really needed to all be folded into one Special Verbs - Role tab like on vanderlin
 	if(!mind)
 		return
 	// we need to get the antag datum instance off the person.
@@ -217,3 +243,6 @@
 
 	H.updateappearance(mutcolor_update = TRUE)
 	H.regenerate_icons()
+
+
+
