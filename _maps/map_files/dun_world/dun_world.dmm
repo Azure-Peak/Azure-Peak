@@ -78577,7 +78577,7 @@
 "qIp" = (
 /obj/structure/mineral_door/wood/violet{
 	name = "Sanctum of Pestra";
-	lockid = "keeper";
+	lockid = "apothecary";
 	locked = 1
 	},
 /turf/open/floor/rogue/concrete,
