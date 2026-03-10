@@ -173,19 +173,20 @@
 	outfit = /datum/outfit/job/roguetown/manorguard/skirmisher
 
 	category_tags = list(CTAG_MENATARMS)
+	traits_applied = list(TRAIT_MEDIUMARMOR)
 	//Garrison ranged/speed class. Time to go wild
 	subclass_stats = list(
-		STATKEY_STR = 1, //Xbow
-		STATKEY_SPD = 2,// seems kinda lame but remember guardsman bonus!!
-		STATKEY_PER = 2,
-		STATKEY_WIL = 1
+		STATKEY_PER = 3,
+		STATKEY_CON = 1,
+		STATKEY_WIL = 2,
+		STATKEY_INT = 1,
+		STATKEY_SPD = 1
 	)
 	subclass_skills = list(
 		/datum/skill/combat/knives = SKILL_LEVEL_EXPERT,
 		/datum/skill/combat/maces = SKILL_LEVEL_APPRENTICE, 		// Still have a cugel.
 		/datum/skill/combat/crossbows = SKILL_LEVEL_MASTER,		//Only effects draw and reload time.
 		/datum/skill/combat/bows = SKILL_LEVEL_MASTER,			//Only effects draw times.
-		/datum/skill/combat/slings = SKILL_LEVEL_MASTER,
 		/datum/skill/misc/climbing = SKILL_LEVEL_EXPERT,
 		/datum/skill/misc/sneaking = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/misc/athletics = SKILL_LEVEL_EXPERT, // A little better; run fast, weak boy.
@@ -193,48 +194,31 @@
 		/datum/skill/combat/wrestling = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/combat/unarmed = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/misc/reading = SKILL_LEVEL_NOVICE,
-		/datum/skill/misc/riding = SKILL_LEVEL_NOVICE,
 		/datum/skill/misc/tracking = SKILL_LEVEL_APPRENTICE,
 	)
-	extra_context = "Chooses between Light Armor (Dodge Expert) & Medium Armor."
 
 /datum/outfit/job/roguetown/manorguard/skirmisher/pre_equip(mob/living/carbon/human/H)
 	..()
+	head = /obj/item/clothing/head/roguetown/helmet/kettle
 	neck = /obj/item/clothing/neck/roguetown/chaincoif
+	armor = /obj/item/clothing/suit/roguetown/armor/brigandine/light/retinue
 	shirt = /obj/item/clothing/suit/roguetown/armor/gambeson
+	wrists = /obj/item/clothing/wrists/roguetown/bracers/brigandine
 	gloves = /obj/item/clothing/gloves/roguetown/fingerless_leather
+	pants = /obj/item/clothing/under/roguetown/brigandinelegs
 
 	H.adjust_blindness(-3)
 	if(H.mind)
-		var/weapons = list("Crossbow","Bow","Sling")
+		var/weapons = list("Crossbow","Bow")
 		var/weapon_choice = input(H, "Choose your weapon.", "TAKE UP ARMS") as anything in weapons
-		var/armor_options = list("Leather Armor", "Brigandine Armor")
-		var/armor_choice = input(H, "Choose your armor.", "TAKE UP ARMS") as anything in armor_options
 		H.set_blindness(0)
 		switch(weapon_choice)
 			if("Crossbow")
 				beltr = /obj/item/quiver/bolt/standard
 				backl = /obj/item/gun/ballistic/revolver/grenadelauncher/crossbow
-			if("Bow") // They can head down to the armory to sideshift into one of the other bows.
+			if("Bow")
 				beltr = /obj/item/quiver/arrows
 				backl = /obj/item/gun/ballistic/revolver/grenadelauncher/bow/recurve
-			if("Sling")
-				beltr = /obj/item/quiver/sling/iron
-				r_hand = /obj/item/gun/ballistic/revolver/grenadelauncher/sling // Both are belt slots and it's not worth setting where the cugel goes for everyone else, sad.
-
-		switch(armor_choice)
-			if("Leather Armor") //OG more or less RT guardsman archer
-				head = /obj/item/clothing/head/roguetown/roguehood/studded/retinue
-				armor = /obj/item/clothing/suit/roguetown/armor/leather/heavy
-				wrists = /obj/item/clothing/wrists/roguetown/bracers
-				pants = /obj/item/clothing/under/roguetown/heavy_leather_pants
-				ADD_TRAIT(H, TRAIT_DODGEEXPERT, TRAIT_GENERIC)
-			if("Brigandine Armor") //New MAA skirmisher
-				head = /obj/item/clothing/head/roguetown/helmet/kettle
-				armor = /obj/item/clothing/suit/roguetown/armor/brigandine/light/retinue
-				wrists = /obj/item/clothing/wrists/roguetown/bracers/brigandine
-				pants = /obj/item/clothing/under/roguetown/brigandinelegs
-				ADD_TRAIT(H, TRAIT_MEDIUMARMOR, TRAIT_GENERIC)
 
 		backpack_contents = list(
 			/obj/item/rogueweapon/huntingknife/combat/messser = 1,
@@ -247,7 +231,6 @@
 
 	if(H.mind)
 		SStreasury.give_money_account(ECONOMIC_LOWER_MIDDLE_CLASS, H, "Savings.")
-
 
 /datum/advclass/manorguard/cavalry
 	name = "Cavalryman"
