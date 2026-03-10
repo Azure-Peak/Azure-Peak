@@ -11,6 +11,8 @@
 #define DESC_POPUP_HEIGHT 250
 /// A town combatant role counts as 1 + this value towards effective population
 #define TOWN_COMBATANT_ADDITIONAL_WEIGHT 2
+/// A half combatant (acolyte) counts as 1 + this value towards effective population
+#define HALF_COMBATANT_ADDITIONAL_WEIGHT 1
 
 SUBSYSTEM_DEF(gamemode)
 	name = "Gamemode"
@@ -170,7 +172,8 @@ SUBSYSTEM_DEF(gamemode)
 	var/constructor = 0
 	var/garrison = 0
 	var/holy_warrior = 0
-	/// Calculated effective pop after weighing garrison & holy warriors at 2x
+	var/half_combatant = 0
+	/// Calculated effective pop after weighing garrison & holy warriors at 3x, acolytes at 2x
 	var/effective_pop = 0 
 
 	/// Is storyteller secret or not
@@ -283,7 +286,7 @@ SUBSYSTEM_DEF(gamemode)
 
 /// Gets the number of antagonists the antagonist injection events will stop rolling after.
 /datum/controller/subsystem/gamemode/proc/get_antag_cap()
-	var/total_number = get_correct_popcount() + (garrison * TOWN_COMBATANT_ADDITIONAL_WEIGHT) + (holy_warrior * TOWN_COMBATANT_ADDITIONAL_WEIGHT)
+	var/total_number = get_correct_popcount() + (garrison * TOWN_COMBATANT_ADDITIONAL_WEIGHT) + (holy_warrior * TOWN_COMBATANT_ADDITIONAL_WEIGHT) + (half_combatant * HALF_COMBATANT_ADDITIONAL_WEIGHT)
 	effective_pop = total_number // For panel tracking
 	var/cap = FLOOR((total_number / ANTAG_CAP_DENOMINATOR), 1) + ANTAG_CAP_FLAT
 	return cap
@@ -489,6 +492,7 @@ SUBSYSTEM_DEF(gamemode)
 	constructor = 0
 	holy_warrior = 0
 	garrison = 0
+	half_combatant = 0
 	for(var/mob/player_mob as anything in GLOB.player_list)
 		if(!player_mob.client)
 			continue
@@ -506,6 +510,8 @@ SUBSYSTEM_DEF(gamemode)
 				constructor++
 			if(player_mob.mind.job_bitflag & BITFLAG_HOLY_WARRIOR)
 				holy_warrior++
+			if(player_mob.mind.job_bitflag & BITFLAG_HALF_COMBATANT)
+				half_combatant++
 			if(player_mob.mind.job_bitflag & BITFLAG_GARRISON)
 				garrison++
 	update_pop_scaling()
@@ -774,9 +780,22 @@ SUBSYSTEM_DEF(gamemode)
 	dat += "Storyteller: [current_storyteller ? "[current_storyteller.name]" : "None"] "
 	dat += " <a href='byond://?src=[REF(src)];panel=main;action=halt_storyteller' [halted_storyteller ? "class='linkOn'" : ""]>HALT Storyteller</a> <a href='byond://?src=[REF(src)];panel=main;action=open_stats'>Event Panel</a> <a href='byond://?src=[REF(src)];panel=main;action=set_storyteller'>Set Storyteller</a> <a href='byond://?src=[REF(user.client)];panel=main;viewinfluences=1'>View Influences</a> <a href='byond://?src=[REF(src)];panel=main'>Refresh</a>"
 	dat += "<BR><font color='#888888'><i>Storyteller determines points gained, event chances, and is the entity responsible for rolling events.</i></font>"
-	dat += "<BR>Active Players: [active_players]   (Royalty: [royalty], Garrison: [garrison], Town Workers: [constructor], Holy Warriors: [holy_warrior])"
-	dat += "<BR>Effective Population: [effective_pop] (Total: [active_players] + Garrison Bonus: [garrison * 2] + Holy Warrior Bonus: [holy_warrior * 2])"
+	dat += "<BR>Active Players: [active_players]   (Royalty: [royalty], Garrison: [garrison], Town Workers: [constructor], Holy Warriors: [holy_warrior], Acolytes: [half_combatant])"
+	dat += "<BR>Effective Population: [effective_pop] (Total: [active_players] + Garrison Bonus: [garrison * 2] + Holy Warrior Bonus: [holy_warrior * 2] + Acolyte Bonus: [half_combatant * 1])"
 	dat += "<BR>Antagonist Count vs Maximum: [get_antag_count()] / [get_antag_cap()]"
+
+	// Job Scaling Info
+	dat += "<BR><b>--- Job Scaling ---</b>"
+	var/list/wretch_scaling = calculate_wretch_scaling()
+	var/datum/job/wretch_job = SSjob.GetJob("Wretch")
+	dat += "<BR>Wretch Slots: [wretch_job?.current_positions]/[wretch_job?.total_positions] — T1: [wretch_scaling["tier1_slots"]]/10, T2: +[wretch_scaling["tier2_extra"]] / 5 = [wretch_scaling["final_slots"]] final"
+	dat += "<BR>&nbsp;&nbsp;Garrison: [wretch_scaling["garrison"]], Holy Warriors: [wretch_scaling["holy_warrior"]], Acolytes: [wretch_scaling["acolyte"]] (half weight), Combat Total: [wretch_scaling["combat_total"]] (need > 10 for T2)"
+	if(wretch_scaling["major_antag_active"])
+		dat += "<BR>&nbsp;&nbsp;<font color='red'>MAJOR ANTAG ACTIVE (VL/LICH) — Tier 2 locked, max 10</font>"
+
+	var/list/adv_scaling = calculate_adventurer_scaling()
+	var/datum/job/adv_job = SSjob.GetJob("Adventurer")
+	dat += "<BR>Adventurer Slots: [adv_job?.current_positions]/[adv_job?.total_positions] (Calculated: [adv_scaling["final_slots"]])"
 	dat += "<HR>"
 	dat += "<a href='byond://?src=[REF(src)];panel=main;action=tab;tab=[GAMEMODE_PANEL_MAIN]' [panel_page == GAMEMODE_PANEL_MAIN ? "class='linkOn'" : ""]>Main</a>"
 	dat += " <a href='byond://?src=[REF(src)];panel=main;action=tab;tab=[GAMEMODE_PANEL_VARIABLES]' [panel_page == GAMEMODE_PANEL_VARIABLES ? "class='linkOn'" : ""]>Variables</a>"
@@ -1462,5 +1481,6 @@ SUBSYSTEM_DEF(gamemode)
 #undef DESC_POPUP_WIDTH
 #undef DESC_POPUP_HEIGHT
 #undef TOWN_COMBATANT_ADDITIONAL_WEIGHT
+#undef HALF_COMBATANT_ADDITIONAL_WEIGHT
 
 #undef INIT_ORDER_GAMEMODE

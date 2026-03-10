@@ -336,6 +336,15 @@ SUBSYSTEM_DEF(ticker)
 
 	CHECK_TICK
 
+	// Pre-scale wretch and adventurer slots before job assignment using readied player count.
+	// Add ~10% buffer to account for immediate latejoins.
+	var/readied_count = 0
+	for(var/mob/dead/new_player/player in GLOB.new_player_list)
+		if(player.ready == PLAYER_READY_TO_PLAY)
+			readied_count++
+	var/estimated_pop = round(readied_count * 1.1)
+	update_scaling_slots(estimated_pop)
+
 	can_continue = can_continue && SSjob.DivideOccupations(list()) 				//Distribute jobs
 
 	CHECK_TICK
@@ -480,7 +489,7 @@ SUBSYSTEM_DEF(ticker)
 			continue
 		if(player.ready == PLAYER_READY_TO_PLAY)
 			GLOB.joined_player_list += player.ckey
-			update_wretch_slots()
+			update_scaling_slots()
 			player.create_character(FALSE)
 		else
 			player.new_player_panel()

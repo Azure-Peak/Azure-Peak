@@ -516,18 +516,65 @@ GLOBAL_LIST_EMPTY(chosen_names)
 //				dat += "<a href='?_src_=prefs;preference=toggle_random;random_type=[RANDOM_AGE_ANTAG]'>When Antagonist: [(randomise[RANDOM_AGE_ANTAG]) ? "Yes" : "No"]</A>"
 
 //			dat += "<b><a href='?_src_=prefs;preference=name;task=random'>Random Name</A></b><BR>"
+			if(!virtue)
+				virtue = GLOB.virtues[/datum/virtue/none]
+			if(!virtuetwo)
+				virtuetwo = GLOB.virtues[/datum/virtue/none]
+			var/virtue_html
 			if(length(pref_species.restricted_virtues))
 				if(virtue.type in pref_species.restricted_virtues)
 					virtue = GLOB.virtues[/datum/virtue/none]
 				if(virtuetwo.type in pref_species.restricted_virtues)
 					virtuetwo = GLOB.virtues[/datum/virtue/none]
+			if(istype(virtue, virtuetwo) && !virtue.stackable)
+				virtuetwo = GLOB.virtues[/datum/virtue/none]
 			if(virtue.virtuous_only && !statpack.virtuous)
 				virtue = GLOB.virtues[/datum/virtue/none]
-			dat += "<b>Virtue:</b> <a href='?_src_=prefs;preference=virtue;task=input'>[virtue]</a><BR>"
+			var/tricost_virt = 0
+			if(length(virtue.extra_choices) && length(virtue.picked_choices))
+				for(var/i in 1 to length(virtue.picked_choices))
+					tricost_virt += virtue.choice_costs[i]
+			virtue_html += "<b>Virtue[tricost_virt ? " <font color = '#d1c8bb'>([tricost_virt] TRI)</font>" : ""]:</b> <a href='?_src_=prefs;preference=virtue;task=input'><b><font color = '#cfa971'>[virtue]</font></b></a><BR>"
+			if(length(virtue.picked_choices))
+				for(var/i = 1 to virtue.picked_choices.len)
+					var/choice = virtue.picked_choices[i]
+					var/tooltip
+					var/choice_string = choice
+					var/dat_html = "   <a href='?_src_=prefs;preference=subvirtue;task=remove;index=[i]'><i>[choice_string]</i></a>"
+					if(LAZYACCESS(virtue.choice_tooltips, choice))
+						tooltip = TRUE
+					var/tooltip_html = tooltip ? "<a href='?_src_=prefs;preference=subvirtue;task=tooltip;tooltip=[choice]'>(?)</a><br>" : "<br>"
+					virtue_html += "[dat_html][tooltip_html]"
+			if(length(virtue.picked_choices) < virtue.max_choices)
+				virtue_html += "   <a href='?_src_=prefs;preference=subvirtue;task=input'>[(virtue.choice_costs[(virtue.picked_choices.len + 1)] <= 0) ? "<font color = '#a08357'>" : ""]Pick Bonus[(virtue.choice_costs[(virtue.picked_choices.len + 1)] <= 0) ? "</font>" : ""] [(virtue.choice_costs[(virtue.picked_choices.len + 1)] > 0) ? "([virtue.choice_costs[(virtue.picked_choices.len + 1)]] TRI)" : ""] </a><br>"
 			if(statpack.virtuous)
-				dat += "<b>Second Virtue:</b> <a href='?_src_=prefs;preference=virtuetwo;task=input'>[virtuetwo]</a><BR>"
+				tricost_virt = 0
+				if(length(virtuetwo.extra_choices) && length(virtuetwo.picked_choices))
+					for(var/i in 1 to length(virtuetwo.picked_choices))
+						tricost_virt += virtuetwo.choice_costs[i]
+				virtue_html += "<b>Second Virtue[tricost_virt ? " <font color = '#d1c8bb'>([tricost_virt] TRI)</font>" : ""]:</b> <a href='?_src_=prefs;preference=virtuetwo;task=input'><b><font color = '#cfa971'>[virtuetwo]</font></b></a><BR>"
+				if(length(virtuetwo.extra_choices) && length(virtuetwo.picked_choices))
+					for(var/i in 1 to length(virtuetwo.picked_choices))
+						var/choice = virtuetwo.picked_choices[i]
+						var/tooltip
+						var/choice_string = choice
+						var/dat_html = "   <a href='?_src_=prefs;preference=subvirtue_two;task=remove;index=[i]'><i>[choice_string]</i></a>"
+						if(LAZYACCESS(virtuetwo.choice_tooltips, choice))
+							tooltip = TRUE
+						var/tooltip_html = tooltip ? "<a href='?_src_=prefs;preference=subvirtue_two;task=tooltip;tooltip=[choice]'>(?)</a><br>" : "<br>"
+						virtue_html += "[dat_html][tooltip_html]"
+				if(length(virtuetwo.picked_choices) < virtuetwo.max_choices)
+					virtue_html += "   <a href='?_src_=prefs;preference=subvirtue_two;task=input'>[(virtuetwo.choice_costs[(virtuetwo.picked_choices.len + 1)] <= 0) ? "<font color = '#a08357'>" : ""]Pick Bonus[(virtuetwo.choice_costs[(virtuetwo.picked_choices.len + 1)] <= 0) ? "</font>" : ""] [(virtuetwo.choice_costs[(virtuetwo.picked_choices.len + 1)] > 0) ? "([virtuetwo.choice_costs[(virtuetwo.picked_choices.len + 1)]] TRI)" : ""] </a><br>"
 			else
 				virtuetwo = GLOB.virtues[/datum/virtue/none]
+			var/virtue_fieldset
+			if(statpack.virtuous)
+				virtue_fieldset += "<fieldset style='border: 1px solid ["#a08357"]; display: inline'>"
+				virtue_fieldset += "<legend align='center' style='font-weight: bold; color: ["#a08357"]'>Virtues</legend>"
+			dat += virtue_fieldset ? virtue_fieldset : ""
+			dat += virtue_html
+			dat += virtue_fieldset ? "</fieldset>" : ""
+			dat += "<br>"
 			dat += "<b>Vices:</b>"
 			if(charflaws.len)
 				for(var/i = 1 to charflaws.len)
@@ -910,7 +957,7 @@ GLOBAL_LIST_EMPTY(chosen_names)
 		dat = list("<center>REGISTER!</center>")
 
 	winshow(user, "preferencess_window", TRUE)
-	winset(user, "preferencess_window", "size=820x850")
+	winset(user, "preferencess_window", "size=820x900")
 	winset(user, "preferencess_window", "pos=280,80")
 	var/datum/browser/noclose/popup = new(user, "preferences_browser", "<div align='center'>[used_title]</div>")
 	popup.set_window_options("can_close=0")
@@ -1475,6 +1522,46 @@ Slots: [job.spawn_positions] [job.round_contrib_points ? "RCP: +[job.round_contr
 				SetAntag(user)
 	else if(href_list["preference"] == "tgui_ui_prefs")
 		tgui_pref = !tgui_pref
+
+	else if(href_list["preference"] == "subvirtue")
+		var/task = href_list["task"]
+		if(task == "input")
+			if(length(virtue.picked_choices) < virtue.max_choices)
+				var/list/subchoices = virtue.extra_choices.Copy()
+				for(var/choice in subchoices)
+					if(choice in virtue.picked_choices)
+						subchoices.Remove(choice)
+				var/result = tgui_input_list(user, "What strength shall you wield?", "VIRTUES", subchoices)
+				if(result)
+					virtue.picked_choices.Add(result)
+		else if(task == "remove")
+			var/index = text2num(href_list["index"])
+			if(index && (index >= 1) && (index <= virtue.picked_choices.len))
+				var/v_to_remove = virtue.picked_choices[index]
+				virtue.picked_choices.Remove(v_to_remove)
+		else if(task == "tooltip")
+			var/tooltip = href_list["tooltip"]
+			to_chat(user, span_notice(virtue.choice_tooltips[tooltip]))
+
+	else if(href_list["preference"] == "subvirtue_two")
+		var/task = href_list["task"]
+		if(task == "input")
+			if(length(virtuetwo.picked_choices) < virtuetwo.max_choices)
+				var/list/subchoices = virtuetwo.extra_choices.Copy()
+				for(var/choice in subchoices)
+					if(choice in virtuetwo.picked_choices)
+						subchoices.Remove(choice)
+				var/result = tgui_input_list(user, "What strength shall you wield?", "VIRTUES", subchoices)
+				if(result)
+					virtuetwo.picked_choices.Add(result)
+		else if(task == "remove")
+			var/index = text2num(href_list["index"])
+			if(index && (index >= 1) && (index <= virtuetwo.picked_choices.len))
+				var/v_to_remove = virtuetwo.picked_choices[index]
+				virtuetwo.picked_choices.Remove(v_to_remove)
+		else if(task == "tooltip")
+			var/tooltip = href_list["tooltip"]
+			to_chat(user, span_notice(virtuetwo.choice_tooltips[tooltip]))
 
 	else if(href_list["preference"] == "charflaw")
 		var/task = href_list["task"]
@@ -2372,7 +2459,8 @@ Slots: [job.spawn_positions] [job.round_contrib_points ? "RCP: +[job.round_contr
 						if (!V.name)
 							continue
 						if ((V.name == virtue.name || V.name == virtuetwo.name) && !istype(V, /datum/virtue/none))
-							continue
+							if(!V.stackable)
+								continue
 						if (istype(V, /datum/virtue/origin))
 							continue
 						if(V.unlisted)
@@ -2390,9 +2478,8 @@ Slots: [job.spawn_positions] [job.round_contrib_points ? "RCP: +[job.round_contr
 
 					if (result)
 						var/datum/virtue/virtue_chosen = virtue_choices[result]
-						virtue = virtue_chosen
+						virtue = new virtue_chosen.type
 						to_chat(user, process_virtue_text(virtue_chosen))
-
 				if("virtuetwo")
 					var/list/virtue_choices = list()
 					for (var/path as anything in GLOB.virtues)
@@ -2400,7 +2487,8 @@ Slots: [job.spawn_positions] [job.round_contrib_points ? "RCP: +[job.round_contr
 						if (!V.name)
 							continue
 						if ((V.name == virtue.name || V.name == virtuetwo.name) && !istype(V, /datum/virtue/none))
-							continue
+							if(!V.stackable)
+								continue
 						if (istype(V, /datum/virtue/origin))
 							continue
 						if(V.unlisted)
@@ -2416,7 +2504,7 @@ Slots: [job.spawn_positions] [job.round_contrib_points ? "RCP: +[job.round_contr
 
 					if (result)
 						var/datum/virtue/virtue_chosen = virtue_choices[result]
-						virtuetwo = virtue_chosen
+						virtuetwo = new virtue_chosen.type
 						to_chat(user, process_virtue_text(virtue_chosen))
 					/*	if (statpack.type != /datum/statpack/wildcard/virtuous)
 							statpack = new /datum/statpack/wildcard/virtuous
@@ -3180,6 +3268,8 @@ Slots: [job.spawn_positions] [job.round_contrib_points ? "RCP: +[job.round_contr
 			dat += "<font color = '#ffffff'><font size = 3>This Virtue has this special behaviour: <br>"
 		dat += "[V.custom_text]"
 		dat += "</font>"
+	if(V.stackable)
+		dat += "<font color = '#ffeea3'>This virtue can be picked twice using Virtuous.</font><br>"
 	return dat
 
 /datum/preferences/proc/LorePopup(mob/user)

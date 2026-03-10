@@ -45,7 +45,7 @@
 	else
 		active_item = TRUE
 		ADD_TRAIT(user, TRAIT_LIGHT_STEP, "[type]")
-		user.change_stat("speed", 1)
+		user.change_stat(STATKEY_SPD, 1, "featherstep_enchant")
 		to_chat(user, span_notice("I feel much more nimble!"))
 
 
@@ -53,7 +53,7 @@
 	if(active_item)
 		active_item = FALSE
 		REMOVE_TRAIT(user, TRAIT_LIGHT_STEP, "[type]")
-		user.change_stat("speed", -1)
+		user.change_stat(STATKEY_SPD, 0, "featherstep_enchant")
 		to_chat(user, span_notice("I feel mundane once more"))
 
 /datum/magic_item/superior/fireresist

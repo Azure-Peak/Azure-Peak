@@ -1,3 +1,5 @@
+GLOBAL_LIST_INIT(goblin_aggro, world.file2list("strings/rt/goblinaggrolines.txt"))
+
 /mob/living/carbon/human/species/goblin
 	name = "goblin"
 
@@ -212,10 +214,20 @@
 	. = ..()
 	addtimer(CALLBACK(src, PROC_REF(after_creation)), 1 SECONDS)
 
+/mob/living/carbon/human/species/goblin/retaliate(mob/living/L)
+	var/newtarg = target
+	.=..()
+	if(target && target != newtarg)
+		say(pick(GLOB.goblin_aggro), npc_speech = TRUE)
+		pointed(target)
+
 /mob/living/carbon/human/species/goblin/handle_combat()
 	if(mode == NPC_AI_HUNT)
-		if(prob(2))
-			emote("laugh")
+		if(prob(10))
+			if(prob(50))
+				say(pick(GLOB.goblin_aggro), npc_speech = TRUE)
+			else
+				emote(pick("laugh", "giggle", "chuckle", "cackle", "screech", "hiss", "growl"))
 	. = ..()
 
 /mob/living/carbon/human/species/goblin/after_creation()

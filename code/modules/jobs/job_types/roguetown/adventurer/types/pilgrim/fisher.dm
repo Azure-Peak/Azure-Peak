@@ -59,7 +59,8 @@
 							/obj/item/rogueweapon/shovel/small = 1,
 							/obj/item/flashlight/flare/torch = 1,
 							/obj/item/recipe_book/survival = 1,
-							/obj/item/rogueweapon/scabbard/sheath = 1
+							/obj/item/rogueweapon/scabbard/sheath = 1,
+							/obj/item/mini_flagpole/fisher,
 							)
 	else
 		armor = /obj/item/clothing/suit/roguetown/shirt/dress/gen/random

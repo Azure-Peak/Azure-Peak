@@ -15,6 +15,12 @@
 	ckeywhitelist = list("cheekycrenando")
 	sort_category = "Donator"
 
+/datum/loadout_item/donator_funky
+	name = "Trimmed down padded dress"
+	path = /obj/item/clothing/suit/roguetown/shirt/dress/funkydress
+	ckeywhitelist = list("funke-monke")
+	sort_category = "Donator"
+
 /datum/loadout_item/donator_strudel1
 	name = "Donator Kit - Grenzelhoftian Mage Vest"
 	path = /obj/item/enchantingkit/strudel1

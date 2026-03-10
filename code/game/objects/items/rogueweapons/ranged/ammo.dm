@@ -415,6 +415,10 @@
 	woundclass = BCLASS_PIERCE
 	flag = "piercing"
 	speed = 0.4
+	min_range = MIN_ARROW_RANGE
+	max_range = MAX_ARROW_RANGE
+	dam_falloff_factor = DAM_FALLOFF_ARROW
+	ap_falloff_factor = AP_FALLOFF_ARROW
 
 /obj/projectile/bullet/reusable/arrow/on_hit(atom/target)
 	..()

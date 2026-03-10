@@ -9,8 +9,9 @@
  * * items - The options that can be chosen by the user, each string is assigned a button on the UI.
  * * default - If an option is already preselected on the UI. Current values, etc.
  * * timeout - The timeout of the input box, after which the menu will close and qdel itself. Set to zero for no timeout.
+ * * descriptions - Optional assoc list mapping item display names to tooltip descriptions.
  */
-/proc/tgui_input_list(mob/user, message, title = "Select", list/items, default, timeout = 0, strict_modern = FALSE, ui_state = GLOB.tgui_always_state)
+/proc/tgui_input_list(mob/user, message, title = "Select", list/items, default, timeout = 0, strict_modern = FALSE, ui_state = GLOB.tgui_always_state, list/descriptions)
 	if (!user)
 		user = usr
 	if(!length(items))
@@ -28,7 +29,7 @@
 	/// Client does NOT have tgui_input on: Returns regular input
 	if(!user.client.prefs.tgui_pref && !strict_modern)
 		return input(user, message, title, default) as null|anything in items
-	var/datum/tgui_list_input/input = new(user, message, title, items, default, timeout, ui_state)
+	var/datum/tgui_list_input/input = new(user, message, title, items, default, timeout, ui_state, descriptions)
 	if(input.invalid)
 		qdel(input)
 		return
@@ -67,14 +68,18 @@
 	var/datum/ui_state/state
 	/// Whether the tgui list input is invalid or not (i.e. due to all list entries being null)
 	var/invalid = FALSE
+	/// Optional assoc list mapping item display strings to tooltip descriptions
+	var/list/descriptions
 
-/datum/tgui_list_input/New(mob/user, message, title, list/items, default, timeout, ui_state)
+/datum/tgui_list_input/New(mob/user, message, title, list/items, default, timeout, ui_state, list/descriptions)
 	src.title = title
 	src.message = message
 	src.items = list()
 	src.items_map = list()
 	src.default = default
 	src.state = ui_state
+	if(descriptions)
+		src.descriptions = list()
 	var/list/repeat_items = list()
 	// Gets rid of illegal characters
 	var/static/regex/whitelistedWords = regex(@{"([^\u0020-\u8000]+)"})
@@ -86,6 +91,8 @@
 		string_key = avoid_assoc_duplicate_keys(string_key, repeat_items)
 		src.items += string_key
 		src.items_map[string_key] = i
+		if(descriptions && descriptions["[i]"])
+			src.descriptions[string_key] = descriptions["[i]"]
 
 	if(length(src.items) == 0)
 		invalid = TRUE
@@ -99,6 +106,7 @@
 	state = null
 	items?.Cut()
 	items_map?.Cut()
+	descriptions?.Cut()
 	return ..()
 
 /**
@@ -126,6 +134,8 @@
 	var/list/data = list()
 	data["init_value"] = default || items[1]
 	data["items"] = items
+	if(descriptions)
+		data["descriptions"] = descriptions
 	data["large_buttons"] = FALSE // user.read_preference(/datum/preference/toggle/tgui_large_buttons)
 	data["message"] = message
 	data["swapped_buttons"] = FALSE // !user.read_preference(/datum/preference/toggle/tgui_swapped_buttons)

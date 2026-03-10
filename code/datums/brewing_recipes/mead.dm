@@ -8,7 +8,7 @@
 	needed_items = list(/obj/item/reagent_containers/food/snacks/rogue/honey/spider = 6)
 	brewed_amount = 6
 	brew_time = 3 MINUTES
-	sell_value = 75
+	sell_value = 90
 
 /datum/brewing_recipe/mead
 	name = "Mead"
@@ -20,4 +20,4 @@
 	needed_items = list(/obj/item/reagent_containers/food/snacks/rogue/honey = 6)
 	brewed_amount = 6
 	brew_time = 3 MINUTES
-	sell_value = 50
+	sell_value = 90

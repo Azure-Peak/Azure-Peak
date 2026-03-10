@@ -17,6 +17,7 @@
 	move_to_delay = 12
 	base_intents = list(/datum/intent/simple/elementalt2_unarmed)
 	butcher_results = list()
+	death_loot = list(/obj/item/magic/fae/heartwoodcore = 1)
 	faction = list("fae")
 	mob_biotypes = MOB_ORGANIC|MOB_BEAST
 	health = 650
@@ -40,7 +41,7 @@
 	defprob = 40
 	canparry = TRUE
 	// del_on_deaggro = 44 SECONDS
-	retreat_health = 0.3
+	retreat_health = 0
 	food = 0
 	attack_sound = "plantcross"
 	dodgetime = 30
@@ -122,14 +123,6 @@
 	for(var/obj/structure/vine/V in view(src))
 		qdel(V)
 	src.visible_message(span_boldwarning("Vines near [src] wither as it returns to it's plane!"))
-	var/turf/deathspot = get_turf(src)
-	new /obj/item/magic/melded/t1(deathspot)
-	new /obj/item/magic/fae/iridescentscale(deathspot)
-	new /obj/item/magic/fae/iridescentscale(deathspot)
-	new /obj/item/magic/fae/heartwoodcore(deathspot)
-	new /obj/item/magic/fae/heartwoodcore(deathspot)
-	new /obj/item/magic/fae/fairydust(deathspot)
-	new /obj/item/magic/fae/fairydust(deathspot)
 	update_icon()
 	spill_embedded_objects()
 	qdel(src)

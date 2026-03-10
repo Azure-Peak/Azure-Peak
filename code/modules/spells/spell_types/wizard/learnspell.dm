@@ -18,6 +18,7 @@
 
 /obj/effect/proc_holder/spell/self/learnspell/proc/legacy_pointbuy_spells(mob/user)
 	var/list/choices = list()
+	var/list/spell_descriptions = list()
 	var/user_spell_tier = get_user_spell_tier(user)
 	var/user_evil = get_user_evilness(user)
 	var/list/spell_choices = GLOB.learnable_spells
@@ -28,16 +29,19 @@
 			continue
 		if(spell_item.zizo_spell > user_evil)
 			continue
-		choices["[spell_item.name]: [spell_item.cost]"] = spell_item
+		var/display_key = "[spell_item.name]: [spell_item.cost]"
+		choices[display_key] = spell_item
+		if(spell_item.desc)
+			spell_descriptions[display_key] = spell_item.desc
 
 	choices = sortList(choices)
 
-	var/choice = tgui_input_list(user, "Choose a spell. Points left: [user.mind.spell_points - user.mind.used_spell_points]", "Learn Spell", choices)
+	var/choice = tgui_input_list(user, "Choose a spell. Points left: [user.mind.spell_points - user.mind.used_spell_points]", "Learn Spell", choices, descriptions = spell_descriptions)
 	var/obj/effect/proc_holder/spell/item = choices[choice]
 
 	if(!item)
 		return
-	if(tgui_alert(user, "[item.desc]", "[item.name]", list("Cancel", "Learn")) == "Cancel")
+	if(tgui_alert(user, "Learn [item.name] for [item.cost] point(s)?", "[item.name]", list("Cancel", "Learn")) == "Cancel")
 		return
 	for(var/obj/effect/proc_holder/spell/knownspell in user.mind.spell_list)
 		if(knownspell.type == item.type)
@@ -81,6 +85,7 @@
 	var/list/pool_spells = get_spell_pool_list(pool_name)
 	var/user_spell_tier = get_user_spell_tier(user)
 	var/list/choices = list()
+	var/list/spell_descriptions = list()
 
 	for(var/i = 1, i <= pool_spells.len, i++)
 		var/obj/effect/proc_holder/spell/spell_item = pool_spells[i]
@@ -95,7 +100,10 @@
 				break
 		if(already_known)
 			continue
-		choices["[spell_item.name]: [spell_item.cost]"] = spell_item
+		var/display_key = "[spell_item.name]: [spell_item.cost]"
+		choices[display_key] = spell_item
+		if(spell_item.desc)
+			spell_descriptions[display_key] = spell_item.desc
 
 	if(!length(choices))
 		to_chat(user, span_warning("No spells available to learn."))
@@ -103,12 +111,12 @@
 
 	choices = sortList(choices)
 
-	var/choice = tgui_input_list(user, "[capitalize(pool_name)] spells. Points left: [remaining]", "Learn Spell", choices)
+	var/choice = tgui_input_list(user, "[capitalize(pool_name)] spells. Points left: [remaining]", "Learn Spell", choices, descriptions = spell_descriptions)
 	var/obj/effect/proc_holder/spell/item = choices[choice]
 
 	if(!item)
 		return
-	if(tgui_alert(user, "[item.desc]", "[item.name]", list("Cancel", "Learn")) == "Cancel")
+	if(tgui_alert(user, "Learn [item.name] for [item.cost] point(s)?", "[item.name]", list("Cancel", "Learn")) == "Cancel")
 		return
 
 	user.mind.spell_points_used_by_pool[pool_name] += item.cost

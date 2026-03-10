@@ -298,6 +298,7 @@
 	body_parts_covered = HEAD|HAIR|EARS
 	prevent_crits = list(BCLASS_CUT, BCLASS_BLUNT, BCLASS_TWIST)
 	sewrepair = TRUE
+	resistance_flags = FIRE_PROOF
 
 /obj/item/clothing/head/roguetown/inqhat/gravehat
 	name = "gravetender's hat"

@@ -377,7 +377,8 @@
 	icon = 'icons/roguetown/weapons/special/freifechter.dmi'
 	possible_item_intents = list(/datum/intent/sword/cut, /datum/intent/sword/thrust/long, /datum/intent/effect/daze/longsword/clinch, /datum/intent/effect/daze/longsword)
 	gripped_intents = list(/datum/intent/sword/cut/master, /datum/intent/sword/thrust/long/master, /datum/intent/sword/thrust/long/halfsword, /datum/intent/effect/daze/longsword2h)
-	alt_intents = list(/datum/intent/sword/strike, /datum/intent/sword/bash, /datum/intent/effect/daze)
+	mordhau = FALSE
+	wlength = WLENGTH_NORMAL
 	max_blade_int = 300
 	max_integrity = 225
 
@@ -394,6 +395,8 @@
 	max_blade_int = 275
 	possible_item_intents = list(/datum/intent/sword/cut, /datum/intent/sword/thrust/long, /datum/intent/dagger/sucker_punch, /datum/intent/sword/bash)
 	gripped_intents = list(/datum/intent/sword/cut, /datum/intent/sword/thrust/long, /datum/intent/sword/thrust/long/halfsword/lesser, /datum/intent/sword/chop)
+	mordhau = FALSE
+	wlength = WLENGTH_NORMAL
 
 /obj/item/rogueweapon/sword/long/zizo
 	name = "avantyne longsword"

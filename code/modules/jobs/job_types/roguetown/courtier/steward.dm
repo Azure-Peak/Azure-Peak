@@ -79,6 +79,9 @@
 	H.verbs |= /mob/living/carbon/human/proc/adjust_taxes
 	if(H.mind)
 		SStreasury.give_money_account(ECONOMIC_RICH, H, "Savings.")
+	backpack_contents = list(
+		/obj/item/mini_flagpole/steward = 1,
+	)
 
 GLOBAL_VAR_INIT(steward_tax_cooldown, -50000) // Antispam
 /mob/living/carbon/human/proc/adjust_taxes()

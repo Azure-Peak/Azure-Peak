@@ -1975,48 +1975,6 @@ generate/load female uniform sprites matching all previously decided variables
 	apply_overlay(BODYPARTS_LAYER)
 	update_damage_overlays()
 
-/mob/proc/update_body_parts_head_only()
-	return
-
-// Only renders the head of the human
-/mob/living/carbon/human/update_body_parts_head_only()
-	if (!dna)
-		return
-
-	if (!dna.species)
-		return
-
-	var/obj/item/bodypart/HD = get_bodypart("head")
-
-	if (!istype(HD))
-		return
-
-
-	HD.update_limb()
-
-	add_overlay(HD.get_limb_icon())
-	update_damage_overlays()
-
-	if(HD && !(HAS_TRAIT(src, TRAIT_HUSK)))
-
-		// lipstick
-		if(lip_style && (LIPS in dna.species.species_traits))
-			var/mutable_appearance/lip_overlay = mutable_appearance('icons/mob/human_face.dmi', "lips_[lip_style]", -BODY_LAYER)
-			lip_overlay.color = lip_color
-			if(gender == FEMALE)
-				if(OFFSET_FACE_F in dna.species.offset_features)
-					lip_overlay.pixel_x += dna.species.offset_features[OFFSET_FACE_F][1]
-					lip_overlay.pixel_y += dna.species.offset_features[OFFSET_FACE_F][2]
-			else
-				if(OFFSET_FACE in dna.species.offset_features)
-					lip_overlay.pixel_x += dna.species.offset_features[OFFSET_FACE][1]
-					lip_overlay.pixel_y += dna.species.offset_features[OFFSET_FACE][2]
-			add_overlay(lip_overlay)
-
-	update_inv_head()
-	update_inv_wear_mask()
-	update_inv_mouth()
-
 /mob/living/carbon/proc/has_boobed_overlay()
 	var/obj/item/organ/breasts/boobs = getorganslot(ORGAN_SLOT_BREASTS)
 	if(!boobs)

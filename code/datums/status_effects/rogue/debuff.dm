@@ -431,21 +431,33 @@
 	icon_state = "dazed"
 
 /datum/status_effect/debuff/cold
-	id = "Frostveiled"
-	alert_type =  /atom/movable/screen/alert/status_effect/debuff/cold
+	id = "Chilled"
+	alert_type = /atom/movable/screen/alert/status_effect/debuff/cold
 	effectedstats = list(STATKEY_SPD = -2)
-	duration = 12 SECONDS
+	duration = 10 SECONDS
+	var/cold_color = "#88BFFF"
 
 /datum/status_effect/debuff/cold/on_apply()
 	. = ..()
 	var/mob/living/target = owner
-	var/newcolor = rgb(136, 191, 255)
-	target.add_atom_colour(newcolor, TEMPORARY_COLOUR_PRIORITY)
-	addtimer(CALLBACK(target, TYPE_PROC_REF(/atom, remove_atom_colour), TEMPORARY_COLOUR_PRIORITY, newcolor), 12 SECONDS)
+	target.add_atom_colour(cold_color, TEMPORARY_COLOUR_PRIORITY)
+	addtimer(CALLBACK(target, TYPE_PROC_REF(/atom, remove_atom_colour), TEMPORARY_COLOUR_PRIORITY, cold_color), duration)
 
 /atom/movable/screen/alert/status_effect/debuff/cold
-	name = "Cold"
+	name = "Chilled"
 	desc = "Something has chilled me to the bone! It's hard to move."
+	icon_state = "muscles"
+
+/datum/status_effect/debuff/cold/greater
+	id = "Frozen"
+	alert_type = /atom/movable/screen/alert/status_effect/debuff/cold/greater
+	effectedstats = list(STATKEY_SPD = -3)
+	duration = 20 SECONDS
+	cold_color = "#64A0FF"
+
+/atom/movable/screen/alert/status_effect/debuff/cold/greater
+	name = "Frozen"
+	desc = "An intense cold has seized my body! I can barely move."
 	icon_state = "muscles"
 
 ///// Freifechter Daze Variants /////

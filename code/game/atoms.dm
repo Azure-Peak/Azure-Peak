@@ -1071,6 +1071,8 @@
 			log_game(log_text)
 		if(LOG_MECHA)
 			log_mecha(log_text)
+		if(LOG_NPC_SAY)
+			log_npc_say(log_text)
 		else
 			stack_trace("Invalid individual logging type: [message_type]. Defaulting to [LOG_GAME] (LOG_GAME).")
 			log_game(log_text)

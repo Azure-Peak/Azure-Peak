@@ -26,7 +26,7 @@
 		/datum/skill/craft/sewing = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/misc/medicine = SKILL_LEVEL_APPRENTICE
 	)
-	adv_stat_ceiling = list(STAT_STRENGTH = 12, STAT_SPEED = 12)
+	adv_stat_ceiling = list(STAT_STRENGTH = 12, STAT_SPEED = 12, STAT_CONSTITUTION = 10)
 
 /datum/outfit/job/roguetown/mercenary/freelancer/pre_equip(mob/living/carbon/human/H)
 	..()
@@ -90,7 +90,7 @@
 		/datum/skill/misc/climbing = SKILL_LEVEL_APPRENTICE,	//I got told that having zero climbing is a PITA. Bare minimum for a combat class.
 		/datum/skill/misc/medicine = SKILL_LEVEL_APPRENTICE,
 	)
-	adv_stat_ceiling = list(STAT_STRENGTH = 13, STAT_SPEED = 12, STAT_WILLPOWER = 14)	//Prevent climbing to 14 by picking a +1 STR race.
+	adv_stat_ceiling = list(STAT_STRENGTH = 13, STAT_SPEED = 12, STAT_WILLPOWER = 14, STAT_CONSTITUTION = 12)	//Prevent climbing to 14 by picking a +1 STR race.
 
 /datum/outfit/job/roguetown/mercenary/freelancer_lancer/pre_equip(mob/living/carbon/human/H)
 	..()
@@ -154,7 +154,7 @@
 		/datum/skill/craft/sewing = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/misc/medicine = SKILL_LEVEL_APPRENTICE
 	)
-	adv_stat_ceiling = list(STAT_STRENGTH = 12)
+	adv_stat_ceiling = list(STAT_STRENGTH = 12, STAT_CONSTITUTION = 10, STAT_WILLPOWER = 12)
 
 /datum/outfit/job/roguetown/mercenary/sabrist/pre_equip(mob/living/carbon/human/H)
 	..()

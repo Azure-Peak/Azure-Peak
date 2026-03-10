@@ -763,7 +763,7 @@
 	name = "silver-tipped otavan stake"
 	desc = "A branch that has been broken off of an Otavan boswellia tree, sharpened to a fine point and tipped with blessed silver. It can lay most unholy creechers to rest, but only by piercing their hearts."
 
-/obj/item/rogueweapon/huntingknife/idagger/silver/stakepsy/ComponentInitialize()
+/obj/item/rogueweapon/huntingknife/idagger/silver/stake/psy/ComponentInitialize()
 	AddComponent(\
 		/datum/component/silverbless,\
 		pre_blessed = BLESSING_NONE,\
