@@ -15,7 +15,7 @@
 
 /obj/effect/proc_holder/spell/invoked/gnoll_sniff
 	name = "Track"
-	desc = "Graggar has some worthy folks for you, hunt them down! Cast on self to set target, cast to track target, cast on a person to remember their scent temporarily"
+	desc = "Graggar has some worthy folks for you, hunt them down! Cast on self to set target, cast to track target, cast on a person to remember their scent temporarily."
 	recharge_time = 0.5 SECONDS
 	chargetime = 0.1 SECONDS
 	overlay_icon = 'icons/mob/actions/gnollmiracles.dmi'
@@ -153,7 +153,7 @@
 	if(target.has_flaw(/datum/charflaw/hunted))
 		channel_time = 6 SECONDS
 
-	to_chat(user, span_notice("You begin pulling [target] into graggar's plane"))
+	to_chat(user, span_notice("You begin pulling [target] into Graggar's plane"))
 	to_chat(target, span_userdanger("The world around you begins to dissolve into a blood scented nightmare!"))
 	user.visible_message(span_userdanger("[user] tears a blood red rift into space with a claw, and begins dragging [target] into it!"))
 	tracker.channeling_abduction = TRUE
