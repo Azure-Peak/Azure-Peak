@@ -32,7 +32,7 @@
 	owner.special_items["Profane Dagger"] = ass_dagger // Assigned assassins can get their special dagger from right clicking certain objects.
 	owner.special_items["Avantyne Lockpick"] = ass_lockpick // they get a special 30 integ pick w/ a higher pickchance
 	owner.special_items["Grappling Hook"] = ass_grappler // The Vile Grappler:
-	to_chat(owner.current, "<span class='danger'>I've blended in well up until this point, but it's time for the Hunted of Graggar to perish. I must get my dagger from where I hid it.</span>")
+	to_chat(owner.current, span_graggar("I've blended in well up until this point, but it's time for the Hunted of Graggar to perish. I must get my dagger from where I hid it."))
 	return ..()
 
 /mob/living/carbon/human/proc/who_targets() // Verb for the assassin to remember their targets.
