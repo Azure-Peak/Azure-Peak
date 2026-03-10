@@ -35778,12 +35778,6 @@
 	},
 /turf/open/floor/rogue/naturalstone,
 /area/rogue/under/cave)
-"hKm" = (
-/obj/structure/mineral_door/wood/deadbolt{
-	dir = 4
-	},
-/turf/open/floor/rogue/concrete,
-/area/rogue/indoors/town/magician)
 "hKp" = (
 /obj/structure/fluff/railing/corner/south_west,
 /turf/open/floor/rogue/naturalstone,
@@ -515928,7 +515922,7 @@ qOq
 nTJ
 brh
 nTJ
-hKm
+brh
 nTJ
 nTJ
 anB
