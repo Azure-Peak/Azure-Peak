@@ -17237,7 +17237,7 @@
 "dNi" = (
 /obj/structure/mineral_door/wood/violet{
 	locked = 1;
-	lockid = "physician";
+	lockid = "apothecary";
 	name = "Apothecary's Quarters #2"
 	},
 /turf/open/floor/rogue/concrete,
@@ -60101,6 +60101,12 @@
 /obj/structure/chair/stool/rogue,
 /turf/open/floor/rogue/ruinedwood/spiral,
 /area/rogue/under/town/basement/keep)
+"mJj" = (
+/obj/structure/composter/halffull,
+/turf/open/floor/rogue/cobblerock{
+	smooth = 0
+	},
+/area/rogue/indoors/town/magician)
 "mJn" = (
 /obj/machinery/light/rogue/candle/blue/r,
 /turf/open/floor/rogue/tile/bfloorz,
@@ -75123,14 +75129,6 @@
 	},
 /turf/open/floor/rogue/tile,
 /area/rogue/indoors/town/magician)
-"pXv" = (
-/obj/effect/decal/edge{
-	color = "#3f3f3f";
-	dir = 4
-	},
-/obj/structure/composter/halffull,
-/turf/open/floor/rogue/dirt/road,
-/area/rogue/indoors/town/magician)
 "pXK" = (
 /obj/structure/chair/bench/church/smallbench{
 	dir = 8;
@@ -84365,7 +84363,7 @@
 /area/rogue/indoors/town)
 "rTT" = (
 /obj/structure/mineral_door/wood/window{
-	lockid = "university";
+	lockid = "university_secure";
 	name = "Balcony";
 	locked = 1
 	},
@@ -97684,7 +97682,7 @@
 "uIb" = (
 /obj/structure/mineral_door/wood/violet{
 	locked = 1;
-	lockid = "physician";
+	lockid = "apothecary";
 	name = "Apothecary's Quarters #1"
 	},
 /turf/open/floor/rogue/concrete,
@@ -283149,7 +283147,7 @@ xTU
 ukG
 rRX
 vuX
-pXv
+dnQ
 dnQ
 wuc
 oSt
@@ -284053,7 +284051,7 @@ xTU
 ukG
 cvd
 vuX
-ocl
+mJj
 ocl
 clu
 oSt
