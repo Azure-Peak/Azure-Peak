@@ -1,0 +1,6 @@
+author: "Ollanius"
+delete-after: True
+changes:
+  - balance: "Slightly reduced the cost of most silver weapon recipes by one ingot."
+  - rscadd: "Adds generic versions of the silver katar, knuckleduster, and claws; these can be smithed."
+  - rscadd: "Adds the Silver Greatsword + Executioner Sword, alongside the new silver unarmed weapons, to high-end loot spawners."

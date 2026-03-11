@@ -72,15 +72,20 @@
 	var/defender_skill = 0
 	var/attacker_skill = 0
 	var/obj/item/clothing/wrists/roguetown/bracers/unarmed_bracers
+	var/obj/item/clothing/gloves/roguetown/knuckles/unarmed_knuckles
 
 	if(highest_defense <= (H.get_skill_level(/datum/skill/combat/unarmed) * 20))
 		defender_skill = H.get_skill_level(/datum/skill/combat/unarmed)
 		var/obj/B = H.get_item_by_slot(SLOT_WRISTS)
+		var/obj/K = H.get_item_by_slot(SLOT_GLOVES)
 		if(istype(B, /obj/item/clothing/wrists/roguetown/bracers))
 			prob2defend += (defender_skill * 35)
 			unarmed_bracers = B
+		else if(istype(K, /obj/item/clothing/gloves/roguetown/knuckles))
+			prob2defend += (defender_skill * 35)
+			unarmed_knuckles = K
 		else
-			prob2defend += (defender_skill * 10)		// no bracers gonna be butts.
+			prob2defend += (defender_skill * 10)		// no bracers or knuckles gonna be butts.
 		weapon_parry = FALSE
 	else
 		if(used_weapon)
@@ -113,6 +118,19 @@
 	else
 		attacker_skill = U.get_skill_level(/datum/skill/combat/unarmed)
 		prob2defend -= (attacker_skill * 20)
+		if(user.STASPD > src.STASPD) //unarmed is inherently swift
+			var/spdmod = ((user.STASPD - src.STASPD) * 10)
+			var/permod = ((src.STAPER - user.STAPER) * 10)
+			var/intmod = ((src.STAINT - user.STAINT) * 3)
+			if(mind)
+				if(permod > 0)
+					spdmod -= permod
+				if(intmod > 0)
+					spdmod -= intmod
+			var/finalmod = spdmod
+			if(mind)
+				finalmod = clamp(spdmod, 0, 30)
+			prob2defend -= finalmod
 
 	if(HAS_TRAIT(src, TRAIT_GUIDANCE))
 		prob2defend += 20
@@ -283,6 +301,8 @@
 
 			if(unarmed_bracers)
 				unarmed_bracers.take_damage(INTEG_PARRY_DECAY_NOSHARP, "slash", armor_penetration = 100)
+			else if(unarmed_knuckles)
+				unarmed_knuckles.take_damage(INTEG_PARRY_DECAY_NOSHARP, "slash", armor_penetration = 100)
 			flash_fullscreen("blackflash2")
 			return TRUE
 		else
@@ -299,6 +319,8 @@
 				playsound(get_turf(src), pick(W.parrysound), 100, FALSE)
 			if(src.client)
 				record_round_statistic(STATS_PARRIES)
+				log_combat(src, user, "parried")
+				
 
 			var/def_verb = "parries"
 			var/att_verb = ""
@@ -343,6 +365,7 @@
 			src.visible_message(span_warning("<b>[src]</b> parries [user]!"))
 			if(src.client)
 				record_round_statistic(STATS_PARRIES)
+				log_combat(src, user, "parried")
 			return TRUE
 		else
 			to_chat(src, span_boldwarning("I'm too tired to parry!"))
@@ -350,6 +373,7 @@
 	else
 		if(src.client)
 			record_round_statistic(STATS_PARRIES)
+			log_combat(src, user, "parried")
 		playsound(get_turf(src), pick(parry_sound), 100, FALSE)
 		return TRUE
 

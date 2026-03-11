@@ -1,0 +1,8 @@
+author: "WeNeedMorePhoron"
+delete-after: True
+changes:
+  - balance: "Unarmed base damage increased and now it scales linearly to your strength instead of quadratically"
+  - balance: "Expert Pugilist now gives a flat +5 to unarmed damage. Protective gloves gives +1 to +3 (Leather to Plate), whereas unarmed bandages goes from +3, +5 to +7."
+  - balance: "All knuckles are now a type of gloves. The good knuckels give +12 unarmed flat bonus, higher than bandage, but have disastrous durability and poor armor. They allow you to do unarmed parrying ,however."
+  - balance: "Bandages now provide some protection to the hands."
+  - balance: "Punch now deals 1.0 integrity damage once again, and calculate as swift balanced like unarmed weapons."

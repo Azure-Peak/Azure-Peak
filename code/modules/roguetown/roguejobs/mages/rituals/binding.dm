@@ -23,6 +23,7 @@
 	name = "binding ritual parent"
 	desc = "binding parent rituals."
 	category = "Binding"
+	abstract_type = /datum/runeritual/binding
 	blacklisted = TRUE
 	var/mob_to_bind
 

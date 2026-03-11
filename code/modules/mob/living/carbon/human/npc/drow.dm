@@ -122,7 +122,8 @@ GLOBAL_LIST_INIT(drowraider_aggro, world.file2list("strings/rt/drowaggrolines.tx
 
 /mob/living/carbon/human/species/elf/dark/drowraider/handle_combat()
 	if(mode == NPC_AI_HUNT)
-		if(prob(5))
+		if(prob(5) && world.time >= (mob_timers["npc_chatter"] + 15 SECONDS))
+			mob_timers["npc_chatter"] = world.time
 			if(prob(60))
 				say(pick(GLOB.drowraider_aggro), npc_speech = TRUE)
 			else

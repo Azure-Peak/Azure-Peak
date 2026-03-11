@@ -1,0 +1,4 @@
+author: "Ollanius"
+delete-after: True
+changes:
+  - balance: "Bottlebombs and smokebombs can now fit in belts and other small-tiered containers."

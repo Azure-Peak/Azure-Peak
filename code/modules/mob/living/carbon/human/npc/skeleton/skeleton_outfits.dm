@@ -143,7 +143,7 @@
 	if(prob(50))
 		r_hand = /obj/item/rogueweapon/huntingknife/idagger/adagger
 	else
-		r_hand = /obj/item/rogueweapon/knuckles/aknuckles
+		gloves = /obj/item/clothing/gloves/roguetown/knuckles/decrepit
 	H.adjust_skillrank(/datum/skill/combat/polearms, 2, TRUE)
 	H.adjust_skillrank(/datum/skill/combat/maces, 2, TRUE)
 	H.adjust_skillrank(/datum/skill/combat/axes, 2, TRUE)

@@ -1,0 +1,5 @@
+author: "WeNeedMorePhoron"
+delete-after: True
+changes:
+  - rscadd: "There should be a new gate for being ambushed twice within 2 minutes."
+  - rscadd: "Mobs are quieter and shouldn't yell at you more than once every 15 seconds."

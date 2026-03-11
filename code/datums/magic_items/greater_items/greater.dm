@@ -2,6 +2,7 @@
 /datum/magic_item/greater/lifesteal
 	name = "life steal"
 	description = "It seems bloodthirsty."
+	glow_color = "#8B0000"
 	var/last_used
 	var/flat_heal = 10
 	var/static/list/damage_heal_order = list(BRUTE, BURN, OXY)
@@ -39,6 +40,7 @@
 /datum/magic_item/greater/lightning
 	name = "lightning"
 	description = "It has small arcs of electricity dance across it"
+	glow_color = "#FFFF00"
 	var/list/last_used = list()
 
 /datum/magic_item/greater/lightning/on_hit(obj/item/source, atom/target, mob/user, proximity_flag, click_parameters)
@@ -68,6 +70,7 @@
 /datum/magic_item/greater/frostveil
 	name = "lesser freezing"
 	description = "It feels rather cold."
+	glow_color = "#87CEEB"
 	var/last_used
 
 /datum/magic_item/greater/frostveil/on_hit(obj/item/source, atom/target, mob/user, proximity_flag, click_parameters)
@@ -92,6 +95,7 @@
 /datum/magic_item/greater/phoenixguard
 	name = "phoenixguard"
 	description = "It gives off radiant heat."
+	glow_color = "#FF4500"
 	var/last_used
 
 /datum/magic_item/greater/phoenixguard/on_hit_response(var/obj/item/I, var/mob/living/carbon/human/owner, var/mob/living/carbon/human/attacker)
@@ -106,6 +110,7 @@
 /datum/magic_item/greater/woundclosing
 	name = "wound closing"
 	description = "It pulses with healing magick."
+	glow_color = "#A0E65C"
 	var/active_item = FALSE
 
 /datum/magic_item/greater/woundclosing/on_equip(var/obj/item/i, var/mob/living/user, slot)
@@ -127,6 +132,7 @@
 /datum/magic_item/greater/returningweapon
 	name = "returning weapon"
 	description = "It glows with arcane sigils."
+	glow_color = "#20B2AA"
 	var/active_item = FALSE
 
 /datum/magic_item/greater/returningweapon/on_equip(var/obj/item/i, var/mob/living/user, slot)
@@ -148,6 +154,7 @@
 /datum/magic_item/greater/archery
 	name = "archery"
 	description = "It has the imprint of a bowstring."
+	glow_color = "#DC143C"
 	var/active_item = FALSE
 	var/masterbow = FALSE
 	var/legendbow = FALSE
@@ -231,6 +238,7 @@
 /datum/magic_item/greater/void
 	name = "void touched"
 	description = "It seems to absorb light around it, existing partially outside reality."
+	glow_color = "#9400D3"
 	var/list/last_used = list()
 
 /datum/magic_item/greater/void/on_hit(obj/item/source, atom/target, mob/user, proximity_flag, click_parameters)

@@ -1,0 +1,6 @@
+author: "Ollanius"
+delete-after: True
+changes:
+  - rscadd: "Adds the Bandolier, a cosmetic tabard with the lone mechanical benefit of being placeable on the right backslot as well. Made via two cured leathers and a rope via Skincrafting, or imported from the Merchant's wardrobe section."
+  - rscadd: "Adds new Mechanics-type tip to cloaks and tabards, explaining how to swap its layering via MMB."
+  - code_imp: "Renames the original 'Bandolier' crafting recipe to 'Tossblade Bandolier', in order to more accurately depict its result."

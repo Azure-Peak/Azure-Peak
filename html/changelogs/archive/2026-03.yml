@@ -547,3 +547,33 @@
   - rscadd: Triumph is now gained on nighttime transition instead of when you sleep
   bearrrrrrrr:
   - admin: increased size of single-z event area
+2026-03-11:
+  Antoonij:
+  - bugfix: rmb stealing/nondetection runtimes fix
+  Clem-The-Duck:
+  - bugfix: makes Noc Helmet use default FOV as intended
+  FreeStylaLT:
+  - balance: Bless Drink T0 miracle now has a reagent blacklist.
+  - bugfix: Fixed Underdark origin not being applied correctly.
+  Ketrai:
+  - rscadd: Added flagpoles as a quick way to indicate role presence and availability!
+  Lamasmaster:
+  - bugfix: Horn sounds
+  - bugfix: Veteran not county for scaling slots
+  Risraivyn:
+  - rscadd: z-lvl water swim
+  - rscadd: new tile and area
+  - bugfix: removed the repetition
+  - sound: added buble sound
+  Teragenic:
+  - qol: Blacksmithing Towner now has a peddler, bloomery, and proper scom tag
+  WeNeedMorePhoron:
+  - rscadd: Acolyte now contributes 2 to effective pop for antagonist scaling instead
+      of 1, in contrast to garrison / holy warriors' 3. They counts as half a person
+      for enabling T2 wretch scaling between 10 to 15.
+  - rscadd: '"Guidebook" verb added to OOC, which allows you to access every single
+      recipe books we have in game at the moment.'
+  eirenxiv:
+  - bugfix: fixed Hangyaku and Chonin not being included in the merc list
+  - bugfix: fixed stat ceiling using get_true_stat instead of get_stat, adjusted for
+      negative effects

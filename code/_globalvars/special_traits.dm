@@ -122,15 +122,17 @@ GLOBAL_LIST_INIT(special_traits, build_special_traits())
 				origin_type = new character.dna.species.origin_default
 				apply_virtue(character, origin_type)
 
-/proc/origin_check(var/datum/virtue/V, species)
+/proc/origin_check(var/datum/virtue/V, datum/species/species)
+	if(!species || !V)
+		return
 	if(V)
 		if(!istype(V,/datum/virtue/origin))
 			return FALSE
 		if(V.restricted == TRUE)
-			if((species in V.races))
+			if((species.type in V.races))
 				return FALSE
 		if(istype(V,/datum/virtue/origin/racial))
-			if(!(species in V.races))
+			if(!(species.type in V.races))
 				return FALSE
 		return TRUE
 	return FALSE

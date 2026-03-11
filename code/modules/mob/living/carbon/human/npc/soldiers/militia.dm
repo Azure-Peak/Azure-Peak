@@ -66,7 +66,8 @@
 
 /mob/living/carbon/human/species/human/northern/militia/handle_combat()
 	if(mode == NPC_AI_HUNT)
-		if(prob(5))
+		if(prob(5) && world.time >= (mob_timers["npc_chatter"] + 15 SECONDS))
+			mob_timers["npc_chatter"] = world.time
 			if(prob(60))
 				say(pick(GLOB.highwayman_aggro), npc_speech = TRUE)
 			else

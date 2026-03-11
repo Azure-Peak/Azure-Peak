@@ -13,7 +13,7 @@
 	drop_sound = 'sound/foley/dropsound/cloth_drop.ogg'
 	anvilrepair = null
 	sewrepair = TRUE
-	unarmed_bonus = 1.1
+	unarmed_bonus = 1
 	color = "#66584c"
 	salvage_result = null // Recipe makes 2 so we cannot make this salvageable
 	cold_protection = 3

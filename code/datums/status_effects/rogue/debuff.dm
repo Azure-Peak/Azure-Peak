@@ -825,7 +825,8 @@
 		SSdroning.play_area_sound(get_area(owner), owner.client)
 
 /datum/status_effect/debuff/joybringer_druqks/tick()
-	owner.hallucination += 3
+	if(owner.hallucination < 30) // this can stack up INFINITELY if you dont cap it like this
+		owner.hallucination += 3 // and it doesnt decay *that* fast.
 	owner.Jitter(1)
 
 	if(!prob(10))
