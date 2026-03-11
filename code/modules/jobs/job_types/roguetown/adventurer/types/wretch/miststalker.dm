@@ -1,6 +1,6 @@
 /datum/advclass/wretch/miststalker
 	name = "Misutosutōkā" //not a massive fan of the name but alternative would be naming it Kiri no tsuiseki-sha but people may struggle with that
-	tutorial = "Once, a shrine guardian, dedicating your lyfe to protecting your sacred home against fiends from beyond... now? Nothing more than a failure as you've lost your only home and calling. So, you roam the lands, empty and forsaken, with only your steel to guide you."
+	tutorial = "Hailing from Kazengun you were once a sacred guardian, dedicating your lyfe to protecting your chosen shrine of the twelve against fiends from beyond... now? Nothing more than a failure as you've lost your only home and calling. So, you roam the lands, empty and forsaken, with only your steel to guide you."
 	allowed_sexes = list(MALE, FEMALE)
 	allowed_races = RACES_NO_CONSTRUCT //wouldn't make sense
 	outfit = /datum/outfit/job/roguetown/wretch/miststalker
