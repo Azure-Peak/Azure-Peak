@@ -16917,7 +16917,7 @@
 "dKu" = (
 /obj/item/reagent_containers/lux_impure,
 /obj/structure/closet/crate/chest/neu_iron{
-	lockid = "physician";
+	lockid = "apothecary";
 	locked = 1
 	},
 /turf/open/floor/rogue/concrete,
@@ -80671,7 +80671,7 @@
 /obj/item/reagent_containers/powder/moondust,
 /obj/structure/closet/crate/chest/neu{
 	locked = 1;
-	lockid = "physician"
+	lockid = "apothecary"
 	},
 /obj/effect/decal/edge{
 	color = "#3f3f3f"
