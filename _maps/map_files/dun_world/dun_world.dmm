@@ -60521,7 +60521,6 @@
 	pixel_x = -1;
 	pixel_y = 9
 	},
-/obj/machinery/light/rogue/campfire/fireplace,
 /turf/open/floor/rogue/wood,
 /area/rogue/indoors/town/physician)
 "mPn" = (
@@ -63076,9 +63075,6 @@
 /area/rogue/outdoors/mountains)
 "nvb" = (
 /obj/structure/table/wood,
-/obj/machinery/light/rogue/campfire/fireplace{
-	pixel_y = -32
-	},
 /obj/item/natural/bundle/cloth/bandage/full{
 	pixel_x = 4;
 	pixel_y = 9
@@ -284934,13 +284930,13 @@ afY
 afY
 iQr
 fqi
-sGj
+dkS
 mPl
 nzQ
 jrc
 yfE
 nvb
-pWh
+dkS
 qtj
 vKi
 gDm
