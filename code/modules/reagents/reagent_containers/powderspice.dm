@@ -386,8 +386,10 @@
 	M.adjustStaminaLoss(-2, 0)
 	M.Jitter(2)
 	if(M.reagents.has_reagent(/datum/reagent/herozium))
-		if(!HAS_TRAIT(M, TRAIT_CRACKHEAD))
-			M.reagents.remove_reagent(/datum/reagent/herozium, 5) // stops stacking if you don't have the trait without you getting instaslept - and maybe someone will use it to purge an OD one day.
+		if(HAS_TRAIT(M, TRAIT_CRACKHEAD))
+			M.reagents.remove_reagent(/datum/reagent/herozium, 3) // lets Baothans stack it less effectively, but they still can. starsugar + herozium is very, very OP - if it's only available in short bursts it's not as bad. this gives you a short bit of time with it in exchange for a lot of devotion or mammon, so you can use it to reposition quickly but not really in combat.
+		else
+			M.reagents.remove_reagent(/datum/reagent/herozium, 6)
 	if(prob(5))
 		M.emote(pick("twitch", "shiver", "sniff"))
 	narcolepsy_drug_up(M)
@@ -454,8 +456,10 @@
 		if(!HAS_TRAIT(M, TRAIT_CRACKHEAD))
 			M.Sleeping(80, 0)
 	if(M.reagents.has_reagent(/datum/reagent/starsugar))
-		if(!HAS_TRAIT(M, TRAIT_CRACKHEAD))
-			M.reagents.remove_reagent(/datum/reagent/starsugar, 5) // stops stacking if you don't have the trait without you getting instaslept - and maybe someone will use it to purge an OD one day.
+		if(HAS_TRAIT(M, TRAIT_CRACKHEAD))
+			M.reagents.remove_reagent(/datum/reagent/starsugar, 3) // lets Baothans stack it less effectively, but they still can. starsugar + herozium is very, very OP - if it's only available in short bursts it's not as bad. this gives you a short bit of time with it in exchange for a lot of devotion or mammon, so you can use it to reposition quickly but not really in combat.
+		else
+			M.reagents.remove_reagent(/datum/reagent/starsugar, 6)
 	if(prob(15))
 		M.playsound_local(M, 'sound/misc/heroin_rush.ogg', 100, FALSE)
 	M.sate_addiction(/datum/charflaw/addiction/junkie)
