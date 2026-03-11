@@ -55,6 +55,11 @@
 	shoes = /obj/item/clothing/shoes/roguetown/boots/leather/reinforced
 	cloak = /obj/item/clothing/cloak/poncho/evil
 	armor = /obj/item/clothing/suit/roguetown/armor/leather/heavy/coat
+	gloves = /obj/item/clothing/gloves/roguetown/angle
+	belt = /obj/item/storage/belt/rogue/leather/battleskirt/barbarian
+	wrists = /obj/item/rogueweapon/scabbard/sheath // Fashion.
+	backr = /obj/item/storage/backpack/rogue/satchel/short // fashionable and works on belt
+	shirt = /obj/item/clothing/suit/roguetown/armor/gambeson
 	H.adjust_blindness(-3)
 	if(H.mind)
 		H.set_blindness(0)
