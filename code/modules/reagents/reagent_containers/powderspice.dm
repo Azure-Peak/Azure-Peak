@@ -380,7 +380,6 @@
 
 /datum/reagent/starsugar/on_mob_metabolize(mob/living/L)
 	..()
-	L.add_movespeed_modifier(type, update=TRUE, priority=100, multiplicative_slowdown=-2, blacklisted_movetypes=(FLYING|FLOATING))
 	L.playsound_local(L, 'sound/ravein/small/hello_my_friend.ogg', 100, FALSE)
 	L.flash_fullscreen("whiteflash")
 	animate(L.client, pixel_y = 1, time = 1, loop = -1, flags = ANIMATION_RELATIVE)
@@ -506,12 +505,13 @@
 		switch(reaction)
 			if(1)
 				M.emote("gag")
+				M.adjustToxLoss(2, 50)
 			if(2)
 				M.emote("snore")
 				M.Dizzy(25)
 			if(3)
 				M.emote("yawn")
-	M.Sleeping(40, 0)
+				M.adjustToxLoss(4, 30)
 	M.adjustOxyLoss(4, 0)
 	..()
 	. = 1

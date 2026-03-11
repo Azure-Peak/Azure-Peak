@@ -245,9 +245,6 @@
 	effectedstats = list(STATKEY_SPD = 2, STATKEY_WIL = 2, STATKEY_INT = -2)
 	duration = 30 SECONDS
 
-/datum/status_effect/buff/moondust/nextmove_modifier()
-	return 0.8
-
 /datum/status_effect/buff/moondust/on_apply()
 	. = ..()
 	owner.add_stress(/datum/stressevent/moondust)
@@ -257,9 +254,6 @@
 	alert_type = /atom/movable/screen/alert/status_effect/buff/druqks
 	effectedstats = list(STATKEY_SPD = 3, STATKEY_WIL = 3, STATKEY_INT = -2)
 	duration = 40 SECONDS
-
-/datum/status_effect/buff/moondust_purest/nextmove_modifier()
-	return 0.8
 
 /datum/status_effect/buff/moondust_purest/on_apply()
 	. = ..()
@@ -271,9 +265,6 @@
 	effectedstats = list(STATKEY_SPD = -5, STATKEY_WIL = 4, STATKEY_INT = -3, STATKEY_CON = 3)
 	duration = 80 SECONDS
 	var/originalcmode = ""
-
-/datum/status_effect/buff/herozium/nextmove_modifier()
-	return 1.2
 
 /datum/status_effect/buff/herozium/on_apply()
 	. = ..()
@@ -296,9 +287,6 @@
 	effectedstats = list(STATKEY_SPD = 4, STATKEY_WIL = 4, STATKEY_INT = -3, STATKEY_CON = -3)
 	duration = 80 SECONDS
 	var/originalcmode = ""
-
-/datum/status_effect/buff/starsugar/nextmove_modifier()
-	return 0.7
 
 /datum/status_effect/buff/starsugar/on_apply()
 	. = ..()
