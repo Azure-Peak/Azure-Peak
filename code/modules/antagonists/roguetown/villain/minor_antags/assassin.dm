@@ -41,9 +41,8 @@
 	var/datum/devotion/C = new /datum/devotion(H, H.patron) // patron should ALWAYS be graggar.
 	H.devotion = C
 	C.grant_miracles(H, CLERIC_ORI, 0, CLERIC_REQ_0) // this is just here for future use and to allow you to use creep. 
-	H.devotion.max_devotion = 50
+	H.devotion.max_devotion = 10
 	H.devotion.update_devotion(silent = TRUE)
-	owner.AddSpell(new /obj/effect/proc_holder/spell/invoked/creep, H)
 	// you dont actually get miracle miracles. yet.
 	var/obj/effect/proc_holder/spell/orison = owner.get_spell(/obj/effect/proc_holder/spell/targeted/touch/orison)
 	if(orison)

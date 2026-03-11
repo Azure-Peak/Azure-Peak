@@ -11,9 +11,26 @@ we happen to commission/code should GO IN HERE. Thanks.
 /datum/intent/face_steal // FACE MELTER HELTER SKELTER
 	name = "face steal"
 	hitsound = null
-	desc = "Thieve the appearance of another."
+	desc = "Thieve the appearance of another." + span_graggarsmall("\nUsing this intent on a window that can be opened will open it. \
+	Be warned, it's obvious you're a heretic when you do this.")
 	icon_state = "insteal"
 	max_intent_damage = 0
+
+/datum/intent/face_steal/examine(mob/user)
+	// little flavor for non-assassins lookin at it
+	if(!HAS_TRAIT(user, TRAIT_ASSASSIN))
+		switch(rand(0,3))
+			if(0)
+				to_chat(user, span_graggarsmall("The profane dagger says, \"You are unworthy, mortal.\""))
+			if(1)
+				to_chat(user, span_graggarsmall("The profane dagger says, \"Hehe... hehehe...\""))
+			if(2)
+				to_chat(user, span_graggarsmall("The profane dagger says, \"Are you my next master...?\""))
+			if(3)
+				to_chat(user, span_graggarsmall("You look closely at the dagger. Every hair on your body raises-- you are not alone."))
+		return
+	// call the normal examine IF they have the trait
+	..()
 
 //Unique assassin/antag dagger.
 /obj/item/rogueweapon/huntingknife/idagger/steel/profane
@@ -105,7 +122,30 @@ we happen to commission/code should GO IN HERE. Thanks.
 	// ALSO TODO: RANCOR -- TIME LIMITED BUFF BASED ON # OF PEOPLE KILLED / SOULS IN DAGGER.
 	*/
 
-/obj/item/rogueweapon/huntingknife/idagger/steel/profane/pre_attack(mob/living/carbon/human/target, mob/living/user = usr, params)
+/obj/item/rogueweapon/huntingknife/idagger/steel/profane/pre_attack(atom/A, mob/living/user = usr, params)
+	var/mob/living/carbon/human/H = user
+	// non-assassins dont know how to Use the Window Opener.
+	if(HAS_TRAIT(H, TRAIT_ASSASSIN))
+		var/woke = user.p_their() // cacheing this cause we use it like 4 times lol
+
+		// creep functionality has bene placed on the dagger itself as an inherent ability. steal wintent a window. it'll open.
+		var/obj/structure/roguewindow/openclose/selectedwindow = A
+		if((selectedwindow) && (istype(H.used_intent, /datum/intent/face_steal)))
+			// ensure its not already open
+			if(selectedwindow.climbable)
+				to_chat(H, span_warning("That window is already open!"))
+				return 
+			// 1s delay
+			if(do_after(H, 1 SECONDS, FALSE, selectedwindow, TRUE, null, TRUE, TRUE))
+				if(prob(1)) // shoutout to crowbar and my other oomfs for playing graggar 4 me b4 this class existed
+					H.visible_message(span_graggar("[H] pricks [woke] finger on [woke] dagger, drawing a heretical symbol on the window..."), span_graggaranimated("You open a hole. The feeling is strangely familiar."))
+				else
+					H.visible_message(span_graggar("[H] pricks [woke] finger on [woke] dagger, drawing a heretical symbol on the window..."))
+				selectedwindow.force_open()
+				selectedwindow.visible_message(span_warning("[selectedwindow] suddenly opens with a cacophanous crash!"))
+
+	// handle damage here
+	var/mob/living/carbon/human/target = A
 	if(!istype(target))
 		return FALSE
 	if(target.has_flaw(/datum/charflaw/hunted)) // Check to see if the dagger will do 20 damage or 14
@@ -124,6 +164,9 @@ we happen to commission/code should GO IN HERE. Thanks.
 	if(!ishuman(target))
 		return
 	if(istype(user.used_intent, /datum/intent/face_steal))
+		if(!HAS_TRAIT(user, TRAIT_ASSASSIN))
+			to_chat(user, span_smallred("I AM NOT WORTHY!!"))
+			return
 		if(!user.Adjacent(target))
 			to_chat(user, span_smallred("I must be adjacent to my target!"))
 			return
@@ -241,60 +284,3 @@ These spells are to be granted to the assassin role. Some roundstart, others as 
 should also be potentially granted some spells from Gnolls, as well as Graggar spells being an option. Each should have an ASSASSIN subtype
 that costs DEVOTION. All assassins SHOULD be given devotion that scales w/ their number of kills.
 */
-
-// "Creep" is an ability all assassins spawn with. It's their main AAAH AAAAH AAAH OH FUUCK!!! thing.
-// No devotion cost. This was actually supposed to just be something inherent to their dagger but I didn't think it was
-// worth snowflaking a bunch of code for. Having it be a limited use spell makes more sense, I think.
-// It should be silent. The window should, however, make an opening sound.
-
-/obj/effect/proc_holder/spell/invoked/creep // tommy wright on da creep w/ that fuckin sawed off
-	name = "Creep" // im a creeeep im a weerdooooe
-	desc = "Invokes the Sinistar to open a window... if it can be opened. Requires your profane dagger in hand to cast."
-	recharge_time = 1 MINUTES // this is as long as abduct
-	miracle = TRUE
-	range = 1 // adjacent only
-	invocation_type = "emote"
-	req_inhand = /obj/item/rogueweapon/huntingknife/idagger/steel/profane
-	chargedloop = null // no sound
-	associated_skill = /datum/skill/magic/holy
-	devotion_cost = 0
-	releasedrain = 10
-	chargedrain = 0
-	chargetime = 0
-
-/obj/effect/proc_holder/spell/invoked/creep/cast(list/targets, mob/user)
-	. = ..()
-
-	var/atom/target = targets[1]
-	if(istype(target, /obj/structure/roguewindow/openclose))
-		var/obj/structure/roguewindow/openclose/selectedwindow = target
-		// ensure its not already open
-		if(selectedwindow.climbable)
-			to_chat(user, span_warning("That window is already open!"))
-			revert_cast()
-			return FALSE
-		// open a hole
-		if(do_after(user, 1 SECONDS, FALSE, selectedwindow, same_direction = TRUE, no_interrupt = FALSE))
-			selectedwindow.force_open()
-			if(prob(1)) // shoutout 2 crowbar and the other oomfs that played graggar responding to a prayer long, long ago...
-				user.visible_message(user, span_graggar("[user] points their blade towards [selectedwindow], pricking their finger on the steel's edge..."), span_graggaranimated("You open a hole. The sensation is strangely familiar..."))
-			else
-				user.visible_message(user, span_graggar("[user] points their blade towards [selectedwindow], pricking their finger on the steel's edge..."))
-			// a little more feedback for people on the other side
-			selectedwindow.visible_message(span_warning("A window suddenly opens...!"), blind_message = span_warning("You feel a sudden breeze. Did someone open a window...?"))
-			// admin logging for obvious reasons
-			message_admins("[user.real_name]([key_name(user)]) has forced open [target.name]. [ADMIN_JMP(target)]")
-			log_admin("[user.real_name]([key_name(user)]) has forced open [target.name].")
-		else // if the doafter failed
-			to_chat(user, span_warning("I was interrupted!"))
-			revert_cast()
-			return FALSE
-		// everything went well
-		return TRUE
-
-	else
-		to_chat(user, span_warning("That's not a window you can open and close!"))
-		revert_cast()
-		return FALSE
-	
-	
