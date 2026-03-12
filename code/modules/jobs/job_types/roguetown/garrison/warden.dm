@@ -1,7 +1,7 @@
 /datum/job/roguetown/warden
 	title = "Warden"
 	flag = WARDEN
-	department_flag = SIDEFOLK
+	department_flag = GARRISON
 	faction = "Station"
 	total_positions = 4
 	spawn_positions = 4
@@ -9,9 +9,10 @@
 	allowed_sexes = list(MALE, FEMALE)
 	allowed_races = ACCEPTED_RACES
 	allowed_ages = list(AGE_ADULT, AGE_MIDDLEAGED, AGE_OLD)
-	tutorial = "Typically a denizen of the sparsely populated Azurian woods, you volunteered up with the wardens - a group of ranger types who keep a vigil over the untamed wilderness. \
-				While Wardens have no higher authority, operating as a fraternity of rangers, you will be called upon as members of the garrison by the Sergeant or the Council & Crown. \
-				Serve their will and recieve what a ranger craves the most - freedom and safety."
+	tutorial = "Typically a denizen of the sparsely populated Azurian woods, a volunteer with the Wardens - a group of ranger types who keep a vigil over the untamed wilderness. \
+				While you may not be a professional soldier of the Watch, you serve as the first line of defense against outside threats and an early warning of problems to come. \
+				Obey your Sergeant-at-Arms, the Marshal, and the Crown. Show noblemen respect as a true levy should."
+
 	display_order = JDO_WARDEN
 	whitelist_req = TRUE
 
@@ -24,7 +25,7 @@
 	round_contrib_points = 2
 
 	cmode_music = 'sound/music/cmode/garrison/combat_warden.ogg'
-	job_traits = list(TRAIT_AZURENATIVE, TRAIT_OUTDOORSMAN, TRAIT_WOODSMAN, TRAIT_SURVIVAL_EXPERT)
+	job_traits = list(TRAIT_AZURENATIVE, TRAIT_DODGEEXPERT, TRAIT_OUTDOORSMAN, TRAIT_WOODSMAN, TRAIT_SURVIVAL_EXPERT)
 	job_subclasses = list(/datum/advclass/warden/warden)
 
 /datum/outfit/job/roguetown/warden
@@ -35,7 +36,7 @@
 	belt = /obj/item/storage/belt/rogue/leather
 	backr = /obj/item/storage/backpack/rogue/satchel
 	wrists = /obj/item/clothing/wrists/roguetown/bracers/leather
-	id = /obj/item/scomstone/bad
+	id = /obj/item/scomstone/bad/garrison
 	job_bitflag = BITFLAG_GARRISON //Counts towards overall combat roles
 
 /datum/advclass/warden/warden

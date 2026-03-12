@@ -352,7 +352,7 @@
 	new /obj/item/gun/ballistic/revolver/grenadelauncher/bow/recurve/warden(src)
 	new /obj/item/quiver/arrows(src)
 	new /obj/item/storage/belt/rogue/leather(src)
-	new /obj/item/roguekey/warden(src)//Different ring to the rest
+	new /obj/item/storage/keyring/warden(src)//Different ring to the rest
 
 /datum/roguestock/import/manatarms
 	name = "Man-at-Arms Equipment Crate"

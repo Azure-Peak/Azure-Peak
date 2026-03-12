@@ -284,6 +284,9 @@
 /obj/item/storage/keyring/manatarms //All access to barracks
 	keys = list(/obj/item/roguekey/garrison, /obj/item/roguekey/walls, /obj/item/roguekey/dungeon, /obj/item/roguekey/armory, /obj/item/roguekey/manor)
 
+/obj/item/storage/keyring/warden //All access to wardens
+	keys = list(/obj/item/roguekey/walls, /obj/item/roguekey/warden)
+
 ///////////
 // MANOR //
 ///////////
