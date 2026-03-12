@@ -23358,6 +23358,7 @@
 	dir = 8
 	},
 /obj/structure/fluff/railing/border/west,
+/obj/structure/flora/roguetree/stump/burnt,
 /turf/open/floor/rogue/dirt/road,
 /area/rogue/outdoors/town)
 "fbI" = (
@@ -57457,6 +57458,10 @@
 	},
 /turf/open/floor/rogue/dirt/road,
 /area/rogue/under/cave/dungeon1/gethsmane/inner)
+"meY" = (
+/obj/structure/fluff/walldeco/wantedposter,
+/turf/open/floor/rogue/dirt/road,
+/area/rogue/outdoors/town)
 "mfb" = (
 /obj/structure/stairs,
 /obj/structure/fluff/railing/border/east,
@@ -63741,7 +63746,6 @@
 	color = "#3f3f3f";
 	dir = 8
 	},
-/obj/structure/flagpole,
 /turf/open/floor/rogue/cobble,
 /area/rogue/outdoors/exposed/town/keep)
 "nCL" = (
@@ -67235,6 +67239,14 @@
 	},
 /turf/open/floor/rogue/metal,
 /area/rogue/indoors/town/garrison)
+"oqK" = (
+/obj/structure/fluff/railing/border/north,
+/obj/machinery/light/rogue/lanternpost{
+	pixel_x = 10;
+	pixel_y = 0
+	},
+/turf/open/floor/rogue/cobble/mossy,
+/area/rogue/outdoors/town)
 "oqT" = (
 /obj/structure/closet/crate/roguecloset/inn,
 /obj/effect/spawner/lootdrop/roguetown/dungeon/clothing,
@@ -79428,6 +79440,7 @@
 	dir = 8
 	},
 /obj/structure/fluff/railing/corner/south_west,
+/obj/structure/flagpole,
 /turf/open/floor/rogue/cobble,
 /area/rogue/outdoors/exposed/town/keep)
 "qRB" = (
@@ -88398,10 +88411,6 @@
 	},
 /turf/open/floor/rogue/naturalstone,
 /area/rogue/outdoors/mountains/decap/stepbelow)
-"sLw" = (
-/obj/structure/roguemachine/chimeric_slab,
-/turf/open/floor/rogue/ruinedwood/spiral,
-/area/rogue/indoors/town/church/chapel)
 "sLy" = (
 /obj/effect/decal/cobbleedge{
 	dir = 10
@@ -108052,10 +108061,6 @@
 /turf/open/transparent/openspace,
 /area/rogue/outdoors/town)
 "wSL" = (
-/obj/machinery/light/rogue/lanternpost{
-	pixel_x = 10;
-	pixel_y = 0
-	},
 /obj/effect/decal/mossy{
 	dir = 8
 	},
@@ -255523,7 +255528,7 @@ fwK
 wdQ
 bqZ
 mSh
-sLw
+hfa
 hfa
 vYm
 bML
@@ -267287,7 +267292,7 @@ uBc
 cyz
 uBc
 cDX
-fpx
+meY
 mYC
 bkm
 wxP
@@ -267737,7 +267742,7 @@ jiQ
 aZo
 pGy
 rUp
-gXs
+oqK
 rUQ
 njB
 eCc
