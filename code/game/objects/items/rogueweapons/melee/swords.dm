@@ -1244,7 +1244,7 @@
 	inhand_x_dimension = 64
 	inhand_y_dimension = 64
 	dropshrink = 0.75
-	possible_item_intents = list(/datum/intent/sword/thrust/rapier, /datum/intent/sword/cut/rapier, /datum/intent/sword/peel)
+	possible_item_intents = list(/datum/intent/sword/thrust/rapier, /datum/intent/sword/cut/rapier, /datum/intent/sword/thrust/rapier_penetrative)
 	special = /datum/special_intent/piercing_lunge
 	gripped_intents = null
 	parrysound = list(
@@ -1337,15 +1337,6 @@
 				"eastabove" = 1,
 				"westabove" = 0,
 				)
-
-/datum/intent/sword/cut/rapier
-	clickcd = CLICK_CD_QUICK
-	damfactor = 0.75
-
-/datum/intent/sword/thrust/rapier
-	clickcd = 8
-	damfactor = 1.1
-	penfactor = 30
 
 /obj/item/rogueweapon/sword/rapier/dec
 	name = "decorated rapier"
