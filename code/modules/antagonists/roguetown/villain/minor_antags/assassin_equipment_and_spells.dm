@@ -43,9 +43,10 @@ we happen to commission/code should GO IN HERE. Thanks.
 	embedding = list("embed_chance" = 0) // Embedding the cursed dagger has the potential to cause duping issues. Keep it like this unless you want to do a lot of bug hunting.
 	resistance_flags = INDESTRUCTIBLE // this has to be destroyed by a necran
 	stealthy_audio = TRUE
-	var/souls_taken = list() // each dagger is going to have a list() of souls within it. 
 	var/stolen_faces = list()
 	var/attached_assassin = null // if an assassin picks up a dagger, it gets "attached" to them for later use.
+	var/graggar_boy_points = 0
+	var/total_souls_taken // backup incase going to the underworld fucks up the soul-theft
 
 	// For the sake of making these easier to edit, we're going to store these lines on the dagger.
 	var/static/list/na_pleads = list(
