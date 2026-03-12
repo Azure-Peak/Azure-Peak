@@ -2,7 +2,7 @@
 	name = "Misutosutōkā" //not a massive fan of the name but alternative would be naming it Kiri no tsuiseki-sha but people may struggle with that
 	tutorial = "Hailing from Kazengun you were once a sacred guardian, dedicating your lyfe to protecting your chosen shrine of the twelve against fiends from beyond... now? Nothing more than a failure as you've lost your only home and calling. So, you roam the lands, empty and forsaken, with only your steel to guide you."
 	allowed_sexes = list(MALE, FEMALE)
-	allowed_races = RACES_NO_CONSTRUCT //wouldn't make sense
+	allowed_races = RACES_SHUNNED_UP //rev removed due to balance concerns
 	outfit = /datum/outfit/job/roguetown/wretch/miststalker
 	subclass_languages = list(/datum/language/kazengunese)
 	class_select_category = CLASS_CAT_WARRIOR
