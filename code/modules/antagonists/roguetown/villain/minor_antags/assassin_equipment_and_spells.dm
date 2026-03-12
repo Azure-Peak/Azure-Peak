@@ -167,29 +167,35 @@ we happen to commission/code should GO IN HERE. Thanks.
 	// leaving this out of the rewritten logic flow below cus idk if it was there 4 a reason
 	if(!ishuman(target))
 		return
+	if(!ishuman(user)) // carbons don't have all features of a human
+		to_chat(user, span_danger("You can't do that!"))
+		return
 	if(istype(user.used_intent, /datum/intent/face_steal))
+		// PRELIMINARY CHECKS.
 		if(!HAS_TRAIT(user, TRAIT_ASSASSIN))
 			to_chat(user, span_smallred("I AM NOT WORTHY!!"))
 			return
 		if(!user.Adjacent(target))
 			to_chat(user, span_smallred("I must be adjacent to my target!"))
 			return
+		if(HAS_TRAIT(target, TRAIT_KOH))
+			to_chat(user, span_graggarsmall("I cannot steal someones face twice."))
+			return
+		// DEATH/CRIT CHECK. ITS STUPID. ITS SO STUPID. INCRITICAL() IS SUCH A SPECIFIC THING.
 		if(target.stat == DEAD || target.InCritical()) // Trigger soul steal or identity theft if the target is either dead or in crit
-			if(!ishuman(user)) // carbons don't have all features of a human
-				to_chat(user, span_danger("You can't do that!"))
-				return
 			var/obj/item/bodypart/head/target_head = target.get_bodypart(BODY_ZONE_HEAD)
 			if(QDELETED(target_head))
 				to_chat(user, span_notice("I need their head or else I can't confirm the blood-bounty!"))
 				return
-			// ok, everything is fine. lets start the transfer process. you have 6 seconds to interrupt it.
-			var/datum/beam/transfer_beam = user.Beam(target, icon_state = "drain_life", time = 6 SECONDS)
+			// ok, everything is fine. lets start the transfer process. you have time to interrupt it.
+			user.visible_message(span_graggaranimated("[user] begins sucking [target]'s soul into their dagger! STOP THEM!!"), span_graggar("I beckon the Dark Star, beginning to confirm my blood bounty..."))
+			var/datum/beam/transfer_beam = user.Beam(target, icon_state = "drain_life", time = 16 SECONDS)
 			playsound(user, 'sound/magic/soulsteal_2.ogg', 80, TRUE)
-			if(!do_after(user, 3 SECONDS, FALSE, target, no_interrupt = FALSE))
+			if(!do_after(user, 8 SECONDS, FALSE, target, no_interrupt = FALSE))
 				qdel(transfer_beam)
 				return
 			playsound(user, 'sound/magic/soulsteal_2.ogg', 80, TRUE)
-			if(!do_after(user, 3 SECONDS, FALSE, target, no_interrupt = FALSE))
+			if(!do_after(user, 8 SECONDS, FALSE, target, no_interrupt = FALSE))
 				qdel(transfer_beam)
 				return
 			// all done! 
@@ -200,41 +206,84 @@ we happen to commission/code should GO IN HERE. Thanks.
 			// human_user.copy_physical_features(target)
 			to_chat(user, span_graggar("I take on a new face..."))
 			ADD_TRAIT(target, TRAIT_DISFIGURED, TRAIT_GENERIC)
+			ADD_TRAIT(target, TRAIT_KOH, TRAIT_GENERIC)
+			// hunted interactions
+			if(target.has_flaw(/datum/charflaw/hunted)) // The profane dagger only thirsts for those who are hunted, by flaw or by zizoid curse.
+				if(target.client == null)
+					to_chat(user, span_graggarsmall("My target's soul has left their body. I can try to call it back..."))
+					get_profane_ghost(target, user)
+				else
+					// if you arent a ghost you are now you little shit
+					target.ghostize(TRUE, FALSE, FALSE, FALSE, TRUE)
+					get_profane_ghost(target, user)
+		
+			target.death() // kill em to make sure
+			target.set_ssd_indicator(FALSE) // jank but needed
+		else
+			to_chat(user, span_warning("They aren't quite dead enough! You may need to wait a minute..."))
+/obj/item/rogueweapon/huntingknife/idagger/steel/profane/proc/get_profane_ghost(mob/living/carbon/human/target, mob/living/user)
+	// we dont have an underworld, so this proc strictly checks to see if a ghost already exists.
+	var/mob/dead/observer/chosen_ghost
+	// we do that by get.ghosting() the target. 
+	chosen_ghost = target.get_ghost(TRUE, TRUE)
+	// if none exist, just return false.
+	if(!chosen_ghost || !chosen_ghost.client)
+		to_chat(user, span_warning("Something is wrong... there's no spirit summoned! Perhaps I can summon it...?"))
+		chosen_ghost = target.grab_ghost(TRUE)
+		if(chosen_ghost)
+			init_profane_soul(chosen_ghost, target, user)
+			message_admins("caught [chosen_ghost] in force-grabber")
+			return TRUE
+		return FALSE
+	// else, let's put 'em thru the profaner.
+	init_profane_soul(chosen_ghost, target, user)
+	// delete the old ghost.
+	qdel(chosen_ghost)
+	return TRUE
 
-		/* TODO:
-		// IF TARGET HAS HUNTED FLAW, RUN THE PROFANE SOUL. GIVE TRIUMPH TO ASSASSIN. WHEN THE PROC GETS CALLED, IT NEEDS TO APPLY DNR
-		// TO THE TARGET'S BODY, INCREASE SOULS IN THE DAGGER BY ONE-- AND THAT'S IT. REPAIR IT AND SHIT TOO, I GUESS.
-		*/
-		if(target.has_flaw(/datum/charflaw/hunted)) // The profane dagger only thirsts for those who are hunted, by flaw or by zizoid curse.
-			if(target.client == null) //See if the target's soul has left their body
-				to_chat(user, span_danger("Your target's soul has already escaped its corpse...you try to call it back!"))
-				get_profane_ghost(target,user) //Proc to capture a soul that has left the body.
-			else
-				user.adjust_triumphs(1)
-				init_profane_soul(target, user) //If they are still in their body, send them to the dagger!
-
-// instead of trapping an actual observer in the dagger, we're just going to store their info in a datum.
-/datum/stolen_soul
-	var/soul_name = "Debug"
-	var/soul_real_name = "Debug"
-	var/soul_client = "Debug"	
-
-/obj/item/rogueweapon/huntingknife/idagger/steel/profane/proc/init_profane_soul(mob/living/carbon/human/target, mob/user)
+/obj/item/rogueweapon/huntingknife/idagger/steel/profane/proc/init_profane_soul(mob/dead/observer/chosen_ghost, mob/living/carbon/human/target, mob/living/user)
 	record_featured_stat(FEATURED_STATS_CRIMINALS, user)
 	record_round_statistic(STATS_ASSASSINATIONS)
+	
+	//-- FULL DISCLOSURE. -- 
+	//This has to deal with components and I Dont Know How the Fuck They Work. This was ""intern"" (AI) assisted. Sorry.
+	
 	var/mob/dead/observer/profane/S = new /mob/dead/observer/profane(src)
 	S.AddComponent(/datum/component/profaned, src)
+
+	// put the client in the new ghost
+	S.key = chosen_ghost.key
+	// del the old one
+	qdel(chosen_ghost)
+	// set their ghost's features = their body...
 	S.name = "soul of [target.real_name]"
 	S.real_name = "soul of [target.real_name]"
 	S.deadchat_name = target.real_name
+	// make 'em trapped in the dagger
 	S.ManualFollow(src)
-	S.key = target.key
+	S.original_body = target
+	
 	S.language_holder = target.language_holder.copy(S)
+
+	// effects on game world
 	target.visible_message(span_danger("[target] has their soul PLUCKED FROM THEIR BODY and placed into the PROFANE DAGGER!"), span_danger("MY SOUL IS TRAPPED WITHIN THE DAGGER! I hear a HORRID WAILING... EVERYTHING HURTS!!"))
 	playsound(src, 'sound/magic/soulsteal.ogg', 100, extrarange = 5)
+	user.adjust_triumphs(1)
+	// boons
 	src.restore_bintegrity() // Stealing a soul successfully sharpens the blade.
 	obj_fix(max_integrity) // And fixes the dagger. No blacksmith required!
 
+	total_souls_taken += 1
+
+	if(HAS_TRAIT(target, TRAIT_NOBLE) || HAS_TRAIT(target, TRAIT_CRITICAL_WEAKNESS))
+		// double points for treading on the weak and those who would put themselves above you
+		src.graggar_boy_points += 2
+	else
+		src.graggar_boy_points += 1
+
+/*
+WE DO NOT CURRENTLY USE THE UNDERWORLD. IF WE EVER GET IT BACK, FOR SOME REASON, THE CODE IS SAVED HERE FOR POSTERITY.
+- MUMBLEMANCER
 /obj/item/rogueweapon/huntingknife/idagger/steel/profane/proc/get_profane_ghost(mob/living/carbon/human/target, mob/user)
 	var/mob/dead/observer/chosen_ghost
 	var/mob/living/carbon/spirit/underworld_spirit = target.get_spirit() //Check if a soul has already gone to the underworld
