@@ -115,6 +115,8 @@ we happen to commission/code should GO IN HERE. Thanks.
 // when you use the item via interact...
 /obj/item/rogueweapon/huntingknife/idagger/steel/profane/attack_self(mob/user)
 	. = ..()
+	// TEMP -- FOR DEBUGGING PURPOSES
+	release_profane_souls(user)
 	/* TODO:
 	// TRY TO BUILD SOME SORT OF RADIAL MENU. MAYBE STEAL CODE FROM SLAPCRAFTING BC I THINK THERE WERE RADIALS FOR THAT.alist
 	// WE WANT TO BE ABLE TO USE THE APPLY FACE OR WHATEVER I CALLED IT PROC, PREFERABLY W/ A LITTLE HEAD ICON TO SHOW
@@ -125,12 +127,13 @@ we happen to commission/code should GO IN HERE. Thanks.
 
 /obj/item/rogueweapon/huntingknife/idagger/steel/profane/pre_attack(atom/A, mob/living/user = usr, params)
 	var/mob/living/carbon/human/H = user
+	var/obj/structure/roguewindow/openclose/selectedwindow = null
 	// non-assassins dont know how to Use the Window Opener.
 	if(HAS_TRAIT(H, TRAIT_ASSASSIN))
 		var/woke = user.p_their() // cacheing this cause we use it like 4 times lol
-
 		// creep functionality has bene placed on the dagger itself as an inherent ability. steal wintent a window. it'll open.
-		var/obj/structure/roguewindow/openclose/selectedwindow = A
+		if(istype(A, /obj/structure/roguewindow/openclose))
+			selectedwindow = A
 		if((selectedwindow) && (istype(H.used_intent, /datum/intent/face_steal)))
 			// ensure its not already open
 			if(selectedwindow.climbable)
