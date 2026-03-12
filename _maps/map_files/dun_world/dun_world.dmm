@@ -24013,12 +24013,6 @@
 	icon_state = "plating2"
 	},
 /area/rogue/indoors/shelter/mountains/decap)
-"fiE" = (
-/obj/structure/roguemachine/goldface/public/apothecary{
-	pixel_x = -32
-	},
-/turf/open/floor/rogue/cobble/mossy,
-/area/rogue/outdoors/exposed/town/keep)
 "fiG" = (
 /obj/structure/roguemachine/scomm{
 	scom_tag = "Manor - Outer Gatehouse"
@@ -110487,6 +110481,10 @@
 /obj/item/reagent_containers/food/snacks/grown/wheat,
 /turf/open/floor/rogue/cobble,
 /area/rogue/indoors/town)
+"xuM" = (
+/obj/structure/roguemachine/goldface/public/apothecary,
+/turf/closed/wall/mineral/rogue/craftstone,
+/area/rogue/indoors/town/physician)
 "xuQ" = (
 /obj/structure/fluff/railing/border/west,
 /obj/structure/fluff/railing/border{
@@ -289450,7 +289448,7 @@ afY
 afY
 vgK
 wZP
-sGj
+xuM
 dkS
 olN
 dkS
@@ -289902,7 +289900,7 @@ afY
 afY
 uVv
 slw
-fiE
+noW
 nBF
 uzz
 lhv
