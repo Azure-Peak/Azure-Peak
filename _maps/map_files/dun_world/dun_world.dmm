@@ -17713,7 +17713,7 @@
 	},
 /obj/structure/closet/crate/chest/neu{
 	locked = 1;
-	lockid = "physician";
+	lockid = "apothecary";
 	name = "Revivification Supplies";
 	pixel_x = 0;
 	pixel_y = 2
