@@ -26072,7 +26072,6 @@
 /turf/open/floor/rogue/dirt,
 /area/rogue/outdoors/mountains)
 "fGI" = (
-/obj/machinery/light/rogue/torchholder/r,
 /obj/effect/decal/edge{
 	color = "#3f3f3f";
 	dir = 8
@@ -42505,6 +42504,13 @@
 "jgI" = (
 /turf/open/floor/carpet/stellar,
 /area/rogue/indoors/town/church/chapel)
+"jgM" = (
+/obj/structure/fluff/railing/border/west,
+/obj/effect/decal/mossy{
+	dir = 4
+	},
+/turf/open/floor/rogue/cobble,
+/area/rogue/outdoors/exposed/town/keep)
 "jgO" = (
 /obj/effect/decal/edge{
 	color = "#3f3f3f";
@@ -43298,11 +43304,11 @@
 /turf/open/floor/rogue/cobble/mossy,
 /area/rogue/outdoors/mountains)
 "jor" = (
-/obj/effect/decal/edge{
+/obj/structure/fluff/railing/corner/south_east,
+/obj/effect/decal/edge_corner{
 	color = "#3f3f3f";
 	dir = 1
 	},
-/obj/structure/fluff/railing/corner/south_east,
 /turf/open/floor/rogue/cobble,
 /area/rogue/outdoors/exposed/town/keep)
 "jos" = (
@@ -60333,11 +60339,6 @@
 /obj/item/clothing/ring/aalloy,
 /turf/open/floor/rogue/ruinedwood/turned,
 /area/rogue/indoors/town)
-"mMJ" = (
-/obj/structure/fluff/railing/border,
-/obj/machinery/light/rogue/torchholder/l,
-/turf/open/floor/rogue/grass,
-/area/rogue/outdoors/exposed/town/keep)
 "mMM" = (
 /obj/effect/decal/cobbleedge{
 	icon_state = "cobbleedge-sread"
@@ -66979,14 +66980,6 @@
 /obj/effect/decal/cleanable/blood,
 /turf/open/floor/rogue/dirt,
 /area/rogue/indoors/town/garrison)
-"onC" = (
-/obj/effect/decal/edge{
-	color = "#3f3f3f";
-	dir = 1
-	},
-/obj/structure/fluff/railing/corner/south_west,
-/turf/open/floor/rogue/cobble,
-/area/rogue/outdoors/exposed/town/keep)
 "onF" = (
 /turf/closed/mineral/random/rogue/high,
 /area/rogue/indoors/cave)
@@ -82140,7 +82133,10 @@
 /area/rogue/indoors/town/dwarfin)
 "rvM" = (
 /obj/structure/fluff/railing/border/east,
-/turf/open/floor/rogue/cobble/mossy,
+/obj/effect/decal/mossy{
+	dir = 8
+	},
+/turf/open/floor/rogue/cobble,
 /area/rogue/outdoors/exposed/town/keep)
 "rvR" = (
 /obj/effect/decal/edge_corner{
@@ -104695,6 +104691,7 @@
 /area/rogue/under/cave/his_vault)
 "wiv" = (
 /obj/structure/fluff/railing/border/north,
+/obj/machinery/light/rogue/torchholder/l,
 /turf/open/floor/rogue/cobble/mossy,
 /area/rogue/outdoors/exposed/town/keep)
 "wiw" = (
@@ -288543,7 +288540,7 @@ kLe
 prz
 afY
 afY
-uVv
+afY
 mUx
 olN
 jrc
@@ -288995,8 +288992,8 @@ kLe
 prz
 afY
 afY
-onC
-rVS
+ctb
+jgM
 dkS
 fGI
 cxf
@@ -289903,7 +289900,7 @@ uVv
 slw
 noW
 nBF
-mMJ
+gkK
 uzz
 wiv
 noW
