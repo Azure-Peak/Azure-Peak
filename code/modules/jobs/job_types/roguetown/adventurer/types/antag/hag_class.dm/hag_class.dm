@@ -1,0 +1,85 @@
+/datum/advclass/hag
+	name = "Hag"
+	tutorial = "You are ancient, malevolent evil. None of the known gods claim to have brought you into this world. All you know is hatred, how to sift through the grains of this land with your calloused hands, picking those who prove themselves useful."
+	outfit = /datum/outfit/job/roguetown/hag
+	traits_applied = list(TRAIT_RITUALIST, TRAIT_DODGEEXPERT, TRAIT_ALCHEMY_EXPERT) // Surely this won't be broken.
+	reset_stats = TRUE
+	subclass_stats = list(
+		STATKEY_PER = 2,
+		STATKEY_WIL = 2,
+		STATKEY_SPD = 3,
+		STATKEY_CON = 1,
+		STATKEY_INT = 2
+	)
+	subclass_skills = list(
+		/datum/skill/magic/holy = SKILL_LEVEL_EXPERT,
+		/datum/skill/misc/tracking = SKILL_LEVEL_LEGENDARY,
+		/datum/skill/misc/swimming = SKILL_LEVEL_JOURNEYMAN,
+		/datum/skill/combat/wrestling = SKILL_LEVEL_JOURNEYMAN,
+		/datum/skill/combat/unarmed = SKILL_LEVEL_EXPERT,
+		/datum/skill/misc/athletics = SKILL_LEVEL_EXPERT,
+		/datum/skill/misc/climbing = SKILL_LEVEL_MASTER,
+		/datum/skill/misc/reading = SKILL_LEVEL_APPRENTICE,
+		/datum/skill/misc/sneaking = SKILL_LEVEL_EXPERT,
+		/datum/skill/misc/lockpicking = SKILL_LEVEL_EXPERT,
+		/datum/skill/craft/traps = SKILL_LEVEL_JOURNEYMAN,
+		/datum/skill/misc/medicine = SKILL_LEVEL_APPRENTICE,
+		/datum/skill/craft/crafting = SKILL_LEVEL_APPRENTICE,
+		/datum/skill/craft/alchemy = SKILL_LEVEL_JOURNEYMAN
+	)
+	category_tags = list(CTAG_HAG)
+	cmode_music = 'sound/music/combat_graggar.ogg'
+
+/datum/outfit/job/roguetown/hag
+
+/datum/outfit/job/roguetown/hag/pre_equip(mob/living/carbon/human/H)
+	..()
+	if(H.mind)
+		H.mind.AddSpell(new /obj/effect/proc_holder/spell/targeted/shapeshift/hag_true_form)
+		H.set_patron(/datum/patron/godless)
+
+/obj/effect/proc_holder/spell/targeted/shapeshift/hag_true_form
+	die_with_shapeshifted_form = FALSE
+	gesture_required = TRUE
+	chargetime = 5 SECONDS
+	recharge_time = 50
+	cooldown_min = 50
+	convert_damage = FALSE
+	do_gib = FALSE
+	knockout_on_death = 10 SECONDS
+
+/obj/effect/proc_holder/spell/targeted/shapeshift/hag_true_form/cast(list/targets, mob/user = usr)
+	user.visible_message(span_warning("[user] begins to twist and contort!"), span_notice("I begin to transform..."))
+	return ..()
+
+/obj/effect/proc_holder/spell/targeted/shapeshift/hag_true_form/Shapeshift(mob/living/caster)
+	// Do-after before transforming
+	if(!do_after(caster, 3 SECONDS, target = caster))
+		to_chat(caster, span_warning("Transformation interrupted!"))
+		revert_cast(caster)  // Refund the cooldown
+		return
+
+	// Call parent to actually transform
+	return ..()
+
+/obj/effect/proc_holder/spell/targeted/shapeshift/hag_true_form/Restore(mob/living/shape)
+	// Check if restrained before allowing revert
+	if(shape.restrained(ignore_grab = FALSE))
+		to_chat(shape, span_warn("I am restrained, I can't transform back!"))
+		revert_cast(shape)  // Refund the cooldown
+		return
+
+	// Add do-after for witches when reverting
+	shape.visible_message(span_warning("[shape] begins to shift back!"), span_notice("I begin to transform..."))
+	if(!do_after(shape, 3 SECONDS, target = shape))
+		to_chat(shape, span_warning("Transformation revert interrupted!"))
+		revert_cast(shape)  // Refund the cooldown
+		return
+
+	return ..()
+
+/obj/effect/proc_holder/spell/targeted/shapeshift/hag_true_form
+	name = "True form"
+	desc = "I'm tired of these mortals invading MY bog, out with them!! I shall show them -true- terror!"
+	overlay_state = "cat_transform"
+	shapeshift_type = /mob/living/simple_animal/hostile/retaliate/rogue/hag_shapeshift
