@@ -90,10 +90,42 @@ SUBSYSTEM_DEF(input)
 		user.update_movement_keys()
 
 /datum/controller/subsystem/input/fire()
-	var/list/clients = GLOB.clients // Let's sing the list cache song
+	var/list/clients = GLOB.clients
 	for(var/i in 1 to clients.len)
 		var/client/C = clients[i]
 		C.keyLoop()
+		cursor_face_update(C)
+
+/// ARPG cursor-facing: faces mob toward cursor when in combat mode + fixed eye.
+/// Close range (<=2 tiles): cardinal-only (90 degree zones).
+/// Far range: 8-dir hysteresis (diagonals keep current facing).
+/datum/controller/subsystem/input/proc/cursor_face_update(client/C)
+	var/mob/M = C.mob
+	if(!isliving(M))
+		return
+	var/mob/living/L = M
+	if(!L.cmode || !L.fixedeye)
+		return
+	if(!L.canface())
+		L.pending_cursor_dir = TRUE
+		return
+	var/angle = mouse_angle_from_client(C)
+	if(isnull(angle))
+		return
+	var/new_dir = angle2dir_cardinal(angle)
+	if(!new_dir)
+		return
+	// If pending, always snap to current cursor position even if dir matches
+	if(L.pending_cursor_dir)
+		L.pending_cursor_dir = FALSE
+		if(L.dir != new_dir)
+			L.setDir(new_dir)
+			L.last_dir_change = world.time
+		return
+	if(L.dir == new_dir)
+		return
+	L.setDir(new_dir)
+	L.last_dir_change = world.time
 
 /// A verb that does nothing, used for clearing keybinds faster.
 /client/verb/NONSENSICAL_VERB_THAT_DOES_NOTHING()
