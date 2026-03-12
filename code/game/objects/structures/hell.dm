@@ -54,6 +54,10 @@ GLOBAL_LIST_EMPTY(hellspawns)
 	var/isinhell
 	var/last_helld = 0
 
+/mob/dead/observer/profane
+	/// The original body of a captured soul. Used in assassin dagger logic.
+	var/mob/living/carbon/human/original_body
+
 /mob/dead/observer/proc/go2hell()
 	var/obj/effect/landmark/L = pick(GLOB.hellspawns)
 	if(L)
