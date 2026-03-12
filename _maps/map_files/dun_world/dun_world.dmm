@@ -88779,6 +88779,10 @@
 	},
 /turf/open/floor/rogue/wood,
 /area/rogue/indoors/town/physician)
+"sPx" = (
+/obj/structure/roguemachine/chimeric_slab,
+/turf/open/floor/rogue/ruinedwood/spiral,
+/area/rogue/indoors/town/church/chapel)
 "sPD" = (
 /obj/structure/fermentation_keg,
 /turf/open/floor/rogue/twig,
@@ -255551,7 +255555,7 @@ fwK
 wdQ
 bqZ
 mSh
-hfa
+sPx
 hfa
 vYm
 bML
