@@ -298,16 +298,31 @@ WE DO NOT CURRENTLY USE THE UNDERWORLD. IF WE EVER GET IT BACK, FOR SOME REASON,
 	init_profane_soul(target, user) // If we got the soul, store them in the dagger.
 	qdel(target) // Get rid of that ghost!
 	return TRUE
+*/
 
-/obj/item/rogueweapon/huntingknife/idagger/steel/profane/proc/release_profane_souls(mob/user) // For ways to release the souls trapped within a profane dagger, such as a Necrite burial rite. Returns the number of freed souls.
+// this is ai bc the loop got fucking weird w/ the components.
+/obj/item/rogueweapon/huntingknife/idagger/steel/profane/proc/release_profane_souls(mob/user)
 	var/freed_souls = 0
-	for(var/mob/dead/observer/profane/A in src) // for every trapped soul in the dagger, whether they have left the game or not
-		to_chat(A, "<b>I have been freed from my vile prison, I await Necra's cold grasp. Salvation!</b>")
-		A.returntolobby() //Send the trapped soul back to the lobby
-		user.visible_message("<span class='warning'>The [A.name] flows out from the profane dagger, finally free of its grasp.</span>")
+	message_admins("dagger engaged") // debug
+
+	for(var/atom/movable/child in src.contents)
+		if(!istype(child, /mob/dead/observer/profane))
+			continue
+
+		var/mob/dead/observer/profane/S = child
+		var/mob/living/carbon/human/original_body = S.original_body
+
+		if(original_body && S.mind)
+			S.mind.transfer_to(original_body)
+			message_admins("transferto proc'd")
+		else
+			S.returntolobby()
+			message_admins("returntolobby proc'd")
+
 		freed_souls += 1
-	user.visible_message("<span class='warning'>The profane dagger shatters into putrid smoke!</span>")
-	qdel(src) // Delete the dagger. Forevermore.
+		src.total_souls_taken -= 1
+		qdel(S)
+
 	return freed_souls
 
 /datum/component/profaned
