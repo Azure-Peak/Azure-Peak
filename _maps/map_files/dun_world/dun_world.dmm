@@ -5200,6 +5200,15 @@
 /obj/structure/fluff/railing/corner/south_east,
 /turf/open/floor/rogue/grass,
 /area/rogue/outdoors/rtfield)
+"bgG" = (
+/obj/effect/decal/edge{
+	color = "#3f3f3f";
+	dir = 1
+	},
+/obj/structure/fluff/railing/corner/south_east,
+/obj/structure/fluff/railing/corner/south_west,
+/turf/open/floor/rogue/cobble,
+/area/rogue/outdoors/exposed/town/keep)
 "bgH" = (
 /obj/structure/closet/crate/chest/crate,
 /obj/item/natural/bundle/stick{
@@ -6228,11 +6237,6 @@
 "bts" = (
 /turf/open/floor/rogue/hexstone,
 /area/rogue/under/cave/dukecourt)
-"btu" = (
-/obj/structure/flora/roguegrass,
-/obj/structure/flora/ausbushes/ppflowers,
-/turf/open/floor/rogue/grassyel,
-/area/rogue/outdoors/exposed/town/keep)
 "btx" = (
 /mob/living/simple_animal/hostile/retaliate/rogue/bigrat/gethsmane,
 /turf/open/floor/rogue/greenstone,
@@ -9907,13 +9911,6 @@
 "ckH" = (
 /obj/structure/table/wood,
 /obj/machinery/light/rogue/candle/blue/r,
-/obj/structure/fluff/walldeco/stone/stone5{
-	pixel_y = 32
-	},
-/obj/item/candle/skull/lit{
-	pixel_x = 4;
-	pixel_y = 13
-	},
 /turf/open/floor/rogue/metal{
 	icon_state = "plating2"
 	},
@@ -38548,6 +38545,12 @@
 	},
 /turf/open/floor/rogue/naturalstone,
 /area/rogue/outdoors/mountains/decap/gunduzirak)
+"iot" = (
+/obj/structure/flora/roguegrass,
+/obj/structure/flora/ausbushes/ywflowers,
+/obj/structure/flora/ausbushes/brflowers,
+/turf/open/floor/rogue/grassyel,
+/area/rogue/outdoors/exposed/town/keep)
 "iox" = (
 /obj/structure/chair/wood/rogue{
 	dir = 8
@@ -42078,6 +42081,11 @@
 /obj/structure/fluff/walldeco/chains,
 /turf/open/floor/rogue/blocks,
 /area/rogue/under/town/sewer)
+"jcz" = (
+/obj/structure/fluff/railing/border/east,
+/obj/structure/fluff/railing/border/west,
+/turf/open/floor/rogue/cobble,
+/area/rogue/outdoors/exposed/town/keep)
 "jcD" = (
 /obj/structure/fluff/walldeco/church/line,
 /turf/open/floor/rogue/church,
@@ -72612,6 +72620,12 @@
 	},
 /turf/open/floor/rogue/grassyel,
 /area/rogue/druidsgrove)
+"ptX" = (
+/obj/structure/flora/roguegrass,
+/obj/structure/flora/ausbushes/brflowers,
+/obj/structure/flora/ausbushes/ppflowers,
+/turf/open/floor/rogue/grassyel,
+/area/rogue/outdoors/exposed/town/keep)
 "pug" = (
 /obj/effect/decal/cobbleedge{
 	dir = 10;
@@ -110382,9 +110396,6 @@
 "xty" = (
 /obj/structure/table/wood,
 /obj/machinery/light/rogue/candle/blue/l,
-/obj/structure/fluff/walldeco/stone/stone5{
-	pixel_y = 32
-	},
 /turf/open/floor/rogue/metal{
 	icon_state = "plating2"
 	},
@@ -282213,7 +282224,7 @@ prz
 afY
 afY
 dZb
-xeR
+ptX
 sGj
 xty
 oic
@@ -282665,7 +282676,7 @@ prz
 afY
 afY
 dZb
-kEP
+iot
 sGj
 tKO
 hpW
@@ -283117,7 +283128,7 @@ kyJ
 afY
 afY
 dZb
-btu
+xeR
 sGj
 ckH
 hpW
@@ -283568,8 +283579,8 @@ kLe
 prz
 afY
 afY
-dZb
-kEP
+bgG
+jcz
 sGj
 sGj
 sGj
