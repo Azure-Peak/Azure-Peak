@@ -26073,10 +26073,6 @@
 	color = "#3f3f3f";
 	dir = 8
 	},
-/obj/structure/roguemachine/atm{
-	pixel_y = 0;
-	pixel_x = 32
-	},
 /obj/structure/chair/stool/rogue,
 /turf/open/floor/rogue/wood,
 /area/rogue/indoors/town/physician)
@@ -26905,6 +26901,7 @@
 /area/rogue/under/cavewet/bogcaves/west)
 "fQa" = (
 /obj/machinery/light/rogue/candle/l,
+/obj/structure/flora/roguegrass/herb/random,
 /turf/open/floor/rogue/dirt/road,
 /area/rogue/indoors/town/physician)
 "fQb" = (
@@ -42390,7 +42387,6 @@
 /turf/open/floor/rogue/church,
 /area/rogue/under/cave/scarymaze)
 "jfk" = (
-/obj/structure/flora/roguegrass,
 /obj/effect/decal/edge{
 	color = "#3f3f3f";
 	dir = 4
@@ -57793,6 +57789,12 @@
 	},
 /turf/open/floor/rogue/churchbrick,
 /area/rogue/indoors/town/bath)
+"mio" = (
+/obj/effect/decal/mossy{
+	dir = 8
+	},
+/turf/open/floor/rogue/cobble,
+/area/rogue/outdoors/exposed/town/keep)
 "mip" = (
 /obj/structure/fluff/railing/border/east,
 /turf/open/floor/rogue/dirt/road,
@@ -62535,6 +62537,10 @@
 	},
 /obj/structure/bed/rogue/inn{
 	dir = 4
+	},
+/obj/structure/roguemachine/atm{
+	pixel_y = 0;
+	pixel_x = 32
 	},
 /turf/open/floor/rogue/wood,
 /area/rogue/indoors/town/physician)
@@ -84128,6 +84134,16 @@
 /obj/effect/spawner/lootdrop/roguetown/dungeon/clothing,
 /turf/open/floor/rogue/concrete,
 /area/rogue/indoors/shelter/mountains/decap)
+"rRg" = (
+/obj/effect/decal/edge{
+	color = "#3f3f3f";
+	dir = 4
+	},
+/obj/effect/decal/mossy{
+	dir = 8
+	},
+/turf/open/floor/rogue/cobble,
+/area/rogue/outdoors/exposed/town/keep)
 "rRi" = (
 /obj/structure/roguewindow/openclose/reinforced{
 	dir = 1
@@ -85913,7 +85929,6 @@
 /turf/open/floor/rogue/dirt/road,
 /area/rogue/outdoors/mountains/decap)
 "slw" = (
-/obj/structure/flora/roguegrass,
 /obj/machinery/light/rogue/lanternpost,
 /turf/open/floor/rogue/cobble/mossy,
 /area/rogue/outdoors/exposed/town/keep)
@@ -104706,7 +104721,7 @@
 "wiv" = (
 /obj/structure/fluff/railing/border/north,
 /obj/machinery/light/rogue/torchholder/l,
-/turf/open/floor/rogue/cobble/mossy,
+/turf/open/floor/rogue/grass,
 /area/rogue/outdoors/exposed/town/keep)
 "wiw" = (
 /obj/structure/fluff/railing/fence,
@@ -289456,7 +289471,7 @@ prz
 afY
 afY
 uVv
-noW
+teu
 xuM
 sGj
 dkS
@@ -289909,7 +289924,7 @@ afY
 afY
 uVv
 slw
-noW
+mio
 nBF
 gkK
 uzz
@@ -290360,7 +290375,7 @@ tWN
 dXd
 afY
 mGX
-otC
+rRg
 otC
 jfk
 bcj
