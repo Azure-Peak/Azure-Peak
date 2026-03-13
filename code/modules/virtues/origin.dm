@@ -193,7 +193,36 @@
 				/datum/species/goblinp,
 				/datum/species/anthromorphsmall
 )
-	origin_desc = "PLEASE PING THE LORE TEAM TO ADD LORE FOR THIS"
+	origin_desc = "Underdwellers are those who are descendants of their lengthy lineage that settled, lived and toiled in the darkest and deepest \
+	of depths of the vast, deadly Underdark a millennia ago. When one speaks of a 'Underdweller',a dark elf first comes to mynd, though despite them\
+	dominating these vast cavern riddled depths, there are more that can call the Underdark their home: Dwarves in their deep fortresses, mostly\
+	isolated from the rest of the depths they reside, Kobolds that scavenge and roam in a nomadic fashion, moving away as soon as they\
+	strip their dugout clear of valuables and Gnomes, often referred to as 'Deep Gnomes' due to their natural affinity for boasting\
+	dark elf-like complexions. Goblins have scurried their way into the shallowest of depths, but struggle to survive in this hostile\
+	environment due to their fragility and lack of necessary instincts to survive.\n<br><br>\
+	\
+	Despite vast differences amongst these races, they all have things in common. Their forms over the generations have garnered darker or \
+	paler complexions, their bodies slightly shorter than their surface dwelling compatriots, dark elves being amongst the tallest species in \
+	the Underdark, despite on average being shorted than an average Hammerholdian humen. Despite this in most cases noticable lack of height, these \
+	races have also grown sturdier, more resilient and more cautious and keen, out of pure necessity. Survival in these depths demands one's all.  \
+	A fact those of the surface that delve deep into these cavers, tend to forget, resulting in their untimely demise. Or worse.\n<br><br>\
+	\
+	The Underdark itself is a gigantic system of different caves, caverns tunnels and hollowed out underground regions that span leagues upon \
+	leagues both across and deep into Psydonia's soil. Not all of these systems are inherenty connected, paved or make logical sense,  but the \
+	Underdwellers always have  knack for traversing them. Underdark as a whole, is split into Western and Eastern, Western being the one that \
+	resides beneath Azuria and its continent, and the Eastern that is located deep within Raneshen and Kazengun's soil, noticeably less populated \
+	than the western counterpart, shrouded in mystery; more so than the other. Most important fact remains, Western and Eastern Underdark are NOT \
+	connected directly, only point where one could pass from one into the other, in theory being a marvel of artifice, constructed by the deep \
+	dwarves, known as Duergar. Their hostile and isolationist nature prevents any who seek passage through their fortress of artifice that sits \
+	above the vast molten sea in the deepest of depths, from obtaining it in this lyfe. This makes Eastern Underdwellers somewhat more rare in \
+	places lyke Azuria due to the sheer difficulty and amount of hoops one'd need to jump through to reach its forests.\n<br><br>\
+	\
+	Underdwellers live a harsh lyfe, filled with hard toil, sweat and blood, and thusly they are no strangers to violence and darker things one \
+	could experience in mortal lyfe. Most settlements in these depths practice some sort of violent cultural tradition, engage in bloodsports, or \
+	both. And so much more. They live and have lived very different lives for a millennia, which often causes Underdwellers to have trouble adapting \
+	to surface cultures and  communities, often perceived as strange at best, and downright evil at worst. A stigma developed by those who live upon \
+	the surface about their home and culture, believing all things evil crawl out of the very depths they reside in. A stigma that has lessened in \
+	recent yils, but still vastly present nonetheless."
 
 /datum/virtue/origin/apply_to_human(mob/living/carbon/human/recipient)
 	recipient.dna.species.origin = origin_name

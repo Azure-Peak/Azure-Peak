@@ -66,7 +66,7 @@
 	name = "Gnoll Claw"
 	// We are smarter, we can use our solid, steel-like claws to defend ourselves.
 	wdefense = 5
-	force = 28
+	force = 30
 	possible_item_intents = list(/datum/intent/simple/gnoll_cut, /datum/intent/simple/werewolf/gnoll, /datum/intent/mace/smash/werewolf/gnoll, /datum/intent/mace/strike/gnoll)
 
 /obj/item/rogueweapon/werewolf_claw/gnoll/right
@@ -103,7 +103,7 @@
 /datum/intent/simple/gnoll_cut
 	name = "cutting claw"
 	hitsound = "genslash"
-	penfactor = 70
+	penfactor = 55
 	candodge = TRUE
 	canparry = TRUE
 	miss_text = "slashes the air!"

@@ -1,0 +1,6 @@
+author: "WeNeedMorePhoron"
+delete-after: True
+changes:
+  - rscadd: "Leyline spawn rates reduced massively for forest and by half for bog"
+  - rscadd: "Leyline light range lowered to 3"
+  - rscadd: "Brazier is now destructible with 200 integrity."

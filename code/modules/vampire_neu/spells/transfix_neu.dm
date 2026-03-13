@@ -48,7 +48,7 @@
 		return
 
 	if(!powerful)
-		var/mob/selected = input(user, "Ensnare the mind of which mortal?", "Transfix") as null|anything in targets 
+		var/mob/selected = input(user, "Ensnare the mind of which mortal?", "Transfix") as null|anything in targets
 		if(QDELETED(src) || QDELETED(user) || QDELETED(selected))
 			revert_cast(user)
 			return
@@ -61,10 +61,12 @@
 		user.visible_message("<font color='red'>[user]'s eyes glow a ghastly red as they project their will outwards!</font>")
 
 	for(var/mob/living/carbon/human/target as anything in targets)
+		var/current_will_dice = will_dice
 		if(target.cmode)
-			will_dice++
+			current_will_dice += 1
+
 		var/willpower = round(target.STAINT / int_divisor, 1)
-		var/willroll = roll(willpower, will_dice)
+		var/willroll = roll(willpower, current_will_dice)
 
 		// If the vampire failed badly
 		var/knowledgable = (willroll - bloodroll) >= 3

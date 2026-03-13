@@ -547,3 +547,118 @@
   - rscadd: Triumph is now gained on nighttime transition instead of when you sleep
   bearrrrrrrr:
   - admin: increased size of single-z event area
+2026-03-11:
+  Antoonij:
+  - bugfix: rmb stealing/nondetection runtimes fix
+  Clem-The-Duck:
+  - bugfix: makes Noc Helmet use default FOV as intended
+  FreeStylaLT:
+  - balance: Bless Drink T0 miracle now has a reagent blacklist.
+  - bugfix: Fixed Underdark origin not being applied correctly.
+  Ketrai:
+  - rscadd: Added flagpoles as a quick way to indicate role presence and availability!
+  Lamasmaster:
+  - bugfix: Horn sounds
+  - bugfix: Veteran not county for scaling slots
+  Risraivyn:
+  - rscadd: z-lvl water swim
+  - rscadd: new tile and area
+  - bugfix: removed the repetition
+  - sound: added buble sound
+  Teragenic:
+  - qol: Blacksmithing Towner now has a peddler, bloomery, and proper scom tag
+  WeNeedMorePhoron:
+  - rscadd: Acolyte now contributes 2 to effective pop for antagonist scaling instead
+      of 1, in contrast to garrison / holy warriors' 3. They counts as half a person
+      for enabling T2 wretch scaling between 10 to 15.
+  - rscadd: '"Guidebook" verb added to OOC, which allows you to access every single
+      recipe books we have in game at the moment.'
+  eirenxiv:
+  - bugfix: fixed Hangyaku and Chonin not being included in the merc list
+  - bugfix: fixed stat ceiling using get_true_stat instead of get_stat, adjusted for
+      negative effects
+2026-03-12:
+  Clem-The-Duck:
+  - rscadd: Allows spectacles to be worn on head slots
+  FreeStylaLT:
+  - rscadd: Added Underdark Origin description, courtesy of Drunken Lombax on the
+      Discord.
+  KatTheFox:
+  - bugfix: necran crosses can no longer soak your legs in molasses due to an edge
+      case
+  Ketrai:
+  - balance: Gnolls and bandits share a migrant wave roll now. Either one role or
+      the other is trigerred, but not both.
+  - balance: Maximum amount of gnoll and bandit slots will commonly be a bit lower.
+      Bandits down from 10 => 8 max. Commonly gnolls will have 2 slots max, in rarer
+      cases 3 or 4.
+  - balance: Gnoll templars now have 12 => 10 strength!
+  - balance: Gnoll claws have far worse AP on cut, but are now slightly better at
+      breaking armor.
+  - bugfix: Bandit slots respect lowpop and roundstart now. Can't open before 30 mins
+      roundtimer.
+  Lamasmaster:
+  - qol: Economic Roleplay Panel
+  - admin: Surrender Logging
+  - bugfix: Lightweight Brigandine being in wrong store category
+  - bugfix: Vow to Undermaiden still being on list of rituals.
+  Ollanius:
+  - code_imp: Slightly touches up grammar of the 'Drowcraft' armor morphing elixer.
+  - rscadd: Adds the Bandolier, a cosmetic tabard with the lone mechanical benefit
+      of being placeable on the right backslot as well. Made via two cured leathers
+      and a rope via Skincrafting, or imported from the Merchant's wardrobe section.
+  - rscadd: Adds new Mechanics-type tip to cloaks and tabards, explaining how to swap
+      its layering via MMB.
+  - code_imp: Renames the original 'Bandolier' crafting recipe to 'Tossblade Bandolier',
+      in order to more accurately depict its result.
+  - balance: Slightly reduced the cost of most silver weapon recipes by one ingot.
+  - rscadd: Adds generic versions of the silver katar, knuckleduster, and claws; these
+      can be smithed.
+  - rscadd: Adds the Silver Greatsword + Executioner Sword, alongside the new silver
+      unarmed weapons, to high-end loot spawners.
+  - bugfix: Steel Greatplumed Armets now properly cost the same as a regular armet,
+      when bought from the Merchant's machines.
+  - balance: Bottlebombs and smokebombs can now fit in belts and other small-tiered
+      containers.
+  PatapoIIIa:
+  - bugfix: Fixed a bug with the Transfix spell that caused its difficulty to infinitely
+      increase each time it was used against targets in combat mode.
+  Teragenic:
+  - balance: Gave Templar Crusader Swimming + Buffed Abyssorite Crusader Swimming
+  WeNeedMorePhoron:
+  - rscadd: Redid the table for displaying skills to look fancier and display progress.
+  - balance: Unarmed base damage increased and now it scales linearly to your strength
+      instead of quadratically
+  - balance: Expert Pugilist now gives a flat +5 to unarmed damage. Protective gloves
+      gives +1 to +3 (Leather to Plate), whereas unarmed bandages goes from +3, +5
+      to +7.
+  - balance: All knuckles are now a type of gloves. The good knuckels give +12 unarmed
+      flat bonus, higher than bandage, but have disastrous durability and poor armor.
+      They allow you to do unarmed parrying ,however.
+  - balance: Bandages now provide some protection to the hands.
+  - balance: Punch now deals 1.0 integrity damage once again, and calculate as swift
+      balanced like unarmed weapons.
+  - rscadd: There should be a new gate for being ambushed twice within 2 minutes.
+  - rscadd: Mobs are quieter and shouldn't yell at you more than once every 15 seconds.
+  eirenxiv:
+  - bugfix: fixed ability to repair donor helmet
+  - bugfix: fixed ability to repair plate boots with armour kits
+  - code_imp: RACES_NO_CONSTRUCT now includes revenants
+  mumblemancer:
+  - bugfix: baotha musk ritual hallucination stacks cap at 30
+  - qol: zig bandoliers and zig boxes can now quickdump and quick pick up contents
+  - balance: eoran acolytes get +1 farming, sewing, and cooking. eoran templars get
+      +1 farming and cooking.
+  rarytech:
+  - rscadd: 'Added new Jester facemask
+
+      :cl:
+
+      <!-- Both :cl:''s are required for the changelog to work! You can put your name
+      to the right of the first :cl: if you want to overwrite your GitHub username
+      as author ingame. -->
+
+      <!-- You can use multiple of the same prefix (they''re only used for the icon
+      ingame) and delete the unneeded ones. Despite some of the tags, changelogs should
+      generally represent how a player might be affected by the changes rather than
+      a summary of the PR''s contents. -->'

@@ -59,7 +59,8 @@
 
 /mob/living/carbon/human/species/human/northern/border_reiver/handle_combat()
 	if(mode == NPC_AI_HUNT)
-		if(prob(2)) // do not make this big or else they NEVER SHUT UP
+		if(prob(2) && world.time >= (mob_timers["npc_chatter"] + 15 SECONDS))
+			mob_timers["npc_chatter"] = world.time
 			emote("laugh")
 	. = ..()
 

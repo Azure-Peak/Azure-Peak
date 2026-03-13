@@ -2,6 +2,7 @@
 /datum/magic_item/superior/nightvision
 	name = "night vision"
 	description = "It has a sigil of Noc's eye."
+	glow_color = "#B0C4DE"
 	var/active_item = FALSE
 
 /datum/magic_item/superior/nightvision/on_equip(var/obj/item/i, var/mob/living/user, slot)
@@ -25,6 +26,7 @@
 /datum/magic_item/superior/unbreaking
 	name = "unbreaking"
 	description = "It feels as strong as blacksteel"
+	glow_color = "#808080"
 
 /datum/magic_item/superior/unbreaking/on_apply(var/obj/item/i)
 	.=..()
@@ -34,6 +36,7 @@
 /datum/magic_item/superior/featherstep
 	name = "feather step"
 	description = "It feels as light as a feather"
+	glow_color = "#66CDAA"
 	var/active_item = FALSE
 
 /datum/magic_item/superior/featherstep/on_equip(var/obj/item/i, var/mob/living/user, slot)
@@ -59,6 +62,7 @@
 /datum/magic_item/superior/fireresist
 	name = "fire resistance"
 	description = "It seems to be absorbing heat!"
+	glow_color = "#FF4500"
 	var/active_item = FALSE
 
 /datum/magic_item/superior/fireresist/on_equip(var/obj/item/i, var/mob/living/user, slot)
@@ -81,6 +85,7 @@
 /datum/magic_item/superior/climbing
 	name = "spider's movement"
 	description = "It bristles with ends like fine hairs."
+	glow_color = "#2E8B57"
 	var/active_item = FALSE
 	var/masterclimber = FALSE
 	var/legendaryclimber = FALSE
@@ -116,6 +121,7 @@
 /datum/magic_item/superior/thievery
 	name = "fast fingers"
 	description = "It looks like it fits just right"
+	glow_color = "#483D8B"
 	var/active_item = FALSE
 	var/masterstealer = FALSE
 	var/legendstealer = FALSE
@@ -164,6 +170,7 @@
 /datum/magic_item/superior/trekk
 	name = "Longstriding"
 	description = "It looks like it can be used to move through rough terrain"
+	glow_color = "#8B7355"
 	var/active_item = FALSE
 
 /datum/magic_item/superior/trekk/on_equip(var/obj/item/i, var/mob/living/user, slot)
@@ -186,6 +193,7 @@
 /datum/magic_item/superior/smithing
 	name = "smithing"
 	description = "It's warm with forge flame."
+	glow_color = "#B87333"
 
 /datum/magic_item/superior/smithing/on_apply(var/obj/item/i)
 	.=..()

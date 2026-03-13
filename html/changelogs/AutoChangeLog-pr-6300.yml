@@ -1,0 +1,4 @@
+author: "Wildwestmars"
+delete-after: True
+changes:
+  - rscadd: "Added keybind for set pose."

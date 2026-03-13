@@ -1,0 +1,4 @@
+author: "Ldip999"
+delete-after: True
+changes:
+  - qol: "TGUI Chat now uses dynamic tracking tolerance"

@@ -64,6 +64,7 @@ GLOBAL_VAR_INIT(ambush_mobconsider_cooldown, 2 MINUTES) // Cooldown for each ind
 		mob_timers["ambushlast"] = world.time
 		for(var/mob/living/V in victimsa)
 			V.mob_timers["ambushlast"] = world.time
+			V.mob_timers["ambush_check"] = world.time
 		if(TR)
 			var/scaled_reduction = TR.latent_ambush > DANGER_MODERATE_LIMIT ? 2 : 1 // Dangerous & Dire counts for 2
 			TR.reduce_latent_ambush(scaled_reduction) // Remove one ambush from the ambient pool

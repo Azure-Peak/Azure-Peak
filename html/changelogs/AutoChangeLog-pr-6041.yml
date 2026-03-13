@@ -1,0 +1,4 @@
+author: "WeNeedMorePhoron"
+delete-after: True
+changes:
+  - rscdel: "Removed the Icon updates and icon cache subsystem ported from Scarlet. Report any oddity. This should improve or at least have no impact on server performance."

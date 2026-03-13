@@ -1,0 +1,6 @@
+author: "WeNeedMorePhoron"
+delete-after: True
+changes:
+  - rscadd: "You get an informative message telling you are wearing armor of the wrong armor class and its penalty and when you remove them properly."
+  - rscadd: "Spell examination now give you a detailed breakdown on factors affecting your charge time, cooldown and cost"
+  - bugfix: "All spells now charge its stamina cost properly instead of costing 0. This was a major bug for at least a few weeks."

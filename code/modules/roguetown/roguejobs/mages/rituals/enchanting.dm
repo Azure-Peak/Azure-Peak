@@ -68,6 +68,15 @@
 	required_atoms = list(/obj/item/rogueore/cinnabar = 1, /obj/item/paper/scroll = 1, /obj/item/magic/infernal/ash = 4)
 	result_atoms = list(/obj/item/enchantmentscroll/magnifiedlight)
 
+// Dust, cuz fae trickery
+/datum/runeritual/enchanting/storage
+	name = "Compact Storage"
+	desc = "Increases storage capacity!"
+	blacklisted = FALSE
+	tier = 1
+	required_atoms = list(/obj/item/rogueore/cinnabar = 1, /obj/item/paper/scroll = 1, /obj/item/magic/fae/fairydust = 4)
+	result_atoms = list(/obj/item/enchantmentscroll/holding)
+
 // ----- T2 Enchantments (2x T2 realm mat + cinnabar + scroll) -----
 
 /datum/runeritual/enchanting/nightvision

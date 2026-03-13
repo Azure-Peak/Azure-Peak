@@ -7,6 +7,9 @@
 #define COOLDOWN_REDUCTION_PER_INT 0.05 // The amount of cooldown reduction per point of intelligence above / below threshold
 #define CHARGE_REDUCTION_PER_SKILL 0.05 // The amount of charge reduction per skill level.
 #define FATIGUE_REDUCTION_PER_SKILL 0.05 // The amount of fatigue reduction per skill level.
+#define MEDIUM_ARMOR_STAM_PENALTY 0.15 // Multiplier on base stamina cost for wearing medium armor
+#define HEAVY_ARMOR_STAM_PENALTY 0.3 // Multiplier on base stamina cost for wearing heavy armor
+#define UNTRAINED_ARMOR_STAM_PENALTY 80 // Flat stamina penalty for wearing armor you're not trained in
 
 /obj/effect/proc_holder
 	var/panel = "Debug"//What panel the proc holder needs to go on.
@@ -254,10 +257,74 @@ GLOBAL_LIST_INIT(spells, typesof(/obj/effect/proc_holder/spell)) //needed for th
 		var/diffy = SPELL_SCALING_THRESHOLD - user.STAINT
 		newdrain = newdrain + (releasedrain * (diffy * FATIGUE_REDUCTION_PER_INT))
 	if(!user.check_armor_skill())
-		newdrain += 80
+		newdrain += UNTRAINED_ARMOR_STAM_PENALTY
+	// Armor weight penalty. Trained wearers
+	// still get a bit of a soft penalty 
+	if(ishuman(user))
+		var/mob/living/carbon/human/H = user
+		var/ac = H.highest_ac_worn()
+		if(ac == ARMOR_CLASS_HEAVY)
+			newdrain += releasedrain * HEAVY_ARMOR_STAM_PENALTY
+		else if(ac == ARMOR_CLASS_MEDIUM)
+			newdrain += releasedrain * MEDIUM_ARMOR_STAM_PENALTY
 	if(newdrain > 0)
 		return newdrain
 	return 0.1
+
+/obj/effect/proc_holder/spell/proc/get_chargetime_breakdown(mob/living/user)
+	var/list/breakdown = list()
+	var/skill_level = user.get_skill_level(associated_skill)
+	if(skill_level > 0)
+		var/skill_mod = chargetime * skill_level * CHARGE_REDUCTION_PER_SKILL
+		breakdown += span_smallgreen("  Skill: -[DisplayTimeText(skill_mod)]")
+	var/obj/item/book/spellbook/sbook = user.is_holding_item_of_type(/obj/item/book/spellbook)
+	if(sbook && sbook?.open)
+		var/book_mod = chargetime * sbook.get_castred()
+		breakdown += span_smallgreen("  Spellbook: -[DisplayTimeText(book_mod)]")
+	var/obj/item/rogueweapon/staff = user.is_holding_item_of_type(/obj/item/rogueweapon/)
+	if(staff && staff.cast_time_reduction)
+		var/staff_mod = chargetime * staff.cast_time_reduction
+		breakdown += span_smallgreen("  Staff: -[DisplayTimeText(staff_mod)]")
+	return breakdown
+
+/obj/effect/proc_holder/spell/proc/get_cooldown_breakdown(mob/living/user)
+	var/list/breakdown = list()
+	if(user.STAINT > SPELL_SCALING_THRESHOLD)
+		var/diff = min(user.STAINT, SPELL_POSITIVE_SCALING_THRESHOLD) - SPELL_SCALING_THRESHOLD
+		var/int_mod = initial(recharge_time) * diff * COOLDOWN_REDUCTION_PER_INT
+		breakdown += span_smallgreen("  Intelligence: -[DisplayTimeText(int_mod)]")
+	else if(user.STAINT < SPELL_SCALING_THRESHOLD)
+		var/diffy = SPELL_SCALING_THRESHOLD - user.STAINT
+		var/int_mod = initial(recharge_time) * diffy * COOLDOWN_REDUCTION_PER_INT
+		breakdown += span_smallred("  Intelligence: +[DisplayTimeText(int_mod)]")
+	return breakdown
+
+/obj/effect/proc_holder/spell/proc/get_fatigue_breakdown(mob/living/user)
+	var/list/breakdown = list()
+	var/skill_level = user.get_skill_level(associated_skill)
+	if(skill_level > 0)
+		var/skill_mod = releasedrain * skill_level * FATIGUE_REDUCTION_PER_SKILL
+		breakdown += span_smallgreen("  Skill: -[skill_mod]")
+	if(user.STAINT > SPELL_SCALING_THRESHOLD)
+		var/diff = min(user.STAINT, SPELL_POSITIVE_SCALING_THRESHOLD) - SPELL_SCALING_THRESHOLD
+		var/int_mod = releasedrain * diff * FATIGUE_REDUCTION_PER_INT
+		breakdown += span_smallgreen("  Intelligence: -[int_mod]")
+	else if(user.STAINT < SPELL_SCALING_THRESHOLD)
+		var/diffy = SPELL_SCALING_THRESHOLD - user.STAINT
+		var/int_mod = releasedrain * diffy * FATIGUE_REDUCTION_PER_INT
+		breakdown += span_smallred("  Intelligence: +[int_mod]")
+	if(!user.check_armor_skill())
+		breakdown += span_smallred("  Untrained armor: +[UNTRAINED_ARMOR_STAM_PENALTY]")
+	if(ishuman(user))
+		var/mob/living/carbon/human/H = user
+		var/ac = H.highest_ac_worn()
+		if(ac == ARMOR_CLASS_HEAVY)
+			var/armor_mod = releasedrain * HEAVY_ARMOR_STAM_PENALTY
+			breakdown += span_smallred("  Armor weight: +[armor_mod]")
+		else if(ac == ARMOR_CLASS_MEDIUM)
+			var/armor_mod = releasedrain * MEDIUM_ARMOR_STAM_PENALTY
+			breakdown += span_smallred("  Armor weight: +[armor_mod]")
+	return breakdown
 
 /obj/effect/proc_holder/spell/proc/calculate_cooldown(mob/living/user)
 	if(!user || is_cdr_exempt)
@@ -285,6 +352,8 @@ GLOBAL_LIST_INIT(spells, typesof(/obj/effect/proc_holder/spell)) //needed for th
 		var/dynamic_ct = user ? calculate_chargetime(user) : base_ct
 		if(dynamic_ct != base_ct)
 			stats += span_info("Charge time: [DisplayTimeText(base_ct)] (current: [DisplayTimeText(dynamic_ct)])")
+			if(user)
+				stats += get_chargetime_breakdown(user)
 		else
 			stats += span_info("Charge time: [DisplayTimeText(base_ct)]")
 	else
@@ -294,6 +363,8 @@ GLOBAL_LIST_INIT(spells, typesof(/obj/effect/proc_holder/spell)) //needed for th
 		var/dynamic_cd = user ? calculate_cooldown(user) : base_cd
 		if(dynamic_cd != base_cd)
 			stats += span_info("Cooldown: [DisplayTimeText(base_cd)] (current: [DisplayTimeText(dynamic_cd)])")
+			if(user)
+				stats += get_cooldown_breakdown(user)
 		else
 			stats += span_info("Cooldown: [DisplayTimeText(base_cd)]")
 	var/base_fd = releasedrain
@@ -301,6 +372,8 @@ GLOBAL_LIST_INIT(spells, typesof(/obj/effect/proc_holder/spell)) //needed for th
 		var/dynamic_fd = user ? calculate_fatigue_drain(user) : base_fd
 		if(dynamic_fd != base_fd)
 			stats += span_info("Stamina cost: [base_fd] (current: [dynamic_fd])")
+			if(user)
+				stats += get_fatigue_breakdown(user)
 		else
 			stats += span_info("Stamina cost: [base_fd]")
 	return stats
@@ -568,6 +641,11 @@ GLOBAL_LIST_INIT(spells, typesof(/obj/effect/proc_holder/spell)) //needed for th
 		after_cast(targets, user = user)
 		if(isliving(user))
 			var/mob/living/L = user
+			// Apply stamina drain — the on_mmb path is never reached due to check_click_intercept consuming the click first
+			if(releasedrain > 0)
+				var/fatigue = calculate_fatigue_drain(L)
+				if(fatigue > 0)
+					L.stamina_add(fatigue)
 			if(L.has_status_effect(/datum/status_effect/buff/clash))
 				var/mob/living/carbon/human/H = user
 				H.bad_guard(span_warning("I can't focus while casting spells!"), cheesy = TRUE)
@@ -933,3 +1011,6 @@ GLOBAL_LIST_INIT(spells, typesof(/obj/effect/proc_holder/spell)) //needed for th
 #undef COOLDOWN_REDUCTION_PER_INT
 #undef CHARGE_REDUCTION_PER_SKILL
 #undef FATIGUE_REDUCTION_PER_SKILL
+#undef MEDIUM_ARMOR_STAM_PENALTY
+#undef HEAVY_ARMOR_STAM_PENALTY
+#undef UNTRAINED_ARMOR_STAM_PENALTY
