@@ -10,7 +10,7 @@
 	traits_applied = list(TRAIT_NOMOOD, TRAIT_NOPAIN, TRAIT_BLOOD_RESISTANCE) //no armour, dead inside, good luck
 	maximum_possible_slots = 1 //you probably don't want many of these
 
-	cmode_music = 'sound/music/combat_kazengite.ogg'
+	cmode_music = 'sound/music/combat_Kazengun_Firestorm.ogg'
 	subclass_stats = list(
 		STATKEY_STR = 2, //8 weighted with weapon buff, same as berserker
 		STATKEY_CON = 1,
