@@ -8,6 +8,7 @@ SUBSYSTEM_DEF(investments)
 	var/list/active_investments = list()
 	var/fire_num_before_regen = 4
 	var/fire_num_before_hard = 6
+	var/generated_through_round = 0
 
 /datum/controller/subsystem/investments/Initialize(start_timeofday)
 	regenerate_investments()
@@ -19,7 +20,33 @@ SUBSYSTEM_DEF(investments)
 		regenerate_investments()
 	else if(times_fired % fire_num_before_hard)
 		regenerate_investments(TRUE)
-	
+
+
+/datum/controller/subsystem/investments/proc/get_treasury_rate()
+	if(generated_through_round <= 10000)
+		return 1
+
+	if(generated_through_round >= 100000)
+		return 0
+
+	if(generated_through_round >= 30000)
+		return 1 - ((generated_through_round - 30000) / (100000 - 30000))
+
+	return 1
+
+
+/datum/controller/subsystem/investments/proc/get_investment_rate()
+	var/count = length(active_investments)
+	if(count < 2)
+		return 2
+
+	if(count <= 7)
+		return 2 - ((count - 2) / (7 - 2))
+
+	if(count <= 20)
+		return 1 - ((count - 7) * (0.75 / (20 - 7)))
+
+	return 0.25
 
 /datum/controller/subsystem/investments/proc/regenerate_investments(force_reload = FALSE)
 	if(force_reload)
@@ -34,12 +61,22 @@ SUBSYSTEM_DEF(investments)
 			var/random_investment = pick(investments)
 			var/datum/investment/investment = new random_investment
 			if(investment.random_values)
-				investment.price = floor(investment.price * (rand(80, 130) / 100))
+				var/treasury_rate = get_treasury_rate()
+				var/invest_rate = get_investment_rate()
+
+				investment.price = floor(investment.price * (rand(80, 130) / 100) * (1 + (1 - treasury_rate)))
+
 				if(investment.onetime_payment > 0)
 					investment.onetime_payment = max(floor(investment.onetime_payment * (rand(90, 130) / 100)),investment.price+5)
-				investment.pay_eta = floor(investment.pay_eta * (rand(50, 150) / 100))
-				investment.regular_payment = floor(investment.regular_payment * (rand(80, 130) / 100))
+					
+				investment.pay_eta = floor(investment.pay_eta * (rand(50, 150) / 100) * (1 + (1 - treasury_rate)))
 				investment.fail_chance = floor(investment.fail_chance * (rand(80, 120) / 100))
+
+
+				var/random_rate = rand(80,130) / 100
+
+				investment.regular_payment = ceil(investment.regular_payment * treasury_rate * invest_rate * (rand(80, 110) / 100))
+				
 			available_investments += investment
 	else 
 		return FALSE
@@ -80,9 +117,7 @@ SUBSYSTEM_DEF(investments)
 
 	for(var/datum/investment/investment in active_investments)
 		money_earned += investment.regular_payment
-		if((SStreasury.treasury_value > 80000) && ((world.time - investment.time_purchased) > 60 MINUTES))
-			if(prob(10))
-				active_investments -= investment
+		generated_through_round += investment.regular_payment
 
 	if(money_earned != 0)
 		SStreasury.give_money_treasury(money_earned, "Инвестиции")
@@ -124,25 +159,25 @@ SUBSYSTEM_DEF(investments)
 
 /datum/investment/royal_bond_low
 	investment_name = "Выпустить дешевую облигацию"
-	price = -250
+	price = -550
 	pay_eta = 30 MINUTES
-	onetime_payment = -350
+	onetime_payment = -700
 	fail_chance = 0
 	random_values = FALSE
 
 /datum/investment/royal_bond_mid
 	investment_name = "Выпустить среднюю облигацию"
-	price = -1000
+	price = -2000
 	pay_eta = 30 MINUTES
-	onetime_payment = -1500
+	onetime_payment = -3500
 	fail_chance = 0
 	random_values = FALSE
 
 /datum/investment/royal_bond_large
 	investment_name = "Выпустить дорогую облигацию"
-	price = -2000
+	price = -3000
 	pay_eta = 30 MINUTES
-	onetime_payment = -3000
+	onetime_payment = -5000
 	fail_chance = 0
 	random_values = FALSE
 
