@@ -16,17 +16,87 @@
 
 	/// Synthesis recipe list
 	var/list/synth_recipes = list(
+		// GILDED ITEMS
+		/obj/item/rogueweapon/sword/decorated = /obj/item/hag_catalyst/synth_base/gilded,
+		/obj/item/rogueweapon/huntingknife/idagger/steel/decorated = /obj/item/hag_catalyst/synth_base/gilded,
+		// REGULAR STEEL - SWORDS
 		/obj/item/rogueweapon/sword = /obj/item/hag_catalyst/synth_base,
-		/obj/item/rogueweapon/sword/bronze = /obj/item/hag_catalyst/synth_base
+		/obj/item/rogueweapon/sword/long = /obj/item/hag_catalyst/synth_base,
+		/obj/item/rogueweapon/sword/long/broadsword/steel = /obj/item/hag_catalyst/synth_base,
+		// REGULAR STEEL - DAGGERS
+		/obj/item/rogueweapon/huntingknife/chefknife = /obj/item/hag_catalyst/synth_base,
+		/obj/item/rogueweapon/huntingknife/chefknife/cleaver = /obj/item/hag_catalyst/synth_base,
+		/obj/item/rogueweapon/huntingknife/combat = /obj/item/hag_catalyst/synth_base,
+		/obj/item/rogueweapon/huntingknife/idagger/steel = /obj/item/hag_catalyst/synth_base,
+		/obj/item/rogueweapon/huntingknife/idagger/steel/parrying = /obj/item/hag_catalyst/synth_base,
+		/obj/item/rogueweapon/huntingknife/idagger/steel/rondel = /obj/item/hag_catalyst/synth_base,
+		/obj/item/rogueweapon/huntingknife/idagger/steel/special = /obj/item/hag_catalyst/synth_base,
+		/obj/item/rogueweapon/huntingknife/idagger/dtace = /obj/item/hag_catalyst/synth_base,
+		/obj/item/rogueweapon/huntingknife/throwingknife/steel = /obj/item/hag_catalyst/synth_base,
+		/obj/item/rogueweapon/huntingknife/scissors/steel = /obj/item/hag_catalyst/synth_base,
+		// REGULAR STEEL - BLUNT WEAPONS
+		/obj/item/rogueweapon/mace/steel = /obj/item/hag_catalyst/synth_base,
+		/obj/item/rogueweapon/mace/steel/morningstar = /obj/item/hag_catalyst/synth_base,
+		/obj/item/rogueweapon/mace/cudgel/flanged = /obj/item/hag_catalyst/synth_base,
+		/obj/item/rogueweapon/mace/warhammer/steel = /obj/item/hag_catalyst/synth_base,
+		/obj/item/rogueweapon/mace/goden/steel = /obj/item/hag_catalyst/synth_base,
+		/obj/item/rogueweapon/mace/maul/grand = /obj/item/hag_catalyst/synth_base,
+		// REGULAR STEEL - FLAILS
+		/obj/item/rogueweapon/flail/sflail = /obj/item/hag_catalyst/synth_base,
+		/obj/item/rogueweapon/flail/peasantwarflail/iron = /obj/item/hag_catalyst/synth_base,
+		/obj/item/rogueweapon/flail/militia = /obj/item/hag_catalyst/synth_base,
+		// REGULAR STEEL - GREATSWORDS
+		/obj/item/rogueweapon/greatsword = /obj/item/hag_catalyst/synth_base,
+		/obj/item/rogueweapon/greatsword/iron = /obj/item/hag_catalyst/synth_base,
+		/obj/item/rogueweapon/greatsword/zwei = /obj/item/hag_catalyst/synth_base,
+		/obj/item/rogueweapon/greatsword/grenz = /obj/item/hag_catalyst/synth_base,
+		/obj/item/rogueweapon/greatsword/grenz/flamberge = /obj/item/hag_catalyst/synth_base,
+		// REGULAR STEEL - ESTOC
+		/obj/item/rogueweapon/estoc = /obj/item/hag_catalyst/synth_base,
+		// REGULAR STEEL - POLEARMS
+		/obj/item/rogueweapon/spear = /obj/item/hag_catalyst/synth_base,
+		/obj/item/rogueweapon/spear/partizan = /obj/item/hag_catalyst/synth_base,
+		/obj/item/rogueweapon/spear/boar = /obj/item/hag_catalyst/synth_base,
+		/obj/item/rogueweapon/spear/billhook = /obj/item/hag_catalyst/synth_base,
+		/obj/item/rogueweapon/halberd = /obj/item/hag_catalyst/synth_base,
+		/obj/item/rogueweapon/halberd/glaive = /obj/item/hag_catalyst/synth_base,
+		/obj/item/rogueweapon/halberd/bardiche = /obj/item/hag_catalyst/synth_base,
+		/obj/item/rogueweapon/eaglebeak = /obj/item/hag_catalyst/synth_base,
+		/obj/item/rogueweapon/eaglebeak/lucerne = /obj/item/hag_catalyst/synth_base,
+		// REGULAR STEEL - QUARTERSTAFFS (Steel-tipped variants)
+		/obj/item/rogueweapon/woodstaff/quarterstaff/steel = /obj/item/hag_catalyst/synth_base,
+		// REGULAR STEEL - FISHING SPEARS (Steel variants)
+		/obj/item/rogueweapon/fishspear = /obj/item/hag_catalyst/synth_base,
+		/obj/item/rogueweapon/spear/trident = /obj/item/hag_catalyst/synth_base,
+		// REGULAR STEEL - AXES
+		/obj/item/rogueweapon/stoneaxe/woodcut = /obj/item/hag_catalyst/synth_base,
+		/obj/item/rogueweapon/stoneaxe/woodcut/steel = /obj/item/hag_catalyst/synth_base,
+		/obj/item/rogueweapon/stoneaxe/woodcut/steel/woodcutter = /obj/item/hag_catalyst/synth_base,
+		/obj/item/rogueweapon/stoneaxe/woodcut/pick = /obj/item/hag_catalyst/synth_base,
+		/obj/item/rogueweapon/stoneaxe/woodcut/wardenpick = /obj/item/hag_catalyst/synth_base,
+		/obj/item/rogueweapon/stoneaxe/battle = /obj/item/hag_catalyst/synth_base,
+		/obj/item/rogueweapon/stoneaxe/handaxe = /obj/item/hag_catalyst/synth_base,
+		/obj/item/rogueweapon/stoneaxe/hurlbat = /obj/item/hag_catalyst/synth_base,
+		/obj/item/rogueweapon/greataxe = /obj/item/hag_catalyst/synth_base,
+		/obj/item/rogueweapon/greataxe/steel = /obj/item/hag_catalyst/synth_base,
+		/obj/item/rogueweapon/greataxe/steel/knight = /obj/item/hag_catalyst/synth_base,
+		/obj/item/rogueweapon/greataxe/steel/doublehead = /obj/item/hag_catalyst/synth_base
 	)
 
 /obj/item/hag_catalyst/varnish_base
+	name = "Strange Varnish"
 	icon = 'icons/roguetown/items/hag/hag_items.dmi'
 	icon_state = "varnish"
 
 /obj/item/hag_catalyst/synth_base
+	name = "Odd Catalyst"
 	icon = 'icons/roguetown/items/hag/hag_items.dmi'
 	icon_state = "catalyst"
+
+/obj/item/hag_catalyst/synth_base/gilded
+	name = "Wyrd Catalyst"
+	icon = 'icons/roguetown/items/hag/hag_items.dmi'
+	icon_state = "catalyst_gold"
 
 /obj/structure/roguemachine/hag_cauldron/proc/update_icon_overlaps()
 	cut_overlays()
@@ -39,14 +109,19 @@
 		add_overlay(filling)
 
 /obj/structure/roguemachine/hag_cauldron/attackby(obj/item/I, mob/user, params)
-	if(!mode)
-		return prime_cauldron(I, user)
+	if(!iscarbon(user))
+		return ..()
 
-	if(mode == "varnish")
-		return handle_varnish(I, user)
+	var/mob/living/carbon/C = user
+	if(!C.cmode)
+		if(!mode)
+			return prime_cauldron(I, user)
 
-	if(mode == "synthesis")
-		return handle_synthesis(I, user)
+		if(mode == "varnish")
+			return handle_varnish(I, user)
+
+		if(mode == "synthesis")
+			return handle_synthesis(I, user)
 
 	return ..()
 
