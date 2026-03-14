@@ -200,6 +200,8 @@
 			PM.backdrop(owner)
 			owner.remove_stress(/datum/stressevent/high)
 
+	. = ..()
+
 /atom/movable/screen/alert/status_effect/buff/druqks
 	name = "High"
 	desc = ""
@@ -224,9 +226,6 @@
 			owner.add_stress(/datum/stressevent/high)
 
 /datum/status_effect/buff/baothablessing/on_remove()
-	. = ..()
-	REMOVE_TRAIT(owner, TRAIT_CRACKHEAD, TRAIT_MIRACLE)
-	owner.visible_message("[owner]'s eyes appear to return to normal.")
 	if(owner?.client)
 		if(owner.client.screen && owner.client.screen.len)
 			var/atom/movable/screen/plane_master/game_world/PM = locate(/atom/movable/screen/plane_master/game_world) in owner.client.screen
@@ -236,6 +235,8 @@
 			PM = locate(/atom/movable/screen/plane_master/game_world_above) in owner.client.screen
 			PM.backdrop(owner)
 			owner.remove_stress(/datum/stressevent/high)
+
+	. = ..()
 
 /atom/movable/screen/alert/status_effect/buff/baothablessing
 	name = "Baothan Blessing"
