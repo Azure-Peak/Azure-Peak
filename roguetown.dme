@@ -1812,6 +1812,7 @@
 #include "code\modules\jobs\job_types\roguetown\adventurer\types\antag\gnoll\gnoll_shaman.dm"
 #include "code\modules\jobs\job_types\roguetown\adventurer\types\antag\gnoll\gnoll_templar.dm"
 #include "code\modules\jobs\job_types\roguetown\adventurer\types\antag\hag_class\hag_boons.dm"
+#include "code\modules\jobs\job_types\roguetown\adventurer\types\antag\hag_class\hag_cauldron.dm"
 #include "code\modules\jobs\job_types\roguetown\adventurer\types\antag\hag_class\hag_class.dm"
 #include "code\modules\jobs\job_types\roguetown\adventurer\types\antag\hag_class\hag_component.dm"
 #include "code\modules\jobs\job_types\roguetown\adventurer\types\antag\hag_class\hag_enchanted_items.dm"

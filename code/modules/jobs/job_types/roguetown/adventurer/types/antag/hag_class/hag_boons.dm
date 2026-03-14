@@ -6,6 +6,8 @@
 	var/name = "Generic Boon"
 	var/time_granted = 0
 	var/true_name = ""
+	/// How powerful a boon is. Not used for all types of boons.
+	var/points = 0
 
 /datum/hag_boon/New(t_name)
 	src.time_granted = world.time
@@ -38,7 +40,6 @@
 
 /datum/hag_boon/item_debt
 	name = "Material Pact"
-	var/points = 0
 
 /datum/hag_boon/item_debt/proc/add_points(amt)
 	points += amt
