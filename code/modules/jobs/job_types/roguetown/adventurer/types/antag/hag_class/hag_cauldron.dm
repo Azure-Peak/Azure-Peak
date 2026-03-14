@@ -16,8 +16,8 @@
 
 	/// Synthesis recipe list
 	var/list/synth_recipes = list(
-		"Arming Sword" = /obj/item/rogueweapon/sword,
-		"Bronze Arming Sword" = /obj/item/rogueweapon/sword/bronze
+		/obj/item/rogueweapon/sword = /obj/item/hag_catalyst/synth_base,
+		/obj/item/rogueweapon/sword/bronze = /obj/item/hag_catalyst/synth_base
 	)
 
 /obj/item/hag_catalyst/varnish_base
@@ -39,73 +39,105 @@
 		add_overlay(filling)
 
 /obj/structure/roguemachine/hag_cauldron/attackby(obj/item/I, mob/user, params)
-	// 1. Priming the cauldron
 	if(!mode)
-		if(istype(I, /obj/item/hag_catalyst/varnish_base))
-			if(user.transferItemToLoc(I, src))
-				mode = "varnish"
-				stored_core = I
-				to_chat(user, span_notice("You swirl the varnish into the cauldron. It begins to shimmer with a predatory sheen."))
-				update_icon_overlaps()
-				return
-		
-		if(istype(I, /obj/item/hag_catalyst/synth_base))
-			if(user.transferItemToLoc(I, src))
-				mode = "synthesis"
-				stored_core = I
-				to_chat(user, span_notice("The cauldron's contents turn thick and fibrous as you add the synthesis mulch."))
-				update_icon_overlaps()
-				return
+		return prime_cauldron(I, user)
 
-	// 2. Using Varnish (Dipping)
 	if(mode == "varnish")
-		to_chat(user, span_notice("You begin dipping [I] into the viscous varnish..."))
-		if(do_after(user, 3 SECONDS, target = src))
-			var/points = 1
-			for(var/path in item_values)
-				if(istype(I, path))
-					points = item_values[path]
-					break
-			
-			I.AddComponent(/datum/component/hag_enchanted_item, points)
-			to_chat(user, span_warning("You pull [I] from the sludge. It looks... hungry."))
-			consume_core()
-		return
+		return handle_varnish(I, user)
 
-	// 3. Using Synthesis (Crafting with sticks)
 	if(mode == "synthesis")
-		if(istype(I, /obj/item/natural/bundle/stick))
-			var/obj/item/natural/bundle/stick/S = I
-			if(S.amount < 5)
-				to_chat(user, span_warning("You need at least 5 sticks to bind a synthesis."))
-				return
-			
-			var/selection = input(user, "What shall you knit from the sticks?", "Synthesis") as null|anything in synth_recipes
-			if(!selection)
-				return
-
-			to_chat(user, span_notice("You begin knitting the sticks into a [selection] within the brew..."))
-			if(do_after(user, 5 SECONDS, target = src))
-				var/res_path = synth_recipes[selection]
-				var/obj/item/artifact = new res_path(drop_location())
-				
-				// Calculate points: half of standard, rounded up
-				var/points = 1
-				for(var/path in item_values)
-					if(istype(artifact, path))
-						points = item_values[path]
-						break
-				points = (points > 1) ? CEILING(points / 2, 1) : 1
-				
-				artifact.AddComponent(/datum/component/hag_enchanted_item, points)
-				if(S.amount == 6)
-					new /obj/item/grown/log/tree/stick(get_turf(user))
-				S.use(5)
-				user.visible_message(span_warning("[user] pulls a freshly formed [artifact.name] from the cauldron!"))
-				consume_core()
-			return
+		return handle_synthesis(I, user)
 
 	return ..()
+
+/obj/structure/roguemachine/hag_cauldron/proc/prime_cauldron(obj/item/I, mob/user)
+	var/new_mode = null
+	var/msg = ""
+
+	if(istype(I, /obj/item/hag_catalyst/varnish_base))
+		new_mode = "varnish"
+		msg = span_notice("You swirl the varnish into the cauldron. It begins to shimmer with a predatory sheen.")
+	else if(istype(I, /obj/item/hag_catalyst/synth_base))
+		new_mode = "synthesis"
+		msg = span_notice("The cauldron's contents turn thick and fibrous as you add the synthesis mulch.")
+
+	if(new_mode && user.transferItemToLoc(I, src))
+		mode = new_mode
+		stored_core = I
+		to_chat(user, msg)
+		update_icon_overlaps()
+		return TRUE
+	return FALSE
+
+/obj/structure/roguemachine/hag_cauldron/proc/handle_varnish(obj/item/I, mob/user)
+	if(is_item_enchanted(I))
+		to_chat(user, span_warning("[I] is already saturated with hag's power! To add more would shatter it."))
+		return FALSE
+
+	to_chat(user, span_notice("You begin dipping [I] into the viscous varnish..."))
+	if(!do_after(user, 3 SECONDS, target = src))
+		return FALSE
+
+	var/points = 1
+	for(var/path in item_values)
+		if(istype(I, path))
+			points = item_values[path]
+			break
+
+	I.AddComponent(/datum/component/hag_enchanted_item, points)
+	to_chat(user, span_warning("You pull [I] from the sludge, now enchanted with a hag's boon."))
+	consume_core()
+	return TRUE
+
+/obj/structure/roguemachine/hag_cauldron/proc/is_item_enchanted(obj/item/I)
+	if(I.GetComponent(/datum/component/hag_enchanted_item))
+		return TRUE
+	return FALSE
+
+/obj/structure/roguemachine/hag_cauldron/proc/handle_synthesis(obj/item/I, mob/user)
+	if(!istype(I, /obj/item/natural/bundle/stick))
+		return FALSE
+
+	var/obj/item/natural/bundle/stick/S = I
+	if(S.amount < 5)
+		to_chat(user, span_warning("You need at least 5 sticks to bind a synthesis."))
+		return FALSE
+
+	var/list/name_to_path = list()
+	for(var/path in synth_recipes)
+		if(stored_core.type == synth_recipes[path])
+			var/obj/item/temp = path
+			name_to_path[initial(temp.name)] = path
+
+	var/selection = input(user, "What shall you knit from the sticks?", "Synthesis") as null|anything in name_to_path
+	if(!selection)
+		return FALSE
+
+	var/res_path = name_to_path[selection]
+	to_chat(user, span_notice("You begin knitting the sticks into a [selection] within the brew..."))
+
+	if(!do_after(user, 5 SECONDS, target = src))
+		return FALSE
+
+	var/obj/item/artifact = new res_path(drop_location())
+
+	// Point calculation
+	var/points = 1
+	for(var/path in item_values)
+		if(istype(artifact, path))
+			points = item_values[path]
+			break
+	points = (points > 1) ? CEILING(points / 2, 1) : 1
+
+	artifact.AddComponent(/datum/component/hag_enchanted_item, points)
+
+	if(S.amount == 6)
+		new /obj/item/grown/log/tree/stick(get_turf(user))
+	S.use(5)
+
+	user.visible_message(span_warning("[user] pulls a freshly formed [artifact.name] from the cauldron!"))
+	consume_core()
+	return TRUE
 
 /obj/structure/roguemachine/hag_cauldron/MiddleClick(mob/user, params)
 	. = ..()
