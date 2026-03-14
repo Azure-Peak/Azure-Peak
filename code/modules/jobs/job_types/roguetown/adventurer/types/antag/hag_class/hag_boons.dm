@@ -33,3 +33,12 @@
 /datum/hag_boon/proc/remove_boon_effect(mob/living/L)
 	// Strip those same effects
 	return
+
+/// HAG BOON DATUMS ///
+
+/datum/hag_boon/item_debt
+	name = "Material Pact"
+	var/points = 0
+
+/datum/hag_boon/item_debt/proc/add_points(amt)
+	points += amt

@@ -37,6 +37,7 @@
 	if(H.mind)
 		H.mind.AddSpell(new /obj/effect/proc_holder/spell/targeted/shapeshift/hag_true_form)
 		H.set_patron(/datum/patron/godless)
+		H.AddComponent(/datum/component/hag_curio_tracker)
 
 /obj/effect/proc_holder/spell/targeted/shapeshift/hag_true_form
 	die_with_shapeshifted_form = FALSE

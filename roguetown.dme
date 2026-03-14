@@ -1814,6 +1814,7 @@
 #include "code\modules\jobs\job_types\roguetown\adventurer\types\antag\hag_class\hag_boons.dm"
 #include "code\modules\jobs\job_types\roguetown\adventurer\types\antag\hag_class\hag_class.dm"
 #include "code\modules\jobs\job_types\roguetown\adventurer\types\antag\hag_class\hag_component.dm"
+#include "code\modules\jobs\job_types\roguetown\adventurer\types\antag\hag_class\hag_enchanted_items.dm"
 #include "code\modules\jobs\job_types\roguetown\adventurer\types\antag\hag_class\hag_mob.dm"
 #include "code\modules\jobs\job_types\roguetown\adventurer\types\combat\cleric.dm"
 #include "code\modules\jobs\job_types\roguetown\adventurer\types\combat\foreigner.dm"
