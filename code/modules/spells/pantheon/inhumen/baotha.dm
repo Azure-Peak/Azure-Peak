@@ -307,7 +307,7 @@
 	if(istype(user) && user?.wear_ring == src)
 		user.remove_status_effect(/datum/status_effect/buff/griefflower)
 
-// Insufflation - effectively just drugging yourself. Lets you pick, the same as Enrapturing Powder. T1, for now, to make up for the loss of the Baotha Blessing buff. This is *VERY* heavy on devotion because starsugar + herozium is very strong.
+// Insufflation - effectively just drugging yourself. Lets you pick, the same as Enrapturing Powder. T1, for now, to make up for the loss of the Baotha Blessing buff.
 
 /obj/effect/proc_holder/spell/self/insufflation 
 	name = "Insufflation"
@@ -375,7 +375,7 @@
 	overlay_icon = 'icons/mob/actions/baothamiracles.dmi'
 	overlay_state = "powder"
 	clothes_req = FALSE
-	range = 7	//POCKET OPIUM!
+	range = 7	//POCKET OPIUM! 7 tiles because it's a projectile and it used to just travel across the entire screen anyway even at 3.
 	associated_skill = /datum/skill/magic/holy
 	projectile_type = /obj/projectile/magic/blowingdust
 	chargedloop = /datum/looping_sound/invokeholy

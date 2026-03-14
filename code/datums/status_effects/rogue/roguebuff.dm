@@ -290,14 +290,14 @@
 	. = ..()
 	owner.add_stress(/datum/stressevent/ozium)
 	ADD_TRAIT(owner, TRAIT_NOPAIN, id)
-	ADD_TRAIT(owner, TRAIT_CRITICAL_RESISTANCE, id)
+	ADD_TRAIT(owner, TRAIT_IGNOREDAMAGESLOWDOWN, id)
 	originalcmode = owner.cmode_music
 	owner.cmode_music = 'sound/music/combat_ozium.ogg'
 
 /datum/status_effect/buff/herozium/on_remove()
 	owner.remove_stress(/datum/stressevent/ozium)
 	REMOVE_TRAIT(owner, TRAIT_NOPAIN, id)
-	REMOVE_TRAIT(owner, TRAIT_CRITICAL_RESISTANCE, id)
+	REMOVE_TRAIT(owner, TRAIT_IGNOREDAMAGESLOWDOWN, id)
 	owner.cmode_music = originalcmode
 	. = ..()
 
