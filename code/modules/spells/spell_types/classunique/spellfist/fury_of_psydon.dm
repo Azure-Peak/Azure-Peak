@@ -35,7 +35,7 @@
 	var/kick_damage = 50
 	var/npc_simple_damage_mult = 2
 	var/knockback_dist = 3
-	var/minimum_dist = 3
+	var/minimum_dist = 2
 
 /obj/effect/proc_holder/spell/invoked/fury_of_psydon/cast(list/targets, mob/user = usr)
 	var/mob/living/carbon/human/H = user
@@ -63,7 +63,7 @@
 		return
 
 	if(get_dist(H, preferred_target) <= minimum_dist)
-		to_chat(H, span_warning("My target is too close for the storm to gather strength!"))
+		to_chat(H, span_warning("My target is too close for the kick to gather strength!"))
 		revert_cast()
 		return
 
@@ -142,14 +142,14 @@
 /obj/effect/proc_holder/spell/invoked/fury_of_psydon/proc/deliver_kick(mob/living/carbon/human/user, mob/living/target)
 	// Guard check — defend stance can still deflect
 	if(spell_guard_check(target, FALSE, user))
-		log_combat(user, target, "used Storm of Psydon (deflected)")
+		log_combat(user, target, "used Fury of Psydon (deflected)")
 		return
 
 	user.visible_message(span_danger("<b>[user] delivers a devastating flying kick to [target]!</b>"))
 	user.emote("attack", forced = TRUE)
 
 	var/def_zone = user.zone_selected || BODY_ZONE_CHEST
-	arcyne_strike(user, target, null, kick_damage, def_zone, BCLASS_BLUNT, spell_name = "Storm of Psydon", npc_simple_damage_mult = npc_simple_damage_mult)
+	arcyne_strike(user, target, null, kick_damage, def_zone, BCLASS_BLUNT, spell_name = "Fury of Psydon", npc_simple_damage_mult = npc_simple_damage_mult)
 	playsound(get_turf(target), pick('sound/combat/hits/blunt/genblunt (1).ogg','sound/combat/hits/blunt/genblunt (2).ogg','sound/combat/hits/blunt/genblunt (3).ogg'), 100, TRUE)
 	playsound(get_turf(target), 'sound/magic/antimagic.ogg', 60, TRUE)
 
@@ -157,4 +157,4 @@
 	var/atom/throw_target = get_edge_target_turf(user, get_dir(user, target))
 	target.safe_throw_at(throw_target, knockback_dist, 4)
 
-	log_combat(user, target, "used Storm of Psydon")
+	log_combat(user, target, "used Fury of Psydon")
