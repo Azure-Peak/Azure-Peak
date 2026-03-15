@@ -12,84 +12,6 @@
 	pixel_y = -30
 	pixel_x = -27
 
-	var/list/hag_stock = list()
-	var/list/public_stock = list()
-	var/harvesting = FALSE
-
-/obj/structure/roguemachine/mossmother/Initialize(mapload)
-	. = ..()
-	public_stock[/obj/item/alch/hag_moss/sorrow] = 2
-	public_stock[/obj/item/alch/hag_moss/mercy] = 2
-
-	hag_stock[/obj/item/alch/hag_moss/sorrow] = 5
-	hag_stock[/obj/item/alch/hag_moss/fury] = 3
-	hag_stock[/obj/item/alch/hag_moss/mercy] = 0
-	hag_stock[/obj/item/alch/hag_moss/grief] = 0
-	hag_stock[/obj/item/alch/hag_moss/envy] = 0
-	hag_stock[/obj/item/alch/hag_moss/lullaby] = 0
-
-/obj/structure/roguemachine/mossmother/proc/get_contents(is_hag = FALSE)
-	var/list/source = is_hag ? hag_stock : public_stock
-	var/title = is_hag ? "THE VEIL OF ROOTS" : "COMMON BLOSSOMS"
-
-	var/contents = "<center>[title]<BR>--------------<BR>"
-	for(var/path in source)
-		var/count = source[path]
-		var/name = initial(path:name)
-		contents += "[name] ([count]): <a href='?src=[REF(src)];harvest=[path];hag=[is_hag]'>[count > 0 ? "REAP" : "BARREN"]</a><BR>"
-	return contents + "</center>"
-
-/obj/structure/roguemachine/mossmother/Topic(href, href_list)
-	if(..()) return
-	if(!usr.canUseTopic(src, BE_CLOSE)) return
-
-	if(href_list["action"])
-		var/is_hag = (href_list["action"] == "hag")
-		var/datum/browser/popup = new(usr, "moss_window", (is_hag ? "THE VEIL OF ROOTS" : "COMMON BLOSSOMS"), 400, 500)
-		popup.set_content(get_contents(is_hag))
-		popup.open()
-		return
-
-	if(href_list["harvest"])
-		var/path = text2path(href_list["harvest"])
-		var/is_hag = text2num(href_list["hag"])
-		var/list/stock = is_hag ? hag_stock : public_stock
-		
-		if(harvesting || stock[path] <= 0) return
-
-		harvesting = TRUE
-		to_chat(usr, span_notice("You begin to carefully knit the moss from the roots..."))
-		
-		if(do_after(usr, 3 SECONDS, target = src))
-			if(stock[path] > 0)
-				stock[path]--
-				new path(get_turf(src))
-				to_chat(usr, span_notice("You successfully pluck the moss."))
-		
-		harvesting = FALSE
-		// Refresh the specific window
-		var/datum/browser/popup = new(usr, "moss_window", (is_hag ? "THE VEIL OF ROOTS" : "COMMON BLOSSOMS"), 400, 500)
-		popup.set_content(get_contents(is_hag))
-		popup.open()
-
-/obj/structure/roguemachine/mossmother/attack_hand(mob/living/user)
-	if(..()) 
-		return
-
-	if(harvesting)
-		to_chat(user, span_warning("The Mossmother is unresponsive; the roots are still knitting."))
-		return
-
-	var/contents = "<center>THE MOSSMOTHER<BR>--------------<BR>"
-	contents += "<a href='?src=[REF(src)];action=public'>[span_danger("Reap Common Blossoms")]</a><BR>"
-
-	if(HAS_TRAIT(user, TRAIT_ANCIENT_HAG))
-		contents += "<a href='?src=[REF(src)];action=hag'>[span_danger("Reap Mother's Blood")]</a><BR>"
-	contents += "</center>"
-	var/datum/browser/popup = new(user, "mossmother", "The Mossmother", 300, 300)
-	popup.set_content(contents)
-	popup.open()
-
 /obj/item/alch/hag_moss
 	name = "Generic moss"
 	desc = "I shouldn't exist."
@@ -98,17 +20,17 @@
 
 /obj/item/alch/hag_moss/sorrow
 	name = "Mother's sorrow"
-	desc = "A blossom of green moss. Said to induce melancholy when consumed by mothers-to-be, have-been, and would've-been."
+	desc = "A blossom of green moss. Said to induce melancholy when consumed by mothers to be, have been, and would've been."
 	icon_state = "moss"
 
 /obj/item/alch/hag_moss/fury
 	name = "Mother's fury"
-	desc = "A blossom of red moss. It cuts the throat when consumed, it burns and irritates the skin when touched. No one would dare cut down a mossmother, lest the very air be choked by her fury."
+	desc = "A blossom of red moss. It cuts the throat when consumed, it burns and irritates the skin when touched. No one would dare cut down a mossmother, lest the very air gets choked by her fury."
 	color = "#610202"
 
 /obj/item/alch/hag_moss/mercy
 	name = "Mother's mercy"
-	desc = "A blossom of pale, glowing moss. Holding it parts the trees, it is as if home, hearth, and a warm meal surround you at once."
+	desc = "A blossom of pale, glowing moss. Holding it parts the trees, it is as if home, hearth, and a warm meal surround you once."
 	color = "#E0FFD1"
 
 /obj/item/alch/hag_moss/grief
