@@ -6,12 +6,15 @@
 	var/name = "Generic Boon"
 	var/time_granted = 0
 	var/true_name = ""
+	var/datum/component/hag_curio_tracker/tracker
 	/// How powerful a boon is. Not used for all types of boons.
 	var/points = 0
 
-/datum/hag_boon/New(t_name)
+/datum/hag_boon/New(t_name, datum/component/hag_curio_tracker/T, set_points)
 	src.time_granted = world.time
 	src.true_name = t_name
+	src.tracker = T
+	src.points = set_points
 	var/mob/living/L = find_target()
 	if(L)
 		apply_boon_effect(L)

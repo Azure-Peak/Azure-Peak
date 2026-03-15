@@ -23,7 +23,7 @@
 
 	hag_stock[/obj/item/alch/hag_moss/sorrow] = 5
 	hag_stock[/obj/item/alch/hag_moss/fury] = 3
-	hag_stock[/obj/item/alch/hag_moss/mercy] = 0
+	hag_stock[/obj/item/alch/hag_moss/mercy] = 5
 	hag_stock[/obj/item/alch/hag_moss/grief] = 0
 	hag_stock[/obj/item/alch/hag_moss/envy] = 0
 	hag_stock[/obj/item/alch/hag_moss/lullaby] = 0
@@ -133,3 +133,8 @@
 	. += "[span_warning("Into the soil, quiet and steep.")]"
 	. += "<br>[span_danger("Hear her hum a hollow strain,")]"
 	. += "[span_boldnotice("To wash away your fear and pain.")]"
+
+/obj/item/alch/hag_moss/pride
+	name = "Mother's pride"
+	desc = "A golden blossom of moss. It feels like a treasure in your hand, something to cherish until the end of your days."
+	color = "#ffc400"

@@ -37,6 +37,9 @@
 		H.mind.AddSpell(new /obj/effect/proc_holder/spell/targeted/shapeshift/hag_true_form)
 		H.set_patron(/datum/patron/godless)
 		H.AddComponent(/datum/component/hag_curio_tracker)
+		H.mind.teach_crafting_recipe(/datum/crafting_recipe/roguetown/alchemy/hag/varnish)
+		H.mind.teach_crafting_recipe(/datum/crafting_recipe/roguetown/alchemy/hag/synth_shiny)
+		H.mind.teach_crafting_recipe(/datum/crafting_recipe/roguetown/alchemy/hag/synth_base)
 
 /obj/effect/proc_holder/spell/targeted/shapeshift/hag_true_form
 	die_with_shapeshifted_form = FALSE
