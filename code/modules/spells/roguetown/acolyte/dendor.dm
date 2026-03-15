@@ -100,10 +100,10 @@
 	name = "Vine Sprout"
 	desc = "Summon vines nearby."
 	overlay_state = "blesscrop"
-	releasedrain = 90
+	releasedrain = 30
 	invocations = list("Treefather, bring forth vines.")
 	invocation_type = "shout"
-	devotion_cost = 90
+	devotion_cost = 30
 	range = 1
 	recharge_time = 30 SECONDS
 	req_items = list(/obj/item/clothing/neck/roguetown/psicross)
