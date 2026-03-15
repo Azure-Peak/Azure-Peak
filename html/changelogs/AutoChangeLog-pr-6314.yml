@@ -1,4 +1,0 @@
-author: "WeNeedMorePhoron"
-delete-after: True
-changes:
-  - bugfix: "NPC should be properly gating their dialogue to not blow up your entire chat when switching aggro now"

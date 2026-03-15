@@ -28,6 +28,7 @@
 /datum/advclass/seneschal
 	traits_applied = list(TRAIT_CICERONE, TRAIT_HOMESTEAD_EXPERT, TRAIT_SEWING_EXPERT, TRAIT_ROYALSERVANT) // They have Expert Sewing
 	category_tags = list(CTAG_SENESCHAL)
+	age_mod = /datum/class_age_mod/seneschal
 
 /datum/advclass/seneschal/seneschal
 	name = "Seneschal"
@@ -39,7 +40,6 @@
 		STATKEY_LCK = 1, // Usual leadership carrot.
 		STATKEY_SPD = 1
 	)
-	age_mod = /datum/class_age_mod/seneschal
 	subclass_skills = list(
 		/datum/skill/combat/knives = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/misc/reading = SKILL_LEVEL_EXPERT,

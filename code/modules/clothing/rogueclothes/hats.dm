@@ -44,6 +44,16 @@
 	smeltresult = /obj/item/ingot/steel
 	smelt_bar_num = 2
 
+/obj/item/clothing/head/roguetown/helmet/heavy/pestran/keeper
+	name = "keeper's stone mask"
+	desc = "A hooded stone mask worn by Pestran keepers. Their face, oft marred by disease doth not hold value, for it is the pursuit of knowledge of the heartbeast that is the true cause."
+	icon_state = "keeperhelm"
+	item_state = "keeperhelm"
+	// Best approximation for stone as we have no standard!
+	armor = ARMOR_PLATE_BRONZE
+	armor_class = ARMOR_CLASS_LIGHT
+	smeltresult = null
+
 /obj/item/clothing/head/roguetown/helmet/heavy/eoran
 	name = "eoran helmet"
 	desc = "A visage of beauty, this helm made in soft pink and beige reminds one of the grace of Eora."

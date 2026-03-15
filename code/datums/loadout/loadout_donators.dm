@@ -18,7 +18,7 @@
 /datum/loadout_item/donator_funky
 	name = "Trimmed down padded dress"
 	path = /obj/item/clothing/suit/roguetown/shirt/dress/funkydress
-	ckeywhitelist = list("funke-monke")
+	ckeywhitelist = list("funkemonke")
 	sort_category = "Donator"
 
 /datum/loadout_item/donator_strudel1

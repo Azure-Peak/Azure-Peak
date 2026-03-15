@@ -186,3 +186,33 @@
 		/datum/runeritual/binding,
 		/datum/runeritual/other,
 		)
+
+/obj/item/recipe_book/spell_compendium
+	name = "The Arcyne Compendium: All Known Spells"
+	wiki_name = "Spell List"
+	wiki_section = "Guides"
+	can_spawn = FALSE
+	icon_state = "book4_0"
+	base_icon_state = "book4"
+
+/obj/item/recipe_book/spell_compendium/New()
+	. = ..()
+	types = GLOB.learnable_spells.Copy()
+
+/obj/item/recipe_book/miracle_compendium
+	name = "The Divine Accord: Miracles of the Gods"
+	wiki_name = "Miracles"
+	wiki_section = "Guides"
+	can_spawn = FALSE
+	icon_state = "book4_0"
+	base_icon_state = "book4"
+
+/obj/item/recipe_book/miracle_compendium/New()
+	. = ..()
+	build_miracle_registry()
+	var/list/unique_spells = list()
+	for(var/path_key in GLOB.miracle_registry)
+		var/spell_path = text2path(path_key)
+		if(spell_path && !(spell_path in unique_spells))
+			unique_spells += spell_path
+	types = unique_spells

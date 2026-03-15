@@ -1,0 +1,4 @@
+author: "Aisu9"
+delete-after: True
+changes:
+  - bugfix: "double reagent production trigger on using orison on container you can drink from, it now always produce that same amount at the cost of slightly more devotion."

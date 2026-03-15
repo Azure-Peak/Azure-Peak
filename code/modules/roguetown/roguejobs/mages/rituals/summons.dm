@@ -131,9 +131,12 @@
 #define VOID_RES_7 "Devorate!"        // Devour — matches LAT_4 (void dragon rises)
 #define VOID_RES_8 "Expergisce!"     // Awaken — matches ENG_4 (the dragon wakes)
 
+/datum/runeritual/summoning
+	abstract_type = /datum/runeritual/summoning
+	category = "Summoning"
+
 /datum/runeritual/summoning/leyline_encounter
 	name = "leyline encounter parent"
-	category = "Summoning"
 	blacklisted = TRUE
 	required_atoms = list()
 	var/alignment = "neutral"

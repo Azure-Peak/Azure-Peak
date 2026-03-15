@@ -2,9 +2,25 @@
 /obj/effect/proc_holder/spell/invoked/lesser_heal
 	name = "Miracle"
 	desc = "Blesses the target with minor health regeneration. If casted in conjunction with the 'Fortify' blessing, its healing power is greatly \
-	increased. <br>Depending on your patron, a Miracle's potency can be further amplified under certain conditions; an Abyssorite heals more when \
-	standing in water, a Pestran heals more when their target's laying down, a Malumite heals more when their target's on fire, and so-on. </br>Most \
-	healing Miracles cannot affect devoted Psydonians."
+	increased. Most healing Miracles cannot affect devoted Psydonians.\
+	<br><br><b>Patron Conditions:</b>\
+	<ul>\
+	<li><b>Abyssor:</b> +60% healing when the target is standing in water.</li>\
+	<li><b>Astrata:</b> +80% healing during daytime. Up to +100% if the target has the Noble trait (does not stack with daytime).</li>\
+	<li><b>Dendor:</b> Up to +80% from nearby natural objects (grass, trees, mushrooms, soil). Each wise tree grants an additional +60%.</li>\
+	<li><b>Eora:</b> +100% if the target is a pacifist. +60% if the caster is also a pacifist. Up to +160% total.</li>\
+	<li><b>Malum:</b> Up to +100% scaling with nearby fire sources (torches, campfires, hearths, candles, forges).</li>\
+	<li><b>Necra:</b> +100% when the target is below 25% health. +50% if the caster has Necran Mists active. Up to +150% total.</li>\
+	<li><b>Noc:</b> +40% healing during nighttime.</li>\
+	<li><b>Pestra:</b> +40% when the target is laying down (not buckled). Also restores blood and heals toxin damage.</li>\
+	<li><b>Ravox:</b> +40% if the target is using a strong attack intent. +20% if holding a weapon. +80% with blood restoration if cast on self while at low blood (30s cooldown). Up to +140% total.</li>\
+	<li><b>Xylix:</b> 50% chance of a random +40% to +100% bonus.</li>\
+	<li><b>Undivided:</b> Always +80% with no conditions.</li>\
+	<li><b>Baotha:</b> +20% if the target is drunk or on drugs. +20% if experiencing withdrawal. Up to +80% additional from wound pain and bleeding. Up to +120% total.</li>\
+	<li><b>Graggar:</b> Up to +100% scaling with nearby blood decals.</li>\
+	<li><b>Matthios:</b> +100% if the target has the Freeman trait.</li>\
+	<li><b>Zizo:</b> Up to +200% scaling with nearby bones and bone bundles.</li>\
+	</ul>"
 	overlay_state = "lesserheal"
 	releasedrain = 3 SECONDS
 	chargedrain = 0
