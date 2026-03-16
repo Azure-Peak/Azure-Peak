@@ -1,6 +1,18 @@
 /datum/component/hag_curio_tracker
 	/// Associative list: [True Name String] = [/datum/hag_boon]
 	var/alist/boon_registry = list()
+	/// Materials the hag currently has stored in their component.
+	var/list/stored_materials = list()
+	/// How many of each type of material hags can store, and which ones they can store
+	var/static/list/material_limits = list(
+		/obj/item/alch/hag_moss/sorrow = 5,
+		/obj/item/alch/hag_moss/fury = 5,
+		/obj/item/alch/hag_moss/mercy = 5,
+		/obj/item/alch/hag_moss/grief = 5,
+		/obj/item/alch/hag_moss/envy = 5,
+		/obj/item/alch/hag_moss/lullaby = 5,
+		/obj/item/alch/hag_moss/pride = 5
+	)
 
 /datum/component/hag_curio_tracker/Initialize()
 	if(!isliving(parent))
@@ -62,3 +74,40 @@
 		if(!length(name_list))
 			boon_registry -= victim_name
 		qdel(B)
+
+/datum/component/hag_curio_tracker/proc/get_limit(obj/item/I)
+	for(var/path in material_limits)
+		if(istype(I, path))
+			return material_limits[path]
+	return 0
+
+/datum/component/hag_curio_tracker/proc/absorb_item(obj/item/I)
+	var/limit = get_limit(I)
+	if(!limit)
+		return FALSE
+
+	var/current = stored_materials[I.type] || 0
+	if(current >= limit)
+		return FALSE
+
+	stored_materials[I.type] = current + 1
+	qdel(I)
+	return TRUE
+
+/datum/component/hag_curio_tracker/proc/dump_materials(turf/T)
+	if(!length(stored_materials))
+		return FALSE
+
+	var/total_dumped = 0
+	var/max_dump = 5
+
+	for(var/path in stored_materials)
+		while(stored_materials[path] > 0 && total_dumped < max_dump)
+			new path(T)
+			stored_materials[path]--
+			total_dumped++
+
+		if(total_dumped >= max_dump)
+			break
+
+	return total_dumped > 0
