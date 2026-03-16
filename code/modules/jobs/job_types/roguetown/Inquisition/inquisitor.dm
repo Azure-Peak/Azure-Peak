@@ -51,12 +51,11 @@
 		)
 	subclass_stats = list(
 		STATKEY_CON = 1,
-		STATKEY_PER = 2,
-		STATKEY_INT = 2,
+		STATKEY_PER = 3,
+		STATKEY_INT = 3,
 		STATKEY_STR = 1,
 		STATKEY_WIL = 1,
 		STATKEY_SPD = 1,
-		STATKEY_STR = 1,
 	)
 	subclass_skills = list(
 		/datum/skill/misc/lockpicking = SKILL_LEVEL_MASTER,
