@@ -62,6 +62,21 @@ GLOBAL_VAR_INIT(observer_default_invisibility, INVISIBILITY_OBSERVER)
 	var/ghostize_time = 0
 	move_resist = INFINITY
 
+/mob/dead/observer/profane
+	/// The original body of a captured soul. Used in assassin dagger logic.
+	var/mob/living/carbon/human/original_body
+	// debug
+	icon = 'icons/roguetown/mob/misc.dmi'
+	icon_state = "revenant"
+	alpha = 70
+
+// profane mobs need to not be able to leave their dagger. 
+/mob/dead/observer/profane/Move(NewLoc, direct)
+	if(client)
+		return FALSE
+	return ..()
+	
+
 /mob/dead/observer/rogue
 //	see_invisible = SEE_INVISIBLE_LIVING
 	sight = 0
