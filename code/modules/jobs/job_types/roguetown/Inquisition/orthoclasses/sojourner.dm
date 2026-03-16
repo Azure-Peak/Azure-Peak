@@ -41,6 +41,12 @@
 
 /datum/outfit/job/roguetown/sojourner
 	job_bitflag = BITFLAG_HOLY_WARRIOR
+	var/sidearm_selected
+
+/datum/outfit/job/roguetown/sojourner/Topic(href, href_list)
+	. = ..()
+	if(href_list["sidearm"])
+		sidearm_selected = href_list["sidearm"]
 
 /datum/outfit/job/roguetown/sojourner/pre_equip(mob/living/carbon/human/H, visualsOnly)
 	..()
@@ -48,15 +54,32 @@
 		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/fist_of_psydon)
 		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/grasp_of_psydon)
 		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/blink/shadowstep)
-		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/fury_of_psydon)
+		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/storm_of_psydon)
+		H.mind.AddSpell(new /obj/effect/proc_holder/spell/self/empower_weapon)
 		H.mind.AddSpell(new /obj/effect/proc_holder/spell/targeted/touch/summonrogueweapon/bladeofpsydon)
 		H.mind.AddSpell(new /obj/effect/proc_holder/spell/targeted/touch/prestidigitation)
 
-	var/weapon_choice = input(H, "Choose your sidearm.", "SIDEARM") as anything in list("Katar", "Knuckledusters")
-	switch(weapon_choice)
-		if("Katar")
+	var/datum/status_effect/buff/arcyne_momentum/momentum = H.apply_status_effect(/datum/status_effect/buff/arcyne_momentum)
+	if(momentum)
+		momentum.set_chant("unarmed")
+
+	sidearm_selected = null
+	var/chant_html = get_spellfist_chant_html(src, H)
+	H << browse(chant_html, "window=spellfist_tutorial;size=650x700")
+	onclose(H, "spellfist_tutorial", src)
+
+	var/open_time = world.time
+	while(!sidearm_selected && world.time - open_time < 5 MINUTES)
+		stoplag(1)
+	H << browse(null, "window=spellfist_tutorial")
+
+	if(!sidearm_selected)
+		sidearm_selected = "katar"
+
+	switch(sidearm_selected)
+		if("katar")
 			H.put_in_hands(new /obj/item/rogueweapon/katar(H))
-		if("Knuckledusters")
+		if("knuckledusters")
 			H.put_in_hands(new /obj/item/clothing/gloves/roguetown/knuckles(H))
 
 	head = /obj/item/clothing/head/roguetown/headband/naledi

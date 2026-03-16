@@ -61,3 +61,8 @@
 #define SPELLCOST_SB_POKE 15 // Roughly 3 attacks worth
 #define SPELLCOST_SB_MOBILITY 15 // Dashes / Teleports / Anchor
 #define SPELLCOST_SB_ULT 50 // Their ult
+
+// Telegraph delay tiers (in ticks)
+#define TELEGRAPH_SKILLSHOT 4   // Fast — requires prediction to dodge
+#define TELEGRAPH_DODGEABLE 8   // Reactable — can dodge on reaction
+#define TELEGRAPH_HIGH_IMPACT 12 // Slow — highly telegraphed, big payoff

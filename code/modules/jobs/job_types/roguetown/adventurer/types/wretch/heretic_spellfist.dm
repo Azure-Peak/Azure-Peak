@@ -33,6 +33,14 @@
 		"Armor Plates" = /obj/item/repair_kit/metal/bad,
 	)
 
+/datum/outfit/job/roguetown/wretch/heretic_spellfist
+	var/sidearm_selected
+
+/datum/outfit/job/roguetown/wretch/heretic_spellfist/Topic(href, href_list)
+	. = ..()
+	if(href_list["sidearm"])
+		sidearm_selected = href_list["sidearm"]
+
 /datum/outfit/job/roguetown/wretch/heretic_spellfist/pre_equip(mob/living/carbon/human/H)
 	..()
 	head = /obj/item/clothing/head/roguetown/headband/monk
@@ -55,20 +63,36 @@
 		(naledi_book) = 1
 	)
 
-
-	var/weapon_choice = input(H, "Choose your sidearm.", "SIDEARM") as anything in list("Katar", "Knuckledusters")
-	switch(weapon_choice)
-		if("Katar")
-			H.put_in_hands(new /obj/item/rogueweapon/katar(H))
-		if("Knuckledusters")
-			H.put_in_hands(new /obj/item/clothing/gloves/roguetown/knuckles(H))
-
 	if(H.mind)
 		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/fist_of_psydon)
 		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/grasp_of_psydon)
 		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/blink)
-		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/fury_of_psydon)
+		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/storm_of_psydon)
+		H.mind.AddSpell(new /obj/effect/proc_holder/spell/self/empower_weapon)
 		H.mind.AddSpell(new /obj/effect/proc_holder/spell/targeted/touch/prestidigitation)
+
+	var/datum/status_effect/buff/arcyne_momentum/momentum = H.apply_status_effect(/datum/status_effect/buff/arcyne_momentum)
+	if(momentum)
+		momentum.set_chant("unarmed")
+
+	sidearm_selected = null
+	var/chant_html = get_spellfist_chant_html(src, H)
+	H << browse(chant_html, "window=spellfist_tutorial;size=650x700")
+	onclose(H, "spellfist_tutorial", src)
+
+	var/open_time = world.time
+	while(!sidearm_selected && world.time - open_time < 5 MINUTES)
+		stoplag(1)
+	H << browse(null, "window=spellfist_tutorial")
+
+	if(!sidearm_selected)
+		sidearm_selected = "katar"
+
+	switch(sidearm_selected)
+		if("katar")
+			H.put_in_hands(new /obj/item/rogueweapon/katar(H))
+		if("knuckledusters")
+			H.put_in_hands(new /obj/item/clothing/gloves/roguetown/knuckles(H))
 
 	var/datum/devotion/C = new /datum/devotion(H, H.patron)
 	C.grant_miracles(H, cleric_tier = CLERIC_T1, passive_gain = CLERIC_REGEN_MINOR, devotion_limit = CLERIC_REQ_1, start_maxed = TRUE)

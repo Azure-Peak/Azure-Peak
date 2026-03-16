@@ -4,12 +4,14 @@
  * Targeted AoE yank — click a tile up to 4 tiles away on the same Z-level,
  * telegraph appears, then after a short delay all living targets in a 1-tile
  * radius are pulled toward the caster and off-balanced.
+ * At 3+ momentum: consumes 3, each yanked target takes 40 blunt to aimed component.
  * 20s cooldown, 0.5s charge up.
  */
 
 /obj/effect/proc_holder/spell/invoked/grasp_of_psydon
 	name = "Grasp of Psydon"
-	desc = "Slam your open palm forward, sending forth tendrils of arcyne force to a target area up to 4 paces away on the same level. After a brief telegraph, all targets in the area are yanked toward you.\n\n\
+	desc = "Slam your open palm forward, sending forth tendrils of arcyne force to a target area up to 4 paces away on the same level. After a brief telegraph, all targets in the area are yanked toward you. \
+		At 3+ momentum: consumes 3 to deal 40 blunt damage to the aimed bodypart on each yanked target.\n\n\
 		'Push forth your hand with your conduit open, and imagine, with His will, seizing upon the very object or person you desire within your grasp, then, pull your hand backward. Close, and clench your fist, pushing forward slightly, opening your conduit again, and you shall seize your enemy from afar, and pull them toward you.'"
 	clothes_req = FALSE
 	range = 5
@@ -38,6 +40,8 @@
 	var/pull_distance = 7
 	var/telegraph_delay = 0.8 SECONDS
 	var/base_damage = 15
+	var/empowered_damage = 40
+	var/momentum_cost = 3
 
 /obj/effect/proc_holder/spell/invoked/grasp_of_psydon/cast(list/targets, mob/user = usr)
 	var/mob/living/carbon/human/H = user
@@ -57,6 +61,14 @@
 		revert_cast()
 		return
 
+	// Check and consume momentum for empowerment
+	var/empowered = FALSE
+	var/datum/status_effect/buff/arcyne_momentum/M = H.has_status_effect(/datum/status_effect/buff/arcyne_momentum)
+	if(M && M.stacks >= momentum_cost)
+		M.consume_stacks(momentum_cost)
+		empowered = TRUE
+		to_chat(H, span_notice("[momentum_cost] momentum released — empowered grasp!"))
+
 	H.emote("attack", forced = TRUE)
 
 	for(var/turf/affected_turf in get_hear(area_of_effect, T))
@@ -66,10 +78,10 @@
 
 	playsound(T, 'sound/magic/webspin.ogg', 50, TRUE)
 
-	addtimer(CALLBACK(src, PROC_REF(resolve_grasp), H, T), telegraph_delay)
+	addtimer(CALLBACK(src, PROC_REF(resolve_grasp), H, T, empowered), telegraph_delay)
 	return TRUE
 
-/obj/effect/proc_holder/spell/invoked/grasp_of_psydon/proc/resolve_grasp(mob/living/carbon/human/H, turf/center)
+/obj/effect/proc_holder/spell/invoked/grasp_of_psydon/proc/resolve_grasp(mob/living/carbon/human/H, turf/center, empowered = FALSE)
 	if(QDELETED(H) || H.stat == DEAD)
 		return
 
@@ -89,6 +101,9 @@
 			continue
 		var/def_zone = H.zone_selected || BODY_ZONE_CHEST
 		arcyne_strike(H, victim, null, base_damage, def_zone, BCLASS_BLUNT, spell_name = "Grasp of Psydon")
+		// Empowered: additional 40 blunt to aimed component
+		if(empowered)
+			arcyne_strike(H, victim, null, empowered_damage, def_zone, BCLASS_BLUNT, spell_name = "Grasp of Psydon (Empowered)")
 		// Yank toward caster
 		victim.throw_at(caster_turf, pull_distance, 4)
 
@@ -99,7 +114,7 @@
 	if(hit_count)
 		H.visible_message(span_danger("[H] clenches [H.p_their()] fist, pulling [hit_count > 1 ? "enemies" : "an enemy"] toward [H.p_them()]!"))
 
-	log_combat(H, null, "used Grasp of Psydon")
+	log_combat(H, null, "used Grasp of Psydon[empowered ? " (empowered)" : ""]")
 
 /obj/effect/temp_visual/grasp_telegraph
 	icon = 'icons/effects/effects.dmi'
