@@ -47,7 +47,7 @@
 	desc = "Thickly-woven bandages that've been wrapped around the hands, fitted with alloyed knuckleweights. It soaks up the sweat from your palm, strengthens your fists, and protects your knuckles from dislodged teeth."
 	unarmed_bonus = 6 //Non-craftable. Restricted to Monks who've specialized in unarmed combat, and nothing else.
 
-// Knuckledusters — high damage, low durability gloves. +12 bonus but only 100 integrity vs bandages' 200.
+// Knuckledusters — high damage, moderate durability gloves. +8 bonus, 200 integrity. Still inferior to bandages (armor + higher bonus options) but not disposable.
 /obj/item/clothing/gloves/roguetown/knuckles
 	name = "steel knuckles"
 	desc = "A mean looking pair of steel knuckles."
@@ -56,7 +56,7 @@
 	mob_overlay_icon = 'icons/roguetown/clothing/onmob/gloves.dmi'
 	w_class = WEIGHT_CLASS_SMALL
 	armor = ARMOR_PADDED_BAD
-	max_integrity = 100 //Small metal pieces — fragile under sustained parrying.
+	max_integrity = ARMOR_INT_SIDE_LEATHER // 200 — small steel pieces, leather-tier durability
 	anvilrepair = /datum/skill/craft/weaponsmithing
 	smeltresult = /obj/item/ingot/steel
 	unarmed_bonus = 8
