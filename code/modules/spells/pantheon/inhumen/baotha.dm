@@ -317,7 +317,7 @@
 	\
 	Aimed intent will dose you on Moondust, giving you +3 SPD, +3 WILL, and -2 INT. \n\
 	\
-	Strong intent will dose you on Herozium, giving you -5 SPD, +4 WILL, -3 INT, +3 CON, pain immunity, and critical resistance. \n\
+	Strong intent will dose you on Herozium, giving you -5 SPD, +4 WILL, -3 INT, +3 CON, pain immunity, and resistance to damage slowdown. \n\
 	\
 	Swift intent will dose you on Starsugar, giving you +4 SPD, +4 WILL -3 INT, -3 CON, darkvision, and dodge expert."
 	action_icon = 'icons/mob/actions/baothamiracles.dmi'
@@ -368,7 +368,7 @@
 	\
 	Aimed intent will throw moondust at the target, giving them +3 SPD, +3 WILL, and -2 INT. \n\
 	\
-	Strong intent will throw herozium at the target, giving them -5 SPD, +4 WILL, -3 INT, +3 CON, pain immunity, and critical resistance. \n\
+	Strong intent will throw herozium at the target, giving them -5 SPD, +4 WILL, -3 INT, +3 CON, pain immunity, and resistance to damage slowdown. \n\
 	\
 	Swift intent will throw starsugar at the target, giving them +4 SPD, +4 WILL -3 INT, -3 CON, darkvision, and dodge expert."
 	action_icon = 'icons/mob/actions/baothamiracles.dmi'
