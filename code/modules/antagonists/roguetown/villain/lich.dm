@@ -151,6 +151,7 @@
 		H.mind.AddSpell(new /obj/effect/proc_holder/spell/self/suicidebomb)
 		H.mind.AddSpell(new	/obj/effect/proc_holder/spell/invoked/remotebomb)
 		H.mind.AddSpell(new /obj/effect/proc_holder/spell/self/lich_announce)
+		H.mind.AddSpell(new /obj/effect/proc_holder/spell/self/lich_announce_global)
 		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/convert_heretic)
 		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/tame_undead)
 		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/raise_deadite)
@@ -333,3 +334,22 @@
 		skele.current.playsound_local(get_turf(A.owner), 'sound/misc/deadbell.ogg', 50, FALSE)
 
 	..()
+
+/obj/effect/proc_holder/spell/self/lich_announce_global
+	name = "Bellow Will"
+	desc = "Bellow a commandment, which will be heard by all undead creechers - irregardless of their location - underneath your command."
+	recharge_time = 10 MINUTES
+
+/obj/effect/proc_holder/spell/self/lich_announce_global/cast(list/targets, mob/user)
+	if(user.stat)
+		return
+	var/announcementinput = input("Bellow to the Peaks", "Make an Announcement") as text|null
+	if(announcementinput)
+		visible_message(span_warning("[usr] gathers their power."))
+		if(do_after(usr, 10 SECONDS, target = usr))
+			say(announcementinput)
+			var/sanitized_input = trim(copytext(sanitize(announcementinput), 1, MAX_MESSAGE_LEN))
+			priority_announce("[sanitized_input]", "The Lich Rattles", 'sound/misc/deadbell.ogg', sender = usr)
+		else
+			to_chat(usr, span_warning("Your announcement was interrupted!"))
+			return FALSE
