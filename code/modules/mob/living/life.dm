@@ -61,7 +61,7 @@
 			for(var/datum/wound/wound as anything in get_wounds())
 				wound.heal_wound(3)
 
-	if(blood_volume <= BLOOD_VOLUME_SURVIVE && stat < CONSCIOUS)
+	if(blood_volume <= BLOOD_VOLUME_SURVIVE && stat)
 		handle_passive_blood()
 
 	if (QDELETED(src)) // diseases can qdel the mob via transformations

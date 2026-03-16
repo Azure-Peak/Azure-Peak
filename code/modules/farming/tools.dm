@@ -130,7 +130,7 @@
 	force = 10
 	force_wielded = 15
 	possible_item_intents = list(/datum/intent/pick)
-	gripped_intents = list(/datum/intent/pick, SPEAR_BASH, TILL_INTENT)
+	gripped_intents = list(TILL_INTENT, /datum/intent/pick, SPEAR_BASH)
 	name = "hoe"
 	desc = "A humble tool for humble tillage. Would you be more concerned if it wasn't dirty and worn?"
 	icon_state = "hoe"

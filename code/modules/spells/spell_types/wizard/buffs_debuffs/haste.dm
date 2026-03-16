@@ -3,7 +3,7 @@
 	desc = "Cause a target to be magically hastened. (+5 Speed, 0.85 x Action Cooldown)"
 	cost = 4
 	xp_gain = TRUE
-	releasedrain = 60
+	releasedrain = SPELLCOST_STAT_BUFF
 	chargedrain = 1
 	chargetime = 1 SECONDS
 	recharge_time = 2 MINUTES

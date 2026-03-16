@@ -5,7 +5,7 @@
 	cost = 3
 	range = 7
 	xp_gain = TRUE
-	releasedrain = 30
+	releasedrain = SPELLCOST_MAJOR_AOE
 	chargedrain = 1
 	chargetime = 20
 	recharge_time = 15 SECONDS

@@ -11,7 +11,7 @@ Instant self-cast, no empowerment, pure mobility/utility. */
 	range = 7
 	action_icon = 'icons/mob/actions/classuniquespells/spellblade.dmi'
 	overlay_state = "advance" // Icon by Prominence. Shared with Advance since the spells are very similar.
-	releasedrain = 15
+	releasedrain = SPELLCOST_SB_MOBILITY
 	chargedrain = 0
 	chargetime = 0
 	recharge_time = 12 SECONDS

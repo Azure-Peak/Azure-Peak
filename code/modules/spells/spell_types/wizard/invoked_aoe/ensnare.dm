@@ -3,7 +3,7 @@
 	desc = "Tendrils of arcyne force hold anyone in a small area in place for a short while."
 	cost = 3
 	xp_gain = TRUE
-	releasedrain = 20
+	releasedrain = SPELLCOST_MAJOR_AOE
 	chargedrain = 1
 	chargetime = 10
 	recharge_time = 25 SECONDS

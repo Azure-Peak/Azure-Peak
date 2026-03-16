@@ -401,3 +401,110 @@
 		/obj/item/roguegem/blood_diamond = 2,
 		)
 	subtype_reqs = TRUE
+
+// Flavorful Zigarets
+
+/datum/crafting_recipe/roguetown/alchemy/menthazig
+	name = "handmade mentha zig"
+	category = "Table"
+	result = list(/obj/item/clothing/mask/cigarette/rollie/mentha/crafted)
+	reqs = list(/obj/item/clothing/mask/cigarette/rollie/nicotine = 1, /obj/item/alch/mentha = 1)
+	craftdiff = 1
+	
+/datum/crafting_recipe/roguetown/alchemy/blackberryzig
+	name = "handmade blackberry zig"
+	category = "Table"
+	result = list(/obj/item/clothing/mask/cigarette/rollie/blackberry/crafted)
+	reqs = list(/obj/item/clothing/mask/cigarette/rollie/nicotine = 1, /obj/item/reagent_containers/food/snacks/grown/fruit/blackberry = 1)
+	craftdiff = 1
+	
+/datum/crafting_recipe/roguetown/alchemy/applezig
+	name = "handmade apple zig"
+	category = "Table"
+	result = list(/obj/item/clothing/mask/cigarette/rollie/apple/crafted)
+	reqs = list(/obj/item/clothing/mask/cigarette/rollie/nicotine = 1, /obj/item/reagent_containers/food/snacks/grown/apple = 1)
+	craftdiff = 1
+	
+/datum/crafting_recipe/roguetown/alchemy/menthaapplezig
+	name = "handmade mentha-apple zig"
+	category = "Table"
+	result = list(/obj/item/clothing/mask/cigarette/rollie/menthaapple/crafted)
+	reqs = list(/obj/item/clothing/mask/cigarette/rollie/nicotine = 1, /obj/item/alch/mentha = 1, /obj/item/reagent_containers/food/snacks/grown/apple = 1)
+	craftdiff = 1
+	
+/datum/crafting_recipe/roguetown/alchemy/chocolatezig
+	name = "handmade chocolate zig"
+	category = "Table"
+	result = list(/obj/item/clothing/mask/cigarette/rollie/chocolate/crafted)
+	reqs = list(/obj/item/clothing/mask/cigarette/rollie/nicotine = 1, /obj/item/reagent_containers/food/snacks/chocolate = 1)
+	craftdiff = 1
+	
+/datum/crafting_recipe/roguetown/alchemy/strawberryzig
+	name = "handmade strawberry zig"
+	category = "Table"
+	result = list(/obj/item/clothing/mask/cigarette/rollie/strawberry/crafted)
+	reqs = list(/obj/item/clothing/mask/cigarette/rollie/nicotine = 1, /obj/item/reagent_containers/food/snacks/grown/fruit/strawberry = 1)
+	craftdiff = 1
+	
+/datum/crafting_recipe/roguetown/alchemy/carrotzig
+	name = "handmade carrot zig"
+	category = "Table"
+	result = list(/obj/item/clothing/mask/cigarette/rollie/carrot/crafted)
+	reqs = list(/obj/item/clothing/mask/cigarette/rollie/nicotine = 1, /obj/item/reagent_containers/food/snacks/grown/carrot = 1)
+	craftdiff = 1
+	
+/datum/crafting_recipe/roguetown/alchemy/limezig
+	name = "handmade lime zig"
+	category = "Table"
+	result = list(/obj/item/clothing/mask/cigarette/rollie/lime/crafted)
+	reqs = list(/obj/item/clothing/mask/cigarette/rollie/nicotine = 1, /obj/item/reagent_containers/food/snacks/grown/fruit/lime = 1)
+	craftdiff = 1
+	
+/datum/crafting_recipe/roguetown/alchemy/salviazig
+	name = "handmade salvia zig"
+	category = "Table"
+	result = list(/obj/item/clothing/mask/cigarette/rollie/salvia/crafted)
+	reqs = list(/obj/item/clothing/mask/cigarette/rollie/nicotine = 1, /obj/item/herbseed/salvia = 1)
+	craftdiff = 1
+	
+/datum/crafting_recipe/roguetown/alchemy/salviavalerianazig
+	name = "handmade salvia-valeriana zig"
+	category = "Table"
+	result = list(/obj/item/clothing/mask/cigarette/rollie/salviavaleriana/crafted)
+	reqs = list(/obj/item/clothing/mask/cigarette/rollie/nicotine = 1, /obj/item/herbseed/salvia = 1, /datum/reagent/drug/valeriana = 2)
+	craftdiff = 3
+
+/datum/crafting_recipe/roguetown/alchemy/calendulazig
+	name = "handmade calendula zig"
+	category = "Table"
+	result = list(/obj/item/clothing/mask/cigarette/rollie/calendula)
+	reqs = list(/obj/item/clothing/mask/cigarette/rollie/nicotine = 1, /obj/item/alch/calendula = 1)
+	craftdiff = 3
+
+/datum/crafting_recipe/roguetown/alchemy/jacksberries
+	name = "handmade jacksberries zig"
+	category = "Table"
+	result = list(/obj/item/clothing/mask/cigarette/rollie/jacksberries/crafted)
+	reqs = list(/obj/item/clothing/mask/cigarette/rollie/nicotine = 1, /obj/item/reagent_containers/food/snacks/grown/berries/rogue = 2)
+	craftdiff = 1
+	
+/datum/crafting_recipe/roguetown/alchemy/jacksberriespoison
+	name = "handmade jacksberries zig"
+	category = "Table"
+	result = list(/obj/item/clothing/mask/cigarette/rollie/jacksberriespoison/crafted)
+	reqs = list(/obj/item/clothing/mask/cigarette/rollie/nicotine = 1, /obj/item/reagent_containers/food/snacks/grown/berries/rogue/poison = 2)
+	craftdiff = 1
+	
+/datum/crafting_recipe/roguetown/alchemy/abyss
+	name = "handmade abyss zig"
+	category = "Table"
+	result = list(/obj/item/clothing/mask/cigarette/rollie/abyss/crafted)
+	reqs = list(/obj/item/clothing/mask/cigarette/rollie/nicotine = 1, /obj/item/reagent_containers/food/snacks/grown/berries/rogue = 1, /datum/reagent/water/salty = 20, /obj/item/reagent_containers/food/snacks/fish = 3)
+	craftdiff = 3
+
+/datum/crafting_recipe/roguetown/alchemy/ziggara
+	name = "handmade ziggara"
+	category = "Table"
+	result = list(/obj/item/clothing/mask/cigarette/rollie/ziggara/crafted)
+	reqs = list(/obj/item/clothing/mask/cigarette/rollie/nicotine = 1, /obj/item/herbseed/hypericum  = 1, /obj/item/reagent_containers/food/snacks/grown/rogue/pipeweeddry = 3)
+	craftdiff = 3

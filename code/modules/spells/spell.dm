@@ -1,15 +1,6 @@
 #define TARGET_CLOSEST 1
 #define TARGET_RANDOM 2
 #define MAGIC_XP_MULTIPLIER 0.3 //used to miltuply the amount of xp gained from spells
-#define SPELL_SCALING_THRESHOLD 10 // The threshold at which the spell scaling starts to kick in
-#define SPELL_POSITIVE_SCALING_THRESHOLD 15 // The threshold at which spell scaling stop
-#define FATIGUE_REDUCTION_PER_INT 0.05 // The amount of fatigue reduction per point of intelligence above / below threshold
-#define COOLDOWN_REDUCTION_PER_INT 0.05 // The amount of cooldown reduction per point of intelligence above / below threshold
-#define CHARGE_REDUCTION_PER_SKILL 0.05 // The amount of charge reduction per skill level.
-#define FATIGUE_REDUCTION_PER_SKILL 0.05 // The amount of fatigue reduction per skill level.
-#define MEDIUM_ARMOR_STAM_PENALTY 0.15 // Multiplier on base stamina cost for wearing medium armor
-#define HEAVY_ARMOR_STAM_PENALTY 0.3 // Multiplier on base stamina cost for wearing heavy armor
-#define UNTRAINED_ARMOR_STAM_PENALTY 80 // Flat stamina penalty for wearing armor you're not trained in
 
 /obj/effect/proc_holder
 	var/panel = "Debug"//What panel the proc holder needs to go on.
@@ -225,6 +216,18 @@ GLOBAL_LIST_INIT(spells, typesof(/obj/effect/proc_holder/spell)) //needed for th
 		return calculate_fatigue_drain(ranged_ability_user)
 	return releasedrain
 
+/obj/effect/proc_holder/spell/proc/calculate_fatigue_drain(mob/living/user)
+	if(!user || !releasedrain)
+		return releasedrain
+	var/newdrain = releasedrain
+	if(user.STAINT > SPELL_SCALING_THRESHOLD)
+		var/diff = min(user.STAINT, SPELL_POSITIVE_SCALING_THRESHOLD) - SPELL_SCALING_THRESHOLD
+		newdrain -= releasedrain * diff * FATIGUE_REDUCTION_PER_INT
+	else if(user.STAINT < SPELL_SCALING_THRESHOLD)
+		var/diff = SPELL_SCALING_THRESHOLD - user.STAINT
+		newdrain += releasedrain * diff * FATIGUE_REDUCTION_PER_INT
+	return max(newdrain, 0.1)
+
 /obj/effect/proc_holder/spell/proc/calculate_chargetime(mob/living/user)
 	if(!user || !chargetime)
 		return chargetime
@@ -243,33 +246,6 @@ GLOBAL_LIST_INIT(spells, typesof(/obj/effect/proc_holder/spell)) //needed for th
 		return newtime
 	return 0.1
 
-/obj/effect/proc_holder/spell/proc/calculate_fatigue_drain(mob/living/user)
-	if(!user || !releasedrain)
-		return releasedrain
-	var/newdrain = releasedrain
-	//skill block
-	newdrain = newdrain - (releasedrain * (user.get_skill_level(associated_skill) * FATIGUE_REDUCTION_PER_SKILL))
-	//int block
-	if(user.STAINT > SPELL_SCALING_THRESHOLD)
-		var/diff = min(user.STAINT, SPELL_POSITIVE_SCALING_THRESHOLD) - SPELL_SCALING_THRESHOLD
-		newdrain = newdrain - (releasedrain * diff * FATIGUE_REDUCTION_PER_INT)
-	else if(user.STAINT < 10)
-		var/diffy = SPELL_SCALING_THRESHOLD - user.STAINT
-		newdrain = newdrain + (releasedrain * (diffy * FATIGUE_REDUCTION_PER_INT))
-	if(!user.check_armor_skill())
-		newdrain += UNTRAINED_ARMOR_STAM_PENALTY
-	// Armor weight penalty. Trained wearers
-	// still get a bit of a soft penalty 
-	if(ishuman(user))
-		var/mob/living/carbon/human/H = user
-		var/ac = H.highest_ac_worn()
-		if(ac == ARMOR_CLASS_HEAVY)
-			newdrain += releasedrain * HEAVY_ARMOR_STAM_PENALTY
-		else if(ac == ARMOR_CLASS_MEDIUM)
-			newdrain += releasedrain * MEDIUM_ARMOR_STAM_PENALTY
-	if(newdrain > 0)
-		return newdrain
-	return 0.1
 
 /obj/effect/proc_holder/spell/proc/get_chargetime_breakdown(mob/living/user)
 	var/list/breakdown = list()
@@ -297,46 +273,55 @@ GLOBAL_LIST_INIT(spells, typesof(/obj/effect/proc_holder/spell)) //needed for th
 		var/diffy = SPELL_SCALING_THRESHOLD - user.STAINT
 		var/int_mod = initial(recharge_time) * diffy * COOLDOWN_REDUCTION_PER_INT
 		breakdown += span_smallred("  Intelligence: +[DisplayTimeText(int_mod)]")
+	if(!user.check_armor_skill())
+		var/armor_mod = initial(recharge_time) * UNTRAINED_ARMOR_CD_PENALTY
+		breakdown += span_smallred("  Untrained armor: +[DisplayTimeText(armor_mod)]")
+	else if(ishuman(user))
+		var/mob/living/carbon/human/H = user
+		var/ac = H.highest_ac_worn()
+		if(ac == ARMOR_CLASS_HEAVY)
+			var/armor_mod = initial(recharge_time) * HEAVY_ARMOR_CD_PENALTY
+			breakdown += span_smallred("  Armor weight: +[DisplayTimeText(armor_mod)]")
+		else if(ac == ARMOR_CLASS_MEDIUM)
+			var/armor_mod = initial(recharge_time) * MEDIUM_ARMOR_CD_PENALTY
+			breakdown += span_smallred("  Armor weight: +[DisplayTimeText(armor_mod)]")
 	return breakdown
 
 /obj/effect/proc_holder/spell/proc/get_fatigue_breakdown(mob/living/user)
 	var/list/breakdown = list()
-	var/skill_level = user.get_skill_level(associated_skill)
-	if(skill_level > 0)
-		var/skill_mod = releasedrain * skill_level * FATIGUE_REDUCTION_PER_SKILL
-		breakdown += span_smallgreen("  Skill: -[skill_mod]")
 	if(user.STAINT > SPELL_SCALING_THRESHOLD)
 		var/diff = min(user.STAINT, SPELL_POSITIVE_SCALING_THRESHOLD) - SPELL_SCALING_THRESHOLD
 		var/int_mod = releasedrain * diff * FATIGUE_REDUCTION_PER_INT
 		breakdown += span_smallgreen("  Intelligence: -[int_mod]")
 	else if(user.STAINT < SPELL_SCALING_THRESHOLD)
-		var/diffy = SPELL_SCALING_THRESHOLD - user.STAINT
-		var/int_mod = releasedrain * diffy * FATIGUE_REDUCTION_PER_INT
+		var/diff = SPELL_SCALING_THRESHOLD - user.STAINT
+		var/int_mod = releasedrain * diff * FATIGUE_REDUCTION_PER_INT
 		breakdown += span_smallred("  Intelligence: +[int_mod]")
-	if(!user.check_armor_skill())
-		breakdown += span_smallred("  Untrained armor: +[UNTRAINED_ARMOR_STAM_PENALTY]")
-	if(ishuman(user))
-		var/mob/living/carbon/human/H = user
-		var/ac = H.highest_ac_worn()
-		if(ac == ARMOR_CLASS_HEAVY)
-			var/armor_mod = releasedrain * HEAVY_ARMOR_STAM_PENALTY
-			breakdown += span_smallred("  Armor weight: +[armor_mod]")
-		else if(ac == ARMOR_CLASS_MEDIUM)
-			var/armor_mod = releasedrain * MEDIUM_ARMOR_STAM_PENALTY
-			breakdown += span_smallred("  Armor weight: +[armor_mod]")
 	return breakdown
 
 /obj/effect/proc_holder/spell/proc/calculate_cooldown(mob/living/user)
 	if(!user || is_cdr_exempt)
 		return initial(recharge_time)
 	var/base = initial(recharge_time)
+	var/newcd = base
+	// INT scaling
 	if(user.STAINT > SPELL_SCALING_THRESHOLD)
 		var/diff = min(user.STAINT, SPELL_POSITIVE_SCALING_THRESHOLD) - SPELL_SCALING_THRESHOLD
-		return base - (base * diff * COOLDOWN_REDUCTION_PER_INT)
+		newcd -= base * diff * COOLDOWN_REDUCTION_PER_INT
 	else if(user.STAINT < SPELL_SCALING_THRESHOLD)
 		var/diff2 = SPELL_SCALING_THRESHOLD - user.STAINT
-		return base + (base * (diff2 * COOLDOWN_REDUCTION_PER_INT))
-	return base
+		newcd += base * diff2 * COOLDOWN_REDUCTION_PER_INT
+	// Armor penalties
+	if(!user.check_armor_skill())
+		newcd += base * UNTRAINED_ARMOR_CD_PENALTY
+	else if(ishuman(user))
+		var/mob/living/carbon/human/H = user
+		var/ac = H.highest_ac_worn()
+		if(ac == ARMOR_CLASS_HEAVY)
+			newcd += base * HEAVY_ARMOR_CD_PENALTY
+		else if(ac == ARMOR_CLASS_MEDIUM)
+			newcd += base * MEDIUM_ARMOR_CD_PENALTY
+	return newcd
 
 /obj/effect/proc_holder/spell/proc/get_spell_statistics(mob/living/user)
 	var/list/stats = list()
@@ -367,15 +352,14 @@ GLOBAL_LIST_INIT(spells, typesof(/obj/effect/proc_holder/spell)) //needed for th
 				stats += get_cooldown_breakdown(user)
 		else
 			stats += span_info("Cooldown: [DisplayTimeText(base_cd)]")
-	var/base_fd = releasedrain
-	if(base_fd > 0)
-		var/dynamic_fd = user ? calculate_fatigue_drain(user) : base_fd
-		if(dynamic_fd != base_fd)
-			stats += span_info("Stamina cost: [base_fd] (current: [dynamic_fd])")
+	if(releasedrain > 0)
+		var/dynamic_fd = user ? calculate_fatigue_drain(user) : releasedrain
+		if(dynamic_fd != releasedrain)
+			stats += span_info("Stamina cost: [releasedrain] (current: [dynamic_fd])")
 			if(user)
 				stats += get_fatigue_breakdown(user)
 		else
-			stats += span_info("Stamina cost: [base_fd]")
+			stats += span_info("Stamina cost: [releasedrain]")
 	return stats
 
 /obj/effect/proc_holder/spell/proc/cast_check(skipcharge, mob/user = usr) //checks if the spell can be cast based on its settings; skipcharge is used when an additional cast_check is called inside the spell
@@ -566,12 +550,7 @@ GLOBAL_LIST_INIT(spells, typesof(/obj/effect/proc_holder/spell)) //needed for th
 	var/mob/living/user = ranged_ability_user || action?.owner
 
 	if(user && !is_cdr_exempt)
-		if(user.STAINT > SPELL_SCALING_THRESHOLD)
-			var/diff = min(user.STAINT, SPELL_POSITIVE_SCALING_THRESHOLD) - SPELL_SCALING_THRESHOLD
-			recharge_time = initial(recharge_time) - (initial(recharge_time) * diff * COOLDOWN_REDUCTION_PER_INT)
-		else if(user.STAINT < SPELL_SCALING_THRESHOLD)
-			var/diff2 = SPELL_SCALING_THRESHOLD - user.STAINT
-			recharge_time = initial(recharge_time) + (initial(recharge_time) * (diff2 * COOLDOWN_REDUCTION_PER_INT))
+		recharge_time = calculate_cooldown(user)
 
 	// If the spell was fully charged before recalculation, keep it fully charged
 	if(charge_counter >= old_recharge && old_recharge > 0)
@@ -649,11 +628,8 @@ GLOBAL_LIST_INIT(spells, typesof(/obj/effect/proc_holder/spell)) //needed for th
 		after_cast(targets, user = user)
 		if(isliving(user))
 			var/mob/living/L = user
-			// Apply stamina drain — the on_mmb path is never reached due to check_click_intercept consuming the click first
 			if(releasedrain > 0)
-				var/fatigue = calculate_fatigue_drain(L)
-				if(fatigue > 0)
-					L.stamina_add(fatigue)
+				L.stamina_add(calculate_fatigue_drain(L))
 			if(L.has_status_effect(/datum/status_effect/buff/clash))
 				var/mob/living/carbon/human/H = user
 				H.bad_guard(span_warning("I can't focus while casting spells!"), cheesy = TRUE)
@@ -1048,12 +1024,3 @@ GLOBAL_LIST_INIT(spells, typesof(/obj/effect/proc_holder/spell)) //needed for th
 #undef TARGET_CLOSEST
 #undef TARGET_RANDOM
 #undef MAGIC_XP_MULTIPLIER
-#undef SPELL_SCALING_THRESHOLD
-#undef SPELL_POSITIVE_SCALING_THRESHOLD
-#undef FATIGUE_REDUCTION_PER_INT
-#undef COOLDOWN_REDUCTION_PER_INT
-#undef CHARGE_REDUCTION_PER_SKILL
-#undef FATIGUE_REDUCTION_PER_SKILL
-#undef MEDIUM_ARMOR_STAM_PENALTY
-#undef HEAVY_ARMOR_STAM_PENALTY
-#undef UNTRAINED_ARMOR_STAM_PENALTY

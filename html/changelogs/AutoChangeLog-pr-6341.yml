@@ -1,5 +1,0 @@
-author: "WeNeedMorePhoron"
-delete-after: True
-changes:
-  - rscadd: "TGUI themes / buttons look better. I think. Subjectively."
-  - bugfix: "Magic recipe book should no longer crash"

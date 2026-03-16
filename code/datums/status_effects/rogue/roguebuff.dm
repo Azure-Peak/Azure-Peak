@@ -364,6 +364,22 @@
 
 	. = ..()
 
+/datum/status_effect/buff/abyss //for smokes
+	id = "abyss"
+	alert_type = /atom/movable/screen/alert/status_effect/buff/druqks
+	effectedstats = list(STATKEY_SPD = -1, STATKEY_PER = 1)
+	duration = 30 SECONDS
+
+/datum/status_effect/buff/abyss/on_apply()
+	. = ..()
+	ADD_TRAIT(owner, TRAIT_PSYCHOSIS, TRAIT_GENERIC)
+
+/datum/status_effect/buff/abyss/on_remove()
+	REMOVE_TRAIT(owner, TRAIT_PSYCHOSIS, TRAIT_GENERIC)
+	. = ..()
+
+
+
 /datum/status_effect/buff/fermented_crab
 	id = "fermented_crab"
 	alert_type = /atom/movable/screen/alert/status_effect/buff/fermented_crab

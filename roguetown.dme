@@ -1501,6 +1501,7 @@
 #include "code\modules\cargo\packsrogue\bathmatron\bath_perfume.dm"
 #include "code\modules\cargo\packsrogue\bathmatron\bath_rogue.dm"
 #include "code\modules\cargo\packsrogue\bathmatron\drugs.dm"
+#include "code\modules\cargo\packsrogue\bathmatron\bath_smokes.dm"
 #include "code\modules\cargo\packsrogue\blackmarket\blackmarket_arms.dm"
 #include "code\modules\cargo\packsrogue\blackmarket\blackmarket_diplomacy.dm"
 #include "code\modules\cargo\packsrogue\blackmarket\blackmarket_drugs.dm"

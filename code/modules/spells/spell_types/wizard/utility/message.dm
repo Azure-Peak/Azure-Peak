@@ -3,7 +3,7 @@
 	desc = "Latch onto the mind of one who is familiar to you, whispering a message or sending an intuitive projection into their head."
 	cost = 2
 	xp_gain = TRUE
-	releasedrain = 30
+	releasedrain = SPELLCOST_CANTRIP
 	recharge_time = 60 SECONDS
 	warnie = "spellwarning"
 	spell_tier = 1

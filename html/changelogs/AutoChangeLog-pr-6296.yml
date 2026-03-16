@@ -1,8 +1,0 @@
-author: "BurpleBineapple"
-delete-after: True
-changes:
-  - rscadd: "Daring Twit Prince gets a choice of gilded swords."
-  - rscadd: "Bookworm Prince gets a choice of very specific T2 spells."
-  - balance: "Bookworm Prince has 6 spellpoints instead of 9 spellpoints."
-  - rscadd: "Sheltered Aristrocrat Prince gets an extra pouch of coins."
-  - balance: "Balance is utterly destroyed because Inbred Wastrel has 5 FOR now (And -2 in every other stat)"

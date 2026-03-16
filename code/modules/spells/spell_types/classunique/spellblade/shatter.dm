@@ -12,7 +12,7 @@ No momentum gain — use normal swings for that.*/
 	range = 7
 	action_icon = 'icons/mob/actions/classuniquespells/spellblade.dmi' // Icon by Prominence / Nobleed
 	overlay_state = "shatter"
-	releasedrain = 20
+	releasedrain = SPELLCOST_SB_POKE
 	chargedrain = 0
 	chargetime = 3
 	recharge_time = 12 SECONDS

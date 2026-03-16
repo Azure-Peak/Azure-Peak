@@ -2,7 +2,7 @@
 	name = "Mending"
 	desc = "Uses arcyne energy to mend an item. Effect of repair scales off of your Intelligence."
 	overlay_state = "mending"
-	releasedrain = 50
+	releasedrain = SPELLCOST_CANTRIP
 	chargetime = 5
 	recharge_time = 20 SECONDS
 	warnie = "spellwarning"

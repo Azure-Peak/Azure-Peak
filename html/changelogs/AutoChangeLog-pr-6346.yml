@@ -1,0 +1,4 @@
+author: "KatTheFox"
+delete-after: True
+changes:
+  - qol: "hoes now have till intent as their first intent when two-handed"
