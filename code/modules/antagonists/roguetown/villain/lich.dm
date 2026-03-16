@@ -337,7 +337,7 @@
 
 /obj/effect/proc_holder/spell/self/lich_announce_global
 	name = "Bellow Will"
-	desc = "Bellow a commandment, which will be heard by all undead creechers - irregardless of their location - underneath your command."
+	desc = "Bellow a commandment, which will be heard by all creechers - irregardless of their location."
 	recharge_time = 10 MINUTES
 
 /obj/effect/proc_holder/spell/self/lich_announce_global/cast(list/targets, mob/user)
