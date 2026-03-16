@@ -138,3 +138,22 @@
 	name = "Mother's pride"
 	desc = "A golden blossom of moss. It feels like a treasure in your hand, something to cherish until the end of your days."
 	color = "#ffc400"
+
+/obj/item/alch/hag_moss/enchanted
+	name = "Enchanted Moss"
+	var/boon_path // The path of the boon this moss grants essence for
+
+/obj/item/alch/hag_moss/enchanted/Initialize(mapload)
+	. = ..()
+	// Letting color properly init first.
+	spawn(1)
+		apply_glow()
+
+/obj/item/alch/hag_moss/enchanted/proc/apply_glow()
+	src.add_filter("moss_glow", 1, list("type" = "outline", "color" = color, "size" = 1))
+
+// Test moss
+/obj/item/alch/hag_moss/enchanted/sorrow_bound
+	name = "Sorrow-Bound Moss"
+	boon_path = /datum/hag_boon/curse/rotting_touch
+	color = "#4b5320"

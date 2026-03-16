@@ -42,6 +42,7 @@
 		H.mind.teach_crafting_recipe(/datum/crafting_recipe/roguetown/alchemy/hag/synth_base)
 		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/spiritual_siphon)
 		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/transmutation_rite)
+		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/grant_boon)
 
 /obj/effect/proc_holder/spell/targeted/shapeshift/hag_true_form
 	die_with_shapeshifted_form = FALSE

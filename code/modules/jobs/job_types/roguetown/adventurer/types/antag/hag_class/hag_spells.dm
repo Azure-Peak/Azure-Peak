@@ -18,11 +18,16 @@
 	// Prioritize absorption if there are items on the floor
 	var/absorbed_any = FALSE
 	for(var/obj/item/I in T)
-		if(H.absorb_item(I))
+		// Check for enchanted moss first
+		if(istype(I, /obj/item/alch/hag_moss/enchanted))
+			if(H.absorb_enchanted_moss(I))
+				absorbed_any = TRUE
+		// Otherwise, standard material absorption
+		else if(H.absorb_item(I))
 			absorbed_any = TRUE
 
 	if(absorbed_any)
-		to_chat(user, span_notice("The mosses dissolve into your shadow."))
+		to_chat(user, span_notice("The mosses dissolve into your spirit."))
 		playsound(T, 'sound/magic/magnet.ogg', 50, TRUE)
 		return TRUE
 
@@ -51,6 +56,15 @@
 			// Show usage/capacity: e.g., "Sorrow Moss: 4/10"
 			var/limit = H.material_limits[path] || "?"
 			. += span_info("- [name]: [count]/[limit]")
+	if(length(H.prepared_boons))
+		. += "<br><span class='notice'><b>Manifestable Blessings:</b></span>"
+		var/found_any = FALSE
+		for(var/path in H.prepared_boons)
+			if(H.prepared_boons[path] > 0)
+				. += span_info("- [initial(path:name)]: [H.prepared_boons[path]]")
+				found_any = TRUE
+		if(!found_any)
+			. += span_info("- None ready.")
 
 /obj/effect/proc_holder/spell/invoked/transmutation_rite
 	name = "Transmutation"
@@ -167,3 +181,36 @@
 	for(var/datum/hag_boon/B in selected_boons)
 		points += B.points
 	return points
+
+/obj/effect/proc_holder/spell/invoked/grant_boon
+	name = "Manifest Boon"
+
+/obj/effect/proc_holder/spell/invoked/grant_boon/cast(list/targets, mob/living/user)
+	var/datum/component/hag_curio_tracker/H = user.GetComponent(/datum/component/hag_curio_tracker)
+	if(!H || !length(H.prepared_boons))
+		to_chat(user, span_warning("You have no prepared blessings to manifest."))
+		return FALSE
+
+	var/list/options = list()
+	for(var/path in H.prepared_boons)
+		if(H.prepared_boons[path] > 0)
+			options[initial(path:name)] = path
+
+	if(!length(options))
+		to_chat(user, span_warning("You have no prepared blessings with enough essence to manifest."))
+		return FALSE
+
+	var/choice = input(user, "Which blessing do you wish to manifest?", "Manifestation") as null|anything in options
+	if(!choice) return FALSE
+
+	var/path = options[choice]
+	var/default_points = initial(path:points)
+
+	// Spawn the physical blessing item
+	var/obj/item/hag_blessing_item/B = new(user.loc)
+	B.name = "[choice] blessing"
+	B.AddComponent(/datum/component/hag_boon_manifestation, path, default_points)
+
+	user.put_in_hands(B)
+	to_chat(user, span_notice("You pull a sliver of [choice] from your spirit."))
+	return TRUE

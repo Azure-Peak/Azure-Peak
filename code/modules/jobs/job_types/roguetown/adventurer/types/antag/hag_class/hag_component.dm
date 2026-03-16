@@ -17,6 +17,8 @@
 	var/static/list/curse_registry = list(
 		/datum/hag_boon/curse/rotting_touch = list("cost" = 1, "min_tier" = 1)
 	)
+	/// List of boon paths the hag has pre-prepared: [boon_path] = quantity
+	var/list/prepared_boons = list()
 
 /datum/component/hag_curio_tracker/Initialize()
 	if(!isliving(parent))
@@ -142,3 +144,25 @@
 		if(L.real_name == true_name)
 			return L
 	return null
+
+/datum/component/hag_curio_tracker/proc/can_grant_boon(boon_path)
+	if(!prepared_boons[boon_path] || prepared_boons[boon_path] <= 0)
+		return FALSE
+	// Add any tier/requirement checks here
+	return TRUE
+
+/datum/component/hag_curio_tracker/proc/consume_prepared_boon(boon_path)
+	if(!can_grant_boon(boon_path))
+		return FALSE
+	prepared_boons[boon_path]--
+	return TRUE
+
+/datum/component/hag_curio_tracker/proc/absorb_enchanted_moss(obj/item/alch/hag_moss/enchanted/M)
+	if(!M.boon_path)
+		return FALSE
+
+	prepared_boons[M.boon_path] = (prepared_boons[M.boon_path] || 0) + 1
+
+	to_chat(parent, span_notice("The [M] dissolves into your spirit, preparing a blessing of [initial(M.boon_path:name)]."))
+	qdel(M)
+	return TRUE
