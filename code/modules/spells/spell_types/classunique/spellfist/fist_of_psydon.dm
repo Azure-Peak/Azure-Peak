@@ -21,7 +21,7 @@
 	action_icon = 'icons/mob/actions/classuniquespells/spellfist.dmi'
 	overlay_state = "fist_of_psydon"
 	sound = list('sound/combat/wooshes/punch/punchwoosh (1).ogg','sound/combat/wooshes/punch/punchwoosh (2).ogg','sound/combat/wooshes/punch/punchwoosh (3).ogg')
-	releasedrain = 15
+	releasedrain = SPELLCOST_SB_POKE
 	chargedrain = 0
 	chargetime = 5
 	recharge_time = 12 SECONDS

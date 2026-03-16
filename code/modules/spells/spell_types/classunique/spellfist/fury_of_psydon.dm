@@ -13,7 +13,7 @@
 	overlay_state = "fury_of_psydon"
 	sound = list('sound/combat/wooshes/punch/punchwoosh (1).ogg','sound/combat/wooshes/punch/punchwoosh (2).ogg','sound/combat/wooshes/punch/punchwoosh (3).ogg')
 	active = FALSE
-	releasedrain = 70 // To make you REALLY commit to the kick instead of weaving it in easily
+	releasedrain = SPELLCOST_SB_ULT // To make you REALLY commit to the kick instead of weaving it in easily
 	chargedrain = 0
 	chargetime = 2 SECONDS
 	recharge_time = 45 SECONDS

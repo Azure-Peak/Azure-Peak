@@ -9,18 +9,18 @@
 
 /obj/effect/proc_holder/spell/invoked/grasp_of_psydon
 	name = "Grasp of Psydon"
-	desc = "Slam your open palm forward, sending forth tendrils of arcyne force to a target area up to 4 paces away on the same level. After a brief telegraph, all targets in the area are yanked toward you and off-balanced. Follow up quickly before they recover.\n\n\
+	desc = "Slam your open palm forward, sending forth tendrils of arcyne force to a target area up to 4 paces away on the same level. After a brief telegraph, all targets in the area are yanked toward you.\n\n\
 		'Push forth your hand with your conduit open, and imagine, with His will, seizing upon the very object or person you desire within your grasp, then, pull your hand backward. Close, and clench your fist, pushing forward slightly, opening your conduit again, and you shall seize your enemy from afar, and pull them toward you.'"
 	clothes_req = FALSE
-	range = 4
+	range = 5
 	action_icon = 'icons/mob/actions/classuniquespells/spellfist.dmi'
 	overlay_state = "grasp_of_psydon"
 	sound = list('sound/combat/wooshes/punch/punchwoosh (1).ogg','sound/combat/wooshes/punch/punchwoosh (2).ogg','sound/combat/wooshes/punch/punchwoosh (3).ogg')
 	active = FALSE
-	releasedrain = 20
+	releasedrain = SPELLCOST_MINOR_AOE
 	chargedrain = 0
 	chargetime = 5
-	recharge_time = 25 SECONDS
+	recharge_time = 20 SECONDS
 	warnie = "spellwarning"
 	no_early_release = TRUE
 	movement_interrupt = FALSE
@@ -92,7 +92,6 @@
 		// Yank toward caster
 		victim.throw_at(caster_turf, pull_distance, 4)
 
-		victim.OffBalance(2 SECONDS)
 		victim.visible_message(span_warning("[victim] is yanked toward [H] by tendrils of arcyne force!"))
 		new /obj/effect/temp_visual/grasp_telegraph/long(get_turf(victim))
 		hit_count++

@@ -1,5 +1,5 @@
 /obj/effect/proc_holder/spell/targeted/touch/summonrogueweapon
-	castdrain = 25
+	castdrain = SPELLCOST_MINOR_SUMMON
 	school = "transmutation"
 
 /obj/effect/proc_holder/spell/targeted/touch/summonrogueweapon/bladeofpsydon
