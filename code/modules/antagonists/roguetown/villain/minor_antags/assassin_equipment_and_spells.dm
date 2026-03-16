@@ -259,10 +259,7 @@ we happen to commission/code should GO IN HERE. Thanks.
 	S.name = "soul of [target.real_name]"
 	S.real_name = "soul of [target.real_name]"
 	S.deadchat_name = target.real_name
-	// make 'em trapped in the dagger
-	S.ManualFollow(src)
-	S.original_body = target
-	
+	S.original_body = target	
 	S.language_holder = target.language_holder.copy(S)
 
 	// effects on game world
@@ -304,8 +301,12 @@ WE DO NOT CURRENTLY USE THE UNDERWORLD. IF WE EVER GET IT BACK, FOR SOME REASON,
 /obj/item/rogueweapon/huntingknife/idagger/steel/profane/proc/release_profane_souls(mob/user)
 	var/freed_souls = 0
 	message_admins("dagger engaged") // debug
+	message_admins("src content: [src.contents]")
+	message_admins(" len : [length(src.contents)]")
 
 	for(var/atom/movable/child in src.contents)
+		message_admins("found [child] in [src.contents]")
+		message_admins("child name [child.name]")
 		if(!istype(child, /mob/dead/observer/profane))
 			continue
 
@@ -336,7 +337,7 @@ WE DO NOT CURRENTLY USE THE UNDERWORLD. IF WE EVER GET IT BACK, FOR SOME REASON,
 	src.container = container
 
 	S.forceMove(container)
-
+	
 /obj/item/clothing/cloak/poncho/evil
 	color = CLOTHING_DARK_GREY
 	detail_color = CLOTHING_BLACK
