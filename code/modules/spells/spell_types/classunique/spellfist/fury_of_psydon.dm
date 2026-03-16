@@ -16,7 +16,7 @@
 	releasedrain = SPELLCOST_SB_ULT // To make you REALLY commit to the kick instead of weaving it in easily
 	chargedrain = 0
 	chargetime = 2 SECONDS
-	recharge_time = 45 SECONDS
+	recharge_time = 35 SECONDS
 	warnie = "spellwarning"
 	no_early_release = TRUE
 	charging_slowdown = 0
