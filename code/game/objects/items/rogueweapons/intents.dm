@@ -547,7 +547,7 @@
 	chargetime = 0
 	noaa = FALSE
 	animname = "bite"
-	hitsound = list('sound/combat/hits/punch/punch (1).ogg', 'sound/combat/hits/punch/punch (2).ogg', 'sound/combat/hits/punch/punch (3).ogg')
+	hitsound = list('sound/combat/hits/punch/punch_hard (1).ogg', 'sound/combat/hits/punch/punch_hard (2).ogg', 'sound/combat/hits/punch/punch_hard (3).ogg')
 	misscost = 4
 	releasedrain = 1
 	swingdelay = 0
