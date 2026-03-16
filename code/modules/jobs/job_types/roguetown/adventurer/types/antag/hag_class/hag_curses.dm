@@ -1,5 +1,7 @@
 /datum/hag_boon/curse
 	name = "Generic Curse"
+	// Sorry hag, you can't turn a curse into a curse. what are you trying to pull here?
+	transmutable = FALSE
 	var/status_type = /datum/status_effect/debuff/hag_curse
 
 /datum/hag_boon/curse/apply_boon_effect(mob/living/L)

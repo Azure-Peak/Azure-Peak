@@ -13,6 +13,10 @@
 		/obj/item/alch/hag_moss/lullaby = 5,
 		/obj/item/alch/hag_moss/pride = 5
 	)
+	var/hag_tier = 1
+	var/static/list/curse_registry = list(
+		/datum/hag_boon/curse/rotting_touch = list("cost" = 1, "min_tier" = 1)
+	)
 
 /datum/component/hag_curio_tracker/Initialize()
 	if(!isliving(parent))
@@ -111,3 +115,30 @@
 			break
 
 	return total_dumped > 0
+
+/datum/component/hag_curio_tracker/proc/get_available_curses_data()
+	var/list/data = list()
+	for(var/path in curse_registry)
+		var/list/details = curse_registry[path]
+		data += list(list(
+			"name" = initial(path:name),
+			"path" = "[path]",
+			"cost" = details["cost"],
+			"min_tier" = details["min_tier"]
+		))
+	return data
+
+/datum/component/hag_curio_tracker/proc/transmute_boons_to_curse(true_name, list/boons, curse_path, points)
+	var/list/name_list = boon_registry[true_name]
+	for(var/datum/hag_boon/B in boons)
+		name_list -= B
+		qdel(B)
+
+	var/datum/hag_boon/curse/C = new curse_path(true_name, src, points)
+	name_list += C
+
+/datum/component/hag_curio_tracker/proc/find_target(true_name)
+	for(var/mob/living/L in GLOB.player_list)
+		if(L.real_name == true_name)
+			return L
+	return null

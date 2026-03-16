@@ -63,6 +63,7 @@
 
 	if(curse_points <= 0)
 		to_chat(L, span_notice("The oily, putrid sensation in your hands finally fades."))
+		UnregisterSignal(owner, COMSIG_ITEM_EQUIPPED)
 		owner.remove_status_effect(src)
 
 /atom/movable/screen/alert/status_effect/debuff/hag_curse/rotting_touch

@@ -9,6 +9,10 @@
 	var/datum/component/hag_curio_tracker/tracker
 	/// How powerful a boon is. Not used for all types of boons.
 	var/points = 0
+	/// Whether or not this boon can be transmuted into a curse. 
+	/// Curses should never be able to transmuted.
+	/// Some boons can only be triggered into specific curses, rather than free form.
+	var/transmutable = TRUE
 
 /datum/hag_boon/New(t_name, datum/component/hag_curio_tracker/T, set_points)
 	src.time_granted = world.time
@@ -16,6 +20,7 @@
 	src.tracker = T
 	src.points = set_points
 	var/mob/living/L = find_target()
+	to_chat(world, "DEBUG: Attempting to apply [src] to [L] finding [true_name] with [points] points.")
 	if(L)
 		apply_boon_effect(L)
 
@@ -27,6 +32,10 @@
 
 /datum/hag_boon/proc/find_target()
 	for(var/mob/living/L in GLOB.player_list)
+		if(L.real_name == true_name)
+			return L
+	// Fallback in case someone ghosts or druid shenaniganery!
+	for(var/mob/living/L in GLOB.mob_living_list)
 		if(L.real_name == true_name)
 			return L
 	return null
