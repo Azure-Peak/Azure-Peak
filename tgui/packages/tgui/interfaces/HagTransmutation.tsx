@@ -20,6 +20,7 @@ type Boon = {
   victim_name: string;
   name: string;
   points: number;
+  transmutable: boolean;
   selected: boolean;
 };
 
@@ -57,10 +58,11 @@ export const HagTransmutation = (props) => {
                   {victim.boons.map(boon => (
                     <Button 
                       key={boon.id + victim.name} 
+                      disabled={!boon.transmutable}
                       selected={boon.selected} 
                       onClick={() => act('toggle_boon', { id: boon.id, victim_name: victim.name })}
                     >
-                      {boon.name} ({boon.points} pts)
+                      {boon.name} {boon.transmutable ? `(${boon.points} pts)` : "(Active Curse)"}
                     </Button>
                   ))}
                 </Stack>

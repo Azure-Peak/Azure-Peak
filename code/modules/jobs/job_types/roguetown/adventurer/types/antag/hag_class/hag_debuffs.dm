@@ -43,26 +43,38 @@
 /datum/status_effect/debuff/hag_curse/rotting_touch/proc/handle_touch(mob/living/L, obj/item/I, slot)
 	SIGNAL_HANDLER
 
-	// Only hands, only food
 	if(!(slot & ITEM_SLOT_HANDS) || !istype(I, /obj/item/reagent_containers/food/snacks))
 		return
 
 	var/obj/item/reagent_containers/food/snacks/food = I
 
-	// Check if it's already rotten to avoid wasting a curse point on a literal piece of garbage
+	// Check if it's already rotten
 	if(food.eat_effect == /datum/status_effect/debuff/rotfood)
 		return
 
 	to_chat(L, span_warning("Your touch withers \the [food] instantly!"))
-	food.become_rotten()
 
-	// Reusing my mushroom cloud because it's rot-like
-	var/obj/effect/temp_visual/heal/H = new /obj/effect/temp_visual/spore(get_turf(L))
+	// Manual rot application to bypass the destructive become_rotten() proc
+	if(food.become_rot_type)
+		var/obj/item/reagent_containers/food/snacks/rotten_food = new food.become_rot_type(food.loc)
+		if(food.reagents)
+			food.reagents.trans_to(rotten_food.reagents, food.reagents.maximum_volume)
+
+		rotten_food.forceMove(get_turf(L))
+		L.dropItemToGround(food, TRUE, TRUE)
+		qdel(food)
+	else
+		// Fallback for snacks that don't have a specific rot type
+		food.become_rotten()
+
+	var/obj/effect/temp_visual/spore/H = new /obj/effect/temp_visual/spore(get_turf(L))
 	H.color = "#4b5320" 
+	
 	curse_points--
 
 	if(curse_points <= 0)
 		to_chat(L, span_notice("The oily, putrid sensation in your hands finally fades."))
+		// Unregistering the signal safely
 		UnregisterSignal(owner, COMSIG_ITEM_EQUIPPED)
 		owner.remove_status_effect(src)
 

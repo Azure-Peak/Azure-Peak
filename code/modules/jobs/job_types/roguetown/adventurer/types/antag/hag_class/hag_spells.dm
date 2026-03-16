@@ -94,6 +94,8 @@
 
 /obj/effect/proc_holder/spell/invoked/transmutation_rite/ui_data(mob/user)
 	var/datum/component/hag_curio_tracker/H = user.GetComponent(/datum/component/hag_curio_tracker)
+	if(!H)
+		return FALSE
 	
 	var/list/victims_data = list()
 	for(var/t_name in H.boon_registry)
@@ -104,7 +106,8 @@
 				"victim_name" = t_name, // Added so UI knows where it belongs
 				"name" = B.name,
 				"points" = B.points,
-				"selected" = (B in selected_boons)
+				"selected" = (B in selected_boons),
+				"transmutable" = B.transmutable
 			))
 		
 		victims_data += list(list(
@@ -121,8 +124,8 @@
 	)
 
 /obj/effect/proc_holder/spell/invoked/transmutation_rite/ui_act(action, list/params, datum/tgui/ui, datum/ui_state/state)
-	to_chat(ui.user, "DEBUG: Action [action] received. Params: [json_encode(params)]")
-	to_chat(world, "DEBUG: Action [action] received. Params: [json_encode(params)]")
+	// to_chat(ui.user, "DEBUG: Action [action] received. Params: [json_encode(params)]")
+	// to_chat(world, "DEBUG: Action [action] received. Params: [json_encode(params)]")
 	
 	var/mob/living/user = ui.user
 	var/datum/component/hag_curio_tracker/H = user.GetComponent(/datum/component/hag_curio_tracker)
@@ -144,15 +147,17 @@
 						if(!selected_boons.len) active_victim_name = null
 					else
 						selected_boons += B
-					return TRUE // THIS IS CRITICAL FOR REFRESH
+					return TRUE
 		
 		if("select_curse")
 			selected_curse_path = params["path"]
-			return TRUE // THIS IS CRITICAL FOR REFRESH
+			return TRUE
 
 		if("commit_transmutation")
 			H.transmute_boons_to_curse(active_victim_name, selected_boons, selected_curse_path, calculate_current_points())
-			// ... (Your existing commit logic)
+			selected_boons.Cut()
+			selected_curse_path = null
+			active_victim_name = null
 			return TRUE
 
 	return ..()
