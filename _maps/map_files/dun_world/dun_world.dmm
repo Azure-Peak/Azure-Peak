@@ -34633,6 +34633,15 @@
 	pixel_y = 1
 	},
 /obj/item/rogueweapon/huntingknife/chefknife,
+/obj/structure/rack/rogue/shelf,
+/obj/item/heart_blood_canister/filled{
+	pixel_x = -6;
+	pixel_y = 40
+	},
+/obj/item/heart_blood_canister/filled{
+	pixel_x = 4;
+	pixel_y = 40
+	},
 /turf/open/floor/rogue/concrete,
 /area/rogue/indoors/town/church/chapel)
 "hyY" = (
@@ -83389,7 +83398,10 @@
 /area/rogue/under/cave/scarymaze)
 "rIC" = (
 /obj/structure/table/wood/long_table,
-/obj/item/candle/candlestick/gold/single/lit,
+/obj/item/candle/candlestick/gold/single/lit{
+	pixel_x = -3;
+	pixel_y = 16
+	},
 /turf/open/floor/rogue/concrete,
 /area/rogue/indoors/town/church/chapel)
 "rIE" = (
