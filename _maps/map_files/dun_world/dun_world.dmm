@@ -27421,7 +27421,7 @@
 /area/rogue/outdoors/beach/north)
 "fWN" = (
 /obj/machinery/light/rogue/firebowl/church,
-/turf/open/floor/rogue/churchmarble,
+/turf/open/floor/rogue/churchrough,
 /area/rogue/indoors/town/pestra_sanctum)
 "fWP" = (
 /obj/effect/decal/cleanable/blood,
@@ -32025,7 +32025,7 @@
 	pixel_x = -2;
 	pixel_y = 7
 	},
-/turf/open/floor/rogue/churchmarble,
+/turf/open/floor/rogue/churchrough,
 /area/rogue/indoors/town/pestra_sanctum)
 "gXF" = (
 /obj/structure/fluff/walldeco/church/line,
@@ -44534,7 +44534,7 @@
 	color = "#3f3f3f";
 	dir = 1
 	},
-/turf/open/floor/rogue/churchmarble,
+/turf/open/floor/rogue/churchrough,
 /area/rogue/indoors/town/pestra_sanctum)
 "jBN" = (
 /obj/structure/chair/bench/church/smallbench,
@@ -65037,7 +65037,7 @@
 	},
 /obj/structure/table/church/end,
 /obj/machinery/light/rogue/candle/floorcandle/alt,
-/turf/open/floor/rogue/churchmarble,
+/turf/open/floor/rogue/churchrough,
 /area/rogue/indoors/town/pestra_sanctum)
 "nRF" = (
 /obj/structure/fluff/railing/border/west,
@@ -84472,7 +84472,7 @@
 	},
 /obj/structure/table/church,
 /obj/machinery/light/rogue/candle/floorcandle,
-/turf/open/floor/rogue/churchmarble,
+/turf/open/floor/rogue/churchrough,
 /area/rogue/indoors/town/pestra_sanctum)
 "rTB" = (
 /obj/structure/spider/stickyweb,
@@ -109913,7 +109913,7 @@
 	pixel_y = -6
 	},
 /obj/machinery/light/rogue/firebowl/church,
-/turf/open/floor/rogue/churchmarble,
+/turf/open/floor/rogue/churchrough,
 /area/rogue/indoors/town/pestra_sanctum)
 "xnh" = (
 /obj/structure/stairs{
@@ -109998,11 +109998,10 @@
 /turf/open/floor/rogue/cobble/mossy,
 /area/rogue/under/cave/his_vault)
 "xnG" = (
-/obj/effect/decal/edge{
-	color = "#3f3f3f";
+/obj/structure/fluff/walldeco/church/line{
 	dir = 1
 	},
-/turf/open/floor/rogue/concrete,
+/turf/open/floor/rogue/churchmarble,
 /area/rogue/indoors/town/pestra_sanctum)
 "xnH" = (
 /obj/structure/table/wood/large_table/south_west,
