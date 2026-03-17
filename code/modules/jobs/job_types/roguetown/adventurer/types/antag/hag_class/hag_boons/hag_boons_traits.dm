@@ -27,157 +27,157 @@
 
 /datum/hag_boon/trait/nightowl
 	name = "Trait - Nightowl"
-	traits_to_apply = TRAIT_NIGHT_OWL
+	trait_to_apply = TRAIT_NIGHT_OWL
 	points = 5
 
 /datum/hag_boon/trait/beautiful
 	name = "Trait - Beautiful"
-	traits_to_apply = TRAIT_BEAUTIFUL
+	trait_to_apply = TRAIT_BEAUTIFUL
 	points = 5
 
 /datum/hag_boon/trait/beautiful_uncanny
 	name = "Trait - Angelic beauty"
-	traits_to_apply = TRAIT_BEAUTIFUL_UNCANNY
+	trait_to_apply = TRAIT_BEAUTIFUL_UNCANNY
 	points = 25
 
 /datum/hag_boon/trait/leaper
 	name = "Trait - Leaper"
-	traits_to_apply = TRAIT_LEAPER
+	trait_to_apply = TRAIT_LEAPER
 	points = 5
 
 /datum/hag_boon/trait/leaper
 	name = "Trait - Leaper"
-	traits_to_apply = TRAIT_LEAPER
+	trait_to_apply = TRAIT_LEAPER
 	points = 5
 
 /datum/hag_boon/trait/ignoreslowdown
 	name = "Trait - Unslowable"
-	traits_to_apply = TRAIT_IGNORESLOWDOWN
+	trait_to_apply = TRAIT_IGNORESLOWDOWN
 	points = 50
 
 /datum/hag_boon/trait/battleready
 	name = "Trait - Battle Ready"
-	traits_to_apply = TRAIT_BREADY
+	trait_to_apply = TRAIT_BREADY
 	points = 30
 
 /datum/hag_boon/trait/armor_medium
 	name = "Trait - Medium Armor Training"
-	traits_to_apply = TRAIT_MEDIUMARMOR
+	trait_to_apply = TRAIT_MEDIUMARMOR
 	points = 30
 
 /datum/hag_boon/trait/armor_heavy
 	name = "Trait - Heavy Armor Training"
-	traits_to_apply = TRAIT_HEAVYARMOR
+	trait_to_apply = TRAIT_HEAVYARMOR
 	points = 60
 
 /datum/hag_boon/trait/dodge_expert
 	name = "Trait - Dodge Expert"
-	traits_to_apply = TRAIT_DODGEEXPERT
+	trait_to_apply = TRAIT_DODGEEXPERT
 	points = 30
 
 /datum/hag_boon/trait/bleed_resistance
 	name = "Trait - Bleeding Resistance"
-	traits_to_apply = TRAIT_BLOOD_RESISTANCE
+	trait_to_apply = TRAIT_BLOOD_RESISTANCE
 	points = 50
 
 /datum/hag_boon/trait/grab_immunity
 	name = "Trait - Too slippery to grab"
-	traits_to_apply = TRAIT_GRABIMMUNE
+	trait_to_apply = TRAIT_GRABIMMUNE
 	points = 60
 
 /datum/hag_boon/trait/crackhead
 	name = "Trait - Overdose Immunity"
-	traits_to_apply = TRAIT_CRACKHEAD
+	trait_to_apply = TRAIT_CRACKHEAD
 	points = 60
 
 /datum/hag_boon/trait/crackhead
 	name = "Trait - Overdose Immunity"
-	traits_to_apply = TRAIT_CRACKHEAD
+	trait_to_apply = TRAIT_CRACKHEAD
 	points = 60
 
 /datum/hag_boon/trait/civil_barbarian
 	name = "Trait - Unarmed Amplifier"
-	traits_to_apply = TRAIT_CIVILIZEDBARBARIAN
+	trait_to_apply = TRAIT_CIVILIZEDBARBARIAN
 	points = 30
 
 /datum/hag_boon/trait/water_breathing
 	name = "Trait - Waterbreathing"
-	traits_to_apply = TRAIT_WATERBREATHING
+	trait_to_apply = TRAIT_WATERBREATHING
 	points = 5
 
 /datum/hag_boon/trait/sharper_blades
 	name = "Trait - Sharpness Maintenance"
-	traits_to_apply = TRAIT_SHARPER_BLADES
+	trait_to_apply = TRAIT_SHARPER_BLADES
 	points = 20
 
 /datum/hag_boon/trait/guidance
 	name = "Trait - Guidance"
-	traits_to_apply = TRAIT_GUIDANCE
+	trait_to_apply = TRAIT_GUIDANCE
 	points = 60
 
 /datum/hag_boon/trait/good_trainer
 	name = "Trait - Good Trainer"
-	traits_to_apply = TRAIT_GOODTRAINER
+	trait_to_apply = TRAIT_GOODTRAINER
 	points = 75
 
 /datum/hag_boon/trait/counter_counterspell
 	name = "Trait - Counter Counterspell"
-	traits_to_apply = TRAIT_COUNTERCOUNTERSPELL
+	trait_to_apply = TRAIT_COUNTERCOUNTERSPELL
 	points = 40
 
 /datum/hag_boon/trait/keen_ears
 	name = "Trait - Keen Ears"
-	traits_to_apply = TRAIT_KEENEARS
+	trait_to_apply = TRAIT_KEENEARS
 	points = 10
 
 /datum/hag_boon/trait/hard_dismember
 	name = "Trait - Difficult To Dismember"
-	traits_to_apply = TRAIT_HARDDISMEMBER
+	trait_to_apply = TRAIT_HARDDISMEMBER
 	points = 30
 
 /datum/hag_boon/trait/hard_dismember
 	name = "Trait - Difficult To Dismember"
-	traits_to_apply = TRAIT_HARDDISMEMBER
+	trait_to_apply = TRAIT_HARDDISMEMBER
 	points = 30
 
 /datum/hag_boon/trait/no_pain
 	name = "Trait - Numb To Pain"
-	traits_to_apply = TRAIT_NOPAIN
+	trait_to_apply = TRAIT_NOPAIN
 	points = 85
 
 /datum/hag_boon/trait/dark_vision
 	name = "Trait - Darksight"
-	traits_to_apply = TRAIT_DARKVISION
+	trait_to_apply = TRAIT_DARKVISION
 	points = 10
 
 /datum/hag_boon/trait/azure_native
 	name = "Trait - Hard To Ambush"
-	traits_to_apply = TRAIT_AZURENATIVE
+	trait_to_apply = TRAIT_AZURENATIVE
 	points = 50
 
 /datum/hag_boon/trait/matthios_eyes
 	name = "Trait - Eye for treasure"
-	traits_to_apply = TRAIT_MATTHIOS_EYES
+	trait_to_apply = TRAIT_MATTHIOS_EYES
 	points = 5
 
 /datum/hag_boon/trait/wood_walker
 	name = "Trait - Leaf Walk"
-	traits_to_apply = TRAIT_WOODWALKER
+	trait_to_apply = TRAIT_WOODWALKER
 	points = 50
 
 /datum/hag_boon/trait/infinite_energy
 	name = "Trait - No Fatigue"
-	traits_to_apply = TRAIT_INFINITE_ENERGY
+	trait_to_apply = TRAIT_INFINITE_ENERGY
 	points = 100
 
 /datum/hag_boon/trait/unbound_strength
 	name = "Trait - Unbound Strength"
-	traits_to_apply = TRAIT_STRENGTH_UNCAPPED
+	trait_to_apply = TRAIT_STRENGTH_UNCAPPED
 	points = 40
 
 /datum/hag_boon/trait/jack_of_all_trades
 	name = "Trait - Quick Skill Learner"
-	traits_to_apply = TRAIT_JACKOFALLTRADES
+	trait_to_apply = TRAIT_JACKOFALLTRADES
 	points = 25
 
 // Different wording to make it clear it's about the skillcap traits...
