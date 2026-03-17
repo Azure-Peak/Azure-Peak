@@ -77361,9 +77361,8 @@
 /turf/open/floor/rogue/cobblerock,
 /area/rogue/under/cave/his_vault)
 "qvz" = (
-/obj/item/soap,
 /obj/structure/bed/rogue/inn/double,
-/obj/item/bedsheet/rogue/fabric_double,
+/obj/item/bedsheet/rogue/double_pelt,
 /turf/open/floor/rogue/ruinedwood/spiral,
 /area/rogue/indoors/town/magician)
 "qvA" = (
@@ -81378,7 +81377,7 @@
 /area/rogue/indoors/town/magician)
 "rmw" = (
 /obj/structure/bed/rogue/inn,
-/obj/item/bedsheet/rogue/fabric,
+/obj/item/bedsheet/rogue/pelt,
 /turf/open/floor/rogue/ruinedwood/spiral,
 /area/rogue/indoors/town/magician)
 "rmA" = (
