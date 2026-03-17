@@ -57739,10 +57739,6 @@
 /obj/item/clothing/gloves/roguetown/angle,
 /turf/open/floor/rogue/cobble,
 /area/rogue/indoors/town/garrison)
-"mhI" = (
-/obj/structure/roguewindow,
-/turf/open/water/river/flow,
-/area/rogue/under/town/sewer)
 "mhK" = (
 /obj/structure/fluff/railing/corner/north_east,
 /obj/structure/flora/roguegrass/bush,
@@ -176177,7 +176173,7 @@ ogs
 ogs
 oxx
 ehs
-mhI
+rVQ
 rVQ
 rVQ
 yjU
