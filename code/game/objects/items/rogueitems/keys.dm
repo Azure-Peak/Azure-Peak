@@ -510,7 +510,7 @@
 
 /obj/item/roguekey/apothecary
 	name = "clinic key"
-	desc = "An elegant key which should fit into any door in the city clinic. Its surface is \
+	desc = "An elegant key which should permit access to secure areas in the city clinic. Its surface is \
 	covered by a very thin patina of corrosion."
 	icon_state = "ekey"
 	lockid = "apothecary"
