@@ -92233,6 +92233,10 @@
 /obj/machinery/light/rogue/candle/floorcandle/alt,
 /turf/open/floor/rogue/tile,
 /area/rogue/indoors/town/magician)
+"tzK" = (
+/obj/structure/bed/rogue/inn,
+/turf/open/floor/rogue/ruinedwood/spiral,
+/area/rogue/indoors/town/magician)
 "tzO" = (
 /obj/structure/roguewindow,
 /obj/structure/bars/grille{
@@ -110486,11 +110490,6 @@
 "xts" = (
 /turf/open/floor/carpet/purple,
 /area/rogue/indoors/town/church/basement)
-"xty" = (
-/obj/structure/bars/grille,
-/obj/structure/roguewindow/harem3,
-/turf/open/transparent/openspace,
-/area/rogue/indoors/town/physician)
 "xtG" = (
 /obj/structure/wild_plant/nospread/poppy,
 /turf/open/floor/rogue/dirt,
@@ -282302,7 +282301,7 @@ afY
 dZb
 ptX
 cDZ
-xty
+ckH
 oic
 utR
 jZI
@@ -399380,7 +399379,7 @@ pSa
 nTJ
 qvz
 fxs
-rmw
+tzK
 nTJ
 hVw
 vqw
