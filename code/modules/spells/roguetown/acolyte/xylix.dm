@@ -90,14 +90,18 @@
 
 /obj/effect/proc_holder/spell/invoked/mockery
 	name = "Vicious Mockery"
-	desc = "Mock your target, reducing their INT, SPD, STR and WIL for a time."
+	desc = "Mock your target, leaving them flummoxed."
 	overlay_icon = 'icons/mob/actions/xylixmiracles.dmi'
 	action_icon = 'icons/mob/actions/xylixmiracles.dmi'
 	overlay_state = "mockery"
 	releasedrain = 50
 	associated_skill = /datum/skill/misc/music
 	recharge_time = 2 MINUTES
-	range = 7
+	range = 5 //Say it to their face
+	chargetime = 3 SECONDS //All churns come with a delay
+	movement_interrupt = FALSE
+	no_early_release = TRUE
+	chargedloop = /datum/looping_sound/invokegen
 
 /obj/effect/proc_holder/spell/invoked/mockery/cast(list/targets, mob/user = usr)
 	playsound(get_turf(user), 'sound/magic/mockery.ogg', 40, FALSE)
@@ -151,8 +155,8 @@
 /datum/status_effect/debuff/viciousmockery
 	id = "viciousmockery"
 	alert_type = /atom/movable/screen/alert/status_effect/debuff/viciousmockery
-	duration = 600 // One minute
-	effectedstats = list(STATKEY_STR = -1, STATKEY_SPD = -1,STATKEY_WIL = -1, STATKEY_INT = -3)
+	duration = 1 MINUTES //If it's supposed to be one minute just use THIS
+	effectedstats = list(STATKEY_WIL = -1, STATKEY_INT = -2, STATKEY_LCK = -2)
 
 /atom/movable/screen/alert/status_effect/debuff/viciousmockery
 	name = "Vicious Mockery"
