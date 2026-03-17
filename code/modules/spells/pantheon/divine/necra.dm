@@ -1,5 +1,3 @@
-#define CHURN_FILTER "churn_glow"
-
 // T0: Necra's Sight
 
 /obj/effect/proc_holder/spell/invoked/necras_sight
@@ -392,7 +390,6 @@
 		if(LAZYLEN(things_to_stun))
 			for(var/mob/living/thing in things_to_churn)
 				thing.Stun(2 SECONDS)
-				thing.emote("scream")
 		if(!LAZYLEN(things_to_churn))
 			to_chat(user, span_notice("The rite of Abrogation passes from my lips in silence, having found nothing to assail."))
 			return
@@ -414,7 +411,6 @@
 	effectedstats = list(STATKEY_PER = -2, STATKEY_CON = -2, STATKEY_LCK = -2)
 	status_type = STATUS_EFFECT_REFRESH
 	var/datum/weakref/debuffer
-	var/outline_colour = "#33cabc"
 	var/base_tick = 0.2
 	var/intensity = 1
 	var/range = 7
@@ -426,10 +422,7 @@
 	return ..()
 
 /datum/status_effect/churned/on_apply()
-	var/filter = owner.get_filter(CHURN_FILTER)
 	to_chat(owner, span_warning("Wisps leap from the cloying mists to surround me, their chill disrupting my body! FLEE!"))
-	if (!filter)
-		owner.add_filter(CHURN_FILTER, 2, list("type" = "outline", "color" = outline_colour, "alpha" = 200, "size" = 1))
 	return TRUE
 
 /datum/status_effect/churned/refresh()
@@ -451,11 +444,6 @@
 	if (get_dist(our_debuffer, owner) > range)
 		to_chat(owner, span_notice("I've escaped the cloying mists!"))
 		qdel(src)
-
-/datum/status_effect/churned/on_remove()
-	owner.remove_filter(CHURN_FILTER)
-
-#undef CHURN_FILTER
 
 // Not even used right now.
 /obj/effect/proc_holder/spell/invoked/necra_vow
