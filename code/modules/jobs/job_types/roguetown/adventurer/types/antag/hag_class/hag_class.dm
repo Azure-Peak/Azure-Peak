@@ -2,7 +2,7 @@
 	name = "Hag"
 	tutorial = "You are ancient, malevolent evil. None of the known gods claim to have brought you into this world. All you know is hatred, how to sift through the grains of this land with your calloused hands, picking those who prove themselves useful."
 	outfit = /datum/outfit/job/roguetown/hag
-	traits_applied = list(TRAIT_RITUALIST, TRAIT_ALCHEMY_EXPERT, TRAIT_ANCIENT_HAG)
+	traits_applied = list(TRAIT_RITUALIST, TRAIT_ALCHEMY_EXPERT, TRAIT_ANCIENT_HAG, TRAIT_MIRROR_MAGIC)
 	reset_stats = TRUE
 	subclass_stats = list(
 		STATKEY_STR = -7,
