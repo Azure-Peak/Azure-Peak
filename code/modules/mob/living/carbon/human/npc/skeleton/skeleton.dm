@@ -18,6 +18,7 @@
 
 /mob/living/carbon/human/species/skeleton/npc
 	aggressive = 1
+	ambush_faction = "undead"
 	mode = NPC_AI_IDLE
 	wander = FALSE
 	skel_fragile = TRUE
@@ -25,7 +26,7 @@
 	rude = TRUE
 
 /mob/living/carbon/human/species/skeleton/npc/ambush
-
+	threat_point = THREAT_MODERATE
 	wander = TRUE
 
 /mob/living/carbon/human/species/skeleton/Initialize()

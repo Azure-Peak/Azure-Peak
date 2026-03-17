@@ -4,7 +4,7 @@
 	overlay_state = "create_campfire"
 	sound = list('sound/magic/whiteflame.ogg')
 
-	releasedrain = 30
+	releasedrain = SPELLCOST_CANTRIP
 	chargedrain = 1
 	chargetime = 3 SECONDS
 	no_early_release = TRUE
@@ -12,7 +12,7 @@
 
 	warnie = "spellwarning"
 	no_early_release = TRUE
-	movement_interrupt = FALSE
+	movement_interrupt = TRUE // Kills off mid combat use I think
 	antimagic_allowed = FALSE
 	charging_slowdown = 3
 	cost = 1

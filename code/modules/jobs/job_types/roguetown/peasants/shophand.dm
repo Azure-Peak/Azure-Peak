@@ -85,3 +85,6 @@
 		H.change_stat(STATKEY_STR, 1)
 	if(H.mind)
 		SStreasury.give_money_account(ECONOMIC_UPPER_MIDDLE_CLASS, H, "Savings.")
+	backpack_contents = list(
+		/obj/item/mini_flagpole/merchant = 1,
+	)

@@ -130,13 +130,18 @@ export const MiaCraft = (props, context) => {
     return (
       <Stack vertical>
           <Stack.Item style={{ 'position': 'sticky' }}>
-              <Stack>
-                <Stack.Item>
-                  <Input placeholder="Search..." autoFocus value={searchText} onInput={(e) => SearchTextModify(e.target.value.toLowerCase())} />
+              <Stack align="center">
+                <Stack.Item grow>
+                  <Input fluid placeholder="Search..." autoFocus value={searchText} onInput={(e) => SearchTextModify(e.target.value.toLowerCase())} />
                 </Stack.Item>
                 <Stack.Item>
-                  <label>Show only craftables</label>
-                  <input type="checkbox" checked={onlyCraftable} onClick={() => ToggleOnlyCraftable()} />
+                  <Button.Checkbox
+                    checked={onlyCraftable}
+                    onClick={() => ToggleOnlyCraftable()}
+                    style={{ paddingTop: '2px', paddingBottom: '1px' }}
+                  >
+                    Craftable only
+                  </Button.Checkbox>
                 </Stack.Item>
               </Stack>
           </Stack.Item>
@@ -152,7 +157,7 @@ export const MiaCraft = (props, context) => {
   };
   
   return(
-    <Window title='Crafting' width={340} height={600} resizeable>
+    <Window title='Crafting' width={500} height={700} resizeable>
       <Window.Content scrollable>
         <Stack horizontal>
           {renderColumn()}

@@ -81,7 +81,8 @@
 		/obj/item/reagent_containers/glass/bottle/rogue/healthpot = 2,
 		/obj/item/natural/worms/leech/cheele = 1, //little buddy
 		/obj/item/reagent_containers/glass/bottle/waterskin = 1,
-		/obj/item/recipe_book/alchemy = 1,)
+		/obj/item/recipe_book/alchemy = 1,
+		/obj/item/mini_flagpole/apothecary = 1,)
 	if(should_wear_femme_clothes(H))
 		head = /obj/item/clothing/head/roguetown/courtphysician/female
 		armor = /obj/item/clothing/suit/roguetown/armor/leather/heavy/jacket/courtphysician/female

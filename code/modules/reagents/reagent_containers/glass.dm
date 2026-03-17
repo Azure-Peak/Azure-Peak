@@ -27,14 +27,10 @@
 	is_infinite = FALSE
 
 /obj/item/reagent_containers/glass/proc/set_infinite(mob/user, delay)
-	if(is_infinite)
-		to_chat(user, span_info("It's already blessed to never run out!"))
-		return FALSE
-	else
-		is_infinite = TRUE
-		var/timer = (delay ? delay : 60 SECONDS)
-		addtimer(CALLBACK(src, PROC_REF(reset_infinite)), timer)
-		return TRUE
+	is_infinite = TRUE
+	var/timer = (delay ? delay : 60 SECONDS)
+	addtimer(CALLBACK(src, PROC_REF(reset_infinite)), timer)
+	return TRUE
 
 /datum/intent/fill
 	name = "fill"

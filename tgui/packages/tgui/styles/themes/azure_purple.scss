@@ -1,113 +1,24 @@
-@font-face {
-  font-family: 'Pterra';
-  src: url('~roguefont/pterra.ttf');
-}
+@use 'azure_base' as *;
 
 .theme-azure_purple:root {
-  --color-base: #1c0f1f;
-  --color-base-start: #1c0f1f;
-  --color-base-end: #1c0f1f;
-
-  --font-size: 14px;
-  --font-family: 'Pterra';
-  --color-text: #d4ccd8;
-  --line-height: 170%;
-
-  /* Semantic colors */
-  --color-label: #b895c4;
-
-
-  // Basics
-  .Layout__content {
-    background-image: none;
-
-  }
-
-  .TitleBar {
-    background-image: url('../assets/azure_default/topbar_purple.svg');
-    background-repeat: repeat-x;
-    background-size: 64px;
-    background-color: #000000;
-    box-shadow: none;
-  }
-
-  .TitleBar__title {
-    padding-left: 12px;
-    font-size: 15px;
-    color: #FFFFFF;
-    font-weight: bolder;
-  }
-
-  // Component overrides
-  --section-separator-color: #702963;
-
-  .Button {
-    transition: all 0.5s;
-    --color-text: #9d82a8;
-    --button-background-default: #552d70;
-    --button-background-selected: #8b5cb8;
-  }
-  .Button--color--transparent {
-    --button-background-hover: #552d70;
-    --button-background-active: #552d70;
-    --button-background-disabled: transparent;
-  }
-
-  .Button--color--transparent.Button--disabled {
-    --button-color: #655670;
-  }
-
-  --color-border: #552d70;
-
-  .input-button {
-    &__submit, &__cancel {
-      color: #ae3636;
-      font-weight: 600;
-    }
-    &__submit:hover {
-      background: rgba(74, 140, 74, 0.3);
-      transition: all 0.5s;
-    }
-    &__cancel:hover {
-      background: rgba(140, 74, 74, 0.3);
-      transition: all 0.5s;
-    }
-  }
-
-  --input-border-color: #702963;
-  --input-border-color-focus: #9d4a8a;
-
-  .Window__contentPadding {
-    margin-left: 1rem;
-    margin-right: 1rem;
-  }
-
-  .Divider {
-    border-color: #702963;
-  }
-
-   a:link {
-    color: #892a2b;
-    background-color: transparent;
-    text-decoration: underline;
-  }
-  
-  a:visited {
-    color: #e19d9e;
-    background-color: transparent;
-    text-decoration: underline;
-  }
-  
-  a:hover {
-    color: #c94f51;
-    background-color: transparent;
-    text-decoration: underline;
-  }
-  
-  a:active {
-    color: #c94f51;
-    background-color: transparent;
-    text-decoration: underline;
-  }
-
+  @include azure-theme((
+    'base':            #1c0f1f,
+    'base-light':      #221425,
+    'base-dark':       #160a19,
+    'section':         rgba(85, 45, 112, 0.12),
+    'section-title':   #b895c4,
+    'text':            #d4ccd8,
+    'label':           #b895c4,
+    'accent':          #702963,
+    'accent-bright':   #9d4a8a,
+    'border':          #552d70,
+    'btn-text':        #9d82a8,
+    'btn-selected':    #8b5cb8,
+    'btn-disabled':    #655670,
+    'scrollbar-thumb': #702963,
+    'glow':            rgba(112, 41, 99, 0.15),
+    'link':            #9d4a8a,
+    'link-visited':    #d4a0d0,
+    'link-hover':      #c06eac,
+  ), '../assets/azure_default/topbar_purple.svg');
 }

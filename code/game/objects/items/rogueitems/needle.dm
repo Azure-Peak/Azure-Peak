@@ -159,8 +159,8 @@
 				if(XP_ON_SUCCESS > 0)
 					user.mind.add_sleep_experience(/datum/skill/craft/sewing, user.STAINT * XP_ON_SUCCESS)
 				I.obj_integrity = min(I.obj_integrity + BASE_SEW_REPAIR + skill * SEW_REPAIR_PER_LEVEL, I.max_integrity)
-				if(I.obj_broken && istype(I, /obj/item/clothing) && I.obj_integrity >= I.max_integrity)
-					var/obj/item/clothing/cloth = I
+				if(I.obj_broken && istype(I, /obj/item) && I.obj_integrity >= I.max_integrity)
+					var/obj/item/cloth = I
 					cloth.obj_fix()
 					return
 				if(do_after(user, AUTO_SEW_DELAY, target = I))

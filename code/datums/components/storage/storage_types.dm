@@ -287,6 +287,9 @@
 	screen_max_columns = 2
 	max_w_class = WEIGHT_CLASS_SMALL
 	not_while_equipped = FALSE
+	click_gather = TRUE
+	allow_quick_empty = TRUE
+	allow_quick_gather = TRUE // idk if this is needed w/ click gather but it seems standard practice(?)
 
 /datum/component/storage/concrete/roguetown/zig_box/New(datum/P, ...)
 	. = ..()
@@ -299,6 +302,9 @@
 	screen_max_rows = 8
 	screen_max_columns = 3
 	max_w_class = WEIGHT_CLASS_SMALL
+	click_gather = TRUE
+	allow_quick_empty = TRUE
+	allow_quick_gather = TRUE
 
 /datum/component/storage/concrete/roguetown/zig_bandolier/New(datum/P, ...)
 	. = ..()
@@ -306,3 +312,20 @@
 		/obj/item/clothing/mask/cigarette/rollie,
 		/obj/item/flint,
 		))
+
+/datum/component/storage/concrete/grid/anvil_bin
+	max_w_class = WEIGHT_CLASS_HUGE
+	screen_max_rows = 8
+	screen_max_columns = 4
+
+/datum/component/storage/concrete/grid/anvil_bin/show_to(mob/M)
+	var/obj/structure/material_bin/source = src.parent
+	if(!source.opened)
+		return FALSE
+	. = ..()
+
+/datum/component/storage/concrete/grid/anvil_bin/can_be_inserted(obj/item/storing, stop_messages, mob/user, worn_check, params, storage_click)
+	var/obj/structure/material_bin/source = src.parent
+	if(!source.opened)
+		return FALSE
+	. = ..()

@@ -15,7 +15,7 @@ enum Page {
 
 export const ExaminePanel = (props) => {
   const { act, data } = useBackend<ExaminePanelData>();
-  const { is_vet, character_name, is_playing, has_song, img_gallery } = data;
+  const { is_vet, character_name, is_playing, has_song, img_gallery, examine_theme } = data;
   const [currentPage, setCurrentPage] = useState(Page.FlavorText);
 
   let pageContents;
@@ -30,7 +30,7 @@ export const ExaminePanel = (props) => {
   }
 
   return (
-    <Window title={character_name} width={1000} height={700} buttons={
+    <Window title={character_name} width={1000} height={700} theme={examine_theme || undefined} buttons={
       <>
       {!!is_vet && (
         <Button
@@ -54,7 +54,7 @@ export const ExaminePanel = (props) => {
       <Window.Content>
         <Stack vertical fill>
           {img_gallery.length > 0 && (
-          <Stack>
+          <Stack style={{ marginBottom: '4px' }}>
             <Stack.Item grow>
               <PageButton
               currentPage={currentPage}

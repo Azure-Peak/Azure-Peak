@@ -23,6 +23,7 @@
 		"Instruments",
 		"Cosmetics",
 		"Roguery",
+		"Smokes",
 		)
 
 /obj/structure/roguemachine/bathvend/Initialize()

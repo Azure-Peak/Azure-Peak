@@ -1,4 +1,5 @@
 /mob/living/carbon/human/species/skeleton/npc/bogguard
+	threat_point = THREAT_MODERATE
 	skel_outfit = /datum/outfit/job/roguetown/npc/skeleton/npc/bogguard
 
 /datum/outfit/job/roguetown/npc/skeleton/npc/bogguard/pre_equip(mob/living/carbon/human/H)

@@ -73,12 +73,10 @@
 
 /mob/living/carbon/human/Initialize()
 	verbs += /mob/living/proc/lay_down
-
-	icon_state = ""		//Remove the inherent human icon that is visible on the map editor. We're rendering ourselves limb by limb, having it still be there results in a bug where the basic human icon appears below as south in all directions and generally looks nasty.
+	icon_state = "" //Remove the inherent human icon that is visible on the map editor. We're rendering ourselves limb by limb, having it still be there results in a bug where the basic human icon appears below as south in all directions and generally looks nasty.
 
 	//initialize limbs first
 	create_bodyparts()
-
 	setup_human_dna()
 
 	if(dna.species)
@@ -90,10 +88,21 @@
 
 	. = ..()
 
+	AddComponent(/datum/component/arousal)
+	
+
 	RegisterSignal(src, COMSIG_COMPONENT_CLEAN_ACT, PROC_REF(clean_blood))
 	AddComponent(/datum/component/personal_crafting)
 	AddComponent(/datum/component/footstep, footstep_type, 1, 2)
 	GLOB.human_list += src
+	
+	
+	max_breath = 10
+	breath_remaining = 10
+	addtimer(CALLBACK(src, PROC_REF(update_breath_hud)), 1)
+
+	our_cells = new(interesting_dist, interesting_dist, 1)
+	set_new_cells()
 
 /mob/living/carbon/human/ZImpactDamage(turf/T, levels)
 	var/obj/item/bodypart/affecting

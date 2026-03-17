@@ -4,7 +4,7 @@
 	desc = "Sharpens the target's vision. (+5 Perception)"
 	cost = 2
 	xp_gain = TRUE
-	releasedrain = 60
+	releasedrain = SPELLCOST_STAT_BUFF
 	chargedrain = 1
 	chargetime = 1 SECONDS
 	recharge_time = 2 MINUTES

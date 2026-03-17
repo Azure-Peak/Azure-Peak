@@ -56,6 +56,9 @@
 		return FALSE
 	if(HAS_TRAIT(C, TRAIT_NODISMEMBER))
 		return FALSE
+	if(user)
+		if(zone_precise in list(BODY_ZONE_PRECISE_L_FOOT, BODY_ZONE_PRECISE_R_FOOT, BODY_ZONE_PRECISE_R_HAND, BODY_ZONE_PRECISE_L_HAND) && C.mind)
+			return FALSE //No dismemberment on hand/feet on humans, but we do mobs.
 
 	if(SEND_SIGNAL(src, COMSIG_MOB_DISMEMBER, src) & COMPONENT_CANCEL_DISMEMBER)
 		return FALSE //signal handled the dropping
@@ -94,8 +97,8 @@
 				C.death()
 				return
 			else
-				C.visible_message(span_danger("<B>[C] is <span class='crit'>[pick("ENDED", "SLAIN", "SLAUGHTERED","MURDERED","SNUFFED","BUTCHERED","FELLED","FINISHED","FRAGGED")]</span> as their ravaged neck <span class='crit'>BLOSSOMS</span> into petals of <span class='crit'>GORE and BONE!</span></B>"))
-				add_wound(/datum/wound/grievous/pre_decapitation) // this causes a bigass wound, marks the limb as greviously wounded and instantly kills the affected user.
+				C.visible_message(span_danger("<B>[C] is <span class='crit'>[pick("ENDED", "SLAIN", "SLAUGHTERED","MURDERED","SNUFFED","BUTCHERED","FELLED","FINISHED","FRAGGED")]</span> as [C.p_their()] ravaged neck <span class='crit'>BLOSSOMS</span> into petals of <span class='crit'>GORE and BONE!</span></B>"))
+				add_wound(/datum/wound/grievous/pre_decapitation_sharp) // this causes a bigass wound, marks the limb as greviously wounded and instantly kills the affected user.
 				return
 		else
 			// we're greviously wounded OR we don't give a shit about two-stage death (guillotines, npcs, etc)
@@ -226,15 +229,10 @@
 	was_owner.bodyparts -= src
 	owner = null
 
-	if(ishuman(was_owner))
-		var/mob/living/carbon/human/H = was_owner
-		H.body_overlay_cache_key = null
-		H.damage_overlay_cache_key = null
-		H.icon_render_key = null
-
 	update_icon_dropped()
 	was_owner.update_health_hud() //update the healthdoll
-	was_owner.queue_icon_update(PENDING_UPDATE_BODY)
+	was_owner.update_body()
+	was_owner.update_hair()
 	was_owner.update_mobility()
 
 	// drop_location = null happens when a "dummy human" used for rendering icons on prefs screen gets its limbs replaced.
@@ -447,22 +445,12 @@
 
 	update_bodypart_damage_state()
 
-	if(ishuman(C))
-		var/mob/living/carbon/human/H = C
-		H.body_overlay_cache_key = null
-		H.damage_overlay_cache_key = null
-		// Clear limb cache entries for both old and new states in an attempt to prevent orphaned aux_zone overlays >:/
-		var/old_key = H.icon_render_key
-		if(old_key)
-			H.limb_icon_cache -= old_key
-		H.icon_render_key = null
-		var/new_key = H.generate_icon_render_key()
-		H.limb_icon_cache -= new_key
-
 	if(organ_slowdown)
 		C.add_movespeed_modifier("[src.type]_slow", update=TRUE, priority=100, flags=NONE, override=FALSE, multiplicative_slowdown=organ_slowdown, movetypes=GROUND, blacklisted_movetypes=NONE, conflict=FALSE)
 	C.updatehealth()
-	C.queue_icon_update(PENDING_UPDATE_BODY | PENDING_UPDATE_HAIR | PENDING_UPDATE_DAMAGE)	
+	C.update_body()
+	C.update_hair()
+	C.update_damage_overlays()
 	C.update_mobility()
 	return TRUE
 

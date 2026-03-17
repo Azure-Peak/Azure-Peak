@@ -169,7 +169,7 @@
 
 /datum/supply_pack/rogue/Alchemist/healing_gas
 	name = "Healing smoke grenade"
-	cost = 30
+	cost = 50
 	contains = list(/obj/item/impact_grenade/smoke/healing_gas)
 
 /////////////

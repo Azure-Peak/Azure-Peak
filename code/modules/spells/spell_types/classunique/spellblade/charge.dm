@@ -18,7 +18,7 @@ Does NOT build momentum on hit — use normal melee for that. */
 	range = 15
 	action_icon = 'icons/mob/actions/spellblade.dmi'
 	overlay_state = "advance" // Icon by Prominence. Shared with Advance since the spells are very similar.
-	releasedrain = 15
+	releasedrain = SPELLCOST_SB_MOBILITY
 	chargedrain = 0
 	chargetime = 5
 	recharge_time = 15 SECONDS

@@ -71,3 +71,6 @@
 	id = /obj/item/scomstone/bad
 	if(H.mind)
 		SStreasury.give_money_account(ECONOMIC_UPPER_MIDDLE_CLASS, H, "Savings.")
+	backpack_contents = list(
+		/obj/item/mini_flagpole/steward = 1,
+	)

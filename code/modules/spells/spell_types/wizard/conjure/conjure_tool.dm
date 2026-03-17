@@ -6,7 +6,7 @@
 	overlay_state = "ctool"
 	sound = list('sound/magic/whiteflame.ogg')
 
-	releasedrain = 60
+	releasedrain = SPELLCOST_CONJURE
 	chargedrain = 1
 	chargetime = 2 SECONDS
 	no_early_release = TRUE

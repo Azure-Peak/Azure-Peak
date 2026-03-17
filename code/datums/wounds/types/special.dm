@@ -415,8 +415,8 @@
 	bodypart_owner?.grievously_wounded = FALSE
 	. = ..()
 
-/datum/wound/grievous/pre_decapitation
+/datum/wound/grievous/pre_decapitation_sharp
 	name = "massacred spinal column"
 
-/datum/wound/grievous/pre_skullshatter
-	name = "shattered skull"
+/datum/wound/grievous/pre_decapitation_blunt//TODO: Actually add the skull smash at some point.
+	name = "annihilated skull"

@@ -8,7 +8,7 @@
 	miracles = list(/obj/effect/proc_holder/spell/targeted/touch/orison					= CLERIC_ORI,
 					/obj/effect/proc_holder/spell/invoked/appraise						= CLERIC_ORI,
 					/obj/effect/proc_holder/spell/targeted/touch/lesserknock/miracle	= CLERIC_T0,
-					/obj/effect/proc_holder/spell/self/matthios_liberate				= CLERIC_T0,
+					/obj/effect/proc_holder/spell/invoked/matthios_firebreath			= CLERIC_T0,
 					/obj/effect/proc_holder/spell/self/matthios_muffle					= CLERIC_T0,
 					/obj/effect/proc_holder/spell/invoked/matthios_transact				= CLERIC_T1, //It says it should be T1
 					/obj/effect/proc_holder/spell/invoked/lesser_heal 					= CLERIC_T1,

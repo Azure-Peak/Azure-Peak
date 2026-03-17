@@ -417,6 +417,70 @@
 	desc = span_aiprivradio("The standard calls out to me! It knows we're to see victory!")
 	timer = 3 MINUTES
 
+
+// Effects for zigs
+
+/datum/stressevent/menthasmoke
+	timer = 1 MINUTES
+	stressadd = -1
+	desc = list(span_boldgreen("A cooling feeling in my throat."))
+
+/datum/stressevent/blackberrysmoke
+	timer = 1 MINUTES
+	stressadd = -1
+	desc = list(span_blue("A sweet-tart sensation on the tongue."))
+	
+/datum/stressevent/applesmoke
+	timer = 1 MINUTES
+	stressadd = -1
+	desc = list(span_blue("A feeling of sourness and coolness on the tongue."))
+
+/datum/stressevent/chocolatesmoke
+	timer = 2 MINUTES
+	stressadd = -1
+	desc = list(span_purple("A pleasant feeling of rawness and bitterness on the tongue."))
+	
+/datum/stressevent/strawberrysmoke
+	timer = 1 MINUTES
+	stressadd = -1
+	desc = list(span_blue("A pleasant feeling of sourness and sweetness on the tongue."))
+	
+/datum/stressevent/carrotsmoke
+	timer = 1 MINUTES
+	stressadd = -1
+	desc = list(span_blue("A pleasant feeling of very carrot on the tongue."))
+	
+/datum/stressevent/limesmoke
+	timer = 1 MINUTES
+	stressadd = -1
+	desc = list(span_blue("A pleasant feeling of sweet and refreshing on the tongue."))
+	
+/datum/stressevent/salviasmoke
+	timer = 1 MINUTES
+	stressadd = -1
+	desc = list(span_blue("A pleasant feeling spicy, earthy and bitter on the tongue."))
+	
+/datum/stressevent/valerianasmoke
+	timer = 1 MINUTES
+	stressadd = -1
+	desc = list(span_blue("A pleasant feeling bitter-spicy and tart on the tongue."))
+	
+	
+/datum/stressevent/ziggarasmoke
+	timer = 2 MINUTES
+	stressadd = -2
+	desc = list(span_blue("You feel a pleasant bitterness that burns and scratches your throat. Nicotine and the taste of oak bark leave a pleasant aftertaste in your mouth."))
+
+/datum/stressevent/jacksberriessmoke
+	timer = 1 MINUTES
+	stressadd = -1
+	desc = list(span_blue("You feel a pleasant slight sourness and sweetnesson the tongue."))
+
+/datum/stressevent/abysssmoke
+	timer = 1 MINUTES
+	stressadd = 0
+	desc = list(span_blue("A pleasant feeling slight sourness and sweetnesson... and salty on the tongue? You feel an unpleasant chill run down your spine. You can't shake the feeling of someone staring from behind you...."))
+
 /datum/stressevent/kytherian_blessing
 	timer = 5 MINUTES
 	stressadd = -2
@@ -436,3 +500,4 @@
 	timer = 10 MINUTES // this will :) you for a while
 	stressadd = -2
 	desc = span_boldred("Long ago, XYLIX put up an extra star in the sky to anger NOC... seeing it is a FANTASTIC sign!")
+

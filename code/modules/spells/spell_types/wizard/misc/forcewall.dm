@@ -3,7 +3,7 @@
 	name = "Forcewall"
 	desc = "Conjure a 3x1 wall of arcyne force, preventing anyone and anything other than you from moving through it."
 	school = "transmutation"
-	releasedrain = 30
+	releasedrain = SPELLCOST_MINOR_AOE
 	chargedrain = 1
 	chargetime = 10
 	recharge_time = 30 SECONDS

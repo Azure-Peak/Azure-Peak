@@ -18,6 +18,7 @@
 /obj/item/clothing/cloak/get_mechanics_examine(mob/user)
 	. = ..()
 	. += span_info("Certain cloaks - like jupons, tabards, and surcoats - can be given a unique pattern and coloration by right-clicking them.")
+	. += span_info("Middle-clicking a cloak adjusts its layer, allowing it to be either shown above-or-below any worn armorpieces.")
 
 /obj/item/clothing/cloak/ComponentInitialize()
 	. = ..()
@@ -40,6 +41,19 @@
 
 	user.update_inv_cloak()
 	user.update_inv_armor()
+
+/obj/item/clothing/cloak/bandolier
+	name = "bandolier"
+	desc = "A sash that's pelted with pouches, perfect for carrying plenty of pint-sized pieces. </br>'Hail to the King, baby.'"
+	color = null
+	icon_state = "bandolier"
+	item_state = "bandolier"
+	resistance_flags = FIRE_PROOF
+	w_class = WEIGHT_CLASS_BULKY
+	slot_flags = ITEM_SLOT_BACK_R|ITEM_SLOT_SHIRT|ITEM_SLOT_ARMOR|ITEM_SLOT_CLOAK //Same slots as the regular tabard, with the added bonus of being slingable on the rightmost backslot.
+	salvage_result = /obj/item/natural/hide/cured
+	grid_width = 64
+	grid_height = 96
 
 //////////////////////////
 /// TABARD
@@ -1642,3 +1656,15 @@
 	slot_flags = ITEM_SLOT_BACK_R|ITEM_SLOT_CLOAK
 	color = "#FFFFFF"
 	detail_color = "#FFFFFF"
+
+/obj/item/clothing/cloak/apron/waist/fancymaid
+	name = "maid apron"
+	desc = "The frilly apron of a housemaster. It has pockets to store small things."
+	detail_color = "_detail"
+	detail_color = CLOTHING_DARK_GREY
+	slot_flags = ITEM_SLOT_BACK_R|ITEM_SLOT_CLOAK
+	icon_state = "maidapronfancy"
+	item_state = "maidapronfancy"
+	boobed = FALSE
+	grid_width = 64
+	grid_height = 64

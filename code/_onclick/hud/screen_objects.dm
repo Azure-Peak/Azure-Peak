@@ -2044,7 +2044,7 @@
 
 	background.vis_contents += fill
 	mask.vis_contents += background
-	vis_contents.Add(mask, foreground)
+	vis_contents.Add(mask, foreground) 
 
 /atom/movable/screen/bloodpool/Destroy()
 	QDEL_NULL(background)
@@ -2120,3 +2120,12 @@
 /atom/movable/screen/bloodpool_maskpart/mask
 	icon_state = "mana_mask"
 
+
+/atom/movable/screen/bloodpool/breath
+	name = "breath"
+	screen_loc = "WEST-1:3, CENTER+2" 
+
+/atom/movable/screen/bloodpool/breath/Initialize(mapload)
+	. = ..()
+	set_fill_color("#00eaff")
+	set_value(1.0)

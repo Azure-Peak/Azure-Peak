@@ -35,7 +35,7 @@
 
 /datum/component/storage/concrete/roguetown/hat/can_be_inserted(obj/item/storing, stop_messages, mob/user, worn_check = FALSE, params, storage_click = FALSE)
 	// we only want aesthetically head items, like flowercrowns, to be addable
-	if(!(storing.slot_flags & ITEM_SLOT_HEAD|ITEM_SLOT_MASK|ITEM_SLOT_NECK))
+	if(!(storing.slot_flags & (ITEM_SLOT_HEAD|ITEM_SLOT_MASK|ITEM_SLOT_NECK)))
 		return FALSE
 	// any sort of armoured item is forbidden, it's aesthetic only
 	if(storing.armor?.stab > 0 || storing.armor?.blunt > 0)

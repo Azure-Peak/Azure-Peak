@@ -4,7 +4,7 @@
 	overlay_state = "conjure_dragonhide"
 	sound = list('sound/magic/whiteflame.ogg')
 
-	releasedrain = 50
+	releasedrain = SPELLCOST_CONJURE
 	chargedrain = 1
 	chargetime = 5 SECONDS
 	no_early_release = TRUE

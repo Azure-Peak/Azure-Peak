@@ -411,6 +411,11 @@
 	energy = new /atom/movable/screen/energy()
 	infodisplay += energy
 
+	breath_bar = new /atom/movable/screen/bloodpool/breath()
+	breath_bar.hud = src
+	static_inventory += breath_bar
+	breath_bar.alpha = 0
+
 	for(var/atom/movable/screen/inventory/inv in (static_inventory + toggleable_inventory))
 		if(inv.slot_id)
 			inv.hud = src

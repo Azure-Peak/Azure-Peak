@@ -233,6 +233,12 @@
 	triumph_cost = 3
 	sort_category = "Triumphs"
 
+/datum/loadout_item/triumph_armorkit_drow
+	name = "Morphing Elixir, 'Drowcraft Armor'"
+	path = /obj/item/enchantingkit/triumph_armorkit_drow
+	triumph_cost = 3
+	sort_category = "Triumphs"
+
 /datum/loadout_item/triumph_weaponkittri
 	name = "Morphing Elixir, 'Valorian Longsword'"
 	path = /obj/item/enchantingkit/triumph_weaponkit_tri

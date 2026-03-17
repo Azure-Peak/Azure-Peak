@@ -926,8 +926,16 @@
 /datum/status_effect/debuff/clickcd/on_creation(mob/living/new_owner, new_dur)
 	if(new_dur)
 		duration = new_dur
+	RegisterSignal(new_owner, COMSIG_MOB_CLICKON, PROC_REF(onclick))
 	new_owner.changeNext_move(duration)
 	return ..()
+
+/datum/status_effect/debuff/clickcd/proc/onclick()
+	return COMSIG_MOB_CANCEL_CLICKON
+
+/datum/status_effect/debuff/clickcd/on_remove()
+	UnregisterSignal(owner, COMSIG_MOB_CLICKON)
+	. = ..()
 
 /atom/movable/screen/alert/status_effect/debuff/clickcd
 	name = "Action Delayed"

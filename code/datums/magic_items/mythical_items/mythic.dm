@@ -7,6 +7,7 @@
 /datum/magic_item/mythic/infernalflame
 	name = "infernal flame"
 	description = "It glows with white hot heat."
+	glow_color = "#FF4500"
 	var/last_used
 	var/warned
 
@@ -48,6 +49,7 @@
 /datum/magic_item/mythic/freezing
 	name = "greater freezing"
 	description = "It feels ice cold."
+	glow_color = "#87CEEB"
 	var/last_used
 	var/warned
 
@@ -86,6 +88,7 @@
 /datum/magic_item/mythic/briarcurse
 	name = "Briar's Curse"
 	description = "Its grip seems thorny. Must hurt to use."
+	glow_color = "#556B2F"
 	var/last_used
 
 /datum/magic_item/mythic/briarcurse/on_apply(var/obj/item/i)
@@ -106,6 +109,7 @@
 /datum/magic_item/mythic/rewind
 	name = "Temporal Rewind"
 	description = "Its seems both old and new at the same time."
+	glow_color = "#C9B037"
 	var/last_used
 	var/active_item = FALSE
 	var/warned = FALSE
@@ -140,6 +144,7 @@
 /datum/magic_item/mythic/chaos_storm
 	name = "chaos storm"
 	description = "Its crackles with unpredictable chaotic energy."
+	glow_color = "#9400D3"
 	var/last_used
 
 /datum/magic_item/mythic/chaos_storm/on_hit(obj/item/source, atom/target, mob/user, proximity_flag, click_parameters)

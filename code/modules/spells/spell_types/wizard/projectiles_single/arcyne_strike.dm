@@ -4,7 +4,7 @@
 	overlay_state = "conjure_weapon"
 	range = 3
 	projectile_type = /obj/projectile/energy/arcynestrike
-	releasedrain = 20
+	releasedrain = SPELLCOST_MINOR_PROJECTILE
 	chargedrain = 0
 	chargetime = 0.4 SECONDS
 	recharge_time = 6 SECONDS

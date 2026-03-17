@@ -1,55 +1,60 @@
 SUBSYSTEM_DEF(regionthreat)
 	name = "Regional Threat"
-	wait = 15 MINUTES
+	wait = 30 MINUTES
 	flags = SS_KEEP_TIMING | SS_BACKGROUND
 	runlevels = RUNLEVEL_GAME
-	// The first four regions are meant to be "tameable" for towner purposes
+	// SS fires every 30 minutes = 6 ticks per 3-hour round.
+	// Highpop tick = THREAT_HIGHPOP_TICK_RATE (20%) of max_ambush. Each tick is a maintenance fight's worth of threat.
+	// Lowpop tick = THREAT_LOWPOP_TICK_RATE (10%) of max_ambush.
+	// Basin & Grove & Terrorbog are fully tameable (min 0). Coast & Decap stay dangerous (min > 0).
+	// Budget = player_factor * pool * 3%. Solo combat budgets shown at max pool.
+	// Diminishing drain: 5-man party drains at ~39% efficiency, so regions resist zerging.
 	var/list/threat_regions = list(
 		new /datum/threat_region(
-			_region_name = THREAT_REGION_AZURE_BASIN, 
-			_latent_ambush = DANGER_LOW_FLOOR,
-			_min_ambush = DANGER_SAFE_FLOOR,
-			_max_ambush = DANGER_DANGEROUS_LIMIT, // Let's not go DIRE no matter what, in the future 
+			_region_name = THREAT_REGION_AZURE_BASIN, // Solo: 7.5 TP → 1 wolf | 5-party: 37 TP → 3-4 wolves
+			_latent_ambush = 100,
+			_min_ambush = 0,
+			_max_ambush = 250,
 			_fixed_ambush = FALSE,
-			_lowpop_tick = 1,
-			_highpop_tick = 1,
+			_lowpop_tick = 250 * THREAT_LOWPOP_TICK_RATE, // 25
+			_highpop_tick = 250 * THREAT_HIGHPOP_TICK_RATE // 50
 		),
 		new /datum/threat_region(
-			_region_name = THREAT_REGION_AZURE_GROVE,
-			_latent_ambush = DANGER_MODERATE_FLOOR,
-			_min_ambush = DANGER_SAFE_FLOOR,
-			_max_ambush = DANGER_DANGEROUS_LIMIT,
+			_region_name = THREAT_REGION_AZURE_GROVE, // Solo: 15 TP → 1-2 mixed | 5-party: 75 TP → 5-6 mixed
+			_latent_ambush = 250,
+			_min_ambush = 0,
+			_max_ambush = 500,
 			_fixed_ambush = FALSE,
-			_lowpop_tick = 1,
-			_highpop_tick = 1
+			_lowpop_tick = 500 * THREAT_LOWPOP_TICK_RATE, // 50
+			_highpop_tick = 500 * THREAT_HIGHPOP_TICK_RATE // 100
 		),
 		new /datum/threat_region(
-			_region_name = THREAT_REGION_TERRORBOG,
-			_latent_ambush = DANGER_BLEAK_LIMIT,
-			_min_ambush = DANGER_SAFE_FLOOR, // This is intended. A warden can engage in a long war to tame the terrorbog.
-			_max_ambush = DANGER_BLEAK_LIMIT,
+			_region_name = THREAT_REGION_TERRORBOG, // Solo: 45 TP → 2-3 bogmen | 5-party: 225 TP → 11 bogmen
+			_latent_ambush = 1500,
+			_min_ambush = 0, // Fully tameable — a warden can engage in a long war to tame the terrorbog.
+			_max_ambush = 1500,
 			_fixed_ambush = FALSE,
-			_lowpop_tick = 1,
-			_highpop_tick = 1
+			_lowpop_tick = 1500 * THREAT_LOWPOP_TICK_RATE, // 150
+			_highpop_tick = 1500 * THREAT_HIGHPOP_TICK_RATE // 300
 		),
-		// All regions after are meant to stay somewhat dangerous no matter what
+		// Coast & Decap stay somewhat dangerous no matter what
 		new /datum/threat_region(
-			_region_name = THREAT_REGION_AZUREAN_COAST,
-			_latent_ambush = DANGER_DANGEROUS_FLOOR,
-			_min_ambush = DANGER_MODERATE_FLOOR,
-			_max_ambush = DANGER_BLEAK_LIMIT,
+			_region_name = THREAT_REGION_AZUREAN_COAST, // Solo: 24 TP → 1-2 deepones | 5-party: 120 TP → 6 deepones
+			_latent_ambush = 500,
+			_min_ambush = 150,
+			_max_ambush = 800,
 			_fixed_ambush = FALSE,
-			_lowpop_tick = 1,
-			_highpop_tick = 1
+			_lowpop_tick = 800 * THREAT_LOWPOP_TICK_RATE, // 80
+			_highpop_tick = 800 * THREAT_HIGHPOP_TICK_RATE // 160
 		),
 		new /datum/threat_region(
-			_region_name = THREAT_REGION_MOUNT_DECAP,
-			_latent_ambush = DANGER_DANGEROUS_FLOOR,
-			_min_ambush = DANGER_MODERATE_FLOOR,
-			_max_ambush = DANGER_BLEAK_LIMIT,
+			_region_name = THREAT_REGION_MOUNT_DECAP, // Solo: 30 TP → 1 minotaur | 5-party: 150 TP → 5 minotaurs
+			_latent_ambush = 500,
+			_min_ambush = 200,
+			_max_ambush = 1000,
 			_fixed_ambush = FALSE,
-			_lowpop_tick = 1,
-			_highpop_tick = 1
+			_lowpop_tick = 1000 * THREAT_LOWPOP_TICK_RATE, // 100
+			_highpop_tick = 1000 * THREAT_HIGHPOP_TICK_RATE // 200
 		)
 	)
 

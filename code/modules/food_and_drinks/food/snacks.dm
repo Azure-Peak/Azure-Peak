@@ -425,7 +425,7 @@ All foods are distributed among various categories. Use common sense.
 					var/mob/living/carbon/C = M
 					var/obj/item/bodypart/CH = C.get_bodypart(BODY_ZONE_HEAD)
 					if(C.cmode)
-						if(!CH.grabbedby)
+						if(CH && !CH.grabbedby)
 							to_chat(user, span_info("[C.p_they(TRUE)] steals [C.p_their()] face from it."))
 							return FALSE
 				if(!do_mob(user, M, double_progress = TRUE, can_move = FALSE))

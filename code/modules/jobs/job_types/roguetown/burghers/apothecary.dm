@@ -70,7 +70,8 @@
 		/obj/item/recipe_book/alchemy = 1,
 		/obj/item/clothing/mask/rogue/physician = 1,
 		/obj/item/storage/keyring = 1,
-		/obj/item/roguekey/keeper = 1
+		/obj/item/roguekey/keeper = 1,
+		/obj/item/mini_flagpole/apothecary,
 	)
 	if(H.mind)
 		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/diagnose/secular)
