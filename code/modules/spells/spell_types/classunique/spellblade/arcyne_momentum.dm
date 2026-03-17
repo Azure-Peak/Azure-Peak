@@ -59,6 +59,9 @@
 	SIGNAL_HANDLER
 	if(!isliving(target))
 		return
+	// Only punch intent builds momentum, not touch/shove/grab
+	if(!istype(owner.used_intent, /datum/intent/unarmed/punch))
+		return
 	var/mob/living/victim = target
 	if(victim == owner || victim.stat == DEAD)
 		return
