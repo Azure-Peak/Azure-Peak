@@ -43653,7 +43653,7 @@
 	pixel_y = 14
 	},
 /obj/item/clothing/mask/cigarette/pipe{
-	pixel_x = 12;
+	pixel_x = 9;
 	pixel_y = 8
 	},
 /turf/open/floor/rogue/ruinedwood/herringbone,
@@ -62286,6 +62286,11 @@
 	pixel_x = 4;
 	pixel_y = 7
 	},
+/obj/item/reagent_containers/glass/cup{
+	pixel_x = 6;
+	pixel_y = 40
+	},
+/obj/structure/rack/rogue/shelf,
 /turf/open/floor/rogue/ruinedwood/herringbone,
 /area/rogue/indoors/town/magician)
 "nmg" = (
@@ -80237,13 +80242,8 @@
 /turf/open/floor/rogue/cobble,
 /area/rogue/indoors/town)
 "qZk" = (
-/obj/structure/rack/rogue/shelf,
 /obj/structure/closet/crate/roguecloset/inn,
 /obj/item/clothing/head/roguetown/wizhat/random,
-/obj/item/reagent_containers/glass/cup{
-	pixel_x = 6;
-	pixel_y = 40
-	},
 /obj/item/paper/scroll,
 /obj/item/natural/feather,
 /turf/open/floor/rogue/hexstone,
@@ -83083,7 +83083,7 @@
 /area/rogue/under/cave)
 "rFf" = (
 /obj/item/bouquet/calendula{
-	pixel_x = -1;
+	pixel_x = -9;
 	pixel_y = 9
 	},
 /obj/structure/table/wood/long_table/mid/alt,
@@ -110002,7 +110002,7 @@
 	color = "#3f3f3f";
 	dir = 1
 	},
-/turf/open/floor/rogue/concrete,
+/turf/open/floor/rogue/church,
 /area/rogue/indoors/town/pestra_sanctum)
 "xnH" = (
 /obj/structure/table/wood/large_table/south_west,
