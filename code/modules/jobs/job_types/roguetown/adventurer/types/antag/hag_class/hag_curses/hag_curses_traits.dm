@@ -2,6 +2,7 @@
 	name = "Granted Trait"
 	points = 5
 	transmutable = FALSE
+	hag_curse = TRUE
 
 /datum/hag_boon/trait/curse/critical_weakness
 	name = "Trait - Critical Weakness"

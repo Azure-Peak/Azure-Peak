@@ -157,3 +157,8 @@
 	name = "Sorrow-Bound Moss"
 	boon_path = /datum/hag_boon/curse/rotting_touch
 	color = "#4b5320"
+
+/obj/item/alch/hag_moss/enchanted/deathless
+	name = "Stormy Moss"
+	boon_path = /datum/hag_boon/storm_rebirth
+	color = "#fffb00"

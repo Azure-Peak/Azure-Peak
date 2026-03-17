@@ -12,6 +12,7 @@
 	var/mimic_type = null
 	var/static/list/hag_radial_choices
 	var/static/list/hag_path_map
+	var/tonic_spent = FALSE
 
 /obj/item/clothing/neck/roguetown/psicross/hag/Initialize(mapload)
 	. = ..()
@@ -120,3 +121,35 @@
 		return TRUE
 
 	return FALSE
+
+/obj/item/clothing/neck/roguetown/psicross/hag/MiddleClick(mob/living/user)
+	. = ..()
+	// Hags can't use this themselves, womp womp
+	if(!can_use_wyrd_power(user, FALSE))
+		return
+
+	if(tonic_spent)
+		to_chat(user, span_warning("The [src.name]'s magic is spent."))
+		return
+
+	if(!iscarbon(user))
+		return
+
+	to_chat(user, span_notice("You press the [src.name] against your neck, waiting for the needle to bite..."))
+
+	if(do_after(user, 1 SECONDS, target = user))
+		if(tonic_spent)
+			return
+		var/mob/living/carbon/C = user
+		if(!C.reagents)
+			return
+
+		C.reagents.add_reagent(/datum/reagent/medicine/stronghealth, 30)
+		C.reagents.add_reagent(/datum/reagent/water, 30)
+
+		tonic_spent = TRUE
+
+		// Visual/Audio Feedback
+		playsound(src, 'sound/items/perfume.ogg', 50, TRUE)
+		new /obj/effect/temp_visual/heal(get_turf(C), "#d8d8d8")
+		to_chat(user, span_boldnotice("The [src.name] delivers a cold, refreshing sting as the tonic flows into your veins."))

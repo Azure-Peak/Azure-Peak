@@ -35,8 +35,6 @@
 
 /datum/status_effect/debuff/hag_curse/rotting_touch/on_apply()
 	. = ..()
-	if(!.)
-		return
 	RegisterSignal(owner, COMSIG_ITEM_EQUIPPED, PROC_REF(handle_touch))
 	return TRUE
 
@@ -81,4 +79,16 @@
 /atom/movable/screen/alert/status_effect/debuff/hag_curse/rotting_touch
 	name = "Rotten Touch"
 	desc = "Your touch is a blight upon the world's bounty. Everything you attempt to eat turns to rot."
+	icon_state = "debuff"
+
+/datum/status_effect/debuff/hag_curse/storm_weakness
+	id = "storm_weakness"
+	alert_type = /atom/movable/screen/alert/status_effect/debuff/hag_curse/storm_weakness
+	effectedstats = list(STATKEY_CON = -5)
+	duration = -1
+	needs_processing = FALSE
+
+/atom/movable/screen/alert/status_effect/debuff/hag_curse/storm_weakness
+	name = "Storm-Scarred"
+	desc = "Your soul was dragged back through a lightning storm. Your physical constitution is shattered."
 	icon_state = "debuff"

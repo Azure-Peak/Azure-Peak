@@ -14,6 +14,7 @@
 	/// Curses should never be able to transmuted.
 	/// Some boons can only be triggered into specific curses, rather than free form.
 	var/transmutable = TRUE
+	var/hag_curse = FALSE
 
 /datum/hag_boon/New(t_name, datum/component/hag_curio_tracker/T, set_points)
 	src.time_granted = world.time
