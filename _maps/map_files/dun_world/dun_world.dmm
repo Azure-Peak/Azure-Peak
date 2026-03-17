@@ -110002,7 +110002,7 @@
 	color = "#3f3f3f";
 	dir = 1
 	},
-/turf/open/floor/rogue/church,
+/turf/open/floor/rogue/concrete,
 /area/rogue/indoors/town/pestra_sanctum)
 "xnH" = (
 /obj/structure/table/wood/large_table/south_west,
