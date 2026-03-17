@@ -72,6 +72,7 @@
 /area/rogue/indoors/town/pestra_sanctum
 	name = "Sanctum of Pestra"
 	icon_state = "pestrasanctum"
+	droning_sound = 'sound/music/area/catacombs.ogg'
 	spookysounds = SPOOKY_MYSTICAL
 	spookynight = SPOOKY_MYSTICAL
 	first_time_text = "THE SANCTUM OF PESTRA"
@@ -109,7 +110,7 @@
 /area/rogue/indoors/town/physician
 	name = "Physician"
 	icon_state = "physician"
-	droning_sound = 'sound/music/area/shop.ogg'
+	droning_sound = 'sound/music/area/magiciantower.ogg'
 	droning_sound_dusk = null
 	droning_sound_night = null
 
