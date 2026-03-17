@@ -5077,6 +5077,7 @@
 	color = "#3f3f3f";
 	dir = 9
 	},
+/obj/structure/chair/stool/rogue,
 /turf/open/floor/rogue/tile,
 /area/rogue/indoors/town/pestra_sanctum)
 "bfK" = (
@@ -20513,7 +20514,6 @@
 	color = "#3f3f3f";
 	dir = 1
 	},
-/obj/machinery/light/rogue/candle/l,
 /turf/open/floor/rogue/concrete,
 /area/rogue/indoors/town/physician)
 "exN" = (
@@ -174372,7 +174372,7 @@ oAT
 wYw
 wYw
 ubk
-uJW
+kFN
 knR
 bcK
 ogs
@@ -177988,7 +177988,7 @@ oAT
 xuW
 xuW
 bfI
-uJW
+kFN
 jhE
 bcK
 ogs
