@@ -4,6 +4,7 @@
 
 /datum/hag_boon
 	var/name = "Generic Boon"
+	var/desc = "A boon description"
 	var/time_granted = 0
 	var/true_name = ""
 	var/datum/component/hag_curio_tracker/tracker

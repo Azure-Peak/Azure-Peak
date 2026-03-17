@@ -148,7 +148,10 @@
 /datum/component/hag_curio_tracker/proc/can_grant_boon(boon_path)
 	if(!prepared_boons[boon_path] || prepared_boons[boon_path] <= 0)
 		return FALSE
-	// Add any tier/requirement checks here
+	return TRUE
+
+/datum/component/hag_curio_tracker/proc/user_can_receive_boon(boon_path, name_to_check)
+	// TODO - Implement limits here so people can't have infinity boons...
 	return TRUE
 
 /datum/component/hag_curio_tracker/proc/consume_prepared_boon(boon_path)

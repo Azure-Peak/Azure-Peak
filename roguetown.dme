@@ -1822,6 +1822,7 @@
 #include "code\modules\jobs\job_types\roguetown\adventurer\types\antag\hag_class\hag_mob.dm"
 #include "code\modules\jobs\job_types\roguetown\adventurer\types\antag\hag_class\hag_spells.dm"
 #include "code\modules\jobs\job_types\roguetown\adventurer\types\antag\hag_class\hag_tree.dm"
+#include "code\modules\jobs\job_types\roguetown\adventurer\types\antag\hag_class\hag_boons\hag_boons_items.dm"
 #include "code\modules\jobs\job_types\roguetown\adventurer\types\antag\hag_class\hag_boons\hag_boons_traits.dm"
 #include "code\modules\jobs\job_types\roguetown\adventurer\types\antag\hag_class\hag_curses\hag_curses_traits.dm"
 #include "code\modules\jobs\job_types\roguetown\adventurer\types\combat\cleric.dm"

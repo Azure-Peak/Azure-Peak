@@ -37,3 +37,47 @@
 /obj/item/hag_blessing_item/proc/expire_boon()
 	src.visible_message(span_notice("The boon fizzles out into nothing, it wasn't accepted fast enough."))
 	qdel(src)
+
+/datum/component/hag_magical_item
+	var/datum/hag_boon/boon_type
+
+/datum/component/hag_magical_item/Initialize(boon_type)
+	if(!isitem(parent))
+		return COMPONENT_INCOMPATIBLE
+	src.boon_type = boon_type
+	RegisterSignal(parent, COMSIG_OBJ_HANDED_OVER, PROC_REF(on_handed_over))
+
+/datum/component/hag_magical_item/proc/on_handed_over(datum/source, mob/living/receiver, mob/living/offerer)
+	SIGNAL_HANDLER
+	var/datum/component/hag_curio_tracker/HCT = offerer.GetComponent(/datum/component/hag_curio_tracker)
+	if(!HCT) return
+
+	if(HCT.user_can_receive_boon(boon_type, receiver.real_name))
+		HCT.grant_boon(receiver.real_name, boon_type, boon_type.points)
+		var/obj/item/O = parent
+		var/target_id = initial(O.name)
+
+		var/datum/component/hag_magical_item_affinity/Keychain = receiver.GetComponent(/datum/component/hag_magical_item_affinity)
+		if(Keychain)
+			Keychain.add_id(target_id)
+		else
+			receiver.AddComponent(/datum/component/hag_magical_item_affinity, target_id)
+
+		to_chat(offerer, span_notice("You bind the [O.name] to [receiver.real_name]."))
+		to_chat(receiver, span_boldnotice("The [O.name] hums with a dark, familiar energy."))
+
+		// Component safe to delete.
+		qdel(src)
+	else
+		to_chat(offerer, span_warning("The connection fails. [receiver.real_name] has too many boons or curses already."))
+		to_chat(receiver, span_warning("Your body can't contain more nature magic right now."))
+
+/datum/component/hag_magical_item_affinity
+	var/list/authorized_ids = list()
+
+/datum/component/hag_magical_item_affinity/Initialize(item_id)
+	if(!iscarbon(parent)) return COMPONENT_INCOMPATIBLE
+	add_id(item_id)
+
+/datum/component/hag_magical_item_affinity/proc/add_id(item_id)
+	authorized_ids |= item_id
