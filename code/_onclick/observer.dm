@@ -27,7 +27,7 @@
 		return
 
 /mob/dead/observer/ClickOn(atom/A, params)
-	if(check_click_intercept(params,A))
+	if(check_click_intercept(params, A))
 		return
 
 	var/list/modifiers = params2list(params)
@@ -37,8 +37,19 @@
 	if(modifiers["shift"] && modifiers["ctrl"])
 		CtrlShiftClickOn(A)
 		return
+	if(modifiers["alt"] && modifiers["left"])
+		if(client?.holder)
+			face_atom(A)
+			AltRightClickOn(A, params)
+		else
+			AltClickNoInteract(src, A)
+		return
+	if(modifiers["right"])
+		if(client?.holder)
+			RightClickOn(A, params)
+			return
 	if(modifiers["middle"])
-		MiddleClickOn(A)
+		MiddleClickOn(A, params)
 		return
 	if(modifiers["shift"])
 		ShiftClickOn(A)

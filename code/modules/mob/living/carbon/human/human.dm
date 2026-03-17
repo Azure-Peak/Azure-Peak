@@ -152,14 +152,14 @@
 
 /mob/living/carbon/human/Stat()
 	..()
-	if(mind)
+	var/panel = client?.statpanel
+	if(panel == "Stats" && mind)
 		var/datum/antagonist/vampire/VD = mind.has_antag_datum(/datum/antagonist/vampire)
 		if(VD)
-			if(statpanel("Stats"))
-				stat("Vitae:", bloodpool)
+			stat("Vitae:", bloodpool)
+	if(panel == "Status" && mind)
 		if((mind.assigned_role == "Shepherd") || (mind.assigned_role == "Inquisitor"))
-			if(statpanel("Status"))
-				stat("Confessions sent: [GLOB.confessors.len]")
+			stat("Confessions sent: [GLOB.confessors.len]")
 
 	return //RTchange
 

@@ -608,3 +608,11 @@
 #else
 #define NPC_THINK(message)
 #endif
+
+GLOBAL_LIST_INIT(roman_cache, list(
+	"0","I","II","III","IV","V","VI","VII","VIII","IX","X",
+	"XI","XII","XIII","XIV","XV","XVI","XVII","XVIII","XIX","XX",
+	"XXI","XXII","XXIII","XXIV","XXV","XXVI","XXVII","XXVIII","XXIX","XXX"
+))
+
+#define ROMAN(n) (GLOB.roman_cache[clamp((n)+1, 1, GLOB.roman_cache.len)])
