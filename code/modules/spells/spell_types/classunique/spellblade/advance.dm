@@ -14,9 +14,9 @@ Does NOT build momentum on hit — use normal melee for that. */
 		Strikes your aimed bodypart. Can be deflected by Defend stance."
 	clothes_req = FALSE
 	range = 15
-	action_icon = 'icons/mob/actions/spellblade.dmi'
+	action_icon = 'icons/mob/actions/classuniquespells/spellblade.dmi'
 	overlay_state = "advance"
-	releasedrain = 15
+	releasedrain = SPELLCOST_SB_MOBILITY
 	chargedrain = 0
 	chargetime = 5
 	recharge_time = 15 SECONDS
@@ -80,7 +80,9 @@ Does NOT build momentum on hit — use normal melee for that. */
 
 	// Leap phase — pass through mobs with jump arc animation
 	var/old_pass = H.pass_flags
+	var/old_throwing = H.throwing
 	H.pass_flags |= PASSMOB
+	H.throwing = TRUE // Lets us leap over railings/fences
 	var/prev_pixel_z = H.pixel_z
 	var/prev_transform = H.transform
 
@@ -115,6 +117,7 @@ Does NOT build momentum on hit — use normal melee for that. */
 	animate(transform = prev_transform, time = 2)
 
 	H.pass_flags = old_pass
+	H.throwing = old_throwing
 
 	if(steps_taken == 0)
 		to_chat(H, span_warning("My leap is blocked!"))

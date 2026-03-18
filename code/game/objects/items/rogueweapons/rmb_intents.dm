@@ -138,17 +138,29 @@
 	user.face_atom(target)
 
 	var/obj/item/rogueweapon/W = user.get_active_held_item()
+	var/datum/special_intent/active_special
+	var/skillreq
+
 	if(istype(W, /obj/item/rogueweapon) && W.special)
-		var/skillreq = W.associated_skill
-		if(W.special.custom_skill)
-			skillreq = W.special.custom_skill
+		active_special = W.special
+		skillreq = W.associated_skill
+	else if(!W && ishuman(user))
+		var/mob/living/carbon/human/HU = user
+		if(HU.unarmed_special)
+			active_special = HU.unarmed_special
+			skillreq = /datum/skill/combat/unarmed
+
+	if(active_special)
+		if(active_special.custom_skill)
+			skillreq = active_special.custom_skill
 		if(!HAS_TRAIT(user, TRAIT_BATTLEMASTER))
 			if(user.get_skill_level(skillreq) < SKILL_LEVEL_JOURNEYMAN)
 				to_chat(user, span_info("I'm not knowledgeable enough in the arts of this weapon to use this."))
 				return
-		if(W.special.check_range(user, target) && W.special.check_reqs(user, W))
-			if(W.special.apply_cost(user))
-				W.special.deploy(user, W, target)
+		var/atom/parent = W ? W : user
+		if(active_special.check_range(user, target) && active_special.check_reqs(user, parent))
+			if(active_special.apply_cost(user))
+				active_special.deploy(user, parent, target)
 
 /datum/rmb_intent/swift
 	name = "swift"
@@ -262,11 +274,9 @@
 	desc = "Your attacks have -1 strength and will never critically-hit. Useful for longer punishments, play-fighting, and bloodletting.\nRight click will attempt to steal from the target."
 	icon_state = "rmbweak"
 
-/datum/rmb_intent/weak/special_attack(mob/living/user, atom/target)
-	if(!target.Adjacent(user))
+/datum/rmb_intent/weak/special_attack(mob/living/carbon/human/user, mob/living/carbon/human/target)
+	if(!istype(target) || !istype(user) || !target.Adjacent(user))
 		return
-	if(!ishuman(user) || !ishuman(target))
-		return
-	var/mob/living/carbon/human/H = user
-	H.attempt_steal(user, target)
-	. = ..()
+	
+	user.attempt_steal(user, target)
+	return ..()

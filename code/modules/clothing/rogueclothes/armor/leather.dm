@@ -373,3 +373,15 @@
 		if(get_detail_color())
 			pic.color = get_detail_color()
 		add_overlay(pic)
+
+/obj/item/clothing/suit/roguetown/armor/leather/heavy/tailcoat
+	name = "tailcoat"
+	desc = "A finely-sewn tailcoat often worn by those on the brink of the upper echelons of Astratan caste."
+	icon_state = "butlercoat"
+	item_state = "butlercoat"
+	detail_tag = "_detail"
+	sleeved = 'icons/roguetown/clothing/special/onmob/sleeves_maids.dmi'
+	armor = ARMOR_LEATHER_GOOD
+	detail_color = CLOTHING_DARK_GREY
+	slot_flags = ITEM_SLOT_ARMOR
+	armor = ARMOR_PADDED

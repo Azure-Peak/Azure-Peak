@@ -13,7 +13,7 @@
 	overlay_state = "enchant_weapon"
 	sound = list('sound/magic/whiteflame.ogg')
 
-	releasedrain = 30
+	releasedrain = SPELLCOST_CONJURE
 	chargedrain = 2
 	chargetime = 3 SECONDS // Can be used mid combat if needed.
 	no_early_release = TRUE

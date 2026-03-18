@@ -25,8 +25,11 @@
 	name = "purifying waterskin"
 	desc = "Bronze tubes spiral about from the mouth of this waterskin in complex, dizzying patterns."
 	icon_state = "water-purifier"
+	volume = 150 //doubling the amount due to the cost
 	desc_uncorked = "Bronze tubes spiral about from the mouth of this waterskin in complex, dizzying patterns. The cap on the mouth is off."
-	var/filtered_reagents = list(/datum/reagent/water/gross) // List of liquids it turns into drinkable water
+	var/filtered_reagents = list(/datum/reagent/water/gross, 
+								 /datum/reagent/water/bathwater,
+								 /datum/reagent/water/salty) // List of liquids it turns into drinkable water
 
 /obj/item/reagent_containers/glass/bottle/waterskin/purifier/onfill(obj/target, mob/user, silent = FALSE)
 	. = ..()

@@ -1,4 +1,4 @@
-/obj/item/clothing/mask/rogue/MiddleClick(mob/user) 
+/obj/item/clothing/mask/rogue/MiddleClick(mob/user)
 	overarmor = !overarmor
 	to_chat(user, span_info("I [overarmor ? "wear \the [src] under my hair" : "wear \the [src] over my hair"]."))
 	if(overarmor)
@@ -58,6 +58,7 @@
 	integrity_failure = 0.5
 	resistance_flags = FIRE_PROOF
 	body_parts_covered = EYES
+	slot_flags = ITEM_SLOT_MASK|ITEM_SLOT_HEAD
 	anvilrepair = /datum/skill/craft/armorsmithing
 //	block2add = FOV_BEHIND
 
@@ -85,14 +86,14 @@
 			ADD_TRAIT(user, TRAIT_NOCSHADES, "redlens")
 			return
 
-/obj/item/clothing/mask/rogue/spectacles/inq/update_icon(mob/user, slot)	
+/obj/item/clothing/mask/rogue/spectacles/inq/update_icon(mob/user, slot)
 	cut_overlays()
 	..()
 	if(slot == SLOT_WEAR_MASK || slot == SLOT_HEAD)
 		var/mutable_appearance/redlenses = mutable_appearance(mob_overlay_icon, "bglasses_glow")
 		redlenses.layer = 19
 		redlenses.plane = 20
-		user.add_overlay(redlenses)	
+		user.add_overlay(redlenses)
 
 /obj/item/clothing/mask/rogue/spectacles/inq/attack_right(mob/user, slot)
 	..()
@@ -107,7 +108,7 @@
 	lensmoved = FALSE
 
 /obj/item/clothing/mask/rogue/spectacles/inq/dropped(mob/user, slot)
-	..()		
+	..()
 	if(slot != SLOT_WEAR_MASK || slot == SLOT_HEAD)
 		if(!lensmoved)
 			REMOVE_TRAIT(user, TRAIT_NOCSHADES, "redlens")
@@ -138,15 +139,15 @@
 			to_chat(user, span_notice("Time to build"))
 			active_item = TRUE
 			return
-		else 
+		else
 			to_chat(user, span_notice("I can't understand these words and numbers before my eyes"))
 			return
 	else
 		return
 
-				
-		
-		
+
+
+
 
 /obj/item/clothing/mask/rogue/spectacles/golden/dropped(mob/user, slot)
 	..()
@@ -245,7 +246,7 @@
 	body_parts_covered = FACE|HEAD
 	block2add = FOV_BEHIND
 	slot_flags = ITEM_SLOT_MASK|ITEM_SLOT_HIP
-	armor = ARMOR_PADDED 
+	armor = ARMOR_PADDED
 	sewrepair = TRUE
 
 /obj/item/clothing/mask/rogue/sack/psy
@@ -259,11 +260,11 @@
 	icon_state = "confessormask"
 	max_integrity = 200
 	equip_sound = 'sound/items/confessormaskon.ogg'
-	smeltresult = /obj/item/ingot/steel	
+	smeltresult = /obj/item/ingot/steel
 	var/worn = FALSE
 	slot_flags = ITEM_SLOT_MASK
 	stack_fovs = FALSE
-	
+
 /obj/item/clothing/mask/rogue/facemask/steel/confessor/equipped(mob/living/carbon/human/user, slot)
 	. = ..()
 	if(user.wear_mask == src)
@@ -289,7 +290,7 @@
 			qdel(I)
 		else
 			user.visible_message(span_warning("[user] stops inserting the lenses into [src]."))
-		return		
+		return
 
 /obj/item/clothing/mask/rogue/facemask/steel/confessor/lensed
 	name = "stranger mask"
@@ -316,11 +317,11 @@
 	lensmoved = FALSE
 
 /obj/item/clothing/mask/rogue/facemask/steel/confessor/lensed/dropped(mob/user, slot)
-	..()		
+	..()
 	if(slot != SLOT_WEAR_MASK || slot == SLOT_HEAD)
 		if(!lensmoved)
 			REMOVE_TRAIT(user, TRAIT_NOCSHADES, "redlens")
-			return	
+			return
 
 /obj/item/clothing/mask/rogue/wildguard
 	name = "wild guard"
@@ -592,7 +593,7 @@
 	flags_inv = HIDEFACE
 	body_parts_covered = EYES
 	slot_flags = ITEM_SLOT_MASK
-	color = COLOR_ALMOST_BLACK	
+	color = COLOR_ALMOST_BLACK
 	detail_tag = "_detail"
 	detail_color = COLOR_SILVER
 	sewrepair = TRUE
@@ -681,3 +682,18 @@
 	icon_state = "mask_opal"
 	desc = "An opal mask that both conceals and protects the face."
 	sellprice = 100
+
+/obj/item/clothing/mask/rogue/xylixmask
+	name = "jester mask"
+	item_state = "xylixmask"
+	icon_state = "xylixmask"
+	desc = "A ceramic mask, forever stuck with the joyful smile its patron god favors. While it will shatter easily from blows, its smug countenance shall taunt its foes."
+	max_integrity = 50
+	armor = null
+	flags_inv = HIDEFACE|HIDESNOUT
+	body_parts_covered = FACE
+	block2add = FOV_BEHIND
+	slot_flags = ITEM_SLOT_MASK|ITEM_SLOT_HIP
+	smeltresult = null
+	anvilrepair = /datum/skill/craft/ceramics
+	sellprice = 0

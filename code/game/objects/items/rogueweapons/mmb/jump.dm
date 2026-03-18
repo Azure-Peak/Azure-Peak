@@ -83,6 +83,7 @@
 		if(!H.check_armor_skill() || H.legcuffed)
 			jadded += 50
 			jrange = 1
+			to_chat(H, span_warning("My armor is too heavy to jump effectively!"))
 
 	jump_action_resolve(A, jadded, jrange, jextra, jroot)
 	return TRUE

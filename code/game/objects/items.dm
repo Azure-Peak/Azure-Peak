@@ -1454,9 +1454,6 @@ GLOBAL_VAR_INIT(rpg_loot_items, FALSE)
 	return ..()
 
 /obj/item/proc/canStrip(mob/stripper, mob/owner)
-	if(HAS_TRAIT(loc, TRAIT_STUCKITEMS))
-		return FALSE
-
 	return !HAS_TRAIT(src, TRAIT_NODROP)
 
 /obj/item/proc/doStrip(mob/stripper, mob/owner)
@@ -1523,6 +1520,11 @@ GLOBAL_VAR_INIT(rpg_loot_items, FALSE)
 	if (obj_broken)
 		to_chat(user, span_warning("It's completely broken."))
 		return
+	if (istype(src, /obj/item/contraption))
+		var/obj/item/contraption/i = src
+		if (i.current_charge <= 0)
+			to_chat(user, span_warning("Not charged."))
+			return
 	wielded = TRUE
 	if(force_wielded)
 		update_force_dynamic()

@@ -438,7 +438,7 @@
 	weight = 4
 	always_votable = TRUE
 	color_theme = "#CC4444"
-	preferred_gnoll_mode = GNOLL_SCALING_DYNAMIC
+	preferred_gnoll_mode = GNOLL_SCALING_FLAT
 
 	tag_multipliers = list(
 		TAG_MAGICAL = 1.2,

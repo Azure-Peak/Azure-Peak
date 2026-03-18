@@ -3,7 +3,7 @@
 	desc = "For a time, enlarges your target to a giant hulking version of themselves capable of bashing into doors. Does not work on folk who are already large."
 	cost = 2
 	overlay_state = "enlarge"
-	releasedrain = 35
+	releasedrain = SPELLCOST_STAT_BUFF
 	chargedrain = 1
 	chargetime = 1 SECONDS
 	recharge_time = 2 MINUTES

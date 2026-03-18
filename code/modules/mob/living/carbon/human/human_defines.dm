@@ -131,6 +131,8 @@
 	var/ooc_notes_cached = ""
 	var/erpprefs_cached = ""
 
+	/// Per-character theme override for examine panel viewers
+	var/examine_theme
 	var/list/img_gallery = list()
 	
 

@@ -310,7 +310,13 @@
 	path = /obj/item/clothing/shoes/roguetown/jester
 	sort_category = "Accessories"
 
+/datum/loadout_item/jestermask
+	name = "Jester's Mask"
+	path = /obj/item/clothing/mask/rogue/xylixmask
+	sort_category = "Accessories"
+
 /datum/loadout_item/cotehardie
 	name = "Fitted Coat"
 	path = /obj/item/clothing/cloak/cotehardie
 	sort_category = "Accessories"
+

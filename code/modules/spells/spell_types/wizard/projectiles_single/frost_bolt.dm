@@ -7,7 +7,7 @@
 	sound = list('sound/magic/whiteflame.ogg')
 	active = FALSE
 
-	releasedrain = 30
+	releasedrain = SPELLCOST_MINOR_PROJECTILE
 	chargedrain = 1
 	chargetime = 8
 	recharge_time = 6 SECONDS

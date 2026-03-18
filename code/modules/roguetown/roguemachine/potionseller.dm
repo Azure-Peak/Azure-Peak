@@ -19,7 +19,7 @@
 	var/wgain = 0
 	var/is_crafted = FALSE
 	var/keycontrol = "apothecary" // Yep I am defaulting it to Apothecary to avoid confusion with default key being merchant
-	var/max_storage_amount = 1000
+	var/max_storage_amount = 5000
 	var/vials_held = 10
 	var/bottles_held = 5
 	var/dispensing_bottle_type = POTION_VIAL

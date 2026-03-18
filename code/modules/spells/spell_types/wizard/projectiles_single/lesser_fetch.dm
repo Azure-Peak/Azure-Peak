@@ -6,7 +6,7 @@
 	projectile_type = /obj/projectile/magic/lesser_fetch
 	sound = list('sound/magic/magnet.ogg')
 	active = FALSE
-	releasedrain = 15
+	releasedrain = SPELLCOST_MINOR_PROJECTILE
 	chargedrain = 0
 	chargetime = 0
 	recharge_time = 8 SECONDS

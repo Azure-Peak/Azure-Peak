@@ -88,7 +88,7 @@ GLOBAL_LIST_INIT(utility_spells, (list(
 ))
 
 // Augmentation spells - self-buffs safe for certain types of shared pool
-// No invisibility (too strong).
+// No invisibility (too strong). Includes minor utility picks for 1-point filler.
 GLOBAL_LIST_INIT(augmentation_spells, (list(
 		/obj/effect/proc_holder/spell/invoked/haste,
 		/obj/effect/proc_holder/spell/invoked/darkvision,
@@ -99,6 +99,10 @@ GLOBAL_LIST_INIT(augmentation_spells, (list(
 		/obj/effect/proc_holder/spell/invoked/fortitude,
 		/obj/effect/proc_holder/spell/invoked/guidance,
 		/obj/effect/proc_holder/spell/invoked/featherfall,
+		/obj/effect/proc_holder/spell/self/light,
+		/obj/effect/proc_holder/spell/invoked/projectile/lesser_fetch,
+		/obj/effect/proc_holder/spell/invoked/projectile/lesser_repel,
+		/obj/effect/proc_holder/spell/targeted/touch/nondetection,
 		)
 ))
 

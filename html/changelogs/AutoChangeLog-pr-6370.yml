@@ -1,0 +1,7 @@
+author: "WeNeedMorePhoron"
+delete-after: True
+changes:
+  - rscadd: "Replenishment rate halved. Should make it possible to render some region safe hopefully"
+  - rscadd: "The diminishing return you get from having an additional person scale your ambush is no longer exponential. I.e. a 5 person group (biggest) is now gonna drop ambush threat by 2.5x that of a solo person."
+  - rscadd: "When a region display as SAFE, it should actually be SAFE because it is no longer using a hardcoded 25 TP floor."
+  - rscadd: "Warden Horn adjusted to guaranteed a minimum of 3 - 6x ambush. Should feels worth it. BRING FRIENDS."

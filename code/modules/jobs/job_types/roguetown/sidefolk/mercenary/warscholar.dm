@@ -1,6 +1,6 @@
 /datum/advclass/mercenary/warscholar
 	name = "Naledi Hierophant"
-	tutorial ="You are a Naledi Hierophant, a magician who studied under cloistered sages, well-versed in all manners of arcyne. You prioritize enhancing your teammates and distracting foes while staying in the backline."
+	tutorial = "You are a Naledi Hierophant, the most orthodox of all Naledian Magi to an outsider. You practice the art of Exomagic - channeling mana outward for both destructive and constructive purposes. Many of your kinds prioritize enhancing the potential of their teammates from behind, believing in the superiority and potent of the humen body. Some however, may take a more direct approach to the question of how to lay low Psydon's foes - incineration and annihilation."
 	allowed_sexes = list(MALE, FEMALE)
 	allowed_races = RACES_ALL_KINDS
 	outfit = /datum/outfit/job/roguetown/mercenary/warscholar
@@ -54,7 +54,6 @@
 		"MAROON" = "#5F1F34",
 		"BLACK" = "#242526"
 	))
-	to_chat(H, span_warning("You are a Naledi Hierophant, a magician who studied under cloistered sages, well-versed in all manners of arcyne. You prioritize enhancing your teammates and distracting foes while staying in the backline."))
 	if(H.mind)
 		detailcolor = input("Choose a color.", "NALEDIAN COLORPLEX") as anything in naledicolors
 		detailcolor = naledicolors[detailcolor]
@@ -73,29 +72,36 @@
 	beltr = /obj/item/storage/belt/rogue/pouch/coins/poor
 	shoes = /obj/item/clothing/shoes/roguetown/sandals
 	backr = /obj/item/storage/backpack/rogue/satchel/black
+	var/naledi_book = pick(/obj/item/book/rogue/naledi1, /obj/item/book/rogue/naledi2, /obj/item/book/rogue/naledi3, /obj/item/book/rogue/naledi4)
 	backpack_contents = list(
 		/obj/item/roguekey/mercenary = 1,
 		/obj/item/rogueweapon/huntingknife/idagger = 1,
 		/obj/item/spellbook_unfinished/pre_arcyne = 1,
-		/obj/item/rogueweapon/scabbard/sheath = 1
+		/obj/item/rogueweapon/scabbard/sheath = 1,
+		(naledi_book) = 1
 		)
 	H.merctype = 14
 
 /datum/advclass/mercenary/warscholar/pontifex
 	name = "Naledi Pontifex"
-	tutorial = "You are a Naledi Pontifex, a warrior trained into a hybridized style of movement-controlling magic and hand-to-hand combat. Though your abilities in magical fields are lacking, you are far more dangerous than other magi in a straight fight. You manifest your calm, practiced skill into a killing intent that takes the shape of an arcyne blade."
+	age_mod = /datum/class_age_mod/pontifex
+	tutorial = "A Naledi Pontifex, trained in the discipline of Automagic - enhancement of one's own body through Arcyne Magick. \
+		Your fists and your will are the one thing that cannot be deprived from you, handy tools when your homeland is rife with treacherous djinns and humens alike. \
+		Where your fists fall short, your wits prevail. Where your magyck falters, your fists answer. \
+		And when both are found wanting, the Naledian art of blade conjuration will lend you a Katar to cut demons and humens alike to ribbons."
 	outfit = /datum/outfit/job/roguetown/mercenary/warscholar_pontifex
 	subclass_languages = list(/datum/language/celestial, /datum/language/thievescant)
-	traits_applied = list(TRAIT_DODGEEXPERT, TRAIT_CIVILIZEDBARBARIAN, TRAIT_ARCYNE_T1, TRAIT_NALEDI)
+	traits_applied = list(TRAIT_CIVILIZEDBARBARIAN, TRAIT_ARCYNE_T1, TRAIT_NALEDI)
+	// Previous budget was kinda lopsided with negative per and con on a melee class (??) to give them a lot of str and speed. I took 6 points off and shifted it to wil and perception instead.
 	subclass_stats = list(
-		STATKEY_STR = 3,
-		STATKEY_SPD = 2,
-		STATKEY_WIL = 1,
-		STATKEY_PER = -1,
-		STATKEY_CON = -1
+		STATKEY_STR = 1,
+		STATKEY_SPD = 1,
+		STATKEY_WIL = 2,
+		STATKEY_PER = 2,
+		STATKEY_CON = 1
 	)
 	subclass_skills = list(
-		/datum/skill/combat/wrestling = SKILL_LEVEL_EXPERT,
+		/datum/skill/combat/wrestling = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/combat/unarmed = SKILL_LEVEL_EXPERT,
 		/datum/skill/misc/swimming = SKILL_LEVEL_NOVICE,
 		/datum/skill/misc/climbing = SKILL_LEVEL_JOURNEYMAN,
@@ -107,11 +113,18 @@
 		/datum/skill/misc/stealing = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/misc/lockpicking = SKILL_LEVEL_JOURNEYMAN,
 	)
-	subclass_spellpoints = 0 // Override inheritance lol
+	subclass_spellpoints = 0 // Override inheritance — spells are granted directly
+	subclass_spell_point_pools = list("utility" = 4)
 
 /datum/outfit/job/roguetown/mercenary/warscholar_pontifex
 	var/detailcolor
+	var/sidearm_selected
 	allowed_patrons = list(/datum/patron/old_god)
+
+/datum/outfit/job/roguetown/mercenary/warscholar_pontifex/Topic(href, href_list)
+	. = ..()
+	if(href_list["sidearm"])
+		sidearm_selected = href_list["sidearm"]
 
 /datum/outfit/job/roguetown/mercenary/warscholar_pontifex/pre_equip(mob/living/carbon/human/H)
 	..()
@@ -129,19 +142,43 @@
 		"MAROON" = "#5F1F34",
 		"BLACK" = "#242526"
 	))
-	to_chat(H, span_warning("You are a Naledi Pontifex, a warrior trained into a hybridized style of movement-controlling magic and hand-to-hand combat. Though your abilities in magical fields are lacking, you are far more dangerous than other magi in a straight fight. You manifest your calm, practiced skill into a killing intent that takes the shape of an arcyne blade."))
 	if(H.mind)
 		detailcolor = input("Choose a color.", "NALEDIAN COLORPLEX") as anything in naledicolors
 		detailcolor = naledicolors[detailcolor]
-		H.mind.AddSpell(new /obj/effect/proc_holder/spell/targeted/touch/prestidigitation)
-		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/projectile/fetch) // In an attempt to make them less Possibly Wildly OP, they can't freely pick their spells. Casts at apprentice level, but doesn't get the spellbuy points it'd provide.
-		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/ensnare)
-		H.mind.AddSpell(new/obj/effect/proc_holder/spell/invoked/projectile/repel)
+		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/fist_of_psydon)
+		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/grasp_of_psydon)
+		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/blink/shadowstep)
+		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/storm_of_psydon)
+		H.mind.AddSpell(new /obj/effect/proc_holder/spell/self/empower_weapon)
 		H.mind.AddSpell(new /obj/effect/proc_holder/spell/targeted/touch/summonrogueweapon/bladeofpsydon)
-		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/shadowstep)
+		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/mending)
+		H.mind.AddSpell(new /obj/effect/proc_holder/spell/targeted/touch/prestidigitation)
+
+	var/datum/status_effect/buff/arcyne_momentum/momentum = H.apply_status_effect(/datum/status_effect/buff/arcyne_momentum)
+	if(momentum)
+		momentum.set_chant("unarmed")
+
+	sidearm_selected = null
+	var/chant_html = get_spellfist_chant_html(src, H)
+	H << browse(chant_html, "window=spellfist_tutorial;size=650x700")
+	onclose(H, "spellfist_tutorial", src)
+
+	var/open_time = world.time
+	while(!sidearm_selected && world.time - open_time < 5 MINUTES)
+		stoplag(1)
+	H << browse(null, "window=spellfist_tutorial")
+
+	if(!sidearm_selected)
+		sidearm_selected = "katar"
+
+	switch(sidearm_selected)
+		if("katar")
+			H.put_in_hands(new /obj/item/rogueweapon/katar(H))
+		if("knuckledusters")
+			H.put_in_hands(new /obj/item/clothing/gloves/roguetown/knuckles(H))
 
 	head = /obj/item/clothing/head/roguetown/roguehood/pontifex
-	gloves = /obj/item/clothing/gloves/roguetown/angle/pontifex
+	gloves = /obj/item/clothing/gloves/roguetown/bandages/pontifex
 	head = /obj/item/clothing/head/roguetown/roguehood/pontifex
 	armor = /obj/item/clothing/suit/roguetown/armor/gambeson/heavy/pontifex
 	shirt = /obj/item/clothing/suit/roguetown/shirt/robe/pointfex
@@ -153,17 +190,20 @@
 	beltr = /obj/item/storage/belt/rogue/pouch/coins/poor
 	shoes = /obj/item/clothing/shoes/roguetown/sandals
 	backr = /obj/item/storage/backpack/rogue/satchel/black
+	var/naledi_book = pick(/obj/item/book/rogue/naledi1, /obj/item/book/rogue/naledi2, /obj/item/book/rogue/naledi3, /obj/item/book/rogue/naledi4)
 	backpack_contents = list(
 		/obj/item/roguekey/mercenary = 1,
 		/obj/item/lockpick = 1,
 		/obj/item/rogueweapon/huntingknife = 1,
-		/obj/item/rogueweapon/scabbard/sheath = 1
+		/obj/item/rogueweapon/scabbard/sheath = 1,
+		(naledi_book) = 1
 		)
 	H.merctype = 14
 
 /datum/advclass/mercenary/warscholar/vizier
 	name = "Naledi Vizier"
-	tutorial = "You are a Naledi Vizier. Your research into miracles and holy incantations has lead you to esoteric magycks. Though Psydonians have long struggled to channel their All-Father's divinity, a combination of the Saint's power may be similar enough."
+	age_mod = /datum/class_age_mod/vizier
+	tutorial = "You are a Naledi Vizier. Psydonians have long struggled to channel the All-Father's divinity, but such obstacles need not stop you. The Yogis of Naledi have long studied the nature of magick, and concluded that as Psydon is the origin of all things, a school of magick that returns a person or an item to a form it had before is the purest of all magick - and named it Origin Magic. Others say that you do not wield true miracles, merely a form of magycks. But true believers know that magyck is one of Psydon's greatest gifts, and in His name you shall wield His powers to heal His creations. A line of magyck closely guarded and trained only in the seven Great Seminary of Naledi, of which only five remain standing in this age. It is said that one must attune themselves to Psydon for ten yils in the Naledian desert. And despite foreigners' many attempts, no one has managed to bring this lineage of magyck outside without studying in Naledi itself. Perhaps it is truly divine."
 	outfit = /datum/outfit/job/roguetown/mercenary/warscholar_vizier
 	traits_applied = list(TRAIT_MAGEARMOR, TRAIT_ARCYNE_T2, TRAIT_ALCHEMY_EXPERT, TRAIT_NALEDI)
 	subclass_stats = list(
@@ -183,12 +223,12 @@
 		/datum/skill/combat/staves = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/combat/polearms = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/craft/alchemy = SKILL_LEVEL_APPRENTICE,
-		/datum/skill/magic/arcane = SKILL_LEVEL_APPRENTICE,
+		/datum/skill/magic/arcane = SKILL_LEVEL_EXPERT,
 		/datum/skill/combat/crossbows = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/craft/sewing = SKILL_LEVEL_APPRENTICE,
-		/datum/skill/magic/holy = SKILL_LEVEL_EXPERT,
 	)
-	subclass_spellpoints = 0 // Override inheritance lol
+	subclass_spellpoints = 0
+	subclass_spell_point_pools = list("utility" = 4, "augmentation" = 4)
 
 /datum/outfit/job/roguetown/mercenary/warscholar_vizier
 	var/detailcolor
@@ -210,7 +250,6 @@
 		"MAROON" = "#5F1F34",
 		"BLACK" = "#242526"
 	))
-	to_chat(H, span_warning("You are a Naledi Vizier. Your research into miracles and holy incantations has lead you to esoteric magycks. Though psydonians have long struggled to channel their all-father's divinity, a combination of the saint's power may be similar enough."))
 	r_hand = /obj/item/rogueweapon/woodstaff/naledi
 
 	head = /obj/item/clothing/head/roguetown/roguehood/hierophant
@@ -226,25 +265,26 @@
 	shoes = /obj/item/clothing/shoes/roguetown/sandals
 	backr = /obj/item/storage/backpack/rogue/satchel/black
 
+	var/naledi_book = pick(/obj/item/book/rogue/naledi1, /obj/item/book/rogue/naledi2, /obj/item/book/rogue/naledi3, /obj/item/book/rogue/naledi4)
 	backpack_contents = list(
 		/obj/item/roguekey/mercenary = 1,
 		/obj/item/rogueweapon/huntingknife = 1,
-		/obj/item/rogueweapon/scabbard/sheath = 1
+		/obj/item/rogueweapon/scabbard/sheath = 1,
+		(naledi_book) = 1
 		)
-	
-	var/datum/devotion/C = new /datum/devotion(H, H.patron)
-	C.grant_miracles(H, cleric_tier = CLERIC_T4, passive_gain = CLERIC_REGEN_MAJOR, start_maxed = TRUE)	//Starts off maxed out.
+
 	if(H.mind)
 		detailcolor = input("Choose a color.", "NALEDIAN COLORPLEX") as anything in naledicolors
 		detailcolor = naledicolors[detailcolor]
-		H.mind.RemoveSpell(/obj/effect/proc_holder/spell/invoked/lesser_heal)
-		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/projectile/arcynebolt) // Give them little bit of offensive power to make them less boring.
-		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/repulse) // A "defensive" spell to keep themselves safe
-		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/diagnose/secular)
+		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/projectile/arcynebolt)
+		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/blink/shadowstep)
+		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/diminish)
+		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/vizier_restoration)
+		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/reversion)
 		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/guidance)
-		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/regression)
-		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/convergence)
-		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/stasis)
+		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/mending)
+		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/diagnose/secular)
+		H.mind.AddSpell(new /obj/effect/proc_holder/spell/targeted/touch/prestidigitation)
 	
 	H.merctype = 14
 

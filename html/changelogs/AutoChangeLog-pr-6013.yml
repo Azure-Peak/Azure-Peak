@@ -1,7 +1,0 @@
-author: "Risraivyn"
-delete-after: True
-changes:
-  - rscadd: "z-lvl water swim"
-  - rscadd: "new tile and area"
-  - bugfix: "removed the repetition"
-  - sound: "added buble sound"

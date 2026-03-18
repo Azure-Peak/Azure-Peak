@@ -3,7 +3,7 @@
 	desc = "Infuse the target with quick acting Rot, raising them as a deadite. They will not be friendly to you."
 	cost = 3
 	xp_gain = TRUE
-	releasedrain = 60
+	releasedrain = SPELLCOST_MAJOR_SUMMON
 	chargedrain = 1
 	chargetime = 60
 	recharge_time = 30 SECONDS

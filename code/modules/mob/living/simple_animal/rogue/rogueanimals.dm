@@ -142,6 +142,9 @@
 		return
 	for(var/mob/living/eattarg in around)
 		if(eattarg.stat != CONSCIOUS)
+			// Skip mobs that were ever player-controlled — don't RR player corpses
+			if(eattarg.mind || (iscarbon(eattarg) && eattarg:last_mind))
+				continue
 			foundfood += eattarg
 			L = eattarg
 			if(src.Adjacent(L))

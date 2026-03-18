@@ -1,4 +1,4 @@
-/obj/effect/proc_holder/spell/invoked/mirror_transform  // Changed from targeted to invoked
+/obj/effect/proc_holder/spell/invoked/mirror_transform
 	name = "Mirror Transform"
 	desc = "Temporarily grants you the ability to use mirrors to change your appearance."
 	clothes_req = FALSE
@@ -6,9 +6,8 @@
 	associated_skill = /datum/skill/magic/arcane
 	cost = 1 // Trash spell
 	xp_gain = TRUE
-	// Fix invoked spell variables
-	releasedrain = 35
-	chargedrain = 1  // Fixed from chargeddrain to chargedrain
+	releasedrain = SPELLCOST_CANTRIP
+	chargedrain = 1  
 	chargetime = 10
 	recharge_time = 300 SECONDS
 	warnie = "spellwarning"

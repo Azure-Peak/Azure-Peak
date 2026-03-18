@@ -28,7 +28,7 @@ Chargetime reduced from 20 to 10 ticks (1 second) to feel less awkward.
 	projectile_type = /obj/projectile/energy/azurean_javelin
 	projectile_type_arc = /obj/projectile/energy/azurean_javelin/arc
 	sound = list('sound/combat/wooshes/bladed/wooshsmall (1).ogg')
-	releasedrain = 30
+	releasedrain = SPELLCOST_MINOR_PROJECTILE
 	chargedrain = 1
 	chargetime = 10
 	recharge_time = 10 SECONDS
@@ -37,7 +37,7 @@ Chargetime reduced from 20 to 10 ticks (1 second) to feel less awkward.
 	movement_interrupt = FALSE
 	charging_slowdown = 0
 	chargedloop = /datum/looping_sound/invokegen
-	action_icon = 'icons/mob/actions/spellblade.dmi'
+	action_icon = 'icons/mob/actions/classuniquespells/spellblade.dmi'
 	overlay_state = "azurean_javelin" // Icon by Prominence. Reversed Azurean_Phalanx in a different direction
 	invocations = list("Pilum Azureum!")
 	invocation_type = "shout"

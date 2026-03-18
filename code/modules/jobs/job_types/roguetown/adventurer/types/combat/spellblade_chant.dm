@@ -320,7 +320,7 @@ a.choose-btn:hover {
 <ul>
 <li><b>Shatter</b> — 3-tile line smash that devastates armor integrity and knocks targets back 1 tile. Empowered: doubles damage.</li>
 <li><b>Tremor</b> — Slam the ground, damaging and pushing back everyone adjacent 1 tile. Empowered: doubles damage.</li>
-<li><b>Charge!</b> — Charge forward 5 paces, ramming everyone in the path aside, then bash at the end. Knocks the final target back 1 tile. Empowered: doubles damage. Brief chargeup before moving.</li>
+<li><b>Charge!</b> — Instantly dash forward 4 paces, shoving everyone in the path to the sides. Deals no damage — pure mobility and disruption.</li>
 <li><b>Cataclysm</b> — Conjure and hurl an arcyne hammer at a target area. Crushes a 5x5 area and leaves victims Vulnerable. Bonus damage at max momentum.</li>
 </ul>
 </div>

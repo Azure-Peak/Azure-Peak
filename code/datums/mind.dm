@@ -376,6 +376,12 @@ GLOBAL_LIST_EMPTY(personal_objective_minds)
 		AddSpell(new /obj/effect/proc_holder/spell/targeted/touch/prestidigitation)
 	check_learnspell()
 
+/datum/mind/proc/adjust_spell_point_pool(pool_name, points)
+	if(!LAZYLEN(spell_point_pools) || !(pool_name in spell_point_pools))
+		return
+	spell_point_pools[pool_name] += points
+	check_learnspell()
+
 /datum/mind/proc/set_death_time()
 	last_death = world.time
 

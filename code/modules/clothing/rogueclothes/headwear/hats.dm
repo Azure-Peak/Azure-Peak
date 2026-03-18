@@ -606,3 +606,9 @@
 		if(get_detail_color())
 			pic.color = get_detail_color()
 		add_overlay(pic)
+
+/obj/item/clothing/head/roguetown/maidband
+	name = "maid headband"
+	desc = "A pleated cloth headband. It has gained widespread popularity from Valorian nobles travelling with their servants."
+	icon_state = "maidband"
+	body_parts_covered = NONE

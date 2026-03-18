@@ -154,9 +154,11 @@
     . += span_info("Left-clicking yourself while targeting the nose will automatically snort the powder in your hand.")
     . += span_info("Most powders can imbue a wide variety of effects, when inhaled.")
 
-// save me lazy evaluation
 /obj/item/reagent_containers/powder/flour/attackby(obj/item/I, mob/living/user, params)
-	return wet(I,user) || ..()
+	var/obj/item/reagent_containers/R = I
+	if(istype(R) && wet(I, user))
+		return TRUE
+	return ..()
 
 /obj/item/reagent_containers/powder/flour/proc/wet(obj/item/I, mob/living/user)
 	var/found_table = locate(/obj/structure/table) in (loc)
@@ -217,7 +219,10 @@
 	var/water_added
 
 /obj/item/reagent_containers/food/snacks/grown/rice/attackby(obj/item/I, mob/living/user, params)
-	return wet(I, user) || ..()
+	var/obj/item/reagent_containers/R = I
+	if(istype(R) && wet(I, user))
+		return TRUE
+	return ..()
 
 /obj/item/reagent_containers/food/snacks/grown/rice/proc/wet(obj/item/I, mob/living/user)
 	var/found_table = locate(/obj/structure/table) in (loc)
@@ -291,7 +296,10 @@
 	qdel(src)
 
 /obj/item/reagent_containers/powder/mineral/attackby(obj/item/I, mob/user, params)
-	return wet(I, user) || ..()
+	var/obj/item/reagent_containers/R = I
+	if(istype(R) && wet(I, user))
+		return TRUE
+	return ..()
 
 /obj/item/reagent_containers/powder/mineral/proc/wet(obj/item/I, mob/user)
 	var/found_table = locate(/obj/structure/table) in (loc)

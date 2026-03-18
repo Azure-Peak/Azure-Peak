@@ -3,7 +3,7 @@
 	desc = "Call a high-damage strike of lightning onto an area, followed by lesser aftershocks that ripple outwards in concentric layers."
 	cost = 6 // High damage AOE
 	range = 7
-	releasedrain = 50
+	releasedrain = SPELLCOST_MAJOR_AOE
 	overlay_state = "thunderstrike"
 	chargedrain = 1
 	chargetime = 35

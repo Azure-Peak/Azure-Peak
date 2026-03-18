@@ -22,6 +22,8 @@
 							/obj/item/alch/viscera = 1)
 	head_butcher = /obj/item/natural/head/honeyspider
 	faction = list("spiders")
+	threat_point = THREAT_LOW
+	ambush_faction = "mirespiders"
 	mob_biotypes = MOB_ORGANIC|MOB_BEAST
 	attack_sound = 'sound/combat/wooshes/punch/punchwoosh (2).ogg'
 	health = HONEYSPIDER_HEALTH
@@ -56,6 +58,7 @@
 	stat_attack = UNCONSCIOUS
 
 /mob/living/simple_animal/hostile/retaliate/rogue/spider/mutated
+	threat_point = THREAT_HIGH
 	icon = 'icons/roguetown/mob/monster/spider.dmi'
 	name = "skallax spider"
 	desc = "This appears to be a beespider mutated by some unnatural force into a writhing, asymmetrical horror! You should probably put this thing out of its misery."

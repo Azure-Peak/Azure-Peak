@@ -100,6 +100,7 @@
 	var/list/static/bonk_animation_types = list(
 		BCLASS_BLUNT,
 		BCLASS_SMASH,
+		BCLASS_DRILL,
 	)
 	var/list/static/swipe_animation_types = list(
 		BCLASS_CUT,
@@ -204,6 +205,9 @@
 			inspec += " <span class='info'><a href='?src=[REF(masteritem)];explaindemolitionmod=1'>{?}</a></span>"
 	if(sharpness_penalty)
 		inspec += "\nThis intent will cost some sharpness for every attack made."
+	if(unarmed)
+		inspec += "\n<b>Swift:</b> Harder to parry or dodge when faster than your opponent."
+		inspec += "\n<b>Short Reach:</b> More accurate at striking specific body parts."
 	if(swingdelay > 0)
 		inspec += "\n<b>Attack Delay:</b> "
 		if(swingdelay <= 2)
@@ -435,6 +439,20 @@
 	swingdelay = 12
 	max_intent_damage = 9999
 
+/datum/intent/drill
+	name = "drill"
+	icon_state = "inpick"
+	attack_verb = list("drills","augers")
+	hitsound = list('sound/combat/hits/pick/genpick (1).ogg', 'sound/combat/hits/pick/genpick (2).ogg')
+	penfactor = 80
+	animname = "strike"
+	item_d_type = "stab"
+	blade_class = BCLASS_DRILL
+	chargetime = 0.3
+	clickcd = 4 // Just like knife pick!
+	swingdelay = 1
+	releasedrain = 0 //no stamina loss, as charges are lost as it drills
+	
 /datum/intent/pick/bad	//One-handed intents
 	name = "sluggish pick"
 	icon_state = "inpick"
@@ -544,11 +562,11 @@
 	chargetime = 0
 	noaa = FALSE
 	animname = "bite"
-	hitsound = list('sound/combat/hits/punch/punch (1).ogg', 'sound/combat/hits/punch/punch (2).ogg', 'sound/combat/hits/punch/punch (3).ogg')
-	misscost = 4
+	hitsound = list('sound/combat/hits/punch/punch_hard (1).ogg', 'sound/combat/hits/punch/punch_hard (2).ogg', 'sound/combat/hits/punch/punch_hard (3).ogg')
+	misscost = 3
 	releasedrain = 1
 	swingdelay = 0
-	clickcd = CLICK_CD_QUICK
+	clickcd = CLICK_CD_FAST // Same speed as katar — fists are the free unarmed weapon
 	rmb_ranged = TRUE
 	candodge = TRUE
 	canparry = TRUE
@@ -556,7 +574,6 @@
 	miss_text = "swing a fist at the air"
 	miss_sound = "punchwoosh"
 	item_d_type = "blunt"
-	intent_intdamage_factor = 0.5
 
 /datum/intent/unarmed/punch/rmb_ranged(atom/target, mob/user)
 	if(user.stat >= UNCONSCIOUS)

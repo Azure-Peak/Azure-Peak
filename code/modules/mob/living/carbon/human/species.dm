@@ -1261,6 +1261,7 @@ GLOBAL_LIST_EMPTY(roundstart_races)
 			return FALSE
 */
 		var/selzone = melee_accuracy_check(user.zone_selected, user, target, /datum/skill/combat/unarmed, user.used_intent)
+		var/selzone_real = user.zone_selected
 
 		var/obj/item/bodypart/affecting = target.get_bodypart(check_zone(selzone))
 
@@ -1293,8 +1294,8 @@ GLOBAL_LIST_EMPTY(roundstart_races)
 			if(affecting.body_zone == BODY_ZONE_HEAD)
 				SEND_SIGNAL(user, COMSIG_HEAD_PUNCHED, target)
 		log_combat(user, target, "punched")
-		if(ishuman(user) && user.mind)
-			var/text = "[bodyzone2readablezone(selzone)]..."
+		if(ishuman(user))
+			var/text = "[bodyzone2readablezone(selzone_real)]..."
 			user.filtered_balloon_alert(TRAIT_COMBAT_AWARE, text, show_self = FALSE)
 
 		if(!nodmg)
@@ -1566,9 +1567,9 @@ GLOBAL_LIST_EMPTY(roundstart_races)
 			target.next_attack_msg.Cut()
 			log_combat(user, target, "kicked")
 
-			if(ishuman(user) && user.mind)
-				var/text = "[bodyzone2readablezone(selzone)]..."
-				user.filtered_balloon_alert(TRAIT_COMBAT_AWARE, text)
+			if(ishuman(user))
+				var/text = "[bodyzone2readablezone(user.zone_selected)]..."
+				user.filtered_balloon_alert(TRAIT_COMBAT_AWARE, text, show_self = FALSE)
 
 			user.do_attack_animation_simple(target, ATTACK_EFFECT_KICK, TRUE)
 			if(!nodmg)
@@ -1747,6 +1748,7 @@ GLOBAL_LIST_EMPTY(roundstart_races)
 		return 0
 
 	var/hit_area
+	var/selzone_real = user.zone_selected
 
 	selzone = melee_accuracy_check(user.zone_selected, user, H, I.associated_skill, user.used_intent, I)
 	affecting = H.get_bodypart(check_zone(selzone))
@@ -1816,8 +1818,8 @@ GLOBAL_LIST_EMPTY(roundstart_races)
 	if(higher_intfactor > 1)	//Make sure to keep your weapon and intent intfactors consistent to avoid problems here!
 		used_intfactor = higher_intfactor
 
-	if(ishuman(user) && user.mind && user.used_intent.blade_class != BCLASS_PEEL && user != H)
-		var/text = "[bodyzone2readablezone(selzone)]..."
+	if(ishuman(user) && user.used_intent.blade_class != BCLASS_PEEL && user != H)
+		var/text = "[bodyzone2readablezone(selzone_real)]..."
 		if(HAS_TRAIT(user, TRAIT_DECEIVING_MEEKNESS))
 			if(prob(10))
 				text = "<i>I can't tell...</i>"

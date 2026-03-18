@@ -1,0 +1,13 @@
+author: "WeNeedMorePhoron"
+delete-after: True
+changes:
+  - rscadd: "Pontifex reworked to a Spellfist class - Punch, ensnare, step and leap."
+  - rscadd: "Sojourner reworked to a variant with T1 miracles (downgraded from T2, too much abilities), better statblock."
+  - rscadd: "Added Heretic Spellfist & Spellfist class, variation of the above. Heretic Spellfist get miracles. Spellfist get to punch the shit out of people with Jman skills."
+  - rscadd: "Reworked Vizier. Vizier no longer gain miracles and instead, have a fixed redesigned set of abilities - Arcyne Bolt, Shadowstep, Diminish (3x3 AOE debuff), Restoration (Secular, \"non-miracle\" healing - actually just a rebranded miracle), and Reversion (Stasis, but reworked) plus Mending. They have Guidance for free, and 4 spell points for the augmentation pool."
+  - rscadd: "Redid lore and tutorial blurbs for all Naledian classes to refer existing lore better. Also, all Spellfist classes and Naledian classes start with one of four random pick of Path of the Warscholar. Lore, in game."
+  - balance: "All spellfists loses expert wrestling. Also Hierophant and Pontifex loses expert wrestling. Also all spellfist classes loses dodge expert, as unarmed parry is now good on the lower end."
+  - rscadd: "Unarmed Parry Formula reworked. Now you gain 20% base parry chance normally, but if you have a knuckles / bandages on your hands, or bracers on your arms, it gives you 70% base parry chance. The skills influence is now 20% - scaling in the exact same way as weapon. This should make the lower end of unarmed parry practical while making Master / Legendary no longer overpowering. Expert Pugilist trait gates access to this improved parry to prevent abuse and you also fallback properly whenever you are using an Unarmed Weapon (And won't otherwise)"
+  - rscadd: "Unarmed attacks now damage shields properly."
+  - balance: "Lowered punch integrity damage modifier to 1.2x instead of 1.6x because it is so absurdly good. Base damage is now 15 and Expert Pugilist gives a +5 on top. Knuckles now have 200 integrity."
+  - balance: "Punches is now considered a type of short reach weapon and gain the accuracy bonus. Miss cost adjusted to 3 instead of 4."
