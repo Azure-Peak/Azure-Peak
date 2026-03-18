@@ -1330,7 +1330,7 @@
 /turf/open/floor/rogue/dirt,
 /area/rogue/indoors/eventarea)
 "Sz" = (
-/turf/open/floor/rogue/tile/harem1,
+/turf/open/floor/rogue/tile//turf/open/floor/rogue/tile/dorpeltile3,
 /area/rogue/indoors/eventarea)
 "SV" = (
 /obj/structure/table/church/m,
