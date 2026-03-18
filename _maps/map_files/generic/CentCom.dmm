@@ -784,7 +784,7 @@
 /turf/open/floor/rogue/blocks/paving/vert,
 /area/rogue/indoors/eventarea)
 "kp" = (
-/turf/open/floor/rogue/tile/harem,
+/turf/open/floor/rogue/tile/dorpeltile,
 /area/rogue/indoors/eventarea)
 "kE" = (
 /turf/open/floor/rogue/snowrough,
@@ -1063,7 +1063,7 @@
 /turf/open/floor/rogue/rooftop/green/corner1/dirsix,
 /area/rogue/indoors/eventarea)
 "zV" = (
-/turf/open/floor/rogue/tile/harem2,
+/turf/open/floor/rogue/tile/dorpeltile2,
 /area/rogue/indoors/eventarea)
 "AQ" = (
 /obj/structure/table/wood{

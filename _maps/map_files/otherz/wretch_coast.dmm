@@ -2581,7 +2581,7 @@
 /turf/open/floor/rogue/dirt,
 /area/rogue/outdoors/woods/vampire_lair)
 "nz" = (
-/turf/open/floor/rogue/tile/harem2,
+/turf/open/floor/rogue/tile/dorpeltile2,
 /area/rogue/indoors/eventarea/multiz)
 "nA" = (
 /obj/structure/closet/crate/drawer,
@@ -8810,7 +8810,7 @@
 /turf/open/floor/rogue/ruinedwood/spiral,
 /area/rogue/indoors/vampire_manor)
 "VO" = (
-/turf/open/floor/rogue/tile/harem,
+/turf/open/floor/rogue/tile/dorpeltile,
 /area/rogue/indoors/eventarea/multiz)
 "VP" = (
 /obj/structure/fluff/railing/border/north,

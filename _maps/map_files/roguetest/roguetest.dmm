@@ -14,7 +14,7 @@
 /area/rogue/outdoors)
 "aF" = (
 /obj/structure/roguemachine/crier,
-/turf/open/floor/rogue/tile/harem,
+/turf/open/floor/rogue/tile/dorpeltile,
 /area/rogue/indoors)
 "aO" = (
 /obj/item/millstone{
@@ -83,7 +83,7 @@
 /area/rogue/indoors)
 "cU" = (
 /obj/structure/fluff/railing/corner/north_east,
-/turf/open/floor/rogue/tile/harem,
+/turf/open/floor/rogue/tile/dorpeltile,
 /area/rogue/indoors)
 "cY" = (
 /obj/structure/flora/newtree,
@@ -259,7 +259,7 @@
 /obj/structure/fluff/railing/border{
 	dir = 10
 	},
-/turf/open/floor/rogue/tile/harem,
+/turf/open/floor/rogue/tile/dorpeltile,
 /area/rogue/indoors)
 "kz" = (
 /turf/open/floor/rogue/cobblerock,
@@ -484,7 +484,7 @@
 /area/rogue/outdoors/woods/north)
 "rp" = (
 /obj/structure/fluff/railing/border/east,
-/turf/open/floor/rogue/tile/harem,
+/turf/open/floor/rogue/tile/dorpeltile,
 /area/rogue/indoors)
 "rt" = (
 /obj/effect/landmark/quest_spawner/hard,
@@ -550,7 +550,7 @@
 	pixel_x = 0;
 	pixel_y = 3
 	},
-/turf/open/floor/rogue/tile/harem,
+/turf/open/floor/rogue/tile/dorpeltile,
 /area/rogue/indoors)
 "tt" = (
 /mob/living/simple_animal/hostile/retaliate/rogue/saiga/saigabuck/tame/saddled,
@@ -675,7 +675,7 @@
 /obj/structure/fluff/railing/border{
 	dir = 8
 	},
-/turf/open/floor/rogue/tile/harem,
+/turf/open/floor/rogue/tile/dorpeltile,
 /area/rogue/indoors)
 "wE" = (
 /turf/open/floor/rogue/carpet/lord/right,
@@ -770,7 +770,7 @@
 /area/rogue/indoors)
 "zb" = (
 /obj/structure/fluff/railing/corner/south_east,
-/turf/open/floor/rogue/tile/harem,
+/turf/open/floor/rogue/tile/dorpeltile,
 /area/rogue/indoors)
 "zf" = (
 /obj/structure/roguethrone,
@@ -922,7 +922,7 @@
 	broadcaster_tag = "Test Broadcaster 2"
 	},
 /obj/structure/table/wood,
-/turf/open/floor/rogue/tile/harem,
+/turf/open/floor/rogue/tile/dorpeltile,
 /area/rogue/indoors)
 "DO" = (
 /obj/structure/table/wood{
@@ -949,7 +949,7 @@
 /turf/open/floor/rogue/grass,
 /area/rogue/indoors)
 "Ey" = (
-/turf/open/floor/rogue/tile/harem,
+/turf/open/floor/rogue/tile/dorpeltile,
 /area/rogue/indoors)
 "EG" = (
 /obj/structure/table/wood{
@@ -1158,7 +1158,7 @@
 /area/rogue/indoors)
 "Nb" = (
 /obj/structure/roguemachine/scomm/l,
-/turf/open/floor/rogue/tile/harem,
+/turf/open/floor/rogue/tile/dorpeltile,
 /area/rogue/indoors)
 "Np" = (
 /obj/machinery/anvil,
@@ -1423,7 +1423,7 @@
 	},
 /obj/machinery/light/rogue/candle/l,
 /obj/structure/table/wood,
-/turf/open/floor/rogue/tile/harem,
+/turf/open/floor/rogue/tile/dorpeltile,
 /area/rogue/indoors)
 "Xs" = (
 /obj/structure/table/wood{

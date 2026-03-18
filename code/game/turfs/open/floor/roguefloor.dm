@@ -1362,17 +1362,17 @@
 /turf/open/floor/rogue/tile/brownbrick
 	icon_state = "brown"
 
-/turf/open/floor/rogue/tile/harem
+/turf/open/floor/rogue/tile/dorpeltile
 	icon = 'icons/turf/roguefloor.dmi'
-	icon_state = "harem"
+	icon_state = "dorpeltile"
 
-/turf/open/floor/rogue/tile/harem1
+/turf/open/floor/rogue/tile/dorpeltile2
 	icon = 'icons/turf/roguefloor.dmi'
-	icon_state = "harem1"
+	icon_state = "dorpeltile2"
 
-/turf/open/floor/rogue/tile/harem2
+/turf/open/floor/rogue/tile/dorpeltile3
 	icon = 'icons/turf/roguefloor.dmi'
-	icon_state = "harem2"
+	icon_state = "dorpeltile3"
 
 /turf/open/floor/rogue/concrete
 	icon_state = "concretefloor1"
