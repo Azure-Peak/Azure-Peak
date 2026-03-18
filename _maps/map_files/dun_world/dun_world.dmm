@@ -101539,7 +101539,7 @@
 /turf/open/floor/rogue/tile/bfloorz,
 /area/rogue/under/cave/orcdungeon)
 "vvV" = (
-/obj/item/clothing/cloak/cape/fur,
+/obj/item/clothing/cloak/raincloak/furcloak,
 /turf/open/floor/rogue/dirt/road,
 /area/rogue/under/cave/dukecourt)
 "vvW" = (
