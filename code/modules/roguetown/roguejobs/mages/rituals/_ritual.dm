@@ -160,7 +160,7 @@ GLOBAL_LIST_INIT(t4bindingrituallist, generate_t4binding_rituallist())
 
 /datum/runeritual/proc/generate_html(mob/user)
 	var/client/client = user
-	var/tool = tier >= 2 ? "Arcyne Silver Dagger" : "Arcyne Chalk"
+	var/tool = tier >= 4 ? "Arcyne Silver Dagger" : "Arcyne Chalk or Arcyne Silver Dagger"
 	if(!istype(client))
 		client = user.client
 	user << browse_rsc('html/book.png')
@@ -174,7 +174,7 @@ GLOBAL_LIST_INIT(t4bindingrituallist, generate_t4binding_rituallist())
 		  <div>
 		    <h1>[name]</h1>
 		    <div>
-			  [desc ? "<p><em>[desc]</em></p>" : ""]
+			  [desc ? "<div class='recipe-desc'>[desc]</div>" : ""]
 			  <h2>Complexity Tier: [tier] </h2>
 			  <br>
 			  <h2>Requirements</h2>

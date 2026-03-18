@@ -408,6 +408,9 @@
 				if(BCLASS_SMASH)
 					dullfactor = 1.5
 					cont = TRUE
+				if(BCLASS_DRILL)
+					dullfactor = 1.5
+					cont = TRUE
 				if(BCLASS_PICK)
 					dullfactor = 1.5
 					cont = TRUE
@@ -430,6 +433,15 @@
 					cont = TRUE
 				if(BCLASS_BLUNT)
 					cont = TRUE
+				if(BCLASS_DRILL)
+					var/mob/living/driller = user
+					var/mineskill = driller.get_skill_level(/datum/skill/labor/mining)
+					var/engineeringskill = driller.get_skill_level(/datum/skill/craft/engineering)
+					if (engineeringskill > mineskill)
+						dullfactor = 1.5 * (engineeringskill * 0.1)
+					else
+						dullfactor = 1.5 * (mineskill * 0.1)
+					cont = TRUE
 				if(BCLASS_PICK)
 					var/mob/living/miner = user
 					var/mineskill = miner.get_skill_level(/datum/skill/labor/mining)
@@ -441,7 +453,7 @@
 			if(!(user.mobility_flags & MOBILITY_STAND))
 				to_chat(user, span_warning("I need to stand up to get a proper swing."))
 				return 0
-			if(user.used_intent.blade_class != BCLASS_PICK)
+			if(user.used_intent.blade_class != BCLASS_PICK && user.used_intent.blade_class != BCLASS_DRILL)
 				return 0
 			var/mob/living/miner = user
 			var/mineskill = miner.get_skill_level(/datum/skill/labor/mining)

@@ -8,7 +8,7 @@
 	range = 5
 	action_icon = 'icons/mob/actions/spellblade.dmi'
 	overlay_state = "caedo" // Icon by Prominence
-	releasedrain = 25
+	releasedrain = SPELLCOST_SB_POKE
 	chargedrain = 1
 	chargetime = 1
 	recharge_time = 12 SECONDS

@@ -27,6 +27,8 @@
 						/obj/item/natural/hide = 4, /obj/item/natural/bundle/bone/full = 2)
 	head_butcher = /obj/item/natural/head/minotaur
 	faction = list("caves")
+	threat_point = THREAT_DANGEROUS
+	ambush_faction = "wildlife"
 
 	health = MINOTAUR_HEALTH
 	maxHealth = MINOTAUR_HEALTH

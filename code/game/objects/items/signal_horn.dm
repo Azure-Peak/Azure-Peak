@@ -13,7 +13,7 @@
 
 /obj/item/signal_horn/examine()
 	. = ..()
-	. += span_notice("Using the horn will make you stand still and induce several ambushes to happen at once, enabling you to clear out an area. It cannot be used in rapid succession.")
+	. += span_notice("Using the horn will make you stand still and draw out nearby creatures, enabling you to clear out an area. It cannot be used in rapid succession.")
 	. += span_notice("Using it will leave you exhausted for a moment. Bring friends!")
 	var/area/AR = get_area(src)
 	var/datum/threat_region/TR = SSregionthreat.get_region(AR.threat_region)
@@ -26,7 +26,7 @@
 	. = ..()
 	var/area/AR = get_area(user)
 	var/datum/threat_region/TR = SSregionthreat.get_region(AR.threat_region)
-	if(!TR || !TR.latent_ambush || TR.fixed_ambush)
+	if(!TR || TR.fixed_ambush)
 		to_chat(user, span_warning("There's no point in sounding the horn here."))
 		return
 	if(user.get_will_block_ambush())
@@ -35,14 +35,17 @@
 	if(!user.get_possible_ambush_spawn(min_dist = WARDEN_AMBUSH_MIN, max_dist = WARDEN_AMBUSH_MAX))
 		to_chat(user, span_warning("This place is too lightly vegetated for enemies to hide."))
 		return
-	if(TR && TR.last_induced_ambush_time && (world.time < TR.last_induced_ambush_time + 5 MINUTES))
+	if(TR && TR.last_induced_ambush_time && (world.time < TR.last_induced_ambush_time + 3 MINUTES))
 		to_chat(user, span_warning("Foes have been cleared out here recently, perhaps you should wait a moment before sounding the horn again."))
+		return
+	if(!TR.latent_ambush)
+		to_chat(user, span_notice("The sound of the horn fades into the distance. Nothing stirs. All is calm."))
 		return
 	user.visible_message(span_userdanger("[user] is about to sound [src]!"))
 	user.apply_status_effect(/datum/status_effect/debuff/clickcd, 5 SECONDS) // We don't want them to spam the message.
 	if(do_after(user, 30 SECONDS)) // Enough time for any antag to kick or interrupt third party, me think
-		user.Immobilize(30) // A very crude solution to kill any solo gamer
 		if(sound_horn(user))
+			user.Immobilize(30) // A very crude solution to kill any solo gamer
 			TR.last_induced_ambush_time = world.time
 
 /obj/item/signal_horn/proc/sound_horn(mob/living/user)
@@ -50,9 +53,9 @@
 	switch(user.job)
 		if("Warden")
 			playsound(src, 'sound/items/horn/bogguardhorn.ogg', 100, TRUE)
-		if("Town Sheriff", "Watchman", "Sergeant", "Man at Arms")
+		if("Watchman", "Sergeant", "Man at Arms")
 			playsound(src, 'sound/items/horn/wardenhorn.ogg', 100, TRUE)
-		if("Royal Guard")
+		if("Knight", "Marshal")
 			playsound(src, 'sound/items/horn/rghorn.ogg', 100, TRUE)
 		else
 			playsound(src, 'sound/items/horn/signalhorn.ogg', 100, TRUE)
@@ -93,22 +96,17 @@
 		switch(user.job)
 			if("Warden")
 				player.playsound_local(get_turf(player), 'sound/items/horn/bogguardhorn.ogg', 35, FALSE, pressure_affected = FALSE)
-			if("Marshall", "Watchman", "Sergeant", "Man at Arms")
+			if("Watchman", "Sergeant", "Man at Arms")
 				player.playsound_local(get_turf(player), 'sound/items/horn/wardenhorn.ogg', 35, FALSE, pressure_affected = FALSE)
-			if("Knight")
+			if("Knight", "Marshal")
 				player.playsound_local(get_turf(player), 'sound/items/horn/rghorn.ogg', 35, FALSE, pressure_affected = FALSE)
 			else
 				player.playsound_local(get_turf(player), 'sound/items/horn/signalhorn.ogg', 35, FALSE, pressure_affected = FALSE)
 		to_chat(player, span_warning("I hear the horn of the Wardens somewhere [dirtext]"))
 
-	var/random_ambushes = 4 + rand(0,2) // 4 - 6 ambushes
-	var/did_ambush = FALSE
-	for(var/i = 0, i < random_ambushes, i++)
-		var/silent = (i != 0)
-		var/success = user.consider_ambush(TRUE, TRUE, min_dist = WARDEN_AMBUSH_MIN, max_dist = WARDEN_AMBUSH_MAX, silent = silent)
-		if(success)
-			did_ambush = TRUE
-	return did_ambush
+	// Single budget call — the budget system already scales with player count and latent threat.
+	// budget_floor = 2 guarantees at least 20 TP budget, so solo wardens in tamed regions still get a fight.
+	return user.consider_ambush(always = TRUE, ignore_cooldown = TRUE, min_dist = WARDEN_AMBUSH_MIN, max_dist = WARDEN_AMBUSH_MAX, budget_floor = 2)
 
 #undef WARDEN_AMBUSH_MIN
 #undef WARDEN_AMBUSH_MAX

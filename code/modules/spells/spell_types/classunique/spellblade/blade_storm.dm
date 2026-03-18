@@ -19,7 +19,7 @@ If reflected into self - just inflict half the damage through armor.
 	range = 7
 	projectile_type = /obj/projectile/magic/blade_storm
 	sound = list('sound/magic/blink.ogg')
-	releasedrain = 50
+	releasedrain = SPELLCOST_SB_ULT
 	chargedrain = 1
 	chargetime = 20
 	recharge_time = 60 SECONDS

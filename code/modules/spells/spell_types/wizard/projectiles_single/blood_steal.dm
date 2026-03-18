@@ -7,7 +7,7 @@
 	sound = 'sound/magic/vlightning.ogg'
 	range = 8
 	projectile_type = /obj/projectile/magic/bloodsteal
-	releasedrain = 30
+	releasedrain = SPELLCOST_MAJOR_PROJECTILE
 	chargedrain = 1
 	chargetime = 25
 	recharge_time = 20 SECONDS

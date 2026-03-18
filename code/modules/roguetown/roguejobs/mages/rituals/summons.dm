@@ -131,9 +131,12 @@
 #define VOID_RES_7 "Devorate!"        // Devour — matches LAT_4 (void dragon rises)
 #define VOID_RES_8 "Expergisce!"     // Awaken — matches ENG_4 (the dragon wakes)
 
+/datum/runeritual/summoning
+	abstract_type = /datum/runeritual/summoning
+	category = "Summoning"
+
 /datum/runeritual/summoning/leyline_encounter
 	name = "leyline encounter parent"
-	category = "Summoning"
 	blacklisted = TRUE
 	required_atoms = list()
 	var/alignment = "neutral"
@@ -143,6 +146,7 @@
 	var/base_secondary_count = 0
 	var/list/gone_wrong_mobs = list()
 	var/gone_wrong_extra = 2
+	var/powerful_leyline_bonus = TRUE
 	var/list/chants = list("Evoca!")
 	var/list/secondary_chants = list() // T3+ — other invokers respond (call and response)
 
@@ -350,6 +354,7 @@
 	primary_mobs = list(/mob/living/simple_animal/hostile/retaliate/rogue/voiddragon)
 	base_primary_count = 1
 	gone_wrong_extra = 0
+	powerful_leyline_bonus = FALSE
 	chants = list(VOID_LAT_1, VOID_ENG_1_T5, VOID_LAT_2, VOID_ENG_2, VOID_LAT_3, VOID_ENG_3, VOID_LAT_4, VOID_ENG_4, VOID_CLIMAX, VOID_CTA_T5)
 	secondary_chants = list(VOID_RES_1, VOID_RES_2, VOID_RES_3, VOID_RES_4, VOID_RES_5, VOID_RES_6, VOID_RES_7, VOID_RES_8, VOID_CLIMAX, VOID_CTA_T5)
 
@@ -388,7 +393,7 @@
 	var/aligned = (leyline.alignment == alignment)
 
 	// Bog always gives +1 primary, independent of alignment penalty
-	if(leyline.leyline_type == "powerful")
+	if(leyline.leyline_type == "powerful" && powerful_leyline_bonus)
 		primary_count += 1
 
 	// Wrong alignment: -1 mob, reduce primary first then secondary

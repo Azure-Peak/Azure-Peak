@@ -2,7 +2,7 @@
 	name = "Leap"
 	desc = "You empower your target's legs to allow them to leap to great heights. This allows your target to jump up floor levels, however does not prevent the damage from falling down one."
 	cost = 2
-	releasedrain = 35
+	releasedrain = SPELLCOST_UTILITY_BUFF
 	chargedrain = 1
 	chargetime = 1 SECONDS
 	recharge_time = 2 MINUTES

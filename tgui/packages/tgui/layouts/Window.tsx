@@ -111,7 +111,7 @@ export const Window = (props: Props) => {
       ? config.status < UI_DISABLED
       : config.status < UI_INTERACTIVE);
   return suspended ? null : (
-    <Layout className="Window" theme={config.window?.theme || theme}>
+    <Layout className="Window" theme={theme || config.window?.theme}>
       <TitleBar
         title={title || decodeHtmlEntities(config.title)}
         status={config.status}

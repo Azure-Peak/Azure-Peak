@@ -13,10 +13,10 @@
 	projectile_type_arc = /obj/projectile/magic/aoe/fireball/rogue/artillery/arc
 	overlay_state = "fireball_artillery"
 	sound = list('sound/magic/fireball.ogg')
-	releasedrain = 30
+	releasedrain = SPELLCOST_MAJOR_PROJECTILE
 	chargedrain = 1
 	chargetime = 25
-	recharge_time = 22 SECONDS // 10% penalty but otherwise the same as fireball, to keep it from being strictly better in every way
+	recharge_time = 18 SECONDS // 10% penalty but otherwise the same as fireball, to keep it from being strictly better in every way
 	warnie = "spellwarning"
 	no_early_release = TRUE
 	movement_interrupt = FALSE

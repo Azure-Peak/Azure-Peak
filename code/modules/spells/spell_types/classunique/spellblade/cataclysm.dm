@@ -22,7 +22,7 @@ Defend blocks damage, no reflect penalty. Same Z-level only. */
 	range = 7
 	action_icon = 'icons/mob/actions/spellblade.dmi' // Icon by Prominence / Nobleed
 	overlay_state = "cataclysm"
-	releasedrain = 40
+	releasedrain = SPELLCOST_SB_ULT
 	chargedrain = 1
 	chargetime = 20
 	recharge_time = 60 SECONDS

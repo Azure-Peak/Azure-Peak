@@ -8,7 +8,7 @@
 	class_select_category = CLASS_CAT_KAZENGUN
 	category_tags = list(CTAG_MERCENARY)
 	traits_applied = list(TRAIT_BLOOD_RESISTANCE, TRAIT_NOPAINSTUN, TRAIT_HONORBOUND)
-	cmode_music = 'sound/music/combat_kazengite.ogg'
+	cmode_music = 'sound/music/combat_Kazengun_Overlord.ogg'
 	maximum_possible_slots = 1
 	subclass_stats = list(
 		STATKEY_CON = 3,

@@ -28,7 +28,7 @@ Chargetime reduced from 20 to 10 ticks (1 second) to feel less awkward.
 	projectile_type = /obj/projectile/energy/azurean_javelin
 	projectile_type_arc = /obj/projectile/energy/azurean_javelin/arc
 	sound = list('sound/combat/wooshes/bladed/wooshsmall (1).ogg')
-	releasedrain = 30
+	releasedrain = SPELLCOST_MINOR_PROJECTILE
 	chargedrain = 1
 	chargetime = 10
 	recharge_time = 10 SECONDS

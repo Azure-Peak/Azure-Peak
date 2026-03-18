@@ -13,7 +13,7 @@ Goes on cooldown (30s) when you recall OR the tether is destroyed/expires. */
 	clothes_req = FALSE
 	action_icon = 'icons/mob/actions/spellblade.dmi' 
 	overlay_state = "leyline_anchor" // Icon by Prominence/Nobleed
-	releasedrain = 10
+	releasedrain = SPELLCOST_SB_MOBILITY
 	chargedrain = 0
 	chargetime = 0
 	recharge_time = 30 SECONDS

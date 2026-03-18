@@ -1,7 +1,7 @@
 /* *
  * Deranged Knight
  * A miniboss for quest system, designed to be a high-level challenge for multiple players.
- * Uses fuckoff gear that should not be looted - hence snowflake dismemberment code.
+ * Gear uses /datum/component/item_on_drop/dust to crumble on removal, preventing looting.
  */
 
 GLOBAL_LIST_INIT(matthios_aggro, world.file2list("strings/rt/matthiosaggrolines.txt"))
@@ -25,7 +25,6 @@ GLOBAL_LIST_INIT(hedgeknight_aggro, world.file2list("strings/rt/hedgeknightaggro
 		/datum/rmb_intent/weak
 	)
 	npc_max_jump_stamina = 0
-	var/is_silent = FALSE /// Determines whether or not we will scream our funny lines at people.
 	var/preset = "matthios"
 	var/forced_preset = "" // If set, force a specific preset instead of randomizing.
 
@@ -35,16 +34,19 @@ GLOBAL_LIST_INIT(hedgeknight_aggro, world.file2list("strings/rt/hedgeknightaggro
 	if(target)
 		aggressive=1
 		wander = TRUE
-	if(!is_silent && target != newtarg)
-		if(preset == "matthios")
-			say(pick(GLOB.matthios_aggro), npc_speech = TRUE)
-		else if(preset == "zizo")
-			say(pick(GLOB.zizo_aggro), npc_speech = TRUE)
-		else if(preset == "graggar")
-			say(pick(GLOB.graggar_aggro), npc_speech = TRUE)
-		else if(preset == "hedgeknight")
-			say(pick(GLOB.hedgeknight_aggro), npc_speech = TRUE)
-		pointed(target)
+	if(target != newtarg)
+		var/list/saylines
+		switch(preset)
+			if("matthios")
+				saylines = GLOB.matthios_aggro
+			if("zizo")
+				saylines = GLOB.zizo_aggro
+			if("graggar")
+				saylines = GLOB.graggar_aggro
+			if("hedgeknight")
+				saylines = GLOB.hedgeknight_aggro
+		if(npc_combat_dialogue(saylines, prob_chance = 50, cooldown = 0))
+			pointed(target)
 
 /mob/living/carbon/human/species/human/northern/deranged_knight/should_target(mob/living/L)
 	if(L.stat != CONSCIOUS)
@@ -55,22 +57,17 @@ GLOBAL_LIST_INIT(hedgeknight_aggro, world.file2list("strings/rt/hedgeknightaggro
 	. = ..()
 	addtimer(CALLBACK(src, PROC_REF(after_creation)), 1 SECONDS)
 	is_silent = TRUE
-	var/head = get_bodypart(BODY_ZONE_HEAD)
-	RegisterSignal(head, COMSIG_MOB_DISMEMBER, PROC_REF(handle_drop_limb))
 
-/mob/living/carbon/human/species/human/northern/deranged_knight/Destroy()
-	var/head = get_bodypart(BODY_ZONE_HEAD)
-	if(head)
-		UnregisterSignal(head, COMSIG_MOB_DISMEMBER)
-	return ..()
-
-/// Snowflake DK behavior for decaps. Yes, they turn to dust prior to decaps.
-/mob/living/carbon/human/species/human/northern/deranged_knight/proc/handle_drop_limb(obj/item/bodypart/bodypart, special)
-	if(!istype(bodypart, /obj/item/bodypart/head))
+/mob/living/carbon/human/species/human/northern/deranged_knight/proc/outfit_dk(datum/outfit/outfit)
+	if(!outfit)
 		return
-
-	death(FALSE, TRUE) // No, you won't loot that tasty helmet.
-	return COMPONENT_CANCEL_DISMEMBER
+	equipOutfit(outfit)
+	// Apply dust-on-drop to all equipped gear so it can't be looted via dismemberment or stripping.
+	// TRAIT_NODROP on held items prevents grab disarming.
+	for(var/obj/item/equipped_item in get_equipped_items() + held_items)
+		equipped_item.AddComponent(/datum/component/item_on_drop/dust)
+	for(var/obj/item/held_item in held_items)
+		ADD_TRAIT(held_item, TRAIT_NODROP, TRAIT_GENERIC)
 
 /mob/living/carbon/human/species/human/northern/deranged_knight/after_creation()
 	..()
@@ -81,7 +78,6 @@ GLOBAL_LIST_INIT(hedgeknight_aggro, world.file2list("strings/rt/hedgeknightaggro
 	ADD_TRAIT(src, TRAIT_BREADY, TRAIT_GENERIC)
 	ADD_TRAIT(src, TRAIT_HEAVYARMOR, TRAIT_GENERIC)
 	ADD_TRAIT(src, TRAIT_CRIT_THRESHOLD, TRAIT_GENERIC)
-	ADD_TRAIT(src, TRAIT_STUCKITEMS, TRAIT_GENERIC)
 	if(forced_preset)
 		preset = forced_preset
 	else
@@ -97,18 +93,18 @@ GLOBAL_LIST_INIT(hedgeknight_aggro, world.file2list("strings/rt/hedgeknightaggro
 	switch(preset)
 		if("graggar")
 			ADD_TRAIT(src, TRAIT_HORDE, TRAIT_GENERIC)
-			equipOutfit(new /datum/outfit/job/roguetown/quest_miniboss/graggar)
+			outfit_dk(new /datum/outfit/job/roguetown/quest_miniboss/graggar)
 		if ("matthios")
 			ADD_TRAIT(src, TRAIT_FREEMAN, TRAIT_GENERIC)
-			equipOutfit(new /datum/outfit/job/roguetown/quest_miniboss/matthios)
+			outfit_dk(new /datum/outfit/job/roguetown/quest_miniboss/matthios)
 		if ("zizo")
 			ADD_TRAIT(src, TRAIT_CABAL, TRAIT_GENERIC)
-			equipOutfit(new /datum/outfit/job/roguetown/quest_miniboss/zizo)
+			outfit_dk(new /datum/outfit/job/roguetown/quest_miniboss/zizo)
 		if ("hedgeknight")
 			if(prob(50))
-				equipOutfit(new /datum/outfit/job/roguetown/quest_miniboss/hedge_knight)
+				outfit_dk(new /datum/outfit/job/roguetown/quest_miniboss/hedge_knight)
 			else
-				equipOutfit(new /datum/outfit/job/roguetown/quest_miniboss/blacksteel)
+				outfit_dk(new /datum/outfit/job/roguetown/quest_miniboss/blacksteel)
 			// No special trait for hedgeknight, he's just a generic tough guy.
 
 	gender = pick(MALE,FEMALE)
@@ -176,20 +172,18 @@ GLOBAL_LIST_INIT(hedgeknight_aggro, world.file2list("strings/rt/hedgeknightaggro
 		face_atom(get_step(src,pick(GLOB.cardinals)))
 
 /mob/living/carbon/human/species/human/northern/deranged_knight/handle_combat()
-	if(prob(3))
-		if(preset == "matthios")
-			say(pick(GLOB.matthios_aggro), npc_speech = TRUE)
-		else if(preset == "zizo")
-			say(pick(GLOB.zizo_aggro), npc_speech = TRUE)
-		else if(preset == "graggar")
-			say(pick(GLOB.graggar_aggro), npc_speech = TRUE)
-		else if(preset == "hedgeknight")
-			say(pick(GLOB.hedgeknight_aggro), npc_speech = TRUE)
 	if(mode == NPC_AI_HUNT)
-		if(prob(5))
-			emote("laugh")
-		else if(prob(5))
-			emote("warcry")
+		var/list/saylines
+		switch(preset)
+			if("matthios")
+				saylines = GLOB.matthios_aggro
+			if("zizo")
+				saylines = GLOB.zizo_aggro
+			if("graggar")
+				saylines = GLOB.graggar_aggro
+			if("hedgeknight")
+				saylines = GLOB.hedgeknight_aggro
+		npc_combat_dialogue(saylines, list("laugh", "warcry"), prob_chance = 5, say_chance = 50)
 	. = ..()
 
 /mob/living/carbon/human/species/human/northern/deranged_knight/death(gibbed, nocutscene)

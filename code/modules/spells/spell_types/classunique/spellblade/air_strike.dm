@@ -21,7 +21,7 @@ hand and I intend for Spellblade, feeling wise.
 	range = 4
 	action_icon = 'icons/mob/actions/spellblade.dmi'
 	overlay_state = "air_strike" // Icon by Prominence.
-	releasedrain = 20
+	releasedrain = SPELLCOST_SB_POKE
 	chargedrain = 0
 	chargetime = 3
 	recharge_time = 12 SECONDS

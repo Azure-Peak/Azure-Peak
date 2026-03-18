@@ -269,6 +269,7 @@
 	desc = "Holy robes, intended for use by followers of Eora"
 	body_parts_covered = CHEST|GROIN|ARMS|LEGS|VITALS
 	icon_state = "eorarobes"
+	item_state = "eorarobes"
 	icon = 'icons/roguetown/clothing/armor.dmi'
 	mob_overlay_icon = 'icons/roguetown/clothing/onmob/armor.dmi'
 	sleeved = 'icons/roguetown/clothing/onmob/helpers/sleeves_armor.dmi'
@@ -282,8 +283,10 @@
 /obj/item/clothing/suit/roguetown/shirt/robe/eora/alt
 	name = "open eoran robe"
 	desc = "Used by more radical followers of the Eoran Church"
+	mob_overlay_icon = 'icons/roguetown/clothing/onmob/armor.dmi'
 	body_parts_covered = null
 	icon_state = "eorastraps"
+	item_state = "eorastraps"
 	flags_inv = HIDEBOOB
 	fanatic_wear = TRUE
 
@@ -294,21 +297,25 @@
 			desc = "Used by more radical followers of the Eoran Church"
 			body_parts_covered = null
 			icon_state = "eorastraps"
+			item_state = "eorastraps"
 			fanatic_wear = TRUE
-			flags_inv = HIDEBOOB
+			flags_inv = HIDECROTCH
 			to_chat(usr, span_warning("Now wearing radically!"))
 		if(TRUE)
 			name = "eoran robe"
 			desc = "Holy robes, intended for use by followers of Eora"
 			body_parts_covered = CHEST|GROIN|ARMS|LEGS|VITALS
 			icon_state = "eorarobes"
+			item_state = "eorarobes"
 			fanatic_wear = FALSE
 			flags_inv = HIDEBOOB|HIDECROTCH
 			to_chat(usr, span_warning("Now wearing normally!"))
 	update_icon()
-	if(ismob(loc))
-		var/mob/L = loc
-		L.update_inv_armor()
+	if(user)
+		if(ishuman(user))
+			var/mob/living/carbon/H = user
+			H.update_inv_cloak()
+			H.update_inv_armor()
 
 /obj/item/clothing/suit/roguetown/shirt/robe/hierophant
 	name = "hierophant's kandys"

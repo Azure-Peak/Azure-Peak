@@ -8,7 +8,7 @@
 	clothes_req = FALSE
 	action_icon = 'icons/mob/actions/spellblade.dmi'
 	overlay_state = "bind_weapon" // Icon by Prominence.
-	releasedrain = 20
+	releasedrain = SPELLCOST_SB_POKE
 	chargedrain = 0
 	chargetime = 0
 	recharge_time = 5 SECONDS

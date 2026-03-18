@@ -10,7 +10,7 @@
 	overlay_state = "stygian"
 	sound = list('sound/magic/scrapeblade.ogg') //todo: this is Bad
 	active = FALSE
-	releasedrain = 20
+	releasedrain = SPELLCOST_MAJOR_PROJECTILE // It's a shotgun sire
 	chargedrain = 1
 	chargetime = 0
 	recharge_time = 20 SECONDS //probably fine.

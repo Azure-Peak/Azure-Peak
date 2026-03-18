@@ -8,6 +8,8 @@
 	pixel_x = -16
 
 	faction = list("trolls")
+	threat_point = THREAT_DANGEROUS
+	ambush_faction = "trolls"
 	footstep_type = FOOTSTEP_MOB_HEAVY
 	emote_hear = null
 	emote_see = null

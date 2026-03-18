@@ -69,6 +69,16 @@
 	cost = 150
 	contains = list(/obj/item/rogueweapon/sword/sabre/hook)
 
+/datum/supply_pack/rogue/merc_weapons/kazengunkodachi
+	name = "Kazengun Kodachi"
+	cost = 120
+	contains = list(/obj/item/rogueweapon/sword/short/kazengun)
+
+/datum/supply_pack/rogue/merc_weapons/kazenguntanto
+	name = "Kazengun Tanto"
+	cost = 80
+	contains = list(/obj/item/rogueweapon/huntingknife/idagger/steel/kazengun)
+
 /datum/supply_pack/rogue/merc_weapons/kazengunscabbard
 	name = "Kazengun Scabbard"
 	cost = 250

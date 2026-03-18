@@ -3,7 +3,7 @@
 	desc = "Freeze the air in a small area in an instant, slowing and mildly damaging those affected."
 	cost = 6
 	xp_gain = TRUE
-	releasedrain = 30
+	releasedrain = SPELLCOST_MAJOR_AOE
 	overlay_state = "snap_freeze"
 	chargedrain = 1
 	chargetime = 20

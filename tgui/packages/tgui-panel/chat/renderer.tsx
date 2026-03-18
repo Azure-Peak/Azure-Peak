@@ -32,7 +32,16 @@ const logger = createLogger('chatRenderer');
 
 // We consider this as the smallest possible scroll offset
 // that is still trackable.
-const SCROLL_TRACKING_TOLERANCE = 24;
+const SCROLL_TRACKING_TOLERANCE_BASE = 24;
+
+const get_scroll_tracking_tolerance = () => {
+  return SCROLL_TRACKING_TOLERANCE_BASE + getRootFontSize();
+};
+
+const getRootFontSize = () => {
+  const fontSize = getComputedStyle(document.documentElement).fontSize;
+  return parseFloat(fontSize);
+};
 
 // List of injectable component names to the actual type
 export const TGUI_CHAT_COMPONENTS: any = {
@@ -156,7 +165,7 @@ class ChatRenderer {
       const height = node.scrollHeight;
       const bottom = node.scrollTop + node.offsetHeight;
       const scrollTracking =
-        Math.abs(height - bottom) < SCROLL_TRACKING_TOLERANCE ||
+        Math.abs(height - bottom) < get_scroll_tracking_tolerance() ||
         this.lastScrollHeight === 0;
       if (scrollTracking !== this.scrollTracking) {
         this.scrollTracking = scrollTracking;

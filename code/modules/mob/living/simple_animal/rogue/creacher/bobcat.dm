@@ -7,6 +7,7 @@
 	icon_living = "bobcat"
 	icon_dead = "bobcat_dead"
 	aggressive = 1
+	threat_point = THREAT_LOW
 	botched_butcher_results = list(/obj/item/reagent_containers/food/snacks/rogue/meat/steak = 1, /obj/item/natural/bone = 2, /obj/item/alch/viscera = 1)
 	butcher_results = list(/obj/item/reagent_containers/food/snacks/rogue/meat/steak = 2,
 						/obj/item/natural/hide = 1,

@@ -174,6 +174,8 @@
 		M.adjustFireLoss(-2, 0)
 		M.adjustOxyLoss(-1, 0)
 		M.adjustToxLoss(-1, 0)
+		for(var/datum/wound/wound as anything in M.get_wounds())
+			wound.remove_from_bodypart() //closing up all wounds
 		M.emote("cough")
 		return TRUE
 
@@ -191,7 +193,7 @@
 
 /obj/effect/particle_effect/smoke/fire_gas/smoke_mob(mob/living/carbon/M)
 	if(..())
-		M.adjustFireLoss(-3, 0)
+		M.adjustFireLoss(3, 0)
 		M.adjust_fire_stacks(3)
 		M.ignite_mob()
 		M.emote("scream")

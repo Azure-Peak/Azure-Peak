@@ -1,6 +1,7 @@
 /datum/magic_item/mundane/silver
 	name = "Silver"
 	description = "It is made of silver, shiny and pure."
+	glow_color = "#C0C0C0"
 	var/last_used
 
 /datum/magic_item/mundane/silver/on_hit(obj/item/source, atom/target, mob/user, proximity_flag, click_parameters)

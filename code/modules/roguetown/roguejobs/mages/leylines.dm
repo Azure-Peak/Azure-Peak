@@ -70,7 +70,7 @@ GLOBAL_LIST_EMPTY(leyline_activations)
 	. = ..()
 	last_process = world.time
 	GLOB.leyline_sites += src
-	set_light(l_outer_range = 5, l_power = 2, l_color = color, l_on = TRUE)
+	set_light(l_outer_range = 3, l_power = 1, l_color = color, l_on = TRUE)
 
 /obj/structure/leyline/Destroy()
 	GLOB.leyline_sites -= src

@@ -1,0 +1,11 @@
+author: "WeNeedMorePhoron"
+delete-after: True
+changes:
+  - rscadd: "Ambushes now scale to party size - up to 5 players are factored into encounter difficulty. Noncombatant counts for half."
+  - rscadd: "Every ambush mob and encounter pack now has a defined threat point cost for fairer and more challenging combat."
+  - rscadd: "33% chance for a \"wrong faction\" pick during ambushes."
+  - rscadd: "Ambush mobs now target random players in the area instead of only the triggering player."
+  - balance: "Solo ambush budget set to 3% of regional threat pool. Large parties face diminishing drain efficiency (each extra player drains at 50% of the previous)."
+  - balance: "Regional threat replenishes at 20% per tick (highpop) or 10% per tick (lowpop), every 30 minutes."
+  - balance: "Warden signal horn now forces an ambush with a 2-player minimum budget floor. Cooldown reduced from 5 to 3 minutes."
+  - balance: "Maximum rate of ambush per region is increased to every 5 minutes."

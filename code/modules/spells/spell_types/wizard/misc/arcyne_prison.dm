@@ -3,7 +3,7 @@
 	name = "Arcyne Prison"
 	desc = "Conjure a wall of weak arcane force around a 5x5 area after a short delay, trapping anyone within. You can pass through it."
 	school = "transmutation"
-	releasedrain = 50
+	releasedrain = SPELLCOST_MAJOR_AOE
 	spell_tier = 4 // Trolling spell, CM only.
 	invocations = list("Mysticus Carcer!") // Magical Prison of Mysterious Magic.
 	invocation_type = "shout"

@@ -6,7 +6,7 @@
 	mob_traits = list(TRAIT_FORGEBLESSED, TRAIT_BETTER_SLEEP)
 	miracles = list(/obj/effect/proc_holder/spell/targeted/touch/orison			= CLERIC_ORI,
 					/obj/effect/proc_holder/spell/invoked/restoration           = CLERIC_T0,
-					/obj/effect/proc_holder/spell/invoked/rework                = CLERIC_T1,
+					///obj/effect/proc_holder/spell/invoked/rework                = CLERIC_T1,
 					/obj/effect/proc_holder/spell/invoked/lesser_heal 			= CLERIC_T1,
 					/obj/effect/proc_holder/spell/invoked/blood_heal			= CLERIC_T1,
 					/obj/effect/proc_holder/spell/invoked/conjure_tool			= CLERIC_T1,

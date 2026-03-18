@@ -6,9 +6,9 @@
 	projectile_type = /obj/projectile/magic/fetch
 	sound = list('sound/magic/magnet.ogg')
 	active = FALSE
-	releasedrain = 15
+	releasedrain = SPELLCOST_MINOR_PROJECTILE
 	chargedrain = 0
-	chargetime = 0
+	chargetime = 0.5 SECONDS // Some telegraph for one of the most powerful ability
 	recharge_time = 8 SECONDS
 	warnie = "spellwarning"
 	overlay_state = "fetch"
