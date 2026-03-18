@@ -500,13 +500,3 @@
 	timer = 10 MINUTES // this will :) you for a while
 	stressadd = -2
 	desc = span_boldred("Long ago, XYLIX put up an extra star in the sky to anger NOC... seeing it is a FANTASTIC sign!")
-
-/datum/stressevent/presson
-	timer = 5 MINUTES 
-	stressadd = -4
-	desc = span_boldgreen("I am filled with Eoran joy! I must press on to the bitter end!")
-
-/datum/stressevent/gallowshumor
-	timer = 10 MINUTES 
-	stressadd = 8
-	desc = span_boldred("By everything that was horrible!")

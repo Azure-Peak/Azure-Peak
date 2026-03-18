@@ -11,12 +11,13 @@
 /obj/effect/proc_holder/spell/self/twinned_gaze
 	name = "Twinned Gaze"
 	desc = "Removes the limit on your vision, letting you see behind you for a time, as well night vision if skilled enough. Duration scales off holy skill and time of dae."
+	action_icon = 'icons/mob/actions/undividedmiracles.dmi'
+	overlay_icon = 'icons/mob/actions/undividedmiracles.dmi'
 	overlay_state = "twinned_gaze"
-	base_icon_state = "regalyscroll"
 	releasedrain = 10
 	chargedrain = 0
 	chargedloop = /datum/looping_sound/invokeholy
-	sound = 'sound/magic/astrata_choir.ogg'
+	sound = 'sound/magic/bless.ogg'
 	associated_skill = /datum/skill/magic/holy
 	antimagic_allowed = FALSE
 	invocations = "Guide my path hallowed ones."
@@ -94,9 +95,9 @@
 /obj/effect/proc_holder/spell/invoked/calmingrespite
 	name = "Calming Respite"
 	desc = "Restores the targets Energy and provides healing buff. Twice as effective on someone else."
-	action_icon = 'icons/mob/actions/malummiracles.dmi'
-	overlay_icon = 'icons/mob/actions/malummiracles.dmi'
-	overlay_state = "vigorousexchange"
+	action_icon = 'icons/mob/actions/undividedmiracles.dmi'
+	overlay_icon = 'icons/mob/actions/undividedmiracles.dmi'
+	overlay_state = "calming_respite"
 	releasedrain = 0
 	chargedrain = 0
 	chargetime = 0
@@ -115,23 +116,23 @@
 	charging_slowdown = 3
 	chargedloop = /datum/looping_sound/invokegen
 	devotion_cost = 30
+	var/respite_healing = 3
 
-/obj/effect/proc_holder/spell/invoked/calmingrespite/cast(list/targets, mob/living/carbon/user = usr)
+/obj/effect/proc_holder/spell/invoked/calmingrespite/cast(list/targets, mob/living/user)
 	. = ..()
 	var/const/starminatoregen = 250 // How much stamina should the spell give back to the caster.
-	var/mob/target = targets[1]
+	var/mob/living/carbon/target = targets[1]
 	if (!iscarbon(target)) 
 		return
 	if (target == user)
 		target.energy_add(starminatoregen)
-		//apply_status_effect(/datum/status_effect/buff/healing)//Should probably be less
+		target.apply_status_effect(/datum/status_effect/buff/healing, respite_healing)
 		show_visible_message(usr, "As [user] intones the incantation, vibrant flames swirl around them.", "As you intone the incantation, vibrant flames swirl around you. You feel refreshed.")
 	else if (user.energy > (starminatoregen * 2))
 		user.energy_add(-(starminatoregen * 2))
 		target.energy_add(starminatoregen * 2)
-		//apply_status_effect(/datum/status_effect/buff/healing)//Should probably be less
+		target.apply_status_effect(/datum/status_effect/buff/healing, respite_healing*2)
 		show_visible_message(target, "As [user] intones the incantation, vibrant flames swirl around them, a dance of energy flowing towards [target].", "As [user] intones the incantation, vibrant flames swirl around them, a dance of energy flowing towards you. You feel refreshed.")
-
 
 ////////////////////////////////////////////////////////////
 // T2 - Perseverance- Seal wounds and calm down a person. //
@@ -141,10 +142,10 @@
 /obj/effect/proc_holder/spell/invoked/perseverance
 	name = "Perseverance"
 	desc = "Seals wounds of living beings and calms them down."
-	action_icon = 'icons/mob/actions/ravoxmiracles.dmi'
-	overlay_icon = 'icons/mob/actions/ravoxmiracles.dmi'
-	overlay_state = "persistence"
-	releasedrain = 30
+	action_icon = 'icons/mob/actions/undividedmiracles.dmi'
+	overlay_icon = 'icons/mob/actions/undividedmiracles.dmi'
+	overlay_state = "perseverance"
+	releasedrain = 50
 	chargedrain = 0
 	chargetime = 2 SECONDS
 	chargedloop = /datum/looping_sound/invokegen
@@ -156,7 +157,7 @@
 	invocation_type = "shout"
 	associated_skill = /datum/skill/magic/holy
 	antimagic_allowed = TRUE
-	recharge_time = 20 SECONDS
+	recharge_time = 30 SECONDS
 	miracle = TRUE
 	devotion_cost = 50
 
@@ -169,7 +170,7 @@
 			var/mob/living/carbon/C = target
 			var/obj/item/bodypart/affecting = C.get_bodypart(check_zone(user.zone_selected))
 			if(target.mind)
-				target.add_stress(/datum/stressevent/presson)
+				target.add_stress(/datum/stressevent/perseverance)
 			if(affecting)
 				for(var/datum/wound/bleeder in affecting.wounds)
 					bleeder.woundpain = max(bleeder.sewn_woundpain, bleeder.woundpain * 0.25)
@@ -184,13 +185,18 @@
 					bleeder.set_bleed_rate(max(bleeder.clotting_threshold, bleeder.bleed_rate - difference))
 		return TRUE
 	return FALSE
-
+/* Probably not needed at all considering it lost it's offensive aspect
 /obj/effect/proc_holder/spell/invoked/perseverance/proc/restore_modifiers(datum/physiology/physiology)
 	if(!physiology)
 		return
 
 	physiology.bleed_mod /= 1.5
 	physiology.pain_mod /= 1.5
+*/
+/datum/stressevent/perseverance
+	timer = 2 MINUTES 
+	stressadd = -4 //Should be enough to offset the bleed
+	desc = span_boldgreen("I am soothed and sedated from ravages of war.")
 
 //////////////////////////////////////////////////////////////////////////////////////
 // T3 - Gallows Humor - Moodnuke a target with slight slap on the wrist to FORTUNE. //
@@ -200,9 +206,9 @@
 /obj/effect/proc_holder/spell/invoked/gallowshumor
 	name = "Gallows Humor"
 	desc = "Shake a target to their core."
-	overlay_icon = 'icons/mob/actions/xylixmiracles.dmi'
-	action_icon = 'icons/mob/actions/xylixmiracles.dmi'
-	overlay_state = "mockery"
+	action_icon = 'icons/mob/actions/undividedmiracles.dmi'
+	overlay_icon = 'icons/mob/actions/undividedmiracles.dmi'
+	overlay_state = "gallows"
 	releasedrain = 50
 	associated_skill = /datum/skill/misc/music
 	recharge_time = 2 MINUTES
@@ -246,6 +252,11 @@
 	desc = "<span class='warning'>THAT CHILLED ME TO MY CORE!</span>\n"
 	icon_state = "mockery"
 
+/datum/stressevent/gallowshumor
+	timer = 10 MINUTES 
+	stressadd = 8
+	desc = span_boldred("By everything that was horrible!")
+
 ////////////////////////////////////////////////////////////
 // T3 - Divine Inspiration - Select your pack of miracles.//
 ////////////////////////////////////////////////////////////
@@ -253,7 +264,9 @@
 /obj/effect/proc_holder/spell/self/undivided_miracle_bundle
 	name = "Divine Inspiration"
 	desc = "Allows you to learn a set of empowering or utility miracles."
-	base_icon_state = "wisescroll"
+	action_icon = 'icons/mob/actions/undividedmiracles.dmi'
+	overlay_icon = 'icons/mob/actions/undividedmiracles.dmi'
+	overlay_state = "inspiration"
 	miracle = TRUE
 	devotion_cost = 200
 	recharge_time = 25 MINUTES
@@ -320,6 +333,9 @@
 
 /obj/effect/proc_holder/spell/invoked/heal/undivided
 	name = "Bolster"
+	action_icon = 'icons/mob/actions/undividedmiracles.dmi'
+	overlay_icon = 'icons/mob/actions/undividedmiracles.dmi'
+	overlay_state = "bolster"
 	releasedrain = 40
 	recharge_time = 30 SECONDS
 	chargedloop = /datum/looping_sound/invokeholy
@@ -332,8 +348,10 @@
 /obj/effect/proc_holder/spell/self/ten_united
 	name = "Ten United"
 	desc = "Rally the faithful by your side by your side."
-	base_icon_state = "wisescroll"
-	recharge_time = 5 MINUTES
+	action_icon = 'icons/mob/actions/undividedmiracles.dmi'
+	overlay_icon = 'icons/mob/actions/undividedmiracles.dmi'
+	overlay_state = "united"
+	recharge_time = 6 MINUTES
 	invocations = list("WE STAND TOGETHER!", "UNITED WE WILL PREVAIL!", "DRIVE THE FIENDS BACK!!")
 	invocation_type = "shout"
 	sound = 'sound/magic/timestop.ogg'
@@ -341,8 +359,8 @@
 	miracle = TRUE
 	devotion_cost = 40
 	range = 5
-	chargedloop = /datum/looping_sound/invokeholy
-	chargetime = 4 SECONDS
+	//chargedloop = /datum/looping_sound/invokeholy
+	//chargetime = 4 SECONDS
 	req_items = list(/obj/item/clothing/neck/roguetown/psicross)
 	associated_skill = /datum/skill/magic/holy
 
@@ -364,8 +382,8 @@
 /datum/status_effect/buff/ten_united
 	id = "ten_united"
 	alert_type = /atom/movable/screen/alert/status_effect/buff/ten_united
-	duration = 5 MINUTES// T4 and carries no debuff with it
-	effectedstats = list(STATKEY_CON = 2, STATKEY_WIL = 2, STATKEY_FOR = 5)
+	duration = 3 MINUTES// T4 and carries no debuff with it
+	effectedstats = list(STATKEY_CON = 2, STATKEY_WIL = 2, STATKEY_LCK = 5)
 
 /atom/movable/screen/alert/status_effect/buff/ten_united
 	name = "Undivided Camaraderie"

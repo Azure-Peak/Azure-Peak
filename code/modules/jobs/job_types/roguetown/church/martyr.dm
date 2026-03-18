@@ -1245,3 +1245,99 @@
 #undef STATE_SAFE
 #undef STATE_MARTYR
 #undef STATE_MARTYRULT
+
+
+///////////////////////////////////
+// Versions for UNDIVIDED ritual //
+///////////////////////////////////
+
+////////////
+// HELMET //
+////////////
+
+/obj/item/clothing/head/roguetown/helmet/heavy/holysee/ritual
+	sellprice = 150
+
+/obj/item/clothing/head/roguetown/helmet/heavy/holysee/ritual/mob_can_equip(mob/living/M, mob/living/equipper, slot, disable_warning = FALSE, bypass_equip_delay_self = FALSE)
+	return TRUE
+
+/obj/item/clothing/head/roguetown/helmet/heavy/holysee/ritual/Initialize()
+	. = ..()
+	AddComponent(/datum/component/cursed_item, TRAIT_UNDIVIDED, "HELMET")
+
+///////////
+// PLATE //
+///////////
+
+/obj/item/clothing/suit/roguetown/armor/plate/full/holysee/ritual
+
+/obj/item/clothing/suit/roguetown/armor/plate/full/holysee/ritual/mob_can_equip(mob/living/M, mob/living/equipper, slot, disable_warning = FALSE, bypass_equip_delay_self = FALSE)
+	return TRUE
+
+/obj/item/clothing/suit/roguetown/armor/plate/full/holysee/ritual/Initialize()
+	. = ..()
+	ADD_TRAIT(src, TRAIT_NODROP, CURSED_ITEM_TRAIT)
+
+/obj/item/clothing/suit/roguetown/armor/plate/full/holysee/ritual/dropped(mob/living/carbon/human/user)
+	. = ..()
+	if(QDELETED(src))
+		return
+	qdel(src)
+
+////////////
+// GLOVES //
+////////////
+
+/obj/item/clothing/gloves/roguetown/plate/holysee/ritual
+
+/obj/item/clothing/gloves/roguetown/plate/holysee/ritual/mob_can_equip(mob/living/M, mob/living/equipper, slot, disable_warning = FALSE, bypass_equip_delay_self = FALSE)
+	return TRUE
+
+/obj/item/clothing/gloves/roguetown/plate/holysee/ritual/Initialize()
+	. = ..()
+	ADD_TRAIT(src, TRAIT_NODROP, CURSED_ITEM_TRAIT)
+
+/obj/item/clothing/gloves/roguetown/plate/holysee/ritual/dropped(mob/living/carbon/human/user)
+	. = ..()
+	if(QDELETED(src))
+		return
+	qdel(src)
+
+///////////
+// PANTS //
+///////////
+
+/obj/item/clothing/under/roguetown/platelegs/holysee/ritual
+
+/obj/item/clothing/under/roguetown/platelegs/holysee/ritual/mob_can_equip(mob/living/M, mob/living/equipper, slot, disable_warning = FALSE, bypass_equip_delay_self = FALSE)
+	return TRUE
+
+/obj/item/clothing/under/roguetown/platelegs/holysee/ritual/Initialize()
+	. = ..()
+	ADD_TRAIT(src, TRAIT_NODROP, CURSED_ITEM_TRAIT)
+
+/obj/item/clothing/under/roguetown/platelegs/holysee/ritual/dropped(mob/living/carbon/human/user)
+	. = ..()
+	if(QDELETED(src))
+		return
+	qdel(src)
+
+///////////
+// BOOTS //
+///////////
+
+/obj/item/clothing/shoes/roguetown/boots/armor/holysee/ritual
+
+/obj/item/clothing/shoes/roguetown/boots/armor/holysee/ritual/mob_can_equip(mob/living/M, mob/living/equipper, slot, disable_warning = FALSE, bypass_equip_delay_self = FALSE)
+	return TRUE
+
+/obj/item/clothing/shoes/roguetown/boots/armor/holysee/ritual/Initialize()
+	. = ..()
+	ADD_TRAIT(src, TRAIT_NODROP, CURSED_ITEM_TRAIT)
+
+/obj/item/clothing/shoes/roguetown/boots/armor/holysee/ritual/dropped(mob/living/carbon/human/user)
+	. = ..()
+	if(QDELETED(src))
+		return
+	qdel(src)
+

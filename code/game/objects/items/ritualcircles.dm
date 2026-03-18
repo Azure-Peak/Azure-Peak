@@ -1226,7 +1226,7 @@
 /obj/structure/ritualcircle/undivided
 	name = "Rune of Deca Divinity"
 	desc = "A Holy Rune of The Undivided Pantheon"
-	//icon_state = "undivided_chalky"
+	icon_state = "undivided_chalky"
 	var/decarites = list("Crusader Vow")
 
 
@@ -1265,27 +1265,28 @@
 			user.say("To arms with my brethren, we shall vanquish evils of Psydonia!!")
 			if(!do_after(user, 5 SECONDS))
 				return
-			icon_state = "matthios_active"
+			icon_state = "undivided_active"
 			user.apply_status_effect(/datum/status_effect/debuff/ritesexpended)
 			undividedarmaments(target)
 			spawn(120)
-				icon_state = "matthios_chalky"
+				icon_state = "undivided_chalky"
 
 /obj/structure/ritualcircle/undivided/proc/undividedarmaments(mob/living/carbon/human/target)
 	if(!HAS_TRAIT(target, TRAIT_UNDIVIDED))
-		loc.visible_message(span_cult("THE RITE REJECTS ONE WITHOUT GREED IN THEIR HEART!!"))
+		loc.visible_message(span_cult("THE RITE REJECTS ONE WITHOUT PURE HEART!!"))
 		return
-	target.Stun(60)
-	target.Knockdown(60)
+	target.Stun(120)
 	to_chat(target, span_userdanger("UNIMAGINABLE PAIN!"))
 	target.emote("Agony")
 	playsound(loc, 'sound/misc/smelter_fin.ogg', 50)
-	loc.visible_message(span_cult("[target]'s lux pours from their nose, into the rune, gleaming golds sizzles. Molten gold and metals swirl into armor, seered to their skin."))
+	loc.visible_message(span_good("[target]'s form becomes entombed in Malum's finest craftsmanship."))
 	spawn(20)
 		playsound(loc, 'sound/combat/hits/onmetal/grille (2).ogg', 50)
 		target.equipOutfit(/datum/outfit/job/roguetown/decarite)
+		to_chat(target, span_boldred("This is my only chance at LYFE."))
+		ADD_TRAIT(target, TRAIT_DNR, TRAIT_MIRACLE)
 		spawn(40)
-			to_chat(target, span_cult("More to the maw, this shall help feed our greed."))
+			to_chat(target, span_good("More to the flock."))
 
 /datum/outfit/job/roguetown/decarite/pre_equip(mob/living/carbon/human/H)
 	..()
@@ -1294,15 +1295,13 @@
 	for(var/I in items)
 		H.dropItemToGround(I, TRUE)
 	H.drop_all_held_items()
-	head = /obj/item/clothing/head/roguetown/helmet/heavy/holysee
-	neck = /obj/item/clothing/neck/roguetown/gorget/steel
+	head = /obj/item/clothing/head/roguetown/helmet/heavy/holysee/ritual
 	cloak = /obj/item/clothing/cloak/holysee
-	armor = /obj/item/clothing/suit/roguetown/armor/plate/full/holysee
-	shirt = /obj/item/clothing/suit/roguetown/armor/chainmail
-	wrists = /obj/item/clothing/wrists/roguetown/bracers
-	gloves = /obj/item/clothing/gloves/roguetown/plate
-	pants = /obj/item/clothing/under/roguetown/platelegs/holysee
-	shoes = /obj/item/clothing/shoes/roguetown/boots/armor/holysee
+	armor = /obj/item/clothing/suit/roguetown/armor/plate/full/holysee/ritual
+	gloves = /obj/item/clothing/gloves/roguetown/plate/holysee/ritual
+	pants = /obj/item/clothing/under/roguetown/platelegs/holysee/ritual
+	shoes = /obj/item/clothing/shoes/roguetown/boots/armor/holysee/ritual
+	backl = /obj/item/rogueweapon/sword/long/undivided
 	backr = /obj/item/rogueweapon/shield/tower/holysee
 
 	H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/mending/lesser)
