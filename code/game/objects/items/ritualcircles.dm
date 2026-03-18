@@ -1300,7 +1300,7 @@
 	armor = /obj/item/clothing/suit/roguetown/armor/plate/full/holysee
 	shirt = /obj/item/clothing/suit/roguetown/armor/chainmail
 	wrists = /obj/item/clothing/wrists/roguetown/bracers
-	gloves = /obj/item/clothing/gloves/roguetown/plate/matthios
+	gloves = /obj/item/clothing/gloves/roguetown/plate
 	pants = /obj/item/clothing/under/roguetown/platelegs/holysee
 	shoes = /obj/item/clothing/shoes/roguetown/boots/armor/holysee
 	backr = /obj/item/rogueweapon/shield/tower/holysee

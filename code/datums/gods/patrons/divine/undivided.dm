@@ -11,11 +11,10 @@
 					/obj/effect/proc_holder/spell/invoked/lesser_heal 					= CLERIC_T1,
 					/obj/effect/proc_holder/spell/invoked/blood_heal					= CLERIC_T1,
 					/obj/effect/proc_holder/spell/invoked/perseverance					= CLERIC_T2,
-					/obj/effect/proc_holder/spell/invoked/gallowshumor					= CLERIC_T2,
 					/obj/effect/proc_holder/spell/self/undivided_miracle_bundle 		= CLERIC_T2,
 					/obj/effect/proc_holder/spell/invoked/heal/undivided				= CLERIC_T3,
-					/obj/effect/proc_holder/spell/invoked/eoracurse						= CLERIC_T3,
-					//obj/effect/proc_holder/spell/self/undivided_acolyte_miracle_bundle = CLERIC_T4,
+					/obj/effect/proc_holder/spell/invoked/gallowshumor					= CLERIC_T3,
+					/obj/effect/proc_holder/spell/self/ten_united						= CLERIC_T4,
 					/obj/effect/proc_holder/spell/invoked/resurrect/undivided			= CLERIC_T4
 	)
 	confess_lines = list(

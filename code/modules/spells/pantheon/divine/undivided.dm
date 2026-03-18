@@ -1,5 +1,10 @@
+///////////////////////////////////////////////////////////////////////////////////////////////////////////
+// All of these should have invocations translated to German, I am not going to use a translator for it. //
+// Someone who actually speaks it could and probably should for proper larp - Lamasmaster				 //
+///////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// T? - Twinned Gaze - Removes vision cone for duration as well grants night vision on high enough level. //
+// T0 - Twinned Gaze - Removes vision cone for duration as well grants night vision on high enough level. //
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //Astrata + Noc
 
@@ -10,14 +15,15 @@
 	base_icon_state = "regalyscroll"
 	releasedrain = 10
 	chargedrain = 0
-	chargetime = 0
 	chargedloop = /datum/looping_sound/invokeholy
 	sound = 'sound/magic/astrata_choir.ogg'
 	associated_skill = /datum/skill/magic/holy
 	antimagic_allowed = FALSE
 	invocations = "Guide my path hallowed ones."
 	invocation_type = "shout"
-	recharge_time = 90 SECONDS
+	recharge_time = 2 MINUTES
+	chargetime = 2 SECONDS
+	chargedloop = /datum/looping_sound/invokegen
 	devotion_cost = 30
 	miracle = TRUE
 
@@ -38,7 +44,7 @@
 /datum/status_effect/buff/twinned_gaze
 	id = "twinnedgaze"
 	alert_type = /atom/movable/screen/alert/status_effect/buff/twinned_gaze
-	duration = 20 SECONDS
+	duration = 15 SECONDS
 	var/skill_level = 0
 	status_type = STATUS_EFFECT_REPLACE
 
@@ -51,7 +57,7 @@
 	// Reset base values because the miracle can 
 	// now actually be recast at high enough skill and during day time
 	// This is a safeguard because buff code makes my head hurt
-	duration = 20 SECONDS
+	duration = 15 SECONDS
 
 	if(skill_level > SKILL_LEVEL_JOURNEYMAN)
 		ADD_TRAIT(owner, TRAIT_DARKVISION, "twinnedgaze")	
@@ -81,7 +87,7 @@
 	REMOVE_TRAIT(owner, TRAIT_DARKVISION, "twinnedgaze")
 
 /////////////////////////////////////////////////////////////////////////////////
-// T? - Calming Respite - Restore ENERGY to a target and provide healing buff. //
+// T1 - Calming Respite - Restore ENERGY to a target and provide healing buff. //
 /////////////////////////////////////////////////////////////////////////////////
 //Malum + Pestra
 
@@ -127,9 +133,9 @@
 		show_visible_message(target, "As [user] intones the incantation, vibrant flames swirl around them, a dance of energy flowing towards [target].", "As [user] intones the incantation, vibrant flames swirl around them, a dance of energy flowing towards you. You feel refreshed.")
 
 
-/////////////////////////////////////////////////////////
-// T? - Press On - Seal wounds and calm down a person. //
-/////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////
+// T2 - Perseverance- Seal wounds and calm down a person. //
+////////////////////////////////////////////////////////////
 //Ravox + Eora
 
 /obj/effect/proc_holder/spell/invoked/perseverance
@@ -140,8 +146,9 @@
 	overlay_state = "persistence"
 	releasedrain = 30
 	chargedrain = 0
-	chargetime = 0
-	range = 7
+	chargetime = 2 SECONDS
+	chargedloop = /datum/looping_sound/invokegen
+	range = 5
 	warnie = "sydwarning"
 	req_items = list(/obj/item/clothing/neck/roguetown/psicross)
 	sound = 'sound/magic/timestop.ogg'
@@ -156,20 +163,6 @@
 /obj/effect/proc_holder/spell/invoked/perseverance/cast(list/targets, mob/living/user)
 	if(isliving(targets[1]))
 		var/mob/living/target = targets[1]
-/*		if(target.mob_biotypes & MOB_UNDEAD)
-			if(spell_guard_check(target, TRUE))
-				target.visible_message(span_warning("[target] resists Ravox's judgment!"))
-				return TRUE
-			if(ishuman(target)) //BLEED AND PAIN
-				var/mob/living/carbon/human/human_target = target
-				var/datum/physiology/phy = human_target.physiology
-				phy.bleed_mod *= 1.2
-				phy.pain_mod *= 1.2
-				addtimer(CALLBACK(src, PROC_REF(restore_modifiers), phy), 19 SECONDS)
-				human_target.visible_message(span_danger("[target]'s wounds become inflamed as their vitality is sapped away!"), span_userdanger("Ravox inflames my wounds and weakens my body!"))
-				return TRUE
-			return FALSE
-*/
 		target.visible_message(span_info("Warmth radiates from [target] as their wounds seal over!"), span_notice("The pain from my wounds fade as warmth radiates from my soul!"))
 
 		if(iscarbon(target))
@@ -200,7 +193,7 @@
 	physiology.pain_mod /= 1.5
 
 //////////////////////////////////////////////////////////////////////////////////////
-// T? - Gallows Humor - Moodnuke a target with slight slap on the wrist to FORTUNE. //
+// T3 - Gallows Humor - Moodnuke a target with slight slap on the wrist to FORTUNE. //
 //////////////////////////////////////////////////////////////////////////////////////
 //Necra + Xylix
 
@@ -253,7 +246,6 @@
 	desc = "<span class='warning'>THAT CHILLED ME TO MY CORE!</span>\n"
 	icon_state = "mockery"
 
-
 ////////////////////////////////////////////////////////////
 // T3 - Divine Inspiration - Select your pack of miracles.//
 ////////////////////////////////////////////////////////////
@@ -273,6 +265,7 @@
 	var/chosen_bundle
 	var/list/miracle_utility_bundle = list(
 		/obj/effect/proc_holder/spell/invoked/diagnose,
+		/obj/effect/proc_holder/spell/targeted/blesscrop,
 		/obj/effect/proc_holder/spell/invoked/moondream,
 		/obj/effect/proc_holder/spell/invoked/conjure_tool,
 		/obj/effect/proc_holder/spell/targeted/locate_dead
@@ -335,73 +328,47 @@
 ///////////////////////////////////////////////////////////////////////////////////
 // T4 - Ten United - Select your pack of miracles. This is for acolytes/heretics //
 ///////////////////////////////////////////////////////////////////////////////////
-/*
-/obj/effect/proc_holder/spell/self/undivided_acolyte_miracle_bundle
+
+/obj/effect/proc_holder/spell/self/ten_united
 	name = "Ten United"
-	desc = "Allows you to learn a set of high tier miracles."
+	desc = "Rally the faithful by your side by your side."
 	base_icon_state = "wisescroll"
+	recharge_time = 5 MINUTES
+	invocations = list("WE STAND TOGETHER!", "UNITED WE WILL PREVAIL!", "DRIVE THE FIENDS BACK!!")
+	invocation_type = "shout"
+	sound = 'sound/magic/timestop.ogg'
+	releasedrain = 30
 	miracle = TRUE
-	devotion_cost = 200
-	recharge_time = 25 MINUTES
-	chargetime = 0
-	chargedrain = 0
-	range = 0
+	devotion_cost = 40
+	range = 5
+	chargedloop = /datum/looping_sound/invokeholy
+	chargetime = 4 SECONDS
 	req_items = list(/obj/item/clothing/neck/roguetown/psicross)
 	associated_skill = /datum/skill/magic/holy
-	var/chosen_miracles
-	var/list/miracle_tierthree_bundle = list(
-		/obj/effect/proc_holder/spell/invoked/call_mossback,
-		/obj/effect/proc_holder/spell/invoked/revive,
-		/obj/effect/proc_holder/spell/invoked/hammerfall,
-		/obj/effect/proc_holder/spell/invoked/cure_rot,
-		/obj/effect/proc_holder/spell/invoked/persistence,
-		/obj/effect/proc_holder/spell/targeted/touch/parlor_trick,
-	)
-	var/list/miracle_tierfour_bundle = list(
-		/obj/effect/proc_holder/spell/invoked/abyssal_infusion,
-		/obj/effect/proc_holder/spell/invoked/immolation,
-		/obj/effect/proc_holder/spell/invoked/sunstrike,
-		/obj/effect/proc_holder/spell/self/howl/call_of_the_moon,
-		/obj/effect/proc_holder/spell/invoked/craftercovenant,
-		/obj/effect/proc_holder/spell/invoked/deaths_door,
-		/obj/effect/proc_holder/spell/invoked/pomegranate,
-		/obj/effect/proc_holder/spell/invoked/abscond
-	)
 
-/obj/effect/proc_holder/spell/self/undivided_miracle_bundle_acolyte/cast(list/targets, mob/user)
-	. = ..()
-	var/choice = chosen_miracles
-	if(!chosen_miracles)
-		choice = alert(user, "What type of miracles did the Ten bless you with?", "CHOOSE PATH", "TIER III", "TIER IV")
-		chosen_miracles = choice
-	switch(choice)
-		if("TIER III")
-			add_spells(user, miracle_tierthree_bundle, choice_count = 2)
-			user.mind?.RemoveSpell(src.type)
-		if("TIER IV")
-			add_spells(user, miracle_tierfour_bundle, choice_count = 1)
-			user.mind?.RemoveSpell(src.type)
-		else
-			revert_cast()
+/obj/effect/proc_holder/spell/self/ten_united/cast(list/targets,mob/living/user = usr)
+	for(var/mob/living/carbon/target in view(range, get_turf(user)))
+		if(istype(target.patron, /datum/patron/divine))
+			target.apply_status_effect(/datum/status_effect/buff/ten_united)
+			continue
+		if(istype(target.patron, /datum/patron/old_god) || istype(target.patron, /datum/patron/inhumen)) 
+			to_chat(target, span_danger("You are untouched by divine light..."))
+			continue
+		if(!user.faction_check_mob(target))
+			continue
+		if(target.mob_biotypes & MOB_UNDEAD)
+			target.apply_status_effect(/datum/status_effect/debuff/dazed/smite)
+			continue
+	return TRUE
 
-/obj/effect/proc_holder/spell/self/undivided_miracle_bundle_acolyte/proc/add_spells(mob/user, list/spells, choice_count = 1, grant_all = FALSE)
-	for(var/spell_type in spells)
-		if(user?.mind.has_spell(spells[spell_type]))
-			spells.Remove(spell_type)
-	if(!grant_all)
-		var/choice_count_visual = choice_count
-		for(var/i in 1 to choice_count)
-			var/choice = input(user, "Choose a spell! Choices remaining: [choice_count_visual]") as null|anything in spells
-			if(!isnull(choice))
-				var/picked_spell = spells[choice]
-				var/obj/effect/proc_holder/spell/new_spell = new picked_spell
-				user?.mind.AddSpell(new_spell)
-				choice_count_visual--
-				spells.Remove(choice)
-	else
-		for(var/spell_type in spells)
-			var/obj/effect/proc_holder/spell/new_spell = new spell_type
-			user?.mind.AddSpell(new_spell)
-	if(!length(spells))
-		user.mind?.RemoveSpell(src.type)
-*/
+/datum/status_effect/buff/ten_united
+	id = "ten_united"
+	alert_type = /atom/movable/screen/alert/status_effect/buff/ten_united
+	duration = 5 MINUTES// T4 and carries no debuff with it
+	effectedstats = list(STATKEY_CON = 2, STATKEY_WIL = 2, STATKEY_FOR = 5)
+
+/atom/movable/screen/alert/status_effect/buff/ten_united
+	name = "Undivided Camaraderie"
+	desc = span_bloody("WE STAND TOGETHER!")
+	icon_state = "call_to_arms"
+
