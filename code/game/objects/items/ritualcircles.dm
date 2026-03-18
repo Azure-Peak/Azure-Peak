@@ -1227,8 +1227,85 @@
 	name = "Rune of Deca Divinity"
 	desc = "A Holy Rune of The Undivided Pantheon"
 	//icon_state = "undivided_chalky"
+	var/decarites = list("Crusader Vow")
 
 
+/obj/structure/ritualcircle/undivided/attack_hand(mob/living/user)
+	if(!..())
+		return
+	if((user.patron?.type) != /datum/patron/divine/undivided)
+		to_chat(user,span_smallred("I don't know the proper rites for this..."))
+		return
+	if(!HAS_TRAIT(user, TRAIT_RITUALIST))
+		to_chat(user,span_smallred("I don't know the proper rites for this..."))
+		return
+	if(user.has_status_effect(/datum/status_effect/debuff/ritesexpended))
+		to_chat(user,span_smallred("I have performed enough rituals for the day... I must rest before communing more."))
+		return
+	var/riteselection = input(user, "Rituals of Deca Divinity", src) as null|anything in decarites
+	switch(riteselection) // put ur rite selection here
+		if("Crusader Vow")
+			var/onrune = view(1, loc)
+			var/list/folksonrune = list()
+			for(var/mob/living/carbon/human/persononrune in onrune)
+				if(HAS_TRAIT(persononrune, TRAIT_UNDIVIDED))
+					folksonrune += persononrune
+			var/target = input(user, "Choose a host") as null|anything in folksonrune
+			if(!target)
+				return
+			user.say("Astrata and Ravox, I offer my hand to carry out your will!!")
+			if(!do_after(user, 5 SECONDS))
+				return
+			user.say("Necra, I take your bargain, to protect the weak is virtue unto death!!")
+			if(!do_after(user, 5 SECONDS))
+				return
+			user.say("To you all I offer my body and soul, your vessel in these lands!!")
+			if(!do_after(user, 5 SECONDS))
+				return
+			user.say("To arms with my brethren, we shall vanquish evils of Psydonia!!")
+			if(!do_after(user, 5 SECONDS))
+				return
+			icon_state = "matthios_active"
+			user.apply_status_effect(/datum/status_effect/debuff/ritesexpended)
+			undividedarmaments(target)
+			spawn(120)
+				icon_state = "matthios_chalky"
+
+/obj/structure/ritualcircle/undivided/proc/undividedarmaments(mob/living/carbon/human/target)
+	if(!HAS_TRAIT(target, TRAIT_UNDIVIDED))
+		loc.visible_message(span_cult("THE RITE REJECTS ONE WITHOUT GREED IN THEIR HEART!!"))
+		return
+	target.Stun(60)
+	target.Knockdown(60)
+	to_chat(target, span_userdanger("UNIMAGINABLE PAIN!"))
+	target.emote("Agony")
+	playsound(loc, 'sound/misc/smelter_fin.ogg', 50)
+	loc.visible_message(span_cult("[target]'s lux pours from their nose, into the rune, gleaming golds sizzles. Molten gold and metals swirl into armor, seered to their skin."))
+	spawn(20)
+		playsound(loc, 'sound/combat/hits/onmetal/grille (2).ogg', 50)
+		target.equipOutfit(/datum/outfit/job/roguetown/decarite)
+		spawn(40)
+			to_chat(target, span_cult("More to the maw, this shall help feed our greed."))
+
+/datum/outfit/job/roguetown/decarite/pre_equip(mob/living/carbon/human/H)
+	..()
+	var/list/items = list()
+	items |= H.get_equipped_items(TRUE)
+	for(var/I in items)
+		H.dropItemToGround(I, TRUE)
+	H.drop_all_held_items()
+	head = /obj/item/clothing/head/roguetown/helmet/heavy/holysee
+	neck = /obj/item/clothing/neck/roguetown/gorget/steel
+	cloak = /obj/item/clothing/cloak/holysee
+	armor = /obj/item/clothing/suit/roguetown/armor/plate/full/holysee
+	shirt = /obj/item/clothing/suit/roguetown/armor/chainmail
+	wrists = /obj/item/clothing/wrists/roguetown/bracers
+	gloves = /obj/item/clothing/gloves/roguetown/plate/matthios
+	pants = /obj/item/clothing/under/roguetown/platelegs/holysee
+	shoes = /obj/item/clothing/shoes/roguetown/boots/armor/holysee
+	backr = /obj/item/rogueweapon/shield/tower/holysee
+
+	H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/mending/lesser)
 
 // TIME FOR THE ASCENDANT. These can be stronger. As they are pretty much antag exclusive - Iconoclast for Matthios, Lich for ZIZO. ZIZO!
 

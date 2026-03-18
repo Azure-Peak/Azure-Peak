@@ -2625,6 +2625,7 @@
 #include "code\modules\spells\components\conjured_item.dm"
 #include "code\modules\spells\components\enchanted_weapon.dm"
 #include "code\modules\spells\components\fit_clothing.dm"
+#include "code\modules\spells\pantheon\divine\undivided.dm"
 #include "code\modules\spells\roguetown\_roguetown.dm"
 #include "code\modules\spells\roguetown\confessor.dm"
 #include "code\modules\spells\roguetown\create_abyssoid.dm"
