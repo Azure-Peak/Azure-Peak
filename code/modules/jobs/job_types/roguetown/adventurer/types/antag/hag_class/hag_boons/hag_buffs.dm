@@ -67,12 +67,12 @@
 	L.mind.remove_antag_datum(/datum/antagonist/zombie)
 	L.remove_status_effect(/datum/status_effect/debuff/rotted_zombie)
 	L.apply_status_effect(/datum/status_effect/debuff/hag_curse/storm_weakness)
-	L.visible_message(span_notice("[L] wakes up!"))
+	L.visible_message(span_boldnotice("[L] wakes up!"))
 
 	spawn_repel_blast(L)
 	to_chat(L, span_boldnotice("The hag's bargain pulls you back from the brink, but at a heavy price..."))
 	if(tracker_ref)
-		var/list/B_list = list(tracker_ref.find_boon_by_type(L.real_name, /datum/hag_boon/storm_rebirth))
+		var/list/B_list = list(tracker_ref.find_boon_by_type(L.real_name, /datum/hag_boon/buff/storm_rebirth))
 		// We let transmutation get rid of the status effect for us.
 		tracker_ref.transmute_boons_to_curse(L.real_name, B_list, /datum/hag_boon/curse/storm_weakness, 85)
 	//owner.remove_status_effect(src)

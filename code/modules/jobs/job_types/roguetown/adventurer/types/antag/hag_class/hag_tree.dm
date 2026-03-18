@@ -160,5 +160,10 @@
 
 /obj/item/alch/hag_moss/enchanted/deathless
 	name = "Stormy Moss"
-	boon_path = /datum/hag_boon/storm_rebirth
+	boon_path = /datum/hag_boon/buff/storm_rebirth
 	color = "#fffb00"
+
+/obj/item/alch/hag_moss/enchanted/deathless
+	name = "Corrosive Moss"
+	boon_path = /datum/hag_boon/buff/wyrd_labourer
+	color = "#683700"
