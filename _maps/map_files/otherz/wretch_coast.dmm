@@ -4783,7 +4783,7 @@
 /turf/open/floor/rogue/cobble,
 /area/rogue/outdoors/woods/vampire_lair)
 "zx" = (
-/turf/open/floor/rogue/tile//turf/open/floor/rogue/tile/dorpeltile3,
+/turf/open/floor/rogue/tile/dorpeltile3,
 /area/rogue/indoors/eventarea/multiz)
 "zz" = (
 /obj/structure/fluff/railing/border/north,

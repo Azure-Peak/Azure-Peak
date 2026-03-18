@@ -3394,7 +3394,7 @@
 /area/rogue/under/cave/scarymaze)
 "aMf" = (
 /obj/structure/spider/stickyweb,
-/turf/open/floor/rogue/tile//turf/open/floor/rogue/tile/dorpeltile3,
+/turf/open/floor/rogue/tile/dorpeltile3,
 /area/rogue/indoors/abandonedhotsprings)
 "aMg" = (
 /obj/structure/mineral_door/wood/deadbolt,
@@ -12059,7 +12059,7 @@
 	pixel_y = 32
 	},
 /obj/structure/closet/crate/chest/old_crate,
-/turf/open/floor/rogue/tile//turf/open/floor/rogue/tile/dorpeltile3,
+/turf/open/floor/rogue/tile/dorpeltile3,
 /area/rogue/outdoors/town)
 "cJR" = (
 /obj/structure/stairs/stone,
@@ -12340,7 +12340,7 @@
 /area/rogue/under/cave/his_vault)
 "cMC" = (
 /obj/machinery/light/rogue/candle/l,
-/turf/open/floor/rogue/tile//turf/open/floor/rogue/tile/dorpeltile3,
+/turf/open/floor/rogue/tile/dorpeltile3,
 /area/rogue/indoors/town/manor)
 "cMD" = (
 /obj/structure/chair/stool/rogue,
@@ -12946,7 +12946,7 @@
 /area/rogue/under/cavewet/bogcaves/north)
 "cTy" = (
 /mob/living/simple_animal/hostile/retaliate/rogue/spider/mutated,
-/turf/open/floor/rogue/tile//turf/open/floor/rogue/tile/dorpeltile3,
+/turf/open/floor/rogue/tile/dorpeltile3,
 /area/rogue/indoors/abandonedhotsprings)
 "cTz" = (
 /obj/structure/roguewindow,
@@ -13712,7 +13712,7 @@
 /obj/structure/chair/wood/rogue{
 	dir = 4
 	},
-/turf/open/floor/rogue/tile//turf/open/floor/rogue/tile/dorpeltile3,
+/turf/open/floor/rogue/tile/dorpeltile3,
 /area/rogue/indoors/town/manor)
 "dbf" = (
 /obj/structure/stairs/stone{
@@ -13739,7 +13739,7 @@
 	pixel_x = -9;
 	pixel_y = 5
 	},
-/turf/open/floor/rogue/tile//turf/open/floor/rogue/tile/dorpeltile3,
+/turf/open/floor/rogue/tile/dorpeltile3,
 /area/rogue/indoors/town/manor)
 "dbh" = (
 /obj/structure/closet/crate/chest/old_crate,
@@ -17479,7 +17479,7 @@
 "dSQ" = (
 /obj/machinery/light/rogue/hearth,
 /obj/machinery/light/rogue/oven/south,
-/turf/open/floor/rogue/tile//turf/open/floor/rogue/tile/dorpeltile3,
+/turf/open/floor/rogue/tile/dorpeltile3,
 /area/rogue/indoors/abandonedhotsprings)
 "dSR" = (
 /obj/structure/flora/roguegrass,
@@ -18623,7 +18623,7 @@
 /turf/closed/wall/mineral/rogue/craftstone,
 /area/rogue/under/town/basement)
 "efo" = (
-/turf/open/floor/rogue/tile//turf/open/floor/rogue/tile/dorpeltile3,
+/turf/open/floor/rogue/tile/dorpeltile3,
 /area/rogue/indoors/town/bath)
 "eft" = (
 /turf/closed/wall/mineral/rogue/wooddark/end/north,
@@ -20905,7 +20905,7 @@
 	pixel_y = 32
 	},
 /obj/structure/table/wood/poor,
-/turf/open/floor/rogue/tile//turf/open/floor/rogue/tile/dorpeltile3,
+/turf/open/floor/rogue/tile/dorpeltile3,
 /area/rogue/indoors/abandonedhotsprings)
 "eFD" = (
 /obj/structure/chair/wood/rogue/chair3,
@@ -21890,7 +21890,7 @@
 "eQp" = (
 /obj/structure/roguemachine/withdraw,
 /obj/structure/spider/stickyweb,
-/turf/open/floor/rogue/tile//turf/open/floor/rogue/tile/dorpeltile3,
+/turf/open/floor/rogue/tile/dorpeltile3,
 /area/rogue/indoors/abandonedhotsprings)
 "eQu" = (
 /obj/structure/table/wood/poor,
@@ -26330,7 +26330,7 @@
 /obj/item/reagent_containers/glass/cup/ceramic/fancy,
 /mob/living/simple_animal/hostile/retaliate/rogue/spider/mutated,
 /obj/structure/table/wood/poor,
-/turf/open/floor/rogue/tile//turf/open/floor/rogue/tile/dorpeltile3,
+/turf/open/floor/rogue/tile/dorpeltile3,
 /area/rogue/indoors/abandonedhotsprings)
 "fOv" = (
 /obj/structure/gate{
@@ -27903,7 +27903,7 @@
 /area/rogue/under/cave/dukecourt)
 "gig" = (
 /obj/structure/table/vtable,
-/turf/open/floor/rogue/tile//turf/open/floor/rogue/tile/dorpeltile3,
+/turf/open/floor/rogue/tile/dorpeltile3,
 /area/rogue/indoors/town/bath)
 "gii" = (
 /obj/effect/decal/cobbleedge{
@@ -28510,7 +28510,7 @@
 /obj/structure/fluff/walldeco/church/line{
 	dir = 8
 	},
-/turf/open/floor/rogue/tile//turf/open/floor/rogue/tile/dorpeltile3,
+/turf/open/floor/rogue/tile/dorpeltile3,
 /area/rogue/indoors/town/manor)
 "goZ" = (
 /obj/structure/table/wood/long_table/right,
@@ -28830,7 +28830,7 @@
 	pixel_x = 8;
 	pixel_y = 5
 	},
-/turf/open/floor/rogue/tile//turf/open/floor/rogue/tile/dorpeltile3,
+/turf/open/floor/rogue/tile/dorpeltile3,
 /area/rogue/indoors/town/manor)
 "gsW" = (
 /obj/structure/bars/passage/steel{
@@ -30789,7 +30789,7 @@
 /obj/machinery/light/rogue/candle/floorcandle{
 	pixel_y = -14
 	},
-/turf/open/floor/rogue/tile//turf/open/floor/rogue/tile/dorpeltile3,
+/turf/open/floor/rogue/tile/dorpeltile3,
 /area/rogue/indoors/town/bath)
 "gPx" = (
 /obj/structure/closet/crate/chest/crate,
@@ -33916,7 +33916,7 @@
 /area/rogue/indoors/shelter)
 "hyl" = (
 /obj/structure/shisha/hookah,
-/turf/open/floor/rogue/tile//turf/open/floor/rogue/tile/dorpeltile3,
+/turf/open/floor/rogue/tile/dorpeltile3,
 /area/rogue/indoors/town/bath)
 "hym" = (
 /obj/machinery/light/rogue/firebowl/standing/blue,
@@ -36032,7 +36032,7 @@
 /area/rogue/outdoors/mountains)
 "hWA" = (
 /mob/living/simple_animal/hostile/retaliate/rogue/spider,
-/turf/open/floor/rogue/tile//turf/open/floor/rogue/tile/dorpeltile3,
+/turf/open/floor/rogue/tile/dorpeltile3,
 /area/rogue/indoors/abandonedhotsprings)
 "hWB" = (
 /obj/structure/hotspring/border/eleven,
@@ -36836,7 +36836,7 @@
 /obj/structure/chair/wood/rogue{
 	dir = 4
 	},
-/turf/open/floor/rogue/tile//turf/open/floor/rogue/tile/dorpeltile3,
+/turf/open/floor/rogue/tile/dorpeltile3,
 /area/rogue/indoors/town/manor)
 "ieI" = (
 /obj/effect/decal/cleanable/blood,
@@ -36882,7 +36882,7 @@
 /area/rogue/outdoors/beach/north)
 "ifr" = (
 /obj/structure/fluff/pillow/black,
-/turf/open/floor/rogue/tile//turf/open/floor/rogue/tile/dorpeltile3,
+/turf/open/floor/rogue/tile/dorpeltile3,
 /area/rogue/indoors/town/bath)
 "ifs" = (
 /obj/structure/fluff/railing/border/north,
@@ -39295,7 +39295,7 @@
 /obj/structure/chair/wood/rogue{
 	dir = 8
 	},
-/turf/open/floor/rogue/tile//turf/open/floor/rogue/tile/dorpeltile3,
+/turf/open/floor/rogue/tile/dorpeltile3,
 /area/rogue/indoors/town/manor)
 "iFR" = (
 /obj/item/rogueweapon/shovel/small{
@@ -41376,7 +41376,7 @@
 	},
 /obj/effect/spawner/lootdrop/valuable_tableware_spawner,
 /obj/structure/table/wood/poor,
-/turf/open/floor/rogue/tile//turf/open/floor/rogue/tile/dorpeltile3,
+/turf/open/floor/rogue/tile/dorpeltile3,
 /area/rogue/indoors/abandonedhotsprings)
 "jeY" = (
 /obj/structure/flora/ausbushes/ppflowers,
@@ -45636,7 +45636,7 @@
 /area/rogue/indoors/town/tavern)
 "jZN" = (
 /obj/structure/fluff/statue/knight/interior/r,
-/turf/open/floor/rogue/tile//turf/open/floor/rogue/tile/dorpeltile3,
+/turf/open/floor/rogue/tile/dorpeltile3,
 /area/rogue/indoors/town/manor)
 "jZR" = (
 /obj/machinery/light/rogue/torchholder/r,
@@ -47995,7 +47995,7 @@
 	pixel_x = -9;
 	pixel_y = 5
 	},
-/turf/open/floor/rogue/tile//turf/open/floor/rogue/tile/dorpeltile3,
+/turf/open/floor/rogue/tile/dorpeltile3,
 /area/rogue/indoors/town/manor)
 "kAq" = (
 /obj/item/candle/yellow/lit,
@@ -49594,7 +49594,7 @@
 	layer = 3.1;
 	anchored = 1
 	},
-/turf/open/floor/rogue/tile//turf/open/floor/rogue/tile/dorpeltile3,
+/turf/open/floor/rogue/tile/dorpeltile3,
 /area/rogue/indoors/town/manor)
 "kSE" = (
 /obj/structure/table/finestone,
@@ -57488,7 +57488,7 @@
 "mzi" = (
 /obj/item/millstone,
 /obj/structure/table/wood/poor,
-/turf/open/floor/rogue/tile//turf/open/floor/rogue/tile/dorpeltile3,
+/turf/open/floor/rogue/tile/dorpeltile3,
 /area/rogue/indoors/abandonedhotsprings)
 "mzp" = (
 /obj/structure/roguemachine/mail{
@@ -58296,7 +58296,7 @@
 	pixel_y = 7;
 	pixel_x = 8
 	},
-/turf/open/floor/rogue/tile//turf/open/floor/rogue/tile/dorpeltile3,
+/turf/open/floor/rogue/tile/dorpeltile3,
 /area/rogue/indoors/town/manor)
 "mIn" = (
 /obj/structure/glowshroom,
@@ -59706,7 +59706,7 @@
 /area/rogue/under/cave)
 "nbm" = (
 /obj/machinery/light/rogue/candle/floorcandle,
-/turf/open/floor/rogue/tile//turf/open/floor/rogue/tile/dorpeltile3,
+/turf/open/floor/rogue/tile/dorpeltile3,
 /area/rogue/indoors/town/bath)
 "nbs" = (
 /obj/effect/decal/cobbleedge{
@@ -62426,7 +62426,7 @@
 "nJu" = (
 /obj/structure/table/vtable/v2,
 /obj/machinery/light/rogue/candle/floorcandle,
-/turf/open/floor/rogue/tile//turf/open/floor/rogue/tile/dorpeltile3,
+/turf/open/floor/rogue/tile/dorpeltile3,
 /area/rogue/indoors/town/bath)
 "nJw" = (
 /obj/structure/roguemachine/scomm/r{
@@ -62676,7 +62676,7 @@
 /obj/structure/chair/wood/rogue{
 	dir = 8
 	},
-/turf/open/floor/rogue/tile//turf/open/floor/rogue/tile/dorpeltile3,
+/turf/open/floor/rogue/tile/dorpeltile3,
 /area/rogue/indoors/town/manor)
 "nMv" = (
 /obj/structure/flora/hotspring_rocks/grassy,
@@ -63020,7 +63020,7 @@
 "nQx" = (
 /obj/machinery/tanningrack,
 /obj/machinery/light/rogue/candle/blue/r,
-/turf/open/floor/rogue/tile//turf/open/floor/rogue/tile/dorpeltile3,
+/turf/open/floor/rogue/tile/dorpeltile3,
 /area/rogue/indoors/abandonedhotsprings)
 "nQz" = (
 /obj/structure/bars{
@@ -65108,7 +65108,7 @@
 	specific_location = "Ballroom";
 	dir = 1
 	},
-/turf/open/floor/rogue/tile//turf/open/floor/rogue/tile/dorpeltile3,
+/turf/open/floor/rogue/tile/dorpeltile3,
 /area/rogue/indoors/town/manor)
 "ool" = (
 /obj/structure/underworld/barrier,
@@ -66226,7 +66226,7 @@
 	locked = 0
 	},
 /obj/structure/table/wood/poor,
-/turf/open/floor/rogue/tile//turf/open/floor/rogue/tile/dorpeltile3,
+/turf/open/floor/rogue/tile/dorpeltile3,
 /area/rogue/indoors/abandonedhotsprings)
 "oAs" = (
 /obj/machinery/light/rogue/candle,
@@ -66823,7 +66823,7 @@
 	pixel_y = -4
 	},
 /obj/structure/chair/bench/ultimacouch,
-/turf/open/floor/rogue/tile//turf/open/floor/rogue/tile/dorpeltile3,
+/turf/open/floor/rogue/tile/dorpeltile3,
 /area/rogue/indoors/town/bath)
 "oFY" = (
 /mob/living/simple_animal/hostile/rogue/dragger,
@@ -68955,7 +68955,7 @@
 /area/rogue/indoors/town/garrison)
 "pbp" = (
 /mob/living/simple_animal/hostile/rogue/mirespider_lurker,
-/turf/open/floor/rogue/tile//turf/open/floor/rogue/tile/dorpeltile3,
+/turf/open/floor/rogue/tile/dorpeltile3,
 /area/rogue/indoors/abandonedhotsprings)
 "pbq" = (
 /turf/open/floor/rogue/wood,
@@ -70191,7 +70191,7 @@
 "psg" = (
 /obj/machinery/light/rogue/candle/r,
 /obj/structure/table/wood/fancy/black,
-/turf/open/floor/rogue/tile//turf/open/floor/rogue/tile/dorpeltile3,
+/turf/open/floor/rogue/tile/dorpeltile3,
 /area/rogue/indoors/town/manor)
 "psh" = (
 /obj/effect/decal/cobbleedge{
@@ -71087,7 +71087,7 @@
 /obj/structure/chair/wood/rogue{
 	dir = 4
 	},
-/turf/open/floor/rogue/tile//turf/open/floor/rogue/tile/dorpeltile3,
+/turf/open/floor/rogue/tile/dorpeltile3,
 /area/rogue/indoors/town/manor)
 "pDi" = (
 /obj/structure/fluff/statue/femalestatue,
@@ -74737,7 +74737,7 @@
 /area/rogue/outdoors/town)
 "quD" = (
 /obj/machinery/light/rogue/candle,
-/turf/open/floor/rogue/tile//turf/open/floor/rogue/tile/dorpeltile3,
+/turf/open/floor/rogue/tile/dorpeltile3,
 /area/rogue/indoors/town/manor)
 "quE" = (
 /turf/closed/wall/mineral/rogue/decostone/long{
@@ -76126,7 +76126,7 @@
 	pixel_y = 21;
 	pixel_x = 5
 	},
-/turf/open/floor/rogue/tile//turf/open/floor/rogue/tile/dorpeltile3,
+/turf/open/floor/rogue/tile/dorpeltile3,
 /area/rogue/indoors/town/manor)
 "qJa" = (
 /turf/open/floor/rogue/churchbrick,
@@ -80672,7 +80672,7 @@
 	pixel_y = 7;
 	pixel_x = -5
 	},
-/turf/open/floor/rogue/tile//turf/open/floor/rogue/tile/dorpeltile3,
+/turf/open/floor/rogue/tile/dorpeltile3,
 /area/rogue/indoors/town/manor)
 "rJW" = (
 /obj/structure/roguewindow/openclose/reinforced{
@@ -80993,7 +80993,7 @@
 "rNk" = (
 /obj/machinery/light/rogue/candle/blue,
 /obj/structure/table/wood/poor,
-/turf/open/floor/rogue/tile//turf/open/floor/rogue/tile/dorpeltile3,
+/turf/open/floor/rogue/tile/dorpeltile3,
 /area/rogue/indoors/abandonedhotsprings)
 "rNl" = (
 /obj/structure/fluff/walldeco/church/line{
@@ -81046,7 +81046,7 @@
 /obj/structure/fluff/walldeco/church/line{
 	dir = 4
 	},
-/turf/open/floor/rogue/tile//turf/open/floor/rogue/tile/dorpeltile3,
+/turf/open/floor/rogue/tile/dorpeltile3,
 /area/rogue/indoors/town/manor)
 "rOd" = (
 /obj/structure/stairs,
@@ -82896,7 +82896,7 @@
 /area/rogue/outdoors/beach)
 "ska" = (
 /obj/structure/fluff/pillow/green,
-/turf/open/floor/rogue/tile//turf/open/floor/rogue/tile/dorpeltile3,
+/turf/open/floor/rogue/tile/dorpeltile3,
 /area/rogue/indoors/town/bath)
 "skc" = (
 /turf/open/floor/rogue/ruinedwood/turned,
@@ -84595,7 +84595,7 @@
 	locked = 0
 	},
 /obj/structure/table/wood/poor,
-/turf/open/floor/rogue/tile//turf/open/floor/rogue/tile/dorpeltile3,
+/turf/open/floor/rogue/tile/dorpeltile3,
 /area/rogue/indoors/abandonedhotsprings)
 "sCq" = (
 /turf/open/floor/rogue/grass,
@@ -86826,7 +86826,7 @@
 	pixel_x = -16;
 	pixel_y = 29
 	},
-/turf/open/floor/rogue/tile//turf/open/floor/rogue/tile/dorpeltile3,
+/turf/open/floor/rogue/tile/dorpeltile3,
 /area/rogue/indoors/town/manor)
 "tdg" = (
 /mob/living/simple_animal/hostile/retaliate/rogue/spider,
@@ -87450,7 +87450,7 @@
 /turf/open/floor/rogue/churchrough,
 /area/rogue/under/cave/scarymaze)
 "tkf" = (
-/turf/open/floor/rogue/tile//turf/open/floor/rogue/tile/dorpeltile3,
+/turf/open/floor/rogue/tile/dorpeltile3,
 /area/rogue/indoors/abandonedhotsprings)
 "tkm" = (
 /obj/structure/table/wood/map/four,
@@ -93513,7 +93513,7 @@
 /obj/structure/fluff/pillow/black{
 	dir = 8
 	},
-/turf/open/floor/rogue/tile//turf/open/floor/rogue/tile/dorpeltile3,
+/turf/open/floor/rogue/tile/dorpeltile3,
 /area/rogue/indoors/town/bath)
 "uAI" = (
 /obj/machinery/light/rogue/candle/l,
@@ -94022,7 +94022,7 @@
 /area/rogue/outdoors/rtfield)
 "uGb" = (
 /obj/structure/chair/bench/ultimacouch/r,
-/turf/open/floor/rogue/tile//turf/open/floor/rogue/tile/dorpeltile3,
+/turf/open/floor/rogue/tile/dorpeltile3,
 /area/rogue/indoors/town/bath)
 "uGg" = (
 /obj/structure/bed/rogue/inn/double{
@@ -95270,7 +95270,7 @@
 /obj/structure/mannequin/male/decorative/training_dummy_style,
 /obj/item/clothing/suit/roguetown/armor/plate/cuirass/fluted,
 /obj/item/clothing/head/roguetown/helmet/heavy/knight/armet,
-/turf/open/floor/rogue/tile//turf/open/floor/rogue/tile/dorpeltile3,
+/turf/open/floor/rogue/tile/dorpeltile3,
 /area/rogue/indoors/town/manor)
 "uUC" = (
 /turf/open/floor/rogue/woodturned/nosmooth,
@@ -95318,7 +95318,7 @@
 /obj/structure/fluff/pillow/green{
 	dir = 8
 	},
-/turf/open/floor/rogue/tile//turf/open/floor/rogue/tile/dorpeltile3,
+/turf/open/floor/rogue/tile/dorpeltile3,
 /area/rogue/indoors/town/bath)
 "uVb" = (
 /turf/closed/wall/mineral/rogue/roofwall/outercorner/dir8,
@@ -96779,7 +96779,7 @@
 /obj/structure/chair/wood/rogue{
 	dir = 8
 	},
-/turf/open/floor/rogue/tile//turf/open/floor/rogue/tile/dorpeltile3,
+/turf/open/floor/rogue/tile/dorpeltile3,
 /area/rogue/indoors/town/manor)
 "vlv" = (
 /turf/closed/wall/mineral/rogue/stone,
@@ -97222,7 +97222,7 @@
 /obj/structure/curtain/magenta{
 	alpha = 125
 	},
-/turf/open/floor/rogue/tile//turf/open/floor/rogue/tile/dorpeltile3,
+/turf/open/floor/rogue/tile/dorpeltile3,
 /area/rogue/indoors/town/bath)
 "vqu" = (
 /obj/effect/decal/cobbleedge{
@@ -98790,7 +98790,7 @@
 /area/rogue/indoors)
 "vHZ" = (
 /obj/structure/chair/bench/couchablack/r,
-/turf/open/floor/rogue/tile//turf/open/floor/rogue/tile/dorpeltile3,
+/turf/open/floor/rogue/tile/dorpeltile3,
 /area/rogue/indoors/town/bath)
 "vIa" = (
 /obj/structure/stairs{
@@ -99070,7 +99070,7 @@
 /area/rogue/indoors/inq/basement)
 "vLD" = (
 /obj/machinery/light/rogue/candle/floorcandle/alt,
-/turf/open/floor/rogue/tile//turf/open/floor/rogue/tile/dorpeltile3,
+/turf/open/floor/rogue/tile/dorpeltile3,
 /area/rogue/indoors/town/bath)
 "vLF" = (
 /obj/structure/fluff/walldeco/church/line,
@@ -99960,7 +99960,7 @@
 	pixel_y = 21;
 	pixel_x = -5
 	},
-/turf/open/floor/rogue/tile//turf/open/floor/rogue/tile/dorpeltile3,
+/turf/open/floor/rogue/tile/dorpeltile3,
 /area/rogue/indoors/town/manor)
 "vVx" = (
 /obj/structure/bars,
@@ -101059,7 +101059,7 @@
 /area/rogue/under/town/basement/keep)
 "wih" = (
 /obj/structure/fluff/railing/border/east,
-/turf/open/floor/rogue/tile//turf/open/floor/rogue/tile/dorpeltile3,
+/turf/open/floor/rogue/tile/dorpeltile3,
 /area/rogue/outdoors/town)
 "wik" = (
 /obj/structure/rack/rogue,
@@ -102126,7 +102126,7 @@
 /area/rogue/under/underdark/north)
 "wtL" = (
 /obj/structure/mineral_door/swing_door,
-/turf/open/floor/rogue/tile//turf/open/floor/rogue/tile/dorpeltile3,
+/turf/open/floor/rogue/tile/dorpeltile3,
 /area/rogue/indoors/abandonedhotsprings)
 "wtN" = (
 /obj/effect/decal/cleanable/blood/gibs/up,
@@ -102468,7 +102468,7 @@
 "wxZ" = (
 /obj/effect/spawner/lootdrop/valuable_tableware_spawner,
 /obj/structure/table/wood/poor,
-/turf/open/floor/rogue/tile//turf/open/floor/rogue/tile/dorpeltile3,
+/turf/open/floor/rogue/tile/dorpeltile3,
 /area/rogue/indoors/abandonedhotsprings)
 "wya" = (
 /obj/structure/fermentation_keg/water,
@@ -104162,7 +104162,7 @@
 /turf/open/floor/rogue/ruinedwood/chevron,
 /area/rogue/indoors/shelter)
 "wQF" = (
-/turf/open/floor/rogue/tile//turf/open/floor/rogue/tile/dorpeltile3,
+/turf/open/floor/rogue/tile/dorpeltile3,
 /area/rogue/outdoors/town)
 "wQJ" = (
 /obj/item/natural/bone,
@@ -104293,7 +104293,7 @@
 	pixel_x = 16;
 	pixel_y = -4
 	},
-/turf/open/floor/rogue/tile//turf/open/floor/rogue/tile/dorpeltile3,
+/turf/open/floor/rogue/tile/dorpeltile3,
 /area/rogue/indoors/town/bath)
 "wRV" = (
 /turf/closed/wall/mineral/rogue/wooddark/horizontal,
@@ -104403,7 +104403,7 @@
 /area/rogue/under/cave/his_vault)
 "wTi" = (
 /obj/structure/fluff/walldeco/church/line,
-/turf/open/floor/rogue/tile//turf/open/floor/rogue/tile/dorpeltile3,
+/turf/open/floor/rogue/tile/dorpeltile3,
 /area/rogue/indoors/town/manor)
 "wTm" = (
 /obj/structure/hotspring/border/thirteen,
@@ -107893,7 +107893,7 @@
 /turf/open/floor/rogue/naturalstone,
 /area/rogue/indoors/cave)
 "xJE" = (
-/turf/open/floor/rogue/tile//turf/open/floor/rogue/tile/dorpeltile3,
+/turf/open/floor/rogue/tile/dorpeltile3,
 /area/rogue/indoors/town/manor)
 "xJJ" = (
 /obj/effect/decal/cleanable/blood/gibs/torso,
@@ -108552,7 +108552,7 @@
 	pixel_x = 15;
 	pixel_y = -7
 	},
-/turf/open/floor/rogue/tile//turf/open/floor/rogue/tile/dorpeltile3,
+/turf/open/floor/rogue/tile/dorpeltile3,
 /area/rogue/indoors/town/manor)
 "xRi" = (
 /obj/machinery/light/rogue/torchholder/c,
@@ -108924,7 +108924,7 @@
 	pixel_y = 32
 	},
 /obj/structure/fluff/railing/border/east,
-/turf/open/floor/rogue/tile//turf/open/floor/rogue/tile/dorpeltile3,
+/turf/open/floor/rogue/tile/dorpeltile3,
 /area/rogue/outdoors/town)
 "xVm" = (
 /obj/structure/table/wood/poor/alt_alt,
@@ -108946,7 +108946,7 @@
 /obj/structure/fluff/walldeco/church/line{
 	dir = 1
 	},
-/turf/open/floor/rogue/tile//turf/open/floor/rogue/tile/dorpeltile3,
+/turf/open/floor/rogue/tile/dorpeltile3,
 /area/rogue/indoors/town/manor)
 "xVw" = (
 /obj/structure/spider/stickyweb,
