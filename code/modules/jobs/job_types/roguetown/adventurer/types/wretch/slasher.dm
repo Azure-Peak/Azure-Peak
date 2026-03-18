@@ -62,27 +62,27 @@
 	if(H.mind)
 		var/weapons = list("Kriegsmesser", "Flanged Mace + Shield", "Handclaw", "Axe")
 		var/weapon_choice = input(H, "Do you like hurting other people?", "TAKE UP ARMS") as anything in weapons
-		var/specialization = list("Quick (Dodge Expert, Sneaking, +2 SPD, +2 WIL)", "Crazy (Critical Resilience, No Pain Stun, +2 STR)") //thank you outlaw coders i love you mwah
+		var/specialization = list("Quick (Dodge Expert, Sneaking, +2 SPD)", "Crazy (Critical Resilience, No Pain Stun, +2 STR)") //thank you outlaw coders i love you mwah
 		var/specialization_choice = input(H, "How?", "TAKE UP ARMS") as anything in specialization
 		H.set_blindness(0)
 		switch(weapon_choice)
-			if("Kriegsmesser") // this is a knoife
+			if("Kriegsmesser") // this is a knoife. kill them, jason
 				H.adjust_skillrank_up_to(/datum/skill/combat/swords, SKILL_LEVEL_EXPERT, TRUE)
 				beltl = /obj/item/rogueweapon/scabbard/sword
 				l_hand = /obj/item/rogueweapon/sword/long/kriegmesser
-			if("Flanged Mace + Shield") // token off-meta nonlethal option
+			if("Flanged Mace + Shield") // token off-meta nonlethal option. ye olde leatherface for when you want em' alive
 				H.adjust_skillrank_up_to(/datum/skill/combat/maces, SKILL_LEVEL_EXPERT, TRUE)
 				H.adjust_skillrank_up_to(/datum/skill/combat/shields, SKILL_LEVEL_JOURNEYMAN, TRUE)
 				backr = /obj/item/rogueweapon/shield/tower
 				r_hand = /obj/item/rogueweapon/mace/cudgel/flanged
-			if ("Handclaw") // i went to the store, bought you a dreamwalker, the fuck you mean it's the wrong one
+			if ("Handclaw") // i went to the store, bought you a dreamwalker, the fuck you mean it's the wrong one. primetime, bitch
 				H.adjust_skillrank_up_to(/datum/skill/combat/unarmed, SKILL_LEVEL_EXPERT, TRUE)
 				l_hand = /obj/item/rogueweapon/handclaw/steel //these are really, really good, but they don't have an intent without swingdelay and these guys are never getting better than jman wrestling
-			if ("Axe") // classic
+			if ("Axe") // classic. i killed paul allen with one of these
 				H.adjust_skillrank_up_to(/datum/skill/combat/axes, SKILL_LEVEL_EXPERT, TRUE)
 				l_hand = /obj/item/rogueweapon/stoneaxe/woodcut/steel
 		switch(specialization_choice)
-			if("Quick (Dodge Expert, Sneaking, +2 SPD, +2 WIL)")
+			if("Quick (Dodge Expert, Sneaking, +2 SPD)")
 				H.adjust_skillrank_up_to(/datum/skill/misc/sneaking, SKILL_LEVEL_MASTER, TRUE)
 				ADD_TRAIT(H, TRAIT_LIGHT_STEP, TRAIT_GENERIC)
 				ADD_TRAIT(H, TRAIT_DODGEEXPERT, TRAIT_GENERIC)
