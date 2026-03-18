@@ -923,14 +923,6 @@
 	icon_state = "hoodcape"
 	item_state = "hoodcape"
 
-/obj/item/clothing/cloak/cape/fur
-	name = "fur cape"
-	icon_state = "furcape"
-	item_state = "furcape"
-	slot_flags = ITEM_SLOT_BACK_R|ITEM_SLOT_CLOAK
-	inhand_mod = TRUE
-	salvage_result = /obj/item/natural/fur
-
 /obj/item/clothing/cloak/chasuble
 	name = "chasuble"
 	desc = ""
