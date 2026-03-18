@@ -185,80 +185,14 @@
 					bleeder.set_bleed_rate(max(bleeder.clotting_threshold, bleeder.bleed_rate - difference))
 		return TRUE
 	return FALSE
-/* Probably not needed at all considering it lost it's offensive aspect
-/obj/effect/proc_holder/spell/invoked/perseverance/proc/restore_modifiers(datum/physiology/physiology)
-	if(!physiology)
-		return
 
-	physiology.bleed_mod /= 1.5
-	physiology.pain_mod /= 1.5
-*/
 /datum/stressevent/perseverance
 	timer = 2 MINUTES 
 	stressadd = -4 //Should be enough to offset the bleed
 	desc = span_boldgreen("I am soothed and sedated from ravages of war.")
 
-//////////////////////////////////////////////////////////////////////////////////////
-// T3 - Gallows Humor - Moodnuke a target with slight slap on the wrist to FORTUNE. //
-//////////////////////////////////////////////////////////////////////////////////////
-//Necra + Xylix
-
-/obj/effect/proc_holder/spell/invoked/gallowshumor
-	name = "Gallows Humor"
-	desc = "Shake a target to their core."
-	action_icon = 'icons/mob/actions/undividedmiracles.dmi'
-	overlay_icon = 'icons/mob/actions/undividedmiracles.dmi'
-	overlay_state = "gallows"
-	releasedrain = 50
-	associated_skill = /datum/skill/misc/music
-	recharge_time = 2 MINUTES
-	range = 5 //Say it to their face
-	chargetime = 3 SECONDS //All churns come with a delay
-	sound = 'sound/magic/timestop.ogg'
-	invocations = list("begins uncontrollably giggling.")
-	invocation_type = "emote"
-	movement_interrupt = FALSE
-	no_early_release = TRUE
-	chargedloop = /datum/looping_sound/invokegen
-
-/obj/effect/proc_holder/spell/invoked/gallowshumor/cast(list/targets, mob/user = usr)
-	playsound(get_turf(user), 'sound/magic/mockery.ogg', 40, FALSE)
-	if(isliving(targets[1]))
-		var/mob/living/target = targets[1]
-		if(target.anti_magic_check(TRUE, TRUE))
-			return FALSE
-		if(spell_guard_check(target, TRUE))
-			target.visible_message(span_warning("[target] shrugs off the mockery!"))
-			return TRUE
-		if(!target.can_hear()) // Vicious mockery requires people to be able to hear you.
-			revert_cast()
-			return FALSE
-		target.apply_status_effect(/datum/status_effect/debuff/gallowshumor)
-		target.add_stress(/datum/stressevent/gallowshumor)
-		SEND_SIGNAL(user, COMSIG_VICIOUSLY_MOCKED, target)
-		record_round_statistic(STATS_PEOPLE_MOCKED)
-		return TRUE
-	revert_cast()
-	return FALSE
-
-/datum/status_effect/debuff/gallowshumor
-	id = "gallowshumor"
-	alert_type = /atom/movable/screen/alert/status_effect/debuff/gallowshumor
-	duration = 1 MINUTES
-	effectedstats = list(STATKEY_LCK = -2)
-
-/atom/movable/screen/alert/status_effect/debuff/gallowshumor
-	name = "Gallows Humor"
-	desc = "<span class='warning'>THAT CHILLED ME TO MY CORE!</span>\n"
-	icon_state = "mockery"
-
-/datum/stressevent/gallowshumor
-	timer = 10 MINUTES 
-	stressadd = 8
-	desc = span_boldred("By everything that was horrible!")
-
 ////////////////////////////////////////////////////////////
-// T3 - Divine Inspiration - Select your pack of miracles.//
+// T2 - Divine Inspiration - Select your pack of miracles.//
 ////////////////////////////////////////////////////////////
 
 /obj/effect/proc_holder/spell/self/undivided_miracle_bundle
@@ -326,6 +260,65 @@
 			user?.mind.AddSpell(new_spell)
 	if(!length(spells))
 		user.mind?.RemoveSpell(src.type)
+
+//////////////////////////////////////////////////////////////////////////////////////
+// T3 - Gallows Humor - Moodnuke a target with slight slap on the wrist to FORTUNE. //
+//////////////////////////////////////////////////////////////////////////////////////
+//Necra + Xylix
+
+/obj/effect/proc_holder/spell/invoked/gallowshumor
+	name = "Gallows Humor"
+	desc = "Shake a target to their core."
+	action_icon = 'icons/mob/actions/undividedmiracles.dmi'
+	overlay_icon = 'icons/mob/actions/undividedmiracles.dmi'
+	overlay_state = "gallows"
+	releasedrain = 50
+	associated_skill = /datum/skill/misc/music
+	recharge_time = 2 MINUTES
+	range = 5 //Say it to their face
+	chargetime = 3 SECONDS //All churns come with a delay
+	sound = 'sound/magic/timestop.ogg'
+	invocations = list("begins uncontrollably giggling.")
+	invocation_type = "emote"
+	movement_interrupt = FALSE
+	no_early_release = TRUE
+	chargedloop = /datum/looping_sound/invokegen
+
+/obj/effect/proc_holder/spell/invoked/gallowshumor/cast(list/targets, mob/user = usr)
+	playsound(get_turf(user), 'sound/magic/mockery.ogg', 40, FALSE)
+	if(isliving(targets[1]))
+		var/mob/living/target = targets[1]
+		if(target.anti_magic_check(TRUE, TRUE))
+			return FALSE
+		if(spell_guard_check(target, TRUE))
+			target.visible_message(span_warning("[target] shrugs off the mockery!"))
+			return TRUE
+		if(!target.can_hear()) // Vicious mockery requires people to be able to hear you.
+			revert_cast()
+			return FALSE
+		target.apply_status_effect(/datum/status_effect/debuff/gallowshumor)
+		target.add_stress(/datum/stressevent/gallowshumor)
+		SEND_SIGNAL(user, COMSIG_VICIOUSLY_MOCKED, target)
+		record_round_statistic(STATS_PEOPLE_MOCKED)
+		return TRUE
+	revert_cast()
+	return FALSE
+
+/datum/status_effect/debuff/gallowshumor
+	id = "gallowshumor"
+	alert_type = /atom/movable/screen/alert/status_effect/debuff/gallowshumor
+	duration = 1 MINUTES
+	effectedstats = list(STATKEY_LCK = -2)
+
+/atom/movable/screen/alert/status_effect/debuff/gallowshumor
+	name = "Gallows Humor"
+	desc = "<span class='warning'>THAT CHILLED ME TO MY CORE!</span>\n"
+	icon_state = "mockery"
+
+/datum/stressevent/gallowshumor
+	timer = 10 MINUTES 
+	stressadd = 8
+	desc = span_boldred("By everything that was horrible!")
 
 //////////////////////////////////////////////////////////////////////////////////////////
 // T3 - Undivided Fortify - Heals and damages undead like actual one, bit worse though. //
