@@ -267,7 +267,7 @@
 	switch(H.patron?.type)
 		if(/datum/patron/divine/undivided)
 			wrists = /obj/item/clothing/neck/roguetown/psicross/undivided
-			head = /obj/item/clothing/head/roguetown/helmet/heavy/bucket
+			head = /obj/item/clothing/head/roguetown/helmet/heavy/holysee/templar
 			backr = /obj/item/rogueweapon/shield/tower/holysee
 			if(H.mind)
 				var/cloaks = list("Cloak", "Tabard")

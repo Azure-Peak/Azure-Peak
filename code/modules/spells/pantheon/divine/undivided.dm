@@ -233,11 +233,11 @@
 		/obj/effect/proc_holder/spell/invoked/avert
 	)
 	var/list/miracle_templar_bundle = list(
-		/obj/effect/proc_holder/spell/self/xylixslip,
-		/obj/effect/proc_holder/spell/self/wise_moon,
-		/obj/effect/proc_holder/spell/invoked/abyssor_undertow,
-		/obj/effect/proc_holder/spell/self/divine_strike,
-		/obj/effect/proc_holder/spell/invoked/heatmetal
+		/obj/effect/proc_holder/spell/self/xylixslip::name 				= /obj/effect/proc_holder/spell/self/xylixslip,
+		/obj/effect/proc_holder/spell/self/wise_moon::name 				= /obj/effect/proc_holder/spell/self/wise_moon,
+		/obj/effect/proc_holder/spell/invoked/abyssor_undertow::name 	= /obj/effect/proc_holder/spell/invoked/abyssor_undertow,
+		/obj/effect/proc_holder/spell/self/divine_strike::name 			= /obj/effect/proc_holder/spell/self/divine_strike,
+		/obj/effect/proc_holder/spell/invoked/heatmetal::name 			= /obj/effect/proc_holder/spell/invoked/heatmetal,
 	)
 
 /obj/effect/proc_holder/spell/self/undivided_miracle_bundle/cast(list/targets, mob/user)
@@ -251,12 +251,12 @@
 			add_spells(user, miracle_generalist_bundle, choice_count = 3)
 			user.mind?.RemoveSpell(src.type)
 		if("Acolyte")
-			if(!user.mind?.has_spell(/obj/effect/proc_holder/spell/invoked/diagnose/secular))
-				user.mind?.AddSpell(/obj/effect/proc_holder/spell/invoked/diagnose)
+			/*if(!user.mind?.has_spell(/obj/effect/proc_holder/spell/invoked/diagnose/secular))
+				user.mind?.AddSpell(/obj/effect/proc_holder/spell/invoked/diagnose)*/
 			add_spells(user, miracle_acolyte_bundle, choice_count = 2)
 			user.mind?.RemoveSpell(src.type)
 		if("Templar")
-			user.mind?.AddSpell(/obj/effect/proc_holder/spell/self/provocation)
+			//user.mind?.AddSpell(/obj/effect/proc_holder/spell/self/provocation)
 			add_spells(user, miracle_templar_bundle, choice_count = 2)
 			user.mind?.RemoveSpell(src.type)
 		else

@@ -1209,6 +1209,17 @@
 /obj/item/clothing/head/roguetown/helmet/heavy/holysee/ComponentInitialize()
 	AddComponent(/datum/component/adjustable_clothing, (HEAD|EARS|HAIR), (HIDEEARS|HIDEHAIR), null, 'sound/items/visor.ogg', null, UPD_HEAD)	//Standard helmet
 
+	
+
+/obj/item/clothing/head/roguetown/helmet/heavy/holysee/templar
+	name = "templar silver bascinet"
+
+/obj/item/clothing/head/roguetown/helmet/heavy/holysee/templar/mob_can_equip(mob/living/M, mob/living/equipper, slot, disable_warning = FALSE, bypass_equip_delay_self = FALSE)
+	return TRUE
+
+/obj/item/clothing/head/roguetown/helmet/heavy/holysee/templar/attack_hand(mob/user)
+	return TRUE
+
 /obj/item/clothing/head/roguetown/helmet/heavy/holysee/alt
 	name = "holy silver armet"
 	desc = "Branded by the Holy See, these helms are worn by it's chosen warriors. A bastion of hope in the dark nite."
@@ -1257,6 +1268,8 @@
 
 /obj/item/clothing/head/roguetown/helmet/heavy/holysee/ritual
 	sellprice = 150
+
+/obj/item/clothing/head/roguetown/helmet/heavy/holysee/templar
 
 /obj/item/clothing/head/roguetown/helmet/heavy/holysee/ritual/mob_can_equip(mob/living/M, mob/living/equipper, slot, disable_warning = FALSE, bypass_equip_delay_self = FALSE)
 	return TRUE
