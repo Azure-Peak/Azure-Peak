@@ -221,7 +221,7 @@
 	trait_to_apply = TRAIT_COMBAT_AWARE
 	points = 15
 
-/datum/hag_boon/buff/wyrd_labourer
+/datum/hag_boon/trait/wyrd_labourer
 	name = "Wyrd Labourer"
 	trait_to_apply = TRAIT_WYRD_LABOURER
 	points = 20

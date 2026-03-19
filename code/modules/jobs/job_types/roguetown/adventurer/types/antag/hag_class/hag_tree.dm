@@ -165,5 +165,10 @@
 
 /obj/item/alch/hag_moss/enchanted/deathless
 	name = "Corrosive Moss"
-	boon_path = /datum/hag_boon/buff/wyrd_labourer
+	boon_path = /datum/hag_boon/trait/wyrd_labourer
 	color = "#683700"
+
+/obj/item/alch/hag_moss/enchanted/crawling
+	name = "Crawling Moss"
+	boon_path = /datum/hag_boon/spell/spider_speak
+	color = "#0e0b09"

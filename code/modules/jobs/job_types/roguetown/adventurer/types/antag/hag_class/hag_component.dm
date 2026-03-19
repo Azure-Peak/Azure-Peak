@@ -140,6 +140,8 @@
 	name_list += C
 
 /datum/component/hag_curio_tracker/proc/find_target(true_name)
+	// Less heavy of a check than in boons itself.
+	// Don't use this proc if the player's mind is in question...
 	for(var/mob/living/L in GLOB.player_list)
 		if(L.real_name == true_name)
 			return L
@@ -152,6 +154,28 @@
 
 /datum/component/hag_curio_tracker/proc/user_can_receive_boon(boon_path, name_to_check)
 	// TODO - Implement limits here so people can't have infinity boons...
+	if(find_boon_by_type(name_to_check, boon_path))
+		to_chat(parent, span_warning("[name_to_check] already carries this pact!"))
+		return FALSE
+
+	to_chat(world, span_notice("DEBUG: Path identified as a [boon_path] boon. Searching for [name_to_check]..."))
+	// Spell check!
+	if(ispath(boon_path, /datum/hag_boon/spell))
+		to_chat(world, span_notice("DEBUG: Path identified as a SPELL boon. Searching for [name_to_check]..."))
+		var/mob/living/L = find_target(name_to_check)
+		if(!L)
+			to_chat(world, span_warning("DEBUG: Could not find mob for [name_to_check]. Skipping spell check."))
+		if(!L.mind)
+			to_chat(world, span_warning("DEBUG: [L] has no mind. Skipping spell check."))
+		if(L && L.mind)
+			var/datum/hag_boon/spell/spell_boon_path = boon_path
+			var/target_spell_type = initial(spell_boon_path.spell_type)
+			to_chat(world, span_notice("DEBUG: Checking for spell type: [target_spell_type]"))
+			// Check if the mob already has this spell from ANY source
+			for(var/obj/effect/proc_holder/spell/S in L.mind.spell_list)
+				if(S.type == target_spell_type)
+					to_chat(parent, span_warning("[name_to_check] already possesses the knowledge this boon would grant."))
+					return FALSE
 	return TRUE
 
 /datum/component/hag_curio_tracker/proc/consume_prepared_boon(boon_path)

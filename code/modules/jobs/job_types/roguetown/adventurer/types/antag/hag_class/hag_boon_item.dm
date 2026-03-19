@@ -14,6 +14,12 @@
 	if(!HCT) return
 
 	// Verify the Hag actually still has the boon prepared
+	if(!(HCT.user_can_receive_boon(boon_type, receiver.real_name)))
+		to_chat(offerer, span_warning("[receiver] cannot contain this boon's power right now."))
+		to_chat(receiver, span_warning("The item in your hand turns to harmless gray dust."))
+		qdel(parent)
+		return
+
 	if(HCT.consume_prepared_boon(boon_type))
 		HCT.grant_boon(receiver.real_name, boon_type, points)
 		to_chat(offerer, span_notice("The boon takes hold in [receiver]'s soul."))
