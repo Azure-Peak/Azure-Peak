@@ -1227,7 +1227,7 @@
 	name = "Rune of Deca Divinity"
 	desc = "A Holy Rune of The Undivided Pantheon"
 	icon_state = "undivided_chalky"
-	var/decarites = list("Crusader Vow")
+	var/decarites = list("Crusader's Vow")
 
 
 /obj/structure/ritualcircle/undivided/attack_hand(mob/living/user)
@@ -1244,7 +1244,7 @@
 		return
 	var/riteselection = input(user, "Rituals of Deca Divinity", src) as null|anything in decarites
 	switch(riteselection) // put ur rite selection here
-		if("Crusader Vow")
+		if("Crusader's Vow")
 			var/onrune = view(1, loc)
 			var/list/folksonrune = list()
 			for(var/mob/living/carbon/human/persononrune in onrune)
@@ -1253,16 +1253,16 @@
 			var/target = input(user, "Choose a host") as null|anything in folksonrune
 			if(!target)
 				return
-			user.say("Astrata and Ravox, I offer my hand to carry out your will!!")
+			user.say("Before your greatness, I swear an oath!!")
 			if(!do_after(user, 5 SECONDS))
 				return
-			user.say("Necra, I take your bargain, to protect the weak is virtue unto death!!")
+			user.say("To vanquish horrors and evil of Psydonia!!")
 			if(!do_after(user, 5 SECONDS))
 				return
-			user.say("To you all I offer my body and soul, your vessel in these lands!!")
+			user.say("To protect those who cannot protect themselves!!")
 			if(!do_after(user, 5 SECONDS))
 				return
-			user.say("To arms with my brethren, we shall vanquish evils of Psydonia!!")
+			user.say("To be your blade of justice, torch in the eternal darkness!!")
 			if(!do_after(user, 5 SECONDS))
 				return
 			icon_state = "undivided_active"
@@ -1272,21 +1272,24 @@
 				icon_state = "undivided_chalky"
 
 /obj/structure/ritualcircle/undivided/proc/undividedarmaments(mob/living/carbon/human/target)
+	var/undivided_cockblock = target.get_skill_level(/datum/skill/magic/holy)
 	if(!HAS_TRAIT(target, TRAIT_UNDIVIDED))
 		loc.visible_message(span_cult("THE RITE REJECTS ONE WITHOUT PURE HEART!!"))
-		return
+		return FALSE
+	if(undivided_cockblock < SKILL_LEVEL_JOURNEYMAN)//Only clerics can put it on.
+		loc.visible_message(span_cult("THE RITE REJECTS ONE WITHOUT PURE HEART!!"))
+		return FALSE
 	target.Stun(120)
 	to_chat(target, span_userdanger("UNIMAGINABLE PAIN!"))
 	target.emote("Agony")
 	playsound(loc, 'sound/misc/smelter_fin.ogg', 50)
 	loc.visible_message(span_good("[target]'s form becomes entombed in Malum's finest craftsmanship."))
 	spawn(20)
-		playsound(loc, 'sound/combat/hits/onmetal/grille (2).ogg', 50)
+		target.apply_status_effect(/datum/status_effect/buff/guidinglight/undivided)
+		playsound(target, 'sound/magic/holyshield.ogg', 80, FALSE, -1)
 		target.equipOutfit(/datum/outfit/job/roguetown/decarite)
 		to_chat(target, span_boldred("This is my only chance at LYFE."))
 		ADD_TRAIT(target, TRAIT_DNR, TRAIT_MIRACLE)
-		spawn(40)
-			to_chat(target, span_good("More to the flock."))
 
 /datum/outfit/job/roguetown/decarite/pre_equip(mob/living/carbon/human/H)
 	..()

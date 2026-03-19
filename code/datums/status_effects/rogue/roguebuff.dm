@@ -1018,6 +1018,17 @@
 
 	return TRUE
 
+/atom/movable/screen/alert/status_effect/buff/guidinglight/undivided
+	desc = "I am the light in eternal darkness!"
+	icon_state = "guiding_light_undivided"
+
+/datum/status_effect/buff/guidinglight/undivided
+	id = "guidinglight"//Admitedly don't want this to stack with Astrata's one because that would result in a flashbang.
+	alert_type = /atom/movable/screen/alert/status_effect/buff/guidinglight/undivided
+	duration = -1
+	status_type = STATUS_EFFECT_REFRESH
+	effectedstats = list(STATKEY_LCK = 1)
+	examine_text = "SUBJECTPRONOUN carries Their Light!"
 
 /datum/status_effect/buff/guidinglight/on_remove()
 	. = ..()

@@ -22,6 +22,7 @@
 	antimagic_allowed = FALSE
 	invocations = "Guide my path hallowed ones."
 	invocation_type = "shout"
+	req_items = list(/obj/item/clothing/neck/roguetown/psicross)
 	recharge_time = 2 MINUTES
 	chargetime = 2 SECONDS
 	chargedloop = /datum/looping_sound/invokegen
@@ -60,8 +61,11 @@
 	// This is a safeguard because buff code makes my head hurt
 	duration = 15 SECONDS
 
-	if(skill_level > SKILL_LEVEL_JOURNEYMAN)
-		ADD_TRAIT(owner, TRAIT_DARKVISION, "twinnedgaze")	
+
+	if(skill_level > SKILL_LEVEL_EXPERT)
+		ADD_TRAIT(owner, TRAIT_NIGHT_VISION, TRAIT_MIRACLE)
+	else if(skill_level >= SKILL_LEVEL_APPRENTICE)
+		ADD_TRAIT(owner, TRAIT_DARKVISION, TRAIT_MIRACLE)
 
 	if(GLOB.tod == "day" || GLOB.tod == "night")
 		duration *= 2
@@ -85,7 +89,11 @@
 		H.viewcone_override = FALSE
 		H.hide_cone()
 		H.update_cone_show()
-	REMOVE_TRAIT(owner, TRAIT_DARKVISION, "twinnedgaze")
+	if(HAS_TRAIT(owner, TRAIT_NIGHT_VISION))
+		REMOVE_TRAIT(owner, TRAIT_NIGHT_VISION, TRAIT_MIRACLE)
+	else
+		REMOVE_TRAIT(owner, TRAIT_DARKVISION, TRAIT_MIRACLE)
+
 
 /////////////////////////////////////////////////////////////////////////////////
 // T1 - Calming Respite - Restore ENERGY to a target and provide healing buff. //
@@ -210,32 +218,46 @@
 	req_items = list(/obj/item/clothing/neck/roguetown/psicross)
 	associated_skill = /datum/skill/magic/holy
 	var/chosen_bundle
-	var/list/miracle_utility_bundle = list(
-		/obj/effect/proc_holder/spell/invoked/diagnose,
+	var/list/miracle_generalist_bundle = list(
+		/obj/effect/proc_holder/spell/self/astrata_fireresist,
+		/obj/effect/proc_holder/spell/invoked/darkvision/miracle,
+		/obj/effect/proc_holder/spell/invoked/invisibility/miracle,
 		/obj/effect/proc_holder/spell/targeted/blesscrop,
-		/obj/effect/proc_holder/spell/invoked/moondream,
-		/obj/effect/proc_holder/spell/invoked/conjure_tool,
-		/obj/effect/proc_holder/spell/targeted/locate_dead
-	)
-	var/list/miracle_buff_bundle = list(
 		/obj/effect/proc_holder/spell/invoked/eora_blessing,
-		/obj/effect/proc_holder/spell/self/wise_moon,
+		/obj/effect/proc_holder/spell/invoked/conjure_tool,
+	)
+	var/list/miracle_acolyte_bundle = list(
+		/obj/effect/proc_holder/spell/targeted/locate_dead,
+		/obj/effect/proc_holder/spell/invoked/moondream,
 		/obj/effect/proc_holder/spell/invoked/bless_food,
 		/obj/effect/proc_holder/spell/invoked/avert
+	)
+	var/list/miracle_templar_bundle = list(
+		/obj/effect/proc_holder/spell/self/xylixslip,
+		/obj/effect/proc_holder/spell/self/wise_moon,
+		/obj/effect/proc_holder/spell/invoked/abyssor_undertow,
+		/obj/effect/proc_holder/spell/self/divine_strike,
+		/obj/effect/proc_holder/spell/invoked/heatmetal
 	)
 
 /obj/effect/proc_holder/spell/self/undivided_miracle_bundle/cast(list/targets, mob/user)
 	. = ..()
 	var/choice = chosen_bundle
 	if(!chosen_bundle)
-		choice = alert(user, "What type of miracles did the Ten bless you with?", "CHOOSE PATH", "Utility", "Buffs")
+		choice = alert(user, "What type of miracles did the Ten bless you with?", "CHOOSE PATH", "Generalist", "Acolyte", "Templar")
 		chosen_bundle = choice
 	switch(choice)
-		if("Utility")
-			add_spells(user, miracle_utility_bundle, grant_all = TRUE)
+		if("Generalist")
+			add_spells(user, miracle_generalist_bundle, choice_count = 3)
 			user.mind?.RemoveSpell(src.type)
-		if("Buffs")
-			add_spells(user, miracle_buff_bundle, grant_all = TRUE)
+		if("Acolyte")
+			if(!user.mind?.has_spell(/obj/effect/proc_holder/spell/invoked/diagnose/secular))
+				user.mind?.AddSpell(/obj/effect/proc_holder/spell/invoked/diagnose)
+			add_spells(user, miracle_acolyte_bundle, choice_count = 2)
+			user.mind?.RemoveSpell(src.type)
+		if("Templar")
+			user.mind?.AddSpell(/obj/effect/proc_holder/spell/self/provocation)
+			add_spells(user, miracle_templar_bundle, choice_count = 2)
 			user.mind?.RemoveSpell(src.type)
 		else
 			revert_cast()
@@ -280,6 +302,7 @@
 	sound = 'sound/magic/timestop.ogg'
 	invocations = list("begins uncontrollably giggling.")
 	invocation_type = "emote"
+	req_items = list(/obj/item/clothing/neck/roguetown/psicross)
 	movement_interrupt = FALSE
 	no_early_release = TRUE
 	chargedloop = /datum/looping_sound/invokegen
@@ -313,7 +336,7 @@
 /atom/movable/screen/alert/status_effect/debuff/gallowshumor
 	name = "Gallows Humor"
 	desc = "<span class='warning'>THAT CHILLED ME TO MY CORE!</span>\n"
-	icon_state = "mockery"
+	icon_state = "gallows"
 
 /datum/stressevent/gallowshumor
 	timer = 10 MINUTES 
@@ -340,7 +363,7 @@
 
 /obj/effect/proc_holder/spell/self/ten_united
 	name = "Ten United"
-	desc = "Rally the faithful by your side by your side."
+	desc = "Rally the faithful to fight by your side."
 	action_icon = 'icons/mob/actions/undividedmiracles.dmi'
 	overlay_icon = 'icons/mob/actions/undividedmiracles.dmi'
 	overlay_state = "united"
@@ -381,5 +404,4 @@
 /atom/movable/screen/alert/status_effect/buff/ten_united
 	name = "Undivided Camaraderie"
 	desc = span_bloody("WE STAND TOGETHER!")
-	icon_state = "call_to_arms"
-
+	icon_state = "ten_united"
