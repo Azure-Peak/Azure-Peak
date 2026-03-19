@@ -172,3 +172,8 @@
 	name = "Crawling Moss"
 	boon_path = /datum/hag_boon/spell/spider_speak
 	color = "#0e0b09"
+
+/obj/item/alch/hag_moss/enchanted/caring
+	name = "Caring Moss"
+	boon_path = /datum/hag_boon/spell/twist_food
+	color = "#ff0cff"
