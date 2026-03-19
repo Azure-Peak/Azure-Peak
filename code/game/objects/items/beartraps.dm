@@ -189,11 +189,30 @@
 					snap = FALSE
 			if(snap)
 				close_trap()
-				L.visible_message("<span class='danger'>[L] triggers \the [src].</span>", \
-						"<span class='danger'>I trigger \the [src]!</span>")
+				L.visible_message(span_danger("[L] triggers \the [src]."), \
+						span_danger("I trigger \the [src]!"))
 				if(L.apply_damage(trap_damage, BRUTE, def_zone, L.run_armor_check(def_zone, "stab", damage = trap_damage)))
 					L.Stun(80)
+		if(isitem(AM))
+			var/obj/item/I = AM
+			if(I.w_class >= WEIGHT_CLASS_NORMAL && prob(33))
+				I.take_damage(50, BRUTE, "stab")
+				close_trap()
+				visible_message(span_warning("[AM] triggers \the [src]."))
 	..()
+
+/obj/item/restraints/legcuffs/beartrap/attacked_by(obj/item/I, mob/living/user)
+	. = ..()
+	if(armed && istype(I, /obj/item/rogueweapon) || istype(I, /obj/item/clothing/suit))
+		if(prob(20))
+			var/msg = "[I] triggers \the [src]."
+			if(prob(80))
+				msg += " \the [src] digs into \the [I], damaging it!"
+				I.take_damage(50, BRUTE, "stab")
+			visible_message(span_warning(msg))
+			close_trap()
+		
+	
 
 /obj/item/restraints/legcuffs/beartrap/dropped(mob/living/carbon/human/user)
 	..()

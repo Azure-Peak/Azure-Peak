@@ -58,7 +58,7 @@
 
 		if(L.checkmiss(src))
 			return
-		if(!L.checkdefense(used_intent, src))
+		if(HAS_TRAIT(src, TRAIT_EMPOWERED_UNARMED) || !L.checkdefense(used_intent, src))
 			L.attack_hand(src, params)
 		return
 	else

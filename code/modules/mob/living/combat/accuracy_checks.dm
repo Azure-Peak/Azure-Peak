@@ -93,6 +93,8 @@
 	if(I)
 		if(I.wlength == WLENGTH_SHORT)
 			bonus += 10
+	else if(used_intent?.unarmed) // Unarmed is inherently short-range
+		bonus += 10
 
 	if(istype(user.rmb_intent, /datum/rmb_intent/aimed))
 		bonus += 20

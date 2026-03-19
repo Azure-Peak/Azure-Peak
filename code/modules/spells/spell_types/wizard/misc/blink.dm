@@ -6,7 +6,7 @@
 	releasedrain = SPELLCOST_TELEPORT
 	chargedrain = 1
 	chargetime = 3
-	recharge_time = 10 SECONDS
+	recharge_time = 12 SECONDS
 	warnie = "spellwarning"
 	no_early_release = TRUE
 	movement_interrupt = FALSE
@@ -23,6 +23,8 @@
 	glow_intensity = GLOW_INTENSITY_LOW
 	var/max_range = 5
 	var/phase = /obj/effect/temp_visual/blink
+	var/phase_sound = 'sound/magic/blink.ogg'
+	var/phase_beam = "purple_lightning" // Set to null to disable beam
 
 /obj/effect/temp_visual/blink
 	icon = 'icons/effects/effects.dmi'
@@ -37,8 +39,6 @@
 
 /obj/effect/temp_visual/blink/Initialize(mapload, new_caster)
 	. = ..()
-	var/turf/src_turf = get_turf(src)
-	playsound(src_turf,'sound/magic/blink.ogg', 65, TRUE, -5)
 
 /obj/effect/proc_holder/spell/invoked/blink/cast(list/targets, mob/user = usr)
 	var/turf/T = get_turf(targets[1])
@@ -68,8 +68,10 @@
 	var/obj/spot_one = new phase(start, user.dir)
 	var/obj/spot_two = new phase(T, user.dir)
 
-	spot_one.Beam(spot_two, "purple_lightning", time = 1.5 SECONDS)
-	playsound(T, 'sound/magic/blink.ogg', 25, TRUE)
+	if(phase_beam)
+		spot_one.Beam(spot_two, phase_beam, time = 1.5 SECONDS)
+	playsound(start, phase_sound, 65, TRUE)
+	playsound(T, phase_sound, 25, TRUE)
 
 	if(user.buckled) // don't stay remote-buckled to the guillotine/pillory
 		user.buckled.unbuckle_mob(user, TRUE)

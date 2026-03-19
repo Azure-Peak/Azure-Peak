@@ -217,7 +217,7 @@ GLOBAL_LIST_INIT(spells, typesof(/obj/effect/proc_holder/spell)) //needed for th
 	return releasedrain
 
 /obj/effect/proc_holder/spell/proc/calculate_fatigue_drain(mob/living/user)
-	if(!user || !releasedrain)
+	if(!user || !releasedrain || miracle)
 		return releasedrain
 	var/newdrain = releasedrain
 	if(user.STAINT > SPELL_SCALING_THRESHOLD)
@@ -229,7 +229,7 @@ GLOBAL_LIST_INIT(spells, typesof(/obj/effect/proc_holder/spell)) //needed for th
 	return max(newdrain, 0.1)
 
 /obj/effect/proc_holder/spell/proc/calculate_chargetime(mob/living/user)
-	if(!user || !chargetime)
+	if(!user || !chargetime || miracle)
 		return chargetime
 	var/newtime = chargetime
 	//skill block
@@ -252,15 +252,18 @@ GLOBAL_LIST_INIT(spells, typesof(/obj/effect/proc_holder/spell)) //needed for th
 	var/skill_level = user.get_skill_level(associated_skill)
 	if(skill_level > 0)
 		var/skill_mod = chargetime * skill_level * CHARGE_REDUCTION_PER_SKILL
-		breakdown += span_smallgreen("  Skill: -[DisplayTimeText(skill_mod)]")
+		if(skill_mod >= 1)
+			breakdown += span_smallgreen("  Skill: -[DisplayTimeText(skill_mod)]")
 	var/obj/item/book/spellbook/sbook = user.is_holding_item_of_type(/obj/item/book/spellbook)
 	if(sbook && sbook?.open)
 		var/book_mod = chargetime * sbook.get_castred()
-		breakdown += span_smallgreen("  Spellbook: -[DisplayTimeText(book_mod)]")
+		if(book_mod >= 1)
+			breakdown += span_smallgreen("  Spellbook: -[DisplayTimeText(book_mod)]")
 	var/obj/item/rogueweapon/staff = user.is_holding_item_of_type(/obj/item/rogueweapon/)
 	if(staff && staff.cast_time_reduction)
 		var/staff_mod = chargetime * staff.cast_time_reduction
-		breakdown += span_smallgreen("  Staff: -[DisplayTimeText(staff_mod)]")
+		if(staff_mod >= 1)
+			breakdown += span_smallgreen("  Staff: -[DisplayTimeText(staff_mod)]")
 	return breakdown
 
 /obj/effect/proc_holder/spell/proc/get_cooldown_breakdown(mob/living/user)
@@ -300,7 +303,7 @@ GLOBAL_LIST_INIT(spells, typesof(/obj/effect/proc_holder/spell)) //needed for th
 	return breakdown
 
 /obj/effect/proc_holder/spell/proc/calculate_cooldown(mob/living/user)
-	if(!user || is_cdr_exempt)
+	if(!user || is_cdr_exempt || miracle)
 		return initial(recharge_time)
 	var/base = initial(recharge_time)
 	var/newcd = base
@@ -336,7 +339,7 @@ GLOBAL_LIST_INIT(spells, typesof(/obj/effect/proc_holder/spell)) //needed for th
 	if(base_ct > 0)
 		var/dynamic_ct = user ? calculate_chargetime(user) : base_ct
 		if(dynamic_ct != base_ct)
-			stats += span_info("Charge time: [DisplayTimeText(base_ct)] (current: [DisplayTimeText(dynamic_ct)])")
+			stats += span_info("Charge time: [DisplayTimeText(base_ct)] (current: [dynamic_ct < 1 ? "instant" : DisplayTimeText(dynamic_ct)])")
 			if(user)
 				stats += get_chargetime_breakdown(user)
 		else
@@ -613,6 +616,14 @@ GLOBAL_LIST_INIT(spells, typesof(/obj/effect/proc_holder/spell)) //needed for th
 			L.mob_timers[MT_FOUNDSNEAK] = world.time
 			L.update_sneak_invis(reset = TRUE)
 	if(cast(targets, user = user))
+		// Self spells bypass the ranged_ability click pipeline, which is where
+		// releasedrain stamina cost is normally applied (via mob_helpers.dm).
+		// Apply it here so ALL spell types properly drain stamina on cast.
+		if(!ranged_ability_user && releasedrain > 0 && isliving(user))
+			var/mob/living/L = user
+			var/fatigue = calculate_fatigue_drain(L)
+			if(fatigue > 0)
+				L.stamina_add(fatigue)
 		invocation(user)
 		start_recharge()
 		if(sound)
@@ -965,6 +976,9 @@ GLOBAL_LIST_INIT(spells, typesof(/obj/effect/proc_holder/spell)) //needed for th
 			// Remove first so chain-deflections replay the overhead visual and reset the timer
 			attacker.remove_status_effect(/datum/status_effect/debuff/exposed)
 			attacker.apply_status_effect(/datum/status_effect/debuff/exposed, 5 SECONDS)
+			// Match melee riposte: lock out attacks and slow the attacker down
+			attacker.apply_status_effect(/datum/status_effect/debuff/clickcd, 3 SECONDS)
+			attacker.Slowdown(3)
 			// Dump all momentum — you swung into a guard, you lose your edge
 			var/datum/status_effect/buff/arcyne_momentum/momentum = attacker.has_status_effect(/datum/status_effect/buff/arcyne_momentum)
 			if(momentum && momentum.stacks > 0)

@@ -20,7 +20,7 @@ Defend blocks damage, no reflect penalty. Same Z-level only. */
 		Same level only. Can be blocked by Defend stance."
 	clothes_req = FALSE
 	range = 7
-	action_icon = 'icons/mob/actions/spellblade.dmi' // Icon by Prominence / Nobleed
+	action_icon = 'icons/mob/actions/classuniquespells/spellblade.dmi' // Icon by Prominence / Nobleed
 	overlay_state = "cataclysm"
 	releasedrain = SPELLCOST_SB_ULT
 	chargedrain = 1

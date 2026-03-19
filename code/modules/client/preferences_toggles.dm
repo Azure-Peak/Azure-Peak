@@ -60,6 +60,13 @@
 		else
 			to_chat(src, "Your character information will no longer be viewable when masked.")
 
+/client/verb/toggle_midis()
+	set category = "Options"
+	set name = "Toggle Admin Midis"
+	if(prefs)
+		prefs.toggles ^= SOUND_MIDI
+	to_chat(src, "You will [prefs.toggles & SOUND_MIDI ? "" : "no longer"] hear admin-played sounds.")
+
 /client/verb/mute_animal_emotes()
 	set category = "Options"
 	set name = "Toggle Animal Noise Emotes"

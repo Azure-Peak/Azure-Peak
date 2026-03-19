@@ -9,8 +9,8 @@ No momentum gain — use normal swings for that.*/
 		Does not build momentum. At 3+ momentum: consumes 3 to double damage. \
 		Strikes your aimed bodypart. Can be deflected by Defend stance."
 	clothes_req = FALSE
-	range = 3
-	action_icon = 'icons/mob/actions/spellblade.dmi' // Icon by Prominence / Nobleed
+	range = 7
+	action_icon = 'icons/mob/actions/classuniquespells/spellblade.dmi' // Icon by Prominence / Nobleed
 	overlay_state = "shatter"
 	releasedrain = SPELLCOST_SB_POKE
 	chargedrain = 0
@@ -26,10 +26,11 @@ No momentum gain — use normal swings for that.*/
 	gesture_required = TRUE
 	xp_gain = FALSE
 	var/line_length = 3
-	var/base_damage = 50
+	var/base_damage = 40
 	var/empowered_mult = 2
 	var/push_dist = 1
 	var/momentum_cost = 3
+	var/telegraph_delay = 4
 
 /obj/effect/proc_holder/spell/invoked/shatter/cast(list/targets, mob/user = usr)
 	var/mob/living/carbon/human/H = user
@@ -47,7 +48,6 @@ No momentum gain — use normal swings for that.*/
 	var/turf/target_turf = get_turf(target)
 	var/turf/start = get_turf(H)
 	var/facing = get_dir(start, target_turf) || H.dir
-	var/def_zone = H.zone_selected || BODY_ZONE_CHEST
 
 	var/empowered = FALSE
 	var/datum/status_effect/buff/arcyne_momentum/M = H.has_status_effect(/datum/status_effect/buff/arcyne_momentum)
@@ -57,7 +57,6 @@ No momentum gain — use normal swings for that.*/
 		to_chat(H, span_notice("[momentum_cost] momentum released — empowered shatter!"))
 
 	var/damage = empowered ? (base_damage * empowered_mult) : base_damage
-	var/push_dist = 1
 
 	var/list/line_turfs = list()
 	var/turf/current = start
@@ -79,9 +78,32 @@ No momentum gain — use normal swings for that.*/
 		revert_cast()
 		return
 
+	// Telegraph — show warning on affected tiles
+	for(var/turf/T in line_turfs)
+		new /obj/effect/temp_visual/air_strike_telegraph(T)
+
+	// Grunt as they wind up the swing
+	H.emote("attackgrunt", forced = TRUE)
+
+	addtimer(CALLBACK(src, PROC_REF(resolve_shatter), H, line_turfs, facing, damage, empowered), telegraph_delay)
+	return TRUE
+
+/obj/effect/proc_holder/spell/invoked/shatter/proc/resolve_shatter(mob/living/carbon/human/H, list/line_turfs, facing, damage, empowered)
+	if(QDELETED(H) || H.stat == DEAD)
+		return
+
+	var/obj/item/held_weapon = arcyne_get_weapon(H)
+	if(!held_weapon)
+		return
+
+	var/def_zone = H.zone_selected || BODY_ZONE_CHEST
+
+	// Visual and sound effects
 	for(var/turf/T in line_turfs)
 		new /obj/effect/temp_visual/kinetic_blast(T)
-	playsound(start, pick('sound/combat/ground_smash1.ogg', 'sound/combat/ground_smash2.ogg', 'sound/combat/ground_smash3.ogg'), 80, TRUE)
+	playsound(get_turf(H), pick('sound/combat/ground_smash1.ogg', 'sound/combat/ground_smash2.ogg', 'sound/combat/ground_smash3.ogg'), 80, TRUE)
+
+	H.emote("attack", forced = TRUE)
 
 	var/hit_count = 0
 	var/deflected = FALSE
@@ -109,10 +131,11 @@ No momentum gain — use normal swings for that.*/
 		H.visible_message(span_danger("[H] smashes [H.p_their()] [held_weapon.name] forward in a devastating line!"))
 	else
 		H.visible_message(span_notice("[H] smashes [H.p_their()] [held_weapon.name] forward!"))
+
+	var/datum/status_effect/buff/arcyne_momentum/M = H.has_status_effect(/datum/status_effect/buff/arcyne_momentum)
 	if(hit_count >= 2)
 		if(M)
 			M.add_stacks(1)
 			to_chat(H, span_notice("DOUBLE STRIKE! ARCYNE SURGE!"))
 
 	log_combat(H, null, "used Shatter")
-	return TRUE

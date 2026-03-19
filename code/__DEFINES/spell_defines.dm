@@ -39,8 +39,8 @@
 
 // Standardized spell stamina costs
 #define SPELLCOST_CANTRIP            5
-#define SPELLCOST_MINOR_PROJECTILE   12 // Should feels good to spam and not stamcrit you
-#define SPELLCOST_MAJOR_PROJECTILE   25 // 25 seems decent
+#define SPELLCOST_MINOR_PROJECTILE   10 // Should feels good to spam and not stamcrit you
+#define SPELLCOST_MAJOR_PROJECTILE   20 // 25 seems decent
 #define SPELLCOST_SUPER_PROJECTILE   45 // Only used for GFB for now as an intermediary
 #define SPELLCOST_ULTIMATE           70
 #define SPELLCOST_MINOR_AOE          15
@@ -48,8 +48,8 @@
 #define SPELLCOST_SINGLE_CC          30
 #define SPELLCOST_UTILITY_BUFF       20
 #define SPELLCOST_STAT_BUFF          40
-#define SPELLCOST_CONJURE            40
-#define SPELLCOST_TELEPORT           30
+#define SPELLCOST_CONJURE            20
+#define SPELLCOST_TELEPORT           15
 #define SPELLCOST_MINOR_SUMMON       30
 #define SPELLCOST_MAJOR_SUMMON       50
 #define SPELLCOST_MIRACLE            30
@@ -61,3 +61,8 @@
 #define SPELLCOST_SB_POKE 15 // Roughly 3 attacks worth
 #define SPELLCOST_SB_MOBILITY 15 // Dashes / Teleports / Anchor
 #define SPELLCOST_SB_ULT 50 // Their ult
+
+// Telegraph delay tiers (in ticks)
+#define TELEGRAPH_SKILLSHOT 4   // Fast — requires prediction to dodge
+#define TELEGRAPH_DODGEABLE 8   // Reactable — can dodge on reaction
+#define TELEGRAPH_HIGH_IMPACT 12 // Slow — highly telegraphed, big payoff

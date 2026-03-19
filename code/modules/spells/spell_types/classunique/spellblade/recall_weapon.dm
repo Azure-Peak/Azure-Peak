@@ -2,7 +2,7 @@
 	name = "Recall Weapon"
 	desc = "Recall your bound weapon to your hand from anywhere."
 	clothes_req = FALSE
-	action_icon = 'icons/mob/actions/spellblade.dmi'
+	action_icon = 'icons/mob/actions/classuniquespells/spellblade.dmi'
 	overlay_state = "recall_weapon"
 	releasedrain = SPELLCOST_SB_MOBILITY
 	chargedrain = 0

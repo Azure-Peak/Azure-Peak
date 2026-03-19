@@ -3,7 +3,7 @@
 
 /obj/item/signal_horn
 	name = "signal horn"
-	desc = "A horn carried by the wardens. Blowing it attracts the attention of various creechurs and rapscallions, enabling the wardens to clear them out."
+	desc = "A horn carried by the wardens. Blowing it attracts the attention of various creechurs and rapscallions, enabling the wardens to clear them out. Beware, such encounters are seldomly predictable. Bring friends for your safety."
 	icon = 'icons/obj/items/signalhorn.dmi'
 	icon_state = "signalhorn"
 	slot_flags = ITEM_SLOT_HIP|ITEM_SLOT_NECK
@@ -105,8 +105,8 @@
 		to_chat(player, span_warning("I hear the horn of the Wardens somewhere [dirtext]"))
 
 	// Single budget call — the budget system already scales with player count and latent threat.
-	// budget_floor = 2 guarantees at least 20 TP budget, so solo wardens in tamed regions still get a fight.
-	return user.consider_ambush(always = TRUE, ignore_cooldown = TRUE, min_dist = WARDEN_AMBUSH_MIN, max_dist = WARDEN_AMBUSH_MAX, budget_floor = 2)
+	// budget_multiplier_floor = rand(3, 6) guarantees 3-6 natural ambush equivalents at the region's full pool.
+	return user.consider_ambush(always = TRUE, ignore_cooldown = TRUE, min_dist = WARDEN_AMBUSH_MIN, max_dist = WARDEN_AMBUSH_MAX, budget_multiplier_floor = rand(3, 6))
 
 #undef WARDEN_AMBUSH_MIN
 #undef WARDEN_AMBUSH_MAX

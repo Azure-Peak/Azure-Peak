@@ -1,6 +1,0 @@
-author: "Ryan180602"
-delete-after: True
-changes:
-  - rscadd: "Revenants can be Kounen, AdvArisocrat, KnightlyJourney Knight, Unraveled Vagabond."
-  - bugfix: "Kounen shows up on the limited slot list."
-  - code_imp: "`RACES_NO_CONSTRUCT` involves dullahans now."

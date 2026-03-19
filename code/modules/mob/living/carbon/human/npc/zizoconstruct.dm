@@ -85,7 +85,7 @@ GLOBAL_LIST_INIT(zizoconstruct_aggro, world.file2list("strings/rt/zconstructaggr
 	color = "#5f1414"
 	max_integrity = 500
 	anvilrepair = /datum/skill/craft/engineering
-	unarmed_bonus = 10
+	unarmed_bonus = 8
 
 /obj/item/clothing/gloves/roguetown/knuckles/bronze/zizoconstruct/pickup(mob/living/user)
 	if(!HAS_TRAIT(user, TRAIT_BLOODLOSS_IMMUNE))

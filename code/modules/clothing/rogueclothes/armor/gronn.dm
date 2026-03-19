@@ -54,7 +54,7 @@
 	item_state = "gronnfurgloves"
 	icon = 'icons/roguetown/clothing/special/gronn.dmi'
 	mob_overlay_icon = 'icons/roguetown/clothing/special/onmob/gronn.dmi'
-	unarmed_bonus = 5
+	unarmed_bonus = 6
 	max_integrity = 250
 	color = "#ffffff"
 

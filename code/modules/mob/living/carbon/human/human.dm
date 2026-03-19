@@ -95,8 +95,8 @@
 	AddComponent(/datum/component/personal_crafting)
 	AddComponent(/datum/component/footstep, footstep_type, 1, 2)
 	GLOB.human_list += src
-	
-	
+	unarmed_special = new /datum/special_intent/upper_cut()
+
 	max_breath = 10
 	breath_remaining = 10
 	addtimer(CALLBACK(src, PROC_REF(update_breath_hud)), 1)

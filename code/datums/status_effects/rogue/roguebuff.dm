@@ -177,17 +177,6 @@
 	effectedstats = list(STATKEY_INT = 5,STATKEY_SPD = 3,STATKEY_LCK = -5)
 	duration = 2 MINUTES
 
-/datum/status_effect/buff/druqks/baotha
-
-/datum/status_effect/buff/druqks/baotha/on_apply()
-	. = ..()
-	ADD_TRAIT(owner, TRAIT_CRACKHEAD, TRAIT_MIRACLE)
-
-/datum/status_effect/buff/druqks/baotha/on_remove()
-	. = ..()
-	REMOVE_TRAIT(owner, TRAIT_CRACKHEAD, TRAIT_MIRACLE)
-	owner.visible_message("[owner]'s eyes appear to return to normal.")
-
 /datum/status_effect/buff/druqks/on_apply()
 	. = ..()
 	if(owner?.client)
@@ -218,6 +207,42 @@
 	desc = ""
 	icon_state = "acid"
 
+/datum/status_effect/buff/baothablessing
+	id = "druqks"
+	alert_type = /atom/movable/screen/alert/status_effect/buff/baothablessing
+	duration = 2 MINUTES
+
+/datum/status_effect/buff/baothablessing/on_apply()
+	. = ..()
+	ADD_TRAIT(owner, TRAIT_CRACKHEAD, TRAIT_MIRACLE)
+	if(owner?.client)
+		if(owner.client.screen && owner.client.screen.len)
+			var/atom/movable/screen/plane_master/game_world/PM = locate(/atom/movable/screen/plane_master/game_world) in owner.client.screen
+			PM.backdrop(owner)
+			PM = locate(/atom/movable/screen/plane_master/game_world_fov_hidden) in owner.client.screen
+			PM.backdrop(owner)
+			PM = locate(/atom/movable/screen/plane_master/game_world_above) in owner.client.screen
+			PM.backdrop(owner)
+			owner.add_stress(/datum/stressevent/high)
+
+/datum/status_effect/buff/baothablessing/on_remove()
+	if(owner?.client)
+		if(owner.client.screen && owner.client.screen.len)
+			var/atom/movable/screen/plane_master/game_world/PM = locate(/atom/movable/screen/plane_master/game_world) in owner.client.screen
+			PM.backdrop(owner)
+			PM = locate(/atom/movable/screen/plane_master/game_world_fov_hidden) in owner.client.screen
+			PM.backdrop(owner)
+			PM = locate(/atom/movable/screen/plane_master/game_world_above) in owner.client.screen
+			PM.backdrop(owner)
+			owner.remove_stress(/datum/stressevent/high)
+
+	. = ..()
+
+/atom/movable/screen/alert/status_effect/buff/baothablessing
+	name = "Baothan Blessing"
+	desc = "Baotha has blessed you with immunity to overdose. Rejoice!"
+	icon_state = "acid"
+
 /datum/status_effect/buff/ozium
 	id = "ozium"
 	alert_type = /atom/movable/screen/alert/status_effect/buff/druqks
@@ -240,9 +265,6 @@
 	effectedstats = list(STATKEY_SPD = 2, STATKEY_WIL = 2, STATKEY_INT = -2)
 	duration = 30 SECONDS
 
-/datum/status_effect/buff/moondust/nextmove_modifier()
-	return 0.8
-
 /datum/status_effect/buff/moondust/on_apply()
 	. = ..()
 	owner.add_stress(/datum/stressevent/moondust)
@@ -252,9 +274,6 @@
 	alert_type = /atom/movable/screen/alert/status_effect/buff/druqks
 	effectedstats = list(STATKEY_SPD = 3, STATKEY_WIL = 3, STATKEY_INT = -2)
 	duration = 40 SECONDS
-
-/datum/status_effect/buff/moondust_purest/nextmove_modifier()
-	return 0.8
 
 /datum/status_effect/buff/moondust_purest/on_apply()
 	. = ..()
@@ -267,21 +286,18 @@
 	duration = 80 SECONDS
 	var/originalcmode = ""
 
-/datum/status_effect/buff/herozium/nextmove_modifier()
-	return 1.2
-
 /datum/status_effect/buff/herozium/on_apply()
 	. = ..()
 	owner.add_stress(/datum/stressevent/ozium)
 	ADD_TRAIT(owner, TRAIT_NOPAIN, id)
-	ADD_TRAIT(owner, TRAIT_CRITICAL_RESISTANCE, id)
+	ADD_TRAIT(owner, TRAIT_IGNOREDAMAGESLOWDOWN, id)
 	originalcmode = owner.cmode_music
 	owner.cmode_music = 'sound/music/combat_ozium.ogg'
 
 /datum/status_effect/buff/herozium/on_remove()
 	owner.remove_stress(/datum/stressevent/ozium)
 	REMOVE_TRAIT(owner, TRAIT_NOPAIN, id)
-	REMOVE_TRAIT(owner, TRAIT_CRITICAL_RESISTANCE, id)
+	REMOVE_TRAIT(owner, TRAIT_IGNOREDAMAGESLOWDOWN, id)
 	owner.cmode_music = originalcmode
 	. = ..()
 
@@ -291,9 +307,6 @@
 	effectedstats = list(STATKEY_SPD = 4, STATKEY_WIL = 4, STATKEY_INT = -3, STATKEY_CON = -3)
 	duration = 80 SECONDS
 	var/originalcmode = ""
-
-/datum/status_effect/buff/starsugar/nextmove_modifier()
-	return 0.7
 
 /datum/status_effect/buff/starsugar/on_apply()
 	. = ..()
@@ -897,14 +910,14 @@
 	desc = "Divine intervention bolsters me and aids my recovery."
 	icon_state = "buff"
 
-/atom/movable/screen/alert/status_effect/buff/convergence
-	name = "Convergence Miracle"
-	desc = "My body converges to whence it found strength and health."
+/atom/movable/screen/alert/status_effect/debuff/diminish
+	name = "Diminished"
+	desc = "Origin magick has diminished my instincts - my movements feel sluggish and predictable, and my body feels weakened."
 	icon_state = "buff"
 
 /atom/movable/screen/alert/status_effect/buff/stasis
-	name = "Stasis Miracle"
-	desc = "A part of me has been put in stasis."
+	name = "Reversion"
+	desc = "A part of me has been left behind - I will revert soon."
 	icon_state = "buff"
 
 /atom/movable/screen/alert/status_effect/buff/censerbuff
@@ -923,15 +936,33 @@
 	duration = 15 MINUTES
 	effectedstats = list(STATKEY_WIL = 1, STATKEY_CON = 1)
 
-/datum/status_effect/buff/convergence //Increases all healing while it lasts.
-	id = "convergence"
-	alert_type = /atom/movable/screen/alert/status_effect/buff/convergence
+#define DIMINISH_FILTER "diminish_glow"
+/datum/status_effect/debuff/diminish
+	var/outline_colour = "#8b2fc9"
+	id = "diminish"
+	alert_type = /atom/movable/screen/alert/status_effect/debuff/diminish
 	duration = 1 MINUTES
+	effectedstats = list(STATKEY_STR = -2, STATKEY_CON = -2)
 
-/datum/status_effect/buff/stasis //Increases all healing while it lasts.
+/datum/status_effect/debuff/diminish/on_apply()
+	. = ..()
+	if(!.)
+		return
+	var/filter = owner.get_filter(DIMINISH_FILTER)
+	if(!filter)
+		owner.add_filter(DIMINISH_FILTER, 2, list("type" = "outline", "color" = outline_colour, "alpha" = 50, "size" = 1))
+	ADD_TRAIT(owner, TRAIT_REVERSE_GUIDANCE, MAGIC_TRAIT)
+
+/datum/status_effect/debuff/diminish/on_remove()
+	. = ..()
+	owner.remove_filter(DIMINISH_FILTER)
+	REMOVE_TRAIT(owner, TRAIT_REVERSE_GUIDANCE, MAGIC_TRAIT)
+#undef DIMINISH_FILTER
+
+/datum/status_effect/buff/reversion
 	id = "stasis"
 	alert_type = /atom/movable/screen/alert/status_effect/buff/stasis
-	duration = 10 SECONDS
+	duration = 15 SECONDS
 
 #define CRANKBOX_FILTER "crankboxbuff_glow"
 /atom/movable/screen/alert/status_effect/buff/churnerprotection

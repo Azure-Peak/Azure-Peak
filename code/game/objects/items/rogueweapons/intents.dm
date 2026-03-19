@@ -207,6 +207,7 @@
 		inspec += "\nThis intent will cost some sharpness for every attack made."
 	if(unarmed)
 		inspec += "\n<b>Swift:</b> Harder to parry or dodge when faster than your opponent."
+		inspec += "\n<b>Short Reach:</b> More accurate at striking specific body parts."
 	if(swingdelay > 0)
 		inspec += "\n<b>Attack Delay:</b> "
 		if(swingdelay <= 2)
@@ -561,11 +562,11 @@
 	chargetime = 0
 	noaa = FALSE
 	animname = "bite"
-	hitsound = list('sound/combat/hits/punch/punch (1).ogg', 'sound/combat/hits/punch/punch (2).ogg', 'sound/combat/hits/punch/punch (3).ogg')
-	misscost = 4
+	hitsound = list('sound/combat/hits/punch/punch_hard (1).ogg', 'sound/combat/hits/punch/punch_hard (2).ogg', 'sound/combat/hits/punch/punch_hard (3).ogg')
+	misscost = 3
 	releasedrain = 1
 	swingdelay = 0
-	clickcd = CLICK_CD_QUICK
+	clickcd = CLICK_CD_FAST // Same speed as katar — fists are the free unarmed weapon
 	rmb_ranged = TRUE
 	candodge = TRUE
 	canparry = TRUE
