@@ -113,7 +113,7 @@
 	movement_interrupt = FALSE
 	no_early_release = TRUE
 	req_items = list(/obj/item/clothing/neck/roguetown/psicross)
-	sound = 'sound/items/bsmithfail.ogg'
+	sound = 'sound/misc/notice.ogg'
 	invocations = list("Through toil and devotion, let your vigor be restored by their hand!")
 	invocation_type = "shout"
 	associated_skill = /datum/skill/magic/holy
@@ -122,7 +122,7 @@
 	chargetime = 2 SECONDS
 	miracle = TRUE
 	charging_slowdown = 3
-	chargedloop = /datum/looping_sound/invokegen
+	chargedloop = /datum/looping_sound/invokeholy
 	devotion_cost = 30
 	var/respite_healing = 3
 
@@ -156,11 +156,11 @@
 	releasedrain = 50
 	chargedrain = 0
 	chargetime = 2 SECONDS
-	chargedloop = /datum/looping_sound/invokegen
+	chargedloop = /datum/looping_sound/invokeholy
 	range = 5
 	warnie = "sydwarning"
 	req_items = list(/obj/item/clothing/neck/roguetown/psicross)
-	sound = 'sound/magic/timestop.ogg'
+	sound = 'sound/misc/bellold.ogg'
 	invocations = list("Let their love fill you whole!")
 	invocation_type = "shout"
 	associated_skill = /datum/skill/magic/holy
@@ -210,7 +210,7 @@
 	overlay_icon = 'icons/mob/actions/undividedmiracles.dmi'
 	overlay_state = "inspiration"
 	miracle = TRUE
-	devotion_cost = 200
+	devotion_cost = 100
 	recharge_time = 25 MINUTES
 	chargetime = 0
 	chargedrain = 0
@@ -219,18 +219,19 @@
 	associated_skill = /datum/skill/magic/holy
 	var/chosen_bundle
 	var/list/miracle_generalist_bundle = list(
-		/obj/effect/proc_holder/spell/self/astrata_fireresist,
-		/obj/effect/proc_holder/spell/invoked/darkvision/miracle,
-		/obj/effect/proc_holder/spell/invoked/invisibility/miracle,
-		/obj/effect/proc_holder/spell/targeted/blesscrop,
-		/obj/effect/proc_holder/spell/invoked/eora_blessing,
-		/obj/effect/proc_holder/spell/invoked/conjure_tool,
+		/obj/effect/proc_holder/spell/self/astrata_fireresist::name			= /obj/effect/proc_holder/spell/self/astrata_fireresist,
+		/obj/effect/proc_holder/spell/invoked/darkvision/miracle::name		= /obj/effect/proc_holder/spell/invoked/darkvision/miracle,
+		/obj/effect/proc_holder/spell/invoked/invisibility/miracle::name	= /obj/effect/proc_holder/spell/invoked/invisibility/miracle,
+		/obj/effect/proc_holder/spell/targeted/blesscrop::name				= /obj/effect/proc_holder/spell/targeted/blesscrop,
+		/obj/effect/proc_holder/spell/invoked/eora_blessing::name			= /obj/effect/proc_holder/spell/invoked/eora_blessing,
+		/obj/effect/proc_holder/spell/invoked/conjure_tool::name			= /obj/effect/proc_holder/spell/invoked/conjure_tool,
 	)
 	var/list/miracle_acolyte_bundle = list(
-		/obj/effect/proc_holder/spell/targeted/locate_dead,
-		/obj/effect/proc_holder/spell/invoked/moondream,
-		/obj/effect/proc_holder/spell/invoked/bless_food,
-		/obj/effect/proc_holder/spell/invoked/avert
+		/obj/effect/proc_holder/spell/invoked/diagnose::name			= /obj/effect/proc_holder/spell/invoked/diagnose,
+		/obj/effect/proc_holder/spell/targeted/locate_dead::name		= /obj/effect/proc_holder/spell/targeted/locate_dead,
+		/obj/effect/proc_holder/spell/invoked/moondream::name			= /obj/effect/proc_holder/spell/invoked/moondream,
+		/obj/effect/proc_holder/spell/invoked/bless_food::name			= /obj/effect/proc_holder/spell/invoked/bless_food,
+		/obj/effect/proc_holder/spell/invoked/avert::name				= /obj/effect/proc_holder/spell/invoked/avert,
 	)
 	var/list/miracle_templar_bundle = list(
 		/obj/effect/proc_holder/spell/self/xylixslip::name 				= /obj/effect/proc_holder/spell/self/xylixslip,
@@ -251,12 +252,9 @@
 			add_spells(user, miracle_generalist_bundle, choice_count = 3)
 			user.mind?.RemoveSpell(src.type)
 		if("Acolyte")
-			/*if(!user.mind?.has_spell(/obj/effect/proc_holder/spell/invoked/diagnose/secular))
-				user.mind?.AddSpell(/obj/effect/proc_holder/spell/invoked/diagnose)*/
 			add_spells(user, miracle_acolyte_bundle, choice_count = 2)
 			user.mind?.RemoveSpell(src.type)
 		if("Templar")
-			//user.mind?.AddSpell(/obj/effect/proc_holder/spell/self/provocation)
 			add_spells(user, miracle_templar_bundle, choice_count = 2)
 			user.mind?.RemoveSpell(src.type)
 		else
@@ -299,13 +297,13 @@
 	recharge_time = 2 MINUTES
 	range = 5 //Say it to their face
 	chargetime = 3 SECONDS //All churns come with a delay
-	sound = 'sound/magic/timestop.ogg'
+	sound = 'sound/misc/deadbell.ogg'
 	invocations = list("begins uncontrollably giggling.")
 	invocation_type = "emote"
 	req_items = list(/obj/item/clothing/neck/roguetown/psicross)
 	movement_interrupt = FALSE
 	no_early_release = TRUE
-	chargedloop = /datum/looping_sound/invokegen
+	chargedloop = /datum/looping_sound/invokeholy
 
 /obj/effect/proc_holder/spell/invoked/gallowshumor/cast(list/targets, mob/user = usr)
 	playsound(get_turf(user), 'sound/magic/mockery.ogg', 40, FALSE)
@@ -370,7 +368,7 @@
 	recharge_time = 6 MINUTES
 	invocations = list("WE STAND TOGETHER!", "UNITED WE WILL PREVAIL!", "DRIVE THE FIENDS BACK!!")
 	invocation_type = "shout"
-	sound = 'sound/magic/timestop.ogg'
+	sound = 'sound/misc/hello.ogg'
 	releasedrain = 30
 	miracle = TRUE
 	devotion_cost = 40

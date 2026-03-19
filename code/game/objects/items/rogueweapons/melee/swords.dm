@@ -251,7 +251,7 @@
 /obj/item/rogueweapon/sword/long/undivided
 	name = "decablade"
 	desc = "A blessed longsword, held by the Holy See's templars in their stalwart defense against evil. The golden crossguard bares the winged motif of an angel, and psalms from the Pantheon's holy tome have been meticulously carved along the blade's edge. </br>'With a drop of holy Eclipsum, doth the blade rise..' </br>'..gilded, gleaming, radiant heat, warm my soul, immolate my enemies..' </br>'..and let me vanquish all those who would dare to Divide us, once more.'"
-	icon_state = "eclipsum"
+	icon_state = "seeblade"
 	sheathe_icon = "eclipsum"
 	max_blade_int = 250
 	max_integrity = 180
