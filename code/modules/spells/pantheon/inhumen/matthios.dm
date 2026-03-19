@@ -75,9 +75,9 @@
 	chargedloop = /datum/looping_sound/invokefire
 	recharge_time = 2 MINUTES
 	associated_skill = /datum/skill/magic/holy
-	var/delay = 12
-	var/strike_delay = 2
-	var/damage = 20
+	var/delay = 15
+	var/strike_delay = 4
+	var/damage = 5//20 on lvl 1 HOLY
 
 /obj/effect/proc_holder/spell/invoked/matthios_firebreath/cast(list/targets, mob/user = usr)
 	var/turf/T = get_turf(targets[1])
