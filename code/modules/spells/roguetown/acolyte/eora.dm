@@ -1029,6 +1029,16 @@
 	for(var/aril_type in aril_types)
 		new aril_type(loc)
 
+	// if you've tended your tree perfectly, are eligible to pick fruit, pray over the pomegranate, and haven't gotten one already, you get a guaranteed seed
+	var/mob/living/living_user = user
+	if(istype(living_user)\
+		&& (fruit_tier == 4)\
+		&& ((living_user.patron.type == /datum/patron/divine/eora) || HAS_TRAIT(living_user, TRAIT_CHOSEN))\
+		&& user.get_stress_event(/datum/stressevent/psyprayer)\
+		&& !HAS_TRAIT(living_user, TRAIT_EORAN_PITY))
+		new /obj/item/reagent_containers/eoran_seed(loc)
+		ADD_TRAIT(living_user, TRAIT_EORAN_PITY, TRAIT_GENERIC)
+
 	qdel(src)
 
 #undef SPROUT
