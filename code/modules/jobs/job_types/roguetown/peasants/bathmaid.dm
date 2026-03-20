@@ -120,9 +120,6 @@
 		/datum/skill/craft/crafting = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/misc/lockpicking = SKILL_LEVEL_JOURNEYMAN,
 	)
-	subclass_languages = list(
-		/datum/language/thievescant,
-	)
 
 /datum/outfit/job/bathworkerghtmaiden/harlot/pre_equip(mob/living/carbon/human/H)
 	..()

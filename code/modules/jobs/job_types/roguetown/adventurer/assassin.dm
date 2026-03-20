@@ -59,7 +59,6 @@
 	if(H.mind)
 		var/datum/antagonist/new_antag = new /datum/antagonist/assassin()
 		H.mind.add_antag_datum(new_antag)
-		H.grant_language(/datum/language/thievescant)
 		addtimer(CALLBACK(H, TYPE_PROC_REF(/mob/living/carbon/human, choose_name_popup), "ASSASSIN"), 5 SECONDS)
 		var/wanted = list("I am a notorious criminal", "I am a nobody")
 		var/wanted_choice = input("Are you a known criminal?") as anything in wanted

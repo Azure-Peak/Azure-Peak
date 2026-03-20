@@ -90,7 +90,7 @@
 		Where your fists fall short, your wits prevail. Where your magyck falters, your fists answer. \
 		And when both are found wanting, the Naledian art of blade conjuration will lend you a Katar to cut demons and humens alike to ribbons."
 	outfit = /datum/outfit/job/roguetown/mercenary/warscholar_pontifex
-	subclass_languages = list(/datum/language/celestial, /datum/language/thievescant)
+	subclass_languages = list(/datum/language/celestial)
 	traits_applied = list(TRAIT_CIVILIZEDBARBARIAN, TRAIT_ARCYNE_T1, TRAIT_NALEDI)
 	// Previous budget was kinda lopsided with negative per and con on a melee class (??) to give them a lot of str and speed. I took 6 points off and shifted it to wil and perception instead.
 	subclass_stats = list(

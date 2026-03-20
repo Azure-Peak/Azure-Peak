@@ -34,7 +34,6 @@
 	tutorial = "You are renting out the bathhouse in a joint operation with the Innkeep. You provide security for the bathwenches and help them to find work--when you're not being a trouble-making rake that others suffer to tolerate."
 	outfit = /datum/outfit/job/roguetown/bathmaster/basic
 	category_tags = list(CTAG_BATHMOM)
-	subclass_languages = list(/datum/language/thievescant)
 	subclass_stats = list(
 		STATKEY_WIL = 2,
 		STATKEY_STR = 1,

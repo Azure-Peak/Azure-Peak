@@ -4,7 +4,6 @@
 	allowed_sexes = list(MALE, FEMALE)
 	allowed_races = RACES_ALL_KINDS
 	outfit = /datum/outfit/job/roguetown/vagabond/beggar
-	subclass_languages = list(/datum/language/thievescant)
 	category_tags = list(CTAG_VAGABOND)
 	traits_applied = list(TRAIT_NOSTINK, TRAIT_NASTY_EATER)
 	subclass_stats = list(
