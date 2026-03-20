@@ -177,3 +177,8 @@
 	name = "Caring Moss"
 	boon_path = /datum/hag_boon/spell/twist_food
 	color = "#ff0cff"
+
+/obj/item/alch/hag_moss/enchanted/rooted
+	name = "Rooted Moss"
+	boon_path = /datum/hag_boon/buff/natural_communion
+	color = "#019715"

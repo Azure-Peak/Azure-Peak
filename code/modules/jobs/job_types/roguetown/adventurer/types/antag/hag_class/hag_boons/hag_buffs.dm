@@ -83,3 +83,46 @@
 	for(var/mob/living/victim in orange(2, T))
 		var/turf/throw_target = get_edge_target_turf(L, get_dir(L, victim))
 		victim.throw_at(throw_target, 5, 3)
+
+/datum/status_effect/buff/hag_boon/natural_communion
+	id = "natural_communion"
+	duration = -1
+	tick_interval = 2 SECONDS
+	alert_type = /atom/movable/screen/alert/status_effect/buff/natural_communion
+	var/energy_cooldown = 0
+	var/static/list/natural_turfs = list(/turf/open/floor/rogue/dirt, /turf/open/floor/rogue/snow,
+								  /turf/open/floor/rogue/grass, /turf/open/floor/rogue/grassyel, /turf/open/floor/rogue/grassred, /turf/open/floor/rogue/grasscold,
+								  /turf/open/water/swamp,)
+
+/atom/movable/screen/alert/status_effect/buff/natural_communion
+	name = "Natural Communion"
+	desc = "The soil will nourish my tired muscles."
+	icon_state = "buff"
+
+/datum/status_effect/buff/hag_boon/natural_communion/tick()
+	var/turf/T = get_turf(owner)
+
+	if(!is_type_in_list(T, natural_turfs))
+		return
+
+	if(ishuman(owner))
+		var/mob/living/carbon/human/H = owner
+		// 5% of max stamina.
+		var/stam_regen = 0.05 * H.max_stamina
+		H.stamina_add(-stam_regen)
+		var/obj/effect/temp_visual/heal/H_stam = new /obj/effect/temp_visual/heal_rogue/hag(get_turf(owner))
+		H_stam.color = "#fffb00"
+
+	if(world.time >= energy_cooldown)
+		energy_cooldown = world.time + 25 SECONDS
+		if(ishuman(owner))
+			var/mob/living/carbon/human/H = owner
+			// 5% of max blue.
+			var/energy_regen = 0.05 * H.max_energy
+			H.energy_add(energy_regen)
+			var/obj/effect/temp_visual/heal/H_energy = new /obj/effect/temp_visual/heal_rogue/hag(get_turf(owner))
+			H_energy.color = "#002fff"
+
+/obj/effect/temp_visual/heal_rogue/hag
+	icon = 'icons/effects/miracle-healing.dmi'
+	icon_state = "hag_boon"

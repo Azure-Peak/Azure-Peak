@@ -14,3 +14,9 @@
 	desc = "The first time the bearer dies, they shall be revived completely. Their body animated like a puppet, leaving them with a curse most terrible."
 	points = 85
 	status_type = /datum/status_effect/buff/hag_boon/storm_rebirth
+
+/datum/hag_boon/buff/natural_communion
+	name = "Natural Communion"
+	desc = "The bearer will regenerate their stamina whilst on grass, dirt, snow or swampwater."
+	points = 40
+	status_type = /datum/status_effect/buff/hag_boon/natural_communion
