@@ -116,7 +116,7 @@
 	name = "Twist Food"
 	desc = "Infuse a snack with wyrd magycks. Consumption shuffles the eater's stats (+3/-2 budget). Mimics Eora's incantations"
 	invocations = list("Eora, nourish this offering!")
-	recharge_time = 15 SECONDS
+	recharge_time = 90 SECONDS
 	overlay_state = "bread"
 	associated_skill = /datum/skill/magic/arcane
 
