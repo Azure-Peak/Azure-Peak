@@ -1036,6 +1036,7 @@
 		&& ((living_user.patron.type == /datum/patron/divine/eora) || HAS_TRAIT(living_user, TRAIT_CHOSEN))\
 		&& user.get_stress_event(/datum/stressevent/psyprayer)\
 		&& !HAS_TRAIT(living_user, TRAIT_EORAN_PITY))
+		to_chat(user, span_notice("Eora responds to your prayer, granting you a seed to nurture!"))
 		new /obj/item/reagent_containers/eoran_seed(loc)
 		ADD_TRAIT(living_user, TRAIT_EORAN_PITY, TRAIT_GENERIC)
 
