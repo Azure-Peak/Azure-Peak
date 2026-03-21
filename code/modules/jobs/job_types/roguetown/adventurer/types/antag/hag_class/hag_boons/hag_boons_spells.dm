@@ -45,6 +45,11 @@
 	spell_type = /obj/effect/proc_holder/spell/invoked/twist_food
 	points = 20
 
+/datum/hag_boon/spell/find_riches
+	name = "Boon of riches"
+	spell_type = /obj/effect/proc_holder/spell/self/boulder_scrounge
+	points = 40
+
 /datum/status_effect/buff/twisted_sustenance
 	id = "twisted_sustenance"
 	duration = 10 MINUTES
@@ -91,7 +96,7 @@
 
 /datum/component/twisted_food/proc/generate_stats()
 	var/list/potential_stats = list(STATKEY_STR, STATKEY_PER, STATKEY_INT, STATKEY_CON, STATKEY_WIL, STATKEY_SPD, STATKEY_LCK)
-	
+
 	// Pick 2 stats to negatively affect.
 	var/list/losers = list()
 	for(var/i in 1 to stat_to_nerf)
@@ -114,7 +119,7 @@
 
 /obj/effect/proc_holder/spell/invoked/twist_food
 	name = "Twist Food"
-	desc = "Infuse a snack with wyrd magycks. Consumption shuffles the eater's stats (+3/-2 budget). Mimics Eora's incantations"
+	desc = "Infuse a snack with wyrd magycks. Consumption shuffles the eater's stats (+5/-3 budget). Mimics Eora's incantations"
 	invocations = list("Eora, nourish this offering!")
 	recharge_time = 90 SECONDS
 	overlay_state = "bread"
@@ -130,4 +135,66 @@
 
 	target.AddComponent(/datum/component/twisted_food, user)
 	to_chat(user, span_notice("You infuse [target] with a wyrd aura."))
+	return TRUE
+
+/obj/effect/proc_holder/spell/self/boulder_scrounge
+	name = "Find Riches"
+	desc = "Heave a heavy stone to reveal the treasures the earth has swallowed."
+	recharge_time = 8 MINUTES
+	var/static/list/treasure_pool = list(
+		/obj/item/roguecoin/gold/pile = 15,
+		/obj/item/roguecoin/silver/pile = 25,
+		/obj/item/roguecoin/aalloy/pile = 10,
+		/obj/item/clothing/neck/roguetown/psicross = 5,
+		/obj/item/clothing/neck/roguetown/collar = 3,
+		/obj/item/reagent_containers/glass/cup/golden = 2,
+		/obj/item/roguecoin/gold/virtuepile = 4,
+		/obj/item/alch/transisdust = 5
+	)
+
+/obj/effect/proc_holder/spell/self/boulder_scrounge/cast(list/targets, mob/user = usr)
+	. = ..()
+	if(!ishuman(user))
+		return FALSE
+
+	var/mob/living/carbon/human/H = user
+	var/turf/T = get_turf(H)
+	var/obj/structure/boulder = locate(/obj/item/natural/rock) in range(1, H)
+
+	if(!boulder)
+		to_chat(H, span_warning("You find nothing but mud. You need a heavy stone to find a real hoard."))
+		revert_cast()
+		return FALSE
+	H.visible_message(span_notice("[H] begins prying at the base of [boulder]..."), \
+					 span_notice("You strain against [boulder], looking for a hidden cache."))
+
+	if(!do_after(H, 4 SECONDS, target = boulder))
+		revert_cast()
+		return FALSE
+
+	var/luck_roll = H.STALUC + (H.get_stress_amount() < 0 ? 10 : 0)
+	var/obj/item/found_thing
+
+	if(luck_roll >= 20)
+		found_thing = new /obj/item/roguecoin/gold/pile(T)
+		to_chat(H, span_boldnotice("A hoard of Zenarii!"))
+	else if(luck_roll >= 10)
+		found_thing = new /obj/item/roguecoin/silver/pile(T)
+		to_chat(H, span_notice("A collection of Ziliquae. This will buy much."))
+	else
+		found_thing = new /obj/item/roguecoin/copper/pile(T)
+		to_chat(H, span_info("A few measly Zennies... better than nothing."))
+
+	if(!H.put_in_hands(found_thing, FALSE))
+		found_thing.forceMove(T)
+
+	if(prob(20 + luck_roll))
+		var/treasure_path = pickweight(treasure_pool)
+		var/obj/item/extra = new treasure_path(T)
+
+		to_chat(H, span_boldnotice("Wait... there is something else tucked in the roots!"))
+		if(!H.put_in_hands(extra, FALSE))
+			extra.forceMove(T)
+
+	playsound(T, 'modular/Neu_Food/sound/rustle2.ogg', 50, TRUE)
 	return TRUE

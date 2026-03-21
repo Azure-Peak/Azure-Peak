@@ -187,3 +187,8 @@
 	name = "Creeping Moss"
 	boon_path = /datum/hag_boon/buff/creeping_moss
 	color = "#74b945"
+
+/obj/item/alch/hag_moss/enchanted/gilded
+	name = "Gilded Moss"
+	boon_path = /datum/hag_boon/spell/find_riches
+	color = "#eca202"
