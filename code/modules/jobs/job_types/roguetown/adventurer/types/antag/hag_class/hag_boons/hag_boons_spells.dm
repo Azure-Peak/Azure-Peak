@@ -50,6 +50,11 @@
 	spell_type = /obj/effect/proc_holder/spell/self/boulder_scrounge
 	points = 40
 
+/datum/hag_boon/spell/banish
+	name = "Boon of banish problems"
+	spell_type = /obj/effect/proc_holder/spell/invoked/slumber_exile
+	points = 30
+
 /datum/status_effect/buff/twisted_sustenance
 	id = "twisted_sustenance"
 	duration = 10 MINUTES
@@ -197,4 +202,28 @@
 			extra.forceMove(T)
 
 	playsound(T, 'modular/Neu_Food/sound/rustle2.ogg', 50, TRUE)
+	return TRUE
+
+/obj/effect/proc_holder/spell/invoked/slumber_exile
+	name = "Slumbering Exile"
+	desc = "Force a soul into the realm of dreams for two minutes, once every day."
+	recharge_time = 30 MINUTES
+	invocations = list("DRE-YMA... SLEE-PA...")
+	range = 1
+	action_icon_state = "exile"
+	charging_slowdown = 2
+	chargetime = 1.5 SECONDS
+
+/obj/effect/proc_holder/spell/invoked/slumber_exile/cast(list/targets, mob/user = usr)
+	. = ..()
+	var/mob/living/carbon/human/target = targets[1]
+	if(!ishuman(target))
+		revert_cast()
+		return FALSE
+
+	target.visible_message(span_userdanger("[user] banishes [target] into a dark rift!"))
+	to_chat(target, span_userdanger("The world dissolves into mist as you are dragged into a dream!"))
+
+	teleport_to_dream(target, 1, 1, FALSE, 2 MINUTES)
+
 	return TRUE

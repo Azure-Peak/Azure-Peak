@@ -192,3 +192,8 @@
 	name = "Gilded Moss"
 	boon_path = /datum/hag_boon/spell/find_riches
 	color = "#eca202"
+
+/obj/item/alch/hag_moss/enchanted/drowned
+	name = "Drowned Moss"
+	boon_path = /datum/hag_boon/spell/banish
+	color = "#037981"
