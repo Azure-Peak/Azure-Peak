@@ -20,3 +20,9 @@
 	desc = "The bearer will regenerate their stamina whilst on grass, dirt, snow or swampwater."
 	points = 40
 	status_type = /datum/status_effect/buff/hag_boon/natural_communion
+
+/datum/hag_boon/buff/creeping_moss
+	name = "Creeping Moss"
+	desc = "The bearer will regenerate their health whilst on grass, dirt, snow or swampwater. Don't let the moss grow too thick..."
+	points = 40
+	status_type = /datum/status_effect/buff/hag_boon/creeping_moss

@@ -126,3 +126,91 @@
 /obj/effect/temp_visual/heal_rogue/hag
 	icon = 'icons/effects/miracle-healing.dmi'
 	icon_state = "hag_boon"
+
+/datum/status_effect/buff/hag_boon/creeping_moss
+	id = "creeping_moss"
+	duration = -1
+	tick_interval = 2 SECONDS
+	alert_type = /atom/movable/screen/alert/status_effect/buff/creeping_moss
+
+	/// Used to determine when to advance moss.
+	var/total_healed = 0
+	/// Layers 0 - 6
+	var/moss_layer = 0
+	/// Points needed to up a layer.
+	var/heal_treshhold = 200
+
+	var/static/list/natural_turfs = list(/turf/open/floor/rogue/dirt, /turf/open/floor/rogue/snow,
+								  /turf/open/floor/rogue/grass, /turf/open/floor/rogue/grassyel, /turf/open/floor/rogue/grassred, /turf/open/floor/rogue/grasscold,
+								  /turf/open/water/swamp,)
+
+/atom/movable/screen/alert/status_effect/buff/creeping_moss
+	name = "Healing Moss"
+	desc = "The soil will soothe my wounds and knit my flesh."
+	icon_state = "buff"
+
+/datum/status_effect/buff/hag_boon/creeping_moss/tick()
+	// Choke if we've got too much moss
+	if(moss_layer >= 6)
+		H.adjustOxyLoss(10)
+		if(prob(10))
+			to_chat(H, span_userdanger("The moss is clogging your throat! I can't breathe!"))
+
+	var/turf/T = get_turf(owner)
+	if(!is_type_in_list(T, natural_turfs))
+		return
+
+	if(!ishuman(owner))
+		return
+
+	var/mob/living/carbon/human/H = owner
+
+	// Only heal if we actually have brute damage or wounds
+	var/list/wounds = H.get_wounds()
+	if(H.getBruteLoss() <= 0 && !length(wounds))
+		return
+
+	// Scaling heal based on moss layer
+	// Layer 0: 2 per tick | Layer 6: 14 per tick
+	var/healing_on_tick = 2 + (moss_layer * 2)
+
+	// Clamping as to not punish for health that wasn't healed
+	var/actual_brute_healed = min(H.getBruteLoss(), healing_on_tick)
+
+	var/obj/effect/temp_visual/heal/H_heal = new /obj/effect/temp_visual/heal_rogue/hag(get_turf(owner))
+	H_heal.color = "#b60000"
+	H.adjustBruteLoss(-healing_on_tick)
+	if(length(wounds))
+		H.heal_wounds(healing_on_tick)
+	if(H.blood_volume < BLOOD_VOLUME_NORMAL)
+		H.blood_volume = min(owner.blood_volume + healing_on_tick, BLOOD_VOLUME_NORMAL)
+
+	total_healed += actual_brute_healed
+
+	if(total_healed >= heal_treshhold && moss_layer < 6)
+		total_healed -= heal_treshhold
+		grow_moss(H)
+
+#define MOVESPEED_ID_MOSS_SLOW "movespeed_moss_slow"
+
+/datum/status_effect/buff/hag_boon/creeping_moss/proc/grow_moss(mob/living/carbon/human/H)
+	moss_layer = min(moss_layer + 1, 6)
+	H.cut_overlay("moss_layer")
+	var/image/I = image('icons/mob/mossoverlay.dmi', "moss[moss_layer]")
+	I.appearance_flags = RESET_COLOR // Keep the moss green regardless of mob color
+	H.add_overlay(I, "moss_layer")
+
+	// Apply scaling slow
+	var/current_slow = 0.2 * moss_layer
+	H.add_movespeed_modifier(MOVESPEED_ID_MOSS_SLOW, update=TRUE, priority=10, multiplicative_slowdown=current_slow)
+
+	to_chat(H, span_warning("You feel a heavy, damp weight spreading across your skin..."))
+
+/datum/status_effect/buff/hag_boon/creeping_moss/on_remove()
+	if(ishuman(owner))
+		var/mob/living/carbon/human/H = owner
+		H.cut_overlay("moss_layer")
+		H.remove_movespeed_modifier(MOVESPEED_ID_MOSS_SLOW)
+	return ..()
+
+#undef MOVESPEED_ID_MOSS_SLOW

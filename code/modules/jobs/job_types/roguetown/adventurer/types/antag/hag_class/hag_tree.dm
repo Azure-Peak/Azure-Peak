@@ -182,3 +182,8 @@
 	name = "Rooted Moss"
 	boon_path = /datum/hag_boon/buff/natural_communion
 	color = "#019715"
+
+/obj/item/alch/hag_moss/enchanted/creeping
+	name = "Creeping Moss"
+	boon_path = /datum/hag_boon/buff/creeping_moss
+	color = "#74b945"
