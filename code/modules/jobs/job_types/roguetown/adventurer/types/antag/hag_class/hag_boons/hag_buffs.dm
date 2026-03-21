@@ -132,6 +132,7 @@
 	duration = -1
 	tick_interval = 2 SECONDS
 	alert_type = /atom/movable/screen/alert/status_effect/buff/creeping_moss
+	examine_text = "SUBJECTPRONOUN is getting increasingly bogged down by clinging moss. Perhaps it can be BURNT off!"
 
 	/// Used to determine when to advance moss.
 	var/total_healed = 0
@@ -139,6 +140,7 @@
 	var/moss_layer = 0
 	/// Points needed to up a layer.
 	var/heal_treshhold = 200
+	var/image/moss_image
 
 	var/static/list/natural_turfs = list(/turf/open/floor/rogue/dirt, /turf/open/floor/rogue/snow,
 								  /turf/open/floor/rogue/grass, /turf/open/floor/rogue/grassyel, /turf/open/floor/rogue/grassred, /turf/open/floor/rogue/grasscold,
@@ -146,7 +148,7 @@
 
 /atom/movable/screen/alert/status_effect/buff/creeping_moss
 	name = "Healing Moss"
-	desc = "The soil will soothe my wounds and knit my flesh."
+	desc = "The soil will soothe my wounds and knit my flesh. It might be able to be BURNT off."
 	icon_state = "buff"
 
 /datum/status_effect/buff/hag_boon/creeping_moss/on_apply()
@@ -159,10 +161,16 @@
 	var/mob/living/carbon/human/H = owner
 
 	// Choke if we've got too much moss
-	if(moss_layer >= 6)
+	if(moss_layer >= 6 && H.stat != DEAD)
 		H.adjustOxyLoss(10)
 		if(prob(10))
 			to_chat(H, span_userdanger("The moss is squeezing your insides! It hurts!"))
+
+	if(H.on_fire && moss_layer > 0)
+		if(prob(5))
+			to_chat(H, span_danger("The fire singes away a layer of moss!"))
+			trim_moss()
+			return
 
 	var/turf/T = get_turf(owner)
 	if(!is_type_in_list(T, natural_turfs))
@@ -198,10 +206,10 @@
 
 /datum/status_effect/buff/hag_boon/creeping_moss/proc/grow_moss(mob/living/carbon/human/H)
 	moss_layer = min(moss_layer + 1, 6)
-	H.cut_overlay("moss_layer")
-	var/image/I = image('icons/mob/mossoverlay.dmi', "moss[moss_layer]")
-	I.appearance_flags = RESET_COLOR // Keep the moss green regardless of mob color
-	H.add_overlay(I, "moss_layer")
+	H.cut_overlay(moss_image)
+	moss_image = image('icons/mob/mossoverlay.dmi', "moss[moss_layer]")
+	moss_image.appearance_flags = RESET_COLOR // Keep the moss green regardless of mob color
+	H.add_overlay(moss_image)
 
 	// Apply scaling slow
 	var/current_slow = 0.2 * moss_layer
@@ -224,7 +232,11 @@
 	if(user.cmode == TRUE) 
 		return
 
-	if(user.used_intent.blade_class != BCLASS_CUT)
+	if(!istype(W, /obj/item/flashlight/flare/torch))
+		return
+
+	var/obj/item/flashlight/flare/torch/T = W
+	if(!T.on)
 		return
 
 	if(moss_layer <= 0)
@@ -239,8 +251,8 @@
 	if(!user || !W || !owner)
 		return
 
-	user.visible_message(span_notice("[user] begins carefully scraping the moss off of [owner] with [W]."), \
-						 span_notice("You begin scraping the damp moss off of [owner]."))
+	user.visible_message(span_notice("[user] begins carefully burning the moss off of [owner] with [W]."), \
+						 span_notice("You begin burning the damp moss off of [owner]."))
 
 	if(!do_after(user, 3 SECONDS, target = owner))
 		return
@@ -257,17 +269,18 @@
 	if(!istype(H))
 		return
 
-	H.cut_overlay("moss_layer")
+	H.cut_overlay(moss_image)
 	if(moss_layer > 0)
-		var/image/I = image('icons/mob/mossoverlay.dmi', "moss[moss_layer]")
-		I.appearance_flags = RESET_COLOR
-		H.add_overlay(I, "moss_layer")
+		moss_image = image('icons/mob/mossoverlay.dmi', "moss[moss_layer]")
+		moss_image.appearance_flags = RESET_COLOR
+		H.add_overlay(moss_image)
 
 		var/current_slow = 0.2 * moss_layer
 		H.add_movespeed_modifier(MOVESPEED_ID_MOSS_SLOW, update=TRUE, priority=10, multiplicative_slowdown=current_slow)
 	else
 		H.remove_movespeed_modifier(MOVESPEED_ID_MOSS_SLOW)
 
-	to_chat(owner, span_notice("You feel a bit lighter as some of the moss is scraped away."))
+	H.update_icons()
+	to_chat(owner, span_notice("You feel a bit lighter as some of the moss is removed."))
 
 #undef MOVESPEED_ID_MOSS_SLOW

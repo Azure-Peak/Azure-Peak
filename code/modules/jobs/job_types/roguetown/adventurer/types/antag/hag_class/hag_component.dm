@@ -158,24 +158,37 @@
 		to_chat(parent, span_warning("[name_to_check] already carries this pact!"))
 		return FALSE
 
-	to_chat(world, span_notice("DEBUG: Path identified as a [boon_path] boon. Searching for [name_to_check]..."))
+	var/mob/living/L = find_target(name_to_check)
+	// Look as fun as magically enhanced werewolves would be, no.
+	if(L && !antag_check(L))
+		to_chat(parent, span_warning("[name_to_check] can't hold your ancient magycks, they are already blessed by another force."))
+		return FALSE
+
 	// Spell check!
 	if(ispath(boon_path, /datum/hag_boon/spell))
-		to_chat(world, span_notice("DEBUG: Path identified as a SPELL boon. Searching for [name_to_check]..."))
-		var/mob/living/L = find_target(name_to_check)
-		if(!L)
-			to_chat(world, span_warning("DEBUG: Could not find mob for [name_to_check]. Skipping spell check."))
-		if(!L.mind)
-			to_chat(world, span_warning("DEBUG: [L] has no mind. Skipping spell check."))
 		if(L && L.mind)
 			var/datum/hag_boon/spell/spell_boon_path = boon_path
 			var/target_spell_type = initial(spell_boon_path.spell_type)
-			to_chat(world, span_notice("DEBUG: Checking for spell type: [target_spell_type]"))
 			// Check if the mob already has this spell from ANY source
 			for(var/obj/effect/proc_holder/spell/S in L.mind.spell_list)
 				if(S.type == target_spell_type)
 					to_chat(parent, span_warning("[name_to_check] already possesses the knowledge this boon would grant."))
 					return FALSE
+	return TRUE
+
+/datum/component/hag_curio_tracker/proc/antag_check(mob/living/carbon/C)
+	if(!C.mind)
+		return FALSE
+	if(C.mind.has_antag_datum(/datum/antagonist/vampire))
+		return FALSE
+	if(C.mind.has_antag_datum(/datum/antagonist/werewolf))
+		return FALSE
+	if(C.mind.has_antag_datum(/datum/antagonist/gnoll))
+		return FALSE
+	if(C.mind.has_antag_datum(/datum/antagonist/hag))
+		return FALSE
+	if(C.mind.has_antag_datum(/datum/antagonist/skeleton))
+		return FALSE
 	return TRUE
 
 /datum/component/hag_curio_tracker/proc/consume_prepared_boon(boon_path)

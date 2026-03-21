@@ -43,6 +43,9 @@
 		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/spiritual_siphon)
 		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/transmutation_rite)
 		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/grant_boon)
+		if(H.mind.has_antag_datum(/datum/antagonist/hag))
+			var/datum/antagonist/new_antag = new /datum/antagonist/hag()
+			H.mind.add_antag_datum(new_antag)
 
 /obj/effect/proc_holder/spell/targeted/shapeshift/hag_true_form
 	die_with_shapeshifted_form = FALSE
@@ -89,3 +92,9 @@
 	desc = "I'm tired of these mortals invading MY bog, out with them!! I shall show them -true- terror!"
 	overlay_state = "cat_transform"
 	shapeshift_type = /mob/living/simple_animal/hostile/retaliate/rogue/hag_shapeshift
+
+/datum/antagonist/hag
+	name = "Hag"
+	roundend_category = "Hags"
+	antagpanel_category = "Hags"
+	job_rank = ROLE_HAG
