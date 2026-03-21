@@ -196,8 +196,8 @@
 	// Remove effects from mobs that left range or are no longer undead
 	for(var/mob/living/L in affected_mobs)
 		if(!(L in current_mobs))
+			remove_undead_debuff(L)
 			if(is_undead(L))
-				remove_undead_debuff(L)
 				undead_found = max(0, undead_found - 1)
 			else
 				remove_necran_buff(L)

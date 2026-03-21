@@ -1,4 +1,0 @@
-author: "eirenxiv"
-delete-after: True
-changes:
-  - bugfix: "fixed Hangyaku and Chonin not being included in the merc list"

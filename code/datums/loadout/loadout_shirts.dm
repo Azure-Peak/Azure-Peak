@@ -164,3 +164,10 @@
 	name = "White Foreign Shirt"
 	path = /obj/item/clothing/suit/roguetown/shirt/undershirt/eastshirt2
 	sort_category = "Shirts"
+
+/datum/loadout_item/baredrobe
+	name = "Bared Robe"
+	path = /obj/item/clothing/suit/roguetown/shirt/robe/bared
+	sort_category = "Shirts"
+
+

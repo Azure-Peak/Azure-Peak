@@ -1,0 +1,5 @@
+author: "eirenxiv"
+delete-after: True
+changes:
+  - rscadd: "Added another unused cloak to the loadout selection, the now golden order cloak"
+  - rscadd: "Added the naledian psy-bracelet to the loadout selection"

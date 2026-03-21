@@ -33,6 +33,8 @@
 							/obj/item/natural/fur/rat = 1)
 	head_butcher = /obj/item/natural/head/rous
 	faction = list("rats")
+	threat_point = THREAT_TRASH
+	ambush_faction = "wildlife"
 	mob_biotypes = MOB_ORGANIC|MOB_BEAST
 	attack_sound = 'sound/combat/wooshes/punch/punchwoosh (2).ogg'
 	health = 65

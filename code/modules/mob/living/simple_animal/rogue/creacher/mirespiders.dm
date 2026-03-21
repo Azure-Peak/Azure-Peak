@@ -14,6 +14,8 @@
 	move_to_delay = 3
 
 	faction = list("zombie", "spiders")
+	threat_point = THREAT_TRASH
+	ambush_faction = "mirespiders"
 	attack_sound = list('sound/vo/mobs/spider/attack (1).ogg','sound/vo/mobs/spider/attack (2).ogg','sound/vo/mobs/spider/attack (3).ogg','sound/vo/mobs/spider/attack (4).ogg')
 
 	base_intents = list(/datum/intent/simple/bite/mirespider)
@@ -153,6 +155,8 @@
 	icon_dead = "lurker_dead"
 
 	faction = list("zombie", "spiders")
+	threat_point = THREAT_ELITE
+	ambush_faction = "mirespiders"
 	attack_sound = list('sound/vo/mobs/spider/attack (1).ogg','sound/vo/mobs/spider/attack (2).ogg','sound/vo/mobs/spider/attack (3).ogg','sound/vo/mobs/spider/attack (4).ogg')
 
 	base_intents = list(/datum/intent/simple/bite/mirespider_lurker)
@@ -269,6 +273,8 @@
 	icon_dead = "aragn_dead"
 
 	faction = list("zombie", "spiders")
+	threat_point = THREAT_ELITE
+	ambush_faction = "mirespiders"
 	attack_sound = list('sound/vo/mobs/spider/attack (1).ogg','sound/vo/mobs/spider/attack (2).ogg','sound/vo/mobs/spider/attack (3).ogg','sound/vo/mobs/spider/attack (4).ogg')
 
 	base_intents = list(/datum/intent/simple/bite/mirespider_paralytic)

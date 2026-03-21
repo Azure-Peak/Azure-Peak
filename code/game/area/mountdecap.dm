@@ -3,6 +3,12 @@
 	name = "Mount Decapitation"
 	icon_state = "decap"
 	ambush_mobs = list(
+				// Singles — budget filler across all factions
+				/mob/living/carbon/human/species/human/northern/highwayman/ambush = 15,
+				/mob/living/carbon/human/species/skeleton/npc/medium = 15,
+				/mob/living/carbon/human/species/skeleton/npc/hard = 10,
+				/mob/living/simple_animal/hostile/retaliate/rogue/direbear = 10,
+				// Packs
 				new /datum/ambush_config/pair_of_direbear = 10,
 				new /datum/ambush_config/trio_of_highwaymen = 10,
 				new /datum/ambush_config/singular_minotaur = 10,
@@ -35,6 +41,12 @@
 	name = "Tarichea - Valley of Loss"
 	icon_state = "decap"
 	ambush_mobs = list(
+				// Singles
+				/mob/living/carbon/human/species/human/northern/highwayman/ambush = 15,
+				/mob/living/carbon/human/species/skeleton/npc/medium = 15,
+				/mob/living/carbon/human/species/skeleton/npc/hard = 10,
+				/mob/living/simple_animal/hostile/retaliate/rogue/direbear = 10,
+				// Packs
 				new /datum/ambush_config/pair_of_direbear = 10,
 				new /datum/ambush_config/trio_of_highwaymen = 10,
 				new /datum/ambush_config/singular_minotaur = 10,

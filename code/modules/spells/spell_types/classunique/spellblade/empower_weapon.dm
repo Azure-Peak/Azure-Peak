@@ -8,10 +8,10 @@ since spellblades have no STR. */
 
 /obj/effect/proc_holder/spell/self/empower_weapon
 	name = "Empower Weapon"
-	desc = "Channel all accumulated momentum into your weapon, empowering your next melee strike to bypass parry and dodge. \
+	desc = "Channel all accumulated momentum into your next strike, empowering it to bypass parry and dodge. Works with both weapons and unarmed attacks. \
 		Requires 5+ momentum. Burns ALL momentum."
 	clothes_req = FALSE
-	action_icon = 'icons/mob/actions/spellblade.dmi'
+	action_icon = 'icons/mob/actions/classuniquespells/spellblade.dmi'
 	overlay_state = "empower_weapon"
 	releasedrain = 0
 	chargedrain = 0
@@ -79,10 +79,11 @@ since spellblades have no STR. */
 /datum/status_effect/buff/empowered_strike/on_apply()
 	. = ..()
 	RegisterSignal(owner, COMSIG_MOB_ITEM_ATTACK, PROC_REF(on_attack))
+	RegisterSignal(owner, COMSIG_HUMAN_MELEE_UNARMED_ATTACK, PROC_REF(on_unarmed_attack))
 	owner.add_filter(EMPOWER_FILTER, 2, list("type" = "outline", "color" = "#ff2020", "alpha" = 200, "size" = 2))
 
 /datum/status_effect/buff/empowered_strike/on_remove()
-	UnregisterSignal(owner, COMSIG_MOB_ITEM_ATTACK)
+	UnregisterSignal(owner, list(COMSIG_MOB_ITEM_ATTACK, COMSIG_HUMAN_MELEE_UNARMED_ATTACK))
 	owner.remove_filter(EMPOWER_FILTER)
 	. = ..()
 
@@ -91,11 +92,27 @@ since spellblades have no STR. */
 	if(target == owner || target.stat == DEAD)
 		return
 	// Consume the buff — this swing bypasses defense
+	consume_empower()
+	return COMPONENT_ITEM_NO_DEFENSE
+
+/datum/status_effect/buff/empowered_strike/proc/on_unarmed_attack(mob/living/source, atom/target, proximity)
+	SIGNAL_HANDLER
+	if(!isliving(target) || target == owner)
+		return
+	var/mob/living/L = target
+	if(L.stat == DEAD)
+		return
+	// Flag for the unarmed attack path to skip defense
+	ADD_TRAIT(owner, TRAIT_EMPOWERED_UNARMED, "empowered_strike")
+	// Consume on next tick after the attack resolves
+	addtimer(CALLBACK(src, PROC_REF(consume_empower)), 0)
+
+/datum/status_effect/buff/empowered_strike/proc/consume_empower()
+	REMOVE_TRAIT(owner, TRAIT_EMPOWERED_UNARMED, "empowered_strike")
 	playsound(get_turf(owner), 'sound/magic/antimagic.ogg', 40, TRUE)
 	owner.visible_message(
 		span_danger("[owner]'s empowered strike blazes through!"),
 		span_notice("My empowered strike lands true!"))
 	owner.remove_status_effect(/datum/status_effect/buff/empowered_strike)
-	return COMPONENT_ITEM_NO_DEFENSE
 
 #undef EMPOWER_FILTER

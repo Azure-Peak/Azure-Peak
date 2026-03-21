@@ -31,6 +31,7 @@
 	var/ai_currently_active = FALSE
 	var/attack_speed = 0
 
+	var/is_silent = FALSE
 	/// (BOOL) If TRUE, the mob will taunt players in certain situations. Psychological warfare!
 	var/rude = FALSE
 	/// (BOOL) If TRUE, the mob will attempt to climb trees to chase players. Evil!
@@ -960,6 +961,20 @@
 	. = ..()
 	if((W.force) && (!target) && (W.damtype != STAMINA) )
 		retaliate(user)
+
+/mob/living/carbon/human/proc/npc_combat_dialogue(list/saylines, list/emotes, prob_chance = 50, cooldown = 15 SECONDS, say_chance = 50)
+	if(is_silent)
+		return FALSE
+	if(!prob(prob_chance))
+		return FALSE
+	if(world.time < (mob_timers["npc_chatter"] + cooldown))
+		return FALSE
+	mob_timers["npc_chatter"] = world.time
+	if(emotes?.len && !prob(say_chance))
+		emote(pick(emotes))
+	else if(saylines?.len)
+		say(pick(saylines), npc_speech = TRUE)
+	return TRUE
 
 /mob/living/carbon/human/proc/npc_taunt_target()
 	var/list/possible_taunts = list("laugh" = null)

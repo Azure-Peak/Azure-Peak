@@ -124,6 +124,11 @@
 	path = /obj/item/clothing/cloak/poncho/fancycoat
 	sort_category = "Cloaks"
 
+/datum/loadout_item/goldenordercloak
+	name = "Golden Order Cloak"
+	path = /obj/item/clothing/cloak/cape/inquisitor
+	sort_category = "Cloaks"
+
 /datum/loadout_item/surcoatheavy
 	name = "Surcoat, Overvestments"
 	path = /obj/item/clothing/cloak/tabard/stabard/crusader/heavy
@@ -159,3 +164,12 @@
 	path = /obj/item/clothing/cloak/tabard/stabard/crusader/t/undivided
 	sort_category = "Cloaks"
 
+/datum/loadout_item/scaledcloak
+	name = "Scaled Cloak"
+	path = /obj/item/clothing/cloak/scaledcloak
+	sort_category = "Cloaks"
+
+/datum/loadout_item/sleevedtabard
+	name = "Tabard, Sleeved"
+	path = /obj/item/clothing/cloak/tabard/sleevedtabard
+	sort_category = "Cloaks"

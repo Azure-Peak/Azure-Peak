@@ -16,7 +16,8 @@
 	SHOULD_NOT_SLEEP(TRUE)
 
 	var/list/hearers = get_hearers_in_view(vision_distance, src, RECURSIVE_CONTENTS_CLIENT_MOBS)
-	hearers -= ignored_mobs
+	if(ignored_mobs)
+		hearers -= ignored_mobs
 
 	for (var/mob/hearer in hearers)
 		if (is_blind(hearer))
@@ -95,6 +96,5 @@
 				candidates -= H
 	else
 		CRASH("filtered_balloon_alert called without a trait, either it's an error or use balloon_alert instead.")
-		
-	if(length(candidates))
-		balloon_alert_to_viewers(text, null, DEFAULT_MESSAGE_RANGE, candidates, x_offset, y_offset)
+
+	balloon_alert_to_viewers(text, null, DEFAULT_MESSAGE_RANGE, candidates, x_offset, y_offset)

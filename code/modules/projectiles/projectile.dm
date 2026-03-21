@@ -307,7 +307,7 @@
 	else
 		L.log_message("has been shot by [firer] with [src]", LOG_ATTACK, color="orange")
 
-	if(!check_range(target_loca) && isliving(target))
+	if((min_range || max_range) && !check_range(target_loca) && isliving(target))
 		var/obj/effect/temp_visual/dir_setting/attack_effect/atk_effrange = new(target_loca, target.dir)
 		atk_effrange.icon_state = "effrange"
 

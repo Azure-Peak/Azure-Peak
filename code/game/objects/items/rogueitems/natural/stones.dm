@@ -465,6 +465,22 @@ GLOBAL_LIST_INIT(stone_personality_descs, list(
 			S.set_up(1, 1, front)
 			S.start()
 		return
+	if(istype(W, /obj/item/contraption/pick/drill) && user.used_intent.type == /datum/intent/drill)
+		var/obj/item/contraption/pick/drill/drillitem = W
+		if(drillitem.current_charge < 10)
+			to_chat(user, span_warning("Not enough fuel."))
+			return
+		playsound(src.loc, 'sound/items/stonestone.ogg', 100)
+		if(prob(35))
+			var/datum/effect_system/spark_spread/S = new()
+			var/turf/front = get_turf(src)
+			S.set_up(1, 1, front)
+			S.start()
+		src.take_damage(500) //smashs through boulders with ease
+		drillitem.current_charge -= 10
+		if (drillitem.current_charge < 1)
+			ungrip(user, "it runs out of fuel")
+		return
 	if( user.used_intent.type == /datum/intent/chisel )
 		playsound(src.loc, pick('sound/combat/hits/onrock/onrock (1).ogg', 'sound/combat/hits/onrock/onrock (2).ogg', 'sound/combat/hits/onrock/onrock (3).ogg', 'sound/combat/hits/onrock/onrock (4).ogg'), 100)
 		user.visible_message("<span class='info'>[user] chisels the boulder into blocks.</span>")

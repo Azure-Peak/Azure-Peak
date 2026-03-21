@@ -4,7 +4,7 @@
 	overlay_state = "fireaura"
 	spell_tier = 3
 	cost = 6
-	releasedrain = 20
+	releasedrain = SPELLCOST_MINOR_AOE
 	chargedrain = 1
 	chargetime = 0.5 SECONDS
 	recharge_time = 30 SECONDS

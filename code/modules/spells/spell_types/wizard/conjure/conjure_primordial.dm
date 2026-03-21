@@ -6,7 +6,7 @@
 	overlay_state = "rune0"
 	range = 7
 	sound = list('sound/magic/magnet.ogg')
-	releasedrain = 40
+	releasedrain = SPELLCOST_CONJURE
 	chargetime = 60
 	warnie = "spellwarning"
 	no_early_release = TRUE

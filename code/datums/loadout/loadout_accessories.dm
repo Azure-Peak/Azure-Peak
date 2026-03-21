@@ -146,9 +146,17 @@
 	path = /obj/item/clothing/neck/roguetown/psicross
 	sort_category = "Accessories"
 
+/datum/loadout_item/psicross/decrepit
+	name = "Decrepit Psycross"
+	path = /obj/item/clothing/neck/roguetown/psicross/aalloy
+
 /datum/loadout_item/psicross/reform
 	name = "Reformist Psydonian Cross"
 	path = /obj/item/clothing/neck/roguetown/psicross/reform
+
+/datum/loadout_item/psicross/naledi
+	name = "Naledian psy-bracelet"
+	path = /obj/item/clothing/neck/roguetown/psicross/naledi
 
 /datum/loadout_item/psicross/astrata
 	name = "Amulet of Astrata"
@@ -310,7 +318,13 @@
 	path = /obj/item/clothing/shoes/roguetown/jester
 	sort_category = "Accessories"
 
+/datum/loadout_item/jestermask
+	name = "Jester's Mask"
+	path = /obj/item/clothing/mask/rogue/xylixmask
+	sort_category = "Accessories"
+
 /datum/loadout_item/cotehardie
 	name = "Fitted Coat"
 	path = /obj/item/clothing/cloak/cotehardie
 	sort_category = "Accessories"
+

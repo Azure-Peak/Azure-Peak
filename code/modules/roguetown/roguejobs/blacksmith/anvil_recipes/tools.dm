@@ -348,20 +348,6 @@
 	created_item = /obj/item/needle
 	createditem_num = 3 // They can be refilled with fiber now
 
-/* Movning under Engineering
-/datum/anvil_recipe/tools/iron/lockpicks
-	name = "Lockpicks (x3)"
-	req_bar = /obj/item/ingot/iron
-	created_item = /obj/item/lockpick
-	createditem_num = 3
-
-/datum/anvil_recipe/tools/iron/lockpickring
-	name = "Lockpickrings (x3)"
-	req_bar = /obj/item/ingot/iron
-	created_item = /obj/item/lockpickring
-	createditem_num = 3
-*/
-
 /datum/anvil_recipe/tools/iron/shovel
 	name = "Shovel, Iron (+2 Sticks)"
 	req_bar = /obj/item/ingot/iron

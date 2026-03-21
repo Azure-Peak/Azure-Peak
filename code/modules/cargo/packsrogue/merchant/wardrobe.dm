@@ -250,6 +250,11 @@ A LITTLE MORE CONSISTENT IN HERE. PLEASE DO YOUR BEST. THANKS.
 	cost = 30
 	contains = list(/obj/item/clothing/cloak/poncho)
 
+/datum/supply_pack/rogue/wardrobe/cloaks/bandolier
+	name = "Bandolier"
+	cost = 30
+	contains = list(/obj/item/clothing/cloak/bandolier)
+
 /datum/supply_pack/rogue/wardrobe/cloaks/bcloaks
 	name = "Raincloak, Blue"
 	cost = 30

@@ -27,6 +27,7 @@
 	var/bypass_dupe_test = FALSE
 	var/required_tech_node = null // String ID of required tech node, or null if no tech required
 	var/tech_unlocked = TRUE // Set to TRUE when the required tech is unlocked
+	var/rotations_required = 1
 
 /datum/anvil_recipe/New(datum/P, ...)
 	parent = P

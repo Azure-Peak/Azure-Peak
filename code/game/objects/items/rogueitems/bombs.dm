@@ -4,7 +4,7 @@
 	desc = "A fiery explosion waiting to be coaxed from its glass prison."
 	icon_state = "bbomb"
 	icon = 'icons/roguetown/items/misc.dmi'
-	w_class = WEIGHT_CLASS_NORMAL
+	w_class = WEIGHT_CLASS_SMALL
 	throwforce = 0
 	slot_flags = ITEM_SLOT_HIP
 	throw_speed = 0.5
@@ -251,7 +251,7 @@
 	desc = "A soft sphere with an alchemical mixture and a dispersion mechanism hidden inside. Any pressure will detonate it."
 	icon_state = "smokebomb"
 	icon = 'icons/roguetown/items/misc.dmi'
-	w_class = WEIGHT_CLASS_NORMAL
+	w_class = WEIGHT_CLASS_SMALL
 	throwforce = 0
 	slot_flags = ITEM_SLOT_HIP
 	throw_speed = 0.5
@@ -430,6 +430,25 @@
 	grid_width = 256
 	grid_height = 256
 
+//admin only mega bomb, should never be made craftable
+/obj/item/satchel_bomb/mega
+	name = "MEGA blastpowder satchel"
+	desc = "An over filled satchel of Blastpowder originally made by Lubbin' Bleat, Octava's Famed sheep-kin bathhouse attendant and ruler of the slumber beat... this type of bomb has been banned by all nations and labeled as a threat by both the church of the ten and Pysdonia. IF YOU SEE A LIT WICK, YOU BEST RUN AWAY QUICK!"
+	icon_state = "satchel_bomb"
+	lit_state = "satchel_bomb-lit"
+	icon = 'icons/roguetown/items/misc.dmi'
+	w_class = WEIGHT_CLASS_BULKY 
+	dropshrink = 5
+	throwforce = 0
+	throw_range = 1
+	throw_speed = 0.3
+	fuze = 50
+	lit = FALSE
+	prob2fail = 0 
+	PVE_damage = 500
+	grid_width = 256
+	grid_height = 256
+
 /obj/item/satchel_bomb/spark_act()
 	light()
 
@@ -472,14 +491,22 @@
 			if(!skipprob && prob(prob2fail))
 				snuff()
 			else
-				for(var/mob/living/target in range(3, T))
-					if(!target.mind || istype(target, /mob/living/simple_animal))
+				if (istype(src, /obj/item/satchel_bomb/mega)) //removing restrictions, may the gods have mercy on you all
+					for(var/mob/living/target in range(3, T))
 						target.adjustFireLoss(PVE_damage) //summary 500
-				for(var/mob/living/target in range(8, T))
-					if(!target.mind || istype(target, /mob/living/simple_animal))
+					for(var/mob/living/target in range(8, T))
 						target.adjustFireLoss(PVE_damage - 100)
-				explosion(T, devastation_range = 2, heavy_impact_range = 3, light_impact_range = 8, flame_range = 2, smoke = TRUE, soundin = pick('sound/misc/explode/bottlebomb (1).ogg','sound/misc/explode/bottlebomb (2).ogg'))
-				qdel(src)
+					explosion(T, devastation_range = 10, heavy_impact_range = 15, light_impact_range = 40, adminlog = TRUE, ignorecap = TRUE, flame_range = 10, smoke = TRUE, soundin = pick('sound/misc/explode/bottlebomb (1).ogg','sound/misc/explode/bottlebomb (2).ogg')) //5 times the size
+					qdel(src)
+				else
+					for(var/mob/living/target in range(3, T))
+						if(!target.mind || istype(target, /mob/living/simple_animal))
+							target.adjustFireLoss(PVE_damage) //summary 500
+					for(var/mob/living/target in range(8, T))
+						if(!target.mind || istype(target, /mob/living/simple_animal))
+							target.adjustFireLoss(PVE_damage - 100)
+					explosion(T, devastation_range = 2, heavy_impact_range = 3, light_impact_range = 8, flame_range = 2, smoke = TRUE, soundin = pick('sound/misc/explode/bottlebomb (1).ogg','sound/misc/explode/bottlebomb (2).ogg'))
+					qdel(src)
 
 		else
 			if(prob(prob2fail))

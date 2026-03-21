@@ -19,7 +19,7 @@
 	slaver state, with brutal and oft-controversial Astratan worship, comprised of odd, bespoke rituals that came at the cost of the chosen enslaved. \
 	The See had never acknowledged such practices, however it is suspected that due to them the thinly-numbered race had received their 'blessings'.<br><br> \
 	The past half-century has seen an eruption of religious warfare, spurred on by the inevitable anger from other faiths as well as the enslaved themselves, \
-	with a massive Psydonian rebellion ultimately shattering the Solar Dominion. Since \
+	with strings of Matthiosite & Psydonic rebellions ultimately shattering the Solar Dominion. Since \
 	then, many Sun Elf refugees have traveled from the East. Some bring their Crusade \
 	along with them, while others yearn for sanctuary from the ever-encroaching \
 	Darkness — and many more seek only to selfish enrich themselves in this foreign land.<br><br>\

@@ -1,10 +1,14 @@
 /mob/living/carbon/human/species/orc/npc/footsoldier
+	threat_point = THREAT_HIGH
+	ambush_faction = "orcs"
 	orc_outfit = /datum/outfit/job/roguetown/orc/npc/footsoldier
 
 /mob/living/carbon/human/species/orc/npc/marauder
+	threat_point = THREAT_TOUGH
 	orc_outfit = /datum/outfit/job/roguetown/orc/npc/marauder
 
 /mob/living/carbon/human/species/orc/npc/berserker
+	threat_point = THREAT_TOUGH
 	npc_jump_chance = 25 // Meant to leap and scare you - probably
 	orc_outfit = /datum/outfit/job/roguetown/orc/npc/berserker
 

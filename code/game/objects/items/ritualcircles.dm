@@ -1008,7 +1008,7 @@
 	name = "Rune of Death"
 	desc = "A Holy Rune of Necra. Quiet acceptance stirs within you."
 	icon_state = "necra_chalky"
-	var/deathrites = list("Undermaiden's Bargain", "Vow to the Undermaiden", "The Toll")
+	var/deathrites = list("Undermaiden's Bargain", "The Toll")
 	var/coinslot = 0
 
 

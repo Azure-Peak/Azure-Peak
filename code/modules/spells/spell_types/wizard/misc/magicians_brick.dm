@@ -5,7 +5,7 @@
 	overlay_state = "magicians_brick"
 	sound = list('sound/magic/whiteflame.ogg')
 
-	releasedrain = 30
+	releasedrain = SPELLCOST_MINOR_PROJECTILE // Yeah it is just a brick and cannot be weaved with other spells
 	recharge_time = 5 SECONDS // Quite spammable
 
 	warnie = "spellwarning"

@@ -2,7 +2,7 @@
 	name = "Wither"
 	desc = "Lashes out a delayed line of dark magic, lowering the physical prowess of all in it's path."
 	cost = 3
-	releasedrain = 50
+	releasedrain = SPELLCOST_MAJOR_AOE
 	overlay_state = "wither" // just using the curse blob, it's placeholder.
 	chargedrain = 2
 	chargetime = 2 SECONDS

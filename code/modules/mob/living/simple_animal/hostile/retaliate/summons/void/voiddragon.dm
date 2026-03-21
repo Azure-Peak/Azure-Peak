@@ -420,18 +420,14 @@ It will also call down lightning strikes from the sky, and fling people with it'
 	icon_state = "[initial(icon_state)]"
 	playsound(loc, 'sound/misc/meteorimpact.ogg', 200, TRUE)
 	for(var/mob/living/L in orange(1, src))
-		if(L.stat)
-			visible_message(span_warning("[src] slams down on [L], crushing [L.p_them()]!"))
-			L.gib()
-		else
-			L.adjustBruteLoss(75)
-			if(L && !QDELETED(L)) // Some mobs are deleted on death
-				var/throw_dir = get_dir(src, L)
-				if(L.loc == loc)
-					throw_dir = pick(GLOB.alldirs)
-				var/throwtarget = get_edge_target_turf(src, throw_dir)
-				L.throw_at(throwtarget, 3)
-				visible_message(span_warning("[L] is thrown clear of [src]!</span>"))
+		L.adjustBruteLoss(75)
+		if(L && !QDELETED(L)) // Some mobs are deleted on death
+			var/throw_dir = get_dir(src, L)
+			if(L.loc == loc)
+				throw_dir = pick(GLOB.alldirs)
+			var/throwtarget = get_edge_target_turf(src, throw_dir)
+			L.throw_at(throwtarget, 3)
+			visible_message(span_warning("[L] is thrown clear of [src]!</span>"))
 	for(var/mob/M in range(7, src))
 		shake_camera(M, 15, 1)
 	movement_type = GROUND

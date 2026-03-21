@@ -16,7 +16,7 @@
 
 	grid_width = 64
 	grid_height = 32
-	unarmed_bonus = 1.2
+	unarmed_bonus = 3
 
 /obj/item/clothing/gloves/roguetown/plate/ComponentInitialize()
 	AddComponent(/datum/component/armour_filtering/positive, TRAIT_FENCERDEXTERITY)

@@ -369,7 +369,11 @@
 				if(I.wielded)
 					probby -= 20
 				if(prob(probby))
-					M.dropItemToGround(I, force = FALSE, silent = FALSE)
+					if(!M.dropItemToGround(I, force = FALSE, silent = FALSE))
+						M.visible_message(span_warning("[user] tries to take [I] from [M]'s hand, but can't pry it away!"), \
+								span_userdanger("[user] tries to take [I] from my hand, but I keep my grip!"), span_hear("I hear a sickening sound of pugilism!"), COMBAT_MESSAGE_RANGE)
+						user.stop_pulling()
+						return
 					user.stop_pulling()
 					user.put_in_active_hand(I)
 					M.visible_message(span_danger("[user] takes [I] from [M]'s hand!"), \
@@ -379,7 +383,10 @@
 				else
 					probby += 20
 					if(prob(probby))
-						M.dropItemToGround(I, force = FALSE, silent = FALSE)
+						if(!M.dropItemToGround(I, force = FALSE, silent = FALSE))
+							M.visible_message(span_warning("[user] tries to disarm [M] of [I], but can't pry it away!"), \
+									span_userdanger("[user] tries to disarm me of [I], but I keep my grip!"), span_hear("I hear a sickening sound of pugilism!"), COMBAT_MESSAGE_RANGE)
+							return
 						M.visible_message(span_danger("[user] disarms [M] of [I]!"), \
 								span_userdanger("[user] disarms me of [I]!"), span_hear("I hear a sickening sound of pugilism!"), COMBAT_MESSAGE_RANGE)
 						M.Stun(6)//slight delay to pick up the weapon

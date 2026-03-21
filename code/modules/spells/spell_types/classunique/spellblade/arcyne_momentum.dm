@@ -4,7 +4,7 @@
 
 /atom/movable/screen/alert/status_effect/buff/arcyne_momentum
 	name = "Arcyne Momentum (0)"
-	desc = "Strikes with my bound weapon fuel arcyne power. Build momentum to unleash your power. Melee strikes grant 1 stack every 2 seconds. Certain abilities capable of striking multiple targets grant bonus momentum. Take care not to lose control."
+	desc = "Melee strikes fuel arcyne power. Build momentum to unleash your power. Melee strikes grant 1 stack every 2 seconds. Certain abilities capable of striking multiple targets grant bonus momentum. Take care not to lose control."
 	icon_state = "buff"
 
 /datum/status_effect/buff/arcyne_momentum
@@ -25,6 +25,8 @@
 	var/static/mutable_appearance/electricity_overlay
 	var/obj/item/bound_weapon
 	var/chant
+	var/last_melee_gain = 0
+	var/melee_gain_cooldown = 2 SECONDS
 
 /datum/status_effect/buff/arcyne_momentum/on_apply()
 	. = ..()
@@ -34,11 +36,52 @@
 
 /datum/status_effect/buff/arcyne_momentum/on_remove()
 	UnregisterSignal(owner, list(COMSIG_LIVING_STATUS_STUN, COMSIG_LIVING_STATUS_KNOCKDOWN))
+	if(chant == "unarmed")
+		UnregisterSignal(owner, list(COMSIG_HUMAN_MELEE_UNARMED_ATTACK, COMSIG_MOB_ITEM_ATTACK))
 	if(is_overcharged)
 		owner.cut_overlay(electricity_overlay)
 	owner.clear_fullscreen("momentum_strain")
 	owner.remove_filter(MOMENTUM_FILTER)
 	. = ..()
+
+// Call this after setting chant to register the appropriate signals
+/datum/status_effect/buff/arcyne_momentum/proc/set_chant(new_chant)
+	// Unregister old unarmed signals if switching away
+	if(chant == "unarmed" && new_chant != "unarmed")
+		UnregisterSignal(owner, list(COMSIG_HUMAN_MELEE_UNARMED_ATTACK, COMSIG_MOB_ITEM_ATTACK))
+	chant = new_chant
+	// Register unarmed signals if needed
+	if(chant == "unarmed")
+		RegisterSignal(owner, COMSIG_HUMAN_MELEE_UNARMED_ATTACK, PROC_REF(on_unarmed_attack))
+		RegisterSignal(owner, COMSIG_MOB_ITEM_ATTACK, PROC_REF(on_unarmed_item_attack))
+
+/datum/status_effect/buff/arcyne_momentum/proc/on_unarmed_attack(mob/living/source, atom/target, proximity)
+	SIGNAL_HANDLER
+	if(!isliving(target))
+		return
+	// Only punch intent builds momentum, not touch/shove/grab
+	if(!istype(owner.used_intent, /datum/intent/unarmed/punch))
+		return
+	var/mob/living/victim = target
+	if(victim == owner || victim.stat == DEAD)
+		return
+	if(world.time < last_melee_gain + melee_gain_cooldown)
+		return
+	add_stacks(1)
+	last_melee_gain = world.time
+
+// Momentum from knuckle/katar hits — only if the weapon uses unarmed skill
+/datum/status_effect/buff/arcyne_momentum/proc/on_unarmed_item_attack(mob/living/source, mob/living/target, mob/living/user)
+	SIGNAL_HANDLER
+	if(!isliving(target) || target == owner || target.stat == DEAD)
+		return
+	var/obj/item/weapon = user?.get_active_held_item()
+	if(!weapon || weapon.associated_skill != /datum/skill/combat/unarmed)
+		return
+	if(world.time < last_melee_gain + melee_gain_cooldown)
+		return
+	add_stacks(1)
+	last_melee_gain = world.time
 
 /datum/status_effect/buff/arcyne_momentum/proc/on_stunned()
 	SIGNAL_HANDLER

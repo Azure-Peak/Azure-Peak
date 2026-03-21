@@ -30,9 +30,9 @@ Cross-Z uses a longer telegraph.*/
 		The arrival strikes can be deflected by Defend stance. Works across Z-levels."
 	clothes_req = FALSE
 	range = 6
-	action_icon = 'icons/mob/actions/spellblade.dmi'
+	action_icon = 'icons/mob/actions/classuniquespells/spellblade.dmi'
 	overlay_state = "gate_of_reckoning" // Icon by Prominence.
-	releasedrain = 40
+	releasedrain = SPELLCOST_SB_ULT
 	chargedrain = 1
 	chargetime = 10
 	recharge_time = 60 SECONDS

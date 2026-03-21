@@ -24,7 +24,7 @@
 	)
 	storyteller = /datum/storyteller/pestra
 
-// Near a well, cross, within the physicians, or within the church
+// Near a well, cross, within the physicians, within the heartbeast's sanctum, or within the church
 /datum/patron/divine/pesta/can_pray(mob/living/follower)
 	. = ..()
 	// Allows prayer near psycross
@@ -36,8 +36,11 @@
 	// Allows prayer in the church
 	if(istype(get_area(follower), /area/rogue/indoors/town/church))
 		return TRUE
-	// Allows prayer in the appothocary's building.
+	// Allows prayer in the apothecary's building.
 	if(istype(get_area(follower), /area/rogue/indoors/town/physician))
+		return TRUE
+	// Allows prayer in the heartbeast's sanctum.
+	if(istype(get_area(follower), /area/rogue/indoors/town/pestra_sanctum))
 		return TRUE
 	// Allows prayer near wells. Weird one, but makes sense for health and disease. Miasma, water, etc.
 	for(var/obj/structure/well/W in view(4, get_turf(follower)))
