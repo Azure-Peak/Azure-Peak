@@ -149,21 +149,24 @@
 	desc = "The soil will soothe my wounds and knit my flesh."
 	icon_state = "buff"
 
+/datum/status_effect/buff/hag_boon/creeping_moss/on_apply()
+	. = ..()
+	RegisterSignal(owner, COMSIG_PARENT_ATTACKBY, PROC_REF(on_attackby))
+
 /datum/status_effect/buff/hag_boon/creeping_moss/tick()
+	if(!ishuman(owner))
+		return
+	var/mob/living/carbon/human/H = owner
+
 	// Choke if we've got too much moss
 	if(moss_layer >= 6)
 		H.adjustOxyLoss(10)
 		if(prob(10))
-			to_chat(H, span_userdanger("The moss is clogging your throat! I can't breathe!"))
+			to_chat(H, span_userdanger("The moss is squeezing your insides! It hurts!"))
 
 	var/turf/T = get_turf(owner)
 	if(!is_type_in_list(T, natural_turfs))
 		return
-
-	if(!ishuman(owner))
-		return
-
-	var/mob/living/carbon/human/H = owner
 
 	// Only heal if we actually have brute damage or wounds
 	var/list/wounds = H.get_wounds()
@@ -211,6 +214,60 @@
 		var/mob/living/carbon/human/H = owner
 		H.cut_overlay("moss_layer")
 		H.remove_movespeed_modifier(MOVESPEED_ID_MOSS_SLOW)
+		UnregisterSignal(COMSIG_PARENT_ATTACKBY)
 	return ..()
+
+/datum/status_effect/buff/hag_boon/creeping_moss/proc/on_attackby(datum/source, obj/item/W, mob/user, params)
+	SIGNAL_HANDLER
+	to_chat(world, span_boldnotice("DEBUG: User=[user ? "YES" : "NO"] | Item=[W ? "YES" : "NO"] | Layer=[moss_layer] - attackby proc"))
+
+	if(user.cmode == TRUE) 
+		return
+
+	if(user.used_intent.blade_class != BCLASS_CUT)
+		return
+
+	if(moss_layer <= 0)
+		to_chat(user, span_warning("There is no moss on [owner] left to trim."))
+		return
+
+	INVOKE_ASYNC(src, PROC_REF(begin_trimming), user, W)
+	return COMPONENT_NO_AFTERATTACK
+
+/datum/status_effect/buff/hag_boon/creeping_moss/proc/begin_trimming(mob/user, obj/item/W)
+	to_chat(world, span_boldnotice("DEBUG: User=[user ? "YES" : "NO"] | Item=[W ? "YES" : "NO"] | Layer=[moss_layer]"))
+	if(!user || !W || !owner)
+		return
+
+	user.visible_message(span_notice("[user] begins carefully scraping the moss off of [owner] with [W]."), \
+						 span_notice("You begin scraping the damp moss off of [owner]."))
+
+	if(!do_after(user, 3 SECONDS, target = owner))
+		return
+	if(moss_layer <= 0)
+		return
+
+	trim_moss()
+
+/datum/status_effect/buff/hag_boon/creeping_moss/proc/trim_moss()
+	moss_layer = max(moss_layer - 1, 0)
+	total_healed = 0
+
+	var/mob/living/carbon/human/H = owner
+	if(!istype(H))
+		return
+
+	H.cut_overlay("moss_layer")
+	if(moss_layer > 0)
+		var/image/I = image('icons/mob/mossoverlay.dmi', "moss[moss_layer]")
+		I.appearance_flags = RESET_COLOR
+		H.add_overlay(I, "moss_layer")
+
+		var/current_slow = 0.2 * moss_layer
+		H.add_movespeed_modifier(MOVESPEED_ID_MOSS_SLOW, update=TRUE, priority=10, multiplicative_slowdown=current_slow)
+	else
+		H.remove_movespeed_modifier(MOVESPEED_ID_MOSS_SLOW)
+
+	to_chat(owner, span_notice("You feel a bit lighter as some of the moss is scraped away."))
 
 #undef MOVESPEED_ID_MOSS_SLOW
