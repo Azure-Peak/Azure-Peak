@@ -1832,6 +1832,8 @@
 #include "code\modules\jobs\job_types\roguetown\adventurer\types\antag\hag_class\hag_curses\hag_curses.dm"
 #include "code\modules\jobs\job_types\roguetown\adventurer\types\antag\hag_class\hag_curses\hag_curses_effects.dm"
 #include "code\modules\jobs\job_types\roguetown\adventurer\types\antag\hag_class\hag_curses\hag_curses_traits.dm"
+#include "code\modules\jobs\job_types\roguetown\adventurer\types\antag\hag_class\hag_structures\hag_heart.dm"
+#include "code\modules\jobs\job_types\roguetown\adventurer\types\antag\hag_class\hag_structures\hag_ward.dm"
 #include "code\modules\jobs\job_types\roguetown\adventurer\types\combat\cleric.dm"
 #include "code\modules\jobs\job_types\roguetown\adventurer\types\combat\foreigner.dm"
 #include "code\modules\jobs\job_types\roguetown\adventurer\types\combat\mystic.dm"

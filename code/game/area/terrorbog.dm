@@ -40,3 +40,11 @@
 
 /area/rogue/outdoors/bog/south
 	name = "Southern Terrorbog"
+
+/area/rogue/indoors/shelter/bog_hag
+	icon_state = "bog"
+	first_time_text = "A HUT BETWIXT THE ROOTS"
+	droning_sound = 'sound/music/area/bog.ogg'
+	droning_sound_dusk = null
+	droning_sound_night = null
+	deathsight_message = "a nasty wicked place deep betwixt the roots of the bog"

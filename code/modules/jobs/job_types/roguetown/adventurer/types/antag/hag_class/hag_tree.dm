@@ -15,18 +15,28 @@
 	var/list/hag_stock = list()
 	var/list/public_stock = list()
 	var/harvesting = FALSE
+	var/mother_tree = TRUE
+
+/obj/structure/roguemachine/mossmother/travel
+	name = "Heartroot tree"
+	desc = "No one knows why, but these trees seem nigh indestructible. You feel uneasy looking at this monstrosity of roots and bark."
+	icon_state = "tree"
+	mother_tree = FALSE
 
 /obj/structure/roguemachine/mossmother/Initialize(mapload)
 	. = ..()
 	public_stock[/obj/item/alch/hag_moss/sorrow] = 2
 	public_stock[/obj/item/alch/hag_moss/mercy] = 2
 
-	hag_stock[/obj/item/alch/hag_moss/sorrow] = 5
-	hag_stock[/obj/item/alch/hag_moss/fury] = 3
-	hag_stock[/obj/item/alch/hag_moss/mercy] = 5
-	hag_stock[/obj/item/alch/hag_moss/grief] = 0
-	hag_stock[/obj/item/alch/hag_moss/envy] = 0
-	hag_stock[/obj/item/alch/hag_moss/lullaby] = 0
+	if(mother_tree)
+		hag_stock[/obj/item/alch/hag_moss/sorrow] = 5
+		hag_stock[/obj/item/alch/hag_moss/fury] = 3
+		hag_stock[/obj/item/alch/hag_moss/mercy] = 5
+		hag_stock[/obj/item/alch/hag_moss/grief] = 0
+		hag_stock[/obj/item/alch/hag_moss/envy] = 0
+		hag_stock[/obj/item/alch/hag_moss/lullaby] = 0
+	else
+		hag_stock[/obj/item/alch/hag_moss/sorrow] = 1
 
 /obj/structure/roguemachine/mossmother/proc/get_contents(is_hag = FALSE)
 	var/list/source = is_hag ? hag_stock : public_stock
