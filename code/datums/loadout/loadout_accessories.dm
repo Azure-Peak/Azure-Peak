@@ -66,6 +66,11 @@
 	path = /obj/item/clothing/mask/rogue/duelmask
 	sort_category = "Accessories"
 
+/datum/loadout_item/physician
+	name = "Plague Mask"
+	path = /obj/item/clothing/mask/rogue/physician
+	sort_category = "Accessories"
+
 /datum/loadout_item/pipe
 	name = "Pipe"
 	path = /obj/item/clothing/mask/cigarette/pipe
