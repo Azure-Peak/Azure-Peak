@@ -10,4 +10,4 @@
 
 /obj/item/reagent_containers/peppermill/get_mechanics_examine(mob/user)
 	. = ..()
-	. += span_info("Left-clicking some cooked meats, such as frysteaks and frybirds, will season them into higher-classed meals.")
+	. += span_info("Left-clicking a variety of cooked meats, such as frysteaks and fillets of fish, will season them into higher-classed meals.")

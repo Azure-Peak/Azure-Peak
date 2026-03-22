@@ -79,7 +79,7 @@
 	if(ismob(target))
 		var/datum/status_effect/debuff/arcanemark/mark = M.has_status_effect(/datum/status_effect/debuff/arcanemark)
 		if(mark && mark.stacks == mark.max_stacks)
-			armor_penetration = 50 //pierces most armors
+			armor_penetration = PEN_HEAVY //pierces most armors
 			apply_mark = FALSE
 			consume_arcane_mark_stacks(M)
 

@@ -48,7 +48,7 @@
 		if(body_zone != BODY_ZONE_HEAD)
 			var/mob/living/carbon/human/victim = owner
 			var/d_type = "slash"
-			if(victim.run_armor_check(zone_precise, d_type, damage = damage))
+			if(victim.run_armor_check(zone_precise, d_type, armor_penetration = PEN_NONE, damage = damage))
 				to_chat(victim, span_warning("My armour just saved me from losing my [C.get_bodypart(body_zone).name]!"))
 				return FALSE
 

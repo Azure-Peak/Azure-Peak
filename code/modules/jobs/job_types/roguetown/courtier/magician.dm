@@ -12,7 +12,9 @@
 	display_order = JDO_MAGICIAN
 	tutorial = "Your creed is one dedicated to the conquering of the arcane arts and the constant thrill of knowledge. \
 		You owe your life to the Lord, for it was his coin that allowed you to continue your studies in these dark times. \
-		In return, you have proven time and time again as justicar and trusted advisor to their reign."
+		In return, you have proven time and time again as justicar and trusted advisor to their reign. You operate \
+		within the University of Azuria, sharing authority jointly with the Head Physician; their realm is the study \
+		of the mundane body, whereas you have authority over all things arcane."
 	outfit = /datum/outfit/job/roguetown/magician
 	whitelist_req = TRUE
 	give_bank_account = TRUE
@@ -34,7 +36,9 @@
 	name = "Court Magician"
 	tutorial = "Your creed is one dedicated to the conquering of the arcane arts and the constant thrill of knowledge. \
 		You owe your life to the Lord, for it was his coin that allowed you to continue your studies in these dark times. \
-		In return, you have proven time and time again as justicar and trusted advisor to their reign."
+		In return, you have proven time and time again as justicar and trusted advisor to their reign. You operate \
+		within the University of Azuria, sharing authority jointly with the Head Physician; their realm is the study \
+		of the mundane body, whereas you have authority over all things arcane."
 	outfit = /datum/outfit/job/roguetown/magician/basic
 
 	subclass_spellpoints = 36

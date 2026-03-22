@@ -84,6 +84,7 @@
 
 /obj/item/clothing/cloak/tabard/attack_right(mob/user)
 	if(custom_design)
+		..()
 		return
 	var/the_time = world.time
 	var/design = input(user, "Select a design.","Tabard Design") as null|anything in list("None", "Symbol", "Split", "Quadrants", "Boxes", "Diamonds")
@@ -156,6 +157,17 @@
 			pic.color = get_detail_color()
 		add_overlay(pic)
 
+/obj/item/clothing/cloak/tabard/sleevedtabard
+	name = "Sleeved Tabard"
+	desc = " A tabard with a light sleeve and pauldron sewn on, it lacks the explicit detailing of other tabards in exchange."
+	color = null 
+	boobed = TRUE
+	icon_state = "halfsurcoat"
+	item_state = "halfsurcoat"
+	mob_overlay_icon = 'icons/roguetown/clothing/onmob/cloaks.dmi'
+	sleeved = 'icons/roguetown/clothing/onmob/helpers/sleeves_cloaks.dmi'
+	sleevetype = "shirt"
+	
 
 /obj/item/clothing/cloak/tabard/abyssortabard
 	name = "abyssorite tabard"
@@ -393,6 +405,7 @@
 
 /obj/item/clothing/cloak/tabard/crusader/attack_right(mob/user)
 	if(custom_design)
+		..()
 		return
 	var/the_time = world.time
 	var/design = input(user, "Select a design.","Tabard Design") as null|anything in list("Default", "Gold Cross", "Jeruah", "BlackGold", "BlackWhite")
@@ -431,6 +444,7 @@
 
 /obj/item/clothing/cloak/tabard/crusader/tief/attack_right(mob/user)
 	if(custom_design)
+		..()
 		return
 	var/the_time = world.time
 	var/design = input(user, "Select a design.","Tabard Design") as null|anything in list("Default", "RedBlack", "BlackRed")
@@ -564,6 +578,7 @@
 	color = CLOTHING_BLACK
 
 /obj/item/clothing/cloak/tabard/stabard/dungeon/attack_right(mob/user)
+	..()
 	return
 
 /obj/item/clothing/cloak/tabard/stabard/mercenary
@@ -906,8 +921,9 @@
 	allowed_race = CLOTHED_RACES_TYPES
 
 /obj/item/clothing/cloak/cape/inquisitor
-	name = "Inquisitors Cloak"
-	desc = "A time honored cloak Valorian design, used by founding clans of the Valorian Lodge"
+	name = "golden order cloak"
+	desc = "A time honored cloak inlined with golden threading, the stitchwork tethers it to the Golden Orders; a catch-all term for the various faith-militances that \
+	ward Psydonia from heathens, cultists, and the ever-looming threat of another calamity."
 	icon_state = "inquisitor_cloak"
 	icon = 'icons/roguetown/clothing/cloaks.dmi'
 	mob_overlay_icon = 'icons/roguetown/clothing/onmob/cloaks.dmi'
@@ -1269,7 +1285,6 @@
 	icon_state = "dragonnecklace"
 	max_integrity = ARMOR_INT_SIDE_IRON //Iron gorget now.
 	armor = ARMOR_PLATE
-	prevent_crits = PREVENT_CRITS_ALL
 	blocksound = PLATEHIT
 	//dropshrink = 0.75
 	resistance_flags = FIRE_PROOF
@@ -1350,6 +1365,7 @@
 
 /obj/item/clothing/cloak/tabard/stabard/guardhood/attack_right(mob/user)
 	if(custom_design)
+		..()
 		return
 	var/the_time = world.time
 	var/chosen = input(user, "Select a design.","Tabard Design") as null|anything in list("Split")
@@ -1668,3 +1684,18 @@
 	boobed = FALSE
 	grid_width = 64
 	grid_height = 64
+
+/obj/item/clothing/cloak/scaledcloak
+	name = "Scaled Cloak"
+	desc = "A light cloak covered in shimmering metal scales. Beautiful even if too light to protect it's wearer from more than other travel cloaks."
+	icon_state = "scalecloak"
+	item_state = "scalecloak"
+	alternate_worn_layer = CLOAK_BEHIND_LAYER
+	boobed = FALSE
+	slot_flags = ITEM_SLOT_CLOAK|ITEM_SLOT_BACK_R|ITEM_SLOT_BACK_L
+	sleeved = 'icons/roguetown/clothing/onmob/cloaks.dmi'
+	sleevetype = "shirt"
+	nodismemsleeves = TRUE
+	inhand_mod = TRUE
+	detail_tag = "_detail"
+	detail_color = "#405996"

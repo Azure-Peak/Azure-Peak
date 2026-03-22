@@ -122,7 +122,7 @@
 	desc = "A common sight amongst those travelling the long desert routes, it offers protection from the heat and a modicum of it against the beasts that prowl its more comfortable nites."
 	slot_flags = ITEM_SLOT_HEAD
 	max_integrity = 200
-	armor = ARMOR_SPELLSINGER //basically the same as a warscholar hood
+	armor = ARMOR_LEATHER //basically the same as a warscholar hood
 	item_state = "hijab"
 	icon_state = "hijab"
 	naledicolor = TRUE
@@ -266,7 +266,7 @@
 	name = "ominously enchanted hood"
 	desc = "An otherworldly veil, amythortz-woven and crackling with the unignorable truths of a runic enigma. She watches over you; and Her grin is crooked into one of eternal malice."
 	max_integrity = ARMOR_INT_HELMET_ANTAG
-	armor = ARMOR_SPELLSINGER
+	armor = ARMOR_LEATHER
 	item_state = "ewarlockhood"
 	icon_state = "ewarlockhood"
 
@@ -341,8 +341,7 @@
 	body_parts_covered = NECK | HEAD | HAIR
 	flags_inv = HIDEEARS|HIDEFACE|HIDEHAIR|HIDEFACIALHAIR|HIDESNOUT
 	slot_flags = ITEM_SLOT_HEAD|ITEM_SLOT_MASK
-	prevent_crits = PREVENT_CRITS_NONE
-	armor = ARMOR_SPELLSINGER
+	armor = ARMOR_LEATHER
 	dynamic_hair_suffix = ""
 	edelay_type = 1
 	adjustable = CAN_CADJUST
@@ -360,8 +359,7 @@
 	body_parts_covered = NECK | HEAD | HAIR
 	slot_flags = ITEM_SLOT_HEAD|ITEM_SLOT_MASK
 	flags_inv = HIDEEARS|HIDEFACE|HIDEHAIR|HIDEFACIALHAIR
-	prevent_crits = PREVENT_CRITS_MOST
-	armor = ARMOR_SPELLSINGER
+	armor = ARMOR_LEATHER
 	dynamic_hair_suffix = ""
 	edelay_type = 1
 	adjustable = CAN_CADJUST
@@ -374,8 +372,7 @@
 	name = "hierophant's pashmina"
 	desc = "A thick hood that covers one's entire head, should they desire, or merely acts as a scarf otherwise. Made with spell-laced fabric to provide some protection against daemons and mortals alike."
 	max_integrity = 100
-	prevent_crits = PREVENT_CRITS_NONE
-	armor = ARMOR_SPELLSINGER
+	armor = ARMOR_LEATHER
 	icon_state = "hijab"
 	item_state = "hijab"
 	naledicolor = TRUE
@@ -386,8 +383,7 @@
 	name = "pontifex's pashmina"
 	desc = "A slim hood with thin, yet dense fabric. Stretchy and malleable, allowing for full flexibility and mobility. Made with spell-laced fabric to provide some protection against daemons and mortals alike."
 	max_integrity = 100
-	prevent_crits = PREVENT_CRITS_NONE
-	armor = ARMOR_SPELLSINGER
+	armor = ARMOR_LEATHER
 	icon_state = "monkhood"
 	item_state = "monkhood"
 	naledicolor = TRUE
@@ -403,8 +399,7 @@
 	slot_flags = ITEM_SLOT_HEAD
 	flags_inv = HIDEEARS|HIDEHAIR
 	blocksound = SOFTHIT
-	armor = ARMOR_LEATHER_STUDDED
-	prevent_crits = PREVENT_CRITS_MOST
+	armor = ARMOR_LEATHER
 	max_integrity = ARMOR_INT_CHEST_LIGHT_MASTER
 	dynamic_hair_suffix = ""
 	edelay_type = 1

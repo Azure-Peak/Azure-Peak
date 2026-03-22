@@ -31,7 +31,7 @@
 	subclass_stashed_items = list(
 		"Tome of Psydon" = /obj/item/book/rogue/bibble/psy
 	)
-	extra_context = "This subclass can choose from multiple disciplines. The further your chosen discipline strays from unarmed combat, however, the greater your skills in fistfighting and wrestling will atrophy. Taking a Quarterstaff provides a minor bonus to Perception and Intelligence, but removes the 'Critical Resistance' trait."
+	extra_context = "This subclass can choose from multiple disciplines. The further your chosen discipline strays from unarmed combat, however, the greater your skills in fistfighting and wrestling will atrophy. Taking a Quarterstaff provides a minor bonus to Perception and Intelligence."
 
 /datum/outfit/job/roguetown/disciple
 	job_bitflag = BITFLAG_HOLY_WARRIOR
@@ -61,50 +61,19 @@
 				gloves = /obj/item/clothing/gloves/roguetown/bandages/weighted
 				H.change_stat(STATKEY_PER, 1)
 				H.change_stat(STATKEY_INT, 1) //Changes statblock from 3/3/3/-2/-1/0 to 3/3/3/-1/-1/1. Note that this comes at the cost of losing the 'critical resistance' trait, and retaining the unarmorable status.
-		var/armors = list("Otavan - Heavyweight, Blacksteel Thorns", "Naledian - Lightweight, Arcyne-Martiality")
-		var/armor_choice = input(H, "Choose your ARCHETYPE.", "TAKE UP PSYDON'S DUTY.") as anything in armors
-		switch(armor_choice)
-			if("Otavan - Heavyweight, Blacksteel Thorns")
-				head = /obj/item/clothing/head/roguetown/roguehood/psydon
-				mask = /obj/item/clothing/head/roguetown/helmet/blacksteel/psythorns
-				backl = /obj/item/storage/backpack/rogue/satchel/otavan
-				pants = /obj/item/clothing/under/roguetown/heavy_leather_pants/otavan
-				wrists = /obj/item/clothing/wrists/roguetown/bracers/psythorns
-				neck = /obj/item/clothing/neck/roguetown/psicross/silver
-				id = /obj/item/clothing/ring/signet/silver
-				change_origin(H, /datum/virtue/origin/otava, "Holy order")
-			if("Naledian - Lightweight, Arcyne-Martiality")
-				head = /obj/item/clothing/head/roguetown/headband/naledi
-				mask = /obj/item/clothing/mask/rogue/lordmask/naledi/sojourner
-				wrists = /obj/item/clothing/wrists/roguetown/bracers/cloth/naledi
-				backl = /obj/item/storage/backpack/rogue/satchel/black
-				pants = /obj/item/clothing/under/roguetown/heavy_leather_pants
-				neck = /obj/item/clothing/neck/roguetown/psicross/g //Naledians covet gold far more than the Orthodoxists cover silver. Emphasizes their nature as 'visitors', more-so than anything else.
-				id = /obj/item/clothing/ring/signet
-				l_hand = /obj/item/spellbook_unfinished/pre_arcyne
-				ADD_TRAIT(H, TRAIT_ARCYNE_T2, TRAIT_GENERIC) //Sojourners are magyck-inclined lightweights, relying on evasive maneuvers and unorthodox techniques - compared to the Disciple, who simply Kills People With Rocks.
-				ADD_TRAIT(H, TRAIT_DODGEEXPERT, TRAIT_GENERIC)
-				ADD_TRAIT(H, TRAIT_NALEDI, TRAIT_GENERIC)
-				REMOVE_TRAIT(H, TRAIT_CRITICAL_RESISTANCE, TRAIT_GENERIC)
-				H.adjust_skillrank_up_to(/datum/skill/magic/arcane, 3, TRUE)
-				H.mind.adjust_spellpoints(6)
-				H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/projectile/fetch) //Pre-set spell list. Same as before. 
-				H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/forcewall) //Weak, destroyable forcewall.
-				H.mind.AddSpell(new /obj/effect/proc_holder/spell/self/message)
-				H.mind.AddSpell(new /obj/effect/proc_holder/spell/targeted/touch/summonrogueweapon/bladeofpsydon)
-				H.change_stat(STATKEY_CON, -3) 
-				H.change_stat(STATKEY_WIL, -3)
-				H.change_stat(STATKEY_INT, 3)
-				H.change_stat(STATKEY_SPD, 2) //Turns the Sojourner's unmodified statblock to 3/0/0/1/1, compared to the Disciple's 3/3/3/-2/-1.
-				change_origin(H, /datum/virtue/origin/naledi, "Holy order")//These are Naledi we make them actually Naledi
-				H.grant_language(/datum/language/celestial)
+	head = /obj/item/clothing/head/roguetown/roguehood/psydon
+	mask = /obj/item/clothing/head/roguetown/helmet/blacksteel/psythorns
+	backl = /obj/item/storage/backpack/rogue/satchel/otavan
+	pants = /obj/item/clothing/under/roguetown/heavy_leather_pants/otavan
+	wrists = /obj/item/clothing/wrists/roguetown/bracers/psythorns
+	neck = /obj/item/clothing/neck/roguetown/psicross/silver
+	id = /obj/item/clothing/ring/signet/silver
 
 	shoes = /obj/item/clothing/shoes/roguetown/boots/psydonboots
 	armor = /obj/item/clothing/suit/roguetown/armor/regenerating/skin/disciple
 
 	backpack_contents = list(/obj/item/roguekey/inquisitionmanor = 1,
-	/obj/item/paper/inqslip/arrival/ortho = 1,
-	/obj/item/roguegem/amethyst/naledi = 1) //Kept here for now, until we figure out how to make it better fit in overfilled hands.
+	/obj/item/paper/inqslip/arrival/ortho = 1)
 	belt = /obj/item/storage/belt/rogue/leather/rope/dark
 	beltl = /obj/item/storage/belt/rogue/pouch/coins/mid
 	cloak = /obj/item/clothing/cloak/tabard/psydontabard/alt

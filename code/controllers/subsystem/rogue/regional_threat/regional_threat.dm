@@ -8,7 +8,7 @@ SUBSYSTEM_DEF(regionthreat)
 	// Lowpop tick = THREAT_LOWPOP_TICK_RATE (10%) of max_ambush.
 	// Basin & Grove & Terrorbog are fully tameable (min 0). Coast & Decap stay dangerous (min > 0).
 	// Budget = player_factor * pool * 3%. Solo combat budgets shown at max pool.
-	// Diminishing drain: 5-man party drains at ~39% efficiency, so regions resist zerging.
+	// Additive group drain: 5-man party drains at 3x/player_factor efficiency (0.5x per extra player).
 	var/list/threat_regions = list(
 		new /datum/threat_region(
 			_region_name = THREAT_REGION_AZURE_BASIN, // Solo: 7.5 TP → 1 wolf | 5-party: 37 TP → 3-4 wolves
@@ -16,8 +16,8 @@ SUBSYSTEM_DEF(regionthreat)
 			_min_ambush = 0,
 			_max_ambush = 250,
 			_fixed_ambush = FALSE,
-			_lowpop_tick = 250 * THREAT_LOWPOP_TICK_RATE, // 25
-			_highpop_tick = 250 * THREAT_HIGHPOP_TICK_RATE // 50
+			_lowpop_tick = 250 * THREAT_LOWPOP_TICK_RATE,
+			_highpop_tick = 250 * THREAT_HIGHPOP_TICK_RATE
 		),
 		new /datum/threat_region(
 			_region_name = THREAT_REGION_AZURE_GROVE, // Solo: 15 TP → 1-2 mixed | 5-party: 75 TP → 5-6 mixed
@@ -25,8 +25,8 @@ SUBSYSTEM_DEF(regionthreat)
 			_min_ambush = 0,
 			_max_ambush = 500,
 			_fixed_ambush = FALSE,
-			_lowpop_tick = 500 * THREAT_LOWPOP_TICK_RATE, // 50
-			_highpop_tick = 500 * THREAT_HIGHPOP_TICK_RATE // 100
+			_lowpop_tick = 500 * THREAT_LOWPOP_TICK_RATE,
+			_highpop_tick = 500 * THREAT_HIGHPOP_TICK_RATE
 		),
 		new /datum/threat_region(
 			_region_name = THREAT_REGION_TERRORBOG, // Solo: 45 TP → 2-3 bogmen | 5-party: 225 TP → 11 bogmen
@@ -34,8 +34,8 @@ SUBSYSTEM_DEF(regionthreat)
 			_min_ambush = 0, // Fully tameable — a warden can engage in a long war to tame the terrorbog.
 			_max_ambush = 1500,
 			_fixed_ambush = FALSE,
-			_lowpop_tick = 1500 * THREAT_LOWPOP_TICK_RATE, // 150
-			_highpop_tick = 1500 * THREAT_HIGHPOP_TICK_RATE // 300
+			_lowpop_tick = 1500 * THREAT_LOWPOP_TICK_RATE,
+			_highpop_tick = 1500 * THREAT_HIGHPOP_TICK_RATE
 		),
 		// Coast & Decap stay somewhat dangerous no matter what
 		new /datum/threat_region(
@@ -44,8 +44,8 @@ SUBSYSTEM_DEF(regionthreat)
 			_min_ambush = 150,
 			_max_ambush = 800,
 			_fixed_ambush = FALSE,
-			_lowpop_tick = 800 * THREAT_LOWPOP_TICK_RATE, // 80
-			_highpop_tick = 800 * THREAT_HIGHPOP_TICK_RATE // 160
+			_lowpop_tick = 800 * THREAT_LOWPOP_TICK_RATE,
+			_highpop_tick = 800 * THREAT_HIGHPOP_TICK_RATE
 		),
 		new /datum/threat_region(
 			_region_name = THREAT_REGION_MOUNT_DECAP, // Solo: 30 TP → 1 minotaur | 5-party: 150 TP → 5 minotaurs
@@ -53,8 +53,8 @@ SUBSYSTEM_DEF(regionthreat)
 			_min_ambush = 200,
 			_max_ambush = 1000,
 			_fixed_ambush = FALSE,
-			_lowpop_tick = 1000 * THREAT_LOWPOP_TICK_RATE, // 100
-			_highpop_tick = 1000 * THREAT_HIGHPOP_TICK_RATE // 200
+			_lowpop_tick = 1000 * THREAT_LOWPOP_TICK_RATE,
+			_highpop_tick = 1000 * THREAT_HIGHPOP_TICK_RATE
 		)
 	)
 

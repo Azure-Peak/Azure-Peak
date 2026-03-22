@@ -11,8 +11,8 @@ At 3+ momentum: consumes 3 stacks and doubles damage. */
 		At 3+ momentum: consumes 3 to double damage. \
 		Strikes your aimed bodypart. Can be deflected by Defend stance."
 	clothes_req = FALSE
-	range = 3
-	action_icon = 'icons/mob/actions/spellblade.dmi'
+	range = 7
+	action_icon = 'icons/mob/actions/classuniquespells/spellblade.dmi'
 	overlay_state = "azurean_phalanx" // Icon by Prominence
 	releasedrain = SPELLCOST_SB_POKE
 	chargedrain = 0
@@ -28,12 +28,13 @@ At 3+ momentum: consumes 3 stacks and doubles damage. */
 	gesture_required = TRUE
 	xp_gain = FALSE
 	var/line_length = 3
-	var/base_damage = 35
+	var/base_damage = 40
 	var/empowered_mult = 2
 	var/push_dist = 1 // I tried making the pushing higher and it was just too much
 	// Turns out rotating a very high tile push makes it impossible to deal with.
 	var/empowered_push = 1
 	var/momentum_cost = 3
+	var/telegraph_delay = 4
 
 /obj/effect/proc_holder/spell/invoked/azurean_phalanx/cast(list/targets, mob/user = usr)
 	var/mob/living/carbon/human/H = user
@@ -51,7 +52,6 @@ At 3+ momentum: consumes 3 stacks and doubles damage. */
 	var/turf/target_turf = get_turf(target)
 	var/turf/start = get_turf(H)
 	var/facing = get_dir(start, target_turf) || H.dir
-	var/def_zone = H.zone_selected || BODY_ZONE_CHEST
 
 	var/empowered = FALSE
 	var/datum/status_effect/buff/arcyne_momentum/M = H.has_status_effect(/datum/status_effect/buff/arcyne_momentum)
@@ -82,10 +82,33 @@ At 3+ momentum: consumes 3 stacks and doubles damage. */
 		revert_cast()
 		return
 
+	// Telegraph — show warning on affected tiles
+	for(var/turf/T in line_turfs)
+		new /obj/effect/temp_visual/air_strike_telegraph(T)
+
+	// Grunt as they wind up the thrust
+	H.emote("attackgrunt", forced = TRUE)
+
+	addtimer(CALLBACK(src, PROC_REF(resolve_thrust), H, line_turfs, facing, damage, empowered), telegraph_delay)
+	return TRUE
+
+/obj/effect/proc_holder/spell/invoked/azurean_phalanx/proc/resolve_thrust(mob/living/carbon/human/H, list/line_turfs, facing, damage, empowered)
+	if(QDELETED(H) || H.stat == DEAD)
+		return
+
+	var/obj/item/held_weapon = arcyne_get_weapon(H)
+	if(!held_weapon)
+		return
+
+	var/def_zone = H.zone_selected || BODY_ZONE_CHEST
+
+	// Visual and sound effects
 	for(var/turf/T in line_turfs)
 		var/obj/effect/temp_visual/V = new /obj/effect/temp_visual/blade_burst(T)
 		V.dir = facing
-	playsound(start, pick('sound/combat/wooshes/bladed/wooshsmall (1).ogg', 'sound/combat/wooshes/bladed/wooshsmall (2).ogg'), 80, TRUE)
+	playsound(get_turf(H), pick('sound/combat/wooshes/bladed/wooshsmall (1).ogg', 'sound/combat/wooshes/bladed/wooshsmall (2).ogg'), 80, TRUE)
+
+	H.emote("attack", forced = TRUE)
 
 	var/hit_count = 0
 	var/deflected = FALSE
@@ -110,6 +133,7 @@ At 3+ momentum: consumes 3 stacks and doubles damage. */
 				push_dir = facing
 			victim.safe_throw_at(get_ranged_target_turf(victim, push_dir, push_dist), push_dist, 1, H, force = MOVE_FORCE_STRONG)
 
+	var/datum/status_effect/buff/arcyne_momentum/M = H.has_status_effect(/datum/status_effect/buff/arcyne_momentum)
 	if(hit_count)
 		if(M)
 			M.add_stacks(1)
@@ -122,4 +146,3 @@ At 3+ momentum: consumes 3 stacks and doubles damage. */
 			to_chat(H, span_notice("DOUBLE STRIKE! ARCYNE SURGE!"))
 
 	log_combat(H, null, "used Azurean Phalanx")
-	return TRUE

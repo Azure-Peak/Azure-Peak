@@ -50,7 +50,7 @@
 	icon_state = "keeperhelm"
 	item_state = "keeperhelm"
 	// Best approximation for stone as we have no standard!
-	armor = ARMOR_PLATE_BRONZE
+	armor = ARMOR_PLATE
 	armor_class = ARMOR_CLASS_LIGHT
 	smeltresult = null
 

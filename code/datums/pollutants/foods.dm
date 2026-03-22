@@ -36,9 +36,37 @@
 	name = "pumpkin pie"
 	scent = "pumpkin pie"
 
+/datum/pollutant/food/cookies_chocolate
+	name = "freshly baked chocolate cookies"
+	name = "freshly baked chocolate cookies"
+
+/datum/pollutant/food/cookies_caramel
+	name = "freshly baked caramelized cookies"
+	name = "freshly baked caramelized cookies"
+
+/datum/pollutant/food/cookies_dragee
+	name = "freshly baked herbal cookies"
+	name = "freshly baked herbal cookies"
+
+/datum/pollutant/food/cookies_raisins
+	name = "freshly baked raisined cookies"
+	name = "freshly baked raisined cookies"
+
 /datum/pollutant/food/bread
 	name = "fresh baked bread"
 	scent = "fresh baked bread"
+
+/datum/pollutant/food/bookbread
+	name = "fresh baked loaf of bookbread"
+	scent = "fresh baked loaf of bookbread"
+
+/datum/pollutant/food/fruity_bookbread
+	name = "fresh baked loaf of fruity bookbread"
+	scent = "fresh baked loaf of fruity bookbread"
+
+/datum/pollutant/food/chocolate_bookbread
+	name = "fresh baked loaf of chocolately bookbread"
+	scent = "fresh baked loaf of chocolately bookbread"
 
 /datum/pollutant/food/bun
 	name = "fresh baked buns"
@@ -59,6 +87,38 @@
 /datum/pollutant/food/raisin_bread
 	name = "fresh baked loaf of raisin bread"
 	scent = "fresh baked loaf of raisin bread"
+
+/datum/pollutant/food/apple_bread
+	name = "fresh baked loaf of apple bread"
+	scent = "fresh baked loaf of apple bread"
+
+/datum/pollutant/food/fruity_dottart
+	name = "fresh fruit-stuffed pastry"
+	scent = "fresh fruit-stuffed pastry"
+
+/datum/pollutant/food/tomatoplate
+	name = "fresh tomatoes and cheesy flatbread"
+	scent = "fresh tomatoes and cheesy flatbread"
+
+/datum/pollutant/food/tomatoplate_meat
+	name = "fresh tomatoes and meaty flatbread"
+	scent = "fresh tomatoes and meaty flatbread"
+
+/datum/pollutant/food/tomatoplate_fish
+	name = "fresh tomatoes and fishy flatbread"
+	scent = "fresh tomatoes and fishy flatbread"
+
+/datum/pollutant/food/tomatoplate_truffle
+	name = "fresh tomatoes and truffled flatbread"
+	scent = "fresh tomatoes and truffled flatbread"
+
+/datum/pollutant/food/tomatoplate_pear
+	name = "fresh tomatoes and peared flatbread"
+	scent = "fresh tomatoes and peared flatbread"
+
+/datum/pollutant/food/tomatoplate_onion
+	name = "fresh tomatoes and teary-eyed flatbread"
+	scent = "fresh tomatoes and teary-eyed flatbread"
 
 /datum/pollutant/food/cheese_bun
 	name = "fresh baked cheese buns"
@@ -165,5 +225,5 @@
 	scent = "toasted seeds"
 
 /datum/pollutant/food/muffin
-	name = "fresh baked muffin"
-	scent = "fresh baked muffin"
+	name = "fresh baked muffins"
+	scent = "fresh baked muffins"

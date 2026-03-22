@@ -30,7 +30,7 @@ Cross-Z uses a longer telegraph.*/
 		The arrival strikes can be deflected by Defend stance. Works across Z-levels."
 	clothes_req = FALSE
 	range = 6
-	action_icon = 'icons/mob/actions/spellblade.dmi'
+	action_icon = 'icons/mob/actions/classuniquespells/spellblade.dmi'
 	overlay_state = "gate_of_reckoning" // Icon by Prominence.
 	releasedrain = SPELLCOST_SB_ULT
 	chargedrain = 1
@@ -56,7 +56,7 @@ Cross-Z uses a longer telegraph.*/
 	var/knockback_range = 1
 	var/spear_count = 3
 
-/obj/effect/proc_holder/spell/invoked/gate_of_reckoning/can_cast(mob/user = usr)
+/obj/effect/proc_holder/spell/invoked/gate_of_reckoning/can_cast(mob/user = usr, feedback = TRUE)
 	. = ..()
 	if(!.)
 		return FALSE

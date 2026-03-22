@@ -20,7 +20,7 @@
 	. += span_info("Nobler appetites prefer utensils over simply eating and drinking with one's bare hands.")
 
 /datum/intent/dagger/thrust/fork
-	penfactor = 20
+	penfactor = PEN_LIGHT
 
 /obj/item/kitchen/fork/aalloy
 	name = "decrepit fork"

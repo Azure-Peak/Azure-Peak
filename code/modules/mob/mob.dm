@@ -53,6 +53,7 @@ GLOBAL_VAR_INIT(mobids, 1)
 	QDEL_LIST(possible_offhand_intents)
 	QDEL_NULL(mmb_intent)
 	QDEL_NULL(rmb_intent)
+	QDEL_NULL(unarmed_special)
 	for(var/datum/action/A in actions)
 		A.Remove(src)
 	actions = null

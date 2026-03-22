@@ -2,7 +2,7 @@
 	var/list/played_loops = list() //uses dlink to link to the sound
 
 
-/proc/playsound(atom/source, soundin, vol as num, vary, extrarange as num, falloff, frequency = null, channel, pressure_affected = FALSE, ignore_walls = TRUE, soundping = FALSE, repeat, animal_pref = FALSE, quiet = FALSE)
+/proc/playsound(atom/source, soundin, vol as num, vary, extrarange as num, falloff, frequency = null, channel, pressure_affected = FALSE, ignore_walls = TRUE, soundping = FALSE, repeat, animal_pref = FALSE, quiet = FALSE, pref_toggle)
 	if(isarea(source))
 		CRASH("playsound(): source is an area")
 
@@ -79,6 +79,12 @@
 			if(animal_pref)
 				if(M.client?.prefs?.mute_animal_emotes)
 					continue
+
+			if(pref_toggle)	//We check for its absence, mostly because the default state of relevant prefs here is "ON" rather than off.
+				if(!(M.client?.prefs?.toggles & pref_toggle))
+					continue
+
+
 			var/is_muffled = (M in muffled_listeners)
 			if(M.playsound_local(turf_source, soundin, vol, vary, frequency, falloff, channel, pressure_affected, S, repeat, is_muffled))
 				. += M

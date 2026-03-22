@@ -150,9 +150,9 @@
 	devotion_cost = 40
 	releasedrain = 30
 	chargedrain = 2
-	chargetime = 5 SECONDS
-	range = 5
-	recharge_time = 90 SECONDS //This lasts 25 SECONDS at max holy rank so for purposes of it not being chainable solo.
+	chargetime = 3 SECONDS
+	range = 4
+	recharge_time = 2 MINUTES //This lasts 25 SECONDS at max holy rank so for purposes of it not being chainable solo.
 	associated_skill = /datum/skill/magic/holy
 	invocation_type = "shout"
 	invocations = list("BE SILENT!", "QUIET!", "NOT ANOTHER WORD!")
@@ -175,7 +175,7 @@
 		ADD_TRAIT(target, TRAIT_MUTE, MAGIC_TRAIT)
 		playsound(get_turf(target), 'sound/magic/zizo_snuff.ogg', 80, TRUE, soundping = TRUE)
 		to_chat(target, span_warning("The wind in my voice goes still. I can't speak!"))
-		var/dur = max((5 * (user.get_skill_level(associated_skill, 5))))
+		var/dur = max((2 + (user.get_skill_level(associated_skill, 2))))//10 seconds at lvl 6 HOLY
 		addtimer(CALLBACK(src, PROC_REF(remove_buff), target), wait = dur SECONDS)
 		return TRUE
 	else //misfire

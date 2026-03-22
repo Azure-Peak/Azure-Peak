@@ -158,7 +158,7 @@ Nobody in Otava owns a thesaurus. No synonym for 'endure' will ever be used.
 Graggar, in his ascendancy, broke the chains of many monsters, and set them loose on the world. Some slaves pray to Graggar, too, that their chains may be broken.
 The glittering black gemstones of onyxa are said to prized by warlocks and drow for black rituals. The face reflected in its shard is never your own.
 The cult of Matthios, the thief-of-fire, idolizes greed as a virtue. While often at odds with Zizoid cults, on one thing they agree- to want more is only reasonable.
-Eating fyritus flower will prevent infection by werewolves.
+Eating the fyritus flower will prevent one from being infected by werewolves.
 Pestran witchcovens developed the art of potion-making in ancient times. Modern alchemy bears little resemblance to its oldest forms, but the stereotype of the wart-nosed witch remains, for better or worse.
 The famous Raneshi 'desert riders' are among the most skilled swordsmen in the world. They'd all kill their own mother for a piece of coin.
 Presdigitation is often known as the apprentice's friend, as it helps remove char and soot before the Magos notices.
@@ -196,6 +196,7 @@ Cultists of Noc pursue wisdom, study, scripture and divination. Many of Psydonia
 The ruins of Azuria are dotted with ancient, crumbling statues and fixtures. It is thought that the most ancient of these are Aasimar, who one day stopped moving, and never started again.
 Aasimar cannot die of old age. Sometimes, however, they simply give up, and turn fully to stone. It is considered bad luck to deface a statue, as a result.
 Everything these tips tell you is made up.
+Everything these tips tell you is completely true.
 You should move to Kingsfield. It's better there.
 Every yil, Heartfelt hosts a grand banquet for the nobility of Azuria, Rockhill, and Lyndvhar to attend. The Holy Psydonic Inquisition is credited with thwarting an attempted bombing of its palace, during the previous yil's feast.
 They say that Heartfelt has fallen to a horde of the living dead, or-.. no, wait, wasn't that the Rudmarsch?
@@ -228,7 +229,105 @@ College mages are often good sources of treasure. They steal from the university
 Inspect tabards closely, they tend to bear the names of the wearer... or horrible jokes.
 When my tyme comes, tell me - will I stand up?
 One of the rarer flowers known to Psydonia is the black rosa, exclusively grown along the highlands that border Otava, Grenzelhoft, and the Fjall. They are believed to have mystical properties, especially when used to invoke rites for funerals and sacrifices.
+Littered across the Terrorbog are old pathways and ruined battlements; the remains of a doomed attempt to colonize that which refuses to kneel before civilization.
+We don't go to the Terrorbog.
+Jackberries are a refreshingly light treat for those that find themselves peckish, while roaming through the bush-laden forests of Psydonia. A wise traveler knows to always take a testing bite before gorging on the vine's fruits, lest they die with a bitter taste on their tongue.
+Pepperberries are the closest relative to the Jackberry fruit, and - when pitted against an untrained eye - virtually indistinguishable from one-another. While a Pepperberry is incredibly toxic when eaten straight off the vine, the spice borne from milling its roasted seeds can make for an excellent seasoning.
+Allspice is a specially-blended mixture of salt, pepper, sugar, pumpkin spice, and rocknut powder. When properly dried by a well-seasoned culinarian, it can turn even the dreariest broths into a royally delicious stew.
+Candies, better known as 'sweetglass', are a popular treat amongst Psydonia's youth and elders. The most popular recipe, as dictated in the Keep's Otavan-scribed cookbooks, calls for a handful of raisins to be smeared in honey and doused in a pot of boiling fat-or-tallow.
+Boiling water does not discriminate, when it comes to making stew. Even the most inedible parts of a butchered carcass, like bones and viscera and sinew, can be distilled into broth with enough time.
+A stew is only as good as its ingredients - the better they are, the more filling and rich the stew will be. A raw chicken carcass and some whole potatoes might make for a decent broth, but a lavishly-peppered frybird and some roasted potatoes will make for a positively divine stew.
+Most food eventually spoils if kept outside of a chest for long enough, unless packed in ration wrapping paper. Just one piece from the Inn is enough to keep even the most extravagent cakes and finemeals fresh until the week's end; a blessing for those who want to subsist off more than hardtack and coppiette, while adventuring abroad.
+Nocmas is the most cherished holidae amongst the elders and youth of Psydonia, where the harshest nites of the winter solstice are countered with freshly-baked pastries and freely-exchanged books. Naturally, the Holy Psydonic Inquisition has barred Nocmas from being practiced within Otava's borders, on the grounds of it 'corrupting the youth with unholy thoughts of progress.'
+Amongst many pre-Orthodoxic denominations of Psydonism, it is traditional to not invoke His name; for to do so outside of the gravest circumstances would be to dishonor His sacrifice. Instead, they honor Him as 'the Weeping God' - most adrently, through grand and elaborate rituals performed on the winter solstice.
+Worship of the Archdevil is rumored, but scarely proven. Ushering in the complete annihilation of reality, as it turns out, is the only line that not even the most ardent Ascendants or Psydonians will dare to cross.
+The Northern Empty's landscape has been irreversably altered by the calamities that had been hosted upon its soil; the birth of the Archdevil's invasion, and the death of Zizo's celestial empire.
+Better known as the Fjalls, the Northern Empty is rumored to hide Psydonia's most well-sought truths beneath its permafrost. The few Fjallic natives who've embarked southward rarely entertain such rumors, however.
+In ancient tymes, the Archdevil's worshippers symbolized their faith with a blazing vortex. Purportances of it instead representing the Sun, preceding Astrata's reign, are harshly punished by the Church's scholars.
+Whirlwinds, though rare, are unmatched in terms of sheer devastation. Worshippers of the Pantheon oft-attribute them as conduits of divine retribution, while Psydonians fear them as spasms of Archdevyllic magicka.
+Corrupted silver burns the unanointed palm, and sunders the lyving without mercy. Such is born from dark magycks, known best by the lyches and necromancers of Zizo.
+Zizo sacrificed the entirety of Her people to ascend, but something went terribly wrong. Now, a million are one; and in the darkest nites, they say you can see Her crimson vortex screaming through the dimmest stars.
+Zizo sought to save Her people from an infertilizing ailment that would soon doom them to extinction. All that She needed was a sliver of His power; yet even She could've never accounted for how weak the filament was.
+Zaelarion, Adonai, Vheslyn. You will know these names, in due tyme.
+Acid is an unnatural ichor that is rarely found elsewhere, beyond the Underdark's most deepest pits. It needs only a moment to turn even the hardiest vessels into naught-but-ash.
+Mount Golgatha once hosted the final battle between the mortal vessels of Ravox and Graggar. When His blow cleaved Graggar's neck asunder, Ravox sought to bury the decapitated remains within its magmatic depths.
+Mount Decapitation is always blanketed in a thick layer of snow, owing to its elevation. It cradles many secrets and riches beneath the snow, yet plenty of perils as well.
+The Tomb of Alotheos is a massive dungeon, found in the thickets of Mount Decaptation's northern treelines. It is the cause for Azuria's unusually high amount of visiting Adventurers; after all, a seemingly untouched catacomb with hundreds of treasure-stuffed rooms almost sounds too good to be true.
+No one is actually quite sure as to who Alotheos was, though there are plenty of rumors to pick from. Some say it was an ancient king, others purport it to've been a long-forgotten architect, while a few even dare to say that it was the true name of Matthios - before His ascension, of course.
+Strange dreams seem to trail all who inhabit Azuria. To hear someone remarking about a 'week' with unusual and unfortunate fates isn't uncommon, but one should be wary to discern whatever facts might've been laced into such fiction.
+Azuria cradles the remains of the Comet - and with it, the power to alter the very fate of Psydonia itself.
+Some say that the Psydonites of the future have created TYME-MACHINES, in order to prevent the eternal darkness from coming to pass.
+If you are staying in a wayside inn and two men force entry to your room? Kill them with your crossbow.
+The evil ZYDON sent down his COMET to destroy the GREAT WORM, and for thousands of yils you will pay the price.
+Fire is orange-red, and sometimes sylver-white. If you see any other colors of fire, please inform the Inquisition immediately.
+Insert the needle into your eye. Open your mind to the truth - that this world must fall, and all within it rendered to ash.
+Bleeding may not kill faster than a blade to the neck, but it is far more insidious in its persistance. Even without a single unstemmed wound, those who've already lost too much blood will soon perish without aid.
+RESUSCITATING can be done by targeting someone's mouth while the 'WEAK' combat intent is selected. Breathing air into another can prolong their suffering on this world, and - with the right medicine - bring them back.
+SHIFT-CLICKING with the RIGHT MOUSE BUTTON allows you to look farther ahead in a chosen direction. The higher your PERCEPTION is, the further that you can peer into the distance.
+CLICKING with the MIDDLE MOUSE BUTTON allows you to perform a SUBINTENT action, highlighted to the LEFT of your HANDS. Make sure to leave them unselected, if you happen to be in the business of butchering carcasses.
+JUMPING is performed by MIDDLE-CLICKING a chosen tile while the 'JUMP' subintent is selected. With it, you can leap over tables and smaller gaps in the terrain.
+LEAPING is performed by MIDDLE-CLICKING a chosen tile while both the 'JUMP' subintent and 'RUN' button are enabled. This covers far more ground than a traditional hop, but comes at the cost of a harsher landing.
+KICKING is performed by MIDDLE-CLICKING someone while the 'KICK' subintent is selected. Besides knocking over washbins and busting doors down, successfully kicking a foe into a structure will always topple them over.
+BITING is performed by MIDDLE-CLICKING someone while the 'BITE' subintent is selected. Flowing streams can be sipped from, while those with a more humanitarian diet can use this to indulge in veiny treats.
+SPECIALS are performed by MIDDLE-CLICKING a chosen tile while the 'SPECIAL' subintent is selected. If you're skilled enough with a weapon, you can use this to unleash an especially powerful attack - mind the cooldown.
+TRIUMPHS can be earned through either surviving a week's trials, or by completing whatever tribulations sprout up along the way. These can be exchanged in the LOADOUT for a wide variety of cosmetic decorations.
+VICES are an unavoidable part of lyfe, and - if left unfulfilled - can utterly ruin your mood. Those riding off the high of a recent TRIUMPH can temporarily smother their VICE for a week's tyme.. at a cost.
+VIRTUES embody a special quirk that differentiates your actor from the rest of the rabble. Those who've completely surrendered themselvse to the whims of fate and causality can embody TWO VIRTUES, instead of just ONE.
+STATPACKS bolster the statistical power of your actor. While this can allow for some truly legendary feats, one must always remember that great power always come at a greater cost.
+MOODLETS sway the outcome of any given week. Treating yourself right and routinely indulging in your VICES will leave you unfettered by even the most discouraging sights. Neglect yourself for too long, however, and..
+STRENGTH represents your actor's raw might. This affects the lethality of their strikes with fists and blades, how quickly they can struggle out of a tight spot, and how effectively they can overpower others.
+WILLPOWER represents your actor's mental fortitude. This affects the threshold of how much pain they can undertake before collapsing, and how severely their mood is swayed in the face of trouble-and-trauma.
+CONSTITUTION represents your actor's physical resilience. This affects the health of each individual body part, how much blood can be spilled before succumbing, and their ability to resist debilitating strikes.
+PERCEPTION represents your actor's keen-eyedness. This affects the accuracy of their strikes, the lethality of their shots with bows and slings, and their chances of successfully discovering hidden surprises.
+INTELLIGENCE represents your actor's wisdom. This affects the potency of their magicka, the preciseness of assessing another's skills-and-weaknesses, and their chances of successfully performing unfamiliar tasks.
+SPEED represents your actor's fleet-footedness. This affect the haste of their movements, their proficiency with many underhanded tactics, and their chances of successfully dodging oncoming attacks.
+FORTUNE represents your actor's luck. This affects their chance to sway seemingly random events in their favor, or - in the inverse - against their favor.
+Remember that there is another face behind the masks of every actor you meet. Cruelty in service of a story becomes unacceptable when it is done purely out of single-minded malice.
+There are only three things that're certain; death, taxes, and the quality of an Innhouse's liqour.
+Losing is fun!
+It was all a dream.. ?!
+I hate you. I hate you. I hate you.
+I love you. I love you. I love you. 
+Dwarves.
+Dwarves like to blow stuff up!
+You are a knave!
+It's a tough fight ahead, but happiness has to be fought for.
+The Duchy of Azuria beat back the Hammerholdian Border Reivers in 1430 at a great cost. Some still lurk in the forests, biding their tyme.
+You now face divine judgement. May it extend eternally.
+BAITING is a suboptimal combat strategy. Never use it. Instead, stab your foe in the chest until they perish.
+FEINT attack the SKELETONS!
+BEWARE those who venerate the ARCHDEVIL. The INSANE, the BROKEN, the SADISTIC, and YOU.
+BEWARE those who venerate the WEEPER. The INSANE, the ZEALOUS, the FOOLISH, and YOU.
+BEWARE those who venerate the TEN. The INSANE, the VAINGLORIOUS, the DELUDED, and YOU.
+THE PROFANE SABBATH DRAWS CLOSE. SEND WORD; THE END IS NIGH.
+A SEA OF PHLOGISTON. A RAINBOW CASTLE IN THE SKIES. THE FINAL VOYAGE.
+A WEEPING PSICROSS. A RING OF DRAGONSTONE. A FLAMING DORPEL.
+A BURNING WORLD. A CLENCHED FIST. A STAINED BLADE.
+A DREAMER'S MAZE. A MOUNTAIN OF CORPSES. AN ILLUSIONARY TRUTH.
+PLACES, EVERYBODY! WE'RE BACK ON THE STAGE IN FIVE MINUTES!
+..AND THEY LYVED HAPPILY EVER-AFTER? PFFAH, LIKE THAT'S EVER GOING TO HAPPEN!
+..AND THAT'S A WRAP!
+..AND THAT'S ALL SHE WROTE!
+VESTUMED ACTOR, DID YOU REMEMBER TO REHEARSE YOUR LINES?
+ENJOYING THE WEEK? REFILL YOUR POTIONS - YOU'LL LOVE WHAT'S COMING NEXT.
+THE CURTAINS BEGIN TO CLOSE, AND I TAKE A BOW; YET THE AUDIENCE ROARS - 'ENCORE, ENCORE!'
+GODMACHINE, I BESEECH YOU! RUPTURE THE FILAMENT, AND GIFT ME THE POWER THAT HE HAD LEFT BEHIND!
+ADAMANTIUM? MITHRIL? POPPYCOCK!
+SEVEN DAES. SEVEN DAES ARE ALL I CAN SPARE TO PARLAY WITH THEE.
+LET ME PUT IT IN A WAY YOU'D UNDERSTAND; DO WHAT I SAY, OR DRINK PHLOGISTON.
+I DON'T WANT TO DIE ANYMORE.
+I'M READY TO DIE!
+REBOLT. RECALIBRATE. REENAGE.
 WHEN WAS THE LAST TIME YOU SAW A SAIGA WILDKIN?
 A CLEAVED HEAD NO LONGER PLOTS.
+DON'T FORGET, I'M WITH YOU IN THE DARK.
 STRIKE FAST AND STRIKE TRUE: THE BLADE IS MY GOD.
+TWO TO THE HEART, ONE TO THE MIND: DON'T YOU HESITATE.
 IT'S OVER!
+IT BEGINS!
+LET CHAOS TAKE THE WORLD.
+FIX YOUR HEART OR DIE.
+HELL IS REAL.
+LIMIT?! I GOT YOUR LIMIT RIGHT HERE!
+YOU WILL KNOW HIM WHEN HE COMES.
+I AM %HERO%.

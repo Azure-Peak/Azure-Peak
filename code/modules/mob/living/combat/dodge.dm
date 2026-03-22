@@ -160,6 +160,9 @@
 
 		if(HAS_TRAIT(U, TRAIT_GUIDANCE))
 			prob2defend -= 20
+
+		if(HAS_TRAIT(L, TRAIT_REVERSE_GUIDANCE))
+			prob2defend -= 20
 		
 		if(HAS_TRAIT(user, TRAIT_CURSE_RAVOX))
 			prob2defend -= 40
@@ -246,7 +249,8 @@
 			return FALSE
 	dodgecd = TRUE
 	playsound(src, 'sound/combat/dodge.ogg', 100, FALSE)
-	throw_at(turfy, 1, 2, src, FALSE)
+	if(!HAS_TRAIT(src, TRAIT_DODGE_NO_MOVE))
+		throw_at(turfy, 1, 2, src, FALSE)
 	if(drained > 0)
 		src.visible_message(span_warning("<b>[src]</b> dodges [user]'s attack!"))
 	else

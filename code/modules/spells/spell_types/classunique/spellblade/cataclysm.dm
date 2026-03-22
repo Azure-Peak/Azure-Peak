@@ -20,7 +20,7 @@ Defend blocks damage, no reflect penalty. Same Z-level only. */
 		Same level only. Can be blocked by Defend stance."
 	clothes_req = FALSE
 	range = 7
-	action_icon = 'icons/mob/actions/spellblade.dmi' // Icon by Prominence / Nobleed
+	action_icon = 'icons/mob/actions/classuniquespells/spellblade.dmi' // Icon by Prominence / Nobleed
 	overlay_state = "cataclysm"
 	releasedrain = SPELLCOST_SB_ULT
 	chargedrain = 1
@@ -43,7 +43,7 @@ Defend blocks damage, no reflect penalty. Same Z-level only. */
 	var/empowered_momentum = 10
 	var/vulnerable_duration = 6 SECONDS
 
-/obj/effect/proc_holder/spell/invoked/cataclysm/can_cast(mob/user = usr)
+/obj/effect/proc_holder/spell/invoked/cataclysm/can_cast(mob/user = usr, feedback = TRUE)
 	. = ..()
 	if(!.)
 		return FALSE

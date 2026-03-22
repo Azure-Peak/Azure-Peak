@@ -122,44 +122,37 @@
 		H.merctype = 8
 
 
+// Soldier: Full plate equivalent — ARMOR_PLATE with steel-tier integrity
 /obj/item/clothing/suit/roguetown/armor/plate/full/dwarven
 	name = "grudgebearer dwarven plate"
-	desc = "A standard, layered plate worn by many dwarven troops. It cannot be worked on without intrinsic dwarven knowledge."
+	desc = "A sturdy set of dwarven plate armor, forged in the old ways. It cannot be worked on without intrinsic dwarven knowledge."
 	icon = 'icons/roguetown/clothing/special/race_armor.dmi'
 	mob_overlay_icon = 'icons/roguetown/clothing/special/onmob/race_armor.dmi'
 	allowed_race = list(/datum/species/dwarf, /datum/species/dwarf/mountain)
 	icon_state = "dwarfchest"
 	item_state = "dwarfchest"
-	armor = ARMOR_GRUDGEBEARER
-	prevent_crits = PREVENT_CRITS_NONE
-	body_parts_covered = CHEST|GROIN|VITALS|ARMS|LEGS
-	equip_delay_self = 5 SECONDS
-	unequip_delay_self = 5 SECONDS
-	equip_delay_other = 4 SECONDS
-	strip_delay = 12 SECONDS
+	armor = ARMOR_PLATE
+	body_parts_covered = COVERAGE_ALL_BUT_HANDFEET
+	max_integrity = ARMOR_INT_CHEST_PLATE_STEEL
 	smelt_bar_num = 4
-	max_integrity = 1000	//They have their own unique integrity
 
-/obj/item/clothing/suit/roguetown/armor/plate/full/dwarven/ComponentInitialize()
-	. = ..()
-	AddComponent(/datum/component/layeredarmor/grudgebearer)
-
+// Smith: Maille-tier protection, medium armor class
 /obj/item/clothing/suit/roguetown/armor/plate/full/dwarven/smith
 	name = "grudgebearer splint apron"
-	desc = "A standard, layered mixture of plate and maille, worn by many dwarven smiths. \
-	It cannot be worked on without intrinsic dwarven knowledge."
+	desc = "A mixture of plate and maille, worn by dwarven smiths. It cannot be worked on without intrinsic dwarven knowledge."
 	icon_state = "dsmithchest"
 	item_state = "dsmithchest"
+	armor = ARMOR_PLATE
 	armor_class = ARMOR_CLASS_MEDIUM
 	body_parts_covered = CHEST|GROIN|VITALS|LEGS
+	max_integrity = ARMOR_INT_CHEST_MEDIUM_STEEL
 	smelt_bar_num = 3
 
 /obj/item/clothing/head/roguetown/helmet/heavy/dwarven
 	name = "grudgebearer dwarven helm"
-	desc = "A hardy, layered helmet. It lets one's dwarvenly beard to poke out."
+	desc = "A hardy dwarven helmet. It lets one's dwarvenly beard to poke out."
 	body_parts_covered = (HEAD | MOUTH | NOSE | EYES | EARS | NECK)	//This specifically omits hair so you could hang your beard out of the helm
-	armor = ARMOR_GRUDGEBEARER
-	prevent_crits = PREVENT_CRITS_NONE
+	armor = ARMOR_PLATE
 	allowed_race = list(/datum/species/dwarf, /datum/species/dwarf/mountain)
 	icon = 'icons/roguetown/clothing/special/race_armor.dmi'
 	mob_overlay_icon = 'icons/roguetown/clothing/special/onmob/race_armor.dmi'
@@ -169,134 +162,37 @@
 	stack_fovs = TRUE
 	bloody_icon = 'icons/effects/blood64.dmi'
 	smeltresult = /obj/item/ingot/steel
-	max_integrity = 1000
+	max_integrity = ARMOR_INT_HELMET_HEAVY_STEEL
 	experimental_inhand = FALSE
 	experimental_onhip = FALSE
 
-/obj/item/clothing/head/roguetown/helmet/heavy/dwarven/ComponentInitialize()
-	. = ..()
-	AddComponent(/datum/component/layeredarmor/grudgebearer/helmet)
-
 /obj/item/clothing/head/roguetown/helmet/heavy/dwarven/smith
 	name = "grudgebearer smith helm"
-	desc = "A hardy, layered helmet. It lets one's dwarvenly beard to poke out. \
+	desc = "A hardy dwarven helmet. It lets one's dwarvenly beard to poke out. \
 	This one is intended for the smiths of the clan. No less protective. All the more stylish."
 	icon_state = "dsmithhead"
 	item_state = "dsmithhead"
 
 /obj/item/clothing/gloves/roguetown/plate/dwarven
 	name = "grudgebearer dwarven gauntlets"
-	desc = "Forged to fit the stubbiest of fingers. It is covered in protective layers."
+	desc = "Forged to fit the stubbiest of fingers."
 	icon = 'icons/roguetown/clothing/special/race_armor.dmi'
 	mob_overlay_icon = 'icons/roguetown/clothing/special/onmob/race_armor.dmi'
 	allowed_race = list(/datum/species/dwarf, /datum/species/dwarf/mountain)
-	prevent_crits = PREVENT_CRITS_NONE
 	icon_state = "dwarfhand"
 	item_state = "dwarfhand"
-	armor = ARMOR_GRUDGEBEARER
-	max_integrity = 1000
-
-/obj/item/clothing/gloves/roguetown/plate/dwarven/ComponentInitialize()
-	. = ..()
-	AddComponent(/datum/component/layeredarmor/grudgebearer/limbs)
+	armor = ARMOR_PLATE
+	max_integrity = ARMOR_INT_SIDE_STEEL
 
 /obj/item/clothing/shoes/roguetown/boots/armor/dwarven
 	name = "grudgebearer dwarven boots"
-	desc = "Clatters mightily. It is covered in protective layers."
+	desc = "Clatters mightily."
 	icon = 'icons/roguetown/clothing/special/race_armor.dmi'
 	mob_overlay_icon = 'icons/roguetown/clothing/special/onmob/race_armor.dmi'
 	allowed_race = list(/datum/species/dwarf, /datum/species/dwarf/mountain)
-	prevent_crits = PREVENT_CRITS_NONE
 	icon_state = "dwarfshoe"
 	item_state = "dwarfshoe"
-	armor = ARMOR_GRUDGEBEARER
-	max_integrity = 1000
-
-/obj/item/clothing/shoes/roguetown/boots/armor/dwarven/ComponentInitialize()
-	. = ..()
-	AddComponent(/datum/component/layeredarmor/grudgebearer/limbs)
-
-/datum/component/layeredarmor/grudgebearer
-	layer_repair = 2
-
-	layer_max = list(
-		"blunt" = 40,
-		"slash" = 200,
-		"stab" = 200,
-		"piercing" = 100,
-	)
-
-	hits_to_shred = list(
-		"blunt" = 3,
-		"slash" = 3,
-		"stab" = 3,
-		"piercing" = 5,
-	)
-
-	damtype_shred_ratio = list(
-		"blunt" = 1,
-		"slash" = 1,
-		"stab" = 1,
-		"piercing" = 5,
-	)
-
-	hits_per_layer = list(
-		"200"	= 3,
-		"100" 	= 3,
-		"90" 	= 3,
-		"80" 	= 5,
-		"70" 	= 5,
-		"60" 	= 5,
-		"50"	= 10,
-		"40"	= 10,
-		"30"	= 20,
-		"20"	= 30,
-		"10"	= 50,
-	)
-
-	repair_items = list(/obj/machinery/anvil)
-
-	repair_skills = list(
-		/datum/skill/craft/armorsmithing = SKILL_LEVEL_APPRENTICE,
-	)
-
-	race_repair = list(
-		/datum/species/dwarf,
-		/datum/species/dwarf/mountain,
-	)
-
-/datum/component/layeredarmor/grudgebearer/helmet
-
-/datum/component/layeredarmor/grudgebearer/limbs
-	hits_to_shred = list(
-		"blunt" = 2,
-		"slash" = 2,
-		"stab" = 2,
-		"piercing" = 2,
-	)
-
-	layer_max = list(
-		"blunt" = 40,
-		"slash" = 200,
-		"stab" = 200,
-		"piercing" = 90,
-	)
-
-	hits_per_layer = list(
-		"200"	= 2,
-		"100" 	= 2,
-		"90" 	= 2,
-		"80" 	= 2,
-		"70" 	= 2,
-		"60" 	= 2,
-		"50"	= 2,
-		"40"	= 2,
-		"30"	= 4,
-		"20"	= 20,
-		"10"	= 30,
-	)
-
-	shred_amt = 20	//Limbs lose 2 grades per layer shred, but also repair 4.
-	layer_repair = 2
+	armor = ARMOR_PLATE
+	max_integrity = ARMOR_INT_SIDE_STEEL
 
 

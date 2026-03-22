@@ -159,7 +159,7 @@
 	desc = "Those who bear His fyre often cower in its shadow."
 	icon_state = "matthiosboots"
 	sewrepair = TRUE
-	armor = ARMOR_LEATHER_GOOD
+	armor = ARMOR_LEATHER
 
 /obj/item/clothing/shoes/roguetown/boots/muffle_matthios/equipped(mob/living/carbon/human/user, slot)
 	. = ..()

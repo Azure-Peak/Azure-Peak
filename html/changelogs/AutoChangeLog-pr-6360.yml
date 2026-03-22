@@ -1,4 +1,0 @@
-author: "eirenxiv"
-delete-after: True
-changes:
-  - bugfix: "fixed martyr weapon no longer blunting on oath use"

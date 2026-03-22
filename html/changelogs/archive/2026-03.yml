@@ -822,3 +822,144 @@
   - rscadd: Halved leyline spawn rate. Again.
   nauticall:
   - rscadd: Adds Lmwevil's custom item, a brass-beaked physician mask.
+2026-03-18:
+  Juubo:
+  - rscadd: Autosmither
+  - rscadd: rollers
+  - rscadd: Drills
+  - rscadd: tune up and wind up skils
+  - rscadd: infernal engine
+  - rscdel: removed some old commented out code
+  - qol: curtains go over more things
+  - qol: purifying water skin holds more liquid and can filter more sources
+  - balance: adjusted the cost on healing gasbelchers
+  - balance: adjusted the cost on messkits
+  - balance: adjusted the cost on autosheers
+  - balance: adjusted the amount on nails produced
+  - balance: adjusted the amount on keys produced
+  - balance: adjusted the amount on Locks produced
+  - balance: polishing cream is craftable
+  - balance: polishing brush is craftable
+  - balance: alternative poison arrows recipe
+  - bugfix: artifcer armor should be hammer repairable now
+  - code_imp: adjusted contraptions to now take multiple sources and cleaned it up
+  - admin: a new toy for events
+  Lamasmaster:
+  - balance: Treasure grave spawns
+  - balance: Hand/Feet delimb
+  - balance: Skullcrack/Cranium Pierce
+  NalimaTheWitch:
+  - qol: Underwear is describable/renamable now
+  Ryan180602:
+  - rscadd: Revenants can be Kounen, AdvArisocrat, KnightlyJourney Knight, Unraveled
+      Vagabond.
+  - bugfix: Kounen shows up on the limited slot list.
+  - code_imp: '`RACES_NO_CONSTRUCT` involves dullahans now.'
+  WeNeedMorePhoron:
+  - rscadd: Shift clicking your energy / stamina bar let you see le numbes
+  - rscadd: TGUI list input improved.
+  - rscadd: Ambushes now scale to party size - up to 5 players are factored into encounter
+      difficulty. Noncombatant counts for half.
+  - rscadd: Every ambush mob and encounter pack now has a defined threat point cost
+      for fairer and more challenging combat.
+  - rscadd: 33% chance for a "wrong faction" pick during ambushes.
+  - rscadd: Ambush mobs now target random players in the area instead of only the
+      triggering player.
+  - balance: Solo ambush budget set to 3% of regional threat pool. Large parties face
+      diminishing drain efficiency (each extra player drains at 50% of the previous).
+  - balance: Regional threat replenishes at 20% per tick (highpop) or 10% per tick
+      (lowpop), every 30 minutes.
+  - balance: Warden signal horn now forces an ambush with a 2-player minimum budget
+      floor. Cooldown reduced from 5 to 3 minutes.
+  - balance: Maximum rate of ambush per region is increased to every 5 minutes.
+  eirenxiv:
+  - bugfix: fixed martyr weapon no longer blunting on oath use
+2026-03-19:
+  FreeStylaLT:
+  - balance: Mantraps can be triggered by heavier thrown objects as well as directly
+      hitting them with a weapon. In both cases it will cost integrity, and it is
+      not guaranteed.
+  - refactor: Miracles now correctly do not scale with INT.
+  - rscadd: Added a toggle for admin-played sounds.
+  Lamasmaster:
+  - balance: Increases capacity of potion seller.
+  SpadesNeil:
+  - bugfix: Restores missing circlet to sheltered princess.
+  WeNeedMorePhoron:
+  - bugfix: Fix heavy buttstroke having -4340% Int damage modifier. (It is now 115%)
+  - rscadd: Replenishment rate halved. Should make it possible to render some region
+      safe hopefully
+  - rscadd: The diminishing return you get from having an additional person scale
+      your ambush is no longer exponential. I.e. a 5 person group (biggest) is now
+      gonna drop ambush threat by 2.5x that of a solo person.
+  - rscadd: When a region display as SAFE, it should actually be SAFE because it is
+      no longer using a hardcoded 25 TP floor.
+  - rscadd: Warden Horn adjusted to guaranteed a minimum of 3 - 6x ambush. Should
+      feels worth it. BRING FRIENDS.
+  - rscadd: Pontifex reworked to a Spellfist class - Punch, ensnare, step and leap.
+  - rscadd: Sojourner reworked to a variant with T1 miracles (downgraded from T2,
+      too much abilities), better statblock.
+  - rscadd: Added Heretic Spellfist & Spellfist class, variation of the above. Heretic
+      Spellfist get miracles. Spellfist get to punch the shit out of people with Jman
+      skills.
+  - rscadd: Reworked Vizier. Vizier no longer gain miracles and instead, have a fixed
+      redesigned set of abilities - Arcyne Bolt, Shadowstep, Diminish (3x3 AOE debuff),
+      Restoration (Secular, "non-miracle" healing - actually just a rebranded miracle),
+      and Reversion (Stasis, but reworked) plus Mending. They have Guidance for free,
+      and 4 spell points for the augmentation pool.
+  - rscadd: Redid lore and tutorial blurbs for all Naledian classes to refer existing
+      lore better. Also, all Spellfist classes and Naledian classes start with one
+      of four random pick of Path of the Warscholar. Lore, in game.
+  - balance: All spellfists loses expert wrestling. Also Hierophant and Pontifex loses
+      expert wrestling. Also all spellfist classes loses dodge expert, as unarmed
+      parry is now good on the lower end.
+  - rscadd: Unarmed Parry Formula reworked. Now you gain 20% base parry chance normally,
+      but if you have a knuckles / bandages on your hands, or bracers on your arms,
+      it gives you 70% base parry chance. The skills influence is now 20% - scaling
+      in the exact same way as weapon. This should make the lower end of unarmed parry
+      practical while making Master / Legendary no longer overpowering. Expert Pugilist
+      trait gates access to this improved parry to prevent abuse and you also fallback
+      properly whenever you are using an Unarmed Weapon (And won't otherwise)
+  - rscadd: Unarmed attacks now damage shields properly.
+  - balance: Lowered punch integrity damage modifier to 1.2x instead of 1.6x because
+      it is so absurdly good. Base damage is now 15 and Expert Pugilist gives a +5
+      on top. Knuckles now have 200 integrity.
+  - balance: Punches is now considered a type of short reach weapon and gain the accuracy
+      bonus. Miss cost adjusted to 3 instead of 4.
+  hazelrat:
+  - rscadd: Implements a remap of the University, Clinic, and the Sanctum of Pestra.
+      All are now integrated in the original position of the University, directly
+      south of the city keep.
+2026-03-20:
+  FreeStylaLT:
+  - balance: Arcyne campfires can be kicked over and vanish before expiring.
+  WeNeedMorePhoron:
+  - rscdel: Randomly generated half elven name no longer append "Halfelfen" as the
+      last name because that's stupid
+2026-03-21:
+  Ryan180602:
+  - bugfix: bad trainer now only lets you train two levels below yours.
+  - bugfix: fencer's dexterity only lets you wear sallets now.
+  - bugfix: gorgets are disallowed by fencer's dexterity, as was always intended.
+  mumblemancer:
+  - bugfix: miners have the right clothing type per preference
+2026-03-22:
+  Clem-The-Duck:
+  - rscadd: Adds three new items to the loadout, the Scaled Cloak, Bared Robe, and
+      Sleeved Tabard.
+  KatTheFox:
+  - qol: 'crafting attempts now have a ''pity threshold'': you will automatically
+      succeed after 99 failed attempts, so long as the recipe is possible for you
+      to make (i.e. not a 0% chance)'
+  Lamasmaster:
+  - balance: Graggar Silence
+  - bugfix: Waterskin starting uncorked
+  eirenxiv:
+  - rscadd: Added another unused cloak to the loadout selection, the now golden order
+      cloak
+  - rscadd: Added the naledian psy-bracelet to the loadout selection
+  mumblemancer:
+  - refactor: all "exotic silk items" are now "giltsilk." !!!IF YOU PREVIOUSLY HAD
+      THESE IN YOUR LOADOUT, YOU WILL NEED TO PICK THEM AGAIN!!!
+  rivercadaver:
+  - rscadd: Added writing

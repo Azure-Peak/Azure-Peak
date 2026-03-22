@@ -1,5 +1,0 @@
-author: "WeNeedMorePhoron"
-delete-after: True
-changes:
-  - rscadd: "Shift clicking your energy / stamina bar let you see le numbes"
-  - rscadd: "TGUI list input improved."

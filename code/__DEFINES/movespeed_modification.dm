@@ -95,3 +95,4 @@
 
 #define MOVESPEED_ID_CELERITY                           "CELERITY_BUFF"
 #define MOVESPEED_ID_FOTV                               "FOTV_BUFF"
+#define MOVESPEED_ID_SPELL_CASTING                      "SPELL_CASTING"
