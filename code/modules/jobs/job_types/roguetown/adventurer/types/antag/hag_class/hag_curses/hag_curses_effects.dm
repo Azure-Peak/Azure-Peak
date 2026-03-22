@@ -74,3 +74,48 @@
 /datum/status_effect/curse/waterlogged/on_apply()
 	. = ..()
 	to_chat(owner, span_boldwarning("You feel your limbs grow heavy as if soaked in lead... stay clear of the water."))
+
+/datum/status_effect/curse/hag_slumber
+	id = "hag_slumber"
+	duration = -1
+	alert_type = /atom/movable/screen/alert/status_effect/curse/somnambulance
+
+/atom/movable/screen/alert/status_effect/curse/somnambulance
+	name = "Somnambulance"
+	desc = "The sandman is coming, and he is not kind."
+	icon_state = "debuff"
+
+/datum/status_effect/curse/hag_slumber/on_apply()
+	. = ..()
+	RegisterSignal(owner, COMSIG_SLEEPY_TIME, PROC_REF(handle_night_fall))
+
+/datum/status_effect/curse/hag_slumber/proc/handle_night_fall(mob/living/carbon/human/H)
+	SIGNAL_HANDLER
+
+	addtimer(CALLBACK(src, PROC_REF(clear_standard_sleep)), 5 SECONDS)
+
+	to_chat(H, span_warning("Your exhaustion fades... replaced by a cold, heavy weight behind your eyes. You are falling asleep, and soon too."))
+	addtimer(CALLBACK(src, PROC_REF(force_dream_drag)), 1 MINUTES)
+
+/datum/status_effect/curse/hag_slumber/proc/clear_standard_sleep()
+	var/mob/living/carbon/human/H = owner
+	if(!H || !istype(H))
+		return
+
+	H.remove_status_effect(/datum/status_effect/debuff/sleepytime)
+	to_chat(H, span_notice("You feel a sudden, unnatural surge of clarity. The tiredness is gone... but you feel the call of the deep growing louder."))
+
+/datum/status_effect/curse/hag_slumber/proc/force_dream_drag()
+	var/mob/living/carbon/human/H = owner
+	if(!H || H.stat == DEAD)
+		return
+
+	to_chat(H, span_userdanger("The Dream reaches out and grabs your heart! SLEEP!"))
+
+	H.Knockdown(10)
+	H.blur_eyes(20)
+	teleport_to_dream(H, 1, 1, FALSE, 40 SECONDS)
+
+/datum/status_effect/curse/hag_slumber/on_remove()
+	UnregisterSignal(owner, COMSIG_SLEEPY_TIME)
+	..()

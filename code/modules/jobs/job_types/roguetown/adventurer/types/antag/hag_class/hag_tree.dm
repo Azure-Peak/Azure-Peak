@@ -163,6 +163,11 @@
 	boon_path = /datum/hag_boon/buff/curse/waterlogged
 	color = "#203653"
 
+/obj/item/alch/hag_moss/enchanted/dreamy
+	name = "Dreamy Moss"
+	boon_path = /datum/hag_boon/buff/curse/slumber
+	color = "#b105a8"
+
 // Proper mosses
 /obj/item/alch/hag_moss/enchanted/deathless
 	name = "Stormy Moss"

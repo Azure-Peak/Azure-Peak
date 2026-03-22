@@ -14,3 +14,9 @@
 	desc = "Whilst standing in water tiles, the water itself will try to drag the bearer down, looking for entry inside of them to drown them."
 	points = 25
 	status_type = /datum/status_effect/curse/waterlogged
+
+/datum/hag_boon/buff/curse/slumber
+	name = "Somnabulance"
+	desc = "The bearer will not find rest, each night they are sent to the dream briefly to experience the terrors of the deep."
+	points = 20
+	status_type = /datum/status_effect/curse/hag_slumber
