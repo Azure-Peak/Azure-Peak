@@ -168,12 +168,27 @@
 			return TRUE
 
 		if("commit_transmutation")
-			H.transmute_boons_to_curse(active_victim_name, selected_boons, selected_curse_path, calculate_current_points())
+			if(!active_victim_name || !selected_curse_path || !selected_boons.len)
+				return TRUE
+
+			var/points_gathered = calculate_current_points()
+			var/curse_cost = 999
+			var/list/curses = H.get_available_curses_data()
+			for(var/list/C in curses)
+				if(C["path"] == selected_curse_path)
+					curse_cost = C["cost"]
+					break
+
+			if(points_gathered < curse_cost)
+				to_chat(user, span_warning("The soul-tithe is insufficient. You require [curse_cost] points, but have only gathered [points_gathered]."))
+				return TRUE
+
+			H.transmute_boons_to_curse(active_victim_name, selected_boons, selected_curse_path, points_gathered)
+
 			selected_boons.Cut()
 			selected_curse_path = null
 			active_victim_name = null
 			return TRUE
-
 	return ..()
 
 /obj/effect/proc_holder/spell/invoked/transmutation_rite/proc/calculate_current_points()

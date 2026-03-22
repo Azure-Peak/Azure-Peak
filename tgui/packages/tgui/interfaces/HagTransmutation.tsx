@@ -41,6 +41,8 @@ export const HagTransmutation = (props) => {
   const { act, data } = useBackend<Data>();
   const [tab, setTab] = React.useState(0);
   const { victims, curse_options, total_points, selected_curse_path } = data;
+  const selectedCurse = curse_options.find(c => c.path === selected_curse_path);
+  const canCommit = !!selectedCurse && total_points >= selectedCurse.cost;
 
   return (
     <Window width={500} height={600} title="Rite of Transmutation">
@@ -90,10 +92,12 @@ export const HagTransmutation = (props) => {
           <Button 
             fluid 
             color="bad" 
-            disabled={!total_points || !selected_curse_path} 
+            disabled={!canCommit}
             onClick={() => act('commit_transmutation')}
           >
-            Seal the Pact ({total_points} pts)
+            {selectedCurse && total_points < selectedCurse.cost 
+              ? `Need ${selectedCurse.cost - total_points} more pts` 
+              : `Seal the Pact (${total_points} pts)`}
           </Button>
         </Section>
       </Window.Content>
