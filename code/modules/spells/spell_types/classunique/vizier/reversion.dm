@@ -105,7 +105,7 @@
 	charge_counter = 0
 	start_recharge()
 	if(action)
-		action.UpdateButtonIcon()
+		action.build_all_button_icons()
 
 /obj/effect/proc_holder/spell/invoked/reversion/proc/clear_mark()
 	reversion_active = FALSE

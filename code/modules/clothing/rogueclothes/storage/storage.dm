@@ -429,7 +429,7 @@
 	update_icon()
 
 /obj/item/storage/belt/rogue/leather/silkbelt
-	name = "Giltsilk belt"
+	name = "giltsilk belt"
 	desc = "A gold adorned belt with the softest of silks barely concealing one's bits."
 	icon_state = "silkbelt"
 	var/max_storage = 5

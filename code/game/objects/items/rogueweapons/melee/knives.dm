@@ -10,7 +10,7 @@
 	animname = "cut"
 	blade_class = BCLASS_CUT
 	hitsound = list('sound/combat/hits/bladed/smallslash (1).ogg', 'sound/combat/hits/bladed/smallslash (2).ogg', 'sound/combat/hits/bladed/smallslash (3).ogg')
-	penfactor = 0
+	penfactor = PEN_NONE
 	chargetime = 0
 	swingdelay = 0
 	clickcd = CLICK_CD_QUICK
@@ -20,14 +20,14 @@
 /datum/intent/dagger/cut/blunt
 	blade_class = BCLASS_BLUNT
 	hitsound = list('sound/combat/hits/blunt/metalblunt (1).ogg', 'sound/combat/hits/blunt/metalblunt (2).ogg', 'sound/combat/hits/blunt/metalblunt (3).ogg')
-	penfactor = BLUNT_DEFAULT_PENFACTOR
+	penfactor = PEN_NONE
 	intent_intdamage_factor = BLUNT_DEFAULT_INT_DAMAGEFACTOR
 
 /// For unusually heavy daggers with a strong cutting edge.
 /datum/intent/dagger/cut/heavy
 	name = "heavy cut"
 	damfactor = 1.2
-	penfactor = 25
+	penfactor = PEN_MEDIUM
 	clickcd = 11
 
 /datum/intent/dagger/thrust
@@ -37,7 +37,7 @@
 	animname = "stab"
 	blade_class = BCLASS_STAB
 	hitsound = list('sound/combat/hits/bladed/genstab (1).ogg', 'sound/combat/hits/bladed/genstab (2).ogg', 'sound/combat/hits/bladed/genstab (3).ogg')
-	penfactor = 40
+	penfactor = PEN_MEDIUM
 	chargetime = 0
 	clickcd = 8
 	item_d_type = "stab"
@@ -46,7 +46,7 @@
 /datum/intent/dagger/thrust/weak
 	name = "lopsided thrust"
 	damfactor = 0.8
-	penfactor = 45 // Slightly more pen, to compensate in penetration for the lower damage.
+	penfactor = PEN_HEAVY // Slightly more pen, to compensate in penetration for the lower damage.
 	// You're still doing less damage than with a stabbier dagger, but your AP isn't penalised.
 	clickcd = CLICK_CD_QUICK
 
@@ -55,7 +55,7 @@
 	icon_state = "inpick"
 	attack_verb = list("stabs", "impales")
 	hitsound = list('sound/combat/hits/bladed/genstab (1).ogg', 'sound/combat/hits/bladed/genstab (2).ogg', 'sound/combat/hits/bladed/genstab (3).ogg')
-	penfactor = 80
+	penfactor = PEN_BSTEEL
 	clickcd = 14
 	swingdelay = 12
 	damfactor = 1.1
@@ -65,7 +65,7 @@
 /datum/intent/dagger/thrust/blunt
 	blade_class = BCLASS_BLUNT
 	hitsound = list('sound/combat/hits/blunt/metalblunt (1).ogg', 'sound/combat/hits/blunt/metalblunt (2).ogg', 'sound/combat/hits/blunt/metalblunt (3).ogg')
-	penfactor = BLUNT_DEFAULT_PENFACTOR
+	penfactor = PEN_NONE
 	intent_intdamage_factor = BLUNT_DEFAULT_INT_DAMAGEFACTOR
 
 /datum/intent/dagger/sucker_punch
@@ -77,7 +77,7 @@
 	blade_class = BCLASS_BLUNT
 	hitsound = list('sound/combat/hits/punch/punch_hard (1).ogg', 'sound/combat/hits/punch/punch_hard (2).ogg', 'sound/combat/hits/punch/punch_hard (3).ogg')
 	damfactor = 0.6 // Less damage than a normal attack I don't want this to be better than stabbing
-	penfactor = BLUNT_DEFAULT_PENFACTOR
+	penfactor = PEN_NONE
 	clickcd = 14
 	recovery = 10
 	item_d_type = "blunt"
@@ -92,7 +92,7 @@
 	animname = "chop"
 	blade_class = BCLASS_CHOP
 	hitsound = list('sound/combat/hits/bladed/smallslash (1).ogg', 'sound/combat/hits/bladed/smallslash (2).ogg', 'sound/combat/hits/bladed/smallslash (3).ogg')
-	penfactor = 10
+	penfactor = PEN_NONE
 	damfactor = 1.5
 	swingdelay = 5
 	clickcd = CLICK_CD_QUICK
@@ -100,7 +100,7 @@
 
 /datum/intent/dagger/chop/cleaver
 	hitsound = list('sound/combat/hits/bladed/genchop (1).ogg', 'sound/combat/hits/bladed/genchop (2).ogg', 'sound/combat/hits/bladed/genchop (3).ogg')
-	penfactor = 30
+	penfactor = PEN_MEDIUM
 
 /datum/intent/dagger/cut/blunt
 	blade_class = BCLASS_BLUNT
@@ -231,7 +231,7 @@
 	icon_state = "inpick"
 	attack_verb = list("stabs", "impales")
 	hitsound = list('sound/combat/hits/bladed/genstab (1).ogg', 'sound/combat/hits/bladed/genstab (2).ogg', 'sound/combat/hits/bladed/genstab (3).ogg')
-	penfactor = 55
+	penfactor = PEN_HEAVY
 	clickcd = 12
 	swingdelay = 6 //Halfway point between a 'stab' and 'pick'.
 	damfactor = 1.05
@@ -244,7 +244,7 @@
 	animname = "chop"
 	blade_class = BCLASS_CHOP
 	hitsound = list('sound/combat/hits/bladed/smallslash (1).ogg', 'sound/combat/hits/bladed/smallslash (2).ogg', 'sound/combat/hits/bladed/smallslash (3).ogg')
-	penfactor = 15
+	penfactor = PEN_NONE
 	damfactor = 1.3
 	swingdelay = 5
 	clickcd = CLICK_CD_QUICK
@@ -268,7 +268,7 @@
 	animname = "cut"
 	blade_class = BCLASS_BLUNT
 	hitsound = list('sound/combat/hits/blunt/metalblunt (1).ogg', 'sound/combat/hits/blunt/metalblunt (2).ogg', 'sound/combat/hits/blunt/metalblunt (3).ogg')
-	penfactor = 0
+	penfactor = PEN_NONE
 	chargetime = 0
 	swingdelay = 0
 	clickcd = CLICK_CD_QUICK
@@ -279,7 +279,7 @@
 	icon_state = "inpick"
 	attack_verb = list("stabs", "impales")
 	hitsound = list('sound/combat/hits/blunt/metalblunt (1).ogg', 'sound/combat/hits/blunt/metalblunt (2).ogg', 'sound/combat/hits/blunt/metalblunt (3).ogg')
-	penfactor = 55
+	penfactor = PEN_HEAVY
 	clickcd = 12
 	swingdelay = 6 //Halfway point between a 'stab' and 'pick'.
 	damfactor = 1.05
@@ -292,7 +292,7 @@
 	animname = "chop"
 	blade_class = BCLASS_BLUNT
 	hitsound = list('sound/combat/hits/blunt/metalblunt (1).ogg', 'sound/combat/hits/blunt/metalblunt (2).ogg', 'sound/combat/hits/blunt/metalblunt (3).ogg')
-	penfactor = 15
+	penfactor = PEN_NONE
 	damfactor = 1.3
 	swingdelay = 5
 	clickcd = CLICK_CD_QUICK
@@ -408,7 +408,7 @@
 	animname = "stab"
 	blade_class = BCLASS_STAB
 	hitsound = list('sound/combat/hits/bladed/genstab (1).ogg', 'sound/combat/hits/bladed/genstab (2).ogg', 'sound/combat/hits/bladed/genstab (3).ogg')
-	penfactor = 20
+	penfactor = PEN_LIGHT
 	damfactor = 0.9
 	chargetime = 0
 	clickcd = 8
@@ -422,7 +422,7 @@
 	blade_class = BCLASS_CHOP
 	reach = 1
 	swingdelay = 10
-	penfactor = BLUNT_DEFAULT_PENFACTOR
+	penfactor = PEN_NONE
 	damfactor = 2
 	clickcd = CLICK_CD_CHARGED
 	no_early_release = TRUE
@@ -549,7 +549,7 @@
 	force = 30 //The only instance of this dagger existing, outside of special admin-ran events, is when the Priest joins. They spawn with this on their person. Should be safe from Judgement-tier thefts.
 	throwforce = 33
 	throw_speed = 3
-	armor_penetration = 50 //Only accounted for when thrown. Plays into the idea of 'divine intervention' - a literal 'hail mary' when facing down a terrible beast.
+	armor_penetration = PEN_HEAVY //Only accounted for when thrown. Plays into the idea of 'divine intervention' - a literal 'hail mary' when facing down a terrible beast.
 	embedding = list("embedded_pain_multiplier" = 1, "embed_chance" = 99, "embedded_fall_chance" = 0) //The 'last resort' for a Bishop. Ensures penetration and embedding, at the cost of the dagger itself.
 	max_integrity = 222
 	max_blade_int = 333
@@ -1038,7 +1038,7 @@
 	throwforce = 22
 	throw_speed = 4
 	max_integrity = 50
-	armor_penetration = 30
+	armor_penetration = PEN_MEDIUM
 	wdefense = 1
 	icon_state = "throw_knifei"
 	embedding = list("embedded_pain_multiplier" = 4, "embed_chance" = 25, "embedded_fall_chance" = 10)
@@ -1077,7 +1077,7 @@
 	item_state = "bone_dagger"
 	throwforce = 28
 	max_integrity = 100
-	armor_penetration = 40
+	armor_penetration = PEN_MEDIUM
 	icon_state = "throw_knifes"
 	embedding = list("embedded_pain_multiplier" = 4, "embed_chance" = 30, "embedded_fall_chance" = 5)
 	sellprice = 2
@@ -1093,7 +1093,7 @@
 	item_state = "bone_dagger"
 	force = 10
 	throwforce = 20
-	armor_penetration = 50
+	armor_penetration = PEN_HEAVY
 	max_integrity = 150
 	wdefense = 3
 	icon_state = "throw_knifesil"
@@ -1118,7 +1118,7 @@
 	item_state = "bone_dagger"
 	force = 10
 	throwforce = 20
-	armor_penetration = 50
+	armor_penetration = PEN_HEAVY
 	max_integrity = 150
 	wdefense = 3
 	icon_state = "throw_knifep"

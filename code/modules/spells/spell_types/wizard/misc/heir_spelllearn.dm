@@ -14,7 +14,7 @@
 		/obj/effect/proc_holder/spell/invoked/mirror_transform
 	)
 	var/list/offensive_bundle = list( //Bonk. Bonk. Bonk. Bonk. Bonk.
-		/obj/effect/proc_holder/spell/invoked/projectile/arcynebolt
+		/datum/action/cooldown/spell/projectile/arcynebolt
 	)
 	var/list/buff_bundle = list( //Support a knight, maybe. Or like, ERP harder without stamcritting.
 		/obj/effect/proc_holder/spell/invoked/stoneskin,
@@ -45,7 +45,7 @@
 		if(user?.mind.has_spell(spells[spell_type]))
 			spells.Remove(spell_type)
 	for(var/spell_type in spells)
-		var/obj/effect/proc_holder/spell/new_spell = new spell_type
+		var/datum/new_spell = new spell_type
 		user?.mind.AddSpell(new_spell)
 	if(!length(spells))
 		user.mind?.RemoveSpell(src.type)

@@ -48,7 +48,6 @@
 		var/obj/effect/R = new /obj/effect/spell_rune
 		R.icon = action_icon
 		R.icon_state = overlay_state // Weird af but that's how spells work???
-		action.overlay_alpha = overlay_alpha
 		mob_charge_effect = R
 	update_icon()
 
@@ -111,6 +110,10 @@ GLOBAL_LIST_INIT(spells, typesof(/obj/effect/proc_holder/spell)) //needed for th
 			user.ranged_ability.deactivate(user)
 		else
 			return
+	// If a new-style action spell is currently set as click_intercept, unset it first
+	var/datum/action/cooldown/active_action = user.click_intercept
+	if(istype(active_action))
+		active_action.unset_click_ability(user, refund_cooldown = TRUE)
 	user.ranged_ability = src
 	ranged_ability_user = user
 	user.click_intercept = src
@@ -252,17 +255,17 @@ GLOBAL_LIST_INIT(spells, typesof(/obj/effect/proc_holder/spell)) //needed for th
 	var/skill_level = user.get_skill_level(associated_skill)
 	if(skill_level > 0)
 		var/skill_mod = chargetime * skill_level * CHARGE_REDUCTION_PER_SKILL
-		if(skill_mod >= 1)
+		if(skill_mod > 0)
 			breakdown += span_smallgreen("  Skill: -[DisplayTimeText(skill_mod)]")
 	var/obj/item/book/spellbook/sbook = user.is_holding_item_of_type(/obj/item/book/spellbook)
 	if(sbook && sbook?.open)
 		var/book_mod = chargetime * sbook.get_castred()
-		if(book_mod >= 1)
+		if(book_mod > 0)
 			breakdown += span_smallgreen("  Spellbook: -[DisplayTimeText(book_mod)]")
 	var/obj/item/rogueweapon/staff = user.is_holding_item_of_type(/obj/item/rogueweapon/)
 	if(staff && staff.cast_time_reduction)
 		var/staff_mod = chargetime * staff.cast_time_reduction
-		if(staff_mod >= 1)
+		if(staff_mod > 0)
 			breakdown += span_smallgreen("  Staff: -[DisplayTimeText(staff_mod)]")
 	return breakdown
 
@@ -469,22 +472,24 @@ GLOBAL_LIST_INIT(spells, typesof(/obj/effect/proc_holder/spell)) //needed for th
 			if("holdervar")
 				adjust_var(user, holder_var_type, holder_var_amount)
 	if(action)
-		action.UpdateButtonIcon()
+		action.build_all_button_icons()
 	START_PROCESSING(SSfastprocess, src)
 	record_featured_stat(FEATURED_STATS_MAGES, user)
 	return TRUE
 
-/obj/effect/proc_holder/spell/proc/charge_check(mob/user)
+/obj/effect/proc_holder/spell/proc/charge_check(mob/user, feedback = TRUE)
 	if(skipcharge)
 		return TRUE
 	switch(charge_type)
 		if("recharge")
 			if(charge_counter < recharge_time)
-				to_chat(user, still_recharging_msg)
+				if(feedback)
+					to_chat(user, still_recharging_msg)
 				return FALSE
 		if("charges")
 			if(!charge_counter)
-				to_chat(user, span_warning("[name] has no charges left!"))
+				if(feedback)
+					to_chat(user, span_warning("[name] has no charges left!"))
 				return FALSE
 	return TRUE
 
@@ -568,13 +573,13 @@ GLOBAL_LIST_INIT(spells, typesof(/obj/effect/proc_holder/spell)) //needed for th
 		charge_counter += delta
 		if(charge_counter >= recharge_time)
 			charge_counter = recharge_time
-			if(action?.button)
-				action.button.update_maptext(0)
-			action?.UpdateButtonIcon()
+			var/datum/action/spell_action/SA = action
+			SA?.update_all_maptext(0)
+			action?.build_all_button_icons()
 			STOP_PROCESSING(SSfastprocess, src)
 			return
-		if(action?.button)
-			action.button.update_maptext(recharge_time - charge_counter)
+		var/datum/action/spell_action/SA = action
+		SA?.update_all_maptext(recharge_time - charge_counter)
 
 /obj/effect/proc_holder/spell/proc/perform(list/targets, recharge = TRUE, mob/user = usr) //if recharge is started is important for the trigger spells
 	if(!ignore_los)
@@ -637,7 +642,7 @@ GLOBAL_LIST_INIT(spells, typesof(/obj/effect/proc_holder/spell)) //needed for th
 				var/mob/living/carbon/human/H = user
 				H.bad_guard(span_warning("I can't focus while casting spells!"), cheesy = TRUE)
 		if(action)
-			action.UpdateButtonIcon()
+			action.build_all_button_icons()
 		return TRUE
 	return FALSE
 
@@ -712,9 +717,10 @@ GLOBAL_LIST_INIT(spells, typesof(/obj/effect/proc_holder/spell)) //needed for th
 		if("holdervar")
 			adjust_var(user, holder_var_type, -holder_var_amount)
 	START_PROCESSING(SSfastprocess, src)
-	if(action?.button)
-		action.button.update_maptext(0)
-		action.UpdateButtonIcon()
+	if(action)
+		var/datum/action/spell_action/SA = action
+		SA?.update_all_maptext(0)
+		action.build_all_button_icons()
 	if(user.mmb_intent && user.mmb_intent.mob_light)
 		QDEL_NULL(user.mmb_intent.mob_light)
 
@@ -836,9 +842,6 @@ GLOBAL_LIST_INIT(spells, typesof(/obj/effect/proc_holder/spell)) //needed for th
 
 	perform(targets,user=user)
 
-/obj/effect/proc_holder/spell/proc/updateButtonIcon(status_only, force)
-	action.UpdateButtonIcon(status_only, force)
-
 /obj/effect/proc_holder/spell/proc/can_be_cast_by(mob/caster)
 	if((human_req || clothes_req) && !ishuman(caster))
 		return 0
@@ -856,16 +859,17 @@ GLOBAL_LIST_INIT(spells, typesof(/obj/effect/proc_holder/spell)) //needed for th
 	qdel(dummy)
 	return 1
 
-/obj/effect/proc_holder/spell/proc/can_cast(mob/user = usr)
+/obj/effect/proc_holder/spell/proc/can_cast(mob/user = usr, feedback = TRUE)
 	if(((!user.mind) || !(src in user.mind.spell_list)) && !(src in user.mob_spell_list))
 		return FALSE
 
 	// deny horsespellers
 	if(user.client && user.buckled && isliving(user.buckled))
-		to_chat(user, span_warning("I'm too distracted riding [user.buckled] to cast!"))
+		if(feedback)
+			to_chat(user, span_warning("I'm too distracted riding [user.buckled] to cast!"))
 		return FALSE
 
-	if(!charge_check(user))
+	if(!charge_check(user, feedback))
 		return FALSE
 
 	if(user.stat && !stat_allowed)

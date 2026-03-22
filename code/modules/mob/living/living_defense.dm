@@ -1,31 +1,53 @@
 
-/mob/living/proc/run_armor_check(def_zone = null, attack_flag = "blunt", absorb_text = null, soften_text = null, armor_penetration, penetrated_text, damage, blade_dulling, peeldivisor, intdamfactor, used_weapon = null)
-	var/armor = getarmor(def_zone, attack_flag, damage, armor_penetration, blade_dulling, peeldivisor, intdamfactor, used_weapon)
+/mob/living/proc/run_armor_check(def_zone = null, attack_flag = "blunt", absorb_text = null, soften_text = null, armor_penetration = PEN_NONE, penetrated_text, damage, blade_dulling, intdamfactor, used_weapon = null)
+	var/armor_tier = getarmor(def_zone, attack_flag, damage, armor_penetration, blade_dulling, intdamfactor, used_weapon)
 
-	//the if "armor" check is because this is used for everything on /living, including humans
-	if(armor > 0 && armor_penetration)
-		armor = max(0, armor - armor_penetration)
-		if(penetrated_text)
-			to_chat(src, span_danger("[penetrated_text]"))
-//		else
-//			to_chat(src, span_danger("My armor was penetrated!"))
-	else if(armor >= 100)
-		if(absorb_text)
-			to_chat(src, span_notice("[absorb_text]"))
-//		else
-//			to_chat(src, span_notice("My armor absorbs the blow!"))
-	else if(armor > 0)
-		if(soften_text)
-			to_chat(src, span_warning("[soften_text]"))
-//		else
-//			to_chat(src, span_warning("My armor softens the blow!"))
-	if(mob_timers[MT_INVISIBILITY] > world.time)			
+	// Tier-based armor system.
+	// armor_tier and armor_penetration are both tier values (0-4).
+	// DR Absorb (blunt): damage * 1 / (1 + 0.2 * tier). All damage absorbed by armor, none to HP.
+	// DR Pierce (fire, acid): same DR formula, but reduced damage still hits HP. Armor also takes integrity damage.
+	// DBLOCK types (ARMOR_DBLOCK_TYPES):
+	//   pen > armor  = 100% through (full penetration)
+	//   pen == armor = 20% through (partial penetration)
+	//   pen < armor  = fully blocked
+	// Safety: if damage wasn't passed, blocked math would return 0 (null * anything = 0 in DM),
+	// silently making armor do nothing. Use a safe fallback for the blocked calculation only —
+	// don't feed it into checkarmor (which already ran above and handles null damage fine).
+	var/block_damage = damage || 999
+	var/blocked = 0
+	if(attack_flag in ARMOR_DR_ABSORB_TYPES)
+		// Blunt: armor absorbs all HP damage. DR reduces integrity damage to armor (in checkarmor).
+		if(armor_tier > 0)
+			blocked = block_damage
+	else if(attack_flag in ARMOR_DR_PIERCE_TYPES)
+		// Fire/Acid: DR reduces damage, but reduced damage still reaches HP.
+		if(armor_tier > 0)
+			var/dr_mult = 1 / (1 + 0.2 * armor_tier)
+			blocked = block_damage * (1 - dr_mult)
+	else
+		// Penetration: tier comparison
+		if(armor_tier > 0)
+			if(armor_penetration > armor_tier)
+				// Full penetration — all damage through
+				blocked = block_damage * (1 - PEN_PASSTHROUGH_OVER)
+				if(penetrated_text)
+					to_chat(src, span_danger("[penetrated_text]"))
+			else if(armor_penetration == armor_tier)
+				// Same tier — 20% gets through
+				blocked = block_damage * (1 - PEN_PASSTHROUGH_SAME)
+			else
+				// Fully blocked
+				blocked = block_damage * 10
+				if(absorb_text)
+					to_chat(src, span_notice("[absorb_text]"))
+
+	if(mob_timers[MT_INVISIBILITY] > world.time)
 		mob_timers[MT_INVISIBILITY] = world.time
 		update_sneak_invis(reset = TRUE)
-	return armor
+	return blocked
 
 
-/mob/living/proc/getarmor(def_zone, type, damage, armor_penetration, blade_dulling, peeldivisor, intdamfactor, used_weapon)
+/mob/living/proc/getarmor(def_zone, type, damage, armor_penetration, blade_dulling, intdamfactor, used_weapon)
 	return 0
 
 //this returns the mob's protection against eye damage (number between -1 and 2) from bright lights
@@ -70,8 +92,7 @@
 	if(SEND_SIGNAL(src, COMSIG_ATOM_BULLET_ACT, P, def_zone) & COMPONENT_ATOM_BLOCK_BULLET)
 		return
 	def_zone = bullet_hit_accuracy_check(P.accuracy + P.bonus_accuracy, def_zone)
-	var/ap = (P.flag == "blunt") ? BLUNT_DEFAULT_PENFACTOR : P.armor_penetration
-	var/armor = run_armor_check(def_zone, P.flag, "", "",armor_penetration = ap, damage = P.damage, used_weapon = P)
+	var/armor = run_armor_check(def_zone, P.flag, "", "",armor_penetration = P.armor_penetration, damage = P.damage, used_weapon = P)
 
 	next_attack_msg.Cut()
 
@@ -86,7 +107,7 @@
 			if(P.dismemberment)
 				check_projectile_dismemberment(P, def_zone,armor)
 			if(P.woundclass)
-				check_projectile_wounding(P, def_zone)
+				check_projectile_wounding(P, def_zone, armor)
 
 			if(P.poisontype)// New proc for poisoning that respects if armor stopped damage from the projectile, by blocking or through reduction. Only called if poison type is defined.
 				if(!P.poisonamount)
@@ -97,7 +118,7 @@
 					if(P.poisonfeel)
 						M.show_message(span_danger("You feel an intense [P.poisonfeel] sensation spreading swiftly from the area!"))
 
-			if(P.embedchance && !check_projectile_embed(P, def_zone))
+			if(P.embedchance && !check_projectile_embed(P, def_zone, armor))
 				P.handle_drop()
 
 		else
@@ -144,8 +165,7 @@
 		if(SEND_SIGNAL(src, COMSIG_LIVING_IMPACT_ZONE, I, zone) & COMPONENT_CANCEL_THROW)
 			return FALSE
 		if(!blocked)
-			var/ap = (damage_flag == "blunt") ? BLUNT_DEFAULT_PENFACTOR : I.armor_penetration
-			var/armor = run_armor_check(zone, damage_flag, "", "", armor_penetration = ap, damage = I.throwforce, used_weapon = I)
+			var/armor = run_armor_check(zone, damage_flag, "", "", armor_penetration = I.armor_penetration, damage = I.throwforce, used_weapon = I)
 			next_attack_msg.Cut()
 			var/nodmg = FALSE
 			if(!apply_damage(I.throwforce, I.damtype, zone, armor))

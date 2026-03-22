@@ -32,7 +32,6 @@
 	blocksound = SOFTHIT
 	body_parts_covered = NECK|HAIR|EARS|HEAD
 	armor = ARMOR_PADDED_BAD
-	prevent_crits = PREVENT_CRITS_NONE
 	adjustable = CAN_CADJUST
 	toggle_icon_state = TRUE
 	sewrepair = TRUE
@@ -52,7 +51,6 @@
 	blocksound = SOFTHIT
 	body_parts_covered = NECK|HAIR|EARS|HEAD
 	armor = ARMOR_PADDED //gambeson for head
-	prevent_crits = PREVENT_CRITS_NONE
 	adjustable = CAN_CADJUST
 	toggle_icon_state = TRUE
 	sewrepair = TRUE
@@ -68,8 +66,7 @@
 	blocksound = SOFTHIT
 	body_parts_covered = NECK|MOUTH|NOSE|HAIR|EARS|HEAD
 	max_integrity = ARMOR_INT_CHEST_LIGHT_MASTER //padded gambeson durability
-	armor = ARMOR_PADDED_GOOD //full padded gambeson basically
-	prevent_crits = PREVENT_CRITS_MOST
+	armor = ARMOR_PADDED //full padded gambeson basically
 	adjustable = CAN_CADJUST
 	toggle_icon_state = TRUE
 	sewrepair = TRUE
@@ -119,7 +116,7 @@
 	blocksound = SOFTHIT
 	body_parts_covered = NECK
 	body_parts_inherent = NECK
-	armor = ARMOR_LEATHER_GOOD
+	armor = ARMOR_LEATHER
 	sewrepair = TRUE
 	sellprice = 10
 	max_integrity = ARMOR_INT_SIDE_HARDLEATHER
@@ -171,7 +168,6 @@
 	material_category = ARMOR_MAT_CHAINMAIL
 	smeltresult = /obj/item/ingot/aaslag
 	anvilrepair = null
-	prevent_crits = PREVENT_CRITS_NONE
 
 /obj/item/clothing/neck/roguetown/chaincoif/chainmantle
 	name = "chain mantle"
@@ -274,7 +270,6 @@
 	desc = "A series of iron plates designed to protect the neck, traditionally atop a jacket or cuirass. While it lacks a coif's coverage, it is more-than-capable of thwarting a dagger's viscous bite."
 	icon_state = "gorget"
 	armor = ARMOR_PLATE
-	prevent_crits = PREVENT_CRITS_ALL
 	smeltresult = /obj/item/ingot/iron
 	anvilrepair = /datum/skill/craft/armorsmithing
 	equip_sound = 'sound/foley/equip/equip_armor.ogg'
@@ -294,8 +289,7 @@
 	name = "bronze neckguard"
 	desc = "An interlinked veil of bronze plates, shielding the throat from terrible wounds since the dawn of tyme. Piercing blows may sunder the plate, but - as long as the alloy persists - so shall you."
 	icon_state = "bronzegorget"
-	armor = ARMOR_PLATE_BRONZE
-	prevent_crits = PREVENT_CRITS_ALL
+	armor = ARMOR_PLATE
 	smeltresult = /obj/item/ingot/bronze
 	max_integrity = ARMOR_INT_SIDE_BRONZE
 
@@ -309,13 +303,12 @@
 	material_category = ARMOR_MAT_PLATE
 	smeltresult = /obj/item/ingot/aaslag
 	anvilrepair = null
-	prevent_crits = PREVENT_CRITS_NONE
 
 /obj/item/clothing/neck/roguetown/gorget/copper
 	name = "neck protector"
 	icon_state = "copperneck"
 	desc = "A curved disk of copper, rounded out to cradle one's neck; vulnerable, but far better than nothing at all."
-	armor = ARMOR_PLATE_BAD
+	armor = ARMOR_PLATE
 	smeltresult = /obj/item/ingot/copper
 
 /obj/item/clothing/neck/roguetown/fencerguard
@@ -384,7 +377,7 @@
 	desc = "A series of resplendant golden plates designed to protect the neck, traditionally worn atop a jacket or cuirass. The holy sigil between its buckled halves promises to carry the flame of its wearer, no matter what strike's poised its way."
 	icon_state = "goldgorget"
 	armor_class = ARMOR_CLASS_HEAVY //Ceremonial. Heavy is the head that bares the burden.
-	armor = ARMOR_GOLD //Renders its wearer completely invulnerable to damage. The caveat is, however..
+	armor = ARMOR_INDESTRUCTIBLE //Renders its wearer completely invulnerable to damage. The caveat is, however..
 	max_integrity = ARMOR_INT_SIDE_GOLD // ..is that it's extraordinarily fragile. To note, this is lower than even Decrepit-tier armor.
 	anvilrepair = null
 	smeltresult = /obj/item/ingot/gold
@@ -435,7 +428,6 @@
 	resistance_flags = FIRE_PROOF
 	slot_flags = ITEM_SLOT_NECK
 	body_parts_covered = NECK
-	prevent_crits = PREVENT_CRITS_NONE
 	blocksound = PLATEHIT
 
 /obj/item/clothing/neck/roguetown/psicross

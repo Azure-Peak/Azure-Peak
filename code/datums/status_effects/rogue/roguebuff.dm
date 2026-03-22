@@ -65,7 +65,7 @@
 	return TRUE
 
 /atom/movable/screen/alert/status_effect/buff/snackbuff
-	name = "Good snack"
+	name = "Good Snack"
 	desc = "Better than plain bread. Tasty."
 	icon_state = "foodbuff"
 
@@ -108,7 +108,7 @@
 	duration = 30 MINUTES
 
 /atom/movable/screen/alert/status_effect/buff/mealbuff
-	name = "Good meal"
+	name = "Good Meal"
 	desc = "A meal a day keeps the barber away, or at least it makes it slighly easier."
 	icon_state = "foodbuff"
 
@@ -133,7 +133,7 @@
 	duration = 30 MINUTES
 
 /atom/movable/screen/alert/status_effect/buff/greatmealbuff
-	name = "Great meal!"
+	name = "Great Meal!"
 	desc = "That meal was something akin to a noble's feast! It's bound to keep me energized for an entire day."
 	icon_state = "foodbuff"
 
@@ -163,7 +163,7 @@
 	. = ..()
 
 /atom/movable/screen/alert/status_effect/buff/sweet
-	name = "Sweet embrace"
+	name = "Sweet Embrace"
 	desc = "Sweets are always a sign of good luck, everything goes well when you eat some of them."
 	icon_state = "foodbuff"
 
@@ -1377,6 +1377,7 @@
 /datum/status_effect/buff/clash/proc/process_touch(mob/living/carbon/human/parent, mob/living/carbon/human/attacker, mob/living/carbon/human/defender)
 	var/obj/item/I = defender.get_active_held_item()
 	defender.process_clash(attacker, I, null)
+	return COMPONENT_HAND_NO_ATTACK
 
 /datum/status_effect/buff/clash/proc/process_attack(mob/living/parent, mob/living/target, mob/user, obj/item/I)
 	var/bad_guard = FALSE
@@ -1603,8 +1604,6 @@
 		if(ishuman(user) && target == owner)
 			var/mob/living/carbon/human/HM = user
 			if(check_zone(HM.zone_selected) == protected_zone)	//User has struck the exact limb that was being protected. Bad!
-				var/mob/living/carbon/human/H = owner
-				H?.purge_peel(99)
 				if(ishuman(user))
 					apply_debuffs(HM)
 					perform_disarm(HM)
@@ -1677,6 +1676,7 @@
 	if(attacker && check_zone(attacker.zone_selected) == protected_zone)
 		var/obj/item/I = defender.get_active_held_item()
 		defender.process_clash(attacker, I, null)	//This will strike at their hand, but not clear away the effect. They tried to grab the protected limb.
+		return COMPONENT_HAND_NO_ATTACK
 
 /datum/status_effect/buff/clash/limbguard/apply_cooldown()
 	owner.apply_status_effect(/datum/status_effect/debuff/specialcd, 60 SECONDS)
@@ -1951,7 +1951,7 @@
 		return
 
 	var/armor_block = target.run_armor_check(user.zone_selected, "blunt")
-	if(prob(armor_block))
+	if(armor_block > 0)
 		return
 
 	apply_effects(target)
@@ -1965,8 +1965,8 @@
 	if(!HAS_TRAIT(target, TRAIT_OUTLAW) || (!(target.name in user.mind.known_people)))
 		return
 
-	var/armor_block = target.run_armor_check(user.zone_selected, item.d_type)
-	if(prob(armor_block))
+	var/armor_block = target.run_armor_check(user.zone_selected, item.d_type, armor_penetration = PEN_NONE, damage = 1)
+	if(armor_block > 0)
 		return
 
 	apply_effects(target)

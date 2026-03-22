@@ -39,7 +39,7 @@
 	last_process_time = world.time
 	START_PROCESSING(SSfastprocess, src)
 	if(action)
-		action.UpdateButtonIcon()
+		action.build_all_button_icons()
 
 
 /obj/effect/proc_holder/spell/self/conjure_armor/cast(list/targets, mob/living/user = usr)
@@ -93,7 +93,7 @@
 			charge_counter = recharge_time
 			STOP_PROCESSING(SSfastprocess, src)
 			if(action)
-				action.UpdateButtonIcon()
+				action.build_all_button_icons()
 	return TRUE
 
 /obj/effect/proc_holder/spell/self/conjure_armor/miracle

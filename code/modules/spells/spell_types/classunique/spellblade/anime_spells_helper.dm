@@ -19,7 +19,7 @@ without going through the click pipeline, so spells can deliver weapon-style str
 		if(BCLASS_BLUNT, BCLASS_SMASH)
 			blade_class = BCLASS_BLUNT
 			attack_flag = "blunt"
-			armor_penetration = BLUNT_DEFAULT_PENFACTOR // It is BLUNT
+			armor_penetration = PEN_NONE // Blunt uses DR, not penetration
 		if(BCLASS_STAB, BCLASS_PICK)
 			blade_class = BCLASS_STAB
 			attack_flag = "stab"

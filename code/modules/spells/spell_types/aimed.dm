@@ -13,8 +13,10 @@
 /obj/effect/proc_holder/spell/aimed/update_icon()
 	if(!action)
 		return
-	action.button_icon_state = "[base_icon_state][active]"
-	action.UpdateButtonIcon()
+	action.background_icon_state = "[base_icon_state][active]"
+	if(overlay_state)
+		action.button_icon_state = overlay_state
+	action.build_all_button_icons(force = TRUE)
 
 /obj/effect/proc_holder/spell/aimed/Click()
 	var/mob/living/user = usr

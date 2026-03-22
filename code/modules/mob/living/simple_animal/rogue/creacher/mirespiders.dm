@@ -27,6 +27,7 @@
 	perfect_butcher_results = list(/obj/item/reagent_containers/food/snacks/rogue/meat/spider = 1,
 						/obj/item/natural/hide = 1,
 						/obj/item/natural/silk = 2,
+						/obj/item/reagent_containers/food/snacks/rogue/honey/spider = 1,
 						/obj/item/alch/viscera = 1)
 	head_butcher = /obj/item/natural/head/mirespider
 
@@ -167,9 +168,11 @@
 	butcher_results = list(/obj/item/reagent_containers/food/snacks/rogue/meat/spider = 4,
 						/obj/item/natural/hide = 3,
 						/obj/item/natural/silk = 3,
+						/obj/item/reagent_containers/food/snacks/rogue/honey/spider = 1,
 						/obj/item/alch/viscera = 4)
 	perfect_butcher_results = list(/obj/item/reagent_containers/food/snacks/rogue/meat/spider = 4,
 						/obj/item/natural/hide = 4,
+						/obj/item/reagent_containers/food/snacks/rogue/honey/spider = 2,
 						/obj/item/natural/silk = 5, // You killed the mire lurker. You get all the figgy pudding . . .
 						/obj/item/alch/viscera = 4)
 	head_butcher = /obj/item/natural/head/mirelurker
@@ -221,12 +224,14 @@
 						/obj/item/natural/hide = 3,
 						/obj/item/natural/silk = 3,
 						/obj/item/reagent_containers/powder/ozium = 2,
+						/obj/item/reagent_containers/food/snacks/rogue/honey/spider = 1,
 						/obj/item/alch/viscera = 4)
 	perfect_butcher_results = list(/obj/item/reagent_containers/food/snacks/rogue/meat/spider = 4,
 						/obj/item/natural/hide = 4,
 						/obj/item/natural/silk = 5, // You killed the mire lurker. You get all the figgy pudding . . .
 						/obj/item/reagent_containers/powder/ozium = 2,
 						/obj/item/reagent_containers/powder/herozium = 1,
+						/obj/item/reagent_containers/food/snacks/rogue/honey/spider = 1,
 						/obj/item/alch/viscera = 4)
 	head_butcher = /obj/item/natural/head/mirelurker
 
@@ -285,11 +290,13 @@
 						/obj/item/natural/hide = 1,
 						/obj/item/natural/silk = 1,
 						/obj/item/alch/viscera = 1,
+						/obj/item/reagent_containers/food/snacks/rogue/honey/spider = 1,
 						/obj/item/reagent_containers/spidervenom_inert = 1)
 	perfect_butcher_results = list(/obj/item/reagent_containers/food/snacks/rogue/meat/spider = 2,
 						/obj/item/natural/hide = 1,
 						/obj/item/natural/silk = 1,
 						/obj/item/alch/viscera = 1,
+						/obj/item/reagent_containers/food/snacks/rogue/honey/spider = 1,
 						/obj/item/reagent_containers/spidervenom_inert = 2)
 	head_butcher = /obj/item/natural/head/mirespider_paralytic
 

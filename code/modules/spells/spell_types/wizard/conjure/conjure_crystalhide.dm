@@ -42,7 +42,7 @@
 	armor_class = ARMOR_CLASS_LIGHT
 	blade_dulling = DULLING_BASHCHOP
 	blocksound = PLATEHIT
-	armor = ARMOR_LEATHER_GOOD
+	armor = ARMOR_LEATHER
 	max_integrity = ARMOR_INT_CHEST_LIGHT_BASE
 	body_parts_covered = COVERAGE_ALL_BUT_HANDFEET | COVERAGE_HEAD_NOSE | NECK | HANDS | FEET
 	unenchantable = TRUE

@@ -240,7 +240,6 @@
 	break_sound = 'sound/foley/cloth_rip.ogg'
 	drop_sound = 'sound/foley/dropsound/cloth_drop.ogg'
 	max_integrity = 200
-	prevent_crits = list(BCLASS_BLUNT)
 	slot_flags = ITEM_SLOT_HEAD|ITEM_SLOT_MASK
 	flags_inv = HIDEFACE|HIDESNOUT|HIDEHAIR|HIDEEARS
 	body_parts_covered = FACE|HEAD
@@ -380,13 +379,12 @@
 	material_category = ARMOR_MAT_PLATE
 	smeltresult = /obj/item/ingot/aaslag
 	anvilrepair = null
-	prevent_crits = PREVENT_CRITS_NONE
 
 /obj/item/clothing/mask/rogue/facemask/copper
 	name = "copper mask"
 	icon_state = "cmask"
 	desc = "A heavy copper mask that conceals and protects the face, though not very effectively."
-	armor = ARMOR_PLATE_BAD
+	armor = ARMOR_PLATE
 	smeltresult = /obj/item/ingot/copper
 
 /obj/item/clothing/mask/rogue/facemask/psydonmask
@@ -452,7 +450,7 @@
 	name = "soldier's half-mask"
 	desc = "\"The first lesson of war is that it would be better to live in peace.\""
 	block2add = null
-	armor = ARMOR_PLATE_BAD // because it's only half
+	armor = ARMOR_PLATE // because it's only half
 	icon_state = "kazengunmouthguard"
 	item_state = "kazengunmouthguard"
 
@@ -505,7 +503,6 @@
 	drop_sound = 'sound/foley/dropsound/gen_drop.ogg'
 	resistance_flags = FIRE_PROOF
 	armor = ARMOR_PADDED_BAD
-	prevent_crits = null
 	flags_inv = HIDEFACE|HIDESNOUT
 	body_parts_covered = FACE
 	block2add = FOV_BEHIND
@@ -618,7 +615,6 @@
 	break_sound = 'sound/foley/breaksound.ogg'
 	drop_sound = 'sound/foley/dropsound/armor_drop.ogg'
 	armor = ARMOR_PLATE
-	prevent_crits = list(BCLASS_CUT, BCLASS_STAB, BCLASS_CHOP, BCLASS_BLUNT)
 	flags_inv = HIDEFACE
 	body_parts_covered = FACE
 	block2add = FOV_BEHIND

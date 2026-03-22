@@ -82,7 +82,7 @@
 /datum/stressevent/sweet
 	timer = 8 MINUTES
 	stressadd = -2
-	desc = span_green("Sweets raise even the lowest of moods!")
+	desc = span_green("Sweet treats like these can raise even the lowest of moods!")
 
 /datum/stressevent/hydrated
 	timer = 10 MINUTES

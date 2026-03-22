@@ -61,7 +61,6 @@
 	flags_inv = HIDEEARS|HIDEFACE|HIDESNOUT
 	flags_cover = HEADCOVERSEYES | HEADCOVERSMOUTH
 	armor = ARMOR_PLATE_BSTEEL
-	prevent_crits = PREVENT_CRITS_ALL
 	block2add = FOV_BEHIND
 	max_integrity = ARMOR_INT_HELMET_BLACKSTEEL
 	smeltresult = /obj/item/ingot/blacksteel
@@ -84,7 +83,6 @@
 	mob_overlay_icon = 'icons/roguetown/clothing/special/onmob/crusader.dmi'
 	smeltresult = /obj/item/ingot/blacksteel
 	armor = ARMOR_PLATE_BSTEEL
-	prevent_crits = PREVENT_CRITS_ALL
 	block2add = FOV_BEHIND
 	max_integrity = ARMOR_INT_HELMET_BLACKSTEEL
 	smelt_bar_num = 2

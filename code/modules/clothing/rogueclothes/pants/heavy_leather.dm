@@ -6,7 +6,7 @@
 	icon_state = "roguepants"
 	item_state = "roguepants"
 	sewrepair = TRUE
-	armor = ARMOR_LEATHER_GOOD
+	armor = ARMOR_LEATHER
 	sellprice = 18
 	blocksound = SOFTHIT
 	max_integrity = ARMOR_INT_LEG_HARDLEATHER
