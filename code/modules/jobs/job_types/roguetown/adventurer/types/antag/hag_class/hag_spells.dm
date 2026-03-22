@@ -214,3 +214,36 @@
 	user.put_in_hands(B)
 	to_chat(user, span_notice("You pull a sliver of [choice] from your spirit."))
 	return TRUE
+
+/obj/effect/proc_holder/spell/invoked/resurrect/hag
+	name = "Thorny Regrowth"
+	desc = "Knit a fallen soul back into a body using parasitic vines. The target is revived, but incurs a 50-point debt to your Curio."
+	recharge_time = 5 MINUTES 
+	sound = 'sound/foley/slap.ogg'
+	required_structure = /obj/structure/roguemachine/mossmother
+	required_items = list()
+	req_items = list()
+	alt_required_items = list()
+	miracle = FALSE
+	devotion_cost = 0
+
+	var/boon_path = /datum/hag_boon/revival_debt
+
+/obj/effect/proc_holder/spell/invoked/resurrect/hag/cast(list/targets, mob/living/carbon/human/user)
+	. = ..()
+
+	if(.)
+		var/mob/living/carbon/human/target = targets[1]
+		if(!istype(target))
+			return FALSE
+
+		var/datum/component/hag_curio_tracker/HCT = user.GetComponent(/datum/component/hag_curio_tracker)
+		if(HCT)
+			HCT.grant_boon(target.real_name, boon_path, 50)
+			to_chat(user, span_notice("You've tethered [target.real_name] to your garden. Their life is now your currency."))
+	return TRUE
+
+/datum/hag_boon/revival_debt
+	name = "Soul Tether"
+	desc = "A portion of your vitality is bound to the Hag who pulled you from the brink."
+	points = 50

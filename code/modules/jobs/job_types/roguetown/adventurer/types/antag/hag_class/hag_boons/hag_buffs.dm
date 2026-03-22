@@ -205,6 +205,7 @@
 #define MOVESPEED_ID_MOSS_SLOW "movespeed_moss_slow"
 
 /datum/status_effect/buff/hag_boon/creeping_moss/proc/grow_moss(mob/living/carbon/human/H)
+	H.remove_movespeed_modifier(MOVESPEED_ID_MOSS_SLOW)
 	moss_layer = min(moss_layer + 1, 6)
 	H.cut_overlay(moss_image)
 	moss_image = image('icons/mob/mossoverlay.dmi', "moss[moss_layer]")
@@ -271,6 +272,7 @@
 
 	H.cut_overlay(moss_image)
 	if(moss_layer > 0)
+		H.remove_movespeed_modifier(MOVESPEED_ID_MOSS_SLOW)
 		moss_image = image('icons/mob/mossoverlay.dmi', "moss[moss_layer]")
 		moss_image.appearance_flags = RESET_COLOR
 		H.add_overlay(moss_image)

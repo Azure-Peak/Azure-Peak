@@ -43,6 +43,7 @@
 		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/spiritual_siphon)
 		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/transmutation_rite)
 		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/grant_boon)
+		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/resurrect/hag)
 		if(H.mind.has_antag_datum(/datum/antagonist/hag))
 			var/datum/antagonist/new_antag = new /datum/antagonist/hag()
 			H.mind.add_antag_datum(new_antag)

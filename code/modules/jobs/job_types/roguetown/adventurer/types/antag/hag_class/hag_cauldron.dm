@@ -31,7 +31,6 @@
 		/obj/item/rogueweapon/huntingknife/idagger/steel/parrying = /obj/item/hag_catalyst/synth_base,
 		/obj/item/rogueweapon/huntingknife/idagger/steel/rondel = /obj/item/hag_catalyst/synth_base,
 		/obj/item/rogueweapon/huntingknife/idagger/steel/special = /obj/item/hag_catalyst/synth_base,
-		/obj/item/rogueweapon/huntingknife/idagger/dtace = /obj/item/hag_catalyst/synth_base,
 		/obj/item/rogueweapon/huntingknife/throwingknife/steel = /obj/item/hag_catalyst/synth_base,
 		/obj/item/rogueweapon/huntingknife/scissors/steel = /obj/item/hag_catalyst/synth_base,
 		// REGULAR STEEL - BLUNT WEAPONS

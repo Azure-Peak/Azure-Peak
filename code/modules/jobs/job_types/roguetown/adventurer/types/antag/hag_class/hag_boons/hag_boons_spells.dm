@@ -206,7 +206,7 @@
 
 /obj/effect/proc_holder/spell/invoked/slumber_exile
 	name = "Slumbering Exile"
-	desc = "Force a soul into the realm of dreams for two minutes, once every day."
+	desc = "Force someone next to you into the realm of dreams for two minutes, once every day."
 	recharge_time = 30 MINUTES
 	invocations = list("DRE-YMA... SLEE-PA...")
 	range = 1
