@@ -95,7 +95,7 @@ Goes on cooldown (30s) when you recall OR the tether is destroyed/expires. */
 	charge_counter = 0
 	start_recharge()
 	if(action)
-		action.UpdateButtonIcon()
+		action.build_all_button_icons()
 
 // --- Tether object ---
 

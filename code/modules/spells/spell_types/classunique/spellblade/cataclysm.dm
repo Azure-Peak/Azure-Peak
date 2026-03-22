@@ -43,7 +43,7 @@ Defend blocks damage, no reflect penalty. Same Z-level only. */
 	var/empowered_momentum = 10
 	var/vulnerable_duration = 6 SECONDS
 
-/obj/effect/proc_holder/spell/invoked/cataclysm/can_cast(mob/user = usr)
+/obj/effect/proc_holder/spell/invoked/cataclysm/can_cast(mob/user = usr, feedback = TRUE)
 	. = ..()
 	if(!.)
 		return FALSE

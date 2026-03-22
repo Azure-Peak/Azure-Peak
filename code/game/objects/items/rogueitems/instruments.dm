@@ -5,6 +5,7 @@
 	persistent_loop = TRUE
 	var/stress2give = /datum/stressevent/music
 	sound_group = /datum/sound_group/instruments //reserves sound channels for up to 10 instruments at a time
+	filter_pref = SOUND_INSTRUMENTS
 
 /obj/item/rogue/instrument
 	name = ""

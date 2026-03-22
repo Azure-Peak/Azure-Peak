@@ -315,9 +315,10 @@
 		if(ishuman(ML))
 			var/mob/living/carbon/human/H = ML
 			affecting = H.get_bodypart(ran_zone(dam_zone))
-		var/armor = ML.run_armor_check(affecting, "stab")
+		var/bite_damage = rand(1,3)
+		var/armor = ML.run_armor_check(affecting, "stab", armor_penetration = PEN_NONE, damage = bite_damage)
 		if(prob(75))
-			ML.apply_damage(rand(1,3), BRUTE, affecting, armor)
+			ML.apply_damage(bite_damage, BRUTE, affecting, armor)
 			ML.visible_message(span_danger("[name] bites [ML]!"), \
 							span_danger("[name] bites you!"), span_hear("I hear a chomp!"), COMBAT_MESSAGE_RANGE, name)
 			to_chat(name, span_danger("I bite [ML]!"))

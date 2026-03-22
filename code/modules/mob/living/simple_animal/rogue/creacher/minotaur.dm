@@ -169,7 +169,7 @@
 	blade_class = BCLASS_CUT
 	hitsound = "smallslash"
 	chargetime = 0
-	penfactor = 5
+	penfactor = PEN_NONE
 	swingdelay = 3
 	candodge = TRUE
 	canparry = TRUE
@@ -184,7 +184,7 @@
 	blade_class = BCLASS_CUT
 	hitsound = "genchop"
 	chargetime = 10
-	penfactor = 10
+	penfactor = PEN_NONE
 	swingdelay = 3
 	candodge = TRUE
 	canparry = TRUE

@@ -13,7 +13,6 @@
 	var/dist = get_dist(owner, target)
 	if(can_see(owner, target, range) && dist < range && dist > 1) //can see, in range and not adjacent
 		owner.visible_message(span_alert("[owner] reaches towards the ground, eyeing [target]."))
-		disable_cooldown_actions()
 		addtimer(CALLBACK(src, PROC_REF(prepare_stone), target), cast_time)
 		StartCooldown()
 	return TRUE
@@ -39,7 +38,7 @@
 			if(ismob(target))
 				var/mob/living/victim = target
 				def_zone = pick(BODY_ZONE_L_LEG, BODY_ZONE_R_LEG, BODY_ZONE_CHEST, BODY_ZONE_HEAD)
-				victim.apply_damage(rock_damage, BRUTE, def_zone, victim.run_armor_check(def_zone, "stab", damage = rock_damage))
+				victim.apply_damage(rock_damage, BRUTE, def_zone, victim.run_armor_check(def_zone, "stab", armor_penetration = PEN_NONE, damage = rock_damage))
 				victim.Paralyze(5)
 				to_chat(target, span_userdanger("You're hit by a big rock!"))
 				playsound(target, 'sound/foley/smash_rock.ogg', 100, TRUE)

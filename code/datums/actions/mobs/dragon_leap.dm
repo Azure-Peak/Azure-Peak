@@ -12,7 +12,6 @@
 	var/dist = get_dist(owner, target)
 	if(can_see(owner, target, range) && dist < range && dist > 1) //can see, in range and not adjacent
 		owner.visible_message(span_alert("[owner] leans back on its haunches, eyeing [target]."))
-		disable_cooldown_actions()
 		addtimer(CALLBACK(src, PROC_REF(leap_target), target), cast_time)
 		StartCooldown()
 	return TRUE
@@ -22,7 +21,6 @@
 
 	if(!QDELETED(target))
 		return
-	enable_cooldown_actions()
 	var/turf/cur_turf = get_turf(target)
 	if(!cur_turf)
 		return

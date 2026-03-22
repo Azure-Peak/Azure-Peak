@@ -1597,7 +1597,7 @@
 	sellprice = 90
 
 /datum/crafting_recipe/roguetown/sewing/silkbra
-	name = "Giltsilk bra"
+	name = "giltsilk bra"
 	category = "Misc"
 	result = list (/obj/item/clothing/suit/roguetown/shirt/silkbra)
 	reqs = list(/obj/item/natural/silk = 5)
@@ -1610,14 +1610,15 @@
 	craftdiff = 2
 
 /datum/crafting_recipe/roguetown/sewing/anklets
-	name = "Giltsilk anklets"
+	name = "giltsilk anklets"
+	aliases = "golden anklets"
 	category = "Misc"
 	result = list (/obj/item/clothing/shoes/roguetown/anklets)
 	reqs = list(/obj/item/natural/silk = 5)
 	craftdiff = 6
 
 /datum/crafting_recipe/roguetown/sewing/silkbelt
-	name = "Giltsilk belt"
+	name = "giltsilk belt"
 	category = "Misc"
 	result = list (/obj/item/storage/belt/rogue/leather/silkbelt)
 	reqs = list(/obj/item/natural/silk = 5)

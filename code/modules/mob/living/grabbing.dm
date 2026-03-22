@@ -220,10 +220,9 @@
 						choke_damage *= 1.2		//Slight bonus
 					if(C.pulling == user && C.grab_state >= GRAB_AGGRESSIVE)
 						choke_damage *= 0.95	//Slight malice
-					var/neck_armor = C.run_armor_check(BODY_ZONE_PRECISE_NECK, "slash")
-					var/reduction = (neck_armor / 100) * 0.66
-					reduction = min(max(reduction, 0), 1)
-					choke_damage *= (1 - reduction)
+					var/neck_tier = C.getarmor(BODY_ZONE_PRECISE_NECK, "slash")
+					if(neck_tier > 0)
+						choke_damage *= 1 / (1 + 0.2 * neck_tier)
 					if(!HAS_TRAIT(C, TRAIT_NOBREATH))
 						if(C.stamina < C.max_stamina)
 							C.stamina_add(choke_damage*1.5)
@@ -405,8 +404,8 @@
 		user.stop_pulling()
 		return
 	var/mob/living/carbon/C = grabbed
-	var/armor_block = C.run_armor_check(limb_grabbed, "slash")
 	var/damage = user.get_punch_dmg()
+	var/armor_block = C.run_armor_check(limb_grabbed, "slash", armor_penetration = PEN_NONE, damage = damage)
 	if(grabbed == user && limb_grabbed.status == BODYPART_ROBOTIC)	//removing ones own prosthetic should not be violent, nor damaging
 		C.visible_message(span_notice("[user] starts twisting [limb_grabbed] of [C], twisting it out of its socket!"), span_notice("I start twisting [limb_grabbed] from [src]."))
 		playsound(user, 'sound/misc/blackbag2.ogg', 100)
@@ -593,7 +592,7 @@
 		user.stop_pulling()
 		return
 	var/mob/living/carbon/C = grabbed
-	var/armor_block = C.run_armor_check(limb_grabbed, d_type, armor_penetration = BLUNT_DEFAULT_PENFACTOR)
+	var/armor_block = C.run_armor_check(limb_grabbed, d_type, armor_penetration = PEN_NONE)
 	var/damage = user.get_punch_dmg()
 	var/unarmed_skill = user.get_skill_level(/datum/skill/combat/unarmed)
 	damage *= (1 + (unarmed_skill / 10))	//1.X multiplier where X is the unarmed skill.

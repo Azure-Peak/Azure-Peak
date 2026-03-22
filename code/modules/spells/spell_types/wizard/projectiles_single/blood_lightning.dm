@@ -35,7 +35,7 @@
 	damage_type = BURN
 	nodamage = FALSE
 	speed = 0.3
-	flag = "magic"
+	flag = "fire"
 	light_color = "#802121"
 	light_outer_range = 7
 

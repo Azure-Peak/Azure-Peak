@@ -11,9 +11,6 @@
 	var/force = 0
 
 	var/datum/armor/armor
-	var/last_peeled_limb
-	var/peel_count = 0
-	var/peel_threshold = 3
 	var/obj_integrity	//defaults to max_integrity
 	var/max_integrity = 500
 	var/integrity_failure = 0 //0 if we have no special broken behavior, otherwise is a percentage of at what point the obj breaks. 0.5 being 50%

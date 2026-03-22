@@ -2,7 +2,7 @@
 	name = "heavy leather gloves"
 	desc = "A pair of heavy leather gloves, padded with the fur of a forest-dwelling beaste. The lengthened cuffs help to catch unseen bites from prowling monsters; a blessing, when even a single gnash can spread curses-most-foul."
 	icon_state = "angle"
-	armor = ARMOR_LEATHER_GOOD
+	armor = ARMOR_LEATHER
 	resistance_flags = FIRE_PROOF
 	blocksound = SOFTHIT
 	max_integrity = ARMOR_INT_SIDE_HARDLEATHER

@@ -493,3 +493,4 @@
 	timer = 10 MINUTES
 	stressadd = 3
 	desc = span_boldred("I had terrible nightmares... there's a lingering buzzing in my mind.") + span_gamedeadsay("\nIn gi rum imus Noc te et con sumi...")
+	desc = list(span_red("Eugh, this brew just doesn't sit right with me.."), span_red("Something about that brew tastes a little funky.."))

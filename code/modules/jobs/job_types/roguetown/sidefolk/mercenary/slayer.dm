@@ -122,7 +122,7 @@
 	name = "rough skin"
 	desc = ""
 	icon_state = null
-	armor = ARMOR_RUMACLAN
+	armor = ARMOR_MAILLE
 	blocksound = SOFTHIT
 	blade_dulling = DULLING_BASHCHOP
 	slot_flags = ITEM_SLOT_SHIRT|ITEM_SLOT_ARMOR

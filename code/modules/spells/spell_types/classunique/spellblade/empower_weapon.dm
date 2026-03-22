@@ -23,7 +23,7 @@ since spellblades have no STR. */
 	xp_gain = FALSE
 	var/min_momentum = 5
 
-/obj/effect/proc_holder/spell/self/empower_weapon/can_cast(mob/user = usr)
+/obj/effect/proc_holder/spell/self/empower_weapon/can_cast(mob/user = usr, feedback = TRUE)
 	. = ..()
 	if(!.)
 		return FALSE

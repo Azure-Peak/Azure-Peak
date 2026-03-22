@@ -18,7 +18,7 @@
 	clickcd = CLICK_CD_QUICK // Versatile, this create 26 EDPS instead of 20. But still easily beaten by the Sabre
 
 /datum/intent/sword/cut/militia
-	penfactor = 30
+	penfactor = PEN_LIGHT
 	damfactor = 1.2
 	clickcd = CLICK_CD_CHARGED
 	no_early_release = TRUE
@@ -33,7 +33,7 @@
 	clickcd = CLICK_CD_QUICK //On par with an Arming Sword.
 
 /datum/intent/sword/chop/militia
-	penfactor = 50
+	penfactor = PEN_MEDIUM
 	clickcd = CLICK_CD_CHARGED
 	swingdelay = 0
 	damfactor = 1.0
@@ -46,7 +46,7 @@
 	animname = "stab"
 	blade_class = BCLASS_STAB
 	hitsound = list('sound/combat/hits/bladed/genstab (1).ogg', 'sound/combat/hits/bladed/genstab (2).ogg', 'sound/combat/hits/bladed/genstab (3).ogg')
-	penfactor = 20
+	penfactor = PEN_MEDIUM
 	chargetime = 0
 	swingdelay = 0
 	item_d_type = "stab"
@@ -54,14 +54,14 @@
 /datum/intent/sword/thrust/short
 	clickcd = 8
 	damfactor = 1.1
-	penfactor = 30
+	penfactor = PEN_MEDIUM
 
 /datum/intent/sword/thrust/arming
 	clickcd = CLICK_CD_QUICK // Less than rapier
-	penfactor = 35 // 22 + 35 = 57. Beats light leather slightly more than rapier per strike, but less strike
+	penfactor = PEN_MEDIUM // Arming sword thrust — penetrates light armor.
 
 /datum/intent/sword/thrust/long
-	penfactor = 30 // 2h Longsword already have 30 damage. This let it pierce light armor easily
+	penfactor = PEN_MEDIUM // Longsword thrust — same pen tier, higher base damage
 	// Their cut is actually pretty decent when 2handed and should be inferior to zwei.
 
 /datum/intent/sword/thrust/krieg
@@ -71,7 +71,7 @@
 	blade_class = BCLASS_BLUNT
 	hitsound = list('sound/combat/hits/blunt/metalblunt (1).ogg', 'sound/combat/hits/blunt/metalblunt (2).ogg', 'sound/combat/hits/blunt/metalblunt (3).ogg')
 	attack_verb = list("prods", "pokes")
-	penfactor = BLUNT_DEFAULT_PENFACTOR
+	penfactor = PEN_NONE
 	item_d_type = "blunt"
 	intent_intdamage_factor = BLUNT_DEFAULT_INT_DAMAGEFACTOR
 
@@ -83,7 +83,7 @@
 	blade_class = BCLASS_BLUNT
 	hitsound = list('sound/combat/hits/blunt/metalblunt (1).ogg', 'sound/combat/hits/blunt/metalblunt (2).ogg', 'sound/combat/hits/blunt/metalblunt (3).ogg')
 	chargetime = 0
-	penfactor = BLUNT_DEFAULT_PENFACTOR
+	penfactor = PEN_NONE
 	swingdelay = 0
 	damfactor = NONBLUNT_BLUNT_DAMFACTOR
 	item_d_type = "blunt"
@@ -96,8 +96,9 @@
 	desc = "Strike the opponent from above with the true edge of the sword and penetrate light armour. A cut so perfect requires precision and time."
 	attack_verb = list("masterfully tears", "artfully slits", "adroitly hacks")
 	damfactor = 1.01
-	penfactor = 50
-	max_intent_damage = 31
+	penfactor = PEN_MEDIUM // Master cut — penetrates leather/padded
+	max_intent_damage = 35
+	min_intent_damage = 31
 	swingdelay = 1
 
 /datum/intent/sword/thrust/long/master
@@ -134,7 +135,7 @@
 	desc = "Grip the dull portion of your longsword with either hand and use it as leverage to deliver precise, powerful strikes that can dig into gaps in plate and push past maille."
 	attack_verb = list("goes into a half-sword stance and skewers", "enters a half-sword stance and impales")
 	hitsound = list('sound/combat/hits/bladed/genstab (1).ogg', 'sound/combat/hits/bladed/genstab (2).ogg', 'sound/combat/hits/bladed/genstab (3).ogg')
-	penfactor = 80
+	penfactor = PEN_BSTEEL // Halfsword — penetrates plate fully, blacksteel at 20%
 	clickcd = 12
 	swingdelay = 16
 	damfactor = 0.86
@@ -170,32 +171,6 @@
 /datum/intent/sword/strike/bad
 	damfactor = 0.7 
 
-/datum/intent/sword/peel
-	name = "armor peel"
-	icon_state = "inpeel"
-	attack_verb = list("<font color ='#e7e7e7'>peels</font>")
-	animname = "cut"
-	blade_class = BCLASS_PEEL
-	hitsound = list('sound/combat/hits/blunt/metalblunt (1).ogg', 'sound/combat/hits/blunt/metalblunt (2).ogg', 'sound/combat/hits/blunt/metalblunt (3).ogg')
-	chargetime = 0
-	penfactor = BLUNT_DEFAULT_PENFACTOR
-	swingdelay = 0
-	damfactor = 0.01
-	item_d_type = "slash"
-	peel_divisor = 4
-
-/datum/intent/sword/peel/light
-	name = "light peel"
-	peel_divisor = 5
-
-/datum/intent/sword/peel/big
-	name = "big sword armor peel"
-	reach = 2
-	peel_divisor = 5
-
-/datum/intent/sword/peel/weak
-	name = "weak armor peel"
-	peel_divisor = 8
 
 /datum/intent/sword/chop
 	name = "chop"
@@ -204,7 +179,7 @@
 	animname = "chop"
 	blade_class = BCLASS_CHOP
 	hitsound = list('sound/combat/hits/bladed/genchop (1).ogg', 'sound/combat/hits/bladed/genchop (2).ogg', 'sound/combat/hits/bladed/genchop (3).ogg')
-	penfactor = 30
+	penfactor = PEN_LIGHT
 	swingdelay = 8
 	damfactor = 1.0
 	item_d_type = "slash"
@@ -215,11 +190,15 @@
 /datum/intent/sword/chop/long
 	reach = 2
 
+/datum/intent/sword/cut/long
+	clickcd = CLICK_CD_QUICK // Longsword 2H cut — faster than default, no extra damage
+
 /datum/intent/sword/cut/falx
-	penfactor = 20
+	penfactor = PEN_LIGHT
+	clickcd = CLICK_CD_QUICK
 
 /datum/intent/sword/chop/falx
-	penfactor = 40
+	penfactor = PEN_MEDIUM
 
 /datum/intent/sword/cut/krieg
 	damfactor = 1.2
@@ -227,18 +206,18 @@
 
 /datum/intent/sword/chop/broadsword
 	name = "heavy swing" //Standard penetration, but with a higher damage modifier.
-	penfactor = 20
+	penfactor = PEN_LIGHT
 	damfactor = 1.15
 
 /datum/intent/sword/thrust/long/broadsword
 	name = "heavy thrust" //Ditto.
-	penfactor = 20
+	penfactor = PEN_LIGHT
 	damfactor = 1.15
 	swingdelay = 4 //Halved swingdelay compared to chopping.
 
 /datum/intent/sword/chop/broadsword/heavy
 	name = "efforted swing" //Standard penetration, but with a higher damage modifier. Exclusive to the Executioner Sword series, when two-handed - or the Berserker's Sword, when one-handed.
-	penfactor = 30
+	penfactor = PEN_LIGHT
 	damfactor = 1.2
 	swingdelay = 10
 	clickcd = CLICK_CD_CHARGED
@@ -247,7 +226,7 @@
 	name = "impale" //Stabbing variant of the Chop intent. Higher damage, but slower and evadable. Exclusive to two-handed broadswords.
 	icon_state = "inimpale"
 	attack_verb = list("impales", "thrusts into")
-	penfactor = 20
+	penfactor = PEN_LIGHT
 	damfactor = 1.2
 	swingdelay = 8
 
@@ -302,7 +281,7 @@
 	blade_class = BCLASS_BLUNT
 	icon_state = "inbash"
 	attack_verb = list("bashes", "strikes")
-	penfactor = BLUNT_DEFAULT_PENFACTOR
+	penfactor = PEN_NONE
 	damfactor = NONBLUNT_BLUNT_DAMFACTOR
 	item_d_type = "blunt"
 	intent_intdamage_factor = BLUNT_DEFAULT_INT_DAMAGEFACTOR
@@ -337,8 +316,18 @@
 
 /datum/intent/sword/thrust/estoc
 	name = "thrust"
-	penfactor = 57	//At 57 pen + 25 base (82 total), you will always pen 80 stab armor, but you can't do it at range unlike a spear.
-	swingdelay = 8
+	penfactor = PEN_HEAVY	// Penetrates mail/plate at same-tier 20%. Estoc's purpose — point blank, telegraphed.
+	swingdelay = 6
+
+/datum/intent/sword/thrust/estoc/lunge
+	name = "lunge"
+	icon_state = "inlance"
+	attack_verb = list("lunges")
+	penfactor = PEN_LIGHT	// Fast attrition thrust — light pen, no swingdelay, quick clickcd.
+	damfactor = 1.1
+	swingdelay = 0
+	clickcd = CLICK_CD_QUICK
+	reach = 2
 
 /datum/intent/sword/lunge
 	name = "lunge"

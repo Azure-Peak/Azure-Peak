@@ -39,7 +39,7 @@
 	icon_state = "green_laser"
 	damage = 10
 	damage_type = BURN
-	flag = "magic"
+	flag = "acid"
 	range = 15
 	speed = 5 //higher is slower
 	var/aoe_range = 1

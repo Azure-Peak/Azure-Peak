@@ -16,8 +16,6 @@
 ///Called when a /mob/living/simple_animal/hostile finds a new target: (atom/source, new_target)
 #define COMSIG_HOSTILE_FOUND_TARGET "comsig_hostile_found_target"
 
-#define COMSIG_MOB_ABILITY_STARTED "comsig_mob_ability_started"
-#define COMSIG_MOB_ABILITY_FINISHED "comsig_mob_ability_finished"
 
 #define COMSIG_SIMPLEMOB_PRE_ATTACK_RANGED "basicmob_pre_attack_ranged"
 	#define COMPONENT_CANCEL_RANGED_ATTACK COMPONENT_CANCEL_ATTACK_CHAIN //! Cancel to prevent the attack from happening
