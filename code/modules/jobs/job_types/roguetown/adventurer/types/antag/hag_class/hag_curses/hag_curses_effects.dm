@@ -34,3 +34,43 @@
 	if(total_healed >= heal_treshhold && moss_layer < 6)
 		total_healed = 0
 		grow_moss(H)
+
+/obj/effect/temp_visual/heal_rogue/bubble
+	icon = 'icons/effects/miracle-healing.dmi'
+	icon_state = "bubbles"
+
+/datum/status_effect/curse/waterlogged
+	id = "waterlogged"
+	duration = -1
+	tick_interval = 2 SECONDS
+	alert_type = /atom/movable/screen/alert/status_effect/curse/waterlogged
+
+/atom/movable/screen/alert/status_effect/curse/waterlogged
+	name = "Waterlogged"
+	desc = "The water is heavy. Stand still too long and you'll sink. Fall down, and you'll drown."
+	icon_state = "debuff"
+
+/datum/status_effect/curse/waterlogged/tick()
+	if(!ishuman(owner))
+		return
+	var/mob/living/carbon/human/H = owner
+	var/turf/T = get_turf(H)
+
+	if(!istype(T, /turf/open/water))
+		return
+
+	if(H.stat != DEAD)
+		var/stam_drain = 10
+		var/obj/effect/temp_visual/heal/H_drown = new /obj/effect/temp_visual/heal_rogue/bubble(get_turf(H))
+		H_drown.color = "#00aeff"
+		if(!H.stamina_add(stam_drain) && (H.mobility_flags & MOBILITY_STAND))
+			to_chat(H, span_userdanger("The murky depths claim your footing!"))
+			H.Knockdown(30)
+		if(!(H.mobility_flags & MOBILITY_STAND))
+			if(prob(15))
+				to_chat(H, span_danger("You can feel watery spiderlegs crawl into your mouth!"))
+			H.adjustOxyLoss(6)
+
+/datum/status_effect/curse/waterlogged/on_apply()
+	. = ..()
+	to_chat(owner, span_boldwarning("You feel your limbs grow heavy as if soaked in lead... stay clear of the water."))

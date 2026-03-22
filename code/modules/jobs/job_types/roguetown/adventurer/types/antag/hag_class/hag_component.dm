@@ -17,6 +17,7 @@
 	var/static/list/curse_registry = list(
 		/datum/hag_boon/curse/rotting_touch = list("cost" = 1, "min_tier" = 1),
 		/datum/hag_boon/buff/curse/choking_moss = list("cost" = 40, "min_tier" = 1),
+		/datum/hag_boon/buff/curse/waterlogged= list("cost" = 25, "min_tier" = 1),
 	)
 	/// List of boon paths the hag has pre-prepared: [boon_path] = quantity
 	var/list/prepared_boons = list()

@@ -165,10 +165,11 @@
 	trait_to_apply = TRAIT_WOODWALKER
 	points = 50
 
-/datum/hag_boon/trait/infinite_energy
-	name = "Trait - No Fatigue"
-	trait_to_apply = TRAIT_INFINITE_ENERGY
-	points = 100
+// Disabled for now, they have a blessing for stamina.
+// /datum/hag_boon/trait/infinite_energy
+// 	name = "Trait - No Fatigue"
+// 	trait_to_apply = TRAIT_INFINITE_ENERGY
+// 	points = 100
 
 /datum/hag_boon/trait/unbound_strength
 	name = "Trait - Unbound Strength"

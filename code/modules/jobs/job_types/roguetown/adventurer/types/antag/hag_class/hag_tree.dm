@@ -152,12 +152,18 @@
 /obj/item/alch/hag_moss/enchanted/proc/apply_glow()
 	src.add_filter("moss_glow", 1, list("type" = "outline", "color" = color, "size" = 1))
 
-// Test moss
-/obj/item/alch/hag_moss/enchanted/sorrow_bound
-	name = "Sorrow-Bound Moss"
+// Test mosses, don't make these craftable.
+/obj/item/alch/hag_moss/enchanted/rotting
+	name = "Rotting Moss"
 	boon_path = /datum/hag_boon/curse/rotting_touch
 	color = "#4b5320"
 
+/obj/item/alch/hag_moss/enchanted/soaked
+	name = "Soaked Moss"
+	boon_path = /datum/hag_boon/buff/curse/waterlogged
+	color = "#203653"
+
+// Proper mosses
 /obj/item/alch/hag_moss/enchanted/deathless
 	name = "Stormy Moss"
 	boon_path = /datum/hag_boon/buff/storm_rebirth
