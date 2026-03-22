@@ -208,3 +208,58 @@
 	name = "Drowned Moss"
 	boon_path = /datum/hag_boon/spell/banish
 	color = "#037981"
+
+// Trait mosses
+/obj/item/alch/hag_moss/enchanted/random
+	name = "Unstable Moss"
+	/// The master list of all valid trait boons, built once on startup.
+	var/static/list/trait_pool
+
+/obj/item/alch/hag_moss/enchanted/random/Initialize(mapload)
+	. = ..()
+	if(!trait_pool)
+		trait_pool = list()
+		for(var/path in typesof(/datum/hag_boon/trait))
+			var/datum/hag_boon/trait/dummy = path
+			if(initial(dummy.hag_curse) || path == /datum/hag_boon/trait) 
+				continue
+			trait_pool += path
+
+	var/list/valid_options = list()
+	for(var/path in trait_pool)
+		var/p_val = initial(path:points)
+		if(is_in_range(p_val))
+			valid_options += path
+
+	if(length(valid_options))
+		boon_path = pick(valid_options)
+		name = "[initial(boon_path:name)] Moss"
+	else
+		stack_trace("Hag Moss at [get_turf(src)] failed to find a trait in its point range!")
+		qdel(src)
+
+/obj/item/alch/hag_moss/enchanted/random/proc/is_in_range(val)
+	return FALSE
+
+// --- The Three Tiers ---
+
+/obj/item/alch/hag_moss/enchanted/random/low
+	name = "Faded Moss"
+	color = "#a9a9a9"
+
+/obj/item/alch/hag_moss/enchanted/random/low/is_in_range(val)
+		return val <= 50
+
+/obj/item/alch/hag_moss/enchanted/random/mid
+	name = "Lustrous Moss"
+	color = "#3db1ff"
+
+/obj/item/alch/hag_moss/enchanted/random/mid/is_in_range(val)
+		return val >= 51 && val <= 75
+
+/obj/item/alch/hag_moss/enchanted/random/high
+	name = "Prismatic Moss"
+	color = "#ff3de1"
+
+/obj/item/alch/hag_moss/enchanted/random/high/is_in_range(val)
+		return val >= 76
