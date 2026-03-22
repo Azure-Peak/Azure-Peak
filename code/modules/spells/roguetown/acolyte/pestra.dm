@@ -14,10 +14,10 @@
 	antimagic_allowed = TRUE
 	recharge_time = 5 SECONDS
 	miracle = TRUE
-	devotion_cost = 10
+	devotion_cost = 30
 
 /obj/effect/proc_holder/spell/invoked/diagnose/cast(list/targets, mob/living/user)
-
+	var/skill_level = user.get_skill_level(src.associated_skill)
 	var/atom/target = targets[1]
 	if(!target || !ishuman(user) || !ishuman(target))
 		revert_cast()
@@ -26,35 +26,34 @@
 	var/mob/living/carbon/human/human_target = target
 	var/intellectual = HAS_TRAIT(user, TRAIT_INTELLECTUAL)
 
-	// Only do Assess-style logic if NOT a miracle
+	// Only do Assess-style diagnose if NOT a miracle
 	if(!miracle)
 		// --- Distance check ---
+		user.visible_message(pick("[user] observes [target] thoroughly...","[user] rubs their chin while looking [target] over...","[user] furrows a brow while scanning [target]..."))
+		user.emote("hmm")
+
 		var/base_distance = 4
 		if(intellectual)
 			base_distance += 2
 		if(get_dist(user, human_target) > base_distance)
 			if(user != human_target) // Only react if the other moved
 				to_chat(user, span_info("They've moved too far away to diagnose!"))
-				if(prob(50))
+				if(prob(60))
 					user.visible_message("[user] looks a bit annoyed.")
 					user.emote(pick("grumble","sigh","groan"))
 			revert_cast()
 			return FALSE
 
-		user.visible_message("[user] pauses thoughtfully...")
-		user.emote("hmm")
-
 		// --- Skill-based delay ---
-		var/skill_level = user.get_skill_level(src.associated_skill)
 		var/delay = 7
 		switch(skill_level)
-			if(SKILL_LEVEL_NONE)        delay = 100
-			if(SKILL_LEVEL_NOVICE)      delay = 70
-			if(SKILL_LEVEL_APPRENTICE)  delay = 60
+			if(SKILL_LEVEL_NONE)        delay = 120
+			if(SKILL_LEVEL_NOVICE)      delay = 90
+			if(SKILL_LEVEL_APPRENTICE)  delay = 70
 			if(SKILL_LEVEL_JOURNEYMAN)  delay = 50
-			if(SKILL_LEVEL_EXPERT)      delay = 40
-			if(SKILL_LEVEL_MASTER)      delay = 30
-			if(SKILL_LEVEL_LEGENDARY)   delay = 20
+			if(SKILL_LEVEL_EXPERT)      delay = 30
+			if(SKILL_LEVEL_MASTER)      delay = 20
+			if(SKILL_LEVEL_LEGENDARY)   delay = 0
 
 		// Intellectual doubles speed
 		if(intellectual)
@@ -77,20 +76,20 @@
 
 		if(human_target.reagents.has_reagent(/datum/reagent/infection/major))
 			to_chat(user, span_boldred("The humors run foul with putrid streaks and blackened veins, marking a severe pestilence."))
-			if(miracle || HAS_TRAIT(user, TRAIT_INTELLECTUAL))
+			if(miracle || HAS_TRAIT(user, TRAIT_INTELLECTUAL) || skill_level >= SKILL_LEVEL_EXPERT)
 				to_chat(user, span_necrosis("<i>I see a major infection.<i>"))
 		else if(human_target.reagents.has_reagent(/datum/reagent/infection))
 			to_chat(user, span_boldwarning("The flesh is inflamed and burning; the patient suffers a strong malady."))
-			if(miracle || HAS_TRAIT(user, TRAIT_INTELLECTUAL))
+			if(miracle || HAS_TRAIT(user, TRAIT_INTELLECTUAL) || skill_level >= SKILL_LEVEL_EXPERT)
 				to_chat(user, span_necrosis("<i>I see an infection.<i>"))
 		else if(human_target.reagents.has_reagent(/datum/reagent/infection/minor))
 			to_chat(user, span_warning("A creeping malaise stirs beneath the flesh; the humors are mildly unbalanced."))
-			if(miracle || HAS_TRAIT(user, TRAIT_INTELLECTUAL))
+			if(miracle || HAS_TRAIT(user, TRAIT_INTELLECTUAL) || skill_level >= SKILL_LEVEL_EXPERT)
 				to_chat(user, span_necrosis("<i>I see a minor infection.<i>"))
 
 		if(human_target.has_status_effect(/datum/status_effect/zombie_infection))
 			to_chat(user, span_infection("Their humors are infected and rapidly rotting into the ones of a DEADITE!"))
-			if(miracle || HAS_TRAIT(user, TRAIT_INTELLECTUAL))
+			if(miracle || HAS_TRAIT(user, TRAIT_INTELLECTUAL) || skill_level >= SKILL_LEVEL_EXPERT)
 				to_chat(user, span_necrosis("<i>Their rot needs to be burned fast, before turn into a Deadite!<i>"))
 
 		var/datum/status_effect/black_rot/rot = human_target.has_status_effect(/datum/status_effect/black_rot)
@@ -104,7 +103,7 @@
 					to_chat(user, span_necrosis("The BLACK ROT boils within; flesh weakens and begins to fail."))
 				if(4)
 					to_chat(user, span_necrosis("The body succumbs to total necrosis from the BLACK ROT — death is imminent!"))
-			if(miracle || HAS_TRAIT(user, TRAIT_INTELLECTUAL))
+			if(miracle || HAS_TRAIT(user, TRAIT_INTELLECTUAL) || skill_level >= SKILL_LEVEL_EXPERT)
 				to_chat(user, span_necrosis("<i>Heartblood will delay the inevitable, but try going for a cure.<i>"))
 		var/has_cheele = FALSE
 		for(var/obj/item/bodypart/BP in human_target.bodyparts)
@@ -120,7 +119,7 @@
 				if(R.volume > 0 && R.type != /datum/reagent/water && R.type != /datum/reagent/consumable/nutriment)
 					names += R.name
 			if(names.len)
-				if(miracle || HAS_TRAIT(user, TRAIT_INTELLECTUAL))
+				if(miracle || HAS_TRAIT(user, TRAIT_INTELLECTUAL) || skill_level >= SKILL_LEVEL_EXPERT)
 					to_chat(user, span_necrosis("Looking at the Cheele's reactions... I estimate they may have [english_list(names)] in their bloodstream."))
 				else
 					to_chat(user, span_red("Looking at the Cheele's reactions... I estimate they may have something running in their bloodstream."))
@@ -128,14 +127,36 @@
 				to_chat(user, span_blue("Looking at the Cheele's reactions... Their humors run clear; no foreign tinctures or substances are detected."))
 
 		var/bleed_rate = human_target.get_bleed_rate()
-		if(bleed_rate)
-			if(miracle || HAS_TRAIT(user, TRAIT_INTELLECTUAL))
-				to_chat(user, span_bloody("<i>Bleeding rate: [bleed_rate]%<i>"))
-	
-		if(miracle || HAS_TRAIT(user, TRAIT_INTELLECTUAL))
-			to_chat(user, span_bloody("<i>Blood volume: [human_target.blood_volume]%<i>"))
+		var/blood_volume = human_target.blood_volume
+		var/bleed_percent = round((bleed_rate / BLOOD_VOLUME_NORMAL) * 100)
+		var/blood_percent = round((blood_volume / BLOOD_VOLUME_NORMAL) * 100)
 
-		if(miracle || HAS_TRAIT(user, TRAIT_INTELLECTUAL))
+		if(bleed_rate)
+			if(miracle || HAS_TRAIT(user, TRAIT_INTELLECTUAL) || skill_level >= SKILL_LEVEL_EXPERT)
+				to_chat(user, span_bloody("<i>Bleeding rate: [bleed_rate]u/sec ([bleed_percent]%/sec)</i>"))
+			else
+				if(bleed_rate < 5)
+					to_chat(user, span_bloody("They are bleeding, but the body can likely keep up."))
+				else if(bleed_rate < 10)
+					to_chat(user, span_bloody("They are bleeding a lot, staunching might be necessary!"))
+				else
+					to_chat(user, span_bloody("They are bleeding faster than they can recover blood!"))
+
+		if(miracle || HAS_TRAIT(user, TRAIT_INTELLECTUAL) || skill_level >= SKILL_LEVEL_EXPERT)
+			to_chat(user, span_bloody("<i>Blood volume: [blood_volume]u ([blood_percent]%)</i>"))
+		else
+			if(blood_volume > BLOOD_VOLUME_SAFE)
+				to_chat(user, span_notice("Blood levels are stable."))
+			else if(blood_volume > BLOOD_VOLUME_OKAY)
+				to_chat(user, span_warning("Blood levels are lowered; monitor closely."))
+			else if(blood_volume > BLOOD_VOLUME_BAD)
+				to_chat(user, span_boldwarning("Blood levels are dangerously low! Immediate transfusion needed!"))
+			else if(blood_volume > BLOOD_VOLUME_SURVIVE)
+				to_chat(user, span_boldred("Blood levels are critical! Death may follow soon!"))
+			else
+				to_chat(user, span_purple("Blood levels are fatal. They cannot survive much longer!"))
+
+		if(miracle || HAS_TRAIT(user, TRAIT_INTELLECTUAL) || skill_level >= SKILL_LEVEL_EXPERT)
 			to_chat(user, span_necrosis("<i>Toxicity levels around... [human_target.toxloss]%<i>"))
 		else
 			switch(human_target.toxloss)
@@ -151,7 +172,7 @@
 				if(150 to INFINITY)
 					to_chat(user, span_purple("Their body is completely and utterly ravaged by toxins; Pestra rest their soul."))
 		
-		if(miracle || HAS_TRAIT(user, TRAIT_INTELLECTUAL))
+		if(miracle || HAS_TRAIT(user, TRAIT_INTELLECTUAL) || skill_level >= SKILL_LEVEL_EXPERT)
 			to_chat(user, span_blue("<i>Suffocation levels around... [human_target.oxyloss]%<i>"))
 		else
 			switch(human_target.oxyloss)
