@@ -3,6 +3,7 @@
 	var/trait_to_apply
 	points = 5
 	transmutable = TRUE
+	hag_trait = TRUE
 
 /datum/hag_boon/trait/apply_boon_effect(mob/living/L)
 	if(trait_to_apply)

@@ -17,7 +17,18 @@
 	var/static/list/curse_registry = list(
 		/datum/hag_boon/curse/rotting_touch = list("cost" = 1, "min_tier" = 1),
 		/datum/hag_boon/buff/curse/choking_moss = list("cost" = 40, "min_tier" = 1),
-		/datum/hag_boon/buff/curse/waterlogged= list("cost" = 25, "min_tier" = 1),
+		/datum/hag_boon/buff/curse/waterlogged = list("cost" = 25, "min_tier" = 1),
+		/datum/hag_boon/buff/curse/slumber = list("cost" = 20, "min_tier" = 1),
+		// Trait Curses - Tier 1 (1 - 50 points)
+		/datum/hag_boon/trait/curse/ugly = list("cost" = 10, "min_tier" = 1),
+		/datum/hag_boon/trait/curse/comic_sans = list("cost" = 20, "min_tier" = 1),
+		/datum/hag_boon/trait/curse/silver_weakness = list("cost" = 50, "min_tier" = 1),
+		// Trait Curses - Tier 2 (51 - 75 points)
+		/datum/hag_boon/trait/curse/no_run = list("cost" = 60, "min_tier" = 2),
+		/datum/hag_boon/trait/curse/critical_weakness = list("cost" = 75, "min_tier" = 2),
+		// Trait Curses - Tier 3 (76+ points)
+		/datum/hag_boon/trait/curse/no_spells = list("cost" = 100, "min_tier" = 3),
+		/datum/hag_boon/trait/curse/mute = list("cost" = 100, "min_tier" = 3),
 	)
 	/// List of boon paths the hag has pre-prepared: [boon_path] = quantity
 	var/list/prepared_boons = list()
@@ -124,6 +135,8 @@
 	var/list/data = list()
 	for(var/path in curse_registry)
 		var/list/details = curse_registry[path]
+		if(details["min_tier"] > hag_tier)
+			continue
 		data += list(list(
 			"name" = initial(path:name),
 			"path" = "[path]",
@@ -141,6 +154,35 @@
 	var/datum/hag_boon/curse/C = new curse_path(true_name, src, points)
 	name_list += C
 
+	var/datum/hag_boon/curse_scar/scar = find_boon_by_type(true_name, /datum/hag_boon/curse_scar)
+	if(scar)
+		scar.points += points
+	else
+		scar = new /datum/hag_boon/curse_scar(true_name, src, points)
+		name_list += scar
+	check_tier_upgrade()
+
+/datum/component/hag_curio_tracker/proc/check_tier_upgrade()
+	var/scar_60_count = 0
+	var/has_scar_20 = FALSE
+
+	for(var/t_name in boon_registry)
+		var/datum/hag_boon/curse_scar/S = find_boon_by_type(t_name, /datum/hag_boon/curse_scar)
+		if(!S)
+			continue
+		if(S.points >= 60)
+			scar_60_count++
+		if(S.points >= 20)
+			has_scar_20 = TRUE
+
+	if(hag_tier == 1 && has_scar_20)
+		hag_tier = 2
+		to_chat(parent, span_boldnotice("Your connection to the Mossmother's roots deepens. You have reached Tier 2."))
+
+	if(hag_tier == 2 && scar_60_count >= 2)
+		hag_tier = 3
+		to_chat(parent, span_boldnotice("The Mossmother sees you. You have reached Tier 3."))
+
 /datum/component/hag_curio_tracker/proc/find_target(true_name)
 	// Less heavy of a check than in boons itself.
 	// Don't use this proc if the player's mind is in question...
@@ -155,7 +197,6 @@
 	return TRUE
 
 /datum/component/hag_curio_tracker/proc/user_can_receive_boon(boon_path, name_to_check)
-	// TODO - Implement limits here so people can't have infinity boons...
 	if(find_boon_by_type(name_to_check, boon_path))
 		to_chat(parent, span_warning("[name_to_check] already carries this pact!"))
 		return FALSE
@@ -164,6 +205,59 @@
 	// Look as fun as magically enhanced werewolves would be, no.
 	if(L && !antag_check(L))
 		to_chat(parent, span_warning("[name_to_check] can't hold your ancient magycks, they are already blessed by another force."))
+		return FALSE
+
+	// Checking to see if we aren't blessing too many people.
+	var/active_victims = 0
+	for(var/v_name in boon_registry)
+		var/total_v_points = 0
+		for(var/datum/hag_boon/B in boon_registry[v_name])
+			if(B.hag_is_valid)
+				total_v_points += B.points
+				break
+		if(total_v_points > 0) active_victims++
+
+	var/max_victims
+	var/max_points
+	switch(hag_tier)
+		if(1)
+			max_victims = 4
+			max_points = 60
+		if(2)
+			max_victims = 5
+			max_points = 85
+		else
+			max_victims = 6
+			max_points = 110
+
+	// No new people past the limit, but old people is fine.
+	if(!boon_registry[name_to_check] && active_victims >= max_victims)
+		to_chat(parent, span_warning("Your spirit cannot tether more than [max_victims] souls at this tier."))
+		to_chat(world, span_warning("Your spirit cannot tether more than [max_victims] souls at this tier."))
+		return FALSE
+
+	// 3 traits per person. We don't want hags to only give out traits...
+	var/current_total_points = 0
+	var/trait_boon_count = 0
+	if(boon_registry[name_to_check])
+		for(var/datum/hag_boon/B in boon_registry[name_to_check])
+			if(!B.hag_is_valid || B.hag_curse)
+				continue
+			current_total_points += B.points
+			if(B.hag_trait)
+				trait_boon_count++
+
+	var/datum/hag_boon/checking = boon_path // Cast for initial access
+	if(initial(checking.hag_trait) && trait_boon_count >= 3)
+		to_chat(parent, span_warning("[name_to_check]'s body cannot withstand more than 3 trait-altering boons!"))
+		to_chat(world, span_warning("[name_to_check]'s body cannot withstand more than 3 trait-altering boons!"))
+		return FALSE
+
+	// Finally, tier limits. Higher tiers allow for more powerful boons, and more boons overall.
+	var/new_boon_points = initial(checking.points)
+	if((current_total_points + new_boon_points) > max_points)
+		to_chat(parent, span_warning("This blessing is too heavy. [name_to_check] only has room for [max_points - current_total_points] more points of power."))
+		to_chat(world, span_warning("This blessing is too heavy. [name_to_check] only has room for [max_points - current_total_points] more points of power."))
 		return FALSE
 
 	// Spell check!

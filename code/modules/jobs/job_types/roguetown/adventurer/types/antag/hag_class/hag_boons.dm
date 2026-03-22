@@ -15,6 +15,15 @@
 	/// Some boons can only be triggered into specific curses, rather than free form.
 	var/transmutable = TRUE
 	var/hag_curse = FALSE
+	var/hag_is_valid = TRUE
+	var/hag_trait = FALSE
+
+/datum/hag_boon/curse_scar
+    name = "Curse Scar"
+    desc = "A lingering mark of a previous pact. It represents the toll taken on the soul, claimed by the Mossmother."
+    points = 0
+    transmutable = FALSE
+    hag_curse = FALSE
 
 /datum/hag_boon/New(t_name, datum/component/hag_curio_tracker/T, set_points)
 	src.time_granted = world.time
@@ -54,6 +63,7 @@
 
 /datum/hag_boon/item_debt
 	name = "Material Pact"
+	hag_is_valid = FALSE
 
 /datum/hag_boon/item_debt/proc/add_points(amt)
 	points += amt
