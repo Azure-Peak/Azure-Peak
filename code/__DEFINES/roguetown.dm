@@ -79,6 +79,18 @@ Balloon Alert / Floating Text defines
 	/datum/species/dracon,\
 	/datum/species/dwarf/gnome\
 
+#define RACES_RESPECTED_NO_AASIMAR \
+	/datum/species/human/northern,\
+	/datum/species/elf/wood,\
+	/datum/species/elf/sun,\
+	/datum/species/human/halfelf,\
+	/datum/species/dwarf/mountain,\
+	/datum/species/lupian,\
+	/datum/species/vulpkanin,\
+	/datum/species/moth,\
+	/datum/species/dracon,\
+	/datum/species/dwarf/gnome\
+
 #define RACES_TOLERATED \
 	/datum/species/elf/dark,\
 	/datum/species/tieberian,\
@@ -105,6 +117,8 @@ Balloon Alert / Floating Text defines
 #define ACCEPTED_RACES list(RACES_SHUNNED, RACES_TOLERATED, RACES_RESPECTED, RACES_CONSTRUCT)	//Allows all races except dullahan
 
 #define RACES_NO_CONSTRUCT list(RACES_SHUNNED, RACES_TOLERATED, RACES_RESPECTED, RACES_DESPISED) //now actually just no construct, includes dullahan
+
+#define RACES_SHUNNED_UP_NO_AASIMAR list(RACES_SHUNNED, RACES_TOLERATED, RACES_RESPECTED_NO_AASIMAR)
 
 #define RACES_SHUNNED_UP list(RACES_SHUNNED, RACES_TOLERATED, RACES_RESPECTED)
 
