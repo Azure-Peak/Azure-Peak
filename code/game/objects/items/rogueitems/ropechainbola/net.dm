@@ -6,12 +6,11 @@
 	slot_flags = ITEM_SLOT_HIP|ITEM_SLOT_WRISTS
 	force = 10
 	throwforce = 5
+	throw_range = 9
 	w_class = WEIGHT_CLASS_SMALL
 	icon_state = "net"
-	slipouttime = 5 SECONDS //ideally you're using this to catch a dodger, not in the middle of combat
 	gender = NEUTER
-	throw_speed = 2
-	var/knockdown = 0
+	throw_speed = 0.8
 
 /obj/item/net/Initialize()
 	. = ..()
@@ -39,22 +38,34 @@
 /obj/item/net/throw_impact(atom/hit_atom, datum/thrownthing/throwingdatum)
 	if(..() || !iscarbon(hit_atom))//if it gets caught or the target can't be cuffed,
 		return//abort
-	ensnare(hit_atom)
-	// Nets always fall off after 30 seconds resist or not, so that the advantage it brings you is limited
-	// Being hit by a net and instalossing isn't fun for anyone because removing can be interrupted
-	addtimer(CALLBACK(src, PROC_REF(remove_effect)), 30 SECONDS, TIMER_OVERRIDE|TIMER_UNIQUE)
+	if(throwingdatum)
+		ensnare(hit_atom, throwingdatum.dist_travelled)
 
-/obj/item/net/proc/ensnare(mob/living/carbon/C)
+/obj/item/net/proc/ensnare(mob/living/carbon/C, dist_travelled)
 	if(!C.legcuffed && C.get_num_legs(FALSE) >= 2)
-		visible_message("<span class='danger'>\The [src] ensnares [C]!</span>")
-		C.legcuffed = src
-		forceMove(C)
-		C.update_inv_legcuffed()
-		SSblackbox.record_feedback("tally", "handcuffs", 1, type)
-		to_chat(C, "<span class='danger'>\The [src] entraps you!</span>")
-		C.Knockdown(knockdown)
-		C.apply_status_effect(/datum/status_effect/debuff/netted)
-		playsound(src, 'sound/blank.ogg', 50, TRUE)
+		switch(dist_travelled)
+			if(0 to 2)	//Point-blank. Easy to land, so it does nothing.
+				C.Immobilize(0.75 SECONDS)
+			if(3 to 5)	//Some actual aiming happened.
+				C.Immobilize(2.5 SECONDS)
+				C.OffBalance(3 SECONDS)
+				C.apply_status_effect(/datum/status_effect/debuff/vulnerable, 3 SECONDS)
+				C.apply_status_effect(/datum/status_effect/debuff/netted, 5 SECONDS)
+				visible_message("<span class='danger'>\The [src] ensnares [C]!</span>")
+				to_chat(C, "<span class='danger'>\The [src] entraps you!</span>")
+				playsound(C, 'sound/effects/net_impact.ogg', 100, TRUE)
+				qdel(src)
+			if(6 to 99)	//Aced it across the screen.
+				C.Knockdown(3 SECONDS)
+				C.apply_status_effect(/datum/status_effect/debuff/exposed, 3 SECONDS)
+				C.apply_status_effect(/datum/status_effect/debuff/netted, 9 SECONDS)
+				visible_message("<span class='danger'>\The [src] <b>EXPERTLY</b> ensnares [C]!</span>")
+				to_chat(C, "<span class='danger'>\The [src] <b>EXPERTLY</b> entraps you!</span>")
+				playsound(C, 'sound/effects/net_impact_heavy.ogg', 100, TRUE, 5)
+				qdel(src)
+			else //Uh, negative / null dist travelled?
+				return
+
 
 // Failsafe in case the item somehow ends up being destroyed
 /obj/item/net/Destroy()

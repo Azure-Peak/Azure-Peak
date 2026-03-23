@@ -7,6 +7,8 @@
 	pixel_x = -2
 	pixel_y = 7
 	faction = list("spider_lowers")
+	threat_point = THREAT_DANGEROUS
+	ambush_faction = "underdark"
 	gender = MALE
 	icon_state = "drider"
 	icon_living = "drider"

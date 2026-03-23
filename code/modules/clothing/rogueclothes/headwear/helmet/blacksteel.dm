@@ -5,6 +5,7 @@
 	icon_state = "bplatehelm"
 	item_state = "bplatehelm"
 	adjustable = CAN_CADJUST
+	flags_inv = HIDEEARS|HIDEFACE|HIDESNOUT|HIDEHAIR
 
 /obj/item/clothing/head/roguetown/helmet/blacksteel/modern/ComponentInitialize()
 	AddComponent(/datum/component/adjustable_clothing, (HEAD|EARS|HAIR), (HIDEEARS|HIDEHAIR), null, 'sound/items/visor.ogg', null, UPD_HEAD)	//Standard helmet
@@ -60,7 +61,6 @@
 	flags_inv = HIDEEARS|HIDEFACE|HIDESNOUT
 	flags_cover = HEADCOVERSEYES | HEADCOVERSMOUTH
 	armor = ARMOR_PLATE_BSTEEL
-	prevent_crits = PREVENT_CRITS_ALL
 	block2add = FOV_BEHIND
 	max_integrity = ARMOR_INT_HELMET_BLACKSTEEL
 	smeltresult = /obj/item/ingot/blacksteel
@@ -83,7 +83,6 @@
 	mob_overlay_icon = 'icons/roguetown/clothing/special/onmob/crusader.dmi'
 	smeltresult = /obj/item/ingot/blacksteel
 	armor = ARMOR_PLATE_BSTEEL
-	prevent_crits = PREVENT_CRITS_ALL
 	block2add = FOV_BEHIND
 	max_integrity = ARMOR_INT_HELMET_BLACKSTEEL
 	smelt_bar_num = 2
@@ -103,6 +102,7 @@
 	alternate_worn_layer  = 8.9 //On top of helmet
 	slot_flags = ITEM_SLOT_HEAD|ITEM_SLOT_MASK
 	armor_class = ARMOR_CLASS_NONE
+	block2add = FOV_DEFAULT
 
 /obj/item/clothing/head/roguetown/helmet/blacksteel/psythorns/attack_self(mob/living/user)
 	. = ..()

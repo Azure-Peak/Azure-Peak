@@ -328,6 +328,7 @@ GLOBAL_LIST_EMPTY(redstone_objs)
 	var/unlocksound = 'sound/foley/doors/woodlock.ogg'
 	var/rattlesound = 'sound/foley/doors/lockrattle.ogg'
 	var/masterkey = TRUE //if masterkey can open this regardless
+	debris = list(/obj/item/roguegear = 1, /obj/item/natural/wood/plank = 1, /obj/item/gun/ballistic/revolver/grenadelauncher/crossbow = 1)
 	
 /obj/structure/englauncher/Initialize()
 	. = ..()

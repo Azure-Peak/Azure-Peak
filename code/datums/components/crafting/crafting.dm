@@ -297,6 +297,8 @@
 						if(HAS_TRAIT(L, TRAIT_INTELLECTUAL) && L.STAINT > 8)
 							prob2craft += 5
 					prob2craft = CLAMP(prob2craft, 0, 99)
+					if(i == 100 && prob2craft > 0)
+						prob2craft = 100
 					if(!prob(prob2craft))
 						if(user.client?.prefs.showrolls)
 							to_chat(user, span_danger("I've failed to craft \the [R.name]... [prob2craft]%"))

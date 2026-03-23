@@ -1,4 +1,0 @@
-author: "PatapoIIIa"
-delete-after: True
-changes:
-  - bugfix: "Fixed a bug with the Transfix spell that caused its difficulty to infinitely increase each time it was used against targets in combat mode."

@@ -591,6 +591,10 @@
 	if(input != QINTENT_SPELL)
 		if(ranged_ability)
 			ranged_ability.deactivate()
+		// Also clear new-style cooldown spells set on click_intercept
+		var/datum/action/cooldown/active_cooldown = click_intercept
+		if(istype(active_cooldown))
+			active_cooldown.unset_click_ability(src, refund_cooldown = TRUE)
 	switch(input)
 		if(QINTENT_KICK)
 			if(mmb_intent?.type == INTENT_KICK)
@@ -637,7 +641,6 @@
 				qdel(mmb_intent)
 
 			mmb_intent = new INTENT_SPELL(src)
-			mmb_intent.releasedrain = ranged_ability.get_fatigue_drain()
 			mmb_intent.chargedrain = ranged_ability.chargedrain
 			mmb_intent.chargetime = ranged_ability.get_chargetime()
 			mmb_intent.warnie = ranged_ability.warnie

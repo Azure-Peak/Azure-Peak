@@ -100,7 +100,7 @@
 			if("macebearer")
 				H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/shatter)
 				H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/tremor)
-				H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/charge)
+				H.mind.AddSpell(new /obj/effect/proc_holder/spell/self/charge)
 				H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/cataclysm)
 
 		H.mind.AddSpell(new /obj/effect/proc_holder/spell/self/recall_weapon)
@@ -120,7 +120,7 @@
 
 	switch(subclass_selected)
 		if("blade")
-			var/list/weapons = list("Moonlight Khopesh", "Longsword", "Rapier", "Sabre", "Steel Greatsword", "Steel Dagger")
+			var/list/weapons = list("Moonlight Khopesh", "Longsword", "Rapier", "Sabre", "Steel Arming Sword", "Steel Greatsword", "Steel Dagger")
 			var/weapon_choice = input(H, "Choose your weapon.", "TAKE UP ARMS") as anything in weapons
 			switch(weapon_choice)
 				if("Moonlight Khopesh")
@@ -134,6 +134,9 @@
 					H.equip_to_slot_or_del(new /obj/item/rogueweapon/scabbard/sword(H), SLOT_BELT_R, TRUE)
 				if("Sabre")
 					H.put_in_hands(new /obj/item/rogueweapon/sword/sabre(H))
+					H.equip_to_slot_or_del(new /obj/item/rogueweapon/scabbard/sword(H), SLOT_BELT_R, TRUE)
+				if("Steel Arming Sword")
+					H.put_in_hands(new /obj/item/rogueweapon/sword(H))
 					H.equip_to_slot_or_del(new /obj/item/rogueweapon/scabbard/sword(H), SLOT_BELT_R, TRUE)
 				if("Steel Greatsword")
 					H.put_in_hands(new /obj/item/rogueweapon/greatsword(H))

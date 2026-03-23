@@ -410,6 +410,31 @@
 		M.adjustFireLoss(-0.7  * REAGENTS_EFFECT_MULTIPLIER, 0)
 	..()
 
+/datum/reagent/consumable/ethanol/cider/ambrosia
+	name = "Ambrosia"
+	boozepwr = 100 //Strong Lifeblood, in essence, that'll also leave you completely sloshed. In jubilation, of course!
+	taste_description = "divine bliss with hints of appled crispness, followed by what feels like a greatmaul to the forehead"
+	color = "#FFD700"
+	quality = DRINK_FANTASTIC
+
+/datum/reagent/consumable/ethanol/cider/ambrosia/on_mob_life(mob/living/carbon/M)
+	if(ishuman(M))
+		if(M.blood_volume < BLOOD_VOLUME_NORMAL)
+			M.blood_volume = min(M.blood_volume+20, BLOOD_VOLUME_NORMAL)
+	var/list/wCount = M.get_wounds()
+	if(wCount.len > 0)
+		M.heal_wounds(4)
+	if(volume > 0.99)
+		M.adjustBruteLoss(-5  * REAGENTS_EFFECT_MULTIPLIER, 0)
+		M.adjustFireLoss(-5  * REAGENTS_EFFECT_MULTIPLIER, 0)
+		M.adjustOxyLoss(-5, 0)
+		M.adjustOrganLoss(ORGAN_SLOT_BRAIN, -5  * REAGENTS_EFFECT_MULTIPLIER)
+		M.adjustCloneLoss(-5  * REAGENTS_EFFECT_MULTIPLIER, 0)
+		M.adjustOrganLoss(ORGAN_SLOT_EYES, -5 * REAGENTS_EFFECT_MULTIPLIER)
+	..()
+
+/datum/reagent/consumable/ethanol/cider/ambrosia
+
 // Elf Production - Berries & Herbal
 
 /datum/reagent/consumable/ethanol/elfred

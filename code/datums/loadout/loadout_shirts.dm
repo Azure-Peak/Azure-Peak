@@ -49,9 +49,9 @@
 	path = /obj/item/clothing/suit/roguetown/shirt/undershirt/priest
 	sort_category = "Shirts"
 
-/datum/loadout_item/exoticsilkbra
-	name = "Exotic Silk Bra"
-	path = /obj/item/clothing/suit/roguetown/shirt/exoticsilkbra
+/datum/loadout_item/silkbra
+	name = "Giltsilk Bra"
+	path = /obj/item/clothing/suit/roguetown/shirt/silkbra
 	sort_category = "Shirts"
 	cost = 2
 
@@ -164,3 +164,10 @@
 	name = "White Foreign Shirt"
 	path = /obj/item/clothing/suit/roguetown/shirt/undershirt/eastshirt2
 	sort_category = "Shirts"
+
+/datum/loadout_item/baredrobe
+	name = "Bared Robe"
+	path = /obj/item/clothing/suit/roguetown/shirt/robe/bared
+	sort_category = "Shirts"
+
+

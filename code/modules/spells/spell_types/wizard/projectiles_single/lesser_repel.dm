@@ -7,7 +7,7 @@
 	overlay_state = "fetch"
 	sound = list('sound/magic/unmagnet.ogg')
 	active = FALSE
-	releasedrain = 15
+	releasedrain = SPELLCOST_MINOR_PROJECTILE
 	chargedrain = 0
 	chargetime = 0
 	recharge_time = 15 SECONDS

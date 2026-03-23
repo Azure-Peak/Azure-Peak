@@ -14,11 +14,11 @@
 /obj/effect/proc_holder/spell/update_icon()
 	if(!action)
 		return
-	action.button_icon_state = "[base_icon_state][active]"
+	action.background_icon_state = "[base_icon_state][active]"
 	if(overlay_state)
-		action.overlay_state = overlay_state
+		action.button_icon_state = overlay_state
 	action.name = name
-	action.UpdateButtonIcon()
+	action.build_all_button_icons(force = TRUE)
 
 /obj/effect/proc_holder/spell/invoked/Click()
 	var/mob/living/user = usr
@@ -151,19 +151,69 @@
 
 /// Updates the ARC maptext indicator on the spell's action button using a dedicated holder.
 /obj/effect/proc_holder/spell/invoked/projectile/proc/update_arc_maptext()
-	if(!action?.button)
+	if(!action)
 		return
-	var/atom/movable/screen/movable/action_button/B = action.button
-	var/atom/movable/screen/arc_maptext_holder/arc_holder
-	// Find existing arc holder or create one
-	for(var/atom/movable/screen/arc_maptext_holder/existing in B.vis_contents)
-		arc_holder = existing
-		break
-	if(!arc_holder)
-		arc_holder = new(B)
-		B.vis_contents.Add(arc_holder)
-	if(arc_mode)
-		arc_holder.maptext = MAPTEXT("ARC")
-		arc_holder.color = "#00ccff"
-	else
-		arc_holder.maptext = null
+	for(var/datum/hud/hud as anything in action.viewers)
+		var/atom/movable/screen/movable/action_button/B = action.viewers[hud]
+		var/atom/movable/screen/arc_maptext_holder/arc_holder
+		// Find existing arc holder or create one
+		for(var/atom/movable/screen/arc_maptext_holder/existing in B.vis_contents)
+			arc_holder = existing
+			break
+		if(!arc_holder)
+			arc_holder = new(B)
+			B.vis_contents.Add(arc_holder)
+		if(arc_mode)
+			arc_holder.maptext = MAPTEXT("ARC")
+			arc_holder.color = "#00ccff"
+		else
+			arc_holder.maptext = null
+
+/obj/effect/proc_holder/spell/invoked/projectile/generate_wiki_html(mob/user)
+	var/html = ..()
+
+	var/proj_damage = initial(projectile_type:damage)
+	var/proj_damage_type = initial(projectile_type:damage_type)
+	var/proj_range = initial(projectile_type:range)
+	var/proj_speed = initial(projectile_type:speed)
+	var/proj_ap = initial(projectile_type:armor_penetration)
+	var/proj_npc_mult = initial(projectile_type:npc_simple_damage_mult)
+	var/proj_nodamage = initial(projectile_type:nodamage)
+	var/proj_guard = initial(projectile_type:guard_deflectable)
+
+	var/tiles_per_second = proj_speed > 0 ? round(10 / proj_speed, 0.1) : "Instant"
+
+	html += {"
+		<h3>Projectile</h3>
+		<table>
+			<tr><th>Projectile Range</th><td>[proj_range] tiles</td></tr>
+			<tr><th>Speed</th><td>[tiles_per_second] tiles/sec</td></tr>
+	"}
+
+	if(!proj_nodamage)
+		html += {"
+			<tr><th>Damage</th><td>[proj_damage] [proj_damage_type]</td></tr>
+		"}
+		if(proj_npc_mult != 1)
+			html += {"
+				<tr><th>NPC Damage Mult</th><td>[proj_npc_mult]x</td></tr>
+			"}
+
+	if(proj_ap)
+		html += {"
+			<tr><th>Armor Penetration</th><td>[proj_ap]</td></tr>
+		"}
+
+	html += {"
+			<tr><th>Deflectable</th><td>[proj_guard ? "Yes" : "No"]</td></tr>
+	"}
+
+	if(projectile_amount > 1)
+		html += {"
+			<tr><th>Projectiles per Cast</th><td>[projectile_amount]</td></tr>
+		"}
+
+	html += {"
+		</table>
+	"}
+	return html

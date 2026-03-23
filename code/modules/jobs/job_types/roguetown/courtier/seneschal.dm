@@ -28,6 +28,7 @@
 /datum/advclass/seneschal
 	traits_applied = list(TRAIT_CICERONE, TRAIT_HOMESTEAD_EXPERT, TRAIT_SEWING_EXPERT, TRAIT_ROYALSERVANT) // They have Expert Sewing
 	category_tags = list(CTAG_SENESCHAL)
+	age_mod = /datum/class_age_mod/seneschal
 
 /datum/advclass/seneschal/seneschal
 	name = "Seneschal"
@@ -39,7 +40,6 @@
 		STATKEY_LCK = 1, // Usual leadership carrot.
 		STATKEY_SPD = 1
 	)
-	age_mod = /datum/class_age_mod/seneschal
 	subclass_skills = list(
 		/datum/skill/combat/knives = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/misc/reading = SKILL_LEVEL_EXPERT,
@@ -59,8 +59,8 @@
 
 /datum/outfit/job/roguetown/seneschal/seneschal/pre_equip(mob/living/carbon/human/H)
 	..()
-	pants = /obj/item/clothing/under/roguetown/tights
-	shirt = /obj/item/clothing/suit/roguetown/shirt/undershirt/guard
+	pants = /obj/item/clothing/under/roguetown/tights/formalfancy
+	shirt = /obj/item/clothing/suit/roguetown/shirt/undershirt/formal
 	shoes = /obj/item/clothing/shoes/roguetown/shortboots
 	saiga_shoes = /obj/item/clothing/shoes/roguetown/horseshoes
 	backl = /obj/item/storage/backpack/rogue/satchel
@@ -68,8 +68,7 @@
 	beltr = /obj/item/storage/keyring/seneschal
 	beltl = /obj/item/storage/belt/rogue/pouch/coins/mid
 	id = /obj/item/scomstone/bad
-	if(should_wear_femme_clothes(H))
-		armor = /obj/item/clothing/suit/roguetown/armor/silkcoat
+	armor = /obj/item/clothing/suit/roguetown/armor/leather/heavy/tailcoat
 	if(H.mind)
 		SStreasury.give_money_account(ECONOMIC_UPPER_MIDDLE_CLASS, H, "Savings.")
 
@@ -99,9 +98,9 @@
 
 /datum/outfit/job/roguetown/seneschal/headmaid/pre_equip(mob/living/carbon/human/H)
 	..()
-	head = /obj/item/clothing/head/roguetown/maidhead
-	armor = /obj/item/clothing/suit/roguetown/shirt/dress/maid
-	cloak = /obj/item/clothing/cloak/apron/waist/maid
+	head = /obj/item/clothing/head/roguetown/maidband
+	armor = /obj/item/clothing/suit/roguetown/shirt/dress/maidservant
+	cloak = /obj/item/clothing/cloak/apron/waist/fancymaid
 	shoes = /obj/item/clothing/shoes/roguetown/simpleshoes
 	saiga_shoes = /obj/item/clothing/shoes/roguetown/horseshoes
 	backl = /obj/item/storage/backpack/rogue/satchel

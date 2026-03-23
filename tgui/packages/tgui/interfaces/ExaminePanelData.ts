@@ -14,4 +14,5 @@ export type ExaminePanelData = {
   has_song: boolean;
   is_vet: boolean;
   is_naked: boolean;
+  examine_theme: string | null;
 };

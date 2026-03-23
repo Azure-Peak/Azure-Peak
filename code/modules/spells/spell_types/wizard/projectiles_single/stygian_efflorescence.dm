@@ -10,7 +10,7 @@
 	overlay_state = "stygian"
 	sound = list('sound/magic/scrapeblade.ogg') //todo: this is Bad
 	active = FALSE
-	releasedrain = 20
+	releasedrain = SPELLCOST_MAJOR_PROJECTILE // It's a shotgun sire
 	chargedrain = 1
 	chargetime = 0
 	recharge_time = 20 SECONDS //probably fine.
@@ -36,7 +36,7 @@
 	icon_state = "stygian"
 	damage = 25
 	woundclass = BCLASS_STAB
-	armor_penetration = 20
+	armor_penetration = PEN_LIGHT
 	npc_simple_damage_mult = 1.4
 	speed = 2
 	ricochets_max = 4

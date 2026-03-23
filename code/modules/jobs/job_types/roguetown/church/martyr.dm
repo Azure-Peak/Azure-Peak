@@ -412,14 +412,14 @@
 				adjust_stats(current_state)	//Lowers the damage of the sword due to safe activation.
 				current_holder.energy = current_holder.max_energy
 				current_holder.stamina = 0
-				I.sharpness = I.max_blade_int
+				I.blade_int = I.max_blade_int
 			if(STATE_MARTYR)
 				end_activation = world.time + martyr_duration
 				I.max_integrity = 2000				//If you're committing, we repair the weapon and give it a boost so it lasts the whole fight
 				I.obj_integrity = I.max_integrity
 
 				I.max_blade_int = 9999
-				I.sharpness = I.max_blade_int
+				I.blade_int = I.max_blade_int
 				adjust_stats(current_state)	//Gives them extra stats.
 
 				current_holder.stamina = 0
@@ -432,7 +432,7 @@
 				I.obj_integrity = I.max_integrity
 
 				I.max_blade_int = 9999
-				I.sharpness = I.max_blade_int
+				I.blade_int = I.max_blade_int
 				
 				current_holder.adjust_skillrank(/datum/skill/misc/athletics, 6, FALSE)
 
@@ -891,7 +891,7 @@
 	force_wielded = 35
 	max_blade_int = 250
 	possible_item_intents = list(SPEAR_THRUST_1H, /datum/intent/spear/bash)
-	gripped_intents = list(/datum/intent/spear/thrust, /datum/intent/rend/reach/partizan, /datum/intent/partizan/peel, /datum/intent/spear/bash)
+	gripped_intents = list(/datum/intent/spear/thrust, /datum/intent/spear/cut, /datum/intent/rend/reach/partizan, /datum/intent/spear/bash)
 	icon_state = "martyrtrident"
 	icon = 'icons/roguetown/weapons/polearms64.dmi'
 	item_state = "martyrtrident"
@@ -932,7 +932,7 @@
 /datum/intent/rend/reach/partizan/martyr
 		item_d_type = "fire"
 
-/datum/intent/partizan/peel/martyr
+/datum/intent/spear/cut/martyr
 		item_d_type = "fire"
 
 
@@ -944,7 +944,7 @@
 		SSroguemachine.martyrweapon = src
 	if(!gc_destroyed)
 		var/list/active_intents = list(/datum/intent/spear/thrust/oneh/martyr, /datum/intent/spear/bash/martyr)
-		var/list/active_intents_wielded = list(/datum/intent/spear/thrust/martyr, /datum/intent/rend/reach/partizan/martyr, /datum/intent/partizan/peel/martyr, /datum/intent/spear/bash/martyr)
+		var/list/active_intents_wielded = list(/datum/intent/spear/thrust/martyr, /datum/intent/spear/cut/martyr, /datum/intent/rend/reach/partizan/martyr, /datum/intent/spear/bash/martyr)
 		var/safe_damage = 20
 		var/safe_damage_wielded = 25
 		AddComponent(/datum/component/martyrweapon, active_intents, active_intents_wielded, safe_damage, safe_damage_wielded)

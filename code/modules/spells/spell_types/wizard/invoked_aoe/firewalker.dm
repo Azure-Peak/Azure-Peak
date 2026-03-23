@@ -5,7 +5,7 @@
 	The ground under your feet will burn!"
 	cost = 4
 	xp_gain = TRUE
-	releasedrain = 30
+	releasedrain = SPELLCOST_MAJOR_AOE
 	chargedrain = 1
 	chargetime = 0.5 SECONDS
 	recharge_time = 45 SECONDS

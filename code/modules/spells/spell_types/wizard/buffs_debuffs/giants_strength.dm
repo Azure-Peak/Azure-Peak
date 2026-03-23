@@ -4,7 +4,7 @@
 	desc = "Strengthen the target. (+3 Strength)" // Design Note: +3 instead of +5 for direct damage stats
 	cost = 4 // Direct DPS stats
 	xp_gain = TRUE
-	releasedrain = 60
+	releasedrain = SPELLCOST_STAT_BUFF
 	chargedrain = 1
 	chargetime = 1 SECONDS
 	recharge_time = 2 MINUTES

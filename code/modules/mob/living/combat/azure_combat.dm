@@ -6,6 +6,9 @@
 		return
 	var/mob/living/carbon/human/H = user
 	if(!IU)	//The opponent is trying to rawdog us with their bare hands while we have Guard up. We get a free attack on their active hand.
+		if(!IM)	//We are also unarmed -- no clash or riposte without a weapon on the guarder's side.
+			remove_status_effect(/datum/status_effect/buff/clash)
+			return
 		var/obj/item/bodypart/affecting = H.get_bodypart("[(user.active_hand_index % 2 == 0) ? "r" : "l" ]_arm")
 		var/force = get_complex_damage(IM, src)
 		var/armor_block = H.run_armor_check(BODY_ZONE_PRECISE_L_HAND, used_intent.item_d_type, armor_penetration = used_intent.penfactor, damage = force, used_weapon = IM)
@@ -16,6 +19,17 @@
 			visible_message(span_suicide("[src] clashes into [user]'s hands with \the [IM]!"))
 		playsound(src, pick(used_intent.hitsound), 80)
 		remove_status_effect(/datum/status_effect/buff/clash)
+		apply_status_effect(/datum/status_effect/buff/adrenaline_rush)
+		return
+	if(!IM)	//We are guarding unarmed but they have a weapon -- no clash, just consume the guard to block the hit.
+		visible_message(span_warning("[src] deflects [H]'s strike with [p_their()] bare hands!"))
+		playsound(src, 'sound/combat/clash_struck.ogg', 100)
+		H.apply_status_effect(/datum/status_effect/debuff/exposed, 3 SECONDS)
+		H.apply_status_effect(/datum/status_effect/debuff/clickcd, 3 SECONDS)
+		H.Slowdown(3)
+		to_chat(src, span_notice("[capitalize(H.p_theyre())] exposed!"))
+		remove_status_effect(/datum/status_effect/buff/clash)
+		apply_status_effect(/datum/status_effect/buff/adrenaline_rush)
 		return
 	if(H.has_status_effect(/datum/status_effect/buff/clash))	//They also have Riposte active. It'll trigger the special event.
 		clash(user, IM, IU)
@@ -38,7 +52,6 @@
 		to_chat(src, span_notice("[capitalize(H.p_theyre())] exposed!"))
 		remove_status_effect(/datum/status_effect/buff/clash)
 		apply_status_effect(/datum/status_effect/buff/adrenaline_rush)
-		purge_peel(GUARD_PEEL_REDUCTION)
 		H.reset_desert_rider_momentum_tier()
 
 //This is a gargantuan, clunky proc that is meant to tally stats and weapon properties for the potential disarm.
@@ -161,7 +174,9 @@
 	if(has_status_effect(/datum/status_effect/buff/clash) || has_status_effect(/datum/status_effect/debuff/clashcd) || has_status_effect(/datum/status_effect/buff/clash/limbguard))
 		return FALSE
 	if(!get_active_held_item())
-		return FALSE
+		if(get_skill_level(/datum/skill/combat/unarmed) < 3)
+			to_chat(src, span_warning("I'm not skilled enough in the art of unarmed combat to guard without a weapon!"))
+			return FALSE
 	if(r_grab || l_grab || length(grabbedby))
 		return FALSE
 	if(IsImmobilized() || IsOffBalanced())
@@ -188,29 +203,12 @@
 	remove_status_effect(/datum/status_effect/buff/clash)
 	remove_status_effect(/datum/status_effect/buff/clash/limbguard)
 
-///Reduces Peel by some amount. Usually called after waiting out of combat for a while or by other effects (riposte / bait)
-/mob/living/carbon/human/proc/purge_peel(amt)
-	//Equipment slots manually picked out cus we don't have a proc for this apparently
-	var/list/slots = list(wear_armor, wear_pants, wear_wrists, wear_shirt, gloves, head, shoes, wear_neck, wear_mask, wear_ring)
-	for(var/slot in slots)
-		if(isnull(slot) || !istype(slot, /obj/item/clothing))
-			slots.Remove(slot)
-
-	for(var/obj/item/clothing/C in slots)
-		if(C.peel_count > 0)
-			C.reduce_peel(amt)
-
 ///Purges the singular possible bait stack after waiting for a bit out of combat.
 /mob/living/carbon/human/proc/purge_bait()
 	if(!cmode)
 		if(bait_stacks > 0)
 			bait_stacks = 0
 			to_chat(src, span_info("My focus and balance returns. I won't lose my footing if I am baited again."))
-
-///Called by a timer after toggling cmode off.
-/mob/living/carbon/human/proc/expire_peel()
-	if(!cmode)
-		purge_peel(99)
 
 ///A Unique Stat comparison between src and HT.
 ///It takes the highest stats up to 14 and lowest stats 'up to' 14.

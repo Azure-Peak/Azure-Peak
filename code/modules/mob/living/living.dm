@@ -908,7 +908,10 @@
 			if(admin_revive)
 				mind.remove_antag_datum(/datum/antagonist/zombie)
 			for(var/obj/effect/proc_holder/spell/spell as anything in mind.spell_list)
-				spell.updateButtonIcon()
+				spell.action?.build_all_button_icons()
+			// Reapply arcyne momentum if this mind had it before death
+			if(mind.has_arcyne_momentum && !has_status_effect(/datum/status_effect/buff/arcyne_momentum))
+				apply_status_effect(/datum/status_effect/buff/arcyne_momentum)
 		qdel(GetComponent(/datum/component/rot))
 
 /mob/living/proc/remove_CC(should_update_mobility = TRUE)
@@ -1118,6 +1121,13 @@
 
 	if(atkswinging)
 		stop_attack(FALSE)
+
+	// Deselect any active spell on resist
+	if(ranged_ability)
+		ranged_ability.deactivate(src)
+	var/datum/action/cooldown/active_cooldown = click_intercept
+	if(istype(active_cooldown))
+		active_cooldown.unset_click_ability(src, refund_cooldown = TRUE)
 
 	SEND_SIGNAL(src, COMSIG_LIVING_RESIST, src)
 	//resisting grabs (as if it helps anyone...)

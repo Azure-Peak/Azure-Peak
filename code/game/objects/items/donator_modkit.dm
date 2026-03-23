@@ -244,6 +244,12 @@
 	target_items = list(/obj/item/rogueweapon/sword/long)
 	result_item = /obj/item/rogueweapon/sword/long/drd
 
+//Lmwevil - Beak Mask
+/obj/item/enchantingkit/lmwevil_brassbeak
+	name = "brass beak mask morphing elixir"
+	target_items = list(/obj/item/clothing/mask/rogue/courtphysician, /obj/item/clothing/mask/rogue/physician)
+	result_item = /obj/item/clothing/mask/rogue/courtphysician/brassbeak
+
 /////////////////////////////
 // ! Triumph-Exc. Kits !   //
 /////////////////////////////

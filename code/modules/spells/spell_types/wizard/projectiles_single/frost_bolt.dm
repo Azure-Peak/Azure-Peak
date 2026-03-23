@@ -7,7 +7,7 @@
 	sound = list('sound/magic/whiteflame.ogg')
 	active = FALSE
 
-	releasedrain = 30
+	releasedrain = SPELLCOST_MINOR_PROJECTILE
 	chargedrain = 1
 	chargetime = 8
 	recharge_time = 6 SECONDS
@@ -35,7 +35,7 @@
 	damage = 20
 	npc_simple_damage_mult = 2
 	damage_type = BURN
-	flag = "magic"
+	flag = "fire"
 	range = 10
 	speed = 1
 	nodamage = FALSE

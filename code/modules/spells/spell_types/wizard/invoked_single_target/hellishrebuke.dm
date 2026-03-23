@@ -4,7 +4,7 @@
 	cost = 3
 	overlay_state = "hellish_rebuke"
 	xp_gain = TRUE
-	releasedrain = 10
+	releasedrain = SPELLCOST_MAJOR_PROJECTILE // Yeah it burns a lot at close range but frankly idk what this spell is supposed to do
 	chargedrain = 1
 	chargetime = 0.5 SECONDS
 	charging_slowdown = 2

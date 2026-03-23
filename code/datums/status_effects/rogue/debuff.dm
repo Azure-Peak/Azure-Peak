@@ -177,7 +177,11 @@
 	id = "net"
 	alert_type = /atom/movable/screen/alert/status_effect/debuff/netted
 	effectedstats = list(STATKEY_SPD = -5, STATKEY_WIL = -2)
-//	duration = 3 MINUTES // WHY?????
+
+/datum/status_effect/debuff/netted/on_creation(mob/living/new_owner, newdur)
+	if(newdur)
+		duration = newdur
+	. = ..()
 
 /datum/status_effect/debuff/netted/on_apply()
 		. = ..()
@@ -424,6 +428,10 @@
 /datum/status_effect/debuff/dazed/shield
 	effectedstats = list(STATKEY_PER = -3, STATKEY_LCK = -1)
 	duration = 8 SECONDS
+
+/datum/status_effect/debuff/dazed/skullshatter
+	effectedstats = list(STATKEY_PER = -1, STATKEY_INT = -1, STATKEY_SPD = -1)
+	duration = -1
 
 /atom/movable/screen/alert/status_effect/debuff/dazed
 	name = "Dazed"

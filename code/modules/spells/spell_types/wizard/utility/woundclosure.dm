@@ -6,7 +6,7 @@
 	overlay_icon = 'icons/mob/actions/genericmiracles.dmi'
 	overlay_state = "heal"
 	action_icon_state = "heal"
-	releasedrain = 35
+	releasedrain = SPELLCOST_MIRACLE
 	chargedrain = 0
 	chargetime = 3
 	recharge_time = 5 MINUTES

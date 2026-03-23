@@ -4,7 +4,7 @@
 	desc = "Makes one's hand travel true, blessing them with arcyne luck in combat. (+20% chance to bypass parry / dodge, +20% chance to parry / dodge)"
 	cost = 2
 	xp_gain = TRUE
-	releasedrain = 60
+	releasedrain = SPELLCOST_STAT_BUFF
 	chargedrain = 1
 	chargetime = 1 SECONDS
 	recharge_time = 2 MINUTES

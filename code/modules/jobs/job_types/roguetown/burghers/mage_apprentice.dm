@@ -10,7 +10,11 @@
 	spells = list()
 	advclass_cat_rolls = list(CTAG_WAPPRENTICE = 20)
 
-	tutorial = "Yils of study have led you to the University of Azuria. The Divine heals and protects. The arcyne arts, though useful, are far more suited to death and destruction. The Crown knows this, and provides a stipend to fund your studies and just as much your complacency, to not turn your magicks against the Crown. A comfortable tenure, a stipend, and a place to undergo your study. What more could a Mage ask for?"
+	tutorial = "Yils of study have led you to the University of Azuria. The Divine heals and protects. \
+	The arcyne arts, though useful, are far more suited to death and destruction. The Crown knows this, \
+	and provides a stipend to fund your studies and just as much your complacency, to not turn your \
+	magicks against the Crown. A comfortable tenure, a stipend, and a place to undergo your study. \
+	What more could a Mage ask for?"
 
 	outfit = /datum/outfit/job/roguetown/wapprentice
 
@@ -37,7 +41,12 @@
 
 /datum/advclass/wapprentice/associate
 	name = "Magician's Associate"
-	tutorial = "No one could truly master the entirety of the arcyne arts. But commanding the fundamentals is quite achievable. Deemed competent by your peers and mentor, you have become an Associate, paid a stipend to wield your power in the name of the Crown, or at least not against them. The Crown might want a bolt of lightning in their enemies back - after all, what else is the arcyne good for but war and destruction? But as many mages knows, wisdom and whimsy is the true calling of the Magi who has mastered the arts. The choice is yours."
+	tutorial = "No one could truly master the entirety of the arcyne arts. But commanding the fundamentals \
+	is quite achievable. Deemed competent by your peers and mentor, you have become an Associate, paid \
+	a stipend to wield your power in the name of the Crown, or at least not against them. The Crown might \
+	want a bolt of lightning in their enemies back - after all, what else is the arcyne good for but war \
+	and destruction? But as many mages knows, wisdom and whimsy is the true calling of the Magi who has \
+	mastered the arts. The choice is yours."
 	outfit = /datum/outfit/job/roguetown/wapprentice/associate
 
 	category_tags = list(CTAG_WAPPRENTICE)
@@ -93,7 +102,11 @@
 
 /datum/advclass/wapprentice/alchemist
 	name = "Alchemist Associate"
-	tutorial = "Some never considered alchemy a true arcyne art, but simply a foundation. Like a quill is to poetry. During your studies, however, you have taken to the passion of alchemy, the transmutation of elements and the creation of something concrete. Lyfeblood, elixirs, coal dust, moondust, ozium, and bottle bombs! All under Psydonia is yours to create! Just don't set the University on fire. Or do, but don't get caught."
+	tutorial = "Some never considered alchemy a true arcyne art, but simply a foundation. Like a quill is to \
+	poetry. During your studies, however, you have taken to the passion of alchemy, the transmutation of \
+	elements and the creation of something concrete. Lyfeblood, elixirs, coal dust, moondust, ozium, and \
+	bottle bombs! All under Psydonia is yours to create! Just don't set the University on fire. Or do, \
+	but don't get caught."
 	outfit = /datum/outfit/job/roguetown/wapprentice/alchemist
 
 	category_tags = list(CTAG_WAPPRENTICE)
@@ -150,7 +163,11 @@
 
 /datum/advclass/wapprentice/apprentice
 	name = "Magician's Apprentice"
-	tutorial = "The road to arcyne mastery is long and treacherous. Books, scrolls, gems, studies, singed hair, and summoning gone wrong. Expenses and death alike, it is not a path for the pauper or the coward. You, however, were given a place as an apprentice in the University of Azuria. Under the watchful gaze of the Court Magician, and their fellow associates, you may yet live to become a master of the arcyne arts."
+	tutorial = "The road to arcyne mastery is long and treacherous. Books, scrolls, gems, studies, \
+	singed hair, and summoning gone wrong. Expenses and death alike, it is not a path for the pauper \
+	or the coward. You, however, were given a place as an apprentice in the University of Azuria. \
+	Under the watchful gaze of the Court Magician, and their fellow associates, you may yet live \
+	to become a master of the arcyne arts."
 	outfit = /datum/outfit/job/roguetown/wapprentice/apprentice
 
 	category_tags = list(CTAG_WAPPRENTICE)
@@ -311,7 +328,7 @@
 			if("macebearer")
 				H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/shatter)
 				H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/tremor)
-				H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/charge)
+				H.mind.AddSpell(new /obj/effect/proc_holder/spell/self/charge)
 				H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/cataclysm)
 
 		H.mind.AddSpell(new /obj/effect/proc_holder/spell/self/recall_weapon)

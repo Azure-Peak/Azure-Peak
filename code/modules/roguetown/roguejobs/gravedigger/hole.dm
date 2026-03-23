@@ -70,30 +70,35 @@
 
 /obj/structure/closet/dirthole/closed/loot/Initialize()
 	. = ..()
-	lootroll = rand(1,4)
+	lootroll = rand(1,6)
 
 /obj/structure/closet/dirthole/closed/loot/open()
 	if(!looted)
 		looted = TRUE
 		switch(lootroll)
 			if(1)
-				new /mob/living/carbon/human/species/skeleton/npc(mastert) //Let's go gambling
+				new /mob/living/carbon/human/species/skeleton/npc/easy(mastert) //Let's go gambling
 			if(2)
 				new /obj/structure/closet/crate/chest/coffinlootbox(mastert) //How it be
 			if(3)
-				new /obj/structure/closet/crate/chest/coffinlootbox_middle(mastert) //Starts locked
+				new /mob/living/carbon/human/species/skeleton/npc/medium(mastert) //How it be
 			if(4)
-				new /mob/living/carbon/human/species/skeleton/npc(mastert) //Starts locked & has a skeleton guard
+				new /mob/living/carbon/human/species/skeleton/npc/medium(mastert)
+				new /obj/structure/closet/crate/chest/coffinlootbox_middle(mastert) //Starts locked
+			if(5)
+				new /mob/living/carbon/human/species/skeleton/npc/hard(mastert)
+			if(6)
+				new /mob/living/carbon/human/species/skeleton/npc/hard(mastert) //Starts locked & has a skeleton guard
 				new /obj/structure/closet/crate/chest/coffinlootbox_high(mastert)
 	..()
 
 /obj/structure/closet/dirthole/closed/loot/examine(mob/user)
 	. = ..()
 	if(HAS_TRAIT(user, TRAIT_SOUL_EXAMINE))
-		if(lootroll == 1)
+		if(lootroll % 2)
 			. += span_warning("Better let this one sleep.")
 	if(HAS_TRAIT(user, TRAIT_GRAVEROBBER))
-		if(lootroll != 1)
+		if(!(lootroll % 2))
 			. += span_warning("There seem to be some loot for me here.")	
 
 /obj/structure/closet/dirthole/insertion_allowed(atom/movable/AM)

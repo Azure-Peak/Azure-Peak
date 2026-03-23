@@ -276,6 +276,22 @@
 	if (isliving(L))
 		L.look_around()
 
+/datum/keybinding/living/alt_grip
+	hotkey_keys = list("5")
+	name = "alt_grip"
+	full_name = "Alt Grip"
+	description = "Switch to an alternate grip on the held weapon, such as mordhau."
+
+/datum/keybinding/living/alt_grip/down(client/user)
+	var/mob/living/L = user.mob
+	if(!isliving(L))
+		return FALSE
+	var/obj/item/I = L.get_active_held_item()
+	if(I)
+		I.rmb_self(L)
+		return TRUE
+	return FALSE
+
 //layer shifting
 
 /datum/keybinding/living/pixel_shift_layerup

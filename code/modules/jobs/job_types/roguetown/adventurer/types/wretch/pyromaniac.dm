@@ -78,7 +78,7 @@
 				backr = /obj/item/rogueweapon/woodstaff/toper
 				if(H.mind)
 					H.mind.AddSpell(new /obj/effect/proc_holder/spell/targeted/touch/prestidigitation)
-					H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/projectile/fireball)
+					H.mind.AddSpell(new /datum/action/cooldown/spell/projectile/fireball)
 					H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/projectile/spitfire)
 					H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/rebuke)
 					H.mind.AddSpell(new /obj/effect/proc_holder/spell/self/conjure_armor/dragonhide)

@@ -2,7 +2,7 @@
 	name = "Mending"
 	desc = "Uses arcyne energy to mend an item. Effect of repair scales off of your Intelligence."
 	overlay_state = "mending"
-	releasedrain = 50
+	releasedrain = SPELLCOST_CANTRIP
 	chargetime = 5
 	recharge_time = 20 SECONDS
 	warnie = "spellwarning"
@@ -36,7 +36,7 @@
 		to_chat(user, span_warning("Not even magic can mend this item!"))
 		revert_cast()
 		return
-	if(I.obj_integrity >= I.max_integrity && I.body_parts_covered_dynamic == I.body_parts_covered && !I.peel_count)
+	if(I.obj_integrity >= I.max_integrity && I.body_parts_covered_dynamic == I.body_parts_covered)
 		to_chat(user, span_info("[I] appears to be in perfect condition."))
 		revert_cast()
 		return
@@ -62,13 +62,9 @@
 	if(I.obj_integrity >= I.max_integrity)
 		if(I.obj_broken)
 			I.obj_fix()
-		if(I.peel_count)
-			I.peel_count--
-			to_chat(user, span_info("[I]'s shorn layers mend together. ([I.peel_count])."))
-		else
-			if(I.body_parts_covered_dynamic != I.body_parts_covered)
-				I.repair_coverage()
-				to_chat(user, span_info("[I]'s shorn layers mend together, completely."))
+		if(I.body_parts_covered_dynamic != I.body_parts_covered)
+			I.repair_coverage()
+			to_chat(user, span_info("[I]'s shorn layers mend together, completely."))
 
 	deactivate(user)
 

@@ -225,7 +225,6 @@
 		var/obj/effect/R = new /obj/effect/spell_rune
 		R.icon = action_icon
 		R.icon_state = "infestation10"
-		action.overlay_alpha = overlay_alpha
 		mob_charge_effect = R
 	if(user && !charge_component)
 		// Sanity check
@@ -239,7 +238,7 @@
 /obj/effect/proc_holder/spell/invoked/infestation/proc/update_charge_overlay(charge_count)
 	overlay_state = "infestation[charge_count]"
 	update_icon()
-	action.UpdateButtonIcon(FALSE, TRUE)
+	action.build_all_button_icons(force = TRUE)
 	action.desc = "[desc]\n<span class='notice'>Charges = [charge_count]</span>"
 
 /obj/effect/proc_holder/spell/invoked/infestation/cast(list/targets, mob/living/user)
@@ -554,7 +553,7 @@
 		overlay_state = "heal_disabled"
 	update_icon()
 	if(action)
-		action.UpdateButtonIcon(FALSE, TRUE)
+		action.build_all_button_icons(force = TRUE)
 
 /obj/effect/proc_holder/spell/invoked/divine_rebirth
 	name = "Divine Rebirth"

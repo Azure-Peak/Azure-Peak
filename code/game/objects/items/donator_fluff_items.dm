@@ -433,3 +433,13 @@
 	desc = "A longsword, fitten with a basket-hilt. The grip is made out of a fine green-stained leather, with a piece of spiral-cared walnut connecting it to a lion-shaped pommel. A purple glowing rune sits atop the blade."
 	icon_state = "drd_lsword"
 	icon = 'icons/obj/items/donor_weapons_64.dmi'
+
+//Brass Beak Mask
+/obj/item/clothing/mask/rogue/courtphysician/brassbeak
+	name = "\improper Society of the Brass Beak mask"
+	desc = "A plague mask fitted with a brass-embossed beak, indicating membership in an erudite society of like-minded physickers. \
+	This one is utterly filled with a pungent array of dried herbs to ward off ill humours, shielding from the outside world one breath at a time."
+	icon_state = "brassbeak"
+	item_state = "brassbeak"
+	icon = 'icons/clothing/donor_clothes.dmi'
+	mob_overlay_icon = 'icons/clothing/onmob/donor_clothes.dmi'

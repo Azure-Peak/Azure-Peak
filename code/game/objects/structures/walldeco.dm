@@ -343,7 +343,9 @@
 	add_overlay(M)
 
 /obj/structure/fluff/walldeco/moon
-	name = "banner"
+	name = "noccite banner"
+	desc = "An embroidered banner depicting Noc, the Brother Moon, brother of Astrata and progenitor of \
+	all knowledge. A favourite decoration of magicians and learned folk."
 	icon_state = "moon"
 
 /obj/structure/fluff/walldeco/rpainting

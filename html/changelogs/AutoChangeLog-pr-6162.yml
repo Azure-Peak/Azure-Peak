@@ -1,8 +1,0 @@
-author: "Ketrai"
-delete-after: True
-changes:
-  - balance: "Gnolls and bandits share a migrant wave roll now. Either one role or the other is trigerred, but not both."
-  - balance: "Maximum amount of gnoll and bandit slots will commonly be a bit lower. Bandits down from 10 => 8 max. Commonly gnolls will have 2 slots max, in rarer cases 3 or 4."
-  - balance: "Gnoll templars now have 12 => 10 strength!"
-  - balance: "Gnoll claws have far worse AP on cut, but are now slightly better at breaking armor."
-  - bugfix: "Bandit slots respect lowpop and roundstart now. Can't open before 30 mins roundtimer."

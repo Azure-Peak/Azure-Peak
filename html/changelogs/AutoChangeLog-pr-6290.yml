@@ -1,4 +1,0 @@
-author: "KatTheFox"
-delete-after: True
-changes:
-  - bugfix: "necran crosses can no longer soak your legs in molasses due to an edge case"

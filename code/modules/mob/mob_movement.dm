@@ -680,6 +680,7 @@
 					if(ishuman(L))
 						var/mob/living/carbon/human/H = L
 						if(!H.check_armor_skill() || H.legcuffed)
+							to_chat(H, span_warning("My armor is too heavy to run effectively!"))
 							return
 
 				m_intent = MOVE_INTENT_RUN

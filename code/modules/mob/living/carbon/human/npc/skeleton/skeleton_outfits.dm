@@ -1,22 +1,27 @@
 // Ultra easy tier skeleton with no armor and just a single weapon.
 /mob/living/carbon/human/species/skeleton/npc/supereasy
+	threat_point = THREAT_LOW
 	skel_outfit = /datum/outfit/job/roguetown/skeleton/npc/supereasy
 
 // Easy tier skeleton, with only incomplete chainmail and kilt
 // Ambushes people in "safe" route. A replacement for old skeletons that were effectively naked.
 /mob/living/carbon/human/species/skeleton/npc/easy
+	threat_point = THREAT_MODERATE
 	skel_outfit = /datum/outfit/job/roguetown/skeleton/npc/easy
 
 // Also an "easy" tier skeleton, pirate themed, with a free hand to grab you
 /mob/living/carbon/human/species/skeleton/npc/pirate
+	threat_point = THREAT_MODERATE
 	skel_outfit = /datum/outfit/job/roguetown/skeleton/npc/pirate
 
 // Medium tier skeleton, 3 skills.
 /mob/living/carbon/human/species/skeleton/npc/medium
+	threat_point = THREAT_LOW
 	skel_outfit = /datum/outfit/job/roguetown/skeleton/npc/medium
 
 // High tier skeleton, 4 skills. Heavy Armor.
 /mob/living/carbon/human/species/skeleton/npc/hard
+	threat_point = THREAT_TOUGH
 	skel_outfit = /datum/outfit/job/roguetown/skeleton/npc/hard
 
 // For Duke Manor & Zizo Manor - Ground based spread, so no pirate in pool!

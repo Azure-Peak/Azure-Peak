@@ -1,4 +1,0 @@
-author: "eirenxiv"
-delete-after: True
-changes:
-  - code_imp: "RACES_NO_CONSTRUCT now includes revenants"

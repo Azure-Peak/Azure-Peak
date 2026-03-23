@@ -96,6 +96,14 @@
 	if(!ishuman(user.mob))
 		return FALSE
 	var/mob/living/carbon/human/H = user.mob
+
+	// Check new V2 spell system first
+	var/datum/action/cooldown/spell/projectile/v2_spell = H.click_intercept
+	if(istype(v2_spell))
+		v2_spell.toggle_arc_mode(H)
+		return TRUE
+
+	// Fall back to old proc_holder system
 	var/obj/effect/proc_holder/spell/invoked/projectile/spell = H.ranged_ability
 	if(!istype(spell))
 		to_chat(H, span_warning("No active projectile spell to toggle arc mode on."))

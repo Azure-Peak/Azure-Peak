@@ -149,8 +149,8 @@
 		SStreasury.give_money_account(ECONOMIC_LOWER_CLASS, H, "Savings.")
 
 /datum/advclass/thug/bigman
-	name = "Big Man"
-	tutorial = "More akin to a cabbage-fed monster than a normal man, your size and strength are your greatest weapons; though they hardly supplement what's missing of your brains."
+	name = "Big Fella"
+	tutorial = "More akin to a cabbage-fed monster than a normal person, your size and strength are your greatest weapons; though they hardly supplement what's missing of your brains."
 	allowed_sexes = list(MALE, FEMALE)
 	allowed_races = RACES_SHUNNED_UP
 	outfit = /datum/outfit/job/roguetown/adventurer/thug/bigman
@@ -166,7 +166,7 @@
 		STATKEY_SPD = -4,
 		STATKEY_INT = -6,
 		STATKEY_PER = -3,
-		STATKEY_FOR = -1,
+		STATKEY_LCK = -1,
 	)
 	subclass_skills = list(
 		/datum/skill/combat/wrestling = SKILL_LEVEL_JOURNEYMAN,
@@ -177,35 +177,40 @@
 		/datum/skill/labor/mining = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/labor/lumberjacking = SKILL_LEVEL_JOURNEYMAN,
 	)
+	subclass_virtues = list(
+		/datum/virtue/size/giant //it'd be wrong to have a big lad be small woudn' it?
+	)
 
 /datum/outfit/job/roguetown/adventurer/thug/bigman/pre_equip(mob/living/carbon/human/H)
 	..()
 	belt = /obj/item/storage/belt/rogue/leather/rope
-	shirt = /obj/item/clothing/suit/roguetown/shirt/undershirt/random
-	pants = /obj/item/clothing/under/roguetown/tights/random
+	pants = /obj/item/clothing/under/roguetown/trou/leather
 	shoes = /obj/item/clothing/shoes/roguetown/shortboots
 	backr = /obj/item/storage/backpack/rogue/satchel
 	wrists = /obj/item/clothing/wrists/roguetown/bracers/leather
-	gloves = /obj/item/clothing/gloves/roguetown/fingerless
 	neck = /obj/item/storage/belt/rogue/pouch/coins/poor
-	armor = /obj/item/clothing/suit/roguetown/armor/leather
+	armor = /obj/item/clothing/suit/roguetown/armor/manual/pushups/leather
 	backpack_contents = list(
-				/obj/item/flint = 1,
-				/obj/item/bait = 1,
 				/obj/item/rogueweapon/huntingknife = 1,
 				/obj/item/recipe_book/survival = 1,
 				/obj/item/recipe_book/leatherworking = 1,
 				/obj/item/rogueweapon/scabbard/sheath = 1
 				)
+	if(should_wear_femme_clothes(H))
+		shirt = /obj/item/clothing/suit/roguetown/shirt/desertbra //Let's not set our ladies naked roundstart
+
 	var/options = list("Hands-On", "Big Axe")
 	var/option_choice = input("Choose your means.", "TAKE UP ARMS") as anything in options
 	switch(option_choice) // you are big dumb guy, none of your options give you expert-level weapons skill
 		if("Hands-On")
 			ADD_TRAIT(H, TRAIT_BASHDOORS, TRAIT_GENERIC) // deal 200 damage to a door you sprint-charge into
 			ADD_TRAIT(H, TRAIT_CIVILIZEDBARBARIAN, TRAIT_GENERIC)
+			gloves = /obj/item/clothing/gloves/roguetown/bandages //not weighted
 		if("Big Axe")
 			H.adjust_skillrank_up_to(/datum/skill/combat/axes, SKILL_LEVEL_JOURNEYMAN, TRUE)
 			r_hand = /obj/item/rogueweapon/greataxe // not steel
+			gloves = /obj/item/clothing/gloves/roguetown/fingerless
+
 	var/prev_real_name = H.real_name
 	var/prev_name = H.name
 	var/prefix = "Skinny" // if i see someone named "Boss" pick big man for this bit i will kill them

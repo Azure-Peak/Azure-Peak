@@ -15,7 +15,7 @@
 		M.reagents.remove_reagent(/datum/reagent/medicine/healthpot, 2) //No overhealing.
 	var/list/wCount = M.get_wounds()
 	if(wCount.len > 0)
-		M.heal_wounds(3) //at a motabalism of .5 U a tick this translates to 120WHP healing with 20 U Most wounds are unsewn 15-100. This is powerful on single wounds but rapidly weakens at multi wounds.
+		M.heal_wounds(3) //at a metabolism of .5 U a tick this translates to 120WHP healing with 20 U Most wounds are unsewn 15-100. This is powerful on single wounds but rapidly weakens at multi wounds.
 	if(volume > 0.99)
 		M.adjustBruteLoss(-1.75  * REAGENTS_EFFECT_MULTIPLIER, 0)
 		M.adjustFireLoss(-1.75  * REAGENTS_EFFECT_MULTIPLIER, 0)
@@ -90,6 +90,8 @@
 	alpha = 173
 
 /datum/reagent/medicine/stampot/on_mob_life(mob/living/carbon/M)
+	if(volume >= 60)
+		M.reagents.remove_reagent(/datum/reagent/medicine/stampot, 2) //No walking around having pre-buffed on it to have infinite stamina for Baothans.
 	if(volume > 0.99)
 		M.stamina_add(-20)
 	..()
@@ -104,6 +106,8 @@
 	metabolization_rate = REAGENTS_METABOLISM
 
 /datum/reagent/medicine/strongstam/on_mob_life(mob/living/carbon/M)
+	if(volume >= 60)
+		M.reagents.remove_reagent(/datum/reagent/medicine/strongstam, 2) //No walking around having pre-buffed on it to have infinite stamina for Baothans.
 	if(volume > 0.99)
 		M.stamina_add(-50)
 	..()
@@ -348,6 +352,8 @@ If you want to expand on poisons theres tons of fun effects TG chemistry has tha
 
 
 /datum/reagent/organpoison/on_mob_life(mob/living/carbon/M)
+	if(HAS_TRAIT(M, TRAIT_ORGAN_EATER))
+		M.energy_add(10) //Slowly add energy back.
 	if(!HAS_TRAIT(M, TRAIT_NASTY_EATER) && !HAS_TRAIT(M, TRAIT_ORGAN_EATER))
 		M.add_nausea(9)
 		M.adjustToxLoss(2)

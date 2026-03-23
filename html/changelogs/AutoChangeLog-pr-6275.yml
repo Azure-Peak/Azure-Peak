@@ -1,5 +1,0 @@
-author: "eirenxiv"
-delete-after: True
-changes:
-  - bugfix: "fixed ability to repair donor helmet"
-  - bugfix: "fixed ability to repair plate boots with armour kits"

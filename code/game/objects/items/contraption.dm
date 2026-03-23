@@ -11,9 +11,15 @@
 	w_class = WEIGHT_CLASS_SMALL
 	smeltresult = /obj/item/ingot/bronze
 	slot_flags = ITEM_SLOT_HIP
+	//this is what we normally power things with
 	var/obj/item/accepted_power_source = /obj/item/roguegear
+	//this is what we use to double power items with, this isn't for all devices
+	var/obj/item/prime_power_source = /obj/item/debug
 	/// This is the amount of charges we get per power source
 	var/charge_per_source = 5
+	var/charge_per_prime = 10
+	//allows you to store several charges
+	var/max_stored_charge = 20
 	var/current_charge = 0
 	var/misfire_chance
 	var/sneaky_misfire_chance
@@ -56,19 +62,20 @@
 	. = ..()
 	if(!istype(user, /mob/living))
 		return
-	/*var/mob/living/player = user
-	var/skill = player.mind?.get_skill_level(/datum/skill/craft/engineering)
+	var/mob/living/player = user
+	var/skill = player.get_skill_level(/datum/skill/craft/engineering)
 	if(current_charge)
-		. += span_warning("The contraption has [current_charge] charges left.")
+		. += span_warning("The contraption has [current_charge] of [max_stored_charge] charges left.")
+		. += span_warning("It uses [initial(accepted_power_source.name)] or [initial(prime_power_source.name)] to function.")
 	if(!current_charge)
-		. += span_warning("This contraption requires a new [initial(accepted_power_source.name)] to function.")
+		. += span_warning("This contraption requires a new [initial(accepted_power_source.name)] or [initial(prime_power_source.name)] to function.")
 	if(misfire_chance)
 		if(skill > 2)
 			. += span_warning("You calculate this contraptions chance of failure to be anywhere between [max(0, (misfire_chance - skill) - rand(4))]% and [max(2, (misfire_chance - skill) + rand(3))]%.")
 		else
 			. += span_warning("It seems slightly unstable...")
 	if(skill >= 6 && sneaky_misfire_chance)
-		. += span_warning("This contraption has a chance for catastrophic failure in the hands of the inexperient.")*/
+		. += span_warning("This contraption has a chance for catastrophic failure in the hands of the inexperient.")
 
 /obj/item/contraption/proc/battery_collapse(atom/A, mob/living/user)
 	to_chat(user, span_info("The [accepted_power_source.name] wastes away into nothing."))
@@ -117,13 +124,34 @@
 		user.changeNext_move(CLICK_CD_FAST)
 		S.set_up(1, 1, front)
 		S.start()
-		if(current_charge)
+		if((max_stored_charge - current_charge) < charge_per_source) //checking if there's too much charge
 			to_chat(user, span_info("I try to insert the [I.name] but theres already \a [initial(accepted_power_source.name)] inside!"))
 			playsound(src, 'sound/combat/hits/blunt/woodblunt (2).ogg', 100, TRUE)
 			shake_camera(user, 1, 1)
 		else
 			to_chat(user, span_info("I insert the [I.name] and the [name] starts ticking."))
-			current_charge = charge_per_source
+			current_charge += charge_per_source
+			playsound(src, 'sound/combat/hits/blunt/woodblunt (2).ogg', 100, TRUE)
+			qdel(I)
+			addtimer(CALLBACK(src, PROC_REF(play_clock_sound)), 5)
+	if(istype(I, prime_power_source))
+		user.changeNext_move(CLICK_CD_FAST)
+		S.set_up(1, 1, front)
+		S.start()
+		if((max_stored_charge - current_charge) < charge_per_prime) //checking if there's too much charge with a prime source
+			if((max_stored_charge - current_charge) < charge_per_source) //if there's too much for prime, we give it the standard charge
+				to_chat(user, span_info("I try to insert the [I.name] but theres already \a [initial(accepted_power_source.name)] inside!"))
+				playsound(src, 'sound/combat/hits/blunt/woodblunt (2).ogg', 100, TRUE)
+				shake_camera(user, 1, 1)
+			else
+				to_chat(user, span_info("I insert the [I.name] and the [name] starts ticking. I feel I reached capacity before it was fully used"))
+				current_charge = max_stored_charge
+				playsound(src, 'sound/combat/hits/blunt/woodblunt (2).ogg', 100, TRUE)
+				qdel(I)
+				addtimer(CALLBACK(src, PROC_REF(play_clock_sound)), 5)
+		else
+			to_chat(user, span_info("I insert the [I.name] and the [name] starts ticking. It gets a big boost"))
+			current_charge += charge_per_prime
 			playsound(src, 'sound/combat/hits/blunt/woodblunt (2).ogg', 100, TRUE)
 			qdel(I)
 			addtimer(CALLBACK(src, PROC_REF(play_clock_sound)), 5)
@@ -176,13 +204,42 @@
 	var/datum/buffer // simple machine buffer for device linkage
 	smeltresult = /obj/item/ingot/bronze
 	charge_per_source = 20
+	max_stored_charge = 80
 	grid_width = 64
 	grid_height = 32
+	var/active_item = FALSE
 
 /obj/item/contraption/linker/master
 	name = "Guild Master's Wrench"
 	desc = "Able to do more advanced linking than a standard wrench. Keep it out of apprentice's hands"
-	charge_per_source = 200
+	charge_per_source = 20
+	max_stored_charge = 100
+
+/obj/item/contraption/linker/equipped(mob/user, slot)
+	..()
+	if(active_item)
+		return
+	if(slot == ITEM_SLOT_HANDS)
+		if (user.get_skill_level(/datum/skill/craft/engineering) >= 4)
+			user.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/engineertuneup)
+			to_chat(user, span_notice("Tune up time"))
+			active_item = TRUE
+			return
+		else 
+			if(active_item)
+				active_item = FALSE
+				user.mind.RemoveSpell(new /obj/effect/proc_holder/spell/invoked/engineertuneup)
+				to_chat(user, span_notice("I set my wrench down"))
+			return
+	else
+		return
+
+/obj/item/contraption/linker/dropped(mob/user, slot)
+	..()
+	if(active_item)
+		active_item = FALSE
+		user.mind.RemoveSpell(new /obj/effect/proc_holder/spell/invoked/engineertuneup)
+		to_chat(user, span_notice("I set my wrench down"))
 
 /obj/item/contraption/linker/hammer_action(obj/item/I, mob/user)
 	return
@@ -235,6 +292,7 @@
 	w_class = WEIGHT_CLASS_NORMAL
 	misfire_chance = 15
 	charge_per_source = 5
+	max_stored_charge = 100
 	grid_height = 64
 	grid_width = 64
 
@@ -304,6 +362,7 @@
 	w_class = WEIGHT_CLASS_SMALL
 	smeltresult = /obj/item/ingot/bronze
 	charge_per_source = 4
+	max_stored_charge = 20
 	grid_height = 32
 	grid_width = 64
 
@@ -447,6 +506,7 @@
 	misfire_chance = 0
 	sneaky_misfire_chance = 20
 	charge_per_source = 2
+	max_stored_charge = 20
 	grid_height = 32
 	grid_width = 64
 
@@ -479,3 +539,103 @@
 		S.start()
 		user.mind.add_sleep_experience(/datum/skill/craft/engineering, (user.STAINT)) // Only imprinting gives EXP
 		return
+
+
+/obj/item/contraption/pick/drill
+	name = "clockwork drill"
+	desc = "A wonderfully complex work of engineering capable of shredding walls in seconds as opposed to hours."
+	force = 21
+	force_wielded = 28
+	max_integrity = 700
+	force_wielded = 19
+	icon_state = "drill"
+	lefthand_file = 'icons/mob/inhands/weapons/hammers_lefthand.dmi'
+	righthand_file = 'icons/mob/inhands/weapons/hammers_righthand.dmi'
+	item_state = "drill"
+	possible_item_intents = list(MACE_SMASH)
+	gripped_intents = list(/datum/intent/drill)
+	//experimental_inhand = FALSE
+	//experimental_onback = FALSE
+	slot_flags = ITEM_SLOT_BACK
+	//gripspriteonmob = TRUE
+	smeltresult = /obj/item/ingot/bronze
+	//pickmult = 1.5
+	w_class = WEIGHT_CLASS_HUGE
+	accepted_power_source = /obj/item/alch/coaldust
+	prime_power_source = /obj/item/alch/firedust
+	misfire_chance = 0
+	sneaky_misfire_chance = 20
+	charge_per_source = 100
+	charge_per_prime = 200
+	max_stored_charge = 600
+	grid_height = 64
+	grid_width = 64
+	var/active_item = FALSE
+
+
+/obj/item/contraption/pick/drill/Initialize()
+	. = ..()
+	START_PROCESSING(SSobj, src)
+	//AddComponent(/datum/component/steam_storage, 300, 0)
+	//RegisterSignal(src, COMSIG_TWOHANDED_WIELD, PROC_REF(pre_wield_check))
+
+
+/obj/item/contraption/pick/drill/Destroy()
+	STOP_PROCESSING(SSobj, src)
+	return ..()
+
+/obj/item/contraption/pick/drill/attack_obj(obj/O, mob/living/user)
+	. = ..()
+
+/obj/item/contraption/pick/drill/attack_turf(turf/T, mob/living/user, multiplier)
+
+	. = ..()
+	src.current_charge -= 1
+	//var/turf/closed/mineral/rogue/
+
+
+/obj/item/contraption/pick/drill/afterattack(atom/target, mob/living/user, proximity_flag, list/modifiers)
+	. = ..()
+	//SEND_SIGNAL(src, COMSIG_ATOM_STEAM_USE, 5)
+/*
+/obj/item/rogueweapon/pick/drill/proc/pre_wield_check(datum/source, mob/living/carbon/user)
+	if(!SEND_SIGNAL(src, COMSIG_ATOM_STEAM_USE, 1))
+		to_chat(user, span_warning("[src] doesn't have enough power to be wielded!"))
+		return COMPONENT_TWOHANDED_BLOCK_WIELD
+
+/obj/item/rogueweapon/pick/drill/process()
+	if(HAS_TRAIT(src, TRAIT_WIELDED))
+		if(!SEND_SIGNAL(src, COMSIG_ATOM_STEAM_USE, 1))
+			var/datum/component/two_handed/twohanded = GetComponent(/datum/component/two_handed)
+			if(ismob(loc))
+				twohanded.unwield(loc)
+*/
+
+/obj/item/contraption/pick/drill/attack_right(mob/user)
+	. = ..()
+
+/obj/item/contraption/pick/drill/equipped(mob/user, slot, initial)
+	..()
+	if(active_item)
+		return
+	if(slot == ITEM_SLOT_HANDS)
+		if (user.get_skill_level(/datum/skill/craft/engineering) >= 4)
+			user.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/engineerwindup)
+			to_chat(user, span_notice("Time to wind things up"))
+			active_item = TRUE
+			return
+		else 
+			if(active_item)
+				active_item = FALSE
+				user.mind.RemoveSpell(new /obj/effect/proc_holder/spell/invoked/engineerwindup)
+				to_chat(user, span_notice("Setting my drill down"))
+			return
+	else
+		return
+
+/obj/item/contraption/pick/drill/dropped(mob/user, slot)
+	..()
+	if(active_item)
+		active_item = FALSE
+		user.mind.RemoveSpell(new /obj/effect/proc_holder/spell/invoked/engineerwindup)
+		to_chat(user, span_notice("Setting my drill down"))

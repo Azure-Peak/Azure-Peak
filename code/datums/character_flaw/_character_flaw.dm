@@ -160,11 +160,15 @@ GLOBAL_LIST_INIT(averse_factions, list(
 	if(!ishuman(user))
 		return
 	var/mob/living/carbon/human/H = user
-	if(H.wear_mask)
-		if(isclothing(H.wear_mask))
+	if(H.wear_mask || H.head)
+		if(isclothing(H.wear_mask) || isclothing(H.head))
 			if(istype(H.wear_mask, /obj/item/clothing/mask/rogue/spectacles))
 				var/obj/item/I = H.wear_mask
 				if(!I.obj_broken)
+					return
+			if(istype(H.head, /obj/item/clothing/mask/rogue/spectacles))
+				var/obj/item/G = H.head
+				if(!G.obj_broken)
 					return
 	H.blur_eyes(2)
 	H.apply_status_effect(/datum/status_effect/debuff/badvision)
