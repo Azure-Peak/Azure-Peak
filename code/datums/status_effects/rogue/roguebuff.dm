@@ -560,14 +560,6 @@
 	if(!(our_area.warden_area))
 		owner.remove_status_effect(/datum/status_effect/buff/wardenbuff)
 
-/datum/status_effect/buff/wardenbuff/on_apply()
-	. = ..()
-	ADD_TRAIT(owner, TRAIT_LONGSTRIDER, id)
-
-/datum/status_effect/buff/wardenbuff/on_remove()
-	. = ..()
-	REMOVE_TRAIT(owner, TRAIT_LONGSTRIDER, id)
-
 // Lesser Miracle effect
 /atom/movable/screen/alert/status_effect/buff/healing
 	name = "Healing Miracle"
