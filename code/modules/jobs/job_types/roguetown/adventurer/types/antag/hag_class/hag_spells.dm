@@ -205,6 +205,9 @@
 
 /obj/effect/proc_holder/spell/invoked/grant_boon
 	name = "Manifest Boon"
+	overlay_icon = 'icons/mob/actions/hagspells.dmi'
+	action_icon = 'icons/mob/actions/hagspells.dmi'
+	overlay_state = "hand_lux"
 
 /obj/effect/proc_holder/spell/invoked/grant_boon/cast(list/targets, mob/living/user)
 	var/datum/component/hag_curio_tracker/H = user.GetComponent(/datum/component/hag_curio_tracker)

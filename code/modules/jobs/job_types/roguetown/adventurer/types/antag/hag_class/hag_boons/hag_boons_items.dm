@@ -3,6 +3,21 @@
 	desc = "A cross that can take the shape of any other via right click, it can inject a healing tonic into the user once on middle click."
 	points = 20
 
+/datum/hag_boon/item/hag_axe
+	name = "Wyrd Axe"
+	desc = "An axe equivalent to steel made out of gnarled wood. It regenerates whilst on natural tiles."
+	points = 20
+
+/datum/hag_boon/item/hag_spear
+	name = "Wyrd Polearm"
+	desc = "A strange polearm equivalent to steel made out of gnarled wood. It regenerates whilst on natural tiles."
+	points = 20
+
+/datum/hag_boon/item/hag_sword
+	name = "Wyrd Sword"
+	desc = "A strange sword equivalent to steel made out of gnarled wood. It regenerates whilst on natural tiles."
+	points = 20
+
 /obj/item/clothing/neck/roguetown/psicross/hag
 	name = "Wyrd Cross"
 	desc = "I can't really pin down what this is supposed to be. The silhouette's edges wave and warp whilst I look at it."
@@ -153,3 +168,46 @@
 		playsound(src, 'sound/items/perfume.ogg', 50, TRUE)
 		new /obj/effect/temp_visual/heal(get_turf(C), "#d8d8d8")
 		to_chat(user, span_boldnotice("The [src.name] delivers a cold, refreshing sting as the tonic flows into your veins."))
+
+/obj/item/rogueweapon/greataxe/steel/hag
+	force = 15
+	force_wielded = 35
+	possible_item_intents = list(/datum/intent/axe/cut, /datum/intent/axe/chop, SPEAR_BASH)
+	gripped_intents = list(/datum/intent/axe/cut/long, /datum/intent/axe/chop/long, /datum/intent/axe/sweep)
+	name = "Gnarled Greataxe"
+	desc = "A large axe made out of gnarled, twisted wood. It's like it was grown that way, and you can swear you see the branches moving."
+	icon_state = "hagaxe"
+	// Lower than the steel counterpart to compensate for repair.
+	max_blade_int = 140
+	minstr = 10
+	item_flags = HAG_ITEM
+	smeltresult = null
+
+/obj/item/rogueweapon/sword/long/hag
+	max_blade_int = 220
+	name = "Gnarled Longsword"
+	desc = "A large sword made out of gnarled, twisted wood. It's like it was grown that way, and you can swear you see the branches moving."
+	icon_state = "hagsword"
+	item_flags = HAG_ITEM
+	smeltresult = null
+
+/obj/item/rogueweapon/halberd/hag
+	max_blade_int = 155
+	name = "Gnarled Polearm"
+	desc = "A large polearm made out of gnarled, twisted wood. It's like it was grown that way, and you can swear you see the branches moving."
+	icon_state = "hagspear"
+	item_flags = HAG_ITEM
+	smeltresult = null
+
+/obj/item/rogueweapon/greataxe/steel/hag/Initialize(mapload)
+	. = ..()
+	// This makes the repair component recognize it, and tracks the "debt"
+	AddComponent(/datum/component/hag_magical_item, /datum/hag_boon/item/hag_axe)
+
+/obj/item/rogueweapon/sword/long/hag/Initialize(mapload)
+	. = ..()
+	AddComponent(/datum/component/hag_magical_item, /datum/hag_boon/item/hag_sword)
+
+/obj/item/rogueweapon/halberd/hag/Initialize(mapload)
+	. = ..()
+	AddComponent(/datum/component/hag_magical_item, /datum/hag_boon/item/hag_spear)

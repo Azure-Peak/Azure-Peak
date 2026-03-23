@@ -87,3 +87,6 @@
 
 /datum/component/hag_magical_item_affinity/proc/add_id(item_id)
 	authorized_ids |= item_id
+	var/mob/living/L = parent
+	if(!L.GetComponent(/datum/component/hag_artifact_repair))
+		L.AddComponent(/datum/component/hag_artifact_repair)
