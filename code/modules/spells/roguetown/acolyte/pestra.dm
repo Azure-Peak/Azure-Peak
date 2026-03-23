@@ -13,7 +13,7 @@
 	invocation_type = "none"
 	associated_skill = /datum/skill/magic/holy
 	antimagic_allowed = TRUE
-	recharge_time = 4 SECONDS
+	recharge_time = 3 SECONDS
 	miracle = TRUE
 	devotion_cost = 5
 
@@ -42,9 +42,9 @@
 	//anyway starting from something that diagnosis will now make -very clear- is when someone is rotting to death and needs immediate care, behold:
 	if(human_target.has_status_effect(/datum/status_effect/zombie_infection))
 		if(is_high_tier)
-			to_chat(user, span_necrosis("They were infected by a DEADITE!"))
+			to_chat(user, span_necrosis("They are infected and turning into a DEADITE!"))
 		else
-			to_chat(user, span_necrosis("Their humors rot unnaturally — they are quickly decaying into a DEADITE!"))
+			to_chat(user, span_necrosis("Their humors rot unnaturally, as their body is quickly decaying."))
 		to_chat(user, span_infection("Their rot needs to be burned immediately!"))
 		to_chat(user, span_infection("==="))
 	// suffocation levels are also 'free for all', since this is the highest cause of deaths in game right now, medics not knowing that sometimes you gotta get down and dirty with that non-con oxygen kiss.
@@ -71,7 +71,6 @@
 				to_chat(user, span_necrosis("Cold sweat, pallid skin, and a failing breath... Signs of poisoning."))
 	// from here on, this is for below expert, above novice only
 	if(is_mid_tier)
-
 		switch(human_target.toxloss)
 			if(0 to 1)
 				to_chat(user, span_notice("Their humors seem well-balanced; no oddities of note."))
@@ -118,7 +117,7 @@
 		if (human_target.reagents.has_reagent(/datum/reagent/infection/major))
 			to_chat(user, span_boldwarning("A severe infection taints their humors."))
 		else if (human_target.reagents.has_reagent(/datum/reagent/infection))
-			to_chat(user, span_warning("An infection taints their humors."))
+			to_chat(user, span_warning("A natural taints their humors."))
 		else if (human_target.reagents.has_reagent(/datum/reagent/infection/minor))
 			to_chat(user, span_warning("A minor infection taints their humors."))
 
@@ -134,7 +133,7 @@
 				if(4)
 					to_chat(user, span_necrosis("I can see the Black Rot in its terminal stage, 'Necrosis'."))
 			
-			to_chat(user, span_infection("<i>Heartblood will delay the inevitable, but try going for a cure.<i>"))
+			to_chat(user, span_infection("<i>Drinking Heartblood should delay the inevitable, but excising it is the cure.<i>"))
 
 	var/has_cheele = FALSE
 	var/has_incision = FALSE
@@ -207,6 +206,7 @@
 	associated_skill = /datum/skill/misc/medicine
 	miracle = FALSE
 	devotion_cost = 0 //Doctors are not clerics
+	// cooldown should be 1:1 with the parent skill
 
 /obj/effect/proc_holder/spell/invoked/attach_bodypart
 	name = "Bodypart Miracle"
