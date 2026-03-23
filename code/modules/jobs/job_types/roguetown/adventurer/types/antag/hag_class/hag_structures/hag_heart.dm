@@ -21,6 +21,32 @@
 	)
 	var/list/delivered_items = list()
 	var/rite_started = FALSE
+	var/tutorial_started = FALSE
+	var/static/list/hag_tutorial_lines = list(
+		"Awaken, daughter of the mud... the roots have pulled you back from the long sleep.",
+		"The mortals have forgotten the taste of swamp water. You must remind them. Find them, bind them... give them 'boons' to fuel our return.",
+		"Regain your spite! Turn their simple gifts into heavy curses. The more they suffer, the more the Mossmother's power flows through you.",
+		"Work the old ways at the bench. Varnish and synth base... weave them into items or boons that glitter with our magic.",
+		"Here, take some of my mosses. If they glow, absorb them to manifest their magic as a boon later. Or enchant them yourself.",
+		"But remember! The pact must be accepted! Offer your enchanted gifts with a Right-Click! they must take the hook willingly.",
+		"Feed the Heartroot trees with Lux. Let them drink deep so they may sprout the mosses we need for our components.",
+		"And if the hunger for true revenge bites... bring me the tithes listed here. We shall perform the Grand Rite together.",
+		"Be wary! Cursed mortals and the Rite itself will draw them to your hut. They will try to smash my wards in the bog to find you.",
+		"I am your anchor. I will bring you back from death's door again and again... unless they shatter me, as they did in the yils before.",
+		"Go now. Curse them. Bind them. Or burn the world with the Rite. The bog remembers... and so do I."
+	)
+
+/obj/structure/roguemachine/hag_heart/proc/begin_tutorial()
+	var/delay = 0
+	for(var/line in hag_tutorial_lines)
+		addtimer(CALLBACK(src, PROC_REF(speak_tutorial_line), line), delay)
+		delay += 6 SECONDS
+
+/obj/structure/roguemachine/hag_heart/proc/speak_tutorial_line(line)
+	if(QDELETED(src))
+		return
+	playsound(src, 'sound/hag/hag_cackles_short.ogg', 100, TRUE)
+	src.say(line)
 
 /obj/structure/roguemachine/hag_heart/Initialize(mapload)
 	. = ..()
@@ -39,6 +65,9 @@
 	. = ..()
 	if(!HAS_TRAIT(user, TRAIT_ANCIENT_HAG))
 		return
+	if(!tutorial_started)
+		tutorial_started = TRUE
+		begin_tutorial()
 
 	if(timer_id)
 		var/time_left = timeleft(timer_id)
