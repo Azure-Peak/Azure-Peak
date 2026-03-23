@@ -5,6 +5,9 @@
 	invocations = list("Bloom inside.")
 	recharge_time = 5 SECONDS
 	range = 1
+	overlay_icon = 'icons/mob/actions/hagspells.dmi'
+	action_icon = 'icons/mob/actions/hagspells.dmi'
+	overlay_state = "hand_lux"
 
 /obj/effect/proc_holder/spell/invoked/spiritual_siphon/cast(list/targets, mob/living/user)
 	var/datum/component/hag_curio_tracker/H = user.GetComponent(/datum/component/hag_curio_tracker)
@@ -72,6 +75,9 @@
 	var/list/selected_boons = list()
 	var/selected_curse_path = null
 	var/active_victim_name = null
+	overlay_icon = 'icons/mob/actions/hagspells.dmi'
+	action_icon = 'icons/mob/actions/hagspells.dmi'
+	overlay_state = "hand_up"
 
 /obj/effect/proc_holder/spell/invoked/transmutation_rite/cast(list/targets, mob/living/user)
 	// Capture user so UI actions know who the "Hag" is
@@ -233,7 +239,7 @@
 /obj/effect/proc_holder/spell/invoked/resurrect/hag
 	name = "Thorny Regrowth"
 	desc = "Knit a fallen soul back into a body using parasitic vines. The target is revived, but incurs a 50-point debt to your Curio."
-	recharge_time = 5 MINUTES 
+	recharge_time = 10 MINUTES 
 	sound = 'sound/hag/hag_cackles.ogg'
 	required_structure = /obj/structure/roguemachine/mossmother
 	required_items = list()
@@ -241,6 +247,9 @@
 	alt_required_items = list()
 	miracle = FALSE
 	devotion_cost = 0
+	overlay_icon = 'icons/mob/actions/hagspells.dmi'
+	action_icon = 'icons/mob/actions/hagspells.dmi'
+	overlay_state = "hand_revive"
 
 	var/boon_path = /datum/hag_boon/revival_debt
 
@@ -270,6 +279,9 @@
 	recharge_time = 4 MINUTES
 	cost = 12
 	var/link_duration = 5 MINUTES
+	overlay_icon = 'icons/mob/actions/hagspells.dmi'
+	action_icon = 'icons/mob/actions/hagspells.dmi'
+	overlay_state = "hand_down"
 
 /obj/effect/proc_holder/spell/invoked/mindlink/hag/cast(list/targets, mob/living/user)
 	var/list/possible = user.mind.known_people.Copy()
