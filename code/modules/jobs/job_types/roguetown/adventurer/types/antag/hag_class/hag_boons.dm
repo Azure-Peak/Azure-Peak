@@ -19,11 +19,11 @@
 	var/hag_trait = FALSE
 
 /datum/hag_boon/curse_scar
-    name = "Curse Scar"
-    desc = "A lingering mark of a previous pact. It represents the toll taken on the soul, claimed by the Mossmother."
-    points = 0
-    transmutable = FALSE
-    hag_curse = FALSE
+	name = "Curse Scar"
+	desc = "A lingering mark of a previous pact. It represents the toll taken on the soul, claimed by the Mossmother. Whilst this pleases the Mossmother, keep in mind that those cursed may seek to expose your hut and kill you."
+	points = 0
+	transmutable = FALSE
+	hag_curse = FALSE
 
 /datum/hag_boon/New(t_name, datum/component/hag_curio_tracker/T, set_points)
 	src.time_granted = world.time
@@ -67,3 +67,76 @@
 
 /datum/hag_boon/item_debt/proc/add_points(amt)
 	points += amt
+
+/obj/item/recipe_book/hag_grimoire
+	name = "The Mother's Ledger"
+	wiki_name = "Hag's Boons"
+	icon_state = "book7_0"
+	base_icon_state = "book7"
+	can_spawn = FALSE
+	types = list(
+		/datum/hag_boon/curse_scar,
+		/datum/hag_boon/trait/ritualist,
+		/datum/hag_boon/trait/webwalk,
+		/datum/hag_boon/trait/nightowl,
+		/datum/hag_boon/trait/beautiful,
+		/datum/hag_boon/trait/beautiful_uncanny,
+		/datum/hag_boon/trait/leaper,
+		/datum/hag_boon/trait/ignoreslowdown,
+		/datum/hag_boon/trait/battleready,
+		/datum/hag_boon/trait/armor_medium,
+		/datum/hag_boon/trait/armor_heavy,
+		/datum/hag_boon/trait/dodge_expert,
+		/datum/hag_boon/trait/bleed_resistance,
+		/datum/hag_boon/trait/grab_immunity,
+		/datum/hag_boon/trait/crackhead,
+		/datum/hag_boon/trait/civil_barbarian,
+		/datum/hag_boon/trait/water_breathing,
+		/datum/hag_boon/trait/sharper_blades,
+		/datum/hag_boon/trait/guidance,
+		/datum/hag_boon/trait/good_trainer,
+		/datum/hag_boon/trait/counter_counterspell,
+		/datum/hag_boon/trait/keen_ears,
+		/datum/hag_boon/trait/hard_dismember,
+		/datum/hag_boon/trait/no_pain,
+		/datum/hag_boon/trait/dark_vision,
+		/datum/hag_boon/trait/azure_native,
+		/datum/hag_boon/trait/matthios_eyes,
+		/datum/hag_boon/trait/wood_walker,
+		/datum/hag_boon/trait/unbound_strength,
+		/datum/hag_boon/trait/jack_of_all_trades,
+		/datum/hag_boon/trait/expert_medicine,
+		/datum/hag_boon/trait/expert_alchemy,
+		/datum/hag_boon/trait/expert_smithing,
+		/datum/hag_boon/trait/expert_sewing,
+		/datum/hag_boon/trait/expert_survival,
+		/datum/hag_boon/trait/expert_homestead,
+		/datum/hag_boon/trait/self_sustenance,
+		/datum/hag_boon/trait/combat_aware,
+		/datum/hag_boon/trait/wyrd_labourer,
+		/datum/hag_boon/trait/curse/critical_weakness,
+		/datum/hag_boon/trait/curse/no_spells,
+		/datum/hag_boon/trait/curse/no_run,
+		/datum/hag_boon/trait/curse/comic_sans,
+		/datum/hag_boon/trait/curse/ugly,
+		/datum/hag_boon/trait/curse/mute,
+		/datum/hag_boon/trait/curse/silver_weakness,
+		/datum/hag_boon/buff/curse/choking_moss,
+		/datum/hag_boon/buff/curse/waterlogged,
+		/datum/hag_boon/buff/curse/slumber,
+		/datum/hag_boon/spell/spider_speak,
+		/datum/hag_boon/spell/twist_food,
+		/datum/hag_boon/spell/find_riches,
+		/datum/hag_boon/spell/banish,
+		/datum/hag_boon/buff/storm_rebirth,
+		/datum/hag_boon/buff/natural_communion,
+		/datum/hag_boon/buff/creeping_moss,
+		/datum/hag_boon/curse/rotting_touch,
+		/datum/hag_boon/curse/storm_weakness
+	)
+
+/obj/item/recipe_book/hag_grimoire/attack_self(mob/user)
+	if(!GLOB.active_hags.Find(user))
+		to_chat(user, span_warning("The runes give you a migraine. You can't make sense of this."))
+		return
+	..()

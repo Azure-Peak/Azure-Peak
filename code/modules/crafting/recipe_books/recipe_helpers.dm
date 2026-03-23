@@ -3,6 +3,13 @@
 /proc/get_recipe_category(path)
 	if(!ispath(path))
 		return null
+	if(ispath(path, /datum/hag_boon))
+		var/datum/hag_boon/B = path
+		if(initial(B.hag_curse))
+			return "Curses"
+		var/pts = initial(B.points)
+		if(pts >= 50) return "Greater Boons"
+		return "Minor Boons"
 	var/datum/temp_recipe
 	var/category
 
@@ -40,6 +47,8 @@
 	return category
 
 /proc/should_hide_recipe(path)
+	if(ispath(path, /datum/hag_boon))
+		return !initial(path:hag_is_valid)
 	if(ispath(path, /datum/crafting_recipe))
 		var/datum/crafting_recipe/recipe = path
 		if(initial(recipe.hides_from_books))
@@ -79,6 +88,19 @@
 	var/recipe_html = ""
 
 	var/datum/temp_recipe
+	if(ispath(path, /datum/hag_boon))
+		var/datum/hag_boon/B = path
+		html += "<h2>[initial(B.name)]</h2>"
+		html += "<p class='description'>[initial(B.desc)]</p>"
+		html += "<hr>"
+		html += "<div class='boon-stats'>"
+		html += "<b>Cost:</b> [initial(B.points)] Points<br>"
+		html += "<b>Transmutable:</b> [initial(B.transmutable) ? "Yes" : "No"]<br>"
+		if(initial(B.hag_curse))
+			html += "<span class='boldwarning'>This is a Curse.</span>"
+		html += "</div>"
+		html += "</div>"
+		return html
 	if(ispath(path, /datum/crafting_recipe))
 		temp_recipe = new path()
 		var/datum/crafting_recipe/r = temp_recipe

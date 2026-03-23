@@ -16,7 +16,7 @@ GLOBAL_DATUM(recipe_wiki, /datum/recipe_wiki)
 	. = ..()
 	for(var/book_type in subtypesof(/obj/item/recipe_book))
 		var/obj/item/recipe_book/book = new book_type()
-		if(!length(book.types))
+		if(!book.can_spawn || !length(book.types))
 			qdel(book)
 			continue
 		book_entries += list(list(

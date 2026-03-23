@@ -37,6 +37,7 @@
 
 /datum/hag_boon/spell/spider_speak
 	name = "Boon of Spider Speak"
+	desc = "Allows the bearer to cast spider speak, making spiders friendly with a target for a long while."
 	spell_type = /obj/effect/proc_holder/spell/invoked/spiderspeak
 	points = 10
 
