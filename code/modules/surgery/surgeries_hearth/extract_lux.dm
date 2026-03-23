@@ -55,6 +55,8 @@
 		if(isaasimar(target))
 			new /obj/item/reagent_containers/lux(target.loc)
 			apply_greater = TRUE
+		else if(HAS_TRAIT(target, TRAIT_ANCIENT_HAG))
+			new /obj/item/reagent_containers/lux_moss(target.loc)
 		else
 			new /obj/item/reagent_containers/lux_impure(target.loc)
 		

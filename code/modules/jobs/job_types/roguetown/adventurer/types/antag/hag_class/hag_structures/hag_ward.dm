@@ -38,14 +38,14 @@
 
 /obj/structure/roguemachine/hag_ward/examine(mob/user)
 	. = ..()
-	if(HAS_TRAIT(user, TRAIT_CURSE_SCAR))
+	if(HAS_TRAIT(user, TRAIT_CURSE_SCAR) || GLOB.hag_rite_active)
 		var/datum/reagent/R = required_reagent
 		. += "<br><span class='boldwarning'>The scar on your skin pulses. The roots of this ward crave [units_needed] units of [initial(R.name)].</span>"
 	else
 		. += "<br><span class='notice'>It seems to be feeding on something in the air, but you can't tell what.</span>"
 
 /obj/structure/roguemachine/hag_ward/attackby(obj/item/I, mob/user)
-	if(!HAS_TRAIT(user, TRAIT_CURSE_SCAR))
+	if(!HAS_TRAIT(user, TRAIT_CURSE_SCAR) && !GLOB.hag_rite_active)
 		return ..()
 	if(istype(I, /obj/item/reagent_containers))
 		var/obj/item/reagent_containers/container = I

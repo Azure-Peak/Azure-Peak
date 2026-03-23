@@ -129,6 +129,7 @@
 		M.playsound_local(M, 'sound/hag/hag_cackles.ogg', 100, FALSE)
 
 	rite_started = TRUE
+	GLOB.hag_rite_active = TRUE
 	timer_id = addtimer(CALLBACK(src, PROC_REF(finish_rite)), 20 MINUTES, TIMER_STOPPABLE)
 
 /obj/structure/roguemachine/hag_heart/proc/finish_rite()
