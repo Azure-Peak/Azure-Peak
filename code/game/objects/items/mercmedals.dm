@@ -92,7 +92,7 @@
 	the gods walk, and they walk with you."
 	icon_state = "atgervi_idol"
 
-/obj/item/clothing/neck/roguetown/luckcharm/mercmedal/grudgebearer
+/obj/item/clothing/neck/roguetown/luckcharm/mercmedal/isenban
 	name = "isenban's keepsake"
 	desc = "\"Fergive? FERGET? PFAH! GO T'HEL!\""
 	icon_state = "grudge_keepsake"

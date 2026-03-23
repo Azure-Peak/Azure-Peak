@@ -54,9 +54,9 @@
 		/datum/advclass/mercenary/blackoak,
 		/datum/advclass/mercenary/blackoak/ranger,
 		/datum/advclass/mercenary/underdweller,
-		/datum/advclass/mercenary/grudgebearer,
-		/datum/advclass/mercenary/grudgebearer/soldier,
-		/datum/advclass/mercenary/trollslayer,
+		/datum/advclass/mercenary/isenban,
+		/datum/advclass/mercenary/isenban/soldier,
+		/datum/advclass/mercenary/hornwulf,
 		/datum/advclass/mercenary/lirvanmerc
 	)
 

@@ -1,7 +1,7 @@
 //Dwarf-exclusive mercenary class with unique armor setups.
 /datum/advclass/mercenary/isenban
 	name = "Isenban Smith"
-	tutorial = "It is the Isenban that lead the vanguard when the Mountainhomes march to war. \
+	tutorial = "When the Mountainhomes march to war, it is the Isenban that lead the vanguard. \
 	You are the pride of your clan, armed and armored with the finest craftsmanship of its finest \
 	smiths and sent far afield to gain experience in battle, and to accrue riches for your kin. \
 	Despite this prestige, you have a ways still to go; you are only a smith, a junior member of \
@@ -128,7 +128,7 @@
 					backr = /obj/item/rogueweapon/stoneaxe/battle
 				if("Grand Mace")
 					backr = /obj/item/rogueweapon/mace/goden/steel
-				if("Maul")
+				if("Dwarvish Maul")
 					r_hand = /obj/item/rogueweapon/mace/maul/steel
 					backr = /obj/item/rogueweapon/scabbard/gwstrap
 		H.merctype = 8
