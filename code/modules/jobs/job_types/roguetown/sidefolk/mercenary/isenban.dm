@@ -133,10 +133,9 @@
 					backr = /obj/item/rogueweapon/scabbard/gwstrap
 		H.merctype = 8
 
-
 // Soldier: Full plate equivalent — ARMOR_PLATE with steel-tier integrity
 /obj/item/clothing/suit/roguetown/armor/plate/full/dwarven
-	name = "isenban plate"
+	name = "isenban dwarven plate"
 	desc = "A standard, layered plate worn by many dwarven troops."
 	icon = 'icons/roguetown/clothing/special/race_armor.dmi'
 	mob_overlay_icon = 'icons/roguetown/clothing/special/onmob/race_armor.dmi'
@@ -151,8 +150,7 @@
 // Smith: Maille-tier protection, medium armor class
 /obj/item/clothing/suit/roguetown/armor/plate/full/dwarven/smith
 	name = "isenban splint apron"
-	desc = "A standard, layered mixture of plate and maille, worn by many dwarven smiths. \
-	It cannot be worked on without intrinsic dwarven knowledge."
+	desc = "A mixture of plate and maille, worn by dwarven smiths. It cannot be worked on without intrinsic dwarven knowledge."
 	icon_state = "dsmithchest"
 	item_state = "dsmithchest"
 	armor = ARMOR_PLATE
@@ -215,5 +213,3 @@
 	item_state = "dwarfshoe"
 	armor = ARMOR_PLATE
 	max_integrity = ARMOR_INT_SIDE_STEEL
-
-
