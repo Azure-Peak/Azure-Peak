@@ -21,6 +21,7 @@
 	)
 	var/list/delivered_items = list()
 	var/rite_started = FALSE
+	var/rite_completed = FALSE
 	var/tutorial_started = FALSE
 	var/static/list/hag_tutorial_lines = list(
 		"Awaken, daughter of the mud... the roots have pulled you back from the long sleep.",
@@ -179,6 +180,7 @@
 		return
 
 	priority_announce("The Grand Rite is complete. [chosen_rite.name] has fallen upon the world! Ancient grievances are at last settled.", "The Mossmother Ascends")
+	rite_completed = TRUE
 
 	// Distribute the spite
 	for(var/mob/living/carbon/human/H in GLOB.human_list)
