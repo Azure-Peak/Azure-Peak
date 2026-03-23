@@ -95570,14 +95570,12 @@
 /turf/open/floor/rogue/cobble/mossy,
 /area/rogue/under/cave/his_vault/three)
 "tZg" = (
-/obj/machinery/light/rogue/lanternpost{
-	dir = 1
-	},
 /obj/effect/decal/mossy,
 /obj/effect/decal/edge{
 	color = "#3f3f3f";
 	dir = 4
 	},
+/obj/machinery/light/rogue/lanternpost,
 /turf/open/floor/rogue/cobble,
 /area/rogue/outdoors/town)
 "tZl" = (
