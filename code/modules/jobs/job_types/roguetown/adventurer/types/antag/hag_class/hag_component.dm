@@ -161,6 +161,9 @@
 	if(scar)
 		scar.points += points
 	else
+		var/mob/living/victim = find_target(true_name)
+		if(victim)
+			ADD_TRAIT(victim, TRAIT_CURSE_SCAR, "hag_curse")
 		scar = new /datum/hag_boon/curse_scar(true_name, src, points)
 		name_list += scar
 	check_tier_upgrade()
@@ -190,6 +193,9 @@
 	// Less heavy of a check than in boons itself.
 	// Don't use this proc if the player's mind is in question...
 	for(var/mob/living/L in GLOB.player_list)
+		if(L.real_name == true_name)
+			return L
+	for(var/mob/living/L in GLOB.mob_living_list)
 		if(L.real_name == true_name)
 			return L
 	return null

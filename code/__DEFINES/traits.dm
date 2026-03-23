@@ -111,6 +111,7 @@
 #define TRAIT_FOG_WARDED "Fog Warded"
 #define TRAIT_ANCIENT_HAG "Ancient Hag" // Trait for ancient hags and ancient hags ONLY
 #define TRAIT_WYRD_LABOURER "Wyrd Labourer" // Hag boon
+#define TRAIT_CURSE_SCAR "Curse Scar"
 
 //Hearthstone port (Tracking)
 #define TRAIT_PERFECT_TRACKER "Huntmaster" //Will always find any tracks and analyzes them perfectly.
@@ -518,6 +519,7 @@ GLOBAL_LIST_INIT(roguetraits, list(
 	TRAIT_FOG_WARDED = span_info("I am protected from Necra's deadly fog. The revenants won't find me... for now."),
 	TRAIT_ANCIENT_HAG = span_info("I know of secrets in alchemy and magyck no one else is aware of, for none are more ancient, more engrossed with the finer details of this land."),
 	TRAIT_WYRD_LABOURER = span_info("Strange power causes my swings to cut through trees and rocks with ease."),
+	TRAIT_CURSE_SCAR = span_info("That foul wench cursed me! I'll have my revenge... Those strange fog wards in the bog, what if?..."),
 ))
 
 // trait accessor defines

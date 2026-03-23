@@ -114,39 +114,62 @@
 	if(HAS_TRAIT(user, TRAIT_ANCIENT_HAG))
 		contents += "<a href='?src=[REF(src)];action=hag'>[span_danger("Reap Mother's Blood")]</a><BR>"
 		contents += "<a href='?src=[REF(src)];action=travel'>[span_boldnotice("Walk the Roots")]</a><BR>"
+	else if(!GLOB.hag_wards.len)
+		contents += "<a href='?src=[REF(src)];action=travel'>[span_boldnotice("Walk the Roots")]</a><BR>"
 	contents += "</center>"
 	var/datum/browser/popup = new(user, "mossmother", "The Mossmother", 300, 300)
 	popup.set_content(contents)
 	popup.open()
 
 /obj/structure/roguemachine/mossmother/proc/handle_travel(mob/living/user)
-	var/datum/component/hag_curio_tracker/tracker = user.GetComponent(/datum/component/hag_curio_tracker)
-	
-	if(tracker && !tracker.hag_teleport_check())
-		to_chat(user, span_warning("Your soul is still too frayed from your last return to walk the deep roots. Wait a bit longer..."))
+	if(HAS_TRAIT(user, TRAIT_ANCIENT_HAG))
+		var/datum/component/hag_curio_tracker/tracker = user.GetComponent(/datum/component/hag_curio_tracker)
+
+		if(tracker && !tracker.hag_teleport_check())
+			to_chat(user, span_warning("Your soul is still too frayed from your last return to walk the deep roots. Wait a bit longer..."))
+			return
+
+		var/dat = "<center>THE DEEP ROOTS<BR>--------------<BR>"
+		for(var/obj/structure/roguemachine/mossmother/tree in GLOB.hag_trees)
+			if(tree == src)
+				continue
+			var/area/A = get_area(tree)
+			dat += "<a href='?src=[REF(src)];teleport_to=[REF(tree)]'>[A ? A.name : "Unknown Thicket"]</a><BR>"
+
+		dat += "</center>"
+		var/datum/browser/popup = new(user, "root_travel", "Root Travel", 300, 400)
+		popup.set_content(dat)
+		popup.open()
 		return
 
-	var/dat = "<center>THE DEEP ROOTS<BR>--------------<BR>"
-	for(var/obj/structure/roguemachine/mossmother/tree in GLOB.hag_trees)
-		if(tree == src)
-			continue
-		var/area/A = get_area(tree)
-		dat += "<a href='?src=[REF(src)];teleport_to=[REF(tree)]'>[A ? A.name : "Unknown Thicket"]</a><BR>"
+	// Mortal logic (Wards are gone)
+	var/area/my_area = get_area(src)
+	if(istype(my_area, /area/rogue/indoors/shelter/bog_hag))
+		// They are IN the hut, send them to a random exit
+		var/list/exits = list()
+		for(var/obj/structure/roguemachine/mossmother/T in GLOB.hag_trees)
+			if(!istype(get_area(T), /area/rogue/indoors/shelter/bog_hag))
+				exits += T
 
-	dat += "</center>"
-	var/datum/browser/popup = new(user, "root_travel", "Root Travel", 300, 400)
-	popup.set_content(dat)
-	popup.open()
+		if(exits.len)
+			do_teleport(user, pick(exits), is_mortal = TRUE)
+	else
+		// They are OUTSIDE, send them to the hut
+		for(var/obj/structure/roguemachine/mossmother/T in GLOB.hag_trees)
+			if(istype(get_area(T), /area/rogue/indoors/shelter/bog_hag))
+				do_teleport(user, T, is_mortal = TRUE)
+				break
 
-/obj/structure/roguemachine/mossmother/proc/do_teleport(mob/living/user, obj/structure/roguemachine/mossmother/target)
+/obj/structure/roguemachine/mossmother/proc/do_teleport(mob/living/user, obj/structure/roguemachine/mossmother/target, is_mortal = FALSE)
 	if(!target || !user || !user.Adjacent(src))
 		return
 
+	var/wait_time = is_mortal ? 20 SECONDS : 10 SECONDS
 	user.visible_message(span_notice("[user] begins to sink into the mossy roots of [src]..."), \
 						 span_notice("You begin to dissolve into the network of roots, seeking the path to [get_area(target)]."))
 
 	// Long do_after to allow interruption.
-	if(do_after(user, 10 SECONDS, target = src))
+	if(do_after(user, wait_time, target = src))
 		if(!target || !user.Adjacent(src))
 			return
 
@@ -160,7 +183,7 @@
 
 /obj/item/alch/hag_moss
 	name = "Generic moss"
-	desc = "I shouldn't exist."
+	desc = "A bloom of moss."
 	icon_state = "moss_blank"
 	icon = 'icons/roguetown/items/hag/hag_items.dmi'
 
