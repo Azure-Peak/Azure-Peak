@@ -14,21 +14,21 @@
 	gender = MALE
 	emote_hear = null
 	emote_see = null
-	turns_per_move = 5
+	turns_per_move = 3
 	see_in_dark = 10
-	move_to_delay = 5
+	move_to_delay = 3
 	base_intents = list(/datum/intent/simple/claw/mossback)
 	botched_butcher_results = list (/obj/item/reagent_containers/food/snacks/rogue/meat/crab = 1, /obj/item/alch/viscera = 1)
 	butcher_results = list(/obj/item/reagent_containers/food/snacks/rogue/meat/crab = 3, 
 							/obj/item/alch/viscera = 2)
 	perfect_butcher_results = list(/obj/item/reagent_containers/food/snacks/rogue/meat/crab = 5, 
 									/obj/item/alch/viscera = 2)
-	faction = list("hag")
+	faction = list("hag", "spiders")
 	mob_biotypes = MOB_ORGANIC|MOB_BEAST
-	health = MOSSBACK_HEALTH
-	maxHealth = MOSSBACK_HEALTH
-	melee_damage_lower = 35
-	melee_damage_upper = 50
+	health = HAG_TRUE_FORM_HEALTH
+	maxHealth = HAG_TRUE_FORM_HEALTH
+	melee_damage_lower = 25
+	melee_damage_upper = 40
 	vision_range = 4
 	aggro_vision_range = 3
 	retreat_distance = 0
@@ -43,8 +43,13 @@
 	attack_sound = list('sound/combat/wooshes/blunt/wooshhuge (1).ogg','sound/combat/wooshes/blunt/wooshhuge (2).ogg','sound/combat/wooshes/blunt/wooshhuge (3).ogg')
 	dodgetime = 0
 	aggressive = 1
-	
-//	stat_attack = UNCONSCIOUS
+	STACON = 10
+	STAINT = 10
+	STALUC = 10
+	STAPER = 11
+	STASPD = 5
+	STASTR = 10
+	STAWIL = 10
 
 	can_have_ai = FALSE //disable native ai
 	AIStatus = AI_OFF
@@ -54,3 +59,10 @@
 /mob/living/simple_animal/hostile/retaliate/rogue/hag_shapeshift/Initialize()
 	. = ..()
 	name = initial(name)
+
+/mob/living/simple_animal/hostile/retaliate/rogue/hag_shapeshift/death(gibbed)
+	var/obj/shapeshift_holder/H = locate() in src
+	if(H && H.stored)
+		var/mob/living/carbon/human/hum = H.stored
+		COOLDOWN_START(hum, hag_transform_lockout, 2 MINUTES)
+	return ..()

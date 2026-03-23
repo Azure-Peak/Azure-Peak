@@ -109,7 +109,7 @@
 
 	// Add do-after for witches when reverting
 	shape.visible_message(span_warning("[shape] begins to shift back!"), span_notice("I begin to transform..."))
-	if(!do_after(shape, 3 SECONDS, target = shape))
+	if(!do_after(shape, 15 SECONDS, target = shape))
 		to_chat(shape, span_warning("Transformation revert interrupted!"))
 		revert_cast(shape)  // Refund the cooldown
 		return
