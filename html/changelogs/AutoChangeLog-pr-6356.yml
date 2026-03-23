@@ -1,4 +1,0 @@
-author: "WeNeedMorePhoron"
-delete-after: True
-changes:
-  - rscadd: "Arcyne Bolt and Fireball has been refactored to use a new action system and have a different, more detailed telegraph. Report any issues with these two spells in particular."

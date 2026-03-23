@@ -291,6 +291,7 @@
 	slice_path = null
 	rotprocess = null
 	faretype = FARE_FINE
+	obj_flags = CAN_BE_HIT|UNIQUE_RENAME
 	bitesize = 3
 	list_reagents = list(/datum/reagent/consumable/nutriment = SNACK_DECENT)
 	tastes = list("crispy sugarglass" = 1)
