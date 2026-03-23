@@ -31,7 +31,6 @@
 	src.tracker = T
 	src.points = set_points
 	var/mob/living/L = find_target()
-	to_chat(world, "DEBUG: Attempting to apply [src] to [L] finding [true_name] with [points] points.")
 	if(L)
 		apply_boon_effect(L)
 
@@ -132,7 +131,11 @@
 		/datum/hag_boon/buff/natural_communion,
 		/datum/hag_boon/buff/creeping_moss,
 		/datum/hag_boon/curse/rotting_touch,
-		/datum/hag_boon/curse/storm_weakness
+		/datum/hag_boon/curse/storm_weakness,
+		/datum/hag_boon/item/hag_sword,
+		/datum/hag_boon/item/hag_axe,
+		/datum/hag_boon/item/hag_spear,
+		/datum/hag_boon/item/wyrd_cross
 	)
 
 /obj/item/recipe_book/hag_grimoire/attack_self(mob/user)
@@ -169,5 +172,11 @@
 		// --- High Rarity Mosses ---
 		/datum/crafting_recipe/roguetown/alchemy/hag/prismatic_moss,
 		/datum/crafting_recipe/roguetown/alchemy/hag/gilded_moss,
-		/datum/crafting_recipe/roguetown/alchemy/hag/drowned_moss
+		/datum/crafting_recipe/roguetown/alchemy/hag/drowned_moss,
+
+		// --- Items ---
+		/datum/crafting_recipe/roguetown/alchemy/hag/wyrd_cross,
+		/datum/crafting_recipe/roguetown/alchemy/hag/wyrd_axe,
+		/datum/crafting_recipe/roguetown/alchemy/hag/wyrd_sword,
+		/datum/crafting_recipe/roguetown/alchemy/hag/wyrd_spear,
 	)

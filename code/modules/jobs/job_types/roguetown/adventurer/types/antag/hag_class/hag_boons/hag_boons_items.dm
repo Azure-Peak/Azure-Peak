@@ -211,3 +211,17 @@
 /obj/item/rogueweapon/halberd/hag/Initialize(mapload)
 	. = ..()
 	AddComponent(/datum/component/hag_magical_item, /datum/hag_boon/item/hag_spear)
+
+/obj/item/clothing/suit/roguetown/shirt/robe/hag //Not a boon item, but nonetheless something they have
+	slot_flags = ITEM_SLOT_ARMOR|ITEM_SLOT_SHIRT|ITEM_SLOT_CLOAK
+	name = "wyrd robe"
+	desc = "A robe with an ancient design, unknown to tailors and sewers here."
+	body_parts_covered = CHEST|GROIN|ARMS|LEGS|VITALS
+	icon_state = "hag"
+	icon = 'icons/roguetown/clothing/armor.dmi'
+	mob_overlay_icon = 'icons/roguetown/clothing/onmob/armor.dmi'
+	sleeved = 'icons/roguetown/clothing/onmob/helpers/sleeves_armor.dmi'
+	boobed = TRUE
+	color = null
+	r_sleeve_status = SLEEVE_NORMAL
+	l_sleeve_status = SLEEVE_NORMAL

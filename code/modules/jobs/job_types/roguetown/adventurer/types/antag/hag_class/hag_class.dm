@@ -42,6 +42,11 @@
 
 /datum/outfit/job/roguetown/hag/pre_equip(mob/living/carbon/human/H)
 	..()
+	armor = /obj/item/clothing/suit/roguetown/shirt/robe/hag
+	belt = /obj/item/storage/belt/rogue/leather/black
+	backl = /obj/item/storage/backpack/rogue/satchel
+	shoes = /obj/item/clothing/shoes/roguetown/sandals
+	beltl = /obj/item/storage/belt/rogue/pouch/coins/aalloy
 	if(H.mind)
 		H.ambushable = FALSE
 		H.faction |= list("hag", "spiders")

@@ -228,7 +228,6 @@
 
 /datum/status_effect/buff/hag_boon/creeping_moss/proc/on_attackby(datum/source, obj/item/W, mob/user, params)
 	SIGNAL_HANDLER
-	to_chat(world, span_boldnotice("DEBUG: User=[user ? "YES" : "NO"] | Item=[W ? "YES" : "NO"] | Layer=[moss_layer] - attackby proc"))
 
 	if(user.cmode == TRUE) 
 		return
@@ -248,7 +247,6 @@
 	return COMPONENT_NO_AFTERATTACK
 
 /datum/status_effect/buff/hag_boon/creeping_moss/proc/begin_trimming(mob/user, obj/item/W)
-	to_chat(world, span_boldnotice("DEBUG: User=[user ? "YES" : "NO"] | Item=[W ? "YES" : "NO"] | Layer=[moss_layer]"))
 	if(!user || !W || !owner)
 		return
 

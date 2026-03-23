@@ -55,3 +55,15 @@
 		/obj/item/alch/hag_moss/lullaby = 2,
 		/obj/item/alch/hag_moss/pride   = 2
 	)
+
+/obj/effect/spawner/lootdrop/hag/wyrd_artifacts
+	name = "wyrd artifact spawner"
+	icon = 'icons/roguetown/items/hag/hag_items.dmi'
+	icon_state = "moss_blank"
+	lootcount = 1
+	loot = list(
+		/obj/item/clothing/neck/roguetown/psicross/hag = 1,
+		/obj/item/rogueweapon/greataxe/steel/hag       = 1,
+		/obj/item/rogueweapon/sword/long/hag          = 1,
+		/obj/item/rogueweapon/halberd/hag             = 1
+	)

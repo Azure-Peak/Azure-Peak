@@ -247,7 +247,6 @@
 	// No new people past the limit, but old people is fine.
 	if(!boon_registry[name_to_check] && active_victims >= max_victims)
 		to_chat(parent, span_warning("Your spirit cannot tether more than [max_victims] souls at this tier."))
-		to_chat(world, span_warning("Your spirit cannot tether more than [max_victims] souls at this tier."))
 		return FALSE
 
 	// 3 traits per person. We don't want hags to only give out traits...
@@ -264,14 +263,12 @@
 	var/datum/hag_boon/checking = boon_path // Cast for initial access
 	if(initial(checking.hag_trait) && trait_boon_count >= 3)
 		to_chat(parent, span_warning("[name_to_check]'s body cannot withstand more than 3 trait-altering boons!"))
-		to_chat(world, span_warning("[name_to_check]'s body cannot withstand more than 3 trait-altering boons!"))
 		return FALSE
 
 	// Finally, tier limits. Higher tiers allow for more powerful boons, and more boons overall.
 	var/new_boon_points = initial(checking.points)
 	if((current_total_points + new_boon_points) > max_points)
 		to_chat(parent, span_warning("This blessing is too heavy. [name_to_check] only has room for [max_points - current_total_points] more points of power."))
-		to_chat(world, span_warning("This blessing is too heavy. [name_to_check] only has room for [max_points - current_total_points] more points of power."))
 		return FALSE
 
 	// Spell check!
