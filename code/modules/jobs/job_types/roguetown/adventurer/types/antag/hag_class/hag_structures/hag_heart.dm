@@ -34,6 +34,7 @@
 		"And if the hunger for true revenge bites... bring me the tithes listed here. We shall perform the Grand Rite together.",
 		"Be wary! Cursed mortals and the Rite itself will draw them to your hut. They will try to smash my wards in the bog to find you.",
 		"I am your anchor. I will bring you back from death's door again and again... unless they shatter me, as they did in the yils before.",
+		"Should you find yourself captured or trapped, remember you can hold your breath...",
 		"Go now. Curse them. Bind them. Or burn the world with the Rite. The bog remembers... and so do I."
 	)
 
