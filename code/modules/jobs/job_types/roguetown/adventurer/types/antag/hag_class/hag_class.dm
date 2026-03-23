@@ -38,16 +38,37 @@
 /datum/outfit/job/roguetown/hag/pre_equip(mob/living/carbon/human/H)
 	..()
 	if(H.mind)
+		H.faction |= list("hag", "spiders")
 		H.mind.AddSpell(new /obj/effect/proc_holder/spell/targeted/shapeshift/hag_true_form)
 		H.set_patron(/datum/patron/mossmother)
 		H.AddComponent(/datum/component/hag_curio_tracker)
+		// --- Taught Recipes ---
 		H.mind.teach_crafting_recipe(/datum/crafting_recipe/roguetown/alchemy/hag/varnish)
 		H.mind.teach_crafting_recipe(/datum/crafting_recipe/roguetown/alchemy/hag/synth_shiny)
 		H.mind.teach_crafting_recipe(/datum/crafting_recipe/roguetown/alchemy/hag/synth_base)
+
+		// Low Rarity
+		H.mind.teach_crafting_recipe(/datum/crafting_recipe/roguetown/alchemy/hag/faded_moss)
+		H.mind.teach_crafting_recipe(/datum/crafting_recipe/roguetown/alchemy/hag/crawling_moss)
+		H.mind.teach_crafting_recipe(/datum/crafting_recipe/roguetown/alchemy/hag/stormy_moss)
+		H.mind.teach_crafting_recipe(/datum/crafting_recipe/roguetown/alchemy/hag/corrosive_moss)
+
+		// Mid Rarity
+		H.mind.teach_crafting_recipe(/datum/crafting_recipe/roguetown/alchemy/hag/lustrous_moss)
+		H.mind.teach_crafting_recipe(/datum/crafting_recipe/roguetown/alchemy/hag/caring_moss)
+		H.mind.teach_crafting_recipe(/datum/crafting_recipe/roguetown/alchemy/hag/rooted_moss)
+		H.mind.teach_crafting_recipe(/datum/crafting_recipe/roguetown/alchemy/hag/creeping_moss)
+
+		// High Rarity
+		H.mind.teach_crafting_recipe(/datum/crafting_recipe/roguetown/alchemy/hag/prismatic_moss)
+		H.mind.teach_crafting_recipe(/datum/crafting_recipe/roguetown/alchemy/hag/gilded_moss)
+		H.mind.teach_crafting_recipe(/datum/crafting_recipe/roguetown/alchemy/hag/drowned_moss)
+
 		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/spiritual_siphon)
 		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/transmutation_rite)
 		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/grant_boon)
 		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/resurrect/hag)
+		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/mindlink/hag)
 		if(H.mind.has_antag_datum(/datum/antagonist/hag))
 			var/datum/antagonist/new_antag = new /datum/antagonist/hag()
 			H.mind.add_antag_datum(new_antag)

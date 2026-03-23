@@ -43,16 +43,19 @@
 
 /datum/hag_boon/spell/twist_food
 	name = "Boon of invigorating cooking"
+	desc = "Similar to Eoran clergy, the bearer can enchant food with random bonuses and negatives being applied on a bite."
 	spell_type = /obj/effect/proc_holder/spell/invoked/twist_food
 	points = 20
 
 /datum/hag_boon/spell/find_riches
 	name = "Boon of riches"
+	desc = "Allows the bearer to find riches underneath boulders every now and then."
 	spell_type = /obj/effect/proc_holder/spell/self/boulder_scrounge
 	points = 40
 
 /datum/hag_boon/spell/banish
 	name = "Boon of banish problems"
+	desc = "Allows the bearer to send themselves or someone else to -THE SHADOW REALM-."
 	spell_type = /obj/effect/proc_holder/spell/invoked/slumber_exile
 	points = 30
 

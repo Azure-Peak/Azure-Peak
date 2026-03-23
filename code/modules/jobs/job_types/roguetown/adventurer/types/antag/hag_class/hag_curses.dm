@@ -11,8 +11,10 @@
 
 /datum/hag_boon/curse/rotting_touch
 	name = "Curse of rotting touch"
+	desc = "Food will rot in the bearer's hands. Dispelled after a certain amount of items are affected."
 	status_type = /datum/status_effect/debuff/hag_curse/rotting_touch
 
 /datum/hag_boon/curse/storm_weakness
 	name = "Curse of Storm Weakness"
+	desc = "The bearer loses a large amount of constitution. Applied after storm rebirth."
 	status_type = /datum/status_effect/debuff/hag_curse/storm_weakness

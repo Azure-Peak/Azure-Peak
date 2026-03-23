@@ -263,41 +263,49 @@
 /obj/item/alch/hag_moss/enchanted/deathless
 	name = "Stormy Moss"
 	boon_path = /datum/hag_boon/buff/storm_rebirth
+	desc = "No matter how you slice it, this moss always seems to regrow into its original shape whilst the cuttings rapidly wilt."
 	color = "#fffb00"
 
-/obj/item/alch/hag_moss/enchanted/deathless
+/obj/item/alch/hag_moss/enchanted/corrosive
 	name = "Corrosive Moss"
 	boon_path = /datum/hag_boon/trait/wyrd_labourer
+	desc = "This moss looks strong, tough, as if the very leaves themselves have muscles."
 	color = "#683700"
 
 /obj/item/alch/hag_moss/enchanted/crawling
 	name = "Crawling Moss"
 	boon_path = /datum/hag_boon/spell/spider_speak
+	desc = "This moss frequently sprouts a little spider made out of moss, it crawls around on the moss."
 	color = "#0e0b09"
 
 /obj/item/alch/hag_moss/enchanted/caring
 	name = "Caring Moss"
 	boon_path = /datum/hag_boon/spell/twist_food
+	desc = "This moss smells absolutely delicious."
 	color = "#ff0cff"
 
 /obj/item/alch/hag_moss/enchanted/rooted
 	name = "Rooted Moss"
 	boon_path = /datum/hag_boon/buff/natural_communion
+	desc = "The moss seems to be growing a patch of grass underneath it, looking at it makes you feel more energetic."
 	color = "#019715"
 
 /obj/item/alch/hag_moss/enchanted/creeping
 	name = "Creeping Moss"
 	boon_path = /datum/hag_boon/buff/creeping_moss
+	desc = "This moss is trying to cling to you, but for some reason... it feels nice. You like this."
 	color = "#74b945"
 
 /obj/item/alch/hag_moss/enchanted/gilded
 	name = "Gilded Moss"
 	boon_path = /datum/hag_boon/spell/find_riches
+	desc = "You really want this moss. It is yours, your prized possession!."
 	color = "#eca202"
 
 /obj/item/alch/hag_moss/enchanted/drowned
 	name = "Drowned Moss"
 	boon_path = /datum/hag_boon/spell/banish
+	desc = "This moss makes you feel like you aren't standing before it anymore. You sense water.. The depths, true terror lingers at the edges of your mind."
 	color = "#037981"
 
 // Trait mosses

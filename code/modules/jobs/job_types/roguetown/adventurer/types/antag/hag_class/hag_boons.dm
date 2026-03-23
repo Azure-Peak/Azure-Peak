@@ -140,3 +140,34 @@
 		to_chat(user, span_warning("The runes give you a migraine. You can't make sense of this."))
 		return
 	..()
+
+/obj/item/recipe_book/hag_grimoire/moss_recipes
+	name = "The Mother's Botanical Ledger"
+	desc = "A heavy, damp volume bound in shifting lichen. Its pages are stained with the colorful juices of crushed moss and the grit of raw ores."
+	wiki_name = "Hag Alchemical Recipes"
+	icon_state = "book8_0"
+	base_icon_state = "book8"
+	can_spawn = FALSE
+	types = list(
+		// --- Core Catalysts ---
+		/datum/crafting_recipe/roguetown/alchemy/hag/varnish,
+		/datum/crafting_recipe/roguetown/alchemy/hag/synth_shiny,
+		/datum/crafting_recipe/roguetown/alchemy/hag/synth_base,
+
+		// --- Low Rarity Mosses ---
+		/datum/crafting_recipe/roguetown/alchemy/hag/faded_moss,
+		/datum/crafting_recipe/roguetown/alchemy/hag/crawling_moss,
+		/datum/crafting_recipe/roguetown/alchemy/hag/stormy_moss,
+		/datum/crafting_recipe/roguetown/alchemy/hag/corrosive_moss,
+
+		// --- Mid Rarity Mosses ---
+		/datum/crafting_recipe/roguetown/alchemy/hag/lustrous_moss,
+		/datum/crafting_recipe/roguetown/alchemy/hag/caring_moss,
+		/datum/crafting_recipe/roguetown/alchemy/hag/rooted_moss,
+		/datum/crafting_recipe/roguetown/alchemy/hag/creeping_moss,
+
+		// --- High Rarity Mosses ---
+		/datum/crafting_recipe/roguetown/alchemy/hag/prismatic_moss,
+		/datum/crafting_recipe/roguetown/alchemy/hag/gilded_moss,
+		/datum/crafting_recipe/roguetown/alchemy/hag/drowned_moss
+	)

@@ -86,16 +86,19 @@
 	name = "Strange Varnish"
 	icon = 'icons/roguetown/items/hag/hag_items.dmi'
 	icon_state = "varnish"
+	desc = "The label depicts dipping a sword into a cauldron."
 
 /obj/item/hag_catalyst/synth_base
 	name = "Odd Catalyst"
 	icon = 'icons/roguetown/items/hag/hag_items.dmi'
 	icon_state = "catalyst"
+	desc = "The label depicts dipping a bundle of sticks into a cauldron."
 
 /obj/item/hag_catalyst/synth_base/gilded
 	name = "Wyrd Catalyst"
 	icon = 'icons/roguetown/items/hag/hag_items.dmi'
 	icon_state = "catalyst_gold"
+	desc = "The label depicts dipping a bundle of sticks into a cauldron."
 
 /obj/structure/roguemachine/hag_cauldron/proc/update_icon_overlaps()
 	cut_overlays()
