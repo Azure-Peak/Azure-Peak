@@ -59,7 +59,7 @@
 				to_chat(user, span_boldwarning("Their breathing is somewhat impeded; the chest labors lightly."))
 			if(50 to 100)
 				to_chat(user, span_boldred("They are openly suffocating to death; air is desperately needed!"))
-			if(100 to INFINITY)
+			if(100 to INFINITY || human_target.stat >= DEAD) // the oxymoron strikes again u-u
 				to_chat(user, span_purple("No breath passes through their lips; Pestra rest their soul."))
 	// mostly to show a disparity in skill, no-skill seculars will be able to tell when poison has taken a deep root, not early signs
 	if(!(is_mid_tier || is_high_tier || miracle))
