@@ -1,5 +1,5 @@
 //Dwarf-exclusive mercenary class with unique armor setups.
-/datum/advclass/mercenary/grudgebearer
+/datum/advclass/mercenary/isenban
 	name = "Isenban Smith"
 	tutorial = "It is the Isenban that lead the vanguard when the Mountainhomes march to war. \
 	You are the pride of your clan, armed and armored with the finest craftsmanship of its finest \
@@ -13,7 +13,7 @@
 		/datum/species/dwarf,
 		/datum/species/dwarf/mountain
 	)
-	outfit = /datum/outfit/job/roguetown/mercenary/grudgebearer
+	outfit = /datum/outfit/job/roguetown/mercenary/isenban
 	class_select_category = CLASS_CAT_RACIAL
 	category_tags = list(CTAG_MERCENARY)
 	cmode_music = 'sound/music/combat_dwarf.ogg'
@@ -40,7 +40,7 @@
 	)
 
 //Because the armor is race-exclusive for repairs, these guys *should* be able to repair their own guys armor layers. A Dwarf smith isn't guaranteed, after all.
-/datum/outfit/job/roguetown/mercenary/grudgebearer/pre_equip(mob/living/carbon/human/H)
+/datum/outfit/job/roguetown/mercenary/isenban/pre_equip(mob/living/carbon/human/H)
 	..()
 	if(H.mind)
 		shoes = /obj/item/clothing/shoes/roguetown/boots/armor/dwarven
@@ -72,7 +72,7 @@
 				backr = /obj/item/rogueweapon/scabbard/gwstrap
 		H.merctype = 8
 
-/datum/advclass/mercenary/grudgebearer/soldier
+/datum/advclass/mercenary/isenban/soldier
 	name = "Isenban Dreng"
 	tutorial = "Dwarven steel is the envy of the world. You are a member of your clan's Isenban \
 	company, a formation of professional warriors entrusted with the finest craftsmanship your clan \
@@ -81,7 +81,7 @@
 	foreign lands in service to men and elves and things further afield, accruing your fortune and \
 	reputation as a mercenary beyond equal. Serve your employers with stalwart pride, do nothing \
 	to dishonor your kin, and trust in the perfection of your arms to see you through any battle."
-	outfit = /datum/outfit/job/roguetown/mercenary/grudgebearer_soldier
+	outfit = /datum/outfit/job/roguetown/mercenary/isenban_soldier
 	traits_applied = list(TRAIT_HEAVYARMOR)
 	subclass_stats = list(
 		STATKEY_CON = 5,
@@ -100,7 +100,7 @@
 		/datum/skill/craft/armorsmithing = SKILL_LEVEL_APPRENTICE,	//Only here so they'd be able to repair their own armor integrity
 		/datum/skill/misc/climbing = SKILL_LEVEL_NOVICE,
 	)
-/datum/outfit/job/roguetown/mercenary/grudgebearer_soldier/pre_equip(mob/living/carbon/human/H)
+/datum/outfit/job/roguetown/mercenary/isenban_soldier/pre_equip(mob/living/carbon/human/H)
 	..()
 	if(H.mind)
 		shoes = /obj/item/clothing/shoes/roguetown/boots/armor/dwarven
@@ -137,7 +137,7 @@
 // Soldier: Full plate equivalent — ARMOR_PLATE with steel-tier integrity
 /obj/item/clothing/suit/roguetown/armor/plate/full/dwarven
 	name = "isenban plate"
-	desc = "A standard, layered plate worn by many dwarven troops. It cannot be worked on without intrinsic dwarven knowledge."
+	desc = "A standard, layered plate worn by many dwarven troops."
 	icon = 'icons/roguetown/clothing/special/race_armor.dmi'
 	mob_overlay_icon = 'icons/roguetown/clothing/special/onmob/race_armor.dmi'
 	allowed_race = list(/datum/species/dwarf, /datum/species/dwarf/mountain)

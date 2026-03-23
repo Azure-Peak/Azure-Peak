@@ -1,6 +1,6 @@
 // barbarian-like subclass with soft-nudist (no armor) and no Fast Reflexes,
 // supposed to soak up damage with their con and skinarmor and chop shit up with class-exclusive axes
-/datum/advclass/mercenary/trollslayer
+/datum/advclass/mercenary/hornwulf
 	name = "Hornwulf"
 	tutorial = "You belong to a spiritual and martial tradition originating in Hammerhold; through acts \
 	of incredible heroism and grandeur, you aspire to ascend to one of the seven constellations of divinity \
@@ -12,11 +12,12 @@
 		/datum/species/dwarf,
 		/datum/species/dwarf/mountain
 		)
-	outfit = /datum/outfit/job/roguetown/mercenary/trollslayer
+	outfit = /datum/outfit/job/roguetown/mercenary/hornwulf
 	category_tags = list(CTAG_MERCENARY)
 	class_select_category = CLASS_CAT_RACIAL
 	cmode_music = 'sound/music/combat_dwarf.ogg'
-	extra_context = "Only the dwarves who swore an Oath to the ten may become Trollslayers." // dwarf exclusive and will force Ravox
+	extra_context = "Hornwulfs, as old-fashioned as they are, worship only the deities sanctioned by the Celestial \
+	Empire by the time of its fall." // Can't worship the Four.
 
 	traits_applied = list(TRAIT_CRITICAL_RESISTANCE, TRAIT_SHIRTLESS) //TRAIT_SHIRTLESS prevents equip on the head, armor and shirt slots and enables class-specific weapons
 	subclass_stats = list(
@@ -40,20 +41,20 @@
 	)
 	adv_stat_ceiling = list(STAT_STRENGTH = 12) // I'm sorry but you're not grabbing muscular and aiming chest with 12 speed 17 strength swift intent spam.
 
-/datum/outfit/job/roguetown/mercenary/trollslayer
+/datum/outfit/job/roguetown/mercenary/hornwulf
 	allowed_patrons = NON_PSYDON_PATRONS
 
-/datum/outfit/job/roguetown/mercenary/trollslayer/pre_equip(mob/living/carbon/human/H)
+/datum/outfit/job/roguetown/mercenary/hornwulf/pre_equip(mob/living/carbon/human/H)
 	..()
 	if(H.mind)
 		to_chat(H, span_warning("You are a Hornwulf, an aspirant to divinity within Hammerholdian \
 		religion. By acts of incredible heroism you will achieve your place in the hero cults \
 		of your homeland, or you will die in the attempt."))
 		H.mind.AddSpell(new /obj/effect/proc_holder/spell/self/axedance)
-		armor = /obj/item/clothing/suit/roguetown/armor/regenerating/slayer
+		armor = /obj/item/clothing/suit/roguetown/armor/regenerating/hornwulf
 		pants = /obj/item/clothing/under/roguetown/heavy_leather_pants
 		backr = /obj/item/storage/backpack/rogue/satchel
-		belt = /obj/item/storage/belt/rogue/leather/slayer
+		belt = /obj/item/storage/belt/rogue/leather/hornwulf
 		beltr = /obj/item/storage/hip/headhook
 		backpack_contents = list(
 			/obj/item/rogueweapon/huntingknife = 1,
@@ -65,13 +66,13 @@
 		var/weapon_choice = input("Choose your weapon", "How will you channel your rage?") as anything in weapons
 		switch(weapon_choice)
 			if("Greataxe")
-				backl = /obj/item/rogueweapon/stoneaxe/battle/slayer
+				backl = /obj/item/rogueweapon/stoneaxe/battle/hornwulf
 			if("Hatchets")
-				backl = /obj/item/rogueweapon/stoneaxe/woodcut/steel/slayer
-				beltl = /obj/item/rogueweapon/stoneaxe/woodcut/steel/slayer
+				backl = /obj/item/rogueweapon/stoneaxe/woodcut/steel/hornwulf
+				beltl = /obj/item/rogueweapon/stoneaxe/woodcut/steel/hornwulf
 				ADD_TRAIT(H, TRAIT_DUALWIELDER, TRAIT_GENERIC)
 
-/obj/item/rogueweapon/stoneaxe/woodcut/steel/slayer
+/obj/item/rogueweapon/stoneaxe/woodcut/steel/hornwulf
 	name = "hornwulf's axe"
 	desc = "A marvel of craftsdwarfship, this ornate handaxe attunes itself to those who have sworn the Oath."
 	force = 26
@@ -90,7 +91,7 @@
 	wdefense = 4
 	smeltresult = /obj/item/ingot/steel
 
-/obj/item/rogueweapon/stoneaxe/battle/slayer
+/obj/item/rogueweapon/stoneaxe/battle/hornwulf
 	name = "hornwulf's greataxe"
 	desc = "A marvel of craftsdwarfship, this ornate greataxe attunes itself to those who have sworn the Oath."
 	force = 20
@@ -116,7 +117,7 @@
 	minstr = 11
 	wdefense = 4
 
-/obj/item/rogueweapon/stoneaxe/battle/slayer/getonmobprop(tag)
+/obj/item/rogueweapon/stoneaxe/battle/hornwulf/getonmobprop(tag)
 	if(tag)
 		switch(tag)
 			if("gen")
@@ -127,7 +128,7 @@
 				return list("shrink" = 0.4,"sx" = -1,"sy" = 2,"nx" = 0,"ny" = 2,"wx" = 2,"wy" = 1,"ex" = 0,"ey" = 1,"nturn" = 0,"sturn" = 0,"wturn" = 70,"eturn" = 15,"nflip" = 1,"sflip" = 1,"wflip" = 1,"eflip" = 1,"northabove" = 1,"southabove" = 0,"eastabove" = 0,"westabove" = 0)
 	return ..()
 
-/obj/item/clothing/suit/roguetown/armor/regenerating/slayer // a bit of natural armor to offset the nudism and shitty dodge. not too hard to break but will slowly repair itself
+/obj/item/clothing/suit/roguetown/armor/regenerating/hornwulf // a bit of natural armor to offset the nudism and shitty dodge. not too hard to break but will slowly repair itself
 	name = "rough skin"
 	desc = ""
 	icon_state = null
@@ -154,17 +155,17 @@
 	interrupt_damount = 25
 	repair_time = 35 SECONDS
 
-/obj/item/clothing/suit/roguetown/armor/regenerating/slayer/Initialize(mapload)
+/obj/item/clothing/suit/roguetown/armor/regenerating/hornwulf/Initialize(mapload)
 	. = ..()
 	ADD_TRAIT(src, TRAIT_NODROP, CURSED_ITEM_TRAIT)
 
-/obj/item/clothing/suit/roguetown/armor/regenerating/slayer/dropped(mob/living/carbon/human/user)
+/obj/item/clothing/suit/roguetown/armor/regenerating/hornwulf/dropped(mob/living/carbon/human/user)
 	. = ..()
 	if(QDELETED(src))
 		return
 	qdel(src)
 
-/obj/item/clothing/suit/roguetown/armor/regenerating/slayer/obj_destruction()
+/obj/item/clothing/suit/roguetown/armor/regenerating/hornwulf/obj_destruction()
 	visible_message(span_bloody("The dwarf flinches from the blow!"), vision_distance = 3) // visual que for breaking
 
 /obj/effect/proc_holder/spell/self/axedance
@@ -224,7 +225,7 @@
 #undef AXEDANCE_FILTER
 
 /atom/movable/screen/alert/status_effect/debuff/axe_exhaustion
-	name = "Slayer exhaustion"
+	name = "Hornwulf Exhaustion"
 	desc = "My body is recovering from my axedance"
 	icon_state = "debuff"
 
@@ -235,7 +236,7 @@
 	duration = 8 SECONDS // actually let people get away from him after the rage.
 	effectedstats = list("speed" = -5)
 
-/obj/item/storage/belt/rogue/leather/slayer
+/obj/item/storage/belt/rogue/leather/hornwulf
 	name = "rugged dwarven belt"
 	desc = "The golden beard of the face plate doubles as a codpiece."
 	icon_state = "slayer"
