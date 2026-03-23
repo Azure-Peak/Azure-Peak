@@ -4,7 +4,10 @@
 	name = "Hag"
 	tutorial = "You are ancient, malevolent evil. None of the known gods claim to have brought you into this world. All you know is hatred, how to sift through the grains of this land with your calloused hands, picking those who prove themselves useful."
 	outfit = /datum/outfit/job/roguetown/hag
-	traits_applied = list(TRAIT_RITUALIST, TRAIT_ALCHEMY_EXPERT, TRAIT_ANCIENT_HAG, TRAIT_MIRROR_MAGIC, TRAIT_HOMESTEAD_EXPERT, TRAIT_SEWING_EXPERT)
+	traits_applied = list(TRAIT_RITUALIST, TRAIT_ALCHEMY_EXPERT,
+	 					  TRAIT_ANCIENT_HAG, TRAIT_MIRROR_MAGIC,
+						  TRAIT_HOMESTEAD_EXPERT, TRAIT_SEWING_EXPERT,
+						  TRAIT_LEECHIMMUNE)
 	reset_stats = TRUE
 	subclass_stats = list(
 		STATKEY_STR = -7,
@@ -38,6 +41,7 @@
 /datum/outfit/job/roguetown/hag/pre_equip(mob/living/carbon/human/H)
 	..()
 	if(H.mind)
+		H.ambushable = FALSE
 		H.faction |= list("hag", "spiders")
 		H.mind.AddSpell(new /obj/effect/proc_holder/spell/targeted/shapeshift/hag_true_form)
 		H.set_patron(/datum/patron/mossmother)

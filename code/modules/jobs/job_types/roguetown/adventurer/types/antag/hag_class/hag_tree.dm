@@ -16,6 +16,26 @@
 	var/list/public_stock = list()
 	var/harvesting = FALSE
 	var/mother_tree = TRUE
+	var/cooldown_until = 0
+	var/static/list/impure_weights = list(
+		/obj/item/alch/hag_moss/sorrow = 30,
+		/obj/item/alch/hag_moss/fury   = 25,
+		/obj/item/alch/hag_moss/envy   = 20,
+		/obj/item/alch/hag_moss/mercy  = 15,
+		/obj/item/alch/hag_moss/grief  = 10,
+		/obj/item/alch/hag_moss/lullaby = 5,
+		/obj/item/alch/hag_moss/pride   = 5
+	)
+
+	var/static/list/pure_weights = list(
+		/obj/item/alch/hag_moss/sorrow = 20,
+		/obj/item/alch/hag_moss/fury   = 18,
+		/obj/item/alch/hag_moss/envy   = 16,
+		/obj/item/alch/hag_moss/mercy  = 14,
+		/obj/item/alch/hag_moss/grief  = 13,
+		/obj/item/alch/hag_moss/lullaby = 12,
+		/obj/item/alch/hag_moss/pride   = 12
+	)
 
 /obj/structure/roguemachine/mossmother/travel
 	name = "Heartroot tree"
@@ -27,7 +47,12 @@
 	. = ..()
 	GLOB.hag_trees += src
 	public_stock[/obj/item/alch/hag_moss/sorrow] = 2
-	public_stock[/obj/item/alch/hag_moss/mercy] = 2
+	public_stock[/obj/item/alch/hag_moss/fury] = 1
+	public_stock[/obj/item/alch/hag_moss/mercy] = 0
+	public_stock[/obj/item/alch/hag_moss/grief] = 0
+	public_stock[/obj/item/alch/hag_moss/envy] = 0
+	public_stock[/obj/item/alch/hag_moss/lullaby] = 0
+	public_stock[/obj/item/alch/hag_moss/pride] = 0
 
 	if(mother_tree)
 		hag_stock[/obj/item/alch/hag_moss/sorrow] = 5
@@ -36,8 +61,15 @@
 		hag_stock[/obj/item/alch/hag_moss/grief] = 0
 		hag_stock[/obj/item/alch/hag_moss/envy] = 0
 		hag_stock[/obj/item/alch/hag_moss/lullaby] = 0
+		hag_stock[/obj/item/alch/hag_moss/pride] = 0
 	else
 		hag_stock[/obj/item/alch/hag_moss/sorrow] = 1
+		hag_stock[/obj/item/alch/hag_moss/fury] = 0
+		hag_stock[/obj/item/alch/hag_moss/mercy] = 0
+		hag_stock[/obj/item/alch/hag_moss/grief] = 0
+		hag_stock[/obj/item/alch/hag_moss/envy] = 0
+		hag_stock[/obj/item/alch/hag_moss/lullaby] = 0
+		hag_stock[/obj/item/alch/hag_moss/pride] = 0
 
 /obj/structure/roguemachine/mossmother/Destroy()
 	GLOB.hag_trees -= src
@@ -180,6 +212,59 @@
 		user.forceMove(destination)
 		user.visible_message(span_notice("[user] emerges from the roots of [target]."), \
 							 span_boldnotice("The roots spit you back out into [get_area(target)]."))
+
+/obj/structure/roguemachine/mossmother/attackby(obj/item/W, mob/user, params)
+	if(istype(W, /obj/item/reagent_containers/lux) || istype(W, /obj/item/reagent_containers/lux_impure))
+		if(world.time < cooldown_until)
+			var/remaining = (cooldown_until - world.time) / 10
+			to_chat(user, span_warning("The Mossmother is satiated. It will not hunger again for another [round(remaining)] seconds."))
+			return
+		to_chat(user, span_boldgreen("You start to feed the tree lux"))
+		if(!do_after(user, 2 SECONDS))
+			return
+		if(world.time < cooldown_until)
+			return
+
+		var/is_impure = istype(W, /obj/item/reagent_containers/lux_impure)
+		user.visible_message(span_notice("[user] pours [W] over the roots of [src]."), \
+							 span_boldnotice("You feed the heart of the bog. The ground trembles as the Lux is absorbed."))
+
+
+		qdel(W)
+		feed_the_network(is_impure)
+		return
+	return ..()
+
+/obj/structure/roguemachine/mossmother/proc/feed_the_network(is_impure = FALSE)
+	var/wait_time = is_impure ? 90 SECONDS : 120 SECONDS // Adjust cooldown lengths here
+	var/global_cooldown = world.time + wait_time
+
+	for(var/obj/structure/roguemachine/mossmother/tree in GLOB.hag_trees)
+		tree.cooldown_until = global_cooldown
+
+		// Determine roll count
+		var/rolls = 1
+		if(is_impure)
+			rolls = tree.mother_tree ? 2 : 1
+		else
+			rolls = tree.mother_tree ? 5 : 2
+		// Perform the rolls
+		for(var/i in 1 to rolls)
+			tree.roll_for_moss(is_impure)
+		// Visual feedback at each tree
+		var/obj/effect/temp_visual/heal/H_energy = new /obj/effect/temp_visual/heal_rogue/hag(get_turf(tree))
+		H_energy.color = "#00ff15"
+
+/obj/structure/roguemachine/mossmother/proc/roll_for_moss(is_impure = FALSE)
+	// 75% for Public, 25% for Hag (Secret)
+	var/is_secret = prob(25)
+	var/list/stock_to_update = is_secret ? hag_stock : public_stock
+	var/picked_moss = pickweight(is_impure ? impure_weights : pure_weights)
+
+	if(stock_to_update[picked_moss] != null)
+		stock_to_update[picked_moss]++
+	else
+		stock_to_update[picked_moss] = 1
 
 /obj/item/alch/hag_moss
 	name = "Generic moss"
