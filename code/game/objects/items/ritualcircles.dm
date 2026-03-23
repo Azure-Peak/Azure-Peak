@@ -1278,16 +1278,16 @@
 			var/target = input(user, "Choose a host") as null|anything in folksonrune
 			if(!target)
 				return
-			user.say("Before your greatness, I swear an oath!!")
+			user.say("Before your greatness, I swear a vow!!")
 			if(!do_after(user, 5 SECONDS))
 				return
-			user.say("To vanquish horrors and evil of Psydonia!!")
+			user.say("To do no harm!!")
 			if(!do_after(user, 5 SECONDS))
 				return
-			user.say("To protect those who cannot protect themselves!!")
+			user.say("To take care of those in need!!")
 			if(!do_after(user, 5 SECONDS))
 				return
-			user.say("To be your blade of justice, torch in the eternal darkness!!")
+			user.say("To be your shining beacon in the darkness!!")
 			if(!do_after(user, 5 SECONDS))
 				return
 			icon_state = "undivided_active"
@@ -1301,7 +1301,7 @@
 	if(!HAS_TRAIT(target, TRAIT_UNDIVIDED))
 		loc.visible_message(span_cult("THE RITE REJECTS ONE WITHOUT PURE HEART!!"))
 		return FALSE
-	if(undivided_cockblock < SKILL_NOVICE)//You need to actually be devoted
+	if(undivided_cockblock < SKILL_LEVEL_NOVICE)//You need to actually be devoted
 		loc.visible_message(span_cult("THE RITE REJECTS ONE WITHOUT PURE HEART!!"))
 		return FALSE
 	target.Stun(120)
@@ -1349,10 +1349,10 @@
 	loc.visible_message(span_good("[target]'s form becomes enveloped in divine aura."))
 	spawn(20)
 		target.apply_status_effect(/datum/status_effect/buff/guidinglight/undivided)
-		target.apply.status_effect(/datum/status_effect/orderbringer)
+		target.apply_status_effect(/datum/status_effect/orderbringer)
 		playsound(target, 'sound/magic/holyshield.ogg', 80, FALSE, -1)
 		to_chat(target, span_boldred("I can do no HARM."))
-		ADD_TRAIT(target, TRAIT_PACIFIST, TRAIT_MIRACLE)
+		ADD_TRAIT(target, TRAIT_PACIFISM, TRAIT_MIRACLE)
 
 // TIME FOR THE ASCENDANT. These can be stronger. As they are pretty much antag exclusive - Iconoclast for Matthios, Lich for ZIZO. ZIZO!
 

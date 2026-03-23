@@ -2278,7 +2278,7 @@
 	var/mutable_appearance/effect = mutable_appearance('icons/effects/effects.dmi', "mist", -JOYBRINGER_LAYER, alpha = 128)
 	effect.appearance_flags = RESET_COLOR
 	effect.blend_mode = BLEND_ADD
-	effect.color = "#a529e8"
+	effect.color = "#6BB7A0"
 
 	owner.overlays_standing[ORDERBRINGER_FILTER] = effect
 	owner.apply_overlay(ORDERBRINGER_FILTER)
