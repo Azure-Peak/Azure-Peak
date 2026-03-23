@@ -1,4 +1,6 @@
 /datum/component/hag_curio_tracker
+	/// The world.time when the Hag was last resurrected by a heart.
+	var/last_revive_time = 0
 	/// Associative list: [True Name String] = [/datum/hag_boon]
 	var/alist/boon_registry = list()
 	/// Materials the hag currently has stored in their component.
@@ -37,6 +39,7 @@
 	if(!isliving(parent))
 		return COMPONENT_INCOMPATIBLE
 	RegisterSignal(src, COMSIG_STATUS_EFFECT_HAG_CURSE_CLEARED, PROC_REF(handle_curse_cleared))
+	RegisterSignal(parent, COMSIG_LIVING_DEATH, PROC_REF(handle_death))
 
 /datum/component/hag_curio_tracker/proc/grant_boon(true_name, boon_path = /datum/hag_boon, set_points)
 	if(!true_name || !ispath(boon_path))
@@ -302,3 +305,30 @@
 	to_chat(parent, span_notice("The [M] dissolves into your spirit, preparing a blessing of [initial(M.boon_path:name)]."))
 	qdel(M)
 	return TRUE
+
+/datum/component/hag_curio_tracker/proc/hag_teleport_check()
+	if(world.time < last_revive_time + 5 MINUTES)
+		return FALSE
+	return TRUE
+
+/datum/component/hag_curio_tracker/proc/handle_death(mob/living/carbon/L)
+	SIGNAL_HANDLER
+
+	L.visible_message(span_boldnotice("The corpse of [L.name] starts to dissolve into the soil"))
+	addtimer(CALLBACK(src, PROC_REF(revive_hag), L), 10 SECONDS)
+
+/datum/component/hag_curio_tracker/proc/revive_hag(mob/living/L)
+	if(!length(GLOB.hag_hearts))
+		return
+
+	var/obj/structure/roguemachine/hag_heart/heart = pick(GLOB.hag_hearts)
+	var/turf/heart_turf = get_turf(heart)
+	if(!heart_turf)
+		return
+
+	to_chat(L, span_userdanger("Death's cold grip is denied by the Mossmother's roots! You are pulled back to your heart!"))
+	L.forceMove(heart_turf)
+	L.grab_ghost(force = TRUE)
+	L.revive(full_heal = TRUE, admin_revive = FALSE)
+	playsound(heart_turf, 'sound/magic/slimesquish.ogg', 100, TRUE)
+	last_revive_time = world.time

@@ -42,6 +42,7 @@
 	name = "Southern Terrorbog"
 
 /area/rogue/indoors/shelter/bog_hag
+	name = "Hag hut"
 	icon_state = "bog"
 	first_time_text = "A HUT BETWIXT THE ROOTS"
 	droning_sound = 'sound/music/area/bog.ogg'

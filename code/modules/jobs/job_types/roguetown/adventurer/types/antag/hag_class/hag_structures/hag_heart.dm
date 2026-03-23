@@ -10,3 +10,11 @@
 	pixel_x = -8
 	anchored = TRUE
 	layer = BELOW_OBJ_LAYER
+
+/obj/structure/roguemachine/hag_heart/Initialize(mapload)
+	. = ..()
+	GLOB.hag_hearts += src
+
+/obj/structure/roguemachine/hag_heart/Destroy()
+	GLOB.hag_hearts -= src
+	return ..()

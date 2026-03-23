@@ -2,7 +2,7 @@
 	name = "Hag"
 	tutorial = "You are ancient, malevolent evil. None of the known gods claim to have brought you into this world. All you know is hatred, how to sift through the grains of this land with your calloused hands, picking those who prove themselves useful."
 	outfit = /datum/outfit/job/roguetown/hag
-	traits_applied = list(TRAIT_RITUALIST, TRAIT_ALCHEMY_EXPERT, TRAIT_ANCIENT_HAG, TRAIT_MIRROR_MAGIC)
+	traits_applied = list(TRAIT_RITUALIST, TRAIT_ALCHEMY_EXPERT, TRAIT_ANCIENT_HAG, TRAIT_MIRROR_MAGIC, TRAIT_HOMESTEAD_EXPERT, TRAIT_SEWING_EXPERT)
 	reset_stats = TRUE
 	subclass_stats = list(
 		STATKEY_STR = -7,
@@ -24,7 +24,9 @@
 		/datum/skill/craft/traps = SKILL_LEVEL_LEGENDARY,
 		/datum/skill/misc/medicine = SKILL_LEVEL_LEGENDARY,
 		/datum/skill/craft/crafting = SKILL_LEVEL_LEGENDARY,
-		/datum/skill/craft/alchemy = SKILL_LEVEL_LEGENDARY
+		/datum/skill/craft/alchemy = SKILL_LEVEL_LEGENDARY,
+		/datum/skill/craft/sewing = SKILL_LEVEL_MASTER,
+		/datum/skill/craft/cooking = SKILL_LEVEL_MASTER,
 	)
 	category_tags = list(CTAG_HAG)
 	cmode_music = 'sound/music/combat_graggar.ogg'
