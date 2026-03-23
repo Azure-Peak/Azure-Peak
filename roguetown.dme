@@ -1823,6 +1823,7 @@
 #include "code\modules\jobs\job_types\roguetown\adventurer\types\antag\hag_class\hag_debuffs.dm"
 #include "code\modules\jobs\job_types\roguetown\adventurer\types\antag\hag_class\hag_enchanted_items.dm"
 #include "code\modules\jobs\job_types\roguetown\adventurer\types\antag\hag_class\hag_mob.dm"
+#include "code\modules\jobs\job_types\roguetown\adventurer\types\antag\hag_class\hag_spawners.dm"
 #include "code\modules\jobs\job_types\roguetown\adventurer\types\antag\hag_class\hag_spells.dm"
 #include "code\modules\jobs\job_types\roguetown\adventurer\types\antag\hag_class\hag_tree.dm"
 #include "code\modules\jobs\job_types\roguetown\adventurer\types\antag\hag_class\hag_boons\hag_blessings.dm"
