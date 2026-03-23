@@ -908,7 +908,7 @@
 /atom/movable/screen/alert/status_effect/buff/fortify
 	name = "Fortifying Miracle"
 	desc = "Divine intervention bolsters me and aids my recovery."
-	icon_state = "buff"
+	icon_state = "fortify"
 
 /atom/movable/screen/alert/status_effect/debuff/diminish
 	name = "Diminished"
