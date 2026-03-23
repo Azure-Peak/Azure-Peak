@@ -14,9 +14,9 @@
 	gender = MALE
 	emote_hear = null
 	emote_see = null
-	turns_per_move = 3
+	turns_per_move = 4
 	see_in_dark = 10
-	move_to_delay = 3
+	move_to_delay = 4
 	base_intents = list(/datum/intent/simple/claw/mossback)
 	botched_butcher_results = list (/obj/item/reagent_containers/food/snacks/rogue/meat/crab = 1, /obj/item/alch/viscera = 1)
 	butcher_results = list(/obj/item/reagent_containers/food/snacks/rogue/meat/crab = 3, 
