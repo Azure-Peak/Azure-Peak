@@ -46208,10 +46208,6 @@
 	},
 /turf/open/floor/rogue/ruinedwood/spiral,
 /area/rogue/outdoors/rtfield/eora)
-"jPr" = (
-/obj/effect/decal/mossy,
-/turf/open/floor/rogue/grass,
-/area/rogue/outdoors/town)
 "jPs" = (
 /obj/structure/chair/wood/rogue{
 	dir = 4
@@ -53323,10 +53319,6 @@
 /obj/structure/table/wood/long_table,
 /turf/open/floor/rogue/metal,
 /area/rogue/outdoors/mountains/decap/minotaurfort)
-"ljw" = (
-/obj/item/roguebin,
-/turf/open/floor/rogue/cobble,
-/area/rogue/outdoors/town)
 "ljA" = (
 /obj/effect/landmark/quest_spawner/hard,
 /turf/open/floor/rogue/dirt,
@@ -57068,9 +57060,12 @@
 	pixel_y = -6
 	},
 /obj/machinery/light/rogue/torchholder/l,
-/obj/effect/decal/edge_corner{
-	color = "#3f3f3f";
+/obj/effect/decal/mossy{
 	dir = 1
+	},
+/obj/effect/decal/edge{
+	color = "#3f3f3f";
+	dir = 4
 	},
 /turf/open/floor/rogue/cobble,
 /area/rogue/outdoors/town)
@@ -72241,10 +72236,6 @@
 	color = "#3f3f3f";
 	dir = 1
 	},
-/obj/machinery/light/rogue/lanternpost{
-	pixel_x = 10;
-	pixel_y = 0
-	},
 /turf/open/floor/rogue/cobble,
 /area/rogue/outdoors/town)
 "pfd" = (
@@ -75117,6 +75108,14 @@
 /obj/item/roguebin/water/gross,
 /turf/open/floor/rogue/cobble,
 /area/rogue/under/town/sewer)
+"pLf" = (
+/obj/effect/decal/cobbleedge{
+	icon_state = "cobbleedge-sread";
+	pixel_x = 0;
+	pixel_y = 0
+	},
+/turf/open/floor/rogue/dirt/road,
+/area/rogue/outdoors/town)
 "pLh" = (
 /turf/closed/wall/mineral/rogue/stone/moss,
 /area/rogue/indoors/town)
@@ -83787,14 +83786,6 @@
 "rBR" = (
 /turf/open/floor/rogue/churchmarble,
 /area/rogue/indoors/shelter)
-"rBS" = (
-/obj/effect/decal/edge{
-	color = "#3f3f3f";
-	dir = 1
-	},
-/obj/structure/chair/bench/church/smallbench,
-/turf/open/floor/rogue/cobble,
-/area/rogue/outdoors/town)
 "rBU" = (
 /obj/effect/decal/edge{
 	color = "#3f3f3f";
@@ -110935,6 +110926,18 @@
 /obj/item/fishingrod,
 /turf/open/floor/rogue/dirt/road,
 /area/rogue/outdoors/beach/north)
+"xle" = (
+/obj/effect/decal/cobbleedge{
+	icon_state = "cobbleedge-n";
+	pixel_x = 0;
+	pixel_y = 0
+	},
+/obj/effect/decal/edge{
+	color = "#3f3f3f";
+	dir = 4
+	},
+/turf/open/floor/rogue/cobble/mossy,
+/area/rogue/outdoors/town)
 "xlf" = (
 /obj/structure/fluff/railing/wood,
 /obj/structure/fermentation_keg,
@@ -267730,7 +267733,7 @@ kRg
 dpM
 fAN
 uBc
-jPr
+vyn
 qfA
 uBc
 lLT
@@ -268182,7 +268185,7 @@ kRg
 kRg
 koz
 phl
-jPr
+vyn
 qfA
 uBc
 rHd
@@ -268221,7 +268224,7 @@ exD
 exD
 exD
 lJF
-ljw
+sns
 hld
 uBc
 bKS
@@ -268634,7 +268637,7 @@ kXi
 kRg
 knH
 phl
-uTD
+pLf
 eHg
 cDX
 uBc
@@ -268676,10 +268679,10 @@ pED
 jxY
 cid
 cLB
-bfv
-xqO
-xqO
-xqO
+sYV
+sYV
+xle
+pZM
 lTw
 sYV
 sYV
@@ -269568,7 +269571,7 @@ xqO
 fMy
 xqO
 xqO
-rBS
+lJF
 rRj
 lgD
 bfZ
@@ -270482,9 +270485,9 @@ fzD
 xqO
 obm
 twz
-ohS
-xqO
-obm
+eSr
+eSr
+eSr
 eSr
 bGp
 hha
@@ -271836,7 +271839,7 @@ fJF
 rKJ
 iyM
 oQw
-pED
+lJF
 feG
 wcz
 kgX
@@ -272288,7 +272291,7 @@ lbd
 ePb
 gUd
 xqO
-xqO
+lJF
 fUk
 oti
 kgX
@@ -272740,7 +272743,7 @@ lbd
 jMm
 gUd
 xqO
-obm
+lJF
 feG
 oti
 kgX
