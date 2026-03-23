@@ -168,7 +168,9 @@
 
 /obj/item/clothing/head/roguetown/helmet/heavy/dwarven
 	name = "isenban dwarven helm"
-	desc = "A hardy, layered helmet. It lets one's dwarvenly beard to poke out."
+	desc = "As easily as humens are drawn to working with the earth are dwarves given easily to crafts of \
+	metal. This is a typical example of a heavy dwarven helm, although little less remarkable for it; \
+	there are few forces in the world which could shatter a shield wall of dwarves armed to such a standard."
 	body_parts_covered = (HEAD | MOUTH | NOSE | EYES | EARS | NECK)	//This specifically omits hair so you could hang your beard out of the helm
 	armor = ARMOR_GRUDGEBEARER
 	prevent_crits = PREVENT_CRITS_NONE
