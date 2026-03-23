@@ -17,4 +17,6 @@
 
 /obj/structure/roguemachine/hag_heart/Destroy()
 	GLOB.hag_hearts -= src
+	for(var/mob/living/H in GLOB.active_hags)
+		to_chat(H, span_userdanger("My heart is gone. If I die now, I won't return for until many yils have passed."))
 	return ..()

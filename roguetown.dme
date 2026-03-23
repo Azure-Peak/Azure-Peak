@@ -2284,6 +2284,7 @@
 #include "code\modules\mob\living\carbon\human\voicepacks\male\zeth.dm"
 #include "code\modules\mob\living\carbon\human\voicepacks\other\gnoll.dm"
 #include "code\modules\mob\living\carbon\human\voicepacks\other\goblin.dm"
+#include "code\modules\mob\living\carbon\human\voicepacks\other\hag_voice.dm"
 #include "code\modules\mob\living\carbon\human\voicepacks\other\lich.dm"
 #include "code\modules\mob\living\carbon\human\voicepacks\other\moth.dm"
 #include "code\modules\mob\living\carbon\human\voicepacks\other\skeleton.dm"

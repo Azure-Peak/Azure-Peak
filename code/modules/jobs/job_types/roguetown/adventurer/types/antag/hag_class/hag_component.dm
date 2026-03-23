@@ -330,6 +330,13 @@
 
 /datum/component/hag_curio_tracker/proc/move_hag(mob/living/L)
 	if(!length(GLOB.hag_hearts))
+		ADD_TRAIT(L, TRAIT_DNR, "hag_final_death")
+		L.visible_message(span_danger("The roots that once sustained [L.name] wither and turn to ash! There is no sanctuary for the hag left."))
+		to_chat(L, span_userdanger("Your connection to the Mossmother's hearts has been severed. This is the end."))
+		var/mob/living/simple_animal/hostile/retaliate/rogue/hag_shapeshift/S = new(get_turf(L))
+		S.death()
+		playsound(L, 'sound/hag/hag_cackles.ogg', 100, TRUE)
+		execute_final_spite()
 		return
 
 	var/obj/structure/roguemachine/hag_heart/heart = pick(GLOB.hag_hearts)
@@ -346,3 +353,36 @@
 	L.revive(full_heal = TRUE, admin_revive = FALSE)
 	playsound(L, 'sound/magic/slimesquish.ogg', 100, TRUE)
 	last_revive_time = world.time
+
+/datum/component/hag_curio_tracker/proc/execute_final_spite()
+	for(var/t_name in boon_registry)
+		var/datum/hag_boon/curse_scar/S = find_boon_by_type(t_name, /datum/hag_boon/curse_scar)
+		var/list/name_list = boon_registry[t_name]
+
+		if(S && S.points > 10)
+			for(var/datum/hag_boon/curse/C in name_list)
+				// boons clean themselves up when qdel'd
+				var/mob/living/L = find_target(t_name)
+				if(L)
+					to_chat(L, span_notice("The heavy weight of your curse lifts as a distant, pained shriek echoes in your mind."))
+				qdel(C)
+
+		// If you've got no scars or real curses, you've betrayed the hag's pact. Enjoy being cursed.
+		else
+			var/mob/living/victim = find_target(t_name)
+			if(!victim)
+				continue
+			to_chat(victim, span_userdanger("With her dying breath, the Hag weaves a final, spiteful knot into your soul!"))
+			// Filter curses that cost more than 10
+			var/list/valid_curses = list()
+			for(var/path in curse_registry)
+				var/list/details = curse_registry[path]
+				if(details["cost"] > 10)
+					valid_curses += path
+
+			if(!length(valid_curses))
+				continue
+			// Give 2 random curses
+			for(var/i in 1 to 2)
+				var/curse_path = pick(valid_curses)
+				grant_boon(t_name, curse_path, 100)

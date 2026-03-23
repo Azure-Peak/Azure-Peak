@@ -234,7 +234,7 @@
 	name = "Thorny Regrowth"
 	desc = "Knit a fallen soul back into a body using parasitic vines. The target is revived, but incurs a 50-point debt to your Curio."
 	recharge_time = 5 MINUTES 
-	sound = 'sound/foley/slap.ogg'
+	sound = 'sound/hag/hag_cackles.ogg'
 	required_structure = /obj/structure/roguemachine/mossmother
 	required_items = list()
 	req_items = list()

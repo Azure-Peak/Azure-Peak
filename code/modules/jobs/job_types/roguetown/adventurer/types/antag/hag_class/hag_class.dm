@@ -7,11 +7,12 @@
 	traits_applied = list(TRAIT_RITUALIST, TRAIT_ALCHEMY_EXPERT,
 	 					  TRAIT_ANCIENT_HAG, TRAIT_MIRROR_MAGIC,
 						  TRAIT_HOMESTEAD_EXPERT, TRAIT_SEWING_EXPERT,
-						  TRAIT_LEECHIMMUNE)
+						  TRAIT_LEECHIMMUNE, TRAIT_ZOMBIE_IMMUNE)
 	reset_stats = TRUE
 	subclass_stats = list(
 		STATKEY_STR = -7,
 		STATKEY_WIL = 8,
+		// She should have a hard time kiting to make using crossbows harder.
 		STATKEY_SPD = -2,
 		STATKEY_CON = 1,
 		STATKEY_INT = 9
@@ -73,6 +74,8 @@
 		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/grant_boon)
 		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/resurrect/hag)
 		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/mindlink/hag)
+		H.dna.species.soundpack_m = new /datum/voicepack/hag()
+		H.dna.species.soundpack_f = new /datum/voicepack/hag()
 		if(H.mind.has_antag_datum(/datum/antagonist/hag))
 			var/datum/antagonist/new_antag = new /datum/antagonist/hag()
 			H.mind.add_antag_datum(new_antag)
