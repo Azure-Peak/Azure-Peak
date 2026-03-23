@@ -147,9 +147,10 @@
 	client.mouse_pointer_icon = initial(client.mouse_pointer_icon)
 	build_all_button_icons()
 
-/datum/action/coven/proc/handle_click(mob/source, atom/target, list/modifiers)
+/datum/action/coven/proc/handle_click(mob/source, atom/target, params)
 	SIGNAL_HANDLER
-
+	
+	var/list/modifiers = params2list(params)
 	//ensure we actually need a target, or cancel on right click
 	if (!targeting || LAZYACCESS(modifiers, RIGHT_CLICK))
 		end_targeting()

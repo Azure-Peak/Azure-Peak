@@ -963,3 +963,167 @@
       THESE IN YOUR LOADOUT, YOU WILL NEED TO PICK THEM AGAIN!!!
   rivercadaver:
   - rscadd: Added writing
+2026-03-23:
+  FreeStylaLT:
+  - rscadd: Added a Toggle for Instrument songs.
+  Ollanius:
+  - rscadd: All common fruits - sans apples - can now be turned into raisins. Non-jackberried
+      raisins are referred to as 'giblets'.
+  - rscadd: Applying any piece of honey to some raisins will make 'honeyed raisins'
+      (or 'honeyed giblets').
+  - rscadd: Honeyed raisins-and-giblets can be tossed into a pot of fat to make sweetglass;
+      fancy and delicious candies.
+  - rscadd: Adds 'smothered blackberries' and 'smothered tangerines', made by crafting
+      the fruits together with sugar.
+  - rscadd: Adds jamtallow and marmalade, sliceable jams made by tossing the aforementioned
+      smotherables into a pot of fat.
+  - rscadd: Buns, psycrossbuns, crossbuns, bread slices, and pieces of toast can now
+      be jammed (and marmaladed) for a great treat.
+  - rscadd: Adds apple bread, a slightly finer variant of raisin bread. Made the same
+      way, just with apple slices instead.
+  - rscadd: Ambrosia can now be fermented to make a very, very, VERY potent cider.
+      Test your might.. and your liver, as well!
+  - rscadd: Added over sixty(!!!) new unique soups and stews that can be brewed in
+      a pot. The quality of an ingredient (and the amount of preperation already devoted
+      to making it) now affects how nutritious, thick, and long-lasting the broth
+      is. Raw vegetables and meat'll make decent broth, but sliding in something like
+      roasted potatoes and peppersteak'll make for a delicious stew.
+  - rscadd: Nearly every foodstuff in the game can now be stewed in a pot, barring
+      very minor exceptions. This now includes unique recipes (and coverage) for loaves
+      of bread + raisin/apple bread, cooked vegetables and meats, all cooked meal
+      tiers (including rice and shellfish dishes), preserved foodstuffs, and - for
+      the particularly wretched - whole sticks of fried butter.
+  - rscadd: Poisoned jackberry seeds can now be roasted, then milled down, to create
+      pepper. While pepper can't be used on its own, five clumps combined with a whetstone
+      and small log can craft a new peppergrinder! ..with expert-tier carpentry.
+  - rscadd: Pears, apples, tangerines, lemons, and limes can now be brewed into juice.
+  - rscadd: Sinew, tendons, bones, tailbones, and organs can now be brewed into offal
+      soup and bone broth. Useful in a pinch!
+  - rscadd: Adds new dedicated sprites to limes and rocknuts. Rocknuts're basically
+      cinnamoney-tobaccoey acorns.
+  - rscadd: Chocolate bars can now be cleaved in half, and now count as lavish-tiered
+      meals.
+  - rscadd: Pumpkin spice can now be crafted with halved chocolate bars, dried rosa/tea
+      leaves, and roasted coffee beans.
+  - rscadd: These spiced ingredients can be brewed for mildly restorative (or if already
+      present, enhanced) effects.
+  - rscadd: Adds brothbriques, crafted at a drying rack with tallow, saloumi/coppiete,
+      and raisins. Excellent, sliceable survival ration.
+  - rscadd: Adds lemony stickets, a vegetarian coppiette variant made from lemons,
+      sugar, and ash at a drying rack.
+  - rscadd: Adds allspice - an expert-tier cooking recipe with five spices. When used
+      in stews, imparts the 'Great Meal' buff.
+  - rscadd: Adds 'dragee' - an expert-tier cooking treat made from calendulas, sugar,
+      and rocknuts.  Medicinal candy!
+  - rscadd: Adds 'caramels' - exactly what it says on the tin. Made by deepfrying
+      sugar.
+  - rscadd: Adds 'salotack' - an apprentice-level cooking recipe made with salo and
+      hardtack. Very good in a stew!
+  - rscadd: Adds sugarglass sculptures - expert-tier cooking recipes that, when baked,
+      turn into lovely (and delicious) artpieces!
+  - rscadd: Adds 'panacea of skysugar' - a master-tier alchemic recipe made with impure
+      lux, blackberries, and starsugar.
+  - rscadd: Adds 'skysugar slabs' - a massive hunk of alchemically purified starsugar,
+      grindable down into three handfuls of powder.
+  - rscadd: Adds 'skysugar' - far too potent to safely use, but extremely valuable
+      and sellable to Bathmatrons and Merchants.
+  - code_imp: 'Small bug that I wasn''t able to fix is that certain recipes won''t
+      properly proceed. This largely applies to the Evil Fish Stew (from ZIzo Abberants)
+      and more complex recipes for Volf and Cabbit Stew. From what I understand, this
+      is a facet that''s inherent to the code we''re working with: subtyped meals
+      have a tendency to be overwritten or evaporated when called upon for unique
+      recipes. Shouldn''t impact the game too much, but I figure I''d note it here.'
+  - code_imp: Likewise, the only feature I couldn't get working - also due to how
+      the code inherently works (alongside my own inexperience) - is adding special
+      stress events to different types of stew. I only realized near the end that
+      the 'quality' variable only gets triggered when the drink-in-question's marked
+      as 'favorite'.. and all soups and stews've been hardcoded to not be selectable.
+      Might commission someone later to do the dirty work and get that tweaked.
+  - rscadd: 'Adds a lot of food from Vanderlin PR #5638. Great thanks to Terracotta
+      and The-Awful!'
+  - rscadd: Adds 'dot tarts', made by spooning butterdough slices. It can accept a
+      wide variety of fruits.
+  - rscadd: Butterdough, when baked, now makes delicious bookbread. Like raisin bread,
+      this can also be studded with many fruits (or chocolates) beforehand to make
+      fruity bookbread.
+  - rscadd: Spooning butterdough now makes muffins.
+  - rscadd: Rolling out dough makes flatdough. Flatdough can be scored with a sharp
+      item to make crackerdough, which is the predecessor to hardtack (or if you add
+      chocolate halves to it, cookies!). Likewise, you can alternatively smear tomatoes
+      and fresh cheese on it (alongside some toppings) to make tomatoplates - 'zah!
+  - rscadd: Biscuits can now come in four delicious varieties; plum, tangerine, chocolate,
+      and the ever-venerable raisin.
+  - rscadd: Four kinds of cookies; caramel, raisin, chocolate, and dragee.
+  - rscadd: Adds a new wealth of time change tips and maxxed-out stress messages,
+      alongside slightly reorganizing them. If any previous tips-or-messages seem
+      missing, ping @Dongwaiver in the Discord for a speedy fix.
+  - balance: A little 'balance' tweak for the road - rolling pings now scale off Cooking.
+      Fear the defenseless eight-force rod of justice!
+  - code_imp: 'Adds in all my remaining unused assets from over the (nearly) two years
+      of spritesmanship that I''ve cooked up, alongside a wide variety of sprites.
+      Check out the "Files Changed" tab on PR #6328 to see where everything''s been
+      added, if you wish to check them out. These''ll gradually be implemented, to
+      some degree, going forward.'
+  - code_imp: Adds a very lovely assortment of expanded pottery sprites, courtesy
+      of Caustic Cove's Ghostcoffee. Likewise, adds a very lovely assortment of porcelain
+      sprites - courtesy of Ratwood's Ophaq.
+  - code_imp: All basic onmob- and sleever-type .dmis now include a preassembled version
+      of all four bodytypes in all four directions. This should hopefully make it
+      far easier for new contributors to comfortably design garbs-and-gear.
+  - code_imp: Above all else - thank each and every one of you. Here's to a thousand
+      stories hence, and a thousand stories more!
+  - rscdel: Removed Zerobrine. For real, this time.
+  - code_imp: Boo!
+  - rscadd: Tailors now spawn with a wooden hammer and a pouch of scrap, allowing
+      them to better practice the craft of leather-reinforcement.
+  - rscadd: Blacksmiths can now forge two pieces of scrap from an Iron ingot.
+  - rscadd: Sugarglass statues can now be uniquely renamed.
+  WeNeedMorePhoron:
+  - rscadd: Arcyne Bolt and Fireball has been refactored to use a new action system
+      and have a different, more detailed telegraph. Report any issues with these
+      two spells in particular.
+  - balance: Weapon penetration reworked into a tier system (NONE/LIGHT/MEDIUM/HEAVY/BSTEEL).
+      Penetration that exceeds armor passes 100%, matching tier passes 20%, below
+      is blocked.
+  - balance: Armor consolidated from 16+ classes into 8 standardized tiers. Padded
+      and Leather are now explicit sidegrades.
+  - balance: Ranged weapons (bows, longbows, slings) now scale uniformly off Perception
+      with a softcap at 15. Slings no longer benefit from Strength.
+  - balance: Longbow damage factor increased to 1.3x. Broadhead arrow damage raised
+      to 50 (PEN_LIGHT). Sling bullets raised to ~40 damage.
+  - balance: Estoc reworked into a 2H thrusting specialist with lunge (reach 2), halfsword
+      (PEN_BSTEEL), and point-blank thrust (PEN_HEAVY).
+  - balance: Longsword gains a fast 2H cut. Arming sword can no longer be two-handed.
+  - balance: Sabre thrust reduced to PEN_LIGHT.
+  - balance: STR post-softcap scaling increased from 3.4% to 5% per point.
+  - balance: Crit-susceptible and crit-preventing armor properties removed. Crits
+      now depend purely on bodypart damage. In compensation, critical damage threshold
+      raised to 90% again - blocking dismemberment and crits from occuring until 90%
+      damage has accumulated on the limb. This does not affect most NPCs.
+  - balance: Gnoll Claws downgraded to MEDIUM Pen (Pen bad padded armor and padded
+      armor, nothing else)
+  - balance: All mage spells classified as BURN or ACID types. REDUCE armor mechanics
+      added - they always go through to HP but a portion goes into the armor instead.
+      Light Armor are good vs burn damage.
+  - balance: Removed the unique Grudgebearer layering mechanics. Soldier now start
+      off with the equivalence of a full set of plate armor in protection and integrity
+      instead.
+  - balance: Found and fixed a bug where penetrating ranged attacks (Bodkin / Bolts)
+      were passing in the entirety of their unmitigated damage when rolling for crit.
+      This might drastically affects the balance of AP ranged weapons so there will
+      not be any additional.
+  - balance: Ruma's Tattoo raised to plate level protection and 250 integrity.
+  - balance: Hand's Gambeson is maille tier protection and moved to shirt slot.
+  - rscdel: Removed the Peel system entirely - all peel intents, coverage stripping,
+      thresholds, and related code.
+  - rscdel: Removed pain stagger mechanic.
+  - qol: 'Added keybindable Alt Grip hotkey (default: 5) for mordhau and alternate
+      grips.'
+  - qol: Examining unarmored clothing now shows "NO ARMOR!" instead of empty tier
+      dots (Or a F scoreboard card)
+  eirenxiv:
+  - balance: changed hand armour to hauberk subtype
+  - balance: made unique hand armour brigandine armour
+  - balance: modified coverage on armour, combination with bracers still gives full
+      coverage
+  - balance: replaced hand light haubergeon with padded gambeson

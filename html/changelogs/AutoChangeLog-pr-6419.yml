@@ -1,0 +1,4 @@
+author: "ReezeBL"
+delete-after: True
+changes:
+  - bugfix: "quiteus poison component purged from ALL items on a single use no more"
