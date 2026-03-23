@@ -5,15 +5,15 @@
 	overlay_icon = 'icons/mob/actions/pestraspells.dmi'
 	action_icon = 'icons/mob/actions/pestraspells.dmi'
 	overlay_state = "diagnose"
-	range = 6
+	releasedrain = 10
+	range = 4 // just in case free wants to demolish me for changing that, but 4 range is essential for this skill's functionality
 	warnie = "sydwarning"
 	movement_interrupt = FALSE
 	sound = 'sound/magic/diagnose.ogg'
 	invocation_type = "none"
-	incant
 	associated_skill = /datum/skill/magic/holy
 	antimagic_allowed = TRUE
-	recharge_time = 3 SECONDS
+	recharge_time = 4 SECONDS
 	miracle = TRUE
 	devotion_cost = 5
 
@@ -33,11 +33,13 @@
 
 	var/bleed_rate = human_target.get_bleed_rate()
 
+	// miracle/secular use the same proc, the diff is that miracle will always be as if you're capped on medicine, the "cheating" of being a miracle vs secular
 	if(miracle)
 		is_high_tier = TRUE
-
+	// skill happens as per normal
 	human_target.check_for_injuries(user)
-
+	//but from here on out, is where the magic happens... 
+	//anyway starting from something that diagnosis will now make -very clear- is when someone is rotting to death and needs immediate care, behold:
 	if(human_target.has_status_effect(/datum/status_effect/zombie_infection))
 		if(is_high_tier)
 			to_chat(user, span_necrosis("They were infected by a DEADITE!"))
@@ -45,10 +47,11 @@
 			to_chat(user, span_necrosis("Their humors rot unnaturally — they are quickly decaying into a DEADITE!"))
 		to_chat(user, span_infection("Their rot needs to be burned immediately!"))
 		to_chat(user, span_infection("==="))
-
+	// suffocation levels are also 'free for all', since this is the highest cause of deaths in game right now, medics not knowing that sometimes you gotta get down and dirty with that non-con oxygen kiss.
+	//ofc, if you are expert or above, you get the exact number
 	if(is_high_tier)
 		to_chat(user, span_blue("<i>Suffocation: [human_target.oxyloss]%</i>"))
-	else
+	else // else you don't and you get those IC hints of how bad it is
 		switch(human_target.oxyloss)
 			if(0 to 1)
 				to_chat(user, span_notice("Their breath flows true and untroubled."))
@@ -58,33 +61,34 @@
 				to_chat(user, span_boldred("They are openly suffocating to death; air is desperately needed!"))
 			if(100 to INFINITY)
 				to_chat(user, span_purple("No breath passes through their lips; Pestra rest their soul."))
-
+	// mostly to show a disparity in skill, no-skill seculars will be able to tell when poison has taken a deep root, not early signs
 	if(!(is_mid_tier || is_high_tier || miracle))
 		switch(human_target.toxloss)
 			if(60 to INFINITY)
-				to_chat(user, span_necrosis("They look very unwell..."))
-
+				to_chat(user, span_necrosis("Cold sweat, pallid skin, and a failing breath... Signs of poisoning."))
+	// from here on, this is for below expert, above novice only
 	if(is_mid_tier)
 
 		switch(human_target.toxloss)
 			if(0 to 1)
+				to_chat(user, span_notice("Their humors seem well-balanced; no oddities of note."))
 			if(1 to 50)
-				to_chat(user, span_boldwarning("A mild excess burdens the humors; a subtle toxicity is present.."))
+				to_chat(user, span_boldwarning("A faint pallor and sweat are seen, the body is burdened with mild toxicity."))
 			if(50 to 100)
-				to_chat(user, span_boldred("The humors are thick with overwhelming toxic excess!"))
+				to_chat(user, span_boldred("Multiple subtle physical distress are seen, the body is crumbling under heavy toxicity."))
 			if(100 to INFINITY)
-				to_chat(user, span_necrosis("Lethal toxicity ravages them; Pestra rest their soul."))
-
-		if(bleed_rate >= 10)
+				to_chat(user, span_necrosis("Their body is ravaged under the weight of fatal toxicity; Pestra rest their soul."))
+		//very important to let them know that spamming water buckets is not a real medical procedure when someone is bleeding to death
+		if(bleed_rate > 10)
 			to_chat(user, span_bloody("They are bleeding worryingly faster than the body can recover!"))
-		
+		//made it clearer its because of a bacteria infection from unclean tools, rather than someone becoming a deadite
 		if (human_target.reagents.has_reagent(/datum/reagent/infection/major))
-			to_chat(user, span_boldwarning("Streaks of black and yellow doubtlessly indicate an excess of melancholic humour."))
+			to_chat(user, span_boldwarning("Pronounced redness and swelling are visible, with signs of discharge suggesting a severe infection of the humors."))
 		else if (human_target.reagents.has_reagent(/datum/reagent/infection))
-			to_chat(user, span_warning("Reddened and inflamed flesh accompanied by a brow flecked with sweat. Excess choleric, perhaps?"))
+			to_chat(user, span_warning("Localized redness and warmth are present, consistent with an active infection of the humors."))
 		else if (human_target.reagents.has_reagent(/datum/reagent/infection/minor))
-			to_chat(user, span_warning("A slight yellowing indicates the barest presence of disrupted choleric humor."))
-
+			to_chat(user, span_warning("Slight redness and irritation are visible, possibly an early-stage infection of the humors."))
+		// for the insideous black rot
 		var/datum/status_effect/black_rot/rot = human_target.has_status_effect(/datum/status_effect/black_rot)
 		if(rot)
 			switch(rot.tier)
@@ -97,7 +101,7 @@
 				if(4)
 					to_chat(user, span_necrosis("<i>--The body succumbs to total necrosis from the now beyond obvious Black Rot.</i>"))
 
-	if(is_high_tier)
+	if(is_high_tier) // from here on, it's master and legendary only and raw data, the miracle starts from here too, those cheaters
 
 		var/bleed_percent = max(0.1, round((bleed_rate / BLOOD_VOLUME_NORMAL) * 100, 0.1))
 		var/blood_percent = round((human_target.blood_volume / BLOOD_VOLUME_NORMAL) * 100)
@@ -153,6 +157,7 @@
 	var/list/names_with_amounts = list()
 	var/datum/reagent/top_reagent = null
 	var/top_volume = 0
+	var/more_than_one = names.len > 1
 
 	for(var/datum/reagent/R in human_target.reagents.reagent_list)
 		if(R.volume > 0 && R.type != /datum/reagent/water && R.type != /datum/reagent/consumable/nutriment)
@@ -162,35 +167,40 @@
 			if(R.volume > top_volume)
 				top_volume = R.volume
 				top_reagent = R
-
+	// the way for babies to check if something's wrong with them on the run, just throw a leech and diagnose! cant be simpler than that
 	if(has_cheele)
 		if(names.len)
 			to_chat(user, span_red("The blood-sucking creecher stirs uncomfortably... a foreign substance may be in their blood."))
+		else if(more_than_one)
+			to_chat(user, span_red("The blood-sucking creecher stirs very uncomfortably... more than one foreign substances may be in their blood."))
 		else
 			to_chat(user, span_blue("The blood-sucking creecher seems unbothered and content; hinting a clean blood."))
-
+	// and this is mostly for when you have surgical tools, pestrans with miracles can cheat better (of course why the hell not rolls eyes), it takes an incision only rather than a forceps inside
 	if(names.len)
 		if(miracle && has_incision)
-			to_chat(user, span_necrosis("<i>In Pestra's name, I perceive their blood in full detail, revealing [english_list(names_with_amounts)] within.</i>"))
+			to_chat(user, span_necrosis("<b><i>With Pestra's wisdom, I perceive their blood in full detail, revealing [english_list(names_with_amounts)] within.</b></i>"))
 
 		else if(is_high_tier && has_hemostat && !miracle)
 			to_chat(user, span_boldwarning("<i>Studying the blood drawn upon the instrument, I easily discern [english_list(names)] within.</i>"))
 
 		else if(is_mid_tier && has_hemostat && top_reagent && !miracle)
-			to_chat(user, span_boldwarning("<i>Studying the blood drawn upon the instrument, I see heavy traces of [top_reagent.name] within.</i>"))
+			to_chat(user, span_boldwarning("<i>Studying the blood drawn upon the instrument, I can only see heavy traces of [top_reagent.name] within.</i>"))
+		
+		else if(is_mid_tier && has_hemostat && more_than_one && !miracle)
+			to_chat(user, span_boldwarning("<i>Studying the blood drawn upon the instrument, I can only see heavy traces of [top_reagent.name], though other substances may be present.</i>"))
 	else
 		if(miracle && has_incision)
-			to_chat(user, span_boldwarning("<i>Even with divine insight, I perceive no foreign substances within their blood.</i>"))
+			to_chat(user, span_boldgreen("<i>Even with divine insight, I perceive no foreign substances within their blood.</i>"))
 		else if((is_mid_tier || is_high_tier) && has_hemostat && !miracle)
-			to_chat(user, span_boldwarning("<i>From the blood drawn upon the instrument, I find no clear trace of any substances in their blood.</i>"))
-
+			to_chat(user, span_boldgreen("<i>From the blood drawn upon the instrument, I find no clear trace of any substances in their blood.</i>"))
+// and that's that, I moved the cooldown refund to earlier to make it to save server load, too, and that's that, what else does this need? let me know
 	return TRUE
 
 /obj/effect/proc_holder/spell/invoked/diagnose/secular
 	name = "Secular Diagnosis"
 	overlay_state = "diagnose"
 	desc = "A practiced reading of the body's humors and hidden ailments. Reveals a target's condition, with greater skill granting deeper detail. By embedding a Forceps on your patient, you may even identify substances within the blood; but even the most unskilled physicker can tell from a Cheele or Leech's reactions."
-	range = 4
+	range = 4 // 2 range doesn't let you see over a meeting table, 4 range is just enough for that, it also falls in line with normal miracle
 	associated_skill = /datum/skill/misc/medicine
 	miracle = FALSE
 	devotion_cost = 0 //Doctors are not clerics
