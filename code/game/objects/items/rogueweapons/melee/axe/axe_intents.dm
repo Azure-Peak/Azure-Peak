@@ -7,10 +7,10 @@
 	attack_verb = list("cuts", "slashes")
 	hitsound = list('sound/combat/hits/bladed/smallslash (1).ogg', 'sound/combat/hits/bladed/smallslash (2).ogg', 'sound/combat/hits/bladed/smallslash (3).ogg')
 	animname = "cut"
-	penfactor = 0
+	penfactor = PEN_LIGHT
 	damfactor = 1.3
-	demolition_mod = 2
-	clickcd = CLICK_CD_HEAVY
+	demolition_mod = 2.5
+	clickcd = CLICK_CD_CHARGED // Shield DPS: 10 / 1.4 = 8.9. Will out DPS sword no matter what.
 	chargetime = 0
 	item_d_type = "slash"
 
@@ -21,23 +21,22 @@
 	attack_verb = list("chops", "hacks")
 	animname = "chop"
 	hitsound = list('sound/combat/hits/bladed/genchop (1).ogg', 'sound/combat/hits/bladed/genchop (2).ogg', 'sound/combat/hits/bladed/genchop (3).ogg')
-	penfactor = 25
-	damfactor = 1.3
-	demolition_mod = 4
+	penfactor = PEN_MEDIUM
+	damfactor = 1.5
+	demolition_mod = 5
 	swingdelay = 6
-	clickcd = CLICK_CD_HEAVY
+	clickcd = CLICK_CD_CHARGED // Effective Shield DPS: 25 / 2.4 = 10.4
 	item_d_type = "slash"
 
 /datum/intent/axe/chop/scythe
 	reach = 2
 
 /datum/intent/axe/chop/stone
-	penfactor = 5
+	penfactor = PEN_NONE
 
 /datum/intent/axe/chop/halberd
-	damfactor = 1.35
-	swingdelay = 12
-	penfactor = 20
+	damfactor = 1.3
+	reach = 2
 
 /datum/intent/axe/thrust
 	name = "stab"
@@ -46,7 +45,7 @@
 	animname = "stab"
 	blade_class = BCLASS_STAB
 	hitsound = list('sound/combat/hits/bladed/genstab (1).ogg', 'sound/combat/hits/bladed/genstab (2).ogg', 'sound/combat/hits/bladed/genstab (3).ogg')
-	penfactor = 0 
+	penfactor = PEN_NONE 
 	damfactor = 0.9 //Lesser variant of the Stab intent for battle axes that have spikes on them. Mordhau-maxxing, as it were.
 	chargetime = 0
 	swingdelay = 0
@@ -60,7 +59,7 @@
 	blade_class = BCLASS_BLUNT
 	hitsound = list('sound/combat/hits/blunt/metalblunt (1).ogg', 'sound/combat/hits/blunt/metalblunt (2).ogg', 'sound/combat/hits/blunt/metalblunt (3).ogg')
 	chargetime = 0
-	penfactor = BLUNT_DEFAULT_PENFACTOR
+	penfactor = PEN_NONE
 	swingdelay = 5
 	damfactor = NONBLUNT_BLUNT_DAMFACTOR //Not a real blunt weapon, so less damage.
 	item_d_type = "blunt"
@@ -69,7 +68,3 @@
 /datum/intent/axe/bash/battle
 	name = "heavy bash"
 	damfactor = 0.8 //Buttstrokes, in essence. +20% damage over the standard variant.
-
-// Special Intents
-/datum/intent/axe/chop/long/graggar
-	penfactor = 40

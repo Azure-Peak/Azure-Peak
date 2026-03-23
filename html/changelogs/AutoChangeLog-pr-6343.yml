@@ -1,4 +1,0 @@
-author: "FreeStylaLT"
-delete-after: True
-changes:
-  - balance: "Mantraps can be triggered by heavier thrown objects as well as directly hitting them with a weapon. In both cases it will cost integrity, and it is not guaranteed."

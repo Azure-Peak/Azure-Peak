@@ -1,4 +1,0 @@
-author: "hazelrat"
-delete-after: True
-changes:
-  - rscadd: "Implements a remap of the University, Clinic, and the Sanctum of Pestra. All are now integrated in the original position of the University, directly south of the city keep."

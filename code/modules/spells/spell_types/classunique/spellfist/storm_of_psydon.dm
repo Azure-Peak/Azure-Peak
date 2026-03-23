@@ -52,7 +52,7 @@
 	var/min_momentum = 7
 	var/empowered_momentum = 10
 
-/obj/effect/proc_holder/spell/invoked/storm_of_psydon/can_cast(mob/user = usr)
+/obj/effect/proc_holder/spell/invoked/storm_of_psydon/can_cast(mob/user = usr, feedback = TRUE)
 	. = ..()
 	if(!.)
 		return FALSE

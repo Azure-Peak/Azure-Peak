@@ -56,7 +56,7 @@ Cross-Z uses a longer telegraph.*/
 	var/knockback_range = 1
 	var/spear_count = 3
 
-/obj/effect/proc_holder/spell/invoked/gate_of_reckoning/can_cast(mob/user = usr)
+/obj/effect/proc_holder/spell/invoked/gate_of_reckoning/can_cast(mob/user = usr, feedback = TRUE)
 	. = ..()
 	if(!.)
 		return FALSE

@@ -1,41 +1,33 @@
-/* Fireball Rework
-On impact the projectile delivers direct BURN damage to whatever it hits, then an AOE arcyne_strike
-blast scorches nearby mobs (shield-blockable, 1 fire stack for visual feedback that self-extinguishes
-in ~10 seconds). Everything in the blast radius gets knocked back 1 tile. Arcane mark detonation
-only buffs the direct hit so single-target damage stays controlled. Artillery is the structural
-siege variant; Greater Fireball is fireball tuned to 11 for court-mage exclusivity. */
-
-/obj/effect/proc_holder/spell/invoked/projectile/fireball
+// New spell system
+/datum/action/cooldown/spell/projectile/fireball
 	name = "Fireball"
-	desc = "Shoot out a ball of fire that explodes on impact, scorching nearby targets. Consumes <b>Arcane Marks</b> for extra damage when fully stacked.\n\
+	desc = "Shoot out a ball of fire that explodes on impact, scorching nearby targets and knocking them back. \
 	Toggle arc mode (Ctrl+G) while the spell is active to fire it over intervening mobs. Arced attacks deal 25% less damage."
-	clothes_req = FALSE
-	range = 8
+	button_icon_state = "fireball"
+	sound = 'sound/magic/fireball.ogg'
+	spell_color = GLOW_COLOR_FIRE
+	glow_intensity = GLOW_INTENSITY_HIGH
+
 	projectile_type = /obj/projectile/magic/aoe/fireball/rogue
 	projectile_type_arc = /obj/projectile/magic/aoe/fireball/rogue/arc
-	overlay_state = "fireball"
-	sound = list('sound/magic/fireball.ogg')
-	releasedrain = SPELLCOST_MAJOR_PROJECTILE
-	chargedrain = 1
-	chargetime = 15
-	recharge_time = 16 SECONDS
-	warnie = "spellwarning"
-	no_early_release = TRUE
-	movement_interrupt = FALSE
-	charging_slowdown = 3
-	spell_tier = 3
-	invocations = list("Sphaera Ignis!")
-	invocation_type = "shout"
-	glow_color = GLOW_COLOR_FIRE
-	glow_intensity = GLOW_INTENSITY_HIGH
-	chargedloop = /datum/looping_sound/invokefire
-	associated_skill = /datum/skill/magic/arcane
-	cost = 6
-	xp_gain = TRUE
+	cast_range = 8
+	point_cost = 6
 
-/obj/effect/proc_holder/spell/invoked/projectile/fireball/cast(list/targets, mob/user = user)
-	projectile_type = arc_mode ? projectile_type_arc : initial(projectile_type)
-	. = ..()
+	primary_resource_type = SPELL_COST_STAMINA
+	primary_resource_cost = SPELLCOST_MAJOR_PROJECTILE
+
+	invocations = list("Sphaera Ignis!")
+	invocation_type = INVOCATION_SHOUT
+
+	charge_required = TRUE
+	charge_time = 1.5 SECONDS
+	charge_drain = 1
+	charge_slowdown = 3
+	charge_sound = 'sound/magic/charging_fire.ogg'
+	cooldown_time = 16 SECONDS
+
+	associated_skill = /datum/skill/magic/arcane
+	spell_tier = 3
 
 /obj/projectile/magic/aoe/fireball/rogue
 	name = "fireball"
@@ -48,7 +40,7 @@ siege variant; Greater Fireball is fireball tuned to 11 for court-mage exclusivi
 	npc_simple_damage_mult = 3 // Intentionally higher than other fireballs due to arcyne mark disparity
 	accuracy = 40 // Lower base — burn bypasses armor
 	nodamage = FALSE
-	flag = "magic"
+	flag = "fire"
 	hitsound = 'sound/blank.ogg'
 	aoe_range = 0
 	/// Radius for AOE arcyne_strike blast around impact point. 0 = no AOE.

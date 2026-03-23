@@ -34,9 +34,9 @@
 			phalanx_weapons = "Ancient Spear / Ancient Bardiche / Dory & Shield"
 			mace_weapons = "Ancient Mace / Ancient Warhammer & Shield"
 		else
-			blade_weapons = "Longsword / Rapier / Sabre / Arming Sword / Shortsword / Hwando / Steel Greatsword / Steel Dagger & Shield"
+			blade_weapons = "Longsword / Rapier / Sabre / Arming Sword / Shortsword / Hwando  / Steel Dagger & Shield"
 			phalanx_weapons = "Spear / Dory & Shield / Naginata"
-			mace_weapons = "Mace / Warhammer & Shield / Grand Mace"
+			mace_weapons = "Mace / Warhammer & Shield"
 
 	// Inject patron-specific weapons into weapon lists
 	if(extra_blade_weapon)

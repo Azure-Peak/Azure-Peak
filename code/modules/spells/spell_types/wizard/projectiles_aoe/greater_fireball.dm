@@ -1,7 +1,7 @@
 /* Greater Fireball — just fireball tuned up to 11, court-mage exclusive. Wider AOE radius,
 more raw damage. */
 
-/obj/effect/proc_holder/spell/invoked/projectile/fireball/greater
+/obj/effect/proc_holder/spell/invoked/projectile/greater_fireball
 	name = "Greater Fireball"
 	desc = "Shoot out an immense ball of fire that explodes on impact, scorching all nearby targets in a wide radius. \n\ Damage is increased by 100% versus simple-minded creechurs.\n\
 	Toggle arc mode (Ctrl+G) while the spell is active to fire it over intervening mobs. Arced attacks deal 25% less damage."
@@ -36,7 +36,7 @@ more raw damage. */
 	exp_fire = 0
 	damage = 90
 	npc_simple_damage_mult = 2
-	flag = "magic"
+	flag = "fire"
 	arcyne_aoe_radius = 2
 	structural_damage = 150
 

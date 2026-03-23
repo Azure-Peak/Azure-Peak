@@ -1,4 +1,0 @@
-author: "WeNeedMorePhoron"
-delete-after: True
-changes:
-  - bugfix: "Fix heavy buttstroke having -4340% Int damage modifier. (It is now 115%)"

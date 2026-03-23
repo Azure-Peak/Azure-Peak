@@ -47,7 +47,7 @@ If reflected into self - just inflict half the damage through armor.
 	var/storm_deflected = FALSE
 
 
-/obj/effect/proc_holder/spell/invoked/projectile/blade_storm/can_cast(mob/user = usr)
+/obj/effect/proc_holder/spell/invoked/projectile/blade_storm/can_cast(mob/user = usr, feedback = TRUE)
 	. = ..()
 	if(!.)
 		return FALSE

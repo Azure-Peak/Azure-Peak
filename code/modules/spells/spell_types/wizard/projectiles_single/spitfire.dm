@@ -40,10 +40,10 @@
 	exp_fire = 0
 	damage = 20
 	npc_simple_damage_mult = 2 // Makes it more effective against NPCs.
-	accuracy = 40 // Base accuracy is lower for burn projectiles because they bypass armor
+	accuracy = 40
 	damage_type = BURN
 	nodamage = FALSE
-	flag = "magic"
+	flag = "fire"
 	hitsound = 'sound/blank.ogg'
 	aoe_range = 0
 

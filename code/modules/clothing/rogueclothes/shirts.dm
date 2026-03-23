@@ -649,11 +649,11 @@
 	icon_state = "weddingdress"
 	item_state = "weddingdress"
 
-/obj/item/clothing/suit/roguetown/shirt/exoticsilkbra
-	name = "exotic silk bra"
+/obj/item/clothing/suit/roguetown/shirt/silkbra
+	name = "giltsilk bra"
 	desc = "An exquisite bra crafted from the finest silk and adorned with gold rings. It leaves little to the imagination."
-	icon_state = "exoticsilkbra"
-	item_state = "exoticsilkbra"
+	icon_state = "silkbra"
+	item_state = "silkbra"
 	body_parts_covered = CHEST
 	boobed = TRUE
 	sewrepair = TRUE

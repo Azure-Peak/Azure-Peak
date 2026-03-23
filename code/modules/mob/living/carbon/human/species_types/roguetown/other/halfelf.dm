@@ -167,7 +167,6 @@
 			randname = pick( world.file2list("strings/rt/names/elf/elfwm.txt") )
 		if(gender == FEMALE)
 			randname = pick( world.file2list("strings/rt/names/elf/elfwf.txt") )
-	randname += " Halfelven"
 	return randname
 
 /datum/species/human/halfelf/random_surname()

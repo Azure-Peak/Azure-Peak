@@ -325,3 +325,13 @@
 	/obj/item/reagent_containers/food/snacks/rogue/handpie/meat,
 	/obj/item/reagent_containers/glass/bottle/rogue/triumphbeer,
 	)
+
+/obj/item/storage/belt/rogue/pouch/tailorscrap
+	name = "pouch of tailorscrap"
+	desc = "A pouch of iron scrap pieces, perfect for reinforcing leather equipment. Now, where'd you place that hammer.. ?"
+	populate_contents = list(
+	/obj/item/scrap,
+	/obj/item/scrap,
+	/obj/item/scrap,
+	/obj/item/scrap,
+	)

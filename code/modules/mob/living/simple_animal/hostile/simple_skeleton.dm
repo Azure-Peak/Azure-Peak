@@ -188,7 +188,7 @@
 	animname = "cut"
 	hitsound = list('sound/combat/hits/bladed/genchop (1).ogg', 'sound/combat/hits/bladed/genchop (2).ogg', 'sound/combat/hits/bladed/genchop (3).ogg')
 	chargetime = 2
-	penfactor = 5
+	penfactor = PEN_NONE
 	swingdelay = 8
 
 /obj/item/skull

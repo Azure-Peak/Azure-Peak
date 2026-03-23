@@ -336,7 +336,7 @@
 	icon_state = "ring_s"
 	max_integrity = 50
 	body_parts_covered = COVERAGE_ALL_BUT_HANDFEET | COVERAGE_HEAD_NOSE | NECK | HANDS | FEET //field covers the whole body
-	armor = ARMOR_FATEWEAVER //even protection against most damage types
+	armor = ARMOR_PLATE //even protection against most damage types
 	blade_dulling = DULLING_BASHCHOP
 	slot_flags = ITEM_SLOT_RING
 	blocksound = PLATEHIT

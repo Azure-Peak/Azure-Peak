@@ -44,8 +44,8 @@
 	path = /obj/item/clothing/shoes/roguetown/boots/furlinedanklets
 	sort_category = "Shoes"
 
-/datum/loadout_item/exoticanklets
-	name = "Exotic Anklets"
+/datum/loadout_item/silkanklets
+	name = "Silk Anklets"
 	path = /obj/item/clothing/shoes/roguetown/anklets
 	sort_category = "Shoes"
 	cost = 2

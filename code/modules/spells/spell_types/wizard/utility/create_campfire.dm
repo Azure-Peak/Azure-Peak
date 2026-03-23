@@ -56,3 +56,9 @@
 	. = ..()
 	if(lifespan)
 		QDEL_IN(src, lifespan) //delete after it runs out
+
+/obj/machinery/light/rogue/campfire/create_campfire/onkick(mob/user)
+	var/mob/living/L = user
+	L.visible_message(span_info("[L] kicks \the [src], the arcyne fire dissipating."))
+	burn_out()
+	qdel(src)

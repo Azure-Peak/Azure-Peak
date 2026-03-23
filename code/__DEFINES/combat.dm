@@ -51,10 +51,13 @@
 
 // Actually a divisor. Where 1 / this * 100% value of burn damage on lethal zones (Chest & Head) causes you to enter hardcrit. 
 #define FIRE_HARDCRIT_DIVISOR 106 // 106 = 94.5% burn damage = hardcrit
-#define FIRE_HARDCRIT_DIVISOR_MINDLESS 200 // 200 = 50% burn damage = hardcrit for mindless mobs  
+#define FIRE_HARDCRIT_DIVISOR_MINDLESS 200 // 200 = 50% burn damage = hardcrit for mindless mobs
 #define STRENGTH_SOFTCAP 14	//STR value past which we get diminishing returns in our damage calculations.
 #define STRENGTH_MULT 0.1	//STR multiplier per STR point up to the softcap. Works as a %-age. 0.1 = 10% per point.
-#define STRENGTH_CAPPEDMULT 0.034	//STR multiplier per STR point past the softcap
+#define STRENGTH_CAPPEDMULT 0.05	//STR multiplier per STR point past the softcap
+#define RANGED_STAT_SOFTCAP 15	//PER value past which ranged damage scaling has diminishing returns.
+#define RANGED_STAT_MULT 0.1	//PER multiplier per point up to the softcap. 0.1 = 10% per point.
+#define RANGED_STAT_CAPPEDMULT 0.05	//PER multiplier per point past the softcap. 0.05 = 5% per point.
 //Actual combat defines
 
 //click cooldowns, in tenths of a second, used for various combat actions
@@ -156,7 +159,6 @@
 #define BCLASS_PUNCH		"punch"
 #define BCLASS_BITE			"bite"
 #define BCLASS_BURN			"charring"
-#define BCLASS_PEEL			"peel"
 #define BCLASS_PUNISH		"punish"
 #define BCLASS_EFFECT		"effect"
 #define BCLASS_SUNDER       "sunder"
@@ -309,7 +311,6 @@ GLOBAL_LIST_INIT(shove_disarming_types, typecacheof(list(
 #define BULLET_ACT_MISS				"MISS"
 
 //Weapon values
-#define BLUNT_DEFAULT_PENFACTOR		-100
 #define NONBLUNT_BLUNT_DAMFACTOR 0.6 // Damage factor when a non blunt weapon is used with blunt intent. Meant to make it worse than a real one.
 #define BLUNT_DEFAULT_INT_DAMAGEFACTOR 1.6 // Universal blunt intent integrity damage factor. Replaces Roguepen
 #define PUNCH_INT_DAMAGEFACTOR 1.2 // Reduced integrity damage for unarmed punches cuz they're really fast
@@ -336,8 +337,6 @@ GLOBAL_LIST_INIT(shove_disarming_types, typecacheof(list(
 
 #define BASE_PARRY_STAMINA_DRAIN 5 // Unmodified stamina drain for parry, now a var instead of setting on simplemobs
 #define BAD_GUARD_FATIGUE_DRAIN 20 //Percentage of your green bar lost on letting a guard expire.
-#define GUARD_PEEL_REDUCTION 2	//How many Peel stacks to lose if a Guard is hit.
-#define BAIT_PEEL_REDUCTION 1	//How many Peel stacks to lose if we perfectly bait.
 #define EXPOSED_INTEG_MOD 2.5	//Multiplier for integrity damage if we hit an Exposed target.
 #define VULN_INTEG_MOD 1.3		//Multiplier for integrity damage if we hit a Vulnerable target.
 #define BASE_RCLICK_CD 30 SECONDS
@@ -375,7 +374,7 @@ Medical defines
 /*
  Misc. Category. Spin it out if needed
 */
-#define CRIT_DISMEMBER_DAMAGE_THRESHOLD 0.75 // 75% damage threshold for dismemberment / crit
+#define CRIT_DISMEMBER_DAMAGE_THRESHOLD 0.9 // 90% damage threshold for dismemberment / crit
 #define STANDING_DECAP_GRACE_PERIOD 2 SECONDS // Time after falling prone where you still count as standing for decap purpose
 #define INT_NOISE_DELAY 1 SECONDS
 
@@ -388,10 +387,6 @@ Medical defines
 #define CRIT_RESISTANCE_STACKS_OP 1 // Noblood / Revenant etc.
 #define CRIT_RESISTANCE_EFFECTIVE_BLEEDRATE 0.5 // How much CR reduce bleedrate by
 #define CRIT_RESISTANCE_TIMER_CD 30 SECONDS // Cooldown between guaranteed CR procs. DOES NOT APPLY TO DISMEMBERMENT.
-
-#define PREVENT_CRITS_NONE	0
-#define PREVENT_CRITS_MOST	1
-#define PREVENT_CRITS_ALL	2
 
 #define BLOOD_RESISTANCE_EFFECTIVE_BLEEDRATE 0.5
 

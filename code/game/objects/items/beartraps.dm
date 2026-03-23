@@ -191,7 +191,7 @@
 				close_trap()
 				L.visible_message(span_danger("[L] triggers \the [src]."), \
 						span_danger("I trigger \the [src]!"))
-				if(L.apply_damage(trap_damage, BRUTE, def_zone, L.run_armor_check(def_zone, "stab", damage = trap_damage)))
+				if(L.apply_damage(trap_damage, BRUTE, def_zone, L.run_armor_check(def_zone, "stab", armor_penetration = PEN_NONE, damage = trap_damage)))
 					L.Stun(80)
 		if(isitem(AM))
 			var/obj/item/I = AM

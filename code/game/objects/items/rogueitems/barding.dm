@@ -11,7 +11,7 @@
 	var/list/valid_animal_types = list(
 		/mob/living/simple_animal/hostile/retaliate/rogue/saiga
 	)
-	armor = ARMOR_PADDED_GOOD
+	armor = ARMOR_PADDED
 	max_integrity = ARMOR_INT_CHEST_LIGHT_MASTER
 	break_sound = 'sound/foley/cloth_rip.ogg'
 	drop_sound = 'sound/foley/dropsound/cloth_drop.ogg'

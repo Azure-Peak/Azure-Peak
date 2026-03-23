@@ -98,7 +98,7 @@
 		if(lootroll % 2)
 			. += span_warning("Better let this one sleep.")
 	if(HAS_TRAIT(user, TRAIT_GRAVEROBBER))
-		if(!lootroll % 2)
+		if(!(lootroll % 2))
 			. += span_warning("There seem to be some loot for me here.")	
 
 /obj/structure/closet/dirthole/insertion_allowed(atom/movable/AM)

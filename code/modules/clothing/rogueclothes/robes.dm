@@ -33,7 +33,7 @@
 /obj/item/clothing/suit/roguetown/shirt/robe/unholy/enchanted
 	name = "ominously enchanted robes"
 	desc = "An otherworldly veil, amythortz-woven and crackling with the constant ponderance of a runic enigma. Her hand guides your grandest missive; to bring forth progress, no matter the cost."
-	armor = ARMOR_SPELLSINGER
+	armor = ARMOR_LEATHER
 	allowed_race = ALL_RACES_TYPES
 	item_state = "ewarlock"
 	icon_state = "ewarlock"
@@ -168,7 +168,7 @@
 	icon = 'icons/roguetown/clothing/shirts.dmi'
 	mob_overlay_icon = 'icons/roguetown/clothing/onmob/shirts.dmi'
 	sleeved = 'icons/roguetown/clothing/onmob/helpers/sleeves_shirts.dmi'
-	armor = ARMOR_PADDED_GOOD	//Equal to a padded gambeson, like before.
+	armor = ARMOR_PADDED	//Equal to a padded gambeson, like before.
 	max_integrity = ARMOR_INT_CHEST_LIGHT_MASTER
 	slot_flags = ITEM_SLOT_ARMOR|ITEM_SLOT_SHIRT
 
@@ -320,7 +320,7 @@
 /obj/item/clothing/suit/roguetown/shirt/robe/hierophant
 	name = "hierophant's kandys"
 	desc = "A thin piece of fabric worn under a robe to stop chafing and keep ones dignity if a harsh blow of wind comes through. Despite the light fabric, it offers decent protection."
-	armor = ARMOR_PADDED_GOOD
+	armor = ARMOR_PADDED
 	icon_state = "desertgown"
 	item_state = "desertgown"
 	color = null
@@ -328,7 +328,7 @@
 /obj/item/clothing/suit/roguetown/shirt/robe/pointfex
 	name = "pointfex's qaba"
 	desc = "A slimmed down, tighter fitting robe made of fine silks and fabrics. Somehow you feel more mobile in it than in the nude. Despite the light fabric, it offers decent protection."
-	armor = ARMOR_PADDED_GOOD
+	armor = ARMOR_PADDED
 	icon_state = "monkcloth"
 	item_state = "monkcloth"
 	color = null
@@ -372,3 +372,15 @@
 
 /obj/item/clothing/suit/roguetown/shirt/robe/tabardwhite/evil_ah_ah
 	color = CLOTHING_SCARLET
+
+/obj/item/clothing/suit/roguetown/shirt/robe/bared
+	name = "Bared Robe"
+	desc = "A robe of basic cloth, it's chest bared open to expose what lay underneath."
+	icon_state = "openrobe"
+	item_state = "openrobe"
+	icon = 'icons/roguetown/clothing/armor.dmi'
+	mob_overlay_icon = 'icons/roguetown/clothing/onmob/armor.dmi'
+	color = CLOTHING_WHITE
+
+	
+	

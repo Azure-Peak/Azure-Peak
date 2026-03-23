@@ -113,11 +113,20 @@ decreases charge time if held opened in hand, for pure mage build + aesthetics.
 	var/list/resettable_spells = list()
 	var/list/spell_list = user_mind.spell_list
 	for(var/i = 1, i <= spell_list.len, i++)
-		var/obj/effect/proc_holder/spell/spell = spell_list[i]
-		if(spell.refundable == TRUE)
-			if(spell.cost > 0)
-				var/pool_tag = spell.learned_from_pool ? " ([capitalize(spell.learned_from_pool)])" : ""
-				resettable_spells["[spell.name]: [spell.cost][pool_tag]"] = spell_list[i]
+		var/datum/entry = spell_list[i]
+		// New action-based spell system
+		if(istype(entry, /datum/action/cooldown/spell))
+			var/datum/action/cooldown/spell/action_spell = entry
+			if(action_spell.refundable && action_spell.point_cost > 0)
+				var/pool_tag = action_spell.learned_from_pool ? " ([capitalize(action_spell.learned_from_pool)])" : ""
+				resettable_spells["[action_spell.name]: [action_spell.point_cost][pool_tag]"] = entry
+		// Old proc_holder spell system
+		else if(istype(entry, /obj/effect/proc_holder/spell))
+			var/obj/effect/proc_holder/spell/spell = entry
+			if(spell.refundable == TRUE)
+				if(spell.cost > 0)
+					var/pool_tag = spell.learned_from_pool ? " ([capitalize(spell.learned_from_pool)])" : ""
+					resettable_spells["[spell.name]: [spell.cost][pool_tag]"] = entry
 	if(!resettable_spells.len)
 		to_chat(user, span_warning("I have no spells to unbind!"))
 		return
@@ -125,16 +134,27 @@ decreases charge time if held opened in hand, for pure mage build + aesthetics.
 	var/unlearn_success = FALSE
 	for(var/i = 1, i <= 2, i++)
 		var/choice = tgui_input_list(user, "Choose up to two spells to unbind. Cancel both to not use up your daily unbinding.", "Unbind Spell", resettable_spells)
-		var/obj/effect/proc_holder/spell/item = resettable_spells[choice]
+		var/datum/item = resettable_spells[choice]
 		if(!item)
 			break
 		if(!resettable_spells.len)
 			return
 		if(user_mind.RemoveSpell(item))
-			if(item.learned_from_pool && LAZYLEN(user_mind.spell_points_used_by_pool))
-				user_mind.spell_points_used_by_pool[item.learned_from_pool] = max(0, user_mind.spell_points_used_by_pool[item.learned_from_pool] - item.cost)
+			// Determine the cost and pool tag based on spell type
+			var/spell_cost = 0
+			var/learned_pool
+			if(istype(item, /datum/action/cooldown/spell))
+				var/datum/action/cooldown/spell/action_spell = item
+				spell_cost = action_spell.point_cost
+				learned_pool = action_spell.learned_from_pool
+			else if(istype(item, /obj/effect/proc_holder/spell))
+				var/obj/effect/proc_holder/spell/proc_spell = item
+				spell_cost = proc_spell.cost
+				learned_pool = proc_spell.learned_from_pool
+			if(learned_pool && LAZYLEN(user_mind.spell_points_used_by_pool))
+				user_mind.spell_points_used_by_pool[learned_pool] = max(0, user_mind.spell_points_used_by_pool[learned_pool] - spell_cost)
 			else
-				user_mind.used_spell_points -= item.cost
+				user_mind.used_spell_points -= spell_cost
 			unlearn_success = TRUE
 		resettable_spells.Remove(choice)
 		user_mind.check_learnspell()
