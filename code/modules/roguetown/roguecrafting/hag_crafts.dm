@@ -114,5 +114,5 @@
 /datum/crafting_recipe/roguetown/alchemy/hag/wyrd_cross
 	name = "wyrd cross"
 	result = list(/obj/item/clothing/neck/roguetown/psicross/hag = 1)
-	reqs = list(/obj/item/alch/hag_moss/grief = 1, /obj/item/grown/log/tree/small = 1)
+	reqs = list(/obj/item/alch/hag_moss/grief = 1, /obj/item/grown/log/tree/small = 1, /obj/item/natural/cloth = 1)
 	craftdiff = 6
