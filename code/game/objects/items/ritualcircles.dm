@@ -1227,8 +1227,7 @@
 	name = "Rune of Deca Divinity"
 	desc = "A Holy Rune of The Undivided Pantheon"
 	icon_state = "undivided_chalky"
-	var/decarites = list("Crusader's Vow")
-
+	var/decarites = list("Crusader's Oath", "Vow of Aesculapius")
 
 /obj/structure/ritualcircle/undivided/attack_hand(mob/living/user)
 	if(!..())
@@ -1244,7 +1243,7 @@
 		return
 	var/riteselection = input(user, "Rituals of Deca Divinity", src) as null|anything in decarites
 	switch(riteselection) // put ur rite selection here
-		if("Crusader's Vow")
+		if("Crusader's Oath")
 			var/onrune = view(1, loc)
 			var/list/folksonrune = list()
 			for(var/mob/living/carbon/human/persononrune in onrune)
@@ -1270,13 +1269,39 @@
 			undividedarmaments(target)
 			spawn(120)
 				icon_state = "undivided_chalky"
+		if("Vow of Aesculapius")//Probably come up with a better name for this ngl?
+			var/onrune = view(1, loc)
+			var/list/folksonrune = list()
+			for(var/mob/living/carbon/human/persononrune in onrune)
+				if(HAS_TRAIT(persononrune, TRAIT_UNDIVIDED))
+					folksonrune += persononrune
+			var/target = input(user, "Choose a host") as null|anything in folksonrune
+			if(!target)
+				return
+			user.say("Before your greatness, I swear an oath!!")
+			if(!do_after(user, 5 SECONDS))
+				return
+			user.say("To vanquish horrors and evil of Psydonia!!")
+			if(!do_after(user, 5 SECONDS))
+				return
+			user.say("To protect those who cannot protect themselves!!")
+			if(!do_after(user, 5 SECONDS))
+				return
+			user.say("To be your blade of justice, torch in the eternal darkness!!")
+			if(!do_after(user, 5 SECONDS))
+				return
+			icon_state = "undivided_active"
+			user.apply_status_effect(/datum/status_effect/debuff/ritesexpended)
+			undividedaura(target)
+			spawn(120)
+				icon_state = "undivided_chalky"
 
 /obj/structure/ritualcircle/undivided/proc/undividedarmaments(mob/living/carbon/human/target)
 	var/undivided_cockblock = target.get_skill_level(/datum/skill/magic/holy)
 	if(!HAS_TRAIT(target, TRAIT_UNDIVIDED))
 		loc.visible_message(span_cult("THE RITE REJECTS ONE WITHOUT PURE HEART!!"))
 		return FALSE
-	if(undivided_cockblock < SKILL_LEVEL_JOURNEYMAN)//Only clerics can put it on.
+	if(undivided_cockblock < SKILL_NOVICE)//You need to actually be devoted
 		loc.visible_message(span_cult("THE RITE REJECTS ONE WITHOUT PURE HEART!!"))
 		return FALSE
 	target.Stun(120)
@@ -1308,6 +1333,26 @@
 	backr = /obj/item/rogueweapon/shield/tower/holysee
 
 	H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/mending/lesser)
+
+/obj/structure/ritualcircle/undivided/proc/undividedaura(mob/living/carbon/human/target)
+	var/undivided_cockblock = target.get_skill_level(/datum/skill/magic/holy)
+	if(!HAS_TRAIT(target, TRAIT_UNDIVIDED))
+		loc.visible_message(span_cult("THE RITE REJECTS ONE WITHOUT PURE HEART!!"))
+		return FALSE
+	if(undivided_cockblock < SKILL_LEVEL_JOURNEYMAN)//Only clerics can put it on.
+		loc.visible_message(span_cult("THE RITE REJECTS ONE WITHOUT PURE HEART!!"))
+		return FALSE
+	target.Stun(120)
+	to_chat(target, span_userdanger("UNIMAGINABLE PAIN!"))
+	target.emote("Agony")
+	playsound(loc, 'sound/magic/bless.ogg', 50)
+	loc.visible_message(span_good("[target]'s form becomes enveloped in divine aura."))
+	spawn(20)
+		target.apply_status_effect(/datum/status_effect/buff/guidinglight/undivided)
+		target.apply.status_effect(/datum/status_effect/orderbringer)
+		playsound(target, 'sound/magic/holyshield.ogg', 80, FALSE, -1)
+		to_chat(target, span_boldred("I can do no HARM."))
+		ADD_TRAIT(target, TRAIT_PACIFIST, TRAIT_MIRACLE)
 
 // TIME FOR THE ASCENDANT. These can be stronger. As they are pretty much antag exclusive - Iconoclast for Matthios, Lich for ZIZO. ZIZO!
 

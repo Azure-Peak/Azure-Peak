@@ -2255,3 +2255,51 @@
 	name = "Wrench Tuneup"
 	desc = "a wrench has turned me up, helping steel myself for more damage"
 	icon_state = "buff"
+
+#define ORDERBRINGER_FILTER "orderbringer"
+
+/datum/status_effect/orderbringer
+	id = "orderbringer"
+	var/outline_colour = "#6BB7A0"
+	duration = -1
+	tick_interval = -1
+	examine_text = span_love("SUBJECTPRONOUN is bathed in Baotha's blessings!")
+	alert_type = null
+
+/datum/status_effect/orderbringer/on_apply()
+	. = ..()
+
+	owner.visible_message(span_userdanger("A tide of vibrant purple mist surges from [owner], carrying the heavy scent of sweet intoxication!"))
+
+	var/filter = owner.get_filter(ORDERBRINGER_FILTER)
+	if(!filter)
+		owner.add_filter(ORDERBRINGER_FILTER, 2, list("type" = "outline", "color" = outline_colour, "alpha" = 60, "size" = 2))
+
+	var/mutable_appearance/effect = mutable_appearance('icons/effects/effects.dmi', "mist", -JOYBRINGER_LAYER, alpha = 128)
+	effect.appearance_flags = RESET_COLOR
+	effect.blend_mode = BLEND_ADD
+	effect.color = "#a529e8"
+
+	owner.overlays_standing[ORDERBRINGER_FILTER] = effect
+	owner.apply_overlay(ORDERBRINGER_FILTER)
+
+	RegisterSignal(owner, COMSIG_LIVING_LIFE, PROC_REF(on_life))
+
+/datum/status_effect/orderbringer/on_remove()
+	. = ..()
+
+	owner.remove_filter(ORDERBRINGER_FILTER)
+	owner.remove_overlay(ORDERBRINGER_FILTER)
+
+	UnregisterSignal(owner, COMSIG_LIVING_LIFE)
+
+/datum/status_effect/orderbringer/proc/on_life()
+	SIGNAL_HANDLER
+
+	for(var/mob/living/mob in get_hearers_in_view(2, owner))
+		if(HAS_TRAIT(mob, TRAIT_PSYDONITE) || HAS_TRAIT(mob, TRAIT_CABAL) || HAS_TRAIT(mob, TRAIT_HORDE) || HAS_TRAIT(mob, TRAIT_FREEMAN) || HAS_TRAIT(mob, TRAIT_CRACKHEAD))
+			continue
+
+		mob.apply_status_effect(/datum/status_effect/buff/fortify)
+
+#undef ORDERBRINGER_FILTER

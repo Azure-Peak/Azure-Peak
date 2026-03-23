@@ -78,8 +78,6 @@
 		H.hide_cone()
 		H.update_cone_show()
 
-	to_chat(owner, span_info("They grant me clarity in time of need!"))
-
 	return ..()
 
 /datum/status_effect/buff/twinned_gaze/on_remove()
