@@ -52,7 +52,7 @@
 			"[user] extracts lux from [target]'s innards.")
 		
 		var/apply_greater
-		if(isaasimar(target))
+		if(isaasimar(target) && !HAS_TRAIT(target, TRAIT_ANCIENT_HAG))
 			new /obj/item/reagent_containers/lux(target.loc)
 			apply_greater = TRUE
 		else if(HAS_TRAIT(target, TRAIT_ANCIENT_HAG))
