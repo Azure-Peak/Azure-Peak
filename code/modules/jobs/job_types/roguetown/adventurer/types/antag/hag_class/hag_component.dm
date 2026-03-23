@@ -40,6 +40,11 @@
 		return COMPONENT_INCOMPATIBLE
 	RegisterSignal(src, COMSIG_STATUS_EFFECT_HAG_CURSE_CLEARED, PROC_REF(handle_curse_cleared))
 	RegisterSignal(parent, COMSIG_LIVING_DEATH, PROC_REF(handle_death))
+	GLOB.active_hags |= parent
+
+/datum/component/hag_curio_tracker/Destroy()
+	GLOB.active_hags -= parent
+	return ..()
 
 /datum/component/hag_curio_tracker/proc/grant_boon(true_name, boon_path = /datum/hag_boon, set_points)
 	if(!true_name || !ispath(boon_path))

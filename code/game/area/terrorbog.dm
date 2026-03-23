@@ -27,6 +27,26 @@
 	threat_region = THREAT_REGION_TERRORBOG
 	deathsight_message = "a wretched, fetid bog"
 	detail_text = DETAIL_TEXT_TERRORBOG
+	var/list/recent_intruders = list()
+
+/area/rogue/outdoors/bog/Entered(atom/movable/AM)
+	..()
+	if(!GLOB.active_hags.len)
+		return
+
+	var/mob/living/L = AM
+	if(!istype(L) || !L.client || L.stat == DEAD)
+		return
+
+	if(L in GLOB.active_hags)
+		return
+
+	if(recent_intruders[L] && recent_intruders[L] > world.time)
+		return
+
+	recent_intruders[L] = world.time + 1 MINUTES
+	for(var/mob/living/H in GLOB.active_hags)
+		to_chat(H, span_boldwarning("The roots of your sanctum shiver... a soul named [L.name] has stepped within [src.name]."))
 
 /area/rogue/indoors/shelter/bog
 	icon_state = "bog"
@@ -49,3 +69,23 @@
 	droning_sound_dusk = null
 	droning_sound_night = null
 	deathsight_message = "a nasty wicked place deep betwixt the roots of the bog"
+	var/list/recent_intruders = list()
+
+/area/rogue/indoors/shelter/bog_hag/Entered(atom/movable/AM)
+	..()
+	if(!GLOB.active_hags.len)
+		return
+
+	var/mob/living/L = AM
+	if(!istype(L) || !L.client || L.stat == DEAD)
+		return
+
+	if(L in GLOB.active_hags)
+		return
+
+	if(recent_intruders[L] && recent_intruders[L] > world.time)
+		return
+
+	recent_intruders[L] = world.time + 1 MINUTES
+	for(var/mob/living/H in GLOB.active_hags)
+		to_chat(H, span_boldwarning("The roots of your sanctum shiver... a soul has stepped within [src.name]."))
