@@ -326,9 +326,9 @@
 	SIGNAL_HANDLER
 
 	L.visible_message(span_boldnotice("The corpse of [L.name] starts to dissolve into the soil"))
-	addtimer(CALLBACK(src, PROC_REF(revive_hag), L), 10 SECONDS)
+	addtimer(CALLBACK(src, PROC_REF(move_hag), L), 10 SECONDS)
 
-/datum/component/hag_curio_tracker/proc/revive_hag(mob/living/L)
+/datum/component/hag_curio_tracker/proc/move_hag(mob/living/L)
 	if(!length(GLOB.hag_hearts))
 		return
 
@@ -337,9 +337,12 @@
 	if(!heart_turf)
 		return
 
-	to_chat(L, span_userdanger("Death's cold grip is denied by the Mossmother's roots! You are pulled back to your heart!"))
+	to_chat(L, span_userdanger("Death's cold grip is denied by the Mossmother's roots! The heart prepares to revive you."))
 	L.forceMove(heart_turf)
+	addtimer(CALLBACK(src, PROC_REF(revive_hag), L), 90 SECONDS)
+
+/datum/component/hag_curio_tracker/proc/revive_hag(mob/living/L)
 	L.grab_ghost(force = TRUE)
 	L.revive(full_heal = TRUE, admin_revive = FALSE)
-	playsound(heart_turf, 'sound/magic/slimesquish.ogg', 100, TRUE)
+	playsound(L, 'sound/magic/slimesquish.ogg', 100, TRUE)
 	last_revive_time = world.time

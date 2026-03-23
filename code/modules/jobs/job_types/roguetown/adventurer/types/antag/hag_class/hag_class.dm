@@ -1,3 +1,5 @@
+#define HAG_TRANSFORM_LOCKOUT (2 MINUTES)
+
 /datum/advclass/hag
 	name = "Hag"
 	tutorial = "You are ancient, malevolent evil. None of the known gods claim to have brought you into this world. All you know is hatred, how to sift through the grains of this land with your calloused hands, picking those who prove themselves useful."
@@ -61,6 +63,18 @@
 	knockout_on_death = 10 SECONDS
 
 /obj/effect/proc_holder/spell/targeted/shapeshift/hag_true_form/cast(list/targets, mob/user = usr)
+	var/mob/living/carbon/human/H = user
+	if(!COOLDOWN_FINISHED(H, hag_transform_lockout))
+		var/time_left = COOLDOWN_TIMELEFT(H, hag_transform_lockout)
+		to_chat(user, span_warning("My essence is scattered by the clean air of the world. I must wait [DisplayTimeText(time_left)] to reform."))
+		return FALSE
+
+	var/area/A = get_area(user)
+
+	if(!istype(A, /area/rogue/outdoors/bog) && !istype(A, /area/rogue/indoors/shelter/bog) && !istype(A, /area/rogue/indoors/shelter/bog_hag))
+		to_chat(user, span_warning("The air here is too pure, the soil too firm. I feel the nasty gaze of the ten. I can only reveal my true self within the Terrorbog or my Hut!"))
+		revert_cast(user)
+		return FALSE
 	user.visible_message(span_warning("[user] begins to twist and contort!"), span_notice("I begin to transform..."))
 	return ..()
 
@@ -72,7 +86,19 @@
 		return
 
 	// Call parent to actually transform
-	return ..()
+	..()
+
+	var/obj/shapeshift_holder/H = locate() in usr 
+	if(H && H.shape)
+		H.shape.apply_status_effect(/datum/status_effect/debuff/hag_bog_tether)
+		to_chat(H.shape, span_notice("The rot of the bog sustains this form... I must not wander too far."))
+	else
+		// Fallback
+		var/obj/shapeshift_holder/H_fallback = caster.loc
+		if(istype(H_fallback) && H_fallback.shape)
+			H_fallback.shape.apply_status_effect(/datum/status_effect/debuff/hag_bog_tether)
+
+	return TRUE
 
 /obj/effect/proc_holder/spell/targeted/shapeshift/hag_true_form/Restore(mob/living/shape)
 	// Check if restrained before allowing revert
@@ -101,3 +127,29 @@
 	roundend_category = "Hags"
 	antagpanel_category = "Hags"
 	job_rank = ROLE_HAG
+
+/datum/status_effect/debuff/hag_bog_tether
+	id = "hag_bog_tether"
+	duration = -1
+	tick_interval = 5 SECONDS
+	alert_type = null
+
+/datum/status_effect/debuff/hag_bog_tether/tick()
+	var/mob/living/L = owner
+	if(!L)
+		return
+
+	var/area/A = get_area(L)
+
+	if(!istype(A, /area/rogue/outdoors/bog) && !istype(A, /area/rogue/indoors/shelter/bog) && !istype(A, /area/rogue/indoors/shelter/bog_hag))
+		to_chat(L, span_userdanger("The air is too pure! My monstrous form cannot sustain itself away from the Mother's roots!"))
+		
+		// Find the shapeshift holder and force a restore
+		var/obj/shapeshift_holder/H = locate() in L
+		if(H)
+			var/mob/living/carbon/human/hum = H.stored
+			COOLDOWN_START(hum, hag_transform_lockout, HAG_TRANSFORM_LOCKOUT)
+			H.restore()
+		return
+
+#undef HAG_TRANSFORM_LOCKOUT
