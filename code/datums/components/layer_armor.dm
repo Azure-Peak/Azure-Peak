@@ -79,7 +79,7 @@
 	/// Soudn that is played when layers are repaired.
 	var/repair_sound = 'sound/misc/layer_repair.ogg'
 
-	/// A trait equipping this armor might apply. Mostly used by Grudgebearers atm. Avoid giving this to multiple armors that can be worn at the same time.
+	/// A trait equipping this armor might apply. Mostly used by Isenban atm. Avoid giving this to multiple armors that can be worn at the same time.
 	var/applied_trait = null
 	var/trait_message_apply
 	var/trait_message_remove

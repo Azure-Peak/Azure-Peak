@@ -1,7 +1,13 @@
 //Dwarf-exclusive mercenary class with unique armor setups.
 /datum/advclass/mercenary/grudgebearer
-	name = "Grudgebearer Smith"
-	tutorial = "Bound by eternal grudges of eons past that have not been forgotten, the Grudgebearers are left to wander the surface, as every other clan has a grudge against you, and you against them. This putrid swampland of a Duchy has also wronged you and your people, you care little for it. Coins are a means to an end -- something you can mine and forge yourself. Trinkets -- made by true smiths, now that will carry respect among your clan. However, such artifacts might not buy you food, or a roof."
+	name = "Isenban Smith"
+	tutorial = "It is the Isenban that lead the vanguard when the Mountainhomes march to war. \
+	You are the pride of your clan, armed and armored with the finest craftsmanship of its finest \
+	smiths and sent far afield to gain experience in battle, and to accrue riches for your kin. \
+	Despite this prestige, you have a ways still to go; you are only a smith, a junior member of \
+	your clan's company, equipped with relatively light equipment and expected to help maintain the \
+	arms and armor of your superiors. Fight with a stalwart spirit, serve with honor, and perhaps \
+	one day you too will be entrusted with the greatest of your company's equipment."
 	allowed_sexes = list(MALE, FEMALE)
 	allowed_races = list(
 		/datum/species/dwarf,
@@ -67,8 +73,14 @@
 		H.merctype = 8
 
 /datum/advclass/mercenary/grudgebearer/soldier
-	name = "Grudgebearer Soldier"
-	tutorial = "Bound by eternal grudges of eons past that have not been forgotten, the Grudgebearers are left to wander the surface, as every other clan has a grudge against you, and you against them. This putrid swampland of a Duchy has also wronged you and your people, you care little for it. Coins are a means to an end -- something you can mine and forge yourself. Trinkets -- made by true smiths, now that will carry respect among your clan. However, such artifacts might not buy you food, or a roof."
+	name = "Isenban Dreng"
+	tutorial = "Dwarven steel is the envy of the world. You are a member of your clan's Isenban \
+	company, a formation of professional warriors entrusted with the finest craftsmanship your clan \
+	has to offer - and of your company you are among the finest equipped, having spent many years \
+	in service as a smith to earn this honor. Until your kin have need of you, you travel through \
+	foreign lands in service to men and elves and things further afield, accruing your fortune and \
+	reputation as a mercenary beyond equal. Serve your employers with stalwart pride, do nothing \
+	to dishonor your kin, and trust in the perfection of your arms to see you through any battle."
 	outfit = /datum/outfit/job/roguetown/mercenary/grudgebearer_soldier
 	traits_applied = list(TRAIT_HEAVYARMOR)
 	subclass_stats = list(
@@ -123,7 +135,7 @@
 
 
 /obj/item/clothing/suit/roguetown/armor/plate/full/dwarven
-	name = "grudgebearer dwarven plate"
+	name = "isenban plate"
 	desc = "A standard, layered plate worn by many dwarven troops. It cannot be worked on without intrinsic dwarven knowledge."
 	icon = 'icons/roguetown/clothing/special/race_armor.dmi'
 	mob_overlay_icon = 'icons/roguetown/clothing/special/onmob/race_armor.dmi'
@@ -145,7 +157,7 @@
 	AddComponent(/datum/component/layeredarmor/grudgebearer)
 
 /obj/item/clothing/suit/roguetown/armor/plate/full/dwarven/smith
-	name = "grudgebearer splint apron"
+	name = "isenban splint apron"
 	desc = "A standard, layered mixture of plate and maille, worn by many dwarven smiths. \
 	It cannot be worked on without intrinsic dwarven knowledge."
 	icon_state = "dsmithchest"
@@ -155,7 +167,7 @@
 	smelt_bar_num = 3
 
 /obj/item/clothing/head/roguetown/helmet/heavy/dwarven
-	name = "grudgebearer dwarven helm"
+	name = "isenban dwarven helm"
 	desc = "A hardy, layered helmet. It lets one's dwarvenly beard to poke out."
 	body_parts_covered = (HEAD | MOUTH | NOSE | EYES | EARS | NECK)	//This specifically omits hair so you could hang your beard out of the helm
 	armor = ARMOR_GRUDGEBEARER
@@ -178,15 +190,18 @@
 	AddComponent(/datum/component/layeredarmor/grudgebearer/helmet)
 
 /obj/item/clothing/head/roguetown/helmet/heavy/dwarven/smith
-	name = "grudgebearer smith helm"
-	desc = "A hardy, layered helmet. It lets one's dwarvenly beard to poke out. \
-	This one is intended for the smiths of the clan. No less protective. All the more stylish."
+	name = "isenban smith helm"
+	desc = "'There hammer on the anvil smote, There chisel clove, and graver wrote; \
+	There forged was blade, and bound was hilt; The delver mined, the mason built. \
+	There beryl, pearl, and opal pale, And metal wrought like fishes' mail, Buckler \
+	and corslet, axe and sword, And shining spears were laid in hoard.'"
 	icon_state = "dsmithhead"
 	item_state = "dsmithhead"
 
 /obj/item/clothing/gloves/roguetown/plate/dwarven
-	name = "grudgebearer dwarven gauntlets"
-	desc = "Forged to fit the stubbiest of fingers. It is covered in protective layers."
+	name = "isenban dwarven gauntlets"
+	desc = "Finely sculpted gauntlets, composed of several carefully engineered layers of steel \
+	shaped to the stout silhouette of a dwarf's hand."
 	icon = 'icons/roguetown/clothing/special/race_armor.dmi'
 	mob_overlay_icon = 'icons/roguetown/clothing/special/onmob/race_armor.dmi'
 	allowed_race = list(/datum/species/dwarf, /datum/species/dwarf/mountain)
@@ -201,8 +216,11 @@
 	AddComponent(/datum/component/layeredarmor/grudgebearer/limbs)
 
 /obj/item/clothing/shoes/roguetown/boots/armor/dwarven
-	name = "grudgebearer dwarven boots"
-	desc = "Clatters mightily. It is covered in protective layers."
+	name = "isenban dwarven boots"
+	desc = "A pair of stout plate boots, perhaps two-thirds the length at the sole of any \
+	such footwear designed for a humen. It is heavily padded on the interior for the wearer's \
+	comfort; no self-respecting dwarf abides blisters while travelling through the mountains, \
+	nor risks abandoning their plate while on the march."
 	icon = 'icons/roguetown/clothing/special/race_armor.dmi'
 	mob_overlay_icon = 'icons/roguetown/clothing/special/onmob/race_armor.dmi'
 	allowed_race = list(/datum/species/dwarf, /datum/species/dwarf/mountain)

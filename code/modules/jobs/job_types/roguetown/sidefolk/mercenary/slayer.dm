@@ -1,6 +1,13 @@
+// barbarian-like subclass with soft-nudist (no armor) and no Fast Reflexes,
+// supposed to soak up damage with their con and skinarmor and chop shit up with class-exclusive axes
 /datum/advclass/mercenary/trollslayer
-	name = "Trollslayer" // barbarian-like subclass with soft-nudist (no armor) and no Fast Reflexes, supposed to soak up damage with their con and skinarmor and chop shit up with class-exclusive axes
-	tutorial = "Atop the windy peaks of the dwarven Mountainhomes, you swore an Oath, vowing to cleanse the land of monsters or die trying. You give yourself wholly to the Battlefather’s judgment, bearing your devotion as armor and your rage as a weapon. No creacher upon this world is safe from your divine wrath."
+	name = "Hornwulf"
+	tutorial = "You belong to a spiritual and martial tradition originating in Hammerhold; through acts \
+	of incredible heroism and grandeur, you aspire to ascend to one of the seven constellations of divinity \
+	within the Host of the Ten Thousand. With only your body, your wits, and dwarf-forged steel in hand, \
+	you will propel yourself into the annals of history! Later generations will marvel at your deeds \
+	and give libations to shrines bearing your image! Embody the values of your patron to numinous \
+	perfection, achieve phenomenal things by the light of providence, or elsewise die in the attempt!"
 	allowed_races = list(
 		/datum/species/dwarf,
 		/datum/species/dwarf/mountain
@@ -12,8 +19,8 @@
 	extra_context = "Only the dwarves who swore an Oath to the ten may become Trollslayers." // dwarf exclusive and will force Ravox
 
 	traits_applied = list(TRAIT_CRITICAL_RESISTANCE, TRAIT_SHIRTLESS) //TRAIT_SHIRTLESS prevents equip on the head, armor and shirt slots and enables class-specific weapons
-	subclass_stats = list( 
-		STATKEY_STR = 2, 
+	subclass_stats = list(
+		STATKEY_STR = 2,
 		STATKEY_CON = 5,
 		STATKEY_WIL = 2,
 		STATKEY_INT = -3, // Brain dented in an accident involving 2 squirrels and a drunk zizite.
@@ -34,12 +41,14 @@
 	adv_stat_ceiling = list(STAT_STRENGTH = 12) // I'm sorry but you're not grabbing muscular and aiming chest with 12 speed 17 strength swift intent spam.
 
 /datum/outfit/job/roguetown/mercenary/trollslayer
-	allowed_patrons = ALL_SLAYER_PATRONS
+	allowed_patrons = NON_PSYDON_PATRONS
 
 /datum/outfit/job/roguetown/mercenary/trollslayer/pre_equip(mob/living/carbon/human/H)
 	..()
 	if(H.mind)
-		to_chat(H, span_warning("You are a Slayer - an elite hunter of monsters, hailing from the windy peaks of the dwarven Mountainhomes. Your devotion is matched only by your unbridled fury. You forgo defense, entrusting your life to the Ten and make a living by selling your trophies."))
+		to_chat(H, span_warning("You are a Hornwulf, an aspirant to divinity within Hammerholdian \
+		religion. By acts of incredible heroism you will achieve your place in the hero cults \
+		of your homeland, or you will die in the attempt."))
 		H.mind.AddSpell(new /obj/effect/proc_holder/spell/self/axedance)
 		armor = /obj/item/clothing/suit/roguetown/armor/regenerating/slayer
 		pants = /obj/item/clothing/under/roguetown/heavy_leather_pants
@@ -63,7 +72,7 @@
 				ADD_TRAIT(H, TRAIT_DUALWIELDER, TRAIT_GENERIC)
 
 /obj/item/rogueweapon/stoneaxe/woodcut/steel/slayer
-	name = "slayer axe"
+	name = "hornwulf's axe"
 	desc = "A marvel of craftsdwarfship, this ornate handaxe attunes itself to those who have sworn the Oath."
 	force = 26
 	possible_item_intents = list(/datum/intent/axe/cut, /datum/intent/axe/chop, /datum/intent/axe/bash)
@@ -82,7 +91,7 @@
 	smeltresult = /obj/item/ingot/steel
 
 /obj/item/rogueweapon/stoneaxe/battle/slayer
-	name = "slayer greataxe"
+	name = "hornwulf's greataxe"
 	desc = "A marvel of craftsdwarfship, this ornate greataxe attunes itself to those who have sworn the Oath."
 	force = 20
 	force_wielded = 34 // Slightly weaker than the double bladed greataxe, but the edge doesn't dull quickly.

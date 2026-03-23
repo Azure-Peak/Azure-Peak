@@ -952,7 +952,7 @@
 	This one has been well balanced, allowing for a weaker wielder to make use of it."
 	icon_state = "dwarfhammer"
 	smeltresult = /obj/item/ingot/steel
-	minstr = 11 // +2STR from Grudgebearer Soldier. Should cover this.
+	minstr = 11 // +2STR from Isenban Soldier. Should cover this.
 	wdefense_wbonus = 3 // 5
 	smelt_bar_num = 3 // You'll break my heart.
 	max_integrity = 390
@@ -964,7 +964,7 @@
 	icon_state = "spiky"
 	gripped_intents = list(/datum/intent/maul/spiked, /datum/intent/mace/smash/grand, /datum/intent/mace/sweep, /datum/intent/effect/hobble)
 	wdefense_wbonus = 2 //4
-	minstr = 10 //+1 STR from Grudgebearer Smith. It should be fine.
+	minstr = 10 //+1 STR from Isenban Smith. It should be fine.
 	smelt_bar_num = 3 //Please don't...
 	max_integrity = 370
 

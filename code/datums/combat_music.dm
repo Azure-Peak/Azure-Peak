@@ -205,7 +205,7 @@ GLOBAL_LIST_EMPTY(cmode_tracks_by_name)
 	musicpath = list('sound/music/combat_dungeoneer.ogg')
 
 /datum/combat_music/dwarf
-	name = "Dwarven Grudgebearer"
+	name = "Dwarven Isenban Warrior"
 	desc = ""
 	shortname = "Dwarf"
 	musicpath = list('sound/music/combat_dwarf.ogg')
