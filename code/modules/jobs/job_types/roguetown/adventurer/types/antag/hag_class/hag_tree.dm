@@ -25,6 +25,7 @@
 
 /obj/structure/roguemachine/mossmother/Initialize(mapload)
 	. = ..()
+	GLOB.hag_trees += src
 	public_stock[/obj/item/alch/hag_moss/sorrow] = 2
 	public_stock[/obj/item/alch/hag_moss/mercy] = 2
 
@@ -37,6 +38,10 @@
 		hag_stock[/obj/item/alch/hag_moss/lullaby] = 0
 	else
 		hag_stock[/obj/item/alch/hag_moss/sorrow] = 1
+
+/obj/structure/roguemachine/mossmother/Destroy()
+	GLOB.hag_trees -= src
+	return ..()
 
 /obj/structure/roguemachine/mossmother/proc/get_contents(is_hag = FALSE)
 	var/list/source = is_hag ? hag_stock : public_stock
@@ -53,13 +58,26 @@
 	if(..()) return
 	if(!usr.canUseTopic(src, BE_CLOSE)) return
 
-	if(href_list["action"])
+	// Teleportation Execution
+	if(href_list["teleport_to"])
+		var/obj/structure/roguemachine/mossmother/target = locate(href_list["teleport_to"]) in GLOB.hag_trees
+		do_teleport(usr, target)
+		return
+
+	// Travel Menu Opening
+	if(href_list["action"] == "travel")
+		handle_travel(usr)
+		return
+
+	// Harvest Menu Opening (Public or Hag)
+	if(href_list["action"] == "public" || href_list["action"] == "hag")
 		var/is_hag = (href_list["action"] == "hag")
 		var/datum/browser/popup = new(usr, "moss_window", (is_hag ? "THE VEIL OF ROOTS" : "COMMON BLOSSOMS"), 400, 500)
 		popup.set_content(get_contents(is_hag))
 		popup.open()
 		return
 
+	// Actual Harvesting
 	if(href_list["harvest"])
 		var/path = text2path(href_list["harvest"])
 		var/is_hag = text2num(href_list["hag"])
@@ -95,10 +113,50 @@
 
 	if(HAS_TRAIT(user, TRAIT_ANCIENT_HAG))
 		contents += "<a href='?src=[REF(src)];action=hag'>[span_danger("Reap Mother's Blood")]</a><BR>"
+		contents += "<a href='?src=[REF(src)];action=travel'>[span_boldnotice("Walk the Roots")]</a><BR>"
 	contents += "</center>"
 	var/datum/browser/popup = new(user, "mossmother", "The Mossmother", 300, 300)
 	popup.set_content(contents)
 	popup.open()
+
+/obj/structure/roguemachine/mossmother/proc/handle_travel(mob/living/user)
+	var/datum/component/hag_curio_tracker/tracker = user.GetComponent(/datum/component/hag_curio_tracker)
+	
+	if(tracker && !tracker.hag_teleport_check())
+		to_chat(user, span_warning("Your soul is still too frayed from your last return to walk the deep roots. Wait a bit longer..."))
+		return
+
+	var/dat = "<center>THE DEEP ROOTS<BR>--------------<BR>"
+	for(var/obj/structure/roguemachine/mossmother/tree in GLOB.hag_trees)
+		if(tree == src)
+			continue
+		var/area/A = get_area(tree)
+		dat += "<a href='?src=[REF(src)];teleport_to=[REF(tree)]'>[A ? A.name : "Unknown Thicket"]</a><BR>"
+
+	dat += "</center>"
+	var/datum/browser/popup = new(user, "root_travel", "Root Travel", 300, 400)
+	popup.set_content(dat)
+	popup.open()
+
+/obj/structure/roguemachine/mossmother/proc/do_teleport(mob/living/user, obj/structure/roguemachine/mossmother/target)
+	if(!target || !user || !user.Adjacent(src))
+		return
+
+	user.visible_message(span_notice("[user] begins to sink into the mossy roots of [src]..."), \
+						 span_notice("You begin to dissolve into the network of roots, seeking the path to [get_area(target)]."))
+
+	// Long do_after to allow interruption.
+	if(do_after(user, 10 SECONDS, target = src))
+		if(!target || !user.Adjacent(src))
+			return
+
+		var/turf/destination = get_step(target, SOUTH)
+		if(!destination || destination.is_blocked_turf())
+			destination = get_turf(target)
+
+		user.forceMove(destination)
+		user.visible_message(span_notice("[user] emerges from the roots of [target]."), \
+							 span_boldnotice("The roots spit you back out into [get_area(target)]."))
 
 /obj/item/alch/hag_moss
 	name = "Generic moss"

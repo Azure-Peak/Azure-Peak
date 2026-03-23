@@ -1,6 +1,6 @@
 /datum/component/hag_curio_tracker
 	/// The world.time when the Hag was last resurrected by a heart.
-	var/last_revive_time = 0
+	var/last_revive_time = -5 MINUTES
 	/// Associative list: [True Name String] = [/datum/hag_boon]
 	var/alist/boon_registry = list()
 	/// Materials the hag currently has stored in their component.
