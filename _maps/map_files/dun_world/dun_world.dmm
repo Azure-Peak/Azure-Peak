@@ -48238,9 +48238,6 @@
 /turf/open/floor/carpet/royalblack,
 /area/rogue/under/underdark/south)
 "kjy" = (
-/obj/effect/decal/cobble/mossy{
-	dir = 4
-	},
 /obj/item/reagent_containers/glass/bucket{
 	pixel_x = -7;
 	pixel_y = -8
@@ -96547,15 +96544,6 @@
 "ujP" = (
 /turf/open/water/river/flow/east,
 /area/rogue/indoors/cave)
-"ujQ" = (
-/obj/effect/decal/edge{
-	color = "#3f3f3f"
-	},
-/obj/effect/decal/edge{
-	color = "#3f3f3f"
-	},
-/turf/open/floor/rogue/cobble/mossy,
-/area/rogue/outdoors/town)
 "ujV" = (
 /obj/structure/closet/crate/chest,
 /obj/item/reagent_containers/powder/salt,
@@ -265528,8 +265516,8 @@ ijm
 uBc
 mwM
 dWz
-oZA
 fpx
+oZA
 dAV
 xqO
 xqO
@@ -265980,8 +265968,8 @@ jew
 cDX
 rCj
 bsw
-qfA
 oZA
+qfA
 lgD
 xqO
 xqO
@@ -266434,7 +266422,7 @@ idq
 oAz
 qfA
 dQP
-ujQ
+lgD
 xqO
 qxe
 fCK
