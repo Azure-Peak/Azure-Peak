@@ -58250,6 +58250,16 @@
 /obj/item/clothing/gloves/roguetown/chain/iron,
 /turf/open/floor/rogue/blocks,
 /area/rogue/indoors/town/garrison)
+"mfC" = (
+/obj/effect/decal/mossy{
+	dir = 8
+	},
+/obj/effect/decal/edge{
+	color = "#3f3f3f";
+	dir = 1
+	},
+/turf/open/floor/rogue/cobble,
+/area/rogue/outdoors/town)
 "mfD" = (
 /obj/structure/fluff/railing/border/east,
 /obj/structure/table/wood/poor,
@@ -69941,15 +69951,6 @@
 /obj/item/cooking/platter/pewter,
 /turf/open/floor/carpet/royalblack,
 /area/rogue/indoors/town/dwarfin)
-"oHW" = (
-/obj/structure/bars/grille{
-	dir = 4
-	},
-/obj/structure/stairs{
-	dir = 4
-	},
-/turf/open/transparent/openspace,
-/area/rogue/indoors/town)
 "oHZ" = (
 /obj/structure/roguemachine/vendor{
 	keycontrol = "stall1"
@@ -97935,6 +97936,18 @@
 /obj/structure/fluff/railing/border/east,
 /turf/open/transparent/openspace,
 /area/rogue/outdoors/rtfield)
+"uyM" = (
+/obj/effect/decal/cobbleedge{
+	dir = 4;
+	pixel_x = 0;
+	pixel_y = 0
+	},
+/obj/effect/decal/edge{
+	color = "#3f3f3f";
+	dir = 1
+	},
+/turf/open/floor/rogue/grassyel,
+/area/rogue/outdoors/town)
 "uyN" = (
 /mob/living/carbon/human/species/goblin/npc/hell,
 /turf/open/floor/rogue/dirt/road,
@@ -112370,6 +112383,17 @@
 	},
 /turf/open/floor/rogue/tile/brownbrick,
 /area/rogue/indoors/town/bath)
+"xAL" = (
+/obj/effect/decal/cobbleedge{
+	dir = 10;
+	icon_state = "cobbleedge-w"
+	},
+/obj/effect/decal/edge{
+	color = "#3f3f3f";
+	dir = 1
+	},
+/turf/open/floor/rogue/cobble/mossy,
+/area/rogue/outdoors/town)
 "xAN" = (
 /obj/structure/table/wood/fancy/royalblue,
 /obj/machinery/light/rogue/candle/r,
@@ -115595,6 +115619,16 @@
 /obj/structure/fluff/railing/border/east,
 /turf/open/lava/acid,
 /area/rogue/under/cave/his_vault/puzzle)
+"yib" = (
+/obj/effect/decal/cobbleedge{
+	dir = 10
+	},
+/obj/effect/decal/edge{
+	color = "#3f3f3f";
+	dir = 1
+	},
+/turf/open/floor/rogue/grassyel,
+/area/rogue/outdoors/town)
 "yic" = (
 /obj/structure/fluff/railing/border/east,
 /obj/structure/fluff/railing/border,
@@ -265940,7 +265974,7 @@ aFv
 fpx
 lZd
 lkM
-oHW
+mqK
 mqK
 cAd
 jew
@@ -271839,7 +271873,7 @@ fJF
 rKJ
 iyM
 oQw
-lJF
+xAL
 feG
 wcz
 kgX
@@ -272291,7 +272325,7 @@ lbd
 ePb
 gUd
 xqO
-lJF
+fCK
 fUk
 oti
 kgX
@@ -272743,7 +272777,7 @@ lbd
 jMm
 gUd
 xqO
-lJF
+fCK
 feG
 oti
 kgX
@@ -273195,7 +273229,7 @@ hau
 kgf
 iyM
 xqO
-lJF
+mfC
 rkI
 xHv
 frf
@@ -274551,7 +274585,7 @@ tMh
 hun
 mze
 xqO
-lJF
+uyM
 mPk
 arI
 arI
@@ -275003,7 +275037,7 @@ tMh
 rKJ
 rKJ
 ieQ
-lJF
+yib
 llx
 hcv
 eQo
@@ -276766,7 +276800,7 @@ ffX
 ffX
 eir
 daQ
-daQ
+wob
 daQ
 daQ
 daQ
