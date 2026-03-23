@@ -52,15 +52,18 @@
 	if(is_high_tier)
 		to_chat(user, span_blue("<i>Suffocation: [human_target.oxyloss]%</i>"))
 	else // else you don't and you get those IC hints of how bad it is
-		switch(human_target.oxyloss)
-			if(0 to 1)
-				to_chat(user, span_notice("Their breath flows true and untroubled."))
-			if(1 to 50)
-				to_chat(user, span_boldwarning("Their breathing is somewhat impeded; the chest labors lightly."))
-			if(50 to 100)
-				to_chat(user, span_boldred("They are openly suffocating to death; air is desperately needed!"))
-			if(100 to INFINITY || human_target.stat >= DEAD) // the oxymoron strikes again u-u
-				to_chat(user, span_purple("No breath passes through their lips; Pestra rest their soul."))
+		if(human_target.stat >= DEAD)
+			to_chat(user, span_purple("No breath passes through their lips; Pestra rest their soul."))
+		else
+			switch(human_target.oxyloss)
+				if(0 to 1)
+					to_chat(user, span_notice("Their breath flows true and untroubled."))
+				if(1 to 50)
+					to_chat(user, span_boldwarning("Their breathing is somewhat impeded; the chest labors lightly."))
+				if(50 to 100)
+					to_chat(user, span_boldred("They are openly suffocating to death; air is desperately needed!"))
+				if(100 to INFINITY)
+					to_chat(user, span_purple("No breath passes through their lips; Pestra rest their soul.")) // im a fool, this is better
 	// mostly to show a disparity in skill, no-skill seculars will be able to tell when poison has taken a deep root, not early signs
 	if(!(is_mid_tier || is_high_tier || miracle))
 		switch(human_target.toxloss)
