@@ -6,7 +6,7 @@
 	mob_traits = list(TRAIT_UNDIVIDED)
 	miracles = list(/obj/effect/proc_holder/spell/targeted/touch/orison					= CLERIC_ORI,
 					/obj/effect/proc_holder/spell/self/twinned_gaze						= CLERIC_T0,
-					/obj/effect/proc_holder/spell/invoked/ignition						= CLERIC_T0,
+					/obj/effect/proc_holder/spell/invoked/ignition/undivided			= CLERIC_T0,
 					/obj/effect/proc_holder/spell/invoked/calmingrespite				= CLERIC_T1,
 					/obj/effect/proc_holder/spell/invoked/lesser_heal 					= CLERIC_T1,
 					/obj/effect/proc_holder/spell/invoked/blood_heal					= CLERIC_T1,

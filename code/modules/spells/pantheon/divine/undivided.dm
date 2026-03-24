@@ -93,6 +93,22 @@
 		REMOVE_TRAIT(owner, TRAIT_DARKVISION, TRAIT_MIRACLE)
 
 
+/////////////////////////////////////////
+// T0 - Enkindle - Undivided Ignition. //
+/////////////////////////////////////////
+
+/obj/effect/proc_holder/spell/invoked/ignition/undivided
+	name = "Enkindle"
+	action_icon = 'icons/mob/actions/undividedmiracles.dmi'
+	overlay_icon = 'icons/mob/actions/undividedmiracles.dmi'
+	overlay_state = "enkindle"
+	base_icon_state = "spell"
+	releasedrain = 25
+	range = 7
+	recharge_time = 15 SECONDS
+	devotion_cost = 20
+	invocations = list("Kindle.")
+
 /////////////////////////////////////////////////////////////////////////////////
 // T1 - Calming Respite - Restore ENERGY to a target and provide healing buff. //
 /////////////////////////////////////////////////////////////////////////////////
@@ -139,6 +155,21 @@
 		target.energy_add(starminatoregen * 2)
 		target.apply_status_effect(/datum/status_effect/buff/healing, respite_healing*2)
 		show_visible_message(target, "As [user] intones the incantation, vibrant flames swirl around them, a dance of energy flowing towards [target].", "As [user] intones the incantation, vibrant flames swirl around them, a dance of energy flowing towards you. You feel refreshed.")
+
+
+///////////////////////////////////////////////////////////////////
+// T1 - Smite - Slow down a target, same as Ravox divine strike. //
+///////////////////////////////////////////////////////////////////
+//Heretic + pick from pack
+
+/obj/effect/proc_holder/spell/self/divine_strike/undivided
+	name = "Smite"
+	action_icon = 'icons/mob/actions/undividedmiracles.dmi'
+	overlay_icon = 'icons/mob/actions/undividedmiracles.dmi'
+	overlay_state = "smite"
+	invocations = list("Stand your ground!")
+	releasedrain = 10
+	devotion_cost = 40
 
 ////////////////////////////////////////////////////////////
 // T2 - Perseverance- Seal wounds and calm down a person. //
@@ -232,11 +263,12 @@
 		/obj/effect/proc_holder/spell/invoked/avert::name				= /obj/effect/proc_holder/spell/invoked/avert,
 	)
 	var/list/miracle_templar_bundle = list(
-		/obj/effect/proc_holder/spell/self/xylixslip::name 				= /obj/effect/proc_holder/spell/self/xylixslip,
-		/obj/effect/proc_holder/spell/self/wise_moon::name 				= /obj/effect/proc_holder/spell/self/wise_moon,
-		/obj/effect/proc_holder/spell/invoked/abyssor_undertow::name 	= /obj/effect/proc_holder/spell/invoked/abyssor_undertow,
-		/obj/effect/proc_holder/spell/self/divine_strike::name 			= /obj/effect/proc_holder/spell/self/divine_strike,
-		/obj/effect/proc_holder/spell/invoked/heatmetal::name 			= /obj/effect/proc_holder/spell/invoked/heatmetal,
+		/obj/effect/proc_holder/spell/invoked/abyssor_undertow::name 		= /obj/effect/proc_holder/spell/invoked/abyssor_undertow,
+		/obj/effect/proc_holder/spell/self/balance_immune::name 			= /obj/effect/proc_holder/spell/self/balance_immune,
+		/obj/effect/proc_holder/spell/invoked/heatmetal::name 				= /obj/effect/proc_holder/spell/invoked/heatmetal,
+		/obj/effect/proc_holder/spell/self/wise_moon::name 					= /obj/effect/proc_holder/spell/self/wise_moon,
+		/obj/effect/proc_holder/spell/self/divine_strike/undivided::name 	= /obj/effect/proc_holder/spell/self/divine_strike/undivided,
+		/obj/effect/proc_holder/spell/self/xylixslip::name 					= /obj/effect/proc_holder/spell/self/xylixslip,
 	)
 
 /obj/effect/proc_holder/spell/self/undivided_miracle_bundle/cast(list/targets, mob/user)
@@ -366,7 +398,7 @@
 	recharge_time = 6 MINUTES
 	invocations = list("WE STAND TOGETHER!", "UNITED WE WILL PREVAIL!", "DRIVE THE FIENDS BACK!!")
 	invocation_type = "shout"
-	sound = 'sound/misc/hello.ogg'
+	sound = 'sound/misc/carriage2.ogg'
 	releasedrain = 30
 	miracle = TRUE
 	devotion_cost = 40
