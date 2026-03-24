@@ -53,6 +53,11 @@
 		STACON = 15
 		STAPER = 10
 		STASPD = 8
+		adjust_skillrank(/datum/skill/combat/wrestling, SKILL_LEVEL_APPRENTICE, TRUE)
+		adjust_skillrank(/datum/skill/combat/unarmed, SKILL_LEVEL_JOURNEYMAN, TRUE)
+		adjust_skillrank(/datum/skill/misc/swimming, SKILL_LEVEL_APPRENTICE, TRUE)
+		adjust_skillrank(/datum/skill/misc/athletics, SKILL_LEVEL_JOURNEYMAN, TRUE)
+		adjust_skillrank(/datum/skill/misc/sneaking, SKILL_LEVEL_EXPERT, TRUE)
 
 		AddSpell(new /obj/effect/proc_holder/spell/self/hagclaws) 
 		apply_status_effect(/datum/status_effect/debuff/hag_bog_tether/wildshape)
