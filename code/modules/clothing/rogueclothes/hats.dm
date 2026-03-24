@@ -72,7 +72,7 @@
 	item_state = "silversallet"
 
 /obj/item/clothing/head/roguetown/helmet/heavy/undivided_ritual
-	name = "crusader helmet"
+	name = "crusader greathelm"
 	desc = "A gold-plated bucket helm adorned with symbol of Astrata, beacon of hope worn during crusades. \
 	Sacrificial Hero, fear not your enemy; it is only the first tilt."
 	worn_x_dimension = 64

@@ -1327,6 +1327,8 @@
 	cloak = /obj/item/clothing/cloak/templar/undivided_alt
 	armor = /obj/item/clothing/suit/roguetown/armor/plate/full/holysee/ritual
 	gloves = /obj/item/clothing/gloves/roguetown/plate/holysee/ritual
+	belt = /obj/item/storage/belt/rogue/leather/steel/tasset
+	beltl = /obj/item/rogueweapon/scabbard/sword/royal
 	pants = /obj/item/clothing/under/roguetown/platelegs/holysee/ritual
 	shoes = /obj/item/clothing/shoes/roguetown/boots/armor/holysee/ritual
 	backl = /obj/item/rogueweapon/sword/long/undivided
