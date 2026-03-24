@@ -89,7 +89,7 @@
 		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/mindlink/hag)
 		H.dna.species.soundpack_m = new /datum/voicepack/hag()
 		H.dna.species.soundpack_f = new /datum/voicepack/hag()
-		if(H.mind.has_antag_datum(/datum/antagonist/hag))
+		if(!H.mind.has_antag_datum(/datum/antagonist/hag))
 			var/datum/antagonist/new_antag = new /datum/antagonist/hag()
 			H.mind.add_antag_datum(new_antag)
 
