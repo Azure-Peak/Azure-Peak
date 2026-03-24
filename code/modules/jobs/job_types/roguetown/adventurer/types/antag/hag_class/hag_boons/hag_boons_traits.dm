@@ -46,11 +46,6 @@
 	trait_to_apply = TRAIT_LEAPER
 	points = 5
 
-/datum/hag_boon/trait/leaper
-	name = "Trait - Leaper"
-	trait_to_apply = TRAIT_LEAPER
-	points = 5
-
 /datum/hag_boon/trait/ignoreslowdown
 	name = "Trait - Unslowable"
 	trait_to_apply = TRAIT_IGNORESLOWDOWN
