@@ -8,7 +8,7 @@
 	 					  TRAIT_ANCIENT_HAG, TRAIT_MIRROR_MAGIC,
 						  TRAIT_HOMESTEAD_EXPERT, TRAIT_SEWING_EXPERT,
 						  TRAIT_LEECHIMMUNE, TRAIT_ZOMBIE_IMMUNE,
-						  TRAIT_NOMOOD, TRAIT_UNLYCKERABLE)
+						  TRAIT_NOMOOD, TRAIT_UNLYCKERABLE, TRAIT_KNEESTINGER_IMMUNITY)
 	reset_stats = TRUE
 	subclass_stats = list(
 		STATKEY_STR = -7,
@@ -50,7 +50,7 @@
 	if(H.mind)
 		H.ambushable = FALSE
 		H.faction |= list("hag", "spiders")
-		H.mind.AddSpell(new /obj/effect/proc_holder/spell/targeted/shapeshift/hag_true_form)
+		H.mind.AddSpell(new /obj/effect/proc_holder/spell/self/wildshape/hag_true_form)
 		H.set_patron(/datum/patron/mossmother)
 		H.AddComponent(/datum/component/hag_curio_tracker)
 		// --- Taught Recipes ---
@@ -92,81 +92,6 @@
 		if(H.mind.has_antag_datum(/datum/antagonist/hag))
 			var/datum/antagonist/new_antag = new /datum/antagonist/hag()
 			H.mind.add_antag_datum(new_antag)
-
-/obj/effect/proc_holder/spell/targeted/shapeshift/hag_true_form
-	die_with_shapeshifted_form = FALSE
-	gesture_required = TRUE
-	chargetime = 5 SECONDS
-	recharge_time = 50
-	cooldown_min = 50
-	convert_damage = FALSE
-	do_gib = FALSE
-	knockout_on_death = 10 SECONDS
-
-/obj/effect/proc_holder/spell/targeted/shapeshift/hag_true_form/cast(list/targets, mob/user = usr)
-	var/mob/living/carbon/human/H
-	var/obj/shapeshift_holder/SH = locate() in user
-	if(SH)
-		H = SH.stored
-	else if(ishuman(user))
-		H = user
-	if(!COOLDOWN_FINISHED(H, hag_transform_lockout))
-		var/time_left = COOLDOWN_TIMELEFT(H, hag_transform_lockout)
-		to_chat(user, span_warning("My essence is scattered by the clean air of the world. I must wait [DisplayTimeText(time_left)] to reform."))
-		return FALSE
-
-	var/area/A = get_area(user)
-
-	if(!istype(A, /area/rogue/outdoors/bog) && !istype(A, /area/rogue/indoors/shelter/bog) && !istype(A, /area/rogue/indoors/shelter/bog_hag))
-		to_chat(user, span_warning("The air here is too pure, the soil too firm. I feel the nasty gaze of the ten. I can only reveal my true self within the Terrorbog or my Hut!"))
-		revert_cast(user)
-		return FALSE
-	user.visible_message(span_warning("[user] begins to twist and contort!"), span_notice("I begin to transform..."))
-	return ..()
-
-/obj/effect/proc_holder/spell/targeted/shapeshift/hag_true_form/Shapeshift(mob/living/caster)
-	// Do-after before transforming
-	if(!do_after(caster, 3 SECONDS, target = caster))
-		to_chat(caster, span_warning("Transformation interrupted!"))
-		revert_cast(caster)  // Refund the cooldown
-		return
-
-	// Call parent to actually transform
-	..()
-
-	var/obj/shapeshift_holder/H = locate() in usr 
-	if(H && H.shape)
-		H.shape.apply_status_effect(/datum/status_effect/debuff/hag_bog_tether)
-		to_chat(H.shape, span_notice("The rot of the bog sustains this form... I must not wander too far."))
-	else
-		// Fallback
-		var/obj/shapeshift_holder/H_fallback = caster.loc
-		if(istype(H_fallback) && H_fallback.shape)
-			H_fallback.shape.apply_status_effect(/datum/status_effect/debuff/hag_bog_tether)
-
-	return TRUE
-
-/obj/effect/proc_holder/spell/targeted/shapeshift/hag_true_form/Restore(mob/living/shape)
-	// Check if restrained before allowing revert
-	if(shape.restrained(ignore_grab = FALSE))
-		to_chat(shape, span_warn("I am restrained, I can't transform back!"))
-		revert_cast(shape)  // Refund the cooldown
-		return
-
-	// Add do-after for witches when reverting
-	shape.visible_message(span_warning("[shape] begins to shift back!"), span_notice("I begin to transform..."))
-	if(!do_after(shape, 15 SECONDS, target = shape))
-		to_chat(shape, span_warning("Transformation revert interrupted!"))
-		revert_cast(shape)  // Refund the cooldown
-		return
-
-	return ..()
-
-/obj/effect/proc_holder/spell/targeted/shapeshift/hag_true_form
-	name = "True form"
-	desc = "I'm tired of these mortals invading MY bog, out with them!! I shall show them -true- terror!"
-	overlay_state = "cat_transform"
-	shapeshift_type = /mob/living/simple_animal/hostile/retaliate/rogue/hag_shapeshift
 
 /datum/antagonist/hag
 	name = "Hag"
