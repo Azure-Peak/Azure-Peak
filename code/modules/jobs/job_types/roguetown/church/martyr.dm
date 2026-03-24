@@ -1251,20 +1251,6 @@
 // Versions for UNDIVIDED ritual //
 ///////////////////////////////////
 
-////////////
-// HELMET //
-////////////
-
-/obj/item/clothing/head/roguetown/helmet/heavy/holysee/ritual
-	sellprice = 150
-
-/obj/item/clothing/head/roguetown/helmet/heavy/holysee/ritual/mob_can_equip(mob/living/M, mob/living/equipper, slot, disable_warning = FALSE, bypass_equip_delay_self = FALSE)
-	return TRUE
-
-/obj/item/clothing/head/roguetown/helmet/heavy/holysee/ritual/Initialize()
-	. = ..()
-	AddComponent(/datum/component/cursed_item, TRAIT_UNDIVIDED, "HELMET")
-
 ///////////
 // PLATE //
 ///////////
