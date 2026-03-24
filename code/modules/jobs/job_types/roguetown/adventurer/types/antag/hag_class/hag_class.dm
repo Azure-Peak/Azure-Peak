@@ -104,7 +104,12 @@
 	knockout_on_death = 10 SECONDS
 
 /obj/effect/proc_holder/spell/targeted/shapeshift/hag_true_form/cast(list/targets, mob/user = usr)
-	var/mob/living/carbon/human/H = user
+	var/mob/living/carbon/human/H
+	var/obj/shapeshift_holder/SH = locate() in user
+	if(SH)
+		H = SH.stored
+	else if(ishuman(user))
+		H = user
 	if(!COOLDOWN_FINISHED(H, hag_transform_lockout))
 		var/time_left = COOLDOWN_TIMELEFT(H, hag_transform_lockout)
 		to_chat(user, span_warning("My essence is scattered by the clean air of the world. I must wait [DisplayTimeText(time_left)] to reform."))
