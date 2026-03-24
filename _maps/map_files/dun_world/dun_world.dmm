@@ -18011,6 +18011,12 @@
 /obj/effect/decal/cleanable/blood,
 /turf/open/floor/rogue/cobble,
 /area/rogue/under/cave/orcdungeon)
+"dTk" = (
+/obj/effect/decal/edge_corner{
+	color = "#3f3f3f"
+	},
+/turf/open/floor/rogue/cobble/mossy,
+/area/rogue/outdoors/town)
 "dTl" = (
 /obj/effect/decal/wood/herringbone2,
 /turf/open/floor/rogue/ruinedwood/herringbone,
@@ -26886,6 +26892,16 @@
 /obj/structure/flora/newtree,
 /turf/open/floor/rogue/snowpatchy,
 /area/rogue/outdoors/beach/forest/south)
+"fMW" = (
+/obj/machinery/light/rogue/lanternpost{
+	dir = 1
+	},
+/obj/effect/decal/edge{
+	color = "#3f3f3f";
+	dir = 8
+	},
+/turf/open/floor/rogue/cobble/mossy,
+/area/rogue/outdoors/town)
 "fNb" = (
 /obj/structure/fluff/wallclock/r{
 	pixel_x = 0;
@@ -61654,6 +61670,17 @@
 /mob/living/simple_animal/hostile/retaliate/rogue/bigrat,
 /turf/open/water/swamp,
 /area/rogue/under/town/sewer)
+"mUJ" = (
+/obj/machinery/light/rogue/torchholder/c,
+/obj/effect/decal/cobbleedge{
+	dir = 8;
+	pixel_x = 0
+	},
+/obj/effect/decal/edge{
+	color = "#3f3f3f"
+	},
+/turf/open/floor/rogue/cobble/mossy,
+/area/rogue/outdoors/town)
 "mUK" = (
 /obj/structure/chair/bench/church/mid,
 /turf/open/floor/rogue/church,
@@ -70769,7 +70796,7 @@
 /obj/effect/decal/edge{
 	color = "#3f3f3f"
 	},
-/turf/open/floor/rogue/cobble,
+/turf/open/floor/rogue/cobble/mossy,
 /area/rogue/outdoors/town)
 "oQx" = (
 /obj/structure/fluff/railing/border/west,
@@ -110008,6 +110035,16 @@
 "wZw" = (
 /turf/closed/wall/mineral/rogue/wooddark/end,
 /area/rogue/outdoors/rtfield)
+"wZC" = (
+/obj/effect/decal/cobbleedge{
+	dir = 10;
+	icon_state = "cobbleedge-w"
+	},
+/obj/effect/decal/edge{
+	color = "#3f3f3f"
+	},
+/turf/open/floor/rogue/cobble/mossy,
+/area/rogue/outdoors/town)
 "wZM" = (
 /obj/effect/landmark/chimeric_calyx_spawner/fifteen,
 /turf/open/floor/rogue/AzureSand,
@@ -162899,8 +162936,8 @@ ylh
 dlK
 iZp
 iZp
-edq
-tZm
+iZp
+dNN
 eXr
 wUX
 uSy
@@ -163350,9 +163387,9 @@ mMx
 ylh
 cqm
 ylh
+ylh
 rOd
 cqm
-skC
 xPZ
 xPZ
 uWA
@@ -271370,8 +271407,8 @@ iyM
 iyM
 oKV
 kgf
-mBu
-ohS
+fMW
+dTk
 exD
 lJF
 feG
@@ -272275,7 +272312,7 @@ lbd
 lbd
 ePb
 gUd
-sAU
+gpM
 exD
 fCK
 fUk
@@ -272727,7 +272764,7 @@ lbd
 lbd
 jMm
 gUd
-sAU
+wZC
 exD
 fCK
 feG
@@ -273179,7 +273216,7 @@ hau
 hau
 kgf
 iyM
-sAU
+lgD
 exD
 mfC
 rkI
@@ -273631,7 +273668,7 @@ tMh
 tMh
 eGS
 rKJ
-ieQ
+mUJ
 exD
 uCs
 mPk
