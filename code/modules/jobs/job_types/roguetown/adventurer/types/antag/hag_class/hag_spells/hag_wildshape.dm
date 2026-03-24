@@ -19,6 +19,7 @@
 			COOLDOWN_START(original, hag_transform_lockout, 2 MINUTES)
 
 		H.wildshape_untransform()
+		H.remove_status_effect(/datum/status_effect/debuff/hag_bog_tether/wildshape)
 
 
 /mob/living/carbon/human/species/wildshape/hag
