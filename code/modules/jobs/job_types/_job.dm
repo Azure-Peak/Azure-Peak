@@ -176,6 +176,23 @@
 /datum/job/proc/special_job_check(mob/dead/new_player/player)
 	return TRUE
 
+/datum/job/proc/validate_prefs_for_job(datum/preferences/P)
+	if(!P) return FALSE
+	if(length(allowed_races) && !(P.pref_species.type in allowed_races)) return FALSE
+	if(length(allowed_patrons) && !(P.selected_patron.type in allowed_patrons)) return FALSE
+	if(length(allowed_ages) && !(P.age in allowed_ages)) return FALSE
+	if(length(allowed_sexes) && !(P.gender in allowed_sexes)) return FALSE
+	
+	if(length(virtue_restrictions) && ((P.virtue.type in virtue_restrictions) || (P.virtuetwo?.type in virtue_restrictions) || (P.virtue_origin?.type in virtue_restrictions)))
+		return FALSE
+		
+	if(length(vice_restrictions))
+		for(var/datum/charflaw/cf in P.charflaws)
+			if(cf.type in vice_restrictions)
+				return FALSE
+				
+	return TRUE
+
 /datum/job/proc/get_used_title(mob/player)
 	var/titles = player.titles_pref
 	var/used_name = display_title || title

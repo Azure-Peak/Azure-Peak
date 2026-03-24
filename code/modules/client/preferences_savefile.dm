@@ -670,6 +670,8 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	//Load prefs
 	S["job_preferences"] >> job_preferences
 
+	S["job_characters"] >> job_characters
+
 	//Quirks
 	S["all_quirks"] >> all_quirks
 
@@ -811,12 +813,67 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 		if(job_preferences[j] != JP_LOW && job_preferences[j] != JP_MEDIUM && job_preferences[j] != JP_HIGH)
 			job_preferences -= j
 
+	if(!islist(job_characters))
+		job_characters = list()
+	for(var/job_title in job_characters)
+		
+		var/slot_num = job_characters[job_title]
+		if(!isnum(slot_num) || slot_num < 1 || slot_num > max_save_slots)
+			job_characters -= job_title
+
 	all_quirks = SANITIZE_LIST(all_quirks)
 
 	S["customizer_entries"] >> customizer_entries
 	validate_customizer_entries()
-
 	return TRUE
+
+/datum/preferences/proc/fast_scan_for_job(savefile/S, slot)
+	S.cd = "/character[slot]"
+	
+	
+	S["real_name"] >> real_name
+	if(!real_name) real_name = "Slot [slot]"
+
+	
+	var/species_name
+	S["species"] >> species_name
+	if(species_name && GLOB.species_list[species_name])
+		var/race_type = GLOB.species_list[species_name]
+		pref_species = new race_type
+	else
+		pref_species = new default_species.type
+
+	
+	S["age"] >> age
+	S["gender"] >> gender
+
+	
+	var/patron_typepath
+	S["selected_patron"] >> patron_typepath
+	if(patron_typepath && GLOB.patronlist[patron_typepath])
+		selected_patron = GLOB.patronlist[patron_typepath]
+	else
+		selected_patron = GLOB.patronlist[default_patron]
+
+	
+	var/virtue_type
+	var/virtuetwo_type
+	var/origin_type
+	S["virtue"] >> virtue_type
+	S["virtuetwo"] >> virtuetwo_type
+	S["virtue_origin"] >> origin_type
+	
+	virtue = virtue_type ? new virtue_type : new /datum/virtue/none
+	virtuetwo = virtuetwo_type ? new virtuetwo_type : new /datum/virtue/none
+	virtue_origin = origin_type ? new origin_type : new /datum/virtue/none
+
+	
+	charflaws.Cut()
+	var/list/loaded_flaws
+	S["charflaws"] >> loaded_flaws
+	if(loaded_flaws)
+		for(var/ftype in loaded_flaws)
+			if(ispath(ftype)) charflaws += new ftype
 
 /datum/preferences/proc/save_character()
 	if(!path)
@@ -881,6 +938,8 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	//Write prefs
 	WRITE_FILE(S["job_preferences"] , job_preferences)
 
+	WRITE_FILE(S["job_characters"]  , job_characters)
+
 	//Quirks
 	WRITE_FILE(S["all_quirks"]			, all_quirks)
 
@@ -944,6 +1003,9 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	WRITE_FILE(S["familiar_ooc_notes"] , familiar_prefs.familiar_ooc_notes)
 	WRITE_FILE(S["familiar_ooc_extra"] , familiar_prefs.familiar_ooc_extra)
 	WRITE_FILE(S["familiar_ooc_extra_link"] , familiar_prefs.familiar_ooc_extra_link)
+
+	if(loaded_job_slots["[default_slot]"]) //TA EDIT
+		loaded_job_slots["[default_slot]"] = null
 
 	return TRUE
 
