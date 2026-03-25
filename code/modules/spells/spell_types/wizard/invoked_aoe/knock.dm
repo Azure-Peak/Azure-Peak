@@ -5,7 +5,7 @@
 	cost = 3
 	xp_gain = TRUE
 	school = "transmutation"
-	releasedrain = 60
+	releasedrain = SPELLCOST_ULTIMATE
 	chargedrain = 0
 	chargetime = 5 SECONDS
 	recharge_time = 10 SECONDS

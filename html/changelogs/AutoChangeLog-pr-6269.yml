@@ -1,0 +1,7 @@
+author: "Ryan180602"
+delete-after: True
+changes:
+  - rscadd: "extended/greenshift for psydon"
+  - rscadd: "vote panel now pops up on vote start."
+  - rscadd: "new vote panel + vote measures."
+  - rscadd: "vote log for admins."

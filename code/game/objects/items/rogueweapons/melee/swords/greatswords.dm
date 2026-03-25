@@ -328,16 +328,16 @@
 	pixel_x = -16
 	inhand_x_dimension = 64
 	inhand_y_dimension = 64
-	force = 12
+	force = 20
 	force_wielded = 25
 	possible_item_intents = list(
-		/datum/intent/sword/cut,
+		/datum/intent/sword/thrust,
 		/datum/intent/sword/strike,
 	)
 	gripped_intents = list(
 		/datum/intent/sword/thrust/estoc,
-		/datum/intent/sword/lunge,
-		/datum/intent/sword/cut,
+		/datum/intent/sword/thrust/estoc/lunge,
+		/datum/intent/sword/thrust/long/halfsword,
 		/datum/intent/sword/strike,
 	)
 	bigboy = TRUE

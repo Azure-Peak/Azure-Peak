@@ -6,7 +6,7 @@
 /datum/migrant_role/ranesheni/emir
 	name = "Emir"
 	allowed_sexes = list(MALE, FEMALE)
-	allowed_races = RACES_NO_CONSTRUCT
+	allowed_races = RACES_SHUNNED_UP
 	advclass_cat_rolls = list(CTAG_RANESHENI_EMIR = 20)
 	greet_text = "You are an envoy from the Empire, traveling with bodyguards and a priest to represent your homeland.\
 	 What exactly you have been sent here to speak about- only you know."
@@ -71,7 +71,7 @@
 /datum/migrant_role/ranesheni/amirah
 	name = "Amirah"
 	allowed_sexes = list(FEMALE)
-	allowed_races = RACES_NO_CONSTRUCT
+	allowed_races = RACES_SHUNNED_UP
 	advclass_cat_rolls = list(CTAG_RANESHENI_AMIRAH = 20)
 
 /datum/advclass/ranesheni_amirah
@@ -131,7 +131,7 @@
 	name = "Janissary"
 	greet_text = "You are a dilligent soldier in employ of the Emir for protection and to assure that their mission goes as planned."
 	allowed_sexes = list(MALE, FEMALE)
-	allowed_races = RACES_NO_CONSTRUCT
+	allowed_races = RACES_SHUNNED_UP
 	advclass_cat_rolls = list(CTAG_RANESHENI_JANISSARY = 20)
 
 /datum/advclass/ranesheni_janissary
@@ -192,7 +192,7 @@
 	name = "Advisor"
 	greet_text = "You are the Emir's advisor and loyal protector."
 	allowed_sexes = list(MALE, FEMALE)
-	allowed_races = RACES_NO_CONSTRUCT
+	allowed_races = RACES_SHUNNED_UP
 	advclass_cat_rolls = list(CTAG_RANESHENI_ADVISOR = 20)
 
 /datum/advclass/ranesheni_advisor

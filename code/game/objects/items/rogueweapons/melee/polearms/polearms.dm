@@ -10,14 +10,14 @@
 	clickcd = CLICK_CD_CHARGED
 	warnie = "mobwarning"
 	hitsound = list('sound/combat/hits/bladed/genstab (1).ogg', 'sound/combat/hits/bladed/genstab (2).ogg', 'sound/combat/hits/bladed/genstab (3).ogg')
-	penfactor = 55
+	penfactor = PEN_HEAVY
 	item_d_type = "stab"
 	effective_range = 2
 	effective_range_type = EFF_RANGE_EXACT
 
 /datum/intent/spear/thrust/bad
 	name = "weak thrust"
-	penfactor = 20
+	penfactor = PEN_LIGHT
 	damfactor = 1
 	desc = "A weak thrust from a polearm not designed for stabbing. Doesn't care about effective range,\ but also incapable of piercing all but the weakest cloth armor."
 	effective_range = null
@@ -25,7 +25,7 @@
 
 /datum/intent/spear/thrust/training
 	name = "blunted thrust"
-	penfactor = 0
+	penfactor = PEN_NONE
 	intent_intdamage_factor = BLUNT_DEFAULT_INT_DAMAGEFACTOR
 	hitsound = list('sound/combat/hits/blunt/metalblunt (1).ogg', 'sound/combat/hits/blunt/metalblunt (2).ogg', 'sound/combat/hits/blunt/metalblunt (3).ogg')
 
@@ -34,7 +34,7 @@
 	reach = 1
 	swingdelay = 14
 	damfactor = 1.6
-	penfactor = 50
+	penfactor = PEN_HEAVY
 	clickcd = CLICK_CD_RESIST
 	effective_range = null
 	effective_range_type = EFF_RANGE_NONE
@@ -42,12 +42,12 @@
 
 /datum/intent/spear/thrust/oneh/training
 	name = "blunted one-handed thrust"
-	penfactor = 0
+	penfactor = PEN_NONE
 	intent_intdamage_factor = BLUNT_DEFAULT_INT_DAMAGEFACTOR
 	hitsound = list('sound/combat/hits/blunt/metalblunt (1).ogg', 'sound/combat/hits/blunt/metalblunt (2).ogg', 'sound/combat/hits/blunt/metalblunt (3).ogg')
 
 /datum/intent/spear/thrust/militia
-	penfactor = 40
+	penfactor = PEN_MEDIUM
 
 /datum/intent/spear/thrust/pike		//EXPERIMENTAL
 	name = "pike thrust"
@@ -64,7 +64,7 @@
 	clickcd = CLICK_CD_HEAVY + 4
 	swingdelay = 6
 	damfactor = 1.5
-	penfactor = 35
+	penfactor = PEN_MEDIUM
 	max_intent_damage = 54
 	reach = 2
 	effective_range = 2
@@ -74,14 +74,14 @@
 /datum/intent/spear/thrust/short
 	reach = 1
 	damfactor = 0.9
-	penfactor = 30
+	penfactor = PEN_MEDIUM
 	effective_range = null
 	effective_range_type = EFF_RANGE_NONE
 
 /datum/intent/spear/bash
 	name = "bash"
 	blade_class = BCLASS_BLUNT
-	penfactor = BLUNT_DEFAULT_PENFACTOR
+	penfactor = PEN_NONE
 	icon_state = "inbash"
 	attack_verb = list("bashes", "strikes")
 	damfactor = NONBLUNT_BLUNT_DAMFACTOR
@@ -171,7 +171,7 @@
 	hitsound = list('sound/combat/hits/bladed/genchop (1).ogg', 'sound/combat/hits/bladed/genchop (2).ogg', 'sound/combat/hits/bladed/genchop (3).ogg')
 	reach = 1
 	swingdelay = 15
-	penfactor = BLUNT_DEFAULT_PENFACTOR
+	penfactor = PEN_NONE
 	damfactor = 2.5
 	clickcd = CLICK_CD_CHARGED
 	no_early_release = TRUE
@@ -182,7 +182,7 @@
 
 /datum/intent/rend/reach
 	name = "long rend"
-	penfactor = BLUNT_DEFAULT_PENFACTOR
+	penfactor = PEN_NONE
 	misscost = 5
 	swingdelay = 15
 	clickcd = CLICK_CD_HEAVY
@@ -201,20 +201,6 @@
 	no_early_release = TRUE
 	intent_intdamage_factor = 0.1
 
-/datum/intent/partizan/peel
-	name = "armor peel"
-	icon_state = "inpeel"
-	attack_verb = list("snags")
-	animname = "cut"
-	blade_class = BCLASS_PEEL
-	hitsound = list('sound/combat/hits/blunt/metalblunt (1).ogg', 'sound/combat/hits/blunt/metalblunt (2).ogg', 'sound/combat/hits/blunt/metalblunt (3).ogg')
-	clickcd = CLICK_CD_CHARGED
-	penfactor = BLUNT_DEFAULT_PENFACTOR
-	swingdelay = 5
-	damfactor = 0.01
-	item_d_type = "slash"
-	peel_divisor = 5
-	reach = 2
 
 
 
@@ -224,7 +210,7 @@
 /datum/intent/spear/thrust/quarterstaff
 	blade_class = BCLASS_BLUNT
 	hitsound = list('sound/combat/hits/blunt/bluntsmall (1).ogg', 'sound/combat/hits/blunt/bluntsmall (2).ogg')
-	penfactor = BLUNT_DEFAULT_PENFACTOR
+	penfactor = PEN_NONE
 	damfactor = 1.3 // Adds up to be slightly stronger than an unenhanced ebeak strike.
 	clickcd = CLICK_CD_CHARGED
 
@@ -334,7 +320,7 @@
 	force = 25
 	force_wielded = 25
 	possible_item_intents = list(SHORT_SPEAR_THRUST, SHORT_SPEAR_CUT)
-	gripped_intents = list(SHORT_SPEAR_THRUST, SHORT_SPEAR_CUT, SPEAR_BASH) 
+	gripped_intents = list(SHORT_SPEAR_THRUST, SHORT_SPEAR_CUT, SPEAR_BASH)
 	name = "short spear"
 	icon_state = "short_spear"
 	wlength = WLENGTH_LONG
@@ -345,7 +331,7 @@
 	desc = "A quick, nimble two-handed thrust. Keeps reach but lacks the power to pierce armor."
 	reach = 2
 	clickcd = CLICK_CD_QUICK // Long range, quick poke, NO AP
-	penfactor = 5
+	penfactor = PEN_NONE
 	damfactor = 1
 	effective_range = null
 	effective_range_type = EFF_RANGE_NONE
@@ -355,7 +341,7 @@
 	desc = "A rapid jab from one hand. Fast with long range, but unable to penetrate armor."
 	reach = 2
 	clickcd = CLICK_CD_QUICK // capture that nimble feel
-	penfactor = 15
+	penfactor = PEN_NONE
 	damfactor = 1
 	effective_range = null
 	effective_range_type = EFF_RANGE_NONE
@@ -370,13 +356,13 @@
 	reach = 1
 	clickcd = 18
 	swingdelay = 14
-	penfactor = 50
+	penfactor = PEN_HEAVY
 	damfactor = 0.8
 	item_d_type = "stab"
 	effective_range = null
 	effective_range_type = EFF_RANGE_NONE
 
-// 
+//
 /obj/item/rogueweapon/spear/spellblade
 	name = "dory"
 	icon_state = "short_spear"
@@ -400,7 +386,7 @@
 	thrown_bclass = BCLASS_STAB
 	throwforce = 22
 	resistance_flags = FLAMMABLE
-	armor_penetration = 0
+	armor_penetration = PEN_NONE
 
 /obj/item/rogueweapon/spear/trainer
 	name = "sparring spear"
@@ -1048,7 +1034,7 @@
 	throwforce = 30
 	icon_state = "bronzespear"
 	smeltresult = /obj/item/ingot/bronze
-	armor_penetration = 22 //In-between a spear and javelin.
+	armor_penetration = PEN_LIGHT //In-between a spear and javelin.
 	embedding = list("embedded_pain_multiplier" = 4, "embed_chance" = 33, "embedded_fall_chance" = 2)
 	max_blade_int = 225
 	max_integrity = 155
@@ -1156,7 +1142,7 @@
 	force = 23
 	force_wielded = 30
 	sellprice = 50
-	max_integrity = 175
+	max_integrity = 250 //equal to psydonite; putting it at half of this was a neat little experiment but agonizing
 
 
 /obj/item/rogueweapon/spear/partizan
@@ -1165,12 +1151,12 @@
 	force = 8	//Not a possible one-handed weapon. Also too heavy!
 	force_wielded = 30
 	possible_item_intents = list(SPEAR_BASH) //bash is for nonlethal takedowns, only targets limbs
-	gripped_intents = list(SPEAR_THRUST, PARTIZAN_REND, PARTIZAN_PEEL)
+	gripped_intents = list(SPEAR_THRUST, SPEAR_CUT, PARTIZAN_REND)
 	icon_state = "partizan"
 	icon = 'icons/roguetown/weapons/polearms64.dmi'
 	minstr = 10
 	max_blade_int = 200
-	wdefense = 6
+	wdefense = 8 // It IS a parrying spear after all.
 	throwforce = 12	//Not a throwing weapon. Too heavy!
 	icon_angle_wielded = 50
 	smeltresult = /obj/item/ingot/steel

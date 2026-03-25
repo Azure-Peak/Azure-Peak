@@ -29,6 +29,8 @@ GLOBAL_LIST_INIT(goblin_aggro, world.file2list("strings/rt/goblinaggrolines.txt"
 	wander = FALSE
 
 /mob/living/carbon/human/species/goblin/npc/ambush
+	threat_point = THREAT_LOW
+	ambush_faction = "goblins"
 	wander = TRUE
 	attack_speed = 2
 
@@ -59,6 +61,7 @@ GLOBAL_LIST_INIT(goblin_aggro, world.file2list("strings/rt/goblinaggrolines.txt"
 	race = /datum/species/goblin/cave
 
 /mob/living/carbon/human/species/goblin/npc/ambush/cave
+	threat_point = THREAT_LOW
 	race = /datum/species/goblin/cave
 
 /datum/species/goblin/cave
@@ -69,8 +72,11 @@ GLOBAL_LIST_INIT(goblin_aggro, world.file2list("strings/rt/goblinaggrolines.txt"
 	name = "sea goblin"
 	race = /datum/species/goblin/sea
 /mob/living/carbon/human/species/goblin/npc/sea
+	threat_point = THREAT_LOW
+	ambush_faction = "goblins"
 	race = /datum/species/goblin/sea
 /mob/living/carbon/human/species/goblin/npc/ambush/sea
+	threat_point = THREAT_LOW
 	race = /datum/species/goblin/sea
 /datum/species/goblin/sea
 	raceicon = "goblin_sea"
@@ -82,6 +88,7 @@ GLOBAL_LIST_INIT(goblin_aggro, world.file2list("strings/rt/goblinaggrolines.txt"
 /mob/living/carbon/human/species/goblin/npc/moon
 	race = /datum/species/goblin/moon
 /mob/living/carbon/human/species/goblin/npc/ambush/moon
+	threat_point = THREAT_LOW
 	race = /datum/species/goblin/moon
 /datum/species/goblin/moon
 	id = "goblin_moon"
@@ -149,9 +156,6 @@ GLOBAL_LIST_INIT(goblin_aggro, world.file2list("strings/rt/goblinaggrolines.txt"
 	H.update_transform()
 	return TRUE
 
-/mob/living/carbon/human/species/goblin/update_body_parts(redraw)
-	update_body()
-
 /mob/living/carbon/human/species/goblin/update_body()
 	remove_overlay(BODY_LAYER)
 	if(!dna || !dna.species)
@@ -216,18 +220,14 @@ GLOBAL_LIST_INIT(goblin_aggro, world.file2list("strings/rt/goblinaggrolines.txt"
 
 /mob/living/carbon/human/species/goblin/retaliate(mob/living/L)
 	var/newtarg = target
-	.=..()
-	if(target && target != newtarg)
-		say(pick(GLOB.goblin_aggro), npc_speech = TRUE)
+	. = ..()
+	if(target != newtarg && npc_combat_dialogue(GLOB.goblin_aggro, list("laugh", "giggle", "chuckle", "cackle", "screech", "hiss", "growl"), prob_chance = 10))
 		pointed(target)
+
 
 /mob/living/carbon/human/species/goblin/handle_combat()
 	if(mode == NPC_AI_HUNT)
-		if(prob(10))
-			if(prob(50))
-				say(pick(GLOB.goblin_aggro), npc_speech = TRUE)
-			else
-				emote(pick("laugh", "giggle", "chuckle", "cackle", "screech", "hiss", "growl"))
+		npc_combat_dialogue(GLOB.goblin_aggro, list("laugh", "giggle", "chuckle", "cackle", "screech", "hiss", "growl"), prob_chance = 10)
 	. = ..()
 
 /mob/living/carbon/human/species/goblin/after_creation()

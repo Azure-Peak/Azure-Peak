@@ -4,7 +4,7 @@
 	overlay_state = "darkvision"
 	clothes_req = FALSE
 	school = "transmutation"
-	releasedrain = 80
+	releasedrain = SPELLCOST_STAT_BUFF
 	chargedrain = 0
 	chargetime = 1 SECONDS
 	no_early_release = TRUE

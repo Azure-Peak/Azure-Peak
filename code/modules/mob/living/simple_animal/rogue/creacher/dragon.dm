@@ -189,7 +189,7 @@
 	reach = 3
 	swingdelay = 2
 	clickcd = DRAGON_ATTACK_SPEED //It is a dragon so it bites slightly faster
-	penfactor = 60 // It is a dragon so it bites hard
+	penfactor = PEN_HEAVY // It is a dragon so it bites hard
 
 /obj/projectile/magic/aoe/dragon_breath
     name = "fire hairball"

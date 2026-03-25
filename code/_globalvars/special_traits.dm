@@ -67,6 +67,10 @@ GLOBAL_LIST_INIT(special_traits, build_special_traits())
 		REMOVE_TRAIT(H, TRAIT_EASYDISMEMBER, null) // Doesn't care for source, they ARE getting canceled
 		REMOVE_TRAIT(H, TRAIT_CRITICAL_RESISTANCE, null)
 		to_chat(H, span_warning("My limbs are too frail and my body too tough... the contradiction leaves me unable to resist critical wounds."))
+		
+	if((H.advjob != "Knight Banneret" && H.mind.assigned_role != "Court Agent" && H.mind.assigned_role != "Adventurer" && H.mind.assigned_role != "Prince" && H.mind.assigned_role != "Court Magician" && H.mind.assigned_role != "Inquisitor"))
+		if(!H.mind.has_antag_datum(/datum/antagonist/skeleton) && !H.mind.has_antag_datum(/datum/antagonist/lich) && !H.mind.has_antag_datum(/datum/antagonist/vampire) && !H.mind.has_antag_datum(/datum/antagonist/vampire/lord))
+			ADD_TRAIT(H, TRAIT_TEMPO, SPECIES_TRAIT)		
 	return TRUE
 
 /proc/apply_voicepacks(mob/living/carbon/human/character, client/player)
@@ -122,15 +126,17 @@ GLOBAL_LIST_INIT(special_traits, build_special_traits())
 				origin_type = new character.dna.species.origin_default
 				apply_virtue(character, origin_type)
 
-/proc/origin_check(var/datum/virtue/V, species)
+/proc/origin_check(var/datum/virtue/V, datum/species/species)
+	if(!species || !V)
+		return
 	if(V)
 		if(!istype(V,/datum/virtue/origin))
 			return FALSE
 		if(V.restricted == TRUE)
-			if((species in V.races))
+			if((species.type in V.races))
 				return FALSE
 		if(istype(V,/datum/virtue/origin/racial))
-			if(!(species in V.races))
+			if(!(species.type in V.races))
 				return FALSE
 		return TRUE
 	return FALSE

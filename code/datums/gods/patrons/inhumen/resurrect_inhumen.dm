@@ -15,7 +15,7 @@
 	overlay_state = "revival"
 	action_icon_state = "revival"
 	action_icon = 'icons/mob/actions/matthiosmiracles.dmi'
-	required_structure = /obj/structure/fluff/psycross/zizocross
+	required_structure = /obj/structure/fluff/psycross/matthios
 
 /obj/effect/proc_holder/spell/invoked/resurrect/graggar
 	name = "Blood for Graggar"
@@ -32,7 +32,7 @@
 	overlay_state = "revival"
 	action_icon_state = "revival"
 	action_icon = 'icons/mob/actions/graggarmiracles.dmi'
-	required_structure = /obj/structure/fluff/psycross/zizocross
+	required_structure = /obj/structure/fluff/psycross/graggar
 
 /obj/effect/proc_holder/spell/invoked/resurrect/baotha
 	name = "Drive the Thorns Deep"
@@ -47,7 +47,7 @@
 	overlay_state = "revival"
 	action_icon_state = "revival"
 	action_icon = 'icons/mob/actions/baothamiracles.dmi'
-	required_structure = /obj/structure/fluff/psycross/zizocross
+	required_structure = /obj/structure/fluff/psycross/baotha
 	req_items = list() // temp. baothans dont have a holy symbol. apparently one is being commed so this is just the stopgap.
 
 /obj/effect/proc_holder/spell/invoked/resurrect/zizo

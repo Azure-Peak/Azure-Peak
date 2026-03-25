@@ -201,6 +201,10 @@
 		ADD_TRAIT(H, TRAIT_BEAUTIFUL, TRAIT_GENERIC)
 		ADD_TRAIT(H, TRAIT_EMPATH, TRAIT_GENERIC)
 		H.cmode_music = 'sound/music/cmode/church/combat_eora.ogg'
+		// 90% of eorans i see are farming to tend to their tree and/or cooking. they also get sewing -- arts and crafts.
+		H.adjust_skillrank(/datum/skill/craft/sewing, 1, TRUE)
+		H.adjust_skillrank(/datum/skill/labor/farming, 1, TRUE)
+		H.adjust_skillrank(/datum/skill/craft/cooking, 1, TRUE)
 	if(H.patron?.type == /datum/patron/divine/malum) // Craft and Creativity - they can make stuff.
 		ADD_TRAIT(H, TRAIT_SMITHING_EXPERT, TRAIT_GENERIC)
 		H.adjust_skillrank(/datum/skill/craft/blacksmithing, 2, TRUE)

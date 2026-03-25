@@ -6,7 +6,7 @@
 	attack_verb = list("strikes", "hits")
 	hitsound = list('sound/combat/hits/blunt/metalblunt (1).ogg', 'sound/combat/hits/blunt/metalblunt (2).ogg', 'sound/combat/hits/blunt/metalblunt (3).ogg')
 	chargetime = 0
-	penfactor = BLUNT_DEFAULT_PENFACTOR
+	penfactor = PEN_NONE
 	swingdelay = 0
 	icon_state = "instrike"
 	item_d_type = "blunt"
@@ -17,7 +17,7 @@
 	blade_class = BCLASS_SMASH
 	attack_verb = list("smashes")
 	hitsound = list('sound/combat/hits/blunt/metalblunt (1).ogg', 'sound/combat/hits/blunt/metalblunt (2).ogg', 'sound/combat/hits/blunt/metalblunt (3).ogg')
-	penfactor = BLUNT_DEFAULT_PENFACTOR
+	penfactor = PEN_NONE
 	chargedrain = 1 // Slight stamina drain on use.
 	chargetime = 5 // Half a second of charge for a bit of a warning.
 	icon_state = "insmash"
@@ -70,14 +70,14 @@
 	recovery = 30
 	warnie = "mobwarning"
 	hitsound = list('sound/combat/hits/bladed/genstab (1).ogg', 'sound/combat/hits/bladed/genstab (2).ogg', 'sound/combat/hits/bladed/genstab (3).ogg')
-	penfactor = 25
+	penfactor = PEN_MEDIUM
 	damfactor = 0.9
 	item_d_type = "stab"
 
 /datum/intent/mace/bash
 	name = "bash"
 	blade_class = BCLASS_BLUNT
-	penfactor = BLUNT_DEFAULT_PENFACTOR
+	penfactor = PEN_NONE
 	icon_state = "inbash"
 	attack_verb = list("bashes", "strikes")
 	damfactor = NONBLUNT_BLUNT_DAMFACTOR
@@ -325,11 +325,11 @@
 
 /datum/intent/mace/strike/wood
 	hitsound = list('sound/combat/hits/blunt/woodblunt (1).ogg', 'sound/combat/hits/blunt/woodblunt (2).ogg')
-	penfactor = BLUNT_DEFAULT_PENFACTOR
+	penfactor = PEN_NONE
 
 /datum/intent/mace/smash/wood
 	hitsound = list('sound/combat/hits/blunt/woodblunt (1).ogg', 'sound/combat/hits/blunt/woodblunt (2).ogg')
-	penfactor = BLUNT_DEFAULT_PENFACTOR
+	penfactor = PEN_NONE
 
 /obj/item/rogueweapon/mace/woodclub/deprived
 	name = "warped club"
@@ -853,7 +853,7 @@
 	animname = "stab"
 	hitsound = list('sound/combat/hits/bladed/genstab (1).ogg', 'sound/combat/hits/bladed/genstab (2).ogg', 'sound/combat/hits/bladed/genstab (3).ogg')
 	no_early_release = TRUE
-	penfactor = 20
+	penfactor = PEN_LIGHT
 	damfactor = 0.9
 	item_d_type = "stab"
 
@@ -865,7 +865,7 @@
 	animname = "stab"
 	hitsound = list('sound/combat/hits/bladed/genstab (1).ogg', 'sound/combat/hits/bladed/genstab (2).ogg', 'sound/combat/hits/bladed/genstab (3).ogg')
 	no_early_release = TRUE
-	penfactor = 20
+	penfactor = PEN_LIGHT
 	damfactor = 0.8
 	swingdelay = 4
 	item_d_type = "stab"
@@ -880,7 +880,7 @@
 	misscost = 1
 	swingdelay = 15
 	clickcd = 15
-	penfactor = 80
+	penfactor = PEN_BSTEEL
 	damfactor = 0.9
 	item_d_type = "stab"
 
@@ -975,7 +975,7 @@
 	attack_verb = list("sweeps through", "smashes across")
 	animname = "strike"
 	hitsound = list('sound/combat/hits/blunt/metalblunt (1).ogg', 'sound/combat/hits/blunt/metalblunt (2).ogg', 'sound/combat/hits/blunt/metalblunt (3).ogg')
-	penfactor = BLUNT_DEFAULT_PENFACTOR
+	penfactor = PEN_NONE
 	chargetime = 0
 	damfactor = 1.2
 	demolition_mod = 1.25
@@ -995,7 +995,7 @@
 	hitsound = list('sound/combat/hits/blunt/shovel_hit3.ogg')
 	swingdelay = 6
 	damfactor = 0.8
-	penfactor = BLUNT_DEFAULT_PENFACTOR
+	penfactor = PEN_NONE
 	clickcd = CLICK_CD_HEAVY
 	item_d_type = "blunt"
 	intent_effect = /datum/status_effect/debuff/hobbled

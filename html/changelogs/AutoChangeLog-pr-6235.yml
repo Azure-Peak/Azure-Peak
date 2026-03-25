@@ -1,4 +1,0 @@
-author: "WeNeedMorePhoron"
-delete-after: True
-changes:
-  - rscadd: "Acolyte now contributes 2 to effective pop for antagonist scaling instead of 1, in contrast to garrison / holy warriors' 3. They counts as half a person for enabling T2 wretch scaling between 10 to 15."

@@ -6,7 +6,7 @@
 	icon_state = "curtain-open"
 	color = "#ffffff" // Default color, mappers can easily change it.
 	alpha = 255 // Mappers can set this to 200 if they want it slightly see-through
-	layer = ABOVE_MOB_LAYER
+	layer = LARGE_MOB_LAYER 
 	plane = GAME_PLANE_UPPER
 	anchored = TRUE
 	opacity = 0
@@ -20,13 +20,13 @@
 /obj/structure/curtain/update_icon()
 	if(!open)
 		icon_state = "[icon_type]-closed"
-		layer = ABOVE_MOB_LAYER
+		layer = LARGE_MOB_LAYER 
 		set_opacity(TRUE)
 		open = FALSE
 
 	else
 		icon_state = "[icon_type]-open"
-		layer = ABOVE_MOB_LAYER
+		layer = LARGE_MOB_LAYER 
 		set_opacity(FALSE)
 		open = TRUE
 

@@ -5,10 +5,10 @@
 		Empowered (3 Momentum): Consumes 3 stacks to strike twice. \
 		If any of them defend against the strike, you will be left exposed at the end of your dash!"
 	clothes_req = FALSE
-	range = 5
-	action_icon = 'icons/mob/actions/spellblade.dmi'
+	range = 7
+	action_icon = 'icons/mob/actions/classuniquespells/spellblade.dmi'
 	overlay_state = "caedo" // Icon by Prominence
-	releasedrain = 25
+	releasedrain = SPELLCOST_SB_POKE
 	chargedrain = 1
 	chargetime = 1
 	recharge_time = 12 SECONDS

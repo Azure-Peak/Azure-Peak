@@ -18,9 +18,9 @@ Respects spell_guard_check. */
 	clothes_req = FALSE
 	range = 1
 	ignore_los = TRUE
-	action_icon = 'icons/mob/actions/spellblade.dmi' // Icon by Prominence / Nobleed
+	action_icon = 'icons/mob/actions/classuniquespells/spellblade.dmi' // Icon by Prominence / Nobleed
 	overlay_state = "tremor"
-	releasedrain = 20
+	releasedrain = SPELLCOST_SB_POKE
 	chargedrain = 0
 	chargetime = 5
 	recharge_time = 12 SECONDS

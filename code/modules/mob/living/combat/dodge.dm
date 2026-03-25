@@ -121,6 +121,8 @@
 	var/prob2defend = U.defprob
 	if(L.stamina >= L.max_stamina)
 		return FALSE
+	if(src.client)
+		log_combat(src, user, "dodged against")
 	if(L)
 		if(H?.check_dodge_skill())
 			prob2defend = prob2defend + (L.STASPD * 15)
@@ -138,6 +140,7 @@
 		if(!H?.check_armor_skill() || H?.legcuffed)
 			H.Knockdown(1)
 			H.drop_all_held_items()
+			to_chat(H, span_warning("I can't dodge in such unfitting armor! I'm knocked down!"))
 			return FALSE
 		if(I) //the enemy attacked us with a weapon
 			if(!I.associated_skill) //the enemy weapon doesn't have a skill because its improvised, so penalty to attack
@@ -149,11 +152,16 @@
 				if(UH.used_intent.unarmed)
 					prob2defend = prob2defend - (UH.get_skill_level(/datum/skill/combat/unarmed) * 10)
 					prob2defend = prob2defend + (H.get_skill_level(/datum/skill/combat/unarmed) * 10)
+					if(U.STASPD > L.STASPD) //unarmed is inherently swift
+						prob2defend = prob2defend - ((U.STASPD - L.STASPD) * 10)
 
 		if(HAS_TRAIT(L, TRAIT_GUIDANCE))
 			prob2defend += 20
 
 		if(HAS_TRAIT(U, TRAIT_GUIDANCE))
+			prob2defend -= 20
+
+		if(HAS_TRAIT(L, TRAIT_REVERSE_GUIDANCE))
 			prob2defend -= 20
 		
 		if(HAS_TRAIT(user, TRAIT_CURSE_RAVOX))
@@ -241,7 +249,8 @@
 			return FALSE
 	dodgecd = TRUE
 	playsound(src, 'sound/combat/dodge.ogg', 100, FALSE)
-	throw_at(turfy, 1, 2, src, FALSE)
+	if(!HAS_TRAIT(src, TRAIT_DODGE_NO_MOVE))
+		throw_at(turfy, 1, 2, src, FALSE)
 	if(drained > 0)
 		src.visible_message(span_warning("<b>[src]</b> dodges [user]'s attack!"))
 	else

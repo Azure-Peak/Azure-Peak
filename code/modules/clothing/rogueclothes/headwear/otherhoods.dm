@@ -11,7 +11,6 @@
 	dynamic_hair_suffix = ""
 	max_integrity = 80
 	armor = ARMOR_CLOTHING
-	prevent_crits = list(BCLASS_TWIST)
 	anvilrepair = null
 	sewrepair = TRUE
 	blocksound = SOFTHIT

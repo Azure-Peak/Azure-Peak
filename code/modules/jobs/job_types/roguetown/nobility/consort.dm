@@ -7,7 +7,7 @@
 	spawn_positions = 0
 
 	allowed_sexes = list(MALE, FEMALE)
-	allowed_races = RACES_NO_CONSTRUCT
+	allowed_races = RACES_SHUNNED_UP
 	tutorial = "Picked out of your political value rather than likely any form of love, you have become the rulers most trusted confidant--and likely friend--throughout your time at their side. Your loyalty, patience and trust will be tested this day... for the daggers that threaten the neck of the one who wears the crown are as equally pointed at your own." //no more refence to marriage or love, can be platonic
 
 	spells = list(/obj/effect/proc_holder/spell/self/convertrole/servant,

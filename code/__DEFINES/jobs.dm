@@ -55,10 +55,9 @@
 #define BISHOP		(1<<0)
 #define MARTYR		(1<<1)
 #define TEMPLAR		(1<<2)
-#define KEEPER		(1<<3)
-#define DRUID		(1<<4)
-#define ACOLYTE		(1<<5)
-#define SEXTON		(1<<6)
+#define DRUID		(1<<3)
+#define ACOLYTE		(1<<4)
+#define SEXTON		(1<<5)
 
 #define BURGHERS			(1<<5)
 
@@ -91,6 +90,7 @@
 #define PILGRIM		(1<<3)
 #define MERCENARY	(1<<4)
 #define VETERAN		(1<<5)
+#define KEEPER		(1<<6) // Here now that they aren't attached to the church anymore.
 
 #define WANDERERS			(1<<8)
 
@@ -166,10 +166,9 @@
 #define JDO_BISHOP 5
 #define JDO_MARTYR 5.1
 #define JDO_TEMPLAR 5.2
-#define JDO_KEEPER 5.3
-#define JDO_DRUID 5.4
-#define JDO_ACOLYTE 5.5
-#define JDO_SEXTON 5.6
+#define JDO_DRUID 5.3
+#define JDO_ACOLYTE 5.4
+#define JDO_SEXTON 5.5
 
 // Town Burghers
 #define JDO_MERCHANT 6
@@ -199,6 +198,7 @@
 #define JDO_PILGRIM 8.3
 #define JDO_MERCENARY 8.4
 #define JDO_VETERAN 8.5
+#define JDO_KEEPER 8.6
 
 // Wanderers
 #define JDO_ADVENTURER 9

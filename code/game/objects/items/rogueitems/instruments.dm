@@ -5,6 +5,7 @@
 	persistent_loop = TRUE
 	var/stress2give = /datum/stressevent/music
 	sound_group = /datum/sound_group/instruments //reserves sound channels for up to 10 instruments at a time
+	filter_pref = SOUND_INSTRUMENTS
 
 /obj/item/rogue/instrument
 	name = ""
@@ -95,11 +96,11 @@
 			var/list/options = song_list.Copy()
 			if(user.mind && user.get_skill_level(/datum/skill/misc/music) >= 4)
 				options["Upload New Song"] = "upload"
-			
+
 			var/choice = input(user, "Which song?", "Music", name) as null|anything in options
 			if(!choice || !user)
 				return
-				
+
 			if(playing || !(src in user.held_items) || user.get_inactive_held_item())
 				return
 
@@ -348,6 +349,19 @@
 	lefthand_file = 'icons/mob/inhands/items_lefthand.dmi'
 	righthand_file = 'icons/mob/inhands/items_righthand.dmi'
 	song_list = list(
+	"A Rambling Tongue" = 'sound/music/instruments/shamisen A Rambling Tongue.ogg',
+	"Ashitaka" = 'sound/music/instruments/shamisen The Legend of Ashitaka.ogg',
+	"Daimyo Dreamwalker" = 'sound/music/instruments/shamisen Daimyo Dreamwalker.ogg',
+	"Emperor of Flame" = 'sound/music/instruments/shamisen Emperor of Flame.ogg',
+	"Fire Phoenix" = 'sound/music/instruments/shamisen Fire Phoenix.ogg',
+	"Kaiju Islands" = 'sound/music/instruments/shamisen Kaiju Islands.ogg',
+	"Lavender Village" = 'sound/music/instruments/shamisen Lavender Village.ogg',
+	"Morning Is Coming" = 'sound/music/instruments/shamisen Morning Is Coming.ogg',
+	"Pouncing Shadow" = 'sound/music/instruments/shamisen Pouncing Shadow.ogg',
+	"Rising Sun" = 'sound/music/instruments/shamisen Rising Sun.ogg',
+	"Those Who Fight" = 'sound/music/instruments/shamisen Those Who Fight.ogg',
+	"Village in the Mountains" = 'sound/music/instruments/shamisen Village in the Mountains.ogg',
+	"Winning the Soul" = 'sound/music/instruments/shamisen Winning the Soul.ogg',
 	"Cursed Apple" = 'sound/music/instruments/shamisen (1).ogg',
 	"Fire Dance" = 'sound/music/instruments/shamisen (2).ogg',
 	"Lute" = 'sound/music/instruments/shamisen (3).ogg',

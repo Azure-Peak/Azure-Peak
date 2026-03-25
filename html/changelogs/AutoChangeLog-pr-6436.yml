@@ -1,0 +1,5 @@
+author: "FreeStylaLT"
+delete-after: True
+changes:
+  - refactor: "Rotcured no longer makes the character green by default."
+  - rscadd: "Added a 'Rotten' skin tone option, unlocked when Rotcured is selected as one of the two virtues."

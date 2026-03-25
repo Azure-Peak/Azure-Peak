@@ -908,7 +908,10 @@
 			if(admin_revive)
 				mind.remove_antag_datum(/datum/antagonist/zombie)
 			for(var/obj/effect/proc_holder/spell/spell as anything in mind.spell_list)
-				spell.updateButtonIcon()
+				spell.action?.build_all_button_icons()
+			// Reapply arcyne momentum if this mind had it before death
+			if(mind.has_arcyne_momentum && !has_status_effect(/datum/status_effect/buff/arcyne_momentum))
+				apply_status_effect(/datum/status_effect/buff/arcyne_momentum)
 		qdel(GetComponent(/datum/component/rot))
 
 /mob/living/proc/remove_CC(should_update_mobility = TRUE)
@@ -1119,6 +1122,13 @@
 	if(atkswinging)
 		stop_attack(FALSE)
 
+	// Deselect any active spell on resist
+	if(ranged_ability)
+		ranged_ability.deactivate(src)
+	var/datum/action/cooldown/active_cooldown = click_intercept
+	if(istype(active_cooldown))
+		active_cooldown.unset_click_ability(src, refund_cooldown = TRUE)
+
 	SEND_SIGNAL(src, COMSIG_LIVING_RESIST, src)
 	//resisting grabs (as if it helps anyone...)
 	if(pulledby)
@@ -1162,7 +1172,6 @@
 	if(!instant)
 		if(alert(src, "Do you yield?", "SURRENDER", "Yes", "No") == "No")
 			return
-	log_combat(src, null, "surrendered")
 	surrendering = 1
 	record_round_statistic(STATS_YIELDS)
 	toggle_cmode()
@@ -1178,6 +1187,9 @@
 	playsound(src, 'sound/misc/surrender.ogg', 100, FALSE, -1, ignore_walls=TRUE)
 	update_vision_cone()
 	addtimer(CALLBACK(src, PROC_REF(end_submit)), 600)
+	log_combat(src, src, "surrendered", null, )
+	log_admin("([key_name(src)]) surrendered at [AREACOORD(src)].")
+	SSblackbox.record_feedback("tally", "submit", 1, "surrenders")
 
 /mob/living/proc/end_submit()
 	surrendering = 0
