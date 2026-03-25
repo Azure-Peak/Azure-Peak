@@ -27,7 +27,6 @@
 
 	var/atom/walk_target
 	var/last_moved_time = 0
-	var/next_complex_path_time = 0
 	var/next_combat_process = 0
 
 	// when a grunt is equipped, we cache the type of any item that can be disarmed/dismembered from them (gloves, weapons etc)
@@ -52,7 +51,26 @@
 
 */
 /mob/living/carbon/human/species/human/northern/goon/start_pathing_to(new_target, force = FALSE)
-	if(force)
+	if(mode == NPC_AI_MARCH)
+		if(force || world.time >= next_complex_path_time)
+			next_complex_path_time = world.time + rand(12, 19) SECONDS
+			walk(src, 0)
+			walk_target = null
+			var/turf/turf_of_target = get_turf(new_target)
+			if(!turf_of_target)
+				return FALSE
+			var/MARCH_MAX_RANGE = min(get_dist(src, new_target) + 65, 300)
+			is_currently_pathing = TRUE
+			myPath = get_path_to(src, turf_of_target, TYPE_PROC_REF(/turf, Heuristic_cardinal_3d), MARCH_MAX_RANGE + 1, 250, 1, adjacent = TYPE_PROC_REF(/turf, reachableTurftest3d))
+			is_currently_pathing = FALSE
+			if(length(myPath))
+				myPath -= get_turf(src)
+				pathing_frustration = 0
+				return TRUE
+			return FALSE
+		if(length(myPath))
+			return TRUE
+	else if(force)
 		walk(src, 0)
 		walk_target = null
 		return ..()
@@ -67,8 +85,8 @@
 			next_complex_path_time = world.time + rand(12, 19) SECONDS  // 12-19 second cooldown for astar/complex pathfinding
 			walk(src, 0)
 			walk_target = null
-			return ..(new_target, TRUE) // force a complex path
-		return mode == NPC_AI_MARCH ? TRUE : null
+			return ..(new_target)
+		return
 
 	if(mode == NPC_AI_FLEE)
 		return
@@ -79,7 +97,7 @@
 			walk_target = null
 		return
 
-	if(mode != NPC_AI_MARCH && walk_target && (world.time - last_moved_time) > (maxStepsTick) && world.time >= next_complex_path_time)
+	if(walk_target && (world.time - last_moved_time) > (maxStepsTick) && world.time >= next_complex_path_time)
 		next_complex_path_time = world.time + rand(12, 19) SECONDS
 		walk(src, 0)
 		walk_target = null
@@ -97,7 +115,8 @@
 		return TRUE
 
 	walk_target = new_target
-	next_complex_path_time = 0
+	if(mode != NPC_AI_MARCH)
+		next_complex_path_time = 0
 	walk_towards(src, new_target, 4)
 	return TRUE
 
@@ -216,8 +235,16 @@
 	// if that's ever made to Not Be The Case this harddel hint should probably be removed
 	return QDEL_HINT_HARDDEL
 
+// costs roughly the same CPU as equipping a mob (if they're wounded)
+// but we're still avoiding hard deleting OR creating a fresh mob, so this is ok. i think. yeah it's fine
 /mob/living/carbon/human/species/human/northern/goon/proc/recycle()
-	revive(TRUE, TRUE)
+	if(health < maxHealth)
+		fully_heal()
+	else
+		setOxyLoss(0, 0)
+		setToxLoss(0, 0)
+		updatehealth()
+	revive(FALSE, TRUE)
 	full_repair()
 	wander = FALSE
 	aggressive = FALSE
@@ -249,7 +276,7 @@
 			I.repair_coverage()
 
 // when a grunt is equipped, we cache the type of any item that can be disarmed/dismembered from them (gloves, weapons etc)
-// when they're recycled, we regenerate those items
+// when they're recycled, we regenerate those items and only those items
 /mob/living/carbon/human/species/human/northern/goon/proc/reequip_extremities()
 	// hands/weapons
 	var/obj/item/current_r = get_held_items_for_side(RIGHT_HANDS)

@@ -44,7 +44,7 @@
 
 */
 /datum/npc_duty/proc/process_duty()
-	if(assigned_npc && assigned_npc.stat != DEAD && objective_ref && encounter_ref)
+	if(assigned_npc && assigned_npc.stat != DEAD && objective_ref && encounter_ref && assigned_npc.loc)
 		switch(duty_type)
 			if(DUTY_ATTACK)
 				process_attack_duty()
@@ -175,6 +175,7 @@
 
 	if(get_dist(npc, chosen_target) > npc.interesting_dist)
 		npc.mode = NPC_AI_MARCH
+		npc.next_complex_path_time = world.time + rand(4, 8) SECONDS
 
 /////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////// DEFEND DUTY
@@ -277,9 +278,7 @@
 	it just exists as a waypoint for NPCs, essentially
 
 	there was some attempt to set up a 'king of the hill' / 'tug of war' minigame
-	but i've worked on this antagonist for so long that i kind of just want to Escape. Release me
-
-	it's been simplified to 'just kill them' (via the failure conditions in the spawn_defender_wave proc)
+	but it's been simplified to 'just kill them' (via the failure conditions in the spawn_defender_wave proc)
 	either way, the base combat mechanics are developed enough that a full minigame on top of them would probably just be overwhelming
 
 */
@@ -307,16 +306,12 @@
 		forceMove(starting_position)
 
 // gets the middle point between the attacker & defender spawn
-// at the moment the spawns are just a straight shot from one another, so this should be fine
-// but if there were, hypothetically, a new map that had them in unique positions, this is probably gonna fuck up. 
-// don't think about that
 /datum/outskirts_encounter/proc/spawn_objective()
 	var/turf/attacker_turf = get_turf(attacker_entry)
 	var/turf/defender_turf = get_turf(defender_entry)
-	var/mid_x = round((attacker_turf.x + defender_turf.x) / 2)
-	var/mid_y = round((attacker_turf.y + defender_turf.y) / 2)
-	var/turf/spawn_turf = locate(mid_x, mid_y, attacker_turf.z)
-	for(var/turf/open/candidate in range(6, spawn_turf))
+	var/list/path = get_path_to(attacker_turf, defender_turf, TYPE_PROC_REF(/turf, Heuristic_cardinal_3d), 200, 200, 1, adjacent = TYPE_PROC_REF(/turf, reachableTurftest3d))
+	var/turf/spawn_turf = path[round(path.len / 2)]
+	for(var/turf/open/candidate in range(3, spawn_turf))
 		if(!candidate.density)
 			objective = new /obj/effect/landmark/outskirts_objective/threshold(candidate)
 			objective.linked_encounter = src

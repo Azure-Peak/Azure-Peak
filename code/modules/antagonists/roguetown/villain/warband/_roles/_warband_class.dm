@@ -480,9 +480,7 @@
 			var/mob/living/carbon/human/species/human/northern/goon/grunt = other_mob
 			if(grunt.mode == NPC_AI_FLEE)
 				continue
-			if(grunt.stat == UNCONSCIOUS)
-				continue
-			if(grunt.stat == DEAD)
+			if(!grunt.stat == CONSCIOUS)
 				continue
 
 			count += 1
@@ -494,6 +492,7 @@
 					grunt.start_pathing_to(target_location, force = TRUE)
 					msg = "<span style='color:#ec3333'>charge.</span>"
 					grunt.target = null
+					grunt.next_seek = 0
 					grunt.aggressive = TRUE
 					grunt.wander = TRUE
 					
@@ -526,8 +525,6 @@
 					grunt.apply_status_effect(/datum/status_effect/buff/warband_defend)
 					msg = "<span style='color:#ea76d9'>hold fast.</span>"
 
-	// if(order_type == "follow" && manager && count > 0)
-	// 	manager.start_follow_formation()
 
 	if(count>0)
 		to_chat(caster, "I've ordered [count] grunts to " + msg)

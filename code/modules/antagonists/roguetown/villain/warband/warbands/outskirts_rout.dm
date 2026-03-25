@@ -157,8 +157,7 @@
 		finalize_defender_cleanup(M)
 	else
 		M.visible_message(span_warning("[M]'s departure is halted!"))
-		if(!pending_cleanup.Find(M))
-			pending_cleanup += M
+		pending_cleanup |= M
 
 ///////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////// PROCESS CLEANUP QUEUE
@@ -195,8 +194,8 @@
 ///////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////// FINALIZE DEFENDER CLEANUP
 /*
-	fully heals the mob
-	caches them in the recycled_mobs pool, and moves them to nullspace
+	goons get recycled
+	anything else (simplemobs, for example) gets qdel'd
 
 */
 /datum/outskirts_encounter/proc/finalize_defender_cleanup(mob/living/carbon/human/M)
@@ -206,14 +205,7 @@
 		var/mob/living/carbon/human/species/human/northern/goon/basic_goon = M
 		basic_goon.recycle()
 	else
-		M.fully_heal(admin_revive = TRUE, break_restraints = TRUE)
-		M.target = null
-		M.clear_path()	
-		M.mode = NPC_AI_SLEEP
-		current_wave -= M
-		recycled_mobs += M
-		linked_warband.spawns++
-		M.moveToNullspace()
+		qdel(M)
 	check_cleanup_completion()
 
 /datum/outskirts_encounter/proc/check_cleanup_completion()

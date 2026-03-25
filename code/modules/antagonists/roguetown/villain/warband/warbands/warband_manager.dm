@@ -882,7 +882,7 @@
 				faith_names += temp_patron.name
 				qdel(temp_patron)
 			lock_message += "Faith limited to: [faith_names.Join(", ")]"
-		lock_message += ". Your character will be adjusted if needed."
+		lock_message += ". Your character will be adjusted if necessary."
 		for(var/mob/living/member in src.lobby_members)
 			to_chat(member, lock_message)
 			member.playsound_local(member, 'sound/misc/notice (2).ogg', 100, FALSE)
@@ -1197,6 +1197,8 @@
 	user.verbs += /mob/living/carbon/human/proc/communicate
 	REMOVE_TRAIT(user, TRAIT_FORCED_LOOC, TRAIT_GENERIC)
 	src.members += user
+	user.nutrition = NUTRITION_LEVEL_FULL
+	user.hydration = HYDRATION_LEVEL_FULL
 	if(user.mind.special_role == "Grunt")
 		assign_grunt(grunt = user)
 	else if(user.mind.special_role == "Lieutenant" || user.mind.special_role == "Aspirant Lieutenant")
@@ -1459,20 +1461,12 @@
 	this needs to draw on the Warbands list, so we're putting it here
 */
 
-// istype didn't work in random_classes. i'm probably just stupid but Who Cares Anymore.
-/datum/outfit/job/roguetown/warband/rebellion/lieutenant/wildcard/proc/is_excluded_class_path(class_path, list/excluded_paths)
-    for(var/path in excluded_paths)
-        if(ispath(class_path, path))
-            return TRUE
-    return FALSE
-
 /datum/outfit/job/roguetown/warband/rebellion/lieutenant/wildcard/proc/random_classes()
 	var/list/final_class_list = list()
 	var/list/all_lieutenant_classes = list()
 	var/list/all_warlord_classes = list()
-	
 	// we don't want to draw another wildcard,
-	// nor a mercenary class (which spawns naked atm, as it's a template for its subclass)
+	// nor a mercenary class (which spawns naked as it's a template for its subclass)
 	var/list/excluded_classes = list(
 		/datum/advclass/warband/rebellion/lieutenant/wildcard,
 		/datum/advclass/warband/mercenary
@@ -1484,11 +1478,21 @@
 			continue
 
 		for(var/lieutenant_type in warband.lieutenantclasses)
-			if(!is_excluded_class_path(lieutenant_type, excluded_classes))
+			var/excluded = FALSE
+			for(var/path in excluded_classes)
+				if(ispath(lieutenant_type, path))
+					excluded = TRUE
+					break
+			if(!excluded)
 				all_lieutenant_classes += new lieutenant_type
 		
 		for(var/warlord_type in warband.warlordclasses)
-			if(!is_excluded_class_path(warlord_type, excluded_classes))
+			var/excluded = FALSE
+			for(var/path in excluded_classes)
+				if(ispath(warlord_type, path))
+					excluded = TRUE
+					break
+			if(!excluded)
 				all_warlord_classes += new warlord_type
 		
 		qdel(warband)

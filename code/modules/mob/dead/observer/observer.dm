@@ -462,9 +462,7 @@ This is the proc mobs get to turn into a ghost. Forked from ghostize due to comp
 	if(!client)
 		return
 	if(mind && mind.special_role == "Warlord's Envoy")
-		if(mind.current && mind.current.stat != DEAD)
-			
-		else
+		if(!mind.current || mind.current.stat == DEAD)
 			mind.warband_manager.return_envoy(src, abandoned = TRUE)
 			return
 	if(!mind || QDELETED(mind.current))

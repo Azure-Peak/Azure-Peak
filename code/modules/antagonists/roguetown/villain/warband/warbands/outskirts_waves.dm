@@ -291,19 +291,9 @@
 
 */
 /datum/outskirts_encounter/proc/spawn_grunt_mob(turf/spawn_location)
-	var/mob/living/carbon/human/species/human/northern/goon/new_grunt
-	if(recycled_mobs.len)
-		new_grunt = recycled_mobs[1]
-		recycled_mobs -= new_grunt
-		new_grunt.forceMove(spawn_location)
-		new_grunt.mode = NPC_AI_HUNT
-		new_grunt.wander = TRUE
-		new_grunt.aggressive = TRUE
-		new_grunt.equip_for_warband() // in case they lost anything
-	else // if there's no recycled mobs available, we draw from the cache
-		new_grunt = linked_warband.get_cached_grunt(spawn_location, null)
-		new_grunt.aggressive = TRUE
-		new_grunt.wander = TRUE
+	var/mob/living/carbon/human/species/human/northern/goon/new_grunt = linked_warband.get_cached_grunt(spawn_location)
+	new_grunt.aggressive = TRUE
+	new_grunt.wander = TRUE
 	new_grunt.faction = list("warband_[linked_warband.warband_ID]")
 	return new_grunt
 

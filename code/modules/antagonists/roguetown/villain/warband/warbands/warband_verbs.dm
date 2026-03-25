@@ -5,7 +5,7 @@
 	2 - Communicate				// warband comms
 	3 - Abandon Warband			// desertion mechanic for Lieutenants 
 	4 - Take Shortcut			// allows for a quick teleport over to the warcamp
-	5 - Connect Warcamp			// connects the Warcamp Z-Level to the main map
+	5 - Connect Warcamp			// connects the Warcamp Z-Level to the main map by spawning both an Outskirts & Intermission map and chaining everything together with travel tiles
 	6 - Accept Kick				// when a lieutenant's subordinate is kicked by their warlord, they can choose to remain associated with them
 	7 - Enlighten				//
 
@@ -116,7 +116,7 @@
 		return
 
 	if(src.mind.warband_manager.disorder >= 8 && src.mind.special_role == "Warlord")
-		to_chat(src, span_warning("My Carrier Zad arrives, but my Warband's morale is too low for my men to utilize their own. I can still send out a message, I shouldn't expect a direct response."))
+		to_chat(src, span_warning("My Carrier Zad arrives, but my Warband's morale is too low for my men to utilize their own. I can still send out a message, but I shouldn't expect a direct response."))
 
 	if(istype(src.loc.loc, /area/rogue/outdoors))
 		var/input_text = input(src, "Enter your message", "Message")

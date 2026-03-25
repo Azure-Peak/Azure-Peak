@@ -23,7 +23,7 @@
 	var/ai_when_client = FALSE
 	var/next_idle = 0
 	var/next_seek = 0
-	var/next_hunt = 0
+	var/next_complex_path_time = 0
 	var/next_passive_detect = 0
 	var/flee_in_pain = FALSE
 	/// When is the next time we'll attempt to stand up?
@@ -185,32 +185,14 @@
 	if(distance <= 3)
 		if(length(myPath))
 			clear_path()
+		mode = NPC_AI_HUNT
 		return TRUE
 
 	if(!length(myPath))
-		while(steps_moved_this_turn < maxStepsTick)
-			if(!start_pathing_to(target))
-				break 
-			steps_moved_this_turn++
-
-		if(steps_moved_this_turn < maxStepsTick)
-			if(world.time < next_hunt)
-				return TRUE
-			var/march_cooldown = 2 SECONDS + (pathing_frustration * 1.3 SECONDS)
-			next_hunt = world.time + march_cooldown
-			var/list/line_of_turfs = get_line(my_turf, target_turf)
-			var/relay_distance = 30
-			var/turf/relay_target = null
-			if(line_of_turfs.len >= relay_distance)
-				relay_target = line_of_turfs[relay_distance]
-			else if(line_of_turfs.len > 1)
-				relay_target = line_of_turfs[line_of_turfs.len]
-			if(relay_target)
-				if(!start_pathing_to(relay_target))
-					pathing_frustration++
-					NPC_THINK("Failed to find relay path. Frustration is [pathing_frustration]. Retrying in [march_cooldown / 10].")
-				else
-					start_pathing_to(relay_target)
+		if(world.time < next_complex_path_time)
+			return TRUE
+		if(!start_pathing_to(target, TRUE))
+			pathing_frustration++
 	return TRUE
 
 /mob/living/carbon/human/proc/npc_idle()
@@ -1036,6 +1018,9 @@
 /mob/living/carbon/human/proc/consider_wakeup()
 	if(mode == NPC_AI_OFF)
 		return
+
+	if(!loc) // nullspace/cached grunts stay asleep
+		return FALSE
 
 	if(mode == NPC_AI_MARCH) // stay awake while marching
 		return TRUE

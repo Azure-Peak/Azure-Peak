@@ -12,7 +12,6 @@
 
 	var/list/current_wave = list()
 	var/list/pending_cleanup = list()
-	var/list/recycled_mobs = list()
 
 	var/prep_time = 10 SECONDS // DELETENOTE: reset back to 3 minutes
 	var/prep_started = FALSE
