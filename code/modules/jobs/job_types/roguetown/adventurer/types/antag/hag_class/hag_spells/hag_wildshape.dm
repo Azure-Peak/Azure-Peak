@@ -27,7 +27,7 @@
 	race = /datum/species/hag_true_form
 	footstep_type = FOOTSTEP_MOB_CLAW
 	ambushable = FALSE
-	skin_armor = /obj/item/clothing/suit/roguetown/armor/skin_armor/hag_skin // Re-use or make unique
+	skin_armor = new /obj/item/clothing/suit/roguetown/armor/skin_armor/hag_skin
 	wildshape_icon = 'icons/mob/unique_shapeshifts/hag_shape.dmi'
 	wildshape_icon_state = "hag"
 	pixel_x = -16
@@ -39,11 +39,11 @@
 	icon_state = null
 	body_parts_covered = FULL_BODY
 	body_parts_inherent = FULL_BODY
-	armor = ARMOR_LEATHER
+	armor = ARMOR_PLATE
 	blocksound = SOFTHIT
 	blade_dulling = DULLING_BASHCHOP
 	sewrepair = FALSE
-	max_integrity = 400
+	max_integrity = 250
 	item_flags = DROPDEL
 
 /mob/living/carbon/human/species/wildshape/hag/gain_inherent_skills()
@@ -53,7 +53,7 @@
 		STACON = 15
 		STAPER = 10
 		STASPD = 8
-		adjust_skillrank(/datum/skill/combat/wrestling, SKILL_LEVEL_APPRENTICE, TRUE)
+		adjust_skillrank(/datum/skill/combat/wrestling, SKILL_LEVEL_JOURNEYMAN, TRUE)
 		adjust_skillrank(/datum/skill/combat/unarmed, SKILL_LEVEL_JOURNEYMAN, TRUE)
 		adjust_skillrank(/datum/skill/misc/swimming, SKILL_LEVEL_APPRENTICE, TRUE)
 		adjust_skillrank(/datum/skill/misc/athletics, SKILL_LEVEL_JOURNEYMAN, TRUE)
