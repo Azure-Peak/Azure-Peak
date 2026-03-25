@@ -250,33 +250,51 @@
 
 	var/turf/turf_user = get_turf(user)
 	var/turf/turf_corpse = get_turf(corpse)
-	var/direction_name = "unknown"
-	if(turf_user.z != turf_corpse.z)
-		if(turf_corpse.z > turf_user.z)
-			direction_name = "above"
-		else
-			direction_name = "below"
-	else
-		var/direction = get_dir(user, corpse)
-		switch(direction)
-			if(NORTH)
-				direction_name = "north"
-			if(SOUTH)
-				direction_name = "south"
-			if(EAST)
-				direction_name = "east"
-			if(WEST)
-				direction_name = "west"
-			if(NORTHEAST)
-				direction_name = "northeast"
-			if(NORTHWEST)
-				direction_name = "northwest"
-			if(SOUTHEAST)
-				direction_name = "southeast"
-			if(SOUTHWEST)
-				direction_name = "southwest"
+	
+	var/z_hint = ""
+	var/compass_hint = ""
+	
+	if(turf_corpse.z != turf_user.z)
+		var/z_diff = abs(turf_corpse.z - turf_user.z)
+		z_hint = turf_corpse.z > turf_user.z ? \
+			"[z_diff] level\s above" : \
+			"[z_diff] level\s below"
+	
+	if(!z_hint)
+		z_hint = "on this level"
 
-	to_chat(user, span_notice("The Undermaiden pulls on your hand, guiding you [direction_name]."))
+	var/dx = turf_corpse.x - turf_user.x
+	var/dy = turf_corpse.y - turf_user.y
+	var/distance = sqrt(dx*dx + dy*dy)
+
+	if(distance <= 7)
+		compass_hint = "somewhere nearby"
+		to_chat(user, span_notice("The Undermaiden guides your hand towards the departed — they're [z_hint], [compass_hint]."))
+		return .
+
+	var/direction_text = get_precise_direction_between(turf_user, turf_corpse)
+	if(!direction_text)
+		direction_text = "unknown direction"
+
+	var/distance_text
+	switch(distance)
+		if(0 to 14)
+			distance_text = "very close"
+		if(15 to 40)
+			distance_text = "close"
+		if(41 to 100)
+			distance_text = "far"
+		if(101 to INFINITY)
+			distance_text = "very far"
+
+	compass_hint = "[distance_text] to the [direction_text]"
+	
+	var/final_message = "The Undermaiden guides your hand towards the departed — they're "
+	if(z_hint)
+		final_message += "[z_hint], "
+	final_message += "[compass_hint]."
+	
+	to_chat(user, span_notice(final_message))
 
 /obj/effect/proc_holder/spell/invoked/necra_vow
 	name = "Vow to Necra"
