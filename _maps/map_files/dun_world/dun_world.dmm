@@ -2938,8 +2938,8 @@
 /area/rogue/outdoors/town)
 "aHV" = (
 /obj/structure/roguemachine/hag_ward,
-/turf/open/floor/rogue/dirt/road,
-/area/rogue/outdoors/bog/north)
+/turf/open/floor/rogue/naturalstone,
+/area/rogue/outdoors/mountains)
 "aHX" = (
 /obj/structure/rack/rogue/shelf/biggest,
 /obj/item/storage/bag/tray{
@@ -31382,9 +31382,8 @@
 /turf/open/floor/rogue/dirt,
 /area/rogue/indoors/cave/underhamlet)
 "gQq" = (
-/obj/structure/roguemachine/hag_ward,
-/turf/open/floor/rogue/dirt,
-/area/rogue/outdoors/bog/north)
+/turf/open/floor/rogue/grass,
+/area/rogue/outdoors/bog/south)
 "gQx" = (
 /turf/open/floor/rogue/cobble,
 /area/rogue/indoors/town/church/chapel)
@@ -83391,6 +83390,10 @@
 /obj/machinery/light/rogue/candle,
 /turf/open/floor/rogue/ruinedwood/spiral,
 /area/rogue/indoors/town/church/basement)
+"rIi" = (
+/obj/structure/roguemachine/hag_ward,
+/turf/open/floor/rogue/grass,
+/area/rogue/outdoors/bog/south)
 "rIj" = (
 /obj/machinery/light/rogue/candle/blue,
 /turf/open/floor/rogue/ruinedwood/herringbone,
@@ -95020,8 +95023,8 @@
 /area/rogue/outdoors/rtfield)
 "ueN" = (
 /obj/structure/roguemachine/hag_ward,
-/turf/open/floor/rogue/dirt,
-/area/rogue/outdoors/bog/south)
+/turf/open/floor/rogue/cobble/mossy,
+/area/rogue/outdoors/bog/north)
 "ueR" = (
 /obj/structure/fluff/railing/corner/north_east,
 /turf/open/transparent/openspace,
@@ -357330,7 +357333,7 @@ sxN
 sxN
 xot
 sxN
-mAW
+gQq
 mAW
 sxN
 xot
@@ -357781,9 +357784,9 @@ lCD
 sxN
 xot
 sxN
-sxN
-sxN
-mAW
+gQq
+rIi
+gQq
 sxN
 sxN
 sxN
@@ -358233,8 +358236,8 @@ lCD
 lCD
 sxN
 sxN
-sxN
-sxN
+gQq
+gQq
 npC
 sxN
 sxN
@@ -361362,7 +361365,7 @@ mjV
 pMO
 pMO
 irm
-aHV
+bTS
 bTS
 irm
 irm
@@ -364018,7 +364021,7 @@ irm
 irm
 irm
 irm
-gQq
+irm
 irm
 pCi
 pCi
@@ -367210,7 +367213,7 @@ pCi
 vBs
 tBp
 tky
-tky
+ueN
 eWk
 eWk
 eWk
@@ -375874,7 +375877,7 @@ lCD
 xcc
 xot
 sxN
-ueN
+sxN
 sxN
 sxN
 xot
@@ -482972,7 +482975,7 @@ geI
 vaa
 cAn
 fZN
-fZN
+aHV
 fZN
 fZN
 aBB
