@@ -340,3 +340,19 @@
 	damfactor = 1.3	//Zwei will still deal ~7-10 more damage at the same range, depending on user's STR.
 	swingdelay = 8
 
+// RAPIER
+/datum/intent/sword/cut/rapier
+	clickcd = CLICK_CD_QUICK
+	damfactor = 0.75
+
+/datum/intent/sword/thrust/rapier
+	clickcd = 8
+	damfactor = 1.1
+	penfactor = PEN_MEDIUM
+
+/datum/intent/sword/thrust/rapier_pick
+	name = "impale"
+	icon_state = "inimpale"
+	damfactor = 0.8
+	penfactor = PEN_HEAVY
+	swingdelay = 6
