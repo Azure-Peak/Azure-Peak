@@ -16,7 +16,7 @@
 	min_pq = 30
 	max_pq = null
 
-	obsfuscated_job = TRUE
+	obsfuscated_job = FALSE
 
 	advclass_cat_rolls = list(CTAG_HAG = 20)
 	PQ_boost_divider = 10
