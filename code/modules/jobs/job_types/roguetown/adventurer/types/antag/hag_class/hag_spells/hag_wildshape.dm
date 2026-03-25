@@ -51,12 +51,13 @@
 	if(mind)
 		STASTR = 12
 		STACON = 15
+		STAWIL = 15
 		STAPER = 10
 		STASPD = 8
 		adjust_skillrank(/datum/skill/combat/wrestling, SKILL_LEVEL_JOURNEYMAN, TRUE)
 		adjust_skillrank(/datum/skill/combat/unarmed, SKILL_LEVEL_JOURNEYMAN, TRUE)
-		adjust_skillrank(/datum/skill/misc/swimming, SKILL_LEVEL_APPRENTICE, TRUE)
-		adjust_skillrank(/datum/skill/misc/athletics, SKILL_LEVEL_JOURNEYMAN, TRUE)
+		adjust_skillrank(/datum/skill/misc/swimming, SKILL_LEVEL_JOURNEYMAN, TRUE)
+		adjust_skillrank(/datum/skill/misc/athletics, SKILL_LEVEL_MASTER, TRUE)
 		adjust_skillrank(/datum/skill/misc/sneaking, SKILL_LEVEL_EXPERT, TRUE)
 
 		AddSpell(new /obj/effect/proc_holder/spell/self/hagclaws) 
@@ -73,7 +74,9 @@
 		TRAIT_ORGAN_EATER,
 		TRAIT_HARDDISMEMBER,
 		TRAIT_PIERCEIMMUNE,
-		TRAIT_LONGSTRIDER
+		TRAIT_LONGSTRIDER,
+		TRAIT_KNEESTINGER_IMMUNITY,
+		TRAIT_LEECHIMMUNE
 	)
 	no_equip = list(SLOT_SHIRT, SLOT_HEAD, SLOT_WEAR_MASK, SLOT_ARMOR, SLOT_GLOVES, SLOT_SHOES, SLOT_PANTS, SLOT_CLOAK, SLOT_BELT, SLOT_BACK_R, SLOT_BACK_L, SLOT_S_STORE)
 	nojumpsuit = 1
