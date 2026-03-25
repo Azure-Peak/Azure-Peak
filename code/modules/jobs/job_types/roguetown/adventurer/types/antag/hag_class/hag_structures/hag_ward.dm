@@ -34,6 +34,10 @@
 
 /obj/structure/roguemachine/hag_ward/Destroy()
 	GLOB.hag_wards -= src
+	if(GLOB.hag_wards.len)
+		src.visible_message(span_warning("The roots surrounding the ward still look strong, this wasn't the last of them."))
+	else
+		src.visible_message(span_warning("You can feel a faint hum as birds fly away from the center of the bog, something changed."))
 	return ..()
 
 /obj/structure/roguemachine/hag_ward/examine(mob/user)
@@ -59,7 +63,7 @@
 			to_chat(user, span_notice("The ward greedily drinks the [initial(required_reagent:name)]. Only [max(0, units_needed)] units remain."))
 
 			if(units_needed <= 0)
-				user.visible_message(span_warning("The [src] shrivels and rots away as the roots retreat into the soil!"))
+				src.visible_message(span_warning("The [src] shrivels and rots away as the roots retreat into the soil!"))
 				qdel(src)
 		return
 	..()
