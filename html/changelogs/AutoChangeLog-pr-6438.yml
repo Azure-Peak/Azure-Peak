@@ -1,0 +1,4 @@
+author: "hazelrat"
+delete-after: True
+changes:
+  - bugfix: "Garrison should no longer lose their town buff while in the external area of the university."

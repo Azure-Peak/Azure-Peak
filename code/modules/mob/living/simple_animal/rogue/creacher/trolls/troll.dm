@@ -183,4 +183,4 @@
 	
 /datum/intent/unarmed/claw/troll
 	clickcd = TROLL_ATTACK_SPEED
-	penfactor = 20
+	penfactor = PEN_LIGHT

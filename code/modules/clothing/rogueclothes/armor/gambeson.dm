@@ -7,7 +7,6 @@
 	icon_state = "gambeson"
 	body_parts_covered = COVERAGE_ALL_BUT_HANDFEET
 	armor = ARMOR_PADDED
-	prevent_crits = PREVENT_CRITS_NONE
 	blocksound = SOFTUNDERHIT
 	blade_dulling = DULLING_BASHCHOP
 	max_integrity = ARMOR_INT_CHEST_LIGHT_MEDIUM
@@ -34,7 +33,6 @@
 	desc = "A collared jacket, purpose-woven for warfare. The flared collar and sleeves keep the wearer's dexterity from being mitigated, while its tighter presentation helps to ward off killing blows from afar."
 	icon_state = "dgamb"
 	body_parts_covered = COVERAGE_ALL_BUT_HANDLEGS
-	prevent_crits = PREVENT_CRITS_MOST
 	color = null
 	chunkcolor = null
 	allowed_sex = list(MALE, FEMALE)
@@ -43,7 +41,6 @@
 	name = "stalker robe"
 	desc = "A thick robe in royal purple, befitting the hand, while remaining easy for them to slip about in.."
 	allowed_race = NON_DWARVEN_RACE_TYPES
-	prevent_crits = PREVENT_CRITS_MOST
 	icon_state = "shadowrobe"
 
 /obj/item/clothing/suit/roguetown/armor/gambeson/light
@@ -51,7 +48,6 @@
 	desc = "A light and insulative jacket, hewn from cloth. Peasants tend to wear these in the colder months, though they've also been repurposed - by more desperate hands - as armor-padding."
 	armor = ARMOR_PADDED_BAD
 	max_integrity = ARMOR_INT_CHEST_LIGHT_BASE
-	prevent_crits = PREVENT_CRITS_NONE
 	sellprice = 10
 
 /obj/item/clothing/suit/roguetown/armor/gambeson/lord/heavy
@@ -59,9 +55,8 @@
 	desc = "A collared jacket, intended to be worn underneath plate armor. The thicker padding ensures that any gaps left within its alloyed shell are thoroughly protected - lest an unforseen bowstrike, landing true, ruptures the vulnerable flesh beneath."
 	icon_state = "dgamb"
 	body_parts_covered = COVERAGE_ALL_BUT_HANDLEGS
-	armor = ARMOR_PADDED_GOOD
+	armor = ARMOR_PADDED
 	max_integrity = ARMOR_INT_CHEST_LIGHT_MASTER
-	prevent_crits = PREVENT_CRITS_MOST
 
 /obj/item/clothing/suit/roguetown/armor/gambeson/lord/heavy/silkjacket
 	name = "besilked jacket"
@@ -74,9 +69,8 @@
 	name = "padded gambeson"
 	desc = "A heavyweight jacket, further tightened with dorpel-styled stitchwork. On its own, it is a masterwork that can reduce a crushing blow into a slight tickle; beneath an alloyed chestplate, it can ward off anything short of a greater fireball."
 	icon_state = "gambesonp"
-	armor = ARMOR_PADDED_GOOD
+	armor = ARMOR_PADDED
 	max_integrity = ARMOR_INT_CHEST_LIGHT_MASTER
-	prevent_crits = PREVENT_CRITS_MOST
 	sellprice = 25
 	color = "#976E6B"
 	var/shiftable = TRUE
@@ -160,9 +154,8 @@
 	icon_state = "fencingshirt"
 	color = "#FFFFFF"
 	var/shiftable = FALSE
-	armor = ARMOR_PADDED_GOOD
+	armor = ARMOR_PADDED
 	max_integrity = ARMOR_INT_CHEST_LIGHT_MASTER + 35
-	prevent_crits = PREVENT_CRITS_MOST
 	sellprice = 25
 	blocksound = SOFTUNDERHIT
 	blade_dulling = DULLING_BASHCHOP
@@ -265,29 +258,5 @@
 	desc = "A robe-like gambeson of moth-eaten cloth and cheap purple dye. No self-respecting elf would be seen wearing this."
 	allowed_race = NON_DWARVEN_RACE_TYPES
 	icon_state = "shadowrobe"
-	armor = ARMOR_PADDED_GOOD
+	armor = ARMOR_PADDED
 	max_integrity = ARMOR_INT_CHEST_LIGHT_MEDIUM + 30 //280
-
-//Special Hand armor. More defense, low integrity, similar logic to Ruma Clan tattoos. Can't be worn in shirt slot.
-/obj/item/clothing/suit/roguetown/armor/gambeson/heavy/hand
-	name = "hand's gambeson"
-	desc = "Sturdy leather, fine silks and ornaments of gold, opulent and imperial, for any one who must say <i>\"I am in charge.\"</i> holds no power at all."
-	icon = 'icons/roguetown/clothing/special/hand.dmi'
-	icon_state = "handgambeson"
-	mob_overlay_icon = 'icons/roguetown/clothing/special/onmob/hand.dmi'
-	sleeved = 'icons/roguetown/clothing/special/onmob/hand.dmi'
-	detail_tag = "_detail"
-	detail_color = "#6e423a"
-	armor = ARMOR_HANDGAMB
-	slot_flags = ITEM_SLOT_ARMOR
-	max_integrity = ARMOR_INT_CHEST_LIGHT_STEEL
-	prevent_crits = PREVENT_CRITS_MOST
-	sellprice = 250
-	shiftable = FALSE
-	unenchantable = TRUE
-
-/obj/item/clothing/suit/roguetown/armor/gambeson/heavy/hand/advisor
-	detail_color = "#6678c9"
-
-/obj/item/clothing/suit/roguetown/armor/gambeson/heavy/hand/spymaster
-	detail_color = "#742277"

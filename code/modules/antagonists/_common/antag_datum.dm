@@ -27,6 +27,7 @@ GLOBAL_LIST_EMPTY(antagonists)
 
 	///flags used by storytellers
 	var/antag_flags = NONE
+	var/has_tempo = FALSE
 
 /datum/antagonist/New()
 	GLOB.antagonists += src
@@ -104,6 +105,8 @@ GLOBAL_LIST_EMPTY(antagonists)
 			replace_banned_player()
 		else if(owner.current.client?.holder && (CONFIG_GET(flag/auto_deadmin_antagonists) || owner.current.client.prefs?.toggles & DEADMIN_ANTAGONIST))
 			owner.current.client.holder.auto_deadmin()
+		if(!has_tempo)
+			REMOVE_TRAIT(owner.current, TRAIT_TEMPO, SPECIES_TRAIT)
 
 /datum/antagonist/proc/is_banned(mob/M)
 	if(!M)

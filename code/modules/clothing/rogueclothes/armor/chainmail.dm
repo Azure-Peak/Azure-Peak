@@ -41,7 +41,6 @@
 	material_category = ARMOR_MAT_CHAINMAIL
 	smeltresult = /obj/item/ingot/aaslag
 	anvilrepair = null
-	prevent_crits = PREVENT_CRITS_NONE
 
 /obj/item/clothing/suit/roguetown/armor/chainmail/paalloy
 	name = "ancient haubergeon"
@@ -95,7 +94,6 @@
 	material_category = ARMOR_MAT_CHAINMAIL
 	smeltresult = /obj/item/ingot/aaslag
 	anvilrepair = null
-	prevent_crits = PREVENT_CRITS_NONE
 
 /obj/item/clothing/suit/roguetown/armor/chainmail/hauberk/paalloy
 	name = "ancient hauberk"
@@ -113,6 +111,28 @@
 	body_parts_covered = CHEST|GROIN
 	armor_class = ARMOR_CLASS_LIGHT //placed in the medium category to keep it with its parent obj
 
+//Hand's armored coat. Expensive and unique brigandine armour. the only one in the game to give it some gimmick back
+
+/obj/item/clothing/suit/roguetown/armor/chainmail/hauberk/hand //hauberk subtype now, meaning no stacking but gambeson compatible
+	name = "hand's armored coat"
+	desc = "Sturdy leather, fine silks, ornaments of gold and enough steel to stop a blade. Opulent and imperial, for any one who must say <i>\"I am in charge.\"</i> holds no power at all."
+	icon = 'icons/roguetown/clothing/special/hand.dmi'
+	icon_state = "handgambeson"
+	mob_overlay_icon = 'icons/roguetown/clothing/special/onmob/hand.dmi'
+	sleeved = 'icons/roguetown/clothing/special/onmob/hand.dmi'
+	detail_tag = "_detail"
+	detail_color = "#6e423a"
+	body_parts_covered = COVERAGE_ALL_BUT_ARMFEET //no arm cover, with the bracers = full cover
+	armor_class = ARMOR_CLASS_LIGHT //wearable by spymaster and advisor
+	armor = ARMOR_BRIGANDINE //only chest armour which uses this
+	sellprice = 250
+	unenchantable = TRUE
+
+/obj/item/clothing/suit/roguetown/armor/chainmail/hauberk/hand/advisor
+	detail_color = "#6678c9"
+
+/obj/item/clothing/suit/roguetown/armor/chainmail/hauberk/hand/spymaster
+	detail_color = "#742277"
 
 //HEAVY ARMOR//
 
@@ -151,7 +171,7 @@
 /obj/item/clothing/suit/roguetown/armor/chainmail/hauberk/ornate
 	slot_flags = ITEM_SLOT_ARMOR
 	armor_class = ARMOR_CLASS_HEAVY
-	armor = ARMOR_CUIRASS
+	armor = ARMOR_PLATE
 	name = "psydonic hauberk"
 	desc = "A beautiful steel cuirass, decorated with blessed silver fluting and worn atop thick chainmaille. While it falters against arrows and bolts, these interlinked layers are superb at warding off the blows of inhumen claws and axes. </br>‎  </br>'..the knowledge of evil, and the burden of carrying Psydonia's hope upon thine shoulders..'"
 	icon_state = "ornatehauberk"

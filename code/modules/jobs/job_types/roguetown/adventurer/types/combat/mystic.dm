@@ -363,10 +363,10 @@
 	var/option_choice = input("Shape your offense", "Rain Destruction!") as anything in options
 	switch(option_choice)
 		if("Arcyne bolt and Repulse")
-			H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/projectile/arcynebolt)
+			H.mind.AddSpell(new /datum/action/cooldown/spell/projectile/arcynebolt)
 			H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/repulse)
 		if("Arcyne bolt and Blink")
-			H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/projectile/arcynebolt)
+			H.mind.AddSpell(new /datum/action/cooldown/spell/projectile/arcynebolt)
 			H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/blink)
 		if("Frost bolt and Repulse")
 			H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/projectile/frostbolt)

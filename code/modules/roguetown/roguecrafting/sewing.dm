@@ -1596,10 +1596,10 @@
 	craftdiff = 6
 	sellprice = 90
 
-/datum/crafting_recipe/roguetown/sewing/exoticsilkbra
-	name = "exotic silk bra"
+/datum/crafting_recipe/roguetown/sewing/silkbra
+	name = "giltsilk bra"
 	category = "Misc"
-	result = list (/obj/item/clothing/suit/roguetown/shirt/exoticsilkbra)
+	result = list (/obj/item/clothing/suit/roguetown/shirt/silkbra)
 	reqs = list(/obj/item/natural/silk = 5)
 	craftdiff = 6
 
@@ -1610,23 +1610,24 @@
 	craftdiff = 2
 
 /datum/crafting_recipe/roguetown/sewing/anklets
-	name = "exotic silk anklets"
+	name = "giltsilk anklets"
+	aliases = "golden anklets"
 	category = "Misc"
 	result = list (/obj/item/clothing/shoes/roguetown/anklets)
 	reqs = list(/obj/item/natural/silk = 5)
 	craftdiff = 6
 
-/datum/crafting_recipe/roguetown/sewing/exoticsilkbelt
-	name = "exotic silk belt"
+/datum/crafting_recipe/roguetown/sewing/silkbelt
+	name = "giltsilk belt"
 	category = "Misc"
-	result = list (/obj/item/storage/belt/rogue/leather/exoticsilkbelt)
+	result = list (/obj/item/storage/belt/rogue/leather/silkbelt)
 	reqs = list(/obj/item/natural/silk = 5)
 	craftdiff = 6
 
-/datum/crafting_recipe/roguetown/sewing/exoticsilkmask
-	name = "exotic silk mask"
+/datum/crafting_recipe/roguetown/sewing/silkmask
+	name = "giltsilk mask"
 	category = "Masks"
-	result = list (/obj/item/clothing/mask/rogue/exoticsilkmask)
+	result = list (/obj/item/clothing/mask/rogue/silkmask)
 	reqs = list(/obj/item/natural/silk = 5)
 	craftdiff = 6
 

@@ -246,7 +246,7 @@
 		var/deposit_return = scroll.assigned_quest.calculate_deposit()
 		total_deposit_return += deposit_return
 
-		// Apply Steward/Mechant bonus if applicable (only to the base reward)
+		// Apply bonus to the base reward, if appliciable (Steward, Merchant, Clerk, Councillor, Shophand, Duke)
 		var/datum/job/mob_job = user.job ? SSjob.GetJob(user.job) : null
 		if(mob_job?.is_quest_giver)
 			reward += base_reward * QUEST_HANDLER_REWARD_MULTIPLIER

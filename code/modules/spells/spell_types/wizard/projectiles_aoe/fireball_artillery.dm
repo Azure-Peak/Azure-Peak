@@ -1,7 +1,7 @@
 /* Artillery Fireball - Worse DPS, much better structural damage. Smoke
 */
 
-/obj/effect/proc_holder/spell/invoked/projectile/fireball/artillery
+/obj/effect/proc_holder/spell/invoked/projectile/artillery_fireball
 	name = "Artillery Fireball"
 	desc = "An artillery fireball that destroys structures with ease and creates a large impact of smoke and flame. \n\
 	Damage is increased by 140% versus simple-minded creechurs.\n\
@@ -41,7 +41,7 @@
 	npc_simple_damage_mult = 2.4
 	accuracy = 40 // Base accuracy is lower for burn projectiles because they bypass armor
 	nodamage = FALSE
-	flag = "magic"
+	flag = "fire"
 	hitsound = 'sound/blank.ogg'
 	aoe_range = 0
 	arcyne_aoe_radius = 1

@@ -173,7 +173,7 @@
 	
 	switch(subclass_selected)
 		if("blade")
-			var/weapons = list("Longsword", "Rapier", "Sabre", "Arming Sword", "Shortsword", "Hwando", "Steel Dagger")
+			var/weapons = list("Longsword", "Rapier", "Sabre", "Iron Arming Sword", "Shortsword", "Hwando", "Steel Dagger")
 			var/weapon_choice = input(H, "Choose your weapon.", "TAKE UP ARMS") as anything in weapons
 			beltr = /obj/item/rogueweapon/scabbard/sword
 			switch(weapon_choice)
@@ -183,8 +183,8 @@
 					r_hand = /obj/item/rogueweapon/sword/rapier
 				if("Sabre")
 					r_hand = /obj/item/rogueweapon/sword/sabre
-				if("Arming Sword")
-					r_hand = /obj/item/rogueweapon/sword
+				if("Iron Arming Sword")
+					r_hand = /obj/item/rogueweapon/sword/iron
 				if("Shortsword")
 					r_hand = /obj/item/rogueweapon/sword/short
 				if("Hwando")
@@ -296,33 +296,6 @@
 				backr = /obj/item/rogue/instrument/psyaltery
 			if("Flute")
 				backr = /obj/item/rogue/instrument/flute
-
-/datum/advclass/mage/spellblade
-	name = "Azurcaephan"
-	tutorial = "You are an Azurcaephan — in common parlance, a Spellblade of the Azurean tradition. A hybrid melee warrior who channels arcyne momentum through combat. Build power with your weapon, then unleash it. Choose between three traditions: Blade (mobile swordsman with dashes and AoE), Phalangite (spear and shield — hold the line with thrusts and pushback), or Macebearer (blunt weapons — ground slams, charges, and shockwaves)."
-	outfit = /datum/outfit/job/roguetown/adventurer/spellblade
-	traits_applied = list(TRAIT_ARCYNE_T2)
-	subclass_stats = list(
-		STATKEY_INT = 1,
-		STATKEY_PER = 1,
-		STATKEY_CON = 1,
-		STATKEY_WIL = 1,
-	)
-	subclass_spell_point_pools = list("utility" = 4)
-	// Just give them Jman for all three schools they can go into
-	// They are functionally crippled without abilities if they
-	// Dip outside of their subclass
-	// Non zero chance someone's gonna be bitching in Discord about this
-	subclass_skills = list(
-		/datum/skill/misc/climbing = SKILL_LEVEL_JOURNEYMAN,
-		/datum/skill/combat/shields = SKILL_LEVEL_APPRENTICE,
-		/datum/skill/combat/wrestling = SKILL_LEVEL_APPRENTICE,
-		/datum/skill/combat/unarmed = SKILL_LEVEL_APPRENTICE,
-		/datum/skill/misc/athletics = SKILL_LEVEL_APPRENTICE,
-		/datum/skill/misc/reading = SKILL_LEVEL_JOURNEYMAN,
-		/datum/skill/magic/arcane = SKILL_LEVEL_APPRENTICE,
-		/datum/skill/misc/swimming = SKILL_LEVEL_NOVICE,
-	)
 
 /datum/advclass/mage/spellfist
 	name = "Spellfist"

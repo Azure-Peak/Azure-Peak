@@ -14,11 +14,9 @@
 	var/explode_sound = list('sound/misc/explode/incendiary (1).ogg','sound/misc/explode/incendiary (2).ogg')
 
 /datum/action/cooldown/mob_cooldown/fire_breath/Activate(atom/target_atom)
-	disable_cooldown_actions()
 	owner.visible_message(span_alert("[owner] inhales deeply, warmth emanating from their form."))
 	addtimer(CALLBACK(src, PROC_REF(attack_sequence), target_atom), cast_time)
 	StartCooldown()
-	enable_cooldown_actions()
 	return TRUE
 
 /// Apply our specific fire breathing shape, in proc form so we can override it in subtypes

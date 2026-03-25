@@ -83,7 +83,7 @@ Chargetime reduced from 20 to 10 ticks (1 second) to feel less awkward.
 	woundclass = BCLASS_STAB
 	nodamage = FALSE
 	speed = 1.5 // Slow enough to dodge not so slow you will never hit
-	armor_penetration = 20
+	armor_penetration = PEN_LIGHT
 	hitsound = 'sound/combat/hits/bladed/genthrust (1).ogg'
 
 /obj/projectile/energy/azurean_javelin/on_hit(target)
@@ -102,6 +102,7 @@ Chargetime reduced from 20 to 10 ticks (1 second) to feel less awkward.
 /obj/projectile/energy/azurean_javelin/empowered
 	name = "Empowered Azurean Javelin"
 	icon_state = "youreyesonly"
+	armor_penetration = PEN_MEDIUM
 
 /obj/projectile/energy/azurean_javelin/arc
 	name = "Arced Azurean Javelin"

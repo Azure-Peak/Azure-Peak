@@ -57,7 +57,7 @@
 	item_state = "goldbracers"
 	body_parts_covered = ARMS | HANDS //Experimental, but should compliment the cost. Let all handhitters fear your presence.. for exactly five strikes.
 	armor_class = ARMOR_CLASS_HEAVY //Ceremonial. Heavy is the head that bares the burden.
-	armor = ARMOR_GOLD //Renders its wearer completely invulnerable to damage. The caveat is, however..
+	armor = ARMOR_INDESTRUCTIBLE //Renders its wearer completely invulnerable to damage. The caveat is, however..
 	max_integrity = ARMOR_INT_SIDE_GOLD // ..is that it's extraordinarily fragile. To note, this is lower than even Decrepit-tier armor.
 	anvilrepair = null
 	smeltresult = /obj/item/ingot/gold
@@ -125,7 +125,6 @@
 	material_category = ARMOR_MAT_PLATE
 	smeltresult = /obj/item/ingot/aaslag
 	anvilrepair = null
-	prevent_crits = PREVENT_CRITS_NONE
 
 /obj/item/clothing/wrists/roguetown/bracers/paalloy
 	name = "ancient bracers"
@@ -139,16 +138,15 @@
 	icon_state = "bronzebracers"
 	body_parts_covered = ARMS | HANDS //Experimental, but should play well with the increased durability.
 	smeltresult = /obj/item/ingot/bronze
-	armor = ARMOR_PLATE_BRONZE
+	armor = ARMOR_PLATE
 	max_integrity = ARMOR_INT_SIDE_BRONZE
-	prevent_crits = PREVENT_CRITS_ALL
 
 /obj/item/clothing/wrists/roguetown/bracers/leather
 	name = "leather bracers"
 	desc = "A pair of leather wristguards, which can protect one's arms from both bludgeons and bites."
 	icon_state = "lbracers"
 	item_state = "lbracers"
-	armor = ARMOR_PADDED_GOOD
+	armor = ARMOR_PADDED
 	max_integrity = ARMOR_INT_SIDE_HARDLEATHER
 	blocksound = SOFTHIT
 	blade_dulling = DULLING_BASHCHOP
@@ -170,7 +168,7 @@
 	name = "hardened leather bracers"
 	desc = "A pair of heavy leather wristguards, deliciously darkened for deterring dangers."
 	icon_state = "albracers"
-	armor = ARMOR_LEATHER_GOOD
+	armor = ARMOR_LEATHER
 	max_integrity = ARMOR_INT_SIDE_STEEL
 	sellprice = 10
 	salvage_amount = 1
@@ -183,7 +181,7 @@
 	icon_state = "copperarm"
 	item_state = "copperarm"
 	smeltresult = /obj/item/ingot/copper
-	armor = ARMOR_PLATE_BAD
+	armor = ARMOR_PLATE
 
 /obj/item/clothing/wrists/roguetown/wrappings
 	name = "solar wrappings"
@@ -214,7 +212,7 @@
 	name = "cloth bracers"
 	desc = "This shouldn't be used in code."
 	smeltresult = null
-	armor = ARMOR_PADDED_GOOD
+	armor = ARMOR_PADDED
 	blade_dulling = DULLING_BASHCHOP
 	icon_state = "nocwrappings"
 	item_state = "nocwrappings"
@@ -277,7 +275,7 @@
 	body_parts_covered = ARMS
 	icon_state = "splintarms"
 	item_state = "splintarms"
-	armor = ARMOR_LEATHER_STUDDED
+	armor = ARMOR_BRIGANDINE
 	blocksound = SOFTHIT
 	max_integrity = ARMOR_INT_SIDE_STEEL
 	anvilrepair = /datum/skill/craft/armorsmithing
@@ -296,7 +294,7 @@
 	body_parts_covered = ARMS
 	icon_state = "ironsplintarms"
 	item_state = "ironsplintarms"
-	armor = ARMOR_LEATHER_STUDDED //not plate armor, is leather + iron bits
+	armor = ARMOR_BRIGANDINE //not plate armor, is leather + iron bits
 	blocksound = SOFTHIT
 	max_integrity = ARMOR_INT_SIDE_LEATHER
 	anvilrepair = /datum/skill/craft/armorsmithing
@@ -319,7 +317,7 @@
 	desc = "Thin strips of steel attached to small shoulder and elbow plates, worn on the outside of the arms to protect against slashes."
 	icon_state = "jackchain"
 	item_state = "jackchain"
-	armor = ARMOR_LEATHER_STUDDED // Please help me make this make sense this has the same stab protection vro.
+	armor = ARMOR_BRIGANDINE
 	max_integrity = ARMOR_INT_SIDE_LEATHER // Make it slightly worse
 	drop_sound = 'sound/foley/dropsound/chain_drop.ogg'
 	pickup_sound = 'sound/foley/equip/equip_armor_chain.ogg'
@@ -420,7 +418,7 @@
 	. = ..()
 	AddComponent(/datum/component/cursed_item, TRAIT_HORDE, "ARMOR", "RENDERED ASUNDER")
 
-/obj/item/clothing/wrists/roguetown/bracers/leather/heavy/hand
+/obj/item/clothing/wrists/roguetown/bracers/brigandine/hand
 	name = "hand's bracers"
 	desc = "Discretion had always been the better part of valour, and nobody understands that better than the one holding an ace up their sleeve."
 	color = null
@@ -428,6 +426,6 @@
 	icon = 'icons/roguetown/clothing/special/hand.dmi'
 	icon_state = "bracersheath"
 
-/obj/item/clothing/wrists/roguetown/bracers/leather/heavy/hand/ComponentInitialize()
+/obj/item/clothing/wrists/roguetown/bracers/brigandine/hand/ComponentInitialize()
 	. = ..()
 	AddComponent(/datum/component/holster, /obj/item/rogueweapon/huntingknife, null, list(/obj/item/rogueweapon/huntingknife/idagger/stake, /obj/item/rogueweapon/huntingknife/idagger/silver/stake))

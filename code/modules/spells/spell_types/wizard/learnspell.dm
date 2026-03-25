@@ -16,6 +16,71 @@
 		return class_based_spells(user)
 	return legacy_pointbuy_spells(user)
 
+/// Get the spell cost from a typepath (works for both old proc_holder and new action spells)
+/obj/effect/proc_holder/spell/self/learnspell/proc/get_spell_cost(spell_path)
+	if(ispath(spell_path, /datum/action/cooldown/spell))
+		var/datum/action/cooldown/spell/S = spell_path
+		return initial(S.point_cost)
+	var/obj/effect/proc_holder/spell/S = spell_path
+	return initial(S.cost)
+
+/// Get the spell tier from a typepath (works for both types)
+/obj/effect/proc_holder/spell/self/learnspell/proc/get_spell_tier(spell_path)
+	if(ispath(spell_path, /datum/action/cooldown/spell))
+		var/datum/action/cooldown/spell/S = spell_path
+		return initial(S.spell_tier)
+	var/obj/effect/proc_holder/spell/S = spell_path
+	return initial(S.spell_tier)
+
+/// Get the spell name from a typepath
+/obj/effect/proc_holder/spell/self/learnspell/proc/get_spell_name(spell_path)
+	if(ispath(spell_path, /datum/action/cooldown/spell))
+		var/datum/action/cooldown/spell/S = spell_path
+		return initial(S.name)
+	var/obj/effect/proc_holder/spell/S = spell_path
+	return initial(S.name)
+
+/// Get the spell desc from a typepath
+/obj/effect/proc_holder/spell/self/learnspell/proc/get_spell_desc(spell_path)
+	if(ispath(spell_path, /datum/action/cooldown/spell))
+		var/datum/action/cooldown/spell/S = spell_path
+		return initial(S.desc)
+	var/obj/effect/proc_holder/spell/S = spell_path
+	return initial(S.desc)
+
+/// Get the zizo_spell flag from a typepath
+/obj/effect/proc_holder/spell/self/learnspell/proc/get_spell_zizo(spell_path)
+	if(ispath(spell_path, /datum/action/cooldown/spell))
+		var/datum/action/cooldown/spell/S = spell_path
+		return initial(S.zizo_spell)
+	var/obj/effect/proc_holder/spell/S = spell_path
+	return initial(S.zizo_spell)
+
+/// Check if user already knows a spell by typepath (checks both spell systems)
+/obj/effect/proc_holder/spell/self/learnspell/proc/user_knows_spell(mob/user, spell_path)
+	for(var/datum/known in user.mind.spell_list)
+		if(known.type == spell_path)
+			return TRUE
+	return FALSE
+
+/// Instantiate and add a spell from a typepath (handles both types)
+/obj/effect/proc_holder/spell/self/learnspell/proc/learn_spell_from_path(mob/user, spell_path, pool_name = null)
+	var/datum/new_spell = new spell_path
+
+	if(istype(new_spell, /datum/action/cooldown/spell))
+		var/datum/action/cooldown/spell/action_spell = new_spell
+		action_spell.refundable = TRUE
+		if(pool_name)
+			action_spell.learned_from_pool = pool_name
+	else if(istype(new_spell, /obj/effect/proc_holder/spell))
+		var/obj/effect/proc_holder/spell/proc_spell = new_spell
+		proc_spell.refundable = TRUE
+		if(pool_name)
+			proc_spell.learned_from_pool = pool_name
+
+	user.mind.AddSpell(new_spell)
+	return TRUE
+
 /obj/effect/proc_holder/spell/self/learnspell/proc/legacy_pointbuy_spells(mob/user)
 	var/list/choices = list()
 	var/list/spell_descriptions = list()
@@ -23,37 +88,40 @@
 	var/user_evil = get_user_evilness(user)
 	var/list/spell_choices = GLOB.learnable_spells
 
-	for(var/i = 1, i <= spell_choices.len, i++)
-		var/obj/effect/proc_holder/spell/spell_item = spell_choices[i]
-		if(spell_item.spell_tier > user_spell_tier)
+	for(var/spell_path in spell_choices)
+		var/tier = get_spell_tier(spell_path)
+		if(tier > user_spell_tier)
 			continue
-		if(spell_item.zizo_spell > user_evil)
+		var/zizo = get_spell_zizo(spell_path)
+		if(zizo > user_evil)
 			continue
-		var/display_key = "[spell_item.name]: [spell_item.cost]"
-		choices[display_key] = spell_item
-		if(spell_item.desc)
-			spell_descriptions[display_key] = spell_item.desc
+		var/spell_name = get_spell_name(spell_path)
+		var/cost = get_spell_cost(spell_path)
+		var/display_key = "[spell_name]: [cost]"
+		choices[display_key] = spell_path
+		var/spell_desc = get_spell_desc(spell_path)
+		if(spell_desc)
+			spell_descriptions[display_key] = spell_desc
 
 	choices = sortList(choices)
 
 	var/choice = tgui_input_list(user, "Choose a spell. Points left: [user.mind.spell_points - user.mind.used_spell_points]", "Learn Spell", choices, descriptions = spell_descriptions)
-	var/obj/effect/proc_holder/spell/item = choices[choice]
+	var/chosen_path = choices[choice]
 
-	if(!item)
+	if(!chosen_path)
 		return
-	if(tgui_alert(user, "Learn [item.name] for [item.cost] point(s)?", "[item.name]", list("Cancel", "Learn")) == "Cancel")
+	var/chosen_name = get_spell_name(chosen_path)
+	var/chosen_cost = get_spell_cost(chosen_path)
+	if(tgui_alert(user, "Learn [chosen_name] for [chosen_cost] point(s)?", "[chosen_name]", list("Cancel", "Learn")) == "Cancel")
 		return
-	for(var/obj/effect/proc_holder/spell/knownspell in user.mind.spell_list)
-		if(knownspell.type == item.type)
-			to_chat(user, span_warning("You already know this one!"))
-			return
-	if(item.cost > user.mind.spell_points - user.mind.used_spell_points)
+	if(user_knows_spell(user, chosen_path))
+		to_chat(user, span_warning("You already know this one!"))
+		return
+	if(chosen_cost > user.mind.spell_points - user.mind.used_spell_points)
 		to_chat(user, span_warning("You do not have enough experience to create a new spell."))
 		return
-	user.mind.used_spell_points += item.cost
-	var/obj/effect/proc_holder/spell/new_spell = new item
-	new_spell.refundable = TRUE
-	user.mind.AddSpell(new_spell)
+	user.mind.used_spell_points += chosen_cost
+	learn_spell_from_path(user, chosen_path)
 	addtimer(CALLBACK(user.mind, TYPE_PROC_REF(/datum/mind, check_learnspell)), 2 SECONDS)
 	return TRUE
 
@@ -87,23 +155,21 @@
 	var/list/choices = list()
 	var/list/spell_descriptions = list()
 
-	for(var/i = 1, i <= pool_spells.len, i++)
-		var/obj/effect/proc_holder/spell/spell_item = pool_spells[i]
-		if(spell_item.spell_tier > user_spell_tier)
+	for(var/spell_path in pool_spells)
+		var/tier = get_spell_tier(spell_path)
+		if(tier > user_spell_tier)
 			continue
-		if(spell_item.cost > remaining)
+		var/cost = get_spell_cost(spell_path)
+		if(cost > remaining)
 			continue
-		var/already_known = FALSE
-		for(var/obj/effect/proc_holder/spell/knownspell in user.mind.spell_list)
-			if(knownspell.type == spell_item.type)
-				already_known = TRUE
-				break
-		if(already_known)
+		if(user_knows_spell(user, spell_path))
 			continue
-		var/display_key = "[spell_item.name]: [spell_item.cost]"
-		choices[display_key] = spell_item
-		if(spell_item.desc)
-			spell_descriptions[display_key] = spell_item.desc
+		var/spell_name = get_spell_name(spell_path)
+		var/display_key = "[spell_name]: [cost]"
+		choices[display_key] = spell_path
+		var/spell_desc = get_spell_desc(spell_path)
+		if(spell_desc)
+			spell_descriptions[display_key] = spell_desc
 
 	if(!length(choices))
 		to_chat(user, span_warning("No spells available to learn."))
@@ -112,17 +178,16 @@
 	choices = sortList(choices)
 
 	var/choice = tgui_input_list(user, "[capitalize(pool_name)] spells. Points left: [remaining]", "Learn Spell", choices, descriptions = spell_descriptions)
-	var/obj/effect/proc_holder/spell/item = choices[choice]
+	var/chosen_path = choices[choice]
 
-	if(!item)
+	if(!chosen_path)
 		return
-	if(tgui_alert(user, "Learn [item.name] for [item.cost] point(s)?", "[item.name]", list("Cancel", "Learn")) == "Cancel")
+	var/chosen_name = get_spell_name(chosen_path)
+	var/chosen_cost = get_spell_cost(chosen_path)
+	if(tgui_alert(user, "Learn [chosen_name] for [chosen_cost] point(s)?", "[chosen_name]", list("Cancel", "Learn")) == "Cancel")
 		return
 
-	user.mind.spell_points_used_by_pool[pool_name] += item.cost
-	var/obj/effect/proc_holder/spell/new_spell = new item
-	new_spell.refundable = TRUE
-	new_spell.learned_from_pool = pool_name
-	user.mind.AddSpell(new_spell)
+	user.mind.spell_points_used_by_pool[pool_name] += chosen_cost
+	learn_spell_from_path(user, chosen_path, pool_name)
 	addtimer(CALLBACK(user.mind, TYPE_PROC_REF(/datum/mind, check_learnspell)), 2 SECONDS)
 	return TRUE

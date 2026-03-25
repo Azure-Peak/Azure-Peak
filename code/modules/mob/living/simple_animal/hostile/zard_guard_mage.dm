@@ -69,7 +69,7 @@
 	damage_type = BURN
 	nodamage = FALSE
 	speed = 0.3
-	flag = "magic"
+	flag = "fire"
 	light_color = "#ffffff"
 /obj/projectile/magic/zardman_jailer_mage/lightning/on_hit(target)
 	. = ..()

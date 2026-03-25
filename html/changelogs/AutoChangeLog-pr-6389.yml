@@ -1,4 +1,0 @@
-author: "KatTheFox"
-delete-after: True
-changes:
-  - qol: "crafting attempts now have a 'pity threshold': you will automatically succeed after 99 failed attempts, so long as the recipe is possible for you to make (i.e. not a 0% chance)"

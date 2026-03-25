@@ -1,5 +1,5 @@
 /datum/round_event_control/antagonist/migrant_wave/banditsorgnolls
-	name = "Bandits or gnolls Migration"
+	name = "Bandits or Gnolls Migration"
 	typepath = /datum/round_event/migrant_wave/banditsorgnolls
 	wave_type = /datum/migrant_wave/bandit
 	max_occurrences = 2
@@ -14,8 +14,13 @@
 		TAG_VILLIAN,
 	)
 
+/datum/round_event_control/antagonist/migrant_wave/banditsorgnolls/preRunEvent()
+	if(is_storyteller_soft_antag_blocked())
+		return EVENT_CANT_RUN
+	return ..()
+
 /datum/round_event/migrant_wave/banditsorgnolls/start()
-	var/evilmode = pick("gnolls", "bandits")
+	var/evilmode = is_storyteller_villain_blocked() ? "gnolls" : pick("gnolls", "bandits")
 	if(evilmode == "bandits")
 		var/datum/job/bandit_job = SSjob.GetJob("Bandit")
 		bandit_job.total_positions = min(bandit_job.total_positions + 4, 10)

@@ -1285,7 +1285,6 @@
 	icon_state = "dragonnecklace"
 	max_integrity = ARMOR_INT_SIDE_IRON //Iron gorget now.
 	armor = ARMOR_PLATE
-	prevent_crits = PREVENT_CRITS_ALL
 	blocksound = PLATEHIT
 	//dropshrink = 0.75
 	resistance_flags = FIRE_PROOF

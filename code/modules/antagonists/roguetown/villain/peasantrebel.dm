@@ -17,6 +17,7 @@
 	)
 	increase_votepwr = FALSE
 	rogue_enabled = TRUE
+	has_tempo = TRUE
 	var/datum/team/prebels/rev_team
 
 /datum/antagonist/prebel/examine_friendorfoe(datum/antagonist/examined_datum,mob/examiner,mob/examined)
