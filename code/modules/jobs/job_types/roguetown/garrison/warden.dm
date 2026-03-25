@@ -25,17 +25,24 @@
 	round_contrib_points = 2
 
 	cmode_music = 'sound/music/cmode/garrison/combat_warden.ogg'
-	job_traits = list(TRAIT_AZURENATIVE, TRAIT_DODGEEXPERT, TRAIT_OUTDOORSMAN, TRAIT_WOODSMAN, TRAIT_SURVIVAL_EXPERT)
+	job_traits = list(TRAIT_AZURENATIVE, TRAIT_OUTDOORSMAN, TRAIT_WOODSMAN, TRAIT_SURVIVAL_EXPERT)
 	job_subclasses = list(/datum/advclass/warden/warden)
 
 /datum/outfit/job/roguetown/warden
-	armor = /obj/item/clothing/suit/roguetown/armor/leather/studded/warden
+	neck = /obj/item/clothing/neck/roguetown/coif/padded
 	cloak = /obj/item/clothing/cloak/wardencloak
+	backr = /obj/item/storage/backpack/rogue/satchel
+	backl = /obj/item/gun/ballistic/revolver/grenadelauncher/bow/recurve/warden
+	armor = /obj/item/clothing/suit/roguetown/armor/leather/studded/warden
+	shirt = /obj/item/clothing/suit/roguetown/armor/gambeson/heavy
+	wrists = /obj/item/clothing/wrists/roguetown/bracers/leather
+	gloves = /obj/item/clothing/gloves/roguetown/fingerless_leather
+	belt = /obj/item/storage/belt/rogue/leather
+	beltr = /obj/item/quiver/arrows
+	beltl = /obj/item/rogueweapon/stoneaxe/woodcut/wardenpick
+	pants = /obj/item/clothing/under/roguetown/trou/leather
 	shoes = /obj/item/clothing/shoes/roguetown/boots/leather/reinforced
 	saiga_shoes = /obj/item/clothing/shoes/roguetown/horseshoes
-	belt = /obj/item/storage/belt/rogue/leather
-	backr = /obj/item/storage/backpack/rogue/satchel
-	wrists = /obj/item/clothing/wrists/roguetown/bracers/leather
 	id = /obj/item/scomstone/bad/garrison
 	job_bitflag = BITFLAG_GARRISON //Counts towards overall combat roles
 
@@ -77,13 +84,6 @@
 /datum/outfit/job/roguetown/warden/warden/pre_equip(mob/living/carbon/human/H)
 	..()
 	r_hand = /obj/item/rogueweapon/huntingknife/idagger/warden_machete
-	neck = /obj/item/clothing/neck/roguetown/coif
-	gloves = /obj/item/clothing/gloves/roguetown/fingerless_leather
-	shirt = /obj/item/clothing/suit/roguetown/armor/gambeson/heavy
-	pants = /obj/item/clothing/under/roguetown/trou/leather
-	backl = /obj/item/gun/ballistic/revolver/grenadelauncher/bow/recurve/warden
-	beltr = /obj/item/quiver/arrows
-	beltl = /obj/item/rogueweapon/stoneaxe/woodcut/wardenpick
 	backpack_contents = list(
 		/obj/item/roguekey/warden = 1,
 		/obj/item/flashlight/flare/torch/lantern = 1,
@@ -95,6 +95,14 @@
 	H.set_blindness(0)
 
 	if(H.mind)
+		var/armor_options = list("Dodge Expert", "Maille Training")
+		var/armor_choice = input(H, "Choose your armor.", "TAKE UP ARMS") as anything in armor_options
+		switch(armor_choice)//Like skirmisher, you are not getting both
+			if("Dodge Expert")
+				ADD_TRAIT(H, TRAIT_DODGEEXPERT, TRAIT_GENERIC)
+			if( "Maille Training")
+				ADD_TRAIT(H, TRAIT_MEDIUMARMOR, TRAIT_GENERIC)
+
 		var/helmets = list(
 			"Path of the Antelope" 	= /obj/item/clothing/head/roguetown/helmet/bascinet/antler,
 			"Path of the Volf"		= /obj/item/clothing/head/roguetown/helmet/sallet/warden/wolf,
