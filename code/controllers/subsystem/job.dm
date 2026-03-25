@@ -117,7 +117,8 @@ SUBSYSTEM_DEF(job)
 	JobDebug("Running FOC, Job: [job], Level: [level], Flag: [flag]")
 	var/list/candidates = list()
 	for(var/mob/dead/new_player/player in unassigned)
-		if(is_banned_from(player.ckey, job.title) || QDELETED(player)) continue
+		if(is_banned_from(player.ckey, job.title) || QDELETED(player))
+		continue
 		if(!job.player_old_enough(player.client)) continue
 		if(job.required_playtime_remaining(player.client)) continue
 		if(flag && (!(flag in player.client.prefs.be_special))) continue
