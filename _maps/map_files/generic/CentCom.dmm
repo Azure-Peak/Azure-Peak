@@ -1628,6 +1628,8 @@
 /obj/structure/closet/crate/roguecloset/inn,
 /obj/item/clothing/suit/roguetown/shirt/robe,
 /obj/item/storage/hip/orestore/bronze,
+/obj/item/ritechalk,
+/obj/item/ritechalk,
 /turf/open/floor/rogue/shroud,
 /area/rogue/indoors/shelter/bog_hag)
 "Nm" = (
