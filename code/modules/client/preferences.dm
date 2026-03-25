@@ -1357,7 +1357,7 @@ GLOBAL_LIST_EMPTY(chosen_names)
 				UpdateJobPreference(user, href_list["text"], text2num(href_list["level"]))
 			if("set_job_slot")
 				if(SSticker.job_change_locked)
-					return 1
+					return TRUE
 				var/job_title = href_list["text"]
 				var/datum/job/J = SSjob.GetJob(job_title)
 				if(!J) return 1
