@@ -82,7 +82,8 @@
 	name = "forester's brigandine"
 	desc = "A hardened leather harness with a large pauldron worn over a tasseted brigandine, imbued with Dendor's essence."
 	icon_state = "forestbrig"
-	max_integrity = ARMOR_INT_CHEST_PLATE_BRIGANDINE + 50
+	armor = ARMOR_BRIGANDINE//is actually a brigandine now
+	max_integrity = ARMOR_INT_CHEST_LIGHT_MASTER + 50
 	equip_delay_self = 50
 	smeltresult = /obj/item/ingot/iron
 

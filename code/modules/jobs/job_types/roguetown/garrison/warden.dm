@@ -11,7 +11,7 @@
 	allowed_ages = list(AGE_ADULT, AGE_MIDDLEAGED, AGE_OLD)
 	tutorial = "Typically a denizen of the sparsely populated Azurian woods, a volunteer with the Wardens - a group of ranger types who keep a vigil over the untamed wilderness. \
 				While you may not be a professional soldier of the Watch, you serve as the first line of defense against outside threats and an early warning of problems to come. \
-				Obey your Sergeant-at-Arms, the Marshal, and the Crown. Show noblemen respect as a true levy should."
+				Obey your Sergeant-at-Arms, the Marshal, and the Crown. Show noblemen respect as a commoner should."
 
 	display_order = JDO_WARDEN
 	whitelist_req = TRUE
@@ -35,7 +35,7 @@
 	backl = /obj/item/gun/ballistic/revolver/grenadelauncher/bow/recurve/warden
 	armor = /obj/item/clothing/suit/roguetown/armor/leather/studded/warden
 	shirt = /obj/item/clothing/suit/roguetown/armor/gambeson/heavy
-	wrists = /obj/item/clothing/wrists/roguetown/bracers/leather
+	wrists = /obj/item/clothing/wrists/roguetown/bracers/splint
 	gloves = /obj/item/clothing/gloves/roguetown/fingerless_leather
 	belt = /obj/item/storage/belt/rogue/leather
 	beltr = /obj/item/quiver/arrows
