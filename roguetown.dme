@@ -1933,7 +1933,6 @@
 #include "code\modules\jobs\job_types\roguetown\adventurer\types\wretch\pyromaniac.dm"
 #include "code\modules\jobs\job_types\roguetown\adventurer\types\wretch\roguemage.dm"
 #include "code\modules\jobs\job_types\roguetown\adventurer\types\wretch\vigilante.dm"
-#include "code\modules\jobs\job_types\roguetown\adventurer\types\wretch\pariah.dm"
 #include "code\modules\jobs\job_types\roguetown\adventurer\types\wretch\slasher.dm"
 #include "code\modules\jobs\job_types\roguetown\burghers\apothecary.dm"
 #include "code\modules\jobs\job_types\roguetown\burghers\bathmaster.dm"
