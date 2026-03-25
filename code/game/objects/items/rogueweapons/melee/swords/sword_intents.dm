@@ -343,7 +343,7 @@
 // RAPIER
 /datum/intent/sword/cut/rapier
 	clickcd = CLICK_CD_QUICK
-	damfactor = 0.75
+	damfactor = 0.9
 
 /datum/intent/sword/thrust/rapier
 	clickcd = 8
