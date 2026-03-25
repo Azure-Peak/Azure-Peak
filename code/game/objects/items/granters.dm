@@ -79,11 +79,9 @@
 /obj/item/book/granter/spell/already_known(mob/user)
 	if(!spell)
 		return TRUE
-	for(var/obj/effect/proc_holder/spell/knownspell in user.mind.spell_list)
-		if(knownspell.type == spell)
-			if(user.mind)
-				to_chat(user,span_warning("You've already read this one!"))
-			return TRUE
+	if(user.mind.has_spell(spell, specific = TRUE))
+		to_chat(user, span_warning("You've already read this one!"))
+		return TRUE
 	return FALSE
 
 /obj/item/book/granter/spell/on_reading_start(mob/user)
@@ -91,7 +89,7 @@
 
 /obj/item/book/granter/spell/on_reading_finished(mob/user)
 	to_chat(user, span_notice("I feel like you've experienced enough to cast [spellname]!"))
-	var/obj/effect/proc_holder/spell/S = new spell
+	var/datum/S = new spell
 	user.mind.AddSpell(S)
 	user.log_message("learned the spell [spellname] ([S])", LOG_ATTACK, color="orange")
 	onlearned(user)
@@ -244,7 +242,7 @@ UNDER NO CIRCUMSTANCE SHOULD ANY OF THE BOOKS BE GIVEN OUT INTO SPAWNERS OR TO B
 
 /obj/item/book/granter/spell/blackstone/fireball
 	name = "Scroll of Fireball"
-	spell = /obj/effect/proc_holder/spell/invoked/projectile/fireball
+	spell = /datum/action/cooldown/spell/projectile/fireball
 	spellname = "fireball"
 	icon_state ="scrollred"
 	remarks = list("Ignis et oleum..", "Flammam continere ad momentum..", "Flammam iactare..", "Sit flamma constructum..")
@@ -252,7 +250,7 @@ UNDER NO CIRCUMSTANCE SHOULD ANY OF THE BOOKS BE GIVEN OUT INTO SPAWNERS OR TO B
 
 /obj/item/book/granter/spell/blackstone/greaterfireball
 	name = "Scroll of Greater Fireball"
-	spell = /obj/effect/proc_holder/spell/invoked/projectile/fireball/greater
+	spell = /obj/effect/proc_holder/spell/invoked/projectile/greater_fireball
 	spellname = "greater fireball"
 	icon_state ="scrollred"
 	remarks = list("Ignis et oleum..", "Flammam continere ad momentum..", "Flammam iactare..", "Sit flamma constructum..")
@@ -436,7 +434,7 @@ UNDER NO CIRCUMSTANCE SHOULD ANY OF THE BOOKS BE GIVEN OUT INTO SPAWNERS OR TO B
 
 /obj/item/book/granter/spell/blackstone/arcynebolt
 	name = "Scroll of Arcyne Bolt"
-	spell = /obj/effect/proc_holder/spell/invoked/projectile/arcynebolt
+	spell = /datum/action/cooldown/spell/projectile/arcynebolt
 	spellname = "Arcyne Bolt"
 	icon_state ="scrolldarkred"
 	dreamcost = 6

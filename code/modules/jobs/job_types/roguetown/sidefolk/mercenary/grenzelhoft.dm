@@ -263,9 +263,9 @@
 		)
 	if(H.mind) // State mandated spells c:
 		H.mind.AddSpell(new /obj/effect/proc_holder/spell/targeted/touch/prestidigitation)
-		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/projectile/fireball/artillery)
+		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/projectile/artillery_fireball)
 		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/projectile/spitfire)
-		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/projectile/arcynebolt)
+		H.mind.AddSpell(new /datum/action/cooldown/spell/projectile/arcynebolt)
 		H.mind.AddSpell(new /obj/effect/proc_holder/spell/self/magicians_brick)
 		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/projectile/fetch)
 		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/repulse)

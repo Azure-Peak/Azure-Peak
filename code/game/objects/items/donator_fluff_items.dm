@@ -93,15 +93,17 @@
 	mob_overlay_icon = 'icons/clothing/onmob/donor_clothes.dmi'
 
 /obj/item/clothing/head/roguetown/helmet/heavy/knight/gilded/attackby(obj/item/W, mob/living/user, params)
-	if(istype(W, /obj/item/natural/feather) && !detail_tag)
-		user.visible_message(span_warning("[user] adds [W] to [src]."))
-		user.transferItemToLoc(W, src, FALSE, FALSE)
-		detail_tag = "_detail"
-		update_icon()
-		if(loc == user && ishuman(user))
-			var/mob/living/carbon/H = user
-			H.update_inv_head()
-
+	..()
+	if(!(istype(W, /obj/item/natural/feather) && !detail_tag))
+		return
+	user.visible_message(span_warning("[user] adds [W] to [src]."))
+	user.transferItemToLoc(W, src, FALSE, FALSE)
+	detail_tag = "_detail"
+	update_icon()
+	if(loc == user && ishuman(user))
+		var/mob/living/carbon/H = user
+		H.update_inv_head()
+		
 //Bigfoot's donator item - steel great axe with gilded pattern
 /obj/item/rogueweapon/greataxe/steel/gilded
 	name = "gilded greataxe"
@@ -142,39 +144,6 @@
 	mob_overlay_icon = 'icons/clothing/onmob/donor_clothes.dmi'
 
 
-//Eiren's donator items - zweihander and sabres
-/obj/item/rogueweapon/greatsword/zwei/eiren
-	name = "Regret"
-	desc = "People bring the small flames of their wishes together... to keep them from burning out, we cast our own flames into the biggest fire we can find. But you know... I didn't bring a flame with me. As for me, maybe I just wandered up to the campfire to warm myself a little..."
-	icon_state = "eiren"
-	icon = 'icons/obj/items/donor_weapons_64.dmi'
-
-/obj/item/rogueweapon/greatsword/eiren
-	name = "Regret"
-	desc = "People bring the small flames of their wishes together... to keep them from burning out, we cast our own flames into the biggest fire we can find. But you know... I didn't bring a flame with me. As for me, maybe I just wandered up to the campfire to warm myself a little..."
-	icon_state = "eiren"
-	icon = 'icons/obj/items/donor_weapons_64.dmi'
-
-/obj/item/rogueweapon/greatsword/grenz/flamberge/eiren
-	name = "Regret"
-	desc = "People bring the small flames of their wishes together... to keep them from burning out, we cast our own flames into the biggest fire we can find. But you know... I didn't bring a flame with me. As for me, maybe I just wandered up to the campfire to warm myself a little..."
-	icon_state = "eiren"
-	icon = 'icons/obj/items/donor_weapons_64.dmi'
-
-/obj/item/rogueweapon/sword/sabre/eiren
-	name = "Lunae"
-	desc = "Two blades, one forged in Noc's light, a soothing breath of clarity. Here, and here alone, were moon and fire ever together."
-	icon_state = "eiren2"
-	icon = 'icons/obj/items/donor_weapons.dmi'
-	sheathe_icon = "eiren2"
-
-/obj/item/rogueweapon/sword/sabre/eiren/small
-	name = "Cinis"
-	desc = "Two blades, the other born of Astrata's ire, a raging flame of passion. Here, and here alone, were fates severed and torn."
-	icon_state = "eiren3"
-	icon = 'icons/obj/items/donor_weapons.dmi'
-	sheathe_icon = "eiren3"
-
 /obj/item/clothing/suit/roguetown/armor/longcoat/eiren //Longcoat has no armor, ignore the /armor/ path.
 	name = "Darkwood's Embrace"
 	desc = "A tough leather coat, taken from one of the few remaining arcyne studies of Lord Darkwood. Ancient, but in remarkably good condition as the weight of memory and sin tries to drag you down."
@@ -203,12 +172,6 @@
 			pic.color = get_detail_color()
 		add_overlay(pic)
 
-//pretzel's special things
-/obj/item/rogueweapon/greatsword/weeperslathe
-	name = "Weeper's Lathe"
-	desc = "A recreation of a gilbronze greatsword, wrought in steel. Inscribed on the blade is a declaration: \"I HAVE ONLY A SHORT TYME TO LYVE, BUT I AM NOT AFRAID TO DIE.\""
-	icon_state = "weeperslathe"
-	icon = 'icons/obj/items/donor_weapons_64.dmi'
 
 /obj/item/clothing/head/roguetown/duelhat/pretzel
 	name = "rethrifted gravedigger's hat" 
@@ -220,25 +183,6 @@
 	item_state = "pretzel_stolenhat"
 	icon = 'icons/clothing/donor_clothes.dmi'
 	mob_overlay_icon = 'icons/clothing/onmob/donor_clothes.dmi'
-
-//inverserun's claymore
-/obj/item/rogueweapon/greatsword/zwei/inverserun
-	name = "Votive Thorns"
-	desc = "Promises hurt, but so does plucking rosa. Hoping hurts, but so does looking at the beauty of Astrata's light. Pick yourself back up. Remember your promise, despite the thorns."
-	icon_state = "inverse"
-	icon = 'icons/obj/items/donor_weapons_64.dmi'
-
-/obj/item/rogueweapon/greatsword/inverserun
-	name = "Votive Thorns"
-	desc = "Promises hurt, but so does plucking rosa. Hoping hurts, but so does looking at the beauty of Astrata's light. Pick yourself back up. Remember your promise, despite the thorns."
-	icon_state = "inverse"
-	icon = 'icons/obj/items/donor_weapons_64.dmi'
-
-/obj/item/rogueweapon/greatsword/grenz/flamberge/inverserun
-	name = "Votive Thorns"
-	desc = "Promises hurt, but so does plucking rosa. Hoping hurts, but so does looking at the beauty of Astrata's light. Pick yourself back up. Remember your promise, despite the thorns."
-	icon_state = "inverse"
-	icon = 'icons/obj/items/donor_weapons_64.dmi'
 
 /obj/item/clothing/cloak/raincloak/feather_cloak
 	name = "Shroud of the Undermaiden"
@@ -406,19 +350,6 @@
 	worn_y_dimension = 64
 	bloody_icon = 'icons/effects/blood64.dmi'
 
-//STINKETHSTONKETH
-/obj/item/rogueweapon/sword/sabre/steppesman/stinketh
-	name = "fencer's shashka"
-	desc = "A heirloom shashka with guardless hilt plated in silver and adorned  with a Mamuk hide grip. A sabre's blade has been added in place of the old one, affording it lethality and reach whilst dismounted."
-	icon_state = "stinketh_shashka"
-	icon = 'icons/obj/items/donor_weapons_64.dmi'
-
-/obj/item/rogueweapon/sword/sabre/freifechter/stinketh
-	name = "fencer's shashka"
-	desc = "A heirloom shashka with guardless hilt plated in silver and adorned  with a Mamuk hide grip. A sabre's blade has been added in place of the old one, affording it lethality and reach whilst dismounted."
-	icon_state = "stinketh_shashka"
-	icon = 'icons/obj/items/donor_weapons_64.dmi'
-
 /obj/item/rogueweapon/spear/boar/frei/pike/stinketh
 	name = "Kindness of Ravens Standard"
 	desc = "A Freifechter's steel pike with a reinforced spruce shaft sporting a black banner with a strange blend of religious symbols."
@@ -431,3 +362,13 @@
 	desc = "A longsword, fitten with a basket-hilt. The grip is made out of a fine green-stained leather, with a piece of spiral-cared walnut connecting it to a lion-shaped pommel. A purple glowing rune sits atop the blade."
 	icon_state = "drd_lsword"
 	icon = 'icons/obj/items/donor_weapons_64.dmi'
+
+//Brass Beak Mask
+/obj/item/clothing/mask/rogue/courtphysician/brassbeak
+	name = "\improper Society of the Brass Beak mask"
+	desc = "A plague mask fitted with a brass-embossed beak, indicating membership in an erudite society of like-minded physickers. \
+	This one is utterly filled with a pungent array of dried herbs to ward off ill humours, shielding from the outside world one breath at a time."
+	icon_state = "brassbeak"
+	item_state = "brassbeak"
+	icon = 'icons/clothing/donor_clothes.dmi'
+	mob_overlay_icon = 'icons/clothing/onmob/donor_clothes.dmi'

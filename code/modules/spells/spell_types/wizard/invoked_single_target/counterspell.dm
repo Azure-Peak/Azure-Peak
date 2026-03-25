@@ -2,7 +2,7 @@
 	name = "Counterspell"
 	desc = "Briefly nullify the arcyne energy surrounding a target. Either preventing magic from being used outright, or preventing most magics from affecting the subject."
 	cost = 3
-	releasedrain = 35
+	releasedrain = SPELLCOST_SINGLE_CC
 	chargedrain = 1
 	chargetime = 0
 	recharge_time = 80 SECONDS

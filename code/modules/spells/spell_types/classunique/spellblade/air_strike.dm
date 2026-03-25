@@ -19,13 +19,13 @@ hand and I intend for Spellblade, feeling wise.
 		- Blunt: All force focused on a single target. (45/90 damage)"
 	clothes_req = FALSE
 	range = 4
-	action_icon = 'icons/mob/actions/spellblade.dmi'
+	action_icon = 'icons/mob/actions/classuniquespells/spellblade.dmi'
 	overlay_state = "air_strike" // Icon by Prominence.
-	releasedrain = 20
+	releasedrain = SPELLCOST_SB_POKE
 	chargedrain = 0
 	chargetime = 3
 	recharge_time = 12 SECONDS
-	warnie = "spellwarning"
+	warnie = "spellwarning"	
 	no_early_release = TRUE
 	movement_interrupt = FALSE
 	charging_slowdown = 0

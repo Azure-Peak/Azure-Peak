@@ -219,11 +219,8 @@ GLOBAL_VAR_INIT(year_integer, text2num(year)) // = 2013???
 			if(!is_smart && !is_stupid && ((user.STAINT - 10) + (user.STAPER - 10) + user?.get_skill_level(/datum/skill/misc/reading)) >= 5)
 				is_normal = TRUE
 			var/list/dat = list()
-			// Top-level table
-			dat += "<table style='width: 100%; line-height: 20px;'>"
-			// NEXT ROW
-			dat += "<tr>"
-			dat += "<td style='width:16%;text-align:left;vertical-align: text-top'>"
+			dat += "<div style='display:flex;width:100%'>"
+			dat += "<span style='width:20%;text-align:center;vertical-align: text-top;box-sizing:border-box'>"
 			if(intellectual && (!obscured_name || H.client?.prefs.masked_examine))
 				dat += "<b>STATS:</b><br><br>"
 				if(!is_guarded)
@@ -242,11 +239,8 @@ GLOBAL_VAR_INIT(year_integer, text2num(year)) // = 2013???
 					dat +=("SPD: \Roman [rand(1,20)]<br>")
 				if(is_guarded || job == "Jester")
 					dat += "Something feels off..."
-				dat += "</td>"
-			else
-				dat += "</td>"
 
-			dat += "<td style='width:33%;text-align:left;vertical-align: text-top'>"
+			dat += "</span><span style='width:50%;text-align:center;vertical-align: text-top;box-sizing:border-box'><table style='width:100%'>"
 			var/list/damtypes = list("blunt","slash","stab","piercing")
 			var/list/body_parts = list(skin_armor, head, wear_mask, wear_wrists, gloves, wear_neck, cloak, wear_armor, wear_shirt, shoes, wear_pants, backr, backl, belt, s_store, glasses, ears, wear_ring)
 			var/list/coverage_exposed = list(READABLE_ZONE_HEAD, READABLE_ZONE_CHEST, READABLE_ZONE_ARMS, READABLE_ZONE_L_ARM, READABLE_ZONE_R_ARM, READABLE_ZONE_LEGS, READABLE_ZONE_L_LEG, READABLE_ZONE_R_LEG, READABLE_ZONE_NOSE, READABLE_ZONE_MOUTH, READABLE_ZONE_EYES, READABLE_ZONE_NECK, READABLE_ZONE_VITALS, READABLE_ZONE_GROIN, READABLE_ZONE_HANDS, READABLE_ZONE_L_HAND, READABLE_ZONE_R_HAND, READABLE_ZONE_FEET, READABLE_ZONE_L_FOOT, READABLE_ZONE_R_FOOT)
@@ -353,7 +347,7 @@ GLOBAL_VAR_INIT(year_integer, text2num(year)) // = 2013???
 						coverage_exposed.Remove(READABLE_ZONE_MOUTH, READABLE_ZONE_EYES, READABLE_ZONE_NOSE)
 
 			if(!is_stupid)
-				dat += "<b><center>BODY:</center></b><br>"
+				dat += "<tr><td colspan='6'><b><center>BODY:</center></b></tr><tr><td>NAME</td><td>LAYERS</td><td>BLUNT</td><td>SLASH</td><td>STAB</td><td>PIERCE</td></tr>"
 			if(length(coverage))
 				var/str
 				if(!is_smart && !is_normal)	//We get a significantly simplified printout if we don't have the stats / trait
@@ -364,17 +358,17 @@ GLOBAL_VAR_INIT(year_integer, text2num(year)) // = 2013???
 					if(is_normal || is_smart)
 						if(length(coverage_exposed))
 							for(var/exposed in coverage_exposed)
-								str += "<b>[exposed]</b>: <font color = '#770404'><b>EXPOSED!</B></font><br>"
+								str += "<tr><td><b>[exposed]</b></td><td colspan='5'> <font color = '#770404'><b>EXPOSED!</B></font><td></tr>"
 					for(var/thing in coverage)
-						str += "<b>[thing]</b> LAYERS: <b>[coverage[thing]]</b> | [colorgrade_rating("", blunt_max[thing], TRUE)] | [colorgrade_rating("", slash_max[thing], TRUE)] | [colorgrade_rating("", stab_max[thing], TRUE)] | [colorgrade_rating("", piercing_max[thing], TRUE)]"
+						str += "<tr><td><b>[thing]</b></td><td><b>[coverage[thing]]</b></td><td>[colorgrade_rating("", blunt_max[thing], TRUE)]</td><td>[colorgrade_rating("", slash_max[thing], TRUE)]</td><td>[colorgrade_rating("", stab_max[thing], TRUE)]</td><td>[colorgrade_rating("", piercing_max[thing], TRUE)]</td></tr>"
 					dat += str
 				else
-					dat += "<b><center>I don't know! Just hit them!</center></b>"
+					dat += "<tr><td colspan='6'><b><center>I don't know! Just hit them!</center></b></td></tr>"
 			else
-				dat += "<b><center>They're wearing nothing.</center></b>"
-			dat += "</td>"
+				dat += "<tr><td colspan='6'><b><center>They're wearing nothing. The naked man fears no pickpocket.</center></b></td></tr>"
+			dat += "</table></span>"
 
-			dat += "<td style='width:40%;text-align:center;vertical-align: text-top'>"
+			dat += "<span style='width:30%;text-align:center;vertical-align: text-top;box-sizing:border-box'>"
 			if(!is_guarded && !is_stupid && (!obscured_name || H.client?.prefs.masked_examine))	//We don't see Guarded people's skills at all.
 				dat += "<b>SKILLS:</b><br><br>"
 				var/list/wornstuff = list(H.backr, H.backl, H.beltl, H.beltr)
@@ -418,9 +412,8 @@ GLOBAL_VAR_INIT(year_integer, text2num(year)) // = 2013???
 									dat += "-----------------------<br>"
 								else
 									continue
-
-			dat += "</td>"
-			dat += "</tr>"
+			dat += "</span>"
+			dat += "</div>"
 			var/datum/browser/popup = new(user, "assess", ntitle = "[src] Assesment", nwidth = 1000, nheight = 600)
 			popup.set_content(dat.Join())
 			popup.open(FALSE)
@@ -452,48 +445,37 @@ GLOBAL_VAR_INIT(year_integer, text2num(year)) // = 2013???
 
 	return ..() //end of this massive fucking chain. TODO: make the hud chain not spooky. - Yeah, great job doing that. - I made it worse sorry guys.
 
-//Sorry colorblind folks...
-/proc/colorgrade_rating(input, rating, elaborate = FALSE)
-	var/str
-	if(isnull(rating))
-		rating = 0
-	switch(rating)
-		if(0 to 9)
-			var/color = "#f81a1a"
-			str = elaborate ? "<font color = '[color]'>[input] (F)</font>" : "<font color = '[color]'>[input] (F)</font>"
-		if(10 to 19)
-			var/color = "#680d0d"
-			str = elaborate ? "<font color = '[color]'>[input] (D)</font>" : "<font color = '[color]'>[input] (D)</font>"
-		if(20 to 39)
-			var/color = "#753e11"
-			str = elaborate ? "<font color = '[color]'>[input] (D+)</font>" : "<font color = '[color]'>[input] (D+)</font>"
-		if(40 to 49)
-			var/color = "#c0a739"
-			str = elaborate ? "<font color = '[color]'>[input] (C)</font>" : "<font color = '[color]'>[input] (C to C+)</font>"
-		if(50 to 59)
-			var/color = "#e3e63c"
-			str = elaborate ? "<font color = '[color]'>[input] (C+)</font>" : "<font color = '[color]'>[input] (C to C+)</font>"
-		if(60 to 69)
-			var/color = "#425c33"
-			str = elaborate ? "<font color = '[color]'>[input] (B)</font>" : "<font color = '[color]'>[input] (B to B+)</font>"
-		if(70 to 79)
-			var/color = "#1a9c00"
-			str = elaborate ? "<font color = '[color]'>[input] (B+)</font>" : "<font color = '[color]'>[input] (B to B+)</font>"
-		if(80 to 89)
-			var/color = "#0fe021"
-			str = elaborate ? "<font color = '[color]'>[input] (A)</font>" : "<font color = '[color]'>[input] (A to A+)</font>"
-		if(90 to 99)
-			var/color = "#ffffff"
-			str = elaborate ? "<font color = '[color]'>[input] (A+)</font>" : "<font color = '[color]'>[input] (A to A+)</font>"
-		if(100)
-			var/color = "#339dff"
-			str = "<font color = '[color]'>[input] (S)</font>"
-		if(101 to 200)
-			var/color = "#c757af"
-			str = "<font color = '[color]'>[input] (S+)</font>"
+/// Renders an armor tier as colored dots.
+/// label: display name (e.g. "SLASH", "BLUNT")
+/// tier: the DBLOCK or DR tier value (0-5)
+/// max_tier: maximum dots to show (4 for DBLOCK, 5 for DR)
+/proc/colorgrade_rating(label, tier, elaborate = FALSE, max_tier = 4)
+	if(isnull(tier))
+		tier = 0
+	var/color
+	switch(tier)
+		if(0)
+			color = "#808080"
+		if(1)
+			color = "#c0a739"
+		if(2)
+			color = "#e3e63c"
+		if(3)
+			color = "#1a9c00"
+		if(4)
+			color = "#339dff"
+		if(5)
+			color = "#c757af"
 		else
-			str = "[input] (Under 0 or above 200! Contact coders.)"
-	return str
+			return "[label] (Invalid tier [tier]! Contact coders.)"
+	// Build dot display
+	var/dots = ""
+	for(var/i in 1 to max_tier)
+		if(i <= tier)
+			dots += "<font color='[color]'>&#9679;</font>"
+		else
+			dots += "<font color='#404040'>&#9675;</font>"
+	return "<font color='[color]'>[label]</font> [dots]"
 
 /proc/skilldiff_report(var/input)
 	switch (input)

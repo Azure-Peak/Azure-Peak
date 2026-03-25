@@ -343,6 +343,7 @@ SUBSYSTEM_DEF(ticker)
 		if(player.ready == PLAYER_READY_TO_PLAY)
 			readied_count++
 	var/estimated_pop = round(readied_count * 1.1)
+	gnollslot_update()
 	update_scaling_slots(estimated_pop)
 
 	can_continue = can_continue && SSjob.DivideOccupations(list()) 				//Distribute jobs

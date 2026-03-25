@@ -3,7 +3,7 @@
 	desc = "Chill the chosen target with a burst of necrotic magicka. </br>Applies a strong slowdown effect to the chosen target, alongside further reducing their Strength and Speed."
 	cost = 3
 	overlay_state = "profane"
-	releasedrain = 30
+	releasedrain = SPELLCOST_MAJOR_PROJECTILE // Technically not a projectile but close enough
 	chargetime = 5
 	range = 7
 	warnie = "sydwarning"

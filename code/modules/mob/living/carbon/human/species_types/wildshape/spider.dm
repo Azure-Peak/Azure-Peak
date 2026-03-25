@@ -110,7 +110,7 @@
 	attack_verb = list("bites", "pierces", "impales")
 	animname = "stab"
 	hitsound = "genslash"
-	penfactor = 20
+	penfactor = PEN_LIGHT
 	candodge = TRUE
 	canparry = TRUE
 	miss_text = "bites the air!"

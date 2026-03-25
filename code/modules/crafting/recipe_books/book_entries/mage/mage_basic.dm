@@ -48,6 +48,9 @@
 	<p>
 		Matching a ritual's realm to the leyline's alignment gives the full number of creatures.
 		Using a mismatched leyline results in fewer creatures spawning. Choose your leylines wisely.
+		The Terrorbog, where Comet SYON has landed - is known for its powerful leylines where one can draw out\
+		leyline lycans and void creechurs alike. A summoning of the wrong alignment would still draw the normal amount\
+		of creechurs out - thanks to the leylines power.
 	</p>
 	</div>
 	"}

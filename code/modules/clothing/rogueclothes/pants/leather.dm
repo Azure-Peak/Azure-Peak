@@ -8,7 +8,6 @@
 //	adjustable = CAN_CADJUST
 	sewrepair = TRUE
 	armor = ARMOR_PADDED_BAD
-	prevent_crits = PREVENT_CRITS_NONE
 	blocksound = SOFTHIT
 	blade_dulling = DULLING_BASHCHOP
 	r_sleeve_status = SLEEVE_NORMAL

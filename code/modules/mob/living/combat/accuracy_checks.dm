@@ -77,10 +77,6 @@
 	if(used_intent)
 		if(used_intent.blade_class == BCLASS_STAB)
 			bonus += 10
-		if(used_intent.blade_class == BCLASS_PEEL)
-			bonus += 25
-			if(check_face_subzone(zone) && target.mind)
-				bonus += 24	// Cancels face sub-zone penalty — peeling ignores face difficulty
 		if(used_intent.blade_class == BCLASS_HALFSWORD)
 			bonus += 20	//Double that of stab
 		if(used_intent.blade_class == BCLASS_CUT)
@@ -93,6 +89,8 @@
 	if(I)
 		if(I.wlength == WLENGTH_SHORT)
 			bonus += 10
+	else if(used_intent?.unarmed) // Unarmed is inherently short-range
+		bonus += 10
 
 	if(istype(user.rmb_intent, /datum/rmb_intent/aimed))
 		bonus += 20

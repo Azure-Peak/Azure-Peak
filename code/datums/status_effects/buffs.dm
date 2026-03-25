@@ -394,7 +394,7 @@
 		var/filter = owner.get_filter(TEMPO_MAX_FILTER)
 		if (!filter)
 			owner.add_filter(TEMPO_MAX_FILTER, 2, list("type" = "outline", "color" = outline_color, "alpha" = 80, "size" = 1))
-		owner.playsound_local(owner, 'sound/combat/tempo_max.ogg', 35, TRUE)
+		owner.playsound_local(owner, 'sound/combat/tempo_max.ogg', 85, TRUE)
 		to_chat(owner, span_notice("<b>TEMPO!!!</b>"))
 		owner.stamina = 0
 		ADD_TRAIT(owner, TRAIT_GRABIMMUNE, TRAIT_STATUS_EFFECT)

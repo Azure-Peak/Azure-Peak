@@ -734,11 +734,10 @@
 	providing excellent coverage while ensuring one doesn't suffocate on their own adrenal huffs. </br>Out of all actorial labors, none surpass \
 	the reenactment of Ravox's duel against Graggar atop Ur-Syon's ruins - mythologized not as a tentacled star, but as a towering doppelganger-champion; \
 	sculpted by the Archdevil to be the inverse to all who stood for justice and chivalry."
-	armor = ARMOR_PLATE_BRONZE
+	armor = ARMOR_PLATE
 	max_integrity = ARMOR_INT_HELMET_HEAVY_BRONZE - 100
 	armor_class = ARMOR_CLASS_LIGHT
 	material_category = ARMOR_MAT_PLATE
-	prevent_crits = PREVENT_CRITS_ALL
 	body_parts_covered = FULL_HEAD
 	icon_state = "bronzemurmillo"
 	item_state = "bronzemurmillo"
@@ -816,7 +815,7 @@
 	wdefense = 5 //Much higher than usual for most unarmed weapons..
 	max_integrity = 150 //..and tougher, too.
 	max_blade_int = 150 // Reduced sharpness, however, as a result. Such a weapon is built for gladitorial combat, not the rigors of the wilderness. Keep it sharpened
-	possible_item_intents = list(/datum/intent/axe/chop/arbelos, /datum/intent/axe/cut/arbelos, /datum/intent/katar/thrust/arbelos, /datum/intent/sword/peel)
+	possible_item_intents = list(/datum/intent/axe/chop/arbelos, /datum/intent/axe/cut/arbelos, /datum/intent/katar/thrust/arbelos)
 	thrown_bclass = BCLASS_CHOP
 
 /datum/intent/axe/chop/arbelos
@@ -828,7 +827,7 @@
 	clickcd = CLICK_CD_FAST //Same speed as a katar, but with reduced penetration and half-damage. Main appeal's the chopper.
 
 /datum/intent/katar/thrust/arbelos
-	penfactor = 20
+	penfactor = PEN_LIGHT
 	damfactor = 0.8
 	clickcd = CLICK_CD_QUICK //Slower than a regular thrust, with slightly less penetration and damage. Inverse to the katar.
 
@@ -840,7 +839,7 @@
 	wdefense_wbonus = 2
 	force = 22
 	force_wielded = 25
-	possible_item_intents = list(/datum/intent/sword/chop/sabre, /datum/intent/sword/cut/sabre, /datum/intent/sword/thrust/sabre, /datum/intent/sword/peel)
+	possible_item_intents = list(/datum/intent/sword/chop/sabre, /datum/intent/sword/cut/sabre, /datum/intent/sword/thrust/sabre)
 	gripped_intents = list(/datum/intent/rend/apophis, /datum/intent/sword/chop/sabre, /datum/intent/sword/thrust/sabre, /datum/intent/sword/strike)
 	max_integrity = 150
 	max_blade_int = 300
@@ -866,7 +865,7 @@
 
 /datum/intent/sword/chop/sabre
 	damfactor = 1.15
-	penfactor = 20
+	penfactor = PEN_MEDIUM
 
 /datum/intent/rend/apophis
 	damfactor = 2.2
@@ -877,9 +876,8 @@
 	desc = "A jutting slab of bronze, traditionally mounted atop a panoplic assembly to veil the neck from precise strikes. </br>To tip the chin up while grounded is an ancient gesture; one which willingly beckons for the 'gift of mercy'."
 	icon_state = "bbevor"
 	smeltresult = /obj/item/ingot/bronze
-	armor = ARMOR_PLATE_BRONZE
+	armor = ARMOR_PLATE
 	max_integrity = ARMOR_INT_SIDE_BRONZE
-	prevent_crits = PREVENT_CRITS_ALL
 	anvilrepair = /datum/skill/craft/armorsmithing
 
 /obj/item/clothing/suit/roguetown/armor/plate/bronze/light
@@ -890,7 +888,7 @@
 	body_parts_covered = CHEST
 	max_integrity = ARMOR_INT_CHEST_MEDIUM_BRONZE - 100 //Translates into 250 INT, or a little above Iron - and +100 INT over the Copper variant.
 	armor_class = ARMOR_CLASS_LIGHT
-	armor = list("blunt" = 75, "slash" = 75, "stab" = 75, "piercing" = 40, "fire" = 0, "acid" = 0) //Note; same as the Copper Heart Protector. Quite good, but strictly locked to the chest zone. Say goodbye to your entrails and crotch, if you aren't smart!
+	armor = ARMOR_PLATE // Same as Copper Heart Protector. Strictly locked to chest zone.
 
 /obj/item/clothing/suit/roguetown/armor/plate/full/bronze
 	name = "bronze panoplic armor"
@@ -899,11 +897,10 @@
 	</br>Scholars oft-describe this suit as a 'panoply', purpose-made for the physiques of Psydonia's earliest Aasimari."
 	icon_state = "bronzeplate"
 	item_state = "bronzeplate"
-	armor = ARMOR_PLATE_BRONZE
+	armor = ARMOR_PLATE
 	max_integrity = ARMOR_INT_CHEST_PLATE_BRONZE + 150 //Translates into 700 INT. Bronze armor is penetrated by any attack that deals a combined FORCE/AP value of +50, which translates into virtually any non-STR modified attack in the game; swords, daggers, axes.
 	armor_class = ARMOR_CLASS_HEAVY
 	smeltresult = /obj/item/ingot/bronze
-	prevent_crits = PREVENT_CRITS_ALL //Bronze-specific trait. While this sounds scary, all it mechanically does is add resistances to Pick-induced critical hits. Bleed and suffer, but do not go quietly into the darkness.
 	smelt_bar_num = 3
 	var/bronzeplatecumbersome = FALSE
 
@@ -939,12 +936,11 @@
 /obj/item/clothing/mask/rogue/facemask/bronze
 	name = "bronze mask"
 	desc = "Glimmering bronze, curved to veil its wearer's face from both judgement and harm."
-	armor = ARMOR_PLATE_BRONZE
+	armor = ARMOR_PLATE
 	armor_class = ARMOR_CLASS_LIGHT
 	icon_state = "bronzemask"
 	item_state = "bronzemask"
 	max_integrity = 150
-	prevent_crits = PREVENT_CRITS_ALL
 	smeltresult = /obj/item/ingot/bronze
 
 /obj/item/clothing/mask/rogue/facemask/bronze/classic
@@ -984,10 +980,9 @@
 	desc = "A helmet of bronze, older-in-design than you could possibly imagine. Mounted to its crest is a decorative sigil that has \
 	sparked scholarly debates for the better part of a millennium; is it a star, a vortex, or the Sun? </br>A notch behind the sigil \
 	allows for the joint mounting of a plume. Nock a feather into it to show off your alliegence's colors."
-	armor = ARMOR_PLATE_BRONZE
+	armor = ARMOR_PLATE
 	max_integrity = ARMOR_INT_HELMET_HEAVY_BRONZE - 25 //Close, but no cigar.
 	material_category = ARMOR_MAT_PLATE
-	prevent_crits = PREVENT_CRITS_ALL
 	body_parts_covered = HEAD|HAIR|EARS
 	icon_state = "bronzehelmet"
 	item_state = "bronzehelmet"

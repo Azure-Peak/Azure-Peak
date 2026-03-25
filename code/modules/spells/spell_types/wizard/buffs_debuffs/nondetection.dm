@@ -33,6 +33,9 @@
 	addtimer(CALLBACK(src, PROC_REF(remove_buff), user), wait = 1 HOURS)
 
 /obj/effect/proc_holder/spell/targeted/touch/nondetection/proc/remove_buff(mob/living/user)
+	if(QDELETED(user))
+		return
+	
 	REMOVE_TRAIT(user, TRAIT_ANTISCRYING, MAGIC_TRAIT)
 	to_chat(user, span_warning("I feel my anti-scrying shroud failing."))
 

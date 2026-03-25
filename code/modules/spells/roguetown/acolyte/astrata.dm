@@ -15,7 +15,7 @@
 	damage = 25
 	name = "ray of holy fire"
 	damage_type = BURN
-	flag = "magic"
+	flag = "fire"
 	light_color = "#a98107"
 	light_outer_range = 7
 	tracer_type = /obj/effect/projectile/tracer/solar_beam
@@ -96,7 +96,7 @@
 	if(rechargefast)
 		charge_counter = max(recharge_time - (1.5 SECONDS), 0)
 		if(action)
-			action.UpdateButtonIcon()
+			action.build_all_button_icons()
 		STOP_PROCESSING(SSfastprocess, src)
 		return
 	. = ..()

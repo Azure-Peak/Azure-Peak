@@ -133,6 +133,12 @@
 	data["balance"] = coin_loaded
 	return data
 
+/obj/structure/roguemachine/mail/proc/log_mail_send(mob/user, sender_name, recipient_name)
+	if(!user)
+		return
+	user.log_message("sent mail via [name]/[(loc)] from [sender_name] to [recipient_name]", LOG_GAME)
+	message_admins("[key_name(user)] sent mail via [name]/[(loc)] from [sender_name] to [recipient_name]")
+
 /obj/structure/roguemachine/mail/ui_act(action, list/params, datum/tgui/ui, datum/ui_state/state)
 	if(..())
 		return TRUE
@@ -182,6 +188,7 @@
 							playsound(X, 'sound/misc/hiss.ogg', 100, FALSE, -1)
 							break
 					if(found)
+						log_mail_send(user, sentfrom, send2place)
 						visible_message(span_warning("[user] sends something."))
 						playsound(loc, 'sound/misc/disposalflush.ogg', 100, FALSE, -1)
 						SStreasury.give_money_treasury(1, "Mail Income")
@@ -205,6 +212,7 @@
 							if(H.real_name == send2place)
 								H.apply_status_effect(/datum/status_effect/ugotmail)
 								H.playsound_local(H, 'sound/misc/mail.ogg', 100, FALSE, -1)
+						log_mail_send(user, sentfrom, send2place)
 						visible_message(span_warning("[user] sends something."))
 						playsound(loc, 'sound/misc/disposalflush.ogg', 100, FALSE, -1)
 						SStreasury.give_money_treasury(1, "Mail Income")
@@ -569,6 +577,7 @@
 						playsound(X, 'sound/misc/hiss.ogg', 100, FALSE, -1)
 						break
 				if(found)
+					log_mail_send(user, sentfrom, send2place)
 					visible_message(span_warning("[user] sends something."))
 					playsound(loc, 'sound/misc/disposalflush.ogg', 100, FALSE, -1)
 					return
@@ -599,6 +608,7 @@
 				if(!findmaster)
 					to_chat(user, span_warning("The master of mails has perished?"))
 				else
+					log_mail_send(user, sentfrom, send2place)
 					visible_message(span_warning("[user] sends something."))
 					playsound(loc, 'sound/misc/disposalflush.ogg', 100, FALSE, -1)
 					send_ooc_note("New letter from <b>[sentfrom].</b>", name = send2place)

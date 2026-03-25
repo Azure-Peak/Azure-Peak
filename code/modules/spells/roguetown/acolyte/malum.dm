@@ -408,7 +408,7 @@ var/global/list/anvil_recipe_prices[][]
 
 //T0
 
-/obj/effect/proc_holder/spell/invoked/rework
+/*/obj/effect/proc_holder/spell/invoked/rework //this whole thing, barely works and fixing it causes only further issues
 	name = "Rework"
 	desc = "Burn a piece of equipment to create a blessing for the appropriate type of equipment. Cast once more on another item to bless it."
 	action_icon = 'icons/mob/actions/malummiracles.dmi'
@@ -572,11 +572,11 @@ var/global/list/anvil_recipe_prices[][]
 	max_integrity = initial(max_integrity)
 	obj_integrity = max_integrity/2
 	malumblessed_c = FALSE
-	visible_message("<font color='purple'>A holy blessing no longer affects [name]!</font>")
+	visible_message("<font color='purple'>A holy blessing no longer affects [name]!</font>")*/
 
 /obj/effect/proc_holder/spell/self/repair
 	name = "Order: Repair"
-	desc = "Repair a metal item in your hands."
+	desc = "Repairs metal items on your person." //it literally repairs everything
 	action_icon = 'icons/mob/actions/malummiracles.dmi'
 	overlay_icon = 'icons/mob/actions/malummiracles.dmi'
 	overlay_state = "repair"
@@ -618,27 +618,22 @@ var/global/list/anvil_recipe_prices[][]
 		if(!do_after(user, 50))
 			repair_points = 0
 			return FALSE
-		I.obj_integrity += one_fix_points
+		I.obj_integrity = min(I.obj_integrity + one_fix_points, I.max_integrity)
 		I.visible_message(span_info("[I] glows in a faint mending light."))
 		user.devotion?.update_devotion(-cost)
 		if(cost != 0)
 			to_chat(user, "<font color='purple'>I lose [cost] devotion!</font>")
 		if(I.max_integrity <= I.obj_integrity)
 			I.obj_fix()
-			if(I.peel_count)
-				I.peel_count--
-				I.visible_message(span_info("[I]'s shorn layers mend together. ([I.peel_count])."))
-				continue
-			else
-				I.repair_coverage()
-				I.visible_message(span_info("[I]'s mend together, completely."))
-				continue
+			I.repair_coverage()
+			I.visible_message(span_info("[I] mend together, completely."))
+			continue
 		if((user.devotion?.devotion - cost) < 0)
 			to_chat(user, span_warning("I do not have enough devotion!"))
 			return FALSE
 		cast(user)
 	revert_cast()
-	return FALSE
+	return TRUE
 
 /obj/effect/proc_holder/spell/invoked/restoration
 	name = "Order: Restoration"

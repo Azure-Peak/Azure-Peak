@@ -52,10 +52,15 @@
 	typepath = /datum/round_event/antagonist/solo/assassins
 	antag_datum = /datum/antagonist/assassin
 
+/datum/round_event_control/antagonist/solo/assassins/preRunEvent()
+	if(is_storyteller_soft_antag_blocked())
+		return EVENT_CANT_RUN
+	return ..()
+
 /datum/round_event/antagonist/solo/assassins/start()
 	var/datum/job/assassin_job = SSjob.GetJob("Assassin")
 	assassin_job.total_positions = length(setup_minds)
-	assassin_job.total_positions = length(setup_minds)
+	assassin_job.spawn_positions = length(setup_minds)
 	for(var/datum/mind/antag_mind as anything in setup_minds)
 		var/datum/job/J = SSjob.GetJob(antag_mind.current?.job)
 		J?.current_positions = max(J?.current_positions-1, 0)

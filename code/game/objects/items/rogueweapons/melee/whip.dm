@@ -44,7 +44,7 @@
 	hitsound = list('sound/combat/hits/blunt/flailhit.ogg')
 	chargetime = 0
 	recovery = 7
-	penfactor = 30
+	penfactor = PEN_LIGHT
 	reach = 3
 	icon_state = "inlash"
 	item_d_type = "slash"
@@ -66,7 +66,7 @@
 	chargetime = 0
 	recovery = 10
 	damfactor = 1.1
-	penfactor = 20
+	penfactor = PEN_LIGHT
 	reach = 2
 	icon_state = "incrack"
 	item_d_type = "slash"
@@ -75,7 +75,7 @@
 /datum/intent/whip/crack/blunt
 	name = "bludgeon"
 	blade_class = BCLASS_BLUNT
-	penfactor = BLUNT_DEFAULT_PENFACTOR
+	penfactor = PEN_NONE
 	recovery = 6
 	reach = 2			//Less range than a normal whip by 1 compared to crack.
 	icon_state = "instrike"
@@ -92,7 +92,7 @@
 	chargetime = 0
 	recovery = 5
 	damfactor = 1.2							//No range, gets bonus damage - using this even on weak SHOULD let you get perma-scars then.
-	penfactor = BLUNT_DEFAULT_PENFACTOR		//No pen cus punishment intent.
+	penfactor = PEN_NONE		//No pen cus punishment intent.
 	reach = 1								//No range, cus not meant to be a flat-out combat intent.
 	icon_state = "inpunish"
 	item_d_type = "slash"

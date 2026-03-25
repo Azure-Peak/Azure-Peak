@@ -18,7 +18,7 @@
 /datum/loadout_item/donator_funky
 	name = "Trimmed down padded dress"
 	path = /obj/item/clothing/suit/roguetown/shirt/dress/funkydress
-	ckeywhitelist = list("funke-monke")
+	ckeywhitelist = list("funkemonke")
 	sort_category = "Donator"
 
 /datum/loadout_item/donator_strudel1
@@ -83,13 +83,13 @@
 
 /datum/loadout_item/donator_eiren
 	name = "Donator Kit - Regret"
-	path = /obj/item/enchantingkit/eiren
+	path = /obj/item/enchantingkit/weapon/eiren
 	ckeywhitelist = list("eirenxiv")
 	sort_category = "Donator"
 
 /datum/loadout_item/donator_eiren2
 	name = "Donator Kit - Lunae"
-	path = /obj/item/enchantingkit/eirensabre
+	path = /obj/item/enchantingkit/weapon/eirensabre
 	ckeywhitelist = list("eirenxiv")
 	sort_category = "Donator"
 
@@ -119,7 +119,7 @@
 
 /datum/loadout_item/donator_inverserun
 	name = "Donator Kit - Votive Thorns"
-	path = /obj/item/enchantingkit/inverserun
+	path = /obj/item/enchantingkit/weapon/inverserun
 	ckeywhitelist = list("inverserun")
 	sort_category = "Donator"
 
@@ -213,4 +213,10 @@
 	name = "Donator Kit - Ornate Longsword"
 	path = /obj/item/enchantingkit/drd_lsword
 	ckeywhitelist = list("drd2021")
+	sort_category = "Donator"
+
+/datum/loadout_item/donator_lmwevil/brassbeak
+	name = "Donator Kit - Brass Beak Mask"
+	path = /obj/item/enchantingkit/lmwevil_brassbeak
+	ckeywhitelist = list("lmwevil")
 	sort_category = "Donator"

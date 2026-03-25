@@ -64,16 +64,6 @@
 #define TOGGLES_DEFAULT_CHAT (CHAT_OOC|CHAT_DSAY|CHAT_PRAYER|CHAT_RADIO|CHAT_PULLR|CHAT_GHOSTPDA|CHAT_BANKCARD|CHAT_MOODMESSAGES)
 #define TOGGLES_DEFAULT_CHAT_ADMIN (CHAT_ADMINSPAWN|CHAT_ADMINLOOC)
 
-#define PARALLAX_INSANE -1 //for show offs
-#define PARALLAX_HIGH    0 //default.
-#define PARALLAX_MED     1
-#define PARALLAX_LOW     2
-#define PARALLAX_DISABLE 3 //this option must be the highest number
-
-#define PARALLAX_DELAY_DEFAULT world.tick_lag
-#define PARALLAX_DELAY_MED     1
-#define PARALLAX_DELAY_LOW     2
-
 #define SEC_DEPT_NONE "None"
 #define SEC_DEPT_RANDOM "Random"
 #define SEC_DEPT_ENGINEERING "Engineering"

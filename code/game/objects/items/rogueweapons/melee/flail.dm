@@ -37,7 +37,7 @@
 	hitsound = list('sound/combat/hits/blunt/flailhit.ogg')
 	chargetime = 0
 	damfactor = 1.1
-	penfactor = BLUNT_DEFAULT_PENFACTOR
+	penfactor = PEN_NONE
 	icon_state = "instrike"
 	item_d_type = "blunt"
 	intent_intdamage_factor = BLUNT_DEFAULT_INT_DAMAGEFACTOR
@@ -53,7 +53,7 @@
 	chargetime = 0
 	recovery = 15
 	damfactor = 1.2 // Extra damage. Flail babe flail.
-	penfactor = BLUNT_DEFAULT_PENFACTOR
+	penfactor = PEN_NONE
 	clickcd = CLICK_CD_CHARGED // Higher delay for a powerful ranged attack
 	reach = 2
 	icon_state = "instrike"
@@ -67,7 +67,7 @@
 	animname = "strike"
 	blade_class = BCLASS_BLUNT
 	hitsound = list('sound/combat/hits/punch/punch_hard (1).ogg', 'sound/combat/hits/punch/punch_hard (2).ogg', 'sound/combat/hits/punch/punch_hard (3).ogg')
-	penfactor = BLUNT_DEFAULT_PENFACTOR
+	penfactor = PEN_NONE
 	chargetime = 0
 	swingdelay = 0
 	damfactor = 0.8
@@ -147,7 +147,7 @@
 	attack_verb = list("sweeps", "thrashes through")
 	animname = "strike"
 	hitsound = list('sound/combat/hits/blunt/flailhit.ogg')
-	penfactor = BLUNT_DEFAULT_PENFACTOR
+	penfactor = PEN_NONE
 	damfactor = 1.5
 	item_d_type = "blunt"
 	intent_intdamage_factor = BLUNT_DEFAULT_INT_DAMAGEFACTOR

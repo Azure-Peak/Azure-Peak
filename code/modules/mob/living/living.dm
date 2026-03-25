@@ -908,7 +908,10 @@
 			if(admin_revive)
 				mind.remove_antag_datum(/datum/antagonist/zombie)
 			for(var/obj/effect/proc_holder/spell/spell as anything in mind.spell_list)
-				spell.updateButtonIcon()
+				spell.action?.build_all_button_icons()
+			// Reapply arcyne momentum if this mind had it before death
+			if(mind.has_arcyne_momentum && !has_status_effect(/datum/status_effect/buff/arcyne_momentum))
+				apply_status_effect(/datum/status_effect/buff/arcyne_momentum)
 		qdel(GetComponent(/datum/component/rot))
 
 /mob/living/proc/remove_CC(should_update_mobility = TRUE)
@@ -1119,6 +1122,13 @@
 	if(atkswinging)
 		stop_attack(FALSE)
 
+	// Deselect any active spell on resist
+	if(ranged_ability)
+		ranged_ability.deactivate(src)
+	var/datum/action/cooldown/active_cooldown = click_intercept
+	if(istype(active_cooldown))
+		active_cooldown.unset_click_ability(src, refund_cooldown = TRUE)
+
 	SEND_SIGNAL(src, COMSIG_LIVING_RESIST, src)
 	//resisting grabs (as if it helps anyone...)
 	if(pulledby)
@@ -1162,7 +1172,6 @@
 	if(!instant)
 		if(alert(src, "Do you yield?", "SURRENDER", "Yes", "No") == "No")
 			return
-	log_combat(src, null, "surrendered")
 	surrendering = 1
 	record_round_statistic(STATS_YIELDS)
 	toggle_cmode()
@@ -1178,6 +1187,9 @@
 	playsound(src, 'sound/misc/surrender.ogg', 100, FALSE, -1, ignore_walls=TRUE)
 	update_vision_cone()
 	addtimer(CALLBACK(src, PROC_REF(end_submit)), 600)
+	log_combat(src, src, "surrendered", null, )
+	log_admin("([key_name(src)]) surrendered at [AREACOORD(src)].")
+	SSblackbox.record_feedback("tally", "submit", 1, "surrenders")
 
 /mob/living/proc/end_submit()
 	surrendering = 0
@@ -2140,7 +2152,7 @@
 	return
 
 /mob/living/look_up()
-	if(client.perspective != MOB_PERSPECTIVE) //We are already looking up.
+	if(client.perspective != MOB_PERSPECTIVE) 
 		stop_looking()
 		return
 	if(client.pixel_x || client.pixel_y)
@@ -2148,31 +2160,40 @@
 		return
 	if(!can_look_up())
 		return
-	changeNext_move(CLICK_CD_MELEE)
-	if(m_intent != MOVE_INTENT_SNEAK)
-		visible_message(span_info("[src] looks up."))
-	var/turf/ceiling = get_step_multiz(src, UP)
+
 	var/turf/T = get_turf(src)
-	if(!ceiling) //We are at the highest z-level.
+	var/turf/ceiling = get_step_multiz(src, UP)
+	var/water_view = istype(T, /turf/open/water) && istype(ceiling, /turf/open/water)
+
+	changeNext_move(CLICK_CD_MELEE)
+
+	if(m_intent != MOVE_INTENT_SNEAK)
+		if(water_view)
+			visible_message(span_info("[src] peers into the thickness of the water above his head."))
+		else
+			visible_message(span_info("[src] looks up."))
+
+	if(!ceiling)
 		if(T.can_see_sky())
 			switch(GLOB.forecast)
 				if("prerain")
-					to_chat(src, span_warning("Dark clouds gather..."))
+					to_chat(src, span_warning("Dark clouds are gathering..."))
 					return
 				if("rain")
-					to_chat(src, span_warning("A wet wind blows."))
+					to_chat(src, span_warning("A damp wind is blowing."))
 					return
 				if("rainbow")
-					to_chat(src, span_notice("A beautiful rainbow!"))
+					to_chat(src, span_notice("Beautiful rainbow!"))
 					return
 				if("fog")
-					to_chat(src, span_warning("I can't see anything, the fog has set in."))
+					to_chat(src, span_warning("Nothing can be seen, a thick fog has set in."))
 					return
-			to_chat(src, span_warning("There is nothing special to say about this weather."))
+			to_chat(src, span_warning("There is nothing unusual about this weather.."))
 			do_time_change()
 		return
-	else if(!istransparentturf(ceiling)) //There is no turf we can look through above us
-		to_chat(src, span_warning("A ceiling above my head."))
+		
+	else if(!istransparentturf(ceiling) && !water_view) 
+		to_chat(src, span_warning("There is a ceiling above my head."))
 		return
 
 	if(T.can_see_sky())
@@ -2186,6 +2207,7 @@
 
 	if(!do_after(src, ttime, target = src))
 		return
+		
 	reset_perspective(ceiling)
 	update_cone_show()
 //	RegisterSignal(src, COMSIG_MOVABLE_PRE_MOVE, PROC_REF(stop_looking)) //We stop looking up if we move.

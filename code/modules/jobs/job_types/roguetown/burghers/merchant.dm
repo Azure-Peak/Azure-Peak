@@ -84,3 +84,6 @@
 		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/takeapprentice)
 	if(H.mind)
 		SStreasury.give_money_account(ECONOMIC_RICH, H, "Savings.")
+	backpack_contents = list(
+		/obj/item/mini_flagpole/merchant = 1,
+	)

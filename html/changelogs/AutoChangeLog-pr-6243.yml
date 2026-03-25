@@ -1,4 +1,0 @@
-author: "WeNeedMorePhoron"
-delete-after: True
-changes:
-  - bugfix: "Helmet aesthetics storage is now limited to head / neck / mask slot items with no armor, as intended."

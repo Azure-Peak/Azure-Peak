@@ -7,7 +7,7 @@
 	sound = 'sound/magic/lightning.ogg'
 	range = 8
 	projectile_type = /obj/projectile/magic/lightning
-	releasedrain = 30
+	releasedrain = SPELLCOST_MAJOR_PROJECTILE
 	chargedrain = 1
 	chargetime = 15
 	recharge_time = 15 SECONDS
@@ -36,10 +36,10 @@
 	damage = 40
 	npc_simple_damage_mult = 2 // Good news it is not a trap to shoot at NPC anymore
 	damage_type = BURN
-	accuracy = 40 // Base accuracy is lower for burn projectiles because they bypass armor
+	accuracy = 40
 	nodamage = FALSE
 	speed = 0.3
-	flag = "magic"
+	flag = "fire"
 	light_color = "#ffffff"
 	light_outer_range = 7
 

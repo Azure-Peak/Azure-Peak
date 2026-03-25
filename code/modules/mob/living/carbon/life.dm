@@ -1,3 +1,6 @@
+#define FILTER_UNDERWATER_BLUR "uw_blur"
+#define FILTER_UNDERWATER_WAVE "uw_wave"
+
 /mob/living/carbon/Life(seconds, times_fired)
 	set invisibility = 0
 
@@ -23,6 +26,9 @@
 	handle_embedded_objects()
 	handle_blood()
 	handle_roguebreath()
+	handle_swimming()
+	
+	
 	var/bprv = handle_bodyparts()
 	if(bprv & BODYPART_LIFE_UPDATE_HEALTH)
 		update_stamina() //needs to go before updatehealth to remove stamcrit
@@ -123,28 +129,27 @@
 /mob/living/proc/handle_inwater()
 	extinguish_mob()
 
-/mob/living/carbon/handle_inwater(turf/onturf, extinguish = TRUE, force_drown = FALSE)
+/mob/living/carbon/human/handle_inwater(turf/onturf, extinguish = TRUE, force_drown = FALSE)
 	..()
+	
 	if(!(mobility_flags & MOBILITY_STAND) || force_drown)
-		if (HAS_TRAIT(src, TRAIT_NOBREATH) || HAS_TRAIT(src, TRAIT_WATERBREATHING) || HAS_TRAIT(src, TRAIT_HOLDBREATH))
+		if (HAS_TRAIT(src, TRAIT_NOBREATH) || HAS_TRAIT(src, TRAIT_WATERBREATHING))
 			return TRUE
-		if(stat == DEAD && client)
-			record_round_statistic(STATS_PEOPLE_DROWNED)
-		var/drown_damage = has_world_trait(/datum/world_trait/abyssor_rage) ? 10 : 5
-		adjustOxyLoss(drown_damage)
-		emote("drown")
+		
+		var/breath_drain = HAS_TRAIT(src, TRAIT_HOLDBREATH) ? 1 : 2
+		breath_remaining = max(0, breath_remaining - breath_drain)
 
-/mob/living/carbon/human/handle_inwater(turf/onturf, extinguish = TRUE, force_drown = FALSE)
-	. = ..()
-	if(istype(onturf, /turf/open/water/bath))
-		if(!wear_armor && !wear_shirt && !wear_pants)
-			add_stress(/datum/stressevent/bathwater)
+	
+	if(istype(onturf, /turf/open/water/sewer) && !HAS_TRAIT(src, TRAIT_HOLDBREATH))
+		add_stress(/datum/stressevent/sewertouched)
+	
+	if(istype(onturf, /turf/open/water/bath) && !wear_armor && !wear_shirt && !wear_pants)
+		add_stress(/datum/stressevent/bathwater)
 
-/mob/living/carbon/human/handle_inwater(turf/onturf, extinguish = TRUE, force_drown = FALSE)
-	. = ..()
-	if(istype(onturf, /turf/open/water/sewer))
-		if(!HAS_TRAIT(src, TRAIT_HOLDBREATH))
-			add_stress(/datum/stressevent/sewertouched)
+	return TRUE
+
+
+
 
 /mob/living/carbon/proc/get_complex_pain()
 	. = 0
@@ -671,4 +676,251 @@ GLOBAL_LIST_INIT(ballmer_windows_me_msg, list("Yo man, what if, we like, uh, put
 	if(mobility_flags & MOBILITY_STAND && wallpressed && !IsSleeping() && !buckled && !lying && !climbing)
 		energy_add(5)
 
+/mob/living/proc/start_swimming()
+	if(is_swimming) return
+	is_swimming = TRUE
+	
+
+/mob/living/proc/stop_swimming()
+	if(!is_swimming) return
+	is_swimming = FALSE
+	
+
+/mob/living/proc/start_submersion()
+	if(is_underwater) return
+	is_underwater = TRUE
+	add_client_colour(/datum/client_colour/underwater)
+	apply_underwater_filters()
+	
+	remove_filter("swimming_cutter")
+	update_icon()
+	
+	animate(src, pixel_x = pixel_x + 2, time = 20, loop = -1, easing = SINE_EASING, flags = ANIMATION_PARALLEL)
+	animate(pixel_x = pixel_x - 2, time = 20, easing = SINE_EASING)
+
+/mob/living/proc/stop_submersion()
+	if(!is_underwater) return
+	is_underwater = FALSE
+	remove_client_colour(/datum/client_colour/underwater)
+	remove_underwater_filters()
+	animate(src) 
+	pixel_x = get_standard_pixel_x_offset()
+	update_icon()
+
+/mob/living/proc/apply_underwater_filters()
+	if(!client) return
+	if(swimming_filter_client == client) return
+
+	var/list/planes = list(
+		OPENSPACE_PLANE, 
+		OPENSPACE_BACKDROP_PLANE, 
+		FLOOR_PLANE, 
+		WALL_PLANE, 
+		GAME_PLANE, 
+		GAME_PLANE_FOV_HIDDEN
+	)
+	for(var/atom/movable/screen/plane_master/PM in client.screen)
+		if(PM.plane in planes)
+			PM.add_filter(FILTER_UNDERWATER_BLUR, 10, list("type" = "blur", "size" = 0.8))
+			PM.add_filter(FILTER_UNDERWATER_WAVE, 11, list("type" = "wave", "x" = 1, "y" = 1, "size" = 1))
+			var/F = PM.get_filter(FILTER_UNDERWATER_WAVE)
+			if(F) animate(F, offset = 10, time = 40, loop = -1)
+			
+	swimming_filter_client = client 
+
+/mob/living/proc/remove_underwater_filters()
+	if(!client) return
+	for(var/atom/movable/screen/plane_master/PM in client.screen)
+		PM.remove_filter(FILTER_UNDERWATER_BLUR)
+		PM.remove_filter(FILTER_UNDERWATER_WAVE)
+		
+	swimming_filter_client = null
+
+/mob/living/proc/handle_swimming()
+	var/turf/T = get_turf(src)
+	var/area/A = get_area(src)
+	
+
+	var/is_on_water = istype(T, /turf/open/water)
+
+	var/is_on_new_water = istype(T, /turf/open/water/transparent)
+	
+	var/is_true_swimming = is_swimming || is_underwater || istype(A, /area/underwater) || is_on_new_water
+	var/is_area_underwater = istype(A, /area/underwater)
+	var/sw_skill = get_skill_level(/datum/skill/misc/swimming)
+	var/new_max_breath = (STACON * 5) + (sw_skill * 5)
+
+	if(new_max_breath != max_breath)
+		if(max_breath > 10)
+			var/ratio = breath_remaining / max_breath
+			max_breath = new_max_breath
+			breath_remaining = max_breath * ratio
+		else
+			max_breath = new_max_breath
+			breath_remaining = max_breath
+	
+	if(!is_on_water && !is_area_underwater)
+		
+		if(breath_remaining < max_breath)
+			breath_remaining = min(breath_remaining + (max_breath / 5), max_breath)
+
+		if(is_swimming || is_underwater || get_filter("swimming_cutter") || swimming_filter_client)
+			is_swimming = FALSE
+			is_underwater = FALSE
+			
+			remove_filter("swimming_cutter")
+			update_icon() 
+			
+
+			if(swimming_filter_client)
+				remove_underwater_filters()
+		
+		if(ishuman(src))
+			var/mob/living/carbon/human/H = src
+			H.update_breath_hud()
+			
+		return
+
+	if(!is_on_water && !is_true_swimming && breath_remaining >= max_breath)
+		if(get_filter("swimming_cutter"))
+			remove_filter("swimming_cutter")
+			update_icon()
+		update_breath_hud()
+		return
+
+	if(is_true_swimming && !is_underwater)
+		if(stat == UNCONSCIOUS || IsImmobilized() || IsKnockdown())
+			var/turf/below = GET_TURF_BELOW(T)
+			if(below && istype(below, /turf/open/water/transparent))
+				forceMove(below)
+				set_resting(TRUE)
+				return
+
+	var/is_choking = FALSE
+	if(is_underwater && !can_breathe_underwater())
+		is_choking = TRUE
+	else if(resting && is_on_water)
+		is_choking = TRUE
+		handle_inwater(T) 
+	
+	if(HAS_TRAIT(src, TRAIT_NOBREATH) || HAS_TRAIT(src, TRAIT_WATERBREATHING))
+		breath_remaining = max_breath
+		is_choking = FALSE
+
+	if(is_choking)
+		last_breath_spent = world.time
+		var/breath_drain = (m_intent == MOVE_INTENT_RUN) ? 1.2 : 0.8
+		breath_remaining = max(0, breath_remaining - (breath_drain / (1 + sw_skill * 0.1)))
+		
+		if(breath_remaining <= 0)
+			var/oxy_damage = (stat == UNCONSCIOUS) ? 3.5 : 5 
+			adjustOxyLoss(oxy_damage)
+			if(prob(20) && stat != DEAD)
+				playsound(src, (stat < UNCONSCIOUS ? 'sound/vo/throat.ogg' : 'sound/effects/bubbles.ogg'), 60, FALSE)
+	else
+		if(breath_remaining < max_breath)
+			var/regen_speed = max_breath / 3.5 
+			breath_remaining = min(breath_remaining + regen_speed, max_breath)
+
+	if(!resting && stat == CONSCIOUS && (is_on_new_water || is_true_swimming))
+		var/drain = 0
+		if(is_true_swimming)
+			switch(sw_skill)
+				if(SKILL_LEVEL_NONE)       drain = 6.0 
+				if(SKILL_LEVEL_NOVICE)     drain = 4.5
+				if(SKILL_LEVEL_APPRENTICE) drain = 3.0
+				if(SKILL_LEVEL_JOURNEYMAN) drain = 1.5
+				if(SKILL_LEVEL_EXPERT)     drain = 1.0
+				if(SKILL_LEVEL_MASTER)     drain = 0.5
+				if(SKILL_LEVEL_LEGENDARY)  drain = 0.2
+			drain *= 1.5 
+		else
+			drain = 1.2 
+
+		if(m_intent == MOVE_INTENT_RUN) drain *= 1.4
+		if(!client) drain *= 1.2
+		stamina_add(drain, force_emote = FALSE)
+		
+	if(is_underwater && !resting)
+		if(stamina >= max_stamina || IsKnockdown())
+			set_resting(TRUE)
+
+	update_breath_hud()
+
+	
+	if(is_true_swimming && !is_underwater && is_on_new_water)
+		if(!get_filter("swimming_cutter"))
+			add_filter("swimming_cutter", 1, alpha_mask_filter(y=-6, icon=icon('icons/effects/icon_cutter.dmi', "icon_cutter"), flags=MASK_INVERSE))
+	else
+		if(get_filter("swimming_cutter"))
+			remove_filter("swimming_cutter")
+			update_icon()
+
+	if(stat != DEAD && is_underwater && client)
+		var/filter_ok = FALSE
+		if(!filter_ok) apply_underwater_filters()
+	
+	if(is_true_swimming && !is_underwater && is_on_new_water)
+		if(!get_filter("swimming_cutter"))
+			add_filter("swimming_cutter", 1, alpha_mask_filter(y=-6, icon=icon('icons/effects/icon_cutter.dmi', "icon_cutter"), flags=MASK_INVERSE))
+	else
+		if(get_filter("swimming_cutter"))
+			remove_filter("swimming_cutter")
+			update_icon()
+
+	
+	if(is_underwater && client)
+		
+		if(swimming_filter_client != client) 
+			apply_underwater_filters()
+	else if(!is_underwater && swimming_filter_client)
+		remove_underwater_filters()
+
+	
+	if(stat >= UNCONSCIOUS || IsKnockdown())
+		drowning_drowniness++
+		if(drowning_drowniness >= 3) adjustOxyLoss(10)
+	else
+		drowning_drowniness = max(0, drowning_drowniness - 1)
+
+/mob/living/proc/update_breath_hud()
+	if(!client || !hud_used || !hud_used.breath_bar) 
+		return
+
+	var/should_show = FALSE
+	if(!HAS_TRAIT(src, TRAIT_NOBREATH) && !HAS_TRAIT(src, TRAIT_WATERBREATHING))
+		if(is_underwater || is_swimming || breath_remaining < max_breath)
+			should_show = TRUE
+
+	var/target_alpha = should_show ? 255 : 0
+	
+	if(hud_used.breath_bar.alpha != target_alpha)
+		animate(hud_used.breath_bar, alpha = target_alpha, time = 10)
+
+	if(target_alpha == 0) return
+	
+	var/ratio = breath_remaining / max_breath
+	hud_used.breath_bar.set_value(ratio)
+
+/mob/living/proc/can_breathe_underwater()
+	if(HAS_TRAIT(src, TRAIT_WATERBREATHING) || HAS_TRAIT(src, TRAIT_NOBREATH))
+		return TRUE
+		
+	return FALSE
+
+/mob/living/proc/calculate_breath_values()
+	var/sw_skill = get_skill_level(/datum/skill/misc/swimming)
+	var/new_max = (STACON * 1.5) + (sw_skill * 10)
+	
+	if(new_max != max_breath)
+		if(max_breath > 10)
+			var/ratio = breath_remaining / max_breath
+			max_breath = new_max
+			breath_remaining = max_breath * ratio
+		else
+			max_breath = new_max
+			breath_remaining = max_breath
+
 #undef BALLMER_POINTS
+#undef FILTER_UNDERWATER_BLUR
+#undef FILTER_UNDERWATER_WAVE

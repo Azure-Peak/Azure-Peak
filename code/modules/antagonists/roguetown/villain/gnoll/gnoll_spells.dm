@@ -24,7 +24,21 @@
 	invocation_type = "emote"
 	action_icon_state = "sniff"
 	invocation_emote_self = "<span class='notice'>I sniff the air.</span>"
+	var/alist/combat_roles = list(
+		"Orthodoxist" = TRUE, 
+		"Absolver" = TRUE, 
+		"Templar" = TRUE, 
+		"Sergeant" = TRUE, 
+		"Men-at-arms" = TRUE, 
+		"Knight" = TRUE, 
+		"Squire" = TRUE, 
+		"Mercenary" = TRUE, 
+		"Warden" = TRUE,
+		"Acolyte" = TRUE,
+		"Adventurer" = TRUE
+	)
 	var/mob/living/tracked_target = null
+	var/shown_hunt_disclaimer = FALSE
 
 /obj/effect/proc_holder/spell/invoked/gnoll_sniff/cast(list/targets, mob/user)
 	var/mob/living/target = targets[1]
@@ -47,23 +61,33 @@
 
 /obj/effect/proc_holder/spell/invoked/gnoll_sniff/proc/select_new_target(mob/user)
 	var/list/possible_targets = list()
-	var/list/display_names = list()
 
-	for(var/mob/living/L in GLOB.mob_living_list)
-		if(L == user || istype(L, /mob/living/carbon/human/dummy))
+	for(var/mob/living/L in GLOB.player_list)
+		if(L == user || istype(L, /mob/living/carbon/human/dummy) || !L.mind)
 			continue
-		if(L.has_flaw(/datum/charflaw/hunted))
-			var/entry_name = "[L.real_name][L.job ? " - [L.job]" : ""]"
+		var/is_hunted = L.has_flaw(/datum/charflaw/hunted)
+		// Don't uncomment for now
+		// var/target_role = L.job
+		var/is_valid_prey = is_hunted
+		// if(!is_valid_prey)
+		// 	if(target_role in combat_roles)
+		// 		is_valid_prey = TRUE
+		if(is_valid_prey)
+			var/entry_name = "[L.real_name]"
 			possible_targets[entry_name] = L
-			display_names += entry_name
 
-	if(!length(display_names))
+	if(!length(possible_targets))
 		to_chat(user, span_warning("The air is stale. No hunted souls are in the region."))
 		return
 
-	var/selection = input(user, "Whose scent shall we follow?", "The Great Hunt") as null|anything in sort_list(display_names)
+	var/selection = input(user, "Whose scent shall we follow?", "The Great Hunt") as null|anything in sort_list(possible_targets)
 	if(!selection)
 		return
+
+	if(!shown_hunt_disclaimer)
+		to_chat(user, span_boldnotice("You have chosen your first prey. Remember to judge whether or not your target is a worthy foe. Graggar does not reward spilling the blood of the meek when you have this much to prove."))
+		to_chat(user, span_boldwarning("(Escalation is still required. You can always still do other gnoll things if targets are too difficult.)"))
+		shown_hunt_disclaimer = TRUE
 
 	tracked_target = possible_targets[selection]
 	to_chat(user, span_notice("You focus your senses on [tracked_target.real_name]."))

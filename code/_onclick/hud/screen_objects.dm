@@ -1891,11 +1891,26 @@
 	icon = 'icons/mob/rogueheat.dmi'
 	screen_loc = rogueui_fat
 
+/atom/movable/screen/stamina/examine_ui(mob/user)
+	if(isliving(user))
+		var/mob/living/L = user
+		var/remaining = max(L.max_stamina - L.stamina, 0)
+		to_chat(user, span_info("<b>Stamina:</b> [round(remaining, 0.1)] / [round(L.max_stamina, 0.1)]"))
+	else
+		..()
+
 /atom/movable/screen/energy
 	name = "energy"
 	icon_state = "energy100"
 	icon = 'icons/mob/rogueheat.dmi'
 	screen_loc = rogueui_fat
+
+/atom/movable/screen/energy/examine_ui(mob/user)
+	if(isliving(user))
+		var/mob/living/L = user
+		to_chat(user, span_info("<b>Energy:</b> [round(L.energy, 0.1)] / [round(L.max_energy, 0.1)]"))
+	else
+		..()
 
 /atom/movable/screen/heatstamover
 	name = ""
@@ -2044,7 +2059,7 @@
 
 	background.vis_contents += fill
 	mask.vis_contents += background
-	vis_contents.Add(mask, foreground)
+	vis_contents.Add(mask, foreground) 
 
 /atom/movable/screen/bloodpool/Destroy()
 	QDEL_NULL(background)
@@ -2120,3 +2135,12 @@
 /atom/movable/screen/bloodpool_maskpart/mask
 	icon_state = "mana_mask"
 
+
+/atom/movable/screen/bloodpool/breath
+	name = "breath"
+	screen_loc = "WEST-1:3, CENTER+2" 
+
+/atom/movable/screen/bloodpool/breath/Initialize(mapload)
+	. = ..()
+	set_fill_color("#00eaff")
+	set_value(1.0)

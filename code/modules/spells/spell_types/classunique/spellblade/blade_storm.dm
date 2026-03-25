@@ -19,7 +19,7 @@ If reflected into self - just inflict half the damage through armor.
 	range = 7
 	projectile_type = /obj/projectile/magic/blade_storm
 	sound = list('sound/magic/blink.ogg')
-	releasedrain = 50
+	releasedrain = SPELLCOST_SB_ULT
 	chargedrain = 1
 	chargetime = 20
 	recharge_time = 60 SECONDS
@@ -28,7 +28,7 @@ If reflected into self - just inflict half the damage through armor.
 	movement_interrupt = FALSE
 	charging_slowdown = 0
 	chargedloop = /datum/looping_sound/invokegen
-	action_icon = 'icons/mob/actions/spellblade.dmi'
+	action_icon = 'icons/mob/actions/classuniquespells/spellblade.dmi'
 	overlay_state = "blade_storm" // Icon by Prominence.
 	invocations = list("Procella Gladiorum!")
 	invocation_type = "shout"
@@ -47,7 +47,7 @@ If reflected into self - just inflict half the damage through armor.
 	var/storm_deflected = FALSE
 
 
-/obj/effect/proc_holder/spell/invoked/projectile/blade_storm/can_cast(mob/user = usr)
+/obj/effect/proc_holder/spell/invoked/projectile/blade_storm/can_cast(mob/user = usr, feedback = TRUE)
 	. = ..()
 	if(!.)
 		return FALSE

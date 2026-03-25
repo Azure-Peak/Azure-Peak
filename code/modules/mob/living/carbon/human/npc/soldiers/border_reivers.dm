@@ -17,7 +17,6 @@
 		/datum/rmb_intent/riposte,\
 		/datum/rmb_intent/weak
 	)
-	var/is_silent = FALSE /// Determines whether or not we will scream our funny lines at people.
 	npc_max_jump_stamina = 0
 
 /mob/living/carbon/human/species/human/northern/border_reiver/retaliate(mob/living/L)
@@ -26,9 +25,9 @@
 	if(target)
 		aggressive=1
 		wander = TRUE
-		if(!is_silent && target != newtarg)
-			say(pick(GLOB.highwayman_aggro))
-			pointed(target)
+		if(target != newtarg)
+			if(npc_combat_dialogue(GLOB.highwayman_aggro, prob_chance = 50, cooldown = 0))
+				pointed(target)
 
 /mob/living/carbon/human/species/human/northern/border_reiver/should_target(mob/living/L)
 	if(L.stat != CONSCIOUS)
@@ -59,8 +58,7 @@
 
 /mob/living/carbon/human/species/human/northern/border_reiver/handle_combat()
 	if(mode == NPC_AI_HUNT)
-		if(prob(2)) // do not make this big or else they NEVER SHUT UP
-			emote("laugh")
+		npc_combat_dialogue(emotes = list("laugh"), prob_chance = 2)
 	. = ..()
 
 //Border Reivers from a nearby state the. To "Reive" is to raid, These guys should be fast, look kind of poor but not be badly equipped.
@@ -540,7 +538,7 @@
 	clickcd = REIVER_LANCE_ATTACK_SPEED
 	chargetime = 1
 	animname = "stab"
-	penfactor = 25
+	penfactor = PEN_MEDIUM
 
 /datum/intent/simple/reiver_rider_sabre
 	name = "hack"
@@ -550,7 +548,7 @@
 	blade_class = BCLASS_CUT
 	hitsound = list("genchop", "genslash")
 	chargetime = 0
-	penfactor = 0
+	penfactor = PEN_NONE
 	swingdelay = 2
 	candodge = TRUE
 	canparry = TRUE

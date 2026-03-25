@@ -1,11 +1,14 @@
 /datum/magic_item
 	var/name = "Name of Magical Item Effect"
 	var/description = "A MAGICAL ITEM, WOW!"
+	var/glow_color = "#6495ED"
 
 /datum/magic_item/proc/do_literally_anything_thanks()
 	return
 
 /datum/magic_item/proc/on_apply(var/obj/item/i)
+	if(glow_color)
+		i.filters += filter(type="outline", color=glow_color, size=1)
 	RegisterSignal(i, COMSIG_PROJECTILE_ON_HIT, PROC_REF(projectile_hit))
 	RegisterSignal(i, COMSIG_ITEM_AFTERATTACK, PROC_REF(on_hit))
 	RegisterSignal(i, COMSIG_ITEM_ATTACK_OBJ, PROC_REF(on_hit_structure))

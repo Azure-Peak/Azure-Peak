@@ -7,6 +7,7 @@
 	icon_state = "enchanting_kit"
 	w_class = WEIGHT_CLASS_SMALL	//So can fit in a bag, we don't need these large. They're just used to apply to items.
 	var/list/target_items = list()
+	/// Result item we'll exchange it to. Currently /weapon/ type kits use this as an example they'll copy all the visual data from. Keep this in mind if this never gets properly refactored!
 	var/result_item = null
 
 /obj/item/enchantingkit/pre_attack(obj/item/I, mob/user)
@@ -23,8 +24,11 @@
 				R_type = target_items[T]
 				break
 
-	if(!R_type)
+	if(!R_type && result_item)
 		R_type = result_item
+
+	if(!R_type && !result_item)
+		CRASH("No result_item on a donator kit while R_type was empty. Something went wrong.")
 
 	if(!R_type)
 		to_chat(user, span_warning("[src] doesn't know how to morph [I]."))
@@ -48,6 +52,48 @@
 	qdel(I)
 	if(!user.put_in_hands(R))
 		R.forceMove(get_turf(user))
+
+	if(ismob(user))
+		var/mob/M = user
+		M.update_body()
+
+	qdel(src)
+	return TRUE
+
+/obj/item/enchantingkit/weapon/pre_attack(obj/item/I, mob/user)
+	if(!I || !user)
+		return ..()
+
+	if(!isturf(I.loc))
+		to_chat(user, span_info("This should be on the floor, lest I spill it onto myself."))
+		return
+
+	if(!istype(I, /obj/item/rogueweapon))
+		return ..()
+
+	if(!is_type_in_list(I, target_items))
+		return ..()
+
+	var/R_type = result_item
+
+	if(!R_type)
+		to_chat(user, span_warning("[src] doesn't know how to morph [I]."))
+		return TRUE
+	
+	var/obj/item/rogueweapon/RI = R_type
+	var/obj/item/rogueweapon/TI = I
+	TI.icon = RI::icon
+	TI.icon_state = RI::icon_state
+	TI.item_state = RI::item_state
+	TI.toggle_state = RI::icon_state
+	TI.lefthand_file = RI::lefthand_file
+	TI.righthand_file = RI::righthand_file
+	TI.sheathe_icon = RI::sheathe_icon ? RI::sheathe_icon : TI.sheathe_icon
+
+	to_chat(user, span_notice("You apply the [src] to [I], using the enchanting dust and tools to turn it into [RI::name]."))
+	I.name = "[RI::name] <font size = 1>([I.name])</font>"
+	I.desc = RI::desc
+	I.update_transform()
 
 	if(ismob(user))
 		var/mob/M = user
@@ -134,40 +180,40 @@
 	result_item = /obj/item/clothing/suit/roguetown/armor/chainmail/hauberk/iron/zydrasiconosash
 
 //Eiren - Zweihander and sabres
-/obj/item/enchantingkit/eiren
+/obj/item/enchantingkit/weapon/eiren
 	name = "'Regret' morphing elixir"
 	target_items = list(
-		/obj/item/rogueweapon/greatsword/grenz/flamberge 	= /obj/item/rogueweapon/greatsword/grenz/flamberge/eiren,
-		/obj/item/rogueweapon/greatsword/zwei 				= /obj/item/rogueweapon/greatsword/zwei/eiren,
-		/obj/item/rogueweapon/greatsword	  				= /obj/item/rogueweapon/greatsword/eiren
+		/obj/item/rogueweapon/greatsword/grenz/flamberge,
+		/obj/item/rogueweapon/greatsword/zwei,
+		/obj/item/rogueweapon/greatsword
 		)
-	result_item = null
+	result_item = /obj/item/rogueweapon/example/eiren_greatsword
 
-/obj/item/enchantingkit/eirensabre
+/obj/item/enchantingkit/weapon/eirensabre
 	name = "'Lunae' morphing elixir"
 	target_items = list(/obj/item/rogueweapon/sword/sabre)
-	result_item = /obj/item/rogueweapon/sword/sabre/eiren
+	result_item = /obj/item/rogueweapon/example/eiren_sabre
 
 /obj/item/enchantingkit/eirensabre2
 	name = "'Cinis' morphing elixir"
-	target_items = list(/obj/item/rogueweapon/sword/sabre)
-	result_item = /obj/item/rogueweapon/sword/sabre/eiren/small
+	target_items = list(/obj/item/rogueweapon/sword/saber)
+	result_item = /obj/item/rogueweapon/example/eiren_sabre_alt
 
 //pretzel - custom steel greatsword. PSYDON LYVES. PSYDON ENDVRES.
 /obj/item/enchantingkit/waff
 	name = "'Weeper's Lathe' morphing elixir"
-	target_items = list(/obj/item/rogueweapon/greatsword)		// i, uh. i really do promise i'm only gonna use it on steel greatswords.
-	result_item = /obj/item/rogueweapon/greatsword/weeperslathe
+	target_items = list(/obj/item/rogueweapon/greatsword)
+	result_item = /obj/item/rogueweapon/example/waffai_greatsword
 
 //inverserun claymore
-/obj/item/enchantingkit/inverserun
+/obj/item/enchantingkit/weapon/inverserun
 	name = "'Votive Thorns' morphing elixir"
 	target_items = list(
-		/obj/item/rogueweapon/greatsword/grenz/flamberge 	= /obj/item/rogueweapon/greatsword/grenz/flamberge/inverserun,
-		/obj/item/rogueweapon/greatsword/zwei 				= /obj/item/rogueweapon/greatsword/zwei/inverserun,
-		/obj/item/rogueweapon/greatsword	  				= /obj/item/rogueweapon/greatsword/inverserun
+		/obj/item/rogueweapon/greatsword/grenz/flamberge,
+		/obj/item/rogueweapon/greatsword/zwei,
+		/obj/item/rogueweapon/greatsword
 		)
-	result_item = null
+	result_item = /obj/item/rogueweapon/example/inverserun_greatsword
 
 //Zoe - Tytos Blackwood cloak
 /obj/item/enchantingkit/zoe
@@ -219,10 +265,10 @@
 /obj/item/enchantingkit/stinketh_shashka
 	name = "'fencer's shashka' morphing elixir"
 	target_items = list(
-		/obj/item/rogueweapon/sword/sabre/freifechter	= /obj/item/rogueweapon/sword/sabre/freifechter/stinketh,
-		/obj/item/rogueweapon/sword/sabre/steppesman	= /obj/item/rogueweapon/sword/sabre/steppesman/stinketh
-		)
-	result_item = null
+		/obj/item/rogueweapon/sword/sabre/freifechter,
+		/obj/item/rogueweapon/sword/sabre/steppesman
+	)
+	result_item = /obj/item/rogueweapon/example/stinketh_sabre
 
 /obj/item/enchantingkit/stinketh_pike
 	name = "'Kindness of Ravens Standard' morphing elixir"
@@ -244,6 +290,12 @@
 	target_items = list(/obj/item/rogueweapon/sword/long)
 	result_item = /obj/item/rogueweapon/sword/long/drd
 
+//Lmwevil - Beak Mask
+/obj/item/enchantingkit/lmwevil_brassbeak
+	name = "brass beak mask morphing elixir"
+	target_items = list(/obj/item/clothing/mask/rogue/courtphysician, /obj/item/clothing/mask/rogue/physician)
+	result_item = /obj/item/clothing/mask/rogue/courtphysician/brassbeak
+
 /////////////////////////////
 // ! Triumph-Exc. Kits !   //
 /////////////////////////////
@@ -256,6 +308,15 @@
 		/obj/item/clothing/suit/roguetown/armor/plate/full/fluted 	= /obj/item/clothing/suit/roguetown/armor/plate/full/fluted/legacy,
 		/obj/item/clothing/suit/roguetown/armor/plate/full 			= /obj/item/clothing/suit/roguetown/armor/plate/full/legacy,
 		/obj/item/clothing/suit/roguetown/armor/plate	  			= /obj/item/clothing/suit/roguetown/armor/plate/legacy
+		)
+	result_item = null
+
+/obj/item/enchantingkit/triumph_armorkit_drow
+	name = "'Drowcraft' armor morphing elixir"
+	desc = "A small container of special morphing dust, perfect to make a specific item. It can be used to alter the appearance of.. </br>..a set of Hardened Leather Armor.. </br>.. or a set of Studded Leather Armor."
+	target_items = list(
+		/obj/item/clothing/suit/roguetown/armor/leather/heavy 		= /obj/item/clothing/suit/roguetown/armor/leather/heavy/shadowvest,
+		/obj/item/clothing/suit/roguetown/armor/leather/studded		= /obj/item/clothing/suit/roguetown/armor/leather/heavy/shadowvest
 		)
 	result_item = null
 
@@ -281,15 +342,15 @@
 		)
 	result_item = null
 
-/obj/item/enchantingkit/triumph_weaponkit_sword
+/obj/item/enchantingkit/weapon/triumph_weaponkit_sword
 	name = "'Valorian' sword morphing elixir"
 	desc = "A small container of special morphing dust, perfect to make a specific item. It can be used to alter the appearance of.. </br>..an Iron Arming Sword.. </br>..an Iron Dueling Sword.. </br>..or a Maciejowski."
 	target_items = list(
-		/obj/item/rogueweapon/sword/iron										= /obj/item/rogueweapon/sword/iron/triumph,
-		/obj/item/rogueweapon/sword/short/messer/iron/virtue					= /obj/item/rogueweapon/sword/short/messer/iron/virtue/triumph,
-		/obj/item/rogueweapon/sword/falchion/militia	  						= /obj/item/rogueweapon/sword/falchion/militia/triumph
+		/obj/item/rogueweapon/sword/iron,
+		/obj/item/rogueweapon/sword/short/messer/iron/virtue,
+		/obj/item/rogueweapon/sword/falchion/militia
 		)
-	result_item = null
+	result_item = /obj/item/rogueweapon/example/valorian_sword
 
 /obj/item/enchantingkit/triumph_weaponkit_tri
 	name = "'Valorian' longsword morphing elixir"
@@ -302,20 +363,20 @@
 	desc = "A small container of special morphing dust, perfect to make a specific item. It can be used to alter the appearance of.. </br>..a Steel Longsword </br>..or a Rapier."
 	target_items = list(
 		/obj/item/rogueweapon/sword/long					= /obj/item/rogueweapon/sword/long/triumph/wideguard,
-		/obj/item/rogueweapon/sword/rapier	  			= /obj/item/rogueweapon/sword/rapier/wideguard
+		/obj/item/rogueweapon/sword/rapier	  				= /obj/item/rogueweapon/sword/rapier/wideguard
 		)
 	result_item = null
 
-/obj/item/enchantingkit/triumph_weaponkit_rock
+/obj/item/enchantingkit/weapon/triumph_weaponkit_rock
 	name = "'Rockhillian' longsword morphing elixir"
 	desc = "A small container of special morphing dust, perfect to make a specific item. It can be used to alter the appearance of.. </br>..a Steel Longsword.. </br>..a Steel Broadsword.. </br>..or an Executioner Sword."
 	target_items = list(
-		/obj/item/rogueweapon/sword/long/broadsword/bronze		= /obj/item/rogueweapon/sword/long/broadsword/bronze/rockhill,
-		/obj/item/rogueweapon/sword/long/broadsword/steel		= /obj/item/rogueweapon/sword/long/broadsword/steel/rockhill,
-		/obj/item/rogueweapon/sword/long/broadsword				= /obj/item/rogueweapon/sword/long/broadsword/rockhill,
-		/obj/item/rogueweapon/sword/long/exe	  				= /obj/item/rogueweapon/sword/long/exe/rockhill
+		/obj/item/rogueweapon/sword/long/broadsword/bronze,
+		/obj/item/rogueweapon/sword/long/broadsword/steel,
+		/obj/item/rogueweapon/sword/long/broadsword,
+		/obj/item/rogueweapon/sword/long/exe
 		)
-	result_item = null
+	result_item = /obj/item/rogueweapon/example/valorian_broadsword
 
 /obj/item/enchantingkit/triumph_weaponkit_sabre
 	name = "'Sabreguard' longsword morphing elixir"
