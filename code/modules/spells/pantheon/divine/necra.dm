@@ -251,32 +251,32 @@
 	var/turf/turf_user = get_turf(user)
 	var/turf/turf_corpse = get_turf(corpse)
 	var/direction_name = "unknown"
+	var/corpse_level = ""
 	if(turf_user.z != turf_corpse.z)
 		if(turf_corpse.z > turf_user.z)
-			direction_name = "above"
+			corpse_level = "above and "
 		else
-			direction_name = "below"
-	else
-		var/direction = get_dir(user, corpse)
-		switch(direction)
-			if(NORTH)
-				direction_name = "north"
-			if(SOUTH)
-				direction_name = "south"
-			if(EAST)
-				direction_name = "east"
-			if(WEST)
-				direction_name = "west"
-			if(NORTHEAST)
-				direction_name = "northeast"
-			if(NORTHWEST)
-				direction_name = "northwest"
-			if(SOUTHEAST)
-				direction_name = "southeast"
-			if(SOUTHWEST)
-				direction_name = "southwest"
+			corpse_level = "below and "
+	var/direction = get_dir(user, corpse)
+	switch(direction)
+		if(NORTH)
+			direction_name = "north"
+		if(SOUTH)
+			direction_name = "south"
+		if(EAST)
+			direction_name = "east"
+		if(WEST)
+			direction_name = "west"
+		if(NORTHEAST)
+			direction_name = "northeast"
+		if(NORTHWEST)
+			direction_name = "northwest"
+		if(SOUTHEAST)
+			direction_name = "southeast"
+		if(SOUTHWEST)
+			direction_name = "southwest"
 
-	to_chat(user, span_notice("The Undermaiden pulls on your hand, guiding you [direction_name]."))
+	to_chat(user, span_notice("The Undermaiden pulls on your hand, guiding you [corpse_level][direction_name]."))
 
 /obj/effect/proc_holder/spell/invoked/necra_vow
 	name = "Vow to Necra"
