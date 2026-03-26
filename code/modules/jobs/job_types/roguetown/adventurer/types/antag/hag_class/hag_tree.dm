@@ -249,8 +249,11 @@
 /obj/structure/roguemachine/mossmother/proc/feed_the_network(is_impure = FALSE, mob/living/feeder)
 	var/wait_time = is_impure ? 90 SECONDS : 120 SECONDS // Adjust cooldown lengths here
 	var/global_cooldown = world.time + wait_time
+	var/area/A = get_area(src)
+	var/area_name = A ? A.name : "an unknown thicket"
+	var/feeder_name = feeder ? feeder.real_name : "a mysterious force"
 	for(var/mob/living/H in GLOB.active_hags)
-		to_chat(H, span_boldnotice("The roots hum... [feeder ? feeder.real_name : "Someone"] has fed the network with [is_impure ? "Impure" : "Pure"] Lux!"))
+		to_chat(H, span_boldnotice("The roots hum deep within [area_name]... [feeder_name] has fed the network with [is_impure ? "Impure" : "Pure"] Lux!"))
 
 	for(var/obj/structure/roguemachine/mossmother/tree in GLOB.hag_trees)
 		tree.cooldown_until = global_cooldown
