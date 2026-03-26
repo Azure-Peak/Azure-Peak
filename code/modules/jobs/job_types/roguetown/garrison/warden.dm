@@ -34,8 +34,7 @@
 	backr = /obj/item/storage/backpack/rogue/satchel
 	backl = /obj/item/gun/ballistic/revolver/grenadelauncher/bow/recurve/warden
 	armor = /obj/item/clothing/suit/roguetown/armor/leather/studded/warden
-	shirt = /obj/item/clothing/suit/roguetown/armor/gambeson/heavy
-	wrists = /obj/item/clothing/wrists/roguetown/bracers/splint
+	wrists = /obj/item/clothing/wrists/roguetown/bracers/jackchain
 	gloves = /obj/item/clothing/gloves/roguetown/fingerless_leather
 	belt = /obj/item/storage/belt/rogue/leather
 	beltr = /obj/item/quiver/arrows
@@ -100,7 +99,9 @@
 		switch(armor_choice)//Like skirmisher, you are not getting both
 			if("Dodge Expert")
 				ADD_TRAIT(H, TRAIT_DODGEEXPERT, TRAIT_GENERIC)
+				shirt = /obj/item/clothing/suit/roguetown/armor/gambeson/heavy
 			if( "Maille Training")
+				shirt = /obj/item/clothing/suit/roguetown/armor/chainmail/hauberk/iron
 				ADD_TRAIT(H, TRAIT_MEDIUMARMOR, TRAIT_GENERIC)
 
 		var/helmets = list(
