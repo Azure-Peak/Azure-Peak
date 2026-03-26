@@ -140,13 +140,15 @@
 		to_chat(user, span_warning("The Mossmother is unresponsive; the roots are still knitting."))
 		return
 
+	var/area/A = get_area(src)
+	var/is_in_hut = istype(A, /area/rogue/indoors/shelter/bog_hag)
 	var/contents = "<center>THE MOSSMOTHER<BR>--------------<BR>"
 	contents += "<a href='?src=[REF(src)];action=public'>[span_danger("Reap Common Blossoms")]</a><BR>"
 
 	if(HAS_TRAIT(user, TRAIT_ANCIENT_HAG))
 		contents += "<a href='?src=[REF(src)];action=hag'>[span_danger("Reap Mother's Blood")]</a><BR>"
 		contents += "<a href='?src=[REF(src)];action=travel'>[span_boldnotice("Walk the Roots")]</a><BR>"
-	else if(!GLOB.hag_wards.len)
+	else if(!GLOB.hag_wards.len || is_in_hut)
 		contents += "<a href='?src=[REF(src)];action=travel'>[span_boldnotice("Walk the Roots")]</a><BR>"
 	contents += "</center>"
 	var/datum/browser/popup = new(user, "mossmother", "The Mossmother", 300, 300)
@@ -196,9 +198,15 @@
 	if(!target || !user || !user.Adjacent(src))
 		return
 
+	var/mob/living/passenger = user.pulling
+	if(passenger && (!istype(passenger) || get_dist(src, passenger) > 2))
+		passenger = null // Too far away or not a living mob
+
 	var/wait_time = is_mortal ? 20 SECONDS : 10 SECONDS
 	user.visible_message(span_notice("[user] begins to sink into the mossy roots of [src]..."), \
 						 span_notice("You begin to dissolve into the network of roots, seeking the path to [get_area(target)]."))
+	if(passenger)
+		user.visible_message(span_danger("[user] begins to drag [passenger] into the mossy roots..."))
 
 	// Long do_after to allow interruption.
 	if(do_after(user, wait_time, target = src))
@@ -212,6 +220,9 @@
 		user.forceMove(destination)
 		user.visible_message(span_notice("[user] emerges from the roots of [target]."), \
 							 span_boldnotice("The roots spit you back out into [get_area(target)]."))
+		if(passenger && get_dist(src, passenger) <= 2)
+			passenger.forceMove(destination)
+			to_chat(passenger, span_userdanger("You are dragged through the suffocating, muddy darkness of the roots!"))
 
 /obj/structure/roguemachine/mossmother/attackby(obj/item/W, mob/user, params)
 	if(istype(W, /obj/item/reagent_containers/lux) || istype(W, /obj/item/reagent_containers/lux_impure))
@@ -231,13 +242,15 @@
 
 
 		qdel(W)
-		feed_the_network(is_impure)
+		feed_the_network(is_impure, user)
 		return
 	return ..()
 
-/obj/structure/roguemachine/mossmother/proc/feed_the_network(is_impure = FALSE)
+/obj/structure/roguemachine/mossmother/proc/feed_the_network(is_impure = FALSE, mob/living/feeder)
 	var/wait_time = is_impure ? 90 SECONDS : 120 SECONDS // Adjust cooldown lengths here
 	var/global_cooldown = world.time + wait_time
+	for(var/mob/living/H in GLOB.active_hags)
+		to_chat(H, span_boldnotice("The roots hum... [feeder ? feeder.real_name : "Someone"] has fed the network with [is_impure ? "Impure" : "Pure"] Lux!"))
 
 	for(var/obj/structure/roguemachine/mossmother/tree in GLOB.hag_trees)
 		tree.cooldown_until = global_cooldown

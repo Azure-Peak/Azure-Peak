@@ -38,6 +38,14 @@
 		"Go now. Curse them. Bind them. Or burn the world with the Rite. The bog remembers... and so do I."
 	)
 
+/obj/structure/roguemachine/hag_heart/take_damage(damage_amount, damage_type = BRUTE, damage_flag = "", sound_effect = TRUE, attack_dir, armor_penetration = 0, object_damage_multiplier = 1)
+	if(GLOB.hag_wards.len > 0)
+		if(sound_effect)
+			src.visible_message(span_notice("Magical energy still seems to safeguard the heart for now."))
+			playsound(src, 'sound/magic/magic_nulled.ogg', 50, TRUE)
+		return FALSE
+	return ..()
+
 /obj/structure/roguemachine/hag_heart/proc/begin_tutorial()
 	var/delay = 0
 	for(var/line in hag_tutorial_lines)
