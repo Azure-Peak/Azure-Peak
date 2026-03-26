@@ -113297,6 +113297,10 @@
 /obj/structure/roguemachine/stockpile,
 /turf/open/floor/rogue/tile/checkeralt,
 /area/rogue/indoors/town/steward)
+"xXm" = (
+/obj/structure/roguemachine/mossmother/travel,
+/turf/open/floor/rogue/grass,
+/area/rogue/outdoors/bog/south)
 "xXn" = (
 /obj/structure/stairs{
 	dir = 8
@@ -383125,8 +383129,8 @@ sxN
 sxN
 sxN
 mAW
-mAW
-sxN
+gQq
+gQq
 sxN
 lCD
 lCD
@@ -383576,10 +383580,10 @@ qwK
 qwK
 qwK
 xot
-sxN
-mAW
-mAW
-mAW
+gQq
+xXm
+gQq
+gQq
 mAW
 sxN
 xot
@@ -384030,7 +384034,7 @@ qwK
 qwK
 sxN
 xot
-mAW
+gQq
 mAW
 mAW
 mAW
