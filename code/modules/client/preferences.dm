@@ -133,8 +133,6 @@ GLOBAL_LIST_EMPTY(chosen_names)
 
 	var/clientfps = 100//0 is sync
 
-	var/parallax
-
 	var/ambientocclusion = TRUE
 	var/auto_fit_viewport = FALSE
 	var/widescreenpref = TRUE
@@ -246,6 +244,9 @@ GLOBAL_LIST_EMPTY(chosen_names)
 	var/mood_messages_in_chat
 
 	var/attack_blip_frequency = ATTACK_BLIP_PREF_DEFAULT
+
+	/// Per-character theme override for examine panel viewers
+	var/examine_theme
 
 /datum/preferences/New(client/C)
 	parent = C
@@ -662,6 +663,12 @@ GLOBAL_LIST_EMPTY(chosen_names)
 			if(headshot_link != null)
 				dat += "<br><img src='[headshot_link]' width='100px' height='100px'>"
 
+			var/examine_theme_name = "None (Use Viewer's)"
+			if(examine_theme)
+				var/list/all_themes = get_tgui_themes()
+				examine_theme_name = all_themes[examine_theme] || examine_theme
+			dat += "<br><b>Examine Theme:</b> <a href='?_src_=prefs;preference=examine_theme;task=input'>[examine_theme_name]</a>"
+
 			dat += "<br><b>[(length(flavortext) < MINIMUM_FLAVOR_TEXT) ? "<font color = '#802929'>" : ""]Flavortext:[(length(flavortext) < MINIMUM_FLAVOR_TEXT) ? "</font>" : ""]</b><a href='?_src_=prefs;preference=formathelp;task=input'>(?)</a><a href='?_src_=prefs;preference=flavortext;task=input'>Change</a>"
 			dat += "<br><b>NSFW Flavortext:</b><a href='?_src_=prefs;preference=formathelp;task=input'>(?)</a><a href='?_src_=prefs;preference=nsfwflavortext;task=input'>Change</a>"
 			dat += "<br><b>[(length(ooc_notes) < MINIMUM_OOC_NOTES) ? "<font color = '#802929'>" : ""]OOC Notes:[(length(ooc_notes) < MINIMUM_OOC_NOTES) ? "</font>" : ""]</b><a href='?_src_=prefs;preference=formathelp;task=input'>(?)</a><a href='?_src_=prefs;preference=ooc_notes;task=input'>Change</a>"
@@ -696,13 +703,9 @@ GLOBAL_LIST_EMPTY(chosen_names)
 			dat += "<b>Ambient Occlusion:</b> <a href='?_src_=prefs;preference=ambientocclusion'>[ambientocclusion ? "Enabled" : "Disabled"]</a><br>"
 			dat += "<b>Window Flashing:</b> <a href='?_src_=prefs;preference=winflash'>[(windowflashing) ? "Enabled":"Disabled"]</a><br>"
 			dat += "<b>FPS:</b> <a href='?_src_=prefs;preference=clientfps;task=input'>[clientfps]</a><br>"
-			dat += "<h2>Audio</h2>"
-			dat += "<b>Play Admin MIDIs:</b> <a href='?_src_=prefs;preference=hear_midis'>[(toggles & SOUND_MIDI) ? "Enabled":"Disabled"]</a><br>"
-			dat += "<b>Play Lobby Music:</b> <a href='?_src_=prefs;preference=lobby_music'>[(toggles & SOUND_LOBBY) ? "Enabled":"Disabled"]</a><br>"
-			dat += "<h2>Other</h2>"
-			dat += "<b>Be Voice:</b> <a href='?_src_=prefs;preference=schizo_voice'>[(toggles & SCHIZO_VOICE) ? "Enabled":"Disabled"]</a><br>"
-			dat += "<b>See Pull Requests:</b> <a href='?_src_=prefs;preference=pull_requests'>[(chat_toggles & CHAT_PULLR) ? "Enabled":"Disabled"]</a><br>"
-
+			dat += "<b>Fit Viewport:</b> <a href='?_src_=prefs;preference=auto_fit_viewport'>[auto_fit_viewport ? "Auto" : "Manual"]</a><br>"
+			if (CONFIG_GET(string/default_view) != CONFIG_GET(string/default_view_square))
+				dat += "<b>Widescreen:</b> <a href='?_src_=prefs;preference=widescreenpref'>[widescreenpref ? "Enabled ([CONFIG_GET(string/default_view)])" : "Disabled ([CONFIG_GET(string/default_view_square)])"]</a><br>"
 			dat += "</td><td width='400px' valign='top'>"
 			dat += "<h2>Special Role Settings</h2>"
 			if(is_banned_from(user.ckey, ROLE_SYNDICATE))
@@ -921,7 +924,7 @@ GLOBAL_LIST_EMPTY(chosen_names)
 		//The job before the current job. I only use this to get the previous jobs color when I'm filling in blank rows.
 		var/datum/job/lastJob
 		for(var/datum/job/job in sortList(SSjob.occupations, GLOBAL_PROC_REF(cmp_job_display_asc)))
-			if(!job.spawn_positions)
+			if(!job.spawn_positions && !job.always_show_on_latechoices)
 				continue
 
 			index += 1
@@ -2158,6 +2161,27 @@ Slots: [job.spawn_positions] [job.round_contrib_points ? "RCP: +[job.round_contr
 					to_chat(user, "<span class='notice'>Successfully cleared image gallery.</span>")
 					log_game("[user] has cleared their image gallery.")
 
+				if("examine_theme")
+					var/list/all_themes = get_tgui_themes()
+					var/list/choices = list("None (Use Viewer's)")
+					for(var/theme_key in all_themes)
+						if(theme_key == "trey_liam")
+							continue
+						choices += all_themes[theme_key]
+					var/current_display = "None (Use Viewer's)"
+					if(examine_theme)
+						current_display = all_themes[examine_theme] || examine_theme
+					var/picked = tgui_input_list(user, "Choose the theme others see on your examine panel:", "Examine Theme", choices, current_display)
+					if(!picked)
+						return
+					if(picked == "None (Use Viewer's)")
+						examine_theme = null
+					else
+						for(var/theme_key in all_themes)
+							if(all_themes[theme_key] == picked)
+								examine_theme = theme_key
+								break
+
 				if("ooc_preview")
 					var/datum/examine_panel/preview_examine_panel = new(user)
 					preview_examine_panel.pref = src
@@ -2376,6 +2400,12 @@ Slots: [job.spawn_positions] [job.round_contrib_points ? "RCP: +[job.round_contr
 						var/datum/virtue/virtue_chosen = virtue_choices[result]
 						virtue = new virtue_chosen.type
 						to_chat(user, process_virtue_text(virtue_chosen))
+						if(!istype(virtue, /datum/virtue/combat/rotcured) && !istype(virtuetwo, /datum/virtue/combat/rotcured))
+							if(skin_tone == SKIN_COLOR_ROT)
+								var/new_tone = random_skin_tone()
+								skin_tone = new_tone
+								features["mcolor"] = sanitize_hexcolor(new_tone)
+								try_update_mutant_colors()
 				if("virtuetwo")
 					var/list/virtue_choices = list()
 					for (var/path as anything in GLOB.virtues)
@@ -2402,6 +2432,12 @@ Slots: [job.spawn_positions] [job.round_contrib_points ? "RCP: +[job.round_contr
 						var/datum/virtue/virtue_chosen = virtue_choices[result]
 						virtuetwo = new virtue_chosen.type
 						to_chat(user, process_virtue_text(virtue_chosen))
+						if(!istype(virtue, /datum/virtue/combat/rotcured) && !istype(virtuetwo, /datum/virtue/combat/rotcured))
+							if(skin_tone == SKIN_COLOR_ROT)
+								var/new_tone = random_skin_tone()
+								skin_tone = new_tone
+								features["mcolor"] = sanitize_hexcolor(new_tone)
+								try_update_mutant_colors()
 					/*	if (statpack.type != /datum/statpack/wildcard/virtuous)
 							statpack = new /datum/statpack/wildcard/virtuous
 							to_chat(user, span_purple("Your statpack has been set to virtuous (no stats) due to selecting a virtue.")) */
@@ -2485,6 +2521,8 @@ Slots: [job.spawn_positions] [job.round_contrib_points ? "RCP: +[job.round_contr
 */
 				if("s_tone")
 					var/listy = pref_species.get_skin_list()
+					if(istype(virtue, /datum/virtue/combat/rotcured) || istype(virtuetwo, /datum/virtue/combat/rotcured))
+						listy["Rotten"] = SKIN_COLOR_ROT
 					var/new_s_tone = tgui_input_list(user, "Choose your character's skin tone:", "SKINTONE", listy)
 					if(new_s_tone)
 						skin_tone = listy[new_s_tone]
@@ -2684,7 +2722,7 @@ Slots: [job.spawn_positions] [job.round_contrib_points ? "RCP: +[job.round_contr
 				if("tgui_lock")
 					tgui_lock = !tgui_lock
 				if("tgui_theme")
-					setTguiStyle()
+					setTguiStyle(user)
 				if("winflash")
 					windowflashing = !windowflashing
 
@@ -2756,16 +2794,6 @@ Slots: [job.spawn_positions] [job.round_contrib_points ? "RCP: +[job.round_contr
 
 				if("allow_midround_antag")
 					toggles ^= MIDROUND_ANTAG
-
-				if("parallaxup")
-					parallax = WRAP(parallax + 1, PARALLAX_INSANE, PARALLAX_DISABLE + 1)
-					if (parent && parent.mob && parent.mob.hud_used)
-						parent.mob.hud_used.update_parallax_pref(parent.mob)
-
-				if("parallaxdown")
-					parallax = WRAP(parallax - 1, PARALLAX_INSANE, PARALLAX_DISABLE + 1)
-					if (parent && parent.mob && parent.mob.hud_used)
-						parent.mob.hud_used.update_parallax_pref(parent.mob)
 
 				if("ambientocclusion")
 					ambientocclusion = !ambientocclusion
@@ -2978,6 +3006,7 @@ Slots: [job.spawn_positions] [job.round_contrib_points ? "RCP: +[job.round_contr
 
 	character.img_gallery = img_gallery
 
+	character.examine_theme = examine_theme
 	character.ooc_extra = ooc_extra
 
 	character.song_title = song_title

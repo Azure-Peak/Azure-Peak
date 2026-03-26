@@ -4,8 +4,8 @@
 	department_flag = ANTAGONIST
 	antag_job = TRUE // whoever wrote this, I'm- gghrhhah!
 	faction = "Station"
-	total_positions = 1
-	spawn_positions = 1
+	total_positions = 0
+	spawn_positions = 0
 	allowed_races = RACES_SHUNNED_UP
 	tutorial = "You have proven yourself worthy to Graggar, and he's granted you his blessing most divine. Now you hunt for worthy opponents, seeking out those strong enough to make you bleed."
 	outfit = null
@@ -45,6 +45,16 @@
 		/datum/advclass/gnoll/templar,
 		/datum/advclass/gnoll/shaman,
 	)
+
+/datum/job/roguetown/gnoll/special_job_check(mob/dead/new_player/player)
+	if(is_storyteller_soft_antag_blocked())
+		return FALSE
+	return ..()
+
+/datum/job/roguetown/gnoll/special_check_latejoin(client/C)
+	if(is_storyteller_soft_antag_blocked())
+		return FALSE
+	return ..()
 
 /datum/job/roguetown/gnoll/after_spawn(mob/living/L, mob/M, latejoin = TRUE)
 	..()
@@ -95,6 +105,23 @@
 					to_chat(H, span_notice("Your name is now [H.real_name]."))
 				if("Keep Current Name")
 					to_chat(H, span_notice("You keep your name as [H.real_name]."))
+
+/proc/gnollslot_calc()
+	var/list/result = list()
+	if(is_storyteller_soft_antag_blocked())
+		result["final_slots"] = 0
+		return result
+	result["final_slots"] = 1
+	return result
+
+/proc/gnollslot_update()
+	var/datum/job/gnoll_job = SSjob.GetJob("Gnoll")
+	if(!gnoll_job)
+		return
+	var/list/scaling = gnollslot_calc()
+	var/slots = max(0, scaling["final_slots"])
+	gnoll_job.total_positions = max(gnoll_job.current_positions, slots)
+	gnoll_job.spawn_positions = max(gnoll_job.current_positions, slots)
 
 /mob/living/carbon/human/proc/gnoll_inspect_skin()
 	set name = "Inspect Pelt"

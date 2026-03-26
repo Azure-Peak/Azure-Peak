@@ -85,7 +85,7 @@
 	name = "Second Wind"
 	desc = "Rise if fallen, regaining some of your stamina."
 	overlay_state = "abyssor_wind"
-	releasedrain = 10
+	releasedrain = 0
 	chargedrain = 0
 	chargetime = 0
 	sound = 'sound/magic/abyssor_splash.ogg'

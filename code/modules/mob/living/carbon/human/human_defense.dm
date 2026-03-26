@@ -1,9 +1,9 @@
-/mob/living/carbon/human/getarmor(def_zone, type, damage, armor_penetration, blade_dulling, peeldivisor, intdamfactor, used_weapon)
+/mob/living/carbon/human/getarmor(def_zone, type, damage, armor_penetration = PEN_NONE, blade_dulling, intdamfactor, used_weapon)
 	var/armorval = 0
 	var/organnum = 0
 
 	if(def_zone)
-		return checkarmor(def_zone, type, damage, armor_penetration, blade_dulling, peeldivisor, intdamfactor, used_weapon)
+		return checkarmor(def_zone, type, damage, armor_penetration, blade_dulling, intdamfactor, used_weapon)
 		//If a specific bodypart is targetted, check how that bodypart is protected and return the value.
 
 	//If you don't specify a bodypart, it checks ALL my bodyparts for protection, and averages out the values
@@ -14,7 +14,7 @@
 	return (armorval/max(organnum, 1))
 
 
-/mob/living/carbon/human/proc/checkarmor(def_zone, d_type, damage, armor_penetration, blade_dulling, peeldivisor, intdamfactor = 1, obj/item/used_weapon)
+/mob/living/carbon/human/proc/checkarmor(def_zone, d_type, damage, armor_penetration = PEN_NONE, blade_dulling, intdamfactor = 1, obj/item/used_weapon)
 	if(!d_type)
 		return 0
 	if(isbodypart(def_zone))
@@ -24,41 +24,40 @@
 	var/protection = 0
 	var/intdamage = damage
 	var/consume_debuff = TRUE
-	if(d_type != "blunt")
+	if(!(d_type in ARMOR_DR_TYPES))
+		// Penetration types: slash, stab, piercing
 		used = get_best_worn_armor(def_zone, d_type)
 		if(used)
 			protection = used.armor.getRating(d_type)
 			if(!blade_dulling)
 				blade_dulling = BCLASS_BLUNT
-			if(blade_dulling == BCLASS_PEEL)	//Peel shouldn't be dealing any damage through armor, or to armor itself.
-				used.peel_coverage(def_zone, peeldivisor, src)
-				damage = 0
-				if(def_zone == BODY_ZONE_CHEST)
-					purge_peel(99)
 			if(used.blocksound)
 				playsound(loc, get_armor_sound(used.blocksound, blade_dulling), 100)
-        
-			// Penetrative damage deals significantly less to the armor. Tentative.
-			if((damage + armor_penetration) > protection)
+
+			// Tier-based penetration:
+			//   pen > armor  = 100% through (full penetration)
+			//   pen == armor = 20% through (partial penetration)
+			//   pen < armor  = fully blocked
+			if(armor_penetration > protection)
 				consume_debuff = FALSE
-				intdamage = (damage + armor_penetration) - protection
-        
+				intdamage = damage * PEN_PASSTHROUGH_OVER
+			else if(armor_penetration == protection)
+				consume_debuff = FALSE
+				intdamage = damage * PEN_PASSTHROUGH_SAME
+
 			if(intdamfactor != 1)
 				intdamage *= intdamfactor
-        
+
 			if(istype(used_weapon) && used_weapon.is_silver && ((used.smeltresult in list(/obj/item/ingot/aaslag, /obj/item/ingot/aalloy, /obj/item/ingot/purifiedaalloy)) || used.GetComponent(/datum/component/cursed_item)))
-				// Blessed silver delivers more int damage against "cursed" alloys, see component for multiplier values
 				var/datum/component/silverbless/bless = used_weapon.GetComponent(/datum/component/silverbless)
 				if(bless.is_blessed)
-					// Apply multiplier if the blessing is active.
 					intdamage = round(intdamage * bless.cursed_item_intdamage)
-				
+
 			var/tempo_bonus = get_tempo_bonus(TEMPO_TAG_ARMOR_INTEGFACTOR)
 			if(tempo_bonus)
 				intdamage *= tempo_bonus
 
-
-			if(consume_debuff)	//If this is FALSE, then this is a penetrative hit -- we consume these in bodypart_attacked_by.
+			if(consume_debuff)
 				if(has_status_effect(/datum/status_effect/debuff/exposed))
 					intdamage *= EXPOSED_INTEG_MOD
 					playsound(src, 'sound/combat/exposed_pop.ogg', 100, TRUE)
@@ -74,21 +73,28 @@
 
 			used.take_damage(intdamage, damage_flag = d_type, sound_effect = FALSE, armor_penetration = 100)
 	else
+		// DR types: blunt, fire, acid
 		var/list/layers = get_best_worn_armor_layered(def_zone, d_type)
 		if(length(layers))
 			for(var/C in layers)
 				if(layers[C] > protection)
 					protection = layers[C]
-			if(mind)
-				if(protection > 0)
-					intdamage -= intdamage * ((protection / 1.66) / 100)	//Reduces it up to 60% (100 dmg -> 40 dmg at Blunt S armor (100))
+			// DR tier formula: damage * 1 / (1 + 0.2 * tier)
+			if(protection > 0)
+				var/dr_mult = 1 / (1 + 0.2 * protection)
+				if(d_type in ARMOR_DR_PIERCE_TYPES)
+					// Fire/Acid: armor takes the blocked portion (what doesn't reach HP)
+					intdamage *= (1 - dr_mult)
+				else
+					// Blunt: armor takes the DR-reduced amount
+					intdamage *= dr_mult
 			if(intdamfactor != 1)
 				intdamage *= intdamfactor
-        
+
 			var/tempo_bonus = get_tempo_bonus(TEMPO_TAG_ARMOR_INTEGFACTOR)
 			if(tempo_bonus)
 				intdamage *= tempo_bonus
-        
+
 			var/full_dmg
 			if(has_status_effect(/datum/status_effect/debuff/exposed))
 				full_dmg = TRUE
@@ -114,37 +120,12 @@
 					played_sound = TRUE
 				layers_deep++
 			layers.Cut()
-		
 
 	if(physiology)
 		protection += physiology.armor.getRating(d_type)
-	
+
 	return protection
 
-/mob/living/carbon/human/proc/checkcritarmor(def_zone, bclass)
-	if(!bclass)
-		return FALSE
-	if(bclass == BCLASS_PIERCE)
-		return FALSE
-	if(isbodypart(def_zone))
-		var/obj/item/bodypart/CBP = def_zone
-		def_zone = CBP.body_zone
-	var/list/body_parts = list(head, wear_mask, wear_wrists, wear_shirt, wear_neck, cloak, wear_armor, wear_pants, backr, backl, gloves, shoes, belt, s_store, glasses, ears, wear_ring) //Everything but pockets. Pockets are l_store and r_store. (if pockets were allowed, putting something armored, gloves or hats for example, would double up on the armor)
-	for(var/bp in body_parts)
-		if(!bp)
-			continue
-		if(bp && istype(bp , /obj/item/clothing))
-			var/obj/item/clothing/C = bp
-			if(zone2covered(def_zone, C.body_parts_covered_dynamic))
-				if(C.obj_integrity > 1)
-					switch(C.prevent_crits)
-						if(PREVENT_CRITS_NONE)
-							return FALSE
-						if(PREVENT_CRITS_ALL)
-							return TRUE
-						if(PREVENT_CRITS_MOST)
-							if(bclass != BCLASS_PICK)
-								return TRUE
 /*
 /mob/proc/checkwornweight()
 	return 0
@@ -380,7 +361,7 @@
 			if(check_shields(M, damage, "the [M.name]"))
 				return 0
 			if(stat != DEAD)
-				apply_damage(damage, BRUTE, affecting, run_armor_check(affecting, "slash", damage = damage))
+				apply_damage(damage, BRUTE, affecting, run_armor_check(affecting, "slash", armor_penetration = PEN_NONE, damage = damage))
 		return 1
 
 
@@ -400,8 +381,7 @@
 		var/obj/item/bodypart/affecting = get_bodypart(ran_zone(dam_zone))
 		if(!affecting)
 			affecting = get_bodypart(BODY_ZONE_CHEST)
-		var/ap = (M.d_type == "blunt") ? BLUNT_DEFAULT_PENFACTOR : M.armor_penetration
-		var/armor = run_armor_check(affecting, M.d_type, armor_penetration = ap, damage = damage)
+		var/armor = run_armor_check(affecting, M.d_type, armor_penetration = M.armor_penetration, damage = damage)
 		next_attack_msg.Cut()
 
 		var/nodmg = FALSE

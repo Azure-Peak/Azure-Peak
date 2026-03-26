@@ -65,13 +65,18 @@
 	name = "Ranesheni"
 	origin_name = "Raneshan"
 	added_languages = list(/datum/language/raneshi)
-	desc = "I originate from the lush valleys and harsh badlands of Raneshen. Home to the zealous sun elves, the region sits at the gateway between the East and West. Recently engulfed in a violent holy war between the followers of the Old God and the Solarin.<br>"
-	origin_desc = "Home to the zealous sun elves, the region of Raneshen sits at the gateway between the East and West.<br> Its lands were once ruled by the Solarin, a divine \
-	caste of Astratan sun elf paladins who deeply venerated Astrata and practiced widespread humen slavery. The empire met its end when an Otavan missionary brought the \
-	word of PSYDON to Raneshen, sparking a slave rebellion that saw the reign of the Solarin fractured into disconnected elven and humen states. Religious violence \
-	between Astratan and Psydonians is even more widespread in Raneshen than it is in the West.<br> The region itself is known for lush river-valleys, with lethally-hot \
-	deserts and harsh, rocky badlands forming natural borders. Most trade from Kazengun and Naledi flows through Raneshen, and Ranesheni merchants are said to be just as \
-	vicious as their sword-sworn Janissaries."
+	desc = "I originate from the lush valleys and harsh badlands of Raneshen -- The Autarchy, Merchants of Shifting Sands. Home to the zealous sun elves and many others looking to profit without judgement, build great works with cheap labor or simply fulfill their lyfe's desires with coin and flesh. The region sits at the center of the continent of Eastern Psydonia. Recently engulfed in a violent set of rebellions against the slaver regions, it has been enduring a tumultuous time with many refugees -- both slaver and slave, fleeing its hold.<br>"
+	origin_desc = "Raneshen - better known by its ancestral title, 'Zybantia' - resides across the ocean as Grenzelhoft's economic rival: \
+	a greater kingdom, founded long ago by ancient Naledian exiles. While topologically similar to Naledi, the Ranesheni people had built \
+	their nation upon a far different thought: since Psydon had created the world, it was only right that divine reverence shouldn't solely \
+	manifest in prayer, but through indulgence as well.\n\n\
+	\
+	Such has led Raneshen to becoming Psydonia's wealthiest nation, with a stranglehold over the exportation of exotic spices, silks, and slaves. \
+	Yet, the one thing Raneshen takes pride in above all else is music - its composers are unmatched in skill, and have been the premiere choice \
+	for catering to extravagant ceremonies: the latest of which being the coronation of Grenzelhoft's newest Emperor.\
+	\n\n\
+	In recent tymes, the lands had been wrought with Matthiosite uprisings, spurning the wealthy slaver-states into tumultuous instability, including\
+	the Sun Elf populace in the western parts of the land, leading many to flee in search of stability, peace, or new lands to learn of their ways."
 
 /datum/virtue/origin/naledi
 	name = "Naledian"

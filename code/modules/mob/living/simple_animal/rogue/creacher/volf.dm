@@ -32,6 +32,8 @@
 						/obj/item/natural/bone = 4)
 	head_butcher = /obj/item/natural/head/volf
 	faction = list("wolfs", "zombie")
+	threat_point = THREAT_LOW
+	ambush_faction = "wildlife"
 	mob_biotypes = MOB_ORGANIC|MOB_BEAST
 	health = WOLF_HEALTH
 	maxHealth = WOLF_HEALTH

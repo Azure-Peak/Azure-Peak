@@ -1,5 +1,0 @@
-author: "Ryan180602"
-delete-after: True
-changes:
-  - bugfix: "Combat Aware balloons shows up on the attacker once more."
-  - balance: "Combat Aware balloons show aim-zone and not hit-zone."

@@ -88,7 +88,7 @@
 	blade_class = BCLASS_BLUNT
 	hitsound = 'sound/combat/hits/onstone/wallhit.ogg'
 	chargetime = 0
-	penfactor = 20
+	penfactor = PEN_LIGHT
 	swingdelay = 0
 	candodge = TRUE
 	canparry = TRUE

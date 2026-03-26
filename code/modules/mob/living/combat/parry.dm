@@ -1,5 +1,9 @@
 #define STAM_DRAIN_PER_STR_DIFF_HEAVY_BAL -2
 
+// Unarmed base weapon defense equivalents — fed into the same (skill * 20) + (wdef * 10) formula as weapons
+#define UNARMED_BASE_WDEF_BARE 2		// Bare fists — still bad, but not hopeless
+#define UNARMED_BASE_WDEF_EQUIPPED 7	// Bracers / knuckles / bandages — matches a rapier
+
 /mob/living/proc/attempt_parry(datum/intent/intenty, mob/living/user)
 	var/prob2defend = user.defprob
 	var/mob/living/H = src
@@ -73,27 +77,49 @@
 	var/attacker_skill = 0
 	var/obj/item/clothing/wrists/roguetown/bracers/unarmed_bracers
 	var/obj/item/clothing/gloves/roguetown/knuckles/unarmed_knuckles
+	var/obj/item/clothing/gloves/roguetown/bandages/unarmed_bandages
 
-	if(highest_defense <= (H.get_skill_level(/datum/skill/combat/unarmed) * 20))
-		defender_skill = H.get_skill_level(/datum/skill/combat/unarmed)
-		var/obj/B = H.get_item_by_slot(SLOT_WRISTS)
-		var/obj/K = H.get_item_by_slot(SLOT_GLOVES)
-		if(istype(B, /obj/item/clothing/wrists/roguetown/bracers))
-			prob2defend += (defender_skill * 35)
-			unarmed_bracers = B
-		else if(istype(K, /obj/item/clothing/gloves/roguetown/knuckles))
-			prob2defend += (defender_skill * 35)
-			unarmed_knuckles = K
-		else
-			prob2defend += (defender_skill * 10)		// no bracers or knuckles gonna be butts.
-		weapon_parry = FALSE
+	// Calculate unarmed parry value from bracers/knuckles/bandages
+	var/unarmed_skill = H.get_skill_level(/datum/skill/combat/unarmed)
+	var/unarmed_defense = 0
+	var/obj/B = H.get_item_by_slot(SLOT_WRISTS)
+	var/obj/K = H.get_item_by_slot(SLOT_GLOVES)
+	var/is_pugilist = HAS_TRAIT(H, TRAIT_CIVILIZEDBARBARIAN) // Only expert pugilists get the generous unarmed wdef
+	if(istype(B, /obj/item/clothing/wrists/roguetown/bracers))
+		unarmed_defense = (unarmed_skill * 20) + ((is_pugilist ? UNARMED_BASE_WDEF_EQUIPPED : UNARMED_BASE_WDEF_BARE) * 10)
+		unarmed_bracers = B
+	else if(istype(K, /obj/item/clothing/gloves/roguetown/knuckles))
+		unarmed_defense = (unarmed_skill * 20) + ((is_pugilist ? UNARMED_BASE_WDEF_EQUIPPED : UNARMED_BASE_WDEF_BARE) * 10)
+		unarmed_knuckles = K
+	else if(istype(K, /obj/item/clothing/gloves/roguetown/bandages))
+		unarmed_defense = (unarmed_skill * 20) + ((is_pugilist ? UNARMED_BASE_WDEF_EQUIPPED : UNARMED_BASE_WDEF_BARE) * 10)
+		unarmed_bandages = K
 	else
+		unarmed_defense = (unarmed_skill * 20) + (UNARMED_BASE_WDEF_BARE * 10)
+
+	// If held weapon uses unarmed skill (katar, etc), allow unarmed parry fallback
+	var/allow_unarmed_fallback = FALSE
+	if(used_weapon?.associated_skill == /datum/skill/combat/unarmed)
+		allow_unarmed_fallback = TRUE
+
+	if(highest_defense > 0 && (!allow_unarmed_fallback || highest_defense >= unarmed_defense))
+		// Weapon parry wins
 		if(used_weapon)
 			defender_skill = H.get_skill_level(used_weapon.associated_skill)
 		else
-			defender_skill = H.get_skill_level(/datum/skill/combat/unarmed)
+			defender_skill = unarmed_skill
 		prob2defend += highest_defense
 		weapon_parry = TRUE
+	else if(allow_unarmed_fallback && unarmed_defense > highest_defense)
+		// Unarmed parry is better than the unarmed-skill weapon's own wdefense
+		defender_skill = unarmed_skill
+		prob2defend += unarmed_defense
+		weapon_parry = FALSE
+	else
+		// No parry-capable weapon - pure unarmed
+		defender_skill = unarmed_skill
+		prob2defend += unarmed_defense
+		weapon_parry = FALSE
 
 	if(intenty.masteritem)
 		attacker_skill = U.get_skill_level(intenty.masteritem.associated_skill)
@@ -137,6 +163,9 @@
 
 	if(HAS_TRAIT(user, TRAIT_GUIDANCE))
 		prob2defend -= 20
+
+	if(HAS_TRAIT(src, TRAIT_REVERSE_GUIDANCE))
+		prob2defend -= 20
 	
 	if(HAS_TRAIT(user, TRAIT_CURSE_RAVOX))
 		prob2defend -= 40
@@ -158,9 +187,11 @@
 	prob2defend = clamp(prob2defend, 5, 90)
 	if(HAS_TRAIT(user, TRAIT_HARDSHELL) && H.client)	//Dwarf-merc specific limitation w/ their armor on in pvp
 		prob2defend = clamp(prob2defend, 5, 70)
+	var/untrained_armor = FALSE
 	if(!H?.check_armor_skill())
 		prob2defend = clamp(prob2defend, 5, 75)			//Caps your max parry to 75 if using armor you're not trained in. Bad dexerity.
 		drained = drained + 5							//More stamina usage for not being trained in the armor you're using.
+		untrained_armor = TRUE
 
 	//Dual Wielding
 	var/defender_dualw
@@ -224,7 +255,7 @@
 		attacker_skill_type = /datum/skill/combat/unarmed
 
 	if(weapon_parry == TRUE)
-		if(do_parry(used_weapon, drained, user)) //show message
+		if(do_parry(used_weapon, drained, user, untrained_armor)) //show message
 			//only gain experience if attacker and defender aren't using non-combat skills for their weapons
 			if(ispath(attacker_skill_type, /datum/skill/combat) && ispath(used_weapon.associated_skill, /datum/skill/combat))
 				if ((mobility_flags & MOBILITY_STAND))
@@ -232,7 +263,7 @@
 					if(!HAS_TRAIT(U, TRAIT_GOODTRAINER))
 						skill_target -= SKILL_LEVEL_NOVICE
 					if(HAS_TRAIT(U, TRAIT_BADTRAINER))
-						skill_target -= SKILL_LEVEL_NOVICE
+						skill_target -= SKILL_LEVEL_APPRENTICE
 					if (can_train_combat_skill(src, used_weapon.associated_skill, skill_target))
 						mind.add_sleep_experience(used_weapon.associated_skill, max(round(STAINT*exp_multi), 0), FALSE)
 
@@ -243,7 +274,7 @@
 						if(!HAS_TRAIT(src, TRAIT_GOODTRAINER))
 							skill_target -= SKILL_LEVEL_NOVICE
 						if(HAS_TRAIT(U, TRAIT_BADTRAINER))
-							skill_target -= SKILL_LEVEL_NOVICE
+							skill_target -= SKILL_LEVEL_APPRENTICE
 						if (can_train_combat_skill(U, attacker_skill_type, skill_target))
 							U.mind.add_sleep_experience(attacker_skill_type, max(round(STAINT*exp_multi), 0), FALSE)
 
@@ -260,34 +291,41 @@
 			else
 				flash_fullscreen("blackflash2")
 
-			var/dam2take = round((get_complex_damage(AB,user,used_weapon.blade_dulling)/2),1)
-			if(dam2take)
-				var/intdam = used_weapon.max_blade_int ? INTEG_PARRY_DECAY : INTEG_PARRY_DECAY_NOSHARP
-				var/sharp_loss = SHARPNESS_ONHIT_DECAY
-				if(used_weapon == offhand)
-					intdam = INTEG_PARRY_DECAY_NOSHARP
+			if(AB)
+				var/dam2take = round((get_complex_damage(AB,user,used_weapon.blade_dulling)/2),1)
+				if(dam2take)
+					var/intdam = used_weapon.max_blade_int ? INTEG_PARRY_DECAY : INTEG_PARRY_DECAY_NOSHARP
+					var/sharp_loss = SHARPNESS_ONHIT_DECAY
+					if(used_weapon == offhand)
+						intdam = INTEG_PARRY_DECAY_NOSHARP
 
-				if(istype(user.rmb_intent, /datum/rmb_intent/strong))
-					sharp_loss += STRONG_SHP_BONUS
-					intdam += STRONG_INTG_BONUS
+					if(istype(user.rmb_intent, /datum/rmb_intent/strong))
+						sharp_loss += STRONG_SHP_BONUS
+						intdam += STRONG_INTG_BONUS
 
-				// Heavy weapons chew through shields — use higher of demolition_mod or intent intdamage_factor
+					// Heavy weapons chew through shields — use higher of demolition_mod or intent intdamage_factor
+					if(istype(used_weapon, /obj/item/rogueweapon/shield) && intenty)
+						var/shield_mult = max(intenty.demolition_mod, intenty.intent_intdamage_factor)
+						intdam *= shield_mult
+
+					var/tempobonus = H.get_tempo_bonus(TEMPO_TAG_DEF_INTEGFACTOR)
+					if(tempobonus)	//It is either null or 0.1 to 1, multiplication by null results in 0, so we check.
+						intdam *= tempobonus
+
+					used_weapon.take_damage(intdam, BRUTE, used_weapon.d_type)
+					used_weapon.remove_bintegrity(sharp_loss, user)
+			else
+				// Unarmed attacker
+				var/intdam = INTEG_PARRY_DECAY_UNARMED
 				if(istype(used_weapon, /obj/item/rogueweapon/shield) && intenty)
-					var/shield_mult = max(intenty.demolition_mod, intenty.intent_intdamage_factor)
-					intdam *= shield_mult
-
-				var/tempobonus = H.get_tempo_bonus(TEMPO_TAG_DEF_INTEGFACTOR)
-				if(tempobonus)	//It is either null or 0.1 to 1, multiplication by null results in 0, so we check.
-					intdam *= tempobonus
-
+					intdam *= intenty.intent_intdamage_factor
 				used_weapon.take_damage(intdam, BRUTE, used_weapon.d_type)
-				used_weapon.remove_bintegrity(sharp_loss, user)
 			return TRUE
 		else
 			return FALSE
 
 	if(weapon_parry == FALSE)
-		if(do_unarmed_parry(drained, user))
+		if(do_unarmed_parry(drained, user, untrained_armor))
 			//only gain experience if attacker isn't using a non-combat skill for their weapon
 			if(ispath(attacker_skill_type, /datum/skill/combat))
 				if((mobility_flags & MOBILITY_STAND))
@@ -303,13 +341,15 @@
 				unarmed_bracers.take_damage(INTEG_PARRY_DECAY_NOSHARP, "slash", armor_penetration = 100)
 			else if(unarmed_knuckles)
 				unarmed_knuckles.take_damage(INTEG_PARRY_DECAY_NOSHARP, "slash", armor_penetration = 100)
+			else if(unarmed_bandages)
+				unarmed_bandages.take_damage(INTEG_PARRY_DECAY_NOSHARP, "slash", armor_penetration = 100)
 			flash_fullscreen("blackflash2")
 			return TRUE
 		else
 
 			return FALSE
 
-/mob/proc/do_parry(obj/item/W, parrydrain as num, mob/living/user)
+/mob/proc/do_parry(obj/item/W, parrydrain as num, mob/living/user, untrained_armor = FALSE)
 	if(ishuman(src))
 		var/mob/living/carbon/human/H = src
 		//Tempo bonus
@@ -320,7 +360,7 @@
 			if(src.client)
 				record_round_statistic(STATS_PARRIES)
 				log_combat(src, user, "parried")
-				
+
 
 			var/def_verb = "parries"
 			var/att_verb = ""
@@ -329,6 +369,8 @@
 			if(istype(user.rmb_intent, /datum/rmb_intent/strong))
 				att_verb = "'s [pick("hefty", "strong")] attack"
 			var/def_msg = "<b>[src]</b> [def_verb] [user][att_verb] with [W]!"
+			if(untrained_armor)
+				def_msg += " Untrained Armor Penalty!"
 
 			visible_message(span_combatsecondary(def_msg), span_boldwarning(def_msg), COMBAT_MESSAGE_RANGE, list(user))
 			to_chat(user, span_boldwarning(def_msg))
@@ -354,7 +396,7 @@
 			playsound(get_turf(src), pick(W.parrysound), 100, FALSE)
 		return TRUE
 
-/mob/proc/do_unarmed_parry(parrydrain as num, mob/living/user)
+/mob/proc/do_unarmed_parry(parrydrain as num, mob/living/user, untrained_armor = FALSE)
 	if(ishuman(src))
 		var/mob/living/carbon/human/H = src
 		//Tempo bonus
@@ -362,7 +404,10 @@
 
 		if(H.stamina_add(parrydrain))
 			playsound(get_turf(src), pick(parry_sound), 100, FALSE)
-			src.visible_message(span_warning("<b>[src]</b> parries [user]!"))
+			var/parry_msg = "<b>[src]</b> parries [user]!"
+			if(untrained_armor)
+				parry_msg += " Untrained Armor Penalty!"
+			src.visible_message(span_warning(parry_msg))
 			if(src.client)
 				record_round_statistic(STATS_PARRIES)
 				log_combat(src, user, "parried")
@@ -378,3 +423,5 @@
 		return TRUE
 
 #undef STAM_DRAIN_PER_STR_DIFF_HEAVY_BAL
+#undef UNARMED_BASE_WDEF_BARE
+#undef UNARMED_BASE_WDEF_EQUIPPED

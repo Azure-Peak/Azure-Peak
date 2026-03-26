@@ -699,32 +699,32 @@ A LITTLE MORE CONSISTENT IN HERE. PLEASE DO YOUR BEST. THANKS.
 /// WEIRD SHIT / MISC!!! //
 ///////////////////////////
 
-/datum/supply_pack/rogue/wardrobe/suits/exoticsilkbra
-	name = "Exotic Silk Bra"
+/datum/supply_pack/rogue/wardrobe/suits/silkbra
+	name = "Giltsilk Bra"
 	cost = 40
 	contains = list(
-					/obj/item/clothing/suit/roguetown/shirt/exoticsilkbra,
+					/obj/item/clothing/suit/roguetown/shirt/silkbra,
 				)
 
 /datum/supply_pack/rogue/wardrobe/suits/anklets
-	name = "Exotic Silk Anklets"
+	name = "Giltsilk Anklets"
 	cost = 40
 	contains = list(
 					/obj/item/clothing/shoes/roguetown/anklets,
 				)
 
-/datum/supply_pack/rogue/wardrobe/suits/exoticsilkbelt
-	name = "Exotic Silk Belt"
+/datum/supply_pack/rogue/wardrobe/suits/silkbelt
+	name = "Giltsilk Belt"
 	cost = 40
 	contains = list(
-					/obj/item/storage/belt/rogue/leather/exoticsilkbelt,
+					/obj/item/storage/belt/rogue/leather/silkbelt,
 				)
 
-/datum/supply_pack/rogue/wardrobe/suits/exoticsilkmask
-	name = "Exotic Silk Mask"
+/datum/supply_pack/rogue/wardrobe/suits/silkmask
+	name = "Giltsilk Mask"
 	cost = 40
 	contains = list(
-					/obj/item/clothing/mask/rogue/exoticsilkmask,
+					/obj/item/clothing/mask/rogue/silkmask,
 				)
 
 /datum/supply_pack/rogue/wardrobe/caparison/caparison

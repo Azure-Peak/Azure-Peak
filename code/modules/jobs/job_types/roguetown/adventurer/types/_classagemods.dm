@@ -3,6 +3,7 @@
 	var/list/stat_mods = list()
 	var/list/skill_mods = list()
 	var/sp_mod = 0
+	var/list/sp_pool_mods = list() // e.g. list("utility" = 6) — adds points to specific spell pools
 
 /datum/class_age_mod/proc/apply_age_mod(mob/living/carbon/human/H)
 	if(H.age == target_age)
@@ -15,6 +16,9 @@
 				H.adjust_skillrank_up_to(skill, skill_mods[S], TRUE)
 		if(sp_mod)
 			H.mind?.adjust_spellpoints(sp_mod)
+		if(length(sp_pool_mods))
+			for(var/pool_name in sp_pool_mods)
+				H.mind?.adjust_spell_point_pool(pool_name, sp_pool_mods[pool_name])
 
 /datum/class_age_mod/proc/get_preview_string()
 	if(!target_age)
@@ -32,6 +36,9 @@
 		str += "<br><font color ='#7a4d0a'>-----</font>"
 	if(sp_mod)
 		str += "<br><font color = '#4b4f7c'>Additional Spellpoints: <b>[sp_mod]</b></font>"
+	if(length(sp_pool_mods))
+		for(var/pool_name in sp_pool_mods)
+			str += "<br><font color = '#a3a7e0'>Additional [capitalize(pool_name)] Points: <b>[sp_pool_mods[pool_name]]</b></font>"
 
 	return str
 
@@ -169,6 +176,14 @@
 		STATKEY_SPD = -1
 	)
 	sp_mod = 6
+
+/datum/class_age_mod/pontifex
+	target_age = AGE_OLD
+	sp_pool_mods = list("utility" = 6)
+
+/datum/class_age_mod/vizier
+	target_age = AGE_OLD
+	sp_pool_mods = list("utility" = 6)
 
 /datum/class_age_mod/apprentice_associate
 	target_age = AGE_OLD

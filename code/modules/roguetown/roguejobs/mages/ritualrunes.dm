@@ -482,7 +482,7 @@ GLOBAL_LIST(teleport_runes)
 	desc = "arcane symbols twist inward upon themselves, forming a powerful cage of energy..."
 	icon = 'icons/effects/160x160.dmi'
 	icon_state = "portal"
-	tier = 4
+	tier = 5
 	runesize = 2
 	pixel_x = -64
 	pixel_y = -64

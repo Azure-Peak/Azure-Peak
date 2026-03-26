@@ -6,7 +6,6 @@
 	icon_state = "welfhand"
 	item_state = "welfhand"
 	armor = ARMOR_BLACKOAK //Resistant to blunt and stab, super weak to slash.
-	prevent_crits = PREVENT_CRITS_ALL
 	resistance_flags = FIRE_PROOF
 	blocksound = SOFTHIT
 	max_integrity = ARMOR_INT_SIDE_IRON
@@ -33,17 +32,21 @@
 	salvage_result = /obj/item/natural/cloth
 	unarmed_bonus = 3 //Light armor with good durability and a flat unarmed damage bonus. Loadout-selectable.
 
+/obj/item/clothing/gloves/roguetown/bandages/get_mechanics_examine(mob/user)
+	. = ..()
+	. += span_notice("Allows unarmed parrying, similar to bracers. Takes integrity damage when parrying. Expert Pugilists parry far more effectively with these.")
+
 /obj/item/clothing/gloves/roguetown/bandages/weighted
 	name = "weighted bandages"
 	desc = "Thickly-woven bandages that've been wrapped around the hands, fitted with padded knuckleweights. It soaks up the sweat from your palm, strengthens your fists, and protects your knuckles from dislodged teeth."
-	unarmed_bonus = 5 //Craftable. Given to non-specialized Monks and other certain subclasses.
+	unarmed_bonus = 4 //Craftable. Given to non-specialized Monks and other certain subclasses.
 
 /obj/item/clothing/gloves/roguetown/bandages/pugilist
 	name = "pugilistic bandages"
 	desc = "Thickly-woven bandages that've been wrapped around the hands, fitted with alloyed knuckleweights. It soaks up the sweat from your palm, strengthens your fists, and protects your knuckles from dislodged teeth."
-	unarmed_bonus = 7 //Non-craftable. Restricted to Monks who've specialized in unarmed combat, and nothing else.
+	unarmed_bonus = 6 //Non-craftable. Restricted to Monks who've specialized in unarmed combat, and nothing else.
 
-// Knuckledusters — high damage, low durability gloves. +12 bonus but only 100 integrity vs bandages' 200.
+// Knuckledusters — high damage, moderate durability gloves. +8 bonus, 200 integrity. Still inferior to bandages (armor + higher bonus options) but not disposable.
 /obj/item/clothing/gloves/roguetown/knuckles
 	name = "steel knuckles"
 	desc = "A mean looking pair of steel knuckles."
@@ -52,14 +55,14 @@
 	mob_overlay_icon = 'icons/roguetown/clothing/onmob/gloves.dmi'
 	w_class = WEIGHT_CLASS_SMALL
 	armor = ARMOR_PADDED_BAD
-	max_integrity = 100 //Small metal pieces — fragile under sustained parrying.
+	max_integrity = ARMOR_INT_SIDE_LEATHER // 200 — small steel pieces, leather-tier durability
 	anvilrepair = /datum/skill/craft/weaponsmithing
 	smeltresult = /obj/item/ingot/steel
-	unarmed_bonus = 12
+	unarmed_bonus = 8
 
 /obj/item/clothing/gloves/roguetown/knuckles/get_mechanics_examine(mob/user)
 	. = ..()
-	. += span_notice("Allows unarmed parrying, similar to bracers. Takes integrity damage when parrying.")
+	. += span_notice("Allows unarmed parrying, similar to bracers. Takes integrity damage when parrying. Expert Pugilists parry far more effectively with these.")
 
 /obj/item/clothing/gloves/roguetown/knuckles/bronze
 	name = "bronze knuckles"

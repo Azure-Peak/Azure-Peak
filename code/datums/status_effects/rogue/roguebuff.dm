@@ -65,7 +65,7 @@
 	return TRUE
 
 /atom/movable/screen/alert/status_effect/buff/snackbuff
-	name = "Good snack"
+	name = "Good Snack"
 	desc = "Better than plain bread. Tasty."
 	icon_state = "foodbuff"
 
@@ -108,7 +108,7 @@
 	duration = 30 MINUTES
 
 /atom/movable/screen/alert/status_effect/buff/mealbuff
-	name = "Good meal"
+	name = "Good Meal"
 	desc = "A meal a day keeps the barber away, or at least it makes it slighly easier."
 	icon_state = "foodbuff"
 
@@ -133,7 +133,7 @@
 	duration = 30 MINUTES
 
 /atom/movable/screen/alert/status_effect/buff/greatmealbuff
-	name = "Great meal!"
+	name = "Great Meal!"
 	desc = "That meal was something akin to a noble's feast! It's bound to keep me energized for an entire day."
 	icon_state = "foodbuff"
 
@@ -163,7 +163,7 @@
 	. = ..()
 
 /atom/movable/screen/alert/status_effect/buff/sweet
-	name = "Sweet embrace"
+	name = "Sweet Embrace"
 	desc = "Sweets are always a sign of good luck, everything goes well when you eat some of them."
 	icon_state = "foodbuff"
 
@@ -176,17 +176,6 @@
 	alert_type = /atom/movable/screen/alert/status_effect/buff/druqks
 	effectedstats = list(STATKEY_INT = 5,STATKEY_SPD = 3,STATKEY_LCK = -5)
 	duration = 2 MINUTES
-
-/datum/status_effect/buff/druqks/baotha
-
-/datum/status_effect/buff/druqks/baotha/on_apply()
-	. = ..()
-	ADD_TRAIT(owner, TRAIT_CRACKHEAD, TRAIT_MIRACLE)
-
-/datum/status_effect/buff/druqks/baotha/on_remove()
-	. = ..()
-	REMOVE_TRAIT(owner, TRAIT_CRACKHEAD, TRAIT_MIRACLE)
-	owner.visible_message("[owner]'s eyes appear to return to normal.")
 
 /datum/status_effect/buff/druqks/on_apply()
 	. = ..()
@@ -218,6 +207,42 @@
 	desc = ""
 	icon_state = "acid"
 
+/datum/status_effect/buff/baothablessing
+	id = "druqks"
+	alert_type = /atom/movable/screen/alert/status_effect/buff/baothablessing
+	duration = 2 MINUTES
+
+/datum/status_effect/buff/baothablessing/on_apply()
+	. = ..()
+	ADD_TRAIT(owner, TRAIT_CRACKHEAD, TRAIT_MIRACLE)
+	if(owner?.client)
+		if(owner.client.screen && owner.client.screen.len)
+			var/atom/movable/screen/plane_master/game_world/PM = locate(/atom/movable/screen/plane_master/game_world) in owner.client.screen
+			PM.backdrop(owner)
+			PM = locate(/atom/movable/screen/plane_master/game_world_fov_hidden) in owner.client.screen
+			PM.backdrop(owner)
+			PM = locate(/atom/movable/screen/plane_master/game_world_above) in owner.client.screen
+			PM.backdrop(owner)
+			owner.add_stress(/datum/stressevent/high)
+
+/datum/status_effect/buff/baothablessing/on_remove()
+	if(owner?.client)
+		if(owner.client.screen && owner.client.screen.len)
+			var/atom/movable/screen/plane_master/game_world/PM = locate(/atom/movable/screen/plane_master/game_world) in owner.client.screen
+			PM.backdrop(owner)
+			PM = locate(/atom/movable/screen/plane_master/game_world_fov_hidden) in owner.client.screen
+			PM.backdrop(owner)
+			PM = locate(/atom/movable/screen/plane_master/game_world_above) in owner.client.screen
+			PM.backdrop(owner)
+			owner.remove_stress(/datum/stressevent/high)
+
+	. = ..()
+
+/atom/movable/screen/alert/status_effect/buff/baothablessing
+	name = "Baothan Blessing"
+	desc = "Baotha has blessed you with immunity to overdose. Rejoice!"
+	icon_state = "acid"
+
 /datum/status_effect/buff/ozium
 	id = "ozium"
 	alert_type = /atom/movable/screen/alert/status_effect/buff/druqks
@@ -240,9 +265,6 @@
 	effectedstats = list(STATKEY_SPD = 2, STATKEY_WIL = 2, STATKEY_INT = -2)
 	duration = 30 SECONDS
 
-/datum/status_effect/buff/moondust/nextmove_modifier()
-	return 0.8
-
 /datum/status_effect/buff/moondust/on_apply()
 	. = ..()
 	owner.add_stress(/datum/stressevent/moondust)
@@ -252,9 +274,6 @@
 	alert_type = /atom/movable/screen/alert/status_effect/buff/druqks
 	effectedstats = list(STATKEY_SPD = 3, STATKEY_WIL = 3, STATKEY_INT = -2)
 	duration = 40 SECONDS
-
-/datum/status_effect/buff/moondust_purest/nextmove_modifier()
-	return 0.8
 
 /datum/status_effect/buff/moondust_purest/on_apply()
 	. = ..()
@@ -267,21 +286,18 @@
 	duration = 80 SECONDS
 	var/originalcmode = ""
 
-/datum/status_effect/buff/herozium/nextmove_modifier()
-	return 1.2
-
 /datum/status_effect/buff/herozium/on_apply()
 	. = ..()
 	owner.add_stress(/datum/stressevent/ozium)
 	ADD_TRAIT(owner, TRAIT_NOPAIN, id)
-	ADD_TRAIT(owner, TRAIT_CRITICAL_RESISTANCE, id)
+	ADD_TRAIT(owner, TRAIT_IGNOREDAMAGESLOWDOWN, id)
 	originalcmode = owner.cmode_music
 	owner.cmode_music = 'sound/music/combat_ozium.ogg'
 
 /datum/status_effect/buff/herozium/on_remove()
 	owner.remove_stress(/datum/stressevent/ozium)
 	REMOVE_TRAIT(owner, TRAIT_NOPAIN, id)
-	REMOVE_TRAIT(owner, TRAIT_CRITICAL_RESISTANCE, id)
+	REMOVE_TRAIT(owner, TRAIT_IGNOREDAMAGESLOWDOWN, id)
 	owner.cmode_music = originalcmode
 	. = ..()
 
@@ -291,9 +307,6 @@
 	effectedstats = list(STATKEY_SPD = 4, STATKEY_WIL = 4, STATKEY_INT = -3, STATKEY_CON = -3)
 	duration = 80 SECONDS
 	var/originalcmode = ""
-
-/datum/status_effect/buff/starsugar/nextmove_modifier()
-	return 0.7
 
 /datum/status_effect/buff/starsugar/on_apply()
 	. = ..()
@@ -363,6 +376,22 @@
 	owner.remove_stress(/datum/stressevent/high)
 
 	. = ..()
+
+/datum/status_effect/buff/abyss //for smokes
+	id = "abyss"
+	alert_type = /atom/movable/screen/alert/status_effect/buff/druqks
+	effectedstats = list(STATKEY_SPD = -1, STATKEY_PER = 1)
+	duration = 30 SECONDS
+
+/datum/status_effect/buff/abyss/on_apply()
+	. = ..()
+	ADD_TRAIT(owner, TRAIT_PSYCHOSIS, TRAIT_GENERIC)
+
+/datum/status_effect/buff/abyss/on_remove()
+	REMOVE_TRAIT(owner, TRAIT_PSYCHOSIS, TRAIT_GENERIC)
+	. = ..()
+
+
 
 /datum/status_effect/buff/fermented_crab
 	id = "fermented_crab"
@@ -881,14 +910,14 @@
 	desc = "Divine intervention bolsters me and aids my recovery."
 	icon_state = "buff"
 
-/atom/movable/screen/alert/status_effect/buff/convergence
-	name = "Convergence Miracle"
-	desc = "My body converges to whence it found strength and health."
+/atom/movable/screen/alert/status_effect/debuff/diminish
+	name = "Diminished"
+	desc = "Origin magick has diminished my instincts - my movements feel sluggish and predictable, and my body feels weakened."
 	icon_state = "buff"
 
 /atom/movable/screen/alert/status_effect/buff/stasis
-	name = "Stasis Miracle"
-	desc = "A part of me has been put in stasis."
+	name = "Reversion"
+	desc = "A part of me has been left behind - I will revert soon."
 	icon_state = "buff"
 
 /atom/movable/screen/alert/status_effect/buff/censerbuff
@@ -907,15 +936,33 @@
 	duration = 15 MINUTES
 	effectedstats = list(STATKEY_WIL = 1, STATKEY_CON = 1)
 
-/datum/status_effect/buff/convergence //Increases all healing while it lasts.
-	id = "convergence"
-	alert_type = /atom/movable/screen/alert/status_effect/buff/convergence
+#define DIMINISH_FILTER "diminish_glow"
+/datum/status_effect/debuff/diminish
+	var/outline_colour = "#8b2fc9"
+	id = "diminish"
+	alert_type = /atom/movable/screen/alert/status_effect/debuff/diminish
 	duration = 1 MINUTES
+	effectedstats = list(STATKEY_STR = -2, STATKEY_CON = -2)
 
-/datum/status_effect/buff/stasis //Increases all healing while it lasts.
+/datum/status_effect/debuff/diminish/on_apply()
+	. = ..()
+	if(!.)
+		return
+	var/filter = owner.get_filter(DIMINISH_FILTER)
+	if(!filter)
+		owner.add_filter(DIMINISH_FILTER, 2, list("type" = "outline", "color" = outline_colour, "alpha" = 50, "size" = 1))
+	ADD_TRAIT(owner, TRAIT_REVERSE_GUIDANCE, MAGIC_TRAIT)
+
+/datum/status_effect/debuff/diminish/on_remove()
+	. = ..()
+	owner.remove_filter(DIMINISH_FILTER)
+	REMOVE_TRAIT(owner, TRAIT_REVERSE_GUIDANCE, MAGIC_TRAIT)
+#undef DIMINISH_FILTER
+
+/datum/status_effect/buff/reversion
 	id = "stasis"
 	alert_type = /atom/movable/screen/alert/status_effect/buff/stasis
-	duration = 10 SECONDS
+	duration = 15 SECONDS
 
 #define CRANKBOX_FILTER "crankboxbuff_glow"
 /atom/movable/screen/alert/status_effect/buff/churnerprotection
@@ -1330,6 +1377,7 @@
 /datum/status_effect/buff/clash/proc/process_touch(mob/living/carbon/human/parent, mob/living/carbon/human/attacker, mob/living/carbon/human/defender)
 	var/obj/item/I = defender.get_active_held_item()
 	defender.process_clash(attacker, I, null)
+	return COMPONENT_HAND_NO_ATTACK
 
 /datum/status_effect/buff/clash/proc/process_attack(mob/living/parent, mob/living/target, mob/user, obj/item/I)
 	var/bad_guard = FALSE
@@ -1556,8 +1604,6 @@
 		if(ishuman(user) && target == owner)
 			var/mob/living/carbon/human/HM = user
 			if(check_zone(HM.zone_selected) == protected_zone)	//User has struck the exact limb that was being protected. Bad!
-				var/mob/living/carbon/human/H = owner
-				H?.purge_peel(99)
 				if(ishuman(user))
 					apply_debuffs(HM)
 					perform_disarm(HM)
@@ -1630,6 +1676,7 @@
 	if(attacker && check_zone(attacker.zone_selected) == protected_zone)
 		var/obj/item/I = defender.get_active_held_item()
 		defender.process_clash(attacker, I, null)	//This will strike at their hand, but not clear away the effect. They tried to grab the protected limb.
+		return COMPONENT_HAND_NO_ATTACK
 
 /datum/status_effect/buff/clash/limbguard/apply_cooldown()
 	owner.apply_status_effect(/datum/status_effect/debuff/specialcd, 60 SECONDS)
@@ -1904,7 +1951,7 @@
 		return
 
 	var/armor_block = target.run_armor_check(user.zone_selected, "blunt")
-	if(prob(armor_block))
+	if(armor_block > 0)
 		return
 
 	apply_effects(target)
@@ -1918,8 +1965,8 @@
 	if(!HAS_TRAIT(target, TRAIT_OUTLAW) || (!(target.name in user.mind.known_people)))
 		return
 
-	var/armor_block = target.run_armor_check(user.zone_selected, item.d_type)
-	if(prob(armor_block))
+	var/armor_block = target.run_armor_check(user.zone_selected, item.d_type, armor_penetration = PEN_NONE, damage = 1)
+	if(armor_block > 0)
 		return
 
 	apply_effects(target)
@@ -2084,15 +2131,15 @@
 	id = "Stagehand"
 	alert_type = /atom/movable/screen/alert/status_effect/buff/stagehands_silence
 	duration = 20 MINUTES
+	// this was supposed to only apply if you had less than 12 speed but it broke whenever other spd mods applied. 
+	// i couldnt fix it, unfortunately.
+	// IF people use it to game just fucking remove it we cant have shiut in thjis codebase anymore
+	effectedstats = list(STATKEY_SPD = 1)
+
 
 /atom/movable/screen/alert/status_effect/buff/stagehands_silence
 	name = "Stangehand's Silence"
 	desc = "The slow quicken. My footsteps are quiet and I can move faster while sneaking."
-
-/datum/status_effect/buff/stagehands_silence/on_creation(mob/living/new_owner, ...)
-	. = ..()
-	if(owner.STASPD < 12)
-		effectedstats = list(STATKEY_SPD = 1) // +1 buff to spd for people w/ less than 12. should be cool but prevents any stupid shit. hopefully.
 
 /datum/status_effect/buff/stagehands_silence/on_apply()
 	. = ..()
@@ -2153,3 +2200,47 @@
 	if(gave_buff) // because we ensure that the buff was actually given out, and due to the 0-3 scale of it, we can just
 		owner.adjust_skillrank(/datum/skill/misc/reading, -1, TRUE) // -1 skill once it wears off and it (should) be fine.
 		to_chat(owner, span_warning("The blessing of HERMES begins to wear off. The written word loses it's meaning in my skull."))
+
+//Artificer armor buff
+/datum/status_effect/buff/artificerint
+	id = "artificer_arcyne"
+	alert_type = /atom/movable/screen/alert/status_effect/buff/artificerint
+	effectedstats = list(STATKEY_INT = 3)
+
+/atom/movable/screen/alert/status_effect/buff/artificerint
+	name = "Artificer Arcyne"
+	desc = "This armor fills me with arcyne power and knowledge"
+	icon_state = "buff"
+
+/datum/status_effect/buff/artificerstr
+	id = "artificer_athletic"
+	alert_type = /atom/movable/screen/alert/status_effect/buff/artificerstr
+	effectedstats = list(STATKEY_STR = 2, STATKEY_WIL = 2)
+
+/atom/movable/screen/alert/status_effect/buff/artificerstr
+	name = "Artificer Athletic"
+	desc = "This armor fills me with atheletic power and strength"
+	icon_state = "buff"
+
+//construct buffing
+/datum/status_effect/buff/windup
+	id = "windup"
+	alert_type = /atom/movable/screen/alert/status_effect/buff/windup
+	effectedstats = list(STATKEY_SPD = 1, STATKEY_WIL = 1)
+	duration = 15 MINUTES
+
+/atom/movable/screen/alert/status_effect/buff/windup
+	name = "Drill Windup"
+	desc = "a drill has wound up my core, making me faster"
+	icon_state = "buff"
+
+/datum/status_effect/buff/tuneup
+	id = "tuneup"
+	alert_type = /atom/movable/screen/alert/status_effect/buff/tuneup
+	effectedstats = list(STATKEY_CON = 1)
+	duration = 15 MINUTES
+
+/atom/movable/screen/alert/status_effect/buff/tuneup
+	name = "Wrench Tuneup"
+	desc = "a wrench has turned me up, helping steel myself for more damage"
+	icon_state = "buff"

@@ -30,6 +30,8 @@
 						/obj/item/alch/viscera = 1)
 	head_butcher = /obj/item/natural/head/mole
 	faction = list("wolfs")
+	threat_point = THREAT_MODERATE
+	ambush_faction = "wildlife"
 	mob_biotypes = MOB_ORGANIC|MOB_BEAST
 	health = MOLE_HEALTH
 	maxHealth = MOLE_HEALTH

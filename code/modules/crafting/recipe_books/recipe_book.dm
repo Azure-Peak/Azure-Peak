@@ -12,19 +12,21 @@
 	var/base_icon_state
 	var/can_spawn = TRUE
 	var/wiki_name
+	/// Which section this book appears in on the OOC Guidebook. "Crafting Recipes" or "Guides".
+	var/wiki_section = "Crafting Recipes"
 	resistance_flags = FLAMMABLE
 
 /obj/item/recipe_book/dropped(mob/user, silent)
 	. = ..()
 	if(current_reader)
-		current_reader << browse(null, "window=recipe_wiki")
+		SStgui.close_user_uis(current_reader, GLOB.recipe_wiki)
 		current_reader = null
 
 /obj/item/recipe_book/attack_self(mob/user)
 	. = ..()
 	current_reader = user
 	var/datum/recipe_wiki/wiki = get_recipe_wiki()
-	wiki.show_to_user(user, types, name)
+	wiki.show_to_user(user, types, name, type)
 
 /obj/item/recipe_book/getonmobprop(tag)
 	. = ..()

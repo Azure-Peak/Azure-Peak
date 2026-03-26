@@ -1715,10 +1715,10 @@
 			if(M.get_triumphs() <= 0)
 				to_chat(M, span_warning("I haven't TRIUMPHED."))
 				return
-			if(alert("Do you want to remember a TRIUMPH?", "", "Yes", "No") == "Yes")
+			if(alert("Do you want to remember a TRIUMPH?", "", "Yes (-3 TRI)", "No") == "Yes (-3 TRI)")
 				if(!M.has_stress_event(/datum/stressevent/triumph))
 					M.add_stress(/datum/stressevent/triumph)
-					M.adjust_triumphs(-1)
+					M.adjust_triumphs(-3)
 					M.playsound_local(M, 'sound/misc/notice (2).ogg', 100, FALSE)
 
 
@@ -1891,11 +1891,26 @@
 	icon = 'icons/mob/rogueheat.dmi'
 	screen_loc = rogueui_fat
 
+/atom/movable/screen/stamina/examine_ui(mob/user)
+	if(isliving(user))
+		var/mob/living/L = user
+		var/remaining = max(L.max_stamina - L.stamina, 0)
+		to_chat(user, span_info("<b>Stamina:</b> [round(remaining, 0.1)] / [round(L.max_stamina, 0.1)]"))
+	else
+		..()
+
 /atom/movable/screen/energy
 	name = "energy"
 	icon_state = "energy100"
 	icon = 'icons/mob/rogueheat.dmi'
 	screen_loc = rogueui_fat
+
+/atom/movable/screen/energy/examine_ui(mob/user)
+	if(isliving(user))
+		var/mob/living/L = user
+		to_chat(user, span_info("<b>Energy:</b> [round(L.energy, 0.1)] / [round(L.max_energy, 0.1)]"))
+	else
+		..()
 
 /atom/movable/screen/heatstamover
 	name = ""

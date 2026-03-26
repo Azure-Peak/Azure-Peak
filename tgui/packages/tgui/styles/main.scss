@@ -17,9 +17,13 @@
 
 // Themes
 @include meta.load-css('./themes/azure_default.scss');
+@include meta.load-css('./themes/azure_ascendant.scss');
 @include meta.load-css('./themes/azure_green.scss');
 @include meta.load-css('./themes/azure_lane.scss');
 @include meta.load-css('./themes/azure_purple.scss');
+@include meta.load-css('./themes/azure_gilbranze.scss');
+@include meta.load-css('./themes/azure_psydonic.scss');
+@include meta.load-css('./themes/azure_lingyue.scss');
 @include meta.load-css('./themes/trey_liam.scss');
 
 // Interfaces

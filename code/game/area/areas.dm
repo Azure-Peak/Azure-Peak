@@ -62,8 +62,6 @@
 
 //	var/no_air = null
 
-	var/parallax_movedir = 0
-
 	var/list/ambientsounds = GENERIC
 	var/list/ambientrain = null
 	var/list/ambientnight = null

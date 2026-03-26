@@ -40,6 +40,8 @@
 			affected.owner.add_movespeed_modifier(MOVESPEED_ID_DISLOCATION_RIGHT_LEG, multiplicative_slowdown = DISLOCATED_ADD_SLOWDOWN)
 		if(BODY_ZONE_L_LEG)
 			affected.owner.add_movespeed_modifier(MOVESPEED_ID_DISLOCATION_LEFT_LEG, multiplicative_slowdown = DISLOCATED_ADD_SLOWDOWN)
+		if(BODY_ZONE_PRECISE_NECK)
+			affected.owner.add_movespeed_modifier(MOVESPEED_ID_DISLOCATION_SPINE, multiplicative_slowdown = DISLOCATED_ADD_SLOWDOWN)
 
 /datum/wound/dislocation/on_bodypart_loss(obj/item/bodypart/affected)
 	. = ..()
@@ -52,6 +54,8 @@
 			affected.owner.remove_movespeed_modifier(MOVESPEED_ID_DISLOCATION_RIGHT_LEG)
 		if(BODY_ZONE_L_LEG)
 			affected.owner.remove_movespeed_modifier(MOVESPEED_ID_DISLOCATION_LEFT_LEG)
+		if(BODY_ZONE_PRECISE_NECK)
+			affected.owner.remove_movespeed_modifier(MOVESPEED_ID_DISLOCATION_SPINE)
 
 /datum/wound/dislocation/on_mob_gain(mob/living/affected)
 	. = ..()
@@ -75,17 +79,3 @@
 	)
 	whp = 80
 	woundpain = 100
-
-/datum/wound/dislocation/neck/on_mob_gain(mob/living/affected)
-	. = ..()
-	ADD_TRAIT(affected, TRAIT_PARALYSIS, "[type]")
-	if(iscarbon(affected))
-		var/mob/living/carbon/carbon_affected = affected
-		carbon_affected.update_disabled_bodyparts()
-
-/datum/wound/dislocation/neck/on_mob_loss(mob/living/affected)
-	. = ..()
-	REMOVE_TRAIT(affected, TRAIT_PARALYSIS, "[type]")
-	if(iscarbon(affected))
-		var/mob/living/carbon/carbon_affected = affected
-		carbon_affected.update_disabled_bodyparts()

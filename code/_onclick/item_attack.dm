@@ -408,6 +408,9 @@
 				if(BCLASS_SMASH)
 					dullfactor = 1.5
 					cont = TRUE
+				if(BCLASS_DRILL)
+					dullfactor = 1.5
+					cont = TRUE
 				if(BCLASS_PICK)
 					dullfactor = 1.5
 					cont = TRUE
@@ -430,6 +433,15 @@
 					cont = TRUE
 				if(BCLASS_BLUNT)
 					cont = TRUE
+				if(BCLASS_DRILL)
+					var/mob/living/driller = user
+					var/mineskill = driller.get_skill_level(/datum/skill/labor/mining)
+					var/engineeringskill = driller.get_skill_level(/datum/skill/craft/engineering)
+					if (engineeringskill > mineskill)
+						dullfactor = 1.5 * (engineeringskill * 0.1)
+					else
+						dullfactor = 1.5 * (mineskill * 0.1)
+					cont = TRUE
 				if(BCLASS_PICK)
 					var/mob/living/miner = user
 					var/mineskill = miner.get_skill_level(/datum/skill/labor/mining)
@@ -441,7 +453,7 @@
 			if(!(user.mobility_flags & MOBILITY_STAND))
 				to_chat(user, span_warning("I need to stand up to get a proper swing."))
 				return 0
-			if(user.used_intent.blade_class != BCLASS_PICK)
+			if(user.used_intent.blade_class != BCLASS_PICK && user.used_intent.blade_class != BCLASS_DRILL)
 				return 0
 			var/mob/living/miner = user
 			var/mineskill = miner.get_skill_level(/datum/skill/labor/mining)
@@ -703,17 +715,6 @@
 	var/verb_appendix
 	if(!I.force_dynamic)
 		return
-	if(bladec == BCLASS_PEEL)
-		if(ishuman(src))
-			var/mob/living/carbon/human/H = src
-			var/obj/item/used = H.get_best_worn_armor(hit_area, user.used_intent.item_d_type)
-			if(used)
-				if(used.peel_count)
-					verb_appendix =	" <font color ='#e7e7e7'>(\Roman[used.peel_count])</font>"
-				else
-					use_override = TRUE
-			else
-				use_override = TRUE
 	var/message_hit_area = ""
 	hit_area = parse_zone(hit_area, BP)
 	if(user.used_intent)

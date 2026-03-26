@@ -34,6 +34,10 @@
 		temp_recipe = new path()
 		var/datum/runeritual/r = temp_recipe
 		category = r.category
+	else if(ispath(path, /obj/effect/proc_holder/spell))
+		var/tier = initial(path:spell_tier)
+		category = "Tier [tier]"
+		return category
 
 	if(temp_recipe)
 		qdel(temp_recipe)
@@ -68,6 +72,10 @@
 			var/category = get_recipe_category(path)
 			if(category && !(category in categories))
 				categories += category
+	categories = sortTim(categories, GLOBAL_PROC_REF(cmp_text_asc))
+	if("All" in categories)
+		categories -= "All"
+		categories.Insert(1, "All")
 	return categories
 
 /proc/generate_recipe_detail_html(path, mob/user)
@@ -114,6 +122,14 @@
 		var/datum/runeritual/r = temp_recipe
 		recipe_name = initial(r.name)
 		recipe_html = r.generate_html(user)
+	else if(ispath(path, /obj/effect/proc_holder/spell))
+		var/obj/effect/proc_holder/spell/temp_spell = new path()
+		recipe_name = temp_spell.name
+		recipe_html = temp_spell.generate_wiki_html(user)
+		qdel(temp_spell)
+		var/miracle_html = generate_miracle_granted_html(path)
+		if(miracle_html)
+			recipe_html += miracle_html
 
 	if(temp_recipe)
 		qdel(temp_recipe)
@@ -127,81 +143,3 @@
 	html += "</div>"
 	return html
 
-/proc/recipe_book_css()
-	return {"
-		<style>
-			@import url('https://fonts.googleapis.com/css2?family=Charm:wght@700&display=swap');
-			body {
-				font-family: "Charm", cursive;
-				font-size: 1em;
-				text-align: center;
-				margin: 20px;
-				color: #3e2723;
-				background-color: rgb(31, 20, 24);
-				background: url('book.png');
-				background-repeat: no-repeat;
-				background-attachment: fixed;
-				background-size: 100% 100%;
-			}
-			h1 {
-				text-align: center;
-				font-size: 1.5em;
-				border-bottom: 2px solid #3e2723;
-				padding-bottom: 10px;
-				margin-bottom: 20px;
-			}
-			.book-content { display: flex; height: 85%; }
-			.sidebar {
-				width: 30%; padding: 10px;
-				border-right: 2px solid #3e2723;
-				overflow-y: auto; max-height: 600px;
-			}
-			.main-content {
-				width: 70%; padding: 10px;
-				overflow-y: auto; max-height: 600px; text-align: left;
-			}
-			.categories { margin-bottom: 15px; }
-			.category-btn {
-				margin: 2px; padding: 5px;
-				background-color: #d2b48c;
-				border: 1px solid #3e2723; border-radius: 5px;
-				cursor: pointer; font-family: "Charm", cursive;
-			}
-			.category-btn.active { background-color: #8b4513; color: white; }
-			.search-box {
-				width: 90%; padding: 5px; margin-bottom: 15px;
-				border: 1px solid #3e2723; border-radius: 5px;
-				font-family: "Charm", cursive;
-			}
-			.recipe-list { text-align: left; }
-			.recipe-link {
-				display: block; padding: 5px;
-				color: #3e2723; text-decoration: none;
-				border-bottom: 1px dotted #d2b48c;
-			}
-			.recipe-link:hover { background-color: rgba(210, 180, 140, 0.3); }
-			.back-link {
-				display: block; padding: 8px 12px; margin-bottom: 10px;
-				color: #3e2723; text-decoration: none;
-				border: 1px solid #3e2723; border-radius: 5px;
-				text-align: center;
-			}
-			.back-link:hover { background-color: rgba(210, 180, 140, 0.3); }
-			.recipe-content { padding: 10px; }
-			.recipe-title {
-				font-size: 1.5em; margin-bottom: 15px;
-				border-bottom: 1px solid #3e2723; padding-bottom: 5px;
-			}
-			.icon { width: 96px; height: 96px; vertical-align: middle; margin-right: 10px; }
-			.result-icon { text-align: center; margin: 15px 0; }
-			.no-matches {
-				font-style: italic; color: #8b4513;
-				padding: 10px; text-align: center; display: none;
-			}
-			table { margin: 10px auto; border-collapse: collapse; }
-			table, th, td { border: 1px solid #3e2723; }
-			th, td { padding: 8px; text-align: left; }
-			th { background-color: rgba(210, 180, 140, 0.3); }
-			.hidden { display: none; }
-		</style>
-	"}

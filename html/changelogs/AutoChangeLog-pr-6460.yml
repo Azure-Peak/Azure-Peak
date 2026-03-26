@@ -1,0 +1,4 @@
+author: "eirenxiv"
+delete-after: True
+changes:
+  - bugfix: "fixed bolt pouch and quiver buying from the tailor silverface"

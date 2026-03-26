@@ -52,7 +52,7 @@
 // T0: Bless drink
 /obj/effect/proc_holder/spell/self/bless_drink
 	name = "Bless Drink"
-	desc = "Blesses a container to allow it to be drunk to no end. Lasts about a minute."
+	desc = "Blesses a container to allow it to be drunk to no end. Lasts about a minute. Due to the potency of alchemical mixes and of thoroughly cooked beverages, does not function on them."
 	action_icon = 'icons/mob/actions/baothamiracles.dmi'
 	overlay_icon = 'icons/mob/actions/baothamiracles.dmi'
 	overlay_state = "bless_drink"
@@ -65,7 +65,7 @@
 	invocation_type = "none"
 	associated_skill = /datum/skill/magic/holy
 	antimagic_allowed = TRUE
-	recharge_time = 6 MINUTES
+	recharge_time = 1 MINUTES
 	miracle = TRUE
 	devotion_cost = 10
 	var/duration = 60 SECONDS
@@ -76,6 +76,7 @@
 		/datum/reagent/medicine/strongstam,
 		/datum/reagent/medicine/strongmana,
 		/datum/reagent/medicine/manapot,
+		/datum/reagent/medicine/healthpot,
 		/datum/reagent/medicine/stronghealth,
 		/datum/reagent/buff/tri,
 		/datum/reagent/buff/constitution,
@@ -83,9 +84,13 @@
 		/datum/reagent/buff/endurance,
 		/datum/reagent/buff/strength,
 		/datum/reagent/buff/speed,
-		/datum/reagent/buff/perception
+		/datum/reagent/buff/perception,
+		/datum/reagent/consumable/caffeine/,
+		/datum/reagent/consumable/golden_calendula_tea,
+		/datum/reagent/water/medicine,
 	)
 
+// Anything that heals has been restricted - caffeine for the stat buff, golden calendula tea is like a weaker red. This is solely for flavor purposes, effectively.
 /obj/effect/proc_holder/spell/self/bless_drink/cast(list/targets, mob/living/user)
 	if(!ishuman(user))
 		revert_cast()
@@ -118,7 +123,45 @@
 		return FALSE
 	return TRUE
 
-// T0, orison inspired healing spell that pours a drink called Lover's Ruin. Works like a red for baotha blessed, poisons non-blessed.
+//Baotha's Blessings - T0, reverses overdose effect on a target + soothing moodlet. Useful to T0/Devotee because it allows them to stop an OD death, but puts them on the clock. (Medieval narcan..... #BanNarcan)
+
+/obj/effect/proc_holder/spell/invoked/baothablessings
+	name = "Baotha's Blessings"
+	desc = "Gets the target drunk and stops them from overdosing for a time."
+	action_icon = 'icons/mob/actions/baothamiracles.dmi'
+	overlay_icon = 'icons/mob/actions/baothamiracles.dmi'
+	overlay_state = "blessing"
+	releasedrain = 30
+	chargedrain = 0
+	chargetime = 0
+	range = 4
+	warnie = "sydwarning"
+	movement_interrupt = FALSE
+	sound = 'sound/magic/heal.ogg'
+	invocation_type = "none"
+	associated_skill = /datum/skill/magic/holy
+	antimagic_allowed = TRUE
+	recharge_time = 30 SECONDS
+	miracle = TRUE
+	devotion_cost = 10
+
+/obj/effect/proc_holder/spell/invoked/baothablessings/cast(list/targets, mob/living/user)
+	if(isliving(targets[1]))
+		var/mob/living/carbon/target = targets[1]
+		if(HAS_TRAIT(target, TRAIT_PSYDONITE))
+			target.visible_message(span_info("[target] stirs for a moment, the miracle dissipates."), span_notice("A dull warmth swells in your heart, only to fade as quickly as it arrived."))
+			user.playsound_local(user, 'sound/magic/PSY.ogg', 100, FALSE, -1)
+			playsound(target, 'sound/magic/PSY.ogg', 100, FALSE, -1)
+			return FALSE
+		if(target.has_status_effect(/datum/status_effect/buff/baothablessing))
+			to_chat(user, span_warning("They're already blessed by these effects!"))
+			revert_cast()
+			return FALSE
+		target.apply_status_effect(/datum/status_effect/buff/baothablessing) //Gets the trait temorarily, basically will just stop any active/upcoming ODs.	
+		target.visible_message("<span class='info'>[target]'s eyes appear to gloss over!</span>", "<span class='notice'>I feel.. at ease.</span>")
+	return TRUE
+
+// T1, orison inspired healing spell that pours a drink called Lover's Ruin. Works like a red for baotha blessed, poisons non-blessed.
 /obj/effect/proc_holder/spell/targeted/touch/loversruin
 	name = "Lover's Ruin"
 	desc = "A toast to passion that ends in ash.\n \
@@ -217,44 +260,6 @@
 	else
 		to_chat(user, span_info("I'll need to find a container that can hold Her blessing."))
 
-//Baotha's Blessings - T1, reverses overdose effect on a target + soothing moodlet. (Medieval narcan..... #BanNarcan)
-
-/obj/effect/proc_holder/spell/invoked/baothablessings
-	name = "Baotha's Blessings"
-	desc = "Gets the target drunk and stops them from overdosing for a time."
-	action_icon = 'icons/mob/actions/baothamiracles.dmi'
-	overlay_icon = 'icons/mob/actions/baothamiracles.dmi'
-	overlay_state = "blessing"
-	releasedrain = 30
-	chargedrain = 0
-	chargetime = 0
-	range = 4
-	warnie = "sydwarning"
-	movement_interrupt = FALSE
-	sound = 'sound/magic/heal.ogg'
-	invocation_type = "none"
-	associated_skill = /datum/skill/magic/holy
-	antimagic_allowed = TRUE
-	recharge_time = 30 SECONDS
-	miracle = TRUE
-	devotion_cost = 10
-
-/obj/effect/proc_holder/spell/invoked/baothablessings/cast(list/targets, mob/living/user)
-	if(isliving(targets[1]))
-		var/mob/living/carbon/target = targets[1]
-		if(HAS_TRAIT(target, TRAIT_PSYDONITE))
-			target.visible_message(span_info("[target] stirs for a moment, the miracle dissipates."), span_notice("A dull warmth swells in your heart, only to fade as quickly as it arrived."))
-			user.playsound_local(user, 'sound/magic/PSY.ogg', 100, FALSE, -1)
-			playsound(target, 'sound/magic/PSY.ogg', 100, FALSE, -1)
-			return FALSE
-		if(target.has_status_effect(/datum/status_effect/buff/druqks/baotha))
-			to_chat(user, span_warning("They're already blessed by these effects!"))
-			revert_cast()
-			return FALSE
-		target.apply_status_effect(/datum/status_effect/buff/druqks/baotha) //Gets the trait temorarily, basically will just stop any active/upcoming ODs.	
-		target.visible_message("<span class='info'>[target]'s eyes appear to gloss over!</span>", "<span class='notice'>I feel.. at ease.</span>")
-	return TRUE
-
 //T1, Baotha's version of Eora's Bud (now renamed True Peace Bloom). Applies the TRAIT_CRACKHEAD baothans have.
 /obj/effect/proc_holder/spell/invoked/griefflower
 	name = "False Serenity Bloom"
@@ -302,20 +307,79 @@
 	if(istype(user) && user?.wear_ring == src)
 		user.remove_status_effect(/datum/status_effect/buff/griefflower)
 
-//Enrapturing Powder - T2, basically a crackhead blowing cocaine in your face.
+// Insufflation - effectively just drugging yourself. Lets you pick, the same as Enrapturing Powder. T1, for now, to make up for the loss of the Baotha Blessing buff.
 
-/obj/effect/proc_holder/spell/invoked/projectile/blowingdust
-	name = "Enrapturing Powder"
-	desc = "Blows dust of a potent painkilling drug at the target."
+/obj/effect/proc_holder/spell/self/insufflation 
+	name = "Insufflation"
+	desc = "Imbibes yourself on one of four drugs, in Her name. Your intent will determine the drug ingested. \n\
+	\
+	Feint intent will dose you on Spice, giving you +5 INT, +3 SPD, and -5 FOR. \n\
+	\
+	Aimed intent will dose you on Moondust, giving you +3 SPD, +3 WILL, and -2 INT. \n\
+	\
+	Strong intent will dose you on Herozium, giving you -5 SPD, +4 WILL, -3 INT, +3 CON, pain immunity, and resistance to damage slowdown. \n\
+	\
+	Swift intent will dose you on Starsugar, giving you +4 SPD, +4 WILL -3 INT, -3 CON, darkvision, and dodge expert."
 	action_icon = 'icons/mob/actions/baothamiracles.dmi'
 	overlay_icon = 'icons/mob/actions/baothamiracles.dmi'
 	overlay_state = "powder"
 	clothes_req = FALSE
-	range = 3	//POCKET OPIUM!
+	associated_skill = /datum/skill/magic/holy
+	chargedloop = /datum/looping_sound/invokeholy
+	releasedrain = 10
+	chargedrain = 0
+	chargetime = 15
+	recharge_time = 10 SECONDS
+	invocation_type = "emote"
+	invocations = list("flicks their wrist, filling the air in front of them with a fine powder.")
+	antimagic_allowed = TRUE
+	miracle = TRUE
+	devotion_cost = 30
+
+/obj/effect/proc_holder/spell/self/insufflation/cast(list/targets, mob/user)
+	if(!ishuman(user))
+		revert_cast()
+		return FALSE
+	switch(user.rmb_intent.name)
+		if("feint")
+			user.reagents.add_reagent(/datum/reagent/druqks, 4)
+			return TRUE
+		if("aimed")
+			user.reagents.add_reagent(/datum/reagent/moondust_purest, 8)
+			return TRUE
+		if("strong")
+			user.reagents.add_reagent(/datum/reagent/herozium, 8)
+			return TRUE
+		if("swift")
+			user.reagents.add_reagent(/datum/reagent/starsugar, 8)
+			return TRUE
+		else
+			user.reagents.add_reagent(/datum/reagent/herozium, 8)
+			return TRUE
+
+//Enrapturing Powder - T2, basically a crackhead blowing cocaine in your face.
+
+/obj/effect/proc_holder/spell/invoked/projectile/blowingdust
+	name = "Enrapturing Powder"
+	desc = "Blows dust of a potent drug at the target, applying a variety of effects. \
+	Your intent will determine the drug thrown at the target. \n\
+	\
+	Feint intent will throw spice at the target, giving them +5 INT, +3 SPD, and -5 FOR. \n\
+	\
+	Aimed intent will throw moondust at the target, giving them +3 SPD, +3 WILL, and -2 INT. \n\
+	\
+	Strong intent will throw herozium at the target, giving them -5 SPD, +4 WILL, -3 INT, +3 CON, pain immunity, and resistance to damage slowdown. \n\
+	\
+	Swift intent will throw starsugar at the target, giving them +4 SPD, +4 WILL -3 INT, -3 CON, darkvision, and dodge expert."
+	action_icon = 'icons/mob/actions/baothamiracles.dmi'
+	overlay_icon = 'icons/mob/actions/baothamiracles.dmi'
+	overlay_state = "powder"
+	clothes_req = FALSE
+	range = 7	//POCKET OPIUM! 7 tiles because it's a projectile and it used to just travel across the entire screen anyway even at 3.
 	associated_skill = /datum/skill/magic/holy
 	projectile_type = /obj/projectile/magic/blowingdust
 	chargedloop = /datum/looping_sound/invokeholy
-	releasedrain = 30
+	releasedrain = 10
 	chargedrain = 0
 	chargetime = 15
 	recharge_time = 10 SECONDS
@@ -323,14 +387,57 @@
 	invocations = list("flicks their wrist, filling the air in front of them with a fine powder.")
 	devotion_cost = 30
 
+/obj/effect/proc_holder/spell/invoked/projectile/blowingdust/cast(list/targets, mob/user = user)
+	switch(user.rmb_intent.name)
+		if("feint")
+			projectile_type = /obj/projectile/magic/blowingdust/spice
+		if("aimed")
+			projectile_type = /obj/projectile/magic/blowingdust/moondust
+		if("strong")
+			projectile_type = /obj/projectile/magic/blowingdust
+		if("swift")
+			projectile_type = /obj/projectile/magic/blowingdust/starsugar
+		else
+			projectile_type = /obj/projectile/magic/blowingdust
+
+	. = ..()
+
 /obj/projectile/magic/blowingdust
 	name = "unholy dust"
 	icon_state = "spark"
 	nodamage = FALSE
 	damage = 1
 	poisontype = /datum/reagent/herozium
-	poisonfeel = "burning" //Would make sense for your eyes or nose to burn, I guess.
-	poisonamount = 8 //Decent bit of high, three doses would be just above the overdose threshold if applied fast enough.
+	poisonfeel = "burning" //Insufflation delivery method.
+	poisonamount = 8 //Decent bit of high, three doses would be just above the overdose threshold if applied fast enough - in practice usually 4.
+
+/obj/projectile/magic/blowingdust/starsugar
+	name = "unholy dust"
+	icon_state = "spark"
+	nodamage = FALSE
+	damage = 1
+	poisontype = /datum/reagent/starsugar
+	poisonfeel = "burning" //Insufflation go brr.
+	poisonamount = 8 //Decent bit of high, three doses would be just above the overdose threshold if applied fast enough - in practice usually 4.
+
+/obj/projectile/magic/blowingdust/spice
+	name = "unholy dust"
+	icon_state = "spark"
+	nodamage = FALSE
+	damage = 1
+	poisontype = /datum/reagent/druqks
+	poisonfeel = "burning" //Insufflation go brr.
+	poisonamount = 4 //Lower than the others as it's got an OD threshold of 16 - takes 4 hits to OD if you hit it perfectly, but more like 5.
+
+/obj/projectile/magic/blowingdust/moondust
+	name = "unholy dust"
+	icon_state = "spark"
+	nodamage = FALSE
+	damage = 1
+	poisontype = /datum/reagent/moondust_purest
+	poisonfeel = "burning" //Insufflation go brr.
+	poisonamount = 8 //Decent bit of high, three doses would be just above the overdose threshold if applied fast enough - in practice usually 4.
+
 
 /obj/projectile/magic/blowingdust/on_hit(target, mob/living/M)
 	. = ..()
@@ -340,7 +447,48 @@
 		to_chat(target, span_warning("Gah! Something.. got in my - eyes.."))
 		M.blur_eyes(2)
 
-// T2 - bond that lasts for 8 minutes as long as bonded are within 7 tiles, TRAIT_NOPAIN, spd = 5 end = 3
+// T2 - clears all stress. Forget your worries, pookie bear.
+/obj/effect/proc_holder/spell/invoked/lasthigh
+	name = "Last High"
+	desc = "Pleasure's perfume, just before the fall."
+	action_icon = 'icons/mob/actions/baothamiracles.dmi'
+	overlay_icon = 'icons/mob/actions/baothamiracles.dmi'
+	overlay_state = "last_high"
+	releasedrain = 30
+	chargedrain = 0
+	chargetime = 0
+	range = 7
+	warnie = "sydwarning"
+	sound = 'sound/magic/timestop.ogg'
+	invocations = list("completely clouds the air around them in a purple smog!")	//useful against any men in the mirror
+	invocation_type = "emote"
+	associated_skill = /datum/skill/magic/holy
+	antimagic_allowed = TRUE
+	recharge_time = 5 MINUTES
+	miracle = TRUE
+	devotion_cost = 75
+
+/obj/effect/proc_holder/spell/invoked/lasthigh/cast(list/targets, mob/living/user)
+	if(isliving(targets[1]))
+		var/mob/living/target = targets[1]
+		if(target.mob_biotypes & MOB_UNDEAD)
+			return FALSE
+
+		target.visible_message(
+			span_info("[target] is forced to deeply inhale a sweet smelling mist. They twist and choke as spittle runs down the corner of their mouth, yet an eerie calm passes over them."), 
+			span_notice("The world fades around me. My throat melts, my stomach churns, and the pounding in my chest feels relentless. I can barely move, but it doesn't matter. Oblivion melts into love in front of my glossed-over eyes.")
+		)
+		target.adjustToxLoss(3)
+		target.add_stress(/datum/stressevent/lasthigh)
+		return TRUE
+
+/datum/stressevent/lasthigh
+	timer = 10 MINUTES
+	stressadd = -99
+	desc = span_hypnophrase("The world fades around me. My throat melts, my stomach churns, and the pounding in my chest feels relentless. I can barely move, but it doesn't matter. Oblivion melts into love in front of my glossed-over eyes.") 
+
+
+// T3 - bond that lasts for 8 minutes as long as bonded are within 7 tiles, TRAIT_NOPAIN, spd = 5 end = 3
 /obj/effect/proc_holder/spell/invoked/joyride
 	name = "Joyride"
 	desc = "A frenzy for two to partake in."
@@ -384,47 +532,7 @@
 	)
 	return TRUE
 
-// T3 - clears all stress. Forget your worries, pookie bear.
-/obj/effect/proc_holder/spell/invoked/lasthigh
-	name = "Last High"
-	desc = "Pleasure's perfume, just before the fall."
-	action_icon = 'icons/mob/actions/baothamiracles.dmi'
-	overlay_icon = 'icons/mob/actions/baothamiracles.dmi'
-	overlay_state = "last_high"
-	releasedrain = 30
-	chargedrain = 0
-	chargetime = 0
-	range = 7
-	warnie = "sydwarning"
-	sound = 'sound/magic/timestop.ogg'
-	invocations = list("completely clouds the air around them in a purple smog!")	//useful against any men in the mirror
-	invocation_type = "emote"
-	associated_skill = /datum/skill/magic/holy
-	antimagic_allowed = TRUE
-	recharge_time = 5 MINUTES
-	miracle = TRUE
-	devotion_cost = 75
-
-/obj/effect/proc_holder/spell/invoked/lasthigh/cast(list/targets, mob/living/user)
-	if(isliving(targets[1]))
-		var/mob/living/target = targets[1]
-		if(target.mob_biotypes & MOB_UNDEAD)
-			return FALSE
-
-		target.visible_message(
-			span_info("[target] is forced to deeply inhale a sweet smelling mist. They twist and choke as spittle runs down the corner of their mouth, yet an eerie calm passes over them."), 
-			span_notice("The world fades around me. My throat melts, my stomach churns, and the pounding in my chest feels relentless. I can barely move, but it doesn't matter. Oblivion melts into love in front of my glossed-over eyes.")
-		)
-		target.adjustToxLoss(3)
-		target.add_stress(/datum/stressevent/lasthigh)
-		return TRUE
-
-/datum/stressevent/lasthigh
-	timer = 10 MINUTES
-	stressadd = -99
-	desc = span_hypnophrase("The world fades around me. My throat melts, my stomach churns, and the pounding in my chest feels relentless. I can barely move, but it doesn't matter. Oblivion melts into love in front of my glossed-over eyes.") 
-
-//Numbing Pleasure - T3, removes all pain from self for a period of time. (Similar to Ravox's without any blood-clotting and better pain suppression + good mood buff.)
+//Numbing Pleasure - T3, halves pain from target for a period of time. (Similar to Ravox's without any blood-clotting and better pain suppression + good mood buff.)
 /obj/effect/proc_holder/spell/invoked/painkiller
 	name = "Numbing Pleasure"
 	desc = "Numbs the targets pain and improves their mood."

@@ -1,5 +1,0 @@
-author: "eirenxiv"
-delete-after: True
-changes:
-  - bugfix: "fixed needle repair on non-clothing"
-  - balance: "scabbards that parry now repair with hammer only"

@@ -1,7 +1,7 @@
 // Global list for all learnable spells.
 // Maybe one day we'll have different schools of spells etc. and a system tied to them but this is fine for now.
 
-GLOBAL_LIST_INIT(learnable_spells, (list(/obj/effect/proc_holder/spell/invoked/projectile/fireball,
+GLOBAL_LIST_INIT(learnable_spells, (list(/datum/action/cooldown/spell/projectile/fireball,
 		/obj/effect/proc_holder/spell/invoked/projectile/lightningbolt,
 		/obj/effect/proc_holder/spell/invoked/projectile/fetch,
 		/obj/effect/proc_holder/spell/invoked/projectile/spitfire,
@@ -18,13 +18,13 @@ GLOBAL_LIST_INIT(learnable_spells, (list(/obj/effect/proc_holder/spell/invoked/p
 		/obj/effect/proc_holder/spell/invoked/longstrider,
 		/obj/effect/proc_holder/spell/invoked/invisibility,
 		/obj/effect/proc_holder/spell/invoked/projectile/acidsplash,
-		/obj/effect/proc_holder/spell/invoked/projectile/fireball/greater,
+		/obj/effect/proc_holder/spell/invoked/projectile/greater_fireball,
 //		/obj/effect/proc_holder/spell/invoked/frostbite,
 		/obj/effect/proc_holder/spell/invoked/guidance,
 		/obj/effect/proc_holder/spell/invoked/fortitude,
 		/obj/effect/proc_holder/spell/invoked/snap_freeze,
 		/obj/effect/proc_holder/spell/invoked/projectile/frostbolt,
-		/obj/effect/proc_holder/spell/invoked/projectile/arcynebolt,
+		/datum/action/cooldown/spell/projectile/arcynebolt,
 		/obj/effect/proc_holder/spell/invoked/projectile/arcynestrike,
 		/obj/effect/proc_holder/spell/invoked/gravity,
 		/obj/effect/proc_holder/spell/invoked/projectile/repel,
@@ -57,7 +57,7 @@ GLOBAL_LIST_INIT(learnable_spells, (list(/obj/effect/proc_holder/spell/invoked/p
 		/obj/effect/proc_holder/spell/invoked/forcewall/greater,
 		/obj/effect/proc_holder/spell/invoked/wither,
 		/obj/effect/proc_holder/spell/invoked/rebuke,
-		/obj/effect/proc_holder/spell/invoked/projectile/fireball/artillery,
+		/obj/effect/proc_holder/spell/invoked/projectile/artillery_fireball,
 		/obj/effect/proc_holder/spell/invoked/conjure_primordial,
 		/obj/effect/proc_holder/spell/invoked/raise_deadite,
 		/obj/effect/proc_holder/spell/invoked/bonechill,
@@ -88,7 +88,7 @@ GLOBAL_LIST_INIT(utility_spells, (list(
 ))
 
 // Augmentation spells - self-buffs safe for certain types of shared pool
-// No invisibility (too strong).
+// No invisibility (too strong). Includes minor utility picks for 1-point filler.
 GLOBAL_LIST_INIT(augmentation_spells, (list(
 		/obj/effect/proc_holder/spell/invoked/haste,
 		/obj/effect/proc_holder/spell/invoked/darkvision,
@@ -99,6 +99,10 @@ GLOBAL_LIST_INIT(augmentation_spells, (list(
 		/obj/effect/proc_holder/spell/invoked/fortitude,
 		/obj/effect/proc_holder/spell/invoked/guidance,
 		/obj/effect/proc_holder/spell/invoked/featherfall,
+		/obj/effect/proc_holder/spell/self/light,
+		/obj/effect/proc_holder/spell/invoked/projectile/lesser_fetch,
+		/obj/effect/proc_holder/spell/invoked/projectile/lesser_repel,
+		/obj/effect/proc_holder/spell/targeted/touch/nondetection,
 		)
 ))
 

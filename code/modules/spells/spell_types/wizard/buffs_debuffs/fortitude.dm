@@ -3,7 +3,7 @@
 	desc = "Harden one's humors to the fatigues of the body. (-50% Stamina Usage)"
 	cost = 3 // Halving stamina cost is INSANE so it cost the same as before adjustment to 3x spellpoint basis.
 	xp_gain = TRUE
-	releasedrain = 60
+	releasedrain = SPELLCOST_STAT_BUFF
 	chargedrain = 1
 	chargetime = 1 SECONDS
 	recharge_time = 2 MINUTES

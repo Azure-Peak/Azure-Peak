@@ -95,7 +95,7 @@ SUBSYSTEM_DEF(events)
 	SSgamemode.event_panel(user)
 
 /client/proc/forceGamemode()
-	set name = "Open Storyteller Panel"
+	set name = "Storyteller - Panel"
 	set category = "-GameMaster-"
 	if(!holder ||!check_rights(R_FUN))
 		return
@@ -107,3 +107,63 @@ SUBSYSTEM_DEF(events)
 /datum/controller/subsystem/events/proc/resetFrequency()
 	frequency_lower = initial(frequency_lower)
 	frequency_upper = initial(frequency_upper)
+
+/client/proc/view_storyteller_vote_log()
+	set category = "-GameMaster-"
+	set name = "Storyteller - Log"
+
+	if(!check_rights(R_ADMIN))
+		return
+
+	var/mob/user = mob
+	if(!user)
+		return
+
+	var/file_path = "data/last_round/storyteller_vote.json"
+	if(!fexists(file_path))
+		to_chat(src, span_warning("No storyteller vote log found."))
+		return
+
+	var/file_text = file2text(file_path)
+	var/list/file_data = safe_json_decode(file_text)
+	if(!islist(file_data))
+		var/datum/browser/raw_popup = new(user, "storyteller_vote_log", "Storyteller Vote Log", 700, 500)
+		raw_popup.set_content("<pre>[html_encode(file_text)]</pre>")
+		raw_popup.open()
+		return
+
+	var/state = file_data["state"]
+	if(!state)
+		state = "unknown"
+
+	var/winner = file_data["winner"]
+	if(!winner)
+		winner = "None"
+
+	var/list/dat = list()
+	dat += "<h2>Storyteller Vote Log</h2>"
+	dat += "<b>State:</b> [html_encode(state)]<br>"
+	dat += "<b>Winner:</b> [html_encode(winner)]<br><hr>"
+
+	var/list/votes = file_data["votes"]
+	if(!islist(votes) || !length(votes))
+		dat += "No votes recorded."
+	else
+		dat += "<table width='100%' style='text-align:left'>"
+		dat += "<tr><th>Ckey</th><th>Choice</th><th>Vote Power</th></tr>"
+		for(var/voter_ckey in votes)
+			var/list/vote_data = votes[voter_ckey]
+			if(!islist(vote_data))
+				continue
+			var/choice = vote_data["choice"]
+			if(!choice)
+				choice = "Unknown"
+			var/vote_power = vote_data["vote_power"]
+			if(isnull(vote_power))
+				vote_power = 0
+			dat += "<tr><td>[html_encode(voter_ckey)]</td><td>[html_encode(choice)]</td><td>[vote_power]</td></tr>"
+		dat += "</table>"
+
+	var/datum/browser/popup = new(user, "storyteller_vote_log", "Storyteller Vote Log", 700, 500)
+	popup.set_content(dat.Join())
+	popup.open()

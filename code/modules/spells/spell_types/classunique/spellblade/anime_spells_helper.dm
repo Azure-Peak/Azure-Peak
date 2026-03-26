@@ -19,7 +19,7 @@ without going through the click pipeline, so spells can deliver weapon-style str
 		if(BCLASS_BLUNT, BCLASS_SMASH)
 			blade_class = BCLASS_BLUNT
 			attack_flag = "blunt"
-			armor_penetration = BLUNT_DEFAULT_PENFACTOR // It is BLUNT
+			armor_penetration = PEN_NONE // Blunt uses DR, not penetration
 		if(BCLASS_STAB, BCLASS_PICK)
 			blade_class = BCLASS_STAB
 			attack_flag = "stab"
@@ -110,10 +110,20 @@ without going through the click pipeline, so spells can deliver weapon-style str
 	playsound(get_turf(target), hit_sound, 100, TRUE)
 	if(!skip_message)
 		var/weapon_name = weapon ? weapon.name : "arcyne force"
+		var/armor_msg = ""
+		if(!damage_dealt)
+			armor_msg += VISMSG_ARMOR_BLOCKED
+			// Show armor integrity status (crumbling, cracking, etc.) matching normal melee
+			if(ishuman(target))
+				var/mob/living/carbon/human/H = target
+				var/obj/item/clothing/C = H.get_best_worn_armor(def_zone, attack_flag)
+				var/extra_msg = C?.get_armor_integ()
+				if(extra_msg)
+					armor_msg += extra_msg
 		target.visible_message(
-			span_danger("[user] [attack_verb] [target] with [weapon_name]!"),
-			span_danger("[spell_name] hits my [span_userdanger(parse_zone(def_zone))]!"),
-			ignored_mobs = list(user))
+			span_danger("[user] [attack_verb] [target] with [weapon_name] in the [parse_zone(def_zone)]![armor_msg]"),
+			span_danger("[user] [attack_verb] me in the [span_userdanger(parse_zone(def_zone))]![armor_msg]"),
+			null, COMBAT_MESSAGE_RANGE)
 
 	log_combat(user, target, "spell-struck ([spell_name])")
 	return max(0, damage - armor_block)

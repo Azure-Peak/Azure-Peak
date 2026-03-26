@@ -4,7 +4,7 @@
 	cost = 3
 	overlay_state = "hierophant"
 	xp_gain = TRUE
-	releasedrain = 20
+	releasedrain = SPELLCOST_SINGLE_CC
 	chargedrain = 1
 	chargetime = 10
 	recharge_time = 20 SECONDS

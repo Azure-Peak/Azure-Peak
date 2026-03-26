@@ -4,7 +4,7 @@
 	overlay_state = "lightning_sunder"
 	cost = 9
 	spell_tier = 4 // Highest tier AOE
-	releasedrain = 50
+	releasedrain = SPELLCOST_ULTIMATE
 	chargedrain = 1
 	chargetime = 50
 	recharge_time = 30 SECONDS

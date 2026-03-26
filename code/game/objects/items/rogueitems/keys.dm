@@ -306,9 +306,9 @@
 // RETINUE / GARRISON //
 ////////////////////////
 
-/obj/item/roguekey/justiciary
-	name = "justiciary key"
-	desc = "This key opens the justiciary."
+/obj/item/roguekey/marshal
+	name = "marshal's key"
+	desc = "This key opens the quarters of the Marshal."
 	icon_state = "cheesekey"
 	lockid = "sheriff"
 
@@ -366,13 +366,15 @@
 
 /obj/item/roguekey/keeper
 	name = "beast sanctum key"
-	desc = "This key should open and close the heart beast's sanctum."
+	desc = "This key should open and close the heartbeast's sanctum, permitting entrance to its \
+	outermost areas - and to the creature itself, should the interior be left unlocked."
 	icon_state = "beastkey"
 	lockid = "keeper"
 
 /obj/item/roguekey/keeper_inner
 	name = "beast inner sanctum key"
-	desc = "This key should open and close the iron gates within the beast's sanctum."
+	desc = "This key should open and close the inner gates of the heartbeast's sanctum within the \
+	Sanctum of Pestra, permitting or frustrating access to the creature housed within."
 	icon_state = "beastkey2"
 	lockid = "keeper2"
 
@@ -505,6 +507,13 @@
 	desc = "The key smells of herbs, feeling soothing to the touch."
 	icon_state = "greenkey"
 	lockid = "physician"
+
+/obj/item/roguekey/apothecary
+	name = "clinic key"
+	desc = "An elegant key which should permit access to secure areas in the city clinic. Its surface is \
+	covered by a very thin patina of corrosion."
+	icon_state = "ekey"
+	lockid = "apothecary"
 
 ///////////////////////
 // MERCHANT / STALLS //
@@ -746,9 +755,15 @@
 
 /obj/item/roguekey/university
 	name = "university key"
-	desc = "This key should open anything within the university."
+	desc = "This key should open all but the most secure areas of the University of Azuria."
 	icon_state = "greenkey"
 	lockid = "university"
+
+/obj/item/roguekey/university_secure
+	name = "university tower key"
+	desc = "This key should open the tower in the University of Azuria, where dangerous magic is contained."
+	icon_state = "brownkey"
+	lockid = "university_secure"
 
 /obj/item/roguekey/townie_smith_extras
 	name = "town smith key"
@@ -952,6 +967,8 @@
 	w_class = WEIGHT_CLASS_TINY
 	dropshrink = 0.75
 	var/lockhash = 0
+	grid_height = 32
+	grid_width = 32
 
 /obj/item/customblank/attackby(obj/item/I, mob/user, params)
 	if(istype(I, /obj/item/rogueweapon/hammer))
@@ -985,6 +1002,8 @@
 	w_class = WEIGHT_CLASS_SMALL
 	dropshrink = 0.75
 	var/lockhash = 0
+	grid_height = 32
+	grid_width = 32
 
 /obj/item/customlock/attackby(obj/item/I, mob/user, params)
 	if(istype(I, /obj/item/rogueweapon/hammer))

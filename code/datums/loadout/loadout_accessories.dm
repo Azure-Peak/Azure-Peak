@@ -29,9 +29,9 @@
 	path = /obj/item/clothing/gloves/roguetown/bandages
 	sort_category = "Accessories"
 
-/datum/loadout_item/exoticsilkbelt
-	name = "Exotic Silk Belt"
-	path = /obj/item/storage/belt/rogue/leather/exoticsilkbelt
+/datum/loadout_item/silkbelt
+	name = "Giltsilk Belt"
+	path = /obj/item/storage/belt/rogue/leather/silkbelt
 	sort_category = "Accessories"
 	cost = 2
 
@@ -45,6 +45,11 @@
 	path = /obj/item/clothing/mask/rogue/shepherd
 	sort_category = "Accessories"
 
+/datum/loadout_item/shadowmask
+	name = "Purple Halfmask"
+	path = /obj/item/clothing/mask/rogue/shepherd/shadowmask
+	sort_category = "Accessories"
+
 /datum/loadout_item/dendormask
 	name = "Briar Mask"
 	path = /obj/item/clothing/head/roguetown/dendormask
@@ -55,9 +60,9 @@
 	path = /obj/item/clothing/head/roguetown/roguehood/eorahood
 	sort_category = "Accessories"
 
-/datum/loadout_item/exoticsilkmask
-	name = "Exotic Silk Mask"
-	path = /obj/item/clothing/mask/rogue/exoticsilkmask
+/datum/loadout_item/silkmask
+	name = "Giltsilk Mask"
+	path = /obj/item/clothing/mask/rogue/silkmask
 	sort_category = "Accessories"
 	cost = 2
 
@@ -146,9 +151,17 @@
 	path = /obj/item/clothing/neck/roguetown/psicross
 	sort_category = "Accessories"
 
+/datum/loadout_item/psicross/decrepit
+	name = "Decrepit Psycross"
+	path = /obj/item/clothing/neck/roguetown/psicross/aalloy
+
 /datum/loadout_item/psicross/reform
 	name = "Reformist Psydonian Cross"
 	path = /obj/item/clothing/neck/roguetown/psicross/reform
+
+/datum/loadout_item/psicross/naledi
+	name = "Naledian psy-bracelet"
+	path = /obj/item/clothing/neck/roguetown/psicross/naledi
 
 /datum/loadout_item/psicross/astrata
 	name = "Amulet of Astrata"

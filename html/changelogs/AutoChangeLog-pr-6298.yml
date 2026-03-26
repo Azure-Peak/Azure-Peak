@@ -1,4 +1,0 @@
-author: "eirenxiv"
-delete-after: True
-changes:
-  - bugfix: "fixed spectacles not working in head slot"

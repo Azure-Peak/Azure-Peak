@@ -20,7 +20,6 @@
 		/datum/rmb_intent/riposte,\
 		/datum/rmb_intent/weak
 	)
-	var/is_silent = FALSE /// Determines whether or not we will scream our funny lines at people.
 	npc_max_jump_stamina = 0
 
 /mob/living/carbon/human/species/lizardfolk/psy_vault_guard/ambush
@@ -33,9 +32,9 @@
 	if(target)
 		aggressive=1
 		wander = TRUE
-		if(!is_silent && target != newtarg)
-			say(pick(GLOB.highwayman_aggro), npc_speech = TRUE)
-			pointed(target)
+		if(target != newtarg)
+			if(npc_combat_dialogue(GLOB.highwayman_aggro, prob_chance = 50, cooldown = 0))
+				pointed(target)
 
 /mob/living/carbon/human/species/lizardfolk/psy_vault_guard/should_target(mob/living/L)
 	if(L.stat != CONSCIOUS)

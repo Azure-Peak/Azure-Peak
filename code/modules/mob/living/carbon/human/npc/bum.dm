@@ -25,8 +25,8 @@ GLOBAL_LIST_INIT(bum_aggro, world.file2list("strings/rt/bumaggrolines.txt"))
 		aggressive=1
 		wander = TRUE
 		if(target != newtarg)
-			say(pick(GLOB.bum_aggro), npc_speech = TRUE)
-			pointed(target)
+			if(npc_combat_dialogue(GLOB.bum_aggro, prob_chance = 50, cooldown = 0))
+				pointed(target)
 
 /mob/living/carbon/human/species/human/northern/bum/should_target(mob/living/L)
 	if(L.stat != CONSCIOUS)

@@ -5,7 +5,7 @@
 	overlay_state = "magicians_brick"
 	sound = list('sound/magic/whiteflame.ogg')
 
-	releasedrain = 30
+	releasedrain = SPELLCOST_MINOR_PROJECTILE // Yeah it is just a brick and cannot be weaved with other spells
 	recharge_time = 5 SECONDS // Quite spammable
 
 	warnie = "spellwarning"
@@ -53,7 +53,7 @@
 	force = 15 // Copy pasted from real brick + 1 for neat number
 	throwforce = 20 // +2 from real brick for neat scaling
 	throw_speed = 4
-	armor_penetration = 30 // From iron tossblade
+	armor_penetration = PEN_NONE // It is a BRICK
 	wdefense = 0
 	wbalance = WBALANCE_NORMAL
 	max_integrity = 50 // Don't parry with it lol

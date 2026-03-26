@@ -1,15 +1,7 @@
-
-
 /datum/supply_pack/rogue/luxury
 	group = "Luxury"
 	crate_name = "merchant guild's crate"
 	crate_type = /obj/structure/closet/crate/chest/merchant
-
-/datum/supply_pack/rogue/luxury/sigs
-	name = "Pipe Weed Zig"
-	cost = 3
-	contains = list(/obj/item/clothing/mask/cigarette/rollie/nicotine)
-	not_in_public = TRUE // go to the PURITY
 
 /datum/supply_pack/rogue/luxury/ozium
 	name = "Ozium"
