@@ -26,7 +26,7 @@
 	. = ..()
 	current_reader = user
 	var/datum/recipe_wiki/wiki = get_recipe_wiki()
-	wiki.show_to_user(user, types, name)
+	wiki.show_to_user(user, types, name, type)
 
 /obj/item/recipe_book/getonmobprop(tag)
 	. = ..()

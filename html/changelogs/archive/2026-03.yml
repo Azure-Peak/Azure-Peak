@@ -1166,3 +1166,59 @@
   - bugfix: Cleaned up logic and potential TGUI runtime issues
   moltosotto:
   - qol: Councillors can now hand out quests at the stewardry.
+2026-03-26:
+  Astrachan "Drake Girl" Rosaceae:
+  - bugfix: void dragon binding now actually works
+  BurpleBineapple:
+  - balance: Vaquero can choose between their classic medium armor setup or the new
+      Bardic Inspiration
+  FreeStylaLT:
+  - refactor: Rotcured no longer makes the character green by default.
+  - rscadd: Added a 'Rotten' skin tone option, unlocked when Rotcured is selected
+      as one of the two virtues.
+  KatTheFox:
+  - rscadd: purple halfmask added to loadout
+  Lamasmaster:
+  - image: Language Icons (Etrusco)
+  Ollanius:
+  - bugfix: Baking most types of cookies should properly generate a pollutant, now,
+      instead of the 'smells' placeholder.
+  - bugfix: Relisted the teachings of Chocolate Jesus as blasphemic; you can no longer
+      infinitely duplicate halved chocolate ingots.
+  - balance: Remembering a TRIUMPH now costs 3 TRI > 1 TRI.
+  - balance: Picking the Leper or Asundered Mind vice now rewards 3 TRI > 1 TRI.
+  - balance: Golden scabbards, royal clothes, and other higher-end purchasable items
+      now cost 9 TRI > 7 TRI.
+  - balance: The Vial of Distilled Triumphance now costs 99 TRI > 77 TRI.
+  - balance: Reduced the Grenzelhoftian Beret from 7 TRI < 5 TRI.
+  - rscadd: '''No Flaw'' is now ''Flawless''.'
+  - rscadd: New Triumph-exclusive reskins for the Valorian Greatsword, Dadao, Wodao,
+      and Greatdadao.
+  - rscadd: New donator-specific reskin, the 'Avantyne-Threaded Sword'. Comes in two
+      flavors, for the Arming Sword and Longsword.
+  - bugfix: The Hand's 'Azurefyre' sword should now properly show its unique scabbard
+      sprite, when stowed.
+  - bugfix: Adjusts descriptions of all Triumph-exclusive reskinning elixirs to be
+      more accurate and less clunky.
+  - bugfix: The 'Rockhillian Longsword' elixir is now termed the 'Rockhillian Broadsword'
+      elixir, to be more accurate to its applicability.
+  - code_imp: Moved the Silver Executioner Sword's recipe to the anvil.dm, as it should've
+      been. No user facing changes.
+  - code_imp: Virtually all Triumph-exclusive items (that aren't already obtainable
+      ingame), reskins, and potions have been moved out of their original files. They're
+      now located in 'triumph_rewards.dm' and 'triumph_modkit.dm', which're both stored
+      in Roguetown's 'triumph' folder. This should hopefully clear up the road going
+      forward, and make adding more Triumph-exclusive things less of a headache.
+  Ryan180602:
+  - rscadd: extended/greenshift for psydon
+  - rscadd: vote panel now pops up on vote start.
+  - rscadd: new vote panel + vote measures.
+  - rscadd: vote log for admins.
+  WeNeedMorePhoron:
+  - rscdel: Remove parallax subsystem, report any oddity especially as ghost.
+  eirenxiv:
+  - bugfix: fixed psydonian thorns flags, again
+  - bugfix: fixed psydonian thorns coverage flags
+  hazelrat:
+  - bugfix: Garrison should no longer lose their town buff while in the external area
+      of the university.
