@@ -13,7 +13,8 @@
 		/obj/item/alch/hag_moss/grief = 5,
 		/obj/item/alch/hag_moss/envy = 5,
 		/obj/item/alch/hag_moss/lullaby = 5,
-		/obj/item/alch/hag_moss/pride = 5
+		/obj/item/alch/hag_moss/pride = 5,
+		/obj/item/roguekey/hag = 1
 	)
 	var/hag_tier = 1
 	var/static/list/curse_registry = list(

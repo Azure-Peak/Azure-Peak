@@ -1,25 +1,25 @@
 /datum/hag_boon/item/wyrd_cross
-	name = "Wyrd Cross"
+	name = "wyrd cross"
 	desc = "A cross that can take the shape of any other via right click, it can inject a healing tonic into the user once on middle click."
 	points = 20
 
 /datum/hag_boon/item/hag_axe
-	name = "Wyrd Axe"
+	name = "wyrd axe"
 	desc = "An axe equivalent to steel made out of gnarled wood. It regenerates whilst on natural tiles."
 	points = 20
 
 /datum/hag_boon/item/hag_spear
-	name = "Wyrd Polearm"
+	name = "wyrd polearm"
 	desc = "A strange polearm equivalent to steel made out of gnarled wood. It regenerates whilst on natural tiles."
 	points = 20
 
 /datum/hag_boon/item/hag_sword
-	name = "Wyrd Sword"
+	name = "wyrd sword"
 	desc = "A strange sword equivalent to steel made out of gnarled wood. It regenerates whilst on natural tiles."
 	points = 20
 
 /obj/item/clothing/neck/roguetown/psicross/hag
-	name = "Wyrd Cross"
+	name = "wyrd cross"
 	desc = "I can't really pin down what this is supposed to be. The silhouette's edges wave and warp whilst I look at it."
 	icon_state = "wyrd_cross"
 	icon = 'icons/roguetown/items/hag/hag_items.dmi'
@@ -174,7 +174,7 @@
 	force_wielded = 35
 	possible_item_intents = list(/datum/intent/axe/cut, /datum/intent/axe/chop, SPEAR_BASH)
 	gripped_intents = list(/datum/intent/axe/cut/long, /datum/intent/axe/chop/long, /datum/intent/axe/sweep)
-	name = "Gnarled Greataxe"
+	name = "gnarled greataxe"
 	desc = "A large axe made out of gnarled, twisted wood. It's like it was grown that way, and you can swear you see the branches moving."
 	icon_state = "hagaxe"
 	// Lower than the steel counterpart to compensate for repair.
@@ -185,7 +185,7 @@
 
 /obj/item/rogueweapon/sword/long/hag
 	max_blade_int = 220
-	name = "Gnarled Longsword"
+	name = "gnarled longsword"
 	desc = "A large sword made out of gnarled, twisted wood. It's like it was grown that way, and you can swear you see the branches moving."
 	icon_state = "hagsword"
 	item_flags = HAG_ITEM
@@ -193,7 +193,7 @@
 
 /obj/item/rogueweapon/halberd/hag
 	max_blade_int = 155
-	name = "Gnarled Polearm"
+	name = "gnarled polearm"
 	desc = "A large polearm made out of gnarled, twisted wood. It's like it was grown that way, and you can swear you see the branches moving."
 	icon_state = "hagspear"
 	item_flags = HAG_ITEM

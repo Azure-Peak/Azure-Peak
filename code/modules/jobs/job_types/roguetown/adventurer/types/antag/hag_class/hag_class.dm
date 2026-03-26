@@ -47,6 +47,7 @@
 	backl = /obj/item/storage/backpack/rogue/satchel
 	shoes = /obj/item/clothing/shoes/roguetown/sandals
 	beltl = /obj/item/storage/belt/rogue/pouch/coins/aalloy
+	beltr = /obj/item/roguekey/hag
 	if(H.mind)
 		H.ambushable = FALSE
 		H.faction |= list("hag", "spiders")
