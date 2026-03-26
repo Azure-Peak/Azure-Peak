@@ -218,26 +218,27 @@
 		return FALSE
 
 	var/mob/living/L = find_target(name_to_check)
-	// Look as fun as magically enhanced werewolves would be, no.
 	if(L && !antag_check(L))
 		to_chat(parent, span_warning("[name_to_check] can't hold your ancient magycks, they are already blessed by another force."))
 		return FALSE
 
-	// Checking to see if we aren't blessing too many people.
 	var/active_victims = 0
 	for(var/v_name in boon_registry)
-		var/total_v_points = 0
+		var/has_real_boon = FALSE
 		for(var/datum/hag_boon/B in boon_registry[v_name])
-			if(B.hag_is_valid)
-				total_v_points += B.points
+			// If they have a valid hag boon that IS NOT a curse and IS NOT a scar
+			if(B.hag_is_valid && !B.hag_curse && !istype(B, /datum/hag_boon/curse_scar))
+				has_real_boon = TRUE
 				break
-		if(total_v_points > 0) active_victims++
+		
+		if(has_real_boon)
+			active_victims++
 
 	var/max_victims
 	var/max_points
 	switch(hag_tier)
 		if(1)
-			max_victims = 4
+			max_victims = 2
 			max_points = 60
 		if(2)
 			max_victims = 5
@@ -246,43 +247,58 @@
 			max_victims = 6
 			max_points = 110
 
-	// No new people past the limit, but old people is fine.
-	if(!boon_registry[name_to_check] && active_victims >= max_victims)
-		to_chat(parent, span_warning("Your spirit cannot tether more than [max_victims] souls at this tier."))
-		return FALSE
-
-	// 3 traits per person. We don't want hags to only give out traits...
-	var/current_total_points = 0
-	var/trait_boon_count = 0
+	// Only block if we are trying to boon a NEW person and we're at the limit
+	// We check if the target currently has a real boon.
+	var/target_has_boon = FALSE
 	if(boon_registry[name_to_check])
 		for(var/datum/hag_boon/B in boon_registry[name_to_check])
-			if(!B.hag_is_valid || B.hag_curse)
+			if(B.hag_is_valid && !B.hag_curse && !istype(B, /datum/hag_boon/curse_scar))
+				target_has_boon = TRUE
+				break
+
+	if(!target_has_boon && active_victims >= max_victims)
+		to_chat(parent, span_warning("Your spirit cannot tether more than [max_victims] blessed souls at this tier."))
+		to_chat(world, span_warning("Your spirit cannot tether more than [max_victims] blessed souls at this tier."))
+		return FALSE
+
+	// --- Individual Point/Trait Logic ---
+	var/current_total_points = 0
+	var/trait_boon_count = 0
+	
+	if(boon_registry[name_to_check])
+		for(var/datum/hag_boon/B in boon_registry[name_to_check])
+			if(!B.hag_is_valid || !B.hag_curse)
 				continue
+			
+			// Scars and Curses STILL count toward the soul's total capacity (max_points)
 			current_total_points += B.points
+			
+			// Only count traits for the 3-trait limit
 			if(B.hag_trait)
 				trait_boon_count++
 
-	var/datum/hag_boon/checking = boon_path // Cast for initial access
+	var/datum/hag_boon/checking = boon_path
 	if(initial(checking.hag_trait) && trait_boon_count >= 3)
 		to_chat(parent, span_warning("[name_to_check]'s body cannot withstand more than 3 trait-altering boons!"))
 		return FALSE
 
-	// Finally, tier limits. Higher tiers allow for more powerful boons, and more boons overall.
+	// Individual capacity check
 	var/new_boon_points = initial(checking.points)
 	if((current_total_points + new_boon_points) > max_points)
 		to_chat(parent, span_warning("This blessing is too heavy. [name_to_check] only has room for [max_points - current_total_points] more points of power."))
+		to_chat(world, span_warning("This blessing is too heavy. [name_to_check] only has room for [max_points - current_total_points] more points of power."))
 		return FALSE
 
-	// Spell check!
+	// Spell check
 	if(ispath(boon_path, /datum/hag_boon/spell))
 		if(L && L.mind)
 			var/datum/hag_boon/spell/spell_boon_path = boon_path
 			var/target_spell_type = initial(spell_boon_path.spell_type)
-			// Check if the mob already has this spell from ANY source
 			for(var/obj/effect/proc_holder/spell/S in L.mind.spell_list)
 				if(S.type == target_spell_type)
 					to_chat(parent, span_warning("[name_to_check] already possesses the knowledge this boon would grant."))
 					return FALSE
+					
 	return TRUE
 
 /datum/component/hag_curio_tracker/proc/antag_check(mob/living/carbon/C)
