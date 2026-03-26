@@ -673,6 +673,10 @@
 /obj/item/rogueweapon/mace/steel,
 /turf/open/floor/rogue/cobble,
 /area/rogue)
+"bz" = (
+/obj/effect/decal/cleanable/blood/gibs,
+/turf/open/floor/rogue/cobble,
+/area/rogue/indoors/shelter/bog_hag)
 "bC" = (
 /obj/machinery/light/rogue/cauldron,
 /turf/open/floor/rogue/twig,
@@ -680,6 +684,20 @@
 "bX" = (
 /turf/closed/mineral/rogue/bedrock,
 /area/rogue)
+"cj" = (
+/obj/item/reagent_containers/food/snacks/grown/berries/rogue/poison,
+/obj/item/reagent_containers/food/snacks/grown/berries/rogue/poison,
+/obj/item/reagent_containers/food/snacks/grown/berries/rogue/poison,
+/obj/structure/closet/crate/chest/crate,
+/obj/machinery/light/rogue/candle,
+/turf/open/floor/rogue/cobble,
+/area/rogue/indoors/shelter/bog_hag)
+"cm" = (
+/obj/structure/mineral_door/wood/violet{
+	lockid = "hag"
+	},
+/turf/open/floor/rogue/cobble,
+/area/rogue/indoors/shelter/bog_hag)
 "cF" = (
 /turf/open/water/swamp/deep,
 /area/rogue/indoors/shelter/bog_hag)
@@ -737,14 +755,6 @@
 "fu" = (
 /turf/open/floor/rogue/blocks/bluestone,
 /area/rogue/indoors/eventarea)
-"fC" = (
-/obj/item/reagent_containers/food/snacks/grown/berries/rogue/poison,
-/obj/item/reagent_containers/food/snacks/grown/berries/rogue/poison,
-/obj/item/reagent_containers/food/snacks/grown/berries/rogue/poison,
-/obj/structure/closet/crate/chest/crate,
-/obj/machinery/light/rogue/candle,
-/turf/open/floor/rogue/cobble,
-/area/rogue/indoors/shelter/bog_hag)
 "fQ" = (
 /turf/open/floor/rogue/cobble,
 /area/rogue/indoors/eventarea)
@@ -758,13 +768,6 @@
 "gm" = (
 /turf/open/floor/rogue/ruinedwood/platform,
 /area/rogue/indoors/eventarea)
-"gE" = (
-/obj/structure/table/wood/long_table/mid/alt,
-/obj/item/reagent_containers/powder/flour,
-/obj/item/rogueweapon/huntingknife/chefknife,
-/obj/item/kitchen/rollingpin,
-/turf/open/floor/rogue/cobble,
-/area/rogue/indoors/shelter/bog_hag)
 "gJ" = (
 /turf/open/floor/rogue/grass,
 /area/rogue/indoors/shelter/bog_hag)
@@ -807,13 +810,13 @@
 "jc" = (
 /turf/open/floor/rogue/tile/checker,
 /area/rogue/indoors/eventarea)
+"jk" = (
+/obj/item/reagent_containers/glass/bucket,
+/turf/open/floor/rogue/cobble,
+/area/rogue/indoors/shelter/bog_hag)
 "jn" = (
 /turf/open/floor/rogue/rooftop/north,
 /area/rogue/indoors/eventarea)
-"jp" = (
-/obj/effect/decal/cleanable/blood/gibs/limb,
-/turf/open/floor/rogue/cobble,
-/area/rogue/indoors/shelter/bog_hag)
 "jr" = (
 /turf/open/floor/rogue/herringbone,
 /area/rogue/indoors/eventarea)
@@ -899,18 +902,13 @@
 /obj/item/hag_catalyst/varnish_base,
 /turf/open/floor/rogue/shroud,
 /area/rogue/indoors/shelter/bog_hag)
-"lT" = (
-/obj/item/reagent_containers/glass/bucket,
-/turf/open/floor/rogue/cobble,
-/area/rogue/indoors/shelter/bog_hag)
-"lZ" = (
-/obj/item/millstone,
-/obj/structure/table/wood/long_table,
-/turf/open/floor/rogue/cobble,
-/area/rogue/indoors/shelter/bog_hag)
 "mg" = (
 /turf/open/floor/rogue/grass,
 /area/rogue/indoors/eventarea)
+"mq" = (
+/obj/effect/decal/cleanable/blood/gibs/body,
+/turf/open/floor/rogue/cobble,
+/area/rogue/indoors/shelter/bog_hag)
 "ms" = (
 /obj/structure/deaths_door_shrine,
 /turf/open/floor/rogue/underworld/road,
@@ -921,9 +919,19 @@
 "mw" = (
 /turf/open/floor/rogue/metal,
 /area/rogue/indoors/eventarea)
+"mF" = (
+/obj/machinery/light/rogue/oven/south,
+/turf/open/floor/rogue/cobble,
+/area/rogue/indoors/shelter/bog_hag)
 "mN" = (
 /turf/open/floor/rogue/snowpatchy,
 /area/rogue/indoors/eventarea)
+"mY" = (
+/obj/item/reagent_containers/powder/flour,
+/obj/item/reagent_containers/food/snacks/butterslice,
+/obj/structure/table/wood/long_table/right,
+/turf/open/floor/rogue/cobble,
+/area/rogue/indoors/shelter/bog_hag)
 "nq" = (
 /obj/effect/decal/cleanable/black_rot_vomit,
 /turf/open/floor/rogue/cobble,
@@ -972,10 +980,6 @@
 "oO" = (
 /turf/open/floor/rogue/rooftop/green/corner1/dirten,
 /area/rogue/indoors/eventarea)
-"oQ" = (
-/obj/effect/decal/cleanable/blood/gibs/core,
-/turf/open/floor/rogue/cobble,
-/area/rogue/indoors/shelter/bog_hag)
 "pe" = (
 /turf/open/floor/rogue/greenstone/runed,
 /area/rogue/indoors/eventarea)
@@ -1005,17 +1009,13 @@
 "pN" = (
 /turf/open/floor/rogue/ruinedwood/herringbone,
 /area/rogue/indoors/eventarea)
-"pP" = (
-/obj/structure/mineral_door/wood/violet{
-	lockid = "hag"
-	},
-/turf/open/floor/rogue/cobble,
-/area/rogue/indoors/shelter/bog_hag)
 "pZ" = (
 /turf/open/floor/rogue/grassred,
 /area/rogue/indoors/shelter/bog_hag)
 "qf" = (
-/obj/structure/mineral_door/bars,
+/obj/structure/mineral_door/bars{
+	lockid = "hag"
+	},
 /turf/open/floor/rogue/cobble/mossy,
 /area/rogue/indoors/shelter/bog_hag)
 "qi" = (
@@ -1082,10 +1082,6 @@
 "rZ" = (
 /turf/open/floor/rogue/dark_ice,
 /area/rogue/underworld/dream)
-"se" = (
-/obj/effect/decal/cleanable/blood/gibs/down,
-/turf/open/floor/rogue/cobble,
-/area/rogue/indoors/shelter/bog_hag)
 "sh" = (
 /obj/effect/landmark/underworldstrands,
 /turf/open/floor/rogue/underworld/road,
@@ -1153,6 +1149,10 @@
 "tN" = (
 /turf/closed,
 /area/rogue/under)
+"tR" = (
+/obj/effect/decal/cleanable/blood/gibs/down,
+/turf/open/floor/rogue/cobble,
+/area/rogue/indoors/shelter/bog_hag)
 "tU" = (
 /obj/structure/table/wood,
 /obj/item/needle/thorn,
@@ -1202,6 +1202,10 @@
 "va" = (
 /turf/open/floor/rogue/blocks,
 /area/rogue/indoors/ravoxarena)
+"vf" = (
+/obj/effect/decal/cleanable/blood/gibs/up,
+/turf/open/floor/rogue/cobble,
+/area/rogue/indoors/shelter/bog_hag)
 "vl" = (
 /obj/structure/table/wood{
 	dir = 10;
@@ -1253,10 +1257,6 @@
 "xq" = (
 /turf/open/water/cleanshallow,
 /area/rogue/indoors/shelter/bog_hag)
-"xM" = (
-/obj/effect/decal/cleanable/blood/gibs/up,
-/turf/open/floor/rogue/cobble,
-/area/rogue/indoors/shelter/bog_hag)
 "xO" = (
 /obj/structure/table/wood{
 	dir = 10;
@@ -1292,10 +1292,6 @@
 "yB" = (
 /turf/open/floor/rogue/twig,
 /area/rogue/indoors/eventarea)
-"yH" = (
-/obj/machinery/light/rogue/oven/south,
-/turf/open/floor/rogue/cobble,
-/area/rogue/indoors/shelter/bog_hag)
 "yK" = (
 /turf/closed,
 /area/rogue/indoors)
@@ -1344,10 +1340,6 @@
 /obj/structure/roguemachine/hag_cauldron,
 /turf/open/floor/rogue/twig,
 /area/rogue/indoors/shelter/bog_hag)
-"AP" = (
-/obj/item/natural/cloth,
-/turf/open/floor/rogue/cobble,
-/area/rogue/indoors/shelter/bog_hag)
 "AQ" = (
 /obj/structure/table/wood{
 	dir = 10;
@@ -1382,6 +1374,14 @@
 "BV" = (
 /turf/open/floor/rogue/underworld/space/quiet,
 /area/rogue/indoors/eventarea)
+"Ct" = (
+/obj/effect/decal/remains/human,
+/obj/structure/fluff/walldeco/chains{
+	pixel_x = 22;
+	pixel_y = 0
+	},
+/turf/open/floor/rogue/cobble,
+/area/rogue/indoors/shelter/bog_hag)
 "Cu" = (
 /obj/structure/table/wood,
 /obj/item/storage/belt/rogue/surgery_bag/full{
@@ -1461,6 +1461,10 @@
 /obj/item/hag_catalyst/synth_base,
 /turf/open/floor/rogue/twig,
 /area/rogue/indoors/shelter/bog_hag)
+"El" = (
+/obj/effect/decal/cleanable/blood/gibs/limb,
+/turf/open/floor/rogue/cobble,
+/area/rogue/indoors/shelter/bog_hag)
 "Eq" = (
 /obj/structure/table/wood{
 	dir = 10;
@@ -1539,6 +1543,10 @@
 "He" = (
 /turf/open/floor/rogue/cobblerock,
 /area/rogue/indoors/eventarea)
+"Hi" = (
+/obj/effect/decal/cleanable/blood/gibs/core,
+/turf/open/floor/rogue/cobble,
+/area/rogue/indoors/shelter/bog_hag)
 "Hy" = (
 /turf/open/floor/rogue/tile/masonic/spiral,
 /area/rogue/indoors/eventarea)
@@ -1586,10 +1594,6 @@
 	},
 /turf/open/floor/rogue/blocks,
 /area/rogue)
-"Jf" = (
-/obj/effect/decal/cleanable/blood/gibs/body,
-/turf/open/floor/rogue/cobble,
-/area/rogue/indoors/shelter/bog_hag)
 "Jj" = (
 /obj/effect/decal/remains/human,
 /turf/open/floor/rogue/twig,
@@ -1693,6 +1697,8 @@
 /obj/item/storage/hip/orestore/bronze,
 /obj/item/ritechalk,
 /obj/item/ritechalk,
+/obj/item/rogueweapon/woodstaff,
+/obj/item/rogueweapon/scabbard/gwstrap,
 /turf/open/floor/rogue/shroud,
 /area/rogue/indoors/shelter/bog_hag)
 "Nm" = (
@@ -1795,14 +1801,6 @@
 "RX" = (
 /turf/closed/indestructible/riveted,
 /area/start)
-"RY" = (
-/obj/effect/decal/remains/human,
-/obj/structure/fluff/walldeco/chains{
-	pixel_x = 22;
-	pixel_y = 0
-	},
-/turf/open/floor/rogue/cobble,
-/area/rogue/indoors/shelter/bog_hag)
 "Sn" = (
 /turf/open/floor/rogue/metal/barograte,
 /area/rogue/indoors/eventarea)
@@ -1861,6 +1859,10 @@
 /obj/item/grown/log/tree/stick,
 /turf/open/floor/rogue/grassred,
 /area/rogue/indoors/shelter/bog_hag)
+"Ty" = (
+/obj/item/natural/cloth,
+/turf/open/floor/rogue/cobble,
+/area/rogue/indoors/shelter/bog_hag)
 "TT" = (
 /obj/machinery/light/rogue/candle,
 /turf/closed,
@@ -1900,10 +1902,6 @@
 "UK" = (
 /turf/open/floor/rogue/grasscold,
 /area/rogue/indoors/eventarea)
-"Ve" = (
-/obj/effect/decal/cleanable/blood/gibs,
-/turf/open/floor/rogue/cobble,
-/area/rogue/indoors/shelter/bog_hag)
 "Vh" = (
 /obj/structure/table/wood{
 	dir = 10;
@@ -1948,12 +1946,6 @@
 "VN" = (
 /turf/open/floor/rogue/blocks/paving,
 /area/rogue/indoors/eventarea)
-"VR" = (
-/obj/item/reagent_containers/powder/flour,
-/obj/item/reagent_containers/food/snacks/butterslice,
-/obj/structure/table/wood/long_table/right,
-/turf/open/floor/rogue/cobble,
-/area/rogue/indoors/shelter/bog_hag)
 "VS" = (
 /turf/open/water/swamp,
 /area/rogue/outdoors)
@@ -1990,12 +1982,24 @@
 "Zn" = (
 /turf/open/floor/rogue/blocks/newstone,
 /area/rogue/indoors/eventarea)
+"Zr" = (
+/obj/structure/table/wood/long_table/mid/alt,
+/obj/item/reagent_containers/powder/flour,
+/obj/item/rogueweapon/huntingknife/chefknife,
+/obj/item/kitchen/rollingpin,
+/turf/open/floor/rogue/cobble,
+/area/rogue/indoors/shelter/bog_hag)
 "ZA" = (
 /turf/closed/wall/shroud,
 /area/rogue/indoors/shelter/bog_hag)
 "ZK" = (
 /turf/open/floor/rogue/tile/masonic,
 /area/rogue/indoors/eventarea)
+"ZP" = (
+/obj/item/millstone,
+/obj/structure/table/wood/long_table,
+/turf/open/floor/rogue/cobble,
+/area/rogue/indoors/shelter/bog_hag)
 "ZW" = (
 /obj/effect/decal/edge_corner{
 	color = "#3f3f3f";
@@ -6304,7 +6308,7 @@ RQ
 An
 Gj
 RQ
-RY
+Ct
 An
 RQ
 rQ
@@ -7881,7 +7885,7 @@ RQ
 Af
 Af
 Af
-pP
+cm
 Af
 Af
 Af
@@ -8009,10 +8013,10 @@ MY
 MY
 RQ
 Af
-lZ
+ZP
 gd
 gd
-Jf
+mq
 Af
 RQ
 RQ
@@ -8139,10 +8143,10 @@ MY
 MY
 RQ
 Af
-gE
+Zr
 gd
-AP
-lT
+Ty
+jk
 Af
 RQ
 MY
@@ -8269,10 +8273,10 @@ MY
 MY
 RQ
 Af
-VR
+mY
 gd
-jp
-oQ
+El
+Hi
 Af
 RQ
 MY
@@ -8399,9 +8403,9 @@ MY
 MY
 RQ
 Af
-yH
-Ve
-se
+mF
+bz
+tR
 iX
 Af
 RQ
@@ -8529,10 +8533,10 @@ MY
 MY
 RQ
 Af
-fC
+cj
 gd
-xM
-Ve
+vf
+bz
 Af
 RQ
 MY
