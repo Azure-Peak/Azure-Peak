@@ -86,7 +86,9 @@ INITIALIZE_IMMEDIATE(/mob/dead)
 	var/list/wanderer_jobs = list(
 		"Adventurer",
 		"Wretch",
-		"Court Agent",
+		"Court Agent"
+	)
+	var/list/count_only_job = list(
 		"Hag"
 	)
 
@@ -107,7 +109,10 @@ INITIALIZE_IMMEDIATE(/mob/dead)
 
 	for (var/job_name in ready_players_by_job)
 		var/list/job_players = ready_players_by_job[job_name]
-		job_list += "<B>[job_name]</B> ([job_players.len]) - [job_players.Join(", ")]<br>"
+		if (job_name in count_only_job)
+			job_list += "<B>[job_name]</B> ([job_players.len])<br>"
+		else
+			job_list += "<B>[job_name]</B> ([job_players.len]) - [job_players.Join(", ")]<br>"
 	
 	sortTim(job_list, cmp = GLOBAL_PROC_REF(cmp_text_asc))
 
