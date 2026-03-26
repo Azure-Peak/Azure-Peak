@@ -119,6 +119,7 @@
 		/datum/hag_boon/trait/curse/comic_sans,
 		/datum/hag_boon/trait/curse/ugly,
 		/datum/hag_boon/trait/curse/mute,
+		/datum/hag_boon/trait/curse/no_defense,
 		/datum/hag_boon/trait/curse/silver_weakness,
 		/datum/hag_boon/buff/curse/choking_moss,
 		/datum/hag_boon/buff/curse/waterlogged,

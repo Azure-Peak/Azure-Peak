@@ -31,6 +31,7 @@
 		// Trait Curses - Tier 3 (76+ points)
 		/datum/hag_boon/trait/curse/no_spells = list("cost" = 100, "min_tier" = 3),
 		/datum/hag_boon/trait/curse/mute = list("cost" = 100, "min_tier" = 3),
+		/datum/hag_boon/trait/curse/no_defense = list("cost" = 100, "min_tier" = 3)
 	)
 	/// List of boon paths the hag has pre-prepared: [boon_path] = quantity
 	var/list/prepared_boons = list()

@@ -38,3 +38,8 @@
 	name = "Trait - Silver Weakness"
 	trait_to_apply = TRAIT_SILVER_WEAK
 	points = 50
+
+/datum/hag_boon/trait/curse/no_defense
+	name = "Trait - No Defense"
+	trait_to_apply = TRAIT_NODEF
+	points = 100
