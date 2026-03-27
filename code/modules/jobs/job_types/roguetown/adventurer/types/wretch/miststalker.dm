@@ -1,13 +1,14 @@
 /datum/advclass/wretch/miststalker
 	name = "Misutosutōkā" //not a massive fan of the name but alternative would be naming it Kiri no tsuiseki-sha but people may struggle with that
-	tutorial = "Hailing from Kazengun you were once a sacred guardian, dedicating your lyfe to protecting your chosen shrine of the twelve against fiends from beyond... now? Nothing more than a failure as you've lost your only home and calling. So, you roam the lands, empty and forsaken, with only your steel to guide you."
+	tutorial = "Hailing from Kazengun you were once a sacred guardian, dedicating your lyfe to protecting your chosen shrine of the twelve against brigands and fiends from beyond alike... now? Your sacred home has fallen, claimed by ruinous forces and you are banished to wander the realm. What will you find in your search for purpose?"
 	allowed_sexes = list(MALE, FEMALE)
-	allowed_races = RACES_SHUNNED_UP //rev removed due to balance concerns
+	allowed_races = RACES_NO_CONSTRUCT //i wonder if i will regret letting them be revs
+	allowed_patrons = ALL_KAZENGUN_PATRONS //guardian of the twelve... and saidon but no undivided
 	outfit = /datum/outfit/job/roguetown/wretch/miststalker
 	subclass_languages = list(/datum/language/kazengunese)
 	class_select_category = CLASS_CAT_WARRIOR
 	category_tags = list(CTAG_WRETCH)
-	traits_applied = list(TRAIT_NOMOOD, TRAIT_NOPAIN, TRAIT_BLOOD_RESISTANCE) //no armour, dead inside, good luck
+	traits_applied = list(TRAIT_NOPAINSTUN, TRAIT_BLOOD_RESISTANCE, TRAIT_JOURNEYS_END) //no armour, literally made to bleed
 	maximum_possible_slots = 1 //you probably don't want many of these
 
 	cmode_music = 'sound/music/combat_Kazengun_Firestorm.ogg'
@@ -23,11 +24,10 @@
 		/datum/skill/combat/knives = SKILL_LEVEL_EXPERT,
 		/datum/skill/combat/wrestling = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/misc/swimming = SKILL_LEVEL_EXPERT,
-		/datum/skill/misc/tracking = SKILL_LEVEL_APPRENTICE, //eh, go level it
 		/datum/skill/combat/unarmed = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/misc/athletics = SKILL_LEVEL_EXPERT,
 		/datum/skill/misc/climbing = SKILL_LEVEL_EXPERT,
-		/datum/skill/misc/medicine = SKILL_LEVEL_JOURNEYMAN, //you're going to lose limbs
+		/datum/skill/misc/medicine = SKILL_LEVEL_JOURNEYMAN, //you'll get real familiar with bleeding
 		/datum/skill/labor/butchering = SKILL_LEVEL_JOURNEYMAN, //flavour and useful for making armour
 		/datum/skill/misc/reading = SKILL_LEVEL_NOVICE, //social outcast but can still read protective charms
 	)
@@ -39,7 +39,35 @@
 
 /datum/outfit/job/roguetown/wretch/miststalker/pre_equip(mob/living/carbon/human/H)
 	..()
-	to_chat(H, span_warning("Failed in your duty, outcast from whence you came, nothing matters anymore. Only the steel in your hand can be trusted."))
+	
+	change_origin(H, /datum/virtue/origin/kazengun, "guardian duty")
+	to_chat(H, span_warning("Failed in your duty, outcast from whence you came you wander. Only the steel in your hand can be trusted."))
+	
+	if(H.dna.species.type in NON_DWARVEN_RACE_TYPES)
+		armor = /obj/item/clothing/suit/roguetown/armor/basiceast/mentorsuit
+		pants = /obj/item/clothing/under/roguetown/heavy_leather_pants/eastpants1
+	else
+		armor = /obj/item/clothing/suit/roguetown/armor/leather/heavy/jacket/black
+		pants = /obj/item/clothing/under/roguetown/heavy_leather_pants/kazengun/black
+
+	head = /obj/item/clothing/head/roguetown/mentorhat
+	gloves = /obj/item/clothing/gloves/roguetown/eastgloves1
+	neck = /obj/item/clothing/neck/roguetown/gorget/steel/kazengun //eh could be a regular one too
+	shirt = /obj/item/clothing/suit/roguetown/armor/gambeson/heavy/black
+	mask = /obj/item/clothing/mask/rogue/facemask/steel/kazengun //let them have this
+	wrists = /obj/item/clothing/wrists/roguetown/bracers/black
+	shoes = /obj/item/clothing/shoes/roguetown/boots
+	belt = /obj/item/storage/belt/rogue/leather/black
+	beltl = /obj/item/storage/belt/rogue/pouch/coins/poor
+	backl = /obj/item/storage/backpack/rogue/satchel
+	backpack_contents = list(
+		/obj/item/rogueweapon/huntingknife/idagger/steel/kazengun = 1,
+		/obj/item/flashlight/flare/torch/lantern/prelit = 1,
+		/obj/item/rope/chain = 1,
+		/obj/item/rogueweapon/scabbard/sheath/kazengun = 1,
+		/obj/item/reagent_containers/glass/bottle/alchemical/healthpot = 1,	//Small health vial
+		)
+
 	if(H.mind)
 		var/weapons = list("Ssangsudo +2 CON", "Kanabo +1 STR", "Naginata +2 PER", "Hwando +2 WIL", "Kodachi +1 SPD")
 		var/weapon_choice = input(H, "Choose your weapon.", "TAKE UP ARMS") as anything in weapons
@@ -72,27 +100,12 @@
 				H.change_stat(STATKEY_SPD, 1)
 
 		wretch_select_bounty(H)
-	head = /obj/item/clothing/head/roguetown/mentorhat
-	gloves = /obj/item/clothing/gloves/roguetown/eastgloves1
-	pants = /obj/item/clothing/under/roguetown/heavy_leather_pants/eastpants1
-	neck = /obj/item/clothing/neck/roguetown/gorget/steel/kazengun //eh could be a regular one too
-	armor = /obj/item/clothing/suit/roguetown/armor/basiceast/mentorsuit
-	shirt = /obj/item/clothing/suit/roguetown/armor/gambeson/heavy/black
-	mask = /obj/item/clothing/mask/rogue/facemask/steel/kazengun //let them have this
-	wrists = /obj/item/clothing/wrists/roguetown/bracers/black
-	shoes = /obj/item/clothing/shoes/roguetown/boots
-	belt = /obj/item/storage/belt/rogue/leather/black
-	beltl = /obj/item/storage/belt/rogue/pouch/coins/poor
-	backl = /obj/item/storage/backpack/rogue/satchel
-	backpack_contents = list(
-		/obj/item/rogueweapon/huntingknife/idagger/steel/kazengun = 1,
-		/obj/item/flashlight/flare/torch/lantern/prelit = 1,
-		/obj/item/rope/chain = 1,
-		/obj/item/rogueweapon/scabbard/sheath/kazengun = 1,
-		/obj/item/reagent_containers/glass/bottle/alchemical/healthpot = 1,	//Small health vial
-		)
 
 /obj/item/clothing/wrists/roguetown/bracers/black
 	color = CLOTHING_BLACK
 /obj/item/clothing/suit/roguetown/armor/gambeson/heavy/black
+	color = CLOTHING_BLACK
+/obj/item/clothing/suit/roguetown/armor/leather/heavy/jacket/black
+	color = CLOTHING_BLACK
+/obj/item/clothing/under/roguetown/heavy_leather_pants/kazengun/black
 	color = CLOTHING_BLACK
