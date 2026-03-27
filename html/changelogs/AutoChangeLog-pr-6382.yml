@@ -1,0 +1,4 @@
+author: "FreeStylaLT"
+delete-after: True
+changes:
+  - rscadd: "Matthios T2, Barter. It exchanges items for a portion of their selling price. (Generally less than turning it into a stockpile, etc)"

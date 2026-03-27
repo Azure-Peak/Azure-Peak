@@ -1,0 +1,7 @@
+author: "eirenxiv"
+delete-after: True
+changes:
+  - balance: "changed hand armour back into a regular gambeson"
+  - balance: "returned besilked haubergeon to the hand"
+  - balance: "hand bracers -> maille"
+  - balance: "no more value on unique hand drip"

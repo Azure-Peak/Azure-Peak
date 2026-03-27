@@ -25,6 +25,14 @@
 	mob_overlay_icon = 'icons/clothing/onmob/donor_clothes.dmi'
 	sleeved = 'icons/clothing/onmob/donor_sleeves_armor.dmi'
 
+/obj/item/clothing/head/roguetown/circlet/saffiratiara
+	name = "saffira encrusted tiara"
+	desc = "An ornate gold tiara, inset with a Saffira in its peak."
+	icon_state = "eekasqueak"
+	item_state = "eekasqueak"
+	icon = 'icons/clothing/donor_clothes.dmi'
+	mob_overlay_icon = 'icons/clothing/onmob/donor_clothes.dmi'
+
 //Funkymonke's donator item - dress
 /obj/item/clothing/suit/roguetown/shirt/dress/funkydress
 	name = "padded dress"
@@ -361,7 +369,7 @@
 	name = "avantyne threaded longsword"
 	desc = "'Threads of dark metal wind through what was formerly a simple steel blade. Cracks and chips are filled in as the weapon of war is reshaped into a symbol of faith.'"
 	icon = 'icons/obj/items/donor_weapons_64.dmi'
-	icon_state = "alloybsword_64"
+	icon_state = "alloyblongsword"
 	sheathe_icon = "alloybsword"
 
 /obj/item/rogueweapon/spear/boar/frei/pike/stinketh

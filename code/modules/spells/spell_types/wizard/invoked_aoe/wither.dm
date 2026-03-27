@@ -1,6 +1,6 @@
 /obj/effect/proc_holder/spell/invoked/wither
 	name = "Wither"
-	desc = "Lashes out a delayed line of dark magic, lowering the physical prowess of all in it's path."
+	desc = "Lashes out a delayed line of dark magic, lowering the physical prowess of all in its path."
 	cost = 3
 	releasedrain = SPELLCOST_MAJOR_AOE
 	overlay_state = "wither" // just using the curse blob, it's placeholder.

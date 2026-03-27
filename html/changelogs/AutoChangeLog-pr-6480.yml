@@ -1,0 +1,4 @@
+author: "BurpleBineapple"
+delete-after: True
+changes:
+  - bugfix: "Medium and Heavy brigandines use ARMOR_BRIGANDINE."

@@ -74,3 +74,18 @@
 	name = "Roll of bandages"
 	cost = 25
 	contains = list(/obj/item/natural/bundle/cloth/bandage/full)
+
+/datum/supply_pack/rogue/adventure_supplies/small_tent
+	name = "Small Tent Kit"
+	cost = 50
+	contains = list(/obj/item/tent_kit)
+
+/datum/supply_pack/rogue/adventure_supplies/ger
+	name = "Ger Kit"
+	cost = 100
+	contains = list(/obj/item/tent_kit/ger)
+
+/datum/supply_pack/rogue/adventure_supplies/yurt
+	name = "Yurt Kit"
+	cost = 200
+	contains = list(/obj/item/tent_kit/yurt)

@@ -332,7 +332,7 @@
 /obj/item/clothing/ring/fate_weaver
 	name = "fate weaver"
 	var/obj/effect/proc_holder/spell/self/conjure_armor/linked_conjure_spell
-	desc = "An arcyne creation first theorized by malcontents with the resolution of Xylix's plays. It protects it's wearer by tugging things gently toward less fatal potentials."
+	desc = "An arcyne creation first theorized by malcontents with the resolution of Xylix's plays. It protects its wearer by tugging things gently toward less fatal potentials."
 	icon_state = "ring_s"
 	max_integrity = 50
 	body_parts_covered = COVERAGE_ALL_BUT_HANDFEET | COVERAGE_HEAD_NOSE | NECK | HANDS | FEET //field covers the whole body

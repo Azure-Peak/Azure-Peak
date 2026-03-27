@@ -1222,3 +1222,12 @@
   hazelrat:
   - bugfix: Garrison should no longer lose their town buff while in the external area
       of the university.
+2026-03-27:
+  SayonaraEcho:
+  - rscadd: New recipes for alchemy transmutation, tin and copper.
+  WeNeedMorePhoron:
+  - bugfix: Recipe books not supposed to spawn will now work correctly.
+  Wildwestmars:
+  - rscadd: A deadbolt pillory recipe.
+  eirenxiv:
+  - bugfix: fixed bolt pouch and quiver buying from the tailor silverface

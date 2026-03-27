@@ -1,0 +1,4 @@
+author: "FreeStylaLT"
+delete-after: True
+changes:
+  - code_imp: "Deathless trait users no longer get the full bleedout messages."

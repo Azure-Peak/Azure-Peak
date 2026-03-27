@@ -104,7 +104,7 @@
 
 /mob/living/simple_animal/hostile/retaliate/rogue/primordial/fire/ability(turf/target_location, mob/living/user)
 	if(world.time < src.next_ability_use)
-		to_chat(user, "[src] is not yet ready to use it's special ability.")
+		to_chat(user, "[src] is not yet ready to use its special ability.")
 		return FALSE
 	if(!do_after(src,1 SECONDS, src))
 		return
@@ -186,7 +186,7 @@
 
 /mob/living/simple_animal/hostile/retaliate/rogue/primordial/water/ability(turf/target_location, mob/living/user)
 	if(world.time < src.next_ability_use)
-		to_chat(user, "[src] is not yet ready to use it's special ability.")
+		to_chat(user, "[src] is not yet ready to use its special ability.")
 		return FALSE
 	if(!do_after(src,1 SECONDS, src))
 		return
@@ -297,7 +297,7 @@
 
 /mob/living/simple_animal/hostile/retaliate/rogue/primordial/air/ability(turf/target_location, mob/living/user)
 	if(world.time < src.next_ability_use)
-		to_chat(user, "[src] is not yet ready to use it's special ability.")
+		to_chat(user, "[src] is not yet ready to use its special ability.")
 		return FALSE
 	if(!do_after(src,1 SECONDS, src))
 		return

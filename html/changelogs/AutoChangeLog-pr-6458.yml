@@ -1,0 +1,5 @@
+author: "mumblemancer"
+delete-after: True
+changes:
+  - qol: "mining skill of apprentice or above allows you to mine by walking into a wall w/ a pick or whatever"
+  - qol: "rmb special intent w/ pickaxes vs. mineral walls doafter timer reduced"

@@ -1,0 +1,8 @@
+author: "Ollanius"
+delete-after: True
+changes:
+  - rscadd: "Adds Bronze, Ancient, and Decrepit variants of the Noc amulet."
+  - rscadd: "Adds proper Ancient variants of the Psycross and Zcross."
+  - rscadd: "Adds crafting recipes for the aforementioned necklaces, including those which previously didn't have any."
+  - code_imp: "Amulets of Inhumenity are now termed as Amulets of Ascension, to better match Zizo's theming."
+  - code_imp: "Light improvement on unused dagger sprites."

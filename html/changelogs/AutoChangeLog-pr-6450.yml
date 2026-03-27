@@ -1,0 +1,5 @@
+author: "Ollanius"
+delete-after: True
+changes:
+  - bugfix: "Fixed the Avantyne Threaded Longsword's onmob, ensuring it properly renders now."
+  - code_imp: "Most two-handed weapons use the internal flag of '1' to determine whether it should be displayed in a wielded- or unwielded state. Make sure to keep that '1' untouched by additional numbers (when designating sprites inside of a .dmi), or it'll cause some visual glitches."

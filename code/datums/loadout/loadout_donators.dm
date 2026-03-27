@@ -21,6 +21,12 @@
 	ckeywhitelist = list("funkemonke")
 	sort_category = "Donator"
 
+/datum/loadout_item/donator_eekasqueak
+	name = "Saffira encrusted tiara"
+	path = /obj/item/clothing/head/roguetown/circlet/saffiratiara
+	ckeywhitelist = list("eekasqueak")
+	sort_category = "Donator"
+
 /datum/loadout_item/donator_strudel1
 	name = "Donator Kit - Grenzelhoftian Mage Vest"
 	path = /obj/item/enchantingkit/strudel1

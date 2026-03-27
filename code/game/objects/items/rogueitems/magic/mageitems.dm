@@ -455,7 +455,7 @@
 		binding = FALSE
 	//no candidates, raise as npc
 	else
-		to_chat(user, span_notice("The [captive] stares at you with mindless hate. The binding attempt failed to draw out it's intelligence!"))
+		to_chat(user, span_notice("The [captive] stares at you with mindless hate. The binding attempt failed to draw out its intelligence!"))
 		binding = FALSE
 	return FALSE
 

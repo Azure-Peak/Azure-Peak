@@ -1,0 +1,4 @@
+author: "eirenxiv"
+delete-after: True
+changes:
+  - bugfix: "fixed various weapon intents (psybroadsword, estoc, kanabo, steppesman axe, otherwordly sword)"

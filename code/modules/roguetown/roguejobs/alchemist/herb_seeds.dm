@@ -57,9 +57,9 @@
 		var/obj/structure/flora/roguegrass/herb/newplant = new to_make
 		newplant.forceMove(get_turf(soil))
 		newplant.pixel_x += rand(-3,3)
-		soil.visible_message(span_info("The [soil] suddenly bursts away to reveal \the [newplant]!"))
+		soil.visible_message(span_info("[soil] suddenly bursts away to reveal \the [newplant]!"))
 	else
-		soil.visible_message(span_info("The [soil] suddenly collapses, leaving nothing behind..."))
+		soil.visible_message(span_info("[soil] suddenly collapses, leaving nothing behind..."))
 	qdel(soil)
 	return
 
