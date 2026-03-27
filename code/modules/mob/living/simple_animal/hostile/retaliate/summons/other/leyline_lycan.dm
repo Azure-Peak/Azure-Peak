@@ -124,4 +124,4 @@
 /mob/living/simple_animal/hostile/retaliate/rogue/leylinelycan/proc/leyline_teleport_3(turf/T)
 	forceMove(T)
 	animate(src, alpha = 255, time = 2, easing = EASE_IN) //fade IN
-	visible_message(span_warning("[src] tears it's way out of the leyline rift!"))
+	visible_message(span_warning("[src] tears its way out of the leyline rift!"))

@@ -235,7 +235,7 @@ It will also call down lightning strikes from the sky, and fling people with it'
 
 /mob/living/simple_animal/hostile/retaliate/rogue/voiddragon/proc/TailSwipe(mob/victim)
 	var/mob/living/target = victim
-	src.visible_message(span_notice("[src] slams [target] with it's tail, knocking them to the floor!"))
+	src.visible_message(span_notice("[src] slams [target] with its tail, knocking them to the floor!"))
 	target.Paralyze(5)
 	target.apply_damage(20, BRUTE)
 	shake_camera(target, 2, 1)
@@ -582,7 +582,7 @@ It will also call down lightning strikes from the sky, and fling people with it'
 		return FALSE
 	if(do_after(user, 2 SECONDS, target = src))
 		user.Beam(target,icon_state="lightning[rand(1,12)]",time=5)
-		src.visible_message(span_colossus("[src] unleashes a storm of lightning from it's maw!"))
+		src.visible_message(span_colossus("[src] unleashes a storm of lightning from its maw!"))
 		cl_cd = world.time + 500
 		Bolt(user,target,30,5,user)
 		src.move_resist = initial(src.move_resist)

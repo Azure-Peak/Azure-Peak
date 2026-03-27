@@ -194,7 +194,7 @@
 /obj/item/roguegem/amethyst
 	name = "amythortz"
 	icon_state = "amethyst"
-	desc = "A deep lavender crystal, it surges with magical energy, yet it's artificial nature means it is worth little."
+	desc = "A deep lavender crystal, it surges with magical energy, yet its artificial nature means it is worth little."
 
 /obj/item/roguegem/amethyst/Initialize()
 	. = ..()

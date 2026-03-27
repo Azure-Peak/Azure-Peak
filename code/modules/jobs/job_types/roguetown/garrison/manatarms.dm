@@ -254,7 +254,7 @@
 	tutorial = "You are a professional soldier of the realm, specializing in the steady beat of hoof falls. Lighter and more expendable then the knights, you charge with lance in hand."
 	outfit = /datum/outfit/job/roguetown/manorguard/cavalry
 	subclass_stashed_items = list("Ducal Caparison" = /obj/item/caparison/azure)
-	extra_context = "This subclass recieves Azurean Caparison in it's stash."
+	extra_context = "This subclass recieves Azurean Caparison in its stash."
 
 	category_tags = list(CTAG_MENATARMS)
 	traits_applied = list(TRAIT_MEDIUMARMOR)

@@ -136,7 +136,8 @@
 			record_round_statistic(STATS_TRADE_VALUE_EXPORTED, budgie)
 			if(budgie > 0)
 				play_sound=TRUE
-				E.budget2change(budgie)
+				var/turf/budget_turf = get_turf(src)
+				budget2change(budgie, custom_turf = budget_turf)
 				budgie = 0
 		if(play_sound)
 			playsound(src.loc, 'sound/misc/hiss.ogg', 100, FALSE, -1)

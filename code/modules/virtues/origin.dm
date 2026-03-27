@@ -169,7 +169,7 @@
 	origin_desc = "The wind blows freely through the Aavnic steppes, its grass flowing with the breeze and guiding the Saiga that freely roam. \
 	Aavnr is both a free land and a savage land, mighty yet disorganized; barely even holding onto any concept of nobility or governance. \
 	Once populated by various Orcish tribes and bands, the land was destroyed by centuries of conflict. Internal strife, foreign invasion, \
-	revolution, and the infamous rise of Graggar. Now though? The land sits still, finally finding some level of peace. It has left its mark on all it's \
+	revolution, and the infamous rise of Graggar. Now though? The land sits still, finally finding some level of peace. It has left its mark on all its \
 	inhabitants. Those hailing from this land bear those scars of centuries of war, murder, and bloodshed. Though still find pride in a few things. \
 	Their saiga, their sabre, their cattle, and their freedom. For while coin remains the main currency even in the wild steppes, it means nothing \
 	without the freedom to spend it as you wish. As the saying goes, 'a man can earn coin, but a man cannot earn freedom. It must be taken, it must be constantly achieved."

@@ -169,7 +169,7 @@
 					user.say("PLAY YOUR HARP- LET EACH STRING DEAFEN MY FOES!!") // seriously im working w/ ZERO lore.
 					if(do_after(user, 50))
 						user.say("--ON WITH THE SHOW!!") // i miss skipper
-						to_chat(user,span_cultsmall("Every play needs it's stagehands. Xylix will quicken the slow, speed your sneaking, and quiet your footsteps... for a time."))
+						to_chat(user,span_cultsmall("Every play needs its stagehands. Xylix will quicken the slow, speed your sneaking, and quiet your footsteps... for a time."))
 						playsound(loc, 'sound/magic/mockery.ogg', 60, FALSE, -1)
 						stagehands_silence(src)
 						user.apply_status_effect(/datum/status_effect/debuff/ritesexpended)

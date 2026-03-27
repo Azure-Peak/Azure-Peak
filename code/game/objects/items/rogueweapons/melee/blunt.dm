@@ -577,7 +577,7 @@
 
 /obj/item/rogueweapon/mace/cudgel/justice
 	name = "'Justice'"
-	desc = "The icon of the right of office of the Marshal. While mostly ceremonial in design, it serves it's purpose in dishing out some much needed justice."
+	desc = "The icon of the right of office of the Marshal. While mostly ceremonial in design, it serves its purpose in dishing out some much needed justice."
 	force = 30
 	icon_state = "justice"
 	possible_item_intents = list(/datum/intent/mace/strike, /datum/intent/mace/smash, /datum/intent/effect/daze, /datum/intent/mace/strike/dislocate)

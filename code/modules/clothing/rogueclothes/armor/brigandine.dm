@@ -75,7 +75,7 @@
 	blocksound = SOFTHIT
 	body_parts_covered = COVERAGE_TORSO
 	armor = ARMOR_PLATE
-	max_integrity = ARMOR_INT_CHEST_PLATE_BRIGANDINE
+	max_integrity = ARMOR_INT_CHEST_PLATE_BRIGANDINE - ARMOR_INT_CHEST_PLATE_BRIGANDINE_WEIGHT_MODIFIER
 	smeltresult = /obj/item/ingot/iron
 	equip_delay_self = 40
 	armor_class = ARMOR_CLASS_LIGHT//steel version of the studded leather armor now
@@ -127,6 +127,15 @@
 	GLOB.lordcolor -= src
 	return ..()
 
+/obj/item/clothing/suit/roguetown/armor/brigandine/heavy
+	name = "coat of plates"
+	desc = "A heavyweight coat-of-plates, adorned with a pair of steel vambraces and faulds."
+	icon_state = "coat_of_plates"
+	blocksound = PLATEHIT
+	smelt_bar_num = 2
+	armor_class = ARMOR_CLASS_HEAVY
+	max_integrity = ARMOR_INT_CHEST_PLATE_BRIGANDINE + ARMOR_INT_CHEST_PLATE_BRIGANDINE_WEIGHT_MODIFIER
+
 /obj/item/clothing/suit/roguetown/armor/brigandine/banneret
 	name = "knight banneret's brigandine"
 	desc = "A resplendant coat-of-plates, gilded and veiled in dyeable silk. Only the finest of Azuria's Knights has been entrusted with this beautiful article."
@@ -139,7 +148,7 @@
 	blocksound = SOFTHIT
 	equip_delay_self = 4 SECONDS
 	unequip_delay_self = 4 SECONDS
-	max_integrity = ARMOR_INT_CHEST_PLATE_BRIGANDINE + 50
+	max_integrity = ARMOR_INT_CHEST_PLATE_BRIGANDINE + ARMOR_INT_CHEST_PLATE_BRIGANDINE_WEIGHT_MODIFIER
 	sellprice = 363 // On par w/ judgement and ichor fang cuz why not
 	smelt_bar_num = 2
 	armor_class = ARMOR_CLASS_HEAVY

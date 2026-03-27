@@ -122,7 +122,7 @@
 	..()
 	for(var/obj/structure/vine/V in view(src))
 		qdel(V)
-	src.visible_message(span_boldwarning("Vines near [src] wither as it returns to it's plane!"))
+	src.visible_message(span_boldwarning("Vines near [src] wither as it returns to its plane!"))
 	update_icon()
 	spill_embedded_objects()
 	qdel(src)

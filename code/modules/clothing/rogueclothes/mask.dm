@@ -363,6 +363,32 @@
 	armor = ARMOR_PLATE
 	smeltresult = /obj/item/ingot/copper
 
+/obj/item/clothing/mask/rogue/facemask/bronze
+	name = "bronze mask"
+	desc = "Glimmering bronze, curved to veil its wearer's face from both judgement and harm."
+	armor = ARMOR_BRONZE
+	armor_class = ARMOR_CLASS_LIGHT
+	icon_state = "bronzemask"
+	item_state = "bronzemask"
+	max_integrity = 150
+	smeltresult = /obj/item/ingot/bronze
+
+/obj/item/clothing/mask/rogue/facemask/bronze/classic
+	name = "bronze death mask"
+	icon_state = "bronzemask_legacy"
+	item_state = "bronzemask_legacy"
+	desc = "Glimmering bronze, meticuliusly shaped to mimic the guise of another. One of civilization's oldest superstitions is the belief that donning such masks would impart a sliver of the mimicked facebearer's power unto its wearer."
+
+/obj/item/clothing/mask/rogue/facemask/bronze/anthro
+	name = "bronze mask"
+	icon_state = "bronzemask_snout"
+	item_state = "bronzemask_snout"
+
+/obj/item/clothing/mask/rogue/facemask/bronze/classic/anthro
+	name = "bronze death mask"
+	icon_state = "bronzemask_legacy_snout"
+	item_state = "bronzemask_legacy_snout"
+
 /obj/item/clothing/mask/rogue/facemask/psydonmask
 	name = "psydonic mask"
 	desc = "A silver mask, forever locked in a rigor of uncontestable joy. The Order of Saint Xylix can't decide on whether it's meant to represent Psydon's 'mirthfulness,' 'theatricality,' or the unpredictable melding of both."
