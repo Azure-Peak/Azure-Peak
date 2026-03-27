@@ -2244,3 +2244,29 @@
 	name = "Wrench Tuneup"
 	desc = "a wrench has turned me up, helping steel myself for more damage"
 	icon_state = "buff"
+
+#define NECRACON_FILTER "necra_consecration"
+
+/datum/status_effect/buff/necran_consecration
+	id = "necra_consecrate"
+	alert_type = /atom/movable/screen/alert/status_effect/buff/necra_consecrate
+	effectedstats = list(STATKEY_CON = 1)
+	var/outline_colour ="#929186" // A dull grey.
+	duration = 3 SECONDS
+
+/datum/status_effect/buff/necran_consecration/on_apply()
+	. = ..()
+	var/filter = owner.get_filter(NECRACON_FILTER)
+	if (!filter)
+		owner.add_filter(NECRACON_FILTER, 2, list("type" = "outline", "color" = outline_colour, "alpha" = 200, "size" = 1))
+
+/datum/status_effect/buff/necran_consecration/on_remove()
+	. = ..()
+	owner.remove_filter(NECRACON_FILTER)
+
+/atom/movable/screen/alert/status_effect/buff/necra_consecrate
+	name = "NECRA LIVES"
+	desc = "BUT YOU WON'T"
+	icon_state = "buff"
+
+#undef NECRACON_FILTER
