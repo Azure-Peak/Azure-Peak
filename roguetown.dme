@@ -2762,6 +2762,7 @@
 #include "code\modules\spells\spell_types\bardic\recovery_song.dm"
 #include "code\modules\spells\spell_types\bardic\rejuvenation_song.dm"
 #include "code\modules\spells\spell_types\bardic\suffocating_seliloquy.dm"
+#include "code\modules\spells\spell_types\classunique\berserker\berserkrage.dm"
 #include "code\modules\spells\spell_types\classunique\spellblade\advance.dm"
 #include "code\modules\spells\spell_types\classunique\spellblade\air_strike.dm"
 #include "code\modules\spells\spell_types\classunique\spellblade\anime_spells_helper.dm"
