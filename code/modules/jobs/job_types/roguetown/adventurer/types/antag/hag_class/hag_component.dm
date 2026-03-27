@@ -238,7 +238,7 @@
 	var/max_points
 	switch(hag_tier)
 		if(1)
-			max_victims = 2
+			max_victims = 4
 			max_points = 60
 		if(2)
 			max_victims = 5
