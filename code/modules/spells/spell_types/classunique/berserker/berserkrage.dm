@@ -19,7 +19,7 @@
 	desc = "GETTING HURT MAKES YOU ANGRY, MAKE THEM HURT BACK- MORE HURT IS MORE ANGRY!"
 	antimagic_allowed = TRUE
 	clothes_req = FALSE
-	recharge_time = 3 SECONDS
+	recharge_time = 3 MINUTES
 	invocations = list("enters a state of furious rage!")
 	invocation_type = "emote"
 
@@ -41,7 +41,7 @@
 	examine_text = "<font color='red'>SUBJECTPRONOUN frothing at the mouth!</font>"
 	alert_type = /atom/movable/screen/alert/status_effect/buff/rage
 	effectedstats = list(STATKEY_CON = 1, STATKEY_WIL = 1, STATKEY_STR = 1)
-	duration = 10 SECONDS
+	duration = 2 MINUTES
 	var/ragebuff = 0
 	var/outline_colour = "#ca0000"
 	var/obj/effect/dummy/lighting_obj/moblight/ragelight
@@ -63,7 +63,7 @@
 	. = ..()
 	owner.remove_filter(RAGE_FILTER)
 	QDEL_NULL(ragelight)
-	to_chat(owner, span_warning("rage subsides."))
+	to_chat(owner, span_warning("Rage subsides."))
 
 /datum/status_effect/buff/rage/proc/update_effects()
 	ragebuff = get_buff_value(owner)
@@ -85,7 +85,7 @@
 	desc = "GETTING HURT MAKES YOU ANGRY, MAKE THEM HURT BACK- MORE HURT IS MORE ANGRY!"
 	antimagic_allowed = TRUE
 	clothes_req = FALSE
-	recharge_time = 3 SECONDS
+	recharge_time = 3 MINUTES
 	invocations = list("enters a state of furious rage!")
 	invocation_type = "emote"
 
@@ -107,7 +107,7 @@
 	examine_text = "<font color='red'>SUBJECTPRONOUN frothing at the mouth!</font>"
 	alert_type = /atom/movable/screen/alert/status_effect/buff/rage
 	effectedstats = list(STATKEY_CON = 1, STATKEY_WIL = 1, STATKEY_STR = 1)
-	duration = 10 SECONDS
+	duration = 2 MINUTES
 	var/ragebuff = 0
 	var/outline_colour = "#ca0000"
 	var/obj/effect/dummy/lighting_obj/moblight/ragelight
@@ -129,7 +129,7 @@
 	. = ..()
 	owner.remove_filter(RAGE_FILTER)
 	QDEL_NULL(ragelight)
-	to_chat(owner, span_warning("rage subsides."))
+	to_chat(owner, span_warning("Rage subsides."))
 
 /datum/status_effect/buff/ragebad/proc/update_effects()
 	ragebuff = get_buff_value(owner)
