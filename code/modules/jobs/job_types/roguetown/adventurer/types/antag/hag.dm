@@ -12,8 +12,8 @@
 	outfit_female = null
 	display_order = JDO_HAG
 	show_in_credits = TRUE
-	// Difficult role to play right.
-	min_pq = 30
+	// Difficult role to play right without failRP / LRP
+	min_pq = 50
 	max_pq = null
 
 	obsfuscated_job = TRUE
