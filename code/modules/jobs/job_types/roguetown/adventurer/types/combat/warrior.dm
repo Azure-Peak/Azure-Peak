@@ -223,9 +223,9 @@
 	outfit = /datum/outfit/job/roguetown/adventurer/barbarian
 	cmode_music = 'sound/music/cmode/antag/combat_darkstar.ogg'
 	traits_applied = list(TRAIT_STEELHEARTED, TRAIT_IGNOREDAMAGESLOWDOWN, TRAIT_BLOOD_RESISTANCE, TRAIT_NOPAINSTUN)
-	subclass_stats = list(
-		STATKEY_STR = 3,
-		STATKEY_CON = 2,
+	subclass_stats = list( //lower stats, gains more during rage
+		STATKEY_STR = 2,
+		STATKEY_CON = 1,
 		STATKEY_WIL = 1,
 		STATKEY_INT = -2,
 	)
@@ -248,6 +248,7 @@
 	to_chat(H, span_warning("You are a brutal warrior, who has foregone armor in favor of pure strength. Crush your enemies, see them driven before you, and hear the lamentations of their women! Oh, and you can specialize in unarmed combat and wrestling."))
 	H.dna.species.soundpack_m = new /datum/voicepack/male/warrior()
 	H.set_blindness(0)
+	H.mind.AddSpell(new /obj/effect/proc_holder/spell/self/ragebad)
 	if(!H.mind)
 		return
 
@@ -299,12 +300,11 @@
 			head = /obj/item/clothing/head/roguetown/helmet/leather/volfhelm
 			gloves = /obj/item/clothing/gloves/roguetown/bandages/weighted
 			armor = /obj/item/clothing/suit/roguetown/armor/regenerating/skin/disciple/barbarian
-		if ("Discipline - Bodybuilder (-III INT)")
+		if ("Discipline - Bodybuilder") //its really not that good
 			H.adjust_skillrank_up_to(/datum/skill.combat/swords, SKILL_LEVEL_JOURNEYMAN, TRUE)
 			armor = /obj/item/clothing/suit/roguetown/armor/manual/pushups/leather
 			r_hand = /obj/item/rogueweapon/greatsword/iron
 			backr = /obj/item/rogueweapon/scabbard/gwstrap
-			H.change_stat(STATKEY_INT, -3) ///This is probably waaay too much and makes this subclass completely unviable, but admins are concerned the armor might be OP.
 	belt = /obj/item/storage/belt/rogue/leather/battleskirt/barbarian
 	pants = /obj/item/clothing/under/roguetown/heavy_leather_pants/bronzeskirt
 	shoes = /obj/item/clothing/shoes/roguetown/boots/furlinedboots
