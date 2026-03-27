@@ -38,7 +38,7 @@
 
 /datum/status_effect/buff/rage
 	id = "rage"
-	examine_text = "<font color='red'>SUBJECTPRONOUN frothing at the mouth!</font>"
+	examine_text = "<font color='red'>SUBJECTPRONOUN is frothing at the mouth!</font>"
 	alert_type = /atom/movable/screen/alert/status_effect/buff/rage
 	effectedstats = list(STATKEY_CON = 1, STATKEY_WIL = 1, STATKEY_STR = 1)
 	duration = 2 MINUTES
@@ -104,7 +104,7 @@
 
 /datum/status_effect/buff/ragebad
 	id = "rage"
-	examine_text = "<font color='red'>SUBJECTPRONOUN frothing at the mouth!</font>"
+	examine_text = "<font color='red'>SUBJECTPRONOUN is frothing at the mouth!</font>"
 	alert_type = /atom/movable/screen/alert/status_effect/buff/rage
 	effectedstats = list(STATKEY_CON = 1, STATKEY_WIL = 1, STATKEY_STR = 1)
 	duration = 2 MINUTES
