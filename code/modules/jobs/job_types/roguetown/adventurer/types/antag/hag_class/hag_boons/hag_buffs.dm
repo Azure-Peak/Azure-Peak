@@ -221,7 +221,7 @@
 /datum/status_effect/buff/hag_boon/creeping_moss/on_remove()
 	if(ishuman(owner))
 		var/mob/living/carbon/human/H = owner
-		H.cut_overlay("moss_layer")
+		H.cut_overlay(moss_image)
 		H.remove_movespeed_modifier(MOVESPEED_ID_MOSS_SLOW)
 		UnregisterSignal(COMSIG_PARENT_ATTACKBY)
 	return ..()
