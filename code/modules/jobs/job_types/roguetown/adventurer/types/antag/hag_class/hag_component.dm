@@ -258,7 +258,6 @@
 
 	if(!target_has_boon && active_victims >= max_victims)
 		to_chat(parent, span_warning("Your spirit cannot tether more than [max_victims] blessed souls at this tier."))
-		to_chat(world, span_warning("Your spirit cannot tether more than [max_victims] blessed souls at this tier."))
 		return FALSE
 
 	// --- Individual Point/Trait Logic ---
@@ -286,7 +285,6 @@
 	var/new_boon_points = initial(checking.points)
 	if((current_total_points + new_boon_points) > max_points)
 		to_chat(parent, span_warning("This blessing is too heavy. [name_to_check] only has room for [max_points - current_total_points] more points of power."))
-		to_chat(world, span_warning("This blessing is too heavy. [name_to_check] only has room for [max_points - current_total_points] more points of power."))
 		return FALSE
 
 	// Spell check
