@@ -223,6 +223,7 @@
 	outfit = /datum/outfit/job/roguetown/adventurer/barbarian
 	cmode_music = 'sound/music/cmode/antag/combat_darkstar.ogg'
 	traits_applied = list(TRAIT_STEELHEARTED, TRAIT_IGNOREDAMAGESLOWDOWN, TRAIT_BLOOD_RESISTANCE, TRAIT_NOPAINSTUN)
+	extra_context = "This subclass gains access to the RAGE ability."
 	subclass_stats = list( //lower stats, gains more during rage
 		STATKEY_STR = 2,
 		STATKEY_CON = 1,
