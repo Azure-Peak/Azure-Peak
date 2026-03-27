@@ -97,13 +97,8 @@
 	user.apply_status_effect(/datum/status_effect/buff/ragebad)
 	return TRUE
 
-/atom/movable/screen/alert/status_effect/buff/ragebad
-	name = "RAGE"
-	desc = "YOU'RE MAKING ME ANGRY!"
-	icon_state = "buff"
-
 /datum/status_effect/buff/ragebad
-	id = "rage"
+	id = "ragebad"
 	examine_text = "<font color='red'>SUBJECTPRONOUN is frothing at the mouth!</font>"
 	alert_type = /atom/movable/screen/alert/status_effect/buff/rage
 	effectedstats = list(STATKEY_CON = 1, STATKEY_WIL = 1, STATKEY_STR = 1)
