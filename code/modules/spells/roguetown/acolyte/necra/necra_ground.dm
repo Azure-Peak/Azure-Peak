@@ -1,35 +1,55 @@
-/obj/effect/proc_holder/spell/invoked/consecrate_ground
+/datum/action/cooldown/spell/miracle/necra_consecrate
 	name = "Consecrate Ground"
 	desc = "Channel holy energy to conjure an ethereal Necran cross upon a site made holy. All devout Necrans within it will receive boons, depending on the caster's holy skill. Those made unrevivable will receive greater effects."
 	invocations = list("In the name of Her this ground is made SACROSANCT!")
+	invocation_type = INVOCATION_SHOUT
 	sound = 'sound/effects/necracon_create.ogg'
-	devotion_cost = 125
-	recharge_time = 130 SECONDS //2 min duration + 10 second CD inbetween. Unless it gets destroyed before.
-	chargetime = 2 SECONDS
-	range = 1
-	overlay_icon = 'icons/mob/actions/necramiracles.dmi'
-	overlay_state = "consecrate_ground"
-	action_icon_state = "consecrate_ground"
-	action_icon = 'icons/mob/actions/necramiracles.dmi'
-	associated_skill = /datum/skill/magic/holy
+	cooldown_time = 130 SECONDS //2 min duration + 10 second CD inbetween. Unless it gets destroyed before.
+	charge_time = 1.5 SECONDS
 
-/obj/effect/proc_holder/spell/invoked/consecrate_ground/cast(list/targets, mob/user)
+	primary_resource_type  = SPELL_COST_DEVOTION
+	primary_resource_cost = SPELLCOST_MIRACLE_MAJOR * 2
+	secondary_resource_type = SPELL_COST_STAMINA
+	secondary_resource_cost = SPELLCOST_MAJOR_AOE
+
+	cast_range = 1
+
+	charge_required = TRUE
+	charge_drain = 3
+	charge_slowdown = 3
+
+	sparks_amt = 3
+	background_icon = 'icons/mob/actions/necramiracles.dmi'
+	button_icon_state = "consecrate_ground"
+	button_icon = 'icons/mob/actions/necramiracles.dmi'
+	associated_skill = /datum/skill/magic/holy
+	associated_stat = null
+
+/datum/action/cooldown/spell/miracle/necra_consecrate/is_valid_target(atom/cast_on)
 	. = ..()
 	var/turf/target_turf
-	if(!isturf(targets[1]))
-		if(!isnull(targets[1]))
-			target_turf = get_turf(targets[1])
+	if(!isturf(cast_on))
+		if(!isnull(cast_on))
+			target_turf = get_turf(cast_on)
 	else
-		target_turf = targets[1]
+		target_turf = cast_on
 	if(!target_turf)
-		revert_cast()
 		return FALSE
 	if(target_turf.density)	//On a wall
-		revert_cast()
 		return FALSE
+	if(istype(target_turf, /turf/open/transparent/openspace))
+		return FALSE
+	return TRUE
 
+/datum/action/cooldown/spell/miracle/StartCooldown(override_cooldown_time)
+	StartCooldownSelf(cooldown_time)
+
+/datum/action/cooldown/spell/miracle/necra_consecrate/cast(atom/target)
+	. = ..()
+
+	var/turf/target_turf = get_turf(target)
 	var/effect_size = 2
-	var/skill_level = user.get_skill_level(associated_skill)
+	var/skill_level = owner.get_skill_level(associated_skill)
 	switch(skill_level)
 		if(SKILL_LEVEL_EXPERT)
 			effect_size = 3
@@ -49,6 +69,7 @@
 	layer = ABOVE_MOB_LAYER	//We want this to be more visible than not, adjust this as needed if it's ever used behind stuff
 	plane = GAME_PLANE_UPPER
 	max_integrity = 100	//3-5 hits with the average weapon (20-40 damage) to fully destroy.
+	density = FALSE
 	var/list/affected_mobs = list()
 	var/list/turfgrid = list()
 	var/list/effectgrid = list()
@@ -82,6 +103,12 @@
 	var/turf/block_lower = locate(source.x - range, source.y - range, source.z)
 	var/turf/block_upper = locate(source.x + range, source.y + range, source.z)
 	turfgrid = block(block_lower, block_upper)
+	for(var/turf/T in turfgrid)
+		if(T.density)
+			LAZYREMOVE(turfgrid, T)
+		for(var/obj/O in T.contents)
+			if(isstructure(O) && O.density)
+				LAZYREMOVE(turfgrid, T)
 
 /obj/structure/fluff/psycross/necra/consecrated/proc/color_grid()
 	for(var/turf/T in turfgrid)

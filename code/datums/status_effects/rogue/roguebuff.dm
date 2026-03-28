@@ -2189,6 +2189,20 @@
 		tier = newtier
 	. = ..()
 
+/datum/status_effect/buff/necran_consecration/refresh()
+	. = ..()
+	var/bluerestore = 0
+	if(HAS_TRAIT(owner, TRAIT_DNR))
+		bluerestore += 5
+	switch(tier)
+		if(NECRACON_TIER_NORMAL)
+			bluerestore += 5
+		if(NECRACON_TIER_EXPERT)
+			bluerestore += 8
+		if(NECRACON_TIER_MASTER)
+			bluerestore += 10
+	owner.energy_add(bluerestore)
+
 /datum/status_effect/buff/necran_consecration/on_apply()
 	. = ..()
 

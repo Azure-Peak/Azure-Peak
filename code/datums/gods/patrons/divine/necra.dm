@@ -12,7 +12,7 @@
 					/obj/effect/proc_holder/spell/targeted/locate_dead 			= CLERIC_T1,
 					/obj/effect/proc_holder/spell/invoked/fog_ward				= CLERIC_T1, // Not bugged, only appears on fog rounds!
 					/obj/effect/proc_holder/spell/invoked/raise_spirits_vengeance = CLERIC_T2,
-					/obj/effect/proc_holder/spell/invoked/consecrate_ground		= CLERIC_T2,
+					/datum/action/cooldown/spell/miracle/necra_consecrate		= CLERIC_T2,
 					/obj/effect/proc_holder/spell/invoked/bless_cross			= CLERIC_T3,
 					/obj/effect/proc_holder/spell/invoked/deaths_door			= CLERIC_T4
 	)
