@@ -1182,10 +1182,6 @@
 /obj/structure/glowshroom,
 /turf/open/floor/rogue/grass,
 /area/rogue/druidsgrove)
-"anX" = (
-/mob/living/carbon/human/species/skeleton/npc/bogguard,
-/turf/open/floor/rogue/dirt,
-/area/rogue/outdoors/bog/north)
 "aoa" = (
 /obj/structure/fluff/railing/corner,
 /turf/open/floor/rogue/cobble,
@@ -9198,10 +9194,6 @@
 /obj/item/clothing/suit/roguetown/shirt/rags,
 /turf/open/floor/rogue/hexstone,
 /area/rogue/indoors/inq/basement)
-"cdP" = (
-/mob/living/carbon/human/species/human/northern/bog_deserters,
-/turf/open/floor/rogue/dirt/road,
-/area/rogue/outdoors/bog/south)
 "cdS" = (
 /turf/open/floor/rogue/blocks/stonered,
 /area/rogue/indoors/cave/west)
@@ -37363,10 +37355,6 @@
 /obj/effect/landmark/start/villager,
 /turf/open/floor/carpet/inn,
 /area/rogue/indoors/town/tavern)
-"icc" = (
-/mob/living/carbon/human/species/human/northern/bog_deserters/better_gear,
-/turf/open/floor/rogue/dirt,
-/area/rogue/outdoors/bog/south)
 "icf" = (
 /obj/structure/table/wood/poor,
 /obj/item/cooking/platter{
@@ -77492,10 +77480,6 @@
 /obj/effect/landmark/chimeric_calyx_spawner,
 /turf/open/floor/rogue/cobble,
 /area/rogue/under/cave/orcdungeon)
-"qvF" = (
-/mob/living/carbon/human/species/skeleton/npc/bogguard,
-/turf/open/floor/rogue/dirt/road,
-/area/rogue/outdoors/bog/north)
 "qvI" = (
 /obj/structure/chair/wood/rogue/fancy{
 	dir = 8
@@ -79833,10 +79817,6 @@
 	},
 /turf/open/floor/carpet/royalblack,
 /area/rogue/indoors/town/magician)
-"qUp" = (
-/mob/living/carbon/human/species/human/northern/bog_deserters,
-/turf/open/floor/rogue/dirt,
-/area/rogue/outdoors/bog/south)
 "qUq" = (
 /obj/effect/decal/wood/herringbone2{
 	dir = 4
@@ -357261,7 +357241,7 @@ pMO
 pMO
 fvl
 irm
-anX
+irm
 irm
 irm
 mjV
@@ -357331,9 +357311,9 @@ xcc
 xcc
 xcc
 xcc
-npC
 mAW
-npC
+mAW
+mAW
 mAW
 mAW
 sxN
@@ -357786,7 +357766,7 @@ sxN
 sxN
 sxN
 sxN
-npC
+mAW
 sxN
 xot
 sxN
@@ -359157,7 +359137,7 @@ aay
 sxN
 xot
 sxN
-cnf
+sxN
 lCD
 lCD
 lCD
@@ -359605,7 +359585,7 @@ jYu
 wal
 aay
 lCD
-cnf
+sxN
 sxN
 sxN
 sxN
@@ -361369,7 +361349,7 @@ vBs
 vBs
 fvl
 irm
-anX
+irm
 irm
 irm
 pMO
@@ -366857,7 +366837,7 @@ lCD
 lCD
 sxN
 mAW
-qUp
+sxN
 aay
 jYu
 jYu
@@ -367308,7 +367288,7 @@ jYu
 lCD
 xot
 sxN
-cdP
+mAW
 sxN
 aay
 jYu
@@ -369463,7 +369443,7 @@ eWk
 pMO
 irm
 fvl
-qvF
+bTS
 bTS
 aAP
 aAP
@@ -370366,7 +370346,7 @@ eWk
 eWk
 mjV
 pMO
-anX
+irm
 irm
 aAP
 irm
@@ -371371,7 +371351,7 @@ sxN
 lCD
 eCO
 eCO
-qUp
+sxN
 sxN
 sxN
 lCD
@@ -371824,7 +371804,7 @@ sxN
 eCO
 eCO
 xot
-qUp
+sxN
 sxN
 sxN
 lCD
@@ -373599,7 +373579,7 @@ xot
 mAW
 mAW
 sxN
-qUp
+sxN
 lCD
 lCD
 aay
@@ -374047,7 +374027,7 @@ pCi
 pMO
 fvl
 irm
-qUp
+sxN
 mAW
 sxN
 sxN
@@ -374501,7 +374481,7 @@ mjV
 irm
 mAW
 mAW
-icc
+sxN
 sxN
 sxN
 sxN
