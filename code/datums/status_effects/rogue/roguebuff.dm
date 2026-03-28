@@ -2302,8 +2302,8 @@
 
 
 /atom/movable/screen/alert/status_effect/buff/necra_consecrate
-	name = "NECRA LIVES"
-	desc = "BUT YOU WON'T"
+	name = "Necra's Blessed Consecration"
+	desc = "Upon this ground, I hold firm. Upon this ground, Her will guides me true. Upon this ground, I will send them back to Her waiting grasp."
 	icon_state = "buff"
 
 #undef NECRACON_FILTER
