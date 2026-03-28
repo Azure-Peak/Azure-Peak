@@ -18,7 +18,7 @@
 	)
 	subclass_skills = list(
 		/datum/skill/combat/knives = SKILL_LEVEL_APPRENTICE,
-		/datum/skill/combat/maces = SKILL_LEVEL_JOURNEYMAN,
+		/datum/skill/combat/staves = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/combat/wrestling = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/combat/unarmed = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/craft/crafting = SKILL_LEVEL_MASTER,
@@ -44,10 +44,11 @@
 	..()
 	cloak = /obj/item/clothing/cloak/tabard/stabard/guardhood/elder
 	armor = /obj/item/clothing/suit/roguetown/armor/leather/vest/white
+	neck = /obj/item/roguekey/manor
+	backr = /obj/item/rogueweapon/woodstaff/quarterstaff/iron
 	pants = /obj/item/clothing/under/roguetown/tights
 	shoes = /obj/item/clothing/shoes/roguetown/shortboots
 	belt = /obj/item/storage/belt/rogue/leather
-	beltr = /obj/item/rogueweapon/mace
 	beltl = /obj/item/flashlight/flare/torch/lantern
 	backl = /obj/item/storage/backpack/rogue/satchel
 	id = /obj/item/scomstone/bad
@@ -55,7 +56,6 @@
 	if(should_wear_femme_clothes(H))
 		head = /obj/item/clothing/head/roguetown/chaperon/greyscale/elder
 		shirt = /obj/item/clothing/suit/roguetown/shirt/dress/silkdress
-		backr = /obj/item/clothing/cloak/raincloak/furcloak
 	else if(should_wear_masc_clothes(H))
 		head = /obj/item/clothing/head/roguetown/chaperon/greyscale/elder
 		shirt = /obj/item/clothing/suit/roguetown/shirt/tunic

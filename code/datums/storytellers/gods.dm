@@ -35,6 +35,8 @@
 	always_votable = TRUE
 	color_theme = "#80ced8"
 	preferred_gnoll_mode = GNOLL_SCALING_SINGLE
+	guarantees_roundstart_roleset = FALSE
+	roundstart_prob = 0
 
 	//Has no influence, your actions will not impact him his spawn rates. Cus he's asleep.
 	//Tl;dr - higher event spawn rates to keep stuff interesting, no god intervention, no antags. (Raids and omens will still happen at normal rate.)
@@ -347,11 +349,23 @@
 
 /datum/storyteller/eora
 	name = "Eora"
-	vote_desc = " Love reigns. Positive affairs occur more often, and raids will rarely transpire. Her favor shines upon romance."
-	desc = "Eora hates death and promotes love. Raids will never naturally progress, only death will bring them."
+	vote_desc = " Love reigns. Positive affairs occur more often, and She wills for none to be ill. Her favor shines upon romance."
+	desc = "Eora hates death and promotes love. There is no possibility for ill-will from external forces. Though deaths will anger."
 	welcome_text = "\"Love is in the air? Nay; tis the smell of freshly-baked pies upon the windowsills!\""
 	color_theme = "#9966CC"
 	preferred_gnoll_mode = GNOLL_SCALING_SINGLE
+	guarantees_roundstart_roleset = FALSE
+	roundstart_prob = 0
+
+	starting_point_multipliers = list(
+		EVENT_TRACK_MUNDANE = 1,
+		EVENT_TRACK_PERSONAL = 1,
+		EVENT_TRACK_MODERATE = 1,
+		EVENT_TRACK_INTERVENTION = 1,
+		EVENT_TRACK_CHARACTER_INJECTION = 0,
+		EVENT_TRACK_OMENS = 1,
+		EVENT_TRACK_RAIDS = 1,
+	)
 
 	tag_multipliers = list(
 		TAG_WIDESPREAD = 1.5,
@@ -363,7 +377,7 @@
 		EVENT_TRACK_PERSONAL = 1.4,
 		EVENT_TRACK_MODERATE = 1,
 		EVENT_TRACK_INTERVENTION = 2,
-		EVENT_TRACK_CHARACTER_INJECTION = 0.3,	//Low-chance antagonist spawn
+		EVENT_TRACK_CHARACTER_INJECTION = 0,	//No antagonist spawns.
 		EVENT_TRACK_OMENS = 1,
 		EVENT_TRACK_RAIDS = 0,
 	)

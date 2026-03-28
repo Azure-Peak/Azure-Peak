@@ -26,7 +26,7 @@
 	is_subrace = TRUE
 	species_traits = list(EYECOLOR,HAIR,FACEHAIR,LIPS,STUBBLE,OLDGREY,MUTCOLORS)
 	default_features = MANDATORY_FEATURE_LIST
-	inherent_traits = list(TRAIT_EASYDECAPITATION, TRAIT_NOHUNGER, TRAIT_NOBREATH, TRAIT_ZOMBIE_IMMUNE) //Given the deathless traits inherently as part of their nature as pseudo-undead.
+	inherent_traits = list(TRAIT_EASYDECAPITATION, TRAIT_NOHUNGER, TRAIT_NOBREATH, TRAIT_DEATHLESS, TRAIT_ZOMBIE_IMMUNE) //Given the deathless traits inherently as part of their nature as pseudo-undead.
 	use_skintones = TRUE
 	disliked_food = NONE
 	liked_food = NONE
@@ -140,7 +140,7 @@
 		/datum/language/common,
 	)
 
-	restricted_virtues = list(/datum/virtue/utility/noble, /datum/virtue/utility/deathless)
+	restricted_virtues = list(/datum/virtue/utility/noble, /datum/virtue/utility/hollow)
 
 	stress_examine = TRUE
 	stress_desc = span_red("Accursed. I should keep my distance...")

@@ -335,6 +335,8 @@
 			LAZYCLEARLIST(tempo_attackers)
 			if(tempo_amt >= TEMPO_ONE)
 				to_chat(src, span_info("My muscles relax. My tempo is gone."))
+			if(tempo_amt >= TEMPO_MAX)
+				playsound_local(src, 'sound/combat/tempo_loss.ogg', 85, TRUE)
 			manage_tempo()
 
 /mob/living/proc/get_tempo_bonus(id)

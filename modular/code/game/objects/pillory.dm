@@ -15,6 +15,7 @@
 	plane = GAME_PLANE_UPPER
 	var/latched = FALSE
 	var/locked = FALSE
+	var/makeshift = FALSE
 	var/base_icon = "pillory_single"
 	var/list/lockid = list()
 
@@ -33,6 +34,26 @@
 
 /obj/structure/pillory/town
 	lockid = list("dungeon", "garrison", "walls", "church", "inquisition", "manor")
+
+/obj/structure/pillory/crafted
+	name = "makeshift pillory"
+	makeshift = TRUE
+
+/obj/structure/pillory/crafted/get_mechanics_examine(mob/user)
+	. = ..()
+	. += span_info("This one locks without a key using <b>middle click</b>, but it's a weak lock!")
+
+/obj/structure/pillory/crafted/MiddleClick(mob/user)
+	. = ..()
+	if(!latched)
+		to_chat(user, span_warning("It's not latched shut!"))
+		return
+	if(user in buckled_mobs)
+		to_chat(user, span_warning("I can't reach the lock!"))
+		return
+	else
+		togglelock(user)
+		return
 
 /obj/structure/pillory/Initialize()
 	LAZYINITLIST(buckled_mobs)
@@ -70,6 +91,9 @@
 		var/obj/item/roguekey/K = P
 		if(K.lockid in lockid)
 			togglelock(user)
+			return
+		else if(makeshift == TRUE)
+			to_chat(user, span_warning("There is no keyhole?"))
 			return
 		else
 			to_chat(user, span_warning("Wrong key."))
@@ -167,6 +191,13 @@
 	if(buckled_mob == user)
 		if(buckled_mob.STASTR >= 18)
 			if(do_after(buckled_mob, 2.5 SECONDS))
+				buckled_mob.visible_message(span_warning("[buckled_mob] breaks [src] open!"))
+				locked = FALSE
+				latched = FALSE
+				return ..()
+			return null
+		if(makeshift == TRUE & buckled_mob.STASTR >= 11)
+			if(do_after(buckled_mob, 200 SECONDS))
 				buckled_mob.visible_message(span_warning("[buckled_mob] breaks [src] open!"))
 				locked = FALSE
 				latched = FALSE

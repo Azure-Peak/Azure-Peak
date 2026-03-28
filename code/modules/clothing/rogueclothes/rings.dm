@@ -332,7 +332,7 @@
 /obj/item/clothing/ring/fate_weaver
 	name = "fate weaver"
 	var/obj/effect/proc_holder/spell/self/conjure_armor/linked_conjure_spell
-	desc = "An arcyne creation first theorized by malcontents with the resolution of Xylix's plays. It protects it's wearer by tugging things gently toward less fatal potentials."
+	desc = "An arcyne creation first theorized by malcontents with the resolution of Xylix's plays. It protects its wearer by tugging things gently toward less fatal potentials."
 	icon_state = "ring_s"
 	max_integrity = 50
 	body_parts_covered = COVERAGE_ALL_BUT_HANDFEET | COVERAGE_HEAD_NOSE | NECK | HANDS | FEET //field covers the whole body
@@ -466,28 +466,6 @@
 	icon_state = "bs_ring_diamond"
 	desc = "A mythical blacksteel ring with a polished Dorpel set into it."
 	sellprice = 370
-
-////////////////////////
-// Triumph Exclusive! //
-////////////////////////
-
-//Purchasable via Triumphs. Blacklisted from the Stockpile and fitted with a reduced saleprice.
-/obj/item/clothing/ring/diamond/triumph
-	name = "ornate dorpel ring"
-	icon_state = "g_newring_diamond"
-	desc = "A ring of royal splendor, crested with a magnificently-cut dorpel. Its prismesque reflections remind you of a dream, from long ago; a ship, sailing across a sea of rainbowed phlogiston, to a castle far beyond the clouds.."
-	sellprice = 99
-	smeltresult = /obj/item/clothing/ring/signet/triumph
-
-/obj/item/clothing/ring/signet/triumph
-	name = "ornate signet ring"
-	desc = "A ring of opulent gold, bearing the symbol of an aristocratic household. By dipping it in melted redtallow, it can seal writs of religious importance - a matter better known to the Inquisition, rather than the Church or Crown."
-	sellprice = 77 
-
-/obj/item/clothing/ring/gold/triumph
-	name = "ornate gold ring"
-	desc = "A ring of golden beauty, who's story could only be retold by a lonesome tongue."
-	sellprice = 33
 
 /////////////////////////
 // Stat-Boosting Rings //

@@ -147,6 +147,7 @@ GLOBAL_LIST_INIT(admin_verbs_fun, list(
 	/client/proc/reset_ooc,
 	/client/proc/forceEvent,
 	/client/proc/forceGamemode,
+	/client/proc/view_storyteller_vote_log,
 //	/client/proc/admin_change_sec_level,
 //	/client/proc/run_weather,
 	/client/proc/run_particle_weather,
@@ -803,7 +804,7 @@ GLOBAL_PROTECT(admin_verbs_hideable)
 
 	holder.deactivate()
 
-	to_chat(src, span_interface("I are now a normal player."))
+	to_chat(src, span_interface("I am now a normal player."))
 	hide_command_bar_button()
 	update_ooc_verb_visibility()
 	log_admin("[src] deadmined themself.")

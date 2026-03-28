@@ -44,7 +44,7 @@
 /datum/supply_pack/rogue/armor_steel/coatplates
 	name = "Coat of Plates"
 	cost = 95 // 2 Steel
-	contains = list(/obj/item/clothing/suit/roguetown/armor/plate/scale/knight)
+	contains = list(/obj/item/clothing/suit/roguetown/armor/brigandine/heavy)
 
 /datum/supply_pack/rogue/armor_steel/cuirass_steel
 	name = "Cuirass"

@@ -225,6 +225,7 @@
 #define TRAIT_NOPAIN	"Painless"
 #define TRAIT_NOPAINSTUN	"Enduring"
 #define TRAIT_NOBREATH	"Breathless"
+#define TRAIT_DEATHLESS "Deathless"
 #define TRAIT_TOXIMMUNE	"Poison Immune"
 #define TRAIT_GRABIMMUNE "Unstoppable"
 #define TRAIT_ROTMAN "Rotman"
@@ -387,7 +388,7 @@ GLOBAL_LIST_INIT(roguetraits, list(
 	TRAIT_WATERBREATHING = span_info("I do not drown in bodies of water."),
 	TRAIT_NUDE_SLEEPER = span_warning("I can't fall asleep unless I'm nude and in bed."),
 	TRAIT_ABYSSOR_SWIM = span_info("I get far less tired when swimming than my peers. I also find mirth in rain and in the midst of storms."),
-	TRAIT_LONGSTRIDER = span_info("Each of my steps finds it's footing no matter how treacherous the terrain is."),
+	TRAIT_LONGSTRIDER = span_info("Each of my steps finds its footing no matter how treacherous the terrain is."),
 	TRAIT_TRAINED_SMITH = span_info("I've spent long training, and with some more, I will be able to smith legendary items."),
 	TRAIT_CAUTIOUS_FISHER = span_info("I know my way around the dangers of fishing, and know how to avoid unwanted attention from the depths."),
 	TRAIT_DEATHSIGHT = span_info("I can feel when someone nearby draws the Undermaiden's attention."),
@@ -438,6 +439,7 @@ GLOBAL_LIST_INIT(roguetraits, list(
 	TRAIT_NOPAIN = span_info("I feel no pain."),
 	TRAIT_NOPAINSTUN = span_info("Pain does not impair me."),
 	TRAIT_NOBREATH = span_info("I do not breathe."),
+	TRAIT_DEATHLESS = span_info("Even without my lyfesblood, I will not be taken by Necra so easily."),
 	TRAIT_TOXIMMUNE = span_info("Poisons do nothing to me."),
 	TRAIT_ZOMBIE_IMMUNE = span_info("Deadite bites cannot infect me."),
 	TRAIT_NOHUNGER = span_info("I do not hunger, or thirst."),

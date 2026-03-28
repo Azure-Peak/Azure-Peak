@@ -882,9 +882,11 @@
 	if(!HAS_TRAIT(src, TRAIT_DECEIVING_MEEKNESS) && user != src)
 		if(isliving(user))
 			var/mob/living/L = user
-			if(L.STAINT > 9 && L.STAPER > 9)
+			if((L.STAINT > 9 && L.STAPER > 9) || HAS_TRAIT(L, TRAIT_INTELLECTUAL))
 				if(HAS_TRAIT(src, TRAIT_COMBAT_AWARE))
-					. += span_warning("<i>They look battle-aware.</i>")
+					. += span_warning("<i>[m1] battle-aware.</i>")
+				if(HAS_TRAIT(src, TRAIT_DEATHLESS) && !mind?.has_antag_datum(/datum/antagonist/vampire))
+					. += span_warning("<i>[m1] absent of lyfe. [t_He] will linger even without blood.</i>")
 				if(HAS_TRAIT(user, TRAIT_COMBAT_AWARE))
 					var/userheld = user.get_active_held_item()
 					var/srcheld = get_active_held_item()

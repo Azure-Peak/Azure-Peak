@@ -45,6 +45,11 @@
 	path = /obj/item/clothing/mask/rogue/shepherd
 	sort_category = "Accessories"
 
+/datum/loadout_item/shadowmask
+	name = "Purple Halfmask"
+	path = /obj/item/clothing/mask/rogue/shepherd/shadowmask
+	sort_category = "Accessories"
+
 /datum/loadout_item/dendormask
 	name = "Briar Mask"
 	path = /obj/item/clothing/head/roguetown/dendormask

@@ -12,6 +12,11 @@
 		TAG_VILLIAN,
 	)
 
+/datum/round_event_control/antagonist/migrant_wave/gnolls/preRunEvent()
+	if(is_storyteller_soft_antag_blocked())
+		return EVENT_CANT_RUN
+	return ..()
+
 /datum/round_event/migrant_wave/gnolls/start()
 	var/datum/job/gnoll_job = SSjob.GetJob("Gnoll")
 	gnoll_job.total_positions = min(gnoll_job.total_positions + 2, 10)

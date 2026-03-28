@@ -30,7 +30,7 @@
 	icon_state = "splintlegs"
 	item_state = "splintlegs"
 	max_integrity = ARMOR_INT_LEG_BRIGANDINE
-	armor = ARMOR_PLATE
+	armor = ARMOR_BRIGANDINE
 	blocksound = SOFTHIT
 	drop_sound = 'sound/foley/dropsound/chain_drop.ogg'
 	pickup_sound = 'sound/foley/equip/equip_armor_chain.ogg'

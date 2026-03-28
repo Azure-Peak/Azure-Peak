@@ -9,10 +9,12 @@
 		"HIS FORM IS MAGNICIFENT!",
 	)
 	rogue_enabled = TRUE
+	has_tempo = TRUE
 
 	var/traits_dreamwalker = list(
 		TRAIT_NOHUNGER,
 		TRAIT_NOBREATH,
+		TRAIT_DEATHLESS,
 		TRAIT_NOPAIN,
 		TRAIT_TOXIMMUNE,
 		TRAIT_STEELHEARTED,
@@ -553,8 +555,8 @@
 	item_flags = DREAM_ITEM
 	wbalance = WBALANCE_HEAVY
 	wdefense = 4
-	possible_item_intents = list(/datum/intent/sword/cut, /datum/intent/sword/chop, /datum/intent/stab)
-	gripped_intents = list(/datum/intent/sword/cut/zwei, /datum/intent/sword/chop, /datum/intent/sword/lunge, /datum/intent/sword/thrust/estoc)
+	possible_item_intents = list(/datum/intent/sword/cut, /datum/intent/sword/chop, /datum/intent/sword/thrust/long)
+	gripped_intents = list(/datum/intent/sword/cut/zwei, /datum/intent/sword/chop, /datum/intent/sword/thrust/estoc/lunge, /datum/intent/sword/thrust/estoc)
 	alt_intents = list(/datum/intent/effect/daze, /datum/intent/sword/strike, /datum/intent/sword/bash)
 
 /obj/item/rogueweapon/greatsword/bsword/dreamscape/active

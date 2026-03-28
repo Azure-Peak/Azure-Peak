@@ -401,7 +401,7 @@ Somewhat fitting, considering the broadness of their domains. I also just think 
 			int_bonus = assocskill
 		duration *= 2
 	if(GLOB.tod == "day")
-		to_chat(owner, span_warning("ASTRATA IS RISEN! My spell loses some of it's potency! (-1 TO STAT BOOST.)"))
+		to_chat(owner, span_warning("ASTRATA IS RISEN! My spell loses some of its potency! (-1 TO STAT BOOST.)"))
 		int_bonus--
 	if(int_bonus > 0)
 		effectedstats = list(STATKEY_INT = int_bonus)

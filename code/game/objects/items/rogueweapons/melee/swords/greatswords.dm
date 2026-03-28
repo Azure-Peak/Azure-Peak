@@ -256,8 +256,8 @@
 	force_wielded = 25
 	minstr = 11
 	wdefense = 6
-	possible_item_intents = list(/datum/intent/sword/cut, /datum/intent/sword/chop, /datum/intent/stab, /datum/intent/rend/krieg)
-	gripped_intents = list(/datum/intent/sword/cut/zwei, /datum/intent/sword/chop, /datum/intent/sword/lunge, /datum/intent/sword/thrust/estoc)
+	possible_item_intents = list(/datum/intent/sword/cut, /datum/intent/sword/chop, /datum/intent/sword/thrust/long, /datum/intent/rend/krieg)
+	gripped_intents = list(/datum/intent/sword/cut/zwei, /datum/intent/sword/chop, /datum/intent/sword/thrust/estoc/lunge, /datum/intent/sword/thrust/estoc)
 	alt_intents = list(/datum/intent/effect/daze, /datum/intent/sword/strike, /datum/intent/sword/bash)
 	is_silver = TRUE
 	smeltresult = /obj/item/ingot/silver
@@ -320,8 +320,8 @@
 
 /obj/item/rogueweapon/estoc
 	name = "estoc"
-	desc = "A sword possessed of a quite long and tapered blade that is intended to be thrust between the \
-	gaps in an opponent's armor. The hilt is wrapped tight in black leather."
+	desc = "A deviation from the traditional longsword meant to pierce maille \
+	or find the gaps in an opponent's plate armor. This edgeless blade is used almost exclusively half-sword on foot, or as a lance from saigaback."
 	icon_state = "estoc"
 	icon = 'icons/roguetown/weapons/swords64.dmi'
 	pixel_y = -16
@@ -337,7 +337,6 @@
 	gripped_intents = list(
 		/datum/intent/sword/thrust/estoc,
 		/datum/intent/sword/thrust/estoc/lunge,
-		/datum/intent/sword/thrust/long/halfsword,
 		/datum/intent/sword/strike,
 	)
 	bigboy = TRUE
@@ -386,23 +385,23 @@
 			if("wielded")
 				return list(
 					"shrink" = 0.6,
-					"sx" = 3,
-					"sy" = 5,
-					"nx" = -3,
-					"ny" = 5,
+					"sx" = 8,
+					"sy" = -2,
+					"nx" = -6,
+					"ny" = -1,
 					"wx" = -9,
-					"wy" = 4,
-					"ex" = 9,
-					"ey" = 1,
+					"wy" = -2,
+					"ex" = 8,
+					"ey" = -1,
 					"northabove" = 0,
 					"southabove" = 1,
 					"eastabove" = 1,
 					"westabove" = 0,
-					"nturn" = 0,
-					"sturn" = 0,
-					"wturn" = 0,
-					"eturn" = 15,
-					"nflip" = 8,
+					"nturn" = 60,
+					"sturn" = 30,
+					"wturn" = -30,
+					"eturn" = 22,
+					"nflip" = 10,
 					"sflip" = 0,
 					"wflip" = 8,
 					"eflip" = 0,

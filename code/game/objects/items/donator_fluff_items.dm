@@ -25,6 +25,14 @@
 	mob_overlay_icon = 'icons/clothing/onmob/donor_clothes.dmi'
 	sleeved = 'icons/clothing/onmob/donor_sleeves_armor.dmi'
 
+/obj/item/clothing/head/roguetown/circlet/saffiratiara
+	name = "saffira encrusted tiara"
+	desc = "An ornate gold tiara, inset with a Saffira in its peak."
+	icon_state = "eekasqueak"
+	item_state = "eekasqueak"
+	icon = 'icons/clothing/donor_clothes.dmi'
+	mob_overlay_icon = 'icons/clothing/onmob/donor_clothes.dmi'
+
 //Funkymonke's donator item - dress
 /obj/item/clothing/suit/roguetown/shirt/dress/funkydress
 	name = "padded dress"
@@ -144,39 +152,6 @@
 	mob_overlay_icon = 'icons/clothing/onmob/donor_clothes.dmi'
 
 
-//Eiren's donator items - zweihander and sabres
-/obj/item/rogueweapon/greatsword/zwei/eiren
-	name = "Regret"
-	desc = "People bring the small flames of their wishes together... to keep them from burning out, we cast our own flames into the biggest fire we can find. But you know... I didn't bring a flame with me. As for me, maybe I just wandered up to the campfire to warm myself a little..."
-	icon_state = "eiren"
-	icon = 'icons/obj/items/donor_weapons_64.dmi'
-
-/obj/item/rogueweapon/greatsword/eiren
-	name = "Regret"
-	desc = "People bring the small flames of their wishes together... to keep them from burning out, we cast our own flames into the biggest fire we can find. But you know... I didn't bring a flame with me. As for me, maybe I just wandered up to the campfire to warm myself a little..."
-	icon_state = "eiren"
-	icon = 'icons/obj/items/donor_weapons_64.dmi'
-
-/obj/item/rogueweapon/greatsword/grenz/flamberge/eiren
-	name = "Regret"
-	desc = "People bring the small flames of their wishes together... to keep them from burning out, we cast our own flames into the biggest fire we can find. But you know... I didn't bring a flame with me. As for me, maybe I just wandered up to the campfire to warm myself a little..."
-	icon_state = "eiren"
-	icon = 'icons/obj/items/donor_weapons_64.dmi'
-
-/obj/item/rogueweapon/sword/sabre/eiren
-	name = "Lunae"
-	desc = "Two blades, one forged in Noc's light, a soothing breath of clarity. Here, and here alone, were moon and fire ever together."
-	icon_state = "eiren2"
-	icon = 'icons/obj/items/donor_weapons.dmi'
-	sheathe_icon = "eiren2"
-
-/obj/item/rogueweapon/sword/sabre/eiren/small
-	name = "Cinis"
-	desc = "Two blades, the other born of Astrata's ire, a raging flame of passion. Here, and here alone, were fates severed and torn."
-	icon_state = "eiren3"
-	icon = 'icons/obj/items/donor_weapons.dmi'
-	sheathe_icon = "eiren3"
-
 /obj/item/clothing/suit/roguetown/armor/longcoat/eiren //Longcoat has no armor, ignore the /armor/ path.
 	name = "Darkwood's Embrace"
 	desc = "A tough leather coat, taken from one of the few remaining arcyne studies of Lord Darkwood. Ancient, but in remarkably good condition as the weight of memory and sin tries to drag you down."
@@ -205,12 +180,6 @@
 			pic.color = get_detail_color()
 		add_overlay(pic)
 
-//pretzel's special things
-/obj/item/rogueweapon/greatsword/weeperslathe
-	name = "Weeper's Lathe"
-	desc = "A recreation of a gilbronze greatsword, wrought in steel. Inscribed on the blade is a declaration: \"I HAVE ONLY A SHORT TYME TO LYVE, BUT I AM NOT AFRAID TO DIE.\""
-	icon_state = "weeperslathe"
-	icon = 'icons/obj/items/donor_weapons_64.dmi'
 
 /obj/item/clothing/head/roguetown/duelhat/pretzel
 	name = "rethrifted gravedigger's hat" 
@@ -222,25 +191,6 @@
 	item_state = "pretzel_stolenhat"
 	icon = 'icons/clothing/donor_clothes.dmi'
 	mob_overlay_icon = 'icons/clothing/onmob/donor_clothes.dmi'
-
-//inverserun's claymore
-/obj/item/rogueweapon/greatsword/zwei/inverserun
-	name = "Votive Thorns"
-	desc = "Promises hurt, but so does plucking rosa. Hoping hurts, but so does looking at the beauty of Astrata's light. Pick yourself back up. Remember your promise, despite the thorns."
-	icon_state = "inverse"
-	icon = 'icons/obj/items/donor_weapons_64.dmi'
-
-/obj/item/rogueweapon/greatsword/inverserun
-	name = "Votive Thorns"
-	desc = "Promises hurt, but so does plucking rosa. Hoping hurts, but so does looking at the beauty of Astrata's light. Pick yourself back up. Remember your promise, despite the thorns."
-	icon_state = "inverse"
-	icon = 'icons/obj/items/donor_weapons_64.dmi'
-
-/obj/item/rogueweapon/greatsword/grenz/flamberge/inverserun
-	name = "Votive Thorns"
-	desc = "Promises hurt, but so does plucking rosa. Hoping hurts, but so does looking at the beauty of Astrata's light. Pick yourself back up. Remember your promise, despite the thorns."
-	icon_state = "inverse"
-	icon = 'icons/obj/items/donor_weapons_64.dmi'
 
 /obj/item/clothing/cloak/raincloak/feather_cloak
 	name = "Shroud of the Undermaiden"
@@ -408,18 +358,19 @@
 	worn_y_dimension = 64
 	bloody_icon = 'icons/effects/blood64.dmi'
 
-//STINKETHSTONKETH
-/obj/item/rogueweapon/sword/sabre/steppesman/stinketh
-	name = "fencer's shashka"
-	desc = "A heirloom shashka with guardless hilt plated in silver and adorned  with a Mamuk hide grip. A sabre's blade has been added in place of the old one, affording it lethality and reach whilst dismounted."
-	icon_state = "stinketh_shashka"
-	icon = 'icons/obj/items/donor_weapons_64.dmi'
+/obj/item/rogueweapon/sword/dakken_sword
+	name = "avantyne threaded sword"
+	desc = "'Threads of dark metal wind through what was formerly a simple steel blade. Cracks and chips are filled in as the weapon of war is reshaped into a symbol of faith.'"
+	icon = 'icons/obj/items/donor_weapons.dmi'
+	icon_state = "alloybsword_32"
+	sheathe_icon = "alloybsword"
 
-/obj/item/rogueweapon/sword/sabre/freifechter/stinketh
-	name = "fencer's shashka"
-	desc = "A heirloom shashka with guardless hilt plated in silver and adorned  with a Mamuk hide grip. A sabre's blade has been added in place of the old one, affording it lethality and reach whilst dismounted."
-	icon_state = "stinketh_shashka"
+/obj/item/rogueweapon/sword/long/dakken_longsword
+	name = "avantyne threaded longsword"
+	desc = "'Threads of dark metal wind through what was formerly a simple steel blade. Cracks and chips are filled in as the weapon of war is reshaped into a symbol of faith.'"
 	icon = 'icons/obj/items/donor_weapons_64.dmi'
+	icon_state = "alloyblongsword"
+	sheathe_icon = "alloybsword"
 
 /obj/item/rogueweapon/spear/boar/frei/pike/stinketh
 	name = "Kindness of Ravens Standard"

@@ -101,10 +101,10 @@
 	if(!round_started || disable_distribution) // we are differing roundstarted ones until base roundstart so we can get cooler stuff
 		return
 
-	if(!guarantees_roundstart_roleset && prob(roundstart_prob) && !roundstart_checks)
+	if(!is_roundstart_roles_blocked_storyteller() && !guarantees_roundstart_roleset && prob(roundstart_prob) && !roundstart_checks)
 		roundstart_checks = TRUE
 
-	if(SSgamemode.current_roundstart_event && !SSgamemode.ran_roundstart && (guarantees_roundstart_roleset || roundstart_checks))
+	if(!is_roundstart_roles_blocked_storyteller() && SSgamemode.current_roundstart_event && !SSgamemode.ran_roundstart && (guarantees_roundstart_roleset || roundstart_checks))
 		buy_event(SSgamemode.current_roundstart_event, EVENT_TRACK_CHARACTER_INJECTION, TRUE)
 		if(EVENT_TRACK_CHARACTER_INJECTION in SSgamemode.forced_next_events)
 			SSgamemode.forced_next_events[EVENT_TRACK_CHARACTER_INJECTION] = null

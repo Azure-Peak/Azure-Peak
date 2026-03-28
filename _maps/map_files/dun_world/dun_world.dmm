@@ -18747,6 +18747,10 @@
 /obj/item/storage/belt/rogue/pouch,
 /obj/item/natural/feather,
 /obj/item/rope/chain,
+/obj/structure/fluff/walldeco/rpainting/crown{
+	pixel_x = 33;
+	pixel_y = -32
+	},
 /turf/open/floor/rogue/ruinedwood/herringbone,
 /area/rogue/indoors/town/tavern)
 "edq" = (
@@ -19541,6 +19545,22 @@
 "enr" = (
 /turf/closed/wall/mineral/rogue/craftstone,
 /area/rogue/under/cave/dragonden)
+"ens" = (
+/obj/effect/decal/wood/herringbone2{
+	dir = 8
+	},
+/obj/effect/decal/wood/herringbone2{
+	dir = 1
+	},
+/obj/structure/closet/crate/roguecloset/inn,
+/obj/item/paper/scroll,
+/obj/item/paper/scroll,
+/obj/item/storage/belt/rogue/pouch,
+/obj/item/natural/feather,
+/obj/item/rope/chain,
+/obj/structure/fluff/walldeco/rpainting/crown,
+/turf/open/floor/rogue/ruinedwood/herringbone,
+/area/rogue/indoors/town/tavern)
 "env" = (
 /obj/structure/fluff/railing/border/north,
 /turf/open/floor/rogue/hexstone,
@@ -37073,9 +37093,6 @@
 /obj/structure/bed/rogue/inn/double{
 	dir = 1
 	},
-/obj/structure/fluff/walldeco/painting/queen{
-	pixel_y = 32
-	},
 /obj/item/bedsheet/rogue/double_pelt{
 	dir = 1
 	},
@@ -44187,6 +44204,10 @@
 /obj/effect/decal/wood/herringbone2{
 	dir = 1
 	},
+/obj/structure/fluff/walldeco/rpainting/forest{
+	pixel_x = 0;
+	pixel_y = 31
+	},
 /turf/open/floor/rogue/ruinedwood/herringbone,
 /area/rogue/indoors/town/tavern)
 "jxK" = (
@@ -46553,11 +46574,12 @@
 /obj/structure/bed/rogue/inn{
 	dir = 1
 	},
-/obj/structure/fluff/walldeco/painting/seraphina{
-	pixel_y = 32
-	},
 /obj/item/bedsheet/rogue/pelt{
 	dir = 1
+	},
+/obj/structure/fluff/walldeco/rpainting/crown{
+	pixel_x = 0;
+	pixel_y = 33
 	},
 /turf/open/floor/carpet/red,
 /area/rogue/indoors/town/tavern)
@@ -75968,10 +75990,11 @@
 /turf/open/floor/rogue/concrete,
 /area/rogue/indoors/town/magician)
 "qfJ" = (
-/obj/structure/fluff/walldeco/painting/queen{
-	pixel_y = 32
-	},
 /obj/structure/table/wood/poor,
+/obj/structure/fluff/walldeco/rpainting/crown{
+	pixel_x = 0;
+	pixel_y = 33
+	},
 /turf/open/floor/carpet/royalblack,
 /area/rogue/indoors/town/tavern)
 "qfL" = (
@@ -83150,7 +83173,8 @@
 "rFr" = (
 /obj/structure/table/wood/long_table,
 /obj/machinery/light/rogue/candle/floorcandle,
-/obj/structure/fluff/walldeco/painting/seraphina{
+/obj/structure/fluff/walldeco/bigpainting{
+	pixel_x = -29;
 	pixel_y = 32
 	},
 /turf/open/floor/rogue/tile,
@@ -83574,12 +83598,6 @@
 	dir = 4
 	},
 /turf/open/floor/rogue/rooftop/green/north,
-/area/rogue/indoors/town/tavern)
-"rJX" = (
-/obj/structure/fluff/walldeco/painting/queen{
-	pixel_x = 32
-	},
-/turf/open/floor/carpet/purple,
 /area/rogue/indoors/town/tavern)
 "rKa" = (
 /obj/machinery/gear_painter,
@@ -255806,7 +255824,7 @@ lUH
 taS
 xdW
 taS
-yed
+ens
 uhn
 dRY
 taS
@@ -256260,7 +256278,7 @@ xdW
 iOW
 nXh
 uhn
-rJX
+uhn
 taS
 pWT
 lKo

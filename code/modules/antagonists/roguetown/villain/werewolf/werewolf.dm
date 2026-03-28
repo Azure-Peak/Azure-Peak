@@ -46,6 +46,7 @@
 	var/transforming
 	var/untransforming
 	var/wolfname = "Verewolf"
+	has_tempo = TRUE
 	var/static/list/dendor_cries = list('sound/effects/werewolf_sounds/wscream1.ogg',
 								'sound/effects/werewolf_sounds/wscream2.ogg',
 								'sound/effects/werewolf_sounds/wscream3.ogg',
