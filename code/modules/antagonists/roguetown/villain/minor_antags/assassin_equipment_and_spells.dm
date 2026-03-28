@@ -23,7 +23,7 @@ we happen to commission/code should GO IN HERE. Thanks.
 			if(0)
 				to_chat(user, span_graggarsmall("The profane dagger says, \"You are unworthy, mortal.\""))
 			if(1)
-				to_chat(user, span_graggarsmall("The profane dagger says, \"Hehe... hehehe...\""))
+				to_chat(user, span_graggarsmall("The profane dagger says, \"Hehe... hehehe...!\""))
 			if(2)
 				to_chat(user, span_graggarsmall("The profane dagger says, \"Are you my next master...?\""))
 			if(3)
@@ -43,8 +43,10 @@ we happen to commission/code should GO IN HERE. Thanks.
 	embedding = list("embed_chance" = 0) // Embedding the cursed dagger has the potential to cause duping issues. Keep it like this unless you want to do a lot of bug hunting.
 	resistance_flags = INDESTRUCTIBLE // this has to be destroyed by a necran
 	stealthy_audio = TRUE
+	// FORCE: This weapon currently deals 24 damage versus NON-TARGETS, but 40 against targets. Fucking scary, dude.
+	var/last_whisper // a time we're going to use to not spam chat
 	var/stolen_faces = list()
-	var/attached_assassin = null // if an assassin picks up a dagger, it gets "attached" to them for later use.
+	var/mob/attached_assassin = null // if an assassin picks up a dagger, it gets "attached" to them for later use.
 	var/graggar_boy_points = 0
 	var/total_souls_taken // backup incase going to the underworld fucks up the soul-theft
 
@@ -78,52 +80,105 @@ we happen to commission/code should GO IN HERE. Thanks.
 		"How long have I been in here...?",
 	)
 
+/obj/item/rogueweapon/huntingknife/idagger/steel/profane/Destroy()
+	// i dont know if these cause any sort of problems, but, uh. idk i feel like the attached assassin at least could hard-del.
+	if(stolen_faces)
+		stolen_faces = null
+	if(attached_assassin)
+		var/mob/living/carbon/human/H = attached_assassin
+		if(H.mind)
+			var/datum/antagonist/assassin/vil = H.mind.has_antag_datum(/datum/antagonist/assassin)
+			if(vil && vil.attached_knife == src)
+				vil.attached_knife = null
+				to_chat(vil, span_graggaranimated("MY DAGGER HAS BEEN DESTROYED! I FEEL A DEEP PAIN IN MY LUX!!!"))
+		attached_assassin = null
+	. = ..()
+
 /obj/item/rogueweapon/huntingknife/idagger/steel/profane/examine(mob/user)
 	. = ..()
 	if(HAS_TRAIT(user, TRAIT_ASSASSIN))
 		. += span_cultsmall("[src] whispers, \"...here we are!\"")
-
+	else
+		. += span_cultsmall("[src] whispers, \"A wound is a window into the world...\"")
+	
+/obj/item/rogueweapon/huntingknife/idagger/steel/profane/equipped(mob/user, slot, initial = TRUE)
+	. = ..()
+	if(ishuman(user))
+		var/mob/living/carbon/human/H = user
+		// i fucking haaate the fact this checks EVERY pickup when i just want it to RUN ONCE!! F UCK!!
+		if(!attached_assassin) // first assassin to pick up a dagger "claims" it. Someone find a better way to do this, please.
+			assign_assassin(H)
+	
+/// This over-ride handles the dagger's pick-up. Non-assasins poop their pants. It always calls dissonant_whispers().
 /obj/item/rogueweapon/huntingknife/idagger/steel/profane/pickup(mob/living/M)
 	. = ..()
 	if(ishuman(M))
 		var/mob/living/carbon/human/H = M
-		// TODO: FORCE A DROP & MOOD MIFF
+		dissonant_whispers(H)
 		if (!HAS_TRAIT(H, TRAIT_ASSASSIN)) // Non-assassins don't like holding the profane dagger.
-			to_chat(H, span_danger("Your breath chills as you pick up the dagger. You feel a sense of morbid wrongness!"))
 			H.add_stress(/datum/stressevent/profane)
-			var/message = pick(na_pleads)
-			to_chat(H, span_gamedeadsay("[src] whispers, \"[message]\"")) // i tried making the dagger actually whisper but no this is the best we're getting.
-		else
-			// i fucking haaate the fact this checks EVERY pickup when i just want it to RUN ONCE!! F UCK!!
-			if(!attached_assassin) // first assassin to pick up a dagger "claims" it
-				// Someone find a better way to do this, please.
-				var/datum/antagonist/assassin/villain = H.mind.has_antag_datum(/datum/antagonist/assassin)
-				if(!villain.attached_knife) // no doubling up
-					to_chat(H, span_graggarsmall("As you pick up the dagger, it recognizes you as it's master. " + span_graggarsmallanimated("DESTROY. DESPOIL. DOMINATE.")))
-					// They are both now linked to each other. This is needed for later shitcode.
-					attached_assassin = H
-					villain.attached_knife = src
-					// we want you to always have your own face for later use
-					var/datum/stolen_face/your_face = new
-					your_face.steal_face(H) 
-					stolen_faces += your_face
-				
-			// this goes second for looks reasons
-			var/message = pick(last_words)
-			to_chat(H, span_gamedeadsay("[src] whispers, \"[message]\"")) // i tried making the dagger actually whisper but no this is the best we're getting.
+
+/// This proc handles the dagger's whisperings. It only acts every five seconds to prevent chat-spam. 
+/obj/item/rogueweapon/huntingknife/idagger/steel/profane/proc/dissonant_whispers(mob/living/carbon/human/user)
+	if(world.time < last_used + 5 SECONDS)
+		return
+	last_used = world.time
+	var/message
+	if(HAS_TRAIT(user, TRAIT_ASSASSIN))
+		message = pick(last_words)
+	else
+		to_chat(user, span_danger("Your breath chills as you pick up the dagger. You feel a sense of morbid wrongness!"))
+		message = pick(na_pleads)
+	to_chat(user, span_gamedeadsay("[src] whispers, \"[message]\""))	
+
+/obj/item/rogueweapon/huntingknife/idagger/steel/profane/proc/assign_assassin(user)
+	var/mob/living/carbon/human/H = user
+	var/datum/antagonist/assassin/villain = H.mind.has_antag_datum(/datum/antagonist/assassin)
+	if(!villain.attached_knife) // no doubling up
+		to_chat(H, span_graggarsmall("As you pick up the dagger, it recognizes you as it's master. " + span_graggarsmallanimated("DESTROY. DESPOIL. DOMINATE.")))
+		// They are both now linked to each other. This is needed for later shitcode.
+		attached_assassin = H
+		villain.attached_knife = src
+		// we want you to always have your own face for later use
+		var/datum/stolen_face/your_face = new
+		your_face.steal_face(H) 
+		stolen_faces += your_face
 
 // when you use the item via interact...
 /obj/item/rogueweapon/huntingknife/idagger/steel/profane/attack_self(mob/user)
 	. = ..()
 	// TEMP -- FOR DEBUGGING PURPOSES
 	release_profane_souls(user)
+	if(HAS_TRAIT(user, TRAIT_ASSASSIN))
+		INVOKE_ASYNC(src, PROC_REF(dagger_menu), user)
 	/* TODO:
 	// TRY TO BUILD SOME SORT OF RADIAL MENU. MAYBE STEAL CODE FROM SLAPCRAFTING BC I THINK THERE WERE RADIALS FOR THAT.alist
 	// WE WANT TO BE ABLE TO USE THE APPLY FACE OR WHATEVER I CALLED IT PROC, PREFERABLY W/ A LITTLE HEAD ICON TO SHOW
 	// WHAT WE'RE TURNING INTO. ALSO A NAME IF POSSIBLE. WE'LL SEE.
-
 	// ALSO TODO: RANCOR -- TIME LIMITED BUFF BASED ON # OF PEOPLE KILLED / SOULS IN DAGGER.
 	*/
+
+/obj/item/rogueweapon/huntingknife/idagger/steel/profane/proc/dagger_menu(mob/living/user)
+	if(!user || !user.client)
+		return
+	var/list/choices = list(
+		"Release Souls - Debug" = src,
+		"Rancor" = src,
+		"Koh" = src
+	)
+	var/selection = show_radial_menu(user, src, choices, require_near = TRUE)
+
+	if(selection)
+		if(!user.is_holding(src))
+			return
+			to_chat(user, span_danger("I must have the dagger in my hand to use this!"))
+		switch(selection)
+			if("Release Souls")
+				release_profane_souls(user)
+			if("Rancor")
+				to_chat(user, "RANCOR!!!")
+			if("Koh")
+				to_chat(user, "KOH SELECTED")
 
 /obj/item/rogueweapon/huntingknife/idagger/steel/profane/pre_attack(atom/A, mob/living/user = usr, params)
 	var/mob/living/carbon/human/H = user
@@ -209,6 +264,13 @@ we happen to commission/code should GO IN HERE. Thanks.
 			ADD_TRAIT(target, TRAIT_KOH, TRAIT_GENERIC)
 			// hunted interactions
 			if(target.has_flaw(/datum/charflaw/hunted)) // The profane dagger only thirsts for those who are hunted, by flaw or by zizoid curse.
+			/*
+			TODO:
+			BY ORDER OF THE ADMINISTARIUM ADMINISTRATUS, SOUL-SUCKING HAS BEEN REMOVED/RR HAS BEEN REMOVED. INSTEAD, WE WILL BE TAKING A PART OF THE
+			TARGET'S LUX AND APPLYING A HEFTIER DEVITALIZED STATUS EFFECT TO THEM POST MURDER. 
+
+			LAST-WORD THEFT WILL BE STAYING. SOME OTHER SHIT. IDK I'LL FGIURE IT OUT IT JUST CANT RR PPL NO MORE APPARENTLY.
+			*/
 				if(target.client == null)
 					to_chat(user, span_graggarsmall("My target's soul has left their body. I can try to call it back..."))
 					get_profane_ghost(target, user)
@@ -221,6 +283,7 @@ we happen to commission/code should GO IN HERE. Thanks.
 			target.set_ssd_indicator(FALSE) // jank but needed
 		else
 			to_chat(user, span_warning("They aren't quite dead enough! You may need to wait a minute..."))
+
 /obj/item/rogueweapon/huntingknife/idagger/steel/profane/proc/get_profane_ghost(mob/living/carbon/human/target, mob/living/user)
 	// we dont have an underworld, so this proc strictly checks to see if a ghost already exists.
 	var/mob/dead/observer/chosen_ghost
@@ -232,7 +295,7 @@ we happen to commission/code should GO IN HERE. Thanks.
 		chosen_ghost = target.grab_ghost(TRUE)
 		if(chosen_ghost)
 			init_profane_soul(chosen_ghost, target, user)
-			message_admins("caught [chosen_ghost] in force-grabber")
+			message_admins("caught [chosen_ghost] in force-grabber") // DEBUG
 			return TRUE
 		return FALSE
 	// else, let's put 'em thru the profaner.
@@ -261,6 +324,10 @@ we happen to commission/code should GO IN HERE. Thanks.
 	S.deadchat_name = target.real_name
 	S.original_body = target	
 	S.language_holder = target.language_holder.copy(S)
+
+	// last word getter
+	if(target.last_words)
+		last_words += target.last_words // evil as fuck
 
 	// effects on game world
 	target.visible_message(span_danger("[target] has their soul PLUCKED FROM THEIR BODY and placed into the PROFANE DAGGER!"), span_danger("MY SOUL IS TRAPPED WITHIN THE DAGGER! I hear a HORRID WAILING... EVERYTHING HURTS!!"))
