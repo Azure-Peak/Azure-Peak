@@ -2246,9 +2246,9 @@
 	icon_state = "buff"
 
 #define NECRACON_FILTER "necra_consecration"
-#define NECRACON_TIER_NORMAL 1
-#define NECRACON_TIER_EXPERT 2
-#define NECRACON_TIER_MASTER 3
+#define NECRACON_TIER_NORMAL 2
+#define NECRACON_TIER_EXPERT 3
+#define NECRACON_TIER_MASTER 4
 
 
 /datum/status_effect/buff/necran_consecration
@@ -2260,9 +2260,9 @@
 	duration = 3 SECONDS
 
 /datum/status_effect/buff/necran_consecration/on_creation(mob/living/new_owner, newtier)
-	. = ..()
 	if(newtier > NECRACON_TIER_NORMAL)
 		tier = newtier
+	. = ..()
 
 /datum/status_effect/buff/necran_consecration/on_apply()
 	. = ..()

@@ -1,11 +1,11 @@
 /obj/effect/proc_holder/spell/invoked/consecrate_ground
 	name = "Consecrate Ground"
-	desc = "Channel holy energy to bless a Necran cross, allowing it to be activated against undead. devout can maintain one cross, while masters can maintain three. You can unbless a previously blessed cross to reclaim the slot."
+	desc = "Channel holy energy to conjure an ethereal Necran cross upon a site made holy. All devout Necrans within it will receive boons, depending on the caster's holy skill. Those made unrevivable will receive greater effects."
 	invocations = list("In the name of Her this ground is made SACROSANCT!")
 	sound = 'sound/effects/necracon_create.ogg'
-	devotion_cost = 100
+	devotion_cost = 125
 	recharge_time = 130 SECONDS //2 min duration + 10 second CD inbetween. Unless it gets destroyed before.
-	chargetime = 1 SECONDS
+	chargetime = 2 SECONDS
 	range = 1
 	overlay_icon = 'icons/mob/actions/necramiracles.dmi'
 	overlay_state = "consecrate_ground"
