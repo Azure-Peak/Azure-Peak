@@ -416,7 +416,7 @@
 
 /datum/stressevent/profane // When a non-assassin touches a profane dagger
 	timer = 3 MINUTES
-	stressadd = 4
+	stressadd = 8
 	desc = span_boldred("I hear the voices of the damned from this cursed blade!")
 
 /datum/stressevent/fermented_crab_bad
