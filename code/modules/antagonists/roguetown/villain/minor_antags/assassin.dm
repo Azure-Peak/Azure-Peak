@@ -56,20 +56,25 @@
 /datum/antagonist/assassin/greet()
 	. = ..()
 	to_chat(owner.current, span_graggar("I've blended in well up until this point, but it's time for the Hunted of Graggar to perish. I must get my dagger from where I hid it."))
+	addtimer(CALLBACK(src, PROC_REF(antagonist_explanation)), 15 SECONDS) // DEBUG
+
+/datum/antagonist/assassin/proc/antagonist_explanation()
+	to_chat(owner.current, span_userdanger("\nPlease remember, assassin is an antagonistic role! \
+	You may attack YOUR TARGETS without escalation, however, you MUST still RESPECT ERP META-PROTECTIONS. \
+	\nAs always, have good faith, or your toys may get removed!"))
 
 	// TODO: COMMUNE W/ THE BLACK FLAME FOR POTENTIAL RITUAL PERMISSIONS.
 
-
 /mob/living/carbon/human/proc/who_targets() // Verb for the assassin to remember their targets.
 	set name = "Remember Targets"
-	set category = "Graggar"
+	set category = "Special Verbs - Role"
 	if(!mind)
 		return
 	mind.recall_targets(src)
 
 /mob/living/carbon/human/proc/find_dagger()
 	set name = "Sense Dagger"
-	set category = "Graggar" // these really needed to all be folded into one Special Verbs - Role tab like on vanderlin
+	set category = "Special Verbs - Role"
 	if(!mind)
 		return
 	// we need to get the antag datum instance off the person.
