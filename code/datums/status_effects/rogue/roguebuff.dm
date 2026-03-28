@@ -2199,7 +2199,7 @@
 	. = ..()
 	if(gave_buff) // because we ensure that the buff was actually given out, and due to the 0-3 scale of it, we can just
 		owner.adjust_skillrank(/datum/skill/misc/reading, -1, TRUE) // -1 skill once it wears off and it (should) be fine.
-		to_chat(owner, span_warning("The blessing of HERMES begins to wear off. The written word loses it's meaning in my skull."))
+		to_chat(owner, span_warning("The blessing of HERMES begins to wear off. The written word loses its meaning in my skull."))
 
 //Artificer armor buff
 /datum/status_effect/buff/artificerint

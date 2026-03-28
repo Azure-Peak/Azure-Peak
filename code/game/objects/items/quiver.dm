@@ -322,6 +322,13 @@
 		arrows += A
 	update_icon()
 
+/obj/item/quiver/bronzearrows/Initialize()
+	..()
+	for(var/i in 1 to max_storage)
+		var/obj/item/ammo_casing/caseless/rogue/arrow/bronze/A = new()
+		arrows += A
+	update_icon()
+
 //////////// Note - silver quivers and bolt pouches shouldn't be obtainable through normal circumstances.
 // BOLTS  // For now, they should only be available as uncraftable singles.
 ////////////

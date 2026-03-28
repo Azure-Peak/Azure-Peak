@@ -113,6 +113,8 @@
 	var/flag = "piercing" //Defines what armor to use when it hits things. Setting this to "blunt" might result in unexpected behavior (i.e. knockout on hit, figure out the root causes and excise it)
 	///How much armor this projectile pierces.
 	var/armor_penetration = PEN_NONE
+	/// Multiplier for integrity damage dealt to armor. 1 is default. Higher = harder on armor.
+	var/intdamfactor = 1
 	var/projectile_type = /obj/projectile
 	var/range = 50 //This will de-increment every step. When 0, it will deletze the projectile.
 	var/decayedRange			//stores original range

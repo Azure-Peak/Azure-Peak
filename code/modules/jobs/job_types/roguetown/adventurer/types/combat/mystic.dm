@@ -97,7 +97,7 @@
 
 /datum/advclass/mystic/resilientsoul
 	name = "Resilient Soul"
-	tutorial = "I have spent my youth deepening my faith, but soon followed closely on the side of a generous enchantor who taught me a few tricks to preserve and save lyves"
+	tutorial = "I have spent my youth deepening my faith, but eventually crossed paths with a generous enchanter who taught me a few tricks to preserve and save lyves"
 	allowed_sexes = list(MALE, FEMALE)
 	allowed_races = RACES_ALL_KINDS
 	outfit = /datum/outfit/job/roguetown/adventurer/resilient
@@ -198,7 +198,7 @@
 
 /datum/advclass/mystic/holyblade
 	name = "Holyblade"
-	tutorial = "I have spent my youth deepening my faith and one day a spellblade was under my care at the church, ever since their recovery they accepted me as their pupil and taught the way of the blade and arcyne"
+	tutorial = "I have spent my youth deepening my faith and one day a spellblade was under my care at the church, ever since their recovery they accepted me as their pupil and taught me the way of the blade and arcyne"
 	allowed_sexes = list(MALE, FEMALE)
 	allowed_races = RACES_ALL_KINDS
 	outfit = /datum/outfit/job/roguetown/adventurer/holyblade
@@ -229,7 +229,7 @@
 
 /datum/outfit/job/roguetown/adventurer/holyblade/pre_equip(mob/living/carbon/human/H)
 	..()
-	to_chat(H, span_warning("I have spent my youth deepening my faith and one day a spellblade was under my care at the church, ever since their recovery they accepted me as their pupil and taught the way of the blade and arcyne"))
+	to_chat(H, span_warning("I have spent my youth deepening my faith and one day a spellblade was under my care at the church, ever since their recovery they accepted me as their pupil and taught me the way of the blade and arcyne"))
 	head = /obj/item/clothing/head/roguetown/roguehood/mage
 	shoes = /obj/item/clothing/shoes/roguetown/boots
 	pants = /obj/item/clothing/under/roguetown/trou/leather
@@ -311,7 +311,7 @@
 
 /datum/advclass/mystic/theurgist
 	name = "Theurgist"
-	tutorial = "I have spent my youth deepening my faith among Noctite acolytes and where shown the wonders of the Arcynes, one day i decided to begins my studies of the arcyne art"
+	tutorial = "I have spent my youth deepening my faith among Noccite acolytes, and was shown the wonders of the Arcyne. Ever since, I have studied the arcyne arts."
 	allowed_sexes = list(MALE, FEMALE)
 	allowed_races = RACES_ALL_KINDS
 	outfit = /datum/outfit/job/roguetown/adventurer/theurgist
@@ -339,7 +339,7 @@
 
 /datum/outfit/job/roguetown/adventurer/theurgist/pre_equip(mob/living/carbon/human/H)
 	..()
-	to_chat(H, span_warning("I have spent my youth deepening my faith among Noctite acolytes and where shown the wonders of the Arcynes, one day i decided to begins my studies of the arcyne art"))
+	to_chat(H, span_warning("I have spent my youth deepening my faith among Noccite acolytes, and was shown the wonders of the Arcyne. Ever since, I have studied the arcyne arts."))
 	head = /obj/item/clothing/head/roguetown/roguehood/mage
 	shoes = /obj/item/clothing/shoes/roguetown/boots
 	pants = /obj/item/clothing/under/roguetown/trou/leather

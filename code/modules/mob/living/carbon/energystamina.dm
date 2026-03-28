@@ -235,7 +235,7 @@
 		heart_attacking = TRUE
 		shake_camera(src, 1, 3)
 		blur_eyes(10)
-		var/stuffy = list("ZIZO GRABS MY WEARY HEART!","ARGH! MY HEART BEATS NO MORE!","NO... MY HEART HAS BEAT IT'S LAST!","MY HEART HAS GIVEN UP!","MY HEART BETRAYS ME!","THE METRONOME OF MY LIFE STILLS!")
+		var/stuffy = list("ZIZO GRABS MY WEARY HEART!","ARGH! MY HEART BEATS NO MORE!","NO... MY HEART HAS BEAT ITS LAST!","MY HEART HAS GIVEN UP!","MY HEART BETRAYS ME!","THE METRONOME OF MY LIFE STILLS!")
 		to_chat(src, span_userdanger("[pick(stuffy)]"))
 		emote("breathgasp", forced = TRUE)
 		addtimer(CALLBACK(src, PROC_REF(adjustOxyLoss), 110), 30)

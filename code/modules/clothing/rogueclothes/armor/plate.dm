@@ -77,6 +77,59 @@
 	boobed = FALSE
 	smelt_bar_num = 2
 
+/obj/item/clothing/suit/roguetown/armor/plate/bronze/light
+	name = "bronze cardiophylax"
+	desc = "A thick bronze plate, meticulously sculpted to fit its wearer's physique and guard their heart from all that'd seek to strike it. Unfortunately, it does little to riposte more emotional blows."
+	icon_state = "bronzeprotector"
+	item_state = "bronzeprotector"
+	body_parts_covered = CHEST | VITALS
+	max_integrity = ARMOR_INT_CHEST_MEDIUM_BRONZE //250 INT, or a little above Iron - and +100 INT over the Copper variant.
+	armor_class = ARMOR_CLASS_LIGHT
+	armor = ARMOR_BRONZE
+
+/obj/item/clothing/suit/roguetown/armor/plate/full/bronze
+	name = "bronze panoplic armor"
+	desc = "What can only be described as an 'armored robe'; thick bronze plates, layered atop one-another and interlinked with strappings \
+	to form an assembly of segmented plate armor. While overwhelmingly heavy and cumbersome, it is certain to weather any storm poised its way. \
+	</br>Scholars oft-describe this suit as a 'panoply', purpose-made for the physiques of Psydonia's earliest Aasimari."
+	icon_state = "bronzeplate"
+	item_state = "bronzeplate"
+	armor = ARMOR_BRONZE
+	max_integrity = ARMOR_INT_CHEST_PLATE_BRONZE + 100
+	armor_class = ARMOR_CLASS_HEAVY
+	smeltresult = /obj/item/ingot/bronze
+	smelt_bar_num = 3
+	var/bronzeplatecumbersome = FALSE
+
+/obj/item/clothing/suit/roguetown/armor/plate/full/bronze/equipped(mob/living/carbon/human/user, slot)
+	. = ..()
+	if(slot == SLOT_ARMOR)
+		to_chat(user, span_suicide("The panoply clatters into place, and I feel my shoulders slouch beneath its weight - yet even now, I feel sturdier than ever before.."))
+		user.change_stat(STATKEY_CON, 1)
+		user.change_stat(STATKEY_SPD, -1)
+		bronzeplatecumbersome = TRUE
+	return
+
+/obj/item/clothing/suit/roguetown/armor/plate/full/bronze/dropped(mob/living/carbon/human/user)
+	. = ..()
+	if(bronzeplatecumbersome == TRUE)
+		to_chat(user, span_hypnophrase("..and with a sigh of relief, the panoply's weight no longer burdens my shoulders."))
+		user.change_stat(STATKEY_CON, -1)
+		user.change_stat(STATKEY_SPD, 1)
+		bronzeplatecumbersome = FALSE
+	return
+
+/obj/item/clothing/suit/roguetown/armor/plate/full/bronze/get_mechanics_examine(mob/user)
+	. = ..()
+	. += span_info("Even with the necessary training, this suit of armor is difficult to maneuver in. Wearing the armor will slightly fortify your Constitution, at the cost of further reducing your Speed.")
+
+/obj/item/clothing/suit/roguetown/armor/plate/full/bronze/alt
+	name = "bronze panoplic assembly"
+	icon_state = "bronzeplatealt"
+	item_state = "bronzeplatealt"
+	body_parts_covered = CHEST | VITALS | LEGS
+	max_integrity = ARMOR_INT_CHEST_PLATE_BRONZE //Halfplate analogue. Still heavy as hell.
+
 /obj/item/clothing/suit/roguetown/armor/plate/aalloy
 	name = "decrepit half-plate"
 	desc = "Frayed bronze layers, wrought into plate armor. Once, the hauberk of a rising champion; now, nothing more than a fool's tomb."
@@ -654,15 +707,6 @@
 	equip_delay_self = 4 SECONDS
 	armor_class = ARMOR_CLASS_MEDIUM
 	smelt_bar_num = 2
-
-/obj/item/clothing/suit/roguetown/armor/plate/scale/knight
-	name = "coat of plates"
-	desc = "A heavyweight coat-of-plates, adorned with a pair of steel vambraces and faulds."
-	icon_state = "coat_of_plates"
-	blocksound = PLATEHIT
-	smelt_bar_num = 2
-	armor_class = ARMOR_CLASS_HEAVY
-	max_integrity = ARMOR_INT_CHEST_PLATE_BRIGANDINE + 50
 
 /obj/item/clothing/suit/roguetown/armor/plate/scale/marshal
 	name = "coat of the commander"

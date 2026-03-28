@@ -118,9 +118,7 @@
 		// We need a delay to stop the old coin pile from merging with the refund prematurely. Delay one tick :D
 		// I love coin code!!
 		spawn(1)
-			var/obj/structure/roguemachine/temp_ref = new /obj/structure/roguemachine()
-			temp_ref.budget2change(refund_budget, H)
-			qdel(temp_ref)
+			budget2change(refund_budget, H)
 
 		debt_remaining = 0
 		clear_debt(H)

@@ -602,3 +602,81 @@
 /obj/item/clothing/head/roguetown/roguehood/warden/munitioneer
 	name = "forgehound's hood"
 	desc = "Beneath his gleaming mask, the fyrmanne smiles. He is a salamander upon the worlde, belching flame, cleaning away history, and leaving a new land for the lyving."
+
+/obj/item/clothing/head/roguetown/helmet/bronze
+	name = "bronze illyriahelm"
+	desc = "A helmet of bronze, older-in-design than you could possibly imagine. Mounted to its crest is a decorative sigil that has \
+	sparked scholarly debates for the better part of a millennium; is it a star, a vortex, or the Sun? </br>A notch behind the sigil \
+	allows for the joint mounting of a plume. Nock a feather into it to show off your alliegence's colors."
+	armor = ARMOR_BRONZE
+	max_integrity = ARMOR_INT_HELMET_HEAVY_BRONZE - 25 //Close, but no cigar.
+	material_category = ARMOR_MAT_PLATE
+	body_parts_covered = HEAD|HAIR|EARS
+	icon_state = "bronzehelmet"
+	item_state = "bronzehelmet"
+	worn_x_dimension = 64
+	worn_y_dimension = 64
+	mob_overlay_icon = 'icons/roguetown/clothing/onmob/64x64/head.dmi'
+	bloody_icon = 'icons/effects/blood64.dmi'
+	smeltresult = /obj/item/ingot/bronze
+
+/obj/item/clothing/head/roguetown/helmet/bronze/attackby(obj/item/W, mob/living/user, params)
+	..()
+	if(istype(W, /obj/item/natural/feather) && !detail_tag)
+		var/choice = input(user, "Choose a color.", "Greatplume") as anything in COLOR_MAP
+		detail_color = COLOR_MAP[choice]
+		detail_tag = "_detail"
+		user.visible_message(span_warning("[user] adds [W] to [src]."))
+		user.transferItemToLoc(W, src, FALSE, FALSE)
+		update_icon()
+		if(loc == user && ishuman(user))
+			var/mob/living/carbon/H = user
+			H.update_inv_head()
+
+/obj/item/clothing/head/roguetown/helmet/bronze/update_icon()
+	cut_overlays()
+	if(get_detail_tag())
+		var/mutable_appearance/pic = mutable_appearance(icon(icon, "[icon_state][detail_tag]"))
+		pic.appearance_flags = RESET_COLOR
+		if(get_detail_color())
+			pic.color = get_detail_color()
+		add_overlay(pic)
+
+/obj/item/clothing/head/roguetown/helmet/bronzegladiator
+	name = "bronze murmillo"
+	desc = "A bronze helmet that veils the wearer's face behind a perforated visor; a distant ancestor to both the sallet and sayovard, \
+	providing excellent coverage while ensuring one doesn't suffocate on their own adrenal huffs. </br>Out of all actorial labors, none surpass \
+	the reenactment of Ravox's duel against Graggar atop Ur-Syon's ruins - mythologized not as a tentacled star, but as a towering doppelganger-champion; \
+	sculpted by the Archdevil to be the inverse to all who stood for justice and chivalry."
+	armor = ARMOR_BRONZE
+	max_integrity = ARMOR_INT_HELMET_HEAVY_BRONZE - 100
+	armor_class = ARMOR_CLASS_LIGHT
+	material_category = ARMOR_MAT_PLATE
+	body_parts_covered = FULL_HEAD
+	icon_state = "bronzemurmillo"
+	item_state = "bronzemurmillo"
+	smeltresult = /obj/item/ingot/bronze
+
+/obj/item/clothing/head/roguetown/helmet/bronzegladiator/attackby(obj/item/W, mob/living/user, params)
+	..()
+	if(istype(W, /obj/item/natural/cloth) && !detail_tag)
+		var/choice = input(user, "Choose a color.", "Orle") as anything in COLOR_MAP + pridelist
+		user.visible_message(span_warning("[user] adds [W] to [src]."))
+		user.transferItemToLoc(W, src, FALSE, FALSE)
+		detail_color = COLOR_MAP[choice]
+		detail_tag = "_detail"
+		if(choice in pridelist)
+			detail_tag = "_detailp"
+		update_icon()
+		if(loc == user && ishuman(user))
+			var/mob/living/carbon/H = user
+			H.update_inv_head()
+
+/obj/item/clothing/head/roguetown/helmet/bronzegladiator/update_icon()
+	cut_overlays()
+	if(get_detail_tag())
+		var/mutable_appearance/pic = mutable_appearance(icon(icon, "[icon_state][detail_tag]"))
+		pic.appearance_flags = RESET_COLOR
+		if(get_detail_color())
+			pic.color = get_detail_color()
+		add_overlay(pic)

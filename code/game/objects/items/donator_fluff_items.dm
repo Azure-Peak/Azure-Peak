@@ -25,6 +25,14 @@
 	mob_overlay_icon = 'icons/clothing/onmob/donor_clothes.dmi'
 	sleeved = 'icons/clothing/onmob/donor_sleeves_armor.dmi'
 
+/obj/item/clothing/head/roguetown/circlet/saffiratiara
+	name = "saffira encrusted tiara"
+	desc = "An ornate gold tiara, inset with a Saffira in its peak."
+	icon_state = "eekasqueak"
+	item_state = "eekasqueak"
+	icon = 'icons/clothing/donor_clothes.dmi'
+	mob_overlay_icon = 'icons/clothing/onmob/donor_clothes.dmi'
+
 //Funkymonke's donator item - dress
 /obj/item/clothing/suit/roguetown/shirt/dress/funkydress
 	name = "padded dress"
@@ -325,6 +333,24 @@
 	icon_state = "koruu_glaive"
 	icon = 'icons/obj/items/donor_weapons_64.dmi'
 
+/obj/item/rogueweapon/koruu_kukri
+	name = "leachwhacker"
+	desc = "A curved blade proudly made of Azurean Origin. Forged for wading through the hellish Terrorbog, it is a symbol of Azurean Tenacity. \
+	It is said that the name is derived from old rituals of severing the leaves of a westleach bush while the iron is still hot to bless it. \
+	The bane of Maneaters, Brigands, and Invaders."
+	icon_state = "koruu_kukri"
+	icon = 'icons/obj/items/donor_weapons.dmi'
+	sheathe_icon = "koruu_kukri"
+
+/obj/item/rogueweapon/koruu_kukri/warden
+	name = "warden's leachwhacker"
+	desc = "A curved blade proudly made of Azurean Origin. Forged for wading through the hellish Terrorbog, it is a symbol of Azurean Tenacity. \
+	It is said that the name is derived from old rituals of severing the leaves of a westleach bush while the iron is still hot to bless it. \
+	The bane of Maneaters, Brigands, and Invaders. An azure cloth could be seen wrapped around the handle."
+	icon_state = "koruu_kukri_warden"
+	icon = 'icons/obj/items/donor_weapons.dmi'
+	sheathe_icon = "kukri_warden_sheath"
+
 //DAKKEN12
 /obj/item/clothing/head/roguetown/helmet/bascinet/pigface/hounskull/dakken
 	name = "armoured avantyne barbute"
@@ -361,7 +387,7 @@
 	name = "avantyne threaded longsword"
 	desc = "'Threads of dark metal wind through what was formerly a simple steel blade. Cracks and chips are filled in as the weapon of war is reshaped into a symbol of faith.'"
 	icon = 'icons/obj/items/donor_weapons_64.dmi'
-	icon_state = "alloybsword_64"
+	icon_state = "alloyblongsword"
 	sheathe_icon = "alloybsword"
 
 /obj/item/rogueweapon/spear/boar/frei/pike/stinketh
@@ -377,7 +403,7 @@
 	icon_state = "drd_lsword"
 	icon = 'icons/obj/items/donor_weapons_64.dmi'
 
-//Brass Beak Mask
+//LMWEVIL
 /obj/item/clothing/mask/rogue/courtphysician/brassbeak
 	name = "\improper Society of the Brass Beak mask"
 	desc = "A plague mask fitted with a brass-embossed beak, indicating membership in an erudite society of like-minded physickers. \
@@ -386,3 +412,12 @@
 	item_state = "brassbeak"
 	icon = 'icons/clothing/donor_clothes.dmi'
 	mob_overlay_icon = 'icons/clothing/onmob/donor_clothes.dmi'
+
+//SHUDDERFLY
+/obj/item/rogueweapon/huntingknife/idagger/steel/shudderfly
+	name = "\improper Eoran Spike"
+	desc = "An ornately decorated steel dagger with the initials M.D. engraved on one side and the word Amor on the other. \
+	Around its crossguard is bound a rosa that never seems to wilt, the weapon is obviously cared for, but has seen many fights. \
+	You can’t help but shake the feeling that the weapon itself resists being used."
+	icon_state = "eoranspike"
+	icon = 'icons/obj/items/donor_weapons.dmi'

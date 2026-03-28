@@ -390,6 +390,11 @@
 	salvage_result = /obj/item/natural/hide
 	salvage_amount = 1
 
+/obj/item/clothing/suit/roguetown/shirt/tribalrag/gladiator
+	slot_flags = ITEM_SLOT_ARMOR|ITEM_SLOT_SHIRT
+	name = "gladiator's rags"
+	desc = "What we do in life, echoes in eternity."
+
 /obj/item/clothing/suit/roguetown/shirt/robe/archivist
 	name = "archivist's robe"
 	desc = "Robes belonging to seekers of knowledge."
