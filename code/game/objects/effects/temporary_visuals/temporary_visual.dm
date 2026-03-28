@@ -34,6 +34,20 @@
 		setDir(set_dir)
 	. = ..()
 
+/obj/effect/temp_visual/necra_consecrate
+	layer = BELOW_MOB_LAYER
+	icon = 'icons/turf/boss_floors.dmi'
+	randomdir = FALSE
+
+/obj/effect/temp_visual/necra_consecrate/Initialize(mapload, set_dur)
+	if(set_dur)
+		duration = set_dur
+	if(prob(90))
+		icon_state = "burnt_slab[rand(1,4)]"
+	else
+		icon_state = "cracked_slab1"
+	. = ..()
+
 /obj/effect/temp_visual/swingdelay
 	randomdir = FALSE
 	icon = 'icons/effects/effects.dmi'
