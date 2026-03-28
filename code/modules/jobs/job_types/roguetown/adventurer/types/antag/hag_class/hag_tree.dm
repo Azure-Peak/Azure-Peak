@@ -123,9 +123,24 @@
 		if(do_after(usr, 3 SECONDS, target = src))
 			if(stock[path] > 0)
 				stock[path]--
-				new path(get_turf(src))
-				to_chat(usr, span_notice("You successfully pluck the moss."))
-		
+				var/obj/structure/roguemachine/mossmother/destination_tree = null
+				var/is_fey = HAS_TRAIT(usr, TRAIT_FEYTOUCHED)
+				if(is_fey)
+					for(var/obj/structure/roguemachine/mossmother/T in GLOB.hag_trees)
+						var/area/A = get_area(T)
+						if(istype(A, /area/rogue/indoors/shelter/bog_hag))
+							destination_tree = T
+							break
+				if(is_fey && destination_tree)
+					new path(get_turf(destination_tree))
+					to_chat(usr, span_notice("The moss dissolves into the roots, flowing back toward the Hag's hearth as a silent tribute..."))
+					var/obj/effect/temp_visual/heal/H_energy = new /obj/effect/temp_visual/heal_rogue/hag(get_turf(destination_tree))
+					H_energy.color = "#4b5320"
+				else
+					// Standard harvest (Mortal or if the Hut Tree somehow doesn't exist)
+					new path(get_turf(src))
+					to_chat(usr, span_notice("You successfully pluck the moss."))
+
 		harvesting = FALSE
 		// Refresh the specific window
 		var/datum/browser/popup = new(usr, "moss_window", (is_hag ? "THE VEIL OF ROOTS" : "COMMON BLOSSOMS"), 400, 500)
@@ -150,6 +165,8 @@
 		contents += "<a href='?src=[REF(src)];action=travel'>[span_boldnotice("Walk the Roots")]</a><BR>"
 	else if(!GLOB.hag_wards.len || is_in_hut)
 		contents += "<a href='?src=[REF(src)];action=travel'>[span_boldnotice("Walk the Roots")]</a><BR>"
+	else if (HAS_TRAIT(user, TRAIT_ROOT_WALKER))
+		contents += "<a href='?src=[REF(src)];action=travel'>[span_boldnotice("Walk the Roots")]</a><BR>"
 	contents += "</center>"
 	var/datum/browser/popup = new(user, "mossmother", "The Mossmother", 300, 300)
 	popup.set_content(contents)
@@ -168,6 +185,24 @@
 			if(tree == src)
 				continue
 			var/area/A = get_area(tree)
+			dat += "<a href='?src=[REF(src)];teleport_to=[REF(tree)]'>[A ? A.name : "Unknown Thicket"]</a><BR>"
+
+		dat += "</center>"
+		var/datum/browser/popup = new(user, "root_travel", "Root Travel", 300, 400)
+		popup.set_content(dat)
+		popup.open()
+		return
+
+	if(HAS_TRAIT(user, TRAIT_ROOT_WALKER))
+		var/dat = "<center>THE WHISPERING ROOTS<BR>--------------<BR>"
+		for(var/obj/structure/roguemachine/mossmother/tree in GLOB.hag_trees)
+			if(tree == src) continue
+
+			var/area/A = get_area(tree)
+			var/is_hut = istype(A, /area/rogue/indoors/shelter/bog_hag)
+			// If it's the hut, check if wards are destroyed. If not, don't show it.
+			if(is_hut && GLOB.hag_wards.len > 0)
+				continue
 			dat += "<a href='?src=[REF(src)];teleport_to=[REF(tree)]'>[A ? A.name : "Unknown Thicket"]</a><BR>"
 
 		dat += "</center>"
@@ -225,7 +260,7 @@
 			to_chat(passenger, span_userdanger("You are dragged through the suffocating, muddy darkness of the roots!"))
 
 /obj/structure/roguemachine/mossmother/attackby(obj/item/W, mob/user, params)
-	if(istype(W, /obj/item/reagent_containers/lux) || istype(W, /obj/item/reagent_containers/lux_impure))
+	if(istype(W, /obj/item/reagent_containers/lux) || istype(W, /obj/item/reagent_containers/lux_impure) || istype(W, /obj/item/leechtick_bloated))
 		if(world.time < cooldown_until)
 			var/remaining = (cooldown_until - world.time) / 10
 			to_chat(user, span_warning("The Mossmother is satiated. It will not hunger again for another [round(remaining)] seconds."))
@@ -236,15 +271,22 @@
 		if(world.time < cooldown_until)
 			return
 
-		var/is_impure = istype(W, /obj/item/reagent_containers/lux_impure)
+		var/is_impure = (istype(W, /obj/item/reagent_containers/lux_impure) || istype(W, /obj/item/leechtick_bloated))
 		user.visible_message(span_notice("[user] pours [W] over the roots of [src]."), \
 							 span_boldnotice("You feed the heart of the bog. The ground trembles as the Lux is absorbed."))
 
 
 		qdel(W)
+		check_fey_ascension(user)
 		feed_the_network(is_impure, user)
 		return
 	return ..()
+
+/obj/structure/roguemachine/mossmother/proc/check_fey_ascension(mob/living/user)
+	if(HAS_TRAIT(user, TRAIT_FEYTOUCHED) && !HAS_TRAIT(user, TRAIT_ROOT_WALKER))
+		ADD_TRAIT(user, TRAIT_ROOT_WALKER, TRAIT_HAG_BOON)
+		to_chat(user, span_userdanger("As the Lux flows, the roots under your feet soften. You feel the map of the bog etched into your mind. You can now walk the deep paths."))
+		playsound(src, 'sound/magic/ahh1.ogg', 50, TRUE)
 
 /obj/structure/roguemachine/mossmother/proc/feed_the_network(is_impure = FALSE, mob/living/feeder)
 	var/wait_time = is_impure ? 90 SECONDS : 120 SECONDS // Adjust cooldown lengths here
