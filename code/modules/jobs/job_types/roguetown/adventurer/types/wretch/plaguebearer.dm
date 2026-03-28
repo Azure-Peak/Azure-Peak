@@ -41,35 +41,26 @@
 	armor = /obj/item/clothing/suit/roguetown/shirt/robe/physician
 	shirt = /obj/item/clothing/suit/roguetown/armor/gambeson/heavy
 	backl = /obj/item/storage/backpack/rogue/satchel
-	beltr = /obj/item/storage/belt/rogue/pouch/coins/poor
+	beltr = /obj/item/quiver/poisonarrows
 	r_hand = /obj/item/storage/belt/rogue/surgery_bag/full/physician
 	belt = /obj/item/storage/belt/rogue/leather/black
 	gloves = /obj/item/clothing/gloves/roguetown/angle
 	shoes = /obj/item/clothing/shoes/roguetown/boots/leather
 	wrists = /obj/item/clothing/wrists/roguetown/bracers/leather/heavy
+	backr = /obj/item/gun/ballistic/revolver/grenadelauncher/bow/recurve
+	beltl = /obj/item/quiver/poisonarrows
 	backpack_contents = list(
-		/obj/item/reagent_containers/glass/bottle/rogue/poison = 1, // You get one epic poison. As a treat because you're valid. Don't waste it. 
+		/obj/item/storage/belt/rogue/pouch/coins/poor = 1,
+		/obj/item/reagent_containers/glass/bottle/rogue/poison = 1,
 		/obj/item/reagent_containers/glass/bottle/rogue/stampoison = 1,
 		/obj/item/recipe_book/alchemy = 1,
 		/obj/item/flashlight/flare/torch/lantern/prelit = 1,
 		/obj/item/reagent_containers/glass/bottle/rogue/strongpoison = 1,
-		/obj/item/reagent_containers/glass/bottle/alchemical/healthpot = 1,	//Small health vial
+		/obj/item/reagent_containers/glass/bottle/alchemical/healthpot = 1,
 		/obj/item/rogueweapon/huntingknife/idagger/steel/corroded = 1,
 		)
-	H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/diagnose/secular)
+	H.adjust_skillrank_up_to(/datum/skill/combat/bows, 4, TRUE)
+	H.mind?.AddSpell(new /obj/effect/proc_holder/spell/invoked/diagnose/secular)
 	H.dna.species.soundpack_m = new /datum/voicepack/male/wizard()
 	if(H.mind)
-		var/weapons = list("Archery", "LET THERE BE PLAGUE!!!")
-		var/weapon_choice = input(H, "Choose your weapon.", "TAKE UP ARMS") as anything in weapons
-		H.set_blindness(0)
-		switch(weapon_choice)
-			if("Archery")
-				H.adjust_skillrank_up_to(/datum/skill/combat/bows, 4, TRUE)
-				backr = /obj/item/gun/ballistic/revolver/grenadelauncher/bow/recurve
-				beltl = /obj/item/quiver/poisonarrows
-			if("LET THERE BE PLAGUE!!!")
-				H.adjust_skillrank_up_to(/datum/skill/magic/arcane, 4, TRUE)
-				backr = /obj/item/rogueweapon/woodstaff/toper
-				H.mind.AddSpell(new /obj/effect/proc_holder/spell/targeted/touch/prestidigitation)
-				H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/projectile/acidsplash)
 		wretch_select_bounty(H)

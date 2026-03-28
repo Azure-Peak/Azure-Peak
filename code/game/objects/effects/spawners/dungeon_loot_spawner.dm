@@ -345,26 +345,8 @@
 /obj/effect/spawner/lootdrop/roguetown/dungeon/spells
 	icon_state = "spells"
 	loot = list(
-		//spells
-		/obj/item/book/granter/spell/blackstone/spitfire = 5,
-		/obj/item/book/granter/spell/blackstone/lesserknock = 5,
-		/obj/item/book/granter/spell/blackstone/bonechill = 5,
-		/obj/item/book/granter/spell/blackstone/featherfall = 5,
-		/obj/item/book/granter/spell/blackstone/sicknessray = 5,
-
-		/obj/item/book/granter/spell/blackstone/frostbolt = 5,
-		/obj/item/book/granter/spell/blackstone/forcewall_weak = 4,
-		/obj/item/book/granter/spell/blackstone/guidance = 4,
-		/obj/item/book/granter/spell/blackstone/fortitude = 4,
-		/obj/item/book/granter/spell/blackstone/leap = 4,
-		/obj/item/book/granter/spell/blackstone/enlarge = 4,
-		/obj/item/book/granter/spell/blackstone/repel = 3,
-		/obj/item/book/granter/spell/blackstone/fetch = 3,
-		/obj/item/book/granter/spell/blackstone/fireball = 3,
-		/obj/item/book/granter/spell/blackstone/message = 3,
-		/obj/item/book/granter/spell/blackstone/ensnare = 2,
-		/obj/item/book/granter/spell/blackstone/lightning = 2,
-		/obj/item/book/granter/spell/blackstone/invisibility = 2,
-		/obj/item/book/granter/spell/blackstone/greaterfireball = 1
+		/obj/item/book/granter/arcane_aspect/utility = 5,
+		/obj/item/book/granter/arcane_aspect/minor = 3,
+		/obj/item/book/granter/spell/bonechill = 2,
 	)
 	lootcount = 1

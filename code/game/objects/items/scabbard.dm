@@ -681,8 +681,9 @@
 	icon_state = "staffsheath"
 	item_state = "staffsheath"
 	valid_blade = /obj/item/rogueweapon/sword/rapier/hand
+	implement_tier = IMPLEMENT_TIER_GREATER
+	implement_multiplier = IMPLEMENT_MULT_GREATER
 	sellprice = 100
-	cast_time_reduction = null //The component alters this. 
 
 /obj/item/rogueweapon/scabbard/sheath/courtphysician/hand/ComponentInitialize()
 	AddComponent(/datum/component/holster/handstaff, valid_blade, null, null, sheathe_time)

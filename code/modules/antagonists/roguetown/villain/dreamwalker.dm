@@ -69,7 +69,7 @@
 		ADD_TRAIT(body, trait, "[type]")
 	if(body.mind)
 		body.mind.RemoveAllSpells()
-		body.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/blink)
+		body.mind.AddSpell(new /datum/action/cooldown/spell/blink)
 		body.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/mark_target)
 		body.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/jaunt)
 		body.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/dream_bind)
@@ -81,10 +81,7 @@
 	var/obj/item/ritechalk/chalk = new()
 	body.put_in_hands(chalk)
 	to_chat(body, span_danger("I feel my connection to the arcyne and divine weaken as dream energies assert themselves..."))
-	REMOVE_TRAIT(body, TRAIT_ARCYNE_T1, TRAIT_GENERIC)
-	REMOVE_TRAIT(body, TRAIT_ARCYNE_T2, TRAIT_GENERIC)
-	REMOVE_TRAIT(body, TRAIT_ARCYNE_T3, TRAIT_GENERIC)
-	REMOVE_TRAIT(body, TRAIT_ARCYNE_T4, TRAIT_GENERIC)
+	REMOVE_TRAIT(body, TRAIT_ARCYNE, TRAIT_GENERIC)
 	body.devotion = null
 
 /datum/outfit/job/roguetown/dreamwalker/pre_equip(mob/living/carbon/human/H) //Equipment is located below
@@ -109,7 +106,7 @@
 	H.change_stat(STATKEY_WIL, 2)
 
 	if(H.mind)
-		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/blink)
+		H.mind.AddSpell(new /datum/action/cooldown/spell/blink)
 	H.ambushable = FALSE
 
 /datum/component/dreamwalker_repair
@@ -498,7 +495,7 @@
 				H.ignite_mob()
 			target.visible_message(span_warning("[source] ignites [target] with strange flame!"))
 		if("frost")
-			H.apply_status_effect(/datum/status_effect/buff/frostbite)
+			apply_frost_stack(H, 2)
 			target.visible_message(span_warning("[source] freezes [target] with scalding ice!"))
 		if("poison")
 			if(H.reagents)

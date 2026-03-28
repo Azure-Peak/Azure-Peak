@@ -123,7 +123,7 @@
 	ammo_type = /obj/item/ammo_casing/caseless/rogue/arrow/iron
 	damage = 50
 	armor_penetration = PEN_LIGHT
-	flag = "slash"
+	flag = "piercing"
 	embedchance = 30
 	npc_simple_damage_mult = 2
 
@@ -134,7 +134,7 @@
 	icon_state = "ancientarrow_proj"
 	damage = 40
 	armor_penetration = PEN_LIGHT
-	flag = "slash"
+	flag = "piercing"
 	embedchance = 40
 
 // Bodkins should penetrate essentially any armour in the game with decent perception, as

@@ -1,28 +1,52 @@
-/obj/effect/proc_holder/spell/invoked/projectile/lightningbolt/sacred_flame_rogue
+// Sacred Flame — standalone proc_holder spell (miracle system requires proc_holder)
+// No longer inherits from lightningbolt. Own projectile type.
+/obj/effect/proc_holder/spell/invoked/projectile/sacred_flame
 	name = "Sacred Flame"
 	desc = "Deals damage and ignites target, with extra damage done to undead."
+	clothes_req = FALSE
 	overlay_state = "sacredflame"
 	base_icon_state = "regalyscroll"
+	sound = 'sound/magic/lightning.ogg'
+	range = 8
+	projectile_type = /obj/projectile/magic/sacred_flame
+	releasedrain = 30
+	chargedrain = 1
+	chargetime = 15
+	recharge_time = 25 SECONDS
+	warnie = "spellwarning"
+	no_early_release = TRUE
+	movement_interrupt = FALSE
+	charging_slowdown = 3
+	chargedloop = /datum/looping_sound/invokeholy
 	req_items = list(/obj/item/clothing/neck/roguetown/psicross)
 	associated_skill = /datum/skill/magic/holy
 	antimagic_allowed = TRUE
-	recharge_time = 25 SECONDS
+	glow_color = GLOW_COLOR_FIRE
+	glow_intensity = GLOW_INTENSITY_MEDIUM
 	miracle = TRUE
 	devotion_cost = 40
-	projectile_type = /obj/projectile/magic/lightning/astratablast
+	invocations = list("Astrata, ignis sacrum!")
+	invocation_type = "shout"
 
-/obj/projectile/magic/lightning/astratablast
-	damage = 25
+/obj/projectile/magic/sacred_flame
 	name = "ray of holy fire"
+	tracer_type = /obj/effect/projectile/tracer/solar_beam
+	muzzle_type = null
+	impact_type = null
+	hitscan = TRUE
+	movement_type = UNSTOPPABLE
+	damage = 25
 	damage_type = BURN
+	nodamage = FALSE
+	speed = 0.3
+	flag = "fire"
 	flag = "fire"
 	light_color = "#a98107"
 	light_outer_range = 7
-	tracer_type = /obj/effect/projectile/tracer/solar_beam
 	var/fuck_that_guy_multiplier = 2
 	var/biotype_we_look_for = MOB_UNDEAD
 
-/obj/projectile/magic/lightning/astratablast/on_hit(target, mob/user)
+/obj/projectile/magic/sacred_flame/on_hit(target, mob/user)
 	if(!ismob(target))
 		return FALSE
 	var/mob/living/M = target
@@ -36,6 +60,7 @@
 	M.adjust_fire_stacks(4)
 	M.ignite_mob()
 	visible_message(span_warning("[src] ignites [target] in holy flame!"))
+	qdel(src)
 	return TRUE
 
 /obj/effect/proc_holder/spell/invoked/ignition

@@ -5,7 +5,7 @@
 /datum/component/magic_item
 	dupe_mode = COMPONENT_DUPE_UNIQUE_PASSARGS					//We want to handle all magical effects with a single component per item
 	var/list/magical_effects = list()							//All our magical effects. Or nonmagical. I'm not a cop
-	var/enchanting_capacity = 2 								//How many enchantments can be on the item
+	var/enchanting_capacity = 1 								//How many enchantments can be on the item
 
 /datum/component/magic_item/Initialize(var/datum/magic_item/magical_item_effect)
 	if(!isitem(parent))

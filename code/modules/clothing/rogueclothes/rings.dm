@@ -329,44 +329,6 @@
 	icon_state = "ring_duel"
 	sellprice = 10
 
-/obj/item/clothing/ring/fate_weaver
-	name = "fate weaver"
-	var/obj/effect/proc_holder/spell/self/conjure_armor/linked_conjure_spell
-	desc = "An arcyne creation first theorized by malcontents with the resolution of Xylix's plays. It protects its wearer by tugging things gently toward less fatal potentials."
-	icon_state = "ring_s"
-	max_integrity = 50
-	body_parts_covered = COVERAGE_ALL_BUT_HANDFEET | COVERAGE_HEAD_NOSE | NECK | HANDS | FEET //field covers the whole body
-	armor = ARMOR_PLATE //even protection against most damage types
-	blade_dulling = DULLING_BASHCHOP
-	slot_flags = ITEM_SLOT_RING
-	blocksound = PLATEHIT
-	break_sound = 'sound/foley/breaksound.ogg'
-	drop_sound = 'sound/foley/dropsound/armor_drop.ogg'
-	armor_class = ARMOR_CLASS_LIGHT
-	unenchantable = TRUE
-
-/obj/item/clothing/ring/fate_weaver/proc/dispel()
-	if(!QDELETED(src))
-		src.visible_message(span_warning("The [src]'s borders begin to shimmer and fade, before it vanishes entirely!"))
-		if(linked_conjure_spell)
-			linked_conjure_spell.start_delayed_recharge()
-		qdel(src)
-
-/obj/item/clothing/ring/fate_weaver/obj_break()
-	. = ..()
-	if(!QDELETED(src))
-		dispel()
-
-/obj/item/clothing/ring/fate_weaver/attack_hand(mob/user)
-	. = ..()
-	if(!QDELETED(src))
-		dispel()
-
-/obj/item/clothing/ring/fate_weaver/dropped()
-	. = ..()
-	if(!QDELETED(src))
-		dispel()
-
 /////////////////////////
 // Wedding Rings/Bands //
 /////////////////////////

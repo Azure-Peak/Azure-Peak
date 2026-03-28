@@ -372,6 +372,12 @@ Works together with spawning an observer, noted above.
 	SStgui.on_transfer(src, ghost) // Transfer NanoUIs.
 	ghost.can_reenter_corpse = can_reenter_corpse
 	ghost.advjob = src.advjob
+	// Clear any active spell click intercept before the client transfers to the ghost.
+	// Without this, the client keeps signal registrations from the old body's active spell,
+	// causing the ghost to cast the old body's last spell on click.
+	if(click_intercept && istype(click_intercept, /datum/action/cooldown))
+		var/datum/action/cooldown/active_ability = click_intercept
+		active_ability.unset_click_ability(src, refund_cooldown = FALSE)
 	ghost.key = key
 	return ghost
 

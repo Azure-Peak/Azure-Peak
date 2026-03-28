@@ -1,40 +1,45 @@
-/* Charge! - Spellblade combat dash.
-4 rapid steps forward in the user's facing direction, shoving
-anyone in the path to the sides for zero damage.
-Instant self-cast, no empowerment, pure mobility/utility. */
-
-/obj/effect/proc_holder/spell/self/charge
+/datum/action/cooldown/spell/charge
 	name = "Charge!"
-	desc = "Infuse mana into your legs, dashing forward four paces — \
+	desc = "Infuse mana into your legs, dashing forward four paces - \
 		ramming everyone in your path to the sides for no damage."
-	clothes_req = FALSE
-	range = 7
-	action_icon = 'icons/mob/actions/classuniquespells/spellblade.dmi'
-	overlay_state = "advance" // Icon by Prominence. Shared with Advance since the spells are very similar.
-	releasedrain = SPELLCOST_SB_MOBILITY
-	chargedrain = 0
-	chargetime = 0
-	recharge_time = 12 SECONDS
+	button_icon = 'icons/mob/actions/classuniquespells/spellblade.dmi'
+	button_icon_state = "advance"
+	sound = 'sound/combat/wooshes/bladed/wooshsmall (1).ogg'
+	spell_color = GLOW_COLOR_ARCANE
+	glow_intensity = GLOW_INTENSITY_LOW
+
+	click_to_activate = FALSE
+	self_cast_possible = TRUE
+
+	primary_resource_type = SPELL_COST_STAMINA
+	primary_resource_cost = SPELLCOST_SB_MOBILITY
+
 	invocations = list()
-	invocation_type = "none"
-	gesture_required = FALSE
-	xp_gain = FALSE
+	invocation_type = INVOCATION_NONE
+
+	charge_required = FALSE
+	cooldown_time = 12 SECONDS
+
+	associated_skill = /datum/skill/magic/arcane
+	spell_tier = 1
+	spell_impact_intensity = SPELL_IMPACT_NONE
+	spell_requirements = SPELL_REQUIRES_NO_ANTIMAGIC | SPELL_REQUIRES_HUMAN | SPELL_REQUIRES_SAME_Z
+
 	var/charge_steps = 4
 	var/step_delay = 2
 
-/obj/effect/proc_holder/spell/self/charge/cast(list/targets, mob/user = usr)
-	var/mob/living/carbon/human/H = user
+/datum/action/cooldown/spell/charge/cast(atom/cast_on)
+	. = ..()
+	var/mob/living/carbon/human/H = owner
 	if(!istype(H))
-		revert_cast()
-		return
+		return FALSE
 
 	var/facing = H.dir
 	var/turf/start = get_turf(H)
 	var/turf/first_step = get_step(start, facing)
 	if(!first_step || first_step.density)
 		to_chat(H, span_warning("There's no room to charge!"))
-		revert_cast()
-		return
+		return FALSE
 
 	if(H.buckled)
 		H.buckled.unbuckle_mob(H, TRUE)
@@ -85,12 +90,12 @@ Instant self-cast, no empowerment, pure mobility/utility. */
 
 	if(steps_taken == 0)
 		to_chat(H, span_warning("My charge is blocked!"))
-		return
+		return FALSE
 
 	log_combat(H, null, "used Charge!")
 	return TRUE
 
-/obj/effect/proc_holder/spell/self/charge/proc/get_perpendicular_dirs(dir)
+/datum/action/cooldown/spell/charge/proc/get_perpendicular_dirs(dir)
 	switch(dir)
 		if(NORTH, SOUTH)
 			return list(WEST, EAST)
