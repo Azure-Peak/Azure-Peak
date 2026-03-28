@@ -350,8 +350,8 @@
 // Hags don't get a boon on this person, that's perhaps a choice to add later.
 /datum/virtue/utility/feytouched
 	name = "Feytouched"
-	desc = "A vessel or creation of the Mossmother, or perhaps a puppet of the past. You are sympathetic to the hag's cause. Your connection to the fey allows you to offer lux or bloated leechticks and traverse the roots, though your mortal form is frail (-1 CON, -1 INT). The hag is aware of you; your lux is corrupted. You may know of old events, but as the decades lengthen, so does your recollection of them fade. Hag-boons cannot take hold."
-	added_stats = list(STATKEY_CON = -1, STATKEY_INT = -1)
+	desc = "A vessel or creation of the Mossmother, or perhaps a puppet of the past. You are sympathetic to the hag's cause. Your connection to the fey allows you to offer lux or bloated leechticks and traverse the roots, though your mortal form is frail (-1 CON, -1 INT, -2 STR). The hag is aware of you; your lux is corrupted. You may know of old events, but as the decades lengthen, so does your recollection of them fade. Hag-boons cannot take hold."
+	added_stats = list(STATKEY_CON = -1, STATKEY_INT = -1, STATKEY_STR = -2)
 	added_traits = list(TRAIT_FEYTOUCHED)
 	added_skills = list(list(/datum/skill/misc/medicine, 1, 4),
 						list(/datum/skill/craft/alchemy, 1, 4)
