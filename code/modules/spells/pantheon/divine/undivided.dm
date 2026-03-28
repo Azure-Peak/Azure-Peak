@@ -20,7 +20,7 @@
 	sound = 'sound/magic/bless.ogg'
 	associated_skill = /datum/skill/magic/holy
 	antimagic_allowed = FALSE
-	invocations = "Guide my path hallowed ones."
+	invocations = "Zwillingslichter, geleitet meinen Blick!" //(Twin lights, guide my gaze)
 	invocation_type = "shout"
 	req_items = list(/obj/item/clothing/neck/roguetown/psicross)
 	recharge_time = 2 MINUTES
@@ -128,7 +128,7 @@
 	no_early_release = TRUE
 	req_items = list(/obj/item/clothing/neck/roguetown/psicross)
 	sound = 'sound/misc/notice.ogg'
-	invocations = list("Through toil and devotion, let your vigor be restored by their hand!")
+	invocations = list("Setzt eurer großartiges Werk fort!") //(Continue your great work/s)
 	invocation_type = "shout"
 	associated_skill = /datum/skill/magic/holy
 	antimagic_allowed = FALSE
@@ -163,7 +163,7 @@
 //Heretic + pick from pack
 
 /obj/effect/proc_holder/spell/self/divine_strike/undivided
-	name = "Smite"
+	name = "Hindering Strike"
 	action_icon = 'icons/mob/actions/undividedmiracles.dmi'
 	overlay_icon = 'icons/mob/actions/undividedmiracles.dmi'
 	overlay_state = "smite"
@@ -226,7 +226,7 @@
 /datum/stressevent/perseverance
 	timer = 2 MINUTES 
 	stressadd = -4 //Should be enough to offset the bleed
-	desc = span_boldgreen("I am soothed and sedated from ravages of war.")
+	desc = span_boldgreen("I am soothed from the ravages of war.")
 
 ////////////////////////////////////////////////////////////
 // T2 - Divine Inspiration - Select your pack of miracles.//

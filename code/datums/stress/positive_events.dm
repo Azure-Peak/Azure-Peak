@@ -6,7 +6,7 @@
 /datum/stressevent/seeblessed
 	timer = 30 MINUTES
 	stressadd = -2
-	desc = span_green("Regular visits to Church center my spirit.")
+	desc = span_green("I feel joy within these halls.")
 
 /datum/stressevent/viewsinpunish
 	timer = 5 MINUTES
