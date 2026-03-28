@@ -2246,23 +2246,60 @@
 	icon_state = "buff"
 
 #define NECRACON_FILTER "necra_consecration"
+#define NECRACON_TIER_NORMAL 1
+#define NECRACON_TIER_EXPERT 2
+#define NECRACON_TIER_MASTER 3
+
 
 /datum/status_effect/buff/necran_consecration
 	id = "necra_consecrate"
 	alert_type = /atom/movable/screen/alert/status_effect/buff/necra_consecrate
 	effectedstats = list(STATKEY_CON = 1)
 	var/outline_colour ="#929186" // A dull grey.
+	var/tier = 2
 	duration = 3 SECONDS
+
+/datum/status_effect/buff/necran_consecration/on_creation(mob/living/new_owner, newtier)
+	. = ..()
+	if(newtier > NECRACON_TIER_NORMAL)
+		tier = newtier
 
 /datum/status_effect/buff/necran_consecration/on_apply()
 	. = ..()
+
+	var/bluerestore = 0
+	if(HAS_TRAIT(owner, TRAIT_DNR))
+		bluerestore += 5
+	switch(tier)
+		if(NECRACON_TIER_NORMAL)
+			bluerestore += 5
+		if(NECRACON_TIER_EXPERT)
+			bluerestore += 8
+		if(NECRACON_TIER_MASTER)
+			bluerestore += 10
+	owner.energy_add(bluerestore)
+
 	var/filter = owner.get_filter(NECRACON_FILTER)
 	if (!filter)
 		owner.add_filter(NECRACON_FILTER, 2, list("type" = "outline", "color" = outline_colour, "alpha" = 200, "size" = 1))
+	ADD_TRAIT(owner, TRAIT_ADRENALINE_RUSH, TRAIT_NECRACON)
+	if(tier > NECRACON_TIER_NORMAL)	//expert
+		ADD_TRAIT(owner, TRAIT_FORTITUDE, TRAIT_NECRACON)
+		if(HAS_TRAIT(owner, TRAIT_DNR))
+			ADD_TRAIT(owner, TRAIT_GUIDANCE, TRAIT_NECRACON)
+	if(tier > NECRACON_TIER_EXPERT && HAS_TRAIT(owner, TRAIT_DNR))	//master+
+		ADD_TRAIT(owner, TRAIT_NOPAIN, TRAIT_NECRACON)
 
 /datum/status_effect/buff/necran_consecration/on_remove()
 	. = ..()
 	owner.remove_filter(NECRACON_FILTER)
+	REMOVE_TRAIT(owner, TRAIT_ADRENALINE_RUSH, TRAIT_NECRACON)
+	if(tier > NECRACON_TIER_NORMAL)
+		REMOVE_TRAIT(owner, TRAIT_FORTITUDE, TRAIT_NECRACON)
+		REMOVE_TRAIT(owner, TRAIT_GUIDANCE, TRAIT_NECRACON)
+	if(tier > NECRACON_TIER_EXPERT)
+		REMOVE_TRAIT(owner, TRAIT_NOPAIN, TRAIT_NECRACON)
+
 
 /atom/movable/screen/alert/status_effect/buff/necra_consecrate
 	name = "NECRA LIVES"
@@ -2270,3 +2307,6 @@
 	icon_state = "buff"
 
 #undef NECRACON_FILTER
+#undef NECRACON_TIER_NORMAL
+#undef NECRACON_TIER_EXPERT
+#undef NECRACON_TIER_MASTER
