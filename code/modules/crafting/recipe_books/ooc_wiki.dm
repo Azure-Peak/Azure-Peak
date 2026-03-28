@@ -14,7 +14,7 @@ GLOBAL_DATUM(recipe_wiki, /datum/recipe_wiki)
 	. = ..()
 	for(var/book_type in subtypesof(/obj/item/recipe_book))
 		var/obj/item/recipe_book/book = new book_type()
-		if(!length(book.types))
+		if(!book.can_spawn || !length(book.types))
 			qdel(book)
 			continue
 		var/book_key = "[book_type]"
@@ -33,6 +33,15 @@ GLOBAL_DATUM(recipe_wiki, /datum/recipe_wiki)
 			else
 				cached_book_recipes[book_key] = build_recipe_list(book.types)
 		qdel(book)
+	// Spell List entry - opens the read-only Aspect Picker instead of a recipe list
+	book_entries += list(list(
+		"name" = "Spell List",
+		"wiki_name" = "Spell List",
+		"types" = list(),
+		"path" = "spell_list",
+		"wiki_section" = "Guides",
+		"opens_aspect_picker" = TRUE
+	))
 	book_entries = sortTim(book_entries, GLOBAL_PROC_REF(cmp_book_entries))
 
 /proc/cmp_book_entries(list/a, list/b)
@@ -142,6 +151,13 @@ GLOBAL_DATUM(recipe_wiki, /datum/recipe_wiki)
 
 	switch(action)
 		if("open_book")
+			// Special handler: Spell List opens the read-only Aspect Picker
+			for(var/list/entry in book_entries)
+				if("[entry["path"]]" == params["path"] && entry["opens_aspect_picker"])
+					var/datum/aspect_viewer/viewer = new(user)
+					viewer.ephemeral = TRUE
+					viewer.ui_interact(user)
+					return FALSE
 			var/book_path = text2path(params["path"])
 			if(!book_path)
 				return

@@ -1,9 +1,0 @@
-author: "BurpleBineapple"
-delete-after: True
-changes:
-  - balance: "Brigandine armor has been separated into its own category as an armor with high blunt/arrow/slash protection but lacking in stab protection."
-  - balance: "Leather armor has had its slash armor reduced by 1 tier."
-  - balance: "Padded gambesons have 4/5 BLUNT resistance. Leather armor takes its place as the better padding with 5/5 BLUNT resistance."
-  - balance: "Studded leather now counts as brigandine armor, at 250 durability."
-  - balance: "Maille has been reduced by 1 tier in arrow protection. Wear a gambeson, Ser."
-  - balance: "The light brigandine, brigandine, and coat of plates have the same armor protection. Brigandine (MEDIUM AC) and coat of plates (HEAVY AC) have +50 and +100 integrity respectively, and cover arms."

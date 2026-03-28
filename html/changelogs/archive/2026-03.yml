@@ -1231,3 +1231,64 @@
   - rscadd: A deadbolt pillory recipe.
   eirenxiv:
   - bugfix: fixed bolt pouch and quiver buying from the tailor silverface
+2026-03-28:
+  BurpleBineapple:
+  - balance: Brigandine armor has been separated into its own category as an armor
+      with high blunt/arrow/slash protection but lacking in stab protection.
+  - balance: Leather armor has had its slash armor reduced by 1 tier.
+  - balance: Padded gambesons have 4/5 BLUNT resistance. Leather armor takes its place
+      as the better padding with 5/5 BLUNT resistance.
+  - balance: Studded leather now counts as brigandine armor, at 250 durability.
+  - balance: Maille has been reduced by 1 tier in arrow protection. Wear a gambeson,
+      Ser.
+  - balance: The light brigandine, brigandine, and coat of plates have the same armor
+      protection. Brigandine (MEDIUM AC) and coat of plates (HEAVY AC) have +50 and
+      +100 integrity respectively, and cover arms.
+  - bugfix: Medium and Heavy brigandines use ARMOR_BRIGANDINE.
+  FreeStylaLT:
+  - code_imp: Deathless trait users no longer get the full bleedout messages.
+  - rscadd: Matthios T2, Barter. It exchanges items for a portion of their selling
+      price. (Generally less than turning it into a stockpile, etc)
+  KatTheFox:
+  - bugfix: many, many typos and grammar errors
+  NewyearnewmeUwu:
+  - code_imp: removed the random swamp fog
+  Ollanius:
+  - bugfix: Fixed the Avantyne Threaded Longsword's onmob, ensuring it properly renders
+      now.
+  - code_imp: Most two-handed weapons use the internal flag of '1' to determine whether
+      it should be displayed in a wielded- or unwielded state. Make sure to keep that
+      '1' untouched by additional numbers (when designating sprites inside of a .dmi),
+      or it'll cause some visual glitches.
+  - rscadd: Adds Bronze, Ancient, and Decrepit variants of the Noc amulet.
+  - rscadd: Adds proper Ancient variants of the Psycross and Zcross.
+  - rscadd: Adds crafting recipes for the aforementioned necklaces, including those
+      which previously didn't have any.
+  - code_imp: Amulets of Inhumenity are now termed as Amulets of Ascension, to better
+      match Zizo's theming.
+  - code_imp: Light improvement on unused dagger sprites.
+  PatapoIIIa:
+  - rscadd: Add new tents
+  - qol: made new tents
+  - bugfix: fix walls counter
+  SayonaraEcho:
+  - bugfix: fixed Crier's hat onmob sprite.
+  WeNeedMorePhoron:
+  - balance: Plate armor is considered medium instead of heavy against piercing attack,
+      so bolts / bodkin will go through for 100% damage now.
+  Wildwestmars:
+  - rscadd: More Big Fella Nicknames.
+  eirenxiv:
+  - balance: changed hand armour back into a regular gambeson
+  - balance: returned besilked haubergeon to the hand
+  - balance: hand bracers -> maille
+  - balance: no more value on unique hand drip
+  - bugfix: fixed various weapon intents (psybroadsword, estoc, kanabo, steppesman
+      axe, otherwordly sword)
+  moltosotto:
+  - balance: Gave Town Elder a manor key, removed mace skill in favor of more sovlful
+      staves.
+  mumblemancer:
+  - qol: mining skill of apprentice or above allows you to mine by walking into a
+      wall w/ a pick or whatever
+  - qol: rmb special intent w/ pickaxes vs. mineral walls doafter timer reduced

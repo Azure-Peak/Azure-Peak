@@ -1,5 +1,16 @@
 /*ALL DEFINES RELATED TO COMBAT GO HERE*/
 
+/// Alternate attack defines. Return these at the end of procs like afterattack_secondary.
+/// Calls the normal attack proc. For example, if returned in afterattack_secondary, will call afterattack.
+/// Will continue the chain depending on the return value of the non-alternate proc, like with normal attacks.
+#define SECONDARY_ATTACK_CALL_NORMAL 1
+
+/// Cancels the attack chain entirely.
+#define SECONDARY_ATTACK_CANCEL_ATTACK_CHAIN 2
+
+/// Proceed with the attack chain, but don't call the normal methods.
+#define SECONDARY_ATTACK_CONTINUE_CHAIN 3
+
 //Damage and status effect defines
 
 //Damage defines //TODO: merge these down to reduce on defines
@@ -49,9 +60,10 @@
 
 #define HEALTH_THRESHOLD_NEARDEATH -90 //Not used mechanically, but to determine if someone is so close to death they hear the other side
 
-// Actually a divisor. Where 1 / this * 100% value of burn damage on lethal zones (Chest & Head) causes you to enter hardcrit. 
-#define FIRE_HARDCRIT_DIVISOR 106 // 106 = 94.5% burn damage = hardcrit
-#define FIRE_HARDCRIT_DIVISOR_MINDLESS 200 // 200 = 50% burn damage = hardcrit for mindless mobs
+#define FIRE_HARDCRIT_BASE 300 //Total burn damage across all bodyparts to hardcrit a player
+#define FIRE_HARDCRIT_MINDLESS_MULT 0.5 //Mindless mobs without TRAIT_CRIT_THRESHOLD hardcrit at half (150)
+#define FIRE_HARDCRIT_NOPAIN_MULT 1.5 //NOPAIN/NOPAINSTUN increases threshold by 50% (450)
+
 #define STRENGTH_SOFTCAP 14	//STR value past which we get diminishing returns in our damage calculations.
 #define STRENGTH_MULT 0.1	//STR multiplier per STR point up to the softcap. Works as a %-age. 0.1 = 10% per point.
 #define STRENGTH_CAPPEDMULT 0.05	//STR multiplier per STR point past the softcap
@@ -374,6 +386,7 @@ Medical defines
 /*
  Misc. Category. Spin it out if needed
 */
+#define CRIT_DISMEMBER_DAMAGE_THRESHOLD_NPC 0.45 // Half the player threshold for mindless NPCs
 #define CRIT_DISMEMBER_DAMAGE_THRESHOLD 0.9 // 90% damage threshold for dismemberment / crit
 #define STANDING_DECAP_GRACE_PERIOD 2 SECONDS // Time after falling prone where you still count as standing for decap purpose
 #define INT_NOISE_DELAY 1 SECONDS
@@ -406,15 +419,6 @@ Medical defines
 #define VISMSG_ARMOR_INT_STAGEONE "<span class='armoralert'><i> Dented.</i></span>"
 #define VISMSG_ARMOR_INT_STAGETWO "<span class='armoralert'> Damaged.</span>"
 #define VISMSG_ARMOR_INT_STAGETHREE "<span class='armoralert'><b> Crumbling!</b></span>"
-
-//Cast time reduction
-#define TOPER_CAST_TIME_REDUCTION 0.1
-#define EMERALD_CAST_TIME_REDUCTION 0.15
-#define SAPPHIRE_CAST_TIME_REDUCTION 0.2
-#define QUARTZ_CAST_TIME_REDUCTION 0.25
-#define RUBY_CAST_TIME_REDUCTION 0.3
-#define DIAMOND_CAST_TIME_REDUCTION 0.35
-#define RIDDLE_OF_STEEL_CAST_TIME_REDUCTION 0.4
 
 #define PROB_ATTACK_EMOTE_PLAYER 10
 #define PROB_ATTACK_EMOTE_NPC 10

@@ -123,9 +123,8 @@
 	H.adjust_skillrank_up_to(/datum/skill/misc/reading, 2, TRUE)
 	H.adjust_skillrank_up_to(/datum/skill/misc/medicine, 2, TRUE)
 	H.adjust_skillrank_up_to(/datum/skill/craft/cooking, 1, TRUE)
-	H.mind.AddSpell(new /obj/effect/proc_holder/spell/self/magicians_brick) //Trust the plan. 
-	ADD_TRAIT(H, TRAIT_MAGEARMOR, TRAIT_GENERIC)
-	ADD_TRAIT(H, TRAIT_DODGEEXPERT, TRAIT_GENERIC) // You LITERALLY get no weapon skills. You're throwing shit at enemies. 
+	H.mind.AddSpell(new /datum/action/cooldown/spell/magicians_brick) //Trust the plan. 
+	ADD_TRAIT(H, TRAIT_DODGEEXPERT, TRAIT_GENERIC) // You LITERALLY get no weapon skills. You're throwing shit at enemies.
 	H.change_stat(STATKEY_SPD, 2)
 	H.change_stat(STATKEY_WIL, 1)
 	H.change_stat(STATKEY_INT, 4) //Hilarious

@@ -14,6 +14,7 @@
 	refundable = FALSE
 	cost = 6 // 6 points seems relatively fair for a low potency tank simplemobs.
 	spell_tier = 3 // Mage tier
+	spell_impact_intensity = SPELL_IMPACT_NONE
 	chargedloop = /datum/looping_sound/invokegen
 	gesture_required = TRUE // Summon spell
 	associated_skill = /datum/skill/magic/arcane

@@ -1521,7 +1521,7 @@
 
 /obj/item/rogueweapon/sword/rapier/hand
 	name = "dark sister"
-	desc = "A tool made for nobler tasks than shedding blood, discreet and every ready, as you should be too."
+	desc = "A tool made for nobler tasks than shedding blood, discreet and ever ready, as you should be too."
 	icon = 'icons/roguetown/weapons/special/hand32.dmi'
 	icon_state = "staffblade"
 	item_state = "staffblade"

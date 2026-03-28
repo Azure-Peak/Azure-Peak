@@ -59,7 +59,6 @@
 	name = mimicking_chest::name
 	icon = mimicking_chest::icon
 	icon_state = mimicking_chest::icon_state
-	AddComponent(/datum/component/anti_magic, TRUE, TRUE, TRUE, null, null, FALSE)
 
 /mob/living/simple_animal/hostile/retaliate/rogue/mimic/examine(mob/user)
 	if(aggressive)

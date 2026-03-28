@@ -813,6 +813,12 @@
 	icon_state = "rustkey"
 	lockid = "bandit"
 
+/obj/item/roguekey/hag
+	name = "mossy key"
+	desc = "A strange mossy key."
+	icon_state = "mosskey"
+	lockid = "hag"
+
 //Zurch
 
 /obj/item/roguekey/inhumen

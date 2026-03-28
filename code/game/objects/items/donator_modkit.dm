@@ -292,6 +292,24 @@
 		)
 	result_item = null
 
+//Koruu - Kukri
+/obj/item/enchantingkit/weapon/koruu_kukri
+	name = "'Leachwhacker' morphing elixir"
+	target_items = list(
+		/obj/item/rogueweapon/huntingknife/idagger,
+		/obj/item/rogueweapon/huntingknife/idagger/steel,
+		/obj/item/rogueweapon/huntingknife/combat,
+		/obj/item/rogueweapon/huntingknife
+		)
+	result_item = /obj/item/rogueweapon/koruu_kukri
+
+/obj/item/enchantingkit/weapon/koruu_kukri/warden
+	name = "'Warden Leachwhacker' morphing elixir"
+	target_items = list(
+		/obj/item/rogueweapon/huntingknife/idagger/warden_machete
+		)
+	result_item = /obj/item/rogueweapon/koruu_kukri/warden
+
 //DRD21 - Longsword
 /obj/item/enchantingkit/drd_lsword
 	name = "'ornate basket-hilt longsword' morphing elixir"
@@ -303,3 +321,9 @@
 	name = "brass beak mask morphing elixir"
 	target_items = list(/obj/item/clothing/mask/rogue/courtphysician, /obj/item/clothing/mask/rogue/physician)
 	result_item = /obj/item/clothing/mask/rogue/courtphysician/brassbeak
+
+//Shudderfly - Steel Dagger
+/obj/item/enchantingkit/shudderfly_dagger
+	name = "'Eoran Spike' morphing elixir"
+	target_items = list(/obj/item/rogueweapon/huntingknife/idagger/steel)
+	result_item = /obj/item/rogueweapon/huntingknife/idagger/steel/shudderfly
