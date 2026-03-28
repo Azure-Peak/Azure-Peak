@@ -288,17 +288,16 @@
 
 /obj/effect/proc_holder/spell/invoked/mindlink/hag/cast(list/targets, mob/living/user)
 	var/list/possible = user.mind.known_people.Copy()
-	var/list/mob/living/carbon/human/coven_members = list(user) // The Hag starts the list
+	var/list/mob/living/carbon/human/coven_members = list(user)
 
 	if(!possible.len)
 		to_chat(user, span_warning("I have no puppets to bind to my web."))
 		revert_cast()
 		return FALSE
 
-	// Loop 3 times to allow up to 3 extra members (Total 4 including Hag)
 	for(var/i in 1 to 3)
 		var/prompt = "Choose member #[i] to bind (Cancel to finalize coven with [coven_members.len] members)"
-		var/target_name = tgui_input_list(user, prompt, "Coven Link", sortList(possible))
+		var/target_name = tgui_input_list(user, prompt, "Coven Link", sort_list(possible))
 
 		if(!target_name)
 			break
@@ -311,14 +310,14 @@
 
 		if(found_mob)
 			var/already_linked = FALSE
-			for(var/datum/mindlink/ML in GLOB.mindlinks)
-				if(ML.owner == found_mob || ML.target == found_mob)
+			for(var/datum/mindlink/coven/ML in GLOB.mindlinks)
+				if(found_mob in ML.members)
 					already_linked = TRUE
 					break
 			
 			if(already_linked)
 				to_chat(user, span_warning("[found_mob.real_name]'s mind is already bound by another thread! I cannot reach them."))
-				continue // Let them try picking someone else
+				continue
 
 			coven_members += found_mob
 			possible -= target_name 
@@ -334,12 +333,8 @@
 	user.visible_message(span_warning("[user]'s fingers twitch as if pulling invisible strings..."), \
 						 span_notice("I have woven the coven web between [coven_members.len] souls."))
 
-	var/list/new_links = list()
-	for(var/i in 1 to coven_members.len)
-		for(var/j in i + 1 to coven_members.len)
-			var/datum/mindlink/L = new(coven_members[i], coven_members[j])
-			new_links += L
-			GLOB.mindlinks += L
+	var/datum/mindlink/coven/C = new(coven_members)
+	GLOB.mindlinks += C
 
 	var/list/names = list()
 	for(var/mob/living/M in coven_members)
@@ -349,19 +344,14 @@
 	for(var/mob/living/M in coven_members)
 		to_chat(M, span_boldnotice("The Coven is formed! Linked minds: [roster]. Use ,y to speak."))
 
-	addtimer(CALLBACK(src, PROC_REF(break_coven), new_links), link_duration)
+	addtimer(CALLBACK(src, PROC_REF(break_coven), C), link_duration)
 	return TRUE
 
-/obj/effect/proc_holder/spell/invoked/mindlink/hag/proc/break_coven(list/links)
-	var/list/notified = list()
-	for(var/datum/mindlink/ML in links)
-		if(!ML) continue
-		if(!(ML.owner in notified))
-			to_chat(ML.owner, span_warning("The coven web snaps and withers..."))
-			notified += ML.owner
-		if(!(ML.target in notified))
-			to_chat(ML.target, span_warning("The coven web snaps and withers..."))
-			notified += ML.target
-			
-		GLOB.mindlinks -= ML
-		qdel(ML)
+/obj/effect/proc_holder/spell/invoked/mindlink/hag/proc/break_coven(datum/mindlink/coven/C)
+	if(!C)
+		return
+	for(var/mob/living/M in C.members)
+		if(M)
+			to_chat(M, span_warning("The coven web snaps and withers..."))
+	GLOB.mindlinks -= C
+	qdel(C)

@@ -508,6 +508,7 @@
 #include "code\datums\map_config.dm"
 #include "code\datums\mind.dm"
 #include "code\datums\mindlink.dm"
+#include "code\datums\mindlink_hag.dm"
 #include "code\datums\movement_detector.dm"
 #include "code\datums\mutable_appearance.dm"
 #include "code\datums\numbered_display.dm"
