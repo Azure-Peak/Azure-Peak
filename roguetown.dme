@@ -1490,6 +1490,8 @@
 #include "code\modules\antagonists\roguetown\villain\maniac\maniac_wonders.dm"
 #include "code\modules\antagonists\roguetown\villain\minor_antags\assassin.dm"
 #include "code\modules\antagonists\roguetown\villain\minor_antags\assassin_equipment_and_spells.dm"
+#include "code\modules\antagonists\roguetown\villain\minor_antags\assassin_disguises.dm"
+#include "code\modules\antagonists\roguetown\villain\minor_antags\assassin_powers.dm"
 #include "code\modules\antagonists\roguetown\villain\werewolf\werewolf.dm"
 #include "code\modules\antagonists\roguetown\villain\werewolf\werewolf_spells.dm"
 #include "code\modules\antagonists\roguetown\villain\werewolf\werewolf_transformation.dm"
