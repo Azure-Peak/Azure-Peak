@@ -40,7 +40,7 @@
 	// DEVOTION INIT & SPELLS
 	var/datum/devotion/C = new /datum/devotion(H, H.patron) // patron should ALWAYS be graggar.
 	H.devotion = C
-	C.grant_miracles(H, CLERIC_ORI, 0, CLERIC_REQ_0) // this is just here for future use and to allow you to use creep. 
+	C.grant_miracles(H, CLERIC_ORI, 0, CLERIC_REQ_0) // this is just here for future use.
 	H.devotion.max_devotion = 10
 	H.devotion.update_devotion(silent = TRUE)
 	// you dont actually get miracle miracles. yet.

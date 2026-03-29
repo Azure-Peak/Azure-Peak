@@ -45,10 +45,11 @@ we happen to commission/code should GO IN HERE. Thanks.
 	stealthy_audio = TRUE
 	// FORCE: This weapon currently deals 24 damage versus NON-TARGETS, but 40 against targets. Fucking scary, dude.
 	var/last_whisper // a time we're going to use to not spam chat
+	var/last_attempted_destroy
 	var/stolen_faces = list()
 	var/mob/attached_assassin = null // if an assassin picks up a dagger, it gets "attached" to them for later use.
 	var/graggar_boy_points = 0
-	var/total_souls_taken // backup incase going to the underworld fucks up the soul-theft
+	var/total_souls_taken // # of hunted targets lux-zucked
 
 	// For the sake of making these easier to edit, we're going to store these lines on the dagger.
 	var/static/list/na_pleads = list(
@@ -80,6 +81,35 @@ we happen to commission/code should GO IN HERE. Thanks.
 		"How long have I been in here...?",
 	)
 
+/// Checks a human for if they have the assassin trait. Returns TRUE if so. Handles human check in-proc.
+/obj/item/rogueweapon/huntingknife/idagger/steel/profane/proc/is_assassin(mob/user)
+	if(!ishuman(user))
+		return FALSE
+	
+	var/mob/living/carbon/human/H = user
+	if(HAS_TRAIT(H, TRAIT_ASSASSIN))
+		return TRUE
+	else
+		return FALSE
+
+/// Checks a user for if they have the hunted flaw. Returns TRUE if so. Handles human check in-proc.
+/obj/item/rogueweapon/huntingknife/idagger/steel/profane/proc/is_target(mob/user)
+	if(!ishuman(user))
+		return FALSE
+	
+	var/mob/living/carbon/human/H = user
+	if(H.has_flaw(/datum/charflaw/hunted))
+		return TRUE
+	else
+		return FALSE
+
+/obj/item/rogueweapon/huntingknife/idagger/steel/profane/examine(mob/user)
+	. = ..()
+	if(is_assassin(user))
+		. += span_cultsmall("[src] whispers, \"...here we are!\"")
+	else
+		. += span_cultsmall("[src] whispers, \"A wound is a window into the world...\"")
+
 /obj/item/rogueweapon/huntingknife/idagger/steel/profane/Destroy()
 	// i dont know if these cause any sort of problems, but, uh. idk i feel like the attached assassin at least could hard-del.
 	if(stolen_faces)
@@ -93,13 +123,6 @@ we happen to commission/code should GO IN HERE. Thanks.
 				to_chat(vil, span_graggaranimated("MY DAGGER HAS BEEN DESTROYED! I FEEL A DEEP PAIN IN MY LUX!!!"))
 		attached_assassin = null
 	. = ..()
-
-/obj/item/rogueweapon/huntingknife/idagger/steel/profane/examine(mob/user)
-	. = ..()
-	if(HAS_TRAIT(user, TRAIT_ASSASSIN))
-		. += span_cultsmall("[src] whispers, \"...here we are!\"")
-	else
-		. += span_cultsmall("[src] whispers, \"A wound is a window into the world...\"")
 	
 /obj/item/rogueweapon/huntingknife/idagger/steel/profane/equipped(mob/user, slot, initial = TRUE)
 	. = ..()
@@ -115,7 +138,7 @@ we happen to commission/code should GO IN HERE. Thanks.
 	if(ishuman(M))
 		var/mob/living/carbon/human/H = M
 		dissonant_whispers(H)
-		if (!HAS_TRAIT(H, TRAIT_ASSASSIN)) // Non-assassins don't like holding the profane dagger.
+		if(!is_assassin(H)) // Non-assassins don't like holding the profane dagger.
 			H.add_stress(/datum/stressevent/profane)
 
 /// This proc handles the dagger's whisperings. It only acts every five seconds to prevent chat-spam. 
@@ -124,9 +147,11 @@ we happen to commission/code should GO IN HERE. Thanks.
 		return
 	last_used = world.time
 	var/message
-	if(HAS_TRAIT(user, TRAIT_ASSASSIN))
+	if(is_assassin(user))
 		message = pick(last_words)
 	else
+		// it may be worth adding a mob check so that if the dagger is picked up by whoever DID NOT hold it last it bypasses the cooldown
+		// however, that also seems too expensive for flavortext. should be fine, even if a little awkward.
 		to_chat(user, span_danger("Your breath chills as you pick up the dagger. You feel a sense of morbid wrongness!"))
 		message = pick(na_pleads)
 	to_chat(user, span_gamedeadsay("[src] whispers, \"[message]\""))	
@@ -148,9 +173,15 @@ we happen to commission/code should GO IN HERE. Thanks.
 /obj/item/rogueweapon/huntingknife/idagger/steel/profane/attack_self(mob/user)
 	. = ..()
 	// TEMP -- FOR DEBUGGING PURPOSES
-	release_profane_souls(user)
-	if(HAS_TRAIT(user, TRAIT_ASSASSIN))
+	if(is_assassin(user))
 		INVOKE_ASYNC(src, PROC_REF(dagger_menu), user)
+	else
+		if(ishuman(user))
+			var/mob/living/carbon/human/H 
+			var/patron = H.patron
+			if(istype(H.patron, /datum/patron/divine/necra) || HAS_TRAIT(H, TRAIT_CLERGY))
+				return
+				//release_profane_souls()
 	/* TODO:
 	// TRY TO BUILD SOME SORT OF RADIAL MENU. MAYBE STEAL CODE FROM SLAPCRAFTING BC I THINK THERE WERE RADIALS FOR THAT.alist
 	// WE WANT TO BE ABLE TO USE THE APPLY FACE OR WHATEVER I CALLED IT PROC, PREFERABLY W/ A LITTLE HEAD ICON TO SHOW
@@ -166,15 +197,15 @@ we happen to commission/code should GO IN HERE. Thanks.
 		"Rancor" = src,
 		"Koh" = src
 	)
-	var/selection = show_radial_menu(user, src, choices, require_near = TRUE)
+	var/selection = show_radial_menu(user, src, choices, require_near = TRUE, tooltips = TRUE)
 
 	if(selection)
 		if(!user.is_holding(src))
-			return
 			to_chat(user, span_danger("I must have the dagger in my hand to use this!"))
+			return
 		switch(selection)
 			if("Release Souls")
-				release_profane_souls(user)
+				//release_profane_souls(user)
 			if("Rancor")
 				to_chat(user, "RANCOR!!!")
 			if("Koh")
@@ -207,7 +238,7 @@ we happen to commission/code should GO IN HERE. Thanks.
 	var/mob/living/carbon/human/target = A
 	if(!istype(target))
 		return FALSE
-	if(target.has_flaw(/datum/charflaw/hunted)) // Check to see if the dagger will do 20 damage or 14
+	if(is_target(target)) // Check to see if the dagger will do 20 damage or 14
 		force = 20 * 2	//vs trait havers, 2x damage over a steel knife
 	else
 		force = 20 + 4	//vs non-trait havers, 4 more damage over a steel knife
@@ -221,6 +252,7 @@ we happen to commission/code should GO IN HERE. Thanks.
 	. = ..()
 	// leaving this out of the rewritten logic flow below cus idk if it was there 4 a reason
 	if(!ishuman(target))
+		to_chat(user, span_danger("You can't do that!"))
 		return
 	if(!ishuman(user)) // carbons don't have all features of a human
 		to_chat(user, span_danger("You can't do that!"))
@@ -263,67 +295,15 @@ we happen to commission/code should GO IN HERE. Thanks.
 			ADD_TRAIT(target, TRAIT_DISFIGURED, TRAIT_GENERIC)
 			ADD_TRAIT(target, TRAIT_KOH, TRAIT_GENERIC)
 			// hunted interactions
-			if(target.has_flaw(/datum/charflaw/hunted)) // The profane dagger only thirsts for those who are hunted, by flaw or by zizoid curse.
-			/*
-			TODO:
-			BY ORDER OF THE ADMINISTARIUM ADMINISTRATUS, SOUL-SUCKING HAS BEEN REMOVED/RR HAS BEEN REMOVED. INSTEAD, WE WILL BE TAKING A PART OF THE
-			TARGET'S LUX AND APPLYING A HEFTIER DEVITALIZED STATUS EFFECT TO THEM POST MURDER. 
-
-			LAST-WORD THEFT WILL BE STAYING. SOME OTHER SHIT. IDK I'LL FGIURE IT OUT IT JUST CANT RR PPL NO MORE APPARENTLY.
-			*/
-				if(target.client == null)
-					to_chat(user, span_graggarsmall("My target's soul has left their body. I can try to call it back..."))
-					get_profane_ghost(target, user)
-				else
-					// if you arent a ghost you are now you little shit
-					target.ghostize(TRUE, FALSE, FALSE, FALSE, TRUE)
-					get_profane_ghost(target, user)
-		
+			if(is_target(target)) // The profane dagger only thirsts for those who are hunted, by flaw or by zizoid curse.
+				die_motherfucker_die(target, user)
 			target.death() // kill em to make sure
-			target.set_ssd_indicator(FALSE) // jank but needed
 		else
 			to_chat(user, span_warning("They aren't quite dead enough! You may need to wait a minute..."))
 
-/obj/item/rogueweapon/huntingknife/idagger/steel/profane/proc/get_profane_ghost(mob/living/carbon/human/target, mob/living/user)
-	// we dont have an underworld, so this proc strictly checks to see if a ghost already exists.
-	var/mob/dead/observer/chosen_ghost
-	// we do that by get.ghosting() the target. 
-	chosen_ghost = target.get_ghost(TRUE, TRUE)
-	// if none exist, just return false.
-	if(!chosen_ghost || !chosen_ghost.client)
-		to_chat(user, span_warning("Something is wrong... there's no spirit summoned! Perhaps I can summon it...?"))
-		chosen_ghost = target.grab_ghost(TRUE)
-		if(chosen_ghost)
-			init_profane_soul(chosen_ghost, target, user)
-			message_admins("caught [chosen_ghost] in force-grabber") // DEBUG
-			return TRUE
-		return FALSE
-	// else, let's put 'em thru the profaner.
-	init_profane_soul(chosen_ghost, target, user)
-	// delete the old ghost.
-	qdel(chosen_ghost)
-	return TRUE
-
-/obj/item/rogueweapon/huntingknife/idagger/steel/profane/proc/init_profane_soul(mob/dead/observer/chosen_ghost, mob/living/carbon/human/target, mob/living/user)
+/obj/item/rogueweapon/huntingknife/idagger/steel/profane/proc/die_motherfucker_die(mob/living/carbon/human/target, mob/living/carbon/human/user)
 	record_featured_stat(FEATURED_STATS_CRIMINALS, user)
 	record_round_statistic(STATS_ASSASSINATIONS)
-	
-	//-- FULL DISCLOSURE. -- 
-	//This has to deal with components and I Dont Know How the Fuck They Work. This was ""intern"" (AI) assisted. Sorry.
-	
-	var/mob/dead/observer/profane/S = new /mob/dead/observer/profane(src)
-	S.AddComponent(/datum/component/profaned, src)
-
-	// put the client in the new ghost
-	S.key = chosen_ghost.key
-	// del the old one
-	qdel(chosen_ghost)
-	// set their ghost's features = their body...
-	S.name = "soul of [target.real_name]"
-	S.real_name = "soul of [target.real_name]"
-	S.deadchat_name = target.real_name
-	S.original_body = target	
-	S.language_holder = target.language_holder.copy(S)
 
 	// last word getter
 	if(target.last_words)
@@ -338,73 +318,26 @@ we happen to commission/code should GO IN HERE. Thanks.
 	obj_fix(max_integrity) // And fixes the dagger. No blacksmith required!
 
 	total_souls_taken += 1
+	var/awarded_points = 1
+	if(is_secure_target(target))
+		awarded_points = 2
+	graggar_boy_points += awarded_points
 
-	if(HAS_TRAIT(target, TRAIT_NOBLE) || HAS_TRAIT(target, TRAIT_CRITICAL_WEAKNESS))
-		// double points for treading on the weak and those who would put themselves above you
-		src.graggar_boy_points += 2
-	else
-		src.graggar_boy_points += 1
-
-/*
-WE DO NOT CURRENTLY USE THE UNDERWORLD. IF WE EVER GET IT BACK, FOR SOME REASON, THE CODE IS SAVED HERE FOR POSTERITY.
-- MUMBLEMANCER
-/obj/item/rogueweapon/huntingknife/idagger/steel/profane/proc/get_profane_ghost(mob/living/carbon/human/target, mob/user)
-	var/mob/dead/observer/chosen_ghost
-	var/mob/living/carbon/spirit/underworld_spirit = target.get_spirit() //Check if a soul has already gone to the underworld
-	if(underworld_spirit) // If they are in the underworld, pull them back to the real world and make them a normal ghost. Necra can't save you now!
-		var/mob/dead/observer/ghost = underworld_spirit.ghostize()
-		chosen_ghost = ghost.get_ghost(TRUE,TRUE)
-	else //Otherwise, try to get a ghost from the real world
-		chosen_ghost = target.get_ghost(TRUE,TRUE)
-	if(!chosen_ghost || !chosen_ghost.client) // If there is no valid ghost or if that ghost has no active player
+// ASSASSIN exists to scare the shit out of people who can withstand frontal gnoll assault or hide in a castle.
+// Also I hate mercenaries. Mercenaries are stupidly strong. You get bonus points 4 kicking they ass.
+/obj/item/rogueweapon/huntingknife/idagger/steel/profane/proc/is_secure_target(mob/target)
+	// just to be 100% safe
+	if(!ishuman(target))
 		return FALSE
-	user.adjust_triumphs(1)
-	init_profane_soul(target, user) // If we got the soul, store them in the dagger.
-	qdel(target) // Get rid of that ghost!
-	return TRUE
-*/
+	var/mob/living/carbon/human/H = target
+	var/job = H.job
+	// merc check has to be hardcoded bc we dont have a way to positively id these guys. maybe their bitflag? IDFK.
+	if(job == "Mercenary")
+		return TRUE
+	if( (job in GLOB.noble_positions) || (job in GLOB.retinue_positions) || (job in GLOB.courtier_positions) )
+		return TRUE
+	return FALSE
 
-// this is ai bc the loop got fucking weird w/ the components.
-/obj/item/rogueweapon/huntingknife/idagger/steel/profane/proc/release_profane_souls(mob/user)
-	var/freed_souls = 0
-	message_admins("dagger engaged") // debug
-	message_admins("src content: [src.contents]")
-	message_admins(" len : [length(src.contents)]")
-
-	for(var/atom/movable/child in src.contents)
-		message_admins("found [child] in [src.contents]")
-		message_admins("child name [child.name]")
-		if(!istype(child, /mob/dead/observer/profane))
-			continue
-
-		var/mob/dead/observer/profane/S = child
-		var/mob/living/carbon/human/original_body = S.original_body
-
-		if(original_body && S.mind)
-			S.mind.transfer_to(original_body)
-			message_admins("transferto proc'd")
-		else
-			S.returntolobby()
-			message_admins("returntolobby proc'd")
-
-		freed_souls += 1
-		src.total_souls_taken -= 1
-		qdel(S)
-
-	return freed_souls
-
-/datum/component/profaned
-	var/atom/movable/container
-
-/datum/component/profaned/Initialize(atom/movable/container)
-	if(!istype(parent, /mob/dead/observer/profane))
-		return COMPONENT_INCOMPATIBLE
-	var/mob/dead/observer/profane/S = parent
-
-	src.container = container
-
-	S.forceMove(container)
-	
 /obj/item/clothing/cloak/poncho/evil
 	color = CLOTHING_DARK_GREY
 	detail_color = CLOTHING_BLACK
