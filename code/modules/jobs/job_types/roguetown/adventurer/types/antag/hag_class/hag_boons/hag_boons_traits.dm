@@ -86,11 +86,6 @@
 	trait_to_apply = TRAIT_CRACKHEAD
 	points = 60
 
-/datum/hag_boon/trait/crackhead
-	name = "Trait - Overdose Immunity"
-	trait_to_apply = TRAIT_CRACKHEAD
-	points = 60
-
 /datum/hag_boon/trait/civil_barbarian
 	name = "Trait - Unarmed Amplifier"
 	trait_to_apply = TRAIT_CIVILIZEDBARBARIAN
@@ -125,11 +120,6 @@
 	name = "Trait - Keen Ears"
 	trait_to_apply = TRAIT_KEENEARS
 	points = 10
-
-/datum/hag_boon/trait/hard_dismember
-	name = "Trait - Difficult To Dismember"
-	trait_to_apply = TRAIT_HARDDISMEMBER
-	points = 30
 
 /datum/hag_boon/trait/hard_dismember
 	name = "Trait - Difficult To Dismember"
