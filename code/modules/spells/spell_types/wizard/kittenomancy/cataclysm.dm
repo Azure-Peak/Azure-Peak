@@ -1,13 +1,13 @@
 #define CATACLYSM_RADIUS 4 // 9x9 area
 #define CATACLYSM_TELEGRAPH_TIME (3 SECONDS)
-#define CATACLYSM_GORE_FRAGS 4
+#define CATACLYSM_GORE_FRAGS 6
 
 /datum/action/cooldown/spell/cat_aclysm
 	button_icon = 'icons/mob/actions/mage_kittenomancy.dmi'
 	name = "CATaclysm"
 	desc = "Rain a devastating barrage of spectral cats from the sky onto a massive area. \
 	Each impact explodes into gore, dealing heavy damage and painting the battlefield in blood. \
-	9x9 area."
+	9x9 area. Can and WILL hurt the caster."
 	button_icon_state = "cataclysm"
 	sound = 'sound/vo/mobs/cat/roar4.ogg'
 	spell_color = GLOW_COLOR_HEX
@@ -36,11 +36,11 @@
 
 	spell_requirements = SPELL_REQUIRES_NO_ANTIMAGIC | SPELL_REQUIRES_HUMAN | SPELL_REQUIRES_SAME_Z
 
-	var/direct_damage = 60
-	var/splash_damage = 25
-	var/fragment_damage = 15
+	var/direct_damage = 80
+	var/splash_damage = 30
+	var/fragment_damage = 20
 	var/npc_simple_damage_mult = 2
-	var/impact_count = 16
+	var/impact_count = 20
 
 /datum/action/cooldown/spell/cat_aclysm/cast(atom/cast_on)
 	. = ..()
@@ -103,8 +103,6 @@
 	var/mob/living/carbon/human/caster = owner
 	var/static/list/random_zones = list(BODY_ZONE_HEAD, BODY_ZONE_CHEST, BODY_ZONE_L_ARM, BODY_ZONE_R_ARM)
 	for(var/mob/living/L in T.contents)
-		if(L == owner)
-			continue
 		if(L.anti_magic_check())
 			L.visible_message(span_warning("The falling cat fades away around [L]!"))
 			playsound(get_turf(L), 'sound/magic/magic_nulled.ogg', 100)
@@ -129,8 +127,6 @@
 		if(aoe_turf == T)
 			continue
 		for(var/mob/living/L in aoe_turf.contents)
-			if(L == owner)
-				continue
 			if(L.anti_magic_check())
 				continue
 			if(spell_guard_check(L, TRUE))
