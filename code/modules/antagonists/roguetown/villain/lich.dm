@@ -129,7 +129,7 @@
 	H.adjust_skillrank(/datum/skill/combat/knives, 5, TRUE)
 	H.adjust_skillrank(/datum/skill/craft/crafting, 1, TRUE)
 	H.adjust_skillrank(/datum/skill/misc/medicine, 3, TRUE)
-	H?.mind.setup_mage_aspects(list("mastery" = TRUE, "major" = 2, "minor" = 3, "utilities" = 9, "ward" = TRUE))
+	H?.mind.setup_mage_aspects(list("mastery" = TRUE, "major" = 2, "minor" = 3, "utilities" = 9, "locked_aspects" = list(/datum/magic_aspect/kittenomancy), "ward" = TRUE))
 	// Give it decent combat stats to make up for loss of 2 extra lives
 	H.change_stat(STATKEY_STR, 3)
 	H.change_stat(STATKEY_INT, 5)

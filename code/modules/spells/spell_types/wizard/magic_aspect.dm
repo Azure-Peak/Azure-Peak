@@ -23,6 +23,10 @@
 	/// The choice spell that was actually picked during attunement. Set by grant_choice_spell().
 	var/chosen_spell
 
+/// Whether this aspect can be selected by the given mob. Override for patron-gated aspects etc.
+/datum/magic_aspect/proc/can_select(mob/living/user)
+	return TRUE
+
 /datum/magic_aspect/proc/get_implement_name(base_name)
 	if(!attuned_name)
 		return base_name

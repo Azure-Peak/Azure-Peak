@@ -131,6 +131,7 @@
 #define ASPECT_NAME_FERRAMANCY  "Metal"
 #define ASPECT_NAME_AUGMENTATION "Enhancement"
 #define ASPECT_NAME_BATTLEWARDRY "Wards"
+#define ASPECT_NAME_KITTENOMANCY "Cats"
 
 // Arcyne ward tier hierarchy - higher tier wards override lower, equal or lower cannot override
 #define ARCYNE_WARD_TIER_OTHER   1 // Other Ward (cast on allies)

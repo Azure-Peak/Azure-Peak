@@ -184,6 +184,9 @@
 	var/list/result = list()
 	for(var/path in aspect_paths)
 		var/datum/magic_aspect/A = new path
+		if(!A.can_select(owner))
+			qdel(A)
+			continue
 		var/list/entry = list()
 		entry["path"] = "[path]"
 		entry["name"] = A.name
