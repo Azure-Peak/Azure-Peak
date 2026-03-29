@@ -252,6 +252,7 @@
 #define TRAIT_COMBAT_AWARE	"Combat Aware"
 #define TRAIT_TEMPO	"Tempo Capable"
 #define TRAIT_SILVER_WEAK "Silver Weakness"
+#define TRAIT_PALLID "Pallid"
 #define TRAIT_ASSASSIN	"Assassin"
 #define TRAIT_EQUESTRIAN "Equestrian"
 // ARMOR / CLOTHING GIVEN TRAITS (GIVEN BY WEARING CLOTHES/ARMOR PIECES)
@@ -489,6 +490,7 @@ GLOBAL_LIST_INIT(roguetraits, list(
 	TRAIT_HOMESTEAD_EXPERT = span_greentext("I'm experienced with the arts of homesteading. Farming, Mining, Cooking, Fishing, Butchering, Lumberjacking, Masonry and Pottery can progress to Legendary levels. Sewing and Skincrafting can progress to Journeyman levels."),
 	TRAIT_SELF_SUSTENANCE = span_greentext("Yils of experience running from the law and living off the land have made me a jack of all trades. All crafting and labor skills can progress to Journeyman levels."),
 	TRAIT_SILVER_WEAK = span_warning("Silver is the greatest threat to my lyfe. Blows from silver weapons will set me alight, inhibit my ability to regenerate, and - if blessed - can outright destroy my vessel."),
+	TRAIT_PALLID = span_warning("I was once a creature of the night. The open sky fills me with unease, but my eyes pierce the darkness and my lungs need no air."),
 	TRAIT_COMBAT_AWARE = span_notice("My honed senses and intuition allow me to spot notable things in the midst of battle with ease."),
 	TRAIT_TEMPO	= span_greentext("I can keep up with multiple opponents at once."),
 	TRAIT_BLACKOAK = span_warning("The Black Oaks can spot <b>any</b> foreigners and outsiders, no matter how long they've lived in Azuria. I can spot an invader at a glance."),

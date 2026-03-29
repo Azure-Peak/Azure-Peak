@@ -1,6 +1,0 @@
-author: "Ollanius"
-delete-after: True
-changes:
-  - bugfix: "Prerequisite recipes introduced in the Felina PR (with sugarstatues, sugarshapes and smothered fruits) can no longer be selected as a favorite meal."
-  - bugfix: "Corrects the description of jamtallow and marmalade slices to more accurately hint at their ideal combinations."
-  - bugfix: "You can no long select soul-diffused methamphetamine as a favorite meal."
