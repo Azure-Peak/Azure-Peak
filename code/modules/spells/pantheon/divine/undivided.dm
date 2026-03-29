@@ -1,8 +1,3 @@
-///////////////////////////////////////////////////////////////////////////////////////////////////////////
-// All of these should have invocations translated to German, I am not going to use a translator for it. //
-// Someone who actually speaks it could and probably should for proper larp - Lamasmaster				 //
-///////////////////////////////////////////////////////////////////////////////////////////////////////////
-
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // T0 - Twinned Gaze - Removes vision cone for duration as well grants night vision on high enough level. //
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -107,7 +102,7 @@
 	range = 7
 	recharge_time = 15 SECONDS
 	devotion_cost = 20
-	invocations = list("Aufflammen.") //(Kindle)
+	invocations = list("Entflamme.") //(Kindle)
 
 //////////////////////////////////////////////////////////////////////////////
 // T1 - Recuperation - Restore ENERGY to a target and provide healing buff. //
@@ -261,6 +256,7 @@
 		/obj/effect/proc_holder/spell/invoked/moondream::name			= /obj/effect/proc_holder/spell/invoked/moondream,
 		/obj/effect/proc_holder/spell/invoked/bless_food::name			= /obj/effect/proc_holder/spell/invoked/bless_food,
 		/obj/effect/proc_holder/spell/invoked/avert::name				= /obj/effect/proc_holder/spell/invoked/avert,
+		/obj/effect/proc_holder/spell/invoked/attach_bodypart::name		= /obj/effect/proc_holder/spell/invoked/attach_bodypart,
 	)
 	var/list/miracle_templar_bundle = list(
 		/obj/effect/proc_holder/spell/invoked/abyssor_undertow::name 		= /obj/effect/proc_holder/spell/invoked/abyssor_undertow,
@@ -268,7 +264,7 @@
 		/obj/effect/proc_holder/spell/invoked/heatmetal::name 				= /obj/effect/proc_holder/spell/invoked/heatmetal,
 		/obj/effect/proc_holder/spell/self/wise_moon::name 					= /obj/effect/proc_holder/spell/self/wise_moon,
 		/obj/effect/proc_holder/spell/self/divine_strike/undivided::name 	= /obj/effect/proc_holder/spell/self/divine_strike/undivided,
-		/obj/effect/proc_holder/spell/self/xylixslip::name 					= /obj/effect/proc_holder/spell/self/xylixslip,
+		/obj/effect/proc_holder/spell/invoked/vendetta::name 				= /obj/effect/proc_holder/spell/invoked/vendetta,
 	)
 
 /obj/effect/proc_holder/spell/self/undivided_miracle_bundle/cast(list/targets, mob/user)
