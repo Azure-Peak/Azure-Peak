@@ -51,7 +51,7 @@
 	button_icon_state = "darkvision"
 	point_cost = 0
 	spell_tier = 0
-	associated_skill = /datum/skill/magic/holy
+	associated_skill = null
 
 /datum/action/cooldown/spell/darkvision/miracle/undivided
 	name = "Nitesight"

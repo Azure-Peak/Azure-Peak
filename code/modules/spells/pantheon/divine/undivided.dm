@@ -5,7 +5,7 @@
 
 /obj/effect/proc_holder/spell/self/twinned_gaze
 	name = "Twinned Gaze"
-	desc = "Removes the limit on your vision, letting you see behind you for a time, as well night vision if skilled enough. Duration scales off holy skill and time of dae."
+	desc = "Removes the limit on your vision, letting you see behind you for a time, as well varying degrees of night vision. Duration & Darksight scales off holy skill and time of dae."
 	action_icon = 'icons/mob/actions/undividedmiracles.dmi'
 	overlay_icon = 'icons/mob/actions/undividedmiracles.dmi'
 	overlay_state = "twinned_gaze"
@@ -114,7 +114,7 @@
 
 /obj/effect/proc_holder/spell/invoked/recuperation
 	name = "Recuperation"
-	desc = "Restores the targets Energy and provides healing buff. Twice as effective on target other than yourself."
+	desc = "Restores the targets Energy and provides a healing buff. Twice as effective on target other than yourself."
 	action_icon = 'icons/mob/actions/undividedmiracles.dmi'
 	overlay_icon = 'icons/mob/actions/undividedmiracles.dmi'
 	overlay_state = "calming_respite"
@@ -177,7 +177,7 @@
 
 /obj/effect/proc_holder/spell/invoked/perseverance
 	name = "Perseverance"
-	desc = "Seals wounds of living beings and calms them down."
+	desc = "Slows down bleed rate of living beings as well calming them down."
 	action_icon = 'icons/mob/actions/undividedmiracles.dmi'
 	overlay_icon = 'icons/mob/actions/undividedmiracles.dmi'
 	overlay_state = "perseverance"
@@ -234,7 +234,7 @@
 
 /obj/effect/proc_holder/spell/self/undivided_miracle_bundle
 	name = "Divine Inspiration"
-	desc = "Allows you to learn a set of empowering or utility miracles."
+	desc = "Allows you to pick out miracles from three different sets - Generalist (3 choices) Acolyte (2 choices) Templar (2 choices)."
 	action_icon = 'icons/mob/actions/undividedmiracles.dmi'
 	overlay_icon = 'icons/mob/actions/undividedmiracles.dmi'
 	overlay_state = "inspiration"
@@ -320,7 +320,7 @@
 
 /obj/effect/proc_holder/spell/invoked/gallowshumor
 	name = "Gallows Humor"
-	desc = "Shake a target to their core."
+	desc = "Share a terrible secret of lyfe with your target, reducing their Fortune and stressing them out."
 	action_icon = 'icons/mob/actions/undividedmiracles.dmi'
 	overlay_icon = 'icons/mob/actions/undividedmiracles.dmi'
 	overlay_state = "gallows"
@@ -336,7 +336,7 @@
 
 	sound = 'sound/misc/deadbell.ogg'
 	invocation_type = INVOCATION_EMOTE
-	invocations = list("begins uncontrollably giggling.")
+	invocations = list("cackles uncontrollably.")
 
 	req_items = list(/obj/item/clothing/neck/roguetown/psicross)
 	associated_skill = /datum/skill/magic/holy
@@ -375,7 +375,7 @@
 /datum/stressevent/gallowshumor
 	timer = 10 MINUTES 
 	stressadd = 8
-	desc = span_boldred("By everything that was horrible!")
+	desc = span_boldred("NO NO NO!")
 
 //////////////////////////////////////////////////////////////////////////////////////////
 // T3 - Undivided Fortify - Heals and damages undead like actual one, bit worse though. //
@@ -399,7 +399,7 @@
 
 /obj/effect/proc_holder/spell/self/ten_united
 	name = "Ten United"
-	desc = "Rally the faithful to fight by your side."
+	desc = "Rally the faithful to fight by your side, providing a buff (CONSTITUTION 2, WILLPOWER 2, FORTUNE 4) to Divine worshippers. Inhumen and Psydonites are left out, deadites suffer Daze (PERCEPTION -1, INTELLIGENCE -2, SPEED -1) within the radius."
 	action_icon = 'icons/mob/actions/undividedmiracles.dmi'
 	overlay_icon = 'icons/mob/actions/undividedmiracles.dmi'
 	overlay_state = "united"
@@ -423,7 +423,7 @@
 			target.apply_status_effect(/datum/status_effect/buff/ten_united)
 			continue
 		if(istype(target.patron, /datum/patron/old_god) || istype(target.patron, /datum/patron/inhumen)) 
-			to_chat(target, span_danger("You are untouched by divine light..."))
+			to_chat(target, span_danger("The divine light leaves me as abruptly as it came.."))
 			continue
 		if(!user.faction_check_mob(target))
 			continue
@@ -436,7 +436,7 @@
 	id = "ten_united"
 	alert_type = /atom/movable/screen/alert/status_effect/buff/ten_united
 	duration = 3 MINUTES// T4 and carries no debuff with it
-	effectedstats = list(STATKEY_CON = 2, STATKEY_WIL = 2, STATKEY_LCK = 5)
+	effectedstats = list(STATKEY_CON = 2, STATKEY_WIL = 2, STATKEY_LCK = 4)
 
 /atom/movable/screen/alert/status_effect/buff/ten_united
 	name = "Undivided Camaraderie"
