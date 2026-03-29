@@ -42,7 +42,7 @@
 		/datum/advclass/wretch/outlaw,
 		/datum/advclass/wretch/poacher,
 		/datum/advclass/wretch/plaguebearer,
-		/datum/advclass/wretch/miststalker,
+		/datum/advclass/wretch/mistwalker,
 		/datum/advclass/wretch/pyromaniac,
 		/datum/advclass/wretch/vigilante,
 		/datum/advclass/wretch/munitioneer,

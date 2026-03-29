@@ -1,10 +1,10 @@
-/datum/advclass/wretch/miststalker
-	name = "Misutosutōkā" //not a massive fan of the name but alternative would be naming it Kiri no tsuiseki-sha but people may struggle with that
+/datum/advclass/wretch/mistwalker
+	name = "Mistwalker" //works
 	tutorial = "Hailing from Kazengun you were once a sacred guardian, dedicating your lyfe to protecting your chosen shrine of the twelve against brigands and fiends from beyond alike... now? Your sacred home has fallen, claimed by ruinous forces and you are banished to wander the realm. What will you find in your search for purpose?"
 	allowed_sexes = list(MALE, FEMALE)
 	allowed_races = RACES_NO_CONSTRUCT //i wonder if i will regret letting them be revs
 	allowed_patrons = ALL_KAZENGUN_PATRONS //guardian of the twelve... and saidon but no undivided
-	outfit = /datum/outfit/job/roguetown/wretch/miststalker
+	outfit = /datum/outfit/job/roguetown/wretch/mistwalker
 	subclass_languages = list(/datum/language/kazengunese)
 	class_select_category = CLASS_CAT_WARRIOR
 	category_tags = list(CTAG_WRETCH)
@@ -37,7 +37,7 @@
 	extra_context = "This subclass gains addition stat points from weapon selection, and is race-limited from: Constructs."
 	adv_stat_ceiling = list(STAT_STRENGTH = 14, STAT_CONSTITUTION = 14, STAT_WILLPOWER = 14) //no thank you to stat stacking
 
-/datum/outfit/job/roguetown/wretch/miststalker/pre_equip(mob/living/carbon/human/H)
+/datum/outfit/job/roguetown/wretch/mistwalker/pre_equip(mob/living/carbon/human/H)
 	..()
 	
 	change_origin(H, /datum/virtue/origin/kazengun, "guardian duty")
