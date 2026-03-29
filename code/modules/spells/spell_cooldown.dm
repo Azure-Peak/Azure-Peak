@@ -815,6 +815,12 @@
 
 	SEND_SIGNAL(owner, COMSIG_MOB_AFTER_SPELL_CAST, src, cast_on)
 
+	// Casting while guarding breaks guard stance with a strain
+	if(ishuman(owner))
+		var/mob/living/carbon/human/H = owner
+		if(H.has_status_effect(/datum/status_effect/buff/clash))
+			H.bad_guard(span_warning("I can't focus while casting spells!"), cheesy = TRUE)
+
 	// Sparks and smoke can only occur if there's an owner to source them from.
 	if(sparks_amt)
 		do_sparks(sparks_amt, FALSE, get_turf(owner))
