@@ -16,8 +16,8 @@
 	category_tags = list(CTAG_MERCENARY)
 	class_select_category = CLASS_CAT_RACIAL
 	cmode_music = 'sound/music/combat_dwarf.ogg'
-	extra_context = "Hornwulfs, as old-fashioned as they are, worship only the deities sanctioned by the Celestial \
-	Empire by the time of its fall." // Can't worship the Four.
+	extra_context = "The Hornwulfs worship only the deities sanctioned by the Celestial Empire by the time of \
+	its fall." // Can't worship the Four, as Dwarves are presumably too old fashioned to worship such new gods.
 
 	traits_applied = list(TRAIT_CRITICAL_RESISTANCE, TRAIT_SHIRTLESS) //TRAIT_SHIRTLESS prevents equip on the head, armor and shirt slots and enables class-specific weapons
 	subclass_stats = list(
@@ -74,7 +74,8 @@
 
 /obj/item/rogueweapon/stoneaxe/woodcut/steel/hornwulf
 	name = "hornwulf's axe"
-	desc = "A marvel of craftsdwarfship, this ornate handaxe attunes itself to those who have sworn the Oath."
+	desc = "It is by the strike of this axe, and the splendour of its wielder, that the Seven Godheads \
+	will rumble with the introduction of an immortal hero."
 	force = 26
 	possible_item_intents = list(/datum/intent/axe/cut, /datum/intent/axe/chop, /datum/intent/axe/bash)
 	gripped_intents = null
@@ -93,7 +94,9 @@
 
 /obj/item/rogueweapon/stoneaxe/battle/hornwulf
 	name = "hornwulf's greataxe"
-	desc = "A marvel of craftsdwarfship, this ornate greataxe attunes itself to those who have sworn the Oath."
+	desc = "It is possible to become a component of divinity, but it is by no means easy. \
+	This is the axe of a dwarven hero - on occassion, a grand player in the annals of history, \
+	but more frequently do these figures burn before they reach the heavens."
 	force = 20
 	force_wielded = 34 // Slightly weaker than the double bladed greataxe, but the edge doesn't dull quickly.
 	possible_item_intents = list(/datum/intent/axe/cut, /datum/intent/axe/chop, SPEAR_BASH)
@@ -130,7 +133,7 @@
 
 /obj/item/clothing/suit/roguetown/armor/regenerating/hornwulf // a bit of natural armor to offset the nudism and shitty dodge. not too hard to break but will slowly repair itself
 	name = "rough skin"
-	desc = ""
+	desc = "'YER'LL HAVE 'TAH HIT HARDER THAN THAT!'"
 	icon_state = null
 	armor = ARMOR_MAILLE
 	blocksound = SOFTHIT
@@ -170,7 +173,8 @@
 
 /obj/effect/proc_holder/spell/self/axedance
 	name = "Dance of the Axes" // rage button. gives maniac traits, some stats and removes the user's ability to dodge and parry. dunks stamina on expiration
-	desc = "You channel your divine rage and turn into an unstoppable juggernaut of steel. You will not defend yourself from attacks while it lasts."
+	desc = "You channel your divine rage and turn into an unstoppable juggernaut of steel. You will not defend \
+	yourself from attacks while it lasts."
 	overlay_state = "axedance"
 	antimagic_allowed = TRUE
 	recharge_time = 3 MINUTES
@@ -184,6 +188,7 @@
 	return TRUE
 
 #define AXEDANCE_FILTER "axedance_red"
+
 /atom/movable/screen/alert/status_effect/buff/axedance
 	name = "Dance of the Axes"
 	desc = span_bloody("I AM AN AVATAR OF DIVINE MIGHT")
