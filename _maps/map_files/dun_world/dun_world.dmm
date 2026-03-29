@@ -8337,7 +8337,7 @@
 	dir = 4
 	},
 /obj/structure/roguemachine/scomm{
-	scom_tag = "Guild - Exterior"
+	scom_tag = "Inn - Exterior"
 	},
 /turf/open/floor/rogue/cobble/mossy,
 /area/rogue/outdoors/town)
@@ -99346,7 +99346,7 @@
 	dir = 4
 	},
 /obj/structure/roguemachine/scomm{
-	scom_tag = "Inn - Exterior"
+	scom_tag = "Guild - Exterior"
 	},
 /turf/open/floor/rogue/cobble,
 /area/rogue/outdoors/town)
