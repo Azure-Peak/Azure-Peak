@@ -95,7 +95,7 @@
 /obj/item/rogueweapon/stoneaxe/battle/hornwulf
 	name = "hornwulf's greataxe"
 	desc = "It is possible to become a component of divinity, but it is by no means easy. \
-	This is the axe of a dwarven hero - on occassion, a grand player in the annals of history, \
+	This is the axe of a dwarven hero - on occasion, a grand player in the annals of history, \
 	but more frequently do these figures burn before they reach the heavens."
 	force = 20
 	force_wielded = 34 // Slightly weaker than the double bladed greataxe, but the edge doesn't dull quickly.
@@ -231,7 +231,7 @@
 
 /atom/movable/screen/alert/status_effect/debuff/axe_exhaustion
 	name = "Hornwulf Exhaustion"
-	desc = "My body is recovering from my axedance"
+	desc = "My body is recovering from my axe-dance."
 	icon_state = "debuff"
 
 /datum/status_effect/debuff/axe_exhaustion
@@ -243,7 +243,9 @@
 
 /obj/item/storage/belt/rogue/leather/hornwulf
 	name = "rugged dwarven belt"
-	desc = "The golden beard of the face plate doubles as a codpiece."
+	desc = "Just as statues of the Gods are rendered in heroic nudity, \
+	so too must a Hornwulf, an aspirant to their position, wade to battle \
+	without armour, and without garb beyond what is necessary for decency."
 	icon_state = "slayer"
 	item_state = "slayer"
 	sellprice = 50

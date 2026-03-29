@@ -439,7 +439,8 @@
 
 /obj/item/storage/hip/headhook
 	name = "head hook"
-	desc = "an iron hook for storing 6 heads"
+	desc = "A horrible contraption permitting the wearer to wear as many as \
+	six heads from their belt. How else will you prove the deed?"
 	icon = 'icons/roguetown/clothing/belts.dmi'
 	//mob_overlay_icon = 'icons/roguetown/clothing/onmob/belts.dmi' //N/A uncomment when a mob_overlay icon is made and added
 	icon_state = "ironheadhook"
@@ -456,7 +457,8 @@
 
 /obj/item/storage/hip/headhook/bronze
 	name = "bronze head hook"
-	desc = "a bronze hook for storing 12 heads"
+	desc = "A remarkable device which can hold as many as twelve heads upon it at once! \
+	A prize commodity of bounty-hunters who work at industrial scales."
 	icon = 'icons/roguetown/clothing/belts.dmi'
 	//mob_overlay_icon = 'icons/roguetown/clothing/onmob/belts.dmi'
 	icon_state = "bronzeheadhook"

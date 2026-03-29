@@ -1,6 +1,6 @@
 //Dwarf-exclusive mercenary class with unique armor setups.
 /datum/advclass/mercenary/isenban
-	name = "Isenban Smith"
+	name = "Isenban War-Smith"
 	tutorial = "When the Mountainhomes march to war, it is the Isenban that lead the vanguard. \
 	You are the pride of your clan, armed and armored with the finest craftsmanship of its finest \
 	smiths and sent far afield to gain experience in battle, and to accrue riches for your kin. \
