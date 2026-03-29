@@ -9,20 +9,21 @@
 	action_icon = 'icons/mob/actions/undividedmiracles.dmi'
 	overlay_icon = 'icons/mob/actions/undividedmiracles.dmi'
 	overlay_state = "twinned_gaze"
-	releasedrain = 10
-	chargedrain = 0
-	chargedloop = /datum/looping_sound/invokeholy
-	sound = 'sound/magic/bless.ogg'
-	associated_skill = /datum/skill/magic/holy
-	antimagic_allowed = FALSE
-	invocations = "Zwillingslichter, geleitet meinen Blick." //(Twin lights, guide my gaze)
-	invocation_type = "shout"
-	req_items = list(/obj/item/clothing/neck/roguetown/psicross)
+
 	recharge_time = 2 MINUTES
-	chargetime = 2 SECONDS
-	chargedloop = /datum/looping_sound/invokegen
-	devotion_cost = 30
+	releasedrain = 10
 	miracle = TRUE
+	devotion_cost = 30
+
+	sound = 'sound/magic/bless.ogg'
+	invocation_type = INVOCATION_SHOUT
+	invocations = "Zwillingslichter, geleitet meinen Blick." //(Twin lights, guide my gaze)
+
+	chargedloop = /datum/looping_sound/invokeholy
+	chargetime = 2 SECONDS
+
+	req_items = list(/obj/item/clothing/neck/roguetown/psicross)
+	associated_skill = /datum/skill/magic/holy
 
 /obj/effect/proc_holder/spell/self/twinned_gaze/cast(list/targets, mob/user)
 	if(!ishuman(user))
@@ -98,10 +99,12 @@
 	overlay_icon = 'icons/mob/actions/undividedmiracles.dmi'
 	overlay_state = "enkindle"
 	base_icon_state = "spell"
+
+	recharge_time = 15 SECONDS
 	releasedrain = 25
 	range = 7
-	recharge_time = 15 SECONDS
 	devotion_cost = 20
+
 	invocations = list("Entflamme.") //(Kindle)
 
 //////////////////////////////////////////////////////////////////////////////
@@ -115,24 +118,23 @@
 	action_icon = 'icons/mob/actions/undividedmiracles.dmi'
 	overlay_icon = 'icons/mob/actions/undividedmiracles.dmi'
 	overlay_state = "calming_respite"
-	releasedrain = 0
-	chargedrain = 0
-	chargetime = 0
+
+	recharge_time = 3 MINUTES
+
+	miracle = TRUE
+	devotion_cost = 30
+
+	chargetime = 1 SECONDS
+	charging_slowdown = 1
+	chargedloop = /datum/looping_sound/invokeholy
 	warnie = "sydwarning"
-	movement_interrupt = FALSE
-	no_early_release = TRUE
-	req_items = list(/obj/item/clothing/neck/roguetown/psicross)
+
 	sound = 'sound/misc/notice.ogg'
 	invocations = list("Setzt eurer großartiges Werk fort!") //(Continue your great work/s)
-	invocation_type = "shout"
+
+	req_items = list(/obj/item/clothing/neck/roguetown/psicross)
 	associated_skill = /datum/skill/magic/holy
-	antimagic_allowed = FALSE
-	recharge_time = 3 MINUTES
-	chargetime = 2 SECONDS
-	miracle = TRUE
-	charging_slowdown = 3
-	chargedloop = /datum/looping_sound/invokeholy
-	devotion_cost = 30
+
 	var/respite_healing = 3
 
 /obj/effect/proc_holder/spell/invoked/recuperation/cast(list/targets, mob/living/user)
@@ -162,9 +164,11 @@
 	action_icon = 'icons/mob/actions/undividedmiracles.dmi'
 	overlay_icon = 'icons/mob/actions/undividedmiracles.dmi'
 	overlay_state = "smite"
-	invocations = list("Geleitet meine Hand!") //("Guide my hand!")
+
 	releasedrain = 10
 	devotion_cost = 40
+
+	invocations = list("Geleitet meine Hand!") //("Guide my hand!")
 
 ////////////////////////////////////////////////////////////
 // T2 - Perseverance- Seal wounds and calm down a person. //
@@ -177,21 +181,22 @@
 	action_icon = 'icons/mob/actions/undividedmiracles.dmi'
 	overlay_icon = 'icons/mob/actions/undividedmiracles.dmi'
 	overlay_state = "perseverance"
-	releasedrain = 50
-	chargedrain = 0
+
+	recharge_time = 40 SECONDS
+	releasedrain = 40
+	range = 5
+	miracle = TRUE
+	devotion_cost = 40
+
 	chargetime = 2 SECONDS
 	chargedloop = /datum/looping_sound/invokeholy
-	range = 5
 	warnie = "sydwarning"
-	req_items = list(/obj/item/clothing/neck/roguetown/psicross)
+
 	sound = 'sound/misc/bellold.ogg'
 	invocations = list("Die Göttlichen fordern dich auf weiterzukämpfen!") //("The gods demand you to fight on!")
-	invocation_type = "shout"
+
+	req_items = list(/obj/item/clothing/neck/roguetown/psicross)
 	associated_skill = /datum/skill/magic/holy
-	antimagic_allowed = TRUE
-	recharge_time = 40 SECONDS
-	miracle = TRUE
-	devotion_cost = 50
 
 /obj/effect/proc_holder/spell/invoked/perseverance/cast(list/targets, mob/living/user)
 	if(isliving(targets[1]))
@@ -233,14 +238,15 @@
 	action_icon = 'icons/mob/actions/undividedmiracles.dmi'
 	overlay_icon = 'icons/mob/actions/undividedmiracles.dmi'
 	overlay_state = "inspiration"
-	miracle = TRUE
-	devotion_cost = 100
-	recharge_time = 25 MINUTES
-	chargetime = 0
-	chargedrain = 0
+
+	recharge_time = 25 MINUTES//Doesn't matter it's one time use
 	range = 0
+	miracle = TRUE
+	devotion_cost = 100	
+
 	req_items = list(/obj/item/clothing/neck/roguetown/psicross)
 	associated_skill = /datum/skill/magic/holy
+
 	var/chosen_bundle
 	var/list/miracle_generalist_bundle = list(
 		/obj/effect/proc_holder/spell/self/astrata_fireresist::name			= /obj/effect/proc_holder/spell/self/astrata_fireresist,
@@ -318,18 +324,22 @@
 	action_icon = 'icons/mob/actions/undividedmiracles.dmi'
 	overlay_icon = 'icons/mob/actions/undividedmiracles.dmi'
 	overlay_state = "gallows"
-	releasedrain = 50
-	associated_skill = /datum/skill/misc/music
+
 	recharge_time = 2 MINUTES
+	releasedrain = 20
 	range = 5 //Say it to their face
+	miracle = TRUE
+	devotion_cost = 50
+
 	chargetime = 2 SECONDS //All churns come with a delay
-	sound = 'sound/misc/deadbell.ogg'
-	invocations = list("begins uncontrollably giggling.")
-	invocation_type = "emote"
-	req_items = list(/obj/item/clothing/neck/roguetown/psicross)
-	movement_interrupt = FALSE
-	no_early_release = TRUE
 	chargedloop = /datum/looping_sound/invokeholy
+
+	sound = 'sound/misc/deadbell.ogg'
+	invocation_type = INVOCATION_EMOTE
+	invocations = list("begins uncontrollably giggling.")
+
+	req_items = list(/obj/item/clothing/neck/roguetown/psicross)
+	associated_skill = /datum/skill/magic/holy
 
 /obj/effect/proc_holder/spell/invoked/gallowshumor/cast(list/targets, mob/user = usr)
 	playsound(get_turf(user), 'sound/magic/mockery.ogg', 40, FALSE)
@@ -376,10 +386,12 @@
 	action_icon = 'icons/mob/actions/undividedmiracles.dmi'
 	overlay_icon = 'icons/mob/actions/undividedmiracles.dmi'
 	overlay_state = "bolster"
-	releasedrain = 40
+
 	recharge_time = 30 SECONDS
-	chargedloop = /datum/looping_sound/invokeholy
+	releasedrain = 40
+
 	chargetime = 1 SECONDS
+	chargedloop = /datum/looping_sound/invokeholy
 
 ///////////////////////////////////////////////////////////////////////////////////
 // T4 - Ten United - Select your pack of miracles. This is for acolytes/heretics //
@@ -391,16 +403,17 @@
 	action_icon = 'icons/mob/actions/undividedmiracles.dmi'
 	overlay_icon = 'icons/mob/actions/undividedmiracles.dmi'
 	overlay_state = "united"
+
 	recharge_time = 6 MINUTES
-	invocations = list("WE STAND TOGETHER!", "UNITED WE WILL PREVAIL!", "DRIVE THE FIENDS BACK!!")
-	invocation_type = "shout"
-	sound = 'sound/misc/carriage2.ogg'
 	releasedrain = 30
+	range = 5
 	miracle = TRUE
 	devotion_cost = 40
-	range = 5
-	//chargedloop = /datum/looping_sound/invokeholy
-	//chargetime = 4 SECONDS
+
+	sound = 'sound/misc/carriage2.ogg'
+	invocation_type = INVOCATION_SHOUT
+	invocations = list("WE STAND TOGETHER!", "UNITED WE WILL PREVAIL!", "DRIVE THE FIENDS BACK!!")
+
 	req_items = list(/obj/item/clothing/neck/roguetown/psicross)
 	associated_skill = /datum/skill/magic/holy
 
