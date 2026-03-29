@@ -23,10 +23,7 @@
 	)
 
 	var/attached_knife = null
-
-	// TODO: POPULATE LIST W/ VARIOUS ABILITIES FOR SELECTION ON SOUL-TAKING. GRANT SOME DEPENDING ON CLASS...?
-	// MAKE IT AN A-LIST??? IDK PROBLEM FOR LATER ME
-	var/ability_list = list()
+	var/graggar_boy_points = 0
 
 /datum/antagonist/assassin/on_gain()
 	var/mob/living/carbon/human/H = owner.current

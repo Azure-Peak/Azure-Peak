@@ -16,7 +16,7 @@
 	var/trait // trait typepath we're going to add
 
 /datum/antagonist/assassin/power/proc/purchase(mob/user)
-	if(!can_buy)
+	if(!can_buy())
 		return
 	if(!freebie)
 		graggar_boy_points -= cost
@@ -24,12 +24,24 @@
 	
 
 /datum/antagonist/assassin/power/spell/purchase(mob/user)
-		
+	..()
+	if(spell)
+		owner.AddSpell(spell)
+
+/datum/antagonist/assassin/power/trait/purchase(mob/user)
+	..()
+	if(trait)
+		ADD_TRAIT(owner.current, trait, "Graggars Gifts")
+
+/datum/antagonist/assassin/power/skill/purchase(mob/user)
+	..()
+	if((skill) && (limit))
+		owner.current.adjust_skillrank_up_to(skill, limit)
 
 /datum/antagonist/assassin/power/proc/can_buy(mob/user)
 	if(!ishuman(user))
 		return
-	if(!has_trait(user, TRAIT_ASSASSIN))
+	if(!HAS_TRAIT(user, TRAIT_ASSASSIN))
 		return
 	if(!purchasable)
 		to_chat(user, span_danger("This is not purchasable! How did you GET here?"))

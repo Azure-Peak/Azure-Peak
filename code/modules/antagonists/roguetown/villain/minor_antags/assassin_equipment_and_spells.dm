@@ -48,7 +48,6 @@ we happen to commission/code should GO IN HERE. Thanks.
 	var/last_attempted_destroy
 	var/stolen_faces = list()
 	var/mob/attached_assassin = null // if an assassin picks up a dagger, it gets "attached" to them for later use.
-	var/graggar_boy_points = 0
 	var/total_souls_taken // # of hunted targets lux-zucked
 
 	// For the sake of making these easier to edit, we're going to store these lines on the dagger.
@@ -179,7 +178,7 @@ we happen to commission/code should GO IN HERE. Thanks.
 		if(ishuman(user))
 			var/mob/living/carbon/human/H 
 			var/patron = H.patron
-			if(istype(H.patron, /datum/patron/divine/necra) || HAS_TRAIT(H, TRAIT_CLERGY))
+			if(istype(patron, /datum/patron/divine/necra) || HAS_TRAIT(H, TRAIT_CLERGY))
 				return
 				//release_profane_souls()
 	/* TODO:
@@ -321,7 +320,8 @@ we happen to commission/code should GO IN HERE. Thanks.
 	var/awarded_points = 1
 	if(is_secure_target(target))
 		awarded_points = 2
-	graggar_boy_points += awarded_points
+	var/datum/antagonist/assassin/a = user.mind.has_antag_datum(/datum/antagonist/assassin)
+	a.graggar_boy_points += awarded_points
 
 // ASSASSIN exists to scare the shit out of people who can withstand frontal gnoll assault or hide in a castle.
 // Also I hate mercenaries. Mercenaries are stupidly strong. You get bonus points 4 kicking they ass.
