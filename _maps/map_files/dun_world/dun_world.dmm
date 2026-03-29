@@ -38712,10 +38712,6 @@
 /obj/effect/spawner/lootdrop/general_loot_mid/x3,
 /turf/open/floor/rogue/blocks,
 /area/rogue/under/cavewet/bogcaves/west)
-"ilS" = (
-/obj/machinery/light/rogue/torchholder/r,
-/turf/open/floor/rogue/cobble,
-/area/rogue/outdoors/town)
 "ilV" = (
 /turf/closed/wall/mineral/rogue/wooddark,
 /area/rogue/indoors/cave/northern)
@@ -46223,6 +46219,14 @@
 	},
 /turf/open/floor/rogue/hexstone,
 /area/rogue/under/cave/dungeon1/gethsmane/inner)
+"jPF" = (
+/obj/effect/decal/edge{
+	color = "#3f3f3f";
+	dir = 1
+	},
+/obj/machinery/light/rogue/torchholder/r,
+/turf/open/floor/rogue/cobble,
+/area/rogue/outdoors/town)
 "jPH" = (
 /obj/effect/landmark/start/cook,
 /turf/open/floor/rogue/hexstone,
@@ -69597,6 +69601,7 @@
 	color = "#3f3f3f";
 	dir = 1
 	},
+/obj/machinery/light/rogue/torchholder/l,
 /turf/open/floor/rogue/cobble,
 /area/rogue/outdoors/exposed/town/keep)
 "oFm" = (
@@ -78815,6 +78820,14 @@
 /obj/structure/fluff/statue/knight/r,
 /turf/open/floor/rogue/blocks,
 /area/rogue/under/cave/goblinfort)
+"qAp" = (
+/obj/effect/decal/edge{
+	color = "#3f3f3f"
+	},
+/obj/structure/fluff/railing/wood/north,
+/obj/machinery/light/rogue/torchholder/l,
+/turf/open/floor/rogue/cobble,
+/area/rogue/outdoors/exposed/town/keep)
 "qAt" = (
 /obj/structure/stairs/fancy/r{
 	dir = 1
@@ -279987,8 +280000,8 @@ eVp
 eEA
 xqO
 xqO
-lJF
-ilS
+jPF
+sns
 sns
 vAX
 exD
@@ -283148,7 +283161,7 @@ jWw
 kLe
 kLe
 kLe
-prz
+qAp
 afY
 afY
 oFl
