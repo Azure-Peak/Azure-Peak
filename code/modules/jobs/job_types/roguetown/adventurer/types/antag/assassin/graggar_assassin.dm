@@ -1,10 +1,10 @@
-/datum/advclass/assassin/graggar_assassin
+/datum/advclass/assassin/
 	name = "Assassin"
 	tutorial = "The SINISTAR demands blood and YOU have been chosen. Your infernal dagger whispers to you the names of those who \
 	must perish. Hunt them down and put them in the ground... or face the Dark Star's punishment."
 	allowed_sexes = list(MALE, FEMALE)
 	allowed_races = RACES_ALL_KINDS
-	outfit = /datum/outfit/job/roguetown/assassin/graggar_assassin
+	outfit = /datum/outfit/job/roguetown/assassin/
 	category_tags = list(CTAG_ASSASSIN)
 	// Weighted 14
 	subclass_stats = list(
@@ -45,21 +45,24 @@
 		/datum/skill/misc/medicine = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/misc/reading = SKILL_LEVEL_NOVICE,
 		/datum/skill/craft/traps = SKILL_LEVEL_APPRENTICE,
+		/datum/skill/misc/tracking = SKILL_LEVEL_MASTER
 	)
-	extra_context = "Your patron will be set to Graggar. Your stats and/or abilities may increase over time as you rack up more kills. "
 
-/datum/outfit/job/roguetown/assassin/graggar_assassin/pre_equip(mob/living/carbon/human/H)
+/datum/outfit/job/roguetown/assassin
+	// Assassins will get to pick their outfit from this list. Unfortuately I dont have a better way to do this right now. So...
+	// It's handled in the pre-equip.
+	var/static/alist/disguises = alist(
+	"Naked" = /datum/outfit/job/roguetown/assassin/assassin_disguise,
+	"Assassin" = /datum/outfit/job/roguetown/assassin/assassin_disguise/assassin,
+	"Beggar" = /datum/outfit/job/roguetown/assassin/assassin_disguise/beggar,
+	)
+
+/datum/outfit/job/roguetown/assassin/pre_equip(mob/living/carbon/human/H)
 	..()
-	mask = /obj/item/clothing/mask/rogue/sack
-	pants = /obj/item/clothing/under/roguetown/heavy_leather_pants
-	shoes = /obj/item/clothing/shoes/roguetown/boots/leather/reinforced
-	cloak = /obj/item/clothing/cloak/poncho/evil
-	armor = /obj/item/clothing/suit/roguetown/armor/leather/heavy/coat
-	gloves = /obj/item/clothing/gloves/roguetown/angle
-	belt = /obj/item/storage/belt/rogue/leather/battleskirt/barbarian
-	wrists = /obj/item/rogueweapon/scabbard/sheath // Fashion.
-	backr = /obj/item/storage/backpack/rogue/satchel/short // fashionable and works on belt
-	shirt = /obj/item/clothing/suit/roguetown/armor/gambeson
+
+	var/choice = tgui_input_list(H, "Choose disguise", "Disguise", disguises)
+	H.equipOutfit(choice)
+
 	H.adjust_blindness(-3)
 	if(H.mind)
 		H.set_blindness(0)

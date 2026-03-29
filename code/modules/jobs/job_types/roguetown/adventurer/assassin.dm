@@ -63,10 +63,14 @@
 	// FETCH LAUGH FROM:
 	// https://github.com/Darkrp-community/OpenKeep
 	job_subclasses = list(
-		/datum/advclass/assassin/graggar_assassin,
-		/datum/advclass/assassin_ranger,
-		/datum/advclass/assassin_poisoner,
-		/datum/advclass/assassin_hitman,
+		/datum/advclass/assassin/
+	)
+
+/datum/outfit/job/roguetown/assassin
+	var/static/alist/disguises = alist(
+	"Naked" = /datum/outfit/job/roguetown/assassin/assassin_disguise,
+	"Assassin" = /datum/outfit/job/roguetown/assassin/assassin_disguise/assassin,
+	"Beggar" = /datum/outfit/job/roguetown/assassin/assassin_disguise/beggar,
 	)
 
 /datum/job/roguetown/assassin/after_spawn(mob/living/L, mob/M, latejoin = TRUE)
