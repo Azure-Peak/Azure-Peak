@@ -1156,6 +1156,7 @@
 	sellprice = 3
 	grid_width = 32
 	grid_height = 32
+	w_class = WEIGHT_CLASS_TINY
 
 /obj/item/soulthread/examine(mob/user)
 	. = ..()
@@ -1201,6 +1202,9 @@
 	var/turf/T = get_turf(target)
 	if(!T)
 		return
+	for(var/obj/item/soulthread/other in T)
+		if(!other)
+			return
 
 	to_chat(user, "<span class='notice'>You begin gathering the scattered threads...</span>")
 
@@ -1232,7 +1236,8 @@
 	icon = 'icons/roguetown/underworld/enigma_husks.dmi'
 	icon_state = "soultoken"
 	sellprice = 30
-
+	w_class = WEIGHT_CLASS_TINY
+	dropshrink = 0.5
 
 /obj/structure/ritualcircle/eora
 	name = "Rune of Love"
