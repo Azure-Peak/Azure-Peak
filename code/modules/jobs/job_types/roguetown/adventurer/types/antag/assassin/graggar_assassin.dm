@@ -23,7 +23,7 @@
 		/datum/skill/combat/axes = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/combat/maces = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/combat/swords = SKILL_LEVEL_APPRENTICE,
-		// HITLER
+		// ZIZO
 		/datum/skill/combat/wrestling = SKILL_LEVEL_EXPERT, // for the love of god i gave them 11 str may this not be a mistake
 		/datum/skill/combat/unarmed = SKILL_LEVEL_JOURNEYMAN,
 		// RANGED WEAPONS
