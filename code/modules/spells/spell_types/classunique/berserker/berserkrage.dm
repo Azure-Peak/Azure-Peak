@@ -6,13 +6,13 @@
 	var/ragedmgbuff = 0
 	if(HAS_TRAIT (L, TRAIT_NOPAIN)) //lickers and whatever other things get locked to base buff
 		return 0
-	if(brute + burn > 200)
+	if(brute + burn > 150)
 		ragedmgbuff = 1
-	if(brute + burn > 400)
+	if(brute + burn > 300)
 		ragedmgbuff = 2
-	if(brute + burn > 600)
+	if(brute + burn > 500)
 		ragedmgbuff = 3
-	if(brute + burn > 800)
+	if(brute + burn > 700)
 		ragedmgbuff = 4
 	return ragedmgbuff
 
@@ -86,8 +86,8 @@
 /datum/status_effect/buff/rage_stamina
 	id = "rage stamina"
 	alert_type = /atom/movable/screen/alert/status_effect/buff/rage_stamina
-	duration = 20 SECONDS
-	var/healing_on_tick = 8
+	duration = 25 SECONDS
+	var/healing_on_tick = 12
 	var/tech_healing_modifier = 1
 
 /datum/status_effect/buff/rage_stamina/tick()
