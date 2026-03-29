@@ -7,7 +7,7 @@
 	cmode_music = 'sound/music/combat_ozium.ogg'
 	class_select_category = CLASS_CAT_ACCURSED
 	category_tags = list(CTAG_WRETCH)
-	traits_applied = list(TRAIT_PSYCHOSIS, TRAIT_BLOOD_RESISTANCE, TRAIT_DECEIVING_MEEKNESS, TRAIT_EMPATH, TRAIT_NOSTINK, TRAIT_NOMOOD, TRAIT_NOSLEEP) //they'll choose their defense skill later
+	traits_applied = list(TRAIT_PSYCHOSIS, TRAIT_BLOOD_RESISTANCE, TRAIT_DECEIVING_MEEKNESS, TRAIT_EMPATH, TRAIT_NOSTINK, TRAIT_NOMOOD, TRAIT_NOSLEEP, TRAIT_ORGAN_EATER, TRAIT_NASTY_EATER) //they'll choose their defense skill later
 	maximum_possible_slots = 2 //might reduce to 1, crit resist makes a big flare. 
 	extra_context = "This subclass, like all wretch subclasses, is still subject to the elevated rules and expectations that wretches must follow. You are held to a higher roleplay standard than everyone else, and your psychosis is not an OOC excuse for your gameplay to exclusively be killing others. Your character might be an insidious killer - but you are merely an actor, sharing the stage with everyone else."
 	subclass_stats = list(
@@ -43,7 +43,7 @@
 	..()
 	// head = /obj/item/clothing/head/roguetown/helmet/kettle
 	pants = /obj/item/clothing/under/roguetown/heavy_leather_pants
-	armor = /obj/item/clothing/suit/roguetown/armor/leather/heavy/jacket 
+	armor = /obj/item/clothing/suit/roguetown/armor/leather/heavy/coat
 	shirt = /obj/item/clothing/suit/roguetown/armor/gambeson/heavy //skin armor AND crit resist? that could never happen. that would be crazy.
 	backl = /obj/item/storage/backpack/rogue/satchel/short
 	belt = /obj/item/storage/belt/rogue/leather
