@@ -7,7 +7,7 @@
 	Despite this prestige, you have a ways still to go; you are only a smith, a junior member of \
 	your clan's company, equipped with relatively light equipment and expected to help maintain the \
 	arms and armor of your superiors. Fight with a stalwart spirit, serve with honor, and perhaps \
-	one day you too will be entrusted with the greatest of your company's equipment."
+	one day you too will be entrusted with the most exceptional of your company's equipment."
 	allowed_sexes = list(MALE, FEMALE)
 	allowed_races = list(
 		/datum/species/dwarf,
@@ -76,11 +76,11 @@
 	name = "Isenban Dreng"
 	tutorial = "Dwarven steel is the envy of the world. You are a member of your clan's Isenban \
 	company, a formation of professional warriors entrusted with the finest craftsmanship your clan \
-	has to offer - and of your company you are among the finest equipped, having spent many years \
+	has to offer. Of your company you are among the finest equipped, having spent many years \
 	in service as a smith to earn this honor. Until your kin have need of you, you travel through \
 	foreign lands in service to men and elves and things further afield, accruing your fortune and \
 	reputation as a mercenary beyond equal. Serve your employers with stalwart pride, do nothing \
-	to dishonor your kin, and trust in the perfection of your arms to see you through any battle."
+	to dishonor your kin, and trust in the perfection of your arms to see you through any ordeal."
 	outfit = /datum/outfit/job/roguetown/mercenary/isenban_soldier
 	traits_applied = list(TRAIT_HEAVYARMOR)
 	subclass_stats = list(
@@ -136,7 +136,9 @@
 // Soldier: Full plate equivalent — ARMOR_PLATE with steel-tier integrity
 /obj/item/clothing/suit/roguetown/armor/plate/full/dwarven
 	name = "isenban dwarven plate"
-	desc = "A standard, layered plate worn by many dwarven troops."
+	desc = "The pride of the Mountainhomes, and the progenitor of many of their victories; \
+	a multi-layered set of dwarven steel plate designed to fit a stout figure. By these means \
+	will tales of triumph be written, to be retold to the next generation."
 	icon = 'icons/roguetown/clothing/special/race_armor.dmi'
 	mob_overlay_icon = 'icons/roguetown/clothing/special/onmob/race_armor.dmi'
 	allowed_race = list(/datum/species/dwarf, /datum/species/dwarf/mountain)
@@ -150,7 +152,9 @@
 // Smith: Maille-tier protection, medium armor class
 /obj/item/clothing/suit/roguetown/armor/plate/full/dwarven/smith
 	name = "isenban splint apron"
-	desc = "A mixture of plate and maille, worn by dwarven smiths. It cannot be worked on without intrinsic dwarven knowledge."
+	desc = "This is what qualifies as light armour in the throngs of the Mountainhomes; thin steel \
+	plate, under which is layered dense maille. Dwarves can rarely be said to leave things to chance. \
+	Affectionally dubbed an 'apron' by the soldiers of Isenban companies, as it is usually worn by smiths."
 	icon_state = "dsmithchest"
 	item_state = "dsmithchest"
 	armor = ARMOR_PLATE
