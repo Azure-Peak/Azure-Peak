@@ -20,7 +20,7 @@
 	sound = 'sound/magic/bless.ogg'
 	associated_skill = /datum/skill/magic/holy
 	antimagic_allowed = FALSE
-	invocations = "Zwillingslichter, geleitet meinen Blick!" //(Twin lights, guide my gaze)
+	invocations = "Zwillingslichter, geleitet meinen Blick." //(Twin lights, guide my gaze)
 	invocation_type = "shout"
 	req_items = list(/obj/item/clothing/neck/roguetown/psicross)
 	recharge_time = 2 MINUTES
@@ -107,16 +107,16 @@
 	range = 7
 	recharge_time = 15 SECONDS
 	devotion_cost = 20
-	invocations = list("Kindle.")
+	invocations = list("Aufflammen.") //(Kindle)
 
-/////////////////////////////////////////////////////////////////////////////////
-// T1 - Calming Respite - Restore ENERGY to a target and provide healing buff. //
-/////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////
+// T1 - Recuperation - Restore ENERGY to a target and provide healing buff. //
+//////////////////////////////////////////////////////////////////////////////
 //Malum + Pestra
 
-/obj/effect/proc_holder/spell/invoked/calmingrespite
-	name = "Calming Respite"
-	desc = "Restores the targets Energy and provides healing buff. Twice as effective on someone else."
+/obj/effect/proc_holder/spell/invoked/recuperation
+	name = "Recuperation"
+	desc = "Restores the targets Energy and provides healing buff. Twice as effective on target other than yourself."
 	action_icon = 'icons/mob/actions/undividedmiracles.dmi'
 	overlay_icon = 'icons/mob/actions/undividedmiracles.dmi'
 	overlay_state = "calming_respite"
@@ -140,7 +140,7 @@
 	devotion_cost = 30
 	var/respite_healing = 3
 
-/obj/effect/proc_holder/spell/invoked/calmingrespite/cast(list/targets, mob/living/user)
+/obj/effect/proc_holder/spell/invoked/recuperation/cast(list/targets, mob/living/user)
 	. = ..()
 	var/const/starminatoregen = 250 // How much stamina should the spell give back to the caster.
 	var/mob/living/carbon/target = targets[1]
@@ -157,17 +157,17 @@
 		show_visible_message(target, "As [user] intones the incantation, vibrant flames swirl around them, a dance of energy flowing towards [target].", "As [user] intones the incantation, vibrant flames swirl around them, a dance of energy flowing towards you. You feel refreshed.")
 
 
-///////////////////////////////////////////////////////////////////
-// T1 - Smite - Slow down a target, same as Ravox divine strike. //
-///////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////
+// T1 - Rending Strike - Slow down a target, same as Ravox divine strike. //
+////////////////////////////////////////////////////////////////////////////
 //Heretic + pick from pack
 
 /obj/effect/proc_holder/spell/self/divine_strike/undivided
-	name = "Hindering Strike"
+	name = "Rending Strike"
 	action_icon = 'icons/mob/actions/undividedmiracles.dmi'
 	overlay_icon = 'icons/mob/actions/undividedmiracles.dmi'
 	overlay_state = "smite"
-	invocations = list("Stand your ground!")
+	invocations = list("Geleitet meine Hand!") //("Guide my hand!")
 	releasedrain = 10
 	devotion_cost = 40
 
@@ -190,11 +190,11 @@
 	warnie = "sydwarning"
 	req_items = list(/obj/item/clothing/neck/roguetown/psicross)
 	sound = 'sound/misc/bellold.ogg'
-	invocations = list("Let their love fill you whole!")
+	invocations = list("Die Göttlichen fordern dich auf weiterzukämpfen!") //("The gods demand you to fight on!")
 	invocation_type = "shout"
 	associated_skill = /datum/skill/magic/holy
 	antimagic_allowed = TRUE
-	recharge_time = 30 SECONDS
+	recharge_time = 40 SECONDS
 	miracle = TRUE
 	devotion_cost = 50
 
@@ -249,11 +249,11 @@
 	var/chosen_bundle
 	var/list/miracle_generalist_bundle = list(
 		/obj/effect/proc_holder/spell/self/astrata_fireresist::name			= /obj/effect/proc_holder/spell/self/astrata_fireresist,
-		/obj/effect/proc_holder/spell/invoked/darkvision/miracle::name		= /obj/effect/proc_holder/spell/invoked/darkvision/miracle,
+		/obj/effect/proc_holder/spell/invoked/spiderspeak::name				= /obj/effect/proc_holder/spell/invoked/spiderspeak,
 		/obj/effect/proc_holder/spell/invoked/invisibility/miracle::name	= /obj/effect/proc_holder/spell/invoked/invisibility/miracle,
 		/obj/effect/proc_holder/spell/targeted/blesscrop::name				= /obj/effect/proc_holder/spell/targeted/blesscrop,
 		/obj/effect/proc_holder/spell/invoked/eora_blessing::name			= /obj/effect/proc_holder/spell/invoked/eora_blessing,
-		/obj/effect/proc_holder/spell/invoked/conjure_tool::name			= /obj/effect/proc_holder/spell/invoked/conjure_tool,
+		/datum/action/cooldown/spell/arcyne_forge/miracle::name				= /datum/action/cooldown/spell/arcyne_forge/miracle,
 	)
 	var/list/miracle_acolyte_bundle = list(
 		/obj/effect/proc_holder/spell/invoked/diagnose::name			= /obj/effect/proc_holder/spell/invoked/diagnose,
@@ -326,7 +326,7 @@
 	associated_skill = /datum/skill/misc/music
 	recharge_time = 2 MINUTES
 	range = 5 //Say it to their face
-	chargetime = 3 SECONDS //All churns come with a delay
+	chargetime = 2 SECONDS //All churns come with a delay
 	sound = 'sound/misc/deadbell.ogg'
 	invocations = list("begins uncontrollably giggling.")
 	invocation_type = "emote"

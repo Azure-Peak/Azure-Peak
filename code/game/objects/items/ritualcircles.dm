@@ -1334,7 +1334,7 @@
 	backl = /obj/item/rogueweapon/sword/long/undivided
 	backr = /obj/item/rogueweapon/shield/tower/holysee
 
-	H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/mending/lesser)
+	H.mind.AddSpell(new /datum/action/cooldown/spell/mending/lesser)
 
 /obj/structure/ritualcircle/undivided/proc/undividedaura(mob/living/carbon/human/target)
 	var/undivided_cockblock = target.get_skill_level(/datum/skill/magic/holy)
