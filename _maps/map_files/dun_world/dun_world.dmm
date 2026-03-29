@@ -14778,11 +14778,6 @@
 /obj/item/ingot/iron,
 /turf/open/floor/rogue/ruinedwood/turned,
 /area/rogue/indoors/shelter)
-"djP" = (
-/obj/structure/fluff/railing/corner/north_east,
-/obj/structure/flora/roguegrass/bush/wall/tall,
-/turf/open/floor/rogue/grassred,
-/area/rogue/outdoors/town)
 "djT" = (
 /obj/structure/mineral_door/wood{
 	locked = 1;
@@ -19382,10 +19377,6 @@
 	},
 /turf/open/floor/rogue/dirt,
 /area/rogue/under/cave/scarymaze)
-"eir" = (
-/obj/structure/fluff/railing/corner,
-/turf/open/floor/rogue/grassred,
-/area/rogue/outdoors/town)
 "eis" = (
 /obj/structure/fluff/railing/border{
 	dir = 10;
@@ -114152,13 +114143,6 @@
 /obj/effect/decal/remains/wolf,
 /turf/open/floor/rogue/cobble,
 /area/rogue/under/underdark/north)
-"xUq" = (
-/obj/effect/spawner/roguemap/stump,
-/obj/structure/fluff/railing/border/west{
-	dir = 6
-	},
-/turf/open/floor/rogue/dirt,
-/area/rogue/outdoors/town)
 "xUr" = (
 /obj/machinery/light/small/broken{
 	dir = 4
@@ -275890,12 +275874,12 @@ pWT
 daQ
 daQ
 daQ
-wMX
-xUq
+iub
+njB
+quK
+xNl
 uJY
-iub
-iub
-iub
+uJY
 uBc
 ssQ
 qSr
@@ -276343,11 +276327,11 @@ daQ
 daQ
 daQ
 iub
-quK
-xNl
-uJY
-uJY
-djP
+pWT
+aPb
+ffX
+ffX
+ffX
 cDX
 uBc
 uBc
@@ -276795,11 +276779,11 @@ pWT
 daQ
 fpx
 iub
-aPb
-ffX
-ffX
-ffX
-eir
+daQ
+hvv
+hvv
+hvv
+daQ
 daQ
 wob
 daQ
