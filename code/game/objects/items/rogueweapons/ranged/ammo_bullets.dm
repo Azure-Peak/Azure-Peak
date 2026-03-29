@@ -268,7 +268,7 @@
 /obj/projectile/bullet/reusable/sling_bullet/heavy_sling_bullet
 	name = "heavy sling bullet"
 	icon_state = "heavy_proj"
-	damage = 60 // Breaks equipments
+	damage = 45 // Breaks equipments
 	ammo_type = /obj/item/ammo_casing/caseless/rogue/sling_bullet/heavy_sling_bullet
 	speed = HEAVY_AMMO_SPEED
 	ricochets_max = 0
