@@ -6,7 +6,7 @@
 	force = 22
 	force_wielded = 25
 	possible_item_intents = list(/datum/intent/sword/cut/arming, /datum/intent/sword/thrust/arming, /datum/intent/sword/strike)
-	gripped_intents = list(/datum/intent/sword/cut/arming, /datum/intent/sword/thrust/arming, /datum/intent/sword/strike)
+	gripped_intents = null
 	damage_deflection = 14
 	icon_state = "sword1"
 	sheathe_icon = "sword1"
@@ -1282,8 +1282,8 @@
 	inhand_y_dimension = 64
 	dropshrink = 0.75
 	possible_item_intents = list(/datum/intent/sword/thrust/rapier, /datum/intent/sword/cut/rapier)
-	special = /datum/special_intent/piercing_lunge
 	gripped_intents = null
+	special = /datum/special_intent/piercing_lunge
 	parrysound = list(
 		'sound/combat/parry/bladed/bladedthin (1).ogg',
 		'sound/combat/parry/bladed/bladedthin (2).ogg',

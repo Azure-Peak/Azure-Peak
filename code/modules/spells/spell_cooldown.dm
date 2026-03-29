@@ -113,9 +113,11 @@
 	/// Required worn items to cast.
 	var/list/required_items
 
-	/// Skill associated with spell scaling (charge time, cost adjustments).
+	/// Skill associated with spell scaling.
+	/// NOT FUNCTIONALLY USED ATM FOR MAGE SPELLS. ON PURPOSE BY DESIGN (Only one source of scaling). If you want alternative scaling, you gotta hook it in yourself
 	var/associated_skill = /datum/skill/magic/arcane
 	/// Stat associated with spell scaling (charge time, cost adjustments).
+	/// Set to NULL if you don't want any kind of scaling (positive or negative)
 	var/associated_stat = STATKEY_INT
 
 	// Pointed vars
@@ -502,19 +504,45 @@
 		return TRUE
 	return FALSE
 
-/// Adjust the cooldown time based on INT and armor.
-/// Matches proc_holder's calculate_cooldown from PR #6316.
+/// Returns the caster's associated stat value for this spell's scaling.
+/// Returns the scaling threshold (no effect) if associated_stat is null.
+/datum/action/cooldown/spell/proc/get_caster_stat(mob/living/caster)
+	if(!associated_stat)
+		return SPELL_SCALING_THRESHOLD
+	return caster.get_stat_level(associated_stat)
+
+/// Returns a display-friendly label for this spell's associated stat.
+/datum/action/cooldown/spell/proc/get_stat_label()
+	switch(associated_stat)
+		if(STATKEY_STR)
+			return "Strength"
+		if(STATKEY_PER)
+			return "Perception"
+		if(STATKEY_INT)
+			return "Intelligence"
+		if(STATKEY_CON)
+			return "Constitution"
+		if(STATKEY_WIL)
+			return "Willpower"
+		if(STATKEY_SPD)
+			return "Speed"
+		if(STATKEY_LCK)
+			return "Fortune"
+	return "Intelligence"
+
+/// Adjust the cooldown time based on associated_stat and armor.
 /datum/action/cooldown/spell/proc/get_adjusted_cooldown()
 	var/mob/living/living_owner = owner
 	var/base = initial(cooldown_time)
 	var/newcd = base
 
-	// INT scaling
-	if(living_owner.STAINT > SPELL_SCALING_THRESHOLD)
-		var/diff = min(living_owner.STAINT, SPELL_POSITIVE_SCALING_THRESHOLD) - SPELL_SCALING_THRESHOLD
+	// Stat scaling
+	var/stat_value = get_caster_stat(living_owner)
+	if(stat_value > SPELL_SCALING_THRESHOLD)
+		var/diff = min(stat_value, SPELL_POSITIVE_SCALING_THRESHOLD) - SPELL_SCALING_THRESHOLD
 		newcd -= base * diff * COOLDOWN_REDUCTION_PER_INT
-	else if(living_owner.STAINT < SPELL_SCALING_THRESHOLD)
-		var/diff = SPELL_SCALING_THRESHOLD - living_owner.STAINT
+	else if(stat_value < SPELL_SCALING_THRESHOLD)
+		var/diff = SPELL_SCALING_THRESHOLD - stat_value
 		newcd += base * diff * COOLDOWN_REDUCTION_PER_INT
 
 	// Armor penalties on cooldown, not stamina cost
@@ -534,8 +562,7 @@
 
 	return newcd
 
-/// Adjust stamina cost based on INT only.
-/// Matches proc_holder's calculate_fatigue_drain from PR #6316 — no skill, no armor.
+/// Adjust resource cost based on the spell's associated_stat.
 /datum/action/cooldown/spell/proc/get_adjusted_cost(base_cost)
 	if(base_cost <= 0)
 		return 0
@@ -543,11 +570,12 @@
 	var/mob/living/living_owner = owner
 	var/new_cost = base_cost
 
-	if(living_owner.STAINT > SPELL_SCALING_THRESHOLD)
-		var/diff = min(living_owner.STAINT, SPELL_POSITIVE_SCALING_THRESHOLD) - SPELL_SCALING_THRESHOLD
+	var/stat_value = get_caster_stat(living_owner)
+	if(stat_value > SPELL_SCALING_THRESHOLD)
+		var/diff = min(stat_value, SPELL_POSITIVE_SCALING_THRESHOLD) - SPELL_SCALING_THRESHOLD
 		new_cost -= base_cost * diff * FATIGUE_REDUCTION_PER_INT
-	else if(living_owner.STAINT < SPELL_SCALING_THRESHOLD)
-		var/diff = SPELL_SCALING_THRESHOLD - living_owner.STAINT
+	else if(stat_value < SPELL_SCALING_THRESHOLD)
+		var/diff = SPELL_SCALING_THRESHOLD - stat_value
 		new_cost += base_cost * diff * FATIGUE_REDUCTION_PER_INT
 
 	// Weapon-in-hand penalty
@@ -1087,6 +1115,13 @@
 			return TRUE
 
 		if(SPELL_COST_STAMINA)
+			var/used_cost = get_adjusted_cost(base_cost)
+			if(used_cost <= 0)
+				return TRUE
+			if(caster.stamina + used_cost > caster.max_stamina)
+				if(feedback)
+					owner.balloon_alert(owner, "Too exhausted to cast!")
+				return FALSE
 			return TRUE
 
 		if(SPELL_COST_ENERGY)
@@ -1260,18 +1295,20 @@
 			return "Devotion cost"
 	return "Cost"
 
-/// Breakdown of cooldown modifiers for examine. Matches proc_holder's get_cooldown_breakdown.
+/// Breakdown of cooldown modifiers for examine.
 /datum/action/cooldown/spell/proc/get_cooldown_breakdown(mob/living/user)
 	var/list/breakdown = list()
 	var/base = initial(cooldown_time)
-	if(user.STAINT > SPELL_SCALING_THRESHOLD)
-		var/diff = min(user.STAINT, SPELL_POSITIVE_SCALING_THRESHOLD) - SPELL_SCALING_THRESHOLD
-		var/int_mod = base * diff * COOLDOWN_REDUCTION_PER_INT
-		breakdown += span_smallgreen("  Intelligence: -[DisplayTimeText(int_mod)]")
-	else if(user.STAINT < SPELL_SCALING_THRESHOLD)
-		var/diff = SPELL_SCALING_THRESHOLD - user.STAINT
-		var/int_mod = base * diff * COOLDOWN_REDUCTION_PER_INT
-		breakdown += span_smallred("  Intelligence: +[DisplayTimeText(int_mod)]")
+	var/stat_value = get_caster_stat(user)
+	var/stat_label = get_stat_label()
+	if(stat_value > SPELL_SCALING_THRESHOLD)
+		var/diff = min(stat_value, SPELL_POSITIVE_SCALING_THRESHOLD) - SPELL_SCALING_THRESHOLD
+		var/stat_mod = base * diff * COOLDOWN_REDUCTION_PER_INT
+		breakdown += span_smallgreen("  [stat_label]: -[DisplayTimeText(stat_mod)]")
+	else if(stat_value < SPELL_SCALING_THRESHOLD)
+		var/diff = SPELL_SCALING_THRESHOLD - stat_value
+		var/stat_mod = base * diff * COOLDOWN_REDUCTION_PER_INT
+		breakdown += span_smallred("  [stat_label]: +[DisplayTimeText(stat_mod)]")
 	if(!user.check_armor_skill())
 		var/armor_mod = base * UNTRAINED_ARMOR_CD_PENALTY
 		breakdown += span_smallred("  Untrained armor: +[DisplayTimeText(armor_mod)]")
@@ -1286,17 +1323,19 @@
 			breakdown += span_smallred("  Armor weight: +[DisplayTimeText(armor_mod)]")
 	return breakdown
 
-/// Breakdown of stamina/energy cost modifiers for examine. INT only, matching PR #6316.
+/// Breakdown of resource cost modifiers for examine.
 /datum/action/cooldown/spell/proc/get_fatigue_breakdown(mob/living/user, base_cost)
 	var/list/breakdown = list()
-	if(user.STAINT > SPELL_SCALING_THRESHOLD)
-		var/diff = min(user.STAINT, SPELL_POSITIVE_SCALING_THRESHOLD) - SPELL_SCALING_THRESHOLD
-		var/int_mod = base_cost * diff * FATIGUE_REDUCTION_PER_INT
-		breakdown += span_smallgreen("  Intelligence: -[int_mod]")
-	else if(user.STAINT < SPELL_SCALING_THRESHOLD)
-		var/diff = SPELL_SCALING_THRESHOLD - user.STAINT
-		var/int_mod = base_cost * diff * FATIGUE_REDUCTION_PER_INT
-		breakdown += span_smallred("  Intelligence: +[int_mod]")
+	var/stat_value = get_caster_stat(user)
+	var/stat_label = get_stat_label()
+	if(stat_value > SPELL_SCALING_THRESHOLD)
+		var/diff = min(stat_value, SPELL_POSITIVE_SCALING_THRESHOLD) - SPELL_SCALING_THRESHOLD
+		var/stat_mod = base_cost * diff * FATIGUE_REDUCTION_PER_INT
+		breakdown += span_smallgreen("  [stat_label]: -[stat_mod]")
+	else if(stat_value < SPELL_SCALING_THRESHOLD)
+		var/diff = SPELL_SCALING_THRESHOLD - stat_value
+		var/stat_mod = base_cost * diff * FATIGUE_REDUCTION_PER_INT
+		breakdown += span_smallred("  [stat_label]: +[stat_mod]")
 	return breakdown
 
 /// Intercept middle-click MouseDown for non-charge V2 spells.

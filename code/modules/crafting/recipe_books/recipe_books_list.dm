@@ -192,6 +192,7 @@
 	wiki_name = "Miracles"
 	wiki_section = "Guides"
 	can_spawn = FALSE
+	wiki_only = TRUE
 	icon_state = "book4_0"
 	base_icon_state = "book4"
 
@@ -204,3 +205,18 @@
 		if(spell_path && !(spell_path in unique_spells))
 			unique_spells += spell_path
 	types = unique_spells
+
+/obj/item/recipe_book/spell_list
+	name = "Spell List"
+	wiki_name = "Spell List"
+	wiki_section = "Guides"
+	can_spawn = FALSE
+	wiki_only = TRUE
+	icon_state = "book4_0"
+	base_icon_state = "book4"
+
+/obj/item/recipe_book/spell_list/open_wiki_entry(mob/user)
+	var/datum/aspect_viewer/viewer = new(user)
+	viewer.ephemeral = TRUE
+	viewer.ui_interact(user)
+	return TRUE
