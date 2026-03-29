@@ -111,6 +111,9 @@
 
 	resistance_flags = FLAMMABLE
 
+/obj/item/bodypart/proc/operator""()
+	return "\proper"+name
+
 /obj/item/bodypart/proc/adjust_marking_overlays(var/list/appearance_list)
 	return
 
@@ -673,7 +676,7 @@
 		override_color = SKIN_COLOR_ROT
 	if(is_organic_limb && should_draw_greyscale && !skeletonized)
 		var/draw_color =  mutation_color || species_color || skin_tone
-		if(rotted || (owner && HAS_TRAIT(owner, TRAIT_ROTMAN)))
+		if(rotted || (owner && HAS_TRAIT(owner, TRAIT_ROTMAN) && !owner.mind))
 			draw_color = SKIN_COLOR_ROT
 		if(draw_color)
 			limb.color = "#[draw_color]"

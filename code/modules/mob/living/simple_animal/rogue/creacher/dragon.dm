@@ -200,7 +200,7 @@
     light_color = "#f8af07"
     light_outer_range = 2
     damage = 40
-    flag = "magic"
+    flag = "fire"
     hitsound = 'sound/blank.ogg'
 
     //explosion values

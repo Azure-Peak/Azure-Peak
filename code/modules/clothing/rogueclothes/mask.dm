@@ -208,30 +208,6 @@
 	desc = "Runes and wards, meant for daemons; the gold has somehow rusted in unnatural, impossible agony. The gold is now worthless, but that is not why the Naledi wear them."
 	sellprice = 20
 
-////////////////////////
-// Triumph Exclusive! //
-////////////////////////
-
-//Purchasable via Triumphs. Blacklisted from the Stockpile and fitted with a reduced saleprice.
-/obj/item/clothing/mask/rogue/lordmask/triumph
-	name = "ornate golden halfmask"
-	desc = "An ornate halfmask of pure, glistening gold. What lies underneath to cradle the face: a besilked cushion, or cold alloys?"
-	sellprice = 33
-
-/obj/item/clothing/mask/rogue/facemask/goldmask/triumph
-	name = "ornate golden mask"
-	desc = "An ornate mask of pure, glistening gold. If you have no face to call your own, then can you truly call yourself humen at all?"
-	sellprice = 77
-	smeltresult = /obj/item/clothing/mask/rogue/lordmask/triumph
-
-/obj/item/clothing/mask/rogue/facemask/goldmaskc/triumph
-	name = "ornate golden mask"
-	desc = "An ornate mask of pure, glistening gold. If you have no face to call your own, then can you truly call yourself humen at all?"
-	sellprice = 77
-	smeltresult = /obj/item/clothing/mask/rogue/lordmask/triumph
-
-//
-
 /obj/item/clothing/mask/rogue/sack
 	name = "sack mask"
 	desc = "A brown sack with eyeholes cut into it."
@@ -386,6 +362,32 @@
 	desc = "A heavy copper mask that conceals and protects the face, though not very effectively."
 	armor = ARMOR_PLATE
 	smeltresult = /obj/item/ingot/copper
+
+/obj/item/clothing/mask/rogue/facemask/bronze
+	name = "bronze mask"
+	desc = "Glimmering bronze, curved to veil its wearer's face from both judgement and harm."
+	armor = ARMOR_BRONZE
+	armor_class = ARMOR_CLASS_LIGHT
+	icon_state = "bronzemask"
+	item_state = "bronzemask"
+	max_integrity = 150
+	smeltresult = /obj/item/ingot/bronze
+
+/obj/item/clothing/mask/rogue/facemask/bronze/classic
+	name = "bronze death mask"
+	icon_state = "bronzemask_legacy"
+	item_state = "bronzemask_legacy"
+	desc = "Glimmering bronze, meticuliusly shaped to mimic the guise of another. One of civilization's oldest superstitions is the belief that donning such masks would impart a sliver of the mimicked facebearer's power unto its wearer."
+
+/obj/item/clothing/mask/rogue/facemask/bronze/anthro
+	name = "bronze mask"
+	icon_state = "bronzemask_snout"
+	item_state = "bronzemask_snout"
+
+/obj/item/clothing/mask/rogue/facemask/bronze/classic/anthro
+	name = "bronze death mask"
+	icon_state = "bronzemask_legacy_snout"
+	item_state = "bronzemask_legacy_snout"
 
 /obj/item/clothing/mask/rogue/facemask/psydonmask
 	name = "psydonic mask"

@@ -396,7 +396,7 @@
 
 	if((storage_flags & STORAGE_NO_EQUIPPED_ACCESS) && (storing.item_flags & IN_INVENTORY))
 		if(!no_message)
-			to_chat(user, span_warning("[storing] is too bulky! I need to set it down before I can access it's contents!"))
+			to_chat(user, span_warning("[storing] is too bulky! I need to set it down before I can access its contents!"))
 		return FALSE
 	else if((storage_flags & STORAGE_NO_WORN_ACCESS) && (storing.item_flags & IN_INVENTORY) && !(storing in user.held_items))
 		if(!no_message)
@@ -410,7 +410,7 @@
 
 	if(storage_flags & STORAGE_NO_EQUIPPED_ACCESS)
 		if(!no_message)
-			to_chat(user, span_warning("[storing] is too bulky! I need to set it down before I can access it's contents!"))
+			to_chat(user, span_warning("[storing] is too bulky! I need to set it down before I can access its contents!"))
 		return FALSE
 	else if((storage_flags & STORAGE_NO_WORN_ACCESS) && !(storing in user.held_items))
 		if(!no_message)

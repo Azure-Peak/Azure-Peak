@@ -1,5 +1,5 @@
-/proc/mouse_angle_from_client(client/client)
-	var/list/mouse_control = params2list(client.mouseParams)
+/proc/mouse_angle_from_client(client/client, click_params)
+	var/list/mouse_control = click_params ? params2list(click_params) : params2list(client.mouseParams)
 	if(mouse_control["screen-loc"] && client)
 		var/list/screen_loc_params = splittext(mouse_control["screen-loc"], ",")
 		var/list/screen_loc_X = splittext(screen_loc_params[1],":")
@@ -11,7 +11,7 @@
 		var/screenviewY = screenview[2] * world.icon_size
 		var/ox = round(screenviewX/2) - client.pixel_x //"origin" x
 		var/oy = round(screenviewY/2) - client.pixel_y //"origin" y
-		var/angle = SIMPLIFY_DEGREES(ATAN2(y - oy, x - ox))
+		var/angle = SIMPLIFY_DEGREES(ATAN2(x - ox, y - oy))
 		return angle
 
 //Wow, specific name!

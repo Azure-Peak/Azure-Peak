@@ -25,6 +25,37 @@
 		M.adjustOrganLoss(ORGAN_SLOT_EYES, -1 * REAGENTS_EFFECT_MULTIPLIER)
 	..()
 
+/datum/reagent/medicine/healthpot/zarum
+	name = "Zarum"
+	description = "A fermented sauce of fish innards and vinegear, which gradually regenerates all types of damage."
+	reagent_state = LIQUID
+	color = "#891305"
+	var/nutriment_factor = 16
+	metabolization_rate = 0.4
+	taste_description = "lip-puckeringly rich fishiness"
+	scent_description = "fermented pungence"
+	taste_mult = 8
+	var/hydration = 4
+
+/datum/reagent/medicine/healthpot/zarum/on_mob_life(mob/living/carbon/M)
+	if(ishuman(M))
+		var/mob/living/carbon/human/H = M
+		if(!HAS_TRAIT(H, TRAIT_NOHUNGER))
+			H.adjust_hydration(hydration)
+		if(M.blood_volume < BLOOD_VOLUME_NORMAL)
+			M.blood_volume = min(M.blood_volume+10, BLOOD_VOLUME_NORMAL)
+	var/list/wCount = M.get_wounds()
+	if(wCount.len > 0)
+		M.heal_wounds(4) //Better than traditional lifeblood at sealing open wounds. Slightly weaker healing potency, in turn.
+	if(volume > 0.99)
+		M.adjustBruteLoss(-1.5  * REAGENTS_EFFECT_MULTIPLIER, 0) //Minor reduction of ~15%-ish potency.
+		M.adjustFireLoss(-1.5  * REAGENTS_EFFECT_MULTIPLIER, 0)
+		M.adjustOxyLoss(-1.25, 0)
+		M.adjustOrganLoss(ORGAN_SLOT_BRAIN, -3  * REAGENTS_EFFECT_MULTIPLIER)
+		M.adjustCloneLoss(-1.5  * REAGENTS_EFFECT_MULTIPLIER, 0)
+		M.adjustOrganLoss(ORGAN_SLOT_EYES, -1 * REAGENTS_EFFECT_MULTIPLIER)
+	..()
+
 /datum/reagent/medicine/stronghealth
 	name = "Strong Health Potion"
 	description = "Quickly regenerates all types of damage."
@@ -256,16 +287,6 @@
 
 /datum/reagent/buff/fortune/on_mob_life(mob/living/carbon/M)
 	M.apply_status_effect(/datum/status_effect/buff/alch/fortunepot)
-	return ..()
-
-/datum/reagent/buff/tri //Keep this restricted to the TRI-locked alchemic reward.
-	name = "Distilled Triumphance"
-	color = "#74cde0"
-	taste_description = "sweet victory"
-	scent_description = "memories of a former triumph"
-
-/datum/reagent/buff/tri/on_mob_life(mob/living/carbon/M)
-	M.apply_status_effect(/datum/status_effect/buff/alch/tripot)
 	return ..()
 
 //Poisons

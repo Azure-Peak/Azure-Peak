@@ -15,6 +15,7 @@
 	no_early_release = TRUE
 	movement_interrupt = FALSE
 	spell_tier = 2
+	spell_impact_intensity = SPELL_IMPACT_MEDIUM
 	invocations = list("Sanguis Furtum!")
 	invocation_type = "shout"
 	glow_color = GLOW_COLOR_VAMPIRIC
@@ -35,7 +36,7 @@
 	damage_type = BRUTE
 	nodamage = FALSE
 	speed = 0.3
-	flag = "magic"
+	flag = "piercing"
 	light_color = "#e74141"
 	light_outer_range = 7
 

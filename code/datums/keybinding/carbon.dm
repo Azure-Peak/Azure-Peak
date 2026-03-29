@@ -88,8 +88,8 @@
 /datum/keybinding/carbon/toggle_arc_mode
 	hotkey_keys = list("CtrlG")
 	name = "toggle_arc_mode"
-	full_name = "Toggle Spell Arc Mode"
-	description = "Toggle arc mode on the currently active spell, causing it to fire in an arc over obstacles."
+	full_name = "Toggle Spell Alt Mode"
+	description = "Toggle alt mode on the currently active spell - arc mode for projectiles, ward type cycling, etc."
 	category = CATEGORY_CARBON
 
 /datum/keybinding/carbon/toggle_arc_mode/down(client/user)
@@ -103,10 +103,15 @@
 		v2_spell.toggle_arc_mode(H)
 		return TRUE
 
+	// Check for generic alt mode (ward cycling, etc.)
+	var/datum/action/cooldown/spell/v2_generic = H.click_intercept
+	if(istype(v2_generic) && v2_generic.toggle_alt_mode(H))
+		return TRUE
+
 	// Fall back to old proc_holder system
 	var/obj/effect/proc_holder/spell/invoked/projectile/spell = H.ranged_ability
 	if(!istype(spell))
-		to_chat(H, span_warning("No active projectile spell to toggle arc mode on."))
+		to_chat(H, span_warning("No active spell with an alt mode."))
 		return TRUE
 	spell.toggle_arc_mode(H)
 	return TRUE

@@ -209,6 +209,10 @@
 	penfactor = PEN_LIGHT
 	damfactor = 1.15
 
+/datum/intent/sword/chop/sabre
+	damfactor = 1.15
+	penfactor = PEN_MEDIUM
+
 /datum/intent/sword/thrust/long/broadsword
 	name = "heavy thrust" //Ditto.
 	penfactor = PEN_LIGHT

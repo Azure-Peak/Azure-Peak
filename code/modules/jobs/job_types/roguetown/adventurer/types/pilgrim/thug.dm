@@ -139,7 +139,7 @@
 			l_hand = /obj/item/quiver/sling/iron
 		if("Magic Bricks")
 			H.adjust_skillrank_up_to(/datum/skill/magic/arcane, SKILL_LEVEL_EXPERT, TRUE) // i fear not the man that has practiced a thousand moves one time, but the man that has practiced one move a thousand times
-			H.mind.AddSpell(new /obj/effect/proc_holder/spell/self/magicians_brick)
+			H.mind.AddSpell(new /datum/action/cooldown/spell/magicians_brick)
 		if("Lockpicking Equipment")
 			H.adjust_skillrank_up_to(/datum/skill/misc/stealing, SKILL_LEVEL_EXPERT, TRUE)
 			H.adjust_skillrank_up_to(/datum/skill/misc/lockpicking, SKILL_LEVEL_EXPERT, TRUE)
@@ -211,8 +211,26 @@
 			r_hand = /obj/item/rogueweapon/greataxe // not steel
 			gloves = /obj/item/clothing/gloves/roguetown/fingerless
 
+	var/prefixs = list(
+		"Skinny" = "Skinny", // Why
+		"Fat" = "Fat",
+		"Big" = "Big", // Yes, There is two cases where if someone calls themselves "Boss", we need to explode them.
+		"Small" = "Small",
+		"Huge" = "Huge",
+		"Little" = "Little",
+		"Thick" = "Thick",
+		"Thin" = "Thin",
+		"Long" = "Long",
+		"Short" = "Short",
+		"Wide" = "Wide",
+		"Slug" = "Slug",
+		"Molasses" = "Molasses",
+		"Stony" = "Stony",
+		"Quick" = "Quick"
+		)
+	var/prefixchoice = input(H, "What did people start calling you.", "YOU BIG FELLA") as anything in prefixs
 	var/prev_real_name = H.real_name
 	var/prev_name = H.name
-	var/prefix = "Skinny" // if i see someone named "Boss" pick big man for this bit i will kill them
+	var/prefix = prefixs[prefixchoice]
 	H.real_name = "[prefix] [prev_real_name]"
-	H.name = "[prefix] [prev_name]"	
+	H.name = "[prefix] [prev_name]"

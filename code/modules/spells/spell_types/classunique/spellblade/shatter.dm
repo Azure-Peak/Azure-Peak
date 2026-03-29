@@ -1,51 +1,54 @@
-/* Shatter - Macebearer lineal smash.
-Pure integrity damage tool. Zero AP. Smashes everything in a 3-tile line in front of
-the caster, dealing high damage and knocking them back. Doubled when empowered.
-No momentum gain — use normal swings for that.*/
-
-/obj/effect/proc_holder/spell/invoked/shatter
+/datum/action/cooldown/spell/shatter
 	name = "Shatter"
-	desc = "What the blade cannot cut, the mace breaks. Smash a 3-tile line with arcyne force, knocking targets back 1 tile. Cannot penetrate armor, but inflicts high damage. \
+	desc = "What the blade cannot cut, the mace breaks. Smash a 3-tile line with arcyne force, knocking targets back 1 tile. \
 		Does not build momentum. At 3+ momentum: consumes 3 to double damage. \
 		Strikes your aimed bodypart. Can be deflected by Defend stance."
-	clothes_req = FALSE
-	range = 7
-	action_icon = 'icons/mob/actions/classuniquespells/spellblade.dmi' // Icon by Prominence / Nobleed
-	overlay_state = "shatter"
-	releasedrain = SPELLCOST_SB_POKE
-	chargedrain = 0
-	chargetime = 3
-	recharge_time = 12 SECONDS
-	warnie = "spellwarning"
-	no_early_release = TRUE
-	movement_interrupt = FALSE
-	charging_slowdown = 0
-	chargedloop = /datum/looping_sound/invokegen
+	button_icon = 'icons/mob/actions/classuniquespells/spellblade.dmi'
+	button_icon_state = "shatter"
+	sound = 'sound/combat/ground_smash1.ogg'
+	spell_color = GLOW_COLOR_ARCANE
+	glow_intensity = GLOW_INTENSITY_MEDIUM
+
+	cast_range = 7
+
+	primary_resource_type = SPELL_COST_STAMINA
+	primary_resource_cost = SPELLCOST_SB_POKE
+
 	invocations = list("Frange!")
-	invocation_type = "shout"
-	gesture_required = TRUE
-	xp_gain = FALSE
+	invocation_type = INVOCATION_SHOUT
+
+	charge_required = TRUE
+	weapon_cast_penalized = FALSE
+	charge_time = 3
+	charge_drain = 0
+	charge_slowdown = CHARGING_SLOWDOWN_NONE
+	charge_sound = 'sound/magic/charging.ogg'
+	cooldown_time = 12 SECONDS
+
+	associated_skill = /datum/skill/magic/arcane
+	spell_tier = 2
+	spell_impact_intensity = SPELL_IMPACT_MEDIUM
+	spell_requirements = SPELL_REQUIRES_NO_ANTIMAGIC | SPELL_REQUIRES_HUMAN | SPELL_REQUIRES_SAME_Z
+
 	var/line_length = 3
-	var/base_damage = 40
+	var/base_damage = 30
 	var/empowered_mult = 2
 	var/push_dist = 1
 	var/momentum_cost = 3
 	var/telegraph_delay = 4
 
-/obj/effect/proc_holder/spell/invoked/shatter/cast(list/targets, mob/user = usr)
-	var/mob/living/carbon/human/H = user
+/datum/action/cooldown/spell/shatter/cast(atom/cast_on)
+	. = ..()
+	var/mob/living/carbon/human/H = owner
 	if(!istype(H))
-		revert_cast()
-		return
+		return FALSE
 
 	var/obj/item/held_weapon = arcyne_get_weapon(H)
 	if(!held_weapon)
 		to_chat(H, span_warning("I need my bound weapon in hand!"))
-		revert_cast()
-		return
+		return FALSE
 
-	var/atom/target = targets[1]
-	var/turf/target_turf = get_turf(target)
+	var/turf/target_turf = get_turf(cast_on)
 	var/turf/start = get_turf(H)
 	var/facing = get_dir(start, target_turf) || H.dir
 
@@ -54,7 +57,7 @@ No momentum gain — use normal swings for that.*/
 	if(M && M.stacks >= momentum_cost)
 		M.consume_stacks(momentum_cost)
 		empowered = TRUE
-		to_chat(H, span_notice("[momentum_cost] momentum released — empowered shatter!"))
+		to_chat(H, span_notice("[momentum_cost] momentum released - empowered shatter!"))
 
 	var/damage = empowered ? (base_damage * empowered_mult) : base_damage
 
@@ -75,10 +78,9 @@ No momentum gain — use normal swings for that.*/
 
 	if(!length(line_turfs))
 		to_chat(H, span_warning("There's no room to swing!"))
-		revert_cast()
-		return
+		return FALSE
 
-	// Telegraph — show warning on affected tiles
+	// Telegraph - show warning on affected tiles
 	for(var/turf/T in line_turfs)
 		new /obj/effect/temp_visual/air_strike_telegraph(T)
 
@@ -88,7 +90,7 @@ No momentum gain — use normal swings for that.*/
 	addtimer(CALLBACK(src, PROC_REF(resolve_shatter), H, line_turfs, facing, damage, empowered), telegraph_delay)
 	return TRUE
 
-/obj/effect/proc_holder/spell/invoked/shatter/proc/resolve_shatter(mob/living/carbon/human/H, list/line_turfs, facing, damage, empowered)
+/datum/action/cooldown/spell/shatter/proc/resolve_shatter(mob/living/carbon/human/H, list/line_turfs, facing, damage, empowered)
 	if(QDELETED(H) || H.stat == DEAD)
 		return
 

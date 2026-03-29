@@ -61,7 +61,7 @@
 	possible_item_intents = list(/datum/intent/axe/cut, /datum/intent/axe/chop, /datum/intent/axe/thrust, /datum/intent/axe/bash/battle)
 	gripped_intents = list(/datum/intent/axe/cut, /datum/intent/axe/chop, /datum/intent/axe/bash/battle)
 	name = "oath"
-	desc = "A hefty, steel-forged axe marred by the touch of countless Wardens. Despite it's weathered etchings and worn grip, the blade has been honed to a razor's edge and you can see your reflection in the finely polished metal."
+	desc = "A hefty, steel-forged axe marred by the touch of countless Wardens. Despite its weathered etchings and worn grip, the blade has been honed to a razor's edge and you can see your reflection in the finely polished metal."
 	icon_state = "oath"
 	icon = 'icons/roguetown/weapons/axes64.dmi'
 	max_blade_int = 500
@@ -175,7 +175,7 @@
 
 /obj/item/rogueweapon/stoneaxe/woodcut/wardenpick
 	name = "warden's axe"
-	desc = "A multi-use axe smithed by the Wardens since time immemorial for both it's use as a tool and a weapon."
+	desc = "A multi-use axe smithed by the Wardens since time immemorial for both its use as a tool and a weapon."
 	icon_state = "wardenpax"
 	force = 22
 	force_wielded = 28
@@ -379,7 +379,7 @@
 	name = "aavnic valaška"
 	desc = "A steel axe of Aavnic make that combines a deadly weapon with a walking stick - hence its pointed end. It has a flat head that fits the hand comfortably, and it's usable for chopping and smashing. You could probably stab someone if you tried really hard."
 	possible_item_intents = list(/datum/intent/axe/cut, /datum/intent/axe/chop, /datum/intent/mace/smash)
-	gripped_intents = list(/datum/intent/axe/cut, /datum/intent/axe/chop, /datum/intent/stab)
+	gripped_intents = list(/datum/intent/axe/cut, /datum/intent/axe/chop, /datum/intent/mace/smash, /datum/intent/axe/bash/battle)
 	force_wielded = 25	//No damage changes for wielded/unwielded
 	icon_state = "valaska"
 	walking_stick = TRUE
@@ -637,53 +637,3 @@
 	var/active_gripped_intents = list(/datum/intent/axe/cut/frost, /datum/intent/axe/chop/frost, /datum/intent/axe/bash)
 	var/inactive_intents = list()
 	var/inactive_gripped_intents = list()
-
-////////////////////////
-// TRIUMPH-EXCLUSIVE! //
-////////////////////////
-
-/obj/item/rogueweapon/stoneaxe/woodcut/triumph
-	name = "valorian axe"
-	icon_state = "axelegacy"
-	desc = "'Through thick-and-thin, I have never failed you. May we trounce through the Terrorbog, one last time, before Astrata's glare vanishes 'neath the horizon?'"
-
-/obj/item/rogueweapon/stoneaxe/handaxe/triumph
-	name = "valorian hatchet"
-	icon_state = "hatchetlegacy"
-	desc = "'What is that rag for, anyways?'"
-
-/obj/item/rogueweapon/stoneaxe/woodcut/triumphalt
-	name = "double-headed axe"
-	desc = "'For Karl!'"
-	icon_state = "axedouble"
-	swingsound = BLADEWOOSH_HUGE
-
-/obj/item/rogueweapon/stoneaxe/woodcut/bronze/triumph
-	name = "double-headed bronze axe"
-	desc = "'Give them nothing.. but take from them, EVERYTHING!'"
-	icon_state = "bronzeaxedouble"
-	swingsound = BLADEWOOSH_HUGE
-
-/obj/item/rogueweapon/stoneaxe/woodcut/steel/triumph
-	name = "double-headed steel axe"
-	desc = "'Last man alive, lock the doors!'"
-	icon_state = "saxedouble"
-	swingsound = BLADEWOOSH_HUGE
-
-/obj/item/rogueweapon/stoneaxe/battle/triumph
-	name = "double-headed battle axe"
-	desc = "'Never thought I'd die side-by-side wi' an elve.' </br>'How about with a friend?' </br>'Aye, I coul' do that.'"
-	icon_state = "battleaxedouble"
-	swingsound = BLADEWOOSH_HUGE
-
-/obj/item/rogueweapon/stoneaxe/woodcut/silver/triumph
-	name = "double-headed silver axe"
-	desc = "'I'll swallow your soul, I'll swallow your soul!' </br>'Swallow this.'"
-	icon_state = "silveraxedouble"
-	swingsound = BLADEWOOSH_HUGE
-
-/obj/item/rogueweapon/stoneaxe/battle/psyaxe/triumph
-	name = "double-headed psydonic axe"
-	desc = "'Hail to the king, baby.'"
-	icon_state = "psyaxedouble"
-	swingsound = BLADEWOOSH_HUGE

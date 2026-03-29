@@ -90,12 +90,18 @@
 /obj/item/storage/belt/rogue/leather/battleskirt/barbarian
 	color = "#48443b"
 
+/obj/item/storage/belt/rogue/leather/battleskirt/red
+	color = CLOTHING_RED
+
 /obj/item/storage/belt/rogue/leather/battleskirt/faulds
 	name = "belt with faulds"
 	desc = "A fine leather strap notched with holes for a buckle to secure itself, notched above a halved military skirt."
 	icon_state = "faulds"
 	sewrepair = FALSE
 	detail_tag = "_belt"
+
+/obj/item/storage/belt/rogue/leather/battleskirt/faulds/red
+	color = CLOTHING_RED
 
 /obj/item/storage/belt/rogue/leather/battleskirt/breechcloth
 	name = "belt with breechcloth"
@@ -112,6 +118,9 @@
 	flags_inv = HIDECROTCH
 	sewrepair = FALSE
 	detail_tag = "_belt"
+
+/obj/item/storage/belt/rogue/leather/battleskirt/breechcloth/red
+	color = CLOTHING_RED
 
 /obj/item/storage/belt/rogue/leather/steel
 	name = "steel belt"

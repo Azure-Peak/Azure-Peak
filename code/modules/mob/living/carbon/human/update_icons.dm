@@ -1464,6 +1464,9 @@ There are several things that need to be remembered:
 	if(!skin_armor)
 		return
 
+	if(!skin_armor.icon_state)
+		return
+
 	var/armor_icon_state = skin_armor.icon_state
 	if(!(src.mobility_flags & MOBILITY_STAND))
 		armor_icon_state = "[skin_armor.icon_state]_down"

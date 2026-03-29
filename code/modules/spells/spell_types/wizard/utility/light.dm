@@ -1,42 +1,59 @@
-/obj/effect/proc_holder/spell/self/light
+/datum/action/cooldown/spell/light
+	button_icon = 'icons/mob/actions/roguespells.dmi'
 	name = "Light"
 	desc = "Summons a condensed orb of light."
-	overlay_state = "light"
-	releasedrain = SPELLCOST_CANTRIP
-	chargetime = 1
-	range = -1
-	recharge_time = 30 SECONDS
-	warnie = "spellwarning"
-	movement_interrupt = FALSE
-	no_early_release = FALSE
-	chargedloop = null
+	button_icon_state = "light"
 	sound = 'sound/magic/whiteflame.ogg'
-	chargedloop = /datum/looping_sound/invokegen
-	associated_skill = /datum/skill/magic/arcane //can be arcane, druidic, blood, holy
-	cost = 1
-	miracle = FALSE
+	spell_color = GLOW_COLOR_LIGHT
+	glow_intensity = GLOW_INTENSITY_LOW
 
-	invocations = list("Evoca Lucem.") // Summon Light 
-	invocation_type = "whisper" //can be none, whisper, emote and shout
+	click_to_activate = FALSE
+	self_cast_possible = TRUE
+
+	primary_resource_type = SPELL_COST_STAMINA
+	primary_resource_cost = SPELLCOST_CANTRIP
+
+	invocations = list("Evoca Lucem.")
+	invocation_type = INVOCATION_WHISPER
+
+	charge_required = TRUE
+	charge_time = 0.5 SECONDS
+	charge_drain = 1
+	charge_slowdown = CHARGING_SLOWDOWN_NONE
+	charge_sound = 'sound/magic/charging.ogg'
+	cooldown_time = 30 SECONDS
+
+	associated_skill = /datum/skill/magic/arcane
+	spell_tier = 1
+	spell_impact_intensity = SPELL_IMPACT_NONE
+
+	point_cost = 1
+
+	spell_requirements = SPELL_REQUIRES_NO_ANTIMAGIC | SPELL_REQUIRES_HUMAN | SPELL_REQUIRES_SAME_Z
 
 	var/obj/item/item
 	var/item_type = /obj/item/flashlight/flare/light
-	var/delete_old = TRUE //TRUE to delete the last summoned object if it's still there, FALSE for infinite item stream weeeee
+	var/delete_old = TRUE
 
-/obj/effect/proc_holder/spell/self/light/cast(list/targets, mob/user = usr)
-	if (delete_old && item && !QDELETED(item))
+/datum/action/cooldown/spell/light/cast(atom/cast_on)
+	. = ..()
+	var/mob/living/user = owner
+	if(!istype(user))
+		return FALSE
+
+	if(delete_old && item && !QDELETED(item))
 		QDEL_NULL(item)
 	if(user.dropItemToGround(user.get_active_held_item()))
 		user.put_in_hands(make_item(), TRUE)
 		user.visible_message(span_info("An orb of light condenses in [user]'s hand!"), span_info("You condense an orb of pure light!"))
 	return TRUE
 
-/obj/effect/proc_holder/spell/self/light/Destroy()
+/datum/action/cooldown/spell/light/Destroy()
 	if(item)
 		qdel(item)
 	return ..()
 
-/obj/effect/proc_holder/spell/self/light/proc/make_item()
+/datum/action/cooldown/spell/light/proc/make_item()
 	item = new item_type
 	var/mutable_appearance/magic_overlay = mutable_appearance('icons/obj/projectiles.dmi', "gumball")
 	item.add_overlay(magic_overlay)

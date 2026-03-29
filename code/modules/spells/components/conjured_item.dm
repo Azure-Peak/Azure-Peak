@@ -4,18 +4,21 @@ by Arcyne user after a duration
 
 /datum/component/conjured_item
 	var/outline_color = GLOW_COLOR_ARCANE
+	var/noglow = FALSE
 
-/datum/component/conjured_item/Initialize(outline_color_override)
+/datum/component/conjured_item/Initialize(outline_color_override, no_glow = FALSE)
 	if(!isitem(parent))
 		return COMPONENT_INCOMPATIBLE
 
+	noglow = no_glow
 	if(outline_color_override)
 		outline_color = outline_color_override
 
 	RegisterSignal(parent, COMSIG_PARENT_EXAMINE, PROC_REF(on_examine))
 
 	var/obj/item/I = parent
-	I.filters += filter(type = "drop_shadow", x=0, y=0, size=1, offset = 2, color = outline_color)
+	if(!noglow)
+		I.filters += filter(type = "drop_shadow", x=0, y=0, size=1, offset = 2, color = outline_color)
 	I.smeltresult = null
 	I.salvage_result = null
 	I.fiber_salvage = FALSE

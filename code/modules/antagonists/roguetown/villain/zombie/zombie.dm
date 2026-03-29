@@ -126,8 +126,10 @@
 	base_intents = zombie.base_intents
 
 	//Just need to clear it to snapshot. May get things we don't want to get.
-	for(var/status_effect in zombie.status_effects)
-		zombie.remove_status_effect(status_effect)
+	// A later coder. Sincerely, what the ****???
+	// If we ever need this again, change this to something that removes status effects that are CLEAR to be dispelled by this.
+	// for(var/status_effect in zombie.status_effects)
+	// 	zombie.remove_status_effect(status_effect)
 	zombie.grant_language(/datum/language/undead)
 	var/datum/language_holder/language_holder = zombie.get_language_holder()
 	language_holder.selected_default_language = /datum/language/undead
