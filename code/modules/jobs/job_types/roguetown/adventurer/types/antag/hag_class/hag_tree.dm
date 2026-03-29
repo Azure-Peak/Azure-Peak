@@ -255,6 +255,9 @@
 		user.forceMove(destination)
 		user.visible_message(span_notice("[user] emerges from the roots of [target]."), \
 							 span_boldnotice("The roots spit you back out into [get_area(target)]."))
+		if(HAS_TRAIT(user, TRAIT_ROOT_WALKER))
+			to_chat(user, span_notice("Your affinity with the roots falls away again, demanding more tribute."))
+			REMOVE_TRAIT(user, TRAIT_ROOT_WALKER, TRAIT_HAG_BOON)
 		if(passenger && get_dist(src, passenger) <= 2)
 			passenger.forceMove(destination)
 			to_chat(passenger, span_userdanger("You are dragged through the suffocating, muddy darkness of the roots!"))

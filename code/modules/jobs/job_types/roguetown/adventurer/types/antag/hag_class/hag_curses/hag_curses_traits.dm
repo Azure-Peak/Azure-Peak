@@ -19,11 +19,6 @@
 	trait_to_apply = TRAIT_NORUN
 	points = 60
 
-/datum/hag_boon/trait/curse/comic_sans
-	name = "Trait - Odd Voice"
-	trait_to_apply = TRAIT_COMICSANS
-	points = 20
-
 /datum/hag_boon/trait/curse/ugly
 	name = "Trait - Unseemly"
 	trait_to_apply = TRAIT_UNSEEMLY

@@ -1,0 +1,4 @@
+author: "Vladmar11"
+delete-after: True
+changes:
+  - bugfix: "fixed updating soil when you watering it and fixed watering soil from rain"

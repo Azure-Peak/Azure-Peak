@@ -24,7 +24,6 @@
 		/datum/hag_boon/buff/curse/slumber = list("cost" = 20, "min_tier" = 1),
 		// Trait Curses - Tier 1 (1 - 50 points)
 		/datum/hag_boon/trait/curse/ugly = list("cost" = 10, "min_tier" = 1),
-		/datum/hag_boon/trait/curse/comic_sans = list("cost" = 20, "min_tier" = 1),
 		/datum/hag_boon/trait/curse/silver_weakness = list("cost" = 50, "min_tier" = 1),
 		// Trait Curses - Tier 2 (51 - 75 points)
 		/datum/hag_boon/trait/curse/no_run = list("cost" = 60, "min_tier" = 2),
