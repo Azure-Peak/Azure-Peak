@@ -211,7 +211,8 @@
 	category_tags = list(CTAG_MERCENARY)
 	cmode_music = 'sound/music/combat_grenzelhoft.ogg'
 	subclass_languages = list(/datum/language/grenzelhoftian)
-	traits_applied = list(TRAIT_MAGEARMOR, TRAIT_INTELLECTUAL, TRAIT_STEELHEARTED, TRAIT_ALCHEMY_EXPERT)
+	traits_applied = list(TRAIT_INTELLECTUAL, TRAIT_STEELHEARTED, TRAIT_ALCHEMY_EXPERT)
+	subclass_mage_aspects = list("mastery" = FALSE, "major" = 1, "minor" = 2, "utilities" = 6, "variants" = list(/datum/magic_aspect/pyromancy = "grenzelhoftian"), "post_aspect_spells" = list(/datum/action/cooldown/spell/message, /datum/action/cooldown/spell/magicians_brick), "ward" = TRUE)
 	subclass_stats = list(
 		STATKEY_INT = 3,
 		STATKEY_WIL = 3,
@@ -219,7 +220,6 @@
 		STATKEY_PER = 3,
 		STATKEY_SPD = 1
 	)
-	extra_context = "This class gains T3 spells at Old age."
 	age_mod = /datum/class_age_mod/grenzel_mage
 	subclass_skills = list(
 		/datum/skill/magic/arcane = SKILL_LEVEL_JOURNEYMAN,
@@ -242,7 +242,7 @@
 	..()
 	to_chat(H, span_warning("You are a Gefechtgelehrter - \"Combat Scholar\" - A proud magos from the Celestial Academy of Magos, who's skills in Siege Magic and Arcyne Physics are unmatched."))
 	belt = /obj/item/storage/belt/rogue/leather/battleskirt
-	backl = /obj/item/rogueweapon/woodstaff/emerald/blacksteelstaff
+	backl = /obj/item/rogueweapon/woodstaff/implement/greater/blacksteel
 	cloak = /obj/item/clothing/cloak/tabard/stabard/grenzelmage
 	armor = /obj/item/clothing/suit/roguetown/armor/brigandine/light
 	//General gear regardless of class.
@@ -259,22 +259,8 @@
 		/obj/item/storage/belt/rogue/pouch/coins/poor = 1,
 		/obj/item/flashlight/flare/torch = 1,
 		/obj/item/rogueweapon/huntingknife = 1,
-		/obj/item/rogueweapon/scabbard/sheath = 1
+		/obj/item/rogueweapon/scabbard/sheath = 1,
+		/obj/item/book/spellbook = 1
 		)
-	if(H.mind) // State mandated spells c:
-		H.mind.AddSpell(new /obj/effect/proc_holder/spell/targeted/touch/prestidigitation)
-		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/projectile/artillery_fireball)
-		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/projectile/spitfire)
-		H.mind.AddSpell(new /datum/action/cooldown/spell/projectile/arcynebolt)
-		H.mind.AddSpell(new /obj/effect/proc_holder/spell/self/magicians_brick)
-		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/projectile/fetch)
-		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/repulse)
-		H.mind.AddSpell(new /obj/effect/proc_holder/spell/self/conjure_armor)
-		H.mind.AddSpell(new /obj/effect/proc_holder/spell/self/message)
-		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/counterspell)
-		H.mind?.adjust_spellpoints(3)
-	if(H.age == AGE_OLD) // FEAR the old man in a profession where men die young, or something corny like that.
-		ADD_TRAIT(H, TRAIT_ARCYNE_T3, TRAIT_GENERIC)
-	else
-		ADD_TRAIT(H, TRAIT_ARCYNE_T2, TRAIT_GENERIC) // Only T2 arcyne (Unless they're old) so if they get spell points from something they can only pick from the curated spellblade list
+	ADD_TRAIT(H, TRAIT_ARCYNE, TRAIT_GENERIC)
 	H.merctype = 7

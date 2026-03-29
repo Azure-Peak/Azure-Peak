@@ -3,23 +3,34 @@
 #define STARSEERS_CRY_RANGE 7
 #define SOOTHING_BLOOM_RANGE 5
 
-/obj/effect/proc_holder/spell/self/message_summoner
+/datum/action/cooldown/spell/message_summoner
 	name = "Message Summoner"
-	recharge_time = 1 SECONDS
+	desc = "Whisper a message in your Summoner's head."
+	button_icon_state = "message"
 
-/obj/effect/proc_holder/spell/self/message_summoner/cast(list/targets, mob/living/simple_animal/pet/familiar/user)
+	click_to_activate = FALSE
+	self_cast_possible = TRUE
+	charge_required = FALSE
+	cooldown_time = 1 SECONDS
+
+	primary_resource_type = SPELL_COST_NONE
+	spell_requirements = NONE
+	spell_impact_intensity = SPELL_IMPACT_NONE
+
+/datum/action/cooldown/spell/message_summoner/cast(atom/cast_on)
 	. = ..()
+	var/mob/living/simple_animal/pet/familiar/user = owner
+	if(!istype(user))
+		return FALSE
 
 	var/mob/living/summoner = user.familiar_summoner
 
 	if(!summoner || !isliving(summoner) || !summoner.mind)
 		to_chat(user, span_warning("You cannot sense your summoner's mind."))
-		revert_cast()
 		return FALSE
 
 	var/message = input(user, "You make a connection. What are you trying to say?")
 	if(!message)
-		revert_cast()
 		return FALSE
 	to_chat_immediate(summoner, "Arcane whispers fill the back of my head, resolving into [user.real_name]'s voice: <font color=#7246ff>[message]</font>")
 	user.visible_message("[user.name] mutters an incantation and their mouth briefly flashes white.")
@@ -139,12 +150,11 @@
 	)
 	return TRUE
 
-/obj/effect/proc_holder/spell/invoked/blink/glimmer_hare
-	invocations = list("") //"Natural" abilty, no incantation.
-	chargetime = 0
-	releasedrain = 0
-	chargedrain = 0
-	xp_gain = FALSE
+/datum/action/cooldown/spell/blink/glimmer_hare
+	invocations = list("")
+	charge_required = FALSE
+	primary_resource_cost = 0
+	charge_drain = 0
 	
 
 /obj/effect/proc_holder/spell/self/inscription_cache

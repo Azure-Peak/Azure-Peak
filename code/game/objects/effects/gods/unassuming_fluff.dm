@@ -24,7 +24,7 @@ GLOBAL_LIST_EMPTY(players_in_dream)
 	stressadd = 20
 	desc = span_userdanger("WHAT IS THAT THING?!")
 
-/proc/teleport_to_dream(mob/living/carbon/human/user, base_probability = 10000, probability = 10, weapons = TRUE)
+/proc/teleport_to_dream(mob/living/carbon/human/user, base_probability = 10000, probability = 10, weapons = TRUE, duration = 2 MINUTES)
 	if(!ishuman(user))
 		return
 
@@ -82,7 +82,7 @@ GLOBAL_LIST_EMPTY(players_in_dream)
 			new /obj/effect/spawner/lootdrop/roguetown/abyssor(weapon_turf)
 
 	// Schedule return
-	user.apply_status_effect(/datum/status_effect/dream_teleport, original_turf)
+	user.apply_status_effect(/datum/status_effect/dream_teleport, original_turf, duration)
 	return TRUE
 
 /proc/return_from_dream(mob/living/carbon/human/user, turf/original_turf)
@@ -169,7 +169,9 @@ GLOBAL_LIST_EMPTY(players_in_dream)
 	desc = "The air feels humid, the floor cold and the void whispers to me. Where am I?"
 	icon_state = "abyssal"
 
-/datum/status_effect/dream_teleport/on_creation(mob/living/new_owner, turf/origin)
+/datum/status_effect/dream_teleport/on_creation(mob/living/new_owner, turf/origin, new_duration = 2 MINUTES)
+	if(new_duration)
+		duration = new_duration
 	. = ..()
 	if(!.)
 		return

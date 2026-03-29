@@ -191,52 +191,6 @@
 			pic2.color = get_altdetail_color()
 		add_overlay(pic2)
 
-/obj/item/clothing/head/roguetown/grenzelhofthat/triumph
-	name = "grenzelhoft tellerbarret"
-	desc = "The latest in sixteenth-century fashionwear, stitched by the finest tailors in Grenzelhoft. </br>I can fit this onto a sallet, Etruscan bascinet, or Blacksteel armet for added protection."
-	max_integrity = ARMOR_INT_HELMET_CLOTH
-	icon_state = "grenzelhat"
-	item_state = "grenzelhat"
-	icon = 'icons/roguetown/clothing/head.dmi'
-	sleeved = 'icons/roguetown/clothing/onmob/helpers/stonekeep_merc.dmi'
-	detail_tag = "_detail"
-	altdetail_tag = "_detailalt"
-	dynamic_hair_suffix = ""
-	armor = ARMOR_PADDED_BAD
-	resistance_flags = FLAMMABLE
-	color = "#262927"
-	detail_color = "#FFFFFF"
-	altdetail_color = "#007fff"
-
-/obj/item/clothing/head/roguetown/grenzelhofthat/triumph/attack_right(mob/user)
-	..()
-	if(!picked)
-		var/choice = input(user, "Choose a color.", "Grenzelhoft colors") as anything in COLOR_MAP
-		var/playerchoice = COLOR_MAP[choice]
-		picked = TRUE
-		detail_color = playerchoice
-		detail_tag = "_detail"
-		update_icon()
-		if(loc == user && ishuman(user))
-			var/mob/living/carbon/H = user
-			H.update_inv_head()
-
-/obj/item/clothing/head/roguetown/grenzelhofthat/triumph/update_icon()
-	cut_overlays()
-	if(get_detail_tag())
-		var/mutable_appearance/pic = mutable_appearance(icon(icon, "[icon_state][detail_tag]"))
-		pic.appearance_flags = RESET_COLOR
-		if(get_detail_color())
-			pic.color = get_detail_color()
-		add_overlay(pic)
-
-	if(get_altdetail_tag())
-		var/mutable_appearance/pic2 = mutable_appearance(icon(icon, "[icon_state][altdetail_tag]"))
-		pic2.appearance_flags = RESET_COLOR
-		if(get_altdetail_color())
-			pic2.color = get_altdetail_color()
-		add_overlay(pic2)
-
 //................ Briar Thorns ............... //	- Dendor Briar
 /obj/item/clothing/head/roguetown/briarthorns
 	name = "briar thorns"

@@ -150,6 +150,10 @@
 /obj/structure/flora/roguegrass/bush,
 /turf/open/floor/rogue/dirt/road,
 /area/rogue/outdoors/bog/north)
+"gu" = (
+/obj/structure/roguemachine/mossmother/travel,
+/turf/open/floor/rogue/grass,
+/area/rogue/outdoors)
 "gP" = (
 /obj/structure/table/cooling,
 /obj/item/storage/roguebag,
@@ -412,10 +416,6 @@
 /obj/item/reagent_containers/glass/cup,
 /turf/open/floor/rogue/ruinedwood/herringbone,
 /area/rogue/indoors)
-"po" = (
-/obj/machinery/gear_painter,
-/turf/open/floor/rogue/dirt/road,
-/area/rogue/indoors)
 "px" = (
 /obj/structure/table/wood{
 	dir = 1;
@@ -506,6 +506,10 @@
 "rT" = (
 /turf/open/floor/rogue/dirt/road,
 /area/rogue/outdoors)
+"sb" = (
+/obj/machinery/gear_painter,
+/turf/open/floor/rogue/dirt/road,
+/area/rogue/indoors)
 "sh" = (
 /obj/structure/roguemachine/steward,
 /obj/machinery/light/rogue/candle,
@@ -647,6 +651,10 @@
 /obj/machinery/light/rogue/smelter/great,
 /turf/open/floor/rogue/ruinedwood,
 /area/rogue/indoors)
+"vV" = (
+/obj/structure/flora/roguetree/stump/roguetest,
+/turf/open/floor/rogue/grass,
+/area/rogue/outdoors)
 "wd" = (
 /obj/structure/table/wood{
 	dir = 1;
@@ -945,6 +953,22 @@
 /obj/item/storage/roguebag,
 /turf/open/floor/rogue/cobblerock,
 /area/rogue/outdoors)
+"Er" = (
+/obj/structure/table/wood{
+	dir = 1;
+	icon_state = "longtable"
+	},
+/obj/item/clothing/gloves/roguetown/otavan,
+/obj/item/clothing/gloves/roguetown/otavan,
+/obj/item/clothing/gloves/roguetown/otavan,
+/obj/item/clothing/shoes/roguetown/boots/leather/reinforced,
+/obj/item/clothing/shoes/roguetown/boots/leather/reinforced,
+/obj/item/clothing/shoes/roguetown/boots/leather/reinforced,
+/obj/item/clothing/gloves/roguetown/angle,
+/obj/item/clothing/gloves/roguetown/angle,
+/obj/item/clothing/gloves/roguetown/angle,
+/turf/open/floor/rogue/grass,
+/area/rogue/indoors)
 "Eu" = (
 /turf/open/floor/rogue/dirt/road,
 /area/rogue/indoors/cave)
@@ -996,22 +1020,6 @@
 "Gm" = (
 /obj/structure/fluff/grindwheel,
 /turf/open/floor/rogue/ruinedwood,
-/area/rogue/indoors)
-"Gu" = (
-/obj/structure/table/wood{
-	dir = 1;
-	icon_state = "longtable"
-	},
-/obj/item/clothing/gloves/roguetown/otavan,
-/obj/item/clothing/gloves/roguetown/otavan,
-/obj/item/clothing/gloves/roguetown/otavan,
-/obj/item/clothing/shoes/roguetown/boots/leather/reinforced,
-/obj/item/clothing/shoes/roguetown/boots/leather/reinforced,
-/obj/item/clothing/shoes/roguetown/boots/leather/reinforced,
-/obj/item/clothing/gloves/roguetown/angle,
-/obj/item/clothing/gloves/roguetown/angle,
-/obj/item/clothing/gloves/roguetown/angle,
-/turf/open/floor/rogue/grass,
 /area/rogue/indoors)
 "GG" = (
 /obj/effect/decal/mossy{
@@ -1286,10 +1294,6 @@
 /area/rogue/indoors)
 "RC" = (
 /obj/item/rogueweapon/stoneaxe,
-/turf/open/floor/rogue/grass,
-/area/rogue/outdoors)
-"RV" = (
-/obj/structure/flora/roguetree/stump/roguetest,
 /turf/open/floor/rogue/grass,
 /area/rogue/outdoors)
 "Sf" = (
@@ -2988,7 +2992,7 @@ CZ
 yK
 yK
 rT
-RV
+vV
 rT
 rT
 rT
@@ -3192,7 +3196,7 @@ sh
 xB
 xy
 xy
-po
+sb
 CZ
 dE
 rT
@@ -3404,7 +3408,7 @@ xY
 CZ
 HO
 AX
-Gu
+Er
 AX
 AX
 eg
@@ -3467,7 +3471,7 @@ Dh
 cL
 RC
 vq
-vq
+gu
 vq
 Ln
 Ln

@@ -25,6 +25,14 @@
 	mob_overlay_icon = 'icons/clothing/onmob/donor_clothes.dmi'
 	sleeved = 'icons/clothing/onmob/donor_sleeves_armor.dmi'
 
+/obj/item/clothing/head/roguetown/circlet/saffiratiara
+	name = "saffira encrusted tiara"
+	desc = "An ornate gold tiara, inset with a Saffira in its peak."
+	icon_state = "eekasqueak"
+	item_state = "eekasqueak"
+	icon = 'icons/clothing/donor_clothes.dmi'
+	mob_overlay_icon = 'icons/clothing/onmob/donor_clothes.dmi'
+
 //Funkymonke's donator item - dress
 /obj/item/clothing/suit/roguetown/shirt/dress/funkydress
 	name = "padded dress"
@@ -325,6 +333,24 @@
 	icon_state = "koruu_glaive"
 	icon = 'icons/obj/items/donor_weapons_64.dmi'
 
+/obj/item/rogueweapon/koruu/kukri
+	name = "leachwhacker"
+	desc = "A curved blade proudly made of Azurean Origin. Forged for wading through the hellish Terrorbog, it is a symbol of Azurean Tenacity. \
+	It is said that the name is derived from old rituals of severing the leaves of a westleach bush while the iron is still hot to bless it. \
+	The bane of Maneaters, Brigands, and Invaders."
+	icon_state = "koruu_kukri"
+	icon = 'icons/obj/items/donor_weapons.dmi'
+	sheathe_icon = "koruu_kukri"
+
+/obj/item/rogueweapon/koruu/kukri/warden
+	name = "warden's leachwhacker"
+	desc = "A curved blade proudly made of Azurean Origin. Forged for wading through the hellish Terrorbog, it is a symbol of Azurean Tenacity. \
+	It is said that the name is derived from old rituals of severing the leaves of a westleach bush while the iron is still hot to bless it. \
+	The bane of Maneaters, Brigands, and Invaders. An azure cloth could be seen wrapped around the handle."
+	icon_state = "koruu_kukri_warden"
+	icon = 'icons/obj/items/donor_weapons.dmi'
+	sheathe_icon = "koruu_kukri_warden"
+
 //DAKKEN12
 /obj/item/clothing/head/roguetown/helmet/bascinet/pigface/hounskull/dakken
 	name = "armoured avantyne barbute"
@@ -350,6 +376,20 @@
 	worn_y_dimension = 64
 	bloody_icon = 'icons/effects/blood64.dmi'
 
+/obj/item/rogueweapon/sword/dakken_sword
+	name = "avantyne threaded sword"
+	desc = "'Threads of dark metal wind through what was formerly a simple steel blade. Cracks and chips are filled in as the weapon of war is reshaped into a symbol of faith.'"
+	icon = 'icons/obj/items/donor_weapons.dmi'
+	icon_state = "alloybsword_32"
+	sheathe_icon = "alloybsword"
+
+/obj/item/rogueweapon/sword/long/dakken_longsword
+	name = "avantyne threaded longsword"
+	desc = "'Threads of dark metal wind through what was formerly a simple steel blade. Cracks and chips are filled in as the weapon of war is reshaped into a symbol of faith.'"
+	icon = 'icons/obj/items/donor_weapons_64.dmi'
+	icon_state = "alloyblongsword"
+	sheathe_icon = "alloybsword"
+
 /obj/item/rogueweapon/spear/boar/frei/pike/stinketh
 	name = "Kindness of Ravens Standard"
 	desc = "A Freifechter's steel pike with a reinforced spruce shaft sporting a black banner with a strange blend of religious symbols."
@@ -363,7 +403,7 @@
 	icon_state = "drd_lsword"
 	icon = 'icons/obj/items/donor_weapons_64.dmi'
 
-//Brass Beak Mask
+//LMWEVIL
 /obj/item/clothing/mask/rogue/courtphysician/brassbeak
 	name = "\improper Society of the Brass Beak mask"
 	desc = "A plague mask fitted with a brass-embossed beak, indicating membership in an erudite society of like-minded physickers. \
@@ -372,3 +412,37 @@
 	item_state = "brassbeak"
 	icon = 'icons/clothing/donor_clothes.dmi'
 	mob_overlay_icon = 'icons/clothing/onmob/donor_clothes.dmi'
+
+//SHUDDERFLY
+/obj/item/rogueweapon/huntingknife/idagger/steel/shudderfly
+	name = "\improper Eoran Spike"
+	desc = "An ornately decorated steel dagger with the initials M.D. engraved on one side and the word Amor on the other. \
+	Around its crossguard is bound a rosa that never seems to wilt, the weapon is obviously cared for, but has seen many fights. \
+	You can’t help but shake the feeling that the weapon itself resists being used."
+	icon_state = "eoranspike"
+	icon = 'icons/obj/items/donor_weapons.dmi'
+
+//MAESUNE
+/obj/item/clothing/suit/roguetown/shirt/maesune
+	name = "mercantile union's garb"
+	desc = "Baubles, Trinkets, Merchandise galore! Come seek your finest wares, store them in your many pockets! Made for the finery of the naturalistic entrepreneurs! Mercantilism, ho!"
+	slot_flags = ITEM_SLOT_SHIRT|ITEM_SLOT_ARMOR
+	icon_state = "merchantgarb"
+	sleevetype = "merchantgarb"
+	icon = 'icons/clothing/donor_clothes.dmi'
+	mob_overlay_icon = 'icons/clothing/onmob/donor_clothes.dmi'
+	sleeved = 'icons/clothing/onmob/donor_sleeves_armor.dmi'
+
+/obj/item/rogueweapon/maesune/sabre
+	name = "\improper Y Ceirw"
+	desc = "A masterfully forged sword, trimmed in gold, embedded with a gem in the guard. Built as a weapon against injustice. So we may carve out a better world. \
+	Borne upon the blade, a faded inscription reads, \"A Light Shineth In the Darkness\"."
+	icon_state = "maesune_sabre"
+	icon = 'icons/obj/items/donor_weapons_64.dmi'
+
+/obj/item/rogueweapon/maesune/shield
+	name = "\improper Fy Annwyl"
+	desc = "A balanced shield, trimmed in silver, and bearing the crest of a golden deer's head with gleaming gemstone eyes. A bulwark against the howling abyss. Endvring, so we may all live in a better world. \
+	Borne upon it, a freshly carved inscription reads, \"But The Darkness Comprehended It Not\"."
+	icon_state = "maesune_shield"
+	icon = 'icons/obj/items/donor_weapons.dmi'

@@ -1,37 +1,45 @@
-/obj/effect/proc_holder/spell/self/recall_weapon
+/datum/action/cooldown/spell/recall_weapon
 	name = "Recall Weapon"
 	desc = "Recall your bound weapon to your hand from anywhere."
-	clothes_req = FALSE
-	action_icon = 'icons/mob/actions/classuniquespells/spellblade.dmi'
-	overlay_state = "recall_weapon"
-	releasedrain = SPELLCOST_SB_MOBILITY
-	chargedrain = 0
-	chargetime = 0
-	recharge_time = 20 SECONDS
-	warnie = "spellwarning"
-	invocations = list("Revoca, ferrum!")
-	invocation_type = "shout"
-	gesture_required = TRUE
-	xp_gain = FALSE
+	button_icon = 'icons/mob/actions/classuniquespells/spellblade.dmi'
+	button_icon_state = "recall_weapon"
+	sound = 'sound/magic/blink.ogg'
+	spell_color = GLOW_COLOR_ARCANE
+	glow_intensity = GLOW_INTENSITY_LOW
 
-/obj/effect/proc_holder/spell/self/recall_weapon/cast(list/targets, mob/user = usr)
-	var/mob/living/carbon/human/H = user
+	click_to_activate = FALSE
+	self_cast_possible = TRUE
+
+	primary_resource_type = SPELL_COST_STAMINA
+	primary_resource_cost = SPELLCOST_SB_MOBILITY
+
+	invocations = list("Revoca, ferrum!")
+	invocation_type = INVOCATION_SHOUT
+
+	charge_required = FALSE
+	cooldown_time = 20 SECONDS
+
+	associated_skill = /datum/skill/magic/arcane
+	spell_tier = 1
+	spell_impact_intensity = SPELL_IMPACT_NONE
+	spell_requirements = SPELL_REQUIRES_NO_ANTIMAGIC | SPELL_REQUIRES_HUMAN | SPELL_REQUIRES_SAME_Z
+
+/datum/action/cooldown/spell/recall_weapon/cast(atom/cast_on)
+	. = ..()
+	var/mob/living/carbon/human/H = owner
 	if(!istype(H))
-		revert_cast()
-		return
+		return FALSE
 
 	var/datum/status_effect/buff/arcyne_momentum/M = H.has_status_effect(/datum/status_effect/buff/arcyne_momentum)
 	var/obj/item/bound_weapon = M?.bound_weapon
 
 	if(!bound_weapon || QDELETED(bound_weapon))
 		to_chat(H, span_warning("I have no bound weapon to recall!"))
-		revert_cast()
-		return
+		return FALSE
 
 	if(bound_weapon in H.held_items)
 		to_chat(H, span_warning("My bound weapon is already in my hand!"))
-		revert_cast()
-		return
+		return FALSE
 
 	// If the weapon is embedded in someone, rip it out first
 	if(bound_weapon.is_embedded && istype(bound_weapon.loc, /obj/item/bodypart))
@@ -44,15 +52,14 @@
 	var/turf/weapon_turf = get_turf(bound_weapon)
 	if(!weapon_turf)
 		to_chat(H, span_warning("Cannot locate my bound weapon!"))
-		revert_cast()
-		return
+		return FALSE
 
 	playsound(weapon_turf, 'sound/magic/blink.ogg', 30, TRUE)
 	weapon_turf.visible_message(span_notice("[bound_weapon] vanishes in a flash of arcyne light."))
 
 	if(!H.put_in_hands(bound_weapon))
 		bound_weapon.forceMove(get_turf(H))
-		to_chat(H, span_notice("My bound weapon returns to my feet — my hands are full."))
+		to_chat(H, span_notice("My bound weapon returns to my feet - my hands are full."))
 	else
 		to_chat(H, span_notice("My bound weapon flies back to my hand."))
 

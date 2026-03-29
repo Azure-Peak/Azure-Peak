@@ -11,6 +11,8 @@
 	var/open
 	var/base_icon_state
 	var/can_spawn = TRUE
+	/// If TRUE, this book appears in the encyclopedia but not on random bookshelves.
+	var/wiki_only = FALSE
 	var/wiki_name
 	/// Which section this book appears in on the OOC Guidebook. "Crafting Recipes" or "Guides".
 	var/wiki_section = "Crafting Recipes"
@@ -22,11 +24,15 @@
 		SStgui.close_user_uis(current_reader, GLOB.recipe_wiki)
 		current_reader = null
 
+/// Called when this book is opened from the encyclopedia. Return TRUE to override default recipe list behavior.
+/obj/item/recipe_book/proc/open_wiki_entry(mob/user)
+	return FALSE
+
 /obj/item/recipe_book/attack_self(mob/user)
 	. = ..()
 	current_reader = user
 	var/datum/recipe_wiki/wiki = get_recipe_wiki()
-	wiki.show_to_user(user, types, name)
+	wiki.show_to_user(user, types, name, type)
 
 /obj/item/recipe_book/getonmobprop(tag)
 	. = ..()

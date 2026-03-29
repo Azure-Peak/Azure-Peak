@@ -720,8 +720,8 @@
 		if(!client || !client.prefs)
 			return
 		if(alert(usr,"This will irreversibly purge an INDIVIDUAL PORTION of this slot. Is this what you want?","DON'T FATFINGER THIS","PURGE","Nevermind") == "PURGE")
-			if(alert(usr,"The next prompt will not have a Nevermind option. Are you sure you want this?","ITS NOT REVERSIBLE","Yes","Nevermind") == "Yes")
-				var/choice = alert(usr,"What would you like to purge?","ITS TOO LATE NOW","Flavor","Notes","Extra")
+			if(alert(usr,"The next prompt will not have a Nevermind option. Are you sure you want this?","IT'S NOT REVERSIBLE","Yes","Nevermind") == "Yes")
+				var/choice = alert(usr,"What would you like to purge?","IT'S TOO LATE NOW","Flavor","Notes","Extra")
 				if(choice)
 					switch(choice)
 						if("Flavor")
@@ -740,7 +740,9 @@
 							client.prefs?.song_title = null
 							client.prefs?.ooc_extra = null
 							img_gallery = list()
+							nsfw_img_gallery = list()
 							client.prefs?.img_gallery = list()
+							client.prefs?.nsfw_img_gallery = list()
 						else
 							return
 					client.prefs?.save_preferences()
@@ -761,6 +763,7 @@
 				song_artist = null
 				song_title = null
 				img_gallery = list()
+				nsfw_img_gallery = list()
 				if(client)
 					client.prefs?.flavortext = null
 					client.prefs?.nsfwflavortext = null
@@ -770,6 +773,7 @@
 					client.prefs?.song_artist = null
 					client.prefs?.song_title = null
 					client.prefs?.img_gallery = list()
+					client.prefs?.nsfw_img_gallery = list()
 					client.prefs?.save_preferences()
 					client.prefs?.save_character()
 					to_chat(usr, span_warn("Slot purged successfully."))

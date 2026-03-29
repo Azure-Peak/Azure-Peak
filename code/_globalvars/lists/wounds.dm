@@ -41,10 +41,6 @@ GLOBAL_LIST_INIT(stab_bclasses, list(
 	BCLASS_PIERCE,
 ))
 
-GLOBAL_LIST_INIT(charring_bclasses, list(
-	BCLASS_BURN,
-))
-
 GLOBAL_LIST_INIT(whipping_bclasses, list(
 	BCLASS_LASHING,
 ))

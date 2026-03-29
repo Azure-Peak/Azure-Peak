@@ -50,14 +50,14 @@
 	outfit = /datum/outfit/job/roguetown/wapprentice/associate
 
 	category_tags = list(CTAG_WAPPRENTICE)
-	traits_applied = list(TRAIT_ARCYNE_T3, TRAIT_MAGEARMOR)
+	traits_applied = list(TRAIT_ARCYNE)
 	subclass_stats = list(
 		STATKEY_INT = 3,
 		STATKEY_PER = 2,
 		STATKEY_SPD = 1
 	)
 	age_mod = /datum/class_age_mod/apprentice_associate
-	subclass_spellpoints = 21
+	subclass_mage_aspects = list("mastery" = FALSE, "major" = 1, "minor" = 2, "utilities" = 6, "ward" = TRUE)
 	subclass_skills = list(
 		/datum/skill/combat/polearms = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/combat/staves = SKILL_LEVEL_APPRENTICE,
@@ -82,22 +82,18 @@
 	beltl = /obj/item/storage/magebag/associate
 	beltr = /obj/item/storage/keyring/apprentice
 	backl = /obj/item/storage/backpack/rogue/satchel
-	backr = /obj/item/rogueweapon/woodstaff
 	shoes = /obj/item/clothing/shoes/roguetown/gladiator
 	armor = /obj/item/clothing/suit/roguetown/shirt/robe/mage
 	head = /obj/item/clothing/head/roguetown/roguehood/mage
 	backpack_contents = list(
-		/obj/item/roguegem/amethyst = 1,
-		/obj/item/spellbook_unfinished/pre_arcyne = 1,
-		/obj/item/recipe_book/alchemy = 1,
-		/obj/item/recipe_book/magic = 1,
+		/obj/item/book/spellbook = 1,
 		/obj/item/chalk = 1,
 		)
 	switch(H.patron?.type)
 		if(/datum/patron/inhumen/zizo)
 			H.cmode_music = 'sound/music/combat_heretic.ogg'
 	if(H.mind)
-		H.mind.AddSpell(new /obj/effect/proc_holder/spell/targeted/touch/prestidigitation)
+		backr = choose_implement(H, "lesser")
 		SStreasury.give_money_account(ECONOMIC_LOWER_MIDDLE_CLASS, H, "Savings.")
 
 /datum/advclass/wapprentice/alchemist
@@ -110,14 +106,14 @@
 	outfit = /datum/outfit/job/roguetown/wapprentice/alchemist
 
 	category_tags = list(CTAG_WAPPRENTICE)
-	traits_applied = list(TRAIT_SEEDKNOW, TRAIT_ARCYNE_T3, TRAIT_MAGEARMOR)
+	traits_applied = list(TRAIT_SEEDKNOW, TRAIT_ARCYNE)
 	subclass_stats = list(
 		STATKEY_INT = 3,
 		STATKEY_PER = 3,
 		STATKEY_WIL = 1
 	)
 	age_mod = /datum/class_age_mod/apprentice_alchemist
-	subclass_spellpoints = 18
+	subclass_mage_aspects = list("mastery" = FALSE, "major" = 1, "minor" = 1, "utilities" = 6, "ward" = TRUE)
 	subclass_skills = list(
 		/datum/skill/combat/polearms = SKILL_LEVEL_NOVICE,
 		/datum/skill/combat/staves = SKILL_LEVEL_NOVICE,
@@ -143,22 +139,18 @@
 	beltl = /obj/item/storage/magebag/associate
 	beltr = /obj/item/storage/keyring/apprentice
 	backl = /obj/item/storage/backpack/rogue/satchel
-	backr = /obj/item/rogueweapon/woodstaff
 	shoes = /obj/item/clothing/shoes/roguetown/gladiator
 	backpack_contents = list(
-		/obj/item/roguegem/amethyst = 1,
+		/obj/item/book/spellbook = 1,
 		/obj/item/seeds/swampweed = 1,
 		/obj/item/seeds/pipeweed = 1,
-		/obj/item/recipe_book/alchemy = 1,
-		/obj/item/recipe_book/magic = 1,
 		/obj/item/chalk = 1,
-		/obj/item/spellbook_unfinished/pre_arcyne = 1
 		)
 	switch(H.patron?.type)
 		if(/datum/patron/inhumen/zizo)
 			H.cmode_music = 'sound/music/combat_heretic.ogg'
 	if(H.mind)
-		H.mind.AddSpell(new /obj/effect/proc_holder/spell/targeted/touch/prestidigitation)
+		backr = choose_implement(H, "lesser")
 		SStreasury.give_money_account(ECONOMIC_LOWER_MIDDLE_CLASS, H, "Savings.")
 
 /datum/advclass/wapprentice/apprentice
@@ -171,7 +163,7 @@
 	outfit = /datum/outfit/job/roguetown/wapprentice/apprentice
 
 	category_tags = list(CTAG_WAPPRENTICE)
-	traits_applied = list(TRAIT_ARCYNE_T3, TRAIT_MAGEARMOR)
+	traits_applied = list(TRAIT_ARCYNE)
 	subclass_stats = list(
 		STATKEY_INT = 4,
 		STATKEY_WIL = 1,
@@ -179,7 +171,7 @@
 		STATKEY_LCK = 1 // this is just a carrot for the folk who are mad enough to take this role...
 	)
 	age_mod = /datum/class_age_mod/apprentice_apprentice
-	subclass_spellpoints = 18
+	subclass_mage_aspects = list("mastery" = FALSE, "major" = 1, "minor" = 1, "utilities" = 6, "ward" = TRUE)
 	subclass_skills = list(
 		/datum/skill/misc/reading = SKILL_LEVEL_MASTER,
 		/datum/skill/magic/arcane = SKILL_LEVEL_APPRENTICE,
@@ -196,20 +188,16 @@
 	beltl = /obj/item/storage/magebag/associate
 	beltr = /obj/item/storage/keyring/apprentice
 	backl = /obj/item/storage/backpack/rogue/satchel
-	backr = /obj/item/rogueweapon/woodstaff
 	shoes = /obj/item/clothing/shoes/roguetown/gladiator
 	backpack_contents = list(
-		/obj/item/roguegem/amethyst = 1,
-		/obj/item/recipe_book/alchemy = 1,
-		/obj/item/recipe_book/magic = 1,
-		/obj/item/spellbook_unfinished/pre_arcyne = 1,
+		/obj/item/book/spellbook = 1,
 		/obj/item/chalk = 1,
 		)
 	switch(H.patron?.type)
 		if(/datum/patron/inhumen/zizo)
 			H.cmode_music = 'sound/music/combat_heretic.ogg'
 	if(H.mind)
-		H.mind.AddSpell(new /obj/effect/proc_holder/spell/targeted/touch/prestidigitation)
+		backr = choose_implement(H, "lesser")
 		SStreasury.give_money_account(ECONOMIC_LOWER_MIDDLE_CLASS, H, "Savings.")
 
 // Here lies the grave of Azurcaephon Associate, removed because a good portion of mage players are using it as a validhunting class
@@ -229,14 +217,14 @@
 		Further your mastery, your camaraderie, and the safety of your fellow mages."
 	outfit = /datum/outfit/job/roguetown/wapprentice/spellblade
 	category_tags = list(CTAG_WAPPRENTICE)
-	traits_applied = list(TRAIT_ARCYNE_T2)
+	traits_applied = list(TRAIT_ARCYNE)
 	subclass_stats = list(
 		STATKEY_INT = 2,
 		STATKEY_PER = 1,
 		STATKEY_CON = 1,
 		STATKEY_WIL = 1,
 	)
-	subclass_spell_point_pools = list("utility" = 4)
+	subclass_mage_aspects = list("mastery" = FALSE, "major" = 0, "minor" = 0, "utilities" = 4, "ward" = TRUE)
 	subclass_skills = list(
 		/datum/skill/misc/climbing = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/combat/shields = SKILL_LEVEL_APPRENTICE,
@@ -289,8 +277,6 @@
 	backr = /obj/item/rogueweapon/shield/wood
 	wrists = /obj/item/clothing/wrists/roguetown/bracers/leather
 	backpack_contents = list(
-		/obj/item/recipe_book/alchemy = 1,
-		/obj/item/recipe_book/magic = 1,
 		/obj/item/storage/keyring/apprentice = 1,
 		/obj/item/chalk = 1,)
 
@@ -316,27 +302,26 @@
 	if(H.mind)
 		switch(subclass_selected)
 			if("blade")
-				H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/caedo)
-				H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/air_strike)
-				H.mind.AddSpell(new /obj/effect/proc_holder/spell/self/leyline_anchor)
-				H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/projectile/blade_storm)
+				H.mind.AddSpell(new /datum/action/cooldown/spell/caedo)
+				H.mind.AddSpell(new /datum/action/cooldown/spell/air_strike)
+				H.mind.AddSpell(new /datum/action/cooldown/spell/leyline_anchor)
+				H.mind.AddSpell(new /datum/action/cooldown/spell/projectile/blade_storm)
 			if("phalangite")
-				H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/azurean_phalanx)
-				H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/projectile/azurean_javelin)
-				H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/advance)
-				H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/gate_of_reckoning)
+				H.mind.AddSpell(new /datum/action/cooldown/spell/azurean_phalanx)
+				H.mind.AddSpell(new /datum/action/cooldown/spell/projectile/azurean_pilum)
+				H.mind.AddSpell(new /datum/action/cooldown/spell/advance)
+				H.mind.AddSpell(new /datum/action/cooldown/spell/gate_of_reckoning)
 			if("macebearer")
-				H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/shatter)
-				H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/tremor)
-				H.mind.AddSpell(new /obj/effect/proc_holder/spell/self/charge)
-				H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/cataclysm)
+				H.mind.AddSpell(new /datum/action/cooldown/spell/shatter)
+				H.mind.AddSpell(new /datum/action/cooldown/spell/tremor)
+				H.mind.AddSpell(new /datum/action/cooldown/spell/charge)
+				H.mind.AddSpell(new /datum/action/cooldown/spell/cataclysm)
 
-		H.mind.AddSpell(new /obj/effect/proc_holder/spell/self/recall_weapon)
-		H.mind.AddSpell(new /obj/effect/proc_holder/spell/self/empower_weapon)
-		H.mind.AddSpell(new /obj/effect/proc_holder/spell/self/bind_weapon)
-		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/mending)
-		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/enchant_weapon)
-		H.mind.AddSpell(new /obj/effect/proc_holder/spell/targeted/touch/prestidigitation)
+		H.mind.AddSpell(new /datum/action/cooldown/spell/recall_weapon)
+		H.mind.AddSpell(new /datum/action/cooldown/spell/empower_weapon)
+		H.mind.AddSpell(new /datum/action/cooldown/spell/bind_weapon)
+		H.mind.AddSpell(new /datum/action/cooldown/spell/mending)
+		H.mind.AddSpell(new /datum/action/cooldown/spell/touch/prestidigitation)
 
 	switch(subclass_selected)
 		if("blade")

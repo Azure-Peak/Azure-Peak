@@ -40,20 +40,3 @@
 	desc = "A heirloom shashka with guardless hilt plated in silver and adorned  with a Mamuk hide grip. A sabre's blade has been added in place of the old one, affording it lethality and reach whilst dismounted."
 	icon_state = "stinketh_shashka"
 	icon = 'icons/obj/items/donor_weapons_64.dmi'
-
-// Triumphs
-/obj/item/rogueweapon/example/valorian_sword
-	name = "valorian sword"
-	desc = "A modest take on a mythical design, hailing from the blood-splattered crossroads \
-	between Valoria and Rockhill. It feels right at home, in the palm of your hand."
-	icon_state = "iswordalt"
-	sheathe_icon = "iswordalt"
-
-/obj/item/rogueweapon/example/valorian_broadsword
-	name = "valorian broadsword"
-	icon = 'icons/roguetown/weapons/64.dmi'
-	desc = "A lethal and well-balanced weapon. The broadsword - better known as a 'hand-and-a-halfer' - has dutifully served the \
-	swordsmen of Psydonia in their clashes against man-and-monster alike since time immemmorial. The edge glimmers with the hopes \
-	and dreams of the Weeping God's children, imbuing your very soul with determination. </br>'There's a light inside your \
-	soul, that’s still shining in the cold: the truth, the promise in our hearts.. ..don't forget, I'm with you in the dark.'"
-	icon_state = "longsword_rockhill"

@@ -1,56 +1,55 @@
-/* Advance! - Phalangite leap-strike.
-Leaps up to 4 tiles in the aimed direction, passing through mobs.
-On landing, stabs 1 tile ahead in the aimed direction.
-
-The 5-tick telegraph is the counterplay window. The leap itself is fast.
-
-At 3+ momentum: consumes 3, doubles strike damage.
-Does NOT build momentum on hit — use normal melee for that. */
-
-/obj/effect/proc_holder/spell/invoked/advance
+/datum/action/cooldown/spell/advance
 	name = "Advance!"
 	desc = "Leap forward up to 4 tiles, passing through enemies, then stab ahead on landing. \
 		At 3+ momentum: consumes 3 to double damage. \
 		Strikes your aimed bodypart. Can be deflected by Defend stance."
-	clothes_req = FALSE
-	range = 15
-	action_icon = 'icons/mob/actions/classuniquespells/spellblade.dmi'
-	overlay_state = "advance"
-	releasedrain = SPELLCOST_SB_MOBILITY
-	chargedrain = 0
-	chargetime = 5
-	recharge_time = 15 SECONDS
-	warnie = "spellwarning"
-	no_early_release = TRUE
-	movement_interrupt = FALSE
-	charging_slowdown = 0
-	chargedloop = /datum/looping_sound/invokegen
+	button_icon = 'icons/mob/actions/classuniquespells/spellblade.dmi'
+	button_icon_state = "advance"
+	sound = 'sound/combat/wooshes/bladed/wooshsmall (1).ogg'
+	spell_color = GLOW_COLOR_ARCANE
+	glow_intensity = GLOW_INTENSITY_MEDIUM
+
+	cast_range = 15
+
+	primary_resource_type = SPELL_COST_STAMINA
+	primary_resource_cost = SPELLCOST_SB_MOBILITY
+
 	invocations = list()
-	invocation_type = "shout"
-	gesture_required = TRUE
-	xp_gain = FALSE
+	invocation_type = INVOCATION_SHOUT
+
+	charge_required = TRUE
+	weapon_cast_penalized = FALSE
+	charge_time = CHARGETIME_POKE
+	charge_drain = 0
+	charge_slowdown = CHARGING_SLOWDOWN_NONE
+	charge_sound = 'sound/magic/charging.ogg'
+	cooldown_time = 15 SECONDS
+
+	associated_skill = /datum/skill/magic/arcane
+	spell_tier = 2
+	spell_impact_intensity = SPELL_IMPACT_LOW
+	spell_requirements = SPELL_REQUIRES_NO_ANTIMAGIC | SPELL_REQUIRES_HUMAN | SPELL_REQUIRES_SAME_Z
+
 	var/leap_range = 4
 	var/base_damage = 30
 	var/empowered_mult = 2
 	var/momentum_cost = 3
 	var/step_delay = 1
 
-/obj/effect/proc_holder/spell/invoked/advance/cast(list/targets, mob/user = usr)
-	var/mob/living/carbon/human/H = user
+/datum/action/cooldown/spell/advance/cast(atom/cast_on)
+	. = ..()
+	var/mob/living/carbon/human/H = owner
 	if(!istype(H))
-		revert_cast()
-		return
+		return FALSE
 
 	var/obj/item/held_weapon = arcyne_get_weapon(H)
 	if(!held_weapon)
 		to_chat(H, span_warning("I need my bound weapon in hand!"))
-		revert_cast()
-		return
+		return FALSE
 
 	H.say("Procede!", forced = "spell")
 
-	var/atom/target = targets[1]
-	var/turf/target_turf = get_turf(target)
+	var/turf/target_turf = get_turf(cast_on)
 	var/turf/start = get_turf(H)
 	var/facing = get_dir(start, target_turf) || H.dir
 	var/def_zone = H.zone_selected || BODY_ZONE_CHEST
@@ -58,15 +57,14 @@ Does NOT build momentum on hit — use normal melee for that. */
 	var/turf/first_step = get_step(start, facing)
 	if(!first_step || first_step.density)
 		to_chat(H, span_warning("There's no room to leap!"))
-		revert_cast()
-		return
+		return FALSE
 
 	var/empowered = FALSE
 	var/datum/status_effect/buff/arcyne_momentum/M = H.has_status_effect(/datum/status_effect/buff/arcyne_momentum)
 	if(M && M.stacks >= momentum_cost)
 		M.consume_stacks(momentum_cost)
 		empowered = TRUE
-		to_chat(H, span_notice("[momentum_cost] momentum released — empowered advance!"))
+		to_chat(H, span_notice("[momentum_cost] momentum released - empowered advance!"))
 
 	var/damage = empowered ? (base_damage * empowered_mult) : base_damage
 
@@ -78,15 +76,14 @@ Does NOT build momentum on hit — use normal melee for that. */
 		span_notice("I advance!"))
 	playsound(start, pick('sound/combat/wooshes/bladed/wooshsmall (1).ogg', 'sound/combat/wooshes/bladed/wooshsmall (2).ogg'), 60, TRUE)
 
-	// Leap phase — pass through mobs with jump arc animation
+	// Leap phase - pass through mobs with jump arc animation
 	var/old_pass = H.pass_flags
 	var/old_throwing = H.throwing
 	H.pass_flags |= PASSMOB
-	H.throwing = TRUE // Lets us leap over railings/fences
+	H.throwing = TRUE
 	var/prev_pixel_z = H.pixel_z
 	var/prev_transform = H.transform
 
-	// Launch into the air — dramatic arc
 	animate(H, pixel_z = prev_pixel_z + 18, time = 1, easing = EASE_OUT)
 
 	var/steps_taken = 0
@@ -111,7 +108,7 @@ Does NOT build momentum on hit — use normal melee for that. */
 		if(i < leap_range)
 			sleep(step_delay)
 
-	// Slam down — fast drop with impact tilt
+	// Slam down - fast drop with impact tilt
 	var/land_angle = pick(-20, -15, 15, 20)
 	animate(H, pixel_z = prev_pixel_z, transform = turn(prev_transform, land_angle), time = 1, easing = EASE_IN)
 	animate(transform = prev_transform, time = 2)
@@ -121,13 +118,13 @@ Does NOT build momentum on hit — use normal melee for that. */
 
 	if(steps_taken == 0)
 		to_chat(H, span_warning("My leap is blocked!"))
-		return
+		return TRUE
 
-	// Strike phase — stab 1 tile ahead of landing
+	// Strike phase - stab 1 tile ahead of landing
 	var/turf/jab_turf = get_step(get_turf(H), facing)
 	if(!jab_turf)
 		H.visible_message(span_notice("[H] lands with a thrust at the air."))
-		return
+		return TRUE
 
 	var/hit_count = 0
 	for(var/mob/living/victim in jab_turf)

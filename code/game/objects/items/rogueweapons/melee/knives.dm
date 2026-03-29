@@ -909,7 +909,7 @@
 
 /obj/item/rogueweapon/huntingknife/stoneknife/opalknife
 	name = "opal knife"
-	desc = "A beautiful knife carved out of opal. Its not intended for combat. It's presence is vital in some Crimson Elven ceremonies."
+	desc = "A beautiful knife carved out of opal. Its not intended for combat. Its presence is vital in some Crimson Elven ceremonies."
 	icon = 'icons/roguetown/gems/gem_opal.dmi'
 	icon_state = "knife_opal"
 	max_integrity = 75

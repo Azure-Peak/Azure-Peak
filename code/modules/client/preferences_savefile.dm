@@ -707,6 +707,9 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	S["img_gallery"]	>> img_gallery
 	img_gallery = SANITIZE_LIST(img_gallery)
 
+	S["nsfw_img_gallery"]	>> nsfw_img_gallery
+	nsfw_img_gallery = SANITIZE_LIST(nsfw_img_gallery)
+
 	S["examine_theme"]		>> examine_theme
 
 	S["char_accent"]		>> char_accent
@@ -924,6 +927,7 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	WRITE_FILE(S["nsfwflavortext"] , html_decode(nsfwflavortext))
 	WRITE_FILE(S["erpprefs"] , html_decode(erpprefs))
 	WRITE_FILE(S["img_gallery"] , img_gallery)
+	WRITE_FILE(S["nsfw_img_gallery"] , nsfw_img_gallery)
 
 	WRITE_FILE(S["gear_list"], gear_list)
 

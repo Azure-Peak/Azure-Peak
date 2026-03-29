@@ -6,14 +6,14 @@
 	outfit = /datum/outfit/job/roguetown/adventurer/mage
 	class_select_category = CLASS_CAT_MAGE
 	category_tags = list(CTAG_ADVENTURER, CTAG_COURTAGENT)
-	traits_applied = list(TRAIT_MAGEARMOR, TRAIT_ARCYNE_T3, TRAIT_ALCHEMY_EXPERT)
+	traits_applied = list(TRAIT_ARCYNE, TRAIT_ALCHEMY_EXPERT)
 	subclass_stats = list(
 		STATKEY_INT = 3,
 		STATKEY_PER = 2,
 		STATKEY_SPD = 1,
 	)
 	age_mod = /datum/class_age_mod/adv_mage
-	subclass_spellpoints = 14
+	subclass_mage_aspects = list("mastery" = FALSE, "major" = 1, "minor" = 2, "utilities" = 6, "ward" = TRUE)
 	subclass_skills = list(
 		/datum/skill/combat/staves = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/combat/polearms = SKILL_LEVEL_APPRENTICE,
@@ -40,33 +40,16 @@
 	neck = /obj/item/storage/belt/rogue/pouch/coins/poor
 	beltl = /obj/item/rogueweapon/huntingknife
 	backl = /obj/item/storage/backpack/rogue/satchel
-	backr = /obj/item/rogueweapon/woodstaff
 	H.dna.species.soundpack_m = new /datum/voicepack/male/wizard()
 	if(H.mind)
-		var/spec = list("Sorcerer", "Alchemist") // Much smaller selection with only three swords. You will probably want to upgrade.
-		var/spec_choice = input(H, "Choose your specialization.", "WHO AM I?") as anything in spec
-		switch(spec_choice)
-			if("Sorcerer") //standart adventure mage
-				H.mind?.adjust_spellpoints(4) //18, standart
-				backpack_contents = list(
-					/obj/item/spellbook_unfinished/pre_arcyne = 1,
-					/obj/item/roguegem/amethyst = 1,
-					/obj/item/chalk = 1
-					)
-			if("Alchemist") //less points, no book and chalk, but good alchemistry skill with roundstart and folding cauldron it backpack.
-				H.adjust_skillrank_up_to(/datum/skill/craft/alchemy, SKILL_LEVEL_JOURNEYMAN, TRUE)
-				backl = /obj/item/storage/backpack/rogue/backpack
-				backpack_contents = list(
-					/obj/item/folding_alchcauldron_stored = 1,
-					/obj/item/reagent_containers/glass/bottle = 3,
-					/obj/item/reagent_containers/glass/bottle/alchemical = 3,
-					/obj/item/recipe_book/alchemy = 1,
-					)
+		backr = choose_implement(H, "lesser")
+		backpack_contents = list(
+			/obj/item/book/spellbook = 1,
+			/obj/item/chalk = 1
+			)
 	backpack_contents |= list(
 		/obj/item/flashlight/flare/torch = 1,
-		/obj/item/recipe_book/survival = 1,
 		/obj/item/rogueweapon/scabbard/sheath = 1,
-		/obj/item/recipe_book/magic = 1,
 		)
 	H.cmode_music = 'sound/music/cmode/adventurer/combat_outlander4.ogg'
 	switch(H.patron?.type)
@@ -77,18 +60,14 @@
 	name = "Azurcaephan"
 	tutorial = "You are an Azurcaephan — in common parlance, a Spellblade of the Azurean tradition. A hybrid melee warrior who channels arcyne momentum through combat. Build power with your weapon, then unleash it. Choose between three traditions: Blade (mobile swordsman with dashes and AoE), Phalangite (spear and shield — hold the line with thrusts and pushback), or Macebearer (blunt weapons — ground slams, charges, and shockwaves)."
 	outfit = /datum/outfit/job/roguetown/adventurer/spellblade
-	traits_applied = list(TRAIT_ARCYNE_T2)
+	traits_applied = list(TRAIT_ARCYNE)
 	subclass_stats = list(
 		STATKEY_INT = 1,
 		STATKEY_PER = 1,
 		STATKEY_CON = 1,
 		STATKEY_WIL = 1,
 	)
-	subclass_spell_point_pools = list("utility" = 4)
-	// Just give them Jman for all three schools they can go into
-	// They are functionally crippled without abilities if they
-	// Dip outside of their subclass
-	// Non zero chance someone's gonna be bitching in Discord about this
+	subclass_mage_aspects = list("mastery" = FALSE, "major" = 0, "minor" = 0, "utilities" = 4, "ward" = TRUE)
 	subclass_skills = list(
 		/datum/skill/misc/climbing = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/combat/shields = SKILL_LEVEL_APPRENTICE,
@@ -123,7 +102,7 @@
 	backl = /obj/item/storage/backpack/rogue/satchel
 	beltl = /obj/item/storage/belt/rogue/pouch/coins/poor
 	wrists = /obj/item/clothing/wrists/roguetown/bracers/leather
-	backpack_contents = list(/obj/item/flashlight/flare/torch = 1, /obj/item/recipe_book/survival = 1, /obj/item/chalk = 1)
+	backpack_contents = list(/obj/item/flashlight/flare/torch = 1, /obj/item/chalk = 1, /obj/item/book/spellbook = 1)
 
 	to_chat(H, span_warning("You start with Bind Weapon. Remember to Bind your weapon so you can use your abilities and build up Arcyne Momentum."))
 
@@ -147,26 +126,25 @@
 	if(H.mind)
 		switch(subclass_selected)
 			if("blade")
-				H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/caedo)
-				H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/air_strike)
-				H.mind.AddSpell(new /obj/effect/proc_holder/spell/self/leyline_anchor)
-				H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/projectile/blade_storm)
+				H.mind.AddSpell(new /datum/action/cooldown/spell/caedo)
+				H.mind.AddSpell(new /datum/action/cooldown/spell/air_strike)
+				H.mind.AddSpell(new /datum/action/cooldown/spell/leyline_anchor)
+				H.mind.AddSpell(new /datum/action/cooldown/spell/projectile/blade_storm)
 			if("phalangite")
-				H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/azurean_phalanx)
-				H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/projectile/azurean_javelin)
-				H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/advance)
-				H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/gate_of_reckoning)
+				H.mind.AddSpell(new /datum/action/cooldown/spell/azurean_phalanx)
+				H.mind.AddSpell(new /datum/action/cooldown/spell/projectile/azurean_pilum)
+				H.mind.AddSpell(new /datum/action/cooldown/spell/advance)
+				H.mind.AddSpell(new /datum/action/cooldown/spell/gate_of_reckoning)
 			if("macebearer")
-				H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/shatter)
-				H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/tremor)
-				H.mind.AddSpell(new /obj/effect/proc_holder/spell/self/charge)
-				H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/cataclysm)
+				H.mind.AddSpell(new /datum/action/cooldown/spell/shatter)
+				H.mind.AddSpell(new /datum/action/cooldown/spell/tremor)
+				H.mind.AddSpell(new /datum/action/cooldown/spell/charge)
+				H.mind.AddSpell(new /datum/action/cooldown/spell/cataclysm)
 
-		H.mind.AddSpell(new /obj/effect/proc_holder/spell/self/recall_weapon)
-		H.mind.AddSpell(new /obj/effect/proc_holder/spell/self/empower_weapon)
-		H.mind.AddSpell(new /obj/effect/proc_holder/spell/self/bind_weapon)
-		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/mending)
-		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/enchant_weapon)
+		H.mind.AddSpell(new /datum/action/cooldown/spell/recall_weapon)
+		H.mind.AddSpell(new /datum/action/cooldown/spell/empower_weapon)
+		H.mind.AddSpell(new /datum/action/cooldown/spell/bind_weapon)
+		H.mind.AddSpell(new /datum/action/cooldown/spell/mending)
 
 	armor = /obj/item/clothing/suit/roguetown/armor/leather/heavy/coat
 	backr = /obj/item/rogueweapon/shield/wood
@@ -228,13 +206,14 @@
 	name = "Spellsinger"
 	tutorial = "You belong to a school of bards renowned for their study of both the arcane and the arts."
 	outfit = /datum/outfit/job/roguetown/adventurer/spellsinger
-	traits_applied = list(TRAIT_MAGEARMOR, TRAIT_ARCYNE_T2, TRAIT_EMPATH, TRAIT_GOODLOVER)
+	traits_applied = list(TRAIT_ARCYNE, TRAIT_EMPATH, TRAIT_GOODLOVER)
 	subclass_stats = list(
 		STATKEY_INT = 2,
 		STATKEY_SPD = 2,
 		STATKEY_WIL = 1,
 	)
-	subclass_spellpoints = 14
+	// TODO // FULL ON REWORK Bard.
+	subclass_mage_aspects = list("mastery" = FALSE, "major" = 0, "minor" = 2, "utilities" = 6, "ward" = TRUE)
 	subclass_skills = list(
 		/datum/skill/misc/climbing = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/misc/music = SKILL_LEVEL_EXPERT,
@@ -262,13 +241,27 @@
 	wrists = /obj/item/clothing/wrists/roguetown/bracers/leather
 	beltr = /obj/item/rogueweapon/scabbard/sword
 	r_hand = /obj/item/rogueweapon/sword/sabre
-	backpack_contents = list(/obj/item/flashlight/flare/torch = 1, /obj/item/recipe_book/survival = 1, /obj/item/chalk = 1)
+	backpack_contents = list(/obj/item/flashlight/flare/torch = 1, /obj/item/chalk = 1, /obj/item/book/spellbook = 1)
 	var/datum/inspiration/I = new /datum/inspiration(H)
 	I.grant_inspiration(H, bard_tier = BARD_T2)
 	if(H.mind)
 		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/mockery)
-		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/enchant_weapon)
-		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/conjure_weapon)
+		H.mind.AddSpell(new /datum/action/cooldown/spell/arcyne_forge)
+		var/list/poke_options = list("Spitfire", "Frost Bolt", "Arc Bolt", "Gravel Blast", "Stygian Efflorescence", "Arcyne Lance")
+		var/poke_choice = input(H, "Choose your offensive cantrip.", "Arcyne Training") as anything in poke_options
+		switch(poke_choice)
+			if("Spitfire")
+				H.mind.AddSpell(new /datum/action/cooldown/spell/projectile/spitfire)
+			if("Frost Bolt")
+				H.mind.AddSpell(new /datum/action/cooldown/spell/projectile/frost_bolt)
+			if("Arc Bolt")
+				H.mind.AddSpell(new /datum/action/cooldown/spell/projectile/arc_bolt)
+			if("Gravel Blast")
+				H.mind.AddSpell(new /datum/action/cooldown/spell/projectile/gravel_blast)
+			if("Stygian Efflorescence")
+				H.mind.AddSpell(new /datum/action/cooldown/spell/projectile/stygian_efflorescence)
+			if("Arcyne Lance")
+				H.mind.AddSpell(new /datum/action/cooldown/spell/projectile/arcyne_lance)
 	H.cmode_music = 'sound/music/cmode/adventurer/combat_outlander3.ogg'
 	switch(H.patron?.type)
 		if(/datum/patron/inhumen/zizo)
@@ -301,15 +294,14 @@
 	name = "Spellfist"
 	tutorial = "You are a Spellfist, an unarmed warrior who combines martial prowess with arcyne magyck. Your art descends from the Pontifexes of Naledi, warrior-monks who first learned to channel arcyne power through their fists, though the technique has since spread across the world — especially to Lingyuese Psydonites in the east. You eschew most weapons in favor of using magyck to accelerate and strengthen your own body, striking enemies with blows from afar and storms of fists up close."
 	outfit = /datum/outfit/job/roguetown/adventurer/spellfist
-	traits_applied = list(TRAIT_CIVILIZEDBARBARIAN, TRAIT_ARCYNE_T1)
+	traits_applied = list(TRAIT_CIVILIZEDBARBARIAN, TRAIT_ARCYNE)
 	subclass_stats = list(
 		STATKEY_SPD = 1,
 		STATKEY_WIL = 2,
 		STATKEY_PER = 2,
 		STATKEY_CON = 1
 	)
-	subclass_spell_point_pools = list("utility" = 4)
-	subclass_spellpoints = 0
+	subclass_mage_aspects = list("mastery" = FALSE, "major" = 0, "minor" = 0, "utilities" = 4, "ward" = TRUE)
 	subclass_skills = list(
 		/datum/skill/combat/wrestling = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/combat/unarmed = SKILL_LEVEL_JOURNEYMAN,
@@ -346,7 +338,8 @@
 	backpack_contents = list(
 		/obj/item/flashlight/flare/torch = 1,
 		/obj/item/rogueweapon/scabbard/sheath = 1,
-		(naledi_book) = 1
+		(naledi_book) = 1,
+		/obj/item/book/spellbook = 1,
 	)
 
 	var/origin = input(H, "Did you study under the Naledi Yogis?", "ORIGIN") as anything in list("Yes", "No")
@@ -355,13 +348,12 @@
 		armor = /obj/item/clothing/suit/roguetown/armor/gambeson/heavy/hierophant/civilian
 
 	if(H.mind)
-		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/fist_of_psydon)
-		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/grasp_of_psydon)
-		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/blink)
-		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/storm_of_psydon)
-		H.mind.AddSpell(new /obj/effect/proc_holder/spell/self/empower_weapon)
-		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/mending)
-		H.mind.AddSpell(new /obj/effect/proc_holder/spell/targeted/touch/prestidigitation)
+		H.mind.AddSpell(new /datum/action/cooldown/spell/fist_of_psydon)
+		H.mind.AddSpell(new /datum/action/cooldown/spell/grasp_of_psydon())
+		H.mind.AddSpell(new /datum/action/cooldown/spell/blink)
+		H.mind.AddSpell(new /datum/action/cooldown/spell/storm_of_psydon())
+		H.mind.AddSpell(new /datum/action/cooldown/spell/empower_weapon)
+		H.mind.AddSpell(new /datum/action/cooldown/spell/mending)
 
 	var/datum/status_effect/buff/arcyne_momentum/momentum = H.apply_status_effect(/datum/status_effect/buff/arcyne_momentum)
 	if(momentum)

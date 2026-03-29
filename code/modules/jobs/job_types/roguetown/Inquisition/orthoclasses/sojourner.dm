@@ -12,7 +12,7 @@
 	category_tags = list(CTAG_ORTHODOXIST)
 	traits_applied = list(
 		TRAIT_CIVILIZEDBARBARIAN,
-		TRAIT_ARCYNE_T2,
+		TRAIT_ARCYNE,
 		TRAIT_NALEDI
 	)
 	subclass_stats = list(
@@ -33,8 +33,7 @@
 		/datum/skill/magic/arcane = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/magic/holy = SKILL_LEVEL_APPRENTICE,
 	)
-	subclass_spellpoints = 0
-	subclass_spell_point_pools = list("utility" = 4)
+	subclass_mage_aspects = list("mastery" = FALSE, "major" = 0, "minor" = 0, "utilities" = 4, "ward" = TRUE)
 	subclass_stashed_items = list(
 		"Tome of Psydon" = /obj/item/book/rogue/bibble/psy
 	)
@@ -51,13 +50,12 @@
 /datum/outfit/job/roguetown/sojourner/pre_equip(mob/living/carbon/human/H, visualsOnly)
 	..()
 	if(H.mind)
-		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/fist_of_psydon)
-		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/grasp_of_psydon)
-		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/blink/shadowstep)
-		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/storm_of_psydon)
-		H.mind.AddSpell(new /obj/effect/proc_holder/spell/self/empower_weapon)
-		H.mind.AddSpell(new /obj/effect/proc_holder/spell/targeted/touch/summonrogueweapon/bladeofpsydon)
-		H.mind.AddSpell(new /obj/effect/proc_holder/spell/targeted/touch/prestidigitation)
+		H.mind.AddSpell(new /datum/action/cooldown/spell/fist_of_psydon)
+		H.mind.AddSpell(new /datum/action/cooldown/spell/grasp_of_psydon())
+		H.mind.AddSpell(new /datum/action/cooldown/spell/blink/shadowstep)
+		H.mind.AddSpell(new /datum/action/cooldown/spell/storm_of_psydon())
+		H.mind.AddSpell(new /datum/action/cooldown/spell/empower_weapon)
+		H.mind.AddSpell(new /datum/action/cooldown/spell/blade_of_psydon())
 
 	var/datum/status_effect/buff/arcyne_momentum/momentum = H.apply_status_effect(/datum/status_effect/buff/arcyne_momentum)
 	if(momentum)
@@ -100,7 +98,8 @@
 		/obj/item/roguekey/inquisitionmanor = 1,
 		/obj/item/paper/inqslip/arrival/ortho = 1,
 		/obj/item/roguegem/amethyst/naledi = 1,
-		(naledi_book) = 1
+		(naledi_book) = 1,
+		/obj/item/book/spellbook = 1,
 		)
 
 	var/datum/devotion/C = new /datum/devotion(H, H.patron)

@@ -1,129 +1,120 @@
-/*
- * Storm of Psydon (Ultimate — Momentum-Gated OraOra)
- *
- * Requires 7+ momentum to cast.
- * At 7 momentum (lame): 3 punches + 1 kick = 80 total (20 each). Consumes all.
- * At 10 momentum (full): 3x3 punches + 1 kick = 200 total (20 each). Consumes all.
- * Dash/leap toward target, then combo.
- * No parry/dodge — only Defend stance (spell_guard_check) can interrupt.
- * Each hit uses a different spell_name so precise aiming doesn't stack wounds.
- * Shadow clones for the aesthetic.
- */
-
-/obj/effect/proc_holder/spell/invoked/storm_of_psydon
+/datum/action/cooldown/spell/storm_of_psydon
+	button_icon = 'icons/mob/actions/classuniquespells/spellfist.dmi'
+	button_icon_state = "storm_of_psydon"
 	name = "Storm of Psydon"
 	desc = "Channel mana into your legs to leap toward a target from a distance, closing the gap rapidly. \
 		Then, channel the mana into your fists to unleash a storm of blows. \
 		Requires 7 Momentum: 3 punches + 1 kick (20 damage each). \
 		Overcharged at 10 Momentum: 9 punches + 1 kick (20 damage each). \
-		Cannot be parried or dodged — only Defend stance can interrupt. \
+		Cannot be parried or dodged - only Defend stance can interrupt. \
 		Consumes all momentum. If you miss, half cooldown is applied.\n\n\
 		'Temper the storm within, and unleash it only upon those who stray from His ways.'"
-	clothes_req = FALSE
-	range = 7
-	action_icon = 'icons/mob/actions/classuniquespells/spellfist.dmi'
-	overlay_state = "storm_of_psydon"
 	sound = list('sound/combat/wooshes/punch/punchwoosh (1).ogg','sound/combat/wooshes/punch/punchwoosh (2).ogg','sound/combat/wooshes/punch/punchwoosh (3).ogg')
-	active = FALSE
-	releasedrain = SPELLCOST_SB_ULT
-	chargedrain = 0
-	chargetime = 2 SECONDS
-	recharge_time = 75 SECONDS
-	warnie = "spellwarning"
-	no_early_release = TRUE
-	charging_slowdown = 0
-	chargedloop = /datum/looping_sound/invokegen
+	spell_color = GLOW_COLOR_BUFF
+	glow_intensity = GLOW_INTENSITY_HIGH
+
+	cast_range = 7
+
+	primary_resource_type = SPELL_COST_STAMINA
+	primary_resource_cost = SPELLCOST_SB_ULT
+
+	invocations = list()
+	invocation_type = INVOCATION_SHOUT
+
+	charge_required = TRUE
+	weapon_cast_penalized = FALSE
+	charge_time = 2 SECONDS
+	charge_drain = 0
+	charge_slowdown = CHARGING_SLOWDOWN_NONE
+	charge_sound = 'sound/magic/charging.ogg'
+	cooldown_time = 60 SECONDS
+
 	associated_skill = /datum/skill/magic/arcane
 	spell_tier = 3
-	invocations = list() // Handled manually: 'Asifa! at cast start
-	invocation_type = "shout"
-	glow_color = GLOW_COLOR_ARCANE
-	glow_intensity = GLOW_INTENSITY_HIGH
-	gesture_required = TRUE
-	xp_gain = FALSE
+	spell_impact_intensity = SPELL_IMPACT_MEDIUM
+
+	spell_requirements = SPELL_REQUIRES_NO_ANTIMAGIC | SPELL_REQUIRES_HUMAN | SPELL_REQUIRES_SAME_Z
+
 	var/start_invocation = "'Asifa!"
 	var/dash_range = 7
 	var/step_delay = 1
 	var/punch_damage = 20
 	var/kick_damage = 20
-	var/punch_sets_full = 3 // 3 sets of 3 punches at 10 momentum
+	var/punch_sets_full = 3
 	var/punches_per_set = 3
-	var/punch_count_lame = 3 // 3 punches at 7 momentum
+	var/punch_count_lame = 3
 	var/min_momentum = 7
 	var/empowered_momentum = 10
 
-/obj/effect/proc_holder/spell/invoked/storm_of_psydon/can_cast(mob/user = usr, feedback = TRUE)
+/datum/action/cooldown/spell/storm_of_psydon/can_cast_spell(feedback = TRUE)
 	. = ..()
 	if(!.)
 		return FALSE
-	if(!ishuman(user))
+	if(!ishuman(owner))
 		return FALSE
-	var/mob/living/carbon/human/H = user
+	var/mob/living/carbon/human/H = owner
 	var/datum/status_effect/buff/arcyne_momentum/M = H.has_status_effect(/datum/status_effect/buff/arcyne_momentum)
 	if(!M || M.stacks < min_momentum)
+		if(feedback)
+			to_chat(H, span_warning("Not enough momentum! I need at least [min_momentum] stacks!"))
 		return FALSE
 	return TRUE
 
-/obj/effect/proc_holder/spell/invoked/storm_of_psydon/cast(list/targets, mob/user = usr)
-	var/mob/living/carbon/human/H = user
+/datum/action/cooldown/spell/storm_of_psydon/before_cast(atom/cast_on)
+	. = ..()
+	. |= SPELL_NO_IMMEDIATE_COOLDOWN
+
+/datum/action/cooldown/spell/storm_of_psydon/cast(atom/cast_on)
+	. = ..()
+	var/mob/living/carbon/human/H = owner
 	if(!istype(H))
-		revert_cast()
-		return
+		return FALSE
 
 	var/datum/status_effect/buff/arcyne_momentum/M = H.has_status_effect(/datum/status_effect/buff/arcyne_momentum)
 	if(!M || M.stacks < min_momentum)
-		to_chat(H, span_warning("Not enough momentum! I need at least [min_momentum] stacks!"))
-		revert_cast()
-		return
+		return FALSE
 
 	var/stacks = M.stacks
 	var/is_full = stacks >= empowered_momentum
 	M.consume_all_stacks()
 	to_chat(H, span_notice("All [stacks] momentum released into the storm!"))
 
-	// Determine preferred target from click target
 	var/mob/living/preferred_target
-	var/atom/clicked = targets[1]
-	if(isliving(clicked))
-		preferred_target = clicked
+	if(isliving(cast_on))
+		preferred_target = cast_on
 	else
-		var/turf/clicked_turf = get_turf(clicked)
+		var/turf/clicked_turf = get_turf(cast_on)
 		if(clicked_turf)
 			for(var/mob/living/L in clicked_turf)
 				if(L != H && L.stat != DEAD)
 					preferred_target = L
 					break
 
-	// No preferred target, revert cast, no punishment
 	if(!preferred_target)
 		to_chat(H, span_warning("I need a target to focus my storm on!"))
-		revert_cast()
-		return
+		return FALSE
 
-	// Shout invocation at the start
 	H.say(start_invocation, forced = "spell")
 
 	var/turf/start = get_turf(H)
 	var/facing = get_dir(start, get_turf(preferred_target)) || H.dir
 	H.dir = facing
 
-	// Already adjacent — skip dash, go straight to lame oraora
 	if(get_dist(H, preferred_target) <= 1)
 		if(preferred_target.anti_magic_check())
 			preferred_target.visible_message(span_warning("The storm dissipates on contact with [preferred_target]!"))
-			charge_counter = recharge_time / 2
-			update_icon()
-			return
+			StartCooldown(get_adjusted_cooldown() / 2)
+			return TRUE
 		H.visible_message(span_danger("<b>[H] latches onto [preferred_target], unleashing a flurry of blows!</b>"))
 		if(is_full)
 			oraora(H, preferred_target)
 		else
 			oraora_lame(H, preferred_target)
+		StartCooldown(get_adjusted_cooldown())
 		return TRUE
 
 	H.visible_message(span_danger("<b>[H] launches toward [preferred_target] with storming intent!</b>"))
 
-	// Dash phase: step toward preferred target each tick, recalculating direction
 	var/old_pass = H.pass_flags
 	var/old_throwing = H.throwing
 	H.pass_flags |= PASSMOB
@@ -131,7 +122,6 @@
 	var/prev_pixel_z = H.pixel_z
 	var/prev_transform = H.transform
 
-	// Launch into the air, dramatic leap arc
 	animate(H, pixel_z = prev_pixel_z + 18, time = 1, easing = EASE_OUT)
 
 	var/mob/living/hit_target
@@ -143,7 +133,6 @@
 			hit_target = preferred_target
 			break
 
-		// Recalculate direction each step, homes toward target
 		facing = get_dir(get_turf(H), get_turf(preferred_target))
 		if(!facing)
 			break
@@ -166,7 +155,6 @@
 		if(i < dash_range)
 			sleep(step_delay)
 
-	// Slam down with impact tilt
 	var/land_angle = pick(-20, -15, 15, 20)
 	animate(H, pixel_z = prev_pixel_z, transform = turn(prev_transform, land_angle), time = 1, easing = EASE_IN)
 	animate(transform = prev_transform, time = 2)
@@ -174,33 +162,27 @@
 	H.pass_flags = old_pass
 	H.throwing = old_throwing
 
-	// Check adjacency after dash
 	if(!hit_target && get_dist(H, preferred_target) <= 1)
 		hit_target = preferred_target
 
-	// Missed, half cooldown as punishment
 	if(!hit_target)
 		to_chat(H, span_warning("My storm finds no purchase!"))
-		charge_counter = recharge_time / 2
-		update_icon()
-		return
+		StartCooldown(get_adjusted_cooldown() / 2)
+		return TRUE
 
-	// Anti-magic check
 	if(hit_target.anti_magic_check())
 		hit_target.visible_message(span_warning("The storm dissipates on contact with [hit_target]!"))
-		charge_counter = recharge_time / 2
-		update_icon()
-		return
+		StartCooldown(get_adjusted_cooldown() / 2)
+		return TRUE
 
-	// We hit, begin combo
 	if(is_full)
 		oraora(H, hit_target)
 	else
 		oraora_lame(H, hit_target)
+	StartCooldown(get_adjusted_cooldown())
 	return TRUE
 
-// Check if the combo can continue
-/obj/effect/proc_holder/spell/invoked/storm_of_psydon/proc/combo_valid(mob/living/carbon/human/user, mob/living/target)
+/datum/action/cooldown/spell/storm_of_psydon/proc/combo_valid(mob/living/carbon/human/user, mob/living/target)
 	if(QDELETED(user) || QDELETED(target))
 		return FALSE
 	if(user.stat != CONSCIOUS)
@@ -209,8 +191,7 @@
 		return FALSE
 	return TRUE
 
-// Cling — step toward target if not adjacent. Returns TRUE if adjacent after.
-/obj/effect/proc_holder/spell/invoked/storm_of_psydon/proc/cling(mob/living/carbon/human/user, mob/living/target)
+/datum/action/cooldown/spell/storm_of_psydon/proc/cling(mob/living/carbon/human/user, mob/living/target)
 	if(get_dist(user, target) <= 1)
 		return TRUE
 	var/turf/user_turf = get_turf(user)
@@ -224,13 +205,11 @@
 	step(user, dir_to)
 	return get_dist(user, target) <= 1
 
-// Cleanup shadow images
-/obj/effect/proc_holder/spell/invoked/storm_of_psydon/proc/combo_cleanup(obj/effect/after_image/shadow_left, obj/effect/after_image/shadow_right)
+/datum/action/cooldown/spell/storm_of_psydon/proc/combo_cleanup(obj/effect/after_image/shadow_left, obj/effect/after_image/shadow_right)
 	QDEL_NULL(shadow_left)
 	QDEL_NULL(shadow_right)
 
-// Conjure shadow clones for the aesthetic
-/obj/effect/proc_holder/spell/invoked/storm_of_psydon/proc/create_shadows(mob/living/carbon/human/user, mob/living/target)
+/datum/action/cooldown/spell/storm_of_psydon/proc/create_shadows(mob/living/carbon/human/user, mob/living/target)
 	var/turf/user_turf = get_turf(user)
 
 	var/obj/effect/after_image/shadow_left = new(user_turf, 0, 0, 0, 0, 0, 0, 0)
@@ -255,10 +234,8 @@
 
 	return list(shadow_left, shadow_right)
 
-// Full combo (10 momentum) — 3 sets of 3 punches + kick finisher = 200 damage
-// No parry/dodge — only Defend stance interrupts
-/obj/effect/proc_holder/spell/invoked/storm_of_psydon/proc/oraora(mob/living/carbon/human/user, mob/living/target)
-	user.changeNext_move(CLICK_CD_MELEE * 3) // Lock out clicks for the combo
+/datum/action/cooldown/spell/storm_of_psydon/proc/oraora(mob/living/carbon/human/user, mob/living/target)
+	user.changeNext_move(CLICK_CD_MELEE * 3)
 
 	var/list/shadows = create_shadows(user, target)
 	var/obj/effect/after_image/shadow_left = shadows[1]
@@ -270,12 +247,10 @@
 	for(var/set_i in 1 to punch_sets_full)
 		if(combo_broken)
 			break
-		// Cling — step toward target if they moved
 		if(!cling(user, target))
 			combo_broken = TRUE
 			break
 		user.emote("attack", forced = TRUE)
-		// Move shadows to follow user
 		var/turf/new_turf = get_turf(user)
 		shadow_left.forceMove(new_turf)
 		shadow_right.forceMove(new_turf)
@@ -294,7 +269,6 @@
 			if(!combo_valid(user, target))
 				combo_broken = TRUE
 				break
-			// Guard check — Defend stance still interrupts per-punch
 			if(spell_guard_check(target, FALSE, deflected ? null : user))
 				deflected = TRUE
 				combo_broken = TRUE
@@ -302,14 +276,12 @@
 			hit_num++
 			arcyne_strike(user, target, null, punch_damage, pick(BODY_ZONE_CHEST, BODY_ZONE_HEAD, BODY_ZONE_L_ARM, BODY_ZONE_R_ARM), BCLASS_BLUNT, spell_name = "Storm of Psydon (Punch [hit_num])")
 			playsound(get_turf(target), pick('sound/combat/hits/punch/punch_hard (1).ogg','sound/combat/hits/punch/punch_hard (2).ogg','sound/combat/hits/punch/punch_hard (3).ogg'), 80, TRUE)
-			// Shadows lunge toward target and snap back
 			animate(shadow_left, pixel_x = -10 + lunge_px, pixel_y = 4 + lunge_py, time = 0.5, easing = EASE_OUT)
 			animate(pixel_x = -10, pixel_y = 4, time = 0.5, easing = EASE_IN)
 			animate(shadow_right, pixel_x = 10 + lunge_px, pixel_y = 4 + lunge_py, time = 0.5, easing = EASE_OUT)
 			animate(pixel_x = 10, pixel_y = 4, time = 0.5, easing = EASE_IN)
-		sleep(3) // 0.3s pause between sets
+		sleep(3)
 
-	// Kick finisher
 	sleep(3)
 	if(!combo_broken && cling(user, target) && combo_valid(user, target))
 		if(!spell_guard_check(target, FALSE, deflected ? null : user))
@@ -322,16 +294,13 @@
 	combo_cleanup(shadow_left, shadow_right)
 	log_combat(user, target, "used Storm of Psydon (full)")
 
-// Lame version (7 momentum) — 3 punches + kick = 80 damage
-// No parry/dodge — only Defend stance interrupts
-/obj/effect/proc_holder/spell/invoked/storm_of_psydon/proc/oraora_lame(mob/living/carbon/human/user, mob/living/target)
-	user.changeNext_move(CLICK_CD_MELEE * 2) // Lock out clicks for the combo
+/datum/action/cooldown/spell/storm_of_psydon/proc/oraora_lame(mob/living/carbon/human/user, mob/living/target)
+	user.changeNext_move(CLICK_CD_MELEE * 2)
 
 	var/deflected = FALSE
 	var/combo_broken = FALSE
 	user.emote("attack", forced = TRUE)
 
-	// 3 quick punches
 	for(var/i in 1 to punch_count_lame)
 		if(!combo_valid(user, target))
 			combo_broken = TRUE
@@ -343,7 +312,6 @@
 		arcyne_strike(user, target, null, punch_damage, pick(BODY_ZONE_CHEST, BODY_ZONE_HEAD, BODY_ZONE_L_ARM, BODY_ZONE_R_ARM), BCLASS_BLUNT, spell_name = "Storm of Psydon (Punch [i])")
 		playsound(get_turf(target), pick('sound/combat/hits/punch/punch_hard (1).ogg','sound/combat/hits/punch/punch_hard (2).ogg','sound/combat/hits/punch/punch_hard (3).ogg'), 80, TRUE)
 
-	// Kick finisher
 	sleep(1)
 	if(!combo_broken && cling(user, target) && combo_valid(user, target))
 		if(!spell_guard_check(target, FALSE, deflected ? null : user))
