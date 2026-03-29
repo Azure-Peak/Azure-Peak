@@ -170,6 +170,8 @@
 	var/weapon_cast_penalized = FALSE
 	/// Transient flag set during Activate() when a weapon penalty is active for this cast.
 	var/weapon_penalty_active = FALSE
+	/// If TRUE, this spell ignores armor cooldown penalties (for armored casters like Tithebound).
+	var/ignore_armor_penalty = FALSE
 	/// If TRUE, spell charges on button press, then waits for a separate middle-click to cast.
 	/// If FALSE (default), spell uses hold-and-release: hold middle-click to charge, release to cast.
 	var/charge_then_click = FALSE
@@ -518,21 +520,30 @@
 		newcd += base * diff * COOLDOWN_REDUCTION_PER_INT
 
 	// Armor penalties on cooldown, not stamina cost
-	if(!living_owner.check_armor_skill())
-		newcd += base * UNTRAINED_ARMOR_CD_PENALTY
-	else if(ishuman(living_owner))
-		var/mob/living/carbon/human/H = living_owner
-		var/ac = H.highest_ac_worn()
-		if(ac == ARMOR_CLASS_HEAVY)
-			newcd += base * HEAVY_ARMOR_CD_PENALTY
-		else if(ac == ARMOR_CLASS_MEDIUM)
-			newcd += base * MEDIUM_ARMOR_CD_PENALTY
+	newcd += base * get_armor_cd_multiplier(living_owner)
 
 	// Weapon-in-hand penalty
 	if(weapon_penalty_active)
 		newcd += base * WEAPON_CAST_PENALTY
 
 	return newcd
+
+/// Returns the armor cooldown penalty multiplier for this spell and caster.
+/// 0 means no penalty. Spells with ignore_armor_penalty always return 0.
+/datum/action/cooldown/spell/proc/get_armor_cd_multiplier(mob/living/user)
+	if(ignore_armor_penalty)
+		return 0
+	if(!user.check_armor_skill())
+		return UNTRAINED_ARMOR_CD_PENALTY
+	if(!ishuman(user))
+		return 0
+	var/mob/living/carbon/human/H = user
+	var/ac = H.highest_ac_worn()
+	if(ac == ARMOR_CLASS_HEAVY)
+		return HEAVY_ARMOR_CD_PENALTY
+	if(ac == ARMOR_CLASS_MEDIUM)
+		return MEDIUM_ARMOR_CD_PENALTY
+	return 0
 
 /// Adjust stamina cost based on INT only.
 /// Matches proc_holder's calculate_fatigue_drain from PR #6316 — no skill, no armor.
@@ -1278,18 +1289,11 @@
 		var/diff = SPELL_SCALING_THRESHOLD - user.STAINT
 		var/int_mod = base * diff * COOLDOWN_REDUCTION_PER_INT
 		breakdown += span_smallred("  Intelligence: +[DisplayTimeText(int_mod)]")
-	if(!user.check_armor_skill())
-		var/armor_mod = base * UNTRAINED_ARMOR_CD_PENALTY
-		breakdown += span_smallred("  Untrained armor: +[DisplayTimeText(armor_mod)]")
-	else if(ishuman(user))
-		var/mob/living/carbon/human/H = user
-		var/ac = H.highest_ac_worn()
-		if(ac == ARMOR_CLASS_HEAVY)
-			var/armor_mod = base * HEAVY_ARMOR_CD_PENALTY
-			breakdown += span_smallred("  Armor weight: +[DisplayTimeText(armor_mod)]")
-		else if(ac == ARMOR_CLASS_MEDIUM)
-			var/armor_mod = base * MEDIUM_ARMOR_CD_PENALTY
-			breakdown += span_smallred("  Armor weight: +[DisplayTimeText(armor_mod)]")
+	var/armor_mult = get_armor_cd_multiplier(user)
+	if(armor_mult > 0)
+		var/armor_mod = base * armor_mult
+		var/armor_label = user.check_armor_skill() ? "Armor weight" : "Untrained armor"
+		breakdown += span_smallred("  [armor_label]: +[DisplayTimeText(armor_mod)]")
 	return breakdown
 
 /// Breakdown of stamina/energy cost modifiers for examine. INT only, matching PR #6316.

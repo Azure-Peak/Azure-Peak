@@ -37,6 +37,8 @@
 
 	/// This "spell" (miracle) is excluded from Priest's round-start selection.
 	var/priest_excluded = FALSE
+	/// If TRUE, this spell ignores armor cooldown penalties (for armored casters like Tithebound).
+	var/ignore_armor_penalty = FALSE
 
 	var/skipcharge = FALSE
 
@@ -244,18 +246,11 @@ GLOBAL_LIST_INIT(spells, typesof(/obj/effect/proc_holder/spell)) //needed for th
 		var/diffy = SPELL_SCALING_THRESHOLD - user.STAINT
 		var/int_mod = initial(recharge_time) * diffy * COOLDOWN_REDUCTION_PER_INT
 		breakdown += span_smallred("  Intelligence: +[DisplayTimeText(int_mod)]")
-	if(!user.check_armor_skill())
-		var/armor_mod = initial(recharge_time) * UNTRAINED_ARMOR_CD_PENALTY
-		breakdown += span_smallred("  Untrained armor: +[DisplayTimeText(armor_mod)]")
-	else if(ishuman(user))
-		var/mob/living/carbon/human/H = user
-		var/ac = H.highest_ac_worn()
-		if(ac == ARMOR_CLASS_HEAVY)
-			var/armor_mod = initial(recharge_time) * HEAVY_ARMOR_CD_PENALTY
-			breakdown += span_smallred("  Armor weight: +[DisplayTimeText(armor_mod)]")
-		else if(ac == ARMOR_CLASS_MEDIUM)
-			var/armor_mod = initial(recharge_time) * MEDIUM_ARMOR_CD_PENALTY
-			breakdown += span_smallred("  Armor weight: +[DisplayTimeText(armor_mod)]")
+	var/armor_mult = get_armor_cd_multiplier(user)
+	if(armor_mult > 0)
+		var/armor_mod = initial(recharge_time) * armor_mult
+		var/armor_label = user.check_armor_skill() ? "Armor weight" : "Untrained armor"
+		breakdown += span_smallred("  [armor_label]: +[DisplayTimeText(armor_mod)]")
 	return breakdown
 
 /obj/effect/proc_holder/spell/proc/get_fatigue_breakdown(mob/living/user)
@@ -283,16 +278,25 @@ GLOBAL_LIST_INIT(spells, typesof(/obj/effect/proc_holder/spell)) //needed for th
 		var/diff2 = SPELL_SCALING_THRESHOLD - user.STAINT
 		newcd += base * diff2 * COOLDOWN_REDUCTION_PER_INT
 	// Armor penalties
-	if(!user.check_armor_skill())
-		newcd += base * UNTRAINED_ARMOR_CD_PENALTY
-	else if(ishuman(user))
-		var/mob/living/carbon/human/H = user
-		var/ac = H.highest_ac_worn()
-		if(ac == ARMOR_CLASS_HEAVY)
-			newcd += base * HEAVY_ARMOR_CD_PENALTY
-		else if(ac == ARMOR_CLASS_MEDIUM)
-			newcd += base * MEDIUM_ARMOR_CD_PENALTY
+	newcd += base * get_armor_cd_multiplier(user)
 	return newcd
+
+/// Returns the armor cooldown penalty multiplier for this spell and caster.
+/// 0 means no penalty. Spells with ignore_armor_penalty always return 0.
+/obj/effect/proc_holder/spell/proc/get_armor_cd_multiplier(mob/living/user)
+	if(ignore_armor_penalty)
+		return 0
+	if(!user.check_armor_skill())
+		return UNTRAINED_ARMOR_CD_PENALTY
+	if(!ishuman(user))
+		return 0
+	var/mob/living/carbon/human/H = user
+	var/ac = H.highest_ac_worn()
+	if(ac == ARMOR_CLASS_HEAVY)
+		return HEAVY_ARMOR_CD_PENALTY
+	if(ac == ARMOR_CLASS_MEDIUM)
+		return MEDIUM_ARMOR_CD_PENALTY
+	return 0
 
 /obj/effect/proc_holder/spell/proc/get_spell_statistics(mob/living/user)
 	var/list/stats = list()
