@@ -12,7 +12,7 @@
 
 /obj/item/clothing/head/roguetown/helmet/heavy/malum
 	name = "helm of malum"
-	desc = "Forged in a coal-black, this helmet carries a sigiled blade upon it's visor, ever reminding it's wearer of Malum's powerful gaze."
+	desc = "Forged in a coal-black, this helmet carries a sigiled blade upon its visor, ever reminding its wearer of Malum's powerful gaze."
 	icon_state = "malumhelm"
 	item_state = "malumhelm"
 	emote_environment = 3

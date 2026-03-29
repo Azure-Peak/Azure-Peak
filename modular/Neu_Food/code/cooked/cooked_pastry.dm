@@ -111,6 +111,7 @@
 	desc = "Doughy, soft, and speckled with chocolate. A little less than 'unacceptable', but still far too raw to peck at.. maybe some more chocolate, to round it out?"
 	icon = 'modular/Neu_Food/icons/cooked/cooked_pastry.dmi'
 	icon_state = "raw_halfcookiedough"
+	cooked_smell = /datum/pollutant/food/cookies_chocolate
 	w_class = WEIGHT_CLASS_NORMAL
 	eat_effect = null
 	foodtype = GRAIN | DAIRY
@@ -156,6 +157,7 @@
 	slices_num = 6
 	slice_path = /obj/item/reagent_containers/food/snacks/rogue/cookieslice
 	slice_batch = FALSE
+	cooked_smell = /datum/pollutant/food/cookies_chocolate
 	slice_sound = TRUE
 	rotprocess = SHELFLIFE_LONG
 	foodtype = GRAIN | DAIRY
@@ -201,6 +203,7 @@
 	desc = "Doughy, soft, and speckled with dragée dropplings. A little less than 'unacceptable', but still far too raw to peck at.. maybe some more dragée, to round it out?"
 	icon = 'modular/Neu_Food/icons/cooked/cooked_pastry.dmi'
 	icon_state = "raw_halfcookiedoughd"
+	cooked_smell = /datum/pollutant/food/cookies_dragee
 	w_class = WEIGHT_CLASS_NORMAL
 	eat_effect = null
 	foodtype = GRAIN | DAIRY
@@ -246,6 +249,7 @@
 	slices_num = 6
 	slice_path = /obj/item/reagent_containers/food/snacks/rogue/cookiesliced
 	slice_batch = FALSE
+	cooked_smell = /datum/pollutant/food/cookies_dragee
 	slice_sound = TRUE
 	rotprocess = SHELFLIFE_LONG
 	foodtype = GRAIN | DAIRY
@@ -292,6 +296,7 @@
 	icon = 'modular/Neu_Food/icons/cooked/cooked_pastry.dmi'
 	icon_state = "raw_halfcookiedoughc"
 	w_class = WEIGHT_CLASS_NORMAL
+	cooked_smell = /datum/pollutant/food/cookies_caramel
 	eat_effect = null
 	foodtype = GRAIN | DAIRY
 
@@ -336,6 +341,7 @@
 	slices_num = 6
 	slice_path = /obj/item/reagent_containers/food/snacks/rogue/cookieslicec
 	slice_batch = FALSE
+	cooked_smell = /datum/pollutant/food/cookies_caramel
 	slice_sound = TRUE
 	rotprocess = SHELFLIFE_LONG
 	foodtype = GRAIN | DAIRY
@@ -382,6 +388,7 @@
 	icon = 'modular/Neu_Food/icons/cooked/cooked_pastry.dmi'
 	icon_state = "raw_halfcookiedoughr"
 	w_class = WEIGHT_CLASS_NORMAL
+	cooked_smell = /datum/pollutant/food/cookies_raisins
 	eat_effect = null
 	foodtype = GRAIN | DAIRY | FRUIT
 
@@ -424,6 +431,7 @@
 	tastes = list("little bursts of fruity sweetness" = 1, "crispy dough with a hint of butteriness" = 1)
 	bitesize = 8
 	slices_num = 6
+	cooked_smell = /datum/pollutant/food/cookies_raisins
 	slice_path = /obj/item/reagent_containers/food/snacks/rogue/cookieslicer
 	slice_batch = FALSE
 	slice_sound = TRUE

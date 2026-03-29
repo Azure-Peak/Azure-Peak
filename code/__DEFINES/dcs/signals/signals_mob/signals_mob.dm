@@ -6,6 +6,9 @@
 //seems somewhat useful
 #define COMSIG_MOB_STATCHANGE "mob_statchange"
 
+/// Return value to cancel an attack chain from a signal handler.
+#define COMPONENT_CANCEL_ATTACK_CHAIN (1<<0)
+
 ///before attackingtarget has happened, source is the attacker and target is the attacked
 #define COMSIG_HOSTILE_PRE_ATTACKINGTARGET "hostile_pre_attackingtarget"
 	#define COMPONENT_HOSTILE_NO_PREATTACK (1<<0) //cancel the attack, only works before attack happens

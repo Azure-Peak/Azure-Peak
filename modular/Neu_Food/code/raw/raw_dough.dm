@@ -847,7 +847,7 @@
 		if(do_after(user, short_cooktime, target = src))
 			playsound(get_turf(user), 'modular/Neu_Food/sound/eggbreak.ogg', 100, TRUE, -1)
 			name = "half-filled strudel"
-			desc = "A strudel form mostly filled with apples. Still missing it's other part."
+			desc = "A strudel form mostly filled with apples. Still missing its other part."
 			process_step = 2
 			qdel(I)
 			return

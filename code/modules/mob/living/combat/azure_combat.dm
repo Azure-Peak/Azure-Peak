@@ -184,10 +184,6 @@
 	if(m_intent == MOVE_INTENT_RUN)
 		to_chat(src, span_warning("I can't focus on this while running."))
 		return FALSE
-	if(magearmor == 0 && HAS_TRAIT(src, TRAIT_MAGEARMOR))
-		magearmor = 1
-		apply_status_effect(/datum/status_effect/buff/magearmor)
-		to_chat(src, span_warning("I drop my Mage Armor to protect myself!"))
 	apply_status_effect(/datum/status_effect/buff/clash)
 	return TRUE
 
@@ -335,6 +331,8 @@
 			LAZYCLEARLIST(tempo_attackers)
 			if(tempo_amt >= TEMPO_ONE)
 				to_chat(src, span_info("My muscles relax. My tempo is gone."))
+			if(tempo_amt >= TEMPO_MAX)
+				playsound_local(src, 'sound/combat/tempo_loss.ogg', 85, TRUE)
 			manage_tempo()
 
 /mob/living/proc/get_tempo_bonus(id)

@@ -68,3 +68,10 @@
 	if(customcolor)
 		add_atom_colour(customcolor, FIXED_COLOUR_PRIORITY)
 	. = ..()
+
+/obj/effect/temp_visual/barter_fx
+	randomdir = FALSE
+	icon = 'icons/effects/effects.dmi'
+	icon_state = "barter"
+	layer = HUD_LAYER
+	plane = ABOVE_LIGHTING_PLANE

@@ -811,7 +811,7 @@
 
 /datum/emote/living/scream/strain
 	key = "strain"
-	message = "strains themselves!"
+	message = "strains themself!"
 	emote_type = EMOTE_AUDIBLE
 	only_forced_audio = TRUE
 	show_runechat = FALSE
@@ -1853,7 +1853,7 @@
 	attempt_message_list = list(
 		"tries to maintain their composure...",
 		"attempts to appear impressive...",
-		"contemplating their next move...",
+		"starts contemplating their next move...",
 	)
 
 	success_message_list = list(

@@ -1484,8 +1484,11 @@ GLOBAL_VAR_INIT(rpg_loot_items, FALSE)
 				update_force_dynamic()
 				wdefense_dynamic = (wdefense + wdefense_wbonus)
 
+
 /obj/item/proc/wield(mob/living/carbon/user, show_message = TRUE)
 	if(wielded)
+		return
+	if(!gripped_intents)
 		return
 	if(user.get_inactive_held_item())
 		to_chat(user, span_warning("I need a free hand first."))

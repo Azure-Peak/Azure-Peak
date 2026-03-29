@@ -48,6 +48,9 @@
 			if(intdamfactor != 1)
 				intdamage *= intdamfactor
 
+			if(has_status_effect(/datum/status_effect/buff/iron_skin))
+				intdamage *= 0.75
+
 			if(istype(used_weapon) && used_weapon.is_silver && ((used.smeltresult in list(/obj/item/ingot/aaslag, /obj/item/ingot/aalloy, /obj/item/ingot/purifiedaalloy)) || used.GetComponent(/datum/component/cursed_item)))
 				var/datum/component/silverbless/bless = used_weapon.GetComponent(/datum/component/silverbless)
 				if(bless.is_blessed)
@@ -90,6 +93,9 @@
 					intdamage *= dr_mult
 			if(intdamfactor != 1)
 				intdamage *= intdamfactor
+
+			if(has_status_effect(/datum/status_effect/buff/iron_skin))
+				intdamage *= 0.75
 
 			var/tempo_bonus = get_tempo_bonus(TEMPO_TAG_ARMOR_INTEGFACTOR)
 			if(tempo_bonus)
@@ -886,7 +892,7 @@
 
 /mob/living/carbon/human/on_fire_stack(seconds_per_tick, datum/status_effect/fire_handler/fire_stacks/fire_handler)
 	//SEND_SIGNAL(src, COMSIG_HUMAN_BURNING)
-	if(fire_handler.stacks >= 5)
+	if(fire_handler.stacks >= 10)
 		burn_clothing(seconds_per_tick, fire_handler.stacks)
 	var/no_protection = FALSE
 	fire_handler.harm_human(seconds_per_tick, no_protection)

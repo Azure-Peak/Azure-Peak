@@ -94,7 +94,7 @@
 	remarks = list("To understand these archaic things...", "Mana flows through all living things...", "This spell will fatigue me...", "The spell should flow like water...")
 
 /obj/item/rune/spell/air_rune
-	spell = /obj/effect/proc_holder/spell/invoked/projectile/lightningbolt
+	spell = /datum/action/cooldown/spell/projectile/lightning_bolt
 	spellname = "lightning"
 	// icon_state = "air_rune"
 	name = "air rune"
@@ -102,7 +102,7 @@
 	remarks = list("To understand these archaic things...", "Done properly this could...", "I think I just shocked my hand...")
 
 /obj/item/rune/spell/earth_rune
-	spell = /obj/effect/proc_holder/spell/invoked/projectile/fetch
+	spell = /datum/action/cooldown/spell/projectile/fetch
 	spellname = "fetch"
 	// icon_state = "earth_rune"
 	name = "earth rune"

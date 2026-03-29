@@ -544,13 +544,30 @@
 					for(var/stat in adv_ref.adv_stat_ceiling)
 						dat += "["[capitalize(stat)]: <b>\Roman[adv_ref.adv_stat_ceiling[stat]]</b>"] | "
 					dat += "<i><br>Regardless of your statpacks or race choice, you will not be able to exceed these stats on spawn.</i></font>"
-				if(LAZYLEN(adv_ref.subclass_spell_point_pools))
-					dat += "<font color = '#a3a7e0'><b>Spell Pools:</b><br>"
-					for(var/pool_name in adv_ref.subclass_spell_point_pools)
-						dat += "[capitalize(pool_name)]: <b>[adv_ref.subclass_spell_point_pools[pool_name]]</b> points<br>"
+				if(LAZYLEN(adv_ref.subclass_mage_aspects))
+					var/list/aspect_cfg = adv_ref.subclass_mage_aspects
+					dat += "<font color = '#a3a7e0'><b>Mage Aspects:</b><br>"
+					if(aspect_cfg["mastery"])
+						dat += "Mastery: <b>Unlocked</b><br>"
+					if(aspect_cfg["major"] > 0)
+						dat += "Major Aspects: <b>[aspect_cfg["major"]]</b><br>"
+					if(aspect_cfg["minor"] > 0)
+						dat += "Minor Aspects: <b>[aspect_cfg["minor"]]</b><br>"
+					if(aspect_cfg["utilities"] > 0)
+						dat += "Utility Slots: <b>[aspect_cfg["utilities"]]</b><br>"
+					if(LAZYLEN(aspect_cfg["locked_aspects"]))
+						dat += "Innate: "
+						var/list/locked = aspect_cfg["locked_aspects"]
+						for(var/aspect_path in locked)
+							var/datum/magic_aspect/A = aspect_path
+							dat += "<b>[initial(A.name)]</b> "
+						dat += "<br>"
+					if(islist(aspect_cfg["variants"]))
+						var/list/overrides = aspect_cfg["variants"]
+						for(var/aspect_path in overrides)
+							var/datum/magic_aspect/A = aspect_path
+							dat += "Tradition: <b>[capitalize(overrides[aspect_path])] [initial(A.name)]</b><br>"
 					dat += "</font>"
-				else if(adv_ref.subclass_spellpoints > 0)
-					dat += "<font color = '#a3a7e0'>Starting Spellpoints: <b>[adv_ref.subclass_spellpoints]</b></font>"
 				if(length(adv_ref.subclass_languages))
 					dat += "<details><summary><i>Known Languages</i></summary>"
 					for(var/i in 1 to length(adv_ref.subclass_languages))

@@ -92,18 +92,6 @@
 	filters += filter(type="alpha", render_source = EMISSIVE_UNBLOCKABLE_RENDER_TARGET, flags = MASK_INVERSE)
 	filters += filter(type="alpha", render_source = O_LIGHTING_VISUAL_RENDER_TARGET, flags = MASK_INVERSE)
 
-/atom/movable/screen/plane_master/parallax
-	name = "parallax plane master"
-//	screen_loc = "CENTER-2"
-	plane = PLANE_SPACE_PARALLAX
-	blend_mode = BLEND_MULTIPLY
-	mouse_opacity = MOUSE_OPACITY_TRANSPARENT
-
-/atom/movable/screen/plane_master/parallax_white
-	name = "parallax whitifier plane master"
-//	screen_loc = "CENTER-2"
-	plane = PLANE_SPACE
-
 /atom/movable/screen/plane_master/lighting/backdrop(mob/mymob)
 	mymob.overlay_fullscreen("lighting_backdrop_lit", /atom/movable/screen/fullscreen/lighting_backdrop/lit)
 	mymob.overlay_fullscreen("lighting_backdrop_unlit", /atom/movable/screen/fullscreen/lighting_backdrop/unlit)

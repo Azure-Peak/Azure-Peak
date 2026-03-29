@@ -97,12 +97,12 @@ GLOBAL_LIST_INIT(averse_factions, list(
 	return null
 
 /datum/charflaw/eznoflaw
-	name = "No Flaw"
-	desc = "I'm a normal person, how rare!"
+	name = "Flawless"
+	desc = "I'm untempted by even the simplest vices. Am I riding the high of my latest TRIUMPH, or am I simply a rarity amongst rarities?" //Originally 'No Flaw', with "I'm a normal person, how rare!" as the desc.
 
 /datum/charflaw/noflaw
-	name = "No Flaw (-3 TRI)"
-	desc = "I'm a normal person, how rare! (Consumes 3 triumphs or gives a random flaw.)"
+	name = "Flawless (-3 TRI)"
+	desc = "I'm untempted by even the simplest vices. Am I riding the high of my latest TRIUMPH, or am I simply a rarity amongst rarities?"
 
 /datum/charflaw/noflaw/apply_post_equipment(mob/user)
 	var/mob/living/carbon/human/H = user
@@ -623,7 +623,7 @@ GLOBAL_LIST_INIT(averse_factions, list(
 	ADD_TRAIT(user, TRAIT_CRITICAL_WEAKNESS, TRAIT_GENERIC)
 
 /datum/charflaw/leprosy
-	name = "Leper (+1 TRI)"
+	name = "Leper (+3 TRI)"
 	desc = "I am cursed with leprosy! Too poor to afford treatment, my skin now lays violated by lesions, my extremities are numb, and my presence disturbs even the most stalwart men."
 
 /datum/charflaw/leprosy/apply_post_equipment(mob/user)
@@ -637,10 +637,10 @@ GLOBAL_LIST_INIT(averse_factions, list(
 	H.change_stat(STATKEY_WIL, -1)
 	H.change_stat(STATKEY_SPD, -1)
 	H.change_stat(STATKEY_LCK, -1)
-	H.adjust_triumphs(1)
+	H.adjust_triumphs(3)
 
 /datum/charflaw/mind_broken
-	name = "Asundered Mind (+1 TRI)"
+	name = "Asundered Mind (+3 TRI)"
 	desc = "My mind is asundered, wether it was by own means or an unfortunate accident. Nothing seems real to me... \
 	\nWARNING: HALLUCINATIONS MAY JUMPSCARE YOU, AND PREVENT YOU FROM TELLING APART REALITY AND IMAGINATION. \
 	FURTHERMORE, THIS DOES NOT EXEMPT YOU FROM ANY RULES SET BY THE SERVER. ESCALATION STILL APPLIES."
@@ -648,7 +648,7 @@ GLOBAL_LIST_INIT(averse_factions, list(
 /datum/charflaw/mind_broken/apply_post_equipment(mob/living/carbon/human/insane_fool)
 	insane_fool.hallucination = INFINITY
 	ADD_TRAIT(insane_fool, TRAIT_PSYCHOSIS, TRAIT_GENERIC)
-	insane_fool.adjust_triumphs(1)
+	insane_fool.adjust_triumphs(3)
 	if(insane_fool.patron?.type == /datum/patron/divine/abyssor) 
 	 insane_fool.grant_language(/datum/language/abyssal)
 

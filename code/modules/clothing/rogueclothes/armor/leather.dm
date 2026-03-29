@@ -92,10 +92,10 @@
 	icon_state = "studleather"
 	item_state = "studleather"
 	blocksound = SOFTHIT
-	armor = ARMOR_LEATHER
+	armor = ARMOR_BRIGANDINE
 	nodismemsleeves = TRUE
 	body_parts_covered = COVERAGE_TORSO
-	max_integrity = ARMOR_INT_CHEST_LIGHT_MASTER
+	max_integrity = ARMOR_INT_CHEST_LIGHT_MEDIUM // 50 less durability than light brigandines.
 	smeltresult = /obj/item/ingot/iron
 	sellprice = 25
 	armor_class = ARMOR_CLASS_LIGHT

@@ -645,7 +645,9 @@ GLOBAL_VAR_INIT(farm_animals, FALSE)
 		playsound(src, 'sound/foley/gross.ogg', 100, FALSE)
 	if(isemptylist(butcher_results))
 		if(head_butcher)
-			var/obj/item/natural/head/head = new head_butcher(Tsec)
+			var/head_path = head_butcher
+			head_butcher = null
+			var/obj/item/natural/head/head = new head_path(Tsec)
 			var/head_quality = 0
 			switch(butchery_skill_level)
 				if(SKILL_LEVEL_NONE to SKILL_LEVEL_NOVICE)

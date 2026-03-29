@@ -1,70 +1,67 @@
-/* The bread & butter poke and ranged attack of the blade subclass.
-Since you need normal attack to build momentum, at higher momentum it
-is empowered for double damage.
-
-The ability to turn it from a perpendicular slash (Cut) to parallel AP
-Stab (Stab) or single-target integrity nuke (Blunt) add some skill
-expression and complexity to the spell, to Blade's otherwise 3
-unique spells only toolkit. It is about adapting to the situation at
-hand and I intend for Spellblade, feeling wise.
-*/
-/obj/effect/proc_holder/spell/invoked/air_strike
+/datum/action/cooldown/spell/air_strike
 	name = "Air Strike"
 	desc = "Your blade passes into the immaterial and the leyline carries it forth, striking up to 4 tiles away. \
-	Brief telegraph before the strike lands — aim where they will be. \
+	Brief telegraph before the strike lands - aim where they will be. \
 	At 3+ momentum: consumes 3 to double damage. \
 	Strikes your aimed bodypart. Adaptable to intent: \
 		- Cut: 3x1 perpendicular line, multiple targets. (30/60 damage) \
-		- Stab: 3x1 forward line, pierces through enemies. (20/40 damage, 25 AP) \
+		- Stab: 3x1 forward line, pierces through enemies. (20/40 damage, LIGHT PENETRATION) \
 		- Blunt: All force focused on a single target. (45/90 damage)"
-	clothes_req = FALSE
-	range = 4
-	action_icon = 'icons/mob/actions/classuniquespells/spellblade.dmi'
-	overlay_state = "air_strike" // Icon by Prominence.
-	releasedrain = SPELLCOST_SB_POKE
-	chargedrain = 0
-	chargetime = 3
-	recharge_time = 12 SECONDS
-	warnie = "spellwarning"	
-	no_early_release = TRUE
-	movement_interrupt = FALSE
-	charging_slowdown = 0
-	chargedloop = /datum/looping_sound/invokegen
+	button_icon = 'icons/mob/actions/classuniquespells/spellblade.dmi'
+	button_icon_state = "air_strike"
+	sound = 'sound/combat/wooshes/bladed/wooshsmall (1).ogg'
+	spell_color = GLOW_COLOR_ARCANE
+	glow_intensity = GLOW_INTENSITY_MEDIUM
+
+	cast_range = 4
+
+	primary_resource_type = SPELL_COST_STAMINA
+	primary_resource_cost = SPELLCOST_SB_POKE
+
 	invocations = list("Ictus Venti!")
-	invocation_type = "shout"
-	gesture_required = TRUE
-	xp_gain = FALSE
+	invocation_type = INVOCATION_SHOUT
+
+	charge_required = TRUE
+	weapon_cast_penalized = FALSE
+	charge_time = 1
+	charge_drain = 0
+	charge_slowdown = CHARGING_SLOWDOWN_NONE
+	charge_sound = 'sound/magic/charging.ogg'
+	cooldown_time = 12 SECONDS
+
+	associated_skill = /datum/skill/magic/arcane
+	spell_tier = 2
+	spell_impact_intensity = SPELL_IMPACT_LOW
+	spell_requirements = SPELL_REQUIRES_NO_ANTIMAGIC | SPELL_REQUIRES_HUMAN | SPELL_REQUIRES_SAME_Z
+
 	var/cut_damage = 30
 	var/stab_damage = 20
-	var/stab_ap = 25 // AP pierce low grade leather armor (40) unempowered, pierce hardened leather (50), but not light brig
+	var/stab_ap = PEN_LIGHT
 	var/blunt_damage = 45
 	var/empowered_mult = 2
 	var/momentum_cost = 3
 
-/obj/effect/proc_holder/spell/invoked/air_strike/cast(list/targets, mob/user = usr)
-	var/mob/living/carbon/human/H = user
+/datum/action/cooldown/spell/air_strike/cast(atom/cast_on)
+	. = ..()
+	var/mob/living/carbon/human/H = owner
 	if(!istype(H))
-		revert_cast()
-		return
+		return FALSE
 
 	var/obj/item/held_weapon = arcyne_get_weapon(H)
 	if(!held_weapon)
 		to_chat(H, span_warning("I need my bound weapon in hand!"))
-		revert_cast()
-		return
+		return FALSE
 
-	var/atom/target = targets[1]
-	var/turf/target_turf = get_turf(target)
+	var/turf/target_turf = get_turf(cast_on)
 	if(!target_turf)
-		revert_cast()
-		return
+		return FALSE
 
 	var/empowered = FALSE
 	var/datum/status_effect/buff/arcyne_momentum/M = H.has_status_effect(/datum/status_effect/buff/arcyne_momentum)
 	if(M && M.stacks >= momentum_cost)
 		M.consume_stacks(momentum_cost)
 		empowered = TRUE
-		to_chat(H, span_notice("[momentum_cost] momentum released — empowered strike!"))
+		to_chat(H, span_notice("[momentum_cost] momentum released - empowered strike!"))
 
 	var/facing = get_dir(get_turf(H), target_turf) || H.dir
 	var/datum/intent/current_intent = H.a_intent
@@ -80,19 +77,18 @@ hand and I intend for Spellblade, feeling wise.
 
 	return TRUE
 
-/obj/effect/proc_holder/spell/invoked/air_strike/proc/do_cut_strike(mob/living/carbon/human/H, obj/item/weapon, empowered, turf/origin, facing)
+/datum/action/cooldown/spell/air_strike/proc/do_cut_strike(mob/living/carbon/human/H, obj/item/weapon, empowered, turf/origin, facing)
 	var/def_zone = H.zone_selected || BODY_ZONE_CHEST
 	var/damage = empowered ? (cut_damage * empowered_mult) : cut_damage
 
 	var/list/affected_turfs = get_perpendicular_line(origin, facing)
 
-	// Telegraph — spellwarning on affected tiles
 	for(var/turf/T in affected_turfs)
 		new /obj/effect/temp_visual/air_strike_telegraph(T)
 
 	addtimer(CALLBACK(src, PROC_REF(resolve_cut_strike), H, weapon, empowered, affected_turfs, damage, def_zone, facing), 2)
 
-/obj/effect/proc_holder/spell/invoked/air_strike/proc/resolve_cut_strike(mob/living/carbon/human/H, obj/item/weapon, empowered, list/affected_turfs, damage, def_zone, facing)
+/datum/action/cooldown/spell/air_strike/proc/resolve_cut_strike(mob/living/carbon/human/H, obj/item/weapon, empowered, list/affected_turfs, damage, def_zone, facing)
 	if(QDELETED(H) || H.stat == DEAD)
 		return
 
@@ -127,19 +123,18 @@ hand and I intend for Spellblade, feeling wise.
 			surge.add_stacks(1)
 			to_chat(H, span_notice("DOUBLE STRIKE! ARCYNE SURGE!"))
 
-/obj/effect/proc_holder/spell/invoked/air_strike/proc/do_stab_strike(mob/living/carbon/human/H, obj/item/weapon, empowered, turf/origin, facing)
+/datum/action/cooldown/spell/air_strike/proc/do_stab_strike(mob/living/carbon/human/H, obj/item/weapon, empowered, turf/origin, facing)
 	var/def_zone = H.zone_selected || BODY_ZONE_CHEST
 	var/damage = empowered ? (stab_damage * empowered_mult) : stab_damage
 
 	var/list/affected_turfs = get_forward_line(origin, facing, 3)
 
-	// Telegraph — spellwarning on affected tiles
 	for(var/turf/T in affected_turfs)
 		new /obj/effect/temp_visual/air_strike_telegraph(T)
 
 	addtimer(CALLBACK(src, PROC_REF(resolve_stab_strike), H, weapon, empowered, affected_turfs, damage, def_zone, facing), 2)
 
-/obj/effect/proc_holder/spell/invoked/air_strike/proc/resolve_stab_strike(mob/living/carbon/human/H, obj/item/weapon, empowered, list/affected_turfs, damage, def_zone, facing)
+/datum/action/cooldown/spell/air_strike/proc/resolve_stab_strike(mob/living/carbon/human/H, obj/item/weapon, empowered, list/affected_turfs, damage, def_zone, facing)
 	if(QDELETED(H) || H.stat == DEAD)
 		return
 
@@ -174,16 +169,15 @@ hand and I intend for Spellblade, feeling wise.
 			surge.add_stacks(1)
 			to_chat(H, span_notice("DOUBLE STRIKE! ARCYNE SURGE!"))
 
-/obj/effect/proc_holder/spell/invoked/air_strike/proc/do_blunt_strike(mob/living/carbon/human/H, obj/item/weapon, empowered, turf/origin)
+/datum/action/cooldown/spell/air_strike/proc/do_blunt_strike(mob/living/carbon/human/H, obj/item/weapon, empowered, turf/origin)
 	var/def_zone = H.zone_selected || BODY_ZONE_CHEST
 	var/damage = empowered ? (blunt_damage * empowered_mult) : blunt_damage
 
-	// Telegraph — spellwarning on target tile
 	new /obj/effect/temp_visual/air_strike_telegraph(origin)
 
 	addtimer(CALLBACK(src, PROC_REF(resolve_blunt_strike), H, weapon, empowered, origin, damage, def_zone), 2)
 
-/obj/effect/proc_holder/spell/invoked/air_strike/proc/resolve_blunt_strike(mob/living/carbon/human/H, obj/item/weapon, empowered, turf/origin, damage, def_zone)
+/datum/action/cooldown/spell/air_strike/proc/resolve_blunt_strike(mob/living/carbon/human/H, obj/item/weapon, empowered, turf/origin, damage, def_zone)
 	if(QDELETED(H) || H.stat == DEAD)
 		return
 
@@ -211,7 +205,7 @@ hand and I intend for Spellblade, feeling wise.
 		arcyne_strike(H, victim, weapon, damage, def_zone, BCLASS_BLUNT, spell_name = "Air Strike (Blunt)")
 	H.visible_message(span_danger("[H] slams [weapon.name] down, focusing all arcyne force into [victim]!"))
 
-/obj/effect/proc_holder/spell/invoked/air_strike/proc/get_perpendicular_line(turf/center, facing)
+/datum/action/cooldown/spell/air_strike/proc/get_perpendicular_line(turf/center, facing)
 	var/list/turfs = list()
 	turfs += center
 	var/perp_dir1
@@ -228,7 +222,7 @@ hand and I intend for Spellblade, feeling wise.
 	if(right) turfs += right
 	return turfs
 
-/obj/effect/proc_holder/spell/invoked/air_strike/proc/get_forward_line(turf/center, facing, length = 3)
+/datum/action/cooldown/spell/air_strike/proc/get_forward_line(turf/center, facing, length = 3)
 	var/list/turfs = list()
 	turfs += center
 	var/turf/current = center

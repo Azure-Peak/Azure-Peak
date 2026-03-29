@@ -524,7 +524,7 @@
 		var/newlockdifficulty = oldlockdifficulty + 1
 		if(newlockdifficulty > 4)
 			flick(off_icon, src)
-			to_chat(user, span_info("The contraption beeps! its upgraded to its limit!"))
+			to_chat(user, span_info("The contraption beeps! It's upgraded to its limit!"))
 			playsound(src, 'sound/magic/magic_nulled.ogg', 100, TRUE)
 			return
 		flick(on_icon, src)

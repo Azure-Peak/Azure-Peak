@@ -16,7 +16,7 @@
 					/obj/effect/proc_holder/spell/invoked/gallowshumor					= CLERIC_T3,
 					/obj/effect/proc_holder/spell/self/ten_united						= CLERIC_T4,
 					/obj/effect/proc_holder/spell/invoked/resurrect/undivided			= CLERIC_T4
-	)
+	) /datum/action/cooldown/spell/arcyne_forge/miracle
 	confess_lines = list(
 		"THE HOLY DECAGRAM SHALL SHIELD MY SOUL!",
 		"I SERVE THE PANTHEON RESPLENDENT!",

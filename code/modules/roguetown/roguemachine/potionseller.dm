@@ -55,7 +55,8 @@
 		qdel(reagents)
 		reagents = null
 	if(budget > 0)
-		budget2change(budget)
+		var/turf/T = get_turf(src)
+		budget2change(budget, custom_turf = T)
 		budget = 0
 	set_light(0)
 	return ..()
@@ -408,7 +409,8 @@
 	held_items = list()
 	reagents.clear_reagents()
 	if(budget > 0)
-		budget2change(budget)
+		var/turf/T = get_turf(src)
+		budget2change(budget, custom_turf = T)
 		budget = 0
 	set_light(0)
 	update_icon()

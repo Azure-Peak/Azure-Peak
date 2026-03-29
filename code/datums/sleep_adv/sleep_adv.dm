@@ -222,9 +222,6 @@
 /datum/sleep_adv/proc/close_ui()
 	if(!mind.current)
 		return
-	if(mind.has_changed_spell)
-		mind.has_changed_spell = FALSE
-		to_chat(mind.current, span_smallnotice("I feel like I can change my spells again."))
 	mind.current << browse(null, "window=dreams")
 
 /datum/sleep_adv/proc/process_sleep()
@@ -332,16 +329,8 @@
 /datum/sleep_adv/proc/finish()
 	if(!mind.current)
 		return
-	if(mind.has_changed_spell)
-		mind.has_changed_spell = FALSE
-		to_chat(mind.current, span_smallnotice("I feel like I can change my spells again."))
-	if(mind.has_rituos)
-		mind.has_rituos = FALSE
-		to_chat(mind.current, span_smallnotice("The toil of invoking Her Lesser Work has fled my feeble form. I can continue my transfiguration..."))
-	if (mind.rituos_spell)
-		to_chat(mind.current, span_warning("My glimpse of [mind.rituos_spell.name] flees my slumbering mind..."))
-		mind.RemoveSpell(mind.rituos_spell)
-		mind.rituos_spell = null
+	if(mind.aspect_resets_used > 0)
+		mind.aspect_resets_used = 0
 	to_chat(mind.current, span_notice("...and that's all I dreamt of."))
 	if(HAS_TRAIT(mind.current, TRAIT_STUDENT))
 		REMOVE_TRAIT(mind.current, TRAIT_STUDENT, TRAIT_GENERIC)

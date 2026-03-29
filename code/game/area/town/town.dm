@@ -86,6 +86,7 @@
 	droning_sound_dusk = null
 	droning_sound_night = null
 	keep_area = TRUE
+	town_area = TRUE
 	detail_text = DETAIL_TEXT_UNIVERSITY_OF_AZURIA
 
 /area/rogue/indoors/town/shop

@@ -134,6 +134,7 @@
 	/// Per-character theme override for examine panel viewers
 	var/examine_theme
 	var/list/img_gallery = list()
+	var/list/nsfw_img_gallery = list()
 	
 
 	possible_rmb_intents = list(/datum/rmb_intent/feint,\
@@ -190,6 +191,7 @@
 	COOLDOWN_DECLARE(priest_excommunicate)
 	COOLDOWN_DECLARE(priest_curse)
 	COOLDOWN_DECLARE(priest_change_miracles)
+	COOLDOWN_DECLARE(hag_transform_lockout)
 
 	// bait stacks for aimed intent
 	var/bait_stacks
