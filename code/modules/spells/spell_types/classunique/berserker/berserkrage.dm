@@ -4,13 +4,15 @@
 	var/brute = L.getBruteLoss()
 	var/burn = L.getFireLoss()
 	var/ragedmgbuff = 0
+	if(HAS_TRAIT (L, TRAIT_NOPAIN)) //lickers and whatever other things get locked to base buff
+		return 0
 	if(brute + burn > 200)
 		ragedmgbuff = 1
 	if(brute + burn > 400)
 		ragedmgbuff = 2
-	if(brute + burn > 650)
+	if(brute + burn > 600)
 		ragedmgbuff = 3
-	if(brute + burn > 900)
+	if(brute + burn > 800)
 		ragedmgbuff = 4
 	return ragedmgbuff
 
@@ -29,6 +31,8 @@
 		revert_cast()
 		return FALSE		
 	user.apply_status_effect(/datum/status_effect/buff/rage)
+	if(get_buff_value(user) >= 1)
+		user.apply_status_effect(/datum/status_effect/buff/rage_stamina)
 	return TRUE
 
 /atom/movable/screen/alert/status_effect/buff/rage
@@ -44,7 +48,6 @@
 	duration = 2 MINUTES
 	var/ragebuff = 0
 	var/outline_colour = "#ca0000"
-	var/obj/effect/dummy/lighting_obj/moblight/ragelight
 
 /datum/status_effect/buff/rage/on_apply()
 	update_effects()
@@ -53,8 +56,6 @@
 		var/filter = owner.get_filter(RAGE_FILTER)
 		if(!filter)
 			owner.add_filter(RAGE_FILTER, 2, list("type" = "outline", "color" = outline_colour, "alpha" = 120, "size" = 1))
-		if(!ragelight)
-			ragelight = owner.mob_light(7, 7, _color = outline_colour)
 		owner.emote("rage", forced = TRUE)
 		to_chat(owner, span_notice("PAIN FUELS MY RAGE, MY BODY IS READY TO FIGHT!"))
 		playsound(owner, 'sound/combat/hits/burn (2).ogg', 100, TRUE)
@@ -62,7 +63,6 @@
 /datum/status_effect/buff/rage/on_remove()
 	. = ..()
 	owner.remove_filter(RAGE_FILTER)
-	QDEL_NULL(ragelight)
 	to_chat(owner, span_warning("Rage subsides."))
 
 /datum/status_effect/buff/rage/proc/update_effects()
@@ -70,13 +70,31 @@
 	if(ragebuff < 1)
 		effectedstats = list(STATKEY_CON = 1, STATKEY_WIL = 1, STATKEY_STR = 1)
 	else if(ragebuff < 2)
-		effectedstats = list(STATKEY_CON = 2, STATKEY_WIL = 2, STATKEY_STR = 2)
+		effectedstats = list(STATKEY_CON = 1, STATKEY_WIL = 2, STATKEY_STR = 2)
 	else if(ragebuff < 3)
-		effectedstats = list(STATKEY_CON = 3, STATKEY_WIL = 3, STATKEY_STR = 3)
+		effectedstats = list(STATKEY_CON = 2, STATKEY_WIL = 2, STATKEY_STR = 2)
 	else if(ragebuff < 4)
-		effectedstats = list(STATKEY_CON = 4, STATKEY_WIL = 4, STATKEY_STR = 4)
+		effectedstats = list(STATKEY_CON = 2, STATKEY_WIL = 3, STATKEY_STR = 3)
 	else
-		effectedstats = list(STATKEY_CON = 5, STATKEY_WIL = 5, STATKEY_STR = 5)
+		effectedstats = list(STATKEY_CON = 3, STATKEY_WIL = 3, STATKEY_STR = 3)
+
+/atom/movable/screen/alert/status_effect/buff/rage_stamina
+	name = "RAAADRENALINE"
+	desc = "THE ANGER DRAINS MY FATIGUE!"
+	icon_state = "buff"
+
+/datum/status_effect/buff/rage_stamina
+	id = "rage stamina"
+	alert_type = /atom/movable/screen/alert/status_effect/buff/rage_stamina
+	duration = 20 SECONDS
+	var/healing_on_tick = 8
+	var/tech_healing_modifier = 1
+
+/datum/status_effect/buff/rage_stamina/tick()
+	if(owner.construct)
+		return
+	var/stamheal = healing_on_tick
+	owner.energy_add(stamheal)
 
 //worse version for advent barbarian
 
@@ -105,7 +123,6 @@
 	duration = 2 MINUTES
 	var/ragebuff = 0
 	var/outline_colour = "#ca0000"
-	var/obj/effect/dummy/lighting_obj/moblight/ragelight
 
 /datum/status_effect/buff/ragebad/on_apply()
 	update_effects()
@@ -114,8 +131,6 @@
 		var/filter = owner.get_filter(RAGE_FILTER)
 		if(!filter)
 			owner.add_filter(RAGE_FILTER, 2, list("type" = "outline", "color" = outline_colour, "alpha" = 120, "size" = 1))
-		if(!ragelight)
-			ragelight = owner.mob_light(7, 7, _color = outline_colour)
 		owner.emote("rage", forced = TRUE)
 		to_chat(owner, span_notice("PAIN FUELS MY RAGE, MY BODY IS READY TO FIGHT!"))
 		playsound(owner, 'sound/combat/hits/burn (2).ogg', 100, TRUE)
@@ -123,7 +138,6 @@
 /datum/status_effect/buff/ragebad/on_remove()
 	. = ..()
 	owner.remove_filter(RAGE_FILTER)
-	QDEL_NULL(ragelight)
 	to_chat(owner, span_warning("Rage subsides."))
 
 /datum/status_effect/buff/ragebad/proc/update_effects()
@@ -131,8 +145,8 @@
 	if(ragebuff < 1)
 		effectedstats = list(STATKEY_CON = 1, STATKEY_WIL = 1, STATKEY_STR = 1)
 	else if(ragebuff < 3)
-		effectedstats = list(STATKEY_CON = 2, STATKEY_WIL = 2, STATKEY_STR = 2)
+		effectedstats = list(STATKEY_CON = 2, STATKEY_WIL = 1, STATKEY_STR = 1)
 	else
-		effectedstats = list(STATKEY_CON = 3, STATKEY_WIL = 3, STATKEY_STR = 3)
+		effectedstats = list(STATKEY_CON = 2, STATKEY_WIL = 2, STATKEY_STR = 2)
 
 #undef RAGE_FILTER
