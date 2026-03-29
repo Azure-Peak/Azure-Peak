@@ -151,7 +151,7 @@
 	var/datum/devotion/C = new /datum/devotion(H, H.patron)
 	C.grant_miracles(H, cleric_tier = CLERIC_ORI, passive_gain = CLERIC_REGEN_MINOR, devotion_limit = CLERIC_REQ_0)	//Orison and Locate Dead only.
 	if(H.mind)
-		H.mind.AddSpell(new /obj/effect/proc_holder/spell/targeted/locate_dead) //Gives Grovetender no healing nor combat miracles. Fetch them bodies, boy!
+		H.mind.AddSpell(new /obj/effect/proc_holder/spell/self/locate_dead) //Gives Grovetender no healing nor combat miracles. Fetch them bodies, boy!
 
 	if(H.mind)
 		SStreasury.give_money_account(ECONOMIC_LOWER_CLASS, H, "Church Funding.")

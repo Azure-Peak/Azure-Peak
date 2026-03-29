@@ -186,36 +186,69 @@
 
 #undef CHURN_FILTER
 
-/obj/effect/proc_holder/spell/targeted/locate_dead
+/obj/effect/proc_holder/spell/self/locate_dead
 	name = "Locate Corpse"
-	desc = "Call upon the Undermaiden to guide you to a lost soul."
+	desc = "Beseech the Undermaiden to guide you to the fallen and reveal what still clings to their remains. Beware, however, for the Undermaiden does have a particular distaste for seeking fresh corpses, or ones who are yet earthbound."
 	overlay_state = "necraeye"
 	sound = 'sound/magic/whiteflame.ogg'
-	releasedrain = 30
-	chargedrain = 0.5
-	max_targets = 0
+	releasedrain = 40
 	cast_without_targets = TRUE
 	miracle = TRUE
 	associated_skill = /datum/skill/magic/holy
 	req_items = list(/obj/item/clothing/neck/roguetown/psicross)
-	invocations = list("Undermaiden, guide my hand to those who have lost their way.")
-	invocation_type = "whisper"
-	recharge_time = 15 SECONDS
-	devotion_cost = 35
 
-/obj/effect/proc_holder/spell/targeted/locate_dead/cast(list/targets, mob/living/user = usr)
+/mob/living
+	var/mob/living/necra_tracked_corpse = null
+	var/last_necra_ping = 0
+	var/necra_tracking_mode = 0
+
+#define NECRA_TRACK_FRESH 1
+#define NECRA_TRACK_EARTHBOUND 2
+#define NECRA_TRACK_DEPARTED 3
+
+
+/obj/effect/proc_holder/spell/self/locate_dead/cast(list/targets, mob/living/user = usr)
 	. = ..()
-	var/list/mob/corpses = list()
-	for(var/mob/living/C in GLOB.dead_mob_list)
-		if(!C.mind)
+
+	// =========================
+	// TOGGLE OFF
+	// =========================
+	if(user.necra_tracked_corpse)
+		to_chat(user, span_notice("The Undermaiden releases your hand."))
+		user.necra_tracked_corpse = null
+		user.necra_tracking_mode = 0
+		STOP_PROCESSING(SSprocessing, user)
+		revert_cast()
+		return
+
+	user.say("Undermaiden, guide my hand to those who have lost their way...")
+
+	var/list/earthbound = list()
+	var/list/departed = list()
+	var/list/forsaken = list()
+
+	// =========================
+	// SCAN
+	// =========================
+	for(var/mob/living/C in GLOB.mob_list)
+		if(!C || QDELETED(C))
 			continue
-		if(istype(C, /mob/living/carbon/human))
-			var/mob/living/carbon/human/B = C
-			if(B.buried)
-				continue
+		if(C.stat != DEAD)
+			continue
+
+		var/is_earthbound = (C.key || C.get_ghost(FALSE, TRUE))
+		var/is_departed = (!C.key && !C.get_ghost(FALSE, TRUE) && C.mind)
+		var/is_forsaken = (!C.mind)
+
+		var/no_burialrites = FALSE
+
+		if(!C.burialrited)
+			no_burialrites = TRUE
+
 		var/time_dead = 0
 		if(C.timeofdeath)
 			time_dead = world.time - C.timeofdeath
+
 		var/corpse_name
 
 		if(time_dead < 5 MINUTES)
@@ -225,58 +258,235 @@
 		else if(time_dead < 30 MINUTES)
 			corpse_name = "Long dead "
 		else
-			corpse_name = "Forgotten remains of "
+			corpse_name = "Forgotten remains "
+
 		var/list/d_list = C.get_mob_descriptors()
 		var/trait_desc = "[capitalize(build_coalesce_description_nofluff(d_list, C, list(MOB_DESCRIPTOR_SLOT_TRAIT), "%DESC1%"))]"
 		var/stature_desc = "[capitalize(build_coalesce_description_nofluff(d_list, C, list(MOB_DESCRIPTOR_SLOT_STATURE), "%DESC1%"))]"
+
 		var/descriptor_name = "[trait_desc] [stature_desc]"
-		if(descriptor_name == " ")
+
+		if(!length(trim(descriptor_name)))
 			descriptor_name = "Unknown"
 
-		corpse_name += " of \a [descriptor_name]..."
-		corpses[corpse_name] = C
+		corpse_name += "of \a [descriptor_name]"
 
-	if(!length(corpses))
-		to_chat(user, span_warning("The Undermaiden's grasp lets slip."))
-		return .
+		if((is_forsaken || is_departed) && no_burialrites)
+			corpse_name += " (No Rites)"
 
-	var/mob/selected = tgui_input_list(user, "Which body shall I seek?", "Available Bodies", corpses)
+		if(is_earthbound)
+			earthbound[corpse_name] = C
+		else if(is_departed)
+			departed[corpse_name] = C
+		else if(is_forsaken)
+			forsaken[corpse_name] = C
 
-	if(QDELETED(src) || QDELETED(user) || QDELETED(corpses[selected]))
-		to_chat(user, span_warning("The Undermaiden's grasp lets slip."))
-		return .
+	if(!length(earthbound) && !length(departed) && !length(forsaken))
+		to_chat(user, span_userdanger("You reach out. Nothing answers. The Undermaiden is silent..."))
+		return
 
-	var/corpse = corpses[selected]
+	var/type_choice = tgui_input_list(
+		user,
+		"What doth thy seek from the Veiled Lady's sight?",
+		"Corpse Type",
+		list("Earthbound","Departed","Forsaken")
+	)
 
-	var/turf/turf_user = get_turf(user)
-	var/turf/turf_corpse = get_turf(corpse)
-	var/direction_name = "unknown"
-	if(turf_user.z != turf_corpse.z)
-		if(turf_corpse.z > turf_user.z)
-			direction_name = "above"
-		else
-			direction_name = "below"
+	if(!type_choice || QDELETED(user))
+		return
+
+	var/list/selected_list
+
+	switch(type_choice)
+		if("Earthbound") selected_list = earthbound
+		if("Departed") selected_list = departed
+		if("Forsaken") selected_list = forsaken
+
+	if(!length(selected_list))
+		to_chat(user, span_warning("The Undermaiden murmurs a content whisper, your work may be done."))
+		return
+
+	var/choice = tgui_input_list(
+		user,
+		"Which body shall I seek?",
+		"Available Bodies",
+		selected_list
+	)
+
+	if(!choice || QDELETED(user))
+		return
+
+	var/mob/living/target = selected_list[choice]
+
+	if(!target || QDELETED(target))
+		return
+
+	var/time_dead = 0
+	if(target.timeofdeath)
+		time_dead = world.time - target.timeofdeath
+
+	var/is_earthbound = (target.key || target.get_ghost(FALSE, TRUE))
+
+	if(is_earthbound && time_dead < 5 MINUTES)
+		user.necra_tracking_mode = NECRA_TRACK_FRESH
+		to_chat(user, span_purple("<i>You feel extremely sickly and unwell.</i>"))
+
+	else if(is_earthbound)
+		user.necra_tracking_mode = NECRA_TRACK_EARTHBOUND
+		to_chat(user, span_purple("<i>A chill runs down your spine. A warning.</i>"))
+
 	else
-		var/direction = get_dir(user, corpse)
-		switch(direction)
-			if(NORTH)
-				direction_name = "north"
-			if(SOUTH)
-				direction_name = "south"
-			if(EAST)
-				direction_name = "east"
-			if(WEST)
-				direction_name = "west"
-			if(NORTHEAST)
-				direction_name = "northeast"
-			if(NORTHWEST)
-				direction_name = "northwest"
-			if(SOUTHEAST)
-				direction_name = "southeast"
-			if(SOUTHWEST)
-				direction_name = "southwest"
+		user.necra_tracking_mode = NECRA_TRACK_DEPARTED
+		to_chat(user, span_purple("<i>The Undermaiden guides your hand.</i>"))
 
-	to_chat(user, span_notice("The Undermaiden pulls on your hand, guiding you [direction_name]."))
+	user.necra_tracked_corpse = target
+	user.last_necra_ping = 0
+
+	START_PROCESSING(SSprocessing, user)
+
+/mob/living/process()
+	..()
+
+	if(!necra_tracked_corpse)
+		STOP_PROCESSING(SSprocessing, src)
+		return
+
+	if(necra_tracked_corpse.burialrited)
+		to_chat(src, span_purple("<i>The Undermaiden's hand is let slip. She seems oddly content. Something good may have happened to your bounty.</i>"))
+		STOP_PROCESSING(SSprocessing, src)
+		return
+
+	if(necra_tracked_corpse.stat != DEAD)
+		playsound(src, pick('sound/vo/mobs/ghost/aggro (1).ogg','sound/vo/mobs/ghost/aggro (2).ogg','sound/vo/mobs/ghost/aggro (3).ogg','sound/vo/mobs/ghost/aggro (4).ogg','sound/vo/mobs/ghost/aggro (5).ogg','sound/vo/mobs/ghost/aggro (6).ogg'), 50)
+		to_chat(src, span_boldred("<i>A horrifying, necromantic pressure slams upon you, and before you realize, your bounty may no longer within Necra's domain...</i>"))
+		src.emote("breathgasp")
+		src.adjustOxyLoss(50)
+		src.Jitter(5)
+		necra_tracked_corpse = null
+		STOP_PROCESSING(SSprocessing, src)
+		return
+
+	if(src.stat == DEAD)
+		to_chat(src, span_purple("<i>The Undermaiden's hand feels less ghastly, and before you realize, she is directly holding onto it. She mourns your demise.</i>"))
+		necra_tracked_corpse = null
+		STOP_PROCESSING(SSprocessing, src)
+		return
+
+	if(src.stat == UNCONSCIOUS)
+		to_chat(src, span_purple("<i>As you drift into Noc's domain, your hand slips from her grasp.</i>"))
+		necra_tracked_corpse = null
+		STOP_PROCESSING(SSprocessing, src)
+		return
+
+	var/time_dead = 0
+	if(necra_tracked_corpse.timeofdeath)
+		time_dead = world.time - necra_tracked_corpse.timeofdeath
+
+	var/is_earthbound = (necra_tracked_corpse.key || necra_tracked_corpse.get_ghost(FALSE, TRUE))
+
+	if(is_earthbound && time_dead < 5 MINUTES)
+		necra_tracking_mode = NECRA_TRACK_FRESH
+	else if(is_earthbound)
+		necra_tracking_mode = NECRA_TRACK_EARTHBOUND
+	else
+		necra_tracking_mode = NECRA_TRACK_DEPARTED
+
+	var/ping_delay = 20
+
+	switch(necra_tracking_mode)
+		if(NECRA_TRACK_FRESH) // Free to jakk here as much as you'd like
+			ping_delay = 20 SECONDS
+			src.hallucination += 20 SECONDS
+			src.adjustToxLoss(4)
+			src.adjustFireLoss(8)
+		if(NECRA_TRACK_EARTHBOUND) 
+			ping_delay = 10 SECONDS
+			if(prob(25))
+				src.hallucination += 10 SECONDS
+			if(prob(25))
+				src.adjustFireLoss(2)
+		if(NECRA_TRACK_DEPARTED) // This is what this miracle should be used for, finding and burying corpses we don't care about
+			ping_delay = 5 SECONDS
+
+	if(world.time < last_necra_ping + ping_delay)
+		return
+
+	last_necra_ping = world.time
+
+	var/turf/user_turf = get_turf(src)
+	var/turf/target_turf = get_turf(necra_tracked_corpse)
+
+	if(!user_turf || !target_turf)
+		return
+
+	var/direction_name = "unknown"
+	var/z_hint = ""
+	var/dist = get_dist(user_turf, target_turf)
+
+	if(necra_tracking_mode == NECRA_TRACK_FRESH)
+		
+		var/mob/living/carbon/human/N = src
+		N.adjustToxLoss(4)
+		N.hallucination += 30
+		if(N.devotion >= 30)
+			N.devotion -= 30
+
+		var/list/true_dirs = list()
+		var/list/all_dirs = list("north","south","east","west")
+
+		if(target_turf.z != user_turf.z)
+			true_dirs += (target_turf.z > user_turf.z ? "above" : "below")
+		else
+			switch(get_dir(src, necra_tracked_corpse))
+				if(NORTH) true_dirs += "north"
+				if(SOUTH) true_dirs += "south"
+				if(EAST) true_dirs += "east"
+				if(WEST) true_dirs += "west"
+				if(NORTHEAST) true_dirs += list("north","east")
+				if(NORTHWEST) true_dirs += list("north","west")
+				if(SOUTHEAST) true_dirs += list("south","east")
+				if(SOUTHWEST) true_dirs += list("south","west")
+
+		while(length(true_dirs) < 2)
+			true_dirs += pick(all_dirs)
+
+		var/false_dir = pick(all_dirs - true_dirs)
+
+		var/list/final_dirs = shuffle(list(
+			true_dirs[1],
+			true_dirs[2],
+			false_dir
+		))
+
+		var/msg = "Ghastly whispers claw at your mind: <i>[final_dirs[1]]… [final_dirs[2]]… [final_dirs[3]]…</i>"
+		to_chat(src, span_userdanger(msg))
+		return
+
+
+	if(target_turf.z != user_turf.z)
+		z_hint = target_turf.z > user_turf.z ? "above" : "below"
+
+	switch(get_dir(src, necra_tracked_corpse))
+		if(NORTH) direction_name = "north"
+		if(SOUTH) direction_name = "south"
+		if(EAST) direction_name = "east"
+		if(WEST) direction_name = "west"
+		if(NORTHEAST) direction_name = "northeast"
+		if(NORTHWEST) direction_name = "northwest"
+		if(SOUTHEAST) direction_name = "southeast"
+		if(SOUTHWEST) direction_name = "southwest"
+
+
+	var/msg = "The Undermaiden guides you <b>[direction_name]</b>"
+
+	if(z_hint)
+		msg += " <b>([z_hint])</b>"
+
+	if(necra_tracking_mode == NECRA_TRACK_DEPARTED)
+		msg += " — <b>[dist] meters</b>"
+
+	to_chat(src, span_warning(msg))
+
 
 /obj/effect/proc_holder/spell/invoked/necra_vow
 	name = "Vow to Necra"
