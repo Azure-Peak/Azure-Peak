@@ -1353,3 +1353,27 @@
       spell system ported from TG / Vanderlin
   - qol: Opinionated spell arrangement for aspects - some class granted spells are
       now arranged to be explicitly after aspect spells.
+2026-03-30:
+  BurpleBineapple:
+  - bugfix: Light brigandine uses ARMOR_BRIGANDINE instead of ARMOR_PLATE.
+  KatTheFox:
+  - bugfix: bushes no longer call themselves 'the bush bush'
+  Ketrai:
+  - balance: Feytouched now require a lux (any type) per travel.
+  Ryan180602:
+  - bugfix: prevent one handed weapons from being wieldable
+  - rscadd: donor stuff
+  - bugfix: fix donor item
+  Vladmar11:
+  - bugfix: fixed updating soil when you watering it and fixed watering soil from
+      rain
+  WeNeedMorePhoron:
+  - rscadd: You can no longer charge spells into stamcrit
+  - bugfix: Hag books should have entries again
+  - bugfix: Miracle Compendium will show up in Encyclopedia again
+  - refactor: Cleaned up some recipe books code, report any oddities with recipe book
+      or encyclopedia aspect picker.
+  - rscadd: Pallid virtue for cured vampire larp. Go ahead, get yourself set on fire
+      by silver.
+  eirenxiv:
+  - bugfix: fixed massage not working while mute

@@ -1,4 +1,0 @@
-author: "BurpleBineapple"
-delete-after: True
-changes:
-  - bugfix: "Light brigandine uses ARMOR_BRIGANDINE instead of ARMOR_PLATE."
