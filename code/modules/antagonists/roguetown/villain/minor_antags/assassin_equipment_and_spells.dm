@@ -331,8 +331,7 @@ we happen to commission/code should GO IN HERE. Thanks.
 	// it's an rr replacement.
 	target.apply_status_effect(/datum/status_effect/debuff/dark_harvest)
 	target.apply_status_effect(/datum/status_effect/debuff/devitalised)
-
-	var/datum/charflaw/hunted/H = target.get_flaw(/datum/charflaw/hunted)
+	target.remove_flaw_type(/datum/charflaw/hunted)
 
 // ASSASSIN exists to scare the shit out of people who can withstand frontal gnoll assault or hide in a castle.
 // Also I hate mercenaries. Mercenaries are stupidly strong. You get bonus points 4 kicking they ass.

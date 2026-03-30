@@ -96,6 +96,16 @@ GLOBAL_LIST_INIT(averse_factions, list(
 			return cf
 	return null
 
+/mob/living/carbon/human/proc/remove_flaw_type(flawtype)
+	if(!charflaws || !flawtype)
+		return
+	for(var/datum/charflaw/cf in charflaws)
+		if(!istype(cf, flawtype))
+			continue
+		charflaws.Remove(cf)
+		QDEL_NULL(cf)
+
+
 /datum/charflaw/eznoflaw
 	name = "Flawless"
 	desc = "I'm untempted by even the simplest vices. Am I riding the high of my latest TRIUMPH, or am I simply a rarity amongst rarities?" //Originally 'No Flaw', with "I'm a normal person, how rare!" as the desc.
