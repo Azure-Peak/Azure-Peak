@@ -108,10 +108,12 @@
 	var/mob/living/carbon/human/H
 	var/mob/living/carbon/human/UH
 	var/obj/item/I
+	var/obj/item/IL
 	var/drained = 8
 	var/drained_npc = 5
 	if(ishuman(src))
 		H = src
+		IL = H.used_intent.masteritem
 	if(ishuman(user))
 		UH = user
 		I = UH.used_intent.masteritem
@@ -194,7 +196,7 @@
 			ignore_DE_bonus = TRUE
 
 		if(I)	//Skilldiff applies extra stamloss, tentative
-			drained += (UH.get_skill_level(I.associated_skill) - H.get_skill_level(I.associated_skill))
+			drained += (UH.get_skill_level(I.associated_skill) - H.get_skill_level(IL.associated_skill))
 
 			if(istype(U.rmb_intent, /datum/rmb_intent/swift) && I.wbalance != WBALANCE_HEAVY)
 				drained += 3	//We drain extra stam if we're being attacked by swift stance
@@ -316,8 +318,11 @@
 			user.visible_message(span_warning("<b>[user]</b> clips [src]'s weapon!"))
 			playsound(user, 'sound/misc/weapon_clip.ogg', 100)
 	dodgecd = FALSE
+	var/max_mod = 0
+	if(I)
+		max_mod = H.get_skill_level(IL.associated_skill) - UH.get_skill_level(I.associated_skill)
 	L.changeNext_def(clamp(dodgetime + 1, 0, CLICK_CD_HEAVY))
-	L.changeMaxDodge(-1)
+	L.changeMaxDodge(-1 + (max_mod < 0) ? max_mod : 0)
 //		if(H)
 //			if(H.IsOffBalanced())
 //				H.Knockdown(1)
