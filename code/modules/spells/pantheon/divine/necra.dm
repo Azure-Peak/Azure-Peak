@@ -288,7 +288,7 @@
 	var/list/earthbound = list()
 	var/list/departed = list()
 	var/list/forsaken = list()
-
+	var/list/forsaken_counts = list()
 	for(var/mob/living/C in GLOB.mob_list) // the og has GLOB.dead_mob_list instead, but this is wizardry to see if we can't check for alive deadites
 		if(!C || QDELETED(C))
 			continue
