@@ -439,6 +439,7 @@
 	Borne upon the blade, a faded inscription reads, \"A Light Shineth In the Darkness\"."
 	icon_state = "maesune_sabre"
 	icon = 'icons/obj/items/donor_weapons_64.dmi'
+	bigboy = TRUE
 
 /obj/item/rogueweapon/maesune/shield
 	name = "\improper Fy Annwyl"

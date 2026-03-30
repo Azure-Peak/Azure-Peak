@@ -89,6 +89,7 @@
 	TI.lefthand_file = RI::lefthand_file
 	TI.righthand_file = RI::righthand_file
 	TI.sheathe_icon = RI::sheathe_icon ? RI::sheathe_icon : TI.sheathe_icon
+	TI.bigboy = RI::bigboy
 
 	to_chat(user, span_notice("You apply the [src] to [I], using the enchanting dust and tools to turn it into [RI::name]."))
 	I.name = "[RI::name] <font size = 1>([I.name])</font>"
