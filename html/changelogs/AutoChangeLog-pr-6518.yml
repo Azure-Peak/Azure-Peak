@@ -1,0 +1,4 @@
+author: "Antoonij"
+delete-after: True
+changes:
+  - bugfix: "you can't spawn campfire on water"

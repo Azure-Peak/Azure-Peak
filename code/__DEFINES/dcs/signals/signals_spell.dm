@@ -40,3 +40,7 @@
 // Projectile spell signals
 /// Sent from /datum/action/cooldown/spell/projectile/on_cast_hit() to the spell: (atom/hit, mob/firer, obj/projectile/projectile)
 #define COMSIG_SPELL_PROJECTILE_HIT "spell_projectile_hit"
+
+// Touch spell signals
+/// Sent from /datum/action/cooldown/spell/touch/do_hand_hit() to the spell: (atom/victim, mob/caster, obj/item/melee/touch_attack/hand)
+#define COMSIG_SPELL_TOUCH_HAND_HIT "spell_touch_hand_cast"

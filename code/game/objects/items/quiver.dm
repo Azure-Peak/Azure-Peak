@@ -287,7 +287,7 @@
 /obj/item/quiver/pyroarrows/Initialize()
 	. = ..()
 	for(var/i in 1 to max_storage)
-		var/obj/item/ammo_casing/caseless/rogue/arrow/pyro/A = new()
+		var/obj/item/ammo_casing/caseless/rogue/arrow/elemental/fire/A = new()
 		arrows += A
 	update_icon()
 
@@ -319,6 +319,13 @@
 	..()
 	for(var/i in 1 to max_storage)
 		var/obj/item/ammo_casing/caseless/rogue/arrow/silver/A = new()
+		arrows += A
+	update_icon()
+
+/obj/item/quiver/bronzearrows/Initialize()
+	..()
+	for(var/i in 1 to max_storage)
+		var/obj/item/ammo_casing/caseless/rogue/arrow/bronze/A = new()
 		arrows += A
 	update_icon()
 
@@ -676,7 +683,7 @@
 /obj/item/quiver/sling/steel/Initialize()
 	. = ..()
 	for(var/i in 1 to max_storage)
-		var/obj/item/ammo_casing/caseless/rogue/sling_bullet/steel/A = new()
+		var/obj/item/ammo_casing/caseless/rogue/sling_bullet/scattershot/A = new()
 		arrows += A
 	update_icon()
 
@@ -698,5 +705,26 @@
 	. = ..()
 	for(var/i in 1 to max_storage)
 		var/obj/item/ammo_casing/caseless/rogue/sling_bullet/bronze/A = new()
+		arrows += A
+	update_icon()
+
+/obj/item/quiver/sling/scattershot/Initialize()
+	. = ..()
+	for(var/i in 1 to max_storage)
+		var/obj/item/ammo_casing/caseless/rogue/sling_bullet/scattershot/A = new()
+		arrows += A
+	update_icon()
+
+/obj/item/quiver/sling/heavy_sling_bullet/Initialize()
+	. = ..()
+	for(var/i in 1 to 13) // 3 weight each, 13 rocks = 39/40 capacity
+		var/obj/item/ammo_casing/caseless/rogue/sling_bullet/heavy_sling_bullet/A = new()
+		arrows += A
+	update_icon()
+
+/obj/item/quiver/sling/fire_pot/Initialize()
+	. = ..()
+	for(var/i in 1 to 13) // 3 weight each, 13 pots = 39/40 capacity
+		var/obj/item/ammo_casing/caseless/rogue/sling_bullet/fire_pot/A = new()
 		arrows += A
 	update_icon()

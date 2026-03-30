@@ -61,7 +61,7 @@
 	possible_item_intents = list(/datum/intent/axe/cut, /datum/intent/axe/chop, /datum/intent/axe/thrust, /datum/intent/axe/bash/battle)
 	gripped_intents = list(/datum/intent/axe/cut, /datum/intent/axe/chop, /datum/intent/axe/bash/battle)
 	name = "oath"
-	desc = "A hefty, steel-forged axe marred by the touch of countless Wardens. Despite it's weathered etchings and worn grip, the blade has been honed to a razor's edge and you can see your reflection in the finely polished metal."
+	desc = "A hefty, steel-forged axe marred by the touch of countless Wardens. Despite its weathered etchings and worn grip, the blade has been honed to a razor's edge and you can see your reflection in the finely polished metal."
 	icon_state = "oath"
 	icon = 'icons/roguetown/weapons/axes64.dmi'
 	max_blade_int = 500
@@ -175,7 +175,7 @@
 
 /obj/item/rogueweapon/stoneaxe/woodcut/wardenpick
 	name = "warden's axe"
-	desc = "A multi-use axe smithed by the Wardens since time immemorial for both it's use as a tool and a weapon."
+	desc = "A multi-use axe smithed by the Wardens since time immemorial for both its use as a tool and a weapon."
 	icon_state = "wardenpax"
 	force = 22
 	force_wielded = 28
@@ -379,7 +379,7 @@
 	name = "aavnic valaška"
 	desc = "A steel axe of Aavnic make that combines a deadly weapon with a walking stick - hence its pointed end. It has a flat head that fits the hand comfortably, and it's usable for chopping and smashing. You could probably stab someone if you tried really hard."
 	possible_item_intents = list(/datum/intent/axe/cut, /datum/intent/axe/chop, /datum/intent/mace/smash)
-	gripped_intents = list(/datum/intent/axe/cut, /datum/intent/axe/chop, /datum/intent/stab)
+	gripped_intents = list(/datum/intent/axe/cut, /datum/intent/axe/chop, /datum/intent/mace/smash, /datum/intent/axe/bash/battle)
 	force_wielded = 25	//No damage changes for wielded/unwielded
 	icon_state = "valaska"
 	walking_stick = TRUE

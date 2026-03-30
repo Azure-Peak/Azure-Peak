@@ -52,10 +52,13 @@ GLOBAL_LIST_EMPTY(personal_objective_minds)
 	/// Whether this mind has arcyne momentum (persists through death)
 	var/has_arcyne_momentum = FALSE
 
-	var/spell_points
-	var/used_spell_points
-	var/list/spell_point_pools
-	var/list/spell_points_used_by_pool
+	var/list/major_aspects
+	var/list/minor_aspects
+	/// Mage aspect system config from subclass. Keys: "mastery", "major", "minor", "utilities". Optional: "locked_aspects" (list of type paths).
+	var/list/mage_aspect_config
+	/// Aspect reset budget used. Major costs 2, Minor/Utility costs 1. Max 2. Resets on sleep.
+	var/aspect_resets_used = 0
+
 	var/movemovemovetext = "Move!!"
 	var/takeaimtext = "Take aim!!"
 	var/holdtext = "Hold!!"
@@ -127,10 +130,6 @@ GLOBAL_LIST_EMPTY(personal_objective_minds)
 
 	/// List of personal objectives not tied to the antag roles.
 	var/list/personal_objectives = list()
-
-	var/has_changed_spell = FALSE
-	var/has_rituos = FALSE
-	var/obj/effect/proc_holder/spell/rituos_spell
 
 	var/has_bomb = FALSE
 
@@ -366,27 +365,105 @@ GLOBAL_LIST_EMPTY(personal_objective_minds)
 	if(!isnull(old_current))
 		SEND_SIGNAL(old_current, COMSIG_MOB_MIND_TRANSFERRED_OUT_OF, current)
 
-// adjusts the amount of available spellpoints
-/datum/mind/proc/adjust_spellpoints(points)
-	spell_points += points
-	if(!has_spell(/obj/effect/proc_holder/spell/targeted/touch/prestidigitation))
-		AddSpell(new /obj/effect/proc_holder/spell/targeted/touch/prestidigitation)
-	check_learnspell()
 
-/datum/mind/proc/set_spell_point_pools(list/pools)
-	spell_point_pools = pools.Copy()
-	spell_points_used_by_pool = list()
-	for(var/pool_name in pools)
-		spell_points_used_by_pool[pool_name] = 0
-	if(!has_spell(/obj/effect/proc_holder/spell/targeted/touch/prestidigitation))
-		AddSpell(new /obj/effect/proc_holder/spell/targeted/touch/prestidigitation)
-	check_learnspell()
 
-/datum/mind/proc/adjust_spell_point_pool(pool_name, points)
-	if(!LAZYLEN(spell_point_pools) || !(pool_name in spell_point_pools))
-		return
-	spell_point_pools[pool_name] += points
-	check_learnspell()
+/datum/mind/proc/attune_aspect(datum/magic_aspect/aspect, variant, choice_spell)
+	if(!aspect)
+		return FALSE
+	var/max_majors = LAZYLEN(mage_aspect_config) ? mage_aspect_config["major"] : MAX_MAJOR_ASPECTS
+	var/max_minors = LAZYLEN(mage_aspect_config) ? mage_aspect_config["minor"] : MAX_MINOR_ASPECTS
+	var/has_mastery = LAZYLEN(mage_aspect_config) ? mage_aspect_config["mastery"] : FALSE
+	switch(aspect.aspect_type)
+		if(ASPECT_MAJOR)
+			if(LAZYLEN(major_aspects) >= max_majors)
+				if(current)
+					to_chat(current, span_warning("I cannot attune to another major aspect."))
+				return FALSE
+			LAZYADD(major_aspects, aspect)
+		if(ASPECT_MINOR)
+			if(LAZYLEN(minor_aspects) >= max_minors)
+				if(current)
+					to_chat(current, span_warning("I cannot attune to another minor aspect."))
+				return FALSE
+			LAZYADD(minor_aspects, aspect)
+	// Grant choice spell first so it appears first on the action bar
+	// If no explicit choice, auto-resolve: prefer one the player already has, else first in list
+	if(!choice_spell && length(aspect.choice_spells))
+		for(var/candidate in aspect.choice_spells)
+			if(has_spell(candidate))
+				choice_spell = candidate
+				break
+		if(!choice_spell)
+			choice_spell = aspect.choice_spells[1]
+	if(choice_spell)
+		aspect.grant_choice_spell(src, choice_spell)
+	aspect.grant_spells(src)
+	// Apply variant swaps — explicit variant takes priority, mastery config gets "mastery" by default
+	if(variant)
+		aspect.apply_variant(src, variant)
+	else if(has_mastery)
+		aspect.apply_variant(src, "mastery")
+	ensure_mage_basics()
+	return TRUE
+
+/datum/mind/proc/remove_aspect(datum/magic_aspect/aspect, list/skip_spells)
+	if(!aspect)
+		return FALSE
+	aspect.revoke_spells(src, skip_spells)
+	switch(aspect.aspect_type)
+		if(ASPECT_MAJOR)
+			LAZYREMOVE(major_aspects, aspect)
+		if(ASPECT_MINOR)
+			LAZYREMOVE(minor_aspects, aspect)
+	return TRUE
+
+/datum/mind/proc/remove_all_aspects()
+	for(var/datum/magic_aspect/aspect in major_aspects)
+		remove_aspect(aspect)
+	for(var/datum/magic_aspect/aspect in minor_aspects)
+		remove_aspect(aspect)
+
+/datum/mind/proc/has_aspect(aspect_type_path)
+	for(var/datum/magic_aspect/aspect in major_aspects)
+		if(aspect.type == aspect_type_path)
+			return TRUE
+	for(var/datum/magic_aspect/aspect in minor_aspects)
+		if(aspect.type == aspect_type_path)
+			return TRUE
+	return FALSE
+
+/datum/mind/proc/get_aspect_color()
+	if(LAZYLEN(major_aspects))
+		var/datum/magic_aspect/first = major_aspects[1]
+		return first.school_color
+	return GLOW_COLOR_ARCANE
+
+/datum/mind/proc/get_aspect_reset_remaining()
+	return ASPECT_RESET_BUDGET - aspect_resets_used
+
+/datum/mind/proc/can_reset_aspect(datum/magic_aspect/aspect)
+	if(!aspect)
+		return FALSE
+	var/cost = (aspect.aspect_type == ASPECT_MAJOR) ? ASPECT_RESET_COST_MAJOR : ASPECT_RESET_COST_MINOR
+	return get_aspect_reset_remaining() >= cost
+
+/datum/mind/proc/spend_aspect_reset(datum/magic_aspect/aspect)
+	if(!aspect)
+		return FALSE
+	var/cost = (aspect.aspect_type == ASPECT_MAJOR) ? ASPECT_RESET_COST_MAJOR : ASPECT_RESET_COST_MINOR
+	if(get_aspect_reset_remaining() < cost)
+		return FALSE
+	aspect_resets_used += cost
+	return TRUE
+
+/datum/mind/proc/can_reset_utility()
+	return get_aspect_reset_remaining() >= ASPECT_RESET_COST_UTILITY
+
+/datum/mind/proc/spend_utility_reset()
+	if(!can_reset_utility())
+		return FALSE
+	aspect_resets_used += ASPECT_RESET_COST_UTILITY
+	return TRUE
 
 /datum/mind/proc/set_death_time()
 	last_death = world.time
@@ -804,33 +881,102 @@ GLOBAL_LIST_EMPTY(personal_objective_minds)
 	if(length(spell_list) == 1 && current)
 		addtimer(CALLBACK(src, PROC_REF(show_spell_tip)), 3 SECONDS)
 
+/// Ensure arcyne ward and prestidigitation are present and bumped to the end of the spell list.
+/// Arcyne Ward is skipped if a dragonhide/crystalhide variant is already present (those replace it).
+/datum/mind/proc/ensure_mage_basics()
+	if(!current || !HAS_TRAIT(current, TRAIT_ARCYNE))
+		return
+
+	// Arcyne Ward - only granted if mage_aspect_config has "ward" = TRUE
+	if(mage_aspect_config && mage_aspect_config["ward"])
+		var/datum/action/cooldown/spell/conjure_arcyne_ward/base_ward
+		var/datum/action/cooldown/spell/conjure_arcyne_ward/variant_ward
+		for(var/datum/action/cooldown/spell/conjure_arcyne_ward/ward in spell_list)
+			if(ward.type == /datum/action/cooldown/spell/conjure_arcyne_ward)
+				base_ward = ward
+			else
+				variant_ward = ward
+		if(variant_ward)
+			if(base_ward)
+				RemoveSpell(base_ward)
+		else if(base_ward)
+			var/obj/item/clothing/suit/roguetown/armor/regenerating/skin/arcyne_ward/active_ward = base_ward.conjured_ward
+			if(active_ward)
+				base_ward.conjured_ward = null
+				active_ward.linked_spell = null
+			RemoveSpell(base_ward)
+			var/datum/action/cooldown/spell/conjure_arcyne_ward/new_ward_spell = new /datum/action/cooldown/spell/conjure_arcyne_ward
+			AddSpell(new_ward_spell)
+			if(active_ward && !QDELETED(active_ward))
+				new_ward_spell.conjured_ward = active_ward
+				active_ward.linked_spell = new_ward_spell
+		else
+			AddSpell(new /datum/action/cooldown/spell/conjure_arcyne_ward)
+
+	// Prestidigitation - always last
+	var/datum/presto = get_spell(/datum/action/cooldown/spell/touch/prestidigitation)
+	if(!presto)
+		AddSpell(new /datum/action/cooldown/spell/touch/prestidigitation)
+	else
+		RemoveSpell(presto)
+		AddSpell(new /datum/action/cooldown/spell/touch/prestidigitation)
+
+
 /datum/mind/proc/show_spell_tip()
 	if(current)
 		to_chat(current, span_nicegreen("Tip: You can Ctrl-Click your hotkey bar to unlock it, then drag to rearrange your spells. Re-arranging them change which hotkeys they are bound to in order from left to right (Alt 1 to Alt 9 default). You can shift click your spells to learn more about them."))
 
+/datum/mind/proc/setup_mage_aspects(list/config)
+	mage_aspect_config = config
+	ensure_mage_basics()
+	check_learnspell()
+
 /datum/mind/proc/check_learnspell()
-	// Pool-based system always takes priority over flat spellpoints to prevent unexpected spell point sources from bypassing pool restrictions
-	if(LAZYLEN(spell_point_pools))
-		var/has_remaining = FALSE
-		for(var/pool_name in spell_point_pools)
-			var/used = spell_points_used_by_pool?[pool_name] || 0
-			if(used < spell_point_pools[pool_name])
-				has_remaining = TRUE
-				break
-		if(has_remaining && !has_spell(/obj/effect/proc_holder/spell/self/learnspell))
-			AddSpell(new /obj/effect/proc_holder/spell/self/learnspell(null))
-		else if(!has_remaining)
-			RemoveSpell(/obj/effect/proc_holder/spell/self/learnspell)
+	// Aspect config system — LearnSpell only appears until the first binding.
+	// After that, the spellbook handles edit mode.
+	if(LAZYLEN(mage_aspect_config))
+		var/list/config = mage_aspect_config
+		var/current_majors = LAZYLEN(major_aspects)
+		var/current_minors = LAZYLEN(minor_aspects)
+		var/max_maj = config["major"] || 0
+		var/max_min = config["minor"] || 0
+		var/max_util = config["utilities"] || 0
+		// Check if all slots and points are exhausted
+		var/has_remaining_slots = (current_majors < max_maj) || (current_minors < max_min)
+		var/has_remaining_util = FALSE
+		if(max_util > 0)
+			var/util_points_spent = 0
+			for(var/path in GLOB.utility_spells)
+				if(has_spell(path))
+					var/is_picked = FALSE
+					for(var/datum/action/cooldown/spell/S in spell_list)
+						if(S.type == path && S.utility_learned)
+							is_picked = TRUE
+							break
+					if(!is_picked)
+						continue
+					if(ispath(path, /datum/action/cooldown/spell))
+						var/datum/action/cooldown/spell/S = path
+						util_points_spent += initial(S.point_cost)
+					else
+						var/obj/effect/proc_holder/spell/S = path
+						util_points_spent += initial(S.cost)
+			has_remaining_util = (util_points_spent < max_util)
+		if(!has_remaining_slots && !has_remaining_util)
+			RemoveSpell(/datum/action/cooldown/spell/learnspell)
+			return
+		// Still has available slots/points — remove and re-add LearnSpell to bump it to end
+		RemoveSpell(/datum/action/cooldown/spell/learnspell)
+		AddSpell(new /datum/action/cooldown/spell/learnspell())
 		return
 
-	if(!has_spell(/obj/effect/proc_holder/spell/self/learnspell))
-		if((spell_points - used_spell_points) > 0)
-			AddSpell(new /obj/effect/proc_holder/spell/self/learnspell(null))
+	// Arcyne casters without aspects still need learnspell to open the aspect picker
+	if(current)
+		if(HAS_TRAIT(current, TRAIT_ARCYNE) && !LAZYLEN(major_aspects))
+			RemoveSpell(/datum/action/cooldown/spell/learnspell)
+			AddSpell(new /datum/action/cooldown/spell/learnspell())
 			return
 
-	if((spell_points - used_spell_points) <= 0)
-		RemoveSpell(/obj/effect/proc_holder/spell/self/learnspell)
-		return
 	return
 
 /datum/mind/proc/has_spell(spell_type, specific = FALSE)
@@ -871,6 +1017,15 @@ GLOBAL_LIST_EMPTY(personal_objective_minds)
 //To remove a specific spell from a mind
 /datum/mind/proc/RemoveSpell(datum/spell)
 	if(!spell)
+		return FALSE
+
+	// Handle type paths directly — match by type in spell_list
+	if(ispath(spell))
+		for(var/datum/S in spell_list)
+			if(S.type == spell)
+				spell_list -= S
+				qdel(S)
+				return TRUE
 		return FALSE
 
 	// Handle new action-based spells

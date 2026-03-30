@@ -747,22 +747,33 @@
 /mob/living/carbon/updatehealth()
 	if(status_flags & GODMODE)
 		return
-	var/total_burn	= 0
+	var/total_burn = 0
 	var/total_stamina = 0
 	var/total_tox = getToxLoss()
 	var/total_oxy = getOxyLoss()
 	var/used_damage = 0
-	var/static/list/lethal_zones = list(
-		BODY_ZONE_HEAD,
-		BODY_ZONE_CHEST,
-	)
-	for(var/obj/item/bodypart/bodypart as anything in bodyparts)
-		if(!(bodypart.body_zone in lethal_zones))
-			continue
-		var/hardcrit_divisor = !mind ? FIRE_HARDCRIT_DIVISOR_MINDLESS : FIRE_HARDCRIT_DIVISOR
-		var/my_burn = abs((bodypart.burn_dam / bodypart.max_damage) * hardcrit_divisor)
-		total_burn = max(total_burn, my_burn)
-		used_damage = max(used_damage, my_burn)
+	// Burn hardcrit - total burn across all bodyparts vs threshold (scales to chest max HP / CON)
+	for(var/obj/item/bodypart/BP as anything in bodyparts)
+		total_burn += BP.burn_dam
+	if(total_burn > 0)
+		var/obj/item/bodypart/chest/C = get_bodypart(BODY_ZONE_CHEST)
+		var/burn_threshold = C ? C.max_damage : FIRE_HARDCRIT_BASE
+		if(!mind && !HAS_TRAIT(src, TRAIT_CRIT_THRESHOLD))
+			burn_threshold *= FIRE_HARDCRIT_MINDLESS_MULT
+		else if(HAS_TRAIT(src, TRAIT_NOPAIN) || HAS_TRAIT(src, TRAIT_NOPAINSTUN))
+			burn_threshold *= FIRE_HARDCRIT_NOPAIN_MULT
+		var/burn_ratio = total_burn / burn_threshold
+		if(!burn_warning_shown)
+			if(burn_ratio >= 1.0)
+				burn_warning_shown = TRUE
+				balloon_alert_to_viewers("<font color='#bb2b2b'>burnt down!</font>")
+			else if(burn_ratio >= 0.75)
+				burn_warning_shown = TRUE
+				balloon_alert_to_viewers("<font color='#bb2b2b'>burning down!</font>")
+		else if(burn_ratio < 0.75)
+			burn_warning_shown = FALSE
+		var/burn_damage = burn_ratio * maxHealth
+		used_damage = max(used_damage, burn_damage)
 	if(used_damage < total_tox)
 		used_damage = total_tox
 	if(used_damage < total_oxy)
@@ -780,6 +791,7 @@
 
 /mob/living/carbon
 	var/lightning_flashing = FALSE
+	var/burn_warning_shown = FALSE
 
 /mob/living/carbon/update_sight()
 	if(!client)
@@ -1074,12 +1086,17 @@
 					visible_message(span_danger("<b>[src] collapses, [src.p_their()] lips turning blue!</b>"), \
 						span_userdanger("I cannot breathe... the world grows dark."))
 				else if(health <= HEALTH_THRESHOLD_FULLCRIT)
-					if(getBruteLoss() >= getFireLoss())
+					if(getFireLoss() >= getBruteLoss())
+						if(!mind && !HAS_TRAIT(src, TRAIT_CRIT_THRESHOLD))
+							visible_message(span_danger("<b>[src] collapses - [src.p_their()] will is too weak to endure the burns!</b>"))
+						else
+							visible_message(span_danger("<b>[src] collapses, [src.p_their()] flesh charred and smoking!</b>"), \
+								span_userdanger("My body is too burnt to go on!"))
+						balloon_alert_to_viewers("<font color='#bb2b2b'>burnt down!</font>")
+						playsound(src, 'sound/health/burning.ogg', 60, TRUE)
+					else
 						visible_message(span_danger("<b>[src] collapses, broken and bloodied!</b>"), \
 							span_userdanger("My bones are shattered... I cannot go on."))
-					else
-						visible_message(span_danger("<b>[src] collapses, [src.p_their()] flesh charred and smoking!</b>"), \
-							span_userdanger("The burning... it has taken everything from me."))
 			stat = UNCONSCIOUS
 			if(ishuman(src))
 				var/mob/living/carbon/human/H = src

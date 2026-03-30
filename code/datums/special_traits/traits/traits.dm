@@ -545,7 +545,7 @@
 
 /datum/special_trait/my_precious
 	name = "My Precious"
-	greet_text = span_notice("The ring, it's so shiny.. so valuable, I can feel it's power. It's all mine!")
+	greet_text = span_notice("The ring, it's so shiny... so valuable, I can feel it's power. It's all mine!")
 	req_text = "Be a beggar"
 	weight = 50
 

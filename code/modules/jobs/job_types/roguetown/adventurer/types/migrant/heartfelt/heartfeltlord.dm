@@ -100,7 +100,7 @@
 	outfit = /datum/outfit/job/heartfelt/lord/archmage
 	pickprob = 100
 	class_select_category = CLASS_CAT_HFT_COURT
-	traits_applied = list(TRAIT_NOBLE, TRAIT_MAGEARMOR, TRAIT_ARCYNE_T3, TRAIT_INTELLECTUAL, TRAIT_HEARTFELT, TRAIT_ALCHEMY_EXPERT)
+	traits_applied = list(TRAIT_NOBLE, TRAIT_ARCYNE, TRAIT_INTELLECTUAL, TRAIT_HEARTFELT, TRAIT_ALCHEMY_EXPERT)
 
 	subclass_stashed_items = list("Heartfelt Caparison" = /obj/item/caparison/heartfelt)
 	subclass_virtues = list(
@@ -140,14 +140,13 @@
 	armor = /obj/item/clothing/cloak/poncho/fancycoat
 	neck = /obj/item/storage/belt/rogue/pouch/coins/veryrich
 	beltl = /obj/item/flashlight/flare/torch/lantern
-	r_hand = /obj/item/rogueweapon/woodstaff/diamond
+	r_hand = /obj/item/rogueweapon/woodstaff/implement/grand
 	beltr = /obj/item/rogueweapon/huntingknife
 	gloves = /obj/item/clothing/gloves/roguetown/leather/black
 	backl = /obj/item/storage/backpack/rogue/satchel // Paper and Feather
 	backpack_contents = list(
 		/obj/item/recipe_book/alchemy,
-		/obj/item/roguegem/amethyst,
-		/obj/item/spellbook_unfinished/pre_arcyne,
+		/obj/item/book/spellbook,
 		/obj/item/rogueweapon/huntingknife/idagger/silver/arcyne,
 		/obj/item/natural/feather = 1,
 		/obj/item/paper/scroll = 1,
@@ -157,14 +156,16 @@
 	id = /obj/item/scomstone
 	if(H.mind)
 		H.mind.AddSpell(new /obj/effect/proc_holder/spell/self/convertrole/heartfelt)
-		H?.mind.adjust_spellpoints(16)
+		H.mind.setup_mage_aspects(list("mastery" = FALSE, "major" = 1, "minor" = 1, "utilities" = 4, "ward" = TRUE))
 	if(H.age == AGE_OLD)
 		H.adjust_skillrank(/datum/skill/magic/arcane, 1, TRUE)
 		H.adjust_skillrank(/datum/skill/misc/reading, 1, TRUE)
 		H.change_stat("speed", -1)
 		H.change_stat("intelligence", 1)
 		H.change_stat("perception", 1)
-		H?.mind.adjust_spellpoints(4)
+		if(H.mind?.mage_aspect_config)
+			H.mind.mage_aspect_config["utilities"] += 2
+			H.mind.check_learnspell()
 
 // Funny role I thought I'd make. Reminded me of Canute and his Jarldom
 

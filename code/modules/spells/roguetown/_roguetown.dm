@@ -44,6 +44,7 @@
 	active = FALSE
 	remove_ranged_ability(null)
 	on_deactivation(user)
+	update_icon()
 
 /obj/effect/proc_holder/spell/invoked/proc/on_activation(mob/user)
 	return
@@ -106,6 +107,10 @@
 		if(istype(P, /obj/projectile/magic/bloodsteal))
 			var/obj/projectile/magic/bloodsteal/B = P
 			B.sender = user
+		// Propagate spell impact intensity to the projectile
+		if(istype(P, /obj/projectile/magic))
+			var/obj/projectile/magic/M = P
+			M.spell_impact_intensity = spell_impact_intensity
 		P.def_zone = user.zone_selected
 		// Accuracy modification code, same as bow rebalance PR
 		P.accuracy += (user.STAINT - 9) * 4

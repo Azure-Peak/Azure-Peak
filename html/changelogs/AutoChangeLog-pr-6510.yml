@@ -1,0 +1,5 @@
+author: "KatTheFox"
+delete-after: True
+changes:
+  - bugfix: "mechanical marriage now actually works"
+  - qol: "eoran clergy (including heretics!) can now perform marriages, not just bishops"

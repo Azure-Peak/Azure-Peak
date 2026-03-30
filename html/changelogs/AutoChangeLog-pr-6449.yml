@@ -1,5 +1,0 @@
-author: "Ollanius"
-delete-after: True
-changes:
-  - bugfix: "Baking most types of cookies should properly generate a pollutant, now, instead of the 'smells' placeholder."
-  - bugfix: "Relisted the teachings of Chocolate Jesus as blasphemic; you can no longer infinitely duplicate halved chocolate ingots."

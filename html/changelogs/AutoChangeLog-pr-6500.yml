@@ -1,0 +1,11 @@
+author: "WeNeedMorePhoron"
+delete-after: True
+changes:
+  - rscadd: "Artificer now starts off with Battlewardry as a locked Major Aspect"
+  - rscadd: "Emergence's rock now properly disappear after 12 seconds"
+  - rscadd: "Replaces Mass Gravity with Gravity Anchor on Kinesis."
+  - balance: "Prestidigitation scaling adjusted to scale up to 20 and no longer be as ridiculous on the lower end"
+  - balance: "Light Steps no longer make you immune to rune wards."
+  - balance: "You can no longer guard cheese (Cast while defending) with new spells without consequences"
+  - balance: "Darkvision is now 15 minutes flat in duration."
+  - balance: "Tithebound no longer suffers from 15% penalty to their CD on their unique spells from wearing medium armor."

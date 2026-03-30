@@ -1,22 +1,42 @@
-/obj/effect/proc_holder/spell/targeted/touch/lesserknock
+/datum/action/cooldown/spell/lesser_knock
+	button_icon = 'icons/mob/actions/roguespells.dmi'
 	name = "Lesser Knock"
 	desc = "A simple spell used to focus the arcyne into an instrument for lockpicking. Can be dispelled by using it on anything that isn't a locked/unlocked door."
-	clothes_req = FALSE
-	drawmessage = "I prepare to perform a minor arcyne incantation."
-	dropmessage = "I release my minor arcyne focus."
-	school = "transmutation"
-	overlay_state = "rune4"
-	chargedrain = 0
-	chargetime = 0
-	releasedrain = SPELLCOST_CANTRIP // this influences -every- cost involved in the spell's functionality, if you want to edit specific features, do so in handle_cost
-	chargedloop = /datum/looping_sound/invokegen
-	associated_skill = /datum/skill/magic/arcane
-	hand_path = /obj/item/melee/touch_attack/lesserknock
-	spell_tier = 1
+	button_icon_state = "rune4"
+	sound = 'sound/magic/whiteflame.ogg'
+	spell_color = GLOW_COLOR_ARCANE
+	glow_intensity = GLOW_INTENSITY_LOW
+
+	click_to_activate = FALSE
+	self_cast_possible = TRUE
+
+	primary_resource_type = SPELL_COST_STAMINA
+	primary_resource_cost = SPELLCOST_CANTRIP
+
 	invocations = list("Parvus Pulso")
-	invocation_type = "whisper" // It is a fake stealth spell (lockpicking is very loud)
-	hide_charge_effect = TRUE
-	cost = 2 // Utility and needs lockpicking skills
+	invocation_type = INVOCATION_WHISPER
+
+	charge_required = FALSE
+	cooldown_time = 5 SECONDS
+
+	associated_skill = /datum/skill/magic/arcane
+	spell_tier = 1
+	spell_impact_intensity = SPELL_IMPACT_NONE
+
+	point_cost = 2
+
+	spell_requirements = SPELL_REQUIRES_NO_ANTIMAGIC | SPELL_REQUIRES_HUMAN | SPELL_REQUIRES_SAME_Z
+
+/datum/action/cooldown/spell/lesser_knock/cast(atom/cast_on)
+	. = ..()
+	var/mob/living/user = owner
+	if(!istype(user))
+		return FALSE
+
+	var/obj/item/melee/touch_attack/lesserknock/lockpick = new(user.drop_location())
+	user.put_in_hands(lockpick)
+	to_chat(user, span_notice("I prepare to perform a minor arcyne incantation."))
+	return TRUE
 
 /obj/item/melee/touch_attack/lesserknock
 	name = "Spectral Lockpick"

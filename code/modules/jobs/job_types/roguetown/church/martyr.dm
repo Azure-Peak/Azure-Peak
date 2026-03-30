@@ -506,7 +506,7 @@
 	give_bank_account = TRUE
 
 	cmode_music = 'sound/music/combat_martyrsafe.ogg'
-	job_traits = list(TRAIT_HEAVYARMOR, TRAIT_STEELHEARTED, TRAIT_SILVER_BLESSED, TRAIT_EMPATH, TRAIT_MEDICINE_EXPERT, TRAIT_DUALWIELDER, TRAIT_CLERGY, TRAIT_TEMPO)
+	job_traits = list(TRAIT_HEAVYARMOR, TRAIT_STEELHEARTED, TRAIT_SILVER_BLESSED, TRAIT_EMPATH, TRAIT_MEDICINE_EXPERT, TRAIT_DUALWIELDER, TRAIT_CLERGY, TRAIT_TEMPO, TRAIT_MARRIAGE_CAPABLE)
 
 	//No undeath-adjacent virtues for a role that can sacrifice itself. The Ten like their sacrifices 'pure'. (I actually didn't want to code returning those virtue traits post-sword use)
 	//They get those traits during sword activation, anyway.
@@ -1162,7 +1162,7 @@
 
 /obj/item/clothing/head/roguetown/helmet/heavy/holysee
 	name = "holy silver bascinet"
-	desc = "Branded by the Holy See, these helms are worn by it's chosen warriors. A bastion of hope in the dark nite."
+	desc = "Branded by the Holy See, these helms are worn by its chosen warriors. A bastion of hope in the dark nite."
 	icon = 'icons/roguetown/clothing/special/martyr.dmi'
 	mob_overlay_icon = 'icons/roguetown/clothing/special/onmob/martyrhelmets.dmi'
 	bloody_icon = 'icons/effects/blood64.dmi'
@@ -1211,7 +1211,7 @@
 
 /obj/item/clothing/head/roguetown/helmet/heavy/holysee/alt
 	name = "holy silver armet"
-	desc = "Branded by the Holy See, these helms are worn by it's chosen warriors. A bastion of hope in the dark nite."
+	desc = "Branded by the Holy See, these helms are worn by its chosen warriors. A bastion of hope in the dark nite."
 	icon = 'icons/roguetown/clothing/special/martyr.dmi'
 	mob_overlay_icon = 'icons/roguetown/clothing/special/onmob/martyrhelmets.dmi'
 	bloody_icon = 'icons/effects/blood64.dmi'

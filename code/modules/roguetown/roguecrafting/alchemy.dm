@@ -246,6 +246,22 @@
 	craftdiff = 2
 	verbage_simple = "transmute"
 
+/datum/crafting_recipe/roguetown/alchemy/cl2st2copp
+	name = "stone & clay to copper"
+	category = "Transmutation"
+	result = list(/obj/item/rogueore/copper = 1)
+	reqs = list(/obj/item/natural/stone = 2, /obj/item/natural/clay = 2)
+	craftdiff = 3
+	verbage_simple = "transmute"
+
+/datum/crafting_recipe/roguetown/alchemy/st2di2tin
+	name = "stone & dirt to tin"
+	category = "Transmutation"
+	result = list(/obj/item/rogueore/tin = 1)
+	reqs = list(/obj/item/natural/stone = 2, /obj/item/natural/dirtclod = 2)
+	craftdiff = 3
+	verbage_simple = "transmute"
+
 /datum/crafting_recipe/roguetown/alchemy/c2irn
 	name = "coal to iron"
 	category = "Transmutation"

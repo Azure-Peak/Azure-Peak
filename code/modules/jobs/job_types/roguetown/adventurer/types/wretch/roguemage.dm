@@ -1,4 +1,4 @@
-// Rogue Mage, a pure mage adventurer sidegrade to Necromancer without the Necromancer free spells and forced patron. More spellpoints, otherwise mostly the same.
+// Rogue Mage, a pure mage adventurer sidegrade to Necromancer without the Necromancer free spells and forced patron.
 /datum/advclass/wretch/roguemage
 	name = "Rogue Mage"
 	tutorial = "They reject your genius, they cast you out, they call you unethical. They do not understand the SACRIFICES you must make. But it does not matter anymore, your power eclipse any of those fools, save for the Court Magos themselves. Show them true magic. Why do I have an eyepatch?"
@@ -8,7 +8,7 @@
 	cmode_music = 'sound/music/cmode/antag/combat_thewall.ogg'
 	class_select_category = CLASS_CAT_MAGE
 	category_tags = list(CTAG_WRETCH)
-	traits_applied = list(TRAIT_MAGEARMOR, TRAIT_ARCYNE_T3, TRAIT_ALCHEMY_EXPERT)
+	traits_applied = list(TRAIT_ARCYNE, TRAIT_ALCHEMY_EXPERT)
 	// Same stat spread as necromancer, same reasoning
 	subclass_stats = list(
 		STATKEY_INT = 4,
@@ -16,7 +16,7 @@
 		STATKEY_WIL = 1,
 		STATKEY_SPD = 1
 	)
-	subclass_spellpoints = 27
+	subclass_mage_aspects = list("mastery" = FALSE, "major" = 1, "minor" = 3, "utilities" = 8, "ward" = TRUE)
 	age_mod = /datum/class_age_mod/wretch/rogue_mage
 	subclass_skills = list(
 		/datum/skill/combat/staves = SKILL_LEVEL_JOURNEYMAN,
@@ -49,10 +49,8 @@
 	neck = /obj/item/clothing/neck/roguetown/leather // No iron gorget vs necro. They will have to acquire one in round.
 	beltl = /obj/item/storage/magebag
 	backl = /obj/item/storage/backpack/rogue/backpack
-	backr = /obj/item/rogueweapon/woodstaff/ruby
 	backpack_contents = list(
-		/obj/item/spellbook_unfinished/pre_arcyne = 1, 
-		/obj/item/roguegem/amethyst = 1,
+		/obj/item/book/spellbook = 1,
 		/obj/item/storage/belt/rogue/pouch/coins/poor = 1, 
 		/obj/item/flashlight/flare/torch/lantern/prelit = 1,
 		/obj/item/rope/chain = 1,
@@ -63,4 +61,5 @@
 	)
 	H.dna.species.soundpack_m = new /datum/voicepack/male/wizard()
 	if(H.mind)
+		backr = choose_implement(H, "greater")
 		wretch_select_bounty(H)

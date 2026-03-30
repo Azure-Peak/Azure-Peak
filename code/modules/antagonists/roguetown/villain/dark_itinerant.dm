@@ -71,7 +71,7 @@
 		H.change_stat(STATKEY_WIL, 1)
 		H.change_stat(STATKEY_SPD, 1) // 9 weighted
 
-		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/mindlink)
+		H.mind.AddSpell(new /datum/action/cooldown/spell/mindlink)
 
 	var/weapon_choice = input(H, "Choose your weapon.", "TAKE UP ARMS") as anything in list("Crossbow", "Bow", "Sling")
 	var/armor_choice = input(H, "Choose your armor.", "TAKE UP ARMS") as anything in list("Light Armor", "Medium Armor")
@@ -146,7 +146,7 @@
 		H.change_stat(STATKEY_CON, 2)
 		H.change_stat(STATKEY_WIL, 2) 
 		H.change_stat(STATKEY_SPD, -1) // 11 weighted
-		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/mindlink)
+		H.mind.AddSpell(new /datum/action/cooldown/spell/mindlink)
 		H.mind.AddSpell(new /obj/effect/proc_holder/spell/self/convertrole/zizosquire)
 
 	H.dna.species.soundpack_m = new /datum/voicepack/male/knight()

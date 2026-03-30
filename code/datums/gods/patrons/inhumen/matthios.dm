@@ -7,13 +7,14 @@
 	mob_traits = list(TRAIT_FREEMAN, TRAIT_MATTHIOS_EYES, TRAIT_SEEPRICES_SHITTY)
 	miracles = list(/obj/effect/proc_holder/spell/targeted/touch/orison					= CLERIC_ORI,
 					/obj/effect/proc_holder/spell/invoked/appraise						= CLERIC_ORI,
-					/obj/effect/proc_holder/spell/targeted/touch/lesserknock/miracle	= CLERIC_T0,
+					/datum/action/cooldown/spell/lesser_knock/miracle	= CLERIC_T0,
 					/obj/effect/proc_holder/spell/invoked/matthios_firebreath			= CLERIC_T0,
 					/obj/effect/proc_holder/spell/self/matthios_muffle					= CLERIC_T0,
 					/obj/effect/proc_holder/spell/invoked/matthios_transact				= CLERIC_T1, //It says it should be T1
 					/obj/effect/proc_holder/spell/invoked/lesser_heal 					= CLERIC_T1,
 					/obj/effect/proc_holder/spell/invoked/blood_heal					= CLERIC_T1,
 					/obj/effect/proc_holder/spell/invoked/matthios_equalize				= CLERIC_T2,
+					/obj/effect/proc_holder/spell/invoked/barter						= CLERIC_T2,
 					/obj/effect/proc_holder/spell/invoked/matthios_churn				= CLERIC_T3,
 					/obj/effect/proc_holder/spell/invoked/resurrect/matthios			= CLERIC_T3, // Counterpart to anastasis
 	)

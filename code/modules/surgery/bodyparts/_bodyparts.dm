@@ -111,6 +111,9 @@
 
 	resistance_flags = FLAMMABLE
 
+/obj/item/bodypart/proc/operator""()
+	return "\proper"+name
+
 /obj/item/bodypart/proc/adjust_marking_overlays(var/list/appearance_list)
 	return
 

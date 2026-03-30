@@ -256,8 +256,8 @@
 	force_wielded = 25
 	minstr = 11
 	wdefense = 6
-	possible_item_intents = list(/datum/intent/sword/cut, /datum/intent/sword/chop, /datum/intent/stab, /datum/intent/rend/krieg)
-	gripped_intents = list(/datum/intent/sword/cut/zwei, /datum/intent/sword/chop, /datum/intent/sword/lunge, /datum/intent/sword/thrust/estoc)
+	possible_item_intents = list(/datum/intent/sword/cut, /datum/intent/sword/chop, /datum/intent/sword/thrust/long, /datum/intent/rend/krieg)
+	gripped_intents = list(/datum/intent/sword/cut/zwei, /datum/intent/sword/chop, /datum/intent/sword/thrust/estoc/lunge, /datum/intent/sword/thrust/estoc)
 	alt_intents = list(/datum/intent/effect/daze, /datum/intent/sword/strike, /datum/intent/sword/bash)
 	is_silver = TRUE
 	smeltresult = /obj/item/ingot/silver
@@ -337,7 +337,6 @@
 	gripped_intents = list(
 		/datum/intent/sword/thrust/estoc,
 		/datum/intent/sword/thrust/estoc/lunge,
-		/datum/intent/sword/thrust/long/halfsword,
 		/datum/intent/sword/strike,
 	)
 	bigboy = TRUE

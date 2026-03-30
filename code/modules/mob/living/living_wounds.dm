@@ -192,7 +192,6 @@
 		used = round(max(dam / 3, 1), 1)
 		if(prob(used))
 			attempted_wounds += /datum/wound/artery/chest
-		
 	for(var/wound_type in shuffle(attempted_wounds))
 		var/datum/wound/applied = simple_add_wound(wound_type, silent, crit_message)
 		if(applied)

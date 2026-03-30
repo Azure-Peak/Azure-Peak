@@ -1,0 +1,5 @@
+author: "FreeStylaLT"
+delete-after: True
+changes:
+  - refactor: "Remade how the Zizo barbute swaps its 'skin'."
+  - bugfix: "Fixed Zizo Barbute / Froggemund not having a hair toggle via MMB."

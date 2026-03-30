@@ -564,6 +564,9 @@
 	icon2step = 7
 	icon3 = "stickbundle3"
 
+/obj/item/natural/bundle/stick/full
+	amount = 10
+
 /obj/item/natural/bundle/stick/attackby(obj/item/W, mob/living/user)
 	. = ..()
 	user.changeNext_move(CLICK_CD_MELEE)

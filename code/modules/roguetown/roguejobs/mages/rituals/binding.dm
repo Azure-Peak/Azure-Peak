@@ -166,4 +166,4 @@
 	blacklisted = FALSE
 	tier = 5
 	mob_to_bind = /mob/living/simple_animal/hostile/retaliate/rogue/voiddragon
-	required_atoms = list(/obj/item/clothing/ring/dragon_ring = 3, /obj/item/book/granter/spell_points/voiddragon = 3)
+	required_atoms = list(/obj/item/clothing/ring/dragon_ring = 3, /obj/item/book/granter/arcane_aspect/minor = 2, /obj/item/book/granter/arcane_aspect/major = 1)

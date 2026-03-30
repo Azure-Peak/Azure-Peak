@@ -6,7 +6,7 @@
 	force = 22
 	force_wielded = 25
 	possible_item_intents = list(/datum/intent/sword/cut/arming, /datum/intent/sword/thrust/arming, /datum/intent/sword/strike)
-	gripped_intents = list(/datum/intent/sword/cut/arming, /datum/intent/sword/thrust/arming, /datum/intent/sword/strike)
+	gripped_intents = null
 	damage_deflection = 14
 	icon_state = "sword1"
 	sheathe_icon = "sword1"
@@ -170,6 +170,80 @@
 /obj/item/rogueweapon/sword/long/Initialize()
 	. = ..()
 	AddComponent(/datum/component/skill_blessed, TRAIT_LONGSWORDSMAN, /datum/skill/combat/swords, SKILL_LEVEL_MASTER)
+
+/obj/item/rogueweapon/sword/long/tuck
+	name = "\improper Azurean tuck"
+	desc = "A long-bladed sword with a specialized thrusting tip. These are often produced without \
+	a cutting edge, especially in munitions grade examples as weary armorers try and prevent their \
+	levies from dulling swords on chopping firewood."
+	icon_state = "tuck"
+	force = 20
+	force_wielded = 25
+	possible_item_intents = list(
+		/datum/intent/sword/thrust,
+		/datum/intent/sword/strike,
+	)
+	gripped_intents = list(
+		/datum/intent/sword/thrust/estoc,
+		/datum/intent/sword/thrust/estoc/lunge,
+		/datum/intent/sword/strike,
+	)
+	wdefense = 3
+
+/obj/item/rogueweapon/sword/long/tuck/getonmobprop(tag)
+	. = ..()
+	if(tag)
+		switch(tag)
+			if("gen")
+				return list(
+					"shrink" = 0.6,
+					"sx" = -6,
+					"sy" = 7,
+					"nx" = 6,
+					"ny" = 8,
+					"wx" = 0,
+					"wy" = 6,
+					"ex" = -1,
+					"ey" = 8,
+					"northabove" = 0,
+					"southabove" = 1,
+					"eastabove" = 1,
+					"westabove" = 0,
+					"nturn" = -50,
+					"sturn" = 40,
+					"wturn" = 50,
+					"eturn" = -50,
+					"nflip" = 0,
+					"sflip" = 8,
+					"wflip" = 8,
+					"eflip" = 0,
+					)
+			if("wielded")
+				return list(
+					"shrink" = 0.6,
+					"sx" = 8,
+					"sy" = -2,
+					"nx" = -6,
+					"ny" = -1,
+					"wx" = -9,
+					"wy" = -2,
+					"ex" = 8,
+					"ey" = -1,
+					"northabove" = 0,
+					"southabove" = 1,
+					"eastabove" = 1,
+					"westabove" = 0,
+					"nturn" = 60,
+					"sturn" = 30,
+					"wturn" = -30,
+					"eturn" = 22,
+					"nflip" = 10,
+					"sflip" = 0,
+					"wflip" = 8,
+					"eflip" = 0,
+					)
+			if("onback")
+				return list("shrink" = 0.6,"sx" = -1,"sy" = 2,"nx" = 0,"ny" = 2,"wx" = 2,"wy" = 1,"ex" = 0,"ey" = 1,"nturn" = 0,"sturn" = 0,"wturn" = 70,"eturn" = 15,"nflip" = 1,"sflip" = 1,"wflip" = 1,"eflip" = 1,"northabove" = 1,"southabove" = 0,"eastabove" = 0,"westabove" = 0)
 
 /obj/item/rogueweapon/sword/long/broadsword
 	name = "broadsword"
@@ -786,6 +860,39 @@
 		added_def = 2,\
 	)
 
+/obj/item/rogueweapon/sword/long/greatkhopesh
+	name = "apophis" //Kriegmesser analogue.
+	desc = "The Khopesh's older brother. One would be mistaken for thinking it was designed to be wielded in both hands; for the strength of these \
+	ancient legionnaires, prodigious as it were, allowed them to effortlessly wield it alongside their towering greatshields."
+	wdefense = 3
+	wdefense_wbonus = 2
+	force = 22
+	force_wielded = 25
+	possible_item_intents = list(/datum/intent/sword/chop/sabre, /datum/intent/sword/cut/sabre, /datum/intent/sword/thrust/sabre)
+	gripped_intents = list(/datum/intent/rend/apophis, /datum/intent/sword/chop/sabre, /datum/intent/sword/thrust/sabre, /datum/intent/sword/strike)
+	max_integrity = 150
+	max_blade_int = 300
+	wbalance = WBALANCE_NORMAL
+	minstr = 11
+	sheathe_icon = "decgladius"
+	icon_state = "bronzegreatkhopesh"
+	item_state = "bronzegreatkhopesh"
+	smeltresult = /obj/item/ingot/bronze
+
+/obj/item/rogueweapon/sword/long/greatkhopesh/getonmobprop(tag)
+	. = ..()
+	if(tag)
+		switch(tag)
+			if("gen")
+				return list("shrink" = 0.5,"sx" = -14,"sy" = -8,"nx" = 15,"ny" = -7,"wx" = -10,"wy" = -5,"ex" = 7,"ey" = -6,"northabove" = 0,"southabove" = 1,"eastabove" = 1,"westabove" = 0,"nturn" = -13,"sturn" = 110,"wturn" = -60,"eturn" = -30,"nflip" = 1,"sflip" = 1,"wflip" = 8,"eflip" = 1)
+			if("onback")
+				return list("shrink" = 0.5,"sx" = -1,"sy" = 2,"nx" = 0,"ny" = 2,"wx" = 2,"wy" = 1,"ex" = 0,"ey" = 1,"nturn" = 0,"sturn" = 0,"wturn" = 70,"eturn" = 15,"nflip" = 1,"sflip" = 1,"wflip" = 1,"eflip" = 1,"northabove" = 1,"southabove" = 0,"eastabove" = 0,"westabove" = 0)
+			if("wielded")
+				return list("shrink" = 0.6,"sx" = 5,"sy" = -2,"nx" = -6,"ny" = -2,"wx" = -6,"wy" = -2,"ex" = 7,"ey" = -2,"northabove" = 0,"southabove" = 1,"eastabove" = 1,"westabove" = 0,"nturn" = -28,"sturn" = 29,"wturn" = -35,"eturn" = 32,"nflip" = 8,"sflip" = 0,"wflip" = 8,"eflip" = 0)
+			if("onbelt")
+				return list("shrink" = 0.4,"sx" = -4,"sy" = -6,"nx" = 5,"ny" = -6,"wx" = 0,"wy" = -6,"ex" = -1,"ey" = -6,"nturn" = 100,"sturn" = 156,"wturn" = 90,"eturn" = 180,"nflip" = 0,"sflip" = 0,"wflip" = 0,"eflip" = 0,"northabove" = 0,"southabove" = 1,"eastabove" = 1,"westabove" = 0)
+
+
 /obj/item/rogueweapon/sword/short
 	name = "steel shortsword"
 	desc = "The arming sword's shorter and much older brother. Despite being centuries older than the swords of todae, it remains in use as a cheap sidearm for shieldbearers and archers."
@@ -1038,6 +1145,20 @@
 	wdefense = 2
 	smeltresult = /obj/item/ingot/copper
 
+/obj/item/rogueweapon/sword/short/messer/bronze
+	name = "makhaira"
+	desc = "A heavy shortsword of similar design to the Kopis, fit for cleaving through both foliage and flesh. </br>Infamous for its \
+	presence amongst the gladitorial arenas of Lirvas and Raneshen, where gashes provide the kind of crimson spectacle that liqour-addled \
+	crowds adore the most."
+	icon_state = "makhaira"
+	minstr = 6
+	wdefense = 3
+	wlength = WLENGTH_NORMAL
+	w_class = WEIGHT_CLASS_NORMAL
+	smeltresult = /obj/item/ingot/bronze
+	max_integrity = 150
+	sheathe_icon = "kopis"
+
 /obj/item/rogueweapon/sword/sabre
 	name = "sabre"
 	desc = "A very popular backsword made for cavalrymen that originated in Naledi and spread its influence further north, reaching Aavnr as a \"Szablya\" and notoriously cementing itself as the preferred weapon of the Potentate's Hussars."
@@ -1235,8 +1356,8 @@
 	inhand_y_dimension = 64
 	dropshrink = 0.75
 	possible_item_intents = list(/datum/intent/sword/thrust/rapier, /datum/intent/sword/cut/rapier)
-	special = /datum/special_intent/piercing_lunge
 	gripped_intents = null
+	special = /datum/special_intent/piercing_lunge
 	parrysound = list(
 		'sound/combat/parry/bladed/bladedthin (1).ogg',
 		'sound/combat/parry/bladed/bladedthin (2).ogg',
@@ -1474,7 +1595,7 @@
 
 /obj/item/rogueweapon/sword/rapier/hand
 	name = "dark sister"
-	desc = "A tool made for nobler tasks than shedding blood, discreet and every ready, as you should be too."
+	desc = "A tool made for nobler tasks than shedding blood, discreet and ever ready, as you should be too."
 	icon = 'icons/roguetown/weapons/special/hand32.dmi'
 	icon_state = "staffblade"
 	item_state = "staffblade"

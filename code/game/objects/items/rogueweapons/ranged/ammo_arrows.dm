@@ -2,6 +2,8 @@
 #define MIN_ARROW_RANGE		3
 #define MAX_ARROW_RANGE		14
 #define DAM_FALLOFF_ARROW	0.5
+#define MIN_SPLINTER_RANGE	1
+#define MAX_SPLINTER_RANGE	5
 
 /obj/item/ammo_casing/caseless/rogue/arrow
 	name = "arrow"
@@ -10,6 +12,7 @@
 	Consult your gods."
 	projectile_type = /obj/projectile/bullet/reusable/arrow
 	caliber = "arrow"
+	icon = 'icons/roguetown/weapons/ranged/arrow_mob.dmi'
 	icon_state = "arrow"
 	force = 10
 	dropshrink = 0.6
@@ -34,7 +37,7 @@
 	projectile_type = /obj/projectile/bullet/reusable/arrow/stone
 
 /obj/item/ammo_casing/caseless/rogue/arrow/bronze
-	name = "bronze arrow"
+	name = "bronze flight arrow"
 	icon_state = "bronzearrow"
 	desc = "Bronze, quenched and batonned onto a feathered stick. The stories scribed along its imperfect edge could fill a hundred tomes; lost to antiquity, but remembered through sheer generational instinct."
 	max_integrity = 8
@@ -79,6 +82,7 @@
 	npc_simple_damage_mult = 2
 	armor_penetration = PEN_NONE
 	//accuracy = 65 // Default defined by projectile.dm
+	icon = 'icons/roguetown/weapons/ranged/arrow_proj.dmi'
 	icon_state = "arrow_proj"
 	ammo_type = /obj/item/ammo_casing/caseless/rogue/arrow
 	range = 15
@@ -123,7 +127,7 @@
 	ammo_type = /obj/item/ammo_casing/caseless/rogue/arrow/iron
 	damage = 50
 	armor_penetration = PEN_LIGHT
-	flag = "slash"
+	flag = "piercing"
 	embedchance = 30
 	npc_simple_damage_mult = 2
 
@@ -134,7 +138,7 @@
 	icon_state = "ancientarrow_proj"
 	damage = 40
 	armor_penetration = PEN_LIGHT
-	flag = "slash"
+	flag = "piercing"
 	embedchance = 40
 
 // Bodkins should penetrate essentially any armour in the game with decent perception, as
@@ -162,7 +166,7 @@
 // Non-existent AP, but strong damage, a high embed chance, and very fast projectiles.
 // Will have to see how this one plays out - may be a utility pick for chasedowns?
 /obj/projectile/bullet/reusable/arrow/bronze
-	name = "bronze arrow"
+	name = "bronze flight arrow"
 	ammo_type = /obj/item/ammo_casing/caseless/rogue/arrow/bronze
 	icon_state = "bronzearrow_proj"
 	damage = 50
@@ -221,6 +225,7 @@
 	poisonamount = 7
 	npc_simple_damage_mult = 7 //..or 420 damage against a mindless mob. Strike true; reduce if these become craftable or more easily acquirable, through any means.
 
+
 /obj/item/ammo_casing/caseless/rogue/arrow/getonmobprop(tag)
 	. = ..()
 	if(tag)
@@ -231,32 +236,140 @@
 				return list("shrink" = 0.3,"sx" = -2,"sy" = -5,"nx" = 4,"ny" = -5,"wx" = 0,"wy" = -5,"ex" = 2,"ey" = -5,"nturn" = 0,"sturn" = 0,"wturn" = 0,"eturn" = 0,"nflip" = 0,"sflip" = 0,"wflip" = 0,"eflip" = 0,"northabove" = 0,"southabove" = 1,"eastabove" = 1,"westabove" = 0)
 
 
-//pyro arrows
-/obj/item/ammo_casing/caseless/rogue/arrow/pyro
-	name = "pyroclastic arrow"
-	desc = "An arrow with its tip drenched in a flammable tincture."
-	projectile_type = /obj/projectile/bullet/arrow/pyro
-	possible_item_intents = list(/datum/intent/mace/strike)
+/*
+ * ELEMENTAL ARROWS - Created by coating iron broadheads with a runic tincture flask.
+ * Non-reusable (use /obj/projectile/bullet/arrow/, not /reusable/).
+ * Reduced damage compared to iron broadhead, same weight, with on_hit rider effects.
+ */
+
+/obj/item/ammo_casing/caseless/rogue/arrow/elemental
+	name = "elemental arrow"
+	desc = "An iron broadhead arrow coated with an alchemical tincture."
+	icon = 'icons/roguetown/weapons/ranged/arrow_mob.dmi'
 	caliber = "arrow"
+	ammo_weight = 1
+	possible_item_intents = list(/datum/intent/dagger/cut, /datum/intent/dagger/thrust)
+
+/obj/projectile/bullet/arrow/elemental
+	name = "elemental arrow"
+	damage = 40
+	damage_type = BRUTE
+	armor_penetration = PEN_LIGHT
+	flag = "slash"
+	icon = 'icons/roguetown/weapons/ranged/arrow_proj.dmi'
+	icon_state = "arrowpyro_proj"
+	range = 15
+	embedchance = 15
+	woundclass = BCLASS_PIERCE
+	speed = 1.25
+	min_range = MIN_ARROW_RANGE
+	max_range = MAX_ARROW_RANGE
+	dam_falloff_factor = DAM_FALLOFF_ARROW
+
+// --- FIRE ---
+/obj/item/ammo_casing/caseless/rogue/arrow/elemental/fire
+	name = "fire arrow"
+	desc = "An iron broadhead drenched in a flammable tincture. It smolders faintly."
+	projectile_type = /obj/projectile/bullet/arrow/elemental/fire
 	icon_state = "arrow_pyroclastic"
 
-/obj/projectile/bullet/arrow/pyro
-	name = "pyroclastic arrow"
-	desc = "An arrow with its tip drenched in a flammable tincture."
-	damage = 15
+/obj/projectile/bullet/arrow/elemental/fire
+	name = "fire arrow"
 	icon_state = "arrowpyro_proj"
-	hitsound = 'sound/blank.ogg'
-	embedchance = 0
-	woundclass = BCLASS_BLUNT
 
-/obj/projectile/bullet/arrow/pyro/on_hit(target)
+/obj/projectile/bullet/arrow/elemental/fire/on_hit(atom/target)
 	..()
 	if(!ismob(target))
 		return
 	var/mob/living/M = target
-	M.adjust_fire_stacks(4)
-	M.adjustFireLoss(10)
+	M.adjust_fire_stacks(2)
+	M.adjustFireLoss(5)
 	M.ignite_mob()
+
+// --- FROST --- (Pending PR #6406 frost stack system - should apply 2 frost stacks)
+/*
+/obj/item/ammo_casing/caseless/rogue/arrow/elemental/frost
+	name = "frost arrow"
+	desc = "An iron broadhead coated in a chilling solution. Rime clings to the shaft."
+	projectile_type = /obj/projectile/bullet/arrow/elemental/frost
+	icon_state = "arrow_frost"
+
+/obj/projectile/bullet/arrow/elemental/frost
+	name = "frost arrow"
+	icon_state = "arrowfrost_proj"
+
+/obj/projectile/bullet/arrow/elemental/frost/on_hit(atom/target)
+	..()
+	if(!ismob(target))
+		return
+	var/mob/living/M = target
+	// TODO: Replace with frost stack system from PR #6406
+	// M.adjust_frost_stacks(2)
+	to_chat(M, span_danger("A biting cold seeps into my flesh!"))
+*/
+
+/obj/item/ammo_casing/caseless/rogue/arrow/elemental/thunder
+	name = "thunder arrow"
+	desc = "An iron broadhead laced with a crackling runic solution. The arrowhead thrums with violent energy. Briefly staggers the target on impact."
+	projectile_type = /obj/projectile/bullet/arrow/elemental/thunder
+	icon_state = "arrow_thunder"
+
+/obj/projectile/bullet/arrow/elemental/thunder
+	name = "thunder arrow"
+	damage = 30
+	damage_type = BURN
+	flag = "fire"
+	woundclass = BCLASS_BURN
+	icon_state = "arrowthunder_proj"
+
+/obj/projectile/bullet/arrow/elemental/thunder/on_hit(atom/target)
+	..()
+	if(!ismob(target))
+		return
+	var/mob/living/M = target
+	M.electrocute_act(1, src, 1, SHOCK_NOSTUN)
+	M.Slowdown(1 SECONDS)
+	to_chat(M, span_danger("Arcyne thunder sears through my body!"))
+
+// --- KINETIC --- (Arcyne sprite)
+// Deals 35 brute damage and knocks the target back.
+/obj/item/ammo_casing/caseless/rogue/arrow/elemental/kinetic
+	name = "kinetic arrow"
+	desc = "An iron broadhead infused with a volatile kinetic solution. The air around it warps faintly."
+	projectile_type = /obj/projectile/bullet/arrow/elemental/kinetic
+	icon_state = "arrow_kinetic"
+
+/obj/projectile/bullet/arrow/elemental/kinetic
+	name = "kinetic arrow"
+	damage = 35
+	icon_state = "arrowkinetic_proj"
+
+/obj/projectile/bullet/arrow/elemental/kinetic/on_hit(atom/target)
+	..()
+	if(!ismob(target))
+		return
+	var/mob/living/M = target
+	var/throw_dir = get_dir(src, target)
+	var/atom/throw_target = get_edge_target_turf(M, throw_dir)
+	M.safe_throw_at(throw_target, 2, 1)
+	to_chat(M, span_danger("A kinetic blast sends me flying!"))
+
+/obj/item/ammo_casing/caseless/rogue/arrow/elemental/splinter
+	name = "splinter arrow"
+	desc = "An iron broadhead coated in a gold-tinted tincture that causes the head to fragment into shards on release. Its fletching has been removed to save on feather."
+	projectile_type = /obj/projectile/bullet/arrow/elemental/splinter
+	icon_state = "arrow_splinter"
+	pellets = 3
+	variance = 25
+
+/obj/projectile/bullet/arrow/elemental/splinter
+	name = "splinter arrow"
+	damage = 25
+	icon_state = "arrowsplinter_proj"
+	embedchance = 40
+	min_range = MIN_SPLINTER_RANGE
+	max_range = MAX_SPLINTER_RANGE
+
 
 /obj/item/ammo_casing/caseless/rogue/arrow/water
 	name = "water arrow"
@@ -272,6 +385,7 @@
 	desc = "An arrow with its tip containing a glass ampule filled with water. It will shatter on impact, useful for taking out pesky lights."
 	damage = 0
 	damage_type = BRUTE
+	icon = 'icons/roguetown/weapons/ranged/arrow_proj.dmi'
 	icon_state = "arrowwater_proj"
 	range = 15
 	hitsound = 'sound/blank.ogg'
@@ -296,3 +410,5 @@
 #undef MIN_ARROW_RANGE
 #undef MAX_ARROW_RANGE
 #undef DAM_FALLOFF_ARROW
+#undef MIN_SPLINTER_RANGE
+#undef MAX_SPLINTER_RANGE

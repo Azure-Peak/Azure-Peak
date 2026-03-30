@@ -265,6 +265,15 @@
 	max_integrity = ARMOR_INT_SIDE_IRON
 	anvilrepair = /datum/skill/craft/armorsmithing
 
+/obj/item/clothing/neck/roguetown/bevor/bronze
+	name = "bronze gorgette"
+	desc = "A jutting slab of bronze, traditionally mounted atop a panoplic assembly to veil the neck from precise strikes. </br>To tip the chin up while grounded is an ancient gesture; one which willingly beckons for the 'gift of mercy'."
+	icon_state = "bbevor"
+	smeltresult = /obj/item/ingot/bronze
+	armor = ARMOR_BRONZE
+	max_integrity = ARMOR_INT_SIDE_BRONZE
+	anvilrepair = /datum/skill/craft/armorsmithing
+
 /obj/item/clothing/neck/roguetown/gorget
 	name = "gorget"
 	desc = "A series of iron plates designed to protect the neck, traditionally atop a jacket or cuirass. While it lacks a coif's coverage, it is more-than-capable of thwarting a dagger's viscous bite."
@@ -489,6 +498,15 @@
 	sellprice = 0	//Heresy of the highest order. Unless...
 	icon_state = "reformistcross"
 
+/obj/item/clothing/neck/roguetown/psicross/g
+	name = "golden psycross"
+	desc = "'Purity afloat, for paradise awaits!'"
+	icon_state = "psycross_g"
+	item_state = "psycross_g"
+	//dropshrink = 0.75
+	resistance_flags = FIRE_PROOF
+	sellprice = 100
+
 /obj/item/clothing/neck/roguetown/psicross/aalloy
 	name = "decrepit psycross"
 	desc = "'A comet capable of rending all the enemies of humanity apart; oh, how graceful His power was! And His sacrifice, ever so noble! Yet now He slumbers, unaware of the fruits His efforts came to give. And He sighs. And He weeps.'"
@@ -497,11 +515,26 @@
 	chunkcolor = "#532e25"
 	material_category = ARMOR_MAT_PLATE
 
+/obj/item/clothing/neck/roguetown/psicross/paalloy
+	name = "ancient psycross"
+	desc = "'A comet capable of rending all the enemies of humanity apart; oh, how graceful His power was! And His sacrifice, ever so noble! Yet now He slumbers, unaware of the fruits His efforts came to give. And He sighs. And He weeps.'"
+	icon_state = "psycross_a"
+	chunkcolor = "#532e25"
+	material_category = ARMOR_MAT_PLATE
+
 /obj/item/clothing/neck/roguetown/psicross/inhumen/aalloy
 	name = "decrepit zcross"
 	desc = "'Progress. Ascension. Destiny. A mandate, commanded by God, to be fufilled by Man. She called us forth from the edge of reality - and with Her dying breath, rasped out the final truth; the fire is gone, and the world will soon follow.'"
 	icon_state = "zcross_a"
 	color = "#bb9696"
+	chunkcolor = "#532e25"
+	material_category = ARMOR_MAT_PLATE
+	resistance_flags = FIRE_PROOF
+
+/obj/item/clothing/neck/roguetown/psicross/inhumen/paalloy
+	name = "ancient zcross"
+	desc = "'Progress. Ascension. Destiny. A mandate, commanded by God, to be fufilled by Man. She called us forth from the edge of reality - and with Her dying breath, rasped out the final truth; the fire is gone, and the world will soon follow.'"
+	icon_state = "zcross_a"
 	chunkcolor = "#532e25"
 	material_category = ARMOR_MAT_PLATE
 	resistance_flags = FIRE_PROOF
@@ -590,6 +623,28 @@
 	icon_state = "noc"
 	sellprice = 50
 
+/obj/item/clothing/neck/roguetown/psicross/noc/bronze
+	name = "bronze amulet of Noc"
+	desc = "Knowledge predates lyfe and death itself. Who art thou, to assume the quill's works are no holier than a sword or masterwork?"
+	icon_state = "noc_b"
+
+/obj/item/clothing/neck/roguetown/psicross/noc/aalloy
+	name = "decrepit amulet of Noc"
+	desc = "The ultimate answer to the ultimate question is not a parable, but a pair of numbers; 'four' and 'two'. Thou may not understand it, yet, but I assure thee; it shall all make sense in due tyme."
+	icon_state = "noc_a"
+	color = "#bb9696"
+	chunkcolor = "#532e25"
+	material_category = ARMOR_MAT_PLATE
+	resistance_flags = FIRE_PROOF
+
+/obj/item/clothing/neck/roguetown/psicross/noc/paalloy
+	name = "ancient amulet of Noc"
+	desc = "The ultimate answer to the ultimate question is not a parable, but a pair of numbers; 'four' and 'two'. Thou may not understand it, yet, but I assure thee; it shall all make sense in due tyme."
+	icon_state = "noc_a"
+	chunkcolor = "#532e25"
+	material_category = ARMOR_MAT_PLATE
+	resistance_flags = FIRE_PROOF
+
 /obj/item/clothing/neck/roguetown/psicross/abyssor
 	name = "amulet of Abyssor"
 	desc = "To fear the unknown is to turn away from the greatest mysteries of all."
@@ -626,6 +681,27 @@
 	name = "bronze amulet of Ravox"
 	desc = "'YOU FIGHT WELL, RAVOX OF UR-SYON. YOUR CLEMENCY HATH BEEN EARNED. SURRENDER NOW, AND GRAGGAR SHALL-'</br>‎  </br>'No.' </br>‎  </br>'-WHAT? YOU'RE GOING TO THROW AWAY YOUR LYFE FOR A GOD THAT HAS NO LOVE FOR YOU?' </br>‎  </br>'One of us will.'"
 	icon_state = "ravox_b"
+
+/obj/item/clothing/neck/roguetown/psicross/astrata/bronze
+	name = "bronze amulet of Astrata"
+	desc = "'We are Her soldiers, the Legion of light.' </br>'We are the center, the depth of the Sun.' </br>'Fire and flame - we are one.'"
+	icon_state = "astrata_b"
+	item_state = "astrata_b"
+	sellprice = 25 // same as a bronze psycross
+
+/obj/item/clothing/neck/roguetown/psicross/malum/bronze
+	name = "bronze amulet of Malum"
+	desc = "Stone to steel, bone to bronze, mulched to masterworked."
+	icon_state = "malum_b"
+	item_state = "malum_b"
+	sellprice = 25
+
+/obj/item/clothing/neck/roguetown/psicross/inhumen/graggar/bronze
+	name = "bronze amulet of Graggar"
+	desc = "'EVERYTHING - AND EVERYONE YOU LOVE - WILL BE GONE! WHAT WILL YOU HAVE, AFTER THE LAST FIRE'S BEEN SMOTHERED OUT?!' </br>‎  </br>'..You. I'd still have you.'"
+	icon_state = "graggar_b"
+	item_state = "graggar_b"
+	sellprice = 25
 
 /obj/item/clothing/neck/roguetown/psicross/malum
 	name = "amulet of Malum"
@@ -707,15 +783,6 @@
 /obj/item/clothing/neck/roguetown/psicross/silver/get_mechanics_examine(mob/user)
     . = ..()
     . += span_info("Silver amulets protect against most unholy curses, hexes, and other mind-altering spells.")
-
-/obj/item/clothing/neck/roguetown/psicross/g
-	name = "golden psycross"
-	desc = "'Purity afloat, for paradise awaits!'"
-	icon_state = "psycross_g"
-	item_state = "psycross_g"
-	//dropshrink = 0.75
-	resistance_flags = FIRE_PROOF
-	sellprice = 100
 
 /obj/item/clothing/neck/roguetown/psicross/pearl //put it as a psycross so it can be used for miracles
 	name = "pearl amulet"

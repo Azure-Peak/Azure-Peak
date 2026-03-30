@@ -17,6 +17,13 @@
 /obj/item/reagent_containers/glass/bottle/mercury
 	list_reagents = list(/datum/reagent/mercury = 50)
 
+/obj/item/reagent_containers/glass/bottle/rogue/healthpot/zarum
+	name = "bottle of medicinal fish vinegar"
+	desc = "A bottle with a mudclay cork, tethered to the bottleneck via braided twine. Fermented innard-paste and herbs makes for a \
+	disgustingly cheap medicine; an ancient concoction, resurrected for usage within the gladitorial arenas of Lirvas and Raneshen. </br>A \
+	particular variant of this, made by fermenting zardines in the Terrorbog, happens to be a very popular condiment back in Rockhill."
+	list_reagents = list(/datum/reagent/medicine/healthpot/zarum = 50)
+
 //vanderlin potion stuff//
 /obj/item/reagent_containers/glass/bottle/rogue/strongmanapot
 	list_reagents = list(/datum/reagent/medicine/strongmana = 50)

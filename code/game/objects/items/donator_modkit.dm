@@ -89,6 +89,7 @@
 	TI.lefthand_file = RI::lefthand_file
 	TI.righthand_file = RI::righthand_file
 	TI.sheathe_icon = RI::sheathe_icon ? RI::sheathe_icon : TI.sheathe_icon
+	TI.bigboy = RI::bigboy
 
 	to_chat(user, span_notice("You apply the [src] to [I], using the enchanting dust and tools to turn it into [RI::name]."))
 	I.name = "[RI::name] <font size = 1>([I.name])</font>"
@@ -292,14 +293,65 @@
 		)
 	result_item = null
 
+//Koruu - Kukri
+/obj/item/enchantingkit/weapon/koruu_kukri
+	name = "'Leachwhacker' morphing elixir"
+	target_items = list(
+		/obj/item/rogueweapon/huntingknife/idagger,
+		/obj/item/rogueweapon/huntingknife/idagger/steel,
+		/obj/item/rogueweapon/huntingknife/combat,
+		/obj/item/rogueweapon/huntingknife
+		)
+	result_item = /obj/item/rogueweapon/koruu/kukri
+
+/obj/item/enchantingkit/weapon/koruu_kukri/warden
+	name = "'Warden Leachwhacker' morphing elixir"
+	target_items = list(
+		/obj/item/rogueweapon/huntingknife/idagger/warden_machete
+		)
+	result_item = /obj/item/rogueweapon/koruu/kukri/warden
+
 //DRD21 - Longsword
 /obj/item/enchantingkit/drd_lsword
 	name = "'ornate basket-hilt longsword' morphing elixir"
-	target_items = list(/obj/item/rogueweapon/sword/long)
+	target_items = list(
+		/obj/item/rogueweapon/sword/long
+	)
 	result_item = /obj/item/rogueweapon/sword/long/drd
 
 //Lmwevil - Beak Mask
 /obj/item/enchantingkit/lmwevil_brassbeak
 	name = "brass beak mask morphing elixir"
-	target_items = list(/obj/item/clothing/mask/rogue/courtphysician, /obj/item/clothing/mask/rogue/physician)
+	target_items = list(
+		/obj/item/clothing/mask/rogue/courtphysician, 
+		/obj/item/clothing/mask/rogue/physician
+	)
 	result_item = /obj/item/clothing/mask/rogue/courtphysician/brassbeak
+
+//Shudderfly - Steel Dagger
+/obj/item/enchantingkit/shudderfly_dagger
+	name = "'Eoran Spike' morphing elixir"
+	target_items = list(
+		/obj/item/rogueweapon/huntingknife/idagger/steel
+	)
+	result_item = /obj/item/rogueweapon/huntingknife/idagger/steel/shudderfly
+
+//Maesune - Sabre/Shield
+/obj/item/enchantingkit/weapon/maesune_shield
+	name = "'Fy Annwyl' morphing elixir"
+	target_items = list(
+		/obj/item/rogueweapon/shield/tower/metal
+	)
+	result_item = /obj/item/rogueweapon/maesune/shield
+
+/obj/item/enchantingkit/weapon/maesune_sabre
+	name = "'Y Ceirw' morphing elixir"
+	target_items = list(
+		/obj/item/rogueweapon/sword/short/falchion,
+		/obj/item/rogueweapon/sword/long,
+		/obj/item/rogueweapon/sword/long/silver,
+		/obj/item/rogueweapon/sword,
+		/obj/item/rogueweapon/sword/silver,
+		/obj/item/rogueweapon/sword/long/kriegmesser
+	)
+	result_item = /obj/item/rogueweapon/maesune/sabre

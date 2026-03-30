@@ -1215,26 +1215,29 @@
 	max_integrity = ARMOR_INT_HELMET_ANTAG
 	chunkcolor = "#363030"
 	material_category = ARMOR_MAT_PLATE
-	var/frogstyle = FALSE
+	toggle_icon_state = TRUE
+	var/swap_type = /obj/item/clothing/head/roguetown/helmet/heavy/zizo/frogge
+	var/swap_tag = "Froggemund"
 
-/obj/item/clothing/head/roguetown/helmet/heavy/zizo/MiddleClick(mob/user)
-	frogstyle = !frogstyle
-	to_chat(user, span_info("My avantyne greathelmet shifts into the style of [frogstyle ? "a froggemund" : "a barbute"]."))
-	if(frogstyle)
-		icon_state = "zizofrogmouth"
-		name = "avantyne froggemund"
-		desc = "Crystallized inzanity, brought to a lower plane of existence and flared into a wide-collared froggemund. It has been called forth from the edge of reality, in Her name."
-		flags_inv = HIDEFACE|HIDESNOUT|HIDEEARS
-		body_parts_covered = HEAD|EARS|HAIR
-		adjustable = CANT_CADJUST
-	else
-		icon_state = "zizobarbute"
-		name = "avantyne barbute"
-		desc = "Crystallized inzanity, brought to a lower plane of existence and flared into a visored aegis. It has been called forth from the edge of reality, in Her name."
-		adjustable = CAN_CADJUST
-	update_icon()
-	user.update_inv_head()
+/obj/item/clothing/head/roguetown/helmet/heavy/zizo/frogge
+	icon_state = "zizofrogmouth"
+	name = "avantyne froggemund"
+	desc = "Crystallized inzanity, brought to a lower plane of existence and flared into a wide-collared froggemund. It has been called forth from the edge of reality, in Her name."
+	flags_inv = HIDEFACE|HIDESNOUT|HIDEEARS
+	body_parts_covered = HEAD|EARS|HAIR
+	adjustable = CANT_CADJUST
+	swap_type = /obj/item/clothing/head/roguetown/helmet/heavy/zizo
+	swap_tag = "Barbute"
 
+/obj/item/clothing/head/roguetown/helmet/heavy/zizo/attack_self(mob/user)
+	if(obj_integrity != max_integrity)
+		to_chat(user, span_warning("I must repair this fully, first."))
+		return
+	var/choice = alert(user, "Do you wish to alter this helm to look like the [swap_tag]?", "A NEW LOOK", "Yes", "No")
+	if(choice == "Yes")
+		var/turf/T = get_turf(user)
+		new swap_type(T)
+		qdel(src)
 
 /obj/item/clothing/head/roguetown/helmet/heavy/zizo/Initialize()
 	. = ..()

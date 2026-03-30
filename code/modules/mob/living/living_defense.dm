@@ -92,7 +92,7 @@
 	if(SEND_SIGNAL(src, COMSIG_ATOM_BULLET_ACT, P, def_zone) & COMPONENT_ATOM_BLOCK_BULLET)
 		return
 	def_zone = bullet_hit_accuracy_check(P.accuracy + P.bonus_accuracy, def_zone)
-	var/armor = run_armor_check(def_zone, P.flag, "", "",armor_penetration = P.armor_penetration, damage = P.damage, used_weapon = P)
+	var/armor = run_armor_check(def_zone, P.flag, "", "",armor_penetration = P.armor_penetration, damage = P.damage, intdamfactor = P.intdamfactor, used_weapon = P)
 
 	next_attack_msg.Cut()
 
@@ -485,12 +485,13 @@
 		return FALSE
 	if(HAS_TRAIT(src, TRAIT_SHOCKIMMUNE))
 		return FALSE
-	if(shock_damage < 1)
+	if(shock_damage < 1 && !(flags & SHOCK_VISUAL_ONLY))
 		return FALSE
-	if(!(flags & SHOCK_ILLUSION))
-		adjustFireLoss(shock_damage)
-	else
-		adjustStaminaLoss(shock_damage)
+	if(!(flags & SHOCK_VISUAL_ONLY))
+		if(!(flags & SHOCK_ILLUSION))
+			adjustFireLoss(shock_damage)
+		else
+			adjustStaminaLoss(shock_damage)
 	visible_message(
 		span_danger("[src] was shocked by \the [source]!"), \
 		span_danger("I feel a powerful shock coursing through my body!"), \

@@ -146,6 +146,9 @@
 			acheck_dflag = "stab"
 		if(BCLASS_PIERCE)
 			acheck_dflag = "piercing"
+		if(BCLASS_BURN)
+			acheck_dflag = "fire"
+	armor = owner.run_armor_check(zone_precise, acheck_dflag, damage = 0)
 	armor = owner.getarmor(zone_precise, acheck_dflag)
 	if((owner.mind || HAS_TRAIT(owner, TRAIT_CRIT_THRESHOLD)) && (get_damage() <= (max_damage * CRIT_DISMEMBER_DAMAGE_THRESHOLD))) //No crits unless the limb is at 75%+ damage.
 		do_crit = FALSE
@@ -296,7 +299,6 @@
 			used = round(damage_dividend * 20 + (dam / 2))
 			if(prob(used))
 				attempted_wounds += /datum/wound/sunder
-
 	// Check if critical resistance applies
 	var/has_crit_attempt = length(attempted_wounds)
 	if(!has_crit_attempt)
@@ -376,7 +378,6 @@
 			used = round(damage_dividend * 20 + (dam / 2))
 			if(prob(used))
 				attempted_wounds += list(/datum/wound/sunder/chest)
-
 	// Check if critical resistance applies
 	var/has_crit_attempt = length(attempted_wounds)
 	if(!has_crit_attempt)
@@ -508,7 +509,6 @@
 			used = round(damage_dividend * 20 + (dam / 2), 1)
 			if(prob(used))
 				attempted_wounds += /datum/wound/sunder/head
-
 	var/has_crit_attempt = length(attempted_wounds) || try_knockout
 	if(!has_crit_attempt)
 		return FALSE
