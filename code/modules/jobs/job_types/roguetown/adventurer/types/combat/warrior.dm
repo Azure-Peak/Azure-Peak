@@ -225,8 +225,8 @@
 	traits_applied = list(TRAIT_STEELHEARTED, TRAIT_IGNOREDAMAGESLOWDOWN, TRAIT_BLOOD_RESISTANCE, TRAIT_NOPAINSTUN)
 	extra_context = "This subclass gains access to the RAGE ability."
 	subclass_stats = list( //lower stats, gains more during rage
-		STATKEY_STR = 2,
-		STATKEY_CON = 1,
+		STATKEY_STR = 3,
+		STATKEY_CON = 2,
 		STATKEY_WIL = 1,
 		STATKEY_INT = -2,
 	)

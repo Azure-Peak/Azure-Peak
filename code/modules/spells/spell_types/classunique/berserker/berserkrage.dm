@@ -6,13 +6,13 @@
 	var/ragedmgbuff = 0
 	if(HAS_TRAIT (L, TRAIT_NOPAIN)) //lickers and whatever other things get locked to base buff
 		return 0
-	if(brute + burn > 150)
+	if(brute + burn > 100)
 		ragedmgbuff = 1
-	if(brute + burn > 300)
+	if(brute + burn > 200)
 		ragedmgbuff = 2
-	if(brute + burn > 500)
+	if(brute + burn > 400)
 		ragedmgbuff = 3
-	if(brute + burn > 700)
+	if(brute + burn > 600)
 		ragedmgbuff = 4
 	return ragedmgbuff
 
@@ -21,7 +21,7 @@
 	desc = "GETTING HURT MAKES YOU ANGRY, MAKE THEM HURT BACK- MORE HURT IS MORE ANGRY!"
 	antimagic_allowed = TRUE
 	clothes_req = FALSE
-	recharge_time = 3 MINUTES
+	recharge_time = 2 MINUTES
 	invocations = list("enters a state of furious rage!")
 	invocation_type = "emote"
 
@@ -44,8 +44,8 @@
 	id = "rage"
 	examine_text = "<font color='red'>SUBJECTPRONOUN is frothing at the mouth!</font>"
 	alert_type = /atom/movable/screen/alert/status_effect/buff/rage
-	effectedstats = list(STATKEY_CON = 1, STATKEY_WIL = 1, STATKEY_STR = 1)
-	duration = 2 MINUTES
+	effectedstats = list(STATKEY_STR = 1)
+	duration = 90 SECONDS
 	var/ragebuff = 0
 	var/outline_colour = "#ca0000"
 
@@ -68,13 +68,13 @@
 /datum/status_effect/buff/rage/proc/update_effects()
 	ragebuff = get_buff_value(owner)
 	if(ragebuff < 1)
-		effectedstats = list(STATKEY_CON = 1, STATKEY_WIL = 1, STATKEY_STR = 1)
+		effectedstats = list(STATKEY_STR = 1)
 	else if(ragebuff < 2)
-		effectedstats = list(STATKEY_CON = 1, STATKEY_WIL = 2, STATKEY_STR = 2)
+		effectedstats = list(STATKEY_CON = 2, STATKEY_STR = 1)
 	else if(ragebuff < 3)
-		effectedstats = list(STATKEY_CON = 2, STATKEY_WIL = 2, STATKEY_STR = 2)
+		effectedstats = list(STATKEY_CON = 2, STATKEY_STR = 2)
 	else if(ragebuff < 4)
-		effectedstats = list(STATKEY_CON = 2, STATKEY_WIL = 3, STATKEY_STR = 3)
+		effectedstats = list(STATKEY_CON = 2, STATKEY_WIL = 2, STATKEY_STR = 2)
 	else
 		effectedstats = list(STATKEY_CON = 3, STATKEY_WIL = 3, STATKEY_STR = 3)
 
@@ -103,7 +103,7 @@
 	desc = "GETTING HURT MAKES YOU ANGRY, MAKE THEM HURT BACK- MORE HURT IS MORE ANGRY!"
 	antimagic_allowed = TRUE
 	clothes_req = FALSE
-	recharge_time = 3 MINUTES
+	recharge_time = 2 MINUTES
 	invocations = list("enters a state of furious rage!")
 	invocation_type = "emote"
 
@@ -119,8 +119,8 @@
 	id = "ragebad"
 	examine_text = "<font color='red'>SUBJECTPRONOUN is frothing at the mouth!</font>"
 	alert_type = /atom/movable/screen/alert/status_effect/buff/rage
-	effectedstats = list(STATKEY_CON = 1, STATKEY_WIL = 1, STATKEY_STR = 1)
-	duration = 2 MINUTES
+	effectedstats = list(STATKEY_STR = 1)
+	duration = 90 SECONDS
 	var/ragebuff = 0
 	var/outline_colour = "#ca0000"
 
@@ -143,9 +143,9 @@
 /datum/status_effect/buff/ragebad/proc/update_effects()
 	ragebuff = get_buff_value(owner)
 	if(ragebuff < 1)
-		effectedstats = list(STATKEY_CON = 1, STATKEY_WIL = 1, STATKEY_STR = 1)
+		effectedstats = list( STATKEY_STR = 1)
 	else if(ragebuff < 3)
-		effectedstats = list(STATKEY_CON = 2, STATKEY_WIL = 1, STATKEY_STR = 1)
+		effectedstats = list(STATKEY_CON = 2, STATKEY_STR = 1)
 	else
 		effectedstats = list(STATKEY_CON = 2, STATKEY_WIL = 2, STATKEY_STR = 2)
 
