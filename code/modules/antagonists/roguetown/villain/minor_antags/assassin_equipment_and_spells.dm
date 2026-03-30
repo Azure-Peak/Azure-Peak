@@ -249,26 +249,26 @@ we happen to commission/code should GO IN HERE. Thanks.
 */
 /obj/item/rogueweapon/huntingknife/idagger/steel/profane/afterattack(mob/living/carbon/human/target, mob/living/user = usr, proximity)
 	. = ..()
-	// leaving this out of the rewritten logic flow below cus idk if it was there 4 a reason
-	if(!ishuman(target))
-		to_chat(user, span_danger("You can't do that!"))
-		return
-	if(!ishuman(user)) // carbons don't have all features of a human
-		to_chat(user, span_danger("You can't do that!"))
-		return
 	if(istype(user.used_intent, /datum/intent/face_steal))
 		// PRELIMINARY CHECKS.
-		if(!HAS_TRAIT(user, TRAIT_ASSASSIN))
-			to_chat(user, span_smallred("I AM NOT WORTHY!!"))
-			return
 		if(!user.Adjacent(target))
 			to_chat(user, span_smallred("I must be adjacent to my target!"))
+			return
+		if(!ishuman(target))
+			to_chat(user, span_danger("You can't do that!"))
+			return
+		if(!ishuman(user)) // carbons don't have all features of a human
+			to_chat(user, span_danger("You can't do that!"))
+			return
+		// ASSASSINS ONLY. NO TWO-SIES.
+		if(!HAS_TRAIT(user, TRAIT_ASSASSIN))
+			to_chat(user, span_smallred("I AM NOT WORTHY!!"))
 			return
 		if(HAS_TRAIT(target, TRAIT_KOH))
 			to_chat(user, span_graggarsmall("I cannot steal someones face twice."))
 			return
-		// DEATH/CRIT CHECK. ITS STUPID. ITS SO STUPID. INCRITICAL() IS SUCH A SPECIFIC THING.
-		if(target.stat == DEAD || target.InCritical()) // Trigger soul steal or identity theft if the target is either dead or in crit
+		// SUPERIOR CHECK. IF THEY ARE DEAD, HAVE NO BLOOD LEFT, OR ARE IN CRIT. YOU WIN. POISONS WILL TAKE EXTRA STABBING BUT THATS IN THE SPIRIT OF G.
+		if(target.stat == DEAD || target.InCritical() || (target.blood_volume in -INFINITY to BLOOD_VOLUME_SURVIVE)) // Trigger soul steal or identity theft if the target is either dead or in crit
 			var/obj/item/bodypart/head/target_head = target.get_bodypart(BODY_ZONE_HEAD)
 			if(QDELETED(target_head))
 				to_chat(user, span_notice("I need their head or else I can't confirm the blood-bounty!"))
@@ -290,7 +290,7 @@ we happen to commission/code should GO IN HERE. Thanks.
 			new_face.steal_face(target)
 			stolen_faces += new_face
 			// human_user.copy_physical_features(target)
-			to_chat(user, span_graggar("I take on a new face..."))
+			to_chat(user, span_graggar("I add a new face to my collection..."))
 			ADD_TRAIT(target, TRAIT_DISFIGURED, TRAIT_GENERIC)
 			ADD_TRAIT(target, TRAIT_KOH, TRAIT_GENERIC)
 			// hunted interactions
@@ -363,3 +363,103 @@ These spells are to be granted to the assassin role. Some roundstart, others as 
 should also be potentially granted some spells from Gnolls, as well as Graggar spells being an option. Each should have an ASSASSIN subtype
 that costs DEVOTION. All assassins SHOULD be given devotion that scales w/ their number of kills.
 */
+
+// i do not want to hear shit about this spells balance as long as mercenary is a thing. i am balancing it based off of tithebound which is a
+// non-antag who can get the same shit w/ WAY less fucking effort than rancor. no tea i am not mad at u or anything this is directed at the people
+// who are going to complain about this. you dont even get rr'd anymore i dont Fucking Care.
+/obj/effect/proc_holder/spell/self/assassin_rancor
+	name = "RANCOR"
+	desc = "Invoke the motive force, giving yourself superior physical attributes. Effects scale with number of souls fetched. \
+	Requires your dagger to cast. Instantly recharges upon stealing the soul of a hunted foe."
+	releasedrain = 0
+	chargedrain = 0
+	chargetime = 0
+	chargedloop = null
+	sound = null
+	associated_skill = /datum/skill/magic/holy
+	// You get two minutes of this. 5 Minute Recharge. 2/3 of an average fight.
+	recharge_time = 5 MINUTES
+	miracle = TRUE
+	devotion_cost = 0
+	clothes_req = FALSE
+	req_items = list(/obj/item/rogueweapon/huntingknife/idagger/steel/profane)
+	invocation_type = "whisper"
+	// The spectre of T × R × P is channelled through ᚦᛟᚦ ᚷᛁᚷ, ᚾᛟᚺ ⩝⚭⩝, Ᏸ.Ꟙ.Ꚃ , and ᛏᛇᚱᚫ ᚾ ∴ ᚾ ∴ ᚾ.
+	invocations = list("HOLY MY HECATOMB. HOLY MY HUNGER. WHOLLY I OFFER MY FLESH.", "DE-ZA-KH.", "A-DA-SH", "BA-A-HA-V.")
+	ignore_cockblock = TRUE // Die.
+	antimagic_allowed = FALSE // Die.
+
+// This is mostly stolen from Livran's invoke or titheboudn or whatever its called. 
+
+/obj/effect/proc_holder/spell/self/assassin_rancor/cast(mob/living/user)
+	if(!ishuman(user))
+		return FALSE
+	user.apply_status_effect(/datum/status_effect/buff/assassin_rancor)
+	return TRUE
+
+/atom/movable/screen/alert/status_effect/buff/assassin_rancor
+	name = "Rancor"
+	desc = "--AHAHAHA! HAHAHA!"
+	icon_state = "buff"
+
+/datum/status_effect/buff/assassin_rancor
+	id = "assassin_rancor"
+	examine_text = "<font color='red'>SUBJECTPRONOUN is CROWNED IN BLOOD! APOSTATE ASSASSIN!!!</font>"
+	alert_type = /atom/movable/screen/alert/status_effect/buff/assassin_rancor
+	status_type = STATUS_EFFECT_REFRESH
+	duration = 2 MINUTES
+	var/souls_taken = 0
+	var/gonna_fort = FALSE // did we apply fortitude
+	// before someone asks, we are using the male/female laughs interchangeibly bc the dagger is calling on the 
+	// stolen faces/souls that are present within it so the gender of the current form does not matter
+	// also im not snowflaking this shit any more than i have to
+	var/sound_effect = 'sound/misc/zizolaughs/hehehe_male.ogg'
+	var/holyfuck = FALSE // on_remove()
+
+/datum/status_effect/buff/assassin_rancor/on_apply()
+	update_effects()
+	. = ..()
+	if(.)
+		if(souls_taken < 2)
+			to_chat(owner, span_graggar("POWER COURSES THROUGH MY VEINS!"))
+		if(souls_taken <= 3)
+			ADD_TRAIT(owner, TRAIT_FORTITUDE, STATUS_EFFECT_TRAIT)
+			gonna_fort = TRUE
+			to_chat(owner, span_graggaranimated("DEATH! ECSTASY! I WILL TIRE HALVE AS FAST!"))
+			sound_effect = 'sound/misc/zizolaughs/uhehaha_male.ogg'
+		if(souls_taken <= 6)
+			var/laughlist = list('sound/misc/zizolaughs/BAHAHAHA_zizo.ogg', 'sound/misc/zizolaughs/HAHAHAHA_zizo.ogg')
+			sound_effect = pick(laughlist)
+			holyfuck = TRUE
+		owner.visible_message("begins to laugh maniacally! You swear you can see blood dripping from their body!", "I laugh maniacally!", "Someone is laughing, HORRIBLY SO!")
+		playsound(owner, sound_effect, 100, TRUE)
+
+/datum/status_effect/buff/assassin_rancor/on_remove()
+	. = ..()
+	if(gonna_fort)
+		REMOVE_TRAIT(owner, TRAIT_FORTITUDE, STATUS_EFFECT_TRAIT)
+		gonna_fort = FALSE
+	if(holyfuck)
+		playsound(owner, 'sound/misc/zizolaughs/reversed_laugh_zizo.ogg', 100, TRUE)
+	to_chat(owner, span_warning("THE DARK STAR HAS GROWN BORED!"))
+
+/datum/status_effect/buff/assassin_rancor/proc/update_effects()
+	souls_taken = get_souls_taken(owner)
+	if(souls_taken < 2)
+		effectedstats = list(STATKEY_STR = 1, STATKEY_WIL = 1, STATKEY_SPD = 1) 
+	else if(souls_taken < 4)
+		effectedstats = list(STATKEY_STR = 1, STATKEY_WIL = 2, STATKEY_SPD = 2) 
+	else if(souls_taken < 6)
+		effectedstats = list(STATKEY_STR = 1, STATKEY_WIL = 3, STATKEY_SPD = 3) 
+	else if(souls_taken < 8)
+		effectedstats = list(STATKEY_STR = 2, STATKEY_CON = 1, STATKEY_WIL = 3, STATKEY_SPD = 3) 
+	else
+		effectedstats = list(STATKEY_STR = 3, STATKEY_CON = 2, STATKEY_WIL = 4, STATKEY_SPD = 4) // if you killed 8+ people idfk man
+
+/proc/get_souls_taken(mob/user)
+	if(!ishuman(user))
+		return
+	var/mob/living/carbon/human/H = user
+	var/obj/item/rogueweapon/huntingknife/idagger/steel/profane/dag = locate(/obj/item/rogueweapon/huntingknife/idagger/steel/profane) in H.get_all_gear()
+	if(dag)
+		return dag.total_souls_taken
