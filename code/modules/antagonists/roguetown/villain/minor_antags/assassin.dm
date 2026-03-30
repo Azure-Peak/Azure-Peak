@@ -40,6 +40,7 @@
 	C.grant_miracles(H, CLERIC_ORI, 0, CLERIC_REQ_0) // this is just here for future use.
 	H.devotion.max_devotion = 10
 	H.devotion.update_devotion(silent = TRUE)
+	H.AddSpell(new /obj/effect/proc_holder/spell/self/assassin_rancor)
 	// you dont actually get miracle miracles. yet.
 	var/obj/effect/proc_holder/spell/orison = owner.get_spell(/obj/effect/proc_holder/spell/targeted/touch/orison)
 	if(orison)
