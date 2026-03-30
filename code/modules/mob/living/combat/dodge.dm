@@ -113,10 +113,10 @@
 	var/drained_npc = 5
 	if(ishuman(src))
 		H = src
-		IL = H.used_intent.masteritem
+		IL = H.used_intent?.masteritem
 	if(ishuman(user))
 		UH = user
-		I = UH.used_intent.masteritem
+		I = UH.used_intent?.masteritem
 	var/prob2defend = U.defprob
 	var/is_in_cone = L.can_see_cone(user)
 	if(!is_in_cone && H)
