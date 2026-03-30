@@ -319,9 +319,20 @@ we happen to commission/code should GO IN HERE. Thanks.
 	total_souls_taken += 1
 	var/awarded_points = 1
 	if(is_secure_target(target))
+		to_chat(user, span_graggarsmall("My prey was particularly powerful! GRAGGAR grants me DOUBLE the favor!"))
 		awarded_points = 2
 	var/datum/antagonist/assassin/a = user.mind.has_antag_datum(/datum/antagonist/assassin)
 	a.graggar_boy_points += awarded_points
+	// by order of the administratum, we have had to replace the round-removal, even if temporary, soul-trap of the dagger. frankly, i am very
+	// unhappy about this but have no other choice. i have seen how gnolls have turned into an erp role with some even refusing to kill members of the
+	// garrison or whatever bc they're taffing. who fucking cares anymore.
+	// instead, i have opted for the dagger to effectively steal a fragment of your being, maybe some part of your lux. it doesn't really matter.
+	// you suffer a heavy debuff and are devitalized, + you also just die. this will suck shit if you get caught. i do not care.
+	// it's an rr replacement.
+	target.apply_status_effect(/datum/status_effect/debuff/dark_harvest)
+	target.apply_status_effect(/datum/status_effect/debuff/devitalised)
+
+	var/datum/charflaw/hunted/H = target.get_flaw(/datum/charflaw/hunted)
 
 // ASSASSIN exists to scare the shit out of people who can withstand frontal gnoll assault or hide in a castle.
 // Also I hate mercenaries. Mercenaries are stupidly strong. You get bonus points 4 kicking they ass.

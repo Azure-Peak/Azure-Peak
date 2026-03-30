@@ -1038,3 +1038,32 @@
 /atom/movable/screen/alert/status_effect/debuff/sensitive_nerves
 	name = "Sensitive Nerves"
 	desc = "IT HURTS!!! MY WOUNDS BITE INTO MY FLESH WITH SUCH RABID FEROCITY!"
+
+/datum/status_effect/debuff/dark_harvest
+	id = "dark_harvest"
+	duration = 30 MINUTES // alternative to rr. you still get fucked.
+	effectedstats = list(STATKEY_STR = -2, // idfk man. whatever.
+	STATKEY_CON = -2, 
+	STATKEY_WIL = -2, 
+	STATKEY_LCK = -2,
+	STATKEY_INT = -2,
+	STATKEY_SPD = -2)
+
+/atom/movable/screen/alert/status_effect/debuff/dark_harvest
+	name = "Dark Harvest"
+	desc = "I feel something in my mind. A part of me is missing! It's trapped... somewhere...?"
+
+/atom/movable/screen/alert/status_effect/debuff/dark_harvest/examine(mob/user)
+	var/static/graggarlines = list(
+		"Weakling.",
+		"Is that all?",
+		"You were not worthy of my hand's blade.",
+		"Now is time to CHOOSE.",
+		"LET ME OUT OF THE DAGGER! LET ME OUT!",
+		"HELP US!",
+		"Anger is implicit in every shape.",
+		"Who can avert the finality of battle?",
+		"YOU WILL NOT MEET NECRA. YOU ARE A LIVING CORPSE. A CORPSE.",
+	)
+	var/message = pick(graggarlines)
+	to_chat(user, span_graggar("[message]"))
