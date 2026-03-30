@@ -146,7 +146,7 @@
 		/obj/item/book/spellbook = 1,
 		)
 	H.mind.AddSpell(new /datum/action/cooldown/spell/stoneskin)
-	H.mind.AddSpell(new /datum/action/cooldown/spell/fortitude)
+	H.mind.AddSpell(new /datum/action/cooldown/spell/bestow_ward)
 	var/list/poke_options = list("Spitfire", "Frost Bolt", "Arc Bolt", "Gravel Blast", "Stygian Efflorescence", "Arcyne Lance")
 	var/poke_choice = input(H, "Choose your offensive cantrip.", "Arcyne Training") as anything in poke_options
 	switch(poke_choice)
