@@ -186,10 +186,10 @@
 
 #undef CHURN_FILTER
 
-#define NECRA_HATES        "1"
-#define NECRA_DISAPPROVES  "2"
-#define NECRA_NEUTRAL      "3"
-#define NECRA_APPROVES     "4"
+#define NECRA_HATES        1
+#define NECRA_DISAPPROVES  2
+#define NECRA_NEUTRAL      3
+#define NECRA_APPROVES     4
 
 /obj/effect/proc_holder/spell/self/locate_dead
 	name = "Locate Corpse"
@@ -207,63 +207,41 @@
 	var/necra_judgement = 0
 	var/necra_score = 0
 
-/proc/get_necra_score(mob/living/C)
+/proc/get_necra_score(mob/living/carbon/C)
 	if(!C || QDELETED(C))
 		return 0
-
 	var/score = 0
-
 	var/time_dead = 0
 	if(C.timeofdeath)
 		time_dead = world.time - C.timeofdeath
-
 	var/minutes_dead = round(time_dead / 600)
-	minutes_dead = clamp(minutes_dead, 0, 15)
-
+	if(minutes_dead < 0)
+		minutes_dead = 0
 	score += minutes_dead
+	var/is_skeleton = istype(C, /mob/living/carbon/human/species/skeleton)
+	var/is_player = !!C.key
+	var/has_ghost = !!C.get_ghost(FALSE, TRUE)
+	var/is_earthbound = (is_player && has_ghost)
+	var/is_departed = (is_player && !has_ghost)
+	var/is_forsaken = (!is_player)
+	if(minutes_dead < 5 && is_earthbound) // fresh + earthbound = VERY BAD
+		score -= 15
+	if(is_forsaken || is_departed) // forsaken or departed = good, this means it's only 2 minutes till they're valid
+		score += 3
+	if(is_skeleton) // skeletons start on neutral, unless they're players
+		score += 2
 
-	var/is_deadite = C.mind?.has_antag_datum(/datum/antagonist/zombie)
-	var/is_active_deadite = is_deadite && C.stat != DEAD
-	var/is_crippled_deadite = is_deadite && !(C.mobility_flags & MOBILITY_STAND)
-	var/is_earthbound = (C.key || C.get_ghost(FALSE, TRUE))
-	var/is_departed = (!is_earthbound && C.mind)
-	var/no_rites = !C.burialrited
-	var/is_forsaken = !C.mind
-	var/is_heretic = istype(C.patron, /datum/patron/inhumen)
-	var/ded = C.stat == DEAD
+	return score
 
-	// POSITIVES
-	if(is_forsaken)
-		score += 5 // good, but not huge
-	if(is_departed)
-		score += no_rites ? 12 : 6 // better if neglected, player corpse disposal
-	if(ded && !no_rites)
-		score += 6 // properly handled corpse = mild approval
-
-	//CONDITIONALS
-	if(is_crippled_deadite)
-		score += 8 // acceptable target, we're assuming the wilderness skullcracked deadite
-	else if	(is_active_deadite)
-		score -= 8 // otherwise, worsen her opinion
-
-	// NEGATIVES
-	if(is_heretic)
-		score -= 8 // makes sense, but idk
-	if(is_earthbound)
-		score -= 5 // baseline discouragement of ert behavior
-	if(minutes_dead < 5)
-		score -= 10 // early interference = hard no
-
-	return score // the score will keep going up based on how long they're dead for regardless of those modifiers, value is 1 per 1 minute
-
-/proc/get_necra_judgement(mob/living/C)
+/proc/get_necra_judgement(mob/living/carbon/C)
 	var/score = get_necra_score(C)
 	if(score <= 0)
 		return NECRA_HATES
 	if(score <= 5)
 		return NECRA_DISAPPROVES
 	if(score <= 10)
-		return NECRA_NEUTRAL	
+		return NECRA_NEUTRAL
+
 	return NECRA_APPROVES
 
 /obj/effect/proc_holder/spell/self/locate_dead/cast(mob/living/user = usr)
@@ -283,30 +261,49 @@
 		to_chat(user, span_notice("I don't nearly have enough devotion to sustain this."))
 		return
 
+	user.visible_message(
+		span_purple("<i>[user] utters a prayer for the Undermaiden as a ghastly fog embraces them momentarily.</i>"),
+		span_purple("<i>You plead for the Undermaiden to offer you insight on the restless.</i>")
+	)
 	user.say("Undermaiden, guide my hand to those who have lost their way...")
 
 	var/list/earthbound = list()
 	var/list/departed = list()
 	var/list/forsaken = list()
-	var/list/forsaken_counts = list()
-	for(var/mob/living/C in GLOB.mob_list) // the og has GLOB.dead_mob_list instead, but this is wizardry to see if we can't check for alive deadites
+	for(var/mob/living/carbon/C in GLOB.mob_list)
 		if(!C || QDELETED(C))
 			continue
 
-		var/is_deadite = C.mind?.has_antag_datum(/datum/antagonist/zombie)
-		if(C.stat != DEAD && !is_deadite)
+		// --- corpse logic ---
+		var/is_dead = (C.stat == DEAD)
+		var/is_deadite = FALSE
+		if(C.mind)
+			is_deadite = C.mind.has_antag_datum(/datum/antagonist/zombie)
+		var/is_skeleton = istype(C, /mob/living/carbon/human/species/skeleton)
+		var/is_skeleton_valid = (is_skeleton && !(C.mobility_flags & MOBILITY_STAND))
+		var/is_corpse = (is_dead || is_deadite || is_skeleton_valid)
+
+		if(!is_corpse)
 			continue
 
-		var/is_earthbound = (C.key || C.get_ghost(FALSE, TRUE))
-		var/is_departed = (!C.key && !C.get_ghost(FALSE, TRUE) && C.mind)
-		var/is_forsaken = (!C.mind) // just a fancy namy for "is NPC"
-		var/can_stand = (C.mobility_flags & MOBILITY_STAND)
+		// --- classification ---
+		var/is_player = !!C.key
+		var/has_ghost = !!C.get_ghost(FALSE, TRUE)
+
+		var/is_earthbound = (is_player && has_ghost)
+		var/is_departed = (is_player && !has_ghost)
+		var/is_forsaken = (!is_player)
+
+		// --- filters ---
 		var/no_burialrites = !C.burialrited
+
 		var/time_dead = 0
 		if(C.timeofdeath)
 			time_dead = world.time - C.timeofdeath
-		var/fuhgeddaboutit = (time_dead > 40 MINUTES) // this is so the list isn't packed with corpses that might be dust by the time you reach them, or players neglected for too long
 
+		var/fuhgeddaboutit = (is_dead && time_dead > 40 MINUTES)
+
+		// --- corpse alias ---
 		var/corpse_name
 
 		if(time_dead < 5 MINUTES)
@@ -318,36 +315,57 @@
 		else
 			corpse_name = "Forgotten remains "
 
-		var/list/d_list = C.get_mob_descriptors()
-		var/trait_desc = "[capitalize(build_coalesce_description_nofluff(d_list, C, list(MOB_DESCRIPTOR_SLOT_TRAIT), "%DESC1%"))]"
-		var/stature_desc = "[capitalize(build_coalesce_description_nofluff(d_list, C, list(MOB_DESCRIPTOR_SLOT_STATURE), "%DESC1%"))]"
-		var/descriptor_name = "[trait_desc] [stature_desc]"
+		var/descriptor_name
 
-		if(is_forsaken)
-			var/base_name = length(trim(descriptor_name)) ? descriptor_name : "Unknown"
-			if(!(base_name in forsaken_counts))
-				forsaken_counts[base_name] = 1
-			else
-				forsaken_counts[base_name]++
-			descriptor_name = "[base_name] ([forsaken_counts[base_name]])"
+		if(istype(C, /mob/living/carbon/human))
+			var/list/d_list = C.get_mob_descriptors()
+
+			var/trait_desc = ""
+			var/stature_desc = ""
+
+			if(d_list)
+				trait_desc = capitalize(build_coalesce_description_nofluff(d_list, C, list(MOB_DESCRIPTOR_SLOT_TRAIT), "%DESC1%"))
+				stature_desc = capitalize(build_coalesce_description_nofluff(d_list, C, list(MOB_DESCRIPTOR_SLOT_STATURE), "%DESC1%"))
+
+			descriptor_name = trim("[trait_desc] [stature_desc]")
+
+			if(!length(descriptor_name) || descriptor_name == "()")
+				descriptor_name = C.name ? C.name : "Unknown"
+		else
+			descriptor_name = C.name ? C.name : "Unknown"
 
 		corpse_name += "of \a [descriptor_name]"
 
+		// --- special markers ---
 		if(is_deadite && C.stat != DEAD)
-			corpse_name += " (!!☠!!)"
-		else if(is_deadite && !can_stand)
+			corpse_name += " (!!☣︎!!)"
+		else if(is_deadite)
+			corpse_name += " (☣︎)"
+		else if(is_skeleton_valid)
 			corpse_name += " (☠)"
-		else if((is_forsaken || is_departed) && no_burialrites)
-			corpse_name += " (No Burial)"
+
+		// --- pick target list ---
+		var/list/target_list
 
 		if(is_earthbound && !fuhgeddaboutit)
-			earthbound[corpse_name] = C
+			target_list = earthbound
 		else if(is_departed && no_burialrites && !fuhgeddaboutit)
-			departed[corpse_name] = C
+			target_list = departed
 		else if(is_forsaken && no_burialrites)
-			forsaken[corpse_name] = C
-	forsaken = sort_by_dist(forsaken, user)
-	departed = sort_by_dist(departed, user)	
+			target_list = forsaken
+
+		// --- ensure unique key inside that list only ---
+		if(target_list)
+			var/list_key = corpse_name
+			var/i = 1
+
+			while(list_key in target_list)
+				i++
+				list_key = "[corpse_name] ([i])"
+
+			target_list[list_key] = C
+			
+	// --- UI ---
 	var/list/type_options = list()
 	if(length(earthbound)) type_options += "Earthbound"
 	if(length(departed)) type_options += "Departed"
@@ -370,11 +388,16 @@
 	if(!length(selected_list))
 		return
 
+	var/mob/living/carbon/nearest = get_nearest_corpse(selected_list, user)
+	if(nearest && type_choice != "Earthbound")
+		if(!("Track nearest" in selected_list))
+			selected_list = list("Track nearest" = nearest) + selected_list
+
 	var/choice = tgui_input_list(user, "Which body shall I seek?", "Available Bodies", selected_list)
 	if(!choice || QDELETED(user))
 		return
 
-	var/mob/living/target = selected_list[choice]
+	var/mob/living/carbon/target = selected_list[choice]
 	if(!target || QDELETED(target))
 		return
 
@@ -415,28 +438,32 @@
 		H.devotion?.update_devotion(-20)
 	START_PROCESSING(SSprocessing, user)
 
-/proc/sort_by_dist(list/L, atom/ref)
-	var/list/keys = list()
+/proc/get_nearest_corpse(list/L, atom/ref)
+	if(!L || !length(L) || !ref)
+		return null
+
+	var/mob/living/carbon/closest = null
+	var/min_dist = INFINITY
+
 	for(var/k in L)
-		keys += k
-	keys = sortTim(keys, /proc/_cmp_dist_helper, L, ref)
-	var/list/result = list()
-	for(var/k in keys)
-		result[k] = L[k]
+		var/mob/living/carbon/C = L[k]
+		if(!C || QDELETED(C))
+			continue
 
-	return result
+		var/d = get_dist(ref, C)
+		if(d < min_dist)
+			min_dist = d
+			closest = C
 
-/proc/_cmp_dist_helper(a, b, list/L, atom/ref)
-	var/atom/A = L[a]
-	var/atom/B = L[b]
-	return get_dist(ref, A) < get_dist(ref, B)
+	return closest
 
 /mob/living/process()
 	..()
 
 	var/mob/living/carbon/human/H = src
 
-	if(!istype(H) || !necra_tracked_corpse)
+	if(!necra_tracked_corpse || QDELETED(necra_tracked_corpse) || !istype(H))
+		src.necra_tracked_corpse = null
 		STOP_PROCESSING(SSprocessing, src)
 		return
 
@@ -520,9 +547,14 @@
 		if(SOUTHWEST) direction_name = "southwest"
 		else direction_name = "here"
 
+	var/z_hint
+
+	if(target_turf.z != user_turf.z)
+		z_hint = target_turf.z > user_turf.z ? "above" : "below"
+
 	// NECRA HATES
 	if(judgement == NECRA_HATES)
-		var/true_dir = direction_name
+		var/true_dir = dir2text(get_cardinal_dir(src, necra_tracked_corpse))
 		var/list/symbols = list("!","$","@","#","%","&","*")
 
 		var/list/noise_words = list(
@@ -546,13 +578,14 @@
 		// build output FIRST
 		output += true_dir
 		output += true_dir
+		output += true_dir
 
 		var/list/cardinals = shuffle(cardinals_pool.Copy())
 		for(var/i in 1 to 4)
 			output += cardinals[i]
 
 		var/list/noise_pool = shuffle(noise_words.Copy())
-		for(var/i in 1 to 4)
+		for(var/i in 1 to 6)
 			output += noise_pool[i]
 
 		output = shuffle(output)
@@ -562,11 +595,11 @@
 
 		for(var/word in output)
 			var/prefix = ""
-			for(var/i in 1 to rand(2,6))
+			for(var/i in 1 to rand(1,6))
 				prefix += pick(symbols)
 
 			var/suffix = ""
-			for(var/i in 1 to rand(1,4))
+			for(var/i in 1 to rand(1,8))
 				suffix += pick(symbols)
 
 			msg += "[prefix][word][suffix]"
@@ -656,18 +689,15 @@
 					)
 					src.emote("painscream")
 					to_chat(src, span_red(pick(mixed_reactions)))
+
+		if(z_hint)
+			msg += " <b>([z_hint])</b>"
+		msg += "."
 		return
 
 	// NECRA DISAPPROVES
 	if(judgement == NECRA_DISAPPROVES)
-		var/true_dir = get_cardinal_dir(src, necra_tracked_corpse)
-
-		var/list/adjacent = list(
-			"north" = list("east","west"),
-			"south" = list("east","west"),
-			"east" = list("north","south"),
-			"west" = list("north","south")
-		)
+		var/true_dir = dir2text(get_cardinal_dir(src, necra_tracked_corpse))
 
 		var/list/noise_words = list(
 			"are you sure?","do you have to?","really?","why?","yae?","where?",
@@ -691,32 +721,30 @@
 			"what are you becoming?","is this who you are?","should you keep going?"
 		)
 
+		var/list/cardinals_pool = list("northeast","southeast","northwest","southwest")
 		var/list/output = list()
 
-		for(var/i in 1 to 3)
-			if(prob(70))
-				output += true_dir
-			else if(prob(50) && adjacent[true_dir])
-				output += pick(adjacent[true_dir])
+		for(var/i in 1 to 7)
+			if(prob(50))
+				output += pick(cardinals_pool)
 			else
 				output += pick(noise_words)
-
+		output += true_dir
+		output += true_dir
 		output = shuffle(output)
 
-		var/msg = "A ghastly whisper reaches you: <i>"
+		var/msg = "A ghastly whisper reaches you: <i><br>"
 		for(var/word in output)
 			msg += "[word]… "
 		msg += "</i>"
 
+		if(z_hint)
+			msg += " <b>([z_hint])</b>"
+		msg += "."
 		to_chat(src, span_warning(msg))
 		return
 
 	// NECRA NEUTRAL / APPROVES
-	var/z_hint
-
-	if(target_turf.z != user_turf.z)
-		z_hint = target_turf.z > user_turf.z ? "above" : "below"
-
 	var/dist = get_dist(user_turf, target_turf)
 
 	var/msg = "The Undermaiden guides your hand <b>[direction_name]</b>"
@@ -725,7 +753,9 @@
 		msg += " <b>([z_hint])</b>"
 
 	if(judgement == NECRA_APPROVES)
-		msg += " - <b>[dist]</b> meters."
+		msg += " - <b>[dist]</b> meters"
+	
+	msg += "."
 
 	to_chat(src, span_warning(msg))
 
