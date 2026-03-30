@@ -10,7 +10,7 @@
 	traits_applied = list(TRAIT_STRONGBITE, TRAIT_IGNOREDAMAGESLOWDOWN, TRAIT_NOPAINSTUN, TRAIT_BLOOD_RESISTANCE)
 	extra_context = "This subclass gains access to the RAGE ability."
 	// Literally same stat spread as Atgervi Shaman
-	subclass_stats = list( //lower stats, gains more during rage
+	subclass_stats = list(
 		STATKEY_STR = 3,
 		STATKEY_CON = 2,
 		STATKEY_WIL = 1,

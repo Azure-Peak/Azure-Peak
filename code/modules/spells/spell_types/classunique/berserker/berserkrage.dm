@@ -143,7 +143,7 @@
 /datum/status_effect/buff/ragebad/proc/update_effects()
 	ragebuff = get_buff_value(owner)
 	if(ragebuff < 1)
-		effectedstats = list( STATKEY_STR = 1)
+		effectedstats = list(STATKEY_STR = 1)
 	else if(ragebuff < 3)
 		effectedstats = list(STATKEY_CON = 2, STATKEY_STR = 1)
 	else
