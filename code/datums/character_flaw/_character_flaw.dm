@@ -101,12 +101,12 @@ GLOBAL_LIST_INIT(averse_factions, list(
 	desc = "I'm untempted by even the simplest vices. Am I riding the high of my latest TRIUMPH, or am I simply a rarity amongst rarities?" //Originally 'No Flaw', with "I'm a normal person, how rare!" as the desc.
 
 /datum/charflaw/noflaw
-	name = "Flawless (-6 TRI)"
+	name = "Flawless (-5 TRI)"
 	desc = "I'm untempted by even the simplest vices. Am I riding the high of my latest TRIUMPH, or am I simply a rarity amongst rarities?"
 
 /datum/charflaw/noflaw/apply_post_equipment(mob/user)
 	var/mob/living/carbon/human/H = user
-	if(H.get_triumphs() < 6)
+	if(H.get_triumphs() < 5)
 		var/flawz = GLOB.character_flaws.Copy()
 		var/charflaw = pick_n_take(flawz)
 		charflaw = GLOB.character_flaws[charflaw]
@@ -114,7 +114,7 @@ GLOBAL_LIST_INIT(averse_factions, list(
 		H.charflaws.Add(new_flaw)
 		new_flaw.on_mob_creation(H)
 	else
-		H.adjust_triumphs(-6)
+		H.adjust_triumphs(-5)
 
 /datum/charflaw/randflaw
 	name = "Random"
