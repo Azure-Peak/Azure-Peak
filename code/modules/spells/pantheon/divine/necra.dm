@@ -398,7 +398,7 @@
 			to_chat(user, span_purple("<i>You feel utterly scorned as your breath is nearly completely taken away.</i>"))
 			user.Jitter(10)
 			user.emote("breathgasp")
-			user.adjustOxyLoss(30)
+			user.adjustOxyLoss(40)
 
 		if(NECRA_DISAPPROVES)
 			to_chat(user, span_purple("<i>The Undermaiden answers your pleas with clear disapproval.</i>"))
@@ -448,6 +448,12 @@
 
 	if(src.stat == DEAD)
 		to_chat(src, span_purple("<i>As you hold Her hand, you realize late that you are now directly holding onto it. The Undermaiden mourns your demise.</i>"))
+		src.necra_tracked_corpse = null
+		STOP_PROCESSING(SSprocessing, src)
+		return
+
+	if(src.stat == UNCONSCIOUS)
+		to_chat(src, span_purple("<i>As you lose consciousness, your connection to Necra's guidance abruptly breaks!</i>"))
 		src.necra_tracked_corpse = null
 		STOP_PROCESSING(SSprocessing, src)
 		return
@@ -520,21 +526,21 @@
 		var/list/symbols = list("!","$","@","#","%","&","*")
 
 		var/list/noise_words = list(
-			"Back","Forward","Run","Stop","Turn","Leave","Return","Flee","Sacrifice",
-			"Heretic","Heresy","Blasphemy","Profane","Unworthy","Defile","Desecrate",
-			"Fool","Insolent","Wretch","Cur","Vermin","Filth","Failure","Disgrace",
-			"Die","Rot","Decay","Wither","Suffer","Bleed","Break","Choke","Drown",
-			"Silence","Quiet","Hush","Listen","Obey","Kneel","Submit","Yield",
-			"Lost","Blind","Empty","Hollow","Forgotten","Forsaken","Abandoned",
-			"Wrong","Error","Mistake","False","Misguided","Deceived","Doomed",
-			"Liar","Traitor","Betrayer","Coward","Weakling","Pretender","Lych",
-			"Where","Here","There","Nowhere","Gone","Vanished","Deadite","Unlyfe",
-			"Watch","Seen","Marked","Judged","Condemned","Claimed","Noc","Devourer",
-			"Endure","Weep","Mourn","Grieve","Scream","Beg","Dendor","Necra","Souls","See you",
-			"Xylix","Pestra","Eora","Malum","Astrata","Ravox","Abyssor","Ferryman","Spirits","Watching"
+			"back","forward","run","stop","turn","leave","return","flee","sacrifice","Psydon",
+			"heretic","heresy","blasphemy","profane","unworthy","defile","desecrate","ren",
+			"fool","insolent","wretch","cur","vermin","filth","failure","disgrace","fortune",
+			"die","rot","decay","wither","suffer","bleed","break","choke","drown","song",
+			"silence","quiet","hush","listen","obey","kneel","submit","yield","will",
+			"lost","blind","empty","hollow","forgotten","forsaken","abandoned","tea",
+			"wrong","error","mistake","false","misguided","deceived","doomed","sapphire",
+			"liar","traitor","betrayer","coward","weakling","pretender","lych","ansari",
+			"where","here","there","nowhere","gone","vanished","deadite","unlyfe","free",
+			"watch","seen","marked","judged","condemned","claimed","Noc","devourer","ryon",
+			"endure","weep","mourn","grieve","scream","beg","Dendor","Necra","Souls","see you",
+			"Xylix","Pestra","Eora","Malum","Astrata","Ravox","Abyssor","Ferryman","spirits","watching"
 		)
 
-		var/list/cardinals_pool = list("north","south","east","west")
+		var/list/cardinals_pool = list("north","south","east","west","northeast","southeast","northwest","southwest")
 		var/list/output = list()
 
 		// build output FIRST
@@ -568,23 +574,88 @@
 		msg += "</i>"
 
 		to_chat(src, span_warning(msg))
-		src.adjustOxyLoss(10)		
+		src.adjustOxyLoss(20)
+		if(src.hallucination < 200)
+			src.hallucination += 50	
 		if(prob(20))
-			src.hallucination +=10
-			var/list/reactions = list(
-				"I'M SORRY! I'M SORRY!",
-				"PLEASE! I CAN'T HEAR MYSELF THINK!",
-				"NO NO NO STOP STOP STOP!",
-				"I DIDN'T MEAN IT! I DIDN'T!",
-				"I HEAR YOU! I HEAR YOU!",
-				"PLEASE MAKE IT QUIET AGAIN!"
-			)
-			src.adjustOxyLoss(25)
-			if(prob(50))
-				src.emote("breathgasp")
-			else
-				src.emote("scream")
-			to_chat(src, span_red(pick(reactions)))
+			switch(rand(1,5))
+				if(1) // CRITICAL HIIIIT!!!
+					H.adjust_fire_stacks(10, /datum/status_effect/fire_handler/fire_stacks/divine)
+					H.ignite_mob()
+					H.add_stress(/datum/stressevent/psycurse)
+					var/list/fire_reactions = list(
+						"THIS ISN'T FIRE- WHAT IS THIS?!",
+						"IT BURNS THROUGH MY VERY SOUL!",
+						"THE FLAME WON'T LET GO!",
+						"I CAN'T PUT IT OUT!"
+					)
+					to_chat(src, span_red(pick(fire_reactions)))
+					src.emote("agony")
+				if(2)
+					src.adjustToxLoss(rand(1, 20))
+
+					var/list/tox_reactions = list(
+						"I CAN TASTE IT- SOMETHING IS WRONG!",
+						"IT'S IN MY BLOOD!",
+						"I'M ROTTING- CAN'T YOU SEE?!",
+						"SOMETHING IS EATING ME FROM INSIDE!"
+					)
+					to_chat(src, span_red(pick(tox_reactions)))
+					src.emote("breathgasp")
+				if(3)
+					src.adjustBruteLoss(rand(10, 20))
+
+					var/list/brute_reactions = list(
+						"IT'S TEARING ME APART!",
+						"MY BONES- THEY'RE BREAKING!",
+						"I CAN FEEL IT RIPPING THROUGH ME!",
+						"STOP- YOU'RE PULLING ME TO PIECES!"
+					)
+					to_chat(src, span_red(pick(brute_reactions)))
+					H.add_stress(/datum/stressevent/psycurse)
+					src.emote("painscream")
+				if(4)
+					if(ishuman(src))
+						var/list/valid_parts = list()
+						for(var/obj/item/bodypart/BP in H.bodyparts)
+							if(BP)
+								valid_parts += BP
+
+						if(length(valid_parts))
+							var/obj/item/bodypart/BP = pick(valid_parts)
+							BP.manage_dynamic_wound(BCLASS_LASHING, rand(10, 20), 0)
+
+							var/list/wound_reactions = list(
+								"SOMETHING JUST TORE OPEN!",
+								"I'M BLEEDING- AM I BLEEDING?!",
+								"SHE CUT ME WITHOUT TOUCHING ME!",
+								"I'M SORRY, UNDERMAIDEN, I'M SORRY!"
+							)
+							to_chat(src, span_red(pick(wound_reactions)))
+							src.emote("agony")
+					else
+						src.adjustBruteLoss(rand(15, 25))
+
+						var/list/fallback_reactions = list(
+							"MY BODY'S BREAKING APART!",
+							"SOMETHING IS WRONG- DEEPLY WRONG!",
+							"I CAN'T HOLD MYSELF TOGETHER!",
+							"IT HURTS- EVERYWHERE!"
+						)
+						to_chat(src, span_red(pick(fallback_reactions)))
+						src.emote("painscream")
+				if(5)
+					src.adjustBruteLoss(10)
+					src.adjustToxLoss(10)
+
+					var/list/mixed_reactions = list(
+						"IT'S EVERYWHERE—IT HURTS EVERYWHERE!",
+						"I CAN'T TELL WHERE IT'S COMING FROM!",
+						"MAKE IT STOP- PLEASE!",
+						"I'M FALLING APART!"
+					)
+					src.emote("painscream")
+					to_chat(src, span_red(pick(mixed_reactions)))
 		return
 
 	// NECRA DISAPPROVES
