@@ -969,6 +969,14 @@
 		if(skipface && user.has_flaw(/datum/charflaw/hunted) && user != src)
 			user.add_stress(/datum/stressevent/hunted)
 
+	if(HAS_TRAIT(user, TRAIT_ASSASSIN) && src.has_flaw(/datum/charflaw/hunted))
+		// this sucks.
+		if(ishuman(user))
+			var/mob/living/carbon/human/H = user
+			// i cba to figure out how to scope a helper proc for this. the dagger needs to be on the assassin in SOME FORM.
+			if(locate(/obj/item/rogueweapon/huntingknife/idagger/steel/profane) in H.get_all_gear())
+				. += span_graggarsmall("The profane dagger whispers, \"That's [src.real_name]! SLAY THEM!\"")
+
 	if(dna?.species?.type == /datum/species/gnoll)
 		if(istype(user, /mob/living/carbon/human)) //Submitting this one upstream because not our shitcode for once
 			var/mob/living/carbon/human/H = user
