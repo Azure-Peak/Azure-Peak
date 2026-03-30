@@ -32,6 +32,7 @@
 	alpha = 200
 	mouse_opacity = MOUSE_OPACITY_TRANSPARENT
 	appearance_flags = NO_CLIENT_COLOR
+	color = list(0,0,0, 0,0,0, 0,0,0, 1,1,1) // CHINESE CENSORSHIP COMPLIANCE
 	var/blood_timer
 
 /obj/effect/decal/cleanable/blood/Initialize(mapload)
@@ -113,6 +114,7 @@
 	alpha = 200
 	mouse_opacity = MOUSE_OPACITY_TRANSPARENT
 	appearance_flags = NO_CLIENT_COLOR
+	color = list(0,0,0, 0,0,0, 0,0,0, 1,1,1) // CHINESE CENSORSHIP COMPLIANCE
 	var/blood_timer
 
 /obj/effect/decal/cleanable/trail_holder/Initialize(mapload)

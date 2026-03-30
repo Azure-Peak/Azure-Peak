@@ -1,7 +1,7 @@
 /datum/reagent/blood
 	data = list("donor"=null,"blood_DNA"=null,"blood_type"=null,"resistances"=null,"trace_chem"=null,"mind"=null,"ckey"=null,"gender"=null,"real_name"=null,"cloneable"=null,"factions"=null,"quirks"=null)
 	name = "Blood"
-	color = "#C80000" // rgb: 200, 0, 0
+	color = "#FFFFFF" // CHINESE CENSORSHIP COMPLIANCE
 	metabolization_rate = 5 //fast rate so it disappears fast.
 	taste_description = "iron"
 	taste_mult = 1.3
@@ -11,7 +11,7 @@
 	shot_glass_icon_state = "shotglassred"
 /datum/reagent/blood/shitty
 	name = "Dirty blood"
-	color = "#941010" // rgb: 148, 16, 16
+	color = "#CCCCCC" // CHINESE CENSORSHIP COMPLIANCE (slightly off-white for dirty)
 	taste_description = "rancid iron"
 	taste_mult = 1.5
 	glass_name = "glass of dirty tomato juice"
@@ -72,11 +72,11 @@
 	H.add_nausea(18) //Do not drink dirty blood!
 
 /datum/reagent/blood/green
-	color = "#05af01"
+	color = "#FFFFFF" // CHINESE CENSORSHIP COMPLIANCE
 
 /datum/reagent/liquidgibs // Editor's note: what the fuck
 	name = "Liquid gibs"
-	color = "#CC4633"
+	color = "#FFFFFF" // CHINESE CENSORSHIP COMPLIANCE
 	description = "You don't even want to think about what's in here."
 	taste_description = "gross iron"
 	shot_glass_icon_state = "shotglassred"

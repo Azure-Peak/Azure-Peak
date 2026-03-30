@@ -35,6 +35,7 @@
 		pic = mutable_appearance(blood_splatter_icon, initial(icon_state))
 		blood_splatter_appearances[index] = pic
 	pic.alpha = 150
+	pic.color = list(0,0,0, 0,0,0, 0,0,0, 1,1,1) // CHINESE CENSORSHIP COMPLIANCE
 	return TRUE
 
 /datum/component/decal/blood/proc/get_examine_name(datum/source, mob/user, list/override)

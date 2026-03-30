@@ -5,6 +5,7 @@
 	randomdir = FALSE
 	layer = BELOW_MOB_LAYER
 	plane = GAME_PLANE_FOV_HIDDEN
+	color = list(0,0,0, 0,0,0, 0,0,0, 1,1,1) // CHINESE CENSORSHIP COMPLIANCE
 	var/splatter_type = "splatter"
 
 /obj/effect/temp_visual/dir_setting/bloodsplatter/Initialize(mapload, set_dir)
