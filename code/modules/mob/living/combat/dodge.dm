@@ -319,7 +319,7 @@
 			playsound(user, 'sound/misc/weapon_clip.ogg', 100)
 	dodgecd = FALSE
 	var/max_mod = 0
-	if(I)
+	if(I && IL)
 		max_mod = H.get_skill_level(IL.associated_skill) - UH.get_skill_level(I.associated_skill)
 	L.changeNext_def(clamp(dodgetime + 1, 0, CLICK_CD_HEAVY))
 	L.changeMaxDodge(-1 + (max_mod < 0) ? max_mod : 0)
