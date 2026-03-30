@@ -1,11 +1,11 @@
 #define MIN_BULLET_RANGE	2
 #define MAX_BULLET_RANGE	7
 #define DAM_FALLOFF_BULLET	0.5
-#define HEAVY_AMMO_SPEED	3
+#define HEAVY_AMMO_SPEED	3.5
 #define HEAVY_AMMO_CHARGE	1.5
 #define MIN_SCATTER_RANGE	1
 
-// Slings - 0.75x Charge Time, 2x ammo capacity in pouch
+// Slings - 1x Charge Time, 2x ammo capacity in pouch
 // Never penetrate armor, it is meant to win by attrition, so it starts off with
 // High base damage vs bow, as their damage type is damage reduced aggressively.
 
@@ -23,7 +23,6 @@
 	possible_item_intents = list(INTENT_GENERIC) //not intended to attack with them
 	slot_flags = ITEM_SLOT_MOUTH
 	max_integrity = 20
-	charge_time_mult = 0.75 // Sling shoots faster than bows, but is in exchange, weaker.
 	var/inscription
 
 	var/static/list/sling_inscriptions = list(
@@ -186,7 +185,7 @@
 	ricochet_auto_aim_range = 5
 	ricochet_incidence_leeway = 40
 	ricochet_decay_chance = 1
-	ricochet_decay_damage = 1.5 /// stronger with every bounce. Limited to 1.5 to stop edge case
+	ricochet_decay_damage = 1 /// No bonus damage on bounce.
 	min_range = MIN_BULLET_RANGE
 	max_range = MAX_BULLET_RANGE
 	dam_falloff_factor = DAM_FALLOFF_BULLET
@@ -245,21 +244,16 @@
 	icon = 'icons/roguetown/weapons/ranged/sling_proj.dmi'
 	icon_state = "scatter_proj"
 	damage = 20
-	ricochets_max = 3
-	ricochet_chance = 90
-	ricochet_auto_aim_angle = 50
-	ricochet_auto_aim_range = 4
-	ricochet_incidence_leeway = 50
-	ricochet_decay_chance = 1
-	ricochet_decay_damage = 1.3
+	ricochets_max = 0
+	ricochet_chance = 0
 	min_range = MIN_SCATTER_RANGE
 	max_range = 5
 	dam_falloff_factor = DAM_FALLOFF_BULLET
 
-// HEAVY SLING BULLET - Big slow projectile. High integrity damage, takes 3 weight in the pouch.
+// HEAVY SLING BULLET - Big slow CC projectile. Staggers and slows on hit, takes 3 weight in the pouch.
 /obj/item/ammo_casing/caseless/rogue/sling_bullet/heavy_sling_bullet
 	name = "heavy sling bullet"
-	desc = "A hefty stone polished and rounded to fit in a sling as a projectile, at the upper limit of how heavy a sling bullet can be. It won't fly fast or far, but would obliterate armor on impact. The sheer mass can knock a target back on impact."
+	desc = "A hefty stone polished and rounded to fit in a sling as a projectile, at the upper limit of how heavy a sling bullet can be. It won't fly fast or far, but the sheer mass can stagger a target and knock them back on impact."
 	projectile_type = /obj/projectile/bullet/reusable/sling_bullet/heavy_sling_bullet
 	icon_state = "heavy_sling_bullet"
 	ammo_weight = 3
@@ -268,13 +262,12 @@
 /obj/projectile/bullet/reusable/sling_bullet/heavy_sling_bullet
 	name = "heavy sling bullet"
 	icon_state = "heavy_proj"
-	damage = 45 // Breaks equipments
+	damage = 50
 	ammo_type = /obj/item/ammo_casing/caseless/rogue/sling_bullet/heavy_sling_bullet
 	speed = HEAVY_AMMO_SPEED
 	ricochets_max = 0
 	ricochet_chance = 0
 	max_range = 6
-	intdamfactor = 2
 	npc_simple_damage_mult = 3
 
 /obj/projectile/bullet/reusable/sling_bullet/heavy_sling_bullet/on_hit(atom/target)
@@ -282,6 +275,9 @@
 	if(!isliving(target))
 		return
 	var/mob/living/M = target
+	M.visible_message(span_warning("[M] staggers from the heavy impact!"))
+	M.apply_status_effect(/datum/status_effect/debuff/staggered, 4 SECONDS)
+	M.Slowdown(4 SECONDS)
 	var/throw_dir = get_dir(src, target)
 	var/atom/throw_target = get_edge_target_turf(M, throw_dir)
 	M.safe_throw_at(throw_target, 2, 1)
