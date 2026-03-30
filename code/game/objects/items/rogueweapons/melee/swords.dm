@@ -1717,6 +1717,16 @@
 	alt_intents = null // Can't mordhau this
 	smeltresult = /obj/item/ingot/steel
 
+/obj/item/rogueweapon/sword/long/kriegmesser
+	name = "moonlight kriegmesser"
+	desc = "A unique styled Kriegmesser originally conceived by Noccite Spellblades taking inspiration from Grenzelhoftian and Otavan blade designs. \
+	The unique colour of the blade is due to a forging technique combining Manablooms with the steel, giving the weapon better attunement with the Acryne."
+	icon_state = "kriegmesser"
+	possible_item_intents = list(/datum/intent/sword/cut/krieg, /datum/intent/sword/chop/falx, /datum/intent/sword/strike, /datum/intent/rend/krieg)
+	gripped_intents = list(/datum/intent/sword/cut/krieg, /datum/intent/sword/thrust/krieg, /datum/intent/sword/strike, /datum/intent/rend/krieg)
+	alt_intents = null // 
+	smeltresult = /obj/item/ingot/steel
+
 /obj/item/rogueweapon/sword/long/kriegmesser/ssangsudo
 	name = "ssangsudo"
 	desc = "A style of long blade used by the kouken of Kazengun. A weapon supremely skilled in the art of cutting."
