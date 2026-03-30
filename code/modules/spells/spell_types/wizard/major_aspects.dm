@@ -157,7 +157,7 @@
 	fixed_spells = list(
 		/datum/action/cooldown/spell/crush,
 		/datum/action/cooldown/spell/gravity,
-		/datum/action/cooldown/spell/mass_gravity,
+		/datum/action/cooldown/spell/gravity_anchor,
 		/datum/action/cooldown/spell/greater_cleaning,
 	)
 	choice_spells = list(
