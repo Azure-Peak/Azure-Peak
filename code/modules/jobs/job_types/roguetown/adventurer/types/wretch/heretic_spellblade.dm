@@ -12,7 +12,7 @@
 	allowed_races = RACES_ALL_KINDS
 	allowed_patrons = list(/datum/patron/inhumen/zizo, /datum/patron/divine/noc)
 	outfit = /datum/outfit/job/roguetown/wretch/heretic_spellblade
-	maximum_possible_slots = 2 // Team rocket!!!
+	maximum_possible_slots = 15
 	class_select_category = CLASS_CAT_BATTLEMAGE
 	category_tags = list(CTAG_WRETCH)
 	traits_applied = list(TRAIT_MEDIUMARMOR, TRAIT_ARCYNE)

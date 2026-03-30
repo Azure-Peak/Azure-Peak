@@ -3,8 +3,8 @@
 	flag = KNIGHT
 	department_flag = RETINUE
 	faction = "Station"
-	total_positions = 4
-	spawn_positions = 4
+	total_positions = 5
+	spawn_positions = 5
 	allowed_races = RACES_SHUNNED_UP
 	allowed_sexes = list(MALE, FEMALE)
 	allowed_ages = list(AGE_ADULT, AGE_MIDDLEAGED, AGE_OLD)
@@ -28,7 +28,8 @@
 		/datum/advclass/knight/footknight,
 		/datum/advclass/knight/mountedknight,
 		/datum/advclass/knight/irregularknight,
-		/datum/advclass/knight/knightchampion
+		/datum/advclass/knight/knightchampion,
+		/datum/advclass/knight/azurtaeron
 		)
 
 /datum/outfit/job/roguetown/knight

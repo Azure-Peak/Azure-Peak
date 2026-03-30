@@ -3,8 +3,8 @@
 	flag = MANATARMS
 	department_flag = GARRISON
 	faction = "Station"
-	total_positions = 5
-	spawn_positions = 5 //Not getting filled either way
+	total_positions = 6
+	spawn_positions = 6 //Not getting filled either way
 
 	allowed_sexes = list(MALE, FEMALE)
 	allowed_races = ACCEPTED_RACES
@@ -30,7 +30,9 @@
 		/datum/advclass/manorguard/skirmisher,
 		/datum/advclass/manorguard/cavalry,
 		/datum/advclass/manorguard/bailiff,
-		/datum/advclass/manorguard/standard_bearer
+		/datum/advclass/manorguard/standard_bearer,
+		/datum/advclass/manorguard/spellblade,
+		/datum/advclass/manorguard/mage
 	)
 
 /datum/outfit/job/roguetown/manorguard

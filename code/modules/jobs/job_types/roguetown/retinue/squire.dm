@@ -3,8 +3,8 @@
 	flag = SQUIRE
 	department_flag = RETINUE
 	faction = "Station"
-	total_positions = 4
-	spawn_positions = 4
+	total_positions = 5
+	spawn_positions = 5
 	allowed_races = ACCEPTED_RACES
 	allowed_sexes = list(MALE, FEMALE)
 	allowed_ages = list(AGE_ADULT)
@@ -25,7 +25,8 @@
 	job_subclasses = list(
 		/datum/advclass/squire/lancer,
 		/datum/advclass/squire/footman,
-		/datum/advclass/squire/skirmisher
+		/datum/advclass/squire/skirmisher,
+		/datum/advclass/squire/azurtaeron
 	)
 
 /datum/outfit/job/roguetown/squire
