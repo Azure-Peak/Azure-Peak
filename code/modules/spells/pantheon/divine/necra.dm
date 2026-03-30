@@ -639,6 +639,11 @@
 
 	to_chat(src, span_warning(msg))
 
+#undef NECRA_HATES
+#undef NECRA_DISAPPROVES
+#undef NECRA_NEUTRAL
+#undef NECRA_APPROVES
+
 /obj/effect/proc_holder/spell/invoked/necra_vow
 	name = "Vow to Necra"
 	desc = "Make a vow to Necra. Your chances of revival or recovery of limb will be greatly reduced. You will harm undeath and heal yourself at a slow rate."

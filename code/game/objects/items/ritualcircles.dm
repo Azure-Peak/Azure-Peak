@@ -1215,7 +1215,7 @@
 		if(strungtogether >= max_threads)
 			break
 
-		if(!do_after(user, 1 SECONDS, TRUE, src))
+		if(!do_after(user, 0.5 SECONDS, TRUE, src))
 			break
 
 		if(!(other in T.contents))
