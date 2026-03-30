@@ -1,5 +1,5 @@
 /datum/magic_aspect/kittenomancy
-	name = "Kittenomancy"
+	name = "Nekomancy"
 	latin_name = "Maior Aspectus Felis"
 	desc = "A forbidden school of magic that channels the primal fury of felines. \
 	Practitioners hurl explosive kittens, summon vengeful cat spirits, and wield the most degenerate combination of spells known to magekind. \
