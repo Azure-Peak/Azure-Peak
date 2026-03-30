@@ -66,13 +66,6 @@
 		/datum/advclass/assassin/
 	)
 
-/datum/outfit/job/roguetown/assassin
-	var/static/alist/disguises = alist(
-	"Naked" = /datum/outfit/job/roguetown/assassin/assassin_disguise,
-	"Assassin" = /datum/outfit/job/roguetown/assassin/assassin_disguise/assassin,
-	"Beggar" = /datum/outfit/job/roguetown/assassin/assassin_disguise/beggar,
-	)
-
 /datum/job/roguetown/assassin/after_spawn(mob/living/L, mob/M, latejoin = TRUE)
 	..()
 	if(L)
