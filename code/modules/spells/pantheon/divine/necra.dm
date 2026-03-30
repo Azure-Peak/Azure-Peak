@@ -193,7 +193,7 @@
 
 /obj/effect/proc_holder/spell/self/locate_dead
 	name = "Locate Corpse"
-	desc = "Invoke the Undermaiden's guidance to sense the direction of those within her domain who lack proper burial. She may also reveal the earthbound, though seeking those newly claimed risks her displeasure.<br><br>Costs 30 devotion to invoke and 5 per tick to sustain. Seeking fresher or earthbound corpses may increase the cost."
+	desc = "Invoke the Undermaiden's guidance to sense the direction of those within her domain who lack proper burial. She may also reveal the earthbound, though seeking those newly claimed risks her displeasure.<br><br>Costs 20 Devotion to use, and the sustain cost varies on corpse freshness."
 	overlay_state = "necraeye"
 	sound = 'sound/magic/whiteflame.ogg'
 	cast_without_targets = TRUE
@@ -206,7 +206,6 @@
 	var/last_necra_ping = 0
 	var/necra_judgement = 0
 	var/necra_score = 0
-
 
 /proc/get_necra_score(mob/living/C)
 	if(!C || QDELETED(C))
@@ -237,36 +236,40 @@
 	if(is_forsaken)
 		score += 5 // good, but not huge
 	if(is_departed)
-		score += no_rites ? 12 : 6 // better if neglected
-	if(is_crippled_deadite)
-		score += 8 // acceptable target
+		score += no_rites ? 12 : 6 // better if neglected, player corpse disposal
 	if(ded && !no_rites)
 		score += 6 // properly handled corpse = mild approval
 
-	// NEGATIVES
-	if(is_active_deadite || is_heretic)
-		score -= 12 // strong dislike
-	if(is_earthbound)
-		score -= 6 // always a bit wrong
-	if(minutes_dead < 5)
-		score -= 15 // early interference = big no
+	//CONDITIONALS
+	if(is_crippled_deadite)
+		score += 8 // acceptable target, we're assuming the wilderness skullcracked deadite
+	else if	(is_active_deadite)
+		score -= 8 // otherwise, worsen her opinion
 
-	return score
+	// NEGATIVES
+	if(is_heretic)
+		score -= 8 // makes sense, but idk
+	if(is_earthbound)
+		score -= 5 // baseline discouragement of ert behavior
+	if(minutes_dead < 5)
+		score -= 10 // early interference = hard no
+
+	return score // the score will keep going up based on how long they're dead for regardless of those modifiers, value is 1 per 1 minute
 
 /proc/get_necra_judgement(mob/living/C)
 	var/score = get_necra_score(C)
 	if(score <= 0)
 		return NECRA_HATES
-	if(score <= 4)
+	if(score <= 5)
 		return NECRA_DISAPPROVES
-	if(score <= 8)
+	if(score <= 10)
 		return NECRA_NEUTRAL	
 	return NECRA_APPROVES
 
 /obj/effect/proc_holder/spell/self/locate_dead/cast(mob/living/user = usr)
 	. = ..()
 
-	if(user.necra_tracked_corpse)
+	if(user.necra_tracked_corpse) // toggle off, the way I made this is that /cast handles devotion as well as per-ping drain, its an override on the miracle itself
 		to_chat(user, span_notice("The Undermaiden releases your hand."))
 		user.necra_tracked_corpse = null
 		user.necra_judgement = 0
@@ -286,7 +289,7 @@
 	var/list/departed = list()
 	var/list/forsaken = list()
 
-	for(var/mob/living/C in GLOB.mob_list)
+	for(var/mob/living/C in GLOB.mob_list) // the og has GLOB.dead_mob_list instead, but this is wizardry to see if we can't check for alive deadites
 		if(!C || QDELETED(C))
 			continue
 
@@ -296,15 +299,13 @@
 
 		var/is_earthbound = (C.key || C.get_ghost(FALSE, TRUE))
 		var/is_departed = (!C.key && !C.get_ghost(FALSE, TRUE) && C.mind)
-		var/is_forsaken = (!C.mind)
-
+		var/is_forsaken = (!C.mind) // just a fancy namy for "is NPC"
+		var/can_stand = (C.mobility_flags & MOBILITY_STAND)
 		var/no_burialrites = !C.burialrited
-
 		var/time_dead = 0
 		if(C.timeofdeath)
 			time_dead = world.time - C.timeofdeath
-
-		var/fuhgeddaboutit = (time_dead > 40 MINUTES)
+		var/fuhgeddaboutit = (time_dead > 40 MINUTES) // this is so the list isn't packed with corpses that might be dust by the time you reach them, or players neglected for too long
 
 		var/corpse_name
 
@@ -323,13 +324,14 @@
 		var/descriptor_name = "[trait_desc] [stature_desc]"
 
 		if(is_forsaken)
-			descriptor_name = src.name
-		else if(!length(trim(descriptor_name)))
-			descriptor_name = "Unknown"
+			var/base_name = length(trim(descriptor_name)) ? descriptor_name : "Unknown"
+			if(!(base_name in forsaken_counts))
+				forsaken_counts[base_name] = 1
+			else
+				forsaken_counts[base_name]++
+			descriptor_name = "[base_name] ([forsaken_counts[base_name]])"
 
 		corpse_name += "of \a [descriptor_name]"
-
-		var/can_stand = (C.mobility_flags & MOBILITY_STAND)
 
 		if(is_deadite && C.stat != DEAD)
 			corpse_name += " (!!☠!!)"
@@ -344,7 +346,8 @@
 			departed[corpse_name] = C
 		else if(is_forsaken && no_burialrites)
 			forsaken[corpse_name] = C
-
+	forsaken = sort_by_dist(forsaken, user)
+	departed = sort_by_dist(departed, user)	
 	var/list/type_options = list()
 	if(length(earthbound)) type_options += "Earthbound"
 	if(length(departed)) type_options += "Departed"
@@ -408,9 +411,25 @@
 		if(NECRA_APPROVES)
 			to_chat(user, span_purple("<i>The Undermaiden guides your hand. You can almost feel a smile.</i>"))
 
-	if (H.devotion?.check_devotion(src))
+	if (H.devotion?.check_devotion(user))
 		H.devotion?.update_devotion(-20)
 	START_PROCESSING(SSprocessing, user)
+
+/proc/sort_by_dist(list/L, atom/ref)
+	var/list/keys = list()
+	for(var/k in L)
+		keys += k
+	keys = sortTim(keys, /proc/_cmp_dist_helper, L, ref)
+	var/list/result = list()
+	for(var/k in keys)
+		result[k] = L[k]
+
+	return result
+
+/proc/_cmp_dist_helper(a, b, list/L, atom/ref)
+	var/atom/A = L[a]
+	var/atom/B = L[b]
+	return get_dist(ref, A) < get_dist(ref, B)
 
 /mob/living/process()
 	..()
@@ -629,12 +648,12 @@
 
 	var/dist = get_dist(user_turf, target_turf)
 
-	var/msg = "The Undermaiden guides you <b>[direction_name]</b>"
+	var/msg = "The Undermaiden guides your hand <b>[direction_name]</b>"
 
 	if(z_hint)
 		msg += " <b>([z_hint])</b>"
 
-	if(judgement >= NECRA_NEUTRAL)
+	if(judgement == NECRA_APPROVES)
 		msg += " - <b>[dist]</b> meters."
 
 	to_chat(src, span_warning(msg))
