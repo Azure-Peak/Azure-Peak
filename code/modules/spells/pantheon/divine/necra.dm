@@ -411,7 +411,7 @@
 		if(NECRA_APPROVES)
 			to_chat(user, span_purple("<i>The Undermaiden guides your hand. You can almost feel a smile.</i>"))
 
-	if (H.devotion?.check_devotion(user))
+	if (H.devotion?.check_devotion(src))
 		H.devotion?.update_devotion(-20)
 	START_PROCESSING(SSprocessing, user)
 
