@@ -46,7 +46,7 @@
 		_scan_for_weakpoint(controller, pawn, target)
 
 /datum/ai_behavior/basic_melee_attack/human_npc/perform(delta_time, datum/ai_controller/controller, target_key, targetting_datum_key, hiding_location_key)
-	controller.behavior_cooldowns[src] = world.time + get_cooldown(controller) //we don't wanna call parent tbh
+	controller.behavior_cooldowns[src] = world.time + get_cooldown(controller)
 	var/mob/living/carbon/human/pawn = controller.pawn
 	var/atom/target = controller.blackboard[target_key]
 	var/datum/targetting_datum/td = controller.blackboard[targetting_datum_key]
@@ -85,7 +85,7 @@
 	var/old_cmode = pawn.cmode
 	if(prob(HUMAN_NPC_RMB_ATTEMPT_CHANCE))
 		pawn.cmode = TRUE
-		if(pawn.stamina < pawn.maximum_stamina * 0.7 && istype(pawn.rmb_intent, /datum/rmb_intent/feint))
+		if(pawn.stamina > pawn.max_stamina * 0.3 && istype(pawn.rmb_intent, /datum/rmb_intent/feint))
 			modifiers = list(RIGHT_CLICK = TRUE)
 
 	if(hiding_target)
@@ -185,18 +185,17 @@
 	if(pawn.has_status_effect(/datum/status_effect/debuff/specialcd))
 		return FALSE
 
-	var/obj/item/weapon/held_weapon = pawn.get_active_held_item()
-	if(!istype(held_weapon) || !held_weapon.weapon_special)
+	var/obj/item/held_weapon = pawn.get_active_held_item()
+	if(!istype(held_weapon, /obj/item/rogueweapon) || !held_weapon:special)
 		return FALSE
 
 	if(!prob(HUMAN_NPC_WEAPON_SPECIAL_CHANCE))
 		return FALSE
 
-	// Check we can actually afford the stamina cost before attempting
-	var/datum/special_intent/special = held_weapon.weapon_special
-	if(special.stamina_cost)
-		var/cost = (special.stamina_cost < 1) ? (pawn.maximum_stamina * special.stamina_cost) : special.stamina_cost
-		if(!pawn.check_stamina(cost))
+	var/datum/special_intent/special = held_weapon:special
+	if(special.stamcost)
+		var/cost = (special.stamcost < 1) ? (pawn.max_stamina * special.stamcost) : special.stamcost
+		if(pawn.stamina + cost > pawn.max_stamina)
 			return FALSE
 
 	var/datum/rmb_intent/strong/strong_intent = locate(/datum/rmb_intent/strong) in pawn.possible_rmb_intents
@@ -224,11 +223,9 @@
 	if(pawn.used_intent)
 		bclass = pawn.used_intent.blade_class
 		intent_reach = pawn.used_intent.reach || 1
-		// Walk held items to find associated_skill
-		for(var/obj/item/held in pawn.get_active_held_items())
-			if(held?.associated_skill)
-				skill_type = held.associated_skill
-				break
+		var/obj/item/held = pawn.get_active_held_item()
+		if(held?.associated_skill)
+			skill_type = held.associated_skill
 
 	var/skill_level = skill_type ? pawn.get_skill_level(skill_type) : SKILL_LEVEL_NONE
 	var/armor_rating = bclass ? bclass_to_armor_rating(bclass) : "blunt"
@@ -333,7 +330,7 @@
 /datum/ai_behavior/basic_melee_attack/human_npc/proc/_try_backstep(mob/living/carbon/human/pawn, atom/target)
 	if(pawn.mind?.has_antag_datum(/datum/antagonist/zombie))
 		return FALSE
-	if(pawn.body_position == LYING_DOWN)
+	if(!(pawn.mobility_flags & MOBILITY_STAND))
 		return FALSE
 	if(pawn.ai_controller.blackboard[BB_HUMAN_NPC_HARASS_MODE])
 		return FALSE
@@ -351,7 +348,7 @@
 		return FALSE
 
 	pawn.tempfixeye = TRUE
-	pawn.atom_flags |= NO_DIR_CHANGE_ON_MOVE
+	pawn.nodirchange = TRUE
 	var/was_fixedeye = pawn.fixedeye
 	if(!was_fixedeye)
 		pawn.fixedeye = TRUE
@@ -365,7 +362,7 @@
 
 	var/turf/juke_turf = pick(candidates)
 	pawn.Move(juke_turf, get_dir(pawn, juke_turf), pawn.cached_multiplicative_slowdown)
-	pawn.atom_flags &= ~NO_DIR_CHANGE_ON_MOVE
+	pawn.nodirchange = FALSE
 	pawn.face_atom(target)
 
 	pawn.ai_controller.set_blackboard_key(BB_HUMAN_NPC_JUKE_COOLDOWN, world.time + 1.5 SECONDS)
