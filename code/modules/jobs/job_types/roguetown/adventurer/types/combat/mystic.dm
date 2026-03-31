@@ -7,13 +7,15 @@
 	class_select_category = CLASS_CAT_MYSTIC
 	category_tags = list(CTAG_ADVENTURER, CTAG_COURTAGENT)
 	traits_applied = list(TRAIT_SEEDKNOW, TRAIT_ARCYNE)
+	total_positions = 1
+	spawn_positions = 1
 	subclass_stats = list( // stat spread of 6 points, lower than the 7 adventurer gets on average
 			STATKEY_INT = 2,
 			STATKEY_CON = 2,
 			STATKEY_WIL = 2,
 	)
 	age_mod = /datum/class_age_mod/mystic
-	subclass_mage_aspects = list("mastery" = FALSE, "major" = 0, "minor" = 2, "utilities" = 4, "ward" = TRUE)
+	subclass_mage_aspects = list("mastery" = TRUE, "major" = 2, "minor" = 2, "utilities" = 4, "ward" = TRUE)
 	subclass_skills = list(
 		/datum/skill/misc/climbing = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/misc/athletics = SKILL_LEVEL_APPRENTICE,
@@ -47,7 +49,7 @@
 		/obj/item/book/spellbook = 1,
 		)
 	var/datum/devotion/C = new /datum/devotion(H, H.patron)
-	C.grant_miracles(H, cleric_tier = CLERIC_T1, passive_gain = CLERIC_REGEN_MINOR, devotion_limit = CLERIC_REQ_1)
+	C.grant_miracles(H, cleric_tier = CLERIC_T4, passive_gain = CLERIC_REGEN_MINOR, devotion_limit = CLERIC_REQ_4)
 	if(H.mind)
 		H.mind.RemoveSpell(/obj/effect/proc_holder/spell/invoked/blood_heal)
 	switch(H.patron?.type)
