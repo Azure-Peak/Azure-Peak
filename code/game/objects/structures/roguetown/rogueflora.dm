@@ -319,6 +319,7 @@
 	climbable = FALSE
 	dir = SOUTH
 	debris = list(/obj/item/natural/fibers = 1, /obj/item/grown/log/tree/stick = 1)
+	hiddingspot = TRUE
 	var/list/looty = list()
 	var/bushtype
 	var/occupied = FALSE
