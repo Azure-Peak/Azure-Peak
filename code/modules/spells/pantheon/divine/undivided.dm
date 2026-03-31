@@ -15,7 +15,7 @@
 	miracle = TRUE
 	devotion_cost = 30
 
-	sound = 'sound/magic/bless.ogg'
+	sound = 'sound/magic/undivided_bless.ogg'
 	invocation_type = INVOCATION_SHOUT
 	invocations = "Zwillingslichter, geleitet meinen Blick." //(Twin lights, guide my gaze)
 
@@ -129,7 +129,7 @@
 	chargedloop = /datum/looping_sound/invokeholy
 	warnie = "sydwarning"
 
-	sound = 'sound/misc/notice.ogg'
+	sound = 'sound/magic/undivided_recuperation.ogg'
 	invocations = list("Setzt eurer großartiges Werk fort!") //(Continue your great work/s)
 
 	req_items = list(/obj/item/clothing/neck/roguetown/psicross)
@@ -192,7 +192,7 @@
 	chargedloop = /datum/looping_sound/invokeholy
 	warnie = "sydwarning"
 
-	sound = 'sound/misc/bellold.ogg'
+	sound = 'sound/magic/undivided__perserverance.ogg'
 	invocations = list("Die Göttlichen fordern dich auf weiterzukämpfen!") //("The gods demand you to fight on!")
 
 	req_items = list(/obj/item/clothing/neck/roguetown/psicross)
@@ -334,7 +334,7 @@
 	chargetime = 2 SECONDS //All churns come with a delay
 	chargedloop = /datum/looping_sound/invokeholy
 
-	sound = 'sound/misc/deadbell.ogg'
+	sound = 'sound/magic/undivided_mockery.ogg'
 	invocation_type = INVOCATION_EMOTE
 	invocations = list("cackles uncontrollably.")
 
@@ -342,7 +342,7 @@
 	associated_skill = /datum/skill/magic/holy
 
 /obj/effect/proc_holder/spell/invoked/gallowshumor/cast(list/targets, mob/user = usr)
-	playsound(get_turf(user), 'sound/magic/mockery.ogg', 40, FALSE)
+	playsound(get_turf(user), 'sound/magic/undivided_gallows.ogg', 70, FALSE)
 	if(isliving(targets[1]))
 		var/mob/living/target = targets[1]
 		if(target.anti_magic_check(TRUE, TRUE))
@@ -410,7 +410,7 @@
 	miracle = TRUE
 	devotion_cost = 40
 
-	sound = 'sound/misc/carriage2.ogg'
+	sound = 'sound/magic/undivided_command.ogg'
 	invocation_type = INVOCATION_SHOUT
 	invocations = list("WE STAND TOGETHER!", "UNITED WE WILL PREVAIL!", "DRIVE THE FIENDS BACK!!")
 
