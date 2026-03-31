@@ -167,10 +167,7 @@
 		else
 			I.icon_state = "[initial(I.icon_state)]"
 
-		if(user)
-			user.update_inv_hands()
-			user.update_inv_belt()
-			user.update_inv_back()
+		I.update_slot_icon()
 
 	I.getonmobprop(tag)
 

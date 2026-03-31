@@ -14,7 +14,7 @@
 	var/max_stages = 3
 	var/timer_id
 	var/datum/hag_rite/chosen_rite
-	var/static/alist/rite_requirements = list(
+	var/static/alist/rite_requirements = alist(
 		1 = list(/obj/item/reagent_containers/lux = 2, /obj/item/reagent_containers/food/snacks/fish/creepy_squid = 1, /obj/item/reagent_containers/glass/bottle/rogue/elfblue = 1),
 		2 = list(/obj/item/rogueweapon/sword/rapier/lord = 1, /obj/item/magic/voidstone = 1, /obj/item/blueprint/mace_mushroom = 1),
 		3 = list(/obj/item/rogueore/lithmyc = 1, /obj/item/roguegem/blood_diamond = 1, /obj/item/reagent_containers/food/snacks/eoran_aril/ashen = 1, /obj/item/ingot/lithmyc = 1, /obj/item/rogueweapon/mace/mushroom = 1, /obj/item/rogueweapon/spear/dreamscape_trident = 1),

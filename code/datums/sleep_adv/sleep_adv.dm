@@ -7,6 +7,7 @@
 	var/retained_dust = 0
 	var/list/sleep_exp = list()
 	var/datum/mind/mind = null
+	var/woke_up = TRUE
 	COOLDOWN_DECLARE(xp_show)
 	COOLDOWN_DECLARE(level_up)
 
@@ -226,10 +227,21 @@
 
 /datum/sleep_adv/proc/process_sleep()
 	if(is_considered_sleeping())
+		woke_up = FALSE // Reset flag while sleeping so on_wake can fire on next transition
 		return
 	if(mind.current.eyesclosed)
 		return
+	on_wake()
 	close_ui()
+
+/// Called when the player wakes up, whether voluntarily (clicking continue) or involuntarily (being woken).
+/// Guarded by woke_up flag to ensure it only fires once per sleep session.
+/datum/sleep_adv/proc/on_wake()
+	if(woke_up)
+		return
+	woke_up = TRUE
+	if(mind.aspect_resets_used > 0)
+		mind.aspect_resets_used = 0
 
 /datum/sleep_adv/proc/is_considered_sleeping()
 	if(!mind.current)
@@ -329,8 +341,7 @@
 /datum/sleep_adv/proc/finish()
 	if(!mind.current)
 		return
-	if(mind.aspect_resets_used > 0)
-		mind.aspect_resets_used = 0
+	on_wake()
 	to_chat(mind.current, span_notice("...and that's all I dreamt of."))
 	if(HAS_TRAIT(mind.current, TRAIT_STUDENT))
 		REMOVE_TRAIT(mind.current, TRAIT_STUDENT, TRAIT_GENERIC)

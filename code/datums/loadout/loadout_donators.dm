@@ -197,10 +197,18 @@
 	path = /obj/item/enchantingkit/stinketh_pike
 	ckeywhitelist = list("stinkethstonketh")
 
-/datum/loadout_item/donator/drd/lsword
+/datum/loadout_item/donator/drd
 	name = "Donator Kit - Ornate Longsword"
 	path = /obj/item/enchantingkit/drd_lsword
 	ckeywhitelist = list("drd2021")
+
+/datum/loadout_item/donator/drd/caparison
+	name = "Donator Item - House Woerden Caparison"
+	path = /obj/item/caparison/drd
+
+/datum/loadout_item/donator/drd/shield
+	name = "Donator Kit - House Woerden Shield"
+	path = /obj/item/enchantingkit/weapon/drd_shield
 
 /datum/loadout_item/donator/lmwevil/brassbeak
 	name = "Donator Item - Brass Beak Mask"
@@ -224,3 +232,9 @@
 /datum/loadout_item/donator/maesune/sabre
 	name = "Donator Kit - Decorated Sabre"
 	path = /obj/item/enchantingkit/weapon/maesune_sabre
+
+/datum/loadout_item/donator/nerocavalier
+	name = "Donator Kit - Blacksteel Longsword"
+	path = /obj/item/enchantingkit/weapon/noire_flsword
+	ckeywhitelist = list("nerocavalier")
+

@@ -69,7 +69,7 @@
 	if(QDELETED(src) || QDELETED(owner))
 		return
 	for(var/turf/T in range(aoe_range, centerpoint))
-		new /obj/effect/temp_visual/gravity(T)
+		new /obj/effect/temp_visual/kinetic_blast(T)
 		for(var/mob/living/L in T.contents)
 			if(L == owner)
 				continue

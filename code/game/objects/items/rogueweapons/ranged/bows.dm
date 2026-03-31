@@ -257,7 +257,7 @@
 
 	cut_overlays()
 	if(chambered)
-		var/mutable_appearance/ammo = mutable_appearance('icons/roguetown/weapons/ammo.dmi', chambered.icon_state)
+		var/mutable_appearance/ammo = mutable_appearance(chambered.icon, chambered.icon_state)
 		ammo.transform = mat
 		add_overlay(ammo)
 

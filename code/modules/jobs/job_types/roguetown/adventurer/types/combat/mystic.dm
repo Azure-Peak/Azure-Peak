@@ -95,8 +95,8 @@
 			H.cmode_music = 'sound/music/combat_jester.ogg'
 
 /datum/advclass/mystic/resilientsoul
-	name = "Resilient Soul"
-	tutorial = "I have spent my youth deepening my faith, but eventually crossed paths with a generous enchanter who taught me a few tricks to preserve and save lyves"
+	name = "Sage"
+	tutorial = "I have spent my youth studying both the Arcyne and Miraculous ways, and developed my mastery of shielding and preserving lyfe under my care."
 	allowed_sexes = list(MALE, FEMALE)
 	allowed_races = RACES_ALL_KINDS
 	outfit = /datum/outfit/job/roguetown/adventurer/resilient
@@ -146,7 +146,7 @@
 		/obj/item/book/spellbook = 1,
 		)
 	H.mind.AddSpell(new /datum/action/cooldown/spell/stoneskin)
-	H.mind.AddSpell(new /datum/action/cooldown/spell/fortitude)
+	H.mind.AddSpell(new /datum/action/cooldown/spell/bestow_ward)
 	var/list/poke_options = list("Spitfire", "Frost Bolt", "Arc Bolt", "Gravel Blast", "Stygian Efflorescence", "Arcyne Lance")
 	var/poke_choice = input(H, "Choose your offensive cantrip.", "Arcyne Training") as anything in poke_options
 	switch(poke_choice)

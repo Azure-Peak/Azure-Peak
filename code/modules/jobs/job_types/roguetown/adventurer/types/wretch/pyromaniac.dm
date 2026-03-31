@@ -62,7 +62,8 @@
 			if("Archery")
 				H.adjust_skillrank_up_to(/datum/skill/combat/bows, 4, TRUE)
 				backr = /obj/item/gun/ballistic/revolver/grenadelauncher/bow/recurve
-				beltl = /obj/item/quiver/pyroarrows
+				beltl = /obj/item/quiver/arrows
+				beltr = /obj/item/runicflask/charged
 			if("Crossbows")
 				H.adjust_skillrank_up_to(/datum/skill/combat/crossbows, 4, TRUE)
 				backr = /obj/item/gun/ballistic/revolver/grenadelauncher/crossbow

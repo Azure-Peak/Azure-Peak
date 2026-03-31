@@ -1,7 +1,7 @@
 /datum/action/cooldown/spell/darkvision
 	button_icon = 'icons/mob/actions/mage_augmentation.dmi'
 	name = "Darkvision"
-	desc = "Enhance the night vision of yourself and everyone around you for 5 minutes per level in the associated skill."
+	desc = "Enhance the night vision of yourself and everyone around you for 15 minutes."
 	fluff_desc = "When the first men walked the world, they were not gifted with sight at night. They were preys to monsters and animals in the dark. Noc, in his infinite wisdom, bestowed upon humenity the gift of noc vision. And soon, the Magi followed suit and replicated it with magyck, as is His vision."
 	button_icon_state = "darkvision"
 	sound = 'sound/magic/haste.ogg'
@@ -41,7 +41,7 @@
 
 	H.visible_message("[H] mutters an incantation and a dim pulse of light radiates out from them.")
 	for(var/mob/living/L in range(1, H))
-		L.apply_status_effect(/datum/status_effect/buff/darkvision, H.get_skill_level(associated_skill))
+		L.apply_status_effect(/datum/status_effect/buff/darkvision)
 
 	return TRUE
 
