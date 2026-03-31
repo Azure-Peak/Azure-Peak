@@ -283,7 +283,7 @@
 		var/is_skeleton_valid = (is_skeleton && !(C.mobility_flags & MOBILITY_STAND))
 		var/no_burialrites = !C.burialrited
 
-		var/is_corpse = (is_dead || is_deadite || is_skeleton_valid || no_burialrites)
+		var/is_corpse = ((is_dead || is_deadite || is_skeleton_valid) && no_burialrites)
 
 		if(!is_corpse)
 			continue
@@ -348,9 +348,9 @@
 
 		if(is_earthbound)
 			target_list = earthbound
-		else if(is_departed)
+		else if(is_departed && !fuhgeddaboutit)
 			target_list = departed
-		else if(is_forsaken)
+		else if(is_forsaken && !fuhgeddaboutit)
 			target_list = forsaken
 
 		// --- ensure unique key inside that list only ---
