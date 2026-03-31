@@ -615,6 +615,7 @@
 			animate(src, alpha = initial(alpha), time =	used_time) //sneak skill makes you reveal slower but not as drastic as disappearing speed
 			spawn(used_time) regenerate_icons()
 			rogue_sneaking = FALSE
+			SEND_SIGNAL(src, COMSIG_MOB_BREAK_SNEAK)
 			return
 
 	else //not currently sneaking, check if we can sneak

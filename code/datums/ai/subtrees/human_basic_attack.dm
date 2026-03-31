@@ -239,7 +239,7 @@
 			continue
 
 		//requires trained eye AND good perception
-		if(skill_level >= SKILL_LEVEL_JOURNEYMAN && GET_MOB_ATTRIBUTE_VALUE(pawn, STAT_PERCEPTION) >= 10)
+		if(skill_level >= SKILL_LEVEL_JOURNEYMAN && pawn.STAPER >= 10)
 			if(part.brute_dam > 20 || part.burn_dam > 20)
 				wounded += part.body_zone
 
@@ -341,8 +341,8 @@
 		return FALSE
 
 	var/juke_chance = HUMAN_NPC_BASE_JUKE_CHANCE
-	if(GET_MOB_ATTRIBUTE_VALUE(pawn, STAT_SPEED) > HUMAN_NPC_JUKE_MIN_SPD)
-		juke_chance += (GET_MOB_ATTRIBUTE_VALUE(pawn, STAT_SPEED) - HUMAN_NPC_JUKE_MIN_SPD) * HUMAN_NPC_JUKE_PER_OVERSPD
+	if(pawn.STASPD > HUMAN_NPC_JUKE_MIN_SPD)
+		juke_chance += (pawn.STASPD - HUMAN_NPC_JUKE_MIN_SPD) * HUMAN_NPC_JUKE_PER_OVERSPD
 
 	if(!prob(juke_chance))
 		return FALSE
