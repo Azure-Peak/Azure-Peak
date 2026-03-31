@@ -1,5 +1,5 @@
 /datum/sex_action/masturbate/penis
-	name = "Stroke pintle"
+	name = "Stroke pingle"
 	debug_erp_panel_verb = FALSE
 
 /datum/sex_action/masturbate/penis/shows_on_menu(mob/living/carbon/human/user, mob/living/carbon/human/target)
@@ -41,7 +41,7 @@
 
 /datum/sex_action/masturbate/penis/on_perform(mob/living/carbon/human/user, mob/living/carbon/human/target)
 	var/datum/sex_session/sex_session = get_sex_session(user, target)
-	user.visible_message(sex_session.spanify_force("[user] [sex_session.get_generic_force_adjective()] strokes [user.p_their()] pintle..."))
+	user.visible_message(sex_session.spanify_force("[user] [sex_session.get_generic_force_adjective()] strokes [user.p_their()] peepee..."))
 	playsound(user, 'sound/misc/mat/fingering.ogg', 30, TRUE, -2, ignore_walls = FALSE)
 
 	do_onomatopoeia(user)

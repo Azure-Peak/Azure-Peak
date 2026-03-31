@@ -1,5 +1,5 @@
 /datum/sex_action/sex/vaginal
-	name = "Fuck their cunt"
+	name = "Fuck em'"
 	stamina_cost = 1.0
 	intensity = 4
 	debug_erp_panel_verb = FALSE //Or not I'm not your parent, neither the maintainer.
@@ -36,7 +36,7 @@
 	return TRUE
 
 /datum/sex_action/sex/vaginal/get_start_message(mob/living/carbon/human/user, mob/living/carbon/human/target)
-	return span_warning("[user] slides [user.p_their()] pintle into [target]'s cunt!")
+	return span_warning("[user] slides [user.p_their()] pintle into [target]'s nice woman!")
 
 /datum/sex_action/sex/vaginal/get_start_sound(mob/living/carbon/human/user, mob/living/carbon/human/target)
 	return list('sound/misc/mat/insert (1).ogg','sound/misc/mat/insert (2).ogg')
@@ -44,7 +44,7 @@
 /datum/sex_action/sex/vaginal/on_perform(mob/living/carbon/human/user, mob/living/carbon/human/target)
 	var/datum/sex_session/sex_session = get_sex_session(user, target)
 	var/is_knotting = sex_session.do_knot_action
-	user.visible_message(sex_session.spanify_force("[user] [sex_session.get_generic_force_adjective()] [is_knotting ? "knot-fucks" : "fucks"] [target]'s cunt."))
+	user.visible_message(sex_session.spanify_force("[user] [sex_session.get_generic_force_adjective()] [is_knotting ? "knot-fucks" : "fucks"] [target]'s nice woman."))
 	playsound(target, sex_session.get_force_sound(), 50, TRUE, -2, ignore_walls = FALSE)
 	do_thrust_animate(user, target, sex_session)
 	do_onomatopoeia(user)

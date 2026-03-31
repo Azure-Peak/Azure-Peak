@@ -1,5 +1,5 @@
 /datum/sex_action/sex/anal
-	name = "Fuck their butt"
+	name = "Buttfucking fuck-butter"
 	stamina_cost = 1.0
 	intensity = 4
 	debug_erp_panel_verb = FALSE //There is a better way to do this.
@@ -32,7 +32,7 @@
 	return TRUE
 
 /datum/sex_action/sex/anal/get_start_message(mob/living/carbon/human/user, mob/living/carbon/human/target)
-	return span_warning("[user] slides [user.p_their()] pintle into [target]'s butt!")
+	return span_warning("[user] proceeds to buttfuck!")
 
 /datum/sex_action/sex/anal/get_start_sound(mob/living/carbon/human/user, mob/living/carbon/human/target)
 	return list('sound/misc/mat/insert (1).ogg','sound/misc/mat/insert (2).ogg')
@@ -55,19 +55,19 @@
 	sex_session.handle_passive_ejaculation(target)
 
 /datum/sex_action/sex/anal/handle_climax_message(mob/living/carbon/human/user, mob/living/carbon/human/target)
-	user.visible_message(span_love("[user] cums into [target]'s butt!"))
+	user.visible_message(span_love("[user] cums buttfuckingly."))
 	user.virginity = FALSE
 	return "into"
 
 
 /datum/sex_action/sex/anal/get_finish_message(mob/living/carbon/human/user, mob/living/carbon/human/target)
-	return span_warning("[user] pulls [user.p_their()] pintle out of [target]'s butt.")
+	return span_warning("[target] pulls [user.p_their()] butt out of [user]'s pintle.")
 
 /datum/sex_action/sex/anal/get_knot_count()
 	return 1
 
 /datum/sex_action/sex/anal/double
-	name = "Fuck their ass with both cocks"
+	name = "Fuck their ass with both cocks yeaaaah"
 
 /datum/sex_action/sex/anal/double/shows_on_menu(mob/living/carbon/human/user, mob/living/carbon/human/target)
 	if(!has_double_penis(user))

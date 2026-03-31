@@ -1,5 +1,5 @@
 /datum/sex_action/masturbate/other/magejob
-	name = "Jerk them off with magehand"
+	name = "hit em with the yucky mage hand"
 	check_same_tile = FALSE
 	ranged_action = TRUE
 	debug_erp_panel_verb = FALSE
@@ -35,11 +35,11 @@
 
 /datum/sex_action/masturbate/other/magejob/on_start(mob/living/carbon/human/user, mob/living/carbon/human/target)
 	. = ..()
-	user.visible_message(span_warning("[user] starts jerking [target]'s pintle off with arcyne..."))
+	user.visible_message(span_warning("[user] MAGIC penis attacks [target]..."))
 
 /datum/sex_action/masturbate/other/magejob/on_finish(mob/living/carbon/human/user, mob/living/carbon/human/target)
 	. = ..()
-	user.visible_message(span_warning("[user] stops jerking [target] off."))
+	user.visible_message(span_warning("[user] stops magic penis attacking [target]."))
 
 /datum/sex_action/masturbate/other/magejob/lock_sex_object(mob/living/carbon/human/user, mob/living/carbon/human/target)
 	. = ..()
@@ -48,7 +48,7 @@
 /datum/sex_action/masturbate/other/magejob/on_perform(mob/living/carbon/human/user, mob/living/carbon/human/target)
 	var/datum/sex_session/sex_session = get_sex_session(user, target)
 	var/skill_level = user.get_skill_level(/datum/skill/magic/arcane)
-	user.visible_message(sex_session.spanify_force("[user] [sex_session.get_generic_force_adjective()] jerks [target]'s pintle off..."))
+	user.visible_message(sex_session.spanify_force("[user] [sex_session.get_generic_force_adjective()] jerks [target]. Like a chicken in jamaica..."))
 	playsound(user, 'sound/misc/mat/fingering.ogg', 30, TRUE, -2, ignore_walls = FALSE)
 
 	sex_session.perform_sex_action(target, (2*skill_level), 0, TRUE)

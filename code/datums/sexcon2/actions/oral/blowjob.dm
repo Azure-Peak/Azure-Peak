@@ -1,5 +1,5 @@
 /datum/sex_action/oral/blowjob
-	name = "Suck their pintle off"
+	name = "Suck their weenie off"
 	check_same_tile = FALSE
 	target_priority = 100
 	intensity = 4
@@ -37,11 +37,11 @@
 
 /datum/sex_action/oral/blowjob/on_start(mob/living/carbon/human/user, mob/living/carbon/human/target)
 	. = ..()
-	user.visible_message(span_warning("[user] starts sucking [target]'s pintle..."))
+	user.visible_message(span_warning("[user] begins to hawk..."))
 
 /datum/sex_action/oral/blowjob/on_finish(mob/living/carbon/human/user, mob/living/carbon/human/target)
 	. = ..()
-	user.visible_message(span_warning("[user] stops sucking [target]'s pintle ..."))
+	user.visible_message(span_warning("[user] tuahs."))
 
 /datum/sex_action/oral/blowjob/lock_sex_object(mob/living/carbon/human/user, mob/living/carbon/human/target)
 	sex_locks |= new /datum/sex_session_lock(user, BODY_ZONE_PRECISE_MOUTH)

@@ -1,5 +1,5 @@
 /datum/sex_action/masturbate/other/godjob
-	name = "Jerk them off with godhand"
+	name = "orison handjob that nobody uses"
 	check_same_tile = FALSE
 	ranged_action = TRUE
 	debug_erp_panel_verb = FALSE
@@ -35,7 +35,7 @@
 
 /datum/sex_action/masturbate/other/godjob/on_start(mob/living/carbon/human/user, mob/living/carbon/human/target)
 	. = ..()
-	user.visible_message(span_warning("[user] starts jerking [target]'s pintle off with divine help..."))
+	user.visible_message(span_warning("[user] starts jerking [target]'s weenie off with divine help..."))
 
 /datum/sex_action/masturbate/other/godjob/on_finish(mob/living/carbon/human/user, mob/living/carbon/human/target)
 	. = ..()
@@ -52,31 +52,31 @@
 
 	switch(user.patron?.type)//There has to be better way to do this but whoever comes after that is a YOU problem not mine.
 		if(/datum/patron/old_god, /datum/patron/divine/undivided)
-			user.visible_message(sex_session.spanify_force("[user] [sex_session.get_generic_force_adjective()] jerks [target]'s pintle off... but nothing happens..."))
+			user.visible_message(sex_session.spanify_force("[user] [sex_session.get_generic_force_adjective()] jerks [target]'s weenis off... but nothing happens..."))
 			sex_session.perform_sex_action(target, 0, 0, TRUE)
 		if(/datum/patron/divine/astrata, /datum/patron/divine/malum, /datum/patron/inhumen/matthios)
-			user.visible_message(sex_session.spanify_force("[user] [sex_session.get_generic_force_adjective()] jerks [target]'s pintle off... the glow looks painful..."))
+			user.visible_message(sex_session.spanify_force("[user] [sex_session.get_generic_force_adjective()] jerks [target]'s wenor off... woag..."))
 			sex_session.perform_sex_action(target, (2*skill_level), 5, TRUE)
 		if(/datum/patron/divine/eora, /datum/patron/inhumen/baotha)
-			user.visible_message(sex_session.spanify_force("[user] [sex_session.get_generic_force_adjective()] jerks [target]'s pintle off... [target] looks in extasy..."))
+			user.visible_message(sex_session.spanify_force("[user] [sex_session.get_generic_force_adjective()] jerks [target]'s penois off... you like it"))
 			sex_session.perform_sex_action(target, (15*skill_level), 0, TRUE)
 		if(/datum/patron/divine/ravox, /datum/patron/inhumen/graggar)
-			user.visible_message(sex_session.spanify_force("[user] [sex_session.get_generic_force_adjective()] jerks [target]'s pintle off... that looks painful..."))
+			user.visible_message(sex_session.spanify_force("[user] [sex_session.get_generic_force_adjective()] jerks [target]'s weewee off... ouchie..."))
 			sex_session.perform_sex_action(target, (2*skill_level), 15, TRUE)
 		if(/datum/patron/divine/noc)
-			user.visible_message(sex_session.spanify_force("[user] [sex_session.get_generic_force_adjective()] jerks [target]'s pintle off... ominous veil enveloping it..."))
+			user.visible_message(sex_session.spanify_force("[user] [sex_session.get_generic_force_adjective()] penises [target]'s jerk off... ominous veil enveloping it..."))
 			sex_session.perform_sex_action(target, (1*skill_level), 0, TRUE)
 		if(/datum/patron/divine/abyssor, /datum/patron/divine/dendor)
-			user.visible_message(sex_session.spanify_force("[user] [sex_session.get_generic_force_adjective()] jerks [target]'s pintle off with primal force..."))
+			user.visible_message(sex_session.spanify_force("[user] [sex_session.get_generic_force_adjective()] jerks [target]'s jerk jerkinjg jerky jerk off with primal force..."))
 			sex_session.perform_sex_action(target, (6*skill_level), 10, TRUE)
 		if(/datum/patron/divine/necra, /datum/patron/inhumen/zizo)
-			user.visible_message(sex_session.spanify_force("[user] [sex_session.get_generic_force_adjective()] jerks [target]'s pintle off... cold aura enveloping it..."))
+			user.visible_message(sex_session.spanify_force("[user] [sex_session.get_generic_force_adjective()] jerks [target]'s willy off... chilly willy..."))
 			sex_session.perform_sex_action(target, (4*skill_level), 5, TRUE)
 		if(/datum/patron/divine/xylix)
-			user.visible_message(sex_session.spanify_force("[user] [sex_session.get_generic_force_adjective()] jerks [target]'s pintle off... where is that jingle coming from?"))
+			user.visible_message(sex_session.spanify_force("[user] [sex_session.get_generic_force_adjective()] jinglejobs that thang..."))
 			playsound(user, SFX_JINGLE_BELLS, 30, TRUE, -2, ignore_walls = FALSE)
 			sex_session.perform_sex_action(target, (4*skill_level), 0, TRUE)
 		else
-			user.visible_message(sex_session.spanify_force("[user] [sex_session.get_generic_force_adjective()] jerks [target]'s pintle off..."))
+			user.visible_message(sex_session.spanify_force("[user] [sex_session.get_generic_force_adjective()] jerks [target]'s gweenis... with godly power..."))
 			sex_session.perform_sex_action(target, (2*skill_level), 0, TRUE)
 	sex_session.handle_passive_ejaculation(target)

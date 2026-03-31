@@ -1,5 +1,5 @@
 /datum/sex_action/sex/boobjob
-	name = "Use their tits to get off"
+	name = "Boob"
 	intensity = 3
 	debug_erp_panel_verb = FALSE //However truth is I spent too long on this.
 
@@ -35,10 +35,10 @@
 	return TRUE
 
 /datum/sex_action/sex/boobjob/get_start_message(mob/living/carbon/human/user, mob/living/carbon/human/target)
-	return span_warning("[user] grabs [target]'s tits and shoves [user.p_their()] pintle inbetween!")
+	return span_warning("[user] boob penises.")
 
 /datum/sex_action/sex/boobjob/get_finish_message(mob/living/carbon/human/user, mob/living/carbon/human/target)
-	return span_warning("[user] pulls [user.p_their()] pintle out from inbetween [target]'s tits.")
+	return span_warning("[user] penis boobs.")
 
 /datum/sex_action/sex/boobjob/on_perform(mob/living/carbon/human/user, mob/living/carbon/human/target)
 	var/datum/sex_session/sex_session = get_sex_session(user, target)

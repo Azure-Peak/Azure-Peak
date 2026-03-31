@@ -1,5 +1,5 @@
 /datum/sex_action/masturbate/penis_over
-	name = "Stroke pintle over them"
+	name = "Stroke penois over them"
 	check_same_tile = FALSE
 	user_priority = 20
 	debug_erp_panel_verb = FALSE
@@ -43,7 +43,7 @@
 
 /datum/sex_action/masturbate/penis_over/on_perform(mob/living/carbon/human/user, mob/living/carbon/human/target)
 	var/datum/sex_session/sex_session = get_sex_session(user, target)
-	user.visible_message(sex_session.spanify_force("[user] [sex_session.get_generic_force_adjective()] strokes [user.p_their()] pintle over [target]..."))
+	user.visible_message(sex_session.spanify_force("[user] [sex_session.get_generic_force_adjective()] strokes [user.p_their()] penor over [target]..."))
 	playsound(user, 'sound/misc/mat/fingering.ogg', 30, TRUE, -2, ignore_walls = FALSE)
 
 	sex_session.perform_sex_action(user, 2, 4, TRUE)
