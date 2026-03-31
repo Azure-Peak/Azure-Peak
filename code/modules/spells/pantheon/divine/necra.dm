@@ -281,13 +281,15 @@
 			is_deadite = C.mind.has_antag_datum(/datum/antagonist/zombie)
 		var/is_skeleton = istype(C, /mob/living/carbon/human/species/skeleton)
 		var/is_skeleton_valid = (is_skeleton && !(C.mobility_flags & MOBILITY_STAND))
-		var/is_corpse = (is_dead || is_deadite || is_skeleton_valid)
+		var/no_burialrites = !C.burialrited
+
+		var/is_corpse = (is_dead || is_deadite || is_skeleton_valid || no_burialrites)
 
 		if(!is_corpse)
 			continue
 
 		// --- classification ---
-		var/is_player = !!C.key
+		var/is_player = !!C.client
 		var/has_ghost = !!C.get_ghost(FALSE, TRUE)
 
 		var/is_earthbound = (is_player && has_ghost)
@@ -295,13 +297,10 @@
 		var/is_forsaken = (!is_player)
 
 		// --- filters ---
-		var/no_burialrites = !C.burialrited
-
 		var/time_dead = 0
 		if(C.timeofdeath)
 			time_dead = world.time - C.timeofdeath
-
-		var/fuhgeddaboutit = (is_dead && time_dead > 40 MINUTES)
+		var/fuhgeddaboutit = (time_dead > 45 MINUTES)
 
 		// --- corpse alias ---
 		var/corpse_name
@@ -347,11 +346,11 @@
 		// --- pick target list ---
 		var/list/target_list
 
-		if(is_earthbound && !fuhgeddaboutit)
+		if(is_earthbound)
 			target_list = earthbound
-		else if(is_departed && no_burialrites && !fuhgeddaboutit)
+		else if(is_departed)
 			target_list = departed
-		else if(is_forsaken && no_burialrites)
+		else if(is_forsaken)
 			target_list = forsaken
 
 		// --- ensure unique key inside that list only ---
