@@ -368,6 +368,9 @@
 		var/mob/living/L = user
 		user.changeNext_move(CLICK_CD_INTENTCAP)
 		playsound(src.loc, "plantcross", 50, FALSE, -1)
+		if(user.m_intent == MOVE_INTENT_SNEAK)
+			hide(user)
+			return
 		if(do_after(L, SEARCHTIME, target = src))
 			if(!looty.len && (world.time > res_replenish))
 				loot_replenish()
@@ -385,6 +388,26 @@
 				attack_hand(user)
 			if(!looty.len)
 				to_chat(user, span_warning("Picked clean... I should try later."))
+
+/obj/structure/flora/roguegrass/bush/proc/hide(mob/living/user)
+	if(user.loc == src)
+		unhide(user)
+		return
+	
+	user.forceMove(src)
+	to_chat(user, span_warning("I hide in the [src]!"))
+
+/obj/structure/flora/roguegrass/bush/proc/unhide(mob/living/user)
+	var/turf/T = get_turf(src)
+	if(!T) return
+	user.forceMove(T)
+
+	to_chat(user, span_warning("I come out from the [src]!"))
+
+/obj/structure/flora/roguegrass/bush/relaymove(mob/user)
+	if(user.loc == src)
+		unhide(user)
+
 /obj/structure/flora/roguegrass/bush/update_icon()
 	icon_state = "bush[rand(2, 4)]"
 
