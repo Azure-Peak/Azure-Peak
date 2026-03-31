@@ -395,14 +395,14 @@
 		return
 	
 	user.forceMove(src)
-	to_chat(user, span_warning("I hide in the [src]!"))
+	to_chat(user, span_warning("I hide in [src]!"))
 
 /obj/structure/flora/roguegrass/bush/proc/unhide(mob/living/user)
 	var/turf/T = get_turf(src)
 	if(!T) return
 	user.forceMove(T)
 
-	to_chat(user, span_warning("I come out from the [src]!"))
+	to_chat(user, span_warning("I come out from [src]!"))
 
 /obj/structure/flora/roguegrass/bush/relaymove(mob/user)
 	if(user.loc == src)

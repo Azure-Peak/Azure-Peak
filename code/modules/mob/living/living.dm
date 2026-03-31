@@ -2167,11 +2167,16 @@
 
 	changeNext_move(CLICK_CD_MELEE)
 
-	if(m_intent != MOVE_INTENT_SNEAK)
-		if(water_view)
+	if(water_view)
+		if(m_intent != MOVE_INTENT_SNEAK)
 			visible_message(span_info("[src] peers into the thickness of the water above his head."))
 		else
+			to_chat(src, span_info("[src] peers into the thickness of the water above his head."))
+	else
+		if(m_intent != MOVE_INTENT_SNEAK)
 			visible_message(span_info("[src] looks up."))
+		else
+			to_chat(src, span_info("[src] looks up."))
 
 	if(!ceiling)
 		if(T.can_see_sky())
@@ -2268,10 +2273,13 @@
 			_y += offset
 		else if(_y != 0)
 			_y -= offset
+	if(_y == 0 && _x == 0)
+		message = span_info("[src] oafishly stares in front of themselves.")
+
 	if(m_intent != MOVE_INTENT_SNEAK)
-		if(_y == 0 && _x == 0)	//Their PER was too low to see anything.
-			message = span_info("[src] oafishly stares in front of themselves.")
 		visible_message(message)
+	else
+		to_chat(src, message)
 	animate(client, pixel_x = world.icon_size*_x, pixel_y = world.icon_size*_y, ttime)
 //	RegisterSignal(src, COMSIG_MOVABLE_PRE_MOVE, PROC_REF(stop_looking))
 	update_cone_show()
@@ -2304,6 +2312,8 @@
 
 	if(m_intent != MOVE_INTENT_SNEAK)
 		visible_message(span_info("[src] looks down through [T]."))
+	else
+		to_chat(src, span_info("[src] looks down through [T]."))	
 
 	if(!do_after(src, ttime, target = src))
 		return
