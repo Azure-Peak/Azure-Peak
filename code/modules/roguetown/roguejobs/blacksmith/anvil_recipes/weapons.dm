@@ -742,11 +742,11 @@
 	additional_items = list(/obj/item/ingot/steel)
 	created_item = /obj/item/rogueweapon/estoc
 
-/datum/anvil_recipe/weapons/steel/tuck
-	name = "Azurean Tuck, Steel (+1 Steel)"
+/datum/anvil_recipe/weapons/steel/aplongsword
+	name = "Stecher, Steel (+1 Steel, +1 Small Log)"
 	req_bar = /obj/item/ingot/steel
-	additional_items = list(/obj/item/ingot/steel)
-	created_item = /obj/item/rogueweapon/sword/long/tuck
+	additional_items = list(/obj/item/ingot/steel, /obj/item/grown/log/tree/small)
+	created_item = /obj/item/rogueweapon/sword/long/ap
 
 /datum/anvil_recipe/weapons/steel/axe
 	name = "Axe, Steel (+1 Stick)"

@@ -232,3 +232,9 @@
 /datum/loadout_item/donator/maesune/sabre
 	name = "Donator Kit - Decorated Sabre"
 	path = /obj/item/enchantingkit/weapon/maesune_sabre
+
+/datum/loadout_item/donator/nerocavalier
+	name = "Donator Kit - Blacksteel Longsword"
+	path = /obj/item/enchantingkit/weapon/noire_flsword
+	ckeywhitelist = list("nerocavalier")
+

@@ -101,7 +101,7 @@
 	/// This determines what type of antimagic is needed to block the spell.
 	/// If SPELL_REQUIRES_NO_ANTIMAGIC is set in Spell requirements,
 	/// The spell cannot be cast if the caster has any of the antimagic flags set.
-	var/antimagic_flags = MAGIC_RESISTANCE
+	var/antimagic_flags = MAGIC_RESISTANCE_HOLY
 
 	/// If set to a positive number, the spell will produce sparks when casted.
 	var/sparks_amt = 0

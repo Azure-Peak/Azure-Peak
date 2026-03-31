@@ -277,7 +277,7 @@
 	var/mob/living/M = target
 	M.visible_message(span_warning("[M] staggers from the heavy impact!"))
 	M.apply_status_effect(/datum/status_effect/debuff/staggered, 4 SECONDS)
-	M.Slowdown(4 SECONDS)
+	M.Slowdown(2)
 	var/throw_dir = get_dir(src, target)
 	var/atom/throw_target = get_edge_target_turf(M, throw_dir)
 	M.safe_throw_at(throw_target, 2, 1)

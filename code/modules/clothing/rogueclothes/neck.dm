@@ -298,7 +298,7 @@
 	name = "bronze neckguard"
 	desc = "An interlinked veil of bronze plates, shielding the throat from terrible wounds since the dawn of tyme. Piercing blows may sunder the plate, but - as long as the alloy persists - so shall you."
 	icon_state = "bronzegorget"
-	armor = ARMOR_PLATE
+	armor = ARMOR_BRONZE
 	smeltresult = /obj/item/ingot/bronze
 	max_integrity = ARMOR_INT_SIDE_BRONZE
 
@@ -317,7 +317,8 @@
 	name = "neck protector"
 	icon_state = "copperneck"
 	desc = "A curved disk of copper, rounded out to cradle one's neck; vulnerable, but far better than nothing at all."
-	armor = ARMOR_PLATE
+	armor = ARMOR_BRONZE
+	armor = ARMOR_INT_SIDE_BRONZE
 	smeltresult = /obj/item/ingot/copper
 
 /obj/item/clothing/neck/roguetown/fencerguard

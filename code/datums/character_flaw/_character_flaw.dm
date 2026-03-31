@@ -53,6 +53,7 @@ GLOBAL_LIST_INIT(averse_factions, list(
 	var/name
 	var/desc
 	var/ephemeral = FALSE // This flaw is currently disabled and will not process
+	var/needs_extra_vice = FALSE
 	/// For voyeur vice examines only. Format is "[name] is " + this + "...", leave blank to use the flaw's name.
 	/// Intended for addiction types only.
 	var/voyeur_descriptor	
@@ -101,20 +102,8 @@ GLOBAL_LIST_INIT(averse_factions, list(
 	desc = "I'm untempted by even the simplest vices. Am I riding the high of my latest TRIUMPH, or am I simply a rarity amongst rarities?" //Originally 'No Flaw', with "I'm a normal person, how rare!" as the desc.
 
 /datum/charflaw/noflaw
-	name = "Flawless (-3 TRI)"
+	name = "Flawless (No Passive TRI Gain)"
 	desc = "I'm untempted by even the simplest vices. Am I riding the high of my latest TRIUMPH, or am I simply a rarity amongst rarities?"
-
-/datum/charflaw/noflaw/apply_post_equipment(mob/user)
-	var/mob/living/carbon/human/H = user
-	if(H.get_triumphs() < 3)
-		var/flawz = GLOB.character_flaws.Copy()
-		var/charflaw = pick_n_take(flawz)
-		charflaw = GLOB.character_flaws[charflaw]
-		var/datum/charflaw/new_flaw = new charflaw()
-		H.charflaws.Add(new_flaw)
-		new_flaw.on_mob_creation(H)
-	else
-		H.adjust_triumphs(-3)
 
 /datum/charflaw/randflaw
 	name = "Random"
@@ -414,11 +403,16 @@ GLOBAL_LIST_INIT(averse_factions, list(
 	user.add_client_colour(/datum/client_colour/monochrome)
 
 /datum/charflaw/hunted
-	name = "Hunted"
+	name = "Hunted (+2 TRI)"
 	desc = "Something in my past has made me a target. I'm always looking over my shoulder.	\
 	\nTHIS IS A DIFFICULT FLAW, YOU WILL BE HUNTED BY ASSASSINS AND HAVE ASSASINATION ATTEMPTS MADE AGAINST YOU WITHOUT ANY ESCALATION. \
-	EXPECT A MORE DIFFICULT EXPERIENCE. PLAY AT YOUR OWN RISK."
+	EXPECT A MORE DIFFICULT EXPERIENCE. PLAY AT YOUR OWN RISK. IT REQUIRES AN EXTRA VICE."
+	needs_extra_vice = TRUE
 	var/logged = FALSE
+
+/datum/charflaw/hunted/on_mob_creation(mob/user)
+	. = ..()
+	user.adjust_triumphs(2)
 
 /datum/charflaw/hunted/flaw_on_life(mob/user)
 	if(!ishuman(user))

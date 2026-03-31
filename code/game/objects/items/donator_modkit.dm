@@ -363,3 +363,11 @@
 		/obj/item/rogueweapon/sword/long/kriegmesser
 	)
 	result_item = /obj/item/rogueweapon/maesune/sabre
+
+//NeroCavalier - Sword
+/obj/item/enchantingkit/weapon/noire_flsword
+	name = "'Blacksteel Longsword' morphing elixir"
+	target_items = list(
+		/obj/item/rogueweapon/sword/long
+	)
+	result_item = /obj/item/rogueweapon/nerocavalier/flsword
