@@ -244,10 +244,53 @@
 
 	return NECRA_APPROVES
 
+var/global/list/_corpse_sort_list = null
+var/global/mob/_corpse_sort_ref = null
+
+/proc/_corpse_dist_compare_simple(a, b)
+	var/mob/A = _corpse_sort_list[a]
+	var/mob/B = _corpse_sort_list[b]
+
+	if(!A || QDELETED(A))
+		return 1
+	if(!B || QDELETED(B))
+		return -1
+
+	var/da = get_dist(_corpse_sort_ref, A)
+	var/db = get_dist(_corpse_sort_ref, B)
+
+	if(da < db)
+		return -1
+	if(da > db)
+		return 1
+	return 0
+
+/proc/sort_corpse_list_by_distance_simple(var/list/L, var/mob/ref)
+	if(!L || !length(L) || !ref)
+		return L
+
+	_corpse_sort_list = L
+	_corpse_sort_ref = ref
+
+	var/list/keys = list()
+	for(var/k in L)
+		keys += k
+
+	sortTim(keys, GLOBAL_PROC_REF(_corpse_dist_compare_simple))
+
+	_corpse_sort_list = null
+	_corpse_sort_ref = null
+
+	var/list/new_list = list()
+	for(var/k in keys)
+		new_list[k] = L[k]
+
+	return new_list
+
 /obj/effect/proc_holder/spell/self/locate_dead/cast(mob/living/user = usr)
 	. = ..()
 
-	if(user.necra_tracked_corpse) // toggle off, the way I made this is that /cast handles devotion as well as per-ping drain, its an override on the miracle itself
+	if(user.necra_tracked_corpse)
 		to_chat(user, span_notice("The Undermaiden releases your hand."))
 		user.necra_tracked_corpse = null
 		user.necra_judgement = 0
@@ -270,6 +313,7 @@
 	var/list/earthbound = list()
 	var/list/departed = list()
 	var/list/forsaken = list()
+
 	for(var/mob/living/carbon/C in GLOB.mob_list)
 		if(!C || QDELETED(C))
 			continue
@@ -279,12 +323,12 @@
 		var/is_deadite = FALSE
 		if(C.mind)
 			is_deadite = C.mind.has_antag_datum(/datum/antagonist/zombie)
+
 		var/is_skeleton = istype(C, /mob/living/carbon/human/species/skeleton)
 		var/is_skeleton_valid = (is_skeleton && !(C.mobility_flags & MOBILITY_STAND))
 		var/no_burialrites = !C.burialrited
 
 		var/is_corpse = ((is_dead || is_deadite || is_skeleton_valid) && no_burialrites)
-
 		if(!is_corpse)
 			continue
 
@@ -300,9 +344,11 @@
 		var/time_dead = 0
 		if(C.timeofdeath)
 			time_dead = world.time - C.timeofdeath
-		var/fuhgeddaboutit = (time_dead > 45 MINUTES)
 
-		// --- corpse alias ---
+		var/fuhgeddaboutit = (time_dead > 45 MINUTES)
+		var/same_z = (C.z == user.z)
+
+		// --- name ---
 		var/corpse_name
 
 		if(time_dead < 5 MINUTES)
@@ -335,7 +381,7 @@
 
 		corpse_name += "of \a [descriptor_name]"
 
-		// --- special markers ---
+		// --- markers ---
 		if(is_deadite && C.stat != DEAD)
 			corpse_name += " (!!☣︎!!)"
 		else if(is_deadite)
@@ -343,27 +389,36 @@
 		else if(is_skeleton_valid)
 			corpse_name += " (☠)"
 
-		// --- pick target list ---
-		var/list/target_list
+		// --- pick list ---
+		var/list/target_list = null
 
 		if(is_earthbound)
 			target_list = earthbound
 		else if(is_departed && !fuhgeddaboutit)
 			target_list = departed
-		else if(is_forsaken && !fuhgeddaboutit)
+		else if(is_forsaken && !fuhgeddaboutit && same_z)
 			target_list = forsaken
 
-		// --- ensure unique key inside that list only ---
-		if(target_list)
-			var/list_key = corpse_name
-			var/i = 1
+		if(!target_list)
+			continue
 
-			while(list_key in target_list)
-				i++
-				list_key = "[corpse_name] ([i])"
+		// --- unique key ---
+		var/list_key = corpse_name
+		var/i = 1
+		while(list_key in target_list)
+			i++
+			list_key = "[corpse_name] ([i])"
 
-			target_list[list_key] = C
-			
+		target_list[list_key] = C
+
+	// --- SORT ---
+	if(length(earthbound))
+		earthbound = sort_corpse_list_by_distance_simple(earthbound, user)
+	if(length(departed))
+		departed = sort_corpse_list_by_distance_simple(departed, user)
+	if(length(forsaken))
+		forsaken = sort_corpse_list_by_distance_simple(forsaken, user)
+
 	// --- UI ---
 	var/list/type_options = list()
 	if(length(earthbound)) type_options += "Earthbound"
@@ -387,11 +442,6 @@
 	if(!length(selected_list))
 		return
 
-	var/mob/living/carbon/nearest = get_nearest_corpse(selected_list, user)
-	if(nearest && type_choice != "Earthbound")
-		if(!("Track nearest" in selected_list))
-			selected_list = list("Track nearest" = nearest) + selected_list
-
 	var/choice = tgui_input_list(user, "Which body shall I seek?", "Available Bodies", selected_list)
 	if(!choice || QDELETED(user))
 		return
@@ -402,18 +452,12 @@
 
 	var/score = get_necra_score(target)
 	var/judgement = get_necra_judgement(target)
-//	var/judgement_defined
-//	switch(judgement)
-//		if(NECRA_HATES) judgement_defined = "hate"
-//		if(NECRA_DISAPPROVES) judgement_defined = "disapprove"
-//		if(NECRA_NEUTRAL) judgement_defined = "neutral about"
-//		if(NECRA_APPROVES) judgement_defined = "approve"
 
 	user.necra_tracked_corpse = target
 	user.necra_score = score
 	user.necra_judgement = judgement
 	user.last_necra_ping = 0
-//	to_chat(user, span_purple("DEBUG: This corpse choice has [score] approval, which makes Necra [judgement_defined] it."))
+
 	switch(judgement)
 		if(NECRA_HATES)
 			to_chat(user, span_purple("<i>You feel utterly scorned as your breath is nearly completely taken away.</i>"))
@@ -432,8 +476,9 @@
 		if(NECRA_APPROVES)
 			to_chat(user, span_purple("<i>The Undermaiden guides your hand. You can almost feel a smile.</i>"))
 
-	if (H.devotion?.check_devotion(src))
+	if(H.devotion?.check_devotion(src))
 		H.devotion?.update_devotion(-20)
+
 	START_PROCESSING(SSprocessing, user)
 
 /proc/get_nearest_corpse(list/L, atom/ref)
@@ -695,7 +740,7 @@
 
 	// NECRA DISAPPROVES
 	if(judgement == NECRA_DISAPPROVES)
-		var/true_dir = dir2text(get_cardinal_dir(src, necra_tracked_corpse))
+		var/true_dir = direction_name
 
 		var/list/noise_words = list(
 			"are you sure?","do you have to?","really?","why?","yae?","where?",
