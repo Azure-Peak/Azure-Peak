@@ -195,7 +195,7 @@
 		if(!is_in_cone)
 			ignore_DE_bonus = TRUE
 
-		if(I)	//Skilldiff applies extra stamloss, tentative
+		if(I && IL)	//Skilldiff applies extra stamloss, tentative
 			drained += (UH.get_skill_level(I.associated_skill) - H.get_skill_level(IL.associated_skill))
 
 			if(istype(U.rmb_intent, /datum/rmb_intent/swift) && I.wbalance != WBALANCE_HEAVY)
