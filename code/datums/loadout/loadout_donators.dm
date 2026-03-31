@@ -211,3 +211,16 @@
 	name = "Donator Kit - Eoran Spike"
 	path = /obj/item/enchantingkit/shudderfly_dagger
 	ckeywhitelist = list("shudderfly")
+
+/datum/loadout_item/donator/maesune/merchant_garb
+	name = "Donator Item - Mercantile Union's Garb"
+	path = /obj/item/clothing/suit/roguetown/shirt/maesune
+	ckeywhitelist = list("maesune", "koruu", "inverserun", "ryan180602")
+
+/datum/loadout_item/donator/maesune/shield
+	name = "Donator Kit - Silver Shield"
+	path = /obj/item/enchantingkit/weapon/maesune_shield
+
+/datum/loadout_item/donator/maesune/sabre
+	name = "Donator Kit - Decorated Sabre"
+	path = /obj/item/enchantingkit/weapon/maesune_sabre

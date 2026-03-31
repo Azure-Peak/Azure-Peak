@@ -12,7 +12,7 @@
 /datum/hag_boon/buff/storm_rebirth
 	name = "Deathless"
 	desc = "The first time the bearer dies, they shall be revived completely. Their body animated like a puppet, leaving them with a curse most terrible."
-	points = 85
+	points = 65
 	status_type = /datum/status_effect/buff/hag_boon/storm_rebirth
 
 /datum/hag_boon/buff/natural_communion

@@ -116,7 +116,6 @@
 		/datum/hag_boon/trait/curse/critical_weakness,
 		/datum/hag_boon/trait/curse/no_spells,
 		/datum/hag_boon/trait/curse/no_run,
-		/datum/hag_boon/trait/curse/comic_sans,
 		/datum/hag_boon/trait/curse/ugly,
 		/datum/hag_boon/trait/curse/mute,
 		/datum/hag_boon/trait/curse/no_defense,
