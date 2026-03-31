@@ -144,11 +144,19 @@ SUBSYSTEM_DEF(vote)
 /datum/controller/subsystem/vote/proc/get_storyteller_pool_winners()
 	var/list/pool_totals = get_storyteller_pool_totals()
 	var/greatest_votes = 0
+	var/majority = 0
 	for(var/pool_name in pool_totals)
+		if(pool_name == "Psydon")
+			continue
 		var/pool_votes = pool_totals[pool_name] || 0
+		majority += pool_votes
 		if(pool_votes > greatest_votes)
 			greatest_votes = pool_votes
 	var/list/winning_pools = list()
+	if(pool_totals["Psydon"] || 0)
+		if(pool_totals["Psydon"] > majority)
+			greatest_votes = pool_totals["Psydon"]
+			winning_pools += "Psydon"
 	if(!greatest_votes)
 		return winning_pools
 	for(var/pool_name in pool_totals)
