@@ -177,6 +177,30 @@
 	created_item = /obj/item/clothing/ring/blacksteel
 	createditem_num = 3
 
+/datum/anvil_recipe/valuables/weddingrings
+	name = "Weddingbands, Silver (x2)"
+	req_bar = /obj/item/ingot/silver
+	created_item = /obj/item/clothing/ring/band
+	createditem_num = 2
+
+/datum/anvil_recipe/valuables/weddingringg
+	name = "Weddingbands, Gold (x2)"
+	req_bar = /obj/item/ingot/gold
+	created_item = /obj/item/clothing/ring/band/gold
+	createditem_num = 2
+
+/datum/anvil_recipe/valuables/weddingringb
+	name = "Weddingbands, Bronze (x2)"
+	req_bar = /obj/item/ingot/bronze
+	created_item = /obj/item/clothing/ring/band/bronze
+	createditem_num = 2
+
+/datum/anvil_recipe/valuables/weddingringp
+	name = "Weddingbands, Ancient (x2)"
+	req_bar = /obj/item/ingot/purifiedaalloy
+	created_item = /obj/item/clothing/ring/band/paalloy
+	createditem_num = 2
+
 /datum/anvil_recipe/valuables/ornateamulet
 	name = "Ornate Amulet"
 	req_bar = /obj/item/ingot/gold

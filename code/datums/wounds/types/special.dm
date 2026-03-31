@@ -2,7 +2,7 @@
 	name = "facial trauma"
 	sound_effect = 'sound/combat/crit.ogg'
 	severity = WOUND_SEVERITY_SEVERE
-	whp = null
+	whp = 70 //Bit harder to heal than regular wounds but not impossible
 	woundpain = 0
 	can_sew = FALSE
 	can_cauterize = FALSE
@@ -163,7 +163,6 @@
 	check_name = span_warning("FACE")
 	severity = 0
 	crit_message = "The face is mangled beyond recognition!"
-	whp = null
 	woundpain = 20
 	mob_overlay = "cut"
 	can_sew = FALSE

@@ -89,6 +89,7 @@
 	TI.lefthand_file = RI::lefthand_file
 	TI.righthand_file = RI::righthand_file
 	TI.sheathe_icon = RI::sheathe_icon ? RI::sheathe_icon : TI.sheathe_icon
+	TI.bigboy = RI::bigboy
 
 	to_chat(user, span_notice("You apply the [src] to [I], using the enchanting dust and tools to turn it into [RI::name]."))
 	I.name = "[RI::name] <font size = 1>([I.name])</font>"
@@ -318,6 +319,14 @@
 	)
 	result_item = /obj/item/rogueweapon/sword/long/drd
 
+//DRD21 - Shield
+/obj/item/enchantingkit/weapon/drd_shield
+	name = "'House Woerden shield' morphing elixir"
+	target_items = list(
+		/obj/item/rogueweapon/shield/tower/metal
+	)
+	result_item = /obj/item/rogueweapon/drd/shield
+
 //Lmwevil - Beak Mask
 /obj/item/enchantingkit/lmwevil_brassbeak
 	name = "brass beak mask morphing elixir"
@@ -354,3 +363,11 @@
 		/obj/item/rogueweapon/sword/long/kriegmesser
 	)
 	result_item = /obj/item/rogueweapon/maesune/sabre
+
+//NeroCavalier - Sword
+/obj/item/enchantingkit/weapon/noire_flsword
+	name = "'Blacksteel Longsword' morphing elixir"
+	target_items = list(
+		/obj/item/rogueweapon/sword/long
+	)
+	result_item = /obj/item/rogueweapon/nerocavalier/flsword

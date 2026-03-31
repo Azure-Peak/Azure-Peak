@@ -878,8 +878,10 @@ GLOBAL_LIST_INIT(ballmer_windows_me_msg, list("Yo man, what if, we like, uh, put
 
 	
 	if(stat >= UNCONSCIOUS || IsKnockdown())
-		drowning_drowniness++
-		if(drowning_drowniness >= 3) adjustOxyLoss(10)
+		if(!HAS_TRAIT(src, TRAIT_WATERBREATHING) && !HAS_TRAIT(src, TRAIT_NOBREATH))
+			drowning_drowniness++
+			if(drowning_drowniness >= 3) 
+				adjustOxyLoss(10)
 	else
 		drowning_drowniness = max(0, drowning_drowniness - 1)
 
