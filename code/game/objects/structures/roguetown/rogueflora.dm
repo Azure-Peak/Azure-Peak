@@ -321,6 +321,7 @@
 	debris = list(/obj/item/natural/fibers = 1, /obj/item/grown/log/tree/stick = 1)
 	var/list/looty = list()
 	var/bushtype
+	var/occupied = FALSE
 
 /obj/structure/flora/roguegrass/bush/Initialize()
 	if(prob(88) && isnull(bushtype))
@@ -395,16 +396,20 @@
 	if(user.loc == src)
 		unhide(user)
 		return
+	if(occupied)
+		to_chat(user, span_warning("Someone is already hiding in [src]!"))
+		return
 	if(!do_after(user, sneaktime, src))
 		return
 	user.forceMove(src)
+	occupied = TRUE
 	to_chat(user, span_warning("I hide in [src]!"))
 
 /obj/structure/flora/roguegrass/bush/proc/unhide(mob/living/user)
 	var/turf/T = get_turf(src)
 	if(!T) return
 	user.forceMove(T)
-
+	occupied = FALSE
 	to_chat(user, span_warning("I come out from [src]!"))
 
 /obj/structure/flora/roguegrass/bush/relaymove(mob/user)
@@ -415,6 +420,8 @@
 	icon_state = "bush[rand(2, 4)]"
 
 /obj/structure/flora/roguegrass/bush/CanAStarPass(ID, travel_dir, caller)
+	if(occupied)
+		return FALSE
 	if(ismovableatom(caller))
 		var/atom/movable/mover = caller
 		if(mover.pass_flags & PASSGRILLE)
