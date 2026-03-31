@@ -305,10 +305,9 @@ var/global/mob/_corpse_sort_ref = null
 		return
 
 	user.visible_message(
-		span_purple("<i>[user] utters a prayer for the Undermaiden as a ghastly fog embraces them momentarily.</i>"),
+		span_purple("<i>A ghastly fog embraces [user]] momentarily as they focus...</i>"),
 		span_purple("<i>You plead for the Undermaiden to offer you insight on the restless.</i>")
 	)
-	user.say("Undermaiden, guide my hand to those who have lost their way...")
 
 	var/list/earthbound = list()
 	var/list/departed = list()
@@ -333,12 +332,20 @@ var/global/mob/_corpse_sort_ref = null
 			continue
 
 		// --- classification ---
-		var/is_player = !!C.client
-		var/has_ghost = !!C.get_ghost(FALSE, TRUE)
+		var/is_player = !!C.mind
+		var/has_presence = (C.key || C.get_ghost(FALSE, TRUE))
 
-		var/is_earthbound = (is_player && has_ghost)
-		var/is_departed = (is_player && !has_ghost)
-		var/is_forsaken = (!is_player)
+		var/is_earthbound = FALSE
+		var/is_departed = FALSE
+		var/is_forsaken = FALSE
+
+		if(is_player)
+			if(has_presence)
+				is_earthbound = TRUE
+			else
+				is_departed = TRUE
+		else
+			is_forsaken = TRUE
 
 		// --- filters ---
 		var/time_dead = 0
@@ -449,6 +456,8 @@ var/global/mob/_corpse_sort_ref = null
 	var/mob/living/carbon/target = selected_list[choice]
 	if(!target || QDELETED(target))
 		return
+
+	user.say("#Undermaiden, guide my hand to those who have lost their way...")
 
 	var/score = get_necra_score(target)
 	var/judgement = get_necra_judgement(target)
