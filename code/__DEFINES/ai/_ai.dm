@@ -6,6 +6,7 @@
 
 ///Carbon checks
 #define SHOULD_RESIST(source) (source.on_fire || source.buckled || HAS_TRAIT(source, TRAIT_RESTRAINED) || (source.pulledby && source.pulledby.grab_state > GRAB_PASSIVE))
+#define SHOULD_STAND(source) (source.resting)
 #define IS_DEAD_OR_INCAP(source) (source.incapacitated() || source.stat)
 
 // How far should we, by default, be looking for interesting things to de-idle?
@@ -53,6 +54,7 @@
 #define BB_FLEE_TARGETTING_DATUM "flee_targetting_datum"
 
 #define BB_FUTURE_MOVEMENT_PATH "BB_future_path"
+#define BB_RESISTING "BB_resisting"
 
 ///time until we should next eat, set by the generic hunger subtree
 #define BB_NEXT_HUNGRY "BB_NEXT_HUNGRY"
@@ -80,6 +82,9 @@
 
 //Move then recheck ai
 #define MOVEMENT_LOOP_START_FAST (1<<0)
+
+#define SPT_PROB_RATE(prob_per_second, seconds_per_tick) (1 - (1 - (prob_per_second)) ** (seconds_per_tick))
+#define SPT_PROB(prob_per_second_percent, seconds_per_tick) (prob(100*SPT_PROB_RATE((prob_per_second_percent)/100, (seconds_per_tick))))
 
 #define BB_HUMAN_BEG_TARGET "human_beg_target"
 #define BB_HUMAN_NPC_ATTACK_ZONE_COUNTER "human_npc_attack_zone_counter"

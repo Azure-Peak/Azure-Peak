@@ -1110,6 +1110,9 @@
 /mob/living/can_resist()
 	return !((next_move > world.time) || incapacitated(ignore_restraints = TRUE, ignore_stasis = TRUE))
 
+/mob/living/proc/execute_resist()
+	resist()
+
 /mob/living/verb/resist()
 	set name = "Resist"
 	set category = "IC"
