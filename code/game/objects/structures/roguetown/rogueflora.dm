@@ -369,7 +369,7 @@
 		user.changeNext_move(CLICK_CD_INTENTCAP)
 		playsound(src.loc, "plantcross", 50, FALSE, -1)
 		if(user.m_intent == MOVE_INTENT_SNEAK)
-			hide(user)
+			hideinside(user)
 			return
 		if(do_after(L, SEARCHTIME, target = src))
 			if(!looty.len && (world.time > res_replenish))
@@ -389,7 +389,7 @@
 			if(!looty.len)
 				to_chat(user, span_warning("Picked clean... I should try later."))
 
-/obj/structure/flora/roguegrass/bush/proc/hide(mob/living/user)
+/obj/structure/flora/roguegrass/bush/proc/hideinside(mob/living/user)
 	if(user.loc == src)
 		unhide(user)
 		return
