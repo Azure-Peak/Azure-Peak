@@ -402,12 +402,12 @@
 
 	var/score = get_necra_score(target)
 	var/judgement = get_necra_judgement(target)
-	var/judgement_defined
-	switch(judgement)
-		if(NECRA_HATES) judgement_defined = "hate"
-		if(NECRA_DISAPPROVES) judgement_defined = "disapprove"
-		if(NECRA_NEUTRAL) judgement_defined = "neutral about"
-		if(NECRA_APPROVES) judgement_defined = "approve"
+//	var/judgement_defined
+//	switch(judgement)
+//		if(NECRA_HATES) judgement_defined = "hate"
+//		if(NECRA_DISAPPROVES) judgement_defined = "disapprove"
+//		if(NECRA_NEUTRAL) judgement_defined = "neutral about"
+//		if(NECRA_APPROVES) judgement_defined = "approve"
 
 	user.necra_tracked_corpse = target
 	user.necra_score = score
