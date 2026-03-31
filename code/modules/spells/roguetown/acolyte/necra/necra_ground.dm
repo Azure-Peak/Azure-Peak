@@ -83,7 +83,6 @@
 	. = ..()
 	if(newrange)
 		range = newrange
-	LAZYCLEARLIST(affected_mobs)	//Just in case, it's kept on the proc holder datum after all.
 	get_grid()
 	color_grid()
 	addtimer(CALLBACK(src, PROC_REF(expire_self)), expires_in)
@@ -106,9 +105,11 @@
 	for(var/turf/T in turfgrid)
 		if(T.density)
 			LAZYREMOVE(turfgrid, T)
+			continue
 		for(var/obj/O in T.contents)
 			if(isstructure(O) && O.density)
 				LAZYREMOVE(turfgrid, T)
+				continue
 
 /obj/structure/fluff/psycross/necra/consecrated/proc/color_grid()
 	for(var/turf/T in turfgrid)
