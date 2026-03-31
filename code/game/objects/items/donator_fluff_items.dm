@@ -403,6 +403,21 @@
 	icon_state = "drd_lsword"
 	icon = 'icons/obj/items/donor_weapons_64.dmi'
 
+/obj/item/caparison/drd
+	name = "\improper House Woerden caparison"
+	desc = "The livery of House Woerden: Pale blue, and white. A deer's head marks the flanks of the caparison."
+	icon = 'icons/clothing/donor_clothes.dmi'
+	icon_state = "drd_caparison"
+	caparison_icon = 'icons/clothing/onmob/donor_caparisons.dmi'
+	caparison_state = "drd_caparison"
+	female_caparison_state = "drd_caparison-f"
+
+/obj/item/rogueweapon/drd/shield
+	name = "kite shield"
+	desc = "The heraldry of the near-fallen House Woerden: Argent and celestial-azure, per bend, in fess point a deer head erased affronty gray."
+	icon_state = "drd_shield"
+	icon = 'icons/obj/items/donor_weapons.dmi'
+
 //LMWEVIL
 /obj/item/clothing/mask/rogue/courtphysician/brassbeak
 	name = "\improper Society of the Brass Beak mask"
@@ -447,3 +462,11 @@
 	Borne upon it, a freshly carved inscription reads, \"But The Darkness Comprehended It Not\"."
 	icon_state = "maesune_shield"
 	icon = 'icons/obj/items/donor_weapons.dmi'
+
+//NEROCAVALIER
+/obj/item/rogueweapon/nerocavalier/flsword
+	name = "blacksteel longsword"
+	desc = "A sleek blade of a dark, and burnished hue. A handle carved from a rosawood branch. A pairing that should sing a melody sweeter than any harp as it parts the air.. and yet, beautiful it may be, it is not worthy of song."
+	icon_state = "flsword"
+	icon = 'icons/obj/items/donor_weapons_64.dmi'
+	bigboy = TRUE

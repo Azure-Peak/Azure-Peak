@@ -1,6 +1,0 @@
-author: "WeNeedMorePhoron"
-delete-after: True
-changes:
-  - rscadd: "Elemental arrow types of Thunder, Splinter and Kinetic arrow, made by coating a quiver with a Runic Flask you can acquire with 2x Fire Dust and 2x Water Dust and 2x Hide from a role that knows alchemy. pyroclastic arrow nerfed slightly and moved to this new system"
-  - rscadd: "New Heavy Sling Bullet and Fire pot for sling. Existing recipes unified at x20 per ingot / recipe."
-  - rscdel: "Steel Sling bullets has been removed. Replaced by Steel Scattershot that fires 3 bullets. Each recipe makes 20 each."

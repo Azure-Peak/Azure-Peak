@@ -141,12 +141,8 @@ GLOBAL_LIST_INIT(pronouns_list, list(HE_HIM, SHE_HER, THEY_THEM, IT_ITS))
 #define TITLES_M	"Lord / Ser"
 #define TITLES_F	"Lady / Dame"
 
-GLOBAL_LIST_INIT(titles_list, list(TITLES_M, TITLES_F))
-
 #define CLOTHES_M "Masculine"
 #define CLOTHES_F "Feminine"
-
-GLOBAL_LIST_INIT(clothespref_list, list(CLOTHES_M, CLOTHES_F))
 
 // Voice types (LETHALSTONE)
 
