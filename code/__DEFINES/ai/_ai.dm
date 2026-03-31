@@ -80,3 +80,38 @@
 
 //Move then recheck ai
 #define MOVEMENT_LOOP_START_FAST (1<<0)
+
+#define BB_HUMAN_BEG_TARGET "human_beg_target"
+#define BB_HUMAN_NPC_ATTACK_ZONE_COUNTER "human_npc_attack_zone_counter"
+#define BB_HUMAN_NPC_LAST_ATTACK_ZONE    "human_npc_last_attack_zone"
+#define BB_HUMAN_NPC_WEAKPOINT           "human_npc_weakpoint"
+#define BB_HUMAN_NPC_JUMP_COOLDOWN       "human_npc_jump_cooldown"
+#define BB_HUMAN_NPC_FLANK_ANGLE         "human_npc_flank_angle"
+#define BB_HUMAN_NPC_FLANK_TARGET        "human_npc_flank_target"
+#define BB_HUMAN_NPC_HARASS_MODE         "human_npc_harass_mode"
+#define BB_HUMAN_NPC_HARASS_RETREATING   "human_npc_harass_retreating"
+#define BB_HUMAN_NPC_HARASS_COOLDOWN     "human_npc_harass_cooldown"
+#define BB_HUMAN_NPC_JUKE_COOLDOWN       "human_npc_juke_cooldown"
+#define BB_HUMAN_NPC_CURRENT_INTENT_ATTACKS_LEFT "human_npc_intent_attacks"
+#define BB_BEGGING_FOOD_ITEM "item_beg_target"
+#define BB_ARCHER_NPC_TARGET_ARROW      "archer_target_arrow"
+#define BB_ARCHER_NPC_STASHED_WEAPON    "archer_stashed_weapon"
+#define BB_ARCHER_NPC_EQUIPMENT_CACHE_EXPIRY "archer_npc_equipment_cache_expiry"
+#define BB_ARCHER_NPC_BOW               "archer_npc_bow"
+#define BB_ARCHER_NPC_QUIVER            "archer_npc_quiver"
+#define BB_INVENTORY_MAP        "inventory_map"        // list(category = list(item_ref = slot_name))
+#define BB_CONTAINER_REFS       "container_refs"       // list(slot_name = item_ref)
+#define BB_INVENTORY_DIRTY      "inventory_dirty"      // bool, triggers reappraisal
+#define BB_HELD_CONSUMABLE      "held_consumable"      // item we pulled out to use
+#define BB_TARGET_ZONE_OVERRIDE	"bb_target_override"
+#define BB_LOOT_TARGET "loot_target"
+#define BB_LOOT_TARGET_ITEM "loot_target_item"
+#define BB_LOOT_BLACKLIST "loot_blacklist"
+#define BB_MUG_DEMAND_ELAPSED "mug_elapsed_time"
+#define BB_MUG_TARGET "mug_target"
+#define BB_MUG_TARGET_ITEM "mug_rootbeer"
+
+#define ARCHER_NPC_EQUIPMENT_CACHE_TIME (40 SECONDS)
+#define ARCHER_NPC_MIN_RANGE            3   // tiles - closer than this, prefer melee
+#define ARCHER_NPC_ARROW_SEARCH_RANGE   9
+#define ARCHER_NPC_SIMULATED_CHARGETIME 1.5 SECONDS // fallback charge wait in deciseconds
