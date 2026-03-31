@@ -428,7 +428,6 @@
 		if(s_store && !(SLOT_S_STORE in obscured))
 			if(is_normal || is_smart)
 				. += "[m1] carrying [s_store.get_examine_string(user)] on [m2] [wear_armor.name]."
-
 	//back
 //	if(back)
 //		. += "[m3] [back.get_examine_string(user)] on [m2] back."
@@ -568,15 +567,6 @@
 		str += wear_wrists.integrity_check(is_smart)
 		if (is_stupid)
 			str = "[m3] something on [m2] wrists!"
-		. += str
-
-	//arcyne ward
-	if(istype(skin_armor, /obj/item/clothing/suit/roguetown/armor/regenerating/skin/arcyne_ward))
-		var/obj/item/clothing/suit/roguetown/armor/regenerating/skin/arcyne_ward/ward = skin_armor
-		var/str = "[m3] <font color='[ward.ward_color]'>[ward.generate_tooltip(ward.get_examine_string(user))] shimmering around [user == src ? "me" : p_them()].</font>"
-		str += ward.integrity_check(is_smart)
-		if (is_stupid)
-			str = "[m3] some weird shiny thing!"
 		. += str
 
 	//handcuffed?
@@ -982,7 +972,6 @@
 
 	if(pose_text)
 		. += fieldset_block("Pose", pose_text, "pose_block")
-
 
 	SEND_SIGNAL(src, COMSIG_PARENT_EXAMINE, user, .)
 

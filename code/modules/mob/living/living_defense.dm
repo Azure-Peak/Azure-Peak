@@ -485,13 +485,12 @@
 		return FALSE
 	if(HAS_TRAIT(src, TRAIT_SHOCKIMMUNE))
 		return FALSE
-	if(shock_damage < 1 && !(flags & SHOCK_VISUAL_ONLY))
+	if(shock_damage < 1)
 		return FALSE
-	if(!(flags & SHOCK_VISUAL_ONLY))
-		if(!(flags & SHOCK_ILLUSION))
-			adjustFireLoss(shock_damage)
-		else
-			adjustStaminaLoss(shock_damage)
+	if(!(flags & SHOCK_ILLUSION))
+		adjustFireLoss(shock_damage)
+	else
+		adjustStaminaLoss(shock_damage)
 	visible_message(
 		span_danger("[src] was shocked by \the [source]!"), \
 		span_danger("I feel a powerful shock coursing through my body!"), \

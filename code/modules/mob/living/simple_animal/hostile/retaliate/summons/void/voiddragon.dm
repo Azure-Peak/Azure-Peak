@@ -77,7 +77,7 @@ It will also call down lightning strikes from the sky, and fling people with it'
 	environment_smash = ENVIRONMENT_SMASH_WALLS
 	base_intents = list(/datum/intent/unarmed/dragonclaw)
 	faction = list("abberant")
-	death_loot = list(/obj/item/clothing/ring/dragon_ring = 3, /obj/item/book/granter/arcane_aspect/minor = 2, /obj/item/book/granter/arcane_aspect/major = 1)
+	death_loot = list(/obj/item/clothing/ring/dragon_ring = 3, /obj/item/book/granter/spell_points/voiddragon = 3)
 	obj_damage = 400	//Behold, nothing shall keep the dragon out
 	melee_damage_lower = 80
 	melee_damage_upper = 80
@@ -622,25 +622,26 @@ It will also call down lightning strikes from the sky, and fling people with it'
 	qdel(dummy)
 	return 1
 
-/datum/action/cooldown/spell/repulse/voiddragon
+/obj/effect/proc_holder/spell/invoked/repulse/voiddragon
 	name = "Tail Sweep"
 	desc = "Throw back attackers with a sweep of your tail."
 	sound = 'sound/misc/tail_swing.ogg'
-	cooldown_time = 15 SECONDS
-	charge_required = FALSE
-	invocation_type = INVOCATION_NONE
+	recharge_time = 15 SECONDS
+	clothes_req = FALSE
+	cooldown_min = 150
+	invocation_type = "none"
 	sparkle_path = /obj/effect/temp_visual/dir_setting/tailsweep
-	button_icon_state = "tailsweep"
-	background_icon_state = "bg_alien"
-	spell_requirements = NONE
-	push_range = 2
+	action_icon_state = "tailsweep"
+	action_background_icon_state = "bg_alien"
+	antimagic_allowed = FALSE
+	range = 2
 
-/datum/action/cooldown/spell/repulse/voiddragon/cast(atom/cast_on)
-	if(iscarbon(owner))
-		var/mob/living/carbon/C = owner
+/obj/effect/proc_holder/spell/invoked/repulse/voiddragon/cast(list/targets, mob/user = usr)
+	if(iscarbon(user))
+		var/mob/living/carbon/C = user
 		playsound(C.loc, 'sound/combat/hits/punch/punch_hard (3).ogg', 80, TRUE, TRUE)
 		C.spin(6, 1)
-	return ..(cast_on)
+	..(targets, user, 3)
 
 /mob/living/simple_animal/hostile/retaliate/rogue/voiddragon/death()
 	..()

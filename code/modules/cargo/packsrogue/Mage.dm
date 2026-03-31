@@ -175,17 +175,32 @@
 // 💎 GEMS 💎 //
 /////////////////
 
-/datum/supply_pack/rogue/Mage/lesser_implement
-	name = "Lesser Implement"
+/datum/supply_pack/rogue/Mage/toper
+	name = "Toper Stave"
 	cost = 55
-	contains = list(/obj/item/rogueweapon/woodstaff/implement)
+	contains = list(/obj/item/rogueweapon/woodstaff/toper)
 
-/datum/supply_pack/rogue/Mage/greater_implement
-	name = "Greater Implement"
+/datum/supply_pack/rogue/Mage/gemerald
+	name = "Gemerald Stave"
+	cost = 70
+	contains = list(/obj/item/rogueweapon/woodstaff/emerald)
+
+/datum/supply_pack/rogue/Mage/saffira
+	name = "Saffira Stave"
+	cost = 90
+	contains = list(/obj/item/rogueweapon/woodstaff/sapphire)
+
+/datum/supply_pack/rogue/Mage/Blortz
+	name = "Blortz Stave"
 	cost = 120
-	contains = list(/obj/item/rogueweapon/woodstaff/implement/greater)
+	contains = list(/obj/item/rogueweapon/woodstaff/quartz)
 
-/datum/supply_pack/rogue/Mage/grand_implement
-	name = "Grand Implement"
+/datum/supply_pack/rogue/Mage/Rontz
+	name = "Rontz Stave"
+	cost = 150
+	contains = list(/obj/item/rogueweapon/woodstaff/ruby)
+
+/datum/supply_pack/rogue/Mage/Dorpel
+	name = "Dorpel Stave"
 	cost = 180
-	contains = list(/obj/item/rogueweapon/woodstaff/implement/grand)
+	contains = list(/obj/item/rogueweapon/woodstaff/diamond)

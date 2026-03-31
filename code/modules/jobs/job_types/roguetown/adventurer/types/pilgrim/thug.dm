@@ -139,7 +139,7 @@
 			l_hand = /obj/item/quiver/sling/iron
 		if("Magic Bricks")
 			H.adjust_skillrank_up_to(/datum/skill/magic/arcane, SKILL_LEVEL_EXPERT, TRUE) // i fear not the man that has practiced a thousand moves one time, but the man that has practiced one move a thousand times
-			H.mind.AddSpell(new /datum/action/cooldown/spell/magicians_brick)
+			H.mind.AddSpell(new /obj/effect/proc_holder/spell/self/magicians_brick)
 		if("Lockpicking Equipment")
 			H.adjust_skillrank_up_to(/datum/skill/misc/stealing, SKILL_LEVEL_EXPERT, TRUE)
 			H.adjust_skillrank_up_to(/datum/skill/misc/lockpicking, SKILL_LEVEL_EXPERT, TRUE)

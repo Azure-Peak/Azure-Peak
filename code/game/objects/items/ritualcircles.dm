@@ -1312,7 +1312,7 @@
 	neck = /obj/item/clothing/neck/roguetown/bevor/zizo
 	backr = /obj/item/rogueweapon/sword/long/zizo
 
-	H.mind.AddSpell(new /datum/action/cooldown/spell/mending/lesser)
+	H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/mending/lesser)
 
 
 /obj/structure/ritualcircle/matthios
@@ -1474,7 +1474,7 @@
 	neck = /obj/item/clothing/neck/roguetown/chaincoif/chainmantle/matthios
 	backr = /obj/item/rogueweapon/flail/peasantwarflail/matthios
 
-	H.mind.AddSpell(new /datum/action/cooldown/spell/mending/lesser)
+	H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/mending/lesser)
 
 /obj/structure/ritualcircle/graggar
 	name = "Rune of Violence"

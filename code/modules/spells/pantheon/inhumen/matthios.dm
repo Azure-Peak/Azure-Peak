@@ -42,13 +42,16 @@
 		to_chat(user, ("<font color='yellow'>[target] has [mammonsonperson] mammons on them, [mammonsinbank] in their meister, for a total of [totalvalue] mammons.</font>"))
 
 //T0: Summon a lockpick on demand
-/datum/action/cooldown/spell/lesser_knock/miracle
+/obj/effect/proc_holder/spell/targeted/touch/lesserknock/miracle
 	name = "Emancipate"
-	desc = "A simple prayer to the free-god that forms into an instrument for lockpicking. Can be dispelled by using it on anything that isn't a locked/unlocked door."
-	button_icon = 'icons/mob/actions/matthiosmiracles.dmi'
-	button_icon_state = "lockpick"
+	desc = "A simple prayer to the free-god that forms into an instrument for lockpicking. Can be dispelled by using it on anything that isn't a locked/unlocked door." //Slightly more appropriate
+	action_icon = 'icons/mob/actions/matthiosmiracles.dmi'
+	overlay_icon = 'icons/mob/actions/matthiosmiracles.dmi'
+	overlay_state = "lockpick"
+	miracle = TRUE
+	devotion_cost = 20
 	invocations = list("Transact me your tools.", "Grant me tools of trade.")
-	invocation_type = INVOCATION_WHISPER
+	invocation_type = "whisper" // It is a fake stealth spell (lockpicking is very loud)
 	associated_skill = /datum/skill/magic/holy
 
 //T0: Firebreath

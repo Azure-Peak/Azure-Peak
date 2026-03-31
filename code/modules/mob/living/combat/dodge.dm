@@ -1,4 +1,5 @@
 /mob/living/proc/attempt_dodge(datum/intent/intenty, mob/living/user)
+	var/mob/living/H = src
 	if(pulledby || pulling)
 		return FALSE
 	if(world.time < last_dodge + dodgetime)
@@ -65,7 +66,16 @@
 				user.aftermiss()
 				return TRUE
 			else
-				return FALSE
+				if(HAS_TRAIT(src, TRAIT_MAGEARMOR))
+					if(H.magearmor == 0)
+						H.magearmor = 1
+						H.apply_status_effect(/datum/status_effect/buff/magearmor)
+						to_chat(src, span_boldwarning("My mage armor absorbs the hit and dissipates!"))
+						return TRUE
+					else
+						return FALSE
+				else
+					return FALSE
 	else
 		return FALSE
 

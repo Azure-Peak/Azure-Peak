@@ -18,7 +18,7 @@
 
 /datum/skill/magic/arcane
 	name = "Arcana"
-	desc = "Governs arcyne knowledge - improves arcane crafting, and magical identification of sneaking people."
+	desc = "Decreases casting time by 5% per level."
 	expert_name = "Arcanist"
 
 /datum/skill/magic/druidic

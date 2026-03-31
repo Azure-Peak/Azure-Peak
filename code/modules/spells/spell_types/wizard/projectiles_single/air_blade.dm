@@ -24,7 +24,6 @@
 	no_early_release = TRUE
 	movement_interrupt = FALSE
 	spell_tier = 2
-	spell_impact_intensity = SPELL_IMPACT_LOW
 	invocations = list("Aeris Gladios!")
 	invocation_type = "shout"
 	glow_color = GLOW_COLOR_ARCANE
@@ -59,11 +58,10 @@
 
 
 /obj/projectile/energy/airblade
-	name = "air blade (cut)"
+	name = "Air Blade (Cut)"
 	icon_state = "air_blade_cut"
 	guard_deflectable = TRUE
 	damage = 40
-	flag = "slash"
 	woundclass = BCLASS_CUT
 	nodamage = FALSE
 	npc_simple_damage_mult = 1.5 // Makes it more effective against NPCs.
@@ -71,15 +69,13 @@
 	speed = 1
 
 /obj/projectile/energy/airblade/blunt
-	name = "air blade (blunt)"
+	name = "Air Blade (Blunt)"
 	icon_state = "air_blade_blunt"
-	flag = "blunt"
 	woundclass = BCLASS_BLUNT
-	intdamfactor = BLUNT_DEFAULT_INT_DAMAGEFACTOR
 	hitsound = 'sound/combat/hits/blunt/shovel_hit2.ogg' // Different sound for blunt
 
 /obj/projectile/energy/airblade/stab
-	name = "air blade (stab)"
+	name = "Air Blade (Stab)"
 	icon_state = "air_blade_stab"
 	woundclass = BCLASS_STAB
 	hitsound = 'sound/combat/hits/bladed/genstab (3).ogg' // Different sound for stab
@@ -94,5 +90,7 @@
 			qdel(src)
 			return BULLET_ACT_BLOCK
 		playsound(get_turf(target), hitsound, 100) // Play the hit sound
+		if(istype(M, /mob/living/carbon))
+			apply_arcane_mark(M)
 	else
 		return

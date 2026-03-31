@@ -434,8 +434,87 @@
 	name = "Invigorated"
 	desc = "I have supped on the finest of delicacies: life!"
 
-// Featherfall, Darkvision, Longstrider status effects moved to augmentation_status_effects.dm
+/atom/movable/screen/alert/status_effect/buff/featherfall
+	name = "Featherfall"
+	desc = "I am somewhat protected against falling from heights."
+	icon_state = "buff"
 
+/datum/status_effect/buff/featherfall
+	id = "featherfall"
+	alert_type = /atom/movable/screen/alert/status_effect/buff/featherfall
+	duration = 1 MINUTES
+
+/datum/status_effect/buff/featherfall/on_apply()
+	. = ..()
+	to_chat(owner, span_warning("I feel lighter."))
+	ADD_TRAIT(owner, TRAIT_NOFALLDAMAGE2, MAGIC_TRAIT)
+
+/datum/status_effect/buff/featherfall/on_remove()
+	. = ..()
+	to_chat(owner, span_warning("The feeling of lightness fades."))
+	REMOVE_TRAIT(owner, TRAIT_NOFALLDAMAGE2, MAGIC_TRAIT)
+
+/atom/movable/screen/alert/status_effect/buff/darkvision
+	name = "Darkvision"
+	desc = "I can see in the dark somewhat."
+	icon_state = "buff"
+
+/datum/status_effect/buff/darkvision
+	id = "darkvision"
+	alert_type = /atom/movable/screen/alert/status_effect/buff/darkvision
+	duration = 15 MINUTES
+
+/datum/status_effect/buff/darkvision/on_apply(mob/living/new_owner, assocskill)
+	if(assocskill)
+		duration += 5 MINUTES * assocskill
+	. = ..()
+	to_chat(owner, span_warning("The darkness fades somewhat."))
+	ADD_TRAIT(owner, TRAIT_DARKVISION, MAGIC_TRAIT)
+
+/datum/status_effect/buff/darkvision/on_remove()
+	. = ..()
+	to_chat(owner, span_warning("The darkness returns to normal."))
+	REMOVE_TRAIT(owner, TRAIT_DARKVISION, MAGIC_TRAIT)
+
+/atom/movable/screen/alert/status_effect/buff/longstrider
+	name = "Longstrider"
+	desc = "I can easily walk through rough terrain."
+	icon_state = "longstrider"
+
+/datum/status_effect/buff/longstrider
+	id = "longstrider"
+	alert_type = /atom/movable/screen/alert/status_effect/buff/longstrider
+	duration = 15 MINUTES
+
+/datum/status_effect/buff/longstrider/on_apply()
+	. = ..()
+	to_chat(owner, span_warning("I am unburdened by the terrain."))
+	ADD_TRAIT(owner, TRAIT_LONGSTRIDER, MAGIC_TRAIT)
+
+/datum/status_effect/buff/longstrider/on_remove()
+	. = ..()
+	to_chat(owner, span_warning("The rough floors slow my travels once again."))
+	REMOVE_TRAIT(owner, TRAIT_LONGSTRIDER, MAGIC_TRAIT)
+
+/atom/movable/screen/alert/status_effect/buff/magearmor
+	name = "Weakened Barrier"
+	desc = "My magical barrier is weakened."
+	icon_state = "stressvg"
+
+/datum/status_effect/buff/magearmor
+	id = "magearmor"
+	alert_type = /atom/movable/screen/alert/status_effect/buff/magearmor
+
+/datum/status_effect/buff/magearmor/on_apply()
+	. = ..()
+	playsound(owner, 'sound/magic/magearmordown.ogg', 75, FALSE)
+	duration = (7-owner.get_skill_level(/datum/skill/magic/arcane)) MINUTES
+
+/datum/status_effect/buff/magearmor/on_remove()
+	. = ..()
+	to_chat(owner, span_warning("My magical barrier reforms."))
+	playsound(owner, 'sound/magic/magearmorup.ogg', 75, FALSE)
+	owner.magearmor = 0
 
 /atom/movable/screen/alert/status_effect/buff/guardbuffone
 	name = "Vigilant Guardsman"
@@ -1265,8 +1344,6 @@
 	var/dur
 	var/sfx_on_apply = 'sound/combat/clash_initiate.ogg'
 	var/swingdelay_mod = 5
-	/// Set TRUE when guard successfully deflects a spell. Halves the guard cooldown as reward.
-	var/deflected_spell = FALSE
 	alert_type = /atom/movable/screen/alert/status_effect/buff/clash
 
 	mob_effect_icon = 'icons/mob/mob_effects.dmi'
@@ -1339,8 +1416,6 @@
 
 /datum/status_effect/buff/clash/proc/apply_cooldown()
 	var/newcd = BASE_RCLICK_CD - owner.get_tempo_bonus(TEMPO_TAG_RCLICK_CD_BONUS)
-	if(deflected_spell)
-		newcd *= 0.5
 	owner.apply_status_effect(/datum/status_effect/debuff/clashcd, newcd)
 
 //Our guard was disrupted by normal means.

@@ -229,7 +229,7 @@
 
 /obj/projectile/magic/acidsplash/quietus
 	damage = 80
-	flag = "fire"
+	flag = "magic"
 	speed = 2
 
 //DAGON'S CALL

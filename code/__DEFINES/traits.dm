@@ -33,6 +33,7 @@
 #define TRAIT_MEDIUMARMOR "Maille Training"
 #define TRAIT_HEAVYARMOR "Plate Training"
 #define TRAIT_DODGEEXPERT "Expert Dodger"
+#define TRAIT_MAGEARMOR "Magic Barrier"
 #define TRAIT_DECEIVING_MEEKNESS "Deceiving Meekness"
 #define TRAIT_CRITICAL_RESISTANCE "Critical Resistance"
 #define TRAIT_CRIT_THRESHOLD "NPC Respect Crit Threshold"
@@ -242,7 +243,10 @@
 #define TRAIT_SLEUTH	"Sleuth"
 #define TRAIT_HARDSHELL "Hardshell"
 #define TRAIT_WOODWALKER "Woodwalker"
-#define TRAIT_ARCYNE "Arcyne Training"
+#define TRAIT_ARCYNE_T1 "Arcyne Training (Novice)"
+#define TRAIT_ARCYNE_T2 "Arcyne Training (Apprentice)"
+#define TRAIT_ARCYNE_T3 "Arcyne Training (Expert)"
+#define TRAIT_ARCYNE_T4 "Arcyne Training (Master)"
 #define TRAIT_BITERHELM "Helmetbiter" // just use this to get helmets which are bitey.
 #define TRAIT_STRENGTH_UNCAPPED "Strength Unbound"	//ignores the STR softcap.
 #define TRAIT_EORAN_CALM "Eoran Calm"
@@ -344,6 +348,7 @@ GLOBAL_LIST_INIT(roguetraits, list(
 	TRAIT_MEDIUMARMOR = span_info("I can move freely in medium armor."),
 	TRAIT_HEAVYARMOR = span_info("I can move freely in heavy armor."),
 	TRAIT_DODGEEXPERT = span_info("I am much better at dodging incoming strikes, when dressed in either light armor or nothing at all. Heavier armor, such as maille or plate, is too burdensome for me to quickly maneuver in."),
+	TRAIT_MAGEARMOR = span_info("My magics can protect me from a blow every so often."),
 	TRAIT_DECEIVING_MEEKNESS = span_info("People look at me and think I am a weakling. They are mistaken. I've learned how to hide my vices and true beliefs from others."),
 	TRAIT_CRITICAL_RESISTANCE = span_info("My constitution is iron-clad. My lifeblood flows slowly, I can resist the first few critical wounds that would fell others, but repeated punishment will overwhelm my defenses."),
 	TRAIT_BLOOD_RESISTANCE = span_info("My body is taut, and my blood runs slower. I bleed far less than others."),
@@ -436,8 +441,8 @@ GLOBAL_LIST_INIT(roguetraits, list(
 	TRAIT_DEADITE = span_info("I am a feral deadite."),
 	TRAIT_EASYDISMEMBER = span_info("My limbs are frail and fragile. They can be dismembered with greater ease, including my neck."),
 	TRAIT_HARDDISMEMBER = span_info("My body is strong and endurant. My limbs are not easily dismembered."),
-	TRAIT_NOPAIN = span_info("I feel no pain. I can endure more burns before collapsing."),
-	TRAIT_NOPAINSTUN = span_info("Pain does not impair me. I can endure more burns before collapsing."),
+	TRAIT_NOPAIN = span_info("I feel no pain."),
+	TRAIT_NOPAINSTUN = span_info("Pain does not impair me."),
 	TRAIT_NOBREATH = span_info("I do not breathe."),
 	TRAIT_DEATHLESS = span_info("Even without my lyfesblood, I will not be taken by Necra so easily."),
 	TRAIT_TOXIMMUNE = span_info("Poisons do nothing to me."),
@@ -453,7 +458,10 @@ GLOBAL_LIST_INIT(roguetraits, list(
 	TRAIT_HARDSHELL = span_info("The bulk of this armor prevents me from parrying effectively, but I can still move out of the way."),
 	TRAIT_MATTHIOS_EYES = span_notice("I have a sense for what the most valuable item someone has is."),
 	TRAIT_WOODWALKER = span_notice("I can climb trees quicker, and gain climbing experience twice as quickly. I can step on thorns and branches safely in the woods. I can get twice as many things from searching bushes, and I can stand on leaves in trees safely."),
-	TRAIT_ARCYNE = span_notice("I am trained in the Arcyne arts, allowing me to wield magyck."),
+	TRAIT_ARCYNE_T1 = span_notice("I have received basic training in the Arcyne arts, allowing me access to a small variety of spells useful outside of combat."),
+	TRAIT_ARCYNE_T2 = span_notice("I have received advanced training in the Arcyne arts, allowing me to learn basic combat spells"),
+	TRAIT_ARCYNE_T3 = span_notice("I am a full-fledged mage, and have access to devastating spells that affects a wide area."),
+	TRAIT_ARCYNE_T4 = span_notice("I'm a master of the Arcyne arts, and has access to some of the most powerful spells ever devised."),
 	TRAIT_INFINITE_ENERGY = span_notice ("I don't need rest; I won't ever feel fatigue."),
 	TRAIT_PERMAMUTE = span_notice("I am a mute. I cannot speak."),
 	TRAIT_STRENGTH_UNCAPPED = span_warning("MY STRENGTH IS UNBOUND!"),

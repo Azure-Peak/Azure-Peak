@@ -7,7 +7,7 @@
 	mob_traits = list(TRAIT_FREEMAN, TRAIT_MATTHIOS_EYES, TRAIT_SEEPRICES_SHITTY)
 	miracles = list(/obj/effect/proc_holder/spell/targeted/touch/orison					= CLERIC_ORI,
 					/obj/effect/proc_holder/spell/invoked/appraise						= CLERIC_ORI,
-					/datum/action/cooldown/spell/lesser_knock/miracle	= CLERIC_T0,
+					/obj/effect/proc_holder/spell/targeted/touch/lesserknock/miracle	= CLERIC_T0,
 					/obj/effect/proc_holder/spell/invoked/matthios_firebreath			= CLERIC_T0,
 					/obj/effect/proc_holder/spell/self/matthios_muffle					= CLERIC_T0,
 					/obj/effect/proc_holder/spell/invoked/matthios_transact				= CLERIC_T1, //It says it should be T1

@@ -739,10 +739,10 @@ GLOBAL_LIST_EMPTY(loadout_selected_advclasses)
 				for(var/skill in advclass_datum.subclass_skills)
 					H.adjust_skillrank(skill, advclass_datum.subclass_skills[skill], TRUE)
 			
-			// Apply advclass mage aspects
-			if(LAZYLEN(advclass_datum.subclass_mage_aspects) && H.mind)
-				H.mind.setup_mage_aspects(advclass_datum.subclass_mage_aspects.Copy())
-
+			// Apply advclass spell points
+			if(advclass_datum.subclass_spellpoints > 0 && H.mind)
+				H.mind.adjust_spellpoints(advclass_datum.subclass_spellpoints)
+			
 			// Apply advclass traits
 			if(advclass_datum.traits_applied)
 				for(var/trait in advclass_datum.traits_applied)
@@ -873,13 +873,12 @@ GLOBAL_LIST_EMPTY(loadout_selected_advclasses)
 			qdel(I)
 		for(var/obj/item/I in H.held_items)
 			qdel(I)
-		// Clear spells and aspect config
+		// Clear spells and spell points
 		for(var/obj/effect/proc_holder/spell/S in H.mind.spell_list)
 			H.mind.RemoveSpell(S)
-		H.mind.mage_aspect_config = null
-		H.mind.major_aspects = null
-		H.mind.minor_aspects = null
-
+		H.mind.spell_points = 0
+		H.mind.used_spell_points = 0
+	
 	// Equip the outfit if available - equipOutfit handles pre_equip and post_equip internally
 	// Note: pre_equip hooks may grant spells as part of the equipment process
 	if(actual_outfit)
@@ -902,12 +901,12 @@ GLOBAL_LIST_EMPTY(loadout_selected_advclasses)
 			for(var/S in job_datum.spells)
 				H.mind.AddSpell(new S)
 	
-		// Apply mage aspects from advclass if available
+		// Apply spell points from advclass if available
 		if(advclass_path)
 			var/datum/advclass/advclass_datum = new advclass_path()
-			if(LAZYLEN(advclass_datum.subclass_mage_aspects))
-				H.mind.setup_mage_aspects(advclass_datum.subclass_mage_aspects.Copy())
-
+			if(advclass_datum.subclass_spellpoints > 0)
+				H.mind.adjust_spellpoints(advclass_datum.subclass_spellpoints)
+	
 	if(actual_outfit)
 		to_chat(H, span_notice("Equipment and spells applied[is_migrant ? " from migrant role" : ""]!"))
 		message_admins("[key_name_admin(usr)] applied equipment and spells from [actual_outfit] to [ADMIN_LOOKUPFLW(H)].")
@@ -1118,13 +1117,13 @@ GLOBAL_LIST_EMPTY(loadout_selected_advclasses)
 			if(HAS_TRAIT_FROM(H, trait, JOB_TRAIT))
 				REMOVE_TRAIT(H, trait, JOB_TRAIT)
 	
-	// Clear spells and aspect config if they have a mind
+	// Clear spells and spell points if they have a mind
 	if(H.mind)
 		for(var/obj/effect/proc_holder/spell/S in H.mind.spell_list)
 			H.mind.RemoveSpell(S)
-		H.mind.mage_aspect_config = null
-		H.mind.major_aspects = null
-		H.mind.minor_aspects = null
+		// Reset spell points
+		H.mind.spell_points = 0
+		H.mind.used_spell_points = 0
 	
 	// Remove from excommunicated and outlawed lists (clears examine text like "HERETIC! SHAME!")
 	// Check both real_name and name to be thorough

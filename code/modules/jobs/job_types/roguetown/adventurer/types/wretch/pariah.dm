@@ -11,9 +11,9 @@
 	outfit = /datum/outfit/job/roguetown/wretch/pariah
 	cmode_music = 'sound/music/combat_blackoak.ogg'
 	maximum_possible_slots = 1
-	class_select_category = CLASS_CAT_RACIAL
+	class_select_category = CLASS_CAT_BATTLEMAGE
 	category_tags = list(CTAG_WRETCH)
-	traits_applied = list(TRAIT_AZURENATIVE, TRAIT_OUTDOORSMAN, TRAIT_BLACKOAK, TRAIT_DODGEEXPERT, TRAIT_ARCYNE, TRAIT_WOODWALKER)
+	traits_applied = list(TRAIT_AZURENATIVE, TRAIT_OUTDOORSMAN, TRAIT_BLACKOAK, TRAIT_DODGEEXPERT, TRAIT_ARCYNE_T2, TRAIT_WOODWALKER)
 	//lower-than-avg stats for wretch but their traits are insanely good
 	subclass_stats = list(
 		STATKEY_INT = 1,
@@ -22,7 +22,7 @@
 		STATKEY_CON = 1,
 		STATKEY_WIL = 1,
 	)
-	subclass_mage_aspects = list("mastery" = FALSE, "major" = 0, "minor" = 0, "utilities" = 4, "ward" = TRUE)
+	subclass_spell_point_pools = list("utility" = 4)
 	subclass_languages = list(/datum/language/oldazurian)
 	subclass_skills = list(
 		/datum/skill/misc/athletics = SKILL_LEVEL_EXPERT,
@@ -76,8 +76,7 @@
 		/obj/item/storage/belt/rogue/pouch/coins/poor = 1,
 		/obj/item/flashlight/flare/torch/lantern/prelit = 1,
 		/obj/item/rogueweapon/scabbard/sheath = 1,
-		/obj/item/reagent_containers/glass/bottle/alchemical/healthpot = 1,
-		/obj/item/book/spellbook = 1,
+		/obj/item/reagent_containers/glass/bottle/alchemical/healthpot = 1,	//Small health vial
 		)
 
 	to_chat(H, span_warning("You start with Bind Weapon. Remember to Bind your weapon so you can use your abilities and build up Arcyne Momentum."))
@@ -102,25 +101,26 @@
 	if(H.mind)
 		switch(subclass_selected)
 			if("blade")
-				H.mind.AddSpell(new /datum/action/cooldown/spell/caedo)
-				H.mind.AddSpell(new /datum/action/cooldown/spell/air_strike)
-				H.mind.AddSpell(new /datum/action/cooldown/spell/leyline_anchor)
-				H.mind.AddSpell(new /datum/action/cooldown/spell/projectile/blade_storm)
+				H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/caedo)
+				H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/air_strike)
+				H.mind.AddSpell(new /obj/effect/proc_holder/spell/self/leyline_anchor)
+				H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/projectile/blade_storm)
 			if("phalangite")
-				H.mind.AddSpell(new /datum/action/cooldown/spell/azurean_phalanx)
-				H.mind.AddSpell(new /datum/action/cooldown/spell/projectile/azurean_pilum)
-				H.mind.AddSpell(new /datum/action/cooldown/spell/advance)
-				H.mind.AddSpell(new /datum/action/cooldown/spell/gate_of_reckoning)
+				H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/azurean_phalanx)
+				H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/projectile/azurean_javelin)
+				H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/advance)
+				H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/gate_of_reckoning)
 			if("macebearer")
-				H.mind.AddSpell(new /datum/action/cooldown/spell/shatter)
-				H.mind.AddSpell(new /datum/action/cooldown/spell/tremor)
-				H.mind.AddSpell(new /datum/action/cooldown/spell/charge)
-				H.mind.AddSpell(new /datum/action/cooldown/spell/cataclysm)
+				H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/shatter)
+				H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/tremor)
+				H.mind.AddSpell(new /obj/effect/proc_holder/spell/self/charge)
+				H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/cataclysm)
 
-		H.mind.AddSpell(new /datum/action/cooldown/spell/recall_weapon)
-		H.mind.AddSpell(new /datum/action/cooldown/spell/empower_weapon)
-		H.mind.AddSpell(new /datum/action/cooldown/spell/bind_weapon)
-		H.mind.AddSpell(new /datum/action/cooldown/spell/mending)
+		H.mind.AddSpell(new /obj/effect/proc_holder/spell/self/recall_weapon)
+		H.mind.AddSpell(new /obj/effect/proc_holder/spell/self/empower_weapon)
+		H.mind.AddSpell(new /obj/effect/proc_holder/spell/self/bind_weapon)
+		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/mending)
+		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/enchant_weapon)
 
 	armor = /obj/item/clothing/suit/roguetown/armor/leather/trophyfur
 

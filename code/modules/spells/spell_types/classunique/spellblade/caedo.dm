@@ -1,73 +1,68 @@
-/datum/action/cooldown/spell/caedo
+/obj/effect/proc_holder/spell/invoked/caedo
 	name = "Caedo"
-	desc = "In the old tongue, caedo - to strike or to cut down. Dash forward at blinding speed, \
+	desc = "In the old tongue, caedo — to strike or to cut down. Dash forward at blinding speed, \
 		leaving afterimages that strike every enemy in your path. \
 		Empowered (3 Momentum): Consumes 3 stacks to strike twice. \
 		If any of them defend against the strike, you will be left exposed at the end of your dash!"
-	button_icon = 'icons/mob/actions/classuniquespells/spellblade.dmi'
-	button_icon_state = "caedo"
-	sound = 'sound/magic/blink.ogg'
-	spell_color = GLOW_COLOR_ARCANE
-	glow_intensity = GLOW_INTENSITY_MEDIUM
-
-	cast_range = 7
-
-	primary_resource_type = SPELL_COST_STAMINA
-	primary_resource_cost = SPELLCOST_SB_POKE
-
+	clothes_req = FALSE
+	range = 7
+	action_icon = 'icons/mob/actions/classuniquespells/spellblade.dmi'
+	overlay_state = "caedo" // Icon by Prominence
+	releasedrain = SPELLCOST_SB_POKE
+	chargedrain = 1
+	chargetime = 1
+	recharge_time = 12 SECONDS
+	warnie = "spellwarning"
+	no_early_release = TRUE
+	movement_interrupt = FALSE
+	gesture_required = TRUE
+	charging_slowdown = 0
+	chargedloop = /datum/looping_sound/invokegen
 	invocations = list("Caedo!")
-	invocation_type = INVOCATION_SHOUT
-
-	charge_required = TRUE
-	weapon_cast_penalized = FALSE
-	charge_time = 1
-	charge_drain = 0
-	charge_slowdown = CHARGING_SLOWDOWN_NONE
-	charge_sound = 'sound/magic/charging.ogg'
-	cooldown_time = 12 SECONDS
-
-	associated_skill = /datum/skill/magic/arcane
-	spell_tier = 2
-	spell_impact_intensity = SPELL_IMPACT_LOW
-	spell_requirements = SPELL_REQUIRES_NO_ANTIMAGIC | SPELL_REQUIRES_HUMAN | SPELL_REQUIRES_SAME_Z
-
+	invocation_type = "shout"
+	xp_gain = FALSE
 	var/max_range = 5
 	var/strike_damage = 40
 	var/empower_cost = 3
 
-/datum/action/cooldown/spell/caedo/cast(atom/cast_on)
-	. = ..()
-	var/mob/living/carbon/human/H = owner
+/obj/effect/proc_holder/spell/invoked/caedo/cast(list/targets, mob/user = usr)
+	var/mob/living/carbon/human/H = user
 	if(!istype(H))
-		return FALSE
+		revert_cast()
+		return
 
 	var/obj/item/held_weapon = arcyne_get_weapon(H)
 	if(!held_weapon)
 		to_chat(H, span_warning("I need my bound weapon in hand!"))
-		return FALSE
+		revert_cast()
+		return
 
+	var/atom/target = targets[1]
 	var/turf/start = get_turf(H)
 	var/turf/dest
 
-	if(isliving(cast_on))
-		dest = find_landing_turf(H, cast_on)
+	if(isliving(target))
+		dest = find_landing_turf(H, target)
 	else
-		dest = get_turf(cast_on)
+		dest = get_turf(target)
 
 	if(!dest || dest.z != start.z)
 		to_chat(H, span_warning("Invalid target!"))
-		return FALSE
+		revert_cast()
+		return
 
 	// Soft clamp: if too far or path blocked, dash as far as possible toward target
 	dest = arcyne_find_max_blink_dest(H, dest, max_range)
 	if(!dest)
 		to_chat(H, span_warning("I can't dash there!"))
-		return FALSE
+		revert_cast()
+		return
 
 	var/distance = get_dist(start, dest)
 	if(distance < 1)
 		to_chat(H, span_warning("I need somewhere to dash to!"))
-		return FALSE
+		revert_cast()
+		return
 
 	var/list/full_path = getline(start, dest)
 
@@ -91,14 +86,14 @@
 	do_teleport(H, dest, channel = TELEPORT_CHANNEL_MAGIC)
 	playsound(dest, 'sound/magic/blink.ogg', 25, TRUE)
 
-	log_combat(H, cast_on, "used Caedo on")
+	log_combat(H, target, "used Caedo on")
 
 	var/empowered = FALSE
 	var/datum/status_effect/buff/arcyne_momentum/momentum = H.has_status_effect(/datum/status_effect/buff/arcyne_momentum)
 	if(momentum && momentum.stacks >= empower_cost)
 		momentum.consume_stacks(empower_cost)
 		empowered = TRUE
-		to_chat(H, span_notice("Momentum surges - twin strikes!"))
+		to_chat(H, span_notice("Momentum surges — twin strikes!"))
 
 	var/locked_zone = H.zone_selected || BODY_ZONE_CHEST
 
@@ -107,14 +102,14 @@
 
 	return TRUE
 
-/datum/action/cooldown/spell/caedo/proc/find_landing_turf(mob/living/user, mob/living/target_mob)
+/obj/effect/proc_holder/spell/invoked/caedo/proc/find_landing_turf(mob/living/user, mob/living/target_mob)
 	var/approach_dir = get_dir(user, target_mob)
 	var/turf/far_side = get_step(target_mob, approach_dir)
 	if(far_side && !far_side.density && !istransparentturf(far_side) && isfloorturf(far_side))
 		return far_side
 	return get_turf(target_mob)
 
-/datum/action/cooldown/spell/caedo/proc/execute_path_strikes(mob/living/carbon/human/user, list/victims, obj/item/weapon, def_zone, empowered = FALSE)
+/obj/effect/proc_holder/spell/invoked/caedo/proc/execute_path_strikes(mob/living/carbon/human/user, list/victims, obj/item/weapon, def_zone, empowered = FALSE)
 	if(!user || QDELETED(user))
 		return
 	var/deflected = FALSE
@@ -141,7 +136,7 @@
 			surge.add_stacks(1)
 			to_chat(user, span_notice("DOUBLE STRIKE! ARCYNE SURGE!"))
 
-/datum/action/cooldown/spell/caedo/proc/second_strike(mob/living/carbon/human/user, mob/living/victim, obj/item/weapon, def_zone)
+/obj/effect/proc_holder/spell/invoked/caedo/proc/second_strike(mob/living/carbon/human/user, mob/living/victim, obj/item/weapon, def_zone)
 	if(!user || QDELETED(user) || !victim || QDELETED(victim) || victim.stat == DEAD)
 		return
 	var/total_damage = strike_damage
@@ -152,7 +147,7 @@
 		var/obj/effect/temp_visual/blade_cut/V = new(victim_turf)
 		V.dir = slash_dir
 
-/datum/action/cooldown/spell/caedo/proc/create_afterimage_trail(mob/living/carbon/human/user, list/path_turfs)
+/obj/effect/proc_holder/spell/invoked/caedo/proc/create_afterimage_trail(mob/living/carbon/human/user, list/path_turfs)
 	set waitfor = FALSE
 	var/list/images = list()
 	var/path_len = length(path_turfs)

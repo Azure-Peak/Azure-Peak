@@ -14556,6 +14556,11 @@
 	},
 /turf/open/floor/rogue/naturalstone,
 /area/rogue/under/cave/his_vault)
+"dhq" = (
+/obj/structure/table/vtable/v2,
+/obj/item/rogueweapon/woodstaff/diamond,
+/turf/open/floor/rogue/churchbrick,
+/area/rogue/under/cave/mazedungeon)
 "dht" = (
 /obj/structure/table/wood/fancy/red,
 /obj/item/candle/candlestick/gold/lit{
@@ -26065,6 +26070,17 @@
 /obj/structure/fluff/railing/border/west,
 /turf/open/floor/rogue/wood,
 /area/rogue/indoors/town/church/chapel)
+"fDj" = (
+/obj/structure/closet/crate/chest/gold{
+	locked = 1;
+	lockid = "baroness"
+	},
+/obj/item/roguegem/ruby,
+/obj/item/book/granter/spell/blackstone/frostbolt,
+/obj/item/rogueweapon/woodstaff/riddle_of_steel,
+/obj/item/storage/belt/rogue/pouch/coins/rich,
+/turf/open/floor/rogue/wood/herringbone,
+/area/rogue/outdoors/mountains/decap/gunduzirak/bossarena)
 "fDl" = (
 /turf/open/floor/rogue/rooftop/west,
 /area/rogue/under/underdark)
@@ -95023,6 +95039,16 @@
 /obj/item/flowercrown/rosa,
 /turf/open/floor/rogue/grassred,
 /area/rogue/druidsgrove)
+"tSx" = (
+/obj/structure/closet/crate/chest/gold{
+	locked = 1;
+	lockid = "lich"
+	},
+/obj/item/book/granter/spell/blackstone/bonechill,
+/obj/effect/spawner/lootdrop/roguetown/dungeon/spells,
+/obj/effect/spawner/lootdrop/roguetown/dungeon/spells,
+/turf/open/floor/rogue/carpet/lord/right,
+/area/rogue/under/cave/licharena/bossroom)
 "tSz" = (
 /obj/structure/chair/stool/rogue,
 /turf/open/floor/rogue/churchbrick,
@@ -180298,7 +180324,11 @@ xlz
 xlz
 oxH
 vto
+<<<<<<< HEAD
 tnA
+=======
+dhq
+>>>>>>> parent of e77399fe4f (Magi 2: The Awakening - Aspect-Based Magic System, Massive Spell Expansion, Rebalance & Redesign (#6406))
 oxH
 hqt
 hqt
@@ -240487,7 +240517,11 @@ ujm
 ujm
 ujm
 ghA
+<<<<<<< HEAD
 iwO
+=======
+tSx
+>>>>>>> parent of e77399fe4f (Magi 2: The Awakening - Aspect-Based Magic System, Massive Spell Expansion, Rebalance & Redesign (#6406))
 dYX
 dYX
 dYX
@@ -354340,7 +354374,11 @@ pQn
 elH
 fiU
 qKD
+<<<<<<< HEAD
 nlE
+=======
+fDj
+>>>>>>> parent of e77399fe4f (Magi 2: The Awakening - Aspect-Based Magic System, Massive Spell Expansion, Rebalance & Redesign (#6406))
 elH
 cmG
 cmG

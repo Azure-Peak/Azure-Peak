@@ -135,7 +135,7 @@
 	icon_state = "rock"
 	damage = 30
 	damage_type = BRUTE
-	flag = "fire"
+	flag = "magic"
 	range = 10
 	speed = 16 //higher is slower
 

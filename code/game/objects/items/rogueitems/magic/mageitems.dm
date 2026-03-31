@@ -63,7 +63,10 @@
 	var/obj/effect/decal/cleanable/roguerune/pickrune
 	var/runenameinput
 
-	runenameinput = input(user, "Runes", "Runes") as null|anything in GLOB.t3rune_types
+	if(HAS_TRAIT(user, TRAIT_ARCYNE_T1))
+		runenameinput = input(user, "Runes", "Tier 1 Runes") as null|anything in GLOB.t1rune_types
+	else
+		runenameinput = input(user, "Runes", "Tier 1-3 Runes") as null|anything in GLOB.t3rune_types
 
 	pickrune = GLOB.rune_types[runenameinput]
 	rune_to_scribe = pickrune
@@ -114,7 +117,7 @@
 	filter(type="drop_shadow", x=0, y=0, size=2, offset=1, color=rgb(128, 0, 128, 1))
 
 /obj/item/rogueweapon/huntingknife/idagger/silver/arcyne/attack_self(mob/living/carbon/human/user)
-	if(!isarcyne(user))
+	if(!isarcyne(user) || HAS_TRAIT(user, TRAIT_ARCYNE_T1))
 		return
 	if(!is_bled)
 		playsound(loc, get_sfx("genslash"), 100, TRUE)

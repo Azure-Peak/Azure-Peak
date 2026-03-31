@@ -1,96 +1,71 @@
-#define PHALANX_FILTER "phalanx_glow"
+/* Azurean Phalanx - Phalangite bread-and-butter 3x1 line thrust with pushback
+Hits everyone in a 3-tile line in front of the caster and pushes them back 1 tile.
+Spacing tool — the core of the Phalangite's "hold the line" identity.
+Builds 1 momentum on hit regardless of targets struck (same as a normal weapon swing).
+At 3+ momentum: consumes 3 stacks and doubles damage. */
 
-/datum/action/cooldown/spell/azurean_phalanx
+/obj/effect/proc_holder/spell/invoked/azurean_phalanx
 	name = "Azurean Phalanx"
-	desc = "Prime your next melee strike with arcyne force. On hit, the blow pierces through, \
-		striking enemies in a line behind the target. Builds 1 momentum on hit. \
-		At 3+ momentum: consumes 3 for a deeper, more damaging pierce."
-	button_icon = 'icons/mob/actions/classuniquespells/spellblade.dmi'
-	button_icon_state = "azurean_phalanx"
-	sound = 'sound/magic/antimagic.ogg'
-	spell_color = GLOW_COLOR_ARCANE
-	glow_intensity = GLOW_INTENSITY_MEDIUM
-
-	click_to_activate = FALSE
-	self_cast_possible = TRUE
-
-	primary_resource_type = SPELL_COST_STAMINA
-	primary_resource_cost = SPELLCOST_SB_POKE
-
+	desc = "Hold the line. Thrust forward with arcyne-infused reach, striking a 3-tile line and pushing them back 1 tile. \
+		Builds 1 momentum on hit. \
+		At 3+ momentum: consumes 3 to double damage. \
+		Strikes your aimed bodypart. Can be deflected by Defend stance."
+	clothes_req = FALSE
+	range = 7
+	action_icon = 'icons/mob/actions/classuniquespells/spellblade.dmi'
+	overlay_state = "azurean_phalanx" // Icon by Prominence
+	releasedrain = SPELLCOST_SB_POKE
+	chargedrain = 0
+	chargetime = 5
+	recharge_time = 12 SECONDS
+	warnie = "spellwarning"
+	no_early_release = TRUE
+	movement_interrupt = FALSE
+	charging_slowdown = 0
+	chargedloop = /datum/looping_sound/invokegen
 	invocations = list("Phalanx Azurea!")
-	invocation_type = INVOCATION_SHOUT
-
-	charge_required = FALSE
-	weapon_cast_penalized = FALSE
-	cooldown_time = 12 SECONDS
-
-	associated_skill = /datum/skill/magic/arcane
-	spell_tier = 2
-	spell_impact_intensity = SPELL_IMPACT_MEDIUM
-	spell_requirements = SPELL_REQUIRES_NO_ANTIMAGIC | SPELL_REQUIRES_HUMAN | SPELL_REQUIRES_SAME_Z
-
-	var/pierce_length = 3
-	var/pierce_damage = 35
-	var/empowered_pierce_length = 4
-	var/empowered_pierce_damage = 50
+	invocation_type = "shout"
+	gesture_required = TRUE
+	xp_gain = FALSE
+	var/line_length = 3
+	var/base_damage = 40
+	var/empowered_mult = 2
+	var/push_dist = 1 // I tried making the pushing higher and it was just too much
+	// Turns out rotating a very high tile push makes it impossible to deal with.
+	var/empowered_push = 1
 	var/momentum_cost = 3
+	var/telegraph_delay = 4
 
-/datum/action/cooldown/spell/azurean_phalanx/cast(atom/cast_on)
-	. = ..()
-	var/mob/living/carbon/human/H = owner
+/obj/effect/proc_holder/spell/invoked/azurean_phalanx/cast(list/targets, mob/user = usr)
+	var/mob/living/carbon/human/H = user
 	if(!istype(H))
-		return FALSE
+		revert_cast()
+		return
 
-	if(!arcyne_get_weapon(H))
+	var/obj/item/held_weapon = arcyne_get_weapon(H)
+	if(!held_weapon)
 		to_chat(H, span_warning("I need my bound weapon in hand!"))
-		return FALSE
+		revert_cast()
+		return
 
-	if(H.has_status_effect(/datum/status_effect/buff/phalanx_ready))
-		to_chat(H, span_warning("My thrust is already primed!"))
-		return FALSE
+	var/atom/target = targets[1]
+	var/turf/target_turf = get_turf(target)
+	var/turf/start = get_turf(H)
+	var/facing = get_dir(start, target_turf) || H.dir
 
 	var/empowered = FALSE
 	var/datum/status_effect/buff/arcyne_momentum/M = H.has_status_effect(/datum/status_effect/buff/arcyne_momentum)
 	if(M && M.stacks >= momentum_cost)
 		M.consume_stacks(momentum_cost)
 		empowered = TRUE
-		to_chat(H, span_notice("[momentum_cost] momentum released - empowered pierce primed!"))
+		to_chat(H, span_notice("[momentum_cost] momentum released — empowered thrust!"))
 
-	var/datum/status_effect/buff/phalanx_ready/effect = H.apply_status_effect(/datum/status_effect/buff/phalanx_ready)
-	if(effect)
-		effect.spell_ref = WEAKREF(src)
-		effect.empowered = empowered
+	var/damage = empowered ? (base_damage * empowered_mult) : base_damage
 
-	H.visible_message(
-		span_notice("[H] primes [H.p_their()] weapon with a surge of arcyne force."),
-		span_notice("My thrust is primed - the next strike will pierce through."))
-	playsound(get_turf(H), 'sound/magic/antimagic.ogg', 60, TRUE)
-	return TRUE
-
-/datum/action/cooldown/spell/azurean_phalanx/proc/do_pierce(mob/living/carbon/human/user, mob/living/struck, empowered)
-	if(QDELETED(user) || user.stat == DEAD)
-		return
-
-	var/obj/item/weapon = arcyne_get_weapon(user)
-	if(!weapon)
-		return
-
-	var/turf/origin = get_turf(struck)
-	if(!origin)
-		return
-
-	var/pierce_dir = get_dir(user, struck)
-	if(!pierce_dir)
-		pierce_dir = user.dir
-
-	var/def_zone = user.zone_selected || BODY_ZONE_CHEST
-	var/damage = empowered ? empowered_pierce_damage : pierce_damage
-	var/length = empowered ? empowered_pierce_length : pierce_length
-
-	var/list/pierce_turfs = list()
-	var/turf/current = origin
-	for(var/i in 1 to length)
-		current = get_step(current, pierce_dir)
+	var/list/line_turfs = list()
+	var/turf/current = start
+	for(var/i in 1 to line_length)
+		current = get_step(current, facing)
 		if(!current || current.density)
 			break
 		var/struct_blocked = FALSE
@@ -100,100 +75,74 @@
 				break
 		if(struct_blocked)
 			break
-		pierce_turfs += current
+		line_turfs += current
 
-	// Visuals on origin tile and all pierce tiles
-	var/obj/effect/temp_visual/origin_burst = new /obj/effect/temp_visual/blade_stab(origin)
-	origin_burst.dir = pierce_dir
-	for(var/turf/T in pierce_turfs)
-		var/obj/effect/temp_visual/V = new /obj/effect/temp_visual/blade_stab(T)
-		V.dir = pierce_dir
+	if(!length(line_turfs))
+		to_chat(H, span_warning("There's no room to thrust!"))
+		revert_cast()
+		return
 
-	playsound(origin, pick('sound/combat/wooshes/bladed/wooshsmall (1).ogg', 'sound/combat/wooshes/bladed/wooshsmall (2).ogg'), 70, TRUE)
+	// Telegraph — show warning on affected tiles
+	for(var/turf/T in line_turfs)
+		new /obj/effect/temp_visual/air_strike_telegraph(T)
+
+	// Grunt as they wind up the thrust
+	H.emote("attackgrunt", forced = TRUE)
+
+	addtimer(CALLBACK(src, PROC_REF(resolve_thrust), H, line_turfs, facing, damage, empowered), telegraph_delay)
+	return TRUE
+
+/obj/effect/proc_holder/spell/invoked/azurean_phalanx/proc/resolve_thrust(mob/living/carbon/human/H, list/line_turfs, facing, damage, empowered)
+	if(QDELETED(H) || H.stat == DEAD)
+		return
+
+	var/obj/item/held_weapon = arcyne_get_weapon(H)
+	if(!held_weapon)
+		return
+
+	var/def_zone = H.zone_selected || BODY_ZONE_CHEST
+
+	// Visual and sound effects
+	for(var/turf/T in line_turfs)
+		var/obj/effect/temp_visual/V = new /obj/effect/temp_visual/blade_burst(T)
+		V.dir = facing
+	playsound(get_turf(H), pick('sound/combat/wooshes/bladed/wooshsmall (1).ogg', 'sound/combat/wooshes/bladed/wooshsmall (2).ogg'), 80, TRUE)
+
+	H.emote("attack", forced = TRUE)
 
 	var/hit_count = 0
 	var/deflected = FALSE
 	var/list/already_hit = list()
-
-	// Hit the original struck target with the arcyne strike (they already took the normal weapon hit)
-	if(!QDELETED(struck) && struck.stat != DEAD)
-		if(spell_guard_check(struck, FALSE, user))
-			deflected = TRUE
-		else
-			arcyne_strike(user, struck, weapon, damage, def_zone, BCLASS_STAB, spell_name = "Azurean Phalanx", skip_animation = TRUE)
-			hit_count++
-			already_hit += struck
-
-	for(var/turf/T in pierce_turfs)
+	for(var/turf/T in line_turfs)
 		for(var/mob/living/victim in T)
-			if(victim == user || victim == struck || victim.stat == DEAD || (victim in already_hit))
+			if(victim == H || victim.stat == DEAD || (victim in already_hit))
 				continue
-			if(spell_guard_check(victim, FALSE, deflected ? null : user))
+			if(spell_guard_check(victim, FALSE, deflected ? null : H))
 				deflected = TRUE
 				continue
-			arcyne_strike(user, victim, weapon, damage, def_zone, BCLASS_STAB, spell_name = "Azurean Phalanx", skip_animation = TRUE)
+			if(empowered)
+				arcyne_strike(H, victim, held_weapon, round(damage / 2), def_zone, BCLASS_STAB, spell_name = "Azurean Phalanx", skip_message = TRUE)
+				arcyne_strike(H, victim, held_weapon, round(damage / 2), def_zone, BCLASS_STAB, spell_name = "Azurean Phalanx")
+			else
+				arcyne_strike(H, victim, held_weapon, damage, def_zone, BCLASS_STAB, spell_name = "Azurean Phalanx")
 			hit_count++
 			already_hit += victim
 
-	var/datum/status_effect/buff/arcyne_momentum/M = user.has_status_effect(/datum/status_effect/buff/arcyne_momentum)
-	if(M)
-		M.add_stacks(1)
+			var/push_dir = get_dir(H, victim)
+			if(!push_dir)
+				push_dir = facing
+			victim.safe_throw_at(get_ranged_target_turf(victim, push_dir, push_dist), push_dist, 1, H, force = MOVE_FORCE_STRONG)
 
+	var/datum/status_effect/buff/arcyne_momentum/M = H.has_status_effect(/datum/status_effect/buff/arcyne_momentum)
 	if(hit_count)
-		user.visible_message(span_danger("[user] drives [user.p_their()] [weapon.name] through [struck], piercing those behind!"))
-		if(hit_count >= 2 && M)
+		if(M)
 			M.add_stacks(1)
-			to_chat(user, span_notice("DOUBLE PIERCE! ARCYNE SURGE!"))
+		H.visible_message(span_danger("[H] thrusts [H.p_their()] [held_weapon.name] forward in a powerful line!"))
 	else
-		user.visible_message(span_notice("[user]'s strike pierces through [struck]."))
+		H.visible_message(span_notice("[H] thrusts [H.p_their()] [held_weapon.name] forward!"))
+	if(hit_count >= 2)
+		if(M)
+			M.add_stacks(1)
+			to_chat(H, span_notice("DOUBLE STRIKE! ARCYNE SURGE!"))
 
-// --- Status effect ---
-
-/atom/movable/screen/alert/status_effect/buff/phalanx_ready
-	name = "Phalanx Primed"
-	desc = "My next melee strike will pierce through the target."
-	icon_state = "buff"
-
-/datum/status_effect/buff/phalanx_ready
-	id = "phalanx_ready"
-	alert_type = /atom/movable/screen/alert/status_effect/buff/phalanx_ready
-	duration = 10 SECONDS
-	status_type = STATUS_EFFECT_UNIQUE
-	var/datum/weakref/spell_ref
-	var/empowered = FALSE
-
-/datum/status_effect/buff/phalanx_ready/on_apply()
-	. = ..()
-	RegisterSignal(owner, COMSIG_MOB_ITEM_ATTACK, PROC_REF(on_attack))
-	owner.add_filter(PHALANX_FILTER, 2, list("type" = "outline", "color" = "#4488ff", "alpha" = 160, "size" = 2))
-
-/datum/status_effect/buff/phalanx_ready/on_remove()
-	UnregisterSignal(owner, COMSIG_MOB_ITEM_ATTACK)
-	owner.remove_filter(PHALANX_FILTER)
-	. = ..()
-
-/datum/status_effect/buff/phalanx_ready/proc/on_attack(mob/living/source, mob/living/target, mob/living/user, obj/item/weapon)
-	SIGNAL_HANDLER
-	if(!isliving(target) || target == owner || target.stat == DEAD)
-		return
-	var/obj/item/bound = arcyne_get_weapon(owner)
-	if(!bound || bound != weapon)
-		return
-	var/datum/action/cooldown/spell/azurean_phalanx/spell = spell_ref?.resolve()
-	if(!spell)
-		owner.remove_status_effect(/datum/status_effect/buff/phalanx_ready)
-		return
-	var/was_empowered = empowered
-	owner.remove_status_effect(/datum/status_effect/buff/phalanx_ready)
-	INVOKE_ASYNC(spell, TYPE_PROC_REF(/datum/action/cooldown/spell/azurean_phalanx, do_pierce), source, target, was_empowered)
-
-/obj/effect/temp_visual/blade_stab
-	icon = 'icons/effects/effects.dmi'
-	icon_state = "stab"
-	dir = NORTH
-	name = "arcyne stab"
-	randomdir = FALSE
-	duration = 1 SECONDS
-	layer = MASSIVE_OBJ_LAYER
-
-#undef PHALANX_FILTER
+	log_combat(H, null, "used Azurean Phalanx")

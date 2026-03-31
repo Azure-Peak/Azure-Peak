@@ -171,7 +171,7 @@
 	Bound once more to serve in the wake of ruin, you climb towards the Peaks."
 	outfit = /datum/outfit/job/roguetown/heartfelt/hand/advisor
 	category_tags = list(CTAG_HFT_HAND)
-	traits_applied = list(TRAIT_ARCYNE, TRAIT_INTELLECTUAL, TRAIT_SEEPRICES_SHITTY, TRAIT_HEARTFELT)
+	traits_applied = list(TRAIT_MAGEARMOR, TRAIT_ARCYNE_T2, TRAIT_INTELLECTUAL, TRAIT_SEEPRICES_SHITTY, TRAIT_HEARTFELT)
 	subclass_stats = list(
 		STATKEY_INT = 3,
 		STATKEY_PER = 3,
@@ -183,7 +183,7 @@
 		/datum/virtue/utility/riding
 	)
 
-	subclass_mage_aspects = list("mastery" = FALSE, "major" = 1, "minor" = 1, "utilities" = 2, "ward" = TRUE)
+	subclass_spellpoints = 15
 
 	subclass_skills = list(
 		/datum/skill/combat/staves = SKILL_LEVEL_JOURNEYMAN,
@@ -200,7 +200,7 @@
 		/datum/skill/misc/lockpicking = SKILL_LEVEL_EXPERT,
 		/datum/skill/magic/arcane = SKILL_LEVEL_APPRENTICE,
 	)
-	var/list/spells = list()
+	var/list/spells = list(/obj/effect/proc_holder/spell/targeted/touch/prestidigitation)
 
 //Advisor start. Trades combat skills for more knowledge and skills - for older hands, hands that don't do combat - people who wanna play wizened old advisors.
 /datum/outfit/job/roguetown/heartfelt/hand/advisor/pre_equip(mob/living/carbon/human/H)
@@ -212,11 +212,10 @@
 		/obj/item/rogueweapon/scabbard/sheath/noble = 1,
 		/obj/item/rogueweapon/huntingknife = 1,
 		/obj/item/storage/belt/rogue/pouch/coins/rich = 1,
-		/obj/item/lockpickring/mundane = 1,
+		/obj/item/lockpickring/mundane = 1, 
 		/obj/item/reagent_containers/glass/bottle/rogue/poison = 1,
 		/obj/item/natural/feather = 1,
 		/obj/item/paper/scroll = 1,
-		/obj/item/book/spellbook = 1,
 	) //starts with a vial of poison, like all wizened evil advisors do!
 	armor = /obj/item/clothing/suit/roguetown/armor/leather/studded
 	pants = /obj/item/clothing/under/roguetown/tights/black
@@ -228,5 +227,4 @@
 		H.change_stat("strength", -1)
 		H.change_stat("intelligence", 1)
 		H.change_stat("perception", 1)
-		if(H.mind)
-			H.mind.setup_mage_aspects(list("mastery" = FALSE, "major" = 0, "minor" = 0, "utilities" = 3, "ward" = TRUE))
+		H?.mind.adjust_spellpoints(3)
