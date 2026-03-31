@@ -219,7 +219,7 @@
 		minutes_dead = 0
 	score += minutes_dead
 	var/is_skeleton = istype(C, /mob/living/carbon/human/species/skeleton)
-	var/is_player = !!C.key
+	var/is_player = !!C.client
 	var/has_ghost = !!C.get_ghost(FALSE, TRUE)
 	var/is_earthbound = (is_player && has_ghost)
 	var/is_departed = (is_player && !has_ghost)
@@ -413,8 +413,7 @@
 	user.necra_score = score
 	user.necra_judgement = judgement
 	user.last_necra_ping = 0
-	to_chat(user, span_purple("DEBUG: This corpse choice has [score] approval, which makes Necra [judgement_defined] it."))
-
+//	to_chat(user, span_purple("DEBUG: This corpse choice has [score] approval, which makes Necra [judgement_defined] it."))
 	switch(judgement)
 		if(NECRA_HATES)
 			to_chat(user, span_purple("<i>You feel utterly scorned as your breath is nearly completely taken away.</i>"))
