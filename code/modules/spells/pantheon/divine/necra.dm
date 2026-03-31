@@ -332,14 +332,14 @@ var/global/mob/_corpse_sort_ref = null
 			continue
 
 		// --- classification ---
-		var/is_player = !!C.mind
+		var/has_player_identity = (C.mind && C.mind.key)
 		var/has_presence = (C.key || C.get_ghost(FALSE, TRUE))
 
 		var/is_earthbound = FALSE
 		var/is_departed = FALSE
 		var/is_forsaken = FALSE
 
-		if(is_player)
+		if(has_player_identity)
 			if(has_presence)
 				is_earthbound = TRUE
 			else
