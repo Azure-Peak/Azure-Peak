@@ -1,12 +1,9 @@
-
-/obj/effect/proc_holder/spell/invoked/song/rattling_requiem
+/datum/action/cooldown/spell/song/rattling_requiem
 	name = "Rattling Requiem"
 	desc = "Play a dirge that rattles your enemies' confidence, making their strikes and defenses imprecise."
-	overlay_state = "dirge_t3_base"
-	action_icon_state = "dirge_t3_base"
+	button_icon_state = "dirge_t3_base"
+	sound = 'sound/magic/debuffroll.ogg'
 	invocations = list("plays an unsettling, discordant requiem. Those nearby feel their confidence shaken.")
-	invocation_type = "emote"
-	sound = list('sound/magic/debuffroll.ogg')
 	song_effect = /datum/status_effect/buff/playing_dirge/rattling_requiem
 
 /datum/status_effect/buff/playing_dirge/rattling_requiem

@@ -1,11 +1,8 @@
-/obj/effect/proc_holder/spell/invoked/song/fervor_song
+/datum/action/cooldown/spell/song/fervor_song
 	name = "Fervorous Fantasia"
 	desc = "Inspire the rhythm of battle, granting your allies guidance in combat!"
-	warnie = "spellwarning"
+	button_icon_state = "bardsong_t2_base"
 	invocations = list("plays a bombastic, rhythmic march! The world feels grounded!")
-	invocation_type = "emote"
-	overlay_state = "bardsong_t2_base"
-	action_icon_state = "bardsong_t2_base"
 	song_effect = /datum/status_effect/buff/playing_melody/fervor
 
 /datum/status_effect/buff/playing_melody/fervor

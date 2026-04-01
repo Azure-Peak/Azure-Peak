@@ -1,12 +1,9 @@
-
-/obj/effect/proc_holder/spell/invoked/song/discordant_dirge
+/datum/action/cooldown/spell/song/discordant_dirge
 	name = "Discordant Dirge"
 	desc = "Play a dissonant dirge that slows your enemies. Reduces SPD of non-audience members nearby."
+	button_icon_state = "dirge_t1_base"
+	sound = 'sound/magic/debuffroll.ogg'
 	invocations = list("plays a grinding, dissonant melody. The air grows heavy and sluggish.")
-	invocation_type = "emote"
-	overlay_state = "dirge_t1_base"
-	action_icon_state = "dirge_t1_base"
-	sound = list('sound/magic/debuffroll.ogg')
 	song_effect = /datum/status_effect/buff/playing_dirge/discordant_dirge
 
 /datum/status_effect/buff/playing_dirge/discordant_dirge

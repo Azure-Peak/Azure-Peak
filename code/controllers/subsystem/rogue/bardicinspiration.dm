@@ -1,17 +1,16 @@
-// Bardic Inspiration - Unified Songbook (all songs available to all bards, effect strength scales by tier)
 // Unified Songbook - all songs available to all bard tiers, effect strength scales by tier
 GLOBAL_LIST_INIT(learnable_songs, list(
 	// Buff Melodies
-	/obj/effect/proc_holder/spell/invoked/song/furtive_fortissimo,
-	/obj/effect/proc_holder/spell/invoked/song/resolute_refrain,
-	/obj/effect/proc_holder/spell/invoked/song/fervor_song,
-	/obj/effect/proc_holder/spell/invoked/song/recovery_song,
-	/obj/effect/proc_holder/spell/invoked/song/accelakathist,
-	/obj/effect/proc_holder/spell/invoked/song/rejuvenation_song,
+	/datum/action/cooldown/spell/song/furtive_fortissimo,
+	/datum/action/cooldown/spell/song/resolute_refrain,
+	/datum/action/cooldown/spell/song/fervor_song,
+	/datum/action/cooldown/spell/song/recovery_song,
+	/datum/action/cooldown/spell/song/accelakathist,
+	/datum/action/cooldown/spell/song/rejuvenation_song,
 	// Debuff Dirges
-	/obj/effect/proc_holder/spell/invoked/song/discordant_dirge,
-	/obj/effect/proc_holder/spell/invoked/song/enervating_elegy,
-	/obj/effect/proc_holder/spell/invoked/song/rattling_requiem,
+	/datum/action/cooldown/spell/song/discordant_dirge,
+	/datum/action/cooldown/spell/song/enervating_elegy,
+	/datum/action/cooldown/spell/song/rattling_requiem,
 ))
 
 /datum/inspiration
@@ -142,10 +141,10 @@ GLOBAL_LIST_INIT(learnable_songs, list(
 
 	var/list/choices = list()
 	for(var/songpath in GLOB.learnable_songs)
-		var/obj/effect/proc_holder/spell/invoked/song/song_item = songpath
+		var/datum/action/cooldown/spell/song/song_item = songpath
 		// Skip songs we already know
 		var/already_known = FALSE
-		for(var/obj/effect/proc_holder/spell/knownsong in mind.spell_list)
+		for(var/datum/action/cooldown/spell/song/knownsong in mind.spell_list)
 			if(knownsong.type == song_item)
 				already_known = TRUE
 				break
@@ -164,12 +163,12 @@ GLOBAL_LIST_INIT(learnable_songs, list(
 		inspiration.learning_song = FALSE
 		return
 
-	var/obj/effect/proc_holder/spell/invoked/song/preview = song_type
+	var/datum/action/cooldown/spell/song/preview = song_type
 	if(alert(src, "[initial(preview.desc)]", "[initial(preview.name)]", "Learn", "Cancel") == "Cancel")
 		inspiration.learning_song = FALSE
 		return
 
-	var/obj/effect/proc_holder/spell/invoked/song/new_song = new song_type
+	var/datum/action/cooldown/spell/song/new_song = new song_type
 	mind.AddSpell(new_song)
 	inspiration.songsbought += 1
 

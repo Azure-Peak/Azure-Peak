@@ -21,32 +21,53 @@
 	if(!has_other_song_debuff)
 		owner.remove_filter(SONG_DEBUFF_FILTER)
 
-/obj/effect/proc_holder/spell/invoked/song
-	sound = list('sound/magic/buffrollaccent.ogg')
-	overlay_icon = 'icons/mob/actions/bardsongs.dmi'
-	overlay_state = "dirge_t1_base"
-	action_icon_state = "dirge_t1_base"
-	action_icon = 'icons/mob/actions/bardsongs.dmi'
-	warnie = "spellwarning"
-	releasedrain = SONG_ACTIVATION_COST
-	chargedrain = 1
-	chargetime = 0
-	no_early_release = TRUE
-	recharge_time = 30 SECONDS
-	movement_interrupt = FALSE
+// ---- Base Song Spell (new action cooldown system) ----
+
+/datum/action/cooldown/spell/song
+	button_icon = 'icons/mob/actions/bardsongs.dmi'
+	button_icon_state = "dirge_t1_base"
+	sound = 'sound/magic/buffrollaccent.ogg'
+
+	click_to_activate = FALSE
+	self_cast_possible = TRUE
+
+	primary_resource_type = SPELL_COST_STAMINA
+	primary_resource_cost = SONG_ACTIVATION_COST
+
+	charge_required = FALSE
+	cooldown_time = 30 SECONDS
+
+	invocation_type = INVOCATION_EMOTE
+
+	spell_requirements = SPELL_REQUIRES_HUMAN
+	associated_skill = /datum/skill/misc/music
+
 	var/datum/status_effect/song_effect = null
 
 /// Check if user is holding an instrument in either hand
-/obj/effect/proc_holder/spell/invoked/song/proc/has_instrument(mob/living/carbon/human/user)
+/datum/action/cooldown/spell/song/proc/has_instrument(mob/living/carbon/human/user)
 	for(var/obj/item/held in user.held_items)
 		if(istype(held, /obj/item/rogue/instrument))
 			return TRUE
 	return FALSE
 
-/obj/effect/proc_holder/spell/invoked/song/cast(mob/living/user = usr)
-	if(!ishuman(user))
-		return
-	var/mob/living/carbon/human/H = user
+/datum/action/cooldown/spell/song/can_cast_spell(feedback = TRUE)
+	. = ..()
+	if(!.)
+		return FALSE
+	if(!ishuman(owner))
+		return FALSE
+	var/mob/living/carbon/human/H = owner
+	if(!has_instrument(H))
+		if(feedback)
+			to_chat(H, span_warning("I need an instrument in hand to perform!"))
+		return FALSE
+	return TRUE
+
+/datum/action/cooldown/spell/song/cast(atom/cast_on)
+	. = ..()
+	var/mob/living/carbon/human/H = owner
+
 	// Toggle off if already playing this exact song
 	if(song_effect)
 		for(var/datum/status_effect/existing in H.status_effects)
@@ -54,11 +75,7 @@
 				H.remove_status_effect(existing)
 				to_chat(H, span_warning("I stop my song."))
 				return TRUE
-	// Require instrument in hand
-	if(!has_instrument(H))
-		revert_cast()
-		to_chat(H, span_warning("I need an instrument in hand to perform!"))
-		return
+
 	// Clear any existing song and its applied effects before starting a new one
 	for(var/datum/status_effect/buff/playing_melody/melodies in H.status_effects)
 		H.remove_status_effect(melodies)
@@ -75,6 +92,8 @@
 	// Apply new song - on_apply will immediately grant effects
 	H.apply_status_effect(song_effect)
 	return TRUE
+
+// ---- Playing Status Effects (on the bard, handles ticking) ----
 
 /// Shared proc to check instrument and cancel song if not held. Returns FALSE if song should stop.
 /proc/song_check_instrument(mob/living/carbon/human/owner)

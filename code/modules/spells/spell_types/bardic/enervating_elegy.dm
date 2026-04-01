@@ -1,13 +1,9 @@
-
-/obj/effect/proc_holder/spell/invoked/song/enervating_elegy
+/datum/action/cooldown/spell/song/enervating_elegy
 	name = "Enervating Elegy"
 	desc = "Play a draining elegy that saps the energy of your enemies. Drains blue from non-audience members nearby."
-	overlay_state = "dirge_t2_base"
-	action_icon_state = "dirge_t2_base"
-	warnie = "spellwarning"
+	button_icon_state = "dirge_t2_base"
+	sound = 'sound/magic/debuffroll.ogg'
 	invocations = list("plays a mournful, droning elegy. The will to fight seems to drain from the air.")
-	invocation_type = "emote"
-	sound = list('sound/magic/debuffroll.ogg')
 	song_effect = /datum/status_effect/buff/playing_dirge/enervating_elegy
 
 /datum/status_effect/buff/playing_dirge/enervating_elegy

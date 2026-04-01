@@ -109,17 +109,19 @@
 	duration = 20
 	plane = GAME_PLANE_UPPER
 	layer = ABOVE_ALL_MOB_LAYER
+	var/note_color = "#7f7f7f"
 
 /obj/effect/temp_visual/song_telltale/Initialize(mapload)
 	. = ..()
+	add_atom_colour(note_color, FIXED_COLOUR_PRIORITY)
 	alpha = 200
 	pixel_x = rand(-10, 10)
 	pixel_y = rand(14, 22) // Above the head
 
 // Blue-green notes for buffed allies
 /obj/effect/temp_visual/song_telltale/buff
-	color = "#5CB8E6"
+	note_color = "#5CB8E6"
 
 // Red notes for debuffed enemies
 /obj/effect/temp_visual/song_telltale/debuff
-	color = "#CC3333"
+	note_color = "#CC3333"

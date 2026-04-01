@@ -1,12 +1,7 @@
-
-/obj/effect/proc_holder/spell/invoked/song/resolute_refrain
+/datum/action/cooldown/spell/song/resolute_refrain
 	name = "Resolute Refrain"
 	desc = "A steadying melody that bolsters your allies' constitution."
-	warnie = "spellwarning"
-	no_early_release = TRUE
-	movement_interrupt = FALSE
-	overlay_state = "melody_t1_base"
-	action_icon_state = "melody_t1_base"
+	button_icon_state = "melody_t1_base"
 	song_effect = /datum/status_effect/buff/playing_melody/resolute_refrain
 
 /datum/status_effect/buff/playing_melody/resolute_refrain

@@ -1,10 +1,8 @@
-/obj/effect/proc_holder/spell/invoked/song/rejuvenation_song
+/datum/action/cooldown/spell/song/rejuvenation_song
 	name = "Healing Hymn"
 	desc = "Recuperate your allies' bodies with your song! Refills health slowly over time!"
+	button_icon_state = "melody_t3_base"
 	invocations = list("plays a beautiful, stirring song. The world around them becomes more vivid.")
-	invocation_type = "emote"
-	overlay_state = "melody_t3_base"
-	action_icon_state = "melody_t3_base"
 	song_effect = /datum/status_effect/buff/playing_melody/rejuvenation
 
 /datum/status_effect/buff/playing_melody/rejuvenation

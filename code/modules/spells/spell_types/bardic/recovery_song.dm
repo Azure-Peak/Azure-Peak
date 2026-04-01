@@ -1,10 +1,8 @@
-/obj/effect/proc_holder/spell/invoked/song/recovery_song
+/datum/action/cooldown/spell/song/recovery_song
 	name = "Resting Rhapsody"
 	desc = "Recuperate your allies' spirits with your song! Refills stamina over time!"
+	button_icon_state = "melody_t2_base"
 	invocations = list("plays a gentle-yet-refreshing tune. The nearby air clears.")
-	invocation_type = "emote"
-	overlay_state = "melody_t2_base"
-	action_icon_state = "melody_t2_base"
 	song_effect = /datum/status_effect/buff/playing_melody/recovery
 
 /datum/status_effect/buff/playing_melody/recovery
