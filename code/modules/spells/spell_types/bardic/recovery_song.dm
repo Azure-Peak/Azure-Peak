@@ -1,7 +1,7 @@
 /obj/effect/proc_holder/spell/invoked/song/recovery_song
 	name = "Resting Rhapsody"
-	desc = "Recuperate your allies spirit's with your song! Refills stamina over time!"
-	invocations = list("plays a gentle-yet-refreshing tune. The nearby air clears.") 
+	desc = "Recuperate your allies' spirits with your song! Refills stamina over time!"
+	invocations = list("plays a gentle-yet-refreshing tune. The nearby air clears.")
 	invocation_type = "emote"
 	overlay_state = "melody_t2_base"
 	action_icon_state = "melody_t2_base"
@@ -10,6 +10,7 @@
 /datum/status_effect/buff/playing_melody/recovery
 	effect = /obj/effect/temp_visual/songs/inspiration_melodyt2
 	buff_to_apply = /datum/status_effect/buff/song/recovery
+	buff_to_apply_full = /datum/status_effect/buff/song/recovery/full
 
 /atom/movable/screen/alert/status_effect/buff/song/recovery
 	name = "Musical Recovery"
@@ -20,6 +21,10 @@
 	id = "recoverysong"
 	alert_type = /atom/movable/screen/alert/status_effect/buff/song/recovery
 	duration = 15 SECONDS
+	var/stamina_recovery = -3 // Lesser bard (60% of 5)
+
+/datum/status_effect/buff/song/recovery/full
+	stamina_recovery = -5 // Full bard (100%)
 
 /datum/status_effect/buff/song/recovery/tick()
-	owner.stamina_add(-5)
+	owner.stamina_add(stamina_recovery)

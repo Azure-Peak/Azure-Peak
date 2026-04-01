@@ -34,7 +34,8 @@
 	id = "play_dirge"
 	alert_type = /atom/movable/screen/alert/status_effect/buff/playing_dirge
 	var/effect_color
-	var/datum/status_effect/debuff/debuff_to_apply
+	var/datum/status_effect/debuff/debuff_to_apply // Applied by T1 (lesser) bards, or as default if no full variant
+	var/datum/status_effect/debuff/debuff_to_apply_full // Applied by T2 (full) bards. If null, uses debuff_to_apply for all tiers
 	var/pulse = 0
 	var/ticks_to_apply = SONG_SUSTAIN_TICKS
 	duration = -1
@@ -57,16 +58,20 @@
 	if (pulse >= ticks_to_apply)
 		pulse = 0
 		O.energy_add(energytodrain)
+		var/debuff = debuff_to_apply
+		if(debuff_to_apply_full && O.inspiration.level >= BARD_T2)
+			debuff = debuff_to_apply_full
 		for (var/mob/living/carbon/human/H in hearers(10, owner))
 			if(!O.in_audience(H))
-				H.apply_status_effect(debuff_to_apply)
+				H.apply_status_effect(debuff)
 
 
 /datum/status_effect/buff/playing_melody
 	id = "play_melody"
 	alert_type = /atom/movable/screen/alert/status_effect/buff/playing_melody
 	var/effect_color
-	var/datum/status_effect/buff/buff_to_apply
+	var/datum/status_effect/buff/buff_to_apply // Applied by T1 (lesser) bards, or as default if no full variant
+	var/datum/status_effect/buff/buff_to_apply_full // Applied by T2 (full) bards. If null, uses buff_to_apply for all tiers
 	var/pulse = 0
 	var/ticks_to_apply = SONG_SUSTAIN_TICKS
 	duration = -1
@@ -89,6 +94,9 @@
 	if (pulse >= ticks_to_apply)
 		pulse = 0
 		O.energy_add(energytodrain)
+		var/buff = buff_to_apply
+		if(buff_to_apply_full && O.inspiration.level >= BARD_T2)
+			buff = buff_to_apply_full
 		for (var/mob/living/carbon/human/H in hearers(10, owner))
 			if(O.in_audience(H))
-				H.apply_status_effect(buff_to_apply)
+				H.apply_status_effect(buff)

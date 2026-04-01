@@ -1,14 +1,17 @@
 // Bardic Inspiration - Unified Songbook (all songs available to all bards, effect strength scales by tier)
+// Unified Songbook - all songs available to all bard tiers, effect strength scales by tier
 GLOBAL_LIST_INIT(learnable_songs, list(
-	/obj/effect/proc_holder/spell/invoked/song/dirge_fortune,
+	// Buff Melodies
 	/obj/effect/proc_holder/spell/invoked/song/furtive_fortissimo,
-	/obj/effect/proc_holder/spell/invoked/song/intellectual_interval,
-	/obj/effect/proc_holder/spell/invoked/song/recovery_song,
+	/obj/effect/proc_holder/spell/invoked/song/resolute_refrain,
 	/obj/effect/proc_holder/spell/invoked/song/fervor_song,
-	/obj/effect/proc_holder/spell/invoked/song/pestilent_piedpiper,
-	/obj/effect/proc_holder/spell/invoked/song/rejuvenation_song,
-	/obj/effect/proc_holder/spell/invoked/song/suffocating_seliloquy,
+	/obj/effect/proc_holder/spell/invoked/song/recovery_song,
 	/obj/effect/proc_holder/spell/invoked/song/accelakathist,
+	/obj/effect/proc_holder/spell/invoked/song/rejuvenation_song,
+	// Debuff Dirges
+	/obj/effect/proc_holder/spell/invoked/song/discordant_dirge,
+	/obj/effect/proc_holder/spell/invoked/song/enervating_elegy,
+	/obj/effect/proc_holder/spell/invoked/song/rattling_requiem,
 ))
 
 /datum/inspiration

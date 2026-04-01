@@ -1,7 +1,7 @@
 /obj/effect/proc_holder/spell/invoked/song/rejuvenation_song
 	name = "Healing Hymn"
-	desc = "Recuperate your allies bodies with your song! Refills health slowly over time!"
-	invocations = list("plays a beautiful, stirring song. The world around them becomes more vivid.") 
+	desc = "Recuperate your allies' bodies with your song! Refills health slowly over time!"
+	invocations = list("plays a beautiful, stirring song. The world around them becomes more vivid.")
 	invocation_type = "emote"
 	overlay_state = "melody_t3_base"
 	action_icon_state = "melody_t3_base"
@@ -10,16 +10,21 @@
 /datum/status_effect/buff/playing_melody/rejuvenation
 	effect = /obj/effect/temp_visual/songs/inspiration_melodyt3
 	buff_to_apply = /datum/status_effect/buff/healing/rejuvenationsong
-	
+	buff_to_apply_full = /datum/status_effect/buff/healing/rejuvenationsong/full
+
 /datum/status_effect/buff/healing/rejuvenationsong
 	id = "healingrejuvesong"
 	alert_type = /atom/movable/screen/alert/status_effect/buff/healing
 	duration = 15 SECONDS
 	healing_on_tick = 0.2
 	outline_colour = "#c92f2f"
+	var/healing_scaling = BARD_SCALING_LESSER
+
+/datum/status_effect/buff/healing/rejuvenationsong/full
+	healing_scaling = BARD_SCALING_FULL
 
 /datum/status_effect/buff/healing/rejuvenationsong/on_apply()
-	healing_on_tick = max(owner.get_skill_level(/datum/skill/misc/music)*0.1, 0.6)
+	healing_on_tick = max(owner.get_skill_level(/datum/skill/misc/music) * 0.1, 0.6) * healing_scaling
 	return TRUE
 
 /datum/status_effect/buff/healing/rejuvenationsong/tick()
