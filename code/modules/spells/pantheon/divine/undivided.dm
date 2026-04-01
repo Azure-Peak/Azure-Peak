@@ -258,7 +258,7 @@
 	)
 	var/list/miracle_acolyte_bundle = list(
 		/obj/effect/proc_holder/spell/invoked/diagnose::name			= /obj/effect/proc_holder/spell/invoked/diagnose,
-		/obj/effect/proc_holder/spell/targeted/locate_dead::name		= /obj/effect/proc_holder/spell/targeted/locate_dead,
+		/obj/effect/proc_holder/spell/self/blindnessorsilence::name		= /obj/effect/proc_holder/spell/self/blindnessorsilence,
 		/obj/effect/proc_holder/spell/invoked/moondream::name			= /obj/effect/proc_holder/spell/invoked/moondream,
 		/obj/effect/proc_holder/spell/invoked/bless_food::name			= /obj/effect/proc_holder/spell/invoked/bless_food,
 		/obj/effect/proc_holder/spell/invoked/avert::name				= /obj/effect/proc_holder/spell/invoked/avert,
