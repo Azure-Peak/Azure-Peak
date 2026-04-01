@@ -49,6 +49,7 @@ GLOBAL_LIST_INIT(learnable_songs, list(
 		if(BARD_T2)
 			maxaudience = 6
 			maxsongs = 4
+	audience |= H // Bard is always in their own audience
 	H.verbs += list(/mob/living/carbon/human/proc/setaudience, /mob/living/carbon/human/proc/clearaudience, /mob/living/carbon/human/proc/checkaudience, /mob/living/carbon/human/proc/picksongs, /mob/living/carbon/human/proc/explain_bard)
 
 /mob/living/carbon/human/proc/setaudience()
@@ -57,11 +58,15 @@ GLOBAL_LIST_INIT(learnable_songs, list(
 
 	if(!inspiration)
 		return FALSE
-	if(inspiration.audience.len >= inspiration.maxaudience)
+	// Self doesn't count toward audience cap
+	var/audience_count = inspiration.audience.len - 1 // -1 for self
+	if(audience_count >= inspiration.maxaudience)
 		to_chat(src, "I cannot maintain an audience larger than [inspiration.maxaudience]!")
 		return FALSE
 	var/list/folksnearby = list()
 	for(var/mob/living/carbon/human/folks in view(7, loc))
+		if(folks == src) // Can't add self, already always included
+			continue
 		if(!src.in_audience(folks))
 			folksnearby += folks
 
@@ -78,9 +83,9 @@ GLOBAL_LIST_INIT(learnable_songs, list(
 	set category = "Inspiration"
 	if(!inspiration)
 		return FALSE
-	if(src.has_status_effect(/datum/status_effect/buff/playing_music)) // cant clear while playing
+	if(src.has_status_effect(/datum/status_effect/buff/playing_melody) || src.has_status_effect(/datum/status_effect/buff/playing_dirge)) // cant clear while a song is active
 		return
-	inspiration.audience = list()
+	inspiration.audience = list(src) // Keep self in audience
 
 	return TRUE
 
@@ -104,10 +109,10 @@ GLOBAL_LIST_INIT(learnable_songs, list(
 	if(!inspiration)
 		return FALSE
 	var/tier_name = inspiration.level == BARD_T2 ? "Full Bard" : "Lesser Bard"
-	to_chat(src, span_info("Bardic Inspiration allows you to inspire your allies with music. To start \
-	 your performance, you must first set your audience using the 'Audience Choice' verb. Then you can select songs from your Songbook using 'Fill Songbook'. \
-	To use a bardic Song spell, you must first start playing music with an instrument (use the instrument in your hand), \
-	and then activate the song action from your action bar while continuing to play."))
+	to_chat(src, span_info("Bardic Inspiration allows you to inspire your allies with music. \
+	Set your audience using the 'Audience Choice' verb, then select songs from your Songbook using 'Fill Songbook'. \
+	To activate a song, hold an instrument in one hand and toggle the song from your action bar. \
+	Songs are mutually exclusive - activating a new song replaces the current one."))
 	to_chat(src, span_smallnotice("You're a [tier_name] and can have up to [inspiration.maxaudience] audience members and know [inspiration.maxsongs] songs."))
 
 	return TRUE

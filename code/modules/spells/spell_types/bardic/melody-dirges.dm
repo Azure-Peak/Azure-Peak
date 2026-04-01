@@ -13,22 +13,63 @@
 	movement_interrupt = FALSE
 	var/datum/status_effect/song_effect = null
 
+/// Check if user is holding an instrument in either hand
+/obj/effect/proc_holder/spell/invoked/song/proc/has_instrument(mob/living/carbon/human/user)
+	for(var/obj/item/held in user.held_items)
+		if(istype(held, /obj/item/rogue/instrument))
+			return TRUE
+	return FALSE
+
 /obj/effect/proc_holder/spell/invoked/song/cast(mob/living/user = usr)
-	if(song_effect && user.has_status_effect(song_effect))
-		user.remove_status_effect(song_effect)
-		to_chat(user, span_warning("I stop my previous song."))
-		return TRUE
-	if(user.has_status_effect(/datum/status_effect/buff/playing_music))
-		for(var/datum/status_effect/buff/playing_melody/melodies in user.status_effects)
-			user.remove_status_effect(melodies)
-		for(var/datum/status_effect/buff/playing_dirge/dirges in user.status_effects)
-			user.remove_status_effect(dirges)
-		user.apply_status_effect(song_effect)
-		return TRUE
-	else
-		revert_cast()
-		to_chat(user, span_warning("I must be playing something to inspire my audience!"))
+	if(!ishuman(user))
 		return
+	var/mob/living/carbon/human/H = user
+	// Toggle off if already playing this exact song
+	if(song_effect)
+		for(var/datum/status_effect/existing in H.status_effects)
+			if(existing.type == song_effect)
+				H.remove_status_effect(existing)
+				to_chat(H, span_warning("I stop my song."))
+				return TRUE
+	// Require instrument in hand
+	if(!has_instrument(H))
+		revert_cast()
+		to_chat(H, span_warning("I need an instrument in hand to perform!"))
+		return
+	// Clear any existing song and its applied effects before starting a new one
+	for(var/datum/status_effect/buff/playing_melody/melodies in H.status_effects)
+		H.remove_status_effect(melodies)
+	for(var/datum/status_effect/buff/playing_dirge/dirges in H.status_effects)
+		H.remove_status_effect(dirges)
+	// Explicitly clean up lingering song buffs/debuffs from the old song
+	if(H.inspiration)
+		for(var/mob/living/carbon/human/guy in H.inspiration.audience)
+			for(var/datum/status_effect/buff/song/old_buff in guy.status_effects)
+				guy.remove_status_effect(old_buff)
+		for(var/mob/living/carbon/human/enemy in hearers(10, H))
+			for(var/datum/status_effect/debuff/song/old_debuff in enemy.status_effects)
+				enemy.remove_status_effect(old_debuff)
+	// Apply new song - on_apply will immediately grant effects
+	H.apply_status_effect(song_effect)
+	return TRUE
+
+/// Shared proc to check instrument and cancel song if not held. Returns FALSE if song should stop.
+/proc/song_check_instrument(mob/living/carbon/human/owner)
+	if(!owner || !owner.inspiration)
+		return FALSE
+	for(var/obj/item/held in owner.held_items)
+		if(istype(held, /obj/item/rogue/instrument))
+			return TRUE
+	// No instrument - cancel song and clean up audience buffs
+	for(var/datum/status_effect/buff/playing_melody/melodies in owner.status_effects)
+		owner.remove_status_effect(melodies)
+	for(var/datum/status_effect/buff/playing_dirge/dirges in owner.status_effects)
+		owner.remove_status_effect(dirges)
+	for(var/mob/living/carbon/human/guy in owner.inspiration.audience)
+		for(var/datum/status_effect/buff/song/song2remove in guy.status_effects)
+			guy.remove_status_effect(song2remove)
+	to_chat(owner, span_warning("I lost my instrument - my song fades."))
+	return FALSE
 
 /datum/status_effect/buff/playing_dirge
 	id = "play_dirge"
@@ -51,19 +92,43 @@
 
 /datum/status_effect/buff/playing_dirge/tick()
 	var/mob/living/carbon/human/O = owner
-	if(!O.inspiration)
+	if(!song_check_instrument(O))
 		return
 	pulse += 1
 	new effect(get_turf(owner))
 	if (pulse >= ticks_to_apply)
 		pulse = 0
 		O.energy_add(energytodrain)
-		var/debuff = debuff_to_apply
-		if(debuff_to_apply_full && O.inspiration.level >= BARD_T2)
-			debuff = debuff_to_apply_full
-		for (var/mob/living/carbon/human/H in hearers(10, owner))
-			if(!O.in_audience(H))
-				H.apply_status_effect(debuff)
+		apply_song_effects(O)
+
+/// Apply debuff to all non-audience in range. Separated so on_apply can call it too.
+/datum/status_effect/buff/playing_dirge/proc/apply_song_effects(mob/living/carbon/human/O)
+	var/debuff = debuff_to_apply
+	if(debuff_to_apply_full && O.inspiration.level >= BARD_T2)
+		debuff = debuff_to_apply_full
+	for (var/mob/living/carbon/human/H in hearers(10, O))
+		if(!O.in_audience(H))
+			H.apply_status_effect(debuff)
+			new /obj/effect/temp_visual/song_telltale/debuff(get_turf(H))
+
+/datum/status_effect/buff/playing_dirge/on_apply()
+	. = ..()
+	// Apply effects immediately on song start, don't wait for first full pulse cycle
+	var/mob/living/carbon/human/O = owner
+	if(O?.inspiration)
+		apply_song_effects(O)
+
+/datum/status_effect/buff/playing_dirge/on_remove()
+	. = ..()
+	// Clean up debuffs on enemies when song stops
+	if(!ishuman(owner))
+		return
+	var/mob/living/carbon/human/O = owner
+	if(!O.inspiration)
+		return
+	for(var/mob/living/carbon/human/H in hearers(10, O))
+		for(var/datum/status_effect/debuff/song/song2remove in H.status_effects)
+			H.remove_status_effect(song2remove)
 
 
 /datum/status_effect/buff/playing_melody
@@ -87,16 +152,40 @@
 
 /datum/status_effect/buff/playing_melody/tick()
 	var/mob/living/carbon/human/O = owner
-	if(!O.inspiration)
+	if(!song_check_instrument(O))
 		return
 	new effect(get_turf(owner))
 	pulse += 1
 	if (pulse >= ticks_to_apply)
 		pulse = 0
 		O.energy_add(energytodrain)
-		var/buff = buff_to_apply
-		if(buff_to_apply_full && O.inspiration.level >= BARD_T2)
-			buff = buff_to_apply_full
-		for (var/mob/living/carbon/human/H in hearers(10, owner))
-			if(O.in_audience(H))
-				H.apply_status_effect(buff)
+		apply_song_effects(O)
+
+/// Apply buff to all audience in range. Separated so on_apply can call it too.
+/datum/status_effect/buff/playing_melody/proc/apply_song_effects(mob/living/carbon/human/O)
+	var/buff = buff_to_apply
+	if(buff_to_apply_full && O.inspiration.level >= BARD_T2)
+		buff = buff_to_apply_full
+	for (var/mob/living/carbon/human/H in hearers(10, O))
+		if(O.in_audience(H))
+			H.apply_status_effect(buff)
+			new /obj/effect/temp_visual/song_telltale/buff(get_turf(H))
+
+/datum/status_effect/buff/playing_melody/on_apply()
+	. = ..()
+	// Apply effects immediately on song start, don't wait for first full pulse cycle
+	var/mob/living/carbon/human/O = owner
+	if(O?.inspiration)
+		apply_song_effects(O)
+
+/datum/status_effect/buff/playing_melody/on_remove()
+	. = ..()
+	// Clean up buffs on audience when song stops
+	if(!ishuman(owner))
+		return
+	var/mob/living/carbon/human/O = owner
+	if(!O.inspiration)
+		return
+	for(var/mob/living/carbon/human/guy in O.inspiration.audience)
+		for(var/datum/status_effect/buff/song/song2remove in guy.status_effects)
+			guy.remove_status_effect(song2remove)
