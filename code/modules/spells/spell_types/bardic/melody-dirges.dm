@@ -27,6 +27,8 @@
 	button_icon = 'icons/mob/actions/bardsongs.dmi'
 	button_icon_state = "dirge_t1_base"
 	sound = 'sound/magic/buffrollaccent.ogg'
+	spell_color = GLOW_COLOR_BARDIC
+	glow_intensity = GLOW_INTENSITY_LOW
 
 	click_to_activate = FALSE
 	self_cast_possible = TRUE
