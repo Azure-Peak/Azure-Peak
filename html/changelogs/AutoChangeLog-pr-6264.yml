@@ -1,0 +1,4 @@
+author: "babamandaa"
+delete-after: True
+changes:
+  - rscadd: "Adds a Maniac-Inspired Wretch subclass."

@@ -1,0 +1,8 @@
+author: "borneblood"
+delete-after: True
+changes:
+  - qol: "Locate Corpse is now a toggle spell, its effectiveness and costs based on corpse freshness."
+  - qol: "Mass Graves will now be less a hassle to rite."
+  - bugfix: "Lux-Threads now stack properly, and from the ground."
+  - bugfix: "Lux-Threads will no longer over-cap after becoming Tolls."
+  - bugfix: "Tolls are now coins, visually, and fit where coins fit."

@@ -1,4 +1,0 @@
-author: "Ketrai"
-delete-after: True
-changes:
-  - bugfix: "missing hag antag datum in the global positions list"

@@ -1,9 +1,0 @@
-author: "Ollanius"
-delete-after: True
-changes:
-  - rscadd: "Changes the 'Azurean Tuck' to the 'Stecher' (or 'piercing' in German), to better fit with current weapon naming conventions."
-  - rscadd: "Properly reimplements both sprites. Credit to LitePurple and KittySmooch."
-  - rscadd: "Adds supplemental lore to the Stecher, describing it as a noble-oriented longsword of Azurian (and Grenzel-Otavan) design."
-  - rscadd: "Slightly increases the Stecher's crafting recipe costs, adds it to all loadouts that could already spawn with an Estoc, and adds it as an importable weapon."
-  - rscadd: "The 'Estoc' Triumph Morphing Elixir, which can be used to apply special skins to both the Estoc and Stecher."
-  - bugfix: "Properly implements two-handed sprites for both Estocs and Stechers."

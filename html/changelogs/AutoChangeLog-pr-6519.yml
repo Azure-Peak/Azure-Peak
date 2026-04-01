@@ -1,5 +1,0 @@
-author: "Ollanius"
-delete-after: True
-changes:
-  - bugfix: "Anthraxi mercenaries should no longer have a chance to spawn with duplicated equipment. If any issues crop up (such as mysteriously missing loadout items), ping @Dongwaiver on the 'cord."
-  - code_imp: "Cleans up grammatical stuff for the Black Oaks and Anthraxi. All instances of 'Black Oak's' in class names have been altered to 'Black Oaken', for the sake of keeping stuff a little cleaner."

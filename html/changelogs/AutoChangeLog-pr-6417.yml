@@ -1,0 +1,4 @@
+author: "KatTheFox"
+delete-after: True
+changes:
+  - qol: "mages are now notified when a player joins the familiar queue"

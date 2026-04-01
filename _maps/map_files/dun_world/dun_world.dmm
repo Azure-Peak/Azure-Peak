@@ -83619,7 +83619,7 @@
 /area/rogue/under/town/basement)
 "rzS" = (
 /obj/structure/chair/stool/rogue,
-/obj/item/clothing/cloak/tabard/abyssortabard,
+/obj/item/clothing/cloak/tabard/abyssorite,
 /turf/open/floor/rogue/cobble,
 /area/rogue/outdoors/beach)
 "rzT" = (

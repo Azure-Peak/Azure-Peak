@@ -97,6 +97,16 @@
 	path = /obj/item/clothing/suit/roguetown/armor/longcoat/eiren
 	ckeywhitelist = list("eirenxiv")
 
+/datum/loadout_item/donator/eiren5
+	name = "Donator Kit - Glintstone Longsword"
+	path = /obj/item/enchantingkit/weapon/eiren_m
+	ckeywhitelist = list("eirenxiv", "magicalbard")
+
+/datum/loadout_item/donator/eiren6
+	name = "Donator Kit - Stygian Longsword"
+	path = /obj/item/enchantingkit/weapon/eirensword
+	ckeywhitelist = list("eirenxiv", "muhsollini")
+
 /datum/loadout_item/donator/waff
 	name = "Donator Kit - Weeper's Lathe"
 	path = /obj/item/enchantingkit/waff

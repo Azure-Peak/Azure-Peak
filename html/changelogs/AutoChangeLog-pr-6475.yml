@@ -1,0 +1,5 @@
+author: "eirenxiv"
+delete-after: True
+changes:
+  - rscadd: "Added new Kazengun Wretch"
+  - rscadd: "Added new trait \"Journey's End\" and functionality"

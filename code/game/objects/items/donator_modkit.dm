@@ -200,6 +200,20 @@
 	target_items = list(/obj/item/rogueweapon/sword/saber)
 	result_item = /obj/item/rogueweapon/example/eiren_sabre_alt
 
+/obj/item/enchantingkit/weapon/eiren_m
+	name = "glintstone longsword"
+	target_items = list(
+		/obj/item/rogueweapon/sword/long
+	)
+	result_item = /obj/item/rogueweapon/eirenxiv/eiren_m
+
+/obj/item/enchantingkit/weapon/eirensword
+	name = "stygian longsword"
+	target_items = list(
+		/obj/item/rogueweapon/sword/long
+	)
+	result_item = /obj/item/rogueweapon/eirenxiv/eirensword
+
 //pretzel - custom steel greatsword. PSYDON LYVES. PSYDON ENDVRES.
 /obj/item/enchantingkit/waff
 	name = "'Weeper's Lathe' morphing elixir"

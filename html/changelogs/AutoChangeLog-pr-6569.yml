@@ -1,0 +1,5 @@
+author: "Ollanius"
+delete-after: True
+changes:
+  - bugfix: "The Spatha should now properly display a stowed sprite, when placed into a scabbard."
+  - bugfix: "The Bronze Murmillo Helmet's recipe now accurately calls for an extra piece of fur, instead of two cured hide strips."
