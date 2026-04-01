@@ -1,3 +1,26 @@
+// Base song debuff/buff status effect types - shared by all songs
+#define SONG_DEBUFF_FILTER "song_debuff_glow"
+
+/datum/status_effect/debuff/song
+	var/outline_colour = "#CC3333" // Red outline for all song debuffs
+
+/datum/status_effect/debuff/song/on_apply()
+	. = ..()
+	var/filter = owner.get_filter(SONG_DEBUFF_FILTER)
+	if(!filter)
+		owner.add_filter(SONG_DEBUFF_FILTER, 2, list("type" = "outline", "color" = outline_colour, "alpha" = 40, "size" = 1))
+
+/datum/status_effect/debuff/song/on_remove()
+	. = ..()
+	// Only remove filter if no other song debuffs remain
+	var/has_other_song_debuff = FALSE
+	for(var/datum/status_effect/debuff/song/S in owner.status_effects)
+		if(S != src)
+			has_other_song_debuff = TRUE
+			break
+	if(!has_other_song_debuff)
+		owner.remove_filter(SONG_DEBUFF_FILTER)
+
 /obj/effect/proc_holder/spell/invoked/song
 	sound = list('sound/magic/buffrollaccent.ogg')
 	overlay_icon = 'icons/mob/actions/bardsongs.dmi'
@@ -96,6 +119,12 @@
 		return
 	pulse += 1
 	new effect(get_turf(owner))
+	// Spawn telltale notes on debuffed enemies every tick (2s) for visibility
+	for(var/mob/living/carbon/human/H in hearers(10, O))
+		if(!O.in_audience(H))
+			for(var/datum/status_effect/debuff/song/S in H.status_effects)
+				new /obj/effect/temp_visual/song_telltale/debuff(get_turf(H))
+				break // One note per target per tick
 	if (pulse >= ticks_to_apply)
 		pulse = 0
 		O.energy_add(energytodrain)
@@ -109,7 +138,6 @@
 	for (var/mob/living/carbon/human/H in hearers(10, O))
 		if(!O.in_audience(H))
 			H.apply_status_effect(debuff)
-			new /obj/effect/temp_visual/song_telltale/debuff(get_turf(H))
 
 /datum/status_effect/buff/playing_dirge/on_apply()
 	. = ..()
@@ -155,6 +183,12 @@
 	if(!song_check_instrument(O))
 		return
 	new effect(get_turf(owner))
+	// Spawn telltale notes on buffed audience every tick (2s) for visibility
+	for(var/mob/living/carbon/human/H in hearers(10, O))
+		if(O.in_audience(H))
+			for(var/datum/status_effect/buff/song/S in H.status_effects)
+				new /obj/effect/temp_visual/song_telltale/buff(get_turf(H))
+				break // One note per target per tick
 	pulse += 1
 	if (pulse >= ticks_to_apply)
 		pulse = 0
@@ -169,7 +203,6 @@
 	for (var/mob/living/carbon/human/H in hearers(10, O))
 		if(O.in_audience(H))
 			H.apply_status_effect(buff)
-			new /obj/effect/temp_visual/song_telltale/buff(get_turf(H))
 
 /datum/status_effect/buff/playing_melody/on_apply()
 	. = ..()

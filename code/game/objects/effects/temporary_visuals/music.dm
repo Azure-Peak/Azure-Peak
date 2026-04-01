@@ -106,14 +106,14 @@
 	name = "music"
 	icon = 'icons/effects/music-note.dmi'
 	icon_state = "music_note"
-	duration = 15 // ~1.5 seconds, refreshed each song tick
+	duration = 20
 	plane = GAME_PLANE_UPPER
 	layer = ABOVE_ALL_MOB_LAYER
 
 /obj/effect/temp_visual/song_telltale/Initialize(mapload)
 	. = ..()
-	alpha = 180
-	pixel_x = rand(-8, 8)
+	alpha = 200
+	pixel_x = rand(-10, 10)
 	pixel_y = rand(14, 22) // Above the head
 
 // Blue-green notes for buffed allies

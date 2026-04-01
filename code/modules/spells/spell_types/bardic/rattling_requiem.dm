@@ -14,8 +14,6 @@
 	debuff_to_apply = /datum/status_effect/debuff/song/rattling_requiem
 	debuff_to_apply_full = /datum/status_effect/debuff/song/rattling_requiem/full
 
-#define REQUIEM_FILTER "requiem_hinder"
-
 /atom/movable/screen/alert/status_effect/debuff/song/rattling_requiem
 	name = "Rattling Requiem"
 	desc = "This dreadful music shakes my confidence. My hands feel unsteady."
@@ -31,13 +29,9 @@
 	guidance_trait = TRAIT_REVERSE_GUIDANCE
 
 /datum/status_effect/debuff/song/rattling_requiem/on_apply()
-	. = ..()
-	owner.add_filter(REQUIEM_FILTER, 2, list("type" = "outline", "color" = "#8B0000", "alpha" = 30, "size" = 1))
+	. = ..() // Base handles the outline filter
 	ADD_TRAIT(owner, guidance_trait, MAGIC_TRAIT)
 
 /datum/status_effect/debuff/song/rattling_requiem/on_remove()
-	. = ..()
-	owner.remove_filter(REQUIEM_FILTER)
+	. = ..() // Base handles filter cleanup
 	REMOVE_TRAIT(owner, guidance_trait, MAGIC_TRAIT)
-
-#undef REQUIEM_FILTER
