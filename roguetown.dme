@@ -685,6 +685,7 @@
 #include "code\datums\components\beetlejuice.dm"
 #include "code\datums\components\butchering.dm"
 #include "code\datums\components\caltrop.dm"
+#include "code\datums\components\combat_vocalizer.dm"
 #include "code\datums\components\construction.dm"
 #include "code\datums\components\creamed.dm"
 #include "code\datums\components\cursed_item.dm"
