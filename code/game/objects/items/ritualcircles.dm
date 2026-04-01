@@ -1255,7 +1255,7 @@
 			user.say("Before your greatness, I swear an oath!!")
 			if(!do_after(user, 5 SECONDS))
 				return
-			user.say("To vanquish horrors and evil of Psydonia!!")
+			user.say("To vanquish the horrors and evils of Psydonia!!")
 			if(!do_after(user, 5 SECONDS))
 				return
 			user.say("To protect those who cannot protect themselves!!")
@@ -1307,14 +1307,14 @@
 	target.Stun(120)
 	to_chat(target, span_userdanger("UNIMAGINABLE PAIN!"))
 	target.emote("Agony")
-	playsound(loc, 'sound/misc/smelter_fin.ogg', 50)
+	playsound(loc, 'sound/magic/undivided_bless.ogg', 70)
 	loc.visible_message(span_good("[target]'s form becomes entombed in Malum's finest craftsmanship."))
 	spawn(20)
 		target.apply_status_effect(/datum/status_effect/buff/guidinglight/undivided)
-		playsound(target, 'sound/magic/holyshield.ogg', 80, FALSE, -1)
+		playsound(target, 'sound/magic/undivided_revenge.ogg', 90, FALSE, -1)
 		target.equipOutfit(/datum/outfit/job/roguetown/decarite)
 		to_chat(target, span_boldred("This is my only chance at LYFE."))
-		ADD_TRAIT(target, TRAIT_DNR, TRAIT_MIRACLE)
+		ADD_TRAIT(target, TRAIT_DNR, TRAIT_RITUAL)
 
 /datum/outfit/job/roguetown/decarite/pre_equip(mob/living/carbon/human/H)
 	..()
@@ -1331,7 +1331,7 @@
 	beltl = /obj/item/rogueweapon/scabbard/sword/royal
 	pants = /obj/item/clothing/under/roguetown/platelegs/holysee/ritual
 	shoes = /obj/item/clothing/shoes/roguetown/boots/armor/holysee/ritual
-	backl = /obj/item/rogueweapon/sword/long/undivided
+	backl = /obj/item/rogueweapon/sword/long/crusader
 	backr = /obj/item/rogueweapon/shield/tower/holysee
 
 	H.mind.AddSpell(new /datum/action/cooldown/spell/mending/lesser)
@@ -1347,14 +1347,14 @@
 	target.Stun(120)
 	to_chat(target, span_userdanger("UNIMAGINABLE PAIN!"))
 	target.emote("Agony")
-	playsound(loc, 'sound/magic/bless.ogg', 50)
+	playsound(loc, 'sound/magic/undivided_bless.ogg', 70)
 	loc.visible_message(span_good("[target]'s form becomes enveloped in divine aura."))
 	spawn(20)
 		target.apply_status_effect(/datum/status_effect/buff/guidinglight/undivided)
 		target.apply_status_effect(/datum/status_effect/orderbringer)
-		playsound(target, 'sound/magic/holyshield.ogg', 80, FALSE, -1)
+		playsound(target, 'sound/magic/undivided_solemnity.ogg', 90, FALSE, -1)
 		to_chat(target, span_boldred("I can do no HARM."))
-		ADD_TRAIT(target, TRAIT_PACIFISM, TRAIT_MIRACLE)
+		ADD_TRAIT(target, TRAIT_PACIFISM, TRAIT_RITUAL)
 
 // TIME FOR THE ASCENDANT. These can be stronger. As they are pretty much antag exclusive - Iconoclast for Matthios, Lich for ZIZO. ZIZO!
 

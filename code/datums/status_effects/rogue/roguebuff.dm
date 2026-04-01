@@ -2194,13 +2194,13 @@
 /datum/status_effect/orderbringer/on_apply()
 	. = ..()
 
-	owner.visible_message(span_userdanger("A tide of vibrant purple mist surges from [owner], carrying the heavy scent of sweet intoxication!"))
+	owner.visible_message(span_userdanger("A tide of divine light surges from [owner], it fills you with determination and hope!"))
 
 	var/filter = owner.get_filter(ORDERBRINGER_FILTER)
 	if(!filter)
 		owner.add_filter(ORDERBRINGER_FILTER, 2, list("type" = "outline", "color" = outline_colour, "alpha" = 60, "size" = 2))
 
-	var/mutable_appearance/effect = mutable_appearance('icons/effects/effects.dmi', "mist", -JOYBRINGER_LAYER, alpha = 128)
+	var/mutable_appearance/effect = mutable_appearance('icons/effects/effects.dmi', "curse", -JOYBRINGER_LAYER, alpha = 128)
 	effect.appearance_flags = RESET_COLOR
 	effect.blend_mode = BLEND_ADD
 	effect.color = "#6BB7A0"
