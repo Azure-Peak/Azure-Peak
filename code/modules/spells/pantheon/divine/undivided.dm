@@ -19,9 +19,6 @@
 	invocation_type = INVOCATION_SHOUT
 	invocations = "Zwillingslichter, geleitet meinen Blick." //(Twin lights, guide my gaze)
 
-	chargedloop = /datum/looping_sound/invokeholy
-	chargetime = 2 SECONDS
-
 	req_items = list(/obj/item/clothing/neck/roguetown/psicross)
 	associated_skill = /datum/skill/magic/holy
 
@@ -59,9 +56,9 @@
 
 
 	if(skill_level > SKILL_LEVEL_EXPERT)
-		ADD_TRAIT(owner, TRAIT_NIGHT_VISION, TRAIT_MIRACLE)
+		ADD_TRAIT(owner, TRAIT_NIGHT_VISION, TRAIT_GAZE)
 	else if(skill_level >= SKILL_LEVEL_APPRENTICE)
-		ADD_TRAIT(owner, TRAIT_DARKVISION, TRAIT_MIRACLE)
+		ADD_TRAIT(owner, TRAIT_DARKVISION, TRAIT_GAZE)
 
 	if(GLOB.tod == "day" || GLOB.tod == "night")
 		duration *= 2
@@ -84,9 +81,9 @@
 		H.hide_cone()
 		H.update_cone_show()
 	if(HAS_TRAIT(owner, TRAIT_NIGHT_VISION))
-		REMOVE_TRAIT(owner, TRAIT_NIGHT_VISION, TRAIT_MIRACLE)
+		REMOVE_TRAIT(owner, TRAIT_NIGHT_VISION, TRAIT_GAZE)
 	else
-		REMOVE_TRAIT(owner, TRAIT_DARKVISION, TRAIT_MIRACLE)
+		REMOVE_TRAIT(owner, TRAIT_DARKVISION, TRAIT_GAZE)
 
 
 /////////////////////////////////////////
@@ -120,12 +117,12 @@
 	overlay_state = "calming_respite"
 
 	recharge_time = 3 MINUTES
+	releasedrain = 20
 
 	miracle = TRUE
 	devotion_cost = 30
 
 	chargetime = 1 SECONDS
-	charging_slowdown = 1
 	chargedloop = /datum/looping_sound/invokeholy
 	warnie = "sydwarning"
 
@@ -148,7 +145,7 @@
 		target.apply_status_effect(/datum/status_effect/buff/healing, respite_healing)
 		show_visible_message(usr, "As [user] intones the incantation, vibrant flames swirl around them.", "As you intone the incantation, vibrant flames swirl around you. You feel refreshed.")
 	else if (user.energy > (starminatoregen * 2))
-		user.energy_add(-(starminatoregen * 2))
+		user.energy_add(-(starminatoregen))
 		target.energy_add(starminatoregen * 2)
 		target.apply_status_effect(/datum/status_effect/buff/healing, respite_healing*2)
 		show_visible_message(target, "As [user] intones the incantation, vibrant flames swirl around them, a dance of energy flowing towards [target].", "As [user] intones the incantation, vibrant flames swirl around them, a dance of energy flowing towards you. You feel refreshed.")
@@ -331,7 +328,7 @@
 	miracle = TRUE
 	devotion_cost = 50
 
-	chargetime = 2 SECONDS //All churns come with a delay
+	chargetime = 90 //1.5s
 	chargedloop = /datum/looping_sound/invokeholy
 
 	sound = 'sound/magic/undivided_mockery.ogg'
