@@ -6,7 +6,7 @@
 	action_icon_state = "dirge_t1_base"
 	action_icon = 'icons/mob/actions/bardsongs.dmi'
 	warnie = "spellwarning"
-	releasedrain = 60
+	releasedrain = SONG_ACTIVATION_COST
 	chargedrain = 1
 	chargetime = 0
 	no_early_release = TRUE
@@ -37,10 +37,10 @@
 	var/effect_color
 	var/datum/status_effect/debuff/debuff_to_apply
 	var/pulse = 0
-	var/ticks_to_apply = 10
+	var/ticks_to_apply = SONG_SUSTAIN_TICKS
 	duration = -1
 	var/obj/effect/temp_visual/songs/effect = /obj/effect/temp_visual/songs/inspiration_dirget1
-	var/energytodrain = -12.5
+	var/energytodrain = SONG_SUSTAIN_COST
 
 
 /atom/movable/screen/alert/status_effect/buff/playing_dirge
@@ -69,10 +69,10 @@
 	var/effect_color
 	var/datum/status_effect/buff/buff_to_apply
 	var/pulse = 0
-	var/ticks_to_apply = 10
+	var/ticks_to_apply = SONG_SUSTAIN_TICKS
 	duration = -1
 	var/obj/effect/temp_visual/songs/effect = /obj/effect/temp_visual/songs/inspiration_melodyt1
-	var/energytodrain = -12.5
+	var/energytodrain = SONG_SUSTAIN_COST
 
 
 /atom/movable/screen/alert/status_effect/buff/playing_melody

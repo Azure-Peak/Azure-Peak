@@ -45,6 +45,16 @@
 	if(HAS_TRAIT(user, TRAIT_CURSE_RAVOX))
 		chance2hit -= 40
 
+	if(HAS_TRAIT(user, TRAIT_GUIDANCE))
+		chance2hit += FULL_GUIDANCE_ACCURACY
+	else if(HAS_TRAIT(user, TRAIT_LESSER_GUIDANCE))
+		chance2hit += LESSER_GUIDANCE_ACCURACY
+
+	if(HAS_TRAIT(user, TRAIT_REVERSE_GUIDANCE))
+		chance2hit -= FULL_GUIDANCE_ACCURACY
+	else if(HAS_TRAIT(user, TRAIT_LESSER_REVERSE_GUIDANCE))
+		chance2hit -= LESSER_GUIDANCE_ACCURACY
+
 	chance2hit += accuracy_bonus
 
 	chance2hit = CLAMP(chance2hit, 5, 93)

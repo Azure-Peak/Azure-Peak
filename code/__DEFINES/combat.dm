@@ -1,5 +1,11 @@
 /*ALL DEFINES RELATED TO COMBAT GO HERE*/
 
+// Guidance system - used by parry.dm, dodge.dm, accuracy_checks.dm, and bardic songs
+#define FULL_GUIDANCE_CHANCE 20 // % parry/dodge bypass and parry/dodge chance (mage Guidance, Bard Fantasia/Requiem)
+#define LESSER_GUIDANCE_CHANCE 12 // % parry/dodge bypass and parry/dodge chance (Cantor/Spellsinger songs)
+#define FULL_GUIDANCE_ACCURACY 8 // Accuracy bonus from guidance (equivalent to 1 skill level)
+#define LESSER_GUIDANCE_ACCURACY 5 // Accuracy bonus from lesser guidance
+
 /// Alternate attack defines. Return these at the end of procs like afterattack_secondary.
 /// Calls the normal attack proc. For example, if returned in afterattack_secondary, will call afterattack.
 /// Will continue the chain depending on the return value of the non-alternate proc, like with normal attacks.
