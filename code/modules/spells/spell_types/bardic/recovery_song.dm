@@ -1,7 +1,6 @@
 /obj/effect/proc_holder/spell/invoked/song/recovery_song
 	name = "Resting Rhapsody"
 	desc = "Recuperate your allies spirit's with your song! Refills stamina over time!"
-	song_tier = 2
 	invocations = list("plays a gentle-yet-refreshing tune. The nearby air clears.") 
 	invocation_type = "emote"
 	overlay_state = "melody_t2_base"

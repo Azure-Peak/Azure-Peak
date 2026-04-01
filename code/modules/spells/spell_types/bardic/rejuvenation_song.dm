@@ -1,7 +1,6 @@
 /obj/effect/proc_holder/spell/invoked/song/rejuvenation_song
 	name = "Healing Hymn"
 	desc = "Recuperate your allies bodies with your song! Refills health slowly over time!"
-	song_tier = 3
 	invocations = list("plays a beautiful, stirring song. The world around them becomes more vivid.") 
 	invocation_type = "emote"
 	overlay_state = "melody_t3_base"

@@ -3,7 +3,6 @@
 	desc = "Play a dirge inspired by Pestra. Leaving the droning of insects in their ears! (-1 WIL -2 CON non-audience members)"
 	overlay_state = "dirge_t2_base"
 	action_icon_state = "dirge_t2_base"
-	song_tier = 2
 	warnie = "spellwarning"
 	invocations = list("plays a droning, shrill dirge! The world around them dries and crackles!") 
 	invocation_type = "emote"

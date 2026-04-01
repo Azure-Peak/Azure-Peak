@@ -168,8 +168,6 @@
 			H.adjust_skillrank(/datum/skill/misc/climbing, 1, TRUE)
 			H.adjust_skillrank(/datum/skill/misc/lockpicking, 1, TRUE)
 			H.adjust_skillrank(/datum/skill/misc/music, 1, TRUE)
-			var/datum/inspiration/I = new /datum/inspiration(H) // Ordinary templars also have it. Xylix doesn't have any special miracles for T4 anyway.
-			I.grant_inspiration(H, bard_tier = BARD_T1)
 		if(/datum/patron/divine/dendor)
 			H.equip_to_slot_or_del(new /obj/item/clothing/neck/roguetown/psicross/dendor, SLOT_RING, TRUE)
 			H.equip_to_slot_or_del(new /obj/item/clothing/cloak/tabard/crusader/dendor, SLOT_CLOAK, TRUE)
@@ -395,8 +393,6 @@
 			H.adjust_skillrank(/datum/skill/misc/climbing, 1, TRUE)
 			H.adjust_skillrank(/datum/skill/misc/lockpicking, 1, TRUE)
 			H.adjust_skillrank(/datum/skill/misc/music, 1, TRUE)
-			var/datum/inspiration/I = new /datum/inspiration(H) // Ordinary templars also have it. Xylix doesn't have any special miracles for T4 anyway.
-			I.grant_inspiration(H, bard_tier = BARD_T1)
 		if(/datum/patron/divine/dendor)
 			H.equip_to_slot_or_del(new /obj/item/clothing/neck/roguetown/psicross/dendor, SLOT_RING, TRUE)
 			H.cmode_music = 'sound/music/cmode/garrison/combat_warden.ogg'

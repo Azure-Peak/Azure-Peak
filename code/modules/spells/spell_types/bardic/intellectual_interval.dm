@@ -1,7 +1,6 @@
 /obj/effect/proc_holder/spell/invoked/song/intellectual_interval
 	name = "Intellectual Interval"
 	desc = "A song for thinkers, +3 INT"
-	song_tier = 1
 	warnie = "spellwarning"
 	no_early_release = TRUE
 	movement_interrupt = FALSE

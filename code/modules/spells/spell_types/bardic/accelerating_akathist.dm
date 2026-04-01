@@ -1,7 +1,6 @@
 /obj/effect/proc_holder/spell/invoked/song/accelakathist
 	name = "Accelerating Akathist"
 	desc = "Accelerate your allies with your bardic song!"
-	song_tier = 3
 	invocations = list("plays a blisteringly fast series of notes!") 
 	invocation_type = "emote"
 	overlay_state = "bardsong_t3_base"

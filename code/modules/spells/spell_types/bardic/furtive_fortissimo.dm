@@ -1,7 +1,6 @@
 /obj/effect/proc_holder/spell/invoked/song/furtive_fortissimo
 	name = "Furtive Fortissimo"
 	desc = "With cat like tread, apply light steps to audience members"
-	song_tier = 1
 	invocations = list("plays a sneaky, playful tune. The world draws closer to listen, in on the joke.") 
 	invocation_type = "emote"
 	overlay_state = "bardsong_t1_base"

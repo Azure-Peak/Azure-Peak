@@ -1,6 +1,5 @@
-#define BARD_T1 1
-#define BARD_T2 2
-#define BARD_T3 3
+#define BARD_T1 1 // Lesser Bard (Cantor, Spellsinger, etc.)
+#define BARD_T2 2 // Full Bard (Minstrel, Jester, Psyalmist, Rogue Bard)
 
 // Bardic song costs
 #define SONG_ACTIVATION_COST 10 // Upfront blue cost to start or swap a song

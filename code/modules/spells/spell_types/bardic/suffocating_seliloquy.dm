@@ -3,7 +3,6 @@
 	desc = "Play a dirge inspired by Abyssor, slowly suffocating with its call."
 	overlay_state = "dirge_t3_base"
 	action_icon_state = "dirge_t3_base"
-	song_tier = 3
 	invocations = list("plays a soft, anxiety-inducing tune that seems to thicken the air around them.") 
 	invocation_type = "emote"
 	overlay_state = "dirge_t3_base"

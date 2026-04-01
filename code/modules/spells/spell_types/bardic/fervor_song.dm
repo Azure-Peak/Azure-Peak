@@ -1,7 +1,6 @@
 /obj/effect/proc_holder/spell/invoked/song/fervor_song
 	name = "Fervorous Fantasia"
 	desc = "Inspire the rhythm of battle, your allies strike and parry 20% better!"
-	song_tier = 2
 	warnie = "spellwarning"
 	invocations = list("plays a bombastic, rhythmic march! The world feels grounded!") 
 	invocation_type = "emote"

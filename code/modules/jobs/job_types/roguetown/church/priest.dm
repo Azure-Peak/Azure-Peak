@@ -206,7 +206,7 @@ GLOBAL_LIST_EMPTY(heretical_players)
 			neck = /obj/item/clothing/neck/roguetown/luckcharm // For good luck, as Xylix would intend
 			H.cmode_music = 'sound/music/combat_jester.ogg'
 			var/datum/inspiration/I = new /datum/inspiration(H)
-			I.grant_inspiration(H, bard_tier = BARD_T2)
+			I.grant_inspiration(H, bard_tier = BARD_T1)
 			r_hand = /obj/item/clothing/suit/roguetown/shirt/robe/priest
 		else
 			l_hand = /obj/item/clothing/head/roguetown/roguehood/astrata
