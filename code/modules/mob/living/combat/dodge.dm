@@ -109,14 +109,24 @@
 	var/mob/living/carbon/human/UH
 	var/obj/item/I
 	var/obj/item/IL
+	var/ourskill = 0
+	var/theirskill = 0
 	var/drained = 8
 	var/drained_npc = 5
 	if(ishuman(src))
 		H = src
-		IL = H.used_intent?.masteritem
+		IL = H.get_active_held_item()
+		if(IL && IL?.associated_skill)
+			ourskill = get_skill_level(IL.associated_skill)
+		else
+			ourskill = get_skill_level(/datum/skill/combat/unarmed)
 	if(ishuman(user))
 		UH = user
-		I = UH.used_intent?.masteritem
+		I = UH.get_active_held_item()
+		if(I && I?.associated_skill)
+			theirskill = UH.get_skill_level(I.associated_skill)
+		else
+			theirskill = UH.get_skill_level(/datum/skill/combat/unarmed)
 	var/prob2defend = U.defprob
 	var/is_in_cone = L.can_see_cone(user)
 	if(!is_in_cone && H)
@@ -319,14 +329,13 @@
 			playsound(user, 'sound/misc/weapon_clip.ogg', 100)
 	dodgecd = FALSE
 	var/ignore_penalty = FALSE
-	if(L.fixedeye && L.goodluck(4))
+	if(L.fixedeye && L.goodluck(5))
 		ignore_penalty = TRUE
 	if(!ignore_penalty)
 		var/max_mod = 0
-		if(I && IL)
-			max_mod = H.get_skill_level(IL.associated_skill) - UH.get_skill_level(I.associated_skill)
+		max_mod = ourskill - theirskill
 		L.changeNext_def(clamp(dodgetime + 1, 0, CLICK_CD_DODGE))
-		L.changeMaxDodge(-1 + (max_mod < 0) ? max_mod : 0)
+		L.changeMaxDodge(-1 + ((max_mod < 0) ? max_mod : 0))
 //		if(H)
 //			if(H.IsOffBalanced())
 //				H.Knockdown(1)
