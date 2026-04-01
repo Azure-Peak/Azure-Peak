@@ -305,7 +305,7 @@ var/global/mob/_corpse_sort_ref = null
 		return
 
 	user.visible_message(
-		span_purple("<i>A ghastly fog embraces [user]] momentarily as they focus...</i>"),
+		span_purple("<i>A ghastly fog embraces [user] momentarily as they focus...</i>"),
 		span_purple("<i>You plead for the Undermaiden to offer you insight on the restless.</i>")
 	)
 
@@ -520,7 +520,13 @@ var/global/mob/_corpse_sort_ref = null
 		return
 
 	if(necra_tracked_corpse.burialrited)
-		to_chat(src, span_purple("<i>The Undermaiden seems content, you briefly sense your bounty resting easy.</i>"))
+		to_chat(src, span_purple("<i>The Undermaiden is seemingly content, you briefly sense your bounty being buried and consecrated.</i>"))
+		src.necra_tracked_corpse = null
+		STOP_PROCESSING(SSprocessing, src)
+		return
+	
+	if(necra_tracked_corpse?.mind && !necra_tracked_corpse.mind.has_antag_datum(/datum/antagonist/zombie) && necra_tracked_corpse.stat != DEAD)
+		to_chat(src, span_purple("<i>The Undermaiden's interest wanes, you briefly sense your bounty back from undeath, alive once more.</i>"))
 		src.necra_tracked_corpse = null
 		STOP_PROCESSING(SSprocessing, src)
 		return
