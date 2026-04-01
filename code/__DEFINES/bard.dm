@@ -2,7 +2,7 @@
 #define BARD_T2 2 // Full Bard (Minstrel, Jester, Psyalmist, Rogue Bard)
 
 // Bardic song costs
-#define SONG_ACTIVATION_COST 10 // Upfront blue cost to start or swap a song
+#define SONG_ACTIVATION_COST 30 // Upfront stamina cost to start or swap a song
 #define SONG_SUSTAIN_COST -10 // Blue drained per sustain tick (every 20 seconds)
 #define SONG_SUSTAIN_TICKS 10 // Number of tick() calls between sustain drains (10 ticks x 2s = 20s)
 

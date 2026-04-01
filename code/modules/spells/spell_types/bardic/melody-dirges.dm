@@ -32,7 +32,7 @@
 	chargedrain = 1
 	chargetime = 0
 	no_early_release = TRUE
-	recharge_time = 1 MINUTES
+	recharge_time = 30 SECONDS
 	movement_interrupt = FALSE
 	var/datum/status_effect/song_effect = null
 
