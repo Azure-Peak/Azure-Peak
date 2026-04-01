@@ -267,8 +267,7 @@
 	speed = HEAVY_AMMO_SPEED
 	ricochets_max = 0
 	ricochet_chance = 0
-	max_range = 6
-	npc_simple_damage_mult = 3
+	max_range = 5
 
 /obj/projectile/bullet/reusable/sling_bullet/heavy_sling_bullet/on_hit(atom/target)
 	. = ..()
@@ -276,8 +275,7 @@
 		return
 	var/mob/living/M = target
 	M.visible_message(span_warning("[M] staggers from the heavy impact!"))
-	M.apply_status_effect(/datum/status_effect/debuff/staggered, 4 SECONDS)
-	M.Slowdown(4 SECONDS)
+	M.apply_status_effect(/datum/status_effect/debuff/staggered, 3 SECONDS)
 	var/throw_dir = get_dir(src, target)
 	var/atom/throw_target = get_edge_target_turf(M, throw_dir)
 	M.safe_throw_at(throw_target, 2, 1)

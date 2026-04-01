@@ -101,6 +101,15 @@
 		)
 	result_item = null
 
+/obj/item/enchantingkit/triumph_weaponkit_estoc
+	name = "'Kriegstetcher' estoc morphing elixir"
+	desc = "A small container of special morphing dust, perfect to make a specific item. It can be used to alter the appearance of a Stecher, or an Estoc."
+	target_items = list(
+		/obj/item/rogueweapon/sword/long/ap	  				= /obj/item/rogueweapon/sword/long/ap/triumph,
+		/obj/item/rogueweapon/estoc							= /obj/item/rogueweapon/estoc/triumph
+		)
+	result_item = null
+
 /obj/item/enchantingkit/triumph_weaponkit_psy
 	name = "'Psycrucifix' longsword morphing elixir"
 	desc = "A small container of special morphing dust, perfect to make a specific item. It can be used to alter the appearance of a Steel Longsword, an Enduring Longsword, or a Psydonic Longsword."
@@ -357,6 +366,24 @@
 				return list("shrink" = 0.6,"sx" = 5,"sy" = -2,"nx" = -6,"ny" = -2,"wx" = -6,"wy" = -2,"ex" = 7,"ey" = -2,"northabove" = 0,"southabove" = 1,"eastabove" = 1,"westabove" = 0,"nturn" = -28,"sturn" = 29,"wturn" = -35,"eturn" = 32,"nflip" = 8,"sflip" = 0,"wflip" = 8,"eflip" = 0)
 			if("onbelt")
 				return list("shrink" = 0.4,"sx" = -4,"sy" = -6,"nx" = 5,"ny" = -6,"wx" = 0,"wy" = -6,"ex" = -1,"ey" = -6,"nturn" = 100,"sturn" = 156,"wturn" = 90,"eturn" = 180,"nflip" = 0,"sflip" = 0,"wflip" = 0,"eflip" = 0,"northabove" = 0,"southabove" = 1,"eastabove" = 1,"westabove" = 0)
+
+/obj/item/rogueweapon/estoc/triumph //Alternate variants for the Estoc series.
+	name = "azurian estoc"
+	icon = 'icons/roguetown/weapons/swords64.dmi'
+	icon_state = "estoc_triumph"
+	desc = "A deviation from the traditional longsword, meant to pierce maille or find the gaps in an \
+	opponent's plate armor. This edgeless blade is almost exclusively half-sworded on foot, or as a lance \
+	from saigaback. Wrapped around the grip is a roll of leather, dyed in Azuria's stormier hues; an unfetterable \
+	connection to the Peak's history."
+
+/obj/item/rogueweapon/sword/long/ap/triumph //Alternate variants for the Estoc series.
+	name = "kriegstecher"
+	icon = 'icons/roguetown/weapons/swords64.dmi'
+	icon_state = "aplongsword_triumph"
+	sheathe_icon = "aplongsword"
+	desc = "A sword possessed of a quite long and tapered blade that is intended to be thrust between the \
+	gaps in an opponent's armor. These are often produced without a cutting edge, especially in munitions grade \
+	examples as weary armorers try and prevent their levies from dulling swords on chopping firewood."
 
 /obj/item/rogueweapon/stoneaxe/woodcut/triumph
 	name = "valorian axe"

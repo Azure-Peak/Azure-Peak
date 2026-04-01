@@ -138,7 +138,7 @@
 	icon_state = "bronzebracers"
 	body_parts_covered = ARMS | HANDS //Experimental, but should play well with the increased durability.
 	smeltresult = /obj/item/ingot/bronze
-	armor = ARMOR_PLATE
+	armor = ARMOR_BRONZE
 	max_integrity = ARMOR_INT_SIDE_BRONZE
 
 /obj/item/clothing/wrists/roguetown/bracers/leather
@@ -181,7 +181,8 @@
 	icon_state = "copperarm"
 	item_state = "copperarm"
 	smeltresult = /obj/item/ingot/copper
-	armor = ARMOR_PLATE
+	armor = ARMOR_BRONZE
+	max_integrity = ARMOR_INT_SIDE_BRONZE
 
 /obj/item/clothing/wrists/roguetown/wrappings
 	name = "solar wrappings"
@@ -301,7 +302,7 @@
 	item_state = "ironsplintarms"
 	armor = ARMOR_BRIGANDINE //not plate armor, is leather + iron bits
 	blocksound = SOFTHIT
-	max_integrity = ARMOR_INT_SIDE_LEATHER
+	max_integrity = ARMOR_INT_SIDE_IRON
 	anvilrepair = /datum/skill/craft/armorsmithing
 	smeltresult = /obj/item/ingot/iron
 	w_class = WEIGHT_CLASS_NORMAL
@@ -323,7 +324,7 @@
 	icon_state = "jackchain"
 	item_state = "jackchain"
 	armor = ARMOR_BRIGANDINE
-	max_integrity = ARMOR_INT_SIDE_LEATHER // Make it slightly worse
+	max_integrity = ARMOR_INT_SIDE_LEATHER // Make it slightly worse than brigandine because fencing dex classes use this.
 	drop_sound = 'sound/foley/dropsound/chain_drop.ogg'
 	pickup_sound = 'sound/foley/equip/equip_armor_chain.ogg'
 	equip_sound = 'sound/foley/equip/equip_armor_chain.ogg'

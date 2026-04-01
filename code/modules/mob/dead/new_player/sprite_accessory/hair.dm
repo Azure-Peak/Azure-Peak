@@ -113,6 +113,10 @@
 	name = "Braid (Floorlength)"
 	icon_state = "braid"
 
+/datum/sprite_accessory/hair/head/braided_sidetail
+	name = "Braided Sidetail"
+	icon_state = "braided-sidetail"
+
 /datum/sprite_accessory/hair/head/front_braid
 	name = "Braided Front"
 	icon_state = "braid-front"

@@ -2760,6 +2760,7 @@
 #include "code\modules\spells\roguetown\acolyte\eora\eora_reagents.dm"
 #include "code\modules\spells\roguetown\acolyte\eora\eora_status_effects.dm"
 #include "code\modules\spells\roguetown\acolyte\necra\necra_cross.dm"
+#include "code\modules\spells\roguetown\acolyte\necra\necra_ground.dm"
 #include "code\modules\spells\roguetown\acolyte\pestra\pestra_components.dm"
 #include "code\modules\spells\roguetown\acolyte\pestra\pestra_status_effects.dm"
 #include "code\modules\spells\roguetown\necromancer\bone_chill.dm"
