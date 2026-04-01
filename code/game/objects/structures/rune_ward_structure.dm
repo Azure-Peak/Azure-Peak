@@ -84,7 +84,7 @@
 	to_chat(L, span_danger("<B>The rune locks your muscles in place!</B>"))
 	playsound(src, 'sound/magic/lightning.ogg', 80, TRUE)
 	L.electrocute_act(10, src, flags = SHOCK_NOGLOVES)
-	L.Paralyze(120)
+	L.Paralyze(6 SECONDS)
 
 /obj/structure/rune_ward/fire
 	name = "flame rune"
