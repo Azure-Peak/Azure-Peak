@@ -247,7 +247,7 @@
 	icon_state = "[item_state][cocked ? "1" : "0"]"
 
 	if(chambered && !hasloadedsprite)
-		var/mutable_appearance/ammo = mutable_appearance('icons/roguetown/weapons/ammo.dmi', chambered.icon_state)
+		var/mutable_appearance/ammo = mutable_appearance(chambered.icon, chambered.icon_state)
 		add_overlay(ammo)
 	if(chambered && hasloadedsprite)
 		icon_state = "[item_state][2]"

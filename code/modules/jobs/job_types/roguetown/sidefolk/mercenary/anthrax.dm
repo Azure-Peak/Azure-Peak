@@ -1,7 +1,10 @@
 /datum/advclass/mercenary/anthrax
-	name = "Black Venom"
-	tutorial = "The Dark elves, who usually live underground, are an extremely violent race. They are known for their insidious ability to use spider poisons and razor-sharp blades.  The matriarch has set you a task: to get to the surface and find out what is going on, and during this time you will be able to earn money, because, unfortunately, the inhabitants of the upper world refuse to accept spider paws as payment for their services."
-	allowed_sexes = list(MALE, FEMALE)
+	name = "'Black Venom' Pursuer"
+	tutorial = "The Dark Elves, who usually live underground, are an extremely violent \
+	race. They are known for their insidious ability to use spider poisons and razor-sharp \
+	blades.  The matriarch has set you a task: to get to the surface and find out what is going \
+	on, and during this time you will be able to earn money, because, unfortunately, the \
+	inhabitants of the upper world refuse to accept spider paws as payment for their services."
 	allowed_races = list(
 		/datum/species/elf/dark,
 		/datum/species/human/halfelf, // Because half-drows are half-elves, guh.
@@ -42,7 +45,7 @@
 
 	)
 	subclass_languages = list(/datum/language/undercommon)
-	extra_context = "This subclass is race-limited to: Dark Elves Only. Chooses either free Saddleborn virtue with access to Drider Spider mount, or +1 to Athlethics level."
+	extra_context = "This subclass is race-restricted to the Dark Elf species, and can pick between two bonuses; an extra level to Athletics, or a rideable mount."
 
 /datum/outfit/job/roguetown/mercenary/anthrax/pre_equip(mob/living/carbon/human/H)
 	..()
@@ -70,20 +73,31 @@
 	H.faction += "spider_lowers"
 
 	if(H.mind)
-		var/riding = list("I'm a spider rider (your pet with you)", "I walk on my legs (+1 for athletics)")
-		var/ridingchoice = input(H, "Choose your faith", "FAITH") as anything in riding
+		var/riding = list("Spidertamer (Tameable Spider Mount)", "Shroomwalker (+I to Athletics)")
+		var/ridingchoice = input(H, "Choose your TRAVELBOON.", "ROAM ABROAD AND ROAM FAR.") as anything in riding
 		switch(ridingchoice)
-			if("I'm a spider rider (your pet with you)")
+			if("Spidertamer (Tameable Spider Mount)")
 				apply_virtue(H, new /datum/virtue/utility/riding)
-			if("I walk on my legs (+1 for athletics)")
-				H.adjust_skillrank_up_to(/datum/skill/misc/athletics, SKILL_LEVEL_MASTER, TRUE)		
+			if("Shroomwalker (+I to Athletics)")
+				H.adjust_skillrank_up_to(/datum/skill/misc/athletics, SKILL_LEVEL_MASTER, TRUE)
 
 	H.merctype = 15
 
-/datum/advclass/mercenary/anthrax/assasin
-	name = "Anthrax Assassin"
-	tutorial = "Black Venom's infamous killers for hire, it is said a single cut from their poison tipped blades is enough to send their victim to an early grave. You are one of those assassins, use your trusty bow and arrow to bring your targets' demise from afar or take a second sabre and weave a beautiful dance of death. All that matters is that your contract is fulfilled and your pockets heavy with mammon."
-	outfit = /datum/outfit/job/roguetown/mercenary/anthrax/assasin
+/datum/advclass/mercenary/anthrax_assassin
+	name = "'Anthraxi' Assassin"
+	tutorial = "Black Venom's infamous killers for hire. It is said a single cut \
+	from their poison tipped blades is enough to send their victim to an early grave. You are one \
+	of those assassins, use your trusty bow and arrow to bring your targets' demise \
+	from afar or take a second sabre and weave a beautiful dance of death. All that matters is \
+	that your contract is fulfilled and your pockets heavy with mammon."
+	outfit = /datum/outfit/job/roguetown/mercenary/anthrax_assassin
+	allowed_races = list(
+		/datum/species/elf/dark,
+		/datum/species/human/halfelf, // Because half-drows are half-elves, guh.
+	)
+	category_tags = list(CTAG_MERCENARY)
+	class_select_category = CLASS_CAT_RACIAL
+	cmode_music = 'sound/music/combat_delf.ogg'
 	traits_applied = list(TRAIT_DARKVISION, TRAIT_DODGEEXPERT, TRAIT_ANTHRAXI)
 	subclass_stats = list(
 		STATKEY_WIL = 2,
@@ -112,9 +126,18 @@
 		/datum/skill/craft/cooking = SKILL_LEVEL_NOVICE,
 		/datum/skill/craft/traps = SKILL_LEVEL_EXPERT,
 	)
+	extra_context = "This subclass is race-restricted to the Dark Elf species, and can pick between two bonuses; an extra level to Athletics, or a rideable mount."
 
-/datum/outfit/job/roguetown/mercenary/anthrax/assasin/pre_equip(mob/living/carbon/human/H)
+/datum/outfit/job/roguetown/mercenary/anthrax_assassin/pre_equip(mob/living/carbon/human/H)
 	..()
+	head = /obj/item/clothing/neck/roguetown/chaincoif/full/black
+	backl = /obj/item/storage/backpack/rogue/satchel/black
+	backpack_contents = list(
+		/obj/item/roguekey/mercenary = 1, 
+		/obj/item/storage/belt/rogue/pouch/coins/poor = 1, 
+		/obj/item/rogueweapon/huntingknife/idagger/steel/corroded/dirk = 1,
+		/obj/item/reagent_containers/glass/bottle/rogue/strongpoison = 1,
+		/obj/item/rogueweapon/scabbard/sheath)
 	shirt = /obj/item/clothing/suit/roguetown/shirt/shadowshirt/elflock
 	armor = /obj/item/clothing/suit/roguetown/armor/gambeson/heavy/shadowrobe
 	cloak = /obj/item/clothing/cloak/half/shadowcloak
@@ -124,14 +147,17 @@
 	neck = /obj/item/clothing/neck/roguetown/chaincoif/chainmantle
 	beltl = /obj/item/rogueweapon/scabbard/sword
 	r_hand = /obj/item/rogueweapon/sword/sabre/stalker
+	shoes = /obj/item/clothing/shoes/roguetown/boots/leather/reinforced
+	belt = /obj/item/storage/belt/rogue/leather/black
+	pants = /obj/item/clothing/under/roguetown/heavy_leather_pants/shadowpants
 
 	H.faction += "spider_lowers"
 
 	if(H.mind)
-		var/weapon = list("Bow and Arrow", "Dual Sabres")
+		var/weapon = list("Bow and Poisoned Arrows", "Dual Sabres")
 		var/weaponchoice = input(H, "Choose your WEAPON.", "PICK YOUR INSTRUMENTS.") as anything in weapon
 		switch(weaponchoice)
-			if("Bow and Arrow")
+			if("Bow and Poisoned Arrows")
 				backr = /obj/item/gun/ballistic/revolver/grenadelauncher/bow/short
 				beltr = /obj/item/quiver/poisonarrows
 				H.adjust_skillrank_up_to(/datum/skill/combat/bows, SKILL_LEVEL_EXPERT, TRUE)
@@ -140,6 +166,13 @@
 				beltr = /obj/item/rogueweapon/scabbard/sword
 				backr = null
 				ADD_TRAIT(H, TRAIT_DUALWIELDER, TRAIT_GENERIC)
-				
+		var/riding = list("Spidertamer (Tameable Spider Mount)", "Shroomwalker (+I to Athletics)")
+		var/ridingchoice = input(H, "Choose your TRAVELBOON.", "ROAM ABROAD AND ROAM FAR.") as anything in riding
+		switch(ridingchoice)
+			if("Spidertamer (Tameable Spider Mount)")
+				apply_virtue(H, new /datum/virtue/utility/riding)
+			if("Shroomwalker (+I to Athletics)")
+				H.adjust_skillrank_up_to(/datum/skill/misc/athletics, SKILL_LEVEL_MASTER, TRUE)	
+
 	H.merctype = 15	
 

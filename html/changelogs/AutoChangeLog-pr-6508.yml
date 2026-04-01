@@ -1,4 +1,0 @@
-author: "eirenxiv"
-delete-after: True
-changes:
-  - bugfix: "fixed massage not working while mute"

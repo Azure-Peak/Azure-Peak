@@ -32,8 +32,6 @@
 			trigger_visual()
 			qdel(src)
 			return
-		if(HAS_TRAIT(AM, TRAIT_LIGHT_STEP))
-			return
 		if(AM.throwing)
 			return
 		if(isliving(AM))

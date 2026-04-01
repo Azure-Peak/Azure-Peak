@@ -33,14 +33,20 @@
 	spell_requirements = SPELL_REQUIRES_NO_ANTIMAGIC | SPELL_REQUIRES_HUMAN | SPELL_REQUIRES_NO_MOVE | SPELL_REQUIRES_SAME_Z
 
 	var/fire_type = /obj/machinery/light/rogue/campfire/create_campfire
+	var/static/list/turf_blacklist = list(
+		/turf/open/water,
+		/turf/open/transparent,
+		/turf/closed/transparent,
+		)
 
 /datum/action/cooldown/spell/create_campfire/cast(atom/cast_on)
 	. = ..()
 	var/turf/target = get_turf(cast_on)
 
-	if(!target || !target.Enter(owner) || istransparentturf(target))
-		to_chat(owner, "<span class='warning'>This turf can't be on fiyaaaah! (It's blocked sire.)</span>")
+	if(!target || !target.Enter(owner) || is_type_in_list(target, turf_blacklist))
+		to_chat(owner, span_warning("This turf can't be on fiyaaaah! (It's blocked sire.)"))
 		return FALSE
+	
 	new /obj/machinery/light/rogue/campfire/create_campfire(target)
 
 	return TRUE
