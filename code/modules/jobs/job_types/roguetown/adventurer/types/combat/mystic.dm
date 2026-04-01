@@ -104,6 +104,7 @@
 	class_select_category = CLASS_CAT_MYSTIC
 	category_tags = list(CTAG_ADVENTURER, CTAG_COURTAGENT)
 	traits_applied = list(TRAIT_SEEDKNOW, TRAIT_ARCYNE)
+	maximum_possible_slots = 8
 	subclass_stats = list(
 			STATKEY_INT = 1,
 			STATKEY_CON = 3,
@@ -220,6 +221,7 @@
 	class_select_category = CLASS_CAT_MYSTIC
 	category_tags = list(CTAG_ADVENTURER, CTAG_COURTAGENT)
 	traits_applied = list(TRAIT_SEEDKNOW, TRAIT_ARCYNE)
+	maximum_possible_slots = 8
 	subclass_stats = list(
 			STATKEY_STR = 1,
 			STATKEY_PER = 1,
@@ -347,6 +349,7 @@
 	class_select_category = CLASS_CAT_MYSTIC
 	category_tags = list(CTAG_ADVENTURER, CTAG_COURTAGENT)
 	traits_applied = list(TRAIT_SEEDKNOW, TRAIT_ARCYNE)
+	maximum_possible_slots = 8
 	subclass_stats = list(
 			STATKEY_INT = 3,
 			STATKEY_CON = 1,
