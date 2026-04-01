@@ -120,19 +120,29 @@
 	if(has_status_effect(/datum/status_effect/fire_handler))
 		adjustHealth(-rand(20,35))
 
+/mob/living/simple_animal/hostile/retaliate/rogue/troll/proc/hide()
+	flick("troll_hiding", src)
+	sleep(1 SECONDS)
+	icon_state = "troll_hide"
+
+/mob/living/simple_animal/hostile/retaliate/rogue/troll/proc/ambush()
+	flick("troll_ambush", src)
+	sleep(1 SECONDS)
+	icon_state = initial(icon_state)
+
 /mob/living/simple_animal/hostile/retaliate/rogue/troll/bog/LoseTarget()
 	..()
 	if(health > 0)
-		icon_state = "troll_hiding"
+		hide()
 
 /mob/living/simple_animal/hostile/retaliate/rogue/troll/bog/Moved()
 	. = ..()
-	if(!icon_state == "troll")
-		icon_state = "troll"
+	if(icon_state != initial(icon_state))
+		icon_state = initial(icon_state)
 
 /mob/living/simple_animal/hostile/retaliate/rogue/troll/bog/GiveTarget()
 	..()
-	icon_state = "troll_ambush"
+	ambush()
 
 /mob/living/simple_animal/hostile/retaliate/rogue/troll/simple_limb_hit(zone)
 	if(!zone)

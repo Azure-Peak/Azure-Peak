@@ -474,6 +474,9 @@ have ways of interacting with a specific atom and control it. They posses a blac
 /datum/ai_controller/proc/PauseAi(time)
 	paused_until = world.time + time
 
+/datum/ai_controller/proc/modify_cooldown(datum/ai_behavior/behavior, new_cooldown)
+	behavior_cooldowns[behavior.type] = new_cooldown
+
 ///Call this to add a behavior to the stack.
 /datum/ai_controller/proc/queue_behavior(behavior_type, ...)
 	var/datum/ai_behavior/behavior = GET_AI_BEHAVIOR(behavior_type)

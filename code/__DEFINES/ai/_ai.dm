@@ -29,6 +29,8 @@
 #define AI_BEHAVIOR_KEEP_MOVING_TOWARDS_TARGET_ON_FINISH (1<<4)
 ///Does this behavior NOT block planning?
 #define AI_BEHAVIOR_CAN_PLAN_DURING_EXECUTION (1<<5)
+///This behavior executes before all others and does not consume the process tick, allowing normal behaviors to run after it
+#define AI_BEHAVIOR_EXECUTE_ALONGSIDE (1<<6)
 
 ///Cooldown on planning if planning failed last time
 #define AI_FAILED_PLANNING_COOLDOWN 1.5 SECONDS
@@ -73,6 +75,10 @@
 #define BB_BASIC_MOB_TAMED "BB_basic_mob_tamed"
 
 #define BB_WANDER_POINT "BB_wander_point"
+
+#define BB_MOB_EQUIP_TARGET "BB_equip_target"
+#define BB_WEAPON_TYPE "BB_weapon_type"
+#define BB_ARMOR_CLASS "BB_armorclass"
 
 //farm animals ai
 #define BB_CHICKEN_LAY_EGG "BB_chicken_lay_egg"
@@ -121,6 +127,12 @@
 #define ARCHER_NPC_ARROW_SEARCH_RANGE   9
 #define ARCHER_NPC_SIMULATED_CHARGETIME 1.5 SECONDS // fallback charge wait in deciseconds
 
+// Keys used by one and only one behavior
+// Used to hold state without making bigass lists
+/// For /datum/ai_behavior/find_potential_targets, what if any field are we using currently
+#define BB_FIND_TARGETS_FIELD(type) "bb_find_targets_field_[type]"
+
+
 #define AI_ITEM_BANDAGE         (1<<0)   // stops bleeding, applied to self/others
 #define AI_ITEM_HEALING_DRINK   (1<<1)   // drinkable healing reagent container
 #define AI_ITEM_FOOD            (1<<2)   // edible
@@ -154,3 +166,5 @@ GLOBAL_LIST_INIT(ai_item_flags, list(
 #define AI_INVENTORY_WATCHED_SLOTS (ITEM_SLOT_BELT | ITEM_SLOT_BACK_L | ITEM_SLOT_BACK_R | \
     ITEM_SLOT_BELT | ITEM_SLOT_ARMOR | ITEM_SLOT_PANTS | \
     ITEM_SLOT_SHIRT | ITEM_SLOT_CLOAK | ITEM_SLOT_BACK | ITEM_SLOT_NECK)
+
+
