@@ -1,0 +1,48 @@
+2026-04-01:
+  Baneuus:
+  - rscadd: Werewolves and druidic cats are now able to lick their own wounds.
+  - rscadd: Tennites and Ascendants now get their psicrosses with Devotee.
+  BurpleBineapple:
+  - bugfix: Fixes splinted leggings not using ARMOR_BRIGANDINE and some more bronze
+      armor.
+  CODEATHON1243:
+  - bugfix: minSTR martyraxe 13 -> 12, in line with martyr stats
+  FreeStylaLT:
+  - rscadd: A new T2 Miracle for Necra -- Consecrate Ground.
+  - refactor: Clothing / Title preferences in char setup no longer use an input box.
+  - balance: Flawless vice now restricts passive Triumph gain.
+  - bugfix: Fixed scabbards / sheathes not updating their onmobs properly.
+  - refactor: Hunted Vice now requires an additional Vice.
+  - balance: Sidefolk classes no longer get double TRI every night.
+  Ketrai:
+  - bugfix: missing hag antag datum in the global positions list
+  Ollanius:
+  - bugfix: Anthraxi mercenaries should no longer have a chance to spawn with duplicated
+      equipment. If any issues crop up (such as mysteriously missing loadout items),
+      ping @Dongwaiver on the 'cord.
+  - code_imp: Cleans up grammatical stuff for the Black Oaks and Anthraxi. All instances
+      of 'Black Oak's' in class names have been altered to 'Black Oaken', for the
+      sake of keeping stuff a little cleaner.
+  - rscadd: Changes the 'Azurean Tuck' to the 'Stecher' (or 'piercing' in German),
+      to better fit with current weapon naming conventions.
+  - rscadd: Properly reimplements both sprites. Credit to LitePurple and KittySmooch.
+  - rscadd: Adds supplemental lore to the Stecher, describing it as a noble-oriented
+      longsword of Azurian (and Grenzel-Otavan) design.
+  - rscadd: Slightly increases the Stecher's crafting recipe costs, adds it to all
+      loadouts that could already spawn with an Estoc, and adds it as an importable
+      weapon.
+  - rscadd: The 'Estoc' Triumph Morphing Elixir, which can be used to apply special
+      skins to both the Estoc and Stecher.
+  - bugfix: Properly implements two-handed sprites for both Estocs and Stechers.
+  Risraivyn:
+  - bugfix: You no longer drowning when you sleep in the water
+  Ryan180602:
+  - bugfix: show-tip works now
+  - rscadd: donor item
+  - rscadd: Bronzeworking kit option for Towner Smith
+  - rscadd: avantyne volfplate
+  - rscadd: new sprite for volfplate
+  WeNeedMorePhoron:
+  - balance: Heavy sling bullet is no longer god tier
+  eirenxiv:
+  - balance: increases gorget integrity by 50

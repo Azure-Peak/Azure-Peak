@@ -1,4 +1,0 @@
-author: "FreeStylaLT"
-delete-after: True
-changes:
-  - refactor: "Clothing / Title preferences in char setup no longer use an input box."
