@@ -92,6 +92,7 @@
 	icon_state = "bow"
 	item_state = "bow"
 	experimental_onhip = TRUE
+	flags_ai_inventory = AI_ITEM_GUN
 	experimental_onback = TRUE
 	possible_item_intents = list(
 		/datum/intent/shoot/bow,

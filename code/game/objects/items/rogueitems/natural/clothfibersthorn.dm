@@ -160,6 +160,7 @@
 	desc = "A bolt of woven fibers. Useful as bandages and in dozens upon dozens of crafts."
 	force = 0
 	throwforce = 0
+	flags_ai_inventory = AI_ITEM_BANDAGE
 	obj_flags = null
 	bundling_time = 2 SECONDS
 	firefuel = 5 MINUTES

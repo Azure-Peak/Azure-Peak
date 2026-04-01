@@ -1038,6 +1038,7 @@
 	throwforce = 22
 	throw_speed = 4
 	max_integrity = 50
+	flags_ai_inventory = AI_ITEM_THROWING
 	armor_penetration = PEN_MEDIUM
 	wdefense = 1
 	icon_state = "throw_knifei"

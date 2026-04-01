@@ -120,3 +120,37 @@
 #define ARCHER_NPC_MIN_RANGE            3   // tiles - closer than this, prefer melee
 #define ARCHER_NPC_ARROW_SEARCH_RANGE   9
 #define ARCHER_NPC_SIMULATED_CHARGETIME 1.5 SECONDS // fallback charge wait in deciseconds
+
+#define AI_ITEM_BANDAGE         (1<<0)   // stops bleeding, applied to self/others
+#define AI_ITEM_HEALING_DRINK   (1<<1)   // drinkable healing reagent container
+#define AI_ITEM_FOOD            (1<<2)   // edible
+#define AI_ITEM_POWDER          (1<<3)   // snortable /obj/item/reagent_containers/powder
+#define AI_ITEM_KEY             (1<<4)
+#define AI_ITEM_TOOL            (1<<5)
+#define AI_ITEM_AMMO            (1<<6)
+#define AI_ITEM_GRENADE         (1<<7)
+#define AI_ITEM_MELEE           (1<<8)
+#define AI_ITEM_GUN             (1<<9)
+#define AI_ITEM_DRINK           (1<<10)  // generic drinkable (not necessarily healing)
+#define AI_ITEM_THROWING        (1<<11)
+#define AI_ITEM_QUIVER          (1<<12)
+
+GLOBAL_LIST_INIT(ai_item_flags, list(
+	AI_ITEM_BANDAGE,
+	AI_ITEM_HEALING_DRINK,
+	AI_ITEM_FOOD,
+	AI_ITEM_POWDER,
+	AI_ITEM_KEY,
+	AI_ITEM_TOOL,
+	AI_ITEM_AMMO,
+	AI_ITEM_GRENADE,
+	AI_ITEM_MELEE,
+	AI_ITEM_GUN,
+	AI_ITEM_DRINK,
+	AI_ITEM_THROWING,
+	AI_ITEM_QUIVER,
+))
+
+#define AI_INVENTORY_WATCHED_SLOTS (ITEM_SLOT_BELT | ITEM_SLOT_BACK_L | ITEM_SLOT_BACK_R | \
+    ITEM_SLOT_BELT | ITEM_SLOT_ARMOR | ITEM_SLOT_PANTS | \
+    ITEM_SLOT_SHIRT | ITEM_SLOT_CLOAK | ITEM_SLOT_BACK | ITEM_SLOT_NECK)
