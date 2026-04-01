@@ -119,7 +119,7 @@
 	armor = ARMOR_LEATHER
 	sewrepair = TRUE
 	sellprice = 10
-	max_integrity = ARMOR_INT_SIDE_HARDLEATHER
+	max_integrity = ARMOR_INT_SIDE_HARDLEATHER + ARMOR_INT_SIDE_COVERAGE_BONUS
 	salvage_result = /obj/item/natural/hide/cured
 	salvage_amount = 1
 
@@ -283,7 +283,7 @@
 	anvilrepair = /datum/skill/craft/armorsmithing
 	equip_sound = 'sound/foley/equip/equip_armor.ogg'
 	drop_sound = 'sound/foley/dropsound/armor_drop.ogg'
-	max_integrity = ARMOR_INT_SIDE_IRON
+	max_integrity = ARMOR_INT_SIDE_IRON + ARMOR_INT_SIDE_COVERAGE_BONUS
 	resistance_flags = FIRE_PROOF
 	body_parts_inherent = NECK
 	slot_flags = ITEM_SLOT_NECK
@@ -300,7 +300,7 @@
 	icon_state = "bronzegorget"
 	armor = ARMOR_BRONZE
 	smeltresult = /obj/item/ingot/bronze
-	max_integrity = ARMOR_INT_SIDE_BRONZE
+	max_integrity = ARMOR_INT_SIDE_BRONZE + ARMOR_INT_SIDE_COVERAGE_BONUS
 
 /obj/item/clothing/neck/roguetown/gorget/aalloy
 	name = "decrepit gorget"
@@ -327,7 +327,7 @@
 	armor = ARMOR_PLATE
 	smeltresult = /obj/item/ingot/steel
 	anvilrepair = /datum/skill/craft/armorsmithing
-	max_integrity = ARMOR_INT_SIDE_STEEL
+	max_integrity = ARMOR_INT_SIDE_STEEL + ARMOR_INT_SIDE_COVERAGE_BONUS
 	body_parts_inherent = NECK
 	resistance_flags = FIRE_PROOF
 	slot_flags = ITEM_SLOT_NECK
@@ -379,7 +379,7 @@
 	name = "steel gorget"
 	desc = "A series of steel plates designed to protect the neck, traditionally worn atop a jacket or cuirass. It bares a mammon-sized divet along its right flank; the certification of its 'proofedness' against a longbow's strike."
 	smeltresult = /obj/item/ingot/steel
-	max_integrity = ARMOR_INT_SIDE_STEEL
+	max_integrity = ARMOR_INT_SIDE_STEEL + ARMOR_INT_SIDE_COVERAGE_BONUS
 	icon_state = "sgorget"
 
 /obj/item/clothing/neck/roguetown/gorget/gold
@@ -412,7 +412,7 @@
 	name = "ancient gorget"
 	desc = "Polished gilbranze plates, layered atop one-another to guard the neck. The spine; a sacred leyline between spirit and sinew. It must remain unsevered, lest Her blessings be lost."
 	icon_state = "ancientgorget"
-	max_integrity = ARMOR_INT_SIDE_STEEL
+	max_integrity = ARMOR_INT_SIDE_STEEL + ARMOR_INT_SIDE_COVERAGE_BONUS
 	smeltresult = /obj/item/ingot/aaslag
 
 /obj/item/clothing/neck/roguetown/gorget/prisoner/Initialize()
