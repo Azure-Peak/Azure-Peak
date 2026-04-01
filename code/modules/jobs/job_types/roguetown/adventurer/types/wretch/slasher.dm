@@ -66,7 +66,6 @@
 		switch(weapon_choice)
 			if("Executioner's Sword") // silent hill?
 				H.adjust_skillrank_up_to(/datum/skill/combat/swords, SKILL_LEVEL_EXPERT, TRUE)
-				backr = /obj/item/rogueweapon/scabbard/gwstrap
 				l_hand = /obj/item/rogueweapon/sword/long/exe
 			if("Cudgel") // token off-meta nonlethal option. ye olde leatherface for when you want em' alive
 				H.adjust_skillrank_up_to(/datum/skill/combat/maces, SKILL_LEVEL_EXPERT, TRUE)
