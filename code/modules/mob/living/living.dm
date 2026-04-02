@@ -2112,7 +2112,7 @@
 						found_ping(get_turf(M), client, "hidden")
 
 		for(var/obj/O in view(7,src))
-			if(O.vars["hiddenguy"])
+			if("hiddenguy" in O.vars)
 				var/mob/living/M = O.vars["hiddenguy"]
 				if(M)
 					var/sneak = M.get_skill_level(/datum/skill/misc/sneaking)
