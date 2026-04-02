@@ -56,7 +56,7 @@
 
 
 	if(skill_level > SKILL_LEVEL_EXPERT)
-		ADD_TRAIT(owner, TRAIT_NIGHT_VISION, TRAIT_GAZE)
+		ADD_TRAIT(owner, TRAIT_NITEVISION, TRAIT_GAZE)
 	else if(skill_level >= SKILL_LEVEL_APPRENTICE)
 		ADD_TRAIT(owner, TRAIT_DARKVISION, TRAIT_GAZE)
 
@@ -80,8 +80,8 @@
 		H.viewcone_override = FALSE
 		H.hide_cone()
 		H.update_cone_show()
-	if(HAS_TRAIT(owner, TRAIT_NIGHT_VISION))
-		REMOVE_TRAIT(owner, TRAIT_NIGHT_VISION, TRAIT_GAZE)
+	if(HAS_TRAIT(owner, TRAIT_NITEVISION))
+		REMOVE_TRAIT(owner, TRAIT_NITEVISION, TRAIT_GAZE)
 	else
 		REMOVE_TRAIT(owner, TRAIT_DARKVISION, TRAIT_GAZE)
 
@@ -328,7 +328,7 @@
 	miracle = TRUE
 	devotion_cost = 50
 
-	chargetime = 90 //1.5s
+	chargetime = 1 SECONDS
 	chargedloop = /datum/looping_sound/invokeholy
 
 	sound = 'sound/magic/undivided_mockery.ogg'
