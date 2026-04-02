@@ -14,6 +14,7 @@
 	var/mob/living/structureclimber
 	var/hammer_repair
 	var/hidingspot = FALSE //safety measures, dw about it
+	var/occupied = FALSE
 //	move_resist = MOVE_FORCE_STRONG
 
 /obj/structure/Initialize()

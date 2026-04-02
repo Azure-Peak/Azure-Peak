@@ -322,7 +322,6 @@
 	hidingspot = TRUE
 	var/list/looty = list()
 	var/bushtype
-	var/occupied = FALSE
 
 /obj/structure/flora/roguegrass/bush/Initialize()
 	if(prob(88) && isnull(bushtype))
