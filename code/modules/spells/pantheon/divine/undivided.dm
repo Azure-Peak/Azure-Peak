@@ -165,6 +165,7 @@
 	releasedrain = 10
 	devotion_cost = 40
 
+	sound = 'sound/magic/undivided_strike.ogg'
 	invocations = list("Geleitet meine Hand!") //("Guide my hand!")
 
 ////////////////////////////////////////////////////////////
@@ -387,6 +388,7 @@
 	recharge_time = 30 SECONDS
 	releasedrain = 40
 
+	sound = 'sound/magic/heal_new.ogg'
 	chargetime = 1 SECONDS
 	chargedloop = /datum/looping_sound/invokeholy
 
