@@ -320,6 +320,7 @@
 	dir = SOUTH
 	debris = list(/obj/item/natural/fibers = 1, /obj/item/grown/log/tree/stick = 1)
 	hidingspot = TRUE
+	var/mob/living/hiddenguy = null // So we can find them with fixed eye search
 	var/list/looty = list()
 	var/bushtype
 
@@ -403,6 +404,7 @@
 		return
 	user.forceMove(src)
 	occupied = TRUE
+	hiddenguy = user
 	to_chat(user, span_warning("I hide in [src]!"))
 
 /obj/structure/flora/roguegrass/bush/proc/unhide(mob/living/user)
@@ -410,6 +412,7 @@
 	if(!T) return
 	user.forceMove(T)
 	occupied = FALSE
+	hiddenguy = null
 	to_chat(user, span_warning("I come out from [src]!"))
 
 /obj/structure/flora/roguegrass/bush/relaymove(mob/user)
