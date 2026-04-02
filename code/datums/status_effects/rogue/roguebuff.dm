@@ -2188,7 +2188,7 @@
 	var/outline_colour = "#6BB7A0"
 	duration = -1
 	tick_interval = -1
-	examine_text = span_love("SUBJECTPRONOUN is bathed in Baotha's blessings!")
+	examine_text = span_good("SUBJECTPRONOUN is bathed in Divine Light!")
 	alert_type = null
 
 /datum/status_effect/orderbringer/on_apply()
