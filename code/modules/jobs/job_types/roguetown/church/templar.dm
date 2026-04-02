@@ -79,6 +79,7 @@
 	switch(H.patron?.type)
 		if(/datum/patron/divine/undivided)
 			neck = /obj/item/clothing/neck/roguetown/psicross/undivided
+			cloak = /obj/item/clothing/suit/roguetown/shirt/robe/undivided
 			if(H.mind)
 				var/cloaks = list("Cloak", "Tabard")
 				var/cloakchoice = input(H,"Choose your covering", "TAKE UP FASHION") as anything in cloaks
@@ -89,7 +90,7 @@
 						cloak = /obj/item/clothing/cloak/templar/undivided
 		if(/datum/patron/divine/astrata)
 			neck = /obj/item/clothing/neck/roguetown/psicross/astrata
-			cloak = /obj/item/clothing/suit/roguetown/shirt/robe/undivided
+			cloak = /obj/item/clothing/suit/roguetown/shirt/robe/astrata
 		if(/datum/patron/divine/abyssor)
 			neck = /obj/item/clothing/neck/roguetown/psicross/abyssor
 			cloak = /obj/item/clothing/suit/roguetown/shirt/robe/abyssor

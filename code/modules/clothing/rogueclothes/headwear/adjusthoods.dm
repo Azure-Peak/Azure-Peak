@@ -256,6 +256,9 @@
 	icon = 'icons/roguetown/clothing/head.dmi'
 	body_parts_covered = NECK
 	slot_flags = ITEM_SLOT_HEAD|ITEM_SLOT_MASK
+	hidesnoutADJ = FALSE
+	flags_inv = HIDEEARS|HIDEHAIR|HIDEFACIALHAIR	//Does not hide face.
+	block2add = null
 	dynamic_hair_suffix = ""
 	edelay_type = 1
 	adjustable = CAN_CADJUST
