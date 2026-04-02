@@ -230,6 +230,14 @@
 
 /obj/structure/examine(mob/user)
 	. = ..()
+
+	if(in_range(user, src))
+		if(occupied)
+			var/mob/living/M = locate() in src
+			if(M)
+				M.forceMove(get_turf(src))
+				occupied = FALSE
+
 	if(!(resistance_flags & INDESTRUCTIBLE))
 		if(obj_broken)
 			. += span_notice("It appears to be broken.")
