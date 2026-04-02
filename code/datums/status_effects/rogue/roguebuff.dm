@@ -2052,6 +2052,40 @@
 	desc = "My natural defenses are gone! I am lighter, but far weaker."
 	icon_state = "buff"
 
+// escalating buffs applied on bleed out tied to TRAIT_JOURNEYS_END, currently only used by mistwalker
+/atom/movable/screen/alert/status_effect/buff/journey_ending
+	name = "An end in sight..."
+	desc = "Is this to be my story?"
+	icon_state = "buff"
+
+/atom/movable/screen/alert/status_effect/buff/journey_end
+	name = "The chapter's closing."
+	desc = "Treading the fine line of lyfe and death."
+	icon_state = "buff"
+
+/atom/movable/screen/alert/status_effect/buff/journey_end_final
+	name = "The final act!"
+	desc = "A death worthy of song!"
+	icon_state = "buff"
+
+/datum/status_effect/buff/journey_ending
+	id = "journey_ending"
+	alert_type = /atom/movable/screen/alert/status_effect/buff/journey_ending
+	effectedstats = list(STATKEY_SPD = 2, STATKEY_WIL = 2)
+	duration = -1
+
+/datum/status_effect/buff/journey_end
+	id = "journey_end"
+	alert_type = /atom/movable/screen/alert/status_effect/buff/journey_end
+	effectedstats = list(STATKEY_STR = 2, STATKEY_SPD = 3, STATKEY_WIL = 2, STATKEY_CON = 2)
+	duration = -1
+
+/datum/status_effect/buff/journey_end_final //takes ages for them to die to bloodloss, but they *do* die to it
+	id = "journey_end_final"
+	alert_type = /atom/movable/screen/alert/status_effect/buff/journey_end_final
+	effectedstats = list(STATKEY_STR = 5, STATKEY_SPD = 6, STATKEY_WIL = 4, STATKEY_CON = 4)
+	duration = -1
+
 /datum/status_effect/buff/stagehands_silence
 	id = "Stagehand"
 	alert_type = /atom/movable/screen/alert/status_effect/buff/stagehands_silence

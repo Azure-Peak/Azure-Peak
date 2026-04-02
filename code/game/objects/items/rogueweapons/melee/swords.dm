@@ -210,7 +210,7 @@
 	name = "spatha"
 	desc = "A hero needn't speak - for when they are gone, the world will speak for them."
 	icon_state = "spatha"
-	sheathe_icon = "spatha"
+	sheathe_icon = "gladius"
 	wdefense = 3 //On par with the Gladius, as the Spatha is.. essentially.. a longer Gladius. Lowest WDEF of all longswords.
 	wdefense_wbonus = 3
 	max_blade_int = 295 //Inverse. Sharper..

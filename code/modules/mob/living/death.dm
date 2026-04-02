@@ -160,10 +160,10 @@ GLOBAL_LIST_EMPTY(last_words)
 	// AZURE EDIT BEGIN: necra acolyte/priest deathsight trait
 	// this was a player that just died, so do the honors
 	if (client)
-		if (!gibbed)
+		if (!gibbed && !( (src.mind && src.mind.has_antag_datum(/datum/antagonist/zombie)) || (src.mind && src.mind.has_antag_datum(/datum/antagonist/skeleton)) || HAS_TRAIT(src, TRAIT_SECONDLIFE) )) // because I hate being jumpscared by "OOH SOMEONE DIED IN THE CHURCH" when they're just killing a deadite with burn rot to rez them
 			var/locale = prepare_deathsight_message()
 			for (var/mob/living/player in GLOB.player_list)
-				if (player.stat == DEAD || isbrain(player))
+				if (player.stat == DEAD || isbrain(player)) 
 					continue
 				if (HAS_TRAIT(player, TRAIT_DEATHSIGHT))
 					if (HAS_TRAIT(player, TRAIT_CABAL))
@@ -177,5 +177,5 @@ GLOBAL_LIST_EMPTY(last_words)
 /mob/living/proc/prepare_deathsight_message()
 	var/area/A = get_area(src)
 	if(!A)
-		return "a locale wreathed in enigmatic fog" // fallback if we can't find the area somehow??
+		return "an unknown locale, wreathed in enigmatic fog" // fallback if we can't find the area somehow?? -- This was not clear enough for me ICly that it's somewhere I shouldn't care about, now it should
 	return A.deathsight_message

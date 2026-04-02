@@ -170,52 +170,52 @@
 	. = ..()
 	// -- Start of section for god specific bonuses --
 	if(H.patron?.type == /datum/patron/divine/undivided)
-		H.adjust_skillrank(/datum/skill/magic/holy, 1, TRUE)
+		H.adjust_skillrank(/datum/skill/magic/holy, SKILL_LEVEL_NOVICE, TRUE)
 		ADD_TRAIT(H, TRAIT_STEELHEARTED, TRAIT_GENERIC)
 	if(H.patron?.type == /datum/patron/divine/astrata) // Light and Guidance - Like ravox, they probably can endure seeing some shit.
-		H.adjust_skillrank(/datum/skill/magic/holy, 1, TRUE)
+		H.adjust_skillrank(/datum/skill/magic/holy, SKILL_LEVEL_NOVICE, TRUE)
 		ADD_TRAIT(H, TRAIT_STEELHEARTED, TRAIT_GENERIC)
 		H.cmode_music = 'sound/music/cmode/church/combat_astrata.ogg'
 	if(H.patron?.type == /datum/patron/divine/noc) // Arcyne and Knowledge - Probably good at reading and the other arcyne adjacent stuff.
-		H.adjust_skillrank(/datum/skill/misc/reading, 3, TRUE) // Really good at reading... does this really do anything? No. BUT it's soulful.
-		H.adjust_skillrank(/datum/skill/craft/alchemy, 2, TRUE)
-		H.adjust_skillrank(/datum/skill/magic/arcane, 2, TRUE) // for their arcane spells, very little CDR and cast speed.
+		H.adjust_skillrank(/datum/skill/misc/reading, SKILL_LEVEL_JOURNEYMAN, TRUE) // Really good at reading... does this really do anything? No. BUT it's soulful.
+		H.adjust_skillrank(/datum/skill/craft/alchemy, SKILL_LEVEL_APPRENTICE, TRUE)
+		H.adjust_skillrank(/datum/skill/magic/arcane, SKILL_LEVEL_APPRENTICE, TRUE) // for their arcane spells, very little CDR and cast speed.
 		if(H.mind)
 			H.mind.AddSpell(new /datum/action/cooldown/spell/touch/prestidigitation)
 		ADD_TRAIT(H, TRAIT_ARCYNE, TRAIT_GENERIC) // So that they can take arcyne potential and not break.
 	if(H.patron?.type == /datum/patron/divine/abyssor) // The Sea and Weather - probably would be good at fishing
-		H.adjust_skillrank(/datum/skill/labor/fishing, 3, TRUE)
-		H.adjust_skillrank(/datum/skill/misc/swimming, 3, TRUE)
+		H.adjust_skillrank(/datum/skill/labor/fishing, SKILL_LEVEL_JOURNEYMAN, TRUE)
+		H.adjust_skillrank(/datum/skill/misc/swimming, SKILL_LEVEL_JOURNEYMAN, TRUE)
 		ADD_TRAIT(H, TRAIT_WATERBREATHING, TRAIT_GENERIC)
 		H.grant_language(/datum/language/abyssal)
 	if(H.patron?.type == /datum/patron/divine/necra) // Death and Moving on - grave diggers.
 		ADD_TRAIT(H, TRAIT_NOSTINK, TRAIT_GENERIC)
 		ADD_TRAIT(H, TRAIT_SOUL_EXAMINE, TRAIT_GENERIC)
-		H.adjust_skillrank(/datum/skill/misc/athletics, 2, TRUE) // digging graves and carrying bodies builds muscles probably.
+		H.adjust_skillrank(/datum/skill/misc/athletics, SKILL_LEVEL_APPRENTICE, TRUE) // digging graves and carrying bodies builds muscles probably.
 		H.cmode_music = 'sound/music/cmode/church/combat_necra.ogg'
 	if(H.patron?.type == /datum/patron/divine/pestra) // Medicine and Healing - better surgeons and alchemists
-		H.adjust_skillrank_up_to(/datum/skill/misc/medicine, 4, TRUE)
-		H.adjust_skillrank(/datum/skill/craft/alchemy, 1, TRUE)
+		H.adjust_skillrank(/datum/skill/misc/medicine, SKILL_LEVEL_NOVICE, TRUE)
+		H.adjust_skillrank(/datum/skill/craft/alchemy, SKILL_LEVEL_NOVICE, TRUE)
 		ADD_TRAIT(H, TRAIT_NOSTINK, TRAIT_GENERIC)
 	if(H.patron?.type == /datum/patron/divine/eora) // Beauty and Love - beautiful and can read people pretty well.
 		ADD_TRAIT(H, TRAIT_BEAUTIFUL, TRAIT_GENERIC)
 		ADD_TRAIT(H, TRAIT_EMPATH, TRAIT_GENERIC)
 		H.cmode_music = 'sound/music/cmode/church/combat_eora.ogg'
 		// 90% of eorans i see are farming to tend to their tree and/or cooking. they also get sewing -- arts and crafts.
-		H.adjust_skillrank(/datum/skill/craft/sewing, 1, TRUE)
-		H.adjust_skillrank(/datum/skill/labor/farming, 1, TRUE)
-		H.adjust_skillrank(/datum/skill/craft/cooking, 1, TRUE)
+		H.adjust_skillrank(/datum/skill/craft/sewing, SKILL_LEVEL_NOVICE, TRUE)
+		H.adjust_skillrank(/datum/skill/labor/farming, SKILL_LEVEL_NOVICE, TRUE)
+		H.adjust_skillrank(/datum/skill/craft/cooking, SKILL_LEVEL_NOVICE, TRUE)
 	if(H.patron?.type == /datum/patron/divine/malum) // Craft and Creativity - they can make stuff.
 		ADD_TRAIT(H, TRAIT_SMITHING_EXPERT, TRAIT_GENERIC)
-		H.adjust_skillrank(/datum/skill/craft/blacksmithing, 2, TRUE)
-		H.adjust_skillrank(/datum/skill/craft/armorsmithing, 2, TRUE)
-		H.adjust_skillrank(/datum/skill/craft/weaponsmithing, 2, TRUE)
-		H.adjust_skillrank(/datum/skill/craft/smelting, 2, TRUE)
+		H.adjust_skillrank(/datum/skill/craft/blacksmithing, SKILL_LEVEL_APPRENTICE, TRUE)
+		H.adjust_skillrank(/datum/skill/craft/armorsmithing, SKILL_LEVEL_APPRENTICE, TRUE)
+		H.adjust_skillrank(/datum/skill/craft/weaponsmithing, SKILL_LEVEL_APPRENTICE, TRUE)
+		H.adjust_skillrank(/datum/skill/craft/smelting, SKILL_LEVEL_APPRENTICE, TRUE)
 	if(H.patron?.type == /datum/patron/divine/ravox) // Justice and Honor - athletics and probably a bit better at handling the horrors of war
-		H.adjust_skillrank(/datum/skill/misc/athletics, 3, TRUE)
-		H.adjust_skillrank_up_to(/datum/skill/combat/staves, 3, TRUE) //On par with an Adventuring Monk. Seems quite fitting.
+		H.adjust_skillrank(/datum/skill/misc/athletics, SKILL_LEVEL_JOURNEYMAN, TRUE)
+		H.adjust_skillrank(/datum/skill/combat/staves, SKILL_LEVEL_NOVICE, TRUE) //On par with an Adventuring Monk. Seems quite fitting.
 		ADD_TRAIT(H, TRAIT_STEELHEARTED, TRAIT_GENERIC)
 	if(H.patron?.type == /datum/patron/divine/xylix)  // Trickery and Inspiration - muxic and rogueish skills
-		H.adjust_skillrank(/datum/skill/misc/climbing, 3, TRUE)
-		H.adjust_skillrank(/datum/skill/misc/lockpicking, 1, TRUE)
-		H.adjust_skillrank(/datum/skill/misc/music, 2, TRUE)
+		H.adjust_skillrank(/datum/skill/misc/climbing, SKILL_LEVEL_JOURNEYMAN, TRUE)
+		H.adjust_skillrank(/datum/skill/misc/lockpicking, SKILL_LEVEL_NOVICE, TRUE)
+		H.adjust_skillrank(/datum/skill/misc/music, SKILL_LEVEL_APPRENTICE, TRUE)

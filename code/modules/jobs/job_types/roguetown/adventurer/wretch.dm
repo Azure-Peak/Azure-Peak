@@ -42,13 +42,15 @@
 		/datum/advclass/wretch/outlaw,
 		/datum/advclass/wretch/poacher,
 		/datum/advclass/wretch/plaguebearer,
+		/datum/advclass/wretch/mistwalker,
 		/datum/advclass/wretch/pyromaniac,
 		/datum/advclass/wretch/vigilante,
 		/datum/advclass/wretch/munitioneer,
 		/datum/advclass/wretch/pariah,
 		/datum/advclass/wretch/heretic_spellblade,
 		/datum/advclass/wretch/ancient_spellblade,
-		/datum/advclass/wretch/ancient_deathknight
+		/datum/advclass/wretch/ancient_deathknight,
+		/datum/advclass/wretch/slasher
 	)
 
 /datum/job/roguetown/wretch/special_job_check(mob/dead/new_player/player)
