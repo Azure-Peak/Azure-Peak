@@ -69,7 +69,7 @@
 		if(3) return 77  //70%
 		if(4) return 51  //80%
 		if(5) return 26  //90%
-		if(6) return 13  //95%
+		if(6) return 26  //90%
 
 	return 255	
 
