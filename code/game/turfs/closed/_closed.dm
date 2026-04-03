@@ -64,14 +64,14 @@
 	var/skill_level = src.get_skill_level(/datum/skill/misc/sneaking)
 
 	switch(skill_level)
-		if(1) return 178 //30%
-		if(2) return 140 //45%
-		if(3) return 102 //60%
-		if(4) return 77 //70%
-		if(5) return 51 //80%
-		if(6) return 25 //90%
+		if(1) return 128 //50%
+		if(2) return 102 //60%
+		if(3) return 77  //70%
+		if(4) return 51  //80%
+		if(5) return 26  //90%
+		if(6) return 13  //95%
 
-	return 255
+	return 255	
 
 /turf/closed/proc/wallshove(mob/living/user)
 	if(user.wallpressed)
@@ -100,10 +100,14 @@
 /mob/living/proc/update_wallpress_slowdown()
 	if(wallpressed)
 		add_movespeed_modifier("wallpress", TRUE, 100, override = TRUE, multiplicative_slowdown = 3)
-		alpha = get_wallpress_alpha()
+
+		var/target_alpha = get_wallpress_alpha()
+		var/used_time = 50
+		used_time = max(used_time - (get_skill_level(/datum/skill/misc/sneaking) * 8), 10)
+		animate(src, alpha = target_alpha, time = used_time)
 	else
 		remove_movespeed_modifier("wallpress")
-		alpha = 255
+		animate(src, alpha = 255, time = 10)
 
 /turf/closed/Bumped(atom/movable/AM)
 	..()

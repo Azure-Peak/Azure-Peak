@@ -1007,11 +1007,25 @@
 	reset_offsets("wall_press")
 	update_wallpress_slowdown()
 
+/mob/living/proc/get_lying_alpha()
+	var/skill_level = src.get_skill_level(/datum/skill/misc/sneaking)
+
+	switch(skill_level)
+		if(1) return 178 //30%
+		if(2) return 140 //45%
+		if(3) return 128 //50%
+		if(4) return 102 //60%
+		if(5) return 77 //70%
+		if(6) return 51 //80%
+
+	return 255
+
 
 /mob/living/Move(atom/newloc, direct, glide_size_override)
 
 	var/old_direction = dir
 	var/turf/T = loc
+	var/target_alpha = 255
 
 	if(m_intent == MOVE_INTENT_RUN)
 		sprinted_tiles++
@@ -1027,6 +1041,15 @@
 			lying = 270
 		update_transform()
 		lying_prev = lying
+
+	if(m_intent == MOVE_INTENT_SNEAK && lying)
+		target_alpha = get_lying_alpha()
+
+	if(alpha != target_alpha) // this is kinda sloppa but it should be better than doing animate on every move call
+		var/used_time = 50
+		used_time = max(used_time - (get_skill_level(/datum/skill/misc/sneaking) * 8), 10)
+
+		animate(src, alpha = target_alpha, time = used_time)
 	if (buckled && buckled.loc != newloc) //not updating position
 		if (!buckled.anchored)
 			return buckled.Move(newloc, direct, glide_size)
