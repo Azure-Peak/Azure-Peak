@@ -2808,6 +2808,7 @@
 #include "code\modules\spells\spell_types\bardic\recovery_song.dm"
 #include "code\modules\spells\spell_types\bardic\rejuvenation_song.dm"
 #include "code\modules\spells\spell_types\bardic\resolute_refrain.dm"
+#include "code\modules\spells\spell_types\bardic\vicious_mockery.dm"
 #include "code\modules\spells\spell_types\classunique\spellblade\advance.dm"
 #include "code\modules\spells\spell_types\classunique\spellblade\air_strike.dm"
 #include "code\modules\spells\spell_types\classunique\spellblade\anime_spells_helper.dm"

@@ -52,7 +52,7 @@
 
 
 	H.cmode_music = 'sound/music/cmode/adventurer/combat_outlander3.ogg'
-	H.mind?.AddSpell(new /obj/effect/proc_holder/spell/invoked/mockery)
+	H.mind?.AddSpell(new /datum/action/cooldown/spell/projectile/vicious_mockery)
 	if(H.mind)
 		var/instruments = list("Harp","Lute","Accordion","Guitar","Hurdy-Gurdy","Viola","Vocal Talisman", "Psyaltery", "Flute")
 		var/instrument_choice = tgui_input_list(H, "Choose your instrument.", "TAKE UP ARMS", instruments)

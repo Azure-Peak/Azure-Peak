@@ -14,7 +14,7 @@
 					/obj/effect/proc_holder/spell/targeted/blesscrop			= CLERIC_T2,
 					/obj/effect/proc_holder/spell/invoked/avert					= CLERIC_T2,
 					/obj/effect/proc_holder/spell/invoked/infestation			= CLERIC_T2,
-					/obj/effect/proc_holder/spell/invoked/mockery				= CLERIC_T3, // you'll have to be a real xylix templar to get this pretty decent combat debuff, sorry.
+					/datum/action/cooldown/spell/projectile/vicious_mockery		= CLERIC_T3, // you'll have to be a real xylix templar to get this pretty decent combat debuff, sorry.
 					/datum/action/cooldown/spell/arcyne_forge/miracle				= CLERIC_T3,
 					/obj/effect/proc_holder/spell/invoked/resurrect/undivided	= CLERIC_T4
 	)
