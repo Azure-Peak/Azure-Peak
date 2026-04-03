@@ -2804,6 +2804,7 @@
 #include "code\modules\spells\spell_types\bardic\enervating_elegy.dm"
 #include "code\modules\spells\spell_types\bardic\fervor_song.dm"
 #include "code\modules\spells\spell_types\bardic\furtive_fortissimo.dm"
+#include "code\modules\spells\spell_types\bardic\intellectual_interval.dm"
 #include "code\modules\spells\spell_types\bardic\crescendo.dm"
 #include "code\modules\spells\spell_types\bardic\melody-dirges.dm"
 #include "code\modules\spells\spell_types\bardic\rattling_requiem.dm"

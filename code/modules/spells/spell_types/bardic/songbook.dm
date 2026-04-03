@@ -4,6 +4,7 @@ GLOBAL_LIST_INIT(learnable_songs, list(
 	// Buff Melodies
 	/datum/action/cooldown/spell/song/furtive_fortissimo,
 	/datum/action/cooldown/spell/song/resolute_refrain,
+	/datum/action/cooldown/spell/song/intellectual_interval,
 	/datum/action/cooldown/spell/song/fervor_song,
 	/datum/action/cooldown/spell/song/recovery_song,
 	/datum/action/cooldown/spell/song/accelakathist,
