@@ -4,6 +4,8 @@ GLOBAL_LIST_EMPTY(vampire_objects)
 	name = "Vampire"
 	roundend_category = "Vampires"
 	antagpanel_category = "Vampire"
+	storyteller_antag_flags = STORYTELLER_ANTAG_VILLAIN
+	storyteller_min_players = STORYTELLER_MINOR_ANTAG_MIN_PLAYERS
 	job_rank = ROLE_VAMPIRE
 	antag_hud_type = ANTAG_HUD_VAMPIRE
 	antag_hud_name = "Vspawn"
@@ -26,6 +28,10 @@ GLOBAL_LIST_EMPTY(vampire_objects)
 	var/research_points = 10
 	var/max_thralls = 1
 	var/thrall_count = 0
+
+/datum/antagonist/vampire/masquerade
+	storyteller_min_players = STORYTELLER_MAJOR_ANTAG_MIN_PLAYERS
+	override_candidatereq = TRUE
 
 /datum/antagonist/vampire/New(incoming_clan = /datum/clan/nosferatu, forced_clan = FALSE, generation)
 	. = ..()

@@ -2,6 +2,9 @@
 	name = "Lich"
 	roundend_category = "Lich"
 	antagpanel_category = "Lich"
+	storyteller_antag_flags = STORYTELLER_ANTAG_VILLAIN
+	storyteller_favor_flags = STORYTELLER_FAVOR_LICH
+	storyteller_min_players = STORYTELLER_MAJOR_ANTAG_MIN_PLAYERS
 	job_rank = ROLE_LICH
 	confess_lines = list(
 		"I WILL LIVE ETERNAL!",

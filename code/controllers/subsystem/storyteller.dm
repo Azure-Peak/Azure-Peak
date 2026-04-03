@@ -1,5 +1,5 @@
 #define INIT_ORDER_GAMEMODE 70
-///how many storytellers can be voted for along with always_votable ones
+///how many weighted storytellers can be voted for alongside always-votable ones
 #define DEFAULT_STORYTELLER_VOTE_OPTIONS 4
 ///amount of players we can have before no longer running votes for storyteller
 #define MAX_POP_FOR_STORYTELLER_VOTE 25
@@ -7,44 +7,10 @@
 #define LAST_ROUND_STATS_STORYTELLER_VOTE "storyteller_vote"
 ///the duration into the round for which roundstart events are still valid to run
 #define ROUNDSTART_VALID_TIMEFRAME 3 MINUTES
-/// Width of a popup window that opens when user presses (?) and contains storyteller description
-#define DESC_POPUP_WIDTH 400
-/// Height of a popup window that opens when user presses (?) and contains storyteller description
-#define DESC_POPUP_HEIGHT 250
 /// A town combatant role counts as 1 + this value towards effective population
 #define TOWN_COMBATANT_ADDITIONAL_WEIGHT 2
 /// A half combatant (acolyte) counts as 1 + this value towards effective population
 #define HALF_COMBATANT_ADDITIONAL_WEIGHT 1
-
-/proc/is_storyteller_pending_or_roundstart(storyteller_type)
-	if(!ispath(storyteller_type, /datum/storyteller))
-		return FALSE
-	if(SSticker && SSticker.current_state != GAME_STATE_PLAYING && SSticker.current_state != GAME_STATE_FINISHED)
-		return SSgamemode.selected_storyteller == storyteller_type
-	if(ispath(SSgamemode.roundstart_storyteller, /datum/storyteller))
-		return SSgamemode.roundstart_storyteller == storyteller_type
-	return istype(SSgamemode.current_storyteller, storyteller_type)
-
-
-/proc/is_storyteller_villain_blocked()
-	return is_storyteller_pending_or_roundstart(/datum/storyteller/eora) || is_storyteller_pending_or_roundstart(/datum/storyteller/psydon)
-
-/proc/is_storyteller_soft_antag_blocked()
-	return is_storyteller_pending_or_roundstart(/datum/storyteller/psydon)
-
-/proc/enforce_storyteller_soft_antag_slots()
-	if(!is_storyteller_soft_antag_blocked())
-		return
-	for(var/job_title in list("Wretch", "Gnoll", "Assassin"))
-		var/datum/job/blocked_job = SSjob.GetJob(job_title)
-		if(!blocked_job)
-			continue
-		var/allowed_slots = max(0, blocked_job.current_positions)
-		blocked_job.total_positions = allowed_slots
-		blocked_job.spawn_positions = allowed_slots
-
-/proc/is_roundstart_roles_blocked_storyteller()
-	return is_storyteller_villain_blocked()
 
 SUBSYSTEM_DEF(gamemode)
 	name = "Gamemode"
@@ -222,6 +188,8 @@ SUBSYSTEM_DEF(gamemode)
 
 	/// What is our currently desired/selected roundstart event
 	var/datum/round_event_control/antagonist/solo/current_roundstart_event
+	/// Ready-pop snapshot when the roundstart antagonist event was picked.
+	var/roundstart_antag_pop = 0
 	var/list/last_round_events = list()
 	/// Has a roundstart event been run
 	var/ran_roundstart = FALSE
@@ -274,7 +242,7 @@ SUBSYSTEM_DEF(gamemode)
 	. = ..()
 
 /datum/controller/subsystem/gamemode/fire(resumed = FALSE)
-	if(last_devotion_check < world.time)
+	if(!SSticker.HasRoundStarted() && last_devotion_check < world.time)
 		pick_most_influential()
 		last_devotion_check = world.time + 45 MINUTES
 
@@ -472,11 +440,11 @@ SUBSYSTEM_DEF(gamemode)
 		calc_value *= current_storyteller?.starting_point_multipliers[track]
 		calc_value *= (rand(100 - current_storyteller?.roundstart_points_variance,100 + current_storyteller?.roundstart_points_variance)/100)
 		event_track_points[track] = min(round(calc_value), round(point_thresholds[track] * 1.25))
-		if(track == EVENT_TRACK_CHARACTER_INJECTION && is_roundstart_roles_blocked_storyteller())
+		if(track == EVENT_TRACK_CHARACTER_INJECTION && storyteller_blocks_antag(STORYTELLER_ANTAG_ROUNDSTART))
 			event_track_points[track] = 0
 
 	/// If the storyteller guarantees an antagonist roll, add points to make it so.
-	if(!is_roundstart_roles_blocked_storyteller() && current_storyteller?.guarantees_roundstart_roleset && event_track_points[EVENT_TRACK_CHARACTER_INJECTION] < point_thresholds[EVENT_TRACK_CHARACTER_INJECTION])
+	if(!storyteller_blocks_antag(STORYTELLER_ANTAG_ROUNDSTART) && current_storyteller?.guarantees_roundstart_roleset && event_track_points[EVENT_TRACK_CHARACTER_INJECTION] < point_thresholds[EVENT_TRACK_CHARACTER_INJECTION])
 		event_track_points[EVENT_TRACK_CHARACTER_INJECTION] = point_thresholds[EVENT_TRACK_CHARACTER_INJECTION]
 
 	/// If we have any forced events, ensure we get enough points for them
@@ -507,6 +475,9 @@ SUBSYSTEM_DEF(gamemode)
 	for(var/datum/round_event/event as anything in running)
 		if(!event.control.roundstart)
 			continue
+		if(!event.setup)
+			event.setup()
+		event.current_players = get_active_player_count(alive_check = TRUE, afk_check = TRUE, human_check = TRUE)
 		ASYNC
 			event.try_start()
 		INVOKE_ASYNC(event, TYPE_PROC_REF(/datum/round_event, try_start))
@@ -598,13 +569,13 @@ SUBSYSTEM_DEF(gamemode)
 			to_chat(world, span_reallybig("[initialized_storyteller.name] is ascendant!"))
 			to_chat(world, "<br>")
 
-	if(!current_storyteller || current_storyteller.type != selected_storyteller)
+	if(get_storyteller_type() != selected_storyteller)
 		init_storyteller()
 	if(!ispath(roundstart_storyteller, /datum/storyteller))
-		roundstart_storyteller = selected_storyteller
+		roundstart_storyteller = get_storyteller_type(TRUE)
 	calculate_ready_players()
 	roll_pre_setup_points()
-	//handle_pre_setup_roundstart_events()
+	handle_pre_setup_roundstart_events()
 	return TRUE
 
 ///Everyone should now be on the station and have their normal gear.  This is the place to give the special roles extra things
@@ -624,7 +595,7 @@ SUBSYSTEM_DEF(gamemode)
 	refresh_alive_stats()
 	handle_post_setup_roundstart_events()
 	handle_post_setup_points()
-	enforce_storyteller_soft_antag_slots()
+	enforce_storyteller_antag_slots()
 	roundstart_event_view = FALSE
 	return TRUE
 
@@ -743,9 +714,14 @@ SUBSYSTEM_DEF(gamemode)
 	point_thresholds[EVENT_TRACK_RAIDS] = CONFIG_GET(number/objectives_point_threshold) * 2
 
 /datum/controller/subsystem/gamemode/proc/handle_picking_storyteller()
+	if(ispath(roundstart_storyteller, /datum/storyteller))
+		selected_storyteller = roundstart_storyteller
+		refresh_storyteller_slots()
+		return
 	if(length(GLOB.clients) > MAX_POP_FOR_STORYTELLER_VOTE)
 		secret_storyteller = TRUE
 		selected_storyteller = pickweight(get_valid_storytellers(TRUE))
+		refresh_storyteller_slots()
 		return
 	pick_most_influential(TRUE)
 
@@ -754,14 +730,21 @@ SUBSYSTEM_DEF(gamemode)
 	var/list/pick_from = list()
 	var/list/valid_storytellers = get_valid_storytellers()
 	var/previous_storyteller = get_last_storyteller_vote()
-	var/can_exclude_previous = length(valid_storytellers) > 1
+	var/previous_pool = get_story_pool(previous_storyteller)
+	var/can_exclude_previous_pool = FALSE
+	if(previous_pool)
+		for(var/datum/storyteller/other_storyteller in valid_storytellers)
+			if(get_story_pool(other_storyteller.type) == previous_pool)
+				continue
+			can_exclude_previous_pool = TRUE
+			break
 	for(var/datum/storyteller/storyboy in valid_storytellers)
-		if(can_exclude_previous && previous_storyteller == storyboy.type)
+		if(can_exclude_previous_pool && previous_pool == get_story_pool(storyboy.type))
 			continue
 		if(storyboy.always_votable)
-			final_choices["<b>[storyboy.name]</b><a href='?src=[REF(src)];storyboy_details=[storyboy.type]'>(?)</a>"] = 0
+			final_choices["<b>[storyboy.name]</b>"] = 0
 		else
-			pick_from["<b>[storyboy.name]</b><a href='?src=[REF(src)];storyboy_details=[storyboy.type]'>(?)</a>"] = storyboy.weight //might be able to refactor this to be slightly better due to get_valid_storytellers returning a weighted list
+			pick_from["<b>[storyboy.name]</b>"] = storyboy.weight
 
 	var/added_storytellers = 0
 	while(added_storytellers < DEFAULT_STORYTELLER_VOTE_OPTIONS && length(pick_from))
@@ -771,25 +754,12 @@ SUBSYSTEM_DEF(gamemode)
 		pick_from -= picked_storyteller
 	return final_choices
 
-/datum/controller/subsystem/gamemode/proc/storyteller_desc(storyteller_name)
-	for(var/storyteller_type in storytellers)
-		var/datum/storyteller/storyboy = storytellers[storyteller_type]
-		if(storyboy.name != storyteller_name)
-			continue
-		return storyboy.desc
-
-
 /datum/controller/subsystem/gamemode/proc/storyteller_vote_result(html_contaminated)
-	var/matched_storyteller = FALSE
 	for(var/storyteller_type in storytellers)
 		var/datum/storyteller/storyboy = storytellers[storyteller_type]
 		if(findtext(html_contaminated, storyboy.name))
-			selected_storyteller = storyboy.type
-			matched_storyteller = TRUE
-			SSgnoll_scaling.get_gnoll_scaling() // Calling this here as to make sure scaling holds true as per the roundstart vote, not a latejoin hunted character joining.
+			set_preround_storyteller(storyboy.type)
 			break
-	if(matched_storyteller)
-		save_last_storyteller_vote(selected_storyteller)
 
 	var/datum/storyteller/storytypecasted = selected_storyteller
 	to_chat(world, span_notice("<b>Storyteller is [initial(storytypecasted.name)]!</b>"))
@@ -841,34 +811,520 @@ SUBSYSTEM_DEF(gamemode)
 		valid_storytellers[return_types ? storyboy.type : storyboy] = storyboy.weight
 	return valid_storytellers
 
+/datum/controller/subsystem/gamemode/proc/get_storyteller(roundstart = FALSE)
+	if(roundstart)
+		if(ispath(roundstart_storyteller, /datum/storyteller))
+			return storytellers?[roundstart_storyteller]
+		if(ispath(selected_storyteller, /datum/storyteller))
+			return storytellers?[selected_storyteller]
+	if(current_storyteller)
+		return current_storyteller
+	if(ispath(selected_storyteller, /datum/storyteller))
+		return storytellers?[selected_storyteller]
+	return null
+
+/datum/controller/subsystem/gamemode/proc/get_storyteller_type(roundstart = FALSE)
+	var/datum/storyteller/storyteller = get_storyteller(roundstart)
+	return storyteller?.type
+
+/datum/controller/subsystem/gamemode/proc/get_story_pool(storyteller_type)
+	if(!ispath(storyteller_type, /datum/storyteller))
+		return null
+	switch(storyteller_type)
+		if(/datum/storyteller/psydon)
+			return "Psydon"
+		if(/datum/storyteller/graggar, /datum/storyteller/matthios, /datum/storyteller/zizo, /datum/storyteller/baotha)
+			return "Ascendants"
+	return "The Ten"
+
+/datum/controller/subsystem/gamemode/proc/storyteller_is(storyteller_type, roundstart = FALSE)
+	if(!ispath(storyteller_type, /datum/storyteller))
+		return FALSE
+	return get_storyteller_type(roundstart) == storyteller_type
+
+/datum/controller/subsystem/gamemode/proc/storyteller_active(storyteller_type)
+	if(storyteller_is(storyteller_type, TRUE))
+		return TRUE
+	return storyteller_is(storyteller_type)
+
+/datum/controller/subsystem/gamemode/proc/storyteller_allows(list/allowed_storytellers, roundstart = FALSE, datum/storyteller/storyteller = null)
+	if(!length(allowed_storytellers))
+		return TRUE
+	if(!storyteller)
+		storyteller = get_storyteller(roundstart)
+	var/storyteller_type = storyteller?.type
+	if(!storyteller_type)
+		return FALSE
+	return storyteller_type in allowed_storytellers
+
+/datum/controller/subsystem/gamemode/proc/storyteller_block_flags(storyteller_type)
+	if(!ispath(storyteller_type, /datum/storyteller))
+		return STORYTELLER_ANTAG_NONE
+	switch(storyteller_type)
+		if(/datum/storyteller/psydon)
+			return STORYTELLER_ANTAG_VILLAIN | STORYTELLER_ANTAG_ROUNDSTART | STORYTELLER_ANTAG_SOFT
+		if(/datum/storyteller/eora)
+			return STORYTELLER_ANTAG_VILLAIN | STORYTELLER_ANTAG_ROUNDSTART
+	return STORYTELLER_ANTAG_NONE
+
+/datum/controller/subsystem/gamemode/proc/story_block_types(storyteller_type)
+	return STORYTELLER_FAVOR_NONE
+
+/datum/controller/subsystem/gamemode/proc/story_guarantee_flags(storyteller_type)
+	if(!ispath(storyteller_type, /datum/storyteller))
+		return STORYTELLER_FAVOR_NONE
+	var/flags = STORYTELLER_FAVOR_NONE
+	switch(storyteller_type)
+		if(/datum/storyteller/psydon)
+			return STORYTELLER_FAVOR_NONE
+		if(/datum/storyteller/matthios)
+			flags |= STORYTELLER_FAVOR_BANDIT
+		if(/datum/storyteller/astrata)
+			flags |= STORYTELLER_FAVOR_MASQUERADE
+		if(/datum/storyteller/zizo)
+			flags |= STORYTELLER_FAVOR_LICH
+		if(/datum/storyteller/baotha)
+			flags |= STORYTELLER_FAVOR_VAMPIRE_LORD
+		if(/datum/storyteller/abyssor)
+			flags |= STORYTELLER_FAVOR_DREAMWALKER
+		if(/datum/storyteller/dendor)
+			flags |= STORYTELLER_FAVOR_WEREWOLF
+	return flags
+
+/datum/controller/subsystem/gamemode/proc/story_favor_flags(storyteller_type)
+	if(!ispath(storyteller_type, /datum/storyteller))
+		return STORYTELLER_FAVOR_NONE
+	switch(storyteller_type)
+		if(/datum/storyteller/graggar)
+			return STORYTELLER_FAVOR_GNOLL | STORYTELLER_FAVOR_ASSASSIN
+		if(/datum/storyteller/astrata)
+			return STORYTELLER_FAVOR_VAMPIRE_LORD
+		if(/datum/storyteller/baotha)
+			return STORYTELLER_FAVOR_MASQUERADE
+		if(/datum/storyteller/zizo)
+			return STORYTELLER_FAVOR_DARK_ITINERANT
+		if(/datum/storyteller/noc)
+			return STORYTELLER_FAVOR_WEREWOLF
+		if(/datum/storyteller/ravox)
+			return STORYTELLER_FAVOR_BANDIT
+		if(/datum/storyteller/necra)
+			return STORYTELLER_FAVOR_LICH
+		if(/datum/storyteller/xylix)
+			return STORYTELLER_ALL_ANTAGS
+	return STORYTELLER_FAVOR_NONE
+
+/datum/controller/subsystem/gamemode/proc/story_policy_type(roundstart = FALSE, storyteller_type = null)
+	if(storyteller_type)
+		return storyteller_type
+	storyteller_type = get_storyteller_type(roundstart)
+	if(storyteller_type)
+		return storyteller_type
+	if(!roundstart)
+		return get_storyteller_type(TRUE)
+	return null
+
+/datum/controller/subsystem/gamemode/proc/storyteller_favor_names(storyteller_type = null, storyteller_favor_flags = null)
+	if(!storyteller_favor_flags)
+		storyteller_favor_flags = story_favor_flags(storyteller_type)
+	var/list/favored = list()
+	if(storyteller_favor_flags & STORYTELLER_FAVOR_BANDIT)
+		favored += "Bandits"
+	if(storyteller_favor_flags & STORYTELLER_FAVOR_GNOLL)
+		favored += "Gnolls"
+	if(storyteller_favor_flags & STORYTELLER_FAVOR_ASSASSIN)
+		favored += "Assassins"
+	if(storyteller_favor_flags & STORYTELLER_FAVOR_LICH)
+		favored += "Lich"
+	if(storyteller_favor_flags & STORYTELLER_FAVOR_WEREWOLF)
+		favored += "Werewolf"
+	if(storyteller_favor_flags & STORYTELLER_FAVOR_VAMPIRE_LORD)
+		favored += "Vampire Lord"
+	if(storyteller_favor_flags & STORYTELLER_FAVOR_DREAMWALKER)
+		favored += "Dreamwalker"
+	if(storyteller_favor_flags & STORYTELLER_FAVOR_MASQUERADE)
+		favored += "Masquerade"
+	if(storyteller_favor_flags & STORYTELLER_FAVOR_DARK_ITINERANT)
+		favored += "Dark Itinerants"
+	return favored
+
+/datum/controller/subsystem/gamemode/proc/storyteller_guarantee_names(storyteller_type = null, storyteller_guarantee_flags = null)
+	if(isnull(storyteller_guarantee_flags))
+		storyteller_guarantee_flags = story_guarantee_flags(storyteller_type)
+	var/list/guaranteed = list()
+	if(storyteller_guarantee_flags & STORYTELLER_FAVOR_BANDIT)
+		guaranteed += "Bandits"
+	if(storyteller_guarantee_flags & STORYTELLER_FAVOR_GNOLL)
+		guaranteed += "Gnolls"
+	if(storyteller_guarantee_flags & STORYTELLER_FAVOR_ASSASSIN)
+		guaranteed += "Assassins"
+	if(storyteller_guarantee_flags & STORYTELLER_FAVOR_LICH)
+		guaranteed += "Lich"
+	if(storyteller_guarantee_flags & STORYTELLER_FAVOR_WEREWOLF)
+		guaranteed += "Werewolf"
+	if(storyteller_guarantee_flags & STORYTELLER_FAVOR_VAMPIRE_LORD)
+		guaranteed += "Vampire Lord"
+	if(storyteller_guarantee_flags & STORYTELLER_FAVOR_DREAMWALKER)
+		guaranteed += "Dreamwalker"
+	if(storyteller_guarantee_flags & STORYTELLER_FAVOR_MASQUERADE)
+		guaranteed += "Masquerade"
+	if(storyteller_guarantee_flags & STORYTELLER_FAVOR_DARK_ITINERANT)
+		guaranteed += "Dark Itinerants"
+	return guaranteed
+
+/datum/controller/subsystem/gamemode/proc/storyteller_blocks_antag(storyteller_antag_flags, roundstart = TRUE, storyteller_type = null, storyteller_midround_antag_flags)
+	var/effective_flags = storyteller_antag_flags
+	if(!roundstart)
+		effective_flags = isnull(storyteller_midround_antag_flags) ? storyteller_antag_flags : storyteller_midround_antag_flags
+	if(!effective_flags)
+		return FALSE
+	storyteller_type = story_policy_type(roundstart, storyteller_type)
+	if(!storyteller_type)
+		return FALSE
+	return !!(storyteller_block_flags(storyteller_type) & effective_flags)
+
+/datum/controller/subsystem/gamemode/proc/storyteller_blocks_type(storyteller_favor_flags, storyteller_type = null, roundstart = TRUE)
+	if(!storyteller_favor_flags)
+		return FALSE
+	storyteller_type = story_policy_type(roundstart, storyteller_type)
+	if(!storyteller_type)
+		return FALSE
+	return !!(story_block_types(storyteller_type) & storyteller_favor_flags)
+
+/datum/controller/subsystem/gamemode/proc/storyteller_favors_antag(storyteller_favor_flags, storyteller_type = null, roundstart = FALSE)
+	if(!storyteller_favor_flags)
+		return FALSE
+	storyteller_type = story_policy_type(roundstart, storyteller_type)
+	if(!storyteller_type)
+		return FALSE
+	return !!(story_favor_flags(storyteller_type) & storyteller_favor_flags)
+
+/datum/controller/subsystem/gamemode/proc/storyteller_guarantees_antag(storyteller_guarantee_flags, storyteller_type = null, roundstart = FALSE)
+	if(!storyteller_guarantee_flags)
+		return FALSE
+	storyteller_type = story_policy_type(roundstart, storyteller_type)
+	if(!storyteller_type)
+		return FALSE
+	return !!(story_guarantee_flags(storyteller_type) & storyteller_guarantee_flags)
+
+/datum/controller/subsystem/gamemode/proc/storyteller_favor_mult(storyteller_favor_flags, storyteller_type = null, roundstart = FALSE)
+	if(!storyteller_favor_flags)
+		return 1
+	return storyteller_favors_antag(storyteller_favor_flags, storyteller_type, roundstart) ? STORYTELLER_STANDARD_FAVOR_MULTIPLIER : 1
+
+/datum/controller/subsystem/gamemode/proc/story_combat_pop()
+	return garrison + holy_warrior + FLOOR(half_combatant * 0.5, 1)
+
+
+/datum/controller/subsystem/gamemode/proc/story_antag_scaling_step(antag_datum, default_step = 1)
+	if(!ispath(antag_datum, /datum/antagonist))
+		return max(1, default_step)
+	return max(1, initial(antag_datum:storyteller_slot_scaling) || default_step)
+
+/datum/controller/subsystem/gamemode/proc/storyteller_picked_roundstart_antag(antag_datum)
+	if(!ispath(antag_datum, /datum/antagonist))
+		return FALSE
+	var/datum/round_event_control/antagonist/solo/roundstart_event = current_roundstart_event
+	if(!roundstart_event)
+		return FALSE
+	if(!ispath(roundstart_event.antag_datum, /datum/antagonist))
+		return FALSE
+	return ispath(roundstart_event.antag_datum, antag_datum) || ispath(antag_datum, roundstart_event.antag_datum)
+
+/datum/controller/subsystem/gamemode/proc/picked_open_slots(antag_datum)
+	if(!storyteller_picked_roundstart_antag(antag_datum))
+		return FALSE
+	var/datum/round_event_control/antagonist/solo/roundstart_event = current_roundstart_event
+	if(!roundstart_event)
+		return FALSE
+	return story_antag_open_slots(roundstart_event.antag_datum, roundstart_antag_pop)
+
+/datum/controller/subsystem/gamemode/proc/storyteller_unlocks_scaled_antag_slots(antag_datum, storyteller_favor_flags = null)
+	if(storyteller_picked_roundstart_antag(antag_datum))
+		return TRUE
+	if(isnull(storyteller_favor_flags) && ispath(antag_datum, /datum/antagonist))
+		storyteller_favor_flags = initial(antag_datum:storyteller_favor_flags)
+	if(!storyteller_favor_flags)
+		return FALSE
+	if(storyteller_favors_antag(storyteller_favor_flags))
+		return TRUE
+	if(storyteller_guarantees_antag(storyteller_favor_flags, roundstart = TRUE))
+		return TRUE
+	return FALSE
+
+
+/datum/controller/subsystem/gamemode/proc/story_antag_min_players(antag_datum)
+	if(!ispath(antag_datum, /datum/antagonist))
+		return 0
+	return max(0, initial(antag_datum:storyteller_min_players))
+
+/datum/controller/subsystem/gamemode/proc/story_antag_open_slots(antag_datum, player_count = null)
+	if(!ispath(antag_datum, /datum/antagonist))
+		return FALSE
+	if(!initial(antag_datum:override_candidatereq))
+		return FALSE
+	if(isnull(player_count))
+		player_count = get_correct_popcount()
+	return player_count >= story_antag_min_players(antag_datum)
+
+/datum/controller/subsystem/gamemode/proc/story_antag_slot_cap(antag_datum, roundstart = FALSE, storyteller_type = null)
+	if(!ispath(antag_datum, /datum/antagonist))
+		return 0
+	storyteller_type = story_policy_type(roundstart, storyteller_type)
+	var/storyteller_antag_flags = initial(antag_datum:storyteller_antag_flags)
+	if(storyteller_blocks_antag(storyteller_antag_flags, roundstart, storyteller_type))
+		return 0
+	var/storyteller_favor_flags = initial(antag_datum:storyteller_favor_flags)
+	if(storyteller_blocks_type(storyteller_favor_flags, storyteller_type, roundstart))
+		return 0
+	var/default_cap = max(0, initial(antag_datum:storyteller_slot_default_cap))
+	var/list/storyteller_caps = initial(antag_datum:storyteller_slot_storyteller_caps)
+	if(storyteller_type && length(storyteller_caps) && (storyteller_type in storyteller_caps))
+		return max(0, storyteller_caps[storyteller_type])
+	return default_cap
+/datum/controller/subsystem/gamemode/proc/story_antag_slots(slot_count, antag_datum, player_count = null)
+	if(slot_count <= 0)
+		return 0
+	if(isnull(player_count))
+		player_count = get_correct_popcount()
+	if(initial(antag_datum:storyteller_antag_flags) & STORYTELLER_ANTAG_VILLAIN && story_villain_conflicts(antag_datum))
+		return 0
+	var/min_players = story_antag_min_players(antag_datum)
+	if(min_players > 0 && player_count < min_players)
+		return 0
+	return slot_count
+
+
+/datum/controller/subsystem/gamemode/proc/story_villain_conflicts(antag_datum)
+	if(!ispath(antag_datum, /datum/antagonist))
+		return FALSE
+	var/datum/round_event_control/antagonist/solo/roundstart_event = current_roundstart_event
+	if(!roundstart_event)
+		return FALSE
+	if(!(roundstart_event.storyteller_antag_flags & STORYTELLER_ANTAG_VILLAIN))
+		return FALSE
+	if(!ispath(roundstart_event.antag_datum, /datum/antagonist))
+		return FALSE
+	if(ispath(roundstart_event.antag_datum, antag_datum) || ispath(antag_datum, roundstart_event.antag_datum))
+		return FALSE
+	return TRUE
+
+
+/datum/controller/subsystem/gamemode/proc/log_antag_slot_choice(antag_name, slot_count, player_count = null)
+	if(!length(antag_name))
+		return
+	if(isnull(player_count))
+		player_count = get_correct_popcount()
+	var/message = "STORYTELLER: Chose antagonist [antag_name]; opened [slot_count] slot(s) at pop [player_count]."
+	message_admins(message)
+	log_storyteller(message)
+
+
+/datum/controller/subsystem/gamemode/proc/log_antag_slot_scaling(antag_name, old_slots, new_slots, player_count = null, source = "pop scaling")
+	if(!length(antag_name) || old_slots == new_slots)
+		return
+	if(isnull(player_count))
+		player_count = get_correct_popcount()
+	var/message = "STORYTELLER: [antag_name] slots scaled from [old_slots] to [new_slots] at pop [player_count] ([source])."
+	message_admins(message)
+	log_storyteller(message)
+
+/datum/controller/subsystem/gamemode/proc/log_roundstart_antag_pick(datum/round_event_control/antagonist/solo/picked_event, player_count = null, source = "roundstart selection")
+	if(!picked_event)
+		return
+	if(isnull(player_count))
+		player_count = get_correct_popcount()
+	var/message = "STORYTELLER: Picked roundstart antagonist [picked_event.name] ([picked_event.antag_datum]) at pop [player_count] via [source]."
+	message_admins(message)
+	log_storyteller(message)
+
+/datum/controller/subsystem/gamemode/proc/log_roundstart_antag_failure(datum/round_event_control/antagonist/solo/picked_event, reason, player_count = null)
+	if(!picked_event || !length(reason))
+		return
+	if(isnull(player_count))
+		player_count = get_correct_popcount()
+	var/message = "STORYTELLER: Picked roundstart antagonist [picked_event.name] ([picked_event.antag_datum]) failed to roll at pop [player_count]: [reason]"
+	message_admins(message)
+	log_storyteller(message)
+
+
+/datum/controller/subsystem/gamemode/proc/storyteller_scale_slots(max_slots, player_count = null, scale_midround_only = FALSE, antag_scaling = 1, min_players = 0)
+	if(max_slots <= 0)
+		return 0
+	if(isnull(player_count))
+		player_count = length(GLOB.joined_player_list)
+	if(min_players > 0 && player_count < min_players)
+		return 0
+	antag_scaling = max(1, antag_scaling)
+	var/slots = antag_scaling
+	if((!scale_midround_only || SSticker?.HasRoundStarted()) && player_count > 40)
+		slots += floor((player_count - 40) / 10) * antag_scaling
+	if(scale_midround_only && SSticker?.HasRoundStarted())
+		slots = min(slots, antag_scaling * (1 + max(0, story_combat_pop() - 10)))
+	return min(max_slots, slots)
+
+/datum/controller/subsystem/gamemode/proc/storyteller_guaranteed_events(list/valid_events)
+	var/list/guaranteed_events = list()
+	for(var/datum/round_event_control/event as anything in valid_events)
+		if(!event?.storyteller_guarantee_flags || event.occurrences)
+			continue
+		if(!storyteller_guarantees_antag(event.storyteller_guarantee_flags, roundstart = event.roundstart))
+			continue
+		guaranteed_events[event] = valid_events[event]
+	return guaranteed_events
+
+/datum/controller/subsystem/gamemode/proc/enforce_storyteller_antag_slots()
+	if(!SSjob?.occupations?.len)
+		return
+	var/roundstart = !(SSticker?.HasRoundStarted())
+	for(var/datum/job/blocked_job in SSjob.occupations)
+		if(!storyteller_blocks_antag(blocked_job.storyteller_antag_flags, roundstart, storyteller_midround_antag_flags = blocked_job.storyteller_midround_antag_flags))
+			continue
+		var/allowed_slots = max(0, blocked_job.current_positions)
+		blocked_job.total_positions = allowed_slots
+		blocked_job.spawn_positions = allowed_slots
+
 /datum/controller/subsystem/gamemode/proc/init_storyteller()
 	set_storyteller(selected_storyteller)
 
-/datum/controller/subsystem/gamemode/proc/set_storyteller(passed_type)
-	if(!storytellers[passed_type])
-		message_admins("Attempted to set an invalid storyteller type: [passed_type], force setting to guide instead.")
-		current_storyteller = storytellers[/datum/storyteller/astrata] //if we dont have any then we brick, lets not do that
-		CRASH("Attempted to set an invalid storyteller type: [passed_type].")
+/datum/controller/subsystem/gamemode/proc/refresh_storyteller_slots()
+	if(!SSjob?.occupations?.len)
+		return
+	update_scaling_slots()
+	enforce_storyteller_antag_slots()
+
+/datum/controller/subsystem/gamemode/proc/apply_storyteller(passed_type, roundstart = FALSE, announce = TRUE, rewind = FALSE)
 	var/datum/storyteller/chosen_storyteller = storytellers[passed_type]
+	if(!chosen_storyteller)
+		return FALSE
+	if(SSticker?.HasRoundStarted() && !roundstart)
+		return FALSE
+
+	if(current_storyteller == chosen_storyteller)
+		selected_storyteller = passed_type
+		if(roundstart)
+			roundstart_storyteller = passed_type
+		refresh_storyteller_slots()
+		return TRUE
+
+	if(rewind && current_storyteller)
+		current_storyteller.times_chosen = max(current_storyteller.times_chosen - 1, 0)
+		GLOB.featured_stats[FEATURED_STATS_STORYTELLERS]["entries"][initial(current_storyteller.name)] = current_storyteller.times_chosen
+
 	chosen_storyteller.times_chosen++
 	GLOB.featured_stats[FEATURED_STATS_STORYTELLERS]["entries"][initial(chosen_storyteller.name)] = chosen_storyteller.times_chosen
 	selected_storyteller = passed_type
 	current_storyteller = chosen_storyteller
-	if(SSjob?.occupations?.len)
-		gnollslot_update()
-		update_scaling_slots()
-		enforce_storyteller_soft_antag_slots()
-	if(!secret_storyteller)
+	if(roundstart)
+		roundstart_storyteller = passed_type
+	refresh_storyteller_slots()
+
+	if(announce && !secret_storyteller)
 		send_to_playing_players(span_notice("<b>Storyteller is [current_storyteller.name]!</b>"))
 		send_to_playing_players(span_notice("[current_storyteller.welcome_text]"))
+	return TRUE
+
+/datum/controller/subsystem/gamemode/proc/set_preround_storyteller(passed_type)
+	if(SSticker?.HasRoundStarted())
+		return FALSE
+	var/datum/storyteller/storyboy = storytellers[passed_type]
+	if(!storyboy)
+		message_admins("Attempted to set an invalid pre-round storyteller type: [passed_type], ignoring.")
+		return FALSE
+	if(!apply_storyteller(passed_type, roundstart = TRUE, announce = FALSE))
+		return FALSE
+	if(SSvote)
+		SSvote.save_storyteller_vote_log(storyboy.name, "completed")
+	save_last_storyteller_vote(passed_type)
+	return TRUE
+
+/datum/controller/subsystem/gamemode/proc/set_storyteller(passed_type)
+	if(SSticker?.HasRoundStarted())
+		return FALSE
+	if(!storytellers[passed_type])
+		message_admins("Attempted to set an invalid storyteller type: [passed_type], force setting to guide instead.")
+		current_storyteller = storytellers[/datum/storyteller/astrata] //if we dont have any then we brick, lets not do that
+		CRASH("Attempted to set an invalid storyteller type: [passed_type].")
+	return apply_storyteller(passed_type)
+
+/datum/controller/subsystem/gamemode/proc/storyteller_event_multiplier(datum/round_event_control/event)
+	if(!event)
+		return 1
+	return max(1, storyteller_favor_mult(event.storyteller_favor_flags, roundstart = event.roundstart))
+
+/datum/controller/subsystem/gamemode/proc/story_panel(round_started)
+	var/list/dat = list()
+	var/live_type = current_storyteller?.type
+	var/current_type = get_storyteller_type()
+	var/roundstart_type = get_storyteller_type(TRUE)
+	var/last_type = get_last_storyteller_vote()
+	var/datum/storyteller/live_story = current_storyteller
+	var/datum/storyteller/current_story = get_storyteller()
+	var/datum/storyteller/selected_story = storytellers[selected_storyteller]
+	var/datum/storyteller/roundstart_story = get_storyteller(TRUE)
+	var/datum/storyteller/last_story = storytellers[last_type]
+	var/live_name = live_story ? live_story.name : "Pending"
+	var/current_name = current_story ? current_story.name : "None"
+	var/selected_name = selected_story ? selected_story.name : (current_story ? current_story.name : "None")
+	var/roundstart_name = roundstart_story ? roundstart_story.name : (selected_story ? selected_story.name : "Pending")
+	var/last_name = last_story ? last_story.name : "None"
+	var/last_pool = get_story_pool(last_type)
+	var/last_pool_name = last_pool ? last_pool : "No Pool"
+	var/current_state = live_story ? "Live" : (round_started ? "Unavailable" : "Pending roundstart")
+	var/change_mode = round_started ? "Locked after roundstart" : "Pre-round storyteller override"
+	dat += "<h2>Storyteller Control</h2>"
+	dat += "<font color='#888888'><i>The roundstart storyteller is fixed for the entire round. This panel only allows overrides before roundstart.</i></font>"
+	dat += "<BR>Current: [current_name] ([current_state])"
+	dat += "<BR>Live Instance: [live_name]"
+	dat += "<BR>Selected: [selected_name]"
+	dat += "<BR>Roundstart: [roundstart_name]"
+	dat += "<BR>Last Voted: [last_name] ([last_pool_name] locked next round)"
+	dat += "<BR>Change Mode: [change_mode]"
+	dat += "<table align='center'; width='100%'; style='background-color:#13171C;margin-top:6px;'>"
+	dat += "<tr style='vertical-align:top'>"
+	dat += "<td width=28%><b>Storyteller</b></td>"
+	dat += "<td width=18%><b>Pool</b></td>"
+	dat += "<td width=32%><b>Status</b></td>"
+	dat += "<td width=22%><b>Action</b></td>"
+	dat += "</tr>"
+	var/even = TRUE
+	for(var/storyteller_type in storytellers)
+		var/datum/storyteller/storyboy = storytellers[storyteller_type]
+		even = !even
+		var/background_cl = even ? "#17191C" : "#23273C"
+		var/list/status = list()
+		if(live_type == storyteller_type)
+			status += "Live"
+		else if(!round_started && current_type == storyteller_type)
+			status += "Pending"
+		if(roundstart_type == storyteller_type)
+			status += "Roundstart"
+		if(selected_storyteller == storyteller_type)
+			status += "Selected"
+		if(last_type == storyteller_type)
+			status += "Last Voted"
+		if(storyboy.ascendant)
+			status += "Ascendant"
+		var/status_text = length(status) ? jointext(status, ", ") : "-"
+		var/action_text = round_started ? (current_type == storyteller_type ? "Current" : "Locked") : "<a href='byond://?src=[REF(src)];panel=main;action=pick_story;story=[storyteller_type]'>Choose</a>"
+		dat += "<tr style='vertical-align:top; background-color: [background_cl];'>"
+		dat += "<td>[storyboy.name]</td>"
+		dat += "<td>[get_story_pool(storyteller_type)]</td>"
+		dat += "<td>[status_text]</td>"
+		dat += "<td>[action_text]</td>"
+		dat += "</tr>"
+	dat += "</table>"
+	return dat.Join()
 
 /// Panel containing information, variables and controls about the gamemode and scheduled event
 /datum/controller/subsystem/gamemode/proc/admin_panel(mob/user)
 	update_crew_infos()
 	var/round_started = SSticker.HasRoundStarted()
 	var/list/dat = list()
-	dat += "Storyteller: [current_storyteller ? "[current_storyteller.name]" : "None"] "
-	dat += " <a href='byond://?src=[REF(src)];panel=main;action=halt_storyteller' [halted_storyteller ? "class='linkOn'" : ""]>HALT Storyteller</a> <a href='byond://?src=[REF(src)];panel=main;action=open_stats'>Event Panel</a> <a href='byond://?src=[REF(src)];panel=main;action=set_storyteller'>Set Storyteller</a> <a href='byond://?src=[REF(user.client)];panel=main;viewinfluences=1'>View Influences</a> <a href='byond://?src=[REF(src)];panel=main'>Refresh</a>"
+	var/datum/storyteller/current_story = get_storyteller()
+	var/current_name = current_story ? current_story.name : "None"
+	var/current_state = current_storyteller ? "Live" : (round_started ? "Unavailable" : "Pending roundstart")
+	dat += "Storyteller: [current_name] ([current_state]) "
+	dat += " <a href='byond://?src=[REF(src)];panel=main;action=halt_storyteller' [halted_storyteller ? "class='linkOn'" : ""]>HALT Storyteller</a> <a href='byond://?src=[REF(src)];panel=main;action=open_stats'>Event Panel</a> <a href='byond://?src=[REF(user.client)];panel=main;viewinfluences=1'>View Influences</a> <a href='byond://?src=[REF(src)];panel=main'>Refresh</a>"
 	dat += "<BR><font color='#888888'><i>Storyteller determines points gained, event chances, and is the entity responsible for rolling events.</i></font>"
 	dat += "<BR>Active Players: [active_players]   (Royalty: [royalty], Garrison: [garrison], Town Workers: [constructor], Holy Warriors: [holy_warrior], Acolytes: [half_combatant])"
 	dat += "<BR>Effective Population: [effective_pop] (Total: [active_players] + Garrison Bonus: [garrison * 2] + Holy Warrior Bonus: [holy_warrior * 2] + Acolyte Bonus: [half_combatant * 1])"
@@ -886,6 +1342,27 @@ SUBSYSTEM_DEF(gamemode)
 	var/list/adv_scaling = calculate_adventurer_scaling()
 	var/datum/job/adv_job = SSjob.GetJob("Adventurer")
 	dat += "<BR>Adventurer Slots: [adv_job?.current_positions]/[adv_job?.total_positions] (Calculated: [adv_scaling["final_slots"]])"
+
+	// Antagonist Scaling Info
+	dat += "<BR><b>--- Antag Scaling ---</b>"
+	var/antag_player_count = get_correct_popcount()
+	var/datum/round_event_control/antagonist/solo/active_roundstart_antag = current_roundstart_event
+	if(active_roundstart_antag && (active_roundstart_antag.storyteller_antag_flags & STORYTELLER_ANTAG_VILLAIN))
+		dat += "<BR>Roundstart Villain Event: [active_roundstart_antag.name] (Calculated Slots: [active_roundstart_antag.get_antag_amount()])"
+	else
+		dat += "<BR>Roundstart Villain Event: None selected"
+	var/list/bandit_scaling = calculate_bandit_scaling(antag_player_count)
+	var/datum/job/bandit_job = SSjob.GetJob("Bandit")
+	dat += "<BR>Bandit Latejoin Slots: [bandit_job?.current_positions]/[bandit_job?.total_positions] (Max: [bandit_scaling["max_slots"]], Calculated: [bandit_scaling["final_slots"]], Pop: [bandit_scaling["player_count"]], Combat: [bandit_scaling["combat_total"]])"
+	var/list/gnoll_scaling = gnollslot_calc(antag_player_count)
+	var/datum/job/gnoll_job = SSjob.GetJob("Gnoll")
+	dat += "<BR>Gnoll Latejoin Slots: [gnoll_job?.current_positions]/[gnoll_job?.total_positions] (Max: [gnoll_scaling["max_slots"]], Calculated: [gnoll_scaling["final_slots"]], Pop: [gnoll_scaling["player_count"]], Combat: [gnoll_scaling["combat_total"]])"
+	var/list/assassin_scaling = calculate_assassin_scaling(antag_player_count)
+	var/datum/job/assassin_job = SSjob.GetJob("Assassin")
+	dat += "<BR>Assassin Latejoin Slots: [assassin_job?.current_positions]/[assassin_job?.total_positions] (Max: [assassin_scaling["max_slots"]], Calculated: [assassin_scaling["final_slots"]], Pop: [assassin_scaling["player_count"]], Combat: [assassin_scaling["combat_total"]])"
+	var/werewolf_cap = story_antag_slot_cap(/datum/antagonist/werewolf, TRUE)
+	var/werewolf_scaled = story_antag_slots(storyteller_scale_slots(werewolf_cap, antag_player_count, FALSE, story_antag_scaling_step(/datum/antagonist/werewolf), story_antag_min_players(/datum/antagonist/werewolf)), /datum/antagonist/werewolf, antag_player_count)
+	dat += "<BR>Werewolf Roundstart Availability: Max [werewolf_cap], Calculated [werewolf_scaled]"
 	dat += "<HR>"
 	dat += "<a href='byond://?src=[REF(src)];panel=main;action=tab;tab=[GAMEMODE_PANEL_MAIN]' [panel_page == GAMEMODE_PANEL_MAIN ? "class='linkOn'" : ""]>Main</a>"
 	dat += " <a href='byond://?src=[REF(src)];panel=main;action=tab;tab=[GAMEMODE_PANEL_VARIABLES]' [panel_page == GAMEMODE_PANEL_VARIABLES ? "class='linkOn'" : ""]>Variables</a>"
@@ -917,6 +1394,8 @@ SUBSYSTEM_DEF(gamemode)
 				dat += "<BR>[track]: <a href='byond://?src=[REF(src)];panel=main;action=vars;var=pts_threshold;track=[track]'>[point_thresholds[track]]</a>"
 
 		if(GAMEMODE_PANEL_MAIN)
+			dat += story_panel(round_started)
+			dat += "<HR>"
 			var/even = TRUE
 			dat += "<h2>Event Tracks:</h2>"
 			dat += "<font color='#888888'><i>Every track represents progression towards scheduling an event of its severity</i></font>"
@@ -990,7 +1469,7 @@ SUBSYSTEM_DEF(gamemode)
 				dat += "</tr>"
 			dat += "</table>"
 
-	var/datum/browser/noclose/popup = new(user, "gamemode_admin_panel", "Gamemode Panel", 670, 650)
+	var/datum/browser/noclose/popup = new(user, "gamemode_admin_panel", "Storyteller - Panel", 880, 760)
 	popup.set_content(dat.Join())
 	popup.open()
 
@@ -1087,36 +1566,22 @@ SUBSYSTEM_DEF(gamemode)
 /datum/controller/subsystem/gamemode/Topic(href, href_list)
 	. = ..()
 	var/mob/user = usr
-	if(href_list["storyboy_details"])
-		var/datum/storyteller/storyboy = storytellers[text2path(href_list["storyboy_details"])]
-		if(!istype(storyboy))
-			return
-
-		var/datum/browser/popup = new(user, "storyboy_details", "[storyboy.name] - Storyteller Details")
-		popup.width = DESC_POPUP_WIDTH
-		popup.height = DESC_POPUP_HEIGHT
-		popup.set_content(storyboy.vote_desc)
-		popup.open()
-		return
-
 	if(!check_rights(R_ADMIN))
 		return
 	switch(href_list["panel"])
 		if("main")
 			switch(href_list["action"])
-				if("set_storyteller")
-					message_admins("[key_name_admin(usr)] is picking a new Storyteller.")
-					var/list/name_list = list()
-					for(var/storyteller_type in storytellers)
-						var/datum/storyteller/storyboy = storytellers[storyteller_type]
-						name_list[storyboy.name] = storyboy.type
-					var/new_storyteller_name = input(usr, "Choose new storyteller (circumvents voted one):", "Storyteller")  as null|anything in name_list
-					if(!new_storyteller_name)
-						message_admins("[key_name_admin(usr)] has cancelled picking a Storyteller.")
+				if("pick_story")
+					var/new_storyteller_type = text2path(href_list["story"])
+					var/datum/storyteller/storyboy = storytellers[new_storyteller_type]
+					if(!storyboy)
+						message_admins("[key_name_admin(usr)] attempted to pick an invalid storyteller from the panel.")
 						return
-					message_admins("[key_name_admin(usr)] has chosen [new_storyteller_name] as the new Storyteller.")
-					var/new_storyteller_type = name_list[new_storyteller_name]
-					set_storyteller(new_storyteller_type)
+					if(SSticker && !SSticker.HasRoundStarted())
+						message_admins("[key_name_admin(usr)] has chosen [storyboy.name] as the pre-round Storyteller override.")
+						set_preround_storyteller(new_storyteller_type)
+					else
+						to_chat(usr, span_warning("The roundstart storyteller is locked for the rest of the round."))
 				if("halt_storyteller")
 					halted_storyteller = !halted_storyteller
 					message_admins("[key_name_admin(usr)] has [halted_storyteller ? "HALTED" : "un-halted"] the Storyteller.")
@@ -1251,7 +1716,8 @@ SUBSYSTEM_DEF(gamemode)
 
 	lowest.bonus_points += adjustment
 
-	set_storyteller(highest.type)
+	if(roundstart || !SSticker?.HasRoundStarted())
+		set_preround_storyteller(highest.type)
 
 /// Refreshes statistics regarding alive statuses of certain professions or antags, like nobles
 /datum/controller/subsystem/gamemode/proc/refresh_alive_stats(roundstart = FALSE)
@@ -1570,8 +2036,6 @@ SUBSYSTEM_DEF(gamemode)
 #undef LAST_ROUND_STATS_FILE
 #undef LAST_ROUND_STATS_STORYTELLER_VOTE
 #undef ROUNDSTART_VALID_TIMEFRAME
-#undef DESC_POPUP_WIDTH
-#undef DESC_POPUP_HEIGHT
 #undef TOWN_COMBATANT_ADDITIONAL_WEIGHT
 #undef HALF_COMBATANT_ADDITIONAL_WEIGHT
 

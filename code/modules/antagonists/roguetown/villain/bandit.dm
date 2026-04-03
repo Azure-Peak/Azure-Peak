@@ -2,6 +2,17 @@
 	name = "Bandit"
 	roundend_category = "bandits"
 	antagpanel_category = "Bandit"
+	storyteller_antag_flags = STORYTELLER_ANTAG_VILLAIN
+	storyteller_favor_flags = STORYTELLER_FAVOR_BANDIT
+	storyteller_min_players = STORYTELLER_MAJOR_ANTAG_MIN_PLAYERS
+	override_candidatereq = TRUE
+	storyteller_slot_scaling = 2
+	storyteller_slot_default_cap = 2
+	storyteller_slot_storyteller_caps = list(
+		/datum/storyteller/matthios = 6,
+		/datum/storyteller/ravox = 4,
+		/datum/storyteller/xylix = 2,
+	)
 	job_rank = ROLE_BANDIT
 	antag_hud_type = ANTAG_HUD_TRAITOR
 	antag_hud_name = "bandit"

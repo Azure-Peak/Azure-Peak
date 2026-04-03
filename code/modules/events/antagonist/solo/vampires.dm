@@ -6,6 +6,10 @@
 		TAG_VILLIAN,
 	)
 	roundstart = TRUE
+	storyteller_antag_flags = STORYTELLER_ANTAG_VILLAIN
+	storyteller_favor_flags = STORYTELLER_FAVOR_VAMPIRE_LORD
+	storyteller_guarantee_flags = STORYTELLER_FAVOR_VAMPIRE_LORD
+	storyteller_favor_multiplier = 2
 	antag_flag = ROLE_NBEAST
 	shared_occurence_type = SHARED_HIGH_THREAT
 
@@ -15,19 +19,14 @@
 	denominator = 80
 
 	base_antags = 1
-	maximum_antags = 2
+	maximum_antags = 1
 
 	earliest_start = 0 SECONDS
 
 	typepath = /datum/round_event/antagonist/solo/vampire
-	antag_datum = /datum/antagonist/vampire
+	antag_datum = /datum/antagonist/vampire/lord
 
 	restricted_roles = DEFAULT_ANTAG_BLACKLISTED_ROLES
-
-/datum/round_event_control/antagonist/solo/vampires/preRunEvent()
-	if(is_storyteller_villain_blocked())
-		return EVENT_CANT_RUN
-	return ..()
 
 /datum/round_event/antagonist/solo/vampire
 	var/leader = FALSE

@@ -2,6 +2,7 @@
 	name = "Unbound Death Knight"
 	roundend_category = "Unbound Death Knight"
 	antagpanel_category = "Unbound Death Knight"
+	storyteller_antag_flags = STORYTELLER_ANTAG_VILLAIN
 	job_rank = ROLE_UNBOUND_DEATHKNIGHT
 	confess_lines = list(
 		"I WILL LIVE ETERNAL!",

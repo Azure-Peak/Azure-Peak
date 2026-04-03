@@ -12,11 +12,22 @@
 		TAG_VILLIAN,
 		TAG_COMBAT,
 	)
+	storyteller_antag_flags = STORYTELLER_ANTAG_VILLAIN
+	storyteller_midround_antag_flags = STORYTELLER_ANTAG_VILLAIN
 
-/datum/round_event_control/antagonist/migrant_wave/werewolf/preRunEvent()
-	if(is_storyteller_villain_blocked())
-		return EVENT_CANT_RUN
-	return ..()
+/datum/round_event_control/antagonist/migrant_wave/werewolf/canSpawnEvent(players_amt, gamemode, fake_check)
+	. = ..()
+	if(!.)
+		return FALSE
+	var/player_count = SSgamemode.get_correct_popcount()
+	var/max_werewolves = SSgamemode.story_antag_slots(SSgamemode.storyteller_scale_slots(SSgamemode.story_antag_slot_cap(/datum/antagonist/werewolf, TRUE), player_count), /datum/antagonist/werewolf, player_count)
+	if(max_werewolves <= 1)
+		return FALSE
+	var/current_werewolves = 0
+	for(var/mob/living/living as anything in GLOB.mob_living_list)
+		if(living.mind?.has_antag_datum(/datum/antagonist/werewolf))
+			current_werewolves++
+	return current_werewolves < max_werewolves
 
 /datum/migrant_wave/werewolf
 	name = "Exiled Adventurer (Verevolf)"
@@ -44,11 +55,8 @@
 		TAG_COMBAT,
 		TAG_VILLIAN,
 	)
-
-/datum/round_event_control/antagonist/migrant_wave/vampire/preRunEvent()
-	if(is_storyteller_villain_blocked())
-		return EVENT_CANT_RUN
-	return ..()
+	storyteller_antag_flags = STORYTELLER_ANTAG_VILLAIN
+	storyteller_midround_antag_flags = STORYTELLER_ANTAG_VILLAIN
 
 /datum/migrant_wave/vampire
 	name = "Exiled Adventurer (Vampire)"
@@ -76,11 +84,8 @@
 		TAG_COMBAT,
 		TAG_VILLIAN,
 	)
-
-/datum/round_event_control/antagonist/migrant_wave/unbound_death_knight/preRunEvent()
-	if(is_storyteller_villain_blocked())
-		return EVENT_CANT_RUN
-	return ..()
+	storyteller_antag_flags = STORYTELLER_ANTAG_VILLAIN
+	storyteller_midround_antag_flags = STORYTELLER_ANTAG_VILLAIN
 
 /datum/migrant_wave/unbound_death_knight
 	name = "Death knight (Unbound)"
@@ -108,6 +113,8 @@
 		TAG_COMBAT,
 		TAG_VILLIAN,
 	)
+	storyteller_antag_flags = STORYTELLER_ANTAG_VILLAIN
+	storyteller_midround_antag_flags = STORYTELLER_ANTAG_VILLAIN
 
 /datum/migrant_wave/unbound_spellblade
 	name = "Ancient Spellblade (Unbound)"

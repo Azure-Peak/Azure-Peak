@@ -5,6 +5,7 @@
 	)
 	antag_datum = /datum/antagonist/aspirant
 	roundstart = TRUE
+	storyteller_antag_flags = STORYTELLER_ANTAG_SOFT
 	antag_flag = ROLE_ASPIRANT
 	shared_occurence_type = SHARED_MINOR_THREAT
 	minor_roleset = TRUE

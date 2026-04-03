@@ -2,6 +2,8 @@
 	name = "Methuselah"
 	roundend_category = "Vampires"
 	antagpanel_category = "Vampire"
+	storyteller_favor_flags = STORYTELLER_FAVOR_VAMPIRE_LORD
+	storyteller_min_players = STORYTELLER_MAJOR_ANTAG_MIN_PLAYERS
 	job_rank = ROLE_VAMPIRE
 	generation = GENERATION_METHUSELAH
 	show_in_antagpanel = TRUE

@@ -2,6 +2,8 @@
 	typepath = /datum/round_event/antagonist/solo
 	/// How many baseline antags do we spawn
 	var/base_antags = 1
+	/// How many slots each scaling step adds once this antag is eligible.
+	var/antag_scaling = 1
 	/// How many maximum antags can we spawn
 	var/maximum_antags = 3
 	/// For this many players we'll add 1 up to the maximum antag amount
@@ -31,14 +33,42 @@
 	if(!.)
 		return
 	var/antag_amt = get_antag_amount()
-	var/list/candidates = get_candidates()
-	if(length(candidates) < antag_amt)
+	if(antag_amt < 1)
 		return FALSE
+	var/list/candidates = get_candidates()
+	if(length(candidates) < antag_amt && !open_slots(players_amt))
+		return FALSE
+
+/datum/round_event_control/antagonist/solo/proc/open_slots(player_count = null)
+	return SSgamemode.story_antag_open_slots(antag_datum, player_count)
+
+/datum/round_event_control/antagonist/solo/proc/get_base_antag_amount(player_count = null)
+	if(isnull(player_count))
+		player_count = SSgamemode.get_correct_popcount()
+	var/base_amount = min(base_antags + FLOOR(player_count / denominator, 1), maximum_antags)
+	if(antag_scaling <= 1 || base_amount <= 0)
+		return base_amount
+	return min(maximum_antags, antag_scaling + max(0, base_amount - 1) * antag_scaling)
 
 /datum/round_event_control/antagonist/solo/proc/get_antag_amount()
 	var/people = SSgamemode.get_correct_popcount()
-	var/amount = base_antags + FLOOR(people / denominator, 1)
-	return min(amount, maximum_antags)
+	var/amount = get_base_antag_amount(people)
+	amount = SSgamemode.story_antag_slots(amount, antag_datum, people)
+	return guaranteed_villain_cap(amount, people)
+
+/datum/round_event_control/antagonist/solo/proc/guaranteed_villain_cap(amount, player_count = null)
+	if(amount <= 0)
+		return 0
+	if(open_slots(player_count))
+		return amount
+	if(!(roundstart && (storyteller_antag_flags & STORYTELLER_ANTAG_VILLAIN)))
+		return amount
+	if(!SSgamemode.storyteller_guarantees_antag(storyteller_guarantee_flags, roundstart = TRUE))
+		return amount
+	var/candidate_count = length(get_candidates())
+	if(candidate_count <= 0)
+		return 0
+	return min(amount, candidate_count)
 
 /datum/round_event_control/antagonist/solo/proc/get_candidates()
 	var/round_started = SSticker.HasRoundStarted()
@@ -57,7 +87,7 @@
 
 	var/antag_amt = get_antag_amount()
 	var/list/candidates = get_candidates() //we should optimize this
-	if(length(candidates) < antag_amt)
+	if(length(candidates) < antag_amt && !open_slots(players_amt))
 		if(.)
 			. += ", "
 		. += "Not Enough Candidates!"
@@ -96,8 +126,15 @@
 
 /datum/round_event/antagonist/solo/setup()
 	var/datum/round_event_control/antagonist/solo/cast_control = control
+	var/player_count = SSgamemode.get_correct_popcount()
+	var/base_antag_count = cast_control.get_base_antag_amount(player_count)
 	antag_count = cast_control.get_antag_amount()
+	if(cast_control == SSgamemode.current_roundstart_event && (cast_control.storyteller_antag_flags & STORYTELLER_ANTAG_VILLAIN) && antag_count < 1)
+		var/min_players = SSgamemode.story_antag_min_players(cast_control.antag_datum)
+		SSgamemode.log_roundstart_antag_failure(cast_control, "insufficient population opened 0 slots[min_players > 0 ? " (minimum [min_players] players required)" : ""]", player_count)
 	message_admins("STORYTELLER:[cast_control.name] spawning [antag_count].")
+	SSgamemode.log_antag_slot_choice(cast_control.name, antag_count, player_count)
+	SSgamemode.log_antag_slot_scaling(cast_control.name, base_antag_count, antag_count, player_count, "roundstart event")
 	antag_flag = cast_control.antag_flag
 	antag_datum = cast_control.antag_datum
 	restricted_roles = cast_control.restricted_roles
@@ -128,6 +165,9 @@
 		picked_mob?.mind?.picking = TRUE
 		log_storyteller("Picked antag event mob: [picked_mob], special role: [picked_mob.mind?.special_role ? picked_mob.mind.special_role : "none"]")
 		candidates |= picked_mob
+
+	if(cast_control == SSgamemode.current_roundstart_event && (cast_control.storyteller_antag_flags & STORYTELLER_ANTAG_VILLAIN) && antag_count > 0 && !length(candidates) && !cast_control.open_slots(player_count))
+		SSgamemode.log_roundstart_antag_failure(cast_control, "no ready candidates were available for [antag_count] slot(s)", player_count)
 
 	var/list/picked_mobs = list()
 	for(var/i in 1 to antag_count)

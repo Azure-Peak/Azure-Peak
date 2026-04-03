@@ -2,6 +2,11 @@
 	name = "Dark Itinerant Knight"
 	roundend_category = "Dark Itinerant Knight"
 	antagpanel_category = "Dark Itinerant Knight"
+	storyteller_antag_flags = STORYTELLER_ANTAG_VILLAIN
+	storyteller_favor_flags = STORYTELLER_FAVOR_DARK_ITINERANT
+	storyteller_min_players = STORYTELLER_MAJOR_ANTAG_MIN_PLAYERS
+	storyteller_slot_scaling = 1
+	storyteller_slot_default_cap = 2
 	job_rank = ROLE_DARK_ITINERANT
 	confess_lines = list(
 		"ZIZO! ZIZO! ZIZO!",

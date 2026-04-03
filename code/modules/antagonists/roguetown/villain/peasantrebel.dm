@@ -5,6 +5,7 @@
 	name = "Peasant Rebel"
 	roundend_category = "peasant rebels"
 	antagpanel_category = "Peasant Rebellion"
+	storyteller_antag_flags = STORYTELLER_ANTAG_VILLAIN
 	job_rank = ROLE_PREBEL
 	antag_hud_type = ANTAG_HUD_REV
 	antag_hud_name = "rev"

@@ -9,7 +9,7 @@
 	var/name = "Badly coded storyteller"
 	/// Description of our storyteller.
 	var/desc = "Report this to the coders."
-	/// Description of our storyteller, shown when pressing (?) during a vote.
+	/// Description of our storyteller, shown in the vote tooltip.
 	var/vote_desc = "Do what thou wilt."
 	/// Text that the players will be greeted with when this storyteller is chosen.
 	var/welcome_text = "Lift your Eyes to the Horizon." //changing this quote to match the one from the original eris PR.
@@ -66,9 +66,9 @@
 	var/roundstart_prob = 90
 	///do we ignore ran_roundstart
 	var/ignores_roundstart = FALSE
-	///is a storyteller always able to be voted for(also does not count for the amount of storytellers to pick from)
-	var/always_votable = FALSE
-	///weight this has of being picked for random storyteller/showing up in the vote if not always_votable
+	/// Whether a storyteller always appears in the vote instead of being selected through weighted slots.
+	var/always_votable = TRUE
+	/// Weight used when a storyteller opts out of always being votable.
 	var/weight = 0
 	/// List of all influence sets. One factor is picked from each set during initialization to create the final influence factors. Example: "Set 1" = list(STATS1 = list("points" = 0.015, "capacity" = 90), STATS2 = list("points" = 8, "capacity" = 50))
 	var/list/influence_sets = list()
@@ -86,8 +86,6 @@
 	var/bonus_points = 0
 	/// If the storyteller is ascendant this round, that is if he reached over 100 points in rankings of the gods
 	var/ascendant = FALSE
-	/// Which kind of gnoll scaling this storyteller prefers, default is 1 gnoll spawn.
-	var/preferred_gnoll_mode = GNOLL_SCALING_SINGLE
 
 /datum/storyteller/New()
 	. = ..()
@@ -101,10 +99,10 @@
 	if(!round_started || disable_distribution) // we are differing roundstarted ones until base roundstart so we can get cooler stuff
 		return
 
-	if(!is_roundstart_roles_blocked_storyteller() && !guarantees_roundstart_roleset && prob(roundstart_prob) && !roundstart_checks)
+	if(!SSgamemode.storyteller_blocks_antag(STORYTELLER_ANTAG_ROUNDSTART) && !guarantees_roundstart_roleset && prob(roundstart_prob) && !roundstart_checks)
 		roundstart_checks = TRUE
 
-	if(!is_roundstart_roles_blocked_storyteller() && SSgamemode.current_roundstart_event && !SSgamemode.ran_roundstart && (guarantees_roundstart_roleset || roundstart_checks))
+	if(!SSgamemode.storyteller_blocks_antag(STORYTELLER_ANTAG_ROUNDSTART) && SSgamemode.current_roundstart_event && !SSgamemode.ran_roundstart && (guarantees_roundstart_roleset || roundstart_checks))
 		buy_event(SSgamemode.current_roundstart_event, EVENT_TRACK_CHARACTER_INJECTION, TRUE)
 		if(EVENT_TRACK_CHARACTER_INJECTION in SSgamemode.forced_next_events)
 			SSgamemode.forced_next_events[EVENT_TRACK_CHARACTER_INJECTION] = null
@@ -147,6 +145,8 @@
 	var/are_forced = forced
 	var/datum/controller/subsystem/gamemode/mode = SSgamemode
 	var/datum/round_event_control/picked_event
+	if(track == EVENT_TRACK_CHARACTER_INJECTION && mode.current_roundstart_event)
+		return
 	if(mode.forced_next_events[track]) //Forced event by admin
 		/// Dont check any prerequisites, it has been forced by an admin
 		picked_event = mode.forced_next_events[track]
@@ -154,16 +154,16 @@
 		are_forced = TRUE
 	else
 		mode.update_crew_infos()
+		var/players_amt = mode.get_correct_popcount()
 		var/pop_required = mode.min_pop_thresholds[track]
-		if(mode.active_players < pop_required)
-			message_admins("Storyteller failed to pick an event for track of [track] due to insufficient population. (required: [pop_required] active pop for [track]. Current: [mode.active_players])")
+		if(players_amt < pop_required)
+			message_admins("Storyteller failed to pick an event for track of [track] due to insufficient population. (required: [pop_required] pop for [track]. Current: [players_amt])")
 			mode.event_track_points[track] *= TRACK_FAIL_POINT_PENALTY_MULTIPLIER
 			return
 		calculate_weights(track)
 		var/list/valid_events = list()
 		// Determine which events are valid to pick
 		for(var/datum/round_event_control/event as anything in mode.event_pools[track])
-			var/players_amt = get_active_player_count(alive_check = TRUE, afk_check = TRUE, human_check = TRUE)
 			if(forced)
 				if(QDELETED(event))
 					message_admins("[event.name] was deleted!")
@@ -179,6 +179,10 @@
 			message_admins("Storyteller failed to pick an event for track of [track].")
 			mode.event_track_points[track] *= TRACK_FAIL_POINT_PENALTY_MULTIPLIER
 			return
+		if(track == EVENT_TRACK_CHARACTER_INJECTION)
+			var/list/guaranteed_events = mode.storyteller_guaranteed_events(valid_events)
+			if(length(guaranteed_events))
+				valid_events = guaranteed_events
 		picked_event = pickweight(valid_events)
 		if(!picked_event)
 			if(length(valid_events))
@@ -217,6 +221,9 @@
 		track = bought_event.track
 
 	var/datum/controller/subsystem/gamemode/mode = SSgamemode
+	if(track == EVENT_TRACK_CHARACTER_INJECTION && bought_event.roundstart && mode.current_roundstart_event && mode.current_roundstart_event != bought_event)
+		log_storyteller("Skipping additional roundstart antagonist event [bought_event] because [mode.current_roundstart_event] is already selected.")
+		return
 	// Perhaps use some bell curve instead of a flat variance?
 	var/total_cost = bought_event.cost * mode.point_thresholds[track]
 	if(!bought_event.roundstart)
@@ -226,6 +233,9 @@
 	if(bought_event.roundstart)
 		SSgamemode.ran_roundstart = TRUE
 		SSgamemode.current_roundstart_event = bought_event
+		if(istype(bought_event, /datum/round_event_control/antagonist/solo))
+			SSgamemode.roundstart_antag_pop = mode.get_correct_popcount()
+			mode.log_roundstart_antag_pick(bought_event, mode.get_correct_popcount(), forced ? "forced roundstart selection" : "storyteller roll")
 		mode.TriggerEvent(bought_event, forced)
 	else
 		mode.schedule_event(bought_event, 3 MINUTES, total_cost, _forced = forced)
@@ -236,6 +246,7 @@
 	var/datum/controller/subsystem/gamemode/mode = SSgamemode
 	for(var/datum/round_event_control/event as anything in mode.event_pools[track])
 		var/weight_total = event.weight
+		weight_total *= mode.storyteller_event_multiplier(event)
 		/// Apply tag multipliers if able
 		if(tag_multipliers)
 			for(var/tag in tag_multipliers)

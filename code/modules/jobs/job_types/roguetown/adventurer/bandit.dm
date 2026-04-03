@@ -6,6 +6,9 @@
 	total_positions = 0
 	spawn_positions = 0
 	antag_job = TRUE
+	storyteller_antag_flags = STORYTELLER_ANTAG_VILLAIN
+	storyteller_favor_flags = STORYTELLER_FAVOR_BANDIT
+	storyteller_guarantee_flags = STORYTELLER_FAVOR_BANDIT
 	allowed_races = RACES_ALL_KINDS
 	tutorial = "Long ago you did a crime worthy of your bounty being hung on the wall outside of the local inn. You now live with your fellow freemen in the bog, and generally get up to no good."
 
@@ -119,4 +122,58 @@
 	var/descriptor_voice = build_coalesce_description_nofluff(d_list, H, list(MOB_DESCRIPTOR_SLOT_VOICE), "%DESC1%")
 
 	add_bounty(H.real_name, race, gender, descriptor_height, descriptor_body, descriptor_voice, bounty_total, FALSE, my_crime, bounty_poster)
+
+/proc/calculate_bandit_scaling(override_player_count)
+	var/list/result = list()
+	var/player_count = isnull(override_player_count) ? SSgamemode.get_correct_popcount() : override_player_count
+	result["player_count"] = player_count
+	var/datum/job/bandit_job = SSjob.GetJob("Bandit")
+	var/roundstart = !(SSticker?.HasRoundStarted())
+	if(SSgamemode.storyteller_blocks_antag(bandit_job?.storyteller_antag_flags, roundstart, storyteller_midround_antag_flags = bandit_job?.storyteller_midround_antag_flags) || SSgamemode.storyteller_blocks_type(bandit_job?.storyteller_favor_flags, roundstart = roundstart))
+		result["max_slots"] = 0
+		result["final_slots"] = 0
+		return result
+	if(!SSgamemode.storyteller_unlocks_scaled_antag_slots(/datum/antagonist/bandit))
+		result["max_slots"] = 0
+		result["final_slots"] = 0
+		return result
+	if(!SSgamemode.picked_open_slots(/datum/antagonist/bandit))
+		result["max_slots"] = 0
+		result["final_slots"] = 0
+		return result
+
+	var/max_slots = SSgamemode.story_antag_slot_cap(/datum/antagonist/bandit, roundstart)
+	result["max_slots"] = max_slots
+	if(max_slots <= 0)
+		result["final_slots"] = 0
+		return result
+
+	result["garrison"] = SSgamemode.garrison
+	result["holy_warrior"] = SSgamemode.holy_warrior
+	result["acolyte"] = SSgamemode.half_combatant
+	result["combat_total"] = SSgamemode.story_combat_pop()
+	result["final_slots"] = SSgamemode.story_antag_slots(SSgamemode.storyteller_scale_slots(max_slots, player_count, TRUE, SSgamemode.story_antag_scaling_step(/datum/antagonist/bandit), SSgamemode.story_antag_min_players(/datum/antagonist/bandit)), /datum/antagonist/bandit, player_count)
+	return result
+
+/proc/update_bandit_slots(override_player_count)
+	var/datum/job/bandit_job = SSjob.GetJob("Bandit")
+	if(!bandit_job)
+		return
+	var/list/scaling = calculate_bandit_scaling(override_player_count)
+	var/player_count = scaling["player_count"]
+	var/slots = max(0, scaling["final_slots"])
+	var/old_total = bandit_job.total_positions
+	var/final_slots = max(bandit_job.current_positions, slots)
+	bandit_job.total_positions = final_slots
+	bandit_job.spawn_positions = final_slots
+	SSgamemode.log_antag_slot_scaling("Bandits", old_total, final_slots, player_count, SSticker?.HasRoundStarted() ? "live slot update" : "roundstart slot update")
+	if(final_slots > 0)
+		SSrole_class_handler.bandits_in_round = TRUE
+	if(!SSticker?.HasRoundStarted() || final_slots <= old_total)
+		return
+	var/slot_gain = final_slots - old_total
+	SSmapping.retainer.bandit_goal += slot_gain * rand(200, 400)
+	for(var/mob/dead/new_player/player as anything in GLOB.new_player_list)
+		if(player.client)
+			to_chat(player, span_danger("Bandits flock to Azuria. [slot_gain] bandit slots have opened."))
 

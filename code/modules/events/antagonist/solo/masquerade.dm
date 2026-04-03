@@ -6,6 +6,9 @@
 		TAG_VILLIAN,
 	)
 	roundstart = TRUE
+	storyteller_antag_flags = STORYTELLER_ANTAG_VILLAIN
+	storyteller_favor_flags = STORYTELLER_FAVOR_MASQUERADE
+	storyteller_guarantee_flags = STORYTELLER_FAVOR_MASQUERADE
 	antag_flag = ROLE_VAMPIRE
 	shared_occurence_type = SHARED_HIGH_THREAT
 
@@ -19,7 +22,7 @@
 	earliest_start = 0 SECONDS
 
 	typepath = /datum/round_event/antagonist/solo/masquerade
-	antag_datum = /datum/antagonist/vampire
+	antag_datum = /datum/antagonist/vampire/masquerade
 
 	restricted_roles = DEFAULT_ANTAG_BLACKLISTED_ROLES
 

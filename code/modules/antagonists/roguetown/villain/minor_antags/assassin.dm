@@ -3,6 +3,11 @@
 	name = "Assassin"
 	roundend_category = "assassins"
 	antagpanel_category = "Assassin"
+	storyteller_antag_flags = STORYTELLER_ANTAG_SOFT
+	storyteller_favor_flags = STORYTELLER_FAVOR_ASSASSIN
+	storyteller_min_players = STORYTELLER_MINOR_ANTAG_MIN_PLAYERS
+	storyteller_slot_default_cap = 1
+	storyteller_slot_storyteller_caps = list(/datum/storyteller/graggar = 3)
 	antag_hud_type = ANTAG_HUD_TRAITOR
 	antag_hud_name = "assassin"
 	show_name_in_check_antagonists = TRUE

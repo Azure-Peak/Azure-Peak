@@ -2,6 +2,7 @@
 	name = "Unbound Spellblade"
 	roundend_category = "Unbound Spellblade"
 	antagpanel_category = "Unbound Spellblade"
+	storyteller_antag_flags = STORYTELLER_ANTAG_VILLAIN
 	job_rank = ROLE_UNBOUND_DEATHKNIGHT // Shares preference with Death Knight
 	confess_lines = list(
 		"MY BLADE REMEMBERS!",

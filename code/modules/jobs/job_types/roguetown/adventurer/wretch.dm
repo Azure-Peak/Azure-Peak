@@ -14,6 +14,7 @@
 	show_in_credits = FALSE
 	min_pq = 10
 	max_pq = null
+	storyteller_antag_flags = STORYTELLER_ANTAG_SOFT
 
 	obsfuscated_job = TRUE
 	class_categories = TRUE
@@ -52,16 +53,6 @@
 		/datum/advclass/wretch/ancient_deathknight,
 		/datum/advclass/wretch/slasher
 	)
-
-/datum/job/roguetown/wretch/special_job_check(mob/dead/new_player/player)
-	if(is_storyteller_soft_antag_blocked())
-		return FALSE
-	return ..()
-
-/datum/job/roguetown/wretch/special_check_latejoin(client/C)
-	if(is_storyteller_soft_antag_blocked())
-		return FALSE
-	return ..()
 
 /datum/job/roguetown/wretch/after_spawn(mob/living/L, mob/M, latejoin = TRUE)
 	..()
@@ -147,7 +138,9 @@
 	var/list/result = list()
 	var/player_count = override_player_count || length(GLOB.joined_player_list)
 	result["player_count"] = player_count
-	if(is_storyteller_soft_antag_blocked())
+	var/datum/job/wretch_job = SSjob.GetJob("Wretch")
+	var/roundstart = !(SSticker?.HasRoundStarted())
+	if(SSgamemode.storyteller_blocks_antag(wretch_job?.storyteller_antag_flags, roundstart, storyteller_midround_antag_flags = wretch_job?.storyteller_midround_antag_flags))
 		result["tier1_slots"] = 0
 		result["major_antag_active"] = FALSE
 		result["garrison"] = SSgamemode.garrison
@@ -246,5 +239,8 @@
 
 /// Convenience proc to update both wretch and adventurer scaling in one call.
 /proc/update_scaling_slots(override_player_count)
+	gnollslot_update(override_player_count)
 	update_wretch_slots(override_player_count)
 	update_adventurer_slots(override_player_count)
+	update_bandit_slots(override_player_count)
+	assassinslot_update(override_player_count)

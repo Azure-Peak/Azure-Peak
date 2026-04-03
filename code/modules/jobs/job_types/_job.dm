@@ -163,6 +163,15 @@
 	///The job's stat UPPER ceilings, clamped after statpacks and job stats are applied.
 	var/list/stat_ceilings
 
+	/// Storyteller-controlled antagonist categories for gating job availability.
+	var/storyteller_antag_flags = STORYTELLER_ANTAG_NONE
+	/// Storyteller-controlled antagonist categories that are blocked for midround access.
+	var/storyteller_midround_antag_flags = STORYTELLER_ANTAG_NONE
+	/// Storyteller-controlled antagonist favor categories for slot or UI adjustments.
+	var/storyteller_favor_flags = STORYTELLER_FAVOR_NONE
+	/// Storyteller-controlled antagonist categories that should be guaranteed when this job family is supported.
+	var/storyteller_guarantee_flags = STORYTELLER_FAVOR_NONE
+
 	///Whether this class can be clicked on for details.
 	var/class_setup_examine = TRUE
 
@@ -174,6 +183,10 @@
 
 
 /datum/job/proc/special_job_check(mob/dead/new_player/player)
+	if(SSgamemode?.storyteller_blocks_antag(storyteller_antag_flags))
+		return FALSE
+	if(SSgamemode?.storyteller_blocks_type(storyteller_favor_flags))
+		return FALSE
 	return TRUE
 
 /datum/job/proc/get_used_title(mob/player)
@@ -339,6 +352,10 @@
 
 //Used for a special check of whether to allow a client to latejoin as this job.
 /datum/job/proc/special_check_latejoin(client/C)
+	if(SSgamemode?.storyteller_blocks_antag(storyteller_antag_flags, FALSE, storyteller_midround_antag_flags = storyteller_midround_antag_flags))
+		return FALSE
+	if(SSgamemode?.storyteller_blocks_type(storyteller_favor_flags, roundstart = FALSE))
+		return FALSE
 	return TRUE
 
 /datum/job/proc/GetAntagRep()

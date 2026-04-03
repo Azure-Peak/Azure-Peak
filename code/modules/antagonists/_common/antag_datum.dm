@@ -24,6 +24,13 @@ GLOBAL_LIST_EMPTY(antagonists)
 	var/show_name_in_check_antagonists = FALSE //Will append antagonist name in admin listings - use for categories that share more than one antag type
 	var/increase_votepwr = TRUE
 	var/rogue_enabled = FALSE
+	var/storyteller_antag_flags = STORYTELLER_ANTAG_NONE
+	var/storyteller_favor_flags = STORYTELLER_FAVOR_NONE
+	var/storyteller_min_players = 0
+	var/override_candidatereq = FALSE
+	var/storyteller_slot_scaling = 1
+	var/storyteller_slot_default_cap = 0
+	var/list/storyteller_slot_storyteller_caps
 
 	///flags used by storytellers
 	var/antag_flags = NONE

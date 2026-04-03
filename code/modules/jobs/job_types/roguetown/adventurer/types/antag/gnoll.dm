@@ -14,6 +14,8 @@
 	show_in_credits = TRUE
 	min_pq = 10
 	max_pq = null
+	storyteller_antag_flags = STORYTELLER_ANTAG_SOFT
+	storyteller_favor_flags = STORYTELLER_FAVOR_GNOLL
 	allowed_patrons = list(/datum/patron/inhumen/graggar)
 
 	obsfuscated_job = TRUE
@@ -45,16 +47,6 @@
 		/datum/advclass/gnoll/templar,
 		/datum/advclass/gnoll/shaman,
 	)
-
-/datum/job/roguetown/gnoll/special_job_check(mob/dead/new_player/player)
-	if(is_storyteller_soft_antag_blocked())
-		return FALSE
-	return ..()
-
-/datum/job/roguetown/gnoll/special_check_latejoin(client/C)
-	if(is_storyteller_soft_antag_blocked())
-		return FALSE
-	return ..()
 
 /datum/job/roguetown/gnoll/after_spawn(mob/living/L, mob/M, latejoin = TRUE)
 	..()
@@ -88,8 +80,7 @@
 		H.AddSpell(F)
 		H.AddSpell(I)
 
-		var/mode = SSgnoll_scaling.get_gnoll_scaling()
-		if(mode == GNOLL_SCALING_DYNAMIC)
+		if(SSgamemode.story_antag_slot_cap(/datum/antagonist/gnoll, TRUE) > 1)
 			to_chat(H, span_bignotice("I can expect to be joined by my pack this week. I should wait for them and group up."))
 		else
 			to_chat(H, span_bignotice("Isolated from my pack, I am likely a lone soul this week. I should especially avoid getting killed, and look for my pack next week."))
@@ -106,22 +97,46 @@
 				if("Keep Current Name")
 					to_chat(H, span_notice("You keep your name as [H.real_name]."))
 
-/proc/gnollslot_calc()
+/proc/gnollslot_calc(override_player_count)
 	var/list/result = list()
-	if(is_storyteller_soft_antag_blocked())
+	var/player_count = override_player_count || length(GLOB.joined_player_list)
+	result["player_count"] = player_count
+	var/datum/job/gnoll_job = SSjob.GetJob("Gnoll")
+	var/roundstart = !(SSticker?.HasRoundStarted())
+	if(SSgamemode.storyteller_blocks_antag(gnoll_job?.storyteller_antag_flags, roundstart, storyteller_midround_antag_flags = gnoll_job?.storyteller_midround_antag_flags) || SSgamemode.storyteller_blocks_type(gnoll_job?.storyteller_favor_flags, roundstart = roundstart))
+		result["max_slots"] = 0
 		result["final_slots"] = 0
 		return result
-	result["final_slots"] = 1
+	if(!SSgamemode.storyteller_unlocks_scaled_antag_slots(/datum/antagonist/gnoll))
+		result["max_slots"] = 0
+		result["final_slots"] = 0
+		return result
+	var/max_slots = SSgamemode.story_antag_slot_cap(/datum/antagonist/gnoll, roundstart)
+	result["max_slots"] = max_slots
+	result["garrison"] = SSgamemode.garrison
+	result["holy_warrior"] = SSgamemode.holy_warrior
+	result["acolyte"] = SSgamemode.half_combatant
+	result["combat_total"] = SSgamemode.story_combat_pop()
+	result["final_slots"] = SSgamemode.story_antag_slots(SSgamemode.storyteller_scale_slots(max_slots, player_count, TRUE, SSgamemode.story_antag_scaling_step(/datum/antagonist/gnoll), SSgamemode.story_antag_min_players(/datum/antagonist/gnoll)), /datum/antagonist/gnoll, player_count)
 	return result
 
-/proc/gnollslot_update()
+/proc/gnollslot_update(override_player_count)
 	var/datum/job/gnoll_job = SSjob.GetJob("Gnoll")
 	if(!gnoll_job)
 		return
-	var/list/scaling = gnollslot_calc()
+	var/list/scaling = gnollslot_calc(override_player_count)
+	var/player_count = scaling["player_count"]
 	var/slots = max(0, scaling["final_slots"])
-	gnoll_job.total_positions = max(gnoll_job.current_positions, slots)
-	gnoll_job.spawn_positions = max(gnoll_job.current_positions, slots)
+	var/old_total = gnoll_job.total_positions
+	var/final_slots = max(gnoll_job.current_positions, slots)
+	gnoll_job.total_positions = final_slots
+	gnoll_job.spawn_positions = final_slots
+	SSgamemode.log_antag_slot_scaling("Gnolls", old_total, final_slots, player_count, SSticker?.HasRoundStarted() ? "live slot update" : "roundstart slot update")
+	if(!SSticker?.HasRoundStarted() || final_slots <= old_total)
+		return
+	for(var/mob/dead/new_player/player as anything in GLOB.new_player_list)
+		if(player.client)
+			to_chat(player, span_alert("Graggar demands blood, gnolls flock to Azuria."))
 
 /mob/living/carbon/human/proc/gnoll_inspect_skin()
 	set name = "Inspect Pelt"

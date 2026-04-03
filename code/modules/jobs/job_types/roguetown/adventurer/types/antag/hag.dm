@@ -3,6 +3,7 @@
 	flag = HAG
 	department_flag = ANTAGONIST
 	antag_job = TRUE // whoever wrote this, I'm- gghrhhah!
+	storyteller_antag_flags = STORYTELLER_ANTAG_NONE
 	faction = "Station"
 	total_positions = 1
 	spawn_positions = 1

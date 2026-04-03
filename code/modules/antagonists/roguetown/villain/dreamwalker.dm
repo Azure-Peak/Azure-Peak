@@ -2,6 +2,9 @@
 	name = "Dreamwalker"
 	roundend_category = "Dreamwalker"
 	antagpanel_category = "Dreamwalker"
+	storyteller_antag_flags = STORYTELLER_ANTAG_SOFT
+	storyteller_favor_flags = STORYTELLER_FAVOR_DREAMWALKER
+	storyteller_min_players = STORYTELLER_MINOR_ANTAG_MIN_PLAYERS
 	job_rank = ROLE_DREAMWALKER
 	confess_lines = list(
 		"MY VISION ABOVE ALL!",

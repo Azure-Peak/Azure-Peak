@@ -54,6 +54,16 @@
 	var/can_run_post_roundstart = TRUE
 	/// If set then the type or list of types of storytellers we are restricted to being trigged by
 	var/list/allowed_storytellers
+	/// Storyteller-controlled antagonist categories for gating the event.
+	var/storyteller_antag_flags = STORYTELLER_ANTAG_NONE
+	/// Storyteller-controlled antagonist categories that are blocked for midround runs.
+	var/storyteller_midround_antag_flags = STORYTELLER_ANTAG_NONE
+	/// Storyteller-controlled antagonist favor categories that bias this event.
+	var/storyteller_favor_flags = STORYTELLER_FAVOR_NONE
+	/// Storyteller-controlled antagonist categories that this event can satisfy as a guaranteed spawn.
+	var/storyteller_guarantee_flags = STORYTELLER_FAVOR_NONE
+	/// Multiplier applied when this event matches a storyteller favor.
+	var/storyteller_favor_multiplier = 1
 
 
 /datum/round_event_control/proc/valid_for_map()
@@ -61,12 +71,26 @@
 
 /datum/round_event_control/proc/return_failure_string(players_amt)
 	var/string
+	var/datum/storyteller/storyteller = SSgamemode.get_storyteller(roundstart)
 	if(roundstart && (world.time-SSticker.round_start_time >= 2 MINUTES))
 		string += "Roundstart"
-	if(length(allowed_storytellers) && !(SSgamemode.current_storyteller.type in allowed_storytellers))
+	if(SSgamemode.storyteller_blocks_antag(storyteller_antag_flags, roundstart, storyteller?.type, storyteller_midround_antag_flags))
 		if(string)
 			string += ","
-		string += "Wrong God"
+		string += "Blocked by Storyteller"
+	if(SSgamemode.storyteller_blocks_type(storyteller_favor_flags, storyteller?.type, roundstart))
+		if(string)
+			string += ","
+		string += "Blocked by Storyteller"
+	if(length(allowed_storytellers))
+		if(!storyteller)
+			if(string)
+				string += ","
+			string += "No Storyteller"
+		else if(!SSgamemode.storyteller_allows(allowed_storytellers, roundstart, storyteller))
+			if(string)
+				string += ","
+			string += "Wrong God"
 	if(length(todreq) && !(GLOB.tod in todreq))
 		if(string)
 			string += ","
@@ -101,11 +125,12 @@
 // Checks if the event can be spawned. Used by event controller and "false alarm" event.
 // Admin-created events override this.
 /datum/round_event_control/proc/canSpawnEvent(players_amt, gamemode, fake_check = FALSE)
-	if(SSgamemode.current_storyteller?.disable_distribution || SSgamemode.halted_storyteller)
+	var/datum/storyteller/storyteller = SSgamemode.get_storyteller(roundstart)
+	if(storyteller?.disable_distribution || SSgamemode.halted_storyteller)
 		return FALSE
 	if(event_group && !GLOB.event_groups[event_group].can_run())
 		return FALSE
-	if(roundstart && (!SSgamemode.can_run_roundstart || (SSgamemode.ran_roundstart && !fake_check && !SSgamemode.current_storyteller?.ignores_roundstart)))
+	if(roundstart && (!SSgamemode.can_run_roundstart || (SSgamemode.ran_roundstart && !fake_check && !storyteller?.ignores_roundstart)))
 		return FALSE
 	if(occurrences >= max_occurrences)
 		return FALSE
@@ -117,9 +142,14 @@
 		return FALSE
 	if(length(todreq) && !(GLOB.tod in todreq))
 		return FALSE
-	if(length(allowed_storytellers))
-		if(!(SSgamemode.current_storyteller.type in allowed_storytellers))
-			return FALSE
+	if(SSgamemode.storyteller_blocks_antag(storyteller_antag_flags, roundstart, storyteller?.type, storyteller_midround_antag_flags))
+		return FALSE
+	if(SSgamemode.storyteller_blocks_type(storyteller_favor_flags, storyteller?.type, roundstart))
+		return FALSE
+	if(length(allowed_storytellers) && !storyteller)
+		return FALSE
+	if(!SSgamemode.storyteller_allows(allowed_storytellers, roundstart, storyteller))
+		return FALSE
 	if(req_omen)
 		if(!GLOB.badomens.len)
 			return FALSE
@@ -128,6 +158,10 @@
 	return TRUE
 
 /datum/round_event_control/proc/preRunEvent()
+	if(SSgamemode.storyteller_blocks_antag(storyteller_antag_flags, roundstart, storyteller_midround_antag_flags = storyteller_midround_antag_flags))
+		return EVENT_CANT_RUN
+	if(SSgamemode.storyteller_blocks_type(storyteller_favor_flags, roundstart = roundstart))
+		return EVENT_CANT_RUN
 	if(!ispath(typepath, /datum/round_event))
 		return EVENT_CANT_RUN
 
@@ -166,9 +200,10 @@
 
 /datum/round_event_control/proc/runEvent(random = FALSE, admin_forced = TRUE)
 	var/datum/round_event/round_event = new typepath(TRUE, src)
-
-	round_event.setup()
-	round_event.current_players = get_active_player_count(alive_check = 1, afk_check = 1, human_check = 1)
+	var/defer_setup = roundstart && !SSticker.HasRoundStarted() && istype(round_event, /datum/round_event/antagonist/solo)
+	if(!defer_setup)
+		round_event.setup()
+		round_event.current_players = get_active_player_count(alive_check = 1, afk_check = 1, human_check = 1)
 	round_event.control = src
 	occurrences++
 

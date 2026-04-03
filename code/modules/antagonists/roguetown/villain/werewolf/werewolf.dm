@@ -2,6 +2,11 @@
 	name = "Verewolf"
 	roundend_category = "Werewolves"
 	antagpanel_category = "Werewolf"
+	storyteller_antag_flags = STORYTELLER_ANTAG_VILLAIN
+	storyteller_favor_flags = STORYTELLER_FAVOR_WEREWOLF
+	storyteller_min_players = STORYTELLER_MAJOR_ANTAG_MIN_PLAYERS
+	storyteller_slot_default_cap = 1
+	storyteller_slot_storyteller_caps = list(/datum/storyteller/dendor = 2)
 	job_rank = ROLE_WEREWOLF
 	var/list/inherent_traits = list(
 		TRAIT_IGNORESLOWDOWN,

@@ -5,6 +5,7 @@
 		TAG_VILLIAN,
 	)
 	roundstart = TRUE
+	storyteller_antag_flags = STORYTELLER_ANTAG_VILLAIN
 	antag_flag = ROLE_PREBEL
 	shared_occurence_type = SHARED_HIGH_THREAT
 

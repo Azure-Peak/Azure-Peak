@@ -7,6 +7,10 @@
 	)
 	//Can roll at any time.
 	roundstart = FALSE
+	storyteller_antag_flags = STORYTELLER_ANTAG_SOFT
+	storyteller_favor_flags = STORYTELLER_FAVOR_DREAMWALKER
+	storyteller_guarantee_flags = STORYTELLER_FAVOR_DREAMWALKER
+	storyteller_favor_multiplier = 2
 	antag_flag = ROLE_DREAMWALKER
 	shared_occurence_type = SHARED_MINOR_THREAT
 

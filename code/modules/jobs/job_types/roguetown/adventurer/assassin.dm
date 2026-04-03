@@ -9,6 +9,8 @@
 	min_pq = 10		// was going to put this higher but realized bandit's only 3 pq and wretch is fucking 10 so whatever
 	max_pq = null
 	antag_job = TRUE
+	storyteller_antag_flags = STORYTELLER_ANTAG_SOFT
+	storyteller_favor_flags = STORYTELLER_FAVOR_ASSASSIN
 	allowed_races = RACES_ALL_KINDS
 	tutorial = "Long ago you did a crime worthy of your bounty being hung on the wall outside of the local inn. You now live with your fellow freemen in the bog, and generally get up to no good."
 
@@ -45,6 +47,42 @@
 		/datum/advclass/assassin_poisoner,
 		/datum/advclass/assassin_hitman,
 	)
+
+/proc/calculate_assassin_scaling(override_player_count)
+	var/list/result = list()
+	var/player_count = override_player_count || length(GLOB.joined_player_list)
+	result["player_count"] = player_count
+	var/datum/job/assassin_job = SSjob.GetJob("Assassin")
+	var/roundstart = !(SSticker?.HasRoundStarted())
+	if(SSgamemode.storyteller_blocks_antag(assassin_job?.storyteller_antag_flags, roundstart, storyteller_midround_antag_flags = assassin_job?.storyteller_midround_antag_flags) || SSgamemode.storyteller_blocks_type(assassin_job?.storyteller_favor_flags, roundstart = roundstart))
+		result["max_slots"] = 0
+		result["final_slots"] = 0
+		return result
+	if(!SSgamemode.storyteller_unlocks_scaled_antag_slots(/datum/antagonist/assassin))
+		result["max_slots"] = 0
+		result["final_slots"] = 0
+		return result
+
+	var/max_slots = SSgamemode.story_antag_slot_cap(/datum/antagonist/assassin, roundstart)
+	result["max_slots"] = max_slots
+	result["garrison"] = SSgamemode.garrison
+	result["holy_warrior"] = SSgamemode.holy_warrior
+	result["acolyte"] = SSgamemode.half_combatant
+	result["combat_total"] = SSgamemode.story_combat_pop()
+	result["final_slots"] = SSgamemode.story_antag_slots(SSgamemode.storyteller_scale_slots(max_slots, player_count, TRUE, SSgamemode.story_antag_scaling_step(/datum/antagonist/assassin), SSgamemode.story_antag_min_players(/datum/antagonist/assassin)), /datum/antagonist/assassin, player_count)
+	return result
+
+/proc/assassinslot_update(player_count = null)
+	var/datum/job/assassin_job = SSjob.GetJob("Assassin")
+	if(!assassin_job)
+		return
+	var/list/scaling = calculate_assassin_scaling(player_count)
+	var/scaled_player_count = scaling["player_count"]
+	var/slots = max(0, scaling["final_slots"])
+	var/old_total = assassin_job.total_positions
+	assassin_job.total_positions = max(assassin_job.current_positions, slots)
+	assassin_job.spawn_positions = max(assassin_job.current_positions, slots)
+	SSgamemode.log_antag_slot_scaling("Assassins", old_total, assassin_job.total_positions, scaled_player_count, SSticker?.HasRoundStarted() ? "live slot update" : "roundstart slot update")
 
 /datum/job/roguetown/assassin/after_spawn(mob/living/L, mob/M, latejoin = TRUE)
 	..()

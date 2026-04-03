@@ -6,6 +6,9 @@
 		TAG_BLOOD
 	)
 	roundstart = TRUE
+	storyteller_antag_flags = STORYTELLER_ANTAG_SOFT
+	storyteller_favor_flags = STORYTELLER_FAVOR_ASSASSIN
+	storyteller_favor_multiplier = 2
 	antag_flag = ROLE_ASSASSIN
 	shared_occurence_type = SHARED_MINOR_THREAT
 
@@ -42,7 +45,7 @@
 	)
 
 	base_antags = 1
-	maximum_antags = 2
+	maximum_antags = 3
 
 	earliest_start = 0 SECONDS
 	max_occurrences = 2
@@ -51,11 +54,6 @@
 
 	typepath = /datum/round_event/antagonist/solo/assassins
 	antag_datum = /datum/antagonist/assassin
-
-/datum/round_event_control/antagonist/solo/assassins/preRunEvent()
-	if(is_storyteller_soft_antag_blocked())
-		return EVENT_CANT_RUN
-	return ..()
 
 /datum/round_event/antagonist/solo/assassins/start()
 	var/datum/job/assassin_job = SSjob.GetJob("Assassin")
@@ -85,3 +83,13 @@
 		return FALSE
 
 	return TRUE
+
+/datum/round_event_control/antagonist/solo/assassins/get_base_antag_amount(player_count = null)
+	if(isnull(player_count))
+		player_count = SSgamemode.get_correct_popcount()
+	var/max_slots = SSgamemode.story_antag_slot_cap(antag_datum, TRUE)
+	return SSgamemode.storyteller_scale_slots(max_slots, player_count, FALSE, SSgamemode.story_antag_scaling_step(antag_datum, antag_scaling), SSgamemode.story_antag_min_players(antag_datum))
+
+/datum/round_event_control/antagonist/solo/assassins/get_antag_amount()
+	var/player_count = SSgamemode.get_correct_popcount()
+	return SSgamemode.story_antag_slots(get_base_antag_amount(player_count), antag_datum, player_count)

@@ -28,13 +28,11 @@
 
 /datum/storyteller/psydon
 	name = "Psydon"
-	vote_desc = "Peace reigns. No villains will be present. His children can rest easy, for they have earned their respite"
-	desc = "Psydon will do little, events will be common as he takes a hands-off approach to the world. Consider this the 'extended' experience."
+	vote_desc = "Peace reigns. No antagonists will be present. His children can rest easy, for they have earned their respite"
+	desc = "Psydon will do little, events will be common as he takes a hands-off approach to the world. Consider this the extended experience."
 	welcome_text = "A temperate breeze rolls through the quiet streets.."
 	weight = 6
-	always_votable = TRUE
 	color_theme = "#80ced8"
-	preferred_gnoll_mode = GNOLL_SCALING_SINGLE
 	guarantees_roundstart_roleset = FALSE
 	roundstart_prob = 0
 
@@ -53,10 +51,8 @@
 	desc = "Astrata will provide a balanced and varied experience. Consider this the default experience."
 	welcome_text = "The warmth of daelight rouses you from your slumber.."
 	weight = 6
-	always_votable = TRUE
 	follower_modifier = LOWER_FOLLOWER_MODIFIER
 	color_theme = "#FFD700"
-	preferred_gnoll_mode = GNOLL_SCALING_SINGLE
 
 	influence_sets = list(
 	"Set 1" = list(
@@ -79,13 +75,11 @@
 
 /datum/storyteller/noc
 	name = "Noc"
-	vote_desc = "Knowledge reigns. Occurrences are tame, but remain suspectable to arcyne intervention. His favor shines upon those who dream for greater ambitions."
+	vote_desc = "Knowledge reigns. Occurrences are tame, but remain suspectable to arcyne intervention. His favor shines upon those who dream for greater ambitions, and the cursed who howl at the moon."
 	desc = "Noc will try to send more magical events."
 	welcome_text = "The air crackles with arcyne energy.."
 	weight = 4
-	always_votable = TRUE
 	color_theme = "#F0F0F0"
-	preferred_gnoll_mode = GNOLL_SCALING_SINGLE
 
 	tag_multipliers = list(
 		TAG_MAGICAL = 1.2,
@@ -117,9 +111,7 @@
 	desc = "Ravox will cause raids to happen naturally instead of only when people are dying a lot."
 	welcome_text = "\"The trumpets of Zericho are echoing in the distance..\""
 	weight = 4
-	always_votable = TRUE
 	color_theme = "#228822"
-	preferred_gnoll_mode = GNOLL_SCALING_SINGLE
 
 	tag_multipliers = list(
 		TAG_RAID = 1.3,
@@ -159,9 +151,7 @@
 	desc = "Abyssor likes to send water and trade-related events."
 	welcome_text = "The horizon grows dark, as its clouds gather for a coming storm.."
 	weight = 4
-	always_votable = TRUE
 	color_theme = "#3366CC"
-	preferred_gnoll_mode = GNOLL_SCALING_SINGLE
 
 	tag_multipliers = list(
 		TAG_WATER = 1.3,
@@ -194,11 +184,9 @@
 	desc = "Xylix is a wildcard, spinning the wheels of fate."
 	welcome_text = "\"..well, that's what happens out of too much spice and wine!\""
 	weight = 4
-	always_votable = TRUE
 	event_repetition_multiplier = 0
 	forced = TRUE
 	color_theme = "#AA8888"
-	preferred_gnoll_mode = GNOLL_SCALING_RANDOM
 
 	point_gains_multipliers = list(
 		EVENT_TRACK_MUNDANE = 1,
@@ -232,9 +220,7 @@
 	desc = "Necra takes things very slow, rarely bringing in newcomers."
 	welcome_text = "\"In the fief of Zenmarke, there was the odor of decay..\""
 	weight = 4
-	always_votable = TRUE
 	color_theme = "#888888"
-	preferred_gnoll_mode = GNOLL_SCALING_SINGLE
 
 	tag_multipliers = list(
 		TAG_HAUNTED = 1.3,
@@ -277,7 +263,6 @@
 	desc = "Pestra keeps things simple, with a slight bias towards alchemy."
 	welcome_text = "The clattering of instruments, and the churning of alchemical wonders.."
 	color_theme = "#AADDAA"
-	preferred_gnoll_mode = GNOLL_SCALING_SINGLE
 
 	tag_multipliers = list(
 		TAG_ALCHEMY = 1.2,
@@ -312,7 +297,6 @@
 	desc = "Malum believes in hard work, intervening more often than others."
 	welcome_text = "The pounding of red-hot steel, and the laboring of a hundred calloused hands.."
 	color_theme = "#D4A56C"
-	preferred_gnoll_mode = GNOLL_SCALING_SINGLE
 
 	tag_multipliers = list(
 		TAG_WORK = 1.5,
@@ -353,7 +337,6 @@
 	desc = "Eora hates death and promotes love. There is no possibility for ill-will from external forces. Though deaths will anger."
 	welcome_text = "\"Love is in the air? Nay; tis the smell of freshly-baked pies upon the windowsills!\""
 	color_theme = "#9966CC"
-	preferred_gnoll_mode = GNOLL_SCALING_SINGLE
 	guarantees_roundstart_roleset = FALSE
 	roundstart_prob = 0
 
@@ -402,13 +385,11 @@
 
 /datum/storyteller/dendor
 	name = "Dendor"
-	vote_desc = " Nature reigns. Overgrowth and Verevolves are more likely to occur. His favor shines upon harvests and lycanthropes."
+	vote_desc = " Nature reigns. Overgrowth is common, and Verevolves are assured. His favor shines upon harvests and lycanthropes."
 	desc = "Dendor likes to send nature-themed events."
 	welcome_text = "The cackling of perched zads, and the glimmer of morning dew.."
 	weight = 4
-	always_votable = TRUE
 	color_theme = "#664422"
-	preferred_gnoll_mode = GNOLL_SCALING_SINGLE
 
 	tag_multipliers = list(
 		TAG_NATURE = 1.5,
@@ -450,9 +431,7 @@
 	desc = "Zizo thrives on risk and reward, favoring the daring and unpredictable."
 	welcome_text = "A breeze of morbid air, ferrying the howls of the damned.."
 	weight = 4
-	always_votable = TRUE
 	color_theme = "#CC4444"
-	preferred_gnoll_mode = GNOLL_SCALING_FLAT
 
 	tag_multipliers = list(
 		TAG_MAGICAL = 1.2,
@@ -501,9 +480,7 @@
 	desc = "Baotha revels in chaos, making events and reality unpredictable."
 	welcome_text = "The sickly sweet aromas of liqour and spice fills the air.."
 	weight = 4
-	always_votable = TRUE
 	color_theme = "#9933FF"
-	preferred_gnoll_mode = GNOLL_SCALING_RANDOM
 
 	tag_multipliers = list(
 		TAG_INSANITY = 1.4,
@@ -550,9 +527,7 @@
 	desc = "Graggar encourages war and conquest, making combat the solution to all."
 	welcome_text = "Plumes of smoke are blown through the streets, reeking of ash and blood.."
 	weight = 4
-	always_votable = TRUE
 	color_theme = "#8B3A3A"
-	preferred_gnoll_mode = GNOLL_SCALING_DYNAMIC
 
 	tag_multipliers = list(
 		TAG_BATTLE = 1.6,
@@ -596,9 +571,7 @@
 	desc = "Matthios manipulates wealth and corruption, rewarding those who make deals."
 	welcome_text = "The jingling of mammons, and the dripping of ink from freshly-signed bounties.."
 	weight = 4
-	always_votable = TRUE
 	color_theme = "#8B4513"
-	preferred_gnoll_mode = GNOLL_SCALING_RANDOM
 
 	tag_multipliers = list(
 		TAG_TRADE = 1.4,

@@ -74,75 +74,155 @@ SUBSYSTEM_DEF(vote)
 	storyteller_vote_log.Cut()
 	remove_action_buttons()
 
-/datum/controller/subsystem/vote/proc/get_storyteller_vote_pool(storyteller_type)
+/datum/controller/subsystem/vote/proc/storyteller_desc_display(storyteller_type)
 	if(!ispath(storyteller_type, /datum/storyteller))
-		return null
-	switch(storyteller_type)
-		if(/datum/storyteller/psydon)
-			return "Psydon"
-		if(/datum/storyteller/graggar, /datum/storyteller/matthios, /datum/storyteller/zizo, /datum/storyteller/baotha)
-			return "Ascendants"
-	return "The Ten"
-
-/datum/controller/subsystem/vote/proc/get_storyteller_gnoll_display(storyteller_type)
-	if(storyteller_type == /datum/storyteller/psydon)
-		return "Gnolls: OFF"
+		return "Description: None"
 	var/datum/storyteller/storyboy = SSgamemode.storytellers[storyteller_type]
-	if(!storyboy)
-		return "Gnolls: NORMAL"
-	switch(storyboy.preferred_gnoll_mode)
-		if(GNOLL_SCALING_DYNAMIC)
-			return "Gnolls: DYNAMIC"
-		if(GNOLL_SCALING_FLAT)
-			return "Gnolls: FLAT"
-		if(GNOLL_SCALING_RANDOM)
-			return "Gnolls: RANDOM"
-	return "Gnolls: SOLO"
+	var/description = ""
+	if(storyboy?.vote_desc)
+		description = strip_html("[storyboy.vote_desc]")
+	else if(storyboy?.desc)
+		description = strip_html("[storyboy.desc]")
+	if(!length(description))
+		description = "None"
+	return "Description: [description]"
 
-/datum/controller/subsystem/vote/proc/get_storyteller_roll_summary(storyteller_type)
+/datum/controller/subsystem/vote/proc/storyteller_guarantee_display(storyteller_type)
+	var/list/guaranteed = SSgamemode.storyteller_guarantee_names(storyteller_type)
+	if(!length(guaranteed))
+		return "Guaranteed: None"
+	return "Guaranteed: [jointext(guaranteed, ", ")]"
+
+/datum/controller/subsystem/vote/proc/storyteller_favor_display(storyteller_type)
+	var/list/favored = SSgamemode.storyteller_favor_names(storyteller_type)
+	var/favor_label = "Favoured (x[STORYTELLER_STANDARD_FAVOR_MULTIPLIER])"
+	if(!length(favored))
+		return "[favor_label]: None"
+	return "[favor_label]: [jointext(favored, ", ")]"
+
+/datum/controller/subsystem/vote/proc/storyteller_misc_display(storyteller_type)
+	var/list/misc = list()
+	if(storyteller_type == /datum/storyteller/eora)
+		misc += "Disables hard antagonists"
+	else if(storyteller_type == /datum/storyteller/psydon)
+		misc += "Disables all hard and soft antagonists"
+	var/bandit_slots = SSgamemode.story_antag_slot_cap(/datum/antagonist/bandit, FALSE, storyteller_type)
+	if(bandit_slots > 1)
+		misc += "Bandits (Max: [bandit_slots])"
+	var/gnoll_slots = SSgamemode.story_antag_slot_cap(/datum/antagonist/gnoll, FALSE, storyteller_type)
+	if(gnoll_slots > 1)
+		misc += "Gnolls (Max: [gnoll_slots])"
+	var/assassin_slots = SSgamemode.story_antag_slot_cap(/datum/antagonist/assassin, FALSE, storyteller_type)
+	if(assassin_slots > 1)
+		misc += "Assassins (Max: [assassin_slots])"
+	var/dark_itinerant_slots = SSgamemode.story_antag_slot_cap(/datum/antagonist/zizo_knight, TRUE, storyteller_type) * 2
+	if(dark_itinerant_slots > 2)
+		misc += "Dark Itinerants (Max: [dark_itinerant_slots])"
+	var/werewolf_slots = SSgamemode.story_antag_slot_cap(/datum/antagonist/werewolf, TRUE, storyteller_type)
+	if(werewolf_slots > 1)
+		misc += "Werewolves (Max: [werewolf_slots])"
+	if(!length(misc))
+		return "Misc: None"
+	return "Misc: [jointext(misc, ", ")]"
+
+/datum/controller/subsystem/vote/proc/storyteller_active_major_antag_display()
+	var/datum/round_event_control/antagonist/solo/active_event = SSgamemode.current_roundstart_event
+	if(!active_event || !(active_event.storyteller_antag_flags & STORYTELLER_ANTAG_VILLAIN))
+		return ""
+
+	var/current_slots = active_event.get_antag_amount()
+	var/max_slots = max(active_event.maximum_antags, current_slots)
+	var/list/details = list()
+	for(var/datum/antagonist/antag as anything in GLOB.antagonists)
+		if(!antag?.owner)
+			continue
+		if(!ispath(antag.type, active_event.antag_datum) && !ispath(active_event.antag_datum, antag.type))
+			continue
+		var/character_name = antag.owner.current?.real_name || antag.owner.name || "Unknown"
+		var/player_ckey = antag.owner.key ? ckey(antag.owner.key) : "no ckey"
+		details += "[character_name] ([player_ckey]) - [antag.name]"
+
+	var/list/lines = list()
+	lines += "<div style='margin:0 0 6px 0;padding:8px 10px;border:1px solid #6e2b33;border-radius:6px;background:rgba(28,12,16,0.95);'>"
+	lines += "<div style='font-size:0.9rem;font-weight:bold;color:#f0b5b5;margin-bottom:4px;'>Active Major Antagonist</div>"
+	lines += "<div style='font-size:0.8rem;color:#e6d6d6;line-height:1.4;'>"
+	lines += "<b>Event:</b> [html_encode(active_event.name)]<br>"
+	lines += "<b>Slots:</b> [current_slots] / [max_slots]<br>"
+	if(length(details))
+		var/list/encoded_details = list()
+		for(var/detail in details)
+			encoded_details += html_encode(detail)
+		lines += "<b>Players:</b><br>[jointext(encoded_details, "<br>")]"
+	else
+		lines += "<b>Players:</b> None assigned"
+	lines += "</div></div>"
+	return lines.Join()
+
+/datum/controller/subsystem/vote/proc/storyteller_roll_summary(storyteller_type)
 	if(!ispath(storyteller_type, /datum/storyteller))
 		return list()
 	var/list/summary = list()
-	if(storyteller_type == /datum/storyteller/eora)
-		summary += "Villain rolls: OFF"
-		summary += "Wretches: NORMAL"
-		summary += get_storyteller_gnoll_display(storyteller_type)
-		return summary
-	if(storyteller_type == /datum/storyteller/psydon)
-		summary += "Villain rolls: OFF"
-		summary += "Wretches: OFF"
-		summary += get_storyteller_gnoll_display(storyteller_type)
-		return summary
-	summary += "Villain rolls: NORMAL"
-	summary += "Wretches: NORMAL"
-	summary += get_storyteller_gnoll_display(storyteller_type)
+	summary += storyteller_desc_display(storyteller_type)
+	summary += storyteller_favor_display(storyteller_type)
+	summary += storyteller_guarantee_display(storyteller_type)
+	summary += storyteller_misc_display(storyteller_type)
 	return summary
 
-/datum/controller/subsystem/vote/proc/render_storyteller_summary(choice_text)
-	var/storyteller_type = get_storyteller_choice_type(choice_text)
-	var/list/summary = get_storyteller_roll_summary(storyteller_type)
-	if(!length(summary))
+/datum/controller/subsystem/vote/proc/storyteller_info_text(choice_text)
+	var/storyteller_type = storyteller_choice_type(choice_text)
+	if(!ispath(storyteller_type, /datum/storyteller))
 		return ""
-	var/pool_name = get_storyteller_vote_pool(storyteller_type)
-	var/list/theme = get_storyteller_pool_theme(pool_name)
-	var/summary_color = theme["summary"] || "#b8b1d8"
-	var/dat = "<div style='margin-top:3px;color:[summary_color];font-size:0.78rem;line-height:1.25;'>"
-	dat += jointext(summary, " | ")
-	dat += "</div>"
-	return dat
+	var/list/lines = list()
+	lines += storyteller_desc_display(storyteller_type)
+	lines += storyteller_favor_display(storyteller_type)
+	lines += storyteller_guarantee_display(storyteller_type)
+	lines += storyteller_misc_display(storyteller_type)
+	return jointext(lines, "\n")
 
-/datum/controller/subsystem/vote/proc/get_storyteller_pool_totals()
+/datum/controller/subsystem/vote/proc/show_storyteller_info(client/C, choice_text)
+	if(!C)
+		return
+	var/storyteller_type = storyteller_choice_type(choice_text)
+	if(!ispath(storyteller_type, /datum/storyteller))
+		return
+	var/datum/storyteller/storyboy = SSgamemode.storytellers[storyteller_type]
+	var/story_name = storyboy?.name
+	if(!story_name)
+		story_name = "Storyteller"
+	var/list/info_lines = splittext(storyteller_info_text(choice_text), "\n")
+	var/list/dat = list()
+	dat += "<html><body style='margin:0;padding:0;background:#1b1f24;'>"
+	dat += "<div style='padding:8px;background:#1b1f24;color:#dddddd;font-family:Verdana,sans-serif;'>"
+	dat += "<table style='width:100%;border-collapse:collapse;background:#20252b;border:1px solid #47515c;'>"
+	dat += "<tr><th colspan='2' style='padding:6px 8px;background:#29313a;color:#e7d8ac;text-align:left;font-size:14px;border-bottom:1px solid #47515c;'>[html_encode(story_name)]</th></tr>"
+	for(var/line in info_lines)
+		if(!length(line))
+			continue
+		var/split_index = findtext(line, ":")
+		if(split_index)
+			var/label = copytext(line, 1, split_index)
+			var/value = trim(copytext(line, split_index + 1))
+			dat += "<tr>"
+			dat += "<th style='width:118px;padding:6px 8px;text-align:left;vertical-align:top;background:#252c33;color:#bfd0e2;border-bottom:1px solid #3d4752;font-size:12px;'>[html_encode(label)]</th>"
+			dat += "<td style='padding:6px 8px;color:#dddddd;border-bottom:1px solid #3d4752;line-height:1.35;font-size:12px;'>[html_encode(value)]</td>"
+			dat += "</tr>"
+		else
+			dat += "<tr><td colspan='2' style='padding:6px 8px;color:#dddddd;border-bottom:1px solid #3d4752;line-height:1.35;font-size:12px;'>[html_encode(line)]</td></tr>"
+	dat += "</table></div></body></html>"
+	C << browse(dat.Join(), "window=storyteller_info;size=380x480;can_close=1")
+
+/datum/controller/subsystem/vote/proc/storyteller_pool_totals()
 	var/list/pool_totals = list()
 	for(var/option in choices)
-		var/storyteller_type = get_storyteller_choice_type(option)
-		var/pool_name = get_storyteller_vote_pool(storyteller_type)
+		var/storyteller_type = storyteller_choice_type(option)
+		var/pool_name = SSgamemode.get_story_pool(storyteller_type)
 		if(!pool_name)
 			continue
 		pool_totals[pool_name] = (pool_totals[pool_name] || 0) + (choices[option] || 0)
 	return pool_totals
 
-/datum/controller/subsystem/vote/proc/get_storyteller_pool_winners()
-	var/list/pool_totals = get_storyteller_pool_totals()
+/datum/controller/subsystem/vote/proc/storyteller_pool_winners()
+	var/list/pool_totals = storyteller_pool_totals()
 	var/greatest_votes = 0
 	for(var/pool_name in pool_totals)
 		var/pool_votes = pool_totals[pool_name] || 0
@@ -156,14 +236,14 @@ SUBSYSTEM_DEF(vote)
 			winning_pools += pool_name
 	return winning_pools
 
-/datum/controller/subsystem/vote/proc/get_storyteller_winning_choices(list/winning_pools)
+/datum/controller/subsystem/vote/proc/storyteller_winning_choices(list/winning_pools)
 	var/list/winners = list()
 	if(!length(winning_pools))
 		return winners
 	var/greatest_votes = 0
 	for(var/option in choices)
-		var/storyteller_type = get_storyteller_choice_type(option)
-		var/pool_name = get_storyteller_vote_pool(storyteller_type)
+		var/storyteller_type = storyteller_choice_type(option)
+		var/pool_name = SSgamemode.get_story_pool(storyteller_type)
 		if(!(pool_name in winning_pools))
 			continue
 		var/option_votes = choices[option] || 0
@@ -174,7 +254,7 @@ SUBSYSTEM_DEF(vote)
 			winners += option
 	return winners
 
-/datum/controller/subsystem/vote/proc/get_storyteller_pool_theme(pool_name)
+/datum/controller/subsystem/vote/proc/storyteller_pool_theme(pool_name)
 	var/list/theme = list(
 		"border" = "#5a5670",
 		"background" = "rgba(34,31,45,0.82)",
@@ -218,26 +298,30 @@ SUBSYSTEM_DEF(vote)
 /datum/controller/subsystem/vote/proc/render_storyteller_pool(list/choice_indices, pool_name, can_vote, selected_option)
 	if(!length(choice_indices))
 		return ""
-	var/list/pool_totals = get_storyteller_pool_totals()
+	var/list/pool_totals = storyteller_pool_totals()
 	var/pool_votes = pool_totals[pool_name] || 0
-	var/list/theme = get_storyteller_pool_theme(pool_name)
-	var/dat = "<div style='border:1px solid [theme["border"]];border-radius:8px;padding:8px 10px;background:[theme["background"]];min-height:100%;box-sizing:border-box;'>"
-	dat += "<div style='font-size:1rem;font-weight:bold;margin-bottom:6px;color:[theme["title"]];'>[pool_name] <span style='float:right;font-size:0.82rem;color:[theme["meta"]];'>[pool_votes] votepwr</span></div>"
-	dat += "<div style='display:flex;flex-direction:column;gap:6px;'>"
+	var/list/theme = storyteller_pool_theme(pool_name)
+	var/pool_columns = length(choice_indices) > 1 ? 2 : 1
+	var/dat = "<div style='border:1px solid [theme["border"]];border-radius:6px;padding:6px 7px;background:[theme["background"]];box-sizing:border-box;'>"
+	dat += "<div style='font-size:0.9rem;font-weight:bold;margin-bottom:4px;color:[theme["title"]];'>[pool_name] <span style='float:right;font-size:0.74rem;color:[theme["meta"]];'>[pool_votes] votepwr</span></div>"
+	dat += "<div style='display:grid;grid-template-columns:repeat([pool_columns], minmax(0, 1fr));gap:4px;'>"
 	for(var/index in choice_indices)
 		var/option_index = text2num(index)
 		var/choice_text = choices[option_index]
+		var/choice_name = storyteller_choice_name(choice_text)
 		var/votes = choices[choice_text] || 0
 		var/is_selected = (selected_option == choice_text)
 		var/selected_color = theme["selection_color"]
 		var/selected_text = is_selected ? " <span style='color:[selected_color];font-size:0.82rem;font-weight:bold;'>(current vote)</span>" : ""
-		var/entry = "<div style='padding:6px 8px;border-radius:6px;background:[theme["entry"]];'>"
+		var/info_link = "<a href='?src=[REF(src)];vote=storyinfo;story=[option_index]' style='display:inline-block;margin-left:6px;color:[theme["meta"]];font-size:0.78rem;font-weight:bold;text-decoration:none;'>&#91;?&#93;</a>"
+		var/entry = "<div style='padding:4px 6px;border-radius:4px;background:[theme["entry"]];min-width:0;box-sizing:border-box;'>"
+		entry += "<div style='display:flex;align-items:flex-start;justify-content:space-between;gap:8px;'>"
+		entry += "<div style='min-width:0;flex:1 1 auto;'>"
 		if(can_vote)
-			entry += "<a href='?src=[REF(src)];vote=[option_index]' style='font-size:0.95rem;color:[theme["link"]];'>[choice_text]</a>[selected_text] <span style='color:[theme["meta"]];font-size:0.82rem;'>([votes] votepwr)</span>"
+			entry += "<a href='?src=[REF(src)];vote=[option_index]' style='font-size:0.86rem;color:[theme["link"]];'>[choice_name]</a>[selected_text] <span style='color:[theme["meta"]];font-size:0.72rem;'>([votes] votepwr)</span>"
 		else
-			entry += "<span style='font-size:0.95rem;'>[choice_text]</span>[selected_text] <span style='color:[theme["meta"]];font-size:0.82rem;'>([votes] votepwr)</span>"
-		entry += render_storyteller_summary(choice_text)
-		entry += "</div>"
+			entry += "<span style='font-size:0.86rem;'>[choice_name]</span>[selected_text] <span style='color:[theme["meta"]];font-size:0.72rem;'>([votes] votepwr)</span>"
+		entry += "</div>[info_link]</div></div>"
 		dat += entry
 	dat += "</div></div>"
 	return dat
@@ -245,6 +329,7 @@ SUBSYSTEM_DEF(vote)
 /datum/controller/subsystem/vote/proc/render_storyteller_choices(can_vote, client/C)
 	var/list/pool_order = list("Psydon", "Ascendants", "The Ten")
 	var/list/pooled_indices = list()
+	var/active_pool_count = 0
 	var/selected_option = null
 	if(C)
 		selected_option = vote_selections[C.ckey]
@@ -253,14 +338,25 @@ SUBSYSTEM_DEF(vote)
 
 	for(var/i = 1, i <= choices.len, i++)
 		var/choice_text = choices[i]
-		var/storyteller_type = get_storyteller_choice_type(choice_text)
-		var/pool_name = get_storyteller_vote_pool(storyteller_type)
+		var/storyteller_type = storyteller_choice_type(choice_text)
+		var/pool_name = SSgamemode.get_story_pool(storyteller_type)
 		if(!pool_name)
 			continue
 		var/list/pool_choices = pooled_indices[pool_name]
 		pool_choices += "[i]"
 
-	var/dat = "<div style='margin-top:8px;display:grid;grid-template-columns:repeat(3, minmax(0, 1fr));gap:10px;align-items:start;'>"
+	for(var/pool_name in pool_order)
+		var/list/pool_choices = pooled_indices[pool_name]
+		if(!length(pool_choices))
+			continue
+		active_pool_count++
+
+	if(!active_pool_count)
+		return ""
+
+	var/dat = ""
+	dat += storyteller_active_major_antag_display()
+	dat += "<div style='margin-top:4px;display:grid;grid-template-columns:repeat([active_pool_count], minmax(0, 1fr));gap:4px;align-items:start;'>"
 	for(var/pool_name in pool_order)
 		var/list/pool_choices = pooled_indices[pool_name]
 		if(!length(pool_choices))
@@ -271,8 +367,8 @@ SUBSYSTEM_DEF(vote)
 
 /datum/controller/subsystem/vote/proc/get_result()
 	if(mode == "storyteller")
-		var/list/winning_pools = get_storyteller_pool_winners()
-		return get_storyteller_winning_choices(winning_pools)
+		var/list/winning_pools = storyteller_pool_winners()
+		return storyteller_winning_choices(winning_pools)
 
 	//get the highest number of votes
 	var/greatest_votes = 0
@@ -333,7 +429,7 @@ SUBSYSTEM_DEF(vote)
 				votes = 0
 			text += "\n<b>[choices[i]]:</b> [votes]"
 		if(mode == "storyteller")
-			var/list/pool_totals = get_storyteller_pool_totals()
+			var/list/pool_totals = storyteller_pool_totals()
 			if(pool_totals.len)
 				text += "\n<hr><b>Pool Totals</b>"
 				for(var/pool_name in pool_totals)
@@ -431,7 +527,7 @@ SUBSYSTEM_DEF(vote)
 		vote_power = 1
 	return vote_power
 
-/datum/controller/subsystem/vote/proc/get_storyteller_choice_name(choice_text)
+/datum/controller/subsystem/vote/proc/storyteller_choice_name(choice_text)
 	if(!choice_text)
 		return null
 	for(var/storyteller_type in SSgamemode.storytellers)
@@ -440,7 +536,7 @@ SUBSYSTEM_DEF(vote)
 			return storyboy.name
 	return strip_html("[choice_text]")
 
-/datum/controller/subsystem/vote/proc/get_storyteller_choice_type(choice_text)
+/datum/controller/subsystem/vote/proc/storyteller_choice_type(choice_text)
 	if(!choice_text)
 		return null
 	for(var/storyteller_type in SSgamemode.storytellers)
@@ -459,8 +555,8 @@ SUBSYSTEM_DEF(vote)
 	if(!islist(file_data))
 		file_data = list()
 	file_data["state"] = state
-	var/winner_name = get_storyteller_choice_name(winning_choice)
-	var/winner_type = get_storyteller_choice_type(winning_choice)
+	var/winner_name = storyteller_choice_name(winning_choice)
+	var/winner_type = storyteller_choice_type(winning_choice)
 	if(winner_name)
 		file_data["winner"] = winner_name
 	else
@@ -510,7 +606,7 @@ SUBSYSTEM_DEF(vote)
 			var/vote_power = get_vote_power(usr)
 			var/choice_name = selected_option
 			if(mode == "storyteller")
-				choice_name = get_storyteller_choice_name(selected_option)
+				choice_name = storyteller_choice_name(selected_option)
 			vote_selections[usr.ckey] = selected_option
 			vote_powers[usr.ckey] = vote_power
 			if(mode == "storyteller")
@@ -582,8 +678,8 @@ SUBSYSTEM_DEF(vote)
 				vote_alert.file = 'sound/roundend/roundend-vote-sound.ogg'
 			if("storyteller")
 				choices.Add(SSgamemode.storyteller_vote_choices())
-				vote_width = 1200
-				vote_height = 900 // Give more room for storyteller
+				vote_width = 760
+				vote_height = 760
 				panel_refresh_interval = STORYTELLER_VOTE_PANEL_REFRESH_INTERVAL
 			else
 				return FALSE
@@ -649,12 +745,12 @@ SUBSYSTEM_DEF(vote)
 		. += "Time Left: [time_remaining] s<hr>"
 		var/can_vote = can_client_vote(C)
 		if(mode == "storyteller")
-			. += "<div style='color:#992414;font-size:0.95rem;margin-bottom:6px;'>Storytellers are grouped by weighted pool. Last round's vote is not votable this round.</div>"
+			. += "<div style='color:#992414;font-size:0.82rem;margin-bottom:3px;'>Storytellers are grouped by weighted pool. Last round's vote pool is locked out.</div>"
 			. += render_storyteller_choices(can_vote, C)
 		else
 			. += "<ul>"
 			var/selected_option = vote_selections[C.ckey]
-			for(var/i=1,i<=choices.len,i++)
+			for(var/i = 1, i <= choices.len, i++)
 				var/choice_text = choices[i]
 				var/votes = choices[choice_text]
 				if(!votes)
@@ -669,42 +765,42 @@ SUBSYSTEM_DEF(vote)
 		if(admin)
 			. += "(<a href='?src=[REF(src)];vote=cancel'>Cancel Vote</a>) "
 	else
-		. += "<h2>Start a vote:</h2><hr><ul><li>"
-		//restart
-		var/avr = CONFIG_GET(flag/allow_vote_restart)
-		if(trialmin || avr)
-			. += "<a href='?src=[REF(src)];vote=restart'>Restart</a>"
-		else
-			. += "<font color='grey'>Restart (Disallowed)</font>"
-		if(trialmin)
-			. += "\t(<a href='?src=[REF(src)];vote=toggle_restart'>[avr ? "Allowed" : "Disallowed"]</a>)"
-		. += "</li><li>"
-		//gamemode
-		var/avm = CONFIG_GET(flag/allow_vote_mode)
-		if(trialmin || avm)
-			. += "<a href='?src=[REF(src)];vote=gamemode'>GameMode</a>"
-		else
-			. += "<font color='grey'>GameMode (Disallowed)</font>"
-		if(trialmin)
-			. += "\t(<a href='?src=[REF(src)];vote=toggle_gamemode'>[avm ? "Allowed" : "Disallowed"]</a>)"
-
-		. += "</li>"
-		//map
-		var/avmap = CONFIG_GET(flag/allow_vote_map)
-		if(trialmin || avmap)
-			. += "<a href='?src=[REF(src)];vote=map'>Map</a>"
-		else
-			. += "<font color='grey'>Map (Disallowed)</font>"
-		if(trialmin)
-			. += "\t(<a href='?src=[REF(src)];vote=toggle_map'>[avmap ? "Allowed" : "Disallowed"]</a>)"
-
-		. += "</li>"
-		//custom
-		if(trialmin)
-			. += "<li><a href='?src=[REF(src)];vote=custom'>Custom</a></li>"
-		. += "</ul><hr>"
+		. += render_vote_start_menu(trialmin)
 	. += "<a href='?src=[REF(src)];vote=close' style='position:absolute;top:8px;right:18px;padding:3px 8px;border:1px solid #6e2b33;border-radius:999px;background:rgba(18,12,14,0.96);color:#e06b75;font-size:0.8rem;font-weight:bold;text-decoration:none;line-height:1.2;'>Close</a>"
 	return .
+
+/datum/controller/subsystem/vote/proc/render_vote_start_menu(trialmin)
+	var/avr = CONFIG_GET(flag/allow_vote_restart)
+	var/avm = CONFIG_GET(flag/allow_vote_mode)
+	var/avmap = CONFIG_GET(flag/allow_vote_map)
+	var/restart_label = avr ? "Allowed" : "Disallowed"
+	var/gamemode_label = avm ? "Allowed" : "Disallowed"
+	var/map_label = avmap ? "Allowed" : "Disallowed"
+	var/gamemode_link = (trialmin || avm) ? "<a href='?src=[REF(src)];vote=gamemode'>GameMode</a>" : "<font color='grey'>GameMode (Disallowed)</font>"
+	var/list/dat = list()
+	dat += "<h2>Start a vote:</h2><hr><ul><li>"
+	if(trialmin || avr)
+		dat += "<a href='?src=[REF(src)];vote=restart'>Restart</a>"
+	else
+		dat += "<font color='grey'>Restart (Disallowed)</font>"
+	if(trialmin)
+		dat += "\t(<a href='?src=[REF(src)];vote=toggle_restart'>[restart_label]</a>)"
+	dat += "</li><li>"
+	dat += gamemode_link
+	if(trialmin)
+		dat += "\t(<a href='?src=[REF(src)];vote=toggle_gamemode'>[gamemode_label]</a>)"
+	dat += "</li><li>"
+	if(trialmin || avmap)
+		dat += "<a href='?src=[REF(src)];vote=map'>Map</a>"
+	else
+		dat += "<font color='grey'>Map (Disallowed)</font>"
+	if(trialmin)
+		dat += "\t(<a href='?src=[REF(src)];vote=toggle_map'>[map_label]</a>)"
+	dat += "</li>"
+	if(trialmin)
+		dat += "<li><a href='?src=[REF(src)];vote=custom'>Custom</a></li>"
+	dat += "</ul><hr>"
+	return dat.Join()
 
 
 /datum/controller/subsystem/vote/Topic(href,href_list[],hsrc)
@@ -720,6 +816,11 @@ SUBSYSTEM_DEF(vote)
 		if("close")
 			voting -= usr.client
 			usr << browse(null, "window=vote")
+			return
+		if("storyinfo")
+			var/option_index = text2num(href_list["story"])
+			if(option_index >= 1 && option_index <= choices.len)
+				show_storyteller_info(usr.client, choices[option_index])
 			return
 		if("cancel")
 			if(usr.client.holder)
