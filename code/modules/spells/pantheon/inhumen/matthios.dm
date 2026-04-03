@@ -1485,3 +1485,4 @@
 	playsound(owner, 'sound/combat/hits/punch/punch (1).ogg', 100, TRUE)
 
 #undef SKULDUGGERY_FILTER
+#undef MAMMON_FILTER // FUCK!!!!!!
