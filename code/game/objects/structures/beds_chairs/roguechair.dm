@@ -13,10 +13,9 @@
 	hidingspot = TRUE
 	var/mob/living/hiddenguy = null // So we can find them with fixed eye search
 
-/obj/structure/flora/roguegrass/get_mechanics_examine(mob/user)
+/obj/structure/chair/bench/get_mechanics_examine(mob/user)
 	. = ..()
 	. += span_info("Some structures can be used as hiding places. Toggle the 'SNEAK' button on your HUD, then click the structure to hide in it. You can stop hiding by clicking the structure again, or by moving out of it.")
-
 
 /obj/structure/chair/bench/church
 	icon_state = "church_benchleft"
