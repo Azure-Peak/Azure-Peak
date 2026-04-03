@@ -8,6 +8,7 @@
 	class_select_category = CLASS_CAT_WARRIOR
 	category_tags = list(CTAG_WRETCH)
 	traits_applied = list(TRAIT_STRONGBITE, TRAIT_IGNOREDAMAGESLOWDOWN, TRAIT_NOPAINSTUN, TRAIT_BLOOD_RESISTANCE)
+	extra_context = "This subclass gains access to the RAGE ability."
 	// Literally same stat spread as Atgervi Shaman
 	subclass_stats = list(
 		STATKEY_STR = 3,
@@ -61,17 +62,17 @@
 		var/weapons = list("Discipline - Unarmed","Discipline - Bodybuilder","Katar","Knuckledusters","Punch Dagger","Battle Axe","Grand Mace","Falx")
 		var/weapon_choice = input(H, "Choose your WEAPON.", "SPILL THEIR ENTRAILS.") as anything in weapons
 		H.set_blindness(0)
+		H.mind.AddSpell(new /obj/effect/proc_holder/spell/self/rage)
 		switch(weapon_choice)
 			if("Discipline - Unarmed")
 				H.adjust_skillrank_up_to(/datum/skill/combat/unarmed, SKILL_LEVEL_MASTER, TRUE)
 				ADD_TRAIT(H, TRAIT_CIVILIZEDBARBARIAN, TRAIT_GENERIC)
 				armor = /obj/item/clothing/suit/roguetown/armor/regenerating/skin/disciple/berserker
-			if("Discipline - Bodybuilder")
+			if("Discipline - Bodybuilder") //its really not that good
 				H.adjust_skillrank_up_to(/datum/skill/combat/swords, SKILL_LEVEL_EXPERT, TRUE)
 				r_hand = /obj/item/rogueweapon/greatsword/paalloy
 				armor = /obj/item/clothing/suit/roguetown/armor/manual/pushups/leather/good
 				backl = /obj/item/rogueweapon/scabbard/gwstrap
-				H.change_stat(STATKEY_INT, -3) /// Same reasoning as advent barbarian. I think it makes the subclass shit, but it is what it is.
 			if("Katar")
 				H.adjust_skillrank_up_to(/datum/skill/combat/unarmed, SKILL_LEVEL_MASTER, TRUE)
 				beltr = /obj/item/rogueweapon/katar

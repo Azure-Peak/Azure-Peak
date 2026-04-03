@@ -92,6 +92,7 @@ SUBSYSTEM_DEF(nightshift)
 			if(HAS_TRAIT(src, TRAIT_NIGHT_OWL))
 				apply_status_effect(/datum/status_effect/debuff/sleepytime)
 		if("night")
+			SEND_SIGNAL(src, COMSIG_SLEEPY_TIME)
 			handle_sleep_triumphs()
 			if(HAS_TRAIT(src, TRAIT_INFINITE_STAMINA) || HAS_TRAIT(src, TRAIT_NOSLEEP))
 				return ..()
@@ -107,8 +108,11 @@ SUBSYSTEM_DEF(nightshift)
 	allmig_reward++
 	var/triumphs_to_add = 1
 	var/static/list/towner_jobs
-	towner_jobs = GLOB.peasant_positions | GLOB.burgher_positions | GLOB.sidefolk_positions
+	towner_jobs = GLOB.peasant_positions | GLOB.burgher_positions
 	if(mind.assigned_role != "Unassigned" && istype(mind.assigned_role, /datum/job) && (mind.assigned_role.title in towner_jobs)) //If you play a towner-related role, you get an additonal triumph
 		triumphs_to_add++
-	adjust_triumphs(triumphs_to_add)
+	if(get_flaw(/datum/charflaw/noflaw))
+		triumphs_to_add = 0
+	if(triumphs_to_add)
+		adjust_triumphs(triumphs_to_add)
 	to_chat(src, span_danger("Days Survived: \Roman[allmig_reward]"))

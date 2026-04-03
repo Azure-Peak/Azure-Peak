@@ -1,4 +1,0 @@
-author: "WeNeedMorePhoron"
-delete-after: True
-changes:
-  - balance: "Plate armor is considered medium instead of heavy against piercing attack, so bolts / bodkin will go through for 100% damage now."

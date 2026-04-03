@@ -1,6 +1,0 @@
-author: "PatapoIIIa"
-delete-after: True
-changes:
-  - rscadd: "Add new tents"
-  - qol: "made new tents"
-  - bugfix: "fix walls counter"

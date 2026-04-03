@@ -97,7 +97,7 @@
 
 	/// Whether the bodypart has unlimited bleeding.
 	var/unlimited_bleeding = FALSE
-	
+
 	/// Cached variable that reflects how much bleeding our wounds are applying to the limb. Handled inside each individual wound.
 	var/bleeding = 0
 
@@ -388,7 +388,12 @@
 			. = TRUE
 	consider_processing()
 	update_disabled()
-	return update_bodypart_damage_state() || .
+	. = update_bodypart_damage_state() || .
+	if(owner)
+		var/datum/hud/hud_used = owner.hud_used
+		if(hud_used?.zone_select)
+			hud_used.zone_select.update_limb(body_zone)
+	return .
 
 //Heals brute and burn damage for the organ. Returns 1 if the damage-icon states changed at all.
 //Damage cannot go below zero.
@@ -412,7 +417,12 @@
 	consider_processing()
 	update_disabled()
 	cremation_progress = min(0, cremation_progress - ((brute_dam + burn_dam)*(100/max_damage)))
-	return update_bodypart_damage_state()
+	. = update_bodypart_damage_state()
+	if(owner)
+		var/datum/hud/hud_used = owner.hud_used
+		if(hud_used?.zone_select)
+			hud_used.zone_select.update_limb(body_zone)
+	return .
 
 //Returns total damage.
 /obj/item/bodypart/proc/get_damage(include_stamina = FALSE)
@@ -682,7 +692,7 @@
 			limb.color = "#[draw_color]"
 			if(aux_zone && !hideaux)
 				aux.color = "#[draw_color]"
-	
+
 	var/draw_organ_features = TRUE
 	var/draw_bodypart_features = TRUE
 	if(owner && owner.dna)
@@ -691,20 +701,20 @@
 			draw_organ_features = FALSE
 		if(NO_BODYPART_FEATURES in owner_species.species_traits)
 			draw_bodypart_features = FALSE
-	
+
 	// Markings overlays
 	if(!skeletonized && draw_bodypart_features)
 		var/list/marking_overlays = get_markings_overlays(override_color)
 		if(marking_overlays)
 			. += marking_overlays
-	
+
 	// Organ overlays
 	if(!skeletonized && draw_organ_features)
 		for(var/obj/item/organ/organ as anything in get_visible_organs())
 			var/mutable_appearance/organ_appearance = organ.get_bodypart_overlay(src)
 			if(organ_appearance)
 				. += organ_appearance
-	
+
 	// Feature overlays
 	if(!skeletonized && draw_bodypart_features)
 		for(var/datum/bodypart_feature/feature as anything in bodypart_features)

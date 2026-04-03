@@ -388,6 +388,8 @@
 						dullfactor = 0.2
 					else
 						dullfactor = 0.45 + (lumberskill * 0.15)
+						if(HAS_TRAIT(user, TRAIT_WYRD_LABOURER))
+							dullfactor *= 1.5
 						lumberjacker.mind.add_sleep_experience(/datum/skill/labor/lumberjacking, (lumberjacker.STAINT*0.2))
 					cont = TRUE
 				if(BCLASS_CHOP)
@@ -458,6 +460,8 @@
 			var/mob/living/miner = user
 			var/mineskill = miner.get_skill_level(/datum/skill/labor/mining)
 			newforce = newforce * (8+(mineskill*1.5))
+			if(HAS_TRAIT(user, TRAIT_WYRD_LABOURER))
+				newforce *= 1.5
 			shake_camera(user, 1, 1)
 			miner.mind.add_sleep_experience(/datum/skill/labor/mining, (miner.STAINT*0.2))
 		if(DULLING_SHAFT_CONJURED)

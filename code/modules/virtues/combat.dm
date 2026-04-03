@@ -1,27 +1,26 @@
-// Arcyne Potential now gives 3 Spellpoints instead of 6 spellpoints so it is less of a "must take" for caster.
 /datum/virtue/combat/magical_potential
 	name = "Arcyne Potential"
 	desc = "I am talented in the Arcyne arts, expanding my capacity for magic. I have become more intelligent from its studies. Other effects depends on what training I chose to focus on at a later age."
-	custom_text = "Classes that has a combat trait (Medium / Heavy Armor Training, Dodge Expert or Critical Resistance) get only prestidigitation. Everyone else get +3 spellpoints (or +3 utility spellpoints if pool-based) and T1 Arcyne Potential if they don't have any Arcyne."
+	custom_text = "Classes that has a combat trait (Medium / Heavy Armor Training, Dodge Expert or Critical Resistance) get only prestidigitation. Everyone else get +3 utility points and Arcyne Training if they don't have any Arcyne."
 	added_skills = list(list(/datum/skill/magic/arcane, 1, 6))
 
 /datum/virtue/combat/magical_potential/apply_to_human(mob/living/carbon/human/recipient)
-	if (!recipient.get_skill_level(/datum/skill/magic/arcane)) // we can do this because apply_to is always called first
-		if (!recipient.mind?.has_spell(/obj/effect/proc_holder/spell/targeted/touch/prestidigitation))
-			recipient.mind?.AddSpell(new /obj/effect/proc_holder/spell/targeted/touch/prestidigitation)
+	if (!recipient.get_skill_level(/datum/skill/magic/arcane))
+		if (!recipient.mind?.has_spell(/datum/action/cooldown/spell/touch/prestidigitation))
+			recipient.mind?.AddSpell(new /datum/action/cooldown/spell/touch/prestidigitation)
 		if (!HAS_TRAIT(recipient, TRAIT_MEDIUMARMOR) && !HAS_TRAIT(recipient, TRAIT_HEAVYARMOR) && !HAS_TRAIT(recipient, TRAIT_DODGEEXPERT) && !HAS_TRAIT(recipient, TRAIT_CRITICAL_RESISTANCE))
-			ADD_TRAIT(recipient, TRAIT_ARCYNE_T1, TRAIT_GENERIC)
-			add_arcyne_potential_spellpoints(recipient, 3)
+			ADD_TRAIT(recipient, TRAIT_ARCYNE, TRAIT_GENERIC)
+			add_arcyne_potential_utilities(recipient, 3)
 	else
-		add_arcyne_potential_spellpoints(recipient, 3)
+		add_arcyne_potential_utilities(recipient, 3)
 
-/// Helper: adds spellpoints to utility pool if available, otherwise flat spellpoints
-/datum/virtue/combat/magical_potential/proc/add_arcyne_potential_spellpoints(mob/living/carbon/human/recipient, amount)
-	if(recipient.mind?.spell_point_pools?["utility"])
-		recipient.mind.spell_point_pools["utility"] += amount
-		recipient.mind.check_learnspell()
-	else
-		recipient.mind?.adjust_spellpoints(amount)
+/datum/virtue/combat/magical_potential/proc/add_arcyne_potential_utilities(mob/living/carbon/human/recipient, amount)
+	if(!recipient.mind)
+		return
+	if(!LAZYLEN(recipient.mind.mage_aspect_config))
+		recipient.mind.setup_mage_aspects(list("mastery" = FALSE, "major" = 0, "minor" = 0, "utilities" = 0))
+	recipient.mind.mage_aspect_config["utilities"] += amount
+	recipient.mind.check_learnspell()
 	
 /datum/virtue/combat/devotee
 	name = "Devotee"
@@ -68,6 +67,16 @@
 		if(/datum/patron/old_god)
 			ADD_TRAIT(recipient, TRAIT_PSYDONITE, TRAIT_GENERIC)
 			recipient.mind?.special_items["Psycross"] = /obj/item/clothing/neck/roguetown/psicross
+		if(/datum/patron/divine/undivided)
+			recipient.mind?.special_items["Tennite Amulet"] = /obj/item/clothing/neck/roguetown/psicross/undivided
+		if(/datum/patron/inhumen/matthios)
+			recipient.mind?.special_items["Matthios Amulet"] = /obj/item/clothing/neck/roguetown/psicross/inhumen/matthios
+		if(/datum/patron/inhumen/graggar)
+			recipient.mind?.special_items["Graggar Amulet"] = /obj/item/clothing/neck/roguetown/psicross/inhumen/graggar
+		if(/datum/patron/inhumen/baotha)
+			recipient.mind?.special_items["Baotha Amulet"] = /obj/item/clothing/neck/roguetown/psicross/inhumen/baotha
+		if(/datum/patron/inhumen/zizo)
+			recipient.mind?.special_items["Inverted Psycross"] = /obj/item/clothing/neck/roguetown/psicross/inhumen/iron
 
 /datum/virtue/combat/devotee/astratan_affinity
 	name = "Astratan Affinity (Racial, Sun Elves)"
@@ -157,6 +166,12 @@
 	custom_text = "Unlocks the 'Rotten' option in skin tone selection, if applicable."
 	// below is functionally equivalent to dying and being resurrected via astrata T4 - yep, this is what it gives you.
 	added_traits = list(TRAIT_EASYDISMEMBER, TRAIT_NOPAIN, TRAIT_NOPAINSTUN, TRAIT_NOBREATH, TRAIT_DEATHLESS, TRAIT_TOXIMMUNE, TRAIT_ZOMBIE_IMMUNE, TRAIT_ROTMAN, TRAIT_SILVER_WEAK)
+
+/datum/virtue/combat/pallid
+	name = "Pallid"
+	desc = "I was once afflicted with vampirism, and was cured. It has left me changed: silver burns my flesh, and the open sky fills me with unease. Yet I draw no breath, and my eyes pierce the darkness. Lingering traces of the curse that once claimed me."
+	custom_text = "Grants darkvision, no need to breathe, and deadite immunity. Silver weapons will set you alight. Being outdoors causes stress."
+	added_traits = list(TRAIT_PALLID, TRAIT_DARKVISION, TRAIT_NOBREATH, TRAIT_ZOMBIE_IMMUNE, TRAIT_SILVER_WEAK)
 
 /datum/virtue/combat/dualwielder
 	name = "Dual Wielder"

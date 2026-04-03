@@ -167,10 +167,7 @@
 		else
 			I.icon_state = "[initial(I.icon_state)]"
 
-		if(user)
-			user.update_inv_hands()
-			user.update_inv_belt()
-			user.update_inv_back()
+		I.update_slot_icon()
 
 	I.getonmobprop(tag)
 
@@ -232,12 +229,6 @@
 
 /datum/component/holster/handstaff/puke_sword(mob/living/user)
 	. = ..()
-	if(.)
-		var/obj/item/rogueweapon/RW = parent
-		RW.cast_time_reduction = null
 
 /datum/component/holster/handstaff/eat_sword(mob/living/user, obj/A)
 	. = ..()
-	if(.)
-		var/obj/item/rogueweapon/RW = parent
-		RW.cast_time_reduction = RUBY_CAST_TIME_REDUCTION

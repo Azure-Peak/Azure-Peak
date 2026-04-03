@@ -1109,6 +1109,12 @@
 	if(!target.mind.active)
 		to_chat(user, "Necra is not done with [target], yet.")
 		return
+	if(HAS_TRAIT(target, TRAIT_DNR))
+		to_chat(user, span_danger("None of the divine have them. Their only chance is spent. Where did they go?"))
+		return
+	if(HAS_TRAIT(target, TRAIT_NECRAS_VOW))
+		to_chat(user, span_warning("This one has pledged themselves whole to Necra. They are Hers."))
+		return
 	if(target.mob_biotypes & MOB_UNDEAD) //positive energy harms the undead
 		target.visible_message(span_danger("[target] is unmade by divine magic! The Toll is accepted, and [target] is dragged to ever-death!"), span_userdanger("I'm unmade by divine magic!"))
 		target.gib()
@@ -1148,30 +1154,85 @@
 
 /obj/item/soulthread
 	name = "lux-thread"
-	desc = "Eerie glowing thread, cometh from the grave"
+	desc = "An eerie, softly glowing thread. It hums faintly with something that was once not quite at rest."
 	icon = 'icons/roguetown/items/natural.dmi'
 	icon_state = "luxthread"
 	var/strungtogether = 1
+	var/max_threads = 10
 	sellprice = 3
 	grid_width = 32
 	grid_height = 32
-
+	w_class = WEIGHT_CLASS_TINY
 
 /obj/item/soulthread/examine(mob/user)
 	. = ..()
-	. += "</br>[strungtogether] threads are gathered of 10..."
+	. += "</br><span class='notice'>[strungtogether]/[max_threads] threads woven together.</span>"
+
+/obj/item/soulthread/proc/process_total(total, mob/user)
+	var/turf/T = get_turf(src)
+	var/tolls_to_make = total - (total % max_threads)
+	tolls_to_make /= max_threads
+	var/remainder = total % max_threads
+	if(user)
+		to_chat(user, "<span class='purple'>The threads entangle ethereally in your grasp... ([total]/[max_threads])</span>")
+	if(tolls_to_make)
+		for(var/i = 1 to tolls_to_make)
+			new /obj/item/thetoll(T)
+		if(user)
+			to_chat(user, "<span class='boldnotice'>The gathered threads bind together, forming a weeping toll!</span>")
+	if(remainder)
+		strungtogether = remainder
+		sellprice = 3 * remainder
+	else
+		qdel(src)
+
+/obj/item/soulthread/proc/merge_into(obj/item/soulthread/target, mob/user)
+	if(target == src)
+		return
+
+	var/total = target.strungtogether + src.strungtogether
+	target.process_total(total, user)
+	qdel(src)
 
 /obj/item/soulthread/attackby(obj/item/attacking_item, mob/user)
-	if(istype(attacking_item, /obj/item/soulthread))
-		var/obj/item/soulthread/thread2combine = attacking_item
-		strungtogether += thread2combine.strungtogether
-		sellprice += 3
-		to_chat(user, "...[strungtogether] of 10 to the toll...")
-		qdel(thread2combine)
-	if(strungtogether >= 10)
-		to_chat(user, "The lux-stuff coalesces into a toll!")
-		new /obj/item/thetoll((get_turf(user)))
-		qdel(src)
+	if(!istype(attacking_item, /obj/item/soulthread))
+		return ..()
+
+	var/obj/item/soulthread/other = attacking_item
+	merge_into(other, user)
+
+/obj/item/soulthread/afterattack(atom/target, mob/user, proximity_flag, click_params)
+	if(!proximity_flag)
+		return
+
+	var/turf/T = get_turf(target)
+	if(!T)
+		return
+	for(var/obj/item/soulthread/other in T)
+		if(!other)
+			return
+
+	to_chat(user, "<span class='notice'>You begin gathering the scattered threads...</span>")
+
+	for(var/obj/item/soulthread/other in T)
+		if(other == src)
+			continue
+
+		if(strungtogether >= max_threads)
+			break
+
+		if(!do_after(user, 0.5 SECONDS, TRUE, src))
+			break
+
+		if(!(other in T.contents))
+			continue
+
+		var/total = strungtogether + other.strungtogether
+		qdel(other)
+		process_total(total, user)
+
+		if(QDELETED(src))
+			return
 
 /obj/item/thetoll
 	grid_width = 32
@@ -1181,7 +1242,8 @@
 	icon = 'icons/roguetown/underworld/enigma_husks.dmi'
 	icon_state = "soultoken"
 	sellprice = 30
-
+	w_class = WEIGHT_CLASS_TINY
+	dropshrink = 0.5
 
 /obj/structure/ritualcircle/eora
 	name = "Rune of Love"
@@ -1226,9 +1288,135 @@
 /obj/structure/ritualcircle/undivided
 	name = "Rune of Deca Divinity"
 	desc = "A Holy Rune of The Undivided Pantheon"
-	//icon_state = "undivided_chalky"
+	icon_state = "undivided_chalky"
+	var/decarites = list("Crusader's Oath", "Vow of Aesculapius")
 
+/obj/structure/ritualcircle/undivided/attack_hand(mob/living/user)
+	if(!..())
+		return
+	if((user.patron?.type) != /datum/patron/divine/undivided)
+		to_chat(user,span_smallred("I don't know the proper rites for this..."))
+		return
+	if(!HAS_TRAIT(user, TRAIT_RITUALIST))
+		to_chat(user,span_smallred("I don't know the proper rites for this..."))
+		return
+	if(user.has_status_effect(/datum/status_effect/debuff/ritesexpended))
+		to_chat(user,span_smallred("I have performed enough rituals for the day... I must rest before communing more."))
+		return
+	var/riteselection = input(user, "Rituals of Deca Divinity", src) as null|anything in decarites
+	switch(riteselection) // put ur rite selection here
+		if("Crusader's Oath")
+			var/onrune = view(1, loc)
+			var/list/folksonrune = list()
+			for(var/mob/living/carbon/human/persononrune in onrune)
+				if(HAS_TRAIT(persononrune, TRAIT_UNDIVIDED))
+					folksonrune += persononrune
+			var/target = input(user, "Choose a host") as null|anything in folksonrune
+			if(!target)
+				return
+			user.say("Before your greatness, I swear an oath!!")
+			if(!do_after(user, 5 SECONDS))
+				return
+			user.say("To vanquish the horrors and evils of Psydonia!!")
+			if(!do_after(user, 5 SECONDS))
+				return
+			user.say("To protect those who cannot protect themselves!!")
+			if(!do_after(user, 5 SECONDS))
+				return
+			user.say("To be your blade of justice, torch in the eternal darkness!!")
+			if(!do_after(user, 5 SECONDS))
+				return
+			icon_state = "undivided_active"
+			user.apply_status_effect(/datum/status_effect/debuff/ritesexpended)
+			undividedarmaments(target)
+			spawn(120)
+				icon_state = "undivided_chalky"
+		if("Vow of Aesculapius")//Probably come up with a better name for this ngl?
+			var/onrune = view(1, loc)
+			var/list/folksonrune = list()
+			for(var/mob/living/carbon/human/persononrune in onrune)
+				if(HAS_TRAIT(persononrune, TRAIT_UNDIVIDED))
+					folksonrune += persononrune
+			var/target = input(user, "Choose a host") as null|anything in folksonrune
+			if(!target)
+				return
+			user.say("Before your greatness, I swear a vow!!")
+			if(!do_after(user, 5 SECONDS))
+				return
+			user.say("To do no harm!!")
+			if(!do_after(user, 5 SECONDS))
+				return
+			user.say("To take care of those in need!!")
+			if(!do_after(user, 5 SECONDS))
+				return
+			user.say("To be your shining beacon in the darkness!!")
+			if(!do_after(user, 5 SECONDS))
+				return
+			icon_state = "undivided_active"
+			user.apply_status_effect(/datum/status_effect/debuff/ritesexpended)
+			undividedaura(target)
+			spawn(120)
+				icon_state = "undivided_chalky"
 
+/obj/structure/ritualcircle/undivided/proc/undividedarmaments(mob/living/carbon/human/target)
+	var/undivided_cockblock = target.get_skill_level(/datum/skill/magic/holy)
+	if(!HAS_TRAIT(target, TRAIT_UNDIVIDED))
+		loc.visible_message(span_cult("THE RITE REJECTS ONE WITHOUT PURE HEART!!"))
+		return FALSE
+	if(undivided_cockblock < SKILL_LEVEL_NOVICE)//You need to actually be devoted
+		loc.visible_message(span_cult("THE RITE REJECTS ONE WITHOUT PURE HEART!!"))
+		return FALSE
+	target.Stun(120)
+	to_chat(target, span_userdanger("UNIMAGINABLE PAIN!"))
+	target.emote("Agony")
+	playsound(loc, 'sound/magic/undivided_bless.ogg', 70)
+	loc.visible_message(span_good("[target]'s form becomes entombed in Malum's finest craftsmanship."))
+	spawn(20)
+		target.apply_status_effect(/datum/status_effect/buff/guidinglight/undivided)
+		playsound(target, 'sound/magic/undivided_revenge.ogg', 90, FALSE, -1)
+		target.equipOutfit(/datum/outfit/job/roguetown/decarite)
+		to_chat(target, span_boldred("This is my only chance at LYFE."))
+		ADD_TRAIT(target, TRAIT_DNR, TRAIT_RITUAL)
+
+/datum/outfit/job/roguetown/decarite/pre_equip(mob/living/carbon/human/H)
+	..()
+	var/list/items = list()
+	items |= H.get_equipped_items(TRUE)
+	for(var/I in items)
+		H.dropItemToGround(I, TRUE)
+	H.drop_all_held_items()
+	head = /obj/item/clothing/head/roguetown/helmet/heavy/undivided_ritual
+	cloak = /obj/item/clothing/cloak/templar/undivided_alt
+	armor = /obj/item/clothing/suit/roguetown/armor/plate/full/holysee/ritual
+	gloves = /obj/item/clothing/gloves/roguetown/plate/holysee/ritual
+	belt = /obj/item/storage/belt/rogue/leather/steel/tasset
+	beltl = /obj/item/rogueweapon/scabbard/sword/royal
+	pants = /obj/item/clothing/under/roguetown/platelegs/holysee/ritual
+	shoes = /obj/item/clothing/shoes/roguetown/boots/armor/holysee/ritual
+	backl = /obj/item/rogueweapon/sword/long/crusader
+	backr = /obj/item/rogueweapon/shield/tower/holysee
+
+	H.mind.AddSpell(new /datum/action/cooldown/spell/mending/lesser)
+
+/obj/structure/ritualcircle/undivided/proc/undividedaura(mob/living/carbon/human/target)
+	var/undivided_cockblock = target.get_skill_level(/datum/skill/magic/holy)
+	if(!HAS_TRAIT(target, TRAIT_UNDIVIDED))
+		loc.visible_message(span_cult("THE RITE REJECTS ONE WITHOUT PURE HEART!!"))
+		return FALSE
+	if(undivided_cockblock < SKILL_LEVEL_JOURNEYMAN)//Only clerics can put it on.
+		loc.visible_message(span_cult("THE RITE REJECTS ONE WITHOUT PURE HEART!!"))
+		return FALSE
+	target.Stun(120)
+	to_chat(target, span_userdanger("UNIMAGINABLE PAIN!"))
+	target.emote("Agony")
+	playsound(loc, 'sound/magic/undivided_bless.ogg', 70)
+	loc.visible_message(span_good("[target]'s form becomes enveloped in divine aura."))
+	spawn(20)
+		target.apply_status_effect(/datum/status_effect/buff/guidinglight/undivided)
+		target.apply_status_effect(/datum/status_effect/orderbringer)
+		playsound(target, 'sound/magic/undivided_solemnity.ogg', 90, FALSE, -1)
+		to_chat(target, span_boldred("I can do no HARM."))
+		ADD_TRAIT(target, TRAIT_PACIFISM, TRAIT_RITUAL)
 
 // TIME FOR THE ASCENDANT. These can be stronger. As they are pretty much antag exclusive - Iconoclast for Matthios, Lich for ZIZO. ZIZO!
 
@@ -1264,6 +1452,15 @@
 				return
 			if(!do_after(user, 5 SECONDS))
 				return
+			var/list/helm_options = list(
+				"Avantyne Barbute" = image(icon = 'icons/roguetown/clothing/head.dmi', icon_state = "zizobarbute"),
+				"Avantyne Froggemund" = image(icon = 'icons/roguetown/clothing/head.dmi', icon_state = "zizofrogmouth"),
+				"Avantyne Volf-Plate" = image(icon = 'icons/roguetown/clothing/head.dmi', icon_state = "volfplate_avantyne"),
+			)
+
+			var/choice = show_radial_menu(user, src, helm_options, require_near = TRUE, tooltips = TRUE)
+			if(!choice)
+				choice = "Avantyne Barbute"
 			user.say("ZIZO! ZIZO! DAME OF PROGRESS!!")
 			if(!do_after(user, 5 SECONDS))
 				return
@@ -1275,14 +1472,22 @@
 				return
 			icon_state = "zizo_active"
 			user.apply_status_effect(/datum/status_effect/debuff/ritesexpended)
-			zizoarmaments(target)
+			zizoarmaments(target, choice)
 			spawn(120)
 				icon_state = "zizo_chalky"
 
-/obj/structure/ritualcircle/zizo/proc/zizoarmaments(mob/living/carbon/human/target)
+/obj/structure/ritualcircle/zizo/proc/zizoarmaments(mob/living/carbon/human/target, choice)
 	if(!HAS_TRAIT(target, TRAIT_CABAL))
 		loc.visible_message(span_cult("THE RITE REJECTS ONE NOT OF THE CABAL"))
 		return
+	var/obj/item/clothing/head/roguetown/helmet/heavy/helm_path
+	switch(choice)
+		if("Avantyne Barbute")
+			helm_path = /obj/item/clothing/head/roguetown/helmet/heavy/zizo
+		if("Avantyne Froggemund")
+			helm_path = /obj/item/clothing/head/roguetown/helmet/heavy/zizo/frogge
+		if("Avantyne Volf-Plate")
+			helm_path = /obj/item/clothing/head/roguetown/helmet/heavy/zizo/volfhelm
 	target.Stun(60)
 	target.Knockdown(60)
 	to_chat(target, span_userdanger("UNIMAGINABLE PAIN!"))
@@ -1291,11 +1496,11 @@
 	loc.visible_message(span_cult("Great hooks come from the rune, embedding into [target]'s ankles, pulling them onto the rune. Then, into their wrists. Their lux is torn from their chest, and reforms into armor. "))
 	spawn(20)
 		playsound(loc, 'sound/combat/hits/onmetal/grille (2).ogg', 50)
-		target.equipOutfit(/datum/outfit/job/roguetown/darksteelrite)
+		target.equipOutfit(/datum/outfit/job/roguetown/darksteelrite, helm_path)
 		spawn(40)
 			to_chat(target, span_purple("They are ignorant, backwards, without hope. You. You will be powerful."))
 
-/datum/outfit/job/roguetown/darksteelrite/pre_equip(mob/living/carbon/human/H)
+/datum/outfit/job/roguetown/darksteelrite/pre_equip(mob/living/carbon/human/H, obj/item/clothing/head/roguetown/helmet/heavy/helm_path)
 	..()
 	var/list/items = list()
 	items |= H.get_equipped_items(TRUE)
@@ -1308,11 +1513,11 @@
 	shoes = /obj/item/clothing/shoes/roguetown/boots/armor/zizo
 	wrists = /obj/item/clothing/wrists/roguetown/bracers/zizo
 	gloves = /obj/item/clothing/gloves/roguetown/plate/zizo
-	head = /obj/item/clothing/head/roguetown/helmet/heavy/zizo
+	head = helm_path
 	neck = /obj/item/clothing/neck/roguetown/bevor/zizo
 	backr = /obj/item/rogueweapon/sword/long/zizo
 
-	H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/mending/lesser)
+	H.mind.AddSpell(new /datum/action/cooldown/spell/mending/lesser)
 
 
 /obj/structure/ritualcircle/matthios
@@ -1474,7 +1679,7 @@
 	neck = /obj/item/clothing/neck/roguetown/chaincoif/chainmantle/matthios
 	backr = /obj/item/rogueweapon/flail/peasantwarflail/matthios
 
-	H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/mending/lesser)
+	H.mind.AddSpell(new /datum/action/cooldown/spell/mending/lesser)
 
 /obj/structure/ritualcircle/graggar
 	name = "Rune of Violence"

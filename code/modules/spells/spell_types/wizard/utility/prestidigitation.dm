@@ -3,55 +3,109 @@
 #define PRESTI_MOTE "presti_mote"
 #define PRESTI_SENSE "presti_sense"
 
-/obj/effect/proc_holder/spell/targeted/touch/prestidigitation
+/datum/action/cooldown/spell/touch/prestidigitation
 	name = "Prestidigitation"
-	desc = "A few basic tricks many apprentices use to practice basic manipulation of the arcyne."
-	clothes_req = FALSE
-	drawmessage = "I prepare to perform a minor arcyne incantation."
-	dropmessage = "I release my minor arcyne focus."
-	school = "transmutation"
-	overlay_state = "prestidigitation"
-	chargedrain = 0
-	chargetime = 0
-	skipcharge = TRUE
-	releasedrain = SPELLCOST_CANTRIP
-	chargedloop = /datum/looping_sound/invokegen
-	associated_skill = /datum/skill/magic/arcane
-	hand_path = /obj/item/melee/touch_attack/prestidigitation
-
-/obj/item/melee/touch_attack/prestidigitation
-	name = "\improper prestidigitating touch"
-	desc = "You recall the following incantations you've learned:\n \
+	desc = "A few basic tricks many apprentices use to practice basic manipulation of the arcyne. Except for light, cooldown is decreased by 10% per point of Int above 10 up to 50%. Includes the following modes:\n \
 	<b>Touch</b>: Use your arcyne powers to scrub an object or something clean, like using soap. Also known as the Apprentice's Woe.\n \
 	<b>Shove</b>: Will forth a spark on an item of your choosing (or in front of you, if used on the ground) to ignite flammable items and things like torches, lanterns or campfires. \n \
-	<b>Use</b>: Conjure forth an orbiting mote of magelight to light your way.\n \
-	<b>Grab</b>: Attune to the veil and sense nearby leylines."
-	catchphrase = null
+	<b>Use</b>: Conjure forth an orbiting mote of magelight to light your way. Starts at 5 tiles light range and get one more per Int above 10 up to 15.\n \
+	<b>Grab</b>: Attune to the veil and sense nearby leylines. "
+	button_icon_state = "prestidigitation"
+
+	draw_message = span_notice("I prepare to perform a minor arcyne incantation.")
+	drop_message = span_notice("I release my minor arcyne focus.")
+
+	hand_path = /obj/item/melee/new_touch_attack/prestidigitation
+	can_cast_on_self = TRUE
+	infinite_use = TRUE
+
+	primary_resource_type = SPELL_COST_STAMINA
+	primary_resource_cost = SPELLCOST_CANTRIP
+
+	associated_skill = /datum/skill/magic/arcane
+	spell_tier = 1
+	spell_impact_intensity = SPELL_IMPACT_NONE
+
+	point_cost = 0
+
+	spell_requirements = SPELL_REQUIRES_NO_ANTIMAGIC | SPELL_REQUIRES_HUMAN | SPELL_REQUIRES_SAME_Z
+
+/datum/action/cooldown/spell/touch/prestidigitation/cast_on_hand_hit(obj/item/melee/touch_attack/hand, atom/victim, mob/living/carbon/caster, list/modifiers)
+	var/obj/item/melee/new_touch_attack/prestidigitation/presti_hand = hand
+	if(!istype(presti_hand))
+		return FALSE
+
+	switch(caster.used_intent.type)
+		if(INTENT_HELP)
+			if(presti_hand.clean_thing(victim, caster))
+				handle_presti_cost(caster, PRESTI_CLEAN)
+		if(INTENT_DISARM)
+			if(presti_hand.create_spark(caster, victim))
+				handle_presti_cost(caster, PRESTI_SPARK)
+		if(/datum/intent/use)
+			if(presti_hand.handle_mote(caster))
+				handle_presti_cost(caster, PRESTI_MOTE)
+		if(INTENT_GRAB)
+			if(presti_hand.sense_leylines(caster))
+				handle_presti_cost(caster, PRESTI_SENSE)
+
+	return FALSE // don't consume the hand
+
+/datum/action/cooldown/spell/touch/prestidigitation/proc/handle_presti_cost(mob/living/carbon/human/user, action)
+	var/fatigue_used = get_adjusted_cost(primary_resource_cost)
+	var/extra_fatigue = 0
+	switch(action)
+		if(PRESTI_CLEAN)
+			fatigue_used *= 0.2
+		if(PRESTI_SPARK)
+			extra_fatigue = 5
+		if(PRESTI_MOTE)
+			extra_fatigue = 15
+		if(PRESTI_SENSE)
+			extra_fatigue = 10
+
+	user.stamina_add(fatigue_used + extra_fatigue)
+
+	var/skill_level = user.get_skill_level(associated_skill)
+	if(skill_level >= SKILL_LEVEL_EXPERT)
+		fatigue_used = 0
+
+	return fatigue_used
+
+/obj/item/melee/new_touch_attack/prestidigitation
+	name = "\improper prestidigitating touch"
 	possible_item_intents = list(INTENT_HELP, INTENT_DISARM, /datum/intent/use, INTENT_GRAB)
 	icon = 'icons/mob/roguehudgrabs.dmi'
-	icon_state = "pulling"
 	icon_state = "grabbing_greyscale"
-	color = "#3FBAFD" // this produces green because the icon base is yellow but someone else can fix that if they want
+	color = "#3FBAFD"
 	var/obj/effect/wisp/prestidigitation/mote
-	var/cleanspeed = 35 // adjust this down as low as 15 depending on magic skill
-	var/motespeed = 20 // mote summoning speed
-	var/sparkspeed = 30 // spark summoning speed
+	var/cleanspeed = 35
+	var/motespeed = 20
+	var/sparkspeed = 30
 	var/spark_cd = 0
+	var/cast_range = 7
 	experimental_inhand = FALSE
 
-/obj/item/melee/touch_attack/prestidigitation/Initialize()
+/obj/item/melee/new_touch_attack/prestidigitation/afterattack(atom/target, mob/living/carbon/user, proximity)
+	if(!proximity && get_dist(user, target) > cast_range)
+		return
+	var/datum/action/cooldown/spell/touch/prestidigitation/spell = spell_which_made_us?.resolve()
+	if(spell)
+		spell.cast_on_hand_hit(src, target, user)
+
+/obj/item/melee/new_touch_attack/prestidigitation/proc/get_int_speed_mult(mob/living/user)
+	var/int_above = max(user.STAINT - 10, 0)
+	return clamp(1 - (int_above * 0.1), 0.5, 1)
+
+/obj/item/melee/new_touch_attack/prestidigitation/Initialize(mapload, datum/action/cooldown/spell/spell)
 	. = ..()
 	mote = new(src)
 
-/obj/item/melee/touch_attack/prestidigitation/Destroy()
-	if(mote)
-		QDEL_NULL(mote)
+/obj/item/melee/new_touch_attack/prestidigitation/Destroy()
+	QDEL_NULL(mote)
 	return ..()
 
-/obj/item/melee/touch_attack/prestidigitation/attack_self()
-	qdel(src)
-
-/obj/item/melee/touch_attack/prestidigitation/proc/sense_leylines(mob/living/carbon/human/user)
+/obj/item/melee/new_touch_attack/prestidigitation/proc/sense_leylines(mob/living/carbon/human/user)
 	if(!length(GLOB.leyline_sites))
 		to_chat(user, span_warning("You reach out through the veil but sense nothing. No leylines exist in this world."))
 		return FALSE
@@ -67,7 +121,6 @@
 		var/dist = get_dist(user, L)
 		sensed += list(list("leyline" = L, "dist" = dist, "same_z" = (L.z == user_z)))
 
-	// Sort by distance (simple insertion sort, small list)
 	for(var/i in 2 to length(sensed))
 		var/j = i
 		while(j > 1 && sensed[j]["dist"] < sensed[j - 1]["dist"])
@@ -119,13 +172,13 @@
 
 		var/colored_type = "<b><span style='color:[flavor_color]'>[flavor]</span></b>"
 		if(dist <= 3)
-			to_chat(user, span_info("[colored_type] leyline — right beside you[status]."))
+			to_chat(user, span_info("[colored_type] leyline - right beside you[status]."))
 		else if(dist <= 30)
-			to_chat(user, span_info("[colored_type] leyline — [direction], not far[status]."))
+			to_chat(user, span_info("[colored_type] leyline - [direction], not far[status]."))
 		else if(dist <= 100)
-			to_chat(user, span_info("[colored_type] presence — [direction], some distance away[status]."))
+			to_chat(user, span_info("[colored_type] presence - [direction], some distance away[status]."))
 		else
-			to_chat(user, span_info("[colored_type] whisper — [direction], far away[status]."))
+			to_chat(user, span_info("[colored_type] whisper - [direction], far away[status]."))
 		count++
 
 	if(!count)
@@ -135,59 +188,19 @@
 		to_chat(user, span_info("You have enough mana for <b>[charges]</b> more ritual[charges != 1 ? "s" : ""]."))
 	return TRUE
 
-/obj/item/melee/touch_attack/prestidigitation/afterattack(atom/target, mob/living/carbon/user, proximity)
-	switch (user.used_intent.type)
-		if (INTENT_HELP) // Clean something like a bar of soap
-			if(clean_thing(target, user))
-				handle_cost(user, PRESTI_CLEAN)
-		if (INTENT_DISARM) // Snap your fingers and produce a spark
-			if(create_spark(user, target))
-				handle_cost(user, PRESTI_SPARK)
-		if (/datum/intent/use) // Summon an orbiting arcane mote for light
-			if(handle_mote(user))
-				handle_cost(user, PRESTI_MOTE)
-		if (INTENT_GRAB) // Sense nearby leylines
-			if(sense_leylines(user))
-				handle_cost(user, PRESTI_SENSE)
+/obj/item/melee/new_touch_attack/prestidigitation/proc/handle_mote(mob/living/carbon/human/user)
+	if(!mote)
+		return
 
-/obj/item/melee/touch_attack/prestidigitation/proc/handle_cost(mob/living/carbon/human/user, action)
-	// handles fatigue/stamina deduction, this stuff isn't free - also returns the cost we took to use for xp calculations
-	var/obj/effect/proc_holder/spell/targeted/touch/prestidigitation/base_spell = attached_spell
-	var/fatigue_used = base_spell.get_fatigue_drain() //note that as our skills/stats increases, our fatigue drain DECREASES, so this means less xp, too. which is what we want since this is a basic spell, not a spam-for-xp-forever kinda beat
-	var/extra_fatigue = 0 // extra fatigue isn't considered in xp calculation
-	switch (action)
-		if (PRESTI_CLEAN)
-			fatigue_used *= 0.2 // going to be spamming a lot of this probably
-		if (PRESTI_SPARK)
-			extra_fatigue = 5 // just a bit of extra fatigue on this one
-		if (PRESTI_MOTE)
-			extra_fatigue = 15 // same deal here
-		if (PRESTI_SENSE)
-			extra_fatigue = 10
-
-	user.stamina_add(fatigue_used + extra_fatigue)
-
-	var/skill_level = user.get_skill_level(attached_spell.associated_skill)
-	if (skill_level >= SKILL_LEVEL_EXPERT)
-		fatigue_used = 0 // we do this after we've actually changed fatigue because we're hard-capping the raises this gives to Expert
-
-	return fatigue_used
-
-/obj/item/melee/touch_attack/prestidigitation/proc/handle_mote(mob/living/carbon/human/user)
-	// adjusted from /obj/item/wisp_lantern & /obj/item/wisp
-	if (!mote)
-		return // should really never happen
-
-	//let's adjust the light power based on our skill, too
-	var/skill_level = user.get_skill_level(attached_spell.associated_skill)
-	var/mote_power = clamp(5 + (skill_level - 3), 5, 7) // every step above journeyman should get us 1 more tile of brightness
+	var/int_bonus = max(user.STAINT - 10, 0)
+	var/mote_power = 5 + FLOOR(int_bonus * 0.3, 1)
 	mote.set_light_range(mote_power)
 	if(mote.light_system == STATIC_LIGHT)
 		mote.update_light()
 
-	if (mote.loc == src)
+	if(mote.loc == src)
 		user.visible_message(span_notice("[user] holds open the palm of [user.p_their()] hand and concentrates..."), span_notice("I hold open the palm of my hand and concentrate on my arcyne power..."))
-		if (do_after(user, src.motespeed, target = user))
+		if(do_after(user, initial(motespeed) * get_int_speed_mult(user), target = user))
 			mote.orbit(user, 1, TRUE, 0, 48, TRUE)
 			return TRUE
 		return FALSE
@@ -196,9 +209,9 @@
 		mote.forceMove(src)
 		return TRUE
 
-/obj/item/melee/touch_attack/prestidigitation/proc/create_spark(mob/living/carbon/human/user, atom/thing)
-	// adjusted from /obj/item/flint
-	if (world.time < spark_cd + sparkspeed)
+/obj/item/melee/new_touch_attack/prestidigitation/proc/create_spark(mob/living/carbon/human/user, atom/thing)
+	var/actual_sparkspeed = initial(sparkspeed) * get_int_speed_mult(user)
+	if(world.time < spark_cd + actual_sparkspeed)
 		return FALSE
 	spark_cd = world.time
 
@@ -206,7 +219,7 @@
 	user.flash_fullscreen("whiteflash")
 	flick("flintstrike", src)
 
-	if (isturf(thing) || !user.Adjacent(thing))
+	if(isturf(thing) || !user.Adjacent(thing))
 		var/datum/effect_system/spark_spread/S = new()
 		var/turf/front = get_step(user, user.dir)
 		S.set_up(1, 1, front)
@@ -218,42 +231,38 @@
 
 	return TRUE
 
-/obj/item/melee/touch_attack/prestidigitation/proc/clean_thing(atom/target, mob/living/carbon/human/user)
-	// adjusted from /obj/item/soap in clown_items.dm, some duplication unfortunately (needed for flavor)
+/obj/item/melee/new_touch_attack/prestidigitation/proc/clean_thing(atom/target, mob/living/carbon/human/user)
+	cleanspeed = initial(cleanspeed) * get_int_speed_mult(user)
 
-	// let's adjust the clean speed based on our skill level
-	var/skill_level = user.get_skill_level(attached_spell.associated_skill)
-	cleanspeed = initial(cleanspeed) - (skill_level * 3) // 3 cleanspeed per skill level, from 35 down to a maximum of 17 (pretty quick)
-
-	if (istype(target, /obj/structure/roguewindow))
-		user.visible_message(span_notice("[user] gestures at \the [target.name]. Tiny motes of arcyne power dance across its surface..."), span_notice("I begin to clean \the [target.name] with my arcyne power..."))
-		if (do_after(user, src.cleanspeed, target = target))
-			wash_atom(target,CLEAN_MEDIUM)
-			to_chat(user, span_notice("I render \the [target.name] clean."))
-			return TRUE
-		return FALSE
-	else if (istype(target, /obj/effect/decal/cleanable))
+	if(istype(target, /obj/effect/decal/cleanable))
 		user.visible_message(span_notice("[user] gestures at \the [target.name]. Arcyne power slowly scours it away..."), span_notice("I begin to scour \the [target.name] away with my arcyne power..."))
-		if (do_after(user, src.cleanspeed, target = target))
-			wash_atom(get_turf(target),CLEAN_MEDIUM)
+		if(do_after(user, src.cleanspeed, target = target))
+			var/turf/T = get_turf(target)
+			new /obj/effect/temp_visual/cleaning_pulse(T)
+			for(var/obj/effect/decal/cleanable/C in T)
+				wash_atom(C, CLEAN_MEDIUM)
+			wash_atom(T, CLEAN_MEDIUM)
 			to_chat(user, span_notice("I expunge \the [target.name] with my mana."))
 			return TRUE
 		return FALSE
 	else
-		user.visible_message(span_notice("[user] gestures at \the [target.name]. Tiny motes of arcyne power surge over [target.p_them()]..."), span_notice("I begin to clean \the [target.name] with my arcyne power..."))
-		if (do_after(user, src.cleanspeed, target = target))
-			wash_atom(target,CLEAN_MEDIUM)
-			to_chat(user, span_notice("I render \the [target.name] clean."))
+		var/clean_name = isturf(target) ? "the ground" : "\the [target.name]"
+		user.visible_message(span_notice("[user] gestures at [clean_name]. Tiny motes of arcyne power surge over it..."), span_notice("I begin to clean [clean_name] with my arcyne power..."))
+		if(do_after(user, src.cleanspeed, target = target))
+			var/turf/T = get_turf(target)
+			new /obj/effect/temp_visual/cleaning_pulse(T)
+			wash_atom(target, CLEAN_MEDIUM)
+			for(var/obj/effect/decal/cleanable/C in T)
+				wash_atom(C, CLEAN_MEDIUM)
+			to_chat(user, span_notice("I render [clean_name] clean."))
 			return TRUE
 		return FALSE
-
-// Intents for prestidigitation
 
 /obj/effect/wisp/prestidigitation
 	name = "minor magelight mote"
 	desc = "A tiny display of arcyne power used to illuminate."
 	pixel_x = 20
-	light_outer_range =  4
+	light_outer_range =  5
 	light_color = "#3FBAFD"
 
 	icon = 'icons/roguetown/items/lighting.dmi'

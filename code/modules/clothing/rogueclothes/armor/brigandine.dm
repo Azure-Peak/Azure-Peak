@@ -6,7 +6,7 @@
 	icon_state = "brigandine"
 	blocksound = SOFTHIT
 	body_parts_covered = COVERAGE_ALL_BUT_HANDLEGS
-	armor = ARMOR_PLATE
+	armor = ARMOR_BRIGANDINE
 	allowed_sex = list(MALE, FEMALE)
 	nodismemsleeves = TRUE
 	max_integrity = ARMOR_INT_CHEST_PLATE_BRIGANDINE
@@ -74,7 +74,6 @@
 	icon_state = "light_brigandine"
 	blocksound = SOFTHIT
 	body_parts_covered = COVERAGE_TORSO
-	armor = ARMOR_PLATE
 	max_integrity = ARMOR_INT_CHEST_PLATE_BRIGANDINE - ARMOR_INT_CHEST_PLATE_BRIGANDINE_WEIGHT_MODIFIER
 	smeltresult = /obj/item/ingot/iron
 	equip_delay_self = 40

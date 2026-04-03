@@ -22,6 +22,7 @@
 		song_artist = null
 		headshot_link = null
 		img_gallery = null
+		nsfw_img_gallery = null
 	features = pref_species.get_random_features()
 	body_markings = pref_species.get_random_body_markings(features)
 	accessory = "Nothing"

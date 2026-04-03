@@ -379,7 +379,7 @@
 	name = "aavnic valaška"
 	desc = "A steel axe of Aavnic make that combines a deadly weapon with a walking stick - hence its pointed end. It has a flat head that fits the hand comfortably, and it's usable for chopping and smashing. You could probably stab someone if you tried really hard."
 	possible_item_intents = list(/datum/intent/axe/cut, /datum/intent/axe/chop, /datum/intent/mace/smash)
-	gripped_intents = list(/datum/intent/axe/cut, /datum/intent/axe/chop, /datum/intent/stab)
+	gripped_intents = list(/datum/intent/axe/cut, /datum/intent/axe/chop, /datum/intent/mace/smash, /datum/intent/axe/bash/battle)
 	force_wielded = 25	//No damage changes for wielded/unwielded
 	icon_state = "valaska"
 	walking_stick = TRUE

@@ -1,0 +1,5 @@
+author: "gatorceres"
+delete-after: True
+changes:
+  - rscadd: "loadout options for plaguebearer (now \"malpractitioner\")"
+  - balance: "a bit more skill and a cheele for all malpractitioners"

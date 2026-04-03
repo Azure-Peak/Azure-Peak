@@ -1,0 +1,6 @@
+GLOBAL_LIST_INIT(hag_hearts, list())
+GLOBAL_LIST_INIT(hag_trees, list())
+GLOBAL_LIST_INIT(hag_wards, list())
+GLOBAL_LIST_INIT(active_hags, list())
+GLOBAL_VAR_INIT(hag_rite_active, FALSE)
+GLOBAL_LIST_INIT(hag_root_landmarks, list())

@@ -89,7 +89,7 @@
 	. = ..()
 
 	AddComponent(/datum/component/arousal)
-	
+
 
 	RegisterSignal(src, COMSIG_COMPONENT_CLEAN_ACT, PROC_REF(clean_blood))
 	AddComponent(/datum/component/personal_crafting)
@@ -665,9 +665,6 @@
 				else if(energy > 0)
 					hud_used.energy.icon_state = "energy5"
 
-		if(hud_used.zone_select)
-			hud_used.zone_select.update_icon()
-
 /mob/living/carbon/human/fully_heal(admin_revive = FALSE, break_restraints = FALSE)
 	dna?.species.spec_fully_heal(src)
 	if(admin_revive)
@@ -676,7 +673,9 @@
 	spill_embedded_objects()
 	set_heartattack(FALSE)
 	drunkenness = 0
-	return ..()
+	. = ..()
+	if(hud_used?.zone_select)
+		hud_used.zone_select.rebuild_limbs()
 
 /mob/living/carbon/human/check_weakness(obj/item/weapon, mob/living/attacker)
 	. = ..()
@@ -740,7 +739,9 @@
 							client.prefs?.song_title = null
 							client.prefs?.ooc_extra = null
 							img_gallery = list()
+							nsfw_img_gallery = list()
 							client.prefs?.img_gallery = list()
+							client.prefs?.nsfw_img_gallery = list()
 						else
 							return
 					client.prefs?.save_preferences()
@@ -761,6 +762,7 @@
 				song_artist = null
 				song_title = null
 				img_gallery = list()
+				nsfw_img_gallery = list()
 				if(client)
 					client.prefs?.flavortext = null
 					client.prefs?.nsfwflavortext = null
@@ -770,6 +772,7 @@
 					client.prefs?.song_artist = null
 					client.prefs?.song_title = null
 					client.prefs?.img_gallery = list()
+					client.prefs?.nsfw_img_gallery = list()
 					client.prefs?.save_preferences()
 					client.prefs?.save_character()
 					to_chat(usr, span_warn("Slot purged successfully."))

@@ -1,0 +1,6 @@
+author: "Ketrai"
+delete-after: True
+changes:
+  - rscadd: "Dendor spell root affinity T4, travel the root maze!"
+  - rscadd: "Root maze location."
+  - balance: "Feytouched virtue made less bad."

@@ -1,39 +1,39 @@
-/* Blade Storm - Blade subclass ultimate 
-Requires a skillshot to enable counterplay. 2 seconds charge time
-0 slowdown to enable you to stay mobile. 
-AOE Storm on a hollow ring around the target.
-And single target strike on original target making it versatile.
-Stacks up to 90 - 150 damage depending on momentum investment.
-If reflected into self - just inflict half the damage through armor.
-*/
-
-/obj/effect/proc_holder/spell/invoked/projectile/blade_storm
+/datum/action/cooldown/spell/projectile/blade_storm
 	name = "Blade Storm"
 	desc = "Hurls forth a shadow of yourself. On impact, teleport onto the target \
 		and unleash a storm of slashes on them and around yourself.\
 		Requires 7 Momentum: 3 strikes at 30 damage each. \
 		Overcharged at 10 Momentum: 5 strikes at 30 damage each. \
 		If reflected onto yourself, the arcyne energy tears into your own chest. \
-		The blade has no eyes — it does not distinguish friend from foe. Let not your foe deflect it into your ally."
-	clothes_req = FALSE
-	range = 7
+		The blade has no eyes - it does not distinguish friend from foe. Let not your foe deflect it into your ally."
+	button_icon = 'icons/mob/actions/classuniquespells/spellblade.dmi'
+	button_icon_state = "blade_storm"
+	sound = 'sound/magic/blink.ogg'
+	spell_color = GLOW_COLOR_ARCANE
+	glow_intensity = GLOW_INTENSITY_HIGH
+
 	projectile_type = /obj/projectile/magic/blade_storm
-	sound = list('sound/magic/blink.ogg')
-	releasedrain = SPELLCOST_SB_ULT
-	chargedrain = 1
-	chargetime = 20
-	recharge_time = 60 SECONDS
-	warnie = "spellwarning"
-	no_early_release = TRUE
-	movement_interrupt = FALSE
-	charging_slowdown = 0
-	chargedloop = /datum/looping_sound/invokegen
-	action_icon = 'icons/mob/actions/classuniquespells/spellblade.dmi'
-	overlay_state = "blade_storm" // Icon by Prominence.
+	cast_range = 7
+
+	primary_resource_type = SPELL_COST_STAMINA
+	primary_resource_cost = SPELLCOST_SB_ULT
+
 	invocations = list("Procella Gladiorum!")
-	invocation_type = "shout"
-	gesture_required = TRUE
-	xp_gain = FALSE
+	invocation_type = INVOCATION_SHOUT
+
+	charge_required = TRUE
+	weapon_cast_penalized = FALSE
+	charge_time = 2 SECONDS
+	charge_drain = 1
+	charge_slowdown = CHARGING_SLOWDOWN_NONE
+	charge_sound = 'sound/magic/charging.ogg'
+	cooldown_time = 60 SECONDS
+
+	associated_skill = /datum/skill/magic/arcane
+	spell_tier = 3
+	spell_impact_intensity = SPELL_IMPACT_HIGH
+	spell_requirements = SPELL_REQUIRES_NO_ANTIMAGIC | SPELL_REQUIRES_HUMAN
+
 	var/aoe_damage = 30
 	var/aoe_base_cuts = 3
 	var/aoe_bonus_cuts = 2
@@ -46,63 +46,65 @@ If reflected into self - just inflict half the damage through armor.
 	var/telegraph_delay = 8
 	var/storm_deflected = FALSE
 
+	var/cached_aoe_cuts = 3
+	var/cached_p_cuts = 3
+	var/cached_locked_zone = BODY_ZONE_CHEST
 
-/obj/effect/proc_holder/spell/invoked/projectile/blade_storm/can_cast(mob/user = usr, feedback = TRUE)
+/datum/action/cooldown/spell/projectile/blade_storm/can_cast_spell(feedback = TRUE)
 	. = ..()
 	if(!.)
 		return FALSE
-	if(!ishuman(user))
+	if(!ishuman(owner))
 		return FALSE
-	var/mob/living/carbon/human/H = user
+	var/mob/living/carbon/human/H = owner
 	var/datum/status_effect/buff/arcyne_momentum/M = H.has_status_effect(/datum/status_effect/buff/arcyne_momentum)
 	if(!M || M.stacks < min_momentum)
 		return FALSE
 	return TRUE
 
-/obj/effect/proc_holder/spell/invoked/projectile/blade_storm/cast(list/targets, mob/user = usr)
-	var/mob/living/carbon/human/H = user
+/datum/action/cooldown/spell/projectile/blade_storm/cast(atom/cast_on)
+	var/mob/living/carbon/human/H = owner
 	if(!istype(H))
-		revert_cast()
-		return
+		return FALSE
 
 	var/obj/item/held_weapon = arcyne_get_weapon(H)
 	if(!held_weapon)
 		to_chat(H, span_warning("I need my bound weapon in hand!"))
-		revert_cast()
-		return
+		return FALSE
 
 	var/datum/status_effect/buff/arcyne_momentum/M = H.has_status_effect(/datum/status_effect/buff/arcyne_momentum)
 	if(!M || M.stacks < min_momentum)
 		to_chat(H, span_warning("Not enough momentum! I need at least [min_momentum] stacks!"))
-		revert_cast()
-		return
+		return FALSE
 
 	var/stacks = M.stacks
-	var/aoe_cuts = aoe_base_cuts
-	var/p_cuts = personal_base_cuts
+	cached_aoe_cuts = aoe_base_cuts
+	cached_p_cuts = personal_base_cuts
 	if(stacks >= empowered_momentum)
-		aoe_cuts += aoe_bonus_cuts
-		p_cuts += personal_bonus_cuts
+		cached_aoe_cuts += aoe_bonus_cuts
+		cached_p_cuts += personal_bonus_cuts
 	M.consume_all_stacks()
 	to_chat(H, span_notice("All [stacks] momentum released into shadow!"))
 
-	var/locked_zone = H.zone_selected || BODY_ZONE_CHEST
-
-	projectile_var_overrides = list(
-		"aoe_cuts" = aoe_cuts,
-		"aoe_dmg" = aoe_damage,
-		"p_cuts" = p_cuts,
-		"p_dmg" = personal_damage,
-		"def_zone" = locked_zone,
-		"parent_spell" = src
-	)
+	cached_locked_zone = H.zone_selected || BODY_ZONE_CHEST
 
 	H.visible_message(span_boldwarning("[H] hurls a shadow of [H.p_them()]self forward!"))
-	log_combat(H, targets[1], "used Blade Storm on")
+	log_combat(H, cast_on, "used Blade Storm on")
 
 	. = ..()
 
-/obj/effect/proc_holder/spell/invoked/projectile/blade_storm/proc/execute_storm(mob/living/carbon/human/user, mob/living/victim, aoe_cuts, aoe_dmg, p_cuts, p_dmg, def_zone)
+/datum/action/cooldown/spell/projectile/blade_storm/ready_projectile(obj/projectile/to_fire, atom/target, mob/user, iteration)
+	..()
+	var/obj/projectile/magic/blade_storm/P = to_fire
+	if(istype(P))
+		P.aoe_cuts = cached_aoe_cuts
+		P.aoe_dmg = aoe_damage
+		P.p_cuts = cached_p_cuts
+		P.p_dmg = personal_damage
+		P.def_zone = cached_locked_zone
+		P.parent_spell = src
+
+/datum/action/cooldown/spell/projectile/blade_storm/proc/execute_storm(mob/living/carbon/human/user, mob/living/victim, aoe_cuts, aoe_dmg, p_cuts, p_dmg, def_zone)
 	if(QDELETED(user) || user.stat == DEAD)
 		return
 
@@ -137,7 +139,7 @@ If reflected into self - just inflict half the damage through armor.
 		new /obj/effect/temp_visual/blade_storm_telegraph(T)
 	playsound(center, 'sound/magic/blade_burst.ogg', 80, TRUE)
 
-	user.visible_message(span_boldwarning("[user] raises [held_weapon.name] — arcyne energy surges toward the [span_combatsecondarybp(parse_zone(def_zone))]!"))
+	user.visible_message(span_boldwarning("[user] raises [held_weapon.name] - arcyne energy surges toward the [span_combatsecondarybp(parse_zone(def_zone))]!"))
 
 	storm_deflected = FALSE
 	for(var/cut_num in 1 to aoe_cuts)
@@ -148,7 +150,7 @@ If reflected into self - just inflict half the damage through armor.
 		var/delay = telegraph_delay + (strike_num - 1) * cut_delay
 		addtimer(CALLBACK(src, PROC_REF(do_personal_strike), user, held_weapon, victim, strike_num, def_zone, p_dmg), delay)
 
-/obj/effect/proc_holder/spell/invoked/projectile/blade_storm/proc/do_storm_cut(mob/living/carbon/human/user, obj/item/weapon, turf/center, list/ring_turfs, cut_num, def_zone, aoe_dmg)
+/datum/action/cooldown/spell/projectile/blade_storm/proc/do_storm_cut(mob/living/carbon/human/user, obj/item/weapon, turf/center, list/ring_turfs, cut_num, def_zone, aoe_dmg)
 	if(QDELETED(user) || user.stat == DEAD)
 		return
 
@@ -169,7 +171,7 @@ If reflected into self - just inflict half the damage through armor.
 				continue
 			arcyne_strike(user, victim, weapon, aoe_dmg, def_zone, BCLASS_CUT, spell_name = "Blade Storm (Cut [cut_num])", skip_animation = TRUE, skip_message = TRUE)
 
-/obj/effect/proc_holder/spell/invoked/projectile/blade_storm/proc/do_personal_strike(mob/living/carbon/human/user, obj/item/weapon, mob/living/victim, strike_num, def_zone, p_dmg)
+/datum/action/cooldown/spell/projectile/blade_storm/proc/do_personal_strike(mob/living/carbon/human/user, obj/item/weapon, mob/living/victim, strike_num, def_zone, p_dmg)
 	if(QDELETED(user) || user.stat == DEAD || QDELETED(victim) || victim.stat == DEAD)
 		return
 
@@ -183,7 +185,7 @@ If reflected into self - just inflict half the damage through armor.
 		var/obj/effect/temp_visual/blade_cut/V = new(victim_turf)
 		V.dir = get_dir(user, victim)
 
-/obj/effect/proc_holder/spell/invoked/projectile/blade_storm/proc/get_hollow_ring(turf/center)
+/datum/action/cooldown/spell/projectile/blade_storm/proc/get_hollow_ring(turf/center)
 	var/list/ring = list()
 	for(var/dx in -1 to 1)
 		for(var/dy in -1 to 1)
@@ -194,7 +196,7 @@ If reflected into self - just inflict half the damage through armor.
 				ring += T
 	return ring
 
-/obj/effect/proc_holder/spell/invoked/projectile/blade_storm/proc/handle_self_hit(mob/living/carbon/human/caster, p_cuts, p_dmg)
+/datum/action/cooldown/spell/projectile/blade_storm/proc/handle_self_hit(mob/living/carbon/human/caster, p_cuts, p_dmg)
 	to_chat(caster, span_userdanger("My own shadow crashes back into me!"))
 	caster.visible_message(span_warning("[caster]'s shadow rebounds violently!"))
 	var/backlash = p_dmg * p_cuts * 0.5
@@ -212,7 +214,7 @@ If reflected into self - just inflict half the damage through armor.
 	var/aoe_dmg = 30
 	var/p_cuts = 3
 	var/p_dmg = 30
-	var/obj/effect/proc_holder/spell/invoked/projectile/blade_storm/parent_spell
+	var/datum/action/cooldown/spell/projectile/blade_storm/parent_spell
 
 /obj/projectile/magic/blade_storm/on_hit(atom/target)
 	if(!isliving(target) || !firer || !ishuman(firer))
@@ -221,7 +223,7 @@ If reflected into self - just inflict half the damage through armor.
 	var/mob/living/carbon/human/caster = firer
 
 	if(!parent_spell && caster.mind)
-		parent_spell = locate(/obj/effect/proc_holder/spell/invoked/projectile/blade_storm) in caster.mind.spell_list
+		parent_spell = locate(/datum/action/cooldown/spell/projectile/blade_storm) in caster.mind.spell_list
 	if(!parent_spell)
 		return ..()
 
@@ -234,7 +236,7 @@ If reflected into self - just inflict half the damage through armor.
 		playsound(get_turf(victim), 'sound/magic/magic_nulled.ogg', 100)
 		return BULLET_ACT_BLOCK
 
-	INVOKE_ASYNC(parent_spell, TYPE_PROC_REF(/obj/effect/proc_holder/spell/invoked/projectile/blade_storm, execute_storm), caster, victim, aoe_cuts, aoe_dmg, p_cuts, p_dmg, def_zone)
+	INVOKE_ASYNC(parent_spell, TYPE_PROC_REF(/datum/action/cooldown/spell/projectile/blade_storm, execute_storm), caster, victim, aoe_cuts, aoe_dmg, p_cuts, p_dmg, def_zone)
 	return BULLET_ACT_BLOCK
 
 /obj/effect/temp_visual/blade_storm_telegraph

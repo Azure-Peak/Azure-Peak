@@ -1,0 +1,155 @@
+// Grimoire-styled Aspect Picker — structural styles only.
+// Colors are provided by the grimoire theme (themes/grimoire.scss).
+.AspectPicker {
+  &__page {
+    border: 1px solid transparent;
+    border-radius: 2px;
+    height: 100%;
+    overflow-y: auto;
+    overflow-x: hidden;
+  }
+
+  &__spine {
+    width: 3px;
+    flex-shrink: 0;
+  }
+
+  &__tab {
+    display: inline-block;
+    padding: 6px 14px;
+    cursor: pointer;
+    font-style: italic;
+    letter-spacing: 1px;
+    border-bottom: 1px solid transparent;
+    transition: color 0.2s, border-color 0.2s;
+    user-select: none;
+  }
+
+  &__tab-bar {
+    display: flex;
+    gap: 4px;
+    padding: 4px 8px;
+    margin-bottom: 6px;
+  }
+
+  &__chapter-entry {
+    padding: 5px 10px;
+    cursor: pointer;
+    transition: color 0.15s, background 0.15s;
+    user-select: none;
+    border-left: 2px solid transparent;
+  }
+
+  &__heading {
+    font-size: 15px;
+    letter-spacing: 2px;
+    padding-bottom: 6px;
+    margin-bottom: 8px;
+  }
+
+  &__fluff {
+    font-style: italic;
+    line-height: 1.5;
+    margin-bottom: 10px;
+    padding-left: 8px;
+  }
+
+  &__desc {
+    line-height: 1.5;
+    margin-bottom: 10px;
+  }
+
+  &__divider {
+    height: 1px;
+    margin: 10px 0;
+  }
+
+  &__section-label {
+    font-size: 11px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-bottom: 6px;
+  }
+
+  &__spell-entry {
+    padding: 4px 0 4px 12px;
+    margin-bottom: 4px;
+  }
+
+  &__spell-name {
+    font-weight: bold;
+  }
+
+  &__spell-desc {
+    font-size: 11px;
+    margin-top: 2px;
+    line-height: 1.4;
+  }
+
+  &__pointbuy-entry {
+    padding: 5px 10px;
+    cursor: pointer;
+    transition: color 0.15s, background 0.15s;
+    user-select: none;
+  }
+
+  &__utility-entry {
+    display: inline-block;
+    padding: 3px 10px;
+    margin: 2px 4px;
+    cursor: pointer;
+    border: 1px solid transparent;
+    border-radius: 2px;
+    transition: color 0.15s, background 0.15s, border-color 0.15s;
+    user-select: none;
+  }
+
+  &__variant-block {
+    padding-left: 10px;
+    margin-bottom: 6px;
+  }
+
+  &__variant-name {
+    font-style: italic;
+    font-size: 12px;
+    margin-bottom: 3px;
+  }
+
+  &__attunement {
+    font-size: 11px;
+    font-style: italic;
+    margin-bottom: 8px;
+  }
+
+  &__action-btn {
+    display: block;
+    width: 100%;
+    padding: 8px;
+    text-align: center;
+    cursor: pointer;
+    letter-spacing: 1px;
+    transition: background 0.15s, border-color 0.15s;
+    user-select: none;
+  }
+
+  &__empty {
+    font-style: italic;
+    text-align: center;
+    padding: 40px 20px;
+  }
+
+  &__slot-display {
+    font-size: 10px;
+    letter-spacing: 1px;
+    text-align: right;
+    padding-right: 10px;
+  }
+
+  &__reset-budget {
+    font-size: 10px;
+    letter-spacing: 1px;
+    padding: 8px 12px;
+    flex-shrink: 0;
+    white-space: nowrap;
+  }
+}

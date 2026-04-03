@@ -7,6 +7,7 @@
 	var/retained_dust = 0
 	var/list/sleep_exp = list()
 	var/datum/mind/mind = null
+	var/woke_up = TRUE
 	COOLDOWN_DECLARE(xp_show)
 	COOLDOWN_DECLARE(level_up)
 
@@ -222,17 +223,25 @@
 /datum/sleep_adv/proc/close_ui()
 	if(!mind.current)
 		return
-	if(mind.has_changed_spell)
-		mind.has_changed_spell = FALSE
-		to_chat(mind.current, span_smallnotice("I feel like I can change my spells again."))
 	mind.current << browse(null, "window=dreams")
 
 /datum/sleep_adv/proc/process_sleep()
 	if(is_considered_sleeping())
+		woke_up = FALSE // Reset flag while sleeping so on_wake can fire on next transition
 		return
 	if(mind.current.eyesclosed)
 		return
+	on_wake()
 	close_ui()
+
+/// Called when the player wakes up, whether voluntarily (clicking continue) or involuntarily (being woken).
+/// Guarded by woke_up flag to ensure it only fires once per sleep session.
+/datum/sleep_adv/proc/on_wake()
+	if(woke_up)
+		return
+	woke_up = TRUE
+	if(mind.aspect_resets_used > 0)
+		mind.aspect_resets_used = 0
 
 /datum/sleep_adv/proc/is_considered_sleeping()
 	if(!mind.current)
@@ -332,16 +341,7 @@
 /datum/sleep_adv/proc/finish()
 	if(!mind.current)
 		return
-	if(mind.has_changed_spell)
-		mind.has_changed_spell = FALSE
-		to_chat(mind.current, span_smallnotice("I feel like I can change my spells again."))
-	if(mind.has_rituos)
-		mind.has_rituos = FALSE
-		to_chat(mind.current, span_smallnotice("The toil of invoking Her Lesser Work has fled my feeble form. I can continue my transfiguration..."))
-	if (mind.rituos_spell)
-		to_chat(mind.current, span_warning("My glimpse of [mind.rituos_spell.name] flees my slumbering mind..."))
-		mind.RemoveSpell(mind.rituos_spell)
-		mind.rituos_spell = null
+	on_wake()
 	to_chat(mind.current, span_notice("...and that's all I dreamt of."))
 	if(HAS_TRAIT(mind.current, TRAIT_STUDENT))
 		REMOVE_TRAIT(mind.current, TRAIT_STUDENT, TRAIT_GENERIC)

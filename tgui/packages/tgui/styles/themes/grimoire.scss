@@ -1,0 +1,330 @@
+@use 'azure_base' as *;
+
+.theme-grimoire:root {
+  @include azure-theme((
+    'base':            #2a2118,
+    'base-light':      #2a2118,
+    'base-dark':       #2a2118,
+    'section':         rgba(60, 48, 32, 0.25),
+    'section-title':   #c8b078,
+    'text':            #c0aa80,
+    'label':           #8a7a5a,
+    'accent':          rgba(160, 130, 80, 0.3),
+    'accent-bright':   rgba(200, 170, 100, 0.5),
+    'border':          rgba(120, 95, 55, 0.3),
+    'btn-text':        #c0aa80,
+    'btn-selected':    rgba(100, 140, 80, 0.3),
+    'btn-disabled':    #5a5040,
+    'scrollbar-thumb': rgba(160, 130, 80, 0.3),
+    'glow':            rgba(120, 95, 55, 0.1),
+    'link':            #b09060,
+    'link-visited':    #d4b888,
+    'link-hover':      #e0cc9a,
+  ), '../assets/azure_default/topbar_red.svg');
+
+  // ── Seamless background ──────────────────────────────────────────
+  // Window, layout, and content all match the parchment base
+  &, .Window, .Layout, .Layout__content, .Window__rest, .Window__content {
+    background: #2a2118 !important;
+    background-image: none !important;
+  }
+
+  // ── Title bar — merged into the book ─────────────────────────────
+  .TitleBar {
+    background-color: #2a2118;
+    border-bottom: 1px solid rgba(160, 130, 80, 0.15);
+    box-shadow: none;
+  }
+
+  .TitleBar__title {
+    font-family: Georgia, 'Palatino Linotype', Palatino, serif;
+    color: rgba(200, 170, 100, 0.4);
+    font-size: 13px;
+    letter-spacing: 3px;
+  }
+
+  .TitleBar__close {
+    color: rgba(200, 170, 100, 0.3);
+
+    &:hover {
+      color: rgba(200, 100, 100, 0.9);
+      background-color: rgba(200, 100, 100, 0.15);
+    }
+  }
+
+  // ── Softer buttons ───────────────────────────────────────────────
+  .Button {
+    border-color: rgba(160, 130, 80, 0.2);
+    outline: none;
+    box-shadow: none;
+
+    &:hover {
+      border-color: rgba(160, 130, 80, 0.4);
+      box-shadow: none;
+    }
+
+    &:active {
+      box-shadow: inset 1px 1px 3px rgba(0, 0, 0, 0.4);
+      outline: none;
+    }
+  }
+
+  // ── Pages — slightly lighter than the base for subtle depth ──────
+  .AspectPicker__page {
+    background: linear-gradient(
+      160deg,
+      #332a1e 0%,
+      #2e2518 50%,
+      #31281c 100%
+    );
+    border: none;
+  }
+
+  // ── Chapter entries ──────────────────────────────────────────────
+  .AspectPicker__chapter-entry {
+    color: rgba(200, 180, 130, 0.7);
+
+    &:hover {
+      color: rgba(240, 220, 170, 1);
+      background: rgba(160, 130, 80, 0.1);
+    }
+
+    &--active {
+      color: rgba(240, 220, 170, 1);
+      border-left-color: rgba(200, 170, 100, 0.5);
+      background: rgba(160, 130, 80, 0.12);
+    }
+
+    &--attuned {
+      color: rgba(160, 210, 140, 0.9);
+
+      &::before {
+        color: rgba(160, 210, 140, 0.7);
+      }
+    }
+
+    &--blocked {
+      color: rgba(120, 100, 80, 0.4);
+    }
+
+    &--unbinding {
+      color: rgba(200, 100, 100, 0.6);
+    }
+  }
+
+  // ── Heading and text ─────────────────────────────────────────────
+  .AspectPicker__heading {
+    color: #d4c090;
+    border-bottom-color: rgba(200, 170, 100, 0.2);
+  }
+
+  .AspectPicker__fluff {
+    color: rgba(200, 180, 130, 0.6);
+    border-left-color: rgba(200, 170, 100, 0.15);
+  }
+
+  .AspectPicker__desc {
+    color: rgba(210, 195, 160, 0.85);
+    font-size: 11px;
+  }
+
+  .AspectPicker__spell-name {
+    color: #d4c090;
+  }
+
+  .AspectPicker__spell-desc {
+    color: rgba(180, 160, 120, 0.5);
+  }
+
+  .AspectPicker__spell-fluff {
+    color: rgba(160, 140, 100, 0.45);
+    font-style: normal;
+    font-size: 0.85em;
+    margin-top: 4px;
+    line-height: 1.5;
+  }
+
+  .AspectPicker__spell-entry {
+    border-left-color: rgba(200, 170, 100, 0.1);
+  }
+
+  .AspectPicker__section-label {
+    color: rgba(200, 180, 130, 0.5);
+  }
+
+  .AspectPicker__attunement {
+    color: rgba(200, 180, 130, 0.4);
+  }
+
+  .AspectPicker__empty {
+    color: rgba(200, 180, 130, 0.35);
+  }
+
+  .AspectPicker__slot-display {
+    color: rgba(200, 180, 130, 0.35);
+  }
+
+  .AspectPicker__reset-budget {
+    color: rgba(220, 180, 80, 0.6);
+  }
+
+  // ── Tabs ─────────────────────────────────────────────────────────
+  .AspectPicker__tab {
+    color: rgba(200, 180, 130, 0.5);
+
+    &:hover {
+      color: rgba(240, 220, 170, 0.85);
+    }
+
+    &--active {
+      color: #d4c090;
+      border-bottom-color: rgba(200, 170, 100, 0.45);
+    }
+
+    &--locked {
+      color: rgba(120, 100, 80, 0.35);
+      text-decoration: line-through;
+      cursor: default;
+
+      &:hover {
+        color: rgba(120, 100, 80, 0.35);
+      }
+    }
+  }
+
+  .AspectPicker__tab-bar {
+    border-bottom-color: rgba(200, 170, 100, 0.1);
+  }
+
+  // ── Dividers ─────────────────────────────────────────────────────
+  .AspectPicker__divider {
+    background: linear-gradient(
+      90deg,
+      transparent 0%,
+      rgba(200, 170, 100, 0.2) 20%,
+      rgba(200, 170, 100, 0.2) 80%,
+      transparent 100%
+    );
+  }
+
+  .AspectPicker__spine {
+    background: linear-gradient(
+      180deg,
+      rgba(140, 110, 60, 0.4) 0%,
+      rgba(180, 150, 80, 0.25) 25%,
+      rgba(140, 110, 60, 0.4) 50%,
+      rgba(180, 150, 80, 0.25) 75%,
+      rgba(140, 110, 60, 0.4) 100%
+    );
+  }
+
+  // ── Point-buy entries ────────────────────────────────────────────
+  .AspectPicker__pointbuy-entry {
+    color: rgba(200, 180, 130, 0.7);
+
+    &:hover {
+      color: rgba(240, 220, 170, 1);
+      background: rgba(160, 130, 80, 0.08);
+    }
+
+    &--selected {
+      color: rgba(160, 210, 140, 0.9);
+
+      &::before {
+        color: rgba(160, 210, 140, 0.7);
+      }
+    }
+
+    &--disabled {
+      color: rgba(120, 100, 80, 0.35);
+
+      &:hover {
+        background: none;
+        color: rgba(120, 100, 80, 0.35);
+      }
+    }
+  }
+
+  // ── Utility entries ──────────────────────────────────────────────
+  .AspectPicker__utility-entry {
+    color: rgba(200, 180, 130, 0.7);
+    border-color: rgba(160, 130, 80, 0.12);
+
+    &:hover {
+      color: rgba(240, 220, 170, 1);
+      border-color: rgba(160, 130, 80, 0.3);
+      background: rgba(160, 130, 80, 0.08);
+    }
+
+    &--selected {
+      color: rgba(160, 210, 140, 0.9);
+      border-color: rgba(140, 200, 120, 0.25);
+      background: rgba(140, 200, 120, 0.04);
+    }
+  }
+
+  // ── Variants ─────────────────────────────────────────────────────
+  .AspectPicker__variant-block {
+    border-left-color: rgba(200, 170, 100, 0.15);
+  }
+
+  .AspectPicker__variant-name {
+    color: rgba(200, 180, 130, 0.5);
+
+    &--active {
+      color: rgba(160, 210, 140, 0.75);
+    }
+  }
+
+  // ── Action buttons ───────────────────────────────────────────────
+  .AspectPicker__action-btn {
+    border: 1px solid rgba(200, 170, 100, 0.2);
+    background: rgba(60, 48, 32, 0.3);
+    color: #c8b078;
+
+    &:hover {
+      background: rgba(160, 130, 80, 0.1);
+      border-color: rgba(200, 170, 100, 0.4);
+    }
+
+    &--confirm {
+      border-color: rgba(140, 200, 120, 0.3);
+      color: rgba(160, 210, 140, 0.9);
+
+      &:hover {
+        background: rgba(140, 200, 120, 0.08);
+        border-color: rgba(140, 200, 120, 0.5);
+      }
+    }
+
+    &--caution {
+      border-color: rgba(220, 180, 80, 0.3);
+      color: rgba(220, 180, 80, 0.85);
+
+      &:hover {
+        background: rgba(220, 180, 80, 0.08);
+        border-color: rgba(220, 180, 80, 0.5);
+      }
+    }
+
+    &--remove {
+      border-color: rgba(200, 100, 100, 0.3);
+      color: rgba(200, 100, 100, 0.85);
+
+      &:hover {
+        background: rgba(200, 100, 100, 0.08);
+        border-color: rgba(200, 100, 100, 0.5);
+      }
+    }
+
+    &--disabled {
+      opacity: 0.35;
+      cursor: default;
+
+      &:hover {
+        background: rgba(60, 48, 32, 0.3);
+        border-color: rgba(200, 170, 100, 0.2);
+      }
+    }
+  }
+}

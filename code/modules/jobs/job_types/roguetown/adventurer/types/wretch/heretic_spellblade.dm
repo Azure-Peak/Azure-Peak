@@ -15,7 +15,7 @@
 	maximum_possible_slots = 2 // Team rocket!!!
 	class_select_category = CLASS_CAT_BATTLEMAGE
 	category_tags = list(CTAG_WRETCH)
-	traits_applied = list(TRAIT_MEDIUMARMOR, TRAIT_ARCYNE_T2)
+	traits_applied = list(TRAIT_MEDIUMARMOR, TRAIT_ARCYNE)
 	subclass_stats = list(
 		STATKEY_STR = 1,
 		STATKEY_INT = 1, // Weighted 7. But a very nice statblock
@@ -23,7 +23,7 @@
 		STATKEY_CON = 1,
 		STATKEY_WIL = 2, // With 2 Wil they should not be struggling
 	)
-	subclass_spell_point_pools = list("utility" = 6) // Mama Zizo said you get 2 more points on Utility!!!
+	subclass_mage_aspects = list("mastery" = FALSE, "major" = 0, "minor" = 0, "utilities" = 6, "ward" = TRUE) // Mama Zizo said you get 2 more points on Utility!!!
 	subclass_skills = list(
 		/datum/skill/misc/climbing = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/combat/shields = SKILL_LEVEL_JOURNEYMAN,
@@ -63,8 +63,9 @@
 	beltl = /obj/item/storage/belt/rogue/pouch/coins/poor
 	wrists = /obj/item/clothing/wrists/roguetown/bracers/iron
 	backpack_contents = list(/obj/item/flashlight/flare/torch = 1,
-		/obj/item/reagent_containers/glass/bottle/alchemical/healthpot = 1,	
-		/obj/item/chalk = 1
+		/obj/item/reagent_containers/glass/bottle/alchemical/healthpot = 1,
+		/obj/item/chalk = 1,
+		/obj/item/book/spellbook = 1,
 	)
 
 	to_chat(H, span_warning("You start with Bind Weapon. Remember to Bind your weapon so you can use your abilities and build up Arcyne Momentum."))
@@ -96,26 +97,25 @@
 	if(H.mind)
 		switch(subclass_selected)
 			if("blade")
-				H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/caedo)
-				H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/air_strike)
-				H.mind.AddSpell(new /obj/effect/proc_holder/spell/self/leyline_anchor)
-				H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/projectile/blade_storm)
+				H.mind.AddSpell(new /datum/action/cooldown/spell/caedo)
+				H.mind.AddSpell(new /datum/action/cooldown/spell/air_strike)
+				H.mind.AddSpell(new /datum/action/cooldown/spell/leyline_anchor)
+				H.mind.AddSpell(new /datum/action/cooldown/spell/projectile/blade_storm)
 			if("phalangite")
-				H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/azurean_phalanx)
-				H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/projectile/azurean_javelin)
-				H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/advance)
-				H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/gate_of_reckoning)
+				H.mind.AddSpell(new /datum/action/cooldown/spell/azurean_phalanx)
+				H.mind.AddSpell(new /datum/action/cooldown/spell/projectile/azurean_pilum)
+				H.mind.AddSpell(new /datum/action/cooldown/spell/advance)
+				H.mind.AddSpell(new /datum/action/cooldown/spell/gate_of_reckoning)
 			if("macebearer")
-				H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/shatter)
-				H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/tremor)
-				H.mind.AddSpell(new /obj/effect/proc_holder/spell/self/charge)
-				H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/cataclysm)
+				H.mind.AddSpell(new /datum/action/cooldown/spell/shatter)
+				H.mind.AddSpell(new /datum/action/cooldown/spell/tremor)
+				H.mind.AddSpell(new /datum/action/cooldown/spell/charge)
+				H.mind.AddSpell(new /datum/action/cooldown/spell/cataclysm)
 
-		H.mind.AddSpell(new /obj/effect/proc_holder/spell/self/recall_weapon)
-		H.mind.AddSpell(new /obj/effect/proc_holder/spell/self/empower_weapon)
-		H.mind.AddSpell(new /obj/effect/proc_holder/spell/self/bind_weapon)
-		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/mending)
-		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/enchant_weapon)
+		H.mind.AddSpell(new /datum/action/cooldown/spell/recall_weapon)
+		H.mind.AddSpell(new /datum/action/cooldown/spell/empower_weapon)
+		H.mind.AddSpell(new /datum/action/cooldown/spell/bind_weapon)
+		H.mind.AddSpell(new /datum/action/cooldown/spell/mending)
 
 	// Armor choice: Discretion (light, like adventurer) vs Progress (medium armor set with helmet)
 	var/armor_style = list("Discretion (Spellblade Disguise)", "Confrontation (Medium Armor)")
@@ -130,6 +130,7 @@
 			pants = /obj/item/clothing/under/roguetown/chainlegs
 			shoes = /obj/item/clothing/shoes/roguetown/boots/armor/iron
 			cloak = /obj/item/clothing/cloak/tabard/black
+
 			var/helmets = list(
 				"Pigface Bascinet"		= /obj/item/clothing/head/roguetown/helmet/bascinet/pigface,
 				"Guard Helmet"			= /obj/item/clothing/head/roguetown/helmet/heavy/guard,
@@ -140,8 +141,10 @@
 				"Klappvisier Bascinet"	= /obj/item/clothing/head/roguetown/helmet/bascinet/etruscan,
 				"Hounskull Bascinet"	= /obj/item/clothing/head/roguetown/helmet/bascinet/pigface/hounskull,
 				"Slitted Kettle"		= /obj/item/clothing/head/roguetown/helmet/heavy/knight/skettle,
+				"Volf-Face Helm"		= /obj/item/clothing/head/roguetown/helmet/heavy/volfplate,
 				"None"
 			)
+		
 			var/helmchoice = input(H, "Choose your Helm.", "LIGHT SHINES THROUGH") as anything in helmets
 			if(helmchoice != "None")
 				head = helmets[helmchoice]

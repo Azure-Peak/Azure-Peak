@@ -1,0 +1,5 @@
+author: "FreeStylaLT"
+delete-after: True
+changes:
+  - balance: "Dodge (with dodge expert) now dynamically changes its chances depending on how the combat is going."
+  - balance: "Dodge stamina drain is now affected by swift stance attacks.\nbalance; Dodge now decays its chance at a faster rate if the attacker has higher weaponskill than the dodger."
