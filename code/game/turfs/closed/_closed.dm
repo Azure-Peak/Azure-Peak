@@ -60,6 +60,19 @@
 			user.setDir(EAST)
 			user.set_mob_offsets("wall_press", _x = -12, _y = 0)
 
+/mob/living/proc/get_wallpress_alpha()
+	var/skill_level = src.get_skill_level(/datum/skill/misc/sneaking)
+
+	switch(skill_level)
+		if(1) return 178 //30%
+		if(2) return 140 //45%
+		if(3) return 102 //60%
+		if(4) return 77 //70%
+		if(5) return 51 //80%
+		if(6) return 25 //90%
+
+	return 255
+
 /turf/closed/proc/wallshove(mob/living/user)
 	if(user.wallpressed)
 		return
@@ -87,8 +100,10 @@
 /mob/living/proc/update_wallpress_slowdown()
 	if(wallpressed)
 		add_movespeed_modifier("wallpress", TRUE, 100, override = TRUE, multiplicative_slowdown = 3)
+		alpha = get_wallpress_alpha()
 	else
 		remove_movespeed_modifier("wallpress")
+		alpha = 255
 
 /turf/closed/Bumped(atom/movable/AM)
 	..()
