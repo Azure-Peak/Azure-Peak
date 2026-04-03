@@ -563,6 +563,8 @@
 		var/pickchance = 35
 		var/moveup = 10
 
+		var/silent = HAS_TRAIT(user, TRAIT_SILENT_LOCKPICK)
+
 		picktime -= (pickskill * 10)
 		picktime = clamp(picktime, 10, 70)
 
@@ -614,7 +616,10 @@
 				else
 					continue
 			else
-				playsound(loc, 'sound/items/pickbad.ogg', 40, TRUE)
+				if(silent)
+					playsound(loc, 'sound/items/pickbad.ogg', 5, TRUE)
+				else
+					playsound(loc, 'sound/items/pickbad.ogg', 40, TRUE)
 				I.take_damage(1, BRUTE, "blunt")
 				to_chat(user, "<span class='warning'>Clack.</span>")
 				add_sleep_experience(L, /datum/skill/misc/lockpicking, L.STAINT/4)

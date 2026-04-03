@@ -157,6 +157,7 @@
 	icon_state = "matthiosboots"
 	sewrepair = TRUE
 	armor = ARMOR_LEATHER
+	color = "#fce517" // we golden
 
 /obj/item/clothing/shoes/roguetown/boots/muffle_matthios/equipped(mob/living/carbon/human/user, slot)
 	. = ..()
@@ -359,6 +360,7 @@
 	owner.remove_filter(EQUALIZED_GLOW)
 	to_chat(owner, "<font color='yellow'>My fire returns!</font>")
 
+#undef EQUALIZED_GLOW
 
 /obj/effect/proc_holder/spell/invoked/barter
 	name = "Barter"
@@ -582,5 +584,904 @@
 				target.death()
 		return TRUE
 
+/datum/action/cooldown/spell/freemans_tools
+	button_icon = 'icons/mob/actions/matthiosmiracles.dmi'
+	button_icon_state = "lockpick"
+	name = "Freeman's Tools"
+	desc = "A simple prayer to the free-god that forms into an instrument for liberation."
+	associated_skill = /datum/skill/magic/holy
+	click_to_activate = FALSE
+	self_cast_possible = TRUE
+	primary_resource_type = SPELL_COST_STAMINA
+	primary_resource_cost = SPELLCOST_CANTRIP
+	charge_required = FALSE
+	cooldown_time = 0
+	spell_requirements = SPELL_REQUIRES_NO_ANTIMAGIC | SPELL_REQUIRES_HUMAN | SPELL_REQUIRES_SAME_Z
 
-#undef EQUALIZED_GLOW
+	var/list/options = list(
+		"Pouch of Bribery" = list(
+			path = /obj/item/storage/belt/rogue/pouch/coins/matthios,
+			m_cooldown = 60 SECONDS,
+			m_rank = SKILL_LEVEL_EXPERT,
+			lines = list("Coin begets coin!", "Matthios, grant me a sliver of thy wealth!", "Wealth through will, as He demands!")
+		),
+		"Pocket Sand" = list(
+			path = /obj/item/impact_grenade/pocketsand,
+			m_cooldown = 30 SECONDS,
+			m_rank = SKILL_LEVEL_NOVICE,
+			lines = list("Dust to blind thee!", "A handful of freedom!", "A gift for thee!")
+		),
+		"Gilded Lockpick" = list(
+			path = /obj/item/melee/touch_attack/lesserknock/matthios,
+			m_cooldown = 5 SECONDS,
+			m_rank = SKILL_LEVEL_APPRENTICE,
+			lines = list("#No locks shall bar the free.", "#Thine tool shall bring liberation.", "#Matthios, shatter my locks!")
+		),
+		"Gilded Dexterous Gloves" = list(
+			path = /obj/item/clothing/gloves/roguetown/fingerless_leather/muffle_matthios,
+			m_cooldown = 5 MINUTES,
+			m_rank = SKILL_LEVEL_EXPERT,
+			lines = list("Hands of trade, be swift.", "Let fingers dance for thy amusement.", "Dexterity bought in faith.")
+		),
+		"Gilded Muffled Boots" = list(
+			path = /obj/item/clothing/shoes/roguetown/boots/muffle_matthios,
+			m_cooldown = 5 MINUTES,
+			m_rank = SKILL_LEVEL_JOURNEYMAN,
+			lines = list("Steps unheard, as I walk in thy shadow.", "Silent as coin slipping, for thy hoard.", "No sound, no chain, no better wisdom, O' Lord.")
+		)
+
+	)
+
+	var/list/item_cooldowns = list()
+
+/datum/action/cooldown/spell/freemans_tools/cast(atom/cast_on)
+	. = ..()
+	var/mob/living/carbon/human/H = owner
+	if(!istype(H))
+		return FALSE
+
+	var/skill = H.get_skill_level(associated_skill)
+
+	var/list/valid = list()
+	for(var/name in options)
+		var/list/entry = options[name]
+		if(!islist(entry))
+			continue
+		if(skill >= entry["m_rank"])
+			valid[name] = entry
+
+	if(!valid.len)
+		return FALSE
+
+	var/choice = tgui_input_list(H, "Choose your tool", "Freeman's Tools", valid)
+	if(!choice)
+		return FALSE
+
+	var/list/entry = valid[choice]
+	var/item_path = entry["path"]
+	var/m_cd = entry["m_cooldown"]
+	var/list/lines = entry["lines"]
+
+	if(!item_path)
+		return FALSE
+
+	if(item_cooldowns[choice] && world.time < item_cooldowns[choice])
+		to_chat(H, span_warning("[choice] is on cooldown for [round((item_cooldowns[choice] - world.time)/10, 1)] seconds."))
+		return FALSE
+
+	var/obj/item/I = new item_path(H.drop_location())
+	if(!I)
+		return FALSE
+
+	H.put_in_hands(I)
+
+	if(lines && lines.len)
+		H.say(pick(lines))
+
+	item_cooldowns[choice] = world.time + m_cd
+
+	return TRUE
+
+/obj/item/melee/touch_attack/lesserknock/matthios
+	name = "Gilded Lockpick"
+	desc = "A golden, glowing lockpick that appears to be held together by the truth of Matthios. To dispel it, simply use it on anything that isn't a door."
+	catchphrase = null
+	possible_item_intents = list(/datum/intent/use)
+	icon = 'icons/roguetown/items/keys.dmi'
+	icon_state = "lockpick"
+	color = "#eeff00" // we golden now, bij
+	picklvl = 1.1 // 10% better than normal picks!
+	max_integrity = 99
+	destroy_sound = 'sound/items/pickbreak.ogg'
+	resistance_flags = FIRE_PROOF
+
+/obj/item/melee/touch_attack/lesserknock/attack_self()
+	qdel(src)
+
+/obj/item/clothing/gloves/roguetown/fingerless_leather/muffle_matthios
+	name = "gilded fingerless gloves"
+	desc = "Those who grasp at Fyre, are bount to be burned."
+	sewrepair = TRUE
+	armor = ARMOR_LEATHER
+	color = "#fce517" // we golden
+
+/obj/item/clothing/gloves/roguetown/fingerless_leather/muffle_matthios/equipped(mob/living/carbon/human/user, slot)
+	. = ..()
+	if(slot == SLOT_HANDS && HAS_TRAIT(user, TRAIT_FREEMAN))
+		to_chat(user, span_info("Like Him, my hands ready to grasp the impossible."))
+		ADD_TRAIT(user, TRAIT_SILENT_LOCKPICK, "matthiosboon")
+
+/obj/item/clothing/gloves/roguetown/fingerless_leather/muffle_matthios/dropped(mob/living/carbon/human/user)
+	. = ..()
+	if(istype(user) && user?.gloves == src)
+		to_chat(user, span_info("Once again, these hands are supplicant."))
+		REMOVE_TRAIT(user, TRAIT_SILENT_LOCKPICK, "matthiosboon")
+
+/obj/item/roguecoin/gold/matthios
+	name = "zenar"
+	desc = "A gold coin bearing the symbol of the Taurus and the pre-kingdom psycross. These were in the best condition of the provincial gold mints, the rest were melted down."
+	sellprice = 0 // honk, though knowing these powergamers, the meme won't last forever, worst case this skill's worth is to create free pouches :'(
+
+/obj/item/roguecoin/gold/matthios/examine(mob/user)
+	. = ..()
+	if(prob(30)) // this may be remove based on how much people troll with it, but for now
+		if(HAS_TRAIT(user, TRAIT_SEEPRICES))
+			. += span_warning("Is this true...?")
+		else if(HAS_TRAIT(user, TRAIT_SEEPRICES_SHITTY))
+			. += span_warning("Is this TRVE??")
+
+/obj/item/roguecoin/gold/matthios/pile/Initialize()
+	. = ..()
+	set_quantity(rand(4,19))
+
+/obj/item/storage/belt/rogue/pouch/coins/matthios
+	name = "pouch"
+	desc = "A small sack with a drawstring that allows it to be worn around the neck. Or at the hips, provided you have a belt."
+	preload = TRUE
+
+/obj/item/storage/belt/rogue/pouch/coins/matthios/get_types_to_preload()
+	var/list/to_preload = list()
+	to_preload += /obj/item/roguecoin/gold/matthios/pile
+	return to_preload
+
+/obj/item/storage/belt/rogue/pouch/coins/matthios/PopulateContents()
+	. = ..()
+
+	for(var/i in 1 to 4)
+		var/obj/item/roguecoin/gold/matthios/pile/H = SSwardrobe.provide_type(/obj/item/roguecoin/gold/matthios/pile, loc)
+		if(istype(H))
+			H.set_quantity(20) // full stacks
+			if(!SEND_SIGNAL(src, COMSIG_TRY_STORAGE_INSERT, H, null, TRUE, TRUE))
+				SSwardrobe.recycle_object(H)
+				break
+
+/obj/item/impact_grenade/pocketsand
+	name = "pocket sand"
+	desc = "A fistful of fine, irritating sand. Guaranteed to be clawing at the eyes of the unwise."
+	icon_state = "clod1"
+	icon = 'icons/roguetown/items/natural.dmi'
+
+/obj/item/impact_grenade/pocketsand/explodes()
+	STOP_PROCESSING(SSfastprocess, src)
+	var/turf/T = get_turf(src)
+	if(T)
+		for(var/mob/living/target in range(1, T))
+			if(!target.mind || istype(target, /mob/living/simple_animal))
+				target.adjustBruteLoss(5)
+				target.Stun(5)
+			if(iscarbon(target))
+				target.Stun(1 SECONDS)
+				target.blur_eyes(5)
+				target.adjust_blurriness(10)
+				target.blind_eyes(1)
+			target.visible_message(
+				span_warning("[target] is blasted with a cloud of sand!"),
+				span_warning("Sand gets into my eyes! I can't see!")
+			)
+			target.emote("pain")
+			target.apply_status_effect(/datum/status_effect/debuff/clickcd, 3 SECONDS)
+		qdel(src)
+
+#define MAMMON_FILTER "mammon_glow"
+
+/datum/action/cooldown/spell/mammonite
+	name = "Mammonite"
+	desc = "Invoke Matthios's name and invest 50 to 200 mammon of your own hoard into your next strike. The power of your offering mirrors the wealth spent, drawing even from your bank. Every coin fuels your glory.<br><br>(Deals 2x damage to NPCs.)"
+	button_icon = 'icons/mob/actions/matthiosmiracles.dmi'
+	button_icon_state = "mammonite"
+	spell_color = "#d4af37"
+	glow_intensity = GLOW_INTENSITY_MEDIUM
+	click_to_activate = FALSE
+	self_cast_possible = TRUE
+	primary_resource_type = SPELL_COST_NONE
+	primary_resource_cost = 0
+	invocation_type = "shout"
+	charge_required = FALSE
+	cooldown_time = 45 SECONDS
+	associated_skill = /datum/skill/magic/holy
+	spell_tier = 0
+	var/min_mammon = 50
+	var/max_mammon = 200
+
+/datum/action/cooldown/spell/mammonite/can_cast_spell(feedback = TRUE)
+	. = ..()
+	if(!.)
+		return FALSE
+	if(!ishuman(owner))
+		return FALSE
+
+	var/mob/living/carbon/human/H = owner
+
+	if(!(H in SStreasury.bank_accounts))
+		SStreasury.bank_accounts[H] = 0
+
+	var/bank = SStreasury.bank_accounts[H]
+	var/onhand = get_mammons_in_atom(H)
+	var/total = bank + onhand
+
+	if(total < min_mammon)
+		if(feedback)
+			to_chat(H, span_warning("I lack the wealth to invoke Matthios' favor..."))
+		return FALSE
+
+	return TRUE
+
+/datum/action/cooldown/spell/mammonite/cast(atom/cast_on)
+	. = ..()
+	var/mob/living/carbon/human/H = owner
+	if(!istype(H))
+		return FALSE
+
+	if(H.has_status_effect(/datum/status_effect/buff/mammonite))
+		to_chat(H, span_warning("Matthios' truth already lays claim to my next strike."))
+		return FALSE
+
+	if(!(H in SStreasury.bank_accounts))
+		SStreasury.bank_accounts[H] = 0
+
+	var/bank = SStreasury.bank_accounts[H]
+	var/onhand = get_mammons_in_atom(H)
+	var/total = bank + onhand
+
+	if(total < min_mammon)
+		to_chat(H, span_warning("I lack the wealth to invoke Matthios' favor..."))
+		return FALSE
+
+	var/mammon_used = clamp(total, min_mammon, max_mammon)
+
+	var/list/invocations = list(
+		"Gold to glory, Matthios guide my hand!",
+		"Wealth be spent, and power be gained!",
+		"My hoard bleeds for strength, in His name!",
+		"Matthios! A king's ransom for a single blow!",
+	)
+	H.say(pick(invocations), forced = invocation_type)
+
+	var/remaining = mammon_used
+
+	var/from_inventory = 0
+	var/from_bank = 0
+
+	var/drained_onhand = min(onhand, remaining)
+	if(drained_onhand > 0)
+		from_inventory = remove_mammons_from_atom(H, drained_onhand)
+		remaining -= from_inventory
+
+	if(remaining > 0)
+		from_bank = min(remaining, SStreasury.bank_accounts[H])
+		SStreasury.bank_accounts[H] = max(0, SStreasury.bank_accounts[H] - from_bank)
+		SStreasury.log_to_steward("-[from_bank] suddenly disappeared. Is this true?")
+		remaining -= from_bank
+
+	var/datum/status_effect/buff/mammonite/E = H.apply_status_effect(/datum/status_effect/buff/mammonite)
+	if(E)
+		E.bonus_damage = round(mammon_used * 1.5) // jakk here
+
+	var/source_text = ""
+
+	if(from_inventory > 0 && from_bank > 0)
+		source_text = "MATTHIOS claims [from_inventory] from my possessions, [from_bank] from their wretched Treasury!"
+	else if(from_inventory > 0)
+		source_text = "MATTHIOS, claim [from_inventory] from my possessions!"
+	else if(from_bank > 0)
+		source_text = "MATTHIOS, [from_bank] from their wretched Treasury!"
+
+	H.visible_message(
+		span_danger("[H]'s weapon gleams with a greedy golden light!"),
+		span_notice("I invest [mammon_used] mammon into my next strike. ([source_text])")
+	)
+
+	playsound(get_turf(H), 'sound/magic/antimagic.ogg', 60, TRUE)
+
+	return TRUE
+
+/proc/remove_mammons_from_atom(atom/A, amount)
+	if(!A || amount <= 0)
+		return 0
+
+	var/remaining = amount
+	var/list/coins = list()
+
+	collect_coins_recursive(A, coins)
+
+	coins = sortTim(coins, /proc/cmp_coin_value_desc)
+
+	for(var/obj/item/roguecoin/C in coins)
+		if(remaining <= 0)
+			break
+
+		if(QDELETED(C))
+			continue
+
+		var/value_per = C.sellprice
+		if(value_per <= 0)
+			continue
+
+		var/max_value = value_per * C.quantity
+
+		if(max_value <= remaining)
+			remaining -= max_value
+			qdel(C)
+		else
+			var/coins_to_remove = ceil(remaining / value_per)
+			coins_to_remove = min(coins_to_remove, C.quantity)
+
+			C.set_quantity(C.quantity - coins_to_remove)
+
+			if(C.quantity <= 0)
+				qdel(C)
+
+			remaining = 0
+
+	return amount - remaining
+
+/proc/collect_coins_recursive(atom/A, list/out)
+	for(var/atom/movable/AM in A.contents)
+		if(istype(AM, /obj/item/roguecoin))
+			out += AM
+		if(AM.contents && length(AM.contents))
+			collect_coins_recursive(AM, out)
+
+/proc/cmp_coin_value_desc(obj/item/roguecoin/A, obj/item/roguecoin/B)
+	return B.sellprice - A.sellprice
+
+/atom/movable/screen/alert/status_effect/buff/mammonite
+	name = "Mammonite Strike"
+	desc = "My next strike is empowered by wealth."
+	icon_state = "buff"
+
+/datum/status_effect/buff/mammonite
+	id = "mammonite"
+	alert_type = /atom/movable/screen/alert/status_effect/buff/mammonite
+	duration = 10 SECONDS
+	status_type = STATUS_EFFECT_UNIQUE
+	var/bonus_damage = 0
+
+/datum/status_effect/buff/mammonite/on_apply()
+	. = ..()
+
+	RegisterSignal(owner, COMSIG_MOB_ITEM_ATTACK, PROC_REF(on_attack))
+	RegisterSignal(owner, COMSIG_HUMAN_MELEE_UNARMED_ATTACK, PROC_REF(on_unarmed_attack))
+
+	owner.add_filter(MAMMON_FILTER, 2, list(
+		"type" = "outline",
+		"color" = "#d4af37",
+		"alpha" = 175,
+		"size" = 2
+	))
+
+/datum/status_effect/buff/mammonite/on_remove()
+	UnregisterSignal(owner, list(COMSIG_MOB_ITEM_ATTACK, COMSIG_HUMAN_MELEE_UNARMED_ATTACK))
+	owner.remove_filter(MAMMON_FILTER)
+	. = ..()
+
+/datum/status_effect/buff/mammonite/proc/on_attack(mob/living/source, mob/living/target, mob/living/user, obj/item/weapon)
+	SIGNAL_HANDLER
+	if(source != owner || !isliving(target) || target.stat == DEAD)
+		return
+	INVOKE_ASYNC(src, PROC_REF(resolve_attack), target, weapon)
+	return COMPONENT_ITEM_NO_ATTACK
+
+/datum/status_effect/buff/mammonite/proc/on_unarmed_attack(mob/living/source, atom/target, proximity) 
+	SIGNAL_HANDLER 
+	if(!isliving(target) || target == owner) 
+		return 
+	var/mob/living/L = target 
+	if(L.stat == DEAD) 
+		return
+	INVOKE_ASYNC(src, PROC_REF(resolve_attack), L, null)
+	return COMPONENT_HAND_NO_ATTACK
+
+/datum/status_effect/buff/mammonite/proc/resolve_attack(mob/living/target, obj/item/weapon)
+	if(QDELETED(src) || QDELETED(owner) || QDELETED(target))
+		return
+	var/damage = calculate_damage()
+	var/npc_mult = (!target.mind) ? 2 : 1
+
+	arcyne_strike(
+		owner,
+		target,
+		weapon,
+		damage,
+		owner.zone_selected,
+		BCLASS_SMASH,
+		0,
+		"Mammonite",
+		FALSE,
+		FALSE,
+		FALSE,
+		BRUTE,
+		npc_mult,
+		1
+	)
+	owner.visible_message(
+		span_danger("[owner]'s strike crashes down with the weight of greed!"),
+		span_notice("My investment pays off in full!")
+	)
+	mammon_coin_burst(get_turf(target))
+	playsound(get_turf(target), 'sound/combat/hits/burn (2).ogg', 60, TRUE)
+
+	consume()
+
+/datum/status_effect/buff/mammonite/proc/calculate_damage()
+	return bonus_damage
+
+/datum/status_effect/buff/mammonite/proc/consume()
+	if(owner)
+		playsound(get_turf(owner), 'sound/magic/antimagic.ogg', 20, TRUE)
+		playsound(get_turf(owner), 'sound/misc/coininsert.ogg', 40, TRUE)
+		playsound(get_turf(owner), 'sound/effects/matth_barter.ogg', 40, TRUE)
+		owner.remove_status_effect(/datum/status_effect/buff/mammonite)
+
+/proc/mammon_coin_burst(turf/T)
+	if(!T)
+		return
+	for(var/i = 3 to 8)
+		var/obj/effect/temp_visual/coinburst/C = new(T)
+		C.pixel_x = rand(-8, 8)
+		C.pixel_y = rand(-8, 8)
+
+/obj/effect/temp_visual/coinburst
+	icon = 'icons/roguetown/items/valuable.dmi'
+	icon_state = "g1"
+	layer = ABOVE_MOB_LAYER
+	duration = 6
+
+/obj/effect/temp_visual/coinburst/Initialize()
+	. = ..()
+
+	var/matrix/M = matrix()
+	M.Scale(0.25, 0.25) // 25% size
+
+	transform = M
+
+	animate(src,
+		pixel_x = pixel_x + rand(-16,16),
+		pixel_y = pixel_y + rand(8,20),
+		alpha = 0,
+		time = duration,
+		easing = EASE_OUT
+	)
+
+#define SKULDUGGERY_FILTER "skulduggery"
+
+/obj/effect/proc_holder/spell/self/skulduggery
+	name = "Skulduggery"
+	desc = "Tap into the boundless prowess and cunning of the Free God, granting you a fleeting moment of foresight to stay one step ahead of your foes.<br><br><i>They say that He once personally guided the infamous 'Grand Liege', Cobra, in the 'Liberation of 1513'.</i>"
+	action_icon = 'icons/mob/actions/matthiosmiracles.dmi'
+	overlay_icon = 'icons/mob/actions/matthiosmiracles.dmi'
+	overlay_state = "liberate"
+	recharge_time = 5 MINUTES
+	invocations = list("Free God, I walk in your shadow!","...Neck chop, backstab...","Double time, Matthios!","Remember the Large Liege!","...Apply pressure, palm strike...","The Matthiosans Sans Frontieres still lyves!","...Punch, punch, kick...","For Cobra and the Free God!")
+	invocation_type = "shout"
+	sound = 'sound/magic/haste.ogg'
+	releasedrain = 15
+	miracle = TRUE
+	devotion_cost = 40
+	antimagic_allowed = FALSE
+	range = 0
+
+	var/static/list/purged_effects = list(
+		/datum/status_effect/incapacitating/immobilized,
+		/datum/status_effect/incapacitating/knockdown
+	)
+
+/obj/effect/proc_holder/spell/self/skulduggery/cast(list/targets, mob/user)
+	. = ..()
+	if(!ishuman(user))
+		revert_cast()
+		return FALSE
+
+	var/mob/living/carbon/human/H = user
+	H.emote("laugh")
+	if(H.resting)
+		H.set_resting(FALSE, FALSE)
+
+	for(var/effect in purged_effects)
+		H.remove_status_effect(effect)
+
+	H.apply_status_effect(/datum/status_effect/buff/skulduggery)
+
+	var/is_grabbed = FALSE
+
+	if(length(H.grabbedby))
+		for(var/obj/item/grabbing/G in H.grabbedby)
+			var/mob/living/grabber = G.loc
+			if(grabber && grabber != H)
+				is_grabbed = TRUE
+				qdel(G)
+
+				grabber.Knockdown(2 SECONDS)
+				grabber.OffBalance(2 SECONDS)
+				grabber.adjustBruteLoss(5)
+
+				grabber.visible_message(
+					span_warning("[H] twists free from [grabber]'s grasp!"),
+					span_danger("[H] slips free and throws me off-balance!"))
+
+				playsound(grabber, 'sound/combat/riposte.ogg', 100, TRUE)
+
+	if(H.pulling)
+		var/mob/living/L = H.pulling
+		H.stop_pulling()
+
+		if(isliving(L))
+			is_grabbed = TRUE
+
+			L.Knockdown(1.5 SECONDS)
+			L.OffBalance(2 SECONDS)
+
+			L.visible_message(
+				span_warning("[H] tears free from [L]'s hold!"),
+				span_danger("[H] breaks free from my grip!"))
+
+			playsound(L, 'sound/combat/riposte.ogg', 100, TRUE)
+
+	if(is_grabbed)
+		H.visible_message(
+			span_warning("[H] twists free with a sudden close-quarters maneuver!"),
+			span_notice("I break free and seize the initiative."))
+
+		playsound(H, 'sound/combat/riposte.ogg', 100, TRUE)
+
+	else
+		H.visible_message(
+			span_notice("[H] blurs, moving with uncanny foresight and dexterity."),
+			span_notice("I remember the basics of S.K.D..."))
+
+	return TRUE
+
+/atom/movable/screen/alert/status_effect/buff/skulduggery
+	name = "Skulduggery"
+	desc = "Remembering the basics of S.K.D.! You're now always one step ahead."
+	icon_state = "buff"
+	alert_group = ALERT_BUFF
+
+/datum/status_effect/buff/skulduggery
+	id = "skulduggery"
+	alert_type = /atom/movable/screen/alert/status_effect/buff/skulduggery
+	duration = 20 SECONDS
+	status_type = STATUS_EFFECT_REFRESH
+	tick_interval = 1 SECONDS // This will be sextended by Tempo or Equalize
+	var/afterimage_active = FALSE
+	var/outline_colour = "#ffeb7a"
+	var/CQC_stacks = 0
+	var/CQC_max = 6 // adjust this value if things are happening too fast or too long!
+	var/maneuver_level = 0
+	var/pressure = 0
+	var/is_ready = FALSE
+
+/datum/status_effect/buff/skulduggery/tick()
+	. = ..()
+	if(!owner) 
+		return
+	// Check for any active Tempo or Equalized buffs
+	if(owner.stat != CONSCIOUS || owner.has_status_effect(STATUS_EFFECT_KNOCKDOWN))
+		owner.remove_status_effect(/datum/status_effect/buff/skulduggery)
+		return
+
+	if(owner.has_status_effect(/datum/status_effect/buff/tempo_one) || owner.has_status_effect(/datum/status_effect/buff/tempo_two) || owner.has_status_effect(/datum/status_effect/buff/tempo_three) || owner.has_status_effect(/datum/status_effect/buff/equalizebuff))
+		owner.apply_status_effect(/datum/status_effect/buff/skulduggery)
+		return
+
+	if((pressure < maneuver_level) && (maneuver_level < 10))
+		pressure = maneuver_level
+		owner.apply_status_effect(/datum/status_effect/buff/skulduggery)
+
+/datum/status_effect/buff/skulduggery/on_apply()
+	. = ..()
+	RegisterSignal(owner, COMSIG_MOB_ITEM_ATTACK, PROC_REF(on_weapon_attack))
+	RegisterSignal(owner, COMSIG_HUMAN_MELEE_UNARMED_ATTACK, PROC_REF(on_unarmed_attack))
+	ADD_TRAIT(owner, TRAIT_DODGEEXPERT, "skulduggery")
+	ADD_TRAIT(owner, TRAIT_GRABIMMUNE, "skulduggery")
+
+	var/holyskill = owner.get_skill_level(/datum/skill/magic/holy)
+	duration = (10 SECONDS) + (holyskill * 3 SECONDS)
+
+	CQC_stacks = 0
+	maneuver_level = 0
+
+	owner.add_filter(SKULDUGGERY_FILTER, 2, list(
+		"type" = "outline",
+		"color" = outline_colour,
+		"alpha" = 55,
+		"size" = 1
+	))
+
+	owner.AddComponent(/datum/component/after_image)
+	afterimage_active = TRUE
+
+/datum/status_effect/buff/skulduggery/on_remove()
+	. = ..()
+	UnregisterSignal(owner, COMSIG_MOB_ITEM_ATTACK)
+	UnregisterSignal(owner, COMSIG_HUMAN_MELEE_UNARMED_ATTACK)
+	REMOVE_TRAIT(owner, TRAIT_DODGEEXPERT, "skulduggery")
+	REMOVE_TRAIT(owner, TRAIT_GRABIMMUNE, "skulduggery")
+
+	if(afterimage_active)
+		var/datum/component/after_image/A = owner.GetComponent(/datum/component/after_image)
+		if(A)
+			qdel(A)
+
+	afterimage_active = FALSE
+
+	owner.remove_filter(SKULDUGGERY_FILTER)
+
+/datum/status_effect/buff/skulduggery/proc/on_weapon_attack(mob/living/source, mob/living/target, mob/living/user, obj/item/weapon)
+	SIGNAL_HANDLER
+	if(source != owner || !isliving(target) || target.stat == DEAD)
+		return
+	
+	build_stack(target)
+	if(prob(50)) // sometimes weapons let you build it faster, to encourage the 1h weapon usage
+		build_stack(target)
+	var/back_dir = turn(target.dir, 180)
+	if(get_dir(target, owner) != back_dir)
+		return
+	INVOKE_ASYNC(src, PROC_REF(resolve_weapon_backstab), target, weapon)
+	return COMPONENT_ITEM_NO_DEFENSE //only ignore defenses on back!!!
+
+/datum/status_effect/buff/skulduggery/proc/on_unarmed_attack(mob/living/source, atom/target, proximity)
+	SIGNAL_HANDLER
+	if(source != owner || !isliving(target))
+		return
+
+	var/mob/living/L = target
+
+	build_stack(L)
+
+	var/back_dir = turn(L.dir, 180)
+	if(get_dir(L, owner) != back_dir)
+		return // the following is only on back!!
+	ADD_TRAIT(owner, TRAIT_EMPOWERED_UNARMED, "trve!")
+	INVOKE_ASYNC(src, PROC_REF(resolve_fist_backstab), L)
+
+/datum/status_effect/buff/skulduggery/proc/build_stack(mob/living/target)
+	if(QDELETED(src) || QDELETED(owner) || QDELETED(target))
+		return
+
+	var/mob/living/H = owner
+	var/obj/item/I = H.get_active_held_item()
+	var/is_unarmed = !I
+	var/is_cqc = is_unarmed || is_cqc_weapon(I)
+	var/is_punching = H.used_intent.type == INTENT_HARM
+
+	if((is_unarmed && is_punching) || is_cqc)
+		if(CQC_stacks >= CQC_max)
+			CQC_stacks = 0
+			maneuver_level++
+			INVOKE_ASYNC(src, PROC_REF(resolve_CQC_maneuver), target)
+			return
+		if(is_unarmed && is_punching)
+			CQC_stacks += 2
+		else
+			CQC_stacks += 1
+
+	else
+		if(CQC_stacks >= CQC_max)
+			is_ready = TRUE
+			H.balloon_alert_to_viewers("SKD Ready!" , "SKD ready!", y_offset = 10)
+			return
+		CQC_stacks += 1
+
+	if(CQC_stacks > CQC_max)
+		CQC_stacks = CQC_max
+		return
+
+/datum/status_effect/buff/skulduggery/proc/is_cqc_weapon(obj/item/I)
+	if(!I)
+		return FALSE
+
+	return istype(I, /obj/item/rogueweapon/woodstaff/quarterstaff) || istype(I, /obj/item/rogueweapon/huntingknife/idagger)	|| istype(I, /obj/item/gun/ballistic/revolver/grenadelauncher/crossbow)
+
+/datum/status_effect/buff/skulduggery/proc/resolve_CQC_maneuver(mob/living/target)
+	if(QDELETED(src) || QDELETED(owner) || QDELETED(target))
+		return
+
+	var/mob/living/carbon/human/HT = target
+	var/mob/living/carbon/human/HU = owner
+	var/fatiguemod = 4
+
+	if(ishuman(HT))
+		var/targetac = HT.highest_ac_worn()
+		switch(targetac)
+			if(ARMOR_CLASS_NONE)
+				fatiguemod = 5
+			if(ARMOR_CLASS_LIGHT, ARMOR_CLASS_MEDIUM)
+				fatiguemod = 4
+			if(ARMOR_CLASS_HEAVY)
+				fatiguemod = 3
+
+	if(HT.has_status_effect(/datum/status_effect/buff/clash/limbguard))
+		HT.bad_guard()
+	playsound(HU, 'sound/combat/ground_smash_start.ogg', 100, TRUE)
+	switch(maneuver_level)
+		if(1)
+			HT.Immobilize(0.5 SECONDS)
+			HU.do_attack_animation(HT, ATTACK_EFFECT_PUNCH, null, item_animation_override = ATTACK_ANIMATION_THRUST)
+			HT.Slowdown(3)
+			HT.stamina_add(HT.max_stamina / fatiguemod)
+			HT.apply_status_effect(/datum/status_effect/incapacitating/off_balanced, 3 SECONDS)
+			HT.emote("huh")
+			HU.changeNext_move(0.1 SECONDS, override = TRUE)
+			HU.visible_message(
+				span_warning("[HU] slips inside [HT]'s guard, disrupting their footing!"),
+				span_notice("I step inside [HT]'s guard, breaking their rhythm."))
+			HT.visible_message(
+				span_warning("[HT] stumbles as [HU] disrupts their stance!"),
+				span_danger("My footing falters-- they're inside my guard!"))
+			playsound(HT, 'sound/combat/hits/punch/punch (1).ogg', 80, TRUE)
+			HU.balloon_alert_to_viewers(message = "SKD!! (1)", self_message = "SKD!! (1)", y_offset = 10)
+		if(2)
+			HT.OffBalance(2 SECONDS)
+			HU.do_attack_animation(HT, ATTACK_EFFECT_SMASH, null, item_animation_override = ATTACK_ANIMATION_BONK)
+			HT.Immobilize(1.5 SECONDS)
+			HT.Slowdown(4)
+			HT.stamina_add(HT.max_stamina / fatiguemod)
+			HU.visible_message(
+				span_warning("[HU] overwhelms [HT]'s footing, forcing them off-balance!"),
+				span_notice("Their balance is collapsing."))
+			HT.visible_message(
+				span_warning("[HT] reels as [HU] batters their footing!"),
+				span_danger("My balance is breaking!"))
+			HT.emote("gasp")
+			playsound(HT, 'sound/combat/riposte.ogg', 90, TRUE)
+			playsound(HT, 'sound/combat/hits/punch/punch (1).ogg', 80, TRUE)
+			HU.balloon_alert_to_viewers(message = "SKD!! (2)", self_message = "SKD!! (2)", y_offset = 10)
+		if(3)
+			HT.Knockdown(2 SECONDS)
+			HT.OffBalance(3 SECONDS)
+			HU.do_attack_animation(HT, ATTACK_EFFECT_KICK, null, item_animation_override = ATTACK_ANIMATION_SWIPE)
+			HT.apply_status_effect(/datum/status_effect/debuff/exposed, 5 SECONDS)
+			HT.stamina_add(HT.max_stamina / fatiguemod)
+			HU.visible_message(
+				span_danger("[HU] sweeps [HT]'s footing and tears open their defenses!"),
+				span_notice("Their guard is open!"))
+			HT.visible_message(
+				span_danger("[HT] is swept off their footing by [HU]!"),
+				span_danger("My guard is broken!"))
+			HT.emote("pain")
+			playsound(HT, 'sound/combat/hits/punch/punch (2).ogg', 100, TRUE)
+			HU.balloon_alert_to_viewers(message = "SKD!! (3)", self_message = "SKD!! (3)", y_offset = 10)
+		if(4)
+			HT.Stun(2 SECONDS)
+			HT.Knockdown(3 SECONDS)
+			HT.OffBalance(4 SECONDS)
+			HT.apply_status_effect(/datum/status_effect/debuff/exposed, 8 SECONDS)
+			HU.visible_message(
+				span_danger("[HU] dismantles [HT] with a devastating close-quarters maneuver!"),
+				span_notice("Total control. Their defense collapses."))
+
+			HT.visible_message(
+				span_danger("[HT] is completely dismantled by [HU]'s close-quarters maneuver!"),
+				span_danger("I can't recover-- they've taken control!"))
+
+			HT.emote("pain")
+			playsound(HT, 'sound/combat/riposte.ogg', 100, TRUE)
+			playsound(HT, 'sound/combat/hits/punch/punch (3).ogg', 100, TRUE)
+			HT.adjustBruteLoss(10)
+			HU.do_attack_animation(HT, ATTACK_EFFECT_SMASH, null)
+			sleep(2)
+			playsound(HT, 'sound/combat/hits/punch/punch (1).ogg', 100, TRUE)
+			HT.adjustBruteLoss(10)
+			HU.do_attack_animation(HT, ATTACK_EFFECT_KICK, null)
+			sleep(3)
+			playsound(HT, 'sound/combat/hits/punch/punch (2).ogg', 100, TRUE)
+			HT.adjustBruteLoss(10)
+			HU.do_attack_animation(HT, ATTACK_EFFECT_PUNCH, null)
+			HT.emote("pain")
+			HU.balloon_alert_to_viewers(message = "SKD!! (Max)", self_message = "SKD!! (Max)", y_offset = 10)
+		if(5 to INFINITY)
+			HU.balloon_alert_to_viewers(message = "SKD!! (Consecutive)", self_message = "SKD!! (Consecutive)", y_offset = 10)
+			HT.emote("pain")
+			HU.visible_message(
+				span_danger("[HU] overwhelms [HT] with a barrage of consecutive close-quarters maneuvers!"),
+				span_notice("Keep the pressure! They'll fold soon."))
+			playsound(HT, 'sound/combat/riposte.ogg', 100, TRUE)
+			playsound(HT, 'sound/combat/hits/punch/punch (3).ogg', 100, TRUE)
+			HU.do_attack_animation(HT, ATTACK_EFFECT_PUNCH, null)
+			HT.adjustBruteLoss(5)
+			HT.stamina_add(HT.max_stamina / 4)
+			sleep(3)
+			playsound(HT, 'sound/combat/hits/punch/punch (1).ogg', 100, TRUE)
+			HU.do_attack_animation(HT, ATTACK_EFFECT_PUNCH, null)
+			HT.adjustBruteLoss(5)
+			sleep(3)
+			playsound(HT, 'sound/combat/hits/punch/punch (2).ogg', 100, TRUE)
+			HU.do_attack_animation(HT, ATTACK_EFFECT_KICK, null)
+			HT.adjustBruteLoss(5)	
+
+	if(HT.pulling)
+		HT.stop_pulling()
+
+		HU.visible_message(
+			span_warning("[HU] twists free from [HT]'s grasp!"),
+			span_notice("I break free."))
+
+		HT.visible_message(
+			span_warning("[HT]'s grip is broken by [HU]!"),
+			span_danger("My grip is broken!"))
+
+		HU.OffBalance(1 SECONDS)
+		HT.OffBalance(2 SECONDS)
+
+		playsound(HU, 'sound/combat/riposte.ogg', 100, TRUE)
+		HU.balloon_alert_to_viewers(message = "SKD!! (Grab)", self_message = "SKD!! (Grab)")
+
+	is_ready = FALSE
+
+/datum/status_effect/buff/skulduggery/proc/resolve_weapon_backstab(mob/living/target, obj/item/weapon)
+	if(QDELETED(src) || QDELETED(owner) || QDELETED(target))
+		return
+	var/damage = weapon.force * 2
+	arcyne_strike(
+		owner,
+		target,
+		weapon,
+		damage,
+		owner.zone_selected,
+		FALSE,
+		100,
+		"Backstab",
+		FALSE,
+		TRUE,
+		FALSE,
+		BRUTE,
+		1,
+		1
+	)
+
+	target.visible_message(
+		span_danger("[owner] slips behind [target] and attacks with ruthless precision!")
+	)
+	owner.balloon_alert_to_viewers(message = "Backstab!!", self_message = "Backstab!!")
+	playsound(owner, 'sound/combat/newstuck.ogg', 100, TRUE)
+
+/datum/status_effect/buff/skulduggery/proc/resolve_fist_backstab(mob/living/target)
+	if(QDELETED(src) || QDELETED(owner) || QDELETED(target))
+		return
+	REMOVE_TRAIT(owner, TRAIT_EMPOWERED_UNARMED, "trve!")
+	arcyne_strike(
+		owner,
+		target,
+		null,
+		25,
+		BODY_ZONE_PRECISE_NECK,
+		BCLASS_SMASH,
+		100,
+		"Neck Chop",
+		FALSE,
+		TRUE,
+		FALSE,
+		BRUTE,
+		1,
+		1
+	)
+
+	target.visible_message(
+		span_danger("[owner] slips behind [target] and delivers a precise neck chop!")
+	)
+	owner.balloon_alert_to_viewers(message = "Backstab!!", self_message = "Backstab!!")
+	playsound(owner, 'sound/combat/hits/punch/punch (1).ogg', 100, TRUE)
+
+#undef SKULDUGGERY_FILTER
