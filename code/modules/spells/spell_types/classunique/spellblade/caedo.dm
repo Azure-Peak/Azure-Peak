@@ -2,8 +2,7 @@
 	name = "Caedo"
 	desc = "In the old tongue, caedo - to strike or to cut down. Dash forward at blinding speed, \
 		leaving afterimages that strike every enemy in your path. \
-		Empowered (3 Momentum): Consumes 3 stacks to strike twice. \
-		If any of them defend against the strike, you will be left exposed at the end of your dash!"
+		Empowered (3 Momentum): Consumes 3 stacks to strike twice."
 	button_icon = 'icons/mob/actions/classuniquespells/spellblade.dmi'
 	button_icon_state = "caedo"
 	sound = 'sound/magic/blink.ogg'
@@ -102,14 +101,8 @@
 
 	var/locked_zone = H.zone_selected || BODY_ZONE_CHEST
 
-	// Snapshot guard state NOW so victims can't reactively press G during the strike delay
-	var/list/guarded_at_dash = list()
-	for(var/mob/living/M in mobs_in_path)
-		if(M.has_status_effect(/datum/status_effect/buff/clash) || M.has_status_effect(/datum/status_effect/buff/parry_buffer))
-			guarded_at_dash += M
-
 	if(length(mobs_in_path))
-		addtimer(CALLBACK(src, PROC_REF(execute_path_strikes), H, mobs_in_path, held_weapon, locked_zone, empowered, guarded_at_dash), 5)
+		addtimer(CALLBACK(src, PROC_REF(execute_path_strikes), H, mobs_in_path, held_weapon, locked_zone, empowered), 5)
 
 	return TRUE
 
@@ -120,17 +113,15 @@
 		return far_side
 	return get_turf(target_mob)
 
-/datum/action/cooldown/spell/caedo/proc/execute_path_strikes(mob/living/carbon/human/user, list/victims, obj/item/weapon, def_zone, empowered = FALSE, list/guarded_at_dash)
+/datum/action/cooldown/spell/caedo/proc/execute_path_strikes(mob/living/carbon/human/user, list/victims, obj/item/weapon, def_zone, empowered = FALSE)
 	if(!user || QDELETED(user))
 		return
-	var/deflected = FALSE
 	var/hit_count = 0
 	for(var/mob/living/victim in victims)
 		if(QDELETED(victim) || victim.stat == DEAD)
 			continue
-		// Only allow guard deflection if the victim had guard up BEFORE the dash, not reactively
-		if((victim in guarded_at_dash) && spell_guard_check(victim, FALSE, deflected ? null : user))
-			deflected = TRUE
+		// Guard blocks the strike but does NOT expose the attacker (null attacker)
+		if(spell_guard_check(victim, FALSE))
 			continue
 		var/total_damage = strike_damage
 		arcyne_strike(user, victim, weapon, total_damage, def_zone, spell_name = "Caedo", skip_animation = TRUE)
