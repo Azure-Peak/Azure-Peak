@@ -62,7 +62,7 @@ GLOBAL_LIST_INIT(mockery_insults, list(
 	speed = 1
 	range = 8
 	hitsound = 'sound/magic/mockery.ogg'
-	guard_deflectable = FALSE
+	guard_deflectable = TRUE
 
 /obj/projectile/magic/mockery_note/on_hit(target)
 	if(ismob(target))
