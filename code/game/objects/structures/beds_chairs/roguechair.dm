@@ -10,6 +10,13 @@
 	sleepy = 0.5
 //	pixel_y = 10
 	layer = OBJ_LAYER
+	hidingspot = TRUE
+	var/mob/living/hiddenguy = null // So we can find them with fixed eye search
+
+/obj/structure/flora/roguegrass/get_mechanics_examine(mob/user)
+	. = ..()
+	. += span_info("Some structures can be used as hiding places. Toggle the 'SNEAK' button on your HUD, then click the structure to hide in it. You can stop hiding by clicking the structure again, or by moving out of it.")
+
 
 /obj/structure/chair/bench/church
 	icon_state = "church_benchleft"
@@ -33,6 +40,40 @@
 	else
 		layer = OBJ_LAYER
 		plane = GAME_PLANE
+
+/obj/structure/chair/bench/attack_hand(mob/user)
+	if(isliving(user))
+		if(user.m_intent == MOVE_INTENT_SNEAK)
+			hideinside(user)
+			return
+
+/obj/structure/chair/bench/proc/hideinside(mob/living/user)
+	var/sneak_level = user.get_skill_level(/datum/skill/misc/sneaking) || 0
+	var/sneaktime = max(10, 50 - (sneak_level * 10)) // Hard caps at 1 second at Expert and above.
+	if(user.loc == src)
+		unhide(user)
+		return
+	if(occupied)
+		to_chat(user, span_warning("Someone is already hiding under [src]!"))
+		return
+	if(!do_after(user, sneaktime, src))
+		return
+	user.forceMove(src)
+	occupied = TRUE
+	hiddenguy = user
+	to_chat(user, span_warning("I hide under [src]!"))
+
+/obj/structure/chair/bench/proc/unhide(mob/living/user)
+	var/turf/T = get_turf(src)
+	if(!T) return
+	user.forceMove(T)
+	occupied = FALSE
+	hiddenguy = null
+	to_chat(user, span_warning("I come out from under [src]!"))
+
+/obj/structure/chair/bench/relaymove(mob/user)
+	if(user.loc == src)
+		unhide(user)
 
 /obj/structure/chair/bench/post_buckle_mob(mob/living/M)
 	..()
