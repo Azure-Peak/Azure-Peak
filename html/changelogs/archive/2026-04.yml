@@ -46,3 +46,39 @@
   - balance: Heavy sling bullet is no longer god tier
   eirenxiv:
   - balance: increases gorget integrity by 50
+2026-04-02:
+  Clem-The-Duck:
+  - rscadd: Lets heretic spellblade and disgraced knight choose volf face helm when
+      spawning
+  KatTheFox:
+  - qol: mages are now notified when a player joins the familiar queue
+  Ollanius:
+  - bugfix: The Spatha should now properly display a stowed sprite, when placed into
+      a scabbard.
+  - bugfix: The Bronze Murmillo Helmet's recipe now accurately calls for an extra
+      piece of fur, instead of two cured hide strips.
+  Ryan180602:
+  - rscadd: donor item
+  - code_imp: add an onmobprop editor tool
+  Teragenic:
+  - balance: allows constructs to goon
+  WeNeedMorePhoron:
+  - rscadd: Vizier now gains Bestow Ward as a free spell.
+  babamandaa:
+  - rscadd: Adds a Maniac-Inspired Wretch subclass.
+  borneblood:
+  - qol: Locate Corpse is now a toggle spell, its effectiveness and costs based on
+      corpse freshness.
+  - qol: Mass Graves will now be less a hassle to rite.
+  - bugfix: Lux-Threads now stack properly, and from the ground.
+  - bugfix: Lux-Threads will no longer over-cap after becoming Tolls.
+  - bugfix: Tolls are now coins, visually, and fit where coins fit.
+  - qol: Graverobbers can dig graves with STRONG intent.
+  - bugfix: Locate Corpse should now stop looping if the corpse is revived, oops.
+  - spellcheck: Fixed an OCD killer typo for flavortext on Locate Corpse.
+  burgerenergy:
+  - rscadd: The Standard Bearer has a more nuanced skill set and is more combat capable.
+  eirenxiv:
+  - rscadd: Added more donor swords for myself
+  - rscadd: Added new Kazengun Wretch
+  - rscadd: Added new trait "Journey's End" and functionality

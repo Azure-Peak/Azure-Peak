@@ -97,6 +97,16 @@
 	path = /obj/item/clothing/suit/roguetown/armor/longcoat/eiren
 	ckeywhitelist = list("eirenxiv")
 
+/datum/loadout_item/donator/eiren5
+	name = "Donator Kit - Glintstone Longsword"
+	path = /obj/item/enchantingkit/weapon/eiren_m
+	ckeywhitelist = list("eirenxiv", "magicalbard")
+
+/datum/loadout_item/donator/eiren6
+	name = "Donator Kit - Stygian Longsword"
+	path = /obj/item/enchantingkit/weapon/eirensword
+	ckeywhitelist = list("eirenxiv", "muhsollini")
+
 /datum/loadout_item/donator/waff
 	name = "Donator Kit - Weeper's Lathe"
 	path = /obj/item/enchantingkit/waff
@@ -160,7 +170,7 @@
 	path = /obj/item/enchantingkit/ryan_psyhelm
 
 /datum/loadout_item/donator/koruu
-	name = "Donator Kit - Well-Worn Bamboo Hat"
+	name = "Donator Item - Well-Worn Bamboo Hat"
 	path = /obj/item/clothing/head/roguetown/mentorhat/koruu
 	ckeywhitelist = list("koruu", "painfeeler", "poots13", "vakiova", "maesune")
 
@@ -237,4 +247,9 @@
 	name = "Donator Kit - Blacksteel Longsword"
 	path = /obj/item/enchantingkit/weapon/noire_flsword
 	ckeywhitelist = list("nerocavalier")
+
+/datum/loadout_item/donator/walkthewaste
+	name = "Donator Item - Worn Bamboo Hat"
+	path = /obj/item/clothing/head/roguetown/mentorhat/walkthewaste
+	ckeywhitelist = list("walkthewaste")
 

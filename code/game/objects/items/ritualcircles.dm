@@ -1148,30 +1148,85 @@
 
 /obj/item/soulthread
 	name = "lux-thread"
-	desc = "Eerie glowing thread, cometh from the grave"
+	desc = "An eerie, softly glowing thread. It hums faintly with something that was once not quite at rest."
 	icon = 'icons/roguetown/items/natural.dmi'
 	icon_state = "luxthread"
 	var/strungtogether = 1
+	var/max_threads = 10
 	sellprice = 3
 	grid_width = 32
 	grid_height = 32
-
+	w_class = WEIGHT_CLASS_TINY
 
 /obj/item/soulthread/examine(mob/user)
 	. = ..()
-	. += "</br>[strungtogether] threads are gathered of 10..."
+	. += "</br><span class='notice'>[strungtogether]/[max_threads] threads woven together.</span>"
+
+/obj/item/soulthread/proc/process_total(total, mob/user)
+	var/turf/T = get_turf(src)
+	var/tolls_to_make = total - (total % max_threads)
+	tolls_to_make /= max_threads
+	var/remainder = total % max_threads
+	if(user)
+		to_chat(user, "<span class='purple'>The threads entangle ethereally in your grasp... ([total]/[max_threads])</span>")
+	if(tolls_to_make)
+		for(var/i = 1 to tolls_to_make)
+			new /obj/item/thetoll(T)
+		if(user)
+			to_chat(user, "<span class='boldnotice'>The gathered threads bind together, forming a weeping toll!</span>")
+	if(remainder)
+		strungtogether = remainder
+		sellprice = 3 * remainder
+	else
+		qdel(src)
+
+/obj/item/soulthread/proc/merge_into(obj/item/soulthread/target, mob/user)
+	if(target == src)
+		return
+
+	var/total = target.strungtogether + src.strungtogether
+	target.process_total(total, user)
+	qdel(src)
 
 /obj/item/soulthread/attackby(obj/item/attacking_item, mob/user)
-	if(istype(attacking_item, /obj/item/soulthread))
-		var/obj/item/soulthread/thread2combine = attacking_item
-		strungtogether += thread2combine.strungtogether
-		sellprice += 3
-		to_chat(user, "...[strungtogether] of 10 to the toll...")
-		qdel(thread2combine)
-	if(strungtogether >= 10)
-		to_chat(user, "The lux-stuff coalesces into a toll!")
-		new /obj/item/thetoll((get_turf(user)))
-		qdel(src)
+	if(!istype(attacking_item, /obj/item/soulthread))
+		return ..()
+
+	var/obj/item/soulthread/other = attacking_item
+	merge_into(other, user)
+
+/obj/item/soulthread/afterattack(atom/target, mob/user, proximity_flag, click_params)
+	if(!proximity_flag)
+		return
+
+	var/turf/T = get_turf(target)
+	if(!T)
+		return
+	for(var/obj/item/soulthread/other in T)
+		if(!other)
+			return
+
+	to_chat(user, "<span class='notice'>You begin gathering the scattered threads...</span>")
+
+	for(var/obj/item/soulthread/other in T)
+		if(other == src)
+			continue
+
+		if(strungtogether >= max_threads)
+			break
+
+		if(!do_after(user, 0.5 SECONDS, TRUE, src))
+			break
+
+		if(!(other in T.contents))
+			continue
+
+		var/total = strungtogether + other.strungtogether
+		qdel(other)
+		process_total(total, user)
+
+		if(QDELETED(src))
+			return
 
 /obj/item/thetoll
 	grid_width = 32
@@ -1181,7 +1236,8 @@
 	icon = 'icons/roguetown/underworld/enigma_husks.dmi'
 	icon_state = "soultoken"
 	sellprice = 30
-
+	w_class = WEIGHT_CLASS_TINY
+	dropshrink = 0.5
 
 /obj/structure/ritualcircle/eora
 	name = "Rune of Love"
