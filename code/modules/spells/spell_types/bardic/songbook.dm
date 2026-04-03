@@ -225,3 +225,4 @@ GLOBAL_LIST_INIT(learnable_songs, list(
 			to_chat(owner, span_info("I forget the rhythm..."))
 			return TRUE
 
+#undef SONGBOOK_UNLEARN_COOLDOWN

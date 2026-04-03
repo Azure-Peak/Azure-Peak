@@ -14,16 +14,11 @@
 	id = "healingrejuvesong"
 	alert_type = /atom/movable/screen/alert/status_effect/buff/healing
 	duration = 15 SECONDS
-	healing_on_tick = 0.2
+	healing_on_tick = 0.6 // Lesser bard (66%)
 	outline_colour = "#c92f2f"
-	var/healing_scaling = BARD_SCALING_LESSER
 
 /datum/status_effect/buff/healing/rejuvenationsong/full
-	healing_scaling = BARD_SCALING_FULL
-
-/datum/status_effect/buff/healing/rejuvenationsong/on_apply()
-	healing_on_tick = max(owner.get_skill_level(/datum/skill/misc/music) * 0.1, 0.6) * healing_scaling
-	return TRUE
+	healing_on_tick = 1 // Full bard (100%)
 
 /datum/status_effect/buff/healing/rejuvenationsong/tick()
 	var/obj/effect/temp_visual/heal/H = new /obj/effect/temp_visual/heal_rogue(get_turf(owner))

@@ -243,3 +243,5 @@
 	for(var/mob/living/carbon/human/guy in O.inspiration.audience)
 		for(var/datum/status_effect/buff/song/song2remove in guy.status_effects)
 			guy.remove_status_effect(song2remove)
+
+#undef SONG_DEBUFF_FILTER
