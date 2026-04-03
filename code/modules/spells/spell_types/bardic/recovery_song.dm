@@ -19,10 +19,10 @@
 	id = "recoverysong"
 	alert_type = /atom/movable/screen/alert/status_effect/buff/song/recovery
 	duration = 15 SECONDS
-	var/stamina_recovery = -3 // Lesser bard (60% of 5)
+	var/stamina_recovery = -4 // Lesser bard (66% of 6)
 
 /datum/status_effect/buff/song/recovery/full
-	stamina_recovery = -5 // Full bard (100%)
+	stamina_recovery = -6 // Full bard (100%)
 
 /datum/status_effect/buff/song/recovery/tick()
 	owner.stamina_add(stamina_recovery)

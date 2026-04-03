@@ -7,7 +7,7 @@
 #define SONG_SUSTAIN_TICKS 10 // Number of tick() calls between sustain drains (10 ticks x 2s = 20s)
 
 // Bardic tier scaling - song effect multiplier
-#define BARD_SCALING_LESSER 0.6 // Cantor / Spellsinger (T1)
+#define BARD_SCALING_LESSER 0.66 // Cantor / Spellsinger (T1)
 #define BARD_SCALING_FULL 1.0 // Bard (T2)
 
 // Bardic tier scaling - flat stat bonuses (CON from Resolute Refrain, SPD from Akathist, etc.)
