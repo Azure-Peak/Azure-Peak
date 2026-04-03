@@ -27,9 +27,10 @@
 	..()
 	neck = /obj/item/storage/belt/rogue/pouch/coins/poor
 	cloak = /obj/item/clothing/cloak/half
-	shirt = /obj/item/clothing/suit/roguetown/shirt/tunic/white
+	shirt = /obj/item/clothing/suit/roguetown/armor/gambeson
+	armor = /obj/item/clothing/suit/roguetown/shirt/tunic/white
 	r_hand = /obj/item/rogue/instrument/accord
-	pants = /obj/item/clothing/under/roguetown/tights/random
+	pants = /obj/item/clothing/under/roguetown/trou/leather
 	shoes = /obj/item/clothing/shoes/roguetown/shortboots
 	belt = /obj/item/storage/belt/rogue/leather/cloth
 	beltr = /obj/item/rogueweapon/huntingknife/idagger
