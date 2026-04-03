@@ -619,6 +619,14 @@
 
 	else //not currently sneaking, check if we can sneak
 		if (m_intent == MOVE_INTENT_SNEAK) // we were not sneaking and are now trying to.
+			var/target_alpha = 255
+			if(m_intent == MOVE_INTENT_SNEAK && lying)
+				target_alpha = get_lying_alpha()
+			if(target_alpha != alpha)
+				var/used_time = 50
+				used_time = max(used_time - (get_skill_level(/datum/skill/misc/sneaking) * 8), 10)
+				animate(src, alpha = target_alpha, time = used_time)
+				spawn(used_time + 5) regenerate_icons()
 			if(world.time < mob_timers[MT_FOUNDSNEAK] + 10 SECONDS) // recently discovered or broke stealth, can't re-sneak yet
 				return
 			light_amount = T.get_lumcount()  // as above, this is moderately expensive, so only check it if we need to.
@@ -627,6 +635,19 @@
 				spawn(used_time + 5) regenerate_icons()
 				rogue_sneaking = TRUE
 	return
+
+/mob/living/proc/get_lying_alpha()
+	var/skill_level = src.get_skill_level(/datum/skill/misc/sneaking)
+
+	switch(skill_level)
+		if(1) return 178 //30%
+		if(2) return 140 //45%
+		if(3) return 128 //50%
+		if(4) return 102 //60%
+		if(5) return 77 //70%
+		if(6) return 51 //80%
+
+	return 255
 
 ///Checked whenever a mob tries to change their movement intent
 /mob/proc/toggle_rogmove_intent(intent, silent = FALSE)
