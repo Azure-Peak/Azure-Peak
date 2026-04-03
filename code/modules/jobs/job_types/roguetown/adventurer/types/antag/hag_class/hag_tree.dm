@@ -252,12 +252,22 @@
 		if(!destination || destination.is_blocked_turf())
 			destination = get_turf(target)
 
+		if(HAS_TRAIT(user, TRAIT_ROOT_WALKER) && GLOB.hag_root_landmarks.len)
+			var/obj/effect/hag_teleport_marker/L = pick(GLOB.hag_root_landmarks)
+			var/turf/maze_turf = get_turf(L)
+			user.apply_status_effect(/datum/status_effect/hag_root_tether, target, get_turf(user))
+			user.forceMove(maze_turf)
+			if(passenger && get_dist(src, passenger) <= 2)
+				passenger.apply_status_effect(/datum/status_effect/hag_root_tether, target, get_turf(passenger))
+				passenger.forceMove(maze_turf)
+				to_chat(passenger, span_userdanger("You are dragged through the suffocating, muddy darkness of the roots!"))
+			to_chat(user, span_boldnotice("The roots pull you deep into the earth. Find the Heartroot to reach your destination!"))
+			return
+
 		user.forceMove(destination)
 		user.visible_message(span_notice("[user] emerges from the roots of [target]."), \
 							 span_boldnotice("The roots spit you back out into [get_area(target)]."))
-		if(HAS_TRAIT(user, TRAIT_ROOT_WALKER))
-			to_chat(user, span_notice("Your affinity with the roots falls away again, demanding more tribute."))
-			REMOVE_TRAIT(user, TRAIT_ROOT_WALKER, TRAIT_HAG_BOON)
+
 		if(passenger && get_dist(src, passenger) <= 2)
 			passenger.forceMove(destination)
 			to_chat(passenger, span_userdanger("You are dragged through the suffocating, muddy darkness of the roots!"))

@@ -270,110 +270,28 @@
 /obj/item/rogueweapon/sword/long/undivided
 	name = "decablade"
 	desc = "A blessed longsword, held by the Holy See's templars in their stalwart defense against evil. The golden crossguard bares the winged motif of an angel, and psalms from the Pantheon's holy tome have been meticulously carved along the blade's edge. </br>'With a drop of holy Eclipsum, doth the blade rise..' </br>'..gilded, gleaming, radiant heat, warm my soul, immolate my enemies..' </br>'..and let me vanquish all those who would dare to Divide us, once more.'"
-	icon_state = "eclipsum"
+	icon_state = "seeblade"
 	sheathe_icon = "eclipsum"
 	max_blade_int = 250
 	max_integrity = 180
 	force = 28
 	force_wielded = 33
 
-/obj/item/rogueweapon/sword/long/undivided/getonmobprop(tag)
-	. = ..()
-	if(tag)
-		switch(tag)
-			if("gen") return list(
-				"shrink" = 0.65,
-				"sx" = -14,
-				"sy" = -8,
-				"nx" = 15,
-				"ny" = -7,
-				"wx" = -10,
-				"wy" = -5,
-				"ex" = 7,
-				"ey" = -6,
-				"northabove" = 0,
-				"southabove" = 1,
-				"eastabove" = 1,
-				"westabove" = 0,
-				"nturn" = -13,
-				"sturn" = 110,
-				"wturn" = -60,
-				"eturn" = -30,
-				"nflip" = 1,
-				"sflip" = 1,
-				"wflip" = 8,
-				"eflip" = 1,
-				)
-			if("onback") return list(
-				"shrink" = 0.65,
-				"sx" = -1,
-				"sy" = 2,
-				"nx" = 0,
-				"ny" = 2,
-				"wx" = 2,
-				"wy" = 1,
-				"ex" = 0,
-				"ey" = 1,
-				"nturn" = 0,
-				"sturn" = 0,
-				"wturn" = 70,
-				"eturn" = 15,
-				"nflip" = 1,
-				"sflip" = 1,
-				"wflip" = 1,
-				"eflip" = 1,
-				"northabove" = 1,
-				"southabove" = 0,
-				"eastabove" = 0,
-				"westabove" = 0,
-				)
-			if("wielded") return list(
-				"shrink" = 0.6,
-				"sx" = 3,
-				"sy" = 5,
-				"nx" = -3,
-				"ny" = 5,
-				"wx" = -9,
-				"wy" = 4,
-				"ex" = 9,
-				"ey" = 1,
-				"northabove" = 0,
-				"southabove" = 1,
-				"eastabove" = 1,
-				"westabove" = 0,
-				"nturn" = 0,
-				"sturn" = 0,
-				"wturn" = 0,
-				"eturn" = 15,
-				"nflip" = 8,
-				"sflip" = 0,
-				"wflip" = 8,
-				"eflip" = 0,
-				)
-			if("onbelt") return list(
-				"shrink" = 0.4,
-				"sx" = -4,
-				"sy" = -6,
-				"nx" = 5,
-				"ny" = -6,
-				"wx" = 0,
-				"wy" = -6,
-				"ex" = -1,
-				"ey" = -6,
-				"nturn" = 100,
-				"sturn" = 156,
-				"wturn" = 90,
-				"eturn" = 180,
-				"nflip" = 0,
-				"sflip" = 0,
-				"wflip" = 0,
-				"eflip" = 0,
-				"northabove" = 0,
-				"southabove" = 1,
-				"eastabove" = 1,
-				"westabove" = 0,
-				)
+/obj/item/rogueweapon/sword/long/crusader
+	name = "\"Adjudicator\""
+	desc = "A blessed longsword of Ravox, held by the devout crusaders in service to the Divine Ten against the encroaching darkness. The crossguard bears motif of the Justicar, and psalms from the Pantheon's holy tome have been meticulously carved along the blade's edge. </br>'...And upon the Lands came the DIVINE. In PSYDON's absence, so came the TRUE GODS from their rest. So were THEIR gifts spread across the breadth of the world.' </br>'...It was the Justicar's hand that stayed the blade, for He objected to the execution, and demanded that Justice overcome where Vengeance reigned.'</br>Many tales surround this mythical blade - the demise of the Dark Star and the Mad Duke are often cited as to have been result of such - with little evidence to support these claims."
+	icon_state = "seemasterblade"
+	sheathe_icon = "eclipsum"
+	force = 30
+	force_wielded = 35
+	max_blade_int = 400
+	max_integrity = 500
+	equip_delay_self = 0
+	unequip_delay_self = 0//Same as avantyne sword
 
+/obj/item/rogueweapon/sword/long/crusader/Initialize()
+	. = ..()
+	AddComponent(/datum/component/cursed_item, TRAIT_UNDIVIDED, "SWORD")
 
 /obj/item/rogueweapon/sword/long/death
 	color = CLOTHING_BLACK
@@ -1113,6 +1031,7 @@
 	gripped_intents = null
 	parrysound = list('sound/combat/parry/bladed/bladedthin (1).ogg', 'sound/combat/parry/bladed/bladedthin (2).ogg', 'sound/combat/parry/bladed/bladedthin (3).ogg')
 	swingsound = BLADEWOOSH_SMALL
+	max_blade_int = 230
 	minstr = 5
 	wdefense = 7		//Same as rapier
 	wbalance = WBALANCE_SWIFT
@@ -1300,6 +1219,7 @@
 	inhand_x_dimension = 64
 	inhand_y_dimension = 64
 	dropshrink = 0.75
+	max_blade_int = 230
 	possible_item_intents = list(/datum/intent/sword/thrust/rapier, /datum/intent/sword/cut/rapier)
 	gripped_intents = null
 	special = /datum/special_intent/piercing_lunge
@@ -1653,7 +1573,7 @@
 /obj/item/rogueweapon/sword/long/holysee
 	name = "eclipsum sword"
 	desc = "A masterworked longsword, forged from the same divine alloy that decorates the Bishop's hip. As your fingers curl around the shaft, a blessed sensation rolls through your very soul: the resolve to stand against evil, and the determination to see it vanquished from this world. </br>'..blessed to hold strength and bring hope, whether it be during the dae or the nite..'"
-	icon_state = "seeblade"
+	icon_state = "eclipsum"
 	force = 35
 	force_wielded = 50
 	possible_item_intents = list(/datum/intent/sword/cut, /datum/intent/sword/thrust, /datum/intent/sword/strike)

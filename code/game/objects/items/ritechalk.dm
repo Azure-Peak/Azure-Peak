@@ -18,7 +18,7 @@
 		if(/datum/patron/inhumen/zizo)
 			ritechoices+="Rune of ZIZO" 
 		if(/datum/patron/inhumen/matthios)
-			ritechoices+="Rune of Transaction" 
+			ritechoices+="Rune of Transaction"
 		if(/datum/patron/inhumen/baotha)
 			ritechoices+="Rune of Hedonism"
 		if(/datum/patron/divine/undivided)

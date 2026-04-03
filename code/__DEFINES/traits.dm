@@ -237,6 +237,7 @@
 #define TRAIT_FACELESS_KNOWN "Faceless but Known" //recognizable despite having no face (skeletonized head - for skeleton) — does NOT bypass TRAIT_DISFIGURED
 #define TRAIT_NOHUNGER	"Foodless"
 #define TRAIT_DARKVISION "Darksight"
+#define TRAIT_NITEVISION "Nitevision"
 #define TRAIT_NOCSHADES "Nocshaded"
 #define TRAIT_LIGHT_STEP	"Light Step"
 #define TRAIT_AZURENATIVE "Azure Native"
@@ -449,6 +450,7 @@ GLOBAL_LIST_INIT(roguetraits, list(
 	TRAIT_ZOMBIE_IMMUNE = span_info("Deadite bites cannot infect me."),
 	TRAIT_NOHUNGER = span_info("I do not hunger, or thirst."),
 	TRAIT_DARKVISION = span_info("I can see better in the dark."),
+	TRAIT_NITEVISION = span_info("I can see perfectly in the dark."),
 	TRAIT_NOCSHADES = span_info("The lens I look through allows me to see in the dark clear as dae, at the cost of greater vision."),
 	TRAIT_RESIDENT = span_info("I've been granted a Meister account, and the ownership of a house in Azure Peak."),
 	TRAIT_LIGHT_STEP = span_info("My steps are light and swift. I make less noise while sneaking and wearing armor, and can sneak much quicker."),
@@ -751,6 +753,8 @@ Remember to update _globalvars/traits.dm if you're adding/removing/renaming trai
 #define TRAIT_STATUS_EFFECT	"status_effect"
 #define TRAIT_VIRTUE "virtue"
 #define TRAIT_MIRACLE "miracle"
+#define TRAIT_RITUAL "ritual"
+#define TRAIT_GAZE "gaze"
 #define TRAIT_NECRACON "necracon"
 #define TRAIT_HAG_BOON "hag boon"
 #define TRAIT_ADMIN "admin"

@@ -78,10 +78,10 @@
 		var/atom/movable/screen/inventory/hand/H
 		H = hud_used.hand_slots["[oindex]"]
 		if(H)
-			H.update_icon()
+			H.update_hand_vis()
 		H = hud_used.hand_slots["[held_index]"]
 		if(H)
-			H.update_icon()
+			H.update_hand_vis()
 		H = hud_used.action_intent
 	oactive = FALSE
 	update_a_intents()
@@ -836,6 +836,10 @@
 
 	if(HAS_TRAIT(src, TRAIT_DARKVISION))
 		lighting_alpha = min(lighting_alpha, LIGHTING_PLANE_ALPHA_DARKVISION)
+		see_in_dark = max(see_in_dark, 12)
+
+	if(HAS_TRAIT(src, TRAIT_NITEVISION))
+		lighting_alpha = min(lighting_alpha, LIGHTING_PLANE_ALPHA_MOSTLY_INVISIBLE)
 		see_in_dark = max(see_in_dark, 12)
 
 	if(HAS_TRAIT(src, TRAIT_NOCSHADES))

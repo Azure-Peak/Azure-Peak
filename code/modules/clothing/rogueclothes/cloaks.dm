@@ -300,6 +300,14 @@
 	desc = "The refuge of the TEN upon my back. A Undivided House, standing eternal against the encroaching darkness."
 	icon_state = "seetabard"
 
+/obj/item/clothing/cloak/templar/undivided_alt
+	mob_overlay_icon = 'icons/roguetown/clothing/onmob/cloaks.dmi'
+	alternate_worn_layer = TABARD_LAYER
+	boobed = TRUE
+	name = "crusader tabard"
+	desc = "The refuge of the TEN upon my back. A Undivided House, standing eternal against the encroaching darkness."
+	icon_state = "seetabardalt"
+
 /obj/item/clothing/cloak/tabard/devotee
 	nodismemsleeves = TRUE
 	slot_flags = ITEM_SLOT_ARMOR|ITEM_SLOT_CLOAK

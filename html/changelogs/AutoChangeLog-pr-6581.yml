@@ -1,0 +1,4 @@
+author: "Baneuus"
+delete-after: True
+changes:
+  - rscadd: "Necran ritual no longer allows to ressurect people with TRAIT_DNR or TRAIT_NECRAS_VOW"

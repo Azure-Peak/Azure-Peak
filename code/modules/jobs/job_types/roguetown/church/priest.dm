@@ -121,7 +121,7 @@ GLOBAL_LIST_EMPTY(heretical_players)
 			neck = /obj/item/clothing/neck/roguetown/psicross/undivided
 			wrists = /obj/item/clothing/wrists/roguetown/wrappings
 			shoes = /obj/item/clothing/shoes/roguetown/sandals
-			armor = /obj/item/clothing/suit/roguetown/shirt/robe/white
+			armor = /obj/item/clothing/suit/roguetown/shirt/robe/undivided
 			cloak = /obj/item/clothing/cloak/undivided
 			r_hand = /obj/item/clothing/suit/roguetown/shirt/robe/priest
 		if(/datum/patron/divine/astrata)

@@ -85,6 +85,7 @@
 #define CLICK_CD_GLACIAL 20	// Tier: Glacial
 #define CLICK_CD_MASSIVE 18	// Tier: Extremely Sluggish
 #define CLICK_CD_HEAVY 16		// Tier: Very Sluggish
+#define CLICK_CD_DODGE 16
 #define CLICK_CD_CHARGED 14	// Tier: Sluggish
 #define CLICK_CD_MELEE 12		// Tier: Normal (baseline)
 #define CLICK_CD_QUICK 10		// Tier: Quick
@@ -374,6 +375,7 @@ GLOBAL_LIST_INIT(shove_disarming_types, typecacheof(list(
 #define TEMPO_TAG_STAMLOSS_DODGE "dodge"
 #define TEMPO_TAG_ARMOR_INTEGFACTOR "integ"
 #define TEMPO_TAG_NOLOS_PARRY "nolosparry"
+#define TEMPO_TAG_NOLOS_DODGE "nolosdodge"
 #define TEMPO_TAG_DEF_SHARPNESSFACTOR "sharpness"
 #define TEMPO_TAG_DEF_INTEGFACTOR "parryinteg"
 #define TEMPO_TAG_PARRYCD_BONUS	"parrycd"
@@ -428,3 +430,6 @@ Medical defines
 
 #define PROB_ATTACK_EMOTE_PLAYER 10
 #define PROB_ATTACK_EMOTE_NPC 10
+
+#define MAX_DODGE_CEIL 5
+#define MAX_DODGE_FLOOR -15

@@ -37,6 +37,16 @@
 	path = /obj/item/enchantingkit/strudel2
 	ckeywhitelist = list("toasterstrudes")
 
+/datum/loadout_item/donator/strudel3
+	name = "Donator Kit - Etruscan Design Cloak"
+	path = /obj/item/enchantingkit/strudel3
+	ckeywhitelist = list("toasterstrudes")
+
+/datum/loadout_item/donator/strudel4
+	name = "Donator Kit - Form-fitting Padded Gambeson"
+	path = /obj/item/enchantingkit/strudel4
+	ckeywhitelist = list("toasterstrudes")
+
 /datum/loadout_item/donator/bat
 	name = "Donator Kit - Handcarved Harp"
 	path = /obj/item/enchantingkit/bat

@@ -49,6 +49,24 @@
 		next_rmove = world.time + ((num + adj)*mod)
 		hud_used?.cdright?.mark_dirty()
 
+/mob/living/proc/changeNext_def(num, override = FALSE)
+	switch(d_intent)
+		if(INTENT_DODGE)
+			dodgetime = num
+		if(INTENT_PARRY)
+			parrydelay = num
+	hud_used?.defdelay?.mark_dirty()
+
+/mob/living/proc/changeMaxDodge(num)
+	if(num < 0)
+		if(max_dodge <= MAX_DODGE_FLOOR)
+			return
+		max_dodge = CLAMP((max_dodge + num), MAX_DODGE_FLOOR, MAX_DODGE_CEIL)
+	if(num > 0)
+		if(max_dodge >= MAX_DODGE_CEIL)
+			return
+		max_dodge = CLAMP((max_dodge + num), MAX_DODGE_FLOOR, MAX_DODGE_CEIL)
+
 /*
 	Before anything else, defer these calls to a per-mobtype handler.  This allows us to
 	remove istype() spaghetti code, but requires the addition of other handler procs to simplify it.

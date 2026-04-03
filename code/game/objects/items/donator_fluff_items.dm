@@ -44,7 +44,7 @@
 	mob_overlay_icon = 'icons/clothing/onmob/donor_clothes.dmi'
 	sleeved = 'icons/clothing/onmob/donor_sleeves_armor.dmi'
 
-//Strudles donator item - mage vest (same as robes) and xylix tabard
+//Strudles donator item - mage vest, xylix tabard, etruscan cloak, and formfitted gambeson
 /obj/item/clothing/suit/roguetown/shirt/robe/sofiavest
 	name = "grenzelhoftian mages vest"
 	desc = "A vest often worn by those of the Grenzelhoftian mages college."
@@ -74,6 +74,33 @@
 	color = CLOTHING_DARK_GREY
 	detail_tag = "_detail"
 	detail_color = CLOTHING_WHITE
+
+/obj/item/clothing/cloak/poncho/dittocloak
+	name = "etruscan design cloak"
+	desc = "A overly fancy and nicely designed Cloak with what appears to be Etruscan silks. Looks expensive."
+	detail_tag = "_detail"
+	altdetail_tag = "_detailalt"
+	adjustable = CAN_CADJUST
+	alternate_worn_layer = 9.9 // okay look this is weird but its to cover hair :)
+	color = CLOTHING_WHITE
+	detail_color = CLOTHING_WHITE
+	altdetail_color = CLOTHING_WHITE
+	icon = 'icons/clothing/donor_clothes.dmi'
+	mob_overlay_icon = 'icons/clothing/onmob/donor_clothes.dmi'
+	sleeved = 'icons/clothing/onmob/donor_sleeves_armor.dmi'
+	icon_state = "dittocloak"
+	item_state = "dittocloak"
+	sleevetype = "dittocloak"
+	nodismemsleeves = TRUE
+
+/obj/item/clothing/suit/roguetown/armor/gambeson/heavy/strudels
+	name = "form-fitting padded gambeson"
+	desc = "A normal looking padded gambeson that seems to have been custom fitted to a specific body for more comfort."
+	icon_state = "formfit"
+	item_state = "formfit"
+	color = "#ffffff"
+	icon = 'icons/clothing/donor_clothes.dmi'
+	mob_overlay_icon = 'icons/clothing/onmob/donor_clothes.dmi'
 
 //Bat's donator item - custom harp sprite
 /obj/item/rogue/instrument/harp/handcarved

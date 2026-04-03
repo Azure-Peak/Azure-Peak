@@ -1,0 +1,4 @@
+author: "Kelshark"
+delete-after: True
+changes:
+  - qol: "player-controlled simple mobs with flight can now fly up/down"

@@ -37,7 +37,7 @@
 	STASTR = 1 // You are not charging or bumping anyone down
 	STACON = 1 // No charging!
 
-	var/fly_time = 5 //5 ticks because vampire bats are agile
+	fly_time = 5 //5 ticks because vampire bats are agile
 
 	var/max_co2 = 0 //to be removed once metastation map no longer use those for Sgt Araneus
 	var/min_oxy = 0
@@ -50,38 +50,8 @@
 
 /mob/living/simple_animal/hostile/retaliate/bat/Initialize()
 	. = ..()
-	verbs += list(/mob/living/simple_animal/hostile/retaliate/bat/proc/fly_up,
-	/mob/living/simple_animal/hostile/retaliate/bat/proc/fly_down) 
-
-/mob/living/simple_animal/hostile/retaliate/bat/proc/fly_up()
-	set category = "Winged Form"
-	set name = "Fly Up"
-
-	if(src.pulledby != null)
-		to_chat(src, span_notice("I can't fly away while being grabbed!"))
-		return
-	src.visible_message(span_notice("[src] begins to ascend!"), span_notice("You take flight..."))
-	if(do_after(src, fly_time, target))
-		if(src.pulledby == null)
-			src.zMove(UP, TRUE)
-			to_chat(src, span_notice("I fly up."))
-		else
-			to_chat(src, span_notice("I can't fly away while being grabbed!"))
-
-/mob/living/simple_animal/hostile/retaliate/bat/proc/fly_down()
-	set category = "Winged Form"
-	set name = "Fly Down"
-
-	if(src.pulledby != null)
-		to_chat(src, span_notice("I can't fly away while being grabbed!"))
-		return
-	src.visible_message(span_notice("[src] begins to descend!"), span_notice("You take flight..."))
-	if(do_after(src, fly_time, target))
-		if(src.pulledby == null)
-			src.zMove(DOWN, TRUE)
-			to_chat(src, span_notice("I fly down."))
-		else
-			to_chat(src, span_notice("I can't fly away while being grabbed!"))
+	verbs += list(/mob/living/simple_animal/proc/fly_up,
+	/mob/living/simple_animal/proc/fly_down) 
 
 /mob/living/simple_animal/hostile/retaliate/bat/crow
 	name = "zad"

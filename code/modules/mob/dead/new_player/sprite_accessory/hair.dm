@@ -115,7 +115,7 @@
 
 /datum/sprite_accessory/hair/head/braided_sidetail
 	name = "Braided Sidetail"
-	icon_state = "braided-sidetail"
+	icon_state = "braided_sidetail"
 
 /datum/sprite_accessory/hair/head/front_braid
 	name = "Braided Front"

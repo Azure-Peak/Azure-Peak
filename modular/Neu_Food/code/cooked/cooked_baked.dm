@@ -222,11 +222,19 @@
 				var/obj/item/reagent_containers/food/snacks/rogue/sandwich/tartar/sammich= new(get_turf(user))
 				qdel(I)
 				qdel(src)*/
-	if(istype(I, /obj/item/reagent_containers/food/snacks/rogue/friedegg/sausagebacon))
+	if(istype(I, /obj/item/reagent_containers/food/snacks/marmaladeslice))
+		playsound(get_turf(user), 'sound/foley/dropsound/food_drop.ogg', 50, TRUE, -1)
+		if(do_after(user,short_cooktime, target = src))
+			var/obj/item/reagent_containers/food/snacks/rogue/breadslice/toast/marmaladed_slice/sammich= new(get_turf(user))
+			user.put_in_hands(sammich)
+			qdel(I)
+			qdel(src)
+	if(istype(I, /obj/item/reagent_containers/food/snacks/rogue/meat/ham/sliced))
 		if(isturf(loc)&& (found_table))
 			playsound(get_turf(user), 'sound/foley/dropsound/gen_drop.ogg', 30, TRUE, -1)
 			if(do_after(user,short_cooktime, target = src))
-				new /obj/item/reagent_containers/food/snacks/rogue/friedegg/hammerhold(loc)
+				var/obj/item/reagent_containers/food/snacks/rogue/sandwich/ham/sammich= new(get_turf(user))
+				user.put_in_hands(sammich)
 				qdel(I)
 				qdel(src)
 	else
@@ -332,6 +340,13 @@
 	icon_state = "toast_tartar"
 	foodtype = GRAIN | MEAT
 */
+/obj/item/reagent_containers/food/snacks/rogue/sandwich/ham
+	tastes = list("ham" = 1,"bread" = 1)
+	name = "ham bread"
+	desc = "A piece of toast with a thick slice of ham on top. A delight enjoyed by many burghers."
+	icon_state = "toast_ham"
+	foodtype = GRAIN | MEAT
+
 /*	.................   Bread Buns   ................... */
 /obj/item/reagent_containers/food/snacks/rogue/bun
 	name = "bun"

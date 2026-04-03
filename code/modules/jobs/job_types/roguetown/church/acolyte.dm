@@ -73,26 +73,29 @@
 	H.cmode_music = 'sound/music/cmode/church/combat_acolyte.ogg' // has to be defined here for the selection below to work. sm1 please rewrite cmusic to apply pre-equip.
 	switch(H.patron?.type)
 		if(/datum/patron/divine/undivided)
+			head = /obj/item/clothing/head/roguetown/roguehood/undivided
 			neck = /obj/item/clothing/neck/roguetown/psicross/undivided
 			wrists = /obj/item/clothing/wrists/roguetown/wrappings
 			shoes = /obj/item/clothing/shoes/roguetown/sandals
-			armor = /obj/item/clothing/suit/roguetown/shirt/robe/white
+			armor = /obj/item/clothing/suit/roguetown/shirt/robe/undivided
 			cloak = /obj/item/clothing/cloak/undivided
+			shirt = /obj/item/clothing/suit/roguetown/armor/vestments_padded
 		if(/datum/patron/divine/astrata)
 			head = /obj/item/clothing/head/roguetown/roguehood/astrata
 			neck = /obj/item/clothing/neck/roguetown/psicross/astrata
 			wrists = /obj/item/clothing/wrists/roguetown/wrappings
 			shoes = /obj/item/clothing/shoes/roguetown/sandals
 			armor = /obj/item/clothing/suit/roguetown/shirt/robe/astrata
+			shirt = /obj/item/clothing/suit/roguetown/armor/vestments_padded
 		if(/datum/patron/divine/noc)
 			head = /obj/item/clothing/head/roguetown/roguehood/nochood
 			neck = /obj/item/clothing/neck/roguetown/psicross/noc
 			wrists = /obj/item/clothing/wrists/roguetown/nocwrappings
 			shoes = /obj/item/clothing/shoes/roguetown/sandals
 			cloak = /obj/item/clothing/suit/roguetown/shirt/robe/noc // this robe is broken unless its in the cloak slot
-			shirt = /obj/item/clothing/suit/roguetown/shirt/undershirt/black
+			shirt = /obj/item/clothing/suit/roguetown/armor/vestments_padded
 		if(/datum/patron/divine/abyssor) // the deep calls!
-			shirt = /obj/item/clothing/suit/roguetown/shirt/undershirt
+			shirt = /obj/item/clothing/suit/roguetown/armor/vestments_padded
 			shoes = /obj/item/clothing/shoes/roguetown/sandals
 			pants = /obj/item/clothing/under/roguetown/tights
 			neck = /obj/item/clothing/neck/roguetown/psicross/abyssor
@@ -103,13 +106,14 @@
 			neck = /obj/item/clothing/neck/roguetown/psicross/dendor
 			armor = /obj/item/clothing/suit/roguetown/shirt/robe/dendor
 			H.cmode_music = 'sound/music/cmode/garrison/combat_warden.ogg'
+			shirt = /obj/item/clothing/suit/roguetown/armor/vestments_padded
 		if(/datum/patron/divine/necra)
 			head = /obj/item/clothing/head/roguetown/necrahood
 			neck = /obj/item/clothing/neck/roguetown/psicross/necra
 			shoes = /obj/item/clothing/shoes/roguetown/boots
 			pants = /obj/item/clothing/under/roguetown/trou/leather/mourning
 			armor = /obj/item/clothing/suit/roguetown/shirt/robe/necra
-			shirt = /obj/item/clothing/suit/roguetown/armor/leather/vest/black
+			shirt = /obj/item/clothing/suit/roguetown/armor/vestments_padded
 			cloak = /obj/item/clothing/cloak/raincloak/mortus
 			backr = /obj/item/rogueweapon/shovel/silver
 		if(/datum/patron/divine/pestra)
@@ -119,6 +123,7 @@
 			shoes = /obj/item/clothing/shoes/roguetown/boots
 			pants = /obj/item/clothing/under/roguetown/trou/leather/mourning
 			cloak = /obj/item/clothing/cloak/templar/pestran
+			shirt = /obj/item/clothing/suit/roguetown/armor/vestments_padded
 		if(/datum/patron/divine/eora) //Eora content from Stonekeep
 			head = /obj/item/clothing/head/roguetown/eoramask
 			neck = /obj/item/clothing/neck/roguetown/psicross/eora
@@ -126,6 +131,7 @@
 			armor = /obj/item/clothing/suit/roguetown/shirt/robe/eora
 			cloak = /obj/item/clothing/cloak/templar/eoran
 			r_hand = /obj/item/rogueweapon/huntingknife/scissors
+			shirt = /obj/item/clothing/suit/roguetown/armor/vestments_padded
 		if(/datum/patron/divine/malum)
 			head = /obj/item/clothing/head/roguetown/roguehood
 			neck = /obj/item/clothing/neck/roguetown/psicross/malum
@@ -134,6 +140,7 @@
 			pants = /obj/item/clothing/under/roguetown/trou
 			cloak = /obj/item/clothing/cloak/templar/malumite
 			armor = /obj/item/clothing/suit/roguetown/armor/leather/vest
+			shirt = /obj/item/clothing/suit/roguetown/armor/vestments_padded
 		if(/datum/patron/divine/ravox)
 			head = /obj/item/clothing/head/roguetown/roguehood
 			neck = /obj/item/clothing/neck/roguetown/psicross/ravox
@@ -141,6 +148,7 @@
 			wrists = /obj/item/clothing/wrists/roguetown/wrappings
 			shoes = /obj/item/clothing/shoes/roguetown/boots
 			armor = /obj/item/clothing/suit/roguetown/shirt/robe/white
+			shirt = /obj/item/clothing/suit/roguetown/armor/vestments_padded
 			backpack_contents = list(/obj/item/ritechalk, /obj/item/book/rogue/law)
 		if(/datum/patron/divine/xylix)
 			head = /obj/item/clothing/head/roguetown/roguehood/black
@@ -151,13 +159,15 @@
 			neck = /obj/item/clothing/neck/roguetown/psicross/xylix
 			H.cmode_music = 'sound/music/combat_jester.ogg'
 			var/datum/inspiration/I = new /datum/inspiration(H)
-			I.grant_inspiration(H, bard_tier = BARD_T1)
+			I.grant_inspiration(H, bard_tier = BARD_T2)
+			shirt = /obj/item/clothing/suit/roguetown/armor/vestments_padded
 		else
 			head = /obj/item/clothing/head/roguetown/roguehood/astrata
 			neck = /obj/item/clothing/neck/roguetown/psicross/astrata
 			wrists = /obj/item/clothing/wrists/roguetown/wrappings
 			shoes = /obj/item/clothing/shoes/roguetown/sandals
 			armor = /obj/item/clothing/suit/roguetown/shirt/robe/astrata
+			shirt = /obj/item/clothing/suit/roguetown/armor/vestments_padded
 	if(H.mind)
 		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/projectile/divineblast)
 	// -- End of section for god specific bonuses --
