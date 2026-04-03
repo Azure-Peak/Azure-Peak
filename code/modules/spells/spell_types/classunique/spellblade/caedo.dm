@@ -102,8 +102,14 @@
 
 	var/locked_zone = H.zone_selected || BODY_ZONE_CHEST
 
+	// Snapshot guard state NOW so victims can't reactively press G during the strike delay
+	var/list/guarded_at_dash = list()
+	for(var/mob/living/M in mobs_in_path)
+		if(M.has_status_effect(/datum/status_effect/buff/clash) || M.has_status_effect(/datum/status_effect/buff/parry_buffer))
+			guarded_at_dash += M
+
 	if(length(mobs_in_path))
-		addtimer(CALLBACK(src, PROC_REF(execute_path_strikes), H, mobs_in_path, held_weapon, locked_zone, empowered), 5)
+		addtimer(CALLBACK(src, PROC_REF(execute_path_strikes), H, mobs_in_path, held_weapon, locked_zone, empowered, guarded_at_dash), 5)
 
 	return TRUE
 
@@ -114,7 +120,7 @@
 		return far_side
 	return get_turf(target_mob)
 
-/datum/action/cooldown/spell/caedo/proc/execute_path_strikes(mob/living/carbon/human/user, list/victims, obj/item/weapon, def_zone, empowered = FALSE)
+/datum/action/cooldown/spell/caedo/proc/execute_path_strikes(mob/living/carbon/human/user, list/victims, obj/item/weapon, def_zone, empowered = FALSE, list/guarded_at_dash)
 	if(!user || QDELETED(user))
 		return
 	var/deflected = FALSE
@@ -122,7 +128,8 @@
 	for(var/mob/living/victim in victims)
 		if(QDELETED(victim) || victim.stat == DEAD)
 			continue
-		if(spell_guard_check(victim, FALSE, deflected ? null : user))
+		// Only allow guard deflection if the victim had guard up BEFORE the dash, not reactively
+		if((victim in guarded_at_dash) && spell_guard_check(victim, FALSE, deflected ? null : user))
 			deflected = TRUE
 			continue
 		var/total_damage = strike_damage
