@@ -612,8 +612,9 @@
 
 		if (should_reveal)
 			used_time = round(clamp((50 - (used_time*1.75)), 5, 50),1)
-			animate(src, alpha = initial(alpha), time =	used_time) //sneak skill makes you reveal slower but not as drastic as disappearing speed
-			spawn(used_time) regenerate_icons()
+			if(!wallpressed) // so we can stay partially invisible if wallpressed
+				animate(src, alpha = initial(alpha), time =	used_time) //sneak skill makes you reveal slower but not as drastic as disappearing speed
+				spawn(used_time) regenerate_icons()
 			rogue_sneaking = FALSE
 			return
 

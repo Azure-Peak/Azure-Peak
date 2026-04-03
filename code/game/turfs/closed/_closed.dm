@@ -100,11 +100,12 @@
 /mob/living/proc/update_wallpress_slowdown()
 	if(wallpressed)
 		add_movespeed_modifier("wallpress", TRUE, 100, override = TRUE, multiplicative_slowdown = 3)
-		var/lean_alpha = get_wallpress_alpha()
-		if(src.alpha != 0 && lean_alpha < src.alpha)
-			var/used_time = 50
-			used_time = max(used_time - (get_skill_level(/datum/skill/misc/sneaking) * 8), 10)
-			animate(src, alpha = lean_alpha, time = used_time)
+		if(m_intent == MOVE_INTENT_SNEAK)
+			var/lean_alpha = get_wallpress_alpha()
+			if(src.alpha != 0 && lean_alpha < src.alpha)
+				var/used_time = 50
+				used_time = max(used_time - (get_skill_level(/datum/skill/misc/sneaking) * 8), 10)
+				animate(src, alpha = lean_alpha, time = used_time)
 
 	else
 		remove_movespeed_modifier("wallpress")
