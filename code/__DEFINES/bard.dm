@@ -14,8 +14,35 @@
 #define BARD_STAT_FULL 3 // Bard (T2)
 #define BARD_STAT_LESSER 2 // Cantor / Spellsinger (T1)
 
-// Cadence system
-#define CADENCE_COOLDOWN 8 SECONDS // Cooldown between cadence procs
-#define GREATER_CADENCE_STACKS 3 // Lesser cadence procs needed to unlock Greater Cadence
-#define GREATER_CADENCE_DECAY 20 SECONDS // Time before Greater Cadence stacks decay
+// Rhythm system (on-hit melee effects for bards)
+#define RHYTHM_COOLDOWN 7 SECONDS // Shared cooldown after a rhythm successfully procs
+#define RHYTHM_WINDOW 8 SECONDS // Time to land a hit after activating rhythm
+#define RHYTHM_ACTIVATION_COST 10 // Stamina cost to activate rhythm
+#define CRESCENDO_STACKS 3 // Rhythm procs needed to unlock Crescendo
+#define CRESCENDO_DECAY 20 SECONDS // Time before Crescendo stacks decay
 
+// Rhythm shared cooldown group
+#define RHYTHM_SHARED_COOLDOWN "bardic_rhythm"
+
+// Rhythm picks per tier
+#define RHYTHM_PICKS_T1 2
+#define RHYTHM_PICKS_T2 2
+
+// Rhythm types
+#define RHYTHM_NONE 0
+#define RHYTHM_RESONATING 1
+#define RHYTHM_CONCUSSIVE 2
+#define RHYTHM_FRIGID 3
+#define RHYTHM_REGENERATING 4 // T2 (Full Bard) exclusive
+
+// Rhythm damage values
+#define RHYTHM_RESONATING_DAMAGE 20 // Parry-bypassing brute on hit (armor-checked)
+#define RHYTHM_CONCUSSIVE_DAMAGE 8 // Minor knockback damage
+#define RHYTHM_REGEN_TICK 0.5 // Heal-over-time per tick (compare: miracle = 1.0, hymn = 0.6)
+#define RHYTHM_REGEN_DURATION 10 SECONDS // Duration of regen HoT
+
+// Crescendo damage values (cone AoE, T2 only)
+#define CRESCENDO_RESONATING_DAMAGE 55 // Parry-bypassing brute in cone (armor-checked)
+#define CRESCENDO_CONCUSSIVE_DAMAGE 25 // Brute + 3-tile knockback in cone
+#define CRESCENDO_MENDING_DURATION 30 SECONDS // Duration of crescendo HoT on audience (2x rhythm_regen)
+#define CRESCENDO_MENDING_TICK 1.0 // Heal-over-time per tick (compare: rhythm_regen = 0.5)
