@@ -166,6 +166,7 @@
 			L.visible_message(span_danger("A wave of rhythmic force reverberates through [L]!"))
 
 /datum/action/cooldown/spell/crescendo/proc/crescendo_concussive(mob/living/carbon/human/user)
+	var/def_zone = user.zone_selected || BODY_ZONE_CHEST
 	var/list/turfs = get_frontal_turfs(user)
 	for(var/turf/T in turfs)
 		new /obj/effect/temp_visual/kinetic_blast(T)
@@ -176,7 +177,8 @@
 				continue
 			if(L.anchored || L.move_resist >= MOVE_FORCE_STRONG)
 				continue
-			L.apply_damage(CRESCENDO_CONCUSSIVE_DAMAGE, BRUTE)
+			var/armor_block = L.run_armor_check(def_zone, "slash", armor_penetration = PEN_NONE, damage = CRESCENDO_CONCUSSIVE_DAMAGE)
+			L.apply_damage(CRESCENDO_CONCUSSIVE_DAMAGE, BRUTE, def_zone, armor_block)
 			var/push_dir = get_dir(user, L)
 			if(push_dir)
 				L.safe_throw_at(get_ranged_target_turf(L, push_dir, 3), 3, 2, user, force = MOVE_FORCE_STRONG)
