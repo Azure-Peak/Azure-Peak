@@ -623,7 +623,6 @@
 			if(m_intent == MOVE_INTENT_SNEAK && lying)
 				target_alpha = get_lying_alpha()
 			if(target_alpha != alpha)
-				var/used_time = 50
 				used_time = max(used_time - (get_skill_level(/datum/skill/misc/sneaking) * 8), 10)
 				animate(src, alpha = target_alpha, time = used_time)
 				spawn(used_time + 5) regenerate_icons()

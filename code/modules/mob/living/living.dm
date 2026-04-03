@@ -1011,7 +1011,6 @@
 
 	var/old_direction = dir
 	var/turf/T = loc
-	var/target_alpha = 255
 
 	if(m_intent == MOVE_INTENT_RUN)
 		sprinted_tiles++
