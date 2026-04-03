@@ -51,6 +51,7 @@
 	H.STALUC = rand(1, 21)
 	H.cmode_music = 'sound/music/combat_jester.ogg'
 	if(H.mind)
+		H.mind.AddSpell(new /datum/action/cooldown/spell/projectile/vicious_mockery)
 		// Mime vs Jester.
 		// As a mute jester you cannot cast Tell Joke/Tragedy, so why even have them?
 		if(HAS_TRAIT(H, TRAIT_PERMAMUTE)) // I considered adding a check for Xylix patron but in the off chance there's a mute non-xylix jester I don't want to fuck them over.
