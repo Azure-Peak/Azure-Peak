@@ -65,11 +65,11 @@
 
 	switch(skill_level)
 		if(1) return 128 //50%
-		if(2) return 102 //60%
-		if(3) return 77  //70%
-		if(4) return 51  //80%
-		if(5) return 26  //90%
-		if(6) return 26  //90%
+		if(2) return 115 //55%
+		if(3) return 102 //60%
+		if(4) return 90  //65%
+		if(5) return 77  //70%
+		if(6) return 64  //75%
 
 	return 255	
 
