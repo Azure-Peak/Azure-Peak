@@ -598,6 +598,16 @@
 		used_time = max(used_time - (get_skill_level(/datum/skill/misc/sneaking) * 8), 0)
 		light_threshold += (get_skill_level(/datum/skill/misc/sneaking) / 200)
 
+	if(!reset && m_intent != MOVE_INTENT_SNEAK && alpha != initial(alpha)) // prevents funny bugs with getting stuck transparent
+		if(!wallpressed)
+			animate(src, alpha = initial(alpha), time = 10)
+			spawn(10) regenerate_icons()
+		else
+			animate(src, alpha = 255, time = 10)
+
+		rogue_sneaking = FALSE
+		return		
+
 	if(rogue_sneaking || reset) //If sneaking, check if they should be revealed
 		var/should_reveal = FALSE
 		// are we crit, sleeping, been recently discovered, have no turf, force-revealed or not in sneak intent? then we should be revealed, end of.
@@ -623,8 +633,10 @@
 
 	else //not currently sneaking, check if we can sneak
 		if (m_intent == MOVE_INTENT_SNEAK) // we were not sneaking and are now trying to.
+			if(wallpressed)
+				update_wallpress_slowdown()
 			var/target_alpha = 255
-			if(m_intent == MOVE_INTENT_SNEAK && lying)
+			if(lying)
 				target_alpha = get_lying_alpha()
 			if(target_alpha != alpha)
 				if(!wallpressed)
