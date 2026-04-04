@@ -360,7 +360,7 @@
 	name = "copper mask"
 	icon_state = "cmask"
 	desc = "A heavy copper mask that conceals and protects the face, though not very effectively."
-	armor = ARMOR_PLATE
+	armor = ARMOR_BRONZE
 	smeltresult = /obj/item/ingot/copper
 
 /obj/item/clothing/mask/rogue/facemask/bronze
@@ -540,6 +540,7 @@
 	desc = "Runes and wards, meant for daemons; the gold has somehow rusted in unnatural, impossible agony. The most prominent of these etchings is in the shape of the Naledian psycross. Armored to protect the wearer's face."
 	max_integrity = 100
 	armor = ARMOR_PLATE
+	slot_flags = ITEM_SLOT_MASK|ITEM_SLOT_HIP
 	flags_inv = HIDEFACE|HIDESNOUT
 	sellprice = 0
 
@@ -554,6 +555,7 @@
 	max_integrity = 150
 	armor = ARMOR_PLATE
 	flags_inv = HIDEFACE|HIDESNOUT
+	slot_flags = ITEM_SLOT_MASK|ITEM_SLOT_HIP
 	sellprice = 0
 
 /obj/item/clothing/mask/rogue/silkmask

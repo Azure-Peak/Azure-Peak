@@ -101,7 +101,7 @@
 	/// This determines what type of antimagic is needed to block the spell.
 	/// If SPELL_REQUIRES_NO_ANTIMAGIC is set in Spell requirements,
 	/// The spell cannot be cast if the caster has any of the antimagic flags set.
-	var/antimagic_flags = MAGIC_RESISTANCE
+	var/antimagic_flags = MAGIC_RESISTANCE_HOLY
 
 	/// If set to a positive number, the spell will produce sparks when casted.
 	var/sparks_amt = 0
@@ -172,6 +172,8 @@
 	var/weapon_cast_penalized = FALSE
 	/// Transient flag set during Activate() when a weapon penalty is active for this cast.
 	var/weapon_penalty_active = FALSE
+	/// If TRUE, this spell ignores armor cooldown penalties (for armored casters like Tithebound).
+	var/ignore_armor_penalty = FALSE
 	/// If TRUE, spell charges on button press, then waits for a separate middle-click to cast.
 	/// If FALSE (default), spell uses hold-and-release: hold middle-click to charge, release to cast.
 	var/charge_then_click = FALSE
@@ -546,21 +548,30 @@
 		newcd += base * diff * COOLDOWN_REDUCTION_PER_INT
 
 	// Armor penalties on cooldown, not stamina cost
-	if(!living_owner.check_armor_skill())
-		newcd += base * UNTRAINED_ARMOR_CD_PENALTY
-	else if(ishuman(living_owner))
-		var/mob/living/carbon/human/H = living_owner
-		var/ac = H.highest_ac_worn()
-		if(ac == ARMOR_CLASS_HEAVY)
-			newcd += base * HEAVY_ARMOR_CD_PENALTY
-		else if(ac == ARMOR_CLASS_MEDIUM)
-			newcd += base * MEDIUM_ARMOR_CD_PENALTY
+	newcd += base * get_armor_cd_multiplier(living_owner)
 
 	// Weapon-in-hand penalty
 	if(weapon_penalty_active)
 		newcd += base * WEAPON_CAST_PENALTY
 
 	return newcd
+
+/// Returns the armor cooldown penalty multiplier for this spell and caster.
+/// 0 means no penalty. Spells with ignore_armor_penalty always return 0.
+/datum/action/cooldown/spell/proc/get_armor_cd_multiplier(mob/living/user)
+	if(ignore_armor_penalty)
+		return 0
+	if(!user.check_armor_skill())
+		return UNTRAINED_ARMOR_CD_PENALTY
+	if(!ishuman(user))
+		return 0
+	var/mob/living/carbon/human/H = user
+	var/ac = H.highest_ac_worn()
+	if(ac == ARMOR_CLASS_HEAVY)
+		return HEAVY_ARMOR_CD_PENALTY
+	if(ac == ARMOR_CLASS_MEDIUM)
+		return MEDIUM_ARMOR_CD_PENALTY
+	return 0
 
 /// Adjust resource cost based on the spell's associated_stat.
 /datum/action/cooldown/spell/proc/get_adjusted_cost(base_cost)
@@ -700,6 +711,16 @@
 				to_chat(owner, span_warning("Holding a weapon interferes with my arcyne conduits! This spell is more exhausting than usual."))
 			else
 				to_chat(owner, span_warning("My hands still tingle from holding a weapon - my arcyne conduits are disrupted! This spell is more exhausting than usual."))
+
+	// Break invisibility on spell cast, same as proc_holder spells
+	if(owner.mob_timers[MT_INVISIBILITY] > world.time)
+		owner.mob_timers[MT_INVISIBILITY] = world.time
+		owner.update_sneak_invis(reset = TRUE)
+	if(isliving(owner))
+		var/mob/living/L = owner
+		if(L.rogue_sneaking)
+			L.mob_timers[MT_FOUNDSNEAK] = world.time
+			L.update_sneak_invis(reset = TRUE)
 
 	// Actually cast the spell. Main effects go here
 	var/cast_result = cast(target)
@@ -842,6 +863,12 @@
 		return
 
 	SEND_SIGNAL(owner, COMSIG_MOB_AFTER_SPELL_CAST, src, cast_on)
+
+	// Casting while guarding breaks guard stance with a strain
+	if(ishuman(owner))
+		var/mob/living/carbon/human/H = owner
+		if(H.has_status_effect(/datum/status_effect/buff/clash))
+			H.bad_guard(span_warning("I can't focus while casting spells!"), cheesy = TRUE)
 
 	// Sparks and smoke can only occur if there's an owner to source them from.
 	if(sparks_amt)
@@ -1312,15 +1339,11 @@
 	if(!user.check_armor_skill())
 		var/armor_mod = base * UNTRAINED_ARMOR_CD_PENALTY
 		breakdown += span_smallred("  Untrained armor: +[DisplayTimeText(armor_mod)]")
-	else if(ishuman(user))
-		var/mob/living/carbon/human/H = user
-		var/ac = H.highest_ac_worn()
-		if(ac == ARMOR_CLASS_HEAVY)
-			var/armor_mod = base * HEAVY_ARMOR_CD_PENALTY
-			breakdown += span_smallred("  Armor weight: +[DisplayTimeText(armor_mod)]")
-		else if(ac == ARMOR_CLASS_MEDIUM)
-			var/armor_mod = base * MEDIUM_ARMOR_CD_PENALTY
-			breakdown += span_smallred("  Armor weight: +[DisplayTimeText(armor_mod)]")
+	var/armor_mult = get_armor_cd_multiplier(user)
+	if(armor_mult > 0)
+		var/armor_mod = base * armor_mult
+		var/armor_label = user.check_armor_skill() ? "Armor weight" : "Untrained armor"
+		breakdown += span_smallred("  [armor_label]: +[DisplayTimeText(armor_mod)]")
 	return breakdown
 
 /// Breakdown of resource cost modifiers for examine.

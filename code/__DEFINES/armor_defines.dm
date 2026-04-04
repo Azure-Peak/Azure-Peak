@@ -130,6 +130,7 @@
 #define ARMOR_INT_SIDE_CLOTH 100 // Integrity for cloth / aesthetic oriented pieces
 #define ARMOR_INT_SIDE_GOLDPLUS 10 // Integrity for royal variants of golden / cermemonial pieces
 #define ARMOR_INT_SIDE_GOLD 5 // Integrity for golden / ceremonial pieces
+#define ARMOR_INT_SIDE_COVERAGE_BONUS 50 //bonus integrity for side pieces lacking coverage, eg. gorgets
 
 /*--------------------\
 | ARMOR VALUE DEFINES |

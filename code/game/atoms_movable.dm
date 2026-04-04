@@ -178,7 +178,7 @@
 		if(isliving(src))
 			var/mob/living/L = src
 			if(M.cmode || L.cmode)	//We're in combat, so we apply clickcds
-				var/clickcd = CLICK_CD_TRACKING
+				var/clickcd = CLICK_CD_WRESTLING
 				var/spdbonus = (10 - L.get_stat(STATKEY_SPD)) * 2
 				clickcd -= spdbonus
 				if(M.mind)	//No clickcd if we're grabbing a mindless mob, just frag the stupid AI

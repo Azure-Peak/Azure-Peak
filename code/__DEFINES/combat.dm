@@ -75,10 +75,12 @@
 //click cooldowns, in tenths of a second, used for various combat actions
 #define CLICK_CD_EXHAUSTED 60
 #define CLICK_CD_TRACKING 30
+#define CLICK_CD_WRESTLING 30
 #define CLICK_CD_SLEUTH 10
 #define CLICK_CD_GLACIAL 20	// Tier: Glacial
 #define CLICK_CD_MASSIVE 18	// Tier: Extremely Sluggish
 #define CLICK_CD_HEAVY 16		// Tier: Very Sluggish
+#define CLICK_CD_DODGE 16
 #define CLICK_CD_CHARGED 14	// Tier: Sluggish
 #define CLICK_CD_MELEE 12		// Tier: Normal (baseline)
 #define CLICK_CD_QUICK 10		// Tier: Quick
@@ -91,6 +93,7 @@
 #define CLICK_CD_HANDCUFFED 10
 #define CLICK_CD_RESIST 20
 #define CLICK_CD_GRABBING 10
+#define CLICK_CD_GRAB_RESIST 5
 
 //Aimed / Swift defines
 #define EXTRA_STAMDRAIN_SWIFSTRONG 10
@@ -174,7 +177,6 @@
 #define BCLASS_PUNISH		"punish"
 #define BCLASS_EFFECT		"effect"
 #define BCLASS_SUNDER       "sunder"
-#define BCLASS_HALFSWORD	"stab"
 
 //Material class (what material is striking)
 #define MCLASS_GENERIC		1
@@ -368,6 +370,7 @@ GLOBAL_LIST_INIT(shove_disarming_types, typecacheof(list(
 #define TEMPO_TAG_STAMLOSS_DODGE "dodge"
 #define TEMPO_TAG_ARMOR_INTEGFACTOR "integ"
 #define TEMPO_TAG_NOLOS_PARRY "nolosparry"
+#define TEMPO_TAG_NOLOS_DODGE "nolosdodge"
 #define TEMPO_TAG_DEF_SHARPNESSFACTOR "sharpness"
 #define TEMPO_TAG_DEF_INTEGFACTOR "parryinteg"
 #define TEMPO_TAG_PARRYCD_BONUS	"parrycd"
@@ -422,3 +425,6 @@ Medical defines
 
 #define PROB_ATTACK_EMOTE_PLAYER 10
 #define PROB_ATTACK_EMOTE_NPC 10
+
+#define MAX_DODGE_CEIL 5
+#define MAX_DODGE_FLOOR -15

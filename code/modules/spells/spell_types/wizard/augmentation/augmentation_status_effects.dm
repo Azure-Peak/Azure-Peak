@@ -250,16 +250,14 @@
 /atom/movable/screen/alert/status_effect/buff/darkvision
 	name = "Darkvision"
 	desc = "I can see in the dark somewhat."
-	icon_state = "buff"
+	icon_state = "darkvision"
 
 /datum/status_effect/buff/darkvision
 	id = "darkvision"
 	alert_type = /atom/movable/screen/alert/status_effect/buff/darkvision
 	duration = UTILITY_AOE_BUFF_DURATION
 
-/datum/status_effect/buff/darkvision/on_apply(mob/living/new_owner, assocskill)
-	if(assocskill)
-		duration += 5 MINUTES * assocskill
+/datum/status_effect/buff/darkvision/on_apply(mob/living/new_owner)
 	. = ..()
 	to_chat(owner, span_warning("The darkness fades somewhat."))
 	ADD_TRAIT(owner, TRAIT_DARKVISION, MAGIC_TRAIT)

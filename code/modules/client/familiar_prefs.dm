@@ -208,6 +208,13 @@
 					GLOB.familiar_queue += user.client
 					to_chat(user, "<span class='notice'>You have been added to the Familiar queue.</span>")
 
+					for(var/client/advertisee in (GLOB.clients - src))
+						var/mob/living/char = get_mob_by_key(advertisee.ckey)
+						if(!char || !istype(char))
+							continue
+						if(HAS_TRAIT(char, TRAIT_ARCYNE))
+							to_chat(advertisee, span_info("A new familiar is available to summon."))
+
 			else if (task == "leave")
 				if (user.client in GLOB.familiar_queue)
 					GLOB.familiar_queue -= user.client

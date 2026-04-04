@@ -194,6 +194,7 @@ GLOBAL_VAR_INIT(farm_animals, FALSE)
 	var/obj/item/clothing/barding/bbarding
 	var/caparison_over_barding = FALSE
 	var/barding_speed_mult = 1
+	var/fly_time = 3 SECONDS //default fly delay
 
 /mob/living/simple_animal/get_mechanics_examine(mob/user)
 	. = ..()
@@ -1236,5 +1237,37 @@ GLOBAL_VAR_INIT(farm_animals, FALSE)
 		RegisterSignal(new_grid, SPATIAL_GRID_CELL_ENTERED(SPATIAL_GRID_CONTENTS_TYPE_CLIENTS), PROC_REF(on_client_enter))
 		RegisterSignal(new_grid, SPATIAL_GRID_CELL_EXITED(SPATIAL_GRID_CONTENTS_TYPE_CLIENTS), PROC_REF(on_client_exit))
 	consider_wakeup()
+
+//Flight related procs foy flying simple_animals
+/mob/living/simple_animal/proc/fly_up()
+	set category = "Winged Form"
+	set name = "Fly Up"
+
+	if(src.pulledby != null)
+		to_chat(src, span_notice("I can't fly away while being grabbed!"))
+		return
+	src.visible_message(span_notice("[src] begins to ascend!"), span_notice("You take flight..."))
+	if(do_after(src, fly_time))
+		if(src.pulledby == null)
+			src.zMove(UP, TRUE)
+			to_chat(src, span_notice("I fly up."))
+		else
+			to_chat(src, span_notice("I can't fly away while being grabbed!"))
+
+/mob/living/simple_animal/proc/fly_down()
+	set category = "Winged Form"
+	set name = "Fly Down"
+
+	if(src.pulledby != null)
+		to_chat(src, span_notice("I can't fly away while being grabbed!"))
+		return
+	src.visible_message(span_notice("[src] begins to descend!"), span_notice("You take flight..."))
+	if(do_after(src, fly_time))
+		if(src.pulledby == null)
+			src.zMove(DOWN, TRUE)
+			to_chat(src, span_notice("I fly down."))
+		else
+			to_chat(src, span_notice("I can't fly away while being grabbed!"))
+//End flight
 
 #undef MAX_FARM_ANIMALS

@@ -1,6 +1,0 @@
-author: "WeNeedMorePhoron"
-delete-after: True
-changes:
-  - bugfix: "Hag books should have entries again"
-  - bugfix: "Miracle Compendium will show up in Encyclopedia again"
-  - refactor: "Cleaned up some recipe books code, report any oddities with recipe book or encyclopedia aspect picker."

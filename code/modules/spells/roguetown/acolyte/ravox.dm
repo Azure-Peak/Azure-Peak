@@ -16,7 +16,7 @@
 	chargedloop = null
 	associated_skill = /datum/skill/magic/holy
 	req_items = list(/obj/item/clothing/neck/roguetown/psicross)
-	sound = 'sound/magic/timestop.ogg'
+	sound = 'sound/misc/alert.ogg'
 	invocations = list("By Ravox, stand and fight!")
 	invocation_type = "shout"
 	antimagic_allowed = TRUE
@@ -186,7 +186,7 @@
 /atom/movable/screen/alert/status_effect/buff/divine_strike
 	name = "Divine Strike"
 	desc = "Your next attack slows your target, lowering their WIL and SPD."
-	icon_state = "stressvg"
+	icon_state = "divine_strike"
 
 /obj/effect/proc_holder/spell/invoked/tug_of_war
 	name = "Tug of War"

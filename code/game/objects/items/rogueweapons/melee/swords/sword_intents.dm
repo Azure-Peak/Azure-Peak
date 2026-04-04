@@ -64,6 +64,19 @@
 	penfactor = PEN_MEDIUM // Longsword thrust — same pen tier, higher base damage
 	// Their cut is actually pretty decent when 2handed and should be inferior to zwei.
 
+/datum/intent/sword/thrust/long/halfsword
+	icon_state = "inpick"
+	damfactor = 1.2
+	clickcd = CLICK_CD_CHARGED
+	swingdelay = 0.5 SECONDS
+
+/datum/intent/sword/thrust/long/halfsword/jab
+	name = "jab"
+	attack_verb = list("jabs")
+	damfactor = 0.8
+	clickcd = CLICK_CD_QUICK
+	swingdelay = 0
+
 /datum/intent/sword/thrust/krieg
 	damfactor = 0.9
 
@@ -129,17 +142,17 @@
 	candodge = FALSE
 	intent_effect = /datum/status_effect/debuff/dazed/swipe
 
-/datum/intent/sword/thrust/long/halfsword
+/datum/intent/sword/thrust/long/halfsword/frei
 	name = "mezza spada"
 	icon_state = "inimpale"
 	desc = "Grip the dull portion of your longsword with either hand and use it as leverage to deliver precise, powerful strikes that can dig into gaps in plate and push past maille."
-	attack_verb = list("goes into a half-sword stance and skewers", "enters a half-sword stance and impales")
+	attack_verb = list("skewers", "impales")
 	hitsound = list('sound/combat/hits/bladed/genstab (1).ogg', 'sound/combat/hits/bladed/genstab (2).ogg', 'sound/combat/hits/bladed/genstab (3).ogg')
-	penfactor = PEN_BSTEEL // Halfsword — penetrates plate fully, blacksteel at 20%
-	clickcd = 12
-	swingdelay = 16
-	damfactor = 0.86
-	blade_class = BCLASS_HALFSWORD
+	penfactor = PEN_HEAVY
+	clickcd = CLICK_CD_MELEE
+	swingdelay = 1.2 SECONDS
+	damfactor = 1
+	blade_class = BCLASS_PICK
 	max_intent_damage = 30
 
 /datum/intent/sword/thrust/long/halfsword/lesser
@@ -164,7 +177,7 @@
 	target_parts = list(BODY_ZONE_PRECISE_R_EYE, BODY_ZONE_PRECISE_L_EYE)
 	blade_class = BCLASS_STAB
 	damfactor = 1.1 //Same as master stab
-	clickcd = 14
+	clickcd = CLICK_CD_CHARGED
 	swingdelay = 7
 
 // A weaker strike for sword with high damage so that it don't end up becoming better than mace

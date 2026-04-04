@@ -1842,6 +1842,9 @@ GLOBAL_LIST_EMPTY(roundstart_races)
 			if(I)
 				I.remove_bintegrity(1)
 				I.take_damage(1, BRUTE, I.d_type)
+			if(user.mind && user.goodluck(4) && user.d_intent == INTENT_DODGE)
+				user.changeNext_def(clamp(user.dodgetime - 1, 0, CLICK_CD_DODGE))
+				user.changeMaxDodge(1)
 		if(!nodmg)
 			var/datum/wound/crit_wound = affecting.bodypart_attacked_by(user.used_intent.blade_class, (Iforce * weakness) * ((100-armor_block)/100), user, selzone, crit_message = TRUE, weapon = I)
 			if(should_embed_weapon(crit_wound, I))
@@ -1863,6 +1866,12 @@ GLOBAL_LIST_EMPTY(roundstart_races)
 						playsound(H, 'sound/foley/flesh_rem.ogg', 100, TRUE, -2)
 						user.visible_message(span_notice("[user] rips [I] out of [H]'s [affecting.name]!"), span_notice("I rip [I] from [H]'s [affecting.name]."))
 			I.do_special_attack_effect(user, affecting, intent, H, selzone)
+			if(user.mind)
+				user.dodgetime = (clamp(user.dodgetime - 2, 0, CLICK_CD_DODGE))
+				user.changeMaxDodge(3)
+			if(H.mind)
+				H.dodgetime = (clamp(H.dodgetime - 8, 0, CLICK_CD_DODGE))	//We reset the dodgetime after getting struck directly in the body.
+				H.changeMaxDodge(5)
 //		if(H.used_intent.blade_class == BCLASS_BLUNT && I.force >= 15 && affecting.body_zone == "chest")
 //			var/turf/target_shove_turf = get_step(H.loc, get_dir(user.loc,H.loc))
 //			H.throw_at(target_shove_turf, 1, 1, H, spin = FALSE)
@@ -1941,6 +1950,20 @@ GLOBAL_LIST_EMPTY(roundstart_races)
 
 		if(Iforce > 10 || Iforce >= 5 && prob(Iforce))
 			H.forcesay(GLOB.hit_appends)	//forcesay checks stat already.
+
+	if(H.r_grab || H.l_grab) //Entirely arbitrary numbers here throughout
+		var/release_prob = 10
+		// Not a mistake. For whatever reason l_grab is init'd when you grab something in your RIGHT hand, and ditto for r_grab.
+		if((H.r_grab && (check_zone(selzone) == BODY_ZONE_L_ARM)) || (H.l_grab && (check_zone(selzone) == BODY_ZONE_R_ARM)))
+			release_prob += 40
+		if(affecting)
+			var/limbdmg = affecting.get_damage()
+			if(limbdmg)
+				release_prob += (limbdmg / affecting.max_damage) * 20
+		if(prob(release_prob))
+			H.emote("painmoan", forced = TRUE)
+			H.visible_message(span_combatsecondarybp("<b>[H]</b> lets go of their hold!"))
+			H.stop_pulling(TRUE)
 	return TRUE
 
 /datum/species/proc/apply_damage(damage, damagetype = BRUTE, def_zone = null, blocked, mob/living/carbon/human/H, forced = FALSE, spread_damage = FALSE)

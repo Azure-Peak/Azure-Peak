@@ -99,7 +99,7 @@
 				return
 			var/loopcount = round(max_blade_int / ST.sharpening_factor, 1) + 1
 			sharpen(ST, user, 0.3)
-			user.changeNext_move(CLICK_CD_TRACKING)
+			user.changeNext_move(CLICK_CD_WRESTLING)
 			if(blade_int >= max_blade_int)
 				to_chat(user, span_info("Fully sharpened."))
 				return
