@@ -87,6 +87,7 @@
 		return FALSE
 	if(!move_after(user, sheathe_time, target = user))
 		return FALSE
+	I.clear_grip_state()
 
 	A.forceMove(src)
 	sheathed = A

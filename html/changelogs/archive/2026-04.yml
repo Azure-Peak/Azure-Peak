@@ -91,3 +91,58 @@
   - rscadd: Added RAGE mechanic to berserker and barbarian
   - balance: adjusted berserker and barbarian stats to compensate for new mechanic
   - balance: unshackled bodybuilder, its a meme and terrible
+2026-04-04:
+  Baneuus:
+  - qol: Excommunicado starts maxxed out
+  - rscadd: Necran ritual no longer allows to ressurect people with TRAIT_DNR or TRAIT_NECRAS_VOW
+  FreeStylaLT:
+  - balance: Dodge (with dodge expert) now dynamically changes its chances depending
+      on how the combat is going.
+  - balance: 'Dodge stamina drain is now affected by swift stance attacks.
+
+      balance; Dodge now decays its chance at a faster rate if the attacker has higher
+      weaponskill than the dodger.'
+  Kelshark:
+  - qol: player-controlled simple mobs with flight can now fly up/down
+  Ketrai:
+  - rscadd: Dendor spell root affinity T4, travel the root maze!
+  - rscadd: Root maze location.
+  - balance: Feytouched virtue made less bad.
+  - balance: Acolytes & Missionaries get bare minimum chest armor.
+  Lamasmaster:
+  - balance: Undivided Faith
+  - rscadd: Ham
+  LofiOtter:
+  - balance: Buff to Ruma Clan Tattoos
+  - bugfix: Fixed Ruma being able to wear metal helmets
+  - bugfix: Fixed Frei being able to wear certain metal helmets
+  Ollanius:
+  - bugfix: Crackerdough should now produce a unique smell when baked, instead of
+      printing 'smell'.
+  - bugfix: Fixed an unintended exploit where the 'Vial of Distilled Triumphance'
+      could have its unique reagent watered down to provide near-infinite amounts
+      of free statbuffs.
+  PatapoIIIa:
+  - code_imp: Migration from overlays to vis_content under HUDs
+  - refactor: Migration from overlays to vis_content under HUDs
+  Randall:
+  - bugfix: Fixed ration papers not showing up in the merchant
+  ToasterStrudes:
+  - bugfix: fixed a donator item's pathing
+  - rscadd: Donator items for ToasterStrudes
+  WeNeedMorePhoron:
+  - rscadd: Reworked Vizier's Reversion to gives the target a spell that they can
+      trigger voluntarily to snapshot back
+  - rscadd: Naledian masks can be placed on the hip
+  - balance: Battle Ward / Rune Ward now stuns for 6 seconds instead of 12
+  - rscadd: Cryomancy spells now extinguishes fire on structure / object and Fulgurmancy
+      spells now set structure / objects on fire
+  - rscadd: Makes wretch skeleton literate
+  - balance: Casting any of the new spells break invisibility as per behaviors before
+  changelingonberry:
+  - bugfix: Fixed the Braided Sidetail not showing up correctly.
+  eirenxiv:
+  - balance: removed CON granted by journey's end
+  gatorceres:
+  - rscadd: loadout options for plaguebearer (now "malpractitioner")
+  - balance: a bit more skill and a cheele for all malpractitioners

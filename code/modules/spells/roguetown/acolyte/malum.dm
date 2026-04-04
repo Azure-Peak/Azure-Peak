@@ -373,7 +373,7 @@ var/global/list/anvil_recipe_prices[][]
 	if (istype(recipe.created_item, /list))
 		var/list/itemlist = recipe.created_item
 		total_sellprice = total_sellprice/itemlist.len
-		itemtosend = recipe.created_item[1]
+		itemtosend = itemlist[1]
 	if (!istype(recipe.created_item, /list))
 		itemtosend = recipe.created_item
 	if (total_sellprice > 0)

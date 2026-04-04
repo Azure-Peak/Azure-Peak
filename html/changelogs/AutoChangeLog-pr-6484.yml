@@ -1,0 +1,4 @@
+author: "mumblemancer"
+delete-after: True
+changes:
+  - qol: "mechanized ore bags now automatically pick up ore you walk over"

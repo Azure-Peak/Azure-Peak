@@ -11,7 +11,7 @@
 	anchored = TRUE
 	alpha = 180
 	layer = TURF_LAYER + 0.1
-	max_integrity = 100
+	max_integrity = 300
 
 	var/datum/weakref/owner_ref
 	var/datum/weakref/spell_ref

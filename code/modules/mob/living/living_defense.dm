@@ -97,9 +97,14 @@
 	next_attack_msg.Cut()
 
 	var/on_hit_state = P.on_hit(src, armor)
+	var/actual_damage = P.damage
+	if(!mind && istype(src, /mob/living/simple_animal))
+		var/datum/component/saddleborn = GetComponent(/datum/component/precious_creature)
+		if(!saddleborn)
+			actual_damage *= P.npc_simple_damage_mult
 	var/nodmg = FALSE
 	if(!P.nodamage && on_hit_state != BULLET_ACT_BLOCK)
-		if(!apply_damage(P.damage, P.damage_type, def_zone, armor))
+		if(!apply_damage(actual_damage, P.damage_type, def_zone, armor))
 			nodmg = TRUE
 			next_attack_msg += VISMSG_ARMOR_BLOCKED
 		apply_effects(stun = P.stun, knockdown = P.knockdown, unconscious = P.unconscious, slur = P.slur, stutter = P.stutter, eyeblur = P.eyeblur, drowsy = P.drowsy, blocked = armor, stamina = P.stamina, jitter = P.jitter, paralyze = P.paralyze, immobilize = P.immobilize)
@@ -236,7 +241,10 @@
 
 //proc to upgrade a simple pull into a more aggressive grab.
 /mob/living/proc/grippedby(mob/living/carbon/user, instant = FALSE)
-	user.changeNext_move(CLICK_CD_TRACKING)
+	var/clickcd = CLICK_CD_MELEE
+	if(mind && src != user)
+		clickcd = CLICK_CD_WRESTLING
+	user.changeNext_move(clickcd)
 	var/skill_diff = 0
 	var/combat_modifier = 1
 	if(user.mind)
@@ -285,12 +293,12 @@
 			to_chat(user, span_warning("I struggle with [src]!"))
 		playsound(src.loc, 'sound/foley/struggle.ogg', 100, FALSE, -1)
 		user.Immobilize(2 SECONDS)
-		user.changeNext_move(CLICK_CD_TRACKING)
+		user.changeNext_move((mind ? CLICK_CD_WRESTLING : CLICK_CD_MELEE))
 		src.Immobilize(1 SECONDS)
-		src.changeNext_move(CLICK_CD_GRABBING)
+		src.changeNext_move(CLICK_CD_GRAB_RESIST)
 		if(user.badluck(5))
 			badluckmessage(user)
-			user.stop_pulling()
+			user.stop_pulling(TRUE)
 		return
 
 	if(!instant)

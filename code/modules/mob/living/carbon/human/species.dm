@@ -1950,6 +1950,20 @@ GLOBAL_LIST_EMPTY(roundstart_races)
 
 		if(Iforce > 10 || Iforce >= 5 && prob(Iforce))
 			H.forcesay(GLOB.hit_appends)	//forcesay checks stat already.
+
+	if(H.r_grab || H.l_grab) //Entirely arbitrary numbers here throughout
+		var/release_prob = 10
+		// Not a mistake. For whatever reason l_grab is init'd when you grab something in your RIGHT hand, and ditto for r_grab.
+		if((H.r_grab && (check_zone(selzone) == BODY_ZONE_L_ARM)) || (H.l_grab && (check_zone(selzone) == BODY_ZONE_R_ARM)))
+			release_prob += 40
+		if(affecting)
+			var/limbdmg = affecting.get_damage()
+			if(limbdmg)
+				release_prob += (limbdmg / affecting.max_damage) * 20
+		if(prob(release_prob))
+			H.emote("painmoan", forced = TRUE)
+			H.visible_message(span_combatsecondarybp("<b>[H]</b> lets go of their hold!"))
+			H.stop_pulling(TRUE)
 	return TRUE
 
 /datum/species/proc/apply_damage(damage, damagetype = BRUTE, def_zone = null, blocked, mob/living/carbon/human/H, forced = FALSE, spread_damage = FALSE)

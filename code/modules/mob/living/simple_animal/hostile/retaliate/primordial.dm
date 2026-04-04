@@ -89,7 +89,7 @@
 	environment_smash = ENVIRONMENT_SMASH_NONE
 	retreat_distance = 0
 	minimum_distance = 0
-	projectiletype = /obj/projectile/magic/aoe/fireball/spitfire	//if we ever get ranged toggling working
+	projectiletype = /obj/projectile/magic/spitfire	//if we ever get ranged toggling working
 	projectilesound = 'sound/magic/whiteflame.ogg'
 	next_ability_use
 	STACON = 10

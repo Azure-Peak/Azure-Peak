@@ -75,6 +75,7 @@
 //click cooldowns, in tenths of a second, used for various combat actions
 #define CLICK_CD_EXHAUSTED 60
 #define CLICK_CD_TRACKING 30
+#define CLICK_CD_WRESTLING 30
 #define CLICK_CD_SLEUTH 10
 #define CLICK_CD_GLACIAL 20	// Tier: Glacial
 #define CLICK_CD_MASSIVE 18	// Tier: Extremely Sluggish
@@ -92,6 +93,7 @@
 #define CLICK_CD_HANDCUFFED 10
 #define CLICK_CD_RESIST 20
 #define CLICK_CD_GRABBING 10
+#define CLICK_CD_GRAB_RESIST 5
 
 //Aimed / Swift defines
 #define EXTRA_STAMDRAIN_SWIFSTRONG 10
@@ -175,7 +177,6 @@
 #define BCLASS_PUNISH		"punish"
 #define BCLASS_EFFECT		"effect"
 #define BCLASS_SUNDER       "sunder"
-#define BCLASS_HALFSWORD	"stab"
 
 //Material class (what material is striking)
 #define MCLASS_GENERIC		1

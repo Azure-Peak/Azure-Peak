@@ -162,20 +162,22 @@
 
 /datum/outfit/job/roguetown/ranesheni/janissary/pre_equip(mob/living/carbon/human/H)
 	..()
+	if(H.mind)
+		H.mind.AddSpell(new /obj/effect/proc_holder/spell/self/zeybek_momentum/janissary)
 	head = /obj/item/clothing/head/roguetown/helmet/sallet/raneshen
 	mask = /obj/item/clothing/mask/rogue/facemask/steel
 	neck = /obj/item/clothing/neck/roguetown/gorget/steel
 	cloak = /obj/item/clothing/cloak/half/rider/red
 	armor = /obj/item/clothing/suit/roguetown/armor/plate/scale
 	wrists = /obj/item/clothing/wrists/roguetown/bracers
-	gloves = /obj/item/clothing/gloves/roguetown/leather
+	gloves = /obj/item/clothing/gloves/roguetown/chain
 	shirt = /obj/item/clothing/suit/roguetown/armor/gambeson/heavy/raneshen
 	pants = /obj/item/clothing/under/roguetown/chainlegs
 	shoes = /obj/item/clothing/shoes/roguetown/boots/leather/reinforced
 	belt = /obj/item/storage/belt/rogue/leather/shalal
 	backl = /obj/item/storage/backpack/rogue/satchel/short
 	backr = /obj/item/rogueweapon/shield/tower/raneshen
-	l_hand = /obj/item/rogueweapon/sword/sabre/shamshir
+	l_hand = /obj/item/rogueweapon/sword/long/marlin
 	beltl = /obj/item/rogueweapon/scabbard/sword
 	beltr = /obj/item/flashlight/flare/torch/lantern
 	backpack_contents = list(
@@ -187,6 +189,17 @@
 		)
 	H.cmode_music = 'sound/music/combat_desertrider.ogg'
 	H.grant_language(/datum/language/raneshi)
+	var/weapons = list("Mace","Spear")
+	if(H.mind)
+		var/weapon_choice = input(H, "Choose your weapon.", "TAKE UP ARMS") as anything in weapons
+		H.set_blindness(0)
+		switch(weapon_choice)
+			if("Mace")
+				H.adjust_skillrank_up_to(/datum/skill/combat/maces, 4, TRUE)
+				r_hand = /obj/item/rogueweapon/mace/goden/steel
+			if("Spear")
+				H.adjust_skillrank_up_to(/datum/skill/combat/polearms, 4, TRUE)
+				r_hand = /obj/item/rogueweapon/spear/boar
 
 /datum/migrant_role/ranesheni/advisor
 	name = "Advisor"
@@ -196,10 +209,10 @@
 	advclass_cat_rolls = list(CTAG_RANESHENI_ADVISOR = 20)
 
 /datum/advclass/ranesheni_advisor
-	name = "Janissary"
+	name = "Advisor"
 	outfit = /datum/outfit/job/roguetown/ranesheni/advisor
-	traits_applied = list(TRAIT_HEAVYARMOR, TRAIT_STEELHEARTED)
-	category_tags = list(TRAIT_MEDIUMARMOR, TRAIT_DODGEEXPERT, TRAIT_PERFECT_TRACKER)
+	traits_applied = list(TRAIT_MEDIUMARMOR, TRAIT_DODGEEXPERT, TRAIT_SLEUTH, TRAIT_PERFECT_TRACKER, TRAIT_STEELHEARTED)
+	category_tags = list(CTAG_RANESHENI_ADVISOR)
 	subclass_stats = list(
 		STATKEY_SPD = 2,
 		STATKEY_PER = 2,

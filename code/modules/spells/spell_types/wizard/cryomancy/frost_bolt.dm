@@ -70,4 +70,12 @@
 			apply_frost_stack(L)
 			playsound(get_turf(L), pick('sound/combat/fracture/fracturedry (1).ogg', 'sound/combat/fracture/fracturedry (2).ogg', 'sound/combat/fracture/fracturedry (3).ogg'), 80, TRUE)
 			new /obj/effect/temp_visual/snap_freeze(get_turf(L))
+	else if(isobj(target))
+		var/obj/O = target
+		O.extinguish()
+		var/turf/target_turf = get_turf(target)
+		var/obj/effect/hotspot/hotspot = (locate(/obj/effect/hotspot) in target_turf)
+		if(hotspot)
+			new /obj/effect/temp_visual/small_smoke(target_turf)
+			qdel(hotspot)
 	qdel(src)

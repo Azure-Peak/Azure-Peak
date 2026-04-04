@@ -80,6 +80,11 @@
 /datum/action/cooldown/spell/thunderstrike/proc/thunderstrike_damage(turf/effect_layer, stage_damage)
 	new /obj/effect/temp_visual/thunderstrike_actual(effect_layer)
 	playsound(effect_layer, 'sound/magic/lightning.ogg', 50)
+	// Ignite flammable objects and structures on the struck tile
+	effect_layer.fire_act()
+	for(var/atom/A in effect_layer.contents)
+		if(!ismob(A))
+			A.fire_act()
 	var/mob/living/carbon/human/caster = owner
 	var/static/list/random_zones = list(BODY_ZONE_HEAD, BODY_ZONE_L_ARM, BODY_ZONE_R_ARM)
 	for(var/mob/living/L in effect_layer.contents)

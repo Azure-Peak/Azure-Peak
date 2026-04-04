@@ -9,8 +9,8 @@
 	spell_color = GLOW_COLOR_FIRE
 	glow_intensity = GLOW_INTENSITY_LOW
 
-	projectile_type = /obj/projectile/magic/aoe/fireball/spitfire
-	projectile_type_arc = /obj/projectile/magic/aoe/fireball/spitfire/arc
+	projectile_type = /obj/projectile/magic/spitfire
+	projectile_type_arc = /obj/projectile/magic/spitfire/arc
 	cast_range = SPELL_RANGE_PROJECTILE
 
 	primary_resource_type = SPELL_COST_STAMINA
@@ -32,13 +32,12 @@
 	associated_skill = /datum/skill/magic/arcane
 	spell_impact_intensity = SPELL_IMPACT_LOW
 
-/obj/projectile/magic/aoe/fireball/spitfire
+/obj/projectile/magic/spitfire
 	name = "spitfire"
+	icon_state = "fireball"
+	light_color = "#f8af07"
+	light_outer_range = 2
 	speed = MAGE_PROJ_MEDIUM
-	exp_heavy = -1
-	exp_light = -1
-	exp_flash = 0
-	exp_fire = 0
 	damage = 30
 	npc_simple_damage_mult = 2
 	accuracy = 40
@@ -47,15 +46,14 @@
 	nodamage = FALSE
 	flag = "fire"
 	hitsound = 'sound/blank.ogg'
-	aoe_range = 0
 
-/obj/projectile/magic/aoe/fireball/spitfire/arc
+/obj/projectile/magic/spitfire/arc
 	name = "arced spitfire"
 	damage = 23
 	arcshot = TRUE
 
-/obj/projectile/magic/aoe/fireball/spitfire/on_hit(target)
-	. = ..()
+/obj/projectile/magic/spitfire/on_hit(target)
+	..()
 	if(ismob(target))
 		var/mob/living/M = target
 		if(M.anti_magic_check())

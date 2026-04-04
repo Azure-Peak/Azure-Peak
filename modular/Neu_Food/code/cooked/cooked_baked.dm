@@ -10,6 +10,7 @@
 	cooked_type = /obj/item/reagent_containers/food/snacks/rogue/crackerscooked
 	w_class = WEIGHT_CLASS_NORMAL
 	eat_effect = null
+	cooked_smell = /datum/pollutant/food/hardtack
 
 /obj/item/reagent_containers/food/snacks/rogue/foodbase/hardtack_raw/attackby(obj/item/I, mob/living/user, params)
 	var/found_table = locate(/obj/structure/table) in (loc)

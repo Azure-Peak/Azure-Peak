@@ -27,7 +27,7 @@
 	ckeywhitelist = list("eekasqueak")
 	sort_category = "Donator"
 
-/datum/loadout_item/donator_strudel1
+/datum/loadout_item/donator/strudel1
 	name = "Donator Kit - Grenzelhoftian Mage Vest"
 	path = /obj/item/enchantingkit/strudel1
 	ckeywhitelist = list("toasterstrudes")

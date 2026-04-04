@@ -80,6 +80,11 @@
 		var/dist = get_dist(centerpoint, T)
 		var/stage_damage = dist <= 0 ? GTSTRIKE_CENTER_DAMAGE : GTSTRIKE_OUTER_DAMAGE
 		new /obj/effect/temp_visual/thunderstrike_actual(T)
+		// Ignite flammable objects and structures on struck tiles
+		T.fire_act()
+		for(var/atom/A in T.contents)
+			if(!ismob(A))
+				A.fire_act()
 		for(var/mob/living/L in T.contents)
 			if(L == owner)
 				continue

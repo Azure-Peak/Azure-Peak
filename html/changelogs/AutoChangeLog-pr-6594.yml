@@ -1,0 +1,4 @@
+author: "eirenxiv"
+delete-after: True
+changes:
+  - code_imp: "changed rage stages to work off a trait, made said trait"

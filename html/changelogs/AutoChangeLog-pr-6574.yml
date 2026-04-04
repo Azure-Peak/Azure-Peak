@@ -1,6 +1,0 @@
-author: "WeNeedMorePhoron"
-delete-after: True
-changes:
-  - rscadd: "Reworked Vizier's Reversion to gives the target a spell that they can trigger voluntarily to snapshot back"
-  - rscadd: "Naledian masks can be placed on the hip"
-  - balance: "Battle Ward / Rune Ward now stuns for 6 seconds instead of 12"

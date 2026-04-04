@@ -879,6 +879,11 @@ GLOBAL_LIST_EMPTY(reach_dummy_pool)
 
 /mob/living/MouseWheelOn(atom/A, delta_x, delta_y, params)
 	var/list/modifiers = params2list(params)
+	if(modifiers["ctrl"])
+		var/obj/item/active_item = get_active_held_item()
+		if(active_item?.has_altgrip_modes())
+			active_item.cycle_altgrip(src, delta_y > 0 ? 1 : -1)
+			return
 	if(modifiers["shift"])
 		if(delta_y > 0)
 			aimheight_change("up")
