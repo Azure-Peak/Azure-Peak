@@ -347,38 +347,38 @@
 	status_type = STATUS_EFFECT_REPLACE
 
 /datum/status_effect/buff/astrata_gaze/on_creation(mob/living/new_owner, slevel)
-    // Only store skill level here
-    skill_level = slevel
-    .=..()
+	// Only store skill level here
+	skill_level = slevel
+	.=..()
 
 /datum/status_effect/buff/astrata_gaze/on_apply()
 	// Reset base values because the miracle can 
 	// now actually be recast at high enough skill and during day time
 	// This is a safeguard because buff code makes my head hurt
-    var/per_bonus = 0
-    duration = 20 SECONDS
+	var/per_bonus = 0
+	duration = 20 SECONDS
 
-    if(skill_level > SKILL_LEVEL_NOVICE)
-        per_bonus++
+	if(skill_level > SKILL_LEVEL_NOVICE)
+		per_bonus++
 
-    if(GLOB.tod == "dawn" || GLOB.tod == "day" || GLOB.tod == "dusk")
-        per_bonus++
-        duration *= 2
+	if(GLOB.tod == "dawn" || GLOB.tod == "day" || GLOB.tod == "dusk")
+		per_bonus++
+		duration *= 2
 
-    duration *= skill_level
+	duration *= skill_level
 
-    if(per_bonus)
-        effectedstats = list(STATKEY_PER = per_bonus)
+	if(per_bonus)
+		effectedstats = list(STATKEY_PER = per_bonus)
 
-    if(ishuman(owner))
-        var/mob/living/carbon/human/H = owner
-        H.viewcone_override = TRUE
-        H.hide_cone()
-        H.update_cone_show()
+	if(ishuman(owner))
+		var/mob/living/carbon/human/H = owner
+		H.viewcone_override = TRUE
+		H.hide_cone()
+		H.update_cone_show()
 
-    to_chat(owner, span_info("She shines through me! I can perceive all clear as dae!"))
+	to_chat(owner, span_info("She shines through me! I can perceive all clear as dae!"))
 
-    return ..()
+	return ..()
 
 /datum/status_effect/buff/astrata_gaze/on_remove()
 	. = ..()

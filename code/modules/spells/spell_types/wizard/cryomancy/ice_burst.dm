@@ -83,6 +83,13 @@
 		var/mob/living/direct_hit = M
 		for(var/turf/T in range(aoe_radius, epicenter))
 			new /obj/effect/temp_visual/snap_freeze(T)
+			// Extinguish burning objects and hotspots in the blast radius
+			for(var/obj/O in T)
+				O.extinguish()
+			var/obj/effect/hotspot/hotspot = (locate(/obj/effect/hotspot) in T)
+			if(hotspot)
+				new /obj/effect/temp_visual/small_smoke(T)
+				qdel(hotspot)
 			for(var/mob/living/L in T)
 				if(L == direct_hit || L.stat == DEAD)
 					continue

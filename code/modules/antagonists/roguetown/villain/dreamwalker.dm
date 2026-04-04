@@ -554,7 +554,7 @@
 	wdefense = 4
 	possible_item_intents = list(/datum/intent/sword/cut, /datum/intent/sword/chop, /datum/intent/sword/thrust/long)
 	gripped_intents = list(/datum/intent/sword/cut/zwei, /datum/intent/sword/chop, /datum/intent/sword/thrust/estoc/lunge, /datum/intent/sword/thrust/estoc)
-	alt_intents = list(/datum/intent/effect/daze, /datum/intent/sword/strike, /datum/intent/sword/bash)
+	alt_grips = list(/datum/alt_grip/mordhau/broadsword/dream_broadsword)
 
 /obj/item/rogueweapon/greatsword/bsword/dreamscape/active
 	name = "otherworldly sword"

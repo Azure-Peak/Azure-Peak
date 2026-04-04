@@ -30,18 +30,22 @@
 	if(pulledby || pulling)
 		return FALSE
 
-	var/parrydelay = setparrytime
-	parrydelay -= get_tempo_bonus(TEMPO_TAG_PARRYCD_BONUS)
-	if(world.time < last_parry + parrydelay)
+	if(world.time < (last_parry + parrydelay))
 		if(!istype(rmb_intent, /datum/rmb_intent/riposte))
 			return FALSE
 	if(has_status_effect(/datum/status_effect/debuff/exposed) || has_status_effect(/datum/status_effect/debuff/vulnerable))
 		return FALSE
 	if(has_status_effect(/datum/status_effect/debuff/riposted))
 		return FALSE
-	last_parry = world.time
 	if(intenty && !intenty.canparry)
 		return FALSE
+
+	last_parry = world.time
+	if(!istype(rmb_intent, /datum/rmb_intent/riposte))
+		var/parrytime = setparrytime
+		parrytime -= get_tempo_bonus(TEMPO_TAG_PARRYCD_BONUS)
+		changeNext_def(parrytime)
+	
 	var/drained = BASE_PARRY_STAMINA_DRAIN
 	var/weapon_parry = FALSE
 	var/offhand_defense = 0
@@ -311,6 +315,9 @@
 				if(istype(used_weapon, /obj/item/rogueweapon/shield) && intenty)
 					intdam *= intenty.intent_intdamage_factor
 				used_weapon.take_damage(intdam, BRUTE, used_weapon.d_type)
+			if(mind)
+				dodgetime = CLAMP(dodgetime - 2, 0, CLICK_CD_DODGE)
+				changeMaxDodge(2)
 			return TRUE
 		else
 			return FALSE
@@ -335,6 +342,9 @@
 			else if(unarmed_bandages)
 				unarmed_bandages.take_damage(INTEG_PARRY_DECAY_NOSHARP, "slash", armor_penetration = 100)
 			flash_fullscreen("blackflash2")
+			if(mind)
+				dodgetime = CLAMP(dodgetime - 2, 0, CLICK_CD_DODGE)
+				changeMaxDodge(2)
 			return TRUE
 		else
 

@@ -18,6 +18,7 @@
 	desc = "People bring the small flames of their wishes together... to keep them from burning out, we cast our own flames into the biggest fire we can find. But you know... I didn't bring a flame with me. As for me, maybe I just wandered up to the campfire to warm myself a little..."
 	icon_state = "eiren"
 	icon = 'icons/obj/items/donor_weapons_64.dmi'
+	bigboy = TRUE
 // Eirenxiv -- End
 
 // Inverserun
@@ -26,6 +27,7 @@
 	desc = "Promises hurt, but so does plucking rosa. Hoping hurts, but so does looking at the beauty of Astrata's light. Pick yourself back up. Remember your promise, despite the thorns."
 	icon_state = "inverse"
 	icon = 'icons/obj/items/donor_weapons_64.dmi'
+	bigboy = TRUE
 
 // waffai
 /obj/item/rogueweapon/example/waffai_greatsword
@@ -33,6 +35,7 @@
 	desc = "A recreation of a gilbronze greatsword, wrought in steel. Inscribed on the blade is a declaration: \"I HAVE ONLY A SHORT TYME TO LYVE, BUT I AM NOT AFRAID TO DIE.\""
 	icon_state = "weeperslathe"
 	icon = 'icons/obj/items/donor_weapons_64.dmi'
+	bigboy = TRUE
 
 // stinkethstoneth
 /obj/item/rogueweapon/example/stinketh_sabre

@@ -110,6 +110,7 @@
 	return ..()
 
 /datum/action/cooldown/spell/arcyne_forge/miracle
+	invocations = list("Malum, grant me your tool!")//Old incantation
 	point_cost = 0
 	spell_tier = 0
 	associated_skill = /datum/skill/magic/holy

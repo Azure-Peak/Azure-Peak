@@ -1,0 +1,148 @@
+2026-04-01:
+  Baneuus:
+  - rscadd: Werewolves and druidic cats are now able to lick their own wounds.
+  - rscadd: Tennites and Ascendants now get their psicrosses with Devotee.
+  BurpleBineapple:
+  - bugfix: Fixes splinted leggings not using ARMOR_BRIGANDINE and some more bronze
+      armor.
+  CODEATHON1243:
+  - bugfix: minSTR martyraxe 13 -> 12, in line with martyr stats
+  FreeStylaLT:
+  - rscadd: A new T2 Miracle for Necra -- Consecrate Ground.
+  - refactor: Clothing / Title preferences in char setup no longer use an input box.
+  - balance: Flawless vice now restricts passive Triumph gain.
+  - bugfix: Fixed scabbards / sheathes not updating their onmobs properly.
+  - refactor: Hunted Vice now requires an additional Vice.
+  - balance: Sidefolk classes no longer get double TRI every night.
+  Ketrai:
+  - bugfix: missing hag antag datum in the global positions list
+  Ollanius:
+  - bugfix: Anthraxi mercenaries should no longer have a chance to spawn with duplicated
+      equipment. If any issues crop up (such as mysteriously missing loadout items),
+      ping @Dongwaiver on the 'cord.
+  - code_imp: Cleans up grammatical stuff for the Black Oaks and Anthraxi. All instances
+      of 'Black Oak's' in class names have been altered to 'Black Oaken', for the
+      sake of keeping stuff a little cleaner.
+  - rscadd: Changes the 'Azurean Tuck' to the 'Stecher' (or 'piercing' in German),
+      to better fit with current weapon naming conventions.
+  - rscadd: Properly reimplements both sprites. Credit to LitePurple and KittySmooch.
+  - rscadd: Adds supplemental lore to the Stecher, describing it as a noble-oriented
+      longsword of Azurian (and Grenzel-Otavan) design.
+  - rscadd: Slightly increases the Stecher's crafting recipe costs, adds it to all
+      loadouts that could already spawn with an Estoc, and adds it as an importable
+      weapon.
+  - rscadd: The 'Estoc' Triumph Morphing Elixir, which can be used to apply special
+      skins to both the Estoc and Stecher.
+  - bugfix: Properly implements two-handed sprites for both Estocs and Stechers.
+  Risraivyn:
+  - bugfix: You no longer drowning when you sleep in the water
+  Ryan180602:
+  - bugfix: show-tip works now
+  - rscadd: donor item
+  - rscadd: Bronzeworking kit option for Towner Smith
+  - rscadd: avantyne volfplate
+  - rscadd: new sprite for volfplate
+  WeNeedMorePhoron:
+  - balance: Heavy sling bullet is no longer god tier
+  eirenxiv:
+  - balance: increases gorget integrity by 50
+2026-04-02:
+  Clem-The-Duck:
+  - rscadd: Lets heretic spellblade and disgraced knight choose volf face helm when
+      spawning
+  KatTheFox:
+  - qol: mages are now notified when a player joins the familiar queue
+  Ollanius:
+  - bugfix: The Spatha should now properly display a stowed sprite, when placed into
+      a scabbard.
+  - bugfix: The Bronze Murmillo Helmet's recipe now accurately calls for an extra
+      piece of fur, instead of two cured hide strips.
+  Ryan180602:
+  - rscadd: donor item
+  - code_imp: add an onmobprop editor tool
+  Teragenic:
+  - balance: allows constructs to goon
+  WeNeedMorePhoron:
+  - rscadd: Vizier now gains Bestow Ward as a free spell.
+  babamandaa:
+  - rscadd: Adds a Maniac-Inspired Wretch subclass.
+  borneblood:
+  - qol: Locate Corpse is now a toggle spell, its effectiveness and costs based on
+      corpse freshness.
+  - qol: Mass Graves will now be less a hassle to rite.
+  - bugfix: Lux-Threads now stack properly, and from the ground.
+  - bugfix: Lux-Threads will no longer over-cap after becoming Tolls.
+  - bugfix: Tolls are now coins, visually, and fit where coins fit.
+  - qol: Graverobbers can dig graves with STRONG intent.
+  - bugfix: Locate Corpse should now stop looping if the corpse is revived, oops.
+  - spellcheck: Fixed an OCD killer typo for flavortext on Locate Corpse.
+  burgerenergy:
+  - rscadd: The Standard Bearer has a more nuanced skill set and is more combat capable.
+  eirenxiv:
+  - rscadd: Added more donor swords for myself
+  - rscadd: Added new Kazengun Wretch
+  - rscadd: Added new trait "Journey's End" and functionality
+2026-04-03:
+  Clem-The-Duck:
+  - rscadd: Adds a new Noccite Templar weapon, the Moonlight Kriegmesser!
+  WeNeedMorePhoron:
+  - balance: Spellblade Blade Chant Caedo CD increased to 16 seconds from 12 seconds.
+  eirenxiv:
+  - rscadd: Added RAGE mechanic to berserker and barbarian
+  - balance: adjusted berserker and barbarian stats to compensate for new mechanic
+  - balance: unshackled bodybuilder, its a meme and terrible
+2026-04-04:
+  Baneuus:
+  - qol: Excommunicado starts maxxed out
+  - rscadd: Necran ritual no longer allows to ressurect people with TRAIT_DNR or TRAIT_NECRAS_VOW
+  FreeStylaLT:
+  - balance: Dodge (with dodge expert) now dynamically changes its chances depending
+      on how the combat is going.
+  - balance: 'Dodge stamina drain is now affected by swift stance attacks.
+
+      balance; Dodge now decays its chance at a faster rate if the attacker has higher
+      weaponskill than the dodger.'
+  Kelshark:
+  - qol: player-controlled simple mobs with flight can now fly up/down
+  Ketrai:
+  - rscadd: Dendor spell root affinity T4, travel the root maze!
+  - rscadd: Root maze location.
+  - balance: Feytouched virtue made less bad.
+  - balance: Acolytes & Missionaries get bare minimum chest armor.
+  Lamasmaster:
+  - balance: Undivided Faith
+  - rscadd: Ham
+  LofiOtter:
+  - balance: Buff to Ruma Clan Tattoos
+  - bugfix: Fixed Ruma being able to wear metal helmets
+  - bugfix: Fixed Frei being able to wear certain metal helmets
+  Ollanius:
+  - bugfix: Crackerdough should now produce a unique smell when baked, instead of
+      printing 'smell'.
+  - bugfix: Fixed an unintended exploit where the 'Vial of Distilled Triumphance'
+      could have its unique reagent watered down to provide near-infinite amounts
+      of free statbuffs.
+  PatapoIIIa:
+  - code_imp: Migration from overlays to vis_content under HUDs
+  - refactor: Migration from overlays to vis_content under HUDs
+  Randall:
+  - bugfix: Fixed ration papers not showing up in the merchant
+  ToasterStrudes:
+  - bugfix: fixed a donator item's pathing
+  - rscadd: Donator items for ToasterStrudes
+  WeNeedMorePhoron:
+  - rscadd: Reworked Vizier's Reversion to gives the target a spell that they can
+      trigger voluntarily to snapshot back
+  - rscadd: Naledian masks can be placed on the hip
+  - balance: Battle Ward / Rune Ward now stuns for 6 seconds instead of 12
+  - rscadd: Cryomancy spells now extinguishes fire on structure / object and Fulgurmancy
+      spells now set structure / objects on fire
+  - rscadd: Makes wretch skeleton literate
+  - balance: Casting any of the new spells break invisibility as per behaviors before
+  changelingonberry:
+  - bugfix: Fixed the Braided Sidetail not showing up correctly.
+  eirenxiv:
+  - balance: removed CON granted by journey's end
+  gatorceres:
+  - rscadd: loadout options for plaguebearer (now "malpractitioner")
+  - balance: a bit more skill and a cheele for all malpractitioners

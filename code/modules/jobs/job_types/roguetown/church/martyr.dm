@@ -506,7 +506,7 @@
 	give_bank_account = TRUE
 
 	cmode_music = 'sound/music/combat_martyrsafe.ogg'
-	job_traits = list(TRAIT_HEAVYARMOR, TRAIT_STEELHEARTED, TRAIT_SILVER_BLESSED, TRAIT_EMPATH, TRAIT_MEDICINE_EXPERT, TRAIT_DUALWIELDER, TRAIT_CLERGY, TRAIT_TEMPO)
+	job_traits = list(TRAIT_HEAVYARMOR, TRAIT_STEELHEARTED, TRAIT_SILVER_BLESSED, TRAIT_EMPATH, TRAIT_MEDICINE_EXPERT, TRAIT_DUALWIELDER, TRAIT_CLERGY, TRAIT_TEMPO, TRAIT_MARRIAGE_CAPABLE)
 
 	//No undeath-adjacent virtues for a role that can sacrifice itself. The Ten like their sacrifices 'pure'. (I actually didn't want to code returning those virtue traits post-sword use)
 	//They get those traits during sword activation, anyway.
@@ -713,6 +713,7 @@
 	item_state = "martyraxe"
 	name = "divine axe"
 	desc = "A relic from the Holy See's own vaults; a blessed silver axe, marked with the ten-pointed sigil of Astrata's undivided might. </br>It simmers with godly energies, and will only yield to the hands of those who have taken the Oath."
+	minstr = 12
 	max_blade_int = 250
 	bigboy = 1
 	wlength = WLENGTH_LONG
@@ -1245,3 +1246,89 @@
 #undef STATE_SAFE
 #undef STATE_MARTYR
 #undef STATE_MARTYRULT
+
+
+///////////////////////////////////
+// Versions for UNDIVIDED ritual //
+///////////////////////////////////
+
+///////////
+// PLATE //
+///////////
+
+/obj/item/clothing/suit/roguetown/armor/plate/full/holysee/ritual
+	name = "crusader silver plate"
+
+/obj/item/clothing/suit/roguetown/armor/plate/full/holysee/ritual/mob_can_equip(mob/living/M, mob/living/equipper, slot, disable_warning = FALSE, bypass_equip_delay_self = FALSE)
+	return TRUE
+
+/obj/item/clothing/suit/roguetown/armor/plate/full/holysee/ritual/Initialize()
+	. = ..()
+	ADD_TRAIT(src, TRAIT_NODROP, CURSED_ITEM_TRAIT)
+
+/obj/item/clothing/suit/roguetown/armor/plate/full/holysee/ritual/dropped(mob/living/carbon/human/user)
+	. = ..()
+	if(QDELETED(src))
+		return
+	qdel(src)
+
+////////////
+// GLOVES //
+////////////
+
+/obj/item/clothing/gloves/roguetown/plate/holysee/ritual
+	name = "crusader silver plate gauntlets"
+
+/obj/item/clothing/gloves/roguetown/plate/holysee/ritual/mob_can_equip(mob/living/M, mob/living/equipper, slot, disable_warning = FALSE, bypass_equip_delay_self = FALSE)
+	return TRUE
+
+/obj/item/clothing/gloves/roguetown/plate/holysee/ritual/Initialize()
+	. = ..()
+	ADD_TRAIT(src, TRAIT_NODROP, CURSED_ITEM_TRAIT)
+
+/obj/item/clothing/gloves/roguetown/plate/holysee/ritual/dropped(mob/living/carbon/human/user)
+	. = ..()
+	if(QDELETED(src))
+		return
+	qdel(src)
+
+///////////
+// PANTS //
+///////////
+
+/obj/item/clothing/under/roguetown/platelegs/holysee/ritual
+	name = "crusader silver chausses"
+
+/obj/item/clothing/under/roguetown/platelegs/holysee/ritual/mob_can_equip(mob/living/M, mob/living/equipper, slot, disable_warning = FALSE, bypass_equip_delay_self = FALSE)
+	return TRUE
+
+/obj/item/clothing/under/roguetown/platelegs/holysee/ritual/Initialize()
+	. = ..()
+	ADD_TRAIT(src, TRAIT_NODROP, CURSED_ITEM_TRAIT)
+
+/obj/item/clothing/under/roguetown/platelegs/holysee/ritual/dropped(mob/living/carbon/human/user)
+	. = ..()
+	if(QDELETED(src))
+		return
+	qdel(src)
+
+///////////
+// BOOTS //
+///////////
+
+/obj/item/clothing/shoes/roguetown/boots/armor/holysee/ritual
+	name = "crusader silver plated boots"
+
+/obj/item/clothing/shoes/roguetown/boots/armor/holysee/ritual/mob_can_equip(mob/living/M, mob/living/equipper, slot, disable_warning = FALSE, bypass_equip_delay_self = FALSE)
+	return TRUE
+
+/obj/item/clothing/shoes/roguetown/boots/armor/holysee/ritual/Initialize()
+	. = ..()
+	ADD_TRAIT(src, TRAIT_NODROP, CURSED_ITEM_TRAIT)
+
+/obj/item/clothing/shoes/roguetown/boots/armor/holysee/ritual/dropped(mob/living/carbon/human/user)
+	. = ..()
+	if(QDELETED(src))
+		return
+	qdel(src)
+

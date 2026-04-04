@@ -120,11 +120,14 @@
 
 	switch(subclass_selected)
 		if("blade")
-			var/list/weapons = list("Moonlight Khopesh", "Longsword", "Rapier", "Sabre", "Steel Arming Sword", "Steel Greatsword", "Steel Dagger")
+			var/list/weapons = list("Moonlight Khopesh", "Moonlight Kriegmesser", "Longsword", "Rapier", "Sabre", "Steel Arming Sword", "Steel Greatsword", "Steel Dagger")
 			var/weapon_choice = input(H, "Choose your weapon.", "TAKE UP ARMS") as anything in weapons
 			switch(weapon_choice)
 				if("Moonlight Khopesh")
 					H.put_in_hands(new /obj/item/rogueweapon/sword/sabre/nockhopesh(H))
+					H.equip_to_slot_or_del(new /obj/item/rogueweapon/scabbard/sword(H), SLOT_BELT_R, TRUE)
+				if("Moonlight Kriegmesser")
+					H.put_in_hands(new /obj/item/rogueweapon/sword/long/kriegmesser/noc(H))
 					H.equip_to_slot_or_del(new /obj/item/rogueweapon/scabbard/sword(H), SLOT_BELT_R, TRUE)
 				if("Longsword")
 					H.put_in_hands(new /obj/item/rogueweapon/sword/long(H))

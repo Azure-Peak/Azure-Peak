@@ -68,4 +68,7 @@
 		if(isliving(target))
 			var/mob/living/L = target
 			L.electrocute_act(1, src, 1, SHOCK_NOSTUN)
+	else if(isatom(target))
+		var/atom/A = target
+		A.fire_act()
 	qdel(src)

@@ -75,6 +75,11 @@
 	deathsight_message = "a nasty wicked place deep betwixt the roots of the bog"
 	var/list/recent_intruders = list()
 
+/area/rogue/indoors/shelter/bog_hag/root_maze
+	name = "The Deepest Roots"
+	icon_state = "bog"
+	first_time_text = "THE DEEPROOT"
+
 /area/rogue/indoors/shelter/bog_hag/Entered(atom/movable/AM)
 	..()
 	if(!GLOB.active_hags.len)

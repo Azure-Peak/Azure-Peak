@@ -193,7 +193,7 @@
 		return
 
 	var/int_bonus = max(user.STAINT - 10, 0)
-	var/mote_power = min(5 + int_bonus, 10)
+	var/mote_power = 5 + FLOOR(int_bonus * 0.3, 1)
 	mote.set_light_range(mote_power)
 	if(mote.light_system == STATIC_LIGHT)
 		mote.update_light()

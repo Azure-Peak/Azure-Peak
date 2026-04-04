@@ -2,11 +2,12 @@
 /obj/item/rogueweapon/sword
 	name = "arming sword"
 	desc = "A long steel blade attached to a hilt, separated by a crossguard. The arming sword has been Psydonia's implement of war by excellence for generations."
+	alt_grips = null
 	slot_flags = ITEM_SLOT_HIP | ITEM_SLOT_BACK
 	force = 22
 	force_wielded = 25
 	possible_item_intents = list(/datum/intent/sword/cut/arming, /datum/intent/sword/thrust/arming, /datum/intent/sword/strike)
-	gripped_intents = list(/datum/intent/sword/cut/arming, /datum/intent/sword/thrust/arming, /datum/intent/sword/strike)
+	gripped_intents = null
 	damage_deflection = 14
 	icon_state = "sword1"
 	sheathe_icon = "sword1"
@@ -142,8 +143,7 @@
 	force_wielded = 30
 	possible_item_intents = list(/datum/intent/sword/cut, /datum/intent/sword/thrust/long, /datum/intent/sword/strike)
 	gripped_intents = list(/datum/intent/sword/cut/long, /datum/intent/sword/thrust/long, /datum/intent/sword/chop)
-	alt_intents = list(/datum/intent/sword/strike, /datum/intent/sword/bash, /datum/intent/effect/daze)
-	mordhau = TRUE
+	alt_grips = list(/datum/alt_grip/mordhau/sword, /datum/alt_grip/halfsword)
 	icon_state = "longsword"
 	icon = 'icons/roguetown/weapons/swords64.dmi'
 	item_state = "longsword"
@@ -171,6 +171,25 @@
 	. = ..()
 	AddComponent(/datum/component/skill_blessed, TRAIT_LONGSWORDSMAN, /datum/skill/combat/swords, SKILL_LEVEL_MASTER)
 
+/obj/item/rogueweapon/sword/long/ap
+	name = "stecher"
+	desc = "A unique longsword from the highest plateaus of the Azure Peak, sacrificing its cutting edge for a piercing tip that can easily penetrate maille. Tracing its roots to the \
+	late fourteenth century, this noble sidearm - borne from Grenzelhoftian imitations of the Otavan estoc - is proudly displayed on Azuria's official coat-of-arms."
+	icon_state = "aplongsword"
+	sheathe_icon = "aplongsword"
+	force = 20
+	force_wielded = 25
+	possible_item_intents = list(
+		/datum/intent/sword/thrust,
+		/datum/intent/sword/strike,
+	)
+	gripped_intents = list(
+		/datum/intent/sword/thrust/estoc,
+		/datum/intent/sword/thrust/estoc/lunge,
+		/datum/intent/sword/strike,
+	)
+	wdefense = 3
+
 /obj/item/rogueweapon/sword/long/broadsword
 	name = "broadsword"
 	desc = "A lethal and well-balanced weapon. The broadsword - better known as a 'hand-and-a-halfer' - has dutifully served the \
@@ -184,14 +203,14 @@
 	wdefense_wbonus = 3 // Same defense when one-handed, but slightly reduced wielded defense compared to the longsword.
 	possible_item_intents = list(/datum/intent/sword/chop/broadsword, /datum/intent/sword/thrust/long/broadsword, /datum/intent/sword/strike)
 	gripped_intents = list(/datum/intent/sword/chop/broadsword, /datum/intent/sword/thrust/long/broadsword/heavy, /datum/intent/sword/strike)
-	alt_intents = list(/datum/intent/sword/strike, /datum/intent/sword/bash, /datum/intent/effect/daze, /datum/intent/sword/cut/broadsword)
+	alt_grips = list(/datum/alt_grip/mordhau/broadsword)
 	smeltresult = /obj/item/ingot/iron //Sidegrade of the longswords and battle axes - non-blunt attacks hit harder, but are always telegraphed and swing-delayed.
 
 /obj/item/rogueweapon/sword/long/broadsword/bronze
 	name = "spatha"
 	desc = "A hero needn't speak - for when they are gone, the world will speak for them."
 	icon_state = "spatha"
-	sheathe_icon = "spatha"
+	sheathe_icon = "gladius"
 	wdefense = 3 //On par with the Gladius, as the Spatha is.. essentially.. a longer Gladius. Lowest WDEF of all longswords.
 	wdefense_wbonus = 3
 	max_blade_int = 295 //Inverse. Sharper..
@@ -226,7 +245,6 @@
 	swingsound = BLADEWOOSH_HUGE
 	possible_item_intents = list(/datum/intent/sword/chop/broadsword, /datum/intent/sword/thrust/long/broadsword, /datum/intent/sword/strike)
 	gripped_intents = list(/datum/intent/sword/chop/broadsword, /datum/intent/sword/thrust/long/broadsword/heavy, /datum/intent/sword/strike)
-	alt_intents = null
 	smeltresult = /obj/item/ingot/iron
 
 /obj/item/rogueweapon/sword/long/training
@@ -251,116 +269,36 @@
 /obj/item/rogueweapon/sword/long/undivided
 	name = "decablade"
 	desc = "A blessed longsword, held by the Holy See's templars in their stalwart defense against evil. The golden crossguard bares the winged motif of an angel, and psalms from the Pantheon's holy tome have been meticulously carved along the blade's edge. </br>'With a drop of holy Eclipsum, doth the blade rise..' </br>'..gilded, gleaming, radiant heat, warm my soul, immolate my enemies..' </br>'..and let me vanquish all those who would dare to Divide us, once more.'"
-	icon_state = "eclipsum"
+	icon_state = "seeblade"
 	sheathe_icon = "eclipsum"
 	max_blade_int = 250
 	max_integrity = 180
 	force = 28
 	force_wielded = 33
 
-/obj/item/rogueweapon/sword/long/undivided/getonmobprop(tag)
-	. = ..()
-	if(tag)
-		switch(tag)
-			if("gen") return list(
-				"shrink" = 0.65,
-				"sx" = -14,
-				"sy" = -8,
-				"nx" = 15,
-				"ny" = -7,
-				"wx" = -10,
-				"wy" = -5,
-				"ex" = 7,
-				"ey" = -6,
-				"northabove" = 0,
-				"southabove" = 1,
-				"eastabove" = 1,
-				"westabove" = 0,
-				"nturn" = -13,
-				"sturn" = 110,
-				"wturn" = -60,
-				"eturn" = -30,
-				"nflip" = 1,
-				"sflip" = 1,
-				"wflip" = 8,
-				"eflip" = 1,
-				)
-			if("onback") return list(
-				"shrink" = 0.65,
-				"sx" = -1,
-				"sy" = 2,
-				"nx" = 0,
-				"ny" = 2,
-				"wx" = 2,
-				"wy" = 1,
-				"ex" = 0,
-				"ey" = 1,
-				"nturn" = 0,
-				"sturn" = 0,
-				"wturn" = 70,
-				"eturn" = 15,
-				"nflip" = 1,
-				"sflip" = 1,
-				"wflip" = 1,
-				"eflip" = 1,
-				"northabove" = 1,
-				"southabove" = 0,
-				"eastabove" = 0,
-				"westabove" = 0,
-				)
-			if("wielded") return list(
-				"shrink" = 0.6,
-				"sx" = 3,
-				"sy" = 5,
-				"nx" = -3,
-				"ny" = 5,
-				"wx" = -9,
-				"wy" = 4,
-				"ex" = 9,
-				"ey" = 1,
-				"northabove" = 0,
-				"southabove" = 1,
-				"eastabove" = 1,
-				"westabove" = 0,
-				"nturn" = 0,
-				"sturn" = 0,
-				"wturn" = 0,
-				"eturn" = 15,
-				"nflip" = 8,
-				"sflip" = 0,
-				"wflip" = 8,
-				"eflip" = 0,
-				)
-			if("onbelt") return list(
-				"shrink" = 0.4,
-				"sx" = -4,
-				"sy" = -6,
-				"nx" = 5,
-				"ny" = -6,
-				"wx" = 0,
-				"wy" = -6,
-				"ex" = -1,
-				"ey" = -6,
-				"nturn" = 100,
-				"sturn" = 156,
-				"wturn" = 90,
-				"eturn" = 180,
-				"nflip" = 0,
-				"sflip" = 0,
-				"wflip" = 0,
-				"eflip" = 0,
-				"northabove" = 0,
-				"southabove" = 1,
-				"eastabove" = 1,
-				"westabove" = 0,
-				)
+/obj/item/rogueweapon/sword/long/crusader
+	name = "\"Adjudicator\""
+	desc = "A blessed longsword of Ravox, held by the devout crusaders in service to the Divine Ten against the encroaching darkness. The crossguard bears motif of the Justicar, and psalms from the Pantheon's holy tome have been meticulously carved along the blade's edge. </br>'...And upon the Lands came the DIVINE. In PSYDON's absence, so came the TRUE GODS from their rest. So were THEIR gifts spread across the breadth of the world.' </br>'...It was the Justicar's hand that stayed the blade, for He objected to the execution, and demanded that Justice overcome where Vengeance reigned.'</br>Many tales surround this mythical blade - the demise of the Dark Star and the Mad Duke are often cited as to have been result of such - with little evidence to support these claims."
+	icon_state = "seemasterblade"
+	sheathe_icon = "eclipsum"
+	force = 30
+	force_wielded = 35
+	max_blade_int = 400
+	max_integrity = 500
+	equip_delay_self = 0
+	unequip_delay_self = 0//Same as avantyne sword
 
+/obj/item/rogueweapon/sword/long/crusader/Initialize()
+	. = ..()
+	AddComponent(/datum/component/cursed_item, TRAIT_UNDIVIDED, "SWORD")
 
 /obj/item/rogueweapon/sword/long/death
 	color = CLOTHING_BLACK
 
 /obj/item/rogueweapon/sword/long/getonmobprop(tag)
 	. = ..()
+	if(tag == "altgrip" && .)
+		return .
 	if(tag)
 		switch(tag)
 			if("gen") return list("shrink" = 0.5, "sx" = -14, "sy" = -8, "nx" = 15, "ny" = -7, "wx" = -10, "wy" = -5, "ex" = 7, "ey" = -6, "northabove" = 0, "southabove" = 1, "eastabove" = 1, "westabove" = 0, "nturn" = -13, "sturn" = 110, "wturn" = -60, "eturn" = -30, "nflip" = 1, "sflip" = 1, "wflip" = 8, "eflip" = 1)
@@ -375,9 +313,7 @@
 	icon_state = "elongsword"
 	sheathe_icon = "elongsword"
 	icon = 'icons/roguetown/weapons/special/freifechter.dmi'
-	possible_item_intents = list(/datum/intent/sword/cut, /datum/intent/sword/thrust/long, /datum/intent/effect/daze/longsword/clinch, /datum/intent/effect/daze/longsword)
-	gripped_intents = list(/datum/intent/sword/cut/master, /datum/intent/sword/thrust/long/master, /datum/intent/sword/thrust/long/halfsword, /datum/intent/effect/daze/longsword2h)
-	mordhau = FALSE
+	alt_grips = list(/datum/alt_grip/halfsword/frei, /datum/alt_grip/roof_guard, /datum/alt_grip/mordhau/sword)
 	wlength = WLENGTH_NORMAL
 	max_blade_int = 300
 	max_integrity = 225
@@ -395,7 +331,6 @@
 	max_blade_int = 275
 	possible_item_intents = list(/datum/intent/sword/cut, /datum/intent/sword/thrust/long, /datum/intent/dagger/sucker_punch, /datum/intent/sword/bash)
 	gripped_intents = list(/datum/intent/sword/cut, /datum/intent/sword/thrust/long, /datum/intent/sword/thrust/long/halfsword/lesser, /datum/intent/sword/chop)
-	mordhau = FALSE
 	wlength = WLENGTH_NORMAL
 
 /obj/item/rogueweapon/sword/long/zizo
@@ -534,7 +469,7 @@
 	desc = "A heavy broadsword with a terrifyingly sharp edge, purpose-made to part heads from shoulders. Owing to its nature as a weapon of justice, it lacks the piercing tips that befit most battle-ready broadswords. If you're strong enough to wield such a weapon, however, then that probably won't stop you from finding a way."
 	possible_item_intents = list(/datum/intent/sword/cut, /datum/intent/sword/chop/broadsword, /datum/intent/sword/thrust/exe, /datum/intent/sword/strike)
 	gripped_intents = list(/datum/intent/sword/cut, /datum/intent/sword/cut/exe/cleave, /datum/intent/sword/cut/exe/sweep,  /datum/intent/rend/broadsword)
-	alt_intents = null
+	alt_grips = null
 	icon_state = "exe"
 	minstr = 12
 	slot_flags = ITEM_SLOT_BACK
@@ -543,7 +478,6 @@
 	max_blade_int = 330 
 	smelt_bar_num = 2 // 1 bar loss
 	vorpal = TRUE // snicker snack this shit cuts heads off effortlessly (DO NOT PUT THIS ON ANYTHING ELSE UNLESS IT'S SUPER FUCKING RARE!!!)
-	mordhau = FALSE
 
 /datum/intent/sword/thrust/exe
 	swingdelay = 4	//Slight delay to stab; big and heavy.
@@ -577,6 +511,8 @@
 
 /obj/item/rogueweapon/sword/long/exe/getonmobprop(tag)
 	. = ..()
+	if(tag == "altgrip" && .)
+		return .
 	if(tag)
 		switch(tag)
 			if("gen")
@@ -742,8 +678,6 @@
 	wdefense = 6
 	possible_item_intents = list(/datum/intent/rend/broadsword, /datum/intent/sword/chop/broadsword, /datum/intent/sword/thrust/long/broadsword, /datum/intent/sword/strike)
 	gripped_intents = list(/datum/intent/rend/broadsword, /datum/intent/sword/chop/broadsword, /datum/intent/sword/thrust/long/broadsword/heavy, /datum/intent/sword/strike)
-	alt_intents = list(/datum/intent/sword/strike, /datum/intent/sword/bash, /datum/intent/effect/daze, /datum/intent/sword/cut/broadsword)
-	mordhau = TRUE
 	smeltresult = /obj/item/ingot/silver
 	is_silver = TRUE
 
@@ -770,8 +704,6 @@
 	wdefense = 6
 	possible_item_intents = list(/datum/intent/rend/broadsword, /datum/intent/sword/chop/broadsword, /datum/intent/sword/thrust/long/broadsword, /datum/intent/sword/strike)
 	gripped_intents = list(/datum/intent/rend/broadsword, /datum/intent/sword/chop/broadsword, /datum/intent/sword/thrust/long/broadsword/heavy, /datum/intent/sword/strike)
-	alt_intents = list(/datum/intent/sword/strike, /datum/intent/sword/bash, /datum/intent/effect/daze, /datum/intent/sword/cut/broadsword)
-	mordhau = TRUE
 	smeltresult = /obj/item/ingot/silverblessed
 	is_silver = TRUE
 
@@ -822,6 +754,7 @@
 /obj/item/rogueweapon/sword/short
 	name = "steel shortsword"
 	desc = "The arming sword's shorter and much older brother. Despite being centuries older than the swords of todae, it remains in use as a cheap sidearm for shieldbearers and archers."
+	alt_grips = null
 	possible_item_intents = list(/datum/intent/sword/cut/short, /datum/intent/sword/thrust/short)
 	icon_state = "swordshort"
 	sheathe_icon = "swordshort"
@@ -1094,6 +1027,7 @@
 	gripped_intents = null
 	parrysound = list('sound/combat/parry/bladed/bladedthin (1).ogg', 'sound/combat/parry/bladed/bladedthin (2).ogg', 'sound/combat/parry/bladed/bladedthin (3).ogg')
 	swingsound = BLADEWOOSH_SMALL
+	max_blade_int = 230
 	minstr = 5
 	wdefense = 7		//Same as rapier
 	wbalance = WBALANCE_SWIFT
@@ -1248,7 +1182,6 @@
 	icon_state = "tabi"
 	icon = 'icons/roguetown/weapons/swords64.dmi'
 	possible_item_intents = list(/datum/intent/sword/cut/sabre, /datum/intent/sword/thrust, /datum/intent/sword/chop)
-	alt_intents = list(/datum/intent/sword/cut/sabre, /datum/intent/sword/thrust, /datum/intent/sword/strike, /datum/intent/sword/chop)
 	bigboy = TRUE
 	pixel_y = -16
 	pixel_x = -16
@@ -1281,9 +1214,10 @@
 	inhand_x_dimension = 64
 	inhand_y_dimension = 64
 	dropshrink = 0.75
+	max_blade_int = 230
 	possible_item_intents = list(/datum/intent/sword/thrust/rapier, /datum/intent/sword/cut/rapier)
-	special = /datum/special_intent/piercing_lunge
 	gripped_intents = null
+	special = /datum/special_intent/piercing_lunge
 	parrysound = list(
 		'sound/combat/parry/bladed/bladedthin (1).ogg',
 		'sound/combat/parry/bladed/bladedthin (2).ogg',
@@ -1456,7 +1390,9 @@
 
 /obj/item/rogueweapon/sword/rapier/psy/relic
 	name = "Eucharist"
-	desc = "Etruscan shape falling prey to Otavan craftsmanship. Saint Malum's smiths created an uniquely thin blade, capable of swiftly skewering the unholy and the miscreants through gaps that most claim to have never existed in the first place. <b> Silver-dipped steel crowned upon a basket hilt that keeps righteous hands safe from harm."
+	desc = "Etruscan shape falling prey to Otavan craftsmanship. Saint Malum's smiths created an uniquely thin blade, capable of swiftly \
+	skewering the unholy and the miscreants through gaps that most claim to have never existed in the first place. <b> Silver-dipped steel \
+	crowned upon a basket hilt that keeps righteous hands safe from harm."
 	icon_state = "psyrapier"
 	sheathe_icon = "psyrapier"
 	max_integrity = 300
@@ -1538,7 +1474,6 @@
 	wbalance = WBALANCE_SWIFT
 	sheathe_icon = "cutlass"
 
-
 /obj/item/rogueweapon/sword/silver
 	name = "silver arming sword"
 	desc = "An arming sword, fitted with a blade of pure silver. It is the bane of vampyres, nitebeasts, and deadites throughout all of Psydonia; cursed flesh erupts into holy fire, and unholy bravado twists into mortal fear."
@@ -1565,6 +1500,34 @@
 		added_def = 2,\
 	)
 
+/obj/item/rogueweapon/sword/silver/decorated
+	name = "decorated silver khadga" //While ostensibly a sword, it's functionally identical - if a little weaker - than the Silver War Axe.
+	desc = "Beautifully designed for nobility, yet born from an ignoble purpose; to satiate the powers of ancient mythos with sacrifical blood. This Naledian \
+	sword, better known as a 'ram-dao', now serves to satiate the spite of vengeful spirits - not through bloodshed, but through sunderance."
+	icon_state = "ram_dao"
+	sheathe_icon = "scabbard_decsword3"
+	force = 25
+	possible_item_intents = list(/datum/intent/axe/cut, /datum/intent/axe/chop, /datum/intent/axe/bash/battle)
+	gripped_intents = null
+	minstr = 11
+	max_blade_int = 300
+	smeltresult = /obj/item/ingot/gold
+	smelt_bar_num = 1
+	wdefense = 5
+	sellprice = 150
+	is_silver = TRUE
+
+/obj/item/rogueweapon/sword/silver/decorated/ComponentInitialize()
+	AddComponent(\
+		/datum/component/silverbless,\
+		pre_blessed = BLESSING_NONE,\
+		silver_type = SILVER_TENNITE,\
+		added_force = 0,\
+		added_blade_int = 50,\
+		added_int = 50,\
+		added_def = 2,\
+	)
+
 /obj/item/rogueweapon/sword/long/rhomphaia
 	name = "rhomphaia"
 	desc = "An ancient two-handed sword similar to the falx, with a less pronounced curve. Once known for cutting through helmet - metallurgy has improved since then, but it can chop through light armor with ease."
@@ -1577,6 +1540,8 @@
 
 /obj/item/rogueweapon/sword/long/rhomphaia/getonmobprop(tag)
 	. = ..()
+	if(tag == "altgrip" && .)
+		return .
 	if(tag)
 		switch(tag)
 			if("gen")
@@ -1607,6 +1572,8 @@
 
 /obj/item/rogueweapon/sword/long/oathkeeper/getonmobprop(tag)
 	. = ..()
+	if(tag == "altgrip" && .)
+		return .
 	if(tag)
 		switch(tag)
 			if("gen")
@@ -1634,7 +1601,7 @@
 /obj/item/rogueweapon/sword/long/holysee
 	name = "eclipsum sword"
 	desc = "A masterworked longsword, forged from the same divine alloy that decorates the Bishop's hip. As your fingers curl around the shaft, a blessed sensation rolls through your very soul: the resolve to stand against evil, and the determination to see it vanquished from this world. </br>'..blessed to hold strength and bring hope, whether it be during the dae or the nite..'"
-	icon_state = "seeblade"
+	icon_state = "eclipsum"
 	force = 35
 	force_wielded = 50
 	possible_item_intents = list(/datum/intent/sword/cut, /datum/intent/sword/thrust, /datum/intent/sword/strike)
@@ -1761,8 +1728,16 @@
 	icon_state = "kriegmesser"
 	possible_item_intents = list(/datum/intent/sword/cut/krieg, /datum/intent/sword/chop/falx, /datum/intent/sword/strike, /datum/intent/rend/krieg)
 	gripped_intents = list(/datum/intent/sword/cut/krieg, /datum/intent/sword/thrust/krieg, /datum/intent/sword/strike, /datum/intent/rend/krieg)
-	alt_intents = null // Can't mordhau this
+	alt_grips = null
 	smeltresult = /obj/item/ingot/steel
+
+/obj/item/rogueweapon/sword/long/kriegmesser/noc
+	name = "moonlight kriegmesser"
+	desc = "A unique styled Kriegmesser originally conceived by Noccite Spellblades taking inspiration from Grenzelhoftian and Otavan blade designs. \
+	The unique colour of the blade is due to a forging technique combining Manablooms with the steel, giving the weapon better attunement with the Acryne."
+	icon_state = "mkriegmesser"
+	smeltresult = /obj/item/ingot/steel
+	sheathe_icon = "mkriegmesser" 
 
 /obj/item/rogueweapon/sword/long/kriegmesser/ssangsudo
 	name = "ssangsudo"
@@ -1991,6 +1966,8 @@
 
 /obj/item/rogueweapon/sword/long/shotel/getonmobprop(tag)
 	. = ..()
+	if(tag == "altgrip" && .)
+		return .
 	if(tag)
 		switch(tag)
 			if("gen")
@@ -2014,6 +1991,8 @@
 
 /obj/item/rogueweapon/sword/long/shotel/iron/getonmobprop(tag)
 	. = ..()
+	if(tag == "altgrip" && .)
+		return .
 	if(tag)
 		switch(tag)
 			if("gen")
@@ -2064,69 +2043,6 @@
 	sheathe_icon = "goldsword"
 	wbalance = WBALANCE_HEAVY
 	unenchantable = TRUE
-
-/obj/item/rogueweapon/sword/gold/lordscepter
-	name = "\"Godshand\""
-	desc = "A royal arming sword, who's golden blade and besilked handle lays separated by a duocruciformic crossguard. Nestled within its glistening bosom is a shard of Astrata's divinity authority; when reason fails to rank amongst rage, let Her speak for you. ‎</br>‎‎ </br>'..And I will strike down upon thee with great vengeance and furious anger - those who would attempt to poison and destroy my brothers. And you will know that I am the Lord when I lay my vengeance upon thee!'"
-	icon_state = "goldswordking"
-	sheathe_icon = "goldswordking"
-	anvilrepair = /datum/skill/craft/weaponsmithing
-	minstr = 7
-	max_integrity = 250
-	max_blade_int = 250
-	sellprice = 363
-	possible_item_intents = list(/datum/intent/sword/cut/arming, /datum/intent/sword/thrust/arming, /datum/intent/lord_electrocute, /datum/intent/lord_silence)
-	gripped_intents = list(/datum/intent/sword/cut/arming, /datum/intent/sword/thrust/arming, /datum/intent/sword/strike)
-	unenchantable = TRUE
-	COOLDOWN_DECLARE(sceptersword)
-
-/obj/item/rogueweapon/sword/gold/lordscepter/afterattack(atom/target, mob/user, flag)
-	. = ..()
-	if(get_dist(user, target) > 7)
-		return
-	
-	user.changeNext_move(CLICK_CD_MELEE)
-
-	if(ishuman(user))
-		var/mob/living/carbon/human/HU = user
-
-		if(HU.job != "Grand Duke")
-			to_chat(user, span_danger("The sword's divine authority doesn't recognize me."))
-			return
-
-		if(ishuman(target))
-			var/mob/living/carbon/human/H = target
-			var/area/target_area = get_area(H)
-
-			if(!istype(target_area, /area/rogue/indoors/town/manor))
-				to_chat(user, span_danger("The sword's divine authority cannot be invoked on targets outside of the manor!"))
-				return
-
-			if(H == HU)
-				return
-
-			if(!COOLDOWN_FINISHED(src, sceptersword))
-				to_chat(user, span_danger("The [src] is not ready yet! [round(COOLDOWN_TIMELEFT(src, sceptersword) / 10, 1)] seconds left!"))
-				return
-
-			if(H.anti_magic_check())
-				to_chat(user, span_danger("Something is disrupting the sword's divine authority!"))
-				return
-
-			if(istype(user.used_intent, /datum/intent/lord_electrocute))
-				HU.visible_message(span_warning("[HU] electrocutes [H] with the [src]."))
-				user.Beam(target,icon_state="lightning[rand(1,12)]",time=5)
-				H.electrocute_act(5, src)
-				COOLDOWN_START(src, sceptersword, 20 SECONDS)
-				to_chat(H, span_danger("I'm electrocuted by the sword's divine authority!"))
-				return
-
-			if(istype(user.used_intent, /datum/intent/lord_silence))
-				HU.visible_message("<span class='warning'>[HU] silences [H] with \the [src].</span>")
-				H.set_silence(20 SECONDS)
-				COOLDOWN_START(src, sceptersword, 10 SECONDS)
-				to_chat(H, "<span class='danger'>I'm silenced by the sword's divine authority!</span>")
-				return
 
 /obj/item/rogueweapon/sword/blacksteel
 	name = "blacksteel arming sword"

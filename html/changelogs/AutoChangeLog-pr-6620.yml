@@ -1,0 +1,5 @@
+author: "eirenxiv"
+delete-after: True
+changes:
+  - rscadd: "Beak donor helmet"
+  - bugfix: "fixed donor swords, various"

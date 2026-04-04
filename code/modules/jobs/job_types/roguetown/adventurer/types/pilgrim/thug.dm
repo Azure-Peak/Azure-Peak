@@ -2,7 +2,7 @@
 	name = "Goon"
 	tutorial = "You are a goon, a low-lyfe thug in a painful world - not good enough for war, not smart enough for peace. What you lack in station you make up for in daring."
 	allowed_sexes = list(MALE, FEMALE)
-	allowed_races = RACES_SHUNNED_UP
+	allowed_races = ACCEPTED_RACES
 	outfit = /datum/outfit/job/roguetown/adventurer/thug/goon
 	category_tags = list(CTAG_TOWNER)
 	traits_applied = list(TRAIT_SEEPRICES_SHITTY)
@@ -210,6 +210,18 @@
 			H.adjust_skillrank_up_to(/datum/skill/combat/axes, SKILL_LEVEL_JOURNEYMAN, TRUE)
 			r_hand = /obj/item/rogueweapon/greataxe // not steel
 			gloves = /obj/item/clothing/gloves/roguetown/fingerless
+
+	var/techniques = list("Dropkick - Pushback + Extra Damage", "Chokeslam - Stamina Damage", "Stunner - Dazed Debuff", "Headbutt - Vulnerable Debuff") // cool wrestling moves
+	var/technique_choice = input(H,"Choose your TECHNIQUE.", "TOSS THEM.") as anything in techniques
+	switch(technique_choice)
+		if("Dropkick - Pushback + Extra Damage")
+			H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/dropkick)
+		if("Chokeslam - Stamina Damage")
+			H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/chokeslam)
+		if("Stunner - Dazed Debuff")
+			H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/stunner)
+		if("Headbutt - Vulnerable Debuff")
+			H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/headbutt)
 
 	var/prefixs = list(
 		"Skinny" = "Skinny", // Why

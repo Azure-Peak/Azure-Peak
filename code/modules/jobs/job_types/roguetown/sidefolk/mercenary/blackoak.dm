@@ -1,6 +1,6 @@
 // Elven unique mercenary type; should be scary in a way solo but easy to kill with a group or bow.
 /datum/advclass/mercenary/blackoak
-	name = "Black Oak's Guardian"
+	name = "Black Oaken Guardian"
 	tutorial = "A shady guardian of the Black Oaks. Half mercenary band, half irregular militia fighting for control of their ancestral elven homeland of the Peaks. Thankfully, you are not here today to shed the blood of the Duke's men — unless someone pays you to..."
 	allowed_sexes = list(MALE, FEMALE)
 	allowed_races = list(
@@ -12,7 +12,7 @@
 	class_select_category = CLASS_CAT_RACIAL
 	category_tags = list(CTAG_MERCENARY)
 	cmode_music = 'sound/music/combat_blackoak.ogg'
-	extra_context = "This subclass is race-restricted to: Half-Elves, Elves, Dark Elves."
+	extra_context = "This class is restricted to the Elf, Half-Elf, and Dark Elf species."
 	subclass_languages = list(/datum/language/oldazurian)
 	traits_applied = list(TRAIT_AZURENATIVE, TRAIT_OUTDOORSMAN, TRAIT_BLACKOAK, TRAIT_MEDIUMARMOR)
 	subclass_stats = list(
@@ -66,7 +66,7 @@
 /datum/outfit/job/roguetown/mercenary/blackoak/choose_loadout(mob/living/carbon/human/H)
 	. = ..()
 	var/weapons = list("Elvish Glaive", "Elvish Curveblade", "Elvish Longsword")
-	var/weapon_choice = input(H, "Choose your weapon.", "FOR THE OAKS AND THE PEAKS") as anything in weapons
+	var/weapon_choice = input(H, "Choose your WEAPON.", "FOR THE OAKS AND THE PEAKS.") as anything in weapons
 	switch(weapon_choice)
 		if("Elvish Glaive")
 			H.adjust_skillrank_up_to(/datum/skill/combat/polearms, SKILL_LEVEL_EXPERT, TRUE)
@@ -82,7 +82,7 @@
 			H.equip_to_slot_or_del(new /obj/item/rogueweapon/scabbard/sword, SLOT_BACK_R, TRUE)
 
 /datum/advclass/mercenary/blackoak/ranger
-	name = "Black Oak's Ranger"
+	name = "Black Oaken Ranger"
 	tutorial = "A shady ranger of the Black Oaks. Half mercenary band, half irregular militia fighting for control of their ancestral elven homeland of the Peaks. Thankfully, you are not here today to shed the blood of the Duke's men — unless someone pays you to..."
 	outfit = /datum/outfit/job/roguetown/mercenary/blackoak_ranger
 	traits_applied = list(TRAIT_AZURENATIVE, TRAIT_OUTDOORSMAN, TRAIT_BLACKOAK, TRAIT_DODGEEXPERT, TRAIT_WOODWALKER)
@@ -136,7 +136,7 @@
 /datum/outfit/job/roguetown/mercenary/blackoak_ranger/choose_loadout(mob/living/carbon/human/H)
 	. = ..()
 	var/weapons = list("Elvish Dagger", "Elvish Saber", "Elvish Shortsword")
-	var/weapon_choice = input(H, "Choose your weapon.", "FOR THE OAKS AND THE PEAKS") as anything in weapons
+	var/weapon_choice = input(H, "Choose your WEAPON.", "FOR THE OAKS AND THE PEAKS.") as anything in weapons
 	switch(weapon_choice)
 		if("Elvish Dagger")
 			H.adjust_skillrank_up_to(/datum/skill/combat/knives, SKILL_LEVEL_EXPERT, TRUE)
@@ -151,7 +151,7 @@
 			H.put_in_hands(new /obj/item/rogueweapon/sword/short/elvish)
 			H.equip_to_slot_or_del(new /obj/item/rogueweapon/scabbard/sword, SLOT_BELT_R, TRUE)
 	var/armors = list("Trophy Fur Robes", "Elven Cuirass")
-	var/armor_choice = input(H, "Choose your armor.", "THE FOREST CLOAKS YOU") as anything in armors
+	var/armor_choice = input(H, "Choose your ARMOR.", "THE FOREST CLOAKS YOU.") as anything in armors
 	switch(armor_choice)
 		if("Trophy Fur Robes")
 			H.equip_to_slot_or_del(new /obj/item/clothing/suit/roguetown/armor/leather/trophyfur, SLOT_ARMOR, TRUE)
@@ -159,7 +159,7 @@
 			REMOVE_TRAIT(H, TRAIT_DODGEEXPERT, TRAIT_GENERIC)
 			H.equip_to_slot_or_del(new /obj/item/clothing/suit/roguetown/armor/plate/cuirass/fencer/elven, SLOT_ARMOR, TRUE)
 	var/helmets = list("Elven Barbute", "Winged Elven Barbute")
-	var/helmet_choice = input(H, "Choose your helmet.", "LEAVES OVER STEEL") as anything in helmets
+	var/helmet_choice = input(H, "Choose your HELMET.", "LEAVES OVER STEEL.") as anything in helmets
 	switch(helmet_choice)
 		if("Elven Barbute")
 			H.equip_to_slot_or_del(new /obj/item/clothing/head/roguetown/helmet/elvenbarbute/blackoak, SLOT_HEAD, TRUE)
@@ -167,7 +167,7 @@
 			H.equip_to_slot_or_del(new /obj/item/clothing/head/roguetown/helmet/elvenbarbute/winged/blackoak, SLOT_HEAD, TRUE)
 
 /datum/advclass/mercenary/blackoak/adept
-	name = "Black Oak's Adept"
+	name = "Black Oaken Adept"
 	tutorial = "A spellblade of the Black Oaks. Half mercenary band, half irregular militia fighting for control of their ancestral elven homeland of the Peaks. You have honed the ancient Azurean art of spellbladery - an art that is yours and your people's alone. Thankfully, you are not here today to shed the blood of the Duke's men - unless someone pays you to..."
 	outfit = /datum/outfit/job/roguetown/mercenary/blackoak_adept
 	class_select_category = CLASS_CAT_RACIAL
@@ -278,7 +278,7 @@
 	switch(subclass_selected)
 		if("blade")
 			var/weapons = list("Elvish Longsword", "Elvish Saber", "Elvish Curveblade", "Steel Dagger")
-			var/weapon_choice = input(H, "Choose your weapon.", "FOR THE OAKS AND THE PEAKS") as anything in weapons
+			var/weapon_choice = input(H, "Choose your WEAPON.", "FOR THE OAKS AND THE PEAKS.") as anything in weapons
 			switch(weapon_choice)
 				if("Elvish Longsword")
 					r_hand = /obj/item/rogueweapon/sword/long/elvish
@@ -305,7 +305,7 @@
 		if("macebearer")
 			backr = /obj/item/rogueweapon/shield/wood
 			var/mace_weapons = list("Steel Mace", "Steel Warhammer")
-			var/mace_choice = input(H, "Choose your weapon.", "FOR THE OAKS AND THE PEAKS") as anything in mace_weapons
+			var/mace_choice = input(H, "Choose your WEAPON.", "FOR THE OAKS AND THE PEAKS.") as anything in mace_weapons
 			switch(mace_choice)
 				if("Steel Mace")
 					r_hand = /obj/item/rogueweapon/mace/steel
@@ -314,7 +314,7 @@
 			H.adjust_skillrank_up_to(/datum/skill/combat/maces, SKILL_LEVEL_EXPERT, TRUE)
 
 	var/helmets = list("Elven Barbute", "Winged Elven Barbute")
-	var/helmet_choice = input(H, "Choose your helmet.", "LEAVES OVER STEEL") as anything in helmets
+	var/helmet_choice = input(H, "Choose your HELMET.", "LEAVES OVER STEEL.") as anything in helmets
 	switch(helmet_choice)
 		if("Elven Barbute")
 			H.equip_to_slot_or_del(new /obj/item/clothing/head/roguetown/helmet/elvenbarbute/blackoak, SLOT_HEAD, TRUE)

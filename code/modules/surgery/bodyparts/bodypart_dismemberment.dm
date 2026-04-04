@@ -91,7 +91,7 @@
 				C.visible_message(span_danger("<b>[C]'s wrought skull is <span class='crit'>CLEFT NIGH IN TWAIN</span> by a fearsome blow, crumbling into a <span class='crit'>CLOUD of DUST!</span></b>"))
 				C.death()
 				return
-			
+
 			if (skeletonized)
 				C.visible_message(span_danger("<b>[C]'s bony skull is <span class='crit'>MULCHED</span> by a fearsome blow, spalling into a <span class='crit'>CLOUD of SHARDS!</span></b>"))
 				C.death()
@@ -231,6 +231,9 @@
 
 	update_icon_dropped()
 	was_owner.update_health_hud() //update the healthdoll
+	var/datum/hud/hud_used = was_owner.hud_used
+	if(hud_used?.zone_select)
+		hud_used.zone_select.rebuild_limbs()
 	was_owner.update_body()
 	was_owner.update_hair()
 	was_owner.update_mobility()
@@ -421,7 +424,7 @@
 		if(C.hud_used)
 			var/atom/movable/screen/inventory/hand/hand = C.hud_used.hand_slots["[held_index]"]
 			if(hand)
-				hand.update_icon()
+				hand.update_hand_vis()
 		C.update_inv_gloves()
 
 	if(special) //non conventional limb attachment
@@ -452,6 +455,9 @@
 	C.update_hair()
 	C.update_damage_overlays()
 	C.update_mobility()
+	var/datum/hud/hud_used = C.hud_used
+	if(hud_used?.zone_select)
+		hud_used.zone_select.rebuild_limbs()
 	return TRUE
 
 /obj/item/bodypart/head/attach_limb(mob/living/carbon/C, special)

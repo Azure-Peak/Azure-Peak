@@ -522,7 +522,7 @@
 		if(Masteritem.wielded)
 			intents = Masteritem.gripped_intents
 		if(Masteritem.altgripped)
-			intents = Masteritem.alt_intents
+			intents = Masteritem.get_altgrip_intents()
 	else
 		if(active_hand_index == 1)
 			l_index = l_ua_index
@@ -540,7 +540,7 @@
 		if(Masteritem.wielded)
 			intents = Masteritem.gripped_intents
 		if(Masteritem.altgripped)
-			intents = Masteritem.alt_intents
+			intents = Masteritem.get_altgrip_intents()
 	else
 		if(active_hand_index == 1)
 			r_index = r_ua_index
@@ -779,7 +779,7 @@
 		playsound_local(src, 'sound/misc/click.ogg', 50, TRUE)
 		if(hud_used)
 			if(hud_used.zone_select)
-				hud_used.zone_select.update_icon()
+				hud_used.zone_select.update_selection()
 
 /mob/proc/select_organ_slot(choice)
 	organ_slot_selected = choice

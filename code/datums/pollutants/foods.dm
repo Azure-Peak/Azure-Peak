@@ -80,6 +80,10 @@
 	name = "fresh baked pie crust"
 	scent = "fresh baked pie crust"
 
+/datum/pollutant/food/hardtack
+	name = "fresh baked crackers"
+	scent = "fresh baked crackers"
+
 /datum/pollutant/food/toast
 	name = "cooked toast"
 	scent = "cooked toast"

@@ -72,6 +72,13 @@
 	for(var/turf/T in line_turfs)
 		if(blocked)
 			break
+		// Extinguish burning objects and hotspots in the blast line
+		for(var/obj/O in T)
+			O.extinguish()
+		var/obj/effect/hotspot/hotspot = (locate(/obj/effect/hotspot) in T)
+		if(hotspot)
+			new /obj/effect/temp_visual/small_smoke(T)
+			qdel(hotspot)
 		for(var/mob/living/victim in T)
 			if(victim == H || victim.stat == DEAD || (victim in already_hit))
 				continue

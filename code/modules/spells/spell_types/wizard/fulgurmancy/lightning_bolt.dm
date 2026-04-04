@@ -75,4 +75,7 @@
 			else
 				var/remaining = round((L.mob_timers[MT_LIGHTNING_ADAPTATION] + LIGHTNING_ADAPTATION_COOLDOWN - world.time) / 10)
 				L.balloon_alert_to_viewers("<font color='#ffcc00'>shock adapted ([remaining]s)</font>")
+	else if(isatom(target))
+		var/atom/A = target
+		A.fire_act()
 	qdel(src)

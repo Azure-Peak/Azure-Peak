@@ -65,3 +65,18 @@
 	smeltresult = /obj/item/ingot/steel
 	smelt_bar_num = 2
 
+/obj/item/clothing/head/roguetown/helmet/heavy/undivided
+	name = "templar silver sallet"
+	desc = "A silver-plated jousting helm, and symbol of hope worn by the Azurian Sect of The Undivided. Those who don it have sworn to lay down their lyves for the greater good, for no cost is too great to preserve Their will."
+	icon_state = "silversallet"
+	item_state = "silversallet"
+
+/obj/item/clothing/head/roguetown/helmet/heavy/undivided_ritual
+	name = "crusader greathelm"
+	desc = "A gold-plated bucket helm adorned with symbol of Astrata, beacon of hope worn during crusades. \
+	Sacrificial Hero, fear not your enemy; it is only the first tilt."
+	worn_x_dimension = 64
+	worn_y_dimension = 64
+	icon_state = "crusader_bucket"//Edit of a Stonekeep sprite
+	mob_overlay_icon = 'icons/roguetown/clothing/onmob/64x64/head.dmi'
+	bloody_icon = 'icons/effects/blood64.dmi'

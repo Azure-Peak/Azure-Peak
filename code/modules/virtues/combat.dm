@@ -67,6 +67,16 @@
 		if(/datum/patron/old_god)
 			ADD_TRAIT(recipient, TRAIT_PSYDONITE, TRAIT_GENERIC)
 			recipient.mind?.special_items["Psycross"] = /obj/item/clothing/neck/roguetown/psicross
+		if(/datum/patron/divine/undivided)
+			recipient.mind?.special_items["Tennite Amulet"] = /obj/item/clothing/neck/roguetown/psicross/undivided
+		if(/datum/patron/inhumen/matthios)
+			recipient.mind?.special_items["Matthios Amulet"] = /obj/item/clothing/neck/roguetown/psicross/inhumen/matthios
+		if(/datum/patron/inhumen/graggar)
+			recipient.mind?.special_items["Graggar Amulet"] = /obj/item/clothing/neck/roguetown/psicross/inhumen/graggar
+		if(/datum/patron/inhumen/baotha)
+			recipient.mind?.special_items["Baotha Amulet"] = /obj/item/clothing/neck/roguetown/psicross/inhumen/baotha
+		if(/datum/patron/inhumen/zizo)
+			recipient.mind?.special_items["Inverted Psycross"] = /obj/item/clothing/neck/roguetown/psicross/inhumen/iron
 
 /datum/virtue/combat/devotee/astratan_affinity
 	name = "Astratan Affinity (Racial, Sun Elves)"
@@ -156,6 +166,12 @@
 	custom_text = "Unlocks the 'Rotten' option in skin tone selection, if applicable."
 	// below is functionally equivalent to dying and being resurrected via astrata T4 - yep, this is what it gives you.
 	added_traits = list(TRAIT_EASYDISMEMBER, TRAIT_NOPAIN, TRAIT_NOPAINSTUN, TRAIT_NOBREATH, TRAIT_DEATHLESS, TRAIT_TOXIMMUNE, TRAIT_ZOMBIE_IMMUNE, TRAIT_ROTMAN, TRAIT_SILVER_WEAK)
+
+/datum/virtue/combat/pallid
+	name = "Pallid"
+	desc = "I was once afflicted with vampirism, and was cured. It has left me changed: silver burns my flesh, and the open sky fills me with unease. Yet I draw no breath, and my eyes pierce the darkness. Lingering traces of the curse that once claimed me."
+	custom_text = "Grants darkvision, no need to breathe, and deadite immunity. Silver weapons will set you alight. Being outdoors causes stress."
+	added_traits = list(TRAIT_PALLID, TRAIT_DARKVISION, TRAIT_NOBREATH, TRAIT_ZOMBIE_IMMUNE, TRAIT_SILVER_WEAK)
 
 /datum/virtue/combat/dualwielder
 	name = "Dual Wielder"

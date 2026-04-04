@@ -95,7 +95,7 @@
 	// Spawn persistent ground visuals
 	for(var/turf/affected in zone_turfs)
 		if(affected != get_turf(src))
-			var/obj/effect/temp_visual/wither_ground/V = new(affected, duration)
+			var/obj/effect/temp_visual/wither_ground/V = new(affected, null, duration)
 			zone_visuals += V
 
 	playsound(get_turf(src), 'sound/magic/shadowstep_destination.ogg', 80)
@@ -125,7 +125,9 @@
 				continue
 			// Apply or refresh the wither debuff
 			var/datum/status_effect/debuff/withered/existing = L.has_status_effect(/datum/status_effect/debuff/withered)
-			if(!existing)
+			if(existing)
+				existing.refresh()
+			else
 				L.apply_status_effect(/datum/status_effect/debuff/withered)
 				to_chat(L, span_userdanger("A withering curse saps my strength!"))
 				new /obj/effect/temp_visual/spell_impact(get_turf(L), GLOW_COLOR_HEX, SPELL_IMPACT_MEDIUM)

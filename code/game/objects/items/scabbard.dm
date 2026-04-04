@@ -577,6 +577,7 @@
 	icon_state = "kazscab_steel"
 	item_state = "kazscab_steel"
 	valid_blade = /obj/item/rogueweapon/sword/sabre/mulyeog/rumahench
+	max_integrity = 220
 
 
 /obj/item/rogueweapon/scabbard/sword/kazengun/gold

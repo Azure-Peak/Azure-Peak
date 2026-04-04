@@ -77,8 +77,8 @@
 	if(used_intent)
 		if(used_intent.blade_class == BCLASS_STAB)
 			bonus += 10
-		if(used_intent.blade_class == BCLASS_HALFSWORD)
-			bonus += 20	//Double that of stab
+		if(used_intent.blade_class == BCLASS_PICK)
+			bonus += 15
 		if(used_intent.blade_class == BCLASS_CUT)
 			bonus += 6
 		if((used_intent.blade_class == BCLASS_BLUNT || used_intent.blade_class == BCLASS_SMASH) && check_zone(zone) != zone)	//A mace can't hit the eyes very well

@@ -1,0 +1,7 @@
+author: "WeNeedMorePhoron"
+delete-after: True
+changes:
+  - bugfix: "Point blanking a simple creature with ice burst / fireball should no longer mutates its damage and nuke yourself and everyone in the radius"
+  - rscadd: "Permanent Rune wards have increased durability (100 -> 300)"
+  - rscadd: "Spitfire is no longer a fireball subtype that does structural damage around it. Oops."
+  - rscadd: "All ritual runes, instead of only summoning runes, are indestructible."
