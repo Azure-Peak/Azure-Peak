@@ -537,7 +537,8 @@
 	var/block_combat_mode = FALSE
 
 /datum/status_effect/buff/healing/on_creation(mob/living/new_owner, new_healing_on_tick, is_inhumen = FALSE)
-	healing_on_tick = new_healing_on_tick
+	if(!isnull(new_healing_on_tick))
+		healing_on_tick = new_healing_on_tick
 	tech_healing_modifier = SSchimeric_tech.get_healing_multiplier()
 	if(is_inhumen)
 		// The penalty/benefit of healing tech is halved for inhumen followers
