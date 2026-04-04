@@ -766,6 +766,7 @@
 #include "code\datums\elements\earhealing.dm"
 #include "code\datums\elements\firestacker.dm"
 #include "code\datums\elements\holy_weakness.dm"
+#include "code\datums\elements\interrupt_on_damage.dm"
 #include "code\datums\elements\mob_overlay_effect.dm"
 #include "code\datums\elements\noisy_movement.dm"
 #include "code\datums\elements\one_time_poison.dm"
