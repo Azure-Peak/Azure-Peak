@@ -49,6 +49,12 @@
 
 /// Signal sent when a blackboard key is set to a new value
 #define COMSIG_AI_BLACKBOARD_KEY_SET(blackboard_key) "ai_blackboard_key_set_[blackboard_key]"
+#define COMSIG_AI_BLACKBOARD_KEY_CLEARED(blackboard_key) "ai_blackboard_key_clear_[blackboard_key]"
+
+///sent from ai controllers when they pick behaviors: (list/datum/ai_behavior/old_behaviors, list/datum/ai_behavior/new_behaviors)
+#define COMSIG_AI_CONTROLLER_PICKED_BEHAVIORS "ai_controller_picked_behaviors"
+///sent from ai controllers when a behavior is inserted into the queue: (list/new_arguments)
+#define AI_CONTROLLER_BEHAVIOR_QUEUED(type) "ai_controller_behavior_queued_[type]"
 
 ///Targetting keys for something to run away from, if you need to store this separately from current target
 #define BB_BASIC_MOB_FLEE_TARGET "BB_basic_flee_target"
@@ -57,6 +63,13 @@
 
 #define BB_FUTURE_MOVEMENT_PATH "BB_future_path"
 #define BB_RESISTING "BB_resisting"
+
+#define BB_MOB_AGGRO_TABLE "aggro_table" // Associative list of [mob] -> threat_level
+#define BB_AGGRO_DECAY_TIMER "aggro_decay_timer"
+#define BB_HIGHEST_THREAT_MOB "highest_threat_mob"
+#define BB_THREAT_THRESHOLD "threat_threshold" // Minimum threat to be considered hostile
+#define BB_AGGRO_RANGE "aggro_range" // Range at which mobs can detect and add threats
+#define BB_AGGRO_MAINTAIN_RANGE "aggro_maintain_range" // Range at which target is dropped if exceeded
 
 ///time until we should next eat, set by the generic hunger subtree
 #define BB_NEXT_HUNGRY "BB_NEXT_HUNGRY"

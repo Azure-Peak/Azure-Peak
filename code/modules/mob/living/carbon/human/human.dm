@@ -1062,6 +1062,16 @@
 	if(race)
 		set_species(race)
 
+/mob/living/carbon/human/species/LateInitialize()
+	. = ..()
+	var/turf/turf = get_turf(loc)
+	if(turf)
+		if(!("[turf.z]" in GLOB.weatherproof_z_levels))
+			if(SSmapping.level_has_any_trait(turf.z, list(ZTRAIT_IGNORE_WEATHER_TRAIT)))
+				GLOB.weatherproof_z_levels |= "[turf.z]"
+		if("[turf.z]" in GLOB.weatherproof_z_levels)
+			SSmatthios_mobs.register_mob(src)
+
 //Vrell - Moving this here to fix load order bugs
 /mob/living/carbon/human/has_penis()
 	return getorganslot(ORGAN_SLOT_PENIS)
