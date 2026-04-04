@@ -99,8 +99,14 @@
 		finish_action(controller, succeeded = FALSE)
 		return
 
-	// Choose a random mob from filtered targets to add initial threat
-	var/mob/living/chosen_target = pick(filtered_targets)
+	// Prefer targeting players over animals
+	var/mob/living/chosen_target
+	for(var/mob/living/candidate in filtered_targets)
+		if(candidate.client)
+			chosen_target = candidate
+			break
+	if(!chosen_target)
+		chosen_target = pick(filtered_targets)
 
 	// Find the aggro component on our mob
 	var/datum/component/ai_aggro_system/aggro_comp = living_mob.GetComponent(/datum/component/ai_aggro_system)

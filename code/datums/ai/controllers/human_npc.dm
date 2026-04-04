@@ -21,8 +21,8 @@
 		BB_HUMAN_NPC_JUKE_COOLDOWN = 0,        // world.time before we can juke again
 	)
 	planning_subtrees = list(
-		/datum/ai_planning_subtree/pet_planning,
-		/datum/ai_planning_subtree/call_for_help,
+		// /datum/ai_planning_subtree/pet_planning, - TEMP COMMENT OUT
+		// /datum/ai_planning_subtree/call_for_help,  - TEMP COMMENT OUT
 		/datum/ai_planning_subtree/generic_break_restraints,
 		/datum/ai_planning_subtree/use_powder,
 		/datum/ai_planning_subtree/use_bandage,
@@ -51,6 +51,7 @@
 	RegisterSignal(new_pawn, COMSIG_MOB_MOVESPEED_UPDATED, PROC_REF(update_movespeed))
 	movement_delay = living_pawn.cached_multiplicative_slowdown
 	new_pawn.AddComponent(/datum/component/ai_inventory_manager)
+	new_pawn.AddComponent(/datum/component/ai_aggro_system)
 	new_pawn.AddElement(/datum/element/interrupt_on_damage)
 	new_pawn.AddComponent(/datum/component/combat_vocalizer)
 

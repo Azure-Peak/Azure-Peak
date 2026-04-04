@@ -58,6 +58,7 @@
 	var/list/aggro_table = living_mob.ai_controller.blackboard[BB_MOB_AGGRO_TABLE]
 	if(!length(aggro_table))
 		add_threat(living_mob, target, amount)
+		return
 	var/aggro = aggro_table[target]
 	if(aggro >= cap)
 		return

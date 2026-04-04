@@ -52,30 +52,32 @@
 		return FALSE
 
 	// Stash held melee weapon if needed so both hands are free for the bow
-	for(var/obj/item/held in pawn.get_active_held_item())
-		if(istype(held, /obj/item/gun/ballistic/revolver/grenadelauncher/bow))
-			continue
-		if(!held)
-			continue
+	var/obj/item/held_weapon = pawn.get_active_held_item()
+	if(held_weapon && !istype(held_weapon, /obj/item/gun/ballistic/revolver/grenadelauncher))
 		var/stashed = FALSE
-		for(var/slot in list(ITEM_SLOT_BACK, ITEM_SLOT_HIP, ITEM_SLOT_BELT, ITEM_SLOT_BACK_L, ITEM_SLOT_BACK_R, ITEM_SLOT_BELT))
+		for(var/slot in list(ITEM_SLOT_HIP, ITEM_SLOT_BACK_L, ITEM_SLOT_BACK_R, ITEM_SLOT_BELT))
 			if(!pawn.get_item_by_slot(slot))
-				if(pawn.equip_to_slot_if_possible(held, slot, disable_warning = TRUE))
-					controller.set_blackboard_key(BB_ARCHER_NPC_STASHED_WEAPON, held)
+				if(pawn.equip_to_slot_if_possible(held_weapon, slot, disable_warning = TRUE))
+					controller.set_blackboard_key(BB_ARCHER_NPC_STASHED_WEAPON, held_weapon)
 					stashed = TRUE
 					break
 		if(!stashed)
-			controller.clear_blackboard_key(BB_ARCHER_NPC_QUIVER) //this is weird you might say? but it saves a memory slot since it cannot execute a bow shot without a quiver causing it to go on cooldown for 40 seconds.
-			return FALSE
+			pawn.dropItemToGround(held_weapon, TRUE, TRUE)
+			controller.set_blackboard_key(BB_ARCHER_NPC_STASHED_WEAPON, held_weapon)
 
-	var/obj/item/gun/ballistic/revolver/grenadelauncher/bow/bow = null
-	for(var/obj/item/held in pawn.get_active_held_item())
-		if(istype(held, /obj/item/gun/ballistic/revolver/grenadelauncher/bow))
-			bow = held
-			break
+	// Also clear inactive hand
+	var/obj/item/offhand = pawn.get_inactive_held_item()
+	if(offhand && !istype(offhand, /obj/item/gun/ballistic/revolver/grenadelauncher))
+		pawn.dropItemToGround(offhand, TRUE, TRUE)
+
+	// Now find and draw bow
+	var/obj/item/gun/ballistic/revolver/grenadelauncher/bow = null
+	var/obj/item/active = pawn.get_active_held_item()
+	if(istype(active, /obj/item/gun/ballistic/revolver/grenadelauncher))
+		bow = active
 	if(!bow)
 		for(var/obj/item/worn in pawn.get_equipped_items())
-			if(istype(worn, /obj/item/gun/ballistic/revolver/grenadelauncher/bow))
+			if(istype(worn, /obj/item/gun/ballistic/revolver/grenadelauncher))
 				pawn.put_in_active_hand(worn)
 				bow = worn
 				break
@@ -128,11 +130,10 @@
 		finish_action(controller, FALSE, target_key)
 		return
 
-	var/obj/item/gun/ballistic/revolver/grenadelauncher/bow/bow = null
-	for(var/obj/item/held in pawn.get_active_held_item())
-		if(istype(held, /obj/item/gun/ballistic/revolver/grenadelauncher/bow))
-			bow = held
-			break
+	var/obj/item/gun/ballistic/revolver/grenadelauncher/bow = null
+	var/obj/item/held_check = pawn.get_active_held_item()
+	if(istype(held_check, /obj/item/gun/ballistic/revolver/grenadelauncher))
+		bow = held_check
 	if(!bow || !bow.chambered)
 		finish_action(controller, FALSE, target_key)
 		return
@@ -146,7 +147,12 @@
 		return
 
 	pawn.face_atom(target)
-	controller.ai_interact(target, TRUE, TRUE)
+	var/obj/item/gun/ballistic/revolver/grenadelauncher/firing_bow = pawn.get_active_held_item()
+	if(istype(firing_bow) && firing_bow.chambered)
+		firing_bow.process_fire(target, pawn, TRUE)
+	else
+		finish_action(controller, FALSE, target_key)
+		return
 
 	finish_action(controller, TRUE, target_key)
 

@@ -240,7 +240,7 @@
 		BB.bonus_accuracy += (user.STAPER - 8) * 3 // 8+ PER gives +3 per level. Does not decrease over range.
 		BB.bonus_accuracy += (user.get_skill_level(/datum/skill/combat/bows) * 5) // +5 per Bow level.
 
-		if(user.client.chargedprog < 100)
+		if(user.client?.chargedprog < 100)
 			BB.damage -= (BB.damage * (user.client.chargedprog / 100))
 			BB.embedchance /= 2
 			BB.accuracy -= 15
