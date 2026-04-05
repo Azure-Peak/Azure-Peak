@@ -47193,7 +47193,7 @@
 /turf/open/water/swamp/deep,
 /area/rogue/outdoors/bog/south)
 "jYw" = (
-/mob/living/simple_animal/hostile/retaliate/rogue/orc/ranged,
+/mob/living/carbon/human/species/orc/npc/archer,
 /turf/open/floor/rogue/blocks,
 /area/rogue/under/cave/orcdungeon)
 "jYC" = (
@@ -72890,7 +72890,7 @@
 /turf/open/floor/rogue/concrete,
 /area/rogue/indoors/town/magician)
 "pkN" = (
-/mob/living/simple_animal/hostile/retaliate/rogue/orc/ranged,
+/mob/living/carbon/human/species/orc/npc/archer,
 /turf/open/floor/rogue/cobble,
 /area/rogue/under/cave/orcdungeon)
 "pkO" = (
@@ -90273,7 +90273,7 @@
 	},
 /area/rogue/under/town/sewer)
 "sSr" = (
-/mob/living/simple_animal/hostile/retaliate/rogue/orc/ranged,
+/mob/living/carbon/human/species/orc/npc/archer,
 /turf/open/floor/rogue/tile/bfloorz,
 /area/rogue/under/cave/orcdungeon)
 "sSs" = (
@@ -101390,7 +101390,7 @@
 /turf/open/floor/rogue/metal,
 /area/rogue/outdoors/mountains/decap/minotaurfort)
 "viP" = (
-/mob/living/simple_animal/hostile/retaliate/rogue/orc/ranged,
+/mob/living/carbon/human/species/orc/npc/archer,
 /turf/open/floor/rogue/ruinedwood/spiral,
 /area/rogue/under/cave/orcdungeon)
 "viW" = (
@@ -103581,7 +103581,7 @@
 /turf/open/floor/rogue/ruinedwood/spiral,
 /area/rogue/outdoors/beach/central)
 "vGw" = (
-/mob/living/simple_animal/hostile/retaliate/rogue/orc/ranged,
+/mob/living/carbon/human/species/orc/npc/archer,
 /turf/open/floor/rogue/wood,
 /area/rogue/under/cave/orcdungeon)
 "vGz" = (
